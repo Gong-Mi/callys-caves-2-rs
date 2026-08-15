@@ -183,6 +183,7 @@ fn every_room_passes_structural_product_loader_and_resource_validation() {
             room_index,
             room,
             &state.asset.objects,
+            &state.asset.sprites,
             &state.asset.warp_targets,
         );
         assert_eq!(state.world.current_room_index, room_index);
@@ -222,6 +223,7 @@ fn every_real_warp_instance_loads_its_decoded_target_and_checkpoint() {
             audit.source_room_index,
             source_room,
             &state.asset.objects,
+            &state.asset.sprites,
             &state.asset.warp_targets,
         );
         assert_eq!(state.world.current_room_index, audit.source_room_index);

@@ -1081,6 +1081,8 @@ mod tests {
             depth: 0,
             persistent: false,
             parent_id: 11,
+            events: Vec::new(),
+            physics_raw: Default::default(),
         };
         let instance = callys_asset::RoomObjectInstance {
             x: 100,
@@ -1122,6 +1124,8 @@ mod tests {
             depth: 0,
             persistent: false,
             parent_id: -100,
+            events: Vec::new(),
+            physics_raw: Default::default(),
         };
         let instance = callys_asset::RoomObjectInstance {
             x: 100,
@@ -1196,6 +1200,8 @@ mod tests {
                 depth: 0,
                 persistent: false,
                 parent_id: 11,
+                events: Vec::new(),
+                physics_raw: Default::default(),
             },
             GameObjectInfo {
                 id: 1,
@@ -1206,6 +1212,8 @@ mod tests {
                 depth: 0,
                 persistent: false,
                 parent_id: 11,
+                events: Vec::new(),
+                physics_raw: Default::default(),
             },
         ];
         let sprites = HashMap::from([(
