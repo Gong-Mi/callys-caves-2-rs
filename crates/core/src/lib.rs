@@ -4,6 +4,12 @@ use callys_asset::{GameObjectInfo, RoomData, WarpTarget};
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
+// These water-physics values are provisional until CODE disassembly or
+// original-runtime measurements establish the game's exact constants.
+pub const PROVISIONAL_WATER_GRAVITY: f32 = 250.0;
+pub const PROVISIONAL_WATER_MAX_FALL_SPEED: f32 = 120.0;
+pub const PROVISIONAL_WATER_RISE_SPEED: f32 = -180.0;
+
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct Rect {
     pub x: f32,
@@ -187,6 +193,11 @@ pub struct Decoration {
     pub sprite_id: i32,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct WaterRegion {
+    pub rect: Rect,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WarpPoint {
     pub rect: Rect,
@@ -226,6 +237,7 @@ pub struct GameWorld {
     pub gems: Vec<GemDrop>,
     pub weapon_pickups: Vec<WeaponPickup>,
     pub decorations: Vec<Decoration>,
+    pub water_regions: Vec<WaterRegion>,
     pub warps: Vec<WarpPoint>,
     pub camera_x: f32,
     pub camera_y: f32,
@@ -250,6 +262,7 @@ impl GameWorld {
             gems: Vec::new(),
             weapon_pickups: Vec::new(),
             decorations: Vec::new(),
+            water_regions: Vec::new(),
             warps: Vec::new(),
             camera_x: 0.0,
             camera_y: 0.0,
@@ -278,6 +291,7 @@ impl GameWorld {
         self.gems.clear();
         self.weapon_pickups.clear();
         self.decorations.clear();
+        self.water_regions.clear();
         self.warps.clear();
         self.pending_room_warp = None;
 
@@ -347,15 +361,17 @@ impl GameWorld {
                     });
                 }
                 "obj_waterfill" | "obj_watersurface" => {
+                    let rect = Rect::new(
+                        inst.x as f32,
+                        inst.y as f32,
+                        32.0 * inst.scale_x.abs(),
+                        32.0 * inst.scale_y.abs(),
+                    );
                     self.decorations.push(Decoration {
-                        rect: Rect::new(
-                            inst.x as f32,
-                            inst.y as f32,
-                            32.0 * inst.scale_x.abs(),
-                            32.0 * inst.scale_y.abs(),
-                        ),
+                        rect,
                         sprite_id: spr_id,
                     });
+                    self.water_regions.push(WaterRegion { rect });
                 }
                 "obj_warpanywhere" => {
                     if let Some(target) = warp_targets.get(&inst.creation_code_id) {
@@ -418,6 +434,13 @@ impl GameWorld {
         }
     }
 
+    pub fn player_is_in_water(&self) -> bool {
+        let player_bounds = self.player.bounds();
+        self.water_regions
+            .iter()
+            .any(|region| region.rect.intersects(&player_bounds))
+    }
+
     pub fn update(&mut self, dt: f32, input: &InputState) {
         if self.player.health <= 0 || self.player.state == PlayerState::Dead {
             if self.player.state != PlayerState::Dead {
@@ -446,7 +469,7 @@ impl GameWorld {
         }
 
         let move_speed = 220.0;
-        let gravity = 950.0;
+        let normal_gravity = 950.0;
         let jump_force = -440.0;
 
         if self.player.attack_cooldown > 0.0 {
@@ -498,10 +521,23 @@ impl GameWorld {
         }
 
         // Vertical Movement + Gravity
-        self.player.vy += gravity * dt;
+        let player_in_water = self.player_is_in_water();
+        let player_gravity = if player_in_water {
+            PROVISIONAL_WATER_GRAVITY
+        } else {
+            normal_gravity
+        };
+        self.player.vy += player_gravity * dt;
+        if player_in_water {
+            self.player.vy = self.player.vy.min(PROVISIONAL_WATER_MAX_FALL_SPEED);
+        }
 
-        if input.jump && self.player.on_ground {
-            self.player.vy = jump_force;
+        if input.jump && (self.player.on_ground || player_in_water) {
+            self.player.vy = if player_in_water {
+                PROVISIONAL_WATER_RISE_SPEED
+            } else {
+                jump_force
+            };
             self.player.on_ground = false;
         }
 
@@ -644,7 +680,7 @@ impl GameWorld {
         for enemy in &mut self.enemies {
             match enemy.enemy_type {
                 EnemyType::Bandit | EnemyType::KnifeBandit | EnemyType::Slime | EnemyType::Zombie => {
-                    enemy.vy += gravity * dt;
+                    enemy.vy += normal_gravity * dt;
                     let ex = enemy.x + enemy.vx * dt;
                     let ey = enemy.y + enemy.vy * dt;
 
@@ -944,6 +980,75 @@ mod tests {
         assert_eq!(world.decorations.len(), 1);
         assert_eq!(world.decorations[0].rect, Rect::new(1568.0, 1056.0, 192.0, 64.0));
         assert_eq!(world.decorations[0].sprite_id, 103);
+        assert_eq!(world.water_regions.len(), 1);
+        assert_eq!(world.water_regions[0].rect, Rect::new(1568.0, 1056.0, 192.0, 64.0));
+
+        world.player.x = 1600.0;
+        world.player.y = 1060.0;
+        assert!(world.player_is_in_water());
+    }
+
+    #[test]
+    fn water_limits_falling_player_to_provisional_terminal_speed() {
+        let mut accelerating = GameWorld::new();
+        accelerating.player.x = 100.0;
+        accelerating.player.y = 100.0;
+        accelerating.water_regions.push(WaterRegion {
+            rect: Rect::new(80.0, 80.0, 200.0, 200.0),
+        });
+
+        accelerating.update(0.1, &InputState::default());
+        assert_eq!(accelerating.player.vy, PROVISIONAL_WATER_GRAVITY * 0.1);
+
+        let mut terminal = GameWorld::new();
+        terminal.player.x = 100.0;
+        terminal.player.y = 100.0;
+        terminal.player.vy = 500.0;
+        terminal.water_regions.push(WaterRegion {
+            rect: Rect::new(80.0, 80.0, 200.0, 200.0),
+        });
+
+        terminal.update(0.1, &InputState::default());
+        assert_eq!(terminal.player.vy, PROVISIONAL_WATER_MAX_FALL_SPEED);
+    }
+
+    #[test]
+    fn jump_input_makes_player_rise_while_in_water() {
+        let mut world = GameWorld::new();
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.player.on_ground = false;
+        world.water_regions.push(WaterRegion {
+            rect: Rect::new(80.0, 80.0, 200.0, 200.0),
+        });
+
+        world.update(
+            0.1,
+            &InputState { jump: true, ..InputState::default() },
+        );
+
+        assert_eq!(world.player.vy, PROVISIONAL_WATER_RISE_SPEED);
+        assert!(world.player.y < 100.0);
+    }
+
+    #[test]
+    fn leaving_water_horizontally_restores_normal_gravity_same_tick() {
+        let mut world = GameWorld::new();
+        world.player.x = 70.0;
+        world.player.y = 100.0;
+        world.player.vy = 0.0;
+        world.water_regions.push(WaterRegion {
+            rect: Rect::new(0.0, 80.0, 100.0, 200.0),
+        });
+        assert!(world.player_is_in_water());
+
+        world.update(
+            0.2,
+            &InputState { move_right: true, ..InputState::default() },
+        );
+
+        assert!(!world.player_is_in_water());
+        assert_eq!(world.player.vy, 950.0 * 0.2);
     }
 
     #[test]
