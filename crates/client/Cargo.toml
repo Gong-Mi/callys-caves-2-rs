@@ -6,4 +6,5 @@ edition = "2021"
 [dependencies]
 callys-asset = { path = "../asset" }
 callys-core = { path = "../core" }
+image = "0.25.10"
 sdl2 = { workspace = true }
