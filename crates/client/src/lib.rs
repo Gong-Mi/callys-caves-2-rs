@@ -7,7 +7,7 @@
 //!
 //! On desktop, run the `callys-client` binary which uses SDL2.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet, VecDeque};
 use std::fmt;
 use std::fs::{self, OpenOptions};
 use std::io::Write;
@@ -103,6 +103,112 @@ pub fn write_save_atomic(path: &Path, save: &SaveData) -> Result<(), SaveFileErr
 }
 
 // ============================================================
+// Short sound effects
+// ============================================================
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum SoundEvent {
+    Jump,
+    Pistol,
+    Shotgun,
+    Coin,
+    Death,
+    WeaponPickup,
+}
+
+const SOUND_BINDINGS: [(SoundEvent, &str); 6] = [
+    (SoundEvent::Jump, "snd_jump"),
+    (SoundEvent::Pistol, "snd_fire"),
+    (SoundEvent::Shotgun, "snd_shotgun"),
+    (SoundEvent::Coin, "snd_coin"),
+    (SoundEvent::Death, "snd_youhavedied"),
+    (SoundEvent::WeaponPickup, "snd_pickupstinger"),
+];
+
+#[derive(Debug, Clone)]
+pub struct SoundCatalog {
+    audio_ids: HashMap<SoundEvent, usize>,
+}
+
+impl SoundCatalog {
+    pub fn from_asset(asset: &GameDroidAsset) -> Result<Self, String> {
+        let sounds_by_name: HashMap<&str, usize> = asset
+            .sounds
+            .iter()
+            .map(|sound| (sound.name.as_str(), sound.audio_id))
+            .collect();
+        let mut audio_ids = HashMap::with_capacity(SOUND_BINDINGS.len());
+        for (event, name) in SOUND_BINDINGS {
+            let audio_id = sounds_by_name
+                .get(name)
+                .copied()
+                .ok_or_else(|| format!("required SOND resource is missing: {name}"))?;
+            if asset.audio.get(audio_id).is_none() {
+                return Err(format!(
+                    "SOND resource {name} references missing AUDO {audio_id}"
+                ));
+            }
+            audio_ids.insert(event, audio_id);
+        }
+        Ok(Self { audio_ids })
+    }
+
+    pub fn audio_id(&self, event: SoundEvent) -> usize {
+        self.audio_ids[&event]
+    }
+}
+
+pub fn export_required_wavs(
+    asset: &GameDroidAsset,
+    droid_path: &Path,
+) -> Result<Vec<(usize, PathBuf)>, Box<dyn std::error::Error>> {
+    let catalog = SoundCatalog::from_asset(asset)?;
+    let output_dir = droid_path
+        .parent()
+        .unwrap_or_else(|| Path::new("."))
+        .join("sfx");
+    fs::create_dir_all(&output_dir)?;
+
+    let mut exported = Vec::with_capacity(SOUND_BINDINGS.len());
+    let mut exported_audio_ids = HashSet::with_capacity(SOUND_BINDINGS.len());
+    for (event, _) in SOUND_BINDINGS {
+        let audio_id = catalog.audio_id(event);
+        if !exported_audio_ids.insert(audio_id) {
+            continue;
+        }
+        let wav = &asset.audio[audio_id].wav_bytes;
+        let output_path = output_dir.join(format!("sound_{audio_id}.wav"));
+        let already_current = fs::read(&output_path)
+            .map(|existing| existing == *wav)
+            .unwrap_or(false);
+        if !already_current {
+            let temp_path = output_dir.join(format!("sound_{audio_id}.wav.tmp"));
+            match fs::remove_file(&temp_path) {
+                Ok(()) => {}
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                Err(error) => return Err(error.into()),
+            }
+            let mut temp = OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(&temp_path)?;
+            if let Err(error) = (|| -> Result<(), std::io::Error> {
+                temp.write_all(wav)?;
+                temp.sync_all()?;
+                drop(temp);
+                fs::rename(&temp_path, &output_path)?;
+                Ok(())
+            })() {
+                let _ = fs::remove_file(&temp_path);
+                return Err(error.into());
+            }
+        }
+        exported.push((audio_id, output_path));
+    }
+    Ok(exported)
+}
+
+// ============================================================
 // Game state container
 // ============================================================
 
@@ -116,6 +222,9 @@ pub struct GameState {
     pub atlases: Vec<RgbaImage>,
     pub save_path: Option<PathBuf>,
     pub save_diagnostic: Option<String>,
+    pub sound_catalog: SoundCatalog,
+    sound_queue: VecDeque<usize>,
+    jump_was_active: bool,
 }
 
 impl GameState {
@@ -189,6 +298,7 @@ impl GameState {
                 None => break,
             }
         }
+        let sound_catalog = SoundCatalog::from_asset(&asset)?;
         Ok(Self {
             asset,
             world,
@@ -199,12 +309,65 @@ impl GameState {
             atlases,
             save_path,
             save_diagnostic,
+            sound_catalog,
+            sound_queue: VecDeque::new(),
+            jump_was_active: false,
         })
     }
 
     pub fn step(&mut self, dt: f32) {
         let progress_before = SaveData::from_world(&self.world);
+        let player_state_before = self.world.player.state;
+        let coins_before = self.world.player.coins;
+        let pickups_before = self
+            .world
+            .weapon_pickups
+            .iter()
+            .filter(|pickup| pickup.collected)
+            .count();
+        let can_jump = self.world.player.on_ground || self.world.player_is_in_water();
+        let jump_started = self.input.jump && !self.jump_was_active && can_jump;
+        // Mirror GameWorld::update's early death guard as well as its attack
+        // cooldown guard. An input attempt is not a shot when update returns
+        // before reaching the firing branch.
+        let fired_weapon = if self.world.player.health > 0
+            && self.world.player.state != PlayerState::Dead
+            && self.input.attack
+            && self.world.player.attack_cooldown <= dt.max(0.0)
+        {
+            match self.world.player.current_weapon {
+                WeaponType::Pistol => Some(SoundEvent::Pistol),
+                WeaponType::Shotgun => Some(SoundEvent::Shotgun),
+                _ => None,
+            }
+        } else {
+            None
+        };
+        self.jump_was_active = self.input.jump;
         self.world.update(dt, &self.input);
+        if jump_started {
+            self.queue_sound(SoundEvent::Jump);
+        }
+        if let Some(event) = fired_weapon {
+            self.queue_sound(event);
+        }
+        for _ in coins_before..self.world.player.coins {
+            self.queue_sound(SoundEvent::Coin);
+        }
+        let pickups_after = self
+            .world
+            .weapon_pickups
+            .iter()
+            .filter(|pickup| pickup.collected)
+            .count();
+        for _ in pickups_before..pickups_after {
+            self.queue_sound(SoundEvent::WeaponPickup);
+        }
+        if player_state_before != PlayerState::Dead
+            && self.world.player.state == PlayerState::Dead
+        {
+            self.queue_sound(SoundEvent::Death);
+        }
         if let Some(target) = self.world.pending_room_warp.take() {
             let spawn = self.world.pending_spawn.take();
             if let Some(next) = self.asset.rooms.get(target) {
@@ -234,15 +397,168 @@ impl GameState {
         }
         self.frame_count = self.frame_count.wrapping_add(1);
     }
+
+    fn queue_sound(&mut self, event: SoundEvent) {
+        self.sound_queue.push_back(self.sound_catalog.audio_id(event));
+    }
+
+    pub fn poll_sound(&mut self) -> Option<usize> {
+        self.sound_queue.pop_front()
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    fn game_droid_path() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/game.droid")
+    }
+
+    #[test]
+    fn real_sound_names_map_events_to_audo_ids() {
+        let asset = GameDroidAsset::parse(game_droid_path()).unwrap();
+        let catalog = SoundCatalog::from_asset(&asset).unwrap();
+
+        assert_eq!(catalog.audio_id(SoundEvent::Jump), 3);
+        assert_eq!(catalog.audio_id(SoundEvent::Pistol), 10);
+        assert_eq!(catalog.audio_id(SoundEvent::Shotgun), 11);
+        assert_eq!(catalog.audio_id(SoundEvent::Coin), 19);
+        assert_eq!(catalog.audio_id(SoundEvent::Death), 26);
+        assert_eq!(catalog.audio_id(SoundEvent::WeaponPickup), 27);
+    }
+
+    #[test]
+    fn accepted_jump_is_queued_once_while_input_is_held() {
+        let mut state = GameState::new(&game_droid_path()).unwrap();
+        state.world.solids.clear();
+        state.world.platforms.clear();
+        state.world.player.on_ground = true;
+        state.input.jump = true;
+
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), Some(3));
+        assert_eq!(state.poll_sound(), None);
+
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), None);
+    }
+
+    #[test]
+    fn successful_pistol_and_shotgun_shots_enqueue_once() {
+        let mut state = GameState::new(&game_droid_path()).unwrap();
+        state.input.attack = true;
+
+        state.world.player.current_weapon = WeaponType::Pistol;
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), Some(10));
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), None);
+
+        state.world.player.attack_cooldown = 0.0;
+        state.world.player.current_weapon = WeaponType::Shotgun;
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), Some(11));
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), None);
+    }
+
+    #[test]
+    fn dead_or_dying_player_does_not_enqueue_a_shot() {
+        let mut state = GameState::new(&game_droid_path()).unwrap();
+        state.input.attack = true;
+        state.world.player.current_weapon = WeaponType::Pistol;
+        state.world.player.health = 0;
+
+        state.step(0.0);
+
+        assert_eq!(state.poll_sound(), Some(26));
+        assert_eq!(state.poll_sound(), None);
+
+        state.world.player.health = state.world.player.max_health;
+        state.world.player.state = PlayerState::Dead;
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), None);
+    }
+
+    #[test]
+    fn collecting_a_coin_enqueues_once() {
+        let mut state = GameState::new(&game_droid_path()).unwrap();
+        state.world.gems.clear();
+        state.world.gems.push(callys_core::GemDrop {
+            x: state.world.player.x,
+            y: state.world.player.y,
+            is_coin: true,
+            collected: false,
+            sprite_id: -1,
+        });
+
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), Some(19));
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), None);
+    }
+
+    #[test]
+    fn collecting_a_weapon_enqueues_once() {
+        let mut state = GameState::new(&game_droid_path()).unwrap();
+        state.world.weapon_pickups.clear();
+        state.world.weapon_pickups.push(callys_core::WeaponPickup {
+            rect: callys_core::Rect::new(
+                state.world.player.x,
+                state.world.player.y,
+                32.0,
+                32.0,
+            ),
+            weapon: WeaponType::Shotgun,
+            sprite_id: -1,
+            collected: false,
+        });
+
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), Some(27));
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), None);
+    }
+
+    #[test]
+    fn death_transition_enqueues_once() {
+        let mut state = GameState::new(&game_droid_path()).unwrap();
+        state.world.player.health = 0;
+
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), Some(26));
+        state.step(0.0);
+        assert_eq!(state.poll_sound(), None);
+    }
+
+    #[test]
+    fn required_wavs_are_exported_beside_game_droid_with_exact_bytes() {
+        let asset = GameDroidAsset::parse(game_droid_path()).unwrap();
+        let temp = tempfile::tempdir().unwrap();
+        let droid_path = temp.path().join("game.droid");
+
+        let exported = export_required_wavs(&asset, &droid_path).unwrap();
+
+        assert_eq!(exported.len(), 6);
+        let unique_audio_ids: HashSet<_> =
+            exported.iter().map(|(audio_id, _)| *audio_id).collect();
+        let unique_paths: HashSet<_> = exported.iter().map(|(_, path)| path).collect();
+        assert_eq!(unique_audio_ids.len(), exported.len());
+        assert_eq!(unique_paths.len(), exported.len());
+        for (audio_id, path) in exported {
+            assert_eq!(path.parent(), Some(temp.path().join("sfx").as_path()));
+            assert_eq!(
+                path.file_name().and_then(|name| name.to_str()),
+                Some(format!("sound_{audio_id}.wav").as_str())
+            );
+            assert_eq!(fs::read(path).unwrap(), asset.audio[audio_id].wav_bytes);
+        }
+    }
+
     #[test]
     fn town_exit_enters_level1_and_death_returns_to_entry_checkpoint() {
-        let droid = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/game.droid");
+        let droid = game_droid_path();
         let mut state = GameState::new(&droid).unwrap();
         let town_exit = state.world.warps.iter()
             .find(|warp| warp.creation_code == 804)
@@ -647,6 +963,10 @@ mod android_jni {
                 return;
             }
         };
+        match export_required_wavs(&st.asset, Path::new(&path)) {
+            Ok(exported) => log(&format!("exported {} short sound effects", exported.len())),
+            Err(error) => log(&format!("sound export failed: {error}")),
+        }
         if let Some(diagnostic) = st.save_diagnostic.as_deref() {
             log(&format!("save load warning: {diagnostic}"));
         }
@@ -746,6 +1066,20 @@ mod android_jni {
             s.state.input.switch_weapon = switch_weapon != 0;
 
         }
+    }
+
+    #[no_mangle]
+    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePollSound(
+        _env: *mut JNIEnv,
+        _class: jobject,
+    ) -> jint {
+        slot()
+            .lock()
+            .unwrap()
+            .as_mut()
+            .and_then(|state| state.state.poll_sound())
+            .and_then(|audio_id| jint::try_from(audio_id).ok())
+            .unwrap_or(-1)
     }
 
     #[no_mangle]

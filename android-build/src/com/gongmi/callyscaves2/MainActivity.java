@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -18,9 +20,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends Activity {
     private static final String TAG = "CallysJava";
+    // Verified SOND names resolve to these exported AUDO file IDs. Keep the
+    // Android file contract in one place; Rust remains the event mapping source.
+    private static final int[] REQUIRED_AUDIO_IDS = {3, 10, 11, 19, 26, 27};
     static {
         try {
             System.loadLibrary("callys_client");
@@ -41,6 +49,7 @@ public class MainActivity extends Activity {
     private native int  nativeGetWidth();
     private native int  nativeGetHeight();
     private native void nativeBlitToIntArray(int[] pixels);
+    private native int nativePollSound();
 
     private SurfaceView surface;
     private Bitmap framebuffer;
@@ -48,6 +57,9 @@ public class MainActivity extends Activity {
     private Thread renderThread;
     private volatile boolean running;
     private final Rect gameRect = new Rect();
+    private SoundPool soundPool;
+    private final Map<Integer, Integer> soundSamples = new ConcurrentHashMap<>();
+    private final Set<Integer> loadedSamples = ConcurrentHashMap.newKeySet();
 
     // input
     private boolean moveLeft, moveRight, jump, attack, switchWeapon;
@@ -151,6 +163,7 @@ public class MainActivity extends Activity {
         }
         String assetPath = prepareGameDroid();
         nativeInit(assetPath);
+        prepareSoundPool();
 
         int w = nativeGetWidth();
         int h = nativeGetHeight();
@@ -191,6 +204,7 @@ public class MainActivity extends Activity {
                 if (attackPulse > 0) attackPulse--;
                 switchWeapon = false;
                 nativeStep(dt);
+                playQueuedSounds();
                 nativeBlitToIntArray(pixelBuffer);
                 framebuffer.setPixels(pixelBuffer, 0, framebuffer.getWidth(), 0, 0,
                                        framebuffer.getWidth(), framebuffer.getHeight());
@@ -229,6 +243,63 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void prepareSoundPool() {
+        if (soundPool != null) return;
+
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        SoundPool pool = new SoundPool.Builder()
+                .setMaxStreams(8)
+                .setAudioAttributes(attributes)
+                .build();
+        soundPool = pool;
+        pool.setOnLoadCompleteListener((loadedPool, sampleId, status) -> {
+            if (loadedPool != soundPool) return;
+            if (status == 0) {
+                loadedSamples.add(sampleId);
+            } else {
+                Log.w(TAG, "SoundPool failed to load sample " + sampleId
+                        + " with status " + status);
+            }
+        });
+
+        File soundDir = new File(getFilesDir(), "sfx");
+        for (int audioId : REQUIRED_AUDIO_IDS) {
+            File wav = new File(soundDir, "sound_" + audioId + ".wav");
+            if (!wav.isFile()) {
+                Log.w(TAG, "Exported sound is unavailable: " + wav);
+                continue;
+            }
+            int sampleId = pool.load(wav.getAbsolutePath(), 1);
+            if (sampleId != 0) {
+                soundSamples.put(audioId, sampleId);
+            } else {
+                Log.w(TAG, "SoundPool rejected sound " + wav);
+            }
+        }
+    }
+
+    private void playQueuedSounds() {
+        int audioId;
+        while ((audioId = nativePollSound()) != -1) {
+            SoundPool pool = soundPool;
+            Integer sampleId = soundSamples.get(audioId);
+            if (pool != null && sampleId != null && loadedSamples.contains(sampleId)) {
+                pool.play(sampleId, 1.0f, 1.0f, 1, 0, 1.0f);
+            }
+        }
+    }
+
+    private void releaseSoundPool() {
+        SoundPool pool = soundPool;
+        soundPool = null;
+        soundSamples.clear();
+        loadedSamples.clear();
+        if (pool != null) pool.release();
+    }
+
     private void stopEngine() {
         running = false;
         if (renderThread != null) {
@@ -251,5 +322,12 @@ public class MainActivity extends Activity {
         if (renderThread == null || !renderThread.isAlive()) {
             startEngine();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopEngine();
+        releaseSoundPool();
+        super.onDestroy();
     }
 }
