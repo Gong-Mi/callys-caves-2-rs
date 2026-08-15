@@ -18,6 +18,13 @@ pub const PROVISIONAL_SPIKE_INVULNERABILITY_SECONDS: f32 = 1.0;
 const SPIKE_SPRITE_WIDTH: f32 = 32.0;
 const SPIKE_SPRITE_HEIGHT: f32 = 32.0;
 
+// OBJT 22 (`obj_enemy2`) uses SPRT 62 (`spr_enemy2`), a 32x32 sprite
+// anchored at origin (16, 16). Its confirmed ROOM instances use scale 1.
+const ENEMY2_SPRITE_WIDTH: f32 = 32.0;
+const ENEMY2_SPRITE_HEIGHT: f32 = 32.0;
+const ENEMY2_ORIGIN_X: f32 = 16.0;
+const ENEMY2_ORIGIN_Y: f32 = 16.0;
+
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct Rect {
     pub x: f32,
@@ -119,6 +126,7 @@ impl Player {
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub enum EnemyType {
     Bandit,
+    Enemy2,
     Slime,
     FireSlime,
     Bat,
@@ -450,10 +458,11 @@ impl GameWorld {
                         });
                     }
                 }
-                "obj_enemy" | "obj_slime" | "obj_fireslime" | "obj_bat" | "obj_zombie" | "obj_skeleton"
+                "obj_enemy" | "obj_enemy2" | "obj_slime" | "obj_fireslime" | "obj_bat" | "obj_zombie" | "obj_skeleton"
                 | "obj_shooter1" | "obj_shooter2" | "obj_knifebandit" | "obj_firehulk" => {
                     let enemy_type = match obj_name {
                         "obj_enemy" => EnemyType::Bandit,
+                        "obj_enemy2" => EnemyType::Enemy2,
                         "obj_slime" => EnemyType::Slime,
                         "obj_fireslime" => EnemyType::FireSlime,
                         "obj_bat" => EnemyType::Bat,
@@ -476,6 +485,12 @@ impl GameWorld {
                             inst.y as f32 - 24.0,
                             64.0,
                             48.0,
+                        ),
+                        "obj_enemy2" => (
+                            inst.x as f32 - ENEMY2_ORIGIN_X,
+                            inst.y as f32 - ENEMY2_ORIGIN_Y,
+                            ENEMY2_SPRITE_WIDTH,
+                            ENEMY2_SPRITE_HEIGHT,
                         ),
                         _ => (inst.x as f32, inst.y as f32, 32.0, 32.0),
                     };
@@ -748,7 +763,7 @@ impl GameWorld {
         // Update Enemies AI & Physics
         for enemy in &mut self.enemies {
             match enemy.enemy_type {
-                EnemyType::Bandit | EnemyType::KnifeBandit | EnemyType::Slime | EnemyType::Zombie => {
+                EnemyType::Bandit | EnemyType::Enemy2 | EnemyType::KnifeBandit | EnemyType::Slime | EnemyType::Zombie => {
                     enemy.vy += normal_gravity * dt;
                     let ex = enemy.x + enemy.vx * dt;
                     let ey = enemy.y + enemy.vy * dt;
@@ -1024,6 +1039,39 @@ mod tests {
             max_health: 30,
             facing: Facing::Left,
             sprite_id: 52,
+        });
+        world.solids.push(SolidTile {
+            rect: Rect::new(0.0, 300.0, 500.0, 32.0),
+            is_boulder: false,
+            sprite_id: -1,
+        });
+
+        for _ in 0..120 {
+            world.update(1.0 / 60.0, &InputState::default());
+        }
+
+        assert_eq!(world.enemies[0].y, 300.0 - world.enemies[0].height);
+        assert_eq!(world.enemies[0].vy, 0.0);
+    }
+
+    #[test]
+    fn enemy2_falls_until_it_reaches_solid_ground() {
+        let mut world = GameWorld::new();
+        world.player.x = 1000.0;
+        world.player.y = 1000.0;
+        world.enemies.push(Enemy {
+            id: 1,
+            enemy_type: EnemyType::Enemy2,
+            x: 100.0,
+            y: 100.0,
+            vx: 0.0,
+            vy: 0.0,
+            width: 32.0,
+            height: 32.0,
+            health: 30,
+            max_health: 30,
+            facing: Facing::Left,
+            sprite_id: 62,
         });
         world.solids.push(SolidTile {
             rect: Rect::new(0.0, 300.0, 500.0, 32.0),
@@ -1369,6 +1417,107 @@ mod tests {
         assert_eq!(world.player.health, world.player.max_health);
         assert_eq!(world.pending_room_warp, Some(2));
         assert_eq!(world.pending_spawn, Some((64.0, 480.0, Facing::Right)));
+    }
+
+    #[test]
+    fn real_rm_level2_loads_confirmed_enemy_composition_and_enemy2_geometry() {
+        let asset_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../assets/game.droid");
+        let asset = callys_asset::GameDroidAsset::parse(asset_path).expect("parse game.droid");
+        let level2 = &asset.rooms[2];
+        assert_eq!(level2.name, "rm_level2");
+        let enemy2_object = &asset.objects[22];
+        assert_eq!(enemy2_object.name, "obj_enemy2");
+        assert_eq!(enemy2_object.sprite_id, 62);
+        assert_eq!(enemy2_object.parent_id, 11);
+        assert!(!enemy2_object.solid);
+        let enemy2_sprite = asset.sprites.get(&62).expect("spr_enemy2");
+        assert_eq!(enemy2_sprite.name, "spr_enemy2");
+        assert_eq!((enemy2_sprite.width, enemy2_sprite.height), (32, 32));
+        assert_eq!((enemy2_sprite.origin_x, enemy2_sprite.origin_y), (16, 16));
+        let enemy2_instances: Vec<_> = level2
+            .objects
+            .iter()
+            .filter(|instance| instance.object_id == 22)
+            .collect();
+        assert_eq!(enemy2_instances.len(), 1);
+        let enemy2_instance = enemy2_instances[0];
+        assert_eq!((enemy2_instance.x, enemy2_instance.y), (288, 784));
+        assert_eq!((enemy2_instance.scale_x, enemy2_instance.scale_y), (1.0, 1.0));
+
+        let mut world = GameWorld::new();
+        world.load_room(2, level2, &asset.objects, &asset.warp_targets);
+
+        assert_eq!(
+            world
+                .enemies
+                .iter()
+                .filter(|enemy| enemy.enemy_type == EnemyType::Bandit)
+                .count(),
+            6
+        );
+        assert_eq!(
+            world
+                .enemies
+                .iter()
+                .filter(|enemy| enemy.enemy_type == EnemyType::Enemy2)
+                .count(),
+            1
+        );
+        assert_eq!(
+            world
+                .enemies
+                .iter()
+                .filter(|enemy| enemy.enemy_type == EnemyType::KnifeBandit)
+                .count(),
+            1
+        );
+        let enemy2 = world
+            .enemies
+            .iter()
+            .find(|enemy| enemy.enemy_type == EnemyType::Enemy2)
+            .expect("rm_level2 enemy2");
+        assert_eq!(enemy2.sprite_id, 62);
+        assert_eq!(enemy2.bounds(), Rect::new(272.0, 768.0, 32.0, 32.0));
+    }
+
+    #[test]
+    fn real_rm_level2_enemy2_takes_player_projectile_damage() {
+        let asset_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../assets/game.droid");
+        let asset = callys_asset::GameDroidAsset::parse(asset_path).expect("parse game.droid");
+        let mut world = GameWorld::new();
+        world.load_room(2, &asset.rooms[2], &asset.objects, &asset.warp_targets);
+        world.player.x = -1000.0;
+        world.player.y = -1000.0;
+        world.solids.clear();
+        let enemy2 = world
+            .enemies
+            .iter()
+            .find(|enemy| enemy.enemy_type == EnemyType::Enemy2)
+            .expect("rm_level2 enemy2");
+        let initial_health = enemy2.health;
+        let bounds = enemy2.bounds();
+        world.projectiles.push(Projectile {
+            x: bounds.x,
+            y: bounds.y,
+            vx: 0.0,
+            vy: 0.0,
+            width: bounds.w,
+            height: bounds.h,
+            damage: 15,
+            is_player: true,
+            lifetime: 1.0,
+        });
+
+        world.update(0.0, &InputState::default());
+
+        let enemy2 = world
+            .enemies
+            .iter()
+            .find(|enemy| enemy.enemy_type == EnemyType::Enemy2)
+            .expect("damaged enemy2 remains alive");
+        assert_eq!(enemy2.health, initial_health - 15);
     }
 
     #[test]
