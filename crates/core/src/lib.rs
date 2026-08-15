@@ -1,8 +1,8 @@
 pub mod save;
 
-use callys_asset::{GameObjectInfo, RoomData, WarpTarget};
-use std::collections::{BTreeSet, HashMap};
+use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, SpriteData, WarpTarget};
 use serde::{Deserialize, Serialize};
+use std::collections::{BTreeSet, HashMap};
 
 // These water-physics values are provisional until CODE disassembly or
 // original-runtime measurements establish the game's exact constants.
@@ -17,13 +17,6 @@ pub const PROVISIONAL_SPIKE_INVULNERABILITY_SECONDS: f32 = 1.0;
 // SPRT resource 93 (`spr_spikes`) is 32x32 with origin (0, 0).
 const SPIKE_SPRITE_WIDTH: f32 = 32.0;
 const SPIKE_SPRITE_HEIGHT: f32 = 32.0;
-
-// OBJT 22 (`obj_enemy2`) uses SPRT 62 (`spr_enemy2`), a 32x32 sprite
-// anchored at origin (16, 16). Its confirmed ROOM instances use scale 1.
-const ENEMY2_SPRITE_WIDTH: f32 = 32.0;
-const ENEMY2_SPRITE_HEIGHT: f32 = 32.0;
-const ENEMY2_ORIGIN_X: f32 = 16.0;
-const ENEMY2_ORIGIN_Y: f32 = 16.0;
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct Rect {
@@ -44,6 +37,78 @@ impl Rect {
             && self.y < other.y + other.h
             && self.y + self.h > other.y
     }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum EnemyGeometryError {
+    UnexpectedParent { parent_id: i32 },
+    NoSprite,
+    MissingSpriteResource { sprite_id: i32 },
+    InvalidSpriteDimensions {
+        sprite_id: i32,
+        width: u32,
+        height: u32,
+    },
+    InvalidScale { scale_x: f32, scale_y: f32 },
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct EnemyGeometryDiagnostic {
+    pub room_index: usize,
+    pub room_name: String,
+    pub instance_index: usize,
+    pub instance_id: i32,
+    pub object_id: i32,
+    pub object_name: String,
+    pub error: EnemyGeometryError,
+}
+
+fn enemy_instance_geometry(
+    object: &GameObjectInfo,
+    instance: &RoomObjectInstance,
+    sprites: &HashMap<usize, SpriteData>,
+) -> Result<Rect, EnemyGeometryError> {
+    if object.parent_id != 11 {
+        return Err(EnemyGeometryError::UnexpectedParent {
+            parent_id: object.parent_id,
+        });
+    }
+    let sprite_id = usize::try_from(object.sprite_id).map_err(|_| EnemyGeometryError::NoSprite)?;
+    let sprite = sprites
+        .get(&sprite_id)
+        .ok_or(EnemyGeometryError::MissingSpriteResource {
+            sprite_id: object.sprite_id,
+        })?;
+    if sprite.width == 0 || sprite.height == 0 {
+        return Err(EnemyGeometryError::InvalidSpriteDimensions {
+            sprite_id: object.sprite_id,
+            width: sprite.width,
+            height: sprite.height,
+        });
+    }
+    if !instance.scale_x.is_finite()
+        || !instance.scale_y.is_finite()
+        || instance.scale_x == 0.0
+        || instance.scale_y == 0.0
+    {
+        return Err(EnemyGeometryError::InvalidScale {
+            scale_x: instance.scale_x,
+            scale_y: instance.scale_y,
+        });
+    }
+
+    let x0 = instance.x as f32 - sprite.origin_x as f32 * instance.scale_x;
+    let x1 = instance.x as f32
+        + (sprite.width as f32 - sprite.origin_x as f32) * instance.scale_x;
+    let y0 = instance.y as f32 - sprite.origin_y as f32 * instance.scale_y;
+    let y1 = instance.y as f32
+        + (sprite.height as f32 - sprite.origin_y as f32) * instance.scale_y;
+    Ok(Rect::new(
+        x0.min(x1),
+        y0.min(y1),
+        (x1 - x0).abs(),
+        (y1 - y0).abs(),
+    ))
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -136,6 +201,22 @@ pub enum EnemyType {
     KnifeBandit,
     FireHulk,
     Boss,
+}
+
+fn enemy_type_for_object_name(name: &str) -> Option<EnemyType> {
+    match name {
+        "obj_enemy" => Some(EnemyType::Bandit),
+        "obj_enemy2" => Some(EnemyType::Enemy2),
+        "obj_slime" => Some(EnemyType::Slime),
+        "obj_fireslime" => Some(EnemyType::FireSlime),
+        "obj_bat" => Some(EnemyType::Bat),
+        "obj_zombie" => Some(EnemyType::Zombie),
+        "obj_skeleton" => Some(EnemyType::Skeleton),
+        "obj_shooter1" | "obj_shooter2" => Some(EnemyType::Shooter),
+        "obj_knifebandit" => Some(EnemyType::KnifeBandit),
+        "obj_firehulk" => Some(EnemyType::FireHulk),
+        _ => None,
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -257,6 +338,7 @@ pub struct GameWorld {
     pub solids: Vec<SolidTile>,
     pub platforms: Vec<SolidTile>,
     pub enemies: Vec<Enemy>,
+    pub enemy_geometry_diagnostics: Vec<EnemyGeometryDiagnostic>,
     pub projectiles: Vec<Projectile>,
     pub gems: Vec<GemDrop>,
     pub weapon_pickups: Vec<WeaponPickup>,
@@ -284,6 +366,7 @@ impl GameWorld {
             solids: Vec::new(),
             platforms: Vec::new(),
             enemies: Vec::new(),
+            enemy_geometry_diagnostics: Vec::new(),
             projectiles: Vec::new(),
             gems: Vec::new(),
             weapon_pickups: Vec::new(),
@@ -322,6 +405,7 @@ impl GameWorld {
         room_idx: usize,
         room: &RoomData,
         objects_info: &[GameObjectInfo],
+        sprites: &HashMap<usize, SpriteData>,
         warp_targets: &HashMap<i32, WarpTarget>,
     ) {
         self.current_room_index = room_idx;
@@ -331,6 +415,7 @@ impl GameWorld {
         self.solids.clear();
         self.platforms.clear();
         self.enemies.clear();
+        self.enemy_geometry_diagnostics.clear();
         self.projectiles.clear();
         self.gems.clear();
         self.weapon_pickups.clear();
@@ -458,51 +543,37 @@ impl GameWorld {
                         });
                     }
                 }
-                "obj_enemy" | "obj_enemy2" | "obj_slime" | "obj_fireslime" | "obj_bat" | "obj_zombie" | "obj_skeleton"
-                | "obj_shooter1" | "obj_shooter2" | "obj_knifebandit" | "obj_firehulk" => {
-                    let enemy_type = match obj_name {
-                        "obj_enemy" => EnemyType::Bandit,
-                        "obj_enemy2" => EnemyType::Enemy2,
-                        "obj_slime" => EnemyType::Slime,
-                        "obj_fireslime" => EnemyType::FireSlime,
-                        "obj_bat" => EnemyType::Bat,
-                        "obj_zombie" => EnemyType::Zombie,
-                        "obj_skeleton" => EnemyType::Skeleton,
-                        "obj_shooter1" | "obj_shooter2" => EnemyType::Shooter,
-                        "obj_knifebandit" => EnemyType::KnifeBandit,
-                        "obj_firehulk" => EnemyType::FireHulk,
-                        _ => EnemyType::Slime,
-                    };
-                    let (x, y, width, height) = match obj_name {
-                        "obj_enemy" => (
-                            inst.x as f32 - 32.0,
-                            inst.y as f32 - 48.0,
-                            64.0,
-                            64.0,
-                        ),
-                        "obj_knifebandit" => (
-                            inst.x as f32 - 32.0,
-                            inst.y as f32 - 24.0,
-                            64.0,
-                            48.0,
-                        ),
-                        "obj_enemy2" => (
-                            inst.x as f32 - ENEMY2_ORIGIN_X,
-                            inst.y as f32 - ENEMY2_ORIGIN_Y,
-                            ENEMY2_SPRITE_WIDTH,
-                            ENEMY2_SPRITE_HEIGHT,
-                        ),
-                        _ => (inst.x as f32, inst.y as f32, 32.0, 32.0),
+                name if enemy_type_for_object_name(name).is_some() => {
+                    let enemy_type = enemy_type_for_object_name(name)
+                        .expect("guarded enemy object name must have an enemy type");
+                    let rect = match enemy_instance_geometry(
+                        obj_info.expect("matched enemy object must have object info"),
+                        inst,
+                        sprites,
+                    ) {
+                        Ok(rect) => rect,
+                        Err(error) => {
+                            self.enemy_geometry_diagnostics.push(EnemyGeometryDiagnostic {
+                                room_index: room_idx,
+                                room_name: room.name.clone(),
+                                instance_index: inst_idx,
+                                instance_id: inst.instance_id,
+                                object_id: inst.object_id,
+                                object_name: obj_name.to_owned(),
+                                error,
+                            });
+                            continue;
+                        }
                     };
                     self.enemies.push(Enemy {
                         id: inst_idx,
                         enemy_type,
-                        x,
-                        y,
+                        x: rect.x,
+                        y: rect.y,
                         vx: -50.0,
                         vy: 0.0,
-                        width,
-                        height,
+                        width: rect.w,
+                        height: rect.h,
                         health: 30,
                         max_health: 30,
                         facing: Facing::Left,
@@ -980,10 +1051,191 @@ mod tests {
             id: 0, name: "obj_enemy".into(), sprite_id: 52,
             visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
         }];
-        world.load_room(1, &room, &objects, &HashMap::new());
+        let sprites = HashMap::from([(
+            52,
+            SpriteData {
+                id: 52,
+                name: "spr_enemy".into(),
+                width: 64,
+                height: 64,
+                origin_x: 32,
+                origin_y: 48,
+                tpag_indices: Vec::new(),
+            },
+        )]);
+        world.load_room(1, &room, &objects, &sprites, &HashMap::new());
         assert_eq!(world.enemies.len(), 1);
         assert_eq!(world.enemies[0].enemy_type, EnemyType::Bandit);
         assert_eq!(world.enemies[0].sprite_id, 52);
+    }
+
+    #[test]
+    fn enemy_geometry_uses_object_sprite_origin_and_negative_instance_scale() {
+        let object = GameObjectInfo {
+            id: 7,
+            name: "obj_bat".into(),
+            sprite_id: 123,
+            visible: true,
+            solid: false,
+            depth: 0,
+            persistent: false,
+            parent_id: 11,
+        };
+        let instance = callys_asset::RoomObjectInstance {
+            x: 100,
+            y: 200,
+            object_id: 7,
+            instance_id: 42,
+            creation_code_id: -1,
+            scale_x: -2.0,
+            scale_y: 0.5,
+            color: 0xffff_ffff,
+        };
+        let sprites = HashMap::from([(
+            123,
+            callys_asset::SpriteData {
+                id: 123,
+                name: "test_sprite".into(),
+                width: 20,
+                height: 30,
+                origin_x: 4,
+                origin_y: 6,
+                tpag_indices: Vec::new(),
+            },
+        )]);
+
+        assert_eq!(
+            enemy_instance_geometry(&object, &instance, &sprites),
+            Ok(Rect::new(68.0, 197.0, 40.0, 15.0))
+        );
+    }
+
+    #[test]
+    fn enemy_geometry_rejects_unexpected_parent_inheritance() {
+        let object = GameObjectInfo {
+            id: 7,
+            name: "obj_bat".into(),
+            sprite_id: 123,
+            visible: true,
+            solid: false,
+            depth: 0,
+            persistent: false,
+            parent_id: -100,
+        };
+        let instance = callys_asset::RoomObjectInstance {
+            x: 100,
+            y: 200,
+            object_id: 7,
+            instance_id: 42,
+            creation_code_id: -1,
+            scale_x: 1.0,
+            scale_y: 1.0,
+            color: 0xffff_ffff,
+        };
+        let sprites = HashMap::from([(
+            123,
+            SpriteData {
+                id: 123,
+                name: "test_sprite".into(),
+                width: 20,
+                height: 30,
+                origin_x: 4,
+                origin_y: 6,
+                tpag_indices: Vec::new(),
+            },
+        )]);
+
+        assert_eq!(
+            enemy_instance_geometry(&object, &instance, &sprites),
+            Err(EnemyGeometryError::UnexpectedParent { parent_id: -100 })
+        );
+    }
+
+    #[test]
+    fn room_loader_uses_sprite_geometry_and_records_missing_sprite_diagnostics() {
+        let mut world = GameWorld::new();
+        let room = RoomData {
+            name: "geometry".into(),
+            caption: String::new(),
+            width: 320,
+            height: 240,
+            speed: 60,
+            persistent: false,
+            objects: vec![
+                callys_asset::RoomObjectInstance {
+                    x: 100,
+                    y: 200,
+                    object_id: 0,
+                    instance_id: 10,
+                    creation_code_id: -1,
+                    scale_x: -2.0,
+                    scale_y: 0.5,
+                    color: 0xffff_ffff,
+                },
+                callys_asset::RoomObjectInstance {
+                    x: 30,
+                    y: 40,
+                    object_id: 1,
+                    instance_id: 11,
+                    creation_code_id: -1,
+                    scale_x: 1.0,
+                    scale_y: 1.0,
+                    color: 0xffff_ffff,
+                },
+            ],
+            tiles: Vec::new(),
+        };
+        let objects = vec![
+            GameObjectInfo {
+                id: 0,
+                name: "obj_bat".into(),
+                sprite_id: 123,
+                visible: true,
+                solid: false,
+                depth: 0,
+                persistent: false,
+                parent_id: 11,
+            },
+            GameObjectInfo {
+                id: 1,
+                name: "obj_slime".into(),
+                sprite_id: -1,
+                visible: true,
+                solid: false,
+                depth: 0,
+                persistent: false,
+                parent_id: 11,
+            },
+        ];
+        let sprites = HashMap::from([(
+            123,
+            callys_asset::SpriteData {
+                id: 123,
+                name: "bat_test".into(),
+                width: 20,
+                height: 30,
+                origin_x: 4,
+                origin_y: 6,
+                tpag_indices: Vec::new(),
+            },
+        )]);
+
+        world.load_room(
+            9,
+            &room,
+            &objects,
+            &sprites,
+            &HashMap::new(),
+        );
+
+        assert_eq!(world.enemies.len(), 1);
+        assert_eq!(world.enemies[0].bounds(), Rect::new(68.0, 197.0, 40.0, 15.0));
+        assert_eq!(world.enemy_geometry_diagnostics.len(), 1);
+        assert_eq!(world.enemy_geometry_diagnostics[0].instance_id, 11);
+        assert_eq!(
+            world.enemy_geometry_diagnostics[0].error,
+            EnemyGeometryError::NoSprite
+        );
     }
 
     #[test]
@@ -1010,12 +1262,22 @@ mod tests {
                 visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
             },
             GameObjectInfo {
-                id: 1, name: "obj_knifebandit".into(), sprite_id: 53,
+                id: 1, name: "obj_knifebandit".into(), sprite_id: 59,
                 visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
             },
         ];
+        let sprites = HashMap::from([
+            (52, SpriteData {
+                id: 52, name: "spr_enemy".into(), width: 64, height: 64,
+                origin_x: 32, origin_y: 48, tpag_indices: Vec::new(),
+            }),
+            (59, SpriteData {
+                id: 59, name: "spr_knifebandit".into(), width: 64, height: 48,
+                origin_x: 32, origin_y: 24, tpag_indices: Vec::new(),
+            }),
+        ]);
 
-        world.load_room(1, &room, &objects, &HashMap::new());
+        world.load_room(1, &room, &objects, &sprites, &HashMap::new());
 
         assert_eq!(world.enemies[0].bounds(), Rect::new(768.0, 944.0, 64.0, 64.0));
         assert_eq!(world.enemies[1].bounds(), Rect::new(608.0, 488.0, 64.0, 48.0));
@@ -1122,14 +1384,14 @@ mod tests {
             visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
         }];
 
-        world.load_room(1, &room, &objects, &HashMap::new());
+        world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());
         assert_eq!(world.weapon_pickups[0].room_instance_id, Some(4242));
         world.player.x = 100.0;
         world.player.y = 100.0;
         world.update(0.0, &InputState::default());
         assert!(world.collected_instance_ids.contains(&4242));
 
-        world.load_room(1, &room, &objects, &HashMap::new());
+        world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());
         assert!(world.weapon_pickups.is_empty());
     }
 
@@ -1165,7 +1427,7 @@ mod tests {
             },
         ];
 
-        world.load_room(1, &room, &objects, &HashMap::new());
+        world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());
         assert_eq!(world.gems.iter().map(|drop| drop.room_instance_id).collect::<Vec<_>>(), vec![Some(5001), Some(5002)]);
         world.player.x = 100.0;
         world.player.y = 100.0;
@@ -1174,8 +1436,8 @@ mod tests {
         assert!(world.collected_instance_ids.contains(&5001));
         assert!(world.collected_instance_ids.contains(&5002));
 
-        world.load_room(2, &other_room, &objects, &HashMap::new());
-        world.load_room(1, &room, &objects, &HashMap::new());
+        world.load_room(2, &other_room, &objects, &HashMap::new(), &HashMap::new());
+        world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());
         assert!(world.gems.is_empty());
     }
 
@@ -1214,7 +1476,7 @@ mod tests {
             id: 0, name: "obj_waterfill".into(), sprite_id: 103,
             visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
         }];
-        world.load_room(1, &room, &objects, &HashMap::new());
+        world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());
         assert_eq!(world.decorations.len(), 1);
         assert_eq!(world.decorations[0].rect, Rect::new(1568.0, 1056.0, 192.0, 64.0));
         assert_eq!(world.decorations[0].sprite_id, 103);
@@ -1305,7 +1567,7 @@ mod tests {
             visible: true, solid: false, depth: 0, persistent: false, parent_id: 34,
         }];
 
-        world.load_room(1, &room, &objects, &HashMap::new());
+        world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());
 
         assert!(world.solids.is_empty());
         assert_eq!(world.platforms.len(), 1);
@@ -1420,6 +1682,145 @@ mod tests {
     }
 
     #[test]
+    fn real_asset_all_supported_enemy_instances_use_sprite_origin_scale_geometry() {
+        use std::collections::BTreeMap;
+
+        const SUPPORTED: [&str; 11] = [
+            "obj_enemy",
+            "obj_enemy2",
+            "obj_slime",
+            "obj_fireslime",
+            "obj_bat",
+            "obj_zombie",
+            "obj_skeleton",
+            "obj_shooter1",
+            "obj_shooter2",
+            "obj_knifebandit",
+            "obj_firehulk",
+        ];
+
+        let asset_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../assets/game.droid");
+        let asset = callys_asset::GameDroidAsset::parse(asset_path).expect("parse game.droid");
+        assert_eq!(asset.rooms.len(), 114);
+
+        let mut report: BTreeMap<String, (i32, u32, u32, i32, i32, usize, usize)> =
+            BTreeMap::new();
+        for name in SUPPORTED {
+            let object = asset
+                .objects
+                .iter()
+                .find(|object| object.name == name)
+                .unwrap_or_else(|| panic!("supported object {name}"));
+            let sprite = usize::try_from(object.sprite_id)
+                .ok()
+                .and_then(|id| asset.sprites.get(&id));
+            let (width, height, origin_x, origin_y) = sprite
+                .map(|sprite| (sprite.width, sprite.height, sprite.origin_x, sprite.origin_y))
+                .unwrap_or_default();
+            report.insert(
+                name.to_owned(),
+                (object.sprite_id, width, height, origin_x, origin_y, 0, 0),
+            );
+        }
+
+        for (room_index, room) in asset.rooms.iter().enumerate() {
+            let mut world = GameWorld::new();
+            world.load_room(
+                room_index,
+                room,
+                &asset.objects,
+                &asset.sprites,
+                &asset.warp_targets,
+            );
+
+            let supported_instances: Vec<_> = room
+                .objects
+                .iter()
+                .enumerate()
+                .filter_map(|(instance_index, instance)| {
+                    let object = usize::try_from(instance.object_id)
+                        .ok()
+                        .and_then(|id| asset.objects.get(id))?;
+                    SUPPORTED
+                        .contains(&object.name.as_str())
+                        .then_some((instance_index, instance, object))
+                })
+                .collect();
+            assert_eq!(
+                world.enemies.len() + world.enemy_geometry_diagnostics.len(),
+                supported_instances.len(),
+                "room[{room_index}] {} classified every supported enemy",
+                room.name
+            );
+
+            for (instance_index, instance, object) in supported_instances {
+                let entry = report.get_mut(&object.name).expect("report class");
+                entry.5 += 1;
+                let sprite = usize::try_from(object.sprite_id)
+                    .ok()
+                    .and_then(|id| asset.sprites.get(&id));
+                let valid_scale = instance.scale_x.is_finite()
+                    && instance.scale_y.is_finite()
+                    && instance.scale_x != 0.0
+                    && instance.scale_y != 0.0;
+                let Some(sprite) = sprite.filter(|sprite| {
+                    sprite.width > 0 && sprite.height > 0 && valid_scale
+                }) else {
+                    entry.6 += 1;
+                    assert!(world.enemy_geometry_diagnostics.iter().any(|diagnostic| {
+                        diagnostic.instance_index == instance_index
+                            && diagnostic.instance_id == instance.instance_id
+                            && diagnostic.object_name == object.name
+                    }));
+                    continue;
+                };
+
+                let left = (instance.x as f32 - sprite.origin_x as f32 * instance.scale_x)
+                    .min(instance.x as f32
+                        + (sprite.width as f32 - sprite.origin_x as f32) * instance.scale_x);
+                let top = (instance.y as f32 - sprite.origin_y as f32 * instance.scale_y)
+                    .min(instance.y as f32
+                        + (sprite.height as f32 - sprite.origin_y as f32) * instance.scale_y);
+                let expected = Rect::new(
+                    left,
+                    top,
+                    sprite.width as f32 * instance.scale_x.abs(),
+                    sprite.height as f32 * instance.scale_y.abs(),
+                );
+                assert_eq!(
+                    enemy_instance_geometry(object, instance, &asset.sprites),
+                    Ok(expected),
+                    "room[{room_index}] {} instance {instance_index}",
+                    room.name
+                );
+                let enemy = world
+                    .enemies
+                    .iter()
+                    .find(|enemy| enemy.id == instance_index)
+                    .expect("valid supported instance loaded");
+                assert_eq!(enemy.sprite_id, object.sprite_id);
+                assert_eq!(
+                    enemy.bounds(),
+                    expected,
+                    "room[{room_index}] {} instance {instance_index}",
+                    room.name
+                );
+                assert!(enemy.width > 0.0 && enemy.height > 0.0);
+            }
+        }
+
+        for (name, (sprite_id, width, height, origin_x, origin_y, instances, anomalies))
+            in &report
+        {
+            println!(
+                "{name}: sprite={sprite_id} size={width}x{height} origin=({origin_x},{origin_y}) instances={instances} anomalies={anomalies}"
+            );
+        }
+        assert!(report.values().all(|entry| entry.6 == 0));
+    }
+
+    #[test]
     fn real_rm_level2_loads_confirmed_enemy_composition_and_enemy2_geometry() {
         let asset_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../assets/game.droid");
@@ -1446,7 +1847,7 @@ mod tests {
         assert_eq!((enemy2_instance.scale_x, enemy2_instance.scale_y), (1.0, 1.0));
 
         let mut world = GameWorld::new();
-        world.load_room(2, level2, &asset.objects, &asset.warp_targets);
+        world.load_room(2, level2, &asset.objects, &asset.sprites, &asset.warp_targets);
 
         assert_eq!(
             world
@@ -1487,7 +1888,7 @@ mod tests {
             .join("../../assets/game.droid");
         let asset = callys_asset::GameDroidAsset::parse(asset_path).expect("parse game.droid");
         let mut world = GameWorld::new();
-        world.load_room(2, &asset.rooms[2], &asset.objects, &asset.warp_targets);
+        world.load_room(2, &asset.rooms[2], &asset.objects, &asset.sprites, &asset.warp_targets);
         world.player.x = -1000.0;
         world.player.y = -1000.0;
         world.solids.clear();
@@ -1573,7 +1974,7 @@ mod tests {
         }));
 
         let mut world = GameWorld::new();
-        world.load_room(2, level2, &asset.objects, &asset.warp_targets);
+        world.load_room(2, level2, &asset.objects, &asset.sprites, &asset.warp_targets);
 
         assert_eq!(world.hazards.len(), 27);
         let spike_decorations: Vec<_> = world
