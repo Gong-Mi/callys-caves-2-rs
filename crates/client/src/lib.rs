@@ -307,7 +307,13 @@ impl GameState {
             }
         }
         if let Some(room) = asset.rooms.get(room_index) {
-            world.load_room(room_index, room, &asset.objects, &asset.warp_targets);
+            world.load_room(
+                room_index,
+                room,
+                &asset.objects,
+                &asset.sprites,
+                &asset.warp_targets,
+            );
         }
         if room_index == requested_room {
             if let Some(save) = loaded_save.as_ref() {
@@ -407,7 +413,13 @@ impl GameState {
         if let Some(target) = self.world.pending_room_warp.take() {
             let spawn = self.world.pending_spawn.take();
             if let Some(next) = self.asset.rooms.get(target) {
-                self.world.load_room(target, next, &self.asset.objects, &self.asset.warp_targets);
+                self.world.load_room(
+                    target,
+                    next,
+                    &self.asset.objects,
+                    &self.asset.sprites,
+                    &self.asset.warp_targets,
+                );
                 if let Some((x, y, facing)) = spawn {
                     self.world.player.x = x;
                     self.world.player.y = y;

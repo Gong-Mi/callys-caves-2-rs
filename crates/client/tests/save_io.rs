@@ -114,6 +114,7 @@ fn cold_start_restores_collected_model_before_loading_room_instances() {
         1,
         &discovery.asset.rooms[1],
         &discovery.asset.objects,
+        &discovery.asset.sprites,
         &discovery.asset.warp_targets,
     );
     let shotgun_id = discovery.world.weapon_pickups[0].room_instance_id.unwrap();
@@ -153,6 +154,7 @@ fn collecting_room_weapon_triggers_progress_save_even_when_already_unlocked() {
         1,
         &state.asset.rooms[1],
         &state.asset.objects,
+        &state.asset.sprites,
         &state.asset.warp_targets,
     );
     let pickup = state.world.weapon_pickups[0].clone();
