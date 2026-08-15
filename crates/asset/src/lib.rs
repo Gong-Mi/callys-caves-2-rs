@@ -90,6 +90,16 @@ pub struct WarpTarget {
     pub unlocked: bool,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct AudioData {
+    /// Stable resource identifier: the entry index in the AUDO pointer table.
+    pub id: usize,
+    /// Absolute offset of the RIFF header in game.droid.
+    pub file_offset: u64,
+    /// Complete RIFF/WAVE file, including its 12-byte RIFF header.
+    pub wav_bytes: Vec<u8>,
+}
+
 pub struct GameDroidAsset {
     pub game_name: String,
     pub string_table: Vec<String>,
@@ -99,6 +109,98 @@ pub struct GameDroidAsset {
     pub sprites: HashMap<usize, SpriteData>,
     pub tpag_items: HashMap<usize, TpagItem>,
     pub warp_targets: HashMap<i32, WarpTarget>,
+    pub audio: Vec<AudioData>,
+}
+
+fn invalid_data(message: impl Into<String>) -> std::io::Error {
+    std::io::Error::new(std::io::ErrorKind::InvalidData, message.into())
+}
+
+fn parse_audio_chunk(
+    file: &mut File,
+    chunk_pos: u64,
+    chunk_size: u32,
+    file_len: u64,
+) -> std::io::Result<Vec<AudioData>> {
+    let chunk_end = chunk_pos
+        .checked_add(u64::from(chunk_size))
+        .ok_or_else(|| invalid_data("AUDO chunk range overflows"))?;
+    if chunk_end > file_len || chunk_size < 4 {
+        return Err(invalid_data("AUDO chunk is outside the file"));
+    }
+
+    file.seek(SeekFrom::Start(chunk_pos))?;
+    let count = file.read_u32::<LittleEndian>()?;
+    let table_size = u64::from(count)
+        .checked_mul(4)
+        .and_then(|size| size.checked_add(4))
+        .ok_or_else(|| invalid_data("AUDO pointer table size overflows"))?;
+    if table_size > u64::from(chunk_size) {
+        return Err(invalid_data("AUDO pointer table exceeds chunk bounds"));
+    }
+
+    let mut offsets = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        offsets.push(file.read_u32::<LittleEndian>()?);
+    }
+
+    let records_start = chunk_pos + table_size;
+    let mut audio = Vec::with_capacity(count as usize);
+    for (id, &raw_offset) in offsets.iter().enumerate() {
+        let record_pos = u64::from(raw_offset);
+        let wav_pos = record_pos
+            .checked_add(4)
+            .ok_or_else(|| invalid_data(format!("AUDO entry {id} offset overflows")))?;
+        if record_pos < records_start || wav_pos > chunk_end {
+            return Err(invalid_data(format!(
+                "AUDO entry {id} record is outside chunk bounds"
+            )));
+        }
+
+        file.seek(SeekFrom::Start(record_pos))?;
+        let wav_len = u64::from(file.read_u32::<LittleEndian>()?);
+        let wav_end = wav_pos
+            .checked_add(wav_len)
+            .ok_or_else(|| invalid_data(format!("AUDO entry {id} length overflows")))?;
+        if wav_len < 12 || wav_end > chunk_end {
+            return Err(invalid_data(format!(
+                "AUDO entry {id} WAV exceeds chunk bounds"
+            )));
+        }
+        if offsets.iter().enumerate().any(|(other_id, &other_offset)| {
+            other_id != id
+                && u64::from(other_offset) >= record_pos
+                && u64::from(other_offset) < wav_end
+        }) {
+            return Err(invalid_data(format!(
+                "AUDO entry {id} overlaps another record"
+            )));
+        }
+
+        let wav_len_usize = usize::try_from(wav_len)
+            .map_err(|_| invalid_data(format!("AUDO entry {id} is too large")))?;
+        let mut wav_bytes = vec![0; wav_len_usize];
+        file.read_exact(&mut wav_bytes)?;
+        if &wav_bytes[0..4] != b"RIFF" || &wav_bytes[8..12] != b"WAVE" {
+            return Err(invalid_data(format!(
+                "AUDO entry {id} is not a RIFF/WAVE file"
+            )));
+        }
+        let riff_payload_len =
+            u32::from_le_bytes(wav_bytes[4..8].try_into().expect("four-byte RIFF size"));
+        if u64::from(riff_payload_len) + 8 != wav_len {
+            return Err(invalid_data(format!(
+                "AUDO entry {id} RIFF length does not match its record"
+            )));
+        }
+
+        audio.push(AudioData {
+            id,
+            file_offset: wav_pos,
+            wav_bytes,
+        });
+    }
+    Ok(audio)
 }
 
 fn read_null_string(file: &mut File, offset: u64, max_file_len: u64) -> std::io::Result<String> {
@@ -145,6 +247,11 @@ impl GameDroidAsset {
             let padded_size = (chunk_size + 3) & !3;
             file.seek(SeekFrom::Start(pos + 8 + padded_size as u64))?;
         }
+
+        let audio = match chunks.get("AUDO") {
+            Some(&(pos, size)) => parse_audio_chunk(&mut file, pos, size, file_len)?,
+            None => Vec::new(),
+        };
 
         // Parse STRG
         let mut strings = Vec::new();
@@ -458,6 +565,7 @@ impl GameDroidAsset {
             sprites,
             tpag_items,
             warp_targets,
+            audio,
         })
     }
 }
@@ -465,6 +573,36 @@ impl GameDroidAsset {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::io::Write;
+
+    #[test]
+    fn test_audio_records_cannot_overlap() {
+        let path = std::env::temp_dir().join(format!(
+            "callys-asset-audo-overlap-{}",
+            std::process::id()
+        ));
+        let mut bytes = vec![0u8; 64];
+        bytes[0..4].copy_from_slice(&2u32.to_le_bytes());
+        bytes[4..8].copy_from_slice(&12u32.to_le_bytes());
+        bytes[8..12].copy_from_slice(&28u32.to_le_bytes());
+        bytes[12..16].copy_from_slice(&24u32.to_le_bytes());
+        bytes[16..20].copy_from_slice(b"RIFF");
+        bytes[20..24].copy_from_slice(&16u32.to_le_bytes());
+        bytes[24..28].copy_from_slice(b"WAVE");
+        bytes[28..32].copy_from_slice(&12u32.to_le_bytes());
+        bytes[32..36].copy_from_slice(b"RIFF");
+        bytes[36..40].copy_from_slice(&4u32.to_le_bytes());
+        bytes[40..44].copy_from_slice(b"WAVE");
+
+        let mut file = File::create(&path).expect("create malformed AUDO fixture");
+        file.write_all(&bytes).expect("write malformed AUDO fixture");
+        drop(file);
+        let mut file = File::open(&path).expect("open malformed AUDO fixture");
+        let error = parse_audio_chunk(&mut file, 0, bytes.len() as u32, bytes.len() as u64)
+            .expect_err("overlapping AUDO records must be rejected");
+        std::fs::remove_file(path).expect("remove malformed AUDO fixture");
+        assert!(error.to_string().contains("overlaps"), "{error}");
+    }
 
     #[test]
     fn test_parse_game_droid() {
@@ -501,6 +639,16 @@ mod tests {
         assert!(!asset.objects.is_empty());
         assert!(!asset.sprites.is_empty());
         assert!(!asset.tpag_items.is_empty());
+        assert_eq!(asset.audio.len(), 29);
+        for (expected_id, audio) in asset.audio.iter().enumerate() {
+            assert_eq!(audio.id, expected_id);
+            assert_eq!(&audio.wav_bytes[0..4], b"RIFF");
+            assert_eq!(&audio.wav_bytes[8..12], b"WAVE");
+            let riff_payload_len = u32::from_le_bytes(
+                audio.wav_bytes[4..8].try_into().expect("RIFF size field"),
+            ) as usize;
+            assert_eq!(riff_payload_len + 8, audio.wav_bytes.len());
+        }
         assert_eq!(asset.rooms[0].objects.len(), 170);
         assert_eq!(
             asset.warp_targets.get(&804),
