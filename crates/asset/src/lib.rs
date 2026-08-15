@@ -54,6 +54,58 @@ pub struct GameObjectInfo {
     pub depth: i32,
     pub persistent: bool,
     pub parent_id: i32,
+    /// Directly defined events only. Parent events are not copied here.
+    pub events: Vec<ObjectEvent>,
+    /// Physics fields whose gameplay meaning is not used by this fact layer.
+    pub physics_raw: ObjectPhysicsRaw,
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ObjectPhysicsRaw {
+    pub enabled: u32,
+    pub sensor: u32,
+    pub collision_shape: u32,
+    pub density_bits: u32,
+    pub restitution_bits: u32,
+    pub group: u32,
+    pub linear_damping_bits: u32,
+    pub angular_damping_bits: u32,
+    pub vertices: Vec<[u32; 2]>,
+    pub friction_bits: u32,
+    pub awake: u32,
+    pub kinematic: u32,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ObjectEvent {
+    /// Raw GMS event category index from the object's event-list table.
+    pub event_type: u32,
+    /// Raw subtype stored in the event record (alarm index, collision object ID, etc.).
+    pub subtype: i32,
+    /// Actions in the exact order of the event's action pointer table.
+    pub actions: Vec<ObjectAction>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ObjectAction {
+    pub order: usize,
+    pub library_id: u32,
+    pub action_id: u32,
+    pub kind: u32,
+    pub use_relative_raw: u32,
+    pub is_question_raw: u32,
+    pub use_apply_to_raw: u32,
+    pub execution_type: u32,
+    pub function_name: String,
+    /// Direct CODE resource index stored at action-record +0x20.
+    pub code_id: i32,
+    pub code_name: Option<String>,
+    pub argument_count: u32,
+    pub who: i32,
+    pub relative_raw: u32,
+    pub is_not_raw: u32,
+    /// Final action word; meaning remains unknown for this game.droid format.
+    pub unknown_raw: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -345,6 +397,274 @@ fn read_null_string(file: &mut File, offset: u64, max_file_len: u64) -> std::io:
         buf.push(b[0]);
     }
     Ok(String::from_utf8_lossy(&buf).to_string())
+}
+
+fn range_inside(start: u64, length: u64, lower: u64, upper: u64) -> bool {
+    start >= lower && start.checked_add(length).is_some_and(|end| end <= upper)
+}
+
+fn parse_object_chunk(
+    file: &mut File,
+    chunk_pos: u64,
+    chunk_size: u32,
+    file_len: u64,
+    code_names: &[Option<String>],
+) -> std::io::Result<Vec<GameObjectInfo>> {
+    const FIXED_HEADER_THROUGH_VERTEX_COUNT: u64 = 17 * 4;
+    const ACTION_RECORD_SIZE: u64 = 14 * 4;
+
+    let chunk_end = chunk_pos
+        .checked_add(u64::from(chunk_size))
+        .ok_or_else(|| invalid_data("OBJT chunk range overflows"))?;
+    if chunk_end > file_len || chunk_size < 4 {
+        return Err(invalid_data("OBJT chunk is outside the file"));
+    }
+    file.seek(SeekFrom::Start(chunk_pos))?;
+    let count = file.read_u32::<LittleEndian>()?;
+    let table_size = u64::from(count)
+        .checked_mul(4)
+        .and_then(|size| size.checked_add(4))
+        .ok_or_else(|| invalid_data("OBJT pointer table size overflows"))?;
+    if table_size > u64::from(chunk_size) {
+        return Err(invalid_data("OBJT pointer table exceeds chunk bounds"));
+    }
+    let records_start = chunk_pos + table_size;
+    let mut offsets = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        offsets.push(u64::from(file.read_u32::<LittleEndian>()?));
+    }
+    for (id, &record_pos) in offsets.iter().enumerate() {
+        if !range_inside(
+            record_pos,
+            FIXED_HEADER_THROUGH_VERTEX_COUNT,
+            records_start,
+            chunk_end,
+        ) {
+            return Err(invalid_data(format!(
+                "OBJT entry {id} object record is outside chunk bounds"
+            )));
+        }
+        if id > 0 && record_pos <= offsets[id - 1] {
+            return Err(invalid_data("OBJT object pointers are not strictly increasing"));
+        }
+    }
+
+    let mut objects = Vec::with_capacity(count as usize);
+    for (id, &record_pos) in offsets.iter().enumerate() {
+        let record_end = offsets.get(id + 1).copied().unwrap_or(chunk_end);
+        file.seek(SeekFrom::Start(record_pos))?;
+        let name_offset = u64::from(file.read_u32::<LittleEndian>()?);
+        let sprite_id = file.read_i32::<LittleEndian>()?;
+        let visible = file.read_u32::<LittleEndian>()? != 0;
+        let solid = file.read_u32::<LittleEndian>()? != 0;
+        let depth = file.read_i32::<LittleEndian>()?;
+        let persistent = file.read_u32::<LittleEndian>()? != 0;
+        let parent_id = file.read_i32::<LittleEndian>()?;
+        let _texture_mask_id = file.read_i32::<LittleEndian>()?;
+        let enabled = file.read_u32::<LittleEndian>()?;
+        let sensor = file.read_u32::<LittleEndian>()?;
+        let collision_shape = file.read_u32::<LittleEndian>()?;
+        let density_bits = file.read_u32::<LittleEndian>()?;
+        let restitution_bits = file.read_u32::<LittleEndian>()?;
+        let group = file.read_u32::<LittleEndian>()?;
+        let linear_damping_bits = file.read_u32::<LittleEndian>()?;
+        let angular_damping_bits = file.read_u32::<LittleEndian>()?;
+        let vertex_count = file.read_u32::<LittleEndian>()?;
+        let variable_tail_size = u64::from(vertex_count)
+            .checked_mul(8)
+            .and_then(|size| size.checked_add(4 * 4))
+            .ok_or_else(|| invalid_data(format!("OBJT entry {id} vertex table overflows")))?;
+        let variable_tail_pos = record_pos + FIXED_HEADER_THROUGH_VERTEX_COUNT;
+        if !range_inside(variable_tail_pos, variable_tail_size, record_pos, record_end) {
+            return Err(invalid_data(format!(
+                "OBJT entry {id} vertex/event header exceeds object bounds"
+            )));
+        }
+        let mut vertices = Vec::with_capacity(vertex_count as usize);
+        for _ in 0..vertex_count {
+            vertices.push([
+                file.read_u32::<LittleEndian>()?,
+                file.read_u32::<LittleEndian>()?,
+            ]);
+        }
+        let friction_bits = file.read_u32::<LittleEndian>()?;
+        let awake = file.read_u32::<LittleEndian>()?;
+        let kinematic = file.read_u32::<LittleEndian>()?;
+        let event_type_count = file.read_u32::<LittleEndian>()?;
+        let event_pointer_table_pos = file.stream_position()?;
+        let event_pointer_table_size = u64::from(event_type_count)
+            .checked_mul(4)
+            .ok_or_else(|| invalid_data(format!("OBJT entry {id} event table overflows")))?;
+        if !range_inside(
+            event_pointer_table_pos,
+            event_pointer_table_size,
+            record_pos,
+            record_end,
+        ) {
+            return Err(invalid_data(format!(
+                "OBJT entry {id} event pointer table exceeds object bounds"
+            )));
+        }
+        let mut event_list_offsets = Vec::with_capacity(event_type_count as usize);
+        for _ in 0..event_type_count {
+            event_list_offsets.push(u64::from(file.read_u32::<LittleEndian>()?));
+        }
+        let object_data_start = event_pointer_table_pos + event_pointer_table_size;
+        let mut events = Vec::new();
+        for (event_type, event_list_pos) in event_list_offsets.into_iter().enumerate() {
+            if !range_inside(event_list_pos, 4, object_data_start, record_end) {
+                return Err(invalid_data(format!(
+                    "OBJT entry {id} event list is outside object bounds"
+                )));
+            }
+            file.seek(SeekFrom::Start(event_list_pos))?;
+            let event_count = file.read_u32::<LittleEndian>()?;
+            let event_table_size = u64::from(event_count)
+                .checked_mul(4)
+                .ok_or_else(|| invalid_data(format!("OBJT entry {id} event list overflows")))?;
+            if !range_inside(event_list_pos + 4, event_table_size, event_list_pos, record_end) {
+                return Err(invalid_data(format!(
+                    "OBJT entry {id} event pointer table exceeds object bounds"
+                )));
+            }
+            let mut event_offsets = Vec::with_capacity(event_count as usize);
+            for _ in 0..event_count {
+                event_offsets.push(u64::from(file.read_u32::<LittleEndian>()?));
+            }
+            let event_records_start = event_list_pos + 4 + event_table_size;
+            for event_pos in event_offsets {
+                if !range_inside(event_pos, 8, event_records_start, record_end) {
+                    return Err(invalid_data(format!(
+                        "OBJT entry {id} event record is outside object bounds"
+                    )));
+                }
+                file.seek(SeekFrom::Start(event_pos))?;
+                let subtype = file.read_i32::<LittleEndian>()?;
+                let action_count = file.read_u32::<LittleEndian>()?;
+                let action_table_size = u64::from(action_count)
+                    .checked_mul(4)
+                    .ok_or_else(|| invalid_data(format!("OBJT entry {id} action table overflows")))?;
+                if !range_inside(event_pos + 8, action_table_size, event_pos, record_end) {
+                    return Err(invalid_data(format!(
+                        "OBJT entry {id} action pointer table exceeds object bounds"
+                    )));
+                }
+                let mut action_offsets = Vec::with_capacity(action_count as usize);
+                for _ in 0..action_count {
+                    action_offsets.push(u64::from(file.read_u32::<LittleEndian>()?));
+                }
+                let action_records_start = event_pos + 8 + action_table_size;
+                let mut actions = Vec::with_capacity(action_count as usize);
+                for (order, action_pos) in action_offsets.into_iter().enumerate() {
+                    if !range_inside(
+                        action_pos,
+                        ACTION_RECORD_SIZE,
+                        action_records_start,
+                        record_end,
+                    ) {
+                        return Err(invalid_data(format!(
+                            "OBJT entry {id} action record is outside object bounds"
+                        )));
+                    }
+                    file.seek(SeekFrom::Start(action_pos))?;
+                    let library_id = file.read_u32::<LittleEndian>()?;
+                    let action_id = file.read_u32::<LittleEndian>()?;
+                    let kind = file.read_u32::<LittleEndian>()?;
+                    let use_relative_raw = file.read_u32::<LittleEndian>()?;
+                    let is_question_raw = file.read_u32::<LittleEndian>()?;
+                    let use_apply_to_raw = file.read_u32::<LittleEndian>()?;
+                    let execution_type = file.read_u32::<LittleEndian>()?;
+                    let function_name_offset = u64::from(file.read_u32::<LittleEndian>()?);
+                    let code_id = file.read_i32::<LittleEndian>()?;
+                    let argument_count = file.read_u32::<LittleEndian>()?;
+                    let who = file.read_i32::<LittleEndian>()?;
+                    let relative_raw = file.read_u32::<LittleEndian>()?;
+                    let is_not_raw = file.read_u32::<LittleEndian>()?;
+                    let unknown_raw = file.read_u32::<LittleEndian>()?;
+                    let function_name = read_required_null_string(
+                        file,
+                        function_name_offset,
+                        file_len,
+                        &format!("OBJT entry {id} action {order}"),
+                    )?;
+                    let code_name = if code_id == -1 {
+                        None
+                    } else {
+                        let code_index = usize::try_from(code_id).map_err(|_| {
+                            invalid_data(format!(
+                                "OBJT entry {id} action {order} references invalid CODE entry {code_id}"
+                            ))
+                        })?;
+                        Some(
+                            code_names
+                                .get(code_index)
+                                .and_then(|name| name.clone())
+                                .ok_or_else(|| {
+                                    invalid_data(format!(
+                                        "OBJT entry {id} action {order} references missing CODE entry {code_id}"
+                                    ))
+                                })?,
+                        )
+                    };
+                    actions.push(ObjectAction {
+                        order,
+                        library_id,
+                        action_id,
+                        kind,
+                        use_relative_raw,
+                        is_question_raw,
+                        use_apply_to_raw,
+                        execution_type,
+                        function_name,
+                        code_id,
+                        code_name,
+                        argument_count,
+                        who,
+                        relative_raw,
+                        is_not_raw,
+                        unknown_raw,
+                    });
+                }
+                events.push(ObjectEvent {
+                    event_type: event_type as u32,
+                    subtype,
+                    actions,
+                });
+            }
+        }
+        let name = read_required_null_string(
+            file,
+            name_offset,
+            file_len,
+            &format!("OBJT entry {id}"),
+        )?;
+        objects.push(GameObjectInfo {
+            id,
+            name,
+            sprite_id,
+            visible,
+            solid,
+            depth,
+            persistent,
+            parent_id,
+            events,
+            physics_raw: ObjectPhysicsRaw {
+                enabled,
+                sensor,
+                collision_shape,
+                density_bits,
+                restitution_bits,
+                group,
+                linear_damping_bits,
+                angular_damping_bits,
+                vertices,
+                friction_bits,
+                awake,
+                kinematic,
+            },
+        });
+    }
+    Ok(objects)
 }
 
 #[derive(Debug)]
@@ -762,44 +1082,25 @@ impl GameDroidAsset {
             }
         }
 
-        // Parse OBJT
-        let mut objects = Vec::new();
-        let mut object_names = Vec::new();
-        if let Some(&(pos, _size)) = chunks.get("OBJT") {
-            file.seek(SeekFrom::Start(pos))?;
-            let count = file.read_u32::<LittleEndian>()?;
-            let mut offsets = Vec::with_capacity(count as usize);
-            for _ in 0..count {
-                offsets.push(file.read_u32::<LittleEndian>()?);
-            }
-            for (idx, &off) in offsets.iter().enumerate() {
-                let obj_abs_pos = off as u64;
-                if obj_abs_pos >= file_len || file.seek(SeekFrom::Start(obj_abs_pos)).is_err() {
-                    continue;
-                }
-                let name_off = file.read_u32::<LittleEndian>().unwrap_or(0);
-                let sprite_id = file.read_i32::<LittleEndian>().unwrap_or(-1);
-                let visible = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
-                let solid = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
-                let depth = file.read_i32::<LittleEndian>().unwrap_or(0);
-                let persistent = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
-                let parent_id = file.read_i32::<LittleEndian>().unwrap_or(-1);
+        // Parse CODE before OBJT so action CODE references are resolved from the
+        // stored numeric field, never inferred from resource-name similarity.
+        let code_entries = match chunks.get("CODE") {
+            Some(&(pos, size)) => parse_code_entries(&mut file, pos, size, file_len)?,
+            None => Vec::new(),
+        };
+        let code_names: Vec<Option<String>> = code_entries
+            .iter()
+            .map(|entry| entry.as_ref().ok().map(|entry| entry.name.clone()))
+            .collect();
 
-                let name = read_null_string(&mut file, name_off as u64, file_len)
-                    .unwrap_or_else(|_| format!("obj_{}", idx));
-                object_names.push(name.clone());
-                objects.push(GameObjectInfo {
-                    id: idx,
-                    name,
-                    sprite_id,
-                    visible,
-                    solid,
-                    depth,
-                    persistent,
-                    parent_id,
-                });
+        // Parse OBJT, including direct event lists and ordered action records.
+        let objects = match chunks.get("OBJT") {
+            Some(&(pos, size)) => {
+                parse_object_chunk(&mut file, pos, size, file_len, &code_names)?
             }
-        }
+            None => Vec::new(),
+        };
+        let object_names = objects.iter().map(|object| object.name.clone()).collect();
 
         // Parse ROOM
         let mut rooms = Vec::new();
@@ -927,10 +1228,6 @@ impl GameDroidAsset {
         // instances. Static decoding is accepted only when CODE opcodes and the
         // VARI occurrence chains prove the warproom/warpx/warpy[/unlocked]
         // assignment semantics.
-        let code_entries = match chunks.get("CODE") {
-            Some(&(pos, size)) => parse_code_entries(&mut file, pos, size, file_len)?,
-            None => Vec::new(),
-        };
         let variable_references = match chunks.get("VARI") {
             Some(&(pos, size)) => parse_variable_references(&mut file, pos, size, file_len)?,
             None => HashMap::new(),
@@ -997,6 +1294,122 @@ mod tests {
         let mut file = File::create(&path).expect("create malformed SOND fixture");
         file.write_all(bytes).expect("write malformed SOND fixture");
         path
+    }
+
+    fn write_object_fixture(label: &str, bytes: &[u8]) -> std::path::PathBuf {
+        let path = std::env::temp_dir().join(format!(
+            "callys-asset-objt-{label}-{}",
+            std::process::id()
+        ));
+        let mut file = File::create(&path).expect("create OBJT fixture");
+        file.write_all(bytes).expect("write OBJT fixture");
+        path
+    }
+
+    fn direct_event_fixture() -> Vec<u8> {
+        let mut bytes = vec![0u8; 204];
+        bytes[0..4].copy_from_slice(&1u32.to_le_bytes());
+        bytes[4..8].copy_from_slice(&8u32.to_le_bytes());
+        bytes[8..12].copy_from_slice(&200u32.to_le_bytes());
+        bytes[12..16].copy_from_slice(&7i32.to_le_bytes());
+        bytes[16..20].copy_from_slice(&1u32.to_le_bytes());
+        bytes[32..36].copy_from_slice(&(-1i32).to_le_bytes());
+        bytes[36..40].copy_from_slice(&(-1i32).to_le_bytes());
+        bytes[76..80].copy_from_slice(&0.2f32.to_le_bytes());
+        bytes[80..84].copy_from_slice(&1u32.to_le_bytes());
+        bytes[88..92].copy_from_slice(&1u32.to_le_bytes());
+        bytes[92..96].copy_from_slice(&96u32.to_le_bytes());
+        bytes[96..100].copy_from_slice(&1u32.to_le_bytes());
+        bytes[100..104].copy_from_slice(&104u32.to_le_bytes());
+        bytes[104..108].copy_from_slice(&0i32.to_le_bytes());
+        bytes[108..112].copy_from_slice(&1u32.to_le_bytes());
+        bytes[112..116].copy_from_slice(&116u32.to_le_bytes());
+        for (index, value) in [1u32, 603, 7, 0, 0, 1, 2, 200, 0, 1, u32::MAX, 0, 0, 0]
+            .into_iter()
+            .enumerate()
+        {
+            let start = 116 + index * 4;
+            bytes[start..start + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        bytes[200..204].copy_from_slice(b"obj\0");
+        bytes
+    }
+
+    #[test]
+    fn object_events_preserve_direct_type_subtype_action_order_and_code_reference() {
+        let bytes = direct_event_fixture();
+        let path = write_object_fixture("direct-event", &bytes);
+        let mut file = File::open(&path).expect("open OBJT fixture");
+        let objects = parse_object_chunk(
+            &mut file,
+            0,
+            200,
+            bytes.len() as u64,
+            &[Some("gml_Object_obj_Create_0".into())],
+        )
+        .expect("parse direct OBJT event");
+        std::fs::remove_file(path).expect("remove OBJT fixture");
+
+        let object = &objects[0];
+        assert_eq!(object.name, "obj");
+        assert_eq!(object.events.len(), 1);
+        assert_eq!(object.events[0].event_type, 0);
+        assert_eq!(object.events[0].subtype, 0);
+        assert_eq!(object.events[0].actions.len(), 1);
+        let action = &object.events[0].actions[0];
+        assert_eq!(action.order, 0);
+        assert_eq!(action.code_id, 0);
+        assert_eq!(action.code_name.as_deref(), Some("gml_Object_obj_Create_0"));
+        assert_eq!(action.unknown_raw, 0);
+    }
+
+    #[test]
+    fn object_pointer_must_stay_inside_objt_chunk() {
+        let mut bytes = vec![0u8; 16];
+        bytes[0..4].copy_from_slice(&1u32.to_le_bytes());
+        bytes[4..8].copy_from_slice(&16u32.to_le_bytes());
+        let path = write_object_fixture("object-pointer", &bytes);
+        let mut file = File::open(&path).expect("open malformed OBJT fixture");
+        let error = parse_object_chunk(&mut file, 0, 16, 16, &[])
+            .expect_err("out-of-bounds OBJT object pointer must be rejected");
+        std::fs::remove_file(path).expect("remove malformed OBJT fixture");
+        assert!(error.to_string().contains("object record is outside chunk bounds"), "{error}");
+    }
+
+    #[test]
+    fn object_event_pointer_must_stay_inside_object_record() {
+        let mut bytes = direct_event_fixture();
+        bytes[92..96].copy_from_slice(&200u32.to_le_bytes());
+        let path = write_object_fixture("event-pointer", &bytes);
+        let mut file = File::open(&path).expect("open malformed OBJT fixture");
+        let error = parse_object_chunk(&mut file, 0, 200, bytes.len() as u64, &[Some("code".into())])
+            .expect_err("out-of-bounds event pointer must be rejected");
+        std::fs::remove_file(path).expect("remove malformed OBJT fixture");
+        assert!(error.to_string().contains("event list is outside object bounds"), "{error}");
+    }
+
+    #[test]
+    fn object_action_record_must_stay_inside_object_record() {
+        let mut bytes = direct_event_fixture();
+        bytes[112..116].copy_from_slice(&148u32.to_le_bytes());
+        let path = write_object_fixture("action-pointer", &bytes);
+        let mut file = File::open(&path).expect("open malformed OBJT fixture");
+        let error = parse_object_chunk(&mut file, 0, 200, bytes.len() as u64, &[Some("code".into())])
+            .expect_err("truncated action record must be rejected");
+        std::fs::remove_file(path).expect("remove malformed OBJT fixture");
+        assert!(error.to_string().contains("action record is outside object bounds"), "{error}");
+    }
+
+    #[test]
+    fn object_action_code_reference_must_exist() {
+        let mut bytes = direct_event_fixture();
+        bytes[148..152].copy_from_slice(&1u32.to_le_bytes());
+        let path = write_object_fixture("code-reference", &bytes);
+        let mut file = File::open(&path).expect("open malformed OBJT fixture");
+        let error = parse_object_chunk(&mut file, 0, 200, bytes.len() as u64, &[Some("code".into())])
+            .expect_err("missing CODE reference must be rejected");
+        std::fs::remove_file(path).expect("remove malformed OBJT fixture");
+        assert!(error.to_string().contains("references missing CODE entry 1"), "{error}");
     }
 
     #[test]
@@ -1117,6 +1530,50 @@ mod tests {
         assert_eq!(asset.rooms[0].name, "rm_town");
         assert_eq!(asset.rooms[1].name, "rm_level1");
         assert!(!asset.objects.is_empty());
+        let expected_direct_events = [
+            (
+                "obj_enemy",
+                vec![(0, 0, 40), (1, 0, 41), (2, 6, 42), (2, 5, 43), (2, 4, 44), (2, 3, 45), (2, 0, 46), (3, 0, 47), (8, 0, 48)],
+            ),
+            (
+                "obj_enemy2",
+                vec![(0, 0, 123), (1, 0, 124), (2, 7, 125), (2, 6, 126), (2, 5, 127), (2, 4, 128), (2, 3, 129), (2, 2, 130), (2, 1, 131), (2, 0, 132), (3, 0, 133), (8, 0, 134)],
+            ),
+            (
+                "obj_knifebandit",
+                vec![(0, 0, 49), (1, 0, 50), (2, 6, 51), (2, 5, 52), (2, 4, 53), (2, 3, 54), (2, 0, 55), (3, 0, 56), (8, 0, 57)],
+            ),
+        ];
+        for (object_name, expected) in expected_direct_events {
+            let object = asset
+                .objects
+                .iter()
+                .find(|object| object.name == object_name)
+                .expect("target OBJT resource");
+            assert_eq!(object.parent_id, 11);
+            assert_eq!(asset.objects[11].name, "par_enemy");
+            assert!(asset.objects[11].events.is_empty());
+            let actual: Vec<_> = object
+                .events
+                .iter()
+                .map(|event| {
+                    assert_eq!(event.actions.len(), 1);
+                    (
+                        event.event_type,
+                        event.subtype,
+                        event.actions[0].code_id,
+                    )
+                })
+                .collect();
+            assert_eq!(actual, expected, "direct events for {object_name}");
+            for event in &object.events {
+                let action = &event.actions[0];
+                assert_eq!(action.order, 0);
+                assert!(action.code_name.as_deref().is_some_and(|name| {
+                    name.starts_with(&format!("gml_Object_{object_name}_"))
+                }));
+            }
+        }
         assert!(!asset.sprites.is_empty());
         assert!(!asset.tpag_items.is_empty());
         assert_eq!(asset.audio.len(), 29);
