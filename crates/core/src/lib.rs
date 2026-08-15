@@ -1050,6 +1050,7 @@ mod tests {
         let objects = vec![GameObjectInfo {
             id: 0, name: "obj_enemy".into(), sprite_id: 52,
             visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
+            events: Vec::new(), physics_raw: Default::default(),
         }];
         let sprites = HashMap::from([(
             52,
@@ -1260,10 +1261,12 @@ mod tests {
             GameObjectInfo {
                 id: 0, name: "obj_enemy".into(), sprite_id: 52,
                 visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
+            events: Vec::new(), physics_raw: Default::default(),
             },
             GameObjectInfo {
                 id: 1, name: "obj_knifebandit".into(), sprite_id: 59,
                 visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
+            events: Vec::new(), physics_raw: Default::default(),
             },
         ];
         let sprites = HashMap::from([
@@ -1382,6 +1385,7 @@ mod tests {
         let objects = vec![GameObjectInfo {
             id: 0, name: "obj_shotgun".into(), sprite_id: 127,
             visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
+            events: Vec::new(), physics_raw: Default::default(),
         }];
 
         world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());
@@ -1420,10 +1424,12 @@ mod tests {
             GameObjectInfo {
                 id: 0, name: "obj_gem".into(), sprite_id: 1,
                 visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
+            events: Vec::new(), physics_raw: Default::default(),
             },
             GameObjectInfo {
                 id: 1, name: "obj_coin".into(), sprite_id: 2,
                 visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
+            events: Vec::new(), physics_raw: Default::default(),
             },
         ];
 
@@ -1475,6 +1481,7 @@ mod tests {
         let objects = vec![GameObjectInfo {
             id: 0, name: "obj_waterfill".into(), sprite_id: 103,
             visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
+            events: Vec::new(), physics_raw: Default::default(),
         }];
         world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());
         assert_eq!(world.decorations.len(), 1);
@@ -1565,6 +1572,7 @@ mod tests {
         let objects = vec![GameObjectInfo {
             id: 0, name: "obj_platform".into(), sprite_id: 35,
             visible: true, solid: false, depth: 0, persistent: false, parent_id: 34,
+            events: Vec::new(), physics_raw: Default::default(),
         }];
 
         world.load_room(1, &room, &objects, &HashMap::new(), &HashMap::new());

@@ -1,5 +1,73 @@
-use callys_asset::{GameDroidAsset, WarpAuditStatus};
+use callys_asset::{GameDroidAsset, ObjectEvent, WarpAuditStatus};
 use std::collections::BTreeMap;
+
+fn event_type_name(event_type: u32) -> &'static str {
+    match event_type {
+        0 => "Create",
+        1 => "Destroy",
+        2 => "Alarm",
+        3 => "Step",
+        4 => "Collision",
+        5 => "Keyboard",
+        6 => "Mouse",
+        7 => "Other",
+        8 => "Draw",
+        9 => "KeyPress",
+        10 => "KeyRelease",
+        11 => "Trigger",
+        12 => "CleanUp",
+        _ => "Unknown",
+    }
+}
+
+fn print_direct_events(asset: &GameDroidAsset, object_name: &str, events: &[ObjectEvent]) {
+    if events.is_empty() {
+        println!("  direct_events=(none)");
+        return;
+    }
+    for event in events {
+        let subtype_resource = if event.event_type == 4 {
+            usize::try_from(event.subtype)
+                .ok()
+                .and_then(|id| asset.objects.get(id))
+                .map(|object| object.name.as_str())
+        } else {
+            None
+        };
+        println!(
+            "  direct_event object={} type={} ({}) subtype={}{} actions={}",
+            object_name,
+            event.event_type,
+            event_type_name(event.event_type),
+            event.subtype,
+            subtype_resource
+                .map(|name| format!(" resource={name}"))
+                .unwrap_or_default(),
+            event.actions.len()
+        );
+        for action in &event.actions {
+            println!(
+                "    action[{}] code_id={} code={} library={} action_id={} kind={} execution_type={} arguments={} who={} raw(use_relative={},question={},apply_to={},relative={},not={},unknown={}) function={:?}",
+                action.order,
+                action.code_id,
+                action.code_name.as_deref().unwrap_or("<none>"),
+                action.library_id,
+                action.action_id,
+                action.kind,
+                action.execution_type,
+                action.argument_count,
+                action.who,
+                action.use_relative_raw,
+                action.is_question_raw,
+                action.use_apply_to_raw,
+                action.relative_raw,
+                action.is_not_raw,
+                action.unknown_raw,
+                action.function_name,
+            );
+        }
+    }
+}
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let path = std::env::args().nth(1).unwrap_or_else(|| "assets/game.droid".into());
@@ -114,6 +182,35 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "warp summary total={} decoded={} special_dynamic={} unresolved={}",
         asset.warp_audits.len(), decoded, special, unresolved
     );
+
+    println!("-- direct OBJT events and potential parent inheritance --");
+    for target_name in ["obj_enemy", "obj_enemy2", "obj_knifebandit"] {
+        let Some(object) = asset.objects.iter().find(|object| object.name == target_name) else {
+            println!("obj <missing> name={target_name}");
+            continue;
+        };
+        let parent = usize::try_from(object.parent_id)
+            .ok()
+            .and_then(|id| asset.objects.get(id));
+        println!(
+            "obj[{}] {} parent={} ({}) direct_events={}",
+            object.id,
+            object.name,
+            object.parent_id,
+            parent.map(|object| object.name.as_str()).unwrap_or("<none>"),
+            object.events.len(),
+        );
+        print_direct_events(&asset, &object.name, &object.events);
+        if let Some(parent) = parent {
+            println!(
+                "  potential_inherited_from obj[{}] {} direct_events={} (not copied into child direct events)",
+                parent.id,
+                parent.name,
+                parent.events.len(),
+            );
+            print_direct_events(&asset, &parent.name, &parent.events);
+        }
+    }
 
     println!("-- relevant objects --");
     for obj in &asset.objects {
