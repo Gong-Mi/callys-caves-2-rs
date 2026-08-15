@@ -100,6 +100,16 @@ pub struct AudioData {
     pub wav_bytes: Vec<u8>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SoundData {
+    /// Stable resource identifier: the entry index in the SOND pointer table.
+    pub id: usize,
+    /// Resource name read through the name pointer encoded in the SOND record.
+    pub name: String,
+    /// AUDO entry identifier encoded in the final word of the SOND record.
+    pub audio_id: usize,
+}
+
 pub struct GameDroidAsset {
     pub game_name: String,
     pub string_table: Vec<String>,
@@ -110,6 +120,7 @@ pub struct GameDroidAsset {
     pub tpag_items: HashMap<usize, TpagItem>,
     pub warp_targets: HashMap<i32, WarpTarget>,
     pub audio: Vec<AudioData>,
+    pub sounds: Vec<SoundData>,
 }
 
 fn invalid_data(message: impl Into<String>) -> std::io::Error {
@@ -203,6 +214,103 @@ fn parse_audio_chunk(
     Ok(audio)
 }
 
+fn read_required_null_string(
+    file: &mut File,
+    offset: u64,
+    file_len: u64,
+    context: &str,
+) -> std::io::Result<String> {
+    if offset == 0 || offset == u64::from(u32::MAX) || offset >= file_len {
+        return Err(invalid_data(format!("{context} string pointer is outside the file")));
+    }
+    file.seek(SeekFrom::Start(offset))?;
+    let mut bytes = Vec::new();
+    loop {
+        if file.stream_position()? >= file_len || bytes.len() >= 8192 {
+            return Err(invalid_data(format!("{context} string is not terminated")));
+        }
+        let byte = file.read_u8()?;
+        if byte == 0 {
+            break;
+        }
+        bytes.push(byte);
+    }
+    String::from_utf8(bytes).map_err(|_| invalid_data(format!("{context} string is not UTF-8")))
+}
+
+fn parse_sound_chunk(
+    file: &mut File,
+    chunk_pos: u64,
+    chunk_size: u32,
+    file_len: u64,
+    audio_count: usize,
+) -> std::io::Result<Vec<SoundData>> {
+    const RECORD_SIZE: u64 = 9 * 4;
+
+    let chunk_end = chunk_pos
+        .checked_add(u64::from(chunk_size))
+        .ok_or_else(|| invalid_data("SOND chunk range overflows"))?;
+    if chunk_end > file_len || chunk_size < 4 {
+        return Err(invalid_data("SOND chunk is outside the file"));
+    }
+
+    file.seek(SeekFrom::Start(chunk_pos))?;
+    let count = file.read_u32::<LittleEndian>()?;
+    let table_size = u64::from(count)
+        .checked_mul(4)
+        .and_then(|size| size.checked_add(4))
+        .ok_or_else(|| invalid_data("SOND pointer table size overflows"))?;
+    if table_size > u64::from(chunk_size) {
+        return Err(invalid_data("SOND pointer table exceeds chunk bounds"));
+    }
+
+    let mut offsets = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        offsets.push(file.read_u32::<LittleEndian>()?);
+    }
+
+    let records_start = chunk_pos + table_size;
+    let mut sounds = Vec::with_capacity(count as usize);
+    for (id, &raw_offset) in offsets.iter().enumerate() {
+        let record_pos = u64::from(raw_offset);
+        let record_end = record_pos
+            .checked_add(RECORD_SIZE)
+            .ok_or_else(|| invalid_data(format!("SOND entry {id} offset overflows")))?;
+        if record_pos < records_start || record_end > chunk_end {
+            return Err(invalid_data(format!(
+                "SOND entry {id} record is outside chunk bounds"
+            )));
+        }
+        if offsets.iter().enumerate().any(|(other_id, &other_offset)| {
+            other_id != id
+                && u64::from(other_offset) >= record_pos
+                && u64::from(other_offset) < record_end
+        }) {
+            return Err(invalid_data(format!(
+                "SOND entry {id} overlaps another record"
+            )));
+        }
+
+        file.seek(SeekFrom::Start(record_pos))?;
+        let name_offset = u64::from(file.read_u32::<LittleEndian>()?);
+        file.seek(SeekFrom::Current(7 * 4))?;
+        let audio_id = file.read_u32::<LittleEndian>()? as usize;
+        if audio_id >= audio_count {
+            return Err(invalid_data(format!(
+                "SOND entry {id} references missing AUDO entry {audio_id}"
+            )));
+        }
+        let name = read_required_null_string(
+            file,
+            name_offset,
+            file_len,
+            &format!("SOND entry {id}"),
+        )?;
+        sounds.push(SoundData { id, name, audio_id });
+    }
+    Ok(sounds)
+}
+
 fn read_null_string(file: &mut File, offset: u64, max_file_len: u64) -> std::io::Result<String> {
     if offset == 0 || offset >= max_file_len || offset == u32::MAX as u64 {
         return Ok(String::new());
@@ -250,6 +358,12 @@ impl GameDroidAsset {
 
         let audio = match chunks.get("AUDO") {
             Some(&(pos, size)) => parse_audio_chunk(&mut file, pos, size, file_len)?,
+            None => Vec::new(),
+        };
+        let sounds = match chunks.get("SOND") {
+            Some(&(pos, size)) => {
+                parse_sound_chunk(&mut file, pos, size, file_len, audio.len())?
+            }
             None => Vec::new(),
         };
 
@@ -566,6 +680,7 @@ impl GameDroidAsset {
             tpag_items,
             warp_targets,
             audio,
+            sounds,
         })
     }
 }
@@ -574,6 +689,45 @@ impl GameDroidAsset {
 mod tests {
     use super::*;
     use std::io::Write;
+
+    fn write_sound_fixture(label: &str, bytes: &[u8]) -> std::path::PathBuf {
+        let path = std::env::temp_dir().join(format!(
+            "callys-asset-sond-{label}-{}",
+            std::process::id()
+        ));
+        let mut file = File::create(&path).expect("create malformed SOND fixture");
+        file.write_all(bytes).expect("write malformed SOND fixture");
+        path
+    }
+
+    #[test]
+    fn test_sound_record_pointer_must_stay_in_chunk() {
+        let mut bytes = vec![0u8; 48];
+        bytes[0..4].copy_from_slice(&1u32.to_le_bytes());
+        bytes[4..8].copy_from_slice(&48u32.to_le_bytes());
+        let path = write_sound_fixture("pointer", &bytes);
+        let mut file = File::open(&path).expect("open malformed SOND fixture");
+        let error = parse_sound_chunk(&mut file, 0, bytes.len() as u32, bytes.len() as u64, 1)
+            .expect_err("out-of-bounds SOND record pointer must be rejected");
+        std::fs::remove_file(path).expect("remove malformed SOND fixture");
+        assert!(error.to_string().contains("record is outside chunk bounds"), "{error}");
+    }
+
+    #[test]
+    fn test_sound_audio_reference_must_exist() {
+        let mut bytes = vec![0u8; 64];
+        bytes[0..4].copy_from_slice(&1u32.to_le_bytes());
+        bytes[4..8].copy_from_slice(&8u32.to_le_bytes());
+        bytes[8..12].copy_from_slice(&60u32.to_le_bytes());
+        bytes[40..44].copy_from_slice(&1u32.to_le_bytes());
+        bytes[60..64].copy_from_slice(b"snd\0");
+        let path = write_sound_fixture("audio-reference", &bytes);
+        let mut file = File::open(&path).expect("open malformed SOND fixture");
+        let error = parse_sound_chunk(&mut file, 0, 44, bytes.len() as u64, 1)
+            .expect_err("invalid AUDO reference must be rejected");
+        std::fs::remove_file(path).expect("remove malformed SOND fixture");
+        assert!(error.to_string().contains("references missing AUDO entry 1"), "{error}");
+    }
 
     #[test]
     fn test_audio_records_cannot_overlap() {
@@ -648,6 +802,31 @@ mod tests {
                 audio.wav_bytes[4..8].try_into().expect("RIFF size field"),
             ) as usize;
             assert_eq!(riff_payload_len + 8, audio.wav_bytes.len());
+        }
+        assert_eq!(asset.sounds.len(), 54);
+        assert_eq!(asset.sounds[0].id, 0);
+        assert_eq!(asset.sounds[0].name, "snd_bee");
+        assert_eq!(asset.sounds[0].audio_id, 0);
+        assert_eq!(asset.sounds[11].id, 11);
+        assert_eq!(asset.sounds[11].name, "snd_shotgun");
+        assert_eq!(asset.sounds[11].audio_id, 11);
+        assert_eq!(asset.sounds[28].id, 28);
+        assert_eq!(asset.sounds[28].name, "snd_weaponlevelup");
+        assert_eq!(asset.sounds[28].audio_id, 28);
+        assert_eq!(asset.sounds[29].id, 29);
+        assert_eq!(asset.sounds[29].name, "mus_egc");
+        assert_eq!(asset.sounds[29].audio_id, 28);
+        assert_eq!(asset.sounds[53].id, 53);
+        assert_eq!(asset.sounds[53].name, "mus_cally3");
+        assert_eq!(asset.sounds[53].audio_id, 28);
+        for sound in &asset.sounds {
+            assert!(
+                asset.audio.get(sound.audio_id).is_some(),
+                "SOND {} ({}) references missing AUDO {}",
+                sound.id,
+                sound.name,
+                sound.audio_id
+            );
         }
         assert_eq!(asset.rooms[0].objects.len(), 170);
         assert_eq!(

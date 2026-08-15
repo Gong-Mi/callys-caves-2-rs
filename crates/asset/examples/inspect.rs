@@ -5,13 +5,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let path = std::env::args().nth(1).unwrap_or_else(|| "assets/game.droid".into());
     let asset = GameDroidAsset::parse(&path)?;
     println!(
-        "game={} rooms={} objects={} sprites={} tpag={} audio={}",
+        "game={} rooms={} objects={} sprites={} tpag={} audio={} sounds={}",
         asset.game_name,
         asset.rooms.len(),
         asset.objects.len(),
         asset.sprites.len(),
         asset.tpag_items.len(),
-        asset.audio.len()
+        asset.audio.len(),
+        asset.sounds.len()
     );
     for audio in &asset.audio {
         println!(
@@ -19,6 +20,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             audio.id,
             audio.file_offset,
             audio.wav_bytes.len()
+        );
+    }
+    for sound in &asset.sounds {
+        println!(
+            "sound[{}] name={} audio_id={}",
+            sound.id,
+            sound.name,
+            sound.audio_id
         );
     }
     for (ri, room) in asset.rooms.iter().enumerate() {
