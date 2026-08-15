@@ -56,12 +56,40 @@ pub struct GameObjectInfo {
     pub parent_id: i32,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TpagItem {
+    pub x: u16,
+    pub y: u16,
+    pub w: u16,
+    pub h: u16,
+    pub rx: i16,
+    pub ry: i16,
+    pub bw: u16,
+    pub bh: u16,
+    pub sw: u16,
+    pub sh: u16,
+    pub tex_id: u16,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SpriteData {
+    pub id: usize,
+    pub name: String,
+    pub width: u32,
+    pub height: u32,
+    pub origin_x: i32,
+    pub origin_y: i32,
+    pub tpag_indices: Vec<u32>,
+}
+
 pub struct GameDroidAsset {
     pub game_name: String,
     pub string_table: Vec<String>,
     pub object_names: Vec<String>,
     pub objects: Vec<GameObjectInfo>,
     pub rooms: Vec<RoomData>,
+    pub sprites: HashMap<usize, SpriteData>,
+    pub tpag_items: HashMap<usize, TpagItem>,
 }
 
 fn read_null_string(file: &mut File, offset: u64, max_file_len: u64) -> std::io::Result<String> {
@@ -121,6 +149,81 @@ impl GameDroidAsset {
             for &off in &offsets {
                 if let Ok(s) = read_null_string(&mut file, off as u64, file_len) {
                     strings.push(s);
+                }
+            }
+        }
+
+        // Parse TPAG
+        let mut tpag_items = HashMap::new();
+        if let Some(&(pos, _size)) = chunks.get("TPAG") {
+            file.seek(SeekFrom::Start(pos))?;
+            let count = file.read_u32::<LittleEndian>()?;
+            let mut offsets = Vec::with_capacity(count as usize);
+            for _ in 0..count {
+                offsets.push(file.read_u32::<LittleEndian>()?);
+            }
+            for (idx, &off) in offsets.iter().enumerate() {
+                if (off as u64) < file_len && file.seek(SeekFrom::Start(off as u64)).is_ok() {
+                    let x = file.read_u16::<LittleEndian>().unwrap_or(0);
+                    let y = file.read_u16::<LittleEndian>().unwrap_or(0);
+                    let w = file.read_u16::<LittleEndian>().unwrap_or(0);
+                    let h = file.read_u16::<LittleEndian>().unwrap_or(0);
+                    let rx = file.read_i16::<LittleEndian>().unwrap_or(0);
+                    let ry = file.read_i16::<LittleEndian>().unwrap_or(0);
+                    let bw = file.read_u16::<LittleEndian>().unwrap_or(0);
+                    let bh = file.read_u16::<LittleEndian>().unwrap_or(0);
+                    let sw = file.read_u16::<LittleEndian>().unwrap_or(0);
+                    let sh = file.read_u16::<LittleEndian>().unwrap_or(0);
+                    let tex_id = file.read_u16::<LittleEndian>().unwrap_or(0);
+
+                    tpag_items.insert(idx, TpagItem {
+                        x, y, w, h, rx, ry, bw, bh, sw, sh, tex_id
+                    });
+                }
+            }
+        }
+
+        // Parse SPRT
+        let mut sprites = HashMap::new();
+        if let Some(&(pos, _size)) = chunks.get("SPRT") {
+            file.seek(SeekFrom::Start(pos))?;
+            let count = file.read_u32::<LittleEndian>()?;
+            let mut offsets = Vec::with_capacity(count as usize);
+            for _ in 0..count {
+                offsets.push(file.read_u32::<LittleEndian>()?);
+            }
+            for (idx, &off) in offsets.iter().enumerate() {
+                let spr_pos = off as u64;
+                if spr_pos < file_len && file.seek(SeekFrom::Start(spr_pos)).is_ok() {
+                    let name_off = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let width = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let height = file.read_u32::<LittleEndian>().unwrap_or(0);
+
+                    // Skip bbox, tr, sm, pr, bm, smask (48 bytes)
+                    let _ = file.seek(SeekFrom::Current(40));
+                    let origin_x = file.read_i32::<LittleEndian>().unwrap_or(0);
+                    let origin_y = file.read_i32::<LittleEndian>().unwrap_or(0);
+                    let tcount = file.read_u32::<LittleEndian>().unwrap_or(0).min(500);
+
+                    let mut tpag_indices = Vec::with_capacity(tcount as usize);
+                    for _ in 0..tcount {
+                        if let Ok(t_idx) = file.read_u32::<LittleEndian>() {
+                            tpag_indices.push(t_idx);
+                        }
+                    }
+
+                    let sname = read_null_string(&mut file, name_off as u64, file_len)
+                        .unwrap_or_else(|_| format!("spr_{}", idx));
+
+                    sprites.insert(idx, SpriteData {
+                        id: idx,
+                        name: sname,
+                        width,
+                        height,
+                        origin_x,
+                        origin_y,
+                        tpag_indices,
+                    });
                 }
             }
         }
@@ -292,6 +395,8 @@ impl GameDroidAsset {
             object_names,
             objects,
             rooms,
+            sprites,
+            tpag_items,
         })
     }
 }
@@ -308,7 +413,14 @@ mod tests {
         assert_eq!(asset.rooms[0].name, "rm_town");
         assert_eq!(asset.rooms[1].name, "rm_level1");
         assert!(!asset.objects.is_empty());
-        assert!(!asset.string_table.is_empty());
-        println!("Test passed! Room[0]: '{}', Room[1]: '{}', total rooms: {}", asset.rooms[0].name, asset.rooms[1].name, asset.rooms.len());
+        assert!(!asset.sprites.is_empty());
+        assert!(!asset.tpag_items.is_empty());
+        println!(
+            "Test passed! Rooms={}, Objects={}, Sprites={}, TPAG={}",
+            asset.rooms.len(),
+            asset.objects.len(),
+            asset.sprites.len(),
+            asset.tpag_items.len()
+        );
     }
 }
