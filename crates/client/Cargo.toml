@@ -3,6 +3,14 @@ name = "callys-client"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "callys_client"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "callys-client"
+path = "src/main.rs"
+
 [dependencies]
 callys-asset = { path = "../asset" }
 callys-core = { path = "../core" }

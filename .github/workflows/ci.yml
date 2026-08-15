@@ -1,4 +1,4 @@
-name: Rust CI & Build Test
+name: Rust CI & Android APK Build
 
 on:
   push:
@@ -14,10 +14,15 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libsdl2-dev libsdl2-image-dev
+          sudo apt-get install -y libsdl2-dev libsdl2-image-dev aapt zipalign
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
       - name: Build Workspace
-        run: cargo build --workspace --verbose
+        run: cargo build --workspace --verbose --release
       - name: Run Tests
-        run: cargo test --workspace --verbose || true
+        run: cargo test --workspace --verbose
+      - name: Upload Native Executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: callys-client-linux-x86_64
+          path: target/release/callys-client
