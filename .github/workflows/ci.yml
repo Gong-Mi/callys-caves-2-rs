@@ -1,4 +1,4 @@
-name: Rust CI & Android APK Build
+name: Rust CI & Desktop Build
 
 on:
   push:

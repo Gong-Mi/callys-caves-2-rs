@@ -380,6 +380,7 @@ mod android_jni {
     pub struct AndroidState {
         pub state: GameState,
         pub fb: Framebuffer,
+        pub blit: Vec<jint>,
     }
 
     static SLOT: OnceLock<std::sync::Mutex<Option<AndroidState>>> = OnceLock::new();
@@ -434,6 +435,7 @@ mod android_jni {
         *g = Some(AndroidState {
             state: st,
             fb: Framebuffer::new(960, 540),
+            blit: Vec::with_capacity(960 * 540),
         });
         log("nativeInit ok");
     }
@@ -448,6 +450,8 @@ mod android_jni {
         let mut g = slot().lock().unwrap();
         if let Some(s) = g.as_mut() {
             s.fb = Framebuffer::new(width.max(1) as u32, height.max(1) as u32);
+            s.blit.clear();
+            s.blit.reserve((s.fb.width * s.fb.height) as usize);
         }
     }
 
@@ -523,19 +527,18 @@ mod android_jni {
         out: jintArray,
     ) {
         unsafe {
-            let g = slot().lock().unwrap();
+            let mut g = slot().lock().unwrap();
             if g.is_none() {
                 return;
             }
-            let s = g.as_ref().unwrap();
+            let s = g.as_mut().unwrap();
             let len = (s.fb.width as c_int) * (s.fb.height as c_int);
             // re-interpret ABGR bytes as little-endian ARGB ints.
             // In memory the bytes are [B,G,R,A] and on Android
             // `Bitmap.Config.ARGB_8888` (which we use on the Java
             // side) expects [R,G,B,A] pixels. So we shuffle.
-            let pixels = &s.fb.pixels;
-            let mut ints: Vec<jint> = Vec::with_capacity(len as usize);
-            for chunk in pixels.chunks_exact(4) {
+            s.blit.clear();
+            for chunk in s.fb.pixels.chunks_exact(4) {
                 let b = chunk[0];
                 let g_ = chunk[1];
                 let r = chunk[2];
@@ -544,10 +547,10 @@ mod android_jni {
                 // is little-endian: 0xAARRGGBB -> int.
                 let argb: u32 =
                     ((a as u32) << 24) | ((r as u32) << 16) | ((g_ as u32) << 8) | (b as u32);
-                ints.push(argb as jint);
+                s.blit.push(argb as jint);
             }
             let f: SetIntArrayRegionFn = jni_func(env, SLOT_SET_INT_ARRAY_REGION);
-            f(env, out, 0, len, ints.as_ptr());
+            f(env, out, 0, len, s.blit.as_ptr());
         }
     }
 }

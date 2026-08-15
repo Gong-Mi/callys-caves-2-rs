@@ -412,6 +412,8 @@ mod tests {
         // Try multiple candidate paths so the test works on both local Termux
         // and on CI runners (which don't have the original APK).
         let candidates = [
+            "assets/game.droid",
+            "../../assets/game.droid",
             "/data/data/com.termux/files/usr/tmp/cally_caves_2/apk/assets/game.droid",
             "test_assets/game.droid",
             "../test_assets/game.droid",

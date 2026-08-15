@@ -216,6 +216,15 @@ public class MainActivity extends Activity {
                         holder.unlockCanvasAndPost(c);
                     }
                 }
+                long remainingNs = 16_666_667L - (System.nanoTime() - now);
+                if (remainingNs > 0) {
+                    try {
+                        Thread.sleep(remainingNs / 1_000_000L,
+                                (int) (remainingNs % 1_000_000L));
+                    } catch (InterruptedException ignored) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
             }
         }
     }

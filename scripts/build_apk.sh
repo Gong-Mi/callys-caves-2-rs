@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # Build a self-contained ARM64 APK that bundles:
 #   - classes.dex (MainActivity + JNI glue)
@@ -15,6 +15,9 @@ D8_JAR="$SDK/cmdline-tools/latest/lib/r8.jar"
 JAVA=java
 KEYSTORE="${HOME}/.android/debug.keystore"
 KEY_PASS="android"
+
+cd "$ROOT"
+cargo build --release -p callys-client --features android
 
 if [ ! -f "$KEYSTORE" ]; then
     mkdir -p "$(dirname "$KEYSTORE")"
@@ -59,7 +62,11 @@ java -Xmx2G -cp "$D8_JAR" com.android.tools.r8.D8 \
 # System.loadLibrary("callys_client") would dlopen-fail silently.
 SO_SRC="$ROOT/target/release/libcallys_client.so"
 if [ -f "$SO_SRC" ]; then
-    patchelf --remove-rpath "$SO_SRC" 2>/dev/null || true
+    patchelf --remove-rpath "$SO_SRC"
+fi
+if llvm-readelf -d "$SO_SRC" | grep -q RUNPATH; then
+    echo "ERROR: Termux RUNPATH remains in $SO_SRC" >&2
+    exit 1
 fi
 
 # 5. inject dex + native lib + assets into base.apk
