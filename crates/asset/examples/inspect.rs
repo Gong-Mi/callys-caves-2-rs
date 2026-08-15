@@ -1,4 +1,4 @@
-use callys_asset::GameDroidAsset;
+use callys_asset::{GameDroidAsset, WarpAuditStatus};
 use std::collections::BTreeMap;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -46,6 +46,75 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
     }
+
+    println!("-- warp graph --");
+    let mut decoded = 0usize;
+    let mut special = 0usize;
+    let mut unresolved = 0usize;
+    for audit in &asset.warp_audits {
+        match &audit.status {
+            WarpAuditStatus::Decoded(target) => {
+                decoded += 1;
+                let target_name = &asset.rooms[target.room_index].name;
+                println!(
+                    "warp source_room[{}]={} instance_id={} creation_code={} ({}) -> target_room[{}]={} spawn=({}, {}) unlocked={}",
+                    audit.source_room_index,
+                    audit.source_room_name,
+                    audit.instance_id,
+                    audit.creation_code_id,
+                    audit.creation_code_name,
+                    target.room_index,
+                    target_name,
+                    target.x,
+                    target.y,
+                    target.unlocked
+                );
+            }
+            WarpAuditStatus::SpecialDynamic { .. } => special += 1,
+            WarpAuditStatus::Unresolved { .. } => unresolved += 1,
+        }
+    }
+    println!("-- special/dynamic warps --");
+    if special == 0 {
+        println!("(none)");
+    } else {
+        for audit in &asset.warp_audits {
+            if let WarpAuditStatus::SpecialDynamic { reason } = &audit.status {
+                println!(
+                    "special source_room[{}]={} instance_id={} creation_code={} ({}) reason={}",
+                    audit.source_room_index,
+                    audit.source_room_name,
+                    audit.instance_id,
+                    audit.creation_code_id,
+                    audit.creation_code_name,
+                    reason
+                );
+            }
+        }
+    }
+    println!("-- unresolved warps --");
+    if unresolved == 0 {
+        println!("(none)");
+    } else {
+        for audit in &asset.warp_audits {
+            if let WarpAuditStatus::Unresolved { reason } = &audit.status {
+                println!(
+                    "unresolved source_room[{}]={} instance_id={} creation_code={} ({}) reason={}",
+                    audit.source_room_index,
+                    audit.source_room_name,
+                    audit.instance_id,
+                    audit.creation_code_id,
+                    audit.creation_code_name,
+                    reason
+                );
+            }
+        }
+    }
+    println!(
+        "warp summary total={} decoded={} special_dynamic={} unresolved={}",
+        asset.warp_audits.len(), decoded, special, unresolved
+    );
+
     println!("-- relevant objects --");
     for obj in &asset.objects {
         if matches!(obj.name.as_str(), "obj_player" | "obj_wall" | "obj_wall_2" | "obj_boulder" | "obj_gem" | "obj_coin" | "obj_silvercoin" | "obj_warpanywhere" | "obj_enemy" | "obj_enemy2" | "obj_waterfill" | "obj_watersurface" | "obj_spikes" | "obj_shotgun") || obj.name.contains("slime") || obj.name.contains("zombie") || obj.name.contains("bandit") || obj.name.contains("boss") {
