@@ -14,7 +14,7 @@ required-features = ["desktop"]
 
 [features]
 default = []
-desktop = []
+desktop = ["dep:sdl2"]
 android = []
 
 [dependencies]

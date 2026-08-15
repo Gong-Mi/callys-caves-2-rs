@@ -19,6 +19,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
       - name: Build Workspace
         run: cargo build --workspace --verbose --release
+      - name: Build Desktop Client
+        run: cargo build -p callys-client --features desktop --verbose --release
       - name: Run Tests
         run: cargo test --workspace --verbose
       - name: Upload Native Executable
