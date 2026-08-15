@@ -1,6 +1,6 @@
 pub mod save;
 
-use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, SpriteData, WarpTarget};
+use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, RoomTileInstance, SpriteData, WarpTarget};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeSet, HashMap};
 
@@ -353,6 +353,10 @@ pub struct GameWorld {
     pub checkpoint: Checkpoint,
     pub respawn_timer: f32,
     pub collected_instance_ids: BTreeSet<i32>,
+    /// Original ROOM tile records. These are preserved separately from
+    /// collision/object geometry until their background/TPAG contract is
+    /// verified; silently dropping them made visual comparison impossible.
+    pub room_tiles: Vec<RoomTileInstance>,
 }
 
 impl GameWorld {
@@ -381,6 +385,7 @@ impl GameWorld {
             checkpoint: Checkpoint { room_index: 0, x: 100.0, y: 100.0 },
             respawn_timer: 0.0,
             collected_instance_ids: BTreeSet::new(),
+            room_tiles: Vec::new(),
         }
     }
 
@@ -423,6 +428,7 @@ impl GameWorld {
         self.water_regions.clear();
         self.hazards.clear();
         self.warps.clear();
+        self.room_tiles = room.tiles.clone();
         self.pending_room_warp = None;
 
         for (inst_idx, inst) in room.objects.iter().enumerate() {
@@ -1068,6 +1074,38 @@ mod tests {
         assert_eq!(world.enemies.len(), 1);
         assert_eq!(world.enemies[0].enemy_type, EnemyType::Bandit);
         assert_eq!(world.enemies[0].sprite_id, 52);
+    }
+
+    #[test]
+    fn room_loader_preserves_original_tile_records() {
+        let mut world = GameWorld::new();
+        let tile = callys_asset::RoomTileInstance {
+            x: 32,
+            y: 544,
+            bg_id: -1,
+            src_x: 0,
+            src_y: 0,
+            width: 32,
+            height: 32,
+            depth: 1_000_000,
+            id: 10_000_000,
+            scale_x: 1.0,
+            scale_y: 1.0,
+        };
+        let room = RoomData {
+            name: "tile-contract".into(),
+            caption: String::new(),
+            width: 1024,
+            height: 576,
+            speed: 60,
+            persistent: false,
+            objects: Vec::new(),
+            tiles: vec![tile.clone()],
+        };
+
+        world.load_room(0, &room, &[], &HashMap::new(), &HashMap::new());
+
+        assert_eq!(world.room_tiles, vec![tile]);
     }
 
     #[test]
