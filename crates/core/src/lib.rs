@@ -1,4 +1,5 @@
-use callys_asset::{GameObjectInfo, RoomData};
+use callys_asset::{GameObjectInfo, RoomData, WarpTarget};
+use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -36,6 +37,7 @@ pub enum PlayerState {
     Falling,
     Attacking,
     Hurt,
+    Dead,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -63,6 +65,7 @@ pub struct Player {
     pub gems: u32,
     pub coins: u32,
     pub current_weapon: WeaponType,
+    pub unlocked_weapons: Vec<WeaponType>,
     pub attack_cooldown: f32,
     pub invulnerable_timer: f32,
     pub sprite_id: i32,
@@ -85,6 +88,7 @@ impl Player {
             gems: 0,
             coins: 0,
             current_weapon: WeaponType::Pistol,
+            unlocked_weapons: vec![WeaponType::Pistol],
             attack_cooldown: 0.0,
             invulnerable_timer: 0.0,
             sprite_id: -1,
@@ -98,6 +102,7 @@ impl Player {
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub enum EnemyType {
+    Bandit,
     Slime,
     FireSlime,
     Bat,
@@ -167,10 +172,34 @@ pub struct GemDrop {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct WeaponPickup {
+    pub rect: Rect,
+    pub weapon: WeaponType,
+    pub sprite_id: i32,
+    pub collected: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Decoration {
+    pub rect: Rect,
+    pub sprite_id: i32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WarpPoint {
     pub rect: Rect,
     pub creation_code: i32,
     pub sprite_id: i32,
+    pub target_room: usize,
+    pub target_x: f32,
+    pub target_y: f32,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct Checkpoint {
+    pub room_index: usize,
+    pub x: f32,
+    pub y: f32,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -189,13 +218,19 @@ pub struct GameWorld {
     pub room_height: f32,
     pub player: Player,
     pub solids: Vec<SolidTile>,
+    pub platforms: Vec<SolidTile>,
     pub enemies: Vec<Enemy>,
     pub projectiles: Vec<Projectile>,
     pub gems: Vec<GemDrop>,
+    pub weapon_pickups: Vec<WeaponPickup>,
+    pub decorations: Vec<Decoration>,
     pub warps: Vec<WarpPoint>,
     pub camera_x: f32,
     pub camera_y: f32,
     pub pending_room_warp: Option<usize>,
+    pub pending_spawn: Option<(f32, f32, Facing)>,
+    pub checkpoint: Checkpoint,
+    pub respawn_timer: f32,
 }
 
 impl GameWorld {
@@ -205,27 +240,42 @@ impl GameWorld {
             current_room_name: "rm_town".into(),
             room_width: 1024.0,
             room_height: 768.0,
-            player: Player::new(100.0, 100.0),
+            player: Player::new(96.0, 96.0),
             solids: Vec::new(),
+            platforms: Vec::new(),
             enemies: Vec::new(),
             projectiles: Vec::new(),
             gems: Vec::new(),
+            weapon_pickups: Vec::new(),
+            decorations: Vec::new(),
             warps: Vec::new(),
             camera_x: 0.0,
             camera_y: 0.0,
             pending_room_warp: None,
+            pending_spawn: None,
+            checkpoint: Checkpoint { room_index: 0, x: 100.0, y: 100.0 },
+            respawn_timer: 0.0,
         }
     }
 
-    pub fn load_room(&mut self, room_idx: usize, room: &RoomData, objects_info: &[GameObjectInfo]) {
+    pub fn load_room(
+        &mut self,
+        room_idx: usize,
+        room: &RoomData,
+        objects_info: &[GameObjectInfo],
+        warp_targets: &HashMap<i32, WarpTarget>,
+    ) {
         self.current_room_index = room_idx;
         self.current_room_name = room.name.clone();
         self.room_width = room.width as f32;
         self.room_height = room.height as f32;
         self.solids.clear();
+        self.platforms.clear();
         self.enemies.clear();
         self.projectiles.clear();
         self.gems.clear();
+        self.weapon_pickups.clear();
+        self.decorations.clear();
         self.warps.clear();
         self.pending_room_warp = None;
 
@@ -241,10 +291,22 @@ impl GameWorld {
                     self.player.vx = 0.0;
                     self.player.vy = 0.0;
                     self.player.sprite_id = spr_id;
+                    self.checkpoint = Checkpoint {
+                        room_index: room_idx,
+                        x: inst.x as f32,
+                        y: inst.y as f32,
+                    };
                 }
-                "obj_wall" | "obj_wall_2" | "obj_platform" | "obj_woodblock" | "obj_iceblock" => {
+                "obj_wall" | "obj_wall_2" | "obj_woodblock" | "obj_iceblock" => {
                     self.solids.push(SolidTile {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
+                        is_boulder: false,
+                        sprite_id: spr_id,
+                    });
+                }
+                "obj_platform" => {
+                    self.platforms.push(SolidTile {
+                        rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 8.0),
                         is_boulder: false,
                         sprite_id: spr_id,
                     });
@@ -274,16 +336,41 @@ impl GameWorld {
                         sprite_id: spr_id,
                     });
                 }
-                "obj_warpanywhere" => {
-                    self.warps.push(WarpPoint {
+                "obj_shotgun" => {
+                    self.weapon_pickups.push(WeaponPickup {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
-                        creation_code: inst.creation_code_id,
+                        weapon: WeaponType::Shotgun,
+                        sprite_id: spr_id,
+                        collected: false,
+                    });
+                }
+                "obj_waterfill" | "obj_watersurface" => {
+                    self.decorations.push(Decoration {
+                        rect: Rect::new(
+                            inst.x as f32,
+                            inst.y as f32,
+                            32.0 * inst.scale_x.abs(),
+                            32.0 * inst.scale_y.abs(),
+                        ),
                         sprite_id: spr_id,
                     });
                 }
-                "obj_slime" | "obj_fireslime" | "obj_bat" | "obj_zombie" | "obj_skeleton"
+                "obj_warpanywhere" => {
+                    if let Some(target) = warp_targets.get(&inst.creation_code_id) {
+                        self.warps.push(WarpPoint {
+                            rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
+                            creation_code: inst.creation_code_id,
+                            sprite_id: spr_id,
+                            target_room: target.room_index,
+                            target_x: target.x as f32,
+                            target_y: target.y as f32,
+                        });
+                    }
+                }
+                "obj_enemy" | "obj_slime" | "obj_fireslime" | "obj_bat" | "obj_zombie" | "obj_skeleton"
                 | "obj_shooter1" | "obj_shooter2" | "obj_knifebandit" | "obj_firehulk" => {
                     let enemy_type = match obj_name {
+                        "obj_enemy" => EnemyType::Bandit,
                         "obj_slime" => EnemyType::Slime,
                         "obj_fireslime" => EnemyType::FireSlime,
                         "obj_bat" => EnemyType::Bat,
@@ -315,6 +402,32 @@ impl GameWorld {
     }
 
     pub fn update(&mut self, dt: f32, input: &InputState) {
+        if self.player.health <= 0 || self.player.state == PlayerState::Dead {
+            if self.player.state != PlayerState::Dead {
+                self.player.state = PlayerState::Dead;
+                self.player.vx = 0.0;
+                self.player.vy = 0.0;
+                self.respawn_timer = 1.0;
+                self.projectiles.clear();
+            } else {
+                self.respawn_timer -= dt;
+                if self.respawn_timer <= 0.0 {
+                    self.player.health = self.player.max_health;
+                    self.player.x = self.checkpoint.x;
+                    self.player.y = self.checkpoint.y;
+                    self.player.invulnerable_timer = 1.0;
+                    self.player.state = PlayerState::Falling;
+                    self.pending_room_warp = Some(self.checkpoint.room_index);
+                    self.pending_spawn = Some((
+                        self.checkpoint.x,
+                        self.checkpoint.y,
+                        Facing::Right,
+                    ));
+                }
+            }
+            return;
+        }
+
         let move_speed = 220.0;
         let gravity = 950.0;
         let jump_force = -440.0;
@@ -326,15 +439,14 @@ impl GameWorld {
             self.player.invulnerable_timer -= dt;
         }
 
-        // Weapon switching
+        // Weapon switching only cycles weapons collected in the game world.
         if input.switch_weapon {
-            self.player.current_weapon = match self.player.current_weapon {
-                WeaponType::Pistol => WeaponType::Shotgun,
-                WeaponType::Shotgun => WeaponType::AssaultRifle,
-                WeaponType::AssaultRifle => WeaponType::RocketLauncher,
-                WeaponType::RocketLauncher => WeaponType::Sword,
-                WeaponType::Sword => WeaponType::Pistol,
-            };
+            if let Some(index) = self.player.unlocked_weapons.iter()
+                .position(|weapon| *weapon == self.player.current_weapon)
+            {
+                let next = (index + 1) % self.player.unlocked_weapons.len();
+                self.player.current_weapon = self.player.unlocked_weapons[next];
+            }
         }
 
         // Horizontal Movement
@@ -395,8 +507,36 @@ impl GameWorld {
                 break;
             }
         }
+        if !collided_y && self.player.vy > 0.0 {
+            let previous_bottom = self.player.y + self.player.height;
+            let next_bottom = new_y + self.player.height;
+            for platform in &self.platforms {
+                let overlaps_x = self.player.x < platform.rect.x + platform.rect.w
+                    && self.player.x + self.player.width > platform.rect.x;
+                if overlaps_x
+                    && previous_bottom <= platform.rect.y
+                    && next_bottom >= platform.rect.y
+                {
+                    self.player.y = platform.rect.y - self.player.height;
+                    self.player.vy = 0.0;
+                    self.player.on_ground = true;
+                    collided_y = true;
+                    break;
+                }
+            }
+        }
         if !collided_y {
             self.player.y = new_y;
+        }
+
+        if self.player.invulnerable_timer <= 0.0 {
+            self.player.state = if !self.player.on_ground {
+                if self.player.vy < 0.0 { PlayerState::Jumping } else { PlayerState::Falling }
+            } else if move_dir != 0.0 {
+                PlayerState::Running
+            } else {
+                PlayerState::Idle
+            };
         }
 
         // Attack firing
@@ -486,7 +626,7 @@ impl GameWorld {
         // Update Enemies AI & Physics
         for enemy in &mut self.enemies {
             match enemy.enemy_type {
-                EnemyType::Slime | EnemyType::Zombie => {
+                EnemyType::Bandit | EnemyType::KnifeBandit | EnemyType::Slime | EnemyType::Zombie => {
                     enemy.vy += gravity * dt;
                     let ex = enemy.x + enemy.vx * dt;
                     let ey = enemy.y + enemy.vy * dt;
@@ -574,11 +714,21 @@ impl GameWorld {
             }
         }
 
+        for pickup in &mut self.weapon_pickups {
+            if !pickup.collected && pickup.rect.intersects(&p_rect) {
+                pickup.collected = true;
+                if !self.player.unlocked_weapons.contains(&pickup.weapon) {
+                    self.player.unlocked_weapons.push(pickup.weapon);
+                }
+                self.player.current_weapon = pickup.weapon;
+            }
+        }
+
         // Warp Trigger
         for warp in &self.warps {
             if p_rect.intersects(&warp.rect) {
-                // Trigger room transition to next room
-                self.pending_room_warp = Some((self.current_room_index + 1) % 114);
+                self.pending_room_warp = Some(warp.target_room);
+                self.pending_spawn = Some((warp.target_x, warp.target_y, self.player.facing));
                 break;
             }
         }
@@ -586,5 +736,165 @@ impl GameWorld {
         // Camera follow
         self.camera_x = (self.player.x - 480.0).clamp(0.0, (self.room_width - 960.0).max(0.0));
         self.camera_y = (self.player.y - 270.0).clamp(0.0, (self.room_height - 540.0).max(0.0));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn movement_updates_player_state() {
+        let mut world = GameWorld::new();
+        world.player.on_ground = true;
+        world.solids.push(SolidTile {
+            rect: Rect::new(0.0, world.player.y + world.player.height, 1000.0, 32.0),
+            is_boulder: false,
+            sprite_id: -1,
+        });
+        world.update(
+            1.0 / 60.0,
+            &InputState { move_right: true, ..InputState::default() },
+        );
+        assert_eq!(world.player.state, PlayerState::Running);
+    }
+
+    #[test]
+    fn dead_player_respawns_at_checkpoint() {
+        let mut world = GameWorld::new();
+        world.checkpoint = Checkpoint { room_index: 3, x: 96.0, y: 128.0 };
+        world.player.health = 0;
+
+        world.update(0.1, &InputState::default());
+        assert_eq!(world.player.state, PlayerState::Dead);
+        assert_eq!(world.pending_room_warp, None);
+
+        world.update(1.1, &InputState::default());
+        assert_eq!(world.pending_room_warp, Some(3));
+        assert_eq!(world.pending_spawn, Some((96.0, 128.0, Facing::Right)));
+        assert_eq!(world.player.health, world.player.max_health);
+    }
+
+    #[test]
+    fn warp_uses_decoded_creation_code_target() {
+        let mut world = GameWorld::new();
+        world.player.x = 64.0;
+        world.player.y = 64.0;
+        world.player.facing = Facing::Left;
+        world.warps.push(WarpPoint {
+            rect: Rect::new(64.0, 64.0, 32.0, 32.0),
+            creation_code: 804,
+            sprite_id: -1,
+            target_room: 1,
+            target_x: 128.0,
+            target_y: 492.0,
+        });
+
+        world.update(0.0, &InputState::default());
+        assert_eq!(world.pending_room_warp, Some(1));
+        assert_eq!(world.pending_spawn, Some((128.0, 492.0, Facing::Left)));
+    }
+
+    #[test]
+    fn room_loader_maps_generic_enemy_instances() {
+        let mut world = GameWorld::new();
+        let room = RoomData {
+            name: "rm_level1".into(), caption: String::new(), width: 2048, height: 1280,
+            speed: 60, persistent: false,
+            objects: vec![callys_asset::RoomObjectInstance {
+                x: 800, y: 992, object_id: 0, instance_id: 1,
+                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
+            }],
+            tiles: Vec::new(),
+        };
+        let objects = vec![GameObjectInfo {
+            id: 0, name: "obj_enemy".into(), sprite_id: 52,
+            visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
+        }];
+        world.load_room(1, &room, &objects, &HashMap::new());
+        assert_eq!(world.enemies.len(), 1);
+        assert_eq!(world.enemies[0].enemy_type, EnemyType::Bandit);
+        assert_eq!(world.enemies[0].sprite_id, 52);
+    }
+
+    #[test]
+    fn collecting_weapon_pickup_unlocks_and_equips_it() {
+        let mut world = GameWorld::new();
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.weapon_pickups.push(WeaponPickup {
+            rect: Rect::new(100.0, 100.0, 32.0, 32.0),
+            weapon: WeaponType::Shotgun,
+            sprite_id: 127,
+            collected: false,
+        });
+
+        world.update(0.0, &InputState::default());
+        assert!(world.player.unlocked_weapons.contains(&WeaponType::Shotgun));
+        assert_eq!(world.player.current_weapon, WeaponType::Shotgun);
+        assert!(world.weapon_pickups[0].collected);
+    }
+
+    #[test]
+    fn room_loader_preserves_scaled_water_geometry() {
+        let mut world = GameWorld::new();
+        let room = RoomData {
+            name: "rm_level1".into(), caption: String::new(), width: 2048, height: 1280,
+            speed: 60, persistent: false,
+            objects: vec![callys_asset::RoomObjectInstance {
+                x: 1568, y: 1056, object_id: 0, instance_id: 1,
+                creation_code_id: -1, scale_x: 6.0, scale_y: 2.0, color: 0xffff_ffff,
+            }], tiles: Vec::new(),
+        };
+        let objects = vec![GameObjectInfo {
+            id: 0, name: "obj_waterfill".into(), sprite_id: 103,
+            visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
+        }];
+        world.load_room(1, &room, &objects, &HashMap::new());
+        assert_eq!(world.decorations.len(), 1);
+        assert_eq!(world.decorations[0].rect, Rect::new(1568.0, 1056.0, 192.0, 64.0));
+        assert_eq!(world.decorations[0].sprite_id, 103);
+    }
+
+    #[test]
+    fn room_loader_keeps_platforms_thin_and_one_way() {
+        let mut world = GameWorld::new();
+        let room = RoomData {
+            name: "rm_level1".into(), caption: String::new(), width: 2048, height: 1280,
+            speed: 30, persistent: false,
+            objects: vec![callys_asset::RoomObjectInstance {
+                x: 320, y: 400, object_id: 0, instance_id: 1,
+                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
+            }], tiles: Vec::new(),
+        };
+        let objects = vec![GameObjectInfo {
+            id: 0, name: "obj_platform".into(), sprite_id: 35,
+            visible: true, solid: false, depth: 0, persistent: false, parent_id: 34,
+        }];
+
+        world.load_room(1, &room, &objects, &HashMap::new());
+
+        assert!(world.solids.is_empty());
+        assert_eq!(world.platforms.len(), 1);
+        assert_eq!(world.platforms[0].rect, Rect::new(320.0, 400.0, 32.0, 8.0));
+    }
+
+    #[test]
+    fn falling_player_lands_on_one_way_platform() {
+        let mut world = GameWorld::new();
+        world.player.x = 100.0;
+        world.player.y = 350.0;
+        world.player.vy = 100.0;
+        world.platforms.push(SolidTile {
+            rect: Rect::new(96.0, 400.0, 64.0, 8.0),
+            is_boulder: false,
+            sprite_id: 35,
+        });
+
+        world.update(0.1, &InputState::default());
+
+        assert_eq!(world.player.y, 400.0 - world.player.height);
+        assert_eq!(world.player.vy, 0.0);
+        assert!(world.player.on_ground);
     }
 }

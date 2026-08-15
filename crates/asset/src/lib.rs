@@ -82,6 +82,14 @@ pub struct SpriteData {
     pub tpag_indices: Vec<u32>,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub struct WarpTarget {
+    pub room_index: usize,
+    pub x: i32,
+    pub y: i32,
+    pub unlocked: bool,
+}
+
 pub struct GameDroidAsset {
     pub game_name: String,
     pub string_table: Vec<String>,
@@ -90,6 +98,7 @@ pub struct GameDroidAsset {
     pub rooms: Vec<RoomData>,
     pub sprites: HashMap<usize, SpriteData>,
     pub tpag_items: HashMap<usize, TpagItem>,
+    pub warp_targets: HashMap<i32, WarpTarget>,
 }
 
 fn read_null_string(file: &mut File, offset: u64, max_file_len: u64) -> std::io::Result<String> {
@@ -391,6 +400,55 @@ impl GameDroidAsset {
             }
         }
 
+        // Room creation code stores compact 12-byte assignments for the
+        // destination room, spawn x/y and optional unlocked flag.
+        let mut warp_targets = HashMap::new();
+        if let Some(&(pos, _size)) = chunks.get("CODE") {
+            file.seek(SeekFrom::Start(pos))?;
+            let count = file.read_u32::<LittleEndian>()?;
+            let mut offsets = Vec::with_capacity(count as usize);
+            for _ in 0..count {
+                offsets.push(file.read_u32::<LittleEndian>()?);
+            }
+            for (code_id, &off) in offsets.iter().enumerate() {
+                if off as u64 + 20 > file_len || file.seek(SeekFrom::Start(off as u64)).is_err() {
+                    continue;
+                }
+                let name_off = file.read_u32::<LittleEndian>().unwrap_or(0);
+                let length = file.read_u32::<LittleEndian>().unwrap_or(0);
+                let _locals = file.read_u32::<LittleEndian>().unwrap_or(0);
+                let relative = file.read_i32::<LittleEndian>().unwrap_or(0);
+                let _unknown = file.read_u32::<LittleEndian>().unwrap_or(0);
+                let name = read_null_string(&mut file, name_off as u64, file_len).unwrap_or_default();
+                if !name.starts_with("gml_RoomCC_") || !(36..=48).contains(&length) || length % 12 != 0 {
+                    continue;
+                }
+                let bytecode_pos = off as i64 + 12 + relative as i64;
+                if bytecode_pos < 0 || bytecode_pos as u64 + length as u64 > file_len {
+                    continue;
+                }
+                file.seek(SeekFrom::Start(bytecode_pos as u64))?;
+                let mut code = vec![0u8; length as usize];
+                file.read_exact(&mut code)?;
+                let mut values = Vec::new();
+                for instruction in code.chunks_exact(12) {
+                    if instruction[2] != 0x0f || instruction[3] != 0x84 {
+                        values.clear();
+                        break;
+                    }
+                    values.push(i16::from_le_bytes([instruction[0], instruction[1]]) as i32);
+                }
+                if values.len() >= 3 && values[0] >= 0 && (values[0] as usize) < rooms.len() {
+                    warp_targets.insert(code_id as i32, WarpTarget {
+                        room_index: values[0] as usize,
+                        x: values[1],
+                        y: values[2],
+                        unlocked: values.get(3).copied() == Some(1),
+                    });
+                }
+            }
+        }
+
         Ok(Self {
             game_name: strings.first().cloned().unwrap_or_else(|| "CallysCaves2".into()),
             string_table: strings,
@@ -399,6 +457,7 @@ impl GameDroidAsset {
             rooms,
             sprites,
             tpag_items,
+            warp_targets,
         })
     }
 }
@@ -443,6 +502,14 @@ mod tests {
         assert!(!asset.sprites.is_empty());
         assert!(!asset.tpag_items.is_empty());
         assert_eq!(asset.rooms[0].objects.len(), 170);
+        assert_eq!(
+            asset.warp_targets.get(&804),
+            Some(&WarpTarget { room_index: 1, x: 128, y: 492, unlocked: true }),
+        );
+        assert_eq!(
+            asset.warp_targets.get(&806),
+            Some(&WarpTarget { room_index: 0, x: 832, y: 480, unlocked: true }),
+        );
         for sprite in asset.sprites.values() {
             for frame_ptr in &sprite.tpag_indices {
                 assert!(

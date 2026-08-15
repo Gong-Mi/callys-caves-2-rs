@@ -34,7 +34,7 @@ impl GameState {
         let asset = GameDroidAsset::parse(droid_path)?;
         let mut world = GameWorld::new();
         if let Some(first_room) = asset.rooms.first() {
-            world.load_room(0, first_room, &asset.objects);
+            world.load_room(0, first_room, &asset.objects, &asset.warp_targets);
         }
         let mut atlases = Vec::new();
         let parent = droid_path.parent().unwrap_or_else(|| Path::new("."));
@@ -67,12 +67,58 @@ impl GameState {
     pub fn step(&mut self, dt: f32) {
         self.world.update(dt, &self.input);
         if let Some(target) = self.world.pending_room_warp.take() {
+            let spawn = self.world.pending_spawn.take();
             if let Some(next) = self.asset.rooms.get(target) {
-                self.world.load_room(target, next, &self.asset.objects);
+                self.world.load_room(target, next, &self.asset.objects, &self.asset.warp_targets);
+                if let Some((x, y, facing)) = spawn {
+                    self.world.player.x = x;
+                    self.world.player.y = y;
+                    self.world.player.vx = 0.0;
+                    self.world.player.vy = 0.0;
+                    self.world.player.facing = facing;
+                    self.world.checkpoint = callys_core::Checkpoint {
+                        room_index: target,
+                        x,
+                        y,
+                    };
+                }
                 self.rooms_visited = self.rooms_visited.saturating_add(1);
             }
         }
         self.frame_count = self.frame_count.wrapping_add(1);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn town_exit_enters_level1_and_death_returns_to_entry_checkpoint() {
+        let droid = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/game.droid");
+        let mut state = GameState::new(&droid).unwrap();
+        let town_exit = state.world.warps.iter()
+            .find(|warp| warp.creation_code == 804)
+            .cloned()
+            .expect("town exit 804");
+        state.world.player.x = town_exit.rect.x;
+        state.world.player.y = town_exit.rect.y;
+
+        state.step(0.0);
+        assert_eq!(state.world.current_room_name, "rm_level1");
+        assert_eq!((state.world.player.x, state.world.player.y), (128.0, 492.0));
+        assert_eq!(state.world.enemies.len(), 7);
+        assert_eq!(state.world.weapon_pickups.len(), 1);
+        assert_eq!(state.world.warps.len(), 2);
+        assert_eq!(state.world.checkpoint.room_index, 1);
+
+        state.world.player.health = 0;
+        state.step(0.1);
+        assert_eq!(state.world.player.state, PlayerState::Dead);
+        state.step(1.1);
+        assert_eq!(state.world.current_room_name, "rm_level1");
+        assert_eq!((state.world.player.x, state.world.player.y), (128.0, 492.0));
+        assert_eq!(state.world.player.health, state.world.player.max_health);
     }
 }
 
@@ -202,7 +248,17 @@ pub fn draw_frame(
     let cam_x = state.world.camera_x;
     let cam_y = state.world.camera_y;
 
-    for solid in &state.world.solids {
+    for decoration in &state.world.decorations {
+        let x = ((decoration.rect.x - cam_x) * scale_x) as i32;
+        let y = ((decoration.rect.y - cam_y) * scale_y) as i32;
+        let w = (decoration.rect.w * scale_x) as u32;
+        let h = (decoration.rect.h * scale_y) as u32;
+        if !draw_sprite(fb, state, decoration.sprite_id, (state.frame_count / 8) as usize, (x, y, w, h), false) {
+            fb.fill_rect(x, y, w, h, (40, 100, 190, 180));
+        }
+    }
+
+    for solid in state.world.solids.iter().chain(&state.world.platforms) {
         let color = if solid.is_boulder {
             (150, 95, 45, 255)
         } else {
@@ -232,6 +288,19 @@ pub fn draw_frame(
         let s = ((18.0 * scale_x) as u32).max(8);
         if !draw_sprite(fb, state, gem.sprite_id, (state.frame_count / 6) as usize, (x, y, s, s), false) {
             fb.fill_rect(x, y, s, s, color);
+        }
+    }
+
+    for pickup in &state.world.weapon_pickups {
+        if pickup.collected {
+            continue;
+        }
+        let x = ((pickup.rect.x - cam_x) * scale_x) as i32;
+        let y = ((pickup.rect.y - cam_y) * scale_y) as i32;
+        let w = (pickup.rect.w * scale_x) as u32;
+        let h = (pickup.rect.h * scale_y) as u32;
+        if !draw_sprite(fb, state, pickup.sprite_id, 0, (x, y, w, h), false) {
+            fb.fill_rect(x, y, w, h, (255, 180, 60, 255));
         }
     }
 
@@ -464,7 +533,39 @@ mod android_jni {
         let mut g = slot().lock().unwrap();
         if let Some(s) = g.as_mut() {
             let dt = (dt_ms as f32) / 1000.0;
+            let previous_room = s.state.world.current_room_index;
+            let previous_player_state = s.state.world.player.state;
             s.state.step(dt);
+            if s.state.world.current_room_index != previous_room {
+                log(&format!(
+                    "room transition {} -> {} ({}) spawn=({}, {})",
+                    previous_room,
+                    s.state.world.current_room_index,
+                    s.state.world.current_room_name,
+                    s.state.world.player.x,
+                    s.state.world.player.y,
+                ));
+            }
+            if previous_player_state != PlayerState::Dead
+                && s.state.world.player.state == PlayerState::Dead
+            {
+                log(&format!(
+                    "player died in room {} checkpoint=({}, {})",
+                    s.state.world.current_room_name,
+                    s.state.world.checkpoint.x,
+                    s.state.world.checkpoint.y,
+                ));
+            } else if previous_player_state == PlayerState::Dead
+                && s.state.world.player.state != PlayerState::Dead
+            {
+                log(&format!(
+                    "player respawned in room {} at=({}, {}) health={}",
+                    s.state.world.current_room_name,
+                    s.state.world.player.x,
+                    s.state.world.player.y,
+                    s.state.world.player.health,
+                ));
+            }
             draw_frame(&mut s.fb, &s.state, &s.state.asset.tpag_items, &s.state.asset.sprites);
         }
     }
