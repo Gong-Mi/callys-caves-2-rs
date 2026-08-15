@@ -273,6 +273,21 @@ impl GameWorld {
         }
     }
 
+    pub fn restore_from_save(&mut self, save: &save::SaveData) {
+        self.current_room_index = save.current_room;
+        self.checkpoint = save.checkpoint;
+        self.player.x = save.checkpoint.x;
+        self.player.y = save.checkpoint.y;
+        self.player.vx = 0.0;
+        self.player.vy = 0.0;
+        self.player.health = save.max_health;
+        self.player.max_health = save.max_health;
+        self.player.gems = save.gems;
+        self.player.coins = save.coins;
+        self.player.current_weapon = save.current_weapon;
+        self.player.unlocked_weapons = save.unlocked_weapons.clone();
+    }
+
     pub fn load_room(
         &mut self,
         room_idx: usize,
