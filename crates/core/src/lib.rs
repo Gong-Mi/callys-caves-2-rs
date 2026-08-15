@@ -381,15 +381,30 @@ impl GameWorld {
                         "obj_firehulk" => EnemyType::FireHulk,
                         _ => EnemyType::Slime,
                     };
+                    let (x, y, width, height) = match obj_name {
+                        "obj_enemy" => (
+                            inst.x as f32 - 32.0,
+                            inst.y as f32 - 48.0,
+                            64.0,
+                            64.0,
+                        ),
+                        "obj_knifebandit" => (
+                            inst.x as f32 - 32.0,
+                            inst.y as f32 - 24.0,
+                            64.0,
+                            48.0,
+                        ),
+                        _ => (inst.x as f32, inst.y as f32, 32.0, 32.0),
+                    };
                     self.enemies.push(Enemy {
                         id: inst_idx,
                         enemy_type,
-                        x: inst.x as f32,
-                        y: inst.y as f32,
+                        x,
+                        y,
                         vx: -50.0,
                         vy: 0.0,
-                        width: 32.0,
-                        height: 32.0,
+                        width,
+                        height,
                         health: 30,
                         max_health: 30,
                         facing: Facing::Left,
@@ -645,14 +660,19 @@ impl GameWorld {
                     }
 
                     let er_y = Rect::new(enemy.x, ey, enemy.width, enemy.height);
+                    let mut e_collided_y = false;
                     for s in &self.solids {
                         if s.rect.intersects(&er_y) {
+                            e_collided_y = true;
                             if enemy.vy > 0.0 {
                                 enemy.y = s.rect.y - enemy.height;
                                 enemy.vy = 0.0;
                             }
                             break;
                         }
+                    }
+                    if !e_collided_y {
+                        enemy.y = ey;
                     }
                 }
                 EnemyType::Bat => {
@@ -815,6 +835,74 @@ mod tests {
         assert_eq!(world.enemies.len(), 1);
         assert_eq!(world.enemies[0].enemy_type, EnemyType::Bandit);
         assert_eq!(world.enemies[0].sprite_id, 52);
+    }
+
+    #[test]
+    fn room_loader_applies_confirmed_enemy_sprite_geometry_and_origins() {
+        let mut world = GameWorld::new();
+        let room = RoomData {
+            name: "rm_level1".into(), caption: String::new(), width: 2048, height: 1280,
+            speed: 60, persistent: false,
+            objects: vec![
+                callys_asset::RoomObjectInstance {
+                    x: 800, y: 992, object_id: 0, instance_id: 1,
+                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
+                },
+                callys_asset::RoomObjectInstance {
+                    x: 640, y: 512, object_id: 1, instance_id: 2,
+                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
+                },
+            ],
+            tiles: Vec::new(),
+        };
+        let objects = vec![
+            GameObjectInfo {
+                id: 0, name: "obj_enemy".into(), sprite_id: 52,
+                visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
+            },
+            GameObjectInfo {
+                id: 1, name: "obj_knifebandit".into(), sprite_id: 53,
+                visible: true, solid: false, depth: 0, persistent: false, parent_id: 11,
+            },
+        ];
+
+        world.load_room(1, &room, &objects, &HashMap::new());
+
+        assert_eq!(world.enemies[0].bounds(), Rect::new(768.0, 944.0, 64.0, 64.0));
+        assert_eq!(world.enemies[1].bounds(), Rect::new(608.0, 488.0, 64.0, 48.0));
+    }
+
+    #[test]
+    fn ground_enemy_falls_until_it_reaches_solid_ground() {
+        let mut world = GameWorld::new();
+        world.player.x = 1000.0;
+        world.player.y = 1000.0;
+        world.enemies.push(Enemy {
+            id: 1,
+            enemy_type: EnemyType::Bandit,
+            x: 100.0,
+            y: 100.0,
+            vx: 0.0,
+            vy: 0.0,
+            width: 64.0,
+            height: 64.0,
+            health: 30,
+            max_health: 30,
+            facing: Facing::Left,
+            sprite_id: 52,
+        });
+        world.solids.push(SolidTile {
+            rect: Rect::new(0.0, 300.0, 500.0, 32.0),
+            is_boulder: false,
+            sprite_id: -1,
+        });
+
+        for _ in 0..120 {
+            world.update(1.0 / 60.0, &InputState::default());
+        }
+
+        assert_eq!(world.enemies[0].y, 300.0 - world.enemies[0].height);
+        assert_eq!(world.enemies[0].vy, 0.0);
     }
 
     #[test]
