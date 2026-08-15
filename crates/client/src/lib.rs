@@ -60,7 +60,7 @@ impl From<SaveError> for SaveFileError {
 }
 
 pub fn save_path_for_asset(droid_path: &Path) -> PathBuf {
-    droid_path.with_file_name("save-v1.json")
+    droid_path.with_file_name("save-v2.json")
 }
 
 pub fn load_save(path: &Path) -> Result<Option<SaveData>, SaveFileError> {
@@ -72,13 +72,33 @@ pub fn load_save(path: &Path) -> Result<Option<SaveData>, SaveFileError> {
     Ok(Some(SaveData::from_json(&json)?))
 }
 
+fn load_save_with_legacy_migration(
+    path: &Path,
+) -> Result<(Option<SaveData>, Option<String>), SaveFileError> {
+    if let Some(save) = load_save(path)? {
+        return Ok((Some(save), None));
+    }
+    if path.file_name().and_then(|name| name.to_str()) != Some("save-v2.json") {
+        return Ok((None, None));
+    }
+
+    let legacy_path = path.with_file_name("save-v1.json");
+    let Some(save) = load_save(&legacy_path)? else {
+        return Ok((None, None));
+    };
+    let diagnostic = write_save_atomic(path, &save)
+        .err()
+        .map(|error| format!("loaded legacy save but failed to migrate it to v2: {error}"));
+    Ok((Some(save), diagnostic))
+}
+
 pub fn write_save_atomic(path: &Path, save: &SaveData) -> Result<(), SaveFileError> {
     let json = save.to_json()?;
     let temp_path = path.with_file_name(format!(
         "{}.tmp",
         path.file_name()
             .and_then(|name| name.to_str())
-            .unwrap_or("save-v1.json")
+            .unwrap_or("save-v2.json")
     ));
     match fs::remove_file(&temp_path) {
         Ok(()) => {}
@@ -241,15 +261,24 @@ impl GameState {
         save_path: Option<PathBuf>,
     ) -> Result<Self, Box<dyn std::error::Error>> {
         let asset = GameDroidAsset::parse(droid_path)?;
-        let loaded_save = match save_path.as_deref().map(load_save) {
-            Some(Ok(save)) => save,
+        let (loaded_save, save_diagnostic) = match save_path
+            .as_deref()
+            .map(load_save_with_legacy_migration)
+        {
+            Some(Ok(result)) => result,
             Some(Err(error)) => {
                 let diagnostic = Some(error.to_string());
                 return Self::finish_initialization(asset, droid_path, save_path, None, diagnostic);
             }
-            None => None,
+            None => (None, None),
         };
-        Self::finish_initialization(asset, droid_path, save_path, loaded_save, None)
+        Self::finish_initialization(
+            asset,
+            droid_path,
+            save_path,
+            loaded_save,
+            save_diagnostic,
+        )
     }
 
     fn finish_initialization(
@@ -270,6 +299,13 @@ impl GameState {
             ));
             0
         };
+        if room_index == requested_room {
+            if let Some(save) = loaded_save.as_ref() {
+                // Restore collected ROOM identities before materializing the room so
+                // already-collected instances are filtered during load.
+                world.restore_from_save(save);
+            }
+        }
         if let Some(room) = asset.rooms.get(room_index) {
             world.load_room(room_index, room, &asset.objects, &asset.warp_targets);
         }
@@ -491,6 +527,7 @@ mod tests {
             is_coin: true,
             collected: false,
             sprite_id: -1,
+            room_instance_id: None,
         });
 
         state.step(0.0);
@@ -513,6 +550,7 @@ mod tests {
             weapon: WeaponType::Shotgun,
             sprite_id: -1,
             collected: false,
+            room_instance_id: None,
         });
 
         state.step(0.0);

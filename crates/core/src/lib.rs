@@ -1,7 +1,7 @@
 pub mod save;
 
 use callys_asset::{GameObjectInfo, RoomData, WarpTarget};
-use std::collections::HashMap;
+use std::collections::{BTreeSet, HashMap};
 use serde::{Deserialize, Serialize};
 
 // These water-physics values are provisional until CODE disassembly or
@@ -185,6 +185,7 @@ pub struct GemDrop {
     pub is_coin: bool,
     pub collected: bool,
     pub sprite_id: i32,
+    pub room_instance_id: Option<i32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -193,6 +194,7 @@ pub struct WeaponPickup {
     pub weapon: WeaponType,
     pub sprite_id: i32,
     pub collected: bool,
+    pub room_instance_id: Option<i32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -260,6 +262,7 @@ pub struct GameWorld {
     pub pending_spawn: Option<(f32, f32, Facing)>,
     pub checkpoint: Checkpoint,
     pub respawn_timer: f32,
+    pub collected_instance_ids: BTreeSet<i32>,
 }
 
 impl GameWorld {
@@ -286,6 +289,7 @@ impl GameWorld {
             pending_spawn: None,
             checkpoint: Checkpoint { room_index: 0, x: 100.0, y: 100.0 },
             respawn_timer: 0.0,
+            collected_instance_ids: BTreeSet::new(),
         }
     }
 
@@ -302,6 +306,7 @@ impl GameWorld {
         self.player.coins = save.coins;
         self.player.current_weapon = save.current_weapon;
         self.player.unlocked_weapons = save.unlocked_weapons.clone();
+        self.collected_instance_ids = save.collected_instance_ids.iter().copied().collect();
     }
 
     pub fn load_room(
@@ -367,29 +372,41 @@ impl GameWorld {
                     });
                 }
                 "obj_gem" => {
+                    if self.collected_instance_ids.contains(&inst.instance_id) {
+                        continue;
+                    }
                     self.gems.push(GemDrop {
                         x: inst.x as f32,
                         y: inst.y as f32,
                         is_coin: false,
                         collected: false,
                         sprite_id: spr_id,
+                        room_instance_id: Some(inst.instance_id),
                     });
                 }
                 "obj_coin" | "obj_silvercoin" => {
+                    if self.collected_instance_ids.contains(&inst.instance_id) {
+                        continue;
+                    }
                     self.gems.push(GemDrop {
                         x: inst.x as f32,
                         y: inst.y as f32,
                         is_coin: true,
                         collected: false,
                         sprite_id: spr_id,
+                        room_instance_id: Some(inst.instance_id),
                     });
                 }
                 "obj_shotgun" => {
+                    if self.collected_instance_ids.contains(&inst.instance_id) {
+                        continue;
+                    }
                     self.weapon_pickups.push(WeaponPickup {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
                         weapon: WeaponType::Shotgun,
                         sprite_id: spr_id,
                         collected: false,
+                        room_instance_id: Some(inst.instance_id),
                     });
                 }
                 "obj_waterfill" | "obj_watersurface" => {
@@ -836,6 +853,9 @@ impl GameWorld {
                 let g_rect = Rect::new(gem.x, gem.y, 20.0, 20.0);
                 if p_rect.intersects(&g_rect) {
                     gem.collected = true;
+                    if let Some(instance_id) = gem.room_instance_id {
+                        self.collected_instance_ids.insert(instance_id);
+                    }
                     if gem.is_coin {
                         self.player.coins += 1;
                     } else {
@@ -848,6 +868,9 @@ impl GameWorld {
         for pickup in &mut self.weapon_pickups {
             if !pickup.collected && pickup.rect.intersects(&p_rect) {
                 pickup.collected = true;
+                if let Some(instance_id) = pickup.room_instance_id {
+                    self.collected_instance_ids.insert(instance_id);
+                }
                 if !self.player.unlocked_weapons.contains(&pickup.weapon) {
                     self.player.unlocked_weapons.push(pickup.weapon);
                 }
@@ -1026,12 +1049,106 @@ mod tests {
             weapon: WeaponType::Shotgun,
             sprite_id: 127,
             collected: false,
+            room_instance_id: None,
         });
 
         world.update(0.0, &InputState::default());
         assert!(world.player.unlocked_weapons.contains(&WeaponType::Shotgun));
         assert_eq!(world.player.current_weapon, WeaponType::Shotgun);
         assert!(world.weapon_pickups[0].collected);
+    }
+
+    #[test]
+    fn collected_room_weapon_is_not_recreated_when_room_reloads() {
+        let mut world = GameWorld::new();
+        let room = RoomData {
+            name: "rm_level1".into(), caption: String::new(), width: 2048, height: 1280,
+            speed: 60, persistent: false,
+            objects: vec![callys_asset::RoomObjectInstance {
+                x: 100, y: 100, object_id: 0, instance_id: 4242,
+                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
+            }], tiles: Vec::new(),
+        };
+        let objects = vec![GameObjectInfo {
+            id: 0, name: "obj_shotgun".into(), sprite_id: 127,
+            visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
+        }];
+
+        world.load_room(1, &room, &objects, &HashMap::new());
+        assert_eq!(world.weapon_pickups[0].room_instance_id, Some(4242));
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.update(0.0, &InputState::default());
+        assert!(world.collected_instance_ids.contains(&4242));
+
+        world.load_room(1, &room, &objects, &HashMap::new());
+        assert!(world.weapon_pickups.is_empty());
+    }
+
+    #[test]
+    fn collected_room_gem_and_coin_stay_absent_after_visiting_another_room() {
+        let mut world = GameWorld::new();
+        let room = RoomData {
+            name: "rm_level1".into(), caption: String::new(), width: 2048, height: 1280,
+            speed: 60, persistent: false,
+            objects: vec![
+                callys_asset::RoomObjectInstance {
+                    x: 100, y: 100, object_id: 0, instance_id: 5001,
+                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
+                },
+                callys_asset::RoomObjectInstance {
+                    x: 100, y: 100, object_id: 1, instance_id: 5002,
+                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
+                },
+            ], tiles: Vec::new(),
+        };
+        let other_room = RoomData {
+            name: "rm_level2".into(), caption: String::new(), width: 2048, height: 1280,
+            speed: 60, persistent: false, objects: Vec::new(), tiles: Vec::new(),
+        };
+        let objects = vec![
+            GameObjectInfo {
+                id: 0, name: "obj_gem".into(), sprite_id: 1,
+                visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
+            },
+            GameObjectInfo {
+                id: 1, name: "obj_coin".into(), sprite_id: 2,
+                visible: true, solid: false, depth: 0, persistent: false, parent_id: -100,
+            },
+        ];
+
+        world.load_room(1, &room, &objects, &HashMap::new());
+        assert_eq!(world.gems.iter().map(|drop| drop.room_instance_id).collect::<Vec<_>>(), vec![Some(5001), Some(5002)]);
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.update(0.0, &InputState::default());
+        assert_eq!((world.player.gems, world.player.coins), (1, 1));
+        assert!(world.collected_instance_ids.contains(&5001));
+        assert!(world.collected_instance_ids.contains(&5002));
+
+        world.load_room(2, &other_room, &objects, &HashMap::new());
+        world.load_room(1, &room, &objects, &HashMap::new());
+        assert!(world.gems.is_empty());
+    }
+
+    #[test]
+    fn runtime_drop_has_no_room_identity_and_is_not_persisted_as_collected() {
+        let mut world = GameWorld::new();
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.gems.push(GemDrop {
+            x: 100.0,
+            y: 100.0,
+            is_coin: false,
+            collected: false,
+            sprite_id: 1,
+            room_instance_id: None,
+        });
+
+        world.update(0.0, &InputState::default());
+
+        assert!(world.gems[0].collected);
+        assert!(world.collected_instance_ids.is_empty());
     }
 
     #[test]

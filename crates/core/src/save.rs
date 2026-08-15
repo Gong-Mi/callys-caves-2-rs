@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::fmt;
 
-pub const CURRENT_SAVE_VERSION: u32 = 1;
+pub const CURRENT_SAVE_VERSION: u32 = 2;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SaveData {
@@ -15,6 +15,7 @@ pub struct SaveData {
     pub coins: u32,
     pub current_weapon: WeaponType,
     pub unlocked_weapons: Vec<WeaponType>,
+    pub collected_instance_ids: Vec<i32>,
 }
 
 #[derive(Debug)]
@@ -61,11 +62,15 @@ impl SaveData {
             coins: world.player.coins,
             current_weapon: world.player.current_weapon,
             unlocked_weapons: world.player.unlocked_weapons.clone(),
+            collected_instance_ids: world.collected_instance_ids.iter().copied().collect(),
         }
     }
 
     pub fn to_json(&self) -> Result<String, SaveError> {
-        Ok(serde_json::to_string(self)?)
+        let mut normalized = self.clone();
+        normalized.collected_instance_ids.sort_unstable();
+        normalized.collected_instance_ids.dedup();
+        Ok(serde_json::to_string(&normalized)?)
     }
 
     pub fn from_json(json: &str) -> Result<Self, SaveError> {
@@ -74,14 +79,43 @@ impl SaveData {
             format_version: u32,
         }
 
-        let header: VersionHeader = serde_json::from_str(json)?;
-        if header.format_version != CURRENT_SAVE_VERSION {
-            return Err(SaveError::UnsupportedVersion {
-                found: header.format_version,
-                supported: CURRENT_SAVE_VERSION,
-            });
+        #[derive(Deserialize)]
+        struct SaveDataV1 {
+            current_room: usize,
+            checkpoint: Checkpoint,
+            max_health: i32,
+            gems: u32,
+            coins: u32,
+            current_weapon: WeaponType,
+            unlocked_weapons: Vec<WeaponType>,
         }
 
-        Ok(serde_json::from_str(json)?)
+        let header: VersionHeader = serde_json::from_str(json)?;
+        let mut save = match header.format_version {
+            1 => {
+                let legacy: SaveDataV1 = serde_json::from_str(json)?;
+                Self {
+                    format_version: CURRENT_SAVE_VERSION,
+                    current_room: legacy.current_room,
+                    checkpoint: legacy.checkpoint,
+                    max_health: legacy.max_health,
+                    gems: legacy.gems,
+                    coins: legacy.coins,
+                    current_weapon: legacy.current_weapon,
+                    unlocked_weapons: legacy.unlocked_weapons,
+                    collected_instance_ids: Vec::new(),
+                }
+            }
+            CURRENT_SAVE_VERSION => serde_json::from_str(json)?,
+            found => {
+                return Err(SaveError::UnsupportedVersion {
+                    found,
+                    supported: CURRENT_SAVE_VERSION,
+                });
+            }
+        };
+        save.collected_instance_ids.sort_unstable();
+        save.collected_instance_ids.dedup();
+        Ok(save)
     }
 }
