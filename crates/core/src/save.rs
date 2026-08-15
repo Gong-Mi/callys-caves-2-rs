@@ -1,4 +1,4 @@
-use crate::{Checkpoint, WeaponType};
+use crate::{Checkpoint, GameWorld, WeaponType};
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::fmt;
@@ -51,6 +51,19 @@ impl From<serde_json::Error> for SaveError {
 }
 
 impl SaveData {
+    pub fn from_world(world: &GameWorld) -> Self {
+        Self {
+            format_version: CURRENT_SAVE_VERSION,
+            current_room: world.current_room_index,
+            checkpoint: world.checkpoint,
+            max_health: world.player.max_health,
+            gems: world.player.gems,
+            coins: world.player.coins,
+            current_weapon: world.player.current_weapon,
+            unlocked_weapons: world.player.unlocked_weapons.clone(),
+        }
+    }
+
     pub fn to_json(&self) -> Result<String, SaveError> {
         Ok(serde_json::to_string(self)?)
     }

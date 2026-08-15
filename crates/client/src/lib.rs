@@ -8,12 +8,99 @@
 //! On desktop, run the `callys-client` binary which uses SDL2.
 
 use std::collections::HashMap;
-use std::path::Path;
+use std::fmt;
+use std::fs::{self, OpenOptions};
+use std::io::Write;
+use std::path::{Path, PathBuf};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
 use callys_asset::{GameDroidAsset, SpriteData, TpagItem};
+use callys_core::save::{SaveData, SaveError};
 use callys_core::{Facing, GameWorld, InputState, PlayerState, WeaponType};
 use image::RgbaImage;
+
+// ============================================================
+// Save file I/O
+// ============================================================
+
+#[derive(Debug)]
+pub enum SaveFileError {
+    Io(std::io::Error),
+    Data(SaveError),
+}
+
+impl fmt::Display for SaveFileError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Io(error) => write!(formatter, "save file I/O failed: {error}"),
+            Self::Data(error) => write!(formatter, "{error}"),
+        }
+    }
+}
+
+impl std::error::Error for SaveFileError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::Io(error) => Some(error),
+            Self::Data(error) => Some(error),
+        }
+    }
+}
+
+impl From<std::io::Error> for SaveFileError {
+    fn from(error: std::io::Error) -> Self {
+        Self::Io(error)
+    }
+}
+
+impl From<SaveError> for SaveFileError {
+    fn from(error: SaveError) -> Self {
+        Self::Data(error)
+    }
+}
+
+pub fn save_path_for_asset(droid_path: &Path) -> PathBuf {
+    droid_path.with_file_name("save-v1.json")
+}
+
+pub fn load_save(path: &Path) -> Result<Option<SaveData>, SaveFileError> {
+    let json = match fs::read_to_string(path) {
+        Ok(json) => json,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(error.into()),
+    };
+    Ok(Some(SaveData::from_json(&json)?))
+}
+
+pub fn write_save_atomic(path: &Path, save: &SaveData) -> Result<(), SaveFileError> {
+    let json = save.to_json()?;
+    let temp_path = path.with_file_name(format!(
+        "{}.tmp",
+        path.file_name()
+            .and_then(|name| name.to_str())
+            .unwrap_or("save-v1.json")
+    ));
+    match fs::remove_file(&temp_path) {
+        Ok(()) => {}
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(error) => return Err(error.into()),
+    }
+    let mut temp = OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&temp_path)?;
+    if let Err(error) = (|| -> Result<(), std::io::Error> {
+        temp.write_all(json.as_bytes())?;
+        temp.sync_all()?;
+        drop(temp);
+        fs::rename(&temp_path, path)?;
+        Ok(())
+    })() {
+        let _ = fs::remove_file(&temp_path);
+        return Err(error.into());
+    }
+    Ok(())
+}
 
 // ============================================================
 // Game state container
@@ -27,14 +114,63 @@ pub struct GameState {
     pub started_at: Instant,
     pub rooms_visited: u32,
     pub atlases: Vec<RgbaImage>,
+    pub save_path: Option<PathBuf>,
+    pub save_diagnostic: Option<String>,
 }
 
 impl GameState {
     pub fn new(droid_path: &Path) -> Result<Self, Box<dyn std::error::Error>> {
+        Self::new_with_save_path(droid_path, None)
+    }
+
+    pub fn new_persistent(droid_path: &Path) -> Result<Self, Box<dyn std::error::Error>> {
+        Self::new_with_save_path(droid_path, Some(save_path_for_asset(droid_path)))
+    }
+
+    pub fn new_with_save_path(
+        droid_path: &Path,
+        save_path: Option<PathBuf>,
+    ) -> Result<Self, Box<dyn std::error::Error>> {
         let asset = GameDroidAsset::parse(droid_path)?;
+        let loaded_save = match save_path.as_deref().map(load_save) {
+            Some(Ok(save)) => save,
+            Some(Err(error)) => {
+                let diagnostic = Some(error.to_string());
+                return Self::finish_initialization(asset, droid_path, save_path, None, diagnostic);
+            }
+            None => None,
+        };
+        Self::finish_initialization(asset, droid_path, save_path, loaded_save, None)
+    }
+
+    fn finish_initialization(
+        asset: GameDroidAsset,
+        droid_path: &Path,
+        save_path: Option<PathBuf>,
+        loaded_save: Option<SaveData>,
+        mut save_diagnostic: Option<String>,
+    ) -> Result<Self, Box<dyn std::error::Error>> {
         let mut world = GameWorld::new();
-        if let Some(first_room) = asset.rooms.first() {
-            world.load_room(0, first_room, &asset.objects, &asset.warp_targets);
+        let requested_room = loaded_save.as_ref().map(|save| save.current_room).unwrap_or(0);
+        let room_index = if requested_room < asset.rooms.len() {
+            requested_room
+        } else {
+            save_diagnostic = Some(format!(
+                "save room index {requested_room} is outside available room count {}",
+                asset.rooms.len()
+            ));
+            0
+        };
+        if let Some(room) = asset.rooms.get(room_index) {
+            world.load_room(room_index, room, &asset.objects, &asset.warp_targets);
+        }
+        if room_index == requested_room {
+            if let Some(save) = loaded_save.as_ref() {
+                // Room instances establish geometry and sprite IDs first; restore
+                // persistent player/checkpoint fields afterwards so their coordinates
+                // cannot be overwritten by obj_player.
+                world.restore_from_save(save);
+            }
         }
         let mut atlases = Vec::new();
         let parent = droid_path.parent().unwrap_or_else(|| Path::new("."));
@@ -61,10 +197,13 @@ impl GameState {
             started_at: Instant::now(),
             rooms_visited: 1,
             atlases,
+            save_path,
+            save_diagnostic,
         })
     }
 
     pub fn step(&mut self, dt: f32) {
+        let progress_before = SaveData::from_world(&self.world);
         self.world.update(dt, &self.input);
         if let Some(target) = self.world.pending_room_warp.take() {
             let spawn = self.world.pending_spawn.take();
@@ -83,6 +222,14 @@ impl GameState {
                     };
                 }
                 self.rooms_visited = self.rooms_visited.saturating_add(1);
+            }
+        }
+        let progress_after = SaveData::from_world(&self.world);
+        if progress_after != progress_before {
+            if let Some(path) = self.save_path.as_deref() {
+                self.save_diagnostic = write_save_atomic(path, &progress_after)
+                    .err()
+                    .map(|error| error.to_string());
             }
         }
         self.frame_count = self.frame_count.wrapping_add(1);
@@ -493,13 +640,16 @@ mod android_jni {
             "/data/data/com.gongmi.callyscaves2/files/game.droid".to_string()
         });
         log(&format!("nativeInit path={}", path));
-        let st = match GameState::new(Path::new(&path)) {
+        let st = match GameState::new_persistent(Path::new(&path)) {
             Ok(s) => s,
             Err(e) => {
                 log(&format!("GameState::new failed: {}", e));
                 return;
             }
         };
+        if let Some(diagnostic) = st.save_diagnostic.as_deref() {
+            log(&format!("save load warning: {diagnostic}"));
+        }
         let mut g = slot().lock().unwrap();
         *g = Some(AndroidState {
             state: st,
@@ -535,7 +685,13 @@ mod android_jni {
             let dt = (dt_ms as f32) / 1000.0;
             let previous_room = s.state.world.current_room_index;
             let previous_player_state = s.state.world.player.state;
+            let previous_save_diagnostic = s.state.save_diagnostic.clone();
             s.state.step(dt);
+            if s.state.save_diagnostic != previous_save_diagnostic {
+                if let Some(diagnostic) = s.state.save_diagnostic.as_deref() {
+                    log(&format!("save write warning: {diagnostic}"));
+                }
+            }
             if s.state.world.current_room_index != previous_room {
                 log(&format!(
                     "room transition {} -> {} ({}) spawn=({}, {})",
