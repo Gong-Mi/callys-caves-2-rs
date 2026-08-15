@@ -65,6 +65,7 @@ pub struct Player {
     pub current_weapon: WeaponType,
     pub attack_cooldown: f32,
     pub invulnerable_timer: f32,
+    pub sprite_id: i32,
 }
 
 impl Player {
@@ -86,6 +87,7 @@ impl Player {
             current_weapon: WeaponType::Pistol,
             attack_cooldown: 0.0,
             invulnerable_timer: 0.0,
+            sprite_id: -1,
         }
     }
 
@@ -161,12 +163,14 @@ pub struct GemDrop {
     pub y: f32,
     pub is_coin: bool,
     pub collected: bool,
+    pub sprite_id: i32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WarpPoint {
     pub rect: Rect,
     pub creation_code: i32,
+    pub sprite_id: i32,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -236,15 +240,16 @@ impl GameWorld {
                     self.player.y = inst.y as f32;
                     self.player.vx = 0.0;
                     self.player.vy = 0.0;
+                    self.player.sprite_id = spr_id;
                 }
-                "obj_wall" | "obj_wall_2" => {
+                "obj_wall" | "obj_wall_2" | "obj_platform" | "obj_woodblock" | "obj_iceblock" => {
                     self.solids.push(SolidTile {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
                         is_boulder: false,
                         sprite_id: spr_id,
                     });
                 }
-                "obj_boulder" => {
+                "obj_boulder" | "obj_boulderblock" | "obj_bossboulder" => {
                     self.solids.push(SolidTile {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
                         is_boulder: true,
@@ -257,6 +262,7 @@ impl GameWorld {
                         y: inst.y as f32,
                         is_coin: false,
                         collected: false,
+                        sprite_id: spr_id,
                     });
                 }
                 "obj_coin" | "obj_silvercoin" => {
@@ -265,12 +271,14 @@ impl GameWorld {
                         y: inst.y as f32,
                         is_coin: true,
                         collected: false,
+                        sprite_id: spr_id,
                     });
                 }
                 "obj_warpanywhere" => {
                     self.warps.push(WarpPoint {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
                         creation_code: inst.creation_code_id,
+                        sprite_id: spr_id,
                     });
                 }
                 "obj_slime" | "obj_fireslime" | "obj_bat" | "obj_zombie" | "obj_skeleton"
@@ -576,9 +584,7 @@ impl GameWorld {
         }
 
         // Camera follow
-        self.camera_x = self.player.x - 400.0;
-        self.camera_y = self.player.y - 300.0;
-        if self.camera_x < 0.0 { self.camera_x = 0.0; }
-        if self.camera_y < 0.0 { self.camera_y = 0.0; }
+        self.camera_x = (self.player.x - 480.0).clamp(0.0, (self.room_width - 960.0).max(0.0));
+        self.camera_y = (self.player.y - 270.0).clamp(0.0, (self.room_height - 540.0).max(0.0));
     }
 }

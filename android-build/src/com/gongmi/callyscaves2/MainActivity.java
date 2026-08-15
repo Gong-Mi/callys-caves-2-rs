@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -46,9 +47,11 @@ public class MainActivity extends Activity {
     private int[] pixelBuffer;
     private Thread renderThread;
     private volatile boolean running;
+    private final Rect gameRect = new Rect();
 
     // input
     private boolean moveLeft, moveRight, jump, attack, switchWeapon;
+    private volatile int jumpPulse, attackPulse;
     private int weapon = 0;
 
     @Override
@@ -63,19 +66,29 @@ public class MainActivity extends Activity {
         surface.getHolder().addCallback(new SurfaceLifecycle());
 
         surface.setOnTouchListener((v, ev) -> {
-            float x = ev.getX();
-            float y = ev.getY();
-            int w = v.getWidth();
-            int hh = v.getHeight();
-            if (y > hh * 0.55f) {
-                if (x < w * 0.30f) moveLeft = true;
-                if (x > w * 0.70f) moveRight = true;
-                if (y < hh * 0.75f) jump = true;
-            } else {
-                if (x > w * 0.60f && y < hh * 0.45f) attack = true;
-                if (y < hh * 0.20f) switchWeapon = true;
+            Rect bounds = gameRect;
+            int w = bounds.width();
+            int hh = bounds.height();
+            if (w <= 0 || hh <= 0) return true;
+            moveLeft = moveRight = jump = attack = false;
+            int lifted = ev.getActionMasked() == MotionEvent.ACTION_POINTER_UP
+                    ? ev.getActionIndex() : -1;
+            for (int i = 0; i < ev.getPointerCount(); i++) {
+                if (i == lifted) continue;
+                float x = ev.getX(i) - bounds.left;
+                float y = ev.getY(i) - bounds.top;
+                if (x < 0 || y < 0 || x >= w || y >= hh) continue;
+                if (y > hh * 0.55f) {
+                    if (x < w * 0.20f) moveLeft = true;
+                    else if (x < w * 0.40f) moveRight = true;
+                    else if (x > w * 0.80f) { attack = true; attackPulse = 4; }
+                    else if (x > w * 0.60f) { jump = true; jumpPulse = 4; }
+                } else if (y < hh * 0.20f) {
+                    switchWeapon = true;
+                }
             }
-            if (ev.getAction() == MotionEvent.ACTION_UP) {
+            if (ev.getActionMasked() == MotionEvent.ACTION_UP ||
+                    ev.getActionMasked() == MotionEvent.ACTION_CANCEL) {
                 moveLeft = moveRight = jump = attack = false;
             }
             return true;
@@ -105,11 +118,22 @@ public class MainActivity extends Activity {
      *  the Rust engine can mmap it. */
     private String prepareGameDroid() {
         File out = new File(getFilesDir(), "game.droid");
-        if (out.exists() && out.length() > 1000) {
-            return out.getAbsolutePath();
+        copyAsset("game.droid", out, 1000);
+        File textureDir = new File(getFilesDir(), "textures");
+        if (!textureDir.exists() && !textureDir.mkdirs()) {
+            throw new RuntimeException("Failed to create texture directory");
         }
+        for (int i = 0; i < 4; i++) {
+            copyAsset("textures/texture_" + i + ".png",
+                    new File(textureDir, "texture_" + i + ".png"), 1000);
+        }
+        return out.getAbsolutePath();
+    }
+
+    private void copyAsset(String assetName, File out, long minimumLength) {
+        if (out.exists() && out.length() > minimumLength) return;
         AssetManager am = getAssets();
-        try (InputStream in = am.open("game.droid");
+        try (InputStream in = am.open(assetName);
              FileOutputStream fos = new FileOutputStream(out)) {
             byte[] buf = new byte[64 * 1024];
             int n;
@@ -117,9 +141,8 @@ public class MainActivity extends Activity {
                 fos.write(buf, 0, n);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to unpack game.droid", e);
+            throw new RuntimeException("Failed to unpack " + assetName, e);
         }
-        return out.getAbsolutePath();
     }
 
     private void startEngine() {
@@ -154,14 +177,18 @@ public class MainActivity extends Activity {
                 if (dt > 50) dt = 50;
                 last = now;
 
+                boolean jumpNow = jump || jumpPulse > 0;
+                boolean attackNow = attack || attackPulse > 0;
                 nativeInput(
                     moveLeft ? 1 : 0,
                     moveRight ? 1 : 0,
-                    jump ? 1 : 0,
-                    attack ? 1 : 0,
+                    jumpNow ? 1 : 0,
+                    attackNow ? 1 : 0,
                     switchWeapon ? 1 : 0,
                     weapon
                 );
+                if (jumpPulse > 0) jumpPulse--;
+                if (attackPulse > 0) attackPulse--;
                 switchWeapon = false;
                 nativeStep(dt);
                 nativeBlitToIntArray(pixelBuffer);
@@ -173,7 +200,18 @@ public class MainActivity extends Activity {
                 if (c != null) {
                     try {
                         c.drawColor(Color.BLACK);
-                        c.drawBitmap(framebuffer, null, c.getClipBounds(), new Paint());
+                        Rect clip = c.getClipBounds();
+                        float scale = Math.min(
+                                clip.width() / (float) framebuffer.getWidth(),
+                                clip.height() / (float) framebuffer.getHeight());
+                        int drawW = Math.max(1, Math.round(framebuffer.getWidth() * scale));
+                        int drawH = Math.max(1, Math.round(framebuffer.getHeight() * scale));
+                        int left = clip.left + (clip.width() - drawW) / 2;
+                        int top = clip.top + (clip.height() - drawH) / 2;
+                        gameRect.set(left, top, left + drawW, top + drawH);
+                        Paint paint = new Paint();
+                        paint.setFilterBitmap(false);
+                        c.drawBitmap(framebuffer, null, gameRect, paint);
                     } finally {
                         holder.unlockCanvasAndPost(c);
                     }

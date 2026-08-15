@@ -57,7 +57,7 @@ java -Xmx2G -cp "$D8_JAR" com.android.tools.r8.D8 \
 # build --release` on Termux embeds RUNPATH=/data/data/com.termux/
 # files/usr/lib which doesn't exist on real Android devices, so
 # System.loadLibrary("callys_client") would dlopen-fail silently.
-SO_SRC="$REPO/target/release/libcallys_client.so"
+SO_SRC="$ROOT/target/release/libcallys_client.so"
 if [ -f "$SO_SRC" ]; then
     patchelf --remove-rpath "$SO_SRC" 2>/dev/null || true
 fi

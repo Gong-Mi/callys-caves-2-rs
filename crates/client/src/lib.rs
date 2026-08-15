@@ -13,6 +13,7 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
 use callys_asset::{GameDroidAsset, SpriteData, TpagItem};
 use callys_core::{Facing, GameWorld, InputState, PlayerState, WeaponType};
+use image::RgbaImage;
 
 // ============================================================
 // Game state container
@@ -25,6 +26,7 @@ pub struct GameState {
     pub frame_count: u64,
     pub started_at: Instant,
     pub rooms_visited: u32,
+    pub atlases: Vec<RgbaImage>,
 }
 
 impl GameState {
@@ -34,6 +36,23 @@ impl GameState {
         if let Some(first_room) = asset.rooms.first() {
             world.load_room(0, first_room, &asset.objects);
         }
+        let mut atlases = Vec::new();
+        let parent = droid_path.parent().unwrap_or_else(|| Path::new("."));
+        let texture_dirs = [parent.join("textures"), Path::new("assets/textures").to_path_buf()];
+        for index in 0..16 {
+            let mut loaded = None;
+            for dir in &texture_dirs {
+                let path = dir.join(format!("texture_{index}.png"));
+                if path.is_file() {
+                    loaded = Some(image::open(path)?.to_rgba8());
+                    break;
+                }
+            }
+            match loaded {
+                Some(atlas) => atlases.push(atlas),
+                None => break,
+            }
+        }
         Ok(Self {
             asset,
             world,
@@ -41,6 +60,7 @@ impl GameState {
             frame_count: 0,
             started_at: Instant::now(),
             rooms_visited: 1,
+            atlases,
         })
     }
 
@@ -135,6 +155,37 @@ impl Framebuffer {
             self.put(x1, yi, color);
         }
     }
+
+    fn blit_scaled(&mut self, atlas: &RgbaImage, src: (u32, u32, u32, u32), dst: (i32, i32, u32, u32), flip_x: bool) {
+        let (sx, sy, sw, sh) = src;
+        let (dx, dy, dw, dh) = dst;
+        if sw == 0 || sh == 0 || dw == 0 || dh == 0 { return; }
+        for oy in 0..dh {
+            let py = dy + oy as i32;
+            if py < 0 || py >= self.height as i32 { continue; }
+            let src_y = sy + oy * sh / dh;
+            for ox in 0..dw {
+                let px = dx + ox as i32;
+                if px < 0 || px >= self.width as i32 { continue; }
+                let sample_x = ox * sw / dw;
+                let src_x = sx + if flip_x { sw - 1 - sample_x } else { sample_x };
+                if src_x >= atlas.width() || src_y >= atlas.height() { continue; }
+                let rgba = atlas.get_pixel(src_x, src_y).0;
+                if rgba[3] >= 16 { self.put(px, py, (rgba[0], rgba[1], rgba[2], rgba[3])); }
+            }
+        }
+    }
+}
+
+fn draw_sprite(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: usize, dst: (i32, i32, u32, u32), flip_x: bool) -> bool {
+    let Ok(sprite_id) = usize::try_from(sprite_id) else { return false; };
+    let Some(sprite) = state.asset.sprites.get(&sprite_id) else { return false; };
+    if sprite.tpag_indices.is_empty() { return false; }
+    let frame_ptr = sprite.tpag_indices[frame % sprite.tpag_indices.len()] as usize;
+    let Some(page) = state.asset.tpag_items.get(&frame_ptr) else { return false; };
+    let Some(atlas) = state.atlases.get(page.tex_id as usize) else { return false; };
+    fb.blit_scaled(atlas, (page.x as u32, page.y as u32, page.w as u32, page.h as u32), dst, flip_x);
+    true
 }
 
 pub fn draw_frame(
@@ -161,8 +212,10 @@ pub fn draw_frame(
         let y = ((solid.rect.y - cam_y) * scale_y) as i32;
         let w = (solid.rect.w * scale_x) as u32;
         let h = (solid.rect.h * scale_y) as u32;
-        fb.fill_rect(x, y, w, h, color);
-        fb.draw_rect(x, y, w, h, (35, 40, 50, 255));
+        if !draw_sprite(fb, state, solid.sprite_id, 0, (x, y, w, h), false) {
+            fb.fill_rect(x, y, w, h, color);
+            fb.draw_rect(x, y, w, h, (35, 40, 50, 255));
+        }
     }
 
     for gem in &state.world.gems {
@@ -177,7 +230,9 @@ pub fn draw_frame(
         let x = ((gem.x - cam_x) * scale_x) as i32;
         let y = ((gem.y - cam_y) * scale_y) as i32;
         let s = ((18.0 * scale_x) as u32).max(8);
-        fb.fill_rect(x, y, s, s, color);
+        if !draw_sprite(fb, state, gem.sprite_id, (state.frame_count / 6) as usize, (x, y, s, s), false) {
+            fb.fill_rect(x, y, s, s, color);
+        }
     }
 
     for warp in &state.world.warps {
@@ -185,7 +240,9 @@ pub fn draw_frame(
         let y = ((warp.rect.y - cam_y) * scale_y) as i32;
         let w = (warp.rect.w * scale_x) as u32;
         let h = (warp.rect.h * scale_y) as u32;
-        fb.draw_rect(x, y, w, h, (140, 220, 255, 180));
+        if !draw_sprite(fb, state, warp.sprite_id, (state.frame_count / 8) as usize, (x, y, w, h), false) {
+            fb.draw_rect(x, y, w, h, (140, 220, 255, 180));
+        }
     }
 
     for enemy in &state.world.enemies {
@@ -193,7 +250,9 @@ pub fn draw_frame(
         let y = ((enemy.y - cam_y) * scale_y) as i32;
         let w = (enemy.width * scale_x) as u32;
         let h = (enemy.height * scale_y) as u32;
-        fb.fill_rect(x, y, w, h, (220, 60, 60, 255));
+        if !draw_sprite(fb, state, enemy.sprite_id, (state.frame_count / 7) as usize, (x, y, w, h), enemy.facing == Facing::Left) {
+            fb.fill_rect(x, y, w, h, (220, 60, 60, 255));
+        }
         let hp_pct = (enemy.health as f32 / enemy.max_health as f32).max(0.0);
         fb.fill_rect(x, (y - 6).max(0), w, 4, (40, 40, 40, 255));
         fb.fill_rect(x, (y - 6).max(0), (w as f32 * hp_pct) as u32, 4, (40, 220, 40, 255));
@@ -227,13 +286,11 @@ pub fn draw_frame(
             PlayerState::Hurt => (255, 255, 255, 255),
             _ => (240, 80, 80, 255),
         };
-        fb.fill_rect(px, py, pw, ph, color);
-        let eye_x = if p.facing == Facing::Right {
-            px + pw as i32 - 6
-        } else {
-            px + 2
-        };
-        fb.fill_rect(eye_x, py + 6, 4, 4, (255, 255, 255, 255));
+        if !draw_sprite(fb, state, p.sprite_id, (state.frame_count / 5) as usize, (px, py, pw, ph), p.facing == Facing::Left) {
+            fb.fill_rect(px, py, pw, ph, color);
+            let eye_x = if p.facing == Facing::Right { px + pw as i32 - 6 } else { px + 2 };
+            fb.fill_rect(eye_x, py + 6, 4, 4, (255, 255, 255, 255));
+        }
     }
 
     fb.fill_rect(16, 16, 204, 20, (50, 50, 50, 255));
@@ -249,6 +306,11 @@ pub fn draw_frame(
         WeaponType::Sword => (180, 220, 255, 255),
     };
     fb.fill_rect(180, 42, 24, 24, weapon_color);
+    let bottom = fb.height as i32 - 92;
+    fb.draw_rect(24, bottom, 68, 68, (120, 180, 255, 170));
+    fb.draw_rect(108, bottom, 68, 68, (120, 180, 255, 170));
+    fb.draw_rect(fb.width as i32 - 176, bottom, 68, 68, (255, 190, 80, 170));
+    fb.draw_rect(fb.width as i32 - 92, bottom, 68, 68, (255, 90, 90, 170));
 }
 
 // ============================================================
@@ -412,7 +474,7 @@ mod android_jni {
         jump: jint,
         attack: jint,
         switch_weapon: jint,
-        weapon: jint,
+        _weapon: jint,
     ) {
         let mut g = slot().lock().unwrap();
         if let Some(s) = g.as_mut() {
@@ -421,14 +483,7 @@ mod android_jni {
             s.state.input.jump = jump != 0;
             s.state.input.attack = attack != 0;
             s.state.input.switch_weapon = switch_weapon != 0;
-            s.state.world.player.current_weapon = match weapon {
-                0 => WeaponType::Pistol,
-                1 => WeaponType::Shotgun,
-                2 => WeaponType::AssaultRifle,
-                3 => WeaponType::RocketLauncher,
-                4 => WeaponType::Sword,
-                _ => s.state.world.player.current_weapon,
-            };
+
         }
     }
 

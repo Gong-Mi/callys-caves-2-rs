@@ -162,7 +162,7 @@ impl GameDroidAsset {
             for _ in 0..count {
                 offsets.push(file.read_u32::<LittleEndian>()?);
             }
-            for (idx, &off) in offsets.iter().enumerate() {
+            for &off in &offsets {
                 if (off as u64) < file_len && file.seek(SeekFrom::Start(off as u64)).is_ok() {
                     let x = file.read_u16::<LittleEndian>().unwrap_or(0);
                     let y = file.read_u16::<LittleEndian>().unwrap_or(0);
@@ -176,7 +176,8 @@ impl GameDroidAsset {
                     let sh = file.read_u16::<LittleEndian>().unwrap_or(0);
                     let tex_id = file.read_u16::<LittleEndian>().unwrap_or(0);
 
-                    tpag_items.insert(idx, TpagItem {
+                    // SPRT frames contain absolute TPAG record pointers.
+                    tpag_items.insert(off as usize, TpagItem {
                         x, y, w, h, rx, ry, bw, bh, sw, sh, tex_id
                     });
                 }
@@ -199,8 +200,9 @@ impl GameDroidAsset {
                     let width = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let height = file.read_u32::<LittleEndian>().unwrap_or(0);
 
-                    // Skip bbox, tr, sm, pr, bm, smask (48 bytes)
-                    let _ = file.seek(SeekFrom::Current(40));
+                    // bbox (4*i32) + transparent/smooth/preload/bbox mode/smask (5*u32)
+                    // = 36 bytes before origin_x/origin_y.
+                    let _ = file.seek(SeekFrom::Current(36));
                     let origin_x = file.read_i32::<LittleEndian>().unwrap_or(0);
                     let origin_y = file.read_i32::<LittleEndian>().unwrap_or(0);
                     let tcount = file.read_u32::<LittleEndian>().unwrap_or(0).min(500);
@@ -438,6 +440,17 @@ mod tests {
         assert!(!asset.objects.is_empty());
         assert!(!asset.sprites.is_empty());
         assert!(!asset.tpag_items.is_empty());
+        assert_eq!(asset.rooms[0].objects.len(), 170);
+        for sprite in asset.sprites.values() {
+            for frame_ptr in &sprite.tpag_indices {
+                assert!(
+                    asset.tpag_items.contains_key(&(*frame_ptr as usize)),
+                    "sprite {} references missing TPAG pointer {}",
+                    sprite.name,
+                    frame_ptr
+                );
+            }
+        }
         println!(
             "Test passed! Rooms={}, Objects={}, Sprites={}, TPAG={}",
             asset.rooms.len(),
