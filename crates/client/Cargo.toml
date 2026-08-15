@@ -1,6 +1,6 @@
 [package]
 name = "callys-client"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [lib]
@@ -10,9 +10,17 @@ crate-type = ["cdylib", "rlib"]
 [[bin]]
 name = "callys-client"
 path = "src/main.rs"
+required-features = ["desktop"]
+
+[features]
+default = []
+desktop = []
+android = []
 
 [dependencies]
 callys-asset = { path = "../asset" }
 callys-core = { path = "../core" }
-image = "0.25.10"
-sdl2 = { workspace = true }
+image = { version = "0.25.10", default-features = false, features = ["png"] }
+sdl2 = { version = "0.37", features = ["image"], optional = true }
+
+[target.'cfg(target_os = "android")'.dependencies]
