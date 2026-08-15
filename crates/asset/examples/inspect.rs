@@ -4,7 +4,23 @@ use std::collections::BTreeMap;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let path = std::env::args().nth(1).unwrap_or_else(|| "assets/game.droid".into());
     let asset = GameDroidAsset::parse(&path)?;
-    println!("game={} rooms={} objects={} sprites={} tpag={}", asset.game_name, asset.rooms.len(), asset.objects.len(), asset.sprites.len(), asset.tpag_items.len());
+    println!(
+        "game={} rooms={} objects={} sprites={} tpag={} audio={}",
+        asset.game_name,
+        asset.rooms.len(),
+        asset.objects.len(),
+        asset.sprites.len(),
+        asset.tpag_items.len(),
+        asset.audio.len()
+    );
+    for audio in &asset.audio {
+        println!(
+            "audio[{}] offset=0x{:x} wav_bytes={}",
+            audio.id,
+            audio.file_offset,
+            audio.wav_bytes.len()
+        );
+    }
     for (ri, room) in asset.rooms.iter().enumerate() {
         let mut names: BTreeMap<&str, usize> = BTreeMap::new();
         for inst in &room.objects {
