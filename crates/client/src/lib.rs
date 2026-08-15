@@ -527,6 +527,7 @@ mod tests {
             is_coin: true,
             collected: false,
             sprite_id: -1,
+            room_instance_id: None,
         });
 
         state.step(0.0);
@@ -549,6 +550,7 @@ mod tests {
             weapon: WeaponType::Shotgun,
             sprite_id: -1,
             collected: false,
+            room_instance_id: None,
         });
 
         state.step(0.0);
