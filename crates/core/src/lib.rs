@@ -9,6 +9,14 @@ use serde::{Deserialize, Serialize};
 pub const PROVISIONAL_WATER_GRAVITY: f32 = 250.0;
 pub const PROVISIONAL_WATER_MAX_FALL_SPEED: f32 = 120.0;
 pub const PROVISIONAL_WATER_RISE_SPEED: f32 = -180.0;
+// Exact spike damage, invulnerability duration, and collision mask remain
+// provisional until CODE disassembly or original-runtime measurements exist.
+pub const PROVISIONAL_SPIKE_DAMAGE: i32 = 20;
+pub const PROVISIONAL_SPIKE_INVULNERABILITY_SECONDS: f32 = 1.0;
+
+// SPRT resource 93 (`spr_spikes`) is 32x32 with origin (0, 0).
+const SPIKE_SPRITE_WIDTH: f32 = 32.0;
+const SPIKE_SPRITE_HEIGHT: f32 = 32.0;
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct Rect {
@@ -198,6 +206,12 @@ pub struct WaterRegion {
     pub rect: Rect,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct HazardRegion {
+    pub rect: Rect,
+    pub sprite_id: i32,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct WarpPoint {
     pub rect: Rect,
@@ -238,6 +252,7 @@ pub struct GameWorld {
     pub weapon_pickups: Vec<WeaponPickup>,
     pub decorations: Vec<Decoration>,
     pub water_regions: Vec<WaterRegion>,
+    pub hazards: Vec<HazardRegion>,
     pub warps: Vec<WarpPoint>,
     pub camera_x: f32,
     pub camera_y: f32,
@@ -263,6 +278,7 @@ impl GameWorld {
             weapon_pickups: Vec::new(),
             decorations: Vec::new(),
             water_regions: Vec::new(),
+            hazards: Vec::new(),
             warps: Vec::new(),
             camera_x: 0.0,
             camera_y: 0.0,
@@ -307,6 +323,7 @@ impl GameWorld {
         self.weapon_pickups.clear();
         self.decorations.clear();
         self.water_regions.clear();
+        self.hazards.clear();
         self.warps.clear();
         self.pending_room_warp = None;
 
@@ -388,6 +405,22 @@ impl GameWorld {
                     });
                     self.water_regions.push(WaterRegion { rect });
                 }
+                "obj_spikes" => {
+                    let rect = Rect::new(
+                        inst.x as f32,
+                        inst.y as f32,
+                        SPIKE_SPRITE_WIDTH * inst.scale_x.abs(),
+                        SPIKE_SPRITE_HEIGHT * inst.scale_y.abs(),
+                    );
+                    self.decorations.push(Decoration {
+                        rect,
+                        sprite_id: spr_id,
+                    });
+                    self.hazards.push(HazardRegion {
+                        rect,
+                        sprite_id: spr_id,
+                    });
+                }
                 "obj_warpanywhere" => {
                     if let Some(target) = warp_targets.get(&inst.creation_code_id) {
                         self.warps.push(WarpPoint {
@@ -456,14 +489,18 @@ impl GameWorld {
             .any(|region| region.rect.intersects(&player_bounds))
     }
 
+    fn begin_player_death(&mut self) {
+        self.player.state = PlayerState::Dead;
+        self.player.vx = 0.0;
+        self.player.vy = 0.0;
+        self.respawn_timer = 1.0;
+        self.projectiles.clear();
+    }
+
     pub fn update(&mut self, dt: f32, input: &InputState) {
         if self.player.health <= 0 || self.player.state == PlayerState::Dead {
             if self.player.state != PlayerState::Dead {
-                self.player.state = PlayerState::Dead;
-                self.player.vx = 0.0;
-                self.player.vy = 0.0;
-                self.respawn_timer = 1.0;
-                self.projectiles.clear();
+                self.begin_player_death();
             } else {
                 self.respawn_timer -= dt;
                 if self.respawn_timer <= 0.0 {
@@ -756,6 +793,27 @@ impl GameWorld {
 
         // Remove dead enemies
         self.enemies.retain(|e| e.health > 0);
+
+        // Player vs spike hazard collision. The full sprite rectangle is a
+        // provisional hit region because the original collision mask is unknown.
+        if self.player.invulnerable_timer <= 0.0 {
+            let player_bounds = self.player.bounds();
+            if self
+                .hazards
+                .iter()
+                .any(|hazard| hazard.rect.intersects(&player_bounds))
+            {
+                self.player.health =
+                    (self.player.health - PROVISIONAL_SPIKE_DAMAGE).max(0);
+                self.player.invulnerable_timer =
+                    PROVISIONAL_SPIKE_INVULNERABILITY_SECONDS;
+                self.player.state = PlayerState::Hurt;
+                if self.player.health == 0 {
+                    self.begin_player_death();
+                    return;
+                }
+            }
+        }
 
         // Player vs Enemy collision
         if self.player.invulnerable_timer <= 0.0 {
@@ -1106,5 +1164,166 @@ mod tests {
         assert_eq!(world.player.y, 400.0 - world.player.height);
         assert_eq!(world.player.vy, 0.0);
         assert!(world.player.on_ground);
+    }
+
+    #[test]
+    fn spike_contact_applies_provisional_damage_once() {
+        let mut world = GameWorld::new();
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.hazards.push(HazardRegion {
+            rect: Rect::new(100.0, 100.0, 32.0, 32.0),
+            sprite_id: 93,
+        });
+
+        world.update(0.0, &InputState::default());
+
+        assert_eq!(world.player.health, 100 - PROVISIONAL_SPIKE_DAMAGE);
+        assert_eq!(world.player.state, PlayerState::Hurt);
+        assert_eq!(
+            world.player.invulnerable_timer,
+            PROVISIONAL_SPIKE_INVULNERABILITY_SECONDS
+        );
+    }
+
+    #[test]
+    fn spike_contact_is_suppressed_while_player_is_invulnerable() {
+        let mut world = GameWorld::new();
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.hazards.push(HazardRegion {
+            rect: Rect::new(100.0, 100.0, 32.0, 32.0),
+            sprite_id: 93,
+        });
+        world.update(0.0, &InputState::default());
+        let health_after_first_contact = world.player.health;
+
+        world.update(0.1, &InputState::default());
+
+        assert_eq!(world.player.health, health_after_first_contact);
+        assert!(world.player.invulnerable_timer > 0.0);
+    }
+
+    #[test]
+    fn spike_contact_damages_again_after_invulnerability_expires() {
+        let mut world = GameWorld::new();
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.hazards.push(HazardRegion {
+            rect: Rect::new(100.0, 100.0, 32.0, 32.0),
+            sprite_id: 93,
+        });
+        world.solids.push(SolidTile {
+            rect: Rect::new(0.0, 138.0, 1000.0, 32.0),
+            is_boulder: false,
+            sprite_id: -1,
+        });
+        world.update(0.0, &InputState::default());
+
+        for _ in 0..11 {
+            world.update(0.1, &InputState::default());
+        }
+
+        assert_eq!(world.player.health, 100 - 2 * PROVISIONAL_SPIKE_DAMAGE);
+        assert_eq!(world.player.state, PlayerState::Hurt);
+    }
+
+    #[test]
+    fn lethal_spike_contact_uses_checkpoint_respawn_path() {
+        let mut world = GameWorld::new();
+        world.checkpoint = Checkpoint {
+            room_index: 2,
+            x: 64.0,
+            y: 480.0,
+        };
+        world.player.x = 100.0;
+        world.player.y = 100.0;
+        world.player.health = PROVISIONAL_SPIKE_DAMAGE;
+        world.hazards.push(HazardRegion {
+            rect: Rect::new(100.0, 100.0, 32.0, 32.0),
+            sprite_id: 93,
+        });
+
+        world.update(0.0, &InputState::default());
+        assert_eq!(world.player.health, 0);
+        assert_eq!(world.player.state, PlayerState::Dead);
+
+        world.update(1.1, &InputState::default());
+        assert_eq!(world.player.health, world.player.max_health);
+        assert_eq!(world.pending_room_warp, Some(2));
+        assert_eq!(world.pending_spawn, Some((64.0, 480.0, Facing::Right)));
+    }
+
+    #[test]
+    fn real_asset_has_no_spikes_in_rm_level1_and_loads_rm_level2_spikes() {
+        let asset_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../assets/game.droid");
+        let asset = callys_asset::GameDroidAsset::parse(asset_path).expect("parse game.droid");
+        let level1 = &asset.rooms[1];
+        let level2 = &asset.rooms[2];
+        let spike_count = |room: &RoomData| {
+            room.objects
+                .iter()
+                .filter(|instance| {
+                    asset.objects[instance.object_id as usize].name == "obj_spikes"
+                })
+                .count()
+        };
+        assert_eq!(level1.name, "rm_level1");
+        assert_eq!(spike_count(level1), 0);
+        assert_eq!(level2.name, "rm_level2");
+        assert_eq!(spike_count(level2), 27);
+
+        let spike_object = asset
+            .objects
+            .iter()
+            .find(|object| object.name == "obj_spikes")
+            .expect("obj_spikes resource");
+        assert!(!spike_object.solid);
+        assert_eq!(spike_object.parent_id, -100);
+        let spike_sprite = &asset.sprites[&(spike_object.sprite_id as usize)];
+        assert_eq!(
+            (spike_sprite.width, spike_sprite.height),
+            (32, 32)
+        );
+        assert_eq!((spike_sprite.origin_x, spike_sprite.origin_y), (0, 0));
+
+        let level2_spikes: Vec<_> = level2
+            .objects
+            .iter()
+            .filter(|instance| instance.object_id as usize == spike_object.id)
+            .collect();
+        let expected_x = [
+            800, 832, 864, 896, 928, 960, 992, 1024, 1056, 1632, 1600, 1568,
+            1536, 1504, 1472, 1440, 1408, 1376, 1344, 1312, 1280, 1248, 1216,
+            1184, 1152, 1120, 1088,
+        ];
+        assert_eq!(
+            level2_spikes.iter().map(|instance| instance.x).collect::<Vec<_>>(),
+            expected_x
+        );
+        assert!(level2_spikes.iter().all(|instance| {
+            instance.y == 1152 && instance.scale_x == 1.0 && instance.scale_y == 1.0
+        }));
+
+        let mut world = GameWorld::new();
+        world.load_room(2, level2, &asset.objects, &asset.warp_targets);
+
+        assert_eq!(world.hazards.len(), 27);
+        let spike_decorations: Vec<_> = world
+            .decorations
+            .iter()
+            .filter(|decoration| decoration.sprite_id == spike_object.sprite_id)
+            .collect();
+        assert_eq!(spike_decorations.len(), 27);
+        assert!(world
+            .solids
+            .iter()
+            .all(|solid| solid.sprite_id != spike_object.sprite_id));
+        assert_eq!(world.hazards[0].rect, Rect::new(800.0, 1152.0, 32.0, 32.0));
+        assert_eq!(world.hazards[26].rect, Rect::new(1088.0, 1152.0, 32.0, 32.0));
+        assert_eq!(world.hazards[0].sprite_id, 93);
+        assert_eq!(spike_decorations[0].rect, world.hazards[0].rect);
+        assert_eq!(spike_decorations[26].rect, world.hazards[26].rect);
     }
 }
