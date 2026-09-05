@@ -1,4 +1,5 @@
 pub mod save;
+pub mod original_player;
 
 use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, SpriteData, WarpTarget};
 use serde::{Deserialize, Serialize};
