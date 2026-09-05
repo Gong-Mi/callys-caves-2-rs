@@ -31,18 +31,25 @@ def build_cfg(code):
     for instruction in instructions:
         op, pos = instruction['opcode'], instruction['offset']
         after = pos + instruction['size']
-        if op in BRANCHES:
-            # Not present in the pinned asset. Refuse rather than invent a
-            # successor for environment-stack unwind variants.
-            require(not instruction.get('popenv_exit_magic'), 'popenv-exit magic CFG not modeled')
+        magic = bool(instruction.get('popenv_exit_magic'))
+        if magic:
+            require(op == 0xbb and 'target' not in instruction,
+                    'magic cleanup must be popenv without a relative target')
+        if op in BRANCHES and not magic:
             require('target' in instruction, 'missing branch target')
             target = instruction['target']
             require(target == end or target in positions, 'target outside CODE or inside payload')
             if target != end:
                 leaders.add(target)
-        if op in TERMINATORS and after != end:
+        if op in TERMINATORS and not magic and after != end:
             leaders.add(after)  # Includes dead code: never silently drop bytes.
-        if op in (0xba, 0xbb):
+        if magic:
+            # Underanalyzer 4ff50a866b4c1a7acee8cebe6a56d6a48709b453,
+            # ControlFlow/Block.cs:56-62,208-226: cleanup, then fallthrough.
+            # Keep the side effect even when it is in the middle of a block.
+            environments.append(dict(offset=pos, opcode=op, effect='pop_with_context',
+                pending='receiver and environment-stack runtime semantics', fallthrough=after))
+        elif op in (0xba, 0xbb):
             environments.append(dict(offset=pos, opcode=op,
                 pending='receiver and environment-stack runtime semantics',
                 encoded_target=instruction['target'], fallthrough=after))
@@ -65,7 +72,7 @@ def build_cfg(code):
             taken = 'true' if op == 0xb7 else 'false'
             edges.extend([dict(target=last['target'], kind=taken),
                           dict(target=after, kind='false' if taken == 'true' else 'true')])
-        elif op in (0xba, 0xbb):
+        elif op in (0xba, 0xbb) and not last.get('popenv_exit_magic'):
             edges.extend([dict(target=last['target'], kind='environment_encoded_target'),
                           dict(target=after, kind='environment_fallthrough')])
         elif op in (0x9c, 0x9d):
