@@ -45,7 +45,7 @@ def package(asset, export):
         'index.json: original CODE id/address, source hash, pointer-derived owners and roundtrip status.\n'
         'objects.json: direct OBJT events/actions and parent ids; no invented inherited events.\n'
         'rooms.json: ROOM/instance creation-code associations.\n'
-        'Compilation uses the pinned Underanalyzer via UndertaleModLib in GitHub CI.\n'
+        'Compilation uses pinned Underanalyzer plus a hash-guarded source adaptation; see ../underanalyzer-patch.json.\n'
         'Assets, runner, project/editor metadata, original comments and runtime parity are NOT supplied by this tree.\n'
         'See ../verification.json and ../roundtrip-differences/ for exact mismatches.\n'
         'Original game data SHA256: ' + SHA256 + '\n'

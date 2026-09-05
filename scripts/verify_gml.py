@@ -97,5 +97,13 @@ if __name__ == '__main__':
     parser.add_argument('asset', type=Path)
     parser.add_argument('output', type=Path)
     parser.add_argument('--require-roundtrip', action='store_true')
+    parser.add_argument('--require-exact-assembly', action='store_true')
     args = parser.parse_args()
-    print(json.dumps(verify(args.asset, args.output, args.require_roundtrip), indent=2))
+    report = verify(args.asset, args.output, args.require_roundtrip)
+    if args.require_exact_assembly:
+        assert args.require_roundtrip, 'exact assembly requires roundtrip'
+        assert not report['assembly_difference_ids'], 'symbolic assembly differs'
+        assert not report['roundtrip_failed_ids']
+        provenance = json.loads((args.output / 'underanalyzer-patch.json').read_text())
+        assert provenance['adaptation'] == 'legacy-specialized-assignment-v1'
+    print(json.dumps(report, indent=2))
