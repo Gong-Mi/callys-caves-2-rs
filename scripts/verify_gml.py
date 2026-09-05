@@ -81,7 +81,9 @@ def verify(asset, directory, require_roundtrip=False):
                 assert (before == after) == t['assembly_equal']
                 assert (again == original) == t['redecompiled_text_equal']
                 expected_diffs.extend(stem + suffix for suffix in ['.before.asm', '.after.asm', '.after.gml'])
-        assert sorted(p.name for p in (directory / 'roundtrip-differences').iterdir()) == sorted(expected_diffs)
+        diff_dir = directory / 'roundtrip-differences'
+        actual_diffs = sorted(p.name for p in diff_dir.iterdir()) if diff_dir.exists() else []
+        assert actual_diffs == sorted(expected_diffs)
         report['roundtrip'] = rt
         report['roundtrip_failed_ids'] = [t['id'] for t in bad]
         report['assembly_difference_ids'] = [t['id'] for t in good if not t['assembly_equal']]
