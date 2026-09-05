@@ -46,12 +46,16 @@ def verify(asset, directory, require_roundtrip=False):
         text = (directory / f'code/{idx:04d}.gml').read_text()
         for var in variables:
             assert re.search(rf'\b{var}\s*=\s*0\s*;', text), f'missing original anchor {idx}:{var}'
-    contract_path = Path(__file__).resolve().parents[1] / 'reconstruction/contracts/player-alarms.json'
-    contract = json.loads(contract_path.read_text())
-    assert contract['asset_sha256'] == SHA256
-    for binding in contract['bindings']:
-        assert (directory / f"code/{binding['code_id']:04d}.gml").read_text() == binding['gml']
-        assert codes[binding['code_id']]['sha256'] == binding['bytecode_sha256']
+    contract_root = Path(__file__).resolve().parents[1] / 'reconstruction/contracts'
+    for name in ('player-alarms.json', 'player-combat.json'):
+        contract = json.loads((contract_root / name).read_text())
+        assert contract['asset_sha256'] == SHA256
+        bindings = list(contract['bindings'])
+        for dependency in contract.get('direct_spawn_dependencies', []):
+            bindings.extend(dependency['direct_create'])
+        for binding in bindings:
+            assert (directory / f"code/{binding['code_id']:04d}.gml").read_text() == binding['gml']
+            assert codes[binding['code_id']]['sha256'] == binding['bytecode_sha256']
     report = dict(code_count=len(codes), exported=len(exported), failed_ids=failures,
                   warned_ids=warned, checked_constant_anchor_code_ids=sorted(anchors),
                   full_semantics_verified=0, runtime_verified=0)
