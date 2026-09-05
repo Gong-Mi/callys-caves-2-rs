@@ -2,3 +2,5 @@ target/
 Cargo.lock
 *.apk
 *.so
+scripts/__pycache__/
+reverse-output/

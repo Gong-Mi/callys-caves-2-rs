@@ -52,7 +52,8 @@ def disassemble(reader, code):
                     f'missing/wrong {ref_kind} reference @{pos:#x}')
             item['reference'] = references[pos]
             item['reference_type'] = (reader.u32(pos + 4) >> 24) & 0xf8
-            item['instance_raw'] = struct.unpack_from('<h', reader.data, pos)[0]
+            if ref_kind == 'VARI':
+                item['instance_raw'] = struct.unpack_from('<h', reader.data, pos)[0]
             consumed.add(pos)
         else:
             require(pos not in references, f'reference on non-reference instruction @{pos:#x}')

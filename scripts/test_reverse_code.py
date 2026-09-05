@@ -129,6 +129,11 @@ class LedgerTests(unittest.TestCase):
             boundaries = {i['offset'] for i in c['instructions']} | {c['start'] + c['length']}
             self.assertTrue(all(i['target'] in boundaries for i in c['instructions'] if 'target' in i))
 
+    def test_disassembly_raw_words_roundtrip_every_code(self):
+        for c in self.ledger['codes']:
+            raw = b''.join(struct.pack('<I', w) for i in c['instructions'] for w in i['words_raw'])
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), c['sha256'], c['name'])
+
     def test_func_locals_exhausts_chunk(self):
         entries = self.ledger['functions']['locals']
         self.assertEqual(len(entries), 1354)

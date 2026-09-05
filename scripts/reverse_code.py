@@ -230,8 +230,7 @@ def analyze(data, expected_sha=SHA256):
         c['references'].sort(key=lambda v: v['offset'])
         c['instructions'] = disassemble(r, c)
         c['constant_prefix'] = constant_prefix(r, c)
-        if c['references']:
-            c['stage'] = 'references-resolved'
+        c['stage'] = 'structurally-disassembled'
     summary = dict(code_count=len(codes), variable_records=len(variables['records']),
         function_records=len(functions['records']), object_count=len(objects), room_count=len(rooms),
         variable_occurrences=sum(v['occurrence_count'] for v in variables['records']),
