@@ -7,7 +7,8 @@ using Underanalyzer.Decompiler;
 
 // A batch adapter for the pinned upstream decompiler; not a new decompiler.
 // Input bytes are never written back. Per-entry failures survive in JSONL.
-if (args.Length != 2) throw new ArgumentException("usage: Recover INPUT OUTPUT");
+if (args.Length is < 2 or > 3 || (args.Length == 3 && args[2] != "--roundtrip"))
+    throw new ArgumentException("usage: Recover INPUT OUTPUT [--roundtrip]");
 const string ExpectedHash = "9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6";
 const string UmtCommit = "f43e12c445c37d50dc6244caa12ccab232983f3f";
 const string AnalyzerCommit = "4ff50a866b4c1a7acee8cebe6a56d6a48709b453";
@@ -62,3 +63,5 @@ var summary = new { input_sha256 = inputHash, umt_commit = UmtCommit, underanaly
 File.WriteAllText(Path.Combine(output, "summary.json"), JsonSerializer.Serialize(summary, jsonOptions));
 Console.WriteLine(JsonSerializer.Serialize(summary));
 Environment.ExitCode = failed == 0 ? 0 : 2;
+if (failed == 0 && args.Length == 3 && !RoundTrip.Run(data, output))
+    Environment.ExitCode = 3;

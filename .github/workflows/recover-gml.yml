@@ -32,10 +32,10 @@ jobs:
       - name: Build source-recovery adapter
         run: dotnet build tools/gml-recover/Recover.csproj -c Release -p:UmtRoot="$GITHUB_WORKSPACE/.upstream/umt"
       - name: Recover every CODE entry
-        run: dotnet tools/gml-recover/bin/Release/net10.0/Recover.dll assets/game.droid recovered-gml
+        run: dotnet tools/gml-recover/bin/Release/net10.0/Recover.dll assets/game.droid recovered-gml --roundtrip
       - name: Verify complete identities, hashes and original anchors
         if: always() && hashFiles('recovered-gml/summary.json') != ''
-        run: python3 scripts/verify_gml.py assets/game.droid recovered-gml
+        run: python3 scripts/verify_gml.py assets/game.droid recovered-gml --require-roundtrip
       - name: Upload recovered code and failures
         if: always()
         uses: actions/upload-artifact@v4

@@ -8,7 +8,7 @@ import re
 from reverse_code import Reader, SHA256
 
 
-def verify(asset, directory):
+def verify(asset, directory, require_roundtrip=False):
     raw = asset.read_bytes()
     assert hashlib.sha256(raw).hexdigest() == SHA256, 'wrong input'
     codes = Reader(raw).codes()
@@ -49,6 +49,37 @@ def verify(asset, directory):
     report = dict(code_count=len(codes), exported=len(exported), failed_ids=failures,
                   warned_ids=warned, checked_constant_anchor_code_ids=sorted(anchors),
                   full_semantics_verified=0, runtime_verified=0)
+    if require_roundtrip:
+        trips = [json.loads(line) for line in (directory / 'roundtrip.jsonl').read_text().splitlines()]
+        assert sorted(t['id'] for t in trips) == list(range(len(codes)))
+        rt = json.loads((directory / 'roundtrip-summary.json').read_text())
+        good = [t for t in trips if t['status'] == 'compiled']
+        bad = [t for t in trips if t['status'] == 'failed']
+        assert len(good) + len(bad) == len(codes)
+        assert rt['compiled'] == len(good) and rt['failed'] == len(bad)
+        assert rt['same_symbolic_disassembly'] == sum(t['assembly_equal'] for t in good)
+        assert rt['same_redecompiled_text'] == sum(t['redecompiled_text_equal'] for t in good)
+        assert rt['raw_binary_equality_verified'] is False and rt['runtime_verified'] is False
+        expected_diffs = []
+        for t in trips:
+            assert t['name'] == codes[t['id']]['name']
+            if t['status'] == 'failed':
+                assert t['error']
+                continue
+            if not t['assembly_equal'] or not t['redecompiled_text_equal']:
+                stem = f"{t['id']:04d}"
+                before = (directory / 'roundtrip-differences' / (stem + '.before.asm')).read_text()
+                after = (directory / 'roundtrip-differences' / (stem + '.after.asm')).read_text()
+                again = (directory / 'roundtrip-differences' / (stem + '.after.gml')).read_text()
+                original = (directory / 'code' / (stem + '.gml')).read_text()
+                assert (before == after) == t['assembly_equal']
+                assert (again == original) == t['redecompiled_text_equal']
+                expected_diffs.extend(stem + suffix for suffix in ['.before.asm', '.after.asm', '.after.gml'])
+        assert sorted(p.name for p in (directory / 'roundtrip-differences').iterdir()) == sorted(expected_diffs)
+        report['roundtrip'] = rt
+        report['roundtrip_failed_ids'] = [t['id'] for t in bad]
+        report['assembly_difference_ids'] = [t['id'] for t in good if not t['assembly_equal']]
+        report['redecompilation_difference_ids'] = [t['id'] for t in good if not t['redecompiled_text_equal']]
     (directory / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
     return report
 
@@ -57,5 +88,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('asset', type=Path)
     parser.add_argument('output', type=Path)
+    parser.add_argument('--require-roundtrip', action='store_true')
     args = parser.parse_args()
-    print(json.dumps(verify(args.asset, args.output), indent=2))
+    print(json.dumps(verify(args.asset, args.output, args.require_roundtrip), indent=2))
