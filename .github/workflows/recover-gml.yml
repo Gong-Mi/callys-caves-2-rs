@@ -5,6 +5,7 @@ on:
     paths:
       - 'tools/gml-recover/**'
       - 'scripts/verify_gml.py'
+      - 'scripts/package_gml.py'
       - '.github/workflows/recover-gml.yml'
   workflow_dispatch:
 permissions:
@@ -36,6 +37,8 @@ jobs:
       - name: Verify complete identities, hashes and original anchors
         if: always() && hashFiles('recovered-gml/summary.json') != ''
         run: python3 scripts/verify_gml.py assets/game.droid recovered-gml --require-roundtrip
+      - name: Organize named source units and original owners
+        run: python3 scripts/package_gml.py assets/game.droid recovered-gml
       - name: Upload recovered code and failures
         if: always()
         uses: actions/upload-artifact@v4
