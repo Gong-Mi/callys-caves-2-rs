@@ -186,6 +186,31 @@ class Reader:
         return rooms
 
 
+def constant_prefix(reader, code):
+    """Only sequential push.i16 + pop.i16.variable, self/global normal refs.
+
+    This is a bounded bytecode template decoder. Stop on the first unsupported
+    instruction, including branches; never resynchronize by scanning words.
+    """
+    pos, end = code['start'], code['start'] + code['length']
+    refs = {r['offset']: r for r in code['references'] if r['kind'] == 'VARI'}
+    assignments = []
+    while pos + 12 <= end:
+        push, pop, target = [reader.u32(pos + i * 4) for i in range(3)]
+        if push >> 16 != 0x840f or pop not in (0x4525ffff, 0x4525fffb):
+            break
+        if target >> 24 != 0xa0 or pos + 4 not in refs:
+            break
+        value = struct.unpack_from('<h', reader.data, pos)[0]
+        assignments.append(dict(offset=pos, scope='self' if pop == 0x4525ffff else 'global',
+                                name=refs[pos + 4]['name'], value=value,
+                                variable_symbol_id=refs[pos + 4]['symbol_id'],
+                                words_raw=[push, pop, target]))
+        pos += 12
+    return dict(assignments=assignments, whole_body=pos == end,
+                stop_offset=pos, remaining_bytes=end - pos)
+
+
 def analyze(data, expected_sha=SHA256):
     digest = hashlib.sha256(data).hexdigest()
     require(digest == expected_sha, 'input SHA-256 mismatch')
@@ -199,6 +224,7 @@ def analyze(data, expected_sha=SHA256):
     rooms = r.rooms(codes)
     for c in codes:
         c['references'].sort(key=lambda v: v['offset'])
+        c['constant_prefix'] = constant_prefix(r, c)
         if c['references']:
             c['stage'] = 'references-resolved'
     summary = dict(code_count=len(codes), variable_records=len(variables['records']),
@@ -206,6 +232,9 @@ def analyze(data, expected_sha=SHA256):
         variable_occurrences=sum(v['occurrence_count'] for v in variables['records']),
         function_occurrences=sum(v['occurrence_count'] for v in functions['records']),
         code_without_direct_owner=[c['id'] for c in codes if not c['owners']],
+        constant_only_bodies=sum(bool(c['constant_prefix']['assignments']) and
+                                 c['constant_prefix']['whole_body'] for c in codes),
+        constant_prefix_assignments=sum(len(c['constant_prefix']['assignments']) for c in codes),
         semantics_recovered=0, behavior_verified=0)
     return dict(schema_version=1, input_sha256=digest, bytecode_version=version,
                 summary=summary, codes=codes, variables=variables, functions=functions,
@@ -220,6 +249,16 @@ def main():
     result = analyze(args.input.read_bytes())
     args.output.mkdir(parents=True, exist_ok=True)
     (args.output / 'ledger.json').write_text(json.dumps(result, indent=2) + '\n')
+    lines = ['Bounded constant-prefix reconstruction; NOT a complete decompiler.',
+             'Each unsupported remainder is explicit. Full event semantics/runtime remain unverified.']
+    for code in result['codes']:
+        body = code['constant_prefix']
+        lines.append(f"\nCODE {code['id']} {code['name']} @{code['start']:#x}")
+        for statement in body['assignments']:
+            lines.append(f"  @{statement['offset']:#x} {statement['scope']}.{statement['name']} = {statement['value']};")
+        lines.append('  END OF BODY' if body['whole_body'] else
+                     f"  UNRESOLVED @{body['stop_offset']:#x}: {body['remaining_bytes']} bytes")
+    (args.output / 'constant-prefix.txt').write_text('\n'.join(lines) + '\n')
     print(json.dumps(result['summary'], indent=2))
 
 
