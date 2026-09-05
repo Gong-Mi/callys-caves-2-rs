@@ -8,6 +8,8 @@ on:
       - 'scripts/reverse_code.py'
       - 'scripts/reverse_instructions.py'
       - 'scripts/test_reverse_code.py'
+      - 'scripts/test_reverse_cfg.py'
+      - 'scripts/reverse_cfg.py'
       - 'reconstruction/code-v1/**'
       - '.github/workflows/reverse-code.yml'
       - 'assets/game.droid'
@@ -19,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate full original input and malformed fixtures
-        run: python3 -m unittest discover -s scripts -p test_reverse_code.py -v
+        run: python3 -m unittest discover -s scripts -p 'test_reverse_*.py' -v
       - name: Export full ledger
         run: python3 scripts/reverse_code.py assets/game.droid --output reverse-output
       - uses: actions/upload-artifact@v4
