@@ -1,0 +1,45 @@
+name: Recover original GML
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/gml-recover/**'
+      - 'scripts/verify_gml.py'
+      - '.github/workflows/recover-gml.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout pinned upstream decompiler
+        uses: actions/checkout@v4
+        with:
+          repository: UnderminersTeam/UndertaleModTool
+          ref: f43e12c445c37d50dc6244caa12ccab232983f3f
+          path: .upstream/umt
+          submodules: recursive
+      - name: Verify upstream identities
+        run: |
+          test "$(git -C .upstream/umt rev-parse HEAD)" = f43e12c445c37d50dc6244caa12ccab232983f3f
+          test "$(git -C .upstream/umt/Underanalyzer rev-parse HEAD)" = 4ff50a866b4c1a7acee8cebe6a56d6a48709b453
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build source-recovery adapter
+        run: dotnet build tools/gml-recover/Recover.csproj -c Release -p:UmtRoot="$GITHUB_WORKSPACE/.upstream/umt"
+      - name: Recover every CODE entry
+        run: dotnet tools/gml-recover/bin/Release/net10.0/Recover.dll assets/game.droid recovered-gml
+      - name: Verify complete identities, hashes and original anchors
+        if: always() && hashFiles('recovered-gml/summary.json') != ''
+        run: python3 scripts/verify_gml.py assets/game.droid recovered-gml
+      - name: Upload recovered code and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovered-gml
+          path: recovered-gml/
+          if-no-files-found: warn

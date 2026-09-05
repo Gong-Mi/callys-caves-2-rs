@@ -4,3 +4,7 @@ Cargo.lock
 *.so
 scripts/__pycache__/
 reverse-output/
+.upstream/
+recovered-gml/
+tools/gml-recover/bin/
+tools/gml-recover/obj/
