@@ -2,6 +2,8 @@ pub mod save;
 pub mod original_player;
 pub mod original_player_combat;
 pub mod original_projectile_create;
+pub mod original_player_create;
+pub mod original_events;
 
 use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, SpriteData, WarpTarget};
 use serde::{Deserialize, Serialize};

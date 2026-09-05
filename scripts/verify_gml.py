@@ -56,6 +56,11 @@ def verify(asset, directory, require_roundtrip=False):
         for binding in bindings:
             assert (directory / f"code/{binding['code_id']:04d}.gml").read_text() == binding['gml']
             assert codes[binding['code_id']]['sha256'] == binding['bytecode_sha256']
+    initialization = json.loads((contract_root / 'player-initialization.json').read_text())
+    create = initialization['player_create']
+    assert initialization['asset_sha256'] == SHA256
+    assert (directory / 'code/0000.gml').read_text() == create['gml']
+    assert codes[0]['sha256'] == create['bytecode_sha256']
     report = dict(code_count=len(codes), exported=len(exported), failed_ids=failures,
                   warned_ids=warned, checked_constant_anchor_code_ids=sorted(anchors),
                   full_semantics_verified=0, runtime_verified=0)
