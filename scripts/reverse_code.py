@@ -190,7 +190,9 @@ class Reader:
 
 
 def constant_prefix(reader, code):
-    """Only sequential push.i16 + pop.i16.variable, self/global normal refs.
+    """Only sequential push.i16 + pop (type1=Variable, type2=Int32).
+
+    Restrict destinations to self/global normal references.
 
     This is a bounded bytecode template decoder. Stop on the first unsupported
     instruction, including branches; never resynchronize by scanning words.
