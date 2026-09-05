@@ -79,7 +79,8 @@ class LedgerTests(unittest.TestCase):
             self.parse_mutation(self.ledger['codes'][0]['record_offset'] + 12, 0x7fffffff)
 
     def test_variable_occurrence_outside_code(self):
-        pos = self.ledger['variables']['records'][0]['record_offset'] + 16
+        rec = next(r for r in self.ledger['variables']['records'] if r['occurrence_count'] > 0)
+        pos = rec['record_offset'] + 16
         with self.assertRaises(FormatError):
             self.parse_mutation(pos, 0)
 
@@ -97,6 +98,26 @@ class LedgerTests(unittest.TestCase):
         pos = self.reader.chunks['GEN8'][0]
         with self.assertRaisesRegex(FormatError, 'unsupported bytecode version'):
             self.parse_mutation(pos, 0x0e01)
+
+    def test_player_alarm8_exact_constant_body(self):
+        body = self.ledger['codes'][3]['constant_prefix']
+        self.assertTrue(body['whole_body'])
+        self.assertEqual([(s['scope'], s['name'], s['value']) for s in body['assignments']],
+                         [('self', 'invulnerable', 0), ('self', 'invulnerable2', 0)])
+
+    def test_player_create_stops_before_nonconstant_code(self):
+        body = self.ledger['codes'][0]['constant_prefix']
+        self.assertFalse(body['whole_body'])
+        self.assertEqual(len(body['assignments']), 9)
+        self.assertEqual(body['stop_offset'], self.ledger['codes'][0]['start'] + 108)
+        self.assertEqual(body['assignments'][-1]['scope'], 'global')
+
+    def test_constant_decoder_does_not_guess_array_assignment(self):
+        c = self.ledger['codes'][3]
+        data = self.mutated(c['start'] + 8, 0x000017e4)
+        result = analyze(data, hashlib.sha256(data).hexdigest())
+        self.assertEqual(result['codes'][3]['constant_prefix']['assignments'], [])
+        self.assertFalse(result['codes'][3]['constant_prefix']['whole_body'])
 
     def test_deterministic(self):
         self.assertEqual(analyze(self.data), self.ledger)
