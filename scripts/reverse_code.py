@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 import struct
 
+from reverse_instructions import disassemble, parse_locals, format_instruction
+
 SHA256 = '9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6'
 
 
@@ -20,6 +22,8 @@ def require(condition, message):
 
 
 class Reader:
+    require = staticmethod(require)
+
     def __init__(self, data):
         self.data = data
         self.chunks = {}
@@ -119,8 +123,7 @@ class Reader:
                 codes[code_id]['references'].append(ref)
                 rec['occurrences'].append(dict(offset=cur, code_id=code_id))
                 if ordinal + 1 < occurrences:
-                    delta = raw & 0xffffff
-                    delta = delta - 0x1000000 if delta & 0x800000 else delta
+                    delta = raw & 0x07ffffff
                     require(delta != 0, 'zero occurrence delta')
                     cur += delta
             records.append(rec)
@@ -199,7 +202,7 @@ def constant_prefix(reader, code):
         push, pop, target = [reader.u32(pos + i * 4) for i in range(3)]
         if push >> 16 != 0x840f or pop not in (0x4525ffff, 0x4525fffb):
             break
-        if target >> 24 != 0xa0 or pos + 4 not in refs:
+        if (target >> 24) & 0xf8 != 0xa0 or pos + 4 not in refs:
             break
         value = struct.unpack_from('<h', reader.data, pos)[0]
         assignments.append(dict(offset=pos, scope='self' if pop == 0x4525ffff else 'global',
@@ -220,10 +223,12 @@ def analyze(data, expected_sha=SHA256):
     codes = r.codes()
     variables = r.references(codes, 'VARI')
     functions = r.references(codes, 'FUNC')
+    functions['locals'] = parse_locals(r, functions, codes)
     objects = r.objects(codes)
     rooms = r.rooms(codes)
     for c in codes:
         c['references'].sort(key=lambda v: v['offset'])
+        c['instructions'] = disassemble(r, c)
         c['constant_prefix'] = constant_prefix(r, c)
         if c['references']:
             c['stage'] = 'references-resolved'
@@ -235,6 +240,10 @@ def analyze(data, expected_sha=SHA256):
         constant_only_bodies=sum(bool(c['constant_prefix']['assignments']) and
                                  c['constant_prefix']['whole_body'] for c in codes),
         constant_prefix_assignments=sum(len(c['constant_prefix']['assignments']) for c in codes),
+        instruction_count=sum(len(c['instructions']) for c in codes),
+        branch_count=sum('target' in i for c in codes for i in c['instructions']),
+        locals_entries=len(functions['locals']),
+        locals_variables=sum(len(e['variables']) for e in functions['locals']),
         semantics_recovered=0, behavior_verified=0)
     return dict(schema_version=1, input_sha256=digest, bytecode_version=version,
                 summary=summary, codes=codes, variables=variables, functions=functions,
@@ -259,6 +268,11 @@ def main():
         lines.append('  END OF BODY' if body['whole_body'] else
                      f"  UNRESOLVED @{body['stop_offset']:#x}: {body['remaining_bytes']} bytes")
     (args.output / 'constant-prefix.txt').write_text('\n'.join(lines) + '\n')
+    with (args.output / 'disassembly.txt').open('w') as out:
+        for code in result['codes']:
+            out.write(f"\nCODE {code['id']} {code['name']}\n")
+            for instruction in code['instructions']:
+                out.write(format_instruction(instruction) + '\n')
     print(json.dumps(result['summary'], indent=2))
 
 

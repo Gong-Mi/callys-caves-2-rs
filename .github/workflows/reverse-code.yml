@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/reverse_code.py'
+      - 'scripts/reverse_instructions.py'
       - 'scripts/test_reverse_code.py'
       - 'reconstruction/code-v1/**'
       - '.github/workflows/reverse-code.yml'
