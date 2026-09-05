@@ -8,6 +8,7 @@ from pathlib import Path
 import struct
 
 from reverse_instructions import disassemble, parse_locals, format_instruction
+from reverse_cfg import export_cfg
 
 SHA256 = '9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6'
 
@@ -274,7 +275,8 @@ def main():
             out.write(f"\nCODE {code['id']} {code['name']}\n")
             for instruction in code['instructions']:
                 out.write(format_instruction(instruction) + '\n')
-    print(json.dumps(result['summary'], indent=2))
+    cfg_summary = export_cfg(result, args.output)
+    print(json.dumps(dict(ledger=result['summary'], cfg=cfg_summary), indent=2))
 
 
 if __name__ == '__main__':
