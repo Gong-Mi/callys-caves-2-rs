@@ -12,6 +12,11 @@ on:
       - 'reconstruction/contracts/player-initialization.json'
       - 'scripts/player_initialization.py'
       - 'scripts/test_reverse_player_initialization.py'
+      - 'scripts/package_startup.py'
+      - 'scripts/generate_player_startup.py'
+      - 'scripts/test_reverse_startup.py'
+      - 'reconstruction/contracts/startup.json'
+      - 'crates/core/src/original_player_startup.rs'
       - 'scripts/patch_underanalyzer.py'
       - '.github/workflows/recover-gml.yml'
   workflow_dispatch:
@@ -61,6 +66,10 @@ jobs:
           cmp reconstruction/contracts/player-combat.json combat-contract.json
           python3 scripts/player_initialization.py recovered-gml/restored-source --output initialization-contract.json
           cmp reconstruction/contracts/player-initialization.json initialization-contract.json
+          python3 scripts/package_startup.py recovered-gml/restored-source --output startup-contract.json
+          cmp reconstruction/contracts/startup.json startup-contract.json
+          python3 scripts/generate_player_startup.py recovered-gml/restored-source/gml/0017__gml_Object_obj_player_Other_2.gml --output startup-generated.rs
+          cmp crates/core/src/original_player_startup.rs startup-generated.rs
       - name: Upload upstream test results
         if: always()
         uses: actions/upload-artifact@v4

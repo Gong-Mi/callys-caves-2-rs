@@ -47,7 +47,7 @@ def verify(asset, directory, require_roundtrip=False):
         for var in variables:
             assert re.search(rf'\b{var}\s*=\s*0\s*;', text), f'missing original anchor {idx}:{var}'
     contract_root = Path(__file__).resolve().parents[1] / 'reconstruction/contracts'
-    for name in ('player-alarms.json', 'player-combat.json'):
+    for name in ('player-alarms.json', 'player-combat.json', 'startup.json'):
         contract = json.loads((contract_root / name).read_text())
         assert contract['asset_sha256'] == SHA256
         bindings = list(contract['bindings'])

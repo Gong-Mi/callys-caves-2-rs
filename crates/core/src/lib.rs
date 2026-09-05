@@ -4,6 +4,8 @@ pub mod original_player_combat;
 pub mod original_projectile_create;
 pub mod original_player_create;
 pub mod original_events;
+pub mod original_startup;
+pub mod original_player_startup;
 
 use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, SpriteData, WarpTarget};
 use serde::{Deserialize, Serialize};
