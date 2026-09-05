@@ -73,6 +73,73 @@ class CFGTests(unittest.TestCase):
             cfg(code([instruction(100, 0x84), instruction(108, 0x84)], 12))
 
 
+class MagicPopEnvTests(unittest.TestCase):
+    # Synthetic instruction fixtures: pinned original asset has no magic popenv.
+    def magic(self, offset):
+        item = instruction(offset, 0xbb, popenv_exit_magic=True)
+        item['words_raw'] = [0xbbf00000]
+        return item
+
+    def test_cleanup_in_middle_does_not_split_or_terminate(self):
+        result = cfg(code([instruction(100, 0x84), self.magic(104), instruction(108, 0x84)]))
+        self.assertEqual(len(result['blocks']), 1)
+        self.assertEqual(result['blocks'][0]['instruction_offsets'], [100, 104, 108])
+        self.assertEqual(result['blocks'][0]['edges'], [dict(target=112, kind='end')])
+        cleanup = result['environment_ops'][0]
+        self.assertEqual(cleanup['effect'], 'pop_with_context')
+        self.assertEqual(cleanup['fallthrough'], 108)
+        self.assertNotIn('encoded_target', cleanup)
+        self.assertFalse(result['environment_runtime_verified'])
+
+    def test_cleanup_at_code_end_is_not_exit_instruction(self):
+        result = cfg(code([self.magic(100)]))
+        self.assertEqual(result['blocks'][0]['edges'], [dict(target=104, kind='end')])
+
+    def test_cleanup_followed_by_jump_keeps_jump(self):
+        result = cfg(code([self.magic(100), instruction(104, 0xb6, target=112),
+                           instruction(108, 0x84), instruction(112, 0x84)]))
+        self.assertEqual(result['blocks'][0]['instruction_offsets'], [100, 104])
+        self.assertEqual(result['blocks'][0]['edges'], [dict(target=112, kind='jump')])
+        self.assertEqual(result['unreachable_blocks'], [108])
+
+    def test_consecutive_cleanups_preserve_each_effect_before_return(self):
+        result = cfg(code([self.magic(100), self.magic(104), instruction(108, 0x9c)]))
+        self.assertEqual([e['offset'] for e in result['environment_ops']], [100, 104])
+        self.assertEqual(result['blocks'][0]['edges'], [dict(target=112, kind='return')])
+
+    def test_branch_may_land_on_cleanup(self):
+        result = cfg(code([instruction(100, 0xb8, target=108), instruction(104, 0x84),
+                           self.magic(108), instruction(112, 0x84)]))
+        block = next(b for b in result['blocks'] if b['start'] == 108)
+        self.assertEqual(block['instruction_offsets'], [108, 112])
+        self.assertEqual(block['edges'], [dict(target=116, kind='end')])
+
+    def test_magic_marker_on_other_opcode_is_invalid(self):
+        with self.assertRaises(ValueError):
+            cfg(code([instruction(100, 0xb6, popenv_exit_magic=True)]))
+
+    def test_magic_with_relative_target_is_invalid(self):
+        item = self.magic(100)
+        item['target'] = 104
+        with self.assertRaises(ValueError):
+            cfg(code([item]))
+
+    def test_raw_word_through_disassembler_then_cfg(self):
+        import struct
+        from reverse_code import Reader
+        from reverse_instructions import disassemble
+        payload = struct.pack('<III', 0x840f0001, 0xbbf00000, 0x840f0002)
+        reader = Reader(b'FORM' + struct.pack('<I', 8 + len(payload)) +
+                        b'TEST' + struct.pack('<I', len(payload)) + payload)
+        c = dict(id=0, name='raw_magic_fixture', start=16, length=len(payload), references=[])
+        c['instructions'] = disassemble(reader, c)
+        self.assertTrue(c['instructions'][1]['popenv_exit_magic'])
+        self.assertNotIn('target', c['instructions'][1])
+        result = cfg(c)
+        self.assertEqual(len(result['blocks']), 1)
+        self.assertEqual(result['blocks'][0]['edges'], [dict(target=28, kind='end')])
+
+
 class RealCFGTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
