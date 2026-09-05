@@ -119,6 +119,37 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(result['codes'][3]['constant_prefix']['assignments'], [])
         self.assertFalse(result['codes'][3]['constant_prefix']['whole_body'])
 
+    def test_instruction_boundaries_and_reference_bijection(self):
+        instructions = [i for c in self.ledger['codes'] for i in c['instructions']]
+        self.assertEqual(len(instructions), 245144)
+        self.assertEqual(sum('target' in i for i in instructions), 15708)
+        self.assertEqual(sum('reference' in i for i in instructions), 67190)
+        for c in self.ledger['codes']:
+            self.assertEqual(sum(i['size'] for i in c['instructions']), c['length'])
+            boundaries = {i['offset'] for i in c['instructions']} | {c['start'] + c['length']}
+            self.assertTrue(all(i['target'] in boundaries for i in c['instructions'] if 'target' in i))
+
+    def test_func_locals_exhausts_chunk(self):
+        entries = self.ledger['functions']['locals']
+        self.assertEqual(len(entries), 1354)
+        self.assertEqual(sum(len(e['variables']) for e in entries), 1368)
+        self.assertEqual({e['code_name'] for e in entries}, {c['name'] for c in self.ledger['codes']})
+
+    def test_reference_cannot_point_into_immediate(self):
+        # Move a used first-occurrence to the adjacent reference payload word.
+        rec = next(r for r in self.ledger['variables']['records'] if r['occurrence_count'] == 1)
+        with self.assertRaises(FormatError):
+            self.parse_mutation(rec['record_offset'] + 16, rec['first_occurrence_raw'] + 4)
+
+    def test_branch_cannot_target_immediate_payload(self):
+        # First player Create bf @0x396d3c normally skips to @0x396d4c.
+        with self.assertRaises(FormatError):
+            self.parse_mutation(0x396d3c, 0xb8000003)
+
+    def test_unknown_opcode_fails_closed(self):
+        with self.assertRaises(FormatError):
+            self.parse_mutation(self.ledger['codes'][0]['start'], 0xfe000000)
+
     def test_deterministic(self):
         self.assertEqual(analyze(self.data), self.ledger)
 
