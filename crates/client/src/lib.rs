@@ -367,6 +367,11 @@ impl GameState {
             // Scene consumes mb_left via mouse_pressed. Any attack/jump input is a tap.
             scene.mouse_pressed = self.input.attack || self.input.jump;
             scene.tick(bundle).expect("prologue IR tick failed; no fallback");
+            // Audio commands carry the exact sound id the original bytecode
+            // passed to audio_play_sound; drain them into the platform queue.
+            for command in scene.audio.drain(..) {
+                self.sound_queue.push_back(command.sound.max(0) as usize);
+            }
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
             if intro_alive {
                 return;
@@ -691,6 +696,30 @@ impl Framebuffer {
         self.pixels[i + 3] = color.3; // A
     }
 
+    /// Source-alpha blend onto the current pixel (GM draw alpha semantics).
+    fn put_blended(&mut self, x: i32, y: i32, color: (u8, u8, u8, u8), alpha: f32) {
+        if x < 0 || y < 0 {
+            return;
+        }
+        let (x, y) = (x as u32, y as u32);
+        if x >= self.width || y >= self.height {
+            return;
+        }
+        let a = alpha.clamp(0.0, 1.0);
+        if a >= 1.0 {
+            self.put(x as i32, y as i32, color);
+            return;
+        }
+        let i = ((y * self.width + x) * 4) as usize;
+        let blend = |src: u8, dst: u8| -> u8 {
+            (src as f32 * a + dst as f32 * (1.0 - a)).round() as u8
+        };
+        self.pixels[i] = blend(color.2, self.pixels[i]);
+        self.pixels[i + 1] = blend(color.1, self.pixels[i + 1]);
+        self.pixels[i + 2] = blend(color.0, self.pixels[i + 2]);
+        self.pixels[i + 3] = color.3.max(self.pixels[i + 3]);
+    }
+
     fn fill_rect(&mut self, x: i32, y: i32, w: u32, h: u32, color: (u8, u8, u8, u8)) {
         if w == 0 || h == 0 {
             return;
@@ -731,6 +760,10 @@ impl Framebuffer {
     }
 
     fn blit_scaled(&mut self, atlas: &RgbaImage, src: (u32, u32, u32, u32), dst: (i32, i32, u32, u32), flip_x: bool) {
+        self.blit_scaled_alpha(atlas, src, dst, flip_x, 1.0);
+    }
+
+    fn blit_scaled_alpha(&mut self, atlas: &RgbaImage, src: (u32, u32, u32, u32), dst: (i32, i32, u32, u32), flip_x: bool, alpha: f32) {
         let (sx, sy, sw, sh) = src;
         let (dx, dy, dw, dh) = dst;
         if sw == 0 || sh == 0 || dw == 0 || dh == 0 { return; }
@@ -745,20 +778,28 @@ impl Framebuffer {
                 let src_x = sx + if flip_x { sw - 1 - sample_x } else { sample_x };
                 if src_x >= atlas.width() || src_y >= atlas.height() { continue; }
                 let rgba = atlas.get_pixel(src_x, src_y).0;
-                if rgba[3] >= 16 { self.put(px, py, (rgba[0], rgba[1], rgba[2], rgba[3])); }
+                if rgba[3] >= 16 {
+                    // Per-pixel source alpha times draw alpha (GM image_blend alpha).
+                    let combined = (rgba[3] as f32 / 255.0) * alpha;
+                    self.put_blended(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]), combined);
+                }
             }
         }
     }
 }
 
 fn draw_sprite(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: usize, dst: (i32, i32, u32, u32), flip_x: bool) -> bool {
+    draw_sprite_alpha(fb, state, sprite_id, frame, dst, flip_x, 1.0)
+}
+
+fn draw_sprite_alpha(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: usize, dst: (i32, i32, u32, u32), flip_x: bool, alpha: f32) -> bool {
     let Ok(sprite_id) = usize::try_from(sprite_id) else { return false; };
     let Some(sprite) = state.asset.sprites.get(&sprite_id) else { return false; };
     if sprite.tpag_indices.is_empty() { return false; }
     let frame_ptr = sprite.tpag_indices[frame % sprite.tpag_indices.len()] as usize;
     let Some(page) = state.asset.tpag_items.get(&frame_ptr) else { return false; };
     let Some(atlas) = state.atlases.get(page.tex_id as usize) else { return false; };
-    fb.blit_scaled(atlas, (page.x as u32, page.y as u32, page.w as u32, page.h as u32), dst, flip_x);
+    fb.blit_scaled_alpha(atlas, (page.x as u32, page.y as u32, page.w as u32, page.h as u32), dst, flip_x, alpha);
     true
 }
 
@@ -805,11 +846,11 @@ pub fn draw_frame(
             let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
             let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
             let frame = cmd.frame.max(0.0) as usize;
-            let alpha = cmd.alpha.clamp(0.0, 1.0);
+            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
             if alpha <= 0.0 {
                 continue;
             }
-            if !draw_sprite(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false) {
+            if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
                 fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
             }
         }
