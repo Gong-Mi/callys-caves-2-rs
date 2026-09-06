@@ -2,9 +2,39 @@
 use serde::Deserialize;
 
 #[derive(Debug, Clone, Deserialize)]
-pub struct Bundle { pub schema: u32, pub objects: Vec<Object>, pub codes: Vec<Code> }
+pub struct Bundle {
+    pub schema: u32,
+    pub objects: Vec<Object>,
+    #[serde(default)]
+    pub room_bindings: Vec<RoomBinding>,
+    pub codes: Vec<Code>,
+}
+
 #[derive(Debug, Clone, Deserialize)]
-pub struct Object { pub id: i32, pub name: String, pub sprite: i32, pub depth: i32, pub events: Vec<Event> }
+pub struct RoomBinding {
+    pub room_id: usize,
+    pub room_name: String,
+    pub object_id: i32,
+    pub instance_id: i32,
+    pub code_id: usize,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct Object {
+    pub id: i32,
+    pub name: String,
+    pub sprite: i32,
+    pub depth: i32,
+    #[serde(default = "default_parent")]
+    pub parent: i32,
+    #[serde(default)]
+    pub parent_chain: Vec<i32>,
+    pub events: Vec<Event>,
+}
+
+fn default_parent() -> i32 {
+    -100
+}
 #[derive(Debug, Clone, Deserialize)]
 pub struct Event { pub event_type: i32, pub subtype: i32, pub codes: Vec<usize> }
 #[derive(Debug, Clone, Deserialize)]
@@ -14,7 +44,7 @@ pub struct Instruction { pub offset: usize, pub code_offset: usize, pub words_ra
 #[derive(Debug, Clone, Deserialize)]
 #[serde(tag = "op", rename_all = "snake_case")]
 pub enum Op {
-    Constant { value: f64 }, Load { name: String, selector: i32, array: bool },
+    Constant { value: f64 }, String { string_id: usize }, Load { name: String, selector: i32, array: bool },
     Store { name: String, selector: i32, array: bool }, LoadLocal { name: String },
     StoreLocal { name: String }, Cast { to: u8 },
     Add, Sub, Mul, Div, Not, Dup, And, Cmp { comparison: u8 }, B { target: usize }, Bt { target: usize }, Bf { target: usize },
@@ -76,6 +106,7 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
             budget -= 1; pc += 1;
             match &i.op {
                 Op::Constant{value} => stack.push(*value),
+                Op::String{string_id} => stack.push(*string_id as f64),
                 Op::Load{name,selector,array} => {
                     let (s, index) = if *array { let idx=integer(pop(&mut stack)?)?; (integer(pop(&mut stack)?)?,Some(idx)) } else { (*selector,None) };
                     stack.push(host.read(current,s,name,index)?);
@@ -132,4 +163,11 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
         Ok(())
     })();
     result.map_err(|message| VmError{code,offset,message})
+}
+
+pub fn load_bundle_from_file<P: AsRef<std::path::Path>>(path: P) -> Result<Bundle, Box<dyn std::error::Error>> {
+    let file = std::fs::File::open(path)?;
+    let reader = std::io::BufReader::new(file);
+    let bundle = serde_json::from_reader(reader)?;
+    Ok(bundle)
 }
