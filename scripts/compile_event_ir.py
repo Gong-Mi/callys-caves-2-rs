@@ -26,6 +26,9 @@ def lower(code, instructions):
                 require(i['type1'] in (0, 2, 15) and isinstance(i['value'], (int, float)),
                         where + ': unsupported numeric type')
                 row.update(op='constant', value=i['value'])
+            elif i['type1'] == 6:
+                # String literal: STRG id preserved; host resolves the text.
+                row.update(op='string', string_id=i['string_id'])
             else:
                 require(i['type1'] == 5, where + ': unsupported push (including strings)')
                 # pushloc is a per-call local; the VM hosts locals separately.
@@ -33,31 +36,43 @@ def lower(code, instructions):
                     row.update(op='load_local', name=i['reference']['name'])
                 else:
                     row.update(op='load', name=i['reference']['name'], selector=i['instance_raw'],
-                               array=i['reference_type'] == 0)
-                    require(i['reference_type'] in (0, 160), where + ': unsupported reference mode')
+                               array=i['reference_type'] == 0, other=i['reference_type'] == 128)
+                    require(i['reference_type'] in (0, 128, 160), where + ': unsupported reference mode')
         elif op == 'pop':
             # Local-variable pop: type1=5 with array-scope marker and instance -7.
             if i['type1'] == 5 and i.get('reference_type') == 160 and i.get('instance_raw') == -7:
                 row.update(op='store_local', name=i['reference']['name'])
             else:
-                require(i['type1'] == 5 and i['type2'] in (0, 2, 5), where + ': unsupported store type')
-                require(i['reference_type'] in (0, 160), where + ': unsupported reference mode')
+                # type1/type2 record the value type pushed for the store.
+                require(i['type1'] in (2, 5) and i['type2'] in (0, 2, 5, 6), where + ': unsupported store type')
+                require(i['reference_type'] in (0, 128, 160), where + ': unsupported reference mode')
                 row.update(op='store', name=i['reference']['name'], selector=i['instance_raw'],
-                           array=i['reference_type'] == 0)
+                           array=i['reference_type'] == 0, other=i['reference_type'] == 128)
         elif op == 'conv':
-            require(i['type1'] in (0, 2, 4, 5) and i['type2'] in (0, 2, 4, 5),
+            # (6,5) string->value handled by host at Cast time via string_id stack.
+            require(i['type1'] in (0, 2, 4, 5, 6) and i['type2'] in (0, 2, 4, 5),
                     where + ': unsupported conversion')
             row.update(op='cast', to=i['type2'])
         elif op in ('add', 'sub', 'mul', 'div', 'cmp'):
-            require(i['type1'] in (0, 2, 5) and i['type2'] in (0, 2, 5),
+            # type1/type2 are operand type hints; the VM is uniformly f64.
+            # (5,6)/(6,5) pairs compare against strings the host resolves.
+            require(i['type1'] in (0, 2, 5, 6) and i['type2'] in (0, 2, 5, 6),
                     where + ': unsupported arithmetic type')
             # Numeric f64 subset; no integer overflow/wrapping contract yet.
             row.update(op=op)
             if op == 'cmp':
                 require(i['comparison'] in range(1, 7), where + ': unsupported comparison')
                 row['comparison'] = i['comparison']
+        elif op == 'dup':
+            # Duplicates the top stack slot (variable reference chains).
+            require(i['type1'] in (0, 2, 5), where + ': unsupported dup type')
+            row.update(op='dup')
+        elif op == 'and':
+            # Short-circuit-free bitwise/boolean and on i32 pair.
+            require(i['type1'] == 2 and i['type2'] == 2, where + ': unsupported and type')
+            row.update(op='and')
         elif op == 'not':
-            require(i['type1'] == 4 and i['type2'] in (0, 4), where + ': unsupported not type')
+            require(i['type1'] == 4 and i['type2'] in (0, 2, 4), where + ': unsupported not type')
             row.update(op='not')
         elif op in ('b', 'bt', 'bf', 'pushenv', 'popenv'):
             require(not i.get('popenv_exit_magic'), where + ': magic environment cleanup unsupported')
@@ -85,17 +100,40 @@ def compile_asset(data, names=DEFAULT_OBJECTS):
     ids = sorted({a['code_id'] for o in selected for e in o['events'] for a in e['actions']
                   if a['code_id'] >= 0})
     result = []
+    # ROOM creation-code bindings: instance code ids resolve to their room and
+    # object so the host can run the exact original creation body per instance.
+    rooms = reader.rooms(codes)
+    room_bindings = []
+    for room in rooms:
+        cid = None
+        for inst in room['instances']:
+            if inst['code_id'] >= 0:
+                room_bindings.append(dict(room_id=room['id'], room_name=room['name'],
+                    object_id=inst['object_id'], instance_id=inst['instance_id'],
+                    code_id=inst['code_id']))
+    by_id = {o['id']: o for o in objects}
     for o in selected:
-        require(o['parent_id'] < 0, 'inherited events not yet supported: ' + o['name'])
+        # Inheritance chain is exported verbatim; the host resolves inherited
+        # events at load time. Compiler does not silently flatten.
+        chain = []
+        cur = o
+        while cur['parent_id'] >= 0:
+            chain.append(cur['parent_id'])
+            cur = by_id.get(cur['parent_id'])
+            require(cur is not None, 'unknown parent in chain for ' + o['name'])
         events = []
         for e in o['events']:
             require(all(a['code_id'] >= 0 for a in e['actions']), 'non-CODE action unsupported')
             events.append(dict(event_type=e['type'], subtype=e['subtype'],
                                codes=[a['code_id'] for a in e['actions']]))
         result.append(dict(id=o['id'], name=o['name'], sprite=o['sprite_id'],
-                           depth=reader.i32(o['record_offset'] + 20), events=events))
+                           depth=reader.i32(o['record_offset'] + 20),
+                           parent=o['parent_id'], parent_chain=chain, events=events))
+    # Room creation-code bodies are part of the same executable surface.
+    ids = set(ids) | {b['code_id'] for b in room_bindings}
     return dict(schema=1, source_sha256=SHA256, numeric_model='finite-f64-subset',
-                objects=result, codes=[lower(codes[c], disassemble(reader, codes[c])) for c in ids])
+                objects=result, room_bindings=room_bindings,
+                codes=[lower(codes[c], disassemble(reader, codes[c])) for c in sorted(ids)])
 
 
 def main():

@@ -17,7 +17,7 @@ pub enum Op {
     Constant { value: f64 }, Load { name: String, selector: i32, array: bool },
     Store { name: String, selector: i32, array: bool }, LoadLocal { name: String },
     StoreLocal { name: String }, Cast { to: u8 },
-    Add, Sub, Mul, Div, Not, Cmp { comparison: u8 }, B { target: usize }, Bt { target: usize }, Bf { target: usize },
+    Add, Sub, Mul, Div, Not, Dup, And, Cmp { comparison: u8 }, B { target: usize }, Bt { target: usize }, Bf { target: usize },
     Pushenv { target: usize }, Popenv { target: usize }, Call { name: String, argc: usize }, Popz, Exit,
 }
 #[derive(Debug, Clone, PartialEq)]
@@ -99,6 +99,8 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                     }; stack.push(v);
                 }
                 Op::Not => { let v=pop(&mut stack)?; stack.push(if v>=0.5 {0.0} else {1.0}); }
+                Op::Dup => { let v=pop(&mut stack)?; stack.push(v); stack.push(v); }
+                Op::And => { let rhs=pop(&mut stack)?; let lhs=pop(&mut stack)?; stack.push(((lhs as i64 as i32) & (rhs as i64 as i32)) as f64); }
                 Op::LoadLocal{name} => { let v=*locals.get(name).ok_or(format!("undefined local {name}"))?; stack.push(v); }
                 Op::B{target} => pc=boundaries[target],
                 Op::Bt{target}|Op::Bf{target} => {
