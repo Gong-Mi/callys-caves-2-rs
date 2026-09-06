@@ -1,6 +1,17 @@
 pub mod save;
+pub mod code_vm;
+pub mod ir_scene;
+pub mod original_player;
+pub mod original_player_combat;
+pub mod original_projectile_create;
+pub mod original_player_create;
+pub mod original_events;
+pub mod original_startup;
+pub mod original_player_startup;
+pub mod original_introduction;
+pub mod original_boss_trex;
 
-use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, SpriteData, WarpTarget};
+use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, RoomTileInstance, SpriteData, WarpTarget};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeSet, HashMap};
 
@@ -215,6 +226,7 @@ fn enemy_type_for_object_name(name: &str) -> Option<EnemyType> {
         "obj_shooter1" | "obj_shooter2" => Some(EnemyType::Shooter),
         "obj_knifebandit" => Some(EnemyType::KnifeBandit),
         "obj_firehulk" => Some(EnemyType::FireHulk),
+        "obj_trex" => Some(EnemyType::Boss),
         _ => None,
     }
 }
@@ -264,6 +276,7 @@ impl Projectile {
 pub struct SolidTile {
     pub rect: Rect,
     pub is_boulder: bool,
+    pub is_bossboulder: bool,
     pub sprite_id: i32,
 }
 
@@ -353,6 +366,8 @@ pub struct GameWorld {
     pub checkpoint: Checkpoint,
     pub respawn_timer: f32,
     pub collected_instance_ids: BTreeSet<i32>,
+    pub room_tiles: Vec<RoomTileInstance>,
+    pub boss1_dead: bool,
 }
 
 impl GameWorld {
@@ -381,6 +396,8 @@ impl GameWorld {
             checkpoint: Checkpoint { room_index: 0, x: 100.0, y: 100.0 },
             respawn_timer: 0.0,
             collected_instance_ids: BTreeSet::new(),
+            room_tiles: Vec::new(),
+            boss1_dead: false,
         }
     }
 
@@ -398,6 +415,9 @@ impl GameWorld {
         self.player.current_weapon = save.current_weapon;
         self.player.unlocked_weapons = save.unlocked_weapons.clone();
         self.collected_instance_ids = save.collected_instance_ids.iter().copied().collect();
+        if self.boss1_dead {
+            self.solids.retain(|s| !s.is_bossboulder);
+        }
     }
 
     pub fn load_room(
@@ -424,6 +444,7 @@ impl GameWorld {
         self.hazards.clear();
         self.warps.clear();
         self.pending_room_warp = None;
+        self.room_tiles = room.tiles.clone();
 
         for (inst_idx, inst) in room.objects.iter().enumerate() {
             let obj_info = objects_info.get(inst.object_id as usize);
@@ -447,6 +468,7 @@ impl GameWorld {
                     self.solids.push(SolidTile {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
                         is_boulder: false,
+                        is_bossboulder: false,
                         sprite_id: spr_id,
                     });
                 }
@@ -454,15 +476,27 @@ impl GameWorld {
                     self.platforms.push(SolidTile {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 8.0),
                         is_boulder: false,
+                        is_bossboulder: false,
                         sprite_id: spr_id,
                     });
                 }
-                "obj_boulder" | "obj_boulderblock" | "obj_bossboulder" => {
+                "obj_boulder" | "obj_boulderblock" => {
                     self.solids.push(SolidTile {
                         rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
                         is_boulder: true,
+                        is_bossboulder: false,
                         sprite_id: spr_id,
                     });
+                }
+                "obj_bossboulder" => {
+                    if !self.boss1_dead {
+                        self.solids.push(SolidTile {
+                            rect: Rect::new(inst.x as f32, inst.y as f32, 32.0, 32.0),
+                            is_boulder: true,
+                            is_bossboulder: true,
+                            sprite_id: spr_id,
+                        });
+                    }
                 }
                 "obj_gem" => {
                     if self.collected_instance_ids.contains(&inst.instance_id) {
@@ -894,6 +928,16 @@ impl GameWorld {
             }
         }
 
+        // Check if boss died
+        for enemy in &self.enemies {
+            if enemy.enemy_type == EnemyType::Boss && enemy.health <= 0 {
+                self.boss1_dead = true;
+            }
+        }
+        if self.boss1_dead {
+            self.solids.retain(|s| !s.is_bossboulder);
+        }
+
         // Remove dead enemies
         self.enemies.retain(|e| e.health > 0);
 
@@ -990,6 +1034,7 @@ mod tests {
         world.solids.push(SolidTile {
             rect: Rect::new(0.0, world.player.y + world.player.height, 1000.0, 32.0),
             is_boulder: false,
+            is_bossboulder: false,
             sprite_id: -1,
         });
         world.update(
@@ -1316,6 +1361,7 @@ mod tests {
         world.solids.push(SolidTile {
             rect: Rect::new(0.0, 300.0, 500.0, 32.0),
             is_boulder: false,
+            is_bossboulder: false,
             sprite_id: -1,
         });
 
@@ -1349,6 +1395,7 @@ mod tests {
         world.solids.push(SolidTile {
             rect: Rect::new(0.0, 300.0, 500.0, 32.0),
             is_boulder: false,
+            is_bossboulder: false,
             sprite_id: -1,
         });
 
@@ -1599,6 +1646,7 @@ mod tests {
         world.platforms.push(SolidTile {
             rect: Rect::new(96.0, 400.0, 64.0, 8.0),
             is_boulder: false,
+            is_bossboulder: false,
             sprite_id: 35,
         });
 
@@ -1659,6 +1707,7 @@ mod tests {
         world.solids.push(SolidTile {
             rect: Rect::new(0.0, 138.0, 1000.0, 32.0),
             is_boulder: false,
+            is_bossboulder: false,
             sprite_id: -1,
         });
         world.update(0.0, &InputState::default());
@@ -1701,7 +1750,7 @@ mod tests {
     fn real_asset_all_supported_enemy_instances_use_sprite_origin_scale_geometry() {
         use std::collections::BTreeMap;
 
-        const SUPPORTED: [&str; 11] = [
+        const SUPPORTED: [&str; 12] = [
             "obj_enemy",
             "obj_enemy2",
             "obj_slime",
@@ -1713,6 +1762,7 @@ mod tests {
             "obj_shooter2",
             "obj_knifebandit",
             "obj_firehulk",
+            "obj_trex",
         ];
 
         let asset_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))

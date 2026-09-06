@@ -1,0 +1,4932 @@
+{
+  "schema": 1,
+  "source_sha256": "9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6",
+  "numeric_model": "finite-f64-subset",
+  "objects": [
+    {
+      "id": 135,
+      "name": "obj_logo",
+      "sprite": 160,
+      "depth": 0,
+      "events": [
+        {
+          "event_type": 0,
+          "subtype": 0,
+          "codes": [
+            545
+          ]
+        },
+        {
+          "event_type": 8,
+          "subtype": 0,
+          "codes": [
+            546
+          ]
+        }
+      ]
+    },
+    {
+      "id": 136,
+      "name": "obj_phone",
+      "sprite": 161,
+      "depth": 0,
+      "events": [
+        {
+          "event_type": 8,
+          "subtype": 0,
+          "codes": [
+            547
+          ]
+        }
+      ]
+    },
+    {
+      "id": 137,
+      "name": "obj_introduction",
+      "sprite": 161,
+      "depth": 0,
+      "events": [
+        {
+          "event_type": 0,
+          "subtype": 0,
+          "codes": [
+            548
+          ]
+        },
+        {
+          "event_type": 1,
+          "subtype": 0,
+          "codes": [
+            549
+          ]
+        },
+        {
+          "event_type": 2,
+          "subtype": 3,
+          "codes": [
+            550
+          ]
+        },
+        {
+          "event_type": 2,
+          "subtype": 2,
+          "codes": [
+            551
+          ]
+        },
+        {
+          "event_type": 2,
+          "subtype": 1,
+          "codes": [
+            552
+          ]
+        },
+        {
+          "event_type": 2,
+          "subtype": 0,
+          "codes": [
+            553
+          ]
+        },
+        {
+          "event_type": 3,
+          "subtype": 0,
+          "codes": [
+            554
+          ]
+        },
+        {
+          "event_type": 8,
+          "subtype": 0,
+          "codes": [
+            555
+          ]
+        }
+      ]
+    }
+  ],
+  "codes": [
+    {
+      "id": 545,
+      "name": "gml_Object_obj_logo_Create_0",
+      "start": 4844940,
+      "end": 4844952,
+      "sha256": "a8f4a6c5ae61dee0e2ced08efd3cae8d6180d59fb7f8e821c356699954e3d92b",
+      "instructions": [
+        {
+          "offset": 4844940,
+          "code_offset": 0,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4844944,
+          "code_offset": 4,
+          "words_raw": [
+            1160118271,
+            2684354588
+          ],
+          "op": "store",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        }
+      ]
+    },
+    {
+      "id": 546,
+      "name": "gml_Object_obj_logo_Draw_0",
+      "start": 4844952,
+      "end": 4845704,
+      "sha256": "2422c3e9caa36832bc8b7df6cb5df0426890ab7413007ff6e26890ab1c61cab2",
+      "instructions": [
+        {
+          "offset": 4844952,
+          "code_offset": 0,
+          "words_raw": [
+            3271950335,
+            2684354680
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4844960,
+          "code_offset": 8,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4844964,
+          "code_offset": 12,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4844968,
+          "code_offset": 16,
+          "words_raw": [
+            3087007770
+          ],
+          "op": "bf",
+          "target": 4845072
+        },
+        {
+          "offset": 4844972,
+          "code_offset": 20,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4844980,
+          "code_offset": 28,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4844984,
+          "code_offset": 32,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4844988,
+          "code_offset": 36,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4844992,
+          "code_offset": 40,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4844996,
+          "code_offset": 44,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1071225241
+          ],
+          "op": "constant",
+          "value": 0.4
+        },
+        {
+          "offset": 4845008,
+          "code_offset": 56,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845012,
+          "code_offset": 60,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1071225241
+          ],
+          "op": "constant",
+          "value": 0.4
+        },
+        {
+          "offset": 4845024,
+          "code_offset": 72,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845028,
+          "code_offset": 76,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "y",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845036,
+          "code_offset": 84,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "x",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845044,
+          "code_offset": 92,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845048,
+          "code_offset": 96,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845052,
+          "code_offset": 100,
+          "words_raw": [
+            2215575712
+          ],
+          "op": "constant",
+          "value": 160
+        },
+        {
+          "offset": 4845056,
+          "code_offset": 104,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845060,
+          "code_offset": 108,
+          "words_raw": [
+            3640786953,
+            120
+          ],
+          "op": "call",
+          "name": "draw_sprite_ext",
+          "argc": 9
+        },
+        {
+          "offset": 4845068,
+          "code_offset": 116,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4845072,
+          "code_offset": 120,
+          "words_raw": [
+            3271950335,
+            2684354680
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845080,
+          "code_offset": 128,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4845084,
+          "code_offset": 132,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845088,
+          "code_offset": 136,
+          "words_raw": [
+            3087007770
+          ],
+          "op": "bf",
+          "target": 4845192
+        },
+        {
+          "offset": 4845092,
+          "code_offset": 140,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845100,
+          "code_offset": 148,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4845104,
+          "code_offset": 152,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845108,
+          "code_offset": 156,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845112,
+          "code_offset": 160,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845116,
+          "code_offset": 164,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1071225241
+          ],
+          "op": "constant",
+          "value": 0.4
+        },
+        {
+          "offset": 4845128,
+          "code_offset": 176,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845132,
+          "code_offset": 180,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1071225241
+          ],
+          "op": "constant",
+          "value": 0.4
+        },
+        {
+          "offset": 4845144,
+          "code_offset": 192,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845148,
+          "code_offset": 196,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "y",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845156,
+          "code_offset": 204,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "x",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845164,
+          "code_offset": 212,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845168,
+          "code_offset": 216,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845172,
+          "code_offset": 220,
+          "words_raw": [
+            2215575712
+          ],
+          "op": "constant",
+          "value": 160
+        },
+        {
+          "offset": 4845176,
+          "code_offset": 224,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845180,
+          "code_offset": 228,
+          "words_raw": [
+            3640786953,
+            120
+          ],
+          "op": "call",
+          "name": "draw_sprite_ext",
+          "argc": 9
+        },
+        {
+          "offset": 4845188,
+          "code_offset": 236,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4845192,
+          "code_offset": 240,
+          "words_raw": [
+            3271950335,
+            2684354680
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845200,
+          "code_offset": 248,
+          "words_raw": [
+            2215575555
+          ],
+          "op": "constant",
+          "value": 3
+        },
+        {
+          "offset": 4845204,
+          "code_offset": 252,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845208,
+          "code_offset": 256,
+          "words_raw": [
+            3087007770
+          ],
+          "op": "bf",
+          "target": 4845312
+        },
+        {
+          "offset": 4845212,
+          "code_offset": 260,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845220,
+          "code_offset": 268,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4845224,
+          "code_offset": 272,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845228,
+          "code_offset": 276,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845232,
+          "code_offset": 280,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845236,
+          "code_offset": 284,
+          "words_raw": [
+            3221225472,
+            0,
+            1071644672
+          ],
+          "op": "constant",
+          "value": 0.5
+        },
+        {
+          "offset": 4845248,
+          "code_offset": 296,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845252,
+          "code_offset": 300,
+          "words_raw": [
+            3221225472,
+            0,
+            1071644672
+          ],
+          "op": "constant",
+          "value": 0.5
+        },
+        {
+          "offset": 4845264,
+          "code_offset": 312,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845268,
+          "code_offset": 316,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "y",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845276,
+          "code_offset": 324,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "x",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845284,
+          "code_offset": 332,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845288,
+          "code_offset": 336,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845292,
+          "code_offset": 340,
+          "words_raw": [
+            2215575712
+          ],
+          "op": "constant",
+          "value": 160
+        },
+        {
+          "offset": 4845296,
+          "code_offset": 344,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845300,
+          "code_offset": 348,
+          "words_raw": [
+            3640786953,
+            120
+          ],
+          "op": "call",
+          "name": "draw_sprite_ext",
+          "argc": 9
+        },
+        {
+          "offset": 4845308,
+          "code_offset": 356,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4845312,
+          "code_offset": 360,
+          "words_raw": [
+            3271950335,
+            2684354680
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845320,
+          "code_offset": 368,
+          "words_raw": [
+            2215575556
+          ],
+          "op": "constant",
+          "value": 4
+        },
+        {
+          "offset": 4845324,
+          "code_offset": 372,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845328,
+          "code_offset": 376,
+          "words_raw": [
+            3087007770
+          ],
+          "op": "bf",
+          "target": 4845432
+        },
+        {
+          "offset": 4845332,
+          "code_offset": 380,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845340,
+          "code_offset": 388,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4845344,
+          "code_offset": 392,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845348,
+          "code_offset": 396,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845352,
+          "code_offset": 400,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845356,
+          "code_offset": 404,
+          "words_raw": [
+            3221225472,
+            0,
+            1071644672
+          ],
+          "op": "constant",
+          "value": 0.5
+        },
+        {
+          "offset": 4845368,
+          "code_offset": 416,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845372,
+          "code_offset": 420,
+          "words_raw": [
+            3221225472,
+            0,
+            1071644672
+          ],
+          "op": "constant",
+          "value": 0.5
+        },
+        {
+          "offset": 4845384,
+          "code_offset": 432,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845388,
+          "code_offset": 436,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "y",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845396,
+          "code_offset": 444,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "x",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845404,
+          "code_offset": 452,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845408,
+          "code_offset": 456,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845412,
+          "code_offset": 460,
+          "words_raw": [
+            2215575712
+          ],
+          "op": "constant",
+          "value": 160
+        },
+        {
+          "offset": 4845416,
+          "code_offset": 464,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845420,
+          "code_offset": 468,
+          "words_raw": [
+            3640786953,
+            120
+          ],
+          "op": "call",
+          "name": "draw_sprite_ext",
+          "argc": 9
+        },
+        {
+          "offset": 4845428,
+          "code_offset": 476,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4845432,
+          "code_offset": 480,
+          "words_raw": [
+            3271950335,
+            2684354680
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845440,
+          "code_offset": 488,
+          "words_raw": [
+            2215575557
+          ],
+          "op": "constant",
+          "value": 5
+        },
+        {
+          "offset": 4845444,
+          "code_offset": 492,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845448,
+          "code_offset": 496,
+          "words_raw": [
+            3087007770
+          ],
+          "op": "bf",
+          "target": 4845552
+        },
+        {
+          "offset": 4845452,
+          "code_offset": 500,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845460,
+          "code_offset": 508,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4845464,
+          "code_offset": 512,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845468,
+          "code_offset": 516,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845472,
+          "code_offset": 520,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845476,
+          "code_offset": 524,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1071225241
+          ],
+          "op": "constant",
+          "value": 0.4
+        },
+        {
+          "offset": 4845488,
+          "code_offset": 536,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845492,
+          "code_offset": 540,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1071225241
+          ],
+          "op": "constant",
+          "value": 0.4
+        },
+        {
+          "offset": 4845504,
+          "code_offset": 552,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845508,
+          "code_offset": 556,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "y",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845516,
+          "code_offset": 564,
+          "words_raw": [
+            3221618687,
+            2684354680
+          ],
+          "op": "load",
+          "name": "x",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845524,
+          "code_offset": 572,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845528,
+          "code_offset": 576,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845532,
+          "code_offset": 580,
+          "words_raw": [
+            2215575712
+          ],
+          "op": "constant",
+          "value": 160
+        },
+        {
+          "offset": 4845536,
+          "code_offset": 584,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845540,
+          "code_offset": 588,
+          "words_raw": [
+            3640786953,
+            120
+          ],
+          "op": "call",
+          "name": "draw_sprite_ext",
+          "argc": 9
+        },
+        {
+          "offset": 4845548,
+          "code_offset": 596,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4845552,
+          "code_offset": 600,
+          "words_raw": [
+            3271950335,
+            2684354724
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845560,
+          "code_offset": 608,
+          "words_raw": [
+            2215575558
+          ],
+          "op": "constant",
+          "value": 6
+        },
+        {
+          "offset": 4845564,
+          "code_offset": 612,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845568,
+          "code_offset": 616,
+          "words_raw": [
+            3087007770
+          ],
+          "op": "bf",
+          "target": 4845672
+        },
+        {
+          "offset": 4845572,
+          "code_offset": 620,
+          "words_raw": [
+            3221618687,
+            2684354660
+          ],
+          "op": "load",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845580,
+          "code_offset": 628,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4845584,
+          "code_offset": 632,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845588,
+          "code_offset": 636,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845592,
+          "code_offset": 640,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845596,
+          "code_offset": 644,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1071225241
+          ],
+          "op": "constant",
+          "value": 0.4
+        },
+        {
+          "offset": 4845608,
+          "code_offset": 656,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845612,
+          "code_offset": 660,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1071225241
+          ],
+          "op": "constant",
+          "value": 0.4
+        },
+        {
+          "offset": 4845624,
+          "code_offset": 672,
+          "words_raw": [
+            122683392
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845628,
+          "code_offset": 676,
+          "words_raw": [
+            3221618687,
+            2684355888
+          ],
+          "op": "load",
+          "name": "y",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845636,
+          "code_offset": 684,
+          "words_raw": [
+            3221618687,
+            2684355848
+          ],
+          "op": "load",
+          "name": "x",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845644,
+          "code_offset": 692,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845648,
+          "code_offset": 696,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845652,
+          "code_offset": 700,
+          "words_raw": [
+            2215575712
+          ],
+          "op": "constant",
+          "value": 160
+        },
+        {
+          "offset": 4845656,
+          "code_offset": 704,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4845660,
+          "code_offset": 708,
+          "words_raw": [
+            3640786953,
+            2964
+          ],
+          "op": "call",
+          "name": "draw_sprite_ext",
+          "argc": 9
+        },
+        {
+          "offset": 4845668,
+          "code_offset": 716,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4845672,
+          "code_offset": 720,
+          "words_raw": [
+            3221618687,
+            2684354584
+          ],
+          "op": "load",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845680,
+          "code_offset": 728,
+          "words_raw": [
+            3221225472,
+            1202590843,
+            1066695393
+          ],
+          "op": "constant",
+          "value": 0.02
+        },
+        {
+          "offset": 4845692,
+          "code_offset": 740,
+          "words_raw": [
+            206569472
+          ],
+          "op": "add"
+        },
+        {
+          "offset": 4845696,
+          "code_offset": 744,
+          "words_raw": [
+            1163263999,
+            2684355580
+          ],
+          "op": "store",
+          "name": "logoalpha",
+          "selector": -1,
+          "array": false
+        }
+      ]
+    },
+    {
+      "id": 547,
+      "name": "gml_Object_obj_phone_Draw_0",
+      "start": 4845704,
+      "end": 4846044,
+      "sha256": "d247b6e078711a0bbfcb38ce516170728c8dab620c6cd0002fccd648cc6ef907",
+      "instructions": [
+        {
+          "offset": 4845704,
+          "code_offset": 0,
+          "words_raw": [
+            3640786944,
+            172380
+          ],
+          "op": "call",
+          "name": "draw_self",
+          "argc": 0
+        },
+        {
+          "offset": 4845712,
+          "code_offset": 8,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4845716,
+          "code_offset": 12,
+          "words_raw": [
+            3271950335,
+            2684354620
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845724,
+          "code_offset": 20,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4845728,
+          "code_offset": 24,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845732,
+          "code_offset": 28,
+          "words_raw": [
+            3087007755
+          ],
+          "op": "bf",
+          "target": 4845776
+        },
+        {
+          "offset": 4845736,
+          "code_offset": 32,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1072273817
+          ],
+          "op": "constant",
+          "value": 0.8
+        },
+        {
+          "offset": 4845748,
+          "code_offset": 44,
+          "words_raw": [
+            1158021119,
+            2684354620
+          ],
+          "op": "store",
+          "name": "image_xscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845756,
+          "code_offset": 52,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1072273817
+          ],
+          "op": "constant",
+          "value": 0.8
+        },
+        {
+          "offset": 4845768,
+          "code_offset": 64,
+          "words_raw": [
+            1158021119,
+            2684354620
+          ],
+          "op": "store",
+          "name": "image_yscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845776,
+          "code_offset": 72,
+          "words_raw": [
+            3271950335,
+            2684354620
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845784,
+          "code_offset": 80,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4845788,
+          "code_offset": 84,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845792,
+          "code_offset": 88,
+          "words_raw": [
+            3087007755
+          ],
+          "op": "bf",
+          "target": 4845836
+        },
+        {
+          "offset": 4845796,
+          "code_offset": 92,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1072273817
+          ],
+          "op": "constant",
+          "value": 0.8
+        },
+        {
+          "offset": 4845808,
+          "code_offset": 104,
+          "words_raw": [
+            1158021119,
+            2684354612
+          ],
+          "op": "store",
+          "name": "image_xscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845816,
+          "code_offset": 112,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1072273817
+          ],
+          "op": "constant",
+          "value": 0.8
+        },
+        {
+          "offset": 4845828,
+          "code_offset": 124,
+          "words_raw": [
+            1158021119,
+            2684354604
+          ],
+          "op": "store",
+          "name": "image_yscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845836,
+          "code_offset": 132,
+          "words_raw": [
+            3271950335,
+            2684354604
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845844,
+          "code_offset": 140,
+          "words_raw": [
+            2215575555
+          ],
+          "op": "constant",
+          "value": 3
+        },
+        {
+          "offset": 4845848,
+          "code_offset": 144,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845852,
+          "code_offset": 148,
+          "words_raw": [
+            3087007751
+          ],
+          "op": "bf",
+          "target": 4845880
+        },
+        {
+          "offset": 4845856,
+          "code_offset": 152,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4845860,
+          "code_offset": 156,
+          "words_raw": [
+            1160118271,
+            2684354604
+          ],
+          "op": "store",
+          "name": "image_xscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845868,
+          "code_offset": 164,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4845872,
+          "code_offset": 168,
+          "words_raw": [
+            1160118271,
+            2684354604
+          ],
+          "op": "store",
+          "name": "image_yscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845880,
+          "code_offset": 176,
+          "words_raw": [
+            3271950335,
+            2684354604
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845888,
+          "code_offset": 184,
+          "words_raw": [
+            2215575556
+          ],
+          "op": "constant",
+          "value": 4
+        },
+        {
+          "offset": 4845892,
+          "code_offset": 188,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845896,
+          "code_offset": 192,
+          "words_raw": [
+            3087007751
+          ],
+          "op": "bf",
+          "target": 4845924
+        },
+        {
+          "offset": 4845900,
+          "code_offset": 196,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4845904,
+          "code_offset": 200,
+          "words_raw": [
+            1160118271,
+            2684354612
+          ],
+          "op": "store",
+          "name": "image_xscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845912,
+          "code_offset": 208,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4845916,
+          "code_offset": 212,
+          "words_raw": [
+            1160118271,
+            2684354620
+          ],
+          "op": "store",
+          "name": "image_yscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845924,
+          "code_offset": 220,
+          "words_raw": [
+            3271950335,
+            2684354620
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845932,
+          "code_offset": 228,
+          "words_raw": [
+            2215575557
+          ],
+          "op": "constant",
+          "value": 5
+        },
+        {
+          "offset": 4845936,
+          "code_offset": 232,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4845940,
+          "code_offset": 236,
+          "words_raw": [
+            3087007755
+          ],
+          "op": "bf",
+          "target": 4845984
+        },
+        {
+          "offset": 4845944,
+          "code_offset": 240,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1072273817
+          ],
+          "op": "constant",
+          "value": 0.8
+        },
+        {
+          "offset": 4845956,
+          "code_offset": 252,
+          "words_raw": [
+            1158021119,
+            2684354620
+          ],
+          "op": "store",
+          "name": "image_xscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845964,
+          "code_offset": 260,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1072273817
+          ],
+          "op": "constant",
+          "value": 0.8
+        },
+        {
+          "offset": 4845976,
+          "code_offset": 272,
+          "words_raw": [
+            1158021119,
+            2684354620
+          ],
+          "op": "store",
+          "name": "image_yscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845984,
+          "code_offset": 280,
+          "words_raw": [
+            3271950335,
+            2684355480
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4845992,
+          "code_offset": 288,
+          "words_raw": [
+            2215575558
+          ],
+          "op": "constant",
+          "value": 6
+        },
+        {
+          "offset": 4845996,
+          "code_offset": 292,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4846000,
+          "code_offset": 296,
+          "words_raw": [
+            3087007755
+          ],
+          "op": "bf",
+          "target": 4846044
+        },
+        {
+          "offset": 4846004,
+          "code_offset": 300,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1072273817
+          ],
+          "op": "constant",
+          "value": 0.8
+        },
+        {
+          "offset": 4846016,
+          "code_offset": 312,
+          "words_raw": [
+            1158021119,
+            2684524020
+          ],
+          "op": "store",
+          "name": "image_xscale",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846024,
+          "code_offset": 320,
+          "words_raw": [
+            3221225472,
+            2576980378,
+            1072273817
+          ],
+          "op": "constant",
+          "value": 0.8
+        },
+        {
+          "offset": 4846036,
+          "code_offset": 332,
+          "words_raw": [
+            1158021119,
+            2684524032
+          ],
+          "op": "store",
+          "name": "image_yscale",
+          "selector": -1,
+          "array": false
+        }
+      ]
+    },
+    {
+      "id": 548,
+      "name": "gml_Object_obj_introduction_Create_0",
+      "start": 4846044,
+      "end": 4846408,
+      "sha256": "2bce063f161a2b451e496b26dd6dd2c597c351f7b4c8a81e5c4a0858ad3d057c",
+      "instructions": [
+        {
+          "offset": 4846044,
+          "code_offset": 0,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846048,
+          "code_offset": 4,
+          "words_raw": [
+            1160118271,
+            2684355116
+          ],
+          "op": "store",
+          "name": "taplock",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846056,
+          "code_offset": 12,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846060,
+          "code_offset": 16,
+          "words_raw": [
+            1160118271,
+            2684355080
+          ],
+          "op": "store",
+          "name": "moving",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846068,
+          "code_offset": 24,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846072,
+          "code_offset": 28,
+          "words_raw": [
+            1160118271,
+            2684355020
+          ],
+          "op": "store",
+          "name": "moving2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846080,
+          "code_offset": 36,
+          "words_raw": [
+            2215575662
+          ],
+          "op": "constant",
+          "value": 110
+        },
+        {
+          "offset": 4846084,
+          "code_offset": 40,
+          "words_raw": [
+            1160118271,
+            2684355108
+          ],
+          "op": "store",
+          "name": "xx1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846092,
+          "code_offset": 48,
+          "words_raw": [
+            2215575752
+          ],
+          "op": "constant",
+          "value": 200
+        },
+        {
+          "offset": 4846096,
+          "code_offset": 52,
+          "words_raw": [
+            1160118271,
+            2684355524
+          ],
+          "op": "store",
+          "name": "x1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846104,
+          "code_offset": 60,
+          "words_raw": [
+            2215575652
+          ],
+          "op": "constant",
+          "value": 100
+        },
+        {
+          "offset": 4846108,
+          "code_offset": 64,
+          "words_raw": [
+            1160118271,
+            2684355108
+          ],
+          "op": "store",
+          "name": "xx2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846116,
+          "code_offset": 72,
+          "words_raw": [
+            2215575727
+          ],
+          "op": "constant",
+          "value": 175
+        },
+        {
+          "offset": 4846120,
+          "code_offset": 76,
+          "words_raw": [
+            1160118271,
+            2684355600
+          ],
+          "op": "store",
+          "name": "x2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846128,
+          "code_offset": 84,
+          "words_raw": [
+            2215575672
+          ],
+          "op": "constant",
+          "value": 120
+        },
+        {
+          "offset": 4846132,
+          "code_offset": 88,
+          "words_raw": [
+            1160118271,
+            2684355108
+          ],
+          "op": "store",
+          "name": "xx3",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846140,
+          "code_offset": 96,
+          "words_raw": [
+            2215575792
+          ],
+          "op": "constant",
+          "value": 240
+        },
+        {
+          "offset": 4846144,
+          "code_offset": 100,
+          "words_raw": [
+            1160118271,
+            2684355688
+          ],
+          "op": "store",
+          "name": "x3",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846152,
+          "code_offset": 108,
+          "words_raw": [
+            2215575672
+          ],
+          "op": "constant",
+          "value": 120
+        },
+        {
+          "offset": 4846156,
+          "code_offset": 112,
+          "words_raw": [
+            1160118271,
+            2684355108
+          ],
+          "op": "store",
+          "name": "xx4",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846164,
+          "code_offset": 120,
+          "words_raw": [
+            2215575792
+          ],
+          "op": "constant",
+          "value": 240
+        },
+        {
+          "offset": 4846168,
+          "code_offset": 124,
+          "words_raw": [
+            1160118271,
+            2684355788
+          ],
+          "op": "store",
+          "name": "x4",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846176,
+          "code_offset": 132,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846180,
+          "code_offset": 136,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846184,
+          "code_offset": 140,
+          "words_raw": [
+            3640786945,
+            1492
+          ],
+          "op": "call",
+          "name": "instance_deactivate_all",
+          "argc": 1
+        },
+        {
+          "offset": 4846192,
+          "code_offset": 148,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4846196,
+          "code_offset": 152,
+          "words_raw": [
+            2215575689
+          ],
+          "op": "constant",
+          "value": 137
+        },
+        {
+          "offset": 4846200,
+          "code_offset": 156,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846204,
+          "code_offset": 160,
+          "words_raw": [
+            3640786945,
+            20
+          ],
+          "op": "call",
+          "name": "instance_activate_object",
+          "argc": 1
+        },
+        {
+          "offset": 4846212,
+          "code_offset": 168,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4846216,
+          "code_offset": 172,
+          "words_raw": [
+            2215575685
+          ],
+          "op": "constant",
+          "value": 133
+        },
+        {
+          "offset": 4846220,
+          "code_offset": 176,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846224,
+          "code_offset": 180,
+          "words_raw": [
+            3640786945,
+            969
+          ],
+          "op": "call",
+          "name": "instance_activate_object",
+          "argc": 1
+        },
+        {
+          "offset": 4846232,
+          "code_offset": 188,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4846236,
+          "code_offset": 192,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4846240,
+          "code_offset": 196,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846244,
+          "code_offset": 200,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846248,
+          "code_offset": 204,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846252,
+          "code_offset": 208,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846256,
+          "code_offset": 212,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846260,
+          "code_offset": 216,
+          "words_raw": [
+            3640786947,
+            304
+          ],
+          "op": "call",
+          "name": "instance_create",
+          "argc": 3
+        },
+        {
+          "offset": 4846268,
+          "code_offset": 224,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4846272,
+          "code_offset": 228,
+          "words_raw": [
+            3221225472,
+            858993459,
+            1070805811
+          ],
+          "op": "constant",
+          "value": 0.3
+        },
+        {
+          "offset": 4846284,
+          "code_offset": 240,
+          "words_raw": [
+            1158021119,
+            2684354692
+          ],
+          "op": "store",
+          "name": "image_speed",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846292,
+          "code_offset": 248,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846296,
+          "code_offset": 252,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846300,
+          "code_offset": 256,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846304,
+          "code_offset": 260,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846308,
+          "code_offset": 264,
+          "words_raw": [
+            2215575583
+          ],
+          "op": "constant",
+          "value": 31
+        },
+        {
+          "offset": 4846312,
+          "code_offset": 268,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846316,
+          "code_offset": 272,
+          "words_raw": [
+            3640786947,
+            1656
+          ],
+          "op": "call",
+          "name": "audio_play_sound",
+          "argc": 3
+        },
+        {
+          "offset": 4846324,
+          "code_offset": 280,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4846328,
+          "code_offset": 284,
+          "words_raw": [
+            2215575672
+          ],
+          "op": "constant",
+          "value": 120
+        },
+        {
+          "offset": 4846332,
+          "code_offset": 288,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4846336,
+          "code_offset": 292,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846340,
+          "code_offset": 296,
+          "words_raw": [
+            1160052736,
+            20
+          ],
+          "op": "store",
+          "name": "alarm",
+          "selector": 0,
+          "array": true
+        },
+        {
+          "offset": 4846348,
+          "code_offset": 304,
+          "words_raw": [
+            2215575582
+          ],
+          "op": "constant",
+          "value": 30
+        },
+        {
+          "offset": 4846352,
+          "code_offset": 308,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4846356,
+          "code_offset": 312,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846360,
+          "code_offset": 316,
+          "words_raw": [
+            1160052736,
+            20
+          ],
+          "op": "store",
+          "name": "alarm",
+          "selector": 0,
+          "array": true
+        },
+        {
+          "offset": 4846368,
+          "code_offset": 324,
+          "words_raw": [
+            2215575622
+          ],
+          "op": "constant",
+          "value": 70
+        },
+        {
+          "offset": 4846372,
+          "code_offset": 328,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4846376,
+          "code_offset": 332,
+          "words_raw": [
+            2215575554
+          ],
+          "op": "constant",
+          "value": 2
+        },
+        {
+          "offset": 4846380,
+          "code_offset": 336,
+          "words_raw": [
+            1160052736,
+            20
+          ],
+          "op": "store",
+          "name": "alarm",
+          "selector": 0,
+          "array": true
+        },
+        {
+          "offset": 4846388,
+          "code_offset": 344,
+          "words_raw": [
+            2215575622
+          ],
+          "op": "constant",
+          "value": 70
+        },
+        {
+          "offset": 4846392,
+          "code_offset": 348,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4846396,
+          "code_offset": 352,
+          "words_raw": [
+            2215575555
+          ],
+          "op": "constant",
+          "value": 3
+        },
+        {
+          "offset": 4846400,
+          "code_offset": 356,
+          "words_raw": [
+            1160052736,
+            1384
+          ],
+          "op": "store",
+          "name": "alarm",
+          "selector": 0,
+          "array": true
+        }
+      ]
+    },
+    {
+      "id": 549,
+      "name": "gml_Object_obj_introduction_Destroy_0",
+      "start": 4846408,
+      "end": 4846528,
+      "sha256": "6726bd24d57ac7831e3555cdde1192a92f10239a805797f61d1d92f4a2f98bc0",
+      "instructions": [
+        {
+          "offset": 4846408,
+          "code_offset": 0,
+          "words_raw": [
+            3640786944,
+            1732
+          ],
+          "op": "call",
+          "name": "instance_activate_all",
+          "argc": 0
+        },
+        {
+          "offset": 4846416,
+          "code_offset": 8,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4846420,
+          "code_offset": 12,
+          "words_raw": [
+            2215575556
+          ],
+          "op": "constant",
+          "value": 4
+        },
+        {
+          "offset": 4846424,
+          "code_offset": 16,
+          "words_raw": [
+            1160118267,
+            2684354584
+          ],
+          "op": "store",
+          "name": "health1",
+          "selector": -5,
+          "array": false
+        },
+        {
+          "offset": 4846432,
+          "code_offset": 24,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4846436,
+          "code_offset": 28,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846440,
+          "code_offset": 32,
+          "words_raw": [
+            3640786945,
+            48
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4846448,
+          "code_offset": 40,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4846452,
+          "code_offset": 44,
+          "words_raw": [
+            3087007751
+          ],
+          "op": "bf",
+          "target": 4846480
+        },
+        {
+          "offset": 4846456,
+          "code_offset": 48,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4846460,
+          "code_offset": 52,
+          "words_raw": [
+            3120562180
+          ],
+          "op": "pushenv",
+          "target": 4846476
+        },
+        {
+          "offset": 4846464,
+          "code_offset": 56,
+          "words_raw": [
+            3640786944,
+            48
+          ],
+          "op": "call",
+          "name": "instance_destroy",
+          "argc": 0
+        },
+        {
+          "offset": 4846472,
+          "code_offset": 64,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4846476,
+          "code_offset": 68,
+          "words_raw": [
+            3145727997
+          ],
+          "op": "popenv",
+          "target": 4846464
+        },
+        {
+          "offset": 4846480,
+          "code_offset": 72,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4846484,
+          "code_offset": 76,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846488,
+          "code_offset": 80,
+          "words_raw": [
+            3640786945,
+            504
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4846496,
+          "code_offset": 88,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4846500,
+          "code_offset": 92,
+          "words_raw": [
+            3087007751
+          ],
+          "op": "bf",
+          "target": 4846528
+        },
+        {
+          "offset": 4846504,
+          "code_offset": 96,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4846508,
+          "code_offset": 100,
+          "words_raw": [
+            3120562180
+          ],
+          "op": "pushenv",
+          "target": 4846524
+        },
+        {
+          "offset": 4846512,
+          "code_offset": 104,
+          "words_raw": [
+            3640786944,
+            376
+          ],
+          "op": "call",
+          "name": "instance_destroy",
+          "argc": 0
+        },
+        {
+          "offset": 4846520,
+          "code_offset": 112,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        },
+        {
+          "offset": 4846524,
+          "code_offset": 116,
+          "words_raw": [
+            3145727997
+          ],
+          "op": "popenv",
+          "target": 4846512
+        }
+      ]
+    },
+    {
+      "id": 550,
+      "name": "gml_Object_obj_introduction_Alarm_3",
+      "start": 4846528,
+      "end": 4846540,
+      "sha256": "d08bbead27744c97f3c2013198ce7af5112d68b947ffe71e13c0aa6d3a870f13",
+      "instructions": [
+        {
+          "offset": 4846528,
+          "code_offset": 0,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846532,
+          "code_offset": 4,
+          "words_raw": [
+            1160118271,
+            2684354620
+          ],
+          "op": "store",
+          "name": "moving2",
+          "selector": -1,
+          "array": false
+        }
+      ]
+    },
+    {
+      "id": 551,
+      "name": "gml_Object_obj_introduction_Alarm_2",
+      "start": 4846540,
+      "end": 4846576,
+      "sha256": "092640a954ebb896ae47923580e65e30e135adcf107eced08f0ee019aeb11e5f",
+      "instructions": [
+        {
+          "offset": 4846540,
+          "code_offset": 0,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4846544,
+          "code_offset": 4,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846548,
+          "code_offset": 8,
+          "words_raw": [
+            2215575602
+          ],
+          "op": "constant",
+          "value": 50
+        },
+        {
+          "offset": 4846552,
+          "code_offset": 12,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846556,
+          "code_offset": 16,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846560,
+          "code_offset": 20,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846564,
+          "code_offset": 24,
+          "words_raw": [
+            3640786947,
+            1672
+          ],
+          "op": "call",
+          "name": "instance_create",
+          "argc": 3
+        },
+        {
+          "offset": 4846572,
+          "code_offset": 32,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        }
+      ]
+    },
+    {
+      "id": 552,
+      "name": "gml_Object_obj_introduction_Alarm_1",
+      "start": 4846576,
+      "end": 4846600,
+      "sha256": "51bfcb497784a8b86bfc5466ef843af3cb2c36e36f953fea24513482058eacdd",
+      "instructions": [
+        {
+          "offset": 4846576,
+          "code_offset": 0,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846580,
+          "code_offset": 4,
+          "words_raw": [
+            1160118271,
+            2684354592
+          ],
+          "op": "store",
+          "name": "moving",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846588,
+          "code_offset": 12,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846592,
+          "code_offset": 16,
+          "words_raw": [
+            1160118271,
+            2684354696
+          ],
+          "op": "store",
+          "name": "moving2",
+          "selector": -1,
+          "array": false
+        }
+      ]
+    },
+    {
+      "id": 553,
+      "name": "gml_Object_obj_introduction_Alarm_0",
+      "start": 4846600,
+      "end": 4846612,
+      "sha256": "3fd8e9f528f874c0cfdd1122a54e9791d4d926822312f607ad2c25de57de78cd",
+      "instructions": [
+        {
+          "offset": 4846600,
+          "code_offset": 0,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846604,
+          "code_offset": 4,
+          "words_raw": [
+            1160118271,
+            2684354800
+          ],
+          "op": "store",
+          "name": "taplock",
+          "selector": -1,
+          "array": false
+        }
+      ]
+    },
+    {
+      "id": 554,
+      "name": "gml_Object_obj_introduction_Step_0",
+      "start": 4846612,
+      "end": 4846900,
+      "sha256": "d39acaf171d68be4053327a7c83b88005f9e3f5edf89eb18128bb8462751670f",
+      "instructions": [
+        {
+          "offset": 4846612,
+          "code_offset": 0,
+          "words_raw": [
+            3221618687,
+            2684355179
+          ],
+          "op": "load",
+          "name": "moving",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846620,
+          "code_offset": 8,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846624,
+          "code_offset": 12,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4846628,
+          "code_offset": 16,
+          "words_raw": [
+            3087007769
+          ],
+          "op": "bf",
+          "target": 4846728
+        },
+        {
+          "offset": 4846632,
+          "code_offset": 20,
+          "words_raw": [
+            3221618687,
+            2684354576
+          ],
+          "op": "load",
+          "name": "xx1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846640,
+          "code_offset": 28,
+          "words_raw": [
+            2215575554
+          ],
+          "op": "constant",
+          "value": 2
+        },
+        {
+          "offset": 4846644,
+          "code_offset": 32,
+          "words_raw": [
+            223477760
+          ],
+          "op": "sub"
+        },
+        {
+          "offset": 4846648,
+          "code_offset": 36,
+          "words_raw": [
+            1163263999,
+            2684354660
+          ],
+          "op": "store",
+          "name": "xx1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846656,
+          "code_offset": 44,
+          "words_raw": [
+            3221618687,
+            2684354576
+          ],
+          "op": "load",
+          "name": "xx2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846664,
+          "code_offset": 52,
+          "words_raw": [
+            2215575554
+          ],
+          "op": "constant",
+          "value": 2
+        },
+        {
+          "offset": 4846668,
+          "code_offset": 56,
+          "words_raw": [
+            223477760
+          ],
+          "op": "sub"
+        },
+        {
+          "offset": 4846672,
+          "code_offset": 60,
+          "words_raw": [
+            1163263999,
+            2684354660
+          ],
+          "op": "store",
+          "name": "xx2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846680,
+          "code_offset": 68,
+          "words_raw": [
+            3221618687,
+            2684354576
+          ],
+          "op": "load",
+          "name": "xx3",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846688,
+          "code_offset": 76,
+          "words_raw": [
+            2215575554
+          ],
+          "op": "constant",
+          "value": 2
+        },
+        {
+          "offset": 4846692,
+          "code_offset": 80,
+          "words_raw": [
+            223477760
+          ],
+          "op": "sub"
+        },
+        {
+          "offset": 4846696,
+          "code_offset": 84,
+          "words_raw": [
+            1163263999,
+            2684354660
+          ],
+          "op": "store",
+          "name": "xx3",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846704,
+          "code_offset": 92,
+          "words_raw": [
+            3221618687,
+            2684354576
+          ],
+          "op": "load",
+          "name": "xx4",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846712,
+          "code_offset": 100,
+          "words_raw": [
+            2215575554
+          ],
+          "op": "constant",
+          "value": 2
+        },
+        {
+          "offset": 4846716,
+          "code_offset": 104,
+          "words_raw": [
+            223477760
+          ],
+          "op": "sub"
+        },
+        {
+          "offset": 4846720,
+          "code_offset": 108,
+          "words_raw": [
+            1163263999,
+            2684354660
+          ],
+          "op": "store",
+          "name": "xx4",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846728,
+          "code_offset": 116,
+          "words_raw": [
+            3221618687,
+            2684355581
+          ],
+          "op": "load",
+          "name": "moving2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846736,
+          "code_offset": 124,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846740,
+          "code_offset": 128,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4846744,
+          "code_offset": 132,
+          "words_raw": [
+            3087007769
+          ],
+          "op": "bf",
+          "target": 4846844
+        },
+        {
+          "offset": 4846748,
+          "code_offset": 136,
+          "words_raw": [
+            3221618687,
+            2684354576
+          ],
+          "op": "load",
+          "name": "xx1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846756,
+          "code_offset": 144,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846760,
+          "code_offset": 148,
+          "words_raw": [
+            223477760
+          ],
+          "op": "sub"
+        },
+        {
+          "offset": 4846764,
+          "code_offset": 152,
+          "words_raw": [
+            1163263999,
+            2684354804
+          ],
+          "op": "store",
+          "name": "xx1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846772,
+          "code_offset": 160,
+          "words_raw": [
+            3221618687,
+            2684354576
+          ],
+          "op": "load",
+          "name": "xx2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846780,
+          "code_offset": 168,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846784,
+          "code_offset": 172,
+          "words_raw": [
+            223477760
+          ],
+          "op": "sub"
+        },
+        {
+          "offset": 4846788,
+          "code_offset": 176,
+          "words_raw": [
+            1163263999,
+            2684354892
+          ],
+          "op": "store",
+          "name": "xx2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846796,
+          "code_offset": 184,
+          "words_raw": [
+            3221618687,
+            2684354576
+          ],
+          "op": "load",
+          "name": "xx3",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846804,
+          "code_offset": 192,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846808,
+          "code_offset": 196,
+          "words_raw": [
+            223477760
+          ],
+          "op": "sub"
+        },
+        {
+          "offset": 4846812,
+          "code_offset": 200,
+          "words_raw": [
+            1163263999,
+            2684354968
+          ],
+          "op": "store",
+          "name": "xx3",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846820,
+          "code_offset": 208,
+          "words_raw": [
+            3221618687,
+            2684354576
+          ],
+          "op": "load",
+          "name": "xx4",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846828,
+          "code_offset": 216,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846832,
+          "code_offset": 220,
+          "words_raw": [
+            223477760
+          ],
+          "op": "sub"
+        },
+        {
+          "offset": 4846836,
+          "code_offset": 224,
+          "words_raw": [
+            1163263999,
+            2684355068
+          ],
+          "op": "store",
+          "name": "xx4",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846844,
+          "code_offset": 232,
+          "words_raw": [
+            3221618687,
+            2684355408
+          ],
+          "op": "load",
+          "name": "taplock",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846852,
+          "code_offset": 240,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846856,
+          "code_offset": 244,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4846860,
+          "code_offset": 248,
+          "words_raw": [
+            3087007754
+          ],
+          "op": "bf",
+          "target": 4846900
+        },
+        {
+          "offset": 4846864,
+          "code_offset": 252,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4846868,
+          "code_offset": 256,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846872,
+          "code_offset": 260,
+          "words_raw": [
+            3640786945,
+            742
+          ],
+          "op": "call",
+          "name": "mouse_check_button_pressed",
+          "argc": 1
+        },
+        {
+          "offset": 4846880,
+          "code_offset": 268,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4846884,
+          "code_offset": 272,
+          "words_raw": [
+            3087007748
+          ],
+          "op": "bf",
+          "target": 4846900
+        },
+        {
+          "offset": 4846888,
+          "code_offset": 276,
+          "words_raw": [
+            3640786944,
+            1308
+          ],
+          "op": "call",
+          "name": "instance_destroy",
+          "argc": 0
+        },
+        {
+          "offset": 4846896,
+          "code_offset": 284,
+          "words_raw": [
+            2651127808
+          ],
+          "op": "popz"
+        }
+      ]
+    },
+    {
+      "id": 555,
+      "name": "gml_Object_obj_introduction_Draw_0",
+      "start": 4846900,
+      "end": 4847648,
+      "sha256": "dee2738e4602bceedfcc26154cbc85c6f359dc7cb9fcf54f85dd8f4a50dcddba",
+      "instructions": [
+        {
+          "offset": 4846900,
+          "code_offset": 0,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4846904,
+          "code_offset": 4,
+          "words_raw": [
+            3271950335,
+            2684354592
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846912,
+          "code_offset": 12,
+          "words_raw": [
+            119865344
+          ],
+          "op": "cast",
+          "to": 2
+        },
+        {
+          "offset": 4846916,
+          "code_offset": 16,
+          "words_raw": [
+            3221553152,
+            1528
+          ],
+          "op": "load",
+          "name": "view_xview",
+          "selector": 0,
+          "array": true
+        },
+        {
+          "offset": 4846924,
+          "code_offset": 24,
+          "words_raw": [
+            1163263999,
+            2684354652
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846932,
+          "code_offset": 32,
+          "words_raw": [
+            2215641087
+          ],
+          "op": "constant",
+          "value": -1
+        },
+        {
+          "offset": 4846936,
+          "code_offset": 36,
+          "words_raw": [
+            3271950335,
+            2684354588
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846944,
+          "code_offset": 44,
+          "words_raw": [
+            119865344
+          ],
+          "op": "cast",
+          "to": 2
+        },
+        {
+          "offset": 4846948,
+          "code_offset": 48,
+          "words_raw": [
+            3221553152,
+            1528
+          ],
+          "op": "load",
+          "name": "view_yview",
+          "selector": 0,
+          "array": true
+        },
+        {
+          "offset": 4846956,
+          "code_offset": 56,
+          "words_raw": [
+            1163263999,
+            2684354632
+          ],
+          "op": "store",
+          "name": "y",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846964,
+          "code_offset": 64,
+          "words_raw": [
+            3271950335,
+            2684354672
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4846972,
+          "code_offset": 72,
+          "words_raw": [
+            2215575552
+          ],
+          "op": "constant",
+          "value": 0
+        },
+        {
+          "offset": 4846976,
+          "code_offset": 76,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4846980,
+          "code_offset": 80,
+          "words_raw": [
+            3087007768
+          ],
+          "op": "bf",
+          "target": 4847076
+        },
+        {
+          "offset": 4846984,
+          "code_offset": 84,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4846988,
+          "code_offset": 88,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4846992,
+          "code_offset": 92,
+          "words_raw": [
+            3640786945,
+            52
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847000,
+          "code_offset": 100,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847004,
+          "code_offset": 104,
+          "words_raw": [
+            3087007752
+          ],
+          "op": "bf",
+          "target": 4847036
+        },
+        {
+          "offset": 4847008,
+          "code_offset": 108,
+          "words_raw": [
+            3221618687,
+            2684355020
+          ],
+          "op": "load",
+          "name": "xx1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847016,
+          "code_offset": 116,
+          "words_raw": [
+            1163198600,
+            2684354612
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847024,
+          "code_offset": 124,
+          "words_raw": [
+            2215641086
+          ],
+          "op": "constant",
+          "value": -2
+        },
+        {
+          "offset": 4847028,
+          "code_offset": 128,
+          "words_raw": [
+            1160052872,
+            2684354772
+          ],
+          "op": "store",
+          "name": "y",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847036,
+          "code_offset": 136,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4847040,
+          "code_offset": 140,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847044,
+          "code_offset": 144,
+          "words_raw": [
+            3640786945,
+            60
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847052,
+          "code_offset": 152,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847056,
+          "code_offset": 156,
+          "words_raw": [
+            3087007749
+          ],
+          "op": "bf",
+          "target": 4847076
+        },
+        {
+          "offset": 4847060,
+          "code_offset": 160,
+          "words_raw": [
+            3221618687,
+            2684355020
+          ],
+          "op": "load",
+          "name": "x1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847068,
+          "code_offset": 168,
+          "words_raw": [
+            1163198599,
+            2684354620
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 135,
+          "array": false
+        },
+        {
+          "offset": 4847076,
+          "code_offset": 176,
+          "words_raw": [
+            3271950335,
+            2684354660
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847084,
+          "code_offset": 184,
+          "words_raw": [
+            2215575553
+          ],
+          "op": "constant",
+          "value": 1
+        },
+        {
+          "offset": 4847088,
+          "code_offset": 188,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4847092,
+          "code_offset": 192,
+          "words_raw": [
+            3087007765
+          ],
+          "op": "bf",
+          "target": 4847176
+        },
+        {
+          "offset": 4847096,
+          "code_offset": 196,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4847100,
+          "code_offset": 200,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847104,
+          "code_offset": 204,
+          "words_raw": [
+            3640786945,
+            40
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847112,
+          "code_offset": 212,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847116,
+          "code_offset": 216,
+          "words_raw": [
+            3087007749
+          ],
+          "op": "bf",
+          "target": 4847136
+        },
+        {
+          "offset": 4847120,
+          "code_offset": 220,
+          "words_raw": [
+            3221618687,
+            2684355584
+          ],
+          "op": "load",
+          "name": "xx2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847128,
+          "code_offset": 228,
+          "words_raw": [
+            1163198600,
+            2684354600
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847136,
+          "code_offset": 236,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4847140,
+          "code_offset": 240,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847144,
+          "code_offset": 244,
+          "words_raw": [
+            3640786945,
+            60
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847152,
+          "code_offset": 252,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847156,
+          "code_offset": 256,
+          "words_raw": [
+            3087007749
+          ],
+          "op": "bf",
+          "target": 4847176
+        },
+        {
+          "offset": 4847160,
+          "code_offset": 260,
+          "words_raw": [
+            3221618687,
+            2684355585
+          ],
+          "op": "load",
+          "name": "x2",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847168,
+          "code_offset": 268,
+          "words_raw": [
+            1163198599,
+            2684354620
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 135,
+          "array": false
+        },
+        {
+          "offset": 4847176,
+          "code_offset": 276,
+          "words_raw": [
+            3271950335,
+            2684354684
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847184,
+          "code_offset": 284,
+          "words_raw": [
+            2215575555
+          ],
+          "op": "constant",
+          "value": 3
+        },
+        {
+          "offset": 4847188,
+          "code_offset": 288,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4847192,
+          "code_offset": 292,
+          "words_raw": [
+            3087007771
+          ],
+          "op": "bf",
+          "target": 4847300
+        },
+        {
+          "offset": 4847196,
+          "code_offset": 296,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4847200,
+          "code_offset": 300,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847204,
+          "code_offset": 304,
+          "words_raw": [
+            3640786945,
+            52
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847212,
+          "code_offset": 312,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847216,
+          "code_offset": 316,
+          "words_raw": [
+            3087007752
+          ],
+          "op": "bf",
+          "target": 4847248
+        },
+        {
+          "offset": 4847220,
+          "code_offset": 320,
+          "words_raw": [
+            3221618687,
+            2684355586
+          ],
+          "op": "load",
+          "name": "xx3",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847228,
+          "code_offset": 328,
+          "words_raw": [
+            1163198600,
+            2684354612
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847236,
+          "code_offset": 336,
+          "words_raw": [
+            2215575582
+          ],
+          "op": "constant",
+          "value": 30
+        },
+        {
+          "offset": 4847240,
+          "code_offset": 340,
+          "words_raw": [
+            1160052872,
+            2684354612
+          ],
+          "op": "store",
+          "name": "y",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847248,
+          "code_offset": 348,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4847252,
+          "code_offset": 352,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847256,
+          "code_offset": 356,
+          "words_raw": [
+            3640786945,
+            72
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847264,
+          "code_offset": 364,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847268,
+          "code_offset": 368,
+          "words_raw": [
+            3087007752
+          ],
+          "op": "bf",
+          "target": 4847300
+        },
+        {
+          "offset": 4847272,
+          "code_offset": 372,
+          "words_raw": [
+            3221618687,
+            2684355587
+          ],
+          "op": "load",
+          "name": "x3",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847280,
+          "code_offset": 380,
+          "words_raw": [
+            1163198599,
+            2684354632
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 135,
+          "array": false
+        },
+        {
+          "offset": 4847288,
+          "code_offset": 388,
+          "words_raw": [
+            2215575622
+          ],
+          "op": "constant",
+          "value": 70
+        },
+        {
+          "offset": 4847292,
+          "code_offset": 392,
+          "words_raw": [
+            1160052871,
+            2684354632
+          ],
+          "op": "store",
+          "name": "y",
+          "selector": 135,
+          "array": false
+        },
+        {
+          "offset": 4847300,
+          "code_offset": 400,
+          "words_raw": [
+            3271950335,
+            2684354684
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847308,
+          "code_offset": 408,
+          "words_raw": [
+            2215575556
+          ],
+          "op": "constant",
+          "value": 4
+        },
+        {
+          "offset": 4847312,
+          "code_offset": 412,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4847316,
+          "code_offset": 416,
+          "words_raw": [
+            3087007771
+          ],
+          "op": "bf",
+          "target": 4847424
+        },
+        {
+          "offset": 4847320,
+          "code_offset": 420,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4847324,
+          "code_offset": 424,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847328,
+          "code_offset": 428,
+          "words_raw": [
+            3640786945,
+            52
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847336,
+          "code_offset": 436,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847340,
+          "code_offset": 440,
+          "words_raw": [
+            3087007752
+          ],
+          "op": "bf",
+          "target": 4847372
+        },
+        {
+          "offset": 4847344,
+          "code_offset": 444,
+          "words_raw": [
+            3221618687,
+            2684355588
+          ],
+          "op": "load",
+          "name": "xx4",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847352,
+          "code_offset": 452,
+          "words_raw": [
+            1163198600,
+            2684354612
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847360,
+          "code_offset": 460,
+          "words_raw": [
+            2215575582
+          ],
+          "op": "constant",
+          "value": 30
+        },
+        {
+          "offset": 4847364,
+          "code_offset": 464,
+          "words_raw": [
+            1160052872,
+            2684354612
+          ],
+          "op": "store",
+          "name": "y",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847372,
+          "code_offset": 472,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4847376,
+          "code_offset": 476,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847380,
+          "code_offset": 480,
+          "words_raw": [
+            3640786945,
+            72
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847388,
+          "code_offset": 488,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847392,
+          "code_offset": 492,
+          "words_raw": [
+            3087007752
+          ],
+          "op": "bf",
+          "target": 4847424
+        },
+        {
+          "offset": 4847396,
+          "code_offset": 496,
+          "words_raw": [
+            3221618687,
+            2684355589
+          ],
+          "op": "load",
+          "name": "x4",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847404,
+          "code_offset": 504,
+          "words_raw": [
+            1163198599,
+            2684354632
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 135,
+          "array": false
+        },
+        {
+          "offset": 4847412,
+          "code_offset": 512,
+          "words_raw": [
+            2215575622
+          ],
+          "op": "constant",
+          "value": 70
+        },
+        {
+          "offset": 4847416,
+          "code_offset": 516,
+          "words_raw": [
+            1160052871,
+            2684354632
+          ],
+          "op": "store",
+          "name": "y",
+          "selector": 135,
+          "array": false
+        },
+        {
+          "offset": 4847424,
+          "code_offset": 524,
+          "words_raw": [
+            3271950335,
+            2684354672
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847432,
+          "code_offset": 532,
+          "words_raw": [
+            2215575557
+          ],
+          "op": "constant",
+          "value": 5
+        },
+        {
+          "offset": 4847436,
+          "code_offset": 536,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4847440,
+          "code_offset": 540,
+          "words_raw": [
+            3087007768
+          ],
+          "op": "bf",
+          "target": 4847536
+        },
+        {
+          "offset": 4847444,
+          "code_offset": 544,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4847448,
+          "code_offset": 548,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847452,
+          "code_offset": 552,
+          "words_raw": [
+            3640786945,
+            52
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847460,
+          "code_offset": 560,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847464,
+          "code_offset": 564,
+          "words_raw": [
+            3087007752
+          ],
+          "op": "bf",
+          "target": 4847496
+        },
+        {
+          "offset": 4847468,
+          "code_offset": 568,
+          "words_raw": [
+            3221618687,
+            2684354672
+          ],
+          "op": "load",
+          "name": "xx1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847476,
+          "code_offset": 576,
+          "words_raw": [
+            1163198600,
+            2684354612
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847484,
+          "code_offset": 584,
+          "words_raw": [
+            2215641086
+          ],
+          "op": "constant",
+          "value": -2
+        },
+        {
+          "offset": 4847488,
+          "code_offset": 588,
+          "words_raw": [
+            1160052872,
+            2684354672
+          ],
+          "op": "store",
+          "name": "y",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847496,
+          "code_offset": 596,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4847500,
+          "code_offset": 600,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847504,
+          "code_offset": 604,
+          "words_raw": [
+            3640786945,
+            60
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847512,
+          "code_offset": 612,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847516,
+          "code_offset": 616,
+          "words_raw": [
+            3087007749
+          ],
+          "op": "bf",
+          "target": 4847536
+        },
+        {
+          "offset": 4847520,
+          "code_offset": 620,
+          "words_raw": [
+            3221618687,
+            2684354672
+          ],
+          "op": "load",
+          "name": "x1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847528,
+          "code_offset": 628,
+          "words_raw": [
+            1163198599,
+            2684354620
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 135,
+          "array": false
+        },
+        {
+          "offset": 4847536,
+          "code_offset": 636,
+          "words_raw": [
+            3271950335,
+            2684355456
+          ],
+          "op": "load",
+          "name": "view_current",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847544,
+          "code_offset": 644,
+          "words_raw": [
+            2215575558
+          ],
+          "op": "constant",
+          "value": 6
+        },
+        {
+          "offset": 4847548,
+          "code_offset": 648,
+          "words_raw": [
+            357696256
+          ],
+          "op": "cmp",
+          "comparison": 3
+        },
+        {
+          "offset": 4847552,
+          "code_offset": 652,
+          "words_raw": [
+            3087007768
+          ],
+          "op": "bf",
+          "target": 4847648
+        },
+        {
+          "offset": 4847556,
+          "code_offset": 656,
+          "words_raw": [
+            2215575688
+          ],
+          "op": "constant",
+          "value": 136
+        },
+        {
+          "offset": 4847560,
+          "code_offset": 660,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847564,
+          "code_offset": 664,
+          "words_raw": [
+            3640786945,
+            52
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847572,
+          "code_offset": 672,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847576,
+          "code_offset": 676,
+          "words_raw": [
+            3087007752
+          ],
+          "op": "bf",
+          "target": 4847608
+        },
+        {
+          "offset": 4847580,
+          "code_offset": 680,
+          "words_raw": [
+            3221618687,
+            2684355582
+          ],
+          "op": "load",
+          "name": "xx1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847588,
+          "code_offset": 688,
+          "words_raw": [
+            1163198600,
+            2684354612
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847596,
+          "code_offset": 696,
+          "words_raw": [
+            2215641086
+          ],
+          "op": "constant",
+          "value": -2
+        },
+        {
+          "offset": 4847600,
+          "code_offset": 700,
+          "words_raw": [
+            1160052872,
+            2684355180
+          ],
+          "op": "store",
+          "name": "y",
+          "selector": 136,
+          "array": false
+        },
+        {
+          "offset": 4847608,
+          "code_offset": 708,
+          "words_raw": [
+            2215575687
+          ],
+          "op": "constant",
+          "value": 135
+        },
+        {
+          "offset": 4847612,
+          "code_offset": 712,
+          "words_raw": [
+            122814464
+          ],
+          "op": "cast",
+          "to": 5
+        },
+        {
+          "offset": 4847616,
+          "code_offset": 716,
+          "words_raw": [
+            3640786945,
+            556
+          ],
+          "op": "call",
+          "name": "instance_exists",
+          "argc": 1
+        },
+        {
+          "offset": 4847624,
+          "code_offset": 724,
+          "words_raw": [
+            121962496
+          ],
+          "op": "cast",
+          "to": 4
+        },
+        {
+          "offset": 4847628,
+          "code_offset": 728,
+          "words_raw": [
+            3087007749
+          ],
+          "op": "bf",
+          "target": 4847648
+        },
+        {
+          "offset": 4847632,
+          "code_offset": 732,
+          "words_raw": [
+            3221618687,
+            2684355583
+          ],
+          "op": "load",
+          "name": "x1",
+          "selector": -1,
+          "array": false
+        },
+        {
+          "offset": 4847640,
+          "code_offset": 740,
+          "words_raw": [
+            1163198599,
+            2684355148
+          ],
+          "op": "store",
+          "name": "x",
+          "selector": 135,
+          "array": false
+        }
+      ]
+    }
+  ]
+}

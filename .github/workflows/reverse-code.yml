@@ -1,0 +1,44 @@
+name: Reverse CODE evidence
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/reverse_code.py'
+      - 'scripts/reverse_instructions.py'
+      - 'scripts/test_reverse_code.py'
+      - 'scripts/test_reverse_cfg.py'
+      - 'scripts/test_reverse_player_alarms.py'
+      - 'scripts/test_reverse_player_combat.py'
+      - 'scripts/package_player_combat.py'
+      - 'reconstruction/contracts/player-alarms.json'
+      - 'reconstruction/contracts/player-combat.json'
+      - 'reconstruction/contracts/player-initialization.json'
+      - 'scripts/player_initialization.py'
+      - 'scripts/test_reverse_player_initialization.py'
+      - 'scripts/package_startup.py'
+      - 'scripts/generate_player_startup.py'
+      - 'scripts/test_reverse_startup.py'
+      - 'reconstruction/contracts/startup.json'
+      - 'crates/core/src/original_player_startup.rs'
+      - 'scripts/reverse_cfg.py'
+      - 'reconstruction/code-v1/**'
+      - '.github/workflows/reverse-code.yml'
+      - 'assets/game.droid'
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate full original input and malformed fixtures
+        run: python3 -m unittest discover -s scripts -p 'test_reverse_*.py' -v
+      - name: Export full ledger
+        run: python3 scripts/reverse_code.py assets/game.droid --output reverse-output
+      - uses: actions/upload-artifact@v4
+        with:
+          name: code-reference-ledger
+          path: reverse-output/
+          if-no-files-found: error
