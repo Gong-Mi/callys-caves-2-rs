@@ -6,8 +6,10 @@ pub mod original_player_create;
 pub mod original_events;
 pub mod original_startup;
 pub mod original_player_startup;
+pub mod original_introduction;
+pub mod original_boss_trex;
 
-use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, SpriteData, WarpTarget};
+use callys_asset::{GameObjectInfo, RoomData, RoomObjectInstance, RoomTileInstance, SpriteData, WarpTarget};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeSet, HashMap};
 
@@ -360,6 +362,7 @@ pub struct GameWorld {
     pub checkpoint: Checkpoint,
     pub respawn_timer: f32,
     pub collected_instance_ids: BTreeSet<i32>,
+    pub room_tiles: Vec<RoomTileInstance>,
 }
 
 impl GameWorld {
@@ -388,6 +391,7 @@ impl GameWorld {
             checkpoint: Checkpoint { room_index: 0, x: 100.0, y: 100.0 },
             respawn_timer: 0.0,
             collected_instance_ids: BTreeSet::new(),
+            room_tiles: Vec::new(),
         }
     }
 
@@ -431,6 +435,7 @@ impl GameWorld {
         self.hazards.clear();
         self.warps.clear();
         self.pending_room_warp = None;
+        self.room_tiles = room.tiles.clone();
 
         for (inst_idx, inst) in room.objects.iter().enumerate() {
             let obj_info = objects_info.get(inst.object_id as usize);

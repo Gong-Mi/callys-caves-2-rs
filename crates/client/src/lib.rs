@@ -245,6 +245,8 @@ pub struct GameState {
     pub sound_catalog: SoundCatalog,
     sound_queue: VecDeque<usize>,
     jump_was_active: bool,
+    pub intro_state: Option<callys_core::original_introduction::IntroductionState>,
+    pub intro_logo_alpha: f32,
 }
 
 impl GameState {
@@ -354,10 +356,23 @@ impl GameState {
             sound_catalog,
             sound_queue: VecDeque::new(),
             jump_was_active: false,
+            intro_state: None,
+            intro_logo_alpha: 0.0,
         })
     }
 
     pub fn step(&mut self, dt: f32) {
+        if let Some(mut intro) = self.intro_state.take() {
+            let user_tap = self.input.attack || self.input.jump;
+            let finished = intro.tick_frame(user_tap, |_, _, _| {});
+            if intro.alarms[2] <= 0.0 && self.intro_logo_alpha < 1.0 {
+                self.intro_logo_alpha = (self.intro_logo_alpha + 0.02).min(1.0);
+            }
+            if !finished && !intro.destroyed {
+                self.intro_state = Some(intro);
+                return;
+            }
+        }
         let progress_before = SaveData::from_world(&self.world);
         let player_state_before = self.world.player.state;
         let coins_before = self.world.player.coins;
@@ -747,6 +762,26 @@ fn draw_sprite(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: u
     true
 }
 
+fn draw_tile(fb: &mut Framebuffer, state: &GameState, tile: &callys_asset::RoomTileInstance, cam_x: f32, cam_y: f32, scale_x: f32, scale_y: f32) -> bool {
+    if tile.bg_id < 0 { return false; }
+    let Some(bg) = state.asset.backgrounds.get(&(tile.bg_id as usize)) else { return false; };
+    let Some(page) = state.asset.tpag_items.get(&bg.tpag_ptr) else { return false; };
+    let Some(atlas) = state.atlases.get(page.tex_id as usize) else { return false; };
+
+    let src_x = (page.x as i32 + tile.src_x).max(0) as u32;
+    let src_y = (page.y as i32 + tile.src_y).max(0) as u32;
+    let src_w = (tile.width as u32).min(page.w as u32);
+    let src_h = (tile.height as u32).min(page.h as u32);
+
+    let dst_x = ((tile.x as f32 - cam_x) * scale_x) as i32;
+    let dst_y = ((tile.y as f32 - cam_y) * scale_y) as i32;
+    let dst_w = ((tile.width as f32 * tile.scale_x) * scale_x).max(1.0) as u32;
+    let dst_h = ((tile.height as f32 * tile.scale_y) * scale_y).max(1.0) as u32;
+
+    fb.blit_scaled(atlas, (src_x, src_y, src_w, src_h), (dst_x, dst_y, dst_w, dst_h), false);
+    true
+}
+
 pub fn draw_frame(
     fb: &mut Framebuffer,
     state: &GameState,
@@ -756,10 +791,45 @@ pub fn draw_frame(
     let scale_x = fb.width as f32 / 960.0;
     let scale_y = fb.height as f32 / 540.0;
 
+    // Check if introduction cutscene is playing
+    if let Some(intro) = &state.intro_state {
+        fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
+        // Draw spr_intro (phone background frame, id 161)
+        let phone_x = (intro.xx1 as f32 * scale_x * 2.0) as i32;
+        let phone_y = (-2.0 * scale_y * 2.0) as i32;
+        let phone_w = (208.0 * scale_x * 2.0) as u32;
+        let phone_h = (320.0 * scale_y * 2.0) as u32;
+        draw_sprite(fb, state, 161, 0, (phone_x, phone_y, phone_w, phone_h), false);
+
+        // Draw spr_logo (id 160) if Alarm 2 has spawned it
+        if intro.alarms[2] <= 0.0 {
+            let logo_x = (intro.x1 as f32 * scale_x * 1.5) as i32;
+            let logo_y = (60.0 * scale_y * 1.5) as i32;
+            let logo_w = (587.0 * scale_x * 0.75) as u32;
+            let logo_h = (229.0 * scale_y * 0.75) as u32;
+            draw_sprite(fb, state, 160, 0, (logo_x, logo_y, logo_w, logo_h), false);
+        }
+
+        // Subtitle prompt
+        if intro.taplock == 1.0 {
+            let prompt_w = (200.0 * scale_x) as u32;
+            let prompt_h = (20.0 * scale_y) as u32;
+            let prompt_x = (fb.width as i32 - prompt_w as i32) / 2;
+            let prompt_y = (fb.height as i32 - 40);
+            fb.draw_rect(prompt_x, prompt_y, prompt_w, prompt_h, (255, 255, 255, 180));
+        }
+        return;
+    }
+
     fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
     let cam_x = state.world.camera_x;
     let cam_y = state.world.camera_y;
+
+    // Draw background tiles (depth >= 0)
+    for tile in state.world.room_tiles.iter().filter(|t| t.depth >= 0) {
+        draw_tile(fb, state, tile, cam_x, cam_y, scale_x, scale_y);
+    }
 
     for decoration in &state.world.decorations {
         let x = ((decoration.rect.x - cam_x) * scale_x) as i32;
@@ -782,8 +852,10 @@ pub fn draw_frame(
         let w = (solid.rect.w * scale_x) as u32;
         let h = (solid.rect.h * scale_y) as u32;
         if !draw_sprite(fb, state, solid.sprite_id, 0, (x, y, w, h), false) {
-            fb.fill_rect(x, y, w, h, color);
-            fb.draw_rect(x, y, w, h, (35, 40, 50, 255));
+            if state.world.room_tiles.is_empty() {
+                fb.fill_rect(x, y, w, h, color);
+                fb.draw_rect(x, y, w, h, (35, 40, 50, 255));
+            }
         }
     }
 
@@ -861,6 +933,14 @@ pub fn draw_frame(
 
     let invuln = p.invulnerable_timer > 0.0 && ((p.invulnerable_timer * 15.0) as i32 % 2 == 0);
     if !invuln {
+        let (active_sprite_id, anim_speed) = match p.state {
+            PlayerState::Running => (30, 4), // spr_playerrun
+            PlayerState::Jumping => (32, 3), // spr_playerjump
+            PlayerState::Falling => (33, 4), // spr_playerfall
+            PlayerState::Hurt => (36, 1),    // spr_playerhit
+            _ => (29, 6),                    // spr_player idle (18 frames)
+        };
+        let frame = (state.frame_count / anim_speed) as usize;
         let color = match p.state {
             PlayerState::Idle => (240, 80, 80, 255),
             PlayerState::Running => (255, 130, 60, 255),
@@ -868,31 +948,40 @@ pub fn draw_frame(
             PlayerState::Hurt => (255, 255, 255, 255),
             _ => (240, 80, 80, 255),
         };
-        if !draw_sprite(fb, state, p.sprite_id, (state.frame_count / 5) as usize, (px, py, pw, ph), p.facing == Facing::Left) {
+        if !draw_sprite(fb, state, active_sprite_id, frame, (px, py, pw, ph), p.facing == Facing::Left) {
             fb.fill_rect(px, py, pw, ph, color);
             let eye_x = if p.facing == Facing::Right { px + pw as i32 - 6 } else { px + 2 };
             fb.fill_rect(eye_x, py + 6, 4, 4, (255, 255, 255, 255));
         }
     }
 
-    fb.fill_rect(16, 16, 204, 20, (50, 50, 50, 255));
+    // Draw HUD: Top bar background (spr_UI, id 84)
+    if !draw_sprite(fb, state, 84, 0, (10, 10, 300, 52), false) {
+        fb.fill_rect(16, 16, 204, 20, (50, 50, 50, 255));
+    }
     let hp_pct = (p.health as f32 / p.max_health as f32).max(0.0);
-    fb.fill_rect(18, 18, (200.0 * hp_pct) as u32, 16, (230, 40, 40, 255));
-    fb.fill_rect(16, 42, 160, 24, (30, 35, 50, 255));
-    fb.draw_rect(16, 42, 160, 24, (80, 200, 255, 255));
-    let weapon_color = match p.current_weapon {
-        WeaponType::Pistol => (200, 200, 200, 255),
-        WeaponType::Shotgun => (255, 180, 60, 255),
-        WeaponType::AssaultRifle => (255, 220, 100, 255),
-        WeaponType::RocketLauncher => (255, 100, 80, 255),
-        WeaponType::Sword => (180, 220, 255, 255),
-    };
-    fb.fill_rect(180, 42, 24, 24, weapon_color);
+    fb.fill_rect(65, 20, (135.0 * hp_pct) as u32, 12, (230, 40, 40, 255));
+
+    // Touch Controls: On-screen buttons using real sprites
     let bottom = fb.height as i32 - 92;
-    fb.draw_rect(24, bottom, 68, 68, (120, 180, 255, 170));
-    fb.draw_rect(108, bottom, 68, 68, (120, 180, 255, 170));
-    fb.draw_rect(fb.width as i32 - 176, bottom, 68, 68, (255, 190, 80, 170));
-    fb.draw_rect(fb.width as i32 - 92, bottom, 68, 68, (255, 90, 90, 170));
+    // D-Pad Left: spr_leftbutton (id 158)
+    if !draw_sprite(fb, state, 158, 0, (20, bottom, 80, 68), false) {
+        fb.draw_rect(24, bottom, 68, 68, (120, 180, 255, 170));
+    }
+    // D-Pad Right: spr_rightbutton (id 159)
+    if !draw_sprite(fb, state, 159, 0, (110, bottom, 80, 68), false) {
+        fb.draw_rect(108, bottom, 68, 68, (120, 180, 255, 170));
+    }
+    // Jump: spr_jumpbutton (id 155)
+    if !draw_sprite(fb, state, 155, 0, (fb.width as i32 - 180, bottom, 68, 68), false) {
+        fb.draw_rect(fb.width as i32 - 176, bottom, 68, 68, (255, 190, 80, 170));
+    }
+    // Shoot/Attack: spr_shootbutton (id 156)
+    if !draw_sprite(fb, state, 156, 0, (fb.width as i32 - 96, bottom, 68, 68), false) {
+        fb.draw_rect(fb.width as i32 - 92, bottom, 68, 68, (255, 90, 90, 170));
+    }
+    // Pause: spr_pausebutton (id 122)
+    draw_sprite(fb, state, 122, 0, (fb.width as i32 - 64, 16, 48, 48), false);
 }
 
 // ============================================================
@@ -1006,13 +1095,15 @@ mod android_jni {
             "/data/data/com.gongmi.callyscaves2/files/game.droid".to_string()
         });
         log(&format!("nativeInit path={}", path));
-        let st = match GameState::new_persistent(Path::new(&path)) {
+        let mut st = match GameState::new_persistent(Path::new(&path)) {
             Ok(s) => s,
             Err(e) => {
                 log(&format!("GameState::new failed: {}", e));
                 return;
             }
         };
+        // Trigger original introduction state for initial session on device
+        st.intro_state = Some(callys_core::original_introduction::IntroductionState::new());
         match export_required_wavs(&st.asset, Path::new(&path)) {
             Ok(exported) => log(&format!("exported {} short sound effects", exported.len())),
             Err(error) => log(&format!("sound export failed: {error}")),

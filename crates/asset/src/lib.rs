@@ -186,11 +186,22 @@ pub struct GameDroidAsset {
     pub objects: Vec<GameObjectInfo>,
     pub rooms: Vec<RoomData>,
     pub sprites: HashMap<usize, SpriteData>,
+    pub backgrounds: HashMap<usize, BackgroundData>,
     pub tpag_items: HashMap<usize, TpagItem>,
     pub warp_targets: HashMap<i32, WarpTarget>,
     pub warp_audits: Vec<WarpAudit>,
     pub audio: Vec<AudioData>,
     pub sounds: Vec<SoundData>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct BackgroundData {
+    pub id: usize,
+    pub name: String,
+    pub transparent: bool,
+    pub smooth: bool,
+    pub preload: bool,
+    pub tpag_ptr: usize,
 }
 
 fn invalid_data(message: impl Into<String>) -> std::io::Error {
@@ -1082,6 +1093,40 @@ impl GameDroidAsset {
             }
         }
 
+        // Parse BGND
+        let mut backgrounds = HashMap::new();
+        if let Some(&(pos, _size)) = chunks.get("BGND") {
+            file.seek(SeekFrom::Start(pos))?;
+            let count = file.read_u32::<LittleEndian>()?;
+            let mut offsets = Vec::with_capacity(count as usize);
+            for _ in 0..count {
+                offsets.push(file.read_u32::<LittleEndian>()?);
+            }
+            for (idx, &off) in offsets.iter().enumerate() {
+                let bg_pos = off as u64;
+                if bg_pos >= file_len || file.seek(SeekFrom::Start(bg_pos)).is_err() {
+                    continue;
+                }
+                let name_off = file.read_u32::<LittleEndian>().unwrap_or(0);
+                let transparent = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                let smooth = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                let preload = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                let tpag_ptr = file.read_u32::<LittleEndian>().unwrap_or(0) as usize;
+
+                let bname = read_null_string(&mut file, name_off as u64, file_len)
+                    .unwrap_or_else(|_| format!("bg_{}", idx));
+
+                backgrounds.insert(idx, BackgroundData {
+                    id: idx,
+                    name: bname,
+                    transparent,
+                    smooth,
+                    preload,
+                    tpag_ptr,
+                });
+            }
+        }
+
         // Parse CODE before OBJT so action CODE references are resolved from the
         // stored numeric field, never inferred from resource-name similarity.
         let code_entries = match chunks.get("CODE") {
@@ -1272,6 +1317,7 @@ impl GameDroidAsset {
             objects,
             rooms,
             sprites,
+            backgrounds,
             tpag_items,
             warp_targets,
             warp_audits,
