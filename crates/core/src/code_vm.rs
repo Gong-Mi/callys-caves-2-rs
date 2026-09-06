@@ -15,8 +15,9 @@ pub struct Instruction { pub offset: usize, pub code_offset: usize, pub words_ra
 #[serde(tag = "op", rename_all = "snake_case")]
 pub enum Op {
     Constant { value: f64 }, Load { name: String, selector: i32, array: bool },
-    Store { name: String, selector: i32, array: bool }, Cast { to: u8 },
-    Add, Sub, Cmp { comparison: u8 }, B { target: usize }, Bt { target: usize }, Bf { target: usize },
+    Store { name: String, selector: i32, array: bool }, LoadLocal { name: String },
+    StoreLocal { name: String }, Cast { to: u8 },
+    Add, Sub, Mul, Div, Not, Cmp { comparison: u8 }, B { target: usize }, Bt { target: usize }, Bf { target: usize },
     Pushenv { target: usize }, Popenv { target: usize }, Call { name: String, argc: usize }, Popz, Exit,
 }
 #[derive(Debug, Clone, PartialEq)]
@@ -63,6 +64,7 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
             if target.is_some_and(|t| !boundaries.contains_key(&t)) { offset=i.offset; return Err("branch not on instruction boundary".into()); }
         }
         let mut stack = Vec::new();
+        let mut locals = std::collections::BTreeMap::new();
         let mut environments: Vec<(i32, std::vec::IntoIter<i32>)> = Vec::new();
         let mut current = instance;
         let mut pc = 0;
@@ -82,18 +84,22 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                     let (s, index) = if *array { let idx=integer(pop(&mut stack)?)?; (integer(pop(&mut stack)?)?,Some(idx)) } else { (*selector,None) };
                     let value=pop(&mut stack)?; host.write(current,s,name,index,value)?;
                 }
+                Op::StoreLocal{name} => { let value=pop(&mut stack)?; locals.insert(name.clone(),value); }
                 Op::Cast{to} => {
                     let v=pop(&mut stack)?;
                     stack.push(match to { 0|5 => v, 4 => if v >= 0.5 {1.0} else {0.0}, 2 => integer(v.trunc())? as f64, _=>return Err("unsupported cast".into()) });
                 }
-                Op::Add|Op::Sub|Op::Cmp{..} => {
+                Op::Add|Op::Sub|Op::Mul|Op::Div|Op::Cmp{..} => {
                     let rhs=pop(&mut stack)?; let lhs=pop(&mut stack)?;
                     let v=match i.op {
-                        Op::Add=>lhs+rhs, Op::Sub=>lhs-rhs,
+                        Op::Add=>lhs+rhs, Op::Sub=>lhs-rhs, Op::Mul=>lhs*rhs,
+                        Op::Div=>{ if rhs==0.0 {return Err("division by zero".into());} lhs/rhs }
                         Op::Cmp{comparison} => { let b=match comparison {1=>lhs<rhs,2=>lhs<=rhs,3=>lhs==rhs,4=>lhs!=rhs,5=>lhs>=rhs,6=>lhs>rhs,_=>return Err("unsupported comparison".into())}; if b {1.0} else {0.0} },
                         _=>unreachable!(),
                     }; stack.push(v);
                 }
+                Op::Not => { let v=pop(&mut stack)?; stack.push(if v>=0.5 {0.0} else {1.0}); }
+                Op::LoadLocal{name} => { let v=*locals.get(name).ok_or(format!("undefined local {name}"))?; stack.push(v); }
                 Op::B{target} => pc=boundaries[target],
                 Op::Bt{target}|Op::Bf{target} => {
                     let yes=pop(&mut stack)? >= 0.5;

@@ -21,26 +21,34 @@ def lower(code, instructions):
         op = i['mnemonic']
         row = dict(offset=i['offset'], code_offset=i['offset'] - code['start'],
                    words_raw=i['words_raw'])
-        if op in ('pushi', 'push', 'pushbltn', 'pushglb'):
+        if op in ('pushi', 'push', 'pushbltn', 'pushglb', 'pushloc'):
             if 'value' in i:
                 require(i['type1'] in (0, 2, 15) and isinstance(i['value'], (int, float)),
                         where + ': unsupported numeric type')
                 row.update(op='constant', value=i['value'])
             else:
                 require(i['type1'] == 5, where + ': unsupported push (including strings)')
-                row.update(op='load', name=i['reference']['name'], selector=i['instance_raw'],
-                           array=i['reference_type'] == 0)
-                require(i['reference_type'] in (0, 160), where + ': unsupported reference mode')
+                # pushloc is a per-call local; the VM hosts locals separately.
+                if op == 'pushloc':
+                    row.update(op='load_local', name=i['reference']['name'])
+                else:
+                    row.update(op='load', name=i['reference']['name'], selector=i['instance_raw'],
+                               array=i['reference_type'] == 0)
+                    require(i['reference_type'] in (0, 160), where + ': unsupported reference mode')
         elif op == 'pop':
-            require(i['type1'] == 5 and i['type2'] in (0, 2, 5), where + ': unsupported store type')
-            require(i['reference_type'] in (0, 160), where + ': unsupported reference mode')
-            row.update(op='store', name=i['reference']['name'], selector=i['instance_raw'],
-                       array=i['reference_type'] == 0)
+            # Local-variable pop: type1=5 with array-scope marker and instance -7.
+            if i['type1'] == 5 and i.get('reference_type') == 160 and i.get('instance_raw') == -7:
+                row.update(op='store_local', name=i['reference']['name'])
+            else:
+                require(i['type1'] == 5 and i['type2'] in (0, 2, 5), where + ': unsupported store type')
+                require(i['reference_type'] in (0, 160), where + ': unsupported reference mode')
+                row.update(op='store', name=i['reference']['name'], selector=i['instance_raw'],
+                           array=i['reference_type'] == 0)
         elif op == 'conv':
             require(i['type1'] in (0, 2, 4, 5) and i['type2'] in (0, 2, 4, 5),
                     where + ': unsupported conversion')
             row.update(op='cast', to=i['type2'])
-        elif op in ('add', 'sub', 'cmp'):
+        elif op in ('add', 'sub', 'mul', 'div', 'cmp'):
             require(i['type1'] in (0, 2, 5) and i['type2'] in (0, 2, 5),
                     where + ': unsupported arithmetic type')
             # Numeric f64 subset; no integer overflow/wrapping contract yet.
@@ -48,6 +56,9 @@ def lower(code, instructions):
             if op == 'cmp':
                 require(i['comparison'] in range(1, 7), where + ': unsupported comparison')
                 row['comparison'] = i['comparison']
+        elif op == 'not':
+            require(i['type1'] == 4 and i['type2'] in (0, 4), where + ': unsupported not type')
+            row.update(op='not')
         elif op in ('b', 'bt', 'bf', 'pushenv', 'popenv'):
             require(not i.get('popenv_exit_magic'), where + ': magic environment cleanup unsupported')
             row.update(op=op, target=i['target'])
