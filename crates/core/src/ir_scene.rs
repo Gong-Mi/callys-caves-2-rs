@@ -37,8 +37,11 @@ pub struct Scene {
     pub sprite_bounds: BTreeMap<i32, SpriteBounds>,
     pub object_parents: BTreeMap<i32, Vec<i32>>,
     pub display_width: f64, pub display_height: f64, pub current_room: f64,
+    pub room_width: f64, pub room_height: f64,
     pub current_font: f64, pub draw_color: i32,
     pub view_visible: [bool; 8],
+    pub ini_open_file: Option<String>,
+    pub ini_data: BTreeMap<(String, String, String), f64>,
     next_id: i32, site: (usize,usize), depth: usize,
 }
 impl Default for Scene {
@@ -52,8 +55,11 @@ impl Default for Scene {
             sprite_bounds: BTreeMap::new(),
             object_parents: BTreeMap::new(),
             display_width: 960.0, display_height: 540.0, current_room: 0.0,
+            room_width: 1024.0, room_height: 768.0,
             current_font: 0.0, draw_color: -1,
             view_visible: [true, false, false, false, false, false, false, false],
+            ini_open_file: None,
+            ini_data: BTreeMap::new(),
             next_id: 0, site: (0, 0), depth: 0,
         }
     }
@@ -80,7 +86,10 @@ impl Scene {
         // Named engine defaults only, never default-zero reads of user fields.
         for (n,v) in [("x",x),("y",y),("sprite_index",obj.sprite as f64),("image_index",0.0),
                       ("image_xscale",1.0),("image_yscale",1.0),("image_angle",0.0),
-                      ("image_blend",16777215.0),("image_alpha",1.0),("image_speed",1.0)] {
+                      ("image_blend",16777215.0),("image_alpha",1.0),("image_speed",1.0),
+                      ("score",0.0),("hspeed",0.0),("vspeed",0.0),("speed",0.0),
+                      ("direction",0.0),("friction",0.0),("gravity",0.0),("gravity_direction",270.0),
+                      ("visible",1.0)] {
             i.fields.insert(n.into(),v);
         }
         self.dispatch(b,id,0,0)?; Ok(id)
@@ -216,6 +225,9 @@ impl Host for Scene {
             let view = index.ok_or("view requires array index")? as usize;
             return Ok(if view < 8 && self.view_visible[view] { 1.0 } else { 0.0 });
         }
+        if s == -1 && n == "room_width" && index.is_none() { return Ok(self.room_width); }
+        if s == -1 && n == "room_height" && index.is_none() { return Ok(self.room_height); }
+        if s == -1 && n == "room" && index.is_none() { return Ok(self.current_room); }
         let ids=self.select(id,s)?;
         if ids.len()!=1 {return Err(format!("read requires exactly one receiver, got {}",ids.len()));}
         let target=ids[0];
@@ -261,14 +273,16 @@ impl Host for Scene {
     fn call(&mut self,b:&Bundle,id:i32,n:&str,a:&[f64])->Result<f64,String> {
         let expected_argc = match n {
             "instance_activate_all" | "instance_destroy" | "draw_self" | "display_get_width"
-            | "display_get_height" | "randomize" | "action_current_room" => Some(0),
+            | "display_get_height" | "randomize" | "action_current_room" | "ini_close" => Some(0),
             "instance_deactivate_all" | "instance_activate_object" | "instance_exists"
             | "mouse_check_button_pressed" | "device_mouse_x" | "device_mouse_y" | "mouse_clear"
             | "audio_is_playing" | "audio_stop_sound" | "draw_set_font" | "draw_set_color"
-            | "string" | "application_surface_enable" => Some(1),
+            | "string" | "application_surface_enable" | "device_mouse_dbclick_enable"
+            | "file_exists" | "ini_open" | "distance_to_object" | "sign" => Some(1),
             "device_mouse_check_button" | "device_mouse_check_button_pressed"
-            | "device_mouse_check_button_released" | "irandom_range" => Some(2),
-            "instance_create" | "audio_play_sound" | "instance_place" | "draw_text" => Some(3),
+            | "device_mouse_check_button_released" | "irandom_range" | "min" | "max" | "random_range" => Some(2),
+            "instance_create" | "audio_play_sound" | "instance_place" | "place_meeting"
+            | "draw_text" | "AdColony_Init" | "ini_read_real" | "ini_write_real" => Some(3),
             "draw_sprite" => Some(4),
             "collision_point" => Some(5),
             "draw_sprite_ext" => Some(9),
@@ -388,7 +402,7 @@ impl Host for Scene {
                 let p_x1 = p_x0 + pw * psx; let p_y1 = p_y0 + ph * psy;
                 let (p_min_x, p_max_x) = if p_x0 < p_x1 { (p_x0, p_x1) } else { (p_x1, p_x0) };
                 let (p_min_y, p_max_y) = if p_y0 < p_y1 { (p_y0, p_y1) } else { (p_y1, p_y0) };
-                let mut hit = 0.0;
+                let mut hit = -4.0;
                 for tid in targets {
                     if tid == id { continue; }
                     let ix = self.self_field(tid, "x").unwrap_or(0.0);
@@ -420,6 +434,64 @@ impl Host for Scene {
             "draw_healthbar" => Ok(0.0),
             "application_surface_enable" => Ok(0.0),
             "action_current_room" => Ok(self.current_room),
+            "device_mouse_dbclick_enable" => Ok(0.0),
+            "file_exists" => Ok(1.0),
+            "ini_open" => {
+                let s_idx = a[0] as usize;
+                let name = b.string_table.get(s_idx).cloned().unwrap_or_default();
+                self.ini_open_file = Some(name);
+                Ok(0.0)
+            }
+            "ini_close" => {
+                self.ini_open_file = None;
+                Ok(0.0)
+            }
+            "ini_read_real" => {
+                let sec_idx = a[0] as usize;
+                let key_idx = a[1] as usize;
+                let def_val = a[2];
+                let sec = b.string_table.get(sec_idx).cloned().unwrap_or_default();
+                let key = b.string_table.get(key_idx).cloned().unwrap_or_default();
+                let file = self.ini_open_file.clone().unwrap_or_default();
+                let val = self.ini_data.get(&(file, sec, key)).copied().unwrap_or(def_val);
+                Ok(val)
+            }
+            "ini_write_real" => {
+                let sec_idx = a[0] as usize;
+                let key_idx = a[1] as usize;
+                let val = a[2];
+                let sec = b.string_table.get(sec_idx).cloned().unwrap_or_default();
+                let key = b.string_table.get(key_idx).cloned().unwrap_or_default();
+                let file = self.ini_open_file.clone().unwrap_or_default();
+                self.ini_data.insert((file, sec, key), val);
+                Ok(0.0)
+            }
+            "AdColony_Init" => Ok(0.0),
+            "sign" => Ok(if a[0] > 0.0 { 1.0 } else if a[0] < 0.0 { -1.0 } else { 0.0 }),
+            "min" => Ok(a[0].min(a[1])),
+            "max" => Ok(a[0].max(a[1])),
+            "random_range" => Ok(a[0]),
+            "distance_to_object" => {
+                let s = int(a[0])?;
+                let targets = self.select(id, s)?;
+                let ix = self.self_field(id, "x").unwrap_or(0.0);
+                let iy = self.self_field(id, "y").unwrap_or(0.0);
+                let mut min_dist = f64::MAX;
+                for tid in targets {
+                    let tx = self.self_field(tid, "x").unwrap_or(0.0);
+                    let ty = self.self_field(tid, "y").unwrap_or(0.0);
+                    let d = ((tx - ix).powi(2) + (ty - iy).powi(2)).sqrt();
+                    if d < min_dist { min_dist = d; }
+                }
+                Ok(if min_dist == f64::MAX { 100000.0 } else { min_dist })
+            }
+            "place_meeting" => {
+                let hit = match self.call(b, id, "instance_place", &[a[0], a[1], a[2]]) {
+                    Ok(tid) => tid > 0.0,
+                    Err(_) => false,
+                };
+                Ok(if hit { 1.0 } else { 0.0 })
+            }
             _ => Err(format!("unsupported builtin {n}")),
         }
     }

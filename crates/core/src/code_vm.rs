@@ -4,6 +4,8 @@ use serde::Deserialize;
 #[derive(Debug, Clone, Deserialize)]
 pub struct Bundle {
     pub schema: u32,
+    #[serde(default)]
+    pub string_table: Vec<String>,
     pub objects: Vec<Object>,
     #[serde(default)]
     pub room_bindings: Vec<RoomBinding>,
@@ -44,8 +46,10 @@ pub struct Instruction { pub offset: usize, pub code_offset: usize, pub words_ra
 #[derive(Debug, Clone, Deserialize)]
 #[serde(tag = "op", rename_all = "snake_case")]
 pub enum Op {
-    Constant { value: f64 }, String { string_id: usize }, Load { name: String, selector: i32, array: bool },
-    Store { name: String, selector: i32, array: bool }, LoadLocal { name: String },
+    Constant { value: f64 }, String { string_id: usize },
+    Load { name: String, selector: i32, array: bool, #[serde(default)] other: bool },
+    Store { name: String, selector: i32, array: bool, #[serde(default)] other: bool },
+    LoadLocal { name: String },
     StoreLocal { name: String }, Cast { to: u8 },
     Add, Sub, Mul, Div, Not, Dup, And, Cmp { comparison: u8 }, B { target: usize }, Bt { target: usize }, Bf { target: usize },
     Pushenv { target: usize }, Popenv { target: usize }, Call { name: String, argc: usize }, Popz, Exit,
@@ -107,13 +111,32 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
             match &i.op {
                 Op::Constant{value} => stack.push(*value),
                 Op::String{string_id} => stack.push(*string_id as f64),
-                Op::Load{name,selector,array} => {
-                    let (s, index) = if *array { let idx=integer(pop(&mut stack)?)?; (integer(pop(&mut stack)?)?,Some(idx)) } else { (*selector,None) };
+                Op::Load{name,selector,array,other} => {
+                    let (s, index) = if *array {
+                        let idx=integer(pop(&mut stack)?)?;
+                        (integer(pop(&mut stack)?)?,Some(idx))
+                    } else if *other {
+                        (integer(pop(&mut stack)?)?, None)
+                    } else {
+                        (*selector,None)
+                    };
                     stack.push(host.read(current,s,name,index)?);
                 }
-                Op::Store{name,selector,array} => {
-                    let (s, index) = if *array { let idx=integer(pop(&mut stack)?)?; (integer(pop(&mut stack)?)?,Some(idx)) } else { (*selector,None) };
-                    let value=pop(&mut stack)?; host.write(current,s,name,index,value)?;
+                Op::Store{name,selector,array,other} => {
+                    let (s, index, value) = if *array {
+                        let idx = integer(pop(&mut stack)?)?;
+                        let s = integer(pop(&mut stack)?)?;
+                        let val = pop(&mut stack)?;
+                        (s, Some(idx), val)
+                    } else if *other {
+                        let val = pop(&mut stack)?;
+                        let s = integer(pop(&mut stack)?)?;
+                        (s, None, val)
+                    } else {
+                        let val = pop(&mut stack)?;
+                        (*selector, None, val)
+                    };
+                    host.write(current,s,name,index,value)?;
                 }
                 Op::StoreLocal{name} => { let value=pop(&mut stack)?; locals.insert(name.clone(),value); }
                 Op::Cast{to} => {

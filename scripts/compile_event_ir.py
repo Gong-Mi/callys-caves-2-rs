@@ -131,8 +131,15 @@ def compile_asset(data, names=DEFAULT_OBJECTS):
                            parent=o['parent_id'], parent_chain=chain, events=events))
     # Room creation-code bodies are part of the same executable surface.
     ids = set(ids) | {b['code_id'] for b in room_bindings}
+    # Export STRG string table so strings referenced by string_id resolve directly.
+    lo, hi = reader.chunks['STRG']
+    ptrs = reader.table(lo, lo, hi)
+    strings = []
+    for pos in ptrs:
+        slen = reader.u32(pos)
+        strings.append(reader.data[pos + 4 : pos + 4 + slen].decode('utf-8', errors='replace'))
     return dict(schema=1, source_sha256=SHA256, numeric_model='finite-f64-subset',
-                objects=result, room_bindings=room_bindings,
+                string_table=strings, objects=result, room_bindings=room_bindings,
                 codes=[lower(codes[c], disassemble(reader, codes[c])) for c in sorted(ids)])
 
 
