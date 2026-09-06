@@ -245,8 +245,8 @@ pub struct GameState {
     pub sound_catalog: SoundCatalog,
     sound_queue: VecDeque<usize>,
     jump_was_active: bool,
-    pub intro_state: Option<callys_core::original_introduction::IntroductionState>,
-    pub intro_logo_alpha: f32,
+    pub intro_scene: Option<callys_core::ir_scene::Scene>,
+    pub intro_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
 }
 
 impl GameState {
@@ -356,22 +356,22 @@ impl GameState {
             sound_catalog,
             sound_queue: VecDeque::new(),
             jump_was_active: false,
-            intro_state: None,
-            intro_logo_alpha: 0.0,
+            intro_scene: None,
+            intro_bundle: None,
         })
     }
 
     pub fn step(&mut self, dt: f32) {
-        if let Some(mut intro) = self.intro_state.take() {
-            let user_tap = self.input.attack || self.input.jump;
-            let finished = intro.tick_frame(user_tap, |_, _, _| {});
-            if intro.alarms[2] <= 0.0 && self.intro_logo_alpha < 1.0 {
-                self.intro_logo_alpha = (self.intro_logo_alpha + 0.02).min(1.0);
-            }
-            if !finished && !intro.destroyed {
-                self.intro_state = Some(intro);
+        if let (Some(bundle), Some(scene)) = (self.intro_bundle.as_deref(), self.intro_scene.as_mut()) {
+            // Original obj_introduction Step taps mouse_check_button_pressed(mb_left);
+            // Scene consumes mb_left via mouse_pressed. Any attack/jump input is a tap.
+            scene.mouse_pressed = self.input.attack || self.input.jump;
+            scene.tick(bundle).expect("prologue IR tick failed; no fallback");
+            let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
+            if intro_alive {
                 return;
             }
+            self.intro_scene = None;
         }
         let progress_before = SaveData::from_world(&self.world);
         let player_state_before = self.world.player.state;
@@ -791,32 +791,27 @@ pub fn draw_frame(
     let scale_x = fb.width as f32 / 960.0;
     let scale_y = fb.height as f32 / 540.0;
 
-    // Check if introduction cutscene is playing
-    if let Some(intro) = &state.intro_state {
+    // Prologue cutscene: render exactly what the original CODE Draw events
+    // emitted this tick (draw_self / draw_sprite_ext commands with CODE+offset
+    // provenance). Alpha-blended blit; no hand-placed coordinates here.
+    if let (Some(bundle), Some(scene)) = (state.intro_bundle.as_deref(), state.intro_scene.as_ref()) {
         fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
-        // Draw spr_intro (phone background frame, id 161)
-        let phone_x = (intro.xx1 as f32 * scale_x * 2.0) as i32;
-        let phone_y = (-2.0 * scale_y * 2.0) as i32;
-        let phone_w = (208.0 * scale_x * 2.0) as u32;
-        let phone_h = (320.0 * scale_y * 2.0) as u32;
-        draw_sprite(fb, state, 161, 0, (phone_x, phone_y, phone_w, phone_h), false);
-
-        // Draw spr_logo (id 160) if Alarm 2 has spawned it
-        if intro.alarms[2] <= 0.0 {
-            let logo_x = (intro.x1 as f32 * scale_x * 1.5) as i32;
-            let logo_y = (60.0 * scale_y * 1.5) as i32;
-            let logo_w = (587.0 * scale_x * 0.75) as u32;
-            let logo_h = (229.0 * scale_y * 0.75) as u32;
-            draw_sprite(fb, state, 160, 0, (logo_x, logo_y, logo_w, logo_h), false);
-        }
-
-        // Subtitle prompt
-        if intro.taplock == 1.0 {
-            let prompt_w = (200.0 * scale_x) as u32;
-            let prompt_h = (20.0 * scale_y) as u32;
-            let prompt_x = (fb.width as i32 - prompt_w as i32) / 2;
-            let prompt_y = (fb.height as i32 - 40);
-            fb.draw_rect(prompt_x, prompt_y, prompt_w, prompt_h, (255, 255, 255, 180));
+        let _ = bundle;
+        for cmd in &scene.draws {
+            let dst_x = (cmd.x as f32 * scale_x) as i32;
+            let dst_y = (cmd.y as f32 * scale_y) as i32;
+            let sprite = state.asset.sprites.get(&(cmd.sprite as usize));
+            let (w, h) = sprite.map(|s| (s.width, s.height)).unwrap_or((32, 32));
+            let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+            let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+            let frame = cmd.frame.max(0.0) as usize;
+            let alpha = cmd.alpha.clamp(0.0, 1.0);
+            if alpha <= 0.0 {
+                continue;
+            }
+            if !draw_sprite(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false) {
+                fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
+            }
         }
         return;
     }
@@ -1102,8 +1097,18 @@ mod android_jni {
                 return;
             }
         };
-        // Trigger original introduction state for initial session on device
-        st.intro_state = Some(callys_core::original_introduction::IntroductionState::new());
+        // Boot the prologue from real compiled CODE: obj_introduction Create
+        // runs the original bytecode (deactivate-all, spawn phone, schedule
+        // alarms, queue mus_new4). Draw uses view 0 at the room origin.
+        {
+            let bundle = std::sync::Arc::new(callys_core::code_vm::prologue_bundle());
+            let mut scene = callys_core::ir_scene::Scene::default();
+            scene.view_positions.insert(0, (0.0, 0.0));
+            scene.create(&bundle, 137, 0.0, 0.0)
+                .expect("prologue obj_introduction Create failed");
+            st.intro_bundle = Some(bundle);
+            st.intro_scene = Some(scene);
+        }
         match export_required_wavs(&st.asset, Path::new(&path)) {
             Ok(exported) => log(&format!("exported {} short sound effects", exported.len())),
             Err(error) => log(&format!("sound export failed: {error}")),
