@@ -8,7 +8,7 @@ use std::collections::BTreeMap;
 #[derive(Debug, Clone)]
 pub struct Instance {
     pub object: i32, pub alive: bool, pub active: bool, pub external: bool,
-    pub fields: BTreeMap<String, f64>, pub alarms: [i32; 12],
+    pub fields: BTreeMap<String, f64>, pub arrays: BTreeMap<(String, i32), f64>, pub alarms: [i32; 12],
 }
 #[derive(Debug, Clone, Default)]
 pub struct TouchDevice {
@@ -42,6 +42,9 @@ pub struct Scene {
     pub view_visible: [bool; 8],
     pub ini_open_file: Option<String>,
     pub ini_data: BTreeMap<(String, String, String), f64>,
+    pub other_instance: Option<i32>,
+    pub room_tiles: Vec<callys_asset::RoomTileInstance>,
+    pub target_room_warp: Option<usize>,
     next_id: i32, site: (usize,usize), depth: usize,
 }
 impl Default for Scene {
@@ -60,6 +63,9 @@ impl Default for Scene {
             view_visible: [true, false, false, false, false, false, false, false],
             ini_open_file: None,
             ini_data: BTreeMap::new(),
+            other_instance: None,
+            room_tiles: Vec::new(),
+            target_room_warp: None,
             next_id: 0, site: (0, 0), depth: 0,
         }
     }
@@ -76,8 +82,75 @@ impl Scene {
     }
     /// Test/embedding boundary, not an implicit fake room loader.
     pub fn insert_external(&mut self, object:i32)->i32 {
-        self.next_id=self.next_id.max(100000)+1; let id=self.next_id;
-        self.instances.insert(id,Instance{object,alive:true,active:true,external:true,fields:BTreeMap::new(),alarms:[-1;12]}); id
+        self.next_id=self.next_id.max(200000)+1; let id=self.next_id;
+        self.instances.insert(id,Instance{object,alive:true,active:true,external:true,fields:BTreeMap::new(),arrays:BTreeMap::new(),alarms:[-1;12]}); id
+    }
+
+    /// Data-driven room loader: instantiates all objects and tiles from RoomData.
+    /// Runs each instance's Create event, then if a room_binding exists for that
+    /// (room_id, instance_id), executes its creation code in the instance's context.
+    pub fn load_room_from_data(
+        &mut self,
+        bundle: &Bundle,
+        room_id: usize,
+        room: &callys_asset::RoomData,
+    ) -> Result<(), String> {
+        self.current_room = room_id as f64;
+        self.room_width = room.width as f64;
+        self.room_height = room.height as f64;
+        self.target_room_warp = None;
+        self.room_tiles = room.tiles.clone();
+        self.draws.clear();
+
+        // Materialize objects from RoomData
+        for inst in &room.objects {
+            let obj_id = inst.object_id;
+            let x = inst.x as f64;
+            let y = inst.y as f64;
+
+            // Instantiate object
+            let inst_id = self.create_with_id(bundle, inst.instance_id, obj_id, x, y)?;
+
+            // Apply scale if specified
+            if inst.scale_x.is_finite() && inst.scale_x != 0.0 {
+                let _ = self.write(inst_id, -1, "image_xscale", None, inst.scale_x as f64);
+            }
+            if inst.scale_y.is_finite() && inst.scale_y != 0.0 {
+                let _ = self.write(inst_id, -1, "image_yscale", None, inst.scale_y as f64);
+            }
+
+            // Run creation code if bound
+            if let Some(binding) = bundle.room_bindings.iter().find(|b| {
+                b.room_id == room_id && (b.instance_id == inst.instance_id || (b.object_id == obj_id && b.code_id == inst.creation_code_id as usize))
+            }) {
+                code_vm::execute(bundle, binding.code_id, inst_id, self)
+                    .map_err(|e| format!("Creation code error: {e}"))?;
+            }
+        }
+        Ok(())
+    }
+
+    pub fn create_with_id(&mut self, b: &Bundle, id: i32, object: i32, x: f64, y: f64) -> Result<i32, String> {
+        let obj = b.objects.iter().find(|o| o.id == object)
+            .ok_or(format!("object {object} not compiled; no fallback Create"))?;
+        self.next_id = self.next_id.max(id);
+        self.instances.insert(id, Instance {
+            object, alive: true, active: true, external: false,
+            fields: BTreeMap::new(), arrays: BTreeMap::new(), alarms: [-1; 12],
+        });
+        let i = self.instances.get_mut(&id).unwrap();
+        for (n, v) in [
+            ("x", x), ("y", y), ("sprite_index", obj.sprite as f64), ("image_index", 0.0),
+            ("image_xscale", 1.0), ("image_yscale", 1.0), ("image_angle", 0.0),
+            ("image_blend", 16777215.0), ("image_alpha", 1.0), ("image_speed", 1.0),
+            ("score", 0.0), ("hspeed", 0.0), ("vspeed", 0.0), ("speed", 0.0),
+            ("direction", 0.0), ("friction", 0.0), ("gravity", 0.0), ("gravity_direction", 270.0),
+            ("visible", 1.0),
+        ] {
+            i.fields.insert(n.into(), v);
+        }
+        self.dispatch(b, id, 0, 0)?;
+        Ok(id)
     }
     pub fn create(&mut self,b:&Bundle,object:i32,x:f64,y:f64)->Result<i32,String> {
         let obj=b.objects.iter().find(|o|o.id==object).ok_or(format!("object {object} not compiled; no fallback Create"))?;
@@ -191,6 +264,10 @@ impl Host for Scene {
     fn instruction(&mut self,code:usize,offset:usize){self.site=(code,offset);self.executed.push(self.site);}
     fn select(&self,id:i32,s:i32)->Result<Vec<i32>,String> {
         if s == -1 {return Ok(vec![id]);}
+        if s == -2 {
+            if let Some(other_id) = self.other_instance { return Ok(vec![other_id]); }
+            return Ok(vec![id]);
+        }
         if s<0 {return Err(format!("unsupported instance selector {s}"));}
         Ok(self.instances.iter().filter(|(key,i)| {
             if !i.alive || !i.active { return false; }
@@ -232,8 +309,11 @@ impl Host for Scene {
         if ids.len()!=1 {return Err(format!("read requires exactly one receiver, got {}",ids.len()));}
         let target=ids[0];
         if let Some(idx)=index {
-            if n!="alarm"||!(0..12).contains(&idx){return Err(format!("unsupported array {n}[{idx}]"));}
-            return Ok(self.instances[&target].alarms[idx as usize] as f64);
+            if n=="alarm" {
+                if !(0..12).contains(&idx) { return Err(format!("unsupported alarm index [{idx}]")); }
+                return Ok(self.instances[&target].alarms[idx as usize] as f64);
+            }
+            return Ok(self.instances[&target].arrays.get(&(n.to_string(), idx)).copied().unwrap_or(0.0));
         }
         self.self_field(target,n)
     }
@@ -265,26 +345,34 @@ impl Host for Scene {
         for target in ids {
             let i=self.instances.get_mut(&target).ok_or("missing write target")?;
             if let Some(idx)=index {
-                if n!="alarm"||!(0..12).contains(&idx){return Err(format!("unsupported array {n}[{idx}]"));}
-                i.alarms[idx as usize]=int(value)?;
+                if n=="alarm" {
+                    if !(0..12).contains(&idx) { return Err(format!("unsupported alarm index [{idx}]")); }
+                    i.alarms[idx as usize]=int(value)?;
+                } else {
+                    i.arrays.insert((n.to_string(), idx), value);
+                }
             } else {i.fields.insert(n.into(),value);}
         } Ok(())
     }
     fn call(&mut self,b:&Bundle,id:i32,n:&str,a:&[f64])->Result<f64,String> {
         let expected_argc = match n {
             "instance_activate_all" | "instance_destroy" | "draw_self" | "display_get_width"
-            | "display_get_height" | "randomize" | "action_current_room" | "ini_close" => Some(0),
+            | "display_get_height" | "randomize" | "action_current_room" | "ini_close"
+            | "part_system_create" | "part_type_create" => Some(0),
             "instance_deactivate_all" | "instance_activate_object" | "instance_exists"
             | "mouse_check_button_pressed" | "device_mouse_x" | "device_mouse_y" | "mouse_clear"
             | "audio_is_playing" | "audio_stop_sound" | "draw_set_font" | "draw_set_color"
             | "string" | "application_surface_enable" | "device_mouse_dbclick_enable"
-            | "file_exists" | "ini_open" | "distance_to_object" | "sign" => Some(1),
+            | "file_exists" | "ini_open" | "distance_to_object" | "sign" | "room_goto" => Some(1),
             "device_mouse_check_button" | "device_mouse_check_button_pressed"
-            | "device_mouse_check_button_released" | "irandom_range" | "min" | "max" | "random_range" => Some(2),
+            | "device_mouse_check_button_released" | "irandom_range" | "min" | "max" | "random_range"
+            | "part_type_alpha1" | "part_type_shape" => Some(2),
             "instance_create" | "audio_play_sound" | "instance_place" | "place_meeting"
-            | "draw_text" | "AdColony_Init" | "ini_read_real" | "ini_write_real" => Some(3),
+            | "draw_text" | "AdColony_Init" | "ini_read_real" | "ini_write_real"
+            | "part_type_color2" | "part_type_gravity" | "part_type_life" => Some(3),
             "draw_sprite" => Some(4),
-            "collision_point" => Some(5),
+            "collision_point" | "part_type_direction" | "part_type_size" | "part_type_speed" => Some(5),
+            "part_type_orientation" => Some(6),
             "draw_sprite_ext" => Some(9),
             "draw_healthbar" => Some(11),
             "choose" => None,
@@ -434,6 +522,11 @@ impl Host for Scene {
             "draw_healthbar" => Ok(0.0),
             "application_surface_enable" => Ok(0.0),
             "action_current_room" => Ok(self.current_room),
+            "room_goto" => {
+                let target = a[0] as usize;
+                self.target_room_warp = Some(target);
+                Ok(0.0)
+            },
             "device_mouse_dbclick_enable" => Ok(0.0),
             "file_exists" => Ok(1.0),
             "ini_open" => {
@@ -492,6 +585,10 @@ impl Host for Scene {
                 };
                 Ok(if hit { 1.0 } else { 0.0 })
             }
+            "part_system_create" | "part_type_create" => Ok(1.0),
+            "part_type_alpha1" | "part_type_shape" | "part_type_color2" | "part_type_gravity"
+            | "part_type_life" | "part_type_direction" | "part_type_size" | "part_type_speed"
+            | "part_type_orientation" => Ok(0.0),
             _ => Err(format!("unsupported builtin {n}")),
         }
     }
