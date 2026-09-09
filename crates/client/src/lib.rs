@@ -1270,6 +1270,21 @@ mod android_jni {
             st.intro_bundle = Some(bundle);
             st.intro_scene = Some(scene);
         }
+        let full_ir = Path::new(&path).with_file_name("full_ir.json");
+        if full_ir.exists() {
+            match callys_core::code_vm::load_bundle_from_file(&full_ir) {
+                Ok(bundle) => {
+                    if let Err(error) = st.enable_ir_gameplay(std::sync::Arc::new(bundle)) {
+                        log(&format!("full IR gameplay init failed: {error}"));
+                    } else {
+                        log("full IR gameplay bundle loaded");
+                    }
+                }
+                Err(error) => log(&format!("full IR bundle load failed: {error}")),
+            }
+        } else {
+            log("full IR gameplay bundle missing; refusing silent handwritten fallback");
+        }
         match export_required_wavs(&st.asset, Path::new(&path)) {
             Ok(exported) => log(&format!("exported {} short sound effects", exported.len())),
             Err(error) => log(&format!("sound export failed: {error}")),

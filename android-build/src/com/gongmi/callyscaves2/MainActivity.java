@@ -131,6 +131,7 @@ public class MainActivity extends Activity {
     private String prepareGameDroid() {
         File out = new File(getFilesDir(), "game.droid");
         copyAsset("game.droid", out, 1000);
+        copyAsset("full_ir.json", new File(getFilesDir(), "full_ir.json"), 1000000);
         File textureDir = new File(getFilesDir(), "textures");
         if (!textureDir.exists() && !textureDir.mkdirs()) {
             throw new RuntimeException("Failed to create texture directory");

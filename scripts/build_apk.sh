@@ -6,7 +6,7 @@ set -euo pipefail
 #   - lib/arm64-v8a/libcallys_client.so (the Rust engine)
 #   - assets/* (textures + audio + JSON metadata)
 
-ROOT="/data/data/com.termux/files/home/callys-caves-2-rs"
+ROOT="${CALLY_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 BUILD="$ROOT/android-build"
 SDK="${ANDROID_SDK:-/data/data/com.termux/files/home/android-sdk}"
 PLATFORM_API=36
@@ -79,7 +79,8 @@ asset_root = "/data/data/com.termux/files/home/callys-caves-2-rs/assets"
 
 with zipfile.ZipFile(apk, "a") as z:
     z.write(os.path.join(build, "classes.dex"), "classes.dex")
-    z.write(target_so, "lib/arm64-v8a/libcallys_client.so")
+    z.write(target_so, 'lib/arm64-v8a/libcallys_client.so')
+    z.write(os.path.join(root, 'crates/core/src/generated/full_ir.json'), 'assets/full_ir.json')
     for root, _, files in os.walk(asset_root):
         for f in files:
             full = os.path.join(root, f)
