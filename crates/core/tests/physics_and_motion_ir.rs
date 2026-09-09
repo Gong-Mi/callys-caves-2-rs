@@ -106,7 +106,7 @@ fn motion_integration_gravity_friction_and_builtins() {
     assert_eq!(s.texts[0].x, 10.0);
     assert_eq!(s.texts[0].y, 20.0);
 
-    s.call(&bundle, id, "draw_healthbar", &[0.0, 0.0, 100.0, 10.0, 75.0, 0.0, 1.0, 2.0]).unwrap();
+    s.call(&bundle, id, "draw_healthbar", &[0.0, 0.0, 100.0, 10.0, 75.0, 0.0, 1.0, 2.0, 0.0, 1.0, 1.0]).unwrap();
     assert_eq!(s.healthbars.len(), 1);
     assert_eq!(s.healthbars[0].amount, 75.0);
 
