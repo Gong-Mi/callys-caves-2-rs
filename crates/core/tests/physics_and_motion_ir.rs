@@ -135,5 +135,20 @@ fn motion_integration_gravity_friction_and_builtins() {
     assert_eq!(s.backgrounds[1].scale_y, 1.4);
     assert_eq!(s.backgrounds[1].alpha, 0.9);
 
+    // 14. Test ds_map creation, replace, find_value, secure_save, and destroy
+    let map_id = s.call(&bundle, id, "ds_map_create", &[]).unwrap();
+    assert_eq!(map_id, 1.0);
+    assert_eq!(s.ds_maps.len(), 1);
+
+    s.call(&bundle, id, "ds_map_replace", &[map_id, 0.0, 42.0]).unwrap();
+    let val = s.call(&bundle, id, "ds_map_find_value", &[map_id, 0.0]).unwrap();
+    assert_eq!(val, 42.0);
+
+    let saved = s.call(&bundle, id, "ds_map_secure_save", &[map_id, 0.0]).unwrap();
+    assert_eq!(saved, 1.0);
+
+    s.call(&bundle, id, "ds_map_destroy", &[map_id]).unwrap();
+    assert_eq!(s.ds_maps.len(), 0);
+
     println!("Verified: motion_set, gravity, friction, velocity integration, and geometric builtins pass!");
 }

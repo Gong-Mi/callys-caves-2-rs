@@ -61,11 +61,12 @@ pub struct Scene {
     pub view_visible: [bool; 8],
     pub ini_open_file: Option<String>,
     pub ini_data: BTreeMap<(String, String, String), f64>,
+    pub ds_maps: BTreeMap<i32, BTreeMap<String, f64>>,
     pub other_instance: Option<i32>,
     pub room_tiles: Vec<callys_asset::RoomTileInstance>,
     pub target_room_warp: Option<usize>,
     pub persistent_objects: BTreeSet<i32>,
-    next_id: i32, site: (usize,usize), depth: usize,
+    next_id: i32, next_ds_map_id: i32, site: (usize,usize), depth: usize,
 }
 impl Default for Scene {
     fn default() -> Self {
@@ -84,11 +85,12 @@ impl Default for Scene {
             view_visible: [true, false, false, false, false, false, false, false],
             ini_open_file: None,
             ini_data: BTreeMap::new(),
+            ds_maps: BTreeMap::new(),
             other_instance: None,
             room_tiles: Vec::new(),
             target_room_warp: None,
             persistent_objects: BTreeSet::new(),
-            next_id: 0, site: (0, 0), depth: 0,
+            next_id: 0, next_ds_map_id: 1, site: (0, 0), depth: 0,
         }
     }
 }
@@ -1043,11 +1045,43 @@ impl Host for Scene {
                 });
                 Ok(0.0)
             }
+            "ds_map_create" => {
+                let mid = self.next_ds_map_id;
+                self.next_ds_map_id += 1;
+                self.ds_maps.insert(mid, BTreeMap::new());
+                Ok(mid as f64)
+            }
+            "ds_map_destroy" => {
+                if !a.is_empty() {
+                    let mid = int(a[0])?;
+                    self.ds_maps.remove(&mid);
+                }
+                Ok(0.0)
+            }
+            "ds_map_replace" => {
+                if a.len() >= 3 {
+                    let mid = int(a[0])?;
+                    let key = b.string_table.get(a[1] as usize).cloned().unwrap_or_else(|| format!("{}", a[1]));
+                    let val = a[2];
+                    self.ds_maps.entry(mid).or_default().insert(key, val);
+                }
+                Ok(0.0)
+            }
+            "ds_map_find_value" => {
+                if a.len() >= 2 {
+                    let mid = int(a[0])?;
+                    let key = b.string_table.get(a[1] as usize).cloned().unwrap_or_else(|| format!("{}", a[1]));
+                    let val = self.ds_maps.get(&mid).and_then(|m| m.get(&key)).copied().unwrap_or(0.0);
+                    Ok(val)
+                } else {
+                    Ok(0.0)
+                }
+            }
+            "ds_map_secure_save" => Ok(1.0),
             "part_particles_create" | "d3d_set_fog"
             | "AdColony_ShowVideo" | "ads_disable"
             | "shop_leave_rating" | "file_delete"
-            | "ds_map_find_value" | "ds_map_replace" | "ds_map_destroy" | "ds_map_secure_save"
-            | "ds_map_create" | "iap_purchase_details" | "iap_acquire" => Ok(0.0),
+            | "iap_purchase_details" | "iap_acquire" => Ok(0.0),
             "collision_line" => {
                 let x1 = a[0]; let y1 = a[1]; let x2 = a[2]; let y2 = a[3];
                 let s = int(a[4])?;
