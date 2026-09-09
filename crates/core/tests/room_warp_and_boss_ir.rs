@@ -39,12 +39,40 @@ fn original_bytecode_drives_warp_key_and_boss_boulder_lifecycle() {
     s.globals.insert("musicmute".into(), 0.0);
     s.globals.insert("haskey".into(), 0.0);
     s.globals.insert("warplock".into(), 0.0);
-    s.globals.insert("boss1dead".into(), 0.0);
-    s.globals.insert("boss2dead".into(), 0.0);
-    s.globals.insert("boss3dead".into(), 0.0);
-    s.globals.insert("boss4dead".into(), 0.0);
-    s.globals.insert("boss5dead".into(), 0.0);
-    s.globals.insert("boss6dead".into(), 0.0);
+    s.globals.insert("pistol".into(), 1.0);
+    s.globals.insert("assaultrifle".into(), 0.0);
+    s.globals.insert("shotgun".into(), 0.0);
+    s.globals.insert("tjumpactive".into(), 0.0);
+    s.globals.insert("drawlevelup".into(), 0.0);
+    s.globals.insert("drawweaponchange".into(), 0.0);
+    s.globals.insert("drawweaponlevelup".into(), 0.0);
+    s.globals.insert("strengthupgradebought".into(), 0.0);
+    s.globals.insert("strengthupgrade2bought".into(), 0.0);
+    s.globals.insert("coinmultiply".into(), 1.0);
+    s.globals.insert("firing".into(), 0.0);
+    s.globals.insert("swing".into(), 0.0);
+    s.globals.insert("boss1touched".into(), 0.0);
+    for i in 1..=16 {
+        s.globals.insert(format!("talkedtolloyd{i}"), 0.0);
+    }
+    for b in 1..=6 {
+        s.globals.insert(format!("boss{b}dead"), 0.0);
+    }
+    for w in [
+        "assaultriflelevel", "bladegunlevel", "bombgunlevel", "boomeranglevel", "bowlevel",
+        "flamethrowerlevel", "icegunlevel", "laserlevel", "pistollevel", "rocketlevel",
+        "shotgunlevel", "spikegunlevel",
+    ] {
+        s.globals.insert(w.into(), 1.0);
+    }
+    for wb in [
+        "shotgunbought", "assaultriflebought", "rocketbought", "laserbought", "icegunbought",
+        "bladegunbought", "flamethrowerbought", "bowbought", "bombgunbought", "boomerangbought",
+        "spikegunbought", "triplejumpbought", "coinmultiplier2bought", "coinmultiplier5bought",
+        "maxhpupgradebought", "maxhpupgrade2bought",
+    ] {
+        s.globals.insert(wb.into(), 0.0);
+    }
 
     // 1. Test rm_town locked warp semantics (CODE 13 + CODE 803)
     let town_room = &asset.rooms[0];
