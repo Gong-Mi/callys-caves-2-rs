@@ -70,20 +70,25 @@ if llvm-readelf -d "$SO_SRC" | grep -q RUNPATH; then
 fi
 
 # 5. inject dex + native lib + assets into base.apk
+export BUILD ROOT
 python3 - <<'PY'
 import zipfile, os
-apk = "/data/data/com.termux/files/home/callys-caves-2-rs/android-build/base.apk"
-build = "/data/data/com.termux/files/home/callys-caves-2-rs/android-build"
-target_so = "/data/data/com.termux/files/home/callys-caves-2-rs/target/release/libcallys_client.so"
-asset_root = "/data/data/com.termux/files/home/callys-caves-2-rs/assets"
+
+root = os.environ.get("ROOT", "/data/data/com.termux/files/usr/tmp/cally-code-reverse")
+build = os.environ.get("BUILD", os.path.join(root, "android-build"))
+apk = os.path.join(build, "base.apk")
+target_so = os.path.join(root, "target/release/libcallys_client.so")
+asset_root = os.path.join(root, "assets")
 
 with zipfile.ZipFile(apk, "a") as z:
     z.write(os.path.join(build, "classes.dex"), "classes.dex")
-    z.write(target_so, 'lib/arm64-v8a/libcallys_client.so')
-    z.write(os.path.join(root, 'crates/core/src/generated/full_ir.json'), 'assets/full_ir.json')
-    for root, _, files in os.walk(asset_root):
+    z.write(target_so, "lib/arm64-v8a/libcallys_client.so")
+    full_ir = os.path.join(root, "crates/core/src/generated/full_ir.json")
+    if os.path.exists(full_ir):
+        z.write(full_ir, "assets/full_ir.json")
+    for r, _, files in os.walk(asset_root):
         for f in files:
-            full = os.path.join(root, f)
+            full = os.path.join(r, f)
             rel = os.path.relpath(full, asset_root)
             z.write(full, f"assets/{rel}")
 print("Injected dex, libcallys_client.so, and assets into base.apk")

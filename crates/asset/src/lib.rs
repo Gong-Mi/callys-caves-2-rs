@@ -1010,7 +1010,7 @@ impl GameDroidAsset {
                 offsets.push(file.read_u32::<LittleEndian>()?);
             }
             for &off in &offsets {
-                if let Ok(s) = read_null_string(&mut file, off as u64, file_len) {
+                if let Ok(s) = read_null_string(&mut file, (off as u64) + 4, file_len) {
                     strings.push(s);
                 }
             }
