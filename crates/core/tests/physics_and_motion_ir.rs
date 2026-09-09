@@ -1,4 +1,4 @@
-use callys_core::code_vm::Bundle;
+use callys_core::code_vm::{Bundle, Host};
 use callys_core::ir_scene::Scene;
 
 #[test]
