@@ -459,7 +459,7 @@ impl Host for Scene {
         if s == -1 && n == "room_height" && index.is_none() { return Ok(self.room_height); }
         if s == -1 && n == "room" && index.is_none() { return Ok(self.current_room); }
         let ids=self.select(id,s)?;
-        if ids.len()!=1 {return Err(format!("read requires exactly one receiver, got {}",ids.len()));}
+        if ids.is_empty() {return Err(format!("read has no receiver for selector {s}"));}
         let target=ids[0];
         if let Some(idx)=index {
             if n=="alarm" {
