@@ -30,7 +30,7 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
 
     // 2. Verify rendering pipeline draws tiles and instances into Framebuffer
     let mut fb = Framebuffer::new(960, 540);
-    draw_frame(&mut fb, &state, &state.asset.tpag, &state.asset.sprites);
+    draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
     let non_zero_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
     assert!(
         non_zero_pixels > 1000,
@@ -56,7 +56,7 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
     assert!(has_boulder, "obj_bossboulder must be materialized in rm_boss1");
 
     // Render Boss1 room to ensure boss arena draws cleanly
-    draw_frame(&mut fb, &state, &state.asset.tpag, &state.asset.sprites);
+    draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
     let boss_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
     assert!(boss_pixels > 1000, "rm_boss1 must render cleanly");
 
