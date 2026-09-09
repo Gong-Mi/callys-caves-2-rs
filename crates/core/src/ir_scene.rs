@@ -977,7 +977,19 @@ impl Host for Scene {
             "window_get_width" => Ok(self.display_width),
             "window_get_height" => Ok(self.display_height),
             "draw_set_alpha" => { self.draw_alpha = a[0]; Ok(0.0) }
-            "part_particles_create" | "d3d_set_fog" | "draw_text_color"
+            "draw_text_color" => {
+                let x = a[0]; let y = a[1];
+                let s_idx = a[2] as usize;
+                let text = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[2]));
+                let color = int(a[3])?;
+                let alpha = a[7];
+                self.texts.push(TextCommand {
+                    code: self.site.0, offset: self.site.1, instance: id, view: self.view,
+                    x, y, text, color, alpha,
+                });
+                Ok(0.0)
+            }
+            "part_particles_create" | "d3d_set_fog"
             | "draw_background_ext" | "draw_background" | "AdColony_ShowVideo" | "ads_disable"
             | "shop_leave_rating" | "file_delete"
             | "ds_map_find_value" | "ds_map_replace" | "ds_map_destroy" | "ds_map_secure_save"

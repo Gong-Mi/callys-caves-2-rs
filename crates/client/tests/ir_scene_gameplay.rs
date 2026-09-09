@@ -70,5 +70,15 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
     let healthbar_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
     assert!(healthbar_pixels >= boss_pixels, "Healthbar must add rendered pixels to Framebuffer");
 
+    // 6. Verify Text rendering consumer renders glyphs into Framebuffer
+    state.scene.as_mut().unwrap().texts.push(callys_core::ir_scene::TextCommand {
+        code: 0, offset: 0, instance: 0, view: 0,
+        x: 10.0, y: 10.0, text: "SCORE: 100".to_string(),
+        color: 0x00FFFFFF, alpha: 1.0,
+    });
+    draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
+    let text_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
+    assert!(text_pixels > healthbar_pixels, "TextCommand must render glyph pixels into Framebuffer");
+
     println!("Verified: ir_scene gameplay pipeline drives rm_town, rm_level1, and rm_boss1 rendering and transitions!");
 }

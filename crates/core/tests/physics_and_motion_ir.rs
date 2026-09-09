@@ -106,6 +106,14 @@ fn motion_integration_gravity_friction_and_builtins() {
     assert_eq!(s.texts[0].x, 10.0);
     assert_eq!(s.texts[0].y, 20.0);
 
+    // 12. Test draw_text_color command generation with custom color and alpha
+    s.call(&bundle, id, "draw_text_color", &[30.0, 40.0, 0.0, 255.0, 255.0, 255.0, 255.0, 0.8]).unwrap();
+    assert_eq!(s.texts.len(), 2);
+    assert_eq!(s.texts[1].x, 30.0);
+    assert_eq!(s.texts[1].y, 40.0);
+    assert_eq!(s.texts[1].color, 255);
+    assert_eq!(s.texts[1].alpha, 0.8);
+
     s.call(&bundle, id, "draw_healthbar", &[0.0, 0.0, 100.0, 10.0, 75.0, 0.0, 1.0, 2.0, 0.0, 1.0, 1.0]).unwrap();
     assert_eq!(s.healthbars.len(), 1);
     assert_eq!(s.healthbars[0].amount, 75.0);
