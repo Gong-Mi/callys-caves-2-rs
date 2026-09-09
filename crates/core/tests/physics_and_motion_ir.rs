@@ -1,4 +1,4 @@
-use callys_core::code_vm::{Bundle, Host};
+use callys_core::code_vm::{Bundle, Host, Object};
 use callys_core::ir_scene::Scene;
 
 #[test]
@@ -6,7 +6,15 @@ fn motion_integration_gravity_friction_and_builtins() {
     let bundle = Bundle {
         schema: 1,
         string_table: vec![],
-        objects: vec![],
+        objects: vec![Object {
+            id: 1,
+            name: "fixture_object".into(),
+            sprite: -1,
+            depth: 0,
+            parent: -100,
+            parent_chain: vec![],
+            events: vec![],
+        }],
         room_bindings: vec![],
         codes: vec![],
     };
