@@ -247,6 +247,8 @@ pub struct GameState {
     jump_was_active: bool,
     pub intro_scene: Option<callys_core::ir_scene::Scene>,
     pub intro_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
+    pub scene: Option<callys_core::ir_scene::Scene>,
+    pub full_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
 }
 
 impl GameState {
@@ -358,7 +360,35 @@ impl GameState {
             jump_was_active: false,
             intro_scene: None,
             intro_bundle: None,
+            scene: None,
+            full_bundle: None,
         })
+    }
+
+    /// Transitions gameplay directly into the full data-driven IR scene
+    /// backed by the original GameMaker bytecode and room records.
+    pub fn enable_ir_gameplay(&mut self, bundle: std::sync::Arc<callys_core::code_vm::Bundle>) -> Result<(), String> {
+        let mut scene = callys_core::ir_scene::Scene::default();
+        scene.init_bundle(&bundle);
+        scene.init_fresh_start_globals();
+        for (sid, sp) in &self.asset.sprites {
+            scene.sprite_bounds.insert(
+                *sid as i32,
+                callys_core::ir_scene::SpriteBounds {
+                    width: sp.width as f64,
+                    height: sp.height as f64,
+                    origin_x: sp.origin_x as f64,
+                    origin_y: sp.origin_y as f64,
+                },
+            );
+        }
+        let current_room = self.world.current_room_index;
+        if let Some(room_data) = self.asset.rooms.get(current_room) {
+            scene.load_room_from_data(&bundle, current_room, room_data)?;
+        }
+        self.scene = Some(scene);
+        self.full_bundle = Some(bundle);
+        Ok(())
     }
 
     pub fn step(&mut self, dt: f32) {
@@ -377,6 +407,38 @@ impl GameState {
                 return;
             }
             self.intro_scene = None;
+            if let Some(bundle) = self.full_bundle.clone() {
+                let _ = self.enable_ir_gameplay(bundle);
+            }
+        }
+
+        // Full IR scene gameplay loop
+        if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
+            scene.touch_devices[0].down = self.input.move_left;
+            scene.touch_devices[1].down = self.input.move_right;
+            scene.touch_devices[2].down = self.input.jump;
+            scene.touch_devices[2].pressed = self.input.jump;
+            scene.touch_devices[3].down = self.input.attack;
+            scene.touch_devices[3].pressed = self.input.attack;
+
+            let _ = scene.tick(bundle);
+
+            for command in scene.audio.drain(..) {
+                self.sound_queue.push_back(command.sound.max(0) as usize);
+            }
+
+            if let Some(target_room) = scene.target_room_warp.take() {
+                if let Some(next_room) = self.asset.rooms.get(target_room) {
+                    let _ = scene.transition_to_room(bundle, target_room, next_room);
+                    self.rooms_visited = self.rooms_visited.saturating_add(1);
+                }
+            }
+
+            scene.view_positions.insert(0, (0.0, 0.0));
+            let _ = scene.draw_view(bundle, 0);
+
+            self.frame_count = self.frame_count.wrapping_add(1);
+            return;
         }
         let progress_before = SaveData::from_world(&self.world);
         let player_state_before = self.world.player.state;
@@ -853,6 +915,64 @@ pub fn draw_frame(
             if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
                 fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
             }
+        }
+        return;
+    }
+
+    // Full IR gameplay scene: render room tiles, original draws, and camera follow
+    if let (Some(_bundle), Some(scene)) = (state.full_bundle.as_deref(), state.scene.as_ref()) {
+        let (px, py) = scene.instances.values()
+            .find(|i| i.object == 0 && i.alive)
+            .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
+            .unwrap_or((480.0, 270.0));
+        let cam_x = (px - 480.0).clamp(0.0, (scene.room_width - 960.0).max(0.0));
+        let cam_y = (py - 270.0).clamp(0.0, (scene.room_height - 540.0).max(0.0));
+
+        fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
+
+        // 1. Background tiles
+        for tile in scene.room_tiles.iter().filter(|t| t.depth >= 0) {
+            draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
+        }
+
+        // 2. Instances from IR draws
+        for cmd in &scene.draws {
+            let world_x = cmd.x - cam_x;
+            let world_y = cmd.y - cam_y;
+            let dst_x = (world_x as f32 * scale_x) as i32;
+            let dst_y = (world_y as f32 * scale_y) as i32;
+            let sprite = state.asset.sprites.get(&(cmd.sprite as usize));
+            let (w, h) = sprite.map(|s| (s.width, s.height)).unwrap_or((32, 32));
+            let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+            let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+            let frame = cmd.frame.max(0.0) as usize;
+            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+            if alpha > 0.0 {
+                if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
+                    fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
+                }
+            }
+        }
+
+        // 3. Foreground tiles
+        for tile in scene.room_tiles.iter().filter(|t| t.depth < 0) {
+            draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
+        }
+
+        // 4. Touch control overlay
+        let bottom = fb.height as i32 - 92;
+        if !draw_sprite(fb, state, 158, 0, (20, bottom, 80, 68), false) {
+            fb.draw_rect(24, bottom, 68, 68, (120, 180, 255, 170));
+        }
+        if !draw_sprite(fb, state, 159, 0, (110, bottom, 80, 68), false) {
+            fb.draw_rect(108, bottom, 68, 68, (120, 180, 255, 170));
+        }
+        let right_pad = fb.width as i32 - 100;
+        if !draw_sprite(fb, state, 160, 0, (right_pad - 90, bottom, 80, 68), false) {
+            fb.draw_rect(right_pad - 86, bottom, 68, 68, (255, 220, 80, 170));
+        }
+        if !draw_sprite(fb, state, 161, 0, (right_pad, bottom, 80, 68), false) {
+            fb.draw_rect(right_pad + 4, bottom, 68, 68, (255, 90, 80, 170));
         }
         return;
     }
