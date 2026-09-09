@@ -18,7 +18,7 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
 
     let scene = state.scene.as_ref().unwrap();
     assert_eq!(scene.current_room, 0.0, "Initial room is rm_town (0)");
-    assert!(!scene.room_tiles.is_empty(), "rm_town tiles loaded");
+    assert_eq!(scene.room_tiles.len(), state.asset.rooms[0].tiles.len(), "rm_town tiles match asset data");
     assert!(!scene.instances.is_empty(), "rm_town instances materialized");
 
     // 1. Verify player input drives motion in the IR scene
