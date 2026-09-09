@@ -5,7 +5,7 @@ use callys_core::ir_scene::Scene;
 fn motion_integration_gravity_friction_and_builtins() {
     let bundle = Bundle {
         schema: 1,
-        string_table: vec![],
+        string_table: vec!["savefile.ini".into(), "Section".into(), "Key".into()],
         objects: vec![Object {
             id: 1,
             name: "fixture_object".into(),
@@ -155,7 +155,7 @@ fn motion_integration_gravity_friction_and_builtins() {
     assert_eq!(exists_before, 0.0);
 
     s.call(&bundle, id, "ini_open", &[0.0]).unwrap();
-    s.call(&bundle, id, "ini_write_real", &[0.0, 0.0, 100.0]).unwrap();
+    s.call(&bundle, id, "ini_write_real", &[1.0, 2.0, 100.0]).unwrap();
     s.call(&bundle, id, "ini_close", &[]).unwrap();
 
     let exists_after = s.call(&bundle, id, "file_exists", &[0.0]).unwrap();

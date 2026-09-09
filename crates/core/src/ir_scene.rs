@@ -893,7 +893,7 @@ impl Host for Scene {
             },
             "ini_open" => {
                 let s_idx = a[0] as usize;
-                let name = b.string_table.get(s_idx).cloned().unwrap_or_default();
+                let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
                 self.ini_open_file = Some(name);
                 Ok(0.0)
             }
@@ -905,8 +905,8 @@ impl Host for Scene {
                 let sec_idx = a[0] as usize;
                 let key_idx = a[1] as usize;
                 let def_val = a[2];
-                let sec = b.string_table.get(sec_idx).cloned().unwrap_or_default();
-                let key = b.string_table.get(key_idx).cloned().unwrap_or_default();
+                let sec = b.string_table.get(sec_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
+                let key = b.string_table.get(key_idx).cloned().unwrap_or_else(|| format!("{}", a[1]));
                 let file = self.ini_open_file.clone().unwrap_or_default();
                 let val = self.ini_data.get(&(file, sec, key)).copied().unwrap_or(def_val);
                 Ok(val)
@@ -915,8 +915,8 @@ impl Host for Scene {
                 let sec_idx = a[0] as usize;
                 let key_idx = a[1] as usize;
                 let val = a[2];
-                let sec = b.string_table.get(sec_idx).cloned().unwrap_or_default();
-                let key = b.string_table.get(key_idx).cloned().unwrap_or_default();
+                let sec = b.string_table.get(sec_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
+                let key = b.string_table.get(key_idx).cloned().unwrap_or_else(|| format!("{}", a[1]));
                 let file = self.ini_open_file.clone().unwrap_or_default();
                 self.ini_data.insert((file, sec, key), val);
                 Ok(0.0)
