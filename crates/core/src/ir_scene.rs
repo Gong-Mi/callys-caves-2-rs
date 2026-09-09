@@ -381,6 +381,54 @@ impl Scene {
             }
         }
 
+        // Standard GameMaker motion integration: gravity, friction, velocity advance
+        for i in self.instances.values_mut() {
+            if !i.alive || !i.active || i.external { continue; }
+
+            // 1. Gravity integration
+            let grav = i.fields.get("gravity").copied().unwrap_or(0.0);
+            if grav != 0.0 {
+                let grav_dir = i.fields.get("gravity_direction").copied().unwrap_or(270.0);
+                let rad = grav_dir * std::f64::consts::PI / 180.0;
+                let gh = grav * rad.cos();
+                let gv = -grav * rad.sin();
+                if let Some(h) = i.fields.get_mut("hspeed") { *h += gh; }
+                if let Some(v) = i.fields.get_mut("vspeed") { *v += gv; }
+            }
+
+            // 2. Friction integration
+            let frict = i.fields.get("friction").copied().unwrap_or(0.0);
+            let mut hsp = i.fields.get("hspeed").copied().unwrap_or(0.0);
+            let mut vsp = i.fields.get("vspeed").copied().unwrap_or(0.0);
+            if frict != 0.0 {
+                let spd = (hsp * hsp + vsp * vsp).sqrt();
+                if spd > 0.0 {
+                    let new_spd = (spd - frict).max(0.0);
+                    hsp = hsp * new_spd / spd;
+                    vsp = vsp * new_spd / spd;
+                    if let Some(h) = i.fields.get_mut("hspeed") { *h = hsp; }
+                    if let Some(v) = i.fields.get_mut("vspeed") { *v = vsp; }
+                }
+            }
+
+            // 3. Position integration
+            if hsp != 0.0 {
+                if let Some(x) = i.fields.get_mut("x") { *x += hsp; }
+            }
+            if vsp != 0.0 {
+                if let Some(y) = i.fields.get_mut("y") { *y += vsp; }
+            }
+
+            // 4. Synchronize speed and direction fields if non-zero
+            if hsp != 0.0 || vsp != 0.0 {
+                let cur_spd = (hsp * hsp + vsp * vsp).sqrt();
+                let mut dir = (-vsp).atan2(hsp) * 180.0 / std::f64::consts::PI;
+                if dir < 0.0 { dir += 360.0; }
+                i.fields.insert("speed".into(), cur_spd);
+                i.fields.insert("direction".into(), dir);
+            }
+        }
+
         self.mouse_pressed=false;
         for d in &mut self.touch_devices {
             d.pressed = false;
@@ -529,25 +577,33 @@ impl Host for Scene {
             "instance_activate_all" | "instance_destroy" | "draw_self" | "display_get_width"
             | "display_get_height" | "randomize" | "action_current_room" | "ini_close"
             | "part_system_create" | "part_type_create" | "audio_stop_all" | "audio_pause_all"
-            | "audio_resume_all" => Some(0),
+            | "audio_resume_all" | "action_kill_object" | "window_get_width" | "window_get_height"
+            | "room_restart" | "game_restart" | "ads_disable" | "shop_leave_rating" => Some(0),
             "instance_deactivate_all" | "instance_deactivate_object" | "instance_activate_object" | "instance_exists"
             | "mouse_check_button_pressed" | "device_mouse_x" | "device_mouse_y" | "mouse_clear"
             | "audio_is_playing" | "audio_stop_sound" | "draw_set_font" | "draw_set_color"
             | "string" | "application_surface_enable" | "device_mouse_dbclick_enable"
-            | "file_exists" | "ini_open" | "distance_to_object" | "sign" | "room_goto" => Some(1),
+            | "file_exists" | "ini_open" | "distance_to_object" | "sign" | "room_goto"
+            | "instance_number" | "random" | "draw_set_alpha" | "move_bounce_solid"
+            | "move_bounce_all" | "string_digits" | "file_delete" | "object_exists"
+            | "AdColony_ShowVideo" => Some(1),
             "device_mouse_check_button" | "device_mouse_check_button_pressed"
             | "device_mouse_check_button_released" | "irandom_range" | "min" | "max" | "random_range"
-            | "part_type_alpha1" | "part_type_shape" => Some(2),
+            | "part_type_alpha1" | "part_type_shape" | "motion_set" | "action_bounce" => Some(2),
             "instance_create" | "audio_play_sound" | "audio_sound_gain" | "instance_place" | "place_meeting"
             | "draw_text" | "AdColony_Init" | "ini_read_real" | "ini_write_real"
-            | "part_type_color2" | "part_type_gravity" | "part_type_life" => Some(3),
-            "draw_sprite" => Some(4),
+            | "part_type_color2" | "part_type_gravity" | "part_type_life"
+            | "move_towards_point" | "string_format" | "draw_background" => Some(3),
+            "draw_sprite" | "point_direction" | "d3d_set_fog" => Some(4),
             "collision_point" | "part_type_direction" | "part_type_size" | "part_type_speed"
-            | "instance_activate_region" | "instance_deactivate_region" => Some(5),
-            "part_type_orientation" => Some(6),
+            | "instance_activate_region" | "instance_deactivate_region"
+            | "part_particles_create" | "collision_line" => Some(5),
+            "part_type_orientation" | "mp_potential_step" => Some(6),
+            "draw_text_color" | "draw_background_ext" => Some(8),
             "draw_sprite_ext" => Some(9),
             "draw_healthbar" => Some(11),
-            "choose" => None,
+            "choose" | "ds_map_find_value" | "ds_map_replace" | "ds_map_destroy"
+            | "ds_map_secure_save" | "ds_map_create" | "iap_purchase_details" | "iap_acquire" => None,
             _ => return Err(format!("unsupported builtin {n}")),
         };
         if let Some(exp) = expected_argc {
@@ -788,6 +844,71 @@ impl Host for Scene {
             "part_type_alpha1" | "part_type_shape" | "part_type_color2" | "part_type_gravity"
             | "part_type_life" | "part_type_direction" | "part_type_size" | "part_type_speed"
             | "part_type_orientation" => Ok(0.0),
+            "motion_set" => {
+                let dir = a[0]; let spd = a[1];
+                let rad = dir * std::f64::consts::PI / 180.0;
+                let hsp = spd * rad.cos();
+                let vsp = -spd * rad.sin();
+                let i = self.instances.get_mut(&id).ok_or("missing motion_set target")?;
+                i.fields.insert("direction".into(), dir);
+                i.fields.insert("speed".into(), spd);
+                i.fields.insert("hspeed".into(), hsp);
+                i.fields.insert("vspeed".into(), vsp);
+                Ok(0.0)
+            }
+            "move_towards_point" => {
+                let tx = a[0]; let ty = a[1]; let spd = a[2];
+                let ix = self.self_field(id, "x").unwrap_or(0.0);
+                let iy = self.self_field(id, "y").unwrap_or(0.0);
+                let mut dir = (-(ty - iy)).atan2(tx - ix) * 180.0 / std::f64::consts::PI;
+                if dir < 0.0 { dir += 360.0; }
+                let rad = dir * std::f64::consts::PI / 180.0;
+                let hsp = spd * rad.cos();
+                let vsp = -spd * rad.sin();
+                let i = self.instances.get_mut(&id).ok_or("missing move_towards_point target")?;
+                i.fields.insert("direction".into(), dir);
+                i.fields.insert("speed".into(), spd);
+                i.fields.insert("hspeed".into(), hsp);
+                i.fields.insert("vspeed".into(), vsp);
+                Ok(0.0)
+            }
+            "point_direction" => {
+                let x1 = a[0]; let y1 = a[1]; let x2 = a[2]; let y2 = a[3];
+                let mut dir = (-(y2 - y1)).atan2(x2 - x1) * 180.0 / std::f64::consts::PI;
+                if dir < 0.0 { dir += 360.0; }
+                Ok(dir)
+            }
+            "instance_number" => {
+                let obj_id = int(a[0])?;
+                let targets = self.select(id, obj_id)?;
+                Ok(targets.len() as f64)
+            }
+            "action_kill_object" => { self.destroy(b, id)?; Ok(0.0) }
+            "window_get_width" => Ok(self.display_width),
+            "window_get_height" => Ok(self.display_height),
+            "part_particles_create" | "d3d_set_fog" | "draw_text_color" | "draw_set_alpha"
+            | "draw_background_ext" | "draw_background" | "AdColony_ShowVideo" | "ads_disable"
+            | "shop_leave_rating" | "file_delete" | "collision_line" | "mp_potential_step"
+            | "ds_map_find_value" | "ds_map_replace" | "ds_map_destroy" | "ds_map_secure_save"
+            | "ds_map_create" | "iap_purchase_details" | "iap_acquire" => Ok(0.0),
+            "object_exists" => Ok(1.0),
+            "random" => Ok(a[0] * 0.5),
+            "string_format" | "string_digits" => Ok(a[0]),
+            "action_bounce" | "move_bounce_solid" | "move_bounce_all" => {
+                if let Some(i) = self.instances.get_mut(&id) {
+                    if let Some(h) = i.fields.get_mut("hspeed") { *h = -*h; }
+                    if let Some(v) = i.fields.get_mut("vspeed") { *v = -*v; }
+                }
+                Ok(0.0)
+            }
+            "room_restart" => {
+                self.target_room_warp = Some(self.current_room as usize);
+                Ok(0.0)
+            }
+            "game_restart" => {
+                self.target_room_warp = Some(0);
+                Ok(0.0)
+            }
             _ => Err(format!("unsupported builtin {n}")),
         }
     }
