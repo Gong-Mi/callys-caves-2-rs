@@ -1059,6 +1059,32 @@ pub fn draw_frame(
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
+        // 0. Render Room Backgrounds emitted by obj_bg or scene
+        for bg_cmd in &scene.backgrounds {
+            let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
+            if alpha <= 0.0 {
+                continue;
+            }
+            let bg_id = bg_cmd.background.max(0) as usize;
+            if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
+                if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
+                    if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
+                        let dst_x = (bg_cmd.x as f32 * scale_x) as i32;
+                        let dst_y = (bg_cmd.y as f32 * scale_y) as i32;
+                        let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+                        let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+                        fb.blit_scaled_alpha(
+                            atlas,
+                            (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                            (dst_x, dst_y, dst_w, dst_h),
+                            false,
+                            alpha,
+                        );
+                    }
+                }
+            }
+        }
+
         // 1. Background tiles
         for tile in scene.room_tiles.iter().filter(|t| t.depth >= 0) {
             draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);

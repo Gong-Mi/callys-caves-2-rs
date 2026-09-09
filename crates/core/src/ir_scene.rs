@@ -35,12 +35,19 @@ pub struct HealthbarCommand {
     pub x1: f64, pub y1: f64, pub x2: f64, pub y2: f64, pub amount: f64,
     pub back_col: i32, pub min_col: i32, pub max_col: i32,
 }
+#[derive(Debug, Clone, Serialize, PartialEq)]
+pub struct BackgroundCommand {
+    pub code: usize, pub offset: usize, pub instance: i32, pub view: i32,
+    pub background: i32, pub x: f64, pub y: f64,
+    pub scale_x: f64, pub scale_y: f64, pub rotation: f64, pub color: i32, pub alpha: f64,
+}
 #[derive(Debug, Clone, Serialize)]
 pub struct AudioCommand { pub code: usize, pub offset: usize, pub sound: i32, pub priority: f64, pub looping: bool, pub voice: i32 }
 #[derive(Debug)]
 pub struct Scene {
     pub instances: BTreeMap<i32, Instance>, pub globals: BTreeMap<String, f64>,
-    pub draws: Vec<DrawCommand>, pub texts: Vec<TextCommand>, pub healthbars: Vec<HealthbarCommand>, pub audio: Vec<AudioCommand>,
+    pub draws: Vec<DrawCommand>, pub texts: Vec<TextCommand>, pub healthbars: Vec<HealthbarCommand>,
+    pub backgrounds: Vec<BackgroundCommand>, pub audio: Vec<AudioCommand>,
     pub executed: Vec<(usize,usize)>,
     pub view: i32, pub view_positions: BTreeMap<i32,(f64,f64)>, pub mouse_pressed: bool,
     pub view_ports: BTreeMap<i32,(f64,f64)>,
@@ -64,7 +71,7 @@ impl Default for Scene {
     fn default() -> Self {
         Self {
             instances: BTreeMap::new(), globals: BTreeMap::new(),
-            draws: Vec::new(), texts: Vec::new(), healthbars: Vec::new(), audio: Vec::new(), executed: Vec::new(),
+            draws: Vec::new(), texts: Vec::new(), healthbars: Vec::new(), backgrounds: Vec::new(), audio: Vec::new(), executed: Vec::new(),
             view: 0, view_positions: BTreeMap::new(), mouse_pressed: false,
             view_ports: BTreeMap::new(),
             touch_devices: Default::default(),
@@ -222,6 +229,7 @@ impl Scene {
         self.draws.clear();
         self.texts.clear();
         self.healthbars.clear();
+        self.backgrounds.clear();
 
         // Materialize objects from RoomData
         for inst in &room.objects {
@@ -492,6 +500,7 @@ impl Scene {
         self.draws.clear();
         self.texts.clear();
         self.healthbars.clear();
+        self.backgrounds.clear();
         let mut ids=Vec::new();
         let mut default_draws=Vec::new();
         for (id,i) in &self.instances {
@@ -989,8 +998,53 @@ impl Host for Scene {
                 });
                 Ok(0.0)
             }
+            "draw_background" => {
+                let background = int(a[0])?;
+                let x = a[1];
+                let y = a[2];
+                self.backgrounds.push(BackgroundCommand {
+                    code: self.site.0,
+                    offset: self.site.1,
+                    instance: id,
+                    view: self.view,
+                    background,
+                    x,
+                    y,
+                    scale_x: 1.0,
+                    scale_y: 1.0,
+                    rotation: 0.0,
+                    color: -1,
+                    alpha: self.draw_alpha,
+                });
+                Ok(0.0)
+            }
+            "draw_background_ext" => {
+                let background = int(a[0])?;
+                let x = a[1];
+                let y = a[2];
+                let scale_x = a[3];
+                let scale_y = a[4];
+                let rotation = a[5];
+                let color = int(a[6])?;
+                let alpha = a[7];
+                self.backgrounds.push(BackgroundCommand {
+                    code: self.site.0,
+                    offset: self.site.1,
+                    instance: id,
+                    view: self.view,
+                    background,
+                    x,
+                    y,
+                    scale_x,
+                    scale_y,
+                    rotation,
+                    color,
+                    alpha,
+                });
+                Ok(0.0)
+            }
             "part_particles_create" | "d3d_set_fog"
-            | "draw_background_ext" | "draw_background" | "AdColony_ShowVideo" | "ads_disable"
+            | "AdColony_ShowVideo" | "ads_disable"
             | "shop_leave_rating" | "file_delete"
             | "ds_map_find_value" | "ds_map_replace" | "ds_map_destroy" | "ds_map_secure_save"
             | "ds_map_create" | "iap_purchase_details" | "iap_acquire" => Ok(0.0),

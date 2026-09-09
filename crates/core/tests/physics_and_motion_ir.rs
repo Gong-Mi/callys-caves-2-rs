@@ -118,5 +118,22 @@ fn motion_integration_gravity_friction_and_builtins() {
     assert_eq!(s.healthbars.len(), 1);
     assert_eq!(s.healthbars[0].amount, 75.0);
 
+    // 13. Test draw_background and draw_background_ext command generation
+    s.call(&bundle, id, "draw_background", &[5.0, 0.0, -48.0]).unwrap();
+    assert_eq!(s.backgrounds.len(), 1);
+    assert_eq!(s.backgrounds[0].background, 5);
+    assert_eq!(s.backgrounds[0].x, 0.0);
+    assert_eq!(s.backgrounds[0].y, -48.0);
+    assert_eq!(s.backgrounds[0].scale_x, 1.0);
+
+    s.call(&bundle, id, "draw_background_ext", &[1.0, 10.0, 20.0, 1.2, 1.4, 0.0, -1.0, 0.9]).unwrap();
+    assert_eq!(s.backgrounds.len(), 2);
+    assert_eq!(s.backgrounds[1].background, 1);
+    assert_eq!(s.backgrounds[1].x, 10.0);
+    assert_eq!(s.backgrounds[1].y, 20.0);
+    assert_eq!(s.backgrounds[1].scale_x, 1.2);
+    assert_eq!(s.backgrounds[1].scale_y, 1.4);
+    assert_eq!(s.backgrounds[1].alpha, 0.9);
+
     println!("Verified: motion_set, gravity, friction, velocity integration, and geometric builtins pass!");
 }
