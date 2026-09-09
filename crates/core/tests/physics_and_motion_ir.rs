@@ -150,5 +150,20 @@ fn motion_integration_gravity_friction_and_builtins() {
     s.call(&bundle, id, "ds_map_destroy", &[map_id]).unwrap();
     assert_eq!(s.ds_maps.len(), 0);
 
+    // 15. Test file_exists and file_delete on in-memory INI persistence
+    let exists_before = s.call(&bundle, id, "file_exists", &[0.0]).unwrap();
+    assert_eq!(exists_before, 0.0);
+
+    s.call(&bundle, id, "ini_open", &[0.0]).unwrap();
+    s.call(&bundle, id, "ini_write_real", &[0.0, 0.0, 100.0]).unwrap();
+    s.call(&bundle, id, "ini_close", &[]).unwrap();
+
+    let exists_after = s.call(&bundle, id, "file_exists", &[0.0]).unwrap();
+    assert_eq!(exists_after, 1.0);
+
+    s.call(&bundle, id, "file_delete", &[0.0]).unwrap();
+    let exists_deleted = s.call(&bundle, id, "file_exists", &[0.0]).unwrap();
+    assert_eq!(exists_deleted, 0.0);
+
     println!("Verified: motion_set, gravity, friction, velocity integration, and geometric builtins pass!");
 }

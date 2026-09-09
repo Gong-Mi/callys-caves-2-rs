@@ -879,7 +879,18 @@ impl Host for Scene {
                 Ok(0.0)
             },
             "device_mouse_dbclick_enable" => Ok(0.0),
-            "file_exists" => Ok(1.0),
+            "file_exists" => {
+                let s_idx = a[0] as usize;
+                let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
+                let exists = self.ini_data.keys().any(|(f, _, _)| f == &name);
+                Ok(if exists { 1.0 } else { 0.0 })
+            },
+            "file_delete" => {
+                let s_idx = a[0] as usize;
+                let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
+                self.ini_data.retain(|(f, _, _), _| f != &name);
+                Ok(1.0)
+            },
             "ini_open" => {
                 let s_idx = a[0] as usize;
                 let name = b.string_table.get(s_idx).cloned().unwrap_or_default();
@@ -1080,7 +1091,7 @@ impl Host for Scene {
             "ds_map_secure_save" => Ok(1.0),
             "part_particles_create" | "d3d_set_fog"
             | "AdColony_ShowVideo" | "ads_disable"
-            | "shop_leave_rating" | "file_delete"
+            | "shop_leave_rating"
             | "iap_purchase_details" | "iap_acquire" => Ok(0.0),
             "collision_line" => {
                 let x1 = a[0]; let y1 = a[1]; let x2 = a[2]; let y2 = a[3];
