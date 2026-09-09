@@ -3,7 +3,7 @@
 //! coordinates are hand-translated here. External instances are explicitly inert.
 use crate::code_vm::{self, Bundle, Host};
 use serde::Serialize;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 #[derive(Debug, Clone)]
 pub struct Instance {
@@ -45,6 +45,7 @@ pub struct Scene {
     pub other_instance: Option<i32>,
     pub room_tiles: Vec<callys_asset::RoomTileInstance>,
     pub target_room_warp: Option<usize>,
+    pub persistent_objects: BTreeSet<i32>,
     next_id: i32, site: (usize,usize), depth: usize,
 }
 impl Default for Scene {
@@ -66,6 +67,7 @@ impl Default for Scene {
             other_instance: None,
             room_tiles: Vec::new(),
             target_room_warp: None,
+            persistent_objects: BTreeSet::new(),
             next_id: 0, site: (0, 0), depth: 0,
         }
     }
@@ -108,6 +110,13 @@ impl Scene {
             let x = inst.x as f64;
             let y = inst.y as f64;
 
+            // If a persistent instance already exists and is alive, do not duplicate it
+            if (obj_id == 0 || self.persistent_objects.contains(&obj_id))
+                && self.instances.values().any(|i| i.object == obj_id && i.alive)
+            {
+                continue;
+            }
+
             // Instantiate object
             let inst_id = self.create_with_id(bundle, inst.instance_id, obj_id, x, y)?;
 
@@ -128,6 +137,34 @@ impl Scene {
             }
         }
         Ok(())
+    }
+
+    /// Transitions to a target room: preserves persistent instances (player, UI, etc.)
+    /// while clearing transient room instances and loading new geometry and bindings.
+    pub fn transition_to_room(
+        &mut self,
+        bundle: &Bundle,
+        room_id: usize,
+        room: &callys_asset::RoomData,
+    ) -> Result<(), String> {
+        self.instances.retain(|_, i| i.alive && (i.object == 0 || i.object == 66 || self.persistent_objects.contains(&i.object)));
+        self.load_room_from_data(bundle, room_id, room)
+    }
+
+    /// Computes instance bounding box from position and sprite bounds.
+    pub fn bounds_for_instance(&self, id: i32) -> Option<(f64, f64, f64, f64)> {
+        let inst = self.instances.get(&id)?;
+        let ix = inst.fields.get("x").copied()?;
+        let iy = inst.fields.get("y").copied()?;
+        let spr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+        let (w, h, ox, oy) = self.sprite_bounds.get(&spr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
+        let sx = inst.fields.get("image_xscale").copied().unwrap_or(1.0);
+        let sy = inst.fields.get("image_yscale").copied().unwrap_or(1.0);
+        let x0 = ix - ox * sx; let y0 = iy - oy * sy;
+        let x1 = x0 + w * sx; let y1 = y0 + h * sy;
+        let (min_x, max_x) = if x0 < x1 { (x0, x1) } else { (x1, x0) };
+        let (min_y, max_y) = if y0 < y1 { (y0, y1) } else { (y1, y0) };
+        Some((min_x, max_x, min_y, max_y))
     }
 
     pub fn create_with_id(&mut self, b: &Bundle, id: i32, object: i32, x: f64, y: f64) -> Result<i32, String> {
@@ -212,6 +249,66 @@ impl Scene {
             }
         }
         for id in ids { let i=&self.instances[&id]; if i.alive&&i.active {self.dispatch(b,id,3,0)?;} }
+
+        // Event-driven collision dispatch (event_type == 4)
+        let colliders: Vec<(i32, i32)> = self.instances.iter()
+            .filter(|(_, i)| i.alive && i.active && !i.external)
+            .map(|(id, i)| (*id, i.object))
+            .collect();
+
+        for (id, obj_id) in colliders {
+            if !self.instances.get(&id).map_or(false, |i| i.alive && i.active) {
+                continue;
+            }
+            let mut col_events = Vec::new();
+            if let Some(obj) = b.objects.iter().find(|o| o.id == obj_id) {
+                for e in &obj.events {
+                    if e.event_type == 4 {
+                        col_events.push(e.subtype);
+                    }
+                }
+                for &pid in &obj.parent_chain {
+                    if let Some(p) = b.objects.iter().find(|o| o.id == pid) {
+                        for e in &p.events {
+                            if e.event_type == 4 && !col_events.contains(&e.subtype) {
+                                col_events.push(e.subtype);
+                            }
+                        }
+                    }
+                }
+            }
+            if col_events.is_empty() { continue; }
+
+            let (a_min_x, a_max_x, a_min_y, a_max_y) = match self.bounds_for_instance(id) {
+                Some(bnd) => bnd,
+                None => continue,
+            };
+
+            for target_obj in col_events {
+                let targets = match self.select(id, target_obj) {
+                    Ok(t) => t,
+                    Err(_) => continue,
+                };
+                for tid in targets {
+                    if tid == id { continue; }
+                    if !self.instances.get(&tid).map_or(false, |i| i.alive && i.active) {
+                        continue;
+                    }
+                    if let Some((b_min_x, b_max_x, b_min_y, b_max_y)) = self.bounds_for_instance(tid) {
+                        if a_min_x < b_max_x && a_max_x > b_min_x && a_min_y < b_max_y && a_max_y > b_min_y {
+                            self.other_instance = Some(tid);
+                            let res = self.dispatch(b, id, 4, target_obj);
+                            self.other_instance = None;
+                            res?;
+                            if !self.instances.get(&id).map_or(false, |i| i.alive && i.active) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         self.mouse_pressed=false;
         for d in &mut self.touch_devices {
             d.pressed = false;
