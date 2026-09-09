@@ -77,8 +77,15 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
         color: 0x00FFFFFF, alpha: 1.0,
     });
     draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
-    let text_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
-    assert!(text_pixels > healthbar_pixels, "TextCommand must render glyph pixels into Framebuffer");
+    let white_pixels = fb
+        .pixels
+        .chunks_exact(4)
+        .filter(|p| p[0] == 255 && p[1] == 255 && p[2] == 255)
+        .count();
+    assert!(
+        white_pixels > 50,
+        "TextCommand must render white glyph pixels into Framebuffer, got {white_pixels}"
+    );
 
     println!("Verified: ir_scene gameplay pipeline drives rm_town, rm_level1, and rm_boss1 rendering and transitions!");
 }
