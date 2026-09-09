@@ -511,7 +511,8 @@ impl Host for Scene {
         let expected_argc = match n {
             "instance_activate_all" | "instance_destroy" | "draw_self" | "display_get_width"
             | "display_get_height" | "randomize" | "action_current_room" | "ini_close"
-            | "part_system_create" | "part_type_create" => Some(0),
+            | "part_system_create" | "part_type_create" | "audio_stop_all" | "audio_pause_all"
+            | "audio_resume_all" => Some(0),
             "instance_deactivate_all" | "instance_activate_object" | "instance_exists"
             | "mouse_check_button_pressed" | "device_mouse_x" | "device_mouse_y" | "mouse_clear"
             | "audio_is_playing" | "audio_stop_sound" | "draw_set_font" | "draw_set_color"
@@ -520,7 +521,7 @@ impl Host for Scene {
             "device_mouse_check_button" | "device_mouse_check_button_pressed"
             | "device_mouse_check_button_released" | "irandom_range" | "min" | "max" | "random_range"
             | "part_type_alpha1" | "part_type_shape" => Some(2),
-            "instance_create" | "audio_play_sound" | "instance_place" | "place_meeting"
+            "instance_create" | "audio_play_sound" | "audio_sound_gain" | "instance_place" | "place_meeting"
             | "draw_text" | "AdColony_Init" | "ini_read_real" | "ini_write_real"
             | "part_type_color2" | "part_type_gravity" | "part_type_life" => Some(3),
             "draw_sprite" => Some(4),
@@ -574,6 +575,10 @@ impl Host for Scene {
             }
             "audio_is_playing" => Ok(0.0),
             "audio_stop_sound" => Ok(0.0),
+            "audio_sound_gain" => Ok(0.0),
+            "audio_stop_all" => Ok(0.0),
+            "audio_pause_all" => Ok(0.0),
+            "audio_resume_all" => Ok(0.0),
             "draw_sprite_ext" => { self.draw(id, a)?; Ok(0.0) }
             "draw_sprite" => {
                 self.draw(id, &[a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, 1.0])?;
