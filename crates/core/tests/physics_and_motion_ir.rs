@@ -96,7 +96,7 @@ fn motion_integration_gravity_friction_and_builtins() {
     // 10. Test mp_potential_step advances toward target
     s.write(id, -1, "x", None, 0.0).unwrap();
     s.write(id, -1, "y", None, 0.0).unwrap();
-    s.call(&bundle, id, "mp_potential_step", &[100.0, 0.0, 4.0]).unwrap();
+    s.call(&bundle, id, "mp_potential_step", &[100.0, 0.0, 4.0, 0.0]).unwrap();
     assert_eq!(s.read(id, -1, "x", None).unwrap(), 4.0);
     assert_eq!(s.read(id, -1, "y", None).unwrap(), 0.0);
 

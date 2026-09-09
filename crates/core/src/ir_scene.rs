@@ -629,11 +629,11 @@ impl Host for Scene {
             | "draw_text" | "AdColony_Init" | "ini_read_real" | "ini_write_real"
             | "part_type_color2" | "part_type_gravity" | "part_type_life"
             | "move_towards_point" | "string_format" | "draw_background" => Some(3),
-            "draw_sprite" | "point_direction" | "d3d_set_fog" => Some(4),
+            "draw_sprite" | "point_direction" | "d3d_set_fog" | "mp_potential_step" => Some(4),
             "collision_point" | "part_type_direction" | "part_type_size" | "part_type_speed"
             | "instance_activate_region" | "instance_deactivate_region"
             | "part_particles_create" | "collision_line" => Some(5),
-            "part_type_orientation" | "mp_potential_step" => Some(6),
+            "part_type_orientation" => Some(6),
             "draw_text_color" | "draw_background_ext" => Some(8),
             "draw_sprite_ext" => Some(9),
             "draw_healthbar" => Some(11),
