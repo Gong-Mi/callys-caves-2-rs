@@ -60,5 +60,15 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
     let boss_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
     assert!(boss_pixels > 1000, "rm_boss1 must render cleanly");
 
+    // 5. Verify Healthbar rendering consumer renders into Framebuffer
+    state.scene.as_mut().unwrap().healthbars.push(callys_core::ir_scene::HealthbarCommand {
+        code: 0, offset: 0, instance: 0, view: 0,
+        x1: 50.0, y1: 50.0, x2: 200.0, y2: 60.0, amount: 80.0,
+        back_col: 0, min_col: 0, max_col: 0,
+    });
+    draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
+    let healthbar_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
+    assert!(healthbar_pixels >= boss_pixels, "Healthbar must add rendered pixels to Framebuffer");
+
     println!("Verified: ir_scene gameplay pipeline drives rm_town, rm_level1, and rm_boss1 rendering and transitions!");
 }

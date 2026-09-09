@@ -959,6 +959,29 @@ pub fn draw_frame(
             draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
         }
 
+        // 3.5. Render UI Healthbars & Boss Healthbars emitted by scene
+        for hb in &scene.healthbars {
+            let x1 = (hb.x1 as f32 * scale_x) as i32;
+            let y1 = (hb.y1 as f32 * scale_y) as i32;
+            let x2 = (hb.x2 as f32 * scale_x) as i32;
+            let y2 = (hb.y2 as f32 * scale_y) as i32;
+            let w = ((x2 - x1).abs() as u32).max(1);
+            let h = ((y2 - y1).abs() as u32).max(1);
+            let min_x = x1.min(x2);
+            let min_y = y1.min(y2);
+            // Draw dark background
+            fb.fill_rect(min_x, min_y, w, h, (40, 40, 40, 220));
+            // Draw health fill based on amount (0..100)
+            let pct = (hb.amount as f32 / 100.0).clamp(0.0, 1.0);
+            let fill_w = ((w as f32) * pct) as u32;
+            if fill_w > 0 {
+                // Blend from red to green based on pct
+                let r = ((1.0 - pct) * 220.0 + 30.0) as u8;
+                let g = (pct * 200.0 + 40.0) as u8;
+                fb.fill_rect(min_x, min_y, fill_w, h, (r, g, 40, 255));
+            }
+        }
+
         // 4. Touch control overlay
         let bottom = fb.height as i32 - 92;
         if !draw_sprite(fb, state, 158, 0, (20, bottom, 80, 68), false) {
