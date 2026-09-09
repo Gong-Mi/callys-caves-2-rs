@@ -24,12 +24,23 @@ pub struct DrawCommand {
     pub sprite: i32, pub frame: f64, pub x: f64, pub y: f64,
     pub scale_x: f64, pub scale_y: f64, pub rotation: f64, pub color: i32, pub alpha: f64,
 }
+#[derive(Debug, Clone, Serialize, PartialEq)]
+pub struct TextCommand {
+    pub code: usize, pub offset: usize, pub instance: i32, pub view: i32,
+    pub x: f64, pub y: f64, pub text: String, pub color: i32, pub alpha: f64,
+}
+#[derive(Debug, Clone, Serialize, PartialEq)]
+pub struct HealthbarCommand {
+    pub code: usize, pub offset: usize, pub instance: i32, pub view: i32,
+    pub x1: f64, pub y1: f64, pub x2: f64, pub y2: f64, pub amount: f64,
+    pub back_col: i32, pub min_col: i32, pub max_col: i32,
+}
 #[derive(Debug, Clone, Serialize)]
 pub struct AudioCommand { pub code: usize, pub offset: usize, pub sound: i32, pub priority: f64, pub looping: bool, pub voice: i32 }
 #[derive(Debug)]
 pub struct Scene {
     pub instances: BTreeMap<i32, Instance>, pub globals: BTreeMap<String, f64>,
-    pub draws: Vec<DrawCommand>, pub audio: Vec<AudioCommand>,
+    pub draws: Vec<DrawCommand>, pub texts: Vec<TextCommand>, pub healthbars: Vec<HealthbarCommand>, pub audio: Vec<AudioCommand>,
     pub executed: Vec<(usize,usize)>,
     pub view: i32, pub view_positions: BTreeMap<i32,(f64,f64)>, pub mouse_pressed: bool,
     pub view_ports: BTreeMap<i32,(f64,f64)>,
@@ -53,7 +64,7 @@ impl Default for Scene {
     fn default() -> Self {
         Self {
             instances: BTreeMap::new(), globals: BTreeMap::new(),
-            draws: Vec::new(), audio: Vec::new(), executed: Vec::new(),
+            draws: Vec::new(), texts: Vec::new(), healthbars: Vec::new(), audio: Vec::new(), executed: Vec::new(),
             view: 0, view_positions: BTreeMap::new(), mouse_pressed: false,
             view_ports: BTreeMap::new(),
             touch_devices: Default::default(),
@@ -209,6 +220,8 @@ impl Scene {
         self.target_room_warp = None;
         self.room_tiles = room.tiles.clone();
         self.draws.clear();
+        self.texts.clear();
+        self.healthbars.clear();
 
         // Materialize objects from RoomData
         for inst in &room.objects {
@@ -476,6 +489,9 @@ impl Scene {
     pub fn draw_view(&mut self,b:&Bundle,view:i32)->Result<(),String> {
         if !self.view_positions.contains_key(&view) {return Err(format!("view {view} is not configured"));}
         self.view=view;
+        self.draws.clear();
+        self.texts.clear();
+        self.healthbars.clear();
         let mut ids=Vec::new();
         let mut default_draws=Vec::new();
         for (id,i) in &self.instances {
@@ -822,8 +838,28 @@ impl Host for Scene {
             }
             "draw_set_font" => { self.current_font = a[0]; Ok(0.0) }
             "draw_set_color" => { self.draw_color = int(a[0])?; Ok(0.0) }
-            "draw_text" => Ok(0.0),
-            "draw_healthbar" => Ok(0.0),
+            "draw_text" => {
+                let x = a[0]; let y = a[1];
+                let s_idx = a[2] as usize;
+                let text = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[2]));
+                self.texts.push(TextCommand {
+                    code: self.site.0, offset: self.site.1, instance: id, view: self.view,
+                    x, y, text, color: self.draw_color, alpha: self.draw_alpha,
+                });
+                Ok(0.0)
+            }
+            "draw_healthbar" => {
+                let x1 = a[0]; let y1 = a[1]; let x2 = a[2]; let y2 = a[3];
+                let amount = a[4];
+                let back_col = int(a[5])?;
+                let min_col = int(a[6])?;
+                let max_col = int(a[7])?;
+                self.healthbars.push(HealthbarCommand {
+                    code: self.site.0, offset: self.site.1, instance: id, view: self.view,
+                    x1, y1, x2, y2, amount, back_col, min_col, max_col,
+                });
+                Ok(0.0)
+            }
             "application_surface_enable" => Ok(0.0),
             "action_current_room" => Ok(self.current_room),
             "room_goto" => {
