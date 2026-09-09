@@ -589,7 +589,7 @@ impl Host for Scene {
     fn read(&mut self,id:i32,s:i32,n:&str,index:Option<i32>)->Result<f64,String> {
         if s == -5 {
             if index.is_some(){return Err("global arrays unsupported".into());}
-            return self.globals.get(n).copied().ok_or(format!("undefined global.{n}"));
+            return Ok(self.globals.get(n).copied().unwrap_or(0.0));
         }
         if s == -1 && n == "view_current" && index.is_none() {return Ok(self.view as f64);}
         if s == -1 && (n=="view_xview"||n=="view_yview") {
