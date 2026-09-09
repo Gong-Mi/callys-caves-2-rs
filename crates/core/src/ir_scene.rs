@@ -137,6 +137,21 @@ impl Scene {
         ] {
             self.globals.insert(w.into(), bought);
         }
+        for (w, xp_up) in [
+            ("pistol", 46.0), ("shotgun", 115.0), ("assaultrifle", 120.0),
+            ("rocket", 80.0), ("laser", 80.0), ("icegun", 60.0),
+            ("bow", 62.0), ("flamethrower", 180.0), ("bladegun", 200.0),
+            ("boomerang", 250.0), ("spikegun", 64.0), ("bombgun", 160.0),
+        ] {
+            self.globals.insert(format!("{w}xp"), 0.0);
+            self.globals.insert(format!("{w}xptolevelup"), xp_up);
+            for lvl in [4, 7, 10] {
+                self.globals.insert(format!("drawchange{w}{lvl}"), 1.0);
+            }
+        }
+        for k in ["bearskilled", "knifebanditskilled", "pistolthugskilled", "wolfkilled", "chomperbotkilled"] {
+            self.globals.insert(k.into(), 0.0);
+        }
     }
     /// Test/embedding boundary, not an implicit fake room loader.
     pub fn insert_external(&mut self, object:i32)->i32 {
