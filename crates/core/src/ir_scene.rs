@@ -528,7 +528,7 @@ impl Host for Scene {
             | "display_get_height" | "randomize" | "action_current_room" | "ini_close"
             | "part_system_create" | "part_type_create" | "audio_stop_all" | "audio_pause_all"
             | "audio_resume_all" => Some(0),
-            "instance_deactivate_all" | "instance_activate_object" | "instance_exists"
+            "instance_deactivate_all" | "instance_deactivate_object" | "instance_activate_object" | "instance_exists"
             | "mouse_check_button_pressed" | "device_mouse_x" | "device_mouse_y" | "mouse_clear"
             | "audio_is_playing" | "audio_stop_sound" | "draw_set_font" | "draw_set_color"
             | "string" | "application_surface_enable" | "device_mouse_dbclick_enable"
@@ -540,7 +540,8 @@ impl Host for Scene {
             | "draw_text" | "AdColony_Init" | "ini_read_real" | "ini_write_real"
             | "part_type_color2" | "part_type_gravity" | "part_type_life" => Some(3),
             "draw_sprite" => Some(4),
-            "collision_point" | "part_type_direction" | "part_type_size" | "part_type_speed" => Some(5),
+            "collision_point" | "part_type_direction" | "part_type_size" | "part_type_speed"
+            | "instance_activate_region" | "instance_deactivate_region" => Some(5),
             "part_type_orientation" => Some(6),
             "draw_sprite_ext" => Some(9),
             "draw_healthbar" => Some(11),
@@ -560,6 +561,29 @@ impl Host for Scene {
                 }
                 Ok(0.0)
             }
+            "instance_deactivate_object" => {
+                let s = int(a[0])?;
+                let ids = self.select(id, s)?;
+                for tid in ids {
+                    if let Some(inst) = self.instances.get_mut(&tid) {
+                        inst.active = false;
+                    }
+                }
+                Ok(0.0)
+            }
+            "instance_activate_region" => {
+                let x0 = a[0]; let y0 = a[1]; let w = a[2]; let h = a[3];
+                let x1 = x0 + w; let y1 = y0 + h;
+                for inst in self.instances.values_mut() {
+                    let ix = inst.fields.get("x").copied().unwrap_or(0.0);
+                    let iy = inst.fields.get("y").copied().unwrap_or(0.0);
+                    if ix >= x0 && ix <= x1 && iy >= y0 && iy <= y1 {
+                        inst.active = true;
+                    }
+                }
+                Ok(0.0)
+            }
+            "instance_deactivate_region" => Ok(0.0),
             "instance_activate_all" => {
                 for i in self.instances.values_mut() { if i.alive { i.active = true; } }
                 Ok(0.0)
