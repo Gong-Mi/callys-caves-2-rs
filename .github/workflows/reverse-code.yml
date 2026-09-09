@@ -20,6 +20,7 @@ on:
       - 'scripts/package_startup.py'
       - 'scripts/generate_player_startup.py'
       - 'scripts/test_reverse_startup.py'
+      - 'scripts/audit_builtin_coverage.py'
       - 'reconstruction/contracts/startup.json'
       - 'crates/core/src/original_player_startup.rs'
       - 'scripts/reverse_cfg.py'
@@ -35,6 +36,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate full original input and malformed fixtures
         run: python3 -m unittest discover -s scripts -p 'test_reverse_*.py' -v
+      - name: Audit original builtins against VM dispatch
+        run: python3 scripts/audit_builtin_coverage.py
       - name: Export full ledger
         run: python3 scripts/reverse_code.py assets/game.droid --output reverse-output
       - uses: actions/upload-artifact@v4
