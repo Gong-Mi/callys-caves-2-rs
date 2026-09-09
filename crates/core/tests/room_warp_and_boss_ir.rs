@@ -28,51 +28,8 @@ fn original_bytecode_drives_warp_key_and_boss_boulder_lifecycle() {
         );
     }
 
-    // Initialize gameplay globals
-    s.globals.insert("level".into(), 1.0);
-    s.globals.insert("maxhp".into(), 4.0);
-    s.globals.insert("health1".into(), 4.0);
-    s.globals.insert("experience".into(), 0.0);
-    s.globals.insert("xptolevelup".into(), 30.0);
-    s.globals.insert("roomstart".into(), 0.0);
-    s.globals.insert("soundmute".into(), 0.0);
-    s.globals.insert("musicmute".into(), 0.0);
-    s.globals.insert("haskey".into(), 0.0);
-    s.globals.insert("warplock".into(), 0.0);
-    s.globals.insert("pistol".into(), 1.0);
-    s.globals.insert("assaultrifle".into(), 0.0);
-    s.globals.insert("shotgun".into(), 0.0);
-    s.globals.insert("tjumpactive".into(), 0.0);
-    s.globals.insert("drawlevelup".into(), 0.0);
-    s.globals.insert("drawweaponchange".into(), 0.0);
-    s.globals.insert("drawweaponlevelup".into(), 0.0);
-    s.globals.insert("strengthupgradebought".into(), 0.0);
-    s.globals.insert("strengthupgrade2bought".into(), 0.0);
-    s.globals.insert("coinmultiply".into(), 1.0);
-    s.globals.insert("firing".into(), 0.0);
-    s.globals.insert("swing".into(), 0.0);
-    s.globals.insert("boss1touched".into(), 0.0);
-    for i in 1..=16 {
-        s.globals.insert(format!("talkedtolloyd{i}"), 0.0);
-    }
-    for b in 1..=6 {
-        s.globals.insert(format!("boss{b}dead"), 0.0);
-    }
-    for w in [
-        "assaultriflelevel", "bladegunlevel", "bombgunlevel", "boomeranglevel", "bowlevel",
-        "flamethrowerlevel", "icegunlevel", "laserlevel", "pistollevel", "rocketlevel",
-        "shotgunlevel", "spikegunlevel",
-    ] {
-        s.globals.insert(w.into(), 1.0);
-    }
-    for wb in [
-        "shotgunbought", "assaultriflebought", "rocketbought", "laserbought", "icegunbought",
-        "bladegunbought", "flamethrowerbought", "bowbought", "bombgunbought", "boomerangbought",
-        "spikegunbought", "triplejumpbought", "coinmultiplier2bought", "coinmultiplier5bought",
-        "maxhpupgradebought", "maxhpupgrade2bought",
-    ] {
-        s.globals.insert(wb.into(), 0.0);
-    }
+    // Initialize gameplay globals via verified fresh start baseline
+    s.init_fresh_start_globals();
 
     // 1. Test rm_town locked warp semantics (CODE 13 + CODE 803)
     let town_room = &asset.rooms[0];
@@ -91,6 +48,9 @@ fn original_bytecode_drives_warp_key_and_boss_boulder_lifecycle() {
     let door_y = *warp_door.fields.get("y").unwrap();
     assert_eq!(warp_door.fields.get("warproom"), Some(&23.0));
     assert_eq!(warp_door.fields.get("unlocked"), Some(&0.0), "Town warp initially locked");
+
+    // Override haskey to 0 to test locked door behavior
+    s.globals.insert("haskey".into(), 0.0);
 
     // Move player onto warp door with haskey == 0
     s.instances.get_mut(&player_id).unwrap().fields.insert("x".into(), door_x);

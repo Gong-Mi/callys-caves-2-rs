@@ -82,6 +82,62 @@ impl Scene {
             self.object_parents.insert(obj.id, obj.parent_chain.clone());
         }
     }
+
+    /// Populates the full verified baseline of fresh-start globals defined by
+    /// the original GameMaker Other_2 (Game Start) event (CODE 17).
+    pub fn init_fresh_start_globals(&mut self) {
+        for (k, v) in [
+            ("level", 1.0), ("maxhp", 4.0), ("health1", 4.0), ("experience", 0.0),
+            ("xptolevelup", 30.0), ("roomstart", 0.0), ("soundmute", 0.0), ("musicmute", 0.0),
+            ("haskey", 0.0), ("warplock", 0.0), ("warpfrommap", 0.0), ("ending", 0.0),
+            ("coinmultiply", 1.0), ("timeplayed", 0.0), ("gemdropenabled", 1.0),
+            ("poisonenabled", 0.0), ("weaponswapped", 0.0), ("firing", 0.0), ("swing", 0.0),
+            ("rebuff", 0.0), ("boss1touched", 0.0), ("sword", 0.0),
+            ("tjumpactive", 0.0), ("triplejumpbought", 0.0),
+            ("strengthupgradebought", 0.0), ("strengthupgrade2bought", 0.0),
+            ("energywavebought", 0.0), ("healthregenbought", 0.0),
+            ("swordupgradebought", 0.0), ("swordupgrade2bought", 0.0), ("swordupgrade3bought", 0.0),
+            ("powerupgradebought", 0.0), ("powerupgrade2bought", 0.0), ("powerupgrade3bought", 0.0),
+            ("coinmultiplier2bought", 0.0), ("coinmultiplier5bought", 0.0),
+            ("maxhpupgradebought", 0.0), ("maxhpupgrade2bought", 0.0),
+            ("drawchange", 0.0), ("drawlevelup", 0.0), ("drawweaponlevelup", 0.0), ("drawweaponchange", 0.0),
+            ("drawchangepistol4", 1.0), ("drawchangeshotgun4", 1.0),
+            ("drawchangeassaultrifle4", 1.0), ("drawchangerocket4", 1.0),
+            ("twentyfivebears", 0.0), ("hitmoney", 0.0),
+        ] {
+            self.globals.insert(k.into(), v);
+        }
+        for b in 1..=6 {
+            self.globals.insert(format!("boss{b}dead"), 0.0);
+            self.globals.insert(format!("levelchallenge{b}visited"), 0.0);
+        }
+        for i in 1..=16 {
+            self.globals.insert(format!("talkedtolloyd{i}"), 0.0);
+        }
+        for w in [
+            "assaultriflelevel", "bladegunlevel", "bombgunlevel", "boomeranglevel", "bowlevel",
+            "flamethrowerlevel", "icegunlevel", "laserlevel", "pistollevel", "rocketlevel",
+            "shotgunlevel", "spikegunlevel",
+        ] {
+            self.globals.insert(w.into(), 1.0);
+        }
+        for (w, bought) in [
+            ("pistol", 1.0), ("pistolbought", 1.0),
+            ("shotgun", 0.0), ("shotgunbought", 0.0),
+            ("assaultrifle", 0.0), ("assaultriflebought", 0.0),
+            ("rocket", 0.0), ("rocketbought", 0.0),
+            ("laser", 0.0), ("laserbought", 0.0),
+            ("icegun", 0.0), ("icegunbought", 0.0),
+            ("bladegun", 0.0), ("bladegunbought", 0.0),
+            ("flamethrower", 0.0), ("flamethrowerbought", 0.0),
+            ("bow", 0.0), ("bowbought", 0.0),
+            ("bombgun", 0.0), ("bombgunbought", 0.0),
+            ("boomerang", 0.0), ("boomerangbought", 0.0),
+            ("spikegun", 0.0), ("spikegunbought", 0.0),
+        ] {
+            self.globals.insert(w.into(), bought);
+        }
+    }
     /// Test/embedding boundary, not an implicit fake room loader.
     pub fn insert_external(&mut self, object:i32)->i32 {
         self.next_id=self.next_id.max(200000)+1; let id=self.next_id;
