@@ -10,7 +10,8 @@ fn original_bytecode_drives_warp_key_and_boss_boulder_lifecycle() {
     let asset = GameDroidAsset::parse(&asset_path).expect("parse game.droid");
 
     let bundle_path = Path::new(manifest_dir).join("src/generated/full_ir.json");
-    let bundle = load_bundle_from_file(&bundle_path).expect("load full_ir.json");
+    let mut bundle = load_bundle_from_file(&bundle_path).expect("load full_ir.json");
+    bundle.string_table = asset.string_table.clone();
 
     let mut s = Scene::default();
     s.init_bundle(&bundle);

@@ -367,7 +367,12 @@ impl GameState {
 
     /// Transitions gameplay directly into the full data-driven IR scene
     /// backed by the original GameMaker bytecode and room records.
-    pub fn enable_ir_gameplay(&mut self, bundle: std::sync::Arc<callys_core::code_vm::Bundle>) -> Result<(), String> {
+    pub fn enable_ir_gameplay(&mut self, mut bundle: std::sync::Arc<callys_core::code_vm::Bundle>) -> Result<(), String> {
+        if bundle.string_table.is_empty() && !self.asset.string_table.is_empty() {
+            let mut b = (*bundle).clone();
+            b.string_table = self.asset.string_table.clone();
+            bundle = std::sync::Arc::new(b);
+        }
         let mut scene = callys_core::ir_scene::Scene::default();
         scene.init_bundle(&bundle);
         scene.init_fresh_start_globals();
