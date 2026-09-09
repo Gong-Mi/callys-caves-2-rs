@@ -270,14 +270,38 @@ impl Scene {
 
     /// Transitions to a target room: preserves persistent instances (player, UI, etc.)
     /// while clearing transient room instances and loading new geometry and bindings.
+    /// Emits Event 7 Subtype 5 (Room End) before exit, and Event 7 Subtype 4 (Room Start) on entry.
     pub fn transition_to_room(
         &mut self,
         bundle: &Bundle,
         room_id: usize,
         room: &callys_asset::RoomData,
     ) -> Result<(), String> {
+        // 1. Dispatch Room End (Event 7, Subtype 5)
+        let current_ids: Vec<i32> = self.instances.iter()
+            .filter(|(_, i)| i.alive && i.active && !i.external)
+            .map(|(&id, _)| id)
+            .collect();
+        for id in current_ids {
+            let _ = self.dispatch(bundle, id, 7, 5);
+        }
+
+        // 2. Retain persistent instances, purge transient
         self.instances.retain(|_, i| i.alive && (i.object == 0 || i.object == 66 || self.persistent_objects.contains(&i.object)));
-        self.load_room_from_data(bundle, room_id, room)
+
+        // 3. Load new room data and bindings
+        self.load_room_from_data(bundle, room_id, room)?;
+
+        // 4. Dispatch Room Start (Event 7, Subtype 4)
+        let new_ids: Vec<i32> = self.instances.iter()
+            .filter(|(_, i)| i.alive && i.active && !i.external)
+            .map(|(&id, _)| id)
+            .collect();
+        for id in new_ids {
+            let _ = self.dispatch(bundle, id, 7, 4);
+        }
+
+        Ok(())
     }
 
     /// Computes instance bounding box from position and sprite bounds.

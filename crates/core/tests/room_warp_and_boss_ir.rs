@@ -85,6 +85,12 @@ fn original_bytecode_drives_warp_key_and_boss_boulder_lifecycle() {
     s.transition_to_room(&bundle, 1, level1_room)
         .expect("transition to rm_level1");
 
+    // Room End (CODE 15) and Room Start (CODE 16) lifecycle verification
+    assert_eq!(s.globals.get("roomcamefrom"), Some(&0.0), "CODE 15 Room End sets roomcamefrom");
+    assert!(s.ini_data.keys().any(|(f, _, _)| f == "savefile.ini"), "CODE 15 Room End writes savefile.ini");
+    assert_eq!(s.globals.get("level1visited"), Some(&1.0), "CODE 16 Room Start marks level1visited");
+    assert_eq!(s.globals.get("roomstart"), Some(&1.0), "CODE 16 Room Start sets roomstart = 1");
+
     // Player instance preserved
     let player_l1 = s.instances.iter()
         .find(|(_, i)| i.object == 0 && i.alive)
