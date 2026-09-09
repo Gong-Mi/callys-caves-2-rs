@@ -69,5 +69,36 @@ fn motion_integration_gravity_friction_and_builtins() {
     let num = s.call(&bundle, id, "instance_number", &[1.0]).unwrap();
     assert_eq!(num, 1.0);
 
+    // 7. Test choose, irandom_range, and random builtins
+    let c = s.call(&bundle, id, "choose", &[10.0, 20.0, 30.0]).unwrap();
+    assert!(c == 10.0 || c == 20.0 || c == 30.0);
+    let ir = s.call(&bundle, id, "irandom_range", &[5.0, 8.0]).unwrap();
+    assert!(ir >= 5.0 && ir <= 8.0 && ir.fract() == 0.0);
+    let rand = s.call(&bundle, id, "random", &[10.0]).unwrap();
+    assert!(rand >= 0.0 && rand <= 10.0);
+
+    // 8. Test draw_set_alpha
+    s.call(&bundle, id, "draw_set_alpha", &[0.75]).unwrap();
+    assert_eq!(s.draw_alpha, 0.75);
+
+    // 9. Test collision_line against wall instance
+    let wall_id = s.insert_external(1);
+    s.instances.get_mut(&wall_id).unwrap().external = false;
+    s.write(wall_id, -1, "x", None, 200.0).unwrap();
+    s.write(wall_id, -1, "y", None, 200.0).unwrap();
+    // Line passing through (200, 200) should hit wall_id
+    let hit = s.call(&bundle, id, "collision_line", &[150.0, 200.0, 250.0, 200.0, 1.0]).unwrap();
+    assert_eq!(hit, wall_id as f64);
+    // Line missing box completely should return -4.0
+    let miss = s.call(&bundle, id, "collision_line", &[0.0, 0.0, 50.0, 50.0, 1.0]).unwrap();
+    assert_eq!(miss, -4.0);
+
+    // 10. Test mp_potential_step advances toward target
+    s.write(id, -1, "x", None, 0.0).unwrap();
+    s.write(id, -1, "y", None, 0.0).unwrap();
+    s.call(&bundle, id, "mp_potential_step", &[100.0, 0.0, 4.0]).unwrap();
+    assert_eq!(s.read(id, -1, "x", None).unwrap(), 4.0);
+    assert_eq!(s.read(id, -1, "y", None).unwrap(), 0.0);
+
     println!("Verified: motion_set, gravity, friction, velocity integration, and geometric builtins pass!");
 }

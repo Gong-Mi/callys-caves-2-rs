@@ -38,7 +38,8 @@ pub struct Scene {
     pub object_parents: BTreeMap<i32, Vec<i32>>,
     pub display_width: f64, pub display_height: f64, pub current_room: f64,
     pub room_width: f64, pub room_height: f64,
-    pub current_font: f64, pub draw_color: i32,
+    pub current_font: f64, pub draw_color: i32, pub draw_alpha: f64,
+    pub rng_seed: u64,
     pub view_visible: [bool; 8],
     pub ini_open_file: Option<String>,
     pub ini_data: BTreeMap<(String, String, String), f64>,
@@ -60,7 +61,8 @@ impl Default for Scene {
             object_parents: BTreeMap::new(),
             display_width: 960.0, display_height: 540.0, current_room: 0.0,
             room_width: 1024.0, room_height: 768.0,
-            current_font: 0.0, draw_color: -1,
+            current_font: 0.0, draw_color: -1, draw_alpha: 1.0,
+            rng_seed: 0x12345678,
             view_visible: [true, false, false, false, false, false, false, false],
             ini_open_file: None,
             ini_data: BTreeMap::new(),
@@ -72,6 +74,39 @@ impl Default for Scene {
         }
     }
 }
+fn next_rand(seed: &mut u64) -> f64 {
+    *seed = seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+    ((*seed >> 11) as f64) / ((1u64 << 53) as f64)
+}
+
+fn line_intersects_box(x1: f64, y1: f64, x2: f64, y2: f64, min_x: f64, max_x: f64, min_y: f64, max_y: f64) -> bool {
+    let dx = x2 - x1;
+    let dy = y2 - y1;
+    let mut t0 = 0.0f64;
+    let mut t1 = 1.0f64;
+
+    for (p, q) in [
+        (-dx, x1 - min_x),
+        (dx, max_x - x1),
+        (-dy, y1 - min_y),
+        (dy, max_y - y1),
+    ] {
+        if p == 0.0 {
+            if q < 0.0 { return false; }
+        } else {
+            let r = q / p;
+            if p < 0.0 {
+                if r > t1 { return false; }
+                if r > t0 { t0 = r; }
+            } else {
+                if r < t0 { return false; }
+                if r < t1 { t1 = r; }
+            }
+        }
+    }
+    t0 <= t1
+}
+
 fn int(v:f64)->Result<i32,String> {
     if v.is_finite() && v.fract()==0.0 && v>=i32::MIN as f64 && v<=i32::MAX as f64 {Ok(v as i32)}
     else {Err(format!("expected i32, got {v}"))}
@@ -678,7 +713,7 @@ impl Host for Scene {
             "audio_resume_all" => Ok(0.0),
             "draw_sprite_ext" => { self.draw(id, a)?; Ok(0.0) }
             "draw_sprite" => {
-                self.draw(id, &[a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, 1.0])?;
+                self.draw(id, &[a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, self.draw_alpha])?;
                 Ok(0.0)
             }
             "draw_self" => {
@@ -768,9 +803,23 @@ impl Host for Scene {
             "display_get_width" => Ok(self.display_width),
             "display_get_height" => Ok(self.display_height),
             "string" => Ok(a[0]),
-            "choose" => Ok(a[0]),
-            "randomize" => Ok(0.0),
-            "irandom_range" => Ok(a[0]),
+            "choose" => {
+                if a.is_empty() { return Ok(0.0); }
+                let r = next_rand(&mut self.rng_seed);
+                let idx = ((r * a.len() as f64).floor() as usize).min(a.len() - 1);
+                Ok(a[idx])
+            }
+            "randomize" => {
+                self.rng_seed = self.rng_seed.wrapping_add(0x9e3779b97f4a7c15);
+                Ok(0.0)
+            }
+            "irandom_range" => {
+                let min = a[0].min(a[1]);
+                let max = a[0].max(a[1]);
+                let span = (max - min + 1.0).max(1.0);
+                let r = next_rand(&mut self.rng_seed);
+                Ok((min + (r * span).floor()).min(max))
+            }
             "draw_set_font" => { self.current_font = a[0]; Ok(0.0) }
             "draw_set_color" => { self.draw_color = int(a[0])?; Ok(0.0) }
             "draw_text" => Ok(0.0),
@@ -818,7 +867,12 @@ impl Host for Scene {
             "sign" => Ok(if a[0] > 0.0 { 1.0 } else if a[0] < 0.0 { -1.0 } else { 0.0 }),
             "min" => Ok(a[0].min(a[1])),
             "max" => Ok(a[0].max(a[1])),
-            "random_range" => Ok(a[0]),
+            "random_range" => {
+                let min = a[0].min(a[1]);
+                let max = a[0].max(a[1]);
+                let r = next_rand(&mut self.rng_seed);
+                Ok(min + r * (max - min))
+            }
             "distance_to_object" => {
                 let s = int(a[0])?;
                 let targets = self.select(id, s)?;
@@ -886,13 +940,58 @@ impl Host for Scene {
             "action_kill_object" => { self.destroy(b, id)?; Ok(0.0) }
             "window_get_width" => Ok(self.display_width),
             "window_get_height" => Ok(self.display_height),
-            "part_particles_create" | "d3d_set_fog" | "draw_text_color" | "draw_set_alpha"
+            "draw_set_alpha" => { self.draw_alpha = a[0]; Ok(0.0) }
+            "part_particles_create" | "d3d_set_fog" | "draw_text_color"
             | "draw_background_ext" | "draw_background" | "AdColony_ShowVideo" | "ads_disable"
-            | "shop_leave_rating" | "file_delete" | "collision_line" | "mp_potential_step"
+            "collision_line" => {
+                let x1 = a[0]; let y1 = a[1]; let x2 = a[2]; let y2 = a[3];
+                let s = int(a[4])?;
+                let targets = self.select(id, s)?;
+                let mut hit = -4.0;
+                for tid in targets {
+                    if tid == id { continue; }
+                    let ix = self.self_field(tid, "x").unwrap_or(0.0);
+                    let iy = self.self_field(tid, "y").unwrap_or(0.0);
+                    let spr = self.self_field(tid, "sprite_index").unwrap_or(-1.0) as i32;
+                    let (w, h, ox, oy) = self.sprite_bounds.get(&spr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
+                    let sx = self.self_field(tid, "image_xscale").unwrap_or(1.0);
+                    let sy = self.self_field(tid, "image_yscale").unwrap_or(1.0);
+                    let bx0 = ix - ox * sx; let by0 = iy - oy * sy;
+                    let bx1 = bx0 + w * sx; let by1 = by0 + h * sy;
+                    let (min_x, max_x) = if bx0 < bx1 { (bx0, bx1) } else { (bx1, bx0) };
+                    let (min_y, max_y) = if by0 < by1 { (by0, by1) } else { (by1, by0) };
+                    if line_intersects_box(x1, y1, x2, y2, min_x, max_x, min_y, max_y) {
+                        hit = tid as f64;
+                        break;
+                    }
+                }
+                Ok(hit)
+            }
+            "mp_potential_step" => {
+                let target_x = a[0]; let target_y = a[1]; let step_size = a[2];
+                let ix = self.self_field(id, "x").unwrap_or(0.0);
+                let iy = self.self_field(id, "y").unwrap_or(0.0);
+                let mut dir = (-(target_y - iy)).atan2(target_x - ix) * 180.0 / std::f64::consts::PI;
+                if dir < 0.0 { dir += 360.0; }
+                let rad = dir * std::f64::consts::PI / 180.0;
+                let nx = ix + step_size * rad.cos();
+                let ny = iy - step_size * rad.sin();
+                if let Some(i) = self.instances.get_mut(&id) {
+                    i.fields.insert("x".into(), nx);
+                    i.fields.insert("y".into(), ny);
+                    i.fields.insert("direction".into(), dir);
+                    i.fields.insert("speed".into(), step_size);
+                }
+                Ok(1.0)
+            }
+            | "shop_leave_rating" | "file_delete"
             | "ds_map_find_value" | "ds_map_replace" | "ds_map_destroy" | "ds_map_secure_save"
             | "ds_map_create" | "iap_purchase_details" | "iap_acquire" => Ok(0.0),
             "object_exists" => Ok(1.0),
-            "random" => Ok(a[0] * 0.5),
+            "random" => {
+                let r = next_rand(&mut self.rng_seed);
+                Ok(r * a[0])
+            }
             "string_format" | "string_digits" => Ok(a[0]),
             "action_bounce" | "move_bounce_solid" | "move_bounce_all" => {
                 if let Some(i) = self.instances.get_mut(&id) {
