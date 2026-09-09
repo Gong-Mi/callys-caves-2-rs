@@ -248,6 +248,7 @@ impl Scene {
         });
         let i = self.instances.get_mut(&id).unwrap();
         for (n, v) in [
+            ("id", id as f64),
             ("x", x), ("y", y), ("sprite_index", obj.sprite as f64), ("image_index", 0.0),
             ("image_xscale", 1.0), ("image_yscale", 1.0), ("image_angle", 0.0),
             ("image_blend", 16777215.0), ("image_alpha", 1.0), ("image_speed", 1.0),
@@ -265,7 +266,7 @@ impl Scene {
         let id=self.insert_external(object);
         let i=self.instances.get_mut(&id).unwrap(); i.external=false;
         // Named engine defaults only, never default-zero reads of user fields.
-        for (n,v) in [("x",x),("y",y),("sprite_index",obj.sprite as f64),("image_index",0.0),
+        for (n,v) in [("id", id as f64), ("x",x),("y",y),("sprite_index",obj.sprite as f64),("image_index",0.0),
                       ("image_xscale",1.0),("image_yscale",1.0),("image_angle",0.0),
                       ("image_blend",16777215.0),("image_alpha",1.0),("image_speed",1.0),
                       ("score",0.0),("hspeed",0.0),("vspeed",0.0),("speed",0.0),
@@ -420,6 +421,7 @@ impl Scene {
         for (_,id) in ids {self.dispatch(b,id,8,0)?;} Ok(())
     }
     fn self_field(&self,id:i32,n:&str)->Result<f64,String> {
+        if n == "id" { return Ok(id as f64); }
         self.instances.get(&id).and_then(|i|i.fields.get(n)).copied().ok_or(format!("undefined instance {id}.{n}"))
     }
     fn draw(&mut self,id:i32,args:&[f64])->Result<(),String> {
