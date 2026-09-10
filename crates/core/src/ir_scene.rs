@@ -743,7 +743,13 @@ impl Scene {
     }
     fn self_field(&self,id:i32,n:&str)->Result<f64,String> {
         if n == "id" { return Ok(id as f64); }
-        self.instances.get(&id).and_then(|i|i.fields.get(n)).copied().ok_or(format!("undefined instance {id}.{n}"))
+        // GMS 1.4 semantics: reading an uninitialized instance variable
+        // yields 0, never an error. A missing instance, however, is a real
+        // scheduling bug and must stay loud.
+        match self.instances.get(&id) {
+            Some(i) => Ok(i.fields.get(n).copied().unwrap_or(0.0)),
+            None => Err(format!("missing instance {id}")),
+        }
     }
     fn draw(&mut self,id:i32,args:&[f64])->Result<(),String> {
         self.draws.push(DrawCommand{code:self.site.0,offset:self.site.1,instance:id,view:self.view,
