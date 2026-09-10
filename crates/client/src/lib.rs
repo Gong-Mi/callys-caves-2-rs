@@ -422,7 +422,9 @@ impl GameState {
             let _ = scene.draw_view(bundle, 0);
             // Audio commands carry the exact sound id the original bytecode
             // passed to audio_play_sound; drain them into the platform queue.
-            for command in scene.audio.drain(..) {
+            // drain_audio also retires non-looping voices so the original
+            // audio_is_playing gates reopen (bare audio.drain would not).
+            for command in scene.drain_audio() {
                 self.sound_queue.push_back(command.sound.max(0) as usize);
             }
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
@@ -482,7 +484,9 @@ impl GameState {
 
             let _ = scene.tick(bundle);
 
-            for command in scene.audio.drain(..) {
+            // drain_audio retires non-looping voices; a bare audio.drain here
+            // would keep is_playing gates shut forever (SFX play once only).
+            for command in scene.drain_audio() {
                 self.sound_queue.push_back(command.sound.max(0) as usize);
             }
 
