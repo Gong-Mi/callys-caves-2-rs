@@ -82,6 +82,14 @@ pub struct Particle {
     pub color_max: i32,
     pub alpha: f64,
 }
+#[derive(Debug, Clone)]
+pub struct AudioVoice {
+    pub sound: f64,
+    pub voice: f64,
+    pub looping: bool,
+    pub stopped: bool,
+    pub paused: bool,
+}
 #[derive(Debug, Clone, Serialize)]
 pub struct AudioCommand { pub code: usize, pub offset: usize, pub sound: i32, pub priority: f64, pub looping: bool, pub voice: i32 }
 #[derive(Debug)]
@@ -108,8 +116,10 @@ pub struct Scene {
     pub particle_systems: Vec<f64>,
     pub particle_types: Vec<(f64, ParticleType)>,
     pub particles: Vec<Particle>,
+    pub audio_voices: Vec<AudioVoice>,
     next_particle_system_id: f64,
     next_particle_type_id: f64,
+    next_voice_id: f64,
     pub target_room_warp: Option<usize>,
     pub persistent_objects: BTreeSet<i32>,
     next_id: i32, next_ds_map_id: i32, site: (usize,usize), depth: usize,
@@ -135,8 +145,10 @@ impl Default for Scene {
             particle_systems: Vec::new(),
             particle_types: Vec::new(),
             particles: Vec::new(),
+            audio_voices: Vec::new(),
             next_particle_system_id: 1.0,
             next_particle_type_id: 1.0,
+            next_voice_id: 1.0,
             other_instance: None,
             room_tiles: Vec::new(),
             target_room_warp: None,
@@ -202,6 +214,54 @@ impl Scene {
             .find(|(k, _)| *k == id)
             .map(|(_, t)| t)
             .ok_or_else(|| format!("unknown particle type {id}"))
+    }
+
+    // ---- Audio voice domain (public seam for tests/client) ----
+    /// True while any undrained voice of this sound is playing (not stopped,
+    /// not paused).
+    pub fn audio_is_playing_sound(&self, sound: f64) -> bool {
+        self.audio_voices.iter()
+            .any(|v| v.sound == sound && !v.stopped && !v.paused)
+    }
+    /// Emits an AudioCommand and opens a looping-capable voice; returns its handle.
+    pub fn call_audio_play(&mut self, sound: f64, priority: f64, looping: bool) -> f64 {
+        let voice = self.next_voice_id;
+        self.next_voice_id += 1.0;
+        self.audio.push(AudioCommand {
+            code: self.site.0, offset: self.site.1, sound: sound as i32,
+            priority, looping, voice: voice as i32,
+        });
+        self.audio_voices.push(AudioVoice { sound, voice, looping, stopped: false, paused: false });
+        voice
+    }
+    /// Stops every undrained voice of this sound (audio_stop_sound).
+    pub fn call_audio_stop_sound(&mut self, sound: f64) {
+        for v in &mut self.audio_voices {
+            if v.sound == sound { v.stopped = true; }
+        }
+    }
+    pub fn call_audio_pause_all(&mut self) {
+        for v in &mut self.audio_voices { v.paused = true; }
+    }
+    pub fn call_audio_resume_all(&mut self) {
+        for v in &mut self.audio_voices { v.paused = false; }
+    }
+    pub fn call_audio_stop_all(&mut self) {
+        for v in &mut self.audio_voices { v.stopped = true; }
+    }
+    pub fn call_audio_sound_gain(&mut self, sound: f64, _gain: f64, _time: f64) {
+        // Gain has no audible effect in this projection; recorded by no-op.
+    }
+    /// Drains audible commands; non-looping voices retire so the original
+    /// is_playing gates reopen after playback ends.
+    pub fn drain_audio(&mut self) -> Vec<AudioCommand> {
+        let drained = std::mem::take(&mut self.audio);
+        self.audio_voices.retain(|v| v.looping && !v.stopped);
+        drained
+    }
+
+    pub fn call_object_exists(&self, id: f64) -> bool {
+        self.object_parents.contains_key(&(id as i32))
     }
 
     pub fn init_bundle(&mut self, b: &Bundle) {
@@ -857,19 +917,30 @@ impl Host for Scene {
                 Ok(if self.mouse_pressed { 1.0 } else { 0.0 })
             }
             "audio_play_sound" => {
-                let voice = self.audio.len() as i32 + 1;
-                self.audio.push(AudioCommand {
-                    code: self.site.0, offset: self.site.1, sound: int(a[0])?,
-                    priority: a[1], looping: a[2] >= 0.5, voice,
-                });
-                Ok(voice as f64)
+                let voice = self.call_audio_play(a[0], a[1], a[2] >= 0.5);
+                Ok(voice)
             }
-            "audio_is_playing" => Ok(0.0),
-            "audio_stop_sound" => Ok(0.0),
-            "audio_sound_gain" => Ok(0.0),
-            "audio_stop_all" => Ok(0.0),
-            "audio_pause_all" => Ok(0.0),
-            "audio_resume_all" => Ok(0.0),
+            "audio_is_playing" => Ok(if self.audio_is_playing_sound(a[0]) { 1.0 } else { 0.0 }),
+            "audio_stop_sound" => {
+                self.call_audio_stop_sound(a[0]);
+                Ok(0.0)
+            }
+            "audio_sound_gain" => {
+                self.call_audio_sound_gain(a[0], a[1], a[2]);
+                Ok(0.0)
+            }
+            "audio_stop_all" => {
+                self.call_audio_stop_all();
+                Ok(0.0)
+            }
+            "audio_pause_all" => {
+                self.call_audio_pause_all();
+                Ok(0.0)
+            }
+            "audio_resume_all" => {
+                self.call_audio_resume_all();
+                Ok(0.0)
+            }
             "draw_sprite_ext" => { self.draw(id, a)?; Ok(0.0) }
             "draw_sprite" => {
                 self.draw(id, &[a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, self.draw_alpha])?;
@@ -1003,6 +1074,8 @@ impl Host for Scene {
                 });
                 Ok(0.0)
             }
+            // Platform inert by design: surface is always enabled in this
+            // client and double-tap scaling carries no original state.
             "application_surface_enable" => Ok(0.0),
             "action_current_room" => Ok(self.current_room),
             "room_goto" => {
@@ -1010,7 +1083,7 @@ impl Host for Scene {
                 self.target_room_warp = Some(target);
                 Ok(0.0)
             },
-            "device_mouse_dbclick_enable" => Ok(0.0),
+            "device_mouse_dbclick_enable" => Ok(0.0), // touch device has no double-tap zoom
             "file_exists" => {
                 let s_idx = a[0] as usize;
                 let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
@@ -1216,6 +1289,8 @@ impl Host for Scene {
                     Ok(0.0)
                 }
             }
+            // Original writes savefile.ini via ds_map_secure_save; the IR
+            // save path persists through ini_data instead (Room End CODE 15).
             "ds_map_secure_save" => Ok(1.0),
             "part_system_create" => {
                 let id_sys = self.next_particle_system_id;
@@ -1297,6 +1372,8 @@ impl Host for Scene {
                 }
                 Ok(0.0)
             }
+            // Ad/IAP platform domain: original calls AdColony/IAP SDKs that
+            // have no equivalent in this client; ads are already disabled.
             "d3d_set_fog"
             | "AdColony_ShowVideo" | "ads_disable"
             | "shop_leave_rating"
@@ -1342,7 +1419,10 @@ impl Host for Scene {
                 }
                 Ok(1.0)
             }
-            "object_exists" => Ok(1.0),
+            "object_exists" => {
+                let obj_id = int(a[0])?;
+                Ok(if self.call_object_exists(obj_id as f64) { 1.0 } else { 0.0 })
+            }
             "random" => {
                 let r = next_rand(&mut self.rng_seed);
                 Ok(r * a[0])
