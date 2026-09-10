@@ -46,10 +46,16 @@ else:
         errors.append(f"MUSIC_VOLUMES drift: {got[:6]}... want {want[:6]}...")
 
 m = re.search(r"REQUIRED_AUDIO_IDS = \{([^}]*)\}", src)
+wav_ids = [r["sond_id"] for r in rows if r["ext"].endswith(".wav")]
 if not m:
     errors.append("REQUIRED_AUDIO_IDS missing")
 else:
     sfx_ids = [int(x.strip()) for x in m.group(1).split(",") if x.strip()]
+    if sfx_ids != wav_ids:
+        errors.append(
+            f"REQUIRED_AUDIO_IDS must cover every embedded wav SOND ({len(wav_ids)} ids), "
+            f"got {len(sfx_ids)}"
+        )
     for sid in sfx_ids:
         vm = re.search(r"SFX_VOLUMES.put\(" + str(sid) + r",\s*([0-9.]+)f?\)", src)
         if not vm:
@@ -58,6 +64,11 @@ else:
         want_vol = next(r["volume"] for r in rows if r["sond_id"] == sid)
         if abs(float(vm.group(1).rstrip("fF")) - want_vol) > 1e-4:
             errors.append(f"SFX volume for id {sid}: java {vm.group(1)} != sond {want_vol}")
+
+# The host must unpack assets/audio/sound_*.wav into files/sfx/ before
+# SoundPool loads them; without the export loop every sample is missing.
+if not re.search(r'copyAsset\(\s*"audio/sound_"', src):
+    errors.append("no assets/audio/sound_ export loop found (sfx would be silent)")
 
 if errors:
     print("AUDIO CONTRACT DRIFT:")

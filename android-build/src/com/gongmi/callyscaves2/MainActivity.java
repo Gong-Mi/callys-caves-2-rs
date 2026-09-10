@@ -28,9 +28,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends Activity {
     private static final String TAG = "CallysJava";
-    // Verified SOND names resolve to these exported AUDO file IDs. Keep the
-    // Android file contract in one place; Rust remains the event mapping source.
-    private static final int[] REQUIRED_AUDIO_IDS = {3, 10, 11, 19, 26, 27};
+    // All 29 embedded wav SOND ids (identity permutation of AUDO 0..28); the
+    // original runner preloads every embedded sound (SOND flags preload bit).
+    private static final int[] REQUIRED_AUDIO_IDS = {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+        15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+    };
     static {
         try {
             System.loadLibrary("callys_client");
@@ -147,6 +150,16 @@ public class MainActivity extends Activity {
         for (int i = 0; i < 4; i++) {
             copyAsset("textures/texture_" + i + ".png",
                     new File(textureDir, "texture_" + i + ".png"), 1000);
+        }
+        // SoundPool reads from files/sfx/; unpack every embedded wav the
+        // original runner preloads (SOND flags preload bit).
+        File soundDir = new File(getFilesDir(), "sfx");
+        if (!soundDir.exists() && !soundDir.mkdirs()) {
+            throw new RuntimeException("Failed to create sfx directory");
+        }
+        for (int audioId : REQUIRED_AUDIO_IDS) {
+            copyAsset("audio/sound_" + audioId + ".wav",
+                    new File(soundDir, "sound_" + audioId + ".wav"), 1000);
         }
         return out.getAbsolutePath();
     }
@@ -314,14 +327,38 @@ public class MainActivity extends Activity {
     };
     private static final java.util.Map<Integer, Float> SFX_VOLUMES = new java.util.HashMap<>();
     static {
-        // REQUIRED_AUDIO_IDS -> SOND volume (wav SOND ids == AUDO ids, the
-        // audio_id mapping is the identity permutation 0..28).
+        // All 29 embedded wav SOND ids -> SOND resource volume (identity
+        // permutation with AUDO). Author-damped entries: laser 0.28,
+        // blade 0.30, rocket 0.70, shotgun 0.93; the rest at unity.
+        SFX_VOLUMES.put(0, 1.0f);   // bee
+        SFX_VOLUMES.put(1, 1.0f);   // flamethrower
+        SFX_VOLUMES.put(2, 1.0f);   // bombgun
         SFX_VOLUMES.put(3, 1.0f);   // jump
-        SFX_VOLUMES.put(10, 1.0f);
+        SFX_VOLUMES.put(4, 1.0f);   // meetnewenemy
+        SFX_VOLUMES.put(5, 1.0f);   // weaponswap
+        SFX_VOLUMES.put(6, 1.0f);   // crescentwave
+        SFX_VOLUMES.put(7, 1.0f);   // explode
+        SFX_VOLUMES.put(8, 1.0f);   // explode2
+        SFX_VOLUMES.put(9, 1.0f);   // assaultrifle
+        SFX_VOLUMES.put(10, 1.0f);  // fire
         SFX_VOLUMES.put(11, 0.93f); // shotgun, author-damped
+        SFX_VOLUMES.put(12, 0.7f);  // rocket, author-damped
+        SFX_VOLUMES.put(13, 1.0f);  // sword
+        SFX_VOLUMES.put(14, 1.0f);  // sword2
+        SFX_VOLUMES.put(15, 0.28f); // laser, author-damped
+        SFX_VOLUMES.put(16, 1.0f);  // bow
+        SFX_VOLUMES.put(17, 0.3f);  // blade, author-damped
+        SFX_VOLUMES.put(18, 1.0f);  // ice
         SFX_VOLUMES.put(19, 1.0f);  // coin
-        SFX_VOLUMES.put(26, 1.0f);
-        SFX_VOLUMES.put(27, 1.0f);
+        SFX_VOLUMES.put(20, 1.0f);  // coin3
+        SFX_VOLUMES.put(21, 1.0f);  // enemyhit
+        SFX_VOLUMES.put(22, 1.0f);  // impactsound1
+        SFX_VOLUMES.put(23, 1.0f);  // impactsound2
+        SFX_VOLUMES.put(24, 1.0f);  // impactsound5
+        SFX_VOLUMES.put(25, 1.0f);  // levelup
+        SFX_VOLUMES.put(26, 1.0f);  // youhavedied
+        SFX_VOLUMES.put(27, 1.0f);  // pickupstinger
+        SFX_VOLUMES.put(28, 1.0f);  // weaponlevelup
     }
     private static final int LOOP_BIT = 1 << 30;
     private static final int STOP_BIT = 1 << 29;
