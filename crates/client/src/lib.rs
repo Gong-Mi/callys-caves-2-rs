@@ -399,9 +399,14 @@ impl GameState {
     pub fn step(&mut self, dt: f32) {
         if let (Some(bundle), Some(scene)) = (self.intro_bundle.as_deref(), self.intro_scene.as_mut()) {
             // Original obj_introduction Step taps mouse_check_button_pressed(mb_left);
-            // Scene consumes mb_left via mouse_pressed. Any attack/jump input is a tap.
-            scene.mouse_pressed = self.input.attack || self.input.jump;
+            // Scene consumes mb_left via mouse_pressed. Any attack/jump/tap input is a tap.
+            scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
             scene.tick(bundle).expect("prologue IR tick failed; no fallback");
+            // Draw events (event_type 8) are dispatched only by an explicit
+            // view pass; tick runs Step/alarms/collision only. Without this
+            // the prologue framebuffer stays pure black (draws never filled).
+            scene.view_positions.entry(0).or_insert((0.0, 0.0));
+            let _ = scene.draw_view(bundle, 0);
             // Audio commands carry the exact sound id the original bytecode
             // passed to audio_play_sound; drain them into the platform queue.
             for command in scene.audio.drain(..) {
@@ -1583,6 +1588,7 @@ mod android_jni {
         attack: jint,
         switch_weapon: jint,
         _weapon: jint,
+        tap: jint,
     ) {
         let mut g = slot().lock().unwrap();
         if let Some(s) = g.as_mut() {
@@ -1591,6 +1597,7 @@ mod android_jni {
             s.state.input.jump = jump != 0;
             s.state.input.attack = attack != 0;
             s.state.input.switch_weapon = switch_weapon != 0;
+            s.state.input.tap = tap != 0;
 
         }
     }
