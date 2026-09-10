@@ -305,6 +305,24 @@ public class MainActivity extends Activity {
         "mus_blooddragon.ogg", "mus_cally3.ogg",
     };
     private static final int MUSIC_ID_BASE = 29;
+    // SOND resource volumes (audio-sond.json): the original mixer preset per
+    // sound. Applied at playback — the bytecode never carries volume.
+    private static final float[] MUSIC_VOLUMES = {
+        1.0f, 1.0f, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    };
+    private static final java.util.Map<Integer, Float> SFX_VOLUMES = new java.util.HashMap<>();
+    static {
+        // REQUIRED_AUDIO_IDS -> SOND volume (wav SOND ids == AUDO ids, the
+        // audio_id mapping is the identity permutation 0..28).
+        SFX_VOLUMES.put(3, 1.0f);   // jump
+        SFX_VOLUMES.put(10, 1.0f);
+        SFX_VOLUMES.put(11, 0.93f); // shotgun, author-damped
+        SFX_VOLUMES.put(19, 1.0f);  // coin
+        SFX_VOLUMES.put(26, 1.0f);
+        SFX_VOLUMES.put(27, 1.0f);
+    }
     private static final int LOOP_BIT = 1 << 30;
     private static final int STOP_BIT = 1 << 29;
     private MediaPlayer bgmPlayer;
@@ -321,7 +339,8 @@ public class MainActivity extends Activity {
                 SoundPool pool = soundPool;
                 Integer sampleId = soundSamples.get(audioId);
                 if (pool != null && sampleId != null && loadedSamples.contains(sampleId)) {
-                    pool.play(sampleId, 1.0f, 1.0f, 1, 0, 1.0f);
+                    float vol = SFX_VOLUMES.containsKey(audioId) ? SFX_VOLUMES.get(audioId) : 1.0f;
+                    pool.play(sampleId, vol, vol, 1, 0, 1.0f);
                 }
             }
             // Non-music stop commands have no SoundPool teardown here: the IR
@@ -347,6 +366,11 @@ public class MainActivity extends Activity {
             player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             afd.close();
             player.setLooping(looping);
+            int vidx = audioId - MUSIC_ID_BASE;
+            if (vidx >= 0 && vidx < MUSIC_VOLUMES.length) {
+                float v = MUSIC_VOLUMES[vidx];
+                player.setVolume(v, v);
+            }
             player.setOnCompletionListener(mp -> {
                 if (bgmPlayer == mp) bgmPlayer = null;
                 mp.release();
