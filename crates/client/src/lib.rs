@@ -365,6 +365,19 @@ impl GameState {
         })
     }
 
+    /// Calculates the camera follow coordinates for the given IR scene.
+    pub fn camera_position_for_scene(scene: &callys_core::ir_scene::Scene) -> (f64, f64) {
+        let (px, py) = scene
+            .instances
+            .values()
+            .find(|i| i.object == 0 && i.alive)
+            .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
+            .unwrap_or((480.0, 270.0));
+        let cam_x = (px - 480.0).clamp(0.0, (scene.room_width - 960.0).max(0.0));
+        let cam_y = (py - 270.0).clamp(0.0, (scene.room_height - 540.0).max(0.0));
+        (cam_x, cam_y)
+    }
+
     /// Transitions gameplay directly into the full data-driven IR scene
     /// backed by the original GameMaker bytecode and room records.
     pub fn enable_ir_gameplay(&mut self, mut bundle: std::sync::Arc<callys_core::code_vm::Bundle>) -> Result<(), String> {
@@ -424,12 +437,48 @@ impl GameState {
 
         // Full IR scene gameplay loop
         if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
-            scene.touch_devices[0].down = self.input.move_left;
-            scene.touch_devices[1].down = self.input.move_right;
-            scene.touch_devices[2].down = self.input.jump;
-            scene.touch_devices[2].pressed = self.input.jump;
-            scene.touch_devices[3].down = self.input.attack;
-            scene.touch_devices[3].pressed = self.input.attack;
+            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
+
+            // Feed virtual touches with room coordinates matching button instances in view 0
+            if self.input.move_left {
+                scene.touch_devices[0].x = cam_x + 30.0;
+                scene.touch_devices[0].y = cam_y + 220.0;
+                scene.touch_devices[0].down = true;
+                scene.touch_devices[0].pressed = true;
+            } else if scene.touch_devices[0].down {
+                scene.touch_devices[0].down = false;
+                scene.touch_devices[0].released = true;
+            }
+
+            if self.input.move_right {
+                scene.touch_devices[1].x = cam_x + 130.0;
+                scene.touch_devices[1].y = cam_y + 220.0;
+                scene.touch_devices[1].down = true;
+                scene.touch_devices[1].pressed = true;
+            } else if scene.touch_devices[1].down {
+                scene.touch_devices[1].down = false;
+                scene.touch_devices[1].released = true;
+            }
+
+            if self.input.jump {
+                scene.touch_devices[2].x = cam_x + 410.0;
+                scene.touch_devices[2].y = cam_y + 220.0;
+                scene.touch_devices[2].down = true;
+                scene.touch_devices[2].pressed = true;
+            } else if scene.touch_devices[2].down {
+                scene.touch_devices[2].down = false;
+                scene.touch_devices[2].released = true;
+            }
+
+            if self.input.attack {
+                scene.touch_devices[3].x = cam_x + 345.0;
+                scene.touch_devices[3].y = cam_y + 220.0;
+                scene.touch_devices[3].down = true;
+                scene.touch_devices[3].pressed = true;
+            } else if scene.touch_devices[3].down {
+                scene.touch_devices[3].down = false;
+                scene.touch_devices[3].released = true;
+            }
 
             let _ = scene.tick(bundle);
 
@@ -444,7 +493,8 @@ impl GameState {
                 }
             }
 
-            scene.view_positions.insert(0, (0.0, 0.0));
+            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
+            scene.view_positions.insert(0, (cam_x, cam_y));
             let _ = scene.draw_view(bundle, 0);
 
             self.frame_count = self.frame_count.wrapping_add(1);
@@ -1060,12 +1110,7 @@ pub fn draw_frame(
 
     // Full IR gameplay scene: render room tiles, original draws, and camera follow
     if let (Some(_bundle), Some(scene)) = (state.full_bundle.as_deref(), state.scene.as_ref()) {
-        let (px, py) = scene.instances.values()
-            .find(|i| i.object == 0 && i.alive)
-            .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
-            .unwrap_or((480.0, 270.0));
-        let cam_x = (px - 480.0).clamp(0.0, (scene.room_width - 960.0).max(0.0));
-        let cam_y = (py - 270.0).clamp(0.0, (scene.room_height - 540.0).max(0.0));
+        let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
@@ -1079,8 +1124,10 @@ pub fn draw_frame(
             if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
                 if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
                     if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
-                        let dst_x = (bg_cmd.x as f32 * scale_x) as i32;
-                        let dst_y = (bg_cmd.y as f32 * scale_y) as i32;
+                        let world_x = bg_cmd.x - cam_x;
+                        let world_y = bg_cmd.y - cam_y;
+                        let dst_x = (world_x as f32 * scale_x) as i32;
+                        let dst_y = (world_y as f32 * scale_y) as i32;
                         let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                         let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
                         fb.blit_scaled_alpha(
@@ -1126,10 +1173,10 @@ pub fn draw_frame(
 
         // 3.5. Render UI Healthbars & Boss Healthbars emitted by scene
         for hb in &scene.healthbars {
-            let x1 = (hb.x1 as f32 * scale_x) as i32;
-            let y1 = (hb.y1 as f32 * scale_y) as i32;
-            let x2 = (hb.x2 as f32 * scale_x) as i32;
-            let y2 = (hb.y2 as f32 * scale_y) as i32;
+            let x1 = ((hb.x1 - cam_x) as f32 * scale_x) as i32;
+            let y1 = ((hb.y1 - cam_y) as f32 * scale_y) as i32;
+            let x2 = ((hb.x2 - cam_x) as f32 * scale_x) as i32;
+            let y2 = ((hb.y2 - cam_y) as f32 * scale_y) as i32;
             let w = ((x2 - x1).abs() as u32).max(1);
             let h = ((y2 - y1).abs() as u32).max(1);
             let min_x = x1.min(x2);
@@ -1153,8 +1200,10 @@ pub fn draw_frame(
             if alpha <= 0.0 || cmd.text.is_empty() {
                 continue;
             }
-            let x = (cmd.x as f32 * scale_x) as i32;
-            let y = (cmd.y as f32 * scale_y) as i32;
+            let world_x = cmd.x - cam_x;
+            let world_y = cmd.y - cam_y;
+            let x = (world_x as f32 * scale_x) as i32;
+            let y = (world_y as f32 * scale_y) as i32;
             let (r, g, b) = if cmd.color < 0 {
                 (255, 255, 255)
             } else {
