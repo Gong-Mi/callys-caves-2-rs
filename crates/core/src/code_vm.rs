@@ -129,9 +129,24 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                         let val = pop(&mut stack)?;
                         (s, Some(idx), val)
                     } else if *other {
-                        let val = pop(&mut stack)?;
-                        let s = integer(pop(&mut stack)?)?;
-                        (s, None, val)
+                        // Two GMS pop variants, discriminated by the value-type
+                        // nibble in the original wordcode (preserved in
+                        // words_raw[0]); both collapse to other=true in the IR:
+                        //   type1==2 (compound-assignment codegen): stack
+                        //     [dest, value] — dup kept dest under the computed
+                        //     value, so pop value first, then dest.
+                        //   type1==5 (pushed value): stack [value, dest] —
+                        //     pop dest first, then value.
+                        let type1 = ((i.words_raw[0] >> 16) & 0xff) & 0x0f;
+                        if type1 == 2 {
+                            let val = pop(&mut stack)?;
+                            let dest = integer(pop(&mut stack)?)?;
+                            (dest, None, val)
+                        } else {
+                            let dest = integer(pop(&mut stack)?)?;
+                            let val = pop(&mut stack)?;
+                            (dest, None, val)
+                        }
                     } else {
                         let val = pop(&mut stack)?;
                         (*selector, None, val)

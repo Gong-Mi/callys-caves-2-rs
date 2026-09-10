@@ -41,6 +41,40 @@ pub struct BackgroundCommand {
     pub background: i32, pub x: f64, pub y: f64,
     pub scale_x: f64, pub scale_y: f64, pub rotation: f64, pub color: i32, pub alpha: f64,
 }
+/// Particle type configured by the original part_type_* builtins
+/// (real source of truth: obj_pwrlevelinitialize Create, CODE 458).
+/// Distances in px, speeds in px/tick, directions in GMS degrees (CW, 0=+x).
+#[derive(Debug, Clone)]
+pub struct ParticleType {
+    pub size_min: f64, pub size_max: f64, pub size_delta: f64,
+    pub speed_min: f64, pub speed_max: f64, pub speed_delta: f64,
+    pub dir_min: f64, pub dir_max: f64, pub dir_delta: f64,
+    pub grav_amount: f64, pub grav_dir: f64,
+    pub life_min: f64, pub life_max: f64,
+    pub color_min: i32, pub color_max: i32,
+    pub alpha: f64,
+}
+impl Default for ParticleType {
+    fn default() -> Self {
+        Self { size_min: 1.0, size_max: 1.0, size_delta: 0.0,
+            speed_min: 0.0, speed_max: 0.0, speed_delta: 0.0,
+            dir_min: 0.0, dir_max: 360.0, dir_delta: 0.0,
+            grav_amount: 0.0, grav_dir: 270.0,
+            life_min: 1.0, life_max: 1.0,
+            color_min: 16777215, color_max: 16777215, alpha: 1.0 }
+    }
+}
+/// Live particle spawned by part_particles_create.
+#[derive(Debug, Clone)]
+pub struct Particle {
+    pub type_id: f64,
+    pub x: f64, pub y: f64,
+    pub vx: f64, pub vy: f64,
+    pub size: f64,
+    pub life: f64,
+    pub color: i32,
+    pub alpha: f64,
+}
 #[derive(Debug, Clone, Serialize)]
 pub struct AudioCommand { pub code: usize, pub offset: usize, pub sound: i32, pub priority: f64, pub looping: bool, pub voice: i32 }
 #[derive(Debug)]
@@ -64,6 +98,11 @@ pub struct Scene {
     pub ds_maps: BTreeMap<i32, BTreeMap<String, f64>>,
     pub other_instance: Option<i32>,
     pub room_tiles: Vec<callys_asset::RoomTileInstance>,
+    pub particle_systems: Vec<f64>,
+    pub particle_types: Vec<(f64, ParticleType)>,
+    pub particles: Vec<Particle>,
+    next_particle_system_id: f64,
+    next_particle_type_id: f64,
     pub target_room_warp: Option<usize>,
     pub persistent_objects: BTreeSet<i32>,
     next_id: i32, next_ds_map_id: i32, site: (usize,usize), depth: usize,
@@ -86,6 +125,11 @@ impl Default for Scene {
             ini_open_file: None,
             ini_data: BTreeMap::new(),
             ds_maps: BTreeMap::new(),
+            particle_systems: Vec::new(),
+            particle_types: Vec::new(),
+            particles: Vec::new(),
+            next_particle_system_id: 1.0,
+            next_particle_type_id: 1.0,
             other_instance: None,
             room_tiles: Vec::new(),
             target_room_warp: None,
@@ -97,6 +141,12 @@ impl Default for Scene {
 fn next_rand(seed: &mut u64) -> f64 {
     *seed = seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
     ((*seed >> 11) as f64) / ((1u64 << 53) as f64)
+}
+/// Seeded inclusive range draw; single LCG advance like every other builtin.
+fn rand_range(seed: &mut u64, min: f64, max: f64) -> f64 {
+    if max < min { return min; }
+    let r = next_rand(seed);
+    min + r * (max - min)
 }
 
 fn line_intersects_box(x1: f64, y1: f64, x2: f64, y2: f64, min_x: f64, max_x: f64, min_y: f64, max_y: f64) -> bool {
@@ -132,6 +182,21 @@ fn int(v:f64)->Result<i32,String> {
     else {Err(format!("expected i32, got {v}"))}
 }
 impl Scene {
+    /// Looks up a configured particle type by its runtime handle.
+    fn particle_type(&self, id: f64) -> Result<&ParticleType, String> {
+        self.particle_types.iter()
+            .find(|(k, _)| *k == id)
+            .map(|(_, t)| t)
+            .ok_or_else(|| format!("unknown particle type {id}"))
+    }
+    /// Mutable lookup used by the part_type_* configurators.
+    fn particle_type_mut(&mut self, id: f64) -> Result<&mut ParticleType, String> {
+        self.particle_types.iter_mut()
+            .find(|(k, _)| *k == id)
+            .map(|(_, t)| t)
+            .ok_or_else(|| format!("unknown particle type {id}"))
+    }
+
     pub fn init_bundle(&mut self, b: &Bundle) {
         for obj in &b.objects {
             self.object_parents.insert(obj.id, obj.parent_chain.clone());
@@ -265,6 +330,7 @@ impl Scene {
                     .map_err(|e| format!("Creation code error: {e}"))?;
             }
         }
+
         Ok(())
     }
 
@@ -403,6 +469,25 @@ impl Scene {
             }
         }
         for id in ids { let i=&self.instances[&id]; if i.alive&&i.active {self.dispatch(b,id,3,0)?;} }
+
+        // Particle integration: position += velocity, gravity along grav_dir
+        // (GMS degrees, 270 = down), life decrements; expired particles die.
+        if !self.particles.is_empty() {
+            let types = self.particle_types.clone();
+            for p in self.particles.iter_mut() {
+                let t = types.iter().find(|(k, _)| *k == p.type_id).map(|(_, t)| t);
+                p.x += p.vx; p.y += p.vy;
+                if let Some(t) = t {
+                    if t.grav_amount != 0.0 {
+                        let rad = t.grav_dir * std::f64::consts::PI / 180.0;
+                        p.vx += t.grav_amount * rad.cos();
+                        p.vy += -t.grav_amount * rad.sin();
+                    }
+                }
+                p.life -= 1.0;
+            }
+            self.particles.retain(|p| p.life > 0.0);
+        }
 
         // Event-driven collision dispatch (event_type == 4)
         let colliders: Vec<(i32, i32)> = self.instances.iter()
@@ -976,10 +1061,6 @@ impl Host for Scene {
                 };
                 Ok(if hit { 1.0 } else { 0.0 })
             }
-            "part_system_create" | "part_type_create" => Ok(1.0),
-            "part_type_alpha1" | "part_type_shape" | "part_type_color2" | "part_type_gravity"
-            | "part_type_life" | "part_type_direction" | "part_type_size" | "part_type_speed"
-            | "part_type_orientation" => Ok(0.0),
             "motion_set" => {
                 let dir = a[0]; let spd = a[1];
                 let rad = dir * std::f64::consts::PI / 180.0;
@@ -1113,7 +1194,85 @@ impl Host for Scene {
                 }
             }
             "ds_map_secure_save" => Ok(1.0),
-            "part_particles_create" | "d3d_set_fog"
+            "part_system_create" => {
+                let id_sys = self.next_particle_system_id;
+                self.next_particle_system_id += 1.0;
+                self.particle_systems.push(id_sys);
+                Ok(id_sys)
+            }
+            "part_type_create" => {
+                let id_ty = self.next_particle_type_id;
+                self.next_particle_type_id += 1.0;
+                self.particle_types.push((id_ty, ParticleType::default()));
+                Ok(id_ty)
+            }
+            "part_type_size" => {
+                let t = self.particle_type_mut(a[0])?;
+                t.size_min = a[1]; t.size_max = a[2]; t.size_delta = a[3];
+                Ok(0.0)
+            }
+            "part_type_speed" => {
+                let t = self.particle_type_mut(a[0])?;
+                t.speed_min = a[1]; t.speed_max = a[2]; t.speed_delta = a[3];
+                Ok(0.0)
+            }
+            "part_type_direction" => {
+                let t = self.particle_type_mut(a[0])?;
+                t.dir_min = a[1]; t.dir_max = a[2]; t.dir_delta = a[3];
+                Ok(0.0)
+            }
+            "part_type_gravity" => {
+                let t = self.particle_type_mut(a[0])?;
+                t.grav_amount = a[1]; t.grav_dir = a[2];
+                Ok(0.0)
+            }
+            "part_type_life" => {
+                let t = self.particle_type_mut(a[0])?;
+                t.life_min = a[1]; t.life_max = a[2];
+                Ok(0.0)
+            }
+            "part_type_color2" => {
+                let t = self.particle_type_mut(a[0])?;
+                t.color_min = int(a[1])?; t.color_max = int(a[2])?;
+                Ok(0.0)
+            }
+            "part_type_alpha1" => {
+                let t = self.particle_type_mut(a[0])?;
+                t.alpha = a[1];
+                Ok(0.0)
+            }
+            "part_type_shape" | "part_type_orientation" => Ok(0.0), // shape id / draw angle carry no pixel evidence here
+            "part_particles_create" => {
+                let sys = a[0];
+                let px = a[1]; let py = a[2];
+                let ty = a[3];
+                let number = int(a[4])?;
+                if !self.particle_systems.contains(&sys) {
+                    return Err(format!("part_particles_create: unknown particle system {sys}"));
+                }
+                let t = self.particle_type(ty)?.clone();
+                for _ in 0..number {
+                    let dir = rand_range(&mut self.rng_seed, t.dir_min, t.dir_max);
+                    let spd = rand_range(&mut self.rng_seed, t.speed_min, t.speed_max);
+                    let rad = dir * std::f64::consts::PI / 180.0;
+                    self.particles.push(Particle {
+                        type_id: ty,
+                        x: px, y: py,
+                        vx: spd * rad.cos(),
+                        vy: -spd * rad.sin(),
+                        size: rand_range(&mut self.rng_seed, t.size_min, t.size_max),
+                        life: rand_range(&mut self.rng_seed, t.life_min, t.life_max),
+                        color: {
+                            let cmin = t.color_min as f64; let cmax = t.color_max as f64;
+                            let c = rand_range(&mut self.rng_seed, cmin, cmax);
+                            c as i32
+                        },
+                        alpha: t.alpha,
+                    });
+                }
+                Ok(0.0)
+            }
+            "d3d_set_fog"
             | "AdColony_ShowVideo" | "ads_disable"
             | "shop_leave_rating"
             | "iap_purchase_details" | "iap_acquire" => Ok(0.0),
