@@ -117,6 +117,7 @@ pub struct Scene {
     pub particle_types: Vec<(f64, ParticleType)>,
     pub particles: Vec<Particle>,
     pub audio_voices: Vec<AudioVoice>,
+    pending_stops: Vec<f64>,
     next_particle_system_id: f64,
     next_particle_type_id: f64,
     next_voice_id: f64,
@@ -146,6 +147,7 @@ impl Default for Scene {
             particle_types: Vec::new(),
             particles: Vec::new(),
             audio_voices: Vec::new(),
+            pending_stops: Vec::new(),
             next_particle_system_id: 1.0,
             next_particle_type_id: 1.0,
             next_voice_id: 1.0,
@@ -234,10 +236,15 @@ impl Scene {
         self.audio_voices.push(AudioVoice { sound, voice, looping, stopped: false, paused: false });
         voice
     }
-    /// Stops every undrained voice of this sound (audio_stop_sound).
+    /// Stops every undrained voice of this sound (audio_stop_sound) and
+    /// queues a host stop command so the platform tears the sound down.
     pub fn call_audio_stop_sound(&mut self, sound: f64) {
+        let mut stopped_any = false;
         for v in &mut self.audio_voices {
-            if v.sound == sound { v.stopped = true; }
+            if v.sound == sound && !v.stopped { v.stopped = true; stopped_any = true; }
+        }
+        if stopped_any && !self.pending_stops.contains(&sound) {
+            self.pending_stops.push(sound);
         }
     }
     pub fn call_audio_pause_all(&mut self) {
@@ -247,7 +254,19 @@ impl Scene {
         for v in &mut self.audio_voices { v.paused = false; }
     }
     pub fn call_audio_stop_all(&mut self) {
-        for v in &mut self.audio_voices { v.stopped = true; }
+        for v in &mut self.audio_voices {
+            if !v.stopped {
+                v.stopped = true;
+                if !self.pending_stops.contains(&v.sound) {
+                    self.pending_stops.push(v.sound);
+                }
+            }
+        }
+    }
+    /// Host-bound stop commands accumulated since the last drain; the client
+    /// forwards them so MediaPlayer/SoundPool actually tear sounds down.
+    pub fn take_stop_commands(&mut self) -> Vec<f64> {
+        std::mem::take(&mut self.pending_stops)
     }
     pub fn call_audio_sound_gain(&mut self, sound: f64, _gain: f64, _time: f64) {
         // Gain has no audible effect in this projection; recorded by no-op.

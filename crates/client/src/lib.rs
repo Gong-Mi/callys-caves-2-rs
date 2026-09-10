@@ -243,7 +243,10 @@ pub struct GameState {
     pub save_path: Option<PathBuf>,
     pub save_diagnostic: Option<String>,
     pub sound_catalog: SoundCatalog,
-    sound_queue: VecDeque<usize>,
+    /// (sound id, looping, is_stop) — looping is the original bytecode's third
+    /// audio_play_sound argument; is_stop marks audio_stop_sound/stop_all so
+    /// the host can tear down MediaPlayer BGM, not just start new sounds.
+    sound_queue: VecDeque<(usize, bool, bool)>,
     jump_was_active: bool,
     pub intro_scene: Option<callys_core::ir_scene::Scene>,
     pub intro_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
@@ -424,8 +427,14 @@ impl GameState {
             // passed to audio_play_sound; drain them into the platform queue.
             // drain_audio also retires non-looping voices so the original
             // audio_is_playing gates reopen (bare audio.drain would not).
+            // Stop commands precede plays: the original bytecode stops the old
+            // BGM before starting the new one; reversing this order would have
+            // MediaPlayer kill the freshly started track.
+            for stopped_sound in scene.take_stop_commands() {
+                self.sound_queue.push_back((stopped_sound.max(0.0) as usize, false, true));
+            }
             for command in scene.drain_audio() {
-                self.sound_queue.push_back(command.sound.max(0) as usize);
+                self.sound_queue.push_back((command.sound.max(0) as usize, command.looping, false));
             }
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
             if intro_alive {
@@ -486,8 +495,12 @@ impl GameState {
 
             // drain_audio retires non-looping voices; a bare audio.drain here
             // would keep is_playing gates shut forever (SFX play once only).
+            // Stop commands precede plays (see the intro-path comment).
+            for stopped_sound in scene.take_stop_commands() {
+                self.sound_queue.push_back((stopped_sound.max(0.0) as usize, false, true));
+            }
             for command in scene.drain_audio() {
-                self.sound_queue.push_back(command.sound.max(0) as usize);
+                self.sound_queue.push_back((command.sound.max(0) as usize, command.looping, false));
             }
 
             if let Some(target_room) = scene.target_room_warp.take() {
@@ -593,10 +606,10 @@ impl GameState {
     }
 
     fn queue_sound(&mut self, event: SoundEvent) {
-        self.sound_queue.push_back(self.sound_catalog.audio_id(event));
+        self.sound_queue.push_back((self.sound_catalog.audio_id(event), false, false));
     }
 
-    pub fn poll_sound(&mut self) -> Option<usize> {
+    pub fn poll_sound(&mut self) -> Option<(usize, bool, bool)> {
         self.sound_queue.pop_front()
     }
 }
@@ -631,7 +644,7 @@ mod tests {
         state.input.jump = true;
 
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(3));
+        assert_eq!(state.poll_sound(), Some((3, false, false)));
         assert_eq!(state.poll_sound(), None);
 
         state.step(0.0);
@@ -645,14 +658,14 @@ mod tests {
 
         state.world.player.current_weapon = WeaponType::Pistol;
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(10));
+        assert_eq!(state.poll_sound(), Some((10, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
 
         state.world.player.attack_cooldown = 0.0;
         state.world.player.current_weapon = WeaponType::Shotgun;
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(11));
+        assert_eq!(state.poll_sound(), Some((11, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
     }
@@ -666,7 +679,7 @@ mod tests {
 
         state.step(0.0);
 
-        assert_eq!(state.poll_sound(), Some(26));
+        assert_eq!(state.poll_sound(), Some((26, false, false)));
         assert_eq!(state.poll_sound(), None);
 
         state.world.player.health = state.world.player.max_health;
@@ -689,7 +702,7 @@ mod tests {
         });
 
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(19));
+        assert_eq!(state.poll_sound(), Some((19, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
     }
@@ -712,7 +725,7 @@ mod tests {
         });
 
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(27));
+        assert_eq!(state.poll_sound(), Some((27, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
     }
@@ -723,7 +736,7 @@ mod tests {
         state.world.player.health = 0;
 
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(26));
+        assert_eq!(state.poll_sound(), Some((26, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
     }
@@ -1681,12 +1694,20 @@ mod android_jni {
         _env: *mut JNIEnv,
         _class: jobject,
     ) -> jint {
+        // Pack (sound id, looping, is_stop) into one jint: SOND ids < 2^29,
+        // bit 30 carries looping, bit 29 marks a stop command (MediaPlayer
+        // teardown for BGM switching).
         slot()
             .lock()
             .unwrap()
             .as_mut()
             .and_then(|state| state.state.poll_sound())
-            .and_then(|audio_id| jint::try_from(audio_id).ok())
+            .and_then(|(audio_id, looping, is_stop)| {
+                let packed = audio_id
+                    | if looping { 1 << 30 } else { 0 }
+                    | if is_stop { 1 << 29 } else { 0 };
+                jint::try_from(packed).ok()
+            })
             .unwrap_or(-1)
     }
 

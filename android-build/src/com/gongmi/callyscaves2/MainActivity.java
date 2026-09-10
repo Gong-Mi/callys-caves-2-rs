@@ -8,7 +8,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -290,14 +292,82 @@ public class MainActivity extends Activity {
         }
     }
 
+    // SOND ids 29..53 are the external mus_* OGG music files (GMS Android
+    // packaging: sfx embedded in AUDO, music streamed from APK assets).
+    // Index = sond_id - 29; file names match the original APK's assets/.
+    private static final String[] MUSIC_NAMES = {
+        "mus_egc.ogg", "mus_sneaksbeat.ogg", "mus_new4.ogg", "mus_townmusic.ogg",
+        "mus_searching.ogg", "mus_supertrip.ogg", "mus_cally2fez.ogg", "mus_atmospheric.ogg",
+        "mus_acoustic.ogg", "mus_amdm7.ogg", "mus_arpdisast.ogg", "mus_happy.ogg",
+        "mus_sunrise.ogg", "mus_mariokart.ogg", "mus_menumusic.ogg", "mus_newprogression.ogg",
+        "mus_soundwall.ogg", "mus_strongtech.ogg", "mus_synthonic.ogg", "mus_techno.ogg",
+        "mus_technoending.ogg", "mus_bosssongending.ogg", "mus_bosssong.ogg",
+        "mus_blooddragon.ogg", "mus_cally3.ogg",
+    };
+    private static final int MUSIC_ID_BASE = 29;
+    private static final int LOOP_BIT = 1 << 30;
+    private static final int STOP_BIT = 1 << 29;
+    private MediaPlayer bgmPlayer;
+
     private void playQueuedSounds() {
-        int audioId;
-        while ((audioId = nativePollSound()) != -1) {
-            SoundPool pool = soundPool;
-            Integer sampleId = soundSamples.get(audioId);
-            if (pool != null && sampleId != null && loadedSamples.contains(sampleId)) {
-                pool.play(sampleId, 1.0f, 1.0f, 1, 0, 1.0f);
+        int packed;
+        while ((packed = nativePollSound()) != -1) {
+            boolean isStop = (packed & STOP_BIT) != 0;
+            boolean looping = (packed & LOOP_BIT) != 0;
+            int audioId = packed & ~(LOOP_BIT | STOP_BIT);
+            if (audioId >= MUSIC_ID_BASE) {
+                handleMusicCommand(audioId, looping, isStop);
+            } else if (!isStop) {
+                SoundPool pool = soundPool;
+                Integer sampleId = soundSamples.get(audioId);
+                if (pool != null && sampleId != null && loadedSamples.contains(sampleId)) {
+                    pool.play(sampleId, 1.0f, 1.0f, 1, 0, 1.0f);
+                }
             }
+            // Non-music stop commands have no SoundPool teardown here: the IR
+            // engine only voices mus_* with stop_sound in practice; sfx voices
+            // retire by themselves after playback (see Rust drain_audio).
+        }
+    }
+
+    private void handleMusicCommand(int audioId, boolean looping, boolean isStop) {
+        int idx = audioId - MUSIC_ID_BASE;
+        if (idx < 0 || idx >= MUSIC_NAMES.length) return;
+        if (isStop) {
+            stopBgm();
+            return;
+        }
+        // The original bytecode stops the old BGM before starting the next
+        // (Rust queues stop commands ahead of plays); defensively teardown
+        // any current player anyway so two tracks never overlap.
+        stopBgm();
+        try {
+            MediaPlayer player = new MediaPlayer();
+            AssetFileDescriptor afd = getAssets().openFd("music/" + MUSIC_NAMES[idx]);
+            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            afd.close();
+            player.setLooping(looping);
+            player.setOnCompletionListener(mp -> {
+                if (bgmPlayer == mp) bgmPlayer = null;
+                mp.release();
+            });
+            player.prepare();
+            player.start();
+            bgmPlayer = player;
+        } catch (IOException | IllegalStateException e) {
+            Log.w(TAG, "BGM playback failed for " + MUSIC_NAMES[idx] + ": " + e);
+        }
+    }
+
+    private void stopBgm() {
+        MediaPlayer player = bgmPlayer;
+        bgmPlayer = null;
+        if (player != null) {
+            try {
+                player.stop();
+            } catch (IllegalStateException ignored) {
+            }
+            player.release();
         }
     }
 
@@ -307,6 +377,7 @@ public class MainActivity extends Activity {
         soundSamples.clear();
         loadedSamples.clear();
         if (pool != null) pool.release();
+        stopBgm();
     }
 
     private void stopEngine() {
