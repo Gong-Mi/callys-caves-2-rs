@@ -71,8 +71,15 @@ pub struct Particle {
     pub x: f64, pub y: f64,
     pub vx: f64, pub vy: f64,
     pub size: f64,
+    /// Remaining lifetime in ticks.
     pub life: f64,
+    /// Lifetime at spawn; drives the color2 blend progress.
+    pub life0: f64,
+    /// Current blended color; == color_min at spawn (progress 0).
     pub color: i32,
+    /// Original part_type_color2 endpoints (BGR packed), kept per particle.
+    pub color_min: i32,
+    pub color_max: i32,
     pub alpha: f64,
 }
 #[derive(Debug, Clone, Serialize)]
@@ -483,8 +490,24 @@ impl Scene {
                         p.vx += t.grav_amount * rad.cos();
                         p.vy += -t.grav_amount * rad.sin();
                     }
+                    // part_type_color2: blend color_min -> color_max over the
+                    // particle lifetime. Packed GMS BGR: r=bits0-7, g=8-15,
+                    // b=16-23. Aging first: after this tick's decrement the
+                    // progress advances, so the very first tick already blends.
+                    if p.life0 > 0.0 && (p.color_min != p.color_max) {
+                        p.life -= 1.0;
+                        let progress = (1.0 - p.life / p.life0).clamp(0.0, 1.0);
+                        let mix = |a: i32, b: i32| -> i32 {
+                            (a as f64 + (b - a) as f64 * progress).round() as i32
+                        };
+                        let r = mix(p.color_min & 0xFF, p.color_max & 0xFF);
+                        let g = mix((p.color_min >> 8) & 0xFF, (p.color_max >> 8) & 0xFF);
+                        let bl = mix((p.color_min >> 16) & 0xFF, (p.color_max >> 16) & 0xFF);
+                        p.color = r | (g << 8) | (bl << 16);
+                    } else {
+                        p.life -= 1.0;
+                    }
                 }
-                p.life -= 1.0;
             }
             self.particles.retain(|p| p.life > 0.0);
         }
@@ -1255,18 +1278,20 @@ impl Host for Scene {
                     let dir = rand_range(&mut self.rng_seed, t.dir_min, t.dir_max);
                     let spd = rand_range(&mut self.rng_seed, t.speed_min, t.speed_max);
                     let rad = dir * std::f64::consts::PI / 180.0;
+                    let life = rand_range(&mut self.rng_seed, t.life_min, t.life_max);
                     self.particles.push(Particle {
                         type_id: ty,
                         x: px, y: py,
                         vx: spd * rad.cos(),
                         vy: -spd * rad.sin(),
                         size: rand_range(&mut self.rng_seed, t.size_min, t.size_max),
-                        life: rand_range(&mut self.rng_seed, t.life_min, t.life_max),
-                        color: {
-                            let cmin = t.color_min as f64; let cmax = t.color_max as f64;
-                            let c = rand_range(&mut self.rng_seed, cmin, cmax);
-                            c as i32
-                        },
+                        life,
+                        life0: life,
+                        // part_type_color2: color blends color_min -> color_max
+                        // over the lifetime; at spawn progress is 0.
+                        color: t.color_min,
+                        color_min: t.color_min,
+                        color_max: t.color_max,
                         alpha: t.alpha,
                     });
                 }

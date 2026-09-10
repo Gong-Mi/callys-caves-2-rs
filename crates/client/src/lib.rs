@@ -1166,6 +1166,27 @@ pub fn draw_frame(
             }
         }
 
+        // 2.5. Hit particles from the original part_particles_create calls:
+        // world-space positions, camera-relative, size-scaled squares blended
+        // with the particle's current color2 gradient color.
+        for p in &scene.particles {
+            let alpha = (p.alpha as f32).clamp(0.0, 1.0);
+            if alpha <= 0.0 {
+                continue;
+            }
+            let wx = p.x - cam_x;
+            let wy = p.y - cam_y;
+            let size_f = (p.size * 4.0).clamp(2.0, 16.0) as f32;
+            let w = ((size_f * scale_x) as u32).max(1);
+            let h = ((size_f * scale_y) as u32).max(1);
+            let x = (wx as f32 * scale_x) as i32 - (w as i32) / 2;
+            let y = (wy as f32 * scale_y) as i32 - (h as i32) / 2;
+            let r = (p.color & 0xFF) as u8;
+            let g = ((p.color >> 8) & 0xFF) as u8;
+            let b = ((p.color >> 16) & 0xFF) as u8;
+            fb.fill_rect(x, y, w, h, (r, g, b, (alpha * 255.0) as u8));
+        }
+
         // 3. Foreground tiles
         for tile in scene.room_tiles.iter().filter(|t| t.depth < 0) {
             draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
