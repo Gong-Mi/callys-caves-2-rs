@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
     private native void nativeInput(int moveLeft, int moveRight, int jump,
                                     int attack, int switchWeapon, int weapon,
                                     int tap);
+    private native void nativePointerRelease(float x, float y);
     private native int  nativeGetWidth();
     private native int  nativeGetHeight();
     private native void nativeBlitToIntArray(int[] pixels);
@@ -71,6 +72,7 @@ public class MainActivity extends Activity {
     private boolean moveLeft, moveRight, jump, attack, switchWeapon;
     private volatile int jumpPulse, attackPulse, tapPulse;
     private int weapon = 0;
+    private final PointerReleaseQueue pointerReleases = new PointerReleaseQueue();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,14 @@ public class MainActivity extends Activity {
             if (action == MotionEvent.ACTION_DOWN) {
                 // Original GameMaker mb_left: any tap counts (prologue skip).
                 tapPulse = 4;
+                pointerReleases.down(ev.getPointerId(ev.getActionIndex()));
+            }
+            if (action == MotionEvent.ACTION_CANCEL) {
+                pointerReleases.cancel();
+            } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
+                int index = ev.getActionIndex();
+                pointerReleases.release(ev.getPointerId(index), ev.getX(index), ev.getY(index),
+                        bounds.left, bounds.top, w, hh);
             }
             int lifted = action == MotionEvent.ACTION_POINTER_UP
                     ? ev.getActionIndex() : -1;
@@ -183,6 +193,7 @@ public class MainActivity extends Activity {
         if (running) {
             return;
         }
+        pointerReleases.reset();
         String assetPath = prepareGameDroid();
         nativeInit(assetPath);
         prepareSoundPool();
@@ -227,6 +238,10 @@ public class MainActivity extends Activity {
                 if (attackPulse > 0) attackPulse--;
                 if (tapPulse > 0) tapPulse--;
                 switchWeapon = false;
+                PointerReleaseQueue.Release release;
+                while ((release = pointerReleases.poll()) != null) {
+                    nativePointerRelease(release.x, release.y);
+                }
                 nativeStep(dt);
                 playQueuedSounds();
                 nativeBlitToIntArray(pixelBuffer);

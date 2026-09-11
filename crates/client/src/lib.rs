@@ -416,6 +416,24 @@ impl GameState {
         Ok(())
     }
 
+    /// Queue an actual release in the renderer's 960x540 logical viewport.
+    /// Uses the last presented view origin, not a newly moved camera.
+    pub fn pointer_released(&mut self, x: f64, y: f64) {
+        if self.runtime_diagnostic.is_some() || !x.is_finite() || !y.is_finite()
+            || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
+            return;
+        }
+        let scene = if self.intro_scene.is_some() {
+            self.intro_scene.as_mut()
+        } else {
+            self.scene.as_mut()
+        };
+        if let Some(scene) = scene {
+            let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
+            scene.left_releases.push((vx + x, vy + y));
+        }
+    }
+
     pub fn step(&mut self, dt: f32) {
         if self.runtime_diagnostic.is_some() {
             return;
@@ -1628,6 +1646,15 @@ mod android_jni {
             s.fb = Framebuffer::new(width.max(1) as u32, height.max(1) as u32);
             s.blit.clear();
             s.blit.reserve((s.fb.width * s.fb.height) as usize);
+        }
+    }
+
+    #[no_mangle]
+    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePointerRelease(
+        _env: *mut JNIEnv, _class: jobject, x: f32, y: f32,
+    ) {
+        if let Some(s) = slot().lock().unwrap().as_mut() {
+            s.state.pointer_released(x as f64, y as f64);
         }
     }
 

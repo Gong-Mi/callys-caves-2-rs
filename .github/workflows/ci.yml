@@ -22,6 +22,8 @@ jobs:
         run: cargo build --workspace --verbose --release
       - name: Build Desktop Client
         run: cargo build -p callys-client --features desktop --verbose --release
+      - name: Test physical pointer release queue
+        run: python3 scripts/test_pointer_release_java.py
       - name: Run Tests
         run: cargo test --workspace --verbose
       - name: Upload Native Executable
