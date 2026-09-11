@@ -105,6 +105,8 @@ pub struct Scene {
     pub touch_devices: [TouchDevice; 5],
     /// Actual pointer releases in room coordinates; separate from virtual buttons.
     pub left_releases: Vec<(f64, f64)>,
+    /// Actual pointer presses in room coordinates for local Mouse_0 events.
+    pub left_presses: Vec<(f64, f64)>,
     pub sprite_bounds: BTreeMap<i32, SpriteBounds>,
     pub object_parents: BTreeMap<i32, Vec<i32>>,
     pub display_width: f64, pub display_height: f64, pub current_room: f64,
@@ -139,6 +141,7 @@ impl Default for Scene {
             view_ports: BTreeMap::new(),
             touch_devices: Default::default(),
             left_releases: Vec::new(),
+            left_presses: Vec::new(),
             sprite_bounds: BTreeMap::new(),
             object_parents: BTreeMap::new(),
             display_width: 960.0, display_height: 540.0, current_room: 0.0,
@@ -620,6 +623,20 @@ impl Scene {
                 if let Some((left, right, top, bottom)) = self.bounds_for_instance(*id) {
                     if x >= left && x < right && y >= top && y < bottom {
                         self.dispatch(b, *id, 6, 7)?;
+                    }
+                }
+            }
+        }
+        // Mouse_0 is local LeftPressed / Button Down on instance.
+        for (x, y) in std::mem::take(&mut self.left_presses) {
+            if !x.is_finite() || !y.is_finite() { continue; }
+            for id in &ids {
+                if !self.instances.get(id).is_some_and(|i| i.alive && i.active && !i.external) {
+                    continue;
+                }
+                if let Some((left, right, top, bottom)) = self.bounds_for_instance(*id) {
+                    if x >= left && x < right && y >= top && y < bottom {
+                        self.dispatch(b, *id, 6, 0)?;
                     }
                 }
             }

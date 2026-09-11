@@ -484,6 +484,24 @@ impl GameState {
         Ok(())
     }
 
+    /// Queue an actual press in the renderer's 960x540 logical viewport.
+    /// Uses the last presented view origin, not a newly moved camera.
+    pub fn pointer_pressed(&mut self, x: f64, y: f64) {
+        if self.runtime_diagnostic.is_some() || !x.is_finite() || !y.is_finite()
+            || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
+            return;
+        }
+        let scene = if self.intro_scene.is_some() {
+            self.intro_scene.as_mut()
+        } else {
+            self.scene.as_mut()
+        };
+        if let Some(scene) = scene {
+            let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
+            scene.left_presses.push((vx + x, vy + y));
+        }
+    }
+
     /// Queue an actual release in the renderer's 960x540 logical viewport.
     /// Uses the last presented view origin, not a newly moved camera.
     pub fn pointer_released(&mut self, x: f64, y: f64) {
