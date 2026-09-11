@@ -364,6 +364,14 @@ impl Scene {
                 self.globals.insert(format!("drawchange{w}{lvl}"), 1.0);
             }
         }
+        for (w, dmg) in [
+            ("pistol", 1.0), ("shotgun", 0.5), ("assaultrifle", 0.6),
+            ("rocket", 6.0), ("laser", 3.0), ("icegun", 1.0),
+            ("bow", 2.0), ("flamethrower", 0.3), ("bladegun", 3.0),
+            ("boomerang", 2.0), ("spikegun", 3.0), ("bombgun", 4.0),
+        ] {
+            self.globals.insert(format!("{w}damage"), dmg);
+        }
         for k in ["bearskilled", "knifebanditskilled", "pistolthugskilled", "wolfkilled", "chomperbotkilled"] {
             self.globals.insert(k.into(), 0.0);
         }
