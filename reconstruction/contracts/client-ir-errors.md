@@ -44,3 +44,20 @@ Host tests prove the Rust execution boundary, not ART panic behavior, Android lo
 visibility, actual sound playback, or full-game playability. Android-feature
 compilation is a separate gate; no device launch/input is authorized by this slice.
 75 error-free client frames are not combat/death/pickup/completion acceptance.
+
+## Follow-up: room lifecycle host boundary
+
+`Scene::transition_to_room` previously discarded Event7/5 (Room End) and
+Event7/4 (Room Start) errors internally, defeating the client boundary above.
+Both dispatch calls now return their error with phase and instance id. Room End
+failure stops before target geometry is loaded; Room Start failure leaves the
+already-loaded target state and stops, without claiming rollback. Successful
+ordering and instance retention are unchanged.
+
+`crates/core/tests/room_lifecycle_errors.rs`: two failing-event regressions
+(RED on swallowed errors), plus a valid-callback preservation test.
+`crates/client/tests/room_lifecycle_error_boundary.rs`: actual town -> level1
+transition with separately fault-injected player RoomEnd/RoomStart bindings;
+both regressions were RED before the fix and now reach runtime_diagnostic without
+incrementing completed frames or successful visits. This is error transport
+coverage, not new gameplay behavior or full lifecycle semantic parity.

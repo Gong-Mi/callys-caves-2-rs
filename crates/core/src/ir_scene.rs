@@ -438,7 +438,8 @@ impl Scene {
             .map(|(&id, _)| id)
             .collect();
         for id in current_ids {
-            let _ = self.dispatch(bundle, id, 7, 5);
+            self.dispatch(bundle, id, 7, 5)
+                .map_err(|e| format!("Room End instance {id}: {e}"))?;
         }
 
         // 2. Retain persistent instances, purge transient
@@ -453,7 +454,8 @@ impl Scene {
             .map(|(&id, _)| id)
             .collect();
         for id in new_ids {
-            let _ = self.dispatch(bundle, id, 7, 4);
+            self.dispatch(bundle, id, 7, 4)
+                .map_err(|e| format!("Room Start instance {id}: {e}"))?;
         }
 
         Ok(())
