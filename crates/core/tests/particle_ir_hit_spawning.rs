@@ -78,6 +78,13 @@ fn arrow_hit_spawns_real_particles_via_original_code_281() {
     for p in &s.particles {
         assert_eq!(p.type_id, particle1, "particles must reference global.Particle1's type");
         assert!(p.life >= 1.0, "spawned life must come from the original life range 1..=12");
+        assert_eq!(p.life0, p.life, "life0 must record the spawned lifetime");
+        // part_type_color2 semantics: color blends color1 -> color2 over the
+        // particle lifetime; at spawn progress is 0, so color == color1
+        // (16777215 = white), never a random draw between the endpoints.
+        assert_eq!(p.color_min, 16777215, "color_min must carry original color1");
+        assert_eq!(p.color_max, 4235519, "color_max must carry original color2");
+        assert_eq!(p.color, 16777215, "spawn color must be original color1 (progress 0)");
         // speed 8..=12 at a random direction: the per-tick velocity is nonzero.
         let v = p.vx.hypot(p.vy);
         assert!(v > 0.0, "particle velocity must come from the original speed range 8..=12, v={v}");
@@ -115,4 +122,15 @@ fn particles_integrate_and_expire_in_scene_tick() {
     let any_moved = survivors.iter().enumerate()
         .any(|(i, &(x, y))| (x - before[i].0).hypot(y - before[i].1) > 0.0);
     assert!(any_moved, "scene tick must integrate particle velocity");
+
+    // color2 gradient: after one tick every surviving particle has aged, so
+    // its color must have left color1 (white) toward color2 (orange) along
+    // every channel: g in (160,255), b in (64,255) for white->orange.
+    for p in &s.particles {
+        let g = ((p.color >> 8) & 0xFF) as i32;
+        let bch = (p.color & 0xFF0000) >> 16;
+        assert!(g < 255 && g > 160, "gradient g must leave 255 toward 160, got {g}");
+        let b = bch as i32;
+        assert!(b < 255 && b > 64, "gradient b must leave 255 toward 64, got {b}");
+    }
 }

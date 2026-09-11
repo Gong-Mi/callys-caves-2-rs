@@ -22,11 +22,15 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
     assert!(!scene.instances.is_empty(), "rm_town instances materialized");
 
     // 1. Verify player input drives motion in the IR scene
+    // First step 15 frames so Room Start alarm[6] (10 ticks) clears global.roomstart
+    for _ in 0..15 {
+        state.step(1.0 / 60.0);
+    }
     let initial_px = state.scene.as_ref().unwrap().instances.values()
         .find(|i| i.object == 0 && i.alive)
         .unwrap().fields["x"];
     state.input.move_right = true;
-    for _ in 0..10 {
+    for _ in 0..15 {
         state.step(1.0 / 60.0);
     }
     state.input.move_right = false;

@@ -469,6 +469,15 @@ impl GameState {
         let current_room = self.world.current_room_index;
         if let Some(room_data) = self.asset.rooms.get(current_room) {
             scene.load_room_from_data(&bundle, current_room, room_data)?;
+            // Dispatch Room Start (Event 7, Subtype 4)
+            let initial_ids: Vec<i32> = scene.instances.iter()
+                .filter(|(_, i)| i.alive && i.active && !i.external)
+                .map(|(&id, _)| id)
+                .collect();
+            for id in initial_ids {
+                scene.dispatch(&bundle, id, 7, 4)
+                    .map_err(|e| format!("Room Start instance {id}: {e}"))?;
+            }
         }
         self.scene = Some(scene);
         self.full_bundle = Some(bundle);
