@@ -1,4 +1,4 @@
-use callys_core::code_vm::load_bundle_from_file;
+use callys_core::code_vm::{load_bundle_from_file, Host};
 use callys_core::ir_scene::{Scene, SpriteBounds};
 use std::path::Path;
 
@@ -62,7 +62,7 @@ fn ui_buttons_touch_and_player_motion_integration() {
 
     // Create obj_UI (object id 66)
     let ui_id = s.create(&bundle, 66, 0.0, 0.0).expect("create obj_UI");
-    s.instances.get_mut(&ui_id).unwrap().fields.insert("score".into(), 100.0);
+    s.write(ui_id, -1, "score", None, 100.0).unwrap();
     assert!(s.instances.contains_key(&ui_id));
 
     // Verify globals created by obj_UI Create (CODE 365)

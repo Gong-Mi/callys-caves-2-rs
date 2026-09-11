@@ -95,6 +95,8 @@ pub struct AudioCommand { pub code: usize, pub offset: usize, pub sound: i32, pu
 #[derive(Debug)]
 pub struct Scene {
     pub instances: BTreeMap<i32, Instance>, pub globals: BTreeMap<String, f64>,
+    /// Legacy engine-global score, shared by player, UI, shops and death events.
+    pub score: f64,
     pub draws: Vec<DrawCommand>, pub texts: Vec<TextCommand>, pub healthbars: Vec<HealthbarCommand>,
     pub backgrounds: Vec<BackgroundCommand>, pub audio: Vec<AudioCommand>,
     pub executed: Vec<(usize,usize)>,
@@ -131,6 +133,7 @@ impl Default for Scene {
     fn default() -> Self {
         Self {
             instances: BTreeMap::new(), globals: BTreeMap::new(),
+            score: 0.0,
             draws: Vec::new(), texts: Vec::new(), healthbars: Vec::new(), backgrounds: Vec::new(), audio: Vec::new(), executed: Vec::new(),
             view: 0, view_positions: BTreeMap::new(), mouse_pressed: false,
             view_ports: BTreeMap::new(),
@@ -491,7 +494,7 @@ impl Scene {
             ("x", x), ("y", y), ("sprite_index", obj.sprite as f64), ("image_index", 0.0),
             ("image_xscale", 1.0), ("image_yscale", 1.0), ("image_angle", 0.0),
             ("image_blend", 16777215.0), ("image_alpha", 1.0), ("image_speed", 1.0),
-            ("score", 0.0), ("hspeed", 0.0), ("vspeed", 0.0), ("speed", 0.0),
+            ("hspeed", 0.0), ("vspeed", 0.0), ("speed", 0.0),
             ("direction", 0.0), ("friction", 0.0), ("gravity", 0.0), ("gravity_direction", 270.0),
             ("visible", 1.0),
         ] {
@@ -508,7 +511,7 @@ impl Scene {
         for (n,v) in [("id", id as f64), ("x",x),("y",y),("sprite_index",obj.sprite as f64),("image_index",0.0),
                       ("image_xscale",1.0),("image_yscale",1.0),("image_angle",0.0),
                       ("image_blend",16777215.0),("image_alpha",1.0),("image_speed",1.0),
-                      ("score",0.0),("hspeed",0.0),("vspeed",0.0),("speed",0.0),
+                      ("hspeed",0.0),("vspeed",0.0),("speed",0.0),
                       ("direction",0.0),("friction",0.0),("gravity",0.0),("gravity_direction",270.0),
                       ("visible",1.0)] {
             i.fields.insert(n.into(),v);
@@ -801,6 +804,7 @@ impl Host for Scene {
         }).map(|(id,_)|*id).collect())
     }
     fn read(&mut self,id:i32,s:i32,n:&str,index:Option<i32>)->Result<f64,String> {
+        if s == -1 && n == "score" && index.is_none() { return Ok(self.score); }
         if s == -5 {
             if index.is_some(){return Err("global arrays unsupported".into());}
             return Ok(self.globals.get(n).copied().unwrap_or(0.0));
@@ -837,6 +841,7 @@ impl Host for Scene {
     }
     fn write(&mut self,id:i32,s:i32,n:&str,index:Option<i32>,value:f64)->Result<(),String> {
         if !value.is_finite(){return Err("non-finite store".into());}
+        if s == -1 && n == "score" && index.is_none() { self.score = value; return Ok(()); }
         if s == -5 {
             if index.is_some(){return Err("global arrays unsupported".into());}
             self.globals.insert(n.into(),value);return Ok(());
