@@ -20,6 +20,8 @@ fn complete_save() -> SaveData {
             WeaponType::Sword,
         ],
         collected_instance_ids: vec![4242, 5001, 5002],
+        scene_globals: Default::default(),
+        score: 0.0,
     }
 }
 

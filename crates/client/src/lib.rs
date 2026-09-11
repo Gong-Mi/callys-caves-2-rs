@@ -245,6 +245,8 @@ pub struct GameState {
     /// First fatal IR error. Execution stays halted: failed events can have
     /// partial side effects and must not be retried or fall back to legacy logic.
     pub runtime_diagnostic: Option<String>,
+    /// Last IR snapshot written to disk; dedupes autosave comparisons.
+    ir_saved_snapshot: Option<SaveData>,
     pub sound_catalog: SoundCatalog,
     /// (sound id, looping, is_stop) — looping is the original bytecode's third
     /// audio_play_sound argument; is_stop marks audio_stop_sound/stop_all so
@@ -362,6 +364,7 @@ impl GameState {
             save_path,
             save_diagnostic,
             runtime_diagnostic: None,
+            ir_saved_snapshot: None,
             sound_catalog,
             sound_queue: VecDeque::new(),
             jump_was_active: false,
@@ -387,6 +390,62 @@ impl GameState {
 
     /// Transitions gameplay directly into the full data-driven IR scene
     /// backed by the original GameMaker bytecode and room records.
+    /// Restores an IR-path snapshot before enabling gameplay. Room data and
+    /// the bundle come from this state; globals/score/collected from the file.
+    pub fn restore_ir_snapshot(&mut self, save: &SaveData) -> Result<(), String> {
+        let bundle = self.full_bundle.clone()
+            .ok_or_else(|| "restore before IR bundle load".to_string())?;
+        let room_id = save.current_room.min(self.asset.rooms.len().saturating_sub(1));
+        let room = self.asset.rooms.get(room_id)
+            .ok_or_else(|| format!("save room {room_id} outside room table"))?;
+        {
+            let scene = self.scene.as_mut()
+                .ok_or_else(|| "restore before IR scene load".to_string())?;
+            scene.restore_snapshot(
+                bundle.as_ref(), room_id, room,
+                &save.scene_globals, save.score, &save.collected_instance_ids,
+            )?;
+        }
+        self.ir_saved_snapshot = Some(save.clone());
+        Ok(())
+    }
+
+    /// Persists the IR scene snapshot when progression changed. Runs after
+    /// successful frames only; a failed frame leaves the last good file.
+    fn autosave_ir(&mut self) {
+        if self.save_path.is_none() || self.runtime_diagnostic.is_some() {
+            return;
+        }
+        let Some(scene) = self.scene.as_ref() else { return; };
+        let (room, globals, score, collected) = scene.save_snapshot();
+        if !globals.is_empty() || score != 0.0 || !collected.is_empty() || room != 0 {
+            let save = SaveData {
+                format_version: callys_core::save::CURRENT_SAVE_VERSION,
+                current_room: room,
+                checkpoint: callys_core::Checkpoint { room_index: room, x: 0.0, y: 0.0 },
+                max_health: 4,
+                gems: 0,
+                coins: 0,
+                current_weapon: callys_core::WeaponType::Pistol,
+                unlocked_weapons: vec![callys_core::WeaponType::Pistol],
+                collected_instance_ids: collected,
+                scene_globals: globals,
+                score,
+            };
+            if self.ir_saved_snapshot.as_ref() == Some(&save) {
+                return;
+            }
+            if let Some(path) = self.save_path.as_deref() {
+                self.save_diagnostic = write_save_atomic(path, &save)
+                    .err()
+                    .map(|error| error.to_string());
+                if self.save_diagnostic.is_none() {
+                    self.ir_saved_snapshot = Some(save);
+                }
+            }
+        }
+    }
+
     pub fn enable_ir_gameplay(&mut self, mut bundle: std::sync::Arc<callys_core::code_vm::Bundle>) -> Result<(), String> {
         if bundle.string_table.is_empty() && !self.asset.string_table.is_empty() {
             let mut b = (*bundle).clone();
@@ -550,6 +609,7 @@ impl GameState {
             scene.draw_view(bundle, 0).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
 
             self.frame_count = self.frame_count.wrapping_add(1);
+            self.autosave_ir();
             return Ok(());
         }
         let progress_before = SaveData::from_world(&self.world);
@@ -1611,6 +1671,24 @@ mod android_jni {
                         log(&format!("full IR gameplay init failed: {error}"));
                     } else {
                         log("full IR gameplay bundle loaded");
+                        // IR-path restore: same save file the legacy path uses.
+                        // Only a v2 file with scene progress restores here; a
+                        // legacy/v1 file still restores through the world path.
+                        if let Some(save_path) = st.save_path.clone() {
+                            match load_save(&save_path) {
+                                Ok(Some(save)) if !save.scene_globals.is_empty() => {
+                                    match st.restore_ir_snapshot(&save) {
+                                        Ok(()) => log(&format!(
+                                            "IR save restored: room={} score={} globals={} collected={}",
+                                            save.current_room, save.score as i64,
+                                            save.scene_globals.len(), save.collected_instance_ids.len())),
+                                        Err(error) => log(&format!("IR save restore failed: {error}")),
+                                    }
+                                }
+                                Ok(_) => log("no IR scene save to restore"),
+                                Err(error) => log(&format!("save load failed: {error}")),
+                            }
+                        }
                     }
                 }
                 Err(error) => log(&format!("full IR bundle load failed: {error}")),

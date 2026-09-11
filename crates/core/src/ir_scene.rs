@@ -365,6 +365,52 @@ impl Scene {
             self.globals.insert(k.into(), 0.0);
         }
     }
+    /// Progress snapshot for the IR path: persistent room index, the
+    /// SCENE_SAVE_GLOBALS subset, shared score, and collected transient
+    /// instance identities of the current room. External/test instances are
+    /// never captured.
+    pub fn save_snapshot(&self) -> (usize, BTreeMap<String, f64>, f64, Vec<i32>) {
+        let mut globals = BTreeMap::new();
+        for name in crate::save::SCENE_SAVE_GLOBALS {
+            if let Some(v) = self.globals.get(*name) {
+                globals.insert((*name).to_string(), *v);
+            }
+        }
+        let collected = self.instances.iter()
+            .filter(|(_, i)| {
+                i.alive
+                    && !i.external
+                    // Match transition_to_room's persistence policy exactly:
+                    // player (0), UI (66) and explicitly persistent objects
+                    // are carried across rooms, never captured as collected.
+                    && i.object != 0
+                    && i.object != 66
+                    && !self.persistent_objects.contains(&i.object)
+            })
+            .map(|(id, _)| *id)
+            .collect();
+        (self.current_room as usize, globals, self.score, collected)
+    }
+
+    /// Restores a snapshot produced by save_snapshot. Globals in the file are
+    /// applied over init_fresh_start_defaults; missing keys keep fresh values.
+    /// Instance identities mark transient instances destroyed before load.
+    pub fn restore_snapshot(
+        &mut self,
+        b: &Bundle,
+        room_id: usize,
+        room: &callys_asset::RoomData,
+        globals: &BTreeMap<String, f64>,
+        score: f64,
+        collected: &[i32],
+    ) -> Result<(), String> {
+        self.globals.extend(globals.iter().map(|(k, v)| (k.clone(), *v)));
+        self.score = score;
+        self.load_room_from_data(b, room_id, room)?;
+        self.instances.retain(|id, i| !(collected.contains(id) && i.alive && !i.external));
+        Ok(())
+    }
+
     /// Test/embedding boundary, not an implicit fake room loader.
     pub fn insert_external(&mut self, object:i32)->i32 {
         self.next_id=self.next_id.max(200000)+1; let id=self.next_id;
