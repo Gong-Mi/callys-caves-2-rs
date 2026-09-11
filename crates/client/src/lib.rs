@@ -242,6 +242,9 @@ pub struct GameState {
     pub atlases: Vec<RgbaImage>,
     pub save_path: Option<PathBuf>,
     pub save_diagnostic: Option<String>,
+    /// First fatal IR error. Execution stays halted: failed events can have
+    /// partial side effects and must not be retried or fall back to legacy logic.
+    pub runtime_diagnostic: Option<String>,
     pub sound_catalog: SoundCatalog,
     /// (sound id, looping, is_stop) — looping is the original bytecode's third
     /// audio_play_sound argument; is_stop marks audio_stop_sound/stop_all so
@@ -358,6 +361,7 @@ impl GameState {
             atlases,
             save_path,
             save_diagnostic,
+            runtime_diagnostic: None,
             sound_catalog,
             sound_queue: VecDeque::new(),
             jump_was_active: false,
@@ -413,16 +417,27 @@ impl GameState {
     }
 
     pub fn step(&mut self, dt: f32) {
+        if self.runtime_diagnostic.is_some() {
+            return;
+        }
+        if let Err(error) = self.step_inner(dt) {
+            let diagnostic = format!("frame {}: {error}", self.frame_count);
+            eprintln!("IR execution halted: {diagnostic}");
+            self.runtime_diagnostic = Some(diagnostic);
+        }
+    }
+
+    fn step_inner(&mut self, dt: f32) -> Result<(), String> {
         if let (Some(bundle), Some(scene)) = (self.intro_bundle.as_deref(), self.intro_scene.as_mut()) {
             // Original obj_introduction Step taps mouse_check_button_pressed(mb_left);
             // Scene consumes mb_left via mouse_pressed. Any attack/jump/tap input is a tap.
             scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
-            scene.tick(bundle).expect("prologue IR tick failed; no fallback");
+            scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
             // Draw events (event_type 8) are dispatched only by an explicit
             // view pass; tick runs Step/alarms/collision only. Without this
             // the prologue framebuffer stays pure black (draws never filled).
             scene.view_positions.entry(0).or_insert((0.0, 0.0));
-            let _ = scene.draw_view(bundle, 0);
+            scene.draw_view(bundle, 0).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
             // Audio commands carry the exact sound id the original bytecode
             // passed to audio_play_sound; drain them into the platform queue.
             // drain_audio also retires non-looping voices so the original
@@ -438,11 +453,11 @@ impl GameState {
             }
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
             if intro_alive {
-                return;
+                return Ok(());
             }
             self.intro_scene = None;
             if let Some(bundle) = self.full_bundle.clone() {
-                let _ = self.enable_ir_gameplay(bundle);
+                self.enable_ir_gameplay(bundle).map_err(|e| format!("intro gameplay initialization: {e}"))?;
             }
         }
 
@@ -491,7 +506,7 @@ impl GameState {
                 scene.touch_devices[3].released = true;
             }
 
-            let _ = scene.tick(bundle);
+            scene.tick(bundle).map_err(|e| format!("gameplay tick room {}: {e}", scene.current_room))?;
 
             // drain_audio retires non-looping voices; a bare audio.drain here
             // would keep is_playing gates shut forever (SFX play once only).
@@ -504,18 +519,20 @@ impl GameState {
             }
 
             if let Some(target_room) = scene.target_room_warp.take() {
-                if let Some(next_room) = self.asset.rooms.get(target_room) {
-                    let _ = scene.transition_to_room(bundle, target_room, next_room);
-                    self.rooms_visited = self.rooms_visited.saturating_add(1);
-                }
+                let source_room = scene.current_room;
+                let next_room = self.asset.rooms.get(target_room).ok_or_else(||
+                    format!("room transition {source_room} -> {target_room}: target outside room table"))?;
+                scene.transition_to_room(bundle, target_room, next_room)
+                    .map_err(|e| format!("room transition {source_room} -> {target_room}: {e}"))?;
+                self.rooms_visited = self.rooms_visited.saturating_add(1);
             }
 
             let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
             scene.view_positions.insert(0, (cam_x, cam_y));
-            let _ = scene.draw_view(bundle, 0);
+            scene.draw_view(bundle, 0).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
 
             self.frame_count = self.frame_count.wrapping_add(1);
-            return;
+            return Ok(());
         }
         let progress_before = SaveData::from_world(&self.world);
         let player_state_before = self.world.player.state;
@@ -603,6 +620,7 @@ impl GameState {
             }
         }
         self.frame_count = self.frame_count.wrapping_add(1);
+        Ok(())
     }
 
     fn queue_sound(&mut self, event: SoundEvent) {
@@ -1625,7 +1643,13 @@ mod android_jni {
             let previous_room = s.state.world.current_room_index;
             let previous_player_state = s.state.world.player.state;
             let previous_save_diagnostic = s.state.save_diagnostic.clone();
+            let was_halted = s.state.runtime_diagnostic.is_some();
             s.state.step(dt);
+            if !was_halted {
+                if let Some(diagnostic) = s.state.runtime_diagnostic.as_deref() {
+                    log(&format!("IR execution halted: {diagnostic}"));
+                }
+            }
             if s.state.save_diagnostic != previous_save_diagnostic {
                 if let Some(diagnostic) = s.state.save_diagnostic.as_deref() {
                     log(&format!("save write warning: {diagnostic}"));
