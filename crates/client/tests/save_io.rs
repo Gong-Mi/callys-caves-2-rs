@@ -21,6 +21,8 @@ fn save_data() -> SaveData {
         current_weapon: WeaponType::Shotgun,
         unlocked_weapons: vec![WeaponType::Pistol, WeaponType::Shotgun],
         collected_instance_ids: vec![4242, 5001, 5002],
+        scene_globals: Default::default(),
+        score: 0.0,
     }
 }
 

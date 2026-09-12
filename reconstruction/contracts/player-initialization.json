@@ -1,0 +1,5852 @@
+{
+  "asset_sha256": "9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6",
+  "scanned_code_count": 1354,
+  "cohort_code_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    268,
+    271,
+    275,
+    279,
+    282,
+    285,
+    287,
+    291,
+    295,
+    299,
+    304,
+    309
+  ],
+  "required_global_count": 22,
+  "not_written_by_player_create": [
+    "assaultriflelevel",
+    "boomeranglevel",
+    "energywavebought",
+    "healthregenbought",
+    "maxhp",
+    "swordsound",
+    "timeplayed"
+  ],
+  "boundary": "direct static global accesses; writer sites are NOT guaranteed initialization; other-scope/indirect same-name writes retained",
+  "globals": [
+    {
+      "name": "assaultrifle",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3766824,
+            3767180
+          ]
+        },
+        {
+          "code_id": 282,
+          "code_name": "gml_Object_obj_bullet_Create_0",
+          "bytecode_sha256": "7286dda7064fc2c34b45c70078ebd5ade1bbd46da8fe4507d5aa802fb0196217",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 39,
+              "object_name": "obj_bullet",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 405552
+            }
+          ],
+          "offsets": [
+            4090196,
+            4090324
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763904
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763904
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516132
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516492
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516832
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517156
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517564
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517924
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518284
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518644
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4519004
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519356
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519704
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715864,
+            4716056,
+            4716316,
+            4716572,
+            4716848,
+            4717144,
+            4717472,
+            4717796,
+            4718140,
+            4718516,
+            4718912,
+            4719308,
+            4719504,
+            4719756,
+            4720004,
+            4720272,
+            4720560,
+            4720868,
+            4721196,
+            4721532,
+            4721900,
+            4722288,
+            4722676,
+            4722872,
+            4723100,
+            4723348,
+            4723616,
+            4723904,
+            4724212,
+            4724552,
+            4724900,
+            4725268,
+            4725616,
+            4725848,
+            4726076,
+            4726324,
+            4726592,
+            4726880,
+            4727164,
+            4727492,
+            4727840,
+            4728188,
+            4728420,
+            4728648,
+            4728896,
+            4729164,
+            4729428,
+            4729736,
+            4730064,
+            4730392,
+            4730624,
+            4730852,
+            4731100,
+            4731344,
+            4731632,
+            4731940,
+            4732248,
+            4732456,
+            4732684,
+            4732932,
+            4733200,
+            4733488,
+            4733776,
+            4733984,
+            4734212,
+            4734460,
+            4734728,
+            4734996,
+            4735204,
+            4735432,
+            4735680,
+            4735928,
+            4736136,
+            4736364,
+            4736592,
+            4736800,
+            4737008,
+            4737188
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "assaultriflelevel",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3766872,
+            3766948,
+            3767228,
+            3767304
+          ]
+        }
+      ],
+      "player_create_write_offsets": [],
+      "direct_global_writes": [
+        {
+          "code_id": 17,
+          "code_name": "gml_Object_obj_player_Other_2",
+          "bytecode_sha256": "4b1f25be1bf7916fd002ea1747e5d5a92e545da6625ad9a290ce0d0f2384da75",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 7,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378608
+            }
+          ],
+          "offsets": [
+            3828180,
+            3837588,
+            3857520
+          ]
+        },
+        {
+          "code_id": 367,
+          "code_name": "gml_Object_obj_UI_Alarm_1",
+          "bytecode_sha256": "4d774e317554442f89e1fdbcb7c8526c7076fbcb6bb16b22e457a78e1438712a",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 66,
+              "object_name": "obj_UI",
+              "event_type": 2,
+              "subtype": 1,
+              "action_order": 0,
+              "action_offset": 417160
+            }
+          ],
+          "offsets": [
+            4220404
+          ]
+        },
+        {
+          "code_id": 368,
+          "code_name": "gml_Object_obj_UI_Alarm_0",
+          "bytecode_sha256": "87a6879b8ccbd3ca98cf41f26027d6e9ca90c37f42812b6f434a641a8fceac65",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 66,
+              "object_name": "obj_UI",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 417228
+            }
+          ],
+          "offsets": [
+            4224932
+          ]
+        },
+        {
+          "code_id": 478,
+          "code_name": "gml_Object_obj_yesrestoredata_Mouse_7",
+          "bytecode_sha256": "ef8d2481154d01a530eea67d5cf4f396712c53047d32e7ea4700d3508fc98fdd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 112,
+              "object_name": "obj_yesrestoredata",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 434420
+            }
+          ],
+          "offsets": [
+            4657500
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "bladegun",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3768828,
+            3769044
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763964
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763964
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516156
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516516
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516856
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517216
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517576
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517876
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518308
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518668
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4519028
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519380
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519728
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715924,
+            4716140,
+            4716376,
+            4716632,
+            4716908,
+            4717204,
+            4717436,
+            4717856,
+            4718212,
+            4718588,
+            4718984,
+            4719380,
+            4719588,
+            4719816,
+            4720064,
+            4720332,
+            4720620,
+            4720928,
+            4721256,
+            4721604,
+            4721972,
+            4722360,
+            4722748,
+            4722956,
+            4723184,
+            4723432,
+            4723700,
+            4723988,
+            4724296,
+            4724624,
+            4724972,
+            4725340,
+            4725688,
+            4725896,
+            4726124,
+            4726372,
+            4726640,
+            4726928,
+            4727236,
+            4727564,
+            4727912,
+            4728260,
+            4728468,
+            4728696,
+            4728944,
+            4729212,
+            4729500,
+            4729808,
+            4730136,
+            4730464,
+            4730672,
+            4730900,
+            4731148,
+            4731416,
+            4731704,
+            4732012,
+            4732320,
+            4732528,
+            4732756,
+            4733004,
+            4733272,
+            4733560,
+            4733848,
+            4734056,
+            4734284,
+            4734532,
+            4734800,
+            4735068,
+            4735276,
+            4735504,
+            4735752,
+            4736000,
+            4736208,
+            4736436,
+            4736664,
+            4736872,
+            4737080,
+            4737260
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "bombgun",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3767948,
+            3768164
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3764024
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3764024
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516192
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516552
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516892
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517252
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517612
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517972
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518332
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518692
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4518956
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519416
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519764
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715972,
+            4716188,
+            4716424,
+            4716680,
+            4716956,
+            4717252,
+            4717568,
+            4717904,
+            4718260,
+            4718636,
+            4719032,
+            4719428,
+            4719636,
+            4719864,
+            4720112,
+            4720380,
+            4720668,
+            4720976,
+            4721304,
+            4721652,
+            4722020,
+            4722408,
+            4722796,
+            4723004,
+            4723232,
+            4723480,
+            4723748,
+            4724036,
+            4724344,
+            4724672,
+            4725020,
+            4725388,
+            4725736,
+            4725944,
+            4726172,
+            4726420,
+            4726688,
+            4726976,
+            4727284,
+            4727612,
+            4727960,
+            4728308,
+            4728516,
+            4728744,
+            4728992,
+            4729260,
+            4729548,
+            4729856,
+            4730184,
+            4730512,
+            4730720,
+            4730948,
+            4731196,
+            4731464,
+            4731752,
+            4732060,
+            4732368,
+            4732576,
+            4732804,
+            4733052,
+            4733320,
+            4733608,
+            4733896,
+            4734104,
+            4734332,
+            4734580,
+            4734848,
+            4735116,
+            4735324,
+            4735552,
+            4735800,
+            4736048,
+            4736256,
+            4736484,
+            4736712,
+            4736920,
+            4737128,
+            4737308
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "boomerang",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3769688,
+            3769904
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3764000
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3764000
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516084
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516576
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516928
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517288
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517648
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4518008
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518368
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518728
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4519088
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519440
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519800
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715948,
+            4716164,
+            4716400,
+            4716656,
+            4716932,
+            4717228,
+            4717544,
+            4717880,
+            4718236,
+            4718612,
+            4719008,
+            4719404,
+            4719612,
+            4719840,
+            4720088,
+            4720356,
+            4720644,
+            4720952,
+            4721280,
+            4721628,
+            4721996,
+            4722384,
+            4722772,
+            4722980,
+            4723208,
+            4723456,
+            4723724,
+            4724012,
+            4724320,
+            4724648,
+            4724996,
+            4725364,
+            4725712,
+            4725920,
+            4726148,
+            4726396,
+            4726664,
+            4726952,
+            4727260,
+            4727588,
+            4727936,
+            4728284,
+            4728492,
+            4728720,
+            4728968,
+            4729236,
+            4729524,
+            4729832,
+            4730160,
+            4730488,
+            4730696,
+            4730924,
+            4731172,
+            4731440,
+            4731728,
+            4732036,
+            4732344,
+            4732552,
+            4732780,
+            4733028,
+            4733296,
+            4733584,
+            4733872,
+            4734080,
+            4734308,
+            4734556,
+            4734824,
+            4735092,
+            4735300,
+            4735528,
+            4735776,
+            4736024,
+            4736232,
+            4736460,
+            4736688,
+            4736896,
+            4737104,
+            4737284
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "boomeranglevel",
+      "cohort_reads": [
+        {
+          "code_id": 295,
+          "code_name": "gml_Object_obj_boomerangthrow_Create_0",
+          "bytecode_sha256": "552e4b177694cca39db0a3f46249d35568147e98c40c04919dc0252cbef04670",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 43,
+              "object_name": "obj_boomerangthrow",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 407304
+            }
+          ],
+          "offsets": [
+            4140780,
+            4140816,
+            4140852,
+            4140888
+          ]
+        }
+      ],
+      "player_create_write_offsets": [],
+      "direct_global_writes": [
+        {
+          "code_id": 17,
+          "code_name": "gml_Object_obj_player_Other_2",
+          "bytecode_sha256": "4b1f25be1bf7916fd002ea1747e5d5a92e545da6625ad9a290ce0d0f2384da75",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 7,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378608
+            }
+          ],
+          "offsets": [
+            3824964,
+            3837696,
+            3860856
+          ]
+        },
+        {
+          "code_id": 367,
+          "code_name": "gml_Object_obj_UI_Alarm_1",
+          "bytecode_sha256": "4d774e317554442f89e1fdbcb7c8526c7076fbcb6bb16b22e457a78e1438712a",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 66,
+              "object_name": "obj_UI",
+              "event_type": 2,
+              "subtype": 1,
+              "action_order": 0,
+              "action_offset": 417160
+            }
+          ],
+          "offsets": [
+            4223740
+          ]
+        },
+        {
+          "code_id": 368,
+          "code_name": "gml_Object_obj_UI_Alarm_0",
+          "bytecode_sha256": "87a6879b8ccbd3ca98cf41f26027d6e9ca90c37f42812b6f434a641a8fceac65",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 66,
+              "object_name": "obj_UI",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 417228
+            }
+          ],
+          "offsets": [
+            4225800
+          ]
+        },
+        {
+          "code_id": 478,
+          "code_name": "gml_Object_obj_yesrestoredata_Mouse_7",
+          "bytecode_sha256": "ef8d2481154d01a530eea67d5cf4f396712c53047d32e7ea4700d3508fc98fdd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 112,
+              "object_name": "obj_yesrestoredata",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 434420
+            }
+          ],
+          "offsets": [
+            4657620
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "bow",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3768380,
+            3768600
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763988
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763988
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516180
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516540
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516880
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517240
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517600
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517960
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518320
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518596
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4519052
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519404
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519752
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715912,
+            4716128,
+            4716364,
+            4716620,
+            4716896,
+            4717120,
+            4717448,
+            4717772,
+            4718200,
+            4718576,
+            4718972,
+            4719368,
+            4719576,
+            4719804,
+            4720052,
+            4720320,
+            4720524,
+            4720832,
+            4721160,
+            4721592,
+            4721960,
+            4722348,
+            4722736,
+            4722944,
+            4723172,
+            4723420,
+            4723604,
+            4723892,
+            4724200,
+            4724612,
+            4724960,
+            4725328,
+            4725676,
+            4725884,
+            4726112,
+            4726276,
+            4726544,
+            4726832,
+            4727224,
+            4727552,
+            4727900,
+            4728248,
+            4728456,
+            4728600,
+            4728848,
+            4729116,
+            4729488,
+            4729796,
+            4730124,
+            4730452,
+            4730576,
+            4730804,
+            4731052,
+            4731404,
+            4731692,
+            4732000,
+            4732308,
+            4732516,
+            4732744,
+            4732992,
+            4733260,
+            4733548,
+            4733836,
+            4734044,
+            4734272,
+            4734520,
+            4734788,
+            4735056,
+            4735264,
+            4735492,
+            4735740,
+            4735988,
+            4736196,
+            4736424,
+            4736652,
+            4736860,
+            4737068,
+            4737248
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "energywavebought",
+      "cohort_reads": [
+        {
+          "code_id": 10,
+          "code_name": "gml_Object_obj_player_Alarm_1",
+          "bytecode_sha256": "3dc0b63ccd8cc86006611eac9e8739abad3bae2a64d8e07fd51915b41fba6509",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 1,
+              "action_order": 0,
+              "action_offset": 378088
+            }
+          ],
+          "offsets": [
+            3764724,
+            3764900
+          ]
+        }
+      ],
+      "player_create_write_offsets": [],
+      "direct_global_writes": [
+        {
+          "code_id": 17,
+          "code_name": "gml_Object_obj_player_Other_2",
+          "bytecode_sha256": "4b1f25be1bf7916fd002ea1747e5d5a92e545da6625ad9a290ce0d0f2384da75",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 7,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378608
+            }
+          ],
+          "offsets": [
+            3823620,
+            3836232
+          ]
+        },
+        {
+          "code_id": 429,
+          "code_name": "gml_Object_obj_energywaveupgrade_Mouse_0",
+          "bytecode_sha256": "281928e2e1f8d025967868cda44b1e01f65700c2bf84d880a25045bcea3ce571",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 91,
+              "object_name": "obj_energywaveupgrade",
+              "event_type": 6,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 426672
+            }
+          ],
+          "offsets": [
+            4604608
+          ]
+        },
+        {
+          "code_id": 478,
+          "code_name": "gml_Object_obj_yesrestoredata_Mouse_7",
+          "bytecode_sha256": "ef8d2481154d01a530eea67d5cf4f396712c53047d32e7ea4700d3508fc98fdd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 112,
+              "object_name": "obj_yesrestoredata",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 434420
+            }
+          ],
+          "offsets": [
+            4656144
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "flamethrower",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3769280,
+            3769484
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763976
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763976
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516168
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516528
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516868
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517228
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517588
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517948
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518236
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518680
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4519040
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519392
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519740
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715936,
+            4716152,
+            4716388,
+            4716644,
+            4716920,
+            4717216,
+            4717532,
+            4717868,
+            4718224,
+            4718600,
+            4718996,
+            4719392,
+            4719600,
+            4719828,
+            4720076,
+            4720344,
+            4720632,
+            4720940,
+            4721268,
+            4721616,
+            4721984,
+            4722372,
+            4722760,
+            4722968,
+            4723196,
+            4723444,
+            4723712,
+            4724000,
+            4724308,
+            4724636,
+            4724984,
+            4725352,
+            4725700,
+            4725908,
+            4726136,
+            4726384,
+            4726652,
+            4726940,
+            4727248,
+            4727576,
+            4727924,
+            4728272,
+            4728480,
+            4728708,
+            4728956,
+            4729224,
+            4729512,
+            4729820,
+            4730148,
+            4730476,
+            4730684,
+            4730912,
+            4731160,
+            4731428,
+            4731716,
+            4732024,
+            4732332,
+            4732540,
+            4732768,
+            4733016,
+            4733284,
+            4733572,
+            4733860,
+            4734068,
+            4734296,
+            4734544,
+            4734812,
+            4735080,
+            4735288,
+            4735516,
+            4735764,
+            4736012,
+            4736220,
+            4736448,
+            4736676,
+            4736884,
+            4737092,
+            4737272
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "health1",
+      "cohort_reads": [
+        {
+          "code_id": 1,
+          "code_name": "gml_Object_obj_player_Alarm_11",
+          "bytecode_sha256": "50a2674e9ccdb5dab900eb8eb679ff5d1619d515f288bd26dda0b0e607432dee",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 11,
+              "action_order": 0,
+              "action_offset": 377476
+            }
+          ],
+          "offsets": [
+            3764272,
+            3764324
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763692
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763692
+          ]
+        },
+        {
+          "code_id": 1,
+          "code_name": "gml_Object_obj_player_Alarm_11",
+          "bytecode_sha256": "50a2674e9ccdb5dab900eb8eb679ff5d1619d515f288bd26dda0b0e607432dee",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 11,
+              "action_order": 0,
+              "action_offset": 377476
+            }
+          ],
+          "offsets": [
+            3764340
+          ]
+        },
+        {
+          "code_id": 12,
+          "code_name": "gml_Object_obj_player_Step_0",
+          "bytecode_sha256": "849f10c63e540d06af02f1513fa4e2509f21bf4671e8ce5fc48019a27ade99c8",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378232
+            }
+          ],
+          "offsets": [
+            3773244,
+            3773900,
+            3774552,
+            3775208,
+            3775888,
+            3776544,
+            3777224,
+            3777880,
+            3778560,
+            3779216,
+            3779896,
+            3780552,
+            3781232,
+            3781888,
+            3782568,
+            3783224,
+            3783904,
+            3784560,
+            3785260,
+            3785936,
+            3786616,
+            3787272,
+            3787952,
+            3788608,
+            3789288,
+            3789944,
+            3790624,
+            3791280,
+            3791960,
+            3792616,
+            3793296,
+            3793952,
+            3794632,
+            3795288,
+            3795968,
+            3796624,
+            3797304,
+            3797960,
+            3798640,
+            3799296,
+            3800012,
+            3800044,
+            3800084,
+            3800184,
+            3800264,
+            3800344,
+            3800424,
+            3800504,
+            3800584,
+            3800664,
+            3800744,
+            3800824,
+            3800904,
+            3800984,
+            3801064,
+            3801144,
+            3801224,
+            3801304,
+            3801384,
+            3801464,
+            3801544,
+            3801624,
+            3801676,
+            3801728,
+            3802972
+          ]
+        },
+        {
+          "code_id": 17,
+          "code_name": "gml_Object_obj_player_Other_2",
+          "bytecode_sha256": "4b1f25be1bf7916fd002ea1747e5d5a92e545da6625ad9a290ce0d0f2384da75",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 7,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378608
+            }
+          ],
+          "offsets": [
+            3836112
+          ]
+        },
+        {
+          "code_id": 313,
+          "code_name": "gml_Object_obj_enemybullet_Step_0",
+          "bytecode_sha256": "89b865efeed3821cb5afa6c4c957a4d8fba7783d93b070269c7803d8597d6d84",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 47,
+              "object_name": "obj_enemybullet",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 409428
+            }
+          ],
+          "offsets": [
+            4188080
+          ]
+        },
+        {
+          "code_id": 315,
+          "code_name": "gml_Object_obj_enemybullet2_Step_0",
+          "bytecode_sha256": "53535de15a1de592bd755b9f09d32435e870553aa7ccd1ceec084ae31010f400",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 48,
+              "object_name": "obj_enemybullet2",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 409776
+            }
+          ],
+          "offsets": [
+            4188936
+          ]
+        },
+        {
+          "code_id": 318,
+          "code_name": "gml_Object_obj_finalbosslaser_Step_0",
+          "bytecode_sha256": "306c8f4a52821d34c2e86791bb92eeb63c2a575aefd1ac5c3d3c9aa9b24c523f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 49,
+              "object_name": "obj_finalbosslaser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 410196
+            }
+          ],
+          "offsets": [
+            4189896
+          ]
+        },
+        {
+          "code_id": 323,
+          "code_name": "gml_Object_obj_finalbossgrenade_Step_0",
+          "bytecode_sha256": "be5e73a2c07626e3b09422c1a9533f7c0faa80d17d76e640d2a829a423007ab3",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 50,
+              "object_name": "obj_finalbossgrenade",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 410760
+            }
+          ],
+          "offsets": [
+            4190864
+          ]
+        },
+        {
+          "code_id": 328,
+          "code_name": "gml_Object_obj_hulkingbanditbullet_Step_0",
+          "bytecode_sha256": "47bd358a4decda8a8a32504464f2a6e6219fb6ba09fe54a3a3f0e131e01917b7",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 51,
+              "object_name": "obj_hulkingbanditbullet",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 411324
+            }
+          ],
+          "offsets": [
+            4191856
+          ]
+        },
+        {
+          "code_id": 330,
+          "code_name": "gml_Object_obj_fireball_Step_0",
+          "bytecode_sha256": "5699415d8339f692a8c724462e627aa72ead8087aa0ebfc085b6b699e9d7d310",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 52,
+              "object_name": "obj_fireball",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 411672
+            }
+          ],
+          "offsets": [
+            4192904
+          ]
+        },
+        {
+          "code_id": 332,
+          "code_name": "gml_Object_obj_firehulkflame_Step_0",
+          "bytecode_sha256": "dd4802400ad02b033ca3c90363accc737b247128919e79239c03192029f88b0f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 53,
+              "object_name": "obj_firehulkflame",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 412020
+            }
+          ],
+          "offsets": [
+            4194064
+          ]
+        },
+        {
+          "code_id": 334,
+          "code_name": "gml_Object_obj_fireprojectile_Step_0",
+          "bytecode_sha256": "e798ced6a24f90348f092bf46be36cae1810c7787ac59a2108c47b1ff89f6d6c",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 54,
+              "object_name": "obj_fireprojectile",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 412368
+            }
+          ],
+          "offsets": [
+            4195016
+          ]
+        },
+        {
+          "code_id": 336,
+          "code_name": "gml_Object_obj_boss3projectile_Step_0",
+          "bytecode_sha256": "22d2cca57dcb899518c2af8801d882895f94c6391fc4962e30a011b5e665b999",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 55,
+              "object_name": "obj_boss3projectile",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 412716
+            }
+          ],
+          "offsets": [
+            4195904
+          ]
+        },
+        {
+          "code_id": 338,
+          "code_name": "gml_Object_obj_bone_Step_0",
+          "bytecode_sha256": "e68cc43fb582744ea0cc4c86633ba7b30cda4216ec9299b67d92e0f1f9c75d4d",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 56,
+              "object_name": "obj_bone",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 413064
+            }
+          ],
+          "offsets": [
+            4196792
+          ]
+        },
+        {
+          "code_id": 441,
+          "code_name": "gml_Object_obj_maxhpupgrade_Mouse_0",
+          "bytecode_sha256": "c00903def2f9f145640cafafee1666d814c8e34a66cf752004827d06547b3080",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 97,
+              "object_name": "obj_maxhpupgrade",
+              "event_type": 6,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 428760
+            }
+          ],
+          "offsets": [
+            4625556
+          ]
+        },
+        {
+          "code_id": 443,
+          "code_name": "gml_Object_obj_maxhpupgrade2_Mouse_0",
+          "bytecode_sha256": "25e8776b027f5391ad50c4fa187007810ca13e880b5871509cbe60f1efd97016",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 98,
+              "object_name": "obj_maxhpupgrade2",
+              "event_type": 6,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 429108
+            }
+          ],
+          "offsets": [
+            4629032
+          ]
+        },
+        {
+          "code_id": 447,
+          "code_name": "gml_Object_obj_healthrefill_Mouse_7",
+          "bytecode_sha256": "3de9ace5962e9c6329b0126671973bb0133b5da3898e85dedf351e28bf989775",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 99,
+              "object_name": "obj_healthrefill",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 429600
+            }
+          ],
+          "offsets": [
+            4632556
+          ]
+        },
+        {
+          "code_id": 478,
+          "code_name": "gml_Object_obj_yesrestoredata_Mouse_7",
+          "bytecode_sha256": "ef8d2481154d01a530eea67d5cf4f396712c53047d32e7ea4700d3508fc98fdd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 112,
+              "object_name": "obj_yesrestoredata",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 434420
+            }
+          ],
+          "offsets": [
+            4656024
+          ]
+        },
+        {
+          "code_id": 541,
+          "code_name": "gml_Object_obj_youhavedied_Destroy_0",
+          "bytecode_sha256": "36766907d2d2a33990a5e6416c641421773f91abe5e657b5d34bb5165d5cd4c4",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 134,
+              "object_name": "obj_youhavedied",
+              "event_type": 1,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 443360
+            }
+          ],
+          "offsets": [
+            4841108
+          ]
+        },
+        {
+          "code_id": 549,
+          "code_name": "gml_Object_obj_introduction_Destroy_0",
+          "bytecode_sha256": "6726bd24d57ac7831e3555cdde1192a92f10239a805797f61d1d92f4a2f98bc0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 137,
+              "object_name": "obj_introduction",
+              "event_type": 1,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 444548
+            }
+          ],
+          "offsets": [
+            4846424
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "healthregenbought",
+      "cohort_reads": [
+        {
+          "code_id": 1,
+          "code_name": "gml_Object_obj_player_Alarm_11",
+          "bytecode_sha256": "50a2674e9ccdb5dab900eb8eb679ff5d1619d515f288bd26dda0b0e607432dee",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 11,
+              "action_order": 0,
+              "action_offset": 377476
+            }
+          ],
+          "offsets": [
+            3764296
+          ]
+        }
+      ],
+      "player_create_write_offsets": [],
+      "direct_global_writes": [
+        {
+          "code_id": 17,
+          "code_name": "gml_Object_obj_player_Other_2",
+          "bytecode_sha256": "4b1f25be1bf7916fd002ea1747e5d5a92e545da6625ad9a290ce0d0f2384da75",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 7,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378608
+            }
+          ],
+          "offsets": [
+            3823764,
+            3836244
+          ]
+        },
+        {
+          "code_id": 431,
+          "code_name": "gml_Object_obj_healthregen_Mouse_0",
+          "bytecode_sha256": "db7e4c8d7b4f570574af3c2990aa1b4249c8c5f8cd2b6e4453f9e2b3495f25fd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 92,
+              "object_name": "obj_healthregen",
+              "event_type": 6,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 427020
+            }
+          ],
+          "offsets": [
+            4608132
+          ]
+        },
+        {
+          "code_id": 478,
+          "code_name": "gml_Object_obj_yesrestoredata_Mouse_7",
+          "bytecode_sha256": "ef8d2481154d01a530eea67d5cf4f396712c53047d32e7ea4700d3508fc98fdd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 112,
+              "object_name": "obj_yesrestoredata",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 434420
+            }
+          ],
+          "offsets": [
+            4656156
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "icegun",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3765736
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763952
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763952
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516096
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516456
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516808
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517168
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517528
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517888
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518248
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518608
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4518968
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519320
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519668
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715888,
+            4716104,
+            4716340,
+            4716548,
+            4716884,
+            4717180,
+            4717508,
+            4717832,
+            4718176,
+            4718552,
+            4718948,
+            4719344,
+            4719552,
+            4719780,
+            4719980,
+            4720308,
+            4720596,
+            4720904,
+            4721232,
+            4721568,
+            4721936,
+            4722324,
+            4722712,
+            4722920,
+            4723088,
+            4723408,
+            4723676,
+            4723964,
+            4724272,
+            4724588,
+            4724936,
+            4725304,
+            4725652,
+            4725800,
+            4726100,
+            4726348,
+            4726616,
+            4726904,
+            4727200,
+            4727528,
+            4727876,
+            4728224,
+            4728384,
+            4728612,
+            4728860,
+            4729128,
+            4729464,
+            4729772,
+            4730100,
+            4730428,
+            4730660,
+            4730888,
+            4731136,
+            4731380,
+            4731668,
+            4731976,
+            4732284,
+            4732492,
+            4732720,
+            4732968,
+            4733236,
+            4733524,
+            4733812,
+            4734020,
+            4734248,
+            4734496,
+            4734764,
+            4735032,
+            4735240,
+            4735468,
+            4735716,
+            4735964,
+            4736172,
+            4736400,
+            4736628,
+            4736836,
+            4737044,
+            4737224
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "laser",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3765252,
+            3765496
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763940
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763940
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516204
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516564
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516904
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517264
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517624
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517984
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518344
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518704
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4519064
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519308
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519776
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715900,
+            4716116,
+            4716352,
+            4716608,
+            4716824,
+            4717192,
+            4717520,
+            4717844,
+            4718188,
+            4718564,
+            4718960,
+            4719356,
+            4719564,
+            4719792,
+            4720040,
+            4720236,
+            4720608,
+            4720916,
+            4721244,
+            4721580,
+            4721948,
+            4722336,
+            4722724,
+            4722932,
+            4723160,
+            4723336,
+            4723688,
+            4723976,
+            4724284,
+            4724600,
+            4724948,
+            4725316,
+            4725664,
+            4725872,
+            4726028,
+            4726360,
+            4726628,
+            4726916,
+            4727212,
+            4727540,
+            4727888,
+            4728236,
+            4728372,
+            4728684,
+            4728932,
+            4729200,
+            4729476,
+            4729784,
+            4730112,
+            4730440,
+            4730588,
+            4730816,
+            4731064,
+            4731392,
+            4731680,
+            4731988,
+            4732296,
+            4732504,
+            4732732,
+            4732980,
+            4733248,
+            4733536,
+            4733824,
+            4734032,
+            4734260,
+            4734508,
+            4734776,
+            4735044,
+            4735252,
+            4735480,
+            4735728,
+            4735976,
+            4736184,
+            4736412,
+            4736640,
+            4736848,
+            4737056,
+            4737236
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "maxhp",
+      "cohort_reads": [
+        {
+          "code_id": 1,
+          "code_name": "gml_Object_obj_player_Alarm_11",
+          "bytecode_sha256": "50a2674e9ccdb5dab900eb8eb679ff5d1619d515f288bd26dda0b0e607432dee",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 11,
+              "action_order": 0,
+              "action_offset": 377476
+            }
+          ],
+          "offsets": [
+            3764280
+          ]
+        }
+      ],
+      "player_create_write_offsets": [],
+      "direct_global_writes": [
+        {
+          "code_id": 12,
+          "code_name": "gml_Object_obj_player_Step_0",
+          "bytecode_sha256": "849f10c63e540d06af02f1513fa4e2509f21bf4671e8ce5fc48019a27ade99c8",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378232
+            }
+          ],
+          "offsets": [
+            3800116,
+            3800168,
+            3800248,
+            3800328,
+            3800408,
+            3800488,
+            3800568,
+            3800648,
+            3800728,
+            3800808,
+            3800888,
+            3800968,
+            3801048,
+            3801128,
+            3801208,
+            3801288,
+            3801368,
+            3801448,
+            3801528,
+            3801608
+          ]
+        },
+        {
+          "code_id": 17,
+          "code_name": "gml_Object_obj_player_Other_2",
+          "bytecode_sha256": "4b1f25be1bf7916fd002ea1747e5d5a92e545da6625ad9a290ce0d0f2384da75",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 7,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378608
+            }
+          ],
+          "offsets": [
+            3823140,
+            3836088
+          ]
+        },
+        {
+          "code_id": 478,
+          "code_name": "gml_Object_obj_yesrestoredata_Mouse_7",
+          "bytecode_sha256": "ef8d2481154d01a530eea67d5cf4f396712c53047d32e7ea4700d3508fc98fdd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 112,
+              "object_name": "obj_yesrestoredata",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 434420
+            }
+          ],
+          "offsets": [
+            4656000
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "pistol",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3764972
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763868
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763868
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516108
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516468
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516820
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517180
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517540
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517900
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518260
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518620
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4518980
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519332
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519680
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715852,
+            4716068,
+            4716304,
+            4716560,
+            4716836,
+            4717132,
+            4717460,
+            4717784,
+            4718128,
+            4718504,
+            4718900,
+            4719296,
+            4719492,
+            4719720,
+            4719968,
+            4720248,
+            4720548,
+            4720856,
+            4721184,
+            4721508,
+            4721876,
+            4722264,
+            4722652,
+            4722896,
+            4723124,
+            4723372,
+            4723640,
+            4723928,
+            4724236,
+            4724528,
+            4724876,
+            4725244,
+            4725592,
+            4725836,
+            4726064,
+            4726312,
+            4726580,
+            4726868,
+            4727140,
+            4727468,
+            4727816,
+            4728164,
+            4728408,
+            4728636,
+            4728884,
+            4729152,
+            4729404,
+            4729712,
+            4730040,
+            4730368,
+            4730612,
+            4730840,
+            4731088,
+            4731320,
+            4731608,
+            4731916,
+            4732224,
+            4732432,
+            4732660,
+            4732908,
+            4733176,
+            4733464,
+            4733752,
+            4733960,
+            4734188,
+            4734436,
+            4734704,
+            4734972,
+            4735180,
+            4735408,
+            4735656,
+            4735904,
+            4736112,
+            4736340,
+            4736568,
+            4736776,
+            4736984,
+            4737164
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "rocket",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3767516,
+            3767732
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763928
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763928
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516144
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516504
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516844
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517204
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517516
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517936
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518296
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518656
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4519016
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519368
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519716
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715876,
+            4716092,
+            4716292,
+            4716596,
+            4716872,
+            4717168,
+            4717496,
+            4717820,
+            4718164,
+            4718540,
+            4718936,
+            4719332,
+            4719540,
+            4719732,
+            4720028,
+            4720296,
+            4720584,
+            4720892,
+            4721220,
+            4721556,
+            4721924,
+            4722312,
+            4722700,
+            4722860,
+            4723148,
+            4723396,
+            4723664,
+            4723952,
+            4724260,
+            4724576,
+            4724924,
+            4725292,
+            4725640,
+            4725812,
+            4726040,
+            4726288,
+            4726556,
+            4726844,
+            4727188,
+            4727516,
+            4727864,
+            4728212,
+            4728444,
+            4728672,
+            4728920,
+            4729188,
+            4729452,
+            4729760,
+            4730088,
+            4730416,
+            4730648,
+            4730876,
+            4731124,
+            4731368,
+            4731656,
+            4731964,
+            4732272,
+            4732480,
+            4732708,
+            4732956,
+            4733224,
+            4733512,
+            4733800,
+            4734008,
+            4734236,
+            4734484,
+            4734752,
+            4735020,
+            4735228,
+            4735456,
+            4735704,
+            4735952,
+            4736160,
+            4736388,
+            4736616,
+            4736824,
+            4737032,
+            4737212
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "shotgun",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3765920,
+            3766364
+          ]
+        },
+        {
+          "code_id": 282,
+          "code_name": "gml_Object_obj_bullet_Create_0",
+          "bytecode_sha256": "7286dda7064fc2c34b45c70078ebd5ade1bbd46da8fe4507d5aa802fb0196217",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 39,
+              "object_name": "obj_bullet",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 405552
+            }
+          ],
+          "offsets": [
+            4089896,
+            4090040
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763880,
+        3763916
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763880,
+            3763916
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516120
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516480
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516796
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517192
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517552
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517912
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518272
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518632
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4518992
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519344
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519692
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715840,
+            4716080,
+            4716328,
+            4716584,
+            4716860,
+            4717156,
+            4717484,
+            4717808,
+            4718152,
+            4718528,
+            4718924,
+            4719320,
+            4719516,
+            4719528,
+            4719744,
+            4719768,
+            4719992,
+            4720016,
+            4720260,
+            4720284,
+            4720536,
+            4720572,
+            4720844,
+            4720880,
+            4721172,
+            4721208,
+            4721520,
+            4721544,
+            4721888,
+            4721912,
+            4722276,
+            4722300,
+            4722664,
+            4722688,
+            4722884,
+            4722908,
+            4723112,
+            4723136,
+            4723360,
+            4723384,
+            4723628,
+            4723652,
+            4723916,
+            4723940,
+            4724224,
+            4724248,
+            4724540,
+            4724564,
+            4724888,
+            4724912,
+            4725256,
+            4725280,
+            4725604,
+            4725628,
+            4725824,
+            4725860,
+            4726052,
+            4726088,
+            4726300,
+            4726336,
+            4726568,
+            4726604,
+            4726856,
+            4726892,
+            4727152,
+            4727176,
+            4727480,
+            4727504,
+            4727828,
+            4727852,
+            4728176,
+            4728200,
+            4728396,
+            4728432,
+            4728624,
+            4728660,
+            4728872,
+            4728908,
+            4729140,
+            4729176,
+            4729416,
+            4729440,
+            4729724,
+            4729748,
+            4730052,
+            4730076,
+            4730380,
+            4730404,
+            4730600,
+            4730636,
+            4730828,
+            4730864,
+            4731076,
+            4731112,
+            4731332,
+            4731356,
+            4731620,
+            4731644,
+            4731928,
+            4731952,
+            4732236,
+            4732260,
+            4732444,
+            4732468,
+            4732672,
+            4732696,
+            4732920,
+            4732944,
+            4733188,
+            4733212,
+            4733476,
+            4733500,
+            4733764,
+            4733788,
+            4733972,
+            4733996,
+            4734200,
+            4734224,
+            4734448,
+            4734472,
+            4734716,
+            4734740,
+            4734984,
+            4735008,
+            4735192,
+            4735216,
+            4735420,
+            4735444,
+            4735668,
+            4735692,
+            4735916,
+            4735940,
+            4736124,
+            4736148,
+            4736352,
+            4736376,
+            4736580,
+            4736604,
+            4736788,
+            4736812,
+            4736996,
+            4737020,
+            4737176,
+            4737200
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "soundmute",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3765140,
+            3765164,
+            3765412,
+            3765436,
+            3765656,
+            3765680,
+            3765808,
+            3765832,
+            3766248,
+            3766272,
+            3766692,
+            3766716,
+            3767020,
+            3767044,
+            3767376,
+            3767400,
+            3767620,
+            3767644,
+            3767836,
+            3767860,
+            3768052,
+            3768076,
+            3768268,
+            3768292,
+            3768488,
+            3768512,
+            3768716,
+            3768740,
+            3768932,
+            3768956,
+            3769148,
+            3769172,
+            3769352,
+            3769376,
+            3769556,
+            3769580,
+            3769772,
+            3769796,
+            3769988,
+            3770012,
+            3770204,
+            3770228,
+            3770420,
+            3770444
+          ]
+        },
+        {
+          "code_id": 304,
+          "code_name": "gml_Object_obj_energywave_Create_0",
+          "bytecode_sha256": "168b5ad9d70a43f92a0920611409d5201aa62ceec3d467fd3781fb8a80d03c66",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 45,
+              "object_name": "obj_energywave",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 408360
+            }
+          ],
+          "offsets": [
+            4156628,
+            4156652
+          ]
+        },
+        {
+          "code_id": 309,
+          "code_name": "gml_Object_obj_sword_Create_0",
+          "bytecode_sha256": "337b5078e19b0bb7826803522c1c557d69f495ff89a97e098dcedcb73a06b5b2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 46,
+              "object_name": "obj_sword",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 408924
+            }
+          ],
+          "offsets": [
+            4163752,
+            4163776
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763680
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763680
+          ]
+        },
+        {
+          "code_id": 17,
+          "code_name": "gml_Object_obj_player_Other_2",
+          "bytecode_sha256": "4b1f25be1bf7916fd002ea1747e5d5a92e545da6625ad9a290ce0d0f2384da75",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 7,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378608
+            }
+          ],
+          "offsets": [
+            3834708,
+            3839016
+          ]
+        },
+        {
+          "code_id": 468,
+          "code_name": "gml_Object_obj_volume_Mouse_4",
+          "bytecode_sha256": "661a4f5cdd156d145de47c49febaa54476e58c70e1a05f6e32d93545b860d714",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 107,
+              "object_name": "obj_volume",
+              "event_type": 6,
+              "subtype": 4,
+              "action_order": 0,
+              "action_offset": 432680
+            }
+          ],
+          "offsets": [
+            4644640,
+            4644656
+          ]
+        },
+        {
+          "code_id": 478,
+          "code_name": "gml_Object_obj_yesrestoredata_Mouse_7",
+          "bytecode_sha256": "ef8d2481154d01a530eea67d5cf4f396712c53047d32e7ea4700d3508fc98fdd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 112,
+              "object_name": "obj_yesrestoredata",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 434420
+            }
+          ],
+          "offsets": [
+            4658940
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "spikegun",
+      "cohort_reads": [
+        {
+          "code_id": 11,
+          "code_name": "gml_Object_obj_player_Alarm_0",
+          "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 378156
+            }
+          ],
+          "offsets": [
+            3770100,
+            3770316
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3764012
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3764012
+          ]
+        },
+        {
+          "code_id": 383,
+          "code_name": "gml_Object_obj_boomerang_Step_0",
+          "bytecode_sha256": "d98ca0a865dc37ecd28b14e33167ebae9540406ebea516de9cae3f3fdb6ae5d9",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 71,
+              "object_name": "obj_boomerang",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419300
+            }
+          ],
+          "offsets": [
+            4516216
+          ]
+        },
+        {
+          "code_id": 385,
+          "code_name": "gml_Object_obj_spikegun_Step_0",
+          "bytecode_sha256": "5cd7f9ee59da4a48449b862509371dc230447d44d04e87f0c657a8dc610128ab",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 72,
+              "object_name": "obj_spikegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419648
+            }
+          ],
+          "offsets": [
+            4516444
+          ]
+        },
+        {
+          "code_id": 387,
+          "code_name": "gml_Object_obj_shotgun_Step_0",
+          "bytecode_sha256": "e1a89ec86fb784e1038eb29f43366b5f468f472b2114a150debb593f0be58484",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 73,
+              "object_name": "obj_shotgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 419996
+            }
+          ],
+          "offsets": [
+            4516916
+          ]
+        },
+        {
+          "code_id": 389,
+          "code_name": "gml_Object_obj_assaultrifle_Step_0",
+          "bytecode_sha256": "7a63fb015508f98c6e4c08f3b53800d4ab5d8c683c2b9728b2ee4216d6419873",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 74,
+              "object_name": "obj_assaultrifle",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420344
+            }
+          ],
+          "offsets": [
+            4517276
+          ]
+        },
+        {
+          "code_id": 391,
+          "code_name": "gml_Object_obj_rocketlauncher_Step_0",
+          "bytecode_sha256": "0bd1cbb0c82bc2f4e97da7edcd5e2d6bd04cde6b6cf95bc5e4e4c359b9dbe933",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 75,
+              "object_name": "obj_rocketlauncher",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 420692
+            }
+          ],
+          "offsets": [
+            4517636
+          ]
+        },
+        {
+          "code_id": 393,
+          "code_name": "gml_Object_obj_bladegun_Step_0",
+          "bytecode_sha256": "8f25cccde15669bbcec3e7d42bcc39c53120e5cf4cfa7fe63894a51360043c3b",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 76,
+              "object_name": "obj_bladegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421040
+            }
+          ],
+          "offsets": [
+            4517996
+          ]
+        },
+        {
+          "code_id": 395,
+          "code_name": "gml_Object_obj_flamethrower_Step_0",
+          "bytecode_sha256": "576fc2f8b3cf800ce51897af1eccd62533724bf32c4223928a489fa480c57d6e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 77,
+              "object_name": "obj_flamethrower",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421388
+            }
+          ],
+          "offsets": [
+            4518356
+          ]
+        },
+        {
+          "code_id": 397,
+          "code_name": "gml_Object_obj_bow_Step_0",
+          "bytecode_sha256": "cc01c14cd7172a375e1f3e0374ca5ae513c55b9c7469ae2458ea6561a8260165",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 78,
+              "object_name": "obj_bow",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 421736
+            }
+          ],
+          "offsets": [
+            4518716
+          ]
+        },
+        {
+          "code_id": 399,
+          "code_name": "gml_Object_obj_bombgun_Step_0",
+          "bytecode_sha256": "f61f2c63be718e98d7b6038a77573e4c2ef0b5a33b516ac9c4512ef1805618dd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 79,
+              "object_name": "obj_bombgun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422084
+            }
+          ],
+          "offsets": [
+            4519076
+          ]
+        },
+        {
+          "code_id": 401,
+          "code_name": "gml_Object_obj_laser_Step_0",
+          "bytecode_sha256": "efac60e1489d6e2a078e22695469d71c6e9d7c191cb63933c3b5324847296298",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 80,
+              "object_name": "obj_laser",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422432
+            }
+          ],
+          "offsets": [
+            4519428
+          ]
+        },
+        {
+          "code_id": 403,
+          "code_name": "gml_Object_obj_icegun_Step_0",
+          "bytecode_sha256": "cc0185461976adb85f63c08eb5cd38d8674d30a17218cfaaeca0ced5371ccf3f",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 81,
+              "object_name": "obj_icegun",
+              "event_type": 3,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 422780
+            }
+          ],
+          "offsets": [
+            4519788
+          ]
+        },
+        {
+          "code_id": 519,
+          "code_name": "gml_Object_obj_weaponswap_Alarm_0",
+          "bytecode_sha256": "2036dcf5eb1594dda24168bf96d56996b41aa729231d22f7dbeaf3888b3bc63e",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 126,
+              "object_name": "obj_weaponswap",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 440180
+            }
+          ],
+          "offsets": [
+            4715960,
+            4716176,
+            4716412,
+            4716668,
+            4716944,
+            4717240,
+            4717556,
+            4717892,
+            4718248,
+            4718624,
+            4719020,
+            4719416,
+            4719624,
+            4719852,
+            4720100,
+            4720368,
+            4720656,
+            4720964,
+            4721292,
+            4721640,
+            4722008,
+            4722396,
+            4722784,
+            4722992,
+            4723220,
+            4723468,
+            4723736,
+            4724024,
+            4724332,
+            4724660,
+            4725008,
+            4725376,
+            4725724,
+            4725932,
+            4726160,
+            4726408,
+            4726676,
+            4726964,
+            4727272,
+            4727600,
+            4727948,
+            4728296,
+            4728504,
+            4728732,
+            4728980,
+            4729248,
+            4729536,
+            4729844,
+            4730172,
+            4730500,
+            4730708,
+            4730936,
+            4731184,
+            4731452,
+            4731740,
+            4732048,
+            4732356,
+            4732564,
+            4732792,
+            4733040,
+            4733308,
+            4733596,
+            4733884,
+            4734092,
+            4734320,
+            4734568,
+            4734836,
+            4735104,
+            4735312,
+            4735540,
+            4735788,
+            4736036,
+            4736244,
+            4736472,
+            4736700,
+            4736908,
+            4737116,
+            4737296
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "swing",
+      "cohort_reads": [
+        {
+          "code_id": 10,
+          "code_name": "gml_Object_obj_player_Alarm_1",
+          "bytecode_sha256": "3dc0b63ccd8cc86006611eac9e8739abad3bae2a64d8e07fd51915b41fba6509",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 1,
+              "action_order": 0,
+              "action_offset": 378088
+            }
+          ],
+          "offsets": [
+            3764600
+          ]
+        }
+      ],
+      "player_create_write_offsets": [
+        3763740
+      ],
+      "direct_global_writes": [
+        {
+          "code_id": 0,
+          "code_name": "gml_Object_obj_player_Create_0",
+          "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 377356
+            }
+          ],
+          "offsets": [
+            3763740
+          ]
+        },
+        {
+          "code_id": 9,
+          "code_name": "gml_Object_obj_player_Alarm_2",
+          "bytecode_sha256": "8e6f66ddd13399168fbeae77b92484879079018fd45d46b3db020780c5b9f0f0",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378020
+            }
+          ],
+          "offsets": [
+            3764536
+          ]
+        },
+        {
+          "code_id": 10,
+          "code_name": "gml_Object_obj_player_Alarm_1",
+          "bytecode_sha256": "3dc0b63ccd8cc86006611eac9e8739abad3bae2a64d8e07fd51915b41fba6509",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 1,
+              "action_order": 0,
+              "action_offset": 378088
+            }
+          ],
+          "offsets": [
+            3764696,
+            3764872
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "swordsound",
+      "cohort_reads": [
+        {
+          "code_id": 309,
+          "code_name": "gml_Object_obj_sword_Create_0",
+          "bytecode_sha256": "337b5078e19b0bb7826803522c1c557d69f495ff89a97e098dcedcb73a06b5b2",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 46,
+              "object_name": "obj_sword",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 408924
+            }
+          ],
+          "offsets": [
+            4163812
+          ]
+        }
+      ],
+      "player_create_write_offsets": [],
+      "direct_global_writes": [
+        {
+          "code_id": 365,
+          "code_name": "gml_Object_obj_UI_Create_0",
+          "bytecode_sha256": "69b5c36c3956eb2aa002d7f32d2087e0541dbafa9bee0fc9ba8598fb0e3d4555",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 66,
+              "object_name": "obj_UI",
+              "event_type": 0,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 417004
+            }
+          ],
+          "offsets": [
+            4218576
+          ]
+        },
+        {
+          "code_id": 368,
+          "code_name": "gml_Object_obj_UI_Alarm_0",
+          "bytecode_sha256": "87a6879b8ccbd3ca98cf41f26027d6e9ca90c37f42812b6f434a641a8fceac65",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 66,
+              "object_name": "obj_UI",
+              "event_type": 2,
+              "subtype": 0,
+              "action_order": 0,
+              "action_offset": 417228
+            }
+          ],
+          "offsets": [
+            4224584
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    },
+    {
+      "name": "timeplayed",
+      "cohort_reads": [
+        {
+          "code_id": 2,
+          "code_name": "gml_Object_obj_player_Alarm_10",
+          "bytecode_sha256": "e3e41f0335fd720d77f8baf12185a3ac132b2d74b5c03e38bd201863964b243d",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 10,
+              "action_order": 0,
+              "action_offset": 377544
+            }
+          ],
+          "offsets": [
+            3764368
+          ]
+        }
+      ],
+      "player_create_write_offsets": [],
+      "direct_global_writes": [
+        {
+          "code_id": 2,
+          "code_name": "gml_Object_obj_player_Alarm_10",
+          "bytecode_sha256": "e3e41f0335fd720d77f8baf12185a3ac132b2d74b5c03e38bd201863964b243d",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 2,
+              "subtype": 10,
+              "action_order": 0,
+              "action_offset": 377544
+            }
+          ],
+          "offsets": [
+            3764384
+          ]
+        },
+        {
+          "code_id": 17,
+          "code_name": "gml_Object_obj_player_Other_2",
+          "bytecode_sha256": "4b1f25be1bf7916fd002ea1747e5d5a92e545da6625ad9a290ce0d0f2384da75",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 0,
+              "object_name": "obj_player",
+              "event_type": 7,
+              "subtype": 2,
+              "action_order": 0,
+              "action_offset": 378608
+            }
+          ],
+          "offsets": [
+            3822948,
+            3836016
+          ]
+        },
+        {
+          "code_id": 478,
+          "code_name": "gml_Object_obj_yesrestoredata_Mouse_7",
+          "bytecode_sha256": "ef8d2481154d01a530eea67d5cf4f396712c53047d32e7ea4700d3508fc98fdd",
+          "owners": [
+            {
+              "kind": "OBJT",
+              "object_id": 112,
+              "object_name": "obj_yesrestoredata",
+              "event_type": 6,
+              "subtype": 7,
+              "action_order": 0,
+              "action_offset": 434420
+            }
+          ],
+          "offsets": [
+            4655928
+          ]
+        }
+      ],
+      "other_scope_or_indirect_writes": [],
+      "initialization_order_verified": false
+    }
+  ],
+  "player_create": {
+    "code_id": 0,
+    "code_name": "gml_Object_obj_player_Create_0",
+    "bytecode_sha256": "25df9caf779524d228585312bc08a947cc32c89a6e1cc1f08aeba89f74808ed2",
+    "gml_sha256": "ddc475c1f874d2c45f8bae4f639a24aff1db76ec2f6419b1270ef298d73a730d",
+    "gml": "flashing = 0;\nassaultfire = 4;\nsliding1 = 0;\nsliding2 = 0;\ninvulnerable2 = 0;\nglobal.gemsfromhouse = 0;\nglobal.warpedfromlloyd = 0;\nglobal.roomcamefrom = 0;\nglobal.roomstart = 0;\nif (room == rm_ending)\n{\n    hspeed = 1;\n}\nglobal.rebuff = 0;\nthrowingboomerang = 0;\nglobal.keydrop = 2;\nalarm[10] = 30;\nglobal.warplock = 0;\ndevice_mouse_dbclick_enable(false);\nalarm[11] = 300;\nglobal.playerdied = 0;\nglobal.storemenu = 0;\nglobal.musicmute = 0;\nglobal.soundmute = 0;\nglobal.health1 = 4;\nplayerdied = 0;\ninvulnerable = 0;\nglobal.coinpickup = 0;\nglobal.swing = 1;\nhspeed = 0;\nvspeed = 0;\nhsp = 0;\nvsp = 0;\ngrav = 1;\ngrounded = 1;\nfriction = 0.08;\ndjump = 0;\ntjump = 0;\nglobal.pistol = 1;\nglobal.shotgun = 0;\nglobal.powerupgrade = 0;\nglobal.assaultrifle = 0;\nglobal.shotgun = 0;\nglobal.rocket = 0;\nglobal.laser = 0;\nglobal.icegun = 0;\nglobal.bladegun = 0;\nglobal.flamethrower = 0;\nglobal.bow = 0;\nglobal.boomerang = 0;\nglobal.spikegun = 0;\nglobal.bombgun = 0;\nfacing = 0;\nhpupgrade2 = 0;\nhpupgrade3 = 0;\nhpupgrade4 = 0;\nhpupgrade5 = 0;\nhpupgrade6 = 0;\nhpupgrade7 = 0;\nhpupgrade8 = 0;\nhpupgrade9 = 0;\nhpupgrade10 = 0;\nhpupgrade11 = 0;\nhpupgrade12 = 0;\nhpupgrade13 = 0;\nhpupgrade14 = 0;\nhpupgrade15 = 0;\nhpupgrade16 = 0;\nhpupgrade17 = 0;\nhpupgrade18 = 0;\nhpupgrade19 = 0;\nhpupgrade20 = 0;\n",
+    "owners": [
+      {
+        "kind": "OBJT",
+        "object_id": 0,
+        "object_name": "obj_player",
+        "event_type": 0,
+        "subtype": 0,
+        "action_order": 0,
+        "action_offset": 377356
+      }
+    ],
+    "runtime_verified": false
+  }
+}

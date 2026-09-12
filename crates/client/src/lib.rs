@@ -242,9 +242,21 @@ pub struct GameState {
     pub atlases: Vec<RgbaImage>,
     pub save_path: Option<PathBuf>,
     pub save_diagnostic: Option<String>,
+    /// First fatal IR error. Execution stays halted: failed events can have
+    /// partial side effects and must not be retried or fall back to legacy logic.
+    pub runtime_diagnostic: Option<String>,
+    /// Last IR snapshot written to disk; dedupes autosave comparisons.
+    ir_saved_snapshot: Option<SaveData>,
     pub sound_catalog: SoundCatalog,
-    sound_queue: VecDeque<usize>,
+    /// (sound id, looping, is_stop) — looping is the original bytecode's third
+    /// audio_play_sound argument; is_stop marks audio_stop_sound/stop_all so
+    /// the host can tear down MediaPlayer BGM, not just start new sounds.
+    sound_queue: VecDeque<(usize, bool, bool)>,
     jump_was_active: bool,
+    pub intro_scene: Option<callys_core::ir_scene::Scene>,
+    pub intro_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
+    pub scene: Option<callys_core::ir_scene::Scene>,
+    pub full_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
 }
 
 impl GameState {
@@ -351,13 +363,283 @@ impl GameState {
             atlases,
             save_path,
             save_diagnostic,
+            runtime_diagnostic: None,
+            ir_saved_snapshot: None,
             sound_catalog,
             sound_queue: VecDeque::new(),
             jump_was_active: false,
+            intro_scene: None,
+            intro_bundle: None,
+            scene: None,
+            full_bundle: None,
         })
     }
 
+    /// Calculates the camera follow coordinates for the given IR scene.
+    pub fn camera_position_for_scene(scene: &callys_core::ir_scene::Scene) -> (f64, f64) {
+        let (px, py) = scene
+            .instances
+            .values()
+            .find(|i| i.object == 0 && i.alive)
+            .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
+            .unwrap_or((480.0, 270.0));
+        let cam_x = (px - 480.0).clamp(0.0, (scene.room_width - 960.0).max(0.0));
+        let cam_y = (py - 270.0).clamp(0.0, (scene.room_height - 540.0).max(0.0));
+        (cam_x, cam_y)
+    }
+
+    /// Transitions gameplay directly into the full data-driven IR scene
+    /// backed by the original GameMaker bytecode and room records.
+    /// Restores an IR-path snapshot before enabling gameplay. Room data and
+    /// the bundle come from this state; globals/score/collected from the file.
+    pub fn restore_ir_snapshot(&mut self, save: &SaveData) -> Result<(), String> {
+        let bundle = self.full_bundle.clone()
+            .ok_or_else(|| "restore before IR bundle load".to_string())?;
+        let room_id = save.current_room.min(self.asset.rooms.len().saturating_sub(1));
+        let room = self.asset.rooms.get(room_id)
+            .ok_or_else(|| format!("save room {room_id} outside room table"))?;
+        {
+            let scene = self.scene.as_mut()
+                .ok_or_else(|| "restore before IR scene load".to_string())?;
+            scene.restore_snapshot(
+                bundle.as_ref(), room_id, room,
+                &save.scene_globals, save.score, &save.collected_instance_ids,
+            )?;
+        }
+        self.ir_saved_snapshot = Some(save.clone());
+        Ok(())
+    }
+
+    /// Persists the IR scene snapshot when progression changed. Runs after
+    /// successful frames only; a failed frame leaves the last good file.
+    fn autosave_ir(&mut self) {
+        if self.save_path.is_none() || self.runtime_diagnostic.is_some() {
+            return;
+        }
+        let Some(scene) = self.scene.as_ref() else { return; };
+        let (room, globals, score, collected) = scene.save_snapshot();
+        if !globals.is_empty() || score != 0.0 || !collected.is_empty() || room != 0 {
+            let save = SaveData {
+                format_version: callys_core::save::CURRENT_SAVE_VERSION,
+                current_room: room,
+                checkpoint: callys_core::Checkpoint { room_index: room, x: 0.0, y: 0.0 },
+                max_health: 4,
+                gems: 0,
+                coins: 0,
+                current_weapon: callys_core::WeaponType::Pistol,
+                unlocked_weapons: vec![callys_core::WeaponType::Pistol],
+                collected_instance_ids: collected,
+                scene_globals: globals,
+                score,
+            };
+            if self.ir_saved_snapshot.as_ref() == Some(&save) {
+                return;
+            }
+            if let Some(path) = self.save_path.as_deref() {
+                self.save_diagnostic = write_save_atomic(path, &save)
+                    .err()
+                    .map(|error| error.to_string());
+                if self.save_diagnostic.is_none() {
+                    self.ir_saved_snapshot = Some(save);
+                }
+            }
+        }
+    }
+
+    pub fn enable_ir_gameplay(&mut self, mut bundle: std::sync::Arc<callys_core::code_vm::Bundle>) -> Result<(), String> {
+        if bundle.string_table.is_empty() && !self.asset.string_table.is_empty() {
+            let mut b = (*bundle).clone();
+            b.string_table = self.asset.string_table.clone();
+            bundle = std::sync::Arc::new(b);
+        }
+        let mut scene = callys_core::ir_scene::Scene::default();
+        scene.init_bundle(&bundle);
+        scene.init_fresh_start_globals();
+        for (sid, sp) in &self.asset.sprites {
+            scene.sprite_bounds.insert(
+                *sid as i32,
+                callys_core::ir_scene::SpriteBounds {
+                    width: sp.width as f64,
+                    height: sp.height as f64,
+                    origin_x: sp.origin_x as f64,
+                    origin_y: sp.origin_y as f64,
+                    frames: sp.tpag_indices.len().max(1) as f64,
+                },
+            );
+        }
+        let current_room = self.world.current_room_index;
+        if let Some(room_data) = self.asset.rooms.get(current_room) {
+            scene.load_room_from_data(&bundle, current_room, room_data)?;
+            // Dispatch Room Start (Event 7, Subtype 4)
+            let initial_ids: Vec<i32> = scene.instances.iter()
+                .filter(|(_, i)| i.alive && i.active && !i.external)
+                .map(|(&id, _)| id)
+                .collect();
+            for id in initial_ids {
+                scene.dispatch(&bundle, id, 7, 4)
+                    .map_err(|e| format!("Room Start instance {id}: {e}"))?;
+            }
+        }
+        self.scene = Some(scene);
+        self.full_bundle = Some(bundle);
+        Ok(())
+    }
+
+    /// Queue an actual press in the renderer's 960x540 logical viewport.
+    /// Uses the last presented view origin, not a newly moved camera.
+    pub fn pointer_pressed(&mut self, x: f64, y: f64) {
+        if self.runtime_diagnostic.is_some() || !x.is_finite() || !y.is_finite()
+            || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
+            return;
+        }
+        let scene = if self.intro_scene.is_some() {
+            self.intro_scene.as_mut()
+        } else {
+            self.scene.as_mut()
+        };
+        if let Some(scene) = scene {
+            let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
+            scene.left_presses.push((vx + x, vy + y));
+        }
+    }
+
+    /// Queue an actual release in the renderer's 960x540 logical viewport.
+    /// Uses the last presented view origin, not a newly moved camera.
+    pub fn pointer_released(&mut self, x: f64, y: f64) {
+        if self.runtime_diagnostic.is_some() || !x.is_finite() || !y.is_finite()
+            || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
+            return;
+        }
+        let scene = if self.intro_scene.is_some() {
+            self.intro_scene.as_mut()
+        } else {
+            self.scene.as_mut()
+        };
+        if let Some(scene) = scene {
+            let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
+            scene.left_releases.push((vx + x, vy + y));
+        }
+    }
+
     pub fn step(&mut self, dt: f32) {
+        if self.runtime_diagnostic.is_some() {
+            return;
+        }
+        if let Err(error) = self.step_inner(dt) {
+            let diagnostic = format!("frame {}: {error}", self.frame_count);
+            eprintln!("IR execution halted: {diagnostic}");
+            self.runtime_diagnostic = Some(diagnostic);
+        }
+    }
+
+    fn step_inner(&mut self, dt: f32) -> Result<(), String> {
+        if let (Some(bundle), Some(scene)) = (self.intro_bundle.as_deref(), self.intro_scene.as_mut()) {
+            // Original obj_introduction Step taps mouse_check_button_pressed(mb_left);
+            // Scene consumes mb_left via mouse_pressed. Any attack/jump/tap input is a tap.
+            scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
+            scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
+            // Draw events (event_type 8) are dispatched only by an explicit
+            // view pass; tick runs Step/alarms/collision only. Without this
+            // the prologue framebuffer stays pure black (draws never filled).
+            scene.view_positions.entry(0).or_insert((0.0, 0.0));
+            scene.draw_view(bundle, 0).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
+            // Audio commands carry the exact sound id the original bytecode
+            // passed to audio_play_sound; drain them into the platform queue.
+            // drain_audio also retires non-looping voices so the original
+            // audio_is_playing gates reopen (bare audio.drain would not).
+            // Stop commands precede plays: the original bytecode stops the old
+            // BGM before starting the new one; reversing this order would have
+            // MediaPlayer kill the freshly started track.
+            for stopped_sound in scene.take_stop_commands() {
+                self.sound_queue.push_back((stopped_sound.max(0.0) as usize, false, true));
+            }
+            for command in scene.drain_audio() {
+                self.sound_queue.push_back((command.sound.max(0) as usize, command.looping, false));
+            }
+            let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
+            if intro_alive {
+                return Ok(());
+            }
+            self.intro_scene = None;
+            if let Some(bundle) = self.full_bundle.clone() {
+                self.enable_ir_gameplay(bundle).map_err(|e| format!("intro gameplay initialization: {e}"))?;
+            }
+        }
+
+        // Full IR scene gameplay loop
+        if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
+            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
+
+            // Feed virtual touches with room coordinates matching button instances in view 0
+            if self.input.move_left {
+                scene.touch_devices[0].x = cam_x + 30.0;
+                scene.touch_devices[0].y = cam_y + 220.0;
+                scene.touch_devices[0].down = true;
+                scene.touch_devices[0].pressed = true;
+            } else if scene.touch_devices[0].down {
+                scene.touch_devices[0].down = false;
+                scene.touch_devices[0].released = true;
+            }
+
+            if self.input.move_right {
+                scene.touch_devices[1].x = cam_x + 130.0;
+                scene.touch_devices[1].y = cam_y + 220.0;
+                scene.touch_devices[1].down = true;
+                scene.touch_devices[1].pressed = true;
+            } else if scene.touch_devices[1].down {
+                scene.touch_devices[1].down = false;
+                scene.touch_devices[1].released = true;
+            }
+
+            if self.input.jump {
+                scene.touch_devices[2].x = cam_x + 410.0;
+                scene.touch_devices[2].y = cam_y + 220.0;
+                scene.touch_devices[2].down = true;
+                scene.touch_devices[2].pressed = true;
+            } else if scene.touch_devices[2].down {
+                scene.touch_devices[2].down = false;
+                scene.touch_devices[2].released = true;
+            }
+
+            if self.input.attack {
+                scene.touch_devices[3].x = cam_x + 345.0;
+                scene.touch_devices[3].y = cam_y + 220.0;
+                scene.touch_devices[3].down = true;
+                scene.touch_devices[3].pressed = true;
+            } else if scene.touch_devices[3].down {
+                scene.touch_devices[3].down = false;
+                scene.touch_devices[3].released = true;
+            }
+
+            scene.tick(bundle).map_err(|e| format!("gameplay tick room {}: {e}", scene.current_room))?;
+
+            // drain_audio retires non-looping voices; a bare audio.drain here
+            // would keep is_playing gates shut forever (SFX play once only).
+            // Stop commands precede plays (see the intro-path comment).
+            for stopped_sound in scene.take_stop_commands() {
+                self.sound_queue.push_back((stopped_sound.max(0.0) as usize, false, true));
+            }
+            for command in scene.drain_audio() {
+                self.sound_queue.push_back((command.sound.max(0) as usize, command.looping, false));
+            }
+
+            if let Some(target_room) = scene.target_room_warp.take() {
+                let source_room = scene.current_room;
+                let next_room = self.asset.rooms.get(target_room).ok_or_else(||
+                    format!("room transition {source_room} -> {target_room}: target outside room table"))?;
+                scene.transition_to_room(bundle, target_room, next_room)
+                    .map_err(|e| format!("room transition {source_room} -> {target_room}: {e}"))?;
+                self.rooms_visited = self.rooms_visited.saturating_add(1);
+            }
+
+            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
+            scene.view_positions.insert(0, (cam_x, cam_y));
+            scene.draw_view(bundle, 0).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
+
+            self.frame_count = self.frame_count.wrapping_add(1);
+            self.autosave_ir();
+            return Ok(());
+        }
         let progress_before = SaveData::from_world(&self.world);
         let player_state_before = self.world.player.state;
         let coins_before = self.world.player.coins;
@@ -444,13 +726,14 @@ impl GameState {
             }
         }
         self.frame_count = self.frame_count.wrapping_add(1);
+        Ok(())
     }
 
     fn queue_sound(&mut self, event: SoundEvent) {
-        self.sound_queue.push_back(self.sound_catalog.audio_id(event));
+        self.sound_queue.push_back((self.sound_catalog.audio_id(event), false, false));
     }
 
-    pub fn poll_sound(&mut self) -> Option<usize> {
+    pub fn poll_sound(&mut self) -> Option<(usize, bool, bool)> {
         self.sound_queue.pop_front()
     }
 }
@@ -485,7 +768,7 @@ mod tests {
         state.input.jump = true;
 
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(3));
+        assert_eq!(state.poll_sound(), Some((3, false, false)));
         assert_eq!(state.poll_sound(), None);
 
         state.step(0.0);
@@ -499,14 +782,14 @@ mod tests {
 
         state.world.player.current_weapon = WeaponType::Pistol;
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(10));
+        assert_eq!(state.poll_sound(), Some((10, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
 
         state.world.player.attack_cooldown = 0.0;
         state.world.player.current_weapon = WeaponType::Shotgun;
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(11));
+        assert_eq!(state.poll_sound(), Some((11, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
     }
@@ -520,7 +803,7 @@ mod tests {
 
         state.step(0.0);
 
-        assert_eq!(state.poll_sound(), Some(26));
+        assert_eq!(state.poll_sound(), Some((26, false, false)));
         assert_eq!(state.poll_sound(), None);
 
         state.world.player.health = state.world.player.max_health;
@@ -543,7 +826,7 @@ mod tests {
         });
 
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(19));
+        assert_eq!(state.poll_sound(), Some((19, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
     }
@@ -566,7 +849,7 @@ mod tests {
         });
 
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(27));
+        assert_eq!(state.poll_sound(), Some((27, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
     }
@@ -577,7 +860,7 @@ mod tests {
         state.world.player.health = 0;
 
         state.step(0.0);
-        assert_eq!(state.poll_sound(), Some(26));
+        assert_eq!(state.poll_sound(), Some((26, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
     }
@@ -676,6 +959,30 @@ impl Framebuffer {
         self.pixels[i + 3] = color.3; // A
     }
 
+    /// Source-alpha blend onto the current pixel (GM draw alpha semantics).
+    fn put_blended(&mut self, x: i32, y: i32, color: (u8, u8, u8, u8), alpha: f32) {
+        if x < 0 || y < 0 {
+            return;
+        }
+        let (x, y) = (x as u32, y as u32);
+        if x >= self.width || y >= self.height {
+            return;
+        }
+        let a = alpha.clamp(0.0, 1.0);
+        if a >= 1.0 {
+            self.put(x as i32, y as i32, color);
+            return;
+        }
+        let i = ((y * self.width + x) * 4) as usize;
+        let blend = |src: u8, dst: u8| -> u8 {
+            (src as f32 * a + dst as f32 * (1.0 - a)).round() as u8
+        };
+        self.pixels[i] = blend(color.2, self.pixels[i]);
+        self.pixels[i + 1] = blend(color.1, self.pixels[i + 1]);
+        self.pixels[i + 2] = blend(color.0, self.pixels[i + 2]);
+        self.pixels[i + 3] = color.3.max(self.pixels[i + 3]);
+    }
+
     fn fill_rect(&mut self, x: i32, y: i32, w: u32, h: u32, color: (u8, u8, u8, u8)) {
         if w == 0 || h == 0 {
             return;
@@ -716,6 +1023,10 @@ impl Framebuffer {
     }
 
     fn blit_scaled(&mut self, atlas: &RgbaImage, src: (u32, u32, u32, u32), dst: (i32, i32, u32, u32), flip_x: bool) {
+        self.blit_scaled_alpha(atlas, src, dst, flip_x, 1.0);
+    }
+
+    fn blit_scaled_alpha(&mut self, atlas: &RgbaImage, src: (u32, u32, u32, u32), dst: (i32, i32, u32, u32), flip_x: bool, alpha: f32) {
         let (sx, sy, sw, sh) = src;
         let (dx, dy, dw, dh) = dst;
         if sw == 0 || sh == 0 || dw == 0 || dh == 0 { return; }
@@ -730,20 +1041,81 @@ impl Framebuffer {
                 let src_x = sx + if flip_x { sw - 1 - sample_x } else { sample_x };
                 if src_x >= atlas.width() || src_y >= atlas.height() { continue; }
                 let rgba = atlas.get_pixel(src_x, src_y).0;
-                if rgba[3] >= 16 { self.put(px, py, (rgba[0], rgba[1], rgba[2], rgba[3])); }
+                if rgba[3] >= 16 {
+                    // Per-pixel source alpha times draw alpha (GM image_blend alpha).
+                    let combined = (rgba[3] as f32 / 255.0) * alpha;
+                    self.put_blended(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]), combined);
+                }
+            }
+        }
+    }
+
+    pub fn draw_char(&mut self, x: i32, y: i32, c: char, scale: u32, color: (u8, u8, u8, u8)) -> u32 {
+        let ascii = c as usize;
+        if !(32..=126).contains(&ascii) {
+            return 0;
+        }
+        let glyph = FONT_5X7[ascii - 32];
+        for (col, &bits) in glyph.iter().enumerate() {
+            for row in 0..7 {
+                if (bits & (1 << row)) != 0 {
+                    let px = x + (col as u32 * scale) as i32;
+                    let py = y + (row as u32 * scale) as i32;
+                    self.fill_rect(px, py, scale, scale, color);
+                }
+            }
+        }
+        (5 + 1) * scale
+    }
+
+    pub fn draw_text_str(&mut self, mut x: i32, mut y: i32, text: &str, scale: u32, color: (u8, u8, u8, u8)) {
+        let start_x = x;
+        for c in text.chars() {
+            if c == '\n' {
+                y += (7 + 2) * scale as i32;
+                x = start_x;
+            } else {
+                let adv = self.draw_char(x, y, c, scale, color);
+                x += adv as i32;
             }
         }
     }
 }
 
+include!("parts/font.rs");
+
 fn draw_sprite(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: usize, dst: (i32, i32, u32, u32), flip_x: bool) -> bool {
+    draw_sprite_alpha(fb, state, sprite_id, frame, dst, flip_x, 1.0)
+}
+
+fn draw_sprite_alpha(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: usize, dst: (i32, i32, u32, u32), flip_x: bool, alpha: f32) -> bool {
     let Ok(sprite_id) = usize::try_from(sprite_id) else { return false; };
     let Some(sprite) = state.asset.sprites.get(&sprite_id) else { return false; };
     if sprite.tpag_indices.is_empty() { return false; }
     let frame_ptr = sprite.tpag_indices[frame % sprite.tpag_indices.len()] as usize;
     let Some(page) = state.asset.tpag_items.get(&frame_ptr) else { return false; };
     let Some(atlas) = state.atlases.get(page.tex_id as usize) else { return false; };
-    fb.blit_scaled(atlas, (page.x as u32, page.y as u32, page.w as u32, page.h as u32), dst, flip_x);
+    fb.blit_scaled_alpha(atlas, (page.x as u32, page.y as u32, page.w as u32, page.h as u32), dst, flip_x, alpha);
+    true
+}
+
+fn draw_tile(fb: &mut Framebuffer, state: &GameState, tile: &callys_asset::RoomTileInstance, cam_x: f32, cam_y: f32, scale_x: f32, scale_y: f32) -> bool {
+    if tile.bg_id < 0 { return false; }
+    let Some(bg) = state.asset.backgrounds.get(&(tile.bg_id as usize)) else { return false; };
+    let Some(page) = state.asset.tpag_items.get(&bg.tpag_ptr) else { return false; };
+    let Some(atlas) = state.atlases.get(page.tex_id as usize) else { return false; };
+
+    let src_x = (page.x as i32 + tile.src_x).max(0) as u32;
+    let src_y = (page.y as i32 + tile.src_y).max(0) as u32;
+    let src_w = (tile.width as u32).min(page.w as u32);
+    let src_h = (tile.height as u32).min(page.h as u32);
+
+    let dst_x = ((tile.x as f32 - cam_x) * scale_x) as i32;
+    let dst_y = ((tile.y as f32 - cam_y) * scale_y) as i32;
+    let dst_w = ((tile.width as f32 * tile.scale_x) * scale_x).max(1.0) as u32;
+    let dst_h = ((tile.height as f32 * tile.scale_y) * scale_y).max(1.0) as u32;
+
+    fb.blit_scaled(atlas, (src_x, src_y, src_w, src_h), (dst_x, dst_y, dst_w, dst_h), false);
     true
 }
 
@@ -756,10 +1128,189 @@ pub fn draw_frame(
     let scale_x = fb.width as f32 / 960.0;
     let scale_y = fb.height as f32 / 540.0;
 
+    // Prologue cutscene: render exactly what the original CODE Draw events
+    // emitted this tick (draw_self / draw_sprite_ext commands with CODE+offset
+    // provenance). Alpha-blended blit; no hand-placed coordinates here.
+    if let (Some(bundle), Some(scene)) = (state.intro_bundle.as_deref(), state.intro_scene.as_ref()) {
+        fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
+        let _ = bundle;
+        for cmd in &scene.draws {
+            let dst_x = (cmd.x as f32 * scale_x) as i32;
+            let dst_y = (cmd.y as f32 * scale_y) as i32;
+            let sprite = state.asset.sprites.get(&(cmd.sprite as usize));
+            let (w, h) = sprite.map(|s| (s.width, s.height)).unwrap_or((32, 32));
+            let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+            let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+            let frame = cmd.frame.max(0.0) as usize;
+            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+            if alpha <= 0.0 {
+                continue;
+            }
+            if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
+                fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
+            }
+        }
+        return;
+    }
+
+    // Full IR gameplay scene: render room tiles, original draws, and camera follow
+    if let (Some(_bundle), Some(scene)) = (state.full_bundle.as_deref(), state.scene.as_ref()) {
+        let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
+
+        fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
+
+        // 0. Render Room Backgrounds emitted by obj_bg or scene
+        for bg_cmd in &scene.backgrounds {
+            let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
+            if alpha <= 0.0 {
+                continue;
+            }
+            let bg_id = bg_cmd.background.max(0) as usize;
+            if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
+                if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
+                    if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
+                        let world_x = bg_cmd.x - cam_x;
+                        let world_y = bg_cmd.y - cam_y;
+                        let dst_x = (world_x as f32 * scale_x) as i32;
+                        let dst_y = (world_y as f32 * scale_y) as i32;
+                        let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+                        let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+                        fb.blit_scaled_alpha(
+                            atlas,
+                            (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                            (dst_x, dst_y, dst_w, dst_h),
+                            false,
+                            alpha,
+                        );
+                    }
+                }
+            }
+        }
+
+        // 1. Background tiles
+        for tile in scene.room_tiles.iter().filter(|t| t.depth >= 0) {
+            draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
+        }
+
+        // 2. Instances from IR draws
+        for cmd in &scene.draws {
+            let world_x = cmd.x - cam_x;
+            let world_y = cmd.y - cam_y;
+            let dst_x = (world_x as f32 * scale_x) as i32;
+            let dst_y = (world_y as f32 * scale_y) as i32;
+            let sprite = state.asset.sprites.get(&(cmd.sprite as usize));
+            let (w, h) = sprite.map(|s| (s.width, s.height)).unwrap_or((32, 32));
+            let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+            let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+            let frame = cmd.frame.max(0.0) as usize;
+            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+            if alpha > 0.0 {
+                if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
+                    fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
+                }
+            }
+        }
+
+        // 2.5. Hit particles from the original part_particles_create calls:
+        // world-space positions, camera-relative, size-scaled squares blended
+        // with the particle's current color2 gradient color.
+        for p in &scene.particles {
+            let alpha = (p.alpha as f32).clamp(0.0, 1.0);
+            if alpha <= 0.0 {
+                continue;
+            }
+            let wx = p.x - cam_x;
+            let wy = p.y - cam_y;
+            let size_f = (p.size * 4.0).clamp(2.0, 16.0) as f32;
+            let w = ((size_f * scale_x) as u32).max(1);
+            let h = ((size_f * scale_y) as u32).max(1);
+            let x = (wx as f32 * scale_x) as i32 - (w as i32) / 2;
+            let y = (wy as f32 * scale_y) as i32 - (h as i32) / 2;
+            let r = (p.color & 0xFF) as u8;
+            let g = ((p.color >> 8) & 0xFF) as u8;
+            let b = ((p.color >> 16) & 0xFF) as u8;
+            fb.fill_rect(x, y, w, h, (r, g, b, (alpha * 255.0) as u8));
+        }
+
+        // 3. Foreground tiles
+        for tile in scene.room_tiles.iter().filter(|t| t.depth < 0) {
+            draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
+        }
+
+        // 3.5. Render UI Healthbars & Boss Healthbars emitted by scene
+        for hb in &scene.healthbars {
+            let x1 = ((hb.x1 - cam_x) as f32 * scale_x) as i32;
+            let y1 = ((hb.y1 - cam_y) as f32 * scale_y) as i32;
+            let x2 = ((hb.x2 - cam_x) as f32 * scale_x) as i32;
+            let y2 = ((hb.y2 - cam_y) as f32 * scale_y) as i32;
+            let w = ((x2 - x1).abs() as u32).max(1);
+            let h = ((y2 - y1).abs() as u32).max(1);
+            let min_x = x1.min(x2);
+            let min_y = y1.min(y2);
+            // Draw dark background
+            fb.fill_rect(min_x, min_y, w, h, (40, 40, 40, 220));
+            // Draw health fill based on amount (0..100)
+            let pct = (hb.amount as f32 / 100.0).clamp(0.0, 1.0);
+            let fill_w = ((w as f32) * pct) as u32;
+            if fill_w > 0 {
+                // Blend from red to green based on pct
+                let r = ((1.0 - pct) * 220.0 + 30.0) as u8;
+                let g = (pct * 200.0 + 40.0) as u8;
+                fb.fill_rect(min_x, min_y, fill_w, h, (r, g, 40, 255));
+            }
+        }
+
+        // 3.6. Render UI Texts emitted by scene
+        for cmd in &scene.texts {
+            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+            if alpha <= 0.0 || cmd.text.is_empty() {
+                continue;
+            }
+            let world_x = cmd.x - cam_x;
+            let world_y = cmd.y - cam_y;
+            let x = (world_x as f32 * scale_x) as i32;
+            let y = (world_y as f32 * scale_y) as i32;
+            let (r, g, b) = if cmd.color < 0 {
+                (255, 255, 255)
+            } else {
+                (
+                    (cmd.color & 0xFF) as u8,
+                    ((cmd.color >> 8) & 0xFF) as u8,
+                    ((cmd.color >> 16) & 0xFF) as u8,
+                )
+            };
+            let color = (r, g, b, (alpha * 255.0) as u8);
+            let scale = ((scale_x.min(scale_y) * 2.0).round() as u32).max(1);
+            fb.draw_text_str(x, y, &cmd.text, scale, color);
+        }
+
+        // 4. Touch control overlay
+        let bottom = fb.height as i32 - 92;
+        if !draw_sprite(fb, state, 158, 0, (20, bottom, 80, 68), false) {
+            fb.draw_rect(24, bottom, 68, 68, (120, 180, 255, 170));
+        }
+        if !draw_sprite(fb, state, 159, 0, (110, bottom, 80, 68), false) {
+            fb.draw_rect(108, bottom, 68, 68, (120, 180, 255, 170));
+        }
+        let right_pad = fb.width as i32 - 100;
+        if !draw_sprite(fb, state, 160, 0, (right_pad - 90, bottom, 80, 68), false) {
+            fb.draw_rect(right_pad - 86, bottom, 68, 68, (255, 220, 80, 170));
+        }
+        if !draw_sprite(fb, state, 161, 0, (right_pad, bottom, 80, 68), false) {
+            fb.draw_rect(right_pad + 4, bottom, 68, 68, (255, 90, 80, 170));
+        }
+        return;
+    }
+
     fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
     let cam_x = state.world.camera_x;
     let cam_y = state.world.camera_y;
+
+    // Draw background tiles (depth >= 0)
+    for tile in state.world.room_tiles.iter().filter(|t| t.depth >= 0) {
+        draw_tile(fb, state, tile, cam_x, cam_y, scale_x, scale_y);
+    }
 
     for decoration in &state.world.decorations {
         let x = ((decoration.rect.x - cam_x) * scale_x) as i32;
@@ -782,8 +1333,10 @@ pub fn draw_frame(
         let w = (solid.rect.w * scale_x) as u32;
         let h = (solid.rect.h * scale_y) as u32;
         if !draw_sprite(fb, state, solid.sprite_id, 0, (x, y, w, h), false) {
-            fb.fill_rect(x, y, w, h, color);
-            fb.draw_rect(x, y, w, h, (35, 40, 50, 255));
+            if state.world.room_tiles.is_empty() {
+                fb.fill_rect(x, y, w, h, color);
+                fb.draw_rect(x, y, w, h, (35, 40, 50, 255));
+            }
         }
     }
 
@@ -861,6 +1414,14 @@ pub fn draw_frame(
 
     let invuln = p.invulnerable_timer > 0.0 && ((p.invulnerable_timer * 15.0) as i32 % 2 == 0);
     if !invuln {
+        let (active_sprite_id, anim_speed) = match p.state {
+            PlayerState::Running => (30, 4), // spr_playerrun
+            PlayerState::Jumping => (32, 3), // spr_playerjump
+            PlayerState::Falling => (33, 4), // spr_playerfall
+            PlayerState::Hurt => (36, 1),    // spr_playerhit
+            _ => (29, 6),                    // spr_player idle (18 frames)
+        };
+        let frame = (state.frame_count / anim_speed) as usize;
         let color = match p.state {
             PlayerState::Idle => (240, 80, 80, 255),
             PlayerState::Running => (255, 130, 60, 255),
@@ -868,31 +1429,40 @@ pub fn draw_frame(
             PlayerState::Hurt => (255, 255, 255, 255),
             _ => (240, 80, 80, 255),
         };
-        if !draw_sprite(fb, state, p.sprite_id, (state.frame_count / 5) as usize, (px, py, pw, ph), p.facing == Facing::Left) {
+        if !draw_sprite(fb, state, active_sprite_id, frame, (px, py, pw, ph), p.facing == Facing::Left) {
             fb.fill_rect(px, py, pw, ph, color);
             let eye_x = if p.facing == Facing::Right { px + pw as i32 - 6 } else { px + 2 };
             fb.fill_rect(eye_x, py + 6, 4, 4, (255, 255, 255, 255));
         }
     }
 
-    fb.fill_rect(16, 16, 204, 20, (50, 50, 50, 255));
+    // Draw HUD: Top bar background (spr_UI, id 84)
+    if !draw_sprite(fb, state, 84, 0, (10, 10, 300, 52), false) {
+        fb.fill_rect(16, 16, 204, 20, (50, 50, 50, 255));
+    }
     let hp_pct = (p.health as f32 / p.max_health as f32).max(0.0);
-    fb.fill_rect(18, 18, (200.0 * hp_pct) as u32, 16, (230, 40, 40, 255));
-    fb.fill_rect(16, 42, 160, 24, (30, 35, 50, 255));
-    fb.draw_rect(16, 42, 160, 24, (80, 200, 255, 255));
-    let weapon_color = match p.current_weapon {
-        WeaponType::Pistol => (200, 200, 200, 255),
-        WeaponType::Shotgun => (255, 180, 60, 255),
-        WeaponType::AssaultRifle => (255, 220, 100, 255),
-        WeaponType::RocketLauncher => (255, 100, 80, 255),
-        WeaponType::Sword => (180, 220, 255, 255),
-    };
-    fb.fill_rect(180, 42, 24, 24, weapon_color);
+    fb.fill_rect(65, 20, (135.0 * hp_pct) as u32, 12, (230, 40, 40, 255));
+
+    // Touch Controls: On-screen buttons using real sprites
     let bottom = fb.height as i32 - 92;
-    fb.draw_rect(24, bottom, 68, 68, (120, 180, 255, 170));
-    fb.draw_rect(108, bottom, 68, 68, (120, 180, 255, 170));
-    fb.draw_rect(fb.width as i32 - 176, bottom, 68, 68, (255, 190, 80, 170));
-    fb.draw_rect(fb.width as i32 - 92, bottom, 68, 68, (255, 90, 90, 170));
+    // D-Pad Left: spr_leftbutton (id 158)
+    if !draw_sprite(fb, state, 158, 0, (20, bottom, 80, 68), false) {
+        fb.draw_rect(24, bottom, 68, 68, (120, 180, 255, 170));
+    }
+    // D-Pad Right: spr_rightbutton (id 159)
+    if !draw_sprite(fb, state, 159, 0, (110, bottom, 80, 68), false) {
+        fb.draw_rect(108, bottom, 68, 68, (120, 180, 255, 170));
+    }
+    // Jump: spr_jumpbutton (id 155)
+    if !draw_sprite(fb, state, 155, 0, (fb.width as i32 - 180, bottom, 68, 68), false) {
+        fb.draw_rect(fb.width as i32 - 176, bottom, 68, 68, (255, 190, 80, 170));
+    }
+    // Shoot/Attack: spr_shootbutton (id 156)
+    if !draw_sprite(fb, state, 156, 0, (fb.width as i32 - 96, bottom, 68, 68), false) {
+        fb.draw_rect(fb.width as i32 - 92, bottom, 68, 68, (255, 90, 90, 170));
+    }
+    // Pause: spr_pausebutton (id 122)
+    draw_sprite(fb, state, 122, 0, (fb.width as i32 - 64, 16, 48, 48), false);
 }
 
 // ============================================================
@@ -1006,13 +1576,72 @@ mod android_jni {
             "/data/data/com.gongmi.callyscaves2/files/game.droid".to_string()
         });
         log(&format!("nativeInit path={}", path));
-        let st = match GameState::new_persistent(Path::new(&path)) {
+        let mut st = match GameState::new_persistent(Path::new(&path)) {
             Ok(s) => s,
             Err(e) => {
                 log(&format!("GameState::new failed: {}", e));
                 return;
             }
         };
+        // Boot the prologue from real compiled CODE: obj_introduction Create
+        // runs the original bytecode (deactivate-all, spawn phone, schedule
+        // alarms, queue mus_new4). Draw uses view 0 at the room origin.
+        {
+            let bundle = std::sync::Arc::new(callys_core::code_vm::prologue_bundle());
+            let mut scene = callys_core::ir_scene::Scene::default();
+            // CODE 548 (obj_introduction Create) runs image_speed = 0.3 on the
+            // 96-frame film sprite; the advance cycle needs the SPRT frame count.
+            for (sid, sp) in &st.asset.sprites {
+                scene.sprite_bounds.insert(
+                    *sid as i32,
+                    callys_core::ir_scene::SpriteBounds {
+                        width: sp.width as f64,
+                        height: sp.height as f64,
+                        origin_x: sp.origin_x as f64,
+                        origin_y: sp.origin_y as f64,
+                        frames: sp.tpag_indices.len().max(1) as f64,
+                    },
+                );
+            }
+            scene.view_positions.insert(0, (0.0, 0.0));
+            scene.create(&bundle, 137, 0.0, 0.0)
+                .expect("prologue obj_introduction Create failed");
+            st.intro_bundle = Some(bundle);
+            st.intro_scene = Some(scene);
+        }
+        let full_ir = Path::new(&path).with_file_name("full_ir.json");
+        if full_ir.exists() {
+            match callys_core::code_vm::load_bundle_from_file(&full_ir) {
+                Ok(bundle) => {
+                    if let Err(error) = st.enable_ir_gameplay(std::sync::Arc::new(bundle)) {
+                        log(&format!("full IR gameplay init failed: {error}"));
+                    } else {
+                        log("full IR gameplay bundle loaded");
+                        // IR-path restore: same save file the legacy path uses.
+                        // Only a v2 file with scene progress restores here; a
+                        // legacy/v1 file still restores through the world path.
+                        if let Some(save_path) = st.save_path.clone() {
+                            match load_save(&save_path) {
+                                Ok(Some(save)) if !save.scene_globals.is_empty() => {
+                                    match st.restore_ir_snapshot(&save) {
+                                        Ok(()) => log(&format!(
+                                            "IR save restored: room={} score={} globals={} collected={}",
+                                            save.current_room, save.score as i64,
+                                            save.scene_globals.len(), save.collected_instance_ids.len())),
+                                        Err(error) => log(&format!("IR save restore failed: {error}")),
+                                    }
+                                }
+                                Ok(_) => log("no IR scene save to restore"),
+                                Err(error) => log(&format!("save load failed: {error}")),
+                            }
+                        }
+                    }
+                }
+                Err(error) => log(&format!("full IR bundle load failed: {error}")),
+            }
+        } else {
+            log("full IR gameplay bundle missing; refusing silent handwritten fallback");
+        }
         match export_required_wavs(&st.asset, Path::new(&path)) {
             Ok(exported) => log(&format!("exported {} short sound effects", exported.len())),
             Err(error) => log(&format!("sound export failed: {error}")),
@@ -1045,6 +1674,15 @@ mod android_jni {
     }
 
     #[no_mangle]
+    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePointerRelease(
+        _env: *mut JNIEnv, _class: jobject, x: f32, y: f32,
+    ) {
+        if let Some(s) = slot().lock().unwrap().as_mut() {
+            s.state.pointer_released(x as f64, y as f64);
+        }
+    }
+
+    #[no_mangle]
     pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeStep(
         _env: *mut JNIEnv,
         _class: jobject,
@@ -1056,7 +1694,13 @@ mod android_jni {
             let previous_room = s.state.world.current_room_index;
             let previous_player_state = s.state.world.player.state;
             let previous_save_diagnostic = s.state.save_diagnostic.clone();
+            let was_halted = s.state.runtime_diagnostic.is_some();
             s.state.step(dt);
+            if !was_halted {
+                if let Some(diagnostic) = s.state.runtime_diagnostic.as_deref() {
+                    log(&format!("IR execution halted: {diagnostic}"));
+                }
+            }
             if s.state.save_diagnostic != previous_save_diagnostic {
                 if let Some(diagnostic) = s.state.save_diagnostic.as_deref() {
                     log(&format!("save write warning: {diagnostic}"));
@@ -1106,6 +1750,7 @@ mod android_jni {
         attack: jint,
         switch_weapon: jint,
         _weapon: jint,
+        tap: jint,
     ) {
         let mut g = slot().lock().unwrap();
         if let Some(s) = g.as_mut() {
@@ -1114,6 +1759,7 @@ mod android_jni {
             s.state.input.jump = jump != 0;
             s.state.input.attack = attack != 0;
             s.state.input.switch_weapon = switch_weapon != 0;
+            s.state.input.tap = tap != 0;
 
         }
     }
@@ -1123,12 +1769,20 @@ mod android_jni {
         _env: *mut JNIEnv,
         _class: jobject,
     ) -> jint {
+        // Pack (sound id, looping, is_stop) into one jint: SOND ids < 2^29,
+        // bit 30 carries looping, bit 29 marks a stop command (MediaPlayer
+        // teardown for BGM switching).
         slot()
             .lock()
             .unwrap()
             .as_mut()
             .and_then(|state| state.state.poll_sound())
-            .and_then(|audio_id| jint::try_from(audio_id).ok())
+            .and_then(|(audio_id, looping, is_stop)| {
+                let packed = audio_id
+                    | if looping { 1 << 30 } else { 0 }
+                    | if is_stop { 1 << 29 } else { 0 };
+                jint::try_from(packed).ok()
+            })
             .unwrap_or(-1)
     }
 
