@@ -17,6 +17,9 @@ pub struct TouchDevice {
 #[derive(Debug, Clone, Default)]
 pub struct SpriteBounds {
     pub width: f64, pub height: f64, pub origin_x: f64, pub origin_y: f64,
+    /// Frame count from the original SPRT record; drives the per-step
+    /// image_index advance. 0 means no animation data (never advances).
+    pub frames: f64,
 }
 #[derive(Debug, Clone, Serialize, PartialEq)]
 pub struct DrawCommand {
@@ -53,6 +56,12 @@ pub struct ParticleType {
     pub life_min: f64, pub life_max: f64,
     pub color_min: i32, pub color_max: i32,
     pub alpha: f64,
+}
+impl SpriteBounds {
+    /// Bounds with an explicit original SPRT frame count.
+    pub fn with_frames(width: f64, height: f64, origin_x: f64, origin_y: f64, frames: f64) -> Self {
+        Self { width, height, origin_x, origin_y, frames }
+    }
 }
 impl Default for ParticleType {
     fn default() -> Self {
@@ -746,6 +755,8 @@ impl Scene {
         }
 
         // Standard GameMaker motion integration: gravity, friction, velocity advance
+        let anim_frames: BTreeMap<i32, f64> = self.sprite_bounds.iter()
+            .map(|(k, b)| (*k, b.frames)).collect();
         for i in self.instances.values_mut() {
             if !i.alive || !i.active || i.external { continue; }
 
@@ -790,6 +801,31 @@ impl Scene {
                 if dir < 0.0 { dir += 360.0; }
                 i.fields.insert("speed".into(), cur_spd);
                 i.fields.insert("direction".into(), dir);
+            }
+
+            // 5. Standard GMS sprite animation cycle: image_index += image_speed
+            // at the end of the step. Forward play wraps into [0, frames);
+            // reversed play (image_speed < 0) reflects at sub 0; a 1-frame or
+            // unknown sprite never moves. image_index itself is numeric-only.
+            let speed = i.fields.get("image_speed").copied().unwrap_or(1.0);
+            if speed != 0.0 {
+                let spr = i.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+                let frames = anim_frames.get(&spr).copied().unwrap_or(0.0);
+                if frames > 1.0 {
+                    let idx = i.fields.get("image_index").copied().unwrap_or(0.0);
+                    let mut next = idx + speed;
+                    if next >= frames { next %= frames; }
+                    else if next < 0.0 {
+                        // Triangular reflection over [0, frames-1].
+                        let span = frames - 1.0;
+                        let d = -next;
+                        let pos = (d % (2.0 * span)).abs();
+                        next = if pos <= span { pos } else { 2.0 * span - pos };
+                    }
+                    i.fields.insert("image_index".into(), next);
+                } else if frames == 1.0 {
+                    i.fields.insert("image_index".into(), 0.0);
+                }
             }
         }
 
@@ -838,6 +874,13 @@ impl Scene {
     }
     fn self_field(&self,id:i32,n:&str)->Result<f64,String> {
         if n == "id" { return Ok(id as f64); }
+        // GMS read-only sprite metadata: frame count of the instance's current
+        // sprite_index straight from the original SPRT record.
+        if n == "image_number" || n == "image_single" {
+            let i = self.instances.get(&id).ok_or(format!("missing instance {id}"))?;
+            let spr = i.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+            return Ok(self.sprite_bounds.get(&spr).map_or(0.0, |b| b.frames));
+        }
         // GMS 1.4 semantics: reading an uninitialized instance variable
         // yields 0, never an error. A missing instance, however, is a real
         // scheduling bug and must stay loud.

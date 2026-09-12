@@ -463,6 +463,7 @@ impl GameState {
                     height: sp.height as f64,
                     origin_x: sp.origin_x as f64,
                     origin_y: sp.origin_y as f64,
+                    frames: sp.tpag_indices.len().max(1) as f64,
                 },
             );
         }
@@ -1588,6 +1589,20 @@ mod android_jni {
         {
             let bundle = std::sync::Arc::new(callys_core::code_vm::prologue_bundle());
             let mut scene = callys_core::ir_scene::Scene::default();
+            // CODE 548 (obj_introduction Create) runs image_speed = 0.3 on the
+            // 96-frame film sprite; the advance cycle needs the SPRT frame count.
+            for (sid, sp) in &st.asset.sprites {
+                scene.sprite_bounds.insert(
+                    *sid as i32,
+                    callys_core::ir_scene::SpriteBounds {
+                        width: sp.width as f64,
+                        height: sp.height as f64,
+                        origin_x: sp.origin_x as f64,
+                        origin_y: sp.origin_y as f64,
+                        frames: sp.tpag_indices.len().max(1) as f64,
+                    },
+                );
+            }
             scene.view_positions.insert(0, (0.0, 0.0));
             scene.create(&bundle, 137, 0.0, 0.0)
                 .expect("prologue obj_introduction Create failed");

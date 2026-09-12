@@ -13,8 +13,8 @@ fn player_step_real_code_12_gravity_motion_and_wall_collision() {
     s.current_room = 0.0; // rm_town
 
     // Register bounds for player (spr_player: 32x34, origin 15,16) and wall (32x32)
-    s.sprite_bounds.insert(29, SpriteBounds { width: 32.0, height: 34.0, origin_x: 15.0, origin_y: 16.0 });
-    s.sprite_bounds.insert(5, SpriteBounds { width: 32.0, height: 32.0, origin_x: 0.0, origin_y: 0.0 });
+    s.sprite_bounds.insert(29, SpriteBounds { width: 32.0, height: 34.0, origin_x: 15.0, origin_y: 16.0, frames: 1.0 });
+    s.sprite_bounds.insert(5, SpriteBounds { width: 32.0, height: 32.0, origin_x: 0.0, origin_y: 0.0, frames: 1.0 });
 
     // Populate ground walls (obj_wall: id 4, parent 34 / par_wall) at y=200
     for i in 0..10 {

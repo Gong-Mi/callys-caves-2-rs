@@ -13,7 +13,7 @@ fn fixture() -> (Bundle, Scene, i32) {
     })).unwrap();
     let mut s = Scene::default();
     s.init_bundle(&b);
-    s.sprite_bounds.insert(1, callys_core::ir_scene::SpriteBounds { width:20.0,height:10.0,origin_x:5.0,origin_y:2.0 });
+    s.sprite_bounds.insert(1, callys_core::ir_scene::SpriteBounds { width:20.0,height:10.0,origin_x:5.0,origin_y:2.0,frames:1.0 });
     let id = s.create(&b,2,100.0,50.0).unwrap();
     (b,s,id)
 }

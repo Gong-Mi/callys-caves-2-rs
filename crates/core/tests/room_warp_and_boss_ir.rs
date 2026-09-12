@@ -25,6 +25,7 @@ fn original_bytecode_drives_warp_key_and_boss_boulder_lifecycle() {
                 height: sp.height as f64,
                 origin_x: sp.origin_x as f64,
                 origin_y: sp.origin_y as f64,
+                frames: sp.tpag_indices.len().max(1) as f64,
             },
         );
     }

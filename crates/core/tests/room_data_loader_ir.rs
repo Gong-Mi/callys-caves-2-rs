@@ -24,6 +24,7 @@ fn data_driven_room_loader_town_and_level1_from_original_asset() {
                 height: sp.height as f64,
                 origin_x: sp.origin_x as f64,
                 origin_y: sp.origin_y as f64,
+                frames: sp.tpag_indices.len().max(1) as f64,
             },
         );
     }

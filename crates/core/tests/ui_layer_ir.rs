@@ -12,11 +12,11 @@ fn ui_buttons_touch_and_player_motion_integration() {
     s.init_bundle(&bundle);
 
     // Register button sprite bounds (from sprites.json metadata)
-    s.sprite_bounds.insert(158, SpriteBounds { width: 96.0, height: 64.0, origin_x: 0.0, origin_y: 0.0 }); // spr_leftbutton
-    s.sprite_bounds.insert(159, SpriteBounds { width: 96.0, height: 64.0, origin_x: 0.0, origin_y: 0.0 }); // spr_rightbutton
-    s.sprite_bounds.insert(155, SpriteBounds { width: 64.0, height: 64.0, origin_x: 0.0, origin_y: 0.0 }); // spr_jumpbutton
-    s.sprite_bounds.insert(156, SpriteBounds { width: 64.0, height: 64.0, origin_x: 0.0, origin_y: 0.0 }); // spr_shootbutton
-    s.sprite_bounds.insert(84, SpriteBounds { width: 512.0, height: 88.0, origin_x: 0.0, origin_y: 0.0 });  // spr_UI
+    s.sprite_bounds.insert(158, SpriteBounds { width: 96.0, height: 64.0, origin_x: 0.0, origin_y: 0.0, frames: 1.0 }); // spr_leftbutton
+    s.sprite_bounds.insert(159, SpriteBounds { width: 96.0, height: 64.0, origin_x: 0.0, origin_y: 0.0, frames: 1.0 }); // spr_rightbutton
+    s.sprite_bounds.insert(155, SpriteBounds { width: 64.0, height: 64.0, origin_x: 0.0, origin_y: 0.0, frames: 1.0 }); // spr_jumpbutton
+    s.sprite_bounds.insert(156, SpriteBounds { width: 64.0, height: 64.0, origin_x: 0.0, origin_y: 0.0, frames: 1.0 }); // spr_shootbutton
+    s.sprite_bounds.insert(84, SpriteBounds { width: 512.0, height: 88.0, origin_x: 0.0, origin_y: 0.0, frames: 1.0 });  // spr_UI
 
     s.view_positions.insert(0, (0.0, 0.0));
 
