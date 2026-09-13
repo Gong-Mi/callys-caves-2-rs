@@ -997,7 +997,7 @@ impl Host for Scene {
             | "display_get_height" | "randomize" | "action_current_room" | "ini_close"
             | "part_system_create" | "part_type_create" | "audio_stop_all" | "audio_pause_all"
             | "audio_resume_all" | "action_kill_object" | "window_get_width" | "window_get_height"
-            | "room_restart" | "game_restart" | "ads_disable" | "shop_leave_rating" => Some(0),
+            | "room_restart" | "game_restart" => Some(0),
             "instance_deactivate_all" | "instance_deactivate_object" | "instance_activate_object" | "instance_exists"
             | "mouse_check_button_pressed" | "device_mouse_x" | "device_mouse_y" | "mouse_clear"
             | "audio_is_playing" | "audio_stop_sound" | "draw_set_font" | "draw_set_color"
@@ -1016,13 +1016,22 @@ impl Host for Scene {
             "draw_sprite" | "point_direction" | "d3d_set_fog" | "mp_potential_step" => Some(4),
             "collision_point" | "part_type_direction" | "part_type_size" | "part_type_speed"
             | "instance_activate_region" | "instance_deactivate_region"
-            | "part_particles_create" | "collision_line" => Some(5),
+            | "part_particles_create" => Some(5),
+            // GMS collision_line(x1,y1,x2,y2,obj,prec,notme) - the original's
+            // only call site (obj_shooter2 Alarm 1, CODE 108) passes all seven.
+            "collision_line" => Some(7),
             "part_type_orientation" => Some(6),
             "draw_text_color" | "draw_background_ext" => Some(8),
             "draw_sprite_ext" => Some(9),
             "draw_healthbar" => Some(11),
             "choose" | "ds_map_find_value" | "ds_map_replace" | "ds_map_destroy"
-            | "ds_map_secure_save" | "ds_map_create" | "iap_purchase_details" | "iap_acquire" => None,
+            | "ds_map_secure_save" | "ds_map_create" | "iap_purchase_details" | "iap_acquire"
+            // Platform stubs whose original call sites carry arguments the SDK
+            // signatures need but this client ignores: ads_disable is called
+            // with one arg from obj_poisoniap Other_66 and shop_leave_rating
+            // with four from obj_firstpause Create. Accept any arity instead of
+            // raising on a call that has nothing to do here.
+            | "ads_disable" | "shop_leave_rating" => None,
             _ => return Err(format!("unsupported builtin {n}")),
         };
         if let Some(exp) = expected_argc {
@@ -1546,10 +1555,15 @@ impl Host for Scene {
             "collision_line" => {
                 let x1 = a[0]; let y1 = a[1]; let x2 = a[2]; let y2 = a[3];
                 let s = int(a[4])?;
+                // a[5] is `prec` (precise mask check) and a[6] is `notme`. Every
+                // collision query in this host is bounding-box based, so prec is
+                // accepted and documented rather than approximated per-pixel;
+                // notme genuinely decides whether the caller can be the hit.
+                let notme = a[6] >= 0.5;
                 let targets = self.select(id, s)?;
                 let mut hit = -4.0;
                 for tid in targets {
-                    if tid == id { continue; }
+                    if tid == id && notme { continue; }
                     let ix = self.self_field(tid, "x").unwrap_or(0.0);
                     let iy = self.self_field(tid, "y").unwrap_or(0.0);
                     let spr = self.self_field(tid, "sprite_index").unwrap_or(-1.0) as i32;

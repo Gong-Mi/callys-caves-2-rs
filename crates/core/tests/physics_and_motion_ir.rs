@@ -86,12 +86,29 @@ fn motion_integration_gravity_friction_and_builtins() {
     s.instances.get_mut(&wall_id).unwrap().external = false;
     s.write(wall_id, -1, "x", None, 200.0).unwrap();
     s.write(wall_id, -1, "y", None, 200.0).unwrap();
-    // Line passing through (200, 200) should hit wall_id
-    let hit = s.call(&bundle, id, "collision_line", &[150.0, 200.0, 250.0, 200.0, 1.0]).unwrap();
+    // Line passing through (200, 200) should hit wall_id. The GMS signature is
+    // collision_line(x1, y1, x2, y2, obj, prec, notme) - seven arguments, which
+    // is how obj_shooter2's CODE 108 calls it; `notme = true` keeps the caller
+    // itself out of the candidate set.
+    let hit = s.call(&bundle, id, "collision_line",
+        &[150.0, 200.0, 250.0, 200.0, 1.0, 1.0, 1.0]).unwrap();
     assert_eq!(hit, wall_id as f64);
     // Line missing box completely should return -4.0
-    let miss = s.call(&bundle, id, "collision_line", &[0.0, 0.0, 50.0, 50.0, 1.0]).unwrap();
+    let miss = s.call(&bundle, id, "collision_line",
+        &[0.0, 0.0, 50.0, 50.0, 1.0, 1.0, 1.0]).unwrap();
     assert_eq!(miss, -4.0);
+    // notme == 0 lets the caller match itself, which is the other half of the
+    // original's argument list. The line is drawn through the caller's own
+    // centre so the only candidate in the way is the caller.
+    let cx = s.read(id, -1, "x", None).unwrap();
+    let cy = s.read(id, -1, "y", None).unwrap();
+    let own_object = s.instances[&id].object as f64;
+    let self_hit = s.call(&bundle, id, "collision_line",
+        &[cx - 100.0, cy, cx + 100.0, cy, own_object, 1.0, 0.0]).unwrap();
+    assert_eq!(self_hit, id as f64, "notme == 0 includes the calling instance");
+    let self_miss = s.call(&bundle, id, "collision_line",
+        &[cx - 100.0, cy, cx + 100.0, cy, own_object, 1.0, 1.0]).unwrap();
+    assert_eq!(self_miss, -4.0, "notme == 1 keeps the caller out of its own query");
 
     // 10. Test mp_potential_step advances toward target
     s.write(id, -1, "x", None, 0.0).unwrap();
