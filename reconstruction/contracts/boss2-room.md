@@ -32,12 +32,21 @@
 
 Boss2 的 alarm/Step 相位不在本批以房间装载后的数组值断言；它需要单独按 tick/Alarm 事件验证。
 
+## Boss2 Alarm1
+
+真实执行 `gml_Object_obj_boss2_Alarm_1`（CODE 167）确认：
+
+- 当当前 room 不是原版资源 ID 110，且 `obj_slime` 数量同时满足原版门禁时，生成 3 个 `obj_slime` 攻击实体。
+- 三个新实体均由原版 Create 执行，并设置 `alarm[0]=30`。
+- `room==110` 是该段逻辑的跳过分支，不是 Boss2 房间的进入条件。
+
 ## 测试
 
-`crates/core/tests/boss2_room_ir.rs`，2 项：
+`crates/core/tests/boss2_room_ir.rs`，3 项：
 
 - `boss2_room_and_doors_are_asset_exact`
 - `boss2_create_initializes_original_state_for_power_one`
+- `boss2_alarm1_emits_three_original_attack_entities_when_room_gate_matches`
 
 ## 边界
 

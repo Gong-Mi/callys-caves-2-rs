@@ -78,6 +78,25 @@ fn boss2_room_and_doors_are_asset_exact() {
 }
 
 #[test]
+fn boss2_alarm1_emits_three_original_attack_entities_when_room_gate_matches() {
+    let (bundle, mut s, _player, _asset) = boss2_room();
+    // CODE 167 skips its volley when the original room resource id is 110;
+    // the actual asset room index for rm_boss2 is 27, so keep the real room
+    // identity here and verify the remaining slime-count gates.
+    s.current_room = 27.0;
+    let boss = s.instances.iter().find(|(_, i)| i.object == BOSS2 && i.alive)
+        .map(|(id, _)| *id).expect("obj_boss2 instance");
+    s.dispatch(&bundle, boss, 2, 1).expect("Boss2 Alarm 1");
+    let created: Vec<_> = s.instances.iter()
+        .filter(|(_, i)| i.object == 32 && i.alive)
+        .map(|(id, _)| *id).filter(|id| *id != boss).collect();
+    assert_eq!(created.len(), 3, "CODE 167 creates three obj_slime attack entities");
+    for id in created {
+        assert_eq!(s.instances[&id].alarms[0], 30);
+    }
+}
+
+#[test]
 fn boss2_create_initializes_original_state_for_power_one() {
     let (_bundle, s, _player, _asset) = boss2_room();
     let boss = s.instances.iter().find(|(_, i)| i.object == BOSS2 && i.alive)
