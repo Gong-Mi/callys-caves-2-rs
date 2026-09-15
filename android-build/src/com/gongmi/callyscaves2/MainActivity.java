@@ -12,6 +12,10 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.os.VibratorManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -57,6 +61,7 @@ public class MainActivity extends Activity {
     private native int  nativeGetHeight();
     private native void nativeBlitToIntArray(int[] pixels);
     private native int nativePollSound();
+    private native int nativePollHaptic();
 
     private SurfaceView surface;
     private Bitmap framebuffer;
@@ -65,6 +70,7 @@ public class MainActivity extends Activity {
     private volatile boolean running;
     private final Rect gameRect = new Rect();
     private SoundPool soundPool;
+    private Vibrator vibrator;
     private final Map<Integer, Integer> soundSamples = new ConcurrentHashMap<>();
     private final Set<Integer> loadedSamples = ConcurrentHashMap.newKeySet();
 
@@ -79,6 +85,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate start");
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            VibratorManager manager = (VibratorManager) getSystemService(VIBRATOR_MANAGER_SERVICE);
+            vibrator = manager == null ? null : manager.getDefaultVibrator();
+        } else {
+            vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        }
 
         surface = new SurfaceView(this);
         setContentView(surface);
@@ -244,6 +256,7 @@ public class MainActivity extends Activity {
                 }
                 nativeStep(dt);
                 playQueuedSounds();
+                playQueuedHaptics();
                 nativeBlitToIntArray(pixelBuffer);
                 framebuffer.setPixels(pixelBuffer, 0, framebuffer.getWidth(), 0, 0,
                                        framebuffer.getWidth(), framebuffer.getHeight());
@@ -398,6 +411,30 @@ public class MainActivity extends Activity {
             // Non-music stop commands have no SoundPool teardown here: the IR
             // engine only voices mus_* with stop_sound in practice; sfx voices
             // retire by themselves after playback (see Rust drain_audio).
+        }
+    }
+
+    private void playQueuedHaptics() {
+        Vibrator v = vibrator;
+        if (v == null || !v.hasVibrator()) return;
+        int event;
+        while ((event = nativePollHaptic()) != -1) {
+            long duration;
+            int amplitude;
+            switch (event) {
+                case 1: duration = 8; amplitude = 80; break;      // jump
+                case 2: duration = 12; amplitude = 110; break;    // fire
+                case 3: duration = 18; amplitude = 160; break;    // impact
+                case 4: duration = 40; amplitude = 255; break;    // death/explode
+                case 5: duration = 10; amplitude = 90; break;     // coin
+                case 6: duration = 25; amplitude = 180; break;    // weapon pickup
+                default: continue;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(duration, amplitude));
+            } else {
+                v.vibrate(duration);
+            }
         }
     }
 

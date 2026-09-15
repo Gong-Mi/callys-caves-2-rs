@@ -252,6 +252,9 @@ pub struct GameState {
     /// audio_play_sound argument; is_stop marks audio_stop_sound/stop_all so
     /// the host can tear down MediaPlayer BGM, not just start new sounds.
     sound_queue: VecDeque<(usize, bool, bool)>,
+    /// Platform haptic events: 1 jump, 2 fire, 3 impact, 4 death/explode,
+    /// 5 coin, 6 weapon pickup. This is intentionally separate from audio IDs.
+    haptic_queue: VecDeque<i32>,
     jump_was_active: bool,
     pub intro_scene: Option<callys_core::ir_scene::Scene>,
     pub intro_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
@@ -367,6 +370,7 @@ impl GameState {
             ir_saved_snapshot: None,
             sound_catalog,
             sound_queue: VecDeque::new(),
+            haptic_queue: VecDeque::new(),
             jump_was_active: false,
             intro_scene: None,
             intro_bundle: None,
@@ -533,6 +537,7 @@ impl GameState {
     }
 
     fn step_inner(&mut self, dt: f32) -> Result<(), String> {
+        let mut intro_haptics = Vec::new();
         if let (Some(bundle), Some(scene)) = (self.intro_bundle.as_deref(), self.intro_scene.as_mut()) {
             // Original obj_introduction Step taps mouse_check_button_pressed(mb_left);
             // Scene consumes mb_left via mouse_pressed. Any attack/jump/tap input is a tap.
@@ -554,6 +559,9 @@ impl GameState {
                 self.sound_queue.push_back((stopped_sound.max(0.0) as usize, false, true));
             }
             for command in scene.drain_audio() {
+                if let Some(haptic) = Self::haptic_for_sound(command.sound) {
+                    intro_haptics.push(haptic);
+                }
                 self.sound_queue.push_back((command.sound.max(0) as usize, command.looping, false));
             }
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
@@ -565,8 +573,10 @@ impl GameState {
                 self.enable_ir_gameplay(bundle).map_err(|e| format!("intro gameplay initialization: {e}"))?;
             }
         }
+        self.haptic_queue.extend(intro_haptics);
 
         // Full IR scene gameplay loop
+        let mut gameplay_haptics = Vec::new();
         if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
             let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
 
@@ -620,6 +630,9 @@ impl GameState {
                 self.sound_queue.push_back((stopped_sound.max(0.0) as usize, false, true));
             }
             for command in scene.drain_audio() {
+                if let Some(haptic) = Self::haptic_for_sound(command.sound) {
+                    gameplay_haptics.push(haptic);
+                }
                 self.sound_queue.push_back((command.sound.max(0) as usize, command.looping, false));
             }
 
@@ -638,6 +651,7 @@ impl GameState {
 
             self.frame_count = self.frame_count.wrapping_add(1);
             self.autosave_ir();
+            self.haptic_queue.extend(gameplay_haptics);
             return Ok(());
         }
         let progress_before = SaveData::from_world(&self.world);
@@ -729,12 +743,32 @@ impl GameState {
         Ok(())
     }
 
+    fn haptic_for_sound(sound: i32) -> Option<i32> {
+        match sound {
+            3 => Some(1),          // jump
+            10 | 11 => Some(2),    // pistol/shotgun fire
+            23 | 24 => Some(3),    // impact sounds
+            7 | 8 | 26 => Some(4),  // explosion/death
+            19 | 20 => Some(5),     // coin pickup
+            27 => Some(6),         // weapon pickup
+            _ => None,
+        }
+    }
+
     fn queue_sound(&mut self, event: SoundEvent) {
-        self.sound_queue.push_back((self.sound_catalog.audio_id(event), false, false));
+        let sound = self.sound_catalog.audio_id(event);
+        if let Some(haptic) = Self::haptic_for_sound(sound as i32) {
+            self.haptic_queue.push_back(haptic);
+        }
+        self.sound_queue.push_back((sound, false, false));
     }
 
     pub fn poll_sound(&mut self) -> Option<(usize, bool, bool)> {
         self.sound_queue.pop_front()
+    }
+
+    pub fn poll_haptic(&mut self) -> Option<i32> {
+        self.haptic_queue.pop_front()
     }
 }
 
@@ -792,6 +826,20 @@ mod tests {
         assert_eq!(state.poll_sound(), Some((11, false, false)));
         state.step(0.0);
         assert_eq!(state.poll_sound(), None);
+    }
+
+    #[test]
+    fn sound_events_queue_distinct_haptic_events() {
+        let mut state = GameState::new(&game_droid_path()).unwrap();
+        state.queue_sound(SoundEvent::Jump);
+        state.queue_sound(SoundEvent::Pistol);
+        state.queue_sound(SoundEvent::Coin);
+        state.queue_sound(SoundEvent::WeaponPickup);
+        assert_eq!(state.poll_haptic(), Some(1));
+        assert_eq!(state.poll_haptic(), Some(2));
+        assert_eq!(state.poll_haptic(), Some(5));
+        assert_eq!(state.poll_haptic(), Some(6));
+        assert_eq!(state.poll_haptic(), None);
     }
 
     #[test]
@@ -1783,6 +1831,19 @@ mod android_jni {
                     | if is_stop { 1 << 29 } else { 0 };
                 jint::try_from(packed).ok()
             })
+            .unwrap_or(-1)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePollHaptic(
+        _env: *mut JNIEnv,
+        _class: jobject,
+    ) -> jint {
+        slot()
+            .lock()
+            .unwrap()
+            .as_mut()
+            .and_then(|state| state.state.poll_haptic())
             .unwrap_or(-1)
     }
 
