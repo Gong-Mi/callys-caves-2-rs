@@ -1,6 +1,6 @@
-# rm_boss2 房间与 Boss2 初始化契约
+# rm_boss2 房间与 Boss2 行为契约
 
-基于 `assets/game.droid` 的原始 room/object 记录。
+基于 `assets/game.droid` 的原始 room/object/CODE 记录。
 
 ## 房间
 
@@ -30,15 +30,14 @@
 - `hpboss2=750`
 - `boss2maxhp=750`
 
-Boss2 的 alarm/Step 相位不在本批以房间装载后的数组值断言；它需要单独按 tick/Alarm 事件验证。
-
 ## Boss2 Alarm1
 
 真实执行 `gml_Object_obj_boss2_Alarm_1`（CODE 167）确认：
 
-- 当当前 room 不是原版资源 ID 110，且 `obj_slime` 数量同时满足原版门禁时，生成 3 个 `obj_slime` 攻击实体。
-- 三个新实体均由原版 Create 执行，并设置 `alarm[0]=30`。
-- `room==110` 是该段逻辑的跳过分支，不是 Boss2 房间的进入条件。
+- room index 27 下，满足原版 `obj_slime` 数量门禁时生成 3 个 `obj_slime` 攻击实体。
+- 三个实体均执行原版 Create，拥有 `alarm[0]=30`。
+- 原版 `damage=0.25` 是对新实体的数组/selector 0 写入，不是普通实例字段。
+- 原始代码包含 `room==110` 跳过分支；当前 asset 使用 room index 27，不能把资源 ID 110 与 room index 混同。
 
 ## 测试
 
@@ -50,5 +49,5 @@ Boss2 的 alarm/Step 相位不在本批以房间装载后的数组值断言；�
 
 ## 边界
 
-- 本批完成房间、门链和 Boss2 Create 字段，不声称 Boss2 移动、投射物、受伤、死亡掉落或 Boss2intro 已完成。
-- 真机/GPU 视觉层未验收。
+- 已验证房间、门链、Create 初值和 Alarm1 攻击实体生成。
+- Boss2 Step 的重力/巡逻、Alarm6 中毒、Alarm5 剑眩晕、Alarm0 死亡掉落、Boss2intro 和 Android 真机视觉仍未完成。
