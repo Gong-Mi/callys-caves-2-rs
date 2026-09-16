@@ -1,0 +1,88 @@
+{
+  "asset_sha256": "9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6",
+  "object_id": 0,
+  "object_name": "obj_player",
+  "bindings": [
+    {
+      "alarm": 2,
+      "code_id": 9,
+      "code_name": "gml_Object_obj_player_Alarm_2",
+      "bytecode_sha256": "8e6f66ddd13399168fbeae77b92484879079018fd45d46b3db020780c5b9f0f0",
+      "gml_sha256": "08e6dc8f3714b3be7e6318b173a52fb345a6ed0a4db10e25c227a4979027194b",
+      "gml": "global.swing = 1;\nsprite_index = spr_player;\n"
+    },
+    {
+      "alarm": 3,
+      "code_id": 8,
+      "code_name": "gml_Object_obj_player_Alarm_3",
+      "bytecode_sha256": "115ffdfd6011bd72d2bf6064f5f7fa4171ccf987a5e6a27712255906559e0b57",
+      "gml_sha256": "be6e534241953b8664c49c3761140f143cd8138253e248ac8817a50819ea1828",
+      "gml": "global.firing = 0;\nthrowingboomerang = 0;\n"
+    },
+    {
+      "alarm": 4,
+      "code_id": 7,
+      "code_name": "gml_Object_obj_player_Alarm_4",
+      "bytecode_sha256": "a575e8586ef97716aed4d6f3146ca22a6f776432ba7315030b2b3f9f6eab7438",
+      "gml_sha256": "46920ca91b64bf398b017e8df1a308becb7a317edbf22d2e619ded6b3f5e671f",
+      "gml": "sliding1 = 0;\nsliding2 = 0;\nhsp = 0;\n"
+    },
+    {
+      "alarm": 5,
+      "code_id": 6,
+      "code_name": "gml_Object_obj_player_Alarm_5",
+      "bytecode_sha256": "ccb58398d522b26ce7e837ff8355b4a324f452c56bb61a8b1b9b993e4a7b3493",
+      "gml_sha256": "eb771491a8ba09504ab4a46640cc6a40108ce0f4bc8bba893ae522d7dcb274af",
+      "gml": "playerdied = 0;\n"
+    },
+    {
+      "alarm": 6,
+      "code_id": 5,
+      "code_name": "gml_Object_obj_player_Alarm_6",
+      "bytecode_sha256": "d4802184d2c7f0dcdcc05dd9eed3bde025b2460516d189faab8c1009941d2cdf",
+      "gml_sha256": "32f4f9261ef3f24ed10c36db80965c2881625f744dc8675a3bd732034600bc40",
+      "gml": "global.roomstart = 0;\n"
+    },
+    {
+      "alarm": 7,
+      "code_id": 4,
+      "code_name": "gml_Object_obj_player_Alarm_7",
+      "bytecode_sha256": "88ae1d9bfd6f797cee293cfb7a84b56937ce168a0511a330bfb35ea7591da208",
+      "gml_sha256": "c667efcb4f3a9d0c5a7ae79bddb18394061a4c5a895d41976e421d11837baa75",
+      "gml": "sprite_index = spr_player;\n"
+    },
+    {
+      "alarm": 8,
+      "code_id": 3,
+      "code_name": "gml_Object_obj_player_Alarm_8",
+      "bytecode_sha256": "2c3681fd41f86f35c321cb83018f894b5f8371b5762fd1664b72582c7e7bbfcb",
+      "gml_sha256": "4630b762f6121d029a7b3770d530c1b8ac71918b12eba34335a33c4fbdaad186",
+      "gml": "invulnerable = 0;\ninvulnerable2 = 0;\n"
+    },
+    {
+      "alarm": 10,
+      "code_id": 2,
+      "code_name": "gml_Object_obj_player_Alarm_10",
+      "bytecode_sha256": "e3e41f0335fd720d77f8baf12185a3ac132b2d74b5c03e38bd201863964b243d",
+      "gml_sha256": "5e07e4318e04efc43f6e4c96a5665defcb1a5d7f0542765348738ec5097e1025",
+      "gml": "global.timeplayed += 1;\nalarm[10] = 30;\n"
+    },
+    {
+      "alarm": 11,
+      "code_id": 1,
+      "code_name": "gml_Object_obj_player_Alarm_11",
+      "bytecode_sha256": "50a2674e9ccdb5dab900eb8eb679ff5d1619d515f288bd26dda0b0e607432dee",
+      "gml_sha256": "6e74683e08ea136688c0f8332ef5ac3c291afcf81e647a0d86d789d339578be9",
+      "gml": "if (global.health1 != global.maxhp && global.healthregenbought == 1)\n{\n    global.health1 += 1;\n}\nalarm[11] = 300;\n"
+    }
+  ],
+  "not_restored_alarms": [
+    0,
+    1
+  ],
+  "absent_direct_alarms": [
+    9
+  ],
+  "rust_module": "crates/core/src/original_player.rs",
+  "scope": "Manual Rust translation of these nine complete callbacks only; no scheduler or legacy-world wiring"
+}
