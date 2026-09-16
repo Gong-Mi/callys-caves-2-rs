@@ -14,19 +14,16 @@ ANDROID_JAR="$SDK/platforms/android-$PLATFORM_API/android.jar"
 D8_JAR="$SDK/cmdline-tools/latest/lib/r8.jar"
 D8_BIN="$(command -v d8 || true)"
 JAVA=java
-KEYSTORE="${HOME}/.android/debug.keystore"
-KEY_PASS="android"
+KEYSTORE="${CALLY_KEYSTORE:-${HOME}/.config/callyscaves2/debug.keystore}"
+KEY_PASS="${CALLY_KEYPASS:-android}"
 
 cd "$ROOT"
 cargo build --release -p callys-client --features android
 
 if [ ! -f "$KEYSTORE" ]; then
-    mkdir -p "$(dirname "$KEYSTORE")"
-    keytool -genkey -v -keystore "$KEYSTORE" \
-        -alias androiddebugkey -storepass "$KEY_PASS" \
-        -keypass "$KEY_PASS" -keyalg RSA -keysize 2048 \
-        -validity 10000 \
-        -dname "CN=Android Debug,O=Android,C=US" 2>&1 | tail -2
+    echo "ERROR: fixed signing keystore is missing: $KEYSTORE" >&2
+    echo "Create/provision it explicitly or set CALLY_KEYSTORE; refusing to generate a new signing identity." >&2
+    exit 1
 fi
 
 cd "$BUILD"
