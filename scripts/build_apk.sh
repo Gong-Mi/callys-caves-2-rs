@@ -12,6 +12,7 @@ SDK="${ANDROID_SDK:-/data/data/com.termux/files/home/android-sdk}"
 PLATFORM_API=36
 ANDROID_JAR="$SDK/platforms/android-$PLATFORM_API/android.jar"
 D8_JAR="$SDK/cmdline-tools/latest/lib/r8.jar"
+D8_BIN="$(command -v d8 || true)"
 JAVA=java
 KEYSTORE="${HOME}/.android/debug.keystore"
 KEY_PASS="android"
@@ -49,10 +50,20 @@ javac --release 17 -cp "$ANDROID_JAR" -d classes \
     src/com/gongmi/callyscaves2/MainActivity.java src/com/gongmi/callyscaves2/PointerReleaseQueue.java
 
 # 4. d8 -> classes.dex
-java -Xmx2G -cp "$D8_JAR" com.android.tools.r8.D8 \
-    --lib "$ANDROID_JAR" --release --output . \
-    --min-api 24 \
-    $(find classes -name "*.class")
+if [ -n "$D8_BIN" ]; then
+    "$D8_BIN" \
+        --lib "$ANDROID_JAR" --release --output . \
+        --min-api 24 \
+        $(find classes -name "*.class")
+elif [ -f "$D8_JAR" ]; then
+    java -Xmx2G -cp "$D8_JAR" com.android.tools.r8.D8 \
+        --lib "$ANDROID_JAR" --release --output . \
+        --min-api 24 \
+        $(find classes -name "*.class")
+else
+    echo "ERROR: neither d8 executable nor $D8_JAR exists" >&2
+    exit 1
+fi
 
 # 4b. strip the Termux RUNPATH out of libcallys_client.so so the
 # Android dynamic linker can find libdl/liblog/libc without needing

@@ -22,6 +22,7 @@ obj_wall(4)×232、obj_wall_2(5)×224、obj_boulder(6)×187、obj_platform(7)×1
 
 obj_wall(4)×176、obj_wall_2(5)×308、obj_boulder(6)×165、obj_hulkingbandit(21)×3、obj_enemy2(22)×5、obj_bat(31)×1、obj_slime(32)×2、obj_coin(58)×13；UI/背景/门为系统实例。
 
+本房无 treasurechest。
 ## room45 卡司（asset 42，运行时实测）
 
 obj_wall(4)×130、obj_wall_2(5)×151、obj_boulder(6)×251、obj_platform(7)×1、obj_knifebandit(15)×1、obj_enemy2(22)×3、obj_bat(31)×3、obj_slime(32)×1、obj_fireslime(33)×2、obj_coin(58)×10；UI/背景/门为系统实例。
