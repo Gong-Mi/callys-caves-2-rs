@@ -11,7 +11,7 @@
 - room38（asset room 35）门卡（进入后实测）：CODE 874（1984,448）→ asset room 36，落点 (160,204)；CODE 875（64,416）→ 返程 room37，落点 (512,172)。房体未进本批。
 - 六张门卡字节码均含 `unlocked=1`。
 
-gml 房名与 asset 索引延续错位 1（gml room36 = asset 33）；`warproom` 值是 asset 索引直写。
+`warproom` 使用 asset room 索引；gml 房名编号 = asset 索引 + 3（见 room_bindings，第八段契约实测；旧版误记为错位 1）。
 
 ## room36 卡司（运行时实测，object id 对照 full_ir.json 对象表）
 

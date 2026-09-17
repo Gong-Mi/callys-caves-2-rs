@@ -12,7 +12,7 @@
 - room36（asset room 33，gml `room36`，2048x800）CODE 870（1984,672）→ room37（asset room 34，落点 128,1932，房体未进本批）；CODE 871（64,192）→ 返程 room35（1888,236）。
 - 八张门卡字节码均含 `unlocked=1`。
 
-注意：gml 房名与 asset 索引从本段起错位 1（gml room34 = asset 31）。CODE 865 的 `warproom=32` 是 asset 索引直写，非 gml 房名。
+`warproom` 使用 asset room 索引；gml 房名编号 = asset 索引 + 3（见 room_bindings，第八段契约实测；旧版误记为错位 1）。
 
 ## room34 卡司（运行时实测，object id 对照 full_ir.json 对象表）
 

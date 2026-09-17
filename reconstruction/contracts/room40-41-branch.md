@@ -12,7 +12,7 @@
 - room42 CODE 883（1984,1152）→ asset room 40，落点 (160,1164)。房体未进本批。
 - 六张门卡字节码均含 `unlocked=1`。
 
-`warproom` 使用 asset room 索引；gml 房名与 asset 索引错位 1。
+`warproom` 使用 asset room 索引；gml 房名编号 = asset 索引 + 3（见 room_bindings，第八段契约实测；旧版误记为错位 1）。
 
 ## room41 卡司（asset 38，运行时实测）
 

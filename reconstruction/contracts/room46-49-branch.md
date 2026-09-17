@@ -10,7 +10,7 @@
 - room49（asset 46，gml `room49`）CODE 896 → 返 asset room 45，落点 (1408,684)。CODE 897 → asset room 47，落点 (128,140)。房体未进本批。
 - 八张门卡（CODE 890-897）字节码均含 `unlocked=1`。
 
-`warproom` 使用 asset room 索引；gml 房名与 asset 索引错位 1（room46=asset43）。
+`warproom` 使用 asset room 索引；gml 房名编号 = asset 索引 + 3（见 room_bindings，第八段契约实测；旧版误记为错位 1）。
 
 ## room46 卡司（asset 43，运行时实测）
 

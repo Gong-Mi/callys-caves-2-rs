@@ -12,7 +12,7 @@
 - room45 CODE 889（64,512）→ asset room 43，落点 (576,204)。房体未进本批。
 - 六张门卡字节码均含 `unlocked=1`。
 
-`warproom` 使用 asset room 索引；gml 房名与 asset 索引错位 1。
+`warproom` 使用 asset room 索引；gml 房名编号 = asset 索引 + 3（见 room_bindings，第八段契约实测；旧版误记为错位 1）。
 
 ## room43 卡司（asset 40，运行时实测）
 
