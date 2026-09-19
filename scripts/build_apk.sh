@@ -6,26 +6,24 @@ set -euo pipefail
 #   - lib/arm64-v8a/libcallys_client.so (the Rust engine)
 #   - assets/* (textures + audio + JSON metadata)
 
-ROOT="/data/data/com.termux/files/home/callys-caves-2-rs"
+ROOT="${CALLY_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 BUILD="$ROOT/android-build"
 SDK="${ANDROID_SDK:-/data/data/com.termux/files/home/android-sdk}"
 PLATFORM_API=36
 ANDROID_JAR="$SDK/platforms/android-$PLATFORM_API/android.jar"
 D8_JAR="$SDK/cmdline-tools/latest/lib/r8.jar"
+D8_BIN="$(command -v d8 || true)"
 JAVA=java
-KEYSTORE="${HOME}/.android/debug.keystore"
-KEY_PASS="android"
+KEYSTORE="${CALLY_KEYSTORE:-${HOME}/.config/callyscaves2/debug.keystore}"
+KEY_PASS="${CALLY_KEYPASS:-android}"
 
 cd "$ROOT"
 cargo build --release -p callys-client --features android
 
 if [ ! -f "$KEYSTORE" ]; then
-    mkdir -p "$(dirname "$KEYSTORE")"
-    keytool -genkey -v -keystore "$KEYSTORE" \
-        -alias androiddebugkey -storepass "$KEY_PASS" \
-        -keypass "$KEY_PASS" -keyalg RSA -keysize 2048 \
-        -validity 10000 \
-        -dname "CN=Android Debug,O=Android,C=US" 2>&1 | tail -2
+    echo "ERROR: fixed signing keystore is missing: $KEYSTORE" >&2
+    echo "Create/provision it explicitly or set CALLY_KEYSTORE; refusing to generate a new signing identity." >&2
+    exit 1
 fi
 
 cd "$BUILD"
@@ -46,13 +44,23 @@ aapt2 link \
 # 3. compile Java -> class
 mkdir -p classes
 javac --release 17 -cp "$ANDROID_JAR" -d classes \
-    src/com/gongmi/callyscaves2/MainActivity.java
+    src/com/gongmi/callyscaves2/MainActivity.java src/com/gongmi/callyscaves2/PointerReleaseQueue.java
 
 # 4. d8 -> classes.dex
-java -Xmx2G -cp "$D8_JAR" com.android.tools.r8.D8 \
-    --lib "$ANDROID_JAR" --release --output . \
-    --min-api 24 \
-    $(find classes -name "*.class")
+if [ -n "$D8_BIN" ]; then
+    "$D8_BIN" \
+        --lib "$ANDROID_JAR" --release --output . \
+        --min-api 24 \
+        $(find classes -name "*.class")
+elif [ -f "$D8_JAR" ]; then
+    java -Xmx2G -cp "$D8_JAR" com.android.tools.r8.D8 \
+        --lib "$ANDROID_JAR" --release --output . \
+        --min-api 24 \
+        $(find classes -name "*.class")
+else
+    echo "ERROR: neither d8 executable nor $D8_JAR exists" >&2
+    exit 1
+fi
 
 # 4b. strip the Termux RUNPATH out of libcallys_client.so so the
 # Android dynamic linker can find libdl/liblog/libc without needing
@@ -70,19 +78,25 @@ if llvm-readelf -d "$SO_SRC" | grep -q RUNPATH; then
 fi
 
 # 5. inject dex + native lib + assets into base.apk
+export BUILD ROOT
 python3 - <<'PY'
 import zipfile, os
-apk = "/data/data/com.termux/files/home/callys-caves-2-rs/android-build/base.apk"
-build = "/data/data/com.termux/files/home/callys-caves-2-rs/android-build"
-target_so = "/data/data/com.termux/files/home/callys-caves-2-rs/target/release/libcallys_client.so"
-asset_root = "/data/data/com.termux/files/home/callys-caves-2-rs/assets"
+
+root = os.environ.get("ROOT", "/data/data/com.termux/files/usr/tmp/cally-code-reverse")
+build = os.environ.get("BUILD", os.path.join(root, "android-build"))
+apk = os.path.join(build, "base.apk")
+target_so = os.path.join(root, "target/release/libcallys_client.so")
+asset_root = os.path.join(root, "assets")
 
 with zipfile.ZipFile(apk, "a") as z:
     z.write(os.path.join(build, "classes.dex"), "classes.dex")
     z.write(target_so, "lib/arm64-v8a/libcallys_client.so")
-    for root, _, files in os.walk(asset_root):
+    full_ir = os.path.join(root, "crates/core/src/generated/full_ir.json")
+    if os.path.exists(full_ir):
+        z.write(full_ir, "assets/full_ir.json")
+    for r, _, files in os.walk(asset_root):
         for f in files:
-            full = os.path.join(root, f)
+            full = os.path.join(r, f)
             rel = os.path.relpath(full, asset_root)
             z.write(full, f"assets/{rel}")
 print("Injected dex, libcallys_client.so, and assets into base.apk")

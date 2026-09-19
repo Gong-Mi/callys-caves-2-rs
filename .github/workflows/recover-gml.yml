@@ -1,0 +1,86 @@
+name: Recover original GML
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/gml-recover/**'
+      - 'scripts/verify_gml.py'
+      - 'scripts/package_gml.py'
+      - 'scripts/package_player_combat.py'
+      - 'reconstruction/contracts/player-alarms.json'
+      - 'reconstruction/contracts/player-combat.json'
+      - 'reconstruction/contracts/player-initialization.json'
+      - 'scripts/player_initialization.py'
+      - 'scripts/test_reverse_player_initialization.py'
+      - 'scripts/package_startup.py'
+      - 'scripts/generate_player_startup.py'
+      - 'scripts/test_reverse_startup.py'
+      - 'reconstruction/contracts/startup.json'
+      - 'crates/core/src/original_player_startup.rs'
+      - 'scripts/patch_underanalyzer.py'
+      - '.github/workflows/recover-gml.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout pinned upstream decompiler
+        uses: actions/checkout@v4
+        with:
+          repository: UnderminersTeam/UndertaleModTool
+          ref: f43e12c445c37d50dc6244caa12ccab232983f3f
+          path: .upstream/umt
+          submodules: recursive
+      - name: Verify upstream identities
+        run: |
+          test "$(git -C .upstream/umt rev-parse HEAD)" = f43e12c445c37d50dc6244caa12ccab232983f3f
+          test "$(git -C .upstream/umt/Underanalyzer rev-parse HEAD)" = 4ff50a866b4c1a7acee8cebe6a56d6a48709b453
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Preserve legacy specialized reads in upstream source
+        run: python3 scripts/patch_underanalyzer.py .upstream/umt/Underanalyzer .upstream/patch-provenance.json
+      - name: Test upstream decompiler and specialized-read regressions
+        run: |
+          cp tools/gml-recover/tests/CallyScorePushTests.cs .upstream/umt/Underanalyzer/UnderanalyzerTest/
+          dotnet test .upstream/umt/Underanalyzer/UnderanalyzerTest/UnderanalyzerTest.csproj -c Release --logger trx --results-directory "$GITHUB_WORKSPACE/upstream-test-results"
+      - name: Build source-recovery adapter
+        run: dotnet build tools/gml-recover/Recover.csproj -c Release -p:UmtRoot="$GITHUB_WORKSPACE/.upstream/umt"
+      - name: Recover every CODE entry
+        run: dotnet tools/gml-recover/bin/Release/net10.0/Recover.dll assets/game.droid recovered-gml --roundtrip
+      - name: Preserve source adaptation provenance
+        if: always() && hashFiles('recovered-gml/summary.json') != ''
+        run: cp .upstream/patch-provenance.json recovered-gml/underanalyzer-patch.json
+      - name: Verify complete identities, hashes and original anchors
+        if: always() && hashFiles('recovered-gml/summary.json') != ''
+        run: python3 scripts/verify_gml.py assets/game.droid recovered-gml --require-roundtrip --require-exact-assembly
+      - name: Organize named source units and original owners
+        run: python3 scripts/package_gml.py assets/game.droid recovered-gml
+      - name: Reproduce combat methods and all direct Create bindings
+        run: |
+          python3 scripts/package_player_combat.py recovered-gml/restored-source --output combat-contract.json
+          cmp reconstruction/contracts/player-combat.json combat-contract.json
+          python3 scripts/player_initialization.py recovered-gml/restored-source --output initialization-contract.json
+          cmp reconstruction/contracts/player-initialization.json initialization-contract.json
+          python3 scripts/package_startup.py recovered-gml/restored-source --output startup-contract.json
+          cmp reconstruction/contracts/startup.json startup-contract.json
+          python3 scripts/generate_player_startup.py recovered-gml/restored-source/gml/0017__gml_Object_obj_player_Other_2.gml --output startup-generated.rs
+          cmp crates/core/src/original_player_startup.rs startup-generated.rs
+      - name: Upload upstream test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: upstream-decompiler-tests
+          path: upstream-test-results/
+          if-no-files-found: warn
+      - name: Upload recovered code and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovered-gml
+          path: recovered-gml/
+          if-no-files-found: warn
