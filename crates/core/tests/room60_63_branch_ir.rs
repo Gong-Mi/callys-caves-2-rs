@@ -1,6 +1,7 @@
 //! room60-63 (asset rooms 58-61) post-Boss3 branch chain, eleventh segment.
 //! gml names via room_bindings: asset58=room60, asset59=room61, asset60=room62,
-//! asset61=room63 (+3 offset, fifth confirmation). Door CODEs 920-927 verified
+//! asset61=room63 (offset +2; see room68-71-branch.md for the corrected rule).
+//! Door CODEs 920-927 verified
 //! at bytecode level; casts and landing pins probed live on this host first.
 use callys_asset::GameDroidAsset;
 use callys_core::code_vm::{load_bundle_from_file, Host};

@@ -1,6 +1,6 @@
 # room52-55（asset rooms 50-53）Boss3 后门链第九段契约
 
-基于 `assets/game.droid` 原始记录与运行时探针实测；gml 房名以 `room_bindings.room_name` 为准：asset50=room52、asset51=room53、asset52=room54、asset53=room55（偏移 +3 规律延续，本段无 boss 房插入）。
+基于 `assets/game.droid` 原始记录与运行时探针实测；gml 房名以 `room_bindings.room_name` 为准：asset50=room52、asset51=room53、asset52=room54、asset53=room55（偏移 +2——rm_boss3 打断后规律，见 room68-71-branch.md 更正；本段无 boss 房插入）。
 
 ## 门链
 

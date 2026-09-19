@@ -1,6 +1,6 @@
 # room64-67（asset rooms 62-66）后门链第十二段契约
 
-`room_bindings` 锚定 gml 房名 = asset 索引 + 3（asset62=room64 … asset66=room67），+3 偏移第六次全量验证；rm_boss4（asset64）房打断序列，与第八段 asset48=rm_boss3 同形态。门卡 CODE 928-937 逐条字节码核验（各 8 指令），十门全部 `unlocked=1` 在活实例字段断言。
+`room_bindings` 锚定 gml 房名（分段规律见 room68-71-branch.md 更正）：asset62=room64、asset63=room65 为 +2；rm_boss4（asset64）打断后 asset65=room66、asset66=room67 为 +1。rm_boss4 房打断序列与第八段 asset48=rm_boss3 同形态。门卡 CODE 928-937 逐条字节码核验（各 8 指令），十门全部 `unlocked=1` 在活实例字段断言。
 
 ## 门链（真实踩门贯通，双向返程逐站钉落点）
 

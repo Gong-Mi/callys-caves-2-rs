@@ -1,7 +1,8 @@
 //! room56-59 (asset rooms 54-57) post-Boss3 branch chain, tenth segment.
 //! gml names via room_bindings: asset54=room56, asset55=room57, asset56=room58,
-//! asset57=room59 (offset +3 verified). Every count and pin below was probed
-//! live on this host from the real bytecode before freezing.
+//! asset57=room59 (offset +2: name = asset + 3 minus the rm_boss3 interrupt;
+//! see room68-71-branch.md for the corrected rule). Every count and pin below
+//! was probed live on this host from the real bytecode before freezing.
 use callys_asset::GameDroidAsset;
 use callys_core::code_vm::{load_bundle_from_file, Host};
 use callys_core::ir_scene::{Scene, SpriteBounds};

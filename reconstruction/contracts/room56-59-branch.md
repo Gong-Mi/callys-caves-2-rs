@@ -1,6 +1,6 @@
 # room56-59（asset rooms 54-57）后门链第十段契约
 
-`room_bindings` 锚定 gml 房名 = asset 索引 + 3（asset54=room56 … asset57=room59），+3 偏移规律第四次全量验证。门卡 CODE 910-919 逐条字节码核验（各 8 指令），十门全部 `unlocked=1` 在活实例字段上断言（不只读 GML 文本）。
+`room_bindings` 锚定 gml 房名 = asset 索引 +2（asset54=room56 … asset57=room59；+3 基准在 rm_boss3/asset48 打断后降为 +2，规律全量核对见 room68-71-branch.md 更正）。门卡 CODE 910-919 逐条字节码核验（各 8 指令），十门全部 `unlocked=1` 在活实例字段上断言（不只读 GML 文本）。
 
 ## 门链（真实踩门贯通，双向）
 
