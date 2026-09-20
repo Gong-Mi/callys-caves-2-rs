@@ -79,6 +79,36 @@ public class MainActivity extends Activity {
     private volatile int jumpPulse, attackPulse, tapPulse;
     private int weapon = 0;
     private final PointerReleaseQueue pointerReleases = new PointerReleaseQueue();
+    private static final float LOGICAL_WIDTH = 960.0f;
+    private static final float LOGICAL_HEIGHT = 540.0f;
+
+    private int logicalButton(float x, float y) {
+        // These are the original GMS button hit boxes from CODE 522/525/530/533
+        // in the 960x540 view, not the old client quadrant overlay.
+        if (y >= 190.0f && y < 254.0f) {
+            if (x >= 0.0f && x < 86.0f) return 1;       // left (-10..86)
+            if (x >= 88.0f && x < 184.0f) return 2;      // right (88..184)
+            if (x >= 315.0f && x < 380.0f) return 4;     // shoot
+            if (x >= 380.0f && x < 445.0f) return 3;     // jump
+        }
+        return 0;
+    }
+
+    private void vibrateTouch(int button) {
+        Vibrator v = vibrator;
+        if (v == null || !v.hasVibrator() || button == 0) return;
+        long duration = button == 1 || button == 2 ? 8L : 12L;
+        int amplitude = button == 1 || button == 2 ? 70 : 110;
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(duration, amplitude));
+            } else {
+                v.vibrate(duration);
+            }
+        } catch (RuntimeException e) {
+            Log.w(TAG, "touch vibration failed", e);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +134,16 @@ public class MainActivity extends Activity {
             if (w <= 0 || hh <= 0) return true;
             moveLeft = moveRight = jump = attack = false;
             int action = ev.getActionMasked();
-            if (action == MotionEvent.ACTION_DOWN) {
-                // Original GameMaker mb_left: any tap counts (prologue skip).
-                tapPulse = 4;
-                pointerReleases.down(ev.getPointerId(ev.getActionIndex()));
+            if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
+                int index = ev.getActionIndex();
+                float logicalX = (ev.getX(index) - bounds.left) * LOGICAL_WIDTH / w;
+                float logicalY = (ev.getY(index) - bounds.top) * LOGICAL_HEIGHT / hh;
+                vibrateTouch(logicalButton(logicalX, logicalY));
+                if (action == MotionEvent.ACTION_DOWN) {
+                    // Original GameMaker mb_left: any tap counts (prologue skip).
+                    tapPulse = 4;
+                    pointerReleases.down(ev.getPointerId(index));
+                }
             }
             if (action == MotionEvent.ACTION_CANCEL) {
                 pointerReleases.cancel();
@@ -120,17 +156,14 @@ public class MainActivity extends Activity {
                     ? ev.getActionIndex() : -1;
             for (int i = 0; i < ev.getPointerCount(); i++) {
                 if (i == lifted) continue;
-                float x = ev.getX(i) - bounds.left;
-                float y = ev.getY(i) - bounds.top;
-                if (x < 0 || y < 0 || x >= w || y >= hh) continue;
-                if (y > hh * 0.55f) {
-                    if (x < w * 0.20f) moveLeft = true;
-                    else if (x < w * 0.40f) moveRight = true;
-                    else if (x > w * 0.80f) { attack = true; attackPulse = 4; }
-                    else if (x > w * 0.60f) { jump = true; jumpPulse = 4; }
-                } else if (y < hh * 0.20f) {
-                    switchWeapon = true;
-                }
+                float logicalX = (ev.getX(i) - bounds.left) * LOGICAL_WIDTH / w;
+                float logicalY = (ev.getY(i) - bounds.top) * LOGICAL_HEIGHT / hh;
+                int button = logicalButton(logicalX, logicalY);
+                if (button == 1) moveLeft = true;
+                else if (button == 2) moveRight = true;
+                else if (button == 3) jump = true;
+                else if (button == 4) { attack = true; attackPulse = 4; }
+                if (logicalY < 108.0f) switchWeapon = true;
             }
             if (ev.getActionMasked() == MotionEvent.ACTION_UP ||
                     ev.getActionMasked() == MotionEvent.ACTION_CANCEL) {
