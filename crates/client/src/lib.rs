@@ -1332,21 +1332,12 @@ pub fn draw_frame(
             fb.draw_text_str(x, y, &cmd.text, scale, color);
         }
 
-        // 4. Touch control overlay
-        let bottom = fb.height as i32 - 92;
-        if !draw_sprite(fb, state, 158, 0, (20, bottom, 80, 68), false) {
-            fb.draw_rect(24, bottom, 68, 68, (120, 180, 255, 170));
-        }
-        if !draw_sprite(fb, state, 159, 0, (110, bottom, 80, 68), false) {
-            fb.draw_rect(108, bottom, 68, 68, (120, 180, 255, 170));
-        }
-        let right_pad = fb.width as i32 - 100;
-        if !draw_sprite(fb, state, 160, 0, (right_pad - 90, bottom, 80, 68), false) {
-            fb.draw_rect(right_pad - 86, bottom, 68, 68, (255, 220, 80, 170));
-        }
-        if !draw_sprite(fb, state, 161, 0, (right_pad, bottom, 80, 68), false) {
-            fb.draw_rect(right_pad + 4, bottom, 68, 68, (255, 90, 80, 170));
-        }
+        // The IR scene already contains the original obj_UI button instances
+        // (left/right/jump/shoot/sword/pause) and draw_view has emitted their
+        // Draw events above. Do not add the legacy client overlay here: doing
+        // so renders a second, differently positioned control set over the
+        // original GameMaker controls. The legacy GameWorld branch below still
+        // owns its fallback overlay.
         return;
     }
 
