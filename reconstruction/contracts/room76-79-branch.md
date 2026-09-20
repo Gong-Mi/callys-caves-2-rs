@@ -24,6 +24,6 @@
 ## 边界
 
 - asset79（room80）房体未进本批（CODE 962/963 门卡待读，下段延续）。
-- **obj_laser(80) 拾取链未建契约**——`weapons3-pickup-chain.md` 边界明确列出剩余未建链武器：laser、bladegun、flamethrower、bombgun、boomerang；本段首次出现 laser 拾取，建议下一批与其配对（同 iceblock/woodblock 的配对先例）。
-- hulkingbandit(21)/firehulk(18) 行为契约仍欠；obj_flamethrower(77) 未建。
+- **obj_laser(80) 拾取链已由 `laser-pickup-chain.md` 与 `crates/core/tests/laser_pickup_ir.rs` 覆盖；obj_bladegun/obj_flamethrower/obj_bombgun/obj_boomerang 的拾取链已由后续 `weapons4-pickup-chain.md` 配对闭环。**
+- hulkingbandit(21)/firehulk(18) 行为契约仍欠；obj_flamethrower(77) 的拾取链已建，但火焰弹道仍欠。
 - 引擎统一包围盒碰撞近似（全批同口径）；真机/GPU 视觉层未验收。

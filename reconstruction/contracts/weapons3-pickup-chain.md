@@ -29,5 +29,5 @@
 ## 边界
 
 - 三武器开火行为（obj_rocket / obj_icebullet / obj_spikebullet 弹道族）不在本批；foundweapon 横幅冻结/解锁链由 weapon_acquisition_ir.rs 既有用例覆盖（同 CODE 404-408）。
-- 剩余未建链武器：laser、bladegun、flamethrower、bombgun、boomerang（弓已有 weapon-acquisition 契约段落）。
+- laser、bladegun、flamethrower、bombgun、boomerang 的拾取链已分别由 `laser-pickup-chain.md` 与 `weapons4-pickup-chain.md` 覆盖；弓已有 weapon-acquisition 契约段落。剩余工作是各武器弹道与升级分支。
 - 真机拾取音效/视觉未验收。

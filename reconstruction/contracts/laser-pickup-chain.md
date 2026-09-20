@@ -1,6 +1,6 @@
 # obj_laser (80) 激光枪拾取链契约
 
-基于 `full_ir.json` 字节码逐条对表（非命名推断）。obj_laser 与已验收的 shotgun/rifle/rocket/ice/spike 完全同构（两事件小对象），补齐 `weapons3-pickup-chain.md` 边界所列未建链武器名单中的 **laser**；剩余未建链：bladegun、flamethrower、bombgun、boomerang。
+基于 `full_ir.json` 字节码逐条对表（非命名推断）。obj_laser 与已验收的 shotgun/rifle/rocket/ice/spike 完全同构（两事件小对象），补齐 `weapons3-pickup-chain.md` 边界所列的 **laser**；其余四把未覆盖拾取链已由 `weapons4-pickup-chain.md` 补齐。
 
 ## 对象与 CODE
 
