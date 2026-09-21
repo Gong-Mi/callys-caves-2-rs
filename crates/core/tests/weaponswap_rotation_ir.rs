@@ -124,7 +124,11 @@ fn hud_release_arms_ladder_and_rotates_pistol_to_shotgun() {
     // by the SAME tick's motion pass (trace: 494 -> 488 at tick end).
     assert_eq!(n.fields["y"], py2 - 6.0, "spawn at player.y, minus one frame of -6 rise");
 
-    // Rotation must not fire without a release: draw-only ticks stay armed-free.
+    // Rotation must not fire without a release: a new frame with no input keeps
+    // the ladder unarmed. The frame boundary is explicit (Scene::end_frame): a
+    // device edge lives through the Draw pass of its own frame only, exactly as
+    // the runner refreshes the device state at the start of the next step.
+    s.end_frame();
     let _ = s.draw_view(&bundle, 0).unwrap();
     assert_eq!(s.instances[&swap].alarms[0], -1, "no release, no re-arm");
 }

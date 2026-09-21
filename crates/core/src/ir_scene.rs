@@ -829,12 +829,22 @@ impl Scene {
             }
         }
 
-        self.mouse_pressed=false;
+        Ok(())
+    }
+    /// Retires this frame's input edges (`mouse_pressed`, device `pressed`/
+    /// `released`). The original runner's frame is "platform input update ->
+    /// alarms / Step / collision -> Draw -> next frame": an edge stays visible
+    /// to every original event of the frame that saw the touch, Draw included.
+    /// The Draw-time button checks (obj_shootbutton/jumpbutton/swordbutton,
+    /// obj_lloydtutorial1..16, obj_weaponswap) read these edges, so the frame
+    /// boundary belongs to whoever also runs the draw pass: call this after
+    /// `draw_view`. `down` is physical state and is never retired here.
+    pub fn end_frame(&mut self) {
+        self.mouse_pressed = false;
         for d in &mut self.touch_devices {
             d.pressed = false;
             d.released = false;
         }
-        Ok(())
     }
     /// One explicit view pass. Camera positions must be supplied by caller.
     /// OBJT depth determines order; equal-depth creation-id order is provisional.

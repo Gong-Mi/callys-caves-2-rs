@@ -260,6 +260,19 @@ pub struct GameState {
     pub intro_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
     pub scene: Option<callys_core::ir_scene::Scene>,
     pub full_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
+    /// Previous frame's physical state of the four virtual devices, so
+    /// `pressed`/`released` stay single-frame edges (device_mouse_check_button_
+    /// pressed/_released semantics) even when a scene's own `mouse_clear` wipes
+    /// the device state mid-tick.
+    touch_prev: [bool; 4],
+    /// Latches the platform tap pulse to one frame: Java holds `tap` high for a
+    /// few frames, the original `mouse_check_button_pressed(mb_left)` lasts one.
+    tap_was_active: bool,
+    /// Primary-pointer release published by the platform this frame
+    /// (`nativePointerRelease`). The original runner's first touch is device 0,
+    /// so Draw-time `device_mouse_check_button_released(0, mb_left)` checks
+    /// (obj_lloydtutorial1..16, obj_weaponswap) answer to a real tap anywhere.
+    primary_release: Option<(f64, f64)>,
 }
 
 impl GameState {
@@ -376,6 +389,9 @@ impl GameState {
             intro_bundle: None,
             scene: None,
             full_bundle: None,
+            touch_prev: [false; 4],
+            tap_was_active: false,
+            primary_release: None,
         })
     }
 
@@ -486,6 +502,9 @@ impl GameState {
         }
         self.scene = Some(scene);
         self.full_bundle = Some(bundle);
+        // Fresh scene: no physical edge from the previous one may leak into it.
+        self.touch_prev = [false; 4];
+        self.primary_release = None;
         Ok(())
     }
 
@@ -509,12 +528,17 @@ impl GameState {
 
     /// Queue an actual release in the renderer's 960x540 logical viewport.
     /// Uses the last presented view origin, not a newly moved camera.
+    /// The release also lands on virtual device 0: the original runner's first
+    /// touch is device 0, so Draw-time `device_mouse_check_button_released(0,
+    /// mb_left)` checks (the Lloyd tutorial sheets, obj_weaponswap) see a real
+    /// tap anywhere rather than only the lower-left movement zone.
     pub fn pointer_released(&mut self, x: f64, y: f64) {
         if self.runtime_diagnostic.is_some() || !x.is_finite() || !y.is_finite()
             || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
             return;
         }
-        let scene = if self.intro_scene.is_some() {
+        let intro = self.intro_scene.is_some();
+        let scene = if intro {
             self.intro_scene.as_mut()
         } else {
             self.scene.as_mut()
@@ -522,6 +546,9 @@ impl GameState {
         if let Some(scene) = scene {
             let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
             scene.left_releases.push((vx + x, vy + y));
+            if !intro {
+                self.primary_release = Some((vx + x, vy + y));
+            }
         }
     }
 
@@ -548,6 +575,7 @@ impl GameState {
             // the prologue framebuffer stays pure black (draws never filled).
             scene.view_positions.entry(0).or_insert((0.0, 0.0));
             scene.draw_view(bundle, 0).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
+            scene.end_frame();
             // Audio commands carry the exact sound id the original bytecode
             // passed to audio_play_sound; drain them into the platform queue.
             // drain_audio also retires non-looping voices so the original
@@ -580,46 +608,57 @@ impl GameState {
         if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
             let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
 
-            // Feed virtual touches with room coordinates matching button instances in view 0
-            if self.input.move_left {
-                scene.touch_devices[0].x = cam_x + 30.0;
-                scene.touch_devices[0].y = cam_y + 220.0;
-                scene.touch_devices[0].down = true;
-                scene.touch_devices[0].pressed = true;
-            } else if scene.touch_devices[0].down {
-                scene.touch_devices[0].down = false;
-                scene.touch_devices[0].released = true;
-            }
+            // mb_left: the runner's global primary-pointer press. obj_foundweapon
+            // CODE 407 (the "You have found the ..." banner) and
+            // obj_weaponchange read `mouse_check_button_pressed(mb_left)` from a
+            // Step event, so this must be published before the tick, and both
+            // banner systems freeze the world until it arrives. Latched to one
+            // frame: Java holds its tap pulse for a few frames, the original edge
+            // lasts exactly one.
+            scene.mouse_pressed = self.input.tap && !self.tap_was_active;
 
-            if self.input.move_right {
-                scene.touch_devices[1].x = cam_x + 130.0;
-                scene.touch_devices[1].y = cam_y + 220.0;
-                scene.touch_devices[1].down = true;
-                scene.touch_devices[1].pressed = true;
-            } else if scene.touch_devices[1].down {
-                scene.touch_devices[1].down = false;
-                scene.touch_devices[1].released = true;
+            // Virtual devices. The original button objects test every one of the
+            // four devices against their own hit box in their Draw event, so the
+            // triple (position, down, pressed/released) is the whole input
+            // contract. Edges are single-frame: down -> pressed, up -> released.
+            let held = [
+                self.input.move_left,
+                self.input.move_right,
+                self.input.jump,
+                self.input.attack,
+            ];
+            let zones = [
+                (cam_x + 30.0, cam_y + 220.0),
+                (cam_x + 130.0, cam_y + 220.0),
+                (cam_x + 410.0, cam_y + 220.0),
+                (cam_x + 345.0, cam_y + 220.0),
+            ];
+            // A real primary-pointer release belongs to device 0 - the original
+            // runner's first touch - carrying its real logical coordinates, so
+            // the Lloyd tutorial sheets (obj_lloydtutorial1..16) and
+            // obj_weaponswap answer to a tap anywhere on the screen.
+            let primary_release = self.primary_release.take();
+            for (index, ((x, y), is_held)) in zones.iter().zip(held).enumerate() {
+                if index == 0 && primary_release.is_some() {
+                    let (px, py) = primary_release.unwrap();
+                    let device = &mut scene.touch_devices[0];
+                    device.x = px;
+                    device.y = py;
+                    device.down = false;
+                    device.pressed = false;
+                    device.released = true;
+                    self.touch_prev[0] = false;
+                    continue;
+                }
+                let device = &mut scene.touch_devices[index];
+                device.x = *x;
+                device.y = *y;
+                device.down = is_held;
+                device.pressed = is_held && !self.touch_prev[index];
+                device.released = !is_held && self.touch_prev[index];
+                self.touch_prev[index] = is_held;
             }
-
-            if self.input.jump {
-                scene.touch_devices[2].x = cam_x + 410.0;
-                scene.touch_devices[2].y = cam_y + 220.0;
-                scene.touch_devices[2].down = true;
-                scene.touch_devices[2].pressed = true;
-            } else if scene.touch_devices[2].down {
-                scene.touch_devices[2].down = false;
-                scene.touch_devices[2].released = true;
-            }
-
-            if self.input.attack {
-                scene.touch_devices[3].x = cam_x + 345.0;
-                scene.touch_devices[3].y = cam_y + 220.0;
-                scene.touch_devices[3].down = true;
-                scene.touch_devices[3].pressed = true;
-            } else if scene.touch_devices[3].down {
-                scene.touch_devices[3].down = false;
-                scene.touch_devices[3].released = true;
-            }
+            self.tap_was_active = self.input.tap;
 
             scene.tick(bundle).map_err(|e| format!("gameplay tick room {}: {e}", scene.current_room))?;
 
@@ -648,6 +687,9 @@ impl GameState {
             let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
             scene.view_positions.insert(0, (cam_x, cam_y));
             scene.draw_view(bundle, 0).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
+            // The frame's input edges were visible to this frame's Step, alarm,
+            // collision and Draw events; retire them only now (see end_frame).
+            scene.end_frame();
 
             self.frame_count = self.frame_count.wrapping_add(1);
             self.autosave_ir();
