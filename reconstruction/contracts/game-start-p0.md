@@ -72,3 +72,19 @@ selection stays for event dispatch paths.
   spawns the intro; draw_view fills draws; tap retires the intro in-scene).
 - `first_chapter_playthrough.rs`: `boot_like_android` mirrors the new
   nativeInit (one `enable_ir_gameplay`, no separate intro scene).
+- `prologue_natural_end.rs`: the prologue's full natural run — fast scroll
+  -2/frame (moving=1) → alarm[1] (~f29) slow scroll -1/frame (moving2=1) →
+  alarm[3] (~f68) parks the film → alarm[2] (~f69) spawns obj_logo →
+  alarm[0] (~f119) unlocks taplock → no timer death exists; only a real tap
+  retires the intro.
+
+## Prologue visual pipeline (asset truth)
+
+The "film" is obj_phone (136, sprite 161 — a SINGLE 208x320 frame per the
+SPRT record, not a 96-frame strip): CODE 555 pins its x to the scrolling
+xx1 per active view and CODE 547 draw_self renders it, so the intro motion
+is the xx scroll, not sprite animation. obj_logo (135, sprite 160) fades in
+via CODE 546 (logoalpha += 0.02 per Draw, drawn at x1). CODE 548's
+image_speed = 0.3 on obj_introduction is inert: sprite 161 has one frame
+and the engine never advances a 1-frame sprite (matches GMS). The old
+"96-frame film sprite" comment was wrong and is gone.

@@ -92,6 +92,26 @@ fn prologue_natural_timeline_unlocks_tap_and_only_a_tap_ends_it() {
         "after alarm[3] the film is parked (no scroll)"
     );
 
+    // Visual contract (CODE 555 view-0 branch + 547 draw_self): the phone
+    // (136, sprite 161) is drawn at x == xx1 — it IS the sliding film frame.
+    // Sprite 161 is genuinely a single 208x320 frame (asset truth), so
+    // image_speed=0.3 on the intro is inert — the motion is the xx scroll.
+    let xx = intro(&state).fields["xx1"];
+    let phone_draw = state.scene.as_ref().unwrap().draws.iter()
+        .find(|d| d.sprite == 161)
+        .expect("the phone film draw must be present");
+    assert_eq!(phone_draw.sprite, 161, "the film is sprite 161");
+    assert!((phone_draw.x - xx).abs() < f64::EPSILON,
+        "CODE 555 pins the phone draw to xx1 (view 0): draw.x={} vs xx1={}", phone_draw.x, xx);
+
+    // obj_logo (135, sprite 160) fade-in: CODE 546 accumulates logoalpha
+    // (+0.02 per Draw) and draws at x1 with the accumulating alpha.
+    let logo_draw = state.scene.as_ref().unwrap().draws.iter()
+        .find(|d| d.sprite == 160)
+        .expect("the logo draw must be present after alarm[2]");
+    assert!(logo_draw.alpha > 0.0 && logo_draw.alpha <= 1.0,
+        "logo fades in via logoalpha, got {}", logo_draw.alpha);
+
     // alarm[0] fires around frame 119: wait for taplock=1 (the film's end
     // state), then verify the intro STILL waits for input — no timer death
     // exists in CODE 554.
