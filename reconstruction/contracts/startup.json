@@ -178,12 +178,6 @@
       ]
     }
   ],
-  "runtime_verified": true,
-  "boundary": "complete literal Create dependency closure; no inferred inherited events, dynamic targets, startup scheduling or production platform implementation",
-  "runtime_verification": {
-    "host": "Scene (crates/core/src/ir_scene.rs) via enable_ir_gameplay; client tests crates/client/tests/game_start_p0.rs",
-    "code_17": "dispatched as real bytecode on a live player at boot; INI through the Scene ini_disk_dir boundary",
-    "prologue": "CODE 17 spawns obj_introduction into the full scene (CODE 548 deactivate-all); intro death (549) hands the same scene over",
-    "device": "NOT RUN: no real Android launch/save/visual evidence in this batch"
-  }
+  "runtime_verified": false,
+  "boundary": "complete literal Create dependency closure; no inferred inherited events, dynamic targets, startup scheduling or production platform implementation"
 }
