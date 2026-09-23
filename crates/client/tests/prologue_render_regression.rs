@@ -1,32 +1,38 @@
 use callys_client::{draw_frame, Framebuffer, GameState};
-use callys_core::code_vm::prologue_bundle;
-use callys_core::ir_scene::Scene;
+use callys_core::code_vm::load_bundle_from_file;
 use std::path::Path;
 use std::sync::Arc;
 
-/// Regression: the Android prologue must actually fill `intro_scene.draws`
+/// Regression: the Android prologue must actually fill `scene.draws`
 /// each step. Draw events (event_type 8) are dispatched only by an explicit
 /// `draw_view` pass — `tick` alone leaves `draws` empty and the prologue
 /// renders as a pure black screen on device.
+///
+/// The prologue now rides the FULL scene exactly like the original boot:
+/// enable_ir_gameplay runs Game Start (CODE 17) on a live player, and CODE 17
+/// itself spawns obj_introduction (137). While 137 is alive its Create has
+/// deactivated the room behind it and draw_frame renders the intro film.
 #[test]
 fn prologue_step_emits_draw_commands_and_renders_pixels() {
     let manifest_dir = env!("CARGO_MANIFEST_DIR");
     let asset_path = Path::new(manifest_dir).join("../../assets/game.droid");
     let mut state = GameState::new(&asset_path).expect("GameState new");
 
-    // Mirror android_jni nativeInit: prologue bundle + view 0 at origin.
-    let bundle = Arc::new(prologue_bundle());
-    let mut scene = Scene::default();
-    scene.view_positions.insert(0, (0.0, 0.0));
-    scene
-        .create(&bundle, 137, 0.0, 0.0)
-        .expect("prologue obj_introduction Create failed");
-    state.intro_bundle = Some(bundle);
-    state.intro_scene = Some(scene);
+    let full_ir_path = Path::new(manifest_dir).join("../../crates/core/src/generated/full_ir.json");
+    let full_bundle = Arc::new(load_bundle_from_file(&full_ir_path).expect("load full_ir"));
+    state
+        .enable_ir_gameplay(full_bundle)
+        .expect("enable_ir_gameplay with real Game Start");
+
+    // The intro was spawned by CODE 17 itself, inside the full scene.
+    assert!(
+        state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 137 && i.alive),
+        "Game Start must spawn obj_introduction into the full scene"
+    );
 
     state.step(1.0 / 60.0);
 
-    let draws = state.intro_scene.as_ref().unwrap().draws.len();
+    let draws = state.scene.as_ref().unwrap().draws.len();
     assert!(draws > 0, "prologue step must emit draw commands via draw_view, got {draws}");
 
     let mut fb = Framebuffer::new(960, 540);
@@ -46,28 +52,31 @@ fn prologue_tap_transitions_to_town_gameplay() {
 
     let full_ir_path = Path::new(manifest_dir).join("../../crates/core/src/generated/full_ir.json");
     let full_bundle = Arc::new(callys_core::code_vm::load_bundle_from_file(&full_ir_path).expect("load full_ir"));
-    state.full_bundle = Some(full_bundle);
+    state
+        .enable_ir_gameplay(full_bundle)
+        .expect("enable_ir_gameplay");
 
-    let bundle = Arc::new(prologue_bundle());
-    let mut scene = Scene::default();
-    scene.view_positions.insert(0, (0.0, 0.0));
-    scene
-        .create(&bundle, 137, 0.0, 0.0)
-        .expect("prologue obj_introduction Create failed");
-    state.intro_bundle = Some(bundle);
-    state.intro_scene = Some(scene);
+    fn intro_alive(state: &GameState) -> bool {
+        state
+            .scene
+            .as_ref()
+            .unwrap()
+            .instances
+            .values()
+            .any(|i| i.object == 137 && i.alive)
+    }
 
     // 1. Step 5 frames during prologue: taplock is still 0 (alarm[0] = 120)
     for _ in 0..5 {
         state.step(1.0 / 60.0);
     }
-    assert!(state.intro_scene.is_some(), "intro_scene is active");
+    assert!(intro_alive(&state), "the prologue intro is alive");
 
     // Tap while taplock == 0 does NOT skip
     state.input.tap = true;
     state.step(1.0 / 60.0);
     state.input.tap = false;
-    assert!(state.intro_scene.is_some(), "taplock == 0 prevents premature tap skip");
+    assert!(intro_alive(&state), "taplock == 0 prevents premature tap skip");
 
     // Step remaining 120 frames to trigger alarm[0] (taplock = 1)
     for _ in 0..120 {
@@ -79,18 +88,27 @@ fn prologue_tap_transitions_to_town_gameplay() {
     state.step(1.0 / 60.0);
     state.input.tap = false;
 
-    // Must transition to gameplay scene in rm_town
-    assert!(state.intro_scene.is_none(), "intro_scene must be cleared after tap");
-    assert!(state.scene.is_some(), "gameplay scene must be active");
+    // The intro dies inside the SAME scene: no separate intro scene ever
+    // existed, and the handover must not rebuild the room.
+    assert!(!intro_alive(&state), "the tap retires obj_introduction");
+    assert!(state.intro_scene.is_none(), "no separate intro scene exists");
     let scene = state.scene.as_ref().unwrap();
-    assert_eq!(scene.current_room, 0.0, "current_room must be rm_town (0)");
-    assert_eq!(scene.globals.get("roomstart").copied(), Some(1.0), "Room Start set roomstart=1");
+    assert_eq!(scene.current_room, 0.0, "the full scene has been in rm_town since boot");
+    // Game Start ran CODE 17: the cold start derives the damage ladder.
+    assert_eq!(
+        scene.globals.get("maxhp").copied(),
+        Some(4.0),
+        "CODE 17 cold start must set global.maxhp=4"
+    );
 
-    // Step 15 frames to clear roomstart lock (alarm[6] = 10)
-    for _ in 0..15 {
-        state.step(1.0 / 60.0);
-    }
-    assert_eq!(state.scene.as_ref().unwrap().globals.get("roomstart").copied(), Some(0.0), "roomstart cleared");
+    // Original town contract: obj_lloyd's proximity sets roomstart=1 and the
+    // tutorial dismissal chain clears it; CODE 16 sets it only in rm_ending
+    // (room 110). The player starts far from Lloyd, so it is still 0 here.
+    assert_eq!(
+        scene.globals.get("roomstart").copied(),
+        Some(0.0),
+        "town roomstart stays 0 until the original Lloyd proximity gate"
+    );
 
     // Player motion integration in town
     let initial_x = state.scene.as_ref().unwrap().instances.values()

@@ -16,6 +16,7 @@ fn ir_progress_survives_snapshot_cold_restart_and_continues() {
     // Session 1: town -> level1, collect a coin, buy nothing, then snapshot.
     let mut first = GameState::new(&root.join("../../assets/game.droid")).unwrap();
     first.enable_ir_gameplay(bundle.clone()).unwrap();
+    first.retire_prologue();
     let level1 = &asset.rooms[1];
     {
         let scene = first.scene.as_mut().unwrap();
@@ -64,6 +65,7 @@ fn ir_progress_survives_snapshot_cold_restart_and_continues() {
     // Session 2: cold GameState restores room, coin stays dead, multiplier live.
     let mut second = GameState::new(&root.join("../../assets/game.droid")).unwrap();
     second.enable_ir_gameplay(bundle.clone()).unwrap();
+    second.retire_prologue();
     {
         let scene = second.scene.as_mut().unwrap();
         scene.restore_snapshot(bundle.as_ref(), room, level1, &globals, score, &collected).unwrap();
@@ -92,6 +94,7 @@ fn persistent_state_autosaves_and_reloads_through_file() {
 
     let mut live = GameState::new_persistent(&droid).unwrap();
     live.enable_ir_gameplay(bundle.clone()).unwrap();
+    live.retire_prologue();
     {
         let scene = live.scene.as_mut().unwrap();
         scene.target_room_warp = Some(1);
@@ -110,6 +113,7 @@ fn persistent_state_autosaves_and_reloads_through_file() {
     // Cold restart: same file path, fresh GameState restores through nativeInit's code path.
     let mut cold = GameState::new_persistent(&droid).unwrap();
     cold.enable_ir_gameplay(bundle.clone()).unwrap();
+    cold.retire_prologue();
     let save = load_save(&path).unwrap().unwrap();
     cold.restore_ir_snapshot(&save).unwrap();
     let scene = cold.scene.as_ref().unwrap();

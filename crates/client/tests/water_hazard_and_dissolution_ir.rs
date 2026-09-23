@@ -10,6 +10,7 @@ fn water_hazard_dissolves_loot_and_triggers_player_death_controller() {
     let bundle = Arc::new(load_bundle_from_file(&manifest_dir.join("../core/src/generated/full_ir.json")).unwrap());
     let mut state = GameState::new(&manifest_dir.join("../../assets/game.droid")).unwrap();
     state.enable_ir_gameplay(bundle.clone()).unwrap();
+    state.retire_prologue();
 
     let scene = state.scene.as_mut().unwrap();
 

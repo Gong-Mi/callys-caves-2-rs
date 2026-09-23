@@ -15,6 +15,9 @@ fn walking_player_picks_original_level1_coins_with_sound_and_once_only() {
     let bundle = Arc::new(load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap());
     let mut state = GameState::new(&root.join("../../assets/game.droid")).unwrap();
     state.enable_ir_gameplay(bundle.clone()).unwrap();
+    // The real Game Start spawned the prologue and deactivated the room;
+    // retire it through CODE 549 so the player is active for Step ticks.
+    state.retire_prologue();
 
     // Original rm_level1 records (obj_coin 58), taken verbatim.
     let level1 = &asset.rooms[1];

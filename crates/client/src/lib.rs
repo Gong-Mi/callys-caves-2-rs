@@ -247,6 +247,11 @@ pub struct GameState {
     pub runtime_diagnostic: Option<String>,
     /// Last IR snapshot written to disk; dedupes autosave comparisons.
     ir_saved_snapshot: Option<SaveData>,
+    /// Boot-time IR snapshot held until the prologue hands over. The original
+    /// boot always plays the prologue over rm_town (CODE 17 spawns the intro);
+    /// restoring while the intro is alive would fight its deactivate-all and
+    /// re-run Create/Room Start under a half-active room.
+    pending_ir_restore: Option<SaveData>,
     pub sound_catalog: SoundCatalog,
     /// (sound id, looping, is_stop) — looping is the original bytecode's third
     /// audio_play_sound argument; is_stop marks audio_stop_sound/stop_all so
@@ -387,6 +392,7 @@ impl GameState {
             jump_was_active: false,
             intro_scene: None,
             intro_bundle: None,
+            pending_ir_restore: None,
             scene: None,
             full_bundle: None,
             touch_prev: [false; 4],
@@ -466,6 +472,49 @@ impl GameState {
         }
     }
 
+    /// Boot-time restore queueing (nativeInit and tests share this entry):
+    /// a v2 save with scene progress is held until the prologue handover.
+    /// Returns true when a restore was queued.
+    pub fn queue_boot_ir_restore(&mut self) -> bool {
+        let Some(save_path) = self.save_path.clone() else { return false };
+        match load_save(&save_path) {
+            Ok(Some(save)) if !save.scene_globals.is_empty() => {
+                self.pending_ir_restore = Some(save);
+                true
+            }
+            _ => false,
+        }
+    }
+
+    /// Test seam: queue an explicit snapshot for the prologue handover without
+    /// going through the save file.
+    pub fn queue_boot_ir_restore_with(&mut self, save: SaveData) -> bool {
+        if save.scene_globals.is_empty() {
+            return false;
+        }
+        self.pending_ir_restore = Some(save);
+        true
+    }
+
+    /// Test fixture: retires the prologue intro through its REAL Destroy event
+    /// (CODE 549 — the same code a device tap triggers): instance_activate_all,
+    /// global.health1=4, phone/logo cleanup. Scene-level tests that tick the
+    /// scene directly need this because the intro's Create has deactivated the
+    /// whole room, and the original event scheduler ignores inactive
+    /// instances. Full-frame tests should drive `state.step` + a tap instead.
+    pub fn retire_prologue(&mut self) {
+        let Some(bundle) = self.full_bundle.clone() else { return };
+        let intro = self.scene.as_ref().and_then(|s| {
+            s.instances.iter().find(|(_, i)| i.object == 137 && i.alive).map(|(&id, _)| id)
+        });
+        if let Some(id) = intro {
+            let _ = self.scene.as_mut().unwrap().destroy(bundle.as_ref(), id);
+        }
+        if let Some(scene) = self.scene.as_mut() {
+            scene.end_frame();
+        }
+    }
+
     pub fn enable_ir_gameplay(&mut self, mut bundle: std::sync::Arc<callys_core::code_vm::Bundle>) -> Result<(), String> {
         if bundle.string_table.is_empty() && !self.asset.string_table.is_empty() {
             let mut b = (*bundle).clone();
@@ -475,6 +524,13 @@ impl GameState {
         let mut scene = callys_core::ir_scene::Scene::default();
         scene.init_bundle(&bundle);
         scene.init_fresh_start_globals();
+        // Real INI boundary: the original CODE 17 reads savefile{,2,3}.ini from
+        // the game's files directory. Without a save path (tests) the INIs stay
+        // the in-memory cache.
+        scene.ini_disk_dir = self
+            .save_path
+            .as_deref()
+            .and_then(|p| p.parent().map(std::path::Path::to_path_buf));
         for (sid, sp) in &self.asset.sprites {
             scene.sprite_bounds.insert(
                 *sid as i32,
@@ -487,10 +543,42 @@ impl GameState {
                 },
             );
         }
-        let current_room = self.world.current_room_index;
+        // Original boot room: rm_town whenever a boot-time IR restore is
+        // queued (the prologue always plays over town; the saved room enters
+        // through the handover transition). Without one, keep the world's
+        // room (legacy v1 saves boot where the world path says).
+        let current_room = if self.pending_ir_restore.is_some() {
+            0
+        } else {
+            self.world.current_room_index
+        };
         if let Some(room_data) = self.asset.rooms.get(current_room) {
+            // Original boot order: the player instance is created first so the
+            // real Game Start (Event 7/2, CODE 17) runs on a live player self;
+            // load_room_from_data then skips the already-alive player. CODE 17
+            // reads the three INIs, derives every weapon damage ladder, and
+            // spawns obj_introduction itself — the prologue rides this scene.
+            if let Some(player) = room_data.objects.iter().find(|o| o.object_id == 0) {
+                scene.create_with_id(&bundle, player.instance_id, 0, player.x as f64, player.y as f64)?;
+            }
+            let player_id = scene
+                .instances
+                .iter()
+                .find(|(_, i)| i.object == 0 && i.alive)
+                .map(|(&id, _)| id);
+            if let Some(pid) = player_id {
+                let has_game_start = bundle.objects.iter().any(|o| {
+                    o.id == 0 && o.events.iter().any(|e| e.event_type == 7 && e.subtype == 2)
+                });
+                if has_game_start {
+                    scene.dispatch(&bundle, pid, 7, 2)
+                        .map_err(|e| format!("Game Start (CODE 17): {e}"))?;
+                }
+            }
             scene.load_room_from_data(&bundle, current_room, room_data)?;
-            // Dispatch Room Start (Event 7, Subtype 4)
+            // Room Start (Event 7, Subtype 4) reaches ACTIVE instances only:
+            // the original engine never processes deactivated instances, and
+            // at boot the intro's Create has deactivated everyone but itself.
             let initial_ids: Vec<i32> = scene.instances.iter()
                 .filter(|(_, i)| i.alive && i.active && !i.external)
                 .map(|(&id, _)| id)
@@ -515,11 +603,7 @@ impl GameState {
             || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
             return;
         }
-        let scene = if self.intro_scene.is_some() {
-            self.intro_scene.as_mut()
-        } else {
-            self.scene.as_mut()
-        };
+        let scene = self.scene.as_mut();
         if let Some(scene) = scene {
             let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
             scene.left_presses.push((vx + x, vy + y));
@@ -537,13 +621,14 @@ impl GameState {
             || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
             return;
         }
-        let intro = self.intro_scene.is_some();
-        let scene = if intro {
-            self.intro_scene.as_mut()
-        } else {
-            self.scene.as_mut()
-        };
-        if let Some(scene) = scene {
+        // During the prologue the release still lands on the intro (its Step
+        // taps the tap), but the gameplay device-0 edge stays latched off so
+        // the handover frame cannot see a phantom tap.
+        let intro = self
+            .scene
+            .as_ref()
+            .is_some_and(|s| s.instances.values().any(|i| i.object == 137 && i.alive));
+        if let Some(scene) = self.scene.as_mut() {
             let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
             scene.left_releases.push((vx + x, vy + y));
             if !intro {
@@ -564,44 +649,60 @@ impl GameState {
     }
 
     fn step_inner(&mut self, dt: f32) -> Result<(), String> {
-        let mut intro_haptics = Vec::new();
-        if let (Some(bundle), Some(scene)) = (self.intro_bundle.as_deref(), self.intro_scene.as_mut()) {
-            // Original obj_introduction Step taps mouse_check_button_pressed(mb_left);
-            // Scene consumes mb_left via mouse_pressed. Any attack/jump/tap input is a tap.
-            scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
-            scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
-            // Draw events (event_type 8) are dispatched only by an explicit
-            // view pass; tick runs Step/alarms/collision only. Without this
-            // the prologue framebuffer stays pure black (draws never filled).
-            scene.view_positions.entry(0).or_insert((0.0, 0.0));
-            scene.draw_view(bundle, 0).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
-            scene.end_frame();
-            // Audio commands carry the exact sound id the original bytecode
-            // passed to audio_play_sound; drain them into the platform queue.
-            // drain_audio also retires non-looping voices so the original
-            // audio_is_playing gates reopen (bare audio.drain would not).
-            // Stop commands precede plays: the original bytecode stops the old
-            // BGM before starting the new one; reversing this order would have
-            // MediaPlayer kill the freshly started track.
-            for stopped_sound in scene.take_stop_commands() {
-                self.sound_queue.push_back((stopped_sound.max(0.0) as usize, false, true));
-            }
-            for command in scene.drain_audio() {
-                if let Some(haptic) = Self::haptic_for_sound(command.sound) {
-                    intro_haptics.push(haptic);
-                }
-                self.sound_queue.push_back((command.sound.max(0) as usize, command.looping, false));
-            }
+        // Prologue phase: obj_introduction (137) lives inside the FULL scene —
+        // the original Game Start (CODE 17) spawns it there and its Create
+        // deactivates the room behind it. Same frame contract the old separate
+        // intro scene had: any attack/jump/tap input is the mb_left tap the
+        // intro's Step reads; draws go through an explicit view pass or the
+        // framebuffer stays black.
+        if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
             if intro_alive {
+                scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
+                scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
+                // Draw events (event_type 8) are dispatched only by an explicit
+                // view pass; tick runs Step/alarms/collision only.
+                scene.view_positions.insert(0, (0.0, 0.0));
+                scene.draw_view(bundle, 0).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
+                scene.end_frame();
+                // Stop commands precede plays: the original bytecode stops the old
+                // BGM before starting the new one; reversing this order would have
+                // MediaPlayer kill the freshly started track.
+                for stopped_sound in scene.take_stop_commands() {
+                    self.sound_queue.push_back((stopped_sound.max(0.0) as usize, false, true));
+                }
+                let mut prologue_haptics = Vec::new();
+                for command in scene.drain_audio() {
+                    if let Some(haptic) = Self::haptic_for_sound(command.sound) {
+                        prologue_haptics.push(haptic);
+                    }
+                    self.sound_queue.push_back((command.sound.max(0) as usize, command.looping, false));
+                }
+                let still_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
+                if still_alive {
+                    self.haptic_queue.extend(prologue_haptics);
+                    return Ok(());
+                }
+                // Handover: the intro's Destroy ran instance_activate_all, so the
+                // room continues in this same scene from the next frame. The tap
+                // that killed the intro must not leak into gameplay as a phantom
+                // device-0 release (the old re-enable path cleared these too).
+                self.primary_release = None;
+                self.touch_prev = [false; 4];
+                self.haptic_queue.extend(prologue_haptics);
+                // A boot-time IR snapshot restore waits for this handover: the
+                // original boot always plays the prologue over rm_town; the
+                // saved room loads only once the intro is gone.
+                if let Some(save) = self.pending_ir_restore.take() {
+                    self.restore_ir_snapshot(&save)
+                        .map_err(|e| format!("handover restore: {e}"))?;
+                }
                 return Ok(());
             }
-            self.intro_scene = None;
-            if let Some(bundle) = self.full_bundle.clone() {
-                self.enable_ir_gameplay(bundle).map_err(|e| format!("intro gameplay initialization: {e}"))?;
-            }
         }
-        self.haptic_queue.extend(intro_haptics);
+        // Note: pending_ir_restore is applied only on the intro handover above.
+        // If the bundle never loaded, nativeInit already dropped the queue, so
+        // a missing full_ir.json still falls through to the legacy world path.
 
         // Full IR scene gameplay loop
         let mut gameplay_haptics = Vec::new();
@@ -1218,29 +1319,33 @@ pub fn draw_frame(
     let scale_x = fb.width as f32 / 960.0;
     let scale_y = fb.height as f32 / 540.0;
 
-    // Prologue cutscene: render exactly what the original CODE Draw events
-    // emitted this tick (draw_self / draw_sprite_ext commands with CODE+offset
-    // provenance). Alpha-blended blit; no hand-placed coordinates here.
-    if let (Some(bundle), Some(scene)) = (state.intro_bundle.as_deref(), state.intro_scene.as_ref()) {
-        fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
-        let _ = bundle;
-        for cmd in &scene.draws {
-            let dst_x = (cmd.x as f32 * scale_x) as i32;
-            let dst_y = (cmd.y as f32 * scale_y) as i32;
-            let sprite = state.asset.sprites.get(&(cmd.sprite as usize));
-            let (w, h) = sprite.map(|s| (s.width, s.height)).unwrap_or((32, 32));
-            let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
-            let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-            let frame = cmd.frame.max(0.0) as usize;
-            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-            if alpha <= 0.0 {
-                continue;
+    // Prologue cutscene: while obj_introduction (137) is alive inside the full
+    // scene, render exactly what the original CODE Draw events emitted this
+    // tick. The intro's Create pinned view 0 to the room origin, so these draw
+    // commands project in screen space exactly like the old separate intro
+    // scene did. Alpha-blended blit; no hand-placed coordinates here.
+    if let Some(scene) = state.scene.as_ref() {
+        let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
+        if intro_alive {
+            fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
+            for cmd in &scene.draws {
+                let dst_x = (cmd.x as f32 * scale_x) as i32;
+                let dst_y = (cmd.y as f32 * scale_y) as i32;
+                let sprite = state.asset.sprites.get(&(cmd.sprite as usize));
+                let (w, h) = sprite.map(|s| (s.width, s.height)).unwrap_or((32, 32));
+                let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+                let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+                let frame = cmd.frame.max(0.0) as usize;
+                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 {
+                    continue;
+                }
+                if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
+                    fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
+                }
             }
-            if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
-                fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
-            }
+            return;
         }
-        return;
     }
 
     // Full IR gameplay scene: render room tiles, original draws, and camera follow
@@ -1664,66 +1769,41 @@ mod android_jni {
                 return;
             }
         };
-        // Boot the prologue from real compiled CODE: obj_introduction Create
-        // runs the original bytecode (deactivate-all, spawn phone, schedule
-        // alarms, queue mus_new4). Draw uses view 0 at the room origin.
-        {
-            let bundle = std::sync::Arc::new(callys_core::code_vm::prologue_bundle());
-            let mut scene = callys_core::ir_scene::Scene::default();
-            // CODE 548 (obj_introduction Create) runs image_speed = 0.3 on the
-            // 96-frame film sprite; the advance cycle needs the SPRT frame count.
-            for (sid, sp) in &st.asset.sprites {
-                scene.sprite_bounds.insert(
-                    *sid as i32,
-                    callys_core::ir_scene::SpriteBounds {
-                        width: sp.width as f64,
-                        height: sp.height as f64,
-                        origin_x: sp.origin_x as f64,
-                        origin_y: sp.origin_y as f64,
-                        frames: sp.tpag_indices.len().max(1) as f64,
-                    },
-                );
-            }
-            scene.view_positions.insert(0, (0.0, 0.0));
-            scene.create(&bundle, 137, 0.0, 0.0)
-                .expect("prologue obj_introduction Create failed");
-            st.intro_bundle = Some(bundle);
-            st.intro_scene = Some(scene);
-        }
+        // Boot the full IR scene from real compiled CODE. enable_ir_gameplay
+        // runs the original Game Start (CODE 17) on a live player: CODE 17
+        // reads the savefile INIs, derives the weapon damage ladders, and
+        // spawns obj_introduction itself. The prologue rides the full scene
+        // (its Create deactivates the room behind it) — exactly the original
+        // single-scene boot. No second enable_ir_gameplay at handover: the
+        // old double-init silently discarded a restored save scene.
         let full_ir = Path::new(&path).with_file_name("full_ir.json");
-        if full_ir.exists() {
-            match callys_core::code_vm::load_bundle_from_file(&full_ir) {
-                Ok(bundle) => {
-                    if let Err(error) = st.enable_ir_gameplay(std::sync::Arc::new(bundle)) {
-                        log(&format!("full IR gameplay init failed: {error}"));
-                    } else {
-                        log("full IR gameplay bundle loaded");
-                        // IR-path restore: same save file the legacy path uses.
-                        // Only a v2 file with scene progress restores here; a
-                        // legacy/v1 file still restores through the world path.
-                        if let Some(save_path) = st.save_path.clone() {
-                            match load_save(&save_path) {
-                                Ok(Some(save)) if !save.scene_globals.is_empty() => {
-                                    match st.restore_ir_snapshot(&save) {
-                                        Ok(()) => log(&format!(
-                                            "IR save restored: room={} score={} globals={} collected={}",
-                                            save.current_room, save.score as i64,
-                                            save.scene_globals.len(), save.collected_instance_ids.len())),
-                                        Err(error) => log(&format!("IR save restore failed: {error}")),
-                                    }
-                                }
-                                Ok(_) => log("no IR scene save to restore"),
-                                Err(error) => log(&format!("save load failed: {error}")),
-                            }
-                        }
+        if !full_ir.exists() {
+            log("full IR gameplay bundle missing; refusing silent handwritten fallback");
+        } else {
+        // Read the save BEFORE enable_ir_gameplay: a v2 scene save decides the
+        // boot room (town) and queues the handover restore.
+        let queued = st.queue_boot_ir_restore();
+        if queued {
+            log("IR save queued for prologue handover");
+        }
+        match callys_core::code_vm::load_bundle_from_file(&full_ir) {
+            Ok(bundle) => {
+                if let Err(error) = st.enable_ir_gameplay(std::sync::Arc::new(bundle)) {
+                    log(&format!("full IR gameplay init failed: {error}"));
+                    if queued {
+                        st.pending_ir_restore = None;
+                    }
+                } else {
+                    log("full IR gameplay bundle loaded");
+                    if !queued {
+                        log("no IR scene save to restore");
                     }
                 }
-                Err(error) => log(&format!("full IR bundle load failed: {error}")),
             }
-        } else {
-            log("full IR gameplay bundle missing; refusing silent handwritten fallback");
+            Err(error) => log(&format!("full IR bundle load failed: {error}")),
         }
-        match export_required_wavs(&st.asset, Path::new(&path)) {
+        }
+            match export_required_wavs(&st.asset, Path::new(&path)) {
             Ok(exported) => log(&format!("exported {} short sound effects", exported.len())),
             Err(error) => log(&format!("sound export failed: {error}")),
         }

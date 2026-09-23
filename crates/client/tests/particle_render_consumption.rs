@@ -15,6 +15,7 @@ fn hit_particles_rasterize_into_framebuffer() {
     let bundle_path = Path::new(manifest_dir).join("../../crates/core/src/generated/full_ir.json");
     let bundle = Arc::new(load_bundle_from_file(&bundle_path).expect("load full_ir"));
     state.enable_ir_gameplay(bundle.clone()).expect("enable IR gameplay");
+    state.retire_prologue();
 
     let s = state.scene.as_mut().unwrap();
 

@@ -7,6 +7,7 @@ fn assert_boundary(subtype: i32) {
     let mut state = GameState::new(&root.join("../../assets/game.droid")).unwrap();
     let bundle = load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap();
     state.enable_ir_gameplay(Arc::new(bundle)).unwrap();
+    state.retire_prologue();
     let mut bundle = state.full_bundle.as_ref().unwrap().as_ref().clone();
     let player = bundle.objects.iter_mut().find(|o| o.id == 0).unwrap();
     player.events.retain(|e| !(e.event_type == 7 && e.subtype == subtype));

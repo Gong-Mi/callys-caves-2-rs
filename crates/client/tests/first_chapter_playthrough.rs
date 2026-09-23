@@ -2,8 +2,9 @@
 //! -> Boss 1 -> the Mines door.
 //!
 //! Everything here goes through the public entry points the Android client
-//! itself uses: `GameState::new`, the prologue `obj_introduction` scene,
-//! `enable_ir_gameplay`, `step`, `pointer_released` and `draw_frame`. No
+//! itself uses: `GameState::new`, `enable_ir_gameplay` (which runs the real
+//! Game Start, CODE 17, and spawns the prologue `obj_introduction` into the
+//! full scene), `step`, `pointer_released` and `draw_frame`. No
 //! hand-written room walk: every hop is a real CODE 13 collision on the room's
 //! own `obj_warpanywhere` instance, consumed by the client's
 //! `target_room_warp` handoff, and every fight is fought with the original
@@ -32,29 +33,14 @@ const TREX: i32 = 25;
 const BOSSBOULDER: i32 = 3;
 
 /// Mirrors `Java_com_gongmi_callyscaves2_MainActivity_nativeInit`: parse the
-/// original data, boot the prologue from `obj_introduction` (137) Create, then
-/// load the full IR bundle for gameplay. The intro scene is what the device
-/// shows first; the gameplay scene only takes over once the intro dies.
+/// original data and load the full IR bundle; Game Start (CODE 17) runs on a
+/// live player and spawns `obj_introduction` (137) into the same scene. The
+/// intro is what the device shows first; gameplay continues in that one scene
+/// once the intro dies.
 fn boot_like_android() -> GameState {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     let asset_path = root.join("../../assets/game.droid");
     let mut state = GameState::new(&asset_path).expect("GameState::new");
-
-    let bundle = Arc::new(callys_core::code_vm::prologue_bundle());
-    let mut scene = Scene::default();
-    for (sid, sp) in &state.asset.sprites {
-        scene.sprite_bounds.insert(*sid as i32, SpriteBounds {
-            width: sp.width as f64,
-            height: sp.height as f64,
-            origin_x: sp.origin_x as f64,
-            origin_y: sp.origin_y as f64,
-            frames: sp.tpag_indices.len().max(1) as f64,
-        });
-    }
-    scene.view_positions.insert(0, (0.0, 0.0));
-    scene.create(&bundle, INTRO, 0.0, 0.0).expect("obj_introduction Create");
-    state.intro_bundle = Some(bundle);
-    state.intro_scene = Some(scene);
 
     let full_ir_path = root.join("../../crates/core/src/generated/full_ir.json");
     let full_bundle = Arc::new(load_bundle_from_file(&full_ir_path).expect("load full_ir"));
@@ -107,18 +93,29 @@ fn frames(state: &mut GameState, count: usize) {
 
 /// Skips the prologue exactly like a device tap does: `obj_introduction`
 /// alarm[0] = 120 gates the tap (`taplock`), so the wait has to happen first;
-/// the tap then destroys the intro and hands over to rm_town.
+/// the tap then destroys the intro and the same scene continues into rm_town.
 fn skip_prologue_into_town(state: &mut GameState) {
     for _ in 0..125 {
         state.step(1.0 / 60.0);
         assert!(state.runtime_diagnostic.is_none(), "{:?}", state.runtime_diagnostic);
     }
-    assert!(state.intro_scene.is_some(), "the untouched prologue outlives 120 frames");
+    let intro_alive = state
+        .scene
+        .as_ref()
+        .map(|s| s.instances.values().any(|i| i.object == INTRO && i.alive))
+        .unwrap_or(false);
+    assert!(intro_alive, "the untouched prologue outlives 120 frames");
     state.input.tap = true;
     state.step(1.0 / 60.0);
     state.input.tap = false;
     frames(state, 2);
-    assert!(state.intro_scene.is_none(), "a real tap retires the prologue scene");
+    let intro_alive = state
+        .scene
+        .as_ref()
+        .map(|s| s.instances.values().any(|i| i.object == INTRO && i.alive))
+        .unwrap_or(false);
+    assert!(!intro_alive, "a real tap retires the prologue intro");
+    assert!(state.intro_scene.is_none(), "no separate intro scene exists");
     assert_eq!(room(state), 0.0, "the prologue hands over to rm_town");
 }
 
@@ -209,24 +206,24 @@ fn the_prologue_hands_over_to_town_and_the_town_tutorial_dismisses_on_a_real_tap
     // obj_introduction (137): alarm[0] = 120 gates the tap, so a premature tap
     // must not skip the opening sequence.
     frames(&mut state, 5);
+    let intro_alive = |s: &GameState| {
+        s.scene.as_ref().unwrap().instances.values().any(|i| i.object == INTRO && i.alive)
+    };
     state.input.tap = true;
     state.step(1.0 / 60.0);
     state.input.tap = false;
-    assert!(state.intro_scene.is_some(), "taplock == 0 ignores a premature tap");
+    assert!(intro_alive(&state), "taplock == 0 ignores a premature tap");
 
     frames(&mut state, 120);
     assert!(rendered_pixels(&state) > 1000, "the prologue renders real pixels");
     skip_prologue_into_town(&mut state);
 
-    // Room Start (Event 7, Subtype 4) locks movement for 10 ticks in rm_town.
+    // roomstart in town follows the ORIGINAL gates, not Room Start: CODE 16
+    // raises it only in rm_ending (room 110); here obj_lloyd's proximity
+    // (CODE 675, distance < 100) raises it and the lloydtutorial1 Destroy
+    // clears it. The player spawns far from Lloyd, so it must still be 0.
     let roomstart = scene(&state).globals.get("roomstart").copied();
-    assert_eq!(roomstart, Some(1.0), "rm_town Room Start raises roomstart");
-    frames(&mut state, 15);
-    assert_eq!(
-        scene(&state).globals.get("roomstart").copied(),
-        Some(0.0),
-        "obj_player Alarm 6 releases the Room Start lock"
-    );
+    assert_eq!(roomstart, Some(0.0), "town roomstart waits for the Lloyd gate");
     assert!(rendered_pixels(&state) > 1000, "rm_town renders real pixels");
 
     // Walk into obj_lloyd (154): the proximity Step freezes the world and hands

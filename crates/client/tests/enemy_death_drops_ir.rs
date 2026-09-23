@@ -10,6 +10,8 @@ fn knifebandit_death_spawns_drops_and_player_collects_gem_coins_and_xp() {
     let bundle = Arc::new(load_bundle_from_file(&manifest_dir.join("../core/src/generated/full_ir.json")).unwrap());
     let mut state = GameState::new(&manifest_dir.join("../../assets/game.droid")).unwrap();
     state.enable_ir_gameplay(bundle.clone()).unwrap();
+    // Retire the Game Start's prologue (CODE 549) so the player is active.
+    state.retire_prologue();
 
     let scene = state.scene.as_mut().unwrap();
 

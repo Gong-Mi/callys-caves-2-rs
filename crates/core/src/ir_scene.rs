@@ -125,6 +125,11 @@ pub struct Scene {
     pub view_visible: [bool; 8],
     pub ini_open_file: Option<String>,
     pub ini_data: BTreeMap<(String, String, String), f64>,
+    /// Real-directory boundary for the original savefile INIs. When set,
+    /// `file_exists` checks the directory, `ini_open` loads the disk file into
+    /// `ini_data`, and `ini_close` flushes the open file back to disk. Without
+    /// it the INIs stay an in-memory cache (legacy test behavior).
+    pub ini_disk_dir: Option<std::path::PathBuf>,
     pub ds_maps: BTreeMap<i32, BTreeMap<String, f64>>,
     pub other_instance: Option<i32>,
     pub room_tiles: Vec<callys_asset::RoomTileInstance>,
@@ -160,6 +165,7 @@ impl Default for Scene {
             view_visible: [true, false, false, false, false, false, false, false],
             ini_open_file: None,
             ini_data: BTreeMap::new(),
+            ini_disk_dir: None,
             ds_maps: BTreeMap::new(),
             particle_systems: Vec::new(),
             particle_types: Vec::new(),
@@ -175,6 +181,16 @@ impl Default for Scene {
             persistent_objects: BTreeSet::new(),
             next_id: 0, next_ds_map_id: 1, site: (0, 0), depth: 0,
         }
+    }
+}
+/// Formats a GM real the way the original ini files store them: integers
+/// without a decimal point, everything else through Rust's shortest round-trip
+/// form. Parsing back with `str::parse::<f64>` restores the exact value.
+fn format_gm_real(value: f64) -> String {
+    if value == value.trunc() && value.abs() < 1e15 {
+        format!("{}", value as i64)
+    } else {
+        format!("{value}")
     }
 }
 fn next_rand(seed: &mut u64) -> f64 {
@@ -424,9 +440,31 @@ impl Scene {
         score: f64,
         collected: &[i32],
     ) -> Result<(), String> {
+        self.restore_snapshot_cross_room(b, room_id, room, globals, score, collected)
+    }
+
+    /// Cross-room variant of restore_snapshot: when the live scene sits in a
+    /// different room than the snapshot (original boot order: the prologue
+    /// always plays over rm_town, the saved room loads at handover), the
+    /// snapshot room is entered through the full transition (Room End on the
+    /// old room, transient purge, load, Room Start) instead of a same-room
+    /// re-materialization that would leak the old room's transient instances.
+    pub fn restore_snapshot_cross_room(
+        &mut self,
+        b: &Bundle,
+        room_id: usize,
+        room: &callys_asset::RoomData,
+        globals: &BTreeMap<String, f64>,
+        score: f64,
+        collected: &[i32],
+    ) -> Result<(), String> {
         self.globals.extend(globals.iter().map(|(k, v)| (k.clone(), *v)));
         self.score = score;
-        self.load_room_from_data(b, room_id, room)?;
+        if self.current_room != room_id as f64 {
+            self.transition_to_room(b, room_id, room)?;
+        } else {
+            self.load_room_from_data(b, room_id, room)?;
+        }
         self.instances.retain(|id, i| !(collected.contains(id) && i.alive && !i.external));
         Ok(())
     }
@@ -904,6 +942,30 @@ impl Scene {
             sprite:int(args[0])?,frame:args[1],x:args[2],y:args[3],scale_x:args[4],scale_y:args[5],
             rotation:args[6],color:int(args[7])?,alpha:args[8]}); Ok(())
     }
+    /// Strict selection with GM variable-access semantics: active instances
+    /// first (event semantics); when none match, alive-only matching — GM's
+    /// variable access reaches deactivated instances (a deactivated
+    /// obj_player still answers `obj_player.x`), only the event scheduler
+    /// ignores them.
+    fn select_for_access(&self, id: i32, s: i32) -> Vec<i32> {
+        if s < 0 {
+            return self.select(id, s).unwrap_or_default();
+        }
+        let strict = self.select(id, s).unwrap_or_default();
+        if !strict.is_empty() {
+            return strict;
+        }
+        self.instances.iter().filter(|(key, i)| {
+            if !i.alive { return false; }
+            if s >= 100000 {
+                **key == s
+            } else if i.object == s {
+                true
+            } else {
+                self.object_parents.get(&i.object).map_or(false, |c| c.contains(&s))
+            }
+        }).map(|(id, _)| *id).collect()
+    }
 }
 impl Host for Scene {
     fn instruction(&mut self,code:usize,offset:usize){self.site=(code,offset);self.executed.push(self.site);}
@@ -951,7 +1013,7 @@ impl Host for Scene {
         if s == -1 && n == "room_width" && index.is_none() { return Ok(self.room_width); }
         if s == -1 && n == "room_height" && index.is_none() { return Ok(self.room_height); }
         if s == -1 && n == "room" && index.is_none() { return Ok(self.current_room); }
-        let ids=self.select(id,s)?;
+        let ids=self.select_for_access(id,s);
         if ids.is_empty() {return Err(format!("read has no receiver for selector {s}"));}
         let target=ids[0];
         if let Some(idx)=index {
@@ -987,7 +1049,7 @@ impl Host for Scene {
             if n == "view_wport" { entry.0 = value; } else { entry.1 = value; }
             return Ok(());
         }
-        let ids=self.select(id,s)?;
+        let ids=self.select_for_access(id,s);
         if ids.is_empty(){return Err(format!("write has no receiver for selector {s}"));}
         for target in ids {
             let i=self.instances.get_mut(&target).ok_or("missing write target")?;
@@ -1271,22 +1333,58 @@ impl Host for Scene {
             "file_exists" => {
                 let s_idx = a[0] as usize;
                 let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
-                let exists = self.ini_data.keys().any(|(f, _, _)| f == &name);
+                let exists = if let Some(dir) = &self.ini_disk_dir {
+                    dir.join(&name).is_file()
+                } else {
+                    self.ini_data.keys().any(|(f, _, _)| f == &name)
+                };
                 Ok(if exists { 1.0 } else { 0.0 })
             },
             "file_delete" => {
                 let s_idx = a[0] as usize;
                 let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
-                self.ini_data.retain(|(f, _, _), _| f != &name);
+                if let Some(dir) = &self.ini_disk_dir {
+                    let _ = std::fs::remove_file(dir.join(&name));
+                }
+                self.ini_data.retain(|&(ref f, _, _), _| f != &name);
                 Ok(1.0)
             },
             "ini_open" => {
                 let s_idx = a[0] as usize;
                 let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
+                if let Some(dir) = &self.ini_disk_dir {
+                    // Re-open flushes nothing here: the original ini_open on an
+                    // already-open file abandons pending writes; a fresh load
+                    // from disk keeps this boundary honest. Cache entries for a
+                    // different open file stay untouched.
+                    self.ini_data.retain(|(f, _, _), _| f != &name);
+                    let path = dir.join(&name);
+                    if let Ok(text) = std::fs::read_to_string(&path) {
+                        for line in text.lines() {
+                            let line = line.trim();
+                            if !line.contains('=') { continue; }
+                            let (key, value) = line.split_once('=').unwrap();
+                            self.ini_data.insert((name.clone(), "Save".into(), key.trim().to_string()), value.trim().parse::<f64>().unwrap_or(0.0));
+                        }
+                    }
+                }
                 self.ini_open_file = Some(name);
                 Ok(0.0)
             }
             "ini_close" => {
+                if let (Some(dir), Some(name)) = (&self.ini_disk_dir, &self.ini_open_file.clone()) {
+                    // Only the currently open file flushes (original ini_close
+                    // writes that file); skip when nothing was written.
+                    let touched: Vec<_> = self.ini_data.iter().filter(|((f, _, _), _)| f == name).collect();
+                    if !touched.is_empty() {
+                        let mut lines = String::new();
+                        for ((_, _, key), value) in touched {
+                            lines.push_str(&format!("{key}={}\n", format_gm_real(*value)));
+                        }
+                        let _ = std::fs::create_dir_all(dir);
+                        let _ = std::fs::write(dir.join(name), lines);
+                    }
+                }
                 self.ini_open_file = None;
                 Ok(0.0)
             }

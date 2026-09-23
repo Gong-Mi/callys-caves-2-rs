@@ -14,6 +14,7 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
 
     // Enable pure data-driven IR gameplay
     state.enable_ir_gameplay(bundle.clone()).expect("enable IR gameplay");
+    state.retire_prologue();
     assert!(state.scene.is_some(), "IR scene must be active");
 
     let scene = state.scene.as_ref().unwrap();

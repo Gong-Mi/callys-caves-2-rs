@@ -9,6 +9,8 @@ fn death_release_unlocks_once_and_resumes_original_room() {
     let bundle = load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap();
     let death_object = bundle.objects.iter().find(|o| o.name == "obj_youhavedied").unwrap().id;
     state.enable_ir_gameplay(Arc::new(bundle)).unwrap();
+    // Retire the Game Start's prologue (CODE 549) so the player is active.
+    state.retire_prologue();
     state.scene.as_mut().unwrap().target_room_warp = Some(1);
     state.step(1.0 / 60.0);
     assert_eq!(state.runtime_diagnostic, None);

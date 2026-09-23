@@ -8,6 +8,7 @@ fn player_picks_gem_with_100_score_multiplier_and_sound() {
     let bundle = Arc::new(load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap());
     let mut state = GameState::new(&root.join("../../assets/game.droid")).unwrap();
     state.enable_ir_gameplay(bundle.clone()).unwrap();
+    state.retire_prologue();
 
     let scene = state.scene.as_mut().unwrap();
     // In rm_town, gem 100045 is at (480, 64) and gem 100044 is at (544, 64)
@@ -49,6 +50,7 @@ fn gem_physics_integrates_gravity_and_settles_on_par_wall() {
     let bundle = Arc::new(load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap());
     let mut state = GameState::new(&root.join("../../assets/game.droid")).unwrap();
     state.enable_ir_gameplay(bundle.clone()).unwrap();
+    state.retire_prologue();
 
     let scene = state.scene.as_mut().unwrap();
     // In rm_town, player is at x=416, y=494. Floor wall is at y=512.
@@ -92,6 +94,7 @@ fn falling_gem_into_standing_player_is_picked_up_dynamically() {
     let bundle = Arc::new(load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap());
     let mut state = GameState::new(&root.join("../../assets/game.droid")).unwrap();
     state.enable_ir_gameplay(bundle.clone()).unwrap();
+    state.retire_prologue();
 
     let scene = state.scene.as_mut().unwrap();
     let score_before = scene.score;

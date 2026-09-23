@@ -15,6 +15,28 @@ fn sound_queue_carries_loop_flag_for_bgm_routing() {
     let bundle = Arc::new(load_bundle_from_file(&bundle_path).expect("load full_ir"));
     state.enable_ir_gameplay(bundle).expect("enable IR gameplay");
 
+    // Real Game Start (CODE 17) spawns the prologue into this scene and its
+    // Create queues mus_new4 (SOND 31, one-shot) — the original boot's first
+    // sound. Drain the intro-phase frame first, then drive the BGM seam on a
+    // post-intro gameplay frame (the intro dies on a tap after alarm[0]=120).
+    state.step(1.0 / 60.0);
+    assert_eq!(
+        state.poll_sound(),
+        Some((31, false, false)),
+        "the prologue film's mus_new4 is the boot's first queued sound"
+    );
+    assert_eq!(state.poll_sound(), None);
+
+    // Skip the intro exactly like a device tap (alarm[0]=120 gate).
+    for _ in 0..125 {
+        state.step(1.0 / 60.0);
+    }
+    state.input.tap = true;
+    state.step(1.0 / 60.0);
+    state.input.tap = false;
+    state.step(1.0 / 60.0);
+    while state.poll_sound().is_some() {}
+
     // Original bytecode semantics: mus_townmusic (SOND id 32) plays looping.
     state.scene.as_mut().unwrap().call_audio_play(32.0, 0.0, true);
     // A one-shot sfx (snd_coin, SOND id 19) must stay non-looping.
