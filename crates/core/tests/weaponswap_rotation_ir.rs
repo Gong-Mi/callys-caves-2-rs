@@ -9,7 +9,7 @@
 //! (105) at the player. Everything below is bytecode-driven; the only test
 //! touch is a synthetic device release.
 use callys_asset::GameDroidAsset;
-use callys_core::code_vm::load_bundle_from_file;
+use callys_core::code_vm::{load_bundle_from_file, STRING_REF_BASE};
 use callys_core::ir_scene::{Scene, SpriteBounds};
 use std::path::Path;
 
@@ -105,8 +105,10 @@ fn hud_release_arms_ladder_and_rotates_pistol_to_shotgun() {
     // EVERY swap; CODE 462 labels it with the weapon selected at that moment.
     // Swap #1 (no alternates owned) labeled Pistol; swap #2 must have labeled
     // Shotgun — check the newest float, and keep the historic one honest.
-    let pistol_id = bundle.string_table.iter().position(|st| st == "Pistol").unwrap() as f64;
-    let shotgun_id = bundle.string_table.iter().position(|st| st == "Shotgun").unwrap() as f64;
+    // The label field stores a pooled string reference: STRING_REF_BASE + the
+    // literal's string-table index (pool index 0 is table entry 0).
+    let pistol_id = STRING_REF_BASE + bundle.string_table.iter().position(|st| st == "Pistol").unwrap() as f64;
+    let shotgun_id = STRING_REF_BASE + bundle.string_table.iter().position(|st| st == "Shotgun").unwrap() as f64;
     let labels: Vec<(i32, f64)> = s.instances.iter()
         .filter(|(_, i)| i.object == 105 && i.alive)
         .map(|(id, i)| (*id, i.fields["damage"]))
@@ -165,6 +167,6 @@ fn ladder_follows_purchase_order_from_shotgun_to_assaultrifle() {
         .filter(|(_, i)| i.object == 105 && i.alive)
         .map(|(_, i)| i.fields["damage"])
         .collect();
-    let pistol_id = bundle.string_table.iter().position(|st| st == "Pistol").unwrap() as f64;
+    let pistol_id = STRING_REF_BASE + bundle.string_table.iter().position(|st| st == "Pistol").unwrap() as f64;
     assert!(names.contains(&pistol_id), "latest label reads Pistol ({names:?})");
 }

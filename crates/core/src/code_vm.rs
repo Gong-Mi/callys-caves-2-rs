@@ -65,6 +65,12 @@ pub trait Host {
     fn write(&mut self, instance: i32, selector: i32, name: &str, index: Option<i32>, value: f64) -> Result<(), String>;
     fn call(&mut self, bundle: &Bundle, instance: i32, name: &str, args: &[f64]) -> Result<f64, String>;
     fn select(&self, instance: i32, selector: i32) -> Result<Vec<i32>, String>;
+    /// GMS `+` concatenates when an operand is a string. The VM delegates here
+    /// once either operand carries a pooled string reference (>= STRING_REF_BASE);
+    /// hosts without strings keep the numeric default.
+    fn string_concat(&mut self, _bundle: &Bundle, _lhs: f64, _rhs: f64) -> Result<f64, String> {
+        Err("string concatenation is unsupported by this host".into())
+    }
     fn instruction(&mut self, _code: usize, _offset: usize) {}
 }
 pub fn prologue_bundle() -> Bundle { serde_json::from_str(include_str!("generated/prologue_ir.json")).expect("generated IR schema") }
@@ -73,6 +79,15 @@ fn integer(v: f64) -> Result<i32, String> {
     else { Err(format!("unsupported non-i32 selector/index {v}")) }
 }
 fn pop(stack: &mut Vec<f64>) -> Result<f64, String> { stack.pop().ok_or("stack underflow".into()) }
+
+/// GMS 1.4 values are variants: a string is a reference, not a number. The
+/// numeric IR keeps that type on the value itself, so it survives loads,
+/// stores and snapshots — a pooled string reference is always >= this base and
+/// indexes the pool (the bundle's string table first, the host's runtime
+/// entries after it). Gameplay numbers (positions, hp, score, asset ids) never
+/// approach 2^40, so string references and numbers cannot collide the way raw
+/// table indices did with the score/damage values `draw_text` receives.
+pub const STRING_REF_BASE: f64 = 1_099_511_627_776.0;
 
 /// Runtime is numeric-only. Every event gets an empty stack and a bounded budget.
 /// Unsupported code never falls back to the legacy handwritten state machines.
@@ -110,7 +125,7 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
             budget -= 1; pc += 1;
             match &i.op {
                 Op::Constant{value} => stack.push(*value),
-                Op::String{string_id} => stack.push(*string_id as f64),
+                Op::String{string_id} => stack.push(STRING_REF_BASE + *string_id as f64),
                 Op::Load{name,selector,array,other} => {
                     let (s, index) = if *array {
                         let idx=integer(pop(&mut stack)?)?;
@@ -160,12 +175,17 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                 }
                 Op::Add|Op::Sub|Op::Mul|Op::Div|Op::Cmp{..} => {
                     let rhs=pop(&mut stack)?; let lhs=pop(&mut stack)?;
-                    let v=match i.op {
+                    let v=if matches!(i.op, Op::Add) && (lhs >= STRING_REF_BASE || rhs >= STRING_REF_BASE) {
+                        // GMS joins strings with `+`; the shipped concat sites
+                        // pair a literal with string(...). The host owns the
+                        // string pool, so it resolves and stores the result.
+                        host.string_concat(bundle, lhs, rhs)?
+                    } else { match i.op {
                         Op::Add=>lhs+rhs, Op::Sub=>lhs-rhs, Op::Mul=>lhs*rhs,
                         Op::Div=>{ if rhs==0.0 {return Err("division by zero".into());} lhs/rhs }
                         Op::Cmp{comparison} => { let b=match comparison {1=>lhs<rhs,2=>lhs<=rhs,3=>lhs==rhs,4=>lhs!=rhs,5=>lhs>=rhs,6=>lhs>rhs,_=>return Err("unsupported comparison".into())}; if b {1.0} else {0.0} },
                         _=>unreachable!(),
-                    }; stack.push(v);
+                    } }; stack.push(v);
                 }
                 Op::Not => { let v=pop(&mut stack)?; stack.push(if v>=0.5 {0.0} else {1.0}); }
                 Op::Dup => { let v=pop(&mut stack)?; stack.push(v); stack.push(v); }

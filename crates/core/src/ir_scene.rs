@@ -1,7 +1,7 @@
 //! Headless event host for a bounded IR scene, NOT GameWorld or a full GM runner.
 //! Event bodies come exclusively from CODE IR/OBJT bindings. No intro timers or
 //! coordinates are hand-translated here. External instances are explicitly inert.
-use crate::code_vm::{self, Bundle, Host};
+use crate::code_vm::{self, Bundle, Host, STRING_REF_BASE};
 use serde::Serialize;
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -133,6 +133,10 @@ pub struct Scene {
     pub ds_maps: BTreeMap<i32, BTreeMap<String, f64>>,
     pub other_instance: Option<i32>,
     pub room_tiles: Vec<callys_asset::RoomTileInstance>,
+    /// Runtime-built strings (`string()`, `string_format()`, `string_digits()`,
+    /// concatenations). They live after the bundle's string table inside the
+    /// pooled reference space: index = STRING_REF_BASE + table.len() + position.
+    pub dynamic_strings: Vec<String>,
     pub particle_systems: Vec<f64>,
     pub particle_types: Vec<(f64, ParticleType)>,
     pub particles: Vec<Particle>,
@@ -177,6 +181,7 @@ impl Default for Scene {
             next_voice_id: 1.0,
             other_instance: None,
             room_tiles: Vec::new(),
+            dynamic_strings: Vec::new(),
             target_room_warp: None,
             persistent_objects: BTreeSet::new(),
             next_id: 0, next_ds_map_id: 1, site: (0, 0), depth: 0,
@@ -196,6 +201,29 @@ fn format_gm_real(value: f64) -> String {
 fn next_rand(seed: &mut u64) -> f64 {
     *seed = seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
     ((*seed >> 11) as f64) / ((1u64 << 53) as f64)
+}
+/// Index carried by a pooled string reference, or None when the value is a
+/// plain number. The reference space starts at `STRING_REF_BASE`, far above
+/// every gameplay number, so the two can never be confused.
+fn pool_index(v: f64) -> Option<usize> {
+    if !v.is_finite() || v < STRING_REF_BASE { return None; }
+    let offset = v - STRING_REF_BASE;
+    if offset.fract() != 0.0 { return None; }
+    Some(offset as usize)
+}
+/// GMS 1.4 number rendering, shared by `string()` and draw_text's implicit
+/// coercion: whole numbers print without a decimal point, fractional values
+/// with two decimals. (The original `string(1/3)` is "0.33".)
+pub(crate) fn gm_real_text(v: f64) -> String {
+    if !v.is_finite() { return "0".into(); }
+    if v.fract() == 0.0 && v.abs() < 9.0e15 { format!("{}", v as i64) } else { format!("{v:.2}") }
+}
+/// `string_format`'s `tot` field: left-pad to the requested width.
+fn pad_left(text: &str, tot: usize) -> String {
+    if text.len() >= tot { return text.to_string(); }
+    let mut out = "0".repeat(tot - text.len());
+    out.push_str(text);
+    out
 }
 /// Seeded inclusive range draw; single LCG advance like every other builtin.
 fn rand_range(seed: &mut u64, min: f64, max: f64) -> f64 {
@@ -942,6 +970,23 @@ impl Scene {
             sprite:int(args[0])?,frame:args[1],x:args[2],y:args[3],scale_x:args[4],scale_y:args[5],
             rotation:args[6],color:int(args[7])?,alpha:args[8]}); Ok(())
     }
+    /// Text behind a pooled string reference: the bundle's string table first,
+    /// then this scene's runtime entries (`string()`/`string_format()` results).
+    fn pool_text(&self, b: &Bundle, v: f64) -> Option<String> {
+        let idx = pool_index(v)?;
+        if idx < b.string_table.len() { return b.string_table.get(idx).cloned(); }
+        self.dynamic_strings.get(idx - b.string_table.len()).cloned()
+    }
+    /// Store a runtime-built string and hand back a fresh reference.
+    fn alloc_string(&mut self, b: &Bundle, text: String) -> f64 {
+        self.dynamic_strings.push(text);
+        STRING_REF_BASE + (b.string_table.len() + self.dynamic_strings.len() - 1) as f64
+    }
+    /// A string argument as text: pooled references resolve, plain numbers
+    /// render the way GMS renders them (`string()` / implicit coercion).
+    fn arg_text(&self, b: &Bundle, v: f64) -> String {
+        self.pool_text(b, v).unwrap_or_else(|| gm_real_text(v))
+    }
     /// Strict selection with GM variable-access semantics: active instances
     /// first (event semantics); when none match, alive-only matching — GM's
     /// variable access reaches deactivated instances (a deactivated
@@ -969,6 +1014,14 @@ impl Scene {
 }
 impl Host for Scene {
     fn instruction(&mut self,code:usize,offset:usize){self.site=(code,offset);self.executed.push(self.site);}
+    /// GMS `+` with a string operand. The shipped sites pair a literal with a
+    /// `string()` result ("+" + string(global.coinpickup)); both sides resolve
+    /// through the pool and the joined text becomes a fresh reference so the
+    /// consumer (draw_text) still sees one string value.
+    fn string_concat(&mut self, b: &Bundle, lhs: f64, rhs: f64) -> Result<f64, String> {
+        let text = format!("{}{}", self.arg_text(b, lhs), self.arg_text(b, rhs));
+        Ok(self.alloc_string(b, text))
+    }
     fn select(&self,id:i32,s:i32)->Result<Vec<i32>,String> {
         if s == -1 {return Ok(vec![id]);}
         if s == -2 {
@@ -1278,7 +1331,12 @@ impl Host for Scene {
             }
             "display_get_width" => Ok(self.display_width),
             "display_get_height" => Ok(self.display_height),
-            "string" => Ok(a[0]),
+            "string" => {
+                // GMS string(x): a string reference stays itself (str1 flows
+                // through string() into the death screen); a number formats.
+                if pool_index(a[0]).is_some() { return Ok(a[0]); }
+                Ok(self.alloc_string(b, gm_real_text(a[0])))
+            }
             "choose" => {
                 if a.is_empty() { return Ok(0.0); }
                 let r = next_rand(&mut self.rng_seed);
@@ -1300,8 +1358,7 @@ impl Host for Scene {
             "draw_set_color" => { self.draw_color = int(a[0])?; Ok(0.0) }
             "draw_text" => {
                 let x = a[0]; let y = a[1];
-                let s_idx = a[2] as usize;
-                let text = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[2]));
+                let text = self.arg_text(b, a[2]);
                 self.texts.push(TextCommand {
                     code: self.site.0, offset: self.site.1, instance: id, view: self.view,
                     x, y, text, color: self.draw_color, alpha: self.draw_alpha,
@@ -1331,8 +1388,7 @@ impl Host for Scene {
             },
             "device_mouse_dbclick_enable" => Ok(0.0), // touch device has no double-tap zoom
             "file_exists" => {
-                let s_idx = a[0] as usize;
-                let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
+                let name = self.arg_text(b, a[0]);
                 let exists = if let Some(dir) = &self.ini_disk_dir {
                     dir.join(&name).is_file()
                 } else {
@@ -1341,8 +1397,7 @@ impl Host for Scene {
                 Ok(if exists { 1.0 } else { 0.0 })
             },
             "file_delete" => {
-                let s_idx = a[0] as usize;
-                let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
+                let name = self.arg_text(b, a[0]);
                 if let Some(dir) = &self.ini_disk_dir {
                     let _ = std::fs::remove_file(dir.join(&name));
                 }
@@ -1350,8 +1405,7 @@ impl Host for Scene {
                 Ok(1.0)
             },
             "ini_open" => {
-                let s_idx = a[0] as usize;
-                let name = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
+                let name = self.arg_text(b, a[0]);
                 if let Some(dir) = &self.ini_disk_dir {
                     // Re-open flushes nothing here: the original ini_open on an
                     // already-open file abandons pending writes; a fresh load
@@ -1389,21 +1443,17 @@ impl Host for Scene {
                 Ok(0.0)
             }
             "ini_read_real" => {
-                let sec_idx = a[0] as usize;
-                let key_idx = a[1] as usize;
                 let def_val = a[2];
-                let sec = b.string_table.get(sec_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
-                let key = b.string_table.get(key_idx).cloned().unwrap_or_else(|| format!("{}", a[1]));
+                let sec = self.arg_text(b, a[0]);
+                let key = self.arg_text(b, a[1]);
                 let file = self.ini_open_file.clone().unwrap_or_default();
                 let val = self.ini_data.get(&(file, sec, key)).copied().unwrap_or(def_val);
                 Ok(val)
             }
             "ini_write_real" => {
-                let sec_idx = a[0] as usize;
-                let key_idx = a[1] as usize;
                 let val = a[2];
-                let sec = b.string_table.get(sec_idx).cloned().unwrap_or_else(|| format!("{}", a[0]));
-                let key = b.string_table.get(key_idx).cloned().unwrap_or_else(|| format!("{}", a[1]));
+                let sec = self.arg_text(b, a[0]);
+                let key = self.arg_text(b, a[1]);
                 let file = self.ini_open_file.clone().unwrap_or_default();
                 self.ini_data.insert((file, sec, key), val);
                 Ok(0.0)
@@ -1484,8 +1534,7 @@ impl Host for Scene {
             "draw_set_alpha" => { self.draw_alpha = a[0]; Ok(0.0) }
             "draw_text_color" => {
                 let x = a[0]; let y = a[1];
-                let s_idx = a[2] as usize;
-                let text = b.string_table.get(s_idx).cloned().unwrap_or_else(|| format!("{}", a[2]));
+                let text = self.arg_text(b, a[2]);
                 let color = int(a[3])?;
                 let alpha = a[7];
                 self.texts.push(TextCommand {
@@ -1555,7 +1604,7 @@ impl Host for Scene {
             "ds_map_replace" => {
                 if a.len() >= 3 {
                     let mid = int(a[0])?;
-                    let key = b.string_table.get(a[1] as usize).cloned().unwrap_or_else(|| format!("{}", a[1]));
+                    let key = self.arg_text(b, a[1]);
                     let val = a[2];
                     self.ds_maps.entry(mid).or_default().insert(key, val);
                 }
@@ -1564,7 +1613,7 @@ impl Host for Scene {
             "ds_map_find_value" => {
                 if a.len() >= 2 {
                     let mid = int(a[0])?;
-                    let key = b.string_table.get(a[1] as usize).cloned().unwrap_or_else(|| format!("{}", a[1]));
+                    let key = self.arg_text(b, a[1]);
                     let val = self.ds_maps.get(&mid).and_then(|m| m.get(&key)).copied().unwrap_or(0.0);
                     Ok(val)
                 } else {
@@ -1714,7 +1763,24 @@ impl Host for Scene {
                 let r = next_rand(&mut self.rng_seed);
                 Ok(r * a[0])
             }
-            "string_format" | "string_digits" => Ok(a[0]),
+            "string_format" => {
+                // GMS string_format(val, tot, dec): `dec` decimals, padded to
+                // `tot` places. The shipped call site renders a 2-digit coin
+                // deduction with dec=0, where the pad branch never engages.
+                let tot = int(a.get(1).copied().unwrap_or(0.0))?.max(0) as usize;
+                let dec = int(a.get(2).copied().unwrap_or(0.0))?.max(0) as usize;
+                let text = if pool_index(a[0]).is_some() {
+                    self.arg_text(b, a[0])
+                } else {
+                    format!("{:.*}", dec, a[0])
+                };
+                Ok(self.alloc_string(b, pad_left(&text, tot)))
+            }
+            "string_digits" => {
+                // GMS strips everything that is not a digit.
+                let text: String = self.arg_text(b, a[0]).chars().filter(|c| c.is_ascii_digit()).collect();
+                Ok(self.alloc_string(b, text))
+            }
             "action_bounce" | "move_bounce_solid" | "move_bounce_all" => {
                 if let Some(i) = self.instances.get_mut(&id) {
                     if let Some(h) = i.fields.get_mut("hspeed") { *h = -*h; }
