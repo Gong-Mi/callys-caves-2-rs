@@ -1582,7 +1582,13 @@ pub fn draw_frame(
             // The intro's Create pinned view 0 to the room origin, so these
             // commands project with no camera offset.
 
-            // 1. Backgrounds (obj_bg's draw_background / draw_background_ext)
+            // 1. Backgrounds (obj_bg's draw_background / draw_background_ext).
+            // GM8.1's draw_background TILES the image across the view from the
+            // command position (the original boot frame's ocean spans the full
+            // window while one bg_town tile is 480x320 logical — single-blit
+            // pinned only ~30% of the frame; the tile-NCC probe against the
+            // original screenshot pins the tiled semantics, NOT RUN on device
+            // until this batch).
             for bg_cmd in &scene.backgrounds {
                 let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
                 if alpha <= 0.0 {
@@ -1596,13 +1602,23 @@ pub fn draw_frame(
                             let dst_y = (bg_cmd.y as f32 * scale_y) as i32;
                             let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                             let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                            fb.blit_scaled_alpha(
-                                atlas,
-                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                                (dst_x, dst_y, dst_w, dst_h),
-                                false,
-                                alpha,
-                            );
+                            let mut ty = dst_y;
+                            while ty < fb.height as i32 {
+                                let mut tx = dst_x;
+                                while tx < fb.width as i32 {
+                                    fb.blit_scaled_alpha(
+                                        atlas,
+                                        (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                                        (tx, ty, dst_w, dst_h),
+                                        false,
+                                        alpha,
+                                    );
+                                    if dst_w == 0 { break; }
+                                    tx += dst_w as i32;
+                                }
+                                if dst_h == 0 { break; }
+                                ty += dst_h as i32;
+                            }
                         }
                     }
                 }
@@ -1688,7 +1704,10 @@ pub fn draw_frame(
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
-        // 0. Render Room Backgrounds emitted by obj_bg or scene
+        // 0. Render Room Backgrounds emitted by obj_bg or scene.
+        // GM8.1 draw_background tiles across the view from the command position
+        // (same evidence as the prologue branch: the original frames span the
+        // full window, one tile is 480x320 logical).
         for bg_cmd in &scene.backgrounds {
             let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
             if alpha <= 0.0 {
@@ -1704,13 +1723,23 @@ pub fn draw_frame(
                         let dst_y = (world_y as f32 * scale_y) as i32;
                         let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                         let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                        fb.blit_scaled_alpha(
-                            atlas,
-                            (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                            (dst_x, dst_y, dst_w, dst_h),
-                            false,
-                            alpha,
-                        );
+                        let mut ty = dst_y;
+                        while ty < fb.height as i32 {
+                            let mut tx = dst_x;
+                            while tx < fb.width as i32 {
+                                fb.blit_scaled_alpha(
+                                    atlas,
+                                    (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                                    (tx, ty, dst_w, dst_h),
+                                    false,
+                                    alpha,
+                                );
+                                if dst_w == 0 { break; }
+                                tx += dst_w as i32;
+                            }
+                            if dst_h == 0 { break; }
+                            ty += dst_h as i32;
+                        }
                     }
                 }
             }
