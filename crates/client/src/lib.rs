@@ -1567,12 +1567,48 @@ pub fn draw_frame(
     // tick. The intro's Create pinned view 0 to the room origin, so these draw
     // commands project in screen space exactly like the old separate intro
     // scene did. Alpha-blended blit; no hand-placed coordinates here.
+    //
+    // Layers consumed (probe enumeration on the natural prologue run):
+    //   1. `scene.backgrounds` — obj_bg CODE 364 emits `draw_background(bg=5)`
+    //      (the sea/cliff backdrop); without this the prologue loses its sky.
+    //   2. `scene.draws`       — obj_phone draw_self of spr_intro (161) and the
+    //      obj_logo crossfade of spr_logo (160).
+    //   3. `scene.texts`       — CODE 370 score strings + CODE 520 pause label
+    //      drawn through the original FONT chunk atlases.
     if let Some(scene) = state.scene.as_ref() {
         let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
         if intro_alive {
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
             // The intro's Create pinned view 0 to the room origin, so these
             // commands project with no camera offset.
+
+            // 1. Backgrounds (obj_bg's draw_background / draw_background_ext)
+            for bg_cmd in &scene.backgrounds {
+                let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 {
+                    continue;
+                }
+                let bg_id = bg_cmd.background.max(0) as usize;
+                if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
+                    if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
+                        if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
+                            let dst_x = (bg_cmd.x as f32 * scale_x) as i32;
+                            let dst_y = (bg_cmd.y as f32 * scale_y) as i32;
+                            let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+                            let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+                            fb.blit_scaled_alpha(
+                                atlas,
+                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                                (dst_x, dst_y, dst_w, dst_h),
+                                false,
+                                alpha,
+                            );
+                        }
+                    }
+                }
+            }
+
+            // 2. Film sprite draws (obj_phone draw_self / obj_logo crossfade)
             for cmd in &scene.draws {
                 if !draw_ir_sprite(fb, state, cmd, (0.0, 0.0), (scale_x, scale_y)) {
                     let dst_x = (cmd.x as f32 * scale_x) as i32;
@@ -1581,6 +1617,65 @@ pub fn draw_frame(
                     if alpha > 0.0 {
                         fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
                     }
+                }
+            }
+
+            // 3. HUD text draws (CODE 370 score strings, CODE 520 pause label):
+            // consumed through the FONT-chunk atlases exactly like the gameplay
+            // branch so the batched font_consumption evidence holds for the
+            // prologue too.
+            for cmd in &scene.texts {
+                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 || cmd.text.is_empty() {
+                    continue;
+                }
+                let x = (cmd.x as f32 * scale_x) as i32;
+                let y = (cmd.y as f32 * scale_y) as i32;
+                let (r, g, b) = if cmd.color < 0 {
+                    (255, 255, 255)
+                } else {
+                    (
+                        (cmd.color & 0xFF) as u8,
+                        ((cmd.color >> 8) & 0xFF) as u8,
+                        ((cmd.color >> 16) & 0xFF) as u8,
+                    )
+                };
+                let font_disk_index = match cmd.font {
+                    0 => Some(0),
+                    1 => Some(2),
+                    2 => Some(3),
+                    3 => Some(1),
+                    4 => Some(4),
+                    5 => Some(5),
+                    _ => None,
+                };
+                let gm_font = font_disk_index
+                    .and_then(|idx| state.asset.fonts.get(idx))
+                    .and_then(|font| {
+                        let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
+                        let atlas = state.atlases.get(page.tex_id as usize)?;
+                        Some((atlas, (page.x as u32, page.y as u32), font))
+                    });
+                if let Some((atlas, page, font)) = gm_font {
+                    let scale = scale_x.min(scale_y);
+                    let space_shift = font
+                        .glyphs
+                        .iter()
+                        .find(|g| g.ch == b' ' as u16)
+                        .map(|g| g.shift)
+                        .unwrap_or(7);
+                    fb.draw_text_gm(
+                        atlas,
+                        page,
+                        &font.glyphs,
+                        space_shift,
+                        x,
+                        y,
+                        &cmd.text,
+                        scale,
+                        (r, g, b),
+                        alpha,
+                    );
                 }
             }
             return;
