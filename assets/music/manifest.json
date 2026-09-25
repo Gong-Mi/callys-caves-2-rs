@@ -1,0 +1,102 @@
+{
+ "mus_acoustic.ogg": {
+  "bytes": 1459884,
+  "sha256": "68ef14ea8440843100b7a7de3a50a7a47f347411c8d0384330775969d417a67e"
+ },
+ "mus_amdm7.ogg": {
+  "bytes": 1232965,
+  "sha256": "a90243b218e842026a954a9b87f71e2b598976921b5e97cbce4b03c4b52976c6"
+ },
+ "mus_arpdisast.ogg": {
+  "bytes": 1052698,
+  "sha256": "71deef2043ac9157ebd4c6e281d9879be18ac4c55a26c5b6ec829f8b021b707d"
+ },
+ "mus_atmospheric.ogg": {
+  "bytes": 2090593,
+  "sha256": "47fb6f2cbbf888481f090ebee95f6221aa47c055870b96c4d906def0f63b6f31"
+ },
+ "mus_blooddragon.ogg": {
+  "bytes": 1173366,
+  "sha256": "1d60350cab9c010f19f483098c32269e31994a94568f3fe1417ba2c612541150"
+ },
+ "mus_bosssong.ogg": {
+  "bytes": 543069,
+  "sha256": "2eb86dbea18be1aefcc5018f7d2c1f49aaa761577e03a4bd6884a9efd70b238b"
+ },
+ "mus_bosssongending.ogg": {
+  "bytes": 211319,
+  "sha256": "1c936d200a1a2b843c80544297a70a3b9d34eae9d4eda5af74360659bbaf36fd"
+ },
+ "mus_cally2fez.ogg": {
+  "bytes": 1390540,
+  "sha256": "ab1284102b955c035693f0216d3ba62bf0ee5e9206cfb173164ac51ab6e5fb52"
+ },
+ "mus_cally3.ogg": {
+  "bytes": 1044876,
+  "sha256": "8bc5ec575a216e158e6136122d43e88354a272e3e86bd9ea1b16e9ae3ca3a110"
+ },
+ "mus_egc.ogg": {
+  "bytes": 1476658,
+  "sha256": "0493de2cb5c91aa1ba56497e6fb384486c9d47a3612e43194a5257f3935f24f0"
+ },
+ "mus_happy.ogg": {
+  "bytes": 531158,
+  "sha256": "83e7ce20bb8d654bdbc0dda320b3371a5a6f730dd8c0c7dfbc4295c3064e48f0"
+ },
+ "mus_mariokart.ogg": {
+  "bytes": 789965,
+  "sha256": "c0e168e6b574dece6d1dfbff293736b68fb3095b7158795a3d1f8c3bfddc8007"
+ },
+ "mus_menumusic.ogg": {
+  "bytes": 263193,
+  "sha256": "a36df52f9132fc7e90f3d66a8bebe7c8a498886e0002bfaa1e4cc6c327fb90c6"
+ },
+ "mus_new4.ogg": {
+  "bytes": 353261,
+  "sha256": "d80686c28540247aded4acb32067c904ebe5a6932bc46f31dbf1089911a29cb0"
+ },
+ "mus_newprogression.ogg": {
+  "bytes": 1010492,
+  "sha256": "bcf9109dae4bdb69e9cc2390f88ae37a048382d5d213965f846ba1e54ca96547"
+ },
+ "mus_searching.ogg": {
+  "bytes": 612160,
+  "sha256": "3745ec75edb8fbc7ecfe73950e30d88d879a3521b09430f82dd14f49993804e3"
+ },
+ "mus_sneaksbeat.ogg": {
+  "bytes": 506169,
+  "sha256": "0faf41a361cbfba6004714ac71764b19bce413434d2e009bdfe048df11876362"
+ },
+ "mus_soundwall.ogg": {
+  "bytes": 485596,
+  "sha256": "e9af35b017645d3f6301a49a484b44952b58c03ea3393571778cec13fbcbea41"
+ },
+ "mus_strongtech.ogg": {
+  "bytes": 950079,
+  "sha256": "54c37d9fd36ac87057f906a74e4fbb245a11dd11ed3582a5b20c94bab1721920"
+ },
+ "mus_sunrise.ogg": {
+  "bytes": 911989,
+  "sha256": "de83ff7f538ed75a76b8174bc6fdfed3456e10ca8553c7adfb015c8da1c36fc2"
+ },
+ "mus_supertrip.ogg": {
+  "bytes": 1131341,
+  "sha256": "71c8dd2a62ca9500bf006eafb3eafb34ff93ad05c40324a9a3383821ffd740a7"
+ },
+ "mus_synthonic.ogg": {
+  "bytes": 1051271,
+  "sha256": "45c7d22026d75ed9b5bfd2252fc640c805e980d15ccd321937c25af8c36a5643"
+ },
+ "mus_techno.ogg": {
+  "bytes": 831921,
+  "sha256": "c7cfae633317bb68f06987746bc397e2079890379434c1652ed7f875ad859ed2"
+ },
+ "mus_technoending.ogg": {
+  "bytes": 577673,
+  "sha256": "0527837ea01a5b5ef4aa2ee3eed9729034147021400a97fab23201dfcd59a489"
+ },
+ "mus_townmusic.ogg": {
+  "bytes": 1096723,
+  "sha256": "8478bf765575436fd548956eaf5436f7278b953a5569e19d7adc55d145f740ee"
+ }
+}
