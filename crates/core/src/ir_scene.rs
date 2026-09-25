@@ -26,6 +26,11 @@ pub struct DrawCommand {
     pub code: usize, pub offset: usize, pub instance: i32, pub view: i32,
     pub sprite: i32, pub frame: f64, pub x: f64, pub y: f64,
     pub scale_x: f64, pub scale_y: f64, pub rotation: f64, pub color: i32, pub alpha: f64,
+    /// True when the original wrapped this draw in `d3d_set_fog(true, c, 0, 0)`.
+    /// `color` is then the fog colour (the hit-flash pipeline), which floods the
+    /// sprite instead of multiplying it like `image_blend` does. Both are packed
+    /// GM colours, so the consumer cannot tell them apart from `color` alone.
+    pub fog: bool,
 }
 #[derive(Debug, Clone, Serialize, PartialEq)]
 pub struct TextCommand {
@@ -971,14 +976,15 @@ impl Scene {
         }
     }
     fn draw(&mut self,id:i32,args:&[f64])->Result<(),String> {
-        let color = if self.fog_enabled {
+        let fogged = self.fog_enabled;
+        let color = if fogged {
             self.fog_color
         } else {
             int(args[7])?
         };
         self.draws.push(DrawCommand{code:self.site.0,offset:self.site.1,instance:id,view:self.view,
             sprite:int(args[0])?,frame:args[1],x:args[2],y:args[3],scale_x:args[4],scale_y:args[5],
-            rotation:args[6],color,alpha:args[8]}); Ok(())
+            rotation:args[6],color,alpha:args[8],fog:fogged}); Ok(())
     }
     /// Text behind a pooled string reference: the bundle's string table first,
     /// then this scene's runtime entries (`string()`/`string_format()` results).

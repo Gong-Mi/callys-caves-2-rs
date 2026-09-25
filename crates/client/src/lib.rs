@@ -1241,6 +1241,94 @@ impl Framebuffer {
         }
     }
 
+    /// One original sprite draw, in GameMaker's own terms: the instance position
+    /// is where the SPRT origin lands, a negative axis is the original's facing
+    /// mirror (`image_xscale = -1`), `image_angle` rotates counter-clockwise on
+    /// screen about that same origin, and `blend` multiplies the sampled colour
+    /// channel-wise (`image_blend`, c_white = identity). When `flood` is set the
+    /// call sat inside `d3d_set_fog(true, c, 0, 0)`: fog start == end == 0 means
+    /// the whole sprite is fogged, so the frame keeps only its alpha silhouette
+    /// in the fog colour (this is the original's hit-flash trick).
+    /// Sampling is nearest-neighbour, exactly like the other blits here.
+    #[allow(clippy::too_many_arguments)]
+    fn blit_sprite_gm(
+        &mut self,
+        atlas: &RgbaImage,
+        src: (u32, u32, u32, u32),
+        sprite_size: (f64, f64),
+        sprite_origin: (f64, f64),
+        dst_origin: (f64, f64),
+        scale: (f64, f64),
+        rotation_deg: f64,
+        alpha: f32,
+        blend: (u8, u8, u8),
+        flood: Option<(u8, u8, u8)>,
+    ) {
+        let (sx, sy, sw, sh) = src;
+        let (cw, ch) = sprite_size;
+        if cw <= 0.0 || ch <= 0.0 || sw == 0 || sh == 0 { return; }
+        if scale.0 == 0.0 || scale.1 == 0.0 { return; }
+        let (ox, oy) = sprite_origin;
+        let angle = (rotation_deg as f32).to_radians();
+        let (sin, cos) = (angle.sin(), angle.cos());
+        // Sprite-local (u, v) -> screen, all in one transform.
+        let project = |u: f64, v: f64| -> (f32, f32) {
+            let lx = (u - ox) * scale.0;
+            let ly = (v - oy) * scale.1;
+            let rx = lx * cos as f64 + ly * sin as f64;
+            let ry = -lx * sin as f64 + ly * cos as f64;
+            ((dst_origin.0 + rx) as f32, (dst_origin.1 + ry) as f32)
+        };
+        let corners = [project(0.0, 0.0), project(cw, 0.0), project(0.0, ch), project(cw, ch)];
+        let min_x = corners.iter().map(|c| c.0).fold(f32::INFINITY, f32::min);
+        let max_x = corners.iter().map(|c| c.0).fold(f32::NEG_INFINITY, f32::max);
+        let min_y = corners.iter().map(|c| c.1).fold(f32::INFINITY, f32::min);
+        let max_y = corners.iter().map(|c| c.1).fold(f32::NEG_INFINITY, f32::max);
+        let x0 = min_x.floor().max(0.0) as i32;
+        let y0 = min_y.floor().max(0.0) as i32;
+        let x1 = max_x.ceil().min(self.width as f32 - 1.0) as i32;
+        let y1 = max_y.ceil().min(self.height as f32 - 1.0) as i32;
+        if x1 < x0 || y1 < y0 { return; }
+        // Frame rect stretched onto the sprite canvas, so a frame smaller than
+        // the canvas still anchors on the origin the way the hitboxes do.
+        let (du, dv) = (sw as f64 / cw, sh as f64 / ch);
+        for py in y0..=y1 {
+            for px in x0..=x1 {
+                let rx = px as f64 + 0.5 - dst_origin.0;
+                let ry = py as f64 + 0.5 - dst_origin.1;
+                // Inverse rotation, then inverse scale: no rotation or mirror
+                // is handled by the same arithmetic.
+                let lx = rx * cos as f64 - ry * sin as f64;
+                let ly = rx * sin as f64 + ry * cos as f64;
+                let u = lx / scale.0 + ox;
+                let v = ly / scale.1 + oy;
+                if u < 0.0 || v < 0.0 || u >= cw || v >= ch { continue; }
+                // `u`/`v` are already pixel centres in sprite space (the inverse
+                // transform added the half-pixel), so they map straight onto the
+                // frame rect; a second half-pixel here would sample one texel off.
+                let su = sx as f64 + u * du;
+                let sv = sy as f64 + v * dv;
+                if su < 0.0 || sv < 0.0 { continue; }
+                let su = su as u32;
+                let sv = sv as u32;
+                if su >= atlas.width() || sv >= atlas.height() { continue; }
+                let rgba = atlas.get_pixel(su, sv).0;
+                if rgba[3] < 16 { continue; }
+                let (r, g, b) = match flood {
+                    Some(c) => c,
+                    None => (
+                        (rgba[0] as u32 * blend.0 as u32 / 255) as u8,
+                        (rgba[1] as u32 * blend.1 as u32 / 255) as u8,
+                        (rgba[2] as u32 * blend.2 as u32 / 255) as u8,
+                    ),
+                };
+                let a = (rgba[3] as f32 / 255.0) * alpha;
+                if a <= 0.0 { continue; }
+                self.put_blended(px, py, (r, g, b, rgba[3]), a);
+            }
+        }
+    }
+
     pub fn draw_char(&mut self, x: i32, y: i32, c: char, scale: u32, color: (u8, u8, u8, u8)) -> u32 {
         let ascii = c as usize;
         if !(32..=126).contains(&ascii) {
@@ -1290,6 +1378,58 @@ fn draw_sprite_alpha(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, fr
     true
 }
 
+/// GM packs colours as 0xAABBGGRR (D3DCOLOR little-endian), so red is the low
+/// byte. Values outside the 24-bit range are the original's own arithmetic and
+/// not typos: `image_blend -= c_white` wraps through the int32 range on the
+/// thaw frame (16711680 -> -65535, already pinned by the core enemy tests), and
+/// the 4-argument `draw_sprite` default blend is -1. Both land back on a real
+/// colour through the low 24 bits, which is how every other colour site in this
+/// engine decodes them.
+fn unpack_color(color: i32) -> (u8, u8, u8) {
+    let v = (color as i64 & 0xFF_FFFF) as u32;
+    ((v & 0xFF) as u8, ((v >> 8) & 0xFF) as u8, ((v >> 16) & 0xFF) as u8)
+}
+
+/// Consume one original DrawCommand into pixels: SPRT-origin anchoring, the
+/// original's mirror (`image_xscale = -1`), `image_angle` rotation about that
+/// origin, `image_blend` tint — or the fog flood when the original wrapped the
+/// call in `d3d_set_fog(true, c, 0, 0)` (the hit-flash pipeline).
+///
+/// Returns false only when the sprite, its frame or its atlas page is missing,
+/// so the caller can fall back to a placeholder; a command that is simply
+/// invisible (alpha 0, zero scale) returns true with nothing drawn.
+fn draw_ir_sprite(
+    fb: &mut Framebuffer,
+    state: &GameState,
+    cmd: &callys_core::ir_scene::DrawCommand,
+    cam: (f64, f64),
+    screen_scale: (f32, f32),
+) -> bool {
+    let Ok(sprite_id) = usize::try_from(cmd.sprite) else { return false; };
+    let Some(sprite) = state.asset.sprites.get(&sprite_id) else { return false; };
+    if sprite.tpag_indices.is_empty() { return false; }
+    let frame = cmd.frame.max(0.0) as usize % sprite.tpag_indices.len();
+    let Some(page) = state.asset.tpag_items.get(&(sprite.tpag_indices[frame] as usize)) else { return false; };
+    let Some(atlas) = state.atlases.get(page.tex_id as usize) else { return false; };
+    let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+    if alpha <= 0.0 { return true; }
+    let color = unpack_color(cmd.color);
+    let flood = if cmd.fog { Some(color) } else { None };
+    fb.blit_sprite_gm(
+        atlas,
+        (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+        (sprite.width as f64, sprite.height as f64),
+        (sprite.origin_x as f64, sprite.origin_y as f64),
+        ((cmd.x - cam.0) * screen_scale.0 as f64, (cmd.y - cam.1) * screen_scale.1 as f64),
+        (cmd.scale_x, cmd.scale_y),
+        cmd.rotation,
+        alpha,
+        color,
+        flood,
+    );
+    true
+}
+
 fn draw_tile(fb: &mut Framebuffer, state: &GameState, tile: &callys_asset::RoomTileInstance, cam_x: f32, cam_y: f32, scale_x: f32, scale_y: f32) -> bool {
     if tile.bg_id < 0 { return false; }
     let Some(bg) = state.asset.backgrounds.get(&(tile.bg_id as usize)) else { return false; };
@@ -1328,20 +1468,16 @@ pub fn draw_frame(
         let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
         if intro_alive {
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
+            // The intro's Create pinned view 0 to the room origin, so these
+            // commands project with no camera offset.
             for cmd in &scene.draws {
-                let dst_x = (cmd.x as f32 * scale_x) as i32;
-                let dst_y = (cmd.y as f32 * scale_y) as i32;
-                let sprite = state.asset.sprites.get(&(cmd.sprite as usize));
-                let (w, h) = sprite.map(|s| (s.width, s.height)).unwrap_or((32, 32));
-                let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
-                let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                let frame = cmd.frame.max(0.0) as usize;
-                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-                if alpha <= 0.0 {
-                    continue;
-                }
-                if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
-                    fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
+                if !draw_ir_sprite(fb, state, cmd, (0.0, 0.0), (scale_x, scale_y)) {
+                    let dst_x = (cmd.x as f32 * scale_x) as i32;
+                    let dst_y = (cmd.y as f32 * scale_y) as i32;
+                    let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+                    if alpha > 0.0 {
+                        fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
+                    }
                 }
             }
             return;
@@ -1387,21 +1523,16 @@ pub fn draw_frame(
             draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
         }
 
-        // 2. Instances from IR draws
+        // 2. Instances from IR draws, each one in GameMaker's own sprite terms:
+        // origin anchor, facing mirror, image_angle rotation, image_blend, and
+        // the d3d_set_fog hit-flash flood.
         for cmd in &scene.draws {
-            let world_x = cmd.x - cam_x;
-            let world_y = cmd.y - cam_y;
-            let dst_x = (world_x as f32 * scale_x) as i32;
-            let dst_y = (world_y as f32 * scale_y) as i32;
-            let sprite = state.asset.sprites.get(&(cmd.sprite as usize));
-            let (w, h) = sprite.map(|s| (s.width, s.height)).unwrap_or((32, 32));
-            let dst_w = ((w as f64 * cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
-            let dst_h = ((h as f64 * cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-            let frame = cmd.frame.max(0.0) as usize;
-            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-            if alpha > 0.0 {
-                if !draw_sprite_alpha(fb, state, cmd.sprite, frame, (dst_x, dst_y, dst_w, dst_h), false, alpha) {
-                    fb.fill_rect(dst_x, dst_y, dst_w, dst_h, (60, 60, 70, (alpha * 255.0) as u8));
+            if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y)) {
+                let dst_x = ((cmd.x - cam_x) as f32 * scale_x) as i32;
+                let dst_y = ((cmd.y - cam_y) as f32 * scale_y) as i32;
+                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+                if alpha > 0.0 {
+                    fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
                 }
             }
         }
@@ -1432,27 +1563,32 @@ pub fn draw_frame(
             draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
         }
 
-        // 3.5. Render UI Healthbars & Boss Healthbars emitted by scene
+        // 3.5. Original draw_healthbar: back_col fills the whole bar, the fill
+        // runs from min_col (value 0) to max_col (value 100), and the original
+        // asks for the border (its showborder argument is 1 at all 90 call
+        // sites, as are direction=0 and showback=1).
         for hb in &scene.healthbars {
-            let x1 = ((hb.x1 - cam_x) as f32 * scale_x) as i32;
-            let y1 = ((hb.y1 - cam_y) as f32 * scale_y) as i32;
-            let x2 = ((hb.x2 - cam_x) as f32 * scale_x) as i32;
-            let y2 = ((hb.y2 - cam_y) as f32 * scale_y) as i32;
-            let w = ((x2 - x1).abs() as u32).max(1);
-            let h = ((y2 - y1).abs() as u32).max(1);
-            let min_x = x1.min(x2);
-            let min_y = y1.min(y2);
-            // Draw dark background
-            fb.fill_rect(min_x, min_y, w, h, (40, 40, 40, 220));
-            // Draw health fill based on amount (0..100)
+            let xs = ((hb.x1 - cam_x) as f32 * scale_x) as i32;
+            let ys = ((hb.y1 - cam_y) as f32 * scale_y) as i32;
+            let xe = ((hb.x2 - cam_x) as f32 * scale_x) as i32;
+            let ye = ((hb.y2 - cam_y) as f32 * scale_y) as i32;
+            let (left, right) = (xs.min(xe), xs.max(xe));
+            let (top, bottom) = (ys.min(ye), ys.max(ye));
+            let w = ((right - left).abs() as u32).max(1);
+            let h = ((bottom - top).abs() as u32).max(1);
+            let (br, bg, bb) = unpack_color(hb.back_col);
+            let (nrr, nrg, nrb) = unpack_color(hb.min_col);
+            let (xrr, xrg, xrb) = unpack_color(hb.max_col);
             let pct = (hb.amount as f32 / 100.0).clamp(0.0, 1.0);
-            let fill_w = ((w as f32) * pct) as u32;
+            let mix = |lo: u8, hi: u8| -> u8 {
+                (lo as f32 + (hi as f32 - lo as f32) * pct).round() as u8
+            };
+            fb.fill_rect(left, top, w, h, (br, bg, bb, 255));
+            let fill_w = (w as f32 * pct).round() as u32;
             if fill_w > 0 {
-                // Blend from red to green based on pct
-                let r = ((1.0 - pct) * 220.0 + 30.0) as u8;
-                let g = (pct * 200.0 + 40.0) as u8;
-                fb.fill_rect(min_x, min_y, fill_w, h, (r, g, 40, 255));
+                fb.fill_rect(left, top, fill_w, h, (mix(nrr, xrr), mix(nrg, xrg), mix(nrb, xrb), 255));
             }
+            fb.draw_rect(left, top, w, h, (0, 0, 0, 255));
         }
 
         // 3.6. Render UI Texts emitted by scene

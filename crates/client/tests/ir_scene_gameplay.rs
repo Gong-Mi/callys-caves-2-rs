@@ -75,15 +75,23 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
     let boss_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
     assert!(boss_pixels > 1000, "rm_boss1 must render cleanly");
 
-    // 5. Verify Healthbar rendering consumer renders into Framebuffer
+    // 5. Verify Healthbar rendering consumer renders into Framebuffer.
+    // A/B diff against the same frame without the bar: a raw non-zero byte
+    // count is satisfied by any earlier content, and the original's own colours
+    // (c_black background here) are legitimately zero-valued bytes.
+    let mut fb_without_bar = Framebuffer::new(960, 540);
+    draw_frame(&mut fb_without_bar, &state, &state.asset.tpag_items, &state.asset.sprites);
     state.scene.as_mut().unwrap().healthbars.push(callys_core::ir_scene::HealthbarCommand {
         code: 0, offset: 0, instance: 0, view: 0,
         x1: 50.0, y1: 50.0, x2: 200.0, y2: 60.0, amount: 80.0,
         back_col: 0, min_col: 0, max_col: 0,
     });
     draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
-    let healthbar_pixels = fb.pixels.iter().filter(|&&p| p != 0).count();
-    assert!(healthbar_pixels >= boss_pixels, "Healthbar must add rendered pixels to Framebuffer");
+    let bar_pixels = fb.pixels.chunks_exact(4).zip(fb_without_bar.pixels.chunks_exact(4))
+        .filter(|(with, without)| with != without)
+        .count();
+    assert!(bar_pixels >= 1000,
+        "Healthbar must add rendered pixels to Framebuffer, changed {bar_pixels}");
 
     // 6. Verify Text rendering consumer renders glyphs into Framebuffer
     state.scene.as_mut().unwrap().texts.push(callys_core::ir_scene::TextCommand {
