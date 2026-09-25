@@ -147,6 +147,8 @@ pub struct Scene {
     next_voice_id: f64,
     pub target_room_warp: Option<usize>,
     pub persistent_objects: BTreeSet<i32>,
+    pub fog_enabled: bool,
+    pub fog_color: i32,
     next_id: i32, next_ds_map_id: i32, site: (usize,usize), depth: usize,
 }
 impl Default for Scene {
@@ -184,6 +186,8 @@ impl Default for Scene {
             dynamic_strings: Vec::new(),
             target_room_warp: None,
             persistent_objects: BTreeSet::new(),
+            fog_enabled: false,
+            fog_color: 0,
             next_id: 0, next_ds_map_id: 1, site: (0, 0), depth: 0,
         }
     }
@@ -921,6 +925,7 @@ impl Scene {
         self.texts.clear();
         self.healthbars.clear();
         self.backgrounds.clear();
+        self.fog_enabled = false;
         let mut ids=Vec::new();
         let mut default_draws=Vec::new();
         for (id,i) in &self.instances {
@@ -966,9 +971,14 @@ impl Scene {
         }
     }
     fn draw(&mut self,id:i32,args:&[f64])->Result<(),String> {
+        let color = if self.fog_enabled {
+            self.fog_color
+        } else {
+            int(args[7])?
+        };
         self.draws.push(DrawCommand{code:self.site.0,offset:self.site.1,instance:id,view:self.view,
             sprite:int(args[0])?,frame:args[1],x:args[2],y:args[3],scale_x:args[4],scale_y:args[5],
-            rotation:args[6],color:int(args[7])?,alpha:args[8]}); Ok(())
+            rotation:args[6],color,alpha:args[8]}); Ok(())
     }
     /// Text behind a pooled string reference: the bundle's string table first,
     /// then this scene's runtime entries (`string()`/`string_format()` results).
@@ -1703,9 +1713,16 @@ impl Host for Scene {
                 }
                 Ok(0.0)
             }
+            "d3d_set_fog" => {
+                let enable = a[0] >= 0.5;
+                self.fog_enabled = enable;
+                if enable {
+                    self.fog_color = int(a[1])?;
+                }
+                Ok(0.0)
+            }
             // Ad/IAP platform domain: original calls AdColony/IAP SDKs that
             // have no equivalent in this client; ads are already disabled.
-            "d3d_set_fog"
             | "AdColony_ShowVideo" | "ads_disable"
             | "shop_leave_rating"
             | "iap_purchase_details" | "iap_acquire" => Ok(0.0),
