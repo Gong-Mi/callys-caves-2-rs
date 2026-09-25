@@ -97,7 +97,7 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
     state.scene.as_mut().unwrap().texts.push(callys_core::ir_scene::TextCommand {
         code: 0, offset: 0, instance: 0, view: 0,
         x: 10.0, y: 10.0, text: "SCORE: 100".to_string(),
-        color: 0x00FFFFFF, alpha: 1.0,
+        color: 0x00FFFFFF, alpha: 1.0, font: 0,
     });
     draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
     let white_pixels = fb

@@ -1213,6 +1213,109 @@ impl Framebuffer {
         }
     }
 
+    /// One glyph of an original GM font, blitted from the font's atlas page.
+    /// `page` is the font's TpagItem rect on the atlas; `(gx, gy)` are the
+    /// glyph's coordinates inside that page (probed Gill Sans geometry). The
+    /// glyph's own alpha channel carries the antialiased coverage, the draw
+    /// colour multiplies channel-wise (GM `draw_set_color` on fonts) and
+    /// `draw_alpha` scales coverage further. `scale` is the screen-space
+    /// stretch applied to every glyph box (nearest neighbour, like the other
+    /// blits). Returns the glyph's advance (`shift`) in scaled pixels.
+    fn blit_glyph_gm(
+        &mut self,
+        atlas: &RgbaImage,
+        page: (u32, u32),
+        glyph: &callys_asset::GlyphData,
+        x: i32,
+        y: i32,
+        scale: f32,
+        color: (u8, u8, u8),
+        alpha: f32,
+    ) -> u32 {
+        let gw = glyph.w as u32;
+        let gh = glyph.h as u32;
+        if gw == 0 || gh == 0 {
+            return ((glyph.shift as f32) * scale).round() as u32;
+        }
+        let dw = ((gw as f32) * scale).round() as u32;
+        let dh = ((gh as f32) * scale).round() as u32;
+        for oy in 0..dh {
+            let py = y + oy as i32;
+            if py < 0 || py >= self.height as i32 {
+                continue;
+            }
+            let src_y = page.1 + glyph.y as u32 + oy * gh / dh;
+            for ox in 0..dw {
+                let px = x + ox as i32;
+                if px < 0 || px >= self.width as i32 {
+                    continue;
+                }
+                let src_x = page.0 + glyph.x as u32 + ox * gw / dw;
+                if src_x >= atlas.width() || src_y >= atlas.height() {
+                    continue;
+                }
+                let rgba = atlas.get_pixel(src_x, src_y).0;
+                if rgba[3] == 0 {
+                    continue;
+                }
+                // Coverage from the glyph's antialiased alpha, times the
+                // command's draw alpha. GM font draws are premultiplied by
+                // nothing: the colour comes from draw_set_color.
+                let cov = (rgba[3] as f32 / 255.0) * alpha.clamp(0.0, 1.0);
+                if cov <= 0.0 {
+                    continue;
+                }
+                let tint = (
+                    ((color.0 as f32) * cov).round() as u8,
+                    ((color.1 as f32) * cov).round() as u8,
+                    ((color.2 as f32) * cov).round() as u8,
+                    (cov * 255.0).round() as u8,
+                );
+                self.put_blended(px, py, tint, cov);
+            }
+        }
+        ((glyph.shift as f32) * scale).round() as u32
+    }
+
+    /// A string in one of the original fonts. The pen starts at `(x, y)` — the
+    /// top of the line box — and advances by each glyph's `shift` (probed
+    /// box model: all ascent inks start 9px down inside their boxes,
+    /// descender boxes are taller, so no per-glyph vertical offset exists).
+    /// Characters outside the font's 96-glyph ASCII table are skipped by
+    /// advancing one space width. Falls back to nothing when the font or its
+    /// atlas is missing (the caller decides on a fallback).
+    fn draw_text_gm(
+        &mut self,
+        atlas: &RgbaImage,
+        page: (u32, u32),
+        glyphs: &[callys_asset::GlyphData],
+        space_shift: u16,
+        x: i32,
+        y: i32,
+        text: &str,
+        scale: f32,
+        color: (u8, u8, u8),
+        alpha: f32,
+    ) {
+        let mut pen = x;
+        for ch in text.chars() {
+            if ch == '\n' {
+                continue;
+            }
+            let code = ch as u32;
+            if !(32..=127).contains(&code) {
+                pen += ((space_shift as f32) * scale).round() as i32;
+                continue;
+            }
+            let glyph = glyphs
+                .iter()
+                .find(|g| g.ch as u32 == code)
+                .unwrap_or(&glyphs[0]);
+            let adv = self.blit_glyph_gm(atlas, page, glyph, pen, y, scale, color, alpha);
+            pen += adv as i32;
+        }
+    }
+
     fn blit_scaled(&mut self, atlas: &RgbaImage, src: (u32, u32, u32, u32), dst: (i32, i32, u32, u32), flip_x: bool) {
         self.blit_scaled_alpha(atlas, src, dst, flip_x, 1.0);
     }
@@ -1611,8 +1714,54 @@ pub fn draw_frame(
                 )
             };
             let color = (r, g, b, (alpha * 255.0) as u8);
-            let scale = ((scale_x.min(scale_y) * 2.0).round() as u32).max(1);
-            fb.draw_text_str(x, y, &cmd.text, scale, color);
+            // The original fonts: draw_set_font(N) pushes the alphabetically
+            // sorted resource id (font1=0..font6=5); the FONT chunk's disk
+            // order is font1,font4,font2,font3,font5,font6, so runtime id N
+            // maps to disk index [0,2,3,1,4,5][N]. Text commands predate this
+            // mapping when they were emitted without a font (font: 0).
+            let font_disk_index = match cmd.font {
+                0 => Some(0),
+                1 => Some(2),
+                2 => Some(3),
+                3 => Some(1),
+                4 => Some(4),
+                5 => Some(5),
+                _ => None,
+            };
+            let gm_font = font_disk_index
+                .and_then(|idx| state.asset.fonts.get(idx))
+                .and_then(|font| {
+                    let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
+                    let atlas = state.atlases.get(page.tex_id as usize)?;
+                    Some((atlas, (page.x as u32, page.y as u32), font))
+                });
+            if let Some((atlas, page, font)) = gm_font {
+                // Scale the original pixel sizes into screen space the same
+                // way the sprite blits do: the game's views can be larger than
+                // the room pixels, and the fonts were baked for room pixels.
+                let scale = scale_x.min(scale_y);
+                let space_shift = font
+                    .glyphs
+                    .iter()
+                    .find(|g| g.ch == b' ' as u16)
+                    .map(|g| g.shift)
+                    .unwrap_or(7);
+                fb.draw_text_gm(
+                    atlas,
+                    page,
+                    &font.glyphs,
+                    space_shift,
+                    x,
+                    y,
+                    &cmd.text,
+                    scale,
+                    (r, g, b),
+                    alpha,
+                );
+            } else {
+                let scale = ((scale_x.min(scale_y) * 2.0).round() as u32).max(1);
+                fb.draw_text_str(x, y, &cmd.text, scale, color);
+            }
         }
 
         // The IR scene already contains the original obj_UI button instances

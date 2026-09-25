@@ -36,6 +36,10 @@ pub struct DrawCommand {
 pub struct TextCommand {
     pub code: usize, pub offset: usize, pub instance: i32, pub view: i32,
     pub x: f64, pub y: f64, pub text: String, pub color: i32, pub alpha: f64,
+    /// The font resource id from `draw_set_font` (GMS alphabetical order:
+    /// 0=font1 18px, 1=font2 10px, 2=font3 10px, 3=font4 14px, 4=font5 8px,
+    /// 5=font6 14px). Zero is the default when a Draw never sets a font.
+    pub font: i32,
 }
 #[derive(Debug, Clone, Serialize, PartialEq)]
 pub struct HealthbarCommand {
@@ -1378,6 +1382,7 @@ impl Host for Scene {
                 self.texts.push(TextCommand {
                     code: self.site.0, offset: self.site.1, instance: id, view: self.view,
                     x, y, text, color: self.draw_color, alpha: self.draw_alpha,
+                    font: self.current_font as i32,
                 });
                 Ok(0.0)
             }
@@ -1556,6 +1561,7 @@ impl Host for Scene {
                 self.texts.push(TextCommand {
                     code: self.site.0, offset: self.site.1, instance: id, view: self.view,
                     x, y, text, color, alpha,
+                    font: self.current_font as i32,
                 });
                 Ok(0.0)
             }
