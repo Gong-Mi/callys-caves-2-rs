@@ -30,6 +30,9 @@
 - `draw_background_ext` 的 colour 参数在全部调用点恒为 `-1`（= c_white，无着色），因此 `BackgroundCommand.color` 仍未被消费：这是登记边界，不是遗漏；若将来出现非 -1 的调用点必须补上。
 - `draw_healthbar` 的 `direction / showback / showborder` 三个参数仍不进命令（全语料恒为 0/1/1，批次 2 已登记）。`rm_boss5` 的 Boss 条是唯一 `x2 < x1`（`obj_boss5.x - 20`）的倒挂矩形，客户端与其余 89 处一样先归一化再从左填充；GM 对倒挂矩形的填充锚点尚无证据钉死。
 - 雾只有全强度形态（21 处全部 `start == end == 0`）；若出现非零 start，需要把雾因子一并入命令。
+- 采样是最近邻（与本仓库其它 blit 一致）。原版 GMS 的精灵过滤取决于 `texture_set_interpolation` 设置，本作是否开启尚无证据钉死；若设备截图显示原版有插值，这里要改成双线性。
+- `draw_healthbar` 的填充长度按 `round(w * amount/100)` 取整，边框固定 1px；GM 对条长的取整方式（floor/round）未由证据钉死。
+- 只有一个视口被消费：`Scene::view_ports` / `view_visible` 与 `obj_viewresolution` 的多视口/分辨率切换尚未做逐视口裁剪。
 - 帧矩形按 SPRT 画布拉伸后以原点锚定（与核心命中盒模型一致），未建模"帧比画布小"的画布内偏移。
 - 文字仍走 5x7 兜底字模，不是原版字体表。
 - **真机/GPU 视觉层仍未验收（NOT RUN）**：本轮全部证据来自 IR 宿主 + 软件光栅 A/B 像素断言，没有设备截图或 GPU 读回。
