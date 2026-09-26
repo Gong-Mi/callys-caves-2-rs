@@ -1094,6 +1094,7 @@ mod tests {
                 creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
             }],
             tiles: Vec::new(),
+            views: Vec::new(),
         };
         let objects = vec![GameObjectInfo {
             id: 0, name: "obj_enemy".into(), sprite_id: 52,
@@ -1237,6 +1238,7 @@ mod tests {
                 },
             ],
             tiles: Vec::new(),
+            views: Vec::new(),
         };
         let objects = vec![
             GameObjectInfo {
@@ -1312,6 +1314,7 @@ mod tests {
                 },
             ],
             tiles: Vec::new(),
+            views: Vec::new(),
         };
         let objects = vec![
             GameObjectInfo {
@@ -1439,6 +1442,7 @@ mod tests {
                 x: 100, y: 100, object_id: 0, instance_id: 4242,
                 creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
             }], tiles: Vec::new(),
+            views: Vec::new(),
         };
         let objects = vec![GameObjectInfo {
             id: 0, name: "obj_shotgun".into(), sprite_id: 127,
@@ -1473,10 +1477,12 @@ mod tests {
                     creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
                 },
             ], tiles: Vec::new(),
+            views: Vec::new(),
         };
         let other_room = RoomData {
             name: "rm_level2".into(), caption: String::new(), width: 2048, height: 1280,
             speed: 60, persistent: false, objects: Vec::new(), tiles: Vec::new(),
+            views: Vec::new(),
         };
         let objects = vec![
             GameObjectInfo {
@@ -1535,6 +1541,7 @@ mod tests {
                 x: 1568, y: 1056, object_id: 0, instance_id: 1,
                 creation_code_id: -1, scale_x: 6.0, scale_y: 2.0, color: 0xffff_ffff,
             }], tiles: Vec::new(),
+            views: Vec::new(),
         };
         let objects = vec![GameObjectInfo {
             id: 0, name: "obj_waterfill".into(), sprite_id: 103,
@@ -1626,6 +1633,7 @@ mod tests {
                 x: 320, y: 400, object_id: 0, instance_id: 1,
                 creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
             }], tiles: Vec::new(),
+            views: Vec::new(),
         };
         let objects = vec![GameObjectInfo {
             id: 0, name: "obj_platform".into(), sprite_id: 35,
