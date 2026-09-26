@@ -402,7 +402,49 @@ impl GameState {
     }
 
     /// Calculates the camera follow coordinates for the given IR scene.
+    /// GM8.1 view semantics: the view rect (`wview x hview` from the room
+    /// table) follows its object inside the border dead-zones and clamps to
+    /// the room bounds. When the room has no visible view (e.g. the prologue,
+    /// where obj_introduction's Create pins view 0 to the origin), the camera
+    /// stays at (0,0) and the projection keeps the flat 960x540 scale.
     pub fn camera_position_for_scene(scene: &callys_core::ir_scene::Scene) -> (f64, f64) {
+        // The room-editor view table drives the camera when a visible view exists.
+        if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
+            if v.object == 0 {
+                if let Some((px, py)) = scene
+                    .instances
+                    .values()
+                    .find(|i| i.object == 0 && i.alive)
+                    .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
+                {
+                    // Follow with the border dead-zone: the view only moves
+                    // once the target leaves the border band.
+                    let half_w = v.wview as f64 / 2.0;
+                    let half_h = v.hview as f64 / 2.0;
+                    let hb = (v.hborder as f64).min(half_w);
+                    let vb = (v.vborder as f64).min(half_h);
+                    let center_x = v.xview as f64 + half_w;
+                    let center_y = v.yview as f64 + half_h;
+                    let mut cx = center_x;
+                    let mut cy = center_y;
+                    // Dead-zone follow: the view center chases the target only
+                    // once it leaves the border band.
+                    if (px - center_x).abs() > hb {
+                        cx = if px > center_x + hb { px - hb } else if px < center_x - hb { px + hb } else { center_x };
+                    }
+                    if (py - center_y).abs() > vb {
+                        cy = if py > center_y + vb { py - vb } else if py < center_y - vb { py + vb } else { center_y };
+                    }
+                    // The view rect's top-left = center - half.
+                    let mut vx = cx - half_w;
+                    let mut vy = cy - half_h;
+                    // Clamp to room bounds (GM8.1 clamps the view rect).
+                    vx = vx.clamp(0.0, (scene.room_width - v.wview as f64).max(0.0));
+                    vy = vy.clamp(0.0, (scene.room_height - v.hview as f64).max(0.0));
+                    return (vx, vy);
+                }
+            }
+        }
         let (px, py) = scene
             .instances
             .values()
@@ -1123,7 +1165,7 @@ pub fn current_time_ns() -> u64 {
 pub struct Framebuffer {
     pub width: u32,
     pub height: u32,
-    pub pixels: Vec<u8>, // ABGR8888, row-major
+    pub pixels: Vec<u8>, // BGRA8888, row-major (fill_rect writes [B, G, R, A]; the Java int[] view reads the same 4 bytes as 0xAARRGGBB)
 }
 
 impl Framebuffer {
@@ -1518,13 +1560,18 @@ fn draw_ir_sprite(
     if alpha <= 0.0 { return true; }
     let color = unpack_color(cmd.color);
     let flood = if cmd.fog { Some(color) } else { None };
+    // The screen scale folds into BOTH the position and the sprite extent: a
+    // GM draw places the sprite at world position with image_xscale in world
+    // units, so the on-screen size is w * xscale * view_zoom. Passing the raw
+    // cmd.scale kept the extent flat when the view projection zoomed (the
+    // view_projection_consumption suite pins this).
     fb.blit_sprite_gm(
         atlas,
         (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
         (sprite.width as f64, sprite.height as f64),
         (sprite.origin_x as f64, sprite.origin_y as f64),
         ((cmd.x - cam.0) * screen_scale.0 as f64, (cmd.y - cam.1) * screen_scale.1 as f64),
-        (cmd.scale_x, cmd.scale_y),
+        (cmd.scale_x * screen_scale.0 as f64, cmd.scale_y * screen_scale.1 as f64),
         cmd.rotation,
         alpha,
         color,
@@ -1559,8 +1606,37 @@ pub fn draw_frame(
     _tpag: &HashMap<usize, TpagItem>,
     _sprites: &HashMap<usize, SpriteData>,
 ) {
-    let scale_x = fb.width as f32 / 960.0;
-    let scale_y = fb.height as f32 / 540.0;
+    let mut scale_x = fb.width as f32 / 960.0;
+    let mut scale_y = fb.height as f32 / 540.0;
+    let mut view_origin = (0.0f64, 0.0f64);
+    let mut view_active = false;
+    // GM8.1 view projection: the room-editor view table zooms the visible
+    // view's `wview x hview` rect into `wport x hport`. The screen scale
+    // becomes fb/port and the camera already returns the view rect's
+    // top-left, so the world projection stays (world - cam) * scale.
+    // Prologue pin: while the intro is alive its Create pinned view 0 to the
+    // room origin, so the flat 960x540 projection applies there (below).
+    if let Some(scene) = state.scene.as_ref() {
+        let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
+        if !intro_alive {
+            if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
+                let port_x = if v.wport > 0 { v.wport as f32 } else { 960.0 };
+                let port_y = if v.hport > 0 { v.hport as f32 } else { 540.0 };
+                // The port is expressed in the game's 1136x640 output space;
+                // the framebuffer may be any size, so scale = fb / port * (port/view)/1
+                // i.e. the view zoom (port/view) folds into the fb scale.
+                let zoom_x = port_x / v.wview.max(1) as f32;
+                let zoom_y = port_y / v.hview.max(1) as f32;
+                // A framebuffer pixel maps to the port at fb/port density,
+                // and the view zoom (port/view) stretches world units into
+                // the port. Both fold into: fb / view.
+                scale_x = fb.width as f32 / port_x * zoom_x;
+                scale_y = fb.height as f32 / port_y * zoom_y;
+                view_origin = (v.xview as f64, v.yview as f64);
+                view_active = true;
+            }
+        }
+    }
 
     // Prologue cutscene: while obj_introduction (137) is alive inside the full
     // scene, render exactly what the original CODE Draw events emitted this
@@ -1700,7 +1776,15 @@ pub fn draw_frame(
 
     // Full IR gameplay scene: render room tiles, original draws, and camera follow
     if let (Some(_bundle), Some(scene)) = (state.full_bundle.as_deref(), state.scene.as_ref()) {
-        let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
+        let (mut cam_x, mut cam_y) = GameState::camera_position_for_scene(scene);
+        // The camera returns the view rect's top-left; the projection uses
+        // (world - view_rect_origin) * zoom, and draw_background's HUD-space
+        // commands (already screen-space) must not shift. view_origin is the
+        // room-editor view start; the camera's clamp already includes it.
+        if view_active {
+            cam_x -= view_origin.0;
+            cam_y -= view_origin.1;
+        }
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 

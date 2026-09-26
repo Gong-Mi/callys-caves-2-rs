@@ -42,6 +42,33 @@ pub struct RoomData {
     pub persistent: bool,
     pub objects: Vec<RoomObjectInstance>,
     pub tiles: Vec<RoomTileInstance>,
+    /// Room-editor VIEW table (GM8.1: 8 slots). The original runner renders
+    /// each visible view's `wview x hview` rect zoomed into its `wport x hport`
+    /// rectangle; rm_town's view[0] is 448x252 -> 1136x640 (zoom ~2.54) following
+    /// obj_player, which is why the original's world-space sprites are ~2.5x
+    /// larger than a flat 960x540 projection.
+    pub views: Vec<RoomView>,
+}
+
+/// One room-editor view slot. `hspeed`/`vspeed` are -1 (u32::MAX) when the
+/// view does not auto-scroll.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RoomView {
+    pub visible: bool,
+    pub xview: i32,
+    pub yview: i32,
+    pub wview: u32,
+    pub hview: u32,
+    pub xport: i32,
+    pub yport: i32,
+    pub wport: u32,
+    pub hport: u32,
+    pub hborder: u32,
+    pub vborder: u32,
+    pub hspeed: i32,
+    pub vspeed: i32,
+    /// The object whose x/y the view follows (0 = none).
+    pub object: i32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1337,9 +1364,55 @@ impl GameDroidAsset {
                     let _creation_code = file.read_i32::<LittleEndian>().unwrap_or(-1);
                     let _flags = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let _bg_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
-                    let _views_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let views_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let obj_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let tiles_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
+
+                    // GM8.1 room VIEW table: u32 count, then `count` u32 offsets
+                    // to view records. Each record is 14 u32s: visible, xview,
+                    // yview, wview, hview, xport, yport, wport, hport, hborder,
+                    // vborder, hspeed, vspeed, object.
+                    let mut room_views = Vec::new();
+                    if views_offset != 0 && views_offset != u32::MAX {
+                        let views_pos = views_offset as u64;
+                        if views_pos < file_len && file.seek(SeekFrom::Start(views_pos)).is_ok() {
+                            if let Ok(view_count) = file.read_u32::<LittleEndian>() {
+                                let view_count = view_count.min(8);
+                                let mut view_offsets = Vec::with_capacity(view_count as usize);
+                                for _ in 0..view_count {
+                                    if let Ok(o) = file.read_u32::<LittleEndian>() {
+                                        view_offsets.push(o);
+                                    }
+                                }
+                                for &vo in &view_offsets {
+                                    let vo_pos = vo as u64;
+                                    if vo_pos == 0 || vo_pos >= file_len
+                                        || file.seek(SeekFrom::Start(vo_pos)).is_err() {
+                                        continue;
+                                    }
+                                    let visible = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let xview = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let yview = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let wview = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let hview = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let xport = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let yport = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let wport = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let hport = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let hborder = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let vborder = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let hspeed = file.read_i32::<LittleEndian>().unwrap_or(-1);
+                                    let vspeed = file.read_i32::<LittleEndian>().unwrap_or(-1);
+                                    let object = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    room_views.push(RoomView {
+                                        visible, xview, yview, wview, hview,
+                                        xport, yport, wport, hport,
+                                        hborder, vborder, hspeed, vspeed, object,
+                                    });
+                                }
+                            }
+                        }
+                    }
 
                     let mut room_objs = Vec::new();
                     if obj_offset != 0 && obj_offset != u32::MAX {
@@ -1418,6 +1491,7 @@ impl GameDroidAsset {
                         speed,
                         persistent,
                         objects: room_objs,
+                        views: room_views,
                         tiles: room_tiles,
                     });
                 }

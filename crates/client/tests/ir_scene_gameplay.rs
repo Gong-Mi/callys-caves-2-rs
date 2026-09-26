@@ -79,11 +79,15 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
     // A/B diff against the same frame without the bar: a raw non-zero byte
     // count is satisfied by any earlier content, and the original's own colours
     // (c_black background here) are legitimately zero-valued bytes.
+    // The bar is placed camera-relative: under the room-editor view projection
+    // (rm_town view[0] zooms 448x252 → 1136x640) absolute room coordinates
+    // near the origin fall outside the camera's view rect.
+    let (cam_x, cam_y) = GameState::camera_position_for_scene(state.scene.as_ref().unwrap());
     let mut fb_without_bar = Framebuffer::new(960, 540);
     draw_frame(&mut fb_without_bar, &state, &state.asset.tpag_items, &state.asset.sprites);
     state.scene.as_mut().unwrap().healthbars.push(callys_core::ir_scene::HealthbarCommand {
         code: 0, offset: 0, instance: 0, view: 0,
-        x1: 50.0, y1: 50.0, x2: 200.0, y2: 60.0, amount: 80.0,
+        x1: cam_x + 50.0, y1: cam_y + 50.0, x2: cam_x + 200.0, y2: cam_y + 60.0, amount: 80.0,
         back_col: 0, min_col: 0, max_col: 0,
     });
     draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
@@ -94,9 +98,11 @@ fn ir_scene_gameplay_executes_movement_rendering_and_room_transitions() {
         "Healthbar must add rendered pixels to Framebuffer, changed {bar_pixels}");
 
     // 6. Verify Text rendering consumer renders glyphs into Framebuffer
+    // (camera-relative like the bar above: the view projection moves
+    // absolute near-origin coordinates off the view rect).
     state.scene.as_mut().unwrap().texts.push(callys_core::ir_scene::TextCommand {
         code: 0, offset: 0, instance: 0, view: 0,
-        x: 10.0, y: 10.0, text: "SCORE: 100".to_string(),
+        x: cam_x + 10.0, y: cam_y + 10.0, text: "SCORE: 100".to_string(),
         color: 0x00FFFFFF, alpha: 1.0, font: 0,
     });
     draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);

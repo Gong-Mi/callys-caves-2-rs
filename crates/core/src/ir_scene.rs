@@ -129,6 +129,11 @@ pub struct Scene {
     pub object_parents: BTreeMap<i32, Vec<i32>>,
     pub display_width: f64, pub display_height: f64, pub current_room: f64,
     pub room_width: f64, pub room_height: f64,
+    /// The room-editor VIEW table of the current room (from RoomData.views).
+    /// `room_views[0]` is the visible view: its `wview x hview` rect is what
+    /// the original runner zooms into `wport x hport` (rm_town: 448x252 →
+    /// 1136x640, ~2.54x). The client reads this to project world space.
+    pub room_views: Vec<callys_asset::RoomView>,
     pub current_font: f64, pub draw_color: i32, pub draw_alpha: f64,
     pub rng_seed: u64,
     pub view_visible: [bool; 8],
@@ -168,6 +173,7 @@ impl Default for Scene {
             draws: Vec::new(), texts: Vec::new(), healthbars: Vec::new(), backgrounds: Vec::new(), audio: Vec::new(), executed: Vec::new(),
             view: 0, view_positions: BTreeMap::new(), mouse_pressed: false,
             view_ports: BTreeMap::new(),
+            room_views: Vec::new(),
             touch_devices: Default::default(),
             left_releases: Vec::new(),
             left_presses: Vec::new(),
@@ -528,6 +534,7 @@ impl Scene {
         self.current_room = room_id as f64;
         self.room_width = room.width as f64;
         self.room_height = room.height as f64;
+        self.room_views = room.views.clone();
         self.target_room_warp = None;
         self.room_tiles = room.tiles.clone();
         self.draws.clear();

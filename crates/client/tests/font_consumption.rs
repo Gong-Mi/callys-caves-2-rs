@@ -26,6 +26,13 @@ fn state() -> GameState {
     let bundle = Arc::new(load_bundle_from_file(&bundle_path).expect("load full_ir"));
     state.enable_ir_gameplay(bundle).expect("enable IR gameplay");
     state.retire_prologue();
+    // These tests pin the FONT glyphs (atlas geometry, tinting, fallback)
+    // under the flat 1:1 world→screen projection: the sampled ink boxes are
+    // exact in world pixels. The room-editor view zoom has its own suite
+    // (view_projection_consumption).
+    for v in state.scene.as_mut().unwrap().room_views.iter_mut() {
+        v.visible = false;
+    }
     state
 }
 
