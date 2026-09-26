@@ -1,0 +1,687 @@
+{
+  "scope": "original scalar self score accesses",
+  "count": 85,
+  "code_count": 25,
+  "sites": [
+    {
+      "code": 12,
+      "offset": 3801940,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 12,
+      "offset": 3801964,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 12,
+      "offset": 3802136,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 12,
+      "offset": 3802164,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 12,
+      "offset": 3802344,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 12,
+      "offset": 3802372,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 12,
+      "offset": 3802552,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 12,
+      "offset": 3802580,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 14,
+      "offset": 3803436,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 14,
+      "offset": 3803464,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 15,
+      "offset": 3804540,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 17,
+      "offset": 3823188,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 17,
+      "offset": 3836124,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 17,
+      "offset": 3840092,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 370,
+      "offset": 4231356,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 370,
+      "offset": 4231504,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 370,
+      "offset": 4231652,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 370,
+      "offset": 4231800,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 370,
+      "offset": 4231948,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 370,
+      "offset": 4232096,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 414,
+      "offset": 4579712,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 414,
+      "offset": 4579760,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 414,
+      "offset": 4579776,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 416,
+      "offset": 4583240,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 416,
+      "offset": 4583288,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 416,
+      "offset": 4583304,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 418,
+      "offset": 4586768,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 418,
+      "offset": 4586820,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 418,
+      "offset": 4586840,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 421,
+      "offset": 4590388,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 421,
+      "offset": 4590436,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 421,
+      "offset": 4590452,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 423,
+      "offset": 4593884,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 423,
+      "offset": 4593944,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 423,
+      "offset": 4593960,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 425,
+      "offset": 4597432,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 425,
+      "offset": 4597504,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 425,
+      "offset": 4597520,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 427,
+      "offset": 4600972,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 427,
+      "offset": 4601056,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 427,
+      "offset": 4601072,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 429,
+      "offset": 4604524,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 429,
+      "offset": 4604576,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 429,
+      "offset": 4604596,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 431,
+      "offset": 4608048,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 431,
+      "offset": 4608100,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 431,
+      "offset": 4608120,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 433,
+      "offset": 4611492,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 433,
+      "offset": 4611540,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 433,
+      "offset": 4611556,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 435,
+      "offset": 4615008,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 435,
+      "offset": 4615056,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 435,
+      "offset": 4615072,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 437,
+      "offset": 4618524,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 437,
+      "offset": 4618572,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 437,
+      "offset": 4618588,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 439,
+      "offset": 4621988,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 439,
+      "offset": 4622036,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 439,
+      "offset": 4622052,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 441,
+      "offset": 4625452,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 441,
+      "offset": 4625500,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 441,
+      "offset": 4625516,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 443,
+      "offset": 4628928,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 443,
+      "offset": 4628976,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 443,
+      "offset": 4628992,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 447,
+      "offset": 4632464,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 447,
+      "offset": 4632516,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 447,
+      "offset": 4632532,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 447,
+      "offset": 4632648,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 478,
+      "offset": 4656036,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 478,
+      "offset": 4660016,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 510,
+      "offset": 4705260,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 510,
+      "offset": 4705500,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 510,
+      "offset": 4705740,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 510,
+      "offset": 4705980,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 510,
+      "offset": 4706220,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 510,
+      "offset": 4706460,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 514,
+      "offset": 4712064,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 514,
+      "offset": 4712304,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 514,
+      "offset": 4712544,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 514,
+      "offset": 4712784,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 514,
+      "offset": 4713024,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 514,
+      "offset": 4713264,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 541,
+      "offset": 4841116,
+      "op": "load",
+      "selector": -1,
+      "array": false,
+      "other": false
+    },
+    {
+      "code": 541,
+      "offset": 4841136,
+      "op": "store",
+      "selector": -1,
+      "array": false,
+      "other": false
+    }
+  ]
+}

@@ -42,6 +42,33 @@ pub struct RoomData {
     pub persistent: bool,
     pub objects: Vec<RoomObjectInstance>,
     pub tiles: Vec<RoomTileInstance>,
+    /// Room-editor VIEW table (GM8.1: 8 slots). The original runner renders
+    /// each visible view's `wview x hview` rect zoomed into its `wport x hport`
+    /// rectangle; rm_town's view[0] is 448x252 -> 1136x640 (zoom ~2.54) following
+    /// obj_player, which is why the original's world-space sprites are ~2.5x
+    /// larger than a flat 960x540 projection.
+    pub views: Vec<RoomView>,
+}
+
+/// One room-editor view slot. `hspeed`/`vspeed` are -1 (u32::MAX) when the
+/// view does not auto-scroll.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RoomView {
+    pub visible: bool,
+    pub xview: i32,
+    pub yview: i32,
+    pub wview: u32,
+    pub hview: u32,
+    pub xport: i32,
+    pub yport: i32,
+    pub wport: u32,
+    pub hport: u32,
+    pub hborder: u32,
+    pub vborder: u32,
+    pub hspeed: i32,
+    pub vspeed: i32,
+    /// The object whose x/y the view follows (0 = none).
+    pub object: i32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -186,6 +213,8 @@ pub struct GameDroidAsset {
     pub objects: Vec<GameObjectInfo>,
     pub rooms: Vec<RoomData>,
     pub sprites: HashMap<usize, SpriteData>,
+    pub backgrounds: HashMap<usize, BackgroundData>,
+    pub fonts: Vec<FontData>,
     pub tpag_items: HashMap<usize, TpagItem>,
     pub warp_targets: HashMap<i32, WarpTarget>,
     pub warp_audits: Vec<WarpAudit>,
@@ -193,9 +222,161 @@ pub struct GameDroidAsset {
     pub sounds: Vec<SoundData>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BackgroundData {
+    pub id: usize,
+    pub name: String,
+    pub transparent: bool,
+    pub smooth: bool,
+    pub preload: bool,
+    pub tpag_ptr: usize,
+}
+
+/// One glyph of a GM8-legacy FONT record: a box on the font's texture page.
+/// `(x, y)` are coordinates inside that page (the TpagItem rect on the atlas),
+/// `w`/`h` the box size (taller for descenders), `shift` the horizontal advance,
+/// `offset` the GM8 bearing field kept for fidelity.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GlyphData {
+    pub ch: u16,
+    pub x: u16,
+    pub y: u16,
+    pub w: u16,
+    pub h: u16,
+    pub shift: u16,
+    pub offset: u16,
+}
+
+/// A font from the FONT chunk. `page_tpag_ptr` is the absolute file offset of the
+/// 22-byte TpagItem locating the font's page rectangle on texture atlas
+/// `tex_id`; the glyph records are (ch, x, y, w, h, shift, offset) boxes into it.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FontData {
+    pub id: usize,
+    pub name: String,
+    pub system_name: String,
+    pub size: u32,
+    pub bold: bool,
+    pub italic: bool,
+    pub charset: u32,
+    pub antialias: u32,
+    pub glyph_count: u32,
+    pub page_tpag_ptr: usize,
+    pub tex_id: u16,
+    pub glyphs: Vec<GlyphData>,
+}
+
 fn invalid_data(message: impl Into<String>) -> std::io::Error {
     std::io::Error::new(std::io::ErrorKind::InvalidData, message.into())
 }
+
+/// Parse the FONT chunk (GM8-legacy layout). Each font record starts with two
+/// absolute file offsets (name, system font name), then u32 size/bold/italic/
+/// charset/antialias, two f32s, a u32 glyph count, and the absolute offset of a
+/// 22-byte TpagItem describing the font's page rectangle on a texture atlas.
+/// After the per-font header sits a table of absolute glyph-record pointers;
+/// each 16-byte record is u16 ch, x, y, w, h, shift, offset, unused. Glyph
+/// coordinates are relative to the page rectangle, not the atlas.
+fn parse_font_chunk(
+    file: &mut File,
+    chunk_pos: u64,
+    chunk_size: u32,
+    file_len: u64,
+) -> std::io::Result<Vec<FontData>> {
+    let chunk_end = chunk_pos
+        .checked_add(u64::from(chunk_size))
+        .ok_or_else(|| invalid_data("FONT chunk range overflows"))?;
+    if chunk_end > file_len || chunk_size < 4 {
+        return Err(invalid_data("FONT chunk is outside the file"));
+    }
+    file.seek(SeekFrom::Start(chunk_pos))?;
+    let count = file.read_u32::<LittleEndian>()?;
+    let table_size = u64::from(count)
+        .checked_mul(4)
+        .and_then(|size| size.checked_add(4))
+        .ok_or_else(|| invalid_data("FONT pointer table size overflows"))?;
+    if table_size > u64::from(chunk_size) {
+        return Err(invalid_data("FONT pointer table exceeds chunk bounds"));
+    }
+
+    let mut fonts = Vec::new();
+    for index in 0..count as usize {
+        file.seek(SeekFrom::Start(chunk_pos + 4 + (index as u64) * 4))?;
+        let base = u64::from(file.read_u32::<LittleEndian>()?);
+        if base == 0 || base >= file_len {
+            continue;
+        }
+        file.seek(SeekFrom::Start(base))?;
+        let name_off = file.read_u32::<LittleEndian>()? as u64;
+        let sys_off = file.read_u32::<LittleEndian>()? as u64;
+        let size = file.read_u32::<LittleEndian>()?;
+        let bold = file.read_u32::<LittleEndian>()? != 0;
+        let italic = file.read_u32::<LittleEndian>()? != 0;
+        let charset = file.read_u32::<LittleEndian>()?;
+        let antialias = file.read_u32::<LittleEndian>()?;
+        // The TpagItem pointer for the font's page rectangle, then two f32s
+        // (antialias level, scale), then the glyph count.
+        let page_tpag_ptr = file.read_u32::<LittleEndian>()? as usize;
+        let _aa_level = file.read_f32::<LittleEndian>()?;
+        let _scale_w = file.read_f32::<LittleEndian>()?;
+        let glyph_count = file.read_u32::<LittleEndian>()?;
+
+        let glyph_table = file.stream_position()?;
+        let table_bytes = u64::from(glyph_count)
+            .checked_mul(4)
+            .ok_or_else(|| invalid_data("FONT glyph table size overflows"))?;
+        if glyph_table
+            .checked_add(table_bytes)
+            .map(|end| end > chunk_end)
+            .unwrap_or(true)
+        {
+            return Err(invalid_data("FONT glyph table exceeds chunk bounds"));
+        }
+
+        let mut glyph_ptrs = Vec::with_capacity(glyph_count as usize);
+        for _ in 0..glyph_count {
+            glyph_ptrs.push(file.read_u32::<LittleEndian>()? as u64);
+        }
+
+        let mut glyphs = Vec::with_capacity(glyph_count as usize);
+        for &gptr in &glyph_ptrs {
+            if gptr == 0 || gptr + 16 > file_len {
+                continue;
+            }
+            file.seek(SeekFrom::Start(gptr))?;
+            let ch = file.read_u16::<LittleEndian>()?;
+            let x = file.read_u16::<LittleEndian>()?;
+            let y = file.read_u16::<LittleEndian>()?;
+            let w = file.read_u16::<LittleEndian>()?;
+            let h = file.read_u16::<LittleEndian>()?;
+            let shift = file.read_u16::<LittleEndian>()?;
+            let offset = file.read_u16::<LittleEndian>()?;
+            let _unused = file.read_u16::<LittleEndian>()?;
+            glyphs.push(GlyphData { ch, x, y, w, h, shift, offset });
+        }
+
+        // The two header words are absolute file offsets (probe: 0x4f6834 ->
+        // "font1"), not relative to the record base.
+        let name = read_null_string(file, name_off, file_len)?;
+        let system_name = read_null_string(file, sys_off, file_len)?;
+        fonts.push(FontData {
+            id: index,
+            name,
+            system_name,
+            size,
+            bold,
+            italic,
+            charset,
+            antialias,
+            glyph_count,
+            page_tpag_ptr,
+            tex_id: 0,
+            glyphs,
+        });
+    }
+    Ok(fonts)
+}
+
 
 fn parse_audio_chunk(
     file: &mut File,
@@ -999,7 +1180,7 @@ impl GameDroidAsset {
                 offsets.push(file.read_u32::<LittleEndian>()?);
             }
             for &off in &offsets {
-                if let Ok(s) = read_null_string(&mut file, off as u64, file_len) {
+                if let Ok(s) = read_null_string(&mut file, (off as u64) + 4, file_len) {
                     strings.push(s);
                 }
             }
@@ -1033,6 +1214,18 @@ impl GameDroidAsset {
                         x, y, w, h, rx, ry, bw, bh, sw, sh, tex_id
                     });
                 }
+            }
+        }
+
+        // Parse FONT after TPAG so each font's page descriptor (an absolute
+        // TpagItem offset) can resolve its atlas texture id.
+        let mut fonts = match chunks.get("FONT") {
+            Some(&(pos, size)) => parse_font_chunk(&mut file, pos, size, file_len)?,
+            None => Vec::new(),
+        };
+        for font in &mut fonts {
+            if let Some(page) = tpag_items.get(&font.page_tpag_ptr) {
+                font.tex_id = page.tex_id;
             }
         }
 
@@ -1079,6 +1272,40 @@ impl GameDroidAsset {
                         tpag_indices,
                     });
                 }
+            }
+        }
+
+        // Parse BGND
+        let mut backgrounds = HashMap::new();
+        if let Some(&(pos, _size)) = chunks.get("BGND") {
+            file.seek(SeekFrom::Start(pos))?;
+            let count = file.read_u32::<LittleEndian>()?;
+            let mut offsets = Vec::with_capacity(count as usize);
+            for _ in 0..count {
+                offsets.push(file.read_u32::<LittleEndian>()?);
+            }
+            for (idx, &off) in offsets.iter().enumerate() {
+                let bg_pos = off as u64;
+                if bg_pos >= file_len || file.seek(SeekFrom::Start(bg_pos)).is_err() {
+                    continue;
+                }
+                let name_off = file.read_u32::<LittleEndian>().unwrap_or(0);
+                let transparent = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                let smooth = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                let preload = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                let tpag_ptr = file.read_u32::<LittleEndian>().unwrap_or(0) as usize;
+
+                let bname = read_null_string(&mut file, name_off as u64, file_len)
+                    .unwrap_or_else(|_| format!("bg_{}", idx));
+
+                backgrounds.insert(idx, BackgroundData {
+                    id: idx,
+                    name: bname,
+                    transparent,
+                    smooth,
+                    preload,
+                    tpag_ptr,
+                });
             }
         }
 
@@ -1137,9 +1364,55 @@ impl GameDroidAsset {
                     let _creation_code = file.read_i32::<LittleEndian>().unwrap_or(-1);
                     let _flags = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let _bg_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
-                    let _views_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let views_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let obj_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let tiles_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
+
+                    // GM8.1 room VIEW table: u32 count, then `count` u32 offsets
+                    // to view records. Each record is 14 u32s: visible, xview,
+                    // yview, wview, hview, xport, yport, wport, hport, hborder,
+                    // vborder, hspeed, vspeed, object.
+                    let mut room_views = Vec::new();
+                    if views_offset != 0 && views_offset != u32::MAX {
+                        let views_pos = views_offset as u64;
+                        if views_pos < file_len && file.seek(SeekFrom::Start(views_pos)).is_ok() {
+                            if let Ok(view_count) = file.read_u32::<LittleEndian>() {
+                                let view_count = view_count.min(8);
+                                let mut view_offsets = Vec::with_capacity(view_count as usize);
+                                for _ in 0..view_count {
+                                    if let Ok(o) = file.read_u32::<LittleEndian>() {
+                                        view_offsets.push(o);
+                                    }
+                                }
+                                for &vo in &view_offsets {
+                                    let vo_pos = vo as u64;
+                                    if vo_pos == 0 || vo_pos >= file_len
+                                        || file.seek(SeekFrom::Start(vo_pos)).is_err() {
+                                        continue;
+                                    }
+                                    let visible = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let xview = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let yview = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let wview = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let hview = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let xport = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let yport = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let wport = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let hport = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let hborder = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let vborder = file.read_u32::<LittleEndian>().unwrap_or(0);
+                                    let hspeed = file.read_i32::<LittleEndian>().unwrap_or(-1);
+                                    let vspeed = file.read_i32::<LittleEndian>().unwrap_or(-1);
+                                    let object = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    room_views.push(RoomView {
+                                        visible, xview, yview, wview, hview,
+                                        xport, yport, wport, hport,
+                                        hborder, vborder, hspeed, vspeed, object,
+                                    });
+                                }
+                            }
+                        }
+                    }
 
                     let mut room_objs = Vec::new();
                     if obj_offset != 0 && obj_offset != u32::MAX {
@@ -1218,6 +1491,7 @@ impl GameDroidAsset {
                         speed,
                         persistent,
                         objects: room_objs,
+                        views: room_views,
                         tiles: room_tiles,
                     });
                 }
@@ -1272,6 +1546,8 @@ impl GameDroidAsset {
             objects,
             rooms,
             sprites,
+            backgrounds,
+            fonts,
             tpag_items,
             warp_targets,
             warp_audits,
