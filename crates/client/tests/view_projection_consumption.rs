@@ -113,7 +113,7 @@ fn prologue_keeps_the_flat_projection() {
     let intro_alive = state.scene.as_ref().unwrap()
         .instances.values().any(|i| i.object == 137 && i.alive);
     assert!(intro_alive, "cold boot holds the prologue");
-    let (cam_x, cam_y) = GameState::camera_position_for_scene(state.scene.as_ref().unwrap());
+    let (_cam_x, _cam_y) = GameState::camera_position_for_scene(state.scene.as_ref().unwrap());
     let scene = state.scene.as_mut().unwrap();
     scene.draws.clear();
     scene.backgrounds.clear();
@@ -145,4 +145,46 @@ fn prologue_keeps_the_flat_projection() {
     // Flat projection: the 208px sprite stays ~208px wide (within rounding).
     assert!((w - 208.0).abs() < 12.0,
         "the prologue keeps the flat 1:1 projection: 208px sprite must stay ~208px, got {w:.0}px");
+}
+
+#[test]
+fn touch_screen_to_world_unprojects_through_active_view_zoom() {
+    let mut state = state();
+    let (cam_x, cam_y) = GameState::camera_position_for_scene(state.scene.as_ref().unwrap());
+    let scene = state.scene.as_ref().unwrap();
+    let v = scene.room_views.iter().find(|v| v.visible).expect("visible view");
+    assert_eq!((v.wview, v.hview), (448, 252));
+
+    // Outside the prologue, 960x540 screen center (480, 270) must unproject to the
+    // center of the 448x252 view rect: (cam_x + 224, cam_y + 126).
+    let (wx, wy) = state.screen_to_world(480.0, 270.0);
+    assert!(
+        (wx - (cam_x + 224.0)).abs() < 1e-4,
+        "screen_to_world X must scale into view rect: expected {}, got {}",
+        cam_x + 224.0,
+        wx
+    );
+    assert!(
+        (wy - (cam_y + 126.0)).abs() < 1e-4,
+        "screen_to_world Y must scale into view rect: expected {}, got {}",
+        cam_y + 126.0,
+        wy
+    );
+
+    // Negative control: flat mapping would have emitted cam_x + 480.0, drifting
+    // by 256 world units (landing outside the view rect entirely).
+    let flat_x = cam_x + 480.0;
+    assert!(
+        (wx - flat_x).abs() > 200.0,
+        "unprojected world X must diverge from unscaled screen offset by >200 units"
+    );
+
+    // pointer_pressed and pointer_released must queue the unprojected coordinates
+    state.pointer_pressed(480.0, 270.0);
+    let queued_press = state.scene.as_ref().unwrap().left_presses.last().copied();
+    assert_eq!(queued_press, Some((wx, wy)));
+
+    state.pointer_released(480.0, 270.0);
+    let queued_release = state.scene.as_ref().unwrap().left_releases.last().copied();
+    assert_eq!(queued_release, Some((wx, wy)));
 }

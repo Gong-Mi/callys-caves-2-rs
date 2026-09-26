@@ -638,6 +638,29 @@ impl GameState {
         Ok(())
     }
 
+    /// Map 960x540 logical screen coordinates to room world coordinates.
+    /// When a room-editor view is active (outside the intro), this scales the
+    /// offset by the active view dimensions (e.g. 448x252) before adding the camera position.
+    pub fn screen_to_world(&self, x: f64, y: f64) -> (f64, f64) {
+        if let Some(scene) = self.scene.as_ref() {
+            let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
+            if intro_alive {
+                return (x, y);
+            }
+            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
+            if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
+                if v.wview > 0 && v.hview > 0 {
+                    let offset_x = x * (v.wview as f64 / 960.0);
+                    let offset_y = y * (v.hview as f64 / 540.0);
+                    return (cam_x + offset_x, cam_y + offset_y);
+                }
+            }
+            (cam_x + x, cam_y + y)
+        } else {
+            (x, y)
+        }
+    }
+
     /// Queue an actual press in the renderer's 960x540 logical viewport.
     /// Uses the last presented view origin, not a newly moved camera.
     pub fn pointer_pressed(&mut self, x: f64, y: f64) {
@@ -645,10 +668,9 @@ impl GameState {
             || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
             return;
         }
-        let scene = self.scene.as_mut();
-        if let Some(scene) = scene {
-            let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
-            scene.left_presses.push((vx + x, vy + y));
+        let (world_x, world_y) = self.screen_to_world(x, y);
+        if let Some(scene) = self.scene.as_mut() {
+            scene.left_presses.push((world_x, world_y));
         }
     }
 
@@ -670,11 +692,11 @@ impl GameState {
             .scene
             .as_ref()
             .is_some_and(|s| s.instances.values().any(|i| i.object == 137 && i.alive));
+        let (world_x, world_y) = self.screen_to_world(x, y);
         if let Some(scene) = self.scene.as_mut() {
-            let (vx, vy) = scene.view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
-            scene.left_releases.push((vx + x, vy + y));
+            scene.left_releases.push((world_x, world_y));
             if !intro {
-                self.primary_release = Some((vx + x, vy + y));
+                self.primary_release = Some((world_x, world_y));
             }
         }
     }
@@ -1678,9 +1700,11 @@ pub fn draw_frame(
                             let dst_y = (bg_cmd.y as f32 * scale_y) as i32;
                             let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                             let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                            let mut ty = dst_y;
+                            let start_x = if dst_w > 0 { dst_x.rem_euclid(dst_w as i32) - dst_w as i32 } else { dst_x };
+                            let start_y = if dst_h > 0 { dst_y.rem_euclid(dst_h as i32) - dst_h as i32 } else { dst_y };
+                            let mut ty = start_y;
                             while ty < fb.height as i32 {
-                                let mut tx = dst_x;
+                                let mut tx = start_x;
                                 while tx < fb.width as i32 {
                                     fb.blit_scaled_alpha(
                                         atlas,
@@ -1807,9 +1831,11 @@ pub fn draw_frame(
                         let dst_y = (world_y as f32 * scale_y) as i32;
                         let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                         let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                        let mut ty = dst_y;
+                        let start_x = if dst_w > 0 { dst_x.rem_euclid(dst_w as i32) - dst_w as i32 } else { dst_x };
+                        let start_y = if dst_h > 0 { dst_y.rem_euclid(dst_h as i32) - dst_h as i32 } else { dst_y };
+                        let mut ty = start_y;
                         while ty < fb.height as i32 {
-                            let mut tx = dst_x;
+                            let mut tx = start_x;
                             while tx < fb.width as i32 {
                                 fb.blit_scaled_alpha(
                                     atlas,

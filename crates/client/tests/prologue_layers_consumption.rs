@@ -69,3 +69,29 @@ fn prologue_text_layer_lands_on_framebuffer() {
     let diff = diff_count(&full, &no_text);
     assert!(diff > 50, "texts clear must change the framebuffer; diff={diff}");
 }
+
+#[test]
+fn background_tiling_covers_viewport_with_positive_offset() {
+    let mut state = boot_state();
+    let scene = state.scene.as_mut().unwrap();
+    scene.draws.clear();
+    scene.texts.clear();
+    scene.room_tiles.clear();
+    scene.healthbars.clear();
+    scene.particles.clear();
+    // Force a positive offset: without modular wrapping, (0..100) or (0..50) would stay black
+    for bg in &mut scene.backgrounds {
+        bg.x = 100.0;
+        bg.y = 50.0;
+    }
+    let fb = render(&state);
+    // Assert corner pixels (0, 0), (10, 10), (50, 25), (959, 539) are NOT default black (0,0,0)
+    for (x, y) in [(0, 0), (10, 10), (50, 25), (959, 539)] {
+        let i = ((y * fb.width + x) * 4) as usize;
+        let (b, g, r, _a) = (fb.pixels[i], fb.pixels[i + 1], fb.pixels[i + 2], fb.pixels[i + 3]);
+        assert!(
+            (r as u16 + g as u16 + b as u16) > 0,
+            "pixel ({x}, {y}) must be tiled with background, got black (0,0,0)"
+        );
+    }
+}

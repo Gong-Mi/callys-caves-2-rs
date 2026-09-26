@@ -83,13 +83,15 @@ public class MainActivity extends Activity {
     private static final float LOGICAL_HEIGHT = 540.0f;
 
     private int logicalButton(float x, float y) {
-        // These are the original GMS button hit boxes from CODE 522/525/530/533
-        // in the 960x540 view, not the old client quadrant overlay.
-        if (y >= 190.0f && y < 254.0f) {
-            if (x >= 0.0f && x < 86.0f) return 1;       // left (-10..86)
-            if (x >= 88.0f && x < 184.0f) return 2;      // right (88..184)
-            if (x >= 315.0f && x < 380.0f) return 4;     // shoot
-            if (x >= 380.0f && x < 445.0f) return 3;     // jump
+        // Map 960x540 logical screen coordinates to the original 448x252 view
+        // space used by GMS touch buttons (CODE 522/525/530/533).
+        float vx = x * 448.0f / LOGICAL_WIDTH;
+        float vy = y * 252.0f / LOGICAL_HEIGHT;
+        if (vy >= 190.0f && vy < 254.0f) {
+            if (vx >= 0.0f && vx < 86.0f) return 1;       // left (-10..86)
+            if (vx >= 88.0f && vx < 184.0f) return 2;      // right (88..184)
+            if (vx >= 315.0f && vx < 380.0f) return 4;     // shoot
+            if (vx >= 380.0f && vx < 445.0f) return 3;     // jump
         }
         return 0;
     }
