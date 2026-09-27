@@ -93,12 +93,29 @@ with zipfile.ZipFile(apk, "a") as z:
     z.write(target_so, "lib/arm64-v8a/libcallys_client.so")
     full_ir = os.path.join(root, "crates/core/src/generated/full_ir.json")
     if os.path.exists(full_ir):
-        z.write(full_ir, "assets/full_ir.json")
+        # The 53MB IR JSON is highly compressible plain text; ZIP_STORED
+        # (zipfile's default) shipped it raw and tripled the APK. Deflate it:
+        # ~53MB -> ~10MB with no runtime cost beyond transparent unzip.
+        with open(full_ir, "rb") as f:
+            data = f.read()
+        info = zipfile.ZipInfo("assets/full_ir.json", date_time=(2026, 1, 1, 0, 0, 0))
+        info.compress_type = zipfile.ZIP_DEFLATED
+        info.external_attr = 0o644 << 16
+        z.writestr(info, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
     for r, _, files in os.walk(asset_root):
         for f in files:
             full = os.path.join(r, f)
             rel = os.path.relpath(full, asset_root)
-            z.write(full, f"assets/{rel}")
+            # ogg/png/wav are already-compressed media: storing them avoids
+            # pointless deflate time at zero size cost. Everything textual
+            # gets deflated.
+            ext = os.path.splitext(f)[1].lower()
+            compress = zipfile.ZIP_DEFLATED if ext in (".json", ".txt", ".xml", ".wav", ".droid") else zipfile.ZIP_STORED
+            info = zipfile.ZipInfo(f"assets/{rel}", date_time=(2026, 1, 1, 0, 0, 0))
+            info.compress_type = compress
+            info.external_attr = 0o644 << 16
+            with open(full, "rb") as fh:
+                z.writestr(info, fh.read(), compress_type=compress)
 print("Injected dex, libcallys_client.so, and assets into base.apk")
 PY
 
