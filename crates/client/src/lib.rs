@@ -265,11 +265,11 @@ pub struct GameState {
     pub intro_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
     pub scene: Option<callys_core::ir_scene::Scene>,
     pub full_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
-    /// Previous frame's physical state of the four virtual devices, so
+    /// Previous frame's physical state of the five virtual devices, so
     /// `pressed`/`released` stay single-frame edges (device_mouse_check_button_
     /// pressed/_released semantics) even when a scene's own `mouse_clear` wipes
     /// the device state mid-tick.
-    touch_prev: [bool; 4],
+    touch_prev: [bool; 5],
     /// Latches the platform tap pulse to one frame: Java holds `tap` high for a
     /// few frames, the original `mouse_check_button_pressed(mb_left)` lasts one.
     tap_was_active: bool,
@@ -395,7 +395,7 @@ impl GameState {
             pending_ir_restore: None,
             scene: None,
             full_bundle: None,
-            touch_prev: [false; 4],
+            touch_prev: [false; 5],
             tap_was_active: false,
             primary_release: None,
         })
@@ -635,7 +635,7 @@ impl GameState {
         self.scene = Some(scene);
         self.full_bundle = Some(bundle);
         // Fresh scene: no physical edge from the previous one may leak into it.
-        self.touch_prev = [false; 4];
+        self.touch_prev = [false; 5];
         self.primary_release = None;
         Ok(())
     }
@@ -761,7 +761,7 @@ impl GameState {
                 // that killed the intro must not leak into gameplay as a phantom
                 // device-0 release (the old re-enable path cleared these too).
                 self.primary_release = None;
-                self.touch_prev = [false; 4];
+                self.touch_prev = [false; 5];
                 self.haptic_queue.extend(prologue_haptics);
                 // A boot-time IR snapshot restore waits for this handover: the
                 // original boot always plays the prologue over rm_town; the
@@ -800,12 +800,14 @@ impl GameState {
                 self.input.move_right,
                 self.input.jump,
                 self.input.attack,
+                self.input.sword,
             ];
             let zones = [
                 (cam_x + 30.0, cam_y + 220.0),
                 (cam_x + 130.0, cam_y + 220.0),
                 (cam_x + 410.0, cam_y + 220.0),
                 (cam_x + 345.0, cam_y + 220.0),
+                (cam_x + 440.0, cam_y + 175.0),
             ];
             // A real primary-pointer release belongs to device 0 - the original
             // runner's first touch - carrying its real logical coordinates, so
@@ -2433,7 +2435,7 @@ mod android_jni {
         jump: jint,
         attack: jint,
         switch_weapon: jint,
-        _weapon: jint,
+        sword: jint,
         tap: jint,
     ) {
         let mut g = slot().lock().unwrap();
@@ -2442,9 +2444,9 @@ mod android_jni {
             s.state.input.move_right = move_right != 0;
             s.state.input.jump = jump != 0;
             s.state.input.attack = attack != 0;
+            s.state.input.sword = sword != 0;
             s.state.input.switch_weapon = switch_weapon != 0;
             s.state.input.tap = tap != 0;
-
         }
     }
 

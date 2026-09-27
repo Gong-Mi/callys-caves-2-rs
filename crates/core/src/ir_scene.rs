@@ -382,7 +382,7 @@ impl Scene {
             ("xptolevelup", 30.0), ("roomstart", 0.0), ("soundmute", 0.0), ("musicmute", 0.0),
             ("haskey", 0.0), ("warplock", 0.0), ("warpfrommap", 0.0), ("ending", 0.0),
             ("coinmultiply", 1.0), ("timeplayed", 0.0), ("gemdropenabled", 1.0),
-            ("poisonenabled", 0.0), ("weaponswapped", 0.0), ("firing", 0.0), ("swing", 0.0),
+            ("poisonenabled", 0.0), ("weaponswapped", 0.0), ("firing", 0.0), ("swing", 1.0),
             ("rebuff", 0.0), ("boss1touched", 0.0), ("sword", 0.0),
             ("tjumpactive", 0.0), ("triplejumpbought", 0.0),
             ("strengthupgradebought", 0.0), ("strengthupgrade2bought", 0.0),
