@@ -566,6 +566,15 @@ impl GameState {
         let mut scene = callys_core::ir_scene::Scene::default();
         scene.init_bundle(&bundle);
         scene.init_fresh_start_globals();
+        // init_bundle already seeds persistent_objects from the IR's
+        // persistent flags (asset-verified: obj_player(0), obj_music(68)).
+        // Re-seed from the parsed asset as a defensive union in case an older
+        // IR file lacks the field: insert is idempotent.
+        for obj in &self.asset.objects {
+            if obj.persistent {
+                scene.persistent_objects.insert(obj.id as i32);
+            }
+        }
         // Real INI boundary: the original CODE 17 reads savefile{,2,3}.ini from
         // the game's files directory. Without a save path (tests) the INIs stay
         // the in-memory cache.

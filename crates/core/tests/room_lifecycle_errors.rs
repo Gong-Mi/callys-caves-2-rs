@@ -5,11 +5,12 @@ fn fixture(subtype: i32, has_code: bool) -> (Bundle, Scene, RoomData, i32) {
     let b = Bundle {
         schema: 1, string_table: vec![], room_bindings: vec![],
         objects: vec![Object { id: 0, name: "persistent_player".into(), sprite: -1,
-            depth: 0, parent: -100, parent_chain: vec![],
+            depth: 0, persistent: true, parent: -100, parent_chain: vec![],
             events: vec![Event { event_type: 7, subtype, codes: vec![42] }] }],
         codes: if has_code { vec![Code { id:42, start:0, end:0, instructions:vec![] }] } else { vec![] },
     };
     let mut s = Scene::default();
+    s.init_bundle(&b);
     s.current_room = 3.0;
     s.room_width = 320.0;
     let id = s.create(&b,0,10.0,20.0).unwrap();

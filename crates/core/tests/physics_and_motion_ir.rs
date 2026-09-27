@@ -11,6 +11,7 @@ fn motion_integration_gravity_friction_and_builtins() {
             name: "fixture_object".into(),
             sprite: -1,
             depth: 0,
+            persistent: false,
             parent: -100,
             parent_chain: vec![],
             events: vec![],

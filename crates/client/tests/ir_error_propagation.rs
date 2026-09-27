@@ -14,6 +14,7 @@ fn state_with_event(event_type: i32, intro: bool) -> GameState {
         schema: 1, string_table: vec![], room_bindings: vec![], codes: vec![],
         objects: vec![Object {
             id: object, name: "error_fixture".into(), sprite: -1, depth: 0,
+            persistent: false,
             parent: -100, parent_chain: vec![],
             events: vec![Event { event_type, subtype: 0, codes: vec![987654] }],
         }],

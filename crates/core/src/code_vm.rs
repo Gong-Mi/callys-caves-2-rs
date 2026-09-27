@@ -27,6 +27,12 @@ pub struct Object {
     pub name: String,
     pub sprite: i32,
     pub depth: i32,
+    /// GM persistent flag from the original asset data. An instance of a
+    /// persistent object survives room switches (transition_to_room retains
+    /// it; every room re-places its own transient copies). Old IR files
+    /// without the field default to non-persistent.
+    #[serde(default)]
+    pub persistent: bool,
     #[serde(default = "default_parent")]
     pub parent: i32,
     #[serde(default)]

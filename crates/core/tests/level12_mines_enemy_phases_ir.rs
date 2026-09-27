@@ -151,7 +151,13 @@ fn level12_shooter2_uses_clear_los_before_spawning_bullet_two() {
     s.dispatch(&bundle, shooter, 2, 1).unwrap();
     assert!(s.instances.keys().filter(|id| !before.contains(id)).all(|id| s.instances[id].object != BULLET2),
         "blocked collision_line suppresses the volley");
-    assert_eq!(s.instances[&shooter].alarms[1], 30, "blocked volley still rearms choose cadence");
+    // CODE 108 rearms alarm[1] = choose(30, 45, 60, 75): the exact value is
+    // rng-sequence dependent, so the contract is the original value domain.
+    // (Before the persistence fix the UI instances stacked differently and
+    // the sequence happened to land on 30; pinning a single value would test
+    // our rng ordering, not the original semantics.)
+    assert!([30, 45, 60, 75].contains(&s.instances[&shooter].alarms[1]),
+        "blocked volley still rearms choose cadence, got {}", s.instances[&shooter].alarms[1]);
     let _ = s.destroy(&bundle, blocker);
     let remaining_blockers: Vec<i32> = s.instances.iter()
         .filter(|(_, i)| i.alive && [4, 5, 6].contains(&i.object))

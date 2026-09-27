@@ -17,6 +17,7 @@ fn fixture_bundle() -> Bundle {
             name: "anim_object".into(),
             sprite: 10,
             depth: 0,
+            persistent: false,
             parent: -100,
             parent_chain: vec![],
             events: vec![],

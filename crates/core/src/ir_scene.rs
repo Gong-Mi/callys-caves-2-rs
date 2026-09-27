@@ -367,6 +367,11 @@ impl Scene {
     pub fn init_bundle(&mut self, b: &Bundle) {
         for obj in &b.objects {
             self.object_parents.insert(obj.id, obj.parent_chain.clone());
+            // Original GM persistent flag drives room-switch retention
+            // (transition_to_room) and the save-snapshot collected filter.
+            if obj.persistent {
+                self.persistent_objects.insert(obj.id);
+            }
         }
     }
 
@@ -464,10 +469,10 @@ impl Scene {
                 i.alive
                     && !i.external
                     // Match transition_to_room's persistence policy exactly:
-                    // player (0), UI (66) and explicitly persistent objects
-                    // are carried across rooms, never captured as collected.
-                    && i.object != 0
-                    && i.object != 66
+                    // only persistent-object instances survive the switch, so
+                    // they are carried across rooms and never captured here
+                    // as collected. Every transient (UI included: each room
+                    // re-places one) is room-local and must be captured.
                     && !self.persistent_objects.contains(&i.object)
             })
             .map(|(id, _)| *id)
@@ -548,8 +553,11 @@ impl Scene {
             let x = inst.x as f64;
             let y = inst.y as f64;
 
-            // If a persistent instance already exists and is alive, do not duplicate it
-            if (obj_id == 0 || self.persistent_objects.contains(&obj_id))
+            // If a persistent instance already exists and is alive, do not
+            // duplicate it (GM: rooms re-place their persistent objects, the
+            // runner keeps the live instance). obj_player is persistent in the
+            // original data, so it is covered by the set, not a hardcode.
+            if self.persistent_objects.contains(&obj_id)
                 && self.instances.values().any(|i| i.object == obj_id && i.alive)
             {
                 continue;
@@ -598,7 +606,12 @@ impl Scene {
         }
 
         // 2. Retain persistent instances, purge transient
-        self.instances.retain(|_, i| i.alive && (i.object == 0 || i.object == 66 || self.persistent_objects.contains(&i.object)));
+        // Original GM8.1 semantics: an instance survives the room switch iff
+        // its object is persistent. obj_player(0) and obj_music(68) are the
+        // only persistent objects in the original data; obj_UI(66) is a
+        // normal per-room object that every room re-places (so retaining it
+        // here would stack a second UI every hop).
+        self.instances.retain(|_, i| i.alive && self.persistent_objects.contains(&i.object));
 
         // 3. Load new room data and bindings
         self.load_room_from_data(bundle, room_id, room)?;
