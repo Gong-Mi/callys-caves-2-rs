@@ -17,6 +17,10 @@ on:
         description: 'Label for this comparison run'
         required: false
         default: 'parity'
+  push:
+    branches: [fix/prologue-render-layers]
+    paths:
+      - '.github/workflows/compare-visuals.yml'
 
 jobs:
   compare:
@@ -110,7 +114,7 @@ jobs:
         run: |
           adb shell am start -n com.vdogames.callyscaves2/.RunnerActivity
           mkdir -p shots/orig
-          for i in $(seq 1 ${{ github.event.inputs.runs }}); do
+          for i in $(seq 1 ${{ github.event.inputs.runs || '12' }}); do
             sleep 4
             adb exec-out screencap -p > shots/orig/step${i}.png
             # advance: tap center-left (fire/move), then center (jump/confirm)
@@ -174,7 +178,7 @@ jobs:
           adb install -r android-build/CallysCaves2_64bit_Rust.apk || { echo "APK install failed"; exit 1; }
           adb shell am start -n com.gongmi.callyscaves2/.MainActivity
           mkdir -p shots/remake
-          for i in $(seq 1 ${{ github.event.inputs.runs }}); do
+          for i in $(seq 1 ${{ github.event.inputs.runs || '12' }}); do
             sleep 4
             adb exec-out screencap -p > shots/remake/step${i}.png
             adb shell input tap 300 800
@@ -217,7 +221,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: visual-parity-${{ github.event.inputs.label }}
+          name: visual-parity-${{ github.event.inputs.label || 'parity' }}
           path: |
             shots/
             parity_report.txt
