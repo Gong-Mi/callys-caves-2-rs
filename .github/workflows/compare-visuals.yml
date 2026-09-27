@@ -27,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
+      - uses: actions/checkout@v4
+
       - name: Keep the preinstalled SDK (it is what we need)
         run: |
           # Do NOT delete /usr/local/lib/android — the runner's preinstalled
@@ -56,30 +58,32 @@ jobs:
         run: |
           # API 30 x86_64 image ships with libndk translation for armeabi-v7a.
           # The original Yoyo APK is armeabi-v7a-only; the remake is arm64-v8a.
-          # arm64 translation on x86_64 is only available via libndk {translation
-          # levels}: API 30 google_apis x86_64 supports armeabi-v7a (and
-          # arm64-v8a on API 30+ images with libhoudini/ndk_translation).
-          sdkmanager "system-images;android-30;google_apis;x86_64" > /dev/null
-          echo no | avdmanager create avd -n lab -k "system-images;android-30;google_apis;x86_64" -d pixel_5
+          SDKMGR=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
+          AVDMGR=$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager
+          ls "$ANDROID_HOME/cmdline-tools/"
+          "$SDKMGR" --install "system-images;android-30;google_apis;x86_64" > /dev/null
+          echo no | "$AVDMGR" create avd -n lab -k "system-images;android-30;google_apis;x86_64" -d pixel_5
 
       - name: Boot emulator (gpu swiftshader_indirect)
         run: |
+          # emulator + adb live in the preinstalled SDK, not on PATH by default
+          export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
           export ANDROID_SDK_ROOT=$ANDROID_HOME
           emulator -avd lab -no-window -no-audio -no-boot-anim -no-snapshot \
             -gpu swiftshader_indirect -memory 3072 -cores 2 \
             > ${{ github.workspace }}/emulator.log 2>&1 &
           adb wait-for-device
-          adb wait-for-boot shell input keyevent KEYCODE_WAKEUP
-          adb shell settings put global window_animation_scale 0
-          adb shell settings put global transition_animation_scale 0
-          adb shell settings put global animator_duration_scale 0
-          # Wait for full boot
-          for i in $(seq 1 60); do
+          for i in $(seq 1 90); do
             boot=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
             [ "$boot" = "1" ] && break
             sleep 5
           done
-          adb shell getprop sys.boot_completed
+          adb shell getprop sys.boot_completed | grep -q 1 || { echo "emulator did not boot"; tail -40 emulator.log; exit 1; }
+          adb shell input keyevent KEYCODE_WAKEUP
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+          adb shell wm size 1080x2340 || true
 
       - name: Fetch original APK
         run: |
@@ -92,19 +96,18 @@ jobs:
 
       - name: Build the remake APK for arm64 on the runner
         run: |
-          # Cross-compile the client cdylib for arm64-v8a with the repo's
-          # Android NDK, then assemble the APK with the same steps
-          # build_apk.sh does (aapt2/d8/apksigner all live in the SDK).
-          sudo apt-get install -y --no-install-recommends aapt zipalign
+          # Cross-compile the client cdylib for arm64-v8a with the preinstalled
+          # NDK, then assemble the APK with the same steps build_apk.sh does.
+          export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
+          NDK_VER=$(ls "$ANDROID_HOME/ndk/" | sort -V | tail -1)
+          echo "using NDK $NDK_VER"
+          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VER
           rustup target add aarch64-linux-android
-          # NDK toolchain via the SDK manager
-          yes | sdkmanager --licenses > /dev/null
-          sdkmanager "ndk;27.0.12077973" > /dev/null
-          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.0.12077973
           mkdir -p .cargo
           cat > .cargo/config.toml <<'CFG'
           [target.aarch64-linux-android]
           linker = "aarch64-linux-android33-clang"
+          rustflags = ["-C", "link-arg=-landlog"]
           CFG
           export PATH="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
           cargo build --release -p callys-client
@@ -112,11 +115,13 @@ jobs:
 
       - name: Install original APK (arm translation check)
         run: |
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
           adb install -r apks/original.apk || adb install -r --abi armeabi-v7a apks/original.apk
           adb shell pm list packages | grep vdogames
 
       - name: Scripted run of the ORIGINAL
         run: |
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
           adb shell am start -n com.vdogames.callyscaves2/.RunnerActivity
           mkdir -p shots/orig
           for i in $(seq 1 ${{ github.event.inputs.runs || '12' }}); do
@@ -179,6 +184,7 @@ jobs:
 
       - name: Scripted run of the REMAKE
         run: |
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
           adb uninstall com.gongmi.callyscaves2 || true
           adb install -r android-build/CallysCaves2_64bit_Rust.apk || { echo "APK install failed"; exit 1; }
           adb shell am start -n com.gongmi.callyscaves2/.MainActivity
