@@ -194,19 +194,47 @@ public class MainActivity extends Activity {
         }
     }
 
+    private boolean isPackageUpdated() {
+        try {
+            long lastUpdateTime = getPackageManager().getPackageInfo(getPackageName(), 0).lastUpdateTime;
+            File stampFile = new File(getFilesDir(), "version.stamp");
+            if (stampFile.exists()) {
+                try (java.io.DataInputStream dis = new java.io.DataInputStream(new java.io.FileInputStream(stampFile))) {
+                    if (dis.readLong() == lastUpdateTime) {
+                        return false;
+                    }
+                } catch (IOException ignored) {}
+            }
+            return true;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+    private void recordPackageUpdated() {
+        try {
+            long lastUpdateTime = getPackageManager().getPackageInfo(getPackageName(), 0).lastUpdateTime;
+            File stampFile = new File(getFilesDir(), "version.stamp");
+            try (java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.io.FileOutputStream(stampFile))) {
+                dos.writeLong(lastUpdateTime);
+            }
+        } catch (Exception ignored) {}
+    }
+
     /** Copy `assets/game.droid` from the APK onto the device so
      *  the Rust engine can mmap it. */
     private String prepareGameDroid() {
+        boolean forceUpdate = isPackageUpdated();
         File out = new File(getFilesDir(), "game.droid");
-        copyAsset("game.droid", out, 1000);
-        copyAsset("full_ir.json", new File(getFilesDir(), "full_ir.json"), 1000000);
+        copyAsset("game.droid", out, 1000, forceUpdate);
+        copyAsset("full_ir.json", new File(getFilesDir(), "full_ir.json"), 1000000, forceUpdate);
         File textureDir = new File(getFilesDir(), "textures");
         if (!textureDir.exists() && !textureDir.mkdirs()) {
             throw new RuntimeException("Failed to create texture directory");
         }
         for (int i = 0; i < 4; i++) {
             copyAsset("textures/texture_" + i + ".png",
-                    new File(textureDir, "texture_" + i + ".png"), 1000);
+                    new File(textureDir, "texture_" + i + ".png"), 1000, forceUpdate);
         }
         // SoundPool reads from files/sfx/; unpack every embedded wav the
         // original runner preloads (SOND flags preload bit).
@@ -216,13 +244,16 @@ public class MainActivity extends Activity {
         }
         for (int audioId : REQUIRED_AUDIO_IDS) {
             copyAsset("audio/sound_" + audioId + ".wav",
-                    new File(soundDir, "sound_" + audioId + ".wav"), 1000);
+                    new File(soundDir, "sound_" + audioId + ".wav"), 1000, forceUpdate);
+        }
+        if (forceUpdate) {
+            recordPackageUpdated();
         }
         return out.getAbsolutePath();
     }
 
-    private void copyAsset(String assetName, File out, long minimumLength) {
-        if (out.exists() && out.length() > minimumLength) return;
+    private void copyAsset(String assetName, File out, long minimumLength, boolean forceUpdate) {
+        if (!forceUpdate && out.exists() && out.length() > minimumLength) return;
         AssetManager am = getAssets();
         try (InputStream in = am.open(assetName);
              FileOutputStream fos = new FileOutputStream(out)) {
