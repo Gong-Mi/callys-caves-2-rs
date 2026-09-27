@@ -11,7 +11,7 @@ fn test_town_rendered_and_player_controls_work() {
     
     let mut state = GameState::new_persistent(&droid).unwrap();
     let bundle = Arc::new(load_bundle_from_file(&bundle_path).unwrap());
-    state.enable_ir_gameplay(bundle).unwrap();
+    state.enable_ir_gameplay(bundle.clone()).unwrap();
     
     // Step 125 frames to let prologue alarm[0] = 120 unlock taplock
     for _ in 0..125 {
@@ -61,4 +61,31 @@ fn test_town_rendered_and_player_controls_work() {
     assert_eq!(player.fields.get("sprite_index").copied(), Some(31.0), "player must switch to spr_playerslash");
     let sword_exists = state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 46 && i.alive);
     assert!(sword_exists, "input.sword must spawn obj_sword (object 46)");
+    
+    // Test weapon swap via pointer_released at top right of screen (800, 30) BEFORE walking into Lloyd
+    state.scene.as_mut().unwrap().globals.insert("shotgunbought".into(), 1.0);
+    assert_eq!(state.scene.as_ref().unwrap().globals.get("shotgun").copied(), Some(0.0));
+    assert_eq!(state.scene.as_ref().unwrap().globals.get("pistol").copied(), Some(1.0));
+    
+    let swap_inst = state.scene.as_ref().unwrap().instances.iter().find(|(_, i)| i.object == 126).unwrap();
+    eprintln!("BEFORE walking, obj_weaponswap: x={}, y={}, active={}", swap_inst.1.fields["x"], swap_inst.1.fields["y"], swap_inst.1.active);
+    let (cam_x, cam_y) = GameState::camera_position_for_scene(state.scene.as_ref().unwrap());
+    eprintln!("Camera pos: ({cam_x}, {cam_y})");
+    state.pointer_released(880.0, 30.0);
+    
+    // Frame 1: step
+    state.step(1.0 / 60.0);
+    
+    // Check obj_weaponswap alarms after frame 1
+    let swap_inst = state.scene.as_ref().unwrap().instances.iter().find(|(_, i)| i.object == 126).unwrap();
+    eprintln!("After frame 1 step: obj_weaponswap active = {}, alarms = {:?}", swap_inst.1.active, swap_inst.1.alarms);
+    eprintln!("touch_devices[0]: {:?}", state.scene.as_ref().unwrap().touch_devices[0]);
+    // Frame 2: obj_weaponswap.alarm[0] fires (CODE 519) -> swaps weapon!
+    state.step(1.0 / 60.0);
+    
+    let shotgun_active = state.scene.as_ref().unwrap().globals.get("shotgun").copied();
+    let pistol_active = state.scene.as_ref().unwrap().globals.get("pistol").copied();
+    eprintln!("After pointer_released(800, 30): shotgun = {:?}, pistol = {:?}", shotgun_active, pistol_active);
+    assert_eq!(shotgun_active, Some(1.0), "shotgun must be active after swap");
+    assert_eq!(pistol_active, Some(0.0), "pistol must be inactive after swap");
 }
