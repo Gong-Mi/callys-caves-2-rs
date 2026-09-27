@@ -1,0 +1,224 @@
+name: Visual Parity Lab
+
+# Screenshot comparison of the Rust remake vs the original Yoyo-runner APK
+# on an x86_64 emulator with libndk ARM translation. Produces a per-screen
+# colorful-pixel ratio table + screenshots as artifacts, so "the remake has
+# content differences" becomes a measurable, reproducible diff instead of
+# one-off on-device screenshots.
+
+on:
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: 'How many scripted input steps to run per app'
+        required: false
+        default: '12'
+      label:
+        description: 'Label for this comparison run'
+        required: false
+        default: 'parity'
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Maximize disk
+        run: |
+          rm -rf /usr/local/lib/android /usr/local/share/boost
+          df -h /
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends python3-pil jq unzip
+          pip3 install --user Pillow
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK (emulator)
+        uses: android-actions/setup-android@v3
+
+      - name: Create AVD (API 30, x86_64, libndk ARM translation)
+        run: |
+          # API 30 x86_64 image ships with libndk translation for armeabi-v7a.
+          # The original Yoyo APK is armeabi-v7a-only; the remake is arm64-v8a.
+          # arm64 translation on x86_64 is only available via libndk {translation
+          # levels}: API 30 google_apis x86_64 supports armeabi-v7a (and
+          # arm64-v8a on API 30+ images with libhoudini/ndk_translation).
+          sdkmanager "system-images;android-30;google_apis;x86_64" > /dev/null
+          echo no | avdmanager create avd -n lab -k "system-images;android-30;google_apis;x86_64" -d pixel_5
+
+      - name: Boot emulator (gpu swiftshader_indirect)
+        run: |
+          export ANDROID_SDK_ROOT=$ANDROID_HOME
+          emulator -avd lab -no-window -no-audio -no-boot-anim -no-snapshot \
+            -gpu swiftshader_indirect -memory 3072 -cores 2 \
+            > ${{ github.workspace }}/emulator.log 2>&1 &
+          adb wait-for-device
+          adb wait-for-boot shell input keyevent KEYCODE_WAKEUP
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+          # Wait for full boot
+          for i in $(seq 1 60); do
+            boot=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
+            [ "$boot" = "1" ] && break
+            sleep 5
+          done
+          adb shell getprop sys.boot_completed
+
+      - name: Fetch original APK
+        run: |
+          mkdir -p apks
+          URL="https://github.com/${{ github.repository }}/releases/download/original-apk-v1/callys_original.apk"
+          curl -L --retry 3 -o apks/original.apk "$URL"
+          sha256sum apks/original.apk
+          [ "$(sha256sum apks/original.apk | cut -d' ' -f1)" = "d608f4557ad66326de36268b9ab062afec839344e57d85afb6220405ea8cd8c9" ] || { echo "original APK hash mismatch"; exit 1; }
+          ls -lh apks/original.apk
+
+      - name: Build the remake APK for arm64 on the runner
+        run: |
+          # Cross-compile the client cdylib for arm64-v8a with the repo's
+          # Android NDK, then assemble the APK with the same steps
+          # build_apk.sh does (aapt2/d8/apksigner all live in the SDK).
+          sudo apt-get install -y --no-install-recommends aapt zipalign
+          rustup target add aarch64-linux-android
+          # NDK toolchain via the SDK manager
+          yes | sdkmanager --licenses > /dev/null
+          sdkmanager "ndk;27.0.12077973" > /dev/null
+          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.0.12077973
+          mkdir -p .cargo
+          cat > .cargo/config.toml <<'CFG'
+          [target.aarch64-linux-android]
+          linker = "aarch64-linux-android33-clang"
+          CFG
+          export PATH="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
+          cargo build --release -p callys-client
+          ls -lh target/aarch64-linux-android/release/libcallys_client.so
+
+      - name: Install original APK (arm translation check)
+        run: |
+          adb install -r apks/original.apk || adb install -r --abi armeabi-v7a apks/original.apk
+          adb shell pm list packages | grep vdogames
+
+      - name: Scripted run of the ORIGINAL
+        run: |
+          adb shell am start -n com.vdogames.callyscaves2/.RunnerActivity
+          mkdir -p shots/orig
+          for i in $(seq 1 ${{ github.event.inputs.runs }}); do
+            sleep 4
+            adb exec-out screencap -p > shots/orig/step${i}.png
+            # advance: tap center-left (fire/move), then center (jump/confirm)
+            adb shell input tap 300 800
+            adb shell input tap 610 800
+          done
+          adb shell am force-stop com.vdogames.callyscaves2
+
+      - name: Build remake APK on runner (this exact head)
+        run: |
+          # Assemble the APK with the same steps build_apk.sh performs, using
+          # the arm64 cdylib cross-compiled in the previous step and the
+          # runner's SDK build-tools (aapt2/d8/apksigner).
+          BT=$(ls $ANDROID_HOME/build-tools/ | sort -V | tail -1)
+          export PATH="$ANDROID_HOME/build-tools/$BT:$PATH"
+          export ANDROID_JAR=$ANDROID_HOME/platforms/android-36/android.jar
+          cd android-build
+          aapt2 compile --dir res -o compiled/res.flat.zip
+          aapt2 link -I "$ANDROID_JAR" --manifest AndroidManifest.xml -o base.apk compiled/res.flat.zip
+          mkdir -p classes
+          javac --release 17 -cp "$ANDROID_JAR" -d classes src/com/gongmi/callyscaves2/*.java
+          d8 --lib "$ANDROID_JAR" --release --output . --min-api 24 $(find classes -name '*.class')
+          python3 - <<'PY'
+          import zipfile, os
+          root = os.environ.get("GITHUB_WORKSPACE")
+          so = os.path.join(root, "target/aarch64-linux-android/release/libcallys_client.so")
+          full_ir = os.path.join(root, "crates/core/src/generated/full_ir.json")
+          asset_root = os.path.join(root, "assets")
+          with zipfile.ZipFile("base.apk", "a") as z:
+              z.write("classes.dex", "classes.dex")
+              z.write(so, "lib/arm64-v8a/libcallys_client.so")
+              with open(full_ir, "rb") as f:
+                  data = f.read()
+              info = zipfile.ZipInfo("assets/full_ir.json", date_time=(2026, 1, 1, 0, 0, 0))
+              info.compress_type = zipfile.ZIP_DEFLATED
+              info.external_attr = 0o644 << 16
+              z.writestr(info, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+              for r, _, files in os.walk(asset_root):
+                  for f in files:
+                      full = os.path.join(r, f)
+                      rel = os.path.relpath(full, asset_root)
+                      ext = os.path.splitext(f)[1].lower()
+                      compress = zipfile.ZIP_DEFLATED if ext in (".json", ".txt", ".xml", ".wav", ".droid") else zipfile.ZIP_STORED
+                      info = zipfile.ZipInfo(f"assets/{rel}", date_time=(2026, 1, 1, 0, 0, 0))
+                      info.compress_type = compress
+                      info.external_attr = 0o644 << 16
+                      with open(full, "rb") as fh:
+                          z.writestr(info, fh.read(), compress_type=compress)
+          print("APK assembled")
+          PY
+          zipalign -p -f 4 base.apk aligned.apk
+          # debug signing is fine for emulator install
+          keytool -genkeypair -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US" -keyalg RSA -validity 9999
+          apksigner sign --ks debug.keystore --ks-pass pass:android aligned.apk
+          cp aligned.apk CallysCaves2_64bit_Rust.apk
+          ls -lh CallysCaves2_64bit_Rust.apk
+
+      - name: Scripted run of the REMAKE
+        run: |
+          adb uninstall com.gongmi.callyscaves2 || true
+          adb install -r android-build/CallysCaves2_64bit_Rust.apk || { echo "APK install failed"; exit 1; }
+          adb shell am start -n com.gongmi.callyscaves2/.MainActivity
+          mkdir -p shots/remake
+          for i in $(seq 1 ${{ github.event.inputs.runs }}); do
+            sleep 4
+            adb exec-out screencap -p > shots/remake/step${i}.png
+            adb shell input tap 300 800
+            adb shell input tap 610 800
+          done
+
+      - name: Pixel-diff report
+        run: |
+          python3 - <<'EOF'
+          import os
+          from PIL import Image
+
+          def stats(path):
+              img = Image.open(path).convert('RGB')
+              w, h = img.size
+              small = img.resize((160, 90))
+              data = list(small.getdata())
+              dark = sum(1 for p in data if sum(p) < 60)
+              white = sum(1 for p in data if sum(p) > 700)
+              colorful = sum(1 for p in data if max(p) - min(p) > 60)
+              return dark, white, colorful, len(data)
+
+          rows = []
+          for side in ('orig', 'remake'):
+              d = f'shots/{side}'
+              if not os.path.isdir(d):
+                  continue
+              for f in sorted(os.listdir(d)):
+                  dark, white, colorful, total = stats(os.path.join(d, f))
+                  rows.append((side, f, dark, white, colorful, colorful / total))
+
+          with open('parity_report.txt', 'w') as out:
+              out.write('side     step           dark  white  colorful  ratio\n')
+              for side, f, dark, white, colorful, ratio in rows:
+                  out.write(f'{side:8s} {f:14s} {dark:5d} {white:6d} {colorful:8d}  {ratio:.4f}\n')
+          print(open('parity_report.txt').read())
+          EOF
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-parity-${{ github.event.inputs.label }}
+          path: |
+            shots/
+            parity_report.txt
+            emulator.log
