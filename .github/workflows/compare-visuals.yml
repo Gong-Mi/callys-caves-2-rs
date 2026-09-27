@@ -27,9 +27,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - name: Maximize disk
+      - name: Keep the preinstalled SDK (it is what we need)
         run: |
-          sudo rm -rf /usr/local/lib/android /usr/local/share/boost || true
+          # Do NOT delete /usr/local/lib/android — the runner's preinstalled
+          # SDK is exactly what the emulator steps use. Free space elsewhere:
+          sudo rm -rf /usr/local/share/boost || true
           df -h /
 
       - name: Install tools
@@ -44,8 +46,11 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK (emulator)
-        uses: android-actions/setup-android@v3
+      - name: Point the environment at the preinstalled SDK
+        run: |
+          ls /usr/local/lib/android/sdk
+          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
 
       - name: Create AVD (API 30, x86_64, libndk ARM translation)
         run: |
