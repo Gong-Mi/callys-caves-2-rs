@@ -11,8 +11,8 @@
 //!   - the projection scale becomes fb/port × (port/view),
 //!   - the camera follows obj_player inside the border dead-zone and clamps
 //!     to the room bounds,
-//!   - the prologue keeps the flat projection (the intro pins view 0 to the
-//!     room origin).
+//!   - the prologue executes CODE 538's 960x540 choice of view 6 for Draw,
+//!     projection and touch unprojection (not a special flat view-0 path).
 
 use callys_client::{draw_frame, Framebuffer, GameState};
 use callys_core::code_vm::load_bundle_from_file;
@@ -102,18 +102,27 @@ fn view_projection_zooms_world_sprites_by_the_port_view_ratio() {
 }
 
 #[test]
-fn prologue_keeps_the_flat_projection() {
+fn prologue_draw_dispatch_uses_runtime_selected_view_and_projection() {
     let manifest_dir = env!("CARGO_MANIFEST_DIR");
     let asset_path = Path::new(manifest_dir).join("../../assets/game.droid");
     let mut state = GameState::new(&asset_path).expect("GameState new");
     let bundle_path = Path::new(manifest_dir).join("../../crates/core/src/generated/full_ir.json");
     let bundle = Arc::new(load_bundle_from_file(&bundle_path).expect("load full_ir"));
     state.enable_ir_gameplay(bundle).expect("enable IR gameplay");
-    // The intro is alive: the room view must NOT zoom the prologue.
-    let intro_alive = state.scene.as_ref().unwrap()
-        .instances.values().any(|i| i.object == 137 && i.alive);
-    assert!(intro_alive, "cold boot holds the prologue");
-    let (_cam_x, _cam_y) = GameState::camera_position_for_scene(state.scene.as_ref().unwrap());
+    assert!(state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 137 && i.alive));
+
+    // CODE 538 runs on the first frame at this 960x540 display size: it disables
+    // view 0 and enables view 6. Draw must use that live choice, not the ROOM
+    // record's original visible bit or a prologue-specific flat projection.
+    state.step(1.0 / 60.0);
+    assert!(state.runtime_diagnostic.is_none(), "first prologue frame must run");
+    let scene = state.scene.as_ref().unwrap();
+    assert!(!scene.view_visible[0] && scene.view_visible[6], "original resolution GML selects view 6");
+    assert_eq!(scene.view, 6, "Draw dispatch must set view_current to the live view");
+    assert!(!scene.draws.is_empty(), "the selected view must produce Draw commands");
+    assert!(scene.draws.iter().all(|cmd| cmd.view == 6), "commands must carry view 6");
+
+    let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
     let scene = state.scene.as_mut().unwrap();
     scene.draws.clear();
     scene.backgrounds.clear();
@@ -122,8 +131,8 @@ fn prologue_keeps_the_flat_projection() {
     scene.healthbars.clear();
     scene.particles.clear();
     scene.draws.push(callys_core::ir_scene::DrawCommand {
-        code: 0, offset: 0, instance: -1, view: 0,
-        sprite: 161, frame: 0.0, x: 100.0, y: 100.0,
+        code: 0, offset: 0, instance: -1, view: 6,
+        sprite: 6, frame: 0.0, x: cam_x + 60.0, y: cam_y + 40.0,
         scale_x: 1.0, scale_y: 1.0, rotation: 0.0, color: -1, alpha: 1.0, fog: false,
     });
     let mut fb = Framebuffer::new(960, 540);
@@ -141,10 +150,59 @@ fn prologue_keeps_the_flat_projection() {
         }
     }
     assert!(x0 < x1 && y0 < y1, "the sprite must land");
-    let w = (x1 - x0 + 1) as f64;
-    // Flat projection: the 208px sprite stays ~208px wide (within rounding).
-    assert!((w - 208.0).abs() < 12.0,
-        "the prologue keeps the flat 1:1 projection: 208px sprite must stay ~208px, got {w:.0}px");
+    let (w, h) = ((x1 - x0 + 1) as f64, (y1 - y0 + 1) as f64);
+    // Original ROOM view[6] is 480x270 and fills the 960x540 logical screen:
+    // the 32px sprite must therefore rasterize to 64x64, not stay unzoomed.
+    assert!((w - 64.0).abs() < 4.0, "view 6 should scale sprite width 32→64, got {w:.0}");
+    assert!((h - 64.0).abs() < 4.0, "view 6 should scale sprite height 32→64, got {h:.0}");
+}
+
+#[test]
+fn entering_a_room_reseeds_runtime_view_state_from_its_room_table() {
+    let mut state = state();
+    let mut target = state.asset.rooms[1].clone();
+    target.objects.clear();
+    target.tiles.clear();
+    let expected_visible: [bool; 8] = std::array::from_fn(|index| {
+        target.views.get(index).is_some_and(|view| view.visible)
+    });
+    let expected_positions: Vec<_> = target.views.iter().take(8).enumerate().map(|(index, view)| {
+        (index as i32, (view.xview as f64, view.yview as f64))
+    }).collect();
+    let expected_ports: Vec<_> = target.views.iter().take(8).enumerate().map(|(index, view)| {
+        (index as i32, (view.wport as f64, view.hport as f64))
+    }).collect();
+    let bundle = state.full_bundle.clone().expect("full IR bundle");
+    {
+        let scene = state.scene.as_mut().unwrap();
+        scene.view_visible = [false; 8];
+        scene.view_visible[6] = true;
+        scene.view_positions.insert(6, (123.0, 456.0));
+        scene.view_ports.insert(6, (12.0, 34.0));
+        scene.load_room_from_data(&bundle, 1, &target).expect("load target room");
+        assert_eq!(scene.view_visible, expected_visible, "room's static visible bits seed the runtime array");
+        assert_eq!(scene.view_positions.iter().map(|(i, p)| (*i, *p)).collect::<Vec<_>>(), expected_positions);
+        assert_eq!(scene.view_ports.iter().map(|(i, p)| (*i, *p)).collect::<Vec<_>>(), expected_ports);
+    }
+}
+
+#[test]
+fn prologue_touch_unprojects_through_runtime_selected_view() {
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let asset_path = Path::new(manifest_dir).join("../../assets/game.droid");
+    let mut state = GameState::new(&asset_path).expect("GameState new");
+    let bundle_path = Path::new(manifest_dir).join("../../crates/core/src/generated/full_ir.json");
+    let bundle = Arc::new(load_bundle_from_file(&bundle_path).expect("load full_ir"));
+    state.enable_ir_gameplay(bundle).expect("enable IR gameplay");
+    state.step(1.0 / 60.0);
+
+    let scene = state.scene.as_ref().unwrap();
+    let active = &scene.room_views[6];
+    let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
+    let expected = (cam_x + active.wview as f64 / 2.0, cam_y + active.hview as f64 / 2.0);
+    let actual = state.screen_to_world(480.0, 270.0);
+    assert!((actual.0 - expected.0).abs() < 1e-6, "center X should unproject through view 6: {actual:?} vs {expected:?}");
+    assert!((actual.1 - expected.1).abs() < 1e-6, "center Y should unproject through view 6: {actual:?} vs {expected:?}");
 }
 
 #[test]

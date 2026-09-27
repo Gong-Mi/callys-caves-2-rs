@@ -129,10 +129,9 @@ pub struct Scene {
     pub object_parents: BTreeMap<i32, Vec<i32>>,
     pub display_width: f64, pub display_height: f64, pub current_room: f64,
     pub room_width: f64, pub room_height: f64,
-    /// The room-editor VIEW table of the current room (from RoomData.views).
-    /// `room_views[0]` is the visible view: its `wview x hview` rect is what
-    /// the original runner zooms into `wport x hport` (rm_town: 448x252 →
-    /// 1136x640, ~2.54x). The client reads this to project world space.
+    /// The ROOM editor's indexed VIEW table for the current room. Its static
+    /// `visible` bits seed the runtime `view_visible` array on room entry; GML
+    /// may then switch indices at run time (CC2 selects view 6 at 960x540).
     pub room_views: Vec<callys_asset::RoomView>,
     pub current_font: f64, pub draw_color: i32, pub draw_alpha: f64,
     pub rng_seed: u64,
@@ -540,6 +539,15 @@ impl Scene {
         self.room_width = room.width as f64;
         self.room_height = room.height as f64;
         self.room_views = room.views.clone();
+        self.view_visible = [false; 8];
+        self.view_positions.clear();
+        self.view_ports.clear();
+        for (index, view) in self.room_views.iter().take(8).enumerate() {
+            let index = index as i32;
+            self.view_visible[index as usize] = view.visible;
+            self.view_positions.insert(index, (view.xview as f64, view.yview as f64));
+            self.view_ports.insert(index, (view.wport as f64, view.hport as f64));
+        }
         self.target_room_warp = None;
         self.room_tiles = room.tiles.clone();
         self.draws.clear();
@@ -944,6 +952,11 @@ impl Scene {
             d.pressed = false;
             d.released = false;
         }
+    }
+    /// Runtime-selected visible view. The room table supplies the per-index
+    /// geometry; `view_visible` is authoritative after GML has run.
+    pub fn active_view_index(&self) -> Option<usize> {
+        self.view_visible.iter().position(|visible| *visible)
     }
     /// One explicit view pass. Camera positions must be supplied by caller.
     /// OBJT depth determines order; equal-depth creation-id order is provisional.

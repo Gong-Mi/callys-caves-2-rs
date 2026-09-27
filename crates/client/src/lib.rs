@@ -401,48 +401,41 @@ impl GameState {
         })
     }
 
-    /// Calculates the camera follow coordinates for the given IR scene.
-    /// GM8.1 view semantics: the view rect (`wview x hview` from the room
-    /// table) follows its object inside the border dead-zones and clamps to
-    /// the room bounds. When the room has no visible view (e.g. the prologue,
-    /// where obj_introduction's Create pins view 0 to the origin), the camera
-    /// stays at (0,0) and the projection keeps the flat 960x540 scale.
+    /// Calculates the camera origin for the runtime-selected GameMaker view.
+    /// The indexed ROOM record supplies its view rect and follow target; GML's
+    /// `view_visible[]` array, not the ROOM editor's original bit, selects it.
     pub fn camera_position_for_scene(scene: &callys_core::ir_scene::Scene) -> (f64, f64) {
-        // The room-editor view table drives the camera when a visible view exists.
-        if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
-            if v.object == 0 {
-                if let Some((px, py)) = scene
-                    .instances
-                    .values()
-                    .find(|i| i.object == 0 && i.alive)
-                    .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
-                {
-                    // Follow with the border dead-zone: the view only moves
-                    // once the target leaves the border band.
-                    let half_w = v.wview as f64 / 2.0;
-                    let half_h = v.hview as f64 / 2.0;
-                    let hb = (v.hborder as f64).min(half_w);
-                    let vb = (v.vborder as f64).min(half_h);
-                    let center_x = v.xview as f64 + half_w;
-                    let center_y = v.yview as f64 + half_h;
-                    let mut cx = center_x;
-                    let mut cy = center_y;
-                    // Dead-zone follow: the view center chases the target only
-                    // once it leaves the border band.
-                    if (px - center_x).abs() > hb {
-                        cx = if px > center_x + hb { px - hb } else if px < center_x - hb { px + hb } else { center_x };
+        if let Some(view_index) = scene.active_view_index() {
+            if let Some(v) = scene.room_views.get(view_index) {
+                if v.object >= 0 {
+                    if let Some((px, py)) = scene
+                        .instances
+                        .values()
+                        .find(|i| i.object == v.object && i.alive)
+                        .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
+                    {
+                        let half_w = v.wview as f64 / 2.0;
+                        let half_h = v.hview as f64 / 2.0;
+                        let hb = (v.hborder as f64).min(half_w);
+                        let vb = (v.vborder as f64).min(half_h);
+                        let center_x = v.xview as f64 + half_w;
+                        let center_y = v.yview as f64 + half_h;
+                        let mut cx = center_x;
+                        let mut cy = center_y;
+                        if (px - center_x).abs() > hb {
+                            cx = if px > center_x + hb { px - hb } else { px + hb };
+                        }
+                        if (py - center_y).abs() > vb {
+                            cy = if py > center_y + vb { py - vb } else { py + vb };
+                        }
+                        let vx = (cx - half_w).clamp(0.0, (scene.room_width - v.wview as f64).max(0.0));
+                        let vy = (cy - half_h).clamp(0.0, (scene.room_height - v.hview as f64).max(0.0));
+                        return (vx, vy);
                     }
-                    if (py - center_y).abs() > vb {
-                        cy = if py > center_y + vb { py - vb } else if py < center_y - vb { py + vb } else { center_y };
-                    }
-                    // The view rect's top-left = center - half.
-                    let mut vx = cx - half_w;
-                    let mut vy = cy - half_h;
-                    // Clamp to room bounds (GM8.1 clamps the view rect).
-                    vx = vx.clamp(0.0, (scene.room_width - v.wview as f64).max(0.0));
-                    vy = vy.clamp(0.0, (scene.room_height - v.hview as f64).max(0.0));
-                    return (vx, vy);
                 }
+                // A view without a live follow target remains at its ROOM/GML
+                // camera position instead of silently following the player.
+                return (v.xview as f64, v.yview as f64);
             }
         }
         let (px, py) = scene
@@ -647,21 +640,18 @@ impl GameState {
         Ok(())
     }
 
-    /// Map 960x540 logical screen coordinates to room world coordinates.
-    /// When a room-editor view is active (outside the intro), this scales the
-    /// offset by the active view dimensions (e.g. 448x252) before adding the camera position.
+    /// Map renderer logical-screen coordinates through the runtime-selected
+    /// view's room rectangle and then into room world coordinates.
     pub fn screen_to_world(&self, x: f64, y: f64) -> (f64, f64) {
         if let Some(scene) = self.scene.as_ref() {
-            let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
-            if intro_alive {
-                return (x, y);
-            }
             let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
-            if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
-                if v.wview > 0 && v.hview > 0 {
-                    let offset_x = x * (v.wview as f64 / 960.0);
-                    let offset_y = y * (v.hview as f64 / 540.0);
-                    return (cam_x + offset_x, cam_y + offset_y);
+            if let Some(view_index) = scene.active_view_index() {
+                if let Some(v) = scene.room_views.get(view_index) {
+                    if v.wview > 0 && v.hview > 0 {
+                        let offset_x = x * (v.wview as f64 / scene.display_width.max(1.0));
+                        let offset_y = y * (v.hview as f64 / scene.display_height.max(1.0));
+                        return (cam_x + offset_x, cam_y + offset_y);
+                    }
                 }
             }
             (cam_x + x, cam_y + y)
@@ -733,10 +723,14 @@ impl GameState {
             if intro_alive {
                 scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
                 scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
-                // Draw events (event_type 8) are dispatched only by an explicit
-                // view pass; tick runs Step/alarms/collision only.
-                scene.view_positions.insert(0, (0.0, 0.0));
-                scene.draw_view(bundle, 0).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
+                // Draw events are dispatched by the runtime-enabled view, which
+                // may differ from every ROOM record's original `visible` bit.
+                let view = scene.active_view_index().ok_or_else(|| {
+                    format!("no visible view for intro room {}", scene.current_room)
+                })?;
+                let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
+                scene.view_positions.insert(view as i32, (cam_x, cam_y));
+                scene.draw_view(bundle, view as i32).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
                 scene.end_frame();
                 // Stop commands precede plays: the original bytecode stops the old
                 // BGM before starting the new one; reversing this order would have
@@ -858,9 +852,12 @@ impl GameState {
                 self.rooms_visited = self.rooms_visited.saturating_add(1);
             }
 
+            let view = scene.active_view_index().ok_or_else(|| {
+                format!("no visible view for gameplay room {}", scene.current_room)
+            })?;
             let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
-            scene.view_positions.insert(0, (cam_x, cam_y));
-            scene.draw_view(bundle, 0).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
+            scene.view_positions.insert(view as i32, (cam_x, cam_y));
+            scene.draw_view(bundle, view as i32).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
             // The frame's input edges were visible to this frame's Step, alarm,
             // collision and Draw events; retire them only now (see end_frame).
             scene.end_frame();
@@ -1641,39 +1638,29 @@ pub fn draw_frame(
     let mut scale_y = fb.height as f32 / 540.0;
     let mut view_origin = (0.0f64, 0.0f64);
     let mut view_active = false;
-    // GM8.1 view projection: the room-editor view table zooms the visible
-    // view's `wview x hview` rect into `wport x hport`. The screen scale
-    // becomes fb/port and the camera already returns the view rect's
-    // top-left, so the world projection stays (world - cam) * scale.
-    // Prologue pin: while the intro is alive its Create pinned view 0 to the
-    // room origin, so the flat 960x540 projection applies there (below).
+    // GM8.1 view projection: the runtime-visible index selects the ROOM view
+    // rectangle. Keep Draw dispatch, camera origin, pointer unprojection and
+    // framebuffer scale on that same index, including during the prologue.
     if let Some(scene) = state.scene.as_ref() {
-        let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
-        if !intro_alive {
-            if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
-                let port_x = if v.wport > 0 { v.wport as f32 } else { 960.0 };
-                let port_y = if v.hport > 0 { v.hport as f32 } else { 540.0 };
-                // The port is expressed in the game's 1136x640 output space;
-                // the framebuffer may be any size, so scale = fb / port * (port/view)/1
-                // i.e. the view zoom (port/view) folds into the fb scale.
+        if let Some(view_index) = scene.active_view_index() {
+            if let Some(v) = scene.room_views.get(view_index) {
+                let view_id = view_index as i32;
+                let (port_x, port_y) = scene.view_ports.get(&view_id).copied()
+                    .unwrap_or((v.wport as f64, v.hport as f64));
+                let port_x = if port_x > 0.0 { port_x as f32 } else { scene.display_width as f32 };
+                let port_y = if port_y > 0.0 { port_y as f32 } else { scene.display_height as f32 };
                 let zoom_x = port_x / v.wview.max(1) as f32;
                 let zoom_y = port_y / v.hview.max(1) as f32;
-                // A framebuffer pixel maps to the port at fb/port density,
-                // and the view zoom (port/view) stretches world units into
-                // the port. Both fold into: fb / view.
                 scale_x = fb.width as f32 / port_x * zoom_x;
                 scale_y = fb.height as f32 / port_y * zoom_y;
-                view_origin = (v.xview as f64, v.yview as f64);
+                view_origin = GameState::camera_position_for_scene(scene);
                 view_active = true;
             }
         }
     }
 
-    // Prologue cutscene: while obj_introduction (137) is alive inside the full
-    // scene, render exactly what the original CODE Draw events emitted this
-    // tick. The intro's Create pinned view 0 to the room origin, so these draw
-    // commands project in screen space exactly like the old separate intro
-    // scene did. Alpha-blended blit; no hand-placed coordinates here.
+    // Prologue cutscene: render the same world-space queues as gameplay, using
+    // the runtime-selected view's camera and projection (no prologue bypass).
     //
     // Layers consumed (probe enumeration on the natural prologue run):
     //   1. `scene.backgrounds` — obj_bg CODE 364 emits `draw_background(bg=5)`
@@ -1686,16 +1673,8 @@ pub fn draw_frame(
         let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
         if intro_alive {
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
-            // The intro's Create pinned view 0 to the room origin, so these
-            // commands project with no camera offset.
-
-            // 1. Backgrounds (obj_bg's draw_background / draw_background_ext).
-            // GM8.1's draw_background TILES the image across the view from the
-            // command position (the original boot frame's ocean spans the full
-            // window while one bg_town tile is 480x320 logical — single-blit
-            // pinned only ~30% of the frame; the tile-NCC probe against the
-            // original screenshot pins the tiled semantics, NOT RUN on device
-            // until this batch).
+            // 1. Backgrounds use GM8.1's single-background draw path. Tiling is
+            // a distinct builtin and is not implied by draw_background.
             for bg_cmd in &scene.backgrounds {
                 let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
                 if alpha <= 0.0 {
@@ -1705,29 +1684,17 @@ pub fn draw_frame(
                 if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
                     if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
                         if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
-                            let dst_x = (bg_cmd.x as f32 * scale_x) as i32;
-                            let dst_y = (bg_cmd.y as f32 * scale_y) as i32;
+                            let dst_x = ((bg_cmd.x - view_origin.0) as f32 * scale_x) as i32;
+                            let dst_y = ((bg_cmd.y - view_origin.1) as f32 * scale_y) as i32;
                             let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                             let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                            let start_x = if dst_w > 0 { dst_x.rem_euclid(dst_w as i32) - dst_w as i32 } else { dst_x };
-                            let start_y = if dst_h > 0 { dst_y.rem_euclid(dst_h as i32) - dst_h as i32 } else { dst_y };
-                            let mut ty = start_y;
-                            while ty < fb.height as i32 {
-                                let mut tx = start_x;
-                                while tx < fb.width as i32 {
-                                    fb.blit_scaled_alpha(
-                                        atlas,
-                                        (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                                        (tx, ty, dst_w, dst_h),
-                                        false,
-                                        alpha,
-                                    );
-                                    if dst_w == 0 { break; }
-                                    tx += dst_w as i32;
-                                }
-                                if dst_h == 0 { break; }
-                                ty += dst_h as i32;
-                            }
+                            fb.blit_scaled_alpha(
+                                atlas,
+                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                                (dst_x, dst_y, dst_w, dst_h),
+                                false,
+                                alpha,
+                            );
                         }
                     }
                 }
@@ -1735,9 +1702,9 @@ pub fn draw_frame(
 
             // 2. Film sprite draws (obj_phone draw_self / obj_logo crossfade)
             for cmd in &scene.draws {
-                if !draw_ir_sprite(fb, state, cmd, (0.0, 0.0), (scale_x, scale_y)) {
-                    let dst_x = (cmd.x as f32 * scale_x) as i32;
-                    let dst_y = (cmd.y as f32 * scale_y) as i32;
+                if !draw_ir_sprite(fb, state, cmd, view_origin, (scale_x, scale_y)) {
+                    let dst_x = ((cmd.x - view_origin.0) as f32 * scale_x) as i32;
+                    let dst_y = ((cmd.y - view_origin.1) as f32 * scale_y) as i32;
                     let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
                     if alpha > 0.0 {
                         fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
@@ -1754,8 +1721,8 @@ pub fn draw_frame(
                 if alpha <= 0.0 || cmd.text.is_empty() {
                     continue;
                 }
-                let x = (cmd.x as f32 * scale_x) as i32;
-                let y = (cmd.y as f32 * scale_y) as i32;
+                let x = ((cmd.x - view_origin.0) as f32 * scale_x) as i32;
+                let y = ((cmd.y - view_origin.1) as f32 * scale_y) as i32;
                 let (r, g, b) = if cmd.color < 0 {
                     (255, 255, 255)
                 } else {
@@ -1809,22 +1776,16 @@ pub fn draw_frame(
 
     // Full IR gameplay scene: render room tiles, original draws, and camera follow
     if let (Some(_bundle), Some(scene)) = (state.full_bundle.as_deref(), state.scene.as_ref()) {
-        let (mut cam_x, mut cam_y) = GameState::camera_position_for_scene(scene);
-        // The camera returns the view rect's top-left; the projection uses
-        // (world - view_rect_origin) * zoom, and draw_background's HUD-space
-        // commands (already screen-space) must not shift. view_origin is the
-        // room-editor view start; the camera's clamp already includes it.
-        if view_active {
-            cam_x -= view_origin.0;
-            cam_y -= view_origin.1;
-        }
+        let (cam_x, cam_y) = if view_active {
+            view_origin
+        } else {
+            GameState::camera_position_for_scene(scene)
+        };
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
-        // 0. Render Room Backgrounds emitted by obj_bg or scene.
-        // GM8.1 draw_background tiles across the view from the command position
-        // (same evidence as the prologue branch: the original frames span the
-        // full window, one tile is 480x320 logical).
+        // 0. Render the single image emitted by draw_background; the separate
+        // tiled builtin is not used at this call site.
         for bg_cmd in &scene.backgrounds {
             let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
             if alpha <= 0.0 {
@@ -1840,25 +1801,13 @@ pub fn draw_frame(
                         let dst_y = (world_y as f32 * scale_y) as i32;
                         let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                         let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                        let start_x = if dst_w > 0 { dst_x.rem_euclid(dst_w as i32) - dst_w as i32 } else { dst_x };
-                        let start_y = if dst_h > 0 { dst_y.rem_euclid(dst_h as i32) - dst_h as i32 } else { dst_y };
-                        let mut ty = start_y;
-                        while ty < fb.height as i32 {
-                            let mut tx = start_x;
-                            while tx < fb.width as i32 {
-                                fb.blit_scaled_alpha(
-                                    atlas,
-                                    (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                                    (tx, ty, dst_w, dst_h),
-                                    false,
-                                    alpha,
-                                );
-                                if dst_w == 0 { break; }
-                                tx += dst_w as i32;
-                            }
-                            if dst_h == 0 { break; }
-                            ty += dst_h as i32;
-                        }
+                        fb.blit_scaled_alpha(
+                            atlas,
+                            (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                            (dst_x, dst_y, dst_w, dst_h),
+                            false,
+                            alpha,
+                        );
                     }
                 }
             }

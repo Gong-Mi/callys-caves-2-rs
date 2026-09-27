@@ -33,14 +33,10 @@ fn state() -> GameState {
     // The prologue film owns the first frames; these tests are about gameplay
     // draws, so retire it through the real CODE 549 path.
     state.retire_prologue();
-    // These tests pin the DrawCommand TERMS (origin/mirror/blend/rotation)
-    // under the flat 1:1 world→screen projection: every expected coordinate
-    // below is exact in world pixels. The room-editor view table (rm_town's
-    // view[0] zooms 448x252 → 1136x640) would scale those expectations by
-    // wport/wview; the view projection has its own dedicated test.
-    for v in state.scene.as_mut().unwrap().room_views.iter_mut() {
-        v.visible = false;
-    }
+    // These tests isolate sprite rasterisation under a flat projection. Disable
+    // the runtime view flags, rather than only clearing ROOM's static `visible`
+    // bits, because GML may have changed the indexed view state independently.
+    state.scene.as_mut().unwrap().view_visible = [false; 8];
     state
 }
 
