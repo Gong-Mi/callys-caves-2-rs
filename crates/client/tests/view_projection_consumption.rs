@@ -208,29 +208,31 @@ fn prologue_touch_unprojects_through_runtime_selected_view() {
 #[test]
 fn touch_screen_to_world_unprojects_through_active_view_zoom() {
     let mut state = state();
+    state.step(1.0 / 60.0);
     let (cam_x, cam_y) = GameState::camera_position_for_scene(state.scene.as_ref().unwrap());
     let scene = state.scene.as_ref().unwrap();
-    let v = scene.room_views.iter().find(|v| v.visible).expect("visible view");
-    assert_eq!((v.wview, v.hview), (448, 252));
+    let active_index = scene.active_view_index().expect("active view");
+    let v = &scene.room_views[active_index];
+    assert_eq!(active_index, 6, "960x540 runtime resolution selects room view 6");
+    assert_eq!((v.wview, v.hview), (480, 270));
 
-    // Outside the prologue, 960x540 screen center (480, 270) must unproject to the
-    // center of the 448x252 view rect: (cam_x + 224, cam_y + 126).
+    // After the first frame, view 6 maps the 960x540 screen center to the center
+    // of its 480x270 room rectangle: (cam_x + 240, cam_y + 135).
     let (wx, wy) = state.screen_to_world(480.0, 270.0);
     assert!(
-        (wx - (cam_x + 224.0)).abs() < 1e-4,
+        (wx - (cam_x + 240.0)).abs() < 1e-4,
         "screen_to_world X must scale into view rect: expected {}, got {}",
-        cam_x + 224.0,
+        cam_x + 240.0,
         wx
     );
     assert!(
-        (wy - (cam_y + 126.0)).abs() < 1e-4,
+        (wy - (cam_y + 135.0)).abs() < 1e-4,
         "screen_to_world Y must scale into view rect: expected {}, got {}",
-        cam_y + 126.0,
+        cam_y + 135.0,
         wy
     );
 
-    // Negative control: flat mapping would have emitted cam_x + 480.0, drifting
-    // by 256 world units (landing outside the view rect entirely).
+    // Negative control: flat mapping would emit cam_x + 480, 240 world units away.
     let flat_x = cam_x + 480.0;
     assert!(
         (wx - flat_x).abs() > 200.0,
@@ -245,4 +247,38 @@ fn touch_screen_to_world_unprojects_through_active_view_zoom() {
     state.pointer_released(480.0, 270.0);
     let queued_release = state.scene.as_ref().unwrap().left_releases.last().copied();
     assert_eq!(queued_release, Some((wx, wy)));
+}
+
+#[test]
+fn pointer_uses_last_presented_view_origin_when_follow_camera_moves() {
+    let mut state = state();
+    let (view_index, view_width, view_height) = {
+        let scene = state.scene.as_ref().unwrap();
+        let view_index = scene.active_view_index().expect("active view");
+        let view = &scene.room_views[view_index];
+        (view_index, view.wview as f64, view.hview as f64)
+    };
+    let presented_origin = (64.0, 32.0);
+    {
+        let scene = state.scene.as_mut().unwrap();
+        scene.view_positions.insert(view_index as i32, presented_origin);
+        let player = scene
+            .instances
+            .values_mut()
+            .find(|instance| instance.object == 0 && instance.alive)
+            .expect("live player");
+        player.fields.insert("x".into(), 900.0);
+        player.fields.insert("y".into(), 500.0);
+    }
+
+    let scene = state.scene.as_ref().unwrap();
+    let current_camera = GameState::camera_position_for_scene(scene);
+    assert_ne!(current_camera, presented_origin, "fixture moves the follow camera after presentation");
+
+    let actual = state.screen_to_world(480.0, 270.0);
+    let expected = (
+        presented_origin.0 + view_width / 2.0,
+        presented_origin.1 + view_height / 2.0,
+    );
+    assert_eq!(actual, expected, "pointer input must use the camera origin of the last presented frame");
 }

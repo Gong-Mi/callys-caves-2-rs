@@ -640,20 +640,26 @@ impl GameState {
         Ok(())
     }
 
-    /// Map renderer logical-screen coordinates through the runtime-selected
-    /// view's room rectangle and then into room world coordinates.
+    /// Map renderer logical-screen coordinates through the last-presented
+    /// runtime-selected view into room world coordinates.
     pub fn screen_to_world(&self, x: f64, y: f64) -> (f64, f64) {
         if let Some(scene) = self.scene.as_ref() {
-            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
             if let Some(view_index) = scene.active_view_index() {
-                if let Some(v) = scene.room_views.get(view_index) {
-                    if v.wview > 0 && v.hview > 0 {
-                        let offset_x = x * (v.wview as f64 / scene.display_width.max(1.0));
-                        let offset_y = y * (v.hview as f64 / scene.display_height.max(1.0));
-                        return (cam_x + offset_x, cam_y + offset_y);
+                if let Some(view) = scene.room_views.get(view_index) {
+                    let (origin_x, origin_y) = scene
+                        .view_positions
+                        .get(&(view_index as i32))
+                        .copied()
+                        .unwrap_or((view.xview as f64, view.yview as f64));
+                    if view.wview > 0 && view.hview > 0 {
+                        let offset_x = x * (view.wview as f64 / scene.display_width.max(1.0));
+                        let offset_y = y * (view.hview as f64 / scene.display_height.max(1.0));
+                        return (origin_x + offset_x, origin_y + offset_y);
                     }
+                    return (origin_x + x, origin_y + y);
                 }
             }
+            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
             (cam_x + x, cam_y + y)
         } else {
             (x, y)
