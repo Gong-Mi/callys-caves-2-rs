@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, fix/prologue-render-layers]
     paths:
       - 'scripts/reverse_code.py'
       - 'scripts/reverse_instructions.py'
