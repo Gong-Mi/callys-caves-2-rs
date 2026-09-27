@@ -2281,7 +2281,8 @@ mod android_jni {
         let full_ir = Path::new(&path).with_file_name("full_ir.json");
         if !full_ir.exists() {
             log("full IR gameplay bundle missing; refusing silent handwritten fallback");
-        } else {
+            return;
+        }
         // Read the save BEFORE enable_ir_gameplay: a v2 scene save decides the
         // boot room (town) and queues the handover restore.
         let queued = st.queue_boot_ir_restore();
@@ -2292,9 +2293,7 @@ mod android_jni {
             Ok(bundle) => {
                 if let Err(error) = st.enable_ir_gameplay(std::sync::Arc::new(bundle)) {
                     log(&format!("full IR gameplay init failed: {error}"));
-                    if queued {
-                        st.pending_ir_restore = None;
-                    }
+                    return;
                 } else {
                     log("full IR gameplay bundle loaded");
                     if !queued {
@@ -2302,8 +2301,10 @@ mod android_jni {
                     }
                 }
             }
-            Err(error) => log(&format!("full IR bundle load failed: {error}")),
-        }
+            Err(error) => {
+                log(&format!("full IR bundle load failed: {error}"));
+                return;
+            }
         }
             match export_required_wavs(&st.asset, Path::new(&path)) {
             Ok(exported) => log(&format!("exported {} short sound effects", exported.len())),
