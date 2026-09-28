@@ -11,6 +11,7 @@ SOURCE = 'crates/client/src/lib.rs'
 PARTS = [
     ('crates/client/src/parts/save.rs', 'include!("parts/save.rs");\n'),
     ('crates/client/src/parts/audio.rs', 'include!("parts/audio.rs");\n'),
+    ('crates/client/src/parts/jni.rs', 'include!("parts/jni.rs");\n'),
 ]
 
 def verify(baseline):
