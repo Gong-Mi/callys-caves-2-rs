@@ -62,7 +62,25 @@ jobs:
           AVDMGR=$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager
           ls "$ANDROID_HOME/cmdline-tools/"
           "$SDKMGR" --install "system-images;android-30;google_apis;x86_64" > /dev/null
-          echo no | "$AVDMGR" create avd -n lab -k "system-images;android-30;google_apis;x86_64" -d pixel_5
+          # Pin the AVD home for BOTH steps: run 36460061865 showed avdmanager
+          # exiting 0 while printing no "Created AVD" line, and the emulator then
+          # died on "Unknown AVD name [lab] / no lab.ini in $HOME/.android/avd".
+          # Both create and launch now resolve $ANDROID_AVD_HOME — same path —
+          # and a missing ini fails the CREATE step with the full truth instead
+          # of silently deferring to the boot step's budget.
+          export ANDROID_AVD_HOME=$HOME/.android/avd
+          echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME" >> "$GITHUB_ENV"
+          mkdir -p "$ANDROID_AVD_HOME"
+          printf 'no\n' | "$AVDMGR" create avd -n lab -k "system-images;android-30;google_apis;x86_64" -d pixel_5 --force
+          if [ ! -f "$ANDROID_AVD_HOME/lab.ini" ]; then
+            echo "::error::avdmanager returned 0 but $ANDROID_AVD_HOME/lab.ini is missing"
+            echo "--- avdmanager list ---"; "$AVDMGR" list avd || true
+            echo "--- \$HOME/.android ---"; ls -laR "$HOME/.android" 2>/dev/null | head -40 || true
+            echo "--- stray lab.ini anywhere ---"; find /home /root /tmp -name 'lab.ini' 2>/dev/null | head || true
+            exit 1
+          fi
+          echo "--- created ---"; head -20 "$ANDROID_AVD_HOME/lab.ini"
+          "$AVDMGR" list avd | head -20
 
       - name: Boot emulator (gpu swiftshader_indirect)
         run: |
