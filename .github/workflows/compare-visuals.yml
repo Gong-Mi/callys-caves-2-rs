@@ -153,8 +153,13 @@ jobs:
           rustflags = ["-C", "link-arg=-landlog"]
           CFG
           export PATH="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
-          cargo build --release -p callys-client
+          # MUST pass --target: without it cargo builds the HOST (x86_64) lib
+          # into target/release/ and the aarch64 tree never appears (run
+          # 36461191932 "Finished" in 50s then ls failed — a host build
+          # cannot be installed on the arm64 emulator).
+          cargo build --release -p callys-client --target aarch64-linux-android
           ls -lh target/aarch64-linux-android/release/libcallys_client.so
+          file target/aarch64-linux-android/release/libcallys_client.so
 
       - name: Install original APK (arm translation check)
         run: |
