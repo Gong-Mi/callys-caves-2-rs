@@ -278,6 +278,9 @@ pub struct GameState {
     /// so Draw-time `device_mouse_check_button_released(0, mb_left)` checks
     /// (obj_lloydtutorial1..16, obj_weaponswap) answer to a real tap anywhere.
     primary_release: Option<(f64, f64)>,
+    /// Explicit fallback tracking so tests and production logs can warn when
+    /// the handwritten GameWorld fallback runs instead of compiled bytecode.
+    pub fallback_warned: bool,
 }
 
 impl GameState {
@@ -398,6 +401,7 @@ impl GameState {
             touch_prev: [false; 5],
             tap_was_active: false,
             primary_release: None,
+            fallback_warned: false,
         })
     }
 
@@ -874,6 +878,10 @@ impl GameState {
             self.autosave_ir();
             self.haptic_queue.extend(gameplay_haptics);
             return Ok(());
+        }
+        if !self.fallback_warned {
+            eprintln!("WARNING [FALLBACK]: IR scene not active; running legacy handwritten GameWorld. Content and behavior may differ from original GameMaker bytecode.");
+            self.fallback_warned = true;
         }
         let progress_before = SaveData::from_world(&self.world);
         let player_state_before = self.world.player.state;
