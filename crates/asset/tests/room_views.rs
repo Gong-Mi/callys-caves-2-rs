@@ -61,3 +61,17 @@ fn rm_town_view0_is_the_only_visible_view_and_zooms_448x252_into_1136x640() {
     assert!((zoom_y - 640.0 / 252.0).abs() < 1e-9);
     assert!((2.5..=2.6).contains(&zoom_x), "zoom_x {zoom_x} is the ~2.54x the device capture pinned");
 }
+
+#[test]
+fn all_114_rooms_have_at_most_one_visible_view_confirming_single_view_pipeline() {
+    let Some(asset) = load_asset() else { return };
+    assert_eq!(asset.rooms.len(), 114, "Cally's Caves 2 has exactly 114 rooms");
+    for (idx, room) in asset.rooms.iter().enumerate() {
+        let visible_count = room.views.iter().filter(|v| v.visible).count();
+        assert!(
+            visible_count <= 1,
+            "Room {idx} ({}) has {visible_count} visible views; expected <= 1 confirming multi-view composition is unused",
+            room.name
+        );
+    }
+}

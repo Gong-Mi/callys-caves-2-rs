@@ -18,7 +18,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Deferred / not yet implemented items tracked as SKIPPED ("没做的就 标记好跳过")
 KNOWN_DEFERRED_FEATURES = [
-    ("multi_view_composition", "Multi-view composite viewports (views 1..7 placement and clipping)"),
     ("binary_ir_zero_copy", "Direct zero-copy mmap bytecode interpreter from game.droid"),
     ("pixel_perfect_collision_prec", "Pixel-perfect precise collision mask check (prec=true)"),
 ]
