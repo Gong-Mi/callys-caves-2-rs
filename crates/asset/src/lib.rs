@@ -158,6 +158,35 @@ pub struct SpriteData {
     pub origin_x: i32,
     pub origin_y: i32,
     pub tpag_indices: Vec<u32>,
+    /// Collision masks as stored inline in the SPRT record (GMS1 with the
+    /// unformatted-bitmaps flag): one bitmap per frame, row-major 1bpp,
+    /// rows padded to full bytes. Empty when the record holds no masks.
+    pub masks: Vec<CollisionMask>,
+}
+
+/// One precise-collision bitmap from a SPRT record, `width` x `height`
+/// pixels, 1 bit per pixel MSB-first, each row padded up to a whole byte.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CollisionMask {
+    pub width: u32,
+    pub height: u32,
+    pub bits: Vec<u8>,
+}
+
+impl CollisionMask {
+    /// Pixel test in texture coordinates (row 0 = sprite top). Out of
+    /// bounds reads as empty, matching GMS treating the mask's bbox as the
+    /// only solid region.
+    pub fn pixel(&self, x: i32, y: i32) -> bool {
+        if x < 0 || y < 0 || (x as u32) >= self.width || (y as u32) >= self.height {
+            return false;
+        }
+        let row_bytes = ((self.width as usize) + 7) / 8;
+        match self.bits.get(y as usize * row_bytes + (x as usize) / 8) {
+            Some(byte) => byte & (0x80 >> (x as usize % 8)) != 0,
+            None => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -1230,7 +1259,8 @@ impl GameDroidAsset {
 
         // Parse SPRT
         let mut sprites = HashMap::new();
-        if let Some(&(pos, _size)) = chunks.get("SPRT") {
+        if let Some(&(pos, chunk_size)) = chunks.get("SPRT") {
+            let chunk_body_end = pos + chunk_size as u64;
             file.seek(SeekFrom::Start(pos))?;
             let count = file.read_u32::<LittleEndian>()?;
             let mut offsets = Vec::with_capacity(count as usize);
@@ -1258,6 +1288,31 @@ impl GameDroidAsset {
                         }
                     }
 
+                    // Collision masks follow the TPAG pointer list: a u32
+                    // count, then count inline 1bpp bitmaps of ceil(w/8)*h
+                    // bytes (rows padded to whole bytes), then zero padding
+                    // to a 4-byte boundary over the whole mask blob. Layout
+                    // attested on game.droid: all 178 records end exactly at
+                    // the next record's offset under this reading (2026-09-28
+                    // probe), including the 53 solid full-mask sprites and
+                    // the two 30/21-frame per-face mask sets.
+                    let record_end = offsets
+                        .get(idx + 1)
+                        .map(|&n| n as u64)
+                        .unwrap_or(chunk_body_end);
+                    let mut masks = Vec::new();
+                    let mask_count = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let row_bytes = ((width + 7) / 8).max(1) as usize;
+                    let mask_len = row_bytes * (height.max(1) as usize);
+                    let budget = (record_end.saturating_sub(file.stream_position()?)) as usize;
+                    let allowed = (budget / mask_len).min(mask_count as usize).min(500);
+                    for _ in 0..allowed {
+                        let mut bits = vec![0u8; mask_len];
+                        if file.read_exact(&mut bits).is_ok() {
+                            masks.push(CollisionMask { width, height, bits });
+                        }
+                    }
+
                     let sname = read_null_string(&mut file, name_off as u64, file_len)
                         .unwrap_or_else(|_| format!("spr_{}", idx));
 
@@ -1269,6 +1324,7 @@ impl GameDroidAsset {
                         origin_x,
                         origin_y,
                         tpag_indices,
+                        masks,
                     });
                 }
             }

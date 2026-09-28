@@ -19,7 +19,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Deferred / not yet implemented items tracked as SKIPPED ("没做的就 标记好跳过")
 KNOWN_DEFERRED_FEATURES = [
     ("binary_ir_zero_copy", "Direct zero-copy mmap bytecode interpreter from game.droid"),
-    ("pixel_perfect_collision_prec", "Pixel-perfect precise collision mask check (prec=true)"),
 ]
 
 def run_cmd(cmd, cwd=ROOT, timeout=120):

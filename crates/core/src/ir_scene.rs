@@ -126,6 +126,11 @@ pub struct Scene {
     /// Actual pointer presses in room coordinates for local Mouse_0 events.
     pub left_presses: Vec<(f64, f64)>,
     pub sprite_bounds: BTreeMap<i32, SpriteBounds>,
+    /// Per-sprite collision masks extracted from the SPRT chunk (GMS1
+    /// inline 1bpp bitmaps, one entry per frame). Sprites with no masks
+    /// (test fixtures wiring only `sprite_bounds`) fall back to the bbox
+    /// answer on precise queries.
+    pub sprite_masks: BTreeMap<i32, Vec<callys_asset::CollisionMask>>,
     pub object_parents: BTreeMap<i32, Vec<i32>>,
     pub display_width: f64, pub display_height: f64, pub current_room: f64,
     pub room_width: f64, pub room_height: f64,
@@ -177,6 +182,7 @@ impl Default for Scene {
             left_releases: Vec::new(),
             left_presses: Vec::new(),
             sprite_bounds: BTreeMap::new(),
+            sprite_masks: BTreeMap::new(),
             object_parents: BTreeMap::new(),
             display_width: 960.0, display_height: 540.0, current_room: 0.0,
             room_width: 1024.0, room_height: 768.0,
@@ -1013,6 +1019,61 @@ impl Scene {
 
         Ok(())
     }
+    /// GMS precise-mask point test. Transforms the room point through the
+    /// inverse of the draw pipeline — translate to the instance position,
+    /// undo `image_angle` (clockwise on the y-down screen), undo scale, then
+    /// re-add the sprite origin — and samples the instance's current-frame
+    /// collision mask. Returns None when the sprite carries no mask data
+    /// (fixtures wiring only `sprite_bounds`), letting callers fall back to
+    /// the bounding-box answer.
+    fn mask_hit(&self, tid: i32, px: f64, py: f64) -> Option<bool> {
+        let inst = self.instances.get(&tid)?;
+        let spr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+        let masks = self.sprite_masks.get(&spr)?;
+        let frame = inst.fields.get("image_index").copied().unwrap_or(0.0);
+        let mask = masks.get(if frame < 0.0 {
+            0usize
+        } else {
+            (frame as usize).min(masks.len() - 1)
+        })?;
+        let ix = inst.fields.get("x").copied().unwrap_or(0.0);
+        let iy = inst.fields.get("y").copied().unwrap_or(0.0);
+        let sx = inst.fields.get("image_xscale").unwrap_or(&1.0).clone();
+        let sy = inst.fields.get("image_yscale").unwrap_or(&1.0).clone();
+        if sx == 0.0 || sy == 0.0 { return Some(false); }
+        let ang = inst.fields.get("image_angle").copied().unwrap_or(0.0).to_radians();
+        let (ox, oy) = self
+            .sprite_bounds
+            .get(&spr)
+            .map(|b| (b.origin_x, b.origin_y))
+            .unwrap_or((0.0, 0.0));
+        let dx = px - ix;
+        let dy = py - iy;
+        let ca = ang.cos();
+        let sa = ang.sin();
+        // Inverse rotation (transpose), then un-scale, then origin offset.
+        let rx = dx * ca + dy * sa;
+        let ry = -dx * sa + dy * ca;
+        let lx = (rx / sx).floor() + ox;
+        let ly = (ry / sy).floor() + oy;
+        Some(mask.pixel(lx as i32, ly as i32))
+    }
+    /// Walk a room-space line through `tid`'s mask at half-pixel resolution.
+    /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
+    /// None = no mask data (bbox fallback).
+    fn line_mask_hit(&self, tid: i32, x1: f64, y1: f64, x2: f64, y2: f64) -> Option<bool> {
+        let len = ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).sqrt();
+        let steps = ((len * 2.0).ceil() as usize).clamp(1, 4000);
+        for s in 0..=steps {
+            let t = s as f64 / steps as f64;
+            match self.mask_hit(tid, x1 + (x2 - x1) * t, y1 + (y2 - y1) * t) {
+                None => return None,
+                Some(true) => return Some(true),
+                Some(false) => {}
+            }
+        }
+        Some(false)
+    }
     fn self_field(&self,id:i32,n:&str)->Result<f64,String> {
         if n == "id" { return Ok(id as f64); }
         // GMS read-only sprite metadata: frame count of the instance's current
@@ -1347,7 +1408,9 @@ impl Host for Scene {
                 Ok(0.0)
             }
             "collision_point" => {
-                let px = a[0]; let py = a[1]; let s = int(a[2])?; let notme = a[4] >= 0.5;
+                let px = a[0]; let py = a[1]; let s = int(a[2])?;
+                let prec = a[3] >= 0.5;
+                let notme = a[4] >= 0.5;
                 let targets = self.select(id, s)?;
                 let mut hit = 0.0;
                 for tid in targets {
@@ -1363,6 +1426,7 @@ impl Host for Scene {
                     let (min_x, max_x) = if x0 < x1 { (x0, x1) } else { (x1, x0) };
                     let (min_y, max_y) = if y0 < y1 { (y0, y1) } else { (y1, y0) };
                     if px >= min_x && px <= max_x && py >= min_y && py <= max_y {
+                        if prec && self.mask_hit(tid, px, py) == Some(false) { continue; }
                         hit = tid as f64;
                         break;
                     }
@@ -1804,10 +1868,11 @@ impl Host for Scene {
             "collision_line" => {
                 let x1 = a[0]; let y1 = a[1]; let x2 = a[2]; let y2 = a[3];
                 let s = int(a[4])?;
-                // a[5] is `prec` (precise mask check) and a[6] is `notme`. Every
-                // collision query in this host is bounding-box based, so prec is
-                // accepted and documented rather than approximated per-pixel;
-                // notme genuinely decides whether the caller can be the hit.
+                // a[5] is `prec` (per-pixel mask test) and a[6] is `notme`.
+                // With prec=1 and SPRT mask data the line walks the target's
+                // collision bitmap; without mask data (fixture-wired sprites)
+                // it falls back to the bounding box.
+                let prec = a[5] >= 0.5;
                 let notme = a[6] >= 0.5;
                 let targets = self.select(id, s)?;
                 let mut hit = -4.0;
@@ -1823,7 +1888,20 @@ impl Host for Scene {
                     let bx1 = bx0 + w * sx; let by1 = by0 + h * sy;
                     let (min_x, max_x) = if bx0 < bx1 { (bx0, bx1) } else { (bx1, bx0) };
                     let (min_y, max_y) = if by0 < by1 { (by0, by1) } else { (by1, by0) };
-                    if line_intersects_box(x1, y1, x2, y2, min_x, max_x, min_y, max_y) {
+                    if !line_intersects_box(x1, y1, x2, y2, min_x, max_x, min_y, max_y) {
+                        continue;
+                    }
+                    let passes = if prec {
+                        match self.line_mask_hit(tid, x1, y1, x2, y2) {
+                            Some(m) => m,
+                            // A sprite with no masks behaves as bbox-solid; a
+                            // mask-less fixture wiring must not flip results.
+                            None => true,
+                        }
+                    } else {
+                        true
+                    };
+                    if passes {
                         hit = tid as f64;
                         break;
                     }
