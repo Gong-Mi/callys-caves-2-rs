@@ -150,8 +150,10 @@ jobs:
           cat > .cargo/config.toml <<'CFG'
           [target.aarch64-linux-android]
           linker = "aarch64-linux-android33-clang"
-          rustflags = ["-C", "link-arg=-landlog"]
           CFG
+          # (no manual -landlog: the NDK has no libandlog.so — rust's android
+          # std already links -llog, which IS the android log lib; run fa92e12
+          # died on 'unable to find library -landlog' from this hand-added flag)
           export PATH="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
           # MUST pass --target: without it cargo builds the HOST (x86_64) lib
           # into target/release/ and the aarch64 tree never appears (run
