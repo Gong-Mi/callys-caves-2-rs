@@ -39,4 +39,4 @@ beacon 是 Create CODE 动态生成的 `obj_pickupflare(70)`，不计入 ROOM �
 
 - 至此 12 把武器的拾取链均有行为证据：pistol / shotgun / assaultrifle / rocket / laser / icegun / bladegun / flamethrower / bow / bombgun / boomerang / spikegun = **12/12**。
 - 四武器的弹道与升级分支不由本契约覆盖；`obj_blade`、`obj_flame`、`obj_bomb`、`obj_boomerangthrow` 及对应玩家开火调度仍需独立行为批次。
-- 引擎统一使用既有包围盒碰撞近似（`prec` 像素精确碰撞未实现）；真机/GPU 视觉层未验收。
+- 引擎统一使用既有包围盒碰撞近似（`prec` 像素精确碰撞当时未实现；68d80e5 起 prec=1 走 SPRT 真实掩码）；真机/GPU 视觉层未验收。

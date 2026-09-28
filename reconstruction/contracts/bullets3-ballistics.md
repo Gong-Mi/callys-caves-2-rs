@@ -39,7 +39,7 @@
 
 ## 边界
 
-- 碰撞模型统一包围盒近似（prec 像素级未实现），与既有全部契约同一声明。
+- 碰撞模型统一包围盒近似（prec 像素级当时未实现；68d80e5 起 prec=1 已走 SPRT 真实掩码），与既有全部契约同一声明。
 - obj_damage 浮字仅断言生成计数，其飘字动画/Draw 属渲染层未验。
 - 冰枪 alarm[3]=45 / 冻结的"敌人侧后果"（hpfrozen 消费方）属敌人行为契约，本批不重复建立。
 - rocket 命中 trex/boss 组无 stun、ghost swordstunned 分支等 26 目标全分支未逐一铺测（模板同构，抽 knifebandit 代表）；真机/GPU 视觉层未验收。
