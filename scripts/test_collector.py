@@ -20,7 +20,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KNOWN_DEFERRED_FEATURES = [
     ("multi_view_composition", "Multi-view composite viewports (views 1..7 placement and clipping)"),
     ("binary_ir_zero_copy", "Direct zero-copy mmap bytecode interpreter from game.droid"),
-    ("original_savefile_ini_binary_parity", "Exact binary disk roundtrip with original GM savefile.ini"),
     ("pixel_perfect_collision_prec", "Pixel-perfect precise collision mask check (prec=true)"),
 ]
 
@@ -207,6 +206,8 @@ def collect_all(quick=False):
         "death_restart_ir",
         "entity_flashing_ir",
         "draw_gui_subtype65_ir",
+        "mp_potential_step_avoidance_ir",
+        "ini_savefile_section_roundtrip_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))
