@@ -69,16 +69,41 @@ jobs:
           # emulator + adb live in the preinstalled SDK, not on PATH by default
           export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
           export ANDROID_SDK_ROOT=$ANDROID_HOME
+          # KVM: the image we need (x86_64 + ARM translation) will NOT boot
+          # without hardware acceleration. Runner /dev/kvm perms drift
+          # (root:kvm 660 vs world-rw); fix them and fail FAST with a visible
+          # reason instead of hanging in adb wait-for-device (which blocks
+          # forever when no device ever attaches — that ate the whole 60m
+          # budget on run 36292998656).
+          echo "cpuinfo flags: $(grep -oE 'vmx|svm' /proc/cpuinfo | sort -u | tr '\n' ' ')"
+          ls -la /dev/kvm || true
+          sudo chmod 666 /dev/kvm 2>/dev/null || true
+          ls -la /dev/kvm
           emulator -avd lab -no-window -no-audio -no-boot-anim -no-snapshot \
             -gpu swiftshader_indirect -memory 3072 -cores 2 \
             > ${{ github.workspace }}/emulator.log 2>&1 &
-          adb wait-for-device
-          for i in $(seq 1 90); do
+          EMU_PID=$!
+          # bounded device attach: 5 min, not forever
+          if ! timeout 300 adb wait-for-device; then
+            echo "::error::adb never saw a device (kvm/emulator launch failure)"
+            kill -0 $EMU_PID || echo "emulator process already dead"
+            tail -60 ${{ github.workspace }}/emulator.log
+            exit 1
+          fi
+          # bounded boot-completed wait: 8 min
+          ok=""
+          for i in $(seq 1 96); do
             boot=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
-            [ "$boot" = "1" ] && break
+            if [ "$boot" = "1" ]; then ok=1; break; fi
+            kill -0 $EMU_PID || break
             sleep 5
           done
-          adb shell getprop sys.boot_completed | grep -q 1 || { echo "emulator did not boot"; tail -40 emulator.log; exit 1; }
+          if [ -z "$ok" ]; then
+            echo "::error::emulator did not boot"
+            ps aux | grep -i '[e]mulator' | head -5 || true
+            tail -60 ${{ github.workspace }}/emulator.log
+            exit 1
+          fi
           adb shell input keyevent KEYCODE_WAKEUP
           adb shell settings put global window_animation_scale 0
           adb shell settings put global transition_animation_scale 0
