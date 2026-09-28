@@ -169,25 +169,15 @@ jobs:
           adb install -r apks/original.apk || adb install -r --abi armeabi-v7a apks/original.apk
           adb shell pm list packages | grep vdogames
 
-      - name: Scripted run of the ORIGINAL
-        run: |
-          export PATH="$ANDROID_HOME/platform-tools:$PATH"
-          adb shell am start -n com.vdogames.callyscaves2/.RunnerActivity
-          mkdir -p shots/orig
-          for i in $(seq 1 ${{ github.event.inputs.runs || '12' }}); do
-            sleep 4
-            adb exec-out screencap -p > shots/orig/step${i}.png
-            # advance: tap center-left (fire/move), then center (jump/confirm)
-            adb shell input tap 300 800
-            adb shell input tap 610 800
-          done
-          adb shell am force-stop com.vdogames.callyscaves2
-
       - name: Build remake APK on runner (this exact head)
         run: |
           # Assemble the APK with the same steps build_apk.sh performs, using
-          # the arm64 cdylib cross-compiled in the previous step and the
-          # runner's SDK build-tools (aapt2/d8/apksigner).
+          # the arm64 cdylib cross-compiled earlier and the runner's SDK
+          # build-tools (aapt2/d8/apksigner). Moved BEFORE the original's
+          # scripted run (run 36462655540): the original device-died mid-loop
+          # and skipped this step, so we never even got remake screenshots —
+          # the remake half of every future comparison must not be hostage
+          # to the original's stability.
           BT=$(ls $ANDROID_HOME/build-tools/ | sort -V | tail -1)
           export PATH="$ANDROID_HOME/build-tools/$BT:$PATH"
           export ANDROID_JAR=$ANDROID_HOME/platforms/android-36/android.jar
@@ -234,17 +224,78 @@ jobs:
 
       - name: Scripted run of the REMAKE
         run: |
+          # (remake runs FIRST — see note above)
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
           adb uninstall com.gongmi.callyscaves2 || true
           adb install -r android-build/CallysCaves2_64bit_Rust.apk || { echo "APK install failed"; exit 1; }
+          nohup adb logcat -v threadtime > remake_logcat.txt 2>&1 &
+          LOG_PID=$!
           adb shell am start -n com.gongmi.callyscaves2/.MainActivity
           mkdir -p shots/remake
-          for i in $(seq 1 ${{ github.event.inputs.runs || '12' }}); do
+          RUNS=${{ github.event.inputs.runs || '12' }}
+          fail=0
+          for i in $(seq 1 "$RUNS"); do
             sleep 4
-            adb exec-out screencap -p > shots/remake/step${i}.png
-            adb shell input tap 300 800
-            adb shell input tap 610 800
+            adb exec-out screencap -p > shots/remake/step${i}.png 2>/tmp/screencap_err || { echo "screencap failed at $i: $(cat /tmp/screencap_err)"; fail=$i; break; }
+            adb shell input tap 300 800 || { fail=$i; break; }
+            adb shell input tap 610 800 || { fail=$i; break; }
+            ls -l shots/remake/step${i}.png | awk '{print "step" $5 " bytes"}'
           done
+          kill $LOG_PID || true
+          if [ "$fail" != 0 ]; then
+            echo "::error::remake loop died at iteration $fail"
+            adb devices || true
+            ps aux | grep -i '[e]mulator' | head -5 || true
+            tail -30 ${{ github.workspace }}/emulator.log || true
+            tail -120 remake_logcat.txt || true
+            exit 1
+          fi
+
+      - name: Scripted run of the ORIGINAL
+        run: |
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
+          # Run 36462655540 died here ~44s into the loop: 'error: closed' —
+          # the adb link dropped mid-run with no crash evidence captured
+          # (bash -e stopped at the failing adb call and the step logged
+          # nothing else). Now: per-iteration loop with an explicit failure
+          # iteration, a background logcat capture (survives the app dying;
+          # only helps while the device is still reachable), and dumps of
+          # device state / crash buffer / emulator tail on ANY failure.
+          adb shell pidof com.vdogames.callyscaves2 || true
+          nohup adb logcat -v threadtime > orig_logcat.txt 2>&1 &
+          LOG_PID=$!
+          adb shell am start -n com.vdogames.callyscaves2/.RunnerActivity
+          mkdir -p shots/orig
+          RUNS=${{ github.event.inputs.runs || '12' }}
+          fail=0
+          for i in $(seq 1 "$RUNS"); do
+            sleep 4
+            adb exec-out screencap -p > shots/orig/step${i}.png 2>/tmp/screencap_err || { echo "screencap failed at $i: $(cat /tmp/screencap_err)"; fail=$i; break; }
+            adb shell input tap 300 800 || { fail=$i; break; }
+            adb shell input tap 610 800 || { fail=$i; break; }
+            # the original app is armed for crash; note if it disappeared
+            if ! adb shell pidof com.vdogames.callyscaves2 >/dev/null 2>&1; then
+              echo "original process gone by iteration $i"
+              fail=$i
+              break
+            fi
+          done
+          adb shell am force-stop com.vdogames.callyscaves2 || true
+          kill $LOG_PID || true
+          if [ "$fail" != 0 ]; then
+            echo "::error::original loop died at iteration $fail"
+            adb devices || true
+            ps aux | grep -i '[e]mulator' | head -5 || true
+            echo '--- last 60 logcat lines around the death ---'
+            tail -60 orig_logcat.txt || true
+            echo '--- crash buffer ---'
+            adb logcat -d -b crash -t 100 || true
+            echo '--- emulator.log tail ---'
+            tail -30 ${{ github.workspace }}/emulator.log || true
+            # keep iterating evidence; do not abort the whole job —
+            # the remake half already has its screenshots.
+            exit 1
+          fi
 
       - name: Pixel-diff report
         run: |
@@ -287,3 +338,5 @@ jobs:
             shots/
             parity_report.txt
             emulator.log
+            orig_logcat.txt
+            remake_logcat.txt
