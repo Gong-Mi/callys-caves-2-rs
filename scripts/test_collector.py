@@ -208,6 +208,7 @@ def collect_all(quick=False):
         "draw_gui_subtype65_ir",
         "mp_potential_step_avoidance_ir",
         "ini_savefile_section_roundtrip_ir",
+        "shop_upgrades_and_intros_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))
