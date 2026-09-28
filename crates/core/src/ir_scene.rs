@@ -993,7 +993,25 @@ impl Scene {
         }
         ids.sort_by_key(|(depth,id)|(std::cmp::Reverse(*depth),*id));
         for (id, args) in default_draws { let _ = self.draw(id, &args); }
-        for (_,id) in ids {self.dispatch(b,id,8,0)?;} Ok(())
+        for (_,id) in ids {self.dispatch(b,id,8,0)?;}
+
+        // Draw GUI pass: GameMaker event 8, subtype 65 (covers CODE 539 on obj_viewresolution)
+        let mut gui_ids = Vec::new();
+        for (id, i) in &self.instances {
+            if i.alive && i.active && !i.external {
+                if let Some(o) = b.objects.iter().find(|o| o.id == i.object) {
+                    if o.events.iter().any(|e| e.event_type == 8 && e.subtype == 65) {
+                        gui_ids.push((o.depth, *id));
+                    }
+                }
+            }
+        }
+        gui_ids.sort_by_key(|(depth, id)| (std::cmp::Reverse(*depth), *id));
+        for (_, id) in gui_ids {
+            self.dispatch(b, id, 8, 65)?;
+        }
+
+        Ok(())
     }
     fn self_field(&self,id:i32,n:&str)->Result<f64,String> {
         if n == "id" { return Ok(id as f64); }

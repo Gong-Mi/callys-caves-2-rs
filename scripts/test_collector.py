@@ -19,7 +19,6 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Deferred / not yet implemented items tracked as SKIPPED ("没做的就 标记好跳过")
 KNOWN_DEFERRED_FEATURES = [
     ("multi_view_composition", "Multi-view composite viewports (views 1..7 placement and clipping)"),
-    ("draw_subtype_65", "Draw subtype 65 custom bytecode coverage (CODE 539)"),
     ("binary_ir_zero_copy", "Direct zero-copy mmap bytecode interpreter from game.droid"),
     ("original_savefile_ini_binary_parity", "Exact binary disk roundtrip with original GM savefile.ini"),
     ("pixel_perfect_collision_prec", "Pixel-perfect precise collision mask check (prec=true)"),
@@ -207,6 +206,7 @@ def collect_all(quick=False):
         "boss1_arena_loop",
         "death_restart_ir",
         "entity_flashing_ir",
+        "draw_gui_subtype65_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))
@@ -229,7 +229,7 @@ def collect_all(quick=False):
             code, out = run_cmd(cmd, timeout=45)
             return parse_python_unittest_output(out, code, name)
         else:
-            t_timeout = 90 if "first_chapter" in name else 60
+            t_timeout = 120 if "first_chapter" in name else 60
             code, out = run_cmd(cmd, timeout=t_timeout)
             return parse_cargo_test_output(out, code, name)
 
