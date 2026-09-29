@@ -2247,6 +2247,23 @@ mod android_jni {
         pub state: GameState,
         pub fb: Framebuffer,
         pub blit: Vec<jint>,
+        /// Device-side headless checkpoint cadence, including intro ticks (the
+        /// client frame_count intentionally does not advance during the intro).
+        trace_ticks: u64,
+    }
+
+    /// This is the actual bytecode Scene, not the legacy GameWorld. Log only
+    /// phase changes or a sparse periodic checkpoint so logcat can distinguish
+    /// intro -> town -> Lloyd sheet -> dismissal without inspecting pixels.
+    fn ir_phase(state: &GameState) -> Option<(i32, bool, Option<i32>, bool, bool)> {
+        let scene = state.scene.as_ref()?;
+        Some((
+            scene.current_room as i32,
+            scene.instances.values().any(|i| i.alive && i.object == 137),
+            scene.instances.values().find(|i| i.alive && (138..=153).contains(&i.object)).map(|i| i.object),
+            scene.globals.get("roomstart").copied() == Some(1.0),
+            scene.globals.get("talkedtolloyd1").copied() == Some(1.0),
+        ))
     }
 
     static SLOT: OnceLock<std::sync::Mutex<Option<AndroidState>>> = OnceLock::new();
@@ -2343,8 +2360,13 @@ mod android_jni {
             state: st,
             fb: Framebuffer::new(960, 540),
             blit: Vec::with_capacity(960 * 540),
+            trace_ticks: 0,
         });
         log("nativeInit ok");
+        if let Some(phase) = ir_phase(&g.as_ref().unwrap().state) {
+            log(&format!("IR boot room={} intro={} sheet={:?} roomstart={} talkedtolloyd1={}",
+                phase.0, phase.1, phase.2, phase.3, phase.4));
+        }
     }
 
     #[no_mangle]
@@ -2380,6 +2402,7 @@ mod android_jni {
         let mut g = slot().lock().unwrap();
         if let Some(s) = g.as_mut() {
             let dt = (dt_ms as f32) / 1000.0;
+            let previous_ir = ir_phase(&s.state);
             let previous_room = s.state.world.current_room_index;
             let previous_player_state = s.state.world.player.state;
             let previous_save_diagnostic = s.state.save_diagnostic.clone();
@@ -2395,35 +2418,52 @@ mod android_jni {
                     log(&format!("save write warning: {diagnostic}"));
                 }
             }
-            if s.state.world.current_room_index != previous_room {
-                log(&format!(
-                    "room transition {} -> {} ({}) spawn=({}, {})",
-                    previous_room,
-                    s.state.world.current_room_index,
-                    s.state.world.current_room_name,
-                    s.state.world.player.x,
-                    s.state.world.player.y,
-                ));
-            }
-            if previous_player_state != PlayerState::Dead
-                && s.state.world.player.state == PlayerState::Dead
-            {
-                log(&format!(
-                    "player died in room {} checkpoint=({}, {})",
-                    s.state.world.current_room_name,
-                    s.state.world.checkpoint.x,
-                    s.state.world.checkpoint.y,
-                ));
-            } else if previous_player_state == PlayerState::Dead
-                && s.state.world.player.state != PlayerState::Dead
-            {
-                log(&format!(
-                    "player respawned in room {} at=({}, {}) health={}",
-                    s.state.world.current_room_name,
-                    s.state.world.player.x,
-                    s.state.world.player.y,
-                    s.state.world.player.health,
-                ));
+            s.trace_ticks = s.trace_ticks.wrapping_add(1);
+            if let Some(phase) = ir_phase(&s.state) {
+                if previous_ir != Some(phase) || s.trace_ticks % 120 == 0 {
+                    let scene = s.state.scene.as_ref().unwrap();
+                    let player = scene.instances.values().find(|i| i.alive && i.object == 0);
+                    let (x, y) = player.map(|i| (
+                        i.fields.get("x").copied().unwrap_or(f64::NAN),
+                        i.fields.get("y").copied().unwrap_or(f64::NAN),
+                    )).unwrap_or((f64::NAN, f64::NAN));
+                    log(&format!("IR checkpoint tick={} room={} intro={} sheet={:?} roomstart={} talkedtolloyd1={} player=({x:.1},{y:.1}) active={} halted={}",
+                        s.trace_ticks, phase.0, phase.1, phase.2, phase.3, phase.4,
+                        scene.instances.values().filter(|i| i.alive && i.active).count(),
+                        s.state.runtime_diagnostic.is_some()));
+                }
+            } else {
+                // Legacy GameWorld logs are NOT evidence of IR room changes.
+                if s.state.world.current_room_index != previous_room {
+                    log(&format!(
+                        "legacy room transition {} -> {} ({}) spawn=({}, {})",
+                        previous_room,
+                        s.state.world.current_room_index,
+                        s.state.world.current_room_name,
+                        s.state.world.player.x,
+                        s.state.world.player.y,
+                    ));
+                }
+                if previous_player_state != PlayerState::Dead
+                    && s.state.world.player.state == PlayerState::Dead
+                {
+                    log(&format!(
+                        "legacy player died in room {} checkpoint=({}, {})",
+                        s.state.world.current_room_name,
+                        s.state.world.checkpoint.x,
+                        s.state.world.checkpoint.y,
+                    ));
+                } else if previous_player_state == PlayerState::Dead
+                    && s.state.world.player.state != PlayerState::Dead
+                {
+                    log(&format!(
+                        "legacy player respawned in room {} at=({}, {}) health={}",
+                        s.state.world.current_room_name,
+                        s.state.world.player.x,
+                        s.state.world.player.y,
+                        s.state.world.player.health,
+                    ));
+                }
             }
             draw_frame(&mut s.fb, &s.state, &s.state.asset.tpag_items, &s.state.asset.sprites);
         }
@@ -2549,6 +2589,29 @@ mod android_jni {
             let f: SetIntArrayRegionFn = jni_func(env, SLOT_SET_INT_ARRAY_REGION);
             f(env, out, 0, len, s.blit.as_ptr());
         }
+    }
+
+    #[cfg(test)]
+    #[test]
+    fn headless_phase_reads_live_ir_scene_not_legacy_world() {
+        use std::sync::Arc;
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+        let mut state = GameState::new(&root.join("../../assets/game.droid")).unwrap();
+        assert_eq!(ir_phase(&state), None);
+        let bundle = callys_core::code_vm::load_bundle_from_file(
+            &root.join("../../crates/core/src/generated/full_ir.json"),
+        ).unwrap();
+        state.enable_ir_gameplay(Arc::new(bundle)).unwrap();
+        assert_eq!(ir_phase(&state), Some((0, true, None, false, false)));
+        for _ in 0..125 { state.step(1.0 / 60.0); }
+        state.input.tap = true;
+        state.step(1.0 / 60.0);
+        state.input.tap = false;
+        state.step(1.0 / 60.0);
+        assert!(state.runtime_diagnostic.is_none());
+        assert_eq!(ir_phase(&state), Some((0, false, None, false, false)));
+        // The legacy world still points at room 0; it cannot certify the
+        // prologue handover. Only the Scene's live intro bit did.
     }
 }
 

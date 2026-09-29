@@ -306,6 +306,15 @@ jobs:
             ls -l shots/remake/step${i}.png | awk '{print "step" $5 " bytes"}'
           done
           kill $LOG_PID || true
+          # Headless proof from the live bytecode Scene, not the legacy world
+          # or color/pixel counts. The prologue must hand over in this script;
+          # status=ok and a live PID by themselves do not prove gameplay.
+          echo '--- IR state checkpoints ---'
+          grep -a 'callys-rust.*IR \(boot\|checkpoint\|execution halted\)' remake_logcat.txt | tail -50 || true
+          if ! grep -aq 'IR checkpoint tick=.*intro=false' remake_logcat.txt; then
+            echo '::error::remake never reported IR prologue handover; cannot call this a playable run'
+            fail=1
+          fi
           if [ "$fail" != 0 ]; then
             echo "::error::remake loop died at iteration $fail"
             adb devices || true
@@ -329,6 +338,7 @@ jobs:
           # transport, PID exit status, non-zombie host QEMU, exit-info.
           # Previous artifacts' original logcat ENDED >3 min BEFORE am start;
           # 'pidof' then hung on an offline ADB and was misread as app death.
+          python3 scripts/test_headless_original_probe.py -v
           python3 scripts/headless_original_probe.py --output orig_probe.json --log orig_logcat.txt
 
       - name: Pixel-diff report
