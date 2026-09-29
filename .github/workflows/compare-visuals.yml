@@ -139,17 +139,27 @@ jobs:
 
       - name: Build the remake APK for arm64 on the runner
         run: |
-          # Cross-compile the client cdylib for arm64-v8a with the preinstalled
-          # NDK, then assemble the APK with the same steps build_apk.sh does.
+          # Cross-compile the client cdylib for arm64-v8a AND x86_64 with the
+          # preinstalled NDK, then assemble the APK with the same steps
+          # build_apk.sh does.
+          #
+          # The x86_64 lib is NOT optional: the AVD is an x86_64 image whose
+          # libndk translation only covers armeabi-v7a (32-bit ARM). A
+          # lib/arm64-v8a-only APK installs (dexopt isa=x86_64, no native
+          # libs match), launches, and dies in System.loadLibrary before any
+          # Java exception surfaces (run 36510277516: 'Start proc … 5890' →
+          # 'has died: prcp TOP' 1.8s later, screenshots = launcher home).
           export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
           NDK_VER=$(ls "$ANDROID_HOME/ndk/" | sort -V | tail -1)
           echo "using NDK $NDK_VER"
           export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VER
-          rustup target add aarch64-linux-android
+          rustup target add aarch64-linux-android x86_64-linux-android
           mkdir -p .cargo
           cat > .cargo/config.toml <<'CFG'
           [target.aarch64-linux-android]
           linker = "aarch64-linux-android33-clang"
+          [target.x86_64-linux-android]
+          linker = "x86_64-linux-android33-clang"
           CFG
           # (no manual -landlog: the NDK has no libandlog.so — rust's android
           # std already links -llog, which IS the android log lib; run fa92e12
@@ -160,8 +170,11 @@ jobs:
           # 36461191932 "Finished" in 50s then ls failed — a host build
           # cannot be installed on the arm64 emulator).
           cargo build --release -p callys-client --target aarch64-linux-android
+          cargo build --release -p callys-client --target x86_64-linux-android
           ls -lh target/aarch64-linux-android/release/libcallys_client.so
           file target/aarch64-linux-android/release/libcallys_client.so
+          ls -lh target/x86_64-linux-android/release/libcallys_client.so
+          file target/x86_64-linux-android/release/libcallys_client.so
 
       - name: Install original APK (arm translation check)
         run: |
@@ -196,6 +209,8 @@ jobs:
           with zipfile.ZipFile("base.apk", "a") as z:
               z.write("classes.dex", "classes.dex")
               z.write(so, "lib/arm64-v8a/libcallys_client.so")
+              xso = os.path.join(root, "target/x86_64-linux-android/release/libcallys_client.so")
+              z.write(xso, "lib/x86_64/libcallys_client.so")
               with open(full_ir, "rb") as f:
                   data = f.read()
               info = zipfile.ZipInfo("assets/full_ir.json", date_time=(2026, 1, 1, 0, 0, 0))
