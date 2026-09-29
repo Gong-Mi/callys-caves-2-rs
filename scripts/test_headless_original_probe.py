@@ -2,8 +2,10 @@
 """Pure classification tests; never launch adb or clear device logs."""
 import unittest
 
-from headless_original_probe import (classify, package_native_metadata,
-                                     sample_liveness, summarize_samples)
+from headless_original_probe import (OOM_PATTERNS, classify, guest_diagnostics,
+                                     guest_mem_available, package_native_metadata,
+                                     pid_status_summary, sample_liveness,
+                                     summarize_samples)
 
 
 def result(rc=0, stdout="", timed_out=False):
@@ -90,6 +92,59 @@ class ClassificationTest(unittest.TestCase):
                                      result(rc=None, timed_out=True), "live",
                                      summarize_samples(series)),
                             "app_absent_on_live_device")
+
+    def test_guest_mem_available_parses_only_real_meminfo_lines(self):
+        self.assertEqual(guest_mem_available("MemTotal: 100 kB\nMemAvailable: 123456 kB\n"), 123456)
+        self.assertIsNone(guest_mem_available("cat: /proc/meminfo: Permission denied"))
+
+    def test_pid_status_summary_reads_rss_size_threads(self):
+        text = "Name:\tlibyoyo\nVmSize:\t 204800 kB\nVmRSS:\t 153600 kB\nThreads:\t11\n"
+        self.assertEqual(pid_status_summary(text),
+                         {"VmSize": 204800, "VmRSS": 153600, "Threads": 11})
+        self.assertEqual(pid_status_summary("permission denied"), {})
+
+    def test_kernel_hit_patterns_are_specific_enough(self):
+        for line in ("Out of memory: Kill process 4321 (libyoyo)",
+                     "lowmemorykiller: Killing 'com.vdogames.callyscaves2'",
+                     "kernel BUG: unable to handle kernel NULL pointer dereference",
+                     "watchdog: BUG: soft lockup - CPU#0 stuck"):
+            self.assertTrue(OOM_PATTERNS.search(line), line)
+        for benign in ("INFO: task kworker blocked for more than 120 seconds was not",
+                       "yoyo    : Attempting to set gamepadcount to 1"):
+            if "hung task" in benign.lower() or "watchdog" in benign.lower():
+                continue
+            self.assertIsNone(OOM_PATTERNS.search(benign), benign)
+
+    def test_guest_diagnostics_reports_root_failure_and_filters_kernel_lines(self):
+        def fake_call(*cmd, timeout=None, output_limit=None):
+            if cmd[:2] == ("adb", "root"):
+                return {"rc": 1, "stdout": "", "stderr": "adbd cannot run as root in production builds", "timed_out": False}
+            if "/proc/meminfo" in " ".join(cmd):
+                return {"rc": 0, "stdout": "MemAvailable: 900000 kB", "stderr": "", "timed_out": False}
+            return {"rc": 0, "stdout": "normal line\nOut of memory: Kill process 9 (x)\nnormal line",
+                    "stderr": "", "timed_out": False}
+
+        report = guest_diagnostics(call_fn=fake_call)
+        self.assertEqual(report["root"]["rc"], 1)
+        self.assertEqual(report["mem_available_kb"], 900000)
+        self.assertEqual(report["kernel_hits"], ["Out of memory: Kill process 9 (x)"])
+        self.assertFalse(report["dmesg_timed_out"])
+
+    def test_sampled_diagnostics_attach_mem_and_proc_numbers(self):
+        def fake_call(*cmd, timeout=None, output_limit=None):
+            joined = " ".join(cmd)
+            if cmd[:2] == ("adb", "get-state"):
+                return {"rc": 0, "stdout": "device", "stderr": "", "timed_out": False}
+            if "pidof" in joined:
+                return {"rc": 0, "stdout": "10878", "stderr": "", "timed_out": False}
+            if "/proc/meminfo" in joined:
+                return {"rc": 0, "stdout": "MemAvailable: 555000 kB", "stderr": "", "timed_out": False}
+            return {"rc": 0, "stdout": "VmRSS:\t 112000 kB\nThreads:\t9", "stderr": "", "timed_out": False}
+
+        series = sample_liveness("com.example", seconds=0, sleep=lambda _: None,
+                                 call_fn=fake_call, diagnostics=True)
+        self.assertEqual(series[0]["mem_available_kb"], 555000)
+        self.assertEqual(series[0]["proc"], {"VmRSS": 112000, "Threads": 9})
 
     def test_sample_liveness_stops_at_the_deadline_and_records_pids(self):
         calls = []

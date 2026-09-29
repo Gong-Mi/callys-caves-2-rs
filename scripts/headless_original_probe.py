@@ -49,7 +49,51 @@ def package_native_metadata(text):
     return out
 
 
-def sample_liveness(package, seconds, interval=5.0, sleep=time.sleep, call_fn=None):
+OOM_PATTERNS = re.compile(
+    r"Out of memory|oom-kill|lowmemorykiller|Killed process|page allocation failure"
+    r"|BUG: |Oops|kernel panic|hung task|watchdog", re.I)
+
+
+def guest_mem_available(text):
+    match = re.search(r"MemAvailable:\s+(\d+) kB", text)
+    return int(match.group(1)) if match else None
+
+
+def pid_status_summary(text):
+    """Cheap per-process numbers: RSS, virtual size, thread count."""
+    out = {}
+    for key in ("VmRSS", "VmSize", "Threads"):
+        match = re.search(r"^" + key + r":\s+(\d+)", text, re.M)
+        if match:
+            out[key] = int(match.group(1))
+    return out
+
+
+def guest_diagnostics(enable_root=True, call_fn=None):
+    """Guest-side kernel/memory evidence; the AVD dies without tombstones.
+
+    A wedged guest (`adb` calls stall, qemu goes zombie-only) usually leaves
+    its reason in the guest kernel log or the low-memory killer, not in the
+    app's own logcat. `adb root` works on google_apis images; if it fails we
+    say so instead of assuming the reads succeeded.
+    """
+    call_fn = call_fn or call
+    report = {}
+    if enable_root:
+        report["root"] = call_fn("adb", "root", timeout=25)
+    mem = call_fn("adb", "shell", "cat", "/proc/meminfo", timeout=12)
+    report["mem_available_kb"] = guest_mem_available(mem["stdout"])
+    report["meminfo_timed_out"] = mem["timed_out"]
+    dmesg = call_fn("adb", "shell", "dmesg", timeout=15, output_limit=200000)
+    report["dmesg_rc"] = dmesg["rc"]
+    report["dmesg_timed_out"] = dmesg["timed_out"]
+    report["kernel_hits"] = [line[:300] for line in dmesg["stdout"].splitlines()
+                             if OOM_PATTERNS.search(line)][-20:]
+    return report
+
+
+def sample_liveness(package, seconds, interval=5.0, sleep=time.sleep, call_fn=None,
+                    diagnostics=False):
     """Poll device+PID repeatedly through the hold window.
 
     One hung `adb` call cannot tell 'the process died early' from 'the
@@ -69,6 +113,14 @@ def sample_liveness(package, seconds, interval=5.0, sleep=time.sleep, call_fn=No
             entry["pid"] = pid["stdout"] or None
             entry["pid_rc"] = pid["rc"]
             entry["pid_timed_out"] = pid["timed_out"]
+            if diagnostics:
+                mem = call_fn("adb", "shell", "cat", "/proc/meminfo", timeout=8)
+                entry["mem_available_kb"] = guest_mem_available(mem["stdout"])
+                if entry["pid"]:
+                    target = entry["pid"].split()[0]
+                    status = call_fn("adb", "shell", "cat",
+                                     f"/proc/{target}/status", timeout=8)
+                    entry["proc"] = pid_status_summary(status["stdout"])
         samples.append(entry)
         if time.time() >= deadline:
             break
@@ -125,12 +177,28 @@ def main():
     ap.add_argument("--hold-seconds", type=float, default=25)
     ap.add_argument("--sample-interval", type=float, default=5.0,
                     help="Seconds between liveness samples during the hold window")
+    ap.add_argument("--guest-diagnostics", dest="guest_diagnostics",
+                    action=argparse.BooleanOptionalAction, default=True,
+                    help="adb root + guest dmesg/meminfo/RSS sampling")
     args = ap.parse_args()
+    # `adb root` restarts adbd, so it must happen before the logcat monitor and
+    # before any sampling; otherwise the first samples measure the restart.
+    report = {"qemu_before": host_qemu_state()}
+    if args.guest_diagnostics:
+        report["guest_before"] = guest_diagnostics(call_fn=call)
+        root_ok = report["guest_before"].get("root", {}).get("rc") == 0
+        if root_ok:
+            # Bounded wait: the adbd restart drops the device briefly.
+            for _ in range(20):
+                state = call("adb", "get-state", timeout=6)
+                if state["rc"] == 0 and state["stdout"] == "device":
+                    break
+                time.sleep(1.5)
     # Clear historical boot logs BEFORE launch; only logs produced after this
     # point can be attributed to this launch.
     cleared = call("adb", "logcat", "-b", "main", "-b", "system",
                    "-b", "crash", "-b", "events", "-c", timeout=10)
-    report = {"logcat_clear": cleared, "qemu_before": host_qemu_state()}
+    report["logcat_clear"] = cleared
     if cleared["rc"] != 0:
         report["classification"] = "prelaunch_transport_unavailable"
         Path(args.output).write_text(json.dumps(report, indent=2) + "\n")
@@ -149,7 +217,8 @@ def main():
             report["launch"] = call("adb", "shell", "am", "start", "-W", "-n",
                                     args.package + "/" + args.activity, timeout=30)
             report["samples"] = sample_liveness(args.package, args.hold_seconds,
-                                                interval=args.sample_interval)
+                                                interval=args.sample_interval,
+                                                diagnostics=args.guest_diagnostics)
             report["sample_summary"] = summarize_samples(report["samples"])
             report["qemu_after"] = host_qemu_state()
             report["device"] = call("adb", "get-state", timeout=8)
@@ -172,6 +241,10 @@ def main():
                 monitor.wait(timeout=3)
     report["qemu_final"] = host_qemu_state()
     report["device_final"] = call("adb", "get-state", timeout=8)
+    if args.guest_diagnostics:
+        # Post-wedge guest evidence: the kernel log is often the only place the
+        # reason survives (the app's own logcat stops at its last line).
+        report["guest_after"] = guest_diagnostics(enable_root=False, call_fn=call)
     logs = Path(args.log).read_text(errors="replace")
     report["log_bytes"] = Path(args.log).stat().st_size
     report["package_log_lines"] = [line[:500] for line in logs.splitlines() if args.package in line][-40:]

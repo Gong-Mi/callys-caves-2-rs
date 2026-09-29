@@ -367,7 +367,23 @@ jobs:
           # 'pidof' then hung on an offline ADB and was misread as app death.
           python3 scripts/test_headless_original_probe.py -v
           python3 scripts/headless_original_probe.py --hold-seconds 25 --sample-interval 5 \
-            --output orig_probe.json --log orig_logcat.txt
+            --output orig_probe.json --log orig_logcat.txt || true
+          # Always surface the decisive fields in the job log: the artifact is
+          # large and the classification is what the next step reads.
+          python3 - <<'PY'
+          import json
+          d = json.load(open('orig_probe.json'))
+          print('classification:', d.get('classification'))
+          print('sample_summary:', d.get('sample_summary'))
+          print('samples:', json.dumps(d.get('samples', []))[:1500])
+          print('installed native:', d.get('installed_package_native'))
+          print('qemu before/after/final:', d.get('qemu_before'), d.get('qemu_after'), d.get('qemu_final'))
+          for side in ('guest_before', 'guest_after'):
+              g = d.get(side) or {}
+              print(side, 'mem_available_kb=', g.get('mem_available_kb'),
+                    'root_rc=', (g.get('root') or {}).get('rc'),
+                    'kernel_hits=', g.get('kernel_hits'))
+          PY
 
       - name: Pixel-diff report
         run: |
