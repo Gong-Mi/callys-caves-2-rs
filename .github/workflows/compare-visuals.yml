@@ -169,12 +169,31 @@ jobs:
           # into target/release/ and the aarch64 tree never appears (run
           # 36461191932 "Finished" in 50s then ls failed — a host build
           # cannot be installed on the arm64 emulator).
-          cargo build --release -p callys-client --target aarch64-linux-android
-          cargo build --release -p callys-client --target x86_64-linux-android
+          # --features android is NOT optional: the entire JNI surface
+          # (nativeInit et al.) sits under #[cfg(all(target_os = "android",
+          # feature = "android"))] in crates/client/src/lib.rs:2187. Without
+          # the feature the cdylib loads but exports zero Java_* symbols —
+          # run 36511069214 died exactly there (UnsatisfiedLinkError: No
+          # implementation found for nativeInit). build_apk.sh:21 has always
+          # passed it; the parity workflow was the only thing that forgot.
+          cargo build --release -p callys-client --target aarch64-linux-android --features android
+          cargo build --release -p callys-client --target x86_64-linux-android --features android
           ls -lh target/aarch64-linux-android/release/libcallys_client.so
           file target/aarch64-linux-android/release/libcallys_client.so
           ls -lh target/x86_64-linux-android/release/libcallys_client.so
           file target/x86_64-linux-android/release/libcallys_client.so
+          # Symbol proof BEFORE shipping: a missing nativeInit here is the
+          # whole app dying at runtime (run 36511069214) — make it loud.
+          NM=$(ls "$ANDROID_NDK_HOME"/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm*)
+          for T in aarch64 x86_64; do
+            SO=target/${T}-linux-android/release/libcallys_client.so
+            if ! "$NM" -D --defined-only "$SO" | grep -q 'Java_com_gongmi_callyscaves2_MainActivity_nativeInit'; then
+              echo "::error::$SO does not export nativeInit"
+              "$NM" -D --defined-only "$SO" | grep -c 'Java_' || true
+              exit 1
+            fi
+            echo "$T exports nativeInit"
+          done
 
       - name: Install original APK (arm translation check)
         run: |
