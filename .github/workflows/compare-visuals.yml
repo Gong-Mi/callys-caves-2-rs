@@ -230,12 +230,21 @@ jobs:
           adb install -r android-build/CallysCaves2_64bit_Rust.apk || { echo "APK install failed"; exit 1; }
           nohup adb logcat -v threadtime > remake_logcat.txt 2>&1 &
           LOG_PID=$!
-          adb shell am start -n com.gongmi.callyscaves2/.MainActivity
+          # -W gives the real component + launch status instead of the
+          # optimistic 'Starting: Intent' line (run 36508961487: am start
+          # 'succeeded', screenshots showed the LAUNCHER HOME — the process
+          # was gone by the first screencap; the RED below proves where/why)
+          adb shell am start -W -n com.gongmi.callyscaves2/.MainActivity
           mkdir -p shots/remake
           RUNS=${{ github.event.inputs.runs || '12' }}
           fail=0
           for i in $(seq 1 "$RUNS"); do
             sleep 4
+            if [ -z "$(adb shell pidof com.gongmi.callyscaves2 2>/dev/null | tr -d '\r')" ]; then
+              echo "remake process not alive at iteration $i"
+              fail=$i
+              break
+            fi
             adb exec-out screencap -p > shots/remake/step${i}.png 2>/tmp/screencap_err || { echo "screencap failed at $i: $(cat /tmp/screencap_err)"; fail=$i; break; }
             adb shell input tap 300 800 || { fail=$i; break; }
             adb shell input tap 610 800 || { fail=$i; break; }
@@ -247,6 +256,8 @@ jobs:
             adb devices || true
             ps aux | grep -i '[e]mulator' | head -5 || true
             tail -30 ${{ github.workspace }}/emulator.log || true
+            echo '--- callyscaves2 lines from logcat ---'
+            grep -aE 'gongmi|callys|AndroidRuntime' remake_logcat.txt | tail -60 || true
             tail -120 remake_logcat.txt || true
             exit 1
           fi
@@ -276,8 +287,8 @@ jobs:
           fail=0
           for i in $(seq 1 "$RUNS"); do
             sleep 4
-            if ! pgrep -f qemu-system >/dev/null; then
-              echo "qemu died before iteration $i"
+            if [ -z "$(adb shell pidof com.vdogames.callyscaves2 2>/dev/null | tr -d '\r')" ]; then
+              echo "original process gone before iteration $i"
               fail=$i
               break
             fi
