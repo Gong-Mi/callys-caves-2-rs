@@ -271,6 +271,17 @@ jobs:
           adb shell am start -W -n com.gongmi.callyscaves2/.MainActivity
           mkdir -p shots/remake
           RUNS=${{ github.event.inputs.runs || '12' }}
+          # Touch geometry, derived from the runner display and MainActivity:
+          #   wm size 1080x2340 -> landscape screencap 2340x1080 (run 36511727436).
+          #   framebuffer 960x540, scale = min(2340/960, 1080/540) = 2.0,
+          #   gameRect = [210, 0, 2130, 1080] (MainActivity.java:341-343).
+          #   logical(x,y) = ((px-210)/2, py/2); virtual-button band vy in
+          #   [190,254) -> py in [380,508): left px[210,382) right px[386,578)
+          #   shoot px[840,970) jump px[970,1100). The OLD taps (300,800)/(610,800)
+          #   computed vy=186.7 — 3.3 logical px ABOVE the band: every scripted
+          #   press was button 0. The remake 'stalling from step3' was the rig
+          #   missing its own buttons, not the game.
+          RIGHT_X=482; JUMP_X=1034; SHOOT_X=904; BUTTON_Y=440; CLICK_X=1170; CLICK_Y=540
           fail=0
           for i in $(seq 1 "$RUNS"); do
             sleep 4
@@ -280,8 +291,12 @@ jobs:
               break
             fi
             adb exec-out screencap -p > shots/remake/step${i}.png 2>/tmp/screencap_err || { echo "screencap failed at $i: $(cat /tmp/screencap_err)"; fail=$i; break; }
-            adb shell input tap 300 800 || { fail=$i; break; }
-            adb shell input tap 610 800 || { fail=$i; break; }
+            # mb_left anywhere advances dialogue/prologue; then a real
+            # move-right hold (1.2s swipe in the right-button zone), jump, shoot.
+            adb shell input tap $CLICK_X $CLICK_Y || { fail=$i; break; }
+            adb shell input swipe $RIGHT_X $BUTTON_Y $RIGHT_X $BUTTON_Y 1200 || { fail=$i; break; }
+            adb shell input tap $JUMP_X $BUTTON_Y || { fail=$i; break; }
+            adb shell input tap $SHOOT_X $BUTTON_Y || { fail=$i; break; }
             ls -l shots/remake/step${i}.png | awk '{print "step" $5 " bytes"}'
           done
           kill $LOG_PID || true
@@ -312,10 +327,20 @@ jobs:
           # Every adb interaction below therefore runs under `timeout`, and
           # a dead qemu is detected immediately instead of paid for 25s/call.
           ATTB='timeout 25'   # hard bound on every adb call
-          adb shell pidof com.vdogames.callyscaves2 || true
-          # (no -r here: run 36508961487 showed 'logcat: -r requires -f' —
-          # the rotation flag silently killed the capture)
-          $ATTB adb logcat -s 'libc:F' 'DEBUG:F' 'ActivityManager:W' 'AndroidRuntime:E' > orig_logcat.txt 2>&1 &
+          # Run 36511727436 forensics: am start -W returned Status: ok,
+          # COLD, TotalTime 1971 — the LAUNCH itself succeeds — then the
+          # process is gone 1s later AND the whole AVD follows it: 'adb
+          # devices' says emulator-5554 offline and the qemu process is
+          # <defunct> (zombie pid 2747). That is not an app crash, it is
+          # the guest kernel/QEMU dying under the translated v7a process.
+          # So the loop below distinguishes the two outcomes by qemu liveness.
+          # Isolate: kill the remake so its SurfaceFlinger clients do not
+          # confuse the AVD while the original's translator churns.
+          $ATTB adb shell am force-stop com.gongmi.callyscaves2 || true
+          $ATTB adb shell pidof com.vdogames.callyscaves2 || true
+          # Full-buffer capture: a native crash lands in system/main, not
+          # only the crash buffer, and DEBUG tombstone dumps live there.
+          $ATTB adb logcat -b main -b system -b crash -b events -v threadtime > orig_logcat.txt 2>&1 &
           LOG_PID=$!
           $ATTB adb shell am start -W -n com.vdogames.callyscaves2/.RunnerActivity
           mkdir -p shots/orig
@@ -323,8 +348,13 @@ jobs:
           fail=0
           for i in $(seq 1 "$RUNS"); do
             sleep 4
+            if ! pgrep -f '[q]emu-system' >/dev/null; then
+              echo "QEMU GONE before iteration $i — whole AVD died under libndk translation (not an app crash)"
+              fail=$i
+              break
+            fi
             if [ -z "$(adb shell pidof com.vdogames.callyscaves2 2>/dev/null | tr -d '\r')" ]; then
-              echo "original process gone before iteration $i"
+              echo "original process gone before iteration $i (qemu still up)"
               fail=$i
               break
             fi
@@ -336,8 +366,10 @@ jobs:
               fail=$i
               break
             fi
-            $ATTB adb shell input tap 300 800 || { fail=$i; break; }
-            $ATTB adb shell input tap 610 800 || { fail=$i; break; }
+            # same button band as the remake (see REMAKE step derivation)
+            $ATTB adb shell input tap 1170 540 || { fail=$i; break; }
+            $ATTB adb shell input swipe 482 440 482 440 1200 || { fail=$i; break; }
+            $ATTB adb shell input tap 1034 440 || { fail=$i; break; }
           done
           kill $LOG_PID || true
           if [ "$fail" != 0 ]; then
@@ -345,6 +377,8 @@ jobs:
             $ATTB adb devices || true
             pgrep -af qemu-system | head -3 || echo "no qemu process"
             tail -30 ${{ github.workspace }}/emulator.log || true
+            echo '--- native-crash forensics from the full capture ---'
+            grep -aE 'libc |DEBUG|tombstone|SIGSEGV|SIGABRT|Fatal signal|libndk|libyoyo|RunnerActivity' orig_logcat.txt | tail -50 || true
             tail -80 orig_logcat.txt || true
             exit 1
           fi
