@@ -49,12 +49,63 @@ def package_native_metadata(text):
     return out
 
 
-def classify(launch, device, pid, qemu):
+def sample_liveness(package, seconds, interval=5.0, sleep=time.sleep, call_fn=None):
+    """Poll device+PID repeatedly through the hold window.
+
+    One hung `adb` call cannot tell 'the process died early' from 'the
+    transport wedged now'. A series can: a PID seen alive then absent on a
+    live device is an app death with a time; a series that never once
+    produced a device state is a transport failure.
+    """
+    call_fn = call_fn or call
+    samples = []
+    deadline = time.time() + max(0.0, seconds)
+    while True:
+        state = call_fn("adb", "get-state", timeout=6)
+        entry = {"state": state["stdout"] or None,
+                 "state_timed_out": state["timed_out"]}
+        if state["rc"] == 0 and state["stdout"] == "device":
+            pid = call_fn("adb", "shell", "pidof", package, timeout=10)
+            entry["pid"] = pid["stdout"] or None
+            entry["pid_rc"] = pid["rc"]
+            entry["pid_timed_out"] = pid["timed_out"]
+        samples.append(entry)
+        if time.time() >= deadline:
+            break
+        sleep(interval)
+    return samples
+
+
+def summarize_samples(samples):
+    """Classify a liveness series without promoting transport loss to app death."""
+    if not samples:
+        return "no_samples"
+    if any(s.get("pid") for s in samples):
+        return "pid_seen_alive"
+    if any(s.get("state") == "device" and s.get("pid_rc") == 1 and not s.get("pid")
+           for s in samples):
+        return "pid_absent_on_live_device"
+    if any(s.get("state_timed_out") or s.get("pid_timed_out") for s in samples):
+        return "sample_transport_stalled"
+    if any(s.get("state") not in (None, "device") for s in samples):
+        return "device_not_ready"
+    return "no_pid_evidence"
+
+
+def classify(launch, device, pid, qemu, sample_summary=None):
     if qemu in ("absent", "zombie-only"):
         return "emulator_process_gone"  # do not attribute the guest loss to the app
     if launch["timed_out"] or launch["rc"] != 0 or "Status: ok" not in launch["stdout"]:
         return "launch_unverified"
-    if device["timed_out"] or device["rc"] != 0 or device["stdout"] != "device":
+    transport_ok = (not device["timed_out"] and device["rc"] == 0
+                    and device["stdout"] == "device")
+    # The liveness series outranks a single final probe: a PID observed alive
+    # earlier proves the process started even if adb wedges afterwards.
+    if sample_summary == "pid_seen_alive":
+        return "app_alive" if transport_ok else "app_alive_then_transport_lost"
+    if sample_summary == "pid_absent_on_live_device" and transport_ok:
+        return "app_absent_on_live_device"  # cause requires runtime logs/exit-info
+    if not transport_ok:
         return "transport_lost"  # pidof cannot establish an app death now
     if pid["timed_out"] or pid["rc"] not in (0, 1):
         return "pid_probe_inconclusive"
@@ -72,6 +123,8 @@ def main():
     ap.add_argument("--output", default="orig_probe.json")
     ap.add_argument("--log", default="orig_logcat.txt")
     ap.add_argument("--hold-seconds", type=float, default=25)
+    ap.add_argument("--sample-interval", type=float, default=5.0,
+                    help="Seconds between liveness samples during the hold window")
     args = ap.parse_args()
     # Clear historical boot logs BEFORE launch; only logs produced after this
     # point can be attributed to this launch.
@@ -95,7 +148,9 @@ def main():
         try:
             report["launch"] = call("adb", "shell", "am", "start", "-W", "-n",
                                     args.package + "/" + args.activity, timeout=30)
-            time.sleep(max(0, args.hold_seconds))
+            report["samples"] = sample_liveness(args.package, args.hold_seconds,
+                                                interval=args.sample_interval)
+            report["sample_summary"] = summarize_samples(report["samples"])
             report["qemu_after"] = host_qemu_state()
             report["device"] = call("adb", "get-state", timeout=8)
             if report["device"]["rc"] == 0 and report["device"]["stdout"] == "device":
@@ -130,7 +185,8 @@ def main():
     })
     report["log_first_last"] = [logs.splitlines()[0][:180], logs.splitlines()[-1][:180]] if logs.splitlines() else []
     report["classification"] = classify(report["launch"], report["device_final"],
-                                         report["pidof"], report["qemu_final"])
+                                         report["pidof"], report["qemu_final"],
+                                         report.get("sample_summary"))
     report["runtime_evidence"] = "package_lines_present" if report["package_log_lines"] else "no_package_lines_captured"
     Path(args.output).write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2), flush=True)

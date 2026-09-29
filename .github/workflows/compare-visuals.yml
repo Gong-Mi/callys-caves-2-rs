@@ -1,7 +1,11 @@
 name: Visual Parity Lab
 
 # Screenshot comparison of the Rust remake vs the original Yoyo-runner APK
-# on an x86_64 emulator with libndk ARM translation. Produces a per-screen
+# on an x86_64 emulator. Measured ABI truth (ABI probe artifact, run
+# 36640039230): `ro.product.cpu.abilist = x86_64,x86,arm64-v8a,armeabi-v7a,
+# armeabi`, the original APK ships lib/x86/libyoyo.so, and PackageManager
+# selected `primaryCpuAbi=x86` — the original runs its NATIVE x86 runner
+# here, not an ARM translation of the v7a library. Produces a per-screen
 # colorful-pixel ratio table + screenshots as artifacts, so "the remake has
 # content differences" becomes a measurable, reproducible diff instead of
 # one-off on-device screenshots.
@@ -54,10 +58,13 @@ jobs:
           echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
           echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
 
-      - name: Create AVD (API 30, x86_64, libndk ARM translation)
+      - name: Create AVD (API 30, x86_64)
         run: |
-          # API 30 x86_64 image ships with libndk translation for armeabi-v7a.
-          # The original Yoyo APK is armeabi-v7a-only; the remake is arm64-v8a.
+          # API 30 x86_64 google_apis image. Its abilist (x86_64,x86,
+          # arm64-v8a,armeabi-v7a,armeabi) is what lets the original's native
+          # x86 libyoyo.so run directly; the remake ships arm64-v8a + x86_64.
+          # Do not describe this AVD as "libndk ARM translation" — the probe
+          # measured primaryCpuAbi=x86 for the original (run 36640039230).
           SDKMGR=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
           AVDMGR=$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager
           ls "$ANDROID_HOME/cmdline-tools/"
@@ -87,8 +94,8 @@ jobs:
           # emulator + adb live in the preinstalled SDK, not on PATH by default
           export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
           export ANDROID_SDK_ROOT=$ANDROID_HOME
-          # KVM: the image we need (x86_64 + ARM translation) will NOT boot
-          # without hardware acceleration. Runner /dev/kvm perms drift
+          # KVM: the x86_64 image will NOT boot without hardware acceleration.
+          # Runner /dev/kvm perms drift
           # (root:kvm 660 vs world-rw); fix them and fail FAST with a visible
           # reason instead of hanging in adb wait-for-device (which blocks
           # forever when no device ever attaches — that ate the whole 60m
@@ -143,8 +150,7 @@ jobs:
           # preinstalled NDK, then assemble the APK with the same steps
           # build_apk.sh does.
           #
-          # The x86_64 lib is NOT optional: the AVD is an x86_64 image whose
-          # libndk translation only covers armeabi-v7a (32-bit ARM). A
+          # The x86_64 lib is NOT optional: the AVD is an x86_64 image. A
           # lib/arm64-v8a-only APK installs (dexopt isa=x86_64, no native
           # libs match), launches, and dies in System.loadLibrary before any
           # Java exception surfaces (run 36510277516: 'Start proc … 5890' →
@@ -195,11 +201,15 @@ jobs:
             echo "$T exports nativeInit"
           done
 
-      - name: Install original APK (arm translation check)
+      - name: Install original APK (native ABI check)
         run: |
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
-          adb install -r apks/original.apk || adb install -r --abi armeabi-v7a apks/original.apk
+          adb install -r apks/original.apk
           adb shell pm list packages | grep vdogames
+          # Prove which native runner the package selected instead of assuming
+          # a translation layer (the old `--abi armeabi-v7a` fallback was a
+          # guess; the ABI probe measured primaryCpuAbi=x86).
+          adb shell dumpsys package com.vdogames.callyscaves2 | grep -E 'primaryCpuAbi|secondaryCpuAbi' || true
 
       - name: Build remake APK on runner (this exact head)
         run: |
@@ -352,11 +362,12 @@ jobs:
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
           timeout 12 adb shell am force-stop com.gongmi.callyscaves2 || true
           # No screenshot or GUI inference: fresh bounded logcat, launch code,
-          # transport, PID exit status, non-zombie host QEMU, exit-info.
+          # transport, sampled PID liveness, non-zombie host QEMU, exit-info.
           # Previous artifacts' original logcat ENDED >3 min BEFORE am start;
           # 'pidof' then hung on an offline ADB and was misread as app death.
           python3 scripts/test_headless_original_probe.py -v
-          python3 scripts/headless_original_probe.py --hold-seconds 25 --output orig_probe.json --log orig_logcat.txt
+          python3 scripts/headless_original_probe.py --hold-seconds 25 --sample-interval 5 \
+            --output orig_probe.json --log orig_logcat.txt
 
       - name: Pixel-diff report
         run: |
