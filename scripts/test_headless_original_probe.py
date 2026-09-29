@@ -2,7 +2,7 @@
 """Pure classification tests; never launch adb or clear device logs."""
 import unittest
 
-from headless_original_probe import classify
+from headless_original_probe import classify, package_native_metadata
 
 
 def result(rc=0, stdout="", timed_out=False):
@@ -10,6 +10,19 @@ def result(rc=0, stdout="", timed_out=False):
 
 
 class ClassificationTest(unittest.TestCase):
+    def test_package_native_metadata_extracts_abi_and_paths(self):
+        data = package_native_metadata("Package [com.vdogames.callyscaves2]\n primaryCpuAbi=x86 secondaryCpuAbi=null\n nativeLibraryDir=/data/app/pkg/lib/x86 codePath=/data/app/pkg/base.apk\n")
+        self.assertEqual(data["primaryCpuAbi"], "x86")
+        self.assertIsNone(data["secondaryCpuAbi"])
+        self.assertEqual(data["nativeLibraryDir"], "/data/app/pkg/lib/x86")
+        self.assertEqual(data["codePath"], "/data/app/pkg/base.apk")
+
+    def test_package_native_metadata_missing_fields_are_none(self):
+        self.assertEqual(package_native_metadata("no ABI data"), {
+            "primaryCpuAbi": None, "secondaryCpuAbi": None,
+            "nativeLibraryDir": None, "codePath": None,
+        })
+
     def setUp(self):
         self.launch = result(stdout="Starting: Intent\nStatus: ok\nComplete")
         self.online = result(stdout="device")

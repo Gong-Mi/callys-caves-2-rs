@@ -38,6 +38,17 @@ def host_qemu_state():
     return "zombie-only"
 
 
+def package_native_metadata(text):
+    """Extract only PackageManager ABI/path fields; retain nulls as None."""
+    fields = ("primaryCpuAbi", "secondaryCpuAbi", "nativeLibraryDir", "codePath")
+    out = {}
+    for key in fields:
+        match = re.search(r"\b" + re.escape(key) + r"=([^\s]+)", text)
+        value = match.group(1) if match else None
+        out[key] = None if value in (None, "null", "(null)") else value
+    return out
+
+
 def classify(launch, device, pid, qemu):
     if qemu in ("absent", "zombie-only"):
         return "emulator_process_gone"  # do not attribute the guest loss to the app
@@ -72,6 +83,10 @@ def main():
         Path(args.output).write_text(json.dumps(report, indent=2) + "\n")
         print(json.dumps(report, indent=2), flush=True)
         return 1
+    report["device_abilist"] = call("adb", "shell", "getprop", "ro.product.cpu.abilist", timeout=8)
+    report["installed_package"] = call("adb", "shell", "dumpsys", "package", args.package,
+                                       timeout=15, output_limit=50000)
+    report["installed_package_native"] = package_native_metadata(report["installed_package"]["stdout"])
 
     with open(args.log, "wb") as out:
         monitor = subprocess.Popen(["adb", "logcat", "-b", "main", "-b", "system",
