@@ -317,78 +317,19 @@ jobs:
             exit 1
           fi
 
-      - name: Scripted run of the ORIGINAL
-        # continue-on-error: the original is evidence, not a gate. Its
-        # v7a-under-libndk instability must not skip the pixel-diff report
-        # and artifacts (which is the whole point of the job). The step
-        # still shows RED in the UI when the original dies.
+      - name: Headless original-runner probe (no screenshots)
+        # The original may take down the translated AVD. Keep its failure
+        # separate from remake execution; never promote a green compare job to
+        # an original-vs-remake result without a live original trace.
         continue-on-error: true
         run: |
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
-          # Run 36491995099 forensics (artifact): orig step1.png came back 0
-          # bytes and orig_logcat.txt dies at 22:23:54, seconds after the
-          # RunnerActivity starts — the v7a-under-libndk original kills the
-          # whole AVD, then adb's TCP connection HANGS (no RST), so a bare
-          # adb call blocked until the 60m job timeout cancelled everything.
-          # Every adb interaction below therefore runs under `timeout`, and
-          # a dead qemu is detected immediately instead of paid for 25s/call.
-          ATTB='timeout 25'   # hard bound on every adb call
-          # Run 36511727436 forensics: am start -W returned Status: ok,
-          # COLD, TotalTime 1971 — the LAUNCH itself succeeds — then the
-          # process is gone 1s later AND the whole AVD follows it: 'adb
-          # devices' says emulator-5554 offline and the qemu process is
-          # <defunct> (zombie pid 2747). That is not an app crash, it is
-          # the guest kernel/QEMU dying under the translated v7a process.
-          # So the loop below distinguishes the two outcomes by qemu liveness.
-          # Isolate: kill the remake so its SurfaceFlinger clients do not
-          # confuse the AVD while the original's translator churns.
-          $ATTB adb shell am force-stop com.gongmi.callyscaves2 || true
-          $ATTB adb shell pidof com.vdogames.callyscaves2 || true
-          # Full-buffer capture: a native crash lands in system/main, not
-          # only the crash buffer, and DEBUG tombstone dumps live there.
-          $ATTB adb logcat -b main -b system -b crash -b events -v threadtime > orig_logcat.txt 2>&1 &
-          LOG_PID=$!
-          $ATTB adb shell am start -W -n com.vdogames.callyscaves2/.RunnerActivity
-          mkdir -p shots/orig
-          RUNS=${{ github.event.inputs.runs || '12' }}
-          fail=0
-          for i in $(seq 1 "$RUNS"); do
-            sleep 4
-            if ! pgrep -f '[q]emu-system' >/dev/null; then
-              echo "QEMU GONE before iteration $i — whole AVD died under libndk translation (not an app crash)"
-              fail=$i
-              break
-            fi
-            if [ -z "$(adb shell pidof com.vdogames.callyscaves2 2>/dev/null | tr -d '\r')" ]; then
-              echo "original process gone before iteration $i (qemu still up)"
-              fail=$i
-              break
-            fi
-            $ATTB adb exec-out screencap -p > shots/orig/step${i}.png 2>/tmp/screencap_err
-            rc=$?
-            sz=$(stat -c %s shots/orig/step${i}.png 2>/dev/null || echo 0)
-            if [ $rc != 0 ] || [ "$sz" -lt 1000 ]; then
-              echo "screencap at $i: rc=$rc size=$sz err=$(cat /tmp/screencap_err)"
-              fail=$i
-              break
-            fi
-            # same button band as the remake (see REMAKE step derivation)
-            $ATTB adb shell input tap 1170 540 || { fail=$i; break; }
-            $ATTB adb shell input swipe 790 950 790 950 1200 || { fail=$i; break; }
-            $ATTB adb shell input tap 1978 950 || { fail=$i; break; }
-          done
-          kill $LOG_PID || true
-          if [ "$fail" != 0 ]; then
-            echo "::error::original loop died at iteration $fail — original app destabilizes the AVD under libndk translation"
-            $ATTB adb devices || true
-            pgrep -af qemu-system | head -3 || echo "no qemu process"
-            tail -30 ${{ github.workspace }}/emulator.log || true
-            echo '--- native-crash forensics from the full capture ---'
-            grep -aE 'libc |DEBUG|tombstone|SIGSEGV|SIGABRT|Fatal signal|libndk|libyoyo|RunnerActivity' orig_logcat.txt | tail -50 || true
-            tail -80 orig_logcat.txt || true
-            exit 1
-          fi
-          adb shell am force-stop com.vdogames.callyscaves2 || true
+          timeout 12 adb shell am force-stop com.gongmi.callyscaves2 || true
+          # No screenshot or GUI inference: fresh bounded logcat, launch code,
+          # transport, PID exit status, non-zombie host QEMU, exit-info.
+          # Previous artifacts' original logcat ENDED >3 min BEFORE am start;
+          # 'pidof' then hung on an offline ADB and was misread as app death.
+          python3 scripts/headless_original_probe.py --output orig_probe.json --log orig_logcat.txt
 
       - name: Pixel-diff report
         run: |
@@ -422,6 +363,8 @@ jobs:
                   rows.append((side, f, dark, white, colorful, colorful / total))
 
           with open('parity_report.txt', 'w') as out:
+              if not any(side == 'orig' and colorful >= 0 for side, _, _, _, colorful, _ in rows):
+                  out.write('NO ORIGINAL SCREEN CAPTURE: remake-only metrics; not a parity comparison. See orig_probe.json.\n')
               out.write('side     step           dark  white  colorful  ratio\n')
               for side, f, dark, white, colorful, ratio in rows:
                   out.write(f'{side:8s} {f:14s} {dark:5d} {white:6d} {colorful:8d}  {ratio:.4f}\n')
@@ -437,5 +380,6 @@ jobs:
             shots/
             parity_report.txt
             emulator.log
+            orig_probe.json
             orig_logcat.txt
             remake_logcat.txt
