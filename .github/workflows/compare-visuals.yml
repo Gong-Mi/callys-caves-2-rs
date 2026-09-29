@@ -279,9 +279,11 @@ jobs:
           # a dead qemu is detected immediately instead of paid for 25s/call.
           ATTB='timeout 25'   # hard bound on every adb call
           adb shell pidof com.vdogames.callyscaves2 || true
-          $ATTB adb logcat -r 2000 -s 'libc:F' 'DEBUG:F' 'ActivityManager:W' > orig_logcat.txt 2>&1 &
+          # (no -r here: run 36508961487 showed 'logcat: -r requires -f' —
+          # the rotation flag silently killed the capture)
+          $ATTB adb logcat -s 'libc:F' 'DEBUG:F' 'ActivityManager:W' 'AndroidRuntime:E' > orig_logcat.txt 2>&1 &
           LOG_PID=$!
-          $ATTB adb shell am start -n com.vdogames.callyscaves2/.RunnerActivity
+          $ATTB adb shell am start -W -n com.vdogames.callyscaves2/.RunnerActivity
           mkdir -p shots/orig
           RUNS=${{ github.event.inputs.runs || '12' }}
           fail=0
