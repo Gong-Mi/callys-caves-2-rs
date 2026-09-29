@@ -275,13 +275,19 @@ jobs:
           #   wm size 1080x2340 -> landscape screencap 2340x1080 (run 36511727436).
           #   framebuffer 960x540, scale = min(2340/960, 1080/540) = 2.0,
           #   gameRect = [210, 0, 2130, 1080] (MainActivity.java:341-343).
-          #   logical(x,y) = ((px-210)/2, py/2); virtual-button band vy in
-          #   [190,254) -> py in [380,508): left px[210,382) right px[386,578)
-          #   shoot px[840,970) jump px[970,1100). The OLD taps (300,800)/(610,800)
-          #   computed vy=186.7 — 3.3 logical px ABOVE the band: every scripted
-          #   press was button 0. The remake 'stalling from step3' was the rig
-          #   missing its own buttons, not the game.
-          RIGHT_X=482; JUMP_X=1034; SHOOT_X=904; BUTTON_Y=440; CLICK_X=1170; CLICK_Y=540
+          #   MainActivity.java:88-94 does TWO more scale steps:
+          #     vx = (px-210)/2 * 448/960 = (px-210)*0.23333
+          #     vy = (py/2)     * 252/540 = py*0.23333
+          #   band vy in [190,254) -> py in [814,1080]:
+          #     left   px[210,578)   right px[587,998)
+          #     shoot  px[1560,1838) jump  px[1838,2117)
+          #   The OLD taps (300,800)/(610,800) gave vy=186.7 — 3.3px above the
+          #   band — and the first fix (440) gave vy=102.7: every scripted
+          #   press was button 0. The remake 'stalling at step4' was the rig
+          #   missing its own buttons, not the game (run 36570769566: step4
+          #   and step12 are byte-identical except a blink in the button
+          #   corner — nothing in the world moves).
+          RIGHT_X=790; JUMP_X=1978; SHOOT_X=1700; BUTTON_Y=950; CLICK_X=1170; CLICK_Y=540
           fail=0
           for i in $(seq 1 "$RUNS"); do
             sleep 4
@@ -368,8 +374,8 @@ jobs:
             fi
             # same button band as the remake (see REMAKE step derivation)
             $ATTB adb shell input tap 1170 540 || { fail=$i; break; }
-            $ATTB adb shell input swipe 482 440 482 440 1200 || { fail=$i; break; }
-            $ATTB adb shell input tap 1034 440 || { fail=$i; break; }
+            $ATTB adb shell input swipe 790 950 790 950 1200 || { fail=$i; break; }
+            $ATTB adb shell input tap 1978 950 || { fail=$i; break; }
           done
           kill $LOG_PID || true
           if [ "$fail" != 0 ]; then
