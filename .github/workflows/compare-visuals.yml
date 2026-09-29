@@ -252,50 +252,56 @@ jobs:
           fi
 
       - name: Scripted run of the ORIGINAL
+        # continue-on-error: the original is evidence, not a gate. Its
+        # v7a-under-libndk instability must not skip the pixel-diff report
+        # and artifacts (which is the whole point of the job). The step
+        # still shows RED in the UI when the original dies.
+        continue-on-error: true
         run: |
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
-          # Run 36462655540 died here ~44s into the loop: 'error: closed' —
-          # the adb link dropped mid-run with no crash evidence captured
-          # (bash -e stopped at the failing adb call and the step logged
-          # nothing else). Now: per-iteration loop with an explicit failure
-          # iteration, a background logcat capture (survives the app dying;
-          # only helps while the device is still reachable), and dumps of
-          # device state / crash buffer / emulator tail on ANY failure.
+          # Run 36491995099 forensics (artifact): orig step1.png came back 0
+          # bytes and orig_logcat.txt dies at 22:23:54, seconds after the
+          # RunnerActivity starts — the v7a-under-libndk original kills the
+          # whole AVD, then adb's TCP connection HANGS (no RST), so a bare
+          # adb call blocked until the 60m job timeout cancelled everything.
+          # Every adb interaction below therefore runs under `timeout`, and
+          # a dead qemu is detected immediately instead of paid for 25s/call.
+          ATTB='timeout 25'   # hard bound on every adb call
           adb shell pidof com.vdogames.callyscaves2 || true
-          nohup adb logcat -v threadtime > orig_logcat.txt 2>&1 &
+          $ATTB adb logcat -r 2000 -s 'libc:F' 'DEBUG:F' 'ActivityManager:W' > orig_logcat.txt 2>&1 &
           LOG_PID=$!
-          adb shell am start -n com.vdogames.callyscaves2/.RunnerActivity
+          $ATTB adb shell am start -n com.vdogames.callyscaves2/.RunnerActivity
           mkdir -p shots/orig
           RUNS=${{ github.event.inputs.runs || '12' }}
           fail=0
           for i in $(seq 1 "$RUNS"); do
             sleep 4
-            adb exec-out screencap -p > shots/orig/step${i}.png 2>/tmp/screencap_err || { echo "screencap failed at $i: $(cat /tmp/screencap_err)"; fail=$i; break; }
-            adb shell input tap 300 800 || { fail=$i; break; }
-            adb shell input tap 610 800 || { fail=$i; break; }
-            # the original app is armed for crash; note if it disappeared
-            if ! adb shell pidof com.vdogames.callyscaves2 >/dev/null 2>&1; then
-              echo "original process gone by iteration $i"
+            if ! pgrep -f qemu-system >/dev/null; then
+              echo "qemu died before iteration $i"
               fail=$i
               break
             fi
+            $ATTB adb exec-out screencap -p > shots/orig/step${i}.png 2>/tmp/screencap_err
+            rc=$?
+            sz=$(stat -c %s shots/orig/step${i}.png 2>/dev/null || echo 0)
+            if [ $rc != 0 ] || [ "$sz" -lt 1000 ]; then
+              echo "screencap at $i: rc=$rc size=$sz err=$(cat /tmp/screencap_err)"
+              fail=$i
+              break
+            fi
+            $ATTB adb shell input tap 300 800 || { fail=$i; break; }
+            $ATTB adb shell input tap 610 800 || { fail=$i; break; }
           done
-          adb shell am force-stop com.vdogames.callyscaves2 || true
           kill $LOG_PID || true
           if [ "$fail" != 0 ]; then
-            echo "::error::original loop died at iteration $fail"
-            adb devices || true
-            ps aux | grep -i '[e]mulator' | head -5 || true
-            echo '--- last 60 logcat lines around the death ---'
-            tail -60 orig_logcat.txt || true
-            echo '--- crash buffer ---'
-            adb logcat -d -b crash -t 100 || true
-            echo '--- emulator.log tail ---'
+            echo "::error::original loop died at iteration $fail — original app destabilizes the AVD under libndk translation"
+            $ATTB adb devices || true
+            pgrep -af qemu-system | head -3 || echo "no qemu process"
             tail -30 ${{ github.workspace }}/emulator.log || true
-            # keep iterating evidence; do not abort the whole job —
-            # the remake half already has its screenshots.
+            tail -80 orig_logcat.txt || true
             exit 1
           fi
+          adb shell am force-stop com.vdogames.callyscaves2 || true
 
       - name: Pixel-diff report
         run: |
@@ -319,7 +325,13 @@ jobs:
               if not os.path.isdir(d):
                   continue
               for f in sorted(os.listdir(d)):
-                  dark, white, colorful, total = stats(os.path.join(d, f))
+                  p = os.path.join(d, f)
+                  try:
+                      dark, white, colorful, total = stats(p)
+                  except Exception as e:
+                      rows.append((side, f, -1, -1, -1, -1.0))
+                      print(f'{side}/{f}: unreadable ({e})', flush=True)
+                      continue
                   rows.append((side, f, dark, white, colorful, colorful / total))
 
           with open('parity_report.txt', 'w') as out:
