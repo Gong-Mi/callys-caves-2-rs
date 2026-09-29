@@ -305,14 +305,31 @@ jobs:
             adb shell input tap $SHOOT_X $BUTTON_Y || { fail=$i; break; }
             ls -l shots/remake/step${i}.png | awk '{print "step" $5 " bytes"}'
           done
+          # Wait through the room's own tutorial timeline without using its
+          # pixels as the oracle. A log checkpoint at tick 840 proved only
+          # ~419/600 ticks elapsed since this sheet spawned. Keep the game
+          # stepping, send a real centre tap each poll, and require its own
+          # Destroy/flag/freeze state transition before calling the chapter
+          # handover complete.
+          tutorial_done=0
+          for i in $(seq 1 24); do
+            sleep 4
+            if grep -aq 'IR checkpoint tick=.*intro=false sheet=None roomstart=false talkedtolloyd1=true' remake_logcat.txt; then
+              tutorial_done=1
+              echo "headless IR tutorial completed in wait poll $i"
+              break
+            fi
+            adb shell input tap $CLICK_X $CLICK_Y || { fail=1; break; }
+          done
           kill $LOG_PID || true
-          # Headless proof from the live bytecode Scene, not the legacy world
-          # or color/pixel counts. The prologue must hand over in this script;
-          # status=ok and a live PID by themselves do not prove gameplay.
           echo '--- IR state checkpoints ---'
           grep -a 'callys-rust.*IR \(boot\|checkpoint\|execution halted\)' remake_logcat.txt | tail -50 || true
-          if ! grep -aq 'IR checkpoint tick=.*intro=false' remake_logcat.txt; then
-            echo '::error::remake never reported IR prologue handover; cannot call this a playable run'
+          if [ "$tutorial_done" != 1 ]; then
+            echo '::error::IR trace did not reach tutorial dismissed + talkedtolloyd1=1 + roomstart=0'
+            fail=1
+          fi
+          if grep -aq 'callys-rust.*IR execution halted:' remake_logcat.txt; then
+            echo '::error::IR engine halted during scripted first-chapter run'
             fail=1
           fi
           if [ "$fail" != 0 ]; then
@@ -339,7 +356,7 @@ jobs:
           # Previous artifacts' original logcat ENDED >3 min BEFORE am start;
           # 'pidof' then hung on an offline ADB and was misread as app death.
           python3 scripts/test_headless_original_probe.py -v
-          python3 scripts/headless_original_probe.py --output orig_probe.json --log orig_logcat.txt
+          python3 scripts/headless_original_probe.py --hold-seconds 25 --output orig_probe.json --log orig_logcat.txt
 
       - name: Pixel-diff report
         run: |

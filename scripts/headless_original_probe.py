@@ -39,6 +39,8 @@ def host_qemu_state():
 
 
 def classify(launch, device, pid, qemu):
+    if qemu in ("absent", "zombie-only"):
+        return "emulator_process_gone"  # do not attribute the guest loss to the app
     if launch["timed_out"] or launch["rc"] != 0 or "Status: ok" not in launch["stdout"]:
         return "launch_unverified"
     if device["timed_out"] or device["rc"] != 0 or device["stdout"] != "device":
@@ -58,10 +60,10 @@ def main():
     ap.add_argument("--activity", default=".RunnerActivity")
     ap.add_argument("--output", default="orig_probe.json")
     ap.add_argument("--log", default="orig_logcat.txt")
-    ap.add_argument("--hold-seconds", type=float, default=4)
+    ap.add_argument("--hold-seconds", type=float, default=25)
     args = ap.parse_args()
-    # Clear historical boot logs BEFORE launch; the earlier capture spent its
-    # entire 25s timeout on boot backlog and ended minutes before app launch.
+    # Clear historical boot logs BEFORE launch; only logs produced after this
+    # point can be attributed to this launch.
     cleared = call("adb", "logcat", "-b", "main", "-b", "system",
                    "-b", "crash", "-b", "events", "-c", timeout=10)
     report = {"logcat_clear": cleared, "qemu_before": host_qemu_state()}
@@ -82,11 +84,15 @@ def main():
             report["qemu_after"] = host_qemu_state()
             report["device"] = call("adb", "get-state", timeout=8)
             if report["device"]["rc"] == 0 and report["device"]["stdout"] == "device":
-                report["pidof"] = call("adb", "shell", "pidof", args.package, timeout=8)
-                report["exit_info"] = call("adb", "shell", "dumpsys", "activity",
-                                           "exit-info", args.package, timeout=12)
+                report["pidof"] = call("adb", "shell", "pidof", args.package, timeout=25)
+                if report["pidof"]["rc"] == 1 and not report["pidof"]["stdout"]:
+                    report["exit_info"] = call("adb", "shell", "dumpsys", "activity",
+                                               "exit-info", args.package, timeout=12)
+                else:
+                    report["exit_info"] = {"rc": None, "stdout": "", "stderr": "not queried: PID is alive or PID probe inconclusive", "timed_out": False}
             else:
                 report["pidof"] = {"rc": None, "stdout": "", "stderr": "skipped: transport unavailable", "timed_out": False}
+                report["exit_info"] = {"rc": None, "stdout": "", "stderr": "skipped: transport unavailable", "timed_out": False}
         finally:
             monitor.terminate()
             try:
@@ -94,12 +100,22 @@ def main():
             except subprocess.TimeoutExpired:
                 monitor.kill()
                 monitor.wait(timeout=3)
+    report["qemu_final"] = host_qemu_state()
+    report["device_final"] = call("adb", "get-state", timeout=8)
     logs = Path(args.log).read_text(errors="replace")
     report["log_bytes"] = Path(args.log).stat().st_size
-    report["package_log_lines"] = [line[:500] for line in logs.splitlines() if args.package in line][-25:]
+    report["package_log_lines"] = [line[:500] for line in logs.splitlines() if args.package in line][-40:]
+    report["runtime_events"] = [line[:500] for line in logs.splitlines()
+                                 if re.search(r"am_proc_start|am_proc_died|am_crash|am_anr|Fatal signal|SIGSEGV|SIGABRT|FATAL EXCEPTION|ANR in", line, re.I)][-40:]
+    report["yoyo_lines"] = [line[:500] for line in logs.splitlines() if re.search(r"\byoyo\s*:", line)][-30:]
+    report["package_pid_candidates"] = sorted({
+        match.group(1) for line in logs.splitlines() if args.package in line
+        for match in [re.match(r"^\d{2}-\d{2} \d\d:\d\d:\d\d\.\d+\s+(\d+)\s+\d+\s", line)]
+        if match
+    })
     report["log_first_last"] = [logs.splitlines()[0][:180], logs.splitlines()[-1][:180]] if logs.splitlines() else []
-    report["classification"] = classify(report["launch"], report["device"],
-                                         report["pidof"], report["qemu_after"])
+    report["classification"] = classify(report["launch"], report["device_final"],
+                                         report["pidof"], report["qemu_final"])
     report["runtime_evidence"] = "package_lines_present" if report["package_log_lines"] else "no_package_lines_captured"
     Path(args.output).write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2), flush=True)

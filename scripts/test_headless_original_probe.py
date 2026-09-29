@@ -14,9 +14,13 @@ class ClassificationTest(unittest.TestCase):
         self.launch = result(stdout="Starting: Intent\nStatus: ok\nComplete")
         self.online = result(stdout="device")
 
-    def test_offline_is_not_app_death_even_if_qemu_pid_is_zombie(self):
+    def test_qemu_zombie_is_emulator_loss_not_app_death(self):
         self.assertEqual(classify(self.launch, result(rc=1, stdout="offline"),
-                                  result(rc=None), "zombie-only"), "transport_lost")
+                                  result(rc=None), "zombie-only"), "emulator_process_gone")
+
+    def test_offline_adb_with_live_qemu_is_transport_loss(self):
+        self.assertEqual(classify(self.launch, result(rc=1, stdout="offline"),
+                                  result(rc=None), "live"), "transport_lost")
 
     def test_failed_pidof_is_not_app_death(self):
         self.assertEqual(classify(self.launch, self.online, result(rc=255), "live"),
