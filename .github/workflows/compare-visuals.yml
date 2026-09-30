@@ -234,7 +234,7 @@ jobs:
           adb shell dumpsys package com.vdogames.callyscaves2 | grep -E 'primaryCpuAbi|secondaryCpuAbi' || true
 
       - name: Build remake APK on runner (this exact head)
-        if: ${{{{ github.event.inputs.remake != 'false' }}}}
+        if: ${{ github.event.inputs.remake != 'false' }}
         run: |
           # Assemble the APK with the same steps build_apk.sh performs, using
           # the arm64 cdylib cross-compiled earlier and the runner's SDK
@@ -290,7 +290,7 @@ jobs:
           ls -lh CallysCaves2_64bit_Rust.apk
 
       - name: Scripted run of the REMAKE
-        if: ${{{{ github.event.inputs.remake != 'false' }}}}
+        if: ${{ github.event.inputs.remake != 'false' }}
         run: |
           # (remake runs FIRST — see note above)
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
