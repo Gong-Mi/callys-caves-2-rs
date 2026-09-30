@@ -25,6 +25,10 @@ on:
         description: 'Emulator GPU backend for the ORIGINAL-side diagnosis (swiftshader_indirect / guest / off)'
         required: false
         default: 'swiftshader_indirect'
+      image:
+        description: 'System image for the differential (default API 30 google_apis x86_64)'
+        required: false
+        default: 'system-images;android-30;google_apis;x86_64'
   push:
     branches: [fix/prologue-render-layers]
     paths:
@@ -72,7 +76,9 @@ jobs:
           SDKMGR=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
           AVDMGR=$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager
           ls "$ANDROID_HOME/cmdline-tools/"
-          "$SDKMGR" --install "system-images;android-30;google_apis;x86_64" > /dev/null
+          IMAGE="${{ github.event.inputs.image || 'system-images;android-30;google_apis;x86_64' }}"
+          echo "system image: $IMAGE"
+          "$SDKMGR" --install "$IMAGE" > /dev/null
           # Pin the AVD home for BOTH steps: run 36460061865 showed avdmanager
           # exiting 0 while printing no "Created AVD" line, and the emulator then
           # died on "Unknown AVD name [lab] / no lab.ini in $HOME/.android/avd".
@@ -82,7 +88,7 @@ jobs:
           export ANDROID_AVD_HOME=$HOME/.android/avd
           echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME" >> "$GITHUB_ENV"
           mkdir -p "$ANDROID_AVD_HOME"
-          printf 'no\n' | "$AVDMGR" create avd -n lab -k "system-images;android-30;google_apis;x86_64" -d pixel_5 --force
+          printf 'no\n' | "$AVDMGR" create avd -n lab -k "$IMAGE" -d pixel_5 --force
           if [ ! -f "$ANDROID_AVD_HOME/lab.ini" ]; then
             echo "::error::avdmanager returned 0 but $ANDROID_AVD_HOME/lab.ini is missing"
             echo "--- avdmanager list ---"; "$AVDMGR" list avd || true
