@@ -21,6 +21,10 @@ on:
         description: 'Label for this comparison run'
         required: false
         default: 'parity'
+      gpu:
+        description: 'Emulator GPU backend for the ORIGINAL-side diagnosis (swiftshader_indirect / guest / off)'
+        required: false
+        default: 'swiftshader_indirect'
   push:
     branches: [fix/prologue-render-layers]
     paths:
@@ -110,7 +114,7 @@ jobs:
           # status we cannot tell SIGKILL (host killed it) from a crash exit.
           (
             emulator -avd lab -no-window -no-audio -no-boot-anim -no-snapshot \
-              -gpu swiftshader_indirect -memory 3072 -cores 2 \
+              -gpu ${{ github.event.inputs.gpu || 'swiftshader_indirect' }} -memory 3072 -cores 2 \
               > ${{ github.workspace }}/emulator.log 2>&1
             echo "emulator exited status=$? at $(date -u +%H:%M:%S)" >> ${{ github.workspace }}/emulator.log
           ) &
