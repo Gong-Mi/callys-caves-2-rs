@@ -4,7 +4,7 @@ import unittest
 
 from headless_original_probe import (OOM_PATTERNS, classify, guest_diagnostics,
                                      guest_mem_available, host_diagnostics,
-                                     package_native_metadata,
+                                     kernel_hits, package_native_metadata,
                                      pid_status_summary, sample_liveness,
                                      summarize_samples)
 
@@ -120,6 +120,13 @@ class ClassificationTest(unittest.TestCase):
                   "lowmemorykiller: sync_file_range completed")
         for line in benign[:1]:
             self.assertIsNone(OOM_PATTERNS.search(line), line)
+
+    def test_kernel_hits_drop_boot_noise(self):
+        lines = ["[Wed Sep 30 00:26:53 2026] NMI watchdog: Perf NMI watchdog permanently disabled",
+                 "[  268.344224] libprocessgroup: Successfully killed process cgroup uid 0 pid 395 in 0ms",
+                 "[Wed Sep 30 00:43:00 2026] Out of memory: killed process 3002 (qemu-system-x86)"]
+        self.assertEqual(kernel_hits(lines),
+                         ["[Wed Sep 30 00:43:00 2026] Out of memory: killed process 3002 (qemu-system-x86)"])
 
     def test_host_diagnostics_collects_runner_memory_dmesg_and_crash_dbs(self):
         import tempfile, os

@@ -56,6 +56,17 @@ OOM_PATTERNS = re.compile(
 # cleanup prints `libprocessgroup: Successfully killed process cgroup …`, and
 # treating that as an OOM hit made the first diagnostics run report a kernel
 # problem that did not exist (run 36642821596).
+BENIGN_KERNEL_LINES = re.compile(
+    r"Perf NMI watchdog permanently disabled", re.I)
+# `NMI watchdog: Perf NMI watchdog permanently disabled` is boot noise that
+# appeared in the runner's dmesg both before and after the wedge (run
+# 36651169057); it says nothing about the emulator's death.
+
+
+def kernel_hits(lines, limit=25):
+    """Kernel lines that actually indicate OOM/panic/lockup, not boot noise."""
+    return [line[:300] for line in lines
+            if OOM_PATTERNS.search(line) and not BENIGN_KERNEL_LINES.search(line)][-limit:]
 
 
 def host_diagnostics(call_fn=None, crash_dir="/tmp/android-runner"):
@@ -73,10 +84,10 @@ def host_diagnostics(call_fn=None, crash_dir="/tmp/android-runner"):
     dmesg = call_fn("sudo", "dmesg", "--ctime", timeout=15, output_limit=200000)
     report["host_dmesg_rc"] = dmesg["rc"]
     report["host_dmesg_timed_out"] = dmesg["timed_out"]
-    report["host_dmesg_hits"] = [
-        line[:300] for line in dmesg["stdout"].splitlines()
-        if OOM_PATTERNS.search(line) or "qemu" in line.lower()
-    ][-25:]
+    hits = kernel_hits(dmesg["stdout"].splitlines(), limit=25)
+    qemu_lines = [line[:300] for line in dmesg["stdout"].splitlines()
+                  if "qemu" in line.lower() and line[:300] not in hits][-10:]
+    report["host_dmesg_hits"] = hits + qemu_lines
     crash = Path(crash_dir)
     report["emulator_crash_dbs"] = (
         [f"{p.name}:{p.stat().st_size}" for p in sorted(crash.glob("emu-crash-*.db"))]
@@ -118,8 +129,7 @@ def guest_diagnostics(enable_root=True, call_fn=None):
     dmesg = call_fn("adb", "shell", "dmesg", timeout=15, output_limit=200000)
     report["dmesg_rc"] = dmesg["rc"]
     report["dmesg_timed_out"] = dmesg["timed_out"]
-    report["kernel_hits"] = [line[:300] for line in dmesg["stdout"].splitlines()
-                             if OOM_PATTERNS.search(line)][-20:]
+    report["kernel_hits"] = kernel_hits(dmesg["stdout"].splitlines(), limit=20)
     return report
 
 
@@ -248,6 +258,16 @@ def main():
         monitor = subprocess.Popen(["adb", "logcat", "-b", "main", "-b", "system",
                                     "-b", "crash", "-b", "events", "-v", "threadtime"],
                                    stdout=out, stderr=subprocess.STDOUT)
+        # The guest's own kernel log is written up to the instant it dies, but
+        # a post-mortem read is impossible once the device is offline. Keep a
+        # second adb connection streaming `dmesg -w` for the whole window
+        # (needs the adb root done above).
+        guest_stream = None
+        guest_stream_path = Path(args.log).with_name("guest_dmesg.txt")
+        if args.guest_diagnostics:
+            guest_stream = subprocess.Popen(["adb", "shell", "dmesg", "-w"],
+                                            stdout=open(guest_stream_path, "wb"),
+                                            stderr=subprocess.STDOUT)
         try:
             report["launch"] = call("adb", "shell", "am", "start", "-W", "-n",
                                     args.package + "/" + args.activity, timeout=30)
@@ -268,12 +288,20 @@ def main():
                 report["pidof"] = {"rc": None, "stdout": "", "stderr": "skipped: transport unavailable", "timed_out": False}
                 report["exit_info"] = {"rc": None, "stdout": "", "stderr": "skipped: transport unavailable", "timed_out": False}
         finally:
-            monitor.terminate()
-            try:
-                monitor.wait(timeout=3)
-            except subprocess.TimeoutExpired:
-                monitor.kill()
-                monitor.wait(timeout=3)
+            for proc in (monitor, guest_stream):
+                if proc is None:
+                    continue
+                proc.terminate()
+                try:
+                    proc.wait(timeout=3)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+                    proc.wait(timeout=3)
+    if args.guest_diagnostics and guest_stream_path.exists():
+        streamed = guest_stream_path.read_text(errors="replace").splitlines()
+        report["guest_dmesg_bytes"] = guest_stream_path.stat().st_size
+        report["guest_dmesg_tail"] = [line[:300] for line in streamed][-40:]
+        report["guest_dmesg_hits"] = kernel_hits(streamed, limit=20)
     report["qemu_final"] = host_qemu_state()
     report["device_final"] = call("adb", "get-state", timeout=8)
     if args.guest_diagnostics:

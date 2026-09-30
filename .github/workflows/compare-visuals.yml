@@ -104,9 +104,16 @@ jobs:
           ls -la /dev/kvm || true
           sudo chmod 666 /dev/kvm 2>/dev/null || true
           ls -la /dev/kvm
-          emulator -avd lab -no-window -no-audio -no-boot-anim -no-snapshot \
-            -gpu swiftshader_indirect -memory 3072 -cores 2 \
-            > ${{ github.workspace }}/emulator.log 2>&1 &
+          # The subshell records the emulator's exit status into emulator.log
+          # when it dies. Every failing original-side run so far ended with
+          # qemu <defunct> and an emulator.log that simply stops — without the
+          # status we cannot tell SIGKILL (host killed it) from a crash exit.
+          (
+            emulator -avd lab -no-window -no-audio -no-boot-anim -no-snapshot \
+              -gpu swiftshader_indirect -memory 3072 -cores 2 \
+              > ${{ github.workspace }}/emulator.log 2>&1
+            echo "emulator exited status=$? at $(date -u +%H:%M:%S)" >> ${{ github.workspace }}/emulator.log
+          ) &
           EMU_PID=$!
           # bounded device attach: 5 min, not forever
           if ! timeout 300 adb wait-for-device; then
@@ -378,6 +385,8 @@ jobs:
           print('samples:', json.dumps(d.get('samples', []))[:1500])
           print('installed native:', d.get('installed_package_native'))
           print('qemu before/after/final:', d.get('qemu_before'), d.get('qemu_after'), d.get('qemu_final'))
+          print('guest_dmesg bytes/hits:', d.get('guest_dmesg_bytes'), d.get('guest_dmesg_hits'))
+          print('guest_dmesg tail:', (d.get('guest_dmesg_tail') or [])[-8:])
           for side in ('guest_before', 'guest_after'):
               g = d.get(side) or {}
               print(side, 'mem_available_kb=', g.get('mem_available_kb'),
@@ -441,4 +450,5 @@ jobs:
             emulator.log
             orig_probe.json
             orig_logcat.txt
+            guest_dmesg.txt
             remake_logcat.txt
