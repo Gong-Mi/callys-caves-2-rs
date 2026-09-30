@@ -29,6 +29,10 @@ on:
         description: 'System image for the differential (default API 30 google_apis x86_64)'
         required: false
         default: 'system-images;android-30;google_apis;x86_64'
+      remake:
+        description: 'Run the remake side too (set false for original-only differentials, e.g. a 32-bit-only image the remake cannot install on)'
+        required: false
+        default: 'true'
   push:
     branches: [fix/prologue-render-layers]
     paths:
@@ -162,6 +166,7 @@ jobs:
           ls -lh apks/original.apk
 
       - name: Build the remake APK for arm64 on the runner
+        if: ${{ github.event.inputs.remake != 'false' }}
         run: |
           # Cross-compile the client cdylib for arm64-v8a AND x86_64 with the
           # preinstalled NDK, then assemble the APK with the same steps
@@ -229,6 +234,7 @@ jobs:
           adb shell dumpsys package com.vdogames.callyscaves2 | grep -E 'primaryCpuAbi|secondaryCpuAbi' || true
 
       - name: Build remake APK on runner (this exact head)
+        if: ${{{{ github.event.inputs.remake != 'false' }}}}
         run: |
           # Assemble the APK with the same steps build_apk.sh performs, using
           # the arm64 cdylib cross-compiled earlier and the runner's SDK
@@ -284,6 +290,7 @@ jobs:
           ls -lh CallysCaves2_64bit_Rust.apk
 
       - name: Scripted run of the REMAKE
+        if: ${{{{ github.event.inputs.remake != 'false' }}}}
         run: |
           # (remake runs FIRST — see note above)
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
