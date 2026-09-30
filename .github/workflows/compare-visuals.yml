@@ -383,6 +383,11 @@ jobs:
               print(side, 'mem_available_kb=', g.get('mem_available_kb'),
                     'root_rc=', (g.get('root') or {}).get('rc'),
                     'kernel_hits=', g.get('kernel_hits'))
+          for side in ('host_before', 'host_after'):
+              h = d.get(side) or {}
+              print(side, 'dmesg_rc=', h.get('host_dmesg_rc'),
+                    'crash_dbs=', h.get('emulator_crash_dbs'),
+                    'hits=', (h.get('host_dmesg_hits') or [])[-5:])
           PY
 
       - name: Pixel-diff report

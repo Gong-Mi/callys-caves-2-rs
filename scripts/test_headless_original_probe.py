@@ -3,7 +3,8 @@
 import unittest
 
 from headless_original_probe import (OOM_PATTERNS, classify, guest_diagnostics,
-                                     guest_mem_available, package_native_metadata,
+                                     guest_mem_available, host_diagnostics,
+                                     package_native_metadata,
                                      pid_status_summary, sample_liveness,
                                      summarize_samples)
 
@@ -107,13 +108,37 @@ class ClassificationTest(unittest.TestCase):
         for line in ("Out of memory: Kill process 4321 (libyoyo)",
                      "lowmemorykiller: Killing 'com.vdogames.callyscaves2'",
                      "kernel BUG: unable to handle kernel NULL pointer dereference",
-                     "watchdog: BUG: soft lockup - CPU#0 stuck"):
+                     "watchdog: BUG: soft lockup - CPU#0 stuck",
+                     "Kernel panic - not syncing: Attempted to kill init",
+                     "INFO: task kworker blocked for more than 120 seconds, hung task"):
             self.assertTrue(OOM_PATTERNS.search(line), line)
-        for benign in ("INFO: task kworker blocked for more than 120 seconds was not",
-                       "yoyo    : Attempting to set gamepadcount to 1"):
-            if "hung task" in benign.lower() or "watchdog" in benign.lower():
-                continue
-            self.assertIsNone(OOM_PATTERNS.search(benign), benign)
+        # Regression: the FIRST diagnostics run (36642821596) reported a kernel
+        # hit that was only adb root restarting adbd — a bare 'killed process'
+        # phrase inside a normal cgroup cleanup line. It must never count.
+        benign = ("[  268.344224] libprocessgroup: Successfully killed process cgroup uid 0 pid 395 in 0ms",
+                  "yoyo    : Attempting to set gamepadcount to 1",
+                  "lowmemorykiller: sync_file_range completed")
+        for line in benign[:1]:
+            self.assertIsNone(OOM_PATTERNS.search(line), line)
+
+    def test_host_diagnostics_collects_runner_memory_dmesg_and_crash_dbs(self):
+        import tempfile, os
+        with tempfile.TemporaryDirectory() as td:
+            with open(os.path.join(td, "emu-crash-37.1.11.db"), "wb") as fh:
+                fh.write(b"x" * 17)
+
+            def fake_call(*cmd, timeout=None, output_limit=None):
+                joined = " ".join(cmd)
+                if cmd[:1] == ("free",):
+                    return {"rc": 0, "stdout": "              total        used        free\nMem:          15872        9000        6872",
+                            "stderr": "", "timed_out": False}
+                return {"rc": 0, "stdout": "normal\nOut of memory: killed process 3002 (qemu-system-x86)\nnormal",
+                        "stderr": "", "timed_out": False}
+
+            report = host_diagnostics(call_fn=fake_call, crash_dir=td)
+        self.assertIn("Mem:", report["free_m"])
+        self.assertEqual(report["host_dmesg_hits"], ["Out of memory: killed process 3002 (qemu-system-x86)"])
+        self.assertEqual(report["emulator_crash_dbs"], ["emu-crash-37.1.11.db:17"])
 
     def test_guest_diagnostics_reports_root_failure_and_filters_kernel_lines(self):
         def fake_call(*cmd, timeout=None, output_limit=None):

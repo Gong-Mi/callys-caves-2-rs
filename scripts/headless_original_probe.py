@@ -50,8 +50,39 @@ def package_native_metadata(text):
 
 
 OOM_PATTERNS = re.compile(
-    r"Out of memory|oom-kill|lowmemorykiller|Killed process|page allocation failure"
-    r"|BUG: |Oops|kernel panic|hung task|watchdog", re.I)
+    r"Out of memory|oom-kill|lowmemorykiller|page allocation failure"
+    r"|BUG: |Oops|kernel panic|hung task|soft lockup|watchdog", re.I)
+# Deliberately NOT matching a bare "killed process": normal cgroup/process
+# cleanup prints `libprocessgroup: Successfully killed process cgroup …`, and
+# treating that as an OOM hit made the first diagnostics run report a kernel
+# problem that did not exist (run 36642821596).
+
+
+def host_diagnostics(call_fn=None, crash_dir="/tmp/android-runner"):
+    """Host-side facts around the wedge: the guest may leave no trace at all.
+
+    emulator.log ended at boot lines in every failing run, which means the
+    emulator process was removed before it could flush anything. The host
+    kernel log and the runner's own memory state are then the only evidence
+    for 'qemu was killed' versus 'qemu crashed'.
+    """
+    call_fn = call_fn or call
+    report = {}
+    free = call_fn("free", "-m", timeout=5, output_limit=20000)
+    report["free_m"] = free["stdout"]
+    dmesg = call_fn("sudo", "dmesg", "--ctime", timeout=15, output_limit=200000)
+    report["host_dmesg_rc"] = dmesg["rc"]
+    report["host_dmesg_timed_out"] = dmesg["timed_out"]
+    report["host_dmesg_hits"] = [
+        line[:300] for line in dmesg["stdout"].splitlines()
+        if OOM_PATTERNS.search(line) or "qemu" in line.lower()
+    ][-25:]
+    crash = Path(crash_dir)
+    report["emulator_crash_dbs"] = (
+        [f"{p.name}:{p.stat().st_size}" for p in sorted(crash.glob("emu-crash-*.db"))]
+        if crash.is_dir() else []
+    )
+    return report
 
 
 def guest_mem_available(text):
@@ -208,6 +239,10 @@ def main():
     report["installed_package"] = call("adb", "shell", "dumpsys", "package", args.package,
                                        timeout=15, output_limit=50000)
     report["installed_package_native"] = package_native_metadata(report["installed_package"]["stdout"])
+    # Host-side baseline: emulator.log stops at boot lines in failing runs, so
+    # the runner's own memory state and kernel log decide "qemu killed" vs
+    # "qemu crashed" when the guest leaves no trace.
+    report["host_before"] = host_diagnostics(call_fn=call)
 
     with open(args.log, "wb") as out:
         monitor = subprocess.Popen(["adb", "logcat", "-b", "main", "-b", "system",
@@ -245,6 +280,7 @@ def main():
         # Post-wedge guest evidence: the kernel log is often the only place the
         # reason survives (the app's own logcat stops at its last line).
         report["guest_after"] = guest_diagnostics(enable_root=False, call_fn=call)
+    report["host_after"] = host_diagnostics(call_fn=call)
     logs = Path(args.log).read_text(errors="replace")
     report["log_bytes"] = Path(args.log).stat().st_size
     report["package_log_lines"] = [line[:500] for line in logs.splitlines() if args.package in line][-40:]
