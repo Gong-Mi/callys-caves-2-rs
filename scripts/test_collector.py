@@ -177,6 +177,7 @@ def collect_all(quick=False):
         "draw_stream_frame_fingerprint",
         "draw_stream_sensitivities",
         "mines_trunk_playthrough",
+        "depths_trunk_playthrough",
         "prologue_layers_consumption",
         "prologue_render_regression",
         "view_projection_consumption",
