@@ -23,6 +23,16 @@ DEFAULT_ENGINE = ROOT / 'crates/core/src/ir_scene.rs'
 NAME_RE = re.compile(r'"([A-Za-z0-9_]+)"')
 
 
+def expand_includes(path):
+    """Inline `include!("...")` so the audit still sees the dispatch table after
+    a pure file cut moved the unit into parts/. Relative to the including file."""
+    path = pathlib.Path(path)
+    text = path.read_text()
+    def repl(m):
+        return expand_includes(path.parent / m.group(1))
+    return re.sub(r'include!\("([^"]+)"\);', repl, text)
+
+
 def parse_expected_argc(source: str) -> dict:
     """Extract the expected_argc table from the VM's dispatch match block."""
     start = source.index('let expected_argc = match n {')
@@ -81,7 +91,7 @@ def main() -> int:
                         help='invert the exit code: proves the audit catches a known gap')
     args = parser.parse_args()
 
-    table = parse_expected_argc(args.engine.read_text())
+    table = parse_expected_argc(expand_includes(args.engine))
     observed = observed_argc(args.ir)
     unknown, mismatched = audit(table, observed)
 

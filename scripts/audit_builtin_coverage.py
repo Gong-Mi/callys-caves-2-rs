@@ -22,8 +22,19 @@ def original_funcs(data):
     return out
 
 
+def expand_includes(path):
+    """Inline `include!("...")` so audits see the complete source even after a
+    pure file cut moved a unit into parts/. Relative to the including file."""
+    path = Path(path)
+    text = path.read_text()
+    def repl(m):
+        part = (path.parent / m.group(1)).resolve()
+        return expand_includes(part)
+    return re.sub(r'include!\("([^"]+)"\);', repl, text)
+
+
 def rust_dispatch(path):
-    text = Path(path).read_text()
+    text = expand_includes(path)
     # All names in the Host::call expected-argc match are dispatch candidates.
     start = text.index("let expected_argc = match n")
     end = text.index("if let Some(exp)", start)
