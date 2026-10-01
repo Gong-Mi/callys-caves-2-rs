@@ -1,5 +1,11 @@
 name: Visual Parity Lab
 
+# Default posture (post runs 36652899080/36654952404/36655808019): ORIGINAL is
+# OFF by default. The CI emulator stack wedges the guest at original-app
+# startup with no trace under every gpu/image/abi configuration tried; original
+# reference frames come from real-device captures instead. Remake-side
+# execution is gated on headless IR checkpoints (logcat oracle), not pixels.
+# Enable original: true only as a diagnostic experiment.
 # Screenshot comparison of the Rust remake vs the original Yoyo-runner APK
 # on an x86_64 emulator. Measured ABI truth (ABI probe artifact, run
 # 36640039230): `ro.product.cpu.abilist = x86_64,x86,arm64-v8a,armeabi-v7a,
@@ -33,8 +39,12 @@ on:
         description: 'Run the remake side too (set false for original-only differentials, e.g. a 32-bit-only image the remake cannot install on)'
         required: false
         default: 'true'
+      original:
+        description: 'Run the ORIGINAL yoyo runner side (diagnostic only). Default false: every CI emulator stack tried so far wedges the guest at the original app startup with no trace (see runs 36655808019/36654952404/36652899080); the reference capture belongs on a real device.'
+        required: false
+        default: 'false'
   push:
-    branches: [fix/prologue-render-layers]
+    branches: [main]
     paths:
       - '.github/workflows/compare-visuals.yml'
 
@@ -157,6 +167,7 @@ jobs:
           adb shell wm size 1080x2340 || true
 
       - name: Fetch original APK
+        if: ${{ github.event.inputs.original == 'true' }}
         run: |
           mkdir -p apks
           URL="https://github.com/${{ github.repository }}/releases/download/original-apk-v1/callys_original.apk"
@@ -224,6 +235,7 @@ jobs:
           done
 
       - name: Install original APK (native ABI check)
+        if: ${{ github.event.inputs.original == 'true' }}
         run: |
           export PATH="$ANDROID_HOME/platform-tools:$PATH"
           adb install -r apks/original.apk
@@ -378,6 +390,7 @@ jobs:
           fi
 
       - name: Headless original-runner probe (no screenshots)
+        if: ${{ github.event.inputs.original == 'true' }}
         # The original may take down the translated AVD. Keep its failure
         # separate from remake execution; never promote a green compare job to
         # an original-vs-remake result without a live original trace.
