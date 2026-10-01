@@ -1,6 +1,8 @@
 # Draw-stream frame fingerprint (render batch: visual verification without pixels)
 
-Suite: `crates/client/tests/draw_stream_frame_fingerprint.rs` (callys-client)
+Suites: `crates/client/tests/draw_stream_frame_fingerprint.rs` and
+`crates/client/tests/draw_stream_sensitivities.rs` (callys-client; identical
+FNV algorithm, digests mutually comparable).
 
 ## Contract
 
@@ -36,3 +38,20 @@ Pinned facts (probe-recorded on this head, view-6 town / full-cast level1):
   period probe prints what it finds rather than pinning a guessed cycle.
 * `end_frame` retirement timing is inherited from the client frame loop this
   suite drives through `GameState::step` (same entry point as nativeStep).
+
+## Sensitivity suite (draw_stream_sensitivities.rs) — pinned transitions
+
+* Lloyd sheet freeze: after the proximity hand-over the room collapses to
+  (almost) the sheet's own drawers — the 180-draw town idle cannot recur —
+  while the sheet's panel alarm ladder keeps changing the digest with the
+  world frozen. Both halves are emission facts, not screenshot inference.
+* Boss-1 kill chain: obj_trex contributes draws while alive; after the real
+  shoot-button kill (CODE 11 bullet -> CODE 284 -> CODE 160) its instance id
+  is gone from the stream and the boulder gate (CODE 29) clears within 35
+  ticks; alive-vs-dead arena digests differ.
+* Three-room discrimination: town, level1 and the post-boss Mines (room 11,
+  only reachable through the killed gate) produce three distinct idle
+  digests — no cross-room stream confusion.
+* Reproducibility: run 3x green locally (104s / 73s / 94s), the RNG-driven
+  kill chain included (hptrex=1 injection is the registered
+  engine-recomputes-globals discipline, not a fabricated kill).

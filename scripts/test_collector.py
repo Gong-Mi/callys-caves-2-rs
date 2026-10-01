@@ -175,6 +175,7 @@ def collect_all(quick=False):
         "first_chapter_playthrough",
         "challenge_rooms_playthrough",
         "draw_stream_frame_fingerprint",
+        "draw_stream_sensitivities",
         "prologue_layers_consumption",
         "prologue_render_regression",
         "view_projection_consumption",
