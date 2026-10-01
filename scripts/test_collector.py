@@ -181,6 +181,7 @@ def collect_all(quick=False):
         "core_trunk_playthrough",
         "lab_trunk_playthrough",
         "lair_trunk_playthrough",
+        "boss_kill_chains",
         "prologue_layers_consumption",
         "prologue_render_regression",
         "view_projection_consumption",
