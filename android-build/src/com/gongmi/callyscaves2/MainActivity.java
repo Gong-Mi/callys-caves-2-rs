@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     private native void nativeResize(int width, int height);
     private native void nativeStep(int dtMs);
     private native void nativeInput(int moveLeft, int moveRight, int jump,
-                                    int attack, int switchWeapon, int weapon,
+                                    int attack, int switchWeapon, int sword,
                                     int tap);
     private native void nativePointerRelease(float x, float y);
     private native int  nativeGetWidth();
@@ -75,23 +75,27 @@ public class MainActivity extends Activity {
     private final Set<Integer> loadedSamples = ConcurrentHashMap.newKeySet();
 
     // input
-    private boolean moveLeft, moveRight, jump, attack, switchWeapon;
-    private volatile int jumpPulse, attackPulse, tapPulse;
-    private int weapon = 0;
+    private boolean moveLeft, moveRight, jump, attack, sword, switchWeapon;
+    private volatile int jumpPulse, attackPulse, swordPulse, tapPulse;
     private final PointerReleaseQueue pointerReleases = new PointerReleaseQueue();
     private static final float LOGICAL_WIDTH = 960.0f;
     private static final float LOGICAL_HEIGHT = 540.0f;
 
     private int logicalButton(float x, float y) {
-        // Map 960x540 logical screen coordinates to the original 448x252 view
-        // space used by GMS touch buttons (CODE 522/525/530/533).
-        float vx = x * 448.0f / LOGICAL_WIDTH;
-        float vy = y * 252.0f / LOGICAL_HEIGHT;
-        if (vy >= 190.0f && vy < 254.0f) {
-            if (vx >= 0.0f && vx < 86.0f) return 1;       // left (-10..86)
-            if (vx >= 88.0f && vx < 184.0f) return 2;      // right (88..184)
-            if (vx >= 315.0f && vx < 380.0f) return 4;     // shoot
-            if (vx >= 380.0f && vx < 445.0f) return 3;     // jump
+        // Map 960x540 logical screen coordinates to on-screen touch buttons.
+        // View 6 (480x270, 2.0x zoom):
+        //   left: [-20..172, 420..548]
+        //   right: [176..368, 420..548]
+        //   shoot: [690..818, 420..548]
+        //   jump: [820..948, 420..548]
+        //   sword: [820..948, 290..418]
+        if (y >= 390.0f) {
+            if (x < 180.0f) return 1;                  // left
+            if (x >= 180.0f && x < 380.0f) return 2;   // right
+            if (x >= 660.0f && x < 815.0f) return 4;   // shoot
+            if (x >= 815.0f) return 3;                 // jump
+        } else if (y >= 260.0f && y < 390.0f) {
+            if (x >= 780.0f) return 5;                 // sword
         }
         return 0;
     }
@@ -134,7 +138,7 @@ public class MainActivity extends Activity {
             int w = bounds.width();
             int hh = bounds.height();
             if (w <= 0 || hh <= 0) return true;
-            moveLeft = moveRight = jump = attack = false;
+            moveLeft = moveRight = jump = attack = sword = false;
             int action = ev.getActionMasked();
             if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
                 int index = ev.getActionIndex();
@@ -165,11 +169,12 @@ public class MainActivity extends Activity {
                 else if (button == 2) moveRight = true;
                 else if (button == 3) jump = true;
                 else if (button == 4) { attack = true; attackPulse = 4; }
+                else if (button == 5) { sword = true; swordPulse = 4; }
                 if (logicalY < 108.0f) switchWeapon = true;
             }
             if (ev.getActionMasked() == MotionEvent.ACTION_UP ||
                     ev.getActionMasked() == MotionEvent.ACTION_CANCEL) {
-                moveLeft = moveRight = jump = attack = false;
+                moveLeft = moveRight = jump = attack = sword = false;
             }
             return true;
         });
@@ -303,17 +308,19 @@ public class MainActivity extends Activity {
 
                 boolean jumpNow = jump || jumpPulse > 0;
                 boolean attackNow = attack || attackPulse > 0;
+                boolean swordNow = sword || swordPulse > 0;
                 nativeInput(
                     moveLeft ? 1 : 0,
                     moveRight ? 1 : 0,
                     jumpNow ? 1 : 0,
                     attackNow ? 1 : 0,
                     switchWeapon ? 1 : 0,
-                    weapon,
+                    swordNow ? 1 : 0,
                     tapPulse > 0 ? 1 : 0
                 );
                 if (jumpPulse > 0) jumpPulse--;
                 if (attackPulse > 0) attackPulse--;
+                if (swordPulse > 0) swordPulse--;
                 if (tapPulse > 0) tapPulse--;
                 switchWeapon = false;
                 PointerReleaseQueue.Release release;

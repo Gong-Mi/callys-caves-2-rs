@@ -42,11 +42,9 @@ pub struct RoomData {
     pub persistent: bool,
     pub objects: Vec<RoomObjectInstance>,
     pub tiles: Vec<RoomTileInstance>,
-    /// Room-editor VIEW table (GM8.1: 8 slots). The original runner renders
-    /// each visible view's `wview x hview` rect zoomed into its `wport x hport`
-    /// rectangle; rm_town's view[0] is 448x252 -> 1136x640 (zoom ~2.54) following
-    /// obj_player, which is why the original's world-space sprites are ~2.5x
-    /// larger than a flat 960x540 projection.
+    /// Room-editor VIEW defaults (GM8.1: 8 indexed slots). These records seed
+    /// the runtime view state on room entry; GML can change visibility and
+    /// viewport dimensions afterward. The renderer must use that live index.
     pub views: Vec<RoomView>,
 }
 
@@ -67,7 +65,8 @@ pub struct RoomView {
     pub vborder: u32,
     pub hspeed: i32,
     pub vspeed: i32,
-    /// The object whose x/y the view follows (0 = none).
+    /// Raw object ID whose position this view follows; runtime meaning is kept
+    /// aligned with the owning game's object table.
     pub object: i32,
 }
 

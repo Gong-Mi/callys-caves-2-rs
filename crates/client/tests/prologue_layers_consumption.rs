@@ -71,27 +71,49 @@ fn prologue_text_layer_lands_on_framebuffer() {
 }
 
 #[test]
-fn background_tiling_covers_viewport_with_positive_offset() {
+fn draw_background_renders_once_in_the_selected_view_without_tiling() {
     let mut state = boot_state();
-    let scene = state.scene.as_mut().unwrap();
-    scene.draws.clear();
-    scene.texts.clear();
-    scene.room_tiles.clear();
-    scene.healthbars.clear();
-    scene.particles.clear();
-    // Force a positive offset: without modular wrapping, (0..100) or (0..50) would stay black
-    for bg in &mut scene.backgrounds {
-        bg.x = 100.0;
-        bg.y = 50.0;
+    let scene = state.scene.as_ref().unwrap();
+    let view_index = scene.active_view_index().expect("visible runtime view");
+    let view = scene.room_views[view_index].clone();
+    assert_eq!(view_index, 6, "CODE 538 selects view 6 at 960x540");
+    let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
+    let mut command = scene.backgrounds.first().cloned().expect("original background draw command");
+    let bg = state.asset.backgrounds.get(&(command.background.max(0) as usize)).expect("background resource");
+    let page = state.asset.tpag_items.get(&bg.tpag_ptr).expect("background texture page");
+    assert!(page.w > 0 && page.h > 0);
+
+    // Scale the real background draw to an 80x60-pixel rectangle at the current
+    // view origin. This makes an accidental second tile directly observable.
+    command.x = cam_x;
+    command.y = cam_y;
+    command.scale_x = 80.0 / (page.w as f64 * 960.0 / view.wview as f64);
+    command.scale_y = 60.0 / (page.h as f64 * 540.0 / view.hview as f64);
+    {
+        let scene = state.scene.as_mut().unwrap();
+        scene.draws.clear();
+        scene.backgrounds.clear();
+        scene.backgrounds.push(command);
+        scene.room_tiles.clear();
+        scene.texts.clear();
+        scene.healthbars.clear();
+        scene.particles.clear();
     }
+
     let fb = render(&state);
-    // Assert corner pixels (0, 0), (10, 10), (50, 25), (959, 539) are NOT default black (0,0,0)
-    for (x, y) in [(0, 0), (10, 10), (50, 25), (959, 539)] {
-        let i = ((y * fb.width + x) * 4) as usize;
-        let (b, g, r, _a) = (fb.pixels[i], fb.pixels[i + 1], fb.pixels[i + 2], fb.pixels[i + 3]);
-        assert!(
-            (r as u16 + g as u16 + b as u16) > 0,
-            "pixel ({x}, {y}) must be tiled with background, got black (0,0,0)"
-        );
+    let mut first_rect_changes = 0;
+    let mut outside_changes = 0;
+    for y in 0..fb.height {
+        for x in 0..fb.width {
+            let i = ((y * fb.width + x) * 4) as usize;
+            let pixel = &fb.pixels[i..i + 4];
+            if x < 80 && y < 60 {
+                if pixel[0..3] != [0, 0, 0] { first_rect_changes += 1; }
+            } else if pixel[0..3] != [0, 0, 0] {
+                outside_changes += 1;
+            }
+        }
     }
+    assert!(first_rect_changes > 0, "single background image must rasterize in its destination rect");
+    assert_eq!(outside_changes, 0, "draw_background must not tile beyond its single destination rect");
 }

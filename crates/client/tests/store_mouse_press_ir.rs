@@ -2,12 +2,50 @@ use callys_client::GameState;
 use callys_core::code_vm::load_bundle_from_file;
 use std::{path::Path, sync::Arc};
 
+fn logical_screen_point_for_world(
+    state: &GameState,
+    world_x: f64,
+    world_y: f64,
+) -> (f64, f64) {
+    let scene = state.scene.as_ref().expect("IR scene");
+    let view_index = scene.active_view_index().expect("active room view");
+    let view = &scene.room_views[view_index];
+    let (camera_x, camera_y) = scene
+        .view_positions
+        .get(&(view_index as i32))
+        .copied()
+        .unwrap_or((view.xview as f64, view.yview as f64));
+    (
+        (world_x - camera_x) * scene.display_width / view.wview as f64,
+        (world_y - camera_y) * scene.display_height / view.hview as f64,
+    )
+}
+
+fn pointer_press_instance_center(state: &mut GameState, instance_id: i32) {
+    let (world_x, world_y) = {
+        let scene = state.scene.as_ref().expect("IR scene");
+        let (left, right, top, bottom) = scene
+            .bounds_for_instance(instance_id)
+            .expect("button bounds");
+        ((left + right) / 2.0, (top + bottom) / 2.0)
+    };
+    let (screen_x, screen_y) = logical_screen_point_for_world(state, world_x, world_y);
+    let (round_trip_x, round_trip_y) = state.screen_to_world(screen_x, screen_y);
+    assert!(
+        (round_trip_x - world_x).abs() < 1e-6 && (round_trip_y - world_y).abs() < 1e-6,
+        "screen/world mapping must round-trip the button center"
+    );
+    state.pointer_pressed(screen_x, screen_y);
+}
+
 #[test]
 fn pointer_press_drives_mouse_0_store_purchases_and_stat_upgrades() {
     let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
     let bundle = Arc::new(load_bundle_from_file(&manifest_dir.join("../core/src/generated/full_ir.json")).unwrap());
     let mut state = GameState::new(&manifest_dir.join("../../assets/game.droid")).unwrap();
     state.enable_ir_gameplay(bundle.clone()).unwrap();
+    // Establish the camera origin that the first presented frame exposes to GML.
+    state.step(1.0 / 60.0);
 
     let scene = state.scene.as_mut().unwrap();
 
@@ -33,17 +71,8 @@ fn pointer_press_drives_mouse_0_store_purchases_and_stat_upgrades() {
         .map(|(id, _)| id)
         .expect("obj_strengthupgrade materialized and active in store");
 
-    let (pwr_left, pwr_right, pwr_top, pwr_bottom) = scene.bounds_for_instance(pwr_btn_id).expect("pwr button bounds");
-    let pwr_click_x = (pwr_left + pwr_right) / 2.0;
-    let pwr_click_y = (pwr_top + pwr_bottom) / 2.0;
-
-    let (str_left, str_right, str_top, str_bottom) = scene.bounds_for_instance(str_btn_id).expect("str button bounds");
-    let str_click_x = (str_left + str_right) / 2.0;
-    let str_click_y = (str_top + str_bottom) / 2.0;
-
     // 3. Click (Mouse_0 / LeftPressed) on obj_powerupgrade
-    let (vx, vy) = state.scene.as_ref().unwrap().view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
-    state.pointer_pressed(pwr_click_x - vx, pwr_click_y - vy);
+    pointer_press_instance_center(&mut state, pwr_btn_id);
     state.step(1.0 / 60.0);
 
     let scene = state.scene.as_ref().unwrap();
@@ -52,14 +81,12 @@ fn pointer_press_drives_mouse_0_store_purchases_and_stat_upgrades() {
     assert_eq!(scene.globals.get("pwr").copied(), Some(2.0), "global.pwr upgraded to 2");
 
     // 4. Duplicate press on already-bought power upgrade must NOT deduct score again
-    let (vx, vy) = state.scene.as_ref().unwrap().view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
-    state.pointer_pressed(pwr_click_x - vx, pwr_click_y - vy);
+    pointer_press_instance_center(&mut state, pwr_btn_id);
     state.step(1.0 / 60.0);
     assert_eq!(state.scene.as_ref().unwrap().score, 5000.0, "no duplicate deduction on bought power upgrade");
 
     // 5. Click on obj_strengthupgrade (costs 3000)
-    let (vx, vy) = state.scene.as_ref().unwrap().view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
-    state.pointer_pressed(str_click_x - vx, str_click_y - vy);
+    pointer_press_instance_center(&mut state, str_btn_id);
     state.step(1.0 / 60.0);
 
     let scene = state.scene.as_ref().unwrap();
@@ -71,9 +98,7 @@ fn pointer_press_drives_mouse_0_store_purchases_and_stat_upgrades() {
         .find(|(_, i)| i.object == 89 && i.alive && i.active)
         .map(|(id, _)| id)
         .expect("obj_swordupgrade2 materialized in store");
-    let (s2_l, s2_r, s2_t, s2_b) = scene.bounds_for_instance(swd2_btn_id).expect("swd2 bounds");
-    let (vx, vy) = state.scene.as_ref().unwrap().view_positions.get(&0).copied().unwrap_or((0.0, 0.0));
-    state.pointer_pressed((s2_l + s2_r) / 2.0 - vx, (s2_t + s2_b) / 2.0 - vy);
+    pointer_press_instance_center(&mut state, swd2_btn_id);
     state.step(1.0 / 60.0);
 
     let scene = state.scene.as_ref().unwrap();

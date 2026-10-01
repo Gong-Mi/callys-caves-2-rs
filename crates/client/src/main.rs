@@ -68,6 +68,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     Keycode::D | Keycode::Right => state.input.move_right = true,
                     Keycode::Space | Keycode::W | Keycode::Up => state.input.jump = true,
                     Keycode::J | Keycode::Z => state.input.attack = true,
+                    Keycode::K | Keycode::X => state.input.sword = true,
                     Keycode::Num1 => state.world.player.current_weapon =
                         callys_core::WeaponType::Pistol,
                     Keycode::Num2 => state.world.player.current_weapon =
@@ -88,6 +89,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     Keycode::D | Keycode::Right => state.input.move_right = false,
                     Keycode::Space | Keycode::W | Keycode::Up => state.input.jump = false,
                     Keycode::J | Keycode::Z => state.input.attack = false,
+                    Keycode::K | Keycode::X => state.input.sword = false,
                     _ => {}
                 },
                 _ => {}

@@ -129,10 +129,9 @@ pub struct Scene {
     pub object_parents: BTreeMap<i32, Vec<i32>>,
     pub display_width: f64, pub display_height: f64, pub current_room: f64,
     pub room_width: f64, pub room_height: f64,
-    /// The room-editor VIEW table of the current room (from RoomData.views).
-    /// `room_views[0]` is the visible view: its `wview x hview` rect is what
-    /// the original runner zooms into `wport x hport` (rm_town: 448x252 →
-    /// 1136x640, ~2.54x). The client reads this to project world space.
+    /// The ROOM editor's indexed VIEW table for the current room. Its static
+    /// `visible` bits seed the runtime `view_visible` array on room entry; GML
+    /// may then switch indices at run time (CC2 selects view 6 at 960x540).
     pub room_views: Vec<callys_asset::RoomView>,
     pub current_font: f64, pub draw_color: i32, pub draw_alpha: f64,
     pub rng_seed: u64,
@@ -383,7 +382,7 @@ impl Scene {
             ("xptolevelup", 30.0), ("roomstart", 0.0), ("soundmute", 0.0), ("musicmute", 0.0),
             ("haskey", 0.0), ("warplock", 0.0), ("warpfrommap", 0.0), ("ending", 0.0),
             ("coinmultiply", 1.0), ("timeplayed", 0.0), ("gemdropenabled", 1.0),
-            ("poisonenabled", 0.0), ("weaponswapped", 0.0), ("firing", 0.0), ("swing", 0.0),
+            ("poisonenabled", 0.0), ("weaponswapped", 0.0), ("firing", 0.0), ("swing", 1.0),
             ("rebuff", 0.0), ("boss1touched", 0.0), ("sword", 0.0),
             ("tjumpactive", 0.0), ("triplejumpbought", 0.0),
             ("strengthupgradebought", 0.0), ("strengthupgrade2bought", 0.0),
@@ -540,6 +539,15 @@ impl Scene {
         self.room_width = room.width as f64;
         self.room_height = room.height as f64;
         self.room_views = room.views.clone();
+        self.view_visible = [false; 8];
+        self.view_positions.clear();
+        self.view_ports.clear();
+        for (index, view) in self.room_views.iter().take(8).enumerate() {
+            let index = index as i32;
+            self.view_visible[index as usize] = view.visible;
+            self.view_positions.insert(index, (view.xview as f64, view.yview as f64));
+            self.view_ports.insert(index, (view.wport as f64, view.hport as f64));
+        }
         self.target_room_warp = None;
         self.room_tiles = room.tiles.clone();
         self.draws.clear();
@@ -945,6 +953,11 @@ impl Scene {
             d.released = false;
         }
     }
+    /// Runtime-selected visible view. The room table supplies the per-index
+    /// geometry; `view_visible` is authoritative after GML has run.
+    pub fn active_view_index(&self) -> Option<usize> {
+        self.view_visible.iter().position(|visible| *visible)
+    }
     /// One explicit view pass. Camera positions must be supplied by caller.
     /// OBJT depth determines order; equal-depth creation-id order is provisional.
     pub fn draw_view(&mut self,b:&Bundle,view:i32)->Result<(),String> {
@@ -980,7 +993,25 @@ impl Scene {
         }
         ids.sort_by_key(|(depth,id)|(std::cmp::Reverse(*depth),*id));
         for (id, args) in default_draws { let _ = self.draw(id, &args); }
-        for (_,id) in ids {self.dispatch(b,id,8,0)?;} Ok(())
+        for (_,id) in ids {self.dispatch(b,id,8,0)?;}
+
+        // Draw GUI pass: GameMaker event 8, subtype 65 (covers CODE 539 on obj_viewresolution)
+        let mut gui_ids = Vec::new();
+        for (id, i) in &self.instances {
+            if i.alive && i.active && !i.external {
+                if let Some(o) = b.objects.iter().find(|o| o.id == i.object) {
+                    if o.events.iter().any(|e| e.event_type == 8 && e.subtype == 65) {
+                        gui_ids.push((o.depth, *id));
+                    }
+                }
+            }
+        }
+        gui_ids.sort_by_key(|(depth, id)| (std::cmp::Reverse(*depth), *id));
+        for (_, id) in gui_ids {
+            self.dispatch(b, id, 8, 65)?;
+        }
+
+        Ok(())
     }
     fn self_field(&self,id:i32,n:&str)->Result<f64,String> {
         if n == "id" { return Ok(id as f64); }
@@ -1018,7 +1049,7 @@ impl Scene {
         self.dynamic_strings.get(idx - b.string_table.len()).cloned()
     }
     /// Store a runtime-built string and hand back a fresh reference.
-    fn alloc_string(&mut self, b: &Bundle, text: String) -> f64 {
+    pub fn alloc_string(&mut self, b: &Bundle, text: String) -> f64 {
         self.dynamic_strings.push(text);
         STRING_REF_BASE + (b.string_table.len() + self.dynamic_strings.len() - 1) as f64
     }
@@ -1455,11 +1486,16 @@ impl Host for Scene {
                     self.ini_data.retain(|(f, _, _), _| f != &name);
                     let path = dir.join(&name);
                     if let Ok(text) = std::fs::read_to_string(&path) {
+                        let mut current_sec = "Save".to_string();
                         for line in text.lines() {
                             let line = line.trim();
+                            if line.starts_with('[') && line.ends_with(']') {
+                                current_sec = line[1..line.len()-1].trim().to_string();
+                                continue;
+                            }
                             if !line.contains('=') { continue; }
                             let (key, value) = line.split_once('=').unwrap();
-                            self.ini_data.insert((name.clone(), "Save".into(), key.trim().to_string()), value.trim().parse::<f64>().unwrap_or(0.0));
+                            self.ini_data.insert((name.clone(), current_sec.clone(), key.trim().to_string()), value.trim().parse::<f64>().unwrap_or(0.0));
                         }
                     }
                 }
@@ -1468,13 +1504,20 @@ impl Host for Scene {
             }
             "ini_close" => {
                 if let (Some(dir), Some(name)) = (&self.ini_disk_dir, &self.ini_open_file.clone()) {
-                    // Only the currently open file flushes (original ini_close
-                    // writes that file); skip when nothing was written.
-                    let touched: Vec<_> = self.ini_data.iter().filter(|((f, _, _), _)| f == name).collect();
-                    if !touched.is_empty() {
+                    // Group keys by section under standard INI format [Section]
+                    let mut by_sec: BTreeMap<String, Vec<(&str, f64)>> = BTreeMap::new();
+                    for ((f, sec, key), value) in &self.ini_data {
+                        if f == name {
+                            by_sec.entry(sec.clone()).or_default().push((key.as_str(), *value));
+                        }
+                    }
+                    if !by_sec.is_empty() {
                         let mut lines = String::new();
-                        for ((_, _, key), value) in touched {
-                            lines.push_str(&format!("{key}={}\n", format_gm_real(*value)));
+                        for (sec, entries) in by_sec {
+                            lines.push_str(&format!("[{sec}]\n"));
+                            for (key, val) in entries {
+                                lines.push_str(&format!("{key}={}\n", format_gm_real(val)));
+                            }
                         }
                         let _ = std::fs::create_dir_all(dir);
                         let _ = std::fs::write(dir.join(name), lines);
@@ -1789,20 +1832,85 @@ impl Host for Scene {
             }
             "mp_potential_step" => {
                 let target_x = a[0]; let target_y = a[1]; let step_size = a[2];
+                let check_all = a.get(3).copied().unwrap_or(0.0) >= 0.5;
                 let ix = self.self_field(id, "x").unwrap_or(0.0);
                 let iy = self.self_field(id, "y").unwrap_or(0.0);
-                let mut dir = (-(target_y - iy)).atan2(target_x - ix) * 180.0 / std::f64::consts::PI;
-                if dir < 0.0 { dir += 360.0; }
-                let rad = dir * std::f64::consts::PI / 180.0;
-                let nx = ix + step_size * rad.cos();
-                let ny = iy - step_size * rad.sin();
-                if let Some(i) = self.instances.get_mut(&id) {
-                    i.fields.insert("x".into(), nx);
-                    i.fields.insert("y".into(), ny);
-                    i.fields.insert("direction".into(), dir);
-                    i.fields.insert("speed".into(), step_size);
+                let spr = self.self_field(id, "sprite_index").unwrap_or(-1.0) as i32;
+                let (w, h, ox, oy) = self.sprite_bounds.get(&spr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
+                let sx = self.self_field(id, "image_xscale").unwrap_or(1.0);
+                let sy = self.self_field(id, "image_yscale").unwrap_or(1.0);
+
+                let base_dir = (-(target_y - iy)).atan2(target_x - ix) * 180.0 / std::f64::consts::PI;
+                let base_dir = if base_dir < 0.0 { base_dir + 360.0 } else { base_dir };
+
+                // Angle test order: 0, +10, -10, +20, -20, ..., +90, -90
+                let mut chosen = None;
+                for step_deg in 0..=9 {
+                    for sign in [1.0, -1.0] {
+                        let delta = (step_deg as f64) * 10.0 * sign;
+                        let cand_dir = (base_dir + delta).rem_euclid(360.0);
+                        let rad = cand_dir * std::f64::consts::PI / 180.0;
+                        let nx = ix + step_size * rad.cos();
+                        let ny = iy - step_size * rad.sin();
+
+                        // Candidate bounding box
+                        let bx0 = nx - ox * sx; let by0 = ny - oy * sy;
+                        let bx1 = bx0 + w * sx; let by1 = by0 + h * sy;
+                        let (b_min_x, b_max_x) = if bx0 < bx1 { (bx0, bx1) } else { (bx1, bx0) };
+                        let (b_min_y, b_max_y) = if by0 < by1 { (by0, by1) } else { (by1, by0) };
+
+                        // Check collision with solid instances (par_wall = 34)
+                        let mut collides = false;
+                        for (&tid, inst) in &self.instances {
+                            if tid == id || !inst.alive || !inst.active { continue; }
+                            let is_solid = if check_all {
+                                true
+                            } else {
+                                inst.object == 34 || self.object_parents.get(&inst.object).map_or(false, |c| c.contains(&34))
+                            };
+                            if !is_solid { continue; }
+
+                            let ox_pos = inst.fields.get("x").copied().unwrap_or(0.0);
+                            let oy_pos = inst.fields.get("y").copied().unwrap_or(0.0);
+                            let ospr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+                            let (ow, oh, oox, ooy) = self.sprite_bounds.get(&ospr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
+                            let osx = inst.fields.get("image_xscale").copied().unwrap_or(1.0);
+                            let osy = inst.fields.get("image_yscale").copied().unwrap_or(1.0);
+                            let obx0 = ox_pos - oox * osx; let oby0 = oy_pos - ooy * osy;
+                            let obx1 = obx0 + ow * osx; let oby1 = oby0 + oh * osy;
+                            let (o_min_x, o_max_x) = if obx0 < obx1 { (obx0, obx1) } else { (obx1, obx0) };
+                            let (o_min_y, o_max_y) = if oby0 < oby1 { (oby0, oby1) } else { (oby1, oby0) };
+
+                            if b_min_x < o_max_x && b_max_x > o_min_x && b_min_y < o_max_y && b_max_y > o_min_y {
+                                collides = true;
+                                break;
+                            }
+                        }
+
+                        if !collides {
+                            chosen = Some((nx, ny, cand_dir));
+                            break;
+                        }
+                        if step_deg == 0 { break; } // don't repeat delta=0 for both signs
+                    }
+                    if chosen.is_some() { break; }
                 }
-                Ok(1.0)
+
+                if let Some((nx, ny, cand_dir)) = chosen {
+                    if let Some(i) = self.instances.get_mut(&id) {
+                        i.fields.insert("x".into(), nx);
+                        i.fields.insert("y".into(), ny);
+                        i.fields.insert("direction".into(), cand_dir);
+                        i.fields.insert("speed".into(), step_size);
+                    }
+                    let dist_sq = (nx - target_x).powi(2) + (ny - target_y).powi(2);
+                    Ok(if dist_sq <= step_size.powi(2) { 1.0 } else { 0.0 })
+                } else {
+                    if let Some(i) = self.instances.get_mut(&id) {
+                        i.fields.insert("speed".into(), 0.0);
+                    }
+                    Ok(0.0)
+                }
             }
             "object_exists" => {
                 let obj_id = int(a[0])?;

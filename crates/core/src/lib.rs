@@ -339,6 +339,7 @@ pub struct InputState {
     pub move_right: bool,
     pub jump: bool,
     pub attack: bool,
+    pub sword: bool,
     pub switch_weapon: bool,
     // Any-screen tap (original GameMaker mb_left). The prologue cutscene
     // skips on any tap, not only on virtual-button zones.

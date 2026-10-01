@@ -19,215 +19,8 @@ use callys_core::save::{SaveData, SaveError};
 use callys_core::{Facing, GameWorld, InputState, PlayerState, WeaponType};
 use image::RgbaImage;
 
-// ============================================================
-// Save file I/O
-// ============================================================
-
-#[derive(Debug)]
-pub enum SaveFileError {
-    Io(std::io::Error),
-    Data(SaveError),
-}
-
-impl fmt::Display for SaveFileError {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Self::Io(error) => write!(formatter, "save file I/O failed: {error}"),
-            Self::Data(error) => write!(formatter, "{error}"),
-        }
-    }
-}
-
-impl std::error::Error for SaveFileError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        match self {
-            Self::Io(error) => Some(error),
-            Self::Data(error) => Some(error),
-        }
-    }
-}
-
-impl From<std::io::Error> for SaveFileError {
-    fn from(error: std::io::Error) -> Self {
-        Self::Io(error)
-    }
-}
-
-impl From<SaveError> for SaveFileError {
-    fn from(error: SaveError) -> Self {
-        Self::Data(error)
-    }
-}
-
-pub fn save_path_for_asset(droid_path: &Path) -> PathBuf {
-    droid_path.with_file_name("save-v2.json")
-}
-
-pub fn load_save(path: &Path) -> Result<Option<SaveData>, SaveFileError> {
-    let json = match fs::read_to_string(path) {
-        Ok(json) => json,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
-        Err(error) => return Err(error.into()),
-    };
-    Ok(Some(SaveData::from_json(&json)?))
-}
-
-fn load_save_with_legacy_migration(
-    path: &Path,
-) -> Result<(Option<SaveData>, Option<String>), SaveFileError> {
-    if let Some(save) = load_save(path)? {
-        return Ok((Some(save), None));
-    }
-    if path.file_name().and_then(|name| name.to_str()) != Some("save-v2.json") {
-        return Ok((None, None));
-    }
-
-    let legacy_path = path.with_file_name("save-v1.json");
-    let Some(save) = load_save(&legacy_path)? else {
-        return Ok((None, None));
-    };
-    let diagnostic = write_save_atomic(path, &save)
-        .err()
-        .map(|error| format!("loaded legacy save but failed to migrate it to v2: {error}"));
-    Ok((Some(save), diagnostic))
-}
-
-pub fn write_save_atomic(path: &Path, save: &SaveData) -> Result<(), SaveFileError> {
-    let json = save.to_json()?;
-    let temp_path = path.with_file_name(format!(
-        "{}.tmp",
-        path.file_name()
-            .and_then(|name| name.to_str())
-            .unwrap_or("save-v2.json")
-    ));
-    match fs::remove_file(&temp_path) {
-        Ok(()) => {}
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
-        Err(error) => return Err(error.into()),
-    }
-    let mut temp = OpenOptions::new()
-        .write(true)
-        .create_new(true)
-        .open(&temp_path)?;
-    if let Err(error) = (|| -> Result<(), std::io::Error> {
-        temp.write_all(json.as_bytes())?;
-        temp.sync_all()?;
-        drop(temp);
-        fs::rename(&temp_path, path)?;
-        Ok(())
-    })() {
-        let _ = fs::remove_file(&temp_path);
-        return Err(error.into());
-    }
-    Ok(())
-}
-
-// ============================================================
-// Short sound effects
-// ============================================================
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub enum SoundEvent {
-    Jump,
-    Pistol,
-    Shotgun,
-    Coin,
-    Death,
-    WeaponPickup,
-}
-
-const SOUND_BINDINGS: [(SoundEvent, &str); 6] = [
-    (SoundEvent::Jump, "snd_jump"),
-    (SoundEvent::Pistol, "snd_fire"),
-    (SoundEvent::Shotgun, "snd_shotgun"),
-    (SoundEvent::Coin, "snd_coin"),
-    (SoundEvent::Death, "snd_youhavedied"),
-    (SoundEvent::WeaponPickup, "snd_pickupstinger"),
-];
-
-#[derive(Debug, Clone)]
-pub struct SoundCatalog {
-    audio_ids: HashMap<SoundEvent, usize>,
-}
-
-impl SoundCatalog {
-    pub fn from_asset(asset: &GameDroidAsset) -> Result<Self, String> {
-        let sounds_by_name: HashMap<&str, usize> = asset
-            .sounds
-            .iter()
-            .map(|sound| (sound.name.as_str(), sound.audio_id))
-            .collect();
-        let mut audio_ids = HashMap::with_capacity(SOUND_BINDINGS.len());
-        for (event, name) in SOUND_BINDINGS {
-            let audio_id = sounds_by_name
-                .get(name)
-                .copied()
-                .ok_or_else(|| format!("required SOND resource is missing: {name}"))?;
-            if asset.audio.get(audio_id).is_none() {
-                return Err(format!(
-                    "SOND resource {name} references missing AUDO {audio_id}"
-                ));
-            }
-            audio_ids.insert(event, audio_id);
-        }
-        Ok(Self { audio_ids })
-    }
-
-    pub fn audio_id(&self, event: SoundEvent) -> usize {
-        self.audio_ids[&event]
-    }
-}
-
-pub fn export_required_wavs(
-    asset: &GameDroidAsset,
-    droid_path: &Path,
-) -> Result<Vec<(usize, PathBuf)>, Box<dyn std::error::Error>> {
-    let catalog = SoundCatalog::from_asset(asset)?;
-    let output_dir = droid_path
-        .parent()
-        .unwrap_or_else(|| Path::new("."))
-        .join("sfx");
-    fs::create_dir_all(&output_dir)?;
-
-    let mut exported = Vec::with_capacity(SOUND_BINDINGS.len());
-    let mut exported_audio_ids = HashSet::with_capacity(SOUND_BINDINGS.len());
-    for (event, _) in SOUND_BINDINGS {
-        let audio_id = catalog.audio_id(event);
-        if !exported_audio_ids.insert(audio_id) {
-            continue;
-        }
-        let wav = &asset.audio[audio_id].wav_bytes;
-        let output_path = output_dir.join(format!("sound_{audio_id}.wav"));
-        let already_current = fs::read(&output_path)
-            .map(|existing| existing == *wav)
-            .unwrap_or(false);
-        if !already_current {
-            let temp_path = output_dir.join(format!("sound_{audio_id}.wav.tmp"));
-            match fs::remove_file(&temp_path) {
-                Ok(()) => {}
-                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
-                Err(error) => return Err(error.into()),
-            }
-            let mut temp = OpenOptions::new()
-                .write(true)
-                .create_new(true)
-                .open(&temp_path)?;
-            if let Err(error) = (|| -> Result<(), std::io::Error> {
-                temp.write_all(wav)?;
-                temp.sync_all()?;
-                drop(temp);
-                fs::rename(&temp_path, &output_path)?;
-                Ok(())
-            })() {
-                let _ = fs::remove_file(&temp_path);
-                return Err(error.into());
-            }
-        }
-        exported.push((audio_id, output_path));
-    }
-    Ok(exported)
-}
-
+include!("parts/save.rs");
+include!("parts/audio.rs");
 // ============================================================
 // Game state container
 // ============================================================
@@ -265,11 +58,11 @@ pub struct GameState {
     pub intro_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
     pub scene: Option<callys_core::ir_scene::Scene>,
     pub full_bundle: Option<std::sync::Arc<callys_core::code_vm::Bundle>>,
-    /// Previous frame's physical state of the four virtual devices, so
+    /// Previous frame's physical state of the five virtual devices, so
     /// `pressed`/`released` stay single-frame edges (device_mouse_check_button_
     /// pressed/_released semantics) even when a scene's own `mouse_clear` wipes
     /// the device state mid-tick.
-    touch_prev: [bool; 4],
+    touch_prev: [bool; 5],
     /// Latches the platform tap pulse to one frame: Java holds `tap` high for a
     /// few frames, the original `mouse_check_button_pressed(mb_left)` lasts one.
     tap_was_active: bool,
@@ -278,6 +71,9 @@ pub struct GameState {
     /// so Draw-time `device_mouse_check_button_released(0, mb_left)` checks
     /// (obj_lloydtutorial1..16, obj_weaponswap) answer to a real tap anywhere.
     primary_release: Option<(f64, f64)>,
+    /// Explicit fallback tracking so tests and production logs can warn when
+    /// the handwritten GameWorld fallback runs instead of compiled bytecode.
+    pub fallback_warned: bool,
 }
 
 impl GameState {
@@ -395,54 +191,48 @@ impl GameState {
             pending_ir_restore: None,
             scene: None,
             full_bundle: None,
-            touch_prev: [false; 4],
+            touch_prev: [false; 5],
             tap_was_active: false,
             primary_release: None,
+            fallback_warned: false,
         })
     }
 
-    /// Calculates the camera follow coordinates for the given IR scene.
-    /// GM8.1 view semantics: the view rect (`wview x hview` from the room
-    /// table) follows its object inside the border dead-zones and clamps to
-    /// the room bounds. When the room has no visible view (e.g. the prologue,
-    /// where obj_introduction's Create pins view 0 to the origin), the camera
-    /// stays at (0,0) and the projection keeps the flat 960x540 scale.
+    /// Calculates the camera origin for the runtime-selected GameMaker view.
+    /// The indexed ROOM record supplies its view rect and follow target; GML's
+    /// `view_visible[]` array, not the ROOM editor's original bit, selects it.
     pub fn camera_position_for_scene(scene: &callys_core::ir_scene::Scene) -> (f64, f64) {
-        // The room-editor view table drives the camera when a visible view exists.
-        if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
-            if v.object == 0 {
-                if let Some((px, py)) = scene
-                    .instances
-                    .values()
-                    .find(|i| i.object == 0 && i.alive)
-                    .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
-                {
-                    // Follow with the border dead-zone: the view only moves
-                    // once the target leaves the border band.
-                    let half_w = v.wview as f64 / 2.0;
-                    let half_h = v.hview as f64 / 2.0;
-                    let hb = (v.hborder as f64).min(half_w);
-                    let vb = (v.vborder as f64).min(half_h);
-                    let center_x = v.xview as f64 + half_w;
-                    let center_y = v.yview as f64 + half_h;
-                    let mut cx = center_x;
-                    let mut cy = center_y;
-                    // Dead-zone follow: the view center chases the target only
-                    // once it leaves the border band.
-                    if (px - center_x).abs() > hb {
-                        cx = if px > center_x + hb { px - hb } else if px < center_x - hb { px + hb } else { center_x };
+        if let Some(view_index) = scene.active_view_index() {
+            if let Some(v) = scene.room_views.get(view_index) {
+                if v.object >= 0 {
+                    if let Some((px, py)) = scene
+                        .instances
+                        .values()
+                        .find(|i| i.object == v.object && i.alive)
+                        .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
+                    {
+                        let half_w = v.wview as f64 / 2.0;
+                        let half_h = v.hview as f64 / 2.0;
+                        let hb = (v.hborder as f64).min(half_w);
+                        let vb = (v.vborder as f64).min(half_h);
+                        let center_x = v.xview as f64 + half_w;
+                        let center_y = v.yview as f64 + half_h;
+                        let mut cx = center_x;
+                        let mut cy = center_y;
+                        if (px - center_x).abs() > hb {
+                            cx = if px > center_x + hb { px - hb } else { px + hb };
+                        }
+                        if (py - center_y).abs() > vb {
+                            cy = if py > center_y + vb { py - vb } else { py + vb };
+                        }
+                        let vx = (cx - half_w).clamp(0.0, (scene.room_width - v.wview as f64).max(0.0));
+                        let vy = (cy - half_h).clamp(0.0, (scene.room_height - v.hview as f64).max(0.0));
+                        return (vx, vy);
                     }
-                    if (py - center_y).abs() > vb {
-                        cy = if py > center_y + vb { py - vb } else if py < center_y - vb { py + vb } else { center_y };
-                    }
-                    // The view rect's top-left = center - half.
-                    let mut vx = cx - half_w;
-                    let mut vy = cy - half_h;
-                    // Clamp to room bounds (GM8.1 clamps the view rect).
-                    vx = vx.clamp(0.0, (scene.room_width - v.wview as f64).max(0.0));
-                    vy = vy.clamp(0.0, (scene.room_height - v.hview as f64).max(0.0));
-                    return (vx, vy);
                 }
+                // A view without a live follow target remains at its ROOM/GML
+                // camera position instead of silently following the player.
+                return (v.xview as f64, v.yview as f64);
             }
         }
         let (px, py) = scene
@@ -642,28 +432,31 @@ impl GameState {
         self.scene = Some(scene);
         self.full_bundle = Some(bundle);
         // Fresh scene: no physical edge from the previous one may leak into it.
-        self.touch_prev = [false; 4];
+        self.touch_prev = [false; 5];
         self.primary_release = None;
         Ok(())
     }
 
-    /// Map 960x540 logical screen coordinates to room world coordinates.
-    /// When a room-editor view is active (outside the intro), this scales the
-    /// offset by the active view dimensions (e.g. 448x252) before adding the camera position.
+    /// Map renderer logical-screen coordinates through the last-presented
+    /// runtime-selected view into room world coordinates.
     pub fn screen_to_world(&self, x: f64, y: f64) -> (f64, f64) {
         if let Some(scene) = self.scene.as_ref() {
-            let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
-            if intro_alive {
-                return (x, y);
-            }
-            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
-            if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
-                if v.wview > 0 && v.hview > 0 {
-                    let offset_x = x * (v.wview as f64 / 960.0);
-                    let offset_y = y * (v.hview as f64 / 540.0);
-                    return (cam_x + offset_x, cam_y + offset_y);
+            if let Some(view_index) = scene.active_view_index() {
+                if let Some(view) = scene.room_views.get(view_index) {
+                    let (origin_x, origin_y) = scene
+                        .view_positions
+                        .get(&(view_index as i32))
+                        .copied()
+                        .unwrap_or((view.xview as f64, view.yview as f64));
+                    if view.wview > 0 && view.hview > 0 {
+                        let offset_x = x * (view.wview as f64 / scene.display_width.max(1.0));
+                        let offset_y = y * (view.hview as f64 / scene.display_height.max(1.0));
+                        return (origin_x + offset_x, origin_y + offset_y);
+                    }
+                    return (origin_x + x, origin_y + y);
                 }
             }
+            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
             (cam_x + x, cam_y + y)
         } else {
             (x, y)
@@ -733,10 +526,14 @@ impl GameState {
             if intro_alive {
                 scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
                 scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
-                // Draw events (event_type 8) are dispatched only by an explicit
-                // view pass; tick runs Step/alarms/collision only.
-                scene.view_positions.insert(0, (0.0, 0.0));
-                scene.draw_view(bundle, 0).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
+                // Draw events are dispatched by the runtime-enabled view, which
+                // may differ from every ROOM record's original `visible` bit.
+                let view = scene.active_view_index().ok_or_else(|| {
+                    format!("no visible view for intro room {}", scene.current_room)
+                })?;
+                let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
+                scene.view_positions.insert(view as i32, (cam_x, cam_y));
+                scene.draw_view(bundle, view as i32).map_err(|e| format!("intro draw room {}: {e}", scene.current_room))?;
                 scene.end_frame();
                 // Stop commands precede plays: the original bytecode stops the old
                 // BGM before starting the new one; reversing this order would have
@@ -761,7 +558,7 @@ impl GameState {
                 // that killed the intro must not leak into gameplay as a phantom
                 // device-0 release (the old re-enable path cleared these too).
                 self.primary_release = None;
-                self.touch_prev = [false; 4];
+                self.touch_prev = [false; 5];
                 self.haptic_queue.extend(prologue_haptics);
                 // A boot-time IR snapshot restore waits for this handover: the
                 // original boot always plays the prologue over rm_town; the
@@ -800,12 +597,14 @@ impl GameState {
                 self.input.move_right,
                 self.input.jump,
                 self.input.attack,
+                self.input.sword,
             ];
             let zones = [
                 (cam_x + 30.0, cam_y + 220.0),
                 (cam_x + 130.0, cam_y + 220.0),
                 (cam_x + 410.0, cam_y + 220.0),
                 (cam_x + 345.0, cam_y + 220.0),
+                (cam_x + 440.0, cam_y + 175.0),
             ];
             // A real primary-pointer release belongs to device 0 - the original
             // runner's first touch - carrying its real logical coordinates, so
@@ -858,9 +657,12 @@ impl GameState {
                 self.rooms_visited = self.rooms_visited.saturating_add(1);
             }
 
+            let view = scene.active_view_index().ok_or_else(|| {
+                format!("no visible view for gameplay room {}", scene.current_room)
+            })?;
             let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
-            scene.view_positions.insert(0, (cam_x, cam_y));
-            scene.draw_view(bundle, 0).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
+            scene.view_positions.insert(view as i32, (cam_x, cam_y));
+            scene.draw_view(bundle, view as i32).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
             // The frame's input edges were visible to this frame's Step, alarm,
             // collision and Draw events; retire them only now (see end_frame).
             scene.end_frame();
@@ -869,6 +671,10 @@ impl GameState {
             self.autosave_ir();
             self.haptic_queue.extend(gameplay_haptics);
             return Ok(());
+        }
+        if !self.fallback_warned {
+            eprintln!("WARNING [FALLBACK]: IR scene not active; running legacy handwritten GameWorld. Content and behavior may differ from original GameMaker bytecode.");
+            self.fallback_warned = true;
         }
         let progress_before = SaveData::from_world(&self.world);
         let player_state_before = self.world.player.state;
@@ -1189,353 +995,7 @@ pub fn current_time_ns() -> u64 {
         .unwrap_or(0)
 }
 
-// ============================================================
-// Software-rasterized framebuffer
-// ============================================================
-
-pub struct Framebuffer {
-    pub width: u32,
-    pub height: u32,
-    pub pixels: Vec<u8>, // BGRA8888, row-major (fill_rect writes [B, G, R, A]; the Java int[] view reads the same 4 bytes as 0xAARRGGBB)
-}
-
-impl Framebuffer {
-    pub fn new(width: u32, height: u32) -> Self {
-        Self {
-            width,
-            height,
-            pixels: vec![0u8; (width * height * 4) as usize],
-        }
-    }
-
-    fn put(&mut self, x: i32, y: i32, color: (u8, u8, u8, u8)) {
-        if x < 0 || y < 0 {
-            return;
-        }
-        let (x, y) = (x as u32, y as u32);
-        if x >= self.width || y >= self.height {
-            return;
-        }
-        let i = ((y * self.width + x) * 4) as usize;
-        self.pixels[i] = color.2;     // B
-        self.pixels[i + 1] = color.1; // G
-        self.pixels[i + 2] = color.0; // R
-        self.pixels[i + 3] = color.3; // A
-    }
-
-    /// Source-alpha blend onto the current pixel (GM draw alpha semantics).
-    fn put_blended(&mut self, x: i32, y: i32, color: (u8, u8, u8, u8), alpha: f32) {
-        if x < 0 || y < 0 {
-            return;
-        }
-        let (x, y) = (x as u32, y as u32);
-        if x >= self.width || y >= self.height {
-            return;
-        }
-        let a = alpha.clamp(0.0, 1.0);
-        if a >= 1.0 {
-            self.put(x as i32, y as i32, color);
-            return;
-        }
-        let i = ((y * self.width + x) * 4) as usize;
-        let blend = |src: u8, dst: u8| -> u8 {
-            (src as f32 * a + dst as f32 * (1.0 - a)).round() as u8
-        };
-        self.pixels[i] = blend(color.2, self.pixels[i]);
-        self.pixels[i + 1] = blend(color.1, self.pixels[i + 1]);
-        self.pixels[i + 2] = blend(color.0, self.pixels[i + 2]);
-        self.pixels[i + 3] = color.3.max(self.pixels[i + 3]);
-    }
-
-    fn fill_rect(&mut self, x: i32, y: i32, w: u32, h: u32, color: (u8, u8, u8, u8)) {
-        if w == 0 || h == 0 {
-            return;
-        }
-        let x0 = x.max(0) as u32;
-        let y0 = y.max(0) as u32;
-        let x1 = (x.saturating_add(w as i32)).min(self.width as i32).max(0) as u32;
-        let y1 = (y.saturating_add(h as i32)).min(self.height as i32).max(0) as u32;
-        if x1 <= x0 || y1 <= y0 {
-            return;
-        }
-        for yy in y0..y1 {
-            let row_start = (yy * self.width * 4) as usize;
-            for xx in x0..x1 {
-                let i = row_start + (xx * 4) as usize;
-                self.pixels[i] = color.2;
-                self.pixels[i + 1] = color.1;
-                self.pixels[i + 2] = color.0;
-                self.pixels[i + 3] = color.3;
-            }
-        }
-    }
-
-    fn draw_rect(&mut self, x: i32, y: i32, w: u32, h: u32, color: (u8, u8, u8, u8)) {
-        if w == 0 || h == 0 {
-            return;
-        }
-        let x1 = x + w as i32 - 1;
-        let y1 = y + h as i32 - 1;
-        for xi in x..=x1 {
-            self.put(xi, y, color);
-            self.put(xi, y1, color);
-        }
-        for yi in y..=y1 {
-            self.put(x, yi, color);
-            self.put(x1, yi, color);
-        }
-    }
-
-    /// One glyph of an original GM font, blitted from the font's atlas page.
-    /// `page` is the font's TpagItem rect on the atlas; `(gx, gy)` are the
-    /// glyph's coordinates inside that page (probed Gill Sans geometry). The
-    /// glyph's own alpha channel carries the antialiased coverage, the draw
-    /// colour multiplies channel-wise (GM `draw_set_color` on fonts) and
-    /// `draw_alpha` scales coverage further. `scale` is the screen-space
-    /// stretch applied to every glyph box (nearest neighbour, like the other
-    /// blits). Returns the glyph's advance (`shift`) in scaled pixels.
-    fn blit_glyph_gm(
-        &mut self,
-        atlas: &RgbaImage,
-        page: (u32, u32),
-        glyph: &callys_asset::GlyphData,
-        x: i32,
-        y: i32,
-        scale: f32,
-        color: (u8, u8, u8),
-        alpha: f32,
-    ) -> u32 {
-        let gw = glyph.w as u32;
-        let gh = glyph.h as u32;
-        if gw == 0 || gh == 0 {
-            return ((glyph.shift as f32) * scale).round() as u32;
-        }
-        let dw = ((gw as f32) * scale).round() as u32;
-        let dh = ((gh as f32) * scale).round() as u32;
-        for oy in 0..dh {
-            let py = y + oy as i32;
-            if py < 0 || py >= self.height as i32 {
-                continue;
-            }
-            let src_y = page.1 + glyph.y as u32 + oy * gh / dh;
-            for ox in 0..dw {
-                let px = x + ox as i32;
-                if px < 0 || px >= self.width as i32 {
-                    continue;
-                }
-                let src_x = page.0 + glyph.x as u32 + ox * gw / dw;
-                if src_x >= atlas.width() || src_y >= atlas.height() {
-                    continue;
-                }
-                let rgba = atlas.get_pixel(src_x, src_y).0;
-                if rgba[3] == 0 {
-                    continue;
-                }
-                // Coverage from the glyph's antialiased alpha, times the
-                // command's draw alpha. GM font draws are premultiplied by
-                // nothing: the colour comes from draw_set_color.
-                let cov = (rgba[3] as f32 / 255.0) * alpha.clamp(0.0, 1.0);
-                if cov <= 0.0 {
-                    continue;
-                }
-                let tint = (
-                    ((color.0 as f32) * cov).round() as u8,
-                    ((color.1 as f32) * cov).round() as u8,
-                    ((color.2 as f32) * cov).round() as u8,
-                    (cov * 255.0).round() as u8,
-                );
-                self.put_blended(px, py, tint, cov);
-            }
-        }
-        ((glyph.shift as f32) * scale).round() as u32
-    }
-
-    /// A string in one of the original fonts. The pen starts at `(x, y)` — the
-    /// top of the line box — and advances by each glyph's `shift` (probed
-    /// box model: all ascent inks start 9px down inside their boxes,
-    /// descender boxes are taller, so no per-glyph vertical offset exists).
-    /// Characters outside the font's 96-glyph ASCII table are skipped by
-    /// advancing one space width. Falls back to nothing when the font or its
-    /// atlas is missing (the caller decides on a fallback).
-    fn draw_text_gm(
-        &mut self,
-        atlas: &RgbaImage,
-        page: (u32, u32),
-        glyphs: &[callys_asset::GlyphData],
-        space_shift: u16,
-        x: i32,
-        y: i32,
-        text: &str,
-        scale: f32,
-        color: (u8, u8, u8),
-        alpha: f32,
-    ) {
-        let mut pen = x;
-        for ch in text.chars() {
-            if ch == '\n' {
-                continue;
-            }
-            let code = ch as u32;
-            if !(32..=127).contains(&code) {
-                pen += ((space_shift as f32) * scale).round() as i32;
-                continue;
-            }
-            let glyph = glyphs
-                .iter()
-                .find(|g| g.ch as u32 == code)
-                .unwrap_or(&glyphs[0]);
-            let adv = self.blit_glyph_gm(atlas, page, glyph, pen, y, scale, color, alpha);
-            pen += adv as i32;
-        }
-    }
-
-    fn blit_scaled(&mut self, atlas: &RgbaImage, src: (u32, u32, u32, u32), dst: (i32, i32, u32, u32), flip_x: bool) {
-        self.blit_scaled_alpha(atlas, src, dst, flip_x, 1.0);
-    }
-
-    fn blit_scaled_alpha(&mut self, atlas: &RgbaImage, src: (u32, u32, u32, u32), dst: (i32, i32, u32, u32), flip_x: bool, alpha: f32) {
-        let (sx, sy, sw, sh) = src;
-        let (dx, dy, dw, dh) = dst;
-        if sw == 0 || sh == 0 || dw == 0 || dh == 0 { return; }
-        for oy in 0..dh {
-            let py = dy + oy as i32;
-            if py < 0 || py >= self.height as i32 { continue; }
-            let src_y = sy + oy * sh / dh;
-            for ox in 0..dw {
-                let px = dx + ox as i32;
-                if px < 0 || px >= self.width as i32 { continue; }
-                let sample_x = ox * sw / dw;
-                let src_x = sx + if flip_x { sw - 1 - sample_x } else { sample_x };
-                if src_x >= atlas.width() || src_y >= atlas.height() { continue; }
-                let rgba = atlas.get_pixel(src_x, src_y).0;
-                if rgba[3] >= 16 {
-                    // Per-pixel source alpha times draw alpha (GM image_blend alpha).
-                    let combined = (rgba[3] as f32 / 255.0) * alpha;
-                    self.put_blended(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]), combined);
-                }
-            }
-        }
-    }
-
-    /// One original sprite draw, in GameMaker's own terms: the instance position
-    /// is where the SPRT origin lands, a negative axis is the original's facing
-    /// mirror (`image_xscale = -1`), `image_angle` rotates counter-clockwise on
-    /// screen about that same origin, and `blend` multiplies the sampled colour
-    /// channel-wise (`image_blend`, c_white = identity). When `flood` is set the
-    /// call sat inside `d3d_set_fog(true, c, 0, 0)`: fog start == end == 0 means
-    /// the whole sprite is fogged, so the frame keeps only its alpha silhouette
-    /// in the fog colour (this is the original's hit-flash trick).
-    /// Sampling is nearest-neighbour, exactly like the other blits here.
-    #[allow(clippy::too_many_arguments)]
-    fn blit_sprite_gm(
-        &mut self,
-        atlas: &RgbaImage,
-        src: (u32, u32, u32, u32),
-        sprite_size: (f64, f64),
-        sprite_origin: (f64, f64),
-        dst_origin: (f64, f64),
-        scale: (f64, f64),
-        rotation_deg: f64,
-        alpha: f32,
-        blend: (u8, u8, u8),
-        flood: Option<(u8, u8, u8)>,
-    ) {
-        let (sx, sy, sw, sh) = src;
-        let (cw, ch) = sprite_size;
-        if cw <= 0.0 || ch <= 0.0 || sw == 0 || sh == 0 { return; }
-        if scale.0 == 0.0 || scale.1 == 0.0 { return; }
-        let (ox, oy) = sprite_origin;
-        let angle = (rotation_deg as f32).to_radians();
-        let (sin, cos) = (angle.sin(), angle.cos());
-        // Sprite-local (u, v) -> screen, all in one transform.
-        let project = |u: f64, v: f64| -> (f32, f32) {
-            let lx = (u - ox) * scale.0;
-            let ly = (v - oy) * scale.1;
-            let rx = lx * cos as f64 + ly * sin as f64;
-            let ry = -lx * sin as f64 + ly * cos as f64;
-            ((dst_origin.0 + rx) as f32, (dst_origin.1 + ry) as f32)
-        };
-        let corners = [project(0.0, 0.0), project(cw, 0.0), project(0.0, ch), project(cw, ch)];
-        let min_x = corners.iter().map(|c| c.0).fold(f32::INFINITY, f32::min);
-        let max_x = corners.iter().map(|c| c.0).fold(f32::NEG_INFINITY, f32::max);
-        let min_y = corners.iter().map(|c| c.1).fold(f32::INFINITY, f32::min);
-        let max_y = corners.iter().map(|c| c.1).fold(f32::NEG_INFINITY, f32::max);
-        let x0 = min_x.floor().max(0.0) as i32;
-        let y0 = min_y.floor().max(0.0) as i32;
-        let x1 = max_x.ceil().min(self.width as f32 - 1.0) as i32;
-        let y1 = max_y.ceil().min(self.height as f32 - 1.0) as i32;
-        if x1 < x0 || y1 < y0 { return; }
-        // Frame rect stretched onto the sprite canvas, so a frame smaller than
-        // the canvas still anchors on the origin the way the hitboxes do.
-        let (du, dv) = (sw as f64 / cw, sh as f64 / ch);
-        for py in y0..=y1 {
-            for px in x0..=x1 {
-                let rx = px as f64 + 0.5 - dst_origin.0;
-                let ry = py as f64 + 0.5 - dst_origin.1;
-                // Inverse rotation, then inverse scale: no rotation or mirror
-                // is handled by the same arithmetic.
-                let lx = rx * cos as f64 - ry * sin as f64;
-                let ly = rx * sin as f64 + ry * cos as f64;
-                let u = lx / scale.0 + ox;
-                let v = ly / scale.1 + oy;
-                if u < 0.0 || v < 0.0 || u >= cw || v >= ch { continue; }
-                // `u`/`v` are already pixel centres in sprite space (the inverse
-                // transform added the half-pixel), so they map straight onto the
-                // frame rect; a second half-pixel here would sample one texel off.
-                let su = sx as f64 + u * du;
-                let sv = sy as f64 + v * dv;
-                if su < 0.0 || sv < 0.0 { continue; }
-                let su = su as u32;
-                let sv = sv as u32;
-                if su >= atlas.width() || sv >= atlas.height() { continue; }
-                let rgba = atlas.get_pixel(su, sv).0;
-                if rgba[3] < 16 { continue; }
-                let (r, g, b) = match flood {
-                    Some(c) => c,
-                    None => (
-                        (rgba[0] as u32 * blend.0 as u32 / 255) as u8,
-                        (rgba[1] as u32 * blend.1 as u32 / 255) as u8,
-                        (rgba[2] as u32 * blend.2 as u32 / 255) as u8,
-                    ),
-                };
-                let a = (rgba[3] as f32 / 255.0) * alpha;
-                if a <= 0.0 { continue; }
-                self.put_blended(px, py, (r, g, b, rgba[3]), a);
-            }
-        }
-    }
-
-    pub fn draw_char(&mut self, x: i32, y: i32, c: char, scale: u32, color: (u8, u8, u8, u8)) -> u32 {
-        let ascii = c as usize;
-        if !(32..=126).contains(&ascii) {
-            return 0;
-        }
-        let glyph = FONT_5X7[ascii - 32];
-        for (col, &bits) in glyph.iter().enumerate() {
-            for row in 0..7 {
-                if (bits & (1 << row)) != 0 {
-                    let px = x + (col as u32 * scale) as i32;
-                    let py = y + (row as u32 * scale) as i32;
-                    self.fill_rect(px, py, scale, scale, color);
-                }
-            }
-        }
-        (5 + 1) * scale
-    }
-
-    pub fn draw_text_str(&mut self, mut x: i32, mut y: i32, text: &str, scale: u32, color: (u8, u8, u8, u8)) {
-        let start_x = x;
-        for c in text.chars() {
-            if c == '\n' {
-                y += (7 + 2) * scale as i32;
-                x = start_x;
-            } else {
-                let adv = self.draw_char(x, y, c, scale, color);
-                x += adv as i32;
-            }
-        }
-    }
-}
+include!("parts/framebuffer.rs");
 
 include!("parts/font.rs");
 
@@ -1641,39 +1101,29 @@ pub fn draw_frame(
     let mut scale_y = fb.height as f32 / 540.0;
     let mut view_origin = (0.0f64, 0.0f64);
     let mut view_active = false;
-    // GM8.1 view projection: the room-editor view table zooms the visible
-    // view's `wview x hview` rect into `wport x hport`. The screen scale
-    // becomes fb/port and the camera already returns the view rect's
-    // top-left, so the world projection stays (world - cam) * scale.
-    // Prologue pin: while the intro is alive its Create pinned view 0 to the
-    // room origin, so the flat 960x540 projection applies there (below).
+    // GM8.1 view projection: the runtime-visible index selects the ROOM view
+    // rectangle. Keep Draw dispatch, camera origin, pointer unprojection and
+    // framebuffer scale on that same index, including during the prologue.
     if let Some(scene) = state.scene.as_ref() {
-        let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
-        if !intro_alive {
-            if let Some(v) = scene.room_views.iter().find(|v| v.visible) {
-                let port_x = if v.wport > 0 { v.wport as f32 } else { 960.0 };
-                let port_y = if v.hport > 0 { v.hport as f32 } else { 540.0 };
-                // The port is expressed in the game's 1136x640 output space;
-                // the framebuffer may be any size, so scale = fb / port * (port/view)/1
-                // i.e. the view zoom (port/view) folds into the fb scale.
+        if let Some(view_index) = scene.active_view_index() {
+            if let Some(v) = scene.room_views.get(view_index) {
+                let view_id = view_index as i32;
+                let (port_x, port_y) = scene.view_ports.get(&view_id).copied()
+                    .unwrap_or((v.wport as f64, v.hport as f64));
+                let port_x = if port_x > 0.0 { port_x as f32 } else { scene.display_width as f32 };
+                let port_y = if port_y > 0.0 { port_y as f32 } else { scene.display_height as f32 };
                 let zoom_x = port_x / v.wview.max(1) as f32;
                 let zoom_y = port_y / v.hview.max(1) as f32;
-                // A framebuffer pixel maps to the port at fb/port density,
-                // and the view zoom (port/view) stretches world units into
-                // the port. Both fold into: fb / view.
                 scale_x = fb.width as f32 / port_x * zoom_x;
                 scale_y = fb.height as f32 / port_y * zoom_y;
-                view_origin = (v.xview as f64, v.yview as f64);
+                view_origin = GameState::camera_position_for_scene(scene);
                 view_active = true;
             }
         }
     }
 
-    // Prologue cutscene: while obj_introduction (137) is alive inside the full
-    // scene, render exactly what the original CODE Draw events emitted this
-    // tick. The intro's Create pinned view 0 to the room origin, so these draw
-    // commands project in screen space exactly like the old separate intro
-    // scene did. Alpha-blended blit; no hand-placed coordinates here.
+    // Prologue cutscene: render the same world-space queues as gameplay, using
+    // the runtime-selected view's camera and projection (no prologue bypass).
     //
     // Layers consumed (probe enumeration on the natural prologue run):
     //   1. `scene.backgrounds` — obj_bg CODE 364 emits `draw_background(bg=5)`
@@ -1686,16 +1136,8 @@ pub fn draw_frame(
         let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
         if intro_alive {
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
-            // The intro's Create pinned view 0 to the room origin, so these
-            // commands project with no camera offset.
-
-            // 1. Backgrounds (obj_bg's draw_background / draw_background_ext).
-            // GM8.1's draw_background TILES the image across the view from the
-            // command position (the original boot frame's ocean spans the full
-            // window while one bg_town tile is 480x320 logical — single-blit
-            // pinned only ~30% of the frame; the tile-NCC probe against the
-            // original screenshot pins the tiled semantics, NOT RUN on device
-            // until this batch).
+            // 1. Backgrounds use GM8.1's single-background draw path. Tiling is
+            // a distinct builtin and is not implied by draw_background.
             for bg_cmd in &scene.backgrounds {
                 let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
                 if alpha <= 0.0 {
@@ -1705,29 +1147,17 @@ pub fn draw_frame(
                 if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
                     if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
                         if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
-                            let dst_x = (bg_cmd.x as f32 * scale_x) as i32;
-                            let dst_y = (bg_cmd.y as f32 * scale_y) as i32;
+                            let dst_x = ((bg_cmd.x - view_origin.0) as f32 * scale_x) as i32;
+                            let dst_y = ((bg_cmd.y - view_origin.1) as f32 * scale_y) as i32;
                             let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                             let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                            let start_x = if dst_w > 0 { dst_x.rem_euclid(dst_w as i32) - dst_w as i32 } else { dst_x };
-                            let start_y = if dst_h > 0 { dst_y.rem_euclid(dst_h as i32) - dst_h as i32 } else { dst_y };
-                            let mut ty = start_y;
-                            while ty < fb.height as i32 {
-                                let mut tx = start_x;
-                                while tx < fb.width as i32 {
-                                    fb.blit_scaled_alpha(
-                                        atlas,
-                                        (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                                        (tx, ty, dst_w, dst_h),
-                                        false,
-                                        alpha,
-                                    );
-                                    if dst_w == 0 { break; }
-                                    tx += dst_w as i32;
-                                }
-                                if dst_h == 0 { break; }
-                                ty += dst_h as i32;
-                            }
+                            fb.blit_scaled_alpha(
+                                atlas,
+                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                                (dst_x, dst_y, dst_w, dst_h),
+                                false,
+                                alpha,
+                            );
                         }
                     }
                 }
@@ -1735,9 +1165,9 @@ pub fn draw_frame(
 
             // 2. Film sprite draws (obj_phone draw_self / obj_logo crossfade)
             for cmd in &scene.draws {
-                if !draw_ir_sprite(fb, state, cmd, (0.0, 0.0), (scale_x, scale_y)) {
-                    let dst_x = (cmd.x as f32 * scale_x) as i32;
-                    let dst_y = (cmd.y as f32 * scale_y) as i32;
+                if !draw_ir_sprite(fb, state, cmd, view_origin, (scale_x, scale_y)) {
+                    let dst_x = ((cmd.x - view_origin.0) as f32 * scale_x) as i32;
+                    let dst_y = ((cmd.y - view_origin.1) as f32 * scale_y) as i32;
                     let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
                     if alpha > 0.0 {
                         fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
@@ -1754,8 +1184,8 @@ pub fn draw_frame(
                 if alpha <= 0.0 || cmd.text.is_empty() {
                     continue;
                 }
-                let x = (cmd.x as f32 * scale_x) as i32;
-                let y = (cmd.y as f32 * scale_y) as i32;
+                let x = ((cmd.x - view_origin.0) as f32 * scale_x) as i32;
+                let y = ((cmd.y - view_origin.1) as f32 * scale_y) as i32;
                 let (r, g, b) = if cmd.color < 0 {
                     (255, 255, 255)
                 } else {
@@ -1809,22 +1239,16 @@ pub fn draw_frame(
 
     // Full IR gameplay scene: render room tiles, original draws, and camera follow
     if let (Some(_bundle), Some(scene)) = (state.full_bundle.as_deref(), state.scene.as_ref()) {
-        let (mut cam_x, mut cam_y) = GameState::camera_position_for_scene(scene);
-        // The camera returns the view rect's top-left; the projection uses
-        // (world - view_rect_origin) * zoom, and draw_background's HUD-space
-        // commands (already screen-space) must not shift. view_origin is the
-        // room-editor view start; the camera's clamp already includes it.
-        if view_active {
-            cam_x -= view_origin.0;
-            cam_y -= view_origin.1;
-        }
+        let (cam_x, cam_y) = if view_active {
+            view_origin
+        } else {
+            GameState::camera_position_for_scene(scene)
+        };
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
-        // 0. Render Room Backgrounds emitted by obj_bg or scene.
-        // GM8.1 draw_background tiles across the view from the command position
-        // (same evidence as the prologue branch: the original frames span the
-        // full window, one tile is 480x320 logical).
+        // 0. Render the single image emitted by draw_background; the separate
+        // tiled builtin is not used at this call site.
         for bg_cmd in &scene.backgrounds {
             let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
             if alpha <= 0.0 {
@@ -1840,25 +1264,13 @@ pub fn draw_frame(
                         let dst_y = (world_y as f32 * scale_y) as i32;
                         let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                         let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                        let start_x = if dst_w > 0 { dst_x.rem_euclid(dst_w as i32) - dst_w as i32 } else { dst_x };
-                        let start_y = if dst_h > 0 { dst_y.rem_euclid(dst_h as i32) - dst_h as i32 } else { dst_y };
-                        let mut ty = start_y;
-                        while ty < fb.height as i32 {
-                            let mut tx = start_x;
-                            while tx < fb.width as i32 {
-                                fb.blit_scaled_alpha(
-                                    atlas,
-                                    (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                                    (tx, ty, dst_w, dst_h),
-                                    false,
-                                    alpha,
-                                );
-                                if dst_w == 0 { break; }
-                                tx += dst_w as i32;
-                            }
-                            if dst_h == 0 { break; }
-                            ty += dst_h as i32;
-                        }
+                        fb.blit_scaled_alpha(
+                            atlas,
+                            (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                            (dst_x, dst_y, dst_w, dst_h),
+                            false,
+                            alpha,
+                        );
                     }
                 }
             }
@@ -2179,453 +1591,4 @@ pub fn draw_frame(
     draw_sprite(fb, state, 122, 0, (fb.width as i32 - 64, 16, 48, 48), false);
 }
 
-// ============================================================
-// Android JNI surface. We use only `jni-sys` for the C ABI types,
-// avoiding `ndk` / `ndk-sys` re-export churn.
-// ============================================================
-
-#[cfg(all(target_os = "android", feature = "android"))]
-mod android_jni {
-    use super::*;
-    use std::ffi::{CStr, CString};
-    use std::os::raw::{c_char, c_int};
-    use std::sync::OnceLock;
-
-    // JNI table slots verified from NDK r29 jni.h, including all
-    // pointer-returning entries in the count:
-    //   GetStringUTFChars       169
-    //   ReleaseStringUTFChars   170
-    //   SetIntArrayRegion       211
-    // The old values 161/162/186 caused ART to dispatch to
-    // SetStaticFloatField/ReleaseBooleanArrayElements.
-    pub type JNIEnv = *mut *const JNIInterface;
-    pub type jint = i32;
-    pub type jsize = i32;
-    pub type jobject = *mut std::ffi::c_void;
-    pub type jstring = *mut std::ffi::c_void;
-    pub type jintArray = *mut std::ffi::c_void;
-    pub type jboolean = u8;
-    pub type jsize_t = usize;
-
-    pub enum JNIInterface {}
-
-    pub type GetStringUTFCharsFn = unsafe extern "system" fn(
-        *mut JNIEnv,
-        jstring,
-        *mut jboolean,
-    ) -> *const c_char;
-    pub type ReleaseStringUTFCharsFn = unsafe extern "system" fn(
-        *mut JNIEnv,
-        jstring,
-        *const c_char,
-    );
-    pub type SetIntArrayRegionFn = unsafe extern "system" fn(
-        *mut JNIEnv,
-        jintArray,
-        jsize,
-        jsize,
-        *const jint,
-    );
-
-    #[inline]
-    unsafe fn jni_table(env: *mut JNIEnv) -> *const usize {
-        *env as *const usize
-    }
-
-    #[inline]
-    unsafe fn jni_func<F>(env: *mut JNIEnv, slot: usize) -> F {
-        let table = jni_table(env);
-        let fptr = *table.add(slot);
-        std::mem::transmute_copy::<usize, F>(&fptr)
-    }
-
-    const SLOT_GET_STRING_UTF_CHARS: usize = 169;
-    const SLOT_RELEASE_STRING_UTF_CHARS: usize = 170;
-    const SLOT_SET_INT_ARRAY_REGION: usize = 211;
-
-    pub struct AndroidState {
-        pub state: GameState,
-        pub fb: Framebuffer,
-        pub blit: Vec<jint>,
-        /// Device-side headless checkpoint cadence, including intro ticks (the
-        /// client frame_count intentionally does not advance during the intro).
-        trace_ticks: u64,
-    }
-
-    /// This is the actual bytecode Scene, not the legacy GameWorld. Log only
-    /// phase changes or a sparse periodic checkpoint so logcat can distinguish
-    /// intro -> town -> Lloyd sheet -> dismissal without inspecting pixels.
-    fn ir_phase(state: &GameState) -> Option<(i32, bool, Option<i32>, bool, bool)> {
-        let scene = state.scene.as_ref()?;
-        Some((
-            scene.current_room as i32,
-            scene.instances.values().any(|i| i.alive && i.object == 137),
-            scene.instances.values().find(|i| i.alive && (138..=153).contains(&i.object)).map(|i| i.object),
-            scene.globals.get("roomstart").copied() == Some(1.0),
-            scene.globals.get("talkedtolloyd1").copied() == Some(1.0),
-        ))
-    }
-
-    static SLOT: OnceLock<std::sync::Mutex<Option<AndroidState>>> = OnceLock::new();
-
-    fn slot() -> &'static std::sync::Mutex<Option<AndroidState>> {
-        SLOT.get_or_init(|| std::sync::Mutex::new(None))
-    }
-
-    fn cstr(jstr: jstring, env: *mut JNIEnv) -> Option<String> {
-        unsafe {
-            let f: GetStringUTFCharsFn = jni_func(env, SLOT_GET_STRING_UTF_CHARS);
-            let ptr = f(env, jstr, std::ptr::null_mut());
-            if ptr.is_null() {
-                return None;
-            }
-            let s = CStr::from_ptr(ptr as *const c_char)
-                .to_str()
-                .ok()
-                .map(|s| s.to_string());
-            let r: ReleaseStringUTFCharsFn = jni_func(env, SLOT_RELEASE_STRING_UTF_CHARS);
-            r(env, jstr, ptr);
-            s
-        }
-    }
-
-    fn log(msg: &str) {
-        let tag = b"callys-rust\0";
-        let cmsg = CString::new(msg).unwrap_or_default();
-        unsafe {
-            ndk_sys_compat::__android_log_write(4, tag.as_ptr() as *const c_char, cmsg.as_ptr());
-        }
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeInit(
-        env: *mut JNIEnv,
-        _class: jobject,
-        jpath: jstring,
-    ) {
-        let path = cstr(jpath, env).unwrap_or_else(|| {
-            "/data/data/com.gongmi.callyscaves2/files/game.droid".to_string()
-        });
-        log(&format!("nativeInit path={}", path));
-        let mut st = match GameState::new_persistent(Path::new(&path)) {
-            Ok(s) => s,
-            Err(e) => {
-                log(&format!("GameState::new failed: {}", e));
-                return;
-            }
-        };
-        // Boot the full IR scene from real compiled CODE. enable_ir_gameplay
-        // runs the original Game Start (CODE 17) on a live player: CODE 17
-        // reads the savefile INIs, derives the weapon damage ladders, and
-        // spawns obj_introduction itself. The prologue rides the full scene
-        // (its Create deactivates the room behind it) — exactly the original
-        // single-scene boot. No second enable_ir_gameplay at handover: the
-        // old double-init silently discarded a restored save scene.
-        let full_ir = Path::new(&path).with_file_name("full_ir.json");
-        if !full_ir.exists() {
-            log("full IR gameplay bundle missing; refusing silent handwritten fallback");
-        } else {
-        // Read the save BEFORE enable_ir_gameplay: a v2 scene save decides the
-        // boot room (town) and queues the handover restore.
-        let queued = st.queue_boot_ir_restore();
-        if queued {
-            log("IR save queued for prologue handover");
-        }
-        match callys_core::code_vm::load_bundle_from_file(&full_ir) {
-            Ok(bundle) => {
-                if let Err(error) = st.enable_ir_gameplay(std::sync::Arc::new(bundle)) {
-                    log(&format!("full IR gameplay init failed: {error}"));
-                    if queued {
-                        st.pending_ir_restore = None;
-                    }
-                } else {
-                    log("full IR gameplay bundle loaded");
-                    if !queued {
-                        log("no IR scene save to restore");
-                    }
-                }
-            }
-            Err(error) => log(&format!("full IR bundle load failed: {error}")),
-        }
-        }
-            match export_required_wavs(&st.asset, Path::new(&path)) {
-            Ok(exported) => log(&format!("exported {} short sound effects", exported.len())),
-            Err(error) => log(&format!("sound export failed: {error}")),
-        }
-        if let Some(diagnostic) = st.save_diagnostic.as_deref() {
-            log(&format!("save load warning: {diagnostic}"));
-        }
-        let mut g = slot().lock().unwrap();
-        *g = Some(AndroidState {
-            state: st,
-            fb: Framebuffer::new(960, 540),
-            blit: Vec::with_capacity(960 * 540),
-            trace_ticks: 0,
-        });
-        log("nativeInit ok");
-        if let Some(phase) = ir_phase(&g.as_ref().unwrap().state) {
-            log(&format!("IR boot room={} intro={} sheet={:?} roomstart={} talkedtolloyd1={}",
-                phase.0, phase.1, phase.2, phase.3, phase.4));
-        }
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeResize(
-        _env: *mut JNIEnv,
-        _class: jobject,
-        width: jint,
-        height: jint,
-    ) {
-        let mut g = slot().lock().unwrap();
-        if let Some(s) = g.as_mut() {
-            s.fb = Framebuffer::new(width.max(1) as u32, height.max(1) as u32);
-            s.blit.clear();
-            s.blit.reserve((s.fb.width * s.fb.height) as usize);
-        }
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePointerRelease(
-        _env: *mut JNIEnv, _class: jobject, x: f32, y: f32,
-    ) {
-        if let Some(s) = slot().lock().unwrap().as_mut() {
-            s.state.pointer_released(x as f64, y as f64);
-        }
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeStep(
-        _env: *mut JNIEnv,
-        _class: jobject,
-        dt_ms: jint,
-    ) {
-        let mut g = slot().lock().unwrap();
-        if let Some(s) = g.as_mut() {
-            let dt = (dt_ms as f32) / 1000.0;
-            let previous_ir = ir_phase(&s.state);
-            let previous_room = s.state.world.current_room_index;
-            let previous_player_state = s.state.world.player.state;
-            let previous_save_diagnostic = s.state.save_diagnostic.clone();
-            let was_halted = s.state.runtime_diagnostic.is_some();
-            s.state.step(dt);
-            if !was_halted {
-                if let Some(diagnostic) = s.state.runtime_diagnostic.as_deref() {
-                    log(&format!("IR execution halted: {diagnostic}"));
-                }
-            }
-            if s.state.save_diagnostic != previous_save_diagnostic {
-                if let Some(diagnostic) = s.state.save_diagnostic.as_deref() {
-                    log(&format!("save write warning: {diagnostic}"));
-                }
-            }
-            s.trace_ticks = s.trace_ticks.wrapping_add(1);
-            if let Some(phase) = ir_phase(&s.state) {
-                if previous_ir != Some(phase) || s.trace_ticks % 120 == 0 {
-                    let scene = s.state.scene.as_ref().unwrap();
-                    let player = scene.instances.values().find(|i| i.alive && i.object == 0);
-                    let (x, y) = player.map(|i| (
-                        i.fields.get("x").copied().unwrap_or(f64::NAN),
-                        i.fields.get("y").copied().unwrap_or(f64::NAN),
-                    )).unwrap_or((f64::NAN, f64::NAN));
-                    log(&format!("IR checkpoint tick={} room={} intro={} sheet={:?} roomstart={} talkedtolloyd1={} player=({x:.1},{y:.1}) active={} halted={}",
-                        s.trace_ticks, phase.0, phase.1, phase.2, phase.3, phase.4,
-                        scene.instances.values().filter(|i| i.alive && i.active).count(),
-                        s.state.runtime_diagnostic.is_some()));
-                }
-            } else {
-                // Legacy GameWorld logs are NOT evidence of IR room changes.
-                if s.state.world.current_room_index != previous_room {
-                    log(&format!(
-                        "legacy room transition {} -> {} ({}) spawn=({}, {})",
-                        previous_room,
-                        s.state.world.current_room_index,
-                        s.state.world.current_room_name,
-                        s.state.world.player.x,
-                        s.state.world.player.y,
-                    ));
-                }
-                if previous_player_state != PlayerState::Dead
-                    && s.state.world.player.state == PlayerState::Dead
-                {
-                    log(&format!(
-                        "legacy player died in room {} checkpoint=({}, {})",
-                        s.state.world.current_room_name,
-                        s.state.world.checkpoint.x,
-                        s.state.world.checkpoint.y,
-                    ));
-                } else if previous_player_state == PlayerState::Dead
-                    && s.state.world.player.state != PlayerState::Dead
-                {
-                    log(&format!(
-                        "legacy player respawned in room {} at=({}, {}) health={}",
-                        s.state.world.current_room_name,
-                        s.state.world.player.x,
-                        s.state.world.player.y,
-                        s.state.world.player.health,
-                    ));
-                }
-            }
-            draw_frame(&mut s.fb, &s.state, &s.state.asset.tpag_items, &s.state.asset.sprites);
-        }
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeInput(
-        _env: *mut JNIEnv,
-        _class: jobject,
-        move_left: jint,
-        move_right: jint,
-        jump: jint,
-        attack: jint,
-        switch_weapon: jint,
-        _weapon: jint,
-        tap: jint,
-    ) {
-        let mut g = slot().lock().unwrap();
-        if let Some(s) = g.as_mut() {
-            s.state.input.move_left = move_left != 0;
-            s.state.input.move_right = move_right != 0;
-            s.state.input.jump = jump != 0;
-            s.state.input.attack = attack != 0;
-            s.state.input.switch_weapon = switch_weapon != 0;
-            s.state.input.tap = tap != 0;
-
-        }
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePollSound(
-        _env: *mut JNIEnv,
-        _class: jobject,
-    ) -> jint {
-        // Pack (sound id, looping, is_stop) into one jint: SOND ids < 2^29,
-        // bit 30 carries looping, bit 29 marks a stop command (MediaPlayer
-        // teardown for BGM switching).
-        slot()
-            .lock()
-            .unwrap()
-            .as_mut()
-            .and_then(|state| state.state.poll_sound())
-            .and_then(|(audio_id, looping, is_stop)| {
-                let packed = audio_id
-                    | if looping { 1 << 30 } else { 0 }
-                    | if is_stop { 1 << 29 } else { 0 };
-                jint::try_from(packed).ok()
-            })
-            .unwrap_or(-1)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePollHaptic(
-        _env: *mut JNIEnv,
-        _class: jobject,
-    ) -> jint {
-        slot()
-            .lock()
-            .unwrap()
-            .as_mut()
-            .and_then(|state| state.state.poll_haptic())
-            .unwrap_or(-1)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeGetWidth(
-        _env: *mut JNIEnv,
-        _class: jobject,
-    ) -> jint {
-        slot()
-            .lock()
-            .unwrap()
-            .as_ref()
-            .map(|s| s.fb.width as jint)
-            .unwrap_or(0)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeGetHeight(
-        _env: *mut JNIEnv,
-        _class: jobject,
-    ) -> jint {
-        slot()
-            .lock()
-            .unwrap()
-            .as_ref()
-            .map(|s| s.fb.height as jint)
-            .unwrap_or(0)
-    }
-
-    /// Returns the framebuffer as a heap-allocated int[] via
-    /// `SetIntArrayRegion`. Caller (Java) passes a preallocated
-    /// `int[fb.width * fb.height]` array.
-    #[no_mangle]
-    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeBlitToIntArray(
-        env: *mut JNIEnv,
-        _class: jobject,
-        out: jintArray,
-    ) {
-        unsafe {
-            let mut g = slot().lock().unwrap();
-            if g.is_none() {
-                return;
-            }
-            let s = g.as_mut().unwrap();
-            let len = (s.fb.width as c_int) * (s.fb.height as c_int);
-            // re-interpret ABGR bytes as little-endian ARGB ints.
-            // In memory the bytes are [B,G,R,A] and on Android
-            // `Bitmap.Config.ARGB_8888` (which we use on the Java
-            // side) expects [R,G,B,A] pixels. So we shuffle.
-            s.blit.clear();
-            for chunk in s.fb.pixels.chunks_exact(4) {
-                let b = chunk[0];
-                let g_ = chunk[1];
-                let r = chunk[2];
-                let a = chunk[3];
-                // Pack as ARGB8888 in a 32-bit int.  Pixel format
-                // is little-endian: 0xAARRGGBB -> int.
-                let argb: u32 =
-                    ((a as u32) << 24) | ((r as u32) << 16) | ((g_ as u32) << 8) | (b as u32);
-                s.blit.push(argb as jint);
-            }
-            let f: SetIntArrayRegionFn = jni_func(env, SLOT_SET_INT_ARRAY_REGION);
-            f(env, out, 0, len, s.blit.as_ptr());
-        }
-    }
-
-    #[cfg(test)]
-    #[test]
-    fn headless_phase_reads_live_ir_scene_not_legacy_world() {
-        use std::sync::Arc;
-        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
-        let mut state = GameState::new(&root.join("../../assets/game.droid")).unwrap();
-        assert_eq!(ir_phase(&state), None);
-        let bundle = callys_core::code_vm::load_bundle_from_file(
-            &root.join("../../crates/core/src/generated/full_ir.json"),
-        ).unwrap();
-        state.enable_ir_gameplay(Arc::new(bundle)).unwrap();
-        assert_eq!(ir_phase(&state), Some((0, true, None, false, false)));
-        for _ in 0..125 { state.step(1.0 / 60.0); }
-        state.input.tap = true;
-        state.step(1.0 / 60.0);
-        state.input.tap = false;
-        state.step(1.0 / 60.0);
-        assert!(state.runtime_diagnostic.is_none());
-        assert_eq!(ir_phase(&state), Some((0, false, None, false, false)));
-        // The legacy world still points at room 0; it cannot certify the
-        // prologue handover. Only the Scene's live intro bit did.
-    }
-}
-
-#[cfg(all(target_os = "android", feature = "android"))]
-mod ndk_sys_compat {
-    use std::os::raw::{c_char, c_int};
-    extern "C" {
-        pub fn __android_log_write(
-            prio: c_int,
-            tag: *const c_char,
-            text: *const c_char,
-        ) -> c_int;
-    }
-}
-
-#[cfg(all(target_os = "android", feature = "android"))]
-pub use android_jni::*;
+include!("parts/jni.rs");

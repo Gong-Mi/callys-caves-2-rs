@@ -37,10 +37,11 @@ fn prologue_step_emits_draw_commands_and_renders_pixels() {
 
     let mut fb = Framebuffer::new(960, 540);
     draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
-    let non_zero = fb.pixels.iter().filter(|&&p| p != 0).count();
+    // Count real visible RGB pixels (ignoring alpha channel, so pure black (0,0,0,255) yields 0)
+    let non_black_pixels = fb.pixels.chunks_exact(4).filter(|p| p[0] > 10 || p[1] > 10 || p[2] > 10).count();
     assert!(
-        non_zero > 1000,
-        "prologue framebuffer must not be a black screen, got {non_zero} non-zero bytes"
+        non_black_pixels > 100,
+        "prologue framebuffer must render visible RGB content, got {non_black_pixels} non-black pixels"
     );
 }
 
@@ -124,9 +125,11 @@ fn prologue_tap_transitions_to_town_gameplay() {
         .unwrap().fields["x"];
     assert!(moved_x > initial_x, "player moved right in rm_town: {initial_x} -> {moved_x}");
 
-    // Render town frame
+    // Render town frame and verify real drawn content differing from clear color
     let mut fb = Framebuffer::new(960, 540);
     draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
-    let non_zero = fb.pixels.iter().filter(|&&p| p != 0).count();
-    assert!(non_zero > 1000, "town frame rendered pixels, got {non_zero}");
+    let drawn_pixels = fb.pixels.chunks_exact(4).filter(|p| {
+        (p[0] as i32 - 30).abs() > 5 || (p[1] as i32 - 18).abs() > 5 || (p[2] as i32 - 15).abs() > 5
+    }).count();
+    assert!(drawn_pixels > 1000, "town frame rendered real content, got {drawn_pixels} pixels");
 }

@@ -16,12 +16,9 @@ fn hit_particles_rasterize_into_framebuffer() {
     let bundle = Arc::new(load_bundle_from_file(&bundle_path).expect("load full_ir"));
     state.enable_ir_gameplay(bundle.clone()).expect("enable IR gameplay");
     state.retire_prologue();
-    // This suite pins the PARTICLE rasterization terms (spawn colour, patch
-    // geometry) under the flat 1:1 world→screen projection; the room-editor
-    // view zoom has its own suite (view_projection_consumption).
-    for v in state.scene.as_mut().unwrap().room_views.iter_mut() {
-        v.visible = false;
-    }
+    // This suite isolates PARTICLE rasterization under a flat projection.
+    // Clear runtime flags rather than just the ROOM table's static visible bits.
+    state.scene.as_mut().unwrap().view_visible = [false; 8];
 
     let s = state.scene.as_mut().unwrap();
 
