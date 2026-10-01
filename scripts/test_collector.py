@@ -174,6 +174,7 @@ def collect_all(quick=False):
         "town_entry_and_controls",
         "first_chapter_playthrough",
         "challenge_rooms_playthrough",
+        "draw_stream_frame_fingerprint",
         "prologue_layers_consumption",
         "prologue_render_regression",
         "view_projection_consumption",
