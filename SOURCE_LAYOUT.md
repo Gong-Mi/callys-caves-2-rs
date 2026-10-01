@@ -16,11 +16,18 @@ functions (e.g. search `"choose"`, not `fn choose`).
 | Chapter 1 playable flow (client) | client `lib.rs`: `step_inner`, `enable_ir_gameplay`, `pointer_released` → core `ir_scene.rs`: `load_room_from_data`, `transition_to_room`, `obj_bg` Alarm 2 sleep sweep | `crates/client/tests/first_chapter_playthrough.rs`; `crates/core/tests/first_chapter_flow_ir.rs` |
 | Save / cold restore | client `write_save_atomic`, `autosave_ir`, `restore_ir_snapshot` → core `ir_scene.rs`: `save_snapshot`, `restore_snapshot`, `restore_snapshot_cross_room` | `crates/client/tests/ir_save_roundtrip.rs`, `save_io.rs` |
 | Boot / Game Start chain | client `lib.rs`: `enable_ir_gameplay` (player → CODE 17 dispatch → room load → active-only Room Start), `queue_boot_ir_restore`, `step_inner` prologue phase; core `ir_scene.rs`: `ini_disk_dir` INI boundary, `select_for_access` | `crates/client/tests/game_start_p0.rs`, `prologue_render_regression.rs`; `reconstruction/contracts/game-start-p0.md` |
-| VM selectors / builtins | `crates/core/src/code_vm.rs`: `Host`, `Op::Store` → `crates/core/src/ir_scene.rs`: `impl Host for Scene`, `expected_argc`, string match arm | `crates/core/tests/physics_and_motion_ir.rs` and feature-specific core tests |
+| VM selectors / builtins | `crates/core/src/code_vm.rs`: `Host`, `Op::Store` → `crates/core/src/parts/host_impl.rs` (via `include!` at the end of `ir_scene.rs`): `impl Host for Scene`, `expected_argc`, string match arm | `crates/core/tests/physics_and_motion_ir.rs` and feature-specific core tests |
 
 Only the font constant has moved. It is a same-scope `include!` fragment, not a
 new public module. GameState, framebuffer, frame composition and JNI still live
-in client `lib.rs`; Scene and its Host impl remain in core `ir_scene.rs`.
+in client `lib.rs` (JNI and the rasterizer via `parts/`). In core, the whole
+`impl Host for Scene` (selectors, field access and the builtin dispatch table)
+lives in `crates/core/src/parts/host_impl.rs`, included at item position by
+`ir_scene.rs`; Scene itself stays in `ir_scene.rs`.
+
+Audit scripts that locate the dispatch table by substring (`audit_builtin_
+coverage.py`, `audit_builtin_arity.py`) expand `include!()` recursively before
+searching, so the cut does not blind them.
 
 One-time cut proof (not a permanent code freeze):
 
