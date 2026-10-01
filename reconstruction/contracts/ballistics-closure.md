@@ -72,7 +72,7 @@
 
 ## 边界
 
-- 碰撞模型统一包围盒近似（prec 未实现），与既有契约同一声明；trex/boss 族分支抽 knifebandit 代表（模板同构，静态读图已列全族差异）。
+- 碰撞模型统一包围盒近似（prec 当时未实现；68d80e5 起 prec=1 已走 SPRT 真实掩码，见 precise_collision_masks_ir.rs），与既有契约同一声明；trex/boss 族分支抽 knifebandit 代表（模板同构，静态读图已列全族差异）。
 - obj_damage 浮字仅断言生成与 damage 字段值；飘字动画属渲染层未验。
 - obj_laserbeam Other_0（出房间自毁）与 obj_arrow Alarm 0/obj_blade Alarm 0 在宿主中无派发路径，只做静态锚定。
 - boomerang 的返程 `point_direction` 具体角度值依赖玩家相对位置，测试钉转向时刻+接住时刻，不钉绝对角度。

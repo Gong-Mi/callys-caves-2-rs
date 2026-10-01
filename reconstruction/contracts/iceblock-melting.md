@@ -18,6 +18,6 @@ CODE 687 (Create) / 688 (Step) / 689 (Collision 35 = obj_flame) 三条全部经�
 
 ## 边界
 
-- 引擎近似为包围盒碰撞（全批同口径），prec 像素检查未实现。
+- 引擎近似为包围盒碰撞（全批同口径），prec 像素检查当时未实现（68d80e5 起 prec=1 走 SPRT 真实掩码）。
 - iceblock 作为推箱阻挡物的语义存在于 obj_leftbutton/rightbutton Alarm 1（CODE 529/532 `instance_place(..., obj_iceblock)` 七连否决），但推箱机制本身未入引擎——该障碍语义待推箱批次一并建立。
 - room60×3/room61×2/room62×2 的卡司密度已在 room60-63 契约固化；真机/GPU 视觉层未验收。

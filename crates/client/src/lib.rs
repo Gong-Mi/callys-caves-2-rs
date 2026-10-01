@@ -383,6 +383,9 @@ impl GameState {
                     frames: sp.tpag_indices.len().max(1) as f64,
                 },
             );
+            if !sp.masks.is_empty() {
+                scene.sprite_masks.insert(*sid as i32, sp.masks.clone());
+            }
         }
         // Original boot room: rm_town whenever a boot-time IR restore is
         // queued (the prologue always plays over town; the saved room enters

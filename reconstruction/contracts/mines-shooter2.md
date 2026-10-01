@@ -22,7 +22,7 @@ rm_level10 后该枪手一开火就进错误边界。
 2. 实现里解析 `a[5]`(prec) 与 `a[6]`(notme)：`notme` 真实生效（决定调用者自身
    是否可被判中，原先无条件排除）；`prec` 被接受并在注释里显式声明——本 host
    的**所有**碰撞查询（`collision_point`/`instance_place`/`place_meeting`/
-   `collision_line`）都是包围盒语义，不做像素级掩膜检查。
+   `collision_line`）都是包围盒语义，当时不做像素级掩膜检查（68d80e5 起 prec=1 走 SPRT 真实掩码：尖刺精灵上部 9 行透明带的视线按原版判为通畅）。
 
 **这是一处真实缺陷，不是测试写法问题**：修复前该 alarm 在任何路径下都无法执行。
 
