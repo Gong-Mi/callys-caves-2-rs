@@ -1,0 +1,206 @@
+{
+  "asset_sha256": "9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6",
+  "object_id": 0,
+  "object_name": "obj_player",
+  "execution_boundary": "host-backed methods; synchronous Create required; no legacy-loop integration",
+  "bindings": [
+    {
+      "alarm": 0,
+      "code_id": 11,
+      "code_name": "gml_Object_obj_player_Alarm_0",
+      "bytecode_sha256": "a54d42f444bde23dc53b168b64a2c02a2c112b505116748ceb50ba6c53e0b7c0",
+      "gml_sha256": "72e195980ee0ec3dc49a5a4e14d04ddfcc179a022788b80b2371daf1d90b3334",
+      "gml": "if (global.pistol == 1)\n{\n    if (facing == 0)\n    {\n        instance_create(x + 10, y + 6, obj_bullet);\n    }\n    else if (facing == 1)\n    {\n        instance_create(x - 10, y + 5, obj_bullet);\n    }\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_fire, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif (global.laser == 1 && obj_player.facing == 0)\n{\n    i1 = instance_create(x + 8, y + 6, obj_laserbeam);\n    i1.image_xscale = 2;\n    global.firing = 1;\n    alarm[3] = 5;\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_laser, 0, false);\n    }\n}\nelse if (global.laser == 1 && obj_player.facing == 1)\n{\n    i1 = instance_create(x - 8, y + 6, obj_laserbeam);\n    i1.image_xscale = 2;\n    global.firing = 1;\n    alarm[3] = 5;\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_laser, 0, false);\n    }\n}\nif (global.icegun == 1)\n{\n    instance_create(x + 1, y + 6, obj_iceball);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_ice, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif (global.shotgun == 1 && facing == 0)\n{\n    bullet1 = instance_create(x + 8, y + 1, obj_bullet);\n    bullet2 = instance_create(x + 8, y + 7, obj_bullet);\n    bullet3 = instance_create(x + 8, y + 7, obj_bullet);\n    bullet4 = instance_create(x + 8, y + 7, obj_bullet);\n    bullet5 = instance_create(x + 8, y + 7, obj_bullet);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_shotgun, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nelse if (global.shotgun == 1 && facing == 1)\n{\n    bullet1 = instance_create(x - 8, y + 1, obj_bullet);\n    bullet2 = instance_create(x - 8, y + 7, obj_bullet);\n    bullet3 = instance_create(x - 8, y + 7, obj_bullet);\n    bullet4 = instance_create(x - 8, y + 7, obj_bullet);\n    bullet5 = instance_create(x - 8, y + 7, obj_bullet);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_shotgun, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif (obj_player.facing == 1)\n{\n    if (global.assaultrifle == 1 && assaultfire == 3)\n    {\n        if (global.assaultriflelevel <= 9)\n        {\n            instance_create(x - 8, y + 8, obj_bullet);\n        }\n        else if (global.assaultriflelevel == 10)\n        {\n            instance_create(x - 16, y + 10, obj_bullet);\n        }\n        if (global.soundmute == 1)\n        {\n        }\n        else if (global.soundmute == 0)\n        {\n            if (audio_is_playing(snd_assaultrifle))\n            {\n            }\n            else\n            {\n                audio_play_sound(snd_assaultrifle, 0, false);\n            }\n        }\n        global.firing = 1;\n        alarm[3] = 5;\n    }\n}\nif (obj_player.facing == 0)\n{\n    if (global.assaultrifle == 1 && assaultfire == 3)\n    {\n        if (global.assaultriflelevel <= 9)\n        {\n            instance_create(x + 8, y + 8, obj_bullet);\n        }\n        else if (global.assaultriflelevel == 10)\n        {\n            instance_create(x + 16, y + 10, obj_bullet);\n        }\n        if (global.soundmute == 1)\n        {\n        }\n        else if (global.soundmute == 0)\n        {\n            if (audio_is_playing(snd_assaultrifle))\n            {\n            }\n            else\n            {\n                audio_play_sound(snd_assaultrifle, 0, false);\n            }\n        }\n        global.firing = 1;\n        alarm[3] = 5;\n    }\n}\nif ((global.rocket == 1) & (facing == 0))\n{\n    instance_create(x + 30, y + 3, obj_rocket);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_bombgun, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif ((global.rocket == 1) & (facing == 1))\n{\n    instance_create(x - 30, y + 3, obj_rocket);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_bombgun, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif ((global.bombgun == 1) & (facing == 0))\n{\n    instance_create(x + 20, y + 5, obj_bomb);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_bombgun, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif ((global.bombgun == 1) & (facing == 1))\n{\n    instance_create(x - 20, y + 5, obj_bomb);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_bombgun, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif ((global.bow == 1) & (facing == 0))\n{\n    throwingboomerang = 1;\n    instance_create(x, y + 3, obj_arrow);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_bow, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif ((global.bow == 1) & (facing == 1))\n{\n    throwingboomerang = 1;\n    instance_create(x - 3, y + 3, obj_arrow);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_bow, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif ((global.bladegun == 1) & (facing == 0))\n{\n    instance_create(x + 3, y + 6, obj_blade);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_blade, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif ((global.bladegun == 1) & (facing == 1))\n{\n    instance_create(x - 3, y + 6, obj_blade);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_blade, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif (obj_player.facing == 1)\n{\n    if (global.flamethrower == 1)\n    {\n        instance_create(x - 10, y + 7, obj_flame);\n        if (global.soundmute == 1)\n        {\n        }\n        else if (global.soundmute == 0)\n        {\n            audio_play_sound(snd_flamethrower, 0, false);\n        }\n        global.firing = 1;\n        alarm[3] = 5;\n    }\n}\nif (obj_player.facing == 0)\n{\n    if (global.flamethrower == 1)\n    {\n        instance_create(x + 10, y + 7, obj_flame);\n        if (global.soundmute == 1)\n        {\n        }\n        else if (global.soundmute == 0)\n        {\n            audio_play_sound(snd_flamethrower, 0, false);\n        }\n        global.firing = 1;\n        alarm[3] = 5;\n    }\n}\nif (obj_player.facing == 1)\n{\n    if (global.boomerang == 1)\n    {\n        throwingboomerang = 1;\n        instance_create(x - 10, y + 7, obj_boomerangthrow);\n        if (global.soundmute == 1)\n        {\n        }\n        else if (global.soundmute == 0)\n        {\n            audio_play_sound(snd_sword, 0, false);\n        }\n        global.firing = 1;\n        alarm[3] = 5;\n    }\n}\nif (obj_player.facing == 0)\n{\n    if (global.boomerang == 1)\n    {\n        throwingboomerang = 1;\n        instance_create(x + 10, y + 7, obj_boomerangthrow);\n        if (global.soundmute == 1)\n        {\n        }\n        else if (global.soundmute == 0)\n        {\n            audio_play_sound(snd_sword, 0, false);\n        }\n        global.firing = 1;\n        alarm[3] = 5;\n    }\n}\nif ((global.spikegun == 1) & (facing == 0))\n{\n    instance_create(x + 24, y - 3, obj_spikegunspike);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_bombgun, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\nif ((global.spikegun == 1) & (facing == 1))\n{\n    instance_create(x - 24, y - 3, obj_spikegunspike);\n    if (global.soundmute == 1)\n    {\n    }\n    else if (global.soundmute == 0)\n    {\n        audio_play_sound(snd_bombgun, 0, false);\n    }\n    global.firing = 1;\n    alarm[3] = 5;\n}\n"
+    },
+    {
+      "alarm": 1,
+      "code_id": 10,
+      "code_name": "gml_Object_obj_player_Alarm_1",
+      "bytecode_sha256": "3dc0b63ccd8cc86006611eac9e8739abad3bae2a64d8e07fd51915b41fba6509",
+      "gml_sha256": "8115f5b845348dd7129d674a62ef672d014ae315210c20dfe793144184b381ae",
+      "gml": "if (sprite_index != spr_playerslash)\n{\n    image_index = 0;\n    sprite_index = spr_playerslash;\n}\nif (global.swing == 1)\n{\n    if (facing == 1)\n    {\n        instance_create(obj_player.x + 15, obj_player.y - 15, obj_sword);\n        global.swing = 0;\n        alarm[2] = 9;\n        if (global.energywavebought == 1)\n        {\n            instance_create(obj_player.x + 15, obj_player.y - 5, obj_energywave);\n        }\n    }\n    if (facing == 0)\n    {\n        instance_create(obj_player.x - 15, obj_player.y - 15, obj_sword);\n        global.swing = 0;\n        alarm[2] = 9;\n        if (global.energywavebought == 1)\n        {\n            instance_create(obj_player.x - 15, obj_player.y - 5, obj_energywave);\n        }\n    }\n}\n"
+    }
+  ],
+  "direct_spawn_dependencies": [
+    {
+      "object_id": 38,
+      "object_name": "obj_arrow",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 279,
+          "code_name": "gml_Object_obj_arrow_Create_0",
+          "bytecode_sha256": "32b3e366a1c4ebfdb6e98664b2a49191a184bb2ff337c7ba6b1c94e518420ddc",
+          "gml_sha256": "b3bca5769676b3ec7aeb05da24f8db89ba3c6065e0eab768f94ed9f02c76d139",
+          "gml": "if (obj_player.facing == 1)\n{\n    hspeed = -15;\n    vspeed = -1;\n}\nif (obj_player.facing == 0)\n{\n    hspeed = 15;\n    vspeed = -1;\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 36,
+      "object_name": "obj_blade",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 271,
+          "code_name": "gml_Object_obj_blade_Create_0",
+          "bytecode_sha256": "4e7905e52df0dc31a709275c933ebdd67362f9261c5b26ccbd7292435f85ed37",
+          "gml_sha256": "da06acd6613b46cd3220ccce849d3f27b966bc525863f226d5f4d7c3abeaf125",
+          "gml": "alarm[1] = 40;\nif (obj_player.facing == 1)\n{\n    hspeed = -20;\n}\nif (obj_player.facing == 0)\n{\n    hspeed = 20;\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 37,
+      "object_name": "obj_bomb",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 275,
+          "code_name": "gml_Object_obj_bomb_Create_0",
+          "bytecode_sha256": "f8d299f21aa55a1ddb4d63d7562dfd588b810365ce1b5753b9bb842fae78cf01",
+          "gml_sha256": "4af84027adf6bce5ff562cf53b45cf61a9677cba7c8062e186612ee02f7f4371",
+          "gml": "canhit = 0;\nhitwall = 0;\nif (obj_player.facing == 1)\n{\n    hspeed = -8;\n}\nif (obj_player.facing == 0)\n{\n    hspeed = 8;\n}\nalarm[0] = 30;\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 43,
+      "object_name": "obj_boomerangthrow",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 295,
+          "code_name": "gml_Object_obj_boomerangthrow_Create_0",
+          "bytecode_sha256": "552e4b177694cca39db0a3f46249d35568147e98c40c04919dc0252cbef04670",
+          "gml_sha256": "329322d1bf103a2b525caaf876d245df52398785780acd54b4cef1e6f4e637cf",
+          "gml": "image_speed = 0;\nif (obj_player.facing == 1)\n{\n    hspeed = -5;\n}\nif (obj_player.facing == 0)\n{\n    hspeed = 5;\n}\nalarm[1] = 30;\nboomerangreturn = 0;\nif (global.boomeranglevel <= 3)\n{\n    image_index = 0;\n}\nelse if (global.boomeranglevel <= 6)\n{\n    image_index = 1;\n}\nelse if (global.boomeranglevel <= 9)\n{\n    image_index = 2;\n}\nelse if (global.boomeranglevel >= 10)\n{\n    image_index = 3;\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 39,
+      "object_name": "obj_bullet",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 282,
+          "code_name": "gml_Object_obj_bullet_Create_0",
+          "bytecode_sha256": "7286dda7064fc2c34b45c70078ebd5ade1bbd46da8fe4507d5aa802fb0196217",
+          "gml_sha256": "ef6b05b03faa6b2320b1633cf2139d517a3aa13a7776d1353bdbec7909644bb0",
+          "gml": "canhit = 0;\nif (obj_player.facing == 1)\n{\n    hspeed = -25;\n}\nif (obj_player.facing == 0)\n{\n    hspeed = 25;\n}\nif ((global.shotgun == 1) & (obj_player.facing == 0))\n{\n    motion_set(image_angle + (random(15) * choose(1, -1)), 32);\n    image_angle = direction;\n}\nif ((global.shotgun == 1) & (obj_player.facing == 1))\n{\n    motion_set(image_angle + (random(15) * choose(1, -1)), -32);\n    image_angle = direction;\n    image_xscale = -1;\n}\nif ((global.assaultrifle == 1) & (obj_player.facing == 0))\n{\n    motion_set(image_angle + (random(3) * choose(1, -1)), 32);\n}\nif ((global.assaultrifle == 1) & (obj_player.facing == 1))\n{\n    motion_set(image_angle + (random(3) * choose(1, -1)), -32);\n    image_xscale = -1;\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 45,
+      "object_name": "obj_energywave",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 304,
+          "code_name": "gml_Object_obj_energywave_Create_0",
+          "bytecode_sha256": "168b5ad9d70a43f92a0920611409d5201aa62ceec3d467fd3781fb8a80d03c66",
+          "gml_sha256": "1da68c797e414a9885ecb5dffcbe99254fbd60b4d6212b4c4a0589d8ae391d3d",
+          "gml": "canhit = 0;\nif (obj_player.facing == 1)\n{\n    hspeed = -20;\n}\nelse\n{\n    hspeed = 20;\n}\nalarm[1] = 12;\nif (global.soundmute == 1)\n{\n}\nelse if (global.soundmute == 0)\n{\n    audio_play_sound(snd_crescentwave, 0, false);\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 35,
+      "object_name": "obj_flame",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 268,
+          "code_name": "gml_Object_obj_flame_Create_0",
+          "bytecode_sha256": "a1bfdc8e342ba40702cf7c1aef13e0f8649bb16a6a771a2d5d31c467f4521861",
+          "gml_sha256": "9484c46930a0eb739f613e238b837692dfe2bdbdccd8cb3b7ec6bd73af9451e9",
+          "gml": "alarm[0] = 9;\nif (obj_player.facing == 1)\n{\n    hspeed = -15;\n    vspeed = -1;\n}\nif (obj_player.facing == 0)\n{\n    hspeed = 15;\n    vspeed = -1;\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 40,
+      "object_name": "obj_iceball",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 285,
+          "code_name": "gml_Object_obj_iceball_Create_0",
+          "bytecode_sha256": "d348764fe4dd295649428fe88ff95ec0b266588f91f108fae939c008fb9b56d4",
+          "gml_sha256": "ba318b1d85d4d08703b01091e26e03664ff7a3c59e0e2542c957087241c2114f",
+          "gml": "if (obj_player.facing == 1)\n{\n    hspeed = -15;\n}\nelse\n{\n    hspeed = 15;\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 41,
+      "object_name": "obj_laserbeam",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 287,
+          "code_name": "gml_Object_obj_laserbeam_Create_0",
+          "bytecode_sha256": "7aafb1d6f738c59de563f82b1d148d8502a0b83d4f367a37694c75d563d1a26d",
+          "gml_sha256": "62d42b1d807f76e8d5d5e6534f3f163ccb90e2e9f98386e95ed25ef244013984",
+          "gml": "alarm[1] = 120;\nif (obj_player.facing == 1)\n{\n    hspeed = -20;\n}\nelse\n{\n    hspeed = 20;\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 44,
+      "object_name": "obj_rocket",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 299,
+          "code_name": "gml_Object_obj_rocket_Create_0",
+          "bytecode_sha256": "f36876601901225a60dd474b3d105c76e688f25b67e8ca5d6cccc9c2b93cccf1",
+          "gml_sha256": "7eeea12a32b7ffda6d59a8f36d091156bfd79c3fc202a309954a7a8628783ac0",
+          "gml": "hitblock = 0;\nhitwall = 0;\ncanhit = 0;\nhitboulder = 0;\nif (obj_player.facing == 1)\n{\n    hspeed = -16;\n}\nelse\n{\n    hspeed = 16;\n}\nalarm[0] = 10;\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 42,
+      "object_name": "obj_spikegunspike",
+      "parent_id": 34,
+      "direct_create": [
+        {
+          "code_id": 291,
+          "code_name": "gml_Object_obj_spikegunspike_Create_0",
+          "bytecode_sha256": "21bf563e98820bd030d5a03fbd1a95a149c1d1d348b10a2814e1fdda08067331",
+          "gml_sha256": "29abad44d1b0ad452905127818c4316fbbcf1ea3ad2dc7d73797be60c67866d0",
+          "gml": "alarm[1] = 240;\ntype = 2;\nif (obj_player.facing == 1)\n{\n    hspeed = -14;\n    image_xscale = -1;\n}\nif (obj_player.facing == 0)\n{\n    hspeed = 14;\n    image_xscale = 1;\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    },
+    {
+      "object_id": 46,
+      "object_name": "obj_sword",
+      "parent_id": -100,
+      "direct_create": [
+        {
+          "code_id": 309,
+          "code_name": "gml_Object_obj_sword_Create_0",
+          "bytecode_sha256": "337b5078e19b0bb7826803522c1c557d69f495ff89a97e098dcedcb73a06b5b2",
+          "gml_sha256": "47dc47d85c4c2723b69402bc67bd51a120cca54773e024be6571dab07220edda",
+          "gml": "canhit = 0;\nif (!instance_exists(obj_sword))\n{\n    var i = instance_create(obj_player.x + 5, obj_player.y, obj_sword);\n    i.image_angle = image_angle - 90;\n    i.image_angle = image_angle - 90;\n}\nalarm[0] = 7;\nif (global.soundmute == 1)\n{\n}\nelse if (global.soundmute == 0)\n{\n    audio_play_sound(global.swordsound, 0, false);\n}\n"
+        }
+      ],
+      "runtime_verified": false
+    }
+  ]
+}

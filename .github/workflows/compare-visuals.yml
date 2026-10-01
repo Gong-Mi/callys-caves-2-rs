@@ -1,0 +1,471 @@
+name: Visual Parity Lab
+
+# Screenshot comparison of the Rust remake vs the original Yoyo-runner APK
+# on an x86_64 emulator. Measured ABI truth (ABI probe artifact, run
+# 36640039230): `ro.product.cpu.abilist = x86_64,x86,arm64-v8a,armeabi-v7a,
+# armeabi`, the original APK ships lib/x86/libyoyo.so, and PackageManager
+# selected `primaryCpuAbi=x86` — the original runs its NATIVE x86 runner
+# here, not an ARM translation of the v7a library. Produces a per-screen
+# colorful-pixel ratio table + screenshots as artifacts, so "the remake has
+# content differences" becomes a measurable, reproducible diff instead of
+# one-off on-device screenshots.
+
+on:
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: 'How many scripted input steps to run per app'
+        required: false
+        default: '12'
+      label:
+        description: 'Label for this comparison run'
+        required: false
+        default: 'parity'
+      gpu:
+        description: 'Emulator GPU backend for the ORIGINAL-side diagnosis (swiftshader_indirect / guest / off)'
+        required: false
+        default: 'swiftshader_indirect'
+      image:
+        description: 'System image for the differential (default API 30 google_apis x86_64)'
+        required: false
+        default: 'system-images;android-30;google_apis;x86_64'
+      remake:
+        description: 'Run the remake side too (set false for original-only differentials, e.g. a 32-bit-only image the remake cannot install on)'
+        required: false
+        default: 'true'
+  push:
+    branches: [fix/prologue-render-layers]
+    paths:
+      - '.github/workflows/compare-visuals.yml'
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Keep the preinstalled SDK (it is what we need)
+        run: |
+          # Do NOT delete /usr/local/lib/android — the runner's preinstalled
+          # SDK is exactly what the emulator steps use. Free space elsewhere:
+          sudo rm -rf /usr/local/share/boost || true
+          df -h /
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends python3-pil jq unzip
+          pip3 install --user Pillow
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Point the environment at the preinstalled SDK
+        run: |
+          ls /usr/local/lib/android/sdk
+          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
+
+      - name: Create AVD (API 30, x86_64)
+        run: |
+          # API 30 x86_64 google_apis image. Its abilist (x86_64,x86,
+          # arm64-v8a,armeabi-v7a,armeabi) is what lets the original's native
+          # x86 libyoyo.so run directly; the remake ships arm64-v8a + x86_64.
+          # Do not describe this AVD as "libndk ARM translation" — the probe
+          # measured primaryCpuAbi=x86 for the original (run 36640039230).
+          SDKMGR=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
+          AVDMGR=$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager
+          ls "$ANDROID_HOME/cmdline-tools/"
+          IMAGE="${{ github.event.inputs.image || 'system-images;android-30;google_apis;x86_64' }}"
+          echo "system image: $IMAGE"
+          "$SDKMGR" --install "$IMAGE" > /dev/null
+          # Pin the AVD home for BOTH steps: run 36460061865 showed avdmanager
+          # exiting 0 while printing no "Created AVD" line, and the emulator then
+          # died on "Unknown AVD name [lab] / no lab.ini in $HOME/.android/avd".
+          # Both create and launch now resolve $ANDROID_AVD_HOME — same path —
+          # and a missing ini fails the CREATE step with the full truth instead
+          # of silently deferring to the boot step's budget.
+          export ANDROID_AVD_HOME=$HOME/.android/avd
+          echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME" >> "$GITHUB_ENV"
+          mkdir -p "$ANDROID_AVD_HOME"
+          printf 'no\n' | "$AVDMGR" create avd -n lab -k "$IMAGE" -d pixel_5 --force
+          if [ ! -f "$ANDROID_AVD_HOME/lab.ini" ]; then
+            echo "::error::avdmanager returned 0 but $ANDROID_AVD_HOME/lab.ini is missing"
+            echo "--- avdmanager list ---"; "$AVDMGR" list avd || true
+            echo "--- \$HOME/.android ---"; ls -laR "$HOME/.android" 2>/dev/null | head -40 || true
+            echo "--- stray lab.ini anywhere ---"; find /home /root /tmp -name 'lab.ini' 2>/dev/null | head || true
+            exit 1
+          fi
+          echo "--- created ---"; head -20 "$ANDROID_AVD_HOME/lab.ini"
+          "$AVDMGR" list avd | head -20
+
+      - name: Boot emulator (gpu swiftshader_indirect)
+        run: |
+          # emulator + adb live in the preinstalled SDK, not on PATH by default
+          export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
+          export ANDROID_SDK_ROOT=$ANDROID_HOME
+          # KVM: the x86_64 image will NOT boot without hardware acceleration.
+          # Runner /dev/kvm perms drift
+          # (root:kvm 660 vs world-rw); fix them and fail FAST with a visible
+          # reason instead of hanging in adb wait-for-device (which blocks
+          # forever when no device ever attaches — that ate the whole 60m
+          # budget on run 36292998656).
+          echo "cpuinfo flags: $(grep -oE 'vmx|svm' /proc/cpuinfo | sort -u | tr '\n' ' ')"
+          ls -la /dev/kvm || true
+          sudo chmod 666 /dev/kvm 2>/dev/null || true
+          ls -la /dev/kvm
+          # The subshell records the emulator's exit status into emulator.log
+          # when it dies. Every failing original-side run so far ended with
+          # qemu <defunct> and an emulator.log that simply stops — without the
+          # status we cannot tell SIGKILL (host killed it) from a crash exit.
+          (
+            emulator -avd lab -no-window -no-audio -no-boot-anim -no-snapshot \
+              -gpu ${{ github.event.inputs.gpu || 'swiftshader_indirect' }} -memory 3072 -cores 2 \
+              > ${{ github.workspace }}/emulator.log 2>&1
+            echo "emulator exited status=$? at $(date -u +%H:%M:%S)" >> ${{ github.workspace }}/emulator.log
+          ) &
+          EMU_PID=$!
+          # bounded device attach: 5 min, not forever
+          if ! timeout 300 adb wait-for-device; then
+            echo "::error::adb never saw a device (kvm/emulator launch failure)"
+            kill -0 $EMU_PID || echo "emulator process already dead"
+            tail -60 ${{ github.workspace }}/emulator.log
+            exit 1
+          fi
+          # bounded boot-completed wait: 8 min
+          ok=""
+          for i in $(seq 1 96); do
+            boot=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
+            if [ "$boot" = "1" ]; then ok=1; break; fi
+            kill -0 $EMU_PID || break
+            sleep 5
+          done
+          if [ -z "$ok" ]; then
+            echo "::error::emulator did not boot"
+            ps aux | grep -i '[e]mulator' | head -5 || true
+            tail -60 ${{ github.workspace }}/emulator.log
+            exit 1
+          fi
+          adb shell input keyevent KEYCODE_WAKEUP
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+          adb shell wm size 1080x2340 || true
+
+      - name: Fetch original APK
+        run: |
+          mkdir -p apks
+          URL="https://github.com/${{ github.repository }}/releases/download/original-apk-v1/callys_original.apk"
+          curl -L --retry 3 -o apks/original.apk "$URL"
+          sha256sum apks/original.apk
+          [ "$(sha256sum apks/original.apk | cut -d' ' -f1)" = "d608f4557ad66326de36268b9ab062afec839344e57d85afb6220405ea8cd8c9" ] || { echo "original APK hash mismatch"; exit 1; }
+          ls -lh apks/original.apk
+
+      - name: Build the remake APK for arm64 on the runner
+        if: ${{ github.event.inputs.remake != 'false' }}
+        run: |
+          # Cross-compile the client cdylib for arm64-v8a AND x86_64 with the
+          # preinstalled NDK, then assemble the APK with the same steps
+          # build_apk.sh does.
+          #
+          # The x86_64 lib is NOT optional: the AVD is an x86_64 image. A
+          # lib/arm64-v8a-only APK installs (dexopt isa=x86_64, no native
+          # libs match), launches, and dies in System.loadLibrary before any
+          # Java exception surfaces (run 36510277516: 'Start proc … 5890' →
+          # 'has died: prcp TOP' 1.8s later, screenshots = launcher home).
+          export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH"
+          NDK_VER=$(ls "$ANDROID_HOME/ndk/" | sort -V | tail -1)
+          echo "using NDK $NDK_VER"
+          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VER
+          rustup target add aarch64-linux-android x86_64-linux-android
+          mkdir -p .cargo
+          cat > .cargo/config.toml <<'CFG'
+          [target.aarch64-linux-android]
+          linker = "aarch64-linux-android33-clang"
+          [target.x86_64-linux-android]
+          linker = "x86_64-linux-android33-clang"
+          CFG
+          # (no manual -landlog: the NDK has no libandlog.so — rust's android
+          # std already links -llog, which IS the android log lib; run fa92e12
+          # died on 'unable to find library -landlog' from this hand-added flag)
+          export PATH="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
+          # MUST pass --target: without it cargo builds the HOST (x86_64) lib
+          # into target/release/ and the aarch64 tree never appears (run
+          # 36461191932 "Finished" in 50s then ls failed — a host build
+          # cannot be installed on the arm64 emulator).
+          # --features android is NOT optional: the entire JNI surface
+          # (nativeInit et al.) sits under #[cfg(all(target_os = "android",
+          # feature = "android"))] in crates/client/src/lib.rs:2187. Without
+          # the feature the cdylib loads but exports zero Java_* symbols —
+          # run 36511069214 died exactly there (UnsatisfiedLinkError: No
+          # implementation found for nativeInit). build_apk.sh:21 has always
+          # passed it; the parity workflow was the only thing that forgot.
+          cargo build --release -p callys-client --target aarch64-linux-android --features android
+          cargo build --release -p callys-client --target x86_64-linux-android --features android
+          ls -lh target/aarch64-linux-android/release/libcallys_client.so
+          file target/aarch64-linux-android/release/libcallys_client.so
+          ls -lh target/x86_64-linux-android/release/libcallys_client.so
+          file target/x86_64-linux-android/release/libcallys_client.so
+          # Symbol proof BEFORE shipping: a missing nativeInit here is the
+          # whole app dying at runtime (run 36511069214) — make it loud.
+          NM=$(ls "$ANDROID_NDK_HOME"/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm*)
+          for T in aarch64 x86_64; do
+            SO=target/${T}-linux-android/release/libcallys_client.so
+            if ! "$NM" -D --defined-only "$SO" | grep -q 'Java_com_gongmi_callyscaves2_MainActivity_nativeInit'; then
+              echo "::error::$SO does not export nativeInit"
+              "$NM" -D --defined-only "$SO" | grep -c 'Java_' || true
+              exit 1
+            fi
+            echo "$T exports nativeInit"
+          done
+
+      - name: Install original APK (native ABI check)
+        run: |
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
+          adb install -r apks/original.apk
+          adb shell pm list packages | grep vdogames
+          # Prove which native runner the package selected instead of assuming
+          # a translation layer (the old `--abi armeabi-v7a` fallback was a
+          # guess; the ABI probe measured primaryCpuAbi=x86).
+          adb shell dumpsys package com.vdogames.callyscaves2 | grep -E 'primaryCpuAbi|secondaryCpuAbi' || true
+
+      - name: Build remake APK on runner (this exact head)
+        if: ${{ github.event.inputs.remake != 'false' }}
+        run: |
+          # Assemble the APK with the same steps build_apk.sh performs, using
+          # the arm64 cdylib cross-compiled earlier and the runner's SDK
+          # build-tools (aapt2/d8/apksigner). Moved BEFORE the original's
+          # scripted run (run 36462655540): the original device-died mid-loop
+          # and skipped this step, so we never even got remake screenshots —
+          # the remake half of every future comparison must not be hostage
+          # to the original's stability.
+          BT=$(ls $ANDROID_HOME/build-tools/ | sort -V | tail -1)
+          export PATH="$ANDROID_HOME/build-tools/$BT:$PATH"
+          export ANDROID_JAR=$ANDROID_HOME/platforms/android-36/android.jar
+          cd android-build
+          aapt2 compile --dir res -o compiled/res.flat.zip
+          aapt2 link -I "$ANDROID_JAR" --manifest AndroidManifest.xml -o base.apk compiled/res.flat.zip
+          mkdir -p classes
+          javac --release 17 -cp "$ANDROID_JAR" -d classes src/com/gongmi/callyscaves2/*.java
+          d8 --lib "$ANDROID_JAR" --release --output . --min-api 24 $(find classes -name '*.class')
+          python3 - <<'PY'
+          import zipfile, os
+          root = os.environ.get("GITHUB_WORKSPACE")
+          so = os.path.join(root, "target/aarch64-linux-android/release/libcallys_client.so")
+          full_ir = os.path.join(root, "crates/core/src/generated/full_ir.json")
+          asset_root = os.path.join(root, "assets")
+          with zipfile.ZipFile("base.apk", "a") as z:
+              z.write("classes.dex", "classes.dex")
+              z.write(so, "lib/arm64-v8a/libcallys_client.so")
+              xso = os.path.join(root, "target/x86_64-linux-android/release/libcallys_client.so")
+              z.write(xso, "lib/x86_64/libcallys_client.so")
+              with open(full_ir, "rb") as f:
+                  data = f.read()
+              info = zipfile.ZipInfo("assets/full_ir.json", date_time=(2026, 1, 1, 0, 0, 0))
+              info.compress_type = zipfile.ZIP_DEFLATED
+              info.external_attr = 0o644 << 16
+              z.writestr(info, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+              for r, _, files in os.walk(asset_root):
+                  for f in files:
+                      full = os.path.join(r, f)
+                      rel = os.path.relpath(full, asset_root)
+                      ext = os.path.splitext(f)[1].lower()
+                      compress = zipfile.ZIP_DEFLATED if ext in (".json", ".txt", ".xml", ".wav", ".droid") else zipfile.ZIP_STORED
+                      info = zipfile.ZipInfo(f"assets/{rel}", date_time=(2026, 1, 1, 0, 0, 0))
+                      info.compress_type = compress
+                      info.external_attr = 0o644 << 16
+                      with open(full, "rb") as fh:
+                          z.writestr(info, fh.read(), compress_type=compress)
+          print("APK assembled")
+          PY
+          zipalign -p -f 4 base.apk aligned.apk
+          # debug signing is fine for emulator install
+          keytool -genkeypair -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US" -keyalg RSA -validity 9999
+          apksigner sign --ks debug.keystore --ks-pass pass:android aligned.apk
+          cp aligned.apk CallysCaves2_64bit_Rust.apk
+          ls -lh CallysCaves2_64bit_Rust.apk
+
+      - name: Scripted run of the REMAKE
+        if: ${{ github.event.inputs.remake != 'false' }}
+        run: |
+          # (remake runs FIRST — see note above)
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
+          adb uninstall com.gongmi.callyscaves2 || true
+          adb install -r android-build/CallysCaves2_64bit_Rust.apk || { echo "APK install failed"; exit 1; }
+          nohup adb logcat -v threadtime > remake_logcat.txt 2>&1 &
+          LOG_PID=$!
+          # -W gives the real component + launch status instead of the
+          # optimistic 'Starting: Intent' line (run 36508961487: am start
+          # 'succeeded', screenshots showed the LAUNCHER HOME — the process
+          # was gone by the first screencap; the RED below proves where/why)
+          adb shell am start -W -n com.gongmi.callyscaves2/.MainActivity
+          mkdir -p shots/remake
+          RUNS=${{ github.event.inputs.runs || '12' }}
+          # Touch geometry, derived from the runner display and MainActivity:
+          #   wm size 1080x2340 -> landscape screencap 2340x1080 (run 36511727436).
+          #   framebuffer 960x540, scale = min(2340/960, 1080/540) = 2.0,
+          #   gameRect = [210, 0, 2130, 1080] (MainActivity.java:341-343).
+          #   MainActivity.java:88-94 does TWO more scale steps:
+          #     vx = (px-210)/2 * 448/960 = (px-210)*0.23333
+          #     vy = (py/2)     * 252/540 = py*0.23333
+          #   band vy in [190,254) -> py in [814,1080]:
+          #     left   px[210,578)   right px[587,998)
+          #     shoot  px[1560,1838) jump  px[1838,2117)
+          #   The OLD taps (300,800)/(610,800) gave vy=186.7 — 3.3px above the
+          #   band — and the first fix (440) gave vy=102.7: every scripted
+          #   press was button 0. The remake 'stalling at step4' was the rig
+          #   missing its own buttons, not the game (run 36570769566: step4
+          #   and step12 are byte-identical except a blink in the button
+          #   corner — nothing in the world moves).
+          RIGHT_X=790; JUMP_X=1978; SHOOT_X=1700; BUTTON_Y=950; CLICK_X=1170; CLICK_Y=540
+          fail=0
+          for i in $(seq 1 "$RUNS"); do
+            sleep 4
+            if [ -z "$(adb shell pidof com.gongmi.callyscaves2 2>/dev/null | tr -d '\r')" ]; then
+              echo "remake process not alive at iteration $i"
+              fail=$i
+              break
+            fi
+            adb exec-out screencap -p > shots/remake/step${i}.png 2>/tmp/screencap_err || { echo "screencap failed at $i: $(cat /tmp/screencap_err)"; fail=$i; break; }
+            # mb_left anywhere advances dialogue/prologue; then a real
+            # move-right hold (1.2s swipe in the right-button zone), jump, shoot.
+            adb shell input tap $CLICK_X $CLICK_Y || { fail=$i; break; }
+            adb shell input swipe $RIGHT_X $BUTTON_Y $RIGHT_X $BUTTON_Y 1200 || { fail=$i; break; }
+            adb shell input tap $JUMP_X $BUTTON_Y || { fail=$i; break; }
+            adb shell input tap $SHOOT_X $BUTTON_Y || { fail=$i; break; }
+            ls -l shots/remake/step${i}.png | awk '{print "step" $5 " bytes"}'
+          done
+          # Wait through the room's own tutorial timeline without using its
+          # pixels as the oracle. A log checkpoint at tick 840 proved only
+          # ~419/600 ticks elapsed since this sheet spawned. Keep the game
+          # stepping, send a real centre tap each poll, and require its own
+          # Destroy/flag/freeze state transition before calling the chapter
+          # handover complete.
+          tutorial_done=0
+          for i in $(seq 1 24); do
+            sleep 4
+            if grep -aq 'IR checkpoint tick=.*intro=false sheet=None roomstart=false talkedtolloyd1=true' remake_logcat.txt; then
+              tutorial_done=1
+              echo "headless IR tutorial completed in wait poll $i"
+              break
+            fi
+            adb shell input tap $CLICK_X $CLICK_Y || { fail=1; break; }
+          done
+          kill $LOG_PID || true
+          echo '--- IR state checkpoints ---'
+          grep -a 'callys-rust.*IR \(boot\|checkpoint\|execution halted\)' remake_logcat.txt | tail -50 || true
+          if [ "$tutorial_done" != 1 ]; then
+            echo '::error::IR trace did not reach tutorial dismissed + talkedtolloyd1=1 + roomstart=0'
+            fail=1
+          fi
+          if grep -aq 'callys-rust.*IR execution halted:' remake_logcat.txt; then
+            echo '::error::IR engine halted during scripted first-chapter run'
+            fail=1
+          fi
+          if [ "$fail" != 0 ]; then
+            echo "::error::remake loop died at iteration $fail"
+            adb devices || true
+            ps aux | grep -i '[e]mulator' | head -5 || true
+            tail -30 ${{ github.workspace }}/emulator.log || true
+            echo '--- callyscaves2 lines from logcat ---'
+            grep -aE 'gongmi|callys|AndroidRuntime' remake_logcat.txt | tail -60 || true
+            tail -120 remake_logcat.txt || true
+            exit 1
+          fi
+
+      - name: Headless original-runner probe (no screenshots)
+        # The original may take down the translated AVD. Keep its failure
+        # separate from remake execution; never promote a green compare job to
+        # an original-vs-remake result without a live original trace.
+        continue-on-error: true
+        run: |
+          export PATH="$ANDROID_HOME/platform-tools:$PATH"
+          timeout 12 adb shell am force-stop com.gongmi.callyscaves2 || true
+          # No screenshot or GUI inference: fresh bounded logcat, launch code,
+          # transport, sampled PID liveness, non-zombie host QEMU, exit-info.
+          # Previous artifacts' original logcat ENDED >3 min BEFORE am start;
+          # 'pidof' then hung on an offline ADB and was misread as app death.
+          python3 scripts/test_headless_original_probe.py -v
+          python3 scripts/headless_original_probe.py --hold-seconds 25 --sample-interval 5 \
+            --output orig_probe.json --log orig_logcat.txt || true
+          # Always surface the decisive fields in the job log: the artifact is
+          # large and the classification is what the next step reads.
+          python3 - <<'PY'
+          import json
+          d = json.load(open('orig_probe.json'))
+          print('classification:', d.get('classification'))
+          print('sample_summary:', d.get('sample_summary'))
+          print('samples:', json.dumps(d.get('samples', []))[:1500])
+          print('installed native:', d.get('installed_package_native'))
+          print('qemu before/after/final:', d.get('qemu_before'), d.get('qemu_after'), d.get('qemu_final'))
+          print('guest_dmesg bytes/hits:', d.get('guest_dmesg_bytes'), d.get('guest_dmesg_hits'))
+          print('guest_dmesg tail:', (d.get('guest_dmesg_tail') or [])[-8:])
+          for side in ('guest_before', 'guest_after'):
+              g = d.get(side) or {}
+              print(side, 'mem_available_kb=', g.get('mem_available_kb'),
+                    'root_rc=', (g.get('root') or {}).get('rc'),
+                    'kernel_hits=', g.get('kernel_hits'))
+          for side in ('host_before', 'host_after'):
+              h = d.get(side) or {}
+              print(side, 'dmesg_rc=', h.get('host_dmesg_rc'),
+                    'crash_dbs=', h.get('emulator_crash_dbs'),
+                    'hits=', (h.get('host_dmesg_hits') or [])[-5:])
+          PY
+
+      - name: Pixel-diff report
+        run: |
+          python3 - <<'EOF'
+          import os
+          from PIL import Image
+
+          def stats(path):
+              img = Image.open(path).convert('RGB')
+              w, h = img.size
+              small = img.resize((160, 90))
+              data = list(small.getdata())
+              dark = sum(1 for p in data if sum(p) < 60)
+              white = sum(1 for p in data if sum(p) > 700)
+              colorful = sum(1 for p in data if max(p) - min(p) > 60)
+              return dark, white, colorful, len(data)
+
+          rows = []
+          for side in ('orig', 'remake'):
+              d = f'shots/{side}'
+              if not os.path.isdir(d):
+                  continue
+              for f in sorted(os.listdir(d)):
+                  p = os.path.join(d, f)
+                  try:
+                      dark, white, colorful, total = stats(p)
+                  except Exception as e:
+                      rows.append((side, f, -1, -1, -1, -1.0))
+                      print(f'{side}/{f}: unreadable ({e})', flush=True)
+                      continue
+                  rows.append((side, f, dark, white, colorful, colorful / total))
+
+          with open('parity_report.txt', 'w') as out:
+              if not any(side == 'orig' and colorful >= 0 for side, _, _, _, colorful, _ in rows):
+                  out.write('NO ORIGINAL SCREEN CAPTURE: remake-only metrics; not a parity comparison. See orig_probe.json.\n')
+              out.write('side     step           dark  white  colorful  ratio\n')
+              for side, f, dark, white, colorful, ratio in rows:
+                  out.write(f'{side:8s} {f:14s} {dark:5d} {white:6d} {colorful:8d}  {ratio:.4f}\n')
+          print(open('parity_report.txt').read())
+          EOF
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-parity-${{ github.event.inputs.label || 'parity' }}
+          path: |
+            shots/
+            parity_report.txt
+            emulator.log
+            orig_probe.json
+            orig_logcat.txt
+            guest_dmesg.txt
+            remake_logcat.txt

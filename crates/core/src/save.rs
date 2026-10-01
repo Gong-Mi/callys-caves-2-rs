@@ -1,4 +1,5 @@
 use crate::{Checkpoint, GameWorld, WeaponType};
+use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::fmt;
@@ -16,7 +17,32 @@ pub struct SaveData {
     pub current_weapon: WeaponType,
     pub unlocked_weapons: Vec<WeaponType>,
     pub collected_instance_ids: Vec<i32>,
+    /// Original global-variable subset carried by the IR scene path. Absent
+    /// in v1/v2 files; defaults to the fresh-start table on restore when missing.
+    #[serde(default)]
+    pub scene_globals: BTreeMap<String, f64>,
+    /// Shared legacy engine score. Absent in v1/v2 files; defaults to 0.
+    #[serde(default)]
+    pub score: f64,
 }
+
+/// Globals that carry cross-session progression in the IR scene. Only these
+/// are persisted; per-room transient state never enters the snapshot.
+pub const SCENE_SAVE_GLOBALS: &[&str] = &[
+    "level", "maxhp", "health1", "experience", "xptolevelup", "soundmute", "musicmute",
+    "haskey", "coinmultiply", "coinpickup", "playerdied", "timeplayed", "warpfrommap",
+    "ending", "twentyfivebears",
+    "pistolbought", "shotgunbought", "assaultriflebought", "rocketbought", "laserbought",
+    "icegunbought", "bladegunbought", "flamethrowerbought", "bowbought", "bombgunbought",
+    "boomerangbought", "spikegunbought",
+    "tjumpactive", "triplejumpbought", "strengthupgradebought", "strengthupgrade2bought",
+    "energywavebought", "healthregenbought", "swordupgradebought", "swordupgrade2bought",
+    "swordupgrade3bought", "powerupgradebought", "powerupgrade2bought", "powerupgrade3bought",
+    "coinmultiplier2bought", "coinmultiplier5bought", "maxhpupgradebought", "maxhpupgrade2bought",
+    "boss1dead", "boss2dead", "boss3dead", "boss4dead", "boss5dead", "boss6dead",
+    "levelchallenge1visited", "levelchallenge2visited", "levelchallenge3visited",
+    "levelchallenge4visited", "levelchallenge5visited", "levelchallenge6visited",
+];
 
 #[derive(Debug)]
 pub enum SaveError {
@@ -63,6 +89,8 @@ impl SaveData {
             current_weapon: world.player.current_weapon,
             unlocked_weapons: world.player.unlocked_weapons.clone(),
             collected_instance_ids: world.collected_instance_ids.iter().copied().collect(),
+            scene_globals: BTreeMap::new(),
+            score: 0.0,
         }
     }
 
@@ -70,6 +98,7 @@ impl SaveData {
         let mut normalized = self.clone();
         normalized.collected_instance_ids.sort_unstable();
         normalized.collected_instance_ids.dedup();
+        normalized.scene_globals.retain(|k, _| SCENE_SAVE_GLOBALS.contains(&k.as_str()));
         Ok(serde_json::to_string(&normalized)?)
     }
 
@@ -104,9 +133,11 @@ impl SaveData {
                     current_weapon: legacy.current_weapon,
                     unlocked_weapons: legacy.unlocked_weapons,
                     collected_instance_ids: Vec::new(),
+                    scene_globals: BTreeMap::new(),
+                    score: 0.0,
                 }
             }
-            CURRENT_SAVE_VERSION => serde_json::from_str(json)?,
+            CURRENT_SAVE_VERSION => serde_json::from_str::<SaveData>(json)?,
             found => {
                 return Err(SaveError::UnsupportedVersion {
                     found,
