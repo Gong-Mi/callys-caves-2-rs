@@ -575,7 +575,9 @@ impl GameState {
     fn step_inner(&mut self, dt: f32) -> Result<(), String> {
         // Consume the queued press edges before borrowing the scene: exactly the
         // first tick of a presentation sees them, later ticks see none, so one
-        // physical DOWN is one pressed edge.
+        // physical DOWN is one pressed edge. A caller that drives `step` without
+        // a FrameClock still samples here, so no call path loses the edge.
+        self.observe_platform_input();
         let any_press = std::mem::take(&mut self.any_press_pending);
         let tap_press = std::mem::take(&mut self.tap_press_pending);
         // Prologue phase: obj_introduction (137) lives inside the FULL scene —
@@ -624,9 +626,15 @@ impl GameState {
                 // Handover: the intro's Destroy ran instance_activate_all, so the
                 // room continues in this same scene from the next frame. The tap
                 // that killed the intro must not leak into gameplay as a phantom
-                // device-0 release (the old re-enable path cleared these too).
+                // device-0 release (the old re-enable path cleared these too),
+                // and its queued gameplay press edge must not replay either: the
+                // level latch is re-synced to the physical state instead.
                 self.primary_release = None;
                 self.touch_prev = [false; 5];
+                self.tap_press_pending = false;
+                self.any_press_pending = false;
+                self.tap_level = self.input.tap;
+                self.any_level = self.input.tap || self.input.jump || self.input.attack;
                 self.haptic_queue.extend(prologue_haptics);
                 // A boot-time IR snapshot restore waits for this handover: the
                 // original boot always plays the prologue over rm_town; the
