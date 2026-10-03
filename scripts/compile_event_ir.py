@@ -126,8 +126,12 @@ def compile_asset(data, names=DEFAULT_OBJECTS):
             require(all(a['code_id'] >= 0 for a in e['actions']), 'non-CODE action unsupported')
             events.append(dict(event_type=e['type'], subtype=e['subtype'],
                                codes=[a['code_id'] for a in e['actions']]))
+        # GM8 OBJT layout after the name offset: sprite(+4), visible(+8),
+        # solid(+12), depth(+16), persistent(+20). Reading +20 as depth is the
+        # persistent flag; that mistake silently gave 91 objects the wrong layer.
         result.append(dict(id=o['id'], name=o['name'], sprite=o['sprite_id'],
-                           depth=reader.i32(o['record_offset'] + 20),
+                           depth=reader.i32(o['record_offset'] + 16),
+                           persistent=reader.u32(o['record_offset'] + 20) != 0,
                            parent=o['parent_id'], parent_chain=chain, events=events))
     # Room creation-code bodies are part of the same executable surface.
     ids = set(ids) | {b['code_id'] for b in room_bindings}

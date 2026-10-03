@@ -15,6 +15,9 @@ pub struct RoomObjectInstance {
     pub scale_x: f32,
     pub scale_y: f32,
     pub color: u32,
+    /// Room placement rotation in degrees (record +32, GM image_angle).
+    #[serde(default)]
+    pub rotation: f32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -157,6 +160,10 @@ pub struct SpriteData {
     pub height: u32,
     pub origin_x: i32,
     pub origin_y: i32,
+    /// Manual inclusive SPRT bbox [left, right, top, bottom]; independent of
+    /// occupied mask pixels (original manual boxes may exceed image extents).
+    #[serde(default)]
+    pub bbox: Option<[i32; 4]>,
     pub tpag_indices: Vec<u32>,
     /// Collision masks as stored inline in the SPRT record (GMS1 with the
     /// unformatted-bitmaps flag): one bitmap per frame, row-major 1bpp,
@@ -1274,9 +1281,13 @@ impl GameDroidAsset {
                     let width = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let height = file.read_u32::<LittleEndian>().unwrap_or(0);
 
-                    // bbox (4*i32) + transparent/smooth/preload/bbox mode/smask (5*u32)
-                    // = 36 bytes before origin_x/origin_y.
-                    let _ = file.seek(SeekFrom::Current(36));
+                    let left = file.read_i32::<LittleEndian>()?;
+                    let right = file.read_i32::<LittleEndian>()?;
+                    let bottom = file.read_i32::<LittleEndian>()?;
+                    let top = file.read_i32::<LittleEndian>()?;
+                    let bbox = Some([left, right, top, bottom]);
+                    // transparent/smooth/preload/bbox mode/smask (5*u32).
+                    file.seek(SeekFrom::Current(20))?;
                     let origin_x = file.read_i32::<LittleEndian>().unwrap_or(0);
                     let origin_y = file.read_i32::<LittleEndian>().unwrap_or(0);
                     let tcount = file.read_u32::<LittleEndian>().unwrap_or(0).min(500);
@@ -1323,6 +1334,7 @@ impl GameDroidAsset {
                         height,
                         origin_x,
                         origin_y,
+                        bbox,
                         tpag_indices,
                         masks,
                     });
@@ -1494,8 +1506,12 @@ impl GameDroidAsset {
                                     let scale_x = file.read_f32::<LittleEndian>().unwrap_or(1.0);
                                     let scale_y = file.read_f32::<LittleEndian>().unwrap_or(1.0);
                                     let color = file.read_u32::<LittleEndian>().unwrap_or(0xFFFFFFFF);
+                                    // The record continues past colour; +32 is image_angle.
+                                    // Three original placements rotate 90 degrees and the
+                                    // angle changes their sprite box, so it cannot be dropped.
+                                    let rotation = file.read_f32::<LittleEndian>().unwrap_or(0.0);
                                     room_objs.push(RoomObjectInstance {
-                                        x, y, object_id, instance_id, creation_code_id, scale_x, scale_y, color
+                                        x, y, object_id, instance_id, creation_code_id, scale_x, scale_y, color, rotation
                                     });
                                 }
                             }

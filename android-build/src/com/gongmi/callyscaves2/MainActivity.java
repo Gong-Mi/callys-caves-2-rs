@@ -48,7 +48,9 @@ public class MainActivity extends Activity {
 
     private native void nativeInit(String assetPath);
     private native void nativeResize(int width, int height);
-    private native void nativeStep(int dtMs);
+    // Full monotonic ns sample; native clock schedules ROOM-speed logic ticks.
+    private native void nativeStep(long monotonicNs);
+    private native void nativeSetClockPaused(boolean paused);
     private native void nativeInput(int moveLeft, int moveRight, int jump,
                                     int attack, int switchWeapon, int sword,
                                     int tap);
@@ -74,8 +76,8 @@ public class MainActivity extends Activity {
     private boolean moveLeft, moveRight, jump, attack, sword, switchWeapon;
     private volatile int jumpPulse, attackPulse, swordPulse, tapPulse;
     private final PointerReleaseQueue pointerReleases = new PointerReleaseQueue();
-    private static final float LOGICAL_WIDTH = 1136.0f;
-    private static final float LOGICAL_HEIGHT = 640.0f;
+    private static final float LOGICAL_WIDTH = InputViewport.WIDTH;
+    private static final float LOGICAL_HEIGHT = InputViewport.HEIGHT;
 
     private int logicalButton(float x, float y) {
         // Map 1136x640 logical screen coordinates to on-screen touch buttons.
@@ -138,8 +140,8 @@ public class MainActivity extends Activity {
             int action = ev.getActionMasked();
             if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
                 int index = ev.getActionIndex();
-                float logicalX = (ev.getX(index) - bounds.left) * LOGICAL_WIDTH / w;
-                float logicalY = (ev.getY(index) - bounds.top) * LOGICAL_HEIGHT / hh;
+                float logicalX = InputViewport.x(ev.getX(index) - bounds.left, w);
+                float logicalY = InputViewport.y(ev.getY(index) - bounds.top, hh);
                 vibrateTouch(logicalButton(logicalX, logicalY));
                 if (action == MotionEvent.ACTION_DOWN) {
                     // Original GameMaker mb_left: any tap counts (prologue skip).
@@ -158,8 +160,8 @@ public class MainActivity extends Activity {
                     ? ev.getActionIndex() : -1;
             for (int i = 0; i < ev.getPointerCount(); i++) {
                 if (i == lifted) continue;
-                float logicalX = (ev.getX(i) - bounds.left) * LOGICAL_WIDTH / w;
-                float logicalY = (ev.getY(i) - bounds.top) * LOGICAL_HEIGHT / hh;
+                float logicalX = InputViewport.x(ev.getX(i) - bounds.left, w);
+                float logicalY = InputViewport.y(ev.getY(i) - bounds.top, hh);
                 int button = logicalButton(logicalX, logicalY);
                 if (button == 1) moveLeft = true;
                 else if (button == 2) moveRight = true;
@@ -290,6 +292,7 @@ public class MainActivity extends Activity {
         }
         pixelBuffer = new int[w * h];
 
+        nativeSetClockPaused(false);
         running = true;
         renderThread = new Thread(new RenderLoop(), "CallysRenderThread");
         renderThread.start();
@@ -298,12 +301,8 @@ public class MainActivity extends Activity {
     private final class RenderLoop implements Runnable {
         @Override
         public void run() {
-            long last = System.nanoTime();
             while (running) {
                 long now = System.nanoTime();
-                int dt = (int) ((now - last) / 1_000_000L);
-                if (dt > 50) dt = 50;
-                last = now;
 
                 boolean jumpNow = jump || jumpPulse > 0;
                 boolean attackNow = attack || attackPulse > 0;
@@ -326,7 +325,7 @@ public class MainActivity extends Activity {
                 while ((release = pointerReleases.poll()) != null) {
                     nativePointerRelease(release.x, release.y);
                 }
-                nativeStep(dt);
+                nativeStep(now);
                 playQueuedSounds();
                 playQueuedHaptics();
                 nativeBlitToIntArray(pixelBuffer);
@@ -548,6 +547,9 @@ public class MainActivity extends Activity {
 
     private void stopEngine() {
         running = false;
+        // Covers Activity pause and Surface loss, including an in-flight loop.
+        // Native resume starts a new baseline, never charging suspended time.
+        nativeSetClockPaused(true);
         if (renderThread != null) {
             try {
                 renderThread.join(500);

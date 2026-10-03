@@ -11,7 +11,7 @@ public final class PointerReleaseQueueTest {
         check(q.poll() == null);
         q.release(3, 580, 320, 100, 50, 960, 540);
         PointerReleaseQueue.Release r = q.poll();
-        check(r != null && r.x == 480 && r.y == 270 && q.poll() == null);
+        check(r != null && r.x == 568 && r.y == 320 && q.poll() == null);
         q.release(3, 580, 320, 100, 50, 960, 540); // duplicate up
         check(q.poll() == null);
         q.down(0);
@@ -21,7 +21,7 @@ public final class PointerReleaseQueueTest {
         q.down(0);
         q.release(0, 580, 320, 100, 50, 1920, 1080);
         r = q.poll();
-        check(r != null && r.x == 240 && r.y == 135);
+        check(r != null && r.x == 284 && r.y == 160);
         for (float x : new float[] {-1, 960, Float.NaN, Float.POSITIVE_INFINITY}) {
             q.down(0);
             q.release(0, x, 10, 0, 0, 960, 540);

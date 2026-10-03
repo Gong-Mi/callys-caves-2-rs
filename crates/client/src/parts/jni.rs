@@ -19,6 +19,7 @@ mod android_jni {
     // SetStaticFloatField/ReleaseBooleanArrayElements.
     pub type JNIEnv = *mut *const JNIInterface;
     pub type jint = i32;
+    pub type jlong = i64;
     pub type jsize = i32;
     pub type jobject = *mut std::ffi::c_void;
     pub type jstring = *mut std::ffi::c_void;
@@ -64,6 +65,7 @@ mod android_jni {
 
     pub struct AndroidState {
         pub state: GameState,
+        pub clock: frame_clock::FrameClock,
         pub fb: Framebuffer,
         pub blit: Vec<jint>,
         /// Device-side headless checkpoint cadence, including intro ticks (the
@@ -178,6 +180,7 @@ mod android_jni {
         let mut g = slot().lock().unwrap();
         *g = Some(AndroidState {
             state: st,
+            clock: frame_clock::FrameClock::default(),
             fb: Framebuffer::new(1136, 640),
             blit: Vec::with_capacity(1136 * 640),
             trace_ticks: 0,
@@ -214,20 +217,30 @@ mod android_jni {
     }
 
     #[no_mangle]
+    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeSetClockPaused(
+        _env: *mut JNIEnv,
+        _class: jobject,
+        paused: jboolean,
+    ) {
+        if let Some(s) = slot().lock().unwrap().as_mut() {
+            s.clock.set_paused(paused != 0);
+        }
+    }
+
+    #[no_mangle]
     pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeStep(
         _env: *mut JNIEnv,
         _class: jobject,
-        dt_ms: jint,
+        now_ns: jlong,
     ) {
         let mut g = slot().lock().unwrap();
         if let Some(s) = g.as_mut() {
-            let dt = (dt_ms as f32) / 1000.0;
             let previous_ir = ir_phase(&s.state);
             let previous_room = s.state.world.current_room_index;
             let previous_player_state = s.state.world.player.state;
             let previous_save_diagnostic = s.state.save_diagnostic.clone();
             let was_halted = s.state.runtime_diagnostic.is_some();
-            s.state.step(dt);
+            let ticks = s.clock.step_at(&mut s.state, now_ns);
             if !was_halted {
                 if let Some(diagnostic) = s.state.runtime_diagnostic.as_deref() {
                     log(&format!("IR execution halted: {diagnostic}"));
@@ -238,9 +251,10 @@ mod android_jni {
                     log(&format!("save write warning: {diagnostic}"));
                 }
             }
-            s.trace_ticks = s.trace_ticks.wrapping_add(1);
+            let previous_trace_ticks = s.trace_ticks;
+            s.trace_ticks = s.trace_ticks.wrapping_add(ticks);
             if let Some(phase) = ir_phase(&s.state) {
-                if previous_ir != Some(phase) || s.trace_ticks % 120 == 0 {
+                if previous_ir != Some(phase) || s.trace_ticks / 120 != previous_trace_ticks / 120 {
                     let scene = s.state.scene.as_ref().unwrap();
                     let player = scene.instances.values().find(|i| i.alive && i.object == 0);
                     let (x, y) = player.map(|i| (
