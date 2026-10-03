@@ -187,6 +187,9 @@ def collect_all(quick=False):
         "view_projection_consumption",
         "story_frame_boundaries",
         "platform_pointer_mapping",
+        "logic_clock_ir",
+        "sprite_bbox_asset_consumption",
+        "draw_order_consumption",
         "tutorial_story_panels",
         "store_mouse_press_ir",
     ]
@@ -221,6 +224,8 @@ def collect_all(quick=False):
         "shop_upgrades_and_intros_ir",
         "lloyd_tutorial_all_sheets_ir",
         "env_semantics_ir",
+        "distance_bbox_ir",
+        "draw_order_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))
