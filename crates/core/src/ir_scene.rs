@@ -459,9 +459,12 @@ impl Scene {
         }
     }
     /// Progress snapshot for the IR path: persistent room index, the
-    /// SCENE_SAVE_GLOBALS subset, shared score, and collected transient
-    /// instance identities of the current room. External/test instances are
-    /// never captured.
+    /// SCENE_SAVE_GLOBALS subset, shared score, and CONSUMED transient
+    /// instance identities of the current room. Same contract as the legacy
+    /// world's `collected_instance_ids`: pickups insert their id at
+    /// consumption time, and a loader skips listed placements. Destroyed-
+    /// but-listed instances (alive=false) are exactly the consumed ones.
+    /// External/test instances are never captured.
     pub fn save_snapshot(&self) -> (usize, BTreeMap<String, f64>, f64, Vec<i32>) {
         let mut globals = BTreeMap::new();
         for name in crate::save::SCENE_SAVE_GLOBALS {
@@ -471,13 +474,12 @@ impl Scene {
         }
         let collected = self.instances.iter()
             .filter(|(_, i)| {
-                i.alive
+                !i.alive
                     && !i.external
-                    // Match transition_to_room's persistence policy exactly:
-                    // only persistent-object instances survive the switch, so
-                    // they are carried across rooms and never captured here
-                    // as collected. Every transient (UI included: each room
-                    // re-places one) is room-local and must be captured.
+                    // Persistent-object instances cross rooms and are never
+                    // consumption-marked; every transient (UI included: each
+                    // room re-places one) is room-local and captured here as
+                    // consumed so a restore keeps picked-up loot gone.
                     && !self.persistent_objects.contains(&i.object)
             })
             .map(|(id, _)| *id)
@@ -487,7 +489,9 @@ impl Scene {
 
     /// Restores a snapshot produced by save_snapshot. Globals in the file are
     /// applied over init_fresh_start_defaults; missing keys keep fresh values.
-    /// Instance identities mark transient instances destroyed before load.
+    /// Instance identities list consumed transients: the room is re-placed
+    /// (load / transition), then those identities are removed again so loot
+    /// picked up in the saved session stays gone.
     pub fn restore_snapshot(
         &mut self,
         b: &Bundle,

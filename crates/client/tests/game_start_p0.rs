@@ -285,3 +285,97 @@ fn first_boot_leaves_only_the_intro_film_active_over_a_frozen_room() {
         );
     }
 }
+
+/// The save contract for consumption: a snapshot lists CONSUMED transient
+/// instances (destroyed-but-listed ids — the same contract as the legacy
+/// world's `collected_instance_ids`), and a boot restore re-places the room,
+/// removes exactly those ids, and leaves the rest of the town materialized.
+/// The old capture listed the ALIVE transients instead: a save taken in a
+/// fully awake town then mass-killed the room on the next boot's restore
+/// (device evidence: active=9 and the player fell out of the map, y=6489).
+#[test]
+fn save_restore_keeps_consumed_transients_dead_and_the_room_alive() {
+    let dir = std::env::temp_dir().join(format!("callys-p0-consumed-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&dir);
+    std::fs::create_dir_all(&dir).expect("temp dir");
+    let save_path = dir.join("save.json");
+    let asset_path = PathBuf::from(manifest()).join("../../assets/game.droid");
+
+    // Session A: boots, retires the film, consumes one transient instance.
+    let mut a = GameState::new_with_save_path(&asset_path, Some(save_path.clone())).expect("state a");
+    a.enable_ir_gameplay(full_bundle()).expect("enable a");
+    for _ in 0..125 {
+        a.step(1.0 / 60.0);
+    }
+    a.input.tap = true;
+    a.step(1.0 / 60.0);
+    a.input.tap = false;
+    a.step(1.0 / 60.0);
+
+    let consumed = {
+        let scene = a.scene.as_mut().unwrap();
+        let bundle = full_bundle();
+        let id = scene
+            .instances
+            .iter()
+            .find(|(_, i)| {
+                i.alive
+                    && !i.external
+                    && i.object != 0
+                    && !scene.persistent_objects.contains(&i.object)
+            })
+            .map(|(&id, _)| id)
+            .expect("a transient instance to consume");
+        scene.destroy(bundle.as_ref(), id).expect("consume");
+        scene.end_frame();
+        id
+    };
+    let (room, globals, score, collected) = a.scene.as_ref().unwrap().save_snapshot();
+    assert!(
+        collected.contains(&consumed),
+        "the snapshot must list the consumed id, got {collected:?}"
+    );
+
+    // Persist with the production schema shape, then cold-boot session B.
+    let save = SaveData {
+        format_version: CURRENT_SAVE_VERSION,
+        current_room: room,
+        checkpoint: callys_core::Checkpoint { room_index: room, x: 0.0, y: 0.0 },
+        max_health: 4,
+        gems: 0,
+        coins: 0,
+        current_weapon: callys_core::WeaponType::Pistol,
+        unlocked_weapons: vec![callys_core::WeaponType::Pistol],
+        collected_instance_ids: collected,
+        scene_globals: globals,
+        score,
+    };
+    write_save_atomic(&save_path, &save).expect("write save");
+
+    let mut b = GameState::new_with_save_path(&asset_path, Some(save_path)).expect("state b");
+    assert!(b.queue_boot_ir_restore(), "the consumed-transient save queues");
+    b.enable_ir_gameplay(full_bundle()).expect("enable b");
+    assert!(intro_alive(&b), "the prologue still rides the boot scene");
+    for _ in 0..125 {
+        b.step(1.0 / 60.0);
+    }
+    b.input.tap = true;
+    b.step(1.0 / 60.0);
+    b.input.tap = false;
+    for _ in 0..30 {
+        b.step(1.0 / 60.0);
+    }
+
+    let scene = b.scene.as_ref().unwrap();
+    let consumed_alive = scene.instances.get(&consumed).map(|i| i.alive).unwrap_or(false);
+    assert!(!consumed_alive, "the consumed transient must stay dead after restore");
+    let alive = scene.instances.values().filter(|i| i.alive && !i.external).count();
+    assert!(alive > 100, "the restored room must stay materialized, got {alive} alive");
+    let player = scene
+        .instances
+        .values()
+        .find(|i| i.object == 0 && i.alive)
+        .expect("player alive after restore");
+    let py = player.fields.get("y").copied().unwrap_or(0.0);
+    assert!(py < 1500.0, "the player must stand in the room after restore, y={py}");
+}
