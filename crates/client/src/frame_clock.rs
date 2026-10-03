@@ -39,6 +39,9 @@ impl FrameClock {
         if self.paused || state.runtime_diagnostic.is_some() {
             return 0;
         }
+        // Presentation boundary: observe the physical input levels even when no
+        // logic tick follows, so a DOWN/UP between two ticks is not invisible.
+        state.observe_platform_input();
         let Some(last) = self.last_ns else {
             self.last_ns = Some(now_ns);
             return 0;

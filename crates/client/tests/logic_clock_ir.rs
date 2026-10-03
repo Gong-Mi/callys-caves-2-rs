@@ -226,6 +226,24 @@ fn an_early_held_press_is_not_replayed_when_a_later_catchup_tick_unlocks_the_fil
 }
 
 #[test]
+fn release_sampled_only_on_zero_tick_rearms_the_next_physical_down() {
+    let mut state = boot();
+    let mut clock = FrameClock::default();
+    clock.step_at(&mut state, 0);
+    for (now, tap) in [
+        (3_900_000_000, false), (3_916_666_667, true),
+        (3_933_333_334, true), (3_950_000_001, true),
+        (3_966_666_668, true), (3_983_333_335, false),
+        (4_000_000_002, true),
+    ] {
+        state.input.tap = tap;
+        clock.step_at(&mut state, now);
+    }
+    assert!(!state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 137 && i.alive),
+        "false sampled on a zero-tick presentation must rearm a fresh DOWN on the unlock tick");
+}
+
+#[test]
 fn signed_monotonic_wrap_and_backward_samples_do_not_duplicate_elapsed_time() {
     let mut state = boot();
     let mut clock = FrameClock::default();

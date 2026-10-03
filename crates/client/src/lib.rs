@@ -67,7 +67,12 @@ pub struct GameState {
     touch_prev: [bool; 5],
     /// Latches the platform tap pulse to one frame: Java holds `tap` high for a
     /// few frames, the original `mouse_check_button_pressed(mb_left)` lasts one.
-    tap_was_active: bool,
+    /// Level as of the newest presentation (which may run no logic tick), plus
+    /// a queued press edge so a real DOWN is delivered exactly once.
+    tap_level: bool,
+    any_level: bool,
+    tap_press_pending: bool,
+    any_press_pending: bool,
     /// Primary-pointer release published by the platform this frame
     /// (`nativePointerRelease`). The original runner's first touch is device 0,
     /// so Draw-time `device_mouse_check_button_released(0, mb_left)` checks
@@ -194,7 +199,10 @@ impl GameState {
             scene: None,
             full_bundle: None,
             touch_prev: [false; 5],
-            tap_was_active: false,
+            tap_level: false,
+            any_level: false,
+            tap_press_pending: false,
+            any_press_pending: false,
             primary_release: None,
             fallback_warned: false,
         })
@@ -538,6 +546,21 @@ impl GameState {
         }
     }
 
+    /// Every presentation observes the physical pointer levels, including the
+    /// ones that execute no logic tick — a 60 Hz surface over the original
+    /// 30 Hz room can sample DOWN or UP between two ticks. Latching here keeps
+    /// the level fresh for the next tick's edge test and queues a rising edge,
+    /// so a real press is delivered exactly once instead of being swallowed
+    /// against a latch that only the previous tick ever updated.
+    pub fn observe_platform_input(&mut self) {
+        let primary = self.input.tap;
+        let any = self.input.tap || self.input.jump || self.input.attack;
+        if primary && !self.tap_level { self.tap_press_pending = true; }
+        if any && !self.any_level { self.any_press_pending = true; }
+        self.tap_level = primary;
+        self.any_level = any;
+    }
+
     pub fn step(&mut self, dt: f32) {
         if self.runtime_diagnostic.is_some() {
             return;
@@ -550,6 +573,11 @@ impl GameState {
     }
 
     fn step_inner(&mut self, dt: f32) -> Result<(), String> {
+        // Consume the queued press edges before borrowing the scene: exactly the
+        // first tick of a presentation sees them, later ticks see none, so one
+        // physical DOWN is one pressed edge.
+        let any_press = std::mem::take(&mut self.any_press_pending);
+        let tap_press = std::mem::take(&mut self.tap_press_pending);
         // Prologue phase: obj_introduction (137) lives inside the FULL scene —
         // the original Game Start (CODE 17) spawns it there and its Create
         // deactivates the room behind it. Same frame contract the old separate
@@ -559,12 +587,12 @@ impl GameState {
         if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
             if intro_alive {
-                // mb_left pressed is one edge, not the held level. A catch-up
-                // presentation may execute several ticks, including the tick
-                // that unlocks taplock; an earlier DOWN must not be replayed.
-                let held = self.input.attack || self.input.jump || self.input.tap;
-                scene.mouse_pressed = held && !self.tap_was_active;
-                self.tap_was_active = held;
+                // mb_left pressed is one edge, not the held level. The edge was
+                // queued at the presentation boundary, so an idle presentation
+                // between two ticks cannot swallow a fresh DOWN and a press
+                // held across a catch-up never replays at the tick that
+                // unlocks taplock.
+                scene.mouse_pressed = any_press;
                 scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
                 // Draw events are dispatched by the runtime-enabled view, which
                 // may differ from every ROOM record's original `visible` bit.
@@ -626,7 +654,7 @@ impl GameState {
             // banner systems freeze the world until it arrives. Latched to one
             // frame: Java holds its tap pulse for a few frames, the original edge
             // lasts exactly one.
-            scene.mouse_pressed = self.input.tap && !self.tap_was_active;
+            scene.mouse_pressed = tap_press;
 
             // Virtual devices. The original button objects test every one of the
             // four devices against their own hit box in their Draw event, so the
@@ -676,7 +704,6 @@ impl GameState {
                 device.released = !is_held && self.touch_prev[index];
                 self.touch_prev[index] = is_held;
             }
-            self.tap_was_active = self.input.tap;
 
             scene.tick(bundle).map_err(|e| format!("gameplay tick room {}: {e}", scene.current_room))?;
 
