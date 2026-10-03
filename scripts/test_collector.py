@@ -226,6 +226,7 @@ def collect_all(quick=False):
         "env_semantics_ir",
         "distance_bbox_ir",
         "draw_order_ir",
+        "object_depth_metadata_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))
