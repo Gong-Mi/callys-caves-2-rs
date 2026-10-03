@@ -131,6 +131,7 @@ fn install_geometry(s: &mut Scene, asset: &GameDroidAsset) {
     for (&sid,sp) in &asset.sprites {
         s.sprite_bounds.insert(sid as i32,SpriteBounds::with_frames(sp.width as f64,sp.height as f64,
             sp.origin_x as f64,sp.origin_y as f64,sp.tpag_indices.len() as f64));
+        if let Some(bbox) = sp.bbox { s.sprite_bboxes.insert(sid as i32, bbox); }
         s.sprite_masks.insert(sid as i32,sp.masks.clone());
     }
 }

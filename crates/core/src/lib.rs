@@ -1112,7 +1112,7 @@ mod tests {
                 origin_x: 32,
                 origin_y: 48,
                 tpag_indices: Vec::new(),
-                masks: Vec::new(),
+                masks: Vec::new(), bbox: None,
             },
         )]);
         world.load_room(1, &room, &objects, &sprites, &HashMap::new());
@@ -1155,7 +1155,7 @@ mod tests {
                 origin_x: 4,
                 origin_y: 6,
                 tpag_indices: Vec::new(),
-                masks: Vec::new(),
+                masks: Vec::new(), bbox: None,
             },
         )]);
 
@@ -1199,7 +1199,7 @@ mod tests {
                 origin_x: 4,
                 origin_y: 6,
                 tpag_indices: Vec::new(),
-                masks: Vec::new(),
+                masks: Vec::new(), bbox: None,
             },
         )]);
 
@@ -1280,7 +1280,7 @@ mod tests {
                 origin_x: 4,
                 origin_y: 6,
                 tpag_indices: Vec::new(),
-                masks: Vec::new(),
+                masks: Vec::new(), bbox: None,
             },
         )]);
 
@@ -1336,11 +1336,11 @@ mod tests {
         let sprites = HashMap::from([
             (52, SpriteData {
                 id: 52, name: "spr_enemy".into(), width: 64, height: 64,
-                origin_x: 32, origin_y: 48, tpag_indices: Vec::new(), masks: Vec::new(),
+                origin_x: 32, origin_y: 48, tpag_indices: Vec::new(), masks: Vec::new(), bbox: None,
             }),
             (59, SpriteData {
                 id: 59, name: "spr_knifebandit".into(), width: 64, height: 48,
-                origin_x: 32, origin_y: 24, tpag_indices: Vec::new(), masks: Vec::new(),
+                origin_x: 32, origin_y: 24, tpag_indices: Vec::new(), masks: Vec::new(), bbox: None,
             }),
         ]);
 

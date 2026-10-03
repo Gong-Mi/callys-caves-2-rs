@@ -410,6 +410,9 @@ impl GameState {
                     frames: sp.tpag_indices.len().max(1) as f64,
                 },
             );
+            if let Some(bbox) = sp.bbox {
+                scene.sprite_bboxes.insert(*sid as i32, bbox);
+            }
             if !sp.masks.is_empty() {
                 scene.sprite_masks.insert(*sid as i32, sp.masks.clone());
             }
