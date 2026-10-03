@@ -48,7 +48,9 @@ public class MainActivity extends Activity {
 
     private native void nativeInit(String assetPath);
     private native void nativeResize(int width, int height);
-    private native void nativeStep(int dtMs);
+    // Full monotonic ns sample; native clock schedules ROOM-speed logic ticks.
+    private native void nativeStep(long monotonicNs);
+    private native void nativeSetClockPaused(boolean paused);
     private native void nativeInput(int moveLeft, int moveRight, int jump,
                                     int attack, int switchWeapon, int sword,
                                     int tap);
@@ -290,6 +292,7 @@ public class MainActivity extends Activity {
         }
         pixelBuffer = new int[w * h];
 
+        nativeSetClockPaused(false);
         running = true;
         renderThread = new Thread(new RenderLoop(), "CallysRenderThread");
         renderThread.start();
@@ -298,12 +301,8 @@ public class MainActivity extends Activity {
     private final class RenderLoop implements Runnable {
         @Override
         public void run() {
-            long last = System.nanoTime();
             while (running) {
                 long now = System.nanoTime();
-                int dt = (int) ((now - last) / 1_000_000L);
-                if (dt > 50) dt = 50;
-                last = now;
 
                 boolean jumpNow = jump || jumpPulse > 0;
                 boolean attackNow = attack || attackPulse > 0;
@@ -326,7 +325,7 @@ public class MainActivity extends Activity {
                 while ((release = pointerReleases.poll()) != null) {
                     nativePointerRelease(release.x, release.y);
                 }
-                nativeStep(dt);
+                nativeStep(now);
                 playQueuedSounds();
                 playQueuedHaptics();
                 nativeBlitToIntArray(pixelBuffer);
@@ -548,6 +547,9 @@ public class MainActivity extends Activity {
 
     private void stopEngine() {
         running = false;
+        // Covers Activity pause and Surface loss, including an in-flight loop.
+        // Native resume starts a new baseline, never charging suspended time.
+        nativeSetClockPaused(true);
         if (renderThread != null) {
             try {
                 renderThread.join(500);

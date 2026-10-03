@@ -19,6 +19,8 @@ use callys_core::save::{SaveData, SaveError};
 use callys_core::{Facing, GameWorld, InputState, PlayerState, WeaponType};
 use image::RgbaImage;
 
+pub mod frame_clock;
+
 include!("parts/save.rs");
 include!("parts/audio.rs");
 // ============================================================
