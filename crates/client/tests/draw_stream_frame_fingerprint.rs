@@ -134,7 +134,13 @@ fn the_town_idle_draw_stream_is_fingerprint_stable() {
     // Re-recorded again with the 1136x640 canvas (CODE 538's real-device
     // branch selects view 0 — the draw commands carry view 0 instead of the
     // 960x540 branch's view 6).
-    assert_eq!(digests_a[0], 0xd7e7e39e46afd55, "town idle tick-0 visual fingerprint");
+    //
+    // Re-recorded once more with the runner-accurate camera follow: with
+    // hborder=512 >= half the view the camera now CENTERS the player
+    // (CCamera::CameraUpdate), so the view-relative HUD draws (buttons etc.,
+    // which set their x/y from view_xview every Draw) carry the centred
+    // origin instead of the old dead-zone pin at the room rect.
+    assert_eq!(digests_a[0], 0x1500da8c98db82f5, "town idle tick-0 visual fingerprint");
 
     // Period detection at 8 Hz quantisation: the first shift p for which
     // d[i] == d[i+p] across the whole 30-tick window.
