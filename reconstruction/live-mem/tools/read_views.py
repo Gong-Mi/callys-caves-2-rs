@@ -65,7 +65,7 @@ def main():
             print(f"view[{i}] @{vp:#x} vis=0x{vis.hex() if vis else '??'} "
                   f"view=({xv},{yv},{wv},{hv}) port=({xp},{yp},{wp},{hp}) "
                   f"angle={ang} cam={cam}")
-    fd.close()
+    os.close(fd)
 
 
 main()
