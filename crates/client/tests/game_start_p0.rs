@@ -190,3 +190,98 @@ fn boot_save_restores_after_prologue_handover_without_rebuild() {
     }
     let _ = std::fs::remove_dir_all(&dir);
 }
+
+/// First-room boot order (GM: materialize the room -> Game Start -> Room
+/// Start). CODE 17 runs AFTER the room load, so CODE 548's
+/// `instance_deactivate_all(true)` must leave ONLY the intro film active over
+/// a frozen town: touch buttons dark, player frozen, and the view parked at
+/// the room's view rect. The film (phone at y≈-2) is composed against that
+/// rect; if the live player drags the follow camera to (0, 224), the phone
+/// slides out of the view — the "错位" this test pins shut.
+#[test]
+fn first_boot_leaves_only_the_intro_film_active_over_a_frozen_room() {
+    let asset_path = PathBuf::from(manifest()).join("../../assets/game.droid");
+    let mut state = GameState::new(&asset_path).expect("GameState::new");
+    state.enable_ir_gameplay(full_bundle()).expect("enable_ir_gameplay");
+
+    let active_objects: Vec<i32>;
+    {
+        let scene = state.scene.as_ref().expect("full scene");
+        active_objects = scene
+            .instances
+            .values()
+            .filter(|i| i.alive && i.active)
+            .map(|i| i.object)
+            .collect();
+        assert!(active_objects.contains(&137), "the intro film is active");
+        assert!(active_objects.contains(&136), "obj_phone is active for the film");
+        assert!(
+            active_objects.iter().all(|o| [133, 136, 137].contains(o)),
+            "only the film set (viewresolution/introduction/phone) may be active at boot, got {active_objects:?}"
+        );
+        assert!(
+            scene.instances.values().any(|i| i.object == 0 && i.alive && !i.active),
+            "the player is frozen behind the film"
+        );
+        assert!(
+            scene.instances.values().any(|i| i.object == 65 && i.alive && !i.active),
+            "obj_bg (the room background) is deactivated with the room"
+        );
+        assert_eq!(
+            GameState::camera_position_for_scene(scene),
+            (0.0, 0.0),
+            "the view stays at its room rect while the followed object is deactivated"
+        );
+    }
+
+    // A few film frames: the room stays out of the draw stream, the phone
+    // slides (xx1 -= 2/tick while moving == 1), nothing halts.
+    for _ in 0..10 {
+        state.step(1.0 / 60.0);
+        assert!(state.runtime_diagnostic.is_none(), "{:?}", state.runtime_diagnostic);
+    }
+    {
+        let scene = state.scene.as_ref().unwrap();
+        assert!(scene.draws.len() <= 8, "only the film draws during the prologue");
+        assert!(
+            scene.backgrounds.is_empty() && scene.texts.is_empty(),
+            "the film frame carries no instance layers (deactivated instances are not drawn)"
+        );
+        let active_ids: std::collections::HashSet<i32> = scene
+            .instances
+            .iter()
+            .filter(|(_, i)| i.alive && i.active)
+            .map(|(&id, _)| id)
+            .collect();
+        for d in &scene.draws {
+            if d.instance >= 0 {
+                assert!(
+                    active_ids.contains(&d.instance),
+                    "deactivated instance {} must not produce draws",
+                    d.instance
+                );
+            }
+        }
+        let phone = scene
+            .instances
+            .values()
+            .find(|i| i.object == 136 && i.alive)
+            .expect("phone");
+        let px = phone.fields.get("x").copied().unwrap_or(108.0);
+        assert!(px < 100.0, "the phone slides left with the film, x={px}");
+    }
+
+    // Retiring the film (CODE 549) hands the SAME scene to gameplay.
+    state.retire_prologue();
+    {
+        let scene = state.scene.as_ref().unwrap();
+        assert!(
+            scene.instances.values().any(|i| i.object == 0 && i.active),
+            "the player wakes with the room when the film retires"
+        );
+        assert!(
+            scene.instances.values().any(|i| i.object == 65 && i.active),
+            "the room background wakes with the room"
+        );
+    }
+}

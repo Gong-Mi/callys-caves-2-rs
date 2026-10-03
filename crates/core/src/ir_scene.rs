@@ -977,6 +977,12 @@ impl Scene {
         let mut ids=Vec::new();
         let mut default_draws=Vec::new();
         for (id,i) in &self.instances {
+            // Deactivation removes an instance from BOTH stepping and drawing.
+            // Binary evidence from the shipped libyoyo: CInstance::SetDeactivated
+            // writes the byte at +0x69, and DrawInstancesOnly skips any instance
+            // whose +0x69 is set before the draw-event / default-sprite branch.
+            // The prologue film therefore rides the room's own tile/background
+            // layers, and the frozen town's instances render nothing.
             if i.alive&&i.active&&!i.external {
                 let o=b.objects.iter().find(|o|o.id==i.object).ok_or("missing draw object")?;
                 let has_draw = o.events.iter().any(|e| e.event_type == 8 && e.subtype == 0)

@@ -8,6 +8,15 @@ fn player_and_weapon_experience_triggers_level_up_and_progression_scaling() {
     let bundle = Arc::new(load_bundle_from_file(&manifest_dir.join("../core/src/generated/full_ir.json")).unwrap());
     let mut state = GameState::new(&manifest_dir.join("../../assets/game.droid")).unwrap();
     state.enable_ir_gameplay(bundle.clone()).unwrap();
+    // Retire the prologue film first: it freezes every other instance, and a
+    // frozen obj_UI never runs the level-up alarm (CODE 368) under test.
+    for _ in 0..125 {
+        state.step(1.0 / 60.0);
+    }
+    state.input.tap = true;
+    state.step(1.0 / 60.0);
+    state.input.tap = false;
+    state.step(1.0 / 60.0);
 
     let scene = state.scene.as_mut().unwrap();
 

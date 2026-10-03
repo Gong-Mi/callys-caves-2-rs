@@ -123,7 +123,14 @@ fn the_town_idle_draw_stream_is_fingerprint_stable() {
 
     // Golden tick-0 digest, probe-recorded with this exact FNV algorithm;
     // catches content and emission-order regressions in one word.
-    assert_eq!(digests_a[0], 0x68c1b6be4897c703, "town idle tick-0 visual fingerprint");
+    //
+    // Re-recorded with the first-room boot-order fix (Game Start now runs
+    // after the room load, so CODE 548 freezes the town behind the intro
+    // film). The previous 0x68c1b6be4897c703 pinned the pre-fix stream where
+    // the live town kept stepping behind the film, so the first idle tick
+    // after retirement carried sweep/anim state the original never produces
+    // there.
+    assert_eq!(digests_a[0], 0x8438c9c85aa9522d, "town idle tick-0 visual fingerprint");
 
     // Period detection at 8 Hz quantisation: the first shift p for which
     // d[i] == d[i+p] across the whole 30-tick window.
