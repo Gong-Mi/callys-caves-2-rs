@@ -8,3 +8,6 @@ reverse-output/
 recovered-gml/
 tools/gml-recover/bin/
 tools/gml-recover/obj/
+# Runtime artifacts written by the game/tests into the assets dir:
+assets/save-v2.json
+assets/savefile.ini
