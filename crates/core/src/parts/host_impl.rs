@@ -471,18 +471,32 @@ impl Host for Scene {
                 Ok(min + r * (max - min))
             }
             "distance_to_object" => {
-                let s = int(a[0])?;
-                let targets = self.select(id, s)?;
-                let ix = self.self_field(id, "x").unwrap_or(0.0);
-                let iy = self.self_field(id, "y").unwrap_or(0.0);
-                let mut min_dist = f64::MAX;
-                for tid in targets {
-                    let tx = self.self_field(tid, "x").unwrap_or(0.0);
-                    let ty = self.self_field(tid, "y").unwrap_or(0.0);
-                    let d = ((tx - ix).powi(2) + (ty - iy).powi(2)).sqrt();
-                    if d < min_dist { min_dist = d; }
+                // F_DistanceToObject @0x10ad88 starts at 1e6, then uses
+                // WithObjIterator (objects include descendants). FindDist
+                // @0x10ac9c rejects self and target +0x68/+0x69, NOT caller
+                // flags, and measures inclusive bbox gaps, never origin gaps.
+                let selector = int(a[0])?;
+                let targets = match selector {
+                    -3 => self.instances.keys().copied().collect(), // all
+                    s if s < -3 => Vec::new(), // noone / absent special object
+                    s => self.select(id, s)?,
+                };
+                let mut min_dist: f64 = 1_000_000.0;
+                if let Some((left,right,top,bottom)) = self.distance_bounds_for_instance(id) {
+                    for tid in targets {
+                        if tid == id || self.instances.get(&tid).map_or(true, |i| !i.alive || !i.active) { continue; }
+                        if let Some((tl,tr,tt,tb)) = self.distance_bounds_for_instance(tid) {
+                            let dx = (left-tr).max(tl-right).max(0.0) as i32;
+                            let dy = (top-tb).max(tt-bottom).max(0.0) as i32;
+                            // Original ARM integer mul/mla followed by sqrtf;
+                            // promote the resulting f32 to the numeric RValue.
+                            let squared = dx.wrapping_mul(dx).wrapping_add(dy.wrapping_mul(dy));
+                            let d = (squared as f32).sqrt() as f64;
+                            if d < min_dist { min_dist = d; }
+                        }
+                    }
                 }
-                Ok(if min_dist == f64::MAX { 100000.0 } else { min_dist })
+                Ok(min_dist)
             }
             "place_meeting" => {
                 let hit = match self.call(b, id, "instance_place", &[a[0], a[1], a[2]]) {

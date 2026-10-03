@@ -666,6 +666,276 @@ impl Scene {
         Some((min_x, max_x, min_y, max_y))
     }
 
+    /// Inclusive integer bbox used specifically by FindDist, not the legacy
+    /// collision broad phase. Original Compute_BoundingBox @0x192340 prefers
+    /// mask_index >= 0, normalizes mirrored scales, and subtracts one from the
+    /// transformed exclusive right/bottom edge. A missing sprite is a point.
+    fn distance_bounds_for_instance(&self, id: i32) -> Option<(f64, f64, f64, f64)> {
+        let inst = self.instances.get(&id)?;
+        let x = inst.fields.get("x").copied()? as f32;
+        let y = inst.fields.get("y").copied()? as f32;
+        let mask = inst.fields.get("mask_index").copied().unwrap_or(-1.0) as i32;
+        let sid = if mask >= 0 { mask } else {
+            inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32
+        };
+        let point = || (x.trunc() as f64, x.trunc() as f64, y.trunc() as f64, y.trunc() as f64);
+        let sp = match self.sprite_bounds.get(&sid) {
+            Some(sp) => sp,
+            None => return Some(point()),
+        };
+        // Original SPRT metadata (width,height,origin_x,origin_y,left,right,top,bottom).
+        // game.droid SHA256 9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6. The asset parser currently skips these
+        // four fields. Do NOT substitute occupied mask extents: sprites 36/49/50
+        // disagree. Keeping this small source table here avoids changing asset,
+        // client wiring, or SpriteBounds's existing public struct literals.
+        // The independent integration test reads all 178 raw SPRT records and
+        // probes every edge. Geometry identity protects custom micro fixtures.
+        const ORIGINAL: [(i32, i32, i32, i32, i32, i32, i32, i32); 178] = [
+            (128, 8, 0, 0, 0, 127, 3, 3), // 0: spr_line
+            (32, 64, 16, 32, 1, 29, 21, 63), // 1: spr_lloyd
+            (96, 96, 48, 48, 0, 88, 9, 88), // 2: spr_parry
+            (24, 24, 12, 12, 0, 23, 0, 22), // 3: spr_bulletspark
+            (16, 16, 0, 0, 0, 15, 0, 15), // 4: spr_pickupflare
+            (32, 32, 0, 0, 0, 31, 0, 31), // 5: spr_set1path
+            (32, 32, 0, 0, 0, 31, 0, 31), // 6: spr_set1wall
+            (32, 32, 0, 0, 0, 31, 0, 31), // 7: spr_set1boulder
+            (32, 32, 0, 0, 0, 31, 0, 31), // 8: spr_set2path
+            (32, 32, 0, 0, 0, 31, 0, 31), // 9: spr_set2wall
+            (32, 32, 0, 0, 0, 31, 0, 31), // 10: spr_set2boulder
+            (32, 32, 0, 0, 0, 31, 0, 31), // 11: spr_set3path
+            (32, 32, 0, 0, 0, 31, 0, 31), // 12: spr_set3wall
+            (32, 32, 0, 0, 0, 31, 0, 31), // 13: spr_set3boulder
+            (32, 32, 0, 0, 0, 31, 0, 31), // 14: spr_set4path
+            (32, 32, 0, 0, 0, 31, 0, 31), // 15: spr_set4wall
+            (32, 32, 0, 0, 0, 31, 0, 31), // 16: spr_set4boulder
+            (32, 32, 0, 0, 0, 31, 0, 31), // 17: spr_set5path
+            (32, 32, 0, 0, 0, 31, 0, 31), // 18: spr_set5wall
+            (32, 32, 0, 0, 0, 31, 0, 31), // 19: spr_set5boulder
+            (32, 32, 0, 0, 0, 31, 0, 31), // 20: spr_set6path
+            (32, 32, 0, 0, 0, 31, 0, 31), // 21: spr_set6wall
+            (32, 32, 0, 0, 0, 31, 0, 31), // 22: spr_set6boulder
+            (32, 8, 0, 0, 0, 31, 0, 7), // 23: spr_platform
+            (32, 8, 0, 0, 0, 31, 0, 7), // 24: spr_platform2
+            (32, 8, 0, 0, 0, 31, 0, 7), // 25: spr_platform3
+            (32, 8, 0, 0, 0, 31, 0, 7), // 26: spr_platform4
+            (32, 8, 0, 0, 0, 31, 0, 7), // 27: spr_platform5
+            (32, 8, 0, 0, 0, 31, 0, 7), // 28: spr_platform6
+            (32, 34, 15, 16, 9, 22, 4, 33), // 29: spr_player
+            (32, 34, 15, 16, 1, 26, 1, 33), // 30: spr_playerrun
+            (32, 34, 15, 16, 1, 26, 1, 33), // 31: spr_playerslash
+            (32, 34, 15, 16, 1, 26, 1, 33), // 32: spr_playerjump
+            (32, 34, 15, 16, 1, 26, 1, 33), // 33: spr_playerfall
+            (120, 24, 0, 0, 11, 109, 4, 19), // 34: spr_weaponlevelup
+            (128, 128, 15, 16, 1, 127, 36, 106), // 35: spr_playerlevelup
+            (32, 32, 15, 16, 1, 26, 1, 33), // 36: spr_playerhit
+            (32, 32, 16, 16, 11, 20, 9, 20), // 37: spr_bulletdestroy
+            (16, 16, 0, 8, 3, 12, 3, 12), // 38: spr_saw
+            (32, 16, 0, 8, 6, 26, 6, 10), // 39: spr_arrow
+            (16, 16, 9, 9, 0, 15, 1, 14), // 40: spr_bullet
+            (16, 16, 8, 8, 0, 15, 0, 15), // 41: spr_iceball
+            (16, 20, 0, 10, 0, 15, 2, 17), // 42: spr_laserbeam
+            (48, 24, 24, 12, 3, 35, 3, 19), // 43: spr_rocket
+            (16, 16, 8, 8, 2, 13, 2, 13), // 44: spr_grenade
+            (15, 36, 7, 36, 1, 13, 1, 34), // 45: spr_sword1
+            (17, 36, 8, 36, 1, 15, 1, 34), // 46: spr_sword2
+            (15, 38, 7, 38, 1, 13, 1, 36), // 47: spr_sword3
+            (13, 40, 6, 40, 1, 11, 1, 38), // 48: spr_sword4
+            (64, 64, 32, 32, 10, 53, 10, 52), // 49: spr_explosion
+            (128, 128, 64, 64, 25, 100, 25, 100), // 50: spr_bigexplosion
+            (64, 32, 32, 16, 15, 50, 0, 31), // 51: spr_enemyhit
+            (64, 64, 32, 48, 15, 50, 31, 63), // 52: spr_enemy
+            (176, 144, 88, 72, 40, 130, 40, 100), // 53: spr_herbert
+            (122, 64, 64, 64, 8, 118, 0, 63), // 54: spr_bearslash
+            (96, 64, 64, 64, 12, 82, 9, 62), // 55: spr_bearhurt
+            (96, 64, 64, 64, 9, 85, 15, 63), // 56: spr_mallatohn
+            (64, 48, 32, 24, 8, 63, 14, 47), // 57: spr_knifebanditattack
+            (48, 48, 24, 24, 2, 44, 6, 47), // 58: spr_knifebandithurt
+            (64, 48, 32, 24, 16, 44, 10, 47), // 59: spr_knifebandit
+            (32, 32, 16, 16, 3, 28, 5, 29), // 60: spr_spiderhurt
+            (32, 32, 16, 16, 0, 31, 5, 31), // 61: spr_spiderattack
+            (32, 32, 16, 16, 0, 31, 5, 31), // 62: spr_enemy2
+            (156, 156, 78, 78, 0, 132, 34, 150), // 63: spr_trex
+            (52, 35, 26, 17, 0, 51, 0, 34), // 64: spr_batdamage
+            (32, 32, 16, 16, 5, 28, 0, 28), // 65: spr_batawake
+            (23, 36, 0, 0, 0, 22, 0, 35), // 66: spr_bat
+            (78, 66, 39, 33, 0, 77, 0, 65), // 67: spr_batfly
+            (64, 64, 32, 32, 13, 48, 39, 63), // 68: spr_blobidle
+            (102, 94, 51, 47, 0, 101, 0, 93), // 69: spr_queenbee
+            (64, 64, 32, 32, 13, 48, 39, 63), // 70: spr_fireblobidle
+            (64, 64, 32, 32, 2, 57, 2, 63), // 71: spr_blobhurt
+            (64, 64, 32, 32, 2, 57, 2, 63), // 72: spr_fireblobhurt
+            (64, 64, 32, 32, 16, 47, 20, 63), // 73: spr_blobjump
+            (192, 96, 100, 49, 21, 183, 13, 95), // 74: spr_boss5
+            (64, 64, 32, 32, 16, 47, 20, 63), // 75: spr_fireblobjump
+            (128, 128, 48, 64, 3, 117, 8, 127), // 76: spr_boss4
+            (179, 160, 48, 96, 0, 178, 0, 159), // 77: spr_boss4swing
+            (160, 96, 80, 48, 30, 140, 10, 95), // 78: spr_blobboss
+            (32, 64, 16, 32, 8, 23, 18, 63), // 79: spr_trap1
+            (32, 64, 16, 32, 8, 23, 18, 63), // 80: spr_trap1fire
+            (64, 48, 32, 24, 13, 47, 4, 46), // 81: spr_ghost
+            (48, 48, 24, 24, 5, 44, 5, 43), // 82: spr_flame
+            (32, 32, 16, 16, 3, 28, 3, 28), // 83: spr_fireball
+            (512, 88, 0, 0, 23, 166, 0, 33), // 84: spr_UI
+            (96, 64, 48, 32, 27, 68, 15, 63), // 85: spr_doorwarp
+            (24, 24, 12, 12, 2, 22, 1, 21), // 86: spr_health
+            (24, 24, 12, 12, 4, 18, 4, 20), // 87: spr_silvercoin
+            (24, 24, 12, 12, 7, 16, 6, 17), // 88: spr_coin
+            (32, 32, 16, 16, 8, 23, 8, 23), // 89: spr_XP
+            (64, 64, 32, 64, 2, 61, 9, 63), // 90: spr_chestopen
+            (64, 64, 32, 64, 13, 50, 35, 63), // 91: spr_chestclosed
+            (16, 16, 8, 8, 0, 15, 2, 13), // 92: spr_hulkingbullet
+            (32, 32, 0, 0, 0, 31, 9, 31), // 93: spr_spikes
+            (32, 32, 16, 16, 9, 22, 14, 17), // 94: spr_enemylaser
+            (48, 24, 24, 12, 3, 33, 5, 17), // 95: spr_enemyrocket
+            (32, 32, 16, 16, 3, 28, 3, 28), // 96: spr_enemyfireball3
+            (48, 48, 24, 24, 21, 28, 21, 28), // 97: spr_enemygrenade
+            (32, 32, 16, 16, 3, 28, 3, 28), // 98: spr_fireball2
+            (16, 16, 8, 8, 0, 15, 2, 13), // 99: spr_enemybullet2
+            (32, 32, 0, 0, 0, 31, 0, 31), // 100: spr_lavafill
+            (32, 32, 0, 0, 0, 31, 2, 31), // 101: spr_lava
+            (16, 16, 8, 8, 0, 15, 2, 13), // 102: spr_enemybullet
+            (32, 32, 0, 0, 0, 31, 0, 31), // 103: spr_waterfill
+            (32, 32, 0, 0, 0, 31, 5, 31), // 104: spr_watersurface
+            (80, 64, 40, 25, 12, 66, 14, 48), // 105: spr_wolfhurt
+            (80, 48, 40, 24, 10, 70, 12, 47), // 106: spr_wolf
+            (64, 64, 32, 32, 24, 48, 26, 63), // 107: spr_zombiealt
+            (64, 64, 32, 32, 24, 54, 30, 63), // 108: spr_zombiehurt
+            (64, 64, 32, 32, 16, 48, 26, 63), // 109: spr_zombie
+            (64, 48, 32, 24, 0, 59, 4, 47), // 110: spr_skeletonthrow
+            (64, 48, 32, 24, 23, 43, 7, 47), // 111: spr_skeleton
+            (64, 48, 32, 22, 15, 45, 0, 45), // 112: spr_skeletonhurt
+            (64, 48, 16, 21, 5, 42, 7, 44), // 113: spr_pistolbandithurt
+            (64, 48, 32, 25, 17, 47, 7, 47), // 114: spr_pistolbandit
+            (64, 48, 32, 25, 20, 47, 7, 47), // 115: spr_pistolbanditfire
+            (96, 80, 48, 48, 20, 84, 18, 79), // 116: spr_hulkingbandithurt
+            (96, 64, 48, 32, 8, 84, 1, 63), // 117: spr_hulkingbandit
+            (64, 64, 32, 32, 8, 61, 14, 63), // 118: spr_hulkingbanditfire
+            (80, 103, 40, 51, 1, 78, 26, 101), // 119: spr_firehulk
+            (16, 16, 8, 8, 0, 15, 1, 13), // 120: spr_bone
+            (64, 64, 0, 0, 0, 63, 0, 63), // 121: spr_iap
+            (64, 64, 0, 0, 0, 63, 0, 63), // 122: spr_pausebutton
+            (480, 320, 0, 0, 0, 479, 0, 319), // 123: spr_pause
+            (480, 320, 0, 0, 0, 479, 0, 319), // 124: spr_firstpause
+            (32, 16, 16, 8, 0, 19, 1, 11), // 125: spr_gunpistol
+            (16, 16, 0, 8, 0, 14, 0, 15), // 126: spr_pistolflare
+            (32, 16, 16, 8, 0, 31, 1, 12), // 127: spr_gunshotgun
+            (16, 16, 0, 8, 0, 15, 0, 15), // 128: spr_shotgunflare
+            (48, 16, 0, 8, 0, 35, 1, 15), // 129: spr_gunassaultrifle
+            (16, 16, 0, 8, 0, 15, 0, 15), // 130: spr_assaultrifleflare
+            (32, 32, 16, 16, 0, 27, 13, 22), // 131: spr_gungrenadelauncher
+            (16, 16, 0, 8, 0, 9, 0, 15), // 132: spr_grenadeflare
+            (32, 16, 0, 16, 0, 31, 0, 14), // 133: spr_gunrocketlauncher
+            (16, 16, 0, 8, 0, 14, 0, 15), // 134: spr_rocketflare
+            (32, 16, 0, 16, 0, 31, 2, 12), // 135: spr_gunicegun
+            (16, 16, 0, 8, 0, 15, 0, 15), // 136: spr_icegunflare
+            (32, 16, 8, 8, 0, 29, 1, 14), // 137: spr_gunlaser
+            (16, 16, 0, 8, 0, 15, 0, 15), // 138: spr_laserflare
+            (32, 32, 16, 16, 5, 25, 12, 22), // 139: spr_gunscattergun
+            (48, 16, 0, 8, 0, 33, 2, 15), // 140: spr_gunbombgun
+            (32, 16, 0, 0, 8, 23, 7, 9), // 141: spr_spikegunspike
+            (48, 16, 0, 8, 0, 36, 2, 15), // 142: spr_spikegun
+            (16, 16, 0, 8, 0, 14, 0, 15), // 143: spr_scattergunflare
+            (16, 32, 2, 16, 0, 10, 4, 27), // 144: spr_gunboomerang
+            (64, 32, 16, 16, 0, 47, 5, 28), // 145: spr_flamethrower
+            (16, 32, 8, 16, 3, 15, 0, 31), // 146: spr_gunbow
+            (32, 16, 16, 8, 0, 31, 2, 14), // 147: spr_gunbladegun
+            (256, 64, 0, 0, 0, 255, 0, 63), // 148: spr_sold
+            (24, 24, 12, 12, 1, 22, 1, 23), // 149: spr_triplejumppurchase
+            (48, 48, 24, 24, 9, 45, 3, 44), // 150: spr_bladewave
+            (128, 64, 0, 0, 0, 127, 0, 63), // 151: spr_weaponswap
+            (34, 28, 17, 14, 5, 28, 5, 22), // 152: spr_gem
+            (128, 32, 0, 0, 0, 127, 0, 31), // 153: spr_pausebox
+            (128, 32, 0, 0, 0, 127, 0, 31), // 154: spr_weaponbox
+            (64, 64, 0, 0, 0, 63, 0, 63), // 155: spr_jumpbutton
+            (64, 64, 0, 0, 0, 63, 0, 63), // 156: spr_shootbutton
+            (64, 64, 0, 0, 0, 63, 0, 63), // 157: spr_swordbutton
+            (96, 64, 0, 0, 0, 95, 0, 63), // 158: spr_leftbutton
+            (96, 64, 0, 0, 0, 95, 0, 63), // 159: spr_rightbutton
+            (587, 229, 0, 0, 0, 511, 0, 219), // 160: spr_logo
+            (208, 320, 0, 0, 5, 204, 7, 314), // 161: spr_intro
+            (480, 320, 0, 0, 0, 479, 0, 319), // 162: spr_tease
+            (480, 320, 0, 0, 0, 479, 0, 319), // 163: spr_youhavedied
+            (32, 32, 0, 0, 0, 31, 0, 31), // 164: spr_iceblock
+            (16, 16, 0, 0, 4, 11, 4, 11), // 165: spr_busterrockparts
+            (34, 32, 0, 0, 0, 33, 0, 31), // 166: spr_busterrock
+            (16, 16, 0, 0, 4, 11, 4, 11), // 167: spr_logstop
+            (16, 16, 0, 0, 4, 11, 4, 11), // 168: spr_logsbottom
+            (39, 36, 2, 2, 0, 38, 0, 35), // 169: spr_woodwall
+            (128, 160, 0, 0, 0, 127, 0, 159), // 170: spr_speech
+            (24, 24, 0, 0, 0, 23, 0, 23), // 171: spr_mapend
+            (24, 24, 0, 0, 0, 23, 0, 23), // 172: spr_mapmiddle
+            (24, 24, 0, 0, 0, 23, 0, 23), // 173: spr_mapstart
+            (16, 16, -12, -12, 0, 15, 0, 15), // 174: spr_mapicon
+            (288, 256, 0, 0, 0, 287, 5, 224), // 175: spr_house
+            (480, 320, 0, 0, 0, 479, 0, 319), // 176: spr_theend
+            (256, 256, 0, 0, 24, 239, 23, 255), // 177: spr_tree
+        ];
+        let original = usize::try_from(sid).ok().and_then(|sid| ORIGINAL.get(sid))
+            .filter(|&&(w,h,ox,oy,_,_,_,_)| {
+                (sp.width,sp.height,sp.origin_x,sp.origin_y) == (w as f64,h as f64,ox as f64,oy as f64)
+            });
+        let (left,right,top,bottom) = if let Some(&(_,_,_,_,l,r,t,b)) = original {
+            (l as f32,r as f32,t as f32,b as f32)
+        } else if let Some(masks) = self.sprite_masks.get(&sid).filter(|m| !m.is_empty()) {
+            // Unknown/custom sprites: derive the union bbox without pretending
+            // this is a loader for arbitrary GameMaker manual bbox metadata.
+            let mut bbox: Option<(i32,i32,i32,i32)> = None;
+            for m in masks {
+                let stride = (m.width as usize + 7) / 8;
+                if stride == 0 { continue; }
+                for (offset,&byte) in m.bits.iter().enumerate() {
+                    if byte == 0 { continue; }
+                    let row = offset / stride;
+                    if row >= m.height as usize { break; }
+                    for bit in 0..8 {
+                        let col = (offset % stride) * 8 + bit;
+                        if col >= m.width as usize || byte & (0x80 >> bit) == 0 { continue; }
+                        let (col,row) = (col as i32,row as i32);
+                        bbox = Some(match bbox {
+                            Some((l,r,t,b)) => (l.min(col),r.max(col),t.min(row),b.max(row)),
+                            None => (col,col,row,row),
+                        });
+                    }
+                }
+            }
+            match bbox {
+                Some((l,r,t,b)) => (l as f32,r as f32,t as f32,b as f32),
+                None => return Some(point()),
+            }
+        } else {
+            (0.0,sp.width as f32 - 1.0,0.0,sp.height as f32 - 1.0)
+        };
+        let ox = sp.origin_x as f32;
+        let oy = sp.origin_y as f32;
+        let sx = inst.fields.get("image_xscale").copied().unwrap_or(1.0) as f32;
+        let sy = inst.fields.get("image_yscale").copied().unwrap_or(1.0) as f32;
+        let angle = inst.fields.get("image_angle").copied().unwrap_or(0.0) as f32;
+        let (l,r,t,b) = if angle == 0.0 {
+            // Runner's lrint path rounds the low edge FIRST, then adds the
+            // scaled width/height to that integer; scaling is not point distance.
+            let l = (x + (left - ox) * sx).round_ties_even();
+            let r = (l + (right - left + 1.0) * sx).round_ties_even();
+            let t = (y + (top - oy) * sy).round_ties_even();
+            let b = (t + (bottom - top + 1.0) * sy).round_ties_even();
+            (l.min(r), l.max(r)-1.0, t.min(b), t.max(b)-1.0)
+        } else {
+            let rad = angle * std::f32::consts::PI / 180.0;
+            let (sin,cos) = rad.sin_cos();
+            let mut l = f32::INFINITY; let mut r = f32::NEG_INFINITY;
+            let mut t = f32::INFINITY; let mut b = f32::NEG_INFINITY;
+            for cx in [left - ox,right + 1.0 - ox] {
+                for cy in [top - oy,bottom + 1.0 - oy] {
+                    let (cx,cy) = (cx * sx,cy * sy);
+                    let px = x + cx * cos + cy * sin;
+                    let py = y + cy * cos - cx * sin;
+                    l = l.min(px); r = r.max(px); t = t.min(py); b = b.max(py);
+                }
+            }
+            (l.round_ties_even(),r.round_ties_even()-1.0,t.round_ties_even(),b.round_ties_even()-1.0)
+        };
+        Some((l as f64,r as f64,t as f64,b as f64))
+    }
+
     pub fn create_with_id(&mut self, b: &Bundle, id: i32, object: i32, x: f64, y: f64) -> Result<i32, String> {
         let obj = b.objects.iter().find(|o| o.id == object)
             .ok_or(format!("object {object} not compiled; no fallback Create"))?;
