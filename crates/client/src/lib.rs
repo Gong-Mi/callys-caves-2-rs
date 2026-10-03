@@ -559,7 +559,12 @@ impl GameState {
         if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
             if intro_alive {
-                scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
+                // mb_left pressed is one edge, not the held level. A catch-up
+                // presentation may execute several ticks, including the tick
+                // that unlocks taplock; an earlier DOWN must not be replayed.
+                let held = self.input.attack || self.input.jump || self.input.tap;
+                scene.mouse_pressed = held && !self.tap_was_active;
+                self.tap_was_active = held;
                 scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
                 // Draw events are dispatched by the runtime-enabled view, which
                 // may differ from every ROOM record's original `visible` bit.

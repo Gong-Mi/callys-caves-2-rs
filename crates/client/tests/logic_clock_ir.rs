@@ -203,6 +203,29 @@ fn one_up_is_not_replayed_into_a_later_tick_that_unlocks_the_story() {
 }
 
 #[test]
+fn an_early_held_press_is_not_replayed_when_a_later_catchup_tick_unlocks_the_film() {
+    let mut state = boot();
+    let mut clock = FrameClock::default();
+    clock.step_at(&mut state, 0);
+    clock.step_at(&mut state, 3_950_000_000);
+    assert_eq!(instance(&state, 137).fields["taplock"], 0.0);
+    state.input.tap = true;
+    // The press belongs to the first tick, while the film is still locked.
+    // Catch-up then reaches the unlocking tick without another physical DOWN.
+    clock.step_at(&mut state, 4 * SECOND);
+    assert_eq!(instance(&state, 137).fields["taplock"], 1.0,
+        "one held DOWN must not become a new press on a later tick");
+    clock.step_at(&mut state, 5 * SECOND);
+    assert!(state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 137 && i.alive));
+    state.input.tap = false;
+    clock.step_at(&mut state, 5 * SECOND + 40_000_000);
+    state.input.tap = true;
+    clock.step_at(&mut state, 5 * SECOND + 80_000_000);
+    assert!(!state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 137 && i.alive),
+        "a fresh physical DOWN after unlock still dismisses the film");
+}
+
+#[test]
 fn signed_monotonic_wrap_and_backward_samples_do_not_duplicate_elapsed_time() {
     let mut state = boot();
     let mut clock = FrameClock::default();
