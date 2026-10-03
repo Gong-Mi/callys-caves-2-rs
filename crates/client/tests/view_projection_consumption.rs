@@ -31,25 +31,27 @@ fn state() -> GameState {
 }
 
 #[test]
-fn rm_town_camera_clamps_to_the_view_rect_inside_the_room() {
+fn rm_town_camera_centers_the_player_then_clamps_to_the_room() {
     let state = state();
     let scene = state.scene.as_ref().unwrap();
-    // rm_town is 1024x576; the view is 448x252, so the clamp range is
-    // [0, 1024-448] x [0, 576-252].
+    // The runner's follow rule (CCamera::CameraUpdate, disasm @0x170b30):
+    // with hborder=vborder=512, 2*512 >= the 448x252 view extent, so the
+    // camera CENTERS the player and then clamps to rm_town's 1024x576 bounds.
     let (cx, cy) = GameState::camera_position_for_scene(scene);
-    assert!(cx >= 0.0 && cx <= 1024.0 - 448.0, "cam_x {cx} inside [0, 576]");
-    assert!(cy >= 0.0 && cy <= 576.0 - 252.0, "cam_y {cy} inside [0, 324]");
-    // The player spawns near the room start; the border dead-zone (512 ≥ half
-    // the view) means the camera only leaves 0 once the player crosses
-    // xview+half+… — with hborder=512 > half_w=224 the dead-zone pin holds
-    // the camera at the initial rect for the spawn area.
     let player = scene.instances.values().find(|i| i.object == 0 && i.alive).unwrap();
     let px = player.fields["x"];
-    let center_x = 0.0 + 448.0 / 2.0;
-    // Dead-zone semantics: |px - center| > hb(=min(512, 224)=224) never at spawn.
-    if (px - center_x).abs() <= 224.0 {
-        assert!((cx - 0.0).abs() < 1e-9, "camera stays at the view start inside the dead zone, got {cx}");
-    }
+    let py = player.fields["y"];
+    let expect_x = (px - 448.0 / 2.0).clamp(0.0, 1024.0 - 448.0);
+    let expect_y = (py - 252.0 / 2.0).clamp(0.0, 576.0 - 252.0);
+    assert!((cx - expect_x).abs() < 1e-9, "camera centers the player horizontally: {cx} vs {expect_x}");
+    assert!((cy - expect_y).abs() < 1e-9, "camera centers the player vertically: {cy} vs {expect_y}");
+    assert!(cx >= 0.0 && cx <= 1024.0 - 448.0, "cam_x {cx} inside [0, 576]");
+    assert!(cy >= 0.0 && cy <= 576.0 - 252.0, "cam_y {cy} inside [0, 324]");
+    // The spawn (416,494) centers to (192,368) with y clamped to 324: the
+    // player sits mid-screen horizontally and near the bottom edge — the
+    // original's town composition.
+    assert!((cx - 192.0).abs() < 1e-9, "spawn cam_x = 416-224 = 192, got {cx}");
+    assert!((cy - 324.0).abs() < 1e-9, "spawn cam_y clamps to 576-252 = 324, got {cy}");
 }
 
 #[test]
