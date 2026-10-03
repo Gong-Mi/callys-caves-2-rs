@@ -29,7 +29,7 @@ fn test_town_rendered_and_player_controls_work() {
     
     let scene = state.scene.as_ref().unwrap();
     assert_eq!(scene.current_room, 0.0, "must be in rm_town");
-    assert_eq!(scene.active_view_index(), Some(6), "960x540 uses view 6");
+    assert_eq!(scene.active_view_index(), Some(0), "1136x640 uses view 0");
     assert!(!scene.draws.is_empty(), "rm_town must emit draw commands");
     assert!(!scene.backgrounds.is_empty(), "rm_town must emit background commands");
     
@@ -62,16 +62,25 @@ fn test_town_rendered_and_player_controls_work() {
     let sword_exists = state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 46 && i.alive);
     assert!(sword_exists, "input.sword must spawn obj_sword (object 46)");
     
-    // Test weapon swap via pointer_released at top right of screen (800, 30) BEFORE walking into Lloyd
+    // Test weapon swap via a pointer release inside obj_weaponswap's hit box,
+    // unprojected through the view-0 zoom (1136/448 x, 640/252 y) so the tap
+    // lands where the button actually sits on the 1136x640 canvas.
     state.scene.as_mut().unwrap().globals.insert("shotgunbought".into(), 1.0);
     assert_eq!(state.scene.as_ref().unwrap().globals.get("shotgun").copied(), Some(0.0));
     assert_eq!(state.scene.as_ref().unwrap().globals.get("pistol").copied(), Some(1.0));
     
-    let swap_inst = state.scene.as_ref().unwrap().instances.iter().find(|(_, i)| i.object == 126).unwrap();
-    eprintln!("BEFORE walking, obj_weaponswap: x={}, y={}, active={}", swap_inst.1.fields["x"], swap_inst.1.fields["y"], swap_inst.1.active);
+    let (swap_x, swap_y) = {
+        let swap_inst = state.scene.as_ref().unwrap().instances.iter().find(|(_, i)| i.object == 126).unwrap();
+        (swap_inst.1.fields["x"], swap_inst.1.fields["y"])
+    };
     let (cam_x, cam_y) = GameState::camera_position_for_scene(state.scene.as_ref().unwrap());
-    eprintln!("Camera pos: ({cam_x}, {cam_y})");
-    state.pointer_released(880.0, 30.0);
+    // +40, +14 into the button's sprite box (same nudge as the old flat-canvas
+    // tap at 880,30), scaled through the view-0 zoom.
+    let tap_x = (swap_x + 40.0 - cam_x) * 1136.0 / 448.0;
+    let tap_y = (swap_y + 14.0 - cam_y) * 640.0 / 252.0;
+    eprintln!("BEFORE walking, obj_weaponswap: x={swap_x}, y={swap_y}");
+    eprintln!("Camera pos: ({cam_x}, {cam_y}); tap canvas ({tap_x:.1}, {tap_y:.1})");
+    state.pointer_released(tap_x, tap_y);
     
     // Frame 1: step
     state.step(1.0 / 60.0);
