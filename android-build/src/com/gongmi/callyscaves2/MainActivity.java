@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
     private int[] pixelBuffer;
     private Thread renderThread;
     private volatile boolean running;
+    private boolean softwareBlitFallbackLogged;
     private final Rect gameRect = new Rect();
     private SoundPool soundPool;
     private Vibrator vibrator;
@@ -335,7 +336,21 @@ public class MainActivity extends Activity {
                                        framebuffer.getWidth(), framebuffer.getHeight());
 
                 SurfaceHolder holder = surface.getHolder();
-                Canvas c = holder.lockCanvas();
+                // Hardware canvas: the per-frame 960x540 -> full-screen blit runs
+                // through HWUI (texture upload + GPU scaling). lockCanvas() does
+                // the same blit in Skia's CPU raster pipeline (measured ~9 fps
+                // on-device: SkRasterPipelineBlitter/store_565 stacks). Fall
+                // back to the software path only if the device rejects it.
+                Canvas c;
+                try {
+                    c = holder.lockHardwareCanvas();
+                } catch (RuntimeException e) {
+                    if (!softwareBlitFallbackLogged) {
+                        Log.w(TAG, "lockHardwareCanvas unavailable; software blit fallback: " + e);
+                        softwareBlitFallbackLogged = true;
+                    }
+                    c = holder.lockCanvas();
+                }
                 if (c != null) {
                     try {
                         c.drawColor(Color.BLACK);
