@@ -226,15 +226,15 @@ impl Host for Scene {
                 self.call_audio_resume_all();
                 Ok(0.0)
             }
-            "draw_sprite_ext" => { self.draw(id, a)?; Ok(0.0) }
+            "draw_sprite_ext" => { self.draw(b,id, a)?; Ok(0.0) }
             "draw_sprite" => {
-                self.draw(id, &[a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, self.draw_alpha])?;
+                self.draw(b,id, &[a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, self.draw_alpha])?;
                 Ok(0.0)
             }
             "draw_self" => {
                 let fields = ["sprite_index","image_index","x","y","image_xscale","image_yscale","image_angle","image_blend","image_alpha"];
                 let args = fields.iter().map(|n| self.self_field(id, n)).collect::<Result<Vec<_>,_>>()?;
-                self.draw(id, &args)?;
+                self.draw(b,id, &args)?;
                 Ok(0.0)
             }
             "device_mouse_x" => {
@@ -353,6 +353,7 @@ impl Host for Scene {
                     x, y, text, color: self.draw_color, alpha: self.draw_alpha,
                     font: self.current_font as i32,
                 });
+                self.record_draw(b, id, DrawQueue::Text(self.texts.len() - 1));
                 Ok(0.0)
             }
             "draw_healthbar" => {
@@ -365,6 +366,7 @@ impl Host for Scene {
                     code: self.site.0, offset: self.site.1, instance: id, view: self.view,
                     x1, y1, x2, y2, amount, back_col, min_col, max_col,
                 });
+                self.record_draw(b, id, DrawQueue::Healthbar(self.healthbars.len() - 1));
                 Ok(0.0)
             }
             // Platform inert by design: surface is always enabled in this
@@ -558,6 +560,7 @@ impl Host for Scene {
                     x, y, text, color, alpha,
                     font: self.current_font as i32,
                 });
+                self.record_draw(b, id, DrawQueue::Text(self.texts.len() - 1));
                 Ok(0.0)
             }
             "draw_background" => {
@@ -578,6 +581,7 @@ impl Host for Scene {
                     color: -1,
                     alpha: self.draw_alpha,
                 });
+                self.record_draw(b, id, DrawQueue::Background(self.backgrounds.len() - 1));
                 Ok(0.0)
             }
             "draw_background_ext" => {
@@ -603,6 +607,7 @@ impl Host for Scene {
                     color,
                     alpha,
                 });
+                self.record_draw(b, id, DrawQueue::Background(self.backgrounds.len() - 1));
                 Ok(0.0)
             }
             "ds_map_create" => {

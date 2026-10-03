@@ -53,6 +53,31 @@ pub struct BackgroundCommand {
     pub background: i32, pub x: f64, pub y: f64,
     pub scale_x: f64, pub scale_y: f64, pub rotation: f64, pub color: i32, pub alpha: f64,
 }
+/// Index into the existing public queues: payload structs and Vec interfaces
+/// stay compatible with headless consumers and queue-only rasterizer fixtures.
+#[derive(Debug, Clone, Copy, Serialize, PartialEq, Eq, PartialOrd, Ord)]
+pub enum DrawQueue {
+    Sprite(usize), Text(usize), Healthbar(usize), Background(usize),
+    RoomTile(usize), Particle(usize),
+}
+#[derive(Debug, Clone, Copy, Serialize, PartialEq, Eq, PartialOrd, Ord)]
+pub enum DrawPhase { Room, Gui }
+#[derive(Debug, Clone, Copy, Serialize, PartialEq)]
+pub struct DrawEmission {
+    pub queue: DrawQueue, pub emit_order: usize, pub depth: f64,
+    pub view: i32, pub phase: DrawPhase,
+}
+/// Provenance copies prevent stale indices from aliasing DIFFERENT public Vec
+/// replacements/edits. Unmatched entries remain in the compatibility tail;
+/// identical direct replacements necessarily retain their original provenance.
+#[derive(Debug)]
+enum DrawPayload {
+    Sprite(DrawCommand), Text(TextCommand), Healthbar(HealthbarCommand),
+    Background(BackgroundCommand),
+}
+#[derive(Debug)]
+struct RecordedDraw { emission: DrawEmission, payload: DrawPayload }
+
 /// Particle type configured by the original part_type_* builtins
 /// (real source of truth: obj_pwrlevelinitialize Create, CODE 458).
 /// Distances in px, speeds in px/tick, directions in GMS degrees (CW, 0=+x).
@@ -117,6 +142,9 @@ pub struct Scene {
     pub score: f64,
     pub draws: Vec<DrawCommand>, pub texts: Vec<TextCommand>, pub healthbars: Vec<HealthbarCommand>,
     pub backgrounds: Vec<BackgroundCommand>, pub audio: Vec<AudioCommand>,
+    draw_emissions: Vec<RecordedDraw>,
+    draw_phase: DrawPhase,
+    draw_depth_context: Option<f64>,
     pub executed: Vec<(usize,usize)>,
     pub view: i32, pub view_positions: BTreeMap<i32,(f64,f64)>, pub mouse_pressed: bool,
     pub view_ports: BTreeMap<i32,(f64,f64)>,
@@ -178,6 +206,7 @@ impl Default for Scene {
             instances: BTreeMap::new(), globals: BTreeMap::new(),
             score: 0.0,
             draws: Vec::new(), texts: Vec::new(), healthbars: Vec::new(), backgrounds: Vec::new(), audio: Vec::new(), executed: Vec::new(),
+            draw_emissions: Vec::new(), draw_phase: DrawPhase::Room, draw_depth_context: None,
             view: 0, view_positions: BTreeMap::new(), mouse_pressed: false,
             view_ports: BTreeMap::new(),
             room_views: Vec::new(),
@@ -563,10 +592,7 @@ impl Scene {
         }
         self.target_room_warp = None;
         self.room_tiles = room.tiles.clone();
-        self.draws.clear();
-        self.texts.clear();
-        self.healthbars.clear();
-        self.backgrounds.clear();
+        self.clear_draw_commands();
 
         // Materialize objects from RoomData
         for inst in &room.objects {
@@ -1241,66 +1267,167 @@ impl Scene {
     pub fn active_view_index(&self) -> Option<usize> {
         self.view_visible.iter().position(|visible| *visible)
     }
+    /// Clear all four queues AND provenance at the room/view/frame boundary.
+    /// Direct Vec edits remain supported, but cannot express cross-type order;
+    /// use Host draw builtins to retain exact emission provenance.
+    pub fn clear_draw_commands(&mut self) {
+        self.draws.clear(); self.texts.clear(); self.healthbars.clear(); self.backgrounds.clear();
+        self.draw_emissions.clear();
+        self.draw_phase = DrawPhase::Room;
+        self.draw_depth_context = None;
+    }
+    fn record_draw(&mut self, b: &Bundle, id: i32, queue: DrawQueue) {
+        let payload = match queue {
+            DrawQueue::Sprite(i) => DrawPayload::Sprite(self.draws[i].clone()),
+            DrawQueue::Text(i) => DrawPayload::Text(self.texts[i].clone()),
+            DrawQueue::Healthbar(i) => DrawPayload::Healthbar(self.healthbars[i].clone()),
+            DrawQueue::Background(i) => DrawPayload::Background(self.backgrounds[i].clone()),
+            _ => unreachable!("room geometry is merged at consumption"),
+        };
+        let depth = self.draw_depth_context.unwrap_or_else(|| {
+            self.instances.get(&id).map_or(0.0, |i| {
+                i.fields.get("depth").copied().unwrap_or_else(||
+                    b.objects.iter().find(|o| o.id == i.object).map_or(0.0, |o| o.depth as f64))
+            })
+        });
+        let emission = DrawEmission { queue, emit_order: self.draw_emissions.len(),
+            depth, view: self.view, phase: self.draw_phase };
+        self.draw_emissions.push(RecordedDraw { emission, payload });
+    }
+    /// Effective CPU command stream. Original emissions retain event depth,
+    /// phase and cross-type order. Tiles merge by numeric descending depth;
+    /// equal-depth instances precede tiles (DoSlowDrawRoom@0x1b0768 BLE).
+    ///
+    /// Legacy queue-only edits have no inter-type timestamp. Unmatched payloads
+    /// are consumed ONCE in historical grouped order, after tracked commands.
+    /// If all queues were replaced, this is the whole historical fixture path.
+    /// Particles still have no system-depth metadata: their existing square
+    /// approximation uses depth 0 after equal-depth instance commands.
+    pub fn ordered_draw_commands(&self) -> Vec<DrawEmission> {
+        let mut seen = BTreeSet::new();
+        let mut ordered = Vec::new();
+        // Latest emission owns a reused index after a public Vec clear/push.
+        for recorded in self.draw_emissions.iter().rev() {
+            let e = recorded.emission;
+            if !seen.insert(e.queue) { continue; }
+            let matches = match (&recorded.payload, e.queue) {
+                (DrawPayload::Sprite(c), DrawQueue::Sprite(i)) => self.draws.get(i) == Some(c),
+                (DrawPayload::Text(c), DrawQueue::Text(i)) => self.texts.get(i) == Some(c),
+                (DrawPayload::Healthbar(c), DrawQueue::Healthbar(i)) => self.healthbars.get(i) == Some(c),
+                (DrawPayload::Background(c), DrawQueue::Background(i)) => self.backgrounds.get(i) == Some(c),
+                _ => false,
+            };
+            if matches { ordered.push(e); }
+        }
+        let tracked: BTreeSet<_> = ordered.iter().map(|e| e.queue).collect();
+        let emission = |queue, emit_order, depth| DrawEmission {
+            queue, emit_order, depth, view: self.view, phase: DrawPhase::Room,
+        };
+        let mut tiles: Vec<_> = self.room_tiles.iter().enumerate().collect();
+        tiles.sort_by_key(|(i, t)| (std::cmp::Reverse(t.depth), *i));
+        if !ordered.is_empty() {
+            for (i, t) in &tiles {
+                ordered.push(emission(DrawQueue::RoomTile(*i), *i, t.depth as f64));
+            }
+            for i in 0..self.particles.len() {
+                ordered.push(emission(DrawQueue::Particle(i), self.draw_emissions.len() + i, 0.0));
+            }
+            ordered.sort_by(|a, b| {
+                a.phase.cmp(&b.phase)
+                    .then_with(|| b.depth.total_cmp(&a.depth))
+                    .then_with(|| matches!(a.queue, DrawQueue::RoomTile(_))
+                        .cmp(&matches!(b.queue, DrawQueue::RoomTile(_))))
+                    .then_with(|| a.emit_order.cmp(&b.emit_order))
+            });
+        }
+        let tracked_stream = !ordered.is_empty();
+        let mut append = |queue, depth| {
+            if !tracked.contains(&queue) {
+                ordered.push(emission(queue, ordered.len(), depth));
+            }
+        };
+        for i in 0..self.backgrounds.len() { append(DrawQueue::Background(i), 0.0); }
+        if !tracked_stream {
+            for (i, t) in tiles.iter().filter(|(_, t)| t.depth >= 0) {
+                append(DrawQueue::RoomTile(*i), t.depth as f64);
+            }
+        }
+        for i in 0..self.draws.len() { append(DrawQueue::Sprite(i), 0.0); }
+        if !tracked_stream {
+            for i in 0..self.particles.len() { append(DrawQueue::Particle(i), 0.0); }
+            for (i, t) in tiles.iter().filter(|(_, t)| t.depth < 0) {
+                append(DrawQueue::RoomTile(*i), t.depth as f64);
+            }
+        }
+        for i in 0..self.healthbars.len() { append(DrawQueue::Healthbar(i), 0.0); }
+        for i in 0..self.texts.len() { append(DrawQueue::Text(i), 0.0); }
+        ordered
+    }
     /// One explicit view pass. Camera positions must be supplied by caller.
     /// OBJT depth determines order; equal-depth creation-id order is provisional.
     pub fn draw_view(&mut self,b:&Bundle,view:i32)->Result<(),String> {
         if !self.view_positions.contains_key(&view) {return Err(format!("view {view} is not configured"));}
         self.view=view;
-        self.draws.clear();
-        self.texts.clear();
-        self.healthbars.clear();
-        self.backgrounds.clear();
+        self.clear_draw_commands();
         self.fog_enabled = false;
-        let mut ids=Vec::new();
-        let mut default_draws=Vec::new();
-        for (id,i) in &self.instances {
-            // Deactivation removes an instance from BOTH stepping and drawing.
-            // Binary evidence from the shipped libyoyo: CInstance::SetDeactivated
-            // writes the byte at +0x69, and DrawInstancesOnly skips any instance
-            // whose +0x69 is set before the draw-event / default-sprite branch.
-            // The prologue film therefore rides the room's own tile/background
-            // layers, and the frozen town's instances render nothing.
-            if i.alive&&i.active&&!i.external {
-                let o=b.objects.iter().find(|o|o.id==i.object).ok_or("missing draw object")?;
+        let mut ids = Vec::new();
+        for (&id, i) in &self.instances {
+            // The original skips +0x69 deactivated instances before BOTH the
+            // Draw event and default-sprite branch, in the same depth walk.
+            if i.alive && i.active && !i.external {
+                let o = b.objects.iter().find(|o| o.id == i.object).ok_or("missing draw object")?;
                 let has_draw = o.events.iter().any(|e| e.event_type == 8 && e.subtype == 0)
                     || o.parent_chain.iter().any(|&pid| {
                         b.objects.iter().find(|p| p.id == pid)
                             .map_or(false, |p| p.events.iter().any(|e| e.event_type == 8 && e.subtype == 0))
                     });
-                if !has_draw {
-                    let visible = i.fields.get("visible").copied().unwrap_or(1.0) >= 0.5;
-                    if visible {
-                        let fields = ["sprite_index","image_index","x","y","image_xscale","image_yscale","image_angle","image_blend","image_alpha"];
-                        if let Some(args) = fields.iter().map(|n| i.fields.get(*n).copied()).collect::<Option<Vec<_>>>() {
-                            default_draws.push((*id, args));
-                        }
-                    }
-                    continue;
-                }
-                ids.push((o.depth,*id));
+                let depth = i.fields.get("depth").copied().unwrap_or(o.depth as f64);
+                ids.push((depth, id, has_draw));
             }
         }
-        ids.sort_by_key(|(depth,id)|(std::cmp::Reverse(*depth),*id));
-        for (id, args) in default_draws { let _ = self.draw(id, &args); }
-        for (_,id) in ids {self.dispatch(b,id,8,0)?;}
+        ids.sort_by(|a, b| b.0.total_cmp(&a.0).then(a.1.cmp(&b.1)));
+        for (depth, id, has_draw) in ids {
+            self.draw_depth_context = Some(depth);
+            let result = if has_draw {
+                self.dispatch(b, id, 8, 0)
+            } else {
+                // Read sprite fields at this instance's turn, not before a
+                // preceding Draw event has had a chance to change them.
+                let i = &self.instances[&id];
+                let visible = i.fields.get("visible").copied().unwrap_or(1.0) >= 0.5;
+                let fields = ["sprite_index","image_index","x","y","image_xscale","image_yscale","image_angle","image_blend","image_alpha"];
+                let args = fields.iter().map(|n| i.fields.get(*n).copied()).collect::<Option<Vec<_>>>();
+                if i.alive && i.active && visible {
+                    if let Some(args) = args { self.draw(b, id, &args) } else { Ok(()) }
+                } else { Ok(()) }
+            };
+            self.draw_depth_context = None;
+            result?;
+        }
 
-        // Draw GUI pass: GameMaker event 8, subtype 65 (covers CODE 539 on obj_viewresolution)
+        // Preserve the separate original Draw GUI pass (event 8/subtype 65).
         let mut gui_ids = Vec::new();
-        for (id, i) in &self.instances {
+        for (&id, i) in &self.instances {
             if i.alive && i.active && !i.external {
                 if let Some(o) = b.objects.iter().find(|o| o.id == i.object) {
                     if o.events.iter().any(|e| e.event_type == 8 && e.subtype == 65) {
-                        gui_ids.push((o.depth, *id));
+                        gui_ids.push((i.fields.get("depth").copied().unwrap_or(o.depth as f64), id));
                     }
                 }
             }
         }
-        gui_ids.sort_by_key(|(depth, id)| (std::cmp::Reverse(*depth), *id));
-        for (_, id) in gui_ids {
-            self.dispatch(b, id, 8, 65)?;
-        }
-
-        Ok(())
+        gui_ids.sort_by(|a, b| b.0.total_cmp(&a.0).then(a.1.cmp(&b.1)));
+        self.draw_phase = DrawPhase::Gui;
+        let result = (|| {
+            for (depth, id) in gui_ids {
+                self.draw_depth_context = Some(depth);
+                self.dispatch(b, id, 8, 65)?;
+            }
+            Ok(())
+        })();
+        self.draw_phase = DrawPhase::Room;
+        self.draw_depth_context = None;
+        result
     }
     /// GMS precise-mask point test. Transforms the room point through the
     /// inverse of the draw pipeline — translate to the instance position,
@@ -1374,7 +1501,7 @@ impl Scene {
             None => Err(format!("missing instance {id}")),
         }
     }
-    fn draw(&mut self,id:i32,args:&[f64])->Result<(),String> {
+    fn draw(&mut self,b:&Bundle,id:i32,args:&[f64])->Result<(),String> {
         let fogged = self.fog_enabled;
         let color = if fogged {
             self.fog_color
@@ -1383,7 +1510,9 @@ impl Scene {
         };
         self.draws.push(DrawCommand{code:self.site.0,offset:self.site.1,instance:id,view:self.view,
             sprite:int(args[0])?,frame:args[1],x:args[2],y:args[3],scale_x:args[4],scale_y:args[5],
-            rotation:args[6],color,alpha:args[8],fog:fogged}); Ok(())
+            rotation:args[6],color,alpha:args[8],fog:fogged});
+        self.record_draw(b, id, DrawQueue::Sprite(self.draws.len() - 1));
+        Ok(())
     }
     /// Text behind a pooled string reference: the bundle's string table first,
     /// then this scene's runtime entries (`string()`/`string_format()` results).

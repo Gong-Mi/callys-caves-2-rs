@@ -1178,134 +1178,7 @@ pub fn draw_frame(
         let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
         if intro_alive {
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
-            // 1. Backgrounds use GM8.1's single-background draw path. Tiling is
-            // a distinct builtin and is not implied by draw_background.
-            for bg_cmd in &scene.backgrounds {
-                let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
-                if alpha <= 0.0 {
-                    continue;
-                }
-                let bg_id = bg_cmd.background.max(0) as usize;
-                if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
-                    if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
-                        if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
-                            let dst_x = ((bg_cmd.x - view_origin.0) as f32 * scale_x) as i32;
-                            let dst_y = ((bg_cmd.y - view_origin.1) as f32 * scale_y) as i32;
-                            let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
-                            let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                            fb.blit_scaled_alpha(
-                                atlas,
-                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                                (dst_x, dst_y, dst_w, dst_h),
-                                false,
-                                alpha,
-                            );
-                        }
-                    }
-                }
-            }
-
-            // 1.5. Room background tiles (depth >= 0). Room layers render on
-            // every frame in the original runner — DrawTheRoom -> DrawRoomLayers
-            // runs over the room's layer set regardless of instance state — so
-            // the film rides on top of its room's tile scenery even while all
-            // other instances are frozen (binary-verified call order).
-            for tile in scene.room_tiles.iter().filter(|t| t.depth >= 0) {
-                draw_tile(
-                    fb,
-                    state,
-                    tile,
-                    view_origin.0 as f32,
-                    view_origin.1 as f32,
-                    scale_x,
-                    scale_y,
-                );
-            }
-
-            // 2. Film sprite draws (obj_phone draw_self / obj_logo crossfade)
-            for cmd in &scene.draws {
-                if !draw_ir_sprite(fb, state, cmd, view_origin, (scale_x, scale_y)) {
-                    let dst_x = ((cmd.x - view_origin.0) as f32 * scale_x) as i32;
-                    let dst_y = ((cmd.y - view_origin.1) as f32 * scale_y) as i32;
-                    let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-                    if alpha > 0.0 {
-                        fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
-                    }
-                }
-            }
-
-            // 2.5. Foreground tiles (depth < 0) render over the film, matching
-            // the gameplay branch's layer ordering.
-            for tile in scene.room_tiles.iter().filter(|t| t.depth < 0) {
-                draw_tile(
-                    fb,
-                    state,
-                    tile,
-                    view_origin.0 as f32,
-                    view_origin.1 as f32,
-                    scale_x,
-                    scale_y,
-                );
-            }
-
-            // 3. HUD text draws (CODE 370 score strings, CODE 520 pause label):
-            // consumed through the FONT-chunk atlases exactly like the gameplay
-            // branch so the batched font_consumption evidence holds for the
-            // prologue too.
-            for cmd in &scene.texts {
-                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-                if alpha <= 0.0 || cmd.text.is_empty() {
-                    continue;
-                }
-                let x = ((cmd.x - view_origin.0) as f32 * scale_x) as i32;
-                let y = ((cmd.y - view_origin.1) as f32 * scale_y) as i32;
-                let (r, g, b) = if cmd.color < 0 {
-                    (255, 255, 255)
-                } else {
-                    (
-                        (cmd.color & 0xFF) as u8,
-                        ((cmd.color >> 8) & 0xFF) as u8,
-                        ((cmd.color >> 16) & 0xFF) as u8,
-                    )
-                };
-                let font_disk_index = match cmd.font {
-                    0 => Some(0),
-                    1 => Some(2),
-                    2 => Some(3),
-                    3 => Some(1),
-                    4 => Some(4),
-                    5 => Some(5),
-                    _ => None,
-                };
-                let gm_font = font_disk_index
-                    .and_then(|idx| state.asset.fonts.get(idx))
-                    .and_then(|font| {
-                        let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
-                        let atlas = state.atlases.get(page.tex_id as usize)?;
-                        Some((atlas, (page.x as u32, page.y as u32), font))
-                    });
-                if let Some((atlas, page, font)) = gm_font {
-                    let scale = scale_x.min(scale_y);
-                    let space_shift = font
-                        .glyphs
-                        .iter()
-                        .find(|g| g.ch == b' ' as u16)
-                        .map(|g| g.shift)
-                        .unwrap_or(7);
-                    fb.draw_text_gm(
-                        atlas,
-                        page,
-                        &font.glyphs,
-                        space_shift,
-                        x,
-                        y,
-                        &cmd.text,
-                        scale,
-                        (r, g, b),
-                        alpha,
-                    );
-                }
-            }
+            draw_ir_commands(fb, state, scene, view_origin, (scale_x, scale_y), true);
             return;
         }
     }
@@ -1320,177 +1193,7 @@ pub fn draw_frame(
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
-        // 0. Render the single image emitted by draw_background; the separate
-        // tiled builtin is not used at this call site.
-        for bg_cmd in &scene.backgrounds {
-            let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
-            if alpha <= 0.0 {
-                continue;
-            }
-            let bg_id = bg_cmd.background.max(0) as usize;
-            if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
-                if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
-                    if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
-                        let world_x = bg_cmd.x - cam_x;
-                        let world_y = bg_cmd.y - cam_y;
-                        let dst_x = (world_x as f32 * scale_x) as i32;
-                        let dst_y = (world_y as f32 * scale_y) as i32;
-                        let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
-                        let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                        fb.blit_scaled_alpha(
-                            atlas,
-                            (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                            (dst_x, dst_y, dst_w, dst_h),
-                            false,
-                            alpha,
-                        );
-                    }
-                }
-            }
-        }
-
-        // 1. Background tiles
-        for tile in scene.room_tiles.iter().filter(|t| t.depth >= 0) {
-            draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
-        }
-
-        // 2. Instances from IR draws, each one in GameMaker's own sprite terms:
-        // origin anchor, facing mirror, image_angle rotation, image_blend, and
-        // the d3d_set_fog hit-flash flood.
-        for cmd in &scene.draws {
-            if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y)) {
-                let dst_x = ((cmd.x - cam_x) as f32 * scale_x) as i32;
-                let dst_y = ((cmd.y - cam_y) as f32 * scale_y) as i32;
-                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-                if alpha > 0.0 {
-                    fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
-                }
-            }
-        }
-
-        // 2.5. Hit particles from the original part_particles_create calls:
-        // world-space positions, camera-relative, size-scaled squares blended
-        // with the particle's current color2 gradient color.
-        for p in &scene.particles {
-            let alpha = (p.alpha as f32).clamp(0.0, 1.0);
-            if alpha <= 0.0 {
-                continue;
-            }
-            let wx = p.x - cam_x;
-            let wy = p.y - cam_y;
-            let size_f = (p.size * 4.0).clamp(2.0, 16.0) as f32;
-            let w = ((size_f * scale_x) as u32).max(1);
-            let h = ((size_f * scale_y) as u32).max(1);
-            let x = (wx as f32 * scale_x) as i32 - (w as i32) / 2;
-            let y = (wy as f32 * scale_y) as i32 - (h as i32) / 2;
-            let r = (p.color & 0xFF) as u8;
-            let g = ((p.color >> 8) & 0xFF) as u8;
-            let b = ((p.color >> 16) & 0xFF) as u8;
-            fb.fill_rect(x, y, w, h, (r, g, b, (alpha * 255.0) as u8));
-        }
-
-        // 3. Foreground tiles
-        for tile in scene.room_tiles.iter().filter(|t| t.depth < 0) {
-            draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
-        }
-
-        // 3.5. Original draw_healthbar: back_col fills the whole bar, the fill
-        // runs from min_col (value 0) to max_col (value 100), and the original
-        // asks for the border (its showborder argument is 1 at all 90 call
-        // sites, as are direction=0 and showback=1).
-        for hb in &scene.healthbars {
-            let xs = ((hb.x1 - cam_x) as f32 * scale_x) as i32;
-            let ys = ((hb.y1 - cam_y) as f32 * scale_y) as i32;
-            let xe = ((hb.x2 - cam_x) as f32 * scale_x) as i32;
-            let ye = ((hb.y2 - cam_y) as f32 * scale_y) as i32;
-            let (left, right) = (xs.min(xe), xs.max(xe));
-            let (top, bottom) = (ys.min(ye), ys.max(ye));
-            let w = ((right - left).abs() as u32).max(1);
-            let h = ((bottom - top).abs() as u32).max(1);
-            let (br, bg, bb) = unpack_color(hb.back_col);
-            let (nrr, nrg, nrb) = unpack_color(hb.min_col);
-            let (xrr, xrg, xrb) = unpack_color(hb.max_col);
-            let pct = (hb.amount as f32 / 100.0).clamp(0.0, 1.0);
-            let mix = |lo: u8, hi: u8| -> u8 {
-                (lo as f32 + (hi as f32 - lo as f32) * pct).round() as u8
-            };
-            fb.fill_rect(left, top, w, h, (br, bg, bb, 255));
-            let fill_w = (w as f32 * pct).round() as u32;
-            if fill_w > 0 {
-                fb.fill_rect(left, top, fill_w, h, (mix(nrr, xrr), mix(nrg, xrg), mix(nrb, xrb), 255));
-            }
-            fb.draw_rect(left, top, w, h, (0, 0, 0, 255));
-        }
-
-        // 3.6. Render UI Texts emitted by scene
-        for cmd in &scene.texts {
-            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-            if alpha <= 0.0 || cmd.text.is_empty() {
-                continue;
-            }
-            let world_x = cmd.x - cam_x;
-            let world_y = cmd.y - cam_y;
-            let x = (world_x as f32 * scale_x) as i32;
-            let y = (world_y as f32 * scale_y) as i32;
-            let (r, g, b) = if cmd.color < 0 {
-                (255, 255, 255)
-            } else {
-                (
-                    (cmd.color & 0xFF) as u8,
-                    ((cmd.color >> 8) & 0xFF) as u8,
-                    ((cmd.color >> 16) & 0xFF) as u8,
-                )
-            };
-            let color = (r, g, b, (alpha * 255.0) as u8);
-            // The original fonts: draw_set_font(N) pushes the alphabetically
-            // sorted resource id (font1=0..font6=5); the FONT chunk's disk
-            // order is font1,font4,font2,font3,font5,font6, so runtime id N
-            // maps to disk index [0,2,3,1,4,5][N]. Text commands predate this
-            // mapping when they were emitted without a font (font: 0).
-            let font_disk_index = match cmd.font {
-                0 => Some(0),
-                1 => Some(2),
-                2 => Some(3),
-                3 => Some(1),
-                4 => Some(4),
-                5 => Some(5),
-                _ => None,
-            };
-            let gm_font = font_disk_index
-                .and_then(|idx| state.asset.fonts.get(idx))
-                .and_then(|font| {
-                    let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
-                    let atlas = state.atlases.get(page.tex_id as usize)?;
-                    Some((atlas, (page.x as u32, page.y as u32), font))
-                });
-            if let Some((atlas, page, font)) = gm_font {
-                // Scale the original pixel sizes into screen space the same
-                // way the sprite blits do: the game's views can be larger than
-                // the room pixels, and the fonts were baked for room pixels.
-                let scale = scale_x.min(scale_y);
-                let space_shift = font
-                    .glyphs
-                    .iter()
-                    .find(|g| g.ch == b' ' as u16)
-                    .map(|g| g.shift)
-                    .unwrap_or(7);
-                fb.draw_text_gm(
-                    atlas,
-                    page,
-                    &font.glyphs,
-                    space_shift,
-                    x,
-                    y,
-                    &cmd.text,
-                    scale,
-                    (r, g, b),
-                    alpha,
-                );
-            } else {
-                let scale = ((scale_x.min(scale_y) * 2.0).round() as u32).max(1);
-                fb.draw_text_str(x, y, &cmd.text, scale, color);
-            }
-        }
+        draw_ir_commands(fb, state, scene, (cam_x, cam_y), (scale_x, scale_y), false);
 
         // The IR scene already contains the original obj_UI button instances
         // (left/right/jump/shoot/sword/pause) and draw_view has emitted their
@@ -1662,6 +1365,174 @@ pub fn draw_frame(
     }
     // Pause: spr_pausebutton (id 122)
     draw_sprite(fb, state, 122, 0, (fb.width as i32 - 64, 16, 48, 48), false);
+}
+
+/// Consume the common Scene order for prologue and gameplay. Primitive
+/// rasterizers are unchanged; camera/projection are supplied by draw_frame.
+fn draw_ir_commands(
+    fb: &mut Framebuffer, state: &GameState, scene: &callys_core::ir_scene::Scene,
+    cam: (f64, f64), screen_scale: (f32, f32), intro: bool,
+) {
+    use callys_core::ir_scene::DrawQueue;
+    let (cam_x, cam_y) = cam;
+    let (scale_x, scale_y) = screen_scale;
+    for emission in scene.ordered_draw_commands() {
+        match emission.queue {
+            DrawQueue::Background(i) => {
+                let bg_cmd = &scene.backgrounds[i];
+                let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 {
+                    continue;
+                }
+                let bg_id = bg_cmd.background.max(0) as usize;
+                if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
+                    if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
+                        if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
+                            let world_x = bg_cmd.x - cam_x;
+                            let world_y = bg_cmd.y - cam_y;
+                            let dst_x = (world_x as f32 * scale_x) as i32;
+                            let dst_y = (world_y as f32 * scale_y) as i32;
+                            let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+                            let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+                            fb.blit_scaled_alpha(
+                                atlas,
+                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                                (dst_x, dst_y, dst_w, dst_h),
+                                false,
+                                alpha,
+                            );
+                        }
+                    }
+                }
+            }
+            DrawQueue::Sprite(i) => {
+                let cmd = &scene.draws[i];
+                if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y)) {
+                    let dst_x = ((cmd.x - cam_x) as f32 * scale_x) as i32;
+                    let dst_y = ((cmd.y - cam_y) as f32 * scale_y) as i32;
+                    let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+                    if alpha > 0.0 {
+                        fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
+                    }
+                }
+            }
+            DrawQueue::Healthbar(i) => {
+                let hb = &scene.healthbars[i];
+                let xs = ((hb.x1 - cam_x) as f32 * scale_x) as i32;
+                let ys = ((hb.y1 - cam_y) as f32 * scale_y) as i32;
+                let xe = ((hb.x2 - cam_x) as f32 * scale_x) as i32;
+                let ye = ((hb.y2 - cam_y) as f32 * scale_y) as i32;
+                let (left, right) = (xs.min(xe), xs.max(xe));
+                let (top, bottom) = (ys.min(ye), ys.max(ye));
+                let w = ((right - left).abs() as u32).max(1);
+                let h = ((bottom - top).abs() as u32).max(1);
+                let (br, bg, bb) = unpack_color(hb.back_col);
+                let (nrr, nrg, nrb) = unpack_color(hb.min_col);
+                let (xrr, xrg, xrb) = unpack_color(hb.max_col);
+                let pct = (hb.amount as f32 / 100.0).clamp(0.0, 1.0);
+                let mix = |lo: u8, hi: u8| -> u8 {
+                    (lo as f32 + (hi as f32 - lo as f32) * pct).round() as u8
+                };
+                fb.fill_rect(left, top, w, h, (br, bg, bb, 255));
+                let fill_w = (w as f32 * pct).round() as u32;
+                if fill_w > 0 {
+                    fb.fill_rect(left, top, fill_w, h, (mix(nrr, xrr), mix(nrg, xrg), mix(nrb, xrb), 255));
+                }
+                fb.draw_rect(left, top, w, h, (0, 0, 0, 255));
+            }
+            DrawQueue::Text(i) => {
+                let cmd = &scene.texts[i];
+                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 || cmd.text.is_empty() {
+                    continue;
+                }
+                let world_x = cmd.x - cam_x;
+                let world_y = cmd.y - cam_y;
+                let x = (world_x as f32 * scale_x) as i32;
+                let y = (world_y as f32 * scale_y) as i32;
+                let (r, g, b) = if cmd.color < 0 {
+                    (255, 255, 255)
+                } else {
+                    (
+                        (cmd.color & 0xFF) as u8,
+                        ((cmd.color >> 8) & 0xFF) as u8,
+                        ((cmd.color >> 16) & 0xFF) as u8,
+                    )
+                };
+                let color = (r, g, b, (alpha * 255.0) as u8);
+                // The original fonts: draw_set_font(N) pushes the alphabetically
+                // sorted resource id (font1=0..font6=5); the FONT chunk's disk
+                // order is font1,font4,font2,font3,font5,font6, so runtime id N
+                // maps to disk index [0,2,3,1,4,5][N]. Text commands predate this
+                // mapping when they were emitted without a font (font: 0).
+                let font_disk_index = match cmd.font {
+                    0 => Some(0),
+                    1 => Some(2),
+                    2 => Some(3),
+                    3 => Some(1),
+                    4 => Some(4),
+                    5 => Some(5),
+                    _ => None,
+                };
+                let gm_font = font_disk_index
+                    .and_then(|idx| state.asset.fonts.get(idx))
+                    .and_then(|font| {
+                        let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
+                        let atlas = state.atlases.get(page.tex_id as usize)?;
+                        Some((atlas, (page.x as u32, page.y as u32), font))
+                    });
+                if let Some((atlas, page, font)) = gm_font {
+                    // Scale the original pixel sizes into screen space the same
+                    // way the sprite blits do: the game's views can be larger than
+                    // the room pixels, and the fonts were baked for room pixels.
+                    let scale = scale_x.min(scale_y);
+                    let space_shift = font
+                        .glyphs
+                        .iter()
+                        .find(|g| g.ch == b' ' as u16)
+                        .map(|g| g.shift)
+                        .unwrap_or(7);
+                    fb.draw_text_gm(
+                        atlas,
+                        page,
+                        &font.glyphs,
+                        space_shift,
+                        x,
+                        y,
+                        &cmd.text,
+                        scale,
+                        (r, g, b),
+                        alpha,
+                    );
+                } else if !intro {
+                    let scale = ((scale_x.min(scale_y) * 2.0).round() as u32).max(1);
+                    fb.draw_text_str(x, y, &cmd.text, scale, color);
+                }
+            }
+            DrawQueue::RoomTile(i) => {
+                draw_tile(fb, state, &scene.room_tiles[i], cam_x as f32, cam_y as f32, scale_x, scale_y);
+            }
+            DrawQueue::Particle(i) => {
+                if intro { continue; }
+                let p = &scene.particles[i];
+                let alpha = (p.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 {
+                    continue;
+                }
+                let wx = p.x - cam_x;
+                let wy = p.y - cam_y;
+                let size_f = (p.size * 4.0).clamp(2.0, 16.0) as f32;
+                let w = ((size_f * scale_x) as u32).max(1);
+                let h = ((size_f * scale_y) as u32).max(1);
+                let x = (wx as f32 * scale_x) as i32 - (w as i32) / 2;
+                let y = (wy as f32 * scale_y) as i32 - (h as i32) / 2;
+                let r = (p.color & 0xFF) as u8;
+                let g = ((p.color >> 8) & 0xFF) as u8;
+                let b = ((p.color >> 16) & 0xFF) as u8;
+                fb.fill_rect(x, y, w, h, (r, g, b, (alpha * 255.0) as u8));
+            }
+        }
+    }
 }
 
 include!("parts/jni.rs");
