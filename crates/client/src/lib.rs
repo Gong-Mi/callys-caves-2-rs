@@ -205,10 +205,8 @@ impl GameState {
         if let Some(view_index) = scene.active_view_index() {
             if let Some(v) = scene.room_views.get(view_index) {
                 if v.object >= 0 {
-                    // GM's view follow only sees instances the scheduler
-                    // processes: while the prologue deactivates the player,
-                    // the view stays at the room's view rect — the intro film
-                    // is composed against that rect (phone at y≈-2).
+                    // A deactivated follow target freezes the current view;
+                    // on boot its current origin is the initial ROOM seed.
                     if let Some((px, py)) = scene
                         .instances
                         .values()
@@ -220,10 +218,9 @@ impl GameState {
                         // the camera CENTERS the target (px - w/2); otherwise
                         // it clamps the target into the border band around the
                         // live view rect, scrolling only when the target
-                        // crosses it. CC2's rooms all carry
-                        // hborder=vborder=512, so the centering branch is the
-                        // live one (2*512 >= 448 and >= 252). The centered
-                        // position is then clamped to the room bounds.
+                        // crosses it. The large-border branch is used by the
+                        // town, but other rooms have smaller border bands.
+                        // Clamp the result to the current room bounds.
                         let w = v.wview as f64;
                         let h = v.hview as f64;
                         let hb = v.hborder as f64;
@@ -256,9 +253,11 @@ impl GameState {
                         return (vx, vy);
                     }
                 }
-                // A view without a live follow target remains at its ROOM/GML
-                // camera position instead of silently following the player.
-                return (v.xview as f64, v.yview as f64);
+                // CameraUpdate returns unchanged when its follow target is
+                // deactivated/missing. Preserve the live view, not its ROOM
+                // seed: story/pause overlays freeze the view after scrolling.
+                return scene.view_positions.get(&(view_index as i32)).copied()
+                    .unwrap_or((v.xview as f64, v.yview as f64));
             }
         }
         let (px, py) = scene
@@ -1152,7 +1151,12 @@ pub fn draw_frame(
                 let zoom_y = port_y / v.hview.max(1) as f32;
                 scale_x = fb.width as f32 / port_x * zoom_x;
                 scale_y = fb.height as f32 / port_y * zoom_y;
-                view_origin = GameState::camera_position_for_scene(scene);
+                // Draw can destroy a story overlay and reactivate its follow
+                // target. Rasterize with the origin captured for this command
+                // frame; recomputing follow here would move already-emitted
+                // sprites/text off-screen on the dismissal frame.
+                view_origin = scene.view_positions.get(&view_id).copied()
+                    .unwrap_or((v.xview as f64, v.yview as f64));
                 view_active = true;
             }
         }

@@ -27,6 +27,11 @@ fn state() -> GameState {
     let bundle = Arc::new(load_bundle_from_file(&bundle_path).expect("load full_ir"));
     state.enable_ir_gameplay(bundle).expect("enable IR gameplay");
     state.retire_prologue();
+    // Materialize an actual command frame and its captured view before the
+    // rasterizer-only fixtures replace queues. Calculating a fresh follow
+    // origin without presenting it is not the renderer's coordinate space.
+    state.step(1.0 / 30.0);
+    assert!(state.runtime_diagnostic.is_none());
     state
 }
 
