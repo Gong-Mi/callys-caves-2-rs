@@ -4,7 +4,9 @@ on:
   push:
     branches: [ main, master ]
   pull_request:
-    branches: [ main, master, fix/prologue-render-layers, fix/active-view-dispatch ]
+    branches: [ main, master, fix/prologue-render-layers, fix/active-view-dispatch,
+                fix/prologue-boot-order, fix/view-canvas-1136x640, chore/repo-hygiene,
+                fix/presentation-gles3, fix/camera-follow ]
 
 jobs:
   test-and-build:
