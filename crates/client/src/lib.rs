@@ -205,10 +205,14 @@ impl GameState {
         if let Some(view_index) = scene.active_view_index() {
             if let Some(v) = scene.room_views.get(view_index) {
                 if v.object >= 0 {
+                    // GM's view follow only sees instances the scheduler
+                    // processes: while the prologue deactivates the player,
+                    // the view stays at the room's view rect — the intro film
+                    // is composed against that rect (phone at y≈-2).
                     if let Some((px, py)) = scene
                         .instances
                         .values()
-                        .find(|i| i.object == v.object && i.alive)
+                        .find(|i| i.object == v.object && i.alive && i.active)
                         .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
                     {
                         let half_w = v.wview as f64 / 2.0;
@@ -397,14 +401,17 @@ impl GameState {
             self.world.current_room_index
         };
         if let Some(room_data) = self.asset.rooms.get(current_room) {
-            // Original boot order: the player instance is created first so the
-            // real Game Start (Event 7/2, CODE 17) runs on a live player self;
-            // load_room_from_data then skips the already-alive player. CODE 17
-            // reads the three INIs, derives every weapon damage ladder, and
-            // spawns obj_introduction itself — the prologue rides this scene.
-            if let Some(player) = room_data.objects.iter().find(|o| o.object_id == 0) {
-                scene.create_with_id(&bundle, player.instance_id, 0, player.x as f64, player.y as f64)?;
-            }
+            // Original first-room order: the room's instances are materialized
+            // first (Create events run as each instance is placed), and only
+            // then does Game Start (Event 7/2, CODE 17) fire. CODE 17 reads the
+            // three INIs, derives every weapon damage ladder, and spawns
+            // obj_introduction itself; CODE 548 then deactivates every other
+            // instance, so the room waits behind the intro film. Dispatching
+            // Game Start *before* the room load left all ~170 room instances
+            // (and the touch buttons) ACTIVE through the prologue — the intro
+            // film's phone/logo were composed against a view the live town kept
+            // dragging away.
+            scene.load_room_from_data(&bundle, current_room, room_data)?;
             let player_id = scene
                 .instances
                 .iter()
@@ -419,10 +426,9 @@ impl GameState {
                         .map_err(|e| format!("Game Start (CODE 17): {e}"))?;
                 }
             }
-            scene.load_room_from_data(&bundle, current_room, room_data)?;
             // Room Start (Event 7, Subtype 4) reaches ACTIVE instances only:
             // the original engine never processes deactivated instances, and
-            // at boot the intro's Create has deactivated everyone but itself.
+            // CODE 548 has already deactivated everyone but the intro film.
             let initial_ids: Vec<i32> = scene.instances.iter()
                 .filter(|(_, i)| i.alive && i.active && !i.external)
                 .map(|(&id, _)| id)
@@ -1166,6 +1172,23 @@ pub fn draw_frame(
                 }
             }
 
+            // 1.5. Room background tiles (depth >= 0). Room layers render on
+            // every frame in the original runner — DrawTheRoom -> DrawRoomLayers
+            // runs over the room's layer set regardless of instance state — so
+            // the film rides on top of its room's tile scenery even while all
+            // other instances are frozen (binary-verified call order).
+            for tile in scene.room_tiles.iter().filter(|t| t.depth >= 0) {
+                draw_tile(
+                    fb,
+                    state,
+                    tile,
+                    view_origin.0 as f32,
+                    view_origin.1 as f32,
+                    scale_x,
+                    scale_y,
+                );
+            }
+
             // 2. Film sprite draws (obj_phone draw_self / obj_logo crossfade)
             for cmd in &scene.draws {
                 if !draw_ir_sprite(fb, state, cmd, view_origin, (scale_x, scale_y)) {
@@ -1176,6 +1199,20 @@ pub fn draw_frame(
                         fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
                     }
                 }
+            }
+
+            // 2.5. Foreground tiles (depth < 0) render over the film, matching
+            // the gameplay branch's layer ordering.
+            for tile in scene.room_tiles.iter().filter(|t| t.depth < 0) {
+                draw_tile(
+                    fb,
+                    state,
+                    tile,
+                    view_origin.0 as f32,
+                    view_origin.1 as f32,
+                    scale_x,
+                    scale_y,
+                );
             }
 
             // 3. HUD text draws (CODE 370 score strings, CODE 520 pause label):

@@ -12,6 +12,16 @@ fn ir_gameplay_uses_one_original_ui_control_set() {
             .expect("load full_ir"),
     );
     state.enable_ir_gameplay(bundle).expect("enable IR gameplay");
+    // The prologue film runs over a frozen room (CODE 548 deactivates every
+    // other instance; deactivated instances are neither stepped nor drawn per
+    // the original runner). Retire the film first — the UI control set is
+    // asserted on the gameplay frame.
+    for _ in 0..125 {
+        state.step(1.0 / 60.0);
+    }
+    state.input.tap = true;
+    state.step(1.0 / 60.0);
+    state.input.tap = false;
     state.step(1.0 / 60.0);
 
     let scene = state.scene.as_ref().expect("IR scene");

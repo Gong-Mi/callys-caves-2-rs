@@ -1,31 +1,57 @@
 use callys_client::{draw_frame, Framebuffer, GameState};
 use callys_core::code_vm::load_bundle_from_file;
+use callys_core::ir_scene::BackgroundCommand;
 use std::path::Path;
 use std::sync::Arc;
 
-/// The prologue produces three command queues from the live bytecode: sprite
-/// draws (draw_self / draw_sprite_ext from obj_phone + obj_logo), the room
-/// background (obj_bg CODE 364), and HUD text (obj_UI CODE 370, pause button
-/// CODE 520). Each of these carries visible information in the original
-/// runner's boot frame; historically our draw_frame's prologue branch
-/// consumed only `scene.draws` and dropped the other two.
+/// The gameplay frame produces three command queues from the live bytecode:
+/// sprite draws (draw_self / draw_sprite_ext), the room background (obj_bg
+/// CODE 364), and HUD text (obj_UI CODE 370, pause button CODE 520). Each of
+/// these carries visible information; historically our draw_frame's frame
+/// branch consumed only `scene.draws` and dropped the other two.
 ///
-/// Probe evidence for layers present on every tick during the natural
-/// prologue run: draws=147..176, backgrounds=1 (obj_bg CODE 364), texts=3
-/// (CODE 370×2 + CODE 520). The original runner's boot frame shows the
-/// backdrop, the scrolling film sprite, and the HUD text simultaneously.
-///
-/// This test renders the prologue with and without each supplementary
-/// queue and asserts the difference actually lands on the framebuffer — an
-/// A/B pixel-difference harness mirroring the `draw_field_consumption` /
-/// `particle_render_consumption` patterns.
-fn boot_state() -> GameState {
+/// The prologue film frame itself carries NO instance layers: CODE 548
+/// deactivates every instance but the film set, and deactivated instances are
+/// neither stepped nor drawn (binary-verified: CInstance::SetDeactivated
+/// writes +0x69; DrawInstancesOnly skips +0x69 != 0). The boot frame shows
+/// the room's own tile layers plus the film — room layers render every frame
+/// in the original (DrawTheRoom -> DrawRoomLayers runs over the room's layer
+/// set regardless of instance state). The instance queues below belong to the
+/// first gameplay frame, so the harness retires the film with the original tap
+/// gate first.
+fn boot_common() -> GameState {
     let manifest_dir = env!("CARGO_MANIFEST_DIR");
     let asset_path = Path::new(manifest_dir).join("../../assets/game.droid");
     let mut state = GameState::new(&asset_path).expect("GameState new");
     let full_ir_path = Path::new(manifest_dir).join("../../crates/core/src/generated/full_ir.json");
     let bundle = Arc::new(load_bundle_from_file(&full_ir_path).expect("load full_ir"));
     state.enable_ir_gameplay(bundle).expect("enable_ir_gameplay");
+    state
+}
+
+/// Retire the prologue film with the original tap gate (125 ticks, then tap).
+fn retire_prologue(state: &mut GameState) {
+    for _ in 0..125 {
+        state.step(1.0 / 60.0);
+    }
+    state.input.tap = true;
+    state.step(1.0 / 60.0);
+    state.input.tap = false;
+    state.step(1.0 / 60.0);
+}
+
+/// First gameplay frame (film retired): instance queues are live here.
+fn boot_state() -> GameState {
+    let mut state = boot_common();
+    retire_prologue(&mut state);
+    state
+}
+
+/// Film frame (obj_introduction still alive): renders through the prologue
+/// branch, where only room layers + the film are drawn. One step runs the
+/// runtime view selector (CODE 538) so the frame already uses view 6.
+fn film_state() -> GameState {
+    let mut state = boot_common();
     state.step(1.0 / 60.0);
     state
 }
@@ -72,23 +98,43 @@ fn prologue_text_layer_lands_on_framebuffer() {
 
 #[test]
 fn draw_background_renders_once_in_the_selected_view_without_tiling() {
-    let mut state = boot_state();
+    // Runs on the film frame (prologue branch with its black baseline); the
+    // film frame's own instance queues are empty by construction (all but the
+    // film set are deactivated and not drawn), so the single draw_background
+    // command is hand-built from the real resource data.
+    let mut state = film_state();
     let scene = state.scene.as_ref().unwrap();
     let view_index = scene.active_view_index().expect("visible runtime view");
     let view = scene.room_views[view_index].clone();
     assert_eq!(view_index, 6, "CODE 538 selects view 6 at 960x540");
     let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
-    let mut command = scene.backgrounds.first().cloned().expect("original background draw command");
-    let bg = state.asset.backgrounds.get(&(command.background.max(0) as usize)).expect("background resource");
+    let (&bg_id, bg) = state
+        .asset
+        .backgrounds
+        .iter()
+        .min_by_key(|(k, _)| **k)
+        .expect("background resource");
     let page = state.asset.tpag_items.get(&bg.tpag_ptr).expect("background texture page");
     assert!(page.w > 0 && page.h > 0);
 
     // Scale the real background draw to an 80x60-pixel rectangle at the current
     // view origin. This makes an accidental second tile directly observable.
+    let mut command = BackgroundCommand {
+        code: 0,
+        offset: 0,
+        instance: 0,
+        view: view_index as i32,
+        background: bg_id as i32,
+        x: cam_x,
+        y: cam_y,
+        scale_x: 80.0 / (page.w as f64 * 960.0 / view.wview as f64),
+        scale_y: 60.0 / (page.h as f64 * 540.0 / view.hview as f64),
+        rotation: 0.0,
+        color: 0xFFFFFF,
+        alpha: 1.0,
+    };
     command.x = cam_x;
     command.y = cam_y;
-    command.scale_x = 80.0 / (page.w as f64 * 960.0 / view.wview as f64);
-    command.scale_y = 60.0 / (page.h as f64 * 540.0 / view.hview as f64);
     {
         let scene = state.scene.as_mut().unwrap();
         scene.draws.clear();
