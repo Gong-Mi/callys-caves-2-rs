@@ -26,7 +26,7 @@ use std::collections::BTreeMap;
 
 fn inst(object: i32) -> Instance {
     Instance {
-        object, alive: true, active: true, external: false,
+        object, alive: true, active: true, external: false, spawn_seq: 0,
         fields: BTreeMap::new(), arrays: BTreeMap::new(), alarms: [0; 12],
     }
 }
