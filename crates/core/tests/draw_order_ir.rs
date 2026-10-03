@@ -68,6 +68,34 @@ fn engine_default_sprite_does_not_claim_the_previous_objects_bytecode_site() {
 }
 
 #[test]
+fn same_depth_new_instances_precede_old_instances_regardless_of_placement_id() {
+    for (first_id, second_id) in [(100001, 100002), (800000, 100000)] {
+        let mut b = bundle();
+        b.objects.iter_mut().find(|o| o.id == 138).unwrap().depth = 0;
+        b.objects.iter_mut().find(|o| o.id == 154).unwrap().depth = 0;
+        let mut s = fresh(&b);
+        let first = s.create_with_id(&b, first_id, 138, 0.0, 0.0).unwrap();
+        let last = s.create_with_id(&b, second_id, 154, 50.0, 50.0).unwrap();
+        s.draw_view(&b, 0).unwrap();
+        assert_eq!(s.draws.first().unwrap().instance, last,
+            "CRoom::AddInstance inserts equal-depth newcomer before older entries, not by ID");
+        assert!(s.draws.iter().skip(1).all(|d| d.instance == first));
+    }
+}
+
+#[test]
+fn signed_zero_depth_enters_the_numeric_equal_depth_tile_rule() {
+    let b = bundle(); let mut s = fresh(&b);
+    let id = s.create(&b, 154, 50.0, 50.0).unwrap();
+    s.instances.get_mut(&id).unwrap().fields.insert("depth".into(), -0.0);
+    s.room_tiles.push(tile(0, 42));
+    s.draw_view(&b, 0).unwrap();
+    let stream=s.ordered_draw_commands();
+    assert_eq!(stream[0].queue, DrawQueue::Sprite(0), "numeric -0 equals tile depth +0; instance goes first");
+    assert_eq!(stream[1].queue, DrawQueue::RoomTile(0));
+}
+
+#[test]
 fn every_host_draw_builtin_records_one_cross_type_emission() {
     let b = bundle(); let mut s = fresh(&b);
     let id = s.create(&b, 154, 0.0, 0.0).unwrap();

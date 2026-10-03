@@ -8,8 +8,19 @@ use std::collections::{BTreeMap, BTreeSet};
 #[derive(Debug, Clone)]
 pub struct Instance {
     pub object: i32, pub alive: bool, pub active: bool, pub external: bool,
+    /// Creation sequence within this scene. CRoom::AddInstance inserts a
+    /// newcomer at the head of its equal-depth group, so equal-depth order is
+    /// newest-first creation order — never the static ROOM placement id.
+    pub spawn_seq: u64,
     pub fields: BTreeMap<String, f64>, pub arrays: BTreeMap<(String, i32), f64>, pub alarms: [i32; 12],
 }
+/// Numeric depth comparison key. The runner compares instance and tile depth
+/// with a plain float compare, where -0.0 equals +0.0; `total_cmp` alone would
+/// order them apart and invert instance-before-tile for that pair.
+fn depth_sort_key(v: f64) -> f64 {
+    if v == 0.0 { 0.0 } else { v }
+}
+
 #[derive(Debug, Clone, Default)]
 pub struct TouchDevice {
     pub x: f64, pub y: f64, pub down: bool, pub pressed: bool, pub released: bool,
@@ -201,7 +212,7 @@ pub struct Scene {
     pub persistent_objects: BTreeSet<i32>,
     pub fog_enabled: bool,
     pub fog_color: i32,
-    next_id: i32, next_ds_map_id: i32, site: (usize,usize), depth: usize,
+    next_id: i32, next_ds_map_id: i32, next_spawn_seq: u64, site: (usize,usize), depth: usize,
 }
 impl Default for Scene {
     fn default() -> Self {
@@ -244,7 +255,7 @@ impl Default for Scene {
             persistent_objects: BTreeSet::new(),
             fog_enabled: false,
             fog_color: 0,
-            next_id: 0, next_ds_map_id: 1, site: (0, 0), depth: 0,
+            next_id: 0, next_ds_map_id: 1, next_spawn_seq: 1, site: (0, 0), depth: 0,
         }
     }
 }
@@ -569,7 +580,8 @@ impl Scene {
     /// Test/embedding boundary, not an implicit fake room loader.
     pub fn insert_external(&mut self, object:i32)->i32 {
         self.next_id=self.next_id.max(200000)+1; let id=self.next_id;
-        self.instances.insert(id,Instance{object,alive:true,active:true,external:true,fields:BTreeMap::new(),arrays:BTreeMap::new(),alarms:[-1;12]}); id
+        let seq=self.next_spawn_seq; self.next_spawn_seq+=1;
+        self.instances.insert(id,Instance{object,alive:true,active:true,external:true,spawn_seq:seq,fields:BTreeMap::new(),arrays:BTreeMap::new(),alarms:[-1;12]}); id
     }
 
     /// Data-driven room loader: instantiates all objects and tiles from RoomData.
@@ -781,8 +793,10 @@ impl Scene {
         let obj = b.objects.iter().find(|o| o.id == object)
             .ok_or(format!("object {object} not compiled; no fallback Create"))?;
         self.next_id = self.next_id.max(id);
+        let spawn_seq = self.next_spawn_seq;
+        self.next_spawn_seq += 1;
         self.instances.insert(id, Instance {
-            object, alive: true, active: true, external: false,
+            object, alive: true, active: true, external: false, spawn_seq,
             fields: BTreeMap::new(), arrays: BTreeMap::new(), alarms: [-1; 12],
         });
         let i = self.instances.get_mut(&id).unwrap();
@@ -1149,7 +1163,7 @@ impl Scene {
             }
             ordered.sort_by(|a, b| {
                 a.phase.cmp(&b.phase)
-                    .then_with(|| b.depth.total_cmp(&a.depth))
+                    .then_with(|| depth_sort_key(b.depth).total_cmp(&depth_sort_key(a.depth)))
                     .then_with(|| matches!(a.queue, DrawQueue::RoomTile(_))
                         .cmp(&matches!(b.queue, DrawQueue::RoomTile(_))))
                     .then_with(|| a.emit_order.cmp(&b.emit_order))
@@ -1197,11 +1211,15 @@ impl Scene {
                             .map_or(false, |p| p.events.iter().any(|e| e.event_type == 8 && e.subtype == 0))
                     });
                 let depth = i.fields.get("depth").copied().unwrap_or(o.depth as f64);
-                ids.push((depth, id, has_draw));
+                ids.push((depth, id, has_draw, i.spawn_seq));
             }
         }
-        ids.sort_by(|a, b| b.0.total_cmp(&a.0).then(a.1.cmp(&b.1)));
-        for (depth, id, has_draw) in ids {
+        // Equal depth: the runner's depth list prepends a newcomer before the
+        // older equal-depth entries, so the tie-break is creation order
+        // (newest first). Static placement ids do not carry that order.
+        // -0.0 and +0.0 are numerically equal to the runner's float compare.
+        ids.sort_by(|a, b| depth_sort_key(b.0).total_cmp(&depth_sort_key(a.0)).then(b.3.cmp(&a.3)));
+        for (depth, id, has_draw, _) in ids {
             self.draw_depth_context = Some(depth);
             let result = if has_draw {
                 self.dispatch(b, id, 8, 0)
