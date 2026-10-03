@@ -44,7 +44,8 @@ aapt2 link \
 # 3. compile Java -> class
 mkdir -p classes
 javac --release 17 -cp "$ANDROID_JAR" -d classes \
-    src/com/gongmi/callyscaves2/MainActivity.java src/com/gongmi/callyscaves2/PointerReleaseQueue.java
+    src/com/gongmi/callyscaves2/MainActivity.java src/com/gongmi/callyscaves2/PointerReleaseQueue.java \
+    src/com/gongmi/callyscaves2/GlesPresenter.java
 
 # 4. d8 -> classes.dex
 if [ -n "$D8_BIN" ]; then
