@@ -16,7 +16,9 @@
 //! fields only; draw_order_ir/consumption prove original numeric-depth ordering.
 use callys_client::GameState;
 use callys_core::code_vm::{load_bundle_from_file, Host};
-use callys_core::ir_scene::Scene;
+use callys_core::ir_scene::{
+    BackgroundCommand, DrawCommand, HealthbarCommand, Scene, TextCommand,
+};
 use std::path::Path;
 use std::sync::Arc;
 
@@ -63,10 +65,19 @@ fn mix(h: &mut u64, v: i64) {
 }
 
 fn stream_digest(s: &Scene) -> u64 {
-    stream_digest_with_draws(s, &s.draws)
+    stream_digest_with_queues(&s.draws, &s.texts, &s.backgrounds, &s.healthbars)
 }
 
-fn stream_digest_with_draws(s: &Scene, draws: &[callys_core::ir_scene::DrawCommand]) -> u64 {
+fn stream_digest_with_draws(s: &Scene, draws: &[DrawCommand]) -> u64 {
+    stream_digest_with_queues(draws, &s.texts, &s.backgrounds, &s.healthbars)
+}
+
+fn stream_digest_with_queues(
+    draws: &[DrawCommand],
+    texts: &[TextCommand],
+    backgrounds: &[BackgroundCommand],
+    healthbars: &[HealthbarCommand],
+) -> u64 {
     let mut h: u64 = 0xcbf2_9ce4_8422_2325;
     for d in draws {
         mix(&mut h, d.code as i64); mix(&mut h, d.instance as i64); mix(&mut h, d.view as i64); mix(&mut h, d.sprite as i64);
@@ -74,51 +85,71 @@ fn stream_digest_with_draws(s: &Scene, draws: &[callys_core::ir_scene::DrawComma
         mix(&mut h, q1000(d.scale_x)); mix(&mut h, q1000(d.scale_y)); mix(&mut h, q1000(d.rotation));
         mix(&mut h, d.color as i64); mix(&mut h, q1000(d.alpha)); mix(&mut h, d.fog as i64);
     }
-    for t in &s.texts {
+    for t in texts {
         mix(&mut h, t.code as i64); mix(&mut h, t.instance as i64); mix(&mut h, t.view as i64);
         mix(&mut h, q8(t.x)); mix(&mut h, q8(t.y));
         for byte in t.text.as_bytes() { mix(&mut h, *byte as i64); }
         mix(&mut h, t.color as i64); mix(&mut h, q1000(t.alpha)); mix(&mut h, t.font as i64);
     }
-    for b in &s.backgrounds {
+    for b in backgrounds {
         mix(&mut h, b.code as i64); mix(&mut h, b.instance as i64); mix(&mut h, b.view as i64); mix(&mut h, b.background as i64);
         mix(&mut h, q8(b.x)); mix(&mut h, q8(b.y));
         mix(&mut h, q1000(b.scale_x)); mix(&mut h, q1000(b.scale_y)); mix(&mut h, q1000(b.rotation));
         mix(&mut h, b.color as i64); mix(&mut h, q1000(b.alpha));
     }
-    for hb in &s.healthbars {
+    for hb in healthbars {
         mix(&mut h, hb.code as i64); mix(&mut h, hb.instance as i64); mix(&mut h, hb.view as i64);
         mix(&mut h, q8(hb.x1)); mix(&mut h, q8(hb.y1)); mix(&mut h, q8(hb.x2)); mix(&mut h, q8(hb.y2)); mix(&mut h, q1000(hb.amount));
         mix(&mut h, hb.back_col as i64); mix(&mut h, hb.min_col as i64); mix(&mut h, hb.max_col as i64);
     }
     // Fold the per-queue lengths in as well: identical content with a
     // different order or duplication cannot survive a length collision.
-    mix(&mut h, s.draws.len() as i64); mix(&mut h, s.texts.len() as i64);
-    mix(&mut h, s.backgrounds.len() as i64); mix(&mut h, s.healthbars.len() as i64);
+    mix(&mut h, draws.len() as i64); mix(&mut h, texts.len() as i64);
+    mix(&mut h, backgrounds.len() as i64); mix(&mut h, healthbars.len() as i64);
     h
 }
 
 /// Preserve the EXISTING content anchor without recording a new hash for a
-/// renderer repair. This adapter replays only its historical test encoding:
-/// default sprites first in instance-id order, followed by explicit events;
-/// old defaults accidentally carried the last initialization CODE (377).
-/// Rendering NEVER uses this adapter. Current depth/order/source provenance
-/// are asserted separately below and in draw_order_ir/consumption.
+/// production data repair. This adapter replays only its historical test
+/// encoding: the pre-repair depth walk, whose key was OBJT+20 — the persistent
+/// flag, not the depth field — with equal depths ordered by placement id, and
+/// engine-default sprites carrying the last initialization CODE (377).
+///
+/// Replaying that walk reproduces the pre-repair digest byte-for-byte, which is
+/// the evidence that the town content itself did not move: the visible
+/// difference between the two revisions is only WHICH corrected depth orders
+/// instances 100132/100133 and their HUD queues, asserted below by
+/// assert_original_room_walk_order and by draw_order_ir/draw_order_consumption.
+/// Rendering NEVER uses this adapter; the corrected depths are pinned against
+/// raw OBJT bytes in crates/core/tests/object_depth_metadata_ir.rs.
 fn legacy_town_content_digest(state: &GameState) -> u64 {
     let s = scene(state);
     let b = state.full_bundle.as_ref().unwrap();
+    // The historical depth of an instance is the value the old generator read.
+    let historical_depth = |instance: i32| -> i32 {
+        let object = s.instances[&instance].object;
+        b.objects.iter().find(|o| o.id == object).unwrap().persistent as i32
+    };
     let mut draws: Vec<_> = s.draws.iter().cloned().enumerate().collect();
     draws.sort_by_key(|(emit, d)| {
         let default = d.code == usize::MAX;
-        let object = s.instances[&d.instance].object;
-        let depth = b.objects.iter().find(|o| o.id == object).unwrap().depth;
+        let depth = historical_depth(d.instance);
         (if default { 0 } else { 1 }, if default { 0 } else { -depth }, d.instance, *emit)
     });
     let draws: Vec<_> = draws.into_iter().map(|(_, mut d)| {
         if d.code == usize::MAX { d.code = 377; }
         d
     }).collect();
-    stream_digest_with_draws(s, &draws)
+    let mut texts: Vec<_> = s.texts.iter().cloned().enumerate().collect();
+    texts.sort_by_key(|(emit, t)| (-historical_depth(t.instance), t.instance, *emit));
+    let texts: Vec<_> = texts.into_iter().map(|(_, t)| t).collect();
+    let mut healthbars: Vec<_> = s.healthbars.iter().cloned().enumerate().collect();
+    healthbars.sort_by_key(|(emit, h)| (-historical_depth(h.instance), h.instance, *emit));
+    let healthbars: Vec<_> = healthbars.into_iter().map(|(_, h)| h).collect();
+    let mut backgrounds: Vec<_> = s.backgrounds.iter().cloned().enumerate().collect();
+    backgrounds.sort_by_key(|(emit, b)| (-historical_depth(b.instance), b.instance, *emit));
+    let backgrounds: Vec<_> = backgrounds.into_iter().map(|(_, b)| b).collect();
+    stream_digest_with_queues(&draws, &texts, &backgrounds, &healthbars)
 }
 
 fn assert_original_room_walk_order(state: &GameState) {
@@ -174,8 +205,12 @@ fn the_town_idle_draw_stream_is_fingerprint_stable() {
     assert_eq!(digests_a, digests_b, "the visual stream must be reproducible tick-for-tick");
 
     // Historical remake content digest, NOT an original-runner order oracle.
-    // Keep its existing value through the lossless legacy encoding adapter;
-    // production depth/source order is asserted against the runner separately.
+    // Its existing value is preserved through the lossless legacy encoding
+    // adapter above, which now reads the historical depth source (the mis-read
+    // persistent flag) instead of the corrected depth field: the digest is
+    // unchanged exactly because the town content is unchanged, and the ordering
+    // key difference is the 539a7e1 depth repair, not a content drift.
+    // Production depth/source order is asserted against the runner separately.
     //
     // Re-recorded with the first-room boot-order fix (Game Start now runs
     // after the room load, so CODE 548 freezes the town behind the intro
@@ -214,6 +249,13 @@ fn legacy_content_anchor_still_rejects_sprite_payload_changes() {
     skip_prologue(&mut state);
     stream_over(&mut state, 1);
     assert_eq!(legacy_town_content_digest(&state), 0x1500da8c98db82f5);
+    // The emulation only says something while the mis-read field still differs
+    // from the corrected depth somewhere in the cast; if they agreed everywhere
+    // the adapter would be a no-op and this anchor could not separate the
+    // pre-fix and post-fix revisions.
+    let bundle = state.full_bundle.as_ref().unwrap();
+    assert!(bundle.objects.iter().any(|o| o.depth != o.persistent as i32),
+        "the cast must include an object whose depth the old mis-read got wrong");
     let index = scene(&state).draws.iter().position(|d| d.sprite >= 0).unwrap();
     let original = state.scene.as_ref().unwrap().draws[index].clone();
     state.scene.as_mut().unwrap().draws[index].x += 1.0;
