@@ -52,6 +52,22 @@ fn emit_sprite(s: &mut Scene, b: &Bundle, id: i32) {
 }
 
 #[test]
+fn engine_default_sprite_does_not_claim_the_previous_objects_bytecode_site() {
+    let mut b = bundle();
+    b.objects.iter_mut().find(|o| o.id == 154).unwrap().depth = -100;
+    b.objects.iter_mut().find(|o| o.id == 138).unwrap().depth = 100;
+    let mut s = fresh(&b);
+    let npc = s.create(&b, 154, 50.0, 50.0).unwrap();
+    let sheet = s.create(&b, 138, 0.0, 0.0).unwrap();
+    s.instances.get_mut(&npc).unwrap().active = true;
+    s.draw_view(&b, 0).unwrap();
+    assert!(s.draws.iter().filter(|d| d.instance == sheet).all(|d| d.code == 564));
+    let default = s.draws.iter().find(|d| d.instance == npc).unwrap();
+    assert_eq!((default.code, default.offset), (usize::MAX, 0),
+        "the engine default draw has no bytecode site; it must not inherit CODE564");
+}
+
+#[test]
 fn every_host_draw_builtin_records_one_cross_type_emission() {
     let b = bundle(); let mut s = fresh(&b);
     let id = s.create(&b, 154, 0.0, 0.0).unwrap();

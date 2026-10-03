@@ -1213,7 +1213,16 @@ impl Scene {
                 let fields = ["sprite_index","image_index","x","y","image_xscale","image_yscale","image_angle","image_blend","image_alpha"];
                 let args = fields.iter().map(|n| i.fields.get(*n).copied()).collect::<Option<Vec<_>>>();
                 if i.alive && i.active && visible {
-                    if let Some(args) = args { self.draw(b, id, &args) } else { Ok(()) }
+                    if let Some(args) = args {
+                        // Engine-generated default sprites have no CODE site.
+                        // Do not attribute them to whichever unrelated Draw
+                        // event happened to leave the VM's current site last.
+                        let previous_site = self.site;
+                        self.site = (usize::MAX, 0);
+                        let result = self.draw(b, id, &args);
+                        self.site = previous_site;
+                        result
+                    } else { Ok(()) }
                 } else { Ok(()) }
             };
             self.draw_depth_context = None;

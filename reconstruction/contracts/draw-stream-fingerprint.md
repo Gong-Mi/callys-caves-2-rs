@@ -6,21 +6,26 @@ FNV algorithm, digests mutually comparable).
 
 ## Contract
 
-The IR Scene's per-view-pass command queues (`draws`, `texts`, `backgrounds`,
-`healthbars`, in emission order) are the complete visual output the original
-bytecode commits each tick. This batch pins them with an FNV-1a 64 digest over
-every identifying field, quantised `floor(x*8)` / `floor(x*1000)` (no float
-noise, no std-hasher dependency, cross-toolchain stable). The framebuffer is
-their deterministic consumption, covered separately by the per-field
-rasterisation suites (`draw_field_consumption`, `prologue_layers_consumption`,
-`font_consumption`, `particle_render_consumption`).
+The four public queues are projections of the bytecode/engine command stream,
+not its complete cross-category render order. Their historical FNV-1a encoding
+uses truncation of `x*8` / `x*1000` and omits room tiles/particles. It is a remake
+regression baseline, not an original-runtime equivalence oracle. Actual rendering
+consumes `ordered_draw_commands` with numeric depth, emit order and GUI phase;
+`draw_order_ir` and `draw_order_consumption` independently assert that contract.
 
-Pinned facts (probe-recorded on this head, view-6 town / full-cast level1):
+Pinned regression facts (1136x640/view-0 town and full-cast level1):
 
 * Determinism: two cold boots replay identical 30-tick digest sequences
   (town idle, level1 through the door chain + sleep sweep).
-* Golden anchor: town idle tick-0 digest = `0x68c1b6be4897c703`
-  (180 draws / 3 texts / 1 bg / 2 healthbars per tick).
+* Historical town content anchor remains `0x1500da8c98db82f5`
+  (180 draws / 3 texts / 1 bg / 2 healthbars). A test-only legacy encoder
+  reconstructs its former default-first grouping and stale default CODE377
+  provenance. No production renderer uses this adapter, and no new hash is
+  recorded merely to accept the repaired order. Current order is separately
+  required to walk descending room depth, followed by GUI; engine defaults
+  explicitly carry `(code=usize::MAX, offset=0)` rather than an unrelated CODE.
+  Old/new probes confirmed identical visual payload multisets and identical
+  text/background/healthbar queues before this encoding separation.
 * Content sensitivity: 4 ticks of `move_right` move the digest away from the
   idle stream; the walk's world x lands in the player's own DrawCommand.
 * Room discrimination: the same tick indices in rm_town vs rm_level1 produce
@@ -33,7 +38,7 @@ Pinned facts (probe-recorded on this head, view-6 town / full-cast level1):
 
 * The digest verifies bytecode-emitted command fields, not GPU/raster output;
   device pixels remain the separate registered layer (real-device captures).
-* No-periodicity beyond tick-0 is pinned for the town: the view-6 camera
+* No-periodicity beyond tick-0 is pinned for the town: the runtime camera
   follows the player, so the stream is deterministic but not constant; the
   period probe prints what it finds rather than pinning a guessed cycle.
 * `end_frame` retirement timing is inherited from the client frame loop this
