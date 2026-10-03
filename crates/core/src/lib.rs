@@ -1092,8 +1092,7 @@ mod tests {
             speed: 60, persistent: false,
             objects: vec![callys_asset::RoomObjectInstance {
                 x: 800, y: 992, object_id: 0, instance_id: 1,
-                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
-            }],
+                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff, rotation: 0.0, }],
             tiles: Vec::new(),
             views: Vec::new(),
         };
@@ -1143,8 +1142,7 @@ mod tests {
             creation_code_id: -1,
             scale_x: -2.0,
             scale_y: 0.5,
-            color: 0xffff_ffff,
-        };
+            color: 0xffff_ffff, rotation: 0.0, };
         let sprites = HashMap::from([(
             123,
             callys_asset::SpriteData {
@@ -1187,8 +1185,7 @@ mod tests {
             creation_code_id: -1,
             scale_x: 1.0,
             scale_y: 1.0,
-            color: 0xffff_ffff,
-        };
+            color: 0xffff_ffff, rotation: 0.0, };
         let sprites = HashMap::from([(
             123,
             SpriteData {
@@ -1228,8 +1225,7 @@ mod tests {
                     creation_code_id: -1,
                     scale_x: -2.0,
                     scale_y: 0.5,
-                    color: 0xffff_ffff,
-                },
+                    color: 0xffff_ffff, rotation: 0.0, },
                 callys_asset::RoomObjectInstance {
                     x: 30,
                     y: 40,
@@ -1238,8 +1234,7 @@ mod tests {
                     creation_code_id: -1,
                     scale_x: 1.0,
                     scale_y: 1.0,
-                    color: 0xffff_ffff,
-                },
+                    color: 0xffff_ffff, rotation: 0.0, },
             ],
             tiles: Vec::new(),
             views: Vec::new(),
@@ -1311,12 +1306,10 @@ mod tests {
             objects: vec![
                 callys_asset::RoomObjectInstance {
                     x: 800, y: 992, object_id: 0, instance_id: 1,
-                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
-                },
+                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff, rotation: 0.0, },
                 callys_asset::RoomObjectInstance {
                     x: 640, y: 512, object_id: 1, instance_id: 2,
-                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
-                },
+                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff, rotation: 0.0, },
             ],
             tiles: Vec::new(),
             views: Vec::new(),
@@ -1445,8 +1438,7 @@ mod tests {
             speed: 60, persistent: false,
             objects: vec![callys_asset::RoomObjectInstance {
                 x: 100, y: 100, object_id: 0, instance_id: 4242,
-                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
-            }], tiles: Vec::new(),
+                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff, rotation: 0.0, }], tiles: Vec::new(),
             views: Vec::new(),
         };
         let objects = vec![GameObjectInfo {
@@ -1475,12 +1467,10 @@ mod tests {
             objects: vec![
                 callys_asset::RoomObjectInstance {
                     x: 100, y: 100, object_id: 0, instance_id: 5001,
-                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
-                },
+                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff, rotation: 0.0, },
                 callys_asset::RoomObjectInstance {
                     x: 100, y: 100, object_id: 1, instance_id: 5002,
-                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
-                },
+                    creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff, rotation: 0.0, },
             ], tiles: Vec::new(),
             views: Vec::new(),
         };
@@ -1544,8 +1534,7 @@ mod tests {
             speed: 60, persistent: false,
             objects: vec![callys_asset::RoomObjectInstance {
                 x: 1568, y: 1056, object_id: 0, instance_id: 1,
-                creation_code_id: -1, scale_x: 6.0, scale_y: 2.0, color: 0xffff_ffff,
-            }], tiles: Vec::new(),
+                creation_code_id: -1, scale_x: 6.0, scale_y: 2.0, color: 0xffff_ffff, rotation: 0.0, }], tiles: Vec::new(),
             views: Vec::new(),
         };
         let objects = vec![GameObjectInfo {
@@ -1636,8 +1625,7 @@ mod tests {
             speed: 30, persistent: false,
             objects: vec![callys_asset::RoomObjectInstance {
                 x: 320, y: 400, object_id: 0, instance_id: 1,
-                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff,
-            }], tiles: Vec::new(),
+                creation_code_id: -1, scale_x: 1.0, scale_y: 1.0, color: 0xffff_ffff, rotation: 0.0, }], tiles: Vec::new(),
             views: Vec::new(),
         };
         let objects = vec![GameObjectInfo {

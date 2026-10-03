@@ -15,6 +15,9 @@ pub struct RoomObjectInstance {
     pub scale_x: f32,
     pub scale_y: f32,
     pub color: u32,
+    /// Room placement rotation in degrees (record +32, GM image_angle).
+    #[serde(default)]
+    pub rotation: f32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1503,8 +1506,12 @@ impl GameDroidAsset {
                                     let scale_x = file.read_f32::<LittleEndian>().unwrap_or(1.0);
                                     let scale_y = file.read_f32::<LittleEndian>().unwrap_or(1.0);
                                     let color = file.read_u32::<LittleEndian>().unwrap_or(0xFFFFFFFF);
+                                    // The record continues past colour; +32 is image_angle.
+                                    // Three original placements rotate 90 degrees and the
+                                    // angle changes their sprite box, so it cannot be dropped.
+                                    let rotation = file.read_f32::<LittleEndian>().unwrap_or(0.0);
                                     room_objs.push(RoomObjectInstance {
-                                        x, y, object_id, instance_id, creation_code_id, scale_x, scale_y, color
+                                        x, y, object_id, instance_id, creation_code_id, scale_x, scale_y, color, rotation
                                     });
                                 }
                             }

@@ -636,6 +636,12 @@ impl Scene {
             if inst.scale_y.is_finite() && inst.scale_y != 0.0 {
                 let _ = self.write(inst_id, -1, "image_yscale", None, inst.scale_y as f64);
             }
+            // The placement's rotation is part of the instance's initial state
+            // (GM image_angle) and feeds the rotated sprite box the collision
+            // queries use; three original placements depend on it.
+            if inst.rotation.is_finite() {
+                let _ = self.write(inst_id, -1, "image_angle", None, inst.rotation as f64);
+            }
 
             // Run creation code if bound
             if let Some(binding) = bundle.room_bindings.iter().find(|b| {
