@@ -228,6 +228,7 @@ def collect_all(quick=False):
         "draw_order_ir",
         "object_depth_metadata_ir",
         "room_placement_fields_ir",
+        "sprite_and_tile_layout_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))
