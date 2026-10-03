@@ -74,8 +74,8 @@ public class MainActivity extends Activity {
     private boolean moveLeft, moveRight, jump, attack, sword, switchWeapon;
     private volatile int jumpPulse, attackPulse, swordPulse, tapPulse;
     private final PointerReleaseQueue pointerReleases = new PointerReleaseQueue();
-    private static final float LOGICAL_WIDTH = 1136.0f;
-    private static final float LOGICAL_HEIGHT = 640.0f;
+    private static final float LOGICAL_WIDTH = InputViewport.WIDTH;
+    private static final float LOGICAL_HEIGHT = InputViewport.HEIGHT;
 
     private int logicalButton(float x, float y) {
         // Map 1136x640 logical screen coordinates to on-screen touch buttons.
@@ -138,8 +138,8 @@ public class MainActivity extends Activity {
             int action = ev.getActionMasked();
             if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
                 int index = ev.getActionIndex();
-                float logicalX = (ev.getX(index) - bounds.left) * LOGICAL_WIDTH / w;
-                float logicalY = (ev.getY(index) - bounds.top) * LOGICAL_HEIGHT / hh;
+                float logicalX = InputViewport.x(ev.getX(index) - bounds.left, w);
+                float logicalY = InputViewport.y(ev.getY(index) - bounds.top, hh);
                 vibrateTouch(logicalButton(logicalX, logicalY));
                 if (action == MotionEvent.ACTION_DOWN) {
                     // Original GameMaker mb_left: any tap counts (prologue skip).
@@ -158,8 +158,8 @@ public class MainActivity extends Activity {
                     ? ev.getActionIndex() : -1;
             for (int i = 0; i < ev.getPointerCount(); i++) {
                 if (i == lifted) continue;
-                float logicalX = (ev.getX(i) - bounds.left) * LOGICAL_WIDTH / w;
-                float logicalY = (ev.getY(i) - bounds.top) * LOGICAL_HEIGHT / hh;
+                float logicalX = InputViewport.x(ev.getX(i) - bounds.left, w);
+                float logicalY = InputViewport.y(ev.getY(i) - bounds.top, hh);
                 int button = logicalButton(logicalX, logicalY);
                 if (button == 1) moveLeft = true;
                 else if (button == 2) moveRight = true;

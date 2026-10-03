@@ -186,6 +186,7 @@ def collect_all(quick=False):
         "prologue_render_regression",
         "view_projection_consumption",
         "story_frame_boundaries",
+        "platform_pointer_mapping",
         "tutorial_story_panels",
         "store_mouse_press_ir",
     ]
