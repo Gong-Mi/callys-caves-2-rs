@@ -22,7 +22,7 @@ EventSubtypeMouse LeftPressed=4 / LeftReleased=7 / GlobLeftReleased=56.
 Android ACTION_DOWN remembers the primary pointer id. Only that pointer's
 ACTION_UP/ACTION_POINTER_UP enqueues a release; secondary fingers and CANCEL do
 not synthesize a click. Letterbox bounds and finite coordinates are validated,
-then converted to the existing renderer's 960x540 logical space.
+then converted to the existing renderer's 1136x640 logical space.
 `PointerReleaseQueue` uses a concurrent queue from UI to render thread. JNI calls
 run on the render thread before nativeStep, not on the UI thread.
 `GameState::pointer_released` adds the existing view-0 origin; `Scene::tick` drains

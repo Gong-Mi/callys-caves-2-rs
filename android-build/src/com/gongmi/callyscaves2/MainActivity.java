@@ -78,24 +78,24 @@ public class MainActivity extends Activity {
     private boolean moveLeft, moveRight, jump, attack, sword, switchWeapon;
     private volatile int jumpPulse, attackPulse, swordPulse, tapPulse;
     private final PointerReleaseQueue pointerReleases = new PointerReleaseQueue();
-    private static final float LOGICAL_WIDTH = 960.0f;
-    private static final float LOGICAL_HEIGHT = 540.0f;
+    private static final float LOGICAL_WIDTH = 1136.0f;
+    private static final float LOGICAL_HEIGHT = 640.0f;
 
     private int logicalButton(float x, float y) {
-        // Map 960x540 logical screen coordinates to on-screen touch buttons.
-        // View 6 (480x270, 2.0x zoom):
-        //   left: [-20..172, 420..548]
-        //   right: [176..368, 420..548]
-        //   shoot: [690..818, 420..548]
-        //   jump: [820..948, 420..548]
-        //   sword: [820..948, 290..418]
-        if (y >= 390.0f) {
-            if (x < 180.0f) return 1;                  // left
-            if (x >= 180.0f && x < 380.0f) return 2;   // right
-            if (x >= 660.0f && x < 815.0f) return 4;   // shoot
-            if (x >= 815.0f) return 3;                 // jump
-        } else if (y >= 260.0f && y < 390.0f) {
-            if (x >= 780.0f) return 5;                 // sword
+        // Map 1136x640 logical screen coordinates to on-screen touch buttons.
+        // View 0 (448x252, 2.5357x/2.5397x zoom) — the branch CODE 538 takes
+        // at 1136x640, i.e. the original's real-device selection. Button
+        // anchors on this canvas: left (vx-10, vy+190), right (vx+88,
+        // vy+190), jump (vx+380, vy+190), shoot (vx+315, vy+190), sword
+        // (vx+380, vy+125); the bands below are the same partitions the
+        // view6 layout used, rescaled around those anchors.
+        if (y >= 444.0f) {
+            if (x < 225.0f) return 1;                  // left
+            if (x >= 225.0f && x < 466.0f) return 2;   // right
+            if (x >= 760.0f && x < 956.0f) return 4;   // shoot
+            if (x >= 956.0f) return 3;                 // jump
+        } else if (y >= 279.0f && y < 444.0f) {
+            if (x >= 913.0f) return 5;                 // sword
         }
         return 0;
     }
@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
                 else if (button == 3) jump = true;
                 else if (button == 4) { attack = true; attackPulse = 4; }
                 else if (button == 5) { sword = true; swordPulse = 4; }
-                if (logicalY < 108.0f) switchWeapon = true;
+                if (logicalY < 137.0f) switchWeapon = true;
             }
             if (ev.getActionMasked() == MotionEvent.ACTION_UP ||
                     ev.getActionMasked() == MotionEvent.ACTION_CANCEL) {
@@ -187,8 +187,9 @@ public class MainActivity extends Activity {
         }
         @Override
         public void surfaceChanged(SurfaceHolder holder, int fmt, int w, int hgt) {
-            // Keep the engine's logical framebuffer at 960x540. The
-            // Canvas scales it to the physical Surface dimensions.
+            // Keep the engine's logical framebuffer at 1136x640 (the CODE 538
+            // branch that selects view 0 — the original's real-device canvas).
+            // The Canvas stretches it to the physical Surface dimensions.
             // Do not call nativeResize(w,hgt): that would resize the
             // Rust buffer while the Java Bitmap/int[] still has the
             // old dimensions and would make JNI blit lengths diverge.
@@ -338,16 +339,12 @@ public class MainActivity extends Activity {
                 Canvas c = holder.lockCanvas();
                 if (c != null) {
                     try {
-                        c.drawColor(Color.BLACK);
                         Rect clip = c.getClipBounds();
-                        float scale = Math.min(
-                                clip.width() / (float) framebuffer.getWidth(),
-                                clip.height() / (float) framebuffer.getHeight());
-                        int drawW = Math.max(1, Math.round(framebuffer.getWidth() * scale));
-                        int drawH = Math.max(1, Math.round(framebuffer.getHeight() * scale));
-                        int left = clip.left + (clip.width() - drawW) / 2;
-                        int top = clip.top + (clip.height() - drawH) / 2;
-                        gameRect.set(left, top, left + drawW, top + drawH);
+                        // Per-axis fill: the 1136x640 canvas stretches onto the
+                        // full surface with independent X/Y scales, exactly like
+                        // the original runner's window-sized GL backbuffer (no
+                        // letterbox, no black bars).
+                        gameRect.set(clip.left, clip.top, clip.right, clip.bottom);
                         Paint paint = new Paint();
                         paint.setFilterBitmap(false);
                         c.drawBitmap(framebuffer, null, gameRect, paint);
