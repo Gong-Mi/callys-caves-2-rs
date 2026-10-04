@@ -2,10 +2,6 @@ package com.gongmi.callyscaves2;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -64,10 +60,10 @@ public class MainActivity extends Activity {
     private native int nativePollHaptic();
 
     private SurfaceView surface;
-    private Bitmap framebuffer;
     private int[] pixelBuffer;
     private Thread renderThread;
     private volatile boolean running;
+    private final GlesPresenter gles = new GlesPresenter();
     private final Rect gameRect = new Rect();
     private SoundPool soundPool;
     private Vibrator vibrator;
@@ -183,19 +179,22 @@ public class MainActivity extends Activity {
     private final class SurfaceLifecycle implements SurfaceHolder.Callback {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
+            gles.setSurface(holder.getSurface());
             startEngine();
         }
         @Override
         public void surfaceChanged(SurfaceHolder holder, int fmt, int w, int hgt) {
-            // Keep the engine's logical framebuffer at 1136x640 (the CODE 538
-            // branch that selects view 0 — the original's real-device canvas).
-            // The Canvas stretches it to the physical Surface dimensions.
-            // Do not call nativeResize(w,hgt): that would resize the
-            // Rust buffer while the Java Bitmap/int[] still has the
-            // old dimensions and would make JNI blit lengths diverge.
+            // The GLES3 presenter stretches the 1136x640 engine canvas (the
+            // CODE 538 branch that selects view 0 — the original's real-device
+            // canvas) onto the whole surface per axis, exactly like the
+            // original runner's window-sized GL backbuffer. The full surface
+            // is also the touch coordinate space.
+            gameRect.set(0, 0, w, hgt);
+            gles.setSurface(holder.getSurface());
         }
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
+            gles.setSurface(null);
             stopEngine();
         }
     }
@@ -289,7 +288,6 @@ public class MainActivity extends Activity {
             h = surface.getHeight();
             nativeResize(w, h);
         }
-        framebuffer = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         pixelBuffer = new int[w * h];
 
         running = true;
@@ -332,26 +330,11 @@ public class MainActivity extends Activity {
                 playQueuedSounds();
                 playQueuedHaptics();
                 nativeBlitToIntArray(pixelBuffer);
-                framebuffer.setPixels(pixelBuffer, 0, framebuffer.getWidth(), 0, 0,
-                                       framebuffer.getWidth(), framebuffer.getHeight());
-
-                SurfaceHolder holder = surface.getHolder();
-                Canvas c = holder.lockCanvas();
-                if (c != null) {
-                    try {
-                        Rect clip = c.getClipBounds();
-                        // Per-axis fill: the 1136x640 canvas stretches onto the
-                        // full surface with independent X/Y scales, exactly like
-                        // the original runner's window-sized GL backbuffer (no
-                        // letterbox, no black bars).
-                        gameRect.set(clip.left, clip.top, clip.right, clip.bottom);
-                        Paint paint = new Paint();
-                        paint.setFilterBitmap(false);
-                        c.drawBitmap(framebuffer, null, gameRect, paint);
-                    } finally {
-                        holder.unlockCanvasAndPost(c);
-                    }
-                }
+                // Our own GLES3 presenter (EGL14 + GLES30): the engine frame
+                // goes into an RGBA texture and is drawn as one quad stretched
+                // per axis onto the whole surface. No framework Canvas / HWUI
+                // in the path; sampling is explicitly GL_NEAREST.
+                gles.present(pixelBuffer);
                 long remainingNs = 16_666_667L - (System.nanoTime() - now);
                 if (remainingNs > 0) {
                     try {
@@ -590,6 +573,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         stopEngine();
+        gles.release();
         releaseSoundPool();
         super.onDestroy();
     }
