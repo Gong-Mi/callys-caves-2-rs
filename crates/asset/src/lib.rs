@@ -669,7 +669,18 @@ fn parse_sound_chunk(
 
         file.seek(SeekFrom::Start(record_pos))?;
         let name_offset = u64::from(file.read_u32::<LittleEndian>()?);
-        file.seek(SeekFrom::Current(7 * 4))?;
+        // The seven fixed words between the name and the audio id are enumerated
+        // field by field (UndertaleModTool `UndertaleSound.Unserialize`) instead of
+        // being skipped as one seek. Meanings and this asset's survey values are in
+        // reconstruction/contracts/audio-catalog.md; the survey is pinned by
+        // `the_sound_records_carry_the_streamed_embedded_split`.
+        let _flags = file.read_u32::<LittleEndian>()?; // 0x65 Regular|IsEmbedded (29 snd_*), 0x64 Regular (25 mus_*)
+        let _type_offset = file.read_u32::<LittleEndian>()?; // ".wav" / ".mp3"
+        let _file_offset = file.read_u32::<LittleEndian>()?; // "snd_*.wav" / "mus_*.ogg"
+        let _effects = file.read_u32::<LittleEndian>()?; // 0 in all 54
+        let _volume_bits = file.read_u32::<LittleEndian>()?; // f32; 1.0 in 49, five hand-tuned entries
+        let _pitch_bits = file.read_u32::<LittleEndian>()?; // f32; 0 in all 54
+        let _audio_group = file.read_u32::<LittleEndian>()?; // builtin group 0; AGRP is empty
         let audio_id = file.read_u32::<LittleEndian>()? as usize;
         if audio_id >= audio_count {
             return Err(invalid_data(format!(
@@ -786,6 +797,16 @@ fn parse_object_chunk(
                 "OBJT entry {id} vertex/event header exceeds object bounds"
             )));
         }
+        // Engine field order (UndertaleModTool `UndertaleGameObject.Unserialize`):
+        // vertex count, friction, awake, kinematic, then the vertex pairs, then the
+        // event count. The block is fixed-size (8*vertex_count + 16), so reading the
+        // vertices first would still land on the same event table — but it would
+        // assign the friction/awake/kinematic words to the wrong fields on every
+        // object that carries vertices (172 of 191 here carry the default
+        // two-point box).
+        let friction_bits = file.read_u32::<LittleEndian>()?;
+        let awake = file.read_u32::<LittleEndian>()?;
+        let kinematic = file.read_u32::<LittleEndian>()?;
         let mut vertices = Vec::with_capacity(vertex_count as usize);
         for _ in 0..vertex_count {
             vertices.push([
@@ -793,9 +814,6 @@ fn parse_object_chunk(
                 file.read_u32::<LittleEndian>()?,
             ]);
         }
-        let friction_bits = file.read_u32::<LittleEndian>()?;
-        let awake = file.read_u32::<LittleEndian>()?;
-        let kinematic = file.read_u32::<LittleEndian>()?;
         let event_type_count = file.read_u32::<LittleEndian>()?;
         let event_pointer_table_pos = file.stream_position()?;
         let event_pointer_table_size = u64::from(event_type_count)
@@ -1062,15 +1080,21 @@ fn parse_variable_references(
         return Err(invalid_data("VARI chunk is outside the file"));
     }
     file.seek(SeekFrom::Start(chunk_pos))?;
-    let count = file.read_u32::<LittleEndian>()?;
-    let _max_variable_count = file.read_u32::<LittleEndian>()?;
-    let _locals_count = file.read_u32::<LittleEndian>()?;
-    let records_end = chunk_pos
-        .checked_add(HEADER_SIZE + u64::from(count) * RECORD_SIZE)
-        .ok_or_else(|| invalid_data("VARI records overflow"))?;
-    if records_end > chunk_end {
-        return Err(invalid_data("VARI records exceed chunk bounds"));
+    // The three header words are metadata (UTMT `UndertaleChunkVARI`: VarCount1,
+    // VarCount2, MaxLocalVarCount — the instance-variable counts), NOT the number
+    // of records. UTMT reads the list to the end of the chunk (`while Position +
+    // varLength <= start + Length`) and `scripts/reverse_code.py` enforces the
+    // same tiling. Trusting VarCount1 (691) here silently dropped the tail: the
+    // full list is 2,088 records carrying 52,459 reference positions, of which
+    // the first 691 cover only 39,263.
+    let _var_count1 = file.read_u32::<LittleEndian>()?;
+    let _var_count2 = file.read_u32::<LittleEndian>()?;
+    let _max_local_var_count = file.read_u32::<LittleEndian>()?;
+    let records_bytes = u64::from(chunk_size) - HEADER_SIZE;
+    if records_bytes % RECORD_SIZE != 0 {
+        return Err(invalid_data("VARI record list has a partial record"));
     }
+    let count = records_bytes / RECORD_SIZE;
 
     let mut records = Vec::with_capacity(count as usize);
     for _ in 0..count {
@@ -1085,6 +1109,16 @@ fn parse_variable_references(
     let mut references = HashMap::new();
     for (name_offset, occurrence_count, mut occurrence_pos) in records {
         let name = read_required_null_string(file, name_offset, file_len, "VARI")?;
+        if occurrence_count == 0 {
+            // UTMT throws when a no-occurrence variable still carries a first
+            // occurrence address; this asset writes -1 for all 1,356 of them.
+            if occurrence_pos != u64::from(u32::MAX) {
+                return Err(invalid_data(format!(
+                    "VARI {name} has no occurrences but still carries a first-occurrence address"
+                )));
+            }
+            continue;
+        }
         for occurrence_index in 0..occurrence_count {
             let reference_pos = occurrence_pos
                 .checked_add(4)
@@ -1103,19 +1137,18 @@ fn parse_variable_references(
             }
             if occurrence_index + 1 < occurrence_count {
                 file.seek(SeekFrom::Start(reference_pos))?;
-                let raw_delta = file.read_u32::<LittleEndian>()? & 0x00ff_ffff;
-                let signed_delta = if raw_delta & 0x0080_0000 != 0 {
-                    i64::from(raw_delta) - (1_i64 << 24)
-                } else {
-                    i64::from(raw_delta)
-                };
-                if signed_delta == 0 {
+                // UTMT `UndertaleInstruction.ReferenceNextOccurrenceOffset`: the
+                // low 27 bits are the forward delta to the next occurrence; bits
+                // 27..31 carry the reference-type nibble.
+                let delta = u64::from(file.read_u32::<LittleEndian>()? & 0x07ff_ffff);
+                if delta == 0 {
                     return Err(invalid_data(format!(
                         "VARI {name} occurrence chain has a zero delta"
                     )));
                 }
-                occurrence_pos = u64::try_from(occurrence_pos as i64 + signed_delta)
-                    .map_err(|_| invalid_data(format!("VARI {name} occurrence underflows")))?;
+                occurrence_pos = occurrence_pos
+                    .checked_add(delta)
+                    .ok_or_else(|| invalid_data(format!("VARI {name} occurrence overflows")))?;
             }
         }
     }
@@ -2239,5 +2272,55 @@ mod tests {
             asset.sprites.len(),
             asset.tpag_items.len()
         );
+    }
+
+    /// The VARI record list must be read to the end of the chunk (UTMT reads it
+    /// by length; `scripts/reverse_code.py` enforces the same tiling). A reader
+    /// that trusted `VarCount1` (691) dropped the tail's occurrence chains —
+    /// 2,088 records carry 52,459 reference positions, the first 691 only 39,263.
+    #[test]
+    fn the_variable_reference_map_covers_the_whole_vari_record_list() {
+        let candidates = [
+            "assets/game.droid",
+            "../../assets/game.droid",
+            "/data/data/com.termux/files/usr/tmp/cally_caves_2/apk/assets/game.droid",
+            "test_assets/game.droid",
+            "../test_assets/game.droid",
+            "../../test_assets/game.droid",
+            "../../../test_assets/game.droid",
+        ];
+        let mut found = None;
+        for path in &candidates {
+            if std::path::Path::new(path).exists() {
+                found = Some(*path);
+                break;
+            }
+        }
+        let path = match found {
+            Some(p) => p,
+            None => {
+                eprintln!("Skipping: no game.droid found in candidate paths.");
+                return;
+            }
+        };
+        let bytes = std::fs::read(path).expect("read game.droid");
+        let mut p = 8usize;
+        let (lo, size) = loop {
+            let tag = &bytes[p..p + 4];
+            let size = u32::from_le_bytes(bytes[p + 4..p + 8].try_into().unwrap());
+            if tag == b"VARI" {
+                break (p + 8, size);
+            }
+            p += 8 + ((size as usize + 3) & !3);
+        };
+        let mut file = File::open(path).expect("open game.droid");
+        let map = parse_variable_references(&mut file, lo as u64, size, bytes.len() as u64)
+            .expect("parse VARI");
+        assert_eq!(map.len(), 52459,
+            "the reference map must cover every occurrence in the 2,088-record list");
+        assert_eq!(map.get(&3_979_456u64).map(String::as_str), Some("coinspread17"),
+            "record 700's first occurrence is a tail position the old reader dropped");
+        assert_eq!(map.get(&0x40_1358u64).map(String::as_str), Some("view_current"),
+            "record 1000's first occurrence");
     }
 }

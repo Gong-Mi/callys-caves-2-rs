@@ -10,10 +10,10 @@ GMS 1.4 bytecode16 打包，两个 chunk 分工：
 
 | chunk | 条目 | 内容 |
 |---|---|---|
-| SOND | 54 | 36 字节/条：`name_ptr / flags / kind / ext_ptr / effects / volume(f32) / audo_id` |
+| SOND | 54 | 36 字节/条（9 词，`UndertaleSound` 顺序）：`name_ptr / flags / type_ptr / file_ptr / effects / volume(f32) / pitch(f32) / audio_group / audo_id`。`flags`：0x65 = Regular\|IsEmbedded（29 个 `snd_*`）、0x64 = Regular（25 个 `mus_*`）；`type` = ".wav"/".mp3"，`file` = "snd_*.wav"/"mus_*.ogg"；`effects`/`pitch`/`audio_group` 全 0（AGRP 为空）。守卫：`sprite_and_tile_layout_ir::the_sound_records_carry_the_streamed_embedded_split` |
 | AUDO | 29 | 内嵌完整 RIFF/WAV（含 12 字节 RIFF 头），指针表寻址 |
 
-**音效与音乐分流**：29 个 `snd_*` SOND 条目全部指向 AUDO 内嵌数据（29/29 一一对应）；25 个 `mus_*` 条目 `audo_id` 全为占位——音乐是 APK assets 里的独立 OGG 文件，不进 game.droid。这是 GMS Android 打包的标准策略：短音效内嵌 runner 即时解码，长音乐走外部文件流式播放。
+**音效与音乐分流**：29 个 `snd_*` SOND 条目全部指向 AUDO 内嵌数据（29/29 一一对应，`audo_id` 0..28 按序）；25 个 `mus_*` 条目 `audo_id` 全为占位 **28**——音乐是 APK assets 里的独立 OGG 文件，不进 game.droid。这是 GMS Android 打包的标准策略：短音效内嵌 runner 即时解码，长音乐走外部文件流式播放。
 
 ## 2. 格式规格（制作管线证据）
 
