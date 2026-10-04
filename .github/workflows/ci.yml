@@ -28,6 +28,8 @@ jobs:
         run: python3 scripts/test_pointer_release_java.py
       - name: Test the semantic-coverage census
         run: python3 scripts/test_reverse_semantic_coverage.py
+      - name: "Differential: Java pointer adapters vs the Rust input semantics"
+        run: python3 scripts/test_pointer_mapping_parity.py
       - name: Run Tests
         run: cargo test --workspace --verbose
       - name: Upload Native Executable
