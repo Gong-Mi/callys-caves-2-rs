@@ -613,3 +613,114 @@ fn every_func_record_resolves_a_name_and_a_code_site() {
     }
     assert_eq!(names.len(), 99, "every function name was seen");
 }
+
+/// NUL-terminated string at an absolute file offset.
+fn read_c_string(bytes: &[u8], at: usize) -> String {
+    let end = bytes[at..].iter().position(|&c| c == 0).map(|p| at + p).expect("string terminator");
+    String::from_utf8_lossy(&bytes[at..end]).to_string()
+}
+
+/// The chunk inventory itself: every tag present is one this contract names, no
+/// tag repeats, and the walk lands exactly on the end of the file. A file that
+/// gains a chunk — or a walk that is off by a header — fails here first, before
+/// any per-chunk guard can be fooled by reading the wrong region.
+#[test]
+fn every_chunk_in_the_file_is_one_this_contract_names() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    assert_eq!(u32le(&bytes, 4) as usize + 8, bytes.len(), "the FORM size must cover the file");
+    let mut seen = Vec::new();
+    let mut p = 8;
+    while p < bytes.len() {
+        let tag = String::from_utf8_lossy(&bytes[p..p + 4]).to_string();
+        assert!(!seen.contains(&tag), "chunk {tag} appears twice; the readers key chunks by tag");
+        seen.push(tag);
+        p += 8 + (((u32le(&bytes, p + 4) as usize) + 3) & !3);
+    }
+    assert_eq!(p, bytes.len(), "the chunk walk must end exactly at the end of the file");
+    let expected: Vec<String> = "GEN8 OPTN LANG EXTN SOND AGRP SPRT BGND PATH SCPT GLOB SHDR FONT TMLN OBJT ROOM DAFL TPAG CODE VARI FUNC STRG TXTR AUDO"
+        .split(' ').map(|s| s.to_string()).collect();
+    assert_eq!(seen, expected, "chunk set and order");
+}
+
+/// `TXTR` is the only place pixels live, and the blobs are aligned so the
+/// runtime can mmap/memcpy them. Each entry resolves to a record whose second
+/// word is a 128-byte-aligned PNG start inside the chunk; a reader that took
+/// the record offset for the blob offset would hand the decoder a 16-byte
+/// header.
+#[test]
+fn the_texture_chunk_holds_the_only_pngs_in_the_file_and_each_one_is_aligned() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (txtr, txtr_end) = chunk_bounds(&bytes, b"TXTR");
+    let count = u32le(&bytes, txtr) as usize;
+    assert_eq!(count, 4, "texture count");
+    for index in 0..count {
+        let record = u32le(&bytes, txtr + 4 + 4 * index) as usize;
+        assert!((txtr..txtr_end).contains(&record), "TXTR {index} record offset");
+        assert_eq!(u32le(&bytes, record), 0, "TXTR {index} first word (scaled)");
+        let blob = u32le(&bytes, record + 4) as usize;
+        assert!((txtr..txtr_end).contains(&blob), "TXTR {index} blob offset");
+        assert_eq!(blob % 128, 0, "TXTR {index} blob must be 128-byte aligned");
+        assert_eq!(&bytes[blob..blob + 4], b"\x89PNG", "TXTR {index} must start with the PNG magic");
+    }
+    let magics = bytes.windows(4).filter(|w| w == b"\x89PNG").count();
+    assert_eq!(magics, count, "every PNG in the file belongs to this chunk, and there are {magics} of them");
+}
+
+/// `OPTN` holds the game constants and the loading-screen images; `LANG` holds
+/// nothing. `@@DrawColour` is worth pinning: it is the white the live runtime
+/// reports in its `Draw_Color` slot, so the data file and the running game
+/// agree on the default draw colour.
+#[test]
+fn the_options_chunk_carries_the_game_constants_and_the_language_chunk_is_empty() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (optn, optn_end) = chunk_bounds(&bytes, b"OPTN");
+    assert_eq!(optn_end - optn, 80, "OPTN body size");
+    assert_eq!(u32le(&bytes, optn), 0x8000_0000, "ShaderExtensionFlag (int.MinValue = the new format)");
+    assert_eq!(u32le(&bytes, optn + 4), 2, "ShaderExtensionVersion");
+    assert_eq!([u32le(&bytes, optn + 44), u32le(&bytes, optn + 48), u32le(&bytes, optn + 52)], [0, 0, 0],
+        "no loading-screen images");
+    assert_eq!(u32le(&bytes, optn + 56), 255, "loading alpha");
+    let constant_count = u32le(&bytes, optn + 60) as usize;
+    assert_eq!(constant_count, 2, "game constant count");
+    let constants: Vec<(String, String)> = (0..constant_count)
+        .map(|index| {
+            let name_ptr = u32le(&bytes, optn + 64 + 8 * index) as usize;
+            let value_ptr = u32le(&bytes, optn + 68 + 8 * index) as usize;
+            (read_c_string(&bytes, name_ptr), read_c_string(&bytes, value_ptr))
+        })
+        .collect();
+    assert_eq!(constants, vec![
+        ("@@SleepMargin".to_string(), "1".to_string()),
+        ("@@DrawColour".to_string(), "4294967295".to_string()),
+    ], "the two constants the game declares");
+    let (lang, lang_end) = chunk_bounds(&bytes, b"LANG");
+    assert_eq!(lang_end - lang, 12, "LANG body size");
+    assert_eq!([u32le(&bytes, lang), u32le(&bytes, lang + 4), u32le(&bytes, lang + 8)], [1, 0, 0],
+        "LANG: one unknown word and no languages or entries");
+}
+
+/// The game ships exactly one native extension — the AdColony ad SDK — and the
+/// symbols it exports are in the FUNC roster the VM dispatch is audited
+/// against, so the `AdColony_*` calls in object code are real code paths, not
+/// dead data. The extension record's full layout is NOT attested beyond these
+/// name-string offsets; the contract says so rather than implying more.
+#[test]
+fn the_extension_chunk_lists_the_ad_extension_that_the_object_code_calls() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (extn, extn_end) = chunk_bounds(&bytes, b"EXTN");
+    assert!(extn_end > extn, "the extension chunk is present");
+    assert_eq!(u32le(&bytes, extn), 1, "exactly one extension");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, extn + 12) as usize), "AdColonyExtension");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, extn + 16) as usize), "AdColonyExt");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, extn + 28) as usize), "AdColony.ext");
+    let (func, _) = chunk_bounds(&bytes, b"FUNC");
+    let names: std::collections::BTreeSet<String> = (0..u32le(&bytes, func) as usize)
+        .map(|index| read_c_string(&bytes, u32le(&bytes, func + 4 + 12 * index) as usize))
+        .collect();
+    assert!(names.contains("AdColony_Init") && names.contains("AdColony_ShowVideo"),
+        "the extension's exported functions must be in the FUNC roster");
+}

@@ -225,6 +225,24 @@ Guard: `every_func_record_resolves_a_name_and_a_code_site`.
 STRG carries 3,210 strings; its pointer table is a counted list of absolute
 offsets, with each string record being `u32 length + bytes`.
 
+## The remaining chunks (inventory)
+
+| Chunk | Body | Definition |
+| --- | --- | --- |
+| OPTN | 80 bytes | NewFormat (`ShaderExtensionFlag` = int.MinValue `0x80000000`), `ShaderExtensionVersion` 2, options info flags `0x00CC7A14`, no loading images, `LoadAlpha` 255, then **2 game constants**: `@@SleepMargin` = `1`, `@@DrawColour` = `4294967295`. `@@DrawColour` is the white the live runtime reports in its `Draw_Color` slot — the data file and the running game agree on the default draw colour. |
+| LANG | 12 bytes | `1 / 0 / 0`: one unknown word, **no languages, no entries**. |
+| EXTN | 224 bytes | exactly **one extension**: the AdColony ad SDK (`AdColonyExtension` / `AdColonyExt` / `AdColony.ext`). Its exported symbols `AdColony_Init` and `AdColony_ShowVideo` are in the FUNC roster, and object code calls them (the recovered startup records `AdColony_Init("app73023f81ce5d4f508a", …)`); the remake dispatches them as platform no-ops. **Not attested:** the extension record's layout beyond those name-string offsets. |
+| TXTR | 4 textures, 1.88 MB | `u32 count` + count × u32 record offsets; each record is `{u32 scaled = 0, u32 blob_offset}`; every blob is **128-byte aligned** and starts with the PNG magic. Those 4 PNGs are the only PNGs anywhere in the file. |
+| TPAG | 1,791 records | texture-page rects (`l, t, w, h` + PNG source); the SPRT section consumes them. |
+| SOND / AUDO | — | audio catalogue; see `audio-sond.json` and `audio-audo.json`. |
+| AGRP / PATH / SCPT / GLOB / SHDR / TMLN / DAFL | empty | see "Chunks that are present but empty". |
+
+Structural guard: `every_chunk_in_the_file_is_one_this_contract_names` walks the
+chunk table, rejects a repeated tag (the readers key chunks by tag, so a
+duplicate would silently win) and requires the walk to end exactly at EOF — a
+file that gains a chunk fails there before any per-chunk guard can be fooled by
+reading the wrong region.
+
 ## Known deviations
 
 * Placement scale/rotation are applied **after** the object's Create event,
