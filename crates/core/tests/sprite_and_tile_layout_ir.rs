@@ -13,16 +13,56 @@
 //! * ROOM views — 8 slots per room, `visible` is a flag, live views carry
 //!   positive source/viewport rects, a bounded border band and a follow target
 //!   that is either -1 or a real object id;
+//! * ROOM header — the colour/clear words, the room creation code and the flag
+//!   word match the bytes, only GameMaker's documented flag bits are set, and a
+//!   creation code resolves or is -1;
+//! * ROOM backgrounds — 8 slots per room (40-byte records), flags are booleans,
+//!   a slot names a real BGND entry or none, and no slot in this asset both
+//!   shows and names a background;
 //! * BGND — flags are booleans and every background resolves a TPAG page rect;
-//! * FONT — every glyph box lies inside its font's page rect.
+//! * FONT — every glyph box lies inside its font's page rect;
+//! * the OBJT action tail — every 56-byte action record matches the parser, and
+//!   the words whose meaning this format does not document (`kind`,
+//!   `execution_type`, `who`, `relative`, `is_not`, `unknown`) are pinned to the
+//!   single value the whole asset carries;
+//! * the CODE entry and VARI header words the readers deliberately drop — the
+//!   survey counts that make dropping them safe are asserted, so a future file
+//!   that varies them fails here instead of silently losing a field;
+//! * GEN8 — the bytecode gate, the declared window the engine canvas copies,
+//!   and the room-order list that makes ROOM-chunk position the engine's room
+//!   index;
+//! * the chunks that are present but empty (PATH/SCPT/GLOB/SHDR/TMLN/AGRP,
+//!   DAFL) — their emptiness is a fact about the runtime's job, not missing
+//!   reader code;
+//! * FUNC — every 12-byte record's name resolves inside STRG, its occurrences
+//!   walk a delta-linked chain through the CODE bodies (the final node carries
+//!   the name's STRG index), and the trailing code-locals table binds every
+//!   CODE body by name and exhausts the chunk;
+//! * LANG — the three-word empty record (`Unknown1 = 1`, no languages);
+//! * EXTN — the single AdColony extension: pointer list, extension, file, five
+//!   function records (the exported symbols the recovered GML calls), and the
+//!   16-byte product-id blob;
+//! * VARI — the record list runs to the chunk end (the header counts are
+//!   metadata, not a record count); `instance_type`/`var_id` classify every
+//!   variable's scope (Global/Local/Self) and slot, and the occurrence chains
+//!   walk like FUNC's;
+//! * the OBJT physics tail — friction/awake/kinematic sit between the vertex
+//!   count and the vertex array (the engine's field order), asserted per object
+//!   against the bytes;
+//! * SOND — flags split the 29 embedded `snd_*` from the 25 streamed `mus_*`,
+//!   and the dropped words (effects, pitch, group) are pinned.
 //!
 //! The tile check also pins what the original data contains, because the open
 //! issue #31 assumed the remake was dropping something. It is not: the game has
 //! exactly one tiled room (rm_level1, 114 records), every record carries
 //! `bg_id = -1`, and no CODE calls any `tile_*` builtin — the tiles are
 //! ROOM-format data the bytecode never touches. `draw_tile` skips `bg_id < 0`,
-//! so the correct visual result is "nothing".
+//! so the correct visual result is "nothing". The same holds for the room
+//! BACKGROUND table: all 912 slots are disabled or nameless, so no room draws a
+//! background layer and adding one would be inventing a layer the data lacks.
 use callys_asset::GameDroidAsset;
+use callys_core::ir_scene::Scene;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
 fn u16le(b: &[u8], p: usize) -> u16 { u16::from_le_bytes(b[p..p + 2].try_into().unwrap()) }
@@ -239,4 +279,866 @@ fn every_font_glyph_box_matches_the_bytes_and_lies_inside_its_page() {
     }
     assert!(glyphs > 500, "the fonts carry {glyphs} glyphs; the scan must see them all");
     println!("font glyphs checked: {glyphs}");
+}
+
+/// GameMaker's room flag bits, from UndertaleModTool's `RoomEntryFlags`.
+const ENABLE_VIEWS: u32 = 1;
+const CLEAR_VIEW_BACKGROUND: u32 = 2;
+const DO_NOT_CLEAR_DISPLAY_BUFFER: u32 = 4;
+
+/// The room header words the loader used to drop: the background colour and
+/// its clear flag, the room creation code and the flag word. They are parsed
+/// now, so a shifted read is room state, not a private implementation detail —
+/// the flag bits are pinned to GameMaker's documented set and the creation
+/// code must resolve to a real CODE entry or be absent.
+#[test]
+fn every_room_header_word_matches_the_parser_and_carries_only_known_flag_bits() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (_, room_offsets, _) = counted_table(&bytes, b"ROOM");
+    let (code_lo, code_offsets, _) = counted_table(&bytes, b"CODE");
+    let code_count = u32le(&bytes, code_lo) as i32;
+    let asset = GameDroidAsset::parse(r.join("assets/game.droid")).unwrap();
+    assert_eq!(room_offsets.len(), 114, "the room table");
+    assert_eq!(code_offsets.len(), code_count as usize, "the CODE roster");
+    let mut clears_to_own_colour = 0;
+    let mut black_colour = 0;
+    for (id, &off) in room_offsets.iter().enumerate() {
+        let room = &asset.rooms[id];
+        assert_eq!(room.background_colour, u32le(&bytes, off + 24),
+            "room {id} {} background colour", room.name);
+        let raw_clear = u32le(&bytes, off + 28);
+        assert!(raw_clear <= 1, "room {id} clear word {raw_clear} is not a flag");
+        assert_eq!(room.draw_background_colour, raw_clear != 0, "room {id} clear flag");
+        assert_eq!(room.creation_code_id, i32le(&bytes, off + 32), "room {id} creation code");
+        assert!(room.creation_code_id == -1 || (0..code_count).contains(&room.creation_code_id),
+            "room {id} creation code {} resolves no CODE entry", room.creation_code_id);
+        assert_eq!(room.flags, u32le(&bytes, off + 36), "room {id} flags");
+        assert_eq!(room.flags & !(ENABLE_VIEWS | CLEAR_VIEW_BACKGROUND | DO_NOT_CLEAR_DISPLAY_BUFFER), 0,
+            "room {id} sets a room flag bit GameMaker does not define: {:#x}", room.flags);
+        assert_eq!(room.flags & ENABLE_VIEWS, ENABLE_VIEWS,
+            "room {id} carries a view table, so EnableViews must be set");
+        assert_eq!(room.backgrounds.len(), 8, "room {id} background slot count");
+        if room.draw_background_colour { clears_to_own_colour += 1; }
+        if room.background_colour == 0 { black_colour += 1; }
+    }
+    assert_eq!(clears_to_own_colour, 1, "exactly one room clears to its own colour");
+    assert_eq!(black_colour, 110, "the four 0x00C0C0C0 rooms never clear to it");
+    assert!(asset.rooms.iter().all(|room| room.flags == 5),
+        "every room in this asset carries EnableViews | DoNotClearDisplayBuffer");
+    assert!(asset.rooms.iter().all(|room| room.creation_code_id == -1),
+        "no room in this asset runs a creation code");
+}
+
+/// The room BACKGROUND table: 8 slots per room, 40-byte records. Every field
+/// must equal the bytes, a slot must name a real BGND entry or none, and the
+/// renderer-relevant conclusion is asserted rather than assumed — in this asset
+/// no slot both shows and names a background, so no room draws one.
+#[test]
+fn every_room_background_slot_matches_the_parser_and_no_room_draws_a_layer() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (_, room_offsets, _) = counted_table(&bytes, b"ROOM");
+    let (_, bgnd_offsets, _) = counted_table(&bytes, b"BGND");
+    let bgnd_count = bgnd_offsets.len() as i32;
+    let asset = GameDroidAsset::parse(r.join("assets/game.droid")).unwrap();
+    let (mut slots, mut visible, mut foreground, mut named, mut drawable) = (0usize, 0usize, 0usize, 0usize, 0usize);
+    let (mut tiled_x, mut tiled_y, mut stretch, mut offset_slots) = (0usize, 0usize, 0usize, 0usize);
+    for (id, &off) in room_offsets.iter().enumerate() {
+        let list = u32le(&bytes, off + 40) as usize;
+        assert_eq!(u32le(&bytes, list), 8, "room {id} must carry the eight GM background slots");
+        let room = &asset.rooms[id];
+        assert_eq!(room.backgrounds.len(), 8, "room {id} parser slot count");
+        for (slot, parsed) in room.backgrounds.iter().enumerate() {
+            let so = u32le(&bytes, list + 4 + 4 * slot) as usize;
+            if slot > 0 {
+                let prev = u32le(&bytes, list + 4 * slot) as usize;
+                assert_eq!(so - prev, 40, "room {id} slot {slot} background record stride");
+            }
+            for (field, at) in [("visible", 0usize), ("foreground", 4), ("tiled_x", 20), ("tiled_y", 24), ("stretch", 36)] {
+                let raw = u32le(&bytes, so + at);
+                assert!(raw <= 1, "room {id} slot {slot} {field} raw {raw} is not a flag");
+            }
+            assert_eq!(parsed.visible, u32le(&bytes, so) != 0, "room {id} slot {slot} visible");
+            assert_eq!(parsed.foreground, u32le(&bytes, so + 4) != 0, "room {id} slot {slot} foreground");
+            assert_eq!(parsed.background_id, i32le(&bytes, so + 8), "room {id} slot {slot} background id");
+            assert!(parsed.background_id == -1 || (0..bgnd_count).contains(&parsed.background_id),
+                "room {id} slot {slot} names background {} but BGND holds {bgnd_count} entries",
+                parsed.background_id);
+            assert_eq!(parsed.x, i32le(&bytes, so + 12), "room {id} slot {slot} x");
+            assert_eq!(parsed.y, i32le(&bytes, so + 16), "room {id} slot {slot} y");
+            assert_eq!(parsed.tiled_horizontally, u32le(&bytes, so + 20) != 0, "room {id} slot {slot} tiling x");
+            assert_eq!(parsed.tiled_vertically, u32le(&bytes, so + 24) != 0, "room {id} slot {slot} tiling y");
+            assert_eq!(parsed.speed_x, i32le(&bytes, so + 28), "room {id} slot {slot} speed x");
+            assert_eq!(parsed.speed_y, i32le(&bytes, so + 32), "room {id} slot {slot} speed y");
+            assert_eq!(parsed.stretch, u32le(&bytes, so + 36) != 0, "room {id} slot {slot} stretch");
+            assert_eq!((parsed.speed_x, parsed.speed_y), (0, 0),
+                "room {id} slot {slot} scrolls; nothing in this tree implements a scrolling background");
+            slots += 1;
+            if parsed.visible { visible += 1; }
+            if parsed.foreground { foreground += 1; }
+            if parsed.background_id >= 0 { named += 1; }
+            if parsed.tiled_horizontally { tiled_x += 1; }
+            if parsed.tiled_vertically { tiled_y += 1; }
+            if parsed.stretch { stretch += 1; }
+            if parsed.x != 0 || parsed.y != 0 { offset_slots += 1; }
+            if parsed.visible && parsed.background_id >= 0 { drawable += 1; }
+        }
+    }
+    assert_eq!(slots, 912, "eight slots for each of the 114 rooms");
+    assert_eq!(visible, 106, "the slots the room editor left ticked");
+    assert_eq!(foreground, 0, "no room in this asset draws a foreground background");
+    assert_eq!(named, 2, "only rm_town (background 5) and rm_level1 (background 0) name one, both unticked");
+    assert_eq!((tiled_x, tiled_y), (802, 802), "the tiling flags travel together in this asset");
+    assert_eq!(stretch, 103, "the stretch flag is set on a minority of slots");
+    assert_eq!(offset_slots, 0, "every slot sits at 0,0");
+    assert_eq!(drawable, 0,
+        "no slot both shows and names a background, so no room draws a background layer; \
+         a renderer that invents one is adding a layer the original data does not have");
+}
+
+/// Actions are reached through three tables (object → event list → action
+/// pointer table). This walk is independent of the parser and must find exactly
+/// the actions the parser reports before any of their words is trusted.
+fn raw_actions_per_object(bytes: &[u8]) -> Vec<Vec<usize>> {
+    let (_, records, _) = counted_table(bytes, b"OBJT");
+    records.iter().map(|&r| {
+        let vertex_count = u32le(bytes, r + 64) as usize;
+        let event_types_at = r + 68 + 8 * vertex_count + 12;
+        let mut actions = Vec::new();
+        for et in 0..u32le(bytes, event_types_at) as usize {
+            let list = u32le(bytes, event_types_at + 4 + 4 * et) as usize;
+            for e in 0..u32le(bytes, list) as usize {
+                let event = u32le(bytes, list + 4 + 4 * e) as usize;
+                for a in 0..u32le(bytes, event + 4) as usize {
+                    actions.push(u32le(bytes, event + 8 + 4 * a) as usize);
+                }
+            }
+        }
+        actions
+    }).collect()
+}
+
+/// The OBJT action record (56 bytes) and the tail words the asset format does
+/// not document. Every field is compared against the bytes, and the words whose
+/// meaning stays unknown are pinned to the single value the whole asset carries
+/// (`kind` 7, `execution_type` 2, `who` -1, `relative` 0, `is_not` 0,
+/// `unknown` 0) so a future file that varies them cannot slip through unnamed.
+///
+/// The function-name word is pinned the same way: all 803 actions share one
+/// pointer, and it resolves to an empty string, which is why `function_name` on
+/// the parser side is empty everywhere. Left unasserted that reads as "no data
+/// here"; asserted, it is a property of the file.
+#[test]
+fn every_objt_action_record_matches_the_parser_and_its_undocumented_words_are_uniform() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let asset = GameDroidAsset::parse(r.join("assets/game.droid")).unwrap();
+    let raw = raw_actions_per_object(&bytes);
+    assert_eq!(raw.len(), asset.objects.len(), "every object record was walked");
+    let mut total = 0usize;
+    let mut name_pointers = std::collections::BTreeSet::new();
+    for (id, actions) in raw.iter().enumerate() {
+        let object = &asset.objects[id];
+        let parsed: Vec<&callys_asset::ObjectAction> =
+            object.events.iter().flat_map(|e| e.actions.iter()).collect();
+        assert_eq!(actions.len(), parsed.len(),
+            "object {id} {}: the independent walk and the parser disagree on action count", object.name);
+        for (ap, action) in actions.iter().zip(parsed.iter()) {
+            let ap = *ap;
+            assert_eq!(action.library_id, u32le(&bytes, ap), "object {id} action library");
+            assert_eq!(action.action_id, u32le(&bytes, ap + 4), "object {id} action id");
+            assert_eq!(action.kind, u32le(&bytes, ap + 8), "object {id} action kind");
+            assert_eq!(action.use_relative_raw, u32le(&bytes, ap + 12), "object {id} use_relative");
+            assert_eq!(action.is_question_raw, u32le(&bytes, ap + 16), "object {id} is_question");
+            assert_eq!(action.use_apply_to_raw, u32le(&bytes, ap + 20), "object {id} use_apply_to");
+            assert_eq!(action.execution_type, u32le(&bytes, ap + 24), "object {id} execution type");
+            name_pointers.insert(u32le(&bytes, ap + 28));
+            assert_eq!(action.code_id, i32le(&bytes, ap + 32), "object {id} code id");
+            assert_eq!(action.argument_count, u32le(&bytes, ap + 36), "object {id} argument count");
+            assert_eq!(action.who, i32le(&bytes, ap + 40), "object {id} who");
+            assert_eq!(action.relative_raw, u32le(&bytes, ap + 44), "object {id} relative");
+            assert_eq!(action.is_not_raw, u32le(&bytes, ap + 48), "object {id} is_not");
+            assert_eq!(action.unknown_raw, u32le(&bytes, ap + 52), "object {id} unknown word");
+            // Words this format does not document: they are uniform here, and
+            // that count is the only reason they can be carried as raw names.
+            assert_eq!(action.kind, 7, "object {id} action kind");
+            assert_eq!(action.execution_type, 2, "object {id} execution type");
+            assert_eq!(action.who, -1, "object {id} action target");
+            assert_eq!(action.relative_raw, 0, "object {id} relative word");
+            assert_eq!(action.is_not_raw, 0, "object {id} negate word");
+            assert_eq!(action.unknown_raw, 0, "object {id} trailing word");
+            assert_eq!((action.use_relative_raw, action.is_question_raw), (0, 0),
+                "object {id} relative/question words");
+            assert_eq!((action.use_apply_to_raw, action.argument_count), (1, 1),
+                "object {id} apply-to and argument words");
+            total += 1;
+        }
+    }
+    assert_eq!(total, 803, "the asset carries {total} actions, not a subset");
+    assert_eq!(name_pointers.len(), 1,
+        "all 803 actions share one function-name word; a second value means the field is live and must be read");
+    let name_ptr = *name_pointers.iter().next().unwrap() as usize;
+    assert_eq!(bytes[name_ptr], 0,
+        "the shared function-name word at {name_ptr} must resolve to an empty string");
+    assert!(parsed_actions_are_nameless(&asset),
+        "the parser's action names must all be empty, matching the shared pointer above");
+}
+
+/// Whether every action the parser exposes carries an empty function name.
+fn parsed_actions_are_nameless(asset: &GameDroidAsset) -> bool {
+    asset.objects.iter()
+        .flat_map(|o| o.events.iter())
+        .flat_map(|e| e.actions.iter())
+        .all(|a| a.function_name.is_empty())
+}
+
+/// The words the readers deliberately drop, and the survey that makes dropping
+/// them safe. `CODE` entry word +16 is zero in every record; `locals_count` is
+/// data the reader discards, so its distribution is asserted whether or not the
+/// reader keeps it; the `VARI` header's second and third words are the counts
+/// the loader reads only to skip past; OBJT's `texture_mask_id` word is -1 in
+/// all 191 objects, and the FONT antialias / aa_level / scale / glyph-unused
+/// words are uniform.
+#[test]
+fn the_words_the_readers_drop_are_uniform_in_this_asset() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (_, code_offsets, code_end) = counted_table(&bytes, b"CODE");
+    assert_eq!(code_offsets.len(), 1354);
+    let mut locals = BTreeMap::new();
+    for &off in &code_offsets {
+        let bytecode_len = u32le(&bytes, off + 4) as usize;
+        let relative = i32le(&bytes, off + 12) as i64;
+        let bytecode_pos = (off as i64 + 12).checked_add(relative).expect("bytecode offset overflow");
+        assert!(bytecode_pos >= 0 && bytecode_pos as usize + bytecode_len <= code_end,
+            "CODE at {off}: bytecode escapes the CODE chunk");
+        assert_eq!(u32le(&bytes, off + 16), 0,
+            "CODE at {off} carries a non-zero trailing word the reader drops");
+        *locals.entry(u32le(&bytes, off + 8)).or_insert(0usize) += 1;
+    }
+    assert_eq!(locals, BTreeMap::from([(1u32, 1349usize), (2, 2), (3, 1), (5, 1), (7, 1)]),
+        "CODE locals_count distribution");
+    let (vari_lo, _, vari_end) = counted_table(&bytes, b"VARI");
+    let vari_records = (vari_end - vari_lo - 12) / 20;
+    assert_eq!(vari_lo + 12 + vari_records * 20, vari_end,
+        "VARI's 20-byte records must tile the chunk exactly (UTMT reads the list by length)");
+    assert_eq!(vari_records, 2088, "VARI record count comes from the chunk size, not the header");
+    assert_eq!(u32le(&bytes, vari_lo), 691, "VARI VarCount1 = instance variable count, not a record count");
+    assert_eq!(u32le(&bytes, vari_lo + 4), 691, "VARI VarCount2");
+    assert_eq!(u32le(&bytes, vari_lo + 8), 7, "VARI MaxLocalVarCount (dropped by the reader)");
+    let (_, obj_offsets, _) = counted_table(&bytes, b"OBJT");
+    assert_eq!(obj_offsets.len(), 191);
+    assert!(obj_offsets.iter().all(|&o| i32le(&bytes, o + 28) == -1),
+        "OBJT +28 texture_mask_id (UTMT name) is -1 in every object — no mask sprite");
+    let (_, font_offsets, _) = counted_table(&bytes, b"FONT");
+    assert_eq!(font_offsets.len(), 6);
+    let mut glyphs = 0usize;
+    for &f in &font_offsets {
+        assert_eq!(u32le(&bytes, f + 24), 127, "FONT antialias");
+        assert_eq!(f32le(&bytes, f + 32), 1.0, "FONT aa_level");
+        assert_eq!(f32le(&bytes, f + 36), 1.0, "FONT scale");
+        let n = u32le(&bytes, f + 40) as usize;
+        for g in 0..n {
+            let glyph = u32le(&bytes, f + 44 + 4 * g) as usize;
+            assert_eq!(u16le(&bytes, glyph + 14), 0, "FONT glyph unused word");
+        }
+        glyphs += n;
+    }
+    assert_eq!(glyphs, 576, "total glyphs");
+}
+
+/// Absolute bounds of one chunk body: `(body_start, body_end)`.
+fn chunk_bounds(bytes: &[u8], tag: &[u8; 4]) -> (usize, usize) {
+    let mut p = 8;
+    while &bytes[p..p + 4] != tag { p += 8 + u32le(bytes, p + 4) as usize; }
+    let body = p + 8;
+    (body, body + u32le(bytes, p + 4) as usize)
+}
+
+/// `GEN8` carries two things the rest of the tree assumes without checking: the
+/// engine's room indexing and its canvas. Both are asserted against the bytes
+/// *and* against the second consumer of the same fact (the engine's own default
+/// canvas), so either side drifting alone fails here.
+#[test]
+fn the_general_info_declares_the_canvas_and_the_room_order_that_numbers_the_rooms() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (gen8, gen8_end) = chunk_bounds(&bytes, b"GEN8");
+    let asset = GameDroidAsset::parse(r.join("assets/game.droid")).unwrap();
+    let info = asset.general_info.as_ref().expect("GEN8 must be parsed");
+    assert_eq!(bytes[gen8] != 0, info.debugger, "GEN8 debugger byte");
+    assert_eq!(info.bytecode_version, bytes[gen8 + 1], "GEN8 bytecode-version byte");
+    assert_eq!(info.bytecode_version, 16,
+        "the recovered bytecode ledger rejects any version but 16, so this is a format gate, not a detail");
+    assert_eq!(info.default_window_width, u32le(&bytes, gen8 + 60), "GEN8 default window width");
+    assert_eq!(info.default_window_height, u32le(&bytes, gen8 + 64), "GEN8 default window height");
+    assert_eq!((info.default_window_width, info.default_window_height), (1136, 640),
+        "the window the data file declares");
+    // The engine canvas is a hardcoded copy of that declared window; a drift
+    // between the two is a rendering bug with no other symptom.
+    let scene = Scene::default();
+    assert_eq!(scene.display_width as u32, info.default_window_width,
+        "engine canvas width vs the window the data file declares");
+    assert_eq!(scene.display_height as u32, info.default_window_height,
+        "engine canvas height vs the window the data file declares");
+    assert_eq!(info.name, "Real_Cally_2_Google_Play", "GEN8 +40 game name");
+    assert_eq!(info.display_name, "Callys Caves 2", "GEN8 +100 window title");
+    assert_eq!(info.version, [1, 0, 0, 1804], "GEN8 +44 runtime version");
+
+    // Room order: count at +128, then the entries, tiling the chunk exactly.
+    let count = u32le(&bytes, gen8 + 128) as usize;
+    assert_eq!(count, asset.rooms.len(), "room-order length vs the ROOM chunk");
+    assert_eq!(count, 114);
+    assert_eq!(gen8 + 128 + 4 + 4 * count, gen8_end,
+        "the room-order list must tile the GEN8 chunk exactly; short or long means the offset is wrong");
+    assert_eq!(info.room_order, (0..count).collect::<Vec<_>>(),
+        "the room order is the identity permutation, so ROOM-chunk position IS the engine room index");
+    assert_eq!(asset.rooms[0].name, "rm_town", "engine room 0 is the room the game opens in");
+}
+
+/// The chunks that are present but empty. Their emptiness is data the runtime
+/// depends on: no scripts, timelines, paths, shaders or audio groups exist, and
+/// GLOB carries no global-initialisation code, so every global can only come
+/// from an object event. A reader that assumed otherwise would be reading a
+/// different game.
+#[test]
+fn the_asset_declares_no_scripts_timelines_paths_shaders_or_audio_groups() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    for tag in [b"PATH", b"SCPT", b"GLOB", b"SHDR", b"TMLN", b"AGRP"] {
+        let (body, end) = chunk_bounds(&bytes, tag);
+        let name = String::from_utf8_lossy(tag).to_string();
+        assert_eq!(end - body, 4, "{name} body must be exactly its empty count word");
+        assert_eq!(u32le(&bytes, body), 0, "{name} count");
+    }
+    let (dafl, dafl_end) = chunk_bounds(&bytes, b"DAFL");
+    assert_eq!(dafl_end - dafl, 0, "DAFL is an empty marker chunk");
+}
+
+/// FUNC records: 12 bytes each, `name_ptr, occurrences, first_occurrence`
+/// (UndertaleModTool `UndertaleFunction`: "how often this UndertaleFunction is
+/// referenced in code"). `first_occurrence` is the head of a chain that runs
+/// through the CODE bodies — each node's second word carries the 27-bit forward
+/// delta to the next occurrence (`ReferenceNextOccurrenceOffset`, word &
+/// 0x07FFFFFF) — and the final node instead carries the function's STRG table
+/// index in its low 24 bits (`NameStringID`). The walk is the layout proof: a
+/// shifted read breaks the chain on the first node, and the end-of-chain index
+/// must agree with the name the record points at.
+#[test]
+fn every_func_record_resolves_a_name_and_a_code_site() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (func, func_end) = chunk_bounds(&bytes, b"FUNC");
+    let (strg, strg_end) = chunk_bounds(&bytes, b"STRG");
+    let (code, code_offsets, code_end) = counted_table(&bytes, b"CODE");
+    let count = u32le(&bytes, func) as usize;
+    assert_eq!(count, 99, "the function roster");
+    assert!(func + 4 + 12 * count <= func_end, "the FUNC record table must fit its chunk");
+
+    // STRG table entry -> string index. A reference points at the character
+    // bytes, i.e. table entry + 4 (record = u32 length + bytes).
+    let strg_count = u32le(&bytes, strg) as usize;
+    let mut index_of = BTreeMap::new();
+    for i in 0..strg_count {
+        let entry = strg + 4 + 4 * i;
+        let chars = u32le(&bytes, entry) as usize + 4;
+        assert!(index_of.insert(chars, i).is_none(), "STRG {i} char pointer collides");
+    }
+
+    // code body spans: each CODE record carries an absolute start and a length
+    let table_end = code + 4 + 4 * code_offsets.len();
+    let mut spans = Vec::new();
+    for &off in &code_offsets {
+        let len = u32le(&bytes, off + 4) as usize;
+        let start = (off as i64 + 12 + i32le(&bytes, off + 12) as i64) as usize;
+        assert!(start >= table_end && start + len <= code_end, "CODE body span at {off:#x}");
+        spans.push((start, start + len));
+    }
+    spans.sort();
+
+    let mut names = BTreeSet::new();
+    let mut seen = BTreeSet::new();
+    let mut total = 0usize;
+    let mut draw_sprite_ext = None;
+    for index in 0..count {
+        let record = func + 4 + 12 * index;
+        let name_ptr = u32le(&bytes, record) as usize;
+        assert!((strg..strg_end).contains(&name_ptr),
+            "FUNC {index} name pointer {name_ptr} must resolve inside STRG");
+        let name = read_c_string(&bytes, name_ptr);
+        assert!(!name.is_empty() && name.chars().all(|c| c.is_ascii_alphanumeric() || c == '_'),
+            "FUNC {index} name {name:?} is not an identifier");
+        assert!(names.insert(name.clone()), "FUNC {index} name {name} appears twice");
+        let occurrences = u32le(&bytes, record + 4) as usize;
+        assert!((1..=4096).contains(&occurrences),
+            "FUNC {index} {name} occurrences {occurrences} out of range");
+        let mut cur = u32le(&bytes, record + 8) as usize;
+        for ordinal in 0..occurrences {
+            assert!((code..code_end).contains(&cur),
+                "FUNC {index} {name} occurrence {ordinal} {cur:#x} must be a CODE address");
+            assert!(spans.iter().any(|&(a, b)| cur >= a && cur + 8 <= b && (cur - a) % 4 == 0),
+                "FUNC {index} {name} occurrence {ordinal} {cur:#x} must land inside a code body");
+            assert!(seen.insert(cur), "FUNC occurrence {cur:#x} claimed twice");
+            total += 1;
+            let raw = u32le(&bytes, cur + 4);
+            if ordinal + 1 < occurrences {
+                let delta = raw & 0x07ff_ffff;
+                assert!(delta != 0, "FUNC {index} {name} occurrence chain has a zero delta");
+                cur += delta as usize;
+            } else {
+                let table_index = index_of.get(&name_ptr)
+                    .unwrap_or_else(|| panic!("FUNC {index} {name} has no STRG table index"));
+                assert_eq!(raw & 0x00ff_ffff, *table_index as u32,
+                    "FUNC {index} {name} final occurrence carries its NameStringID");
+            }
+        }
+        if name == "draw_sprite_ext" { draw_sprite_ext = Some(occurrences); }
+    }
+    assert_eq!(names.len(), 99, "every function name was seen");
+    assert_eq!(total, 14731, "total function occurrences");
+    assert_eq!(seen.len(), total, "every occurrence is a distinct code position");
+    assert_eq!(draw_sprite_ext, Some(2796), "draw_sprite_ext is the most referenced builtin");
+}
+
+/// The FUNC chunk's tail is the code-locals table (UndertaleModTool
+/// `UndertaleCodeLocals`): `count`, then per entry `{var_count, code_name_ptr,
+/// var_count × {index, name_ptr}}`. It binds every CODE body by name exactly
+/// once and exhausts the chunk — a reader that stopped after the function list
+/// would leave 21,780 bytes unexplained.
+#[test]
+fn the_code_locals_section_binds_every_code_by_name() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (func, func_end) = chunk_bounds(&bytes, b"FUNC");
+    let (_, code_offsets, _) = counted_table(&bytes, b"CODE");
+    let mut code_names = BTreeSet::new();
+    for &off in &code_offsets {
+        code_names.insert(read_c_string(&bytes, u32le(&bytes, off) as usize));
+    }
+    let count = u32le(&bytes, func) as usize;
+    let mut pos = func + 4 + 12 * count;
+    let entries = u32le(&bytes, pos) as usize;
+    pos += 4;
+    assert_eq!(entries, 1354, "one locals entry per CODE body");
+    let mut seen = BTreeSet::new();
+    let mut total_vars = 0usize;
+    let mut first: Option<(String, Vec<(u32, String)>)> = None;
+    for _ in 0..entries {
+        let n = u32le(&bytes, pos) as usize;
+        let name = read_c_string(&bytes, u32le(&bytes, pos + 4) as usize);
+        assert!(code_names.contains(&name), "locals entry {name} must name a CODE body");
+        assert!(seen.insert(name.clone()), "locals entry {name} appears twice");
+        pos += 8;
+        let mut vars = Vec::new();
+        for _ in 0..n {
+            vars.push((u32le(&bytes, pos), read_c_string(&bytes, u32le(&bytes, pos + 4) as usize)));
+            pos += 8;
+        }
+        assert_eq!(vars.first().map(|(i, n)| (*i, n.as_str())), Some((0, "arguments")),
+            "locals entry {name} starts with argument slot 0");
+        total_vars += vars.len();
+        if first.is_none() { first = Some((name, vars)); }
+    }
+    assert_eq!(pos, func_end, "the locals table exhausts the FUNC chunk");
+    assert_eq!(seen, code_names, "every CODE body has a locals entry and nothing else");
+    assert_eq!(total_vars, 1368, "total local variables");
+    let (name, vars) = first.unwrap();
+    assert_eq!(name, "gml_Object_obj_player_Create_0");
+    assert_eq!(vars, vec![(0u32, "arguments".to_string())]);
+}
+
+/// EXTN: one extension reached through a pointer list, laid out per
+/// UndertaleModTool (`UndertaleExtension` / `UndertaleExtensionFile` /
+/// `UndertaleExtensionFunction`), followed by the 16-byte product-id blob
+/// (build 1804 >= 1773 makes the chunk carry it). Every string resolves, the
+/// five function records carry the exported AdColony symbols the recovered GML
+/// actually calls (arg counts included), and the records tile the chunk
+/// exactly down to the product id.
+#[test]
+fn the_extension_chunk_is_the_adcolony_record() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (extn, extn_end) = chunk_bounds(&bytes, b"EXTN");
+    assert_eq!(u32le(&bytes, extn), 1, "one extension");
+    let ext = u32le(&bytes, extn + 4) as usize;
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, ext) as usize), "", "folder name is empty");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, ext + 4) as usize), "AdColonyExtension");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, ext + 8) as usize), "AdColonyExt");
+    assert_eq!(u32le(&bytes, ext + 12), 1, "one file");
+    let file = u32le(&bytes, ext + 16) as usize;
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, file) as usize), "AdColony.ext");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, file + 4) as usize), "", "no cleanup script");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, file + 8) as usize), "", "no init script");
+    assert_eq!(u32le(&bytes, file + 12), 4, "file kind Generic");
+    assert_eq!(u32le(&bytes, file + 16), 5, "five functions");
+    let expected: [(&str, u32, &[u32]); 5] = [
+        ("AdColony_Init", 1, &[1, 1, 1]),
+        ("AdColony_ShowVideo", 2, &[1]),
+        ("AdColony_ShowVideoForV4VC", 3, &[1]),
+        ("AdColony_V4VCAvailable", 4, &[]),
+        ("AdColony_VideoAvailable", 5, &[]),
+    ];
+    for (k, (name, id, args)) in expected.iter().enumerate() {
+        let f = u32le(&bytes, file + 20 + 4 * k) as usize;
+        assert_eq!(read_c_string(&bytes, u32le(&bytes, f) as usize), *name);
+        assert_eq!(u32le(&bytes, f + 4), *id, "function id");
+        assert_eq!(u32le(&bytes, f + 8), 11, "function kind word (not in UTMT's enum; observed 11)");
+        assert_eq!(u32le(&bytes, f + 12), 2, "return type Double");
+        assert_eq!(read_c_string(&bytes, u32le(&bytes, f + 16) as usize), *name,
+            "ext name duplicates the function name in this asset");
+        assert_eq!(u32le(&bytes, f + 20) as usize, args.len(), "argument count");
+        for (a, ty) in args.iter().enumerate() {
+            assert_eq!(u32le(&bytes, f + 24 + 4 * a), *ty, "argument type String");
+        }
+    }
+    // Every record is laid out back to back — count, extension pointer, the
+    // extension record, the file record, the five function records, then the
+    // product-id blob — with no gaps anywhere (confirmed by an independent walk).
+    assert_eq!(ext, extn + 8, "the extension record follows its pointer list");
+    assert_eq!(file, ext + 20, "the file record follows the extension record");
+    let mut next = file + 20 + 4 * expected.len();
+    for (k, (_, _, args)) in expected.iter().enumerate() {
+        assert_eq!(u32le(&bytes, file + 20 + 4 * k) as usize, next,
+            "function record {k} follows its predecessor");
+        next += 24 + 4 * args.len();
+    }
+    let guid = &bytes[extn_end - 16..extn_end];
+    assert_eq!(guid, [0x66, 0x82, 0x4c, 0xa8, 0x69, 0x1e, 0x7c, 0x85, 0x5b, 0x70, 0xac, 0x11, 0x67, 0xc0, 0xd2, 0xd5],
+        "the product-id blob is the last 16 bytes of the chunk");
+    assert_eq!(next, extn_end - 16, "the function records end where the product id begins");
+}
+
+/// The VARI record list runs to the END of its chunk (UndertaleModTool
+/// `UndertaleChunkVARI.UnserializeChunk` reads `while Position + 20 <= end`;
+/// the three header words are metadata: VarCount1/VarCount2 = the instance
+/// variable count, MaxLocalVarCount). 2,088 records tile the 41,772 bytes
+/// exactly; a reader that trusted `VarCount1` (691) silently dropped the tail.
+/// Each entry's words classify the variable: `instance_type` +4 ∈ {-5 Global,
+/// -7 Local (one `arguments` record per CODE body), -1 Self} with -6 the
+/// "Builtin" marker in `var_id`, and the occurrence pair drives the same
+/// delta-linked chain as FUNC (27-bit forward delta; final node carries the
+/// name's STRG index).
+#[test]
+fn the_variable_record_list_runs_to_the_end_and_classifies_every_scope() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (vari, vari_end) = chunk_bounds(&bytes, b"VARI");
+    let (code, code_offsets, code_end) = counted_table(&bytes, b"CODE");
+    assert_eq!(
+        [u32le(&bytes, vari), u32le(&bytes, vari + 4), u32le(&bytes, vari + 8)],
+        [691, 691, 7],
+        "VarCount1 / VarCount2 / MaxLocalVarCount"
+    );
+    let count = (vari_end - vari - 12) / 20;
+    assert_eq!(vari + 12 + count * 20, vari_end,
+        "20-byte records must tile the chunk exactly (UTMT reads the list by length)");
+    assert_eq!(count, 2088, "records the size tiling demands");
+
+    // STRG index map (a reference points at the characters: table entry + 4)
+    let (strg, _) = chunk_bounds(&bytes, b"STRG");
+    let strg_count = u32le(&bytes, strg) as usize;
+    let mut index_of = BTreeMap::new();
+    for i in 0..strg_count {
+        let chars = u32le(&bytes, strg + 4 + 4 * i) as usize + 4;
+        assert!(index_of.insert(chars, i).is_none(), "STRG {i} char pointer collides");
+    }
+    // code body spans, shared with the FUNC chain walk
+    let table_end = code + 4 + 4 * code_offsets.len();
+    let mut spans = Vec::new();
+    for &off in &code_offsets {
+        let len = u32le(&bytes, off + 4) as usize;
+        let start = (off as i64 + 12 + i32le(&bytes, off + 12) as i64) as usize;
+        assert!(start >= table_end && start + len <= code_end, "CODE body span at {off:#x}");
+        spans.push((start, start + len));
+    }
+    spans.sort();
+
+    let mut global_positive = 0usize;
+    let mut local_default = 0usize;
+    let mut local_positive = Vec::new();
+    let mut self_default = Vec::new();
+    let mut self_positive = 0usize;
+    let mut builtin = BTreeSet::new();
+    let mut instance_count = 0usize;
+    let mut zero_occurrence = 0usize;
+    let mut with_occurrences = 0usize;
+    let mut total_occurrences = 0usize;
+    let mut seen = BTreeSet::new();
+    for index in 0..count {
+        let pos = vari + 12 + 20 * index;
+        let name_ptr = u32le(&bytes, pos) as usize;
+        let name = read_c_string(&bytes, name_ptr);
+        let instance_type = i32le(&bytes, pos + 4);
+        let var_id = i32le(&bytes, pos + 8);
+        let occurrences = u32le(&bytes, pos + 12) as usize;
+        let first = u32le(&bytes, pos + 16) as usize;
+        match (instance_type, var_id) {
+            (-5, v) if v > 0 => {
+                global_positive += 1;
+                assert!((7..=656).contains(&v), "global slot {v} in the observed range");
+            }
+            (-7, 0) => { local_default += 1; assert_eq!(name, "arguments"); }
+            (-7, v) if v > 0 => local_positive.push((name.clone(), v)),
+            (-1, 0) => self_default.push(name.clone()),
+            (-1, -6) => { builtin.insert(name.clone()); }
+            (-1, v) if v > 0 => {
+                self_positive += 1;
+                assert!((1..=690).contains(&v), "self slot {v} in the observed range");
+            }
+            _ => panic!("VARI record {index} {name} has unexpected (instance_type {instance_type}, var_id {var_id})"),
+        }
+        if instance_type != -7 && var_id != -6 { instance_count += 1; }
+        if occurrences == 0 {
+            zero_occurrence += 1;
+            assert_eq!(u32le(&bytes, pos + 16), u32::MAX,
+                "VARI {index} {name}: no occurrences must carry -1 (UTMT throws otherwise)");
+        } else {
+            with_occurrences += 1;
+            let mut cur = first;
+            for ordinal in 0..occurrences {
+                assert!(spans.iter().any(|&(a, b)| cur >= a && cur + 8 <= b && (cur - a) % 4 == 0),
+                    "VARI {index} {name} occurrence {ordinal} {cur:#x} must land inside a code body");
+                assert!(seen.insert(cur), "VARI occurrence {cur:#x} claimed twice");
+                total_occurrences += 1;
+                let raw = u32le(&bytes, cur + 4);
+                if ordinal + 1 < occurrences {
+                    let delta = raw & 0x07ff_ffff;
+                    assert!(delta != 0, "VARI {index} {name} occurrence chain has a zero delta");
+                    cur += delta as usize;
+                } else {
+                    let table_index = index_of.get(&name_ptr)
+                        .unwrap_or_else(|| panic!("VARI {index} {name} has no STRG table index"));
+                    assert_eq!(raw & 0x00ff_ffff, *table_index as u32,
+                        "VARI {index} {name} final occurrence carries its NameStringID");
+                }
+            }
+        }
+    }
+    assert_eq!(global_positive, 417, "Global variables with a positive slot");
+    assert_eq!(local_default, 1354, "one `arguments` Local per CODE body");
+    assert_eq!(local_positive, vec![
+        ("hcollide".to_string(), 1), ("vcollide".to_string(), 2),
+        ("i".to_string(), 1), ("i".to_string(), 1),
+        ("pc".to_string(), 1), ("pc2".to_string(), 2), ("pc3".to_string(), 3),
+        ("pc4".to_string(), 4), ("pc5".to_string(), 5), ("pc6".to_string(), 6),
+        ("val".to_string(), 1), ("map".to_string(), 2),
+        ("purchase_id".to_string(), 3), ("product_id".to_string(), 4),
+    ]);
+    assert_eq!(self_default, vec!["prototype"]);
+    assert_eq!(self_positive, 273, "Self variables on a positive slot");
+    assert_eq!(builtin.len(), 29, "the -6 slot marks the engine's builtin variables");
+    for n in &builtin {
+        assert!(matches!(n.as_str(),
+            "room" | "x" | "y" | "hspeed" | "vspeed" | "friction" | "gravity"
+            | "gravity_direction" | "direction" | "speed" | "alarm" | "sprite_index"
+            | "image_index" | "image_speed" | "image_xscale" | "image_yscale"
+            | "image_angle" | "image_blend" | "mask_index" | "score" | "id"
+            | "room_width" | "view_current" | "view_visible" | "view_xview"
+            | "view_yview" | "view_wport" | "view_hport" | "iap_data"),
+            "{n} is a builtin");
+    }
+    assert_eq!(instance_count, 691,
+        "VarCount1 counts the records that are neither Local nor Builtin");
+    assert_eq!(zero_occurrence, 1356, "records without occurrences (all carrying -1)");
+    assert_eq!(with_occurrences, 732, "records with occurrence chains");
+    assert_eq!(total_occurrences, 52459, "total variable occurrence nodes");
+    assert_eq!(seen.len(), total_occurrences, "every occurrence is a distinct code position");
+}
+
+/// The OBJT physics tail in the engine's field order (`UndertaleGameObject`):
+/// `vertex_count, friction, awake, kinematic, vertex_count × (x, y) f32,
+/// event_type_count`. The parser used to read the vertex array before the
+/// three scalars — the block is fixed-size (8·vc + 16), so it still landed on
+/// the same event table and every suite stayed green, but each object carrying
+/// vertices carried wrong field values. This asserts the parser against the
+/// bytes field by field and pins the distributions: friction 0.2, awake 1,
+/// kinematic 0 in all 191, and the default two-point box in exactly 172.
+#[test]
+fn the_objt_physics_tail_matches_the_bytes_in_the_engines_field_order() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let asset = GameDroidAsset::parse(r.join("assets/game.droid")).unwrap();
+    let (_, offsets, _) = counted_table(&bytes, b"OBJT");
+    assert_eq!(asset.objects.len(), 191);
+    let mut with_box = 0usize;
+    let mut without_box = 0usize;
+    for (index, obj) in asset.objects.iter().enumerate() {
+        assert_eq!(obj.id, index, "object ids are table order");
+        let o = offsets[index];
+        let vc = u32le(&bytes, o + 64) as usize;
+        assert_eq!(obj.physics_raw.friction_bits, u32le(&bytes, o + 68), "OBJT {index} friction at +68");
+        assert_eq!(obj.physics_raw.awake, u32le(&bytes, o + 72), "OBJT {index} awake at +72");
+        assert_eq!(obj.physics_raw.kinematic, u32le(&bytes, o + 76), "OBJT {index} kinematic at +76");
+        assert_eq!(obj.physics_raw.vertices.len(), vc, "OBJT {index} vertex count");
+        for (k, vertex) in obj.physics_raw.vertices.iter().enumerate() {
+            assert_eq!(*vertex, [u32le(&bytes, o + 80 + 8 * k), u32le(&bytes, o + 84 + 8 * k)],
+                "OBJT {index} vertex {k}");
+        }
+        match vc {
+            2 => with_box += 1,
+            0 => without_box += 1,
+            other => panic!("OBJT {index} vertex count {other}"),
+        }
+    }
+    assert_eq!((with_box, without_box), (172, 19));
+    assert!(asset.objects.iter().all(|o| o.physics_raw.friction_bits == 0x3e4c_cccd), "friction 0.2 in all");
+    assert!(asset.objects.iter().all(|o| o.physics_raw.awake == 1), "awake 1 in all");
+    assert!(asset.objects.iter().all(|o| o.physics_raw.kinematic == 0), "kinematic 0 in all");
+    assert!(asset.objects.iter().all(|o| o.physics_raw.enabled == 0
+        && o.physics_raw.sensor == 0 && o.physics_raw.collision_shape == 0), "physics flags off in all");
+}
+
+/// SOND records are 36 bytes (9 words, `UndertaleSound` field order): name,
+/// flags, type, file, effects, volume f32, pitch f32, audio group, audio id.
+/// The flags split the catalogue — 0x65 = Regular|IsEmbedded for the 29 snd_*
+/// entries (whose WAV blobs live in AUDO) vs 0x64 = Regular for the 25
+/// streamed mus_* entries (whose OGG files ship outside game.droid) — and the
+/// words the readers drop (effects, pitch, group) are pinned.
+#[test]
+fn the_sound_records_carry_the_streamed_embedded_split() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (_, offsets, _) = counted_table(&bytes, b"SOND");
+    assert_eq!(offsets.len(), 54);
+    let mut embedded = 0usize;
+    let mut streamed = 0usize;
+    let mut volumes = BTreeMap::new();
+    for (index, &off) in offsets.iter().enumerate() {
+        let name = read_c_string(&bytes, u32le(&bytes, off) as usize);
+        let flags = u32le(&bytes, off + 4);
+        assert_eq!(u32le(&bytes, off + 16), 0, "SOND {name} effects are zero");
+        assert_eq!(f32le(&bytes, off + 24), 0.0, "SOND {name} pitch is zero");
+        assert_eq!(u32le(&bytes, off + 28), 0, "SOND {name} uses the builtin audio group");
+        *volumes.entry(f32le(&bytes, off + 20).to_bits()).or_insert(0usize) += 1;
+        if name.starts_with("snd_") {
+            embedded += 1;
+            assert_eq!(flags, 0x65, "SOND {name} Regular|IsEmbedded");
+            assert_eq!(u32le(&bytes, off + 32) as usize, index, "SOND {name} points at its own AUDO entry");
+            assert_eq!(read_c_string(&bytes, u32le(&bytes, off + 8) as usize), ".wav");
+            assert_eq!(read_c_string(&bytes, u32le(&bytes, off + 12) as usize), format!("{name}.wav"));
+        } else {
+            assert!(name.starts_with("mus_"), "SOND names are snd_* or mus_*: {name}");
+            streamed += 1;
+            assert_eq!(flags, 0x64, "SOND {name} Regular");
+            assert_eq!(u32le(&bytes, off + 32), 28, "SOND {name} carries the placeholder audio id");
+            assert_eq!(read_c_string(&bytes, u32le(&bytes, off + 8) as usize), ".mp3");
+            assert_eq!(read_c_string(&bytes, u32le(&bytes, off + 12) as usize), format!("{name}.ogg"));
+        }
+    }
+    assert_eq!((embedded, streamed), (29, 25));
+    assert_eq!(volumes.get(&1.0f32.to_bits()), Some(&49), "49 entries at unity gain");
+    assert_eq!(volumes.len(), 6, "five entries carry hand-tuned volumes");
+}
+
+/// NUL-terminated string at an absolute file offset.
+fn read_c_string(bytes: &[u8], at: usize) -> String {
+    let end = bytes[at..].iter().position(|&c| c == 0).map(|p| at + p).expect("string terminator");
+    String::from_utf8_lossy(&bytes[at..end]).to_string()
+}
+
+/// The chunk inventory itself: every tag present is one this contract names, no
+/// tag repeats, and the walk lands exactly on the end of the file. A file that
+/// gains a chunk — or a walk that is off by a header — fails here first, before
+/// any per-chunk guard can be fooled by reading the wrong region.
+#[test]
+fn every_chunk_in_the_file_is_one_this_contract_names() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    assert_eq!(u32le(&bytes, 4) as usize + 8, bytes.len(), "the FORM size must cover the file");
+    let mut seen = Vec::new();
+    let mut p = 8;
+    while p < bytes.len() {
+        let tag = String::from_utf8_lossy(&bytes[p..p + 4]).to_string();
+        assert!(!seen.contains(&tag), "chunk {tag} appears twice; the readers key chunks by tag");
+        seen.push(tag);
+        p += 8 + (((u32le(&bytes, p + 4) as usize) + 3) & !3);
+    }
+    assert_eq!(p, bytes.len(), "the chunk walk must end exactly at the end of the file");
+    let expected: Vec<String> = "GEN8 OPTN LANG EXTN SOND AGRP SPRT BGND PATH SCPT GLOB SHDR FONT TMLN OBJT ROOM DAFL TPAG CODE VARI FUNC STRG TXTR AUDO"
+        .split(' ').map(|s| s.to_string()).collect();
+    assert_eq!(seen, expected, "chunk set and order");
+}
+
+/// `TXTR` is the only place pixels live, and the blobs are aligned so the
+/// runtime can mmap/memcpy them. Each entry resolves to a record whose second
+/// word is a 128-byte-aligned PNG start inside the chunk; a reader that took
+/// the record offset for the blob offset would hand the decoder a 16-byte
+/// header.
+#[test]
+fn the_texture_chunk_holds_the_only_pngs_in_the_file_and_each_one_is_aligned() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (txtr, txtr_end) = chunk_bounds(&bytes, b"TXTR");
+    let count = u32le(&bytes, txtr) as usize;
+    assert_eq!(count, 4, "texture count");
+    for index in 0..count {
+        let record = u32le(&bytes, txtr + 4 + 4 * index) as usize;
+        assert!((txtr..txtr_end).contains(&record), "TXTR {index} record offset");
+        assert_eq!(u32le(&bytes, record), 0, "TXTR {index} first word (scaled)");
+        let blob = u32le(&bytes, record + 4) as usize;
+        assert!((txtr..txtr_end).contains(&blob), "TXTR {index} blob offset");
+        assert_eq!(blob % 128, 0, "TXTR {index} blob must be 128-byte aligned");
+        assert_eq!(&bytes[blob..blob + 4], b"\x89PNG", "TXTR {index} must start with the PNG magic");
+    }
+    let magics = bytes.windows(4).filter(|w| w == b"\x89PNG").count();
+    assert_eq!(magics, count, "every PNG in the file belongs to this chunk, and there are {magics} of them");
+}
+
+/// `OPTN` holds the game constants and the loading-screen images; `LANG` is the
+/// empty three-word record (`Unknown1 = 1`, no languages, no entries — see
+/// UndertaleModTool `UndertaleLanguage`). `@@DrawColour` is worth pinning: it
+/// is the white the live runtime reports in its `Draw_Color` slot, so the data
+/// file and the running game agree on the default draw colour.
+#[test]
+fn the_options_chunk_carries_the_game_constants_and_the_language_chunk_is_empty() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (optn, optn_end) = chunk_bounds(&bytes, b"OPTN");
+    assert_eq!(optn_end - optn, 80, "OPTN body size");
+    assert_eq!(u32le(&bytes, optn), 0x8000_0000, "ShaderExtensionFlag (int.MinValue = the new format)");
+    assert_eq!(u32le(&bytes, optn + 4), 2, "ShaderExtensionVersion");
+    assert_eq!([u32le(&bytes, optn + 44), u32le(&bytes, optn + 48), u32le(&bytes, optn + 52)], [0, 0, 0],
+        "no loading-screen images");
+    assert_eq!(u32le(&bytes, optn + 56), 255, "loading alpha");
+    let constant_count = u32le(&bytes, optn + 60) as usize;
+    assert_eq!(constant_count, 2, "game constant count");
+    let constants: Vec<(String, String)> = (0..constant_count)
+        .map(|index| {
+            let name_ptr = u32le(&bytes, optn + 64 + 8 * index) as usize;
+            let value_ptr = u32le(&bytes, optn + 68 + 8 * index) as usize;
+            (read_c_string(&bytes, name_ptr), read_c_string(&bytes, value_ptr))
+        })
+        .collect();
+    assert_eq!(constants, vec![
+        ("@@SleepMargin".to_string(), "1".to_string()),
+        ("@@DrawColour".to_string(), "4294967295".to_string()),
+    ], "the two constants the game declares");
+    let (lang, lang_end) = chunk_bounds(&bytes, b"LANG");
+    assert_eq!(lang_end - lang, 12, "LANG body size");
+    assert_eq!([u32le(&bytes, lang), u32le(&bytes, lang + 4), u32le(&bytes, lang + 8)], [1, 0, 0],
+        "LANG: one unknown word and no languages or entries");
+}
+
+/// The game ships exactly one native extension — the AdColony ad SDK — and the
+/// symbols it exports are in the FUNC roster the VM dispatch is audited
+/// against, so the `AdColony_*` calls in object code are real code paths, not
+/// dead data. The extension record's full layout is pinned by
+/// `the_extension_chunk_is_the_adcolony_record`.
+#[test]
+fn the_extension_chunk_lists_the_ad_extension_that_the_object_code_calls() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (extn, extn_end) = chunk_bounds(&bytes, b"EXTN");
+    assert!(extn_end > extn, "the extension chunk is present");
+    assert_eq!(u32le(&bytes, extn), 1, "exactly one extension");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, extn + 12) as usize), "AdColonyExtension");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, extn + 16) as usize), "AdColonyExt");
+    assert_eq!(read_c_string(&bytes, u32le(&bytes, extn + 28) as usize), "AdColony.ext");
+    let (func, _) = chunk_bounds(&bytes, b"FUNC");
+    let names: std::collections::BTreeSet<String> = (0..u32le(&bytes, func) as usize)
+        .map(|index| read_c_string(&bytes, u32le(&bytes, func + 4 + 12 * index) as usize))
+        .collect();
+    assert!(names.contains("AdColony_Init") && names.contains("AdColony_ShowVideo"),
+        "the extension's exported functions must be in the FUNC roster");
 }

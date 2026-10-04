@@ -35,6 +35,73 @@ pub struct RoomTileInstance {
     pub scale_y: f32,
 }
 
+/// One of a room's eight background-layer slots (`ROOM` record sub-table at
+/// header +40; every record is 40 bytes).
+///
+/// Attested twice — the field order/widths below are UndertaleModTool's
+/// `UndertaleRoom.Background` (`ChildObjectsSize = 40`, Unserialize order
+/// Enabled, Foreground, BackgroundDefinition, X, Y, tileX, tileY, SpeedX,
+/// SpeedY, Stretch), and every one of the 912 slots in this asset matches it
+/// byte for byte (`crates/core/tests/sprite_and_tile_layout_ir.rs`).
+///
+/// This game draws no room background from this table: all 912 slots are
+/// either disabled or name no background (`background_id == -1`), so a
+/// renderer that ignores the table is faithful for the shipped data. Do not
+/// read "no background on screen" as a dropped layer and invent one.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RoomBackground {
+    /// The room editor's per-slot checkbox. Even when set, the slot still
+    /// needs a real `background_id` to put anything on screen.
+    pub visible: bool,
+    /// Draw the layer in front of (rather than behind) the room contents.
+    pub foreground: bool,
+    /// Index into the BGND chunk, or -1 when the slot names no background.
+    pub background_id: i32,
+    pub x: i32,
+    pub y: i32,
+    /// GM stores tiling as an integer where 0 is "off" and any other value
+    /// is "on"; this asset only ever holds 0 or 1.
+    pub tiled_horizontally: bool,
+    pub tiled_vertically: bool,
+    pub speed_x: i32,
+    pub speed_y: i32,
+    /// Stretch the texture over the room instead of tiling it.
+    pub stretch: bool,
+}
+
+/// The `GEN8` chunk: the data file's general information.
+///
+/// Field order and widths follow UndertaleModTool's `UndertaleGeneralInfo`
+/// Unserialize (GMS1 branch): 1-byte debugger flag, 1-byte bytecode version,
+/// u16 padding, then the strings and words listed below. Only the fields
+/// something actually consumes are exposed; the rest is recorded by offset in
+/// `reconstruction/contracts/asset-record-layouts.md`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GeneralInfo {
+    /// +0: the game was launched with the debugger attached.
+    pub debugger: bool,
+    /// +1: data-file bytecode version. 16 in this asset, and the recovered
+    /// bytecode reader rejects anything else, so it is a hard format gate.
+    pub bytecode_version: u8,
+    /// +40: the data file's own name (the runner filename is at +4).
+    pub name: String,
+    /// +44..+56: the GameMaker runtime version (major, minor, release, build).
+    pub version: [u32; 4],
+    /// +60/+64: the window the game declares it wants. This is where the
+    /// 1136×640 canvas that the engine, the JNI layer and the Java presenter
+    /// all hardcode comes from; `crates/core/tests/sprite_and_tile_layout_ir.rs`
+    /// keeps the two from drifting apart.
+    pub default_window_width: u32,
+    pub default_window_height: u32,
+    /// +100: the name shown in the window title bar.
+    pub display_name: String,
+    /// +128: `u32 count` then `count` room indices — the engine's room order.
+    /// It is the identity permutation here, so a room's position in the ROOM
+    /// chunk IS its engine room index (the assumption every `room_goto` in the
+    /// recovered bytecode relies on).
+    pub room_order: Vec<usize>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RoomData {
     pub name: String,
@@ -43,6 +110,23 @@ pub struct RoomData {
     pub height: u32,
     pub speed: u32,
     pub persistent: bool,
+    /// Room header +24: the room's background colour (RGB; GM implies alpha).
+    /// 0 in 110 rooms, 0x00C0C0C0 in 4. Only meaningful together with
+    /// `draw_background_colour`.
+    pub background_colour: u32,
+    /// Room header +28: clear the frame with `background_colour` first.
+    /// Set in exactly one room (rm_town, whose colour is black anyway), so the
+    /// remake's constant black clear is faithful for this data.
+    pub draw_background_colour: bool,
+    /// Room header +32: index of the room's creation CODE, -1 when the room
+    /// runs no creation code. -1 in all 114 rooms, so no room has one.
+    pub creation_code_id: i32,
+    /// Room header +36: GameMaker room flags (EnableViews = 1,
+    /// ClearViewBackground/ShowColor = 2, DoNotClearDisplayBuffer = 4).
+    /// 5 (= EnableViews | DoNotClearDisplayBuffer) in all 114 rooms.
+    pub flags: u32,
+    /// Room header +40: the eight background-layer slots, in editor order.
+    pub backgrounds: Vec<RoomBackground>,
     pub objects: Vec<RoomObjectInstance>,
     pub tiles: Vec<RoomTileInstance>,
     /// Room-editor VIEW defaults (GM8.1: 8 indexed slots). These records seed
@@ -241,8 +325,14 @@ pub struct SoundData {
     pub audio_id: usize,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GameDroidAsset {
+    /// The data file's own name, read from GEN8 (+40). It used to be guessed
+    /// from the first string-table entry, which is a tab character in this
+    /// asset, i.e. not a name at all.
     pub game_name: String,
+    /// GEN8 in full, when the chunk is present.
+    pub general_info: Option<GeneralInfo>,
     pub string_table: Vec<String>,
     pub object_names: Vec<String>,
     pub objects: Vec<GameObjectInfo>,
@@ -579,7 +669,18 @@ fn parse_sound_chunk(
 
         file.seek(SeekFrom::Start(record_pos))?;
         let name_offset = u64::from(file.read_u32::<LittleEndian>()?);
-        file.seek(SeekFrom::Current(7 * 4))?;
+        // The seven fixed words between the name and the audio id are enumerated
+        // field by field (UndertaleModTool `UndertaleSound.Unserialize`) instead of
+        // being skipped as one seek. Meanings and this asset's survey values are in
+        // reconstruction/contracts/audio-catalog.md; the survey is pinned by
+        // `the_sound_records_carry_the_streamed_embedded_split`.
+        let _flags = file.read_u32::<LittleEndian>()?; // 0x65 Regular|IsEmbedded (29 snd_*), 0x64 Regular (25 mus_*)
+        let _type_offset = file.read_u32::<LittleEndian>()?; // ".wav" / ".mp3"
+        let _file_offset = file.read_u32::<LittleEndian>()?; // "snd_*.wav" / "mus_*.ogg"
+        let _effects = file.read_u32::<LittleEndian>()?; // 0 in all 54
+        let _volume_bits = file.read_u32::<LittleEndian>()?; // f32; 1.0 in 49, five hand-tuned entries
+        let _pitch_bits = file.read_u32::<LittleEndian>()?; // f32; 0 in all 54
+        let _audio_group = file.read_u32::<LittleEndian>()?; // builtin group 0; AGRP is empty
         let audio_id = file.read_u32::<LittleEndian>()? as usize;
         if audio_id >= audio_count {
             return Err(invalid_data(format!(
@@ -696,6 +797,16 @@ fn parse_object_chunk(
                 "OBJT entry {id} vertex/event header exceeds object bounds"
             )));
         }
+        // Engine field order (UndertaleModTool `UndertaleGameObject.Unserialize`):
+        // vertex count, friction, awake, kinematic, then the vertex pairs, then the
+        // event count. The block is fixed-size (8*vertex_count + 16), so reading the
+        // vertices first would still land on the same event table — but it would
+        // assign the friction/awake/kinematic words to the wrong fields on every
+        // object that carries vertices (172 of 191 here carry the default
+        // two-point box).
+        let friction_bits = file.read_u32::<LittleEndian>()?;
+        let awake = file.read_u32::<LittleEndian>()?;
+        let kinematic = file.read_u32::<LittleEndian>()?;
         let mut vertices = Vec::with_capacity(vertex_count as usize);
         for _ in 0..vertex_count {
             vertices.push([
@@ -703,9 +814,6 @@ fn parse_object_chunk(
                 file.read_u32::<LittleEndian>()?,
             ]);
         }
-        let friction_bits = file.read_u32::<LittleEndian>()?;
-        let awake = file.read_u32::<LittleEndian>()?;
-        let kinematic = file.read_u32::<LittleEndian>()?;
         let event_type_count = file.read_u32::<LittleEndian>()?;
         let event_pointer_table_pos = file.stream_position()?;
         let event_pointer_table_size = u64::from(event_type_count)
@@ -972,15 +1080,21 @@ fn parse_variable_references(
         return Err(invalid_data("VARI chunk is outside the file"));
     }
     file.seek(SeekFrom::Start(chunk_pos))?;
-    let count = file.read_u32::<LittleEndian>()?;
-    let _max_variable_count = file.read_u32::<LittleEndian>()?;
-    let _locals_count = file.read_u32::<LittleEndian>()?;
-    let records_end = chunk_pos
-        .checked_add(HEADER_SIZE + u64::from(count) * RECORD_SIZE)
-        .ok_or_else(|| invalid_data("VARI records overflow"))?;
-    if records_end > chunk_end {
-        return Err(invalid_data("VARI records exceed chunk bounds"));
+    // The three header words are metadata (UTMT `UndertaleChunkVARI`: VarCount1,
+    // VarCount2, MaxLocalVarCount — the instance-variable counts), NOT the number
+    // of records. UTMT reads the list to the end of the chunk (`while Position +
+    // varLength <= start + Length`) and `scripts/reverse_code.py` enforces the
+    // same tiling. Trusting VarCount1 (691) here silently dropped the tail: the
+    // full list is 2,088 records carrying 52,459 reference positions, of which
+    // the first 691 cover only 39,263.
+    let _var_count1 = file.read_u32::<LittleEndian>()?;
+    let _var_count2 = file.read_u32::<LittleEndian>()?;
+    let _max_local_var_count = file.read_u32::<LittleEndian>()?;
+    let records_bytes = u64::from(chunk_size) - HEADER_SIZE;
+    if records_bytes % RECORD_SIZE != 0 {
+        return Err(invalid_data("VARI record list has a partial record"));
     }
+    let count = records_bytes / RECORD_SIZE;
 
     let mut records = Vec::with_capacity(count as usize);
     for _ in 0..count {
@@ -995,6 +1109,16 @@ fn parse_variable_references(
     let mut references = HashMap::new();
     for (name_offset, occurrence_count, mut occurrence_pos) in records {
         let name = read_required_null_string(file, name_offset, file_len, "VARI")?;
+        if occurrence_count == 0 {
+            // UTMT throws when a no-occurrence variable still carries a first
+            // occurrence address; this asset writes -1 for all 1,356 of them.
+            if occurrence_pos != u64::from(u32::MAX) {
+                return Err(invalid_data(format!(
+                    "VARI {name} has no occurrences but still carries a first-occurrence address"
+                )));
+            }
+            continue;
+        }
         for occurrence_index in 0..occurrence_count {
             let reference_pos = occurrence_pos
                 .checked_add(4)
@@ -1013,19 +1137,18 @@ fn parse_variable_references(
             }
             if occurrence_index + 1 < occurrence_count {
                 file.seek(SeekFrom::Start(reference_pos))?;
-                let raw_delta = file.read_u32::<LittleEndian>()? & 0x00ff_ffff;
-                let signed_delta = if raw_delta & 0x0080_0000 != 0 {
-                    i64::from(raw_delta) - (1_i64 << 24)
-                } else {
-                    i64::from(raw_delta)
-                };
-                if signed_delta == 0 {
+                // UTMT `UndertaleInstruction.ReferenceNextOccurrenceOffset`: the
+                // low 27 bits are the forward delta to the next occurrence; bits
+                // 27..31 carry the reference-type nibble.
+                let delta = u64::from(file.read_u32::<LittleEndian>()? & 0x07ff_ffff);
+                if delta == 0 {
                     return Err(invalid_data(format!(
                         "VARI {name} occurrence chain has a zero delta"
                     )));
                 }
-                occurrence_pos = u64::try_from(occurrence_pos as i64 + signed_delta)
-                    .map_err(|_| invalid_data(format!("VARI {name} occurrence underflows")))?;
+                occurrence_pos = occurrence_pos
+                    .checked_add(delta)
+                    .ok_or_else(|| invalid_data(format!("VARI {name} occurrence overflows")))?;
             }
         }
     }
@@ -1167,6 +1290,70 @@ fn classify_warp_code(
     )
 }
 
+/// Parse the `GEN8` general-info chunk.
+///
+/// Fields are reached by their own offsets rather than by walking every field
+/// in order, so unrelated words cannot shift the ones we do read. The trailing
+/// room-order list must tile exactly to the chunk end — a count at +128 whose
+/// entries overrun or fall short means the offset is wrong, not "close enough".
+fn parse_general_info(
+    file: &mut File,
+    chunk_pos: u64,
+    chunk_size: u32,
+    file_len: u64,
+) -> std::io::Result<GeneralInfo> {
+    /// Where the room-order count sits, per the GMS1 general-info layout.
+    const ROOM_ORDER_OFFSET: u64 = 128;
+    let chunk_end = chunk_pos
+        .checked_add(u64::from(chunk_size))
+        .ok_or_else(|| invalid_data("GEN8 chunk range overflows"))?;
+    if chunk_end > file_len || u64::from(chunk_size) < ROOM_ORDER_OFFSET + 4 {
+        return Err(invalid_data("GEN8 chunk is outside the file or truncated"));
+    }
+    file.seek(SeekFrom::Start(chunk_pos))?;
+    let debugger = file.read_u8()? != 0;
+    let bytecode_version = file.read_u8()?;
+
+    let ptr_at = |file: &mut File, off: u64| -> std::io::Result<u64> {
+        file.seek(SeekFrom::Start(chunk_pos + off))?;
+        Ok(u64::from(file.read_u32::<LittleEndian>()?))
+    };
+    let name_offset = ptr_at(file, 40)?;
+    let name = read_null_string(file, name_offset, file_len).unwrap_or_default();
+    file.seek(SeekFrom::Start(chunk_pos + 44))?;
+    let mut version = [0u32; 4];
+    for word in version.iter_mut() {
+        *word = file.read_u32::<LittleEndian>()?;
+    }
+    file.seek(SeekFrom::Start(chunk_pos + 60))?;
+    let default_window_width = file.read_u32::<LittleEndian>()?;
+    let default_window_height = file.read_u32::<LittleEndian>()?;
+    let display_offset = ptr_at(file, 100)?;
+    let display_name = read_null_string(file, display_offset, file_len).unwrap_or_default();
+
+    file.seek(SeekFrom::Start(chunk_pos + ROOM_ORDER_OFFSET))?;
+    let count = file.read_u32::<LittleEndian>()? as u64;
+    if chunk_pos + ROOM_ORDER_OFFSET + 4 + 4 * count > chunk_end {
+        return Err(invalid_data(format!(
+            "GEN8 room order of {count} entries overruns the chunk"
+        )));
+    }
+    let mut room_order = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        room_order.push(file.read_u32::<LittleEndian>()? as usize);
+    }
+    Ok(GeneralInfo {
+        debugger,
+        bytecode_version,
+        name,
+        version,
+        default_window_width,
+        default_window_height,
+        display_name,
+        room_order,
+    })
+}
+
 impl GameDroidAsset {
     pub fn parse<P: AsRef<Path>>(path: P) -> Result<Self, Box<dyn std::error::Error>> {
         let mut file = File::open(path)?;
@@ -1194,6 +1381,10 @@ impl GameDroidAsset {
             file.seek(SeekFrom::Start(pos + 8 + padded_size as u64))?;
         }
 
+        let general_info = match chunks.get("GEN8") {
+            Some(&(pos, size)) => parse_general_info(&mut file, pos, size, file_len).ok(),
+            None => None,
+        };
         let audio = match chunks.get("AUDO") {
             Some(&(pos, size)) => parse_audio_chunk(&mut file, pos, size, file_len)?,
             None => Vec::new(),
@@ -1426,14 +1617,62 @@ impl GameDroidAsset {
                 };
 
                 if file.seek(SeekFrom::Start(room_abs_pos + 6 * 4)).is_ok() {
-                    let _color = file.read_u32::<LittleEndian>().unwrap_or(0);
-                    let _show_color = file.read_u32::<LittleEndian>().unwrap_or(0);
-                    let _creation_code = file.read_i32::<LittleEndian>().unwrap_or(-1);
-                    let _flags = file.read_u32::<LittleEndian>().unwrap_or(0);
-                    let _bg_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let background_colour = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let draw_background_colour =
+                        file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                    let creation_code_id = file.read_i32::<LittleEndian>().unwrap_or(-1);
+                    let flags = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let bg_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let views_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let obj_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let tiles_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
+
+                    // GM8.1 room BACKGROUND table: u32 count, then `count` u32
+                    // offsets to 40-byte records. Field order is attested
+                    // against UndertaleModTool's UndertaleRoom.Background and
+                    // against every slot in this asset (see RoomBackground).
+                    let mut room_backgrounds = Vec::new();
+                    if bg_offset != 0 && bg_offset != u32::MAX {
+                        let bg_list_pos = bg_offset as u64;
+                        if bg_list_pos < file_len
+                            && file.seek(SeekFrom::Start(bg_list_pos)).is_ok()
+                        {
+                            if let Ok(raw_count) = file.read_u32::<LittleEndian>() {
+                                let bg_count = raw_count.min(8);
+                                let mut bg_offsets = Vec::with_capacity(bg_count as usize);
+                                for _ in 0..bg_count {
+                                    if let Ok(o) = file.read_u32::<LittleEndian>() {
+                                        bg_offsets.push(o);
+                                    }
+                                }
+                                for &bg_slot in &bg_offsets {
+                                    let bg_pos = bg_slot as u64;
+                                    if bg_pos >= file_len
+                                        || file.seek(SeekFrom::Start(bg_pos)).is_err()
+                                    {
+                                        continue;
+                                    }
+                                    let visible = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let foreground = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let background_id = file.read_i32::<LittleEndian>().unwrap_or(-1);
+                                    let x = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let y = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let tiled_horizontally =
+                                        file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let tiled_vertically =
+                                        file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let speed_x = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let speed_y = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let stretch = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    room_backgrounds.push(RoomBackground {
+                                        visible, foreground, background_id, x, y,
+                                        tiled_horizontally, tiled_vertically,
+                                        speed_x, speed_y, stretch,
+                                    });
+                                }
+                            }
+                        }
+                    }
 
                     // GM8.1 room VIEW table: u32 count, then `count` u32 offsets
                     // to view records. Each record is 14 u32s: visible, xview,
@@ -1561,6 +1800,11 @@ impl GameDroidAsset {
                         height,
                         speed,
                         persistent,
+                        background_colour,
+                        draw_background_colour,
+                        creation_code_id,
+                        flags,
+                        backgrounds: room_backgrounds,
                         objects: room_objs,
                         views: room_views,
                         tiles: room_tiles,
@@ -1611,7 +1855,13 @@ impl GameDroidAsset {
         }
 
         Ok(Self {
-            game_name: strings.first().cloned().unwrap_or_else(|| "CallysCaves2".into()),
+            game_name: general_info
+                .as_ref()
+                .map(|info| info.name.clone())
+                .filter(|name| !name.is_empty())
+                .or_else(|| strings.first().cloned())
+                .unwrap_or_else(|| "CallysCaves2".into()),
+            general_info,
             string_table: strings,
             object_names,
             objects,
@@ -2022,5 +2272,55 @@ mod tests {
             asset.sprites.len(),
             asset.tpag_items.len()
         );
+    }
+
+    /// The VARI record list must be read to the end of the chunk (UTMT reads it
+    /// by length; `scripts/reverse_code.py` enforces the same tiling). A reader
+    /// that trusted `VarCount1` (691) dropped the tail's occurrence chains —
+    /// 2,088 records carry 52,459 reference positions, the first 691 only 39,263.
+    #[test]
+    fn the_variable_reference_map_covers_the_whole_vari_record_list() {
+        let candidates = [
+            "assets/game.droid",
+            "../../assets/game.droid",
+            "/data/data/com.termux/files/usr/tmp/cally_caves_2/apk/assets/game.droid",
+            "test_assets/game.droid",
+            "../test_assets/game.droid",
+            "../../test_assets/game.droid",
+            "../../../test_assets/game.droid",
+        ];
+        let mut found = None;
+        for path in &candidates {
+            if std::path::Path::new(path).exists() {
+                found = Some(*path);
+                break;
+            }
+        }
+        let path = match found {
+            Some(p) => p,
+            None => {
+                eprintln!("Skipping: no game.droid found in candidate paths.");
+                return;
+            }
+        };
+        let bytes = std::fs::read(path).expect("read game.droid");
+        let mut p = 8usize;
+        let (lo, size) = loop {
+            let tag = &bytes[p..p + 4];
+            let size = u32::from_le_bytes(bytes[p + 4..p + 8].try_into().unwrap());
+            if tag == b"VARI" {
+                break (p + 8, size);
+            }
+            p += 8 + ((size as usize + 3) & !3);
+        };
+        let mut file = File::open(path).expect("open game.droid");
+        let map = parse_variable_references(&mut file, lo as u64, size, bytes.len() as u64)
+            .expect("parse VARI");
+        assert_eq!(map.len(), 52459,
+            "the reference map must cover every occurrence in the 2,088-record list");
+        assert_eq!(map.get(&3_979_456u64).map(String::as_str), Some("coinspread17"),
+            "record 700's first occurrence is a tail position the old reader dropped");
+        assert_eq!(map.get(&0x40_1358u64).map(String::as_str), Some("view_current"),
+            "record 1000's first occurrence");
     }
 }

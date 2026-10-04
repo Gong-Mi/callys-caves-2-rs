@@ -184,7 +184,9 @@ fn clear_next_frame_view_and_room_load_reset_all_emit_metadata() {
     s.clear_draw_commands(); assert!(s.ordered_draw_commands().is_empty());
     emit_sprite(&mut s,&b,id);
     let room = callys_asset::RoomData { name:"empty".into(),caption:"".into(),width:100,height:100,
-        speed:30,persistent:false,objects:vec![],tiles:vec![],views:vec![] };
+        speed:30,persistent:false,
+        background_colour:0,draw_background_colour:false,creation_code_id:-1,flags:0,backgrounds:vec![],
+        objects:vec![],tiles:vec![],views:vec![] };
     s.load_room_from_data(&b,999,&room).unwrap();
     assert!(s.draws.is_empty() && s.texts.is_empty() && s.healthbars.is_empty() && s.backgrounds.is_empty());
     assert!(s.ordered_draw_commands().is_empty());
