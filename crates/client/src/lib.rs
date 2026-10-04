@@ -215,22 +215,44 @@ impl GameState {
                         .find(|i| i.object == v.object && i.alive && i.active)
                         .and_then(|i| Some((i.fields.get("x").copied()?, i.fields.get("y").copied()?)))
                     {
-                        let half_w = v.wview as f64 / 2.0;
-                        let half_h = v.hview as f64 / 2.0;
-                        let hb = (v.hborder as f64).min(half_w);
-                        let vb = (v.vborder as f64).min(half_h);
-                        let center_x = v.xview as f64 + half_w;
-                        let center_y = v.yview as f64 + half_h;
-                        let mut cx = center_x;
-                        let mut cy = center_y;
-                        if (px - center_x).abs() > hb {
-                            cx = if px > center_x + hb { px - hb } else { px + hb };
-                        }
-                        if (py - center_y).abs() > vb {
-                            cy = if py > center_y + vb { py - vb } else { py + vb };
-                        }
-                        let vx = (cx - half_w).clamp(0.0, (scene.room_width - v.wview as f64).max(0.0));
-                        let vy = (cy - half_h).clamp(0.0, (scene.room_height - v.hview as f64).max(0.0));
+                        // The runner's follow rule (CCamera::CameraUpdate,
+                        // disasm @0x170b30): when 2*border >= the view extent
+                        // the camera CENTERS the target (px - w/2); otherwise
+                        // it clamps the target into the border band around the
+                        // live view rect, scrolling only when the target
+                        // crosses it. CC2's rooms all carry
+                        // hborder=vborder=512, so the centering branch is the
+                        // live one (2*512 >= 448 and >= 252). The centered
+                        // position is then clamped to the room bounds.
+                        let w = v.wview as f64;
+                        let h = v.hview as f64;
+                        let hb = v.hborder as f64;
+                        let vb = v.vborder as f64;
+                        let (live_x, live_y) = scene
+                            .view_positions
+                            .get(&(view_index as i32))
+                            .copied()
+                            .unwrap_or((v.xview as f64, v.yview as f64));
+                        let cx = if 2.0 * hb >= w {
+                            px - w / 2.0
+                        } else if px - hb < live_x {
+                            px - hb
+                        } else if px + hb > live_x + w {
+                            px + hb - w
+                        } else {
+                            live_x
+                        };
+                        let cy = if 2.0 * vb >= h {
+                            py - h / 2.0
+                        } else if py - vb < live_y {
+                            py - vb
+                        } else if py + vb > live_y + h {
+                            py + vb - h
+                        } else {
+                            live_y
+                        };
+                        let vx = cx.clamp(0.0, (scene.room_width - w).max(0.0));
+                        let vy = cy.clamp(0.0, (scene.room_height - h).max(0.0));
                         return (vx, vy);
                     }
                 }
