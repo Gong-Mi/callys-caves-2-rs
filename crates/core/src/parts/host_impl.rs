@@ -226,15 +226,15 @@ impl Host for Scene {
                 self.call_audio_resume_all();
                 Ok(0.0)
             }
-            "draw_sprite_ext" => { self.draw(id, a)?; Ok(0.0) }
+            "draw_sprite_ext" => { self.draw(b,id, a)?; Ok(0.0) }
             "draw_sprite" => {
-                self.draw(id, &[a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, self.draw_alpha])?;
+                self.draw(b,id, &[a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, self.draw_alpha])?;
                 Ok(0.0)
             }
             "draw_self" => {
                 let fields = ["sprite_index","image_index","x","y","image_xscale","image_yscale","image_angle","image_blend","image_alpha"];
                 let args = fields.iter().map(|n| self.self_field(id, n)).collect::<Result<Vec<_>,_>>()?;
-                self.draw(id, &args)?;
+                self.draw(b,id, &args)?;
                 Ok(0.0)
             }
             "device_mouse_x" => {
@@ -353,6 +353,7 @@ impl Host for Scene {
                     x, y, text, color: self.draw_color, alpha: self.draw_alpha,
                     font: self.current_font as i32,
                 });
+                self.record_draw(b, id, DrawQueue::Text(self.texts.len() - 1));
                 Ok(0.0)
             }
             "draw_healthbar" => {
@@ -365,6 +366,7 @@ impl Host for Scene {
                     code: self.site.0, offset: self.site.1, instance: id, view: self.view,
                     x1, y1, x2, y2, amount, back_col, min_col, max_col,
                 });
+                self.record_draw(b, id, DrawQueue::Healthbar(self.healthbars.len() - 1));
                 Ok(0.0)
             }
             // Platform inert by design: surface is always enabled in this
@@ -471,18 +473,32 @@ impl Host for Scene {
                 Ok(min + r * (max - min))
             }
             "distance_to_object" => {
-                let s = int(a[0])?;
-                let targets = self.select(id, s)?;
-                let ix = self.self_field(id, "x").unwrap_or(0.0);
-                let iy = self.self_field(id, "y").unwrap_or(0.0);
-                let mut min_dist = f64::MAX;
-                for tid in targets {
-                    let tx = self.self_field(tid, "x").unwrap_or(0.0);
-                    let ty = self.self_field(tid, "y").unwrap_or(0.0);
-                    let d = ((tx - ix).powi(2) + (ty - iy).powi(2)).sqrt();
-                    if d < min_dist { min_dist = d; }
+                // F_DistanceToObject @0x10ad88 starts at 1e6, then uses
+                // WithObjIterator (objects include descendants). FindDist
+                // @0x10ac9c rejects self and target +0x68/+0x69, NOT caller
+                // flags, and measures inclusive bbox gaps, never origin gaps.
+                let selector = int(a[0])?;
+                let targets = match selector {
+                    -3 => self.instances.keys().copied().collect(), // all
+                    s if s < -3 => Vec::new(), // noone / absent special object
+                    s => self.select(id, s)?,
+                };
+                let mut min_dist: f64 = 1_000_000.0;
+                if let Some((left,right,top,bottom)) = self.distance_bounds_for_instance(id) {
+                    for tid in targets {
+                        if tid == id || self.instances.get(&tid).map_or(true, |i| !i.alive || !i.active) { continue; }
+                        if let Some((tl,tr,tt,tb)) = self.distance_bounds_for_instance(tid) {
+                            let dx = (left-tr).max(tl-right).max(0.0) as i32;
+                            let dy = (top-tb).max(tt-bottom).max(0.0) as i32;
+                            // Original ARM integer mul/mla followed by sqrtf;
+                            // promote the resulting f32 to the numeric RValue.
+                            let squared = dx.wrapping_mul(dx).wrapping_add(dy.wrapping_mul(dy));
+                            let d = (squared as f32).sqrt() as f64;
+                            if d < min_dist { min_dist = d; }
+                        }
+                    }
                 }
-                Ok(if min_dist == f64::MAX { 100000.0 } else { min_dist })
+                Ok(min_dist)
             }
             "place_meeting" => {
                 let hit = match self.call(b, id, "instance_place", &[a[0], a[1], a[2]]) {
@@ -544,6 +560,7 @@ impl Host for Scene {
                     x, y, text, color, alpha,
                     font: self.current_font as i32,
                 });
+                self.record_draw(b, id, DrawQueue::Text(self.texts.len() - 1));
                 Ok(0.0)
             }
             "draw_background" => {
@@ -564,6 +581,7 @@ impl Host for Scene {
                     color: -1,
                     alpha: self.draw_alpha,
                 });
+                self.record_draw(b, id, DrawQueue::Background(self.backgrounds.len() - 1));
                 Ok(0.0)
             }
             "draw_background_ext" => {
@@ -589,6 +607,7 @@ impl Host for Scene {
                     color,
                     alpha,
                 });
+                self.record_draw(b, id, DrawQueue::Background(self.backgrounds.len() - 1));
                 Ok(0.0)
             }
             "ds_map_create" => {

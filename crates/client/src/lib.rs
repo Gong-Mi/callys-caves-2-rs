@@ -19,6 +19,8 @@ use callys_core::save::{SaveData, SaveError};
 use callys_core::{Facing, GameWorld, InputState, PlayerState, WeaponType};
 use image::RgbaImage;
 
+pub mod frame_clock;
+
 include!("parts/save.rs");
 include!("parts/audio.rs");
 // ============================================================
@@ -65,7 +67,12 @@ pub struct GameState {
     touch_prev: [bool; 5],
     /// Latches the platform tap pulse to one frame: Java holds `tap` high for a
     /// few frames, the original `mouse_check_button_pressed(mb_left)` lasts one.
-    tap_was_active: bool,
+    /// Level as of the newest presentation (which may run no logic tick), plus
+    /// a queued press edge so a real DOWN is delivered exactly once.
+    tap_level: bool,
+    any_level: bool,
+    tap_press_pending: bool,
+    any_press_pending: bool,
     /// Primary-pointer release published by the platform this frame
     /// (`nativePointerRelease`). The original runner's first touch is device 0,
     /// so Draw-time `device_mouse_check_button_released(0, mb_left)` checks
@@ -192,7 +199,10 @@ impl GameState {
             scene: None,
             full_bundle: None,
             touch_prev: [false; 5],
-            tap_was_active: false,
+            tap_level: false,
+            any_level: false,
+            tap_press_pending: false,
+            any_press_pending: false,
             primary_release: None,
             fallback_warned: false,
         })
@@ -205,10 +215,8 @@ impl GameState {
         if let Some(view_index) = scene.active_view_index() {
             if let Some(v) = scene.room_views.get(view_index) {
                 if v.object >= 0 {
-                    // GM's view follow only sees instances the scheduler
-                    // processes: while the prologue deactivates the player,
-                    // the view stays at the room's view rect — the intro film
-                    // is composed against that rect (phone at y≈-2).
+                    // A deactivated follow target freezes the current view;
+                    // on boot its current origin is the initial ROOM seed.
                     if let Some((px, py)) = scene
                         .instances
                         .values()
@@ -220,10 +228,9 @@ impl GameState {
                         // the camera CENTERS the target (px - w/2); otherwise
                         // it clamps the target into the border band around the
                         // live view rect, scrolling only when the target
-                        // crosses it. CC2's rooms all carry
-                        // hborder=vborder=512, so the centering branch is the
-                        // live one (2*512 >= 448 and >= 252). The centered
-                        // position is then clamped to the room bounds.
+                        // crosses it. The large-border branch is used by the
+                        // town, but other rooms have smaller border bands.
+                        // Clamp the result to the current room bounds.
                         let w = v.wview as f64;
                         let h = v.hview as f64;
                         let hb = v.hborder as f64;
@@ -256,9 +263,11 @@ impl GameState {
                         return (vx, vy);
                     }
                 }
-                // A view without a live follow target remains at its ROOM/GML
-                // camera position instead of silently following the player.
-                return (v.xview as f64, v.yview as f64);
+                // CameraUpdate returns unchanged when its follow target is
+                // deactivated/missing. Preserve the live view, not its ROOM
+                // seed: story/pause overlays freeze the view after scrolling.
+                return scene.view_positions.get(&(view_index as i32)).copied()
+                    .unwrap_or((v.xview as f64, v.yview as f64));
             }
         }
         let (px, py) = scene
@@ -409,6 +418,9 @@ impl GameState {
                     frames: sp.tpag_indices.len().max(1) as f64,
                 },
             );
+            if let Some(bbox) = sp.bbox {
+                scene.sprite_bboxes.insert(*sid as i32, bbox);
+            }
             if !sp.masks.is_empty() {
                 scene.sprite_masks.insert(*sid as i32, sp.masks.clone());
             }
@@ -534,6 +546,21 @@ impl GameState {
         }
     }
 
+    /// Every presentation observes the physical pointer levels, including the
+    /// ones that execute no logic tick — a 60 Hz surface over the original
+    /// 30 Hz room can sample DOWN or UP between two ticks. Latching here keeps
+    /// the level fresh for the next tick's edge test and queues a rising edge,
+    /// so a real press is delivered exactly once instead of being swallowed
+    /// against a latch that only the previous tick ever updated.
+    pub fn observe_platform_input(&mut self) {
+        let primary = self.input.tap;
+        let any = self.input.tap || self.input.jump || self.input.attack;
+        if primary && !self.tap_level { self.tap_press_pending = true; }
+        if any && !self.any_level { self.any_press_pending = true; }
+        self.tap_level = primary;
+        self.any_level = any;
+    }
+
     pub fn step(&mut self, dt: f32) {
         if self.runtime_diagnostic.is_some() {
             return;
@@ -546,6 +573,13 @@ impl GameState {
     }
 
     fn step_inner(&mut self, dt: f32) -> Result<(), String> {
+        // Consume the queued press edges before borrowing the scene: exactly the
+        // first tick of a presentation sees them, later ticks see none, so one
+        // physical DOWN is one pressed edge. A caller that drives `step` without
+        // a FrameClock still samples here, so no call path loses the edge.
+        self.observe_platform_input();
+        let any_press = std::mem::take(&mut self.any_press_pending);
+        let tap_press = std::mem::take(&mut self.tap_press_pending);
         // Prologue phase: obj_introduction (137) lives inside the FULL scene —
         // the original Game Start (CODE 17) spawns it there and its Create
         // deactivates the room behind it. Same frame contract the old separate
@@ -555,7 +589,12 @@ impl GameState {
         if let (Some(bundle), Some(scene)) = (self.full_bundle.as_deref(), self.scene.as_mut()) {
             let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
             if intro_alive {
-                scene.mouse_pressed = self.input.attack || self.input.jump || self.input.tap;
+                // mb_left pressed is one edge, not the held level. The edge was
+                // queued at the presentation boundary, so an idle presentation
+                // between two ticks cannot swallow a fresh DOWN and a press
+                // held across a catch-up never replays at the tick that
+                // unlocks taplock.
+                scene.mouse_pressed = any_press;
                 scene.tick(bundle).map_err(|e| format!("intro tick room {}: {e}", scene.current_room))?;
                 // Draw events are dispatched by the runtime-enabled view, which
                 // may differ from every ROOM record's original `visible` bit.
@@ -587,9 +626,15 @@ impl GameState {
                 // Handover: the intro's Destroy ran instance_activate_all, so the
                 // room continues in this same scene from the next frame. The tap
                 // that killed the intro must not leak into gameplay as a phantom
-                // device-0 release (the old re-enable path cleared these too).
+                // device-0 release (the old re-enable path cleared these too),
+                // and its queued gameplay press edge must not replay either: the
+                // level latch is re-synced to the physical state instead.
                 self.primary_release = None;
                 self.touch_prev = [false; 5];
+                self.tap_press_pending = false;
+                self.any_press_pending = false;
+                self.tap_level = self.input.tap;
+                self.any_level = self.input.tap || self.input.jump || self.input.attack;
                 self.haptic_queue.extend(prologue_haptics);
                 // A boot-time IR snapshot restore waits for this handover: the
                 // original boot always plays the prologue over rm_town; the
@@ -617,7 +662,7 @@ impl GameState {
             // banner systems freeze the world until it arrives. Latched to one
             // frame: Java holds its tap pulse for a few frames, the original edge
             // lasts exactly one.
-            scene.mouse_pressed = self.input.tap && !self.tap_was_active;
+            scene.mouse_pressed = tap_press;
 
             // Virtual devices. The original button objects test every one of the
             // four devices against their own hit box in their Draw event, so the
@@ -667,7 +712,6 @@ impl GameState {
                 device.released = !is_held && self.touch_prev[index];
                 self.touch_prev[index] = is_held;
             }
-            self.tap_was_active = self.input.tap;
 
             scene.tick(bundle).map_err(|e| format!("gameplay tick room {}: {e}", scene.current_room))?;
 
@@ -1152,7 +1196,12 @@ pub fn draw_frame(
                 let zoom_y = port_y / v.hview.max(1) as f32;
                 scale_x = fb.width as f32 / port_x * zoom_x;
                 scale_y = fb.height as f32 / port_y * zoom_y;
-                view_origin = GameState::camera_position_for_scene(scene);
+                // Draw can destroy a story overlay and reactivate its follow
+                // target. Rasterize with the origin captured for this command
+                // frame; recomputing follow here would move already-emitted
+                // sprites/text off-screen on the dismissal frame.
+                view_origin = scene.view_positions.get(&view_id).copied()
+                    .unwrap_or((v.xview as f64, v.yview as f64));
                 view_active = true;
             }
         }
@@ -1172,134 +1221,7 @@ pub fn draw_frame(
         let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
         if intro_alive {
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
-            // 1. Backgrounds use GM8.1's single-background draw path. Tiling is
-            // a distinct builtin and is not implied by draw_background.
-            for bg_cmd in &scene.backgrounds {
-                let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
-                if alpha <= 0.0 {
-                    continue;
-                }
-                let bg_id = bg_cmd.background.max(0) as usize;
-                if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
-                    if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
-                        if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
-                            let dst_x = ((bg_cmd.x - view_origin.0) as f32 * scale_x) as i32;
-                            let dst_y = ((bg_cmd.y - view_origin.1) as f32 * scale_y) as i32;
-                            let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
-                            let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                            fb.blit_scaled_alpha(
-                                atlas,
-                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                                (dst_x, dst_y, dst_w, dst_h),
-                                false,
-                                alpha,
-                            );
-                        }
-                    }
-                }
-            }
-
-            // 1.5. Room background tiles (depth >= 0). Room layers render on
-            // every frame in the original runner — DrawTheRoom -> DrawRoomLayers
-            // runs over the room's layer set regardless of instance state — so
-            // the film rides on top of its room's tile scenery even while all
-            // other instances are frozen (binary-verified call order).
-            for tile in scene.room_tiles.iter().filter(|t| t.depth >= 0) {
-                draw_tile(
-                    fb,
-                    state,
-                    tile,
-                    view_origin.0 as f32,
-                    view_origin.1 as f32,
-                    scale_x,
-                    scale_y,
-                );
-            }
-
-            // 2. Film sprite draws (obj_phone draw_self / obj_logo crossfade)
-            for cmd in &scene.draws {
-                if !draw_ir_sprite(fb, state, cmd, view_origin, (scale_x, scale_y)) {
-                    let dst_x = ((cmd.x - view_origin.0) as f32 * scale_x) as i32;
-                    let dst_y = ((cmd.y - view_origin.1) as f32 * scale_y) as i32;
-                    let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-                    if alpha > 0.0 {
-                        fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
-                    }
-                }
-            }
-
-            // 2.5. Foreground tiles (depth < 0) render over the film, matching
-            // the gameplay branch's layer ordering.
-            for tile in scene.room_tiles.iter().filter(|t| t.depth < 0) {
-                draw_tile(
-                    fb,
-                    state,
-                    tile,
-                    view_origin.0 as f32,
-                    view_origin.1 as f32,
-                    scale_x,
-                    scale_y,
-                );
-            }
-
-            // 3. HUD text draws (CODE 370 score strings, CODE 520 pause label):
-            // consumed through the FONT-chunk atlases exactly like the gameplay
-            // branch so the batched font_consumption evidence holds for the
-            // prologue too.
-            for cmd in &scene.texts {
-                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-                if alpha <= 0.0 || cmd.text.is_empty() {
-                    continue;
-                }
-                let x = ((cmd.x - view_origin.0) as f32 * scale_x) as i32;
-                let y = ((cmd.y - view_origin.1) as f32 * scale_y) as i32;
-                let (r, g, b) = if cmd.color < 0 {
-                    (255, 255, 255)
-                } else {
-                    (
-                        (cmd.color & 0xFF) as u8,
-                        ((cmd.color >> 8) & 0xFF) as u8,
-                        ((cmd.color >> 16) & 0xFF) as u8,
-                    )
-                };
-                let font_disk_index = match cmd.font {
-                    0 => Some(0),
-                    1 => Some(2),
-                    2 => Some(3),
-                    3 => Some(1),
-                    4 => Some(4),
-                    5 => Some(5),
-                    _ => None,
-                };
-                let gm_font = font_disk_index
-                    .and_then(|idx| state.asset.fonts.get(idx))
-                    .and_then(|font| {
-                        let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
-                        let atlas = state.atlases.get(page.tex_id as usize)?;
-                        Some((atlas, (page.x as u32, page.y as u32), font))
-                    });
-                if let Some((atlas, page, font)) = gm_font {
-                    let scale = scale_x.min(scale_y);
-                    let space_shift = font
-                        .glyphs
-                        .iter()
-                        .find(|g| g.ch == b' ' as u16)
-                        .map(|g| g.shift)
-                        .unwrap_or(7);
-                    fb.draw_text_gm(
-                        atlas,
-                        page,
-                        &font.glyphs,
-                        space_shift,
-                        x,
-                        y,
-                        &cmd.text,
-                        scale,
-                        (r, g, b),
-                        alpha,
-                    );
-                }
-            }
+            draw_ir_commands(fb, state, scene, view_origin, (scale_x, scale_y), true);
             return;
         }
     }
@@ -1314,177 +1236,7 @@ pub fn draw_frame(
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
-        // 0. Render the single image emitted by draw_background; the separate
-        // tiled builtin is not used at this call site.
-        for bg_cmd in &scene.backgrounds {
-            let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
-            if alpha <= 0.0 {
-                continue;
-            }
-            let bg_id = bg_cmd.background.max(0) as usize;
-            if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
-                if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
-                    if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
-                        let world_x = bg_cmd.x - cam_x;
-                        let world_y = bg_cmd.y - cam_y;
-                        let dst_x = (world_x as f32 * scale_x) as i32;
-                        let dst_y = (world_y as f32 * scale_y) as i32;
-                        let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
-                        let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
-                        fb.blit_scaled_alpha(
-                            atlas,
-                            (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
-                            (dst_x, dst_y, dst_w, dst_h),
-                            false,
-                            alpha,
-                        );
-                    }
-                }
-            }
-        }
-
-        // 1. Background tiles
-        for tile in scene.room_tiles.iter().filter(|t| t.depth >= 0) {
-            draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
-        }
-
-        // 2. Instances from IR draws, each one in GameMaker's own sprite terms:
-        // origin anchor, facing mirror, image_angle rotation, image_blend, and
-        // the d3d_set_fog hit-flash flood.
-        for cmd in &scene.draws {
-            if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y)) {
-                let dst_x = ((cmd.x - cam_x) as f32 * scale_x) as i32;
-                let dst_y = ((cmd.y - cam_y) as f32 * scale_y) as i32;
-                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-                if alpha > 0.0 {
-                    fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
-                }
-            }
-        }
-
-        // 2.5. Hit particles from the original part_particles_create calls:
-        // world-space positions, camera-relative, size-scaled squares blended
-        // with the particle's current color2 gradient color.
-        for p in &scene.particles {
-            let alpha = (p.alpha as f32).clamp(0.0, 1.0);
-            if alpha <= 0.0 {
-                continue;
-            }
-            let wx = p.x - cam_x;
-            let wy = p.y - cam_y;
-            let size_f = (p.size * 4.0).clamp(2.0, 16.0) as f32;
-            let w = ((size_f * scale_x) as u32).max(1);
-            let h = ((size_f * scale_y) as u32).max(1);
-            let x = (wx as f32 * scale_x) as i32 - (w as i32) / 2;
-            let y = (wy as f32 * scale_y) as i32 - (h as i32) / 2;
-            let r = (p.color & 0xFF) as u8;
-            let g = ((p.color >> 8) & 0xFF) as u8;
-            let b = ((p.color >> 16) & 0xFF) as u8;
-            fb.fill_rect(x, y, w, h, (r, g, b, (alpha * 255.0) as u8));
-        }
-
-        // 3. Foreground tiles
-        for tile in scene.room_tiles.iter().filter(|t| t.depth < 0) {
-            draw_tile(fb, state, tile, cam_x as f32, cam_y as f32, scale_x, scale_y);
-        }
-
-        // 3.5. Original draw_healthbar: back_col fills the whole bar, the fill
-        // runs from min_col (value 0) to max_col (value 100), and the original
-        // asks for the border (its showborder argument is 1 at all 90 call
-        // sites, as are direction=0 and showback=1).
-        for hb in &scene.healthbars {
-            let xs = ((hb.x1 - cam_x) as f32 * scale_x) as i32;
-            let ys = ((hb.y1 - cam_y) as f32 * scale_y) as i32;
-            let xe = ((hb.x2 - cam_x) as f32 * scale_x) as i32;
-            let ye = ((hb.y2 - cam_y) as f32 * scale_y) as i32;
-            let (left, right) = (xs.min(xe), xs.max(xe));
-            let (top, bottom) = (ys.min(ye), ys.max(ye));
-            let w = ((right - left).abs() as u32).max(1);
-            let h = ((bottom - top).abs() as u32).max(1);
-            let (br, bg, bb) = unpack_color(hb.back_col);
-            let (nrr, nrg, nrb) = unpack_color(hb.min_col);
-            let (xrr, xrg, xrb) = unpack_color(hb.max_col);
-            let pct = (hb.amount as f32 / 100.0).clamp(0.0, 1.0);
-            let mix = |lo: u8, hi: u8| -> u8 {
-                (lo as f32 + (hi as f32 - lo as f32) * pct).round() as u8
-            };
-            fb.fill_rect(left, top, w, h, (br, bg, bb, 255));
-            let fill_w = (w as f32 * pct).round() as u32;
-            if fill_w > 0 {
-                fb.fill_rect(left, top, fill_w, h, (mix(nrr, xrr), mix(nrg, xrg), mix(nrb, xrb), 255));
-            }
-            fb.draw_rect(left, top, w, h, (0, 0, 0, 255));
-        }
-
-        // 3.6. Render UI Texts emitted by scene
-        for cmd in &scene.texts {
-            let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
-            if alpha <= 0.0 || cmd.text.is_empty() {
-                continue;
-            }
-            let world_x = cmd.x - cam_x;
-            let world_y = cmd.y - cam_y;
-            let x = (world_x as f32 * scale_x) as i32;
-            let y = (world_y as f32 * scale_y) as i32;
-            let (r, g, b) = if cmd.color < 0 {
-                (255, 255, 255)
-            } else {
-                (
-                    (cmd.color & 0xFF) as u8,
-                    ((cmd.color >> 8) & 0xFF) as u8,
-                    ((cmd.color >> 16) & 0xFF) as u8,
-                )
-            };
-            let color = (r, g, b, (alpha * 255.0) as u8);
-            // The original fonts: draw_set_font(N) pushes the alphabetically
-            // sorted resource id (font1=0..font6=5); the FONT chunk's disk
-            // order is font1,font4,font2,font3,font5,font6, so runtime id N
-            // maps to disk index [0,2,3,1,4,5][N]. Text commands predate this
-            // mapping when they were emitted without a font (font: 0).
-            let font_disk_index = match cmd.font {
-                0 => Some(0),
-                1 => Some(2),
-                2 => Some(3),
-                3 => Some(1),
-                4 => Some(4),
-                5 => Some(5),
-                _ => None,
-            };
-            let gm_font = font_disk_index
-                .and_then(|idx| state.asset.fonts.get(idx))
-                .and_then(|font| {
-                    let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
-                    let atlas = state.atlases.get(page.tex_id as usize)?;
-                    Some((atlas, (page.x as u32, page.y as u32), font))
-                });
-            if let Some((atlas, page, font)) = gm_font {
-                // Scale the original pixel sizes into screen space the same
-                // way the sprite blits do: the game's views can be larger than
-                // the room pixels, and the fonts were baked for room pixels.
-                let scale = scale_x.min(scale_y);
-                let space_shift = font
-                    .glyphs
-                    .iter()
-                    .find(|g| g.ch == b' ' as u16)
-                    .map(|g| g.shift)
-                    .unwrap_or(7);
-                fb.draw_text_gm(
-                    atlas,
-                    page,
-                    &font.glyphs,
-                    space_shift,
-                    x,
-                    y,
-                    &cmd.text,
-                    scale,
-                    (r, g, b),
-                    alpha,
-                );
-            } else {
-                let scale = ((scale_x.min(scale_y) * 2.0).round() as u32).max(1);
-                fb.draw_text_str(x, y, &cmd.text, scale, color);
-            }
-        }
+        draw_ir_commands(fb, state, scene, (cam_x, cam_y), (scale_x, scale_y), false);
 
         // The IR scene already contains the original obj_UI button instances
         // (left/right/jump/shoot/sword/pause) and draw_view has emitted their
@@ -1656,6 +1408,174 @@ pub fn draw_frame(
     }
     // Pause: spr_pausebutton (id 122)
     draw_sprite(fb, state, 122, 0, (fb.width as i32 - 64, 16, 48, 48), false);
+}
+
+/// Consume the common Scene order for prologue and gameplay. Primitive
+/// rasterizers are unchanged; camera/projection are supplied by draw_frame.
+fn draw_ir_commands(
+    fb: &mut Framebuffer, state: &GameState, scene: &callys_core::ir_scene::Scene,
+    cam: (f64, f64), screen_scale: (f32, f32), intro: bool,
+) {
+    use callys_core::ir_scene::DrawQueue;
+    let (cam_x, cam_y) = cam;
+    let (scale_x, scale_y) = screen_scale;
+    for emission in scene.ordered_draw_commands() {
+        match emission.queue {
+            DrawQueue::Background(i) => {
+                let bg_cmd = &scene.backgrounds[i];
+                let alpha = (bg_cmd.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 {
+                    continue;
+                }
+                let bg_id = bg_cmd.background.max(0) as usize;
+                if let Some(bg_data) = state.asset.backgrounds.get(&bg_id) {
+                    if let Some(page) = state.asset.tpag_items.get(&bg_data.tpag_ptr) {
+                        if let Some(atlas) = state.atlases.get(page.tex_id as usize) {
+                            let world_x = bg_cmd.x - cam_x;
+                            let world_y = bg_cmd.y - cam_y;
+                            let dst_x = (world_x as f32 * scale_x) as i32;
+                            let dst_y = (world_y as f32 * scale_y) as i32;
+                            let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
+                            let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+                            fb.blit_scaled_alpha(
+                                atlas,
+                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                                (dst_x, dst_y, dst_w, dst_h),
+                                false,
+                                alpha,
+                            );
+                        }
+                    }
+                }
+            }
+            DrawQueue::Sprite(i) => {
+                let cmd = &scene.draws[i];
+                if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y)) {
+                    let dst_x = ((cmd.x - cam_x) as f32 * scale_x) as i32;
+                    let dst_y = ((cmd.y - cam_y) as f32 * scale_y) as i32;
+                    let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+                    if alpha > 0.0 {
+                        fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
+                    }
+                }
+            }
+            DrawQueue::Healthbar(i) => {
+                let hb = &scene.healthbars[i];
+                let xs = ((hb.x1 - cam_x) as f32 * scale_x) as i32;
+                let ys = ((hb.y1 - cam_y) as f32 * scale_y) as i32;
+                let xe = ((hb.x2 - cam_x) as f32 * scale_x) as i32;
+                let ye = ((hb.y2 - cam_y) as f32 * scale_y) as i32;
+                let (left, right) = (xs.min(xe), xs.max(xe));
+                let (top, bottom) = (ys.min(ye), ys.max(ye));
+                let w = ((right - left).abs() as u32).max(1);
+                let h = ((bottom - top).abs() as u32).max(1);
+                let (br, bg, bb) = unpack_color(hb.back_col);
+                let (nrr, nrg, nrb) = unpack_color(hb.min_col);
+                let (xrr, xrg, xrb) = unpack_color(hb.max_col);
+                let pct = (hb.amount as f32 / 100.0).clamp(0.0, 1.0);
+                let mix = |lo: u8, hi: u8| -> u8 {
+                    (lo as f32 + (hi as f32 - lo as f32) * pct).round() as u8
+                };
+                fb.fill_rect(left, top, w, h, (br, bg, bb, 255));
+                let fill_w = (w as f32 * pct).round() as u32;
+                if fill_w > 0 {
+                    fb.fill_rect(left, top, fill_w, h, (mix(nrr, xrr), mix(nrg, xrg), mix(nrb, xrb), 255));
+                }
+                fb.draw_rect(left, top, w, h, (0, 0, 0, 255));
+            }
+            DrawQueue::Text(i) => {
+                let cmd = &scene.texts[i];
+                let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 || cmd.text.is_empty() {
+                    continue;
+                }
+                let world_x = cmd.x - cam_x;
+                let world_y = cmd.y - cam_y;
+                let x = (world_x as f32 * scale_x) as i32;
+                let y = (world_y as f32 * scale_y) as i32;
+                let (r, g, b) = if cmd.color < 0 {
+                    (255, 255, 255)
+                } else {
+                    (
+                        (cmd.color & 0xFF) as u8,
+                        ((cmd.color >> 8) & 0xFF) as u8,
+                        ((cmd.color >> 16) & 0xFF) as u8,
+                    )
+                };
+                let color = (r, g, b, (alpha * 255.0) as u8);
+                // The original fonts: draw_set_font(N) pushes the alphabetically
+                // sorted resource id (font1=0..font6=5); the FONT chunk's disk
+                // order is font1,font4,font2,font3,font5,font6, so runtime id N
+                // maps to disk index [0,2,3,1,4,5][N]. Text commands predate this
+                // mapping when they were emitted without a font (font: 0).
+                let font_disk_index = match cmd.font {
+                    0 => Some(0),
+                    1 => Some(2),
+                    2 => Some(3),
+                    3 => Some(1),
+                    4 => Some(4),
+                    5 => Some(5),
+                    _ => None,
+                };
+                let gm_font = font_disk_index
+                    .and_then(|idx| state.asset.fonts.get(idx))
+                    .and_then(|font| {
+                        let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
+                        let atlas = state.atlases.get(page.tex_id as usize)?;
+                        Some((atlas, (page.x as u32, page.y as u32), font))
+                    });
+                if let Some((atlas, page, font)) = gm_font {
+                    // Scale the original pixel sizes into screen space the same
+                    // way the sprite blits do: the game's views can be larger than
+                    // the room pixels, and the fonts were baked for room pixels.
+                    let scale = scale_x.min(scale_y);
+                    let space_shift = font
+                        .glyphs
+                        .iter()
+                        .find(|g| g.ch == b' ' as u16)
+                        .map(|g| g.shift)
+                        .unwrap_or(7);
+                    fb.draw_text_gm(
+                        atlas,
+                        page,
+                        &font.glyphs,
+                        space_shift,
+                        x,
+                        y,
+                        &cmd.text,
+                        scale,
+                        (r, g, b),
+                        alpha,
+                    );
+                } else if !intro {
+                    let scale = ((scale_x.min(scale_y) * 2.0).round() as u32).max(1);
+                    fb.draw_text_str(x, y, &cmd.text, scale, color);
+                }
+            }
+            DrawQueue::RoomTile(i) => {
+                draw_tile(fb, state, &scene.room_tiles[i], cam_x as f32, cam_y as f32, scale_x, scale_y);
+            }
+            DrawQueue::Particle(i) => {
+                if intro { continue; }
+                let p = &scene.particles[i];
+                let alpha = (p.alpha as f32).clamp(0.0, 1.0);
+                if alpha <= 0.0 {
+                    continue;
+                }
+                let wx = p.x - cam_x;
+                let wy = p.y - cam_y;
+                let size_f = (p.size * 4.0).clamp(2.0, 16.0) as f32;
+                let w = ((size_f * scale_x) as u32).max(1);
+                let h = ((size_f * scale_y) as u32).max(1);
+                let x = (wx as f32 * scale_x) as i32 - (w as i32) / 2;
+                let y = (wy as f32 * scale_y) as i32 - (h as i32) / 2;
+                let r = (p.color & 0xFF) as u8;
+                let g = ((p.color >> 8) & 0xFF) as u8;
+                let b = ((p.color >> 16) & 0xFF) as u8;
+                fb.fill_rect(x, y, w, h, (r, g, b, (alpha * 255.0) as u8));
+            }
+        }
+    }
 }
 
 include!("parts/jni.rs");

@@ -185,6 +185,12 @@ def collect_all(quick=False):
         "prologue_layers_consumption",
         "prologue_render_regression",
         "view_projection_consumption",
+        "story_frame_boundaries",
+        "platform_pointer_mapping",
+        "logic_clock_ir",
+        "sprite_bbox_asset_consumption",
+        "draw_order_consumption",
+        "tutorial_story_panels",
         "store_mouse_press_ir",
     ]
     if not quick:
@@ -218,6 +224,11 @@ def collect_all(quick=False):
         "shop_upgrades_and_intros_ir",
         "lloyd_tutorial_all_sheets_ir",
         "env_semantics_ir",
+        "distance_bbox_ir",
+        "draw_order_ir",
+        "object_depth_metadata_ir",
+        "room_placement_fields_ir",
+        "sprite_and_tile_layout_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))

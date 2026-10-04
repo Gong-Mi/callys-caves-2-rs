@@ -41,49 +41,40 @@ fn boot_reached_lloyd() -> (GameState, i32) {
         load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap(),
     );
     state.enable_ir_gameplay(bundle).unwrap();
-    state.retire_prologue();
-    let (lx, ly) = {
-        let scene = state.scene.as_ref().unwrap();
-        let lloyd = scene
-            .instances
-            .values()
-            .find(|i| i.object == 154 && i.alive)
-            .expect("rm_town contains obj_lloyd");
-        (lloyd.fields["x"], lloyd.fields["y"])
-    };
-    {
-        let scene = state.scene.as_mut().unwrap();
-        let player = scene
-            .instances
-            .values_mut()
-            .find(|i| i.object == 0 && i.alive)
-            .expect("live player");
-        player.fields.insert("x".into(), lx + 40.0);
-        player.fields.insert("y".into(), ly);
+    // Enter through the same opening and controls as production. No
+    // retire_prologue(), coordinate write or direct event dispatch shortcut.
+    for _ in 0..125 { state.step(1.0 / 30.0); }
+    assert!(state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 137 && i.alive));
+    state.input.tap = true;
+    state.step(1.0 / 30.0);
+    state.input.tap = false;
+    state.step(1.0 / 30.0);
+    state.input.move_right = true;
+    for _ in 0..300 {
+        state.step(1.0 / 30.0);
+        assert!(state.runtime_diagnostic.is_none(), "{:?}", state.runtime_diagnostic);
+        let sheet = state.scene.as_ref().unwrap().instances.iter()
+            .find(|(_, i)| i.object == 138 && i.alive).map(|(&id, _)| id);
+        if let Some(sheet) = sheet {
+            state.input.move_right = false;
+            return (state, sheet);
+        }
     }
-    for _ in 0..40 {
-        state.step(1.0 / 60.0);
-    }
-    let sheet = state
-        .scene
-        .as_ref()
-        .unwrap()
-        .instances
-        .iter()
-        .find(|(_, i)| i.object == 138 && i.alive)
-        .map(|(&id, _)| id)
-        .expect("obj_lloyd hands over to obj_lloydtutorial1");
-    (state, sheet)
+    panic!("ordinary movement never reached the original Lloyd story gate");
 }
 
 #[test]
 fn the_town_story_plays_its_six_panels_verbatim() {
     let (mut state, sheet) = boot_reached_lloyd();
+    let scene = state.scene.as_ref().unwrap();
+    let view = scene.active_view_index().unwrap() as i32;
+    let frozen_origin = scene.view_positions[&view];
     let mut seen: [Option<Vec<String>>; 6] = Default::default();
     for _ in 0..640 {
-        state.step(1.0 / 60.0);
+        state.step(1.0 / 30.0);
         assert!(state.runtime_diagnostic.is_none(), "{:?}", state.runtime_diagnostic);
         let scene = state.scene.as_ref().unwrap();
+        assert_eq!(scene.view_positions[&view], frozen_origin, "all story panels keep the same camera");
         let Some(inst) = scene.instances.get(&sheet) else { break };
         if !inst.alive {
             break;

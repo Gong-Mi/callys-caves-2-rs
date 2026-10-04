@@ -22,7 +22,7 @@ final class PointerReleaseQueue {
         y -= top;
         if (width <= 0 || height <= 0 || !Float.isFinite(x) || !Float.isFinite(y)
                 || x < 0 || y < 0 || x >= width || y >= height) return;
-        events.add(new Release(x * 960.0f / width, y * 540.0f / height));
+        events.add(new Release(InputViewport.x(x, width), InputViewport.y(y, height)));
     }
 
     Release poll() { return events.poll(); }
