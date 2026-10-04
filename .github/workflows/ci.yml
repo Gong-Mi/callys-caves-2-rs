@@ -4,7 +4,8 @@ on:
   push:
     branches: [ main, master ]
   pull_request:
-    branches: [ main, master, fix/prologue-render-layers, fix/active-view-dispatch ]
+    branches: [ main, master, fix/prologue-render-layers, fix/active-view-dispatch,
+                fix/story-runtime-boundaries ]
 
 jobs:
   test-and-build:
