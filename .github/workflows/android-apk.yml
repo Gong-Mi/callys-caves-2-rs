@@ -1,0 +1,86 @@
+name: Android APK (arm64)
+
+# Portable, device-free proof that the shippable APK builds from a clean
+# checkout, and that the invariants the renderer work cannot see still hold:
+#   - the cdylib cross-compiles for aarch64 against the NDK (no host sysroot),
+#   - the JNI host classes actually land in classes.dex,
+#   - every PT_LOAD and the stored .so offset are 16 KB aligned,
+#   - the APK is signed and apksigner-verifiable.
+# The keystore is generated inside the job and is NOT the device key: the CI
+# APK is a verification artifact and cannot update a device install.
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    env:
+      CALLY_TARGET: aarch64-linux-android
+      ANDROID_NDK_VERSION: 29.0.14206865
+      ANDROID_PLATFORM_API: '36'
+      ANDROID_BUILD_TOOLS: 36.0.0
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: "Android SDK: platform, build-tools, pinned NDK"
+        run: |
+          SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          if [ ! -d "$SDK" ]; then
+            echo "no Android SDK at $SDK" >&2
+            exit 1
+          fi
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=$SDK/ndk/$ANDROID_NDK_VERSION" >> "$GITHUB_ENV"
+          # Later steps run in fresh shells: put the SDK tools (aapt2, zipalign,
+          # apksigner, d8) on PATH here so the verify step really checks the
+          # signature instead of reporting "apksigner not on PATH".
+          echo "$SDK/build-tools/$ANDROID_BUILD_TOOLS" >> "$GITHUB_PATH"
+          SDKMGR="$SDK/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMGR" ]; then
+            SDKMGR="$(ls "$SDK"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | head -1)"
+          fi
+          yes | "$SDKMGR" --licenses > /dev/null || true
+          "$SDKMGR" --install "platforms;android-$ANDROID_PLATFORM_API" \
+                             "build-tools;$ANDROID_BUILD_TOOLS" \
+                             "ndk;$ANDROID_NDK_VERSION"
+
+      - name: Set up Rust with the Android target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+
+      - name: Build the arm64 APK
+        env:
+          CALLY_GENERATE_CI_KEYSTORE: '1'
+        run: bash scripts/build_apk.sh
+
+      - name: Verify the APK (pages, RUNPATH, dex, manifest, signature)
+        run: python3 scripts/verify_apk.py android-build/CallysCaves2_64bit_Rust.apk
+
+      - name: Record the artifact hash
+        run: |
+          sha256sum android-build/CallysCaves2_64bit_Rust.apk | tee android-build/apk.sha256
+          unzip -l android-build/CallysCaves2_64bit_Rust.apk | tail -20
+
+      - name: Upload the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: callys-caves-2-arm64-apk
+          path: |
+            android-build/CallysCaves2_64bit_Rust.apk
+            android-build/apk.sha256
