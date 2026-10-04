@@ -153,6 +153,7 @@ Falsifier is containment: every glyph box must satisfy `x + w <= page.w` and
 | VARI header +4 `max_variable_count` | discarded | 691 (= count) | same |
 | VARI header +8 `locals_count` | discarded | 7 | same |
 | action +8/24/40/44/48/52 | raw names on `ObjectAction` | uniform (see above) | `every_objt_action_record_matches_the_parser_and_its_undocumented_words_are_uniform` |
+| action +28 function name | `ObjectAction::function_name` | one shared pointer, resolving to an **empty** string, for all 803 actions | same |
 
 A word that is uniform across the whole table is provably free to drop, and the
 count is the evidence for saying so. The guards assert these counts, so the

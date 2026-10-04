@@ -400,6 +400,11 @@ fn raw_actions_per_object(bytes: &[u8]) -> Vec<Vec<usize>> {
 /// meaning stays unknown are pinned to the single value the whole asset carries
 /// (`kind` 7, `execution_type` 2, `who` -1, `relative` 0, `is_not` 0,
 /// `unknown` 0) so a future file that varies them cannot slip through unnamed.
+///
+/// The function-name word is pinned the same way: all 803 actions share one
+/// pointer, and it resolves to an empty string, which is why `function_name` on
+/// the parser side is empty everywhere. Left unasserted that reads as "no data
+/// here"; asserted, it is a property of the file.
 #[test]
 fn every_objt_action_record_matches_the_parser_and_its_undocumented_words_are_uniform() {
     let r = root();
@@ -408,6 +413,7 @@ fn every_objt_action_record_matches_the_parser_and_its_undocumented_words_are_un
     let raw = raw_actions_per_object(&bytes);
     assert_eq!(raw.len(), asset.objects.len(), "every object record was walked");
     let mut total = 0usize;
+    let mut name_pointers = std::collections::BTreeSet::new();
     for (id, actions) in raw.iter().enumerate() {
         let object = &asset.objects[id];
         let parsed: Vec<&callys_asset::ObjectAction> =
@@ -423,6 +429,7 @@ fn every_objt_action_record_matches_the_parser_and_its_undocumented_words_are_un
             assert_eq!(action.is_question_raw, u32le(&bytes, ap + 16), "object {id} is_question");
             assert_eq!(action.use_apply_to_raw, u32le(&bytes, ap + 20), "object {id} use_apply_to");
             assert_eq!(action.execution_type, u32le(&bytes, ap + 24), "object {id} execution type");
+            name_pointers.insert(u32le(&bytes, ap + 28));
             assert_eq!(action.code_id, i32le(&bytes, ap + 32), "object {id} code id");
             assert_eq!(action.argument_count, u32le(&bytes, ap + 36), "object {id} argument count");
             assert_eq!(action.who, i32le(&bytes, ap + 40), "object {id} who");
@@ -445,6 +452,21 @@ fn every_objt_action_record_matches_the_parser_and_its_undocumented_words_are_un
         }
     }
     assert_eq!(total, 803, "the asset carries {total} actions, not a subset");
+    assert_eq!(name_pointers.len(), 1,
+        "all 803 actions share one function-name word; a second value means the field is live and must be read");
+    let name_ptr = *name_pointers.iter().next().unwrap() as usize;
+    assert_eq!(bytes[name_ptr], 0,
+        "the shared function-name word at {name_ptr} must resolve to an empty string");
+    assert!(parsed_actions_are_nameless(&asset),
+        "the parser's action names must all be empty, matching the shared pointer above");
+}
+
+/// Whether every action the parser exposes carries an empty function name.
+fn parsed_actions_are_nameless(asset: &GameDroidAsset) -> bool {
+    asset.objects.iter()
+        .flat_map(|o| o.events.iter())
+        .flat_map(|e| e.actions.iter())
+        .all(|a| a.function_name.is_empty())
 }
 
 /// The words the readers deliberately drop, and the survey that makes dropping
