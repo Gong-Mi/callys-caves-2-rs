@@ -62,7 +62,7 @@ def main():
                 runs.append(cur.decode())
             if runs:
                 print(f"  [{off:#04x}] -> {v:#010x}: {runs}")
-    fd.close()
+    os.close(fd)
 
 
 main()
