@@ -110,8 +110,14 @@ fn persistent_state_autosaves_and_reloads_through_file() {
     assert_eq!(saved.score, 123.0);
     assert_eq!(saved.scene_globals["haskey"], 1.0, "progression global must persist (coinpickup is transient by original UI Step zeroing)");
 
-    // Cold restart: same file path, fresh GameState restores through nativeInit's code path.
+    // Cold restart: same file path, fresh GameState restores through nativeInit's
+    // code path — which reads the save and QUEUES it before enable, pinning the
+    // boot to the town prologue. Without the queue the boot would land directly
+    // in the save's room, and rooms other than the town never place obj_player
+    // (level1 does not), so the world would come up player-less and CODE 361's
+    // sleep sweep would halt on the missing receiver.
     let mut cold = GameState::new_persistent(&droid).unwrap();
+    assert!(cold.queue_boot_ir_restore(), "nativeInit queues the v2 scene save before enable");
     cold.enable_ir_gameplay(bundle.clone()).unwrap();
     cold.retire_prologue();
     let save = load_save(&path).unwrap().unwrap();
@@ -119,6 +125,10 @@ fn persistent_state_autosaves_and_reloads_through_file() {
     let scene = cold.scene.as_ref().unwrap();
     assert_eq!(scene.current_room, 1.0);
     assert_eq!(scene.score, 123.0);
+    assert!(
+        scene.instances.values().any(|i| i.object == 0 && i.alive),
+        "the handed-over level1 carries the town's player instance"
+    );
     for _ in 0..10 {
         cold.step(1.0 / 60.0);
         assert_eq!(cold.runtime_diagnostic, None);
