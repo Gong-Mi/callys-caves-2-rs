@@ -15,7 +15,9 @@ fn fixture(subtype: i32, has_code: bool) -> (Bundle, Scene, RoomData, i32) {
     s.room_width = 320.0;
     let id = s.create(&b,0,10.0,20.0).unwrap();
     let room = RoomData { name:"next".into(), caption:String::new(), width:640, height:480,
-        speed:60, persistent:false, objects:vec![], tiles:vec![], views:vec![] };
+        speed:60, persistent:false,
+        background_colour:0, draw_background_colour:false, creation_code_id:-1, flags:0,
+        backgrounds:vec![], objects:vec![], tiles:vec![], views:vec![] };
     (b,s,room,id)
 }
 

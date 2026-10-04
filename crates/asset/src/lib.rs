@@ -35,6 +35,40 @@ pub struct RoomTileInstance {
     pub scale_y: f32,
 }
 
+/// One of a room's eight background-layer slots (`ROOM` record sub-table at
+/// header +40; every record is 40 bytes).
+///
+/// Attested twice — the field order/widths below are UndertaleModTool's
+/// `UndertaleRoom.Background` (`ChildObjectsSize = 40`, Unserialize order
+/// Enabled, Foreground, BackgroundDefinition, X, Y, tileX, tileY, SpeedX,
+/// SpeedY, Stretch), and every one of the 912 slots in this asset matches it
+/// byte for byte (`crates/core/tests/sprite_and_tile_layout_ir.rs`).
+///
+/// This game draws no room background from this table: all 912 slots are
+/// either disabled or name no background (`background_id == -1`), so a
+/// renderer that ignores the table is faithful for the shipped data. Do not
+/// read "no background on screen" as a dropped layer and invent one.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RoomBackground {
+    /// The room editor's per-slot checkbox. Even when set, the slot still
+    /// needs a real `background_id` to put anything on screen.
+    pub visible: bool,
+    /// Draw the layer in front of (rather than behind) the room contents.
+    pub foreground: bool,
+    /// Index into the BGND chunk, or -1 when the slot names no background.
+    pub background_id: i32,
+    pub x: i32,
+    pub y: i32,
+    /// GM stores tiling as an integer where 0 is "off" and any other value
+    /// is "on"; this asset only ever holds 0 or 1.
+    pub tiled_horizontally: bool,
+    pub tiled_vertically: bool,
+    pub speed_x: i32,
+    pub speed_y: i32,
+    /// Stretch the texture over the room instead of tiling it.
+    pub stretch: bool,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RoomData {
     pub name: String,
@@ -43,6 +77,23 @@ pub struct RoomData {
     pub height: u32,
     pub speed: u32,
     pub persistent: bool,
+    /// Room header +24: the room's background colour (RGB; GM implies alpha).
+    /// 0 in 110 rooms, 0x00C0C0C0 in 4. Only meaningful together with
+    /// `draw_background_colour`.
+    pub background_colour: u32,
+    /// Room header +28: clear the frame with `background_colour` first.
+    /// Set in exactly one room (rm_town, whose colour is black anyway), so the
+    /// remake's constant black clear is faithful for this data.
+    pub draw_background_colour: bool,
+    /// Room header +32: index of the room's creation CODE, -1 when the room
+    /// runs no creation code. -1 in all 114 rooms, so no room has one.
+    pub creation_code_id: i32,
+    /// Room header +36: GameMaker room flags (EnableViews = 1,
+    /// ClearViewBackground/ShowColor = 2, DoNotClearDisplayBuffer = 4).
+    /// 5 (= EnableViews | DoNotClearDisplayBuffer) in all 114 rooms.
+    pub flags: u32,
+    /// Room header +40: the eight background-layer slots, in editor order.
+    pub backgrounds: Vec<RoomBackground>,
     pub objects: Vec<RoomObjectInstance>,
     pub tiles: Vec<RoomTileInstance>,
     /// Room-editor VIEW defaults (GM8.1: 8 indexed slots). These records seed
@@ -1426,14 +1477,62 @@ impl GameDroidAsset {
                 };
 
                 if file.seek(SeekFrom::Start(room_abs_pos + 6 * 4)).is_ok() {
-                    let _color = file.read_u32::<LittleEndian>().unwrap_or(0);
-                    let _show_color = file.read_u32::<LittleEndian>().unwrap_or(0);
-                    let _creation_code = file.read_i32::<LittleEndian>().unwrap_or(-1);
-                    let _flags = file.read_u32::<LittleEndian>().unwrap_or(0);
-                    let _bg_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let background_colour = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let draw_background_colour =
+                        file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                    let creation_code_id = file.read_i32::<LittleEndian>().unwrap_or(-1);
+                    let flags = file.read_u32::<LittleEndian>().unwrap_or(0);
+                    let bg_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let views_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let obj_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
                     let tiles_offset = file.read_u32::<LittleEndian>().unwrap_or(0);
+
+                    // GM8.1 room BACKGROUND table: u32 count, then `count` u32
+                    // offsets to 40-byte records. Field order is attested
+                    // against UndertaleModTool's UndertaleRoom.Background and
+                    // against every slot in this asset (see RoomBackground).
+                    let mut room_backgrounds = Vec::new();
+                    if bg_offset != 0 && bg_offset != u32::MAX {
+                        let bg_list_pos = bg_offset as u64;
+                        if bg_list_pos < file_len
+                            && file.seek(SeekFrom::Start(bg_list_pos)).is_ok()
+                        {
+                            if let Ok(raw_count) = file.read_u32::<LittleEndian>() {
+                                let bg_count = raw_count.min(8);
+                                let mut bg_offsets = Vec::with_capacity(bg_count as usize);
+                                for _ in 0..bg_count {
+                                    if let Ok(o) = file.read_u32::<LittleEndian>() {
+                                        bg_offsets.push(o);
+                                    }
+                                }
+                                for &bg_slot in &bg_offsets {
+                                    let bg_pos = bg_slot as u64;
+                                    if bg_pos >= file_len
+                                        || file.seek(SeekFrom::Start(bg_pos)).is_err()
+                                    {
+                                        continue;
+                                    }
+                                    let visible = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let foreground = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let background_id = file.read_i32::<LittleEndian>().unwrap_or(-1);
+                                    let x = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let y = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let tiled_horizontally =
+                                        file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let tiled_vertically =
+                                        file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    let speed_x = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let speed_y = file.read_i32::<LittleEndian>().unwrap_or(0);
+                                    let stretch = file.read_u32::<LittleEndian>().unwrap_or(0) != 0;
+                                    room_backgrounds.push(RoomBackground {
+                                        visible, foreground, background_id, x, y,
+                                        tiled_horizontally, tiled_vertically,
+                                        speed_x, speed_y, stretch,
+                                    });
+                                }
+                            }
+                        }
+                    }
 
                     // GM8.1 room VIEW table: u32 count, then `count` u32 offsets
                     // to view records. Each record is 14 u32s: visible, xview,
@@ -1561,6 +1660,11 @@ impl GameDroidAsset {
                         height,
                         speed,
                         persistent,
+                        background_colour,
+                        draw_background_colour,
+                        creation_code_id,
+                        flags,
+                        backgrounds: room_backgrounds,
                         objects: room_objs,
                         views: room_views,
                         tiles: room_tiles,
