@@ -27,7 +27,15 @@
 //!   single value the whole asset carries;
 //! * the CODE entry and VARI header words the readers deliberately drop — the
 //!   survey counts that make dropping them safe are asserted, so a future file
-//!   that varies them fails here instead of silently losing a field.
+//!   that varies them fails here instead of silently losing a field;
+//! * GEN8 — the bytecode gate, the declared window the engine canvas copies,
+//!   and the room-order list that makes ROOM-chunk position the engine's room
+//!   index;
+//! * the chunks that are present but empty (PATH/SCPT/GLOB/SHDR/TMLN/AGRP,
+//!   DAFL) — their emptiness is a fact about the runtime's job, not missing
+//!   reader code;
+//! * FUNC — every 12-byte record's name resolves inside STRG and its last word
+//!   inside CODE.
 //!
 //! The tile check also pins what the original data contains, because the open
 //! issue #31 assumed the remake was dropping something. It is not: the game has
@@ -38,6 +46,7 @@
 //! BACKGROUND table: all 912 slots are disabled or nameless, so no room draws a
 //! background layer and adding one would be inventing a layer the data lacks.
 use callys_asset::GameDroidAsset;
+use callys_core::ir_scene::Scene;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
@@ -500,4 +509,107 @@ fn the_words_the_readers_drop_are_uniform_in_this_asset() {
     assert_eq!(u32le(&bytes, vari_lo + 8), 7, "VARI locals_count (dropped by the reader)");
     assert!(vari_lo + 12 + vari_count * 20 <= vari_end,
         "VARI's 20-byte records must tile inside the chunk");
+}
+
+/// Absolute bounds of one chunk body: `(body_start, body_end)`.
+fn chunk_bounds(bytes: &[u8], tag: &[u8; 4]) -> (usize, usize) {
+    let mut p = 8;
+    while &bytes[p..p + 4] != tag { p += 8 + u32le(bytes, p + 4) as usize; }
+    let body = p + 8;
+    (body, body + u32le(bytes, p + 4) as usize)
+}
+
+/// `GEN8` carries two things the rest of the tree assumes without checking: the
+/// engine's room indexing and its canvas. Both are asserted against the bytes
+/// *and* against the second consumer of the same fact (the engine's own default
+/// canvas), so either side drifting alone fails here.
+#[test]
+fn the_general_info_declares_the_canvas_and_the_room_order_that_numbers_the_rooms() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (gen8, gen8_end) = chunk_bounds(&bytes, b"GEN8");
+    let asset = GameDroidAsset::parse(r.join("assets/game.droid")).unwrap();
+    let info = asset.general_info.as_ref().expect("GEN8 must be parsed");
+    assert_eq!(bytes[gen8] != 0, info.debugger, "GEN8 debugger byte");
+    assert_eq!(info.bytecode_version, bytes[gen8 + 1], "GEN8 bytecode-version byte");
+    assert_eq!(info.bytecode_version, 16,
+        "the recovered bytecode ledger rejects any version but 16, so this is a format gate, not a detail");
+    assert_eq!(info.default_window_width, u32le(&bytes, gen8 + 60), "GEN8 default window width");
+    assert_eq!(info.default_window_height, u32le(&bytes, gen8 + 64), "GEN8 default window height");
+    assert_eq!((info.default_window_width, info.default_window_height), (1136, 640),
+        "the window the data file declares");
+    // The engine canvas is a hardcoded copy of that declared window; a drift
+    // between the two is a rendering bug with no other symptom.
+    let scene = Scene::default();
+    assert_eq!(scene.display_width as u32, info.default_window_width,
+        "engine canvas width vs the window the data file declares");
+    assert_eq!(scene.display_height as u32, info.default_window_height,
+        "engine canvas height vs the window the data file declares");
+    assert_eq!(info.name, "Real_Cally_2_Google_Play", "GEN8 +40 game name");
+    assert_eq!(info.display_name, "Callys Caves 2", "GEN8 +100 window title");
+    assert_eq!(info.version, [1, 0, 0, 1804], "GEN8 +44 runtime version");
+
+    // Room order: count at +128, then the entries, tiling the chunk exactly.
+    let count = u32le(&bytes, gen8 + 128) as usize;
+    assert_eq!(count, asset.rooms.len(), "room-order length vs the ROOM chunk");
+    assert_eq!(count, 114);
+    assert_eq!(gen8 + 128 + 4 + 4 * count, gen8_end,
+        "the room-order list must tile the GEN8 chunk exactly; short or long means the offset is wrong");
+    assert_eq!(info.room_order, (0..count).collect::<Vec<_>>(),
+        "the room order is the identity permutation, so ROOM-chunk position IS the engine room index");
+    assert_eq!(asset.rooms[0].name, "rm_town", "engine room 0 is the room the game opens in");
+}
+
+/// The chunks that are present but empty. Their emptiness is data the runtime
+/// depends on: no scripts, timelines, paths, shaders or audio groups exist, and
+/// GLOB carries no global-initialisation code, so every global can only come
+/// from an object event. A reader that assumed otherwise would be reading a
+/// different game.
+#[test]
+fn the_asset_declares_no_scripts_timelines_paths_shaders_or_audio_groups() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    for tag in [b"PATH", b"SCPT", b"GLOB", b"SHDR", b"TMLN", b"AGRP"] {
+        let (body, end) = chunk_bounds(&bytes, tag);
+        let name = String::from_utf8_lossy(tag).to_string();
+        assert_eq!(end - body, 4, "{name} body must be exactly its empty count word");
+        assert_eq!(u32le(&bytes, body), 0, "{name} count");
+    }
+    let (dafl, dafl_end) = chunk_bounds(&bytes, b"DAFL");
+    assert_eq!(dafl_end - dafl, 0, "DAFL is an empty marker chunk");
+}
+
+/// FUNC records: 12 bytes each, `name_ptr, +4, +8`. The name must resolve into
+/// the STRG chunk and the last word must land inside CODE — a shifted read
+/// cannot satisfy both, which is what makes this a layout check and not a
+/// census.
+#[test]
+fn every_func_record_resolves_a_name_and_a_code_site() {
+    let r = root();
+    let bytes = std::fs::read(r.join("assets/game.droid")).unwrap();
+    let (func, func_end) = chunk_bounds(&bytes, b"FUNC");
+    let (strg, strg_end) = chunk_bounds(&bytes, b"STRG");
+    let (code, code_end) = chunk_bounds(&bytes, b"CODE");
+    let count = u32le(&bytes, func) as usize;
+    assert_eq!(count, 99, "the function roster");
+    assert!(func + 4 + 12 * count <= func_end, "the FUNC record table must fit its chunk");
+    let mut names = std::collections::BTreeSet::new();
+    for index in 0..count {
+        let record = func + 4 + 12 * index;
+        let name_ptr = u32le(&bytes, record) as usize;
+        assert!((strg..strg_end).contains(&name_ptr),
+            "FUNC {index} name pointer {name_ptr} must resolve inside STRG");
+        let terminator = bytes[name_ptr..].iter().position(|&c| c == 0).map(|p| p + name_ptr)
+            .expect("function name terminator");
+        let name = std::str::from_utf8(&bytes[name_ptr..terminator]).expect("ASCII function name");
+        assert!(!name.is_empty() && name.chars().all(|c| c.is_ascii_alphanumeric() || c == '_'),
+            "FUNC {index} name {name:?} is not an identifier");
+        assert!(names.insert(name.to_string()), "FUNC {index} name {name} appears twice");
+        let code_site = u32le(&bytes, record + 8) as usize;
+        assert!((code..code_end).contains(&code_site),
+            "FUNC {index} {name} +8 = {code_site:#x} must be a CODE address");
+        let word = u32le(&bytes, record + 4);
+        assert!((1..=4096).contains(&word), "FUNC {index} {name} +4 = {word} is out of range");
+    }
+    assert_eq!(names.len(), 99, "every function name was seen");
 }

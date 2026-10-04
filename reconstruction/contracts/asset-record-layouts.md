@@ -159,6 +159,72 @@ A word that is uniform across the whole table is provably free to drop, and the
 count is the evidence for saying so. The guards assert these counts, so the
 "free to drop" claim cannot silently become false.
 
+## GEN8 — general info (588 bytes)
+
+Fixed fields, by offset from the chunk body (UndertaleModTool
+`UndertaleGeneralInfo`, GMS1 branch):
+
+| Offset | Field | This asset |
+| --- | --- | --- |
+| +0 (1 byte) | debugger attached | 1 |
+| +1 (1 byte) | **bytecode version** | **16** — the recovered bytecode ledger rejects anything else |
+| +2 | u16 padding | 0 |
+| +4 / +8 | runner filename / config name | `Real Cally 2 Google Play` / `Default` |
+| +12 / +16 / +20 | last object / last tile / game id | 171014 / 10000114 / 778478177 |
+| +24 | DirectPlay GUID (16 bytes) | all zero |
+| +40 | **game name** | `Real_Cally_2_Google_Play` |
+| +44..+56 | runtime version major/minor/release/build | 1 / 0 / 0 / 1804 |
+| +60 / +64 | **default window width / height** | **1136 / 640** |
+| +68 | info flags (UMT `InfoFlags`) | 0x8A0 = ShowCursor \| ScreenKey \| StudioVersionB3 (no Scale bit) |
+| +72 / +76 | license CRC32 / MD5 | — |
+| +92 | compile timestamp (u64) | 1540414166 (2018-10-24) |
+| +100 | **display name (window title)** | `Callys Caves 2` |
+| +112 / +120 / +124 | function classifications / Steam app id / debugger port | — |
+| +128 | **room order**: `u32 count` + count × u32 | 114 entries, **identity**, tiling the chunk exactly (128+4+456 = 588) |
+
+Two consequences the tree depends on, both asserted in
+`the_general_info_declares_the_canvas_and_the_room_order_that_numbers_the_rooms`:
+
+* **Room indexing.** The room order is the identity permutation, so a room's
+  position in the ROOM chunk IS its engine room index — the assumption behind
+  every `room_goto` argument and the whole room-numbering table (room 0 =
+  `rm_town`, room 8 = `rm_level8`, …).
+* **The canvas.** The declared window is 1136×640, and the engine's
+  `Scene::display_width/height`, the JNI pointer mapping and the Java presenter
+  all hardcode that same pair. The guard compares the asset against
+  `Scene::default()`, so either side drifting alone fails.
+
+Note for a future reader: the room-order entries here are room **indices**
+(0..113), while the GMS1 spec path in UndertaleModTool would read a resource
+list of **pointers**. In this file the values cannot be pointers into a 28 MB
+image, and the list tiles the chunk exactly, so indices is the reading that
+survives both falsifiers.
+
+`game_name` used to be guessed from the first string-table entry — a tab
+character in this asset. It is now GEN8 +40, with the old guess kept only as a
+fallback when GEN8 is absent.
+
+## Chunks that are present but empty
+
+| Chunk | Body | Meaning |
+| --- | --- | --- |
+| PATH, SCPT, GLOB, SHDR, TMLN, AGRP | `u32 0` (4 bytes) | no paths, scripts, shaders, timelines or audio groups; **GLOB holds no global-initialisation code**, so every global can only come from an object event |
+| DAFL | 0 bytes | empty marker chunk |
+
+Guard: `the_asset_declares_no_scripts_timelines_paths_shaders_or_audio_groups`.
+
+## FUNC (99 records, 12 bytes each)
+
+`name_ptr +0, +4, +8` then a per-function tail (chunk is 22,972 bytes; the
+record table is 4 + 12×99 = 1,192). On the reference asset every `name_ptr`
+resolves to a NUL-terminated identifier inside STRG (all 99 unique), `+8` is an
+address inside the CODE chunk, and `+4` ranges 1..2796 (46 distinct values) —
+its meaning is not attested beyond that range, so it is bounded, not named.
+Guard: `every_func_record_resolves_a_name_and_a_code_site`.
+
+STRG carries 3,210 strings; its pointer table is a counted list of absolute
+offsets, with each string record being `u32 length + bytes`.
+
 ## Known deviations
 
 * Placement scale/rotation are applied **after** the object's Create event,
@@ -168,3 +234,7 @@ count is the evidence for saying so. The guards assert these counts, so the
 * All collision queries go through bounding boxes; pixel-precise `prec` checks
   are not implemented. Declared at each contract boundary, never claimed as
   pixel equivalence.
+* `flags` bit 2 (`DoNotClearDisplayBuffer`) is set in all 114 rooms and 113 of
+  them clear nothing, so in principle the previous frame is the backdrop there.
+  No original pixel evidence covers those rooms, so the clear path is unchanged
+  and the question is recorded rather than answered by a guess.

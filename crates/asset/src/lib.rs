@@ -69,6 +69,39 @@ pub struct RoomBackground {
     pub stretch: bool,
 }
 
+/// The `GEN8` chunk: the data file's general information.
+///
+/// Field order and widths follow UndertaleModTool's `UndertaleGeneralInfo`
+/// Unserialize (GMS1 branch): 1-byte debugger flag, 1-byte bytecode version,
+/// u16 padding, then the strings and words listed below. Only the fields
+/// something actually consumes are exposed; the rest is recorded by offset in
+/// `reconstruction/contracts/asset-record-layouts.md`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GeneralInfo {
+    /// +0: the game was launched with the debugger attached.
+    pub debugger: bool,
+    /// +1: data-file bytecode version. 16 in this asset, and the recovered
+    /// bytecode reader rejects anything else, so it is a hard format gate.
+    pub bytecode_version: u8,
+    /// +40: the data file's own name (the runner filename is at +4).
+    pub name: String,
+    /// +44..+56: the GameMaker runtime version (major, minor, release, build).
+    pub version: [u32; 4],
+    /// +60/+64: the window the game declares it wants. This is where the
+    /// 1136×640 canvas that the engine, the JNI layer and the Java presenter
+    /// all hardcode comes from; `crates/core/tests/sprite_and_tile_layout_ir.rs`
+    /// keeps the two from drifting apart.
+    pub default_window_width: u32,
+    pub default_window_height: u32,
+    /// +100: the name shown in the window title bar.
+    pub display_name: String,
+    /// +128: `u32 count` then `count` room indices — the engine's room order.
+    /// It is the identity permutation here, so a room's position in the ROOM
+    /// chunk IS its engine room index (the assumption every `room_goto` in the
+    /// recovered bytecode relies on).
+    pub room_order: Vec<usize>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RoomData {
     pub name: String,
@@ -292,8 +325,14 @@ pub struct SoundData {
     pub audio_id: usize,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GameDroidAsset {
+    /// The data file's own name, read from GEN8 (+40). It used to be guessed
+    /// from the first string-table entry, which is a tab character in this
+    /// asset, i.e. not a name at all.
     pub game_name: String,
+    /// GEN8 in full, when the chunk is present.
+    pub general_info: Option<GeneralInfo>,
     pub string_table: Vec<String>,
     pub object_names: Vec<String>,
     pub objects: Vec<GameObjectInfo>,
@@ -1218,6 +1257,70 @@ fn classify_warp_code(
     )
 }
 
+/// Parse the `GEN8` general-info chunk.
+///
+/// Fields are reached by their own offsets rather than by walking every field
+/// in order, so unrelated words cannot shift the ones we do read. The trailing
+/// room-order list must tile exactly to the chunk end — a count at +128 whose
+/// entries overrun or fall short means the offset is wrong, not "close enough".
+fn parse_general_info(
+    file: &mut File,
+    chunk_pos: u64,
+    chunk_size: u32,
+    file_len: u64,
+) -> std::io::Result<GeneralInfo> {
+    /// Where the room-order count sits, per the GMS1 general-info layout.
+    const ROOM_ORDER_OFFSET: u64 = 128;
+    let chunk_end = chunk_pos
+        .checked_add(u64::from(chunk_size))
+        .ok_or_else(|| invalid_data("GEN8 chunk range overflows"))?;
+    if chunk_end > file_len || u64::from(chunk_size) < ROOM_ORDER_OFFSET + 4 {
+        return Err(invalid_data("GEN8 chunk is outside the file or truncated"));
+    }
+    file.seek(SeekFrom::Start(chunk_pos))?;
+    let debugger = file.read_u8()? != 0;
+    let bytecode_version = file.read_u8()?;
+
+    let ptr_at = |file: &mut File, off: u64| -> std::io::Result<u64> {
+        file.seek(SeekFrom::Start(chunk_pos + off))?;
+        Ok(u64::from(file.read_u32::<LittleEndian>()?))
+    };
+    let name_offset = ptr_at(file, 40)?;
+    let name = read_null_string(file, name_offset, file_len).unwrap_or_default();
+    file.seek(SeekFrom::Start(chunk_pos + 44))?;
+    let mut version = [0u32; 4];
+    for word in version.iter_mut() {
+        *word = file.read_u32::<LittleEndian>()?;
+    }
+    file.seek(SeekFrom::Start(chunk_pos + 60))?;
+    let default_window_width = file.read_u32::<LittleEndian>()?;
+    let default_window_height = file.read_u32::<LittleEndian>()?;
+    let display_offset = ptr_at(file, 100)?;
+    let display_name = read_null_string(file, display_offset, file_len).unwrap_or_default();
+
+    file.seek(SeekFrom::Start(chunk_pos + ROOM_ORDER_OFFSET))?;
+    let count = file.read_u32::<LittleEndian>()? as u64;
+    if chunk_pos + ROOM_ORDER_OFFSET + 4 + 4 * count > chunk_end {
+        return Err(invalid_data(format!(
+            "GEN8 room order of {count} entries overruns the chunk"
+        )));
+    }
+    let mut room_order = Vec::with_capacity(count as usize);
+    for _ in 0..count {
+        room_order.push(file.read_u32::<LittleEndian>()? as usize);
+    }
+    Ok(GeneralInfo {
+        debugger,
+        bytecode_version,
+        name,
+        version,
+        default_window_width,
+        default_window_height,
+        display_name,
+        room_order,
+    })
+}
+
 impl GameDroidAsset {
     pub fn parse<P: AsRef<Path>>(path: P) -> Result<Self, Box<dyn std::error::Error>> {
         let mut file = File::open(path)?;
@@ -1245,6 +1348,10 @@ impl GameDroidAsset {
             file.seek(SeekFrom::Start(pos + 8 + padded_size as u64))?;
         }
 
+        let general_info = match chunks.get("GEN8") {
+            Some(&(pos, size)) => parse_general_info(&mut file, pos, size, file_len).ok(),
+            None => None,
+        };
         let audio = match chunks.get("AUDO") {
             Some(&(pos, size)) => parse_audio_chunk(&mut file, pos, size, file_len)?,
             None => Vec::new(),
@@ -1715,7 +1822,13 @@ impl GameDroidAsset {
         }
 
         Ok(Self {
-            game_name: strings.first().cloned().unwrap_or_else(|| "CallysCaves2".into()),
+            game_name: general_info
+                .as_ref()
+                .map(|info| info.name.clone())
+                .filter(|name| !name.is_empty())
+                .or_else(|| strings.first().cloned())
+                .unwrap_or_else(|| "CallysCaves2".into()),
+            general_info,
             string_table: strings,
             object_names,
             objects,
