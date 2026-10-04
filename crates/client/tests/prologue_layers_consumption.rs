@@ -49,7 +49,7 @@ fn boot_state() -> GameState {
 
 /// Film frame (obj_introduction still alive): renders through the prologue
 /// branch, where only room layers + the film are drawn. One step runs the
-/// runtime view selector (CODE 538) so the frame already uses view 6.
+/// runtime view selector (CODE 538) so the frame already uses view 0.
 fn film_state() -> GameState {
     let mut state = boot_common();
     state.step(1.0 / 60.0);
@@ -106,7 +106,7 @@ fn draw_background_renders_once_in_the_selected_view_without_tiling() {
     let scene = state.scene.as_ref().unwrap();
     let view_index = scene.active_view_index().expect("visible runtime view");
     let view = scene.room_views[view_index].clone();
-    assert_eq!(view_index, 6, "CODE 538 selects view 6 at 960x540");
+    assert_eq!(view_index, 0, "CODE 538 selects view 0 at 1136x640");
     let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
     let (&bg_id, bg) = state
         .asset

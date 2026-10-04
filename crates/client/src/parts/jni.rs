@@ -178,8 +178,8 @@ mod android_jni {
         let mut g = slot().lock().unwrap();
         *g = Some(AndroidState {
             state: st,
-            fb: Framebuffer::new(960, 540),
-            blit: Vec::with_capacity(960 * 540),
+            fb: Framebuffer::new(1136, 640),
+            blit: Vec::with_capacity(1136 * 640),
             trace_ticks: 0,
         });
         log("nativeInit ok");

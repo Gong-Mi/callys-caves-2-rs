@@ -96,6 +96,14 @@ branch mirrors that ordering: bg tiles (depth >= 0) → film draws → fg tiles
 (depth < 0); its instance queues (backgrounds/texts) are empty by
 construction while the film runs.
 
+The canvas is 1136x640 — the display size the original runner reports on this
+device class, and therefore the CODE 538 branch that selects view 0 (448x252
+view window into a 1136x640 port; GM8.1 zooms the view rect into the port).
+The film composes against view 0's rect exactly like the original; 960x540
+would take CODE 538's own view-6 branch instead. The Android presentation
+stretches the finished canvas onto the surface per axis, matching the
+original's window-sized GL backbuffer (no letterbox).
+
 ## Tests
 
 - `game_start_p0.rs` (4): cold-start baseline + intro spawn; INI disk read +

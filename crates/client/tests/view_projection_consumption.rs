@@ -111,16 +111,17 @@ fn prologue_draw_dispatch_uses_runtime_selected_view_and_projection() {
     state.enable_ir_gameplay(bundle).expect("enable IR gameplay");
     assert!(state.scene.as_ref().unwrap().instances.values().any(|i| i.object == 137 && i.alive));
 
-    // CODE 538 runs on the first frame at this 960x540 display size: it disables
-    // view 0 and enables view 6. Draw must use that live choice, not the ROOM
+    // CODE 538 runs on the first frame at this 1136x640 display size — the
+    // original's real-device branch: it disables view 6 and enables view 0
+    // (448x252 into 1136x640). Draw must use that live choice, not the ROOM
     // record's original visible bit or a prologue-specific flat projection.
     state.step(1.0 / 60.0);
     assert!(state.runtime_diagnostic.is_none(), "first prologue frame must run");
     let scene = state.scene.as_ref().unwrap();
-    assert!(!scene.view_visible[0] && scene.view_visible[6], "original resolution GML selects view 6");
-    assert_eq!(scene.view, 6, "Draw dispatch must set view_current to the live view");
+    assert!(scene.view_visible[0] && !scene.view_visible[6], "original resolution GML selects view 0");
+    assert_eq!(scene.view, 0, "Draw dispatch must set view_current to the live view");
     assert!(!scene.draws.is_empty(), "the selected view must produce Draw commands");
-    assert!(scene.draws.iter().all(|cmd| cmd.view == 6), "commands must carry view 6");
+    assert!(scene.draws.iter().all(|cmd| cmd.view == 0), "commands must carry view 0");
 
     let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
     let scene = state.scene.as_mut().unwrap();
@@ -131,7 +132,7 @@ fn prologue_draw_dispatch_uses_runtime_selected_view_and_projection() {
     scene.healthbars.clear();
     scene.particles.clear();
     scene.draws.push(callys_core::ir_scene::DrawCommand {
-        code: 0, offset: 0, instance: -1, view: 6,
+        code: 0, offset: 0, instance: -1, view: 0,
         sprite: 6, frame: 0.0, x: cam_x + 60.0, y: cam_y + 40.0,
         scale_x: 1.0, scale_y: 1.0, rotation: 0.0, color: -1, alpha: 1.0, fog: false,
     });
@@ -151,10 +152,11 @@ fn prologue_draw_dispatch_uses_runtime_selected_view_and_projection() {
     }
     assert!(x0 < x1 && y0 < y1, "the sprite must land");
     let (w, h) = ((x1 - x0 + 1) as f64, (y1 - y0 + 1) as f64);
-    // Original ROOM view[6] is 480x270 and fills the 960x540 logical screen:
-    // the 32px sprite must therefore rasterize to 64x64, not stay unzoomed.
-    assert!((w - 64.0).abs() < 4.0, "view 6 should scale sprite width 32→64, got {w:.0}");
-    assert!((h - 64.0).abs() < 4.0, "view 6 should scale sprite height 32→64, got {h:.0}");
+    // ROOM view[0] is 448x252 and fills the 1136x640 canvas: on the 960-wide
+    // framebuffer the 32px sprite scales by 960/448 ≈ 2.143 → ~68.6px.
+    let zoom = 960.0 / 448.0;
+    assert!((w - 32.0 * zoom).abs() < 3.0, "view 0 should scale sprite width 32→{:.1}, got {w:.0}", 32.0 * zoom);
+    assert!((h - 32.0 * zoom).abs() < 3.0, "view 0 should scale sprite height 32→{:.1}, got {h:.0}", 32.0 * zoom);
 }
 
 #[test]
@@ -197,12 +199,12 @@ fn prologue_touch_unprojects_through_runtime_selected_view() {
     state.step(1.0 / 60.0);
 
     let scene = state.scene.as_ref().unwrap();
-    let active = &scene.room_views[6];
+    let active = &scene.room_views[0];
     let (cam_x, cam_y) = GameState::camera_position_for_scene(scene);
     let expected = (cam_x + active.wview as f64 / 2.0, cam_y + active.hview as f64 / 2.0);
-    let actual = state.screen_to_world(480.0, 270.0);
-    assert!((actual.0 - expected.0).abs() < 1e-6, "center X should unproject through view 6: {actual:?} vs {expected:?}");
-    assert!((actual.1 - expected.1).abs() < 1e-6, "center Y should unproject through view 6: {actual:?} vs {expected:?}");
+    let actual = state.screen_to_world(568.0, 320.0);
+    assert!((actual.0 - expected.0).abs() < 1e-6, "center X should unproject through view 0: {actual:?} vs {expected:?}");
+    assert!((actual.1 - expected.1).abs() < 1e-6, "center Y should unproject through view 0: {actual:?} vs {expected:?}");
 }
 
 #[test]
@@ -213,38 +215,39 @@ fn touch_screen_to_world_unprojects_through_active_view_zoom() {
     let scene = state.scene.as_ref().unwrap();
     let active_index = scene.active_view_index().expect("active view");
     let v = &scene.room_views[active_index];
-    assert_eq!(active_index, 6, "960x540 runtime resolution selects room view 6");
-    assert_eq!((v.wview, v.hview), (480, 270));
+    assert_eq!(active_index, 0, "1136x640 runtime resolution selects room view 0");
+    assert_eq!((v.wview, v.hview), (448, 252));
 
-    // After the first frame, view 6 maps the 960x540 screen center to the center
-    // of its 480x270 room rectangle: (cam_x + 240, cam_y + 135).
-    let (wx, wy) = state.screen_to_world(480.0, 270.0);
+    // After the first frame, view 0 maps the 1136x640 screen center to the
+    // center of its 448x252 room rectangle: (cam_x + 224, cam_y + 126).
+    let (wx, wy) = state.screen_to_world(568.0, 320.0);
     assert!(
-        (wx - (cam_x + 240.0)).abs() < 1e-4,
+        (wx - (cam_x + 224.0)).abs() < 1e-4,
         "screen_to_world X must scale into view rect: expected {}, got {}",
-        cam_x + 240.0,
+        cam_x + 224.0,
         wx
     );
     assert!(
-        (wy - (cam_y + 135.0)).abs() < 1e-4,
+        (wy - (cam_y + 126.0)).abs() < 1e-4,
         "screen_to_world Y must scale into view rect: expected {}, got {}",
-        cam_y + 135.0,
+        cam_y + 126.0,
         wy
     );
 
-    // Negative control: flat mapping would emit cam_x + 480, 240 world units away.
-    let flat_x = cam_x + 480.0;
+    // Negative control: flat mapping would emit cam_x + 568, i.e. 344 world
+    // units away from the view-scaled 224.
+    let flat_x = cam_x + 568.0;
     assert!(
         (wx - flat_x).abs() > 200.0,
         "unprojected world X must diverge from unscaled screen offset by >200 units"
     );
 
     // pointer_pressed and pointer_released must queue the unprojected coordinates
-    state.pointer_pressed(480.0, 270.0);
+    state.pointer_pressed(568.0, 320.0);
     let queued_press = state.scene.as_ref().unwrap().left_presses.last().copied();
     assert_eq!(queued_press, Some((wx, wy)));
 
-    state.pointer_released(480.0, 270.0);
+    state.pointer_released(568.0, 320.0);
     let queued_release = state.scene.as_ref().unwrap().left_releases.last().copied();
     assert_eq!(queued_release, Some((wx, wy)));
 }
@@ -275,7 +278,7 @@ fn pointer_uses_last_presented_view_origin_when_follow_camera_moves() {
     let current_camera = GameState::camera_position_for_scene(scene);
     assert_ne!(current_camera, presented_origin, "fixture moves the follow camera after presentation");
 
-    let actual = state.screen_to_world(480.0, 270.0);
+    let actual = state.screen_to_world(568.0, 320.0);
     let expected = (
         presented_origin.0 + view_width / 2.0,
         presented_origin.1 + view_height / 2.0,

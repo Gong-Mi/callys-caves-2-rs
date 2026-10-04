@@ -136,7 +136,10 @@ pub struct Scene {
     pub room_width: f64, pub room_height: f64,
     /// The ROOM editor's indexed VIEW table for the current room. Its static
     /// `visible` bits seed the runtime `view_visible` array on room entry; GML
-    /// may then switch indices at run time (CC2 selects view 6 at 960x540).
+    /// may then switch indices at run time. The canvas is 1136x640 — the same
+    /// display size the original runner reports on this device class, which is
+    /// exactly the CODE 538 branch that selects view 0 (448x252 view window,
+    /// 1136x640 port). 960x540 would be its own branch (view 6).
     pub room_views: Vec<callys_asset::RoomView>,
     pub current_font: f64, pub draw_color: i32, pub draw_alpha: f64,
     pub rng_seed: u64,
@@ -184,7 +187,7 @@ impl Default for Scene {
             sprite_bounds: BTreeMap::new(),
             sprite_masks: BTreeMap::new(),
             object_parents: BTreeMap::new(),
-            display_width: 960.0, display_height: 540.0, current_room: 0.0,
+            display_width: 1136.0, display_height: 640.0, current_room: 0.0,
             room_width: 1024.0, room_height: 768.0,
             current_font: 0.0, draw_color: -1, draw_alpha: 1.0,
             rng_seed: 0x12345678,

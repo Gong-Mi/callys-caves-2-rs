@@ -472,11 +472,11 @@ impl GameState {
         }
     }
 
-    /// Queue an actual press in the renderer's 960x540 logical viewport.
+    /// Queue an actual press in the renderer's 1136x640 logical viewport.
     /// Uses the last presented view origin, not a newly moved camera.
     pub fn pointer_pressed(&mut self, x: f64, y: f64) {
         if self.runtime_diagnostic.is_some() || !x.is_finite() || !y.is_finite()
-            || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
+            || !(0.0..1136.0).contains(&x) || !(0.0..640.0).contains(&y) {
             return;
         }
         let (world_x, world_y) = self.screen_to_world(x, y);
@@ -485,7 +485,7 @@ impl GameState {
         }
     }
 
-    /// Queue an actual release in the renderer's 960x540 logical viewport.
+    /// Queue an actual release in the renderer's 1136x640 logical viewport.
     /// Uses the last presented view origin, not a newly moved camera.
     /// The release also lands on virtual device 0: the original runner's first
     /// touch is device 0, so Draw-time `device_mouse_check_button_released(0,
@@ -493,7 +493,7 @@ impl GameState {
     /// tap anywhere rather than only the lower-left movement zone.
     pub fn pointer_released(&mut self, x: f64, y: f64) {
         if self.runtime_diagnostic.is_some() || !x.is_finite() || !y.is_finite()
-            || !(0.0..960.0).contains(&x) || !(0.0..540.0).contains(&y) {
+            || !(0.0..1136.0).contains(&x) || !(0.0..640.0).contains(&y) {
             return;
         }
         // During the prologue the release still lands on the intro (its Step
@@ -609,11 +609,16 @@ impl GameState {
                 self.input.sword,
             ];
             let zones = [
-                (cam_x + 30.0, cam_y + 220.0),
-                (cam_x + 130.0, cam_y + 220.0),
-                (cam_x + 410.0, cam_y + 220.0),
-                (cam_x + 345.0, cam_y + 220.0),
-                (cam_x + 440.0, cam_y + 175.0),
+                // Button anchors on the 1136x640 canvas (view 0 branch of
+                // each button's Draw code — left (vx-10, vy+190), right
+                // (vx+88, vy+190), jump (vx+380, vy+190), shoot (vx+315,
+                // vy+190), sword (vx+380, vy+125)) plus the same inside-box
+                // deltas the view6 tuning used.
+                (cam_x + 30.0, cam_y + 200.0),
+                (cam_x + 130.0, cam_y + 200.0),
+                (cam_x + 380.0, cam_y + 200.0),
+                (cam_x + 315.0, cam_y + 200.0),
+                (cam_x + 410.0, cam_y + 155.0),
             ];
             // A real primary-pointer release belongs to device 0 - the original
             // runner's first touch - carrying its real logical coordinates, so
