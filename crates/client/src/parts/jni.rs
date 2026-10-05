@@ -447,6 +447,42 @@ mod android_jni {
         // The legacy world still points at room 0; it cannot certify the
         // prologue handover. Only the Scene's live intro bit did.
     }
+    /// Hand the Java Surface to the Rust presenter as an EGL window.
+    #[no_mangle]
+    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeSetSurface(
+        env: *mut JNIEnv,
+        _class: jobject,
+        surface: jobject,
+    ) {
+        let window = crate::gles::window_from_surface(
+            env as *mut std::os::raw::c_void,
+            surface as *mut std::os::raw::c_void,
+        );
+        let mut presenter = crate::gles::presenter().lock().unwrap();
+        presenter.set_window(window);
+        log(&format!("nativeSetSurface window={}", !window.is_null()));
+    }
+
+    /// Upload the current engine frame and swap. Replaces the Java-side blit
+    /// (`nativeBlitToIntArray` + Bitmap/Canvas) with a direct texture upload
+    /// from the framebuffer, so no int[] crosses JNI per frame.
+    #[no_mangle]
+    pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePresent(
+        _env: *mut JNIEnv,
+        _class: jobject,
+    ) {
+        // Lock order is presenter -> state everywhere (set_window takes only
+        // the presenter), so this cannot deadlock. Holding the state guard for
+        // the swap keeps `pixels` valid: the engine slot is replaced wholesale
+        // by nativeInit, which would free the buffer under a raw pointer. The
+        // cost is that an input event can wait one eglSwapBuffers; the Java
+        // host called into the same two locks from its UI and render threads.
+        let mut presenter = crate::gles::presenter().lock().unwrap();
+        let mut guard = slot().lock().unwrap();
+        let Some(state) = guard.as_mut() else { return };
+        presenter.present(&state.fb.pixels, state.fb.width, state.fb.height);
+    }
+
 }
 
 #[cfg(all(target_os = "android", feature = "android"))]
