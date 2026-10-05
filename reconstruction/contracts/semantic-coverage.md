@@ -5,7 +5,7 @@ any contract/test change:
 
 ```
 python3 scripts/audit_semantic_coverage.py \
-    --ledger "$CALLY_CFG_LEDGER" \
+    --ledger ~/cally-cfg-evidence-ci-44a33c0/progress.tsv \
     --md reconstruction/contracts/semantic-coverage.md
 ```
 
@@ -39,9 +39,9 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 
 | tier | codes | share |
 | --- | --- | --- |
-| `structural` | 437 | 32.3% |
+| `structural` | 513 | 37.9% |
 | `object_cited_test` | 3 | 0.2% |
-| `object_cited_contract` | 374 | 27.6% |
+| `object_cited_contract` | 298 | 22.0% |
 | `env_classified` | 30 | 2.2% |
 | `cited_src` | 12 | 0.9% |
 | `cited_test` | 103 | 7.6% |
@@ -57,7 +57,7 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 
 - objects carrying events: **186**
 - CODE containers: `Object` 803, `RoomCC` 551
-- objects named in contract: **172**
+- objects named in contract: **148**
 - objects named in test: **124**
 - objects named in src: **59**
 
@@ -65,13 +65,13 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
-| `contract` | 86 | 395 | 185 |
+| `contract` | 85 | 395 | 161 |
 | `test` | 149 | 419 | 130 |
-| `src` | 23 | 41 | 66 |
+| `src` | 26 | 41 | 66 |
 
 ## Worklist: neither the CODE id nor its object is named anywhere
 
-437 CODE bodies. These still EXECUTE through the VM; what they lack is
+513 CODE bodies. These still EXECUTE through the VM; what they lack is
 evidence of attention (an object-name citation promotes a body to `object_cited_*
 above and keeps it out of this list). Grouped by owner, most events first:
 
@@ -86,7 +86,20 @@ above and keeps it out of this list). Grouped by owner, most events first:
 | `obj_lloydtutorial8` | 7 |
 | `obj_lloydtutorial15` | 7 |
 | `obj_lloydtutorial16` | 7 |
-| `obj_UI` | 2 |
-| `obj_boss1intro` | 2 |
-| `obj_XPorb` | 1 |
-| `obj_IAPstore` | 1 |
+| `obj_lloydtutorial7` | 5 |
+| `obj_lloydtutorial3` | 4 |
+| `obj_lloydtutorial9` | 4 |
+| `obj_lloydtutorial10` | 4 |
+| `obj_lloydtutorial14` | 3 |
+| `obj_busterrockparts` | 3 |
+| `obj_knifebanditintro` | 3 |
+| `obj_spiderintro` | 3 |
+| `obj_batintro` | 3 |
+| `obj_wolfintro` | 3 |
+| `obj_pistolbanditintro` | 3 |
+| `obj_turretintro` | 3 |
+| `obj_slimeintro` | 3 |
+| `obj_boss2intro` | 3 |
+| `obj_zombieintro` | 3 |
+| `obj_redslimeintro` | 3 |
+| _...12 more objects_ | |
