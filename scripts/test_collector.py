@@ -224,6 +224,7 @@ def collect_all(quick=False):
         "shop_upgrades_and_intros_ir",
         "lloyd_tutorial_all_sheets_ir",
         "env_semantics_ir",
+        "env_with_sites_ir",
         "distance_bbox_ir",
         "draw_order_ir",
         "object_depth_metadata_ir",
