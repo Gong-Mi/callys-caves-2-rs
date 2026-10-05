@@ -43,6 +43,34 @@ four behaviours against the numeric VM:
   dispatches all 16;
 - finalbosspuff Create with-buttons: `boss_kill_chains` boss6 ending.
 
+## Per-site closure (the population, not just the shape)
+
+The four behaviours above were argued by eye over the top-pending CODEs. The
+population is now mechanical and falsifiable in
+`crates/core/tests/env_with_sites_ir.rs`:
+
+- the 2,494 sites are counted from the lowered IR, per CODE, and reconciled
+  against the CFG-phase ledger's `environment_ops_pending` column - a column
+  produced by a different tool (`reverse_cfg.py`). All 62 rows agree, and the
+  reverse direction holds too: no CODE outside those 62 carries an environment
+  instruction, so the 62 are a complete population;
+- every `pushenv` receiver is classified from the instruction that pushes it:
+  `cast to=2` (an instance/expression receiver) or a `constant` object index.
+  Measured: 1,247 `pushenv` + 1,247 `popenv`; 1,104 expression receivers and
+  143 object-index receivers covering 54 objects (`obj_lloyd` 16, `obj_pause` 9,
+  `obj_store` 7, ...). Nothing is unclassified, and an unknown push shape is
+  reported rather than guessed;
+- the five boss death fans (obj_trex/boss2..5 Alarm_0, CODE 160/168/184/196/212)
+  are one generated 25-orb block each: `ID`..`ID25` with the multiplicity
+  profile 6x5, 5x5, 3x5, 2x5, 1x5 = 85 `with` blocks per alarm, identical in all
+  five. The receiver is always `load ID<n>` -> `cast to=2` -> `pushenv`, never an
+  object constant.
+
+What that still does not prove: that each of the 1,104 expression sites resolves
+to the same instance set at run time as the four pinned behaviours do in
+general. The runtime argument stays the kernel plus the representative suites
+listed above; this section closes the *enumeration*, not every execution.
+
 ## Ledger bookkeeping
 
 `progress.tsv` is a CI artifact of the structural CFG phase; its
