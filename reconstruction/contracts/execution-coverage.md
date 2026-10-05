@@ -15,28 +15,31 @@ body otherwise), and it records only after the body has been validated and is
 about to run: a missing id, an unsupported schema or a malformed span is not an
 execution.
 
-## Measured (4 green client suites, this machine)
+## A first measurement that had to be thrown away (kept as a warning)
 
-`first_chapter_playthrough` (5 tests) + `boss_kill_chains` (1) +
-`draw_stream_sensitivities` (2) + `core_trunk_playthrough` (4), all green:
+The first traced run reported 378 distinct bodies and **85 ids above 1353**,
+which looked like the VM executing CODE ids that do not exist. It was not: the
+sink itself was racy. `writeln!(fh, "{code}")` issues more than one write, and a
+test binary runs its tests in parallel threads, so appends interleaved into digit
+concatenations (30 + 30 -> "3030", 1234 + 8 -> "12348", 51836 + 3 -> "518363").
+Every symptom fitted: values that are not CODE ids, not code starts, not
+literals in any test source, and no "missing CODE body" error anywhere.
 
-- 88,547 VM entries -> **378 distinct CODE bodies** (27.9% of 1,354) executed;
-- hottest bodies are the per-frame events: CODE 31 (20,524 entries), 32 (13,429),
-  30 (12,562), 539 (4,433), 346 (3,842);
-- cross-tab against the census tiers: `cited_contract` 153,
-  `object_cited_contract` 81, `cited_test` 40, `cited_src` 7,
-  `env_classified` 4, **`structural` 8**, and 85 ids outside 0..1353;
-- of the 62 `with`-pending CODEs, the boss death alarms 160/164/168/196/212 ran.
+Fixed by rendering the line once and taking a process-local lock around a single
+`write_all`. Re-measured on the two suites that had shown the most bogus ids:
 
-Two honest caveats:
+- `draw_stream_sensitivities` + `first_chapter_playthrough` (both green):
+  51,235 entries, **172 distinct bodies, 0 ids above 1353**.
 
-1. An execution is evidence that the body ran under a test. It is **not** a
-   claim that its behaviour matches the original, and it is not a substitute for
-   the per-site runtime argument in `env-semantics.md`.
-2. The trace is append-only and untagged, so it cannot yet say *which* suite
-   executed a body, and the 85 ids above 1353 are unexplained: `execute` is only
-   ever called from `ir_scene.rs` with a binding's `code_id` or a code-chain
-   entry, so an out-of-range id there is either a test fixture or a real defect.
-   It is being attributed per suite before any coverage number is quoted
-   anywhere else - do not publish the 378 as a percentage of anything until the
-   id space is clean.
+Lesson, worth more than the number: a measurement harness is part of the
+evidence, and a harness that formats while other threads write produces
+plausible-looking garbage. The 378 figure and its tier cross-tab are
+**withdrawn** until re-measured with the fixed sink.
+
+## What an execution is and is not
+
+An execution is evidence that the body ran under a test. It is **not** a claim
+that its behaviour matches the original, and it is not a substitute for the
+per-site runtime argument in `env-semantics.md`. The trace is also untagged
+(append-only, one id per line), so it cannot yet say *which* suite ran a body;
+per-suite attribution means one trace file per suite.

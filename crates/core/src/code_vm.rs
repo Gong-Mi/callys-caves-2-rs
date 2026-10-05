@@ -114,6 +114,22 @@ pub mod coverage {
     use std::path::PathBuf;
     use std::sync::{Mutex, OnceLock};
 
+    /// Decimal rendering without pulling the formatting machinery into the
+    /// per-body path.
+    fn itoa(mut n: usize) -> String {
+        if n == 0 {
+            return "0".to_string();
+        }
+        let mut digits = [0u8; 20];
+        let mut i = digits.len();
+        while n > 0 {
+            i -= 1;
+            digits[i] = b'0' + (n % 10) as u8;
+            n /= 10;
+        }
+        String::from_utf8_lossy(&digits[i..]).into_owned()
+    }
+
     enum Sink {
         Memory,
         File(PathBuf),
@@ -121,6 +137,12 @@ pub mod coverage {
 
     static SINK: OnceLock<Option<Sink>> = OnceLock::new();
     static MEMORY: Mutex<Option<BTreeSet<usize>>> = Mutex::new(None);
+    /// Serialises file appends. `write!(fh, "{code}\n")` issues more than one
+    /// write for a formatted argument, and tests run in parallel threads: the
+    /// interleaved writes appended *digit concatenations* (30 + 30 -> "3030",
+    /// 1234 + 8 -> "12348") which looked exactly like out-of-range CODE ids.
+    /// One `write_all` under this lock per entry keeps every line whole.
+    static FILE_LOCK: Mutex<()> = Mutex::new(());
 
     /// Read the env switch once. `None` means "not tracing".
     fn sink() -> Option<&'static Sink> {
@@ -154,8 +176,12 @@ pub mod coverage {
                 }
             }
             Some(Sink::File(path)) => {
+                let mut line = String::with_capacity(8);
+                line.push_str(itoa(code).as_str());
+                line.push('\n');
+                let _guard = FILE_LOCK.lock().unwrap();
                 if let Ok(mut fh) = std::fs::OpenOptions::new().create(true).append(true).open(path) {
-                    let _ = writeln!(fh, "{code}");
+                    let _ = fh.write_all(line.as_bytes());
                 }
             }
         }
