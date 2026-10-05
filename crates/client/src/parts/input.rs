@@ -59,7 +59,7 @@ pub mod input {
     }
 
     /// Physical primary-pointer releases, independent of virtual button state.
-    #[derive(Default)]
+    #[derive(Debug, Default)]
     pub struct PointerReleaseQueue {
         primary: i32,
         events: VecDeque<Release>,

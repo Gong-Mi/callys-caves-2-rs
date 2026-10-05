@@ -24,6 +24,7 @@ pub mod frame_clock;
 include!("parts/save.rs");
 include!("parts/audio.rs");
 include!("parts/input.rs");
+include!("parts/touch.rs");
 // ============================================================
 // Game state container
 // ============================================================
