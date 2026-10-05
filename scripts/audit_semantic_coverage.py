@@ -159,8 +159,25 @@ def name_kind(name: str) -> str:
     return "other"
 
 
-def build_census(root: str, ledger_path: str | None) -> dict:
+def read_exec_trace(path: str) -> set[int]:
+    """Ids from a `CALLY_CODE_TRACE` ledger (one id per line). Anything that is
+    not a plain integer is skipped rather than trusted."""
+    executed: set[int] = set()
+    if not os.path.exists(path):
+        raise SystemExit(f"execution trace {path} does not exist")
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if line.isdigit():
+                executed.add(int(line))
+    return executed
+
+
+def build_census(root: str, ledger_path: str | None, exec_traces: list[str] | None = None) -> dict:
     ledger_rows = read_ledger(ledger_path) if ledger_path else []
+    executed: set[int] = set()
+    for trace in exec_traces or []:
+        executed |= read_exec_trace(trace)
     citations = scan_citations(root)
     by_code = {int(r["code_id"]): r for r in ledger_rows}
 
@@ -204,6 +221,7 @@ def build_census(root: str, ledger_path: str | None) -> dict:
             "name": name,
             "object": object_of(name) if name else "",
             "tier": tier,
+            "executed": code_id in executed,
             "environment_ops_pending": env_sites,
             "constant_only_body": row["constant_only_body"] if row else "",
             "evidence": {
@@ -236,9 +254,19 @@ def build_census(root: str, ledger_path: str | None) -> dict:
         for column in FROZEN_COLUMNS:
             frozen[column] = dict(collections.Counter(r[column] for r in ledger_rows))
 
+    exec_uncited = sorted(c["code_id"] for c in codes.values()
+                          if c["executed"] and c["tier"] in ("structural", "unclassified"))
+    exec_pending = sorted(c["code_id"] for c in codes.values()
+                          if c["executed"] and c["environment_ops_pending"] > 0)
     return {
         "ledger": ledger_path,
         "ledger_rows": len(ledger_rows),
+        "execution": {
+            "traces": list(exec_traces or []),
+            "distinct_executed": len(executed),
+            "executed_without_any_citation": exec_uncited,
+            "executed_with_pending_environment": exec_pending,
+        },
         "codes": codes,
         "tier_counts": dict(tier_counts),
         "kind_counts": dict(kind_counts),
@@ -263,7 +291,8 @@ def render_markdown(census: dict) -> str:
     lines.append("")
     lines.append("```")
     lines.append("python3 scripts/audit_semantic_coverage.py \\")
-    lines.append("    --ledger ~/cally-cfg-evidence-ci-44a33c0/progress.tsv \\")
+    lines.append("    --ledger \"$CALLY_CFG_LEDGER\" \\")
+    lines.append("    --exec-trace /path/to/CALLY_CODE_TRACE-ledger \\   # optional, repeatable")
     lines.append("    --md reconstruction/contracts/semantic-coverage.md")
     lines.append("```")
     lines.append("")
@@ -333,6 +362,24 @@ def render_markdown(census: dict) -> str:
         named = sum(1 for v in obj.values() if v[area])
         lines.append(f"- objects named in {area}: **{named}**")
     lines.append("")
+    execu = census.get("execution") or {}
+    if execu.get("traces"):
+        lines.append("## Execution evidence (traces given, not inferred)")
+        lines.append("")
+        lines.append(f"- traces read: {len(execu['traces'])}"
+                     + (" (untagged: a trace cannot say which suite ran a body)" if len(execu["traces"]) == 1 else ""))
+        lines.append(f"- distinct bodies the suites executed: **{execu['distinct_executed']}**")
+        lines.append(f"- executed bodies that no contract, test or source file names: "
+                     f"**{len(execu['executed_without_any_citation'])}** "
+                     f"({', '.join(str(c) for c in execu['executed_without_any_citation'][:20])})")
+        lines.append(f"- executed bodies among the {census['env_scope']['codes']} with-pending CODEs: "
+                     f"**{len(execu['executed_with_pending_environment'])}** "
+                     f"({', '.join(str(c) for c in execu['executed_with_pending_environment'])})")
+        lines.append("")
+        lines.append("Execution is evidence that the body ran under a test - not that its")
+        lines.append("behaviour matches the original, and not a substitute for the per-site")
+        lines.append("argument in env-semantics.md.")
+        lines.append("")
     lines.append("## Evidence sources scanned")
     lines.append("")
     lines.append("| area | files | distinct CODE ids | distinct objects |")
@@ -378,6 +425,9 @@ def main() -> int:
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--root", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     parser.add_argument("--ledger", default=None)
+    parser.add_argument("--exec-trace", action="append", default=[],
+                        help="a CALLY_CODE_TRACE ledger (repeatable); marks bodies the "
+                             "suites actually executed, which citations cannot show")
     parser.add_argument("--md", default=None)
     parser.add_argument("--json", default=None)
     args = parser.parse_args()
@@ -386,7 +436,7 @@ def main() -> int:
     if args.ledger and not os.path.exists(args.ledger):
         raise SystemExit(f"--ledger {args.ledger} does not exist")
 
-    census = build_census(args.root, ledger)
+    census = build_census(args.root, ledger, exec_traces=args.exec_trace)
     total = len(census["codes"])
     print(f"ledger: {ledger or '(none given: structural columns unavailable)'}")
     print(f"CODE bodies: {total}")
@@ -396,6 +446,11 @@ def main() -> int:
             print(f"  {tier:14s} {count:5d}  {100.0 * count / total:5.1f}%")
     env = census["env_scope"]
     print(f"environment scope: {env['codes']} CODEs / {env['sites']} sites")
+    execu = census.get("execution") or {}
+    if execu.get("traces"):
+        print(f"execution traces: {len(execu['traces'])} | distinct executed: {execu['distinct_executed']}"
+              f" | executed but never cited: {len(execu['executed_without_any_citation'])}"
+              f" | executed with-pending: {len(execu['executed_with_pending_environment'])}")
     print(f"objects with events: {len(census['object_evidence'])}")
     if census["frozen_columns"]:
         print("frozen ledger columns (NOT current state): "

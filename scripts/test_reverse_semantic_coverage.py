@@ -151,6 +151,64 @@ class CensusTests(unittest.TestCase):
             self.assertIn("2 CODE bodies", text)
 
 
+class ExecutionEvidenceTests(unittest.TestCase):
+    """The execution axis is evidence that a body RAN, not that it is equivalent."""
+
+    def fixture(self, tmp, trace=None, trace_name="trace.txt"):
+        with tempfile.TemporaryDirectory() as _:
+            pass
+        os.makedirs(os.path.join(tmp, "reconstruction", "contracts"), exist_ok=True)
+        os.makedirs(os.path.join(tmp, "crates", "core", "tests"), exist_ok=True)
+        os.makedirs(os.path.join(tmp, "crates", "core", "src"), exist_ok=True)
+        ledger = os.path.join(tmp, "progress.tsv")
+        write(ledger, ledger_text([row(70, "gml_Object_obj_ran_Step_0"),
+                                   row(71, "gml_Object_obj_quiet_Step_0")]))
+        traces = []
+        if trace is not None:
+            path = os.path.join(tmp, trace_name)
+            write(path, trace)
+            traces.append(path)
+        return build_census(tmp, ledger, exec_traces=traces)
+
+    def test_trace_marks_executed_bodies_and_leaves_tiers_alone(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            census = self.fixture(tmp, trace="70\n70\n")
+            codes = census["codes"]
+            self.assertTrue(codes[70]["executed"])
+            self.assertFalse(codes[71]["executed"])
+            self.assertEqual(census["execution"]["distinct_executed"], 1)
+            self.assertEqual([c["code_id"] for c in codes.values() if c["executed"]], [70])
+            # Tiers must not move: running a body is not a citation.
+            self.assertEqual(codes[70]["tier"], "structural")
+
+    def test_executed_but_uncited_bodies_are_listed_separately(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            census = self.fixture(tmp, trace="70\n71\n")
+            self.assertEqual(census["execution"]["executed_without_any_citation"], [70, 71])
+
+    def test_malformed_trace_lines_are_ignored(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            census = self.fixture(tmp, trace="70\nnot-an-id\n  71  \n-1\n\n")
+            self.assertEqual(census["execution"]["distinct_executed"], 2)
+            self.assertEqual(sorted(c for c in (70, 71) if census["codes"][c]["executed"]), [70, 71])
+
+    def test_missing_trace_file_is_fatal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            census = self.fixture(tmp)
+            with self.assertRaises(SystemExit):
+                build_census(tmp, os.path.join(tmp, "progress.tsv"),
+                             exec_traces=[os.path.join(tmp, "nope.txt")])
+
+    def test_report_separates_execution_from_equivalence(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            census = self.fixture(tmp, trace="70\n")
+            text = render_markdown(census)
+            self.assertIn("## Execution evidence", text)
+            self.assertIn("70", text, "the uncited-but-executed id must be listed")
+            self.assertIn("not a substitute", text, "the boundary sentence must survive")
+            self.assertIn("behaviour matches the original", text)
+
+
 class SelfReferenceTests(unittest.TestCase):
     """The census must not read its own generated report as evidence."""
 
