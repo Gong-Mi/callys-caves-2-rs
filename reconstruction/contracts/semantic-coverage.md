@@ -77,9 +77,21 @@ argument in env-semantics.md.
 
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
-| `contract` | 86 | 395 | 161 |
+| `contract` | 87 | 395 | 161 |
 | `test` | 152 | 419 | 130 |
 | `src` | 26 | 41 | 66 |
+
+## What the uncited bodies actually are
+
+The tier below `env_classified` is not one kind of thing: most of it is room
+creation code (RoomCC), whose effects the room-chain suites assert at the
+room level rather than by CODE id. Split by container, with the executed
+count from the trace when one was given:
+
+| container | uncited bodies | of which executed |
+| --- | --- | --- |
+| `RoomCC` | 373 | 5 |
+| `Object` | 140 | 3 |
 
 ## Worklist: neither the CODE id nor its object is named anywhere
 
