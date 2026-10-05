@@ -26,10 +26,22 @@ Every symptom fitted: values that are not CODE ids, not code starts, not
 literals in any test source, and no "missing CODE body" error anywhere.
 
 Fixed by rendering the line once and taking a process-local lock around a single
-`write_all`. Re-measured on the two suites that had shown the most bogus ids:
+`write_all`, then re-measured:
 
 - `draw_stream_sensitivities` + `first_chapter_playthrough` (both green):
-  51,235 entries, **172 distinct bodies, 0 ids above 1353**.
+  51,235 entries, 172 distinct bodies, **0 ids above 1353**;
+- all four suites again: 88,706 entries -> **293 distinct bodies** (21.6 percent of
+  1,354), **0 ids above 1353**. The withdrawn run claimed 378 for the same four
+  suites, so the race had inflated it by 85 bodies of pure garbage;
+- cross-tab against the census tiers (highest evidence wins, so a body that is
+  both with-pending and cited counts under the citation): `cited_contract` 153,
+  `object_cited_contract` 81, `cited_test` 40, `cited_src` 7,
+  `env_classified` 4, `structural` 8 - 293 in total, i.e. every executed body now
+  maps into the census, which is exactly where the bogus ids used to land;
+- of the 62 `with`-pending CODEs, **14 ran** here: 12, 14, 160, 164, 168, 172,
+  184, 196, 212, 361, 549, 557, 675, 786 (the five boss death alarms among them);
+- the 8 bodies the citation census calls `structural` that actually ran are
+  347, 366, 367, 804, 809, 810, 811, 813.
 
 Lesson, worth more than the number: a measurement harness is part of the
 evidence, and a harness that formats while other threads write produces
