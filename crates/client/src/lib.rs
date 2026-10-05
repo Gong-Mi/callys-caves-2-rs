@@ -23,6 +23,7 @@ pub mod frame_clock;
 
 include!("parts/save.rs");
 include!("parts/audio.rs");
+include!("parts/input.rs");
 // ============================================================
 // Game state container
 // ============================================================
