@@ -5,7 +5,8 @@ any contract/test change:
 
 ```
 python3 scripts/audit_semantic_coverage.py \
-    --ledger ~/cally-cfg-evidence-ci-44a33c0/progress.tsv \
+    --ledger "$CALLY_CFG_LEDGER" \
+    --exec-trace /path/to/CALLY_CODE_TRACE-ledger \   # optional, repeatable
     --md reconstruction/contracts/semantic-coverage.md
 ```
 
@@ -61,12 +62,23 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 - objects named in test: **124**
 - objects named in src: **59**
 
+## Execution evidence (traces given, not inferred)
+
+- traces read: 1 (untagged: a trace cannot say which suite ran a body)
+- distinct bodies the suites executed: **293**
+- executed bodies that no contract, test or source file names: **8** (347, 366, 367, 804, 809, 810, 811, 813)
+- executed bodies among the 62 with-pending CODEs: **14** (12, 14, 160, 164, 168, 172, 184, 196, 212, 361, 549, 557, 675, 786)
+
+Execution is evidence that the body ran under a test - not that its
+behaviour matches the original, and not a substitute for the per-site
+argument in env-semantics.md.
+
 ## Evidence sources scanned
 
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
-| `contract` | 85 | 395 | 161 |
-| `test` | 149 | 419 | 130 |
+| `contract` | 86 | 395 | 161 |
+| `test` | 152 | 419 | 130 |
 | `src` | 26 | 41 | 66 |
 
 ## Worklist: neither the CODE id nor its object is named anywhere
