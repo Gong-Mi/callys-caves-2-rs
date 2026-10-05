@@ -26,6 +26,8 @@ jobs:
         run: cargo build -p callys-client --features desktop --verbose --release
       - name: Test physical pointer release queue
         run: python3 scripts/test_pointer_release_java.py
+      - name: Test the semantic-coverage census
+        run: python3 scripts/test_reverse_semantic_coverage.py
       - name: Run Tests
         run: cargo test --workspace --verbose
       - name: Upload Native Executable

@@ -1,0 +1,400 @@
+#!/usr/bin/env python3
+"""Recompute per-CODE semantic coverage from real evidence.
+
+WHY: the CFG-phase ledger (`progress.tsv`, produced by reverse_cfg.py) carries
+two columns that were frozen at that phase and never refreshed:
+`stack_semantics` is `unknown` and `behavior_verified` is `no` for ALL 1,354
+CODEs. Reading those columns as current state is exactly how a "completion
+percentage" goes wrong. This script ignores them and derives coverage from
+evidence that can be re-read at any commit.
+
+Tiers (highest wins; a citation is evidence of ATTENTION, not of runtime
+equivalence - never report a citation as "verified"):
+
+  structural     indexed + disassembled + structural_cfg == yes, from the ledger
+  env_classified the ledger marks it environment_ops_pending, i.e. the with()
+                 sites that reconstruction/contracts/env-semantics.md classifies
+  cited_contract its numeric CODE id appears in reconstruction/contracts/*.md
+  cited_test     its numeric CODE id appears in crates/*/tests/*.rs
+  cited_src      its numeric CODE id appears in crates/*/src/**
+
+Inputs:
+  --ledger PATH  progress.tsv (default: $CALLY_CFG_LEDGER or the newest
+                 ~/cally-cfg-evidence*/progress.tsv; without it the structural
+                 and env columns are reported as unavailable, not as zero)
+  --root PATH    repository root (default: parent of this script)
+  --md PATH      write the markdown report
+  --json PATH    write the machine-readable census
+
+Exit status is 0 whenever the scan is well-formed; this is a census, not a
+gate. Malformed input (missing columns, unreadable ledger with --ledger given
+explicitly) is a hard error so a broken input cannot read as "no coverage".
+"""
+from __future__ import annotations
+
+import argparse
+import collections
+import glob
+import json
+import os
+import re
+import sys
+
+LEDGER_COLUMNS = ["code_id", "name", "indexed", "disassembled", "structural_cfg",
+                  "constant_only_body", "environment_ops_pending",
+                  "stack_semantics", "behavior_verified"]
+FROZEN_COLUMNS = ["stack_semantics", "behavior_verified"]
+CODE_PATTERNS = [
+    re.compile(r"CODE[ _#]?(\d{1,4})\b"),
+    re.compile(r"code_id[\s=:]+(\d{1,4})\b"),
+    re.compile(r"\b(\d{1,4})__gml_"),
+]
+OBJECT_PATTERN = re.compile(r"\bobj_[a-z0-9_]+")
+TIER_ORDER = [
+    "structural",
+    "object_cited_src",
+    "object_cited_test",
+    "object_cited_contract",
+    "env_classified",
+    "cited_src",
+    "cited_test",
+    "cited_contract",
+    "cited_id_not_in_ledger",
+]
+
+
+def find_ledger(explicit: str | None) -> str | None:
+    if explicit:
+        return explicit
+    env = os.environ.get("CALLY_CFG_LEDGER")
+    if env:
+        return env
+    candidates = sorted(glob.glob(os.path.expanduser("~/cally-cfg-evidence*/progress.tsv")))
+    return candidates[-1] if candidates else None
+
+
+def read_ledger(path: str) -> list[dict]:
+    with open(path, encoding="utf-8") as fh:
+        rows = [line.rstrip("\n").split("\t") for line in fh if line.strip()]
+    header, body = rows[0], rows[1:]
+    missing = [c for c in LEDGER_COLUMNS if c not in header]
+    if missing:
+        raise SystemExit(f"ledger {path} is missing columns: {missing}")
+    index = {c: i for i, c in enumerate(header)}
+    out = []
+    for row in body:
+        if len(row) != len(header):
+            raise SystemExit(f"ledger {path} has a ragged row: {row[:3]}")
+        out.append({c: row[index[c]] for c in LEDGER_COLUMNS})
+    return out
+
+
+def scan_citations(root: str) -> dict:
+    """Numeric CODE ids and object names cited per evidence area."""
+    areas = {
+        "contract": sorted(glob.glob(os.path.join(root, "reconstruction", "contracts", "*.md"))),
+        "test": sorted(glob.glob(os.path.join(root, "crates", "*", "tests", "*.rs"))),
+        "src": sorted(glob.glob(os.path.join(root, "crates", "*", "src", "**", "*.rs"), recursive=True)),
+    }
+    citations = {}
+    for area, files in areas.items():
+        codes: dict[int, list[str]] = collections.defaultdict(list)
+        objects: dict[str, list[str]] = collections.defaultdict(list)
+        for path in files:
+            with open(path, encoding="utf-8", errors="replace") as fh:
+                text = fh.read()
+            rel = os.path.relpath(path, root)
+            for pattern in CODE_PATTERNS:
+                for match in pattern.findall(text):
+                    codes[int(match)].append(rel)
+            for obj in OBJECT_PATTERN.findall(text):
+                objects[obj].append(rel)
+        citations[area] = {
+            "files": len(files),
+            "codes": {k: sorted(set(v)) for k, v in codes.items()},
+            "objects": {k: sorted(set(v)) for k, v in objects.items()},
+        }
+        citations[area]["code_count"] = len(citations[area]["codes"])
+        citations[area]["object_count"] = len(citations[area]["objects"])
+    return citations
+
+
+OBJECT_NAME = re.compile(r"_Object_(obj_[A-Za-z0-9_]+)_[A-Za-z]+_\d+$")
+
+
+def object_of(name: str) -> str:
+    """Owning obj_* for an object event body; "" for room/script/other bodies.
+
+    CODE ids come from four container kinds (Object, RoomCC, Script, ...); only
+    Object bodies belong to an object, and folding the others in would inflate
+    the object count with room/script names.
+    """
+    match = OBJECT_NAME.search(name)
+    return match.group(1) if match else ""
+
+
+def name_kind(name: str) -> str:
+    if "_Object_" in name:
+        return "Object"
+    if "_RoomCC_" in name:
+        return "RoomCC"
+    if "_Script_" in name:
+        return "Script"
+    return "other"
+
+
+def build_census(root: str, ledger_path: str | None) -> dict:
+    ledger_rows = read_ledger(ledger_path) if ledger_path else []
+    citations = scan_citations(root)
+    by_code = {int(r["code_id"]): r for r in ledger_rows}
+
+    codes: dict[int, dict] = {}
+    names_from_ledger = {int(r["code_id"]): r["name"] for r in ledger_rows}
+
+    all_codes = set(by_code) | set(citations["contract"]["codes"]) \
+        | set(citations["test"]["codes"]) | set(citations["src"]["codes"])
+
+    for code_id in sorted(all_codes):
+        row = by_code.get(code_id)
+        name = names_from_ledger.get(code_id, "")
+        tier = "unclassified"
+        if row and row["indexed"] == "yes" and row["disassembled"] == "yes" \
+                and row["structural_cfg"] == "yes":
+            tier = "structural"
+        env_sites = int(row["environment_ops_pending"]) if row else 0
+        if row and env_sites > 0:
+            tier = "env_classified"
+        if code_id in citations["src"]["codes"]:
+            tier = "cited_src"
+        if code_id in citations["test"]["codes"]:
+            tier = "cited_test"
+        if code_id in citations["contract"]["codes"]:
+            tier = "cited_contract"
+        elif tier == "structural":
+            # A weaker tier: this body is not named by number anywhere, but its
+            # OBJECT is named in that area, so an object-level suite may still
+            # cover the behaviour. Recorded separately so the gap is not
+            # overstated (and not overstated in the other direction either).
+            obj = object_of(name)
+            if obj:
+                for area in ("contract", "test", "src"):
+                    if obj in citations[area]["objects"]:
+                        tier = f"object_cited_{area}"
+                        break
+        if row is None and tier != "unclassified":
+            tier = "cited_id_not_in_ledger"
+        codes[code_id] = {
+            "code_id": code_id,
+            "name": name,
+            "object": object_of(name) if name else "",
+            "tier": tier,
+            "environment_ops_pending": env_sites,
+            "constant_only_body": row["constant_only_body"] if row else "",
+            "evidence": {
+                "contract": citations["contract"]["codes"].get(code_id, []),
+                "test": citations["test"]["codes"].get(code_id, []),
+                "src": citations["src"]["codes"].get(code_id, []),
+            },
+        }
+
+    tier_counts = collections.Counter(c["tier"] for c in codes.values())
+    kind_counts = collections.Counter(name_kind(c["name"]) for c in codes.values() if c["name"])
+    env_codes = [c for c in codes.values() if c["environment_ops_pending"] > 0]
+    env_by_family = collections.Counter(c["object"] for c in env_codes)
+
+    objects = collections.Counter()
+    for c in codes.values():
+        if c["object"]:
+            objects[c["object"]] += 1
+    object_evidence = {}
+    for obj in sorted(objects):
+        object_evidence[obj] = {
+            "codes": objects[obj],
+            "contract": obj in citations["contract"]["objects"],
+            "test": obj in citations["test"]["objects"],
+            "src": obj in citations["src"]["objects"],
+        }
+
+    frozen = {}
+    if ledger_rows:
+        for column in FROZEN_COLUMNS:
+            frozen[column] = dict(collections.Counter(r[column] for r in ledger_rows))
+
+    return {
+        "ledger": ledger_path,
+        "ledger_rows": len(ledger_rows),
+        "codes": codes,
+        "tier_counts": dict(tier_counts),
+        "kind_counts": dict(kind_counts),
+        "env_scope": {
+            "codes": len(env_codes),
+            "sites": sum(c["environment_ops_pending"] for c in env_codes),
+            "by_object": dict(env_by_family),
+        },
+        "object_evidence": object_evidence,
+        "frozen_columns": frozen,
+        "citation_sources": {a: {"files": v["files"], "codes": v["code_count"], "objects": v["object_count"]}
+                             for a, v in citations.items()},
+    }
+
+
+def render_markdown(census: dict) -> str:
+    total = len(census["codes"])
+    tiers = census["tier_counts"]
+    lines = ["# Semantic coverage census (recomputed from evidence)", ""]
+    lines.append("Generated by `scripts/audit_semantic_coverage.py`. Do not hand-edit. Regenerate after")
+    lines.append("any contract/test change:")
+    lines.append("")
+    lines.append("```")
+    lines.append("python3 scripts/audit_semantic_coverage.py \\")
+    lines.append("    --ledger ~/cally-cfg-evidence-ci-44a33c0/progress.tsv \\")
+    lines.append("    --md reconstruction/contracts/semantic-coverage.md")
+    lines.append("```")
+    lines.append("")
+    lines.append("## Why this exists")
+    lines.append("")
+    lines.append("`progress.tsv` (the CFG-phase ledger) froze its `stack_semantics` and")
+    lines.append("`behavior_verified` columns at the phase where they were written; they are not a")
+    lines.append("progress metric. This census ignores them and derives every row from evidence that")
+    lines.append("can be re-read at any commit. A citation below means the CODE id (or its object) is")
+    lines.append("named in that area - it is evidence of ATTENTION, never of runtime equivalence.")
+    lines.append("")
+    if census["frozen_columns"]:
+        lines.append("Frozen columns observed in the ledger: "
+                     + ", ".join(f"`{k}` = {v}" for k, v in census["frozen_columns"].items())
+                     + ".")
+        lines.append("")
+    lines.append("## Tiers (highest evidence wins)")
+    lines.append("")
+    lines.append("| tier | meaning |")
+    lines.append("| --- | --- |")
+    for tier in TIER_ORDER:
+        meaning = {
+            "structural": "indexed + disassembled + structural CFG (ledger)",
+            "env_classified": "the with()/environment semantics contract classifies its pending sites",
+            "cited_src": "numeric CODE id cited in crates/*/src",
+            "cited_test": "numeric CODE id cited in crates/*/tests",
+            "cited_contract": "numeric CODE id cited in reconstruction/contracts",
+            "object_cited_src": "only its object name is cited in crates/*/src",
+            "object_cited_test": "only its object name is cited in crates/*/tests",
+            "object_cited_contract": "only its object name is cited in reconstruction/contracts",
+            "cited_id_not_in_ledger": "a cited id with no ledger row: a text-parse artefact, NOT a CODE body",
+        }[tier]
+        lines.append(f"| `{tier}` | {meaning} |")
+    lines.append("")
+    lines.append("## Counts")
+    lines.append("")
+    lines.append(f"- CODE bodies in this census: **{total}**"
+                 + (f" (ledger rows: {census['ledger_rows']})" if census["ledger_rows"] else
+                    " (no ledger given: structural columns unavailable)"))
+    lines.append("")
+    lines.append("| tier | codes | share |")
+    lines.append("| --- | --- | --- |")
+    for tier in TIER_ORDER + ["unclassified"]:
+        count = tiers.get(tier, 0)
+        if not count:
+            continue
+        share = f"{100.0 * count / total:.1f}%" if total else "-"
+        lines.append(f"| `{tier}` | {count} | {share} |")
+    lines.append("")
+    env = census["env_scope"]
+    lines.append("## Environment (with) semantics scope")
+    lines.append("")
+    lines.append(f"- CODEs with `environment_ops_pending` > 0: **{env['codes']}**")
+    lines.append(f"- pending instruction sites in total: **{env['sites']}**")
+    if env["by_object"]:
+        top = sorted(env["by_object"].items(), key=lambda kv: -kv[1])[:12]
+        lines.append("- most affected objects: " + ", ".join(f"`{o}` ({n})" for o, n in top))
+    lines.append("")
+    lines.append("## Objects")
+    lines.append("")
+    obj = census["object_evidence"]
+    lines.append(f"- objects carrying events: **{len(obj)}**")
+    if census.get("kind_counts"):
+        lines.append("- CODE containers: "
+                     + ", ".join(f"`{k}` {v}" for k, v in sorted(census["kind_counts"].items())))
+    for area in ("contract", "test", "src"):
+        named = sum(1 for v in obj.values() if v[area])
+        lines.append(f"- objects named in {area}: **{named}**")
+    lines.append("")
+    lines.append("## Evidence sources scanned")
+    lines.append("")
+    lines.append("| area | files | distinct CODE ids | distinct objects |")
+    lines.append("| --- | --- | --- | --- |")
+    for area, info in census["citation_sources"].items():
+        lines.append(f"| `{area}` | {info['files']} | {info['codes']} | {info['objects']} |")
+    lines.append("")
+    stray = [c for c in census["codes"].values() if c["tier"] == "cited_id_not_in_ledger"]
+    if stray:
+        lines.append("## Cited ids with no ledger row (parse artefacts, not CODE bodies)")
+        lines.append("")
+        lines.append("These numeric ids appear in text but are absent from the ledger, so they are"
+                     " excluded from every count above:")
+        lines.append("")
+        lines.append(", ".join(f"`{c['code_id']}`" for c in sorted(stray, key=lambda c: c["code_id"])[:30]))
+        lines.append("")
+    untouched = [c for c in census["codes"].values()
+                 if c["tier"] in ("structural", "unclassified")]
+    lines.append("## Worklist: neither the CODE id nor its object is named anywhere")
+    lines.append("")
+    lines.append(f"{len(untouched)} CODE bodies. These still EXECUTE through the VM; what they lack is")
+    lines.append("evidence of attention (an object-name citation promotes a body to `object_cited_*",)
+    lines.append("above and keeps it out of this list). Grouped by owner, most events first:")
+    lines.append("")
+    def group_label(code: dict) -> str:
+        if code["object"]:
+            return code["object"]
+        return f"(no object: {name_kind(code['name'])} code)" if code["name"] else "(no name)"
+
+    by_object = collections.Counter(group_label(c) for c in untouched)
+    lines.append("| object | uncited CODE bodies |")
+    lines.append("| --- | --- |")
+    for name, count in by_object.most_common(25):
+        lines.append(f"| `{name}` | {count} |")
+    if len(by_object) > 25:
+        lines.append(f"| _...{len(by_object) - 25} more objects_ | |")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--root", default=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    parser.add_argument("--ledger", default=None)
+    parser.add_argument("--md", default=None)
+    parser.add_argument("--json", default=None)
+    args = parser.parse_args()
+
+    ledger = find_ledger(args.ledger)
+    if args.ledger and not os.path.exists(args.ledger):
+        raise SystemExit(f"--ledger {args.ledger} does not exist")
+
+    census = build_census(args.root, ledger)
+    total = len(census["codes"])
+    print(f"ledger: {ledger or '(none given: structural columns unavailable)'}")
+    print(f"CODE bodies: {total}")
+    for tier in TIER_ORDER + ["unclassified"]:
+        count = census["tier_counts"].get(tier, 0)
+        if count:
+            print(f"  {tier:14s} {count:5d}  {100.0 * count / total:5.1f}%")
+    env = census["env_scope"]
+    print(f"environment scope: {env['codes']} CODEs / {env['sites']} sites")
+    print(f"objects with events: {len(census['object_evidence'])}")
+    if census["frozen_columns"]:
+        print("frozen ledger columns (NOT current state): "
+              + ", ".join(f"{k}={v}" for k, v in census["frozen_columns"].items()))
+
+    if args.md:
+        with open(args.md, "w", encoding="utf-8") as fh:
+            fh.write(render_markdown(census))
+        print(f"wrote {args.md}")
+    if args.json:
+        with open(args.json, "w", encoding="utf-8") as fh:
+            json.dump(census, fh, indent=2, sort_keys=True)
+        print(f"wrote {args.json}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
