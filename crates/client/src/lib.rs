@@ -25,6 +25,8 @@ include!("parts/save.rs");
 include!("parts/audio.rs");
 include!("parts/input.rs");
 include!("parts/touch.rs");
+#[cfg(target_os = "android")]
+include!("parts/gles.rs");
 // ============================================================
 // Game state container
 // ============================================================
