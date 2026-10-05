@@ -254,6 +254,14 @@ def build_census(root: str, ledger_path: str | None, exec_traces: list[str] | No
         for column in FROZEN_COLUMNS:
             frozen[column] = dict(collections.Counter(r[column] for r in ledger_rows))
 
+    structural = [c for c in codes.values() if c["tier"] in ("structural", "unclassified")]
+    structural_breakdown: dict[str, dict[str, int]] = {}
+    for c in structural:
+        kind = name_kind(c["name"]) if c["name"] else "unknown"
+        bucket = structural_breakdown.setdefault(kind, {"total": 0, "executed": 0})
+        bucket["total"] += 1
+        if c["executed"]:
+            bucket["executed"] += 1
     exec_uncited = sorted(c["code_id"] for c in codes.values()
                           if c["executed"] and c["tier"] in ("structural", "unclassified"))
     exec_pending = sorted(c["code_id"] for c in codes.values()
@@ -261,6 +269,7 @@ def build_census(root: str, ledger_path: str | None, exec_traces: list[str] | No
     return {
         "ledger": ledger_path,
         "ledger_rows": len(ledger_rows),
+        "structural_breakdown": structural_breakdown,
         "execution": {
             "traces": list(exec_traces or []),
             "distinct_executed": len(executed),
@@ -395,6 +404,20 @@ def render_markdown(census: dict) -> str:
                      " excluded from every count above:")
         lines.append("")
         lines.append(", ".join(f"`{c['code_id']}`" for c in sorted(stray, key=lambda c: c["code_id"])[:30]))
+        lines.append("")
+    breakdown = census.get("structural_breakdown") or {}
+    if breakdown:
+        lines.append("## What the uncited bodies actually are")
+        lines.append("")
+        lines.append("The tier below `env_classified` is not one kind of thing: most of it is room")
+        lines.append("creation code (RoomCC), whose effects the room-chain suites assert at the")
+        lines.append("room level rather than by CODE id. Split by container, with the executed")
+        lines.append("count from the trace when one was given:")
+        lines.append("")
+        lines.append("| container | uncited bodies | of which executed |")
+        lines.append("| --- | --- | --- |")
+        for kind, counts in sorted(breakdown.items(), key=lambda kv: -kv[1]["total"]):
+            lines.append(f"| `{kind}` | {counts['total']} | {counts['executed']} |")
         lines.append("")
     untouched = [c for c in census["codes"].values()
                  if c["tier"] in ("structural", "unclassified")]

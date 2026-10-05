@@ -124,6 +124,24 @@ class CensusTests(unittest.TestCase):
             self.assertEqual(tiers[11], "cited_test")
             self.assertEqual(tiers[12], "object_cited_test")
 
+    def test_uncited_bodies_are_split_by_container(self):
+        """RoomCC room-creation code and object events are different work."""
+        with tempfile.TemporaryDirectory() as tmp:
+            os.makedirs(os.path.join(tmp, "crates", "core", "tests"), exist_ok=True)
+            os.makedirs(os.path.join(tmp, "crates", "core", "src"), exist_ok=True)
+            os.makedirs(os.path.join(tmp, "reconstruction", "contracts"), exist_ok=True)
+            ledger = os.path.join(tmp, "progress.tsv")
+            write(ledger, ledger_text([row(80, "gml_RoomCC_rm_town_1_Create"),
+                                       row(81, "gml_Object_obj_thing_Step_0")]))
+            trace = os.path.join(tmp, "trace.txt")
+            write(trace, "80\n")
+            census = build_census(tmp, ledger, exec_traces=[trace])
+            self.assertEqual(census["structural_breakdown"]["RoomCC"], {"total": 1, "executed": 1})
+            self.assertEqual(census["structural_breakdown"]["Object"], {"total": 1, "executed": 0})
+            text = render_markdown(census)
+            self.assertIn("## What the uncited bodies actually are", text)
+            self.assertIn("| `RoomCC` | 1 | 1 |", text)
+
     def test_object_name_citation_is_a_weaker_tier_than_number_citation(self):
         with tempfile.TemporaryDirectory() as tmp:
             census = self.census(
