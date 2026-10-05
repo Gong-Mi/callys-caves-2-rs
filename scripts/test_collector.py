@@ -225,6 +225,8 @@ def collect_all(quick=False):
         "lloyd_tutorial_all_sheets_ir",
         "env_semantics_ir",
         "env_with_sites_ir",
+        "code_execution_coverage_ir",
+        "code_execution_coverage_enabled_ir",
         "distance_bbox_ir",
         "draw_order_ir",
         "object_depth_metadata_ir",

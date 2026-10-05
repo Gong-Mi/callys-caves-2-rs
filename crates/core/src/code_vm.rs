@@ -95,6 +95,99 @@ fn pop(stack: &mut Vec<f64>) -> Result<f64, String> { stack.pop().ok_or("stack u
 /// table indices did with the score/damage values `draw_text` receives.
 pub const STRING_REF_BASE: f64 = 1_099_511_627_776.0;
 
+/// Which CODE bodies actually executed — an execution ledger, not a coverage
+/// claim about behaviour.
+///
+/// WHY: the semantic census can only see citations in text, so a body that a
+/// suite genuinely runs end to end still reads as "no evidence" if nobody wrote
+/// its id down. Recording the bodies as the VM enters them turns that into a
+/// mechanical statement: these ids ran under these suites.
+///
+/// Gating: recording is off unless something turns it on, so the hook costs one
+/// `OnceLock::get()` per CODE body in normal runs. Two switches:
+///   * `enable_memory()` / `executed()` for tests in the same process;
+///   * `CALLY_CODE_TRACE=<path>` read once at the first record, for suites run
+///     as separate processes (append-only, one id per line).
+pub mod coverage {
+    use std::collections::BTreeSet;
+    use std::io::Write;
+    use std::path::PathBuf;
+    use std::sync::{Mutex, OnceLock};
+
+    /// Decimal rendering without pulling the formatting machinery into the
+    /// per-body path.
+    fn itoa(mut n: usize) -> String {
+        if n == 0 {
+            return "0".to_string();
+        }
+        let mut digits = [0u8; 20];
+        let mut i = digits.len();
+        while n > 0 {
+            i -= 1;
+            digits[i] = b'0' + (n % 10) as u8;
+            n /= 10;
+        }
+        String::from_utf8_lossy(&digits[i..]).into_owned()
+    }
+
+    enum Sink {
+        Memory,
+        File(PathBuf),
+    }
+
+    static SINK: OnceLock<Option<Sink>> = OnceLock::new();
+    static MEMORY: Mutex<Option<BTreeSet<usize>>> = Mutex::new(None);
+    /// Serialises file appends. `write!(fh, "{code}\n")` issues more than one
+    /// write for a formatted argument, and tests run in parallel threads: the
+    /// interleaved writes appended *digit concatenations* (30 + 30 -> "3030",
+    /// 1234 + 8 -> "12348") which looked exactly like out-of-range CODE ids.
+    /// One `write_all` under this lock per entry keeps every line whole.
+    static FILE_LOCK: Mutex<()> = Mutex::new(());
+
+    /// Read the env switch once. `None` means "not tracing".
+    fn sink() -> Option<&'static Sink> {
+        SINK.get_or_init(|| {
+            std::env::var("CALLY_CODE_TRACE")
+                .ok()
+                .filter(|p| !p.is_empty())
+                .map(|p| Sink::File(PathBuf::from(p)))
+        })
+        .as_ref()
+    }
+
+    /// Start a process-local trace (tests).
+    pub fn enable_memory() {
+        let _ = SINK.set(Some(Sink::Memory));
+        *MEMORY.lock().unwrap() = Some(BTreeSet::new());
+    }
+
+    /// The ids recorded since `enable_memory()`, or `None` when not tracing.
+    pub fn executed() -> Option<BTreeSet<usize>> {
+        MEMORY.lock().unwrap().clone()
+    }
+
+    /// Record one CODE body. Called on every VM entry.
+    pub fn record(code: usize) {
+        match sink() {
+            None => {}
+            Some(Sink::Memory) => {
+                if let Some(set) = MEMORY.lock().unwrap().as_mut() {
+                    set.insert(code);
+                }
+            }
+            Some(Sink::File(path)) => {
+                let mut line = String::with_capacity(8);
+                line.push_str(itoa(code).as_str());
+                line.push('\n');
+                let _guard = FILE_LOCK.lock().unwrap();
+                if let Ok(mut fh) = std::fs::OpenOptions::new().create(true).append(true).open(path) {
+                    let _ = fh.write_all(line.as_bytes());
+                }
+            }
+        }
+    }
+}
+
 /// Runtime is numeric-only. Every event gets an empty stack and a bounded budget.
 /// Unsupported code never falls back to the legacy handwritten state machines.
 pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut H) -> Result<(), VmError> {
@@ -118,6 +211,10 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
             let target = match i.op { Op::B{target}|Op::Bt{target}|Op::Bf{target}|Op::Pushenv{target}|Op::Popenv{target} => Some(target), _=>None };
             if target.is_some_and(|t| !boundaries.contains_key(&t)) { offset=i.offset; return Err("branch not on instruction boundary".into()); }
         }
+        // The ledger records execution, so it is written only once the body has
+        // been validated and is about to run - a missing id, an unsupported
+        // schema or a malformed span must not appear as "executed".
+        coverage::record(code);
         let mut stack = Vec::new();
         let mut locals = std::collections::BTreeMap::new();
         let mut environments: Vec<(i32, std::vec::IntoIter<i32>)> = Vec::new();
