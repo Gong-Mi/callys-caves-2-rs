@@ -417,3 +417,28 @@ tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
 - 原版 `randomize()` 取自系统时钟 → 每局随机；重建的 `randomize()` 是确定性 seed
   bump → **音频时间线必须 pin seed 才可复现**（example 已支持 `<ticks> <seed_hex>`）。
 - theme[0] 不参与序列（Step 先 +1 再取 theme[soundplay]），契约里应写明。
+
+## 21. 数组变量布局：内存考古受阻（如实记录 + 下一步改道）
+
+已确立:
+- 实例数组变量（obj_music.theme, 实例表 idx 637）的 RValue @0x9833db70:
+  `{0xb2f13ba0, 0, 0x78787878, 0x00000002}` —— 首词为指针、第三词 0x78787878（'xxxx'，
+  疑似数组标记）、类型字高字节 0。标量对照: health1 = {dbl, tag=7}，soundmute={int,tag=0}。
+- payload 0xb2f13ba0 结构 (0x200 B dump):
+  +0x00 {1, 0xb3554720, 0x9833db70(回指变量槽), 0…}
+  +0x20/+0x40 两个 {8,count,7,4}+数据指针 的块描述
+  +0x60/+0xa0 {0,1,2,0,3,0,0,0} 索引表 + 4 指针
+  +0xe0..+0x1e0 12 个 {8,count(1,5,1,2,1,1,2,2,2),7,4}+数据指针 块描述（计数合计 17）
+
+证伪（全部 0 命中，勿重复）:
+- 全可写内存搜 theme[0..3] 的 int32 / double / {int,tag7} / 16B {dbl,pad,tag7} /
+  {idx,int} 序列 → 0 命中；payload 结构内部 0x200 B 内亦无任何 theme 值（int/double）。
+- 循 9 个块数据指针读到的区域是**全零**或变量槽/映射区（含 639/640 等变量索引），
+  不是 theme 的 17 个值。
+- 结论: 数组元素既不在结构内联、也不以常见编码散落内存；"扫描找值"这条路断了。
+
+下一步（改道，权威路径）:
+1. 反汇编 VM 的数组访问：`GET_RValue(RValue*, RValue*, int)@0xd13bc` 及其调用方
+   （DoPushArray / 数组下标读取），直接读出元素存储的偏移与步长——比内存考古可靠。
+2. 或用受控变更定位：在游戏里改 playlist（暂停菜单切歌）触发 obj_music 重建 theme[]，
+   前后 diff 内存即可看见写入点（diff 法在本项目其它变量上已成功过一次）。
