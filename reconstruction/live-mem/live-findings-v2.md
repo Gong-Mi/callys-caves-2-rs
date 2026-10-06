@@ -442,3 +442,22 @@ tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
    （DoPushArray / 数组下标读取），直接读出元素存储的偏移与步长——比内存考古可靠。
 2. 或用受控变更定位：在游戏里改 playlist（暂停菜单切歌）触发 obj_music 重建 theme[]，
    前后 diff 内存即可看见写入点（diff 法在本项目其它变量上已成功过一次）。
+
+## 22. 数组变量布局：权威解码 + 活体 17/17 逐项验证（子任务闭环）
+
+权威反汇编 `ARRAY_RVAL_RValue(RValue const*, int)@0xcede4`（数组元素读取）:
+- 下标打包: `outer = i / 32000`、`inner = i % 32000`（0x7d00，GMS 1D 长度上限）。
+- 数组 RValue: `[rv+0] = YYArray*`，类型槽 `[rv+12] & 0xFF000000 == 0x02000000`。
+- YYArray: `[+0x04] = 行描述数组`（步长 8），`[+0x10] = 行数`。
+- 行描述 8 B: `[+0] = 内维长度`，`[+4] = 行数据指针`。
+- 元素地址 = `行数据 + inner*16`（RValue 16 B）；元素 double 在 `+0..+7`。
+  注意: **数组元素的类型槽为 0**（而作用域变量用 7=real），读值须按 double 解释。
+
+活体验证（壳, rm_town, 原版会话）:
+- `global.playlist = 1`（本局随机所得）→ obj_music.theme 数组 rows=1/len=17，
+  元素读出 `[37,46,52,35,36,44,30,45,39,31,34,33,32,38,29,47,41]`
+  = 恢复 GML 0375 中 playlist==1 的 theme[0..16] **17/17 逐项一致**。
+- 工具: tools/array_get.py（按上述布局读实例数组；直接与 GML 表对账）。
+
+至此实例/全局标量 + 数组均可读；音频侧数据面（playlist、theme[]、soundplay）在原版
+活体上全部可观测。

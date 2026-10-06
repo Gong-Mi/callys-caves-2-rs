@@ -33,6 +33,15 @@
 - **音频意图**：F_AudioPlaySound→Audio_PlaySound(0x21b5D8) 汇合点；源结构
   +20 播放序/+24 声音索引；管理器 S(0x7553AC)。
 
+### 2b. 数组变量（YYArray，二进制定标）
+
+- 数组 RValue: `[rv+0]=YYArray*`，类型槽 `[rv+12]&0xFF000000==0x02000000`（作用域
+  变量的 7=real 不适用于元素：**元素类型槽为 0**，值按 double 读 +0..+7）。
+- YYArray: `[+4]=行描述数组(步长 8)`、`[+0x10]=行数`；行描述 `[+0]=内维长度`、
+  `[+4]=行数据指针`；元素 = 行数据 + inner*16。
+- 下标打包 `outer=i/32000, inner=i%32000`（ARRAY_RVAL_RValue@0xcede4）。
+- 工具 `../live-mem/tools/array_get.py`；活体 theme[] 与 GML table 17/17 对齐实证。
+
 ## 3. 读不到 / 不可靠
 
 - **音频播放态**：壳内 OpenAL 设备打开失败（hbt 下 OpenSL dlsym IID 全挂）→
