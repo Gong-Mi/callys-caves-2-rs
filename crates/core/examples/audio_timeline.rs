@@ -32,6 +32,20 @@ fn main() {
             frames: sp.tpag_indices.len().max(1) as f64,
         });
     }
+    // Inject the sond durations parsed from the APK's music OGGs so the
+    // original's audio_is_playing gates behave like the real engine.
+    let dur_path = root.join("../../reconstruction/contracts/audio-durations.json");
+    if let Ok(txt) = std::fs::read_to_string(&dur_path) {
+        #[derive(serde::Deserialize)]
+        struct Row { sond_id: i32, seconds: f64 }
+        if let Ok(rows) = serde_json::from_str::<Vec<Row>>(&txt) {
+            for r in &rows { s.set_sound_duration(r.sond_id, r.seconds); }
+            println!("loaded {} sound durations", rows.len());
+        }
+    } else {
+        println!("WARNING: {} not found", dur_path.display());
+    }
+    s.set_room_speed(30.0);
     s.load_room_from_data(&bundle, 0, &asset.rooms[0]).expect("load rm_town");
     println!("room=rm_town instances={}", s.instances.len());
 

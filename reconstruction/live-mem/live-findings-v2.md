@@ -349,3 +349,23 @@ audio-call-table.json 的 524 条 global.* 守卫按 live 值求值）→ 882 �
 结论/契约要求: 非循环声部的"在播"状态必须按时长维持（需要 sond→时长的数据，
 可从 game.droid 的声音资源头解析；audio-sond.json 目前无 duration 字段），
 否则 obj_music 序列器与所有 audio_is_playing 门都会失真。
+
+## 17. 修复: 时长感知声部生命周期（序列器缺陷已闭合）
+
+- 新契约 `reconstruction/contracts/audio-durations.json`（25 首 music，来自 APK
+  `assets/mus_*.ogg` 的 OGG granule/采样率），生成器 tools/sond_durations.py。
+- ir_scene 变更（最小、向后兼容）:
+  * `AudioVoice.expires_tick`; `Scene.sound_durations/room_speed/tick_count`。
+  * `call_audio_play`: 已知时长且非循环 → expires_tick = now + ceil(secs*speed)。
+  * `audio_is_playing_sound`: 未停止/未暂停且未过期才为真。
+  * `drain_audio`: 已知时长声部保留到过期；**未知时长保持原 retire-on-drain**
+    （现有 SFX 门语义不动，待 game.droid SBUF 时长解析后再统一）。
+  * 新 API `set_sound_duration(id, secs)` / `set_room_speed(speed)`。
+- 回归测试 `known_duration_holds_the_gate_for_the_sounds_real_length`（60 tick 门
+  保持、过期后重开、未知时长仍 drain 即退）→ audio_voice_ir 5/5 通过。
+- 实测对照（example audio_timeline, rm_town 900 tick）:
+  * 修复前: 900 条播放、sond id 逐 tick 轮换（序列器 16 tick 轮完播放表）。
+  * 修复后: **1 条播放**（tick 0, sond 52），随后门保持——与原版
+    `!audio_is_playing(...)` 长链语义一致（52=blooddragon 141s=4237 tick ≫ 900）。
+- 待办: SFX 时长（sond 0..28，wav 内嵌于 game.droid 的 SBUF）解析后同一机制即可
+  覆盖战斗音效门；另可核对 rm_town 首播曲应为 theme[soundplay=1] 对应的曲目。

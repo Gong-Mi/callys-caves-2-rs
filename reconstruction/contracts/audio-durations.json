@@ -1,0 +1,202 @@
+[
+ {
+  "sond_id": 29,
+  "name": "egc",
+  "asset": "assets/mus_egc.ogg",
+  "seconds": 200.046,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 6001
+ },
+ {
+  "sond_id": 30,
+  "name": "sneaksbeat",
+  "asset": "assets/mus_sneaksbeat.ogg",
+  "seconds": 85.176,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 2555
+ },
+ {
+  "sond_id": 31,
+  "name": "new4",
+  "asset": "assets/mus_new4.ogg",
+  "seconds": 43.624,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 1309
+ },
+ {
+  "sond_id": 32,
+  "name": "townmusic",
+  "asset": "assets/mus_townmusic.ogg",
+  "seconds": 158.015,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 4740
+ },
+ {
+  "sond_id": 33,
+  "name": "searching",
+  "asset": "assets/mus_searching.ogg",
+  "seconds": 98.273,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 2948
+ },
+ {
+  "sond_id": 34,
+  "name": "supertrip",
+  "asset": "assets/mus_supertrip.ogg",
+  "seconds": 186.175,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 5585
+ },
+ {
+  "sond_id": 35,
+  "name": "cally2fez",
+  "asset": "assets/mus_cally2fez.ogg",
+  "seconds": 196.075,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 5882
+ },
+ {
+  "sond_id": 36,
+  "name": "atmospheric",
+  "asset": "assets/mus_atmospheric.ogg",
+  "seconds": 296.064,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 8882
+ },
+ {
+  "sond_id": 37,
+  "name": "acoustic",
+  "asset": "assets/mus_acoustic.ogg",
+  "seconds": 188.761,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 5663
+ },
+ {
+  "sond_id": 38,
+  "name": "amdm7",
+  "asset": "assets/mus_amdm7.ogg",
+  "seconds": 151.85,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 4555
+ },
+ {
+  "sond_id": 39,
+  "name": "arpdisast",
+  "asset": "assets/mus_arpdisast.ogg",
+  "seconds": 138.762,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 4163
+ },
+ {
+  "sond_id": 40,
+  "name": "happy",
+  "asset": "assets/mus_happy.ogg",
+  "seconds": 70.348,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 2110
+ },
+ {
+  "sond_id": 41,
+  "name": "sunrise",
+  "asset": "assets/mus_sunrise.ogg",
+  "seconds": 117.708,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 3531
+ },
+ {
+  "sond_id": 42,
+  "name": "mariokart",
+  "asset": "assets/mus_mariokart.ogg",
+  "seconds": 103.262,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 3098
+ },
+ {
+  "sond_id": 43,
+  "name": "menumusic",
+  "asset": "assets/mus_menumusic.ogg",
+  "seconds": 31.164,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 935
+ },
+ {
+  "sond_id": 44,
+  "name": "newprogression",
+  "asset": "assets/mus_newprogression.ogg",
+  "seconds": 125.597,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 3768
+ },
+ {
+  "sond_id": 45,
+  "name": "soundwall",
+  "asset": "assets/mus_soundwall.ogg",
+  "seconds": 63.36,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 1901
+ },
+ {
+  "sond_id": 46,
+  "name": "strongtech",
+  "asset": "assets/mus_strongtech.ogg",
+  "seconds": 115.252,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 3458
+ },
+ {
+  "sond_id": 47,
+  "name": "synthonic",
+  "asset": "assets/mus_synthonic.ogg",
+  "seconds": 131.814,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 3954
+ },
+ {
+  "sond_id": 48,
+  "name": "techno",
+  "asset": "assets/mus_techno.ogg",
+  "seconds": 92.238,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 2767
+ },
+ {
+  "sond_id": 49,
+  "name": "technoending",
+  "asset": "assets/mus_technoending.ogg",
+  "seconds": 65.489,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 1965
+ },
+ {
+  "sond_id": 50,
+  "name": "bosssongending",
+  "asset": "assets/mus_bosssongending.ogg",
+  "seconds": 25.164,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 755
+ },
+ {
+  "sond_id": 51,
+  "name": "bosssong",
+  "asset": "assets/mus_bosssong.ogg",
+  "seconds": 65.088,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 1953
+ },
+ {
+  "sond_id": 52,
+  "name": "blooddragon",
+  "asset": "assets/mus_blooddragon.ogg",
+  "seconds": 141.218,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 4237
+ },
+ {
+  "sond_id": 53,
+  "name": "cally3",
+  "asset": "assets/mus_cally3.ogg",
+  "seconds": 132.552,
+  "sample_rate": 44100,
+  "ticks_at_30hz": 3977
+ }
+]
