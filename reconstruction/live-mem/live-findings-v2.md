@@ -320,3 +320,32 @@ audio-call-table.json 的 524 条 global.* 守卫按 live 值求值）→ 882 �
 - 现状可交付: "给定当前 live 状态，各事件会播什么"（guard_eval2 --all 输出）。
 - 时序层: 用重建 IR 的事件序列 + 同一套守卫求值即可产出逐 tick 音频时间线，
   不再依赖对原版内存的微秒级采样。
+
+## 16. 重建侧逐 tick 音频时间线（IR 仿真）——并暴露一处语义缺陷
+
+驱动: `crates/core/examples/audio_timeline.rs`（asset+IR 载入 → rm_town →
+逐 tick `Scene::tick` + `drain_audio()`），输出 `tools/rebuild_timeline_town.txt`
+（900 tick / 900 条命令）。
+
+实测现象:
+- 900 tick 内共 900 条 audio 命令，**每 tick 一条**，全部来自 code 377
+  (obj_music_Step_0)，sond id 逐 tick 轮换（如 29=egc、32=townmusic、
+  52=blooddragon、47=synthonic、45=soundwall …）。
+
+原版语义（恢复 GML 0375/0377 + sond 表对照）:
+- theme[] 在 obj_music Create (CODE 375) 按房间分支写入 **sond id**（29/32/34/36/37/44…）。
+- Step (CODE 377) 是音乐序列器: `soundplay += 1; audio_play_sound(theme[soundplay],0,false)`
+  被 13+ 条 `!audio_is_playing(mus_*)` 长链包住 —— **靠 audio_is_playing 截断序列**:
+  一旦某轨在播，链短路，soundplay 不再推进；只有当前轨播完后才继续。
+
+缺陷定位（重建侧）:
+- `Scene::drain_audio()` 对非循环声部执行 `retain(|v| v.looping && !v.stopped)`
+  → 每帧 drain 后，非循环声部从表中消失 → `audio_is_playing` 恒 false →
+  obj_music Step 每 tick 都重新播放并推进 soundplay（0..16），整张播放表在 16 tick
+  内轮完。原版引擎里非循环声部在其时长内保持 playing，门才会生效。
+- 这正是 audio_voice_ir.rs 头部注释里"stub 对每个查询返回 0.0 导致 BGM 每 tick
+  重启"的同类问题，只是换成了 drain 剪枝路径。
+
+结论/契约要求: 非循环声部的"在播"状态必须按时长维持（需要 sond→时长的数据，
+可从 game.droid 的声音资源头解析；audio-sond.json 目前无 duration 字段），
+否则 obj_music 序列器与所有 audio_is_playing 门都会失真。
