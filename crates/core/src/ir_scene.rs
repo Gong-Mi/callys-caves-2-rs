@@ -143,6 +143,10 @@ pub struct AudioVoice {
     pub looping: bool,
     pub stopped: bool,
     pub paused: bool,
+    /// Tick at which a non-looping voice stops counting as "playing".
+    /// `None` = duration unknown for this sound: the legacy drain-retire
+    /// behaviour applies (voice disappears when drained).
+    pub expires_tick: Option<u64>,
 }
 #[derive(Debug, Clone, Serialize)]
 pub struct AudioCommand { pub code: usize, pub offset: usize, pub sound: i32, pub priority: f64, pub looping: bool, pub voice: i32 }
@@ -157,6 +161,15 @@ pub struct Scene {
     draw_phase: DrawPhase,
     draw_depth_context: Option<f64>,
     pub executed: Vec<(usize,usize)>,
+    /// Known sound durations in seconds (sond id -> seconds), injected by the
+    /// host from reconstruction/contracts/audio-durations.json. A non-looping
+    /// voice of a sound listed here stays "playing" for its real duration, so
+    /// the original's `audio_is_playing` gates (obj_music sequencer) hold.
+    pub sound_durations: BTreeMap<i32, f64>,
+    /// Room speed (steps per second) used to convert seconds -> ticks.
+    pub room_speed: f64,
+    /// Monotonic tick counter (incremented by `tick`).
+    pub tick_count: u64,
     pub view: i32, pub view_positions: BTreeMap<i32,(f64,f64)>, pub mouse_pressed: bool,
     pub view_ports: BTreeMap<i32,(f64,f64)>,
     pub touch_devices: [TouchDevice; 5],
@@ -221,6 +234,7 @@ impl Default for Scene {
             score: 0.0,
             draws: Vec::new(), texts: Vec::new(), healthbars: Vec::new(), backgrounds: Vec::new(), audio: Vec::new(), executed: Vec::new(),
             draw_emissions: Vec::new(), draw_phase: DrawPhase::Room, draw_depth_context: None,
+            sound_durations: BTreeMap::new(), room_speed: 30.0, tick_count: 0,
             view: 0, view_positions: BTreeMap::new(), mouse_pressed: false,
             view_ports: BTreeMap::new(),
             room_views: Vec::new(),
@@ -355,8 +369,20 @@ impl Scene {
     /// True while any undrained voice of this sound is playing (not stopped,
     /// not paused).
     pub fn audio_is_playing_sound(&self, sound: f64) -> bool {
-        self.audio_voices.iter()
-            .any(|v| v.sound == sound && !v.stopped && !v.paused)
+        self.audio_voices.iter().any(|v| {
+            v.sound == sound && !v.stopped && !v.paused
+                && v.expires_tick.map_or(true, |e| self.tick_count < e)
+        })
+    }
+    /// Registers a known sound duration (seconds) for gate-accurate playback.
+    pub fn set_sound_duration(&mut self, sond_id: i32, seconds: f64) {
+        if seconds.is_finite() && seconds > 0.0 {
+            self.sound_durations.insert(sond_id, seconds);
+        }
+    }
+    /// Room speed (steps/second) used for seconds -> ticks conversion.
+    pub fn set_room_speed(&mut self, speed: f64) {
+        if speed.is_finite() && speed > 0.0 { self.room_speed = speed; }
     }
     /// Emits an AudioCommand and opens a looping-capable voice; returns its handle.
     pub fn call_audio_play(&mut self, sound: f64, priority: f64, looping: bool) -> f64 {
@@ -366,7 +392,16 @@ impl Scene {
             code: self.site.0, offset: self.site.1, sound: sound as i32,
             priority, looping, voice: voice as i32,
         });
-        self.audio_voices.push(AudioVoice { sound, voice, looping, stopped: false, paused: false });
+        let expires_tick = if looping {
+            None
+        } else {
+            self.sound_durations.get(&(sound as i32)).map(|secs| {
+                let ticks = (secs * self.room_speed).ceil().max(1.0) as u64;
+                self.tick_count + ticks
+            })
+        };
+        self.audio_voices.push(AudioVoice { sound, voice, looping, stopped: false,
+                                           paused: false, expires_tick });
         voice
     }
     /// Stops every undrained voice of this sound (audio_stop_sound) and
@@ -404,11 +439,24 @@ impl Scene {
     pub fn call_audio_sound_gain(&mut self, sound: f64, _gain: f64, _time: f64) {
         // Gain has no audible effect in this projection; recorded by no-op.
     }
-    /// Drains audible commands; non-looping voices retire so the original
-    /// is_playing gates reopen after playback ends.
+    /// Drains audible commands.
+    ///
+    /// Voices with a KNOWN duration survive draining until their duration
+    /// elapses (the original engine keeps `audio_is_playing` true for the
+    /// sound's real length, which is what gates the obj_music sequencer).
+    /// Voices with unknown duration keep the legacy retire-on-drain behaviour
+    /// so existing gates for SFX still reopen.
     pub fn drain_audio(&mut self) -> Vec<AudioCommand> {
         let drained = std::mem::take(&mut self.audio);
-        self.audio_voices.retain(|v| v.looping && !v.stopped);
+        let now = self.tick_count;
+        self.audio_voices.retain(|v| {
+            if v.stopped { return false; }
+            if v.looping { return true; }
+            match v.expires_tick {
+                Some(e) => now < e,   // known duration: hold the gate until it ends
+                None => false,        // unknown duration: legacy retire-on-drain
+            }
+        });
         drained
     }
 
@@ -868,6 +916,7 @@ impl Scene {
     /// Bounded scheduler contract: active snapshot; alarm decrement/dispatch,
     /// then Step. New instances enter the next tick. No physics/animation advance.
     pub fn tick(&mut self,b:&Bundle)->Result<(),String> {
+        self.tick_count += 1;
         let ids:Vec<_>=self.instances.iter().filter(|(_,i)|i.alive&&i.active&&!i.external).map(|(id,_)|*id).collect();
         for id in &ids {
             for index in 0..12 {

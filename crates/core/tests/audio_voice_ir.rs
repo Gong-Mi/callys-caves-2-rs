@@ -99,3 +99,32 @@ fn object_exists_checks_the_bundle_resource_table() {
     assert_eq!(s.call_object_exists(real_id), true);
     assert_eq!(s.call_object_exists(9999.0), false, "unknown object id must not exist");
 }
+
+/// Regression for the obj_music sequencer contract: the original relies on
+/// `audio_is_playing` staying true for a sound's real duration, so the theme
+/// playlist advances only when a track ends. Voices whose duration is not in
+/// the injected table keep the legacy retire-on-drain behaviour.
+#[test]
+fn known_duration_holds_the_gate_for_the_sounds_real_length() {
+    let b = bundle();
+    let mut s = Scene::default();
+    s.init_bundle(&b);
+    s.set_room_speed(30.0);
+    let music = 32.0; // sond 32 = townmusic
+    s.set_sound_duration(music as i32, 2.0); // 2 s -> 60 ticks at 30 Hz
+    s.call_audio_play(music, 0.0, false);
+    assert_eq!(s.audio_is_playing_sound(music), true, "fresh play must gate repeats");
+    for _ in 0..59 { s.tick(&b).expect("tick"); }
+    assert_eq!(s.audio_is_playing_sound(music), true,
+               "gate must hold for the whole real duration");
+    for _ in 0..2 { s.tick(&b).expect("tick"); }
+    assert_eq!(s.audio_is_playing_sound(music), false,
+               "gate reopens once the duration elapsed");
+
+    let sfx = 7.0; // sond 7 = explode, duration unknown in this table
+    s.call_audio_play(sfx, 0.0, false);
+    assert_eq!(s.audio_is_playing_sound(sfx), true);
+    s.drain_audio();
+    assert_eq!(s.audio_is_playing_sound(sfx), false,
+               "unknown durations still retire when drained");
+}

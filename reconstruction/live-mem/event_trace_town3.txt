@@ -1,0 +1,328 @@
+live objects in current room: 20
+CObjectGM dumps: 20
+[  0.000] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  0.332] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[  0.338] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  0.735] obj=6 (obj_wall_2) event_type=14 num=0 audio_events: -
+[  0.742] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  0.969] obj=67 (obj_muting) event_type=3 num=9 audio_events: -
+[  0.975] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  1.171] obj=6 (obj_wall_2) event_type=2 num=0 audio_events: -
+[  1.176] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  1.606] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[  1.614] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  1.707] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[  1.713] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  1.741] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[  1.747] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  1.808] obj=6 (obj_wall_2) event_type=3 num=0 audio_events: -
+[  1.813] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  1.909] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[  1.915] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  1.943] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[  1.949] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  1.978] obj=128 (obj_shootbutton) event_type=8 num=0 audio_events: [Mouse(3) c524]
+[  1.984] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  2.113] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[  2.118] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  2.148] obj=6 (obj_wall_2) event_type=3 num=0 audio_events: -
+[  2.154] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  2.183] obj=130 (obj_leftbutton) event_type=8 num=0 audio_events: -
+[  2.189] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  2.755] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[  2.761] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  3.022] obj=6 (obj_wall_2) event_type=8 num=9 audio_events: -
+[  3.029] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  3.158] obj=67 (obj_muting) event_type=14 num=9 audio_events: -
+[  3.163] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  3.258] obj=6 (obj_wall_2) event_type=3 num=0 audio_events: -
+[  3.263] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  3.462] obj=66 (obj_UI) event_type=8 num=9 audio_events: -
+[  3.468] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  3.728] obj=6 (obj_wall_2) event_type=8 num=9 audio_events: -
+[  3.735] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  3.763] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[  3.770] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  3.798] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[  3.803] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  4.065] obj=67 (obj_muting) event_type=14 num=9 audio_events: -
+[  4.074] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  4.206] obj=67 (obj_muting) event_type=3 num=0 audio_events: -
+[  4.214] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  4.543] obj=6 (obj_wall_2) event_type=2 num=0 audio_events: -
+[  4.549] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  4.744] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[  4.750] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  4.777] obj=6 (obj_wall_2) event_type=3 num=0 audio_events: -
+[  4.783] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  5.049] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[  5.054] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  5.249] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[  5.255] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  5.283] obj=6 (obj_wall_2) event_type=14 num=0 audio_events: -
+[  5.289] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  5.450] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[  5.456] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  5.586] obj=66 (obj_UI) event_type=8 num=9 audio_events: -
+[  5.592] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  5.652] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[  5.658] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  5.921] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[  5.927] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  5.956] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[  5.961] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.090] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[  6.096] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.123] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[  6.130] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.157] obj=0 (obj_player) event_type=3 num=9 audio_events: [Alarm(0) c11] [Step(0) c12]
+[  6.163] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.191] obj=65 (obj_bg) event_type=3 num=0 audio_events: -
+[  6.196] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.259] obj=130 (obj_leftbutton) event_type=8 num=0 audio_events: -
+[  6.264] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.426] obj=6 (obj_wall_2) event_type=14 num=0 audio_events: -
+[  6.431] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.493] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[  6.499] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.526] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[  6.532] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.594] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[  6.599] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  6.931] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[  6.936] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  7.065] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[  7.071] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  7.098] obj=130 (obj_leftbutton) event_type=8 num=0 audio_events: -
+[  7.104] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  7.132] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[  7.138] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  7.165] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[  7.171] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  7.437] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[  7.443] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  8.177] obj=6 (obj_wall_2) event_type=3 num=0 audio_events: -
+[  8.183] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  8.211] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[  8.217] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  8.244] obj=0 (obj_player) event_type=3 num=9 audio_events: [Alarm(0) c11] [Step(0) c12]
+[  8.250] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  8.278] obj=67 (obj_muting) event_type=3 num=0 audio_events: -
+[  8.285] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  8.313] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[  8.319] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  8.515] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[  8.521] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  8.549] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[  8.555] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  8.851] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[  8.857] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  9.192] obj=66 (obj_UI) event_type=8 num=9 audio_events: -
+[  9.198] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  9.425] obj=130 (obj_leftbutton) event_type=14 num=9 audio_events: -
+[  9.431] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  9.496] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[  9.501] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  9.564] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[  9.570] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[  9.766] obj=6 (obj_wall_2) event_type=14 num=0 audio_events: -
+[  9.775] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 10.038] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[ 10.043] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 10.241] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 10.247] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 10.274] obj=125 (obj_pausebutton) event_type=8 num=0 audio_events: -
+[ 10.285] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 10.313] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[ 10.320] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.024] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 11.030] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.193] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 11.199] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.226] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[ 11.232] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.366] obj=66 (obj_UI) event_type=8 num=9 audio_events: -
+[ 11.372] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.401] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 11.406] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.467] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 11.474] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.536] obj=126 (obj_weaponswap) event_type=8 num=9 audio_events: [Alarm(0) c519]
+[ 11.542] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.636] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[ 11.642] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 11.702] obj=6 (obj_wall_2) event_type=14 num=7 audio_events: -
+[ 11.708] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 12.177] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 12.183] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 12.379] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[ 12.385] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 12.445] obj=67 (obj_muting) event_type=14 num=9 audio_events: -
+[ 12.451] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 12.646] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 12.652] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 12.713] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[ 12.721] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 12.815] obj=6 (obj_wall_2) event_type=3 num=0 audio_events: -
+[ 12.822] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 13.188] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 13.194] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 13.221] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[ 13.227] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 13.662] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[ 13.669] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 13.998] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 14.003] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 14.136] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 14.142] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 14.205] obj=131 (obj_rightbutton) event_type=8 num=0 audio_events: -
+[ 14.211] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 14.372] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 14.378] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 14.676] obj=130 (obj_leftbutton) event_type=8 num=0 audio_events: -
+[ 14.682] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 14.709] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[ 14.715] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 14.743] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[ 14.749] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 14.777] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[ 14.783] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 15.077] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 15.082] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 15.381] obj=6 (obj_wall_2) event_type=14 num=0 audio_events: -
+[ 15.387] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 15.885] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 15.890] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 16.523] obj=6 (obj_wall_2) event_type=14 num=0 audio_events: -
+[ 16.529] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 16.624] obj=66 (obj_UI) event_type=8 num=9 audio_events: -
+[ 16.630] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 16.659] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 16.665] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 16.893] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 16.899] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 16.927] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 16.933] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 17.062] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 17.068] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 17.298] obj=125 (obj_pausebutton) event_type=8 num=0 audio_events: -
+[ 17.304] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 17.331] obj=65 (obj_bg) event_type=3 num=0 audio_events: -
+[ 17.337] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 17.471] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 17.477] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 17.744] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 17.749] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 17.844] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 17.851] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 17.945] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 17.951] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 18.282] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 18.288] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 18.552] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 18.557] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.059] obj=0 (obj_player) event_type=14 num=9 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 19.066] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.125] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[ 19.131] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.295] obj=66 (obj_UI) event_type=8 num=9 audio_events: -
+[ 19.302] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.461] obj=128 (obj_shootbutton) event_type=8 num=0 audio_events: [Mouse(3) c524]
+[ 19.467] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.495] obj=0 (obj_player) event_type=14 num=9 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 19.500] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.563] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[ 19.568] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.763] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 19.769] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.798] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 19.805] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 19.933] obj=0 (obj_player) event_type=14 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 19.938] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 20.069] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[ 20.074] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 20.244] obj=0 (obj_player) event_type=3 num=9 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 20.251] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 20.514] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 20.520] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 20.614] obj=67 (obj_muting) event_type=8 num=0 audio_events: -
+[ 20.619] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 20.647] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 20.653] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 20.683] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[ 20.688] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 20.849] obj=65 (obj_bg) event_type=3 num=0 audio_events: -
+[ 20.854] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 20.882] obj=67 (obj_muting) event_type=3 num=0 audio_events: -
+[ 20.888] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.085] obj=65 (obj_bg) event_type=8 num=9 audio_events: -
+[ 21.094] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.218] obj=6 (obj_wall_2) event_type=14 num=0 audio_events: -
+[ 21.224] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.251] obj=6 (obj_wall_2) event_type=3 num=0 audio_events: -
+[ 21.257] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.286] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 21.291] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.320] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[ 21.325] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.420] obj=128 (obj_shootbutton) event_type=8 num=0 audio_events: [Mouse(3) c524]
+[ 21.425] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.588] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 21.593] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.621] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 21.627] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.654] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 21.660] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 21.993] obj=67 (obj_muting) event_type=3 num=0 audio_events: -
+[ 21.999] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.027] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 22.033] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.062] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[ 22.073] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.234] obj=6 (obj_wall_2) event_type=3 num=9 audio_events: -
+[ 22.240] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.368] obj=68 (obj_music) event_type=14 num=9 audio_events: [Alarm(0) c376] [Step(0) c377] [Other(4) c378]
+[ 22.373] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.402] obj=6 (obj_wall_2) event_type=8 num=0 audio_events: -
+[ 22.408] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.536] obj=6 (obj_wall_2) event_type=8 num=9 audio_events: -
+[ 22.542] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.604] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[ 22.610] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.771] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[ 22.776] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.838] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 22.843] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.872] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 22.878] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 22.977] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 22.983] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.044] obj=6 (obj_wall_2) event_type=14 num=0 audio_events: -
+[ 23.049] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.146] obj=6 (obj_wall_2) event_type=8 num=9 audio_events: -
+[ 23.152] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.179] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 23.187] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.281] obj=66 (obj_UI) event_type=14 num=9 audio_events: -
+[ 23.287] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.482] obj=66 (obj_UI) event_type=8 num=0 audio_events: -
+[ 23.488] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.615] obj=0 (obj_player) event_type=14 num=9 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 23.621] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.717] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 23.723] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.886] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 23.891] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 23.918] obj=131 (obj_rightbutton) event_type=8 num=0 audio_events: -
+[ 23.924] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 24.152] obj=0 (obj_player) event_type=3 num=0 audio_events: [Alarm(0) c11] [Step(0) c12]
+[ 24.158] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 24.624] obj=126 (obj_weaponswap) event_type=8 num=0 audio_events: [Alarm(0) c519]
+[ 24.630] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 24.759] obj=131 (obj_rightbutton) event_type=8 num=0 audio_events: -
+[ 24.765] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+[ 24.858] obj=66 (obj_UI) event_type=8 num=9 audio_events: -
+[ 24.864] obj=6 (obj_wall_2) event_type=14 num=9 audio_events: -
+transitions=323 -> /data/data/com.termux/files/home/callys-caves-2-rs/reconstruction/live-mem/tools/event_trace.json
+index-field hit offsets: {'0x4': 199, '0x18': 124}
+index->name map: {0: 'obj_player', 6: 'obj_wall_2', 65: 'obj_bg', 66: 'obj_UI', 67: 'obj_muting', 68: 'obj_music', 125: 'obj_pausebutton', 126: 'obj_weaponswap', 128: 'obj_shootbutton', 130: 'obj_leftbutton', 131: 'obj_rightbutton'}

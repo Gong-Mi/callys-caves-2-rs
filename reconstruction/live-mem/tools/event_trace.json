@@ -1,0 +1,2263 @@
+[
+ {
+  "t": 0.0,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 0.332,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 0.338,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 0.735,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 0.742,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 0.969,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 3,
+  "en": 9
+ },
+ {
+  "t": 0.975,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 1.171,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 2,
+  "en": 0
+ },
+ {
+  "t": 1.176,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 1.606,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 1.614,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 1.707,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 1.713,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 1.741,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 1.747,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 1.808,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 1.813,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 1.909,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 1.915,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 1.943,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 1.949,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 1.978,
+  "obj": 128,
+  "name": "obj_shootbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 1.984,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 2.113,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 2.118,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 2.148,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 2.154,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 2.183,
+  "obj": 130,
+  "name": "obj_leftbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 2.189,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 2.755,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 2.761,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 3.022,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 3.029,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 3.158,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 3.163,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 3.258,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 3.263,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 3.462,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 3.468,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 3.728,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 3.735,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 3.763,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 3.77,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 3.798,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 3.803,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 4.065,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 4.074,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 4.206,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 4.214,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 4.543,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 2,
+  "en": 0
+ },
+ {
+  "t": 4.549,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 4.744,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 4.75,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 4.777,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 4.783,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.049,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 5.054,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.249,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 5.255,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.283,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 5.289,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.45,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 5.456,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.586,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 5.592,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.652,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 5.658,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.921,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.927,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 5.956,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 5.961,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.09,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 6.096,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.123,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 6.13,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.157,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 9
+ },
+ {
+  "t": 6.163,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.191,
+  "obj": 65,
+  "name": "obj_bg",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 6.196,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.259,
+  "obj": 130,
+  "name": "obj_leftbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 6.264,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.426,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 6.431,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.493,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 6.499,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.526,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 6.532,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.594,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 6.599,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 6.931,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 6.936,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 7.065,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 7.071,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 7.098,
+  "obj": 130,
+  "name": "obj_leftbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 7.104,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 7.132,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 7.138,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 7.165,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 7.171,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 7.437,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 7.443,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.177,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 8.183,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.211,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 8.217,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.244,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 9
+ },
+ {
+  "t": 8.25,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.278,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 8.285,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.313,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 8.319,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.515,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.521,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.549,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 8.555,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.851,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 8.857,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 9.192,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 9.198,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 9.425,
+  "obj": 130,
+  "name": "obj_leftbutton",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 9.431,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 9.496,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 9.501,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 9.564,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 9.57,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 9.766,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 9.775,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 10.038,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 10.043,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 10.241,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 10.247,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 10.274,
+  "obj": 125,
+  "name": "obj_pausebutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 10.285,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 10.313,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 10.32,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.024,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 11.03,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.193,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 11.199,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.226,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 11.232,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.366,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 11.372,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.401,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 11.406,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.467,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 11.474,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.536,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 11.542,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.636,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 11.642,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 11.702,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 7
+ },
+ {
+  "t": 11.708,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 12.177,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 12.183,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 12.379,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 12.385,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 12.445,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 12.451,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 12.646,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 12.652,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 12.713,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 12.721,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 12.815,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 12.822,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 13.188,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 13.194,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 13.221,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 13.227,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 13.662,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 13.669,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 13.998,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 14.003,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 14.136,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 14.142,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 14.205,
+  "obj": 131,
+  "name": "obj_rightbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 14.211,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 14.372,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 14.378,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 14.676,
+  "obj": 130,
+  "name": "obj_leftbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 14.682,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 14.709,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 14.715,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 14.743,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 14.749,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 14.777,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 14.783,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 15.077,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 15.082,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 15.381,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 15.387,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 15.885,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 15.89,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 16.523,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 16.529,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 16.624,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 16.63,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 16.659,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 16.665,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 16.893,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 16.899,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 16.927,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 16.933,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 17.062,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 17.068,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 17.298,
+  "obj": 125,
+  "name": "obj_pausebutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 17.304,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 17.331,
+  "obj": 65,
+  "name": "obj_bg",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 17.337,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 17.471,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 17.477,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 17.744,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 17.749,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 17.844,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 17.851,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 17.945,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 17.951,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 18.282,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 18.288,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 18.552,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 18.557,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.059,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.066,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.125,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 19.131,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.295,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 19.302,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.461,
+  "obj": 128,
+  "name": "obj_shootbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 19.467,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.495,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.5,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.563,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 19.568,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.763,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 19.769,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.798,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 19.805,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 19.933,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 19.938,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.069,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 20.074,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.244,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 9
+ },
+ {
+  "t": 20.251,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.514,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 20.52,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.614,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 20.619,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.647,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 20.653,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.683,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.688,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.849,
+  "obj": 65,
+  "name": "obj_bg",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 20.854,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 20.882,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 20.888,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.085,
+  "obj": 65,
+  "name": "obj_bg",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 21.094,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.218,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 21.224,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.251,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 21.257,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.286,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 21.291,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.32,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 21.325,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.42,
+  "obj": 128,
+  "name": "obj_shootbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 21.425,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.588,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 21.593,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.621,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 21.627,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.654,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 21.66,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 21.993,
+  "obj": 67,
+  "name": "obj_muting",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 21.999,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.027,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 22.033,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.062,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 22.073,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.234,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 3,
+  "en": 9
+ },
+ {
+  "t": 22.24,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.368,
+  "obj": 68,
+  "name": "obj_music",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.373,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.402,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 22.408,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.536,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 22.542,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.604,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.61,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.771,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.776,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.838,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 22.843,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.872,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 22.878,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 22.977,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 22.983,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.044,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 0
+ },
+ {
+  "t": 23.049,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.146,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 23.152,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.179,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 23.187,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.281,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.287,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.482,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 23.488,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.615,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.621,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.717,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 23.723,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.886,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 23.891,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 23.918,
+  "obj": 131,
+  "name": "obj_rightbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 23.924,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 24.152,
+  "obj": 0,
+  "name": "obj_player",
+  "et": 3,
+  "en": 0
+ },
+ {
+  "t": 24.158,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 24.624,
+  "obj": 126,
+  "name": "obj_weaponswap",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 24.63,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 24.759,
+  "obj": 131,
+  "name": "obj_rightbutton",
+  "et": 8,
+  "en": 0
+ },
+ {
+  "t": 24.765,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ },
+ {
+  "t": 24.858,
+  "obj": 66,
+  "name": "obj_UI",
+  "et": 8,
+  "en": 9
+ },
+ {
+  "t": 24.864,
+  "obj": 6,
+  "name": "obj_wall_2",
+  "et": 14,
+  "en": 9
+ }
+]
