@@ -1,0 +1,11343 @@
+[
+ {
+  "code_id": 11,
+  "object": "obj_player",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0011__gml_Object_obj_player_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 16,
+    "call": "audio_play_sound",
+    "sound": "snd_fire",
+    "args": [
+     "snd_fire",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (global.pistol == 1)"
+     ],
+     [
+      14,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 32,
+    "call": "audio_play_sound",
+    "sound": "snd_laser",
+    "args": [
+     "snd_laser",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      21,
+      "if (global.laser == 1 && obj_player.facing == 0)"
+     ],
+     [
+      30,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 46,
+    "call": "audio_play_sound",
+    "sound": "snd_laser",
+    "args": [
+     "snd_laser",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      35,
+      "else if (global.laser == 1 && obj_player.facing == 1)"
+     ],
+     [
+      44,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 57,
+    "call": "audio_play_sound",
+    "sound": "snd_ice",
+    "args": [
+     "snd_ice",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      49,
+      "if (global.icegun == 1)"
+     ],
+     [
+      55,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 74,
+    "call": "audio_play_sound",
+    "sound": "snd_shotgun",
+    "args": [
+     "snd_shotgun",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      62,
+      "if (global.shotgun == 1 && facing == 0)"
+     ],
+     [
+      72,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 91,
+    "call": "audio_play_sound",
+    "sound": "snd_shotgun",
+    "args": [
+     "snd_shotgun",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      79,
+      "else if (global.shotgun == 1 && facing == 1)"
+     ],
+     [
+      89,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 118,
+    "call": "audio_play_sound",
+    "sound": "snd_assaultrifle",
+    "args": [
+     "snd_assaultrifle",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      96,
+      "if (obj_player.facing == 1)"
+     ],
+     [
+      98,
+      "if (global.assaultrifle == 1 && assaultfire == 3)"
+     ],
+     [
+      111,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      116,
+      "else"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 147,
+    "call": "audio_play_sound",
+    "sound": "snd_assaultrifle",
+    "args": [
+     "snd_assaultrifle",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      125,
+      "if (obj_player.facing == 0)"
+     ],
+     [
+      127,
+      "if (global.assaultrifle == 1 && assaultfire == 3)"
+     ],
+     [
+      140,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      145,
+      "else"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 162,
+    "call": "audio_play_sound",
+    "sound": "snd_bombgun",
+    "args": [
+     "snd_bombgun",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      154,
+      "if ((global.rocket == 1) & (facing == 0))"
+     ],
+     [
+      160,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 175,
+    "call": "audio_play_sound",
+    "sound": "snd_bombgun",
+    "args": [
+     "snd_bombgun",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      167,
+      "if ((global.rocket == 1) & (facing == 1))"
+     ],
+     [
+      173,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 188,
+    "call": "audio_play_sound",
+    "sound": "snd_bombgun",
+    "args": [
+     "snd_bombgun",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      180,
+      "if ((global.bombgun == 1) & (facing == 0))"
+     ],
+     [
+      186,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 201,
+    "call": "audio_play_sound",
+    "sound": "snd_bombgun",
+    "args": [
+     "snd_bombgun",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      193,
+      "if ((global.bombgun == 1) & (facing == 1))"
+     ],
+     [
+      199,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 215,
+    "call": "audio_play_sound",
+    "sound": "snd_bow",
+    "args": [
+     "snd_bow",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      206,
+      "if ((global.bow == 1) & (facing == 0))"
+     ],
+     [
+      213,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 229,
+    "call": "audio_play_sound",
+    "sound": "snd_bow",
+    "args": [
+     "snd_bow",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      220,
+      "if ((global.bow == 1) & (facing == 1))"
+     ],
+     [
+      227,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 242,
+    "call": "audio_play_sound",
+    "sound": "snd_blade",
+    "args": [
+     "snd_blade",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      234,
+      "if ((global.bladegun == 1) & (facing == 0))"
+     ],
+     [
+      240,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 255,
+    "call": "audio_play_sound",
+    "sound": "snd_blade",
+    "args": [
+     "snd_blade",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      247,
+      "if ((global.bladegun == 1) & (facing == 1))"
+     ],
+     [
+      253,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 270,
+    "call": "audio_play_sound",
+    "sound": "snd_flamethrower",
+    "args": [
+     "snd_flamethrower",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      260,
+      "if (obj_player.facing == 1)"
+     ],
+     [
+      262,
+      "if (global.flamethrower == 1)"
+     ],
+     [
+      268,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 286,
+    "call": "audio_play_sound",
+    "sound": "snd_flamethrower",
+    "args": [
+     "snd_flamethrower",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      276,
+      "if (obj_player.facing == 0)"
+     ],
+     [
+      278,
+      "if (global.flamethrower == 1)"
+     ],
+     [
+      284,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 303,
+    "call": "audio_play_sound",
+    "sound": "snd_sword",
+    "args": [
+     "snd_sword",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      292,
+      "if (obj_player.facing == 1)"
+     ],
+     [
+      294,
+      "if (global.boomerang == 1)"
+     ],
+     [
+      301,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 320,
+    "call": "audio_play_sound",
+    "sound": "snd_sword",
+    "args": [
+     "snd_sword",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      309,
+      "if (obj_player.facing == 0)"
+     ],
+     [
+      311,
+      "if (global.boomerang == 1)"
+     ],
+     [
+      318,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 334,
+    "call": "audio_play_sound",
+    "sound": "snd_bombgun",
+    "args": [
+     "snd_bombgun",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      326,
+      "if ((global.spikegun == 1) & (facing == 0))"
+     ],
+     [
+      332,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 347,
+    "call": "audio_play_sound",
+    "sound": "snd_bombgun",
+    "args": [
+     "snd_bombgun",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      339,
+      "if ((global.spikegun == 1) & (facing == 1))"
+     ],
+     [
+      345,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 12,
+  "object": "obj_player",
+  "event": "Step",
+  "sub": 0,
+  "file": "0012__gml_Object_obj_player_Step_0.gml",
+  "calls": [
+   {
+    "line": 183,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      153,
+      "if (instance_exists(obj_knifebandit))"
+     ],
+     [
+      155,
+      "if (hitknifebandit != -4)"
+     ],
+     [
+      157,
+      "if (facing == 0)"
+     ],
+     [
+      159,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      161,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      181,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 237,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      153,
+      "if (instance_exists(obj_knifebandit))"
+     ],
+     [
+      209,
+      "if (hitknifebandit != -4)"
+     ],
+     [
+      211,
+      "if (facing == 1)"
+     ],
+     [
+      213,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      215,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      235,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 294,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      264,
+      "if (instance_exists(obj_wolf))"
+     ],
+     [
+      266,
+      "if (hitwolf != -4)"
+     ],
+     [
+      268,
+      "if (facing == 0)"
+     ],
+     [
+      270,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      272,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      292,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 348,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      264,
+      "if (instance_exists(obj_wolf))"
+     ],
+     [
+      320,
+      "if (hitwolf != -4)"
+     ],
+     [
+      322,
+      "if (facing == 1)"
+     ],
+     [
+      324,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      326,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      346,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 405,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      375,
+      "if (instance_exists(obj_enemy))"
+     ],
+     [
+      377,
+      "if (hitenemy != -4)"
+     ],
+     [
+      379,
+      "if (facing == 0)"
+     ],
+     [
+      381,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      383,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      403,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 459,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      375,
+      "if (instance_exists(obj_enemy))"
+     ],
+     [
+      431,
+      "if (hitenemy != -4)"
+     ],
+     [
+      433,
+      "if (facing == 1)"
+     ],
+     [
+      435,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      437,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      457,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 516,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      486,
+      "if (instance_exists(obj_enemy2))"
+     ],
+     [
+      488,
+      "if (hitenemy2 != -4)"
+     ],
+     [
+      490,
+      "if (facing == 0)"
+     ],
+     [
+      492,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      494,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      514,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 570,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      486,
+      "if (instance_exists(obj_enemy2))"
+     ],
+     [
+      542,
+      "if (hitenemy2 != -4)"
+     ],
+     [
+      544,
+      "if (facing == 1)"
+     ],
+     [
+      546,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      548,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      568,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 627,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      597,
+      "if (instance_exists(obj_trex))"
+     ],
+     [
+      599,
+      "if (hitenemytrex != -4)"
+     ],
+     [
+      601,
+      "if (facing == 0)"
+     ],
+     [
+      603,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      605,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      625,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 681,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      597,
+      "if (instance_exists(obj_trex))"
+     ],
+     [
+      653,
+      "if (hitenemytrex != -4)"
+     ],
+     [
+      655,
+      "if (facing == 1)"
+     ],
+     [
+      657,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      659,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      679,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 738,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      708,
+      "if (instance_exists(obj_bat))"
+     ],
+     [
+      710,
+      "if (hitenemybat != -4)"
+     ],
+     [
+      712,
+      "if (facing == 0)"
+     ],
+     [
+      714,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      716,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      736,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 792,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      708,
+      "if (instance_exists(obj_bat))"
+     ],
+     [
+      764,
+      "if (hitenemybat != -4)"
+     ],
+     [
+      766,
+      "if (facing == 1)"
+     ],
+     [
+      768,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      770,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      790,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 849,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      819,
+      "if (instance_exists(obj_slime))"
+     ],
+     [
+      821,
+      "if (hitenemyslime != -4)"
+     ],
+     [
+      823,
+      "if (facing == 0)"
+     ],
+     [
+      825,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      827,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      847,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 903,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      819,
+      "if (instance_exists(obj_slime))"
+     ],
+     [
+      875,
+      "if (hitenemyslime != -4)"
+     ],
+     [
+      877,
+      "if (facing == 1)"
+     ],
+     [
+      879,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      881,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      901,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 960,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      930,
+      "if (instance_exists(obj_ghost))"
+     ],
+     [
+      932,
+      "if (hitenemyghost != -4)"
+     ],
+     [
+      934,
+      "if (facing == 0)"
+     ],
+     [
+      936,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      938,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      958,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1014,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      930,
+      "if (instance_exists(obj_ghost))"
+     ],
+     [
+      986,
+      "if (hitenemyghost != -4)"
+     ],
+     [
+      988,
+      "if (facing == 1)"
+     ],
+     [
+      990,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      992,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1012,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1071,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1041,
+      "if (instance_exists(obj_shooter1))"
+     ],
+     [
+      1043,
+      "if (hitenemyshooter1 != -4)"
+     ],
+     [
+      1045,
+      "if (facing == 0)"
+     ],
+     [
+      1047,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1049,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1069,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1125,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1041,
+      "if (instance_exists(obj_shooter1))"
+     ],
+     [
+      1097,
+      "if (hitenemyshooter1 != -4)"
+     ],
+     [
+      1099,
+      "if (facing == 1)"
+     ],
+     [
+      1101,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1103,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1123,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1183,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1153,
+      "if (instance_exists(obj_shooter2))"
+     ],
+     [
+      1155,
+      "if (hitenemyshooter2 != -4)"
+     ],
+     [
+      1157,
+      "if (facing == 0)"
+     ],
+     [
+      1159,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1161,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1181,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1238,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1153,
+      "if (instance_exists(obj_shooter2))"
+     ],
+     [
+      1210,
+      "if (hitenemyshooter2 != -4)"
+     ],
+     [
+      1212,
+      "if (facing == 1)"
+     ],
+     [
+      1214,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1216,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1236,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1295,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1265,
+      "if (instance_exists(obj_fireslime))"
+     ],
+     [
+      1267,
+      "if (hitenemyfireslime != -4)"
+     ],
+     [
+      1269,
+      "if (facing == 0)"
+     ],
+     [
+      1271,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1273,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1293,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1349,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1265,
+      "if (instance_exists(obj_fireslime))"
+     ],
+     [
+      1321,
+      "if (hitenemyfireslime != -4)"
+     ],
+     [
+      1323,
+      "if (facing == 1)"
+     ],
+     [
+      1325,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1327,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1347,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1406,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1376,
+      "if (instance_exists(obj_hulkingbandit))"
+     ],
+     [
+      1378,
+      "if (hitenemyhulkingbandit != -4)"
+     ],
+     [
+      1380,
+      "if (facing == 0)"
+     ],
+     [
+      1382,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1384,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1404,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1460,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1376,
+      "if (instance_exists(obj_hulkingbandit))"
+     ],
+     [
+      1432,
+      "if (hitenemyhulkingbandit != -4)"
+     ],
+     [
+      1434,
+      "if (facing == 1)"
+     ],
+     [
+      1436,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1438,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1458,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1517,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1487,
+      "if (instance_exists(obj_zombie))"
+     ],
+     [
+      1489,
+      "if (hitenemyzombie != -4)"
+     ],
+     [
+      1491,
+      "if (facing == 0)"
+     ],
+     [
+      1493,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1495,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1515,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1571,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1487,
+      "if (instance_exists(obj_zombie))"
+     ],
+     [
+      1543,
+      "if (hitenemyzombie != -4)"
+     ],
+     [
+      1545,
+      "if (facing == 1)"
+     ],
+     [
+      1547,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1549,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1569,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1628,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1598,
+      "if (instance_exists(obj_firehulk))"
+     ],
+     [
+      1600,
+      "if (hitfirehulk != -4)"
+     ],
+     [
+      1602,
+      "if (facing == 0)"
+     ],
+     [
+      1604,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1606,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1626,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1682,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1598,
+      "if (instance_exists(obj_firehulk))"
+     ],
+     [
+      1654,
+      "if (hitfirehulk != -4)"
+     ],
+     [
+      1656,
+      "if (facing == 1)"
+     ],
+     [
+      1658,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1660,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1680,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1739,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1709,
+      "if (instance_exists(obj_skeleton))"
+     ],
+     [
+      1711,
+      "if (hitenemyskeleton != -4)"
+     ],
+     [
+      1713,
+      "if (facing == 0)"
+     ],
+     [
+      1715,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1717,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1737,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1793,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1709,
+      "if (instance_exists(obj_skeleton))"
+     ],
+     [
+      1765,
+      "if (hitenemyskeleton != -4)"
+     ],
+     [
+      1767,
+      "if (facing == 1)"
+     ],
+     [
+      1769,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1771,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1791,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1850,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1820,
+      "if (instance_exists(obj_boss2))"
+     ],
+     [
+      1822,
+      "if (hitboss2 != -4)"
+     ],
+     [
+      1824,
+      "if (facing == 0)"
+     ],
+     [
+      1826,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1828,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1848,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1904,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1820,
+      "if (instance_exists(obj_boss2))"
+     ],
+     [
+      1876,
+      "if (hitboss2 != -4)"
+     ],
+     [
+      1878,
+      "if (facing == 1)"
+     ],
+     [
+      1880,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1882,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1902,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 1961,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1931,
+      "if (instance_exists(obj_boss3))"
+     ],
+     [
+      1933,
+      "if (hitboss3 != -4)"
+     ],
+     [
+      1935,
+      "if (facing == 0)"
+     ],
+     [
+      1937,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1939,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      1959,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2015,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1931,
+      "if (instance_exists(obj_boss3))"
+     ],
+     [
+      1987,
+      "if (hitboss3 != -4)"
+     ],
+     [
+      1989,
+      "if (facing == 1)"
+     ],
+     [
+      1991,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      1993,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      2013,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2072,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      2042,
+      "if (instance_exists(obj_boss4))"
+     ],
+     [
+      2044,
+      "if (hitboss4 != -4)"
+     ],
+     [
+      2046,
+      "if (facing == 0)"
+     ],
+     [
+      2048,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      2050,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      2070,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2126,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      2042,
+      "if (instance_exists(obj_boss4))"
+     ],
+     [
+      2098,
+      "if (hitboss4 != -4)"
+     ],
+     [
+      2100,
+      "if (facing == 1)"
+     ],
+     [
+      2102,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      2104,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      2124,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2183,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      2153,
+      "if (instance_exists(obj_boss5))"
+     ],
+     [
+      2155,
+      "if (hitboss5 != -4)"
+     ],
+     [
+      2157,
+      "if (facing == 0)"
+     ],
+     [
+      2159,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      2161,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      2181,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2237,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      2153,
+      "if (instance_exists(obj_boss5))"
+     ],
+     [
+      2209,
+      "if (hitboss5 != -4)"
+     ],
+     [
+      2211,
+      "if (facing == 1)"
+     ],
+     [
+      2213,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      2215,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      2235,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2294,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      2264,
+      "if (instance_exists(obj_finalboss))"
+     ],
+     [
+      2266,
+      "if (hitfinalboss != -4)"
+     ],
+     [
+      2268,
+      "if (facing == 0)"
+     ],
+     [
+      2270,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      2272,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      2292,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2348,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      2264,
+      "if (instance_exists(obj_finalboss))"
+     ],
+     [
+      2320,
+      "if (hitfinalboss != -4)"
+     ],
+     [
+      2322,
+      "if (facing == 1)"
+     ],
+     [
+      2324,
+      "if (invulnerable == 0 && invulnerable2 == 0)"
+     ],
+     [
+      2326,
+      "if (global.rebuff != 1)"
+     ],
+     [
+      2346,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2383,
+    "call": "audio_play_sound",
+    "sound": "snd_youhavedied",
+    "args": [
+     "snd_youhavedied",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      2375,
+      "if (global.health1 == 1)"
+     ],
+     [
+      2381,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 2651,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      2611,
+      "if (hitpickup != -4)"
+     ],
+     [
+      2643,
+      "else if (hitpickup.type == 4)"
+     ],
+     [
+      2649,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 21,
+  "object": "obj_house",
+  "event": "Alarm",
+  "sub": 6,
+  "file": "0021__gml_Object_obj_house_Alarm_6.gml",
+  "calls": [
+   {
+    "line": 59,
+    "call": "audio_play_sound",
+    "sound": "snd_weaponlevelup",
+    "args": [
+     "snd_weaponlevelup",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (instance_place(x, y, obj_player) && global.gemsfromhouse == 0)"
+     ],
+     [
+      57,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 46,
+  "object": "obj_enemy",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0046__gml_Object_obj_enemy_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 55,
+  "object": "obj_knifebandit",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0055__gml_Object_obj_knifebandit_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 65,
+  "object": "obj_shooter1",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0065__gml_Object_obj_shooter1_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 16,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      6,
+      "if (image_xscale == 1)"
+     ],
+     [
+      14,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 31,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound5",
+    "args": [
+     "snd_impactsound5",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      20,
+      "if (image_xscale == -1)"
+     ],
+     [
+      29,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 66,
+  "object": "obj_shooter1",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0066__gml_Object_obj_shooter1_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 76,
+  "object": "obj_skeleton",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0076__gml_Object_obj_skeleton_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 15,
+    "call": "audio_play_sound",
+    "sound": "snd_sword",
+    "args": [
+     "snd_sword",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      6,
+      "if (facing == 0)"
+     ],
+     [
+      13,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 27,
+    "call": "audio_play_sound",
+    "sound": "snd_sword",
+    "args": [
+     "snd_sword",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      18,
+      "if (facing == 1)"
+     ],
+     [
+      25,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 77,
+  "object": "obj_skeleton",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0077__gml_Object_obj_skeleton_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 87,
+  "object": "obj_firehulk",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0087__gml_Object_obj_firehulk_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 15,
+    "call": "audio_play_sound",
+    "sound": "snd_sword2",
+    "args": [
+     "snd_sword2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      6,
+      "if (facing == 0)"
+     ],
+     [
+      13,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 27,
+    "call": "audio_play_sound",
+    "sound": "snd_sword2",
+    "args": [
+     "snd_sword2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      18,
+      "if (facing == 1)"
+     ],
+     [
+      25,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 88,
+  "object": "obj_firehulk",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0088__gml_Object_obj_firehulk_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 97,
+  "object": "obj_zombie",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0097__gml_Object_obj_zombie_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 108,
+  "object": "obj_shooter2",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0108__gml_Object_obj_shooter2_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 13,
+    "call": "audio_play_sound",
+    "sound": "snd_fire",
+    "args": [
+     "snd_fire",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      6,
+      "if (!collision_line(x, y, obj_player.x, obj_player.y, par_wall, true, true))"
+     ],
+     [
+      11,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 29,
+    "call": "audio_play_sound",
+    "sound": "snd_fire",
+    "args": [
+     "snd_fire",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      6,
+      "if (!collision_line(x, y, obj_player.x, obj_player.y, par_wall, true, true))"
+     ],
+     [
+      22,
+      "if (facing == 1 && hpshooter2frozen == 0)"
+     ],
+     [
+      27,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 109,
+  "object": "obj_shooter2",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0109__gml_Object_obj_shooter2_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 119,
+  "object": "obj_hulkingbandit",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0119__gml_Object_obj_hulkingbandit_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 21,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      6,
+      "if (!collision_line(x, y, obj_player.x, obj_player.y, par_wall, true, true) && image_xscale == 1)"
+     ],
+     [
+      8,
+      "if (distance_to_object(obj_player) <= 200)"
+     ],
+     [
+      10,
+      "if (hphulkingbanditfrozen == 0)"
+     ],
+     [
+      19,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 43,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else"
+     ],
+     [
+      28,
+      "else if (!collision_line(x, y, obj_player.x, obj_player.y, par_wall, true, true) && image_xscale == -1)"
+     ],
+     [
+      30,
+      "if (distance_to_object(obj_player) <= 200)"
+     ],
+     [
+      32,
+      "if (hphulkingbanditfrozen == 0)"
+     ],
+     [
+      41,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 120,
+  "object": "obj_hulkingbandit",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0120__gml_Object_obj_hulkingbandit_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 132,
+  "object": "obj_enemy2",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0132__gml_Object_obj_enemy2_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 142,
+  "object": "obj_wolf",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0142__gml_Object_obj_wolf_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 151,
+  "object": "obj_ghost",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0151__gml_Object_obj_ghost_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_bee",
+    "args": [
+     "snd_bee",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 155,
+  "object": "obj_trex",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0155__gml_Object_obj_trex_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 1,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   },
+   {
+    "line": 2,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssongending",
+    "args": [
+     "mus_bosssongending",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 160,
+  "object": "obj_trex",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0160__gml_Object_obj_trex_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 164,
+  "object": "obj_boss2",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0164__gml_Object_obj_boss2_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 17,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   },
+   {
+    "line": 18,
+    "call": "audio_play_sound",
+    "sound": "mus_technoending",
+    "args": [
+     "mus_technoending",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 168,
+  "object": "obj_boss2",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0168__gml_Object_obj_boss2_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 172,
+  "object": "obj_boss3",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0172__gml_Object_obj_boss3_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 15,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   },
+   {
+    "line": 16,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssongending",
+    "args": [
+     "mus_bosssongending",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 184,
+  "object": "obj_boss3",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0184__gml_Object_obj_boss3_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 188,
+  "object": "obj_boss4",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0188__gml_Object_obj_boss4_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 1,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   },
+   {
+    "line": 2,
+    "call": "audio_play_sound",
+    "sound": "mus_technoending",
+    "args": [
+     "mus_technoending",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 196,
+  "object": "obj_boss4",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0196__gml_Object_obj_boss4_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 200,
+  "object": "obj_boss5",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0200__gml_Object_obj_boss5_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 1,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   },
+   {
+    "line": 2,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssongending",
+    "args": [
+     "mus_bosssongending",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 203,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 9,
+  "file": "0203__gml_Object_obj_boss5_Alarm_9.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 204,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 8,
+  "file": "0204__gml_Object_obj_boss5_Alarm_8.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 205,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 7,
+  "file": "0205__gml_Object_obj_boss5_Alarm_7.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 206,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 6,
+  "file": "0206__gml_Object_obj_boss5_Alarm_6.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 208,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 4,
+  "file": "0208__gml_Object_obj_boss5_Alarm_4.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 209,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 3,
+  "file": "0209__gml_Object_obj_boss5_Alarm_3.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 210,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 2,
+  "file": "0210__gml_Object_obj_boss5_Alarm_2.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 211,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0211__gml_Object_obj_boss5_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 11,
+    "call": "audio_play_sound",
+    "sound": "snd_rocket",
+    "args": [
+     "snd_rocket",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (room != rm_ending)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 212,
+  "object": "obj_boss5",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0212__gml_Object_obj_boss5_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 216,
+  "object": "obj_finalboss",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0216__gml_Object_obj_finalboss_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 1,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   },
+   {
+    "line": 2,
+    "call": "audio_play_sound",
+    "sound": "mus_technoending",
+    "args": [
+     "mus_technoending",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 228,
+  "object": "obj_finalboss",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0228__gml_Object_obj_finalboss_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 241,
+  "object": "obj_bat",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0241__gml_Object_obj_bat_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 250,
+  "object": "obj_slime",
+  "event": "Alarm",
+  "sub": 2,
+  "file": "0250__gml_Object_obj_slime_Alarm_2.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 262,
+  "object": "obj_fireslime",
+  "event": "Alarm",
+  "sub": 2,
+  "file": "0262__gml_Object_obj_fireslime_Alarm_2.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 270,
+  "object": "obj_flame",
+  "event": "Step",
+  "sub": 0,
+  "file": "0270__gml_Object_obj_flame_Step_0.gml",
+  "calls": [
+   {
+    "line": 24,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      10,
+      "if (hitknife != -4)"
+     ],
+     [
+      20,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      22,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 48,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      34,
+      "if (hit != -4)"
+     ],
+     [
+      44,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      46,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 72,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      58,
+      "if (hitwolf != -4)"
+     ],
+     [
+      68,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      70,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 96,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      82,
+      "if (hit2 != -4)"
+     ],
+     [
+      92,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      94,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 120,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      106,
+      "if (hittrex != -4)"
+     ],
+     [
+      116,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      118,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 144,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      130,
+      "if (hit4 != -4)"
+     ],
+     [
+      140,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      142,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 168,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      154,
+      "if (hit5 != -4)"
+     ],
+     [
+      164,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      166,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 192,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      178,
+      "if (hit7 != -4)"
+     ],
+     [
+      188,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      190,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 216,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      202,
+      "if (hit8 != -4)"
+     ],
+     [
+      212,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      214,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 240,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      226,
+      "if (hit9 != -4)"
+     ],
+     [
+      236,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      238,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 264,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      250,
+      "if (hit10 != -4)"
+     ],
+     [
+      260,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      262,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 288,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      274,
+      "if (hit11 != -4)"
+     ],
+     [
+      284,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      286,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 312,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      298,
+      "if (hit12 != -4)"
+     ],
+     [
+      308,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      310,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 336,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      322,
+      "if (hit13 != -4)"
+     ],
+     [
+      332,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      334,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 360,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      346,
+      "if (hit14 != -4)"
+     ],
+     [
+      356,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      358,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 384,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      370,
+      "if (hit15 != -4)"
+     ],
+     [
+      380,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      382,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 408,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      394,
+      "if (hit16 != -4)"
+     ],
+     [
+      404,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      406,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 428,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      414,
+      "if (hitboss4 != -4)"
+     ],
+     [
+      424,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      426,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 448,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      434,
+      "if (hitboss5 != -4)"
+     ],
+     [
+      444,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      446,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 468,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      454,
+      "if (hit17 != -4)"
+     ],
+     [
+      464,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      466,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 274,
+  "object": "obj_blade",
+  "event": "Step",
+  "sub": 0,
+  "file": "0274__gml_Object_obj_blade_Step_0.gml",
+  "calls": [
+   {
+    "line": 29,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      17,
+      "if (hitknife != -4)"
+     ],
+     [
+      27,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 55,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      43,
+      "if (hit != -4)"
+     ],
+     [
+      53,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 81,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      69,
+      "if (hitwolf != -4)"
+     ],
+     [
+      79,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 107,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      95,
+      "if (hit2 != -4)"
+     ],
+     [
+      105,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 133,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      121,
+      "if (hittrex != -4)"
+     ],
+     [
+      131,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 154,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      142,
+      "if (hit4 != -4)"
+     ],
+     [
+      152,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 180,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      168,
+      "if (hit5 != -4)"
+     ],
+     [
+      178,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 206,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      194,
+      "if (hit7 != -4)"
+     ],
+     [
+      204,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 232,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      220,
+      "if (hit8 != -4)"
+     ],
+     [
+      230,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 258,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      246,
+      "if (hit9 != -4)"
+     ],
+     [
+      256,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 284,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      272,
+      "if (hit10 != -4)"
+     ],
+     [
+      282,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 310,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      298,
+      "if (hit11 != -4)"
+     ],
+     [
+      308,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 336,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      324,
+      "if (hit12 != -4)"
+     ],
+     [
+      334,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 362,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      350,
+      "if (hit13 != -4)"
+     ],
+     [
+      360,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 388,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      376,
+      "if (hit14 != -4)"
+     ],
+     [
+      386,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 414,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      402,
+      "if (hit15 != -4)"
+     ],
+     [
+      412,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 435,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      423,
+      "if (hit16 != -4)"
+     ],
+     [
+      433,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 452,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      440,
+      "if (hitboss4 != -4)"
+     ],
+     [
+      450,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 469,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      457,
+      "if (hitboss5 != -4)"
+     ],
+     [
+      467,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 486,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      474,
+      "if (hit17 != -4)"
+     ],
+     [
+      484,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 277,
+  "object": "obj_bomb",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0277__gml_Object_obj_bomb_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 15,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      13,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 278,
+  "object": "obj_bomb",
+  "event": "Step",
+  "sub": 0,
+  "file": "0278__gml_Object_obj_bomb_Step_0.gml",
+  "calls": [
+   {
+    "line": 23,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      10,
+      "if (hitknife != -4 && canhit == 0)"
+     ],
+     [
+      21,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 46,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      33,
+      "if (hit != -4 && canhit == 0)"
+     ],
+     [
+      44,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 69,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      56,
+      "if (hitwolf != -4 && canhit == 0)"
+     ],
+     [
+      67,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 92,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      79,
+      "if (hit2 != -4 && canhit == 0)"
+     ],
+     [
+      90,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 119,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      106,
+      "if (hit4 != -4 && canhit == 0)"
+     ],
+     [
+      117,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 142,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      129,
+      "if (hit5 != -4 && canhit == 0)"
+     ],
+     [
+      140,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 165,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      152,
+      "if (hit7 != -4 && canhit == 0)"
+     ],
+     [
+      163,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 188,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      175,
+      "if (hit8 != -4 && canhit == 0)"
+     ],
+     [
+      186,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 211,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      198,
+      "if (hit9 != -4 && canhit == 0)"
+     ],
+     [
+      209,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 234,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      221,
+      "if (hit10 != -4 && canhit == 0)"
+     ],
+     [
+      232,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 257,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      244,
+      "if (hit11 != -4 && canhit == 0)"
+     ],
+     [
+      255,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 280,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      267,
+      "if (hit12 != -4 && canhit == 0)"
+     ],
+     [
+      278,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 303,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      290,
+      "if (hit13 != -4 && canhit == 0)"
+     ],
+     [
+      301,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 326,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      313,
+      "if (hit14 != -4 && canhit == 0)"
+     ],
+     [
+      324,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 281,
+  "object": "obj_arrow",
+  "event": "Step",
+  "sub": 0,
+  "file": "0281__gml_Object_obj_arrow_Step_0.gml",
+  "calls": [
+   {
+    "line": 25,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      9,
+      "if (hitknife != -4)"
+     ],
+     [
+      23,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 49,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      33,
+      "if (hitwolf != -4)"
+     ],
+     [
+      47,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 73,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      57,
+      "if (hit != -4)"
+     ],
+     [
+      71,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 97,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      81,
+      "if (hit2 != -4)"
+     ],
+     [
+      95,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 119,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      105,
+      "if (hittrex != -4)"
+     ],
+     [
+      117,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 143,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      127,
+      "if (hit4 != -4)"
+     ],
+     [
+      141,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 167,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      151,
+      "if (hit5 != -4)"
+     ],
+     [
+      165,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 191,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      175,
+      "if (hit7 != -4)"
+     ],
+     [
+      189,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 215,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      199,
+      "if (hit8 != -4)"
+     ],
+     [
+      213,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 239,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      223,
+      "if (hit9 != -4)"
+     ],
+     [
+      237,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 263,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      247,
+      "if (hit10 != -4)"
+     ],
+     [
+      261,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 287,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      271,
+      "if (hit11 != -4)"
+     ],
+     [
+      285,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 311,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      295,
+      "if (hit12 != -4)"
+     ],
+     [
+      309,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 335,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      319,
+      "if (hit13 != -4)"
+     ],
+     [
+      333,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 360,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      343,
+      "if (hit14 != -4)"
+     ],
+     [
+      358,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 382,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      368,
+      "if (hit15 != -4)"
+     ],
+     [
+      380,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 404,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      390,
+      "if (hit16 != -4)"
+     ],
+     [
+      402,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 422,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      408,
+      "if (hitboss4 != -4)"
+     ],
+     [
+      420,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 440,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      426,
+      "if (hitboss5 != -4)"
+     ],
+     [
+      438,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 458,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      444,
+      "if (hit17 != -4)"
+     ],
+     [
+      456,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 284,
+  "object": "obj_bullet",
+  "event": "Step",
+  "sub": 0,
+  "file": "0284__gml_Object_obj_bullet_Step_0.gml",
+  "calls": [
+   {
+    "line": 40,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      8,
+      "if (hitknife != -4 && canhit == 0)"
+     ],
+     [
+      38,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 83,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      51,
+      "if (hitwolf != -4 && canhit == 0)"
+     ],
+     [
+      81,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 126,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      94,
+      "if (hit != -4 && canhit == 0)"
+     ],
+     [
+      124,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 169,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      137,
+      "if (hit2 != -4 && canhit == 0)"
+     ],
+     [
+      167,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 212,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      180,
+      "if (hittrex != -4 && canhit == 0)"
+     ],
+     [
+      210,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 253,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      221,
+      "if (hit4 != -4 && canhit == 0)"
+     ],
+     [
+      251,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 296,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      264,
+      "if (hit5 != -4 && canhit == 0)"
+     ],
+     [
+      294,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 339,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      307,
+      "if (hit7 != -4 && canhit == 0)"
+     ],
+     [
+      337,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 382,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      350,
+      "if (hit8 != -4 && canhit == 0)"
+     ],
+     [
+      380,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 425,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      393,
+      "if (hit9 != -4 && canhit == 0)"
+     ],
+     [
+      423,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 468,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      436,
+      "if (hit10 != -4 && canhit == 0)"
+     ],
+     [
+      466,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 511,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      479,
+      "if (hit11 != -4 && canhit == 0)"
+     ],
+     [
+      509,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 554,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      522,
+      "if (hit12 != -4 && canhit == 0)"
+     ],
+     [
+      552,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 597,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      565,
+      "if (hit13 != -4 && canhit == 0)"
+     ],
+     [
+      595,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 640,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      608,
+      "if (hit14 != -4 && canhit == 0)"
+     ],
+     [
+      638,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 683,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      651,
+      "if (hit15 != -4 && canhit == 0)"
+     ],
+     [
+      681,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 724,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      692,
+      "if (hit16 != -4 && canhit == 0)"
+     ],
+     [
+      722,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 764,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      732,
+      "if (hitboss4 != -4 && canhit == 0)"
+     ],
+     [
+      762,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 801,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      769,
+      "if (hitboss5 != -4 && canhit == 0)"
+     ],
+     [
+      799,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 838,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      806,
+      "if (hit17 != -4 && canhit == 0)"
+     ],
+     [
+      836,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 286,
+  "object": "obj_iceball",
+  "event": "Step",
+  "sub": 0,
+  "file": "0286__gml_Object_obj_iceball_Step_0.gml",
+  "calls": [
+   {
+    "line": 22,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      8,
+      "if (hitknife != -4)"
+     ],
+     [
+      20,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 42,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      28,
+      "if (hitwolf != -4)"
+     ],
+     [
+      40,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 62,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      48,
+      "if (hit != -4)"
+     ],
+     [
+      60,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 82,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      68,
+      "if (hit2 != -4)"
+     ],
+     [
+      80,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 100,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      88,
+      "if (hittrex != -4)"
+     ],
+     [
+      98,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 120,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      106,
+      "if (hit4 != -4)"
+     ],
+     [
+      118,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 140,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      126,
+      "if (hit5 != -4)"
+     ],
+     [
+      138,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 160,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      146,
+      "if (hit7 != -4)"
+     ],
+     [
+      158,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 180,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      166,
+      "if (hit8 != -4)"
+     ],
+     [
+      178,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 200,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      186,
+      "if (hit9 != -4)"
+     ],
+     [
+      198,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 220,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      206,
+      "if (hit10 != -4)"
+     ],
+     [
+      218,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 240,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      226,
+      "if (hit11 != -4)"
+     ],
+     [
+      238,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 260,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      246,
+      "if (hit12 != -4)"
+     ],
+     [
+      258,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 280,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      266,
+      "if (hit13 != -4)"
+     ],
+     [
+      278,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 298,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      286,
+      "if (hit14 != -4)"
+     ],
+     [
+      296,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 289,
+  "object": "obj_laserbeam",
+  "event": "Step",
+  "sub": 0,
+  "file": "0289__gml_Object_obj_laserbeam_Step_0.gml",
+  "calls": [
+   {
+    "line": 21,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      3,
+      "if (hitknife != -4)"
+     ],
+     [
+      19,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 48,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      30,
+      "if (hitwolf != -4)"
+     ],
+     [
+      46,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 73,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      57,
+      "if (hit != -4)"
+     ],
+     [
+      71,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 98,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      82,
+      "if (hit2 != -4)"
+     ],
+     [
+      96,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 123,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      107,
+      "if (hittrex != -4)"
+     ],
+     [
+      121,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 148,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      132,
+      "if (hit4 != -4)"
+     ],
+     [
+      146,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 173,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      157,
+      "if (hit5 != -4)"
+     ],
+     [
+      171,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 198,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      182,
+      "if (hit7 != -4)"
+     ],
+     [
+      196,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 223,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      207,
+      "if (hit8 != -4)"
+     ],
+     [
+      221,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 248,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      232,
+      "if (hit9 != -4)"
+     ],
+     [
+      246,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 273,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      257,
+      "if (hit10 != -4)"
+     ],
+     [
+      271,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 298,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      282,
+      "if (hit11 != -4)"
+     ],
+     [
+      296,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 323,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      307,
+      "if (hit12 != -4)"
+     ],
+     [
+      321,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 348,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      332,
+      "if (hit13 != -4)"
+     ],
+     [
+      346,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 374,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      357,
+      "if (hit14 != -4)"
+     ],
+     [
+      372,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 399,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      383,
+      "if (hit15 != -4)"
+     ],
+     [
+      397,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 424,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      408,
+      "if (hit16 != -4)"
+     ],
+     [
+      422,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 445,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      429,
+      "if (hitboss4 != -4)"
+     ],
+     [
+      443,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 466,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      450,
+      "if (hitboss5 != -4)"
+     ],
+     [
+      464,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 487,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      471,
+      "if (hit17 != -4)"
+     ],
+     [
+      485,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 294,
+  "object": "obj_spikegunspike",
+  "event": "Step",
+  "sub": 0,
+  "file": "0294__gml_Object_obj_spikegunspike_Step_0.gml",
+  "calls": [
+   {
+    "line": 41,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      26,
+      "if (hitknife != -4)"
+     ],
+     [
+      39,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 65,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      50,
+      "if (hitknife2 != -4)"
+     ],
+     [
+      63,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 89,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      74,
+      "if (hit != -4)"
+     ],
+     [
+      87,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 113,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      98,
+      "if (hitalt != -4)"
+     ],
+     [
+      111,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 137,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      122,
+      "if (hitwolf != -4)"
+     ],
+     [
+      135,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 161,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      146,
+      "if (hitwolfalt != -4)"
+     ],
+     [
+      159,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 185,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      170,
+      "if (hit2 != -4)"
+     ],
+     [
+      183,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 209,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      194,
+      "if (hit2alt != -4)"
+     ],
+     [
+      207,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 231,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      218,
+      "if (hittrex != -4)"
+     ],
+     [
+      229,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 253,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      240,
+      "if (hittrexalt != -4)"
+     ],
+     [
+      251,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 275,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      262,
+      "if (hit4 != -4)"
+     ],
+     [
+      273,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 299,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      286,
+      "if (hit4alt != -4)"
+     ],
+     [
+      297,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 323,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      310,
+      "if (hit5 != -4)"
+     ],
+     [
+      321,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 347,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      334,
+      "if (hit5alt != -4)"
+     ],
+     [
+      345,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 371,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      358,
+      "if (hit7 != -4)"
+     ],
+     [
+      369,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 395,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      382,
+      "if (hit7alt != -4)"
+     ],
+     [
+      393,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 419,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      406,
+      "if (hit8 != -4)"
+     ],
+     [
+      417,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 443,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      430,
+      "if (hit8alt != -4)"
+     ],
+     [
+      441,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 467,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      454,
+      "if (hit9 != -4)"
+     ],
+     [
+      465,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 491,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      478,
+      "if (hit9alt != -4)"
+     ],
+     [
+      489,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 515,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      502,
+      "if (hit10 != -4)"
+     ],
+     [
+      513,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 539,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      526,
+      "if (hit10alt != -4)"
+     ],
+     [
+      537,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 563,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      550,
+      "if (hit11 != -4)"
+     ],
+     [
+      561,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 587,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      574,
+      "if (hit11alt != -4)"
+     ],
+     [
+      585,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 611,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      598,
+      "if (hit12 != -4)"
+     ],
+     [
+      609,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 635,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      622,
+      "if (hit12alt != -4)"
+     ],
+     [
+      633,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 659,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      646,
+      "if (hit13 != -4)"
+     ],
+     [
+      657,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 683,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      670,
+      "if (hit13alt != -4)"
+     ],
+     [
+      681,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 707,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      694,
+      "if (hit14 != -4)"
+     ],
+     [
+      705,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 731,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      718,
+      "if (hit14alt != -4)"
+     ],
+     [
+      729,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 755,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      742,
+      "if (hit15 != -4)"
+     ],
+     [
+      753,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 777,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      764,
+      "if (hit15alt != -4)"
+     ],
+     [
+      775,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 799,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      786,
+      "if (hit16 != -4)"
+     ],
+     [
+      797,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 817,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      804,
+      "if (hit16alt != -4)"
+     ],
+     [
+      815,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 835,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      822,
+      "if (hitboss4 != -4)"
+     ],
+     [
+      833,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 853,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      840,
+      "if (hitboss4alt != -4)"
+     ],
+     [
+      851,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 871,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      858,
+      "if (hitboss5 != -4)"
+     ],
+     [
+      869,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 889,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      876,
+      "if (hitboss5alt != -4)"
+     ],
+     [
+      887,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 907,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      894,
+      "if (hit17 != -4)"
+     ],
+     [
+      905,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 925,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      912,
+      "if (hit17alt != -4)"
+     ],
+     [
+      923,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 298,
+  "object": "obj_boomerangthrow",
+  "event": "Step",
+  "sub": 0,
+  "file": "0298__gml_Object_obj_boomerangthrow_Step_0.gml",
+  "calls": [
+   {
+    "line": 33,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      12,
+      "if (hitknife != -4)"
+     ],
+     [
+      29,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      31,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 59,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      38,
+      "if (hitwolf != -4)"
+     ],
+     [
+      55,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      57,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 85,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      64,
+      "if (hit != -4)"
+     ],
+     [
+      81,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      83,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 111,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      90,
+      "if (hit2 != -4)"
+     ],
+     [
+      107,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      109,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 137,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      116,
+      "if (hit4 != -4)"
+     ],
+     [
+      133,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      135,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 163,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      142,
+      "if (hit5 != -4)"
+     ],
+     [
+      159,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      161,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 189,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      168,
+      "if (hit7 != -4)"
+     ],
+     [
+      185,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      187,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 215,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      194,
+      "if (hit8 != -4)"
+     ],
+     [
+      211,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      213,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 241,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      220,
+      "if (hit9 != -4)"
+     ],
+     [
+      237,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      239,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 267,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      246,
+      "if (hit10 != -4)"
+     ],
+     [
+      263,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      265,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 293,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      272,
+      "if (hit11 != -4)"
+     ],
+     [
+      289,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      291,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 319,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      298,
+      "if (hit12 != -4)"
+     ],
+     [
+      315,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      317,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 345,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      324,
+      "if (hit13 != -4)"
+     ],
+     [
+      341,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      343,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 371,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      350,
+      "if (hit14 != -4)"
+     ],
+     [
+      367,
+      "else if (global.soundmute == 0)"
+     ],
+     [
+      369,
+      "if (!audio_is_playing(snd_impactsound2))"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 300,
+  "object": "obj_rocket",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0300__gml_Object_obj_rocket_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 304,
+  "object": "obj_energywave",
+  "event": "Create",
+  "sub": 0,
+  "file": "0304__gml_Object_obj_energywave_Create_0.gml",
+  "calls": [
+   {
+    "line": 16,
+    "call": "audio_play_sound",
+    "sound": "snd_crescentwave",
+    "args": [
+     "snd_crescentwave",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      14,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 305,
+  "object": "obj_energywave",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0305__gml_Object_obj_energywave_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 1,
+    "call": "audio_play_sound",
+    "sound": "snd_ice",
+    "args": [
+     "snd_ice",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 309,
+  "object": "obj_sword",
+  "event": "Create",
+  "sub": 0,
+  "file": "0309__gml_Object_obj_sword_Create_0.gml",
+  "calls": [
+   {
+    "line": 14,
+    "call": "audio_play_sound",
+    "sound": "global.swordsound",
+    "args": [
+     "global.swordsound",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      12,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 313,
+  "object": "obj_enemybullet",
+  "event": "Step",
+  "sub": 0,
+  "file": "0313__gml_Object_obj_enemybullet_Step_0.gml",
+  "calls": [
+   {
+    "line": 21,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      15,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player))"
+     ],
+     [
+      17,
+      "if (global.rebuff != 1 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0)"
+     ],
+     [
+      19,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 315,
+  "object": "obj_enemybullet2",
+  "event": "Step",
+  "sub": 0,
+  "file": "0315__gml_Object_obj_enemybullet2_Step_0.gml",
+  "calls": [
+   {
+    "line": 21,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      15,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player))"
+     ],
+     [
+      17,
+      "if (global.rebuff != 1 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0)"
+     ],
+     [
+      19,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 316,
+  "object": "obj_finalbosslaser",
+  "event": "Create",
+  "sub": 0,
+  "file": "0316__gml_Object_obj_finalbosslaser_Create_0.gml",
+  "calls": [
+   {
+    "line": 8,
+    "call": "audio_play_sound",
+    "sound": "snd_laser",
+    "args": [
+     "snd_laser",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      6,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 318,
+  "object": "obj_finalbosslaser",
+  "event": "Step",
+  "sub": 0,
+  "file": "0318__gml_Object_obj_finalbosslaser_Step_0.gml",
+  "calls": [
+   {
+    "line": 19,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      15,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player) && obj_player.invulnerable == 0 && obj_player.invulnera"
+     ],
+     [
+      17,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 320,
+  "object": "obj_finalbossgrenade",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0320__gml_Object_obj_finalbossgrenade_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 322,
+  "object": "obj_finalbossgrenade",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0322__gml_Object_obj_finalbossgrenade_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 13,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      11,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 323,
+  "object": "obj_finalbossgrenade",
+  "event": "Step",
+  "sub": 0,
+  "file": "0323__gml_Object_obj_finalbossgrenade_Step_0.gml",
+  "calls": [
+   {
+    "line": 15,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      11,
+      "if (hit != -4 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0 && canhit == 0)"
+     ],
+     [
+      13,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 327,
+  "object": "obj_hulkingbanditbullet",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0327__gml_Object_obj_hulkingbanditbullet_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 11,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      9,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 328,
+  "object": "obj_hulkingbanditbullet",
+  "event": "Step",
+  "sub": 0,
+  "file": "0328__gml_Object_obj_hulkingbanditbullet_Step_0.gml",
+  "calls": [
+   {
+    "line": 43,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      17,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player) && hurtplayer == 0)"
+     ],
+     [
+      19,
+      "if (global.rebuff != 1 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0)"
+     ],
+     [
+      41,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 330,
+  "object": "obj_fireball",
+  "event": "Step",
+  "sub": 0,
+  "file": "0330__gml_Object_obj_fireball_Step_0.gml",
+  "calls": [
+   {
+    "line": 22,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      16,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player))"
+     ],
+     [
+      18,
+      "if (global.rebuff != 1 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0)"
+     ],
+     [
+      20,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 332,
+  "object": "obj_firehulkflame",
+  "event": "Step",
+  "sub": 0,
+  "file": "0332__gml_Object_obj_firehulkflame_Step_0.gml",
+  "calls": [
+   {
+    "line": 25,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      19,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player))"
+     ],
+     [
+      21,
+      "if (global.rebuff != 1 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0)"
+     ],
+     [
+      23,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 334,
+  "object": "obj_fireprojectile",
+  "event": "Step",
+  "sub": 0,
+  "file": "0334__gml_Object_obj_fireprojectile_Step_0.gml",
+  "calls": [
+   {
+    "line": 22,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      16,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player))"
+     ],
+     [
+      18,
+      "if (global.rebuff != 1 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0)"
+     ],
+     [
+      20,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 336,
+  "object": "obj_boss3projectile",
+  "event": "Step",
+  "sub": 0,
+  "file": "0336__gml_Object_obj_boss3projectile_Step_0.gml",
+  "calls": [
+   {
+    "line": 20,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      14,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player))"
+     ],
+     [
+      16,
+      "if (global.rebuff != 1 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0)"
+     ],
+     [
+      18,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 338,
+  "object": "obj_bone",
+  "event": "Step",
+  "sub": 0,
+  "file": "0338__gml_Object_obj_bone_Step_0.gml",
+  "calls": [
+   {
+    "line": 20,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound2",
+    "args": [
+     "snd_impactsound2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      14,
+      "if (instance_place(x + hspeed, y + vspeed, obj_player))"
+     ],
+     [
+      16,
+      "if (global.rebuff != 1 && obj_player.invulnerable == 0 && obj_player.invulnerable2 == 0)"
+     ],
+     [
+      18,
+      "if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 340,
+  "object": "obj_coin",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0340__gml_Object_obj_coin_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "global.coinsound",
+    "args": [
+     "global.coinsound",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 342,
+  "object": "obj_gem",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0342__gml_Object_obj_gem_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "global.coinsound",
+    "args": [
+     "global.coinsound",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 345,
+  "object": "obj_silvercoin",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0345__gml_Object_obj_silvercoin_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "global.coinsound",
+    "args": [
+     "global.coinsound",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 350,
+  "object": "obj_health",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0350__gml_Object_obj_health_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 352,
+  "object": "obj_levelup",
+  "event": "Create",
+  "sub": 0,
+  "file": "0352__gml_Object_obj_levelup_Create_0.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_pickupstinger",
+    "args": [
+     "snd_pickupstinger",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      7,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 357,
+  "object": "obj_weaponlevelup",
+  "event": "Create",
+  "sub": 0,
+  "file": "0357__gml_Object_obj_weaponlevelup_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_levelup",
+    "args": [
+     "snd_levelup",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 376,
+  "object": "obj_music",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0376__gml_Object_obj_music_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 54,
+    "call": "audio_play_sound",
+    "sound": "theme[soundplay]",
+    "args": [
+     "theme[soundplay]",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      6,
+      "if (!audio_is_playing(mus_egc))"
+     ],
+     [
+      8,
+      "if (!audio_is_playing(mus_sneaksbeat))"
+     ],
+     [
+      10,
+      "if (!audio_is_playing(mus_new4))"
+     ],
+     [
+      12,
+      "if (!audio_is_playing(mus_townmusic))"
+     ],
+     [
+      14,
+      "if (!audio_is_playing(mus_searching))"
+     ],
+     [
+      16,
+      "if (!audio_is_playing(mus_supertrip))"
+     ],
+     [
+      18,
+      "if (!audio_is_playing(mus_cally2fez))"
+     ],
+     [
+      20,
+      "if (!audio_is_playing(mus_atmospheric))"
+     ],
+     [
+      22,
+      "if (!audio_is_playing(mus_acoustic))"
+     ],
+     [
+      24,
+      "if (!audio_is_playing(mus_amdm7))"
+     ],
+     [
+      26,
+      "if (!audio_is_playing(mus_arpdisast))"
+     ],
+     [
+      28,
+      "if (!audio_is_playing(mus_happy))"
+     ],
+     [
+      30,
+      "if (!audio_is_playing(mus_sunrise))"
+     ],
+     [
+      32,
+      "if (!audio_is_playing(mus_mariokart))"
+     ],
+     [
+      34,
+      "if (!audio_is_playing(mus_menumusic))"
+     ],
+     [
+      36,
+      "if (!audio_is_playing(mus_newprogression))"
+     ],
+     [
+      38,
+      "if (!audio_is_playing(mus_soundwall))"
+     ],
+     [
+      40,
+      "if (!audio_is_playing(mus_strongtech))"
+     ],
+     [
+      42,
+      "if (!audio_is_playing(mus_synthonic))"
+     ],
+     [
+      44,
+      "if (!audio_is_playing(mus_techno))"
+     ],
+     [
+      46,
+      "if (!audio_is_playing(mus_technoending))"
+     ],
+     [
+      48,
+      "if (!audio_is_playing(mus_bosssongending))"
+     ],
+     [
+      50,
+      "if (!audio_is_playing(mus_bosssong))"
+     ],
+     [
+      52,
+      "if (!audio_is_playing(mus_blooddragon))"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 377,
+  "object": "obj_music",
+  "event": "Step",
+  "sub": 0,
+  "file": "0377__gml_Object_obj_music_Step_0.gml",
+  "calls": [
+   {
+    "line": 63,
+    "call": "audio_play_sound",
+    "sound": "theme[soundplay]",
+    "args": [
+     "theme[soundplay]",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      12,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      14,
+      "if (!audio_is_playing(mus_egc))"
+     ],
+     [
+      16,
+      "if (!audio_is_playing(mus_sneaksbeat))"
+     ],
+     [
+      18,
+      "if (!audio_is_playing(mus_new4))"
+     ],
+     [
+      20,
+      "if (!audio_is_playing(mus_townmusic))"
+     ],
+     [
+      22,
+      "if (!audio_is_playing(mus_searching))"
+     ],
+     [
+      24,
+      "if (!audio_is_playing(mus_supertrip))"
+     ],
+     [
+      26,
+      "if (!audio_is_playing(mus_cally2fez))"
+     ],
+     [
+      28,
+      "if (!audio_is_playing(mus_atmospheric))"
+     ],
+     [
+      30,
+      "if (!audio_is_playing(mus_acoustic))"
+     ],
+     [
+      32,
+      "if (!audio_is_playing(mus_amdm7))"
+     ],
+     [
+      34,
+      "if (!audio_is_playing(mus_arpdisast))"
+     ],
+     [
+      36,
+      "if (!audio_is_playing(mus_happy))"
+     ],
+     [
+      38,
+      "if (!audio_is_playing(mus_sunrise))"
+     ],
+     [
+      40,
+      "if (!audio_is_playing(mus_mariokart))"
+     ],
+     [
+      42,
+      "if (!audio_is_playing(mus_menumusic))"
+     ],
+     [
+      44,
+      "if (!audio_is_playing(mus_newprogression))"
+     ],
+     [
+      46,
+      "if (!audio_is_playing(mus_soundwall))"
+     ],
+     [
+      48,
+      "if (!audio_is_playing(mus_strongtech))"
+     ],
+     [
+      50,
+      "if (!audio_is_playing(mus_synthonic))"
+     ],
+     [
+      52,
+      "if (!audio_is_playing(mus_techno))"
+     ],
+     [
+      54,
+      "if (!audio_is_playing(mus_technoending))"
+     ],
+     [
+      56,
+      "if (!audio_is_playing(mus_bosssongending))"
+     ],
+     [
+      58,
+      "if (!audio_is_playing(mus_bosssong))"
+     ],
+     [
+      60,
+      "if (!audio_is_playing(mus_blooddragon))"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 378,
+  "object": "obj_music",
+  "event": "Other",
+  "sub": 4,
+  "file": "0378__gml_Object_obj_music_Other_4.gml",
+  "calls": [
+   {
+    "line": 8,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      6,
+      "if (room == rm_boss1)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssong",
+    "args": [
+     "mus_bosssong",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      6,
+      "if (room == rm_boss1)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 13,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      11,
+      "if (room == rm_boss2)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 14,
+    "call": "audio_play_sound",
+    "sound": "mus_techno",
+    "args": [
+     "mus_techno",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      11,
+      "if (room == rm_boss2)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 18,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      16,
+      "if (room == rm_boss3)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 19,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssong",
+    "args": [
+     "mus_bosssong",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      16,
+      "if (room == rm_boss3)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 23,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      21,
+      "if (room == rm_boss4)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 24,
+    "call": "audio_play_sound",
+    "sound": "mus_techno",
+    "args": [
+     "mus_techno",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      21,
+      "if (room == rm_boss4)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 28,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      26,
+      "if (room == rm_boss5)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 29,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssong",
+    "args": [
+     "mus_bosssong",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      26,
+      "if (room == rm_boss5)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 33,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      31,
+      "if (room == rm_boss6)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 34,
+    "call": "audio_play_sound",
+    "sound": "mus_techno",
+    "args": [
+     "mus_techno",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      31,
+      "if (room == rm_boss6)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 39,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      37,
+      "if (room == rm_level9)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 246,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      244,
+      "if (room == room31)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 452,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      450,
+      "if (room == room51)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 658,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      656,
+      "if (room == room66)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 864,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      862,
+      "if (room == room83)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 404,
+  "object": "obj_foundweapon",
+  "event": "Create",
+  "sub": 0,
+  "file": "0404__gml_Object_obj_foundweapon_Create_0.gml",
+  "calls": [
+   {
+    "line": 8,
+    "call": "audio_play_sound",
+    "sound": "snd_pickupstinger",
+    "args": [
+     "snd_pickupstinger",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      6,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 409,
+  "object": "obj_weaponchange",
+  "event": "Create",
+  "sub": 0,
+  "file": "0409__gml_Object_obj_weaponchange_Create_0.gml",
+  "calls": [
+   {
+    "line": 8,
+    "call": "audio_play_sound",
+    "sound": "snd_weaponlevelup",
+    "args": [
+     "snd_weaponlevelup",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      6,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 414,
+  "object": "obj_powerupgrade",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0414__gml_Object_obj_powerupgrade_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 11,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 5000 && global.powerupgradebought == 0)"
+     ],
+     [
+      9,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 416,
+  "object": "obj_powerupgrade2",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0416__gml_Object_obj_powerupgrade2_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 11,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 25000 && global.powerupgrade2bought == 0)"
+     ],
+     [
+      9,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 418,
+  "object": "obj_powerupgrade3",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0418__gml_Object_obj_powerupgrade3_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 11,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 35000 && global.powerupgrade3bought == 0)"
+     ],
+     [
+      9,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 421,
+  "object": "obj_triplejump",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0421__gml_Object_obj_triplejump_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 11,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 3000 && global.triplejumpbought == 0)"
+     ],
+     [
+      9,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 423,
+  "object": "obj_swordupgrade",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0423__gml_Object_obj_swordupgrade_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 13,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (global.swordupgrade3bought != 1 && global.swordupgrade2bought != 1)"
+     ],
+     [
+      3,
+      "if (score >= 3000 && global.swordupgradebought == 0)"
+     ],
+     [
+      11,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 425,
+  "object": "obj_swordupgrade2",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0425__gml_Object_obj_swordupgrade2_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 14,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (global.swordupgrade3bought != 1)"
+     ],
+     [
+      3,
+      "if (score >= 10000 && global.swordupgrade2bought == 0)"
+     ],
+     [
+      12,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 427,
+  "object": "obj_swordupgrade3",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0427__gml_Object_obj_swordupgrade3_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 13,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 15000 && global.swordupgrade3bought == 0)"
+     ],
+     [
+      11,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 429,
+  "object": "obj_energywaveupgrade",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0429__gml_Object_obj_energywaveupgrade_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 50000 && global.energywavebought == 0)"
+     ],
+     [
+      8,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 431,
+  "object": "obj_healthregen",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0431__gml_Object_obj_healthregen_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 75000 && global.healthregenbought == 0)"
+     ],
+     [
+      8,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 433,
+  "object": "obj_strengthupgrade",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0433__gml_Object_obj_strengthupgrade_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 3000 && global.strengthupgradebought == 0)"
+     ],
+     [
+      8,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 435,
+  "object": "obj_strengthupgrade2",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0435__gml_Object_obj_strengthupgrade2_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 20000 && global.strengthupgrade2bought == 0)"
+     ],
+     [
+      8,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 437,
+  "object": "obj_coinmultiplier5",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0437__gml_Object_obj_coinmultiplier5_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 11,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 20000 && global.coinmultiplier5bought == 0)"
+     ],
+     [
+      9,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 439,
+  "object": "obj_coinmultiplier2",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0439__gml_Object_obj_coinmultiplier2_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 11,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 2000 && global.coinmultiplier2bought == 0)"
+     ],
+     [
+      9,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 441,
+  "object": "obj_maxhpupgrade",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0441__gml_Object_obj_maxhpupgrade_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 12,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 10000 && global.maxhpupgradebought == 0)"
+     ],
+     [
+      10,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 443,
+  "object": "obj_maxhpupgrade2",
+  "event": "Mouse",
+  "sub": 0,
+  "file": "0443__gml_Object_obj_maxhpupgrade2_Mouse_0.gml",
+  "calls": [
+   {
+    "line": 12,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 25000 && global.maxhpupgrade2bought == 0)"
+     ],
+     [
+      10,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 446,
+  "object": "obj_healthrefill",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0446__gml_Object_obj_healthrefill_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 2,
+    "call": "audio_play_sound",
+    "sound": "snd_impactsound1",
+    "args": [
+     "snd_impactsound1",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 447,
+  "object": "obj_healthrefill",
+  "event": "Mouse",
+  "sub": 7,
+  "file": "0447__gml_Object_obj_healthrefill_Mouse_7.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_play_sound",
+    "sound": "snd_coin",
+    "args": [
+     "snd_coin",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (score >= 250 && global.health1 != global.maxhp)"
+     ],
+     [
+      8,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 470,
+  "object": "obj_backtogame",
+  "event": "Mouse",
+  "sub": 7,
+  "file": "0470__gml_Object_obj_backtogame_Mouse_7.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      1,
+      "if (room == rm_map || room == rm_mapview0 || room == rm_mapview3)"
+     ],
+     [
+      7,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 22,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      15,
+      "else"
+     ],
+     [
+      20,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 140,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      136,
+      "if (room == rm_boss1)"
+     ],
+     [
+      138,
+      "if (global.boss1dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 141,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssong",
+    "args": [
+     "mus_bosssong",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      136,
+      "if (room == rm_boss1)"
+     ],
+     [
+      138,
+      "if (global.boss1dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 148,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      144,
+      "if (room == rm_boss2)"
+     ],
+     [
+      146,
+      "if (global.boss2dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 149,
+    "call": "audio_play_sound",
+    "sound": "mus_techno",
+    "args": [
+     "mus_techno",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      144,
+      "if (room == rm_boss2)"
+     ],
+     [
+      146,
+      "if (global.boss2dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 156,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      152,
+      "if (room == rm_boss3)"
+     ],
+     [
+      154,
+      "if (global.boss3dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 157,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssong",
+    "args": [
+     "mus_bosssong",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      152,
+      "if (room == rm_boss3)"
+     ],
+     [
+      154,
+      "if (global.boss3dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 164,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      160,
+      "if (room == rm_boss4)"
+     ],
+     [
+      162,
+      "if (global.boss4dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 165,
+    "call": "audio_play_sound",
+    "sound": "mus_techno",
+    "args": [
+     "mus_techno",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      160,
+      "if (room == rm_boss4)"
+     ],
+     [
+      162,
+      "if (global.boss4dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 172,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      168,
+      "if (room == rm_boss5)"
+     ],
+     [
+      170,
+      "if (global.boss5dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 173,
+    "call": "audio_play_sound",
+    "sound": "mus_bosssong",
+    "args": [
+     "mus_bosssong",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      168,
+      "if (room == rm_boss5)"
+     ],
+     [
+      170,
+      "if (global.boss5dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 180,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      176,
+      "if (room == rm_boss6)"
+     ],
+     [
+      178,
+      "if (global.boss6dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 181,
+    "call": "audio_play_sound",
+    "sound": "mus_techno",
+    "args": [
+     "mus_techno",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      134,
+      "else if (global.musicmute == 0)"
+     ],
+     [
+      176,
+      "if (room == rm_boss6)"
+     ],
+     [
+      178,
+      "if (global.boss6dead == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 478,
+  "object": "obj_yesrestoredata",
+  "event": "Mouse",
+  "sub": 7,
+  "file": "0478__gml_Object_obj_yesrestoredata_Mouse_7.gml",
+  "calls": [
+   {
+    "line": 576,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 494,
+  "object": "obj_firstpause",
+  "event": "Create",
+  "sub": 0,
+  "file": "0494__gml_Object_obj_firstpause_Create_0.gml",
+  "calls": [
+   {
+    "line": 228,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      226,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 229,
+    "call": "audio_play_sound",
+    "sound": "music",
+    "args": [
+     "music",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      226,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 495,
+  "object": "obj_firstpause",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0495__gml_Object_obj_firstpause_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 43,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 519,
+  "object": "obj_weaponswap",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0519__gml_Object_obj_weaponswap_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 3,
+    "call": "audio_play_sound",
+    "sound": "snd_weaponswap",
+    "args": [
+     "snd_weaponswap",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (!audio_is_playing(snd_weaponswap))"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 521,
+  "object": "obj_jumpbutton",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0521__gml_Object_obj_jumpbutton_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 9,
+    "call": "audio_play_sound",
+    "sound": "snd_jump",
+    "args": [
+     "snd_jump",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      1,
+      "if (obj_player.grounded)"
+     ],
+     [
+      7,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 21,
+    "call": "audio_play_sound",
+    "sound": "snd_jump",
+    "args": [
+     "snd_jump",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      13,
+      "else if (obj_player.djump)"
+     ],
+     [
+      19,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   },
+   {
+    "line": 35,
+    "call": "audio_play_sound",
+    "sound": "snd_jump",
+    "args": [
+     "snd_jump",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      27,
+      "else if (obj_player.tjump && global.tjumpactive == 1)"
+     ],
+     [
+      33,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 524,
+  "object": "obj_shootbutton",
+  "event": "Mouse",
+  "sub": 3,
+  "file": "0524__gml_Object_obj_shootbutton_Mouse_3.gml",
+  "calls": [
+   {
+    "line": 3,
+    "call": "audio_stop_sound",
+    "sound": "snd_assaultrifle",
+    "args": [
+     "snd_assaultrifle"
+    ],
+    "guards": [
+     [
+      1,
+      "if (audio_is_playing(snd_assaultrifle))"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 548,
+  "object": "obj_introduction",
+  "event": "Create",
+  "sub": 0,
+  "file": "0548__gml_Object_obj_introduction_Create_0.gml",
+  "calls": [
+   {
+    "line": 17,
+    "call": "audio_play_sound",
+    "sound": "mus_new4",
+    "args": [
+     "mus_new4",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 556,
+  "object": "obj_lloydtutorial1",
+  "event": "Create",
+  "sub": 0,
+  "file": "0556__gml_Object_obj_lloydtutorial1_Create_0.gml",
+  "calls": [
+   {
+    "line": 22,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      19,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 557,
+  "object": "obj_lloydtutorial1",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0557__gml_Object_obj_lloydtutorial1_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 565,
+  "object": "obj_lloydtutorial2",
+  "event": "Create",
+  "sub": 0,
+  "file": "0565__gml_Object_obj_lloydtutorial2_Create_0.gml",
+  "calls": [
+   {
+    "line": 18,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      15,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 566,
+  "object": "obj_lloydtutorial2",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0566__gml_Object_obj_lloydtutorial2_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 571,
+  "object": "obj_lloydtutorial3",
+  "event": "Create",
+  "sub": 0,
+  "file": "0571__gml_Object_obj_lloydtutorial3_Create_0.gml",
+  "calls": [
+   {
+    "line": 17,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      14,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 572,
+  "object": "obj_lloydtutorial3",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0572__gml_Object_obj_lloydtutorial3_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 576,
+  "object": "obj_lloydtutorial4",
+  "event": "Create",
+  "sub": 0,
+  "file": "0576__gml_Object_obj_lloydtutorial4_Create_0.gml",
+  "calls": [
+   {
+    "line": 20,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      17,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 577,
+  "object": "obj_lloydtutorial4",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0577__gml_Object_obj_lloydtutorial4_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 592,
+  "object": "obj_lloydtutorial6",
+  "event": "Create",
+  "sub": 0,
+  "file": "0592__gml_Object_obj_lloydtutorial6_Create_0.gml",
+  "calls": [
+   {
+    "line": 20,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      17,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 593,
+  "object": "obj_lloydtutorial6",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0593__gml_Object_obj_lloydtutorial6_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 600,
+  "object": "obj_lloydtutorial7",
+  "event": "Create",
+  "sub": 0,
+  "file": "0600__gml_Object_obj_lloydtutorial7_Create_0.gml",
+  "calls": [
+   {
+    "line": 18,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      15,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 601,
+  "object": "obj_lloydtutorial7",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0601__gml_Object_obj_lloydtutorial7_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 606,
+  "object": "obj_lloydtutorial8",
+  "event": "Create",
+  "sub": 0,
+  "file": "0606__gml_Object_obj_lloydtutorial8_Create_0.gml",
+  "calls": [
+   {
+    "line": 20,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      17,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 607,
+  "object": "obj_lloydtutorial8",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0607__gml_Object_obj_lloydtutorial8_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 619,
+  "object": "obj_lloydtutorial10",
+  "event": "Create",
+  "sub": 0,
+  "file": "0619__gml_Object_obj_lloydtutorial10_Create_0.gml",
+  "calls": [
+   {
+    "line": 17,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      14,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 620,
+  "object": "obj_lloydtutorial10",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0620__gml_Object_obj_lloydtutorial10_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 624,
+  "object": "obj_lloydtutorial11",
+  "event": "Create",
+  "sub": 0,
+  "file": "0624__gml_Object_obj_lloydtutorial11_Create_0.gml",
+  "calls": [
+   {
+    "line": 21,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      18,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 625,
+  "object": "obj_lloydtutorial11",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0625__gml_Object_obj_lloydtutorial11_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 633,
+  "object": "obj_lloydtutorial12",
+  "event": "Create",
+  "sub": 0,
+  "file": "0633__gml_Object_obj_lloydtutorial12_Create_0.gml",
+  "calls": [
+   {
+    "line": 21,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      18,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 634,
+  "object": "obj_lloydtutorial12",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0634__gml_Object_obj_lloydtutorial12_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 642,
+  "object": "obj_lloydtutorial13",
+  "event": "Create",
+  "sub": 0,
+  "file": "0642__gml_Object_obj_lloydtutorial13_Create_0.gml",
+  "calls": [
+   {
+    "line": 20,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      17,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 643,
+  "object": "obj_lloydtutorial13",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0643__gml_Object_obj_lloydtutorial13_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 650,
+  "object": "obj_lloydtutorial14",
+  "event": "Create",
+  "sub": 0,
+  "file": "0650__gml_Object_obj_lloydtutorial14_Create_0.gml",
+  "calls": [
+   {
+    "line": 17,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      14,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 651,
+  "object": "obj_lloydtutorial14",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0651__gml_Object_obj_lloydtutorial14_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 654,
+  "object": "obj_lloydtutorial15",
+  "event": "Create",
+  "sub": 0,
+  "file": "0654__gml_Object_obj_lloydtutorial15_Create_0.gml",
+  "calls": [
+   {
+    "line": 20,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      17,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 655,
+  "object": "obj_lloydtutorial15",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0655__gml_Object_obj_lloydtutorial15_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 662,
+  "object": "obj_lloydtutorial16",
+  "event": "Create",
+  "sub": 0,
+  "file": "0662__gml_Object_obj_lloydtutorial16_Create_0.gml",
+  "calls": [
+   {
+    "line": 20,
+    "call": "audio_play_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic",
+     "0",
+     "true"
+    ],
+    "guards": [
+     [
+      17,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 663,
+  "object": "obj_lloydtutorial16",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0663__gml_Object_obj_lloydtutorial16_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 10,
+    "call": "audio_stop_sound",
+    "sound": "mus_townmusic",
+    "args": [
+     "mus_townmusic"
+    ],
+    "guards": [
+     [
+      8,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 680,
+  "object": "obj_boulderblock",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0680__gml_Object_obj_boulderblock_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 12,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      10,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 685,
+  "object": "obj_woodblock",
+  "event": "Destroy",
+  "sub": 0,
+  "file": "0685__gml_Object_obj_woodblock_Destroy_0.gml",
+  "calls": [
+   {
+    "line": 12,
+    "call": "audio_play_sound",
+    "sound": "snd_explode",
+    "args": [
+     "snd_explode",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      10,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 692,
+  "object": "obj_maptile",
+  "event": "Mouse",
+  "sub": 7,
+  "file": "0692__gml_Object_obj_maptile_Mouse_7.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.musicmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 700,
+  "object": "obj_tease",
+  "event": "Create",
+  "sub": 0,
+  "file": "0700__gml_Object_obj_tease_Create_0.gml",
+  "calls": [
+   {
+    "line": 2,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   },
+   {
+    "line": 3,
+    "call": "audio_play_sound",
+    "sound": "mus_cally3",
+    "args": [
+     "mus_cally3",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 702,
+  "object": "obj_tease",
+  "event": "Mouse",
+  "sub": 7,
+  "file": "0702__gml_Object_obj_tease_Mouse_7.gml",
+  "calls": [
+   {
+    "line": 3,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [
+     [
+      1,
+      "if (taplock == 1)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 704,
+  "object": "obj_endmusic",
+  "event": "Create",
+  "sub": 0,
+  "file": "0704__gml_Object_obj_endmusic_Create_0.gml",
+  "calls": [
+   {
+    "line": 1,
+    "call": "audio_stop_all",
+    "sound": "",
+    "args": [
+     ""
+    ],
+    "guards": [],
+    "in_loop": false
+   },
+   {
+    "line": 2,
+    "call": "audio_play_sound",
+    "sound": "mus_mariokart",
+    "args": [
+     "mus_mariokart",
+     "0",
+     "false"
+    ],
+    "guards": [],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 721,
+  "object": "obj_bearcubintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0721__gml_Object_obj_bearcubintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 724,
+  "object": "obj_knifebanditintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0724__gml_Object_obj_knifebanditintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 727,
+  "object": "obj_spiderintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0727__gml_Object_obj_spiderintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 730,
+  "object": "obj_batintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0730__gml_Object_obj_batintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 733,
+  "object": "obj_wolfintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0733__gml_Object_obj_wolfintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 736,
+  "object": "obj_pistolbanditintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0736__gml_Object_obj_pistolbanditintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 739,
+  "object": "obj_boss1intro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0739__gml_Object_obj_boss1intro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 742,
+  "object": "obj_turretintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0742__gml_Object_obj_turretintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 745,
+  "object": "obj_slimeintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0745__gml_Object_obj_slimeintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 748,
+  "object": "obj_boss2intro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0748__gml_Object_obj_boss2intro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 751,
+  "object": "obj_zombieintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0751__gml_Object_obj_zombieintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 754,
+  "object": "obj_redslimeintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0754__gml_Object_obj_redslimeintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 757,
+  "object": "obj_skeletonintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0757__gml_Object_obj_skeletonintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 760,
+  "object": "obj_hulkingbanditintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0760__gml_Object_obj_hulkingbanditintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 763,
+  "object": "obj_beeintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0763__gml_Object_obj_beeintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 766,
+  "object": "obj_boss3intro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0766__gml_Object_obj_boss3intro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 769,
+  "object": "obj_firehulkintro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0769__gml_Object_obj_firehulkintro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 772,
+  "object": "obj_boss4intro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0772__gml_Object_obj_boss4intro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 775,
+  "object": "obj_boss5intro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0775__gml_Object_obj_boss5intro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 778,
+  "object": "obj_boss6intro",
+  "event": "Create",
+  "sub": 0,
+  "file": "0778__gml_Object_obj_boss6intro_Create_0.gml",
+  "calls": [
+   {
+    "line": 6,
+    "call": "audio_play_sound",
+    "sound": "snd_meetnewenemy",
+    "args": [
+     "snd_meetnewenemy",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      4,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 794,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 8,
+  "file": "0794__gml_Object_obj_bosspuff_Alarm_8.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 795,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 7,
+  "file": "0795__gml_Object_obj_bosspuff_Alarm_7.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 796,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 6,
+  "file": "0796__gml_Object_obj_bosspuff_Alarm_6.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 797,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 5,
+  "file": "0797__gml_Object_obj_bosspuff_Alarm_5.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 798,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 4,
+  "file": "0798__gml_Object_obj_bosspuff_Alarm_4.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 799,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 3,
+  "file": "0799__gml_Object_obj_bosspuff_Alarm_3.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 800,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 2,
+  "file": "0800__gml_Object_obj_bosspuff_Alarm_2.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 801,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 1,
+  "file": "0801__gml_Object_obj_bosspuff_Alarm_1.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ },
+ {
+  "code_id": 802,
+  "object": "obj_bosspuff",
+  "event": "Alarm",
+  "sub": 0,
+  "file": "0802__gml_Object_obj_bosspuff_Alarm_0.gml",
+  "calls": [
+   {
+    "line": 7,
+    "call": "audio_play_sound",
+    "sound": "snd_explode2",
+    "args": [
+     "snd_explode2",
+     "0",
+     "false"
+    ],
+    "guards": [
+     [
+      5,
+      "else if (global.soundmute == 0)"
+     ]
+    ],
+    "in_loop": false
+   }
+  ]
+ }
+]
