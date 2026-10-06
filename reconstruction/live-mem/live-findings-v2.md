@@ -380,3 +380,17 @@ audio-call-table.json 的 524 条 global.* 守卫按 live 值求值）→ 882 �
   非解析错误）；weaponswap 0.815 s、explode 1.300 s 均合理。
 - 影响: 交给 Scene 后 SFX 门也从"drain 即退"变为"时长内保持"——战斗音效的
   重播抑制与原版一致（此前仅 music 有时长）。
+
+## 19. 序列器行为证明：切轨时刻 = 曲目时长（可复现）
+
+example `audio_timeline`（54 条时长全部注入, rm_town, 5200 tick）:
+- tick    0: code 377 → sond 52 (blooddragon, 141.218 s = 4237 tick)
+- tick 4237: code 377 → sond 47 (synthonic)  ← **恰在前一曲时长耗尽的那一 tick**
+- 总计 2 条播放（修复前 900 tick 就是 900 条）。
+
+即原版 `!audio_is_playing(theme[k])` 序列器语义复现：一曲在播期间门保持，
+曲终当帧才推进 soundplay。证据文件: tools/rebuild_timeline_5200ticks.txt
+（修复前后对照: tools/rebuild_timeline_town.txt vs rebuild_timeline_after_fix.txt）。
+
+全局/实例快照二进制（5528 B/份, globals 区原样拷贝, 用于值编码标定过程留痕）:
+tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。

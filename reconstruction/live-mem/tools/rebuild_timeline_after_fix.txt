@@ -1,0 +1,29 @@
+warning: unused workspace dependency `sdl2`
+  --> Cargo.toml:13:1
+   |
+13 | sdl2 = { version = "0.37", features = ["image"] }
+   | ^^^^
+   |
+   = note: `cargo::unused_workspace_dependencies` is set to `warn` by default
+help: consider removing the workspace dependency `sdl2`
+warning: workspace (manifest) generated 1 warning
+warning: hard linking files in the incremental compilation cache failed. copying files instead. consider moving the cache directory to a file system which supports hard linking in session dir `/data/data/com.termux/files/home/callys-caves-2-rs/target/debug/incremental/callys_core-04074kh6ljy8b/s-hmyidl6vvr-0cjc4yj-working`
+
+warning: unused variable: `sound`
+   --> crates/core/src/ir_scene.rs:395:45
+    |
+395 |     pub fn call_audio_sound_gain(&mut self, sound: f64, _gain: f64, _time: f64) {
+    |                                             ^^^^^ help: if this is intentional, prefix it with an underscore: `_sound`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: `callys-core` (lib) generated 2 warnings (run `cargo fix --lib -p callys-core` to apply 1 suggestion)
+warning: hard linking files in the incremental compilation cache failed. copying files instead. consider moving the cache directory to a file system which supports hard linking in session dir `/data/data/com.termux/files/home/callys-caves-2-rs/target/debug/incremental/audio_timeline-0jqm1vz9srqlv/s-hmyidwxusa-0w33ids-working`
+
+warning: `callys-core` (example "audio_timeline") generated 1 warning
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running `target/debug/examples/audio_timeline 900`
+loaded 54 sound durations
+room=rm_town instances=177
+tick    0  code  377  sound   52  loop false  prio    0
+drained audio commands: 1
