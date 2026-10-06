@@ -394,3 +394,26 @@ example `audio_timeline`（54 条时长全部注入, rm_town, 5200 tick）:
 
 全局/实例快照二进制（5528 B/份, globals 区原样拷贝, 用于值编码标定过程留痕）:
 tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
+
+## 20. 音乐序列器全链验证：RNG seed → playlist → theme[] → 首播曲（三条全中）
+
+链条（全部有源码/实测依据）:
+- obj_UI Create (CODE 365): `global.coinsound/swordsound = choose(...)`;
+  `randomize(); global.playlist = irandom_range(1, 10);`
+- obj_music Create (CODE 375): 按 `global.playlist` 写 17 首 theme[0..16]（10 张表）。
+- obj_music Step (CODE 377): soundplay 步进 1..16（>=16 归 0 再 +1，theme[0] 不参与）
+  且被 13 条 `!audio_is_playing(mus_*)` 包住；切轨只能发生在曲终。
+
+实测（example audio_timeline，seed 由第二参数给定，rm_town 200 tick）:
+| seed | global.playlist | 首播 sond | GML theme[1] |
+|---|---|---|---|
+| 0x12345678 | 2 | 52 (blooddragon) | 52 ✓ |
+| 0xdeadbeef | 7 | 47 (synthonic) | 47 ✓ |
+| 0x1 | 8 | 38 (amdm7) | 38 ✓ |
+| 0x2 | 8 | 38 | 38 ✓ |
+
+结论:
+- 重建的 RNG/IR/音频模型对随机播放表复现**逐项吻合**（不是巧合：三张表三个值全中）。
+- 原版 `randomize()` 取自系统时钟 → 每局随机；重建的 `randomize()` 是确定性 seed
+  bump → **音频时间线必须 pin seed 才可复现**（example 已支持 `<ticks> <seed_hex>`）。
+- theme[0] 不参与序列（Step 先 +1 再取 theme[soundplay]），契约里应写明。

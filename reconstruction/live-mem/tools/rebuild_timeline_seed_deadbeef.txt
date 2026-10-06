@@ -1,0 +1,26 @@
+warning: unused workspace dependency `sdl2`
+  --> Cargo.toml:13:1
+   |
+13 | sdl2 = { version = "0.37", features = ["image"] }
+   | ^^^^
+   |
+   = note: `cargo::unused_workspace_dependencies` is set to `warn` by default
+help: consider removing the workspace dependency `sdl2`
+warning: hard linking files in the incremental compilation cache failed. copying files instead. consider moving the cache directory to a file system which supports hard linking in session dir `/data/data/com.termux/files/home/callys-caves-2-rs/target/debug/incremental/callys_core-04074kh6ljy8b/s-hmyidl6vvr-0cjc4yj-working`
+
+warning: unused variable: `sound`
+   --> crates/core/src/ir_scene.rs:395:45
+    |
+395 |     pub fn call_audio_sound_gain(&mut self, sound: f64, _gain: f64, _time: f64) {
+    |                                             ^^^^^ help: if this is intentional, prefix it with an underscore: `_sound`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: hard linking files in the incremental compilation cache failed. copying files instead. consider moving the cache directory to a file system which supports hard linking in session dir `/data/data/com.termux/files/home/callys-caves-2-rs/target/debug/incremental/audio_timeline-0jqm1vz9srqlv/s-hmyj7023n6-0m6xqe5-working`
+
+loaded 54 sound durations
+rng_seed=0xdf8b5eb69117ddfb (arg Some("0xdeadbeef"))
+global.playlist=Some(7.0)
+room=rm_town instances=177
+tick    0  code  377  sound   47  loop false  prio    0
+drained audio commands: 1

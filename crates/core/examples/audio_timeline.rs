@@ -46,7 +46,17 @@ fn main() {
         println!("WARNING: {} not found", dur_path.display());
     }
     s.set_room_speed(30.0);
+    // Seeded RNG pinning (must precede the room load): obj_UI's Create sets
+    // global.playlist = irandom_range(1,10) after randomize(), so the played
+    // theme depends on the RNG stream.
+    let seed_arg = std::env::args().nth(2);
+    if let Some(seed) = &seed_arg {
+        let v = seed.trim_start_matches("0x");
+        s.rng_seed = u64::from_str_radix(v, 16).unwrap_or(s.rng_seed);
+    }
     s.load_room_from_data(&bundle, 0, &asset.rooms[0]).expect("load rm_town");
+    println!("rng_seed={:#x} (arg {:?})", s.rng_seed, seed_arg);
+    println!("global.playlist={:?}", s.globals.get("playlist"));
     println!("room=rm_town instances={}", s.instances.len());
 
     let ticks: usize = std::env::args().nth(1).and_then(|v| v.parse().ok()).unwrap_or(600);
