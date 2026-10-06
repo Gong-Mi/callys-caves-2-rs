@@ -53,3 +53,16 @@
    → 每次事件的"实际播放集合"。
 4. 静态表：`tools/audio_static_table.py` → `live-mem/audio-call-table.json`
    （169 事件/450 调用，带音效实参 + 分支守卫）。
+
+## 5. 声音时长表（audio-durations.json，54/54）
+
+生成器 `../live-mem/tools/sond_durations.py`，两个来源：
+- music（sond kind 5199697，`*.ogg`）→ APK `assets/mus_<ext>`：OGG 末页 granule /
+  Vorbis 识别头采样率。25 首，25–296 s。
+- sfx（sond kind 5198594，内嵌）→ `assets/game.droid` 的 AUDO 分块：RIFF/WAVE 的
+  fmt byte-rate 与 data 长度。29 条，0.19–200 s。
+
+用途：`Scene::set_sound_duration` + `set_room_speed` 让非循环声部在真实时长内保持
+`audio_is_playing`，原版的门（obj_music 序列器、SFX 重播抑制）才成立。
+注意 sond 0 (`bee`) 数据本身就是 200 s / 17.6 MB 单声道 16-bit 44.1 kHz；
+`ticks_at_30hz` 列按 30 Hz 换算，供 IR 侧直接使用。

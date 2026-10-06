@@ -369,3 +369,14 @@ audio-call-table.json 的 524 条 global.* 守卫按 live 值求值）→ 882 �
     `!audio_is_playing(...)` 长链语义一致（52=blooddragon 141s=4237 tick ≫ 900）。
 - 待办: SFX 时长（sond 0..28，wav 内嵌于 game.droid 的 SBUF）解析后同一机制即可
   覆盖战斗音效门；另可核对 rm_town 首播曲应为 theme[soundplay=1] 对应的曲目。
+
+## 18. 时长表扩展到全部 54 个 sond（SFX 亦覆盖）
+
+- AUDO 分块（game.droid @7,142,204，29 条）内嵌 RIFF/WAVE，fmt byte-rate × data
+  长度即时长；sond 0..28 的 audio_id 直接索引 AUDO，无缺口。
+- 合并 ogg music(25) + wav sfx(29) = 54/54 → contracts/audio-durations.json，
+  生成器 tools/sond_durations.py（`--apk/--droid/-o` 可指定输入输出）。
+- 抽查: AUDO[0] bee = 17,640,000 B / 88,200 B/s = 200.000 s（数据本身如此，
+  非解析错误）；weaponswap 0.815 s、explode 1.300 s 均合理。
+- 影响: 交给 Scene 后 SFX 门也从"drain 即退"变为"时长内保持"——战斗音效的
+  重播抑制与原版一致（此前仅 music 有时长）。
