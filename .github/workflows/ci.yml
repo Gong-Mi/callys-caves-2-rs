@@ -7,6 +7,7 @@ on:
     branches: [ main, master, fix/prologue-render-layers, fix/active-view-dispatch,
                 fix/prologue-boot-order, fix/view-canvas-1136x640, chore/repo-hygiene,
                 fix/presentation-gles3, fix/camera-follow, fix/story-runtime-boundaries ]
+  workflow_dispatch:
 
 concurrency:
   # A superseding push to the same PR ref cancels the stale run (its result is
@@ -50,6 +51,14 @@ jobs:
           sudo apt-get install -y libsdl2-dev libsdl2-image-dev aapt zipalign
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
+      - name: Cache cargo artifacts
+        if: steps.scope.outputs.code == 'true'
+        uses: Swatinem/rust-cache@v2
+        with:
+          # Caches ./target (both the release builds and the ci-test test
+          # profile live there) + the cargo registry, keyed on the lockfile and
+          # toolchain. Save even on failed runs so a red iteration is fast.
+          cache-on-failure: true
       - name: Install cargo-nextest
         uses: taiki-e/install-action@v2
         with:
