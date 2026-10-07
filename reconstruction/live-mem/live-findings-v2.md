@@ -498,3 +498,27 @@ tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
   不在 OpenAL 后端。
 
 工具: `tools/audio_state_probe.py`（六 gate + init 槽 + sound tbl + bump 一次读全，--flip/--poll）。
+
+## 24. Sound 表(0x75529C)装载路径静态定位（接 §23 下一步）
+
+- 工具 `tools/find_data_pairs.py`: 原始扫描 `ldr rX,[pc,#imm]`+`add X,pc,X` 对，
+  报告每个计算出的 data base（**坑: capstone 的 ldr-literal imm12 在助记符里是原字节偏移，
+  不要再乘 4**；两处实测锚定 Audio_Initialize base 0x755470 与 PlaySound gates 0/1）。
+  结果: base=0x75529C 的站点 71 个（音频函数族），另有 1 个 =0x755290。
+- base 邻域内 str/strd 写 +0x18..+0x34 的**唯一装载/更新点: 函数 0x21904c**
+  （0x219164/0x219170 处 `str r4,[r3,#0x24]`、`str sb,[r3,#0x20]`）。
+  它比较 r0 对象首词与 tbl+0x20（count），同步 count + 维护 +0x24 表；
+  0x219144 一条路径会把 +0x24 写 0。**count=0 ⇔ 这个函数从未以真实声音对象表被调用。**
+- 0x21904c 无直接 BL 调用者，但文件 0x120f94 有指向 0x219048 的函数指针，且 0x1c784 起
+  是 22 条 16B 记录 {magic=0x80012, name_ptr, fn, size} 的 **DS builtin 派发表**
+  （名字串区 0x3bc00..: F_DsListSetPre/F_DsMapSetPre/F_DsMapFindValue/…/F_DsPriority…）
+  —— 该装载函数属于 runtime builtin 派发族，经指针表 blx 进入，不走静态 BL。
+  （记录表我的 stride 解析存在错位，name 列有 garble；定名留待下轮按 name_ptr 重排。）
+- 活体（tools/sound_tbl_probe.py, pid 27859）: 表对象 0xe2388668 的
+  +0x18/+0x20/+0x24/+0x28/+0x30/+0x34/+0x48/+0x4c **全 0** —— 声音表整体空，非只缺 count。
+- 下一步（收窄后）:
+  1. 修正 0x1c784 派发表解析（按 name_ptr 重对齐），确认 0x21904c 的 builtin 名字
+     ——若它是 ds_* 之一，则 sound 表的填充者是 GML 启动期数据装载；
+  2. 追 runner 数据文件装载路径（g_pDataFile/YYFile）里 "sounds" 段在壳内是否解析；
+     壳的 manifest metaData 未喂（§0 未做项）是候选前置；
+  3. 对照实验: 真机（前台原版）同槽读 0x75529C+0x20 —— 若非 0，则差异锁定壳装载路径缺段。
