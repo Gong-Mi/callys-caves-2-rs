@@ -44,12 +44,14 @@
 
 ## 3. 读不到 / 不可靠
 
-- **音频播放态**：~~OpenAL 初始化失败导致子系统禁用，修法是清 gate + noop 补丁~~
-  ——**已被 live-findings-v2 §23 对照实验证伪**：pristine libopenal 下
-  Audio_Initialize 成功（device/ctx 槽 0x755470/74 均有效），gate 字节取值与
-  音频初始化成败无关；真正卡点是**声音数据层未装载**——
-  Sound 表对象(0x75529C)+0x20 界字段=0 ⇒ GetSoundSourceToPlay 恒空 ⇒
-  Audio_PlaySound 早退、mgr(0x7553AC) 恒 0。下一步 RE 0x75529C 的装载路径。
+- **音频播放态**：已定性闭环（findings §23-26），**不可单点解锁**，不再投入冷启动轮次：
+  (a) mgr 接口对象（0x3ED718 槽的 vtable 族）在壳内从未装载——注意 0x75529C 声音表
+      本身**装载完好**（54/54 CSound，§24 纠错），缺的是 mgr 就绪层；
+  (b) 短路门 0x3EF050 非 0（实测 248）时 F_AudioPlaying(0x134be8) 走 popne 路径
+      不改 r0（r0=[sp,#8]=声音索引）⇒ **audio_is_playing 恒真** ⇒ obj_music Step
+      25 级链第一条即截断、soundplay 恒 0（注入-钳位法证明 Step 在派发，§25）。
+  翻门后尾调 0x217a80 default 分支需要活 mgr 虚调用（vtable+0xc），单翻无效（实测 15s）。
+  "什么时间播放什么"按 §4 路线 = IR 事件序列 + 状态交叉校验 + 守卫求值。
 - **逐事件时间序**：单全局变量采样无法重建事件序列（帧内工作微秒级完成，
   采样必然落在帧末）。**不要用内存轮询做事件流**；改用 Rust IR 仿真出事件序列
   + live 状态交叉校验。
