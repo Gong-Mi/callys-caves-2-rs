@@ -135,10 +135,50 @@ RGB565 与 RGBA8888 持平。格式不是本后端的优化点（这条写进来
 
 rem_level17 从"单独绘图就超 16.67 ms 预算"回到预算内（12.38 ms），但余量仍薄。
 
+### 6.1 第二片：整帧递交路径 + 采样（同一 PR 内）
+
+- **`nativeBlitToIntArray` 的逐像素重排是空转**：framebuffer 就是 BGRA8888，而小端
+  `0xAARRGGBB` int 在内存里正是同样四字节 ⇒ 原来的"读 chunk、移位打包、写回 int"是
+  **逐字节恒等变换**。改为 `Framebuffer::pack_into_i32`（`copy_nonoverlapping` 批量拷贝），
+  附单测同时断言 int 序列与底层字节序列一致，防这个假设悄悄失效。
+  实测 **0.50 → 0.07 ms/帧**（并少一次 2.9 MB 分配）。
+- `fill_rect` 改 4 字节 pattern 的 `chunks_exact_mut` 填充（字节相同，指令更少）。
+- 两个 blit 的采样改走 `atlas.as_raw()`，不再每像素调 `get_pixel` 的重复边界检查
+  （我们自己的判定已经保证下标在范围内）。
+
+等价性判据：`draw_hash` 400 帧哈希仍与基线**完全相同**（sha256 `790d13ea…`）；新增
+`pack_into_i32_is_byte_identical_to_per_pixel_repack` 单测通过；Android 目标
+`cargo check --features android --target aarch64-linux-android` 通过。
+
+累积提速（300 次平均）：
+
+| 房间 | 基线 | 一片后 | 二片后 | 总计 |
+| --- | --- | --- | --- | --- |
+| rm_town | 12.22 | 9.54 | 7.51 | 1.63× |
+| room42 | 13.69 | 10.30 | 9.31 | 1.47× |
+| rm_level1 | 14.02 | 9.39 | 8.51 | 1.65× |
+| rm_level17 | 19.54 | 12.38 | 11.49 | 1.70× |
+| rm_level16 | 13.43 | 9.53 | 7.43 | 1.81× |
+| rm_level2 | 12.97 | 8.43 | 7.32 | 1.77× |
+
+### 6.2 这一轮扫出的其它问题（尚未处理）
+
+1. **Rust presenter 若直接接线会 R/B 互换**：`GlesPresenter` 的 fragment shader 注释写着
+   "Engine bytes are little-endian ARGB ints = B,G,R,A in memory; an RGBA upload therefore
+   reads back swapped, so swizzle here" 并 `texture(...).bgra`。而 `parts/gles.rs` 是直接把
+   `state.fb.pixels` 当 `GL_RGBA` 上传的——**它接上后颜色会反**，除非同样做 swizzle/换格式。
+   这解释了它为何停在被合并但未接线的状态，也是接线前必须先解决的点。
+2. **帧节拍**：渲染循环是 `Thread.sleep(16_666_667 - work)` 自计时，没有 `Choreographer`
+   / vsync 回调，也没有 `setFrameRate`/display-mode 提示；eglSwapBuffers 本身有 vsync，
+   但工作点固定在任意相位，120 Hz 屏上会周期性错过 vsync（jitter）。
+3. **静止内容仍满速重画**：过场静帧/菜单不改画面也每帧重光栅化 + 重上传（屏上看到的正是静帧）。
+4. GPU 仍全程闲置（130 MHz）：架构上未用 GPU 做 sprite/tile 绘制。
+
 ## 7. 归因与修法（按性价比排序）
-1. **继续压两个 blit 循环**（已做第一轮，见 §6）：剩余成本仍在逐像素采样与混合
-   （`atlas.get_pixel` 的重复边界检查、非不透明像素的浮点混合）。静态层缓存的收益前提
-   不成立——命令生成只占 0.1 ms，且背景坐标随相机移动，缓存会被频繁失效。
+1. **继续压两个 blit 循环**（已做两轮，见 §6/§6.1）：已完成裁剪外提、增量除法、等价快路径、
+   批量递交与去重边界检查；剩余成本是**非不透明像素的浮点混合**（`put_blended` 的
+   `src*a + dst*(1-a)` 每通道 round）与逐像素 f64 采样。静态层缓存的前提不成立——命令生成
+   只占 0.1 ms，且背景坐标随相机移动，缓存会被频繁失效。
 2. **帧内容不变时不重光栅化**：实测看到的静止过场（cutscene 静帧）仍在 60 fps 满速重画 12 ms/帧。
 3. **接上已存在的 Rust presenter**：省掉 0.6 ms 重排 + 2.91 MB JNI 拷贝（约 1–2 ms）。
 4. **把 sprite/tile 绘制搬到 GPU**（结构改造，Issue #54 的"GlesPresenter 只上传整帧、不是

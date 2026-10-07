@@ -71,9 +71,10 @@ fn main() {
         let b = time_it("b. raster (draw_frame)", || {
             draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites)
         });
-        // c. exact loop from parts/jni.rs nativeBlitToIntArray
+        // c. presentation pack: the retired per-pixel repack vs the bulk copy
+        //    now used by nativeBlitToIntArray (proven byte-identical)
         let mut blit: Vec<i32> = Vec::with_capacity((W * H) as usize);
-        let c = time_it("c. shuffle (ABGR->ARGB, per pixel)", || {
+        let c_old = time_it("c1. repack per pixel (retired)", || {
             blit.clear();
             for chunk in fb.pixels.chunks_exact(4) {
                 let (b_, g_, r_, a_) = (chunk[0], chunk[1], chunk[2], chunk[3]);
@@ -82,11 +83,15 @@ fn main() {
                 blit.push(argb as i32);
             }
         });
+        let c = time_it("c2. bulk pack (in use)", || {
+            fb.pack_into_i32(&mut blit);
+        });
         let total = a + b + c;
         println!(
-            "{:34} {total:8.2} ms/frame  -> {:.1} fps ceiling on CPU alone",
-            "CPU subtotal (a+b+c)",
-            1000.0 / total
+            "{:34} {total:8.2} ms/frame  -> {:.1} fps ceiling on CPU alone (repack was {:.2})",
+            "CPU subtotal (a+b+c2)",
+            1000.0 / total,
+            c_old
         );
         let bytes = (W * H * 4) as f64;
         println!(
