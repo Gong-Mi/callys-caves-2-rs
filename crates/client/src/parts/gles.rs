@@ -136,10 +136,13 @@ pub mod gles {
     const EGL_OPENGL_ES3_BIT: c_int = 0x40; // EGL_OPENGL_ES3_BIT_KHR
     const EGL_SURFACE_TYPE: c_int = 0x3033;
     const EGL_WINDOW_BIT: c_int = 0x0004;
-    const EGL_RED_SIZE: c_int = 8;
-    const EGL_GREEN_SIZE: c_int = 9;
-    const EGL_BLUE_SIZE: c_int = 10;
-    const EGL_ALPHA_SIZE: c_int = 11;
+    // EGL config attribute ids (EGL 1.5 §3.4): the previous values (8/9/10/11)
+    // were not attribute ids at all, so eglChooseConfig returned EGL_FALSE with
+    // EGL_BAD_ATTRIBUTE and the Rust presenter could never initialise.
+    const EGL_RED_SIZE: c_int = 0x3024;
+    const EGL_GREEN_SIZE: c_int = 0x3023;
+    const EGL_BLUE_SIZE: c_int = 0x3022;
+    const EGL_ALPHA_SIZE: c_int = 0x3021;
     const EGL_NONE: c_int = 0x3038;
     const EGL_WIDTH: c_int = 0x3057;
     const EGL_HEIGHT: c_int = 0x3056;
