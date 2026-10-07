@@ -215,6 +215,15 @@ pub mod gles {
         surface_height: c_int,
         init_failed_logged: bool,
         blit_miss_logged: bool,
+        /// Bytes of the frame most recently handed to eglSwapBuffers; the
+        /// unchanged-frame skip compares against this (empty before the first
+        /// present).
+        last_presented: Vec<u8>,
+        /// Present unconditionally on the next call: set when a window is
+        /// (re)attached, when the window surface is destroyed, and by
+        /// `force_next_present` (host surface events). Only a successful
+        /// present clears it.
+        force_present: bool,
     }
 
     // Only ever touched behind the mutex below; see the module comment.
@@ -246,6 +255,8 @@ pub mod gles {
                 surface_height: 0,
                 init_failed_logged: false,
                 blit_miss_logged: false,
+                last_presented: Vec::new(),
+                force_present: true,
             }
         }
 
@@ -255,6 +266,13 @@ pub mod gles {
         /// reference for as long as the window surface exists.
         pub fn set_window(&mut self, window: *mut c_void) {
             if window == self.window {
+                // The caller hands us a fresh ANativeWindow reference from
+                // ANativeWindow_fromSurface even when it is the same window
+                // (repeated surface events); drop that reference - we keep
+                // holding the one stored here.
+                if !window.is_null() {
+                    unsafe { ANativeWindow_release(window) };
+                }
                 return;
             }
             log(&format!("set_window valid={}", !window.is_null()));
@@ -265,6 +283,14 @@ pub mod gles {
                 }
             }
             self.window = window;
+            self.force_present = true;
+        }
+
+        /// Request one unconditional present on the next call. The Java host
+        /// sends this on every surface event (create/change): the current
+        /// frame must be shown even when it did not change meanwhile.
+        pub fn force_next_present(&mut self) {
+            self.force_present = true;
         }
 
         pub fn release(&mut self) {
@@ -283,8 +309,10 @@ pub mod gles {
             self.config = std::ptr::null_mut();
         }
 
-        /// Upload one BGRA frame and swap. Returns true when a frame was
-        /// presented.
+        /// Upload one BGRA frame and swap, unless it is byte-identical to the
+        /// last presented frame - then nothing is uploaded, drawn or swapped
+        /// and the swap chain still shows the same picture. Returns true when
+        /// a frame was presented.
         pub fn present(&mut self, pixels: &[u8], width: u32, height: u32) -> bool {
             if self.window.is_null() {
                 if !self.blit_miss_logged {
@@ -294,6 +322,15 @@ pub mod gles {
                 return false;
             }
             self.blit_miss_logged = false;
+            // Unchanged frame: skip the whole present. Only a successful
+            // present clears `force_present`, so a rebuilt surface or a host
+            // surface event can never be eaten by this check.
+            if !self.force_present
+                && self.last_presented.len() == pixels.len()
+                && self.last_presented.as_slice() == pixels
+            {
+                return false;
+            }
             unsafe {
                 if self.display == EGL_NO_DISPLAY && !self.init_egl() {
                     return false;
@@ -338,6 +375,11 @@ pub mod gles {
                     return false;
                 }
             }
+            if self.last_presented.len() != pixels.len() {
+                self.last_presented.resize(pixels.len(), 0);
+            }
+            self.last_presented.copy_from_slice(pixels);
+            self.force_present = false;
             true
         }
 
@@ -421,6 +463,9 @@ pub mod gles {
             self.surface = EGL_NO_SURFACE;
             self.surface_width = 0;
             self.surface_height = 0;
+            // The next present must repaint even if the framebuffer has not
+            // changed: the surface (or its EGL state) just went away.
+            self.force_present = true;
         }
 
         unsafe fn create_program(&mut self) -> bool {

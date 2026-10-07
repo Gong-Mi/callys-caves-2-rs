@@ -57,23 +57,22 @@ public class MainActivity extends Activity {
     private native void nativePointerRelease(float x, float y);
     private native int  nativeGetWidth();
     private native int  nativeGetHeight();
-    /// Returns true when the engine frame changed; false means the previous
-    /// picture is still current and Java skips the whole present (upload, draw
-    /// and swap). Skipping the swap is required as well: the back buffer's
-    /// contents after eglSwapBuffers are undefined, so a present that uploads
-    /// nothing must not swap either.
+    /// Legacy int[] blit + change flag. The app's present path no longer uses
+    /// this (nativePresent uploads the framebuffer directly and skips
+    /// unchanged frames in Rust); it stays for tooling and tests.
     private native boolean nativeBlitToIntArray(int[] pixels);
+    /// Hand the window to the Rust presenter; also forces the next present so
+    /// a surface (re)creation always shows the current frame.
+    private native void nativeSetSurface(android.view.Surface surface);
+    /// Upload + draw + swap the engine frame, skipping the whole present when
+    /// it is unchanged. Returns whether a frame was presented.
+    private native boolean nativePresent();
     private native int nativePollSound();
     private native int nativePollHaptic();
 
     private SurfaceView surface;
-    private int[] pixelBuffer;
     private Thread renderThread;
     private volatile boolean running;
-    /// Force one present after the surface is (re)created: the framebuffer may
-    /// be unchanged but the new EGL surface has never shown it.
-    private volatile boolean forcePresent = true;
-    private final GlesPresenter gles = new GlesPresenter();
     private final Rect gameRect = new Rect();
     private SoundPool soundPool;
     private Vibrator vibrator;
@@ -189,8 +188,7 @@ public class MainActivity extends Activity {
     private final class SurfaceLifecycle implements SurfaceHolder.Callback {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-            forcePresent = true;
-            gles.setSurface(holder.getSurface());
+            nativeSetSurface(holder.getSurface());
             startEngine();
         }
         @Override
@@ -201,12 +199,11 @@ public class MainActivity extends Activity {
             // original runner's window-sized GL backbuffer. The full surface
             // is also the touch coordinate space.
             gameRect.set(0, 0, w, hgt);
-            forcePresent = true;
-            gles.setSurface(holder.getSurface());
+            nativeSetSurface(holder.getSurface());
         }
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            gles.setSurface(null);
+            nativeSetSurface(null);
             stopEngine();
         }
     }
@@ -300,7 +297,6 @@ public class MainActivity extends Activity {
             h = surface.getHeight();
             nativeResize(w, h);
         }
-        pixelBuffer = new int[w * h];
 
         nativeSetClockPaused(false);
         running = true;
@@ -338,17 +334,14 @@ public class MainActivity extends Activity {
                 nativeStep(now);
                 playQueuedSounds();
                 playQueuedHaptics();
-                boolean frameChanged = nativeBlitToIntArray(pixelBuffer);
-                // Our own GLES3 presenter (EGL14 + GLES30): the engine frame
-                // goes into an RGBA texture and is drawn as one quad stretched
-                // per axis onto the whole surface. No framework Canvas / HWUI
-                // in the path; sampling is explicitly GL_NEAREST.
-                // Unchanged frames skip the present entirely (see
-                // nativeBlitToIntArray): stills and menus cost one memcmp.
-                if (frameChanged || forcePresent) {
-                    forcePresent = false;
-                    gles.present(pixelBuffer);
-                }
+                // The Rust presenter (EGL14 + GLES30, parts/gles.rs) uploads
+                // the engine framebuffer straight into its texture and draws
+                // it as one quad stretched per axis onto the whole surface -
+                // no int[] crosses JNI. It skips the whole present (upload,
+                // draw and swap) by itself when the frame is byte-identical
+                // to the last presented one, and always presents once after a
+                // surface (re)creation.
+                nativePresent();
                 long remainingNs = 16_666_667L - (System.nanoTime() - now);
                 if (remainingNs > 0) {
                     try {
@@ -590,7 +583,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         stopEngine();
-        gles.release();
+        // Release the EGL window (the process-wide presenter keeps its
+        // display/context; a later surface re-attaches and repaints).
+        nativeSetSurface(null);
         releaseSoundPool();
         super.onDestroy();
     }
