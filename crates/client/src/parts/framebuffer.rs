@@ -206,22 +206,65 @@ impl Framebuffer {
         let (sx, sy, sw, sh) = src;
         let (dx, dy, dw, dh) = dst;
         if sw == 0 || sh == 0 || dw == 0 || dh == 0 { return; }
-        for oy in 0..dh {
-            let py = dy + oy as i32;
-            if py < 0 || py >= self.height as i32 { continue; }
-            let src_y = sy + oy * sh / dh;
-            for ox in 0..dw {
-                let px = dx + ox as i32;
-                if px < 0 || px >= self.width as i32 { continue; }
-                let sample_x = ox * sw / dw;
-                let src_x = sx + if flip_x { sw - 1 - sample_x } else { sample_x };
-                if src_x >= atlas.width() || src_y >= atlas.height() { continue; }
-                let rgba = atlas.get_pixel(src_x, src_y).0;
-                if rgba[3] >= 16 {
-                    // Per-pixel source alpha times draw alpha (GM image_blend alpha).
-                    let combined = (rgba[3] as f32 / 255.0) * alpha;
-                    self.put_blended(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]), combined);
+        // Clip the destination band once. The per-pixel version below tested
+        // every pixel against the framebuffer bounds; skipping the same pixels
+        // up front is the same set, and it lets the inner loop index directly.
+        let py0 = dy.max(0);
+        let py1 = (dy + dh as i32).min(self.height as i32);
+        let px0 = dx.max(0);
+        let px1 = (dx + dw as i32).min(self.width as i32);
+        if py0 >= py1 || px0 >= px1 { return; }
+        let aw = atlas.width() as u64;
+        let (sh64, dh64) = (sh as u64, dh as u64);
+        let (sw64, dw64) = (sw as u64, dw as u64);
+        let opaque = alpha >= 1.0;
+        // Source row for the first visible scanline, then advanced by
+        // incremental division: `row`/`rem` reproduce `oy * sh / dh` exactly
+        // without a division per pixel.
+        let oy0 = (py0 - dy) as u64;
+        let mut row = sy as u64 + (oy0 * sh64) / dh64;
+        let mut rem_y = (oy0 * sh64) % dh64;
+        let fb_w = self.width as usize;
+        for py in py0..py1 {
+            if row < atlas.height() as u64 {
+                let row_u32 = row as u32;
+                let ox0 = (px0 - dx) as u64;
+                let mut sample_x = (ox0 * sw64) / dw64;
+                let mut rem_x = (ox0 * sw64) % dw64;
+                let base = (py as usize) * fb_w * 4;
+                for px in px0..px1 {
+                    let src_x = sx as u64
+                        + if flip_x { sw64 - 1 - sample_x } else { sample_x };
+                    if src_x < aw {
+                        let rgba = atlas.get_pixel(src_x as u32, row_u32).0;
+                        if rgba[3] >= 16 {
+                            // Per-pixel source alpha times draw alpha (GM image_blend alpha).
+                            let color = (rgba[0], rgba[1], rgba[2], rgba[3]);
+                            if opaque && rgba[3] == 255 {
+                                // put() by hand: the destination index is known
+                                // to be in range from the band clipped above.
+                                let i = base + (px as usize) * 4;
+                                self.pixels[i] = color.2;
+                                self.pixels[i + 1] = color.1;
+                                self.pixels[i + 2] = color.0;
+                                self.pixels[i + 3] = color.3;
+                            } else {
+                                let combined = (rgba[3] as f32 / 255.0) * alpha;
+                                self.put_blended(px, py, color, combined);
+                            }
+                        }
+                    }
+                    rem_x += sw64;
+                    while rem_x >= dw64 {
+                        rem_x -= dw64;
+                        sample_x += 1;
+                    }
                 }
+            }
+            rem_y += sh64;
+            while rem_y >= dh64 {
+                rem_y -= dh64;
+                row += 1;
             }
         }
     }
@@ -277,6 +320,50 @@ impl Framebuffer {
         // Frame rect stretched onto the sprite canvas, so a frame smaller than
         // the canvas still anchors on the origin the way the hitboxes do.
         let (du, dv) = (sw as f64 / cw, sh as f64 / ch);
+        // Exactly-equivalent fast path for the common case: axis-aligned, unit
+        // scale (the original's own `image_xscale`/`image_yscale` = ±1), no fog
+        // and identity blend. The inverse rotation is then the identity
+        // transform (cos == 1, sin == 0 => lx = rx*1 - ry*0 == rx, ly == ry),
+        // and dividing by ±1.0 is exact, so the per-pixel f64 rotation, its two
+        // divisions and the three identity blend multiplies all drop out.
+        // Sampling (`su`/`sv`), every bounds test, the alpha rules and the
+        // writes are unchanged, so the produced bytes are identical.
+        if rotation_deg == 0.0
+            && (scale.0 == 1.0 || scale.0 == -1.0)
+            && (scale.1 == 1.0 || scale.1 == -1.0)
+            && flood.is_none()
+            && blend == (255, 255, 255)
+        {
+            let (aw, ah) = (atlas.width(), atlas.height());
+            for py in y0..=y1 {
+                let ry = py as f64 + 0.5 - dst_origin.1;
+                let v = if scale.1 == 1.0 { ry + oy } else { -ry + oy };
+                if v < 0.0 || v >= ch { continue; }
+                let sv_f = sy as f64 + v * dv;
+                if sv_f < 0.0 { continue; }
+                let sv = sv_f as u32;
+                if sv >= ah { continue; }
+                for px in x0..=x1 {
+                    let rx = px as f64 + 0.5 - dst_origin.0;
+                    let u = if scale.0 == 1.0 { rx + ox } else { -rx + ox };
+                    if u < 0.0 || u >= cw { continue; }
+                    let su_f = sx as f64 + u * du;
+                    if su_f < 0.0 { continue; }
+                    let su = su_f as u32;
+                    if su >= aw { continue; }
+                    let rgba = atlas.get_pixel(su, sv).0;
+                    if rgba[3] < 16 { continue; }
+                    if alpha >= 1.0 && rgba[3] == 255 {
+                        self.put(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]));
+                    } else {
+                        let a = (rgba[3] as f32 / 255.0) * alpha;
+                        if a <= 0.0 { continue; }
+                        self.put_blended(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]), a);
+                    }
+                }
+            }
+            return;
+        }
         for py in y0..=y1 {
             for px in x0..=x1 {
                 let rx = px as f64 + 0.5 - dst_origin.0;
