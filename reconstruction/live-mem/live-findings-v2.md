@@ -461,3 +461,40 @@ tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
 
 至此实例/全局标量 + 数组均可读；音频侧数据面（playlist、theme[]、soundplay）在原版
 活体上全部可观测。
+
+## 23. 音频"修法"配方实验: alc noop 补丁 + gate 全翻 —— 假设被证伪（如实记录）
+
+契约 §3/§9 登记的修法 = 「清 gate 字节 + libopenal 导出叶函数 noop 补丁」。本轮把它做完，
+结论: **两个动作都不解锁播放状态机；且"OpenAL 初始化失败导致音频禁用"的因果链本身站不住**。
+
+### 施工与对照
+
+1. alc 层补丁 `shell32/patch_alc_noop.py`（本轮新入库）: 在上一轮 25 个 al* 叶函数之外，
+   补齐 libyoyo 实际导入的 alc 层 + 漏网 al*，共 30 个 `mov r0,#imm; bx lr`（hbt 安全子集）。
+   alcOpenDevice/alcCreateContext/alcMakeContextCurrent→1，其余防假句柄解引用→0。
+   libyoyo PLT 表位由 .rel.plt 顺序公式 `plt=0xb64e8+20+12*relidx` 标定
+   （锚点 __android_log_vprint=0xb661c 验证通过）；BL 扫描 opcode 掩码须 (w>>26)==0x3A。
+2. 实验组（补丁库冷启动, pid 2381）: Audio_Initialize 的槽 0x755470=1、0x755474=1（成功臂写入），
+   四个 gate 翻 0 后 **mgr 0x7553AC 恒 0、CNoise bump_top 恒 0xe3530000、obj_music.soundplay 恒 0**。
+   注入按住右键玩家 416→563（游戏在步进），非冻结。
+3. **对照组（pristine libopenal 冷启动, pid 11349）**: 0x755470=1、**0x755474=真实堆指针**
+   ——真 alc 打开设备/建上下文全部成功。§9 "OpenSL dlsym IID 全挂→子系统禁用" 至少在
+   init 层不成立（v1 时代的失败模式未在当前壳复现）。
+4. gate 字节两侧完全相同（F_gate=16、flag1=16、flag2=56、startnoise=148、PS_gate1=0、
+   PS_gate2=1）→ gate 值与音频初始化成败无关；§8 猜的 "0x3EF0D4=F_AudioPlaySound gate"
+   可能根本不是布尔门（16/56/148 像配置值或别的字段；`ldrb;cmp #0` 检查的是二级指针指向
+   的堆字节）。
+5. 声音数据层: Audio_GetSoundSourceToPlay(0x21632c) 的查找界 [r3+0x20]（0x75529C 对象的
+   +0x20 字段）**=0**，两组实验一致 → 任何索引查 Sound 都直接失败 → 空源 → Audio_PlaySound
+   0x21b624 `subs sb,r0,#0; beq` 早退。Sound bank 从未装载——这才是要追的点。
+
+### 修正后的下一步（替换 §9 的三步配方）
+
+- 放弃 "清 gate + noop" 组合；先 RE **0x75529C 对象的装载路径**（谁写 +0x20 界字段）:
+  候选=Startup 期 droid/game.droid 解析或首次 audio 事件。壳里 game.droid 已解压成功
+  （AUDO 分块能静态解析，§18），所以更可能是装载入口依赖某个未满足前置（如 yyprefs/
+  manifest metaData，§0 未做项）。
+- Audio_Initialize 在 pristine 下即成功 ⇒ 补一句: 壳音频问题的根因在 **数据装载层**，
+  不在 OpenAL 后端。
+
+工具: `tools/audio_state_probe.py`（六 gate + init 槽 + sound tbl + bump 一次读全，--flip/--poll）。

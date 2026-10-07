@@ -44,9 +44,12 @@
 
 ## 3. 读不到 / 不可靠
 
-- **音频播放态**：壳内 OpenAL 设备打开失败（hbt 下 OpenSL dlsym IID 全挂）→
-  音频子系统被禁用 → 管理器空、F_ 层 gate 字节非 0（调用被短路）。
-  修法（下轮，hbt 安全）: 清 gate 字节 + libopenal 导出叶函数 noop 补丁。
+- **音频播放态**：~~OpenAL 初始化失败导致子系统禁用，修法是清 gate + noop 补丁~~
+  ——**已被 live-findings-v2 §23 对照实验证伪**：pristine libopenal 下
+  Audio_Initialize 成功（device/ctx 槽 0x755470/74 均有效），gate 字节取值与
+  音频初始化成败无关；真正卡点是**声音数据层未装载**——
+  Sound 表对象(0x75529C)+0x20 界字段=0 ⇒ GetSoundSourceToPlay 恒空 ⇒
+  Audio_PlaySound 早退、mgr(0x7553AC) 恒 0。下一步 RE 0x75529C 的装载路径。
 - **逐事件时间序**：单全局变量采样无法重建事件序列（帧内工作微秒级完成，
   采样必然落在帧末）。**不要用内存轮询做事件流**；改用 Rust IR 仿真出事件序列
   + live 状态交叉校验。
