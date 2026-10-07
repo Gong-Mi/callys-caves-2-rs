@@ -8,7 +8,12 @@ invariant):
                     resources.arsc, the arm64 cdylib and the engine assets.
   2. elf          - libcallys_client.so is ELF64/aarch64, has no DT_RPATH /
                     DT_RUNPATH and needs no host sysroot (no /com.termux/
-                    dependency), so the device linker can load it.
+                    dependency), so the device linker can load it. Every
+                    GLOBAL undefined symbol must also be exported by the NDK
+                    API-24 stub of some DT_NEEDED library: the device linker
+                    resolves against system libs whose export set the stubs
+                    mirror (an eglGetString reference passed every other
+                    check and SIG-aborted System.loadLibrary on device).
   3. 16kb pages   - every PT_LOAD is 16 KB aligned, and the stored (not
                     compressed) .so entry is 16 KB aligned inside the zip.
   4. dex classes  - every host class under android-build/src is in classes.dex
@@ -105,6 +110,75 @@ def dynamic_entries(data: bytes, dynamic):
     off, size = dynamic
     for i in range(size // 16):
         yield struct.unpack_from("<qQ", data, off + i * 16)
+
+
+def elf_undefined_globals(data: bytes) -> list[str]:
+    """GLOBAL (non-WEAK) undefined symbol names from a cdylib's .dynsym.
+
+    Weak undefined symbols are legal load-time misses for the Android linker,
+    so they are not candidates for the stub-resolution check.
+    """
+    out = []
+    for st_name, shndx, bind, strtab_off in _dynsym_rows(data):
+        if shndx != 0 or bind != 1:  # section 0 = UND; bind 1 = GLOBAL
+            continue
+        o = strtab_off + st_name
+        out.append(data[o : data.index(b"\x00", o)].decode())
+    return out
+
+
+def _dynsym_rows(data: bytes):
+    """Yield (st_name, shndx, bind, strtab_file_off) for every .dynsym entry."""
+    e_shoff = struct.unpack_from("<Q", data, 0x28)[0]
+    e_shentsize = struct.unpack_from("<H", data, 0x3A)[0]
+    e_shnum = struct.unpack_from("<H", data, 0x3C)[0]
+    secs = {}
+    for i in range(e_shnum):
+        o = e_shoff + i * e_shentsize
+        _name, stype, _f, _a, offset, size, link, _info, _af, entsize = struct.unpack_from(
+            "<IIQQQQIIQQ", data, o
+        )
+        secs[i] = (stype, offset, size, link, entsize)
+    dynsym = next((s for s in secs.values() if s[0] == 11), None)  # SHT_DYNSYM = 11
+    if dynsym is None:
+        return
+    _t, off, size, strtab_link, entsize = dynsym
+    strtab_off = secs.get(strtab_link, (0, 0, 0, 0, 0))[1]
+    for i in range(size // (entsize or 24)):
+        so = off + i * (entsize or 24)
+        st_name = struct.unpack_from("<I", data, so)[0]
+        bind = (data[so + 4] >> 4) & 0xF
+        shndx = struct.unpack_from("<H", data, so + 6)[0]
+        yield st_name, shndx, bind, strtab_off
+
+
+def _stub_defined_rows(data: bytes):
+    """(st_name, strtab_off) for DEFINED (shndx != 0) entries of a stub's .dynsym.
+
+    Stub libraries also carry UND rows (their own imports); counting those as
+    exports would let a symbol the stub merely references pass resolution.
+    """
+    for st_name, shndx, _bind, strtab_off in _dynsym_rows(data):
+        if shndx != 0:
+            yield st_name, strtab_off
+
+
+def stub_exports(ndk_stub_dir: str, needed: list[str]) -> set[str]:
+    """Symbol names exported by the API-24 stub .so of each DT_NEEDED library
+    (missing stub files contribute nothing)."""
+    exports: set[str] = set()
+    for lib in needed:
+        path = os.path.join(ndk_stub_dir, lib)
+        if not os.path.isfile(path):
+            continue
+        try:
+            blob = open(path, "rb").read()
+            for st_name, _shndx, _bind, strtab_off in _dynsym_rows(blob):
+                o = strtab_off + st_name
+                exports.add(blob[o : blob.index(b"\x00", o)].decode().split("@")[0])
+        except Exception:
+            continue
+    return exports
 
 
 def binary_xml_strings(data: bytes) -> list[str]:
@@ -265,6 +339,49 @@ def main() -> int:
         not [d for d in host_deps if "termux" in d or d.startswith("/")],
         ", ".join(host_deps) if host_deps else "no DT_NEEDED read",
     )
+
+    # Device-linker resolvability, statically: every GLOBAL undefined symbol in
+    # the cdylib must be exported by the NDK API-24 stub of one of the
+    # DT_NEEDED system libs. The stubs mirror the device linker's namespace;
+    # eglGetString (added to neither the API-24 stub nor any device libEGL
+    # export set we sampled) SIG-aborted System.loadLibrary on device while
+    # every other check here passed.
+    ndk_home = os.environ.get("ANDROID_NDK_HOME") or ""
+    if not ndk_home:
+        sdk_root = (
+            os.environ.get("ANDROID_SDK_ROOT")
+            or os.environ.get("ANDROID_SDK")
+            or os.environ.get("ANDROID_HOME")
+            or "/data/data/com.termux/files/home/android-sdk"
+        )
+        ndks = sorted(glob.glob(os.path.join(sdk_root, "ndk", "*")))
+        ndk_home = ndks[-1] if ndks else ""
+    stub_dir = ""
+    if ndk_home:
+        # pick the prebuilt tree that actually exists (Termux python does not
+        # always report sys.platform == "linux")
+        for prebuilt in sorted(glob.glob(os.path.join(ndk_home, "toolchains/llvm/prebuilt/*"))):
+            cand = os.path.join(prebuilt, "sysroot/usr/lib/aarch64-linux-android/24")
+            if os.path.isdir(cand):
+                stub_dir = cand
+                break
+    undef = elf_undefined_globals(so) if elf_err is None else []
+    needed = host_deps or ["libdl.so", "liblog.so", "libm.so", "libc.so",
+                           "libEGL.so", "libGLESv3.so", "libandroid.so"]
+    if undef and os.path.isdir(stub_dir):
+        exports = stub_exports(stub_dir, needed)
+        unresolved = sorted({s for s in undef if s.split("@")[0] not in exports})
+        check(
+            "elf: every GLOBAL undefined symbol resolves against NDK API-24 stubs",
+            not unresolved,
+            f"{len(undef)} undef vs {len(exports)} stub syms"
+            + (f"; UNRESOLVED: {unresolved}" if unresolved else ""),
+        )
+    else:
+        results.append(("elf: every GLOBAL undefined symbol resolves against NDK API-24 stubs",
+                        True, "SKIPPED - no stub dir" if not os.path.isdir(stub_dir) else "SKIPPED - no undefs"))
+        print(f"[SKIP] elf: undefined-symbol stub resolution - "
+              f"{'stub dir missing: ' + stub_dir if not os.path.isdir(stub_dir) else 'no globals'}")
 
     src_root = DEFAULT_SOURCE_ROOT
     if "--source-root" in sys.argv:

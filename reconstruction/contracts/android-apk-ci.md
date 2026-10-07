@@ -38,6 +38,7 @@ python3 scripts/verify_apk.py      -> 10 项不变量断言
 | zip 内 .so 数据偏移 16 KB 对齐 | 同上，加载器按页映射，必须落在页边界 |
 | 无 DT_RPATH/DT_RUNPATH | 有宿主路径 = 真机 dlopen 静默失败 |
 | 无宿主 sysroot DT_NEEDED | 同上 |
+| 每个 GLOBAL 未定义符号可在 NDK API-24 stub 解析 | 设备链接器按系统库命名空间解析；stub 是它的静态替身。真机实锤：`eglGetString` 被 Rust presenter 引用，11/11 全绿的 APK 在 dlopen 时 `cannot locate symbol` 直接崩在 MainActivity.<clinit>（设备 libEGL 与 NDK 各 API 档 stub 都只导出 `eglQueryString`）。缺 stub 目录时报 SKIP，不假装 PASS。 |
 | classes.dex 含三个宿主类 | 否则 JNI 入口不存在 |
 | AXML 里 package/launch activity | 否则包名/入口不符 |
 | apksigner verify | 签名链完整（CI 用一次性身份，见下）。CI 里验证步骤是独立 shell，PATH 上没有 apksigner，所以验证器会自行到 `$ANDROID_SDK_ROOT/build-tools/*` 找；workflow 也把 build-tools 加进了 `GITHUB_PATH`。缺工具时报 SKIP 而不是假装 PASS。 |
