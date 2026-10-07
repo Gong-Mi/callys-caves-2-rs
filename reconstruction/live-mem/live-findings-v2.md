@@ -573,3 +573,27 @@ tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
   ——已排除(增量在播放调用前)。
 
 工具入库: step_dispatch_probe.py(注入-钳位法可复用)、mute_check.py、snd_array_probe.py。
+
+## 26. audio_is_playing 的短路门找到并实测（0x3EF050）；翻门不足以解冻序列器（负结果，定性完成）
+
+静态（libyoyo 3bbedd09 字面池精确解码）：
+- F_AudioPlaying(0x134be8) 入口先读 **0x3EF050 指向的字节**；非0 时 `popne{r3,pc}`
+  **不改 r0 直接返回**，而 r0 此时是被压栈重载实参 `ldr r0,[sp,#8]` = 声音索引本身
+  → **audio_is_playing() 恒返回非0 = "在播"** ⇒ 25 级链第一条 `!audio_is_playing(mus_egc)`
+  即假、`soundplay+=1` 永不执行。活体该字节实测 248（非零）——这解释 §23-25 全部观测。
+- 翻门(248→0)后走真路径：`bl 0xce870` GetSoundSourceToPlay → 尾调 0x217a80。
+  0x217a80 自有字节门（字面 0x217b38→槽 0x3EF054，实测字节=0 放行），随后
+  `cmp r0,#6`+跳转表；CSound* 远大于 6 ⇒ 落 **default 分支 0x217b14**：
+  `ldr r0,[0x3ED718 槽]; ldr r3,[r0]; ldr r3,[r3,#0xc]; blx r3` —— **管理器接口虚调用**
+  （vtable+0xc 的 IsPlaying）。壳内 mgr(0x7553AC 族) 从未初始化 ⇒ 虚调用语义未定义
+  （实测进程没死，返回后仍判"在播"或等价效果）。
+- **翻 0x3EF050 后 15s 观测**: soundplay 恒 0.0、bump 恒 0xe3530000 ⇒ 解冻需要
+  同时喂活 mgr 接口对象，非单门可成。
+
+结论（定性闭环）：壳音频"读不到播放态"的完整因果链 =
+  (a) mgr 接口从未装载（数据装载层，§23 对照组证明 init 本身成功、装载路径在
+      声音对象就绪位之后仍未走通）
+  (b) 短路门 0x3EF050 使 is_playing 恒真（音频系统被判定未就绪时的 runner 自愈姿态）
+  ⇒ 事件级"什么时间播放什么"仍按契约 §4 走 IR 仿真+守卫求值（已闭环），
+     活体播放态读取宣告**不可单点解锁**，不再投入冷启动轮次。
+工具: isplaying_gate_flip.py（含 0x3EF050 与全部门一屏翻+观测）。
