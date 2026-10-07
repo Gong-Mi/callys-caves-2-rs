@@ -16,6 +16,13 @@ use std::time::Instant;
 const W: u32 = 1136;
 const H: u32 = 640;
 const N: u32 = 300;
+const REPS: usize = 3;
+
+fn loadavg() -> String {
+    std::fs::read_to_string("/proc/loadavg")
+        .map(|s| s.split_whitespace().take(1).collect::<String>())
+        .unwrap_or_else(|_| "?".to_string())
+}
 
 fn save_for(room: usize) -> SaveData {
     SaveData {
@@ -61,7 +68,7 @@ fn main() {
         let _ = c;
     }
 
-    println!("{W}x{H} canvas, {N} iterations per room\n");
+    println!("{W}x{H} canvas, {N} iterations x {REPS} reps, min reported; loadavg={}\n", loadavg());
     println!("{:>5} {:>22} {:>8} {:>10} {:>10}", "room", "name", "alive", "raster ms", "fps@raster");
     for (room, name) in targets {
         if let Err(e) = state.restore_ir_snapshot(&save_for(room)) {
@@ -76,11 +83,23 @@ fn main() {
             .as_ref()
             .map(|s| s.instances.values().filter(|i| i.alive && i.active).count())
             .unwrap_or(0);
-        let t = Instant::now();
-        for _ in 0..N {
-            draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
+        // Min of REPS: every other workload on this phone perturbs a single
+        // sample (load average routinely sits above 20), and the minimum is the
+        // only statistic that is not inflated by the neighbours.
+        let mut ms = f64::INFINITY;
+        for _ in 0..REPS {
+            let t = Instant::now();
+            for _ in 0..N {
+                draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
+            }
+            let sample = t.elapsed().as_secs_f64() * 1000.0 / N as f64;
+            if sample < ms {
+                ms = sample;
+            }
         }
-        let ms = t.elapsed().as_secs_f64() * 1000.0 / N as f64;
-        println!("{room:>5} {name:>22} {alive:>8} {ms:>10.2} {:>10.1}", 1000.0 / ms);
+        println!(
+            "{room:>5} {name:>22} {alive:>8} {ms:>10.2} {:>10.1}",
+            1000.0 / ms
+        );
     }
 }
