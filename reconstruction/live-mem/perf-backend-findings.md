@@ -176,6 +176,37 @@ A/B 交替（min-of-3）后：rm_town 10.27→7.87、room42 11.08→8.66、rm_le
 - 边界：等价性可证（构造 + `pack_is_unchanged_requires_identical_bytes` 单测），但**收益需要真机
   复验**（CI/本机 emulator 都测不到"跳过一次 EGL 递交"的墙钟收益）。
 
+
+### 6.4 第四片：静止画面的**光栅化**也跳过（确定性输入全等，`draw_frame_cached`）
+
+第 6.3 只省掉"递交"，光栅化仍满速。本片把 `draw_frame` 的 IR 两个分支（序章过场 / 正式场景）
+包成**先比较输入、相同则直接返回、framebuffer 保持原样**（原样 = 与重画逐字节相同）。
+
+- **输入集 = 光栅化实际读到的全部**：程序化产出的发射序 + `scene.draws/texts/healthbars/
+  backgrounds/room_tiles/particles` 全部内容 + 相机 + 缩放 + 分支选择位；`asset/atlases`
+  在运行时只读，故不在键内。比较是 **`PartialEq` 字段级全等（无哈希、无碰撞假设）**。
+- 发射序**只算一次**：`draw_ir_commands` 现在接收已算好的 `&[DrawEmission]`，绘制与比较用的是
+  同一份，二者不可能不一致。
+- 只有变化的帧才 clone 键（不变帧零分配）；变化帧多付约 0.1 ms 的比较。
+- 旧 legacy 路径不缓存，并把缓存置空，避免跨路径误跳过。
+- 单测：`draw_cache_skips_the_raster_when_inputs_repeat`（先在 framebuffer 上涂鸦，缓存命中后
+  涂鸦必须原样保留 ⇒ 证明真的没重画；改动输入后必须重画）+ `draw_cache_invalidates_on_every_
+  captured_category`（逐类别证明该输入确实在键内——将来新增光栅输入会让这条测试失败，
+  失败模式是"画面不同步"而非"变慢"）。
+
+实测（同一静止场景，300 次 ×3 取 min；loadavg 21.7）：
+
+| 房间 | 每帧强制重画 | 缓存（静止） | 倍数 |
+| --- | --- | --- | --- |
+| rm_town | 10.25 ms | 0.017 ms | ~600× |
+| room42 | 11.98 ms | 0.087 ms | ~140× |
+| rm_level1 | 11.67 ms | 0.089 ms | ~130× |
+| rm_level17 | 16.23 ms | 0.079 ms | ~200× |
+| rm_level16 | 11.02 ms | 0.074 ms | ~150× |
+
+边界：只覆盖"输入逐帧完全不变"的画面（过场静帧、地图屏、暂停、静止不动的镜头）；角色/敌人
+动画一帧一变则照常全量重画——这不是丢帧，是"什么都不变就不重画"。
+
 ### 6.2 这一轮扫出的其它问题（尚未处理）
 
 1. **Rust presenter 若直接接线会 R/B 互换**（用户实测当前显示颜色正常，故这不是现存缺陷，
@@ -188,8 +219,7 @@ A/B 交替（min-of-3）后：rm_town 10.27→7.87、room42 11.08→8.66、rm_le
    `Thread.sleep(16_666_667 - work)` 自计时，没有 `Choreographer`/vsync 回调，也没有
    `setFrameRate`/display-mode 提示；eglSwapBuffers 本身有 vsync，但工作点固定在任意相位，
    理论上 120 Hz 屏上会周期性错过 vsync（jitter）。
-3. **静止内容仍满速重画**：递交侧已修（§6.3）；**光栅化侧仍满速**——要跳过重光栅化必须先证明
-   "所有绘制输入逐帧相同"，那需要输入指纹（哈希）方案，与当前"构造性等价"的纪律不同，未动。
+3. **静止内容仍满速重画**：两侧都已修（§6.3 递交 + §6.4 光栅化，均为确定性等价、无哈希）。
 4. GPU 仍全程闲置（130 MHz）：架构上未用 GPU 做 sprite/tile 绘制。
 
 ## 7. 归因与修法（按性价比排序）

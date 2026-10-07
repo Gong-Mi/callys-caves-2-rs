@@ -68,6 +68,10 @@ mod android_jni {
         pub clock: frame_clock::FrameClock,
         pub fb: Framebuffer,
         pub blit: Vec<jint>,
+        /// Last captured raster inputs: when a frame's inputs repeat exactly,
+        /// the raster is skipped and the framebuffer keeps the identical pixels
+        /// it already holds (static screens cost a comparison, not 7-11 ms).
+        draw_cache: Option<RasterInputs>,
         /// Device-side headless checkpoint cadence, including intro ticks (the
         /// client frame_count intentionally does not advance during the intro).
         trace_ticks: u64,
@@ -183,6 +187,7 @@ mod android_jni {
             clock: frame_clock::FrameClock::default(),
             fb: Framebuffer::new(1136, 640),
             blit: Vec::with_capacity(1136 * 640),
+            draw_cache: None,
             trace_ticks: 0,
         });
         log("nativeInit ok");
@@ -299,7 +304,13 @@ mod android_jni {
                     ));
                 }
             }
-            draw_frame(&mut s.fb, &s.state, &s.state.asset.tpag_items, &s.state.asset.sprites);
+            draw_frame_cached(
+                &mut s.fb,
+                &s.state,
+                &s.state.asset.tpag_items,
+                &s.state.asset.sprites,
+                &mut s.draw_cache,
+            );
         }
     }
 

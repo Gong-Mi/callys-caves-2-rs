@@ -119,7 +119,7 @@ impl Default for ParticleType {
     }
 }
 /// Live particle spawned by part_particles_create.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Particle {
     pub type_id: f64,
     pub x: f64, pub y: f64,

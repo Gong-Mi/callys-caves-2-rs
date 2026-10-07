@@ -1175,11 +1175,92 @@ fn draw_tile(fb: &mut Framebuffer, state: &GameState, tile: &callys_asset::RoomT
     true
 }
 
+/// Everything the IR raster reads, captured verbatim and compared field-exact.
+/// Two frames whose captures are equal MUST rasterize to the same pixels - the
+/// raster is a pure function of the scene's draw data plus camera and scale -
+/// so the later one can keep the framebuffer it already has (cutscene stills,
+/// map screens, a paused game, standing still under a still camera). No hashing
+/// is involved, so there is no collision argument to make; the invalidation
+/// coverage of this set is pinned by `tests::draw_cache_invalidates_*`.
+#[derive(Clone, PartialEq, Debug)]
+pub struct RasterInputs {
+    /// 1 = prologue cutscene branch, 2 = IR gameplay branch.
+    mode: u8,
+    cam: (f64, f64),
+    scale: (f32, f32),
+    intro_alive: bool,
+    emissions: Vec<callys_core::ir_scene::DrawEmission>,
+    draws: Vec<callys_core::ir_scene::DrawCommand>,
+    texts: Vec<callys_core::ir_scene::TextCommand>,
+    healthbars: Vec<callys_core::ir_scene::HealthbarCommand>,
+    backgrounds: Vec<callys_core::ir_scene::BackgroundCommand>,
+    room_tiles: Vec<callys_asset::RoomTileInstance>,
+    particles: Vec<callys_core::ir_scene::Particle>,
+}
+
+impl RasterInputs {
+    fn capture(
+        scene: &callys_core::ir_scene::Scene,
+        mode: u8,
+        cam: (f64, f64),
+        scale: (f32, f32),
+        intro_alive: bool,
+    ) -> Self {
+        Self {
+            mode,
+            cam,
+            scale,
+            intro_alive,
+            emissions: scene.ordered_draw_commands(),
+            draws: scene.draws.clone(),
+            texts: scene.texts.clone(),
+            healthbars: scene.healthbars.clone(),
+            backgrounds: scene.backgrounds.clone(),
+            room_tiles: scene.room_tiles.clone(),
+            particles: scene.particles.clone(),
+        }
+    }
+}
+
+/// Reports whether `key` matches what was recorded last time; otherwise records
+/// it (cloning only on a change, so an unchanged frame allocates nothing).
+fn raster_inputs_unchanged(cache: &mut Option<RasterInputs>, key: &RasterInputs) -> bool {
+    if cache.as_ref() == Some(key) {
+        return true;
+    }
+    *cache = Some(key.clone());
+    false
+}
+
 pub fn draw_frame(
+    fb: &mut Framebuffer,
+    state: &GameState,
+    tpag: &HashMap<usize, TpagItem>,
+    sprites: &HashMap<usize, SpriteData>,
+) {
+    draw_frame_inner(fb, state, tpag, sprites, None)
+}
+
+/// `draw_frame` that skips the raster (and the clear) when the captured raster
+/// inputs are identical to the previous call, leaving the framebuffer untouched
+/// - which is byte-identical to re-rasterizing it. Callers that need every frame
+/// drawn unconditionally (tests, headless captures) keep using `draw_frame`.
+pub fn draw_frame_cached(
+    fb: &mut Framebuffer,
+    state: &GameState,
+    tpag: &HashMap<usize, TpagItem>,
+    sprites: &HashMap<usize, SpriteData>,
+    cache: &mut Option<RasterInputs>,
+) {
+    draw_frame_inner(fb, state, tpag, sprites, Some(cache))
+}
+
+fn draw_frame_inner(
     fb: &mut Framebuffer,
     state: &GameState,
     _tpag: &HashMap<usize, TpagItem>,
     _sprites: &HashMap<usize, SpriteData>,
+    mut cache: Option<&mut Option<RasterInputs>>,
 ) {
     let mut scale_x = fb.width as f32 / 960.0;
     let mut scale_y = fb.height as f32 / 540.0;
@@ -1224,8 +1305,14 @@ pub fn draw_frame(
     if let Some(scene) = state.scene.as_ref() {
         let intro_alive = scene.instances.values().any(|i| i.object == 137 && i.alive);
         if intro_alive {
+            let key = RasterInputs::capture(scene, 1, view_origin, (scale_x, scale_y), true);
+            if let Some(c) = cache.as_deref_mut() {
+                if raster_inputs_unchanged(c, &key) {
+                    return;
+                }
+            }
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
-            draw_ir_commands(fb, state, scene, view_origin, (scale_x, scale_y), true);
+            draw_ir_commands(fb, state, scene, view_origin, (scale_x, scale_y), true, &key.emissions);
             return;
         }
     }
@@ -1238,9 +1325,16 @@ pub fn draw_frame(
             GameState::camera_position_for_scene(scene)
         };
 
+        let key = RasterInputs::capture(scene, 2, (cam_x, cam_y), (scale_x, scale_y), false);
+        if let Some(c) = cache.as_deref_mut() {
+            if raster_inputs_unchanged(c, &key) {
+                return;
+            }
+        }
+
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
-        draw_ir_commands(fb, state, scene, (cam_x, cam_y), (scale_x, scale_y), false);
+        draw_ir_commands(fb, state, scene, (cam_x, cam_y), (scale_x, scale_y), false, &key.emissions);
 
         // The IR scene already contains the original obj_UI button instances
         // (left/right/jump/shoot/sword/pause) and draw_view has emitted their
@@ -1249,6 +1343,12 @@ pub fn draw_frame(
         // original GameMaker controls. The legacy GameWorld branch below still
         // owns its fallback overlay.
         return;
+    }
+
+    // Legacy world path: not captured, so drop any IR capture - a later IR
+    // frame must redraw rather than trust a key from a different path.
+    if let Some(c) = cache {
+        *c = None;
     }
 
     fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
@@ -1419,11 +1519,12 @@ pub fn draw_frame(
 fn draw_ir_commands(
     fb: &mut Framebuffer, state: &GameState, scene: &callys_core::ir_scene::Scene,
     cam: (f64, f64), screen_scale: (f32, f32), intro: bool,
+    emissions: &[callys_core::ir_scene::DrawEmission],
 ) {
     use callys_core::ir_scene::DrawQueue;
     let (cam_x, cam_y) = cam;
     let (scale_x, scale_y) = screen_scale;
-    for emission in scene.ordered_draw_commands() {
+    for emission in emissions {
         match emission.queue {
             DrawQueue::Background(i) => {
                 let bg_cmd = &scene.backgrounds[i];
@@ -1583,3 +1684,149 @@ fn draw_ir_commands(
 }
 
 include!("parts/jni.rs");
+
+#[cfg(test)]
+mod draw_cache_tests {
+    use super::*;
+    use callys_asset::RoomTileInstance;
+    use callys_core::code_vm::load_bundle_from_file;
+    use callys_core::ir_scene::{
+        BackgroundCommand, DrawCommand, HealthbarCommand, Particle, TextCommand,
+    };
+    use std::sync::Arc;
+
+    fn booted() -> GameState {
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+        let mut state = GameState::new(&root.join("../../assets/game.droid")).unwrap();
+        let bundle = Arc::new(
+            load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap(),
+        );
+        state.enable_ir_gameplay(bundle).unwrap();
+        state
+    }
+
+    fn key(state: &GameState, mode: u8) -> RasterInputs {
+        RasterInputs::capture(
+            state.scene.as_ref().unwrap(),
+            mode,
+            (0.0, 0.0),
+            (1.0, 1.0),
+            mode == 1,
+        )
+    }
+
+    /// A frame whose captured inputs repeat must leave the framebuffer exactly as
+    /// it was. The proof is that a scribble survives a cached redraw, and that
+    /// changing any input paints over it again.
+    #[test]
+    fn draw_cache_skips_the_raster_when_inputs_repeat() {
+        let mut state = booted();
+        let mut fb = Framebuffer::new(1136, 640);
+        let mut cache: Option<RasterInputs> = None;
+        draw_frame_cached(
+            &mut fb, &state, &state.asset.tpag_items, &state.asset.sprites, &mut cache,
+        );
+        assert!(cache.is_some(), "an IR frame must record its raster inputs");
+        for (i, b) in fb.pixels.iter_mut().enumerate() {
+            *b = (i % 251) as u8;
+        }
+        let scribble = fb.pixels.clone();
+        draw_frame_cached(
+            &mut fb, &state, &state.asset.tpag_items, &state.asset.sprites, &mut cache,
+        );
+        assert_eq!(fb.pixels, scribble, "identical inputs must skip the raster");
+        if let Some(d) = state.scene.as_mut().unwrap().draws.first_mut() {
+            d.x += 1.0;
+        } else {
+            state.scene.as_mut().unwrap().draws.push(DrawCommand {
+                code: 0, offset: 0, instance: 0, view: 0, sprite: 0, frame: 0.0,
+                x: 0.0, y: 0.0, scale_x: 1.0, scale_y: 1.0, rotation: 0.0,
+                color: -1, alpha: 1.0, fog: false,
+            });
+        }
+        draw_frame_cached(
+            &mut fb, &state, &state.asset.tpag_items, &state.asset.sprites, &mut cache,
+        );
+        assert_ne!(fb.pixels, scribble, "changed inputs must repaint the frame");
+    }
+
+    /// Every category the raster reads has to invalidate the cache. If a new
+    /// input is added to the raster, this test fails until it is captured too -
+    /// the failure mode being guarded is a stale picture, not a slow one.
+    #[test]
+    fn draw_cache_invalidates_on_every_captured_category() {
+        let mut state = booted();
+
+        let before = key(&state, 2);
+        assert_ne!(before, key(&state, 1), "branch mode");
+        assert_ne!(
+            before,
+            RasterInputs::capture(
+                state.scene.as_ref().unwrap(), 2, (7.0, 0.0), (1.0, 1.0), false
+            ),
+            "camera origin"
+        );
+        assert_ne!(
+            before,
+            RasterInputs::capture(
+                state.scene.as_ref().unwrap(), 2, (0.0, 0.0), (1.5, 1.0), false
+            ),
+            "canvas scale"
+        );
+        assert_ne!(
+            before,
+            RasterInputs::capture(
+                state.scene.as_ref().unwrap(), 2, (0.0, 0.0), (1.0, 1.0), true
+            ),
+            "intro-alive branch selector"
+        );
+
+        macro_rules! invalidates {
+            ($label:literal, $body:expr) => {{
+                let before = key(&state, 2);
+                #[allow(clippy::redundant_closure_call)]
+                ($body)(state.scene.as_mut().unwrap());
+                assert_ne!(before, key(&state, 2), $label);
+            }};
+        }
+        invalidates!("draws", |s: &mut callys_core::ir_scene::Scene| s.draws.push(
+            DrawCommand {
+                code: 0, offset: 0, instance: 0, view: 0, sprite: 0, frame: 0.0,
+                x: 0.0, y: 0.0, scale_x: 1.0, scale_y: 1.0, rotation: 0.0,
+                color: -1, alpha: 1.0, fog: false,
+            }
+        ));
+        invalidates!("texts", |s: &mut callys_core::ir_scene::Scene| s.texts.push(
+            TextCommand {
+                code: 0, offset: 0, instance: 0, view: 0, x: 0.0, y: 0.0,
+                text: "cache".to_string(), color: -1, alpha: 1.0, font: 0,
+            }
+        ));
+        invalidates!("healthbars", |s: &mut callys_core::ir_scene::Scene| s
+            .healthbars
+            .push(HealthbarCommand {
+                code: 0, offset: 0, instance: 0, view: 0, x1: 0.0, y1: 0.0, x2: 1.0,
+                y2: 1.0, amount: 1.0, back_col: 0, min_col: 0, max_col: 0,
+            }));
+        invalidates!("backgrounds", |s: &mut callys_core::ir_scene::Scene| s
+            .backgrounds
+            .push(BackgroundCommand {
+                code: 0, offset: 0, instance: 0, view: 0, background: 0, x: 0.0,
+                y: 0.0, scale_x: 1.0, scale_y: 1.0, rotation: 0.0, color: -1,
+                alpha: 1.0,
+            }));
+        invalidates!("room_tiles", |s: &mut callys_core::ir_scene::Scene| s
+            .room_tiles
+            .push(RoomTileInstance {
+                x: 0, y: 0, bg_id: 0, src_x: 0, src_y: 0, width: 1, height: 1,
+                depth: 0, id: 0, scale_x: 1.0, scale_y: 1.0,
+            }));
+        invalidates!("particles", |s: &mut callys_core::ir_scene::Scene| s
+            .particles
+            .push(Particle {
+                type_id: 0.0, x: 0.0, y: 0.0, vx: 0.0, vy: 0.0, size: 1.0,
+                life: 1.0, life0: 1.0, color: 0, color_min: 0, color_max: 0,
+                alpha: 1.0,
+            }));
+    }
+}

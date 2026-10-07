@@ -5,7 +5,7 @@
 //! and times draw_frame there.
 //!
 //! Usage: cargo run --release --example room_raster_cost
-use callys_client::{draw_frame, Framebuffer, GameState};
+use callys_client::{draw_frame, draw_frame_cached, Framebuffer, GameState, RasterInputs};
 use callys_core::code_vm::load_bundle_from_file;
 use callys_core::save::SaveData;
 use callys_core::{Checkpoint, WeaponType};
@@ -97,8 +97,29 @@ fn main() {
                 ms = sample;
             }
         }
+        // Same iterations through the cached entry point. The scene does not
+        // advance inside the measurement loop, so the captured raster inputs
+        // repeat and every frame after the first is skipped entirely.
+        let mut cache: Option<RasterInputs> = None;
+        let mut cached_ms = f64::INFINITY;
+        for _ in 0..REPS {
+            let t = Instant::now();
+            for _ in 0..N {
+                draw_frame_cached(
+                    &mut fb,
+                    &state,
+                    &state.asset.tpag_items,
+                    &state.asset.sprites,
+                    &mut cache,
+                );
+            }
+            let sample = t.elapsed().as_secs_f64() * 1000.0 / N as f64;
+            if sample < cached_ms {
+                cached_ms = sample;
+            }
+        }
         println!(
-            "{room:>5} {name:>22} {alive:>8} {ms:>10.2} {:>10.1}",
+            "{room:>5} {name:>22} {alive:>8} {ms:>10.2} {:>10.1}   cached(static) {cached_ms:>7.3} ms",
             1000.0 / ms
         );
     }
