@@ -461,3 +461,139 @@ tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
 
 至此实例/全局标量 + 数组均可读；音频侧数据面（playlist、theme[]、soundplay）在原版
 活体上全部可观测。
+
+## 23. 音频"修法"配方实验: alc noop 补丁 + gate 全翻 —— 假设被证伪（如实记录）
+
+契约 §3/§9 登记的修法 = 「清 gate 字节 + libopenal 导出叶函数 noop 补丁」。本轮把它做完，
+结论: **两个动作都不解锁播放状态机；且"OpenAL 初始化失败导致音频禁用"的因果链本身站不住**。
+
+### 施工与对照
+
+1. alc 层补丁 `shell32/patch_alc_noop.py`（本轮新入库）: 在上一轮 25 个 al* 叶函数之外，
+   补齐 libyoyo 实际导入的 alc 层 + 漏网 al*，共 30 个 `mov r0,#imm; bx lr`（hbt 安全子集）。
+   alcOpenDevice/alcCreateContext/alcMakeContextCurrent→1，其余防假句柄解引用→0。
+   libyoyo PLT 表位由 .rel.plt 顺序公式 `plt=0xb64e8+20+12*relidx` 标定
+   （锚点 __android_log_vprint=0xb661c 验证通过）；BL 扫描 opcode 掩码须 (w>>26)==0x3A。
+2. 实验组（补丁库冷启动, pid 2381）: Audio_Initialize 的槽 0x755470=1、0x755474=1（成功臂写入），
+   四个 gate 翻 0 后 **mgr 0x7553AC 恒 0、CNoise bump_top 恒 0xe3530000、obj_music.soundplay 恒 0**。
+   注入按住右键玩家 416→563（游戏在步进），非冻结。
+3. **对照组（pristine libopenal 冷启动, pid 11349）**: 0x755470=1、**0x755474=真实堆指针**
+   ——真 alc 打开设备/建上下文全部成功。§9 "OpenSL dlsym IID 全挂→子系统禁用" 至少在
+   init 层不成立（v1 时代的失败模式未在当前壳复现）。
+4. gate 字节两侧完全相同（F_gate=16、flag1=16、flag2=56、startnoise=148、PS_gate1=0、
+   PS_gate2=1）→ gate 值与音频初始化成败无关；§8 猜的 "0x3EF0D4=F_AudioPlaySound gate"
+   可能根本不是布尔门（16/56/148 像配置值或别的字段；`ldrb;cmp #0` 检查的是二级指针指向
+   的堆字节）。
+5. 声音数据层: Audio_GetSoundSourceToPlay(0x21632c) 的查找界 [r3+0x20]（0x75529C 对象的
+   +0x20 字段）**=0**，两组实验一致 → 任何索引查 Sound 都直接失败 → 空源 → Audio_PlaySound
+   0x21b624 `subs sb,r0,#0; beq` 早退。Sound bank 从未装载——这才是要追的点。
+
+### 修正后的下一步（替换 §9 的三步配方）
+
+- 放弃 "清 gate + noop" 组合；先 RE **0x75529C 对象的装载路径**（谁写 +0x20 界字段）:
+  候选=Startup 期 droid/game.droid 解析或首次 audio 事件。壳里 game.droid 已解压成功
+  （AUDO 分块能静态解析，§18），所以更可能是装载入口依赖某个未满足前置（如 yyprefs/
+  manifest metaData，§0 未做项）。
+- Audio_Initialize 在 pristine 下即成功 ⇒ 补一句: 壳音频问题的根因在 **数据装载层**，
+  不在 OpenAL 后端。
+
+工具: `tools/audio_state_probe.py`（六 gate + init 槽 + sound tbl + bump 一次读全，--flip/--poll）。
+
+## 24. Sound 表(0x75529C)装载路径静态定位（接 §23 下一步）
+
+- 工具 `tools/find_data_pairs.py`: 原始扫描 `ldr rX,[pc,#imm]`+`add X,pc,X` 对，
+  报告每个计算出的 data base（**坑: capstone 的 ldr-literal imm12 在助记符里是原字节偏移，
+  不要再乘 4**；两处实测锚定 Audio_Initialize base 0x755470 与 PlaySound gates 0/1）。
+  结果: base=0x75529C 的站点 71 个（音频函数族），另有 1 个 =0x755290。
+- base 邻域内 str/strd 写 +0x18..+0x34 的**唯一装载/更新点: 函数 0x21904c**
+  （0x219164/0x219170 处 `str r4,[r3,#0x24]`、`str sb,[r3,#0x20]`）。
+  它比较 r0 对象首词与 tbl+0x20（count），同步 count + 维护 +0x24 表；
+  0x219144 一条路径会把 +0x24 写 0。**count=0 ⇔ 这个函数从未以真实声音对象表被调用。**
+- 0x21904c 无直接 BL 调用者，但文件 0x120f94 有指向 0x219048 的函数指针，且 0x1c784 起
+  是 22 条 16B 记录 {magic=0x80012, name_ptr, fn, size} 的 **DS builtin 派发表**
+  （名字串区 0x3bc00..: F_DsListSetPre/F_DsMapSetPre/F_DsMapFindValue/…/F_DsPriority…）
+  —— 该装载函数属于 runtime builtin 派发族，经指针表 blx 进入，不走静态 BL。
+  （记录表我的 stride 解析存在错位，name 列有 garble；定名留待下轮按 name_ptr 重排。）
+- 活体修正（pid 27859，推翻 §23 "表空/未装载"结论）: **0x75529C 是内联结构，不是二级
+  指针**——GetSoundSourceToPlay(0x21632c) 用 `ldr r3,[pc,#imm]; add r3,pc,r3; ldr r2,[r3,#0x20]`
+  直接读数据段。此前 sound_tbl_probe/audio_state_probe 先解引用 [0x75529C] 再读 +0x20，
+  读到的是无关对象（0xe2388668）的字段=0，**误判**。按正确读法:
+  cap(+0x18)=128、count(+0x20)=**54**、arr(+0x24)=0x9c53b200，54 个 CSound **全非空**，
+  名字逐项吻合 audio-sond.json（[0]=snd_bee.wav、[29]=mus_egc.ogg、[32]=mus_townmusic.ogg、
+  [52]=mus_blooddragon.ogg）。**声音库装载完好，§23 的"装载路径缺失"不成立。**
+- 修正后的疑点收敛（soundplay 恒 0、bump 恒 0xe3530000、翻 gate 无效）:
+  序列器没到达 play 调用。候选一: **audio_is_playing 在 mgr S(0x7553AC)=NULL 时防御性返回
+  TRUE**，`!audio_is_playing(mus_egc)` 第一条即截断整链——原版对"音频系统坏了"的自愈姿态；
+  候选二: obj_music 的 Step 从未派发（§15 帧末采样对非末位对象不可见，无法区分）。
+  判别实验（下轮）: 反汇编 F_AudioPlaying(约 0x134c14 邻族)确认 mgr NULL 时的返回值。
+- 下一步（收窄后）:
+  1. 修正 0x1c784 派发表解析（按 name_ptr 重对齐），确认 0x21904c 的 builtin 名字
+     ——若它是 ds_* 之一，则 sound 表的填充者是 GML 启动期数据装载；
+  2. 追 runner 数据文件装载路径（g_pDataFile/YYFile）里 "sounds" 段在壳内是否解析；
+     壳的 manifest metaData 未喂（§0 未做项）是候选前置；
+  3. 对照实验: 真机（前台原版）同槽读 0x75529C+0x20 —— 若非 0，则差异锁定壳装载路径缺段。
+
+### §24 追加：疑点进一步收窄（CSound 记录内 AL source 字段 = 0）
+
+- snd_array_probe.py 全 54 条: arr=0x9c53b200 全非空、名字逐项对 audio-sond.json
+  （[0]snd_bee.wav…[52]mus_blooddragon.ogg）、flag+0x27=0。
+- **每条 CSound 的 +0x4c = 0**——§8 记录的设备结构 "+0=AL source id 数组" 里
+  source id 0 是保留/无效值(alcGenSources 从未真正分配)。obj_music Step 的链条:
+  `!audio_is_playing(mus_egc)` → F_AudioPlaying → 查 CSound→AL source→alGetSourcei(BUFFER/STATE)。
+  alGetSourcei 已被 noop 成 `return 0`；**若 F_AudioPlaying 对无效 source 走
+  "查询失败=在播"防御分支，首条门即截断 25 级链 → soundplay 恒 0**——与全部观测吻合。
+- 判别实验（下轮第一步）: 把 alGetSourcei 的 noop 返回值改成非 0（如 AL_STOPPED=0x1014，
+  patch 一条指令即可: mov r0,#0x1014 需要 movw，仍在 hbt 安全子集），
+  或在 F_AudioPlaying 入口用 logcat hook（§8 已证明该 hook 方式可行过）。
+  若 soundplay 开始步进 → 定性完成；否则嫌疑转向 obj_music Step 派发缺失。
+
+## 25. 判别实验三连：Step 在派发、增量从未执行（audio_is_playing 防御分支为唯一剩余嫌疑人）
+
+同一壳会话（pid 27091, alGetSourcei noop=0x1014, alc-patched），town 稳态：
+
+1. **step_dispatch_probe.py 注入-钳位法（决定性正结果）**: CODE 377 头部
+   `if(soundplay>=16) soundplay=0` 无条件执行。注入 17.0 → 下一次采样变 0.0。
+   **obj_music Step 在活体派发。**（§15 帧末采样的"68 缺席"是采样偏差，不是派发缺失。）
+2. **注入守恒**: 先注入 5.0，9s 内保持 5.0——Step 在跑（否则 17→0 无从发生）
+   且 `soundplay += 1` 从未执行 ⇒ 25 级链的**第一条门或 musicmute 分支**截断。
+3. **mute_check.py**: global.musicmute=0 / soundmute=0 / roomstart=0——
+   `musicmute==1` 假分支、`musicmute==0` 真分支，都指向应进入链。
+4. **alGetSourcei 判别（半阴性）**: noop 返回值 0→AL_STOPPED(0x1014) 冷启动后
+   行为不变 ⇒ 门不读 alGetSourcei；嫌疑集中在 F_AudioIsPlaying 对
+   "设备未就绪/无 emitter"的防御分支（S@0x7553AC 内联全 0 = 无在播源，
+   正常语义应回 FALSE 放行链——若它回 TRUE 则一切吻合观测）。
+
+### 剩余嫌疑人清单（下轮顺序）
+
+- F_AudioIsPlaying(约 0x27b8xx thunk; 名字表在 0x23ee8 附近 {name_ptr,fn_ptr} stride 8
+  的 builtin 派发区，plain 名 'audio_is_playing'@0x33f8e0 的指针未直接命中——表可能带
+  基址偏移编码，先破编码)。
+- 壳内 `YYAudioSystemIsReady`/同族就绪位: 与 0x755470/74 相邻区间的就绪标志字节。
+- theme[] 读取分支: soundplay 为 int 0 时 `theme[soundplay]` 求值若异常,增量在后
+  ——已排除(增量在播放调用前)。
+
+工具入库: step_dispatch_probe.py(注入-钳位法可复用)、mute_check.py、snd_array_probe.py。
+
+## 26. audio_is_playing 的短路门找到并实测（0x3EF050）；翻门不足以解冻序列器（负结果，定性完成）
+
+静态（libyoyo 3bbedd09 字面池精确解码）：
+- F_AudioPlaying(0x134be8) 入口先读 **0x3EF050 指向的字节**；非0 时 `popne{r3,pc}`
+  **不改 r0 直接返回**，而 r0 此时是被压栈重载实参 `ldr r0,[sp,#8]` = 声音索引本身
+  → **audio_is_playing() 恒返回非0 = "在播"** ⇒ 25 级链第一条 `!audio_is_playing(mus_egc)`
+  即假、`soundplay+=1` 永不执行。活体该字节实测 248（非零）——这解释 §23-25 全部观测。
+- 翻门(248→0)后走真路径：`bl 0xce870` GetSoundSourceToPlay → 尾调 0x217a80。
+  0x217a80 自有字节门（字面 0x217b38→槽 0x3EF054，实测字节=0 放行），随后
+  `cmp r0,#6`+跳转表；CSound* 远大于 6 ⇒ 落 **default 分支 0x217b14**：
+  `ldr r0,[0x3ED718 槽]; ldr r3,[r0]; ldr r3,[r3,#0xc]; blx r3` —— **管理器接口虚调用**
+  （vtable+0xc 的 IsPlaying）。壳内 mgr(0x7553AC 族) 从未初始化 ⇒ 虚调用语义未定义
+  （实测进程没死，返回后仍判"在播"或等价效果）。
+- **翻 0x3EF050 后 15s 观测**: soundplay 恒 0.0、bump 恒 0xe3530000 ⇒ 解冻需要
+  同时喂活 mgr 接口对象，非单门可成。
+
+结论（定性闭环）：壳音频"读不到播放态"的完整因果链 =
+  (a) mgr 接口从未装载（数据装载层，§23 对照组证明 init 本身成功、装载路径在
+      声音对象就绪位之后仍未走通）
+  (b) 短路门 0x3EF050 使 is_playing 恒真（音频系统被判定未就绪时的 runner 自愈姿态）
+  ⇒ 事件级"什么时间播放什么"仍按契约 §4 走 IR 仿真+守卫求值（已闭环），
+     活体播放态读取宣告**不可单点解锁**，不再投入冷启动轮次。
+工具: isplaying_gate_flip.py（含 0x3EF050 与全部门一屏翻+观测）。
