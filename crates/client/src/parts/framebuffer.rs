@@ -6,6 +6,10 @@ pub struct Framebuffer {
     pub width: u32,
     pub height: u32,
     pub pixels: Vec<u8>, // BGRA8888, row-major (fill_rect writes [B, G, R, A]; the Java int[] view reads the same 4 bytes as 0xAARRGGBB)
+    /// Scratch column->atlas-x map for the axis-aligned sprite path. Reused
+    /// across draws (and rows within a draw) so the mapping costs one division
+    /// per column instead of one per pixel. u32::MAX marks "no sample".
+    col_su: Vec<u32>,
 }
 
 impl Framebuffer {
@@ -14,6 +18,7 @@ impl Framebuffer {
             width,
             height,
             pixels: vec![0u8; (width * height * 4) as usize],
+            col_su: Vec::new(),
         }
     }
 
@@ -362,48 +367,81 @@ impl Framebuffer {
         // Frame rect stretched onto the sprite canvas, so a frame smaller than
         // the canvas still anchors on the origin the way the hitboxes do.
         let (du, dv) = (sw as f64 / cw, sh as f64 / ch);
-        // Exactly-equivalent fast path for the common case: axis-aligned, unit
-        // scale (the original's own `image_xscale`/`image_yscale` = ±1), no fog
-        // and identity blend. The inverse rotation is then the identity
-        // transform (cos == 1, sin == 0 => lx = rx*1 - ry*0 == rx, ly == ry),
-        // and dividing by ±1.0 is exact, so the per-pixel f64 rotation, its two
-        // divisions and the three identity blend multiplies all drop out.
-        // Sampling (`su`/`sv`), every bounds test, the alpha rules and the
-        // writes are unchanged, so the produced bytes are identical.
+        // Exactly-equivalent fast path for axis-aligned draws: rotation 0, no
+        // fog, identity blend. That is what nearly every sprite draw is, and the
+        // real scale here is the view zoom (cmd.scale_x * screen_scale), so a
+        // unit-scale-only guard would almost never fire.
+        //
+        // With rotation 0 the inverse rotation is the identity transform
+        // (cos == 1, sin == 0 => lx = rx*1 - ry*0 == rx, ly = rx*0 + ry*1 == ry),
+        // which makes `u` a function of the column alone and `v` of the row
+        // alone. The column mapping is therefore computed once into a scratch
+        // LUT and reused by every row, and every per-pixel f64 rotation op and
+        // the three identity blend multiplies disappear. Sampling (`su`/`sv`),
+        // every bounds test, the alpha rules and the writes are unchanged.
         if rotation_deg == 0.0
-            && (scale.0 == 1.0 || scale.0 == -1.0)
-            && (scale.1 == 1.0 || scale.1 == -1.0)
             && flood.is_none()
             && blend == (255, 255, 255)
+            && scale.0 != 0.0
+            && scale.1 != 0.0
         {
             let (aw, ah) = (atlas.width(), atlas.height());
             let raw = atlas.as_raw();
             let atlas_w = aw as usize;
+            self.col_su.clear();
+            self.col_su.reserve((x1 - x0 + 1) as usize);
+            for px in x0..=x1 {
+                let rx = px as f64 + 0.5 - dst_origin.0;
+                let u = rx / scale.0 + ox;
+                if u < 0.0 || u >= cw {
+                    self.col_su.push(u32::MAX);
+                    continue;
+                }
+                let su_f = sx as f64 + u * du;
+                if su_f < 0.0 {
+                    self.col_su.push(u32::MAX);
+                    continue;
+                }
+                let su = su_f as u32;
+                self.col_su.push(if su < aw { su } else { u32::MAX });
+            }
             for py in y0..=y1 {
                 let ry = py as f64 + 0.5 - dst_origin.1;
-                let v = if scale.1 == 1.0 { ry + oy } else { -ry + oy };
-                if v < 0.0 || v >= ch { continue; }
+                let v = ry / scale.1 + oy;
+                if v < 0.0 || v >= ch {
+                    continue;
+                }
                 let sv_f = sy as f64 + v * dv;
-                if sv_f < 0.0 { continue; }
+                if sv_f < 0.0 {
+                    continue;
+                }
                 let sv = sv_f as u32;
-                if sv >= ah { continue; }
+                if sv >= ah {
+                    continue;
+                }
                 let srow = sv as usize * atlas_w;
-                for px in x0..=x1 {
-                    let rx = px as f64 + 0.5 - dst_origin.0;
-                    let u = if scale.0 == 1.0 { rx + ox } else { -rx + ox };
-                    if u < 0.0 || u >= cw { continue; }
-                    let su_f = sx as f64 + u * du;
-                    if su_f < 0.0 { continue; }
-                    let su = su_f as u32;
-                    if su >= aw { continue; }
+                let drow = py as usize * self.width as usize * 4;
+                for (col, px) in (x0..=x1).enumerate() {
+                    let su = self.col_su[col];
+                    if su == u32::MAX {
+                        continue;
+                    }
                     let si = (srow + su as usize) * 4;
                     let rgba = [raw[si], raw[si + 1], raw[si + 2], raw[si + 3]];
-                    if rgba[3] < 16 { continue; }
+                    if rgba[3] < 16 {
+                        continue;
+                    }
                     if alpha >= 1.0 && rgba[3] == 255 {
-                        self.put(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]));
+                        let di = drow + px as usize * 4;
+                        self.pixels[di] = rgba[2];
+                        self.pixels[di + 1] = rgba[1];
+                        self.pixels[di + 2] = rgba[0];
+                        self.pixels[di + 3] = rgba[3];
                     } else {
                         let a = (rgba[3] as f32 / 255.0) * alpha;
-                        if a <= 0.0 { continue; }
+                        if a <= 0.0 {
+                            continue;
+                        }
                         self.put_blended(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]), a);
                     }
                 }
