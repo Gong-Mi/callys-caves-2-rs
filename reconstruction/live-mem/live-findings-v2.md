@@ -546,3 +546,30 @@ tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
   patch 一条指令即可: mov r0,#0x1014 需要 movw，仍在 hbt 安全子集），
   或在 F_AudioPlaying 入口用 logcat hook（§8 已证明该 hook 方式可行过）。
   若 soundplay 开始步进 → 定性完成；否则嫌疑转向 obj_music Step 派发缺失。
+
+## 25. 判别实验三连：Step 在派发、增量从未执行（audio_is_playing 防御分支为唯一剩余嫌疑人）
+
+同一壳会话（pid 27091, alGetSourcei noop=0x1014, alc-patched），town 稳态：
+
+1. **step_dispatch_probe.py 注入-钳位法（决定性正结果）**: CODE 377 头部
+   `if(soundplay>=16) soundplay=0` 无条件执行。注入 17.0 → 下一次采样变 0.0。
+   **obj_music Step 在活体派发。**（§15 帧末采样的"68 缺席"是采样偏差，不是派发缺失。）
+2. **注入守恒**: 先注入 5.0，9s 内保持 5.0——Step 在跑（否则 17→0 无从发生）
+   且 `soundplay += 1` 从未执行 ⇒ 25 级链的**第一条门或 musicmute 分支**截断。
+3. **mute_check.py**: global.musicmute=0 / soundmute=0 / roomstart=0——
+   `musicmute==1` 假分支、`musicmute==0` 真分支，都指向应进入链。
+4. **alGetSourcei 判别（半阴性）**: noop 返回值 0→AL_STOPPED(0x1014) 冷启动后
+   行为不变 ⇒ 门不读 alGetSourcei；嫌疑集中在 F_AudioIsPlaying 对
+   "设备未就绪/无 emitter"的防御分支（S@0x7553AC 内联全 0 = 无在播源，
+   正常语义应回 FALSE 放行链——若它回 TRUE 则一切吻合观测）。
+
+### 剩余嫌疑人清单（下轮顺序）
+
+- F_AudioIsPlaying(约 0x27b8xx thunk; 名字表在 0x23ee8 附近 {name_ptr,fn_ptr} stride 8
+  的 builtin 派发区，plain 名 'audio_is_playing'@0x33f8e0 的指针未直接命中——表可能带
+  基址偏移编码，先破编码)。
+- 壳内 `YYAudioSystemIsReady`/同族就绪位: 与 0x755470/74 相邻区间的就绪标志字节。
+- theme[] 读取分支: soundplay 为 int 0 时 `theme[soundplay]` 求值若异常,增量在后
+  ——已排除(增量在播放调用前)。
+
+工具入库: step_dispatch_probe.py(注入-钳位法可复用)、mute_check.py、snd_array_probe.py。
