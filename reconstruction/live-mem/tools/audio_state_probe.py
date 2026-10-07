@@ -38,17 +38,15 @@ for name, slot in GATES:
     print(f"  {name:20s} slot={slot:#x} ptr={p:#x} byte={v}")
 print("  device state 0x755470 =", u32(0x755470), " ctx 0x755474 =", u32(0x755474))
 print("  S mgr 0x7553AC =", hex(u32(0x7553AC)))
-sm = u32(0x75529C)
-print("  sound tbl 0x75529C =", hex(sm))
-if sm:
-    print("    [0x18]=", struct.unpack('<I', rd(sm+0x18,4))[0],
-          "[0x20 count]=", struct.unpack('<I', rd(sm+0x20,4))[0],
-          "[0x24]=", struct.unpack('<I', rd(sm+0x24,4))[0],
-          "[0x28]=", hex(struct.unpack('<I', rd(sm+0x28,4))[0]),
-          "[0x30]=", struct.unpack('<I', rd(sm+0x30,4))[0])
-    try:
-        print("    head bytes:", rd(sm, 48).hex())
-    except Exception: pass
+# sound table is an INLINE struct at data VA 0x75529C (GetSoundSourceToPlay
+# reads [0x75529C+0x20] directly — do NOT deref the slot first; see §24).
+print("  sound tbl inline @0x75529C:")
+print("    cap+0x18 =", u32(0x7552B4), " count+0x20 =", u32(0x7552BC),
+      " arr+0x24 =", hex(u32(0x7552C0)), " +0x28 =", u32(0x7552C4))
+cnt = u32(0x7552BC); arr = u32(0x7552C0)
+if arr and cnt:
+    nn = sum(1 for i in range(cnt) if struct.unpack('<I', rd(arr+i*4, 4))[0])
+    print(f"    CSound array: {nn}/{cnt} non-null")
 bump = u32(0x3F1690)
 print("  CNoise bump slot", hex(bump), "top", hex(struct.unpack('<I', rd(bump,4))[0]))
 

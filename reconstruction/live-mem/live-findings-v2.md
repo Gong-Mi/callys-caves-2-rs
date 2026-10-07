@@ -514,11 +514,35 @@ tools/glob_a.bin, glob_b.bin, gmute_a.bin, gmute_b.bin。
   （名字串区 0x3bc00..: F_DsListSetPre/F_DsMapSetPre/F_DsMapFindValue/…/F_DsPriority…）
   —— 该装载函数属于 runtime builtin 派发族，经指针表 blx 进入，不走静态 BL。
   （记录表我的 stride 解析存在错位，name 列有 garble；定名留待下轮按 name_ptr 重排。）
-- 活体（tools/sound_tbl_probe.py, pid 27859）: 表对象 0xe2388668 的
-  +0x18/+0x20/+0x24/+0x28/+0x30/+0x34/+0x48/+0x4c **全 0** —— 声音表整体空，非只缺 count。
+- 活体修正（pid 27859，推翻 §23 "表空/未装载"结论）: **0x75529C 是内联结构，不是二级
+  指针**——GetSoundSourceToPlay(0x21632c) 用 `ldr r3,[pc,#imm]; add r3,pc,r3; ldr r2,[r3,#0x20]`
+  直接读数据段。此前 sound_tbl_probe/audio_state_probe 先解引用 [0x75529C] 再读 +0x20，
+  读到的是无关对象（0xe2388668）的字段=0，**误判**。按正确读法:
+  cap(+0x18)=128、count(+0x20)=**54**、arr(+0x24)=0x9c53b200，54 个 CSound **全非空**，
+  名字逐项吻合 audio-sond.json（[0]=snd_bee.wav、[29]=mus_egc.ogg、[32]=mus_townmusic.ogg、
+  [52]=mus_blooddragon.ogg）。**声音库装载完好，§23 的"装载路径缺失"不成立。**
+- 修正后的疑点收敛（soundplay 恒 0、bump 恒 0xe3530000、翻 gate 无效）:
+  序列器没到达 play 调用。候选一: **audio_is_playing 在 mgr S(0x7553AC)=NULL 时防御性返回
+  TRUE**，`!audio_is_playing(mus_egc)` 第一条即截断整链——原版对"音频系统坏了"的自愈姿态；
+  候选二: obj_music 的 Step 从未派发（§15 帧末采样对非末位对象不可见，无法区分）。
+  判别实验（下轮）: 反汇编 F_AudioPlaying(约 0x134c14 邻族)确认 mgr NULL 时的返回值。
 - 下一步（收窄后）:
   1. 修正 0x1c784 派发表解析（按 name_ptr 重对齐），确认 0x21904c 的 builtin 名字
      ——若它是 ds_* 之一，则 sound 表的填充者是 GML 启动期数据装载；
   2. 追 runner 数据文件装载路径（g_pDataFile/YYFile）里 "sounds" 段在壳内是否解析；
      壳的 manifest metaData 未喂（§0 未做项）是候选前置；
   3. 对照实验: 真机（前台原版）同槽读 0x75529C+0x20 —— 若非 0，则差异锁定壳装载路径缺段。
+
+### §24 追加：疑点进一步收窄（CSound 记录内 AL source 字段 = 0）
+
+- snd_array_probe.py 全 54 条: arr=0x9c53b200 全非空、名字逐项对 audio-sond.json
+  （[0]snd_bee.wav…[52]mus_blooddragon.ogg）、flag+0x27=0。
+- **每条 CSound 的 +0x4c = 0**——§8 记录的设备结构 "+0=AL source id 数组" 里
+  source id 0 是保留/无效值(alcGenSources 从未真正分配)。obj_music Step 的链条:
+  `!audio_is_playing(mus_egc)` → F_AudioPlaying → 查 CSound→AL source→alGetSourcei(BUFFER/STATE)。
+  alGetSourcei 已被 noop 成 `return 0`；**若 F_AudioPlaying 对无效 source 走
+  "查询失败=在播"防御分支，首条门即截断 25 级链 → soundplay 恒 0**——与全部观测吻合。
+- 判别实验（下轮第一步）: 把 alGetSourcei 的 noop 返回值改成非 0（如 AL_STOPPED=0x1014，
+  patch 一条指令即可: mov r0,#0x1014 需要 movw，仍在 hbt 安全子集），
+  或在 F_AudioPlaying 入口用 logcat hook（§8 已证明该 hook 方式可行过）。
+  若 soundplay 开始步进 → 定性完成；否则嫌疑转向 obj_music Step 派发缺失。

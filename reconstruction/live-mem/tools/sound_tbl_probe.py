@@ -18,14 +18,10 @@ def rd(a, n):
     return b
 def u32(va): return struct.unpack("<I", rd(A(va), 4))[0]
 
-sm = u32(0x75529C)
-print(f"sound table object @0x75529C -> {sm:#x}")
-if sm:
-    for off in (0x18, 0x20, 0x24, 0x28, 0x30, 0x34, 0x48, 0x4c):
-        try:
-            print(f"  +{off:#05x} = {struct.unpack('<I', rd(sm+off,4))[0]:#x}")
-        except Exception as e:
-            print(f"  +{off:#05x} ERR {e}")
+# INLINE struct: fields live at the data VAs themselves (no slot deref).
+print("sound table inline struct @0x75529C:")
+for off in (0x00, 0x18, 0x20, 0x24, 0x28, 0x30, 0x34, 0x48, 0x4c):
+    print(f"  +{off:#05x} = {u32(0x75529C + off):#x}")
 
 fdata = open(LIB, "rb").read()
 print("dispatch records near 0x1c88c (file==vaddr in LOAD#1):")
