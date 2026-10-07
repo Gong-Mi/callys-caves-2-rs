@@ -57,7 +57,12 @@ public class MainActivity extends Activity {
     private native void nativePointerRelease(float x, float y);
     private native int  nativeGetWidth();
     private native int  nativeGetHeight();
-    private native void nativeBlitToIntArray(int[] pixels);
+    /// Returns true when the engine frame changed; false means the previous
+    /// picture is still current and Java skips the whole present (upload, draw
+    /// and swap). Skipping the swap is required as well: the back buffer's
+    /// contents after eglSwapBuffers are undefined, so a present that uploads
+    /// nothing must not swap either.
+    private native boolean nativeBlitToIntArray(int[] pixels);
     private native int nativePollSound();
     private native int nativePollHaptic();
 
@@ -65,6 +70,9 @@ public class MainActivity extends Activity {
     private int[] pixelBuffer;
     private Thread renderThread;
     private volatile boolean running;
+    /// Force one present after the surface is (re)created: the framebuffer may
+    /// be unchanged but the new EGL surface has never shown it.
+    private volatile boolean forcePresent = true;
     private final GlesPresenter gles = new GlesPresenter();
     private final Rect gameRect = new Rect();
     private SoundPool soundPool;
@@ -181,6 +189,7 @@ public class MainActivity extends Activity {
     private final class SurfaceLifecycle implements SurfaceHolder.Callback {
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
+            forcePresent = true;
             gles.setSurface(holder.getSurface());
             startEngine();
         }
@@ -192,6 +201,7 @@ public class MainActivity extends Activity {
             // original runner's window-sized GL backbuffer. The full surface
             // is also the touch coordinate space.
             gameRect.set(0, 0, w, hgt);
+            forcePresent = true;
             gles.setSurface(holder.getSurface());
         }
         @Override
@@ -328,12 +338,17 @@ public class MainActivity extends Activity {
                 nativeStep(now);
                 playQueuedSounds();
                 playQueuedHaptics();
-                nativeBlitToIntArray(pixelBuffer);
+                boolean frameChanged = nativeBlitToIntArray(pixelBuffer);
                 // Our own GLES3 presenter (EGL14 + GLES30): the engine frame
                 // goes into an RGBA texture and is drawn as one quad stretched
                 // per axis onto the whole surface. No framework Canvas / HWUI
                 // in the path; sampling is explicitly GL_NEAREST.
-                gles.present(pixelBuffer);
+                // Unchanged frames skip the present entirely (see
+                // nativeBlitToIntArray): stills and menus cost one memcmp.
+                if (frameChanged || forcePresent) {
+                    forcePresent = false;
+                    gles.present(pixelBuffer);
+                }
                 long remainingNs = 16_666_667L - (System.nanoTime() - now);
                 if (remainingNs > 0) {
                     try {

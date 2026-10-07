@@ -388,32 +388,36 @@ mod android_jni {
             .unwrap_or(0)
     }
 
-    /// Returns the framebuffer as a heap-allocated int[] via
-    /// `SetIntArrayRegion`. Caller (Java) passes a preallocated
-    /// `int[fb.width * fb.height]` array.
+    /// Fills the caller's preallocated `int[fb.width * fb.height]` array via
+    /// `SetIntArrayRegion` and returns whether the frame changed since the last
+    /// call (0 = unchanged, so Java skips the present).
     #[no_mangle]
     pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativeBlitToIntArray(
         env: *mut JNIEnv,
         _class: jobject,
         out: jintArray,
-    ) {
+    ) -> jboolean {
         unsafe {
             let mut g = slot().lock().unwrap();
             if g.is_none() {
-                return;
+                return 0;
             }
             let s = g.as_mut().unwrap();
             let len = (s.fb.width as c_int) * (s.fb.height as c_int);
-            // re-interpret ABGR bytes as little-endian ARGB ints.
-            // In memory the bytes are [B,G,R,A] and on Android
-            // `Bitmap.Config.ARGB_8888` (which we use on the Java
-            // side) expects [R,G,B,A] pixels. So we shuffle.
+            // Identical bytes in the same texture keep the same picture on
+            // screen, so an unchanged frame needs no repack, no JNI copy and no
+            // present at all - the whole per-frame submission becomes a memcmp
+            // (still images, menus and a paused game).
+            if Framebuffer::pack_is_unchanged(&s.blit, &s.fb.pixels) {
+                return 0;
+            }
             // The framebuffer is BGRA8888 and a little-endian ARGB int is the
             // same four bytes, so the old per-pixel repack rebuilt identical
             // bytes: 0.6 ms/frame and a 2.9 MB buffer for nothing.
             s.fb.pack_into_i32(&mut s.blit);
             let f: SetIntArrayRegionFn = jni_func(env, SLOT_SET_INT_ARRAY_REGION);
             f(env, out, 0, len, s.blit.as_ptr());
+            1
         }
     }
 

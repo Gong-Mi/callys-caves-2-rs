@@ -162,17 +162,34 @@ A/B 交替（min-of-3）后：rm_town 10.27→7.87、room42 11.08→8.66、rm_le
 3 轮交替，上表取各轮最小值。）一处在噪声中无法区分收益的改动（sprite 直写行）已回退——
 测不出收益就不留在 diff 里。
 
+
+### 6.3 第三片：静止帧跳过整个递交（确定性，无哈希假设）
+
+`nativeBlitToIntArray` 现在返回"本帧是否变化"：把 framebuffer 与**上次已递交的那份字节**
+做 memcmp，相同就直接返回 0，Java 侧据此**跳过整个 present**（不上传、不画、不 swap）。
+同一个纹理里字节相同 ⇒ 屏幕上仍是同一张图，所以这是构造性的等价，不依赖任何指纹/哈希假设。
+
+- 代价：变化帧 +0.22 ms（memcmp 0.15 + pack 0.07，原来 0.07）；静止帧只花 0.15 ms 的 memcmp，
+  而原本每帧都要 pack + 2.91 MB `SetIntArrayRegion` + `glTexSubImage2D`(2.2–2.4 ms 串行) + swap。
+- **必须同时跳过 swap**：`eglSwapBuffers` 之后的 back buffer 内容未定义，只跳上传不跳 swap
+  会把未定义内容显示出去。surface 创建/重建时用 `forcePresent` 强制递交一帧。
+- 边界：等价性可证（构造 + `pack_is_unchanged_requires_identical_bytes` 单测），但**收益需要真机
+  复验**（CI/本机 emulator 都测不到"跳过一次 EGL 递交"的墙钟收益）。
+
 ### 6.2 这一轮扫出的其它问题（尚未处理）
 
-1. **Rust presenter 若直接接线会 R/B 互换**：`GlesPresenter` 的 fragment shader 注释写着
+1. **Rust presenter 若直接接线会 R/B 互换**（用户实测当前显示颜色正常，故这不是现存缺陷，
+   而是接线的前提条件）：`GlesPresenter` 的 fragment shader 注释写着
    "Engine bytes are little-endian ARGB ints = B,G,R,A in memory; an RGBA upload therefore
    reads back swapped, so swizzle here" 并 `texture(...).bgra`。而 `parts/gles.rs` 是直接把
    `state.fb.pixels` 当 `GL_RGBA` 上传的——**它接上后颜色会反**，除非同样做 swizzle/换格式。
    这解释了它为何停在被合并但未接线的状态，也是接线前必须先解决的点。
-2. **帧节拍**：渲染循环是 `Thread.sleep(16_666_667 - work)` 自计时，没有 `Choreographer`
-   / vsync 回调，也没有 `setFrameRate`/display-mode 提示；eglSwapBuffers 本身有 vsync，
-   但工作点固定在任意相位，120 Hz 屏上会周期性错过 vsync（jitter）。
-3. **静止内容仍满速重画**：过场静帧/菜单不改画面也每帧重光栅化 + 重上传（屏上看到的正是静帧）。
+2. **帧节拍**（用户实测暂未见问题，降级为观察项）：渲染循环是
+   `Thread.sleep(16_666_667 - work)` 自计时，没有 `Choreographer`/vsync 回调，也没有
+   `setFrameRate`/display-mode 提示；eglSwapBuffers 本身有 vsync，但工作点固定在任意相位，
+   理论上 120 Hz 屏上会周期性错过 vsync（jitter）。
+3. **静止内容仍满速重画**：递交侧已修（§6.3）；**光栅化侧仍满速**——要跳过重光栅化必须先证明
+   "所有绘制输入逐帧相同"，那需要输入指纹（哈希）方案，与当前"构造性等价"的纪律不同，未动。
 4. GPU 仍全程闲置（130 MHz）：架构上未用 GPU 做 sprite/tile 绘制。
 
 ## 7. 归因与修法（按性价比排序）

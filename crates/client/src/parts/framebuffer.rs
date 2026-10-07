@@ -17,6 +17,21 @@ impl Framebuffer {
         }
     }
 
+    /// True when `last` - the packed array the presenter uploaded most recently
+    /// - already holds exactly these framebuffer bytes, i.e. re-uploading the
+    /// frame would put identical pixels on the screen. Static content (cutscene
+    /// stills, menus, a paused game) then costs a memcmp instead of a full
+    /// repack + JNI copy + texture upload + swap.
+    pub fn pack_is_unchanged(last: &[i32], pixels: &[u8]) -> bool {
+        if last.len() * 4 != pixels.len() {
+            return false;
+        }
+        // SAFETY: the comparison covers exactly the bytes `last` occupies.
+        let last_bytes =
+            unsafe { std::slice::from_raw_parts(last.as_ptr() as *const u8, last.len() * 4) };
+        last_bytes == pixels
+    }
+
     /// Copy the frame into the ARGB int array the Java presenter uploads.
     ///
     /// The buffer is BGRA8888 and a little-endian ARGB int holds exactly those
@@ -495,5 +510,26 @@ mod framebuffer_pack_tests {
         // Reusable destination buffer (the JNI path keeps one across frames).
         fb.pack_into_i32(&mut packed);
         assert_eq!(packed.len(), 9 * 4);
+    }
+
+    /// The frame-skip decision: an empty/partial previous array must count as a
+    /// change (first frame, or a resized canvas), and a single differing byte
+    /// must too.
+    #[test]
+    fn pack_is_unchanged_requires_identical_bytes() {
+        let mut fb = Framebuffer::new(4, 3);
+        for (i, b) in fb.pixels.iter_mut().enumerate() {
+            *b = (i * 11 + 3) as u8;
+        }
+        let mut packed: Vec<i32> = Vec::new();
+        assert!(!Framebuffer::pack_is_unchanged(&packed, &fb.pixels), "empty = changed");
+        fb.pack_into_i32(&mut packed);
+        assert!(Framebuffer::pack_is_unchanged(&packed, &fb.pixels));
+        // Short array (e.g. the canvas grew) must not be mistaken for equal.
+        assert!(!Framebuffer::pack_is_unchanged(&packed[..3], &fb.pixels));
+        // One byte of one pixel differs.
+        let mut other = packed.clone();
+        other[5] ^= 0x01;
+        assert!(!Framebuffer::pack_is_unchanged(&other, &fb.pixels));
     }
 }
