@@ -201,3 +201,79 @@ fn flanking_lines_spawn_fly_outward_and_destroy_on_alarm() {
     assert!(!s.instances[&l_id].alive, "lineleft destroyed at tick 89");
     assert!(!s.instances[&r_id].alive, "lineright destroyed at tick 89");
 }
+
+/// All twenty intro banners, transcribed from the recovered GML Draw bodies
+/// (0723/0726/0729/.../0780): the name text, the fixed layout coordinates and
+/// the colour are what the original bytes say, not what the remake happens to
+/// print. The remaining seventeen banners had no per-body evidence before this
+/// table - only obj_bearcubintro, obj_boss1intro and obj_boss6intro were driven.
+const BANNERS: [(i32, usize, usize, f64, f64, &str); 20] = [
+    (166, 721, 723, 736.0, 96.0, "Bear Cub"),
+    (167, 724, 726, 1668.0, 544.0, "Knife Bandit"),
+    (168, 727, 729, 384.0, 704.0, "Pesky Spider"),
+    (169, 730, 732, 256.0, 96.0, "Rabid Bat"),
+    (170, 733, 735, 576.0, 224.0, "Direwolf"),
+    (171, 736, 738, 576.0, 192.0, "Smokey"),
+    (172, 739, 741, 416.0, 256.0, "Mama Bear"),
+    (173, 742, 744, 672.0, 160.0, "Turret"),
+    (174, 745, 747, 256.0, 224.0, "Green Slime"),
+    (175, 748, 750, 416.0, 288.0, "Carl Jr."),
+    (176, 751, 753, 480.0, 384.0, "Zombie"),
+    (177, 754, 756, 192.0, 576.0, "Red Slime"),
+    (178, 757, 759, 576.0, 192.0, "Skeleton"),
+    (179, 760, 762, 832.0, 512.0, "Heavy Bandit"),
+    (180, 763, 765, 1504.0, 128.0, "Worker Bee"),
+    (181, 766, 768, 352.0, 192.0, "Queen Bee"),
+    (182, 769, 771, 480.0, 416.0, "Balor"),
+    (183, 772, 774, 352.0, 192.0, "Cyborg Colossus"),
+    (184, 775, 777, 352.0, 192.0, "Battle Tank"),
+    (185, 778, 780, 384.0, 192.0, "Herbert"),
+];
+
+#[test]
+fn every_intro_banner_creates_its_lines_plays_the_fanfare_and_draws_its_name() {
+    let (asset, bundle) = game();
+    for (object, create_code, draw_code, x, y, name) in BANNERS {
+        let mut s = fresh(&bundle, &asset, 1);
+        s.create(&bundle, PLAYER, 400.0, 300.0).unwrap();
+        s.globals.insert("soundmute".into(), 0.0);
+        s.audio.clear();
+
+        let banner = s.create(&bundle, object, 500.0, 300.0).unwrap();
+
+        // --- Create body: fanfare, the 60-tick alarm and the two flanking lines.
+        assert!(s.audio.iter().any(|a| a.sound == 4),
+                "object {object} ({name}): Create CODE {create_code} must play snd_fanfare");
+        assert_eq!(s.instances[&banner].alarms[0], 60,
+                   "object {object} ({name}): banner alarm[0] = 60");
+        let mut lines: Vec<(i32, f64, f64, f64)> = s.instances.iter()
+            .filter(|(_, i)| i.alive && (i.object == LINELEFT || i.object == LINERIGHT))
+            .map(|(_, i)| (i.object, i.fields["x"], i.fields["y"], i.fields["hspeed"]))
+            .collect();
+        lines.sort_by(|a, b| a.0.cmp(&b.0));
+        assert_eq!(lines.len(), 2, "object {object} ({name}): two flanking lines");
+        assert_eq!((lines[0].0, lines[0].1, lines[0].2, lines[0].3), (LINELEFT, 820.0, 270.0, -12.0),
+                   "object {object} ({name}): lineleft at (x+320, y-30) flying left");
+        assert_eq!((lines[1].0, lines[1].1, lines[1].2, lines[1].3), (LINERIGHT, 180.0, 295.0, 12.0),
+                   "object {object} ({name}): lineright at (x-320, y-5) flying right");
+
+        // --- Draw body: one white text at the coordinates the recovered GML gives.
+        s.draw_view(&bundle, 0).expect("draw view 0");
+        let texts = texts_from(&s, draw_code);
+        assert_eq!(texts.len(), 1, "object {object} ({name}): exactly one TextCommand");
+        assert_eq!(texts[0].text, name, "object {object} ({name}): Draw CODE {draw_code} name");
+        assert_eq!((texts[0].x, texts[0].y), (x, y),
+                   "object {object} ({name}): fixed layout coordinates");
+        assert_eq!(texts[0].color, 16777215, "object {object} ({name}): c_white");
+
+        // --- Alarm 0 body: execute it once. The full 60-tick retirement is pinned
+        // for obj_bearcubintro above; here the point is that this banner's own
+        // alarm body runs and destroys the instance, and room 1 carries 1,341
+        // instances, so waiting 60 ticks for each of twenty banners would cost
+        // minutes for nothing.
+        s.instances.get_mut(&banner).unwrap().alarms[0] = 1;
+        s.tick(&bundle).expect("tick");
+        assert!(!s.instances[&banner].alive,
+                "object {object} ({name}): Alarm body destroys the banner");
+    }
+}
