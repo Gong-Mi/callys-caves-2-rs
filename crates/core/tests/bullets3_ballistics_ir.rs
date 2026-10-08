@@ -22,6 +22,11 @@ const BOULDERBLOCK: i32 = 156;
 const ICEBALL: i32 = 40;
 const SPIKE: i32 = 42;
 const ROCKET: i32 = 44;
+const FIREBALL: i32 = 52;
+const SWORD: i32 = 46;
+const PARRY: i32 = 12;
+const PARTS: i32 = 157;
+const SMALLPUFF: i32 = 187;
 const DAMAGE: i32 = 104;
 const INIT: i32 = 103;
 const SND_IMPACT2: i32 = 23; // snd_impactsound2
@@ -57,6 +62,11 @@ fn park(s: &mut Scene, id: i32) {
     i.active = false;
     i.fields.insert("hspeed".into(), 0.0);
     i.fields.insert("vspeed".into(), 0.0);
+}
+
+/// Alive instances of an object id (assertion helper for the new fixtures).
+fn count(s: &Scene, object: i32) -> usize {
+    s.instances.values().filter(|x| x.object == object && x.alive).count()
 }
 
 fn knife(s: &mut Scene, b: &Bundle, x: f64, y: f64) -> i32 {
@@ -277,6 +287,112 @@ fn rocket_blast_clears_boulderblocks_once() {
     // A second Step with the latch set must not re-trigger the destroy path.
     s.dispatch(&b, r, 3, 0).expect("second Step");
     assert_eq!(s.instances[&r].fields["hitboulder"], 1.0);
+}
+
+// ---- obj_fireball (52) and the boulderblock debris (156 -> 157) ----------------
+// The recovered GML contains no spawner for obj_fireball anywhere (zero textual
+// references, no room placement rows), yet both of its bodies ship in the
+// bytecode - it is driven directly, the way the boss-projectile parry fixtures
+// are. The boulderblock debris is reached through the same real rocket path the
+// test above uses, then ticked far enough that the gravity Step and the fuse
+// alarm actually run (the old fixture stopped at the spawn).
+
+#[test]
+fn fireball_create_flies_at_ten_and_parries_on_the_sword() {
+    let b = bundle();
+    // Create 329: motion_set(image_angle +- random(25), -10): |v| = 10, flying
+    // against the sprite angle (image_angle defaults to 0, so leftward).
+    let mut s = scene(&b);
+    let _p = player(&mut s, &b, 0.0);
+    let fb = s.create(&b, FIREBALL, 300.0, 200.0).unwrap();
+    let (hs, vs) = {
+        let f = &s.instances[&fb];
+        (f.fields["hspeed"], f.fields["vspeed"])
+    };
+    assert!((hs * hs + vs * vs - 100.0).abs() < 1e-9,
+        "motion_set speed -10: |v| = 10, got {hs}/{vs}");
+    assert!(hs < 0.0, "negative speed flies against image_angle=0, got {hs}");
+    let swing_deg = (vs / hs).atan().to_degrees().abs();
+    assert!(swing_deg <= 25.0 + 1e-6, "the random(25) swing: {swing_deg} deg");
+
+    // Parry: the sword sits exactly at the fireball's next position, which is
+    // where CODE 330 tests instance_place(x+hspeed, y+vspeed, obj_sword).
+    let mut s = scene(&b);
+    let p = player(&mut s, &b, 0.0);
+    let fb = s.create(&b, FIREBALL, 300.0, 200.0).unwrap();
+    let (hs, vs) = {
+        let f = &s.instances[&fb];
+        (f.fields["hspeed"], f.fields["vspeed"])
+    };
+    let sw = s.create(&b, SWORD, 300.0 + hs, 200.0 + vs).unwrap();
+    park(&mut s, p);
+    s.dispatch(&b, fb, 3, 0).expect("fireball Step 330 parry");
+    assert!(!s.instances[&fb].alive, "the fireball dies on the sword");
+    assert_eq!(count(&s, PARRY), 1, "one obj_parry spark spawns");
+    assert!(s.instances[&sw].alive, "the sword survives the parry");
+
+    // Wall: dies with a half-scale smallpuff.
+    let mut s = scene(&b);
+    let p = player(&mut s, &b, 0.0);
+    let _w = s.create(&b, WALL, 300.0, 200.0).unwrap();
+    let fb = s.create(&b, FIREBALL, 300.0, 200.0).unwrap();
+    park(&mut s, p);
+    s.dispatch(&b, fb, 3, 0).expect("fireball Step 330 wall");
+    assert!(!s.instances[&fb].alive, "the wall kills the fireball");
+    assert_eq!(count(&s, SMALLPUFF), 1, "one obj_smallpuff");
+    let puff = s.instances.values()
+        .find(|x| x.object == SMALLPUFF && x.alive).unwrap();
+    assert_eq!(puff.fields["image_xscale"], 0.5);
+    assert_eq!(puff.fields["image_yscale"], 0.5);
+}
+
+#[test]
+fn boulderblock_debris_falls_and_expires_on_its_fuse() {
+    let b = bundle();
+    let mut s = scene(&b);
+    let p = player(&mut s, &b, 0.0);
+    let blk = s.create(&b, BOULDERBLOCK, 316.0, 200.0).unwrap(); // at x+hspeed=16
+    let r = s.create(&b, ROCKET, 300.0, 200.0).unwrap();
+    park(&mut s, p);
+    s.dispatch(&b, r, 3, 0).expect("rocket smashes the block");
+    assert!(!s.instances[&blk].alive, "the block is gone");
+    // Destroy 680 spawns six pieces; Create 681 arms each with speed 7,
+    // direction 70/110, +-1 scales and a 30-tick fuse.
+    assert_eq!(count(&s, PARTS), 6, "six debris pieces");
+    for piece in s.instances.values().filter(|x| x.object == PARTS && x.alive) {
+        assert_eq!(piece.fields["speed"], 7.0);
+        let d = piece.fields["direction"];
+        assert!(d == 70.0 || d == 110.0, "direction {d}");
+        assert_eq!(piece.alarms[0], 30, "the fuse is armed at 30");
+        assert_eq!(piece.fields["image_xscale"].abs(), 1.0);
+        assert_eq!(piece.fields["image_yscale"].abs(), 1.0);
+    }
+    // The rocket's own lifecycle would only add noise to the tick window.
+    s.destroy(&b, r).expect("retire the rocket");
+    // Step 683 re-arms gravity=1 every tick; the runner integrates it, so one
+    // piece must both fall and accelerate before the fuse (Alarm 0, CODE 682)
+    // destroys the lot on the 30th tick.
+    let one = s.instances.iter()
+        .find(|(_, x)| x.object == PARTS && x.alive).map(|(id, _)| *id).unwrap();
+    let (y0, vy0) = {
+        let i = &s.instances[&one];
+        (i.fields["y"], i.fields["vspeed"])
+    };
+    s.tick(&b).unwrap();
+    let (y1, vy1) = {
+        let i = &s.instances[&one];
+        (i.fields["y"], i.fields["vspeed"])
+    };
+    assert!(y1 > y0, "the piece falls ({y0} -> {y1})");
+    assert!(vy1 > vy0, "gravity accelerates it ({vy0} -> {vy1})");
+    let mut alive_hist = vec![count(&s, PARTS)]; // after tick 1
+    for _t in 2..=40 {
+        s.tick(&b).unwrap();
+        alive_hist.push(count(&s, PARTS));
+    }
+    assert_eq!(alive_hist[28], 6, "still six at tick 29");
+    assert_eq!(alive_hist[29], 0, "the 30-tick fuse fires on tick 30");
+    assert_eq!(*alive_hist.last().unwrap(), 0);
 }
 
 #[test]
