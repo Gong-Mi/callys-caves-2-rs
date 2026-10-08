@@ -58,7 +58,12 @@ pub mod gles {
         fn eglDestroySurface(dpy: *mut c_void, surface: *mut c_void) -> u32;
         fn eglQuerySurface(dpy: *mut c_void, surface: *mut c_void, attr: c_int, value: *mut c_int) -> u32;
         fn eglGetError() -> c_int;
-        fn eglGetString(name: c_int) -> *const c_char;
+        // eglQueryString, NOT eglGetString: the device's libEGL (and the NDK
+        // API-24 stub) export only the display-parameterised form; a direct
+        // reference to eglGetString is an undefined symbol at dlopen and the
+        // whole cdylib fails to load on real devices (found by the on-device
+        // acceptance run, absent from CI and emulator evidence).
+        fn eglQueryString(dpy: *mut c_void, name: c_int) -> *const c_char;
 
         // GLES 3.0 (libGLESv3.so)
         fn glGetString(name: u32) -> *const u8;
@@ -375,7 +380,7 @@ pub mod gles {
                 return false;
             }
             let version = glGetString(0x1F02); // GL_VERSION
-            let vendor = eglGetString(EGL_VENDOR) as *const u8;
+            let vendor = eglQueryString(self.display, EGL_VENDOR) as *const u8;
             log(&format!(
                 "GLES3 presenter up: EGL {}.{}, GL_VERSION={}, EGL_VENDOR={}",
                 major,
