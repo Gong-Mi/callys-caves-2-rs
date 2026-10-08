@@ -65,7 +65,7 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 ## Execution evidence (traces given, not inferred)
 
 - traces read: 1 (untagged: a trace cannot say which suite ran a body)
-- distinct bodies the suites executed: **1207**
+- distinct bodies the suites executed: **1222**
 - executed bodies that no contract, test or source file names: **505** (347, 366, 367, 571, 573, 574, 575, 576, 578, 579, 580, 581, 582, 583, 584, 586, 587, 588, 589, 590)
 - executed bodies among the 62 with-pending CODEs: **51** (12, 14, 46, 55, 66, 88, 109, 120, 132, 142, 151, 160, 164, 168, 172, 184, 196, 212, 241, 250, 262, 274, 294, 303, 361, 456, 470, 476, 529, 532, 549, 557, 566, 572, 577, 585, 593, 601, 607, 615, 620, 625, 634, 643, 651, 655, 663, 675, 690, 692, 786)
 
