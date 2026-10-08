@@ -232,3 +232,98 @@ fn finale_the_end_panels_and_teaser_card() {
     let tease_draws = draws_from(&s, 703);
     assert!(tease_draws.iter().any(|d| d.sprite == 162), "spr_tease is sprite 162");
 }
+
+// ---- the credits ladder and the endgame taps -------------------------------------
+// The old credits test proved the DRAW layer by setting the drawcredit flags by
+// hand and dispatching Alarm 11; the ladder itself (A1..A9 flipping one page
+// every ~300 ticks) never ran. Here it drives live off the Create seeds. The
+// run also exposes the ending's own starvation: obj_final spawns at t2660 and
+// its Create calls instance_deactivate_all(true) (keep-self), which freezes the
+// credits instance — a9 is left at 140 and the tenth page flip never fires in
+// the shipped flow. The body is then driven directly so it still executes, and
+// the starvation itself is pinned as a assertion.
+
+#[test]
+fn ending_credits_ladder_flips_pages_and_starves_on_obj_final() {
+    let (asset, bundle) = game();
+    let mut s = fresh(&bundle, &asset);
+    let em = s.create(&bundle, ENDMUSIC, 0.0, 0.0).unwrap();
+    let mut flips: Vec<(i32, u32)> = Vec::new();
+    let mut prev = [0.0f64; 11];
+    let mut final_spawn = 0;
+    let mut panel2_tick = 0;
+    let mut lock_tick = 0;
+    for t in 1..=2965 {
+        s.tick(&bundle).expect("tick");
+        for n in 1..=10u32 {
+            let v = s.instances[&em].fields.get(&format!("drawcredit{n}")).copied().unwrap_or(0.0);
+            if v == 1.0 && prev[n as usize] != 1.0 {
+                flips.push((t, n));
+            }
+            prev[n as usize] = v;
+        }
+        if final_spawn == 0 && s.instances.values().any(|i| i.object == FINAL && i.alive) {
+            final_spawn = t;
+        }
+        if let Some(f) = s.instances.values().find(|i| i.object == FINAL) {
+            if panel2_tick == 0 && f.fields.get("drawpanel2").copied() == Some(1.0) {
+                panel2_tick = t;
+            }
+            if lock_tick == 0 && f.fields.get("taplock").copied() == Some(1.0) {
+                lock_tick = t;
+            }
+        }
+    }
+    assert_eq!(flips, vec![(50, 1), (400, 2), (700, 3), (1000, 4), (1300, 5),
+        (1600, 6), (1900, 7), (2200, 8), (2400, 9)],
+        "A1..A8 flip one page per beat off the own tick counter");
+    assert_eq!(final_spawn, 2660, "A11 (2660 in Create) spawns obj_final at t2660");
+    assert_eq!(panel2_tick, 2760, "obj_final's own A0 lands at +100");
+    assert_eq!(lock_tick, 2960, "and its A1/A3 beats at +300");
+    // The starvation, pinned: the room got deactivated under the credits.
+    assert!(!s.instances[&em].active, "obj_final's Create deactivates the credits");
+    assert_eq!(s.instances[&em].alarms[9], 140,
+        "a9 was left at 140 the moment the credits went inactive");
+    assert_eq!(s.instances[&em].fields.get("drawcredit9").copied(), Some(1.0));
+    assert_eq!(s.instances[&em].fields.get("drawcredit10").copied(), Some(0.0),
+        "the tenth page flip never fires in the shipped flow");
+    // Drive the starved body directly: its raw effect still holds.
+    s.dispatch(&bundle, em, 2, 9).expect("A9 direct");
+    assert_eq!(s.instances[&em].fields.get("drawcredit10").copied(), Some(1.0));
+}
+
+#[test]
+fn endgame_taps_warp_to_challenges_and_restart_the_game() {
+    let (asset, bundle) = game();
+    let mut s = fresh(&bundle, &asset);
+    let marker = s.create(&bundle, ENDMUSIC, 400.0, 0.0).unwrap();
+    let fin = s.create(&bundle, FINAL, 0.0, 0.0).unwrap();
+    assert!(!s.instances[&marker].active, "Create deactivates the room (keep-self)");
+    s.dispatch(&bundle, fin, 6, 7).expect("tap before the lock");
+    assert_eq!(s.target_room_warp, None, "taplock gates the warp");
+    s.dispatch(&bundle, fin, 2, 1).expect("alarm 1 sets taplock");
+    assert_eq!(s.instances[&fin].fields.get("taplock").copied(), Some(1.0));
+    s.dispatch(&bundle, fin, 6, 7).expect("tap after the lock");
+    assert_eq!(s.target_room_warp, Some(105), "rm_challenge1");
+    assert_eq!(s.globals.get("warpfrommap").copied(), Some(1.0));
+    assert!(s.instances[&marker].active, "activate_all revived the room");
+
+    // obj_tease: alarm 0 unlocks at t600; the tap stops the music and restarts.
+    let mut s = fresh(&bundle, &asset);
+    let tease = s.create(&bundle, TEASE, 0.0, 0.0).unwrap();
+    let cally3 = s.audio.last().map(|a| a.sound as f64).expect("mus_cally3 played on create");
+    assert!(s.audio_is_playing_sound(cally3));
+    s.dispatch(&bundle, tease, 6, 7).expect("tap before the unlock");
+    assert_eq!(s.target_room_warp, None, "taplock gates the restart");
+    for _ in 0..599 {
+        s.tick(&bundle).expect("tick");
+    }
+    assert_eq!(s.instances[&tease].fields.get("taplock").copied(), Some(0.0));
+    s.tick(&bundle).expect("tick");
+    assert_eq!(s.instances[&tease].fields.get("drawpanel3").copied(), Some(1.0));
+    assert_eq!(s.instances[&tease].fields.get("taplock").copied(), Some(1.0),
+        "alarm 0 unlocks on the 600th tick");
+    s.dispatch(&bundle, tease, 6, 7).expect("restart tap");
+    assert_eq!(s.target_room_warp, Some(0), "game_restart requests room 0");
+    assert!(!s.audio_is_playing_sound(cally3), "and stops the teaser music");
+}
