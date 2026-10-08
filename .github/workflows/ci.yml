@@ -7,7 +7,7 @@ on:
     branches: [ main, master, fix/prologue-render-layers, fix/active-view-dispatch,
                 fix/prologue-boot-order, fix/view-canvas-1136x640, chore/repo-hygiene,
                 fix/presentation-gles3, fix/camera-follow, fix/story-runtime-boundaries,
-                exec-ledger-140 ]
+                exec-ledger-140, test/reach-last-five ]
 
 jobs:
   test-and-build:
@@ -33,6 +33,8 @@ jobs:
         run: python3 scripts/test_pointer_release_java.py
       - name: Test the semantic-coverage census
         run: python3 scripts/test_reverse_semantic_coverage.py
+      - name: Test the object evidence matrix
+        run: python3 scripts/test_object_matrix.py
       - name: "Differential: Java pointer adapters vs the Rust input semantics"
         run: python3 scripts/test_pointer_mapping_parity.py
       # cargo runs test binaries strictly sequentially (~36 min here); nextest

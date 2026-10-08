@@ -40,9 +40,9 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 
 | tier | codes | share |
 | --- | --- | --- |
-| `structural` | 507 | 37.4% |
-| `object_cited_test` | 6 | 0.4% |
-| `object_cited_contract` | 298 | 22.0% |
+| `structural` | 505 | 37.3% |
+| `object_cited_test` | 5 | 0.4% |
+| `object_cited_contract` | 301 | 22.2% |
 | `env_classified` | 30 | 2.2% |
 | `cited_src` | 12 | 0.9% |
 | `cited_test` | 106 | 7.8% |
@@ -58,15 +58,15 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 
 - objects carrying events: **186**
 - CODE containers: `Object` 803, `RoomCC` 551
-- objects named in contract: **148**
+- objects named in contract: **150**
 - objects named in test: **126**
 - objects named in src: **59**
 
 ## Execution evidence (traces given, not inferred)
 
 - traces read: 1 (untagged: a trace cannot say which suite ran a body)
-- distinct bodies the suites executed: **1192**
-- executed bodies that no contract, test or source file names: **507** (347, 366, 367, 571, 573, 574, 575, 576, 578, 579, 580, 581, 582, 583, 584, 586, 587, 588, 589, 590)
+- distinct bodies the suites executed: **1189**
+- executed bodies that no contract, test or source file names: **505** (347, 366, 367, 571, 573, 574, 575, 576, 578, 579, 580, 581, 582, 583, 584, 586, 587, 588, 589, 590)
 - executed bodies among the 62 with-pending CODEs: **51** (12, 14, 46, 55, 66, 88, 109, 120, 132, 142, 151, 160, 164, 168, 172, 184, 196, 212, 241, 250, 262, 274, 294, 303, 361, 456, 470, 476, 529, 532, 549, 557, 566, 572, 577, 585, 593, 601, 607, 615, 620, 625, 634, 643, 651, 655, 663, 675, 690, 692, 786)
 
 Execution is evidence that the body ran under a test - not that its
@@ -77,7 +77,7 @@ argument in env-semantics.md.
 
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
-| `contract` | 87 | 395 | 161 |
+| `contract` | 87 | 395 | 163 |
 | `test` | 152 | 422 | 132 |
 | `src` | 26 | 41 | 66 |
 
@@ -91,11 +91,11 @@ count from the trace when one was given:
 | container | uncited bodies | of which executed |
 | --- | --- | --- |
 | `RoomCC` | 373 | 373 |
-| `Object` | 134 | 134 |
+| `Object` | 132 | 132 |
 
 ## Worklist: neither the CODE id nor its object is named anywhere
 
-507 CODE bodies. These still EXECUTE through the VM; what they lack is
+505 CODE bodies. These still EXECUTE through the VM; what they lack is
 evidence of attention (an object-name citation promotes a body to `object_cited_*
 above and keeps it out of this list). Grouped by owner, most events first:
 
@@ -126,4 +126,4 @@ above and keeps it out of this list). Grouped by owner, most events first:
 | `obj_zombieintro` | 3 |
 | `obj_redslimeintro` | 3 |
 | `obj_skeletonintro` | 3 |
-| _...9 more objects_ | |
+| _...8 more objects_ | |

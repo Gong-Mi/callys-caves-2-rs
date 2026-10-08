@@ -13,7 +13,7 @@ Full rebuild pipeline (from a compiled tree):
 Run this to refresh both artifacts in one go:
     python3 scripts/regen_coverage_with_exec_ledger.py
 """
-import os, subprocess, sys
+import os, json, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW = os.path.join(ROOT, "reconstruction/live-mem/trace/cally-code-trace-full-ledger.txt")
@@ -31,6 +31,17 @@ def main() -> int:
             if line.isdigit():
                 entries += 1
                 ids.add(int(line))
+    # Guard: the ledger must hold shipped CODE bodies only. Fixture-only suites
+    # are isolated by run_exec_ledger.py; anything outside the bundle's code set
+    # is still reported and kept out of the dedup rather than counted as an
+    # execution of some body.
+    with open(os.path.join(ROOT, "crates/core/src/generated/full_ir.json"),
+              encoding="utf-8") as fh:
+        bundle_ids = {int(c["id"]) for c in json.load(fh)["codes"]}
+    strays = sorted(i for i in ids if i not in bundle_ids)
+    if strays:
+        ids -= set(strays)
+        print(f"WARNING: excluded {len(strays)} non-bundle ids from the dedup: {strays}")
     tmp = DEDUP + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
         fh.write("\n".join(str(i) for i in sorted(ids)) + "\n")

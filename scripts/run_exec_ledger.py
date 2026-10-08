@@ -9,7 +9,7 @@ code_vm::coverage), so parallel binaries share the ledger safely.
 Usage: run_exec_ledger.py [target/release/deps] [ledger_out]
 Skips binaries that crash or time out (still keeping whatever they appended).
 """
-import os, subprocess, sys, glob, time
+import os, subprocess, sys, glob, tempfile, time
 
 DEPS = sys.argv[1] if len(sys.argv) > 1 else "target/release/deps"
 LEDGER = sys.argv[2] if len(sys.argv) > 2 else "reconstruction/live-mem/trace/cally-code-trace-full-ledger.txt"
@@ -18,6 +18,15 @@ open(LEDGER, "w").close()  # fresh ledger per full run
 
 env = dict(os.environ, CALLY_CODE_TRACE=os.path.abspath(LEDGER),
            CALLY_CFG_LEDGER=os.path.expanduser("~/cally-cfg-evidence-ci-44a33c0/progress.tsv"))
+
+# Suites that execute only bodies of bundles they CONSTRUCT (no
+# load_bundle_from_file): their VM entries are synthetic fixtures, not shipped
+# bodies. Feeding them the shared ledger injects a non-body id (9001) and ids
+# that collide with real ones (7/9 read as player alarms, 42 as a shipped
+# body), so each gets its own throwaway trace instead.
+FIXTURE_SUITES = ("env_semantics_ir", "code_execution_coverage_ir",
+                  "code_execution_coverage_enabled_ir", "room_lifecycle_errors",
+                  "physics_and_motion_ir")
 
 patterns = [f"{DEPS}/*-*"]
 # newer cargo in this tree places test executables under build/<hash>/out
@@ -30,8 +39,12 @@ print(f"{len(binaries)} candidate binaries")
 ok = fail = skipped = 0
 t0 = time.time()
 for b in binaries:
+    bare = os.path.basename(b)
+    fixture = bare.startswith(FIXTURE_SUITES)
+    trace = tempfile.mktemp(prefix=f"cally-fixture-{bare[:24]}-", suffix=".trace") if fixture else None
+    benv = dict(env, CALLY_CODE_TRACE=trace) if fixture else env
     try:
-        r = subprocess.run([b], env=env, capture_output=True, text=True, timeout=1800)
+        r = subprocess.run([b], env=benv, capture_output=True, text=True, timeout=1800)
         line = (r.stdout or "").strip().splitlines()
         tail = line[-1] if line else ""
         if r.returncode == 0:
@@ -42,13 +55,17 @@ for b in binaries:
             status = f"RC{r.returncode}"
         if "0 passed" in tail and "running 0 tests" in " ".join(line):
             skipped += 1
-        print(f"  {os.path.basename(b):60s} {status:6s} {tail[:60]}")
+        note = " (fixture trace isolated)" if fixture else ""
+        print(f"  {os.path.basename(b):60s} {status:6s} {tail[:60]}{note}")
     except subprocess.TimeoutExpired:
         fail += 1
         print(f"  {os.path.basename(b):60s} TIMEOUT")
     except Exception as e:
         fail += 1
         print(f"  {os.path.basename(b):60s} ERR {e}")
+    finally:
+        if trace and os.path.exists(trace):
+            os.remove(trace)
 
 n = sum(1 for _ in open(LEDGER))
 distinct = len({l.strip() for l in open(LEDGER) if l.strip().isdigit()})
