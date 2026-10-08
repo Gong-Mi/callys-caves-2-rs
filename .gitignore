@@ -11,3 +11,6 @@ tools/gml-recover/obj/
 # Runtime artifacts written by the game/tests into the assets dir:
 assets/save-v2.json
 assets/savefile.ini
+# Raw CALLY_CODE_TRACE full-suite run output (3.45M entries, 11M);
+# the deduped id set is the tracked artifact next to it.
+reconstruction/live-mem/trace/cally-code-trace-full-ledger.txt

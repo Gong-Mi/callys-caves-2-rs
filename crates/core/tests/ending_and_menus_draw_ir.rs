@@ -108,7 +108,11 @@ fn iap_store_and_restore_purchases_overlays() {
     let mut s = fresh(&bundle, &asset);
 
     let _menu = s.create(&bundle, IAPMENU, 0.0, 0.0).unwrap();
-    let _store_btn = s.create(&bundle, IAPSTORE, 315.0, 1.0).unwrap();
+    let store_btn = s.create(&bundle, IAPSTORE, 315.0, 1.0).unwrap();
+    // Mouse 7 on the store icon (CODE 515) is an empty body: dispatching it
+    // must be a clean no-op with no side effects.
+    s.dispatch(&bundle, store_btn, 6, 7).expect("Mouse 7 dispatch on the store icon");
+    assert!(s.instances[&store_btn].alive, "the empty handler changes nothing");
     let _poison = s.create(&bundle, POISONIAP, 100.0, 100.0).unwrap();
     let restore = s.create(&bundle, RESTOREIAP, 100.0, 200.0).unwrap();
 

@@ -241,6 +241,7 @@ def collect_all(quick=False):
         "scripts/test_reverse_cfg.py",
         "scripts/test_reverse_startup.py",
         "scripts/test_reverse_player_combat.py",
+        "scripts/test_object_matrix.py",
     ]
     for s in py_scripts:
         tasks.append(("python", s, ["python3", s]))
