@@ -15,16 +15,14 @@ columns are frozen 2026-09 data and are not read here.
 
 - objects: 191
 - object-owned CODE bodies: 803 (of 1354 total in the merged census)
-- executed: 638/803 object-owned
-- objects with any unexecuted body: 68
+- executed: 656/803 object-owned
+- objects with any unexecuted body: 65
 
 ## Still unexecuted, by object (weakest first)
 
 | object | unexecuted | ids |
 | --- | --- | --- |
-| `obj_boss5` | 10 | 201, 202, 203, 204, 205, 206, 207, 208, 209, 210 |
 | `obj_endmusic` | 9 | 706, 707, 708, 709, 710, 711, 712, 713, 714 |
-| `obj_boss3` | 7 | 174, 176, 177, 178, 179, 180, 181 |
 | `obj_house` | 6 | 21, 22, 23, 24, 25, 26 |
 | `obj_shooter2` | 6 | 102, 103, 104, 105, 106, 107 |
 | `obj_zombie` | 6 | 92, 93, 94, 95, 96, 97 |
@@ -69,7 +67,6 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_finalbossgrenade` | 1 | 324 |
 | `obj_finalchest` | 1 | 454 |
 | `obj_firehulkflame` | 1 | 332 |
-| `obj_fireprojectile` | 1 | 334 |
 | `obj_healthrefill` | 1 | 446 |
 | `obj_healthregen` | 1 | 431 |
 | `obj_iapmenu` | 1 | 499 |
@@ -118,12 +115,12 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_boss1intro` | 172 | 3 | 3 | 0 | 3 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_boss2` | 26 | 8 | 8 | 6 | 0 | 0 | 2 | 0 | 6/8 | 174 |
 | `obj_boss2intro` | 175 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
-| `obj_boss3` | 27 | 16 | 16 | 14 | 2 | 0 | 0 | 0 | 9/16 | 174 |
+| `obj_boss3` | 27 | 16 | 16 | 14 | 2 | 0 | 0 | 0 | 16/16 | 174 |
 | `obj_boss3intro` | 181 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_boss3projectile` | 55 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_boss4` | 28 | 12 | 12 | 6 | 5 | 0 | 1 | 0 | 11/12 | 170 |
 | `obj_boss4intro` | 183 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
-| `obj_boss5` | 29 | 16 | 16 | 14 | 1 | 0 | 1 | 0 | 6/16 | 170 |
+| `obj_boss5` | 29 | 16 | 16 | 14 | 1 | 0 | 1 | 0 | 16/16 | 170 |
 | `obj_boss5intro` | 184 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_boss6intro` | 185 | 3 | 3 | 0 | 3 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_bossboulder` | 3 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
@@ -157,7 +154,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_firehulk` | 18 | 11 | 11 | 8 | 2 | 0 | 1 | 0 | 7/11 | 86 |
 | `obj_firehulkflame` | 53 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
 | `obj_firehulkintro` | 182 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
-| `obj_fireprojectile` | 54 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_fireprojectile` | 54 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_fireslime` | 33 | 12 | 12 | 7 | 5 | 0 | 0 | 0 | 8/12 | 94 |
 | `obj_firstpause` | 118 | 4 | 4 | 3 | 0 | 0 | 1 | 0 | 2/4 | 12 |
 | `obj_flame` | 35 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 0 |
