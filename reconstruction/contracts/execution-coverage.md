@@ -55,3 +55,45 @@ that its behaviour matches the original, and it is not a substitute for the
 per-site runtime argument in `env-semantics.md`. The trace is also untagged
 (append-only, one id per line), so it cannot yet say *which* suite ran a body;
 per-suite attribution means one trace file per suite.
+
+## The full-suite run, and the last five bodies (2026-10)
+
+`run_exec_ledger.py` runs every built test binary against ONE shared ledger;
+`regen_coverage_with_exec_ledger.py` then rebuilds the tracked dedup list and
+`semantic-coverage.md` in one command. On the local Termux release tree: 155
+binaries, **3,451,215 entries / 1,189 distinct ids** - see the correction at the
+bottom of this section (the first pass carried synthetic fixture ids; the
+census consumes only the id set).
+
+The first full run left five bodies that no citation and no suite had touched -
+329/330 `obj_fireball`, 682/683 `obj_busterrockparts`, 515 `obj_IAPstore`
+Mouse 7. They are all reached now:
+
+- `obj_fireball` has no spawner in the recovered GML (no `instance_create`
+  reference; the only text mentions are a loading tip and tutorial copy) and no
+  `room_bindings` placement rows, so its fixture drives it directly: Create
+  asserts `|v| = 10` and the `random(25)` swing; the Step's parry branch dies
+  on `obj_sword` with one `obj_parry` spark; the wall branch leaves the
+  half-scale `obj_smallpuff`.
+- The boulderblock fixture now ticks past the spawn: six debris pieces, fuses
+  armed at 30, gravity integrated, all destroyed on tick 30 (`Alarm 0`).
+- The Mouse 7 handler on `obj_IAPstore` is an empty body; the store draw test
+  dispatches it and asserts the no-op.
+
+The census's "uncited AND unexecuted" complement is empty (RoomCC 373|373,
+Object 132|132). Execution stays a separate axis: reaching a body is not a
+claim of behavioural equivalence.
+
+**Correction (same batch, found by the object matrix):** the first pass's
+figure included id 9001, which is not a CODE body at all. `env_semantics_ir`
+and four sibling suites execute only bodies of bundles they CONSTRUCT, so run
+under the shared ledger their synthetic executions were recorded as if
+shipped. `code_execution_coverage_ir` recorded 7/9 and `room_lifecycle_errors`
+recorded 42 - ids that COLLIDE with real bodies (false executions of two
+player alarms and body 42); `code_execution_coverage_enabled_ir` and
+`physics_and_motion_ir` stay silent. 9, 42 and 9001 were synthetic-only and
+are gone; 7 is real (some suite fires the player's alarm 4 for real). The five
+suites now get throwaway traces in `run_exec_ledger.py`, and
+`regen_coverage_with_exec_ledger.py` reports and excludes any id outside the
+bundle's code set. The last-five fixtures are unaffected: 329/330/682/683/515
+are all still reached. Per-object view of the same axes: `object-matrix.md`.

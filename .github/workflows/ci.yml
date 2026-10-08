@@ -7,13 +7,57 @@ on:
     branches: [ main, master, fix/prologue-render-layers, fix/active-view-dispatch,
                 fix/prologue-boot-order, fix/view-canvas-1136x640, chore/repo-hygiene,
                 fix/presentation-gles3, fix/camera-follow, fix/story-runtime-boundaries,
-                'perf/**' ]
+                'perf/**', exec-ledger-140, test/reach-last-five ]
+  workflow_dispatch:
+
+concurrency:
+  # A superseding push to the same PR ref cancels the stale run (its result is
+  # superseded anyway); pushes to main always run to completion so main keeps
+  # a green record per commit.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The test suite is sharded with nextest's round-robin count partition
+        # (per-binary, so the heavy room simulations spread across shards); the
+        # union of the shards still runs every test exactly once.
+        shard: [1, 2, 3, 4]
+    env:
+      # sccache with the GitHub Actions cache backend: caches rustc compiles
+      # (workspace rlibs included) across runs; links are not cacheable and
+      # still execute per shard.
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
     steps:
       - uses: actions/checkout@v4
+      - name: Detect change scope
+        uses: dorny/paths-filter@v3
+        id: scope
+        with:
+          # contracts/*.json are consumed by tests and CI python scripts, so
+          # they count as code; other reconstruction/ files are docs.
+          filters: |
+            code:
+              - 'crates/**'
+              - 'android-build/**'
+              - 'assets/**'
+              - 'scripts/**'
+              - 'reconstruction/contracts/**'
+              - 'Cargo.toml'
+              - 'Cargo.lock'
+              - '.github/workflows/**'
+      - name: Docs-only change
+        if: steps.scope.outputs.code != 'true'
+        run: echo "docs-only change, Rust build/test skipped by the scope filter" >> "$GITHUB_STEP_SUMMARY"
       - name: Install dependencies
         run: |
           sudo rm -f /etc/apt/sources.list.d/*chrome*
@@ -21,13 +65,27 @@ jobs:
           sudo apt-get install -y libsdl2-dev libsdl2-image-dev aapt zipalign
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
+      - name: Set up sccache
+        if: steps.scope.outputs.code == 'true'
+        uses: mozilla-actions/sccache-action@v0.0.11
+      - name: Cache cargo artifacts
+        if: steps.scope.outputs.code == 'true'
+        uses: Swatinem/rust-cache@v2
+        with:
+          # add-job-id-key: false shares one cache namespace across all four
+          # shards (their target dirs are equivalent); the first saver wins and
+          # the rest report up-to-date.
+          add-job-id-key: false
+          cache-on-failure: true
       - name: Install cargo-nextest
         uses: taiki-e/install-action@v2
         with:
           tool: cargo-nextest
       - name: Build Workspace
+        if: steps.scope.outputs.code == 'true'
         run: cargo build --workspace --verbose --release
       - name: Build Desktop Client
+        if: steps.scope.outputs.code == 'true'
         run: cargo build -p callys-client --features desktop --verbose --release
       - name: Test physical pointer release queue
         run: python3 scripts/test_pointer_release_java.py
@@ -35,13 +93,20 @@ jobs:
         run: python3 scripts/test_reverse_semantic_coverage.py
       - name: "Differential: Java pointer adapters vs the Rust input semantics"
         run: python3 scripts/test_pointer_mapping_parity.py
-      # cargo runs test binaries strictly sequentially (~36 min here); nextest
-      # runs one process per binary in parallel across the runner's CPUs.
-      # No doctests exist in the tree (zero ``` blocks), so nextest's default
-      # doctest skip loses no coverage.
-      - name: Run Tests
-        run: cargo nextest run --workspace
+      # cargo runs test binaries strictly sequentially; nextest runs one
+      # process per binary in parallel across the runner's CPUs. No doctests
+      # exist in the tree (zero ``` blocks), so nextest's default doctest skip
+      # loses no coverage.
+      #
+      # The ci-test profile (workspace Cargo.toml) keeps dev's debug-assertions
+      # + overflow checks at opt-level 3 with line-tables-only debug info; the
+      # IR room simulations that dominate this leg are an order of magnitude
+      # slower unoptimized (see PR #78 for the measurements).
+      - name: Run Tests (shard ${{ matrix.shard }}/4)
+        if: steps.scope.outputs.code == 'true'
+        run: cargo nextest run --workspace --cargo-profile ci-test --partition count:${{ matrix.shard }}/4
       - name: Upload Native Executable
+        if: steps.scope.outputs.code == 'true' && matrix.shard == 1
         uses: actions/upload-artifact@v4
         with:
           name: callys-client-linux-x86_64
