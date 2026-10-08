@@ -58,7 +58,13 @@ jobs:
           # Caches ./target (both the release builds and the ci-test test
           # profile live there) + the cargo registry, keyed on the lockfile and
           # toolchain. Save even on failed runs so a red iteration is fast.
+          #
+          # cache-workspace-crates: without it rust-cache prunes the workspace
+          # crates' artifacts and the three crates + their 155 test binaries
+          # (opt-level 3 + debuginfo) recompile on every run - 5m23s in the
+          # attempt-2 log even with a full dependency cache hit.
           cache-on-failure: true
+          cache-workspace-crates: true
       - name: Install cargo-nextest
         uses: taiki-e/install-action@v2
         with:
