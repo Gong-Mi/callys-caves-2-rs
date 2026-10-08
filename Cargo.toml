@@ -19,6 +19,9 @@ sdl2 = { version = "0.37", features = ["image"] }
 [profile.ci-test]
 inherits = "dev"
 opt-level = 3
+# Line-tables-only debug info: full dwarf for a crate this size dominates the
+# codegen/link cost; assertions and failure line numbers stay usable.
+debug = 1
 debug-assertions = true
 overflow-checks = true
 incremental = false

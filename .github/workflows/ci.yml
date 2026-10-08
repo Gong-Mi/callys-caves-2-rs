@@ -23,6 +23,19 @@ permissions:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The test suite is sharded with nextest's round-robin count partition
+        # (per-binary, so the heavy room simulations spread across shards); the
+        # union of the shards still runs every test exactly once.
+        shard: [1, 2, 3, 4]
+    env:
+      # sccache with the GitHub Actions cache backend: caches rustc compiles
+      # (workspace rlibs included) across runs; links are not cacheable and
+      # still execute per shard.
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
     steps:
       - uses: actions/checkout@v4
       - name: Detect change scope
@@ -51,20 +64,18 @@ jobs:
           sudo apt-get install -y libsdl2-dev libsdl2-image-dev aapt zipalign
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
+      - name: Set up sccache
+        if: steps.scope.outputs.code == 'true'
+        uses: mozilla-actions/sccache-action@v0.0.11
       - name: Cache cargo artifacts
         if: steps.scope.outputs.code == 'true'
         uses: Swatinem/rust-cache@v2
         with:
-          # Caches ./target (both the release builds and the ci-test test
-          # profile live there) + the cargo registry, keyed on the lockfile and
-          # toolchain. Save even on failed runs so a red iteration is fast.
-          #
-          # cache-workspace-crates: without it rust-cache prunes the workspace
-          # crates' artifacts and the three crates + their 155 test binaries
-          # (opt-level 3 + debuginfo) recompile on every run - 5m23s in the
-          # attempt-2 log even with a full dependency cache hit.
+          # add-job-id-key: false shares one cache namespace across all four
+          # shards (their target dirs are equivalent); the first saver wins and
+          # the rest report up-to-date.
+          add-job-id-key: false
           cache-on-failure: true
-          cache-workspace-crates: true
       - name: Install cargo-nextest
         uses: taiki-e/install-action@v2
         with:
@@ -87,13 +98,14 @@ jobs:
       # loses no coverage.
       #
       # The ci-test profile (workspace Cargo.toml) keeps dev's debug-assertions
-      # + overflow checks but optimizes codegen: the IR room simulations that
-      # dominate this leg are an order of magnitude slower unoptimized (see PR).
-      - name: Run Tests
+      # + overflow checks at opt-level 3 with line-tables-only debug info; the
+      # IR room simulations that dominate this leg are an order of magnitude
+      # slower unoptimized (see PR #78 for the measurements).
+      - name: Run Tests (shard ${{ matrix.shard }}/4)
         if: steps.scope.outputs.code == 'true'
-        run: cargo nextest run --workspace --cargo-profile ci-test
+        run: cargo nextest run --workspace --cargo-profile ci-test --partition count:${{ matrix.shard }}/4
       - name: Upload Native Executable
-        if: steps.scope.outputs.code == 'true'
+        if: steps.scope.outputs.code == 'true' && matrix.shard == 1
         uses: actions/upload-artifact@v4
         with:
           name: callys-client-linux-x86_64
