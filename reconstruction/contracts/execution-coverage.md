@@ -61,8 +61,9 @@ per-suite attribution means one trace file per suite.
 `run_exec_ledger.py` runs every built test binary against ONE shared ledger;
 `regen_coverage_with_exec_ledger.py` then rebuilds the tracked dedup list and
 `semantic-coverage.md` in one command. On the local Termux release tree: 155
-binaries, 3,451,224 entries, 1,192 distinct ids - the census consumes only the
-id set.
+binaries, **3,451,215 entries / 1,189 distinct ids** - see the correction at the
+bottom of this section (the first pass carried synthetic fixture ids; the
+census consumes only the id set).
 
 The first full run left five bodies that no citation and no suite had touched -
 329/330 `obj_fireball`, 682/683 `obj_busterrockparts`, 515 `obj_IAPstore`
@@ -80,5 +81,19 @@ Mouse 7. They are all reached now:
   dispatches it and asserts the no-op.
 
 The census's "uncited AND unexecuted" complement is empty (RoomCC 373|373,
-Object 134|134). Execution stays a separate axis: reaching a body is not a
+Object 132|132). Execution stays a separate axis: reaching a body is not a
 claim of behavioural equivalence.
+
+**Correction (same batch, found by the object matrix):** the first pass's
+figure included id 9001, which is not a CODE body at all. `env_semantics_ir`
+and four sibling suites execute only bodies of bundles they CONSTRUCT, so run
+under the shared ledger their synthetic executions were recorded as if
+shipped. `code_execution_coverage_ir` recorded 7/9 and `room_lifecycle_errors`
+recorded 42 - ids that COLLIDE with real bodies (false executions of two
+player alarms and body 42); `code_execution_coverage_enabled_ir` and
+`physics_and_motion_ir` stay silent. 9, 42 and 9001 were synthetic-only and
+are gone; 7 is real (some suite fires the player's alarm 4 for real). The five
+suites now get throwaway traces in `run_exec_ledger.py`, and
+`regen_coverage_with_exec_ledger.py` reports and excludes any id outside the
+bundle's code set. The last-five fixtures are unaffected: 329/330/682/683/515
+are all still reached. Per-object view of the same axes: `object-matrix.md`.
