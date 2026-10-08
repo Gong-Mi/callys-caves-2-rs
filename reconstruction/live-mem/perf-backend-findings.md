@@ -90,11 +90,168 @@ RGB565 与 RGBA8888 持平。格式不是本后端的优化点（这条写进来
 
 工具位置：`~/cally-work/glbench/{GlBench.java,run_glbench.sh}`。
 
-## 5. 归因与修法（按性价比排序）
+## 5. 逐类归因（临时仪表，`CALLY_DRAW_PROFILE=1`，测完已回退）
 
-1. **静态几何缓存**：这些房间 tiles 大多是 0，成本来自 700–1500 个 room object
-   （墙/实体）每帧重复逐像素 blit。把不动的层烘进背景缓冲，只重画变化区域/动态实例，
-   可直接砍掉大头（原始 GM runner 也是 GPU 绘制，不重画静态层）。
+`draw_frame` 按队列分类计时（每帧 ms）：
+
+| 房间 | 原语/帧 | gen | clear | bg | sprite | 其它 |
+| --- | --- | --- | --- | --- | --- | --- |
+| rm_town | 157 | 0.03 | 0.00 | 3.97 | 6.82 | text/hb/tile/particle ≈ 0.02 |
+| room42 | 796 | 0.10 | 0.72 | 3.99 | 7.71 | ≈ 0.02 |
+| rm_level1 | 928 | 0.12 | 0.73 | 4.05 | 7.93 | ≈ 0.03 |
+| rm_level17 | 806 | 0.13 | 0.79 | 4.27 | **12.90** | ≈ 0.02 |
+| rm_level16 | 686 | 0.09 | 0.72 | 4.02 | 6.38 | ≈ 0.03 |
+| rm_level2 | 700 | 0.11 | 0.82 | 4.43 | 7.70 | ≈ 0.13 |
+
+结论修正：命令生成/排序（`ordered_draw_commands` 每帧建 Vec+BTreeSet+排序）只占 0.1 ms，
+**不是**瓶颈（先前的"静态层缓存"设想的收益基础不成立）；成本全在**两个逐像素循环**：
+整屏缩放的背景 blit（恒定 ~4 ms）与 sprite blit（6–13 ms）。
+
+## 6. 已实施的等价优化（本 PR）
+
+`parts/framebuffer.rs` 两处快路径，**输出逐字节不变**：
+
+1. `blit_scaled_alpha`（背景/缩放 blit）：目标可见区间一次裁剪（原来每像素判边界）、
+   采样映射改为**增量除法**（`rem += sw; while rem >= dw { rem -= dw; x += 1 }`，与
+   `ox*sw/dw` 整数结果逐位相同）、不透明像素直写不再走 `put_blended` 的浮点路径。
+2. `blit_sprite_gm`：轴对齐 + 单位缩放(±1) + 无 fog + 恒等 blend 时走快路径——此时逆旋转
+   就是恒等变换（`cos==1, sin==0 ⇒ lx=rx`），除以 ±1.0 精确，于是逐像素 f64 旋转、
+   两次除法与三次恒等通道乘法整体消失；采样、全部边界判定、alpha 规则与写入保持不变。
+
+等价性判据：`cargo run --release --example draw_hash` 输出 400 帧帧缓冲 FNV-1a 哈希
+（序章 40 帧 + 退场 40 帧 + 8 个房间各 40 帧），优化前后**同为 sha256
+`790d13ea1aba5b1581898f8ee1b25a8ec4010523e32cc58d6cd787f21fdc993e`**（diff 0 行）。
+
+提速（300 次平均，同一台机器）：
+
+第一片单测（未配对的单次采样，仅作方向参考，正式口径见 §6.1）：rm_town 12.22→9.54、
+room42 13.69→10.30、rm_level1 14.02→9.39、rm_level17 19.54→12.38、rm_level16 13.43→9.53、
+rm_level2 12.97→8.43 ms。
+
+A/B 交替（min-of-3）后：rm_town 10.27→7.87、room42 11.08→8.66、rm_level17 15.44→11.81 ms
+（约 1.3×）；`rm_level17` 仍在 16.67 ms 预算内，但余量薄。
+
+### 6.1 第二片：整帧递交路径 + 采样（同一 PR 内）
+
+- **`nativeBlitToIntArray` 的逐像素重排是空转**：framebuffer 就是 BGRA8888，而小端
+  `0xAARRGGBB` int 在内存里正是同样四字节 ⇒ 原来的"读 chunk、移位打包、写回 int"是
+  **逐字节恒等变换**。改为 `Framebuffer::pack_into_i32`（`copy_nonoverlapping` 批量拷贝），
+  附单测同时断言 int 序列与底层字节序列一致，防这个假设悄悄失效。
+  实测 **0.50 → 0.07 ms/帧**（并少一次 2.9 MB 分配）。
+- `fill_rect` 改 4 字节 pattern 的 `chunks_exact_mut` 填充（字节相同，指令更少）。
+- 两个 blit 的采样改走 `atlas.as_raw()`，不再每像素调 `get_pixel` 的重复边界检查
+  （我们自己的判定已经保证下标在范围内）。
+
+等价性判据：`draw_hash` 400 帧哈希仍与基线**完全相同**（sha256 `790d13ea…`）；新增
+`pack_into_i32_is_byte_identical_to_per_pixel_repack` 单测通过；Android 目标
+`cargo check --features android --target aarch64-linux-android` 通过。
+
+累积提速——**必须 A/B 交替测**，下表是唯一可辩护的口径：
+
+本机常态 loadavg 20–27（其它会话在跑），单次采样完全不可用：同一二进制同一房间
+三次跑出 7.71 / 9.24 / 8.96 ms。早期"1.4–1.8×"的读数就是在未配对、单次采样下取得的，
+**已作废**。可辩护口径 = 同一台机器、同一时刻交替跑基线与优化版、各取 min-of-3 重复。
+
+| 房间 | 基线 3b1689d | 优化后 fac4b36 | 倍数 |
+| --- | --- | --- | --- |
+| rm_town | 10.27 | 7.87 | 1.30× |
+| room42 | 11.08 | 8.66 | 1.28× |
+| rm_level17 | 15.44 | 11.81 | 1.31× |
+
+（基线 = `~/cally-worktrees/perf-baseline` @3b1689d，同一个 example、同样的 min-of-3；
+3 轮交替，上表取各轮最小值。）一处在噪声中无法区分收益的改动（sprite 直写行）已回退——
+测不出收益就不留在 diff 里。
+
+
+### 6.3 第三片：静止帧跳过整个递交（确定性，无哈希假设）
+
+`nativeBlitToIntArray` 现在返回"本帧是否变化"：把 framebuffer 与**上次已递交的那份字节**
+做 memcmp，相同就直接返回 0，Java 侧据此**跳过整个 present**（不上传、不画、不 swap）。
+同一个纹理里字节相同 ⇒ 屏幕上仍是同一张图，所以这是构造性的等价，不依赖任何指纹/哈希假设。
+
+- 代价：变化帧 +0.22 ms（memcmp 0.15 + pack 0.07，原来 0.07）；静止帧只花 0.15 ms 的 memcmp，
+  而原本每帧都要 pack + 2.91 MB `SetIntArrayRegion` + `glTexSubImage2D`(2.2–2.4 ms 串行) + swap。
+- **必须同时跳过 swap**：`eglSwapBuffers` 之后的 back buffer 内容未定义，只跳上传不跳 swap
+  会把未定义内容显示出去。surface 创建/重建时用 `forcePresent` 强制递交一帧。
+- 边界：等价性可证（构造 + `pack_is_unchanged_requires_identical_bytes` 单测），但**收益需要真机
+  复验**（CI/本机 emulator 都测不到"跳过一次 EGL 递交"的墙钟收益）。
+
+
+### 6.4 第四片：静止画面的**光栅化**也跳过（确定性输入全等，`draw_frame_cached`）
+
+第 6.3 只省掉"递交"，光栅化仍满速。本片把 `draw_frame` 的 IR 两个分支（序章过场 / 正式场景）
+包成**先比较输入、相同则直接返回、framebuffer 保持原样**（原样 = 与重画逐字节相同）。
+
+- **输入集 = 光栅化实际读到的全部**：程序化产出的发射序 + `scene.draws/texts/healthbars/
+  backgrounds/room_tiles/particles` 全部内容 + 相机 + 缩放 + 分支选择位；`asset/atlases`
+  在运行时只读，故不在键内。比较是 **`PartialEq` 字段级全等（无哈希、无碰撞假设）**。
+- 发射序**只算一次**：`draw_ir_commands` 现在接收已算好的 `&[DrawEmission]`，绘制与比较用的是
+  同一份，二者不可能不一致。
+- 只有变化的帧才 clone 键（不变帧零分配）；变化帧多付约 0.1 ms 的比较。
+- 旧 legacy 路径不缓存，并把缓存置空，避免跨路径误跳过。
+- 单测：`draw_cache_skips_the_raster_when_inputs_repeat`（先在 framebuffer 上涂鸦，缓存命中后
+  涂鸦必须原样保留 ⇒ 证明真的没重画；改动输入后必须重画）+ `draw_cache_invalidates_on_every_
+  captured_category`（逐类别证明该输入确实在键内——将来新增光栅输入会让这条测试失败，
+  失败模式是"画面不同步"而非"变慢"）。
+
+实测（同一静止场景，300 次 ×3 取 min；loadavg 21.7）：
+
+| 房间 | 每帧强制重画 | 缓存（静止） | 倍数 |
+| --- | --- | --- | --- |
+| rm_town | 10.25 ms | 0.017 ms | ~600× |
+| room42 | 11.98 ms | 0.087 ms | ~140× |
+| rm_level1 | 11.67 ms | 0.089 ms | ~130× |
+| rm_level17 | 16.23 ms | 0.079 ms | ~200× |
+| rm_level16 | 11.02 ms | 0.074 ms | ~150× |
+
+边界：只覆盖"输入逐帧完全不变"的画面（过场静帧、地图屏、暂停、静止不动的镜头）；角色/敌人
+动画一帧一变则照常全量重画——这不是丢帧，是"什么都不变就不重画"。
+
+
+### 6.5 第五片：轴对齐 sprite 的列映射 LUT（**并更正第一片的一处无效优化**）
+
+**更正**：第一片加进 `blit_sprite_gm` 的快路径守卫是 `scale == ±1`，但 IR 传入的 scale 是
+`sprite.scale_x * screen_scale`（即**视图缩放** 2.5357/2.5397），所以那个守卫**在真实 IR 绘制里
+几乎从不命中**——它当时是死代码，第一片的 sprite 提速其实来自 `blit_scaled_alpha` 一侧。
+
+本片改成**真正会命中**的轴对齐快路径：守卫 = `rotation == 0 && 无 fog && blend 恒等`（scale 任意非 0）。
+旋转为 0 时逆旋转是恒等变换（`cos==1, sin==0 ⇒ lx = rx*1 - ry*0 == rx, ly == ry`），于是
+**`u` 只依赖列、`v` 只依赖行**：列映射用一块可复用 scratch LUT 每列只算一次（一次除法），
+逐像素的 f64 旋转运算与两次除法、以及三次恒等通道乘法整体消失。采样、全部边界判定、alpha
+规则与写入完全不变（`draw_hash` 400 帧逐字节相同）。
+
+A/B 交替（min-of-3，同机同时刻）：
+
+| 房间 | 上一版 | 本片 | 提速 | 对比最初基线 |
+| --- | --- | --- | --- | --- |
+| rm_town | 8.48 | 4.32 | ~2.0× | 10.27 → 4.32（2.4×） |
+| rm_level17 | 12.61 | 5.88 | ~2.1× | 15.44 → 5.88（2.6×） |
+| rm_level2 | 8.07 | 4.83 | ~1.7× | — |
+
+教训：**优化守卫必须对着真实调用参数验证**（先打点确认命中率），否则"加了快路径"只是自我安慰；
+`draw_hash` 逐字节相同在这类情况下**不能证明快路径被走到**——它是等价性判据，不是命中率判据，
+命中率只能靠 A/B 的墙钟差或计数器看出。
+
+### 6.2 这一轮扫出的其它问题（尚未处理）
+
+1. **Rust presenter 若直接接线会 R/B 互换**（用户实测当前显示颜色正常，故这不是现存缺陷，
+   而是接线的前提条件）：`GlesPresenter` 的 fragment shader 注释写着
+   "Engine bytes are little-endian ARGB ints = B,G,R,A in memory; an RGBA upload therefore
+   reads back swapped, so swizzle here" 并 `texture(...).bgra`。而 `parts/gles.rs` 是直接把
+   `state.fb.pixels` 当 `GL_RGBA` 上传的——**它接上后颜色会反**，除非同样做 swizzle/换格式。
+   这解释了它为何停在被合并但未接线的状态，也是接线前必须先解决的点。
+2. **帧节拍**（用户实测暂未见问题，降级为观察项）：渲染循环是
+   `Thread.sleep(16_666_667 - work)` 自计时，没有 `Choreographer`/vsync 回调，也没有
+   `setFrameRate`/display-mode 提示；eglSwapBuffers 本身有 vsync，但工作点固定在任意相位，
+   理论上 120 Hz 屏上会周期性错过 vsync（jitter）。
+3. **静止内容仍满速重画**：两侧都已修（§6.3 递交 + §6.4 光栅化，均为确定性等价、无哈希）。
+4. GPU 仍全程闲置（130 MHz）：架构上未用 GPU 做 sprite/tile 绘制。
+
+## 7. 归因与修法（按性价比排序）
+1. **继续压两个 blit 循环**（已做两轮，见 §6/§6.1）：已完成裁剪外提、增量除法、等价快路径、
+   批量递交与去重边界检查；剩余成本是**非不透明像素的浮点混合**（`put_blended` 的
+   `src*a + dst*(1-a)` 每通道 round）与逐像素 f64 采样。静态层缓存的前提不成立——命令生成
+   只占 0.1 ms，且背景坐标随相机移动，缓存会被频繁失效。
 2. **帧内容不变时不重光栅化**：实测看到的静止过场（cutscene 静帧）仍在 60 fps 满速重画 12 ms/帧。
 3. **接上已存在的 Rust presenter**：省掉 0.6 ms 重排 + 2.91 MB JNI 拷贝（约 1–2 ms）。
 4. **把 sprite/tile 绘制搬到 GPU**（结构改造，Issue #54 的"GlesPresenter 只上传整帧、不是

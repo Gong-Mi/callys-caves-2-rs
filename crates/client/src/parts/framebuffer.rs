@@ -6,6 +6,10 @@ pub struct Framebuffer {
     pub width: u32,
     pub height: u32,
     pub pixels: Vec<u8>, // BGRA8888, row-major (fill_rect writes [B, G, R, A]; the Java int[] view reads the same 4 bytes as 0xAARRGGBB)
+    /// Scratch column->atlas-x map for the axis-aligned sprite path. Reused
+    /// across draws (and rows within a draw) so the mapping costs one division
+    /// per column instead of one per pixel. u32::MAX marks "no sample".
+    col_su: Vec<u32>,
 }
 
 impl Framebuffer {
@@ -14,6 +18,46 @@ impl Framebuffer {
             width,
             height,
             pixels: vec![0u8; (width * height * 4) as usize],
+            col_su: Vec::new(),
+        }
+    }
+
+    /// True when `last` - the packed array the presenter uploaded most recently
+    /// - already holds exactly these framebuffer bytes, i.e. re-uploading the
+    /// frame would put identical pixels on the screen. Static content (cutscene
+    /// stills, menus, a paused game) then costs a memcmp instead of a full
+    /// repack + JNI copy + texture upload + swap.
+    pub fn pack_is_unchanged(last: &[i32], pixels: &[u8]) -> bool {
+        if last.len() * 4 != pixels.len() {
+            return false;
+        }
+        // SAFETY: the comparison covers exactly the bytes `last` occupies.
+        let last_bytes =
+            unsafe { std::slice::from_raw_parts(last.as_ptr() as *const u8, last.len() * 4) };
+        last_bytes == pixels
+    }
+
+    /// Copy the frame into the ARGB int array the Java presenter uploads.
+    ///
+    /// The buffer is BGRA8888 and a little-endian ARGB int holds exactly those
+    /// same four bytes, so this is a byte-identical bulk copy of what the
+    /// per-pixel repack in `nativeBlitToIntArray` used to rebuild by hand. That
+    /// repack cost ~0.6 ms per frame and allocated a second 2.9 MB buffer for a
+    /// transformation that changes nothing (see the equivalence test below).
+    pub fn pack_into_i32(&self, out: &mut Vec<i32>) {
+        let n = self.pixels.len() / 4;
+        out.clear();
+        out.reserve(n);
+        // SAFETY: every 4-byte chunk of `pixels` is a valid i32 under the
+        // little-endian layout above, `out` has room for n elements, and the
+        // length is only published once the bytes are written.
+        unsafe {
+            std::ptr::copy_nonoverlapping(
+                self.pixels.as_ptr(),
+                out.as_mut_ptr() as *mut u8,
+                n * 4,
+            );
+            out.set_len(n);
         }
     }
 
@@ -67,14 +111,14 @@ impl Framebuffer {
         if x1 <= x0 || y1 <= y0 {
             return;
         }
+        let pattern = [color.2, color.1, color.0, color.3];
+        let stride = self.width as usize * 4;
         for yy in y0..y1 {
-            let row_start = (yy * self.width * 4) as usize;
-            for xx in x0..x1 {
-                let i = row_start + (xx * 4) as usize;
-                self.pixels[i] = color.2;
-                self.pixels[i + 1] = color.1;
-                self.pixels[i + 2] = color.0;
-                self.pixels[i + 3] = color.3;
+            let row_start = yy as usize * stride;
+            let row =
+                &mut self.pixels[row_start + (x0 as usize) * 4..row_start + (x1 as usize) * 4];
+            for px in row.chunks_exact_mut(4) {
+                px.copy_from_slice(&pattern);
             }
         }
     }
@@ -206,22 +250,68 @@ impl Framebuffer {
         let (sx, sy, sw, sh) = src;
         let (dx, dy, dw, dh) = dst;
         if sw == 0 || sh == 0 || dw == 0 || dh == 0 { return; }
-        for oy in 0..dh {
-            let py = dy + oy as i32;
-            if py < 0 || py >= self.height as i32 { continue; }
-            let src_y = sy + oy * sh / dh;
-            for ox in 0..dw {
-                let px = dx + ox as i32;
-                if px < 0 || px >= self.width as i32 { continue; }
-                let sample_x = ox * sw / dw;
-                let src_x = sx + if flip_x { sw - 1 - sample_x } else { sample_x };
-                if src_x >= atlas.width() || src_y >= atlas.height() { continue; }
-                let rgba = atlas.get_pixel(src_x, src_y).0;
-                if rgba[3] >= 16 {
-                    // Per-pixel source alpha times draw alpha (GM image_blend alpha).
-                    let combined = (rgba[3] as f32 / 255.0) * alpha;
-                    self.put_blended(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]), combined);
+        // Clip the destination band once. The per-pixel version below tested
+        // every pixel against the framebuffer bounds; skipping the same pixels
+        // up front is the same set, and it lets the inner loop index directly.
+        let py0 = dy.max(0);
+        let py1 = (dy + dh as i32).min(self.height as i32);
+        let px0 = dx.max(0);
+        let px1 = (dx + dw as i32).min(self.width as i32);
+        if py0 >= py1 || px0 >= px1 { return; }
+        let raw = atlas.as_raw();
+        let atlas_w = atlas.width() as usize;
+        let aw = atlas.width() as u64;
+        let (sh64, dh64) = (sh as u64, dh as u64);
+        let (sw64, dw64) = (sw as u64, dw as u64);
+        let opaque = alpha >= 1.0;
+        // Source row for the first visible scanline, then advanced by
+        // incremental division: `row`/`rem` reproduce `oy * sh / dh` exactly
+        // without a division per pixel.
+        let oy0 = (py0 - dy) as u64;
+        let mut row = sy as u64 + (oy0 * sh64) / dh64;
+        let mut rem_y = (oy0 * sh64) % dh64;
+        let fb_w = self.width as usize;
+        for py in py0..py1 {
+            if row < atlas.height() as u64 {
+                let row_u32 = row as u32;
+                let ox0 = (px0 - dx) as u64;
+                let mut sample_x = (ox0 * sw64) / dw64;
+                let mut rem_x = (ox0 * sw64) % dw64;
+                let base = (py as usize) * fb_w * 4;
+                for px in px0..px1 {
+                    let src_x = sx as u64
+                        + if flip_x { sw64 - 1 - sample_x } else { sample_x };
+                    if src_x < aw {
+                        let si = (row_u32 as usize * atlas_w + src_x as usize) * 4;
+                        let rgba = [raw[si], raw[si + 1], raw[si + 2], raw[si + 3]];
+                        if rgba[3] >= 16 {
+                            // Per-pixel source alpha times draw alpha (GM image_blend alpha).
+                            let color = (rgba[0], rgba[1], rgba[2], rgba[3]);
+                            if opaque && rgba[3] == 255 {
+                                // put() by hand: the destination index is known
+                                // to be in range from the band clipped above.
+                                let i = base + (px as usize) * 4;
+                                self.pixels[i] = color.2;
+                                self.pixels[i + 1] = color.1;
+                                self.pixels[i + 2] = color.0;
+                                self.pixels[i + 3] = color.3;
+                            } else {
+                                let combined = (rgba[3] as f32 / 255.0) * alpha;
+                                self.put_blended(px, py, color, combined);
+                            }
+                        }
+                    }
+                    rem_x += sw64;
+                    while rem_x >= dw64 {
+                        rem_x -= dw64;
+                        sample_x += 1;
+                    }
                 }
+            }
+            rem_y += sh64;
+            while rem_y >= dh64 {
+                rem_y -= dh64;
+                row += 1;
             }
         }
     }
@@ -277,6 +367,87 @@ impl Framebuffer {
         // Frame rect stretched onto the sprite canvas, so a frame smaller than
         // the canvas still anchors on the origin the way the hitboxes do.
         let (du, dv) = (sw as f64 / cw, sh as f64 / ch);
+        // Exactly-equivalent fast path for axis-aligned draws: rotation 0, no
+        // fog, identity blend. That is what nearly every sprite draw is, and the
+        // real scale here is the view zoom (cmd.scale_x * screen_scale), so a
+        // unit-scale-only guard would almost never fire.
+        //
+        // With rotation 0 the inverse rotation is the identity transform
+        // (cos == 1, sin == 0 => lx = rx*1 - ry*0 == rx, ly = rx*0 + ry*1 == ry),
+        // which makes `u` a function of the column alone and `v` of the row
+        // alone. The column mapping is therefore computed once into a scratch
+        // LUT and reused by every row, and every per-pixel f64 rotation op and
+        // the three identity blend multiplies disappear. Sampling (`su`/`sv`),
+        // every bounds test, the alpha rules and the writes are unchanged.
+        if rotation_deg == 0.0
+            && flood.is_none()
+            && blend == (255, 255, 255)
+            && scale.0 != 0.0
+            && scale.1 != 0.0
+        {
+            let (aw, ah) = (atlas.width(), atlas.height());
+            let raw = atlas.as_raw();
+            let atlas_w = aw as usize;
+            self.col_su.clear();
+            self.col_su.reserve((x1 - x0 + 1) as usize);
+            for px in x0..=x1 {
+                let rx = px as f64 + 0.5 - dst_origin.0;
+                let u = rx / scale.0 + ox;
+                if u < 0.0 || u >= cw {
+                    self.col_su.push(u32::MAX);
+                    continue;
+                }
+                let su_f = sx as f64 + u * du;
+                if su_f < 0.0 {
+                    self.col_su.push(u32::MAX);
+                    continue;
+                }
+                let su = su_f as u32;
+                self.col_su.push(if su < aw { su } else { u32::MAX });
+            }
+            for py in y0..=y1 {
+                let ry = py as f64 + 0.5 - dst_origin.1;
+                let v = ry / scale.1 + oy;
+                if v < 0.0 || v >= ch {
+                    continue;
+                }
+                let sv_f = sy as f64 + v * dv;
+                if sv_f < 0.0 {
+                    continue;
+                }
+                let sv = sv_f as u32;
+                if sv >= ah {
+                    continue;
+                }
+                let srow = sv as usize * atlas_w;
+                let drow = py as usize * self.width as usize * 4;
+                for (col, px) in (x0..=x1).enumerate() {
+                    let su = self.col_su[col];
+                    if su == u32::MAX {
+                        continue;
+                    }
+                    let si = (srow + su as usize) * 4;
+                    let rgba = [raw[si], raw[si + 1], raw[si + 2], raw[si + 3]];
+                    if rgba[3] < 16 {
+                        continue;
+                    }
+                    if alpha >= 1.0 && rgba[3] == 255 {
+                        let di = drow + px as usize * 4;
+                        self.pixels[di] = rgba[2];
+                        self.pixels[di + 1] = rgba[1];
+                        self.pixels[di + 2] = rgba[0];
+                        self.pixels[di + 3] = rgba[3];
+                    } else {
+                        let a = (rgba[3] as f32 / 255.0) * alpha;
+                        if a <= 0.0 {
+                            continue;
+                        }
+                        self.put_blended(px, py, (rgba[0], rgba[1], rgba[2], rgba[3]), a);
+                    }
+                }
+            }
+            return;
+        }
         for py in y0..=y1 {
             for px in x0..=x1 {
                 let rx = px as f64 + 0.5 - dst_origin.0;
@@ -343,5 +514,60 @@ impl Framebuffer {
                 x += adv as i32;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod framebuffer_pack_tests {
+    use super::*;
+
+    /// The array this produces is uploaded verbatim by the Java presenter, so
+    /// dropping the per-pixel repack is only sound because a little-endian ARGB
+    /// int is exactly the framebuffer's BGRA byte order. Assert the integer
+    /// values *and* the underlying bytes so the assumption cannot rot silently.
+    #[test]
+    fn pack_into_i32_is_byte_identical_to_per_pixel_repack() {
+        let mut fb = Framebuffer::new(9, 4);
+        for (i, b) in fb.pixels.iter_mut().enumerate() {
+            *b = ((i * 37 + 11) % 256) as u8;
+        }
+        let mut reference: Vec<i32> = Vec::new();
+        for chunk in fb.pixels.chunks_exact(4) {
+            let (b, g, r, a) = (chunk[0], chunk[1], chunk[2], chunk[3]);
+            let argb: u32 =
+                ((a as u32) << 24) | ((r as u32) << 16) | ((g as u32) << 8) | (b as u32);
+            reference.push(argb as i32);
+        }
+        let mut packed: Vec<i32> = Vec::new();
+        fb.pack_into_i32(&mut packed);
+        assert_eq!(packed, reference, "bulk pack must equal the per-pixel repack");
+        let bytes = unsafe {
+            std::slice::from_raw_parts(packed.as_ptr() as *const u8, packed.len() * 4)
+        };
+        assert_eq!(bytes, &fb.pixels[..], "byte order must be untouched");
+        // Reusable destination buffer (the JNI path keeps one across frames).
+        fb.pack_into_i32(&mut packed);
+        assert_eq!(packed.len(), 9 * 4);
+    }
+
+    /// The frame-skip decision: an empty/partial previous array must count as a
+    /// change (first frame, or a resized canvas), and a single differing byte
+    /// must too.
+    #[test]
+    fn pack_is_unchanged_requires_identical_bytes() {
+        let mut fb = Framebuffer::new(4, 3);
+        for (i, b) in fb.pixels.iter_mut().enumerate() {
+            *b = (i * 11 + 3) as u8;
+        }
+        let mut packed: Vec<i32> = Vec::new();
+        assert!(!Framebuffer::pack_is_unchanged(&packed, &fb.pixels), "empty = changed");
+        fb.pack_into_i32(&mut packed);
+        assert!(Framebuffer::pack_is_unchanged(&packed, &fb.pixels));
+        // Short array (e.g. the canvas grew) must not be mistaken for equal.
+        assert!(!Framebuffer::pack_is_unchanged(&packed[..3], &fb.pixels));
+        // One byte of one pixel differs.
+        let mut other = packed.clone();
+        other[5] ^= 0x01;
+        assert!(!Framebuffer::pack_is_unchanged(&other, &fb.pixels));
     }
 }
