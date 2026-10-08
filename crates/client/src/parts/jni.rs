@@ -467,17 +467,24 @@ mod android_jni {
         );
         let mut presenter = crate::gles::presenter().lock().unwrap();
         presenter.set_window(window);
+        // Surface events must show the current frame even when it did not
+        // change meanwhile (the contract the Java host's forcePresent flag
+        // used to provide).
+        presenter.force_next_present();
         log(&format!("nativeSetSurface window={}", !window.is_null()));
     }
 
-    /// Upload the current engine frame and swap. Replaces the Java-side blit
-    /// (`nativeBlitToIntArray` + Bitmap/Canvas) with a direct texture upload
-    /// from the framebuffer, so no int[] crosses JNI per frame.
+    /// Upload the current engine frame and swap - unless it is byte-identical
+    /// to the last presented frame, in which case the whole present (upload,
+    /// draw and swap) is skipped in Rust. Returns whether a frame was
+    /// presented. This replaces the Java-side present path
+    /// (`nativeBlitToIntArray` + GlesPresenter): no int[] crosses JNI per
+    /// frame and unchanged frames cost one memcmp.
     #[no_mangle]
     pub extern "C" fn Java_com_gongmi_callyscaves2_MainActivity_nativePresent(
         _env: *mut JNIEnv,
         _class: jobject,
-    ) {
+    ) -> jboolean {
         // Lock order is presenter -> state everywhere (set_window takes only
         // the presenter), so this cannot deadlock. Holding the state guard for
         // the swap keeps `pixels` valid: the engine slot is replaced wholesale
@@ -486,8 +493,8 @@ mod android_jni {
         // host called into the same two locks from its UI and render threads.
         let mut presenter = crate::gles::presenter().lock().unwrap();
         let mut guard = slot().lock().unwrap();
-        let Some(state) = guard.as_mut() else { return };
-        presenter.present(&state.fb.pixels, state.fb.width, state.fb.height);
+        let Some(state) = guard.as_mut() else { return 0 };
+        presenter.present(&state.fb.pixels, state.fb.width, state.fb.height) as jboolean
     }
 
 }

@@ -234,12 +234,11 @@ A/B 交替（min-of-3，同机同时刻）：
 
 ### 6.2 这一轮扫出的其它问题（尚未处理）
 
-1. **Rust presenter 若直接接线会 R/B 互换**（用户实测当前显示颜色正常，故这不是现存缺陷，
-   而是接线的前提条件）：`GlesPresenter` 的 fragment shader 注释写着
-   "Engine bytes are little-endian ARGB ints = B,G,R,A in memory; an RGBA upload therefore
-   reads back swapped, so swizzle here" 并 `texture(...).bgra`。而 `parts/gles.rs` 是直接把
-   `state.fb.pixels` 当 `GL_RGBA` 上传的——**它接上后颜色会反**，除非同样做 swizzle/换格式。
-   这解释了它为何停在被合并但未接线的状态，也是接线前必须先解决的点。
+1. ~~**Rust presenter 若直接接线会 R/B 互换**~~ → **已证伪并更正（2026-10）**：两套 presenter
+   的 shader 从 b24e46d 起都带 `.bgra`，原判读错了文件版本。裸 64 位 javm
+   （app_process64 + ImageReader Surface，真 Mali-G720 驱动）同帧读回：Rust 与 Java 输出
+   **逐字节相等**（18 176 采样像素 × 两帧），各自对引擎帧缓冲期望值 0 mismatch
+   （强制呈现路径亦然）。接线不存在颜色前提问题；实施情况见 §7 第 3 条。
 2. **帧节拍**（用户实测暂未见问题，降级为观察项）：渲染循环是
    `Thread.sleep(16_666_667 - work)` 自计时，没有 `Choreographer`/vsync 回调，也没有
    `setFrameRate`/display-mode 提示；eglSwapBuffers 本身有 vsync，但工作点固定在任意相位，
@@ -253,7 +252,12 @@ A/B 交替（min-of-3，同机同时刻）：
    `src*a + dst*(1-a)` 每通道 round）与逐像素 f64 采样。静态层缓存的前提不成立——命令生成
    只占 0.1 ms，且背景坐标随相机移动，缓存会被频繁失效。
 2. **帧内容不变时不重光栅化**：实测看到的静止过场（cutscene 静帧）仍在 60 fps 满速重画 12 ms/帧。
-3. **接上已存在的 Rust presenter**：省掉 0.6 ms 重排 + 2.91 MB JNI 拷贝（约 1–2 ms）。
+3. ~~**接上已存在的 Rust presenter**~~ → **已实施（接线切片）**：MainActivity present 路径切到
+   `nativeSetSurface`/`nativePresent`，int[] 跨 JNI 完全移除；未变化帧跳过（对 last-presented
+   字节 memcmp）与 surface 事件强制呈现都在 Rust 侧闭环。javm64（真驱动 BufferQueue，
+   loadavg ~23）：rust 跳过 0.096–0.103 ms/帧、强制全量 1.36–1.81，对照 javaSkip 0.137–0.144 /
+   javaFull 1.79–1.80；输出与 Java 路径逐字节相等。接线时顺带修复两处从未被走到的潜伏缺陷
+   （`eglGetString`、EGL size 常量 8/9/10/11）与 set_window 同指针的 ANativeWindow 引用泄漏。
 4. **把 sprite/tile 绘制搬到 GPU**（结构改造，Issue #54 的"GlesPresenter 只上传整帧、不是
    GPU 命令后端"正是这个缺口）：GPU 空在 130 MHz，算力完全没用上。
 5. 多线程化软件光栅化（瓦片/sprite blit 天然可并行）：中等改造，收益随核数。
