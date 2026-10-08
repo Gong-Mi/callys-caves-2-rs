@@ -58,7 +58,12 @@ pub mod gles {
         fn eglDestroySurface(dpy: *mut c_void, surface: *mut c_void) -> u32;
         fn eglQuerySurface(dpy: *mut c_void, surface: *mut c_void, attr: c_int, value: *mut c_int) -> u32;
         fn eglGetError() -> c_int;
-        fn eglGetString(name: c_int) -> *const c_char;
+        // eglQueryString, NOT eglGetString: the device's libEGL (and the NDK
+        // API-24 stub) export only the display-parameterised form; a direct
+        // reference to eglGetString is an undefined symbol at dlopen and the
+        // whole cdylib fails to load on real devices (found by the on-device
+        // acceptance run, absent from CI and emulator evidence).
+        fn eglQueryString(dpy: *mut c_void, name: c_int) -> *const c_char;
 
         // GLES 3.0 (libGLESv3.so)
         fn glGetString(name: u32) -> *const u8;
@@ -136,10 +141,13 @@ pub mod gles {
     const EGL_OPENGL_ES3_BIT: c_int = 0x40; // EGL_OPENGL_ES3_BIT_KHR
     const EGL_SURFACE_TYPE: c_int = 0x3033;
     const EGL_WINDOW_BIT: c_int = 0x0004;
-    const EGL_RED_SIZE: c_int = 8;
-    const EGL_GREEN_SIZE: c_int = 9;
-    const EGL_BLUE_SIZE: c_int = 10;
-    const EGL_ALPHA_SIZE: c_int = 11;
+    // EGL config attribute ids (EGL 1.5 §3.4): the previous values (8/9/10/11)
+    // were not attribute ids at all, so eglChooseConfig returned EGL_FALSE with
+    // EGL_BAD_ATTRIBUTE and the Rust presenter could never initialise.
+    const EGL_RED_SIZE: c_int = 0x3024;
+    const EGL_GREEN_SIZE: c_int = 0x3023;
+    const EGL_BLUE_SIZE: c_int = 0x3022;
+    const EGL_ALPHA_SIZE: c_int = 0x3021;
     const EGL_NONE: c_int = 0x3038;
     const EGL_WIDTH: c_int = 0x3057;
     const EGL_HEIGHT: c_int = 0x3056;
@@ -375,7 +383,7 @@ pub mod gles {
                 return false;
             }
             let version = glGetString(0x1F02); // GL_VERSION
-            let vendor = eglGetString(EGL_VENDOR) as *const u8;
+            let vendor = eglQueryString(self.display, EGL_VENDOR) as *const u8;
             log(&format!(
                 "GLES3 presenter up: EGL {}.{}, GL_VERSION={}, EGL_VENDOR={}",
                 major,
