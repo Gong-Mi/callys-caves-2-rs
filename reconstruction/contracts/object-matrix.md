@@ -15,19 +15,13 @@ columns are frozen 2026-09 data and are not read here.
 
 - objects: 191
 - object-owned CODE bodies: 803 (of 1354 total in the merged census)
-- executed: 712/803 object-owned
-- objects with any unexecuted body: 54
+- executed: 736/803 object-owned
+- objects with any unexecuted body: 48
 
 ## Still unexecuted, by object (weakest first)
 
 | object | unexecuted | ids |
 | --- | --- | --- |
-| `obj_firehulk` | 4 | 83, 84, 85, 86 |
-| `obj_fireslime` | 4 | 258, 259, 260, 261 |
-| `obj_knifebandit` | 4 | 51, 52, 53, 54 |
-| `obj_shooter1` | 4 | 60, 61, 62, 63 |
-| `obj_slime` | 4 | 246, 247, 248, 249 |
-| `obj_trex` | 4 | 156, 157, 158, 159 |
 | `obj_finalboss` | 3 | 222, 223, 227 |
 | `obj_ghost` | 3 | 148, 149, 150 |
 | `obj_pause` | 3 | 508, 509, 511 |
@@ -140,11 +134,11 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_finalbosspuff` | 189 | 6 | 6 | 4 | 2 | 0 | 0 | 0 | 6/6 | 4 |
 | `obj_finalchest` | 101 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
 | `obj_fireball` | 52 | 2 | 2 | 1 | 1 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_firehulk` | 18 | 11 | 11 | 8 | 2 | 0 | 1 | 0 | 7/11 | 86 |
+| `obj_firehulk` | 18 | 11 | 11 | 8 | 2 | 0 | 1 | 0 | 11/11 | 86 |
 | `obj_firehulkflame` | 53 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
 | `obj_firehulkintro` | 182 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_fireprojectile` | 54 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_fireslime` | 33 | 12 | 12 | 7 | 5 | 0 | 0 | 0 | 8/12 | 94 |
+| `obj_fireslime` | 33 | 12 | 12 | 7 | 5 | 0 | 0 | 0 | 12/12 | 94 |
 | `obj_firstpause` | 118 | 4 | 4 | 3 | 0 | 0 | 1 | 0 | 2/4 | 12 |
 | `obj_flame` | 35 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_flamethrower` | 77 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
@@ -164,7 +158,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_icegun` | 81 | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_introduction` | 137 | 8 | 8 | 5 | 3 | 0 | 0 | 0 | 8/8 | 4 |
 | `obj_jumpbutton` | 127 | 2 | 2 | 1 | 1 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_knifebandit` | 15 | 9 | 9 | 8 | 1 | 0 | 0 | 0 | 5/9 | 64 |
+| `obj_knifebandit` | 15 | 9 | 9 | 8 | 1 | 0 | 0 | 0 | 9/9 | 64 |
 | `obj_knifebanditintro` | 167 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_laser` | 80 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_laserbeam` | 41 | 4 | 4 | 1 | 3 | 0 | 0 | 0 | 3/4 | 0 |
@@ -219,13 +213,13 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_rocket` | 44 | 5 | 5 | 1 | 4 | 0 | 0 | 0 | 5/5 | 2 |
 | `obj_rocketlauncher` | 75 | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_shootbutton` | 128 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
-| `obj_shooter1` | 16 | 11 | 11 | 11 | 0 | 0 | 0 | 0 | 7/11 | 76 |
+| `obj_shooter1` | 16 | 11 | 11 | 11 | 0 | 0 | 0 | 0 | 11/11 | 76 |
 | `obj_shooter2` | 20 | 12 | 12 | 11 | 1 | 0 | 0 | 0 | 12/12 | 106 |
 | `obj_shotgun` | 73 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_silvercoin` | 60 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_skeleton` | 17 | 11 | 11 | 7 | 3 | 0 | 1 | 0 | 11/11 | 90 |
 | `obj_skeletonintro` | 178 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
-| `obj_slime` | 32 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 8/12 | 78 |
+| `obj_slime` | 32 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 12/12 | 78 |
 | `obj_slimeintro` | 174 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_smallpuff` | 187 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_spiderintro` | 168 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
@@ -246,7 +240,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_treasurechest` | 100 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_treasurechestopen` | 102 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 98 |
 | `obj_tree` | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | 0 |
-| `obj_trex` | 25 | 9 | 9 | 5 | 0 | 4 | 0 | 0 | 5/9 | 170 |
+| `obj_trex` | 25 | 9 | 9 | 5 | 0 | 4 | 0 | 0 | 9/9 | 170 |
 | `obj_triggerintro` | 186 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_triplejump` | 87 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_turretintro` | 173 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
