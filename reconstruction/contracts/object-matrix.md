@@ -15,15 +15,12 @@ columns are frozen 2026-09 data and are not read here.
 
 - objects: 191
 - object-owned CODE bodies: 803 (of 1354 total in the merged census)
-- executed: 801/803 object-owned
-- objects with any unexecuted body: 2
+- executed: 803/803 object-owned
+- objects with any unexecuted body: 0
 
 ## Still unexecuted, by object (weakest first)
 
-| object | unexecuted | ids |
-| --- | --- | --- |
-| `obj_poisoniap` | 1 | 502 |
-| `obj_woodblock` | 1 | 686 |
+None - every object-owned body has been executed.
 
 ## Matrix
 
@@ -155,7 +152,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_pistolbanditintro` | 171 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_platform` | 7 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_player` | 0 | 20 | 20 | 12 | 1 | 7 | 0 | 0 | 20/20 | 12 |
-| `obj_poisoniap` | 120 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
+| `obj_poisoniap` | 120 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_powerupgrade` | 84 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_powerupgrade2` | 85 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_powerupgrade3` | 86 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
@@ -212,7 +209,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_weaponswap` | 126 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_wolf` | 23 | 10 | 10 | 10 | 0 | 0 | 0 | 0 | 10/10 | 86 |
 | `obj_wolfintro` | 170 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
-| `obj_woodblock` | 158 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
+| `obj_woodblock` | 158 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_yesrestoredata` | 112 | 2 | 2 | 1 | 0 | 0 | 1 | 0 | 2/2 | 30 |
 | `obj_youhavedied` | 134 | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 5/5 | 0 |
 | `obj_zombie` | 19 | 9 | 9 | 8 | 0 | 0 | 1 | 0 | 9/9 | 78 |

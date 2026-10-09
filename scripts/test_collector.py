@@ -239,6 +239,7 @@ def collect_all(quick=False):
         "specials_ladders_ir",
         "store_sweep_ir",
         "projectile_tail_ir",
+        "last_two_bodies_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))
