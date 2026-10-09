@@ -371,7 +371,40 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
         assert!(dead(&state, flag), "{flag} still set in rm_ending");
     }
     assert_eq!(cast(&state, PLAYER), 1, "one persistent player reached the ending");
-    frames(&mut state, 20);
+
+    // The ending's own credits engine runs INSIDE the live room: obj_endmusic
+    // is RoomData-placed in rm_ending (asset probe: {obj_endmusic: 1} among
+    // the 623 placements). The ladder ticks from t=1 RIGHT at the entry
+    // frame (endmusic's Create seeded alarm[0]=50 there), so the beats must
+    // match #82's hand-built table exactly - no 20-frame settle window in
+    // between (a RED here first read 30/380/680/980: the offset of a stray
+    // settle block, deterministic and now folded into this loop).
+    let em = *scene(&state)
+        .instances
+        .iter()
+        .find(|(_, i)| i.object == 163 && i.alive)
+        .map(|(id, _)| id)
+        .expect("obj_endmusic is placed in rm_ending");
+    let mut flips: Vec<(u32, u32)> = Vec::new();
+    let mut prev = [0.0f64; 11];
+    let mut final_spawn = 0u32;
+    for t in 1..=1200u32 {
+        step(&mut state);
+        let s = scene(&state);
+        for n in 1..=10u32 {
+            let v = s.instances[&em].fields.get(&format!("drawcredit{n}")).copied().unwrap_or(0.0);
+            if v == 1.0 && prev[n as usize] != 1.0 {
+                flips.push((t, n));
+            }
+            prev[n as usize] = v;
+        }
+        if final_spawn == 0 && s.instances.values().any(|i| i.object == 161 && i.alive) {
+            final_spawn = t;
+        }
+    }
+    assert_eq!(flips, vec![(50, 1), (400, 2), (700, 3), (1000, 4)],
+        "the credits ladder keeps its shipped beats inside the live ending room");
+    assert_eq!(final_spawn, 0, "A11 (t2660) is beyond this window and not reached yet");
     assert!(scene(&state).instances.values().any(|i| i.object == MUSIC && i.alive),
         "obj_music reached the ending");
 
