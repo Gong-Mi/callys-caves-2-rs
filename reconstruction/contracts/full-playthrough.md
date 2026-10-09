@@ -47,12 +47,26 @@ obj_final 的 32×32 回退盒 → CODE 698 执行 instance_activate_all +
 warpfrommap=1 + room_goto(105) → 帧循环自消费 warp → rm_challenge1 落地、
 persistent player=1、亮像素>1000。
 
+## 尾声段（challenge 五关 + teaser 重启回镇）
+
+交棒进 rm_challenge1 后继续走四张前进门卡（RoomCC 1014/1016/1018/1020 的
+warproom 常数，与 trunk 卡同一枚举方法；返程卡 1013/1015/1017/1019/1021
+不走）到 rm_challenge5。该房 RoomData 真放 obj_finalchest(101)：玩家站上
+宝箱，**自然碰撞派发**触发 CODE 454（创建 obj_tease + 宝箱自毁）——不是
+直派。obj_tease Create 的 deactivate_all(true) 是可观测的：persistent 玩家
+跨 warp 存活但被挂起（断言 !active）。跑原版梯到 alarm[0]=600：taplock 与
+drawpanel3 同拍落拍（对 #82 表）。重启点按同样走 left_releases 队列、瞄准
+teaser 的 sprite 162 盒中心 → CODE 702 `audio_stop_all + game_restart` →
+warp 0 被帧循环消费 → rm_town 落地、player=1。
+
+**登记的实现边界**：本重写的 game_restart 是 room-0 warp，globals 跨重启
+**累积**（断言 boss1dead 仍在钉住这个差异）；原版重建全部内存。这条是
+宿主语义差异，不是对原版的声称。
+
 ## 边界
 
-- 全环止于交棒进 rm_challenge1：teaser 重启（game_restart→房0停乐）与
-  challenge 五关内容由 #82/挑战套件拥有；本套件证明"结尾引擎在真进房的
-  时间线上完整演出并把手交给下一个房间"，不重复所有权。
-- 支线区域（rm_level*a、map、challenge 五关）不在 trunk 上，本套件不走。
+- 尾声段止于重启回镇（rm_town 落地）；challenge 五关内部玩法细节与
+  teaser Draw 文本层由 #82/挑战套件拥有，本套件只走连续性。
 - 原版语义（boss 死亡注入 hp 属"引擎不重算字段"注入点纪律，见
   boss_kill_chains 头注）；执行与断言均为本重写宿主的状态机回归，不声称
   与原 runner 像素/时序等价。

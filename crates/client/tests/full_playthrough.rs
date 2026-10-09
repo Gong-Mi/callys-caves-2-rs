@@ -476,4 +476,90 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     draw_frame(&mut fbm2, &state, &state.asset.tpag_items, &state.asset.sprites);
     let lit2 = fbm2.pixels.iter().filter(|&&p| p != 0).count();
     assert!(lit2 > 1000, "rm_challenge1 renders real pixels (lit={lit2})");
+
+    // The five challenge stages, forward cards 1014/1016/1018/1020 (their
+    // warproom constants read from room_bindings' creation codes, same as the
+    // trunks' cards). Backward cards (1013/1015/1017/1019/1021) are the
+    // return doors this walk never takes.
+    for (target, name) in [(106.0, "rm_challenge2"), (107.0, "rm_challenge3"),
+                           (108.0, "rm_challenge4"), (109.0, "rm_challenge5")] {
+        walk_door(&mut state, target, name);
+    }
+
+    // rm_challenge5 places obj_finalchest (101, sprite 91). Its Collision 0
+    // (CODE 454) creates obj_tease at itself and dies: stand the player on
+    // the chest and let the shipped collision dispatch fire - no direct
+    // dispatch, the natural pair.
+    let chest = *scene(&state)
+        .instances
+        .iter()
+        .find(|(_, i)| i.object == 101 && i.alive)
+        .map(|(id, _)| id)
+        .expect("obj_finalchest is placed in rm_challenge5");
+    let (cx, cy) = {
+        let c = &scene(&state).instances[&chest];
+        (c.fields["x"], c.fields["y"])
+    };
+    let player = player_id(&state);
+    {
+        let s = state.scene.as_mut().unwrap();
+        s.write(player, -1, "x", None, cx).unwrap();
+        s.write(player, -1, "y", None, cy).unwrap();
+    }
+    let mut tease = 0i32;
+    for _ in 0..14 {
+        step(&mut state);
+        if let Some((id, _)) = scene(&state).instances.iter()
+            .find(|(_, i)| i.object == 162 && i.alive) {
+            tease = *id;
+            break;
+        }
+    }
+    assert_ne!(tease, 0, "the chest collision created obj_tease (CODE 454)");
+    assert_eq!(cast(&state, 101), 0, "the chest destroyed itself handing off the teaser");
+
+    // obj_tease's Create (CODE 700): deactivate_all(true) keeps only itself,
+    // stops the music and arms alarm[0] = 600. The freeze is observable:
+    // the persistent player survives the warp but went inactive.
+    assert!(!scene(&state).instances[&player].active,
+        "the room is frozen under the teaser (deactivate_all keep-self)");
+    let mut unlocked = false;
+    for _ in 0..640 {
+        step(&mut state);
+        if scene(&state).instances[&tease].fields.get("taplock").copied() == Some(1.0) {
+            unlocked = true;
+            break;
+        }
+    }
+    assert!(unlocked, "alarm 0 arms taplock on the 600th tick (#82's table)");
+    assert_eq!(scene(&state).instances[&tease].fields.get("drawpanel3").copied(), Some(1.0),
+        "the same alarm raises the Teaser's panel 3");
+
+    // The restart tap through the release queue, aimed at the teaser's sprite
+    // box center (sprite 162 bounds, same fallback as the engine).
+    let (fx, fy) = {
+        let t = &scene(&state).instances[&tease];
+        (t.fields["x"], t.fields["y"])
+    };
+    let (w, h, ox, oy) = scene(&state).sprite_bounds.get(&162)
+        .map(|sb| (sb.width, sb.height, sb.origin_x, sb.origin_y))
+        .unwrap_or((32.0, 32.0, 0.0, 0.0));
+    state.scene.as_mut().unwrap().left_releases.push((fx - ox + w * 0.5, fy - oy + h * 0.5));
+    let mut restarted = false;
+    for _ in 0..14 {
+        step(&mut state);
+        if scene(&state).current_room == 0.0 {
+            restarted = true;
+            break;
+        }
+    }
+    assert!(restarted, "the teaser tap ran game_restart (CODE 702 -> warp 0) and the loop consumed it");
+    assert_eq!(room_name(&state), "rm_town", "the restart hands the game back to rm_town");
+    assert_eq!(cast(&state, PLAYER), 1, "one persistent player survived the restart");
+    // Engine boundary, pinned honestly: this rewrite's game_restart is a
+    // room-0 warp; globals ACCUMULATE across it (the original rebuilds all
+    // memory). The flags still set here is the registered divergence, not a
+    // claim about the original.
+    assert_eq!(scene(&state).globals.get("boss1dead").copied(), Some(1.0),
+        "registered boundary: warp-0 restart keeps globals, the original would reset them");
 }
