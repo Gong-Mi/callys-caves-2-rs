@@ -15,56 +15,15 @@ columns are frozen 2026-09 data and are not read here.
 
 - objects: 191
 - object-owned CODE bodies: 803 (of 1354 total in the merged census)
-- executed: 750/803 object-owned
-- objects with any unexecuted body: 43
+- executed: 801/803 object-owned
+- objects with any unexecuted body: 2
 
 ## Still unexecuted, by object (weakest first)
 
 | object | unexecuted | ids |
 | --- | --- | --- |
-| `obj_coinmultiplier5` | 2 | 437, 438 |
-| `obj_energywaveupgrade` | 2 | 429, 430 |
-| `obj_firstpause` | 2 | 495, 496 |
-| `obj_maxhpupgrade2` | 2 | 443, 444 |
-| `obj_norestoredata` | 2 | 480, 481 |
-| `obj_pause2` | 2 | 513, 514 |
-| `obj_poisoniap` | 2 | 501, 502 |
-| `obj_powerupgrade3` | 2 | 418, 419 |
-| `obj_strengthupgrade2` | 2 | 435, 436 |
-| `obj_swordupgrade3` | 2 | 427, 428 |
-| `obj_arrow` | 1 | 280 |
-| `obj_blade` | 1 | 273 |
-| `obj_bone` | 1 | 338 |
-| `obj_boomerangthrow` | 1 | 297 |
-| `obj_boss4` | 1 | 189 |
-| `obj_bullet` | 1 | 283 |
-| `obj_coinadd` | 1 | 535 |
-| `obj_coinmultiplier2` | 1 | 439 |
-| `obj_enemybullet` | 1 | 312 |
-| `obj_enemybullet2` | 1 | 314 |
-| `obj_finalbossgrenade` | 1 | 324 |
-| `obj_finalchest` | 1 | 454 |
-| `obj_firehulkflame` | 1 | 332 |
-| `obj_healthrefill` | 1 | 446 |
-| `obj_healthregen` | 1 | 431 |
-| `obj_iapmenu` | 1 | 499 |
-| `obj_laserbeam` | 1 | 290 |
-| `obj_muting` | 1 | 372 |
-| `obj_parry` | 1 | 37 |
-| `obj_pausebutton` | 1 | 517 |
-| `obj_powerupgrade2` | 1 | 417 |
-| `obj_restoredata` | 1 | 486 |
-| `obj_restoreiap` | 1 | 505 |
-| `obj_shootbutton` | 1 | 524 |
-| `obj_store` | 1 | 474 |
-| `obj_storepageswitch` | 1 | 489 |
-| `obj_storepageswitch2` | 1 | 492 |
-| `obj_sword` | 1 | 310 |
-| `obj_swordupgrade` | 1 | 423 |
-| `obj_volume` | 1 | 468 |
-| `obj_volumemusic` | 1 | 472 |
+| `obj_poisoniap` | 1 | 502 |
 | `obj_woodblock` | 1 | 686 |
-| `obj_yesrestoredata` | 1 | 478 |
 
 ## Matrix
 
@@ -74,7 +33,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_UI` | 66 | 6 | 6 | 4 | 0 | 0 | 0 | 2 | 6/6 | 0 |
 | `obj_XPorb` | 61 | 2 | 2 | 1 | 0 | 0 | 0 | 1 | 2/2 | 0 |
 | `obj_areyousure` | 114 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_arrow` | 38 | 3 | 3 | 1 | 2 | 0 | 0 | 0 | 2/3 | 0 |
+| `obj_arrow` | 38 | 3 | 3 | 1 | 2 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_assaultrifle` | 74 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_backtogame` | 108 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 30 |
 | `obj_bat` | 31 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 12/12 | 124 |
@@ -83,20 +42,20 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_beeintro` | 180 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_bg` | 65 | 5 | 5 | 4 | 1 | 0 | 0 | 0 | 5/5 | 24 |
 | `obj_bigpuff` | 188 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_blade` | 36 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 3/4 | 30 |
+| `obj_blade` | 36 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 30 |
 | `obj_bladegun` | 76 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_bomb` | 37 | 4 | 4 | 1 | 3 | 0 | 0 | 0 | 4/4 | 0 |
 | `obj_bombgun` | 79 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_bone` | 56 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_bone` | 56 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_boomerang` | 71 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_boomerangthrow` | 43 | 4 | 4 | 2 | 2 | 0 | 0 | 0 | 3/4 | 0 |
+| `obj_boomerangthrow` | 43 | 4 | 4 | 2 | 2 | 0 | 0 | 0 | 4/4 | 0 |
 | `obj_boss1intro` | 172 | 3 | 3 | 0 | 3 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_boss2` | 26 | 8 | 8 | 6 | 0 | 0 | 2 | 0 | 8/8 | 174 |
 | `obj_boss2intro` | 175 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_boss3` | 27 | 16 | 16 | 14 | 2 | 0 | 0 | 0 | 16/16 | 174 |
 | `obj_boss3intro` | 181 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_boss3projectile` | 55 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_boss4` | 28 | 12 | 12 | 6 | 5 | 0 | 1 | 0 | 11/12 | 170 |
+| `obj_boss4` | 28 | 12 | 12 | 6 | 5 | 0 | 1 | 0 | 12/12 | 170 |
 | `obj_boss4intro` | 183 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_boss5` | 29 | 16 | 16 | 14 | 1 | 0 | 1 | 0 | 16/16 | 170 |
 | `obj_boss5intro` | 184 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
@@ -106,48 +65,48 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_boulder` | 6 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_boulderblock` | 156 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_bow` | 78 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_bullet` | 39 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
+| `obj_bullet` | 39 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_bulletspark` | 13 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_busterrockparts` | 157 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_coin` | 58 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_coinadd` | 132 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
-| `obj_coinmultiplier2` | 96 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
-| `obj_coinmultiplier5` | 95 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
+| `obj_coinadd` | 132 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
+| `obj_coinmultiplier2` | 96 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
+| `obj_coinmultiplier5` | 95 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_damage` | 104 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_dodged` | 106 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_endmusic` | 163 | 13 | 13 | 9 | 4 | 0 | 0 | 0 | 13/13 | 0 |
 | `obj_enemy` | 14 | 9 | 9 | 9 | 0 | 0 | 0 | 0 | 9/9 | 58 |
 | `obj_enemy2` | 22 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 12/12 | 82 |
-| `obj_enemybullet` | 47 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
-| `obj_enemybullet2` | 48 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_enemybullet` | 47 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
+| `obj_enemybullet2` | 48 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_energywave` | 45 | 5 | 5 | 0 | 5 | 0 | 0 | 0 | 5/5 | 0 |
-| `obj_energywaveupgrade` | 91 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
+| `obj_energywaveupgrade` | 91 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_final` | 161 | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 6/6 | 0 |
 | `obj_finalboss` | 30 | 17 | 17 | 15 | 2 | 0 | 0 | 0 | 17/17 | 0 |
-| `obj_finalbossgrenade` | 50 | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 5/6 | 0 |
+| `obj_finalbossgrenade` | 50 | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 6/6 | 0 |
 | `obj_finalbosslaser` | 49 | 3 | 3 | 1 | 2 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_finalbosspuff` | 189 | 6 | 6 | 4 | 2 | 0 | 0 | 0 | 6/6 | 4 |
-| `obj_finalchest` | 101 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
+| `obj_finalchest` | 101 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_fireball` | 52 | 2 | 2 | 1 | 1 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_firehulk` | 18 | 11 | 11 | 8 | 2 | 0 | 1 | 0 | 11/11 | 86 |
-| `obj_firehulkflame` | 53 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_firehulkflame` | 53 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_firehulkintro` | 182 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_fireprojectile` | 54 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_fireslime` | 33 | 12 | 12 | 7 | 5 | 0 | 0 | 0 | 12/12 | 94 |
-| `obj_firstpause` | 118 | 4 | 4 | 3 | 0 | 0 | 1 | 0 | 2/4 | 12 |
+| `obj_firstpause` | 118 | 4 | 4 | 3 | 0 | 0 | 1 | 0 | 4/4 | 12 |
 | `obj_flame` | 35 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_flamethrower` | 77 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_foundweapon` | 82 | 5 | 5 | 4 | 1 | 0 | 0 | 0 | 5/5 | 0 |
 | `obj_gem` | 59 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_ghost` | 24 | 9 | 9 | 6 | 2 | 0 | 1 | 0 | 9/9 | 88 |
 | `obj_health` | 62 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
-| `obj_healthrefill` | 99 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 3/4 | 0 |
-| `obj_healthregen` | 92 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_healthrefill` | 99 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 0 |
+| `obj_healthregen` | 92 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_house` | 2 | 8 | 8 | 7 | 0 | 0 | 1 | 0 | 8/8 | 20 |
 | `obj_hulkingbandit` | 21 | 11 | 11 | 5 | 6 | 0 | 0 | 0 | 11/11 | 82 |
 | `obj_hulkingbanditbullet` | 51 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 0 |
 | `obj_hulkingbanditintro` | 179 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
-| `obj_iapmenu` | 119 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 2/3 | 6 |
+| `obj_iapmenu` | 119 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 3/3 | 6 |
 | `obj_iceball` | 40 | 2 | 2 | 1 | 1 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_iceblock` | 159 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_icegun` | 81 | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 2/2 | 0 |
@@ -156,7 +115,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_knifebandit` | 15 | 9 | 9 | 8 | 1 | 0 | 0 | 0 | 9/9 | 64 |
 | `obj_knifebanditintro` | 167 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_laser` | 80 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_laserbeam` | 41 | 4 | 4 | 1 | 3 | 0 | 0 | 0 | 3/4 | 0 |
+| `obj_laserbeam` | 41 | 4 | 4 | 1 | 3 | 0 | 0 | 0 | 4/4 | 0 |
 | `obj_leftbutton` | 130 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 4 |
 | `obj_levelup` | 63 | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 5/5 | 0 |
 | `obj_lineleft` | 164 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
@@ -183,31 +142,31 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_mapmenu` | 111 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 28 |
 | `obj_maptile` | 160 | 4 | 4 | 2 | 2 | 0 | 0 | 0 | 4/4 | 36 |
 | `obj_maxhpupgrade` | 97 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_maxhpupgrade2` | 98 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
+| `obj_maxhpupgrade2` | 98 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_music` | 68 | 4 | 4 | 3 | 1 | 0 | 0 | 0 | 4/4 | 0 |
-| `obj_muting` | 67 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 3/4 | 0 |
-| `obj_norestoredata` | 113 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 1/3 | 6 |
-| `obj_parry` | 12 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_muting` | 67 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 0 |
+| `obj_norestoredata` | 113 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 3/3 | 6 |
+| `obj_parry` | 12 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_pause` | 122 | 5 | 5 | 4 | 0 | 0 | 1 | 0 | 5/5 | 26 |
-| `obj_pause2` | 123 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 1/3 | 26 |
-| `obj_pausebutton` | 125 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_pause2` | 123 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 3/3 | 26 |
+| `obj_pausebutton` | 125 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_phone` | 136 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_pickupflare` | 70 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_pistolbanditintro` | 171 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_platform` | 7 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_player` | 0 | 20 | 20 | 12 | 1 | 7 | 0 | 0 | 20/20 | 12 |
-| `obj_poisoniap` | 120 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 1/3 | 0 |
+| `obj_poisoniap` | 120 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
 | `obj_powerupgrade` | 84 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_powerupgrade2` | 85 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
-| `obj_powerupgrade3` | 86 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
+| `obj_powerupgrade2` | 85 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
+| `obj_powerupgrade3` | 86 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_pwrlevelinitialize` | 103 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_redslimeintro` | 177 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
-| `obj_restoredata` | 115 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
-| `obj_restoreiap` | 121 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
+| `obj_restoredata` | 115 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
+| `obj_restoreiap` | 121 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_rightbutton` | 131 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 4 |
 | `obj_rocket` | 44 | 5 | 5 | 1 | 4 | 0 | 0 | 0 | 5/5 | 2 |
 | `obj_rocketlauncher` | 75 | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_shootbutton` | 128 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
+| `obj_shootbutton` | 128 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_shooter1` | 16 | 11 | 11 | 11 | 0 | 0 | 0 | 0 | 11/11 | 76 |
 | `obj_shooter2` | 20 | 12 | 12 | 11 | 1 | 0 | 0 | 0 | 12/12 | 106 |
 | `obj_shotgun` | 73 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
@@ -221,16 +180,16 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_spikegun` | 72 | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_spikegunspike` | 42 | 4 | 4 | 1 | 3 | 0 | 0 | 0 | 4/4 | 2 |
 | `obj_spikes` | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | 0 |
-| `obj_store` | 110 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
-| `obj_storepageswitch` | 116 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 2/3 | 2 |
-| `obj_storepageswitch2` | 117 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 2/3 | 2 |
+| `obj_store` | 110 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
+| `obj_storepageswitch` | 116 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 3/3 | 2 |
+| `obj_storepageswitch2` | 117 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 3/3 | 2 |
 | `obj_strengthupgrade` | 93 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_strengthupgrade2` | 94 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
-| `obj_sword` | 46 | 3 | 3 | 2 | 0 | 1 | 0 | 0 | 2/3 | 0 |
+| `obj_strengthupgrade2` | 94 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
+| `obj_sword` | 46 | 3 | 3 | 2 | 0 | 1 | 0 | 0 | 3/3 | 0 |
 | `obj_swordbutton` | 129 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_swordupgrade` | 88 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_swordupgrade` | 88 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_swordupgrade2` | 89 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_swordupgrade3` | 90 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
+| `obj_swordupgrade3` | 90 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_tease` | 162 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 0 |
 | `obj_treasurechest` | 100 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_treasurechestopen` | 102 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 98 |
@@ -240,8 +199,8 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_triplejump` | 87 | 3 | 3 | 2 | 1 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_turretintro` | 173 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_viewresolution` | 133 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
-| `obj_volume` | 107 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
-| `obj_volumemusic` | 109 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
+| `obj_volume` | 107 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
+| `obj_volumemusic` | 109 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_wall` | 4 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_wall_2` | 5 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_warpanywhere` | 69 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
@@ -254,7 +213,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_wolf` | 23 | 10 | 10 | 10 | 0 | 0 | 0 | 0 | 10/10 | 86 |
 | `obj_wolfintro` | 170 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_woodblock` | 158 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
-| `obj_yesrestoredata` | 112 | 2 | 2 | 1 | 0 | 0 | 1 | 0 | 1/2 | 30 |
+| `obj_yesrestoredata` | 112 | 2 | 2 | 1 | 0 | 0 | 1 | 0 | 2/2 | 30 |
 | `obj_youhavedied` | 134 | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 5/5 | 0 |
 | `obj_zombie` | 19 | 9 | 9 | 8 | 0 | 0 | 1 | 0 | 9/9 | 78 |
 | `obj_zombieintro` | 176 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
