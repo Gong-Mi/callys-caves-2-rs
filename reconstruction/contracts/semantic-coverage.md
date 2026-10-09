@@ -41,12 +41,12 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 | tier | codes | share |
 | --- | --- | --- |
 | `structural` | 505 | 37.3% |
-| `object_cited_test` | 5 | 0.4% |
-| `object_cited_contract` | 301 | 22.2% |
+| `object_cited_test` | 4 | 0.3% |
+| `object_cited_contract` | 294 | 21.7% |
 | `env_classified` | 30 | 2.2% |
 | `cited_src` | 12 | 0.9% |
-| `cited_test` | 106 | 7.8% |
-| `cited_contract` | 395 | 29.2% |
+| `cited_test` | 110 | 8.1% |
+| `cited_contract` | 399 | 29.5% |
 
 ## Environment (with) semantics scope
 
@@ -59,15 +59,15 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 - objects carrying events: **186**
 - CODE containers: `Object` 803, `RoomCC` 551
 - objects named in contract: **150**
-- objects named in test: **126**
+- objects named in test: **129**
 - objects named in src: **59**
 
 ## Execution evidence (traces given, not inferred)
 
 - traces read: 1 (untagged: a trace cannot say which suite ran a body)
-- distinct bodies the suites executed: **1207**
+- distinct bodies the suites executed: **1354**
 - executed bodies that no contract, test or source file names: **505** (347, 366, 367, 571, 573, 574, 575, 576, 578, 579, 580, 581, 582, 583, 584, 586, 587, 588, 589, 590)
-- executed bodies among the 62 with-pending CODEs: **51** (12, 14, 46, 55, 66, 88, 109, 120, 132, 142, 151, 160, 164, 168, 172, 184, 196, 212, 241, 250, 262, 274, 294, 303, 361, 456, 470, 476, 529, 532, 549, 557, 566, 572, 577, 585, 593, 601, 607, 615, 620, 625, 634, 643, 651, 655, 663, 675, 690, 692, 786)
+- executed bodies among the 62 with-pending CODEs: **62** (12, 14, 21, 46, 55, 66, 77, 88, 97, 109, 120, 132, 142, 151, 160, 164, 168, 172, 184, 196, 212, 241, 250, 262, 274, 294, 303, 361, 456, 470, 476, 478, 481, 489, 492, 495, 499, 508, 513, 529, 532, 549, 557, 566, 572, 577, 585, 593, 601, 607, 615, 620, 625, 634, 643, 651, 655, 663, 675, 690, 692, 786)
 
 Execution is evidence that the body ran under a test - not that its
 behaviour matches the original, and not a substitute for the per-site
@@ -77,8 +77,8 @@ argument in env-semantics.md.
 
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
-| `contract` | 87 | 395 | 163 |
-| `test` | 152 | 422 | 132 |
+| `contract` | 88 | 399 | 163 |
+| `test` | 163 | 431 | 135 |
 | `src` | 26 | 41 | 66 |
 
 ## What the uncited bodies actually are

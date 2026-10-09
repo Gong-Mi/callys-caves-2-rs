@@ -173,6 +173,7 @@ def collect_all(quick=False):
     client_tests = [
         "town_entry_and_controls",
         "first_chapter_playthrough",
+        "full_playthrough",
         "challenge_rooms_playthrough",
         "draw_stream_frame_fingerprint",
         "draw_stream_sensitivities",
@@ -232,6 +233,16 @@ def collect_all(quick=False):
         "object_depth_metadata_ir",
         "room_placement_fields_ir",
         "sprite_and_tile_layout_ir",
+        "zombie_skeleton_ir",
+        "town_house_ir",
+        "enemy_ladders_ii_ir",
+        "enemy_ladders_iii_ir",
+        "specials_ladders_ir",
+        "map_pause_round_trip_ir",
+        "store_pause_round_trip_ir",
+        "store_sweep_ir",
+        "projectile_tail_ir",
+        "last_two_bodies_ir",
     ]
     for t in core_tests:
         tasks.append(("cargo", f"callys-core::{t}", ["cargo", "test", "--offline", "-p", "callys-core", "--test", t]))
@@ -255,7 +266,7 @@ def collect_all(quick=False):
             code, out = run_cmd(cmd, timeout=45)
             return parse_python_unittest_output(out, code, name)
         else:
-            t_timeout = 120 if ("first_chapter" in name or "challenge_rooms" in name) else 60
+            t_timeout = 360 if "full_playthrough" in name else 120 if ("first_chapter" in name or "challenge_rooms" in name) else 60
             code, out = run_cmd(cmd, timeout=t_timeout)
             return parse_cargo_test_output(out, code, name)
 
