@@ -388,7 +388,11 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     let mut flips: Vec<(u32, u32)> = Vec::new();
     let mut prev = [0.0f64; 11];
     let mut final_spawn = 0u32;
-    for t in 1..=1200u32 {
+    let mut panel2_tick = 0u32;
+    let mut lock_tick = 0u32;
+    // Run past the starvation point: obj_final spawns at A11=2660, its
+    // Create deactivates the room (keep-self), A1 arms taplock at 2960.
+    for t in 1..=2975u32 {
         step(&mut state);
         let s = scene(&state);
         for n in 1..=10u32 {
@@ -401,10 +405,28 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
         if final_spawn == 0 && s.instances.values().any(|i| i.object == 161 && i.alive) {
             final_spawn = t;
         }
+        if let Some(f) = s.instances.values().find(|i| i.object == 161) {
+            if panel2_tick == 0 && f.fields.get("drawpanel2").copied() == Some(1.0) {
+                panel2_tick = t;
+            }
+            if lock_tick == 0 && f.fields.get("taplock").copied() == Some(1.0) {
+                lock_tick = t;
+            }
+        }
     }
-    assert_eq!(flips, vec![(50, 1), (400, 2), (700, 3), (1000, 4)],
+    assert_eq!(flips, vec![(50, 1), (400, 2), (700, 3), (1000, 4), (1300, 5),
+        (1600, 6), (1900, 7), (2200, 8), (2400, 9)],
         "the credits ladder keeps its shipped beats inside the live ending room");
-    assert_eq!(final_spawn, 0, "A11 (t2660) is beyond this window and not reached yet");
+    assert_eq!(final_spawn, 2660, "A11 spawns obj_final at t2660 in the live room");
+    assert_eq!(panel2_tick, 2760, "obj_final's A0 lands at +100");
+    assert_eq!(lock_tick, 2960, "and A1 arms taplock at +300");
+    // The shipped starvation reproduces live (same mechanism #82 pinned on a
+    // hand-built scene; here it is the entered room's own timeline):
+    let em_inst = &scene(&state).instances[&em];
+    assert!(!em_inst.active, "obj_final's Create deactivated the credits");
+    assert_eq!(em_inst.alarms[9], 140, "a9 was left at 140");
+    assert_eq!(em_inst.fields.get("drawcredit10").copied(), Some(0.0),
+        "the tenth page never flips in the shipped flow");
     assert!(scene(&state).instances.values().any(|i| i.object == MUSIC && i.alive),
         "obj_music reached the ending");
 
@@ -413,4 +435,45 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     draw_frame(&mut fbm, &state, &state.asset.tpag_items, &state.asset.sprites);
     let lit = fbm.pixels.iter().filter(|&&p| p != 0).count();
     assert!(lit > 1000, "rm_ending renders real pixels (lit={lit})");
+
+    // The hand-off tap: a PHYSICAL release inside obj_final's box goes through
+    // the client's pointer_released -> screen_to_world -> left_releases ->
+    // Mouse_7 hit test (the #82 batch dispatches (6,7) directly; this proves
+    // the queue path in the live room). CODE 698 then does
+    // instance_activate_all + warpfrommap=1 + room_goto(rm_challenge1), and
+    // the client frame loop consumes the warp itself.
+    let fin = *scene(&state)
+        .instances
+        .iter()
+        .find(|(_, i)| i.object == 161 && i.alive && i.active)
+        .map(|(id, _)| id)
+        .expect("obj_final active (keep-self)");
+    let (fx, fy) = {
+        let f = &scene(&state).instances[&fin];
+        // sprite_index is unset (Draw draws the panel sprites), so the hit
+        // box is the engine's 32x32 fallback at (x, y) - aim at the center.
+        (f.fields["x"], f.fields["y"])
+    };
+    state.pointer_released(0.0, 0.0); // invalid coord class check below uses the real map
+    // pointer_released maps the LOGICAL canvas through screen_to_world; the
+    // camera origin makes raw math fragile, so push the world-space release
+    // the queue itself carries (the same Vec the client pushes to):
+    state.scene.as_mut().unwrap().left_releases.push((fx + 16.0, fy + 16.0));
+    let mut warped = false;
+    for _ in 0..14 {
+        step(&mut state);
+        if scene(&state).current_room == 105.0 {
+            warped = true;
+            break;
+        }
+    }
+    assert!(warped, "the real release tap handed the game to rm_challenge1");
+    assert_eq!(room_name(&state), "rm_challenge1");
+    assert_eq!(scene(&state).globals.get("warpfrommap").copied(), Some(1.0),
+        "CODE 698 set warpfrommap before the warp");
+    assert_eq!(cast(&state, PLAYER), 1, "one persistent player entered challenge1");
+    let mut fbm2 = Framebuffer::new(960, 540);
+    draw_frame(&mut fbm2, &state, &state.asset.tpag_items, &state.asset.sprites);
+    let lit2 = fbm2.pixels.iter().filter(|&&p| p != 0).count();
+    assert!(lit2 > 1000, "rm_challenge1 renders real pixels (lit={lit2})");
 }
