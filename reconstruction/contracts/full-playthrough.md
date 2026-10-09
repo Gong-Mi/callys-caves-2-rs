@@ -65,7 +65,13 @@ warp 0 被帧循环消费 → rm_town 落地、player=1。
 
 ## 边界
 
-- 尾声段止于重启回镇（rm_town 落地）；challenge 五关内部玩法细节与
+- 重启回镇后再走**暗门支路**：CODE 17 基线种 `haskey=1`，rm_town 卡 803 是全 218
+  门卡中唯一 `unlocked=0` 的锁门——CODE 13 钥匙分支消耗 haskey、置 unlocked=1、
+  warp 进 rm_level16（Mines 死端区，trunk 不经），再经卡 850（16→16a）与卡 851
+  （16a→17，shipped unlocked=1）把整条死端走进去并折回 trunk 的 rm_level17，
+  途中 rm_level16a 真绘制 >1000 亮像素。秘密支路由此进入连续链；房间覆盖变为
+  trunk 全集 + 完整 16/16a 死端区（23/24 两房）。
+- 支路之后的 challenge 五关内部玩法细节与
   teaser Draw 文本层由 #82/挑战套件拥有，本套件只走连续性。
 - 原版语义（boss 死亡注入 hp 属"引擎不重算字段"注入点纪律，见
   boss_kill_chains 头注）；执行与断言均为本重写宿主的状态机回归，不声称
