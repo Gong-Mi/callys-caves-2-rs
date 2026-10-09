@@ -40,6 +40,9 @@ const INTRO: i32 = 137;
 const TREX: i32 = 25;
 const BULLET: i32 = 39;
 const BOULDER: i32 = 3;
+const PAUSEBUTTON: i32 = 125;
+const MAPMENU: i32 = 111;
+const MAPTILE: i32 = 160;
 
 fn boot_like_android() -> GameState {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
@@ -54,6 +57,10 @@ fn boot_like_android() -> GameState {
 
 fn scene(state: &GameState) -> &Scene {
     state.scene.as_ref().expect("IR gameplay scene")
+}
+
+fn field(s: &Scene, id: i32, name: &str) -> f64 {
+    s.instances[&id].fields[name]
 }
 
 fn step(state: &mut GameState) {
@@ -584,4 +591,60 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     let lit3 = fbm3.pixels.iter().filter(|&&p| p != 0).count();
     assert!(lit3 > 1000, "rm_level16a renders real pixels (lit={lit3})");
     walk_door(&mut state, 25.0, "rm_level17");
+
+    // The map stint, completing 112/114 rooms in ONE continuous GameState
+    // (the survivors rm_map and rm_mapview3 are the two off-resolution map
+    // rooms, owned by the fog/resolution suites). Dispatch discipline
+    // follows the round-trip suites #90/#91 for the menu taps; consuming
+    // the warps stays in the CLIENT frame loop.
+    let pausebtn = scene(&state).instances.iter()
+        .find(|(_, i)| i.object == PAUSEBUTTON && i.alive)
+        .map(|(id, _)| *id).expect("pausebutton in rm_level17");
+    let sx = scene(&state).globals["startx"];
+    let sy = scene(&state).globals["starty"];
+    assert_eq!((sx, sy), (128.0, 204.0), "obj_bg's level17 pin before the map");
+    // Walk off the pin so the map's re-pin is observable.
+    let pl = player_id(&state);
+    {
+        let s = state.scene.as_mut().unwrap();
+        s.write(pl, -1, "x", None, 900.0).unwrap();
+        s.write(pl, -1, "y", None, 400.0).unwrap();
+    }
+    let bundle_arc = state.full_bundle.as_ref().expect("bundle").clone();
+    state.scene.as_mut().unwrap()
+        .dispatch(&bundle_arc, pausebtn, 6, 7).expect("pause tap");
+    let menu = state.scene.as_ref().unwrap().instances.iter()
+        .find(|(_, i)| i.object == MAPMENU && i.alive && i.active)
+        .map(|(id, _)| *id).expect("active mapmenu under the menu");
+    state.scene.as_mut().unwrap()
+        .dispatch(&bundle_arc, menu, 6, 7).expect("mapmenu tap");
+    assert_eq!(state.scene.as_ref().unwrap().target_room_warp, Some(113),
+        "the host's 1136x640 opens rm_mapview0 (CODE 476's shipped branch)");
+    step(&mut state); // the client loop consumes it
+    assert_eq!(room_name(&state), "rm_mapview0");
+    assert_eq!(scene(&state).globals["roomcamefrom"], 25.0,
+        "Room End CODE 15 pinned the return address");
+    // The fog gate kept every visited tile: 112 placements, and the room's
+    // own tile (goto==25, level17visited set by CODE 16 on this very entry)
+    // is among them.
+    let tile = scene(&state).instances.iter()
+        .filter(|(_, i)| i.object == MAPTILE && i.alive)
+        .find(|(_, i)| i.fields.get("goto") == Some(&25.0))
+        .map(|(id, _)| *id).expect("the rm_level17 tile survived the fog gate");
+    state.scene.as_mut().unwrap()
+        .dispatch(&bundle_arc, tile, 6, 7).expect("maptile tap");
+    assert_eq!(scene(&state).globals["warpfrommap"], 1.0, "CODE 692 armed the map flag");
+    assert_eq!(scene(&state).target_room_warp, Some(25),
+        "CODE 692's room_goto(25) queues the warp; current_room changes only when the frame loop consumes it");
+    assert_eq!((field(&scene(&state), pl, "x"), field(&scene(&state), pl, "y")), (sx, sy),
+        "the tile re-pinned the walked-away player at the saved spot");
+    step(&mut state); // consume the warp home
+    assert_eq!(room_name(&state), "rm_level17");
+    assert_eq!((field(&scene(&state), pl, "x"), field(&scene(&state), pl, "y")), (sx, sy),
+        "CODE 16's warpfrommap branch re-pins on arrival");
+    assert!(scene(&state).instances[&pl].active, "activate_all woke the world back up");
+    // obj_bg's Alarm 0 (CODE 362) clears the map flag 5 ticks after room start.
+    frames(&mut state, 6);
+    assert_eq!(scene(&state).globals["warpfrommap"], 0.0,
+        "CODE 362's alarm resets warpfrommap to 0");
 }
