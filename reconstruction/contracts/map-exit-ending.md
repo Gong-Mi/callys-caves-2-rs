@@ -30,6 +30,8 @@
 
 进/出对称：都从 `startx/starty` 恢复站位，都做同款 15 对象 UI 清扫。`roomcamefrom` 由玩家 Create 种子 + Room End（CODE 15）每换房重钉（map-system.md 已钉）。
 
+**连续往返（`crates/core/tests/map_pause_round_trip_ir.rs`，本批新增）**：分段证明串成**一个连续场景**——town→rm_level5（CODE 16 Room Start 自写 `level5visited`；命名修正：**章 1 各房是 `levelNvisited`，room31+ 才是 `roomNvisited`**，首版按 room5visited 断言直接 RED 于 None）→ obj_UI Create 建 pausebutton（房间自带，非手搭）→ 点按 CODE 517（timespaused+=1、建 firstpause）→ firstpause Create 的 view0 分支 deactivate_all(true) 冻结全场（断言 persistent 玩家与 pausebutton 均 inactive、menu 件 active）→ mapmenu 释放 CODE 476 在宿主 1136×640 走 rm_mapview0(113) 分支 → 消费 warp：transient 清扫 + 迷雾门（112 贴片只剩 goto==5 一块）→ 贴片 CODE 692：warpfrommap=1、warp=5、selector 写把**已挂起的** persistent 玩家回钉 startx/starty（GM 变量访问可达 deactivated 实例，正是上面"血泪"条的正解）→ 消费回程：obj_bg Create 重播同房 pin、CODE 16 的 warpfrommap 分支再钉玩家 + alarm[6]=10 装填、世界苏醒。夹具先把玩家走离 pin（2000,700），回钉才可观测。
+
 ## 测试
 
 `crates/core/tests/map_exit_ending_ir.rs` 3 项：backtogame 在 rm_map 内释放（warp 39 + 玩家 4242/1717 回钉）、房外释放（不 warp 负断言）、rm_ending 布景（玩家 sprite 30 + 敌站桩 + 真实 loader 可载）。

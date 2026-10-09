@@ -238,6 +238,7 @@ def collect_all(quick=False):
         "enemy_ladders_ii_ir",
         "enemy_ladders_iii_ir",
         "specials_ladders_ir",
+        "map_pause_round_trip_ir",
         "store_sweep_ir",
         "projectile_tail_ir",
         "last_two_bodies_ir",
