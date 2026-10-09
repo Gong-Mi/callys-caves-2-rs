@@ -8,7 +8,8 @@ on:
                 fix/prologue-boot-order, fix/view-canvas-1136x640, chore/repo-hygiene,
                 fix/presentation-gles3, fix/camera-follow, fix/story-runtime-boundaries,
                 'perf/**', exec-ledger-140, test/reach-last-five,
-                test/boss-alarm-ladders, test/ending-ladders ]
+                test/boss-alarm-ladders, test/ending-ladders,
+                test/undead-house-ladders ]
   workflow_dispatch:
 
 concurrency:

@@ -15,18 +15,13 @@ columns are frozen 2026-09 data and are not read here.
 
 - objects: 191
 - object-owned CODE bodies: 803 (of 1354 total in the merged census)
-- executed: 688/803 object-owned
-- objects with any unexecuted body: 59
+- executed: 712/803 object-owned
+- objects with any unexecuted body: 54
 
 ## Still unexecuted, by object (weakest first)
 
 | object | unexecuted | ids |
 | --- | --- | --- |
-| `obj_shooter2` | 6 | 102, 103, 104, 105, 106, 107 |
-| `obj_enemy2` | 5 | 125, 126, 127, 128, 129 |
-| `obj_wolf` | 5 | 137, 138, 139, 140, 141 |
-| `obj_bat` | 4 | 235, 236, 237, 238 |
-| `obj_enemy` | 4 | 42, 43, 44, 45 |
 | `obj_firehulk` | 4 | 83, 84, 85, 86 |
 | `obj_fireslime` | 4 | 258, 259, 260, 261 |
 | `obj_knifebandit` | 4 | 51, 52, 53, 54 |
@@ -93,7 +88,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_arrow` | 38 | 3 | 3 | 1 | 2 | 0 | 0 | 0 | 2/3 | 0 |
 | `obj_assaultrifle` | 74 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_backtogame` | 108 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 30 |
-| `obj_bat` | 31 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 8/12 | 124 |
+| `obj_bat` | 31 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 12/12 | 124 |
 | `obj_batintro` | 169 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_bearcubintro` | 166 | 3 | 3 | 1 | 2 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_beeintro` | 180 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
@@ -132,8 +127,8 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_damage` | 104 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_dodged` | 106 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_endmusic` | 163 | 13 | 13 | 9 | 4 | 0 | 0 | 0 | 13/13 | 0 |
-| `obj_enemy` | 14 | 9 | 9 | 9 | 0 | 0 | 0 | 0 | 5/9 | 58 |
-| `obj_enemy2` | 22 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 7/12 | 82 |
+| `obj_enemy` | 14 | 9 | 9 | 9 | 0 | 0 | 0 | 0 | 9/9 | 58 |
+| `obj_enemy2` | 22 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 12/12 | 82 |
 | `obj_enemybullet` | 47 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
 | `obj_enemybullet2` | 48 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
 | `obj_energywave` | 45 | 5 | 5 | 0 | 5 | 0 | 0 | 0 | 5/5 | 0 |
@@ -225,7 +220,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_rocketlauncher` | 75 | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_shootbutton` | 128 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
 | `obj_shooter1` | 16 | 11 | 11 | 11 | 0 | 0 | 0 | 0 | 7/11 | 76 |
-| `obj_shooter2` | 20 | 12 | 12 | 11 | 1 | 0 | 0 | 0 | 6/12 | 106 |
+| `obj_shooter2` | 20 | 12 | 12 | 11 | 1 | 0 | 0 | 0 | 12/12 | 106 |
 | `obj_shotgun` | 73 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_silvercoin` | 60 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_skeleton` | 17 | 11 | 11 | 7 | 3 | 0 | 1 | 0 | 11/11 | 90 |
@@ -267,7 +262,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_weaponlevelup` | 64 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_weaponname` | 105 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_weaponswap` | 126 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_wolf` | 23 | 10 | 10 | 10 | 0 | 0 | 0 | 0 | 5/10 | 86 |
+| `obj_wolf` | 23 | 10 | 10 | 10 | 0 | 0 | 0 | 0 | 10/10 | 86 |
 | `obj_wolfintro` | 170 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_woodblock` | 158 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
 | `obj_yesrestoredata` | 112 | 2 | 2 | 1 | 0 | 0 | 1 | 0 | 1/2 | 30 |
