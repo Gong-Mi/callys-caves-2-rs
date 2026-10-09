@@ -54,11 +54,12 @@ room50（rm_boss3）/room64（rm_boss4）/room80（rm_boss5）三个竞技场契
 
 ## 测试
 
-`crates/core/tests/bosses_3_5_ir.rs` 8 项：boss3 4（阶梯+三拍+镜像、真实调度 90 tick 弹幕首抽 60°、召唤双守卫 0→2→挡、死亡清场含残弹清扫+10XP/20币+snd50）、boss4 2（阶梯+追击唤醒 ≤100+挥砍双火弹、死亡 snd49+掉落）、boss5 2（阶梯+慢速逼近+定向连发 point_direction 358°/speed 8、死亡 boss5dead+10XP）。boss3projectile 命中链（击退侧选、等距不击退、a4/a7/a8=10/22/25、health1−1、剑格挡 parry 火花）在 boss3 测试内覆盖。
+`crates/core/tests/bosses_3_5_ir.rs` 11 项：boss3 4（阶梯+三拍+镜像、真实调度 90 tick 弹幕首抽 60°、召唤双守卫 0→2→挡、死亡清场含残弹清扫+10XP/20币+snd50）、boss4 2（阶梯+追击唤醒 ≤100+挥砍双火弹、死亡 snd49+掉落）、boss5 2（阶梯+慢速逼近+定向连发 point_direction 358°/speed 8、死亡 boss5dead+10XP）、**梯子环 2**（boss5 八连发接力 A1→A2→A3→A4→(跳A5)→A6→A7→A8→A9→a1=30 自续、boss3 七槽环 A1→…→A8→a1=30，均经真实调度逐拍实测：10 tick 槽位在同 tick 减一后落拍 t=99/108/…；boss3 从活动 x−50 出弹、boss5 按 facing 侧 x±50）、**vestigial 槽 1**（A5 清晕、A10 毒续：直派+计时自触发）。boss3projectile 命中链（击退侧选、等距不击退、a4/a7/a8=10/22/25、health1−1、剑格挡 parry 火花）在 boss3 测试内覆盖。
 
 ## 边界
 
 - boss4 的 movelock/chasing 状态机完整轮转（A3/A4/A6 的歇息-恢复循环）只静态钉+单点实测，未铺全状态轮转测试。
-- boss5 A11（空占位）、boss3 A5/A10（解冻/毒）与五族同型未重复铺测。
+- boss5 A11（空占位）、boss3 A5/A10（解冻/毒）**全库零武装者**（武器对 boss 的命中分支只造成伤害；slot-5 武装全部命中五族敌人家族、无人武装 boss 的 slot 10）——两体按直派+计时自触发验收，不得读作"游戏里可被打晕/中毒"。
+- boss3 的移动全在 A11 节拍（`move_towards_point` 冲撞 speed 2 / 随机散射 choose(±3/±2)，20 tick 重装）；boss5 走 Step 追击（前方 100px 无墙则 ±1）。
 - finalboss(30) 与 obj_finalbosslaser(49) 未在本批；rm_boss6+ 纯名房段未触。
 - Draw 层（血条/fog）未铺；真机/GPU 视觉未验收。

@@ -30,6 +30,7 @@ const WALL: i32 = 4;
 const GEM: i32 = 59;
 const COIN: i32 = 60;
 const XPORB: i32 = 61;
+const DAMAGE: i32 = 104;
 
 fn bundle() -> Bundle {
     let p = Path::new(env!("CARGO_MANIFEST_DIR")).join("src/generated/full_ir.json");
@@ -302,4 +303,126 @@ fn boss5_death_sets_the_flag_and_puffs() {
     assert_eq!(s.globals["boss5dead"], 1.0);
     assert_eq!(count(&s, BOSSPUFF), 1);
     assert_eq!(count(&s, XPORB), 10, "boss5's drop matches boss3's ten-orb spray");
+}
+
+// ---- the alarm ladders through the real scheduler --------------------------------
+// The relay rings (boss3's seven-slot ring, boss5's eight-shot chain) are seeded
+// at Create and then run themselves; the earlier tests dispatched single beats
+// directly, so the relay bodies never executed. Here the ring drives live: the
+// player stays active and pinned, and every shot lands at its slot's own beat.
+// The wall downrange stops boss5's slow advance (Step: no wall -> hspeed +-1);
+// boss3 has no pursuit Step - its A11 beat (every 20 ticks) charges the player
+// at speed 2 or scatters, so it bounces against that wall and its shots are
+// tracked relative to its live x. A5 (stun clear) and A10 (poison tick) have NO
+// armer anywhere in the recovered GML (corpus sweep: every slot-5 arm is an
+// enemy-family hit; nothing arms slot 10 on a boss), so those two bodies are
+// driven directly and their timer self-fire is verified.
+
+fn pin(s: &mut Scene, id: i32, x: f64, y: f64) {
+    let i = s.instances.get_mut(&id).unwrap();
+    i.fields.insert("x".into(), x);
+    i.fields.insert("y".into(), y);
+}
+
+#[test]
+fn boss5_eight_shot_relay_runs_through_the_scheduler() {
+    let b = bundle();
+    let mut s = scene(&b);
+    let p = player(&mut s, &b, 500.0, 200.0);
+    let _w = s.create(&b, WALL, 400.0, 200.0).unwrap(); // stops the advance at x+100
+    let bs = s.create(&b, BOSS5, 300.0, 200.0).unwrap();
+    let mut shots: Vec<(i32, f64, f64)> = Vec::new();
+    for t in 1..=185 {
+        pin(&mut s, p, 500.0, 200.0); // Step reads obj_player.x each tick
+        let before: Vec<i32> = s.instances.iter()
+            .filter(|(_, x)| x.object == FIREPROJ).map(|(id, _)| *id).collect();
+        s.tick(&b).unwrap();
+        for (id, x) in s.instances.iter() {
+            if x.object == FIREPROJ && !before.contains(id) {
+                shots.push((t, x.fields["x"], x.fields["y"]));
+            }
+        }
+    }
+    let ticks: Vec<i32> = shots.iter().map(|x| x.0).collect();
+    assert_eq!(ticks, vec![90, 99, 108, 117, 126, 135, 144, 153, 183],
+        "A1 fires at the a1=90 seed, the 10-tick slots land a tick early through \
+         the same-tick decrement, and A9 re-seeds a1=30 (second shot at 183)");
+    for (t, x, y) in &shots {
+        assert_eq!(*x, 350.0, "facing 1 -> x+50 at tick {t}");
+        assert_eq!(*y, 195.0, "y-5 at tick {t}");
+    }
+    assert_eq!(s.audio.iter().filter(|a| a.sound == 12).count(), shots.len(),
+        "every relay beat plays snd_rocket");
+    assert_eq!(s.instances[&bs].alarms[11], 105,
+        "A11 fired at t70 (placeholder: re-armed 110), five decrements by t185");
+}
+
+#[test]
+fn boss3_seven_slot_ring_runs_through_the_scheduler() {
+    let b = bundle();
+    let mut s = scene(&b);
+    let p = player(&mut s, &b, 500.0, 200.0);
+    let _w = s.create(&b, WALL, 400.0, 200.0).unwrap();
+    let bs = s.create(&b, BOSS3, 300.0, 200.0).unwrap();
+    let mut shots: Vec<(i32, f64, f64, f64)> = Vec::new(); // (t, boss_x_before, shot_x, shot_y)
+    for t in 1..=175 {
+        pin(&mut s, p, 500.0, 200.0);
+        let bx = s.instances[&bs].fields["x"];
+        let before: Vec<i32> = s.instances.iter()
+            .filter(|(_, x)| x.object == BOSS3PROJ).map(|(id, _)| *id).collect();
+        s.tick(&b).unwrap();
+        for (id, x) in s.instances.iter() {
+            if x.object == BOSS3PROJ && !before.contains(id) {
+                shots.push((t, bx, x.fields["x"], x.fields["y"]));
+            }
+        }
+    }
+    let ticks: Vec<i32> = shots.iter().map(|x| x.0).collect();
+    assert_eq!(ticks, vec![90, 99, 108, 117, 126, 135, 144, 174],
+        "the seven-slot ring off the a1=90 seed, then A8 re-seeds a1=30");
+    for (_, bx, x, y) in &shots {
+        assert_eq!(*x, bx - 50.0, "boss3 fires from its live x-50");
+        assert_eq!(*y, 200.0, "at the boss's own y");
+    }
+}
+
+#[test]
+fn boss_vestigial_slots_drive_and_self_fire() {
+    let b = bundle();
+    // boss5: A10 (poison) dispatched; the poison then self-fires on its own
+    // 30-tick timer while A5 clears the stun on its 3-tick arm.
+    let mut s = scene(&b);
+    let p = player(&mut s, &b, 500.0, 200.0);
+    let bs = s.create(&b, BOSS5, 300.0, 200.0).unwrap();
+    let hp0 = s.instances[&bs].fields["hpboss5"];
+    s.instances.get_mut(&bs).unwrap().fields.insert("swordstunned".into(), 1.0);
+    s.instances.get_mut(&bs).unwrap().alarms[5] = 3;
+    s.dispatch(&b, bs, 2, 10).expect("A10 poison");
+    assert_eq!(s.instances[&bs].fields["poisoned"], 1.0);
+    assert_eq!(hp0 - s.instances[&bs].fields["hpboss5"], 0.25, "0.25 per tick");
+    assert_eq!(count(&s, DAMAGE), 1, "one 0.25 damage number");
+    for _ in 0..30 {
+        pin(&mut s, p, 500.0, 200.0);
+        s.tick(&b).unwrap();
+    }
+    assert_eq!(s.instances[&bs].fields["swordstunned"], 0.0,
+        "A5 cleared the stun on the third tick");
+    assert_eq!(hp0 - s.instances[&bs].fields["hpboss5"], 0.5,
+        "the poison self-fired on its 30-tick timer");
+    assert_eq!(s.instances[&bs].alarms[10], 30, "and re-armed its own timer");
+
+    // boss3, the same two slots.
+    let mut s = scene(&b);
+    let p = player(&mut s, &b, 500.0, 200.0);
+    let bs = s.create(&b, BOSS3, 300.0, 200.0).unwrap();
+    let hp0 = s.instances[&bs].fields["hpboss3"];
+    s.instances.get_mut(&bs).unwrap().fields.insert("swordstunned".into(), 1.0);
+    s.instances.get_mut(&bs).unwrap().alarms[5] = 3;
+    s.dispatch(&b, bs, 2, 10).expect("A10 poison");
+    for _ in 0..30 {
+        pin(&mut s, p, 500.0, 200.0);
+        s.tick(&b).unwrap();
+    }
+    assert_eq!(s.instances[&bs].fields["swordstunned"], 0.0);
+    assert_eq!(hp0 - s.instances[&bs].fields["hpboss3"], 0.5);
 }
