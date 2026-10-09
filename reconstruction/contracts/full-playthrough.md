@@ -63,6 +63,22 @@ warp 0 被帧循环消费 → rm_town 落地、player=1。
 **累积**（断言 boss1dead 仍在钉住这个差异）；原版重建全部内存。这条是
 宿主语义差异，不是对原版的声称。
 
+## 地图 stint（连续环的最后一块房间覆盖）
+
+rm_level17 走完死端折回 trunk 后，环再进地图：暂停（517）→ firstpause 建
+mapmenu（激活态）→ CODE 476 在宿主 1136×640 走 **rm_mapview0(113)** 分支 →
+**客户端帧循环消费 warp**（Room End CODE 15 钉 `roomcamefrom=25`）→ 迷雾门后
+goto==25 贴片仍在（level17visited 由 CODE 16 在本次进房时自写）→ 贴片 692：
+warpfrommap=1、`room_goto(25)` 入队（即时写的是玩家坐标与标志，`current_room`
+只在循环消费 warp 时变——断言按此分层）、已走离 (900,400) 的玩家回钉
+(128,204) → 消费回程 → CODE 16 的 warpfrommap 分支到房再钉一次、世界苏醒 →
+obj_bg Alarm 0（CODE 362）在 Room Start 后 5 tick 清 `warpfrommap=0`。
+
+- 菜单派发沿用 #90/#91 的 core 直派纪律；warp 消费全部走客户端循环。
+- **连续环房间覆盖：112/114**。剩余两房 rm_map(111)/rm_mapview3(112) 是
+  mapmenu 的另两个分辨率分支（960×640、1024×768），由 map_system_ir 的
+  分辨率四分支实测拥有；单场景里无法在不改宿主显示尺寸的前提下自然走进。
+
 ## 边界
 
 - 重启回镇后再走**暗门支路**：CODE 17 基线种 `haskey=1`，rm_town 卡 803 是全 218
