@@ -40,12 +40,11 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 
 | tier | codes | share |
 | --- | --- | --- |
-| `structural` | 132 | 9.7% |
 | `object_cited_test` | 4 | 0.3% |
 | `object_cited_contract` | 294 | 21.7% |
 | `env_classified` | 30 | 2.2% |
 | `cited_src` | 12 | 0.9% |
-| `cited_test` | 483 | 35.7% |
+| `cited_test` | 615 | 45.4% |
 | `cited_contract` | 399 | 29.5% |
 
 ## Environment (with) semantics scope
@@ -59,14 +58,14 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 - objects carrying events: **186**
 - CODE containers: `Object` 803, `RoomCC` 551
 - objects named in contract: **150**
-- objects named in test: **129**
+- objects named in test: **159**
 - objects named in src: **59**
 
 ## Execution evidence (traces given, not inferred)
 
 - traces read: 1 (untagged: a trace cannot say which suite ran a body)
 - distinct bodies the suites executed: **1354**
-- executed bodies that no contract, test or source file names: **132** (347, 366, 367, 571, 573, 574, 575, 576, 578, 579, 580, 581, 582, 583, 584, 586, 587, 588, 589, 590)
+- executed bodies that no contract, test or source file names: **0** ()
 - executed bodies among the 62 with-pending CODEs: **62** (12, 14, 21, 46, 55, 66, 77, 88, 97, 109, 120, 132, 142, 151, 160, 164, 168, 172, 184, 196, 212, 241, 250, 262, 274, 294, 303, 361, 456, 470, 476, 478, 481, 489, 492, 495, 499, 508, 513, 529, 532, 549, 557, 566, 572, 577, 585, 593, 601, 607, 615, 620, 625, 634, 643, 651, 655, 663, 675, 690, 692, 786)
 
 Execution is evidence that the body ran under a test - not that its
@@ -78,51 +77,14 @@ argument in env-semantics.md.
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
 | `contract` | 88 | 399 | 163 |
-| `test` | 164 | 840 | 135 |
+| `test` | 165 | 972 | 165 |
 | `src` | 26 | 41 | 66 |
-
-## What the uncited bodies actually are
-
-The tier below `env_classified` is not one kind of thing: most of it is room
-creation code (RoomCC), whose effects the room-chain suites assert at the
-room level rather than by CODE id. Split by container, with the executed
-count from the trace when one was given:
-
-| container | uncited bodies | of which executed |
-| --- | --- | --- |
-| `Object` | 132 | 132 |
 
 ## Worklist: neither the CODE id nor its object is named anywhere
 
-132 CODE bodies. These still EXECUTE through the VM; what they lack is
+0 CODE bodies. These still EXECUTE through the VM; what they lack is
 evidence of attention (an object-name citation promotes a body to `object_cited_*
 above and keeps it out of this list). Grouped by owner, most events first:
 
 | object | uncited CODE bodies |
 | --- | --- |
-| `obj_lloydtutorial11` | 8 |
-| `obj_lloydtutorial12` | 8 |
-| `obj_lloydtutorial4` | 7 |
-| `obj_lloydtutorial5` | 7 |
-| `obj_lloydtutorial6` | 7 |
-| `obj_lloydtutorial8` | 7 |
-| `obj_lloydtutorial15` | 7 |
-| `obj_lloydtutorial16` | 7 |
-| `obj_lloydtutorial7` | 5 |
-| `obj_lloydtutorial3` | 4 |
-| `obj_lloydtutorial9` | 4 |
-| `obj_lloydtutorial10` | 4 |
-| `obj_lloydtutorial14` | 3 |
-| `obj_knifebanditintro` | 3 |
-| `obj_spiderintro` | 3 |
-| `obj_batintro` | 3 |
-| `obj_wolfintro` | 3 |
-| `obj_pistolbanditintro` | 3 |
-| `obj_turretintro` | 3 |
-| `obj_slimeintro` | 3 |
-| `obj_boss2intro` | 3 |
-| `obj_zombieintro` | 3 |
-| `obj_redslimeintro` | 3 |
-| `obj_skeletonintro` | 3 |
-| `obj_hulkingbanditintro` | 3 |
-| _...7 more objects_ | |
