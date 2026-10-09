@@ -31,6 +31,8 @@ rm_map(111)/rm_mapview3(112)/rm_mapview0(113) 的 90+ 房间绑定（obj_maptile
 
 `roomcamefrom` 由 obj_player Create（CODE 0）种子 + **Room End（Other_5, CODE 15）每换房重钉**——高亮跟随真实所在房。`startx/starty` 由玩家站位写入（地图外流程），点击贴片后回写。
 
+**卡片结构全枚举（`crates/core/tests/roomcc_cards_ir.rs`，本批）**：551 张 RoomCC 卡一次扫齐——218 门卡（`obj_warpanywhere`；除 CODE 803 镇→rm_level16 的**唯一未解锁暗门**外全部 `unlocked=1`）+ 330 贴片卡（`obj_maptile`）+ rm_ending 两枚布景绑（CODE 1022/1023）+ 唯一空卡 CODE 866（room34，0 指令仍进 VM）。期望表直接从字节码提取（constant→store），不按房名猜。RED 实录钉出一条**同构语义修正**：贴片卡的 `bf` 落点**就在 `store goto` 上**——真实结构是 `if (!visited) instance_destroy(); goto = N;`，即 **goto 无条件写、销毁路径也带值**（死实例字段仍可读）；首版按"死分支不存 goto"断言，实测 `Some(94.0)` 反证。原"血泪"注里的 `instance_exists(obj_store)` 同款分支表达到此有了一致读法。
+
 ## 夹具事实（本批血泪）
 
 - **rm_map 无玩家绑定**：CODE 692 尾部 `player.x = startx`（selector 0 写）在无玩家实例时**宿主报错 "write has no receiver"**——原版靠 obj_player 持久化（跨房存活）。夹具必须在 tap 前手动 `create(PLAYER)` 模拟持久玩家。
