@@ -37,7 +37,7 @@ None - every object-owned body has been executed.
 | `obj_batintro` | 169 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_bearcubintro` | 166 | 3 | 3 | 1 | 2 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_beeintro` | 180 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
-| `obj_bg` | 65 | 5 | 5 | 4 | 1 | 0 | 0 | 0 | 5/5 | 24 |
+| `obj_bg` | 65 | 5 | 5 | 3 | 2 | 0 | 0 | 0 | 5/5 | 24 |
 | `obj_bigpuff` | 188 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_blade` | 36 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 30 |
 | `obj_bladegun` | 76 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |

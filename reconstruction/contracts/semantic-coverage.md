@@ -42,11 +42,11 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 | --- | --- | --- |
 | `structural` | 505 | 37.3% |
 | `object_cited_test` | 4 | 0.3% |
-| `object_cited_contract` | 297 | 21.9% |
+| `object_cited_contract` | 295 | 21.8% |
 | `env_classified` | 30 | 2.2% |
 | `cited_src` | 12 | 0.9% |
-| `cited_test` | 109 | 8.1% |
-| `cited_contract` | 397 | 29.3% |
+| `cited_test` | 110 | 8.1% |
+| `cited_contract` | 398 | 29.4% |
 
 ## Environment (with) semantics scope
 
@@ -77,8 +77,8 @@ argument in env-semantics.md.
 
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
-| `contract` | 88 | 397 | 163 |
-| `test` | 161 | 428 | 135 |
+| `contract` | 88 | 398 | 163 |
+| `test` | 162 | 430 | 135 |
 | `src` | 26 | 41 | 66 |
 
 ## What the uncited bodies actually are
