@@ -574,10 +574,14 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     walk_door(&mut state, 23.0, "rm_level16");
     assert_eq!(scene(&state).globals.get("haskey").copied(), Some(0.0),
         "CODE 13 consumed the key on the secret door");
-    // 849's pin: (1888,364) landing in rm_level15a (warp graph, inspected).
-    walk_door(&mut state, 22.0, "rm_level15a");
+    // The dead-end's own cards: 850 folds 16 -> 16a, and 16a's forward card
+    // 851 (shipped unlocked=1, landing pin (128,204)) brings the branch back
+    // onto the trunk at rm_level17 - the region is walked in, not visited as
+    // a single room.
+    walk_door(&mut state, 24.0, "rm_level16a");
     let mut fbm3 = Framebuffer::new(960, 540);
     draw_frame(&mut fbm3, &state, &state.asset.tpag_items, &state.asset.sprites);
     let lit3 = fbm3.pixels.iter().filter(|&&p| p != 0).count();
-    assert!(lit3 > 1000, "rm_level15a renders real pixels (lit={lit3})");
+    assert!(lit3 > 1000, "rm_level16a renders real pixels (lit={lit3})");
+    walk_door(&mut state, 25.0, "rm_level17");
 }
