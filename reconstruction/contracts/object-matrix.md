@@ -187,7 +187,7 @@ None - every object-owned body has been executed.
 | `obj_swordupgrade` | 88 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_swordupgrade2` | 89 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_swordupgrade3` | 90 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
-| `obj_tease` | 162 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 0 |
+| `obj_tease` | 162 | 4 | 4 | 3 | 1 | 0 | 0 | 0 | 4/4 | 0 |
 | `obj_treasurechest` | 100 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_treasurechestopen` | 102 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 98 |
 | `obj_tree` | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | 0 |

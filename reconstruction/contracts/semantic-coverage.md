@@ -41,12 +41,12 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 | tier | codes | share |
 | --- | --- | --- |
 | `structural` | 505 | 37.3% |
-| `object_cited_test` | 5 | 0.4% |
-| `object_cited_contract` | 300 | 22.2% |
+| `object_cited_test` | 4 | 0.3% |
+| `object_cited_contract` | 297 | 21.9% |
 | `env_classified` | 30 | 2.2% |
 | `cited_src` | 12 | 0.9% |
-| `cited_test` | 107 | 7.9% |
-| `cited_contract` | 395 | 29.2% |
+| `cited_test` | 109 | 8.1% |
+| `cited_contract` | 397 | 29.3% |
 
 ## Environment (with) semantics scope
 
@@ -59,7 +59,7 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 - objects carrying events: **186**
 - CODE containers: `Object` 803, `RoomCC` 551
 - objects named in contract: **150**
-- objects named in test: **128**
+- objects named in test: **129**
 - objects named in src: **59**
 
 ## Execution evidence (traces given, not inferred)
@@ -77,8 +77,8 @@ argument in env-semantics.md.
 
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
-| `contract` | 87 | 395 | 163 |
-| `test` | 160 | 423 | 134 |
+| `contract` | 88 | 397 | 163 |
+| `test` | 161 | 428 | 135 |
 | `src` | 26 | 41 | 66 |
 
 ## What the uncited bodies actually are

@@ -11,7 +11,7 @@ on:
                 test/boss-alarm-ladders, test/ending-ladders,
                 test/undead-house-ladders, test/enemy-ladders-ii,
                 test/enemy-ladders-iii, test/specials-ladders,
-                test/final-sweep ]
+                test/final-sweep, test/last-two-bodies ]
   workflow_dispatch:
 
 concurrency:

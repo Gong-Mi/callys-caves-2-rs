@@ -173,6 +173,7 @@ def collect_all(quick=False):
     client_tests = [
         "town_entry_and_controls",
         "first_chapter_playthrough",
+        "full_playthrough",
         "challenge_rooms_playthrough",
         "draw_stream_frame_fingerprint",
         "draw_stream_sensitivities",
@@ -263,7 +264,7 @@ def collect_all(quick=False):
             code, out = run_cmd(cmd, timeout=45)
             return parse_python_unittest_output(out, code, name)
         else:
-            t_timeout = 120 if ("first_chapter" in name or "challenge_rooms" in name) else 60
+            t_timeout = 360 if "full_playthrough" in name else 120 if ("first_chapter" in name or "challenge_rooms" in name) else 60
             code, out = run_cmd(cmd, timeout=t_timeout)
             return parse_cargo_test_output(out, code, name)
 
