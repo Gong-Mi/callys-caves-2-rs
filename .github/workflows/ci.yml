@@ -12,7 +12,8 @@ on:
                 test/undead-house-ladders, test/enemy-ladders-ii,
                 test/enemy-ladders-iii, test/specials-ladders,
                 test/final-sweep, test/last-two-bodies,
-                feat/full-playthrough ]
+                feat/full-playthrough,
+                test/map-round-trip ]
   workflow_dispatch:
 
 concurrency:
