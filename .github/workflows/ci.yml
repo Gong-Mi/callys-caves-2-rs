@@ -9,7 +9,8 @@ on:
                 fix/presentation-gles3, fix/camera-follow, fix/story-runtime-boundaries,
                 'perf/**', exec-ledger-140, test/reach-last-five,
                 test/boss-alarm-ladders, test/ending-ladders,
-                test/undead-house-ladders, test/enemy-ladders-ii ]
+                test/undead-house-ladders, test/enemy-ladders-ii,
+                test/enemy-ladders-iii ]
   workflow_dispatch:
 
 concurrency:

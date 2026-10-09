@@ -15,18 +15,13 @@ columns are frozen 2026-09 data and are not read here.
 
 - objects: 191
 - object-owned CODE bodies: 803 (of 1354 total in the merged census)
-- executed: 736/803 object-owned
-- objects with any unexecuted body: 48
+- executed: 750/803 object-owned
+- objects with any unexecuted body: 43
 
 ## Still unexecuted, by object (weakest first)
 
 | object | unexecuted | ids |
 | --- | --- | --- |
-| `obj_finalboss` | 3 | 222, 223, 227 |
-| `obj_ghost` | 3 | 148, 149, 150 |
-| `obj_pause` | 3 | 508, 509, 511 |
-| `obj_player` | 3 | 6, 9, 19 |
-| `obj_boss2` | 2 | 165, 166 |
 | `obj_coinmultiplier5` | 2 | 437, 438 |
 | `obj_energywaveupgrade` | 2 | 429, 430 |
 | `obj_firstpause` | 2 | 495, 496 |
@@ -96,7 +91,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_boomerang` | 71 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_boomerangthrow` | 43 | 4 | 4 | 2 | 2 | 0 | 0 | 0 | 3/4 | 0 |
 | `obj_boss1intro` | 172 | 3 | 3 | 0 | 3 | 0 | 0 | 0 | 3/3 | 0 |
-| `obj_boss2` | 26 | 8 | 8 | 6 | 0 | 0 | 2 | 0 | 6/8 | 174 |
+| `obj_boss2` | 26 | 8 | 8 | 6 | 0 | 0 | 2 | 0 | 8/8 | 174 |
 | `obj_boss2intro` | 175 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_boss3` | 27 | 16 | 16 | 14 | 2 | 0 | 0 | 0 | 16/16 | 174 |
 | `obj_boss3intro` | 181 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
@@ -128,7 +123,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_energywave` | 45 | 5 | 5 | 0 | 5 | 0 | 0 | 0 | 5/5 | 0 |
 | `obj_energywaveupgrade` | 91 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
 | `obj_final` | 161 | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 6/6 | 0 |
-| `obj_finalboss` | 30 | 17 | 17 | 15 | 2 | 0 | 0 | 0 | 14/17 | 0 |
+| `obj_finalboss` | 30 | 17 | 17 | 15 | 2 | 0 | 0 | 0 | 17/17 | 0 |
 | `obj_finalbossgrenade` | 50 | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 5/6 | 0 |
 | `obj_finalbosslaser` | 49 | 3 | 3 | 1 | 2 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_finalbosspuff` | 189 | 6 | 6 | 4 | 2 | 0 | 0 | 0 | 6/6 | 4 |
@@ -144,7 +139,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_flamethrower` | 77 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_foundweapon` | 82 | 5 | 5 | 4 | 1 | 0 | 0 | 0 | 5/5 | 0 |
 | `obj_gem` | 59 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
-| `obj_ghost` | 24 | 9 | 9 | 6 | 2 | 0 | 1 | 0 | 6/9 | 88 |
+| `obj_ghost` | 24 | 9 | 9 | 6 | 2 | 0 | 1 | 0 | 9/9 | 88 |
 | `obj_health` | 62 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_healthrefill` | 99 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 3/4 | 0 |
 | `obj_healthregen` | 92 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
@@ -193,14 +188,14 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_muting` | 67 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 3/4 | 0 |
 | `obj_norestoredata` | 113 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 1/3 | 6 |
 | `obj_parry` | 12 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
-| `obj_pause` | 122 | 5 | 5 | 4 | 0 | 0 | 1 | 0 | 2/5 | 26 |
+| `obj_pause` | 122 | 5 | 5 | 4 | 0 | 0 | 1 | 0 | 5/5 | 26 |
 | `obj_pause2` | 123 | 3 | 3 | 2 | 0 | 0 | 1 | 0 | 1/3 | 26 |
 | `obj_pausebutton` | 125 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
 | `obj_phone` | 136 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
 | `obj_pickupflare` | 70 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_pistolbanditintro` | 171 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_platform` | 7 | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/1 | 0 |
-| `obj_player` | 0 | 20 | 20 | 12 | 1 | 7 | 0 | 0 | 17/20 | 12 |
+| `obj_player` | 0 | 20 | 20 | 12 | 1 | 7 | 0 | 0 | 20/20 | 12 |
 | `obj_poisoniap` | 120 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 1/3 | 0 |
 | `obj_powerupgrade` | 84 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_powerupgrade2` | 85 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |

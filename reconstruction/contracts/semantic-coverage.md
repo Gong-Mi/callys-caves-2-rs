@@ -65,9 +65,9 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 ## Execution evidence (traces given, not inferred)
 
 - traces read: 1 (untagged: a trace cannot say which suite ran a body)
-- distinct bodies the suites executed: **1287**
+- distinct bodies the suites executed: **1301**
 - executed bodies that no contract, test or source file names: **505** (347, 366, 367, 571, 573, 574, 575, 576, 578, 579, 580, 581, 582, 583, 584, 586, 587, 588, 589, 590)
-- executed bodies among the 62 with-pending CODEs: **54** (12, 14, 21, 46, 55, 66, 77, 88, 97, 109, 120, 132, 142, 151, 160, 164, 168, 172, 184, 196, 212, 241, 250, 262, 274, 294, 303, 361, 456, 470, 476, 529, 532, 549, 557, 566, 572, 577, 585, 593, 601, 607, 615, 620, 625, 634, 643, 651, 655, 663, 675, 690, 692, 786)
+- executed bodies among the 62 with-pending CODEs: **55** (12, 14, 21, 46, 55, 66, 77, 88, 97, 109, 120, 132, 142, 151, 160, 164, 168, 172, 184, 196, 212, 241, 250, 262, 274, 294, 303, 361, 456, 470, 476, 508, 529, 532, 549, 557, 566, 572, 577, 585, 593, 601, 607, 615, 620, 625, 634, 643, 651, 655, 663, 675, 690, 692, 786)
 
 Execution is evidence that the body ran under a test - not that its
 behaviour matches the original, and not a substitute for the per-site
@@ -78,7 +78,7 @@ argument in env-semantics.md.
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
 | `contract` | 87 | 395 | 163 |
-| `test` | 156 | 422 | 134 |
+| `test` | 157 | 422 | 134 |
 | `src` | 26 | 41 | 66 |
 
 ## What the uncited bodies actually are
