@@ -28,21 +28,30 @@ CODE 361 休眠 sweep 的 450px 判定带，boss 在进入竞技场后立刻被�
 镜像 `instance_activate_region` 语义），一帧 settle 后再注入；不动引擎、
 不手改 active。
 
-## rm_ending 内的活体 credits 环（本批扩展）
+## rm_ending 内的活体 credits 环与交棒点按（本批扩展）
 
 rm_ending 的 RoomData 真放 obj_endmusic（asset 实测 623 摆放含 {obj_endmusic:1}），
-所以翻页梯不必另建场景：入场后从 t=1（Create 在入场帧装好 alarm[0]=50）直接
-量测，beats 必须与 #82 手搭场景的表逐拍相同（50/400/700/1000 页 1..4；窗口
-1200 帧，A11=2660 的 obj_final 出生不在内，显式断言 final_spawn==0）。
+所以翻页梯不必另建场景：入场后量测循环从 t=1 起（Create 在入场帧装好
+alarm[0]=50），跑 2975 帧，beats 必须与 #82 手搭场景的表逐拍相同——页 1..9
+@50/400/…/2400、obj_final A11 出生 @2660、panel2@2760、taplock@2960，且原版
+饥饿在**被进入的房间自己的时间线**上复现（credits 被 deactivate、a9 停在
+140、drawcredit10 永不置位）。
 RED 实录：先跑 20 帧 settle 再计数得到 30/380/680/980——恰是 settle 偏移，
 确定性可解释；修法是删掉独立 settle 窗、把该量测循环本身当作入场稳定期，
 obj_music 存活断言移到循环后。
 
+交棒点按走客户端输入通道：把世界坐标 release 压进 `left_releases`
+（即 `pointer_released` 所填的同一队列；相机原点使 screen_to_world 的画布
+裸算式脆弱，故直接推世界坐标——队列语义相同、坐标语义精确），命中
+obj_final 的 32×32 回退盒 → CODE 698 执行 instance_activate_all +
+warpfrommap=1 + room_goto(105) → 帧循环自消费 warp → rm_challenge1 落地、
+persistent player=1、亮像素>1000。
+
 ## 边界
 
-- 止步于 credits 前四页 + 1200 帧窗口：obj_final 面板、tap→rm_challenge1
-  门与 teaser 重启由 #82 尾声批拥有（2965-tick 全环再跑一遍只会把失败归因
-  混进本套件）；本批把"入场即演"的连续性补上，不重复所有权。
+- 全环止于交棒进 rm_challenge1：teaser 重启（game_restart→房0停乐）与
+  challenge 五关内容由 #82/挑战套件拥有；本套件证明"结尾引擎在真进房的
+  时间线上完整演出并把手交给下一个房间"，不重复所有权。
 - 支线区域（rm_level*a、map、challenge 五关）不在 trunk 上，本套件不走。
 - 原版语义（boss 死亡注入 hp 属"引擎不重算字段"注入点纪律，见
   boss_kill_chains 头注）；执行与断言均为本重写宿主的状态机回归，不声称
