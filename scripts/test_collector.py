@@ -241,6 +241,7 @@ def collect_all(quick=False):
         "map_pause_round_trip_ir",
         "store_pause_round_trip_ir",
         "roomcc_cards_ir",
+        "structural_inventory_ir",
         "store_sweep_ir",
         "projectile_tail_ir",
         "last_two_bodies_ir",
