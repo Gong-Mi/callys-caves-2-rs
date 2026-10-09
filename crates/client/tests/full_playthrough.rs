@@ -562,4 +562,22 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     // claim about the original.
     assert_eq!(scene(&state).globals.get("boss1dead").copied(), Some(1.0),
         "registered boundary: warp-0 restart keeps globals, the original would reset them");
+
+    // The secret branch: CODE 17's fresh-start baseline gave haskey=1, and
+    // rm_town's door card 803 is the ONLY locked door in the 218-card set
+    // (unlocked=0). CODE 13's key branch consumes the key, unlocks the card
+    // and warps to rm_level16 - the Mines dead-end region the trunk never
+    // walks. Then card 849 (rm_level16 -> rm_level15a, unlocked) folds the
+    // branch back onto the trunk room the walk already knows.
+    assert_eq!(scene(&state).globals.get("haskey").copied(), Some(1.0),
+        "CODE 17's reset path re-seeded the key");
+    walk_door(&mut state, 23.0, "rm_level16");
+    assert_eq!(scene(&state).globals.get("haskey").copied(), Some(0.0),
+        "CODE 13 consumed the key on the secret door");
+    // 849's pin: (1888,364) landing in rm_level15a (warp graph, inspected).
+    walk_door(&mut state, 22.0, "rm_level15a");
+    let mut fbm3 = Framebuffer::new(960, 540);
+    draw_frame(&mut fbm3, &state, &state.asset.tpag_items, &state.asset.sprites);
+    let lit3 = fbm3.pixels.iter().filter(|&&p| p != 0).count();
+    assert!(lit3 > 1000, "rm_level15a renders real pixels (lit={lit3})");
 }
