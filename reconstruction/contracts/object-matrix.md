@@ -15,18 +15,15 @@ columns are frozen 2026-09 data and are not read here.
 
 - objects: 191
 - object-owned CODE bodies: 803 (of 1354 total in the merged census)
-- executed: 671/803 object-owned
-- objects with any unexecuted body: 62
+- executed: 688/803 object-owned
+- objects with any unexecuted body: 59
 
 ## Still unexecuted, by object (weakest first)
 
 | object | unexecuted | ids |
 | --- | --- | --- |
-| `obj_house` | 6 | 21, 22, 23, 24, 25, 26 |
 | `obj_shooter2` | 6 | 102, 103, 104, 105, 106, 107 |
-| `obj_zombie` | 6 | 92, 93, 94, 95, 96, 97 |
 | `obj_enemy2` | 5 | 125, 126, 127, 128, 129 |
-| `obj_skeleton` | 5 | 70, 72, 73, 74, 77 |
 | `obj_wolf` | 5 | 137, 138, 139, 140, 141 |
 | `obj_bat` | 4 | 235, 236, 237, 238 |
 | `obj_enemy` | 4 | 42, 43, 44, 45 |
@@ -162,7 +159,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_health` | 62 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_healthrefill` | 99 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 3/4 | 0 |
 | `obj_healthregen` | 92 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
-| `obj_house` | 2 | 8 | 8 | 7 | 0 | 0 | 1 | 0 | 2/8 | 20 |
+| `obj_house` | 2 | 8 | 8 | 7 | 0 | 0 | 1 | 0 | 8/8 | 20 |
 | `obj_hulkingbandit` | 21 | 11 | 11 | 5 | 6 | 0 | 0 | 0 | 11/11 | 82 |
 | `obj_hulkingbanditbullet` | 51 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 0 |
 | `obj_hulkingbanditintro` | 179 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
@@ -231,7 +228,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_shooter2` | 20 | 12 | 12 | 11 | 1 | 0 | 0 | 0 | 6/12 | 106 |
 | `obj_shotgun` | 73 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_silvercoin` | 60 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
-| `obj_skeleton` | 17 | 11 | 11 | 7 | 3 | 0 | 1 | 0 | 6/11 | 90 |
+| `obj_skeleton` | 17 | 11 | 11 | 7 | 3 | 0 | 1 | 0 | 11/11 | 90 |
 | `obj_skeletonintro` | 178 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `obj_slime` | 32 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 8/12 | 78 |
 | `obj_slimeintro` | 174 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
@@ -275,7 +272,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_woodblock` | 158 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 2/3 | 0 |
 | `obj_yesrestoredata` | 112 | 2 | 2 | 1 | 0 | 0 | 1 | 0 | 1/2 | 30 |
 | `obj_youhavedied` | 134 | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 5/5 | 0 |
-| `obj_zombie` | 19 | 9 | 9 | 8 | 0 | 0 | 1 | 0 | 3/9 | 78 |
+| `obj_zombie` | 19 | 9 | 9 | 8 | 0 | 0 | 1 | 0 | 9/9 | 78 |
 | `obj_zombieintro` | 176 | 3 | 3 | 0 | 0 | 0 | 0 | 3 | 3/3 | 0 |
 | `par_coin` | 57 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | 0 |
 | `par_enemy` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | 0 |
