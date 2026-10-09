@@ -15,14 +15,13 @@ columns are frozen 2026-09 data and are not read here.
 
 - objects: 191
 - object-owned CODE bodies: 803 (of 1354 total in the merged census)
-- executed: 656/803 object-owned
-- objects with any unexecuted body: 65
+- executed: 671/803 object-owned
+- objects with any unexecuted body: 62
 
 ## Still unexecuted, by object (weakest first)
 
 | object | unexecuted | ids |
 | --- | --- | --- |
-| `obj_endmusic` | 9 | 706, 707, 708, 709, 710, 711, 712, 713, 714 |
 | `obj_house` | 6 | 21, 22, 23, 24, 25, 26 |
 | `obj_shooter2` | 6 | 102, 103, 104, 105, 106, 107 |
 | `obj_zombie` | 6 | 92, 93, 94, 95, 96, 97 |
@@ -31,7 +30,6 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_wolf` | 5 | 137, 138, 139, 140, 141 |
 | `obj_bat` | 4 | 235, 236, 237, 238 |
 | `obj_enemy` | 4 | 42, 43, 44, 45 |
-| `obj_final` | 4 | 695, 696, 697, 698 |
 | `obj_firehulk` | 4 | 83, 84, 85, 86 |
 | `obj_fireslime` | 4 | 258, 259, 260, 261 |
 | `obj_knifebandit` | 4 | 51, 52, 53, 54 |
@@ -53,7 +51,6 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_powerupgrade3` | 2 | 418, 419 |
 | `obj_strengthupgrade2` | 2 | 435, 436 |
 | `obj_swordupgrade3` | 2 | 427, 428 |
-| `obj_tease` | 2 | 701, 702 |
 | `obj_arrow` | 1 | 280 |
 | `obj_blade` | 1 | 273 |
 | `obj_bone` | 1 | 338 |
@@ -137,14 +134,14 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_coinmultiplier5` | 95 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
 | `obj_damage` | 104 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_dodged` | 106 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
-| `obj_endmusic` | 163 | 13 | 13 | 9 | 4 | 0 | 0 | 0 | 4/13 | 0 |
+| `obj_endmusic` | 163 | 13 | 13 | 9 | 4 | 0 | 0 | 0 | 13/13 | 0 |
 | `obj_enemy` | 14 | 9 | 9 | 9 | 0 | 0 | 0 | 0 | 5/9 | 58 |
 | `obj_enemy2` | 22 | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 7/12 | 82 |
 | `obj_enemybullet` | 47 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
 | `obj_enemybullet2` | 48 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
 | `obj_energywave` | 45 | 5 | 5 | 0 | 5 | 0 | 0 | 0 | 5/5 | 0 |
 | `obj_energywaveupgrade` | 91 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
-| `obj_final` | 161 | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 2/6 | 0 |
+| `obj_final` | 161 | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 6/6 | 0 |
 | `obj_finalboss` | 30 | 17 | 17 | 15 | 2 | 0 | 0 | 0 | 14/17 | 0 |
 | `obj_finalbossgrenade` | 50 | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 5/6 | 0 |
 | `obj_finalbosslaser` | 49 | 3 | 3 | 1 | 2 | 0 | 0 | 0 | 3/3 | 0 |
@@ -253,7 +250,7 @@ columns are frozen 2026-09 data and are not read here.
 | `obj_swordupgrade` | 88 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/2 | 0 |
 | `obj_swordupgrade2` | 89 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/2 | 0 |
 | `obj_swordupgrade3` | 90 | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/2 | 0 |
-| `obj_tease` | 162 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 2/4 | 0 |
+| `obj_tease` | 162 | 4 | 4 | 4 | 0 | 0 | 0 | 0 | 4/4 | 0 |
 | `obj_treasurechest` | 100 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 0 |
 | `obj_treasurechestopen` | 102 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 3/3 | 98 |
 | `obj_tree` | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | 0 |
