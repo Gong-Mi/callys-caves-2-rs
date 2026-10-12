@@ -118,6 +118,13 @@ final class GlesPresenter {
         }
         if (eglWindowSurface == EGL14.EGL_NO_SURFACE) {
             if (!createWindowSurface(surface)) {
+                // A dead display never yields a surface again (the javm64
+                // loss probe: every createWindowSurface fails with
+                // EGL_NOT_INITIALIZED 0x3001 forever). Drop the whole display
+                // so the next frame re-runs initEgl from scratch.
+                failLog("createWindowSurface failed; dropping display",
+                        EGL14.eglGetError());
+                resetDisplay();
                 return false;
             }
         }
@@ -155,7 +162,10 @@ final class GlesPresenter {
 
         if (!EGL14.eglSwapBuffers(eglDisplay, eglWindowSurface)) {
             // Surface went away or resized out from under us; drop it and let
-            // the next frame (or setSurface) rebuild.
+            // the next frame (or setSurface) rebuild. A display that died
+            // under us is caught one frame later, at the createWindowSurface
+            // gate (an EGL_NOT_INITIALIZED there drops the whole display) —
+            // the same two-step as the Rust presenter.
             destroyWindowSurface();
             return false;
         }
@@ -253,6 +263,43 @@ final class GlesPresenter {
             EGL14.eglDestroySurface(eglDisplay, eglWindowSurface);
         }
         eglWindowSurface = EGL14.EGL_NO_SURFACE;
+    }
+
+    /**
+     * Full display-state drop used by the loss paths (swap failure, surface
+     * creation failure on a dead display). Order matters: the driver must see
+     * the context unbound and destroyed BEFORE eglTerminate — the javm64
+     * probe on this device showed re-initialising while a live surface/context
+     * still referenced the terminated display gets the process SIGKILLed.
+     * Every GL handle dies with the context, so the rebuild gates go back to
+     * zero and the next frame re-runs initEgl end to end.
+     */
+    private void resetDisplay() {
+        destroyWindowSurface();
+        if (eglDisplay != EGL14.EGL_NO_DISPLAY) {
+            if (eglContext != EGL14.EGL_NO_CONTEXT) {
+                EGL14.eglDestroyContext(eglDisplay, eglContext);
+            }
+            EGL14.eglTerminate(eglDisplay);
+        }
+        eglDisplay = EGL14.EGL_NO_DISPLAY;
+        eglContext = EGL14.EGL_NO_CONTEXT;
+        eglConfig = null;
+        program = 0;
+        texId = 0;
+        vbo = 0;
+        vao = 0;
+        aPosLoc = -1;
+        aUvLoc = -1;
+        uTexLoc = -1;
+        textureAllocated = false;
+        surfaceWidth = 0;
+        surfaceHeight = 0;
+        initFailedLogged = false; // a fresh init failure deserves a log
+    }
+
+    private void failLog(String message, int eglError) {
+        Log.w(TAG, message + " (EGL error 0x" + Integer.toHexString(eglError) + ")");
     }
 
     private boolean createProgram() {
