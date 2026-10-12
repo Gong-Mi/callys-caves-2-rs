@@ -137,6 +137,7 @@ pub mod gles {
     const EGL_NO_SURFACE: *mut c_void = std::ptr::null_mut();
     const EGL_NO_CONTEXT: *mut c_void = std::ptr::null_mut();
     const EGL_DEFAULT_DISPLAY: *mut c_void = std::ptr::null_mut();
+    const EGL_NOT_INITIALIZED: c_int = 0x3001;
     const EGL_RENDERABLE_TYPE: c_int = 0x3040;
     const EGL_OPENGL_ES3_BIT: c_int = 0x40; // EGL_OPENGL_ES3_BIT_KHR
     const EGL_SURFACE_TYPE: c_int = 0x3033;
@@ -295,18 +296,44 @@ pub mod gles {
 
         pub fn release(&mut self) {
             self.set_window(std::ptr::null_mut());
-            unsafe {
-                if self.display != EGL_NO_DISPLAY {
-                    eglMakeCurrent(self.display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-                    if self.context != EGL_NO_CONTEXT {
-                        eglDestroyContext(self.display, self.context);
-                    }
-                    eglTerminate(self.display);
+            unsafe { self.reset_display() };
+        }
+
+        /// Drop the entire EGL display state (surface -> context -> terminate,
+        /// in that order) and every GL handle that died with the context. The
+        /// order is load-bearing: the javm64 loss probe on this device's Mali
+        /// driver SIGKILLed the process when eglInitialize ran while a live
+        /// surface/context still referenced the terminated display. Re-initing
+        /// AFTER a full release was proven to rebuild byte-equal frames.
+        /// Unlike `release` this keeps the window attached: the next present
+        /// re-runs init_egl against it.
+        unsafe fn reset_display(&mut self) {
+            self.destroy_window_surface();
+            if self.display != EGL_NO_DISPLAY {
+                eglMakeCurrent(self.display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+                if self.context != EGL_NO_CONTEXT {
+                    eglDestroyContext(self.display, self.context);
                 }
+                eglTerminate(self.display);
             }
             self.display = EGL_NO_DISPLAY;
             self.context = EGL_NO_CONTEXT;
             self.config = std::ptr::null_mut();
+            // Every GL object died with the context; the rebuild gates must
+            // reopen or the next frame would reuse stale ids into a dead
+            // context (black screen instead of a recovery).
+            self.program = 0;
+            self.texture = 0;
+            self.vbo = 0;
+            self.vao = 0;
+            self.a_pos = -1;
+            self.a_uv = -1;
+            self.u_tex = -1;
+            self.texture_allocated = false;
+            self.init_failed_logged = false;
+            // The framebuffer behind last_presented no longer exists on the
+            // GPU: the next present must repaint even on an unchanged frame.
+            self.force_present = true;
         }
 
         /// Upload one BGRA frame and swap, unless it is byte-identical to the
@@ -440,12 +467,30 @@ pub mod gles {
             let attribs = [EGL_NONE];
             self.surface = eglCreateWindowSurface(self.display, self.config, self.window, attribs.as_ptr());
             if self.surface == EGL_NO_SURFACE {
-                return self.fail("eglCreateWindowSurface failed");
+                let err = eglGetError();
+                if err == EGL_NOT_INITIALIZED {
+                    // The display died under us (driver reset / context loss).
+                    // A dead display never yields a surface again - the javm64
+                    // loss probe saw every retry fail 0x3001 forever - so drop
+                    // the whole display state here; the next frame re-runs
+                    // init_egl, which the same probe proved rebuilds
+                    // byte-equal output on this device's Mali driver.
+                    log(&format!("eglCreateWindowSurface: display dead (0x{err:x}); resetting"));
+                    self.reset_display();
+                    return false;
+                }
+                return self.fail_at("eglCreateWindowSurface failed", err);
             }
             if eglMakeCurrent(self.display, self.surface, self.surface, self.context) == 0 {
+                let err = eglGetError();
                 eglDestroySurface(self.display, self.surface);
                 self.surface = EGL_NO_SURFACE;
-                return self.fail("eglMakeCurrent failed");
+                if err == EGL_NOT_INITIALIZED {
+                    log(&format!("eglMakeCurrent: display dead (0x{err:x}); resetting"));
+                    self.reset_display();
+                    return false;
+                }
+                return self.fail_at("eglMakeCurrent failed", err);
             }
             let mut dim: c_int = 0;
             eglQuerySurface(self.display, self.surface, EGL_WIDTH, &mut dim);
@@ -560,8 +605,12 @@ pub mod gles {
         }
 
         fn fail(&mut self, message: &str) -> bool {
+            let err = unsafe { eglGetError() };
+            self.fail_at(message, err)
+        }
+
+        fn fail_at(&mut self, message: &str, err: c_int) -> bool {
             if !self.init_failed_logged {
-                let err = unsafe { eglGetError() };
                 log(&format!("{message} (EGL error 0x{err:x})"));
                 self.init_failed_logged = true;
             }
