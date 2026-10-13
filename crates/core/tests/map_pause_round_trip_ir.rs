@@ -148,3 +148,61 @@ fn the_pause_menu_opens_the_map_and_a_visited_tile_warps_home_re_pinned() {
     assert_eq!(scene.instances[&player].alarms[6], 10, "CODE 16's input-lock alarm armed");
     assert_eq!(count(&scene, PAUSEBUTTON), 1, "a fresh pausebutton via obj_UI");
 }
+
+#[test]
+fn the_pause_menu_roundtrips_all_three_resolution_selected_map_rooms() {
+    let (bundle, mut scene, asset) = setup();
+    let player = player_id(&scene);
+    scene.transition_to_room(&bundle, LEVEL5, &asset.rooms[LEVEL5]).expect("enter rm_level5");
+    assert_eq!(scene.globals.get("level5visited").copied(), Some(1.0));
+
+    let routes = [
+        (1136.0, 640.0, MAPVIEW0, "rm_mapview0"),
+        (1024.0, 768.0, 112usize, "rm_mapview3"),
+        (960.0, 640.0, 111usize, "rm_map"),
+    ];
+    for (width, height, map_room, name) in routes {
+        scene.display_width = width;
+        scene.display_height = height;
+        let (startx, starty) = (scene.globals["startx"], scene.globals["starty"]);
+        scene.write(player, -1, "x", None, 2000.0).unwrap();
+        scene.write(player, -1, "y", None, 700.0).unwrap();
+
+        let pause = scene.instances.iter()
+            .find(|(_, i)| i.object == PAUSEBUTTON && i.alive && i.active)
+            .map(|(id, _)| *id).expect("active pausebutton in rm_level5");
+        scene.dispatch(&bundle, pause, 6, 7).expect("pause tap");
+        let menu = scene.instances.iter()
+            .find(|(_, i)| i.object == MAPMENU && i.alive && i.active)
+            .map(|(id, _)| *id).expect("active mapmenu");
+        scene.dispatch(&bundle, menu, 6, 7).expect("mapmenu tap");
+        assert_eq!(scene.target_room_warp.take(), Some(map_room),
+            "CODE 476 at {width}x{height} selects {name}");
+
+        scene.transition_to_room(&bundle, map_room, &asset.rooms[map_room])
+            .unwrap_or_else(|e| panic!("enter {name}: {e}"));
+        assert_eq!(count(&scene, MAPMENU), 0, "mapmenu was purged entering {name}");
+        assert_eq!(count(&scene, FIRSTPAUSE), 0, "firstpause was purged entering {name}");
+        assert_eq!(count(&scene, MAPTILE), 1,
+            "only the visited rm_level5 tile survives the fog gate in {name}");
+        let tile = scene.instances.iter()
+            .find(|(_, i)| i.object == MAPTILE && i.alive)
+            .map(|(id, _)| *id).expect("surviving visited tile");
+        assert_eq!(field(&scene, tile, "goto"), LEVEL5 as f64);
+
+        scene.dispatch(&bundle, tile, 6, 7).expect("visited map tile tap");
+        assert_eq!(scene.globals["warpfrommap"], 1.0);
+        assert_eq!(scene.target_room_warp.take(), Some(LEVEL5),
+            "CODE 692 returns from {name} to rm_level5");
+        assert_eq!((field(&scene, player, "x"), field(&scene, player, "y")), (startx, starty),
+            "the map tile restores the saved player pin from {name}");
+
+        scene.transition_to_room(&bundle, LEVEL5, &asset.rooms[LEVEL5])
+            .unwrap_or_else(|e| panic!("return from {name}: {e}"));
+        assert_eq!(field(&scene, player, "x"), startx);
+        assert_eq!(field(&scene, player, "y"), starty);
+        assert!(scene.instances[&player].active, "the player wakes after returning from {name}");
+        assert_eq!(scene.instances[&player].alarms[6], 10,
+            "Room Start re-arms the input lock after returning from {name}");
+    }
+}
