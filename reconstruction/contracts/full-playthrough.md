@@ -63,21 +63,25 @@ warp 0 被帧循环消费 → rm_town 落地、player=1。
 **累积**（断言 boss1dead 仍在钉住这个差异）；原版重建全部内存。这条是
 宿主语义差异，不是对原版的声称。
 
-## 地图 stint（连续环的最后一块房间覆盖）
+## 地图 stint（连续环房间覆盖收口）
 
-rm_level17 走完死端折回 trunk 后，环再进地图：暂停（517）→ firstpause 建
-mapmenu（激活态）→ CODE 476 在宿主 1136×640 走 **rm_mapview0(113)** 分支 →
-**客户端帧循环消费 warp**（Room End CODE 15 钉 `roomcamefrom=25`）→ 迷雾门后
-goto==25 贴片仍在（level17visited 由 CODE 16 在本次进房时自写）→ 贴片 692：
-warpfrommap=1、`room_goto(25)` 入队（即时写的是玩家坐标与标志，`current_room`
-只在循环消费 warp 时变——断言按此分层）、已走离 (900,400) 的玩家回钉
-(128,204) → 消费回程 → CODE 16 的 warpfrommap 分支到房再钉一次、世界苏醒 →
-obj_bg Alarm 0（CODE 362）在 Room Start 后 5 tick 清 `warpfrommap=0`。
+rm_level17 的地图段现在有两层验收。`full_playthrough.rs` 在同一 `GameState`
+内依次开启 rm_mapview0(1136×640)、rm_map(960×640)、rm_mapview3(1024×768)：
+前两页通过 visited 的 goto==25 贴片回到 rm_level17，最终停在 rm_mapview3，
+使连续房间入口覆盖达到 **114/114**。每次返回的贴片点击通过 `left_releases`
+队列进入 client `step`，同帧完成 Mouse_7 派发与 room warp 消费。
 
-- 菜单派发沿用 #90/#91 的 core 直派纪律；warp 消费全部走客户端循环。
-- **连续环房间覆盖：112/114**。剩余两房 rm_map(111)/rm_mapview3(112) 是
-  mapmenu 的另两个分辨率分支（960×640、1024×768），由 map_system_ir 的
-  分辨率四分支实测拥有；单场景里无法在不改宿主显示尺寸的前提下自然走进。
+rm_mapview3 的 ROOM 记录 8 个静态 `view.visible` 均为 false；其
+`obj_viewresolution` Create CODE 537 将 Alarm 0 置 1，下一逻辑 tick 的 CODE 538
+按 1024×768 设置 `view_visible[3]`。客户端在 warp-consume 当帧遇到这个精确的
+resolver-pending 状态时清除旧房 Draw 命令并跳过该帧绘制，不再提前报
+`no visible view`；下一 tick 正常选择 view 3。另一个负向测试钉住：没有 pending
+resolver Alarm 的永久无 view gameplay frame 仍然 halt，不被这条窄例外吞掉。
+
+**边界**：本客户端连续套件到达并解析 rm_mapview3 后结束，不声称该页的 client
+return/死亡覆盖；这项不是原版 runner、像素、GPU 或真机视觉验收。三页经
+`Scene::transition_to_room` 的 core round-trip 是独立证据层（PR #100）；不要把它
+与完整 client frame loop 混称。
 
 ## 边界
 

@@ -21,12 +21,10 @@
 //!   every hop (the asset-verified persistent set), same per-hop assertions
 //!   as the trunks.
 //!
-//! Boundary: this stops at entry into rm_ending (room 110) plus 20 settle
-//! frames. The credits pagination ring, obj_final's panels and the tap-to-
-//! challenge1 gate are owned by the ending batch (#82); re-running 2,965
-//! ticks here would double-attribute a failure. The original's side regions
-//! (rm_level*a branches, map, challenge stages) are off the trunk and not
-//! walked here.
+//! Boundary: the continuous run now re-enters the map after the ending/restart,
+//! walks the mapview0 and rm_map return loops, and ends on rm_mapview3 after its
+//! delayed view selection. Client-side return from that final page, original
+//! runner behavior and GPU pixels are not claimed here.
 use callys_client::{draw_frame, Framebuffer, GameState};
 use callys_core::code_vm::{load_bundle_from_file, Host};
 use callys_core::ir_scene::Scene;
@@ -43,6 +41,7 @@ const BOULDER: i32 = 3;
 const PAUSEBUTTON: i32 = 125;
 const MAPMENU: i32 = 111;
 const MAPTILE: i32 = 160;
+const VIEWRESOLUTION: i32 = 133;
 
 fn boot_like_android() -> GameState {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
@@ -137,6 +136,85 @@ fn walk_door(state: &mut GameState, target: f64, expect_name: &str) {
         scene(state).room_views.iter().any(|v| v.visible),
         "{expect_name}: the reseeded runtime view is visible"
     );
+}
+
+/// Visit a map room from the live rm_level17 map path. For the final room the
+/// caller may leave the continuous run there; otherwise return by queueing a
+/// release on its visited tile. Menu Mouse_7 is dispatched directly like the
+/// other round-trip suites; queued warps are consumed by GameState::step.
+fn visit_map_room_round_trip(
+    state: &mut GameState,
+    bundle: &callys_core::code_vm::Bundle,
+    width: f64,
+    height: f64,
+    target_room: usize,
+    expected_name: &str,
+    return_to_gameplay: bool,
+) {
+    assert_eq!(room_name(state), "rm_level17");
+    let player = player_id(state);
+    let (startx, starty) = (scene(state).globals["startx"], scene(state).globals["starty"]);
+    assert_eq!((startx, starty), (128.0, 204.0), "level17 return pin");
+    {
+        let s = state.scene.as_mut().unwrap();
+        s.display_width = width;
+        s.display_height = height;
+        s.write(player, -1, "x", None, 900.0).unwrap();
+        s.write(player, -1, "y", None, 400.0).unwrap();
+    }
+
+    let pause = scene(state).instances.iter()
+        .find(|(_, i)| i.object == PAUSEBUTTON && i.alive && i.active)
+        .map(|(id, _)| *id).expect("active pausebutton in rm_level17");
+    state.scene.as_mut().unwrap().dispatch(bundle, pause, 6, 7)
+        .expect("pause menu release");
+    let menu = scene(state).instances.iter()
+        .find(|(_, i)| i.object == MAPMENU && i.alive && i.active)
+        .map(|(id, _)| *id).expect("active mapmenu under pause menu");
+    state.scene.as_mut().unwrap().dispatch(bundle, menu, 6, 7)
+        .expect("mapmenu release");
+    assert_eq!(scene(state).target_room_warp, Some(target_room),
+        "CODE 476 at {width}x{height} queues {expected_name}");
+
+    step(state); // client loop consumes the map-room warp
+    assert_eq!(room_name(state), expected_name);
+    if expected_name == "rm_mapview3" {
+        assert_eq!(scene(state).active_view_index(), None,
+            "the room entry frame precedes CODE 538's armed Alarm 0");
+        let resolver = scene(state).instances.values()
+            .find(|i| i.object == VIEWRESOLUTION && i.alive && i.active)
+            .expect("obj_viewresolution in rm_mapview3");
+        assert_eq!(resolver.alarms[0], 1, "Create arms view selection for the next tick");
+        step(state);
+        assert_eq!(scene(state).active_view_index(), Some(3),
+            "CODE 538 selects view 3 for the 1024x768 map branch");
+    }
+    if expected_name == "rm_mapview0" {
+        assert_eq!(scene(state).globals["roomcamefrom"], 25.0,
+            "the initial map entry pins rm_level17 via Room End CODE 15");
+    }
+    let tile = scene(state).instances.iter()
+        .find(|(_, i)| i.object == MAPTILE && i.alive && i.fields.get("goto") == Some(&25.0))
+        .map(|(id, _)| *id).expect("visited rm_level17 tile survives fog gate");
+    if !return_to_gameplay {
+        return; // this is the final room visit; the core suite owns its round-trip
+    }
+    // Feed the same world-space release queue the production pointer path uses.
+    // The next client tick dispatches Mouse_7 and consumes its queued room_goto
+    // in that same frame, avoiding an artificial extra idle tick in the map.
+    let (left, right, top, bottom) = scene(state).bounds_for_instance(tile).expect("tile bounds");
+    state.scene.as_mut().unwrap().left_releases
+        .push(((left + right) * 0.5, (top + bottom) * 0.5));
+    step(state); // Mouse_7 dispatch + client-loop warp consumption
+    assert_eq!(room_name(state), "rm_level17");
+    assert_eq!(scene(state).globals["warpfrommap"], 1.0, "CODE 692 armed map return");
+    assert_eq!((field(scene(state), player, "x"), field(scene(state), player, "y")),
+        (startx, starty), "CODE 692/16 re-pinned the player at the saved start");
+    frames(state, 6);
+    assert_eq!(scene(state).globals["warpfrommap"], 0.0, "CODE 362 clears the map flag");
+    let s = state.scene.as_mut().unwrap();
+    s.display_width = 1136.0;
+    s.display_height = 640.0;
 }
 
 fn dead(state: &GameState, flag: &str) -> bool {
@@ -592,59 +670,33 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     assert!(lit3 > 1000, "rm_level16a renders real pixels (lit={lit3})");
     walk_door(&mut state, 25.0, "rm_level17");
 
-    // The map stint, completing 112/114 rooms in ONE continuous GameState
-    // (the survivors rm_map and rm_mapview3 are the two off-resolution map
-    // rooms, owned by the fog/resolution suites). Dispatch discipline
-    // follows the round-trip suites #90/#91 for the menu taps; consuming
-    // the warps stays in the CLIENT frame loop.
-    let pausebtn = scene(&state).instances.iter()
-        .find(|(_, i)| i.object == PAUSEBUTTON && i.alive)
-        .map(|(id, _)| *id).expect("pausebutton in rm_level17");
-    let sx = scene(&state).globals["startx"];
-    let sy = scene(&state).globals["starty"];
-    assert_eq!((sx, sy), (128.0, 204.0), "obj_bg's level17 pin before the map");
-    // Walk off the pin so the map's re-pin is observable.
-    let pl = player_id(&state);
-    {
-        let s = state.scene.as_mut().unwrap();
-        s.write(pl, -1, "x", None, 900.0).unwrap();
-        s.write(pl, -1, "y", None, 400.0).unwrap();
-    }
+    // Finish the continuous room census at the final resolution-specific map
+    // room. The core round-trip suite covers its return path; this client suite
+    // verifies that room112 survives the resolver's one-tick view handoff.
     let bundle_arc = state.full_bundle.as_ref().expect("bundle").clone();
-    state.scene.as_mut().unwrap()
-        .dispatch(&bundle_arc, pausebtn, 6, 7).expect("pause tap");
-    let menu = state.scene.as_ref().unwrap().instances.iter()
-        .find(|(_, i)| i.object == MAPMENU && i.alive && i.active)
-        .map(|(id, _)| *id).expect("active mapmenu under the menu");
-    state.scene.as_mut().unwrap()
-        .dispatch(&bundle_arc, menu, 6, 7).expect("mapmenu tap");
-    assert_eq!(state.scene.as_ref().unwrap().target_room_warp, Some(113),
-        "the host's 1136x640 opens rm_mapview0 (CODE 476's shipped branch)");
-    step(&mut state); // the client loop consumes it
-    assert_eq!(room_name(&state), "rm_mapview0");
-    assert_eq!(scene(&state).globals["roomcamefrom"], 25.0,
-        "Room End CODE 15 pinned the return address");
-    // The fog gate kept every visited tile: 112 placements, and the room's
-    // own tile (goto==25, level17visited set by CODE 16 on this very entry)
-    // is among them.
-    let tile = scene(&state).instances.iter()
-        .filter(|(_, i)| i.object == MAPTILE && i.alive)
-        .find(|(_, i)| i.fields.get("goto") == Some(&25.0))
-        .map(|(id, _)| *id).expect("the rm_level17 tile survived the fog gate");
-    state.scene.as_mut().unwrap()
-        .dispatch(&bundle_arc, tile, 6, 7).expect("maptile tap");
-    assert_eq!(scene(&state).globals["warpfrommap"], 1.0, "CODE 692 armed the map flag");
-    assert_eq!(scene(&state).target_room_warp, Some(25),
-        "CODE 692's room_goto(25) queues the warp; current_room changes only when the frame loop consumes it");
-    assert_eq!((field(&scene(&state), pl, "x"), field(&scene(&state), pl, "y")), (sx, sy),
-        "the tile re-pinned the walked-away player at the saved spot");
-    step(&mut state); // consume the warp home
-    assert_eq!(room_name(&state), "rm_level17");
-    assert_eq!((field(&scene(&state), pl, "x"), field(&scene(&state), pl, "y")), (sx, sy),
-        "CODE 16's warpfrommap branch re-pins on arrival");
-    assert!(scene(&state).instances[&pl].active, "activate_all woke the world back up");
-    // obj_bg's Alarm 0 (CODE 362) clears the map flag 5 ticks after room start.
-    frames(&mut state, 6);
-    assert_eq!(scene(&state).globals["warpfrommap"], 0.0,
-        "CODE 362's alarm resets warpfrommap to 0");
+    for (width, height, target, name, return_to_gameplay) in [
+        (1136.0, 640.0, 113, "rm_mapview0", true),
+        (960.0, 640.0, 111, "rm_map", true),
+        (1024.0, 768.0, 112, "rm_mapview3", false),
+    ] {
+        visit_map_room_round_trip(&mut state, &bundle_arc, width, height, target, name, return_to_gameplay);
+    }
+}
+
+#[test]
+fn a_viewless_frame_without_pending_view_resolution_still_halts() {
+    let mut state = boot_like_android();
+    let bundle = state.full_bundle.as_ref().expect("bundle").clone();
+    state.scene.as_mut().expect("IR scene")
+        .transition_to_room(&bundle, 1, &state.asset.rooms[1])
+        .expect("enter gameplay room for view failure guard");
+    let scene = state.scene.as_mut().expect("IR scene");
+    scene.view_visible = [false; 8];
+    for instance in scene.instances.values_mut().filter(|i| i.object == VIEWRESOLUTION) {
+        instance.alarms[0] = -1;
+    }
+
+    state.step(1.0 / 60.0);
+    let diagnostic = state.runtime_diagnostic.as_deref().expect("viewless gameplay must halt");
+    assert!(diagnostic.contains("no visible view for gameplay room"), "{diagnostic}");
 }
