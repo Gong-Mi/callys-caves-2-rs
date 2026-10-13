@@ -78,10 +78,7 @@ resolver-pending 状态时清除旧房 Draw 命令并跳过该帧绘制，不再
 `no visible view`；下一 tick 正常选择 view 3。另一个负向测试钉住：没有 pending
 resolver Alarm 的永久无 view gameplay frame 仍然 halt，不被这条窄例外吞掉。
 
-**边界**：本客户端连续套件到达并解析 rm_mapview3 后结束，不声称该页的 client
-return/死亡覆盖；这项不是原版 runner、像素、GPU 或真机视觉验收。三页经
-`Scene::transition_to_room` 的 core round-trip 是独立证据层（PR #100）；不要把它
-与完整 client frame loop 混称。
+**边界**：完整连续套件到达并解析 rm_mapview3 后结束；另有一个**隔离新鲜状态**的客户端回归，从 rm_level17 入口运行真实 client `step`，往返 rm_mapview3 并验证玩家仍 active。该切片不是累计整场通关后的 client death/return 覆盖，也不是原版 runner、像素、GPU 或真机视觉验收。PR #100 的 `Scene::transition_to_room` 全三页 core 往返仍是独立证据层，不与完整 client frame loop 混称。
 
 ## 边界
 

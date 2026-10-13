@@ -684,6 +684,26 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
 }
 
 #[test]
+fn fresh_gameplay_state_roundtrips_mapview3_through_client_steps() {
+    let mut state = boot_like_android();
+    let bundle = state.full_bundle.as_ref().expect("bundle").clone();
+    state.scene.as_mut().expect("IR scene")
+        .transition_to_room(&bundle, 25, &state.asset.rooms[25])
+        .expect("seed rm_level17 for isolated client map-flow test");
+    // This focused fixture pins only the prerequisite fog flag; the continuous
+    // end-to-end test above owns the actual room-entry census.
+    state.scene.as_mut().unwrap().globals.insert("level17visited".into(), 1.0);
+    step(&mut state); // arm/resolve rm_level17's runtime view selector
+    assert_eq!(room_name(&state), "rm_level17");
+    assert_eq!(scene(&state).globals["health1"], 4.0, "fresh player state");
+
+    visit_map_room_round_trip(&mut state, &bundle, 1024.0, 768.0, 112, "rm_mapview3", true);
+    assert_eq!(room_name(&state), "rm_level17");
+    assert!(scene(&state).instances[&player_id(&state)].active,
+        "the client-loop mapview3 return wakes the player in the fresh-state fixture");
+}
+
+#[test]
 fn a_viewless_frame_without_pending_view_resolution_still_halts() {
     let mut state = boot_like_android();
     let bundle = state.full_bundle.as_ref().expect("bundle").clone();
