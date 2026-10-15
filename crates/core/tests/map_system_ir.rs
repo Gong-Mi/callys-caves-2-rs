@@ -11,9 +11,10 @@
 //! - rm_map(111) / rm_mapview0(113) / rm_mapview3(112) tiles are the same 109
 //!   goto values x3 (three zoom levels of the same map);
 //! - mapmenu Mouse_7 (CODE 476) selects the view room by WINDOW RESOLUTION
-//!   (16 branches: 960x640/1280x800/2560x1600/854x480 -> rm_map; 1024x768/
-//!   2048x1536 -> mapview3; the rest -> mapview0) — the host's display size
-//!   drives which room opens;
+//!   (14 exact-size branches: 960x640/1280x800/2560x1600 -> rm_map;
+//!   1024x768/2048x1536 -> mapview3; 1136x640/1334x750/854x480/2208x1242/
+//!   800x480/960x540/1280x720/1920x1080/2560x1440 -> mapview0) — the host's
+//!   display size drives which room opens;
 //! - maptile Mouse_7 (CODE 692): sweep 15 UI objects, activate_all,
 //!   warpfrommap=1, room_goto(goto), then the PLAYER (selector 0) is re-pinned
 //!   to global startx/starty — the map remembers where you were standing;
@@ -142,39 +143,45 @@ fn tapping_a_tile_warps_to_the_room_and_pins_the_player_at_the_saved_start() {
 }
 
 #[test]
-fn the_map_menu_picks_the_view_room_by_window_resolution() {
-    let (bundle, mut scene, _asset) = {
-        let (b, s, a) = setup();
-        (b, s, a)
-    };
-    // CODE 476: 16 resolution branches. The host's display_width/height drive the pick.
-    // 960x640 -> rm_map(111); 1024x768 -> mapview3(112); 1136x640 -> mapview0(113).
-    scene.display_width = 960.0;
-    scene.display_height = 640.0;
+fn the_map_menu_picks_the_view_room_for_all_fourteen_resolution_branches() {
+    let (bundle, mut scene, _asset) = setup();
     let menu = scene.create(&bundle, MAPMENU, 100.0, 100.0).unwrap();
-    scene.dispatch(&bundle, menu, 6, 7).expect("mapmenu release");
-    assert_eq!(scene.target_room_warp, Some(111),
-        "960x640 opens rm_map");
-    scene.target_room_warp = None;
 
-    scene.display_width = 1024.0;
-    scene.display_height = 768.0;
-    scene.dispatch(&bundle, menu, 6, 7).expect("mapmenu release 2");
-    assert_eq!(scene.target_room_warp, Some(112),
-        "1024x768 opens rm_mapview3");
-    scene.target_room_warp = None;
+    // Full CODE 476 branch table, not one representative per destination.
+    // The expected room ids come from the decoded bytecode contract above;
+    // this exercises the reconstructed VM path, not the original runner.
+    let cases = [
+        (960.0, 640.0, 111),
+        (1280.0, 800.0, 111),
+        (2560.0, 1600.0, 111),
+        (854.0, 480.0, 113),
+        (1024.0, 768.0, 112),
+        (2048.0, 1536.0, 112),
+        (1136.0, 640.0, 113),
+        (1280.0, 720.0, 113),
+        (1334.0, 750.0, 113),
+        (2208.0, 1242.0, 113),
+        (800.0, 480.0, 113),
+        (960.0, 540.0, 113),
+        (1920.0, 1080.0, 113),
+        (2560.0, 1440.0, 113),
+    ];
 
-    scene.display_width = 1136.0;
-    scene.display_height = 640.0;
-    scene.dispatch(&bundle, menu, 6, 7).expect("mapmenu release 3");
-    assert_eq!(scene.target_room_warp, Some(113),
-        "1136x640 opens rm_mapview0");
-    scene.target_room_warp = None;
+    for (width, height, expected_room) in cases {
+        scene.display_width = width;
+        scene.display_height = height;
+        scene.target_room_warp = None;
+        scene.dispatch(&bundle, menu, 6, 7)
+            .unwrap_or_else(|err| panic!("CODE 476 dispatch at {width}x{height}: {err}"));
+        assert_eq!(scene.target_room_warp, Some(expected_room),
+            "CODE 476 at {width}x{height} must select room {expected_room}");
+    }
 
-    // 1280x720 -> 113 per the static table (the modern 16:9 default).
-    scene.display_width = 1280.0;
-    scene.display_height = 720.0;
-    scene.dispatch(&bundle, menu, 6, 7).expect("mapmenu release 4");
-    assert_eq!(scene.target_room_warp, Some(113),
-        "1280x720 opens rm_mapview0");
+    // CODE 476 has no catch-all room_goto after the fourteenth exact-size test.
+    scene.display_width = 1600.0;
+    scene.display_height = 900.0;
+    scene.target_room_warp = None;
+    scene.dispatch(&bundle, menu, 6, 7).expect("unmatched resolution dispatch");
+    assert_eq!(scene.target_room_warp, None,
+        "an unlisted resolution does not fall back to a map room");
 }
