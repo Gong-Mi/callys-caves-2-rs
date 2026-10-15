@@ -221,8 +221,8 @@ fn walk_door(state: &mut GameState, target: f64, expect_name: &str) {
 /// the rm_level17 return pin so CODE 692/16's re-pin is observable, but NOT on top
 /// of a level instance. The map menu's CODE 476 calls `instance_activate_all()`,
 /// which un-parks whatever the CODE 361 sweep had parked; a contact in that same
-/// tick is a real hit. The old spot (900,400) sits ~1px (bbox) from obj_slime
-/// #119898 at (928,352): the second and third legs took CODE 12's `hitenemyslime`
+/// tick is a real hit. The old spot (900,400) has a pre-tick bbox distance of
+/// 5.4px from obj_slime #119898 at (928,352): the second and third legs took CODE 12's `hitenemyslime`
 /// hit (health1 3->2, then 2->1) and `global.health1 == 1` is the shipped death
 /// trigger (CODE 12 -> CODE 540 obj_youhavedied), whose `instance_deactivate_all`
 /// survives the map warp and leaves the persistent player inactive. The health
@@ -859,8 +859,10 @@ fn fresh_gameplay_state_roundtrips_mapview3_through_client_steps() {
 fn a_pending_view_resolution_frame_skips_draw_and_clears_the_queues() {
     let mut state = level17_state();
     step(&mut state); // a normal gameplay frame
-    assert!(draw_queues(scene(&state)) > 0,
-        "the drawn frame left real commands in the queues");
+    let s = scene(&state);
+    let queues = [s.draws.len(), s.texts.len(), s.healthbars.len(), s.backgrounds.len()];
+    assert!(queues.iter().all(|count| *count > 0),
+        "each of the four queues must carry real commands before the guard: {queues:?}");
 
     {
         let s = state.scene.as_mut().expect("IR scene");

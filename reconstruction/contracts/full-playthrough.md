@@ -119,7 +119,7 @@ queue 并跳过该帧，其他无 view 情形一律 halt。
 asset.rooms.len()`（实测 114/114）。集合不由路线数组生成。生产 `GameState` 未改。
 
 像素证明范围：三处房间渲染断言从「非零像素 >1000」改为**与明确清屏基线
-(15,18,30,255 BGRA) 不同的内容像素** + **不同颜色数**（负控见下）。实测 rm_ending
+（RGBA (15,18,30,255)，即缓冲区 BGRA 字节 [30,18,15,255]）不同的内容像素** + **不同颜色数**（负控见下）。实测 rm_ending
 content=518400(全画布)/distinct=21、rm_challenge1 947 色、rm_level16a 822 色；整屏
 被背景层覆盖，所以这只证明**载荷确实进了光栅器且是合成帧**，不是原版像素等价，也
 不单独证明某个精灵/文字可见。负控 `the_pixel_content_gate_sees_the_clear_when_nothing_is_drawn`
