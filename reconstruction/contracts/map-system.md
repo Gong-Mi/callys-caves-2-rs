@@ -17,13 +17,13 @@ rm_map(111)/rm_mapview3(112)/rm_mapview0(113) 的 90+ 房间绑定（obj_maptile
 
 ## obj_mapmenu 行为（分辨率选房）
 
-**Mouse_7 (476)**：16 个分辨率分支选打开哪个地图房：
+**Mouse_7 (476)**：14 个显式分辨率分支选打开哪个地图房：
 
 | window_get_width×height | 打开 |
 |---|---|
-| 960×640 / 1280×800 / 2560×1600 / 854×480 | rm_map (111) |
+| 960×640 / 1280×800 / 2560×1600 | rm_map (111) |
 | 1024×768 / 2048×1536 | rm_mapview3 (112) |
-| 其余全部（1136×640 / 1280×720 / 1334×750 / 2208×1242 / 800×480 / 960×540 / 1920×1080 / 2560×1440） | rm_mapview0 (113) |
+| 1136×640 / 1334×750 / 854×480 / 2208×1242 / 800×480 / 960×540 / 1280×720 / 1920×1080 / 2560×1440 | rm_mapview0 (113) |
 
 **宿主映射**：`window_get_width/height` 读 `scene.display_width/height`（默认 1136×640 → mapview0，与 CODE 538 的真机分支一致）。实测四分支：960×640→111、1024×768→112、1136×640→113、1280×720→113。
 
@@ -40,7 +40,7 @@ rm_map(111)/rm_mapview3(112)/rm_mapview0(113) 的 90+ 房间绑定（obj_maptile
 
 ## 测试
 
-`crates/core/tests/map_system_ir.rs` 3 项：迷雾门（无 visited 全灭 + 三 visited 精确保 3 贴片 + 三缩放房同表）；点击传送链（Step 高亮 255 + sprite 171 邻接 + tap 后 warpfrommap=1/target_room_warp=goto/玩家回钉 startx/starty）；分辨率选房（四分支实测）。
+`crates/core/tests/map_system_ir.rs` 3 项：迷雾门（无 visited 全灭 + 三 visited 精确保 3 贴片 + 三缩放房同表）；点击传送链（Step 高亮 255 + sprite 171 邻接 + tap 后 warpfrommap=1/target_room_warp=goto/玩家回钉 startx/starty）；CODE 476 的 **14 个显式分辨率分支**逐项经 IR 调度验证，并确认未列出的分辨率不触发地图跳转（其中四组分辨率此前有 live probe；全矩阵测试证明字节码分支，不等于原版 runner 全量实测）。
 
 ## 边界
 
