@@ -65,20 +65,71 @@ warp 0 被帧循环消费 → rm_town 落地、player=1。
 
 ## 地图 stint（连续环房间覆盖收口）
 
-rm_level17 的地图段现在有两层验收。`full_playthrough.rs` 在同一 `GameState`
-内依次开启 rm_mapview0(1136×640)、rm_map(960×640)、rm_mapview3(1024×768)：
-前两页通过 visited 的 goto==25 贴片回到 rm_level17，最终停在 rm_mapview3，
-使连续房间入口覆盖达到 **114/114**。每次返回的贴片点击通过 `left_releases`
-队列进入 client `step`，同帧完成 Mouse_7 派发与 room warp 消费。
+rm_level17 的地图段在同一个 `GameState` 内依次开启 rm_mapview0(1136×640)、
+rm_map(960×640)、rm_mapview3(1024×768)，**三页都经真实返回路径回到 rm_level17**：
+每次返回的贴片点击通过 `left_releases` 队列进入 client `step`，同帧完成 Mouse_7
+派发与 room warp 消费，随后断言 `warpfrommap==1`、CODE 692/16 把玩家回钉到
+startx/starty(128,204)、6 帧后 CODE 362 清旗标。旧版在 rm_mapview3 停下、其
+client 侧返回从未被跑过；本批把它接进同一连续环。
+
+**停车点夹具纪律（本批实测根因）**：停车点 (900,400) 紧邻 rm_level17 的
+obj_slime #119898（实例在 (928,352)，bbox 间距实测 5.4px）。map 菜单 CODE 476 的
+`instance_activate_all()` 会把 CODE 361 扫描挂起的该实例重新激活，于是 warp 前那一
+tick 玩家 Step（CODE 12）真的吃了一次 `hitenemyslime` 接触扣血：leg2 3→2、leg3
+2→1。而**出货死亡阈值是 `global.health1 == 1`**（恢复 GML `0012` 第 2375–2387 行
+→ CODE 540），CODE 540 的 `instance_deactivate_all(true)` 会写进 persistent 玩家；
+obj_youhavedied 非 persistent，被 map warp 换房丢弃，于是玩家带着 inactive 状态
+留在 map 房；返回点击的 CODE 692 再 `instance_activate_all()` 唤醒它，下一 tick
+rm_level17 立刻重建死亡层——现场就是 obj_youhavedied 唯一 active、玩家 inactive、
+`warpfrommap` 卡在 1（obj_bg 已被挂起，CODE 362 永不执行）。这是**夹具把玩家停在
+自然伤害路径**，引擎行为与出货字节码一致（原版同血线同样进死亡界面）。修法只动夹具：
+停车点改为 (428,204)（距 pin 300px，回钉断言仍非空洞；实测该点 120px 内、任何
+active 状态下都没有敌人/危险实例），并加防伪断言——开图前后 `health1` 不变、返回后
+`cast(obj_youhavedied)==0`、玩家 `active`。不补血、不改引擎、不删死亡派发。
+
+## pending-view guard 的正反边界
 
 rm_mapview3 的 ROOM 记录 8 个静态 `view.visible` 均为 false；其
-`obj_viewresolution` Create CODE 537 将 Alarm 0 置 1，下一逻辑 tick 的 CODE 538
-按 1024×768 设置 `view_visible[3]`。客户端在 warp-consume 当帧遇到这个精确的
-resolver-pending 状态时清除旧房 Draw 命令并跳过该帧绘制，不再提前报
-`no visible view`；下一 tick 正常选择 view 3。另一个负向测试钉住：没有 pending
-resolver Alarm 的永久无 view gameplay frame 仍然 halt，不被这条窄例外吞掉。
+`obj_viewresolution` Create CODE 537 把 Alarm 0 置 1，下一逻辑 tick 的 CODE 538
+按 1024×768 置 `view_visible[3]`。客户端（`lib.rs` gameplay Draw）只在
+**resolver 类型 alive+active 且 `alarms[0]==1`** 时允许无 view 帧：清掉四个 draw
+queue 并跳过该帧，其他无 view 情形一律 halt。
 
-**边界**：完整连续套件到达并解析 rm_mapview3 后结束；另有一个**隔离新鲜状态**的客户端回归，从 rm_level17 入口运行真实 client `step`，往返 rm_mapview3 并验证玩家仍 active。该切片不是累计整场通关后的 client death/return 覆盖，也不是原版 runner、像素、GPU 或真机视觉验收。PR #100 的 `Scene::transition_to_room` 全三页 core 往返仍是独立证据层，不与完整 client frame loop 混称。
+- **正例（隔离夹具）**：`a_pending_view_resolution_frame_skips_draw_and_clears_the_queues`
+  在 rm_level17 先跑一帧正常绘制（断言四个队列非空），再造出精确 pending 形状
+  （`view_visible=[false;8]` + resolver `alarms[0]=2`，使 guard 读取时恰为 1），
+  断言该帧不 halt、`active_view_index()==None`、四队列归零，下一 tick 选到 view 且
+  重新画出内容。**诚实边界**：shipped warp 路径上 `Scene::transition_to_room` 自己
+  就会 `clear_draw_commands()`（`ir_scene.rs` 第 659 行），所以连续路线里 guard 的
+  清队列是冗余的；"跳帧不泄露旧四队列"这条荷载断言只在上述隔离夹具（不经换房清除）
+  里成立。
+- **负例（矩阵）**：`a_viewless_frame_without_pending_view_resolution_still_halts`
+  在 rm_level17（先断言该房确有 obj_viewresolution 实例）分别造出**无 resolver 实例 /
+  resolver dead / resolver inactive / alarm 非 1** 四支，逐支断言仍以
+  `no visible view for gameplay room` halt，永不被放宽的 guard 吞掉。bundle 的 191
+  个对象里 obj_viewresolution 恒存在，所以 `resolver` 查找失败那一支在生产不可达，
+  不在测试里伪造。
+
+## 房间覆盖是观测，不是路线复述
+
+连续套件的 114/114 主张来自**同一个 GameState 每步的 `current_room` 去重集合**
+（测试内 `thread_local` 的 `OBSERVED_ROOMS`：`boot_like_android` 清空并记录 seed
+房，`step` 成功一帧就记录当前房；集合语义使重复进房不重复计数）。套件结尾与
+`state.asset.rooms` 全表**双向求差**：`missing==[]`、`extra==[]`、`distinct ==
+asset.rooms.len()`（实测 114/114）。集合不由路线数组生成。生产 `GameState` 未改。
+
+像素证明范围：三处房间渲染断言从「非零像素 >1000」改为**与明确清屏基线
+(15,18,30,255 BGRA) 不同的内容像素** + **不同颜色数**（负控见下）。实测 rm_ending
+content=518400(全画布)/distinct=21、rm_challenge1 947 色、rm_level16a 822 色；整屏
+被背景层覆盖，所以这只证明**载荷确实进了光栅器且是合成帧**，不是原版像素等价，也
+不单独证明某个精灵/文字可见。负控 `the_pixel_content_gate_sees_the_clear_when_nothing_is_drawn`
+移除同房四队列 + 瓦片 + 粒子后断言 content==0、distinct==1，证明该门对"无载荷"真的
+会红。
+
+**边界**：三页往返与 guard 断言都是本重写宿主的状态机/客户端回归；不是原版
+runner、像素等价、GPU 或真机视觉验收（无原版像素等价 oracle）。PR #100 的
+`Scene::transition_to_room` 全三页 core 往返仍是独立证据层，不与完整 client frame
+loop 混称。
 
 ## 边界
 
@@ -86,7 +137,7 @@ resolver Alarm 的永久无 view gameplay frame 仍然 halt，不被这条窄例
   门卡中唯一 `unlocked=0` 的锁门——CODE 13 钥匙分支消耗 haskey、置 unlocked=1、
   warp 进 rm_level16（Mines 死端区，trunk 不经），再经卡 850（16→16a）与卡 851
   （16a→17，shipped unlocked=1）把整条死端走进去并折回 trunk 的 rm_level17，
-  途中 rm_level16a 真绘制 >1000 亮像素。秘密支路由此进入连续链；房间覆盖变为
+  途中 rm_level16a 通过像素内容门（content>0、822 色）。秘密支路由此进入连续链；房间覆盖变为
   trunk 全集 + 完整 16/16a 死端区（23/24 两房）。
 - 支路之后的 challenge 五关内部玩法细节与
   teaser Draw 文本层由 #82/挑战套件拥有，本套件只走连续性。

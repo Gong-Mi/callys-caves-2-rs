@@ -21,13 +21,16 @@
 //!   every hop (the asset-verified persistent set), same per-hop assertions
 //!   as the trunks.
 //!
-//! Boundary: the continuous run now re-enters the map after the ending/restart,
-//! walks the mapview0 and rm_map return loops, and ends on rm_mapview3 after its
-//! delayed view selection. Client-side return from that final page, original
-//! runner behavior and GPU pixels are not claimed here.
+//! Boundary: the continuous run re-enters the map after the ending/restart and
+//! walks all three resolution-specific pages (mapview0 / rm_map / mapview3),
+//! returning from each through the client's own release queue - including the
+//! page whose view only CODE 538's armed Alarm 0 selects, one tick after entry.
+//! Original runner behavior and GPU pixels are not claimed here.
 use callys_client::{draw_frame, Framebuffer, GameState};
 use callys_core::code_vm::{load_bundle_from_file, Host};
 use callys_core::ir_scene::Scene;
+use std::cell::RefCell;
+use std::collections::BTreeSet;
 use std::path::Path;
 use std::sync::Arc;
 
@@ -42,6 +45,51 @@ const PAUSEBUTTON: i32 = 125;
 const MAPMENU: i32 = 111;
 const MAPTILE: i32 = 160;
 const VIEWRESOLUTION: i32 = 133;
+const YOUHAVEDIED: i32 = 134;
+
+thread_local! {
+    /// Every room this thread's client frame loop actually ticked in. The
+    /// continuous suite's room-coverage claim is read from THIS observation, not
+    /// restated from the route tables the walk uses; a set also means a room
+    /// entered twice is not counted as two rooms.
+    static OBSERVED_ROOMS: RefCell<BTreeSet<i64>> = RefCell::new(BTreeSet::new());
+}
+
+fn observed_rooms() -> BTreeSet<i64> {
+    OBSERVED_ROOMS.with(|rooms| rooms.borrow().clone())
+}
+
+fn observe_room(state: &GameState) {
+    let room = scene(state).current_room as i64;
+    OBSERVED_ROOMS.with(|rooms| {
+        rooms.borrow_mut().insert(room);
+    });
+}
+
+/// The raster's unconditional fill colour (`draw_frame_inner` ->
+/// `Framebuffer::fill_rect(15, 18, 30, 255)`), stored BGRA in `pixels`. Every
+/// frame is painted with it, so a "non-zero pixel" count is true even for an
+/// empty frame; content is what differs from this clear.
+const CLEAR_BGRA: [u8; 4] = [30, 18, 15, 255];
+
+fn content_pixels(fb: &Framebuffer) -> usize {
+    fb.pixels
+        .chunks_exact(4)
+        .filter(|px| px[0] != CLEAR_BGRA[0] || px[1] != CLEAR_BGRA[1]
+            || px[2] != CLEAR_BGRA[2] || px[3] != CLEAR_BGRA[3])
+        .count()
+}
+
+/// How many distinct pixel values the frame carries. A frame that never ran the
+/// payload (or an empty room) collapses to the clear colour alone; a composited
+/// gameplay frame shows the background layer, tiles, sprites and HUD.
+fn distinct_colors(fb: &Framebuffer) -> usize {
+    let mut seen = BTreeSet::new();
+    for px in fb.pixels.chunks_exact(4) {
+        seen.insert([px[0], px[1], px[2], px[3]]);
+    }
+    seen.len()
+}
 
 fn boot_like_android() -> GameState {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
@@ -51,6 +99,9 @@ fn boot_like_android() -> GameState {
             .expect("load full_ir"),
     );
     state.enable_ir_gameplay(bundle).expect("enable_ir_gameplay");
+    // Fresh observation per state: the boot seed room counts too.
+    OBSERVED_ROOMS.with(|rooms| rooms.borrow_mut().clear());
+    observe_room(&state);
     state
 }
 
@@ -62,6 +113,27 @@ fn field(s: &Scene, id: i32, name: &str) -> f64 {
     s.instances[&id].fields[name]
 }
 
+/// The four command queues the draw pass is built from. `draw_view` clears them
+/// on the way in; a frame that never reaches it (the client's pending-view
+/// guard) must clear them itself instead of carrying the previous room's
+/// commands into the next presented frame.
+fn draw_queues(s: &Scene) -> usize {
+    s.draws.len() + s.texts.len() + s.healthbars.len() + s.backgrounds.len()
+}
+
+/// A live rm_level17 gameplay state for the map-flow and view-guard fixtures.
+fn level17_state() -> GameState {
+    let mut state = boot_like_android();
+    let bundle = state.full_bundle.as_ref().expect("bundle").clone();
+    state
+        .scene
+        .as_mut()
+        .expect("IR scene")
+        .transition_to_room(&bundle, 25, &state.asset.rooms[25])
+        .expect("seed rm_level17");
+    state
+}
+
 fn step(state: &mut GameState) {
     state.step(1.0 / 60.0);
     assert!(
@@ -70,6 +142,7 @@ fn step(state: &mut GameState) {
         scene(state).current_room,
         state.runtime_diagnostic
     );
+    observe_room(state);
 }
 
 fn frames(state: &mut GameState, n: usize) {
@@ -138,10 +211,25 @@ fn walk_door(state: &mut GameState, target: f64, expect_name: &str) {
     );
 }
 
-/// Visit a map room from the live rm_level17 map path. For the final room the
-/// caller may leave the continuous run there; otherwise return by queueing a
-/// release on its visited tile. Menu Mouse_7 is dispatched directly like the
-/// other round-trip suites; queued warps are consumed by GameState::step.
+/// Visit a map room from the live rm_level17 map path and come back through the
+/// same release queue the production pointer path fills: the pause button and the
+/// map menu are dispatched directly (like the other round-trip suites), while the
+/// return tile release goes through `left_releases`, so Mouse_7's hit test and the
+/// queued `room_goto` are consumed inside the client's own frame loop.
+///
+/// Fixture discipline (this spot is load bearing): the player is parked away from
+/// the rm_level17 return pin so CODE 692/16's re-pin is observable, but NOT on top
+/// of a level instance. The map menu's CODE 476 calls `instance_activate_all()`,
+/// which un-parks whatever the CODE 361 sweep had parked; a contact in that same
+/// tick is a real hit. The old spot (900,400) sits ~1px (bbox) from obj_slime
+/// #119898 at (928,352): the second and third legs took CODE 12's `hitenemyslime`
+/// hit (health1 3->2, then 2->1) and `global.health1 == 1` is the shipped death
+/// trigger (CODE 12 -> CODE 540 obj_youhavedied), whose `instance_deactivate_all`
+/// survives the map warp and leaves the persistent player inactive. The health
+/// assertion at the end of this function is the falsifier that keeps the fixture
+/// out of that damage path. (428,204) is 300px right of the pin, measured clear of
+/// the whole enemy/hazard set - in either active state - for 120px around it in
+/// every leg.
 fn visit_map_room_round_trip(
     state: &mut GameState,
     bundle: &callys_core::code_vm::Bundle,
@@ -149,19 +237,24 @@ fn visit_map_room_round_trip(
     height: f64,
     target_room: usize,
     expected_name: &str,
-    return_to_gameplay: bool,
 ) {
     assert_eq!(room_name(state), "rm_level17");
     let player = player_id(state);
     let (startx, starty) = (scene(state).globals["startx"], scene(state).globals["starty"]);
     assert_eq!((startx, starty), (128.0, 204.0), "level17 return pin");
+    let health_before = scene(state).globals["health1"];
     {
         let s = state.scene.as_mut().unwrap();
         s.display_width = width;
         s.display_height = height;
-        s.write(player, -1, "x", None, 900.0).unwrap();
-        s.write(player, -1, "y", None, 400.0).unwrap();
+        s.write(player, -1, "x", None, 428.0).unwrap();
+        s.write(player, -1, "y", None, 204.0).unwrap();
     }
+    assert_ne!(
+        (field(scene(state), player, "x"), field(scene(state), player, "y")),
+        (startx, starty),
+        "the parking spot must differ from the pin, or the re-pin assertion is vacuous"
+    );
 
     let pause = scene(state).instances.iter()
         .find(|(_, i)| i.object == PAUSEBUTTON && i.alive && i.active)
@@ -175,19 +268,31 @@ fn visit_map_room_round_trip(
         .expect("mapmenu release");
     assert_eq!(scene(state).target_room_warp, Some(target_room),
         "CODE 476 at {width}x{height} queues {expected_name}");
+    assert_eq!(scene(state).globals["health1"], health_before,
+        "{expected_name}: opening the map must not shed health (the parked spot is live)");
 
     step(state); // client loop consumes the map-room warp
     assert_eq!(room_name(state), expected_name);
     if expected_name == "rm_mapview3" {
+        // The entry frame precedes CODE 538's armed Alarm 0: no view is visible
+        // yet, so the client's pending-view guard skips the draw pass. That frame
+        // must not carry the previous room's four queues forward (the guard is
+        // what discards them here; the shipped warp path also clears through
+        // `transition_to_room`, so the isolated guard fixture below is what makes
+        // the discard load bearing).
         assert_eq!(scene(state).active_view_index(), None,
             "the room entry frame precedes CODE 538's armed Alarm 0");
         let resolver = scene(state).instances.values()
             .find(|i| i.object == VIEWRESOLUTION && i.alive && i.active)
             .expect("obj_viewresolution in rm_mapview3");
         assert_eq!(resolver.alarms[0], 1, "Create arms view selection for the next tick");
+        assert_eq!(draw_queues(scene(state)), 0,
+            "the skipped frame must not leak the previous room's draw queues");
         step(state);
         assert_eq!(scene(state).active_view_index(), Some(3),
             "CODE 538 selects view 3 for the 1024x768 map branch");
+        assert!(draw_queues(scene(state)) > 0,
+            "and the next tick draws the map room normally");
     }
     if expected_name == "rm_mapview0" {
         assert_eq!(scene(state).globals["roomcamefrom"], 25.0,
@@ -196,9 +301,6 @@ fn visit_map_room_round_trip(
     let tile = scene(state).instances.iter()
         .find(|(_, i)| i.object == MAPTILE && i.alive && i.fields.get("goto") == Some(&25.0))
         .map(|(id, _)| *id).expect("visited rm_level17 tile survives fog gate");
-    if !return_to_gameplay {
-        return; // this is the final room visit; the core suite owns its round-trip
-    }
     // Feed the same world-space release queue the production pointer path uses.
     // The next client tick dispatches Mouse_7 and consumes its queued room_goto
     // in that same frame, avoiding an artificial extra idle tick in the map.
@@ -212,6 +314,15 @@ fn visit_map_room_round_trip(
         (startx, starty), "CODE 692/16 re-pinned the player at the saved start");
     frames(state, 6);
     assert_eq!(scene(state).globals["warpfrommap"], 0.0, "CODE 362 clears the map flag");
+    // The round trip is only complete if the player is still in play: a death
+    // overlay here (shipped trigger: `global.health1 == 1`, CODE 12 -> 540) means
+    // the fixture stood in a damage path, not that the map return failed.
+    assert_eq!(cast(state, YOUHAVEDIED), 0,
+        "{expected_name}: no death overlay after the map return");
+    assert!(scene(state).instances[&player].active,
+        "{expected_name}: the returned player is active again");
+    assert_eq!(scene(state).globals["health1"], health_before,
+        "{expected_name}: the map leg must not shed health (fixture hazard, not game logic)");
     let s = state.scene.as_mut().unwrap();
     s.display_width = 1136.0;
     s.display_height = 640.0;
@@ -518,8 +629,15 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     // A real draw pass in the ending room (the pixel pipeline runs end-to-end).
     let mut fbm = Framebuffer::new(960, 540);
     draw_frame(&mut fbm, &state, &state.asset.tpag_items, &state.asset.sprites);
-    let lit = fbm.pixels.iter().filter(|&&p| p != 0).count();
-    assert!(lit > 1000, "rm_ending renders real pixels (lit={lit})");
+    // Honest scope of this claim: the room's background layer covers the whole
+    // canvas, so "content" says the frame is not the bare clear fill (the payload
+    // reached the rasteriser), and the colour count says it is a composited frame
+    // rather than one flat fill. It is NOT original-pixel equivalence, and it does
+    // not single out any sprite or text run.
+    let content = content_pixels(&fbm);
+    let shades = distinct_colors(&fbm);
+    assert!(content > 0 && shades >= 10,
+        "rm_ending rasterises drawn payload: content={content} distinct={shades}");
 
     // The hand-off tap: a PHYSICAL release inside obj_final's box goes through
     // the client's pointer_released -> screen_to_world -> left_releases ->
@@ -559,8 +677,10 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     assert_eq!(cast(&state, PLAYER), 1, "one persistent player entered challenge1");
     let mut fbm2 = Framebuffer::new(960, 540);
     draw_frame(&mut fbm2, &state, &state.asset.tpag_items, &state.asset.sprites);
-    let lit2 = fbm2.pixels.iter().filter(|&&p| p != 0).count();
-    assert!(lit2 > 1000, "rm_challenge1 renders real pixels (lit={lit2})");
+    let content2 = content_pixels(&fbm2);
+    let shades2 = distinct_colors(&fbm2);
+    assert!(content2 > 0 && shades2 >= 100,
+        "rm_challenge1 rasterises drawn payload: content={content2} distinct={shades2}");
 
     // The five challenge stages, forward cards 1014/1016/1018/1020 (their
     // warproom constants read from room_bindings' creation codes, same as the
@@ -666,21 +786,49 @@ fn the_whole_game_walks_in_one_continuous_frame_loop() {
     walk_door(&mut state, 24.0, "rm_level16a");
     let mut fbm3 = Framebuffer::new(960, 540);
     draw_frame(&mut fbm3, &state, &state.asset.tpag_items, &state.asset.sprites);
-    let lit3 = fbm3.pixels.iter().filter(|&&p| p != 0).count();
-    assert!(lit3 > 1000, "rm_level16a renders real pixels (lit={lit3})");
+    let content3 = content_pixels(&fbm3);
+    let shades3 = distinct_colors(&fbm3);
+    assert!(content3 > 0 && shades3 >= 100,
+        "rm_level16a rasterises drawn payload: content={content3} distinct={shades3}");
     walk_door(&mut state, 25.0, "rm_level17");
 
-    // Finish the continuous room census at the final resolution-specific map
-    // room. The core round-trip suite covers its return path; this client suite
-    // verifies that room112 survives the resolver's one-tick view handoff.
+    // Finish the continuous room census at all three resolution-specific map
+    // rooms, and RETURN from each one through the client's own frame loop. The
+    // earlier shape stopped on rm_mapview3 (the page whose view CODE 538 only
+    // selects on the tick after entry) and never exercised its client-side
+    // return; the return now runs the same live release path as the other two.
     let bundle_arc = state.full_bundle.as_ref().expect("bundle").clone();
-    for (width, height, target, name, return_to_gameplay) in [
-        (1136.0, 640.0, 113, "rm_mapview0", true),
-        (960.0, 640.0, 111, "rm_map", true),
-        (1024.0, 768.0, 112, "rm_mapview3", false),
+    for (width, height, target, name) in [
+        (1136.0, 640.0, 113, "rm_mapview0"),
+        (960.0, 640.0, 111, "rm_map"),
+        (1024.0, 768.0, 112, "rm_mapview3"),
     ] {
-        visit_map_room_round_trip(&mut state, &bundle_arc, width, height, target, name, return_to_gameplay);
+        visit_map_room_round_trip(&mut state, &bundle_arc, width, height, target, name);
     }
+
+    // Room coverage as an OBSERVATION: every room id this one continuous
+    // GameState actually ticked in (observed inside `step`, so re-entries
+    // collapse in the set and nothing is derived from the route tables),
+    // compared against the asset's full room table both ways.
+    let observed = observed_rooms();
+    let all: BTreeSet<i64> = (0..state.asset.rooms.len() as i64).collect();
+    let missing: Vec<i64> = all.difference(&observed).copied().collect();
+    let extra: Vec<i64> = observed.difference(&all).copied().collect();
+    let names = |ids: &[i64]| -> Vec<String> {
+        ids.iter()
+            .map(|id| {
+                state.asset.rooms.get(*id as usize)
+                    .map(|room| room.name.clone())
+                    .unwrap_or_else(|| format!("<room {id} outside the table>"))
+            })
+            .collect()
+    };
+    assert!(missing.is_empty(),
+        "rooms never ticked in the continuous run: {:?}", names(&missing));
+    assert!(extra.is_empty(),
+        "rooms ticked that are not in the asset table: {:?}", names(&extra));
+    assert_eq!(observed.len(), state.asset.rooms.len(),
+        "distinct rooms visited must equal the asset room count");
 }
 
 #[test]
@@ -697,26 +845,126 @@ fn fresh_gameplay_state_roundtrips_mapview3_through_client_steps() {
     assert_eq!(room_name(&state), "rm_level17");
     assert_eq!(scene(&state).globals["health1"], 4.0, "fresh player state");
 
-    visit_map_room_round_trip(&mut state, &bundle, 1024.0, 768.0, 112, "rm_mapview3", true);
+    visit_map_room_round_trip(&mut state, &bundle, 1024.0, 768.0, 112, "rm_mapview3");
     assert_eq!(room_name(&state), "rm_level17");
     assert!(scene(&state).instances[&player_id(&state)].active,
         "the client-loop mapview3 return wakes the player in the fresh-state fixture");
 }
 
+/// The guard's POSITIVE boundary, isolated from the warp path: a viewless frame
+/// whose obj_viewresolution is armed for the next tick is the one state the
+/// client may skip. It must skip the draw pass, drop the commands the previous
+/// room left behind, and let the following tick select a view and draw normally.
 #[test]
-fn a_viewless_frame_without_pending_view_resolution_still_halts() {
-    let mut state = boot_like_android();
-    let bundle = state.full_bundle.as_ref().expect("bundle").clone();
-    state.scene.as_mut().expect("IR scene")
-        .transition_to_room(&bundle, 1, &state.asset.rooms[1])
-        .expect("enter gameplay room for view failure guard");
-    let scene = state.scene.as_mut().expect("IR scene");
-    scene.view_visible = [false; 8];
-    for instance in scene.instances.values_mut().filter(|i| i.object == VIEWRESOLUTION) {
-        instance.alarms[0] = -1;
+fn a_pending_view_resolution_frame_skips_draw_and_clears_the_queues() {
+    let mut state = level17_state();
+    step(&mut state); // a normal gameplay frame
+    assert!(draw_queues(scene(&state)) > 0,
+        "the drawn frame left real commands in the queues");
+
+    {
+        let s = state.scene.as_mut().expect("IR scene");
+        s.view_visible = [false; 8];
+        let mut armed = 0;
+        for instance in s.instances.values_mut().filter(|i| i.object == VIEWRESOLUTION) {
+            // Due after the next tick, so the guard's check reads the exact
+            // armed value (1) on the frame it skips.
+            instance.alarms[0] = 2;
+            armed += 1;
+        }
+        assert!(armed > 0, "rm_level17 carries obj_viewresolution (its CODE 538 runs here)");
     }
 
     state.step(1.0 / 60.0);
-    let diagnostic = state.runtime_diagnostic.as_deref().expect("viewless gameplay must halt");
-    assert!(diagnostic.contains("no visible view for gameplay room"), "{diagnostic}");
+    assert!(state.runtime_diagnostic.is_none(),
+        "the armed resolver state is the permitted pending frame: {:?}", state.runtime_diagnostic);
+    assert_eq!(scene(&state).active_view_index(), None, "the frame really had no visible view");
+    assert_eq!(draw_queues(scene(&state)), 0,
+        "the skipped frame must not carry the old four queues");
+
+    step(&mut state); // CODE 538 fires
+    assert!(scene(&state).active_view_index().is_some(), "the next tick selects a view");
+    assert!(draw_queues(scene(&state)) > 0, "and that frame draws normally");
+}
+
+/// The guard's NEGATIVE boundary: a permanently viewless gameplay frame halts
+/// instead of being swallowed by a looser guard. Each arm of the predicate is
+/// exercised: the object table always has obj_viewresolution (191-object bundle),
+/// so the reachable false cases are "no live+active instance" and "alarm not
+/// armed for the next tick".
+#[test]
+fn a_viewless_frame_without_pending_view_resolution_still_halts() {
+    let cases: [(&str, fn(&mut Scene)); 4] = [
+        ("no resolver instance", |s| {
+            s.instances.retain(|_, i| i.object != VIEWRESOLUTION);
+        }),
+        ("resolver dead", |s| {
+            for i in s.instances.values_mut().filter(|i| i.object == VIEWRESOLUTION) {
+                i.alive = false;
+            }
+        }),
+        ("resolver inactive", |s| {
+            for i in s.instances.values_mut().filter(|i| i.object == VIEWRESOLUTION) {
+                i.active = false;
+            }
+        }),
+        ("alarm not armed", |s| {
+            for i in s.instances.values_mut().filter(|i| i.object == VIEWRESOLUTION) {
+                i.alarms[0] = -1;
+            }
+        }),
+    ];
+    for (label, mutate) in cases {
+        let mut state = level17_state();
+        step(&mut state);
+        {
+            let s = state.scene.as_mut().expect("IR scene");
+            assert!(
+                s.instances.values().any(|i| i.object == VIEWRESOLUTION),
+                "{label}: the fixture room carries a resolver before it is broken"
+            );
+            s.view_visible = [false; 8];
+            mutate(s);
+        }
+        state.step(1.0 / 60.0);
+        let diagnostic = state
+            .runtime_diagnostic
+            .as_deref()
+            .unwrap_or_else(|| panic!("{label}: a viewless gameplay frame must halt"));
+        assert!(diagnostic.contains("no visible view for gameplay room"), "{label}: {diagnostic}");
+    }
+}
+
+/// Detection power of the pixel-content gate the room-render assertions use: the
+/// raster's mandatory clear fill makes "non-zero pixel" counts true for an empty
+/// frame, so the gate counts pixels that DIFFER from that clear. Removing the
+/// payload (the four command queues and the room's tile layer) must leave the
+/// same gate at zero - otherwise the assertion above would be claiming content
+/// it never measured.
+#[test]
+fn the_pixel_content_gate_sees_the_clear_when_nothing_is_drawn() {
+    let mut state = level17_state();
+    step(&mut state);
+
+    let mut drawn = Framebuffer::new(960, 540);
+    draw_frame(&mut drawn, &state, &state.asset.tpag_items, &state.asset.sprites);
+    let content = content_pixels(&drawn);
+    let shades = distinct_colors(&drawn);
+    assert!(content > 0 && shades >= 100,
+        "rm_level17 rasterises drawn payload: content={content} distinct={shades}");
+
+    {
+        let s = state.scene.as_mut().expect("IR scene");
+        s.clear_draw_commands();
+        s.room_tiles.clear();
+        s.particles.clear();
+    }
+    let mut blank = Framebuffer::new(960, 540);
+    draw_frame(&mut blank, &state, &state.asset.tpag_items, &state.asset.sprites);
+    let blank_content = content_pixels(&blank);
+    let blank_shades = distinct_colors(&blank);
+    assert_eq!(blank_content, 0,
+        "an empty payload must leave only the clear colour (content={blank_content})");
+    assert_eq!(blank_shades, 1,
+        "and the frame collapses to the single clear value (distinct={blank_shades})");
 }
