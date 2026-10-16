@@ -746,38 +746,61 @@ impl Scene {
         Ok(())
     }
 
-    /// Computes instance bounding box from position and sprite bounds.
+    /// Collision broad phase: the original runner's own instance box,
+    /// `Compute_BoundingBox` (@0x192340), written half-open as
+    /// `[left, right+1) x [top, bottom+1)`.
+    ///
+    /// WL1 pinned the seam this closes. At the rm_level17 map-open parking spot
+    /// (900,400) the player's *sprite rectangle* is (885,384)-(917,418) while the
+    /// box the original computes from the recorded SPRT bbox is
+    /// (894,388)-(908,418); against obj_slime #119898 (rectangle
+    /// (893,320.7)-(957,384.7) vs recorded (906,359.7)-(942,384.7)) that is 0.7px
+    /// of phantom overlap against a real 3.3px gap. A rectangle-only broad phase
+    /// therefore sheds health the original never sheds.
+    ///
+    /// Half-open is the runner's inclusive-edge test (`left <= other.right &&
+    /// right >= other.left && ...`) written so every consumer keeps its existing
+    /// comparison: `x < right + 1` is exactly `x <= right`.
     pub fn bounds_for_instance(&self, id: i32) -> Option<(f64, f64, f64, f64)> {
-        let inst = self.instances.get(&id)?;
-        let ix = inst.fields.get("x").copied()?;
-        let iy = inst.fields.get("y").copied()?;
-        let spr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
-        let (w, h, ox, oy) = self.sprite_bounds.get(&spr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
-        let sx = inst.fields.get("image_xscale").copied().unwrap_or(1.0);
-        let sy = inst.fields.get("image_yscale").copied().unwrap_or(1.0);
-        let x0 = ix - ox * sx; let y0 = iy - oy * sy;
-        let x1 = x0 + w * sx; let y1 = y0 + h * sy;
-        let (min_x, max_x) = if x0 < x1 { (x0, x1) } else { (x1, x0) };
-        let (min_y, max_y) = if y0 < y1 { (y0, y1) } else { (y1, y0) };
-        Some((min_x, max_x, min_y, max_y))
+        let (left, right, top, bottom) = self.compute_bounding_box_for_instance(id)?;
+        Some((left, right + 1.0, top, bottom + 1.0))
     }
 
-    /// Inclusive integer bbox used specifically by FindDist, not the legacy
-    /// collision broad phase. Original Compute_BoundingBox @0x192340 prefers
-    /// mask_index >= 0, normalizes mirrored scales, and subtracts one from the
-    /// transformed exclusive right/bottom edge. A missing sprite is a point.
-    fn distance_bounds_for_instance(&self, id: i32) -> Option<(f64, f64, f64, f64)> {
+    /// Original `Compute_BoundingBox` (@0x192340) for one instance, as inclusive
+    /// integer edges `(left, right, top, bottom)`: `mask_index >= 0` wins over
+    /// `sprite_index`, mirrored scales normalize, and a missing sprite is the
+    /// integer point `(x, y)` — never a default 32x32 box.
+    ///
+    /// `FindDist` (@0x10ac9c, `distance_to_object`) and the collision broad phase
+    /// read this same box; they differ in the comparison only (integer gap
+    /// arithmetic there, edge overlap here), never in the geometry.
+    fn compute_bounding_box_for_instance(&self, id: i32) -> Option<(f64, f64, f64, f64)> {
         let inst = self.instances.get(&id)?;
-        let x = inst.fields.get("x").copied()? as f32;
-        let y = inst.fields.get("y").copied()? as f32;
+        let x = inst.fields.get("x").copied()?;
+        let y = inst.fields.get("y").copied()?;
         let mask = inst.fields.get("mask_index").copied().unwrap_or(-1.0) as i32;
-        let sid = if mask >= 0 { mask } else {
-            inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32
-        };
+        let sprite = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+        Some(self.compute_bounding_box_at(
+            mask, sprite, x, y,
+            inst.fields.get("image_xscale").copied().unwrap_or(1.0),
+            inst.fields.get("image_yscale").copied().unwrap_or(1.0),
+            inst.fields.get("image_angle").copied().unwrap_or(0.0),
+        ))
+    }
+
+    /// `Compute_BoundingBox` for an explicit position and transform. The
+    /// `instance_place(x, y, obj)` / `place_meeting` family boxes the CALLER at
+    /// the candidate position, so its box cannot be read off its current fields.
+    /// Returns inclusive integer edges.
+    fn compute_bounding_box_at(&self, mask: i32, sprite: i32, x: f64, y: f64,
+                               xscale: f64, yscale: f64, angle: f64) -> (f64, f64, f64, f64) {
+        let x = x as f32;
+        let y = y as f32;
+        let sid = if mask >= 0 { mask } else { sprite };
         let point = || (x.trunc() as f64, x.trunc() as f64, y.trunc() as f64, y.trunc() as f64);
         let sp = match self.sprite_bounds.get(&sid) {
             Some(sp) => sp,
-            None => return Some(point()),
+            None => return point(),
         };
         // The loader retains the original manual SPRT bbox. Width/origin or
         // occupied mask pixels cannot substitute for its independent edges.
@@ -807,16 +830,16 @@ impl Scene {
             }
             match bbox {
                 Some((l,r,t,b)) => (l as f32,r as f32,t as f32,b as f32),
-                None => return Some(point()),
+                None => return point(),
             }
         } else {
             (0.0,sp.width as f32 - 1.0,0.0,sp.height as f32 - 1.0)
         };
         let ox = sp.origin_x as f32;
         let oy = sp.origin_y as f32;
-        let sx = inst.fields.get("image_xscale").copied().unwrap_or(1.0) as f32;
-        let sy = inst.fields.get("image_yscale").copied().unwrap_or(1.0) as f32;
-        let angle = inst.fields.get("image_angle").copied().unwrap_or(0.0) as f32;
+        let sx = xscale as f32;
+        let sy = yscale as f32;
+        let angle = angle as f32;
         let (l,r,t,b) = if angle == 0.0 {
             // Runner's lrint path rounds the low edge FIRST, then adds the
             // scaled width/height to that integer; scaling is not point distance.
@@ -840,7 +863,7 @@ impl Scene {
             }
             (l.round_ties_even(),r.round_ties_even()-1.0,t.round_ties_even(),b.round_ties_even()-1.0)
         };
-        Some((l as f64,r as f64,t as f64,b as f64))
+        (l as f64,r as f64,t as f64,b as f64)
     }
 
     pub fn create_with_id(&mut self, b: &Bundle, id: i32, object: i32, x: f64, y: f64) -> Result<i32, String> {

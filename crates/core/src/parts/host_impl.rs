@@ -269,20 +269,15 @@ impl Host for Scene {
                 let mut hit = 0.0;
                 for tid in targets {
                     if notme && tid == id { continue; }
-                    let ix = self.self_field(tid, "x").unwrap_or(0.0);
-                    let iy = self.self_field(tid, "y").unwrap_or(0.0);
-                    let spr = self.self_field(tid, "sprite_index").unwrap_or(-1.0) as i32;
-                    let (w, h, ox, oy) = self.sprite_bounds.get(&spr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
-                    let sx = self.self_field(tid, "image_xscale").unwrap_or(1.0);
-                    let sy = self.self_field(tid, "image_yscale").unwrap_or(1.0);
-                    let x0 = ix - ox * sx; let y0 = iy - oy * sy;
-                    let x1 = x0 + w * sx; let y1 = y0 + h * sy;
-                    let (min_x, max_x) = if x0 < x1 { (x0, x1) } else { (x1, x0) };
-                    let (min_y, max_y) = if y0 < y1 { (y0, y1) } else { (y1, y0) };
-                    if px >= min_x && px <= max_x && py >= min_y && py <= max_y {
-                        if prec && self.mask_hit(tid, px, py) == Some(false) { continue; }
-                        hit = tid as f64;
-                        break;
+                    // Compute_BoundingBox returns inclusive integer edges, so the
+                    // point test is `left <= px <= right` on the instance's own
+                    // box (mask_index first), not the sprite rectangle.
+                    if let Some((left, right, top, bottom)) = self.compute_bounding_box_for_instance(tid) {
+                        if px >= left && px <= right && py >= top && py <= bottom {
+                            if prec && self.mask_hit(tid, px, py) == Some(false) { continue; }
+                            hit = tid as f64;
+                            break;
+                        }
                     }
                 }
                 Ok(hit)
@@ -290,30 +285,28 @@ impl Host for Scene {
             "instance_place" => {
                 let px = a[0]; let py = a[1]; let s = int(a[2])?;
                 let targets = self.select(id, s)?;
-                let spr = self.self_field(id, "sprite_index").unwrap_or(-1.0) as i32;
-                let (pw, ph, pox, poy) = self.sprite_bounds.get(&spr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
-                let psx = self.self_field(id, "image_xscale").unwrap_or(1.0);
-                let psy = self.self_field(id, "image_yscale").unwrap_or(1.0);
-                let p_x0 = px - pox * psx; let p_y0 = py - poy * psy;
-                let p_x1 = p_x0 + pw * psx; let p_y1 = p_y0 + ph * psy;
-                let (p_min_x, p_max_x) = if p_x0 < p_x1 { (p_x0, p_x1) } else { (p_x1, p_x0) };
-                let (p_min_y, p_max_y) = if p_y0 < p_y1 { (p_y0, p_y1) } else { (p_y1, p_y0) };
+                // The CALLER is boxed at the candidate position with its own
+                // mask/sprite, exactly like the runner's Compute_BoundingBox; the
+                // overlap test stays the runner's inclusive edge test.
+                let pbox = match self.instances.get(&id) {
+                    Some(inst) => self.compute_bounding_box_at(
+                        inst.fields.get("mask_index").copied().unwrap_or(-1.0) as i32,
+                        inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32,
+                        px, py,
+                        inst.fields.get("image_xscale").copied().unwrap_or(1.0),
+                        inst.fields.get("image_yscale").copied().unwrap_or(1.0),
+                        inst.fields.get("image_angle").copied().unwrap_or(0.0),
+                    ),
+                    None => return Err(format!("instance_place on missing instance {id}")),
+                };
                 let mut hit = -4.0;
                 for tid in targets {
                     if tid == id { continue; }
-                    let ix = self.self_field(tid, "x").unwrap_or(0.0);
-                    let iy = self.self_field(tid, "y").unwrap_or(0.0);
-                    let ispr = self.self_field(tid, "sprite_index").unwrap_or(-1.0) as i32;
-                    let (iw, ih, iox, ioy) = self.sprite_bounds.get(&ispr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
-                    let isx = self.self_field(tid, "image_xscale").unwrap_or(1.0);
-                    let isy = self.self_field(tid, "image_yscale").unwrap_or(1.0);
-                    let i_x0 = ix - iox * isx; let i_y0 = iy - ioy * isy;
-                    let i_x1 = i_x0 + iw * isx; let i_y1 = i_y0 + ih * isy;
-                    let (i_min_x, i_max_x) = if i_x0 < i_x1 { (i_x0, i_x1) } else { (i_x1, i_x0) };
-                    let (i_min_y, i_max_y) = if i_y0 < i_y1 { (i_y0, i_y1) } else { (i_y1, i_y0) };
-                    if p_min_x < i_max_x && p_max_x > i_min_x && p_min_y < i_max_y && p_max_y > i_min_y {
-                        hit = tid as f64;
-                        break;
+                    if let Some((il, ir, it, ib)) = self.compute_bounding_box_for_instance(tid) {
+                        if pbox.0 <= ir && pbox.1 >= il && pbox.2 <= ib && pbox.3 >= it {
+                            hit = tid as f64;
+                            break;
+                        }
                     }
                 }
                 Ok(hit)
@@ -484,10 +477,13 @@ impl Host for Scene {
                     s => self.select(id, s)?,
                 };
                 let mut min_dist: f64 = 1_000_000.0;
-                if let Some((left,right,top,bottom)) = self.distance_bounds_for_instance(id) {
+                // Same Compute_BoundingBox the broad phase consumes; FindDist
+                // differs in the comparison only (inclusive integer gap edges),
+                // never in the geometry.
+                if let Some((left,right,top,bottom)) = self.compute_bounding_box_for_instance(id) {
                     for tid in targets {
                         if tid == id || self.instances.get(&tid).map_or(true, |i| !i.alive || !i.active) { continue; }
-                        if let Some((tl,tr,tt,tb)) = self.distance_bounds_for_instance(tid) {
+                        if let Some((tl,tr,tt,tb)) = self.compute_bounding_box_for_instance(tid) {
                             let dx = (left-tr).max(tl-right).max(0.0) as i32;
                             let dy = (top-tb).max(tt-bottom).max(0.0) as i32;
                             // Original ARM integer mul/mla followed by sqrtf;
@@ -751,16 +747,10 @@ impl Host for Scene {
                 let mut hit = -4.0;
                 for tid in targets {
                     if tid == id && notme { continue; }
-                    let ix = self.self_field(tid, "x").unwrap_or(0.0);
-                    let iy = self.self_field(tid, "y").unwrap_or(0.0);
-                    let spr = self.self_field(tid, "sprite_index").unwrap_or(-1.0) as i32;
-                    let (w, h, ox, oy) = self.sprite_bounds.get(&spr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
-                    let sx = self.self_field(tid, "image_xscale").unwrap_or(1.0);
-                    let sy = self.self_field(tid, "image_yscale").unwrap_or(1.0);
-                    let bx0 = ix - ox * sx; let by0 = iy - oy * sy;
-                    let bx1 = bx0 + w * sx; let by1 = by0 + h * sy;
-                    let (min_x, max_x) = if bx0 < bx1 { (bx0, bx1) } else { (bx1, bx0) };
-                    let (min_y, max_y) = if by0 < by1 { (by0, by1) } else { (by1, by0) };
+                    // Same Compute_BoundingBox the rest of the broad phase uses;
+                    // the half-open form keeps the slab test's touching-edge
+                    // behaviour unchanged.
+                    let Some((min_x, max_x, min_y, max_y)) = self.bounds_for_instance(tid) else { continue };
                     if !line_intersects_box(x1, y1, x2, y2, min_x, max_x, min_y, max_y) {
                         continue;
                     }
@@ -786,10 +776,16 @@ impl Host for Scene {
                 let check_all = a.get(3).copied().unwrap_or(0.0) >= 0.5;
                 let ix = self.self_field(id, "x").unwrap_or(0.0);
                 let iy = self.self_field(id, "y").unwrap_or(0.0);
-                let spr = self.self_field(id, "sprite_index").unwrap_or(-1.0) as i32;
-                let (w, h, ox, oy) = self.sprite_bounds.get(&spr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
-                let sx = self.self_field(id, "image_xscale").unwrap_or(1.0);
-                let sy = self.self_field(id, "image_yscale").unwrap_or(1.0);
+                // Compute_BoundingBox inputs for the moving instance: mp_potential_step
+                // boxes it at each candidate position, so the box cannot be read
+                // off its current x/y.
+                let own = self.instances.get(&id).map(|i| (
+                    i.fields.get("mask_index").copied().unwrap_or(-1.0) as i32,
+                    i.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32,
+                    i.fields.get("image_xscale").copied().unwrap_or(1.0),
+                    i.fields.get("image_yscale").copied().unwrap_or(1.0),
+                    i.fields.get("image_angle").copied().unwrap_or(0.0),
+                ));
 
                 let base_dir = (-(target_y - iy)).atan2(target_x - ix) * 180.0 / std::f64::consts::PI;
                 let base_dir = if base_dir < 0.0 { base_dir + 360.0 } else { base_dir };
@@ -804,11 +800,11 @@ impl Host for Scene {
                         let nx = ix + step_size * rad.cos();
                         let ny = iy - step_size * rad.sin();
 
-                        // Candidate bounding box
-                        let bx0 = nx - ox * sx; let by0 = ny - oy * sy;
-                        let bx1 = bx0 + w * sx; let by1 = by0 + h * sy;
-                        let (b_min_x, b_max_x) = if bx0 < bx1 { (bx0, bx1) } else { (bx1, bx0) };
-                        let (b_min_y, b_max_y) = if by0 < by1 { (by0, by1) } else { (by1, by0) };
+                        // Candidate box: the runner boxes the moving instance at the
+                        // candidate position, so Compute_BoundingBox applies there.
+                        let Some((mask, sprite, sx, sy, angle)) = own else { break };
+                        let (b_min_x, b_max_x, b_min_y, b_max_y) =
+                            self.compute_bounding_box_at(mask, sprite, nx, ny, sx, sy, angle);
 
                         // Check collision with solid instances (par_wall = 34)
                         let mut collides = false;
@@ -821,18 +817,12 @@ impl Host for Scene {
                             };
                             if !is_solid { continue; }
 
-                            let ox_pos = inst.fields.get("x").copied().unwrap_or(0.0);
-                            let oy_pos = inst.fields.get("y").copied().unwrap_or(0.0);
-                            let ospr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
-                            let (ow, oh, oox, ooy) = self.sprite_bounds.get(&ospr).map_or((32.0, 32.0, 0.0, 0.0), |b| (b.width, b.height, b.origin_x, b.origin_y));
-                            let osx = inst.fields.get("image_xscale").copied().unwrap_or(1.0);
-                            let osy = inst.fields.get("image_yscale").copied().unwrap_or(1.0);
-                            let obx0 = ox_pos - oox * osx; let oby0 = oy_pos - ooy * osy;
-                            let obx1 = obx0 + ow * osx; let oby1 = oby0 + oh * osy;
-                            let (o_min_x, o_max_x) = if obx0 < obx1 { (obx0, obx1) } else { (obx1, obx0) };
-                            let (o_min_y, o_max_y) = if oby0 < oby1 { (oby0, oby1) } else { (oby1, oby0) };
+                            // Same Compute_BoundingBox as the target's own collision
+                            // box; the inclusive-edge overlap test is unchanged.
+                            let Some((o_min_x, o_max_x, o_min_y, o_max_y)) =
+                                self.compute_bounding_box_for_instance(tid) else { continue };
 
-                            if b_min_x < o_max_x && b_max_x > o_min_x && b_min_y < o_max_y && b_max_y > o_min_y {
+                            if b_min_x <= o_max_x && b_max_x >= o_min_x && b_min_y <= o_max_y && b_max_y >= o_min_y {
                                 collides = true;
                                 break;
                             }
