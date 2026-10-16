@@ -1,6 +1,12 @@
 use callys_core::code_vm::{Bundle, Host, Object};
 use callys_core::ir_scene::Scene;
 
+/// Wall row used by the collision_line section. The fixture wires no sprite
+/// geometry, so instances box as integer points; the wall must sit clear of
+/// the caller's own centre row (y = 200.5) for the `notme` probes to have the
+/// caller as their only candidate.
+const WALL_Y: f64 = 260.0;
+
 #[test]
 fn motion_integration_gravity_friction_and_builtins() {
     let bundle = Bundle {
@@ -86,13 +92,39 @@ fn motion_integration_gravity_friction_and_builtins() {
     let wall_id = s.insert_external(1);
     s.instances.get_mut(&wall_id).unwrap().external = false;
     s.write(wall_id, -1, "x", None, 200.0).unwrap();
-    s.write(wall_id, -1, "y", None, 200.0).unwrap();
-    // Line passing through (200, 200) should hit wall_id. The GMS signature is
-    // collision_line(x1, y1, x2, y2, obj, prec, notme) - seven arguments, which
-    // is how obj_shooter2's CODE 108 calls it; `notme = true` keeps the caller
-    // itself out of the candidate set.
+    s.write(wall_id, -1, "y", None, WALL_Y).unwrap();
+
+    // WL7 box pin. This fixture wires no sprite geometry at all, so the shared
+    // box source has no recorded bbox to read and every instance boxes as its
+    // integer point — the half-open `[x, x+1) x [y, y+1)`. The old broad phase
+    // instead took a 32x32 default rectangle and scaled it by the instance's
+    // image_xscale/image_yscale, which it read through the uninitialized-field
+    // rule; `insert_external` never seeds those fields, so every box here was
+    // ZERO-sized and only a query through the exact pixel could touch it.
+    // Consequently the wall must sit clear of the caller's own probe line: that
+    // line runs through the caller's centre (cy = 200.5) and the wall is 60px
+    // below it, so the caller really is the only candidate in its way.
+    let cx = s.read(id, -1, "x", None).unwrap();
+    let cy = s.read(id, -1, "y", None).unwrap();
+    assert_eq!(cx, 128.0);
+    assert_eq!(cy, 200.5);
+    assert_eq!(
+        s.bounds_for_instance(id),
+        Some((128.0, 129.0, 200.0, 201.0)),
+        "caller boxes as its integer point (no sprite geometry wired)"
+    );
+    assert_eq!(
+        s.bounds_for_instance(wall_id),
+        Some((200.0, 201.0, WALL_Y, WALL_Y + 1.0)),
+        "wall boxes as its integer point"
+    );
+
+    // Line passing through the wall's own row should hit wall_id. The GMS
+    // signature is collision_line(x1, y1, x2, y2, obj, prec, notme) - seven
+    // arguments, which is how obj_shooter2's CODE 108 calls it; `notme = true`
+    // keeps the caller itself out of the candidate set.
     let hit = s.call(&bundle, id, "collision_line",
-        &[150.0, 200.0, 250.0, 200.0, 1.0, 1.0, 1.0]).unwrap();
+        &[150.0, WALL_Y, 250.0, WALL_Y, 1.0, 1.0, 1.0]).unwrap();
     assert_eq!(hit, wall_id as f64);
     // Line missing box completely should return -4.0
     let miss = s.call(&bundle, id, "collision_line",
@@ -100,9 +132,8 @@ fn motion_integration_gravity_friction_and_builtins() {
     assert_eq!(miss, -4.0);
     // notme == 0 lets the caller match itself, which is the other half of the
     // original's argument list. The line is drawn through the caller's own
-    // centre so the only candidate in the way is the caller.
-    let cx = s.read(id, -1, "x", None).unwrap();
-    let cy = s.read(id, -1, "y", None).unwrap();
+    // centre and no other instance is on it, so the caller is the only
+    // candidate in the way.
     let own_object = s.instances[&id].object as f64;
     let self_hit = s.call(&bundle, id, "collision_line",
         &[cx - 100.0, cy, cx + 100.0, cy, own_object, 1.0, 0.0]).unwrap();

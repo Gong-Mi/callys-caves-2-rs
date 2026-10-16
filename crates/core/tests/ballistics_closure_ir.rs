@@ -13,8 +13,16 @@
 //! filters alive+active); direct Step dispatches assert raw values without
 //! the tick's gravity/friction integration; full-tick runs re-pin the player
 //! each frame because its own Step gravity would drift the fixture.
-use callys_core::code_vm::{load_bundle_from_file, Bundle};
-use callys_core::ir_scene::Scene;
+//!
+//! WL7 geometry recast: the collision broad phase now reads the original
+//! Compute_BoundingBox (the recorded SPRT manual bbox), not a whole-sprite
+//! rectangle with a 32x32 default. `scene()` therefore wires the real SPRT
+//! records from `assets/game.droid` — the same wiring
+//! `GameState::enable_ir_gameplay` does for the app — and the wall fixtures
+//! below place their walls from those boxes explicitly.
+use callys_asset::GameDroidAsset;
+use callys_core::code_vm::{load_bundle_from_file, Bundle, Host};
+use callys_core::ir_scene::{Scene, SpriteBounds};
 use std::path::Path;
 
 const P: i32 = 0;
@@ -37,10 +45,40 @@ fn bundle() -> Bundle {
     load_bundle_from_file(&p).expect("load full_ir.json")
 }
 
+/// WL7: the app's SPRT wiring — width/origin travel as sprite bounds, the
+/// recorded manual bbox and the per-frame masks travel with them. Without it
+/// the shared box source (Compute_BoundingBox) has no geometry to read and
+/// every instance boxes as its integer point.
+fn wire_sprite_geometry(s: &mut Scene) {
+    let asset = GameDroidAsset::parse(
+        &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/game.droid"),
+    )
+    .expect("parse game.droid");
+    for (sid, sp) in &asset.sprites {
+        s.sprite_bounds.insert(
+            *sid as i32,
+            SpriteBounds {
+                width: sp.width as f64,
+                height: sp.height as f64,
+                origin_x: sp.origin_x as f64,
+                origin_y: sp.origin_y as f64,
+                frames: sp.tpag_indices.len().max(1) as f64,
+            },
+        );
+        if let Some(bbox) = sp.bbox {
+            s.sprite_bboxes.insert(*sid as i32, bbox);
+        }
+        if !sp.masks.is_empty() {
+            s.sprite_masks.insert(*sid as i32, sp.masks.clone());
+        }
+    }
+}
+
 fn scene(b: &Bundle) -> Scene {
     let mut s = Scene::default();
     s.init_bundle(b);
     s.init_fresh_start_globals();
+    wire_sprite_geometry(&mut s);
     let init = s.create(b, INIT, -1000.0, -1000.0).expect("initializer");
     s.instances.get_mut(&init).unwrap().alive = false; // ran once, keep inert
     s
@@ -260,9 +298,37 @@ fn blade_sparks_and_dies_on_plain_walls() {
     let b = bundle();
     let mut s = scene(&b);
     let p = player(&mut s, &b, 0.0);
-    let _w = s.create(&b, WALL, 320.0, 200.0).unwrap();
+    let w = s.create(&b, WALL, 300.0, 200.0).unwrap();
     let bl = s.create(&b, BLADE, 300.0, 200.0).unwrap();
     park(&mut s, p);
+
+    // WL7 box pin. CODE 274's wall branch probes the blade's CURRENT position
+    // (`instance_place(x, y, par_wall)`; the woodblock branch one line earlier
+    // probes `x + hspeed`), so a direct Step dispatch only sparks when the wall
+    // sits inside the blade's recorded box:
+    //   spr_saw  (38): 16x16, origin (0,8), recorded bbox [3,12]x[3,12]
+    //                  => box at (300,200) is [303,313) x [195,205)
+    //   spr_set1path (5): 32x32, origin (0,0), recorded bbox [0,31]x[0,31]
+    //                  => box at (300,200) is [300,332) x [200,232)
+    // a 10px x 5px overlap. The pre-WL7 fixture put the wall at 320 and worked
+    // only because the old broad phase gave the blade a 32x32 default
+    // rectangle [300,332) - the recorded box stops at 313.
+    assert_eq!(
+        s.bounds_for_instance(bl),
+        Some((303., 313., 195., 205.)),
+        "blade box from spr_saw's recorded bbox"
+    );
+    assert_eq!(
+        s.bounds_for_instance(w),
+        Some((300., 332., 200., 232.)),
+        "wall box from spr_set1path's recorded bbox"
+    );
+    assert_eq!(
+        s.call(&b, bl, "instance_place", &[300.0, 200.0, 34.0]).unwrap(),
+        w as f64,
+        "the wall branch's probe lands on the wall"
+    );
+
     s.dispatch(&b, bl, 3, 0).expect("blade Step at par_wall");
     assert!(!s.instances[&bl].alive, "the par_wall branch destroys the blade");
     assert_eq!(cast(&s, SPARK).len(), 1, "and leaves one obj_bulletspark");
@@ -450,14 +516,28 @@ fn arrow_sticks_when_it_misses_but_stays_close_to_the_player() {
     assert!(!s.instances[&ar].alive);
     assert_eq!(cast(&s, SPARK).len(), 1);
 
-    // The boundary is strict: gap exactly 16 dies, 15.9 survives.
+    // The boundary is strict — but on the RECORDED-box distance the original
+    // computes (FindDist over Compute_BoundingBox, inclusive integer edges),
+    // not on origins: the arrow's box at (300,200) is [306,327)x[198,203)
+    // (integer right edge 326) and the player's box left edge is x-6, so the
+    // gap is (x-6)-326 = x-332. Gap >= 16 dies: x=348 gives exactly 16
+    // (dies), x=347 gives 15 (survives). Probed live: x=348 -> dist=16 dead.
     let mut s = scene(&b);
     let p = player(&mut s, &b, 0.0);
-    s.instances.get_mut(&p).unwrap().fields.insert("x".into(), 316.0);
+    s.instances.get_mut(&p).unwrap().fields.insert("x".into(), 348.0);
     let _w = s.create(&b, WALL, 300.0, 200.0).unwrap();
     let ar = s.create(&b, ARROW, 300.0, 200.0).unwrap();
     s.dispatch(&b, ar, 3, 0).expect("gap 16");
-    assert!(!s.instances[&ar].alive, "CODE 281's keep condition is distance < 16");
+    assert!(!s.instances[&ar].alive,
+        "CODE 281's keep condition is recorded-box distance < 16; gap 16 dies");
+
+    let mut s = scene(&b);
+    let p = player(&mut s, &b, 0.0);
+    s.instances.get_mut(&p).unwrap().fields.insert("x".into(), 347.0);
+    let _w = s.create(&b, WALL, 300.0, 200.0).unwrap();
+    let ar = s.create(&b, ARROW, 300.0, 200.0).unwrap();
+    s.dispatch(&b, ar, 3, 0).expect("gap 15");
+    assert!(s.instances[&ar].alive, "gap 15 survives");
 }
 
 #[test]
@@ -634,9 +714,28 @@ fn energywave_walls_only_swap_the_sprite_not_the_life() {
     let b = bundle();
     let mut s = scene(&b);
     let p = player(&mut s, &b, 0.0);
-    let _w = s.create(&b, WALL, 320.0, 200.0).unwrap();
+    let w = s.create(&b, WALL, 300.0, 200.0).unwrap();
     let ew = s.create(&b, ENERGYWAVE, 300.0, 200.0).unwrap();
     park(&mut s, p);
+
+    // WL7 box pin. CODE 308's wall branch is `instance_place(x, y, par_wall)`
+    // on the wave's CURRENT position:
+    //   spr_bladewave (150): 48x48, origin (24,24), recorded bbox [9,45]x[3,44]
+    //                  => box at (300,200) is [285,322) x [179,221)
+    //   spr_set1path (5):    box at (300,200) is [300,332) x [200,232)
+    // a 22px x 21px overlap. The pre-WL7 fixture put the wall 20px right and
+    // relied on the old broad phase's 32x32 rectangle [300,332) for the wave.
+    assert_eq!(
+        s.bounds_for_instance(ew),
+        Some((285., 322., 179., 221.)),
+        "wave box from spr_bladewave's recorded bbox"
+    );
+    assert_eq!(
+        s.bounds_for_instance(w),
+        Some((300., 332., 200., 232.)),
+        "wall box from spr_set1path's recorded bbox"
+    );
+
     s.dispatch(&b, ew, 3, 0).expect("ew wall step");
     assert_eq!(s.instances[&ew].alarms[0], 1, "the wall branch arms alarm[0]=1");
     s.tick(&b).unwrap();

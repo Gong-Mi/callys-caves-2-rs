@@ -13,8 +13,9 @@
 //!   freeze the player by zeroing speeds and re-pinning position instead.
 //! - coindrop/hpdrop use choose(...) seeded by the scene rng: the values are
 //!   asserted via the drop SPRAY the death alarm produces, not the raw draw.
+use callys_asset::GameDroidAsset;
 use callys_core::code_vm::{load_bundle_from_file, Bundle};
-use callys_core::ir_scene::Scene;
+use callys_core::ir_scene::{Scene, SpriteBounds};
 use std::path::Path;
 
 const P: i32 = 0;
@@ -38,10 +39,40 @@ fn bundle() -> Bundle {
     load_bundle_from_file(&p).expect("load full_ir.json")
 }
 
+/// WL7: the app's SPRT wiring — width/origin as sprite bounds, the recorded
+/// manual bbox and per-frame masks alongside. Without it the shared box
+/// source (Compute_BoundingBox) has no geometry and every instance boxes as
+/// its integer point.
+fn wire_sprite_geometry(s: &mut Scene) {
+    let asset = GameDroidAsset::parse(
+        &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/game.droid"),
+    )
+    .expect("parse game.droid");
+    for (sid, sp) in &asset.sprites {
+        s.sprite_bounds.insert(
+            *sid as i32,
+            SpriteBounds {
+                width: sp.width as f64,
+                height: sp.height as f64,
+                origin_x: sp.origin_x as f64,
+                origin_y: sp.origin_y as f64,
+                frames: sp.tpag_indices.len().max(1) as f64,
+            },
+        );
+        if let Some(bbox) = sp.bbox {
+            s.sprite_bboxes.insert(*sid as i32, bbox);
+        }
+        if !sp.masks.is_empty() {
+            s.sprite_masks.insert(*sid as i32, sp.masks.clone());
+        }
+    }
+}
+
 fn scene(b: &Bundle) -> Scene {
     let mut s = Scene::default();
     s.init_bundle(b);
     s.init_fresh_start_globals();
+    wire_sprite_geometry(&mut s);
     let init = s.create(b, INIT, -1000.0, -1000.0).expect("initializer");
     s.instances.get_mut(&init).unwrap().alive = false;
     s

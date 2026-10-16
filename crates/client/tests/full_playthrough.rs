@@ -1079,39 +1079,37 @@ fn parked_at_map_open(spot: (f64, f64)) -> (GameState, Arc<callys_core::code_vm:
     (state, bundle)
 }
 
-/// Detection power of the parking-spot gate `visit_map_room_round_trip` runs on
-/// every leg: aimed at the spot the suite used before (900,400 in rm_level17) the
-/// gate must flag it, and it must show WHY that spot was a port-side seam rather
-/// than a live hazard — under the engine's full-rectangle broad phase the slime
-/// reaches 0.7px into the player's box, while the recorded SPRT bbox boxes the
-/// original computes stay 3.3px apart (still overlapping in x, separated in y).
-/// The shipped spot (428,204) is the clean control for the same gate.
+/// Post-fix successor of the seam test (WL7): the collision fix moved the
+/// engine's broad phase to the recorded SPRT bbox, so the old spot (900,400)
+/// in rm_level17 is now contact-free in BOTH readings — the seam this suite
+/// once parked on is closed. The original geometry the seam sat on is pinned
+/// as data (recorded boxes, y gap ~3.3px), and the shipped spot (428,204)
+/// remains the clean control for the same gate.
 #[test]
-fn the_parking_spot_gate_flags_the_old_spot_and_finds_the_engine_box_seam() {
+fn the_parking_spot_gate_confirms_the_engine_box_seam_is_closed() {
     let (state, bundle) = parked_at_map_open((900.0, 400.0));
-    let engine = player_enemy_contacts(&state, &bundle, false);
-    assert_eq!(engine.len(), 1,
-        "the old spot shares the player's box in the engine reading: {engine:?}");
-    assert_eq!(engine[0].1, "obj_slime",
-        "and the contact comes from the slime, not from the wall family");
-    let recorded = player_enemy_contacts(&state, &bundle, true);
-    assert!(recorded.is_empty(),
-        "the original's recorded boxes leave a gap at the same spot: {recorded:?}");
+    for (reading, recorded) in [("engine broad phase", false), ("recorded SPRT bbox", true)] {
+        assert!(player_enemy_contacts(&state, &bundle, recorded).is_empty(),
+            "the collision fix left a contact at (900,400) in the {reading} reading");
+    }
 
+    // The recorded geometry is unchanged data — the original's boxes stay
+    // apart in y at exactly the spot the old whole-sprite box overlapped.
+    let slime_object = bundle.objects.iter()
+        .find(|o| o.name == "obj_slime").expect("obj_slime").id;
     let s = scene(&state);
     let player = player_id(&state);
-    let slime = engine[0].0;
-    let (engine_player, engine_slime) = (s.bounds_for_instance(player).unwrap(), s.bounds_for_instance(slime).unwrap());
-    let (recorded_player, recorded_slime) = (recorded_bbox(s, player).unwrap(), recorded_bbox(s, slime).unwrap());
-    assert!(box_overlap(engine_player, engine_slime),
-        "the engine's boxes overlap: {engine_player:?} vs {engine_slime:?}");
-    assert!(!box_overlap(recorded_player, recorded_slime),
-        "the recorded boxes do not: {recorded_player:?} vs {recorded_slime:?}");
-    assert!(recorded_player.0 < recorded_slime.1 && recorded_player.1 > recorded_slime.0,
+    let slime = s.instances.iter()
+        .find(|(_, i)| i.object == slime_object && i.alive).map(|(id, _)| *id)
+        .expect("the rm_level17 slime");
+    let (rp, rs) = (recorded_bbox(s, player).unwrap(), recorded_bbox(s, slime).unwrap());
+    assert!(!box_overlap(rp, rs),
+        "the recorded boxes stay apart at the old seam spot: {rp:?} vs {rs:?}");
+    assert!(rp.0 < rs.1 && rp.1 > rs.0,
         "the recorded boxes still overlap in x, so the separation is in y alone");
-    let gap = recorded_player.2 - recorded_slime.3;
+    let gap = rp.2 - rs.3;
     assert!(gap > 0.0 && gap <= 8.0,
-        "and that y gap is a seam, not a distant instance: {gap}px");
+        "and that y gap is the same seam, not a distant instance: {gap}px");
 
     let (clean, clean_bundle) = parked_at_map_open((428.0, 204.0));
     for (reading, recorded) in [("engine broad phase", false), ("recorded SPRT bbox", true)] {
@@ -1120,13 +1118,20 @@ fn the_parking_spot_gate_flags_the_old_spot_and_finds_the_engine_box_seam() {
     }
 }
 
-/// The reported defect, reproduced deterministically at the tick level. Parked on
-/// the box seam with `health1 == 2` (one contact short of the shipped death
-/// trigger) the run does this:
+/// The reported defect, reproduced deterministically at the tick level —
+/// RE-CAST by the collision-box fix (WL7): the death threshold `health1 == 1`
+/// is injected directly instead of being reached through the slime contact,
+/// because the contact itself was the engine-side false positive this test
+/// originally sat on (the old broad phase's whole-sprite box overlapped the
+/// slime by 0.7px where the recorded bbox leaves a 3.3px gap). The guard below
+/// — no contact in EITHER box reading at the old parking spot — is what the
+/// fix must satisfy; the chain it triggers is shipped bytecode.
 ///
-/// tick 1  the map-warp tick: the player's Step (CODE 12) takes the slime contact
-///         -> `health1` 2 -> 1 -> the same Step's `if (global.health1 == 1)` branch
-///         creates obj_youhavedied (CODE 540), which re-pins the player to
+/// Parked at (900,400) with `health1 == 1` the run does this:
+///
+/// tick 1  the map-warp tick: the player's Step (CODE 12) sees
+///         `if (global.health1 == 1)` directly -> creates obj_youhavedied
+///         (CODE 540), which re-pins the player to
 ///         `global.startx/starty`, calls `instance_deactivate_all(true)` and bumps
 ///         `playerdied`. The client then consumes the queued rm_mapview3 warp in the
 ///         same frame, and the overlay is NOT persistent (asset-verified: only
@@ -1141,29 +1146,31 @@ fn the_parking_spot_gate_flags_the_old_spot_and_finds_the_engine_box_seam() {
 ///         Terminal state == the reported one: obj_youhavedied is the only active
 ///         instance, the player is inactive, `warpfrommap` stays 1 (obj_bg is
 ///         deactivated, so CODE 362 never clears it).
-///
-/// The chain after the contact is shipped bytecode; the contact itself is not. The
-/// slime only shares the player's box because the engine's broad phase uses the
-/// full sprite rectangle, so this test is a canary as well as a pin: if the
-/// collision-box domain (recorded SPRT bbox / precise masks) is fixed, the first
-/// assertion fails and this scenario must be re-cast, not re-seeded.
 #[test]
 fn the_map_open_contact_tick_hands_the_run_to_the_death_overlay_across_the_map_warp() {
     let (mut state, bundle) = parked_at_map_open((900.0, 400.0));
     let player = player_id(&state);
     {
         let s = state.scene.as_mut().unwrap();
-        s.globals.insert("health1".into(), 2.0);
+        s.globals.insert("health1".into(), 1.0);
     }
     assert_eq!(scene(&state).target_room_warp, Some(112),
         "CODE 476 at 1024x768 queues rm_mapview3");
-    assert_eq!(scene(&state).globals["health1"], 2.0,
-        "the contact has not happened yet: the warp is consumed after the tick");
+    // The fix's guard: the old parking spot must now be contact-free in BOTH
+    // box readings (engine broad phase AND recorded SPRT bbox). Under the old
+    // whole-sprite broad phase the engine reading showed the seam hit.
+    for (reading, recorded) in [("engine broad phase", false), ("recorded SPRT bbox", true)] {
+        let hits = player_enemy_contacts(&state, &bundle, recorded);
+        assert!(hits.is_empty(),
+            "the collision fix left a contact at (900,400) ({reading}): {hits:?}");
+    }
+    assert_eq!(scene(&state).globals["health1"], 1.0,
+        "the death threshold is injected, not shed by a contact");
 
-    step(&mut state); // the damaging tick + the warp it shares a frame with
+    step(&mut state); // the death-branch tick + the warp it shares a frame with
     assert_eq!(room_name(&state), "rm_mapview3");
     assert_eq!(scene(&state).globals["health1"], 1.0,
-        "the slime contact landed in rm_level17 (CODE 12 hitenemyslime)");
+        "no contact consumed health: the threshold stays exactly as injected");
     assert_eq!(scene(&state).globals["playerdied"], 1.0,
         "and reached the shipped death branch in the same Step");
     assert_eq!(cast(&state, YOUHAVEDIED), 0,

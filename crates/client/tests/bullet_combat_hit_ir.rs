@@ -60,7 +60,11 @@ fn player_bullet_spawn_travel_and_enemy_damage_and_xp_gain() {
         prev_bx = curr_bx;
     }
 
-    // Frame 4: bullet reaches bandit at x=1600 and hits
+    // Frame 4: bullet reaches the bandit neighborhood... WL7: the bandit's
+    // recorded box is [x-16,x+13) and it walks +4 px/tick, so the box overlap
+    // lands one tick later than the old full-rect geometry — measured hit on
+    // tick 5.
+    scene.tick(&bundle).unwrap();
     scene.tick(&bundle).unwrap();
 
     // Verify bullet destroyed on impact
