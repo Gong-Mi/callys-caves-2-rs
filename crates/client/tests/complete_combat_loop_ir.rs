@@ -40,8 +40,10 @@ fn complete_combat_loop_shoot_kill_loot_and_weapon_upgrade() {
         .map(|(id, _)| id)
         .expect("bullet spawned");
 
-    // 3. Tick 4 frames: bullet travels 100px and deals fatal hit to bandit
-    for _ in 0..4 {
+    // 3. Tick frames: bullet travels and deals the fatal hit to the bandit.
+    // WL7: the bandit's recorded box plus its +4 px/tick walk push the hit
+    // from tick 4 to tick 5 (same measurement as bullet_combat_hit_ir).
+    for _ in 0..5 {
         scene.tick(&bundle).unwrap();
     }
 
