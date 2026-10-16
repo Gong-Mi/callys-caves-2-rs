@@ -1099,6 +1099,8 @@ include!("parts/framebuffer.rs");
 
 include!("parts/font.rs");
 
+include!("parts/view_cull.rs");
+
 fn draw_sprite(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: usize, dst: (i32, i32, u32, u32), flip_x: bool) -> bool {
     draw_sprite_alpha(fb, state, sprite_id, frame, dst, flip_x, 1.0)
 }
@@ -1131,20 +1133,63 @@ fn unpack_color(color: i32) -> (u8, u8, u8) {
 /// origin, `image_blend` tint — or the fog flood when the original wrapped the
 /// call in `d3d_set_fog(true, c, 0, 0)` (the hit-flash pipeline).
 ///
+/// `cull` is the command-side view-culling guard (contract
+/// `gpu-command-backend.md` slice 2): a command that cannot put a pixel on the
+/// framebuffer is rejected here, before this frame's atlas page and atlas are
+/// resolved and before the blit is entered. It is pure bookkeeping — the
+/// argument only ever short-circuits work whose result the raster cannot
+/// observe — so passing `None` reproduces the pre-culling path bit for bit.
+///
 /// Returns false only when the sprite, its frame or its atlas page is missing,
 /// so the caller can fall back to a placeholder; a command that is simply
-/// invisible (alpha 0, zero scale) returns true with nothing drawn.
+/// invisible (alpha 0, zero scale, off-screen) returns true with nothing drawn.
 fn draw_ir_sprite(
     fb: &mut Framebuffer,
     state: &GameState,
     cmd: &callys_core::ir_scene::DrawCommand,
     cam: (f64, f64),
     screen_scale: (f32, f32),
+    cull: Option<&mut ViewCullStats>,
 ) -> bool {
     let Ok(sprite_id) = usize::try_from(cmd.sprite) else { return false; };
     let Some(sprite) = state.asset.sprites.get(&sprite_id) else { return false; };
     if sprite.tpag_indices.is_empty() { return false; }
     let frame = cmd.frame.max(0.0) as usize % sprite.tpag_indices.len();
+    // Screen position and scale of this draw, computed once: the culling guard
+    // below and the blit at the end must act on exactly the same numbers.
+    let dst_origin = ((cmd.x - cam.0) * screen_scale.0 as f64, (cmd.y - cam.1) * screen_scale.1 as f64);
+    let scale = (cmd.scale_x * screen_scale.0 as f64, cmd.scale_y * screen_scale.1 as f64);
+    if let Some(counters) = cull {
+        counters.sprite_tested += 1;
+        // The sprite box is the box `blit_sprite_gm` itself clips against
+        // (shared helper), so "guard rejects" and "blit writes nothing" cannot
+        // disagree. The placeholder test covers the one other way this command
+        // could still reach the screen: an unresolved page/atlas falls back to
+        // the caller's 32x32 box, which sits at the command position rather than
+        // at the sprite anchor, so it can be visible while the sprite is not.
+        let box_off_screen = sprite_screen_rect(
+            fb.width,
+            fb.height,
+            (sprite.width as f64, sprite.height as f64),
+            (sprite.origin_x as f64, sprite.origin_y as f64),
+            dst_origin,
+            scale,
+            cmd.rotation,
+        )
+        .is_none();
+        if box_off_screen {
+            if placeholder_writes_pixels(fb, cmd, cam, screen_scale) {
+                // Nothing this command can draw is on screen, but its fallback
+                // placeholder could be: keep it rather than risk a pixel. With
+                // the real assets every page resolves, so this class costs an
+                // entry in the counters and nothing else.
+                counters.sprite_placeholder_kept += 1;
+            } else {
+                counters.sprite_culled += 1;
+                return true;
+            }
+        }
+    }
     let Some(page) = state.asset.tpag_items.get(&(sprite.tpag_indices[frame] as usize)) else { return false; };
     let Some(atlas) = state.atlases.get(page.tex_id as usize) else { return false; };
     let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
@@ -1161,14 +1206,39 @@ fn draw_ir_sprite(
         (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
         (sprite.width as f64, sprite.height as f64),
         (sprite.origin_x as f64, sprite.origin_y as f64),
-        ((cmd.x - cam.0) * screen_scale.0 as f64, (cmd.y - cam.1) * screen_scale.1 as f64),
-        (cmd.scale_x * screen_scale.0 as f64, cmd.scale_y * screen_scale.1 as f64),
+        dst_origin,
+        scale,
         cmd.rotation,
         alpha,
         color,
         flood,
     );
     true
+}
+
+/// Whether the placeholder `draw_ir_commands` substitutes for a command whose
+/// sprite, frame page or atlas does not resolve could write a pixel: a 32x32 box
+/// at the command's own screen position, in the same f32 arithmetic the caller
+/// uses. Culling has to keep every such command, which is the difference between
+/// "the sprite box is off-screen" and "this command is unobservable" — dropping
+/// it is exactly how a guard like this loses pixels at the left/top edge.
+/// (The caller also requires `alpha > 0.0` for the placeholder; ignoring that
+/// here only keeps more commands.)
+fn placeholder_writes_pixels(
+    fb: &Framebuffer,
+    cmd: &callys_core::ir_scene::DrawCommand,
+    cam: (f64, f64),
+    screen_scale: (f32, f32),
+) -> bool {
+    let x = (((cmd.x - cam.0) as f32) * screen_scale.0) as i32;
+    let y = (((cmd.y - cam.1) as f32) * screen_scale.1) as i32;
+    // Framebuffer::fill_rect's clip, in i64 so a saturated coordinate cannot
+    // wrap the box.
+    let x0 = (x as i64).max(0);
+    let x1 = ((x as i64) + 32).min(fb.width as i64).max(0);
+    let y0 = (y as i64).max(0);
+    let y1 = ((y as i64) + 32).min(fb.height as i64).max(0);
+    x1 > x0 && y1 > y0
 }
 
 fn draw_tile(fb: &mut Framebuffer, state: &GameState, tile: &callys_asset::RoomTileInstance, cam_x: f32, cam_y: f32, scale_x: f32, scale_y: f32) -> bool {
@@ -1282,6 +1352,11 @@ fn draw_frame_inner(
     let mut scale_y = fb.height as f32 / 540.0;
     let mut view_origin = (0.0f64, 0.0f64);
     let mut view_active = false;
+    // Command-side view culling (contract slice 2): one flag read per frame, and
+    // the counters stay in a local until the frame is done, so a rasterised
+    // frame costs two atomics instead of one per command.
+    let cull_enabled = view_cull_enabled();
+    let mut cull_stats = ViewCullStats::default();
     // GM8.1 view projection: the runtime-visible index selects the ROOM view
     // rectangle. Keep Draw dispatch, camera origin, pointer unprojection and
     // framebuffer scale on that same index, including during the prologue.
@@ -1328,7 +1403,9 @@ fn draw_frame_inner(
                 }
             }
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
-            draw_ir_commands(fb, state, scene, view_origin, (scale_x, scale_y), true, &key.emissions);
+            draw_ir_commands(fb, state, scene, view_origin, (scale_x, scale_y), true, &key.emissions,
+                cull_enabled.then_some(&mut cull_stats));
+            publish_view_cull_stats(cull_stats);
             return;
         }
     }
@@ -1350,7 +1427,9 @@ fn draw_frame_inner(
 
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
-        draw_ir_commands(fb, state, scene, (cam_x, cam_y), (scale_x, scale_y), false, &key.emissions);
+        draw_ir_commands(fb, state, scene, (cam_x, cam_y), (scale_x, scale_y), false, &key.emissions,
+            cull_enabled.then_some(&mut cull_stats));
+        publish_view_cull_stats(cull_stats);
 
         // The IR scene already contains the original obj_UI button instances
         // (left/right/jump/shoot/sword/pause) and draw_view has emitted their
@@ -1532,10 +1611,15 @@ fn draw_frame_inner(
 
 /// Consume the common Scene order for prologue and gameplay. Primitive
 /// rasterizers are unchanged; camera/projection are supplied by draw_frame.
+///
+/// `cull` carries the command-side view-culling counters (contract
+/// `gpu-command-backend.md` slice 2); `None` disables the guard and reproduces
+/// the pre-culling path exactly.
 fn draw_ir_commands(
     fb: &mut Framebuffer, state: &GameState, scene: &callys_core::ir_scene::Scene,
     cam: (f64, f64), screen_scale: (f32, f32), intro: bool,
     emissions: &[callys_core::ir_scene::DrawEmission],
+    mut cull: Option<&mut ViewCullStats>,
 ) {
     use callys_core::ir_scene::DrawQueue;
     let (cam_x, cam_y) = cam;
@@ -1571,7 +1655,10 @@ fn draw_ir_commands(
             }
             DrawQueue::Sprite(i) => {
                 let cmd = &scene.draws[i];
-                if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y)) {
+                if let Some(counters) = cull.as_deref_mut() {
+                    counters.sprite_commands += 1;
+                }
+                if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y), cull.as_deref_mut()) {
                     let dst_x = ((cmd.x - cam_x) as f32 * scale_x) as i32;
                     let dst_y = ((cmd.y - cam_y) as f32 * scale_y) as i32;
                     let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
