@@ -23,7 +23,7 @@
 
 pub mod gles {
     use std::os::raw::{c_char, c_int, c_void};
-    use std::sync::{Mutex, OnceLock};
+    use std::sync::{Arc, Mutex, OnceLock};
 
     extern "C" {
         // EGL 1.4 (libEGL.so)
@@ -127,6 +127,11 @@ pub mod gles {
         );
         fn glDrawArrays(mode: u32, first: c_int, count: c_int);
         fn glUniform1i(location: c_int, v0: c_int);
+        // Only consumed by the recovery re-upload path (contract slice 6): the
+        // first driver error after a resident-set upload is logged once, so a
+        // silent no-op upload cannot be mistaken for a successful one.
+        fn glGetError() -> u32;
+        fn glDeleteTextures(n: c_int, textures: *const u32);
 
         // libandroid.so: turn a Java Surface into an EGL window.
         fn ANativeWindow_fromSurface(env: *mut c_void, surface: *mut c_void) -> *mut c_void;
@@ -154,6 +159,7 @@ pub mod gles {
     const EGL_HEIGHT: c_int = 0x3056;
     const EGL_CONTEXT_CLIENT_VERSION: c_int = 0x3098;
     const EGL_VENDOR: c_int = 0x3053;
+    const EGL_DRAW: c_int = 0x3059;
 
     const GL_TEXTURE_2D: u32 = 0x0DE1;
     const GL_RGBA: u32 = 0x1908;
@@ -198,6 +204,250 @@ pub mod gles {
         }
     }
 
+    /// One page texture the command backend keeps on the GPU and wants back
+    /// after an EGL context loss (contract slice 6).
+    ///
+    /// The bytes are OWNED (`Arc<[u8]>`), not borrowed. A `*const u8` from the
+    /// caller would have to stay valid across every future `present()`, on a
+    /// presenter that is `Send` and locked from more than one thread - a
+    /// lifetime no safe API can promise, and a dangling read waiting to happen
+    /// in the recovery path. Sharing the caller's decoded page cache costs one
+    /// atomic reference count and keeps production callers `unsafe`-free.
+    pub struct ResidentTexture {
+        /// Caller's page id (the TPAG page id in the command backend).
+        pub id: u32,
+        /// GL texture name while this entry has a known-good GPU copy; 0 = none.
+        pub texture: u32,
+        /// The page's bytes, `width * height * 4` of them. Recovery re-uploads
+        /// from here - never from a decode.
+        pub bytes: Arc<[u8]>,
+        pub width: u32,
+        pub height: u32,
+        /// The GPU copy holds `bytes` (the last upload reported no error).
+        resident_on_gpu: bool,
+    }
+
+    impl ResidentTexture {
+        /// A page with no GPU copy yet: the state a caller registers in. The
+        /// extent/byte agreement is not checked here - `ResidentSet::register`
+        /// owns that, so nothing can bypass the validation by building the value
+        /// directly.
+        pub fn new(id: u32, bytes: Arc<[u8]>, width: u32, height: u32) -> Self {
+            Self {
+                id,
+                texture: 0,
+                bytes,
+                width,
+                height,
+                resident_on_gpu: false,
+            }
+        }
+    }
+
+    /// Why a registration was refused.
+    #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+    pub enum ResidentError {
+        /// Empty byte buffer.
+        Empty,
+        /// `width * height * 4` overflowed, or does not equal the byte count.
+        ExtentMismatch,
+        /// A dimension is zero or does not fit the GL `c_int` argument.
+        ExtentTooLarge,
+        /// The id is already registered: the page set has one owner.
+        DuplicateId,
+    }
+
+    /// What one entry's GL upload attempt produced, as the accounting core sees
+    /// it. Public so the failure / partial-success / retry matrix is testable
+    /// without a GL context in the process.
+    #[derive(Clone, Copy, Debug)]
+    pub struct ResidentUploadResult {
+        /// Index into `ResidentSet::entries()`.
+        pub index: usize,
+        /// GL error the upload reported; 0 means "nothing reported".
+        pub error: u32,
+        /// The GL name the entry should hold afterwards. 0 = no usable copy,
+        /// whatever `error` says (`glGenTextures` failing returns 0 *without*
+        /// setting an error, so an error-only test would call that a success).
+        pub texture: u32,
+    }
+
+    /// The presenter's resident page-texture set.
+    ///
+    /// Default-empty, and an empty set is a strict no-op on every path:
+    /// `needs_reupload()` stays false, so `present()` runs exactly the frame it
+    /// ran before this slice and `reset_display()` only clears a set that was
+    /// already empty. That is what keeps the shipped recovery behaviour
+    /// bit-identical (regression: the javm64 loss legs stay 8/10 with
+    /// first_ok=3 and a byte-equal post-loss frame).
+    ///
+    /// On a context loss the GL names die but the caller's bytes do not, so the
+    /// set keeps its entries and only marks itself dirty: the next present that
+    /// gets a live context re-uploads the whole set.
+    #[derive(Default)]
+    pub struct ResidentSet {
+        entries: Vec<ResidentTexture>,
+        /// GL names that were alive when their entry left the set. Deleting a
+        /// name needs a current context on the calling thread, so they wait here
+        /// rather than being forgotten (a forgotten name pins VRAM for the whole
+        /// session), and are only dropped once the delete really ran.
+        pending_deletes: Vec<u32>,
+        uploaded_entries: u64,
+        uploaded_bytes: u64,
+        failed_entries: u64,
+    }
+
+    impl ResidentSet {
+        /// Register one page texture. Extent and byte count are checked with
+        /// `checked_mul` and against the GL `c_int` argument range, so a bad
+        /// registration can never become an out-of-bounds driver read.
+        pub fn register(&mut self, entry: ResidentTexture) -> Result<(), ResidentError> {
+            if entry.bytes.is_empty() {
+                return Err(ResidentError::Empty);
+            }
+            if entry.width == 0
+                || entry.height == 0
+                || entry.width > c_int::MAX as u32
+                || entry.height > c_int::MAX as u32
+            {
+                return Err(ResidentError::ExtentTooLarge);
+            }
+            let expected = (entry.width as usize)
+                .checked_mul(entry.height as usize)
+                .and_then(|pixels| pixels.checked_mul(4))
+                .ok_or(ResidentError::ExtentMismatch)?;
+            if expected != entry.bytes.len() {
+                return Err(ResidentError::ExtentMismatch);
+            }
+            if self.entries.iter().any(|e| e.id == entry.id) {
+                return Err(ResidentError::DuplicateId);
+            }
+            self.entries.push(entry);
+            Ok(())
+        }
+
+        /// Remove one entry. A live GL name is queued for deletion, never
+        /// dropped: only a thread with a current context can delete it.
+        pub fn unregister(&mut self, id: u32) -> bool {
+            let Some(position) = self.entries.iter().position(|e| e.id == id) else {
+                return false;
+            };
+            let entry = self.entries.remove(position);
+            if entry.texture != 0 {
+                self.pending_deletes.push(entry.texture);
+            }
+            true
+        }
+
+        pub fn clear(&mut self) {
+            for entry in self.entries.drain(..) {
+                if entry.texture != 0 {
+                    self.pending_deletes.push(entry.texture);
+                }
+            }
+        }
+
+        pub fn len(&self) -> usize {
+            self.entries.len()
+        }
+
+        pub fn is_empty(&self) -> bool {
+            self.entries.is_empty()
+        }
+
+        pub fn entries(&self) -> &[ResidentTexture] {
+            &self.entries
+        }
+
+        /// CPU bytes one recovery pass has to move for the whole set.
+        pub fn bytes(&self) -> usize {
+            self.entries.iter().map(|e| e.bytes.len()).sum()
+        }
+
+        /// True while any entry lacks a known-good GPU copy - what the recovery
+        /// frame checks. An empty set is never dirty.
+        pub fn needs_reupload(&self) -> bool {
+            self.entries.iter().any(|e| !e.resident_on_gpu)
+        }
+
+        pub fn uploaded_totals(&self) -> (u64, u64) {
+            (self.uploaded_entries, self.uploaded_bytes)
+        }
+
+        pub fn failed_total(&self) -> u64 {
+            self.failed_entries
+        }
+
+        /// Resident work is part of the frame's dirty state, even if the
+        /// software framebuffer bytes did not change.
+        pub fn has_pending_maintenance(&self) -> bool {
+            self.needs_reupload() || !self.pending_deletes.is_empty()
+        }
+
+        pub fn pending_delete_names(&self) -> &[u32] {
+            &self.pending_deletes
+        }
+
+        /// Forget the first `n` queued names because their delete really ran.
+        pub fn confirm_pending_deletes(&mut self, n: usize) {
+            let n = n.min(self.pending_deletes.len());
+            self.pending_deletes.drain(..n);
+        }
+
+        /// The context died, so every GL name in this set died with it - queued
+        /// deletes included. The bytes stay: that RAM cache is the recovery
+        /// source, which is the whole point of this slice.
+        pub fn on_context_lost(&mut self) {
+            self.pending_deletes.clear();
+            for entry in &mut self.entries {
+                entry.texture = 0;
+                entry.resident_on_gpu = false;
+            }
+        }
+
+        fn entry(&self, index: usize) -> Option<&ResidentTexture> {
+            self.entries.get(index)
+        }
+
+        /// The accounting core of a re-upload pass: an entry counts as uploaded
+        /// ONLY when its upload reported no error AND ended with a usable GL
+        /// name; anything else keeps the entry dirty and zeroes its name, so the
+        /// next frame retries it instead of a failure being papered over by a
+        /// log line. Returns `(entries, bytes)` really uploaded.
+        pub fn apply_upload_results(&mut self, results: &[ResidentUploadResult]) -> (usize, usize) {
+            let mut entries = 0usize;
+            let mut bytes = 0usize;
+            let mut failed = 0usize;
+            for result in results {
+                let Some(entry) = self.entries.get_mut(result.index) else {
+                    continue;
+                };
+                if result.error == 0 && result.texture != 0 {
+                    entry.texture = result.texture;
+                    entry.resident_on_gpu = true;
+                    entries += 1;
+                    bytes += entry.bytes.len();
+                } else {
+                    // Invalidate the copy, not our ownership of its GL name.
+                    // A failed refresh still owns the old name; a failed create
+                    // may have generated a new one before TexImage failed.
+                    for name in [entry.texture, result.texture] {
+                        if name != 0 && !self.pending_deletes.contains(&name) {
+                            self.pending_deletes.push(name);
+                        }
+                    }
+                    entry.texture = 0;
+                    entry.resident_on_gpu = false;
+                    failed += 1;
+                }
+            }
+            self.uploaded_entries += entries as u64;
+            self.uploaded_bytes += bytes as u64;
+            self.failed_entries += failed as u64;
+            (entries, bytes)
+        }
+    }
+
     pub struct Presenter {
         display: *mut c_void,
         context: *mut c_void,
@@ -225,6 +475,18 @@ pub mod gles {
         /// `force_next_present` (host surface events). Only a successful
         /// present clears it.
         force_present: bool,
+        /// Page textures the command backend keeps resident (contract slice 6).
+        /// Empty by default: nothing about the presentation path below depends
+        /// on a non-empty set.
+        resident: ResidentSet,
+        /// Rate-limits the "no current context on this thread" log: a recovery
+        /// retry can hit it on every frame until a context comes back.
+        resident_context_miss_logged: bool,
+        /// Harness-only one-shot upload fault injection, so the failure/retry
+        /// branch is exercised against the real driver too (see
+        /// `upload_resident_entry`). Never compiled into the shipped `.so`.
+        #[cfg(feature = "harness")]
+        resident_upload_fault: Option<usize>,
     }
 
     // Only ever touched behind the mutex below; see the module comment.
@@ -258,6 +520,10 @@ pub mod gles {
                 blit_miss_logged: false,
                 last_presented: Vec::new(),
                 force_present: true,
+                resident: ResidentSet::default(),
+                resident_context_miss_logged: false,
+                #[cfg(feature = "harness")]
+                resident_upload_fault: None,
             }
         }
 
@@ -292,6 +558,281 @@ pub mod gles {
         /// frame must be shown even when it did not change meanwhile.
         pub fn force_next_present(&mut self) {
             self.force_present = true;
+        }
+
+        // ---- resident page-texture set (contract slice 6) -------------------
+        //
+        // Shape only in this slice: the set is registered, survives a context
+        // loss in RAM, and is re-uploaded on the recovery frame. Nothing draws
+        // from it yet - the GPU command backend (slice 4) is what registers its
+        // page textures here and samples them; until then the default set is
+        // empty and every method below is inert.
+
+        /// Register a page texture the caller keeps decoded in RAM. Ownership of
+        /// the bytes is shared (`Arc<[u8]>`), so no borrow of caller memory ever
+        /// outlives this call. Returns the reason for a refusal (empty bytes,
+        /// duplicate id, extent/byte mismatch, extent that does not fit the GL
+        /// `c_int` arguments).
+        pub fn register_resident_texture(
+            &mut self,
+            id: u32,
+            bytes: Arc<[u8]>,
+            width: u32,
+            height: u32,
+        ) -> Result<(), ResidentError> {
+            let len = bytes.len();
+            let result = self.resident.register(ResidentTexture {
+                id,
+                texture: 0,
+                bytes,
+                width,
+                height,
+                resident_on_gpu: false,
+            });
+            match result {
+                Ok(()) => log(&format!(
+                    "resident register id={id} {width}x{height} bytes={len} set={} set_bytes={}",
+                    self.resident.len(),
+                    self.resident.bytes()
+                )),
+                Err(error) => log(&format!("resident register id={id} refused: {error:?}")),
+            }
+            result
+        }
+
+        pub fn unregister_resident_texture(&mut self, id: u32) -> bool {
+            self.resident.unregister(id)
+        }
+
+        pub fn clear_resident_textures(&mut self) {
+            self.resident.clear();
+        }
+
+        pub fn resident_texture_count(&self) -> usize {
+            self.resident.len()
+        }
+
+        pub fn resident_texture_bytes(&self) -> usize {
+            self.resident.bytes()
+        }
+
+        pub fn resident_needs_reupload(&self) -> bool {
+            self.resident.needs_reupload()
+        }
+
+        /// `(entries, bytes)` uploaded by every re-upload pass so far - the
+        /// evidence that a recovery frame really moved the resident set.
+        pub fn resident_upload_totals(&self) -> (u64, u64) {
+            self.resident.uploaded_totals()
+        }
+
+        pub fn resident_entries(&self) -> &[ResidentTexture] {
+            self.resident.entries()
+        }
+
+        /// Uploads that reported a usable GL name, cumulatively, and the ones
+        /// that did not - the evidence that a recovery pass really moved the set
+        /// (and that retries happened instead of failures being swallowed).
+        pub fn resident_failed_uploads(&self) -> u64 {
+            self.resident.failed_total()
+        }
+
+        /// GL names queued by unregister/clear that have not been deleted yet,
+        /// because no context was current on the calling thread.
+        pub fn resident_pending_deletes(&self) -> usize {
+            self.resident.pending_delete_names().len()
+        }
+
+        /// The BOOKKEEPING half of the re-upload gate: a non-empty set and EGL
+        /// state that looks usable. It deliberately does NOT claim the calling
+        /// thread has a current context - only the GL entry can check that, and
+        /// `reupload_resident_set()` does, with `eglGetCurrentContext()` /
+        /// `eglGetCurrentDisplay()` / `eglGetCurrentSurface()` against this
+        /// presenter's handles, before a single GL call. Public and GL-free so
+        /// the decision stays testable in a process without a context.
+        pub fn resident_reupload_ready(&self) -> bool {
+            !self.resident.is_empty() && self.egl_state_live()
+        }
+
+        /// The state `present()` maintains while a context is live. Necessarily
+        /// weaker than the truth: another thread may own the context.
+        fn egl_state_live(&self) -> bool {
+            self.display != EGL_NO_DISPLAY
+                && self.context != EGL_NO_CONTEXT
+                && self.surface != EGL_NO_SURFACE
+        }
+
+        /// Whether THIS thread has this presenter's context - and its window
+        /// surface - current right now. Asking the driver is the only answer
+        /// that also covers "another thread owns the context"; guessing from
+        /// state would issue GL calls into whatever the thread really has
+        /// current (or none).
+        unsafe fn context_is_current_here(&self) -> bool {
+            self.egl_state_live()
+                && eglGetCurrentContext() == self.context
+                && eglGetCurrentDisplay() == self.display
+                && eglGetCurrentSurface(EGL_DRAW) == self.surface
+        }
+
+        /// Delete the GL names that `unregister`/`clear` queued. They are never
+        /// dropped, only queued, and only forgotten after the delete really ran
+        /// on a thread with a current context - otherwise the name would pin
+        /// VRAM for the session. `present()` calls this every frame; it is
+        /// public for teardown paths outside a frame. Returns names deleted.
+        pub fn flush_resident_deletes(&mut self) -> usize {
+            if self.resident.pending_delete_names().is_empty() {
+                return 0;
+            }
+            if !unsafe { self.context_is_current_here() } {
+                // Not our thread / no context: keep them queued.
+                return 0;
+            }
+            let names: Vec<u32> = self.resident.pending_delete_names().to_vec();
+            unsafe {
+                glDeleteTextures(names.len() as c_int, names.as_ptr());
+                if glGetError() != 0 {
+                    log(&format!(
+                        "resident: glDeleteTextures of {} queued names reported an error; kept queued",
+                        names.len()
+                    ));
+                    return 0;
+                }
+            }
+            let deleted = names.len();
+            self.resident.confirm_pending_deletes(deleted);
+            log(&format!(
+                "resident: deleted {deleted} GL texture(s) queued by unregister/clear"
+            ));
+            deleted
+        }
+
+        /// Re-upload the whole resident set into the live context: the recovery
+        /// step of contract slice 6. Per entry, a dead name is rebuilt
+        /// (`glTexImage2D`) and a live one refreshed in place
+        /// (`glTexSubImage2D`) - upload-only, no decode.
+        ///
+        /// Returns `(entries, bytes)` REALLY uploaded this pass. `(0, 0)` when
+        /// the set is empty, or when this thread does not have the context
+        /// current - in which case not a single GL call is made and the set
+        /// stays dirty for the next frame. Entries whose upload failed are not
+        /// counted and keep their dirty flag, so the next frame retries them
+        /// instead of the loss being logged as success.
+        pub fn reupload_resident_set(&mut self) -> (usize, usize) {
+            if !self.resident_reupload_ready() {
+                return (0, 0);
+            }
+            if !unsafe { self.context_is_current_here() } {
+                if !self.resident_context_miss_logged {
+                    log(&format!(
+                        "resident reupload: {} entries deferred - this thread has no current context (nothing touched)",
+                        self.resident.len()
+                    ));
+                    self.resident_context_miss_logged = true;
+                }
+                return (0, 0);
+            }
+            self.resident_context_miss_logged = false;
+            let mut results = Vec::with_capacity(self.resident.len());
+            for index in 0..self.resident.len() {
+                let existing = self.resident.entry(index).map(|e| e.texture).unwrap_or(0);
+                let (error, texture) = self.upload_resident_entry(index, existing);
+                results.push(ResidentUploadResult {
+                    index,
+                    error,
+                    texture,
+                });
+            }
+            unsafe {
+                // Leave unit 0 unbound: the frame upload below owns it next.
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
+            let (entries, bytes) = self.resident.apply_upload_results(&results);
+            let still_dirty = self
+                .resident
+                .entries()
+                .iter()
+                .filter(|entry| !entry.resident_on_gpu)
+                .count();
+            log(&format!(
+                "resident reupload: {entries}/{} textures, {bytes} bytes (upload-only from owned RAM), still_dirty={still_dirty}",
+                self.resident.len()
+            ));
+            (entries, bytes)
+        }
+
+        /// Uploads entry `index` into the current context. Returns the GL error
+        /// (0 = none reported) and the name the entry should hold afterwards.
+        /// A `glGenTextures` that returns 0 is a FAILURE even though it sets no
+        /// error. A failed rebuild returns any generated name so the owning
+        /// ResidentSet can defer deletion without losing its ownership.
+        fn upload_resident_entry(&mut self, index: usize, existing: u32) -> (u32, u32) {
+            let (bytes, width, height) = match self.resident.entry(index) {
+                Some(entry) => (Arc::clone(&entry.bytes), entry.width, entry.height),
+                None => return (0, 0),
+            };
+            #[cfg(feature = "harness")]
+            if self.resident_upload_fault == Some(index) {
+                // Harness-only, one-shot: exercises the real failure/retry branch
+                // against the driver (the unit tests cover the accounting; this
+                // covers the branch that talks to the GPU).
+                self.resident_upload_fault = None;
+                log(&format!(
+                    "resident harness fault: upload of entry {index} forced to fail once"
+                ));
+                return (0x0505 /* GL_OUT_OF_MEMORY */, existing);
+            }
+            unsafe {
+                if existing == 0 {
+                    let mut tex = [0u32; 1];
+                    glGenTextures(1, tex.as_mut_ptr());
+                    if tex[0] == 0 {
+                        // No name and no error: still a failure.
+                        return (0, 0);
+                    }
+                    glBindTexture(GL_TEXTURE_2D, tex[0]);
+                    // The frame texture's sampling contract, per page: pixel art
+                    // is never smoothed and pages are never wrapped.
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    glTexImage2D(
+                        GL_TEXTURE_2D,
+                        0,
+                        GL_RGBA as c_int,
+                        width as c_int,
+                        height as c_int,
+                        0,
+                        GL_RGBA,
+                        GL_UNSIGNED_BYTE,
+                        bytes.as_ptr() as *const c_void,
+                    );
+                    let error = glGetError();
+                    if error != 0 {
+                        // Account for this name even though its upload failed.
+                        // The context-owned queue deletes it on the next flush.
+                        return (error, tex[0]);
+                    }
+                    (0, tex[0])
+                } else {
+                    glBindTexture(GL_TEXTURE_2D, existing);
+                    glTexSubImage2D(
+                        GL_TEXTURE_2D,
+                        0,
+                        0,
+                        0,
+                        width as c_int,
+                        height as c_int,
+                        GL_RGBA,
+                        GL_UNSIGNED_BYTE,
+                        bytes.as_ptr() as *const c_void,
+                    );
+                    let error = glGetError();
+                    // The name remains owned even when the refresh fails;
+                    // apply_upload_results queues it before invalidating it.
+                    (error, existing)
+                }
+            }
         }
 
         pub fn release(&mut self) {
@@ -334,6 +875,18 @@ pub mod gles {
             // The framebuffer behind last_presented no longer exists on the
             // GPU: the next present must repaint even on an unchanged frame.
             self.force_present = true;
+            // Contract slice 6: the page textures the command backend keeps
+            // resident died with this context too - queued deletes included, so
+            // they are dropped rather than deleted later into a fresh context.
+            // The bytes stay: that RAM cache IS the recovery source. With an
+            // empty set this is a no-op, which is why the shipped recovery path
+            // is unchanged.
+            //
+            // TODO(slice 4/6): the GPU command backend registers its page
+            // textures here (TPAG page id -> decoded page bytes) and draws from
+            // the same ids. Until that lands, the set only holds what a caller
+            // (the headless harness) registers, and nothing samples it.
+            self.resident.on_context_lost();
         }
 
         /// Upload one BGRA frame and swap, unless it is byte-identical to the
@@ -353,6 +906,7 @@ pub mod gles {
             // present clears `force_present`, so a rebuilt surface or a host
             // surface event can never be eaten by this check.
             if !self.force_present
+                && !self.resident.has_pending_maintenance()
                 && self.last_presented.len() == pixels.len()
                 && self.last_presented.as_slice() == pixels
             {
@@ -373,6 +927,15 @@ pub mod gles {
                 }
                 if self.surface_width <= 0 || self.surface_height <= 0 {
                     return false;
+                }
+                // Contract slice 6, two things that need a live context on THIS
+                // thread: names queued by unregister/clear are deleted here, and
+                // the recovery frame puts the resident page set back on the GPU
+                // - upload-only, from the owned bytes. With an empty set both are
+                // no-ops, so the default frame below is untouched.
+                self.flush_resident_deletes();
+                if self.resident.needs_reupload() {
+                    self.reupload_resident_set();
                 }
                 glViewport(0, 0, self.surface_width, self.surface_height);
                 glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -637,6 +1200,11 @@ pub mod gles {
     extern "C" {
         fn eglTerminate(dpy: *mut c_void) -> u32;
         fn eglDestroyContext(dpy: *mut c_void, ctx: *mut c_void) -> u32;
+        // The only trustworthy answer to "does THIS thread own the context":
+        // `reupload_resident_set` asks before it touches any GL state.
+        fn eglGetCurrentContext() -> *mut c_void;
+        fn eglGetCurrentDisplay() -> *mut c_void;
+        fn eglGetCurrentSurface(readdraw: c_int) -> *mut c_void;
     }
 
     /// The process-wide presenter, behind one mutex (see the module comment).
@@ -652,5 +1220,326 @@ pub mod gles {
             return std::ptr::null_mut();
         }
         unsafe { ANativeWindow_fromSurface(env, surface) }
+    }
+
+    /// Headless-harness bridge for the resident-set recovery measurement
+    /// (contract slice 6). Compiled only with `--features android,harness`, so
+    /// the shipped APK keeps exactly the production JNI surface: these entry
+    /// points exist for `~/cally-work/gmbench/Recspike64.java`, the javm64 shell
+    /// that injects an EGL loss and A/Bs "empty set (status quo)" against "N
+    /// registered page textures" through the REAL recovery path. Reimplementing
+    /// the re-upload in Java would measure the harness instead of the presenter.
+    ///
+    /// The harness class is not in `android-build/` on purpose (the host's Java
+    /// sources are not this slice's to edit): a native's JNI symbol is bound to
+    /// its DECLARING class, so the harness declares these natives in its own
+    /// class and this module exports the matching names.
+    #[cfg(all(target_os = "android", feature = "android", feature = "harness"))]
+    mod harness_bridge {
+        use super::*;
+
+        const JNI_TRUE: u8 = 1;
+        const JNI_FALSE: u8 = 0;
+
+        extern "C" {
+            // FBO readback, used only by the content checksum below.
+            fn glGenFramebuffers(n: c_int, framebuffers: *mut u32);
+            fn glBindFramebuffer(target: u32, framebuffer: u32);
+            fn glFramebufferTexture2D(
+                target: u32,
+                attachment: u32,
+                textarget: u32,
+                texture: u32,
+                level: c_int,
+            );
+            fn glCheckFramebufferStatus(target: u32) -> u32;
+            fn glReadPixels(
+                x: c_int,
+                y: c_int,
+                width: c_int,
+                height: c_int,
+                format: u32,
+                ty: u32,
+                pixels: *mut c_void,
+            );
+            fn glDeleteFramebuffers(n: c_int, framebuffers: *const u32);
+        }
+
+        const GL_FRAMEBUFFER: u32 = 0x8D40;
+        const GL_COLOR_ATTACHMENT0: u32 = 0x8CE0;
+        const GL_FRAMEBUFFER_COMPLETE: u32 = 0x8CD5;
+
+        fn with_presenter<R>(f: impl FnOnce(&mut Presenter) -> R) -> Option<R> {
+            let mut guard = match presenter().lock() {
+                Ok(guard) => guard,
+                Err(poisoned) => poisoned.into_inner(),
+            };
+            Some(f(&mut guard))
+        }
+
+        /// Bridge diagnostics: logcat is flooded on this device, so the harness
+        /// needs its evidence on the process' stdout (the run log) as well.
+        fn note(message: &str) {
+            log(message);
+            println!("[recspike-bridge] {message}");
+            use std::io::Write;
+            let _ = std::io::stdout().flush();
+        }
+
+        /// FNV-1a over the GPU-side bytes of a resident texture, or -1 when the
+        /// texture is not readable (no GL copy, FBO not renderable). Proves the
+        /// re-upload put the caller's bytes BACK on the GPU, not just that some
+        /// upload call happened.
+        fn gpu_checksum(texture: u32, width: u32, height: u32) -> i64 {
+            if texture == 0 || width == 0 || height == 0 {
+                return -1;
+            }
+            unsafe {
+                let mut fbo = [0u32; 1];
+                glGenFramebuffers(1, fbo.as_mut_ptr());
+                glBindFramebuffer(GL_FRAMEBUFFER, fbo[0]);
+                glFramebufferTexture2D(
+                    GL_FRAMEBUFFER,
+                    GL_COLOR_ATTACHMENT0,
+                    GL_TEXTURE_2D,
+                    texture,
+                    0,
+                );
+                if glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE {
+                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                    glDeleteFramebuffers(1, fbo.as_ptr());
+                    return -1;
+                }
+                let len = (width as usize) * (height as usize) * 4;
+                let mut pixels = vec![0u8; len];
+                glReadPixels(
+                    0,
+                    0,
+                    width as c_int,
+                    height as c_int,
+                    GL_RGBA,
+                    GL_UNSIGNED_BYTE,
+                    pixels.as_mut_ptr() as *mut c_void,
+                );
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                glDeleteFramebuffers(1, fbo.as_ptr());
+                let mut hash: u64 = 0xcbf2_9ce4_8422_2325; // FNV-1a 64 offset basis
+                for byte in &pixels {
+                    hash ^= *byte as u64;
+                    hash = hash.wrapping_mul(0x0000_0100_0000_01b3); // FNV-1a 64 prime
+                }
+                hash as i64
+            }
+        }
+
+        /// Hard ceiling for one harness-registered page: a typo in the length
+        /// argument must not turn into a multi-gigabyte copy.
+        const MAX_HARNESS_PAGE_BYTES: i64 = 512 * 1024 * 1024;
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentRegister(
+            _env: *mut c_void,
+            _class: *mut c_void,
+            id: c_int,
+            addr: i64,
+            len: c_int,
+            width: c_int,
+            height: c_int,
+        ) -> u8 {
+            // `addr` is an Android native address: those live at 0xb4000000_00000000
+            // and above, so as a SIGNED i64 they are NEGATIVE. An `addr <= 0`
+            // guard therefore rejects every real pointer (an earlier revision did
+            // exactly that, and both A/B legs silently measured the empty set).
+            // Only a null address is invalid.
+            if addr == 0
+                || len <= 0
+                || width <= 0
+                || height <= 0
+                || (len as i64) > MAX_HARNESS_PAGE_BYTES
+            {
+                note(&format!(
+                    "register REJECTED at the bridge id={id} addr=0x{addr:x} len={len} {width}x{height} (bad argument)"
+                ));
+                return JNI_FALSE;
+            }
+            // The ONE unsafe read in this bridge: the harness (Recspike64) hands
+            // over a native buffer it allocated with Unsafe.allocateMemory and
+            // keeps for the whole run. Copying it into an owned `Arc<[u8]>` here
+            // is what keeps the production API safe - no borrow of harness memory
+            // survives into a later present() - and it happens outside the
+            // measured recovery window.
+            let owned: Arc<[u8]> =
+                unsafe { std::slice::from_raw_parts(addr as usize as *const u8, len as usize) }.into();
+            let result = with_presenter(|p| {
+                p.register_resident_texture(id as u32, owned, width as u32, height as u32)
+            });
+            let accepted = matches!(result, Some(Ok(())));
+            note(&format!(
+                "bridge register id={id} addr=0x{addr:x} len={len} {width}x{height} accepted={accepted}"
+            ));
+            if accepted {
+                JNI_TRUE
+            } else {
+                JNI_FALSE
+            }
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentUnregister(
+            _env: *mut c_void,
+            _class: *mut c_void,
+            id: c_int,
+        ) -> u8 {
+            let removed =
+                with_presenter(|p| p.unregister_resident_texture(id as u32)).unwrap_or(false);
+            if removed {
+                JNI_TRUE
+            } else {
+                JNI_FALSE
+            }
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentClear(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) {
+            let _ = with_presenter(|p| p.clear_resident_textures());
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentCount(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> c_int {
+            with_presenter(|p| p.resident_texture_count() as c_int).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentBytes(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> i64 {
+            with_presenter(|p| p.resident_texture_bytes() as i64).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentNeedsReupload(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> u8 {
+            let dirty = with_presenter(|p| p.resident_needs_reupload()).unwrap_or(false);
+            if dirty {
+                JNI_TRUE
+            } else {
+                JNI_FALSE
+            }
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentReupload(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> c_int {
+            with_presenter(|p| p.reupload_resident_set().0 as c_int).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentUploadedEntries(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> i64 {
+            with_presenter(|p| p.resident_upload_totals().0 as i64).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentUploadedBytes(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> i64 {
+            with_presenter(|p| p.resident_upload_totals().1 as i64).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentChecksum(
+            _env: *mut c_void,
+            _class: *mut c_void,
+            id: c_int,
+        ) -> i64 {
+            with_presenter(|p| {
+                p.resident_entries()
+                    .iter()
+                    .find(|e| e.id == id as u32)
+                    .map(|e| gpu_checksum(e.texture, e.width, e.height))
+                    .unwrap_or(-1)
+            })
+            .unwrap_or(-1)
+        }
+
+        /// Failed upload attempts, cumulatively: a non-zero value next to a
+        /// restored checksum is the on-device proof that a failure was retried
+        /// rather than counted as success.
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentFailedUploads(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> i64 {
+            with_presenter(|p| p.resident_failed_uploads() as i64).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentPendingDeletes(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> c_int {
+            with_presenter(|p| p.resident_pending_deletes() as c_int).unwrap_or(0)
+        }
+
+        /// The bookkeeping half of the re-upload gate (no GL call).
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentReuploadReady(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> u8 {
+            let ready = with_presenter(|p| p.resident_reupload_ready()).unwrap_or(false);
+            if ready {
+                JNI_TRUE
+            } else {
+                JNI_FALSE
+            }
+        }
+
+        /// Whether the presenting thread really has the presenter's context
+        /// current (the GL entry's own check, exposed so the harness can show it
+        /// flips to 0 when the display is terminated).
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentContextCurrent(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> u8 {
+            let current = with_presenter(|p| unsafe { p.context_is_current_here() }).unwrap_or(false);
+            if current {
+                JNI_TRUE
+            } else {
+                JNI_FALSE
+            }
+        }
+
+        /// Harness-only, one-shot: make the next upload of `index` fail, so the
+        /// failure -> dirty -> retry path is exercised against the real driver.
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentInjectUploadFault(
+            _env: *mut c_void,
+            _class: *mut c_void,
+            index: c_int,
+        ) {
+            let _ = with_presenter(|p| {
+                if index >= 0 {
+                    p.resident_upload_fault = Some(index as usize);
+                } else {
+                    p.resident_upload_fault = None;
+                }
+            });
+        }
     }
 }
