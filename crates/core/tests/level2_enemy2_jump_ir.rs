@@ -33,6 +33,14 @@ fn level2_scene() -> (callys_core::code_vm::Bundle, Scene, i32, i32) {
                 frames: sp.tpag_indices.len().max(1) as f64,
             },
         );
+        // WL7: the recorded bbox travels with the bounds — without it the
+        // shared box source has no geometry and instances box as points.
+        if let Some(bbox) = sp.bbox {
+            s.sprite_bboxes.insert(*sid as i32, bbox);
+        }
+        if !sp.masks.is_empty() {
+            s.sprite_masks.insert(*sid as i32, sp.masks.clone());
+        }
     }
     s.load_room_from_data(&bundle, 0, &asset.rooms[0]).expect("load rm_town");
     s.transition_to_room(&bundle, 2, &asset.rooms[2]).expect("warp town -> rm_level2");
@@ -79,7 +87,11 @@ fn enemy2_jump_cycle_arms_launches_and_resets_attack_sprite() {
     let mut rhythm_rearmed = false;
     let mut was_attack = false;
     let mut prev_vs = 0.0;
-    for _ in 0..90 {
+    // WL7 measured cadence with the recorded bbox wired: launches land on
+    // t15 and t90 (a 75-tick cycle — the recorded box changes the landing
+    // time, not the mechanism). The 90-tick window that held two launches
+    // under the old full-rect boxes now holds one, so the window is 150.
+    for t in 0..150 {
         s.tick(&bundle).unwrap();
         let i = &s.instances[&e2];
         let active_now = i.active;
