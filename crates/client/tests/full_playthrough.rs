@@ -211,6 +211,69 @@ fn walk_door(state: &mut GameState, target: f64, expect_name: &str) {
     );
 }
 
+/// par_enemy descendants declared by the bundle — the family every one of
+/// CODE 12's `instance_place(x, y, obj_*)` contact selectors is drawn from.
+fn enemy_family(bundle: &callys_core::code_vm::Bundle) -> BTreeSet<i32> {
+    let root = bundle.objects.iter()
+        .find(|object| object.name == "par_enemy")
+        .expect("par_enemy in the bundle")
+        .id;
+    bundle.objects.iter()
+        .filter(|object| object.parent_chain.contains(&root))
+        .map(|object| object.id)
+        .collect()
+}
+
+fn box_overlap(a: (f64, f64, f64, f64), b: (f64, f64, f64, f64)) -> bool {
+    a.0 < b.1 && a.1 > b.0 && a.2 < b.3 && a.3 > b.2
+}
+
+/// The original runner's instance box (`Compute_BoundingBox`): the recorded SPRT
+/// bbox margins, not the sprite rectangle the engine's broad phase uses. Read
+/// straight from the asset metadata wired into the scene, so the two readings of
+/// one instance can be compared instead of assumed equal — this suite's parking
+/// spot sits exactly on the seam between them.
+fn recorded_bbox(s: &Scene, id: i32) -> Option<(f64, f64, f64, f64)> {
+    let inst = s.instances.get(&id)?;
+    let x = *inst.fields.get("x")?;
+    let y = *inst.fields.get("y")?;
+    let sprite = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+    let bounds = s.sprite_bounds.get(&sprite)?;
+    let [left, right, top, bottom] = *s.sprite_bboxes.get(&sprite)?;
+    Some((
+        x - bounds.origin_x + left as f64,
+        x - bounds.origin_x + right as f64 + 1.0,
+        y - bounds.origin_y + top as f64,
+        y - bounds.origin_y + bottom as f64 + 1.0,
+    ))
+}
+
+/// Alive enemy-family instances whose box shares the player's, in the requested
+/// reading (`recorded == false` = the engine's broad phase; `true` = the recorded
+/// SPRT bbox the original computes).
+fn player_enemy_contacts(
+    state: &GameState,
+    bundle: &callys_core::code_vm::Bundle,
+    recorded: bool,
+) -> Vec<(i32, String)> {
+    let s = scene(state);
+    let player = player_id(state);
+    let reading = |id: i32| if recorded { recorded_bbox(s, id) } else { s.bounds_for_instance(id) };
+    let Some(player_box) = reading(player) else { return Vec::new() };
+    let family = enemy_family(bundle);
+    let mut hits: Vec<(i32, String)> = s.instances.iter()
+        .filter(|(id, i)| i.alive && **id != player && family.contains(&i.object))
+        .filter(|(id, _)| reading(**id).is_some_and(|other| box_overlap(player_box, other)))
+        .map(|(id, i)| {
+            let name = bundle.objects.iter().find(|o| o.id == i.object)
+                .map(|o| o.name.clone()).unwrap_or_default();
+            (*id, name)
+        })
+        .collect();
+    hits.sort();
+    hits
+}
+
 /// Visit a map room from the live rm_level17 map path and come back through the
 /// same release queue the production pointer path fills: the pause button and the
 /// map menu are dispatched directly (like the other round-trip suites), while the
@@ -219,17 +282,20 @@ fn walk_door(state: &mut GameState, target: f64, expect_name: &str) {
 ///
 /// Fixture discipline (this spot is load bearing): the player is parked away from
 /// the rm_level17 return pin so CODE 692/16's re-pin is observable, but NOT on top
-/// of a level instance. The map menu's CODE 476 calls `instance_activate_all()`,
-/// which un-parks whatever the CODE 361 sweep had parked; a contact in that same
-/// tick is a real hit. The old spot (900,400) has a pre-tick bbox distance of
-/// 5.4px from obj_slime #119898 at (928,352): the second and third legs took CODE 12's `hitenemyslime`
-/// hit (health1 3->2, then 2->1) and `global.health1 == 1` is the shipped death
+/// of a level instance. The map menu's CODE 476 destroys obj_firstpause, whose
+/// Destroy CODE 495 ends in `instance_activate_all()`, so the tick that consumes
+/// the map warp runs the player's Step against the whole room — a contact in that
+/// tick is a real hit. The old spot (900,400) shares the player's box with
+/// obj_slime #119898 once that activation lands: the engine's broad phase uses the
+/// full sprite rectangle, and the slime's rectangle reaches 0.7px into the
+/// player's (the recorded SPRT bbox the original computes leaves a 3.3px gap, so
+/// the original sheds nothing there). `global.health1 == 1` is the shipped death
 /// trigger (CODE 12 -> CODE 540 obj_youhavedied), whose `instance_deactivate_all`
-/// survives the map warp and leaves the persistent player inactive. The health
-/// assertion at the end of this function is the falsifier that keeps the fixture
-/// out of that damage path. (428,204) is 300px right of the pin, measured clear of
-/// the whole enemy/hazard set - in either active state - for 120px around it in
-/// every leg.
+/// survives the map warp and leaves the persistent player inactive. The gate below
+/// (`player_enemy_contacts` in both readings) is what keeps a fixture out of that
+/// damage path, and it is checked on every leg because the hazard is invisible to
+/// a pre-tick assertion. (428,204) is 300px right of the pin and measured clear of
+/// the whole enemy set — in either active state — for 120px around it in every leg.
 fn visit_map_room_round_trip(
     state: &mut GameState,
     bundle: &callys_core::code_vm::Bundle,
@@ -270,6 +336,15 @@ fn visit_map_room_round_trip(
         "CODE 476 at {width}x{height} queues {expected_name}");
     assert_eq!(scene(state).globals["health1"], health_before,
         "{expected_name}: opening the map must not shed health (the parked spot is live)");
+    // The next tick is the damaging one if the spot is wrong: CODE 495 has just
+    // re-activated every instance, so the player's Step runs against the whole
+    // room. Gate both readings of the collision box here, where the hit would
+    // land, instead of trusting the health assertion to notice afterwards.
+    for (reading, recorded) in [("engine broad phase", false), ("recorded SPRT bbox", true)] {
+        let hits = player_enemy_contacts(state, bundle, recorded);
+        assert!(hits.is_empty(),
+            "{expected_name}: the parking spot shares the player's box with enemy instances ({reading}): {hits:?}");
+    }
 
     step(state); // client loop consumes the map-room warp
     assert_eq!(room_name(state), expected_name);
@@ -970,3 +1045,161 @@ fn the_pixel_content_gate_sees_the_clear_when_nothing_is_drawn() {
     assert_eq!(blank_shades, 1,
         "and the frame collapses to the single clear value (distinct={blank_shades})");
 }
+
+/// Park at `spot` in the rm_level17 map-flow fixture and stop at the exact moment
+/// before the tick that consumes the map warp: the pause button and the map menu
+/// are released, so CODE 495 has re-activated the room and rm_mapview3's warp is
+/// queued. The display is the 1024x768 branch (CODE 476 -> rm_mapview3), the same
+/// page the continuous run ends its map stint on.
+fn parked_at_map_open(spot: (f64, f64)) -> (GameState, Arc<callys_core::code_vm::Bundle>) {
+    let mut state = boot_like_android();
+    let bundle = state.full_bundle.as_ref().expect("bundle").clone();
+    {
+        let s = state.scene.as_mut().expect("IR scene");
+        s.transition_to_room(&bundle, 25, &state.asset.rooms[25]).expect("seed rm_level17");
+        s.globals.insert("level17visited".into(), 1.0);
+        s.display_width = 1024.0;
+        s.display_height = 768.0;
+    }
+    step(&mut state); // arm the room's runtime view selector
+    let player = player_id(&state);
+    {
+        let s = state.scene.as_mut().unwrap();
+        s.write(player, -1, "x", None, spot.0).unwrap();
+        s.write(player, -1, "y", None, spot.1).unwrap();
+    }
+    let pause = scene(&state).instances.iter()
+        .find(|(_, i)| i.object == PAUSEBUTTON && i.alive && i.active)
+        .map(|(id, _)| *id).expect("active pausebutton in rm_level17");
+    state.scene.as_mut().unwrap().dispatch(&bundle, pause, 6, 7).expect("pause menu release");
+    let menu = scene(&state).instances.iter()
+        .find(|(_, i)| i.object == MAPMENU && i.alive && i.active)
+        .map(|(id, _)| *id).expect("active mapmenu under the pause menu");
+    state.scene.as_mut().unwrap().dispatch(&bundle, menu, 6, 7).expect("mapmenu release");
+    (state, bundle)
+}
+
+/// Detection power of the parking-spot gate `visit_map_room_round_trip` runs on
+/// every leg: aimed at the spot the suite used before (900,400 in rm_level17) the
+/// gate must flag it, and it must show WHY that spot was a port-side seam rather
+/// than a live hazard — under the engine's full-rectangle broad phase the slime
+/// reaches 0.7px into the player's box, while the recorded SPRT bbox boxes the
+/// original computes stay 3.3px apart (still overlapping in x, separated in y).
+/// The shipped spot (428,204) is the clean control for the same gate.
+#[test]
+fn the_parking_spot_gate_flags_the_old_spot_and_finds_the_engine_box_seam() {
+    let (state, bundle) = parked_at_map_open((900.0, 400.0));
+    let engine = player_enemy_contacts(&state, &bundle, false);
+    assert_eq!(engine.len(), 1,
+        "the old spot shares the player's box in the engine reading: {engine:?}");
+    assert_eq!(engine[0].1, "obj_slime",
+        "and the contact comes from the slime, not from the wall family");
+    let recorded = player_enemy_contacts(&state, &bundle, true);
+    assert!(recorded.is_empty(),
+        "the original's recorded boxes leave a gap at the same spot: {recorded:?}");
+
+    let s = scene(&state);
+    let player = player_id(&state);
+    let slime = engine[0].0;
+    let (engine_player, engine_slime) = (s.bounds_for_instance(player).unwrap(), s.bounds_for_instance(slime).unwrap());
+    let (recorded_player, recorded_slime) = (recorded_bbox(s, player).unwrap(), recorded_bbox(s, slime).unwrap());
+    assert!(box_overlap(engine_player, engine_slime),
+        "the engine's boxes overlap: {engine_player:?} vs {engine_slime:?}");
+    assert!(!box_overlap(recorded_player, recorded_slime),
+        "the recorded boxes do not: {recorded_player:?} vs {recorded_slime:?}");
+    assert!(recorded_player.0 < recorded_slime.1 && recorded_player.1 > recorded_slime.0,
+        "the recorded boxes still overlap in x, so the separation is in y alone");
+    let gap = recorded_player.2 - recorded_slime.3;
+    assert!(gap > 0.0 && gap <= 8.0,
+        "and that y gap is a seam, not a distant instance: {gap}px");
+
+    let (clean, clean_bundle) = parked_at_map_open((428.0, 204.0));
+    for (reading, recorded) in [("engine broad phase", false), ("recorded SPRT bbox", true)] {
+        assert!(player_enemy_contacts(&clean, &clean_bundle, recorded).is_empty(),
+            "the shipped parking spot is clear in the {reading} reading");
+    }
+}
+
+/// The reported defect, reproduced deterministically at the tick level. Parked on
+/// the box seam with `health1 == 2` (one contact short of the shipped death
+/// trigger) the run does this:
+///
+/// tick 1  the map-warp tick: the player's Step (CODE 12) takes the slime contact
+///         -> `health1` 2 -> 1 -> the same Step's `if (global.health1 == 1)` branch
+///         creates obj_youhavedied (CODE 540), which re-pins the player to
+///         `global.startx/starty`, calls `instance_deactivate_all(true)` and bumps
+///         `playerdied`. The client then consumes the queued rm_mapview3 warp in the
+///         same frame, and the overlay is NOT persistent (asset-verified: only
+///         obj_player and obj_music are), so the room switch drops it while the
+///         persistent player keeps `active == false`.
+/// ticks 2-4  rm_mapview3 is inert: no overlay, no player Step, nothing to draw a
+///         death screen from.
+/// tick 5  the return tile release runs CODE 692: `instance_activate_all()` +
+///         `warpfrommap = 1` + `room_goto(25)`; the frame consumes the warp.
+/// tick 6  back in rm_level17 the player's Step runs again with `health1` still 1
+///         -> a SECOND overlay is created (playerdied 1 -> 2) -> deactivated room.
+///         Terminal state == the reported one: obj_youhavedied is the only active
+///         instance, the player is inactive, `warpfrommap` stays 1 (obj_bg is
+///         deactivated, so CODE 362 never clears it).
+///
+/// The chain after the contact is shipped bytecode; the contact itself is not. The
+/// slime only shares the player's box because the engine's broad phase uses the
+/// full sprite rectangle, so this test is a canary as well as a pin: if the
+/// collision-box domain (recorded SPRT bbox / precise masks) is fixed, the first
+/// assertion fails and this scenario must be re-cast, not re-seeded.
+#[test]
+fn the_map_open_contact_tick_hands_the_run_to_the_death_overlay_across_the_map_warp() {
+    let (mut state, bundle) = parked_at_map_open((900.0, 400.0));
+    let player = player_id(&state);
+    {
+        let s = state.scene.as_mut().unwrap();
+        s.globals.insert("health1".into(), 2.0);
+    }
+    assert_eq!(scene(&state).target_room_warp, Some(112),
+        "CODE 476 at 1024x768 queues rm_mapview3");
+    assert_eq!(scene(&state).globals["health1"], 2.0,
+        "the contact has not happened yet: the warp is consumed after the tick");
+
+    step(&mut state); // the damaging tick + the warp it shares a frame with
+    assert_eq!(room_name(&state), "rm_mapview3");
+    assert_eq!(scene(&state).globals["health1"], 1.0,
+        "the slime contact landed in rm_level17 (CODE 12 hitenemyslime)");
+    assert_eq!(scene(&state).globals["playerdied"], 1.0,
+        "and reached the shipped death branch in the same Step");
+    assert_eq!(cast(&state, YOUHAVEDIED), 0,
+        "the overlay the death branch created did not survive the room switch");
+    assert!(scene(&state).instances.contains_key(&player), "the player is persistent");
+    assert!(!scene(&state).instances[&player].active,
+        "but CODE 540's instance_deactivate_all(true) travelled with it");
+    assert_eq!((field(scene(&state), player, "x"), field(scene(&state), player, "y")),
+        (128.0, 204.0), "CODE 540 re-pinned the player to global.startx/starty first");
+    assert!(!bundle.objects.iter().find(|o| o.id == YOUHAVEDIED).expect("obj_youhavedied").persistent,
+        "asset-verified: the death controller is not persistent, which is why the warp dropped it");
+
+    frames(&mut state, 3);
+    assert_eq!(cast(&state, YOUHAVEDIED), 0, "rm_mapview3 stays overlay-free");
+    assert!(!scene(&state).instances[&player].active, "and the player stays inert there");
+
+    let tile = scene(&state).instances.iter()
+        .find(|(_, i)| i.object == MAPTILE && i.alive && i.fields.get("goto") == Some(&25.0))
+        .map(|(id, _)| *id).expect("visited rm_level17 tile in rm_mapview3");
+    let (left, right, top, bottom) = scene(&state).bounds_for_instance(tile).unwrap();
+    state.scene.as_mut().unwrap().left_releases.push(((left + right) * 0.5, (top + bottom) * 0.5));
+    step(&mut state); // CODE 692 + the client's warp consumption
+    assert_eq!(room_name(&state), "rm_level17");
+    assert_eq!(scene(&state).globals["warpfrommap"], 1.0, "CODE 692 armed the map return");
+    assert!(scene(&state).instances[&player].active,
+        "CODE 692's instance_activate_all woke the persistent player");
+
+    step(&mut state); // the first tick back in rm_level17
+    assert_eq!(cast(&state, YOUHAVEDIED), 1, "the death layer is rebuilt in the returned room");
+    assert_eq!(scene(&state).globals["playerdied"], 2.0, "a second death branch ran");
+    assert!(!scene(&state).instances[&player].active, "the player is deactivated again");
+    let active = scene(&state).instances.values().filter(|i| i.alive && i.active).count();
+    assert_eq!(active, 1, "obj_youhavedied is the only active instance: {active}");
+    assert_eq!(scene(&state).instances.values().filter(|i| i.alive && i.active).next().unwrap().object,
+        YOUHAVEDIED, "and it is the overlay");
+    assert_eq!(scene(&state).globals["warpfrommap"], 1.0,
+        "obj_bg is deactivated, so CODE 362 never clears the flag: the reported state");
+}
+
