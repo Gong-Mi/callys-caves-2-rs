@@ -483,7 +483,13 @@ pub fn consume_command_list(list: &GpuCommandList, viewport: (u32, u32)) -> GpuF
     }
     for cmd in cmds {
         if let GpuBody::Quad { page, src, dst, paint } = cmd.body {
-            let uv = page.uv_rect(src);
+            let mut uv = page.uv_rect(src);
+            if matches!(dst, GpuQuadDst::Rect { flip_x: true, .. }) {
+                // The rect raster mirrors the source column, not its screen
+                // geometry. Sprite mirroring is already encoded in its scale.
+                uv.swap(0, 1);
+                uv.swap(2, 3);
+            }
             let (r, g, b) = match paint.flood {
                 Some(c) => c,
                 None => paint.blend,

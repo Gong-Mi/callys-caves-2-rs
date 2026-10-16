@@ -9,6 +9,7 @@ functions (e.g. search `"choose"`, not `fn choose`).
 | --- | --- | --- |
 | Font bitmaps | `crates/client/src/parts/font.rs`: `FONT_5X7` | existing client render tests |
 | Pixel blending / text drawing | `crates/client/src/lib.rs`: `impl Framebuffer` | `crates/client/tests/ir_scene_gameplay.rs` |
+| GPU command capture / staging | client `parts/gpu_commands.rs`: `GpuCommandList`, `consume_command_list`; client `lib.rs`: `draw_frame_with_commands` | `gpu_command_list.rs`, `gpu_staging_regressions.rs`, `examples/gpu_commands.rs` (capture only, no GL) |
 | Scene command consumption / camera | same client file: `draw_frame`, `draw_ir_sprite` (per-command: SPRT origin, facing mirror, `image_angle`, `image_blend`, `d3d_set_fog` flood), `Framebuffer::blit_sprite_gm`, `unpack_color`, `draw_sprite_alpha`, `draw_tile`, `camera_position_for_scene` | `draw_field_consumption.rs`, `particle_render_consumption.rs`, `prologue_render_regression.rs` in client tests |
 | Frame errors / lifecycle | same client file: `GameState`, `step_inner`, `nativeStep` | `ir_error_propagation.rs`, `room_lifecycle_error_boundary.rs` in client tests |
 | Physical release input | `android-build/src/com/gongmi/callyscaves2/PointerReleaseQueue.java`, adjacent `MainActivity.java` → client `pointer_released` → `crates/core/src/ir_scene.rs`: `tick` | `crates/client/tests/death_release_ir.rs`; `scripts/test_pointer_release_java.py` |

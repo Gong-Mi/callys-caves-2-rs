@@ -169,11 +169,13 @@ fn emitting_changes_no_pixel_and_the_list_matches_the_guard() {
             );
             prologue_commands += outcome.guard_commands;
             prologue_frames += 1;
-            if phase == "prologue" && frame == 0 {
-                state.input.tap = true;
-                state.step(DT);
-                state.input.tap = false;
-            }
+        }
+        // Match draw_hash: the tap is between the two 40-frame phases, not
+        // after the very first boot frame.
+        if phase == "prologue" {
+            state.input.tap = true;
+            state.step(DT);
+            state.input.tap = false;
         }
     }
     assert!(
@@ -337,6 +339,7 @@ fn rm_level17_reconciles_with_the_contract() {
         let label = format!("rm_level17 f{frame:03}");
         let outcome = draw_both(&state, &mut fb, &mut other, &mut list, &label);
         let s = &outcome.stats;
+        page_runs_max = page_runs_max.max(s.page_runs as u64);
         // The float[] staging is 128 B per quad (section 2: 103,168 B for 806
         // quads), on every frame, not on average.
         assert_eq!(s.staging_bytes, s.quads * FLOATS_PER_QUAD * 4, "{label}: staging size");
