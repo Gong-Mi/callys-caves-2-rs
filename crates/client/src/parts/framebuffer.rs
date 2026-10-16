@@ -2,6 +2,73 @@
 // Software-rasterized framebuffer
 // ============================================================
 
+/// Framebuffer-pixel bounding box of one GameMaker sprite draw: the four sprite
+/// corners projected with `blit_sprite_gm`'s own transform and clamped into the
+/// framebuffer exactly the way that blit clamps them.
+///
+/// `None` means the blit cannot write a single pixel for this draw — either its
+/// canvas/scale is degenerate (`cw <= 0`, `ch <= 0`, `scale == 0`: the blit's own
+/// early-outs) or the clamped box is empty (`x1 < x0 || y1 < y0`). Both are
+/// exact no-write conditions, which is what makes the command-side view-culling
+/// guard in `draw_ir_sprite` pixel-equivalent: it rejects a command only when
+/// this returns `None`, and only when the placeholder that same command would
+/// fall back to (a missing sprite/page/atlas draws a 32x32 box at the command's
+/// own screen position) is off-screen as well.
+///
+/// The axis-aligned branch (rotation 0) is the identity rotation: `sin(0) == 0`
+/// and `cos(0) == 1` are exact in IEEE, so `lx*cos + ly*sin` is `lx` and the
+/// same box comes out of plain scaling — without the two transcendental calls
+/// the general branch needs. Every command the guard rejects is of this kind,
+/// so the reject test stays cheaper than the blit it replaces.
+pub(crate) fn sprite_screen_rect(
+    fb_w: u32,
+    fb_h: u32,
+    sprite_size: (f64, f64),
+    sprite_origin: (f64, f64),
+    dst_origin: (f64, f64),
+    scale: (f64, f64),
+    rotation_deg: f64,
+) -> Option<(i32, i32, i32, i32)> {
+    let (cw, ch) = sprite_size;
+    if cw <= 0.0 || ch <= 0.0 || scale.0 == 0.0 || scale.1 == 0.0 {
+        return None;
+    }
+    let (ox, oy) = sprite_origin;
+    // Sprite-local (u, v) -> screen, all in one transform. The corners stay
+    // f32 exactly as the blit produced them, so the box (and therefore the
+    // clip decision) is bit-identical.
+    let corners: [(f32, f32); 4] = if rotation_deg == 0.0 {
+        [(0.0, 0.0), (cw, 0.0), (0.0, ch), (cw, ch)].map(|(u, v)| {
+            (
+                (dst_origin.0 + (u - ox) * scale.0) as f32,
+                (dst_origin.1 + (v - oy) * scale.1) as f32,
+            )
+        })
+    } else {
+        let angle = (rotation_deg as f32).to_radians();
+        let (sin, cos) = (angle.sin(), angle.cos());
+        [(0.0, 0.0), (cw, 0.0), (0.0, ch), (cw, ch)].map(|(u, v)| {
+            let lx = (u - ox) * scale.0;
+            let ly = (v - oy) * scale.1;
+            let rx = lx * cos as f64 + ly * sin as f64;
+            let ry = -lx * sin as f64 + ly * cos as f64;
+            ((dst_origin.0 + rx) as f32, (dst_origin.1 + ry) as f32)
+        })
+    };
+    let min_x = corners.iter().map(|c| c.0).fold(f32::INFINITY, f32::min);
+    let max_x = corners.iter().map(|c| c.0).fold(f32::NEG_INFINITY, f32::max);
+    let min_y = corners.iter().map(|c| c.1).fold(f32::INFINITY, f32::min);
+    let max_y = corners.iter().map(|c| c.1).fold(f32::NEG_INFINITY, f32::max);
+    let x0 = min_x.floor().max(0.0) as i32;
+    let y0 = min_y.floor().max(0.0) as i32;
+    let x1 = max_x.ceil().min(fb_w as f32 - 1.0) as i32;
+    let y1 = max_y.ceil().min(fb_h as f32 - 1.0) as i32;
+    if x1 < x0 || y1 < y0 {
+        return None;
+    }
+    Some((x0, y0, x1, y1))
+}
+
 pub struct Framebuffer {
     pub width: u32,
     pub height: u32,
@@ -341,29 +408,16 @@ impl Framebuffer {
     ) {
         let (sx, sy, sw, sh) = src;
         let (cw, ch) = sprite_size;
-        if cw <= 0.0 || ch <= 0.0 || sw == 0 || sh == 0 { return; }
-        if scale.0 == 0.0 || scale.1 == 0.0 { return; }
-        let (ox, oy) = sprite_origin;
-        let angle = (rotation_deg as f32).to_radians();
-        let (sin, cos) = (angle.sin(), angle.cos());
-        // Sprite-local (u, v) -> screen, all in one transform.
-        let project = |u: f64, v: f64| -> (f32, f32) {
-            let lx = (u - ox) * scale.0;
-            let ly = (v - oy) * scale.1;
-            let rx = lx * cos as f64 + ly * sin as f64;
-            let ry = -lx * sin as f64 + ly * cos as f64;
-            ((dst_origin.0 + rx) as f32, (dst_origin.1 + ry) as f32)
+        if sw == 0 || sh == 0 { return; }
+        // The clip box comes from the shared helper the command-side culling
+        // guard tests against, so "the guard kept it" and "the blit draws it"
+        // can never disagree about the same geometry.
+        let Some((x0, y0, x1, y1)) = sprite_screen_rect(
+            self.width, self.height, sprite_size, sprite_origin, dst_origin, scale, rotation_deg,
+        ) else {
+            return;
         };
-        let corners = [project(0.0, 0.0), project(cw, 0.0), project(0.0, ch), project(cw, ch)];
-        let min_x = corners.iter().map(|c| c.0).fold(f32::INFINITY, f32::min);
-        let max_x = corners.iter().map(|c| c.0).fold(f32::NEG_INFINITY, f32::max);
-        let min_y = corners.iter().map(|c| c.1).fold(f32::INFINITY, f32::min);
-        let max_y = corners.iter().map(|c| c.1).fold(f32::NEG_INFINITY, f32::max);
-        let x0 = min_x.floor().max(0.0) as i32;
-        let y0 = min_y.floor().max(0.0) as i32;
-        let x1 = max_x.ceil().min(self.width as f32 - 1.0) as i32;
-        let y1 = max_y.ceil().min(self.height as f32 - 1.0) as i32;
-        if x1 < x0 || y1 < y0 { return; }
+        let (ox, oy) = sprite_origin;
         // Frame rect stretched onto the sprite canvas, so a frame smaller than
         // the canvas still anchors on the origin the way the hitboxes do.
         let (du, dv) = (sw as f64 / cw, sh as f64 / ch);
@@ -448,6 +502,11 @@ impl Framebuffer {
             }
             return;
         }
+        // Only the rotated/blended/fogged draws reach here; they are the ones
+        // that still need the rotation pair the shared box helper computed for
+        // its own branch.
+        let angle = (rotation_deg as f32).to_radians();
+        let (sin, cos) = (angle.sin(), angle.cos());
         for py in y0..=y1 {
             for px in x0..=x1 {
                 let rx = px as f64 + 0.5 - dst_origin.0;
@@ -514,6 +573,97 @@ impl Framebuffer {
                 x += adv as i32;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod framebuffer_screen_rect_tests {
+    use super::*;
+
+    /// The clip box both the blit and the culling guard act on must stay the
+    /// box the blit always clipped against, so the reference here is that
+    /// projection spelled out again in full — including for the axis-aligned
+    /// case, which the production helper short-cuts through the identity
+    /// rotation. Any drift between the two (a sign, a cast, the corner order)
+    /// changes a clip decision and fails this test.
+    #[test]
+    fn box_matches_the_projected_corner_clip() {
+        const FB: (u32, u32) = (1136, 640);
+        // (label, rotation, canvas, sprite origin, dst origin, scale)
+        type Case = (&'static str, f64, (f64, f64), (f64, f64), (f64, f64), (f64, f64));
+        let cases: [Case; 15] = [
+            ("axis-aligned on screen", 0.0, (32.0, 32.0), (16.0, 16.0), (200.0, 300.0), (2.5357, 2.5397)),
+            ("axis-aligned off left", 0.0, (32.0, 32.0), (0.0, 0.0), (-200.0, 300.0), (2.5357, 2.5397)),
+            ("axis-aligned off right", 0.0, (32.0, 32.0), (0.0, 0.0), (1400.0, 300.0), (2.5357, 2.5397)),
+            ("axis-aligned off top", 0.0, (64.0, 64.0), (32.0, 32.0), (300.0, -200.0), (1.0, 1.0)),
+            ("axis-aligned off bottom", 0.0, (64.0, 64.0), (32.0, 32.0), (300.0, 900.0), (1.0, 1.0)),
+            ("straddling the left edge", 0.0, (128.0, 64.0), (64.0, 32.0), (-10.0, 100.0), (1.0, 1.0)),
+            ("mirrored x (xscale -1)", 0.0, (32.0, 32.0), (16.0, 16.0), (500.0, 500.0), (-2.5357, 2.5397)),
+            ("tiny scale", 0.0, (32.0, 32.0), (16.0, 16.0), (-10.0, 100.0), (0.001, 0.001)),
+            ("zero scale", 0.0, (32.0, 32.0), (16.0, 16.0), (100.0, 100.0), (0.0, 1.0)),
+            ("zero canvas", 0.0, (0.0, 32.0), (0.0, 16.0), (100.0, 100.0), (1.0, 1.0)),
+            ("rotated 90 on screen", 90.0, (64.0, 32.0), (32.0, 16.0), (300.0, 300.0), (1.0, 1.0)),
+            ("rotated 45 off right", 45.0, (64.0, 64.0), (32.0, 32.0), (1200.0, 300.0), (2.0, 2.0)),
+            ("rotated 370", 370.0, (64.0, 64.0), (32.0, 32.0), (400.0, 400.0), (1.5, 1.5)),
+            ("origin outside the canvas", 0.0, (32.0, 32.0), (-100.0, -100.0), (300.0, 300.0), (1.0, 1.0)),
+            ("room-sized canvas far off", 0.0, (2048.0, 1280.0), (1024.0, 640.0), (3000.0, 1500.0), (2.5357, 2.5397)),
+        ];
+        let (mut visible, mut rejected) = (0, 0);
+        for (label, rotation, canvas, origin, dst, scale) in cases {
+            let got = sprite_screen_rect(FB.0, FB.1, canvas, origin, dst, scale, rotation);
+            assert_eq!(
+                got,
+                reference_box(FB.0, FB.1, canvas, origin, dst, scale, rotation),
+                "clip box changed for case: {label}",
+            );
+            match got {
+                Some(_) => visible += 1,
+                None => rejected += 1,
+            }
+        }
+        // Both answers must appear, or the guard (or the blit) would be a no-op.
+        assert!(visible >= 5, "only {visible} cases produce a box");
+        assert!(rejected >= 4, "only {rejected} cases are clipped away");
+    }
+
+    /// The pre-refactor projection, verbatim: four projected corners, the same
+    /// clamps, the same empty-box test.
+    fn reference_box(
+        fb_w: u32,
+        fb_h: u32,
+        canvas: (f64, f64),
+        origin: (f64, f64),
+        dst: (f64, f64),
+        scale: (f64, f64),
+        rotation_deg: f64,
+    ) -> Option<(i32, i32, i32, i32)> {
+        let (cw, ch) = canvas;
+        if cw <= 0.0 || ch <= 0.0 || scale.0 == 0.0 || scale.1 == 0.0 {
+            return None;
+        }
+        let (ox, oy) = origin;
+        let angle = (rotation_deg as f32).to_radians();
+        let (sin, cos) = (angle.sin(), angle.cos());
+        let project = |u: f64, v: f64| -> (f32, f32) {
+            let lx = (u - ox) * scale.0;
+            let ly = (v - oy) * scale.1;
+            let rx = lx * cos as f64 + ly * sin as f64;
+            let ry = -lx * sin as f64 + ly * cos as f64;
+            ((dst.0 + rx) as f32, (dst.1 + ry) as f32)
+        };
+        let corners = [project(0.0, 0.0), project(cw, 0.0), project(0.0, ch), project(cw, ch)];
+        let min_x = corners.iter().map(|c| c.0).fold(f32::INFINITY, f32::min);
+        let max_x = corners.iter().map(|c| c.0).fold(f32::NEG_INFINITY, f32::max);
+        let min_y = corners.iter().map(|c| c.1).fold(f32::INFINITY, f32::min);
+        let max_y = corners.iter().map(|c| c.1).fold(f32::NEG_INFINITY, f32::max);
+        let x0 = min_x.floor().max(0.0) as i32;
+        let y0 = min_y.floor().max(0.0) as i32;
+        let x1 = max_x.ceil().min(fb_w as f32 - 1.0) as i32;
+        let y1 = max_y.ceil().min(fb_h as f32 - 1.0) as i32;
+        if x1 < x0 || y1 < y0 {
+            return None;
+        }
+        Some((x0, y0, x1, y1))
     }
 }
 
