@@ -82,11 +82,20 @@ fn prec_line_ignores_the_spikes_transparent_top_while_a_wall_still_blocks() {
         .unwrap();
     assert_eq!(over_wall, wall as f64, "prec=1 line through a solid wall must hit");
 
-    // Same spike-crossing line answered by the bounding box: prec=0 hits.
-    let bbox_hit = s
+    // Same line answered from the bounding box (prec=0): the original's
+    // Compute_BoundingBox is the RECORDED bbox — for spr_spikes (bbox_mode=0,
+    // computed from the mask) that starts at the first solid row, so y=105
+    // (row 5, above the recorded box) misses even with prec=0. A line down in
+    // the solid body hits with prec=0 — that is the bbox answer.
+    let bbox_miss = s
         .call(&b, wall, "collision_line", &[150.0, 105.0, 231.0, 105.0, OBJ_SPIKES as f64, 0.0, 1.0])
         .unwrap();
-    assert_eq!(bbox_hit, spikes as f64, "prec=0 stays bounding-box based");
+    assert_eq!(bbox_miss, -4.0, "prec=0 uses the recorded bbox: the empty top is outside it too");
+
+    let bbox_hit = s
+        .call(&b, wall, "collision_line", &[150.0, 120.0, 231.0, 120.0, OBJ_SPIKES as f64, 0.0, 1.0])
+        .unwrap();
+    assert_eq!(bbox_hit, spikes as f64, "prec=0 inside the recorded bbox hits");
 
     // A line into the solid body (row 20 -> room y=120) hits with prec=1.
     let solid_hit = s
@@ -115,27 +124,68 @@ fn prec_point_test_respects_the_player_mask_transparent_corners() {
         .unwrap();
     assert_eq!(on_corner, 0.0, "prec=1 must miss the transparent bbox corner");
 
-    // The same corner with prec=0: bounding box says hit.
+    // Recorded bbox (spr_player bbox_mode=2, left/right/bottom/top = 9/22/33/4):
+    // x [194,208), y [138,168). The old whole-sprite box was x [185,217),
+    // y [134,168) — the corner below sat inside it, which was the seam the
+    // broad-phase fix closes (original Compute_BoundingBox never saw it).
     let bbox_corner = s
         .call(&b, observer, "collision_point", &[185.0, 134.0, OBJ_PLAYER as f64, 0.0, 1.0])
         .unwrap();
-    assert_eq!(bbox_corner, player as f64, "prec=0 keeps the bbox answer");
+    assert_eq!(bbox_corner, 0.0, "prec=0 uses the recorded bbox: the corner is outside it");
+
+    // A point inside the recorded bbox answers hit from the bbox (prec=0) and
+    // from the mask (prec=1) alike — the player's manual bbox tightly fits the
+    // solid rect, so the two modes agree everywhere for this sprite.
+    let bbox_body = s
+        .call(&b, observer, "collision_point", &[200.0, 145.0, OBJ_PLAYER as f64, 0.0, 1.0])
+        .unwrap();
+    assert_eq!(bbox_body, player as f64, "prec=0 inside the recorded bbox hits");
 }
 
 #[test]
-fn maskless_fixture_falls_back_to_the_bounding_box() {
+fn maskless_fixture_documents_the_point_box_fallback() {
     let manifest_dir = env!("CARGO_MANIFEST_DIR");
     let bundle = load_bundle_from_file(Path::new(manifest_dir).join("src/generated/full_ir.json"))
         .expect("load full_ir.json");
     let mut s = Scene::default();
     s.init_bundle(&bundle);
-    // Fixture wiring: no sprite_bounds, no sprite_masks — the query must
-    // behave exactly like before the feature (default 32x32 bbox), with no
-    // silent gap where precise mode now answers "clear".
+    // Fixture wiring: no sprite_bounds injected at all. The original runner
+    // always has real bounds for a real sprite (Compute_BoundingBox); the new
+    // shared box source has no 32x32 legacy default — a sprite it knows
+    // nothing about boxes as the integer point at its origin. The query must
+    // MISS (never a silent whole-room hit), and the wiring gap is the
+    // fixture's, not the engine's.
     let target = s.create(&bundle, OBJ_SPIKES, 150.0, 100.0).expect("create");
     s.write(target, -1, "sprite_index", None, SPR_SPIKES as f64).unwrap();
     let hit = s
         .call(&bundle, target, "collision_line", &[150.0, 105.0, 170.0, 105.0, -1.0, 1.0, 0.0])
         .unwrap();
-    assert_eq!(hit, target as f64, "mask-less sprite keeps the bbox behaviour");
+    assert_eq!(hit, -4.0, "a sprite with no injected bounds boxes as a point: no bbox hit");
+
+    // With the sprite's real bounds injected (the supported wiring), the same
+    // line through the recorded bbox body hits.
+    let mut wired = Scene::default();
+    wired.init_bundle(&bundle);
+    let asset_path = Path::new(manifest_dir).join("../../assets/game.droid");
+    let asset = GameDroidAsset::parse(&asset_path).expect("parse game.droid");
+    let sp = asset.sprites.get(&(SPR_SPIKES as usize)).expect("spikes sprite in asset");
+    wired.sprite_bounds.insert(
+        SPR_SPIKES,
+        SpriteBounds {
+            width: sp.width as f64,
+            height: sp.height as f64,
+            origin_x: sp.origin_x as f64,
+            origin_y: sp.origin_y as f64,
+            frames: sp.tpag_indices.len().max(1) as f64,
+        },
+    );
+    if !sp.masks.is_empty() {
+        wired.sprite_masks.insert(SPR_SPIKES, sp.masks.clone());
+    }
+    let target2 = wired.create(&bundle, OBJ_SPIKES, 150.0, 100.0).expect("create");
+    wired.write(target2, -1, "sprite_index", None, SPR_SPIKES as f64).unwrap();
+    let hit2 = wired
+        .call(&bundle, target2, "collision_line", &[150.0, 120.0, 170.0, 120.0, -1.0, 1.0, 0.0])
+        .unwrap();
+    assert_eq!(hit2, target2 as f64, "with real bounds wired the recorded bbox answers");
 }
