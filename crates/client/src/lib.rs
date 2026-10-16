@@ -741,12 +741,28 @@ impl GameState {
                 self.rooms_visited = self.rooms_visited.saturating_add(1);
             }
 
-            let view = scene.active_view_index().ok_or_else(|| {
-                format!("no visible view for gameplay room {}", scene.current_room)
-            })?;
-            let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
-            scene.view_positions.insert(view as i32, (cam_x, cam_y));
-            scene.draw_view(bundle, view as i32).map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
+            if let Some(view) = scene.active_view_index() {
+                let (cam_x, cam_y) = Self::camera_position_for_scene(scene);
+                scene.view_positions.insert(view as i32, (cam_x, cam_y));
+                scene.draw_view(bundle, view as i32)
+                    .map_err(|e| format!("gameplay draw room {}: {e}", scene.current_room))?;
+            } else {
+                // Some rooms select their visible view in obj_viewresolution's
+                // Alarm 0 (Create arms it for the next tick). A warp is consumed
+                // after the current tick, so this transition frame can precede
+                // view selection. Permit only that exact pending state, discard
+                // old-room commands, and retry on the next tick; do not hide a
+                // permanently viewless room.
+                let resolver = bundle.objects.iter()
+                    .find(|object| object.name == "obj_viewresolution")
+                    .map(|object| object.id);
+                let pending = resolver.is_some_and(|object| scene.instances.values().any(|i|
+                    i.object == object && i.alive && i.active && i.alarms[0] == 1));
+                if !pending {
+                    return Err(format!("no visible view for gameplay room {}", scene.current_room));
+                }
+                scene.clear_draw_commands();
+            }
             // The frame's input edges were visible to this frame's Step, alarm,
             // collision and Draw events; retire them only now (see end_frame).
             scene.end_frame();
