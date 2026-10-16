@@ -88,7 +88,48 @@
 4. **GPU 后端**：命令绘制 + `glReadPixels` 差分等价门（对 CPU 光栅逐帧对拍）。
 5. **skip 语义**：换成 RasterInputs 字段全等（已存在，~0.1 ms），顶点不哈希（§2 p5）。
 6. **EGL 丢失恢复**（#97 语义在命令后端下）：门树清零 + 页纹理重传。
-7. **运行时回退开关**：命令后端 ↔ 软件光栅化，A/B 可用。
+7. **运行时回退开关**：✅ 开关机制已施工（WL18，2026-10-16）；**命令后端接入待切片①/④**。
+   - **单一选择点**：`draw_frame` / `draw_frame_cached` → `draw_frame_inner`
+     （`crates/client/src/lib.rs`）解析后端一次并 dispatch。软件臂就是把原 `draw_frame_inner`
+     全体改名为 `draw_frame_software`（函数体零改动），所以这个 match 是切片⑦在默认路径上的
+     唯一改动（lib.rs diff = +40 行）。
+   - **模块**：`crates/client/src/parts/render_backend.rs`（`include!` 进 lib.rs，与
+     `parts/view_cull.rs` 同款）。`RenderBackend = Software | GpuCommands`。
+     优先级：`set_render_backend(Some(..))`（线程作用域覆盖；进程内 A/B 与运行时回退的杠杆）
+     > `CALLY_RENDER_BACKEND`（进程级，首次解析后缓存；大小写不敏感、裁剪空白、空值=未设；
+     别名 `cpu`/`gpu`）> `BUILD_DEFAULT_BACKEND = Software`。
+     未识别取值是**错误**而不是静默默认值：操作员点名了后端，开关不能假装选了别的。
+   - **未接线后端 = typed refusal（失败关闭）**：帧入口以 `BackendRefusal::NotWired` 为 panic
+     payload 拒绝合成，同一条诊断先写 stderr（默认 panic hook 对非 `&str` payload 只打印
+     `Box<dyn Any>`，不先写就丢诊断）。**不静默渲染软件帧**：静默回退会让将来的 A/B 变成
+     software-vs-software 并把「命令后端没有差别」当结论报出来——这正是本切片最该防的假证据。
+     `render_backend_status()` 是同一判定的非 panic 就绪探测，供 host 起循环前查询。
+   - **A/B 路径**：帧入口逐帧计时并按后端归档（`BackendFrameCost`：thread-local `Cell`，
+     无分配、无共享原子，默认关闭；`CALLY_RENDER_COST=1` 或 `set_frame_cost_recording(true)` 打开）。
+     命中 `RasterInputs` 缓存的帧样本≈0，读表时场景须一致（perf 测试走非缓存帧）。
+     切片④接入后，同场景 A/B = **一行 env 之差**：`CALLY_RENDER_BACKEND=gpu-commands` 跑
+     `crates/client/tests/render_backend_switch_perf.rs` 即成 A/B（该文件无需改动），
+     该变量未设时同一文件退化为 A/A。
+   - **等价门（默认路径逐字节不变）**：7394f1f 基线 release draw_hash 400 帧
+     `sha256 2b24681a656763633945375a55a47ec954c4556748dd9b2b8ed5b50817aafc65`
+     = 改后 release 同名文件 = 套件内 ci-test profile 逐帧 hash 拼接（三者相同，跨 profile 亦相同）。
+     `tests/render_backend_switch.rs` 对同样 400 帧（40 序幕 + 40 交接 + 8 房×40）做双源
+     A/A 逐字节比较，并按 draw_hash 同格式打印逐帧 hash，可直接 diff 复现该门。
+   - **A/A 证据（实测，本机 ci-test profile，3 次运行）**：① 开关自身成本：缓存后的解析
+     **18.3／44.8／47.9 ns/次**（三次运行）vs 每帧裸 `std::env::var` **301–517 ns/次**
+     ⇒ 解析不是每帧 getenv，占 10 ms 帧的 0.0007% 以下。② 同后端双源 A/A 分块测量
+     （8 房×200 帧×4 ABBA 对=32 对，A=显式覆盖 software，B=构建默认 software）：进程 CPU 时间
+     两腿中位数 **A 10.150 = B 10.150 ms/帧**，配对 Δcpu 中位数 **+0.000 ms/帧**、正负
+     **15/17**（教科书式 A/A），最差单对 |Δ| 2.45 ms，本机同轮 A/A 安慰剂（leg B 自身两半）
+     最差 **1.000 ms**。墙钟在分块 min-of-N 下 A/A 安慰剂 0.03–6.7 ms/帧、Δ/floor 高达 44×
+     ⇒ 本机墙钟不可用于分辨该量级（这也是判据取 CPU 时间、墙钟只登记不断言的原因）。
+     证明"切换本身零开销"的是①的直接测量，②给出帧级上界（≤1.000 ms=10%）与"无系统性偏差"。
+     原始日志 `~/cally-work/wl18/perf3.log`（含逐房表）／`perf2.log`／`perf.log`。
+   - **Android 边界（实测，非推断）**：app 进程由 zygote fork，shell/Termux 设的环境变量
+     **不进入** app 进程 ⇒ 设备侧 A/B 走 `set_render_backend`（或切片④在 host 侧加系统属性读取，
+     那需要 android-build/ 配合，不在本切片）。env 杠杆对 host／桌面／headless／操作员直接启动的
+     进程有效（已用 release example 实测：`CALLY_RENDER_BACKEND=gpu-commands` → exit 101 +
+     完整诊断；`=metal` → exit 101 + 可接受取值清单）。
 
 ## 5. 风险清单
 
@@ -105,3 +146,9 @@
 spike 不追像素等价（任务边界）；命令路径的正确性以切片④的 glReadPixels
 对拍门为入口。端到端收益投影（16.5→8.7–9.0 ms）是「实测命令腿 + 已知分量」
 的合成，非端到端实测。
+
+切片⑦（开关，WL18）明确**不含**：命令后端本身（①/④）；**自动**回退策略——回退需要失败信号，
+那是切片④的错误路径，本切片只给杠杆（`set_render_backend`）；设备侧 env 传递（zygote fork，
+见 §4.7，设备 A/B 走覆盖 API）；A/B 的**真机 GPU 侧**数字（需④）。按本机噪声（A/A 安慰剂
+2–9 ms/帧），命令后端接入后的真机 A/B 也应主要依据分层计数与 GPU 侧计时，而非本机的墙钟块差。
+登记：`SOURCE_LAYOUT.md` 的 `parts/` 清单未同步新文件（文件所有权外，留给集成方）。
