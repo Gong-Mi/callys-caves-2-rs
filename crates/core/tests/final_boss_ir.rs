@@ -12,8 +12,9 @@
 //!   same tick (spawn offsets overlap the ground wall's sprite box);
 //! - the laser hit does NOT consume the laser (unlike boss3projectile) — it
 //!   arms the laser's own alarm[0]=1 and dies on the NEXT tick via CODE 317.
-use callys_core::code_vm::{load_bundle_from_file, Bundle};
-use callys_core::ir_scene::Scene;
+use callys_asset::GameDroidAsset;
+use callys_core::code_vm::{load_bundle_from_file, Bundle, Host};
+use callys_core::ir_scene::{Scene, SpriteBounds};
 use std::path::Path;
 
 const P: i32 = 0;
@@ -32,10 +33,38 @@ fn bundle() -> Bundle {
     load_bundle_from_file(&p).expect("load full_ir.json")
 }
 
+/// WL7: the app's SPRT wiring (recorded bbox + bounds + masks) so the shared
+/// box source reads real geometry instead of integer points.
+fn wire_sprite_geometry(s: &mut Scene) {
+    let asset = GameDroidAsset::parse(
+        &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/game.droid"),
+    )
+    .expect("parse game.droid");
+    for (sid, sp) in &asset.sprites {
+        s.sprite_bounds.insert(
+            *sid as i32,
+            SpriteBounds {
+                width: sp.width as f64,
+                height: sp.height as f64,
+                origin_x: sp.origin_x as f64,
+                origin_y: sp.origin_y as f64,
+                frames: sp.tpag_indices.len().max(1) as f64,
+            },
+        );
+        if let Some(bbox) = sp.bbox {
+            s.sprite_bboxes.insert(*sid as i32, bbox);
+        }
+        if !sp.masks.is_empty() {
+            s.sprite_masks.insert(*sid as i32, sp.masks.clone());
+        }
+    }
+}
+
 fn scene(b: &Bundle) -> Scene {
     let mut s = Scene::default();
     s.init_bundle(b);
     s.init_fresh_start_globals();
+    wire_sprite_geometry(&mut s);
     let init = s.create(b, INIT, -1000.0, -1000.0).expect("initializer");
     s.instances.get_mut(&init).unwrap().alive = false;
     s
@@ -233,10 +262,14 @@ fn laser_parry_and_wall_deaths() {
     assert!(!s.instances[&lz].alive);
     assert_eq!(count(&s, PARRY), 1);
     assert!(s.instances[&sw].alive);
-    // Wall: dies with a spark(13).
+    // Wall: dies with a spark(13). With real recorded boxes the laser's box
+    // at (300,200) is [293,307)x[198,202) and a wall's box starts at its
+    // origin ([x,x+32) x [y,y+32)); the old 32x32 unwired defaults overlapped
+    // only because BOTH sides were default boxes. Wall at x=305 overlaps the
+    // laser box by 2px in x — the recorded-box hit.
     let mut s = scene(&b);
     let p = player(&mut s, &b, 100.0, 100.0);
-    let _w = s.create(&b, WALL, 320.0, 200.0).unwrap();
+    let _w = s.create(&b, WALL, 305.0, 200.0).unwrap();
     let lz = s.create(&b, LASER, 300.0, 200.0).unwrap();
     park(&mut s, p);
     s.dispatch(&b, lz, 3, 0).expect("wall");
