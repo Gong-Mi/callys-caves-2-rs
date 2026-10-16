@@ -183,7 +183,9 @@ leg=egldead presenter=rust attach=true pre_live=3/10 terminate=true display_reco
 - **但画面不等于后台前那一帧**（`post_resume==pre_background=0/3`）：`autosave_ir` 里
   `Checkpoint { room_index: room, x: 0.0, y: 0.0 }`（`lib.rs` 322）**不持久化玩家坐标**，
   room/globals/score/collected 会被恢复、玩家位置回到房间起点 → 这是「重置+收敛」而非
-  「续帧」。登记为已知语义（是否与原版一致待真机/GM 对照）。
+  「续帧」。**判定（WL10）：忠实原版语义**——原版 `savefile.ini` 全量 320 个键无任何
+  坐标/房号/门卡字段，且原版自身回房（Room Start/地图传送/「返回游戏」/死亡）一律把玩家
+  重置到逐房常量 `global.startx/starty`；证据清单见 `ir-save.md` §Original semantics。
 - 存档随每轮被重写（`save-v2.json` 1416B → 1416B → 1417B）。
 
 ## 4. 音频相位：可观测替代与边界
@@ -226,7 +228,11 @@ android-app 源，故只登记**。
 2. **缺陷候选①** 每帧 `mus_*` 命令（§4）——现象已验、根因未定位。
 3. **缺陷候选②** 每次前后台往返重放序章（§3.1）——native 层确证；真机侧需确认这是否
    与原版 runner 的后台语义一致（若不一致，属 UX 可见回退）。
-4. **往返不续帧**：玩家坐标不入档（`lib.rs` 322）→ 回前台回房间起点；是否与原版一致待定。
+4. **往返不续帧**：玩家坐标不入档（`lib.rs` 322）→ 回前台回房间起点。**已判定为忠实原版
+   语义（WL10）**：原版存档无坐标字段、原版回房一律用逐房 `startx/starty` 常量；契约与
+   file:line 证据见 `ir-save.md` §Original semantics，回归由
+   `ir_save_roundtrip.rs::ir_autosave_persists_no_player_coordinates_and_restore_lands_at_room_start`
+   锁定。不再列为待验缺口。
 
 **未验层（本轮无法覆盖）**
 
