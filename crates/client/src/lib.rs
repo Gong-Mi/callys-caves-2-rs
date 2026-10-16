@@ -1101,6 +1101,8 @@ include!("parts/font.rs");
 
 include!("parts/view_cull.rs");
 
+include!("parts/render_backend.rs");
+
 fn draw_sprite(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: usize, dst: (i32, i32, u32, u32), flip_x: bool) -> bool {
     draw_sprite_alpha(fb, state, sprite_id, frame, dst, flip_x, 1.0)
 }
@@ -1318,6 +1320,8 @@ fn raster_inputs_unchanged(cache: &mut Option<RasterInputs>, key: &RasterInputs)
     false
 }
 
+/// Compose one frame into `fb` on the backend the switch selects
+/// (`reconstruction/contracts/gpu-command-backend.md` slice 7).
 pub fn draw_frame(
     fb: &mut Framebuffer,
     state: &GameState,
@@ -1341,7 +1345,43 @@ pub fn draw_frame_cached(
     draw_frame_inner(fb, state, tpag, sprites, Some(cache))
 }
 
+/// The frame family's single dispatch point: everything that composes a frame
+/// enters here, resolves the backend once (contract `gpu-command-backend.md`
+/// slice 7, see `parts/render_backend.rs`) and leaves on exactly one path.
+///
+/// Two arms, deliberately asymmetric:
+///
+/// * `Software` - [`draw_frame_software`], the shipped rasterizer. Unchanged
+///   body: this dispatch is the only edit slice 7 makes on the default path, so
+///   the draw_hash equivalence gate (40 frames each of prologue + handover and 8
+///   rooms x 40) stays byte-for-byte identical by construction.
+/// * `GpuCommands` - a typed refusal, because the command path is slices 1/4
+///   and the switch must not silently compose the software frame in its place
+///   (that would make a future A/B compare software against software and report
+///   "no difference" as if the command backend had been measured).
+///
+/// Neither the backend lookup nor the cost hook reads `getenv` per frame: the
+/// resolution is a thread-local read plus one cached atomic load, and the hook
+/// reads the clock only when the recorder is on.
 fn draw_frame_inner(
+    fb: &mut Framebuffer,
+    state: &GameState,
+    tpag: &HashMap<usize, TpagItem>,
+    sprites: &HashMap<usize, SpriteData>,
+    cache: Option<&mut Option<RasterInputs>>,
+) {
+    let resolution = resolve_render_backend_or_refuse();
+    let started = render_backend_frame_cost_start();
+    match resolution.backend {
+        RenderBackend::Software => draw_frame_software(fb, state, tpag, sprites, cache),
+        RenderBackend::GpuCommands => BackendRefusal::NotWired { resolution }.into_panic(),
+    }
+    render_backend_frame_cost_end(resolution.backend, started);
+}
+
+/// The software rasterizer: room tiles, the original draws, the camera follow,
+/// then the legacy overlay when no IR scene is live.
+fn draw_frame_software(
     fb: &mut Framebuffer,
     state: &GameState,
     _tpag: &HashMap<usize, TpagItem>,
