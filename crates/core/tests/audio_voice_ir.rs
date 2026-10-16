@@ -83,11 +83,15 @@ fn original_weaponswap_alarm_gates_repeat_plays() {
     assert_eq!(s.audio.len(), after_first, "gate must suppress stacking while the sound plays");
     assert_eq!(s.globals["weaponswapped"], 4.0);
 
-    // Host drains the audible commands: non-looping voices retire, gate reopens.
+    // Host drains the audible commands. With the seeded duration table the
+    // voice survives the drain for its real length (snd_weaponswap = 0.815 s,
+    // 25 ticks at 30 Hz) — that survival IS the original gate semantics. Move
+    // the clock past the duration, then the gate reopens to exactly one play.
     let drained = s.drain_audio();
     assert_eq!(drained.len(), after_first, "drain must return the audible commands");
+    s.tick_count += 30;
     s.dispatch(&b, inst, 2, 0).expect("weaponswap Alarm 0 third run");
-    assert_eq!(s.audio.len(), 1, "after drain the gate must allow exactly one fresh play");
+    assert_eq!(s.audio.len(), 1, "after the duration the gate must allow exactly one fresh play");
 }
 
 #[test]
@@ -121,7 +125,9 @@ fn known_duration_holds_the_gate_for_the_sounds_real_length() {
     assert_eq!(s.audio_is_playing_sound(music), false,
                "gate reopens once the duration elapsed");
 
-    let sfx = 7.0; // sond 7 = explode, duration unknown in this table
+    let sfx = 999.0; // outside the real SOND id range: the seeded table covers
+                      // all 54 real entries, so a synthetic id exercises the
+                      // unknown-duration legacy path.
     s.call_audio_play(sfx, 0.0, false);
     assert_eq!(s.audio_is_playing_sound(sfx), true);
     s.drain_audio();

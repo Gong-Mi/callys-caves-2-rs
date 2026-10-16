@@ -47,3 +47,32 @@ GMS 1.4 bytecode16 打包，两个 chunk 分工：
 - SOND `volume` 元数据当前未被 `AudioCommand`/SoundPool 消费——原版 runner 播放时应用资源音量，本项未实现，列为 J 分线 Android 验收缺口。
 - `audio_sound_gain` 的静音语义已在 VM 层接入 AudioVoice 账本（`665ec0a`），但 gain 数值未下传声音通道，同为设备层缺口。
 - AudioFlinger 真机证据（PR #17，旧 legacy 路径）：44100Hz AudioTrack 由 SoundPool 驱动；IR 路径的听感验收待 Android 设备分线。
+
+## 6. 防叠 gate 的引擎侧根因与修复（WL8，2026-10-16）
+
+**现象**（javm64 验收矩阵 WL4 实测）：gameplay 相位第 131 帧起每帧 drain 恰好 1 条
+mus_* 播放命令（id 29..52 轮转）；宿主 `handleMusicCommand` 对每条 id≥29 事件
+stopBgm + new MediaPlayer + prepare + start ⇒ BGM 每帧重启。
+
+**根因**：音频资产不携带时长（SOND 记录只有 name/flags/type/file/volume），
+`audio_is_playing` 的判定依赖「声音设备知道流的真实长度」。引擎的 AudioVoice
+账本支持「已知时长的非循环 voice 活到时长结束」，但时长表（
+`reconstruction/contracts/audio-durations.json`，54/54 行：29 内嵌 WAV 实测 +
+25 OGG granule/rate）此前只由宿主注入，注入路径没进 gameplay ⇒
+`Scene::sound_durations` 恒空 ⇒ 每帧 drain 把 voice 同帧退役 ⇒ 86 处防叠 gate
+全部恒假 ⇒ obj_music 24 层链每帧放行一首新曲。
+
+**修复语义**：`Scene::sound_durations` 默认值改为仓内生成的
+`crates/core/src/sond_durations.rs`（源=audio-durations.json，regen 命令在文件头；
+一致性由 `crates/core/tests/sond_durations_guard.rs` 钉住）。已知时长的非循环
+voice 活到真实时长，`audio_is_playing` gate 按原版语义工作；未知时长仍走
+legacy drain 退役（未登记的声不会永久关门）。`set_sound_duration` 保留单条覆盖。
+
+**验证**：`crates/client/tests/gameplay_music_gate.rs` 3 项——gameplay 不重发 BGM
+（序章 track 的唯一条初始发行除外，且 gate 因它在放而保持）；track 真实时长
+结束后链重开、恰好发一首新 theme 且随后保持静默；换房（rm_boss1）音乐变更
+恰好一条循环命令到达宿主。
+
+**宿主侧待办（仅提案，本线未施工）**：`handleMusicCommand` 加「同曲已在放」守卫
+（id+looping 相同且 MediaPlayer 未 release 时跳过 stopBgm/new），作为引擎账本
+之外的第二道防叠；需要真机听感验收才能定稿。

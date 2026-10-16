@@ -161,10 +161,12 @@ pub struct Scene {
     draw_phase: DrawPhase,
     draw_depth_context: Option<f64>,
     pub executed: Vec<(usize,usize)>,
-    /// Known sound durations in seconds (sond id -> seconds), injected by the
-    /// host from reconstruction/contracts/audio-durations.json. A non-looping
-    /// voice of a sound listed here stays "playing" for its real duration, so
-    /// the original's `audio_is_playing` gates (obj_music sequencer) hold.
+    /// Real playback length of every SOND entry (sond id -> seconds), seeded
+    /// from [`crate::sond_durations`] (the checked-in audio contract) and
+    /// overridable per sound with `set_sound_duration`. A non-looping voice of
+    /// a sound listed here stays "playing" for its real length, so the
+    /// original's `audio_is_playing` gates (obj_music sequencer, SFX restack
+    /// guards) hold the way the runner's own audio device makes them hold.
     pub sound_durations: BTreeMap<i32, f64>,
     /// Room speed (steps per second) used to convert seconds -> ticks.
     pub room_speed: f64,
@@ -234,7 +236,7 @@ impl Default for Scene {
             score: 0.0,
             draws: Vec::new(), texts: Vec::new(), healthbars: Vec::new(), backgrounds: Vec::new(), audio: Vec::new(), executed: Vec::new(),
             draw_emissions: Vec::new(), draw_phase: DrawPhase::Room, draw_depth_context: None,
-            sound_durations: BTreeMap::new(), room_speed: 30.0, tick_count: 0,
+            sound_durations: crate::sond_durations::table(), room_speed: 30.0, tick_count: 0,
             view: 0, view_positions: BTreeMap::new(), mouse_pressed: false,
             view_ports: BTreeMap::new(),
             room_views: Vec::new(),
@@ -443,9 +445,12 @@ impl Scene {
     ///
     /// Voices with a KNOWN duration survive draining until their duration
     /// elapses (the original engine keeps `audio_is_playing` true for the
-    /// sound's real length, which is what gates the obj_music sequencer).
+    /// sound's real length, which is what gates the obj_music sequencer and the
+    /// per-sound restack guards). `Scene::sound_durations` is seeded from the
+    /// audio contract, so this is the normal path for every SOND entry the game
+    /// can play; `set_sound_duration` overrides a single entry.
     /// Voices with unknown duration keep the legacy retire-on-drain behaviour
-    /// so existing gates for SFX still reopen.
+    /// so an unlisted sound cannot permanently close its gate.
     pub fn drain_audio(&mut self) -> Vec<AudioCommand> {
         let drained = std::mem::take(&mut self.audio);
         let now = self.tick_count;
