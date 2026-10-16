@@ -72,20 +72,38 @@ rm_map(960×640)、rm_mapview3(1024×768)，**三页都经真实返回路径回�
 startx/starty(128,204)、6 帧后 CODE 362 清旗标。旧版在 rm_mapview3 停下、其
 client 侧返回从未被跑过；本批把它接进同一连续环。
 
-**停车点夹具纪律（本批实测根因）**：停车点 (900,400) 紧邻 rm_level17 的
-obj_slime #119898（实例在 (928,352)，bbox 间距实测 5.4px）。map 菜单 CODE 476 的
-`instance_activate_all()` 会把 CODE 361 扫描挂起的该实例重新激活，于是 warp 前那一
-tick 玩家 Step（CODE 12）真的吃了一次 `hitenemyslime` 接触扣血：leg2 3→2、leg3
-2→1。而**出货死亡阈值是 `global.health1 == 1`**（恢复 GML `0012` 第 2375–2387 行
-→ CODE 540），CODE 540 的 `instance_deactivate_all(true)` 会写进 persistent 玩家；
-obj_youhavedied 非 persistent，被 map warp 换房丢弃，于是玩家带着 inactive 状态
-留在 map 房；返回点击的 CODE 692 再 `instance_activate_all()` 唤醒它，下一 tick
-rm_level17 立刻重建死亡层——现场就是 obj_youhavedied 唯一 active、玩家 inactive、
-`warpfrommap` 卡在 1（obj_bg 已被挂起，CODE 362 永不执行）。这是**夹具把玩家停在
-自然伤害路径**，引擎行为与出货字节码一致（原版同血线同样进死亡界面）。修法只动夹具：
-停车点改为 (428,204)（距 pin 300px，回钉断言仍非空洞；实测该点 120px 内、任何
-active 状态下都没有敌人/危险实例），并加防伪断言——开图前后 `health1` 不变、返回后
-`cast(obj_youhavedied)==0`、玩家 `active`。不补血、不改引擎、不删死亡派发。
+**停车点夹具纪律（本批实测根因与两处更正）**：
+
+- **归因更正**：整房复活不是 map 菜单 CODE 476 的 `instance_activate_all()`（恢复
+  GML 逐条核对，CODE 476 无此调用）。真实链路：CODE 476 `with (obj_firstpause)
+  instance_destroy()` → obj_firstpause Destroy CODE 495 结尾 `audio_stop_all();
+  instance_activate_all();`——warp 消费那一 tick 玩家 Step（CODE 12）对整个房间运行。
+- **缝的双读数（核心更正）**：旧文本「bbox 间距实测 5.4px」只是录制框读数，与引擎
+  读数相反。引擎碰撞前相 `bounds_for_instance`（`ir_scene.rs:750-763`）用**整张
+  精灵矩形**，原版 `Compute_BoundingBox` 用录制 SPRT bbox：同一 tick 玩家盒引擎读数
+  (885,384)-(917,418) vs 史莱姆 (893,320.7)-(957,384.7) → y 相交 0.7px = **命中**；
+  录制读数 (894,388)-(908,418) vs (906,359.7)-(942,384.7) → y 相距 3.3px = 不命中。
+  **触发点是引擎整矩形前相在双读数缝上造出的假阳**；接触之后的全链（CODE 12→540、
+  692、541 的 health1=4 + room_restart）逐条核对都是出货字节码。
+- **6 tick 时间线**（1024×768 → rm_mapview3，停车 (900,400)，health1 注入 2）：
+  t1 开图 tick 玩家 Step 吃接触 health1 2→1 → 同 Step 尾部 `global.health1==1`
+  （恢复 GML 0012 第 2375–2387 行）建 obj_youhavedied，CODE 540 回钉 persistent
+  玩家 (128,204) 后 `instance_deactivate_all(true)`；t1 帧尾客户端消费 rm_mapview3
+  warp——死亡层非 persistent 被换房丢弃、玩家带 inactive 过去；t6 贴片返回点击 =
+  CODE 692 `instance_activate_all()` + `warpfrommap=1` + room_goto(25) 同帧消费；
+  t7 回 rm_level17 下一 tick health1 仍 1 → 建第二层、playerdied 1→2，obj_bg 被挂起
+  CODE 362 不执行 → **现场 = obj_youhavedied 唯一 active、玩家 inactive、
+  warpfrommap 卡 1**。
+- **修法与门**：停车点 (428,204)（距 pin 300px；实测 120px 内、任何 active 状态下
+  都没有敌人/危险实例）。本批把「事后 health1 断言」升级为**逐腿双读数门**
+  `player_enemy_contacts`（引擎读数与录制读数都越界才放行）——该危险对 pre-tick
+  断言不可见（CODE 495 的复活发生在伤害 tick 之前）。新增
+  `the_map_open_contact_tick_hands_the_run_to_the_death_overlay_across_the_map_warp`
+  把上述 6 tick 现场逐条钉住：它是**碰撞域修复的 canary**——把前相换成录制框后
+  第一条断言必红，届时须按新碰撞语义**重铸**夹具，而不是重播旧夹具。
+- **边界**：碰撞域生产修复点 = `bounds_for_instance`/`instance_place` 的整矩形
+  前相 → 录制框/掩码（`crates/core/src`），由 feat/precise-collision-masks 线持有；
+  本批不动 core、不删死亡派发、不补血。
 
 ## pending-view guard 的正反边界
 
