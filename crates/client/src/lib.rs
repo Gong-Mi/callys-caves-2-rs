@@ -1353,7 +1353,7 @@ pub fn draw_frame_cached(
 ///
 /// * `Software` - [`draw_frame_software`], the shipped rasterizer. Unchanged
 ///   body: this dispatch is the only edit slice 7 makes on the default path, so
-///   the draw_hash equivalence gate (120 frames of prologue + handover and 8
+///   the draw_hash equivalence gate (40 frames each of prologue + handover and 8
 ///   rooms x 40) stays byte-for-byte identical by construction.
 /// * `GpuCommands` - a typed refusal, because the command path is slices 1/4
 ///   and the switch must not silently compose the software frame in its place

@@ -62,7 +62,10 @@ fn loadavg() -> String {
 /// the neighbours; this does not.
 fn proc_cpu_secs() -> Option<f64> {
     let stat = std::fs::read_to_string("/proc/self/stat").ok()?;
-    let fields: Vec<&str> = stat.get(stat.rfind(')')? + 2..)?.split_whitespace().collect();
+    let fields: Vec<&str> = stat
+        .get(stat.rfind(')')? + 2..)?
+        .split_whitespace()
+        .collect();
     let utime: u64 = fields.get(11)?.parse().ok()?;
     let stime: u64 = fields.get(12)?.parse().ok()?;
     Some((utime + stime) as f64 / 100.0)
@@ -74,7 +77,9 @@ fn boot() -> GameState {
     let bundle = Arc::new(
         load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).expect("full_ir"),
     );
-    state.enable_ir_gameplay(bundle).expect("enable_ir_gameplay");
+    state
+        .enable_ir_gameplay(bundle)
+        .expect("enable_ir_gameplay");
     state
 }
 
@@ -82,7 +87,11 @@ fn save_for(room: usize) -> SaveData {
     SaveData {
         format_version: 2,
         current_room: room,
-        checkpoint: Checkpoint { room_index: room, x: 0.0, y: 0.0 },
+        checkpoint: Checkpoint {
+            room_index: room,
+            x: 0.0,
+            y: 0.0,
+        },
         max_health: 10,
         gems: 0,
         coins: 0,
@@ -118,9 +127,16 @@ struct Block {
     hook: BackendFrameCost,
 }
 
-fn block(state: &GameState, fb: &mut Framebuffer, override_: Option<RenderBackend>, iters: u32) -> Block {
+fn block(
+    state: &GameState,
+    fb: &mut Framebuffer,
+    override_: Option<RenderBackend>,
+    iters: u32,
+) -> Block {
     set_render_backend(override_);
-    let backend = render_backend_config().expect("the legs are resolved before they are timed").backend;
+    let backend = render_backend_config()
+        .expect("the legs are resolved before they are timed")
+        .backend;
     reset_backend_frame_costs();
     let cpu0 = proc_cpu_secs();
     let t = Instant::now();
@@ -138,7 +154,11 @@ fn block(state: &GameState, fb: &mut Framebuffer, override_: Option<RenderBacken
         "the per-frame hook must sample every composed frame on this leg",
     );
     assert!(hook.mean_ns().unwrap() > 0.0, "a composed frame takes time");
-    Block { wall_ms, cpu_ms, hook }
+    Block {
+        wall_ms,
+        cpu_ms,
+        hook,
+    }
 }
 
 fn min(xs: &[f64]) -> f64 {
@@ -176,12 +196,16 @@ fn resolving_the_backend_is_not_a_per_frame_getenv() {
 
     println!(
         "\n{} cached resolutions and {} uncached env reads; loadavg {}",
-        RESOLUTION_ITERS, RESOLUTION_ITERS, loadavg(),
+        RESOLUTION_ITERS,
+        RESOLUTION_ITERS,
+        loadavg(),
     );
     println!(
         "  cached switch resolution {cached_ns:6.1} ns/call  (thread-local read + cached atomic load)"
     );
-    println!("  raw std::env::var        {env_ns:6.1} ns/call  (what a per-frame getenv would pay)");
+    println!(
+        "  raw std::env::var        {env_ns:6.1} ns/call  (what a per-frame getenv would pay)"
+    );
     println!(
         "  frame cost for scale: ~6 ms software composition, so both are < {:.4}% of a frame",
         cached_ns / 6.0e6 * 100.0,
@@ -213,7 +237,7 @@ fn software_vs_software_a_a_is_within_the_noise_floor() {
                 "run without {BACKEND_ENV} (or with it set to {}) to measure the A/A",
                 RenderBackend::Software.name(),
             );
-            return;
+            panic!("requested measurement backend is unavailable: {refusal}");
         }
         Ok(backend) => {
             let cfg = render_backend_config().expect("resolved above");
@@ -232,7 +256,11 @@ fn software_vs_software_a_a_is_within_the_noise_floor() {
     }
     let leg_b = ambient.expect("checked above");
     let leg_a = Some(RenderBackend::Software);
-    let leg_b_override = if leg_b == RenderBackend::Software { None } else { Some(leg_b) };
+    let leg_b_override = if leg_b == RenderBackend::Software {
+        None
+    } else {
+        Some(leg_b)
+    };
     println!(
         "build default is {}; {} frames per block, {} ABBA pairs per room, {} rooms; loadavg {}",
         BUILD_DEFAULT_BACKEND.name(),
@@ -248,8 +276,17 @@ fn software_vs_software_a_a_is_within_the_noise_floor() {
 
     println!(
         "{:>14} {:>9} {:>9} {:>9} {:>9} {:>9} {:>9} {:>9} {:>9} {:>9} {:>7}",
-        "room", "A cpu", "B cpu", "A wall", "B wall", "A hook", "B hook", "pairΔcpu",
-        "cpu floor", "wall A/A", "wall Δ/f",
+        "room",
+        "A cpu",
+        "B cpu",
+        "A wall",
+        "B wall",
+        "A hook",
+        "B hook",
+        "pairΔcpu",
+        "cpu floor",
+        "wall A/A",
+        "wall Δ/f",
     );
     let mut deltas: Vec<f64> = Vec::new();
     let mut a_cpu_all: Vec<f64> = Vec::new();
@@ -330,7 +367,11 @@ fn software_vs_software_a_a_is_within_the_noise_floor() {
     let frame_cpu = median(&a_cpu_all);
     println!(
         "\npaired cpu deltas (A - B, ms/frame, ABBA-cancelled): {}",
-        deltas.iter().map(|d| format!("{d:+.3}")).collect::<Vec<_>>().join(" "),
+        deltas
+            .iter()
+            .map(|d| format!("{d:+.3}"))
+            .collect::<Vec<_>>()
+            .join(" "),
     );
     println!(
         "cpu ms/frame: A median {frame_cpu:.3}, B median {:.3}; paired median {paired:+.3}, \
@@ -346,24 +387,33 @@ fn software_vs_software_a_a_is_within_the_noise_floor() {
     // this machine's resolution (the in-run A/A placebo) or, on a quiet machine
     // where that placebo is tiny, inside 5% of a frame. The direct measurement
     // in `resolving_the_backend_is_not_a_per_frame_getenv` (tens of ns per
-    // resolution) is the number that carries the zero-overhead claim; this block
-    // bounds it at frame granularity.
+    // resolution) is an overhead estimate, not a zero-overhead proof. This block
+    // reports this run's coarse CPU-clock/noise limits, not a universal bound.
     let floor = (0.05 * frame_cpu).max(worst_cpu_placebo);
-    assert!(
-        paired.abs() <= floor,
-        "the same backend reached through two resolution sources must not differ measurably \
+    if leg_b == RenderBackend::Software {
+        assert!(
+            paired.abs() <= floor,
+            "the same backend reached through two resolution sources must not differ measurably \
          (paired median Δcpu = {paired:+.3} ms/frame, floor {floor:.3} ms = max(5% of a frame, \
          worst in-run A/A placebo {worst_cpu_placebo:.3} ms))",
-    );
-    println!(
-        "A/A verdict: paired median Δcpu {paired:+.3} ms/frame <= floor {floor:.3} ms \
+        );
+        println!(
+            "A/A verdict: paired median Δcpu {paired:+.3} ms/frame <= floor {floor:.3} ms \
          (max(5% of {frame_cpu:.3} ms, worst A/A placebo {worst_cpu_placebo:.3} ms))",
-    );
+        );
+    } else {
+        // A real A/B is expected to differ; do not apply an A/A equality gate.
+        println!("A/B observation: paired median Δcpu {paired:+.3} ms/frame; placebo {worst_cpu_placebo:.3} ms");
+    }
     let positive = deltas.iter().filter(|d| **d > 0.0).count();
     println!(
         "sign of (A - B) across {} pairs: {} positive, {} negative",
         deltas.len(),
         positive,
-        deltas.len() - positive,
+        deltas.iter().filter(|d| **d < 0.0).count(),
+    );
+    println!(
+        "zero deltas: {}",
+        deltas.iter().filter(|d| **d == 0.0).count()
     );
 }

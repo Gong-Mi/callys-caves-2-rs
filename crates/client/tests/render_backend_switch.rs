@@ -19,10 +19,10 @@
 //!    framebuffer is left untouched (nothing was composed), and the A/B cost
 //!    table stays empty (a refusal cannot pad a measurement).
 use callys_client::{
-    backend_frame_cost, draw_frame, render_backend_config, render_backend_status,
-    reset_backend_frame_costs, resolve_backend, set_frame_cost_recording, set_render_backend,
-    BackendRefusal, BackendSource, Framebuffer, GameState, RenderBackend, UnknownBackendValue,
-    BACKEND_ENV, BUILD_DEFAULT_BACKEND,
+    backend_frame_cost, draw_frame, draw_frame_cached, render_backend_config,
+    render_backend_status, reset_backend_frame_costs, resolve_backend, set_frame_cost_recording,
+    set_render_backend, BackendRefusal, BackendSource, Framebuffer, GameState, RenderBackend,
+    UnknownBackendValue, BACKEND_ENV, BUILD_DEFAULT_BACKEND,
 };
 use callys_core::code_vm::load_bundle_from_file;
 use callys_core::save::SaveData;
@@ -62,7 +62,9 @@ fn boot() -> GameState {
     let bundle = Arc::new(
         load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).expect("full_ir"),
     );
-    state.enable_ir_gameplay(bundle).expect("enable_ir_gameplay");
+    state
+        .enable_ir_gameplay(bundle)
+        .expect("enable_ir_gameplay");
     state
 }
 
@@ -70,7 +72,11 @@ fn save_for(room: usize) -> SaveData {
     SaveData {
         format_version: 2,
         current_room: room,
-        checkpoint: Checkpoint { room_index: room, x: 0.0, y: 0.0 },
+        checkpoint: Checkpoint {
+            room_index: room,
+            x: 0.0,
+            y: 0.0,
+        },
         max_health: 10,
         gems: 0,
         coins: 0,
@@ -120,17 +126,32 @@ fn draw_pair(
         default_cfg.backend, BUILD_DEFAULT_BACKEND,
         "{label}: the build default is the software rasterizer",
     );
-    draw_frame(default_fb, state, &state.asset.tpag_items, &state.asset.sprites);
+    draw_frame(
+        default_fb,
+        state,
+        &state.asset.tpag_items,
+        &state.asset.sprites,
+    );
 
     set_render_backend(Some(RenderBackend::Software));
     let override_cfg = render_backend_config().expect("no env value to reject");
-    assert_eq!(override_cfg.source, BackendSource::Override, "{label}: the override must win");
+    assert_eq!(
+        override_cfg.source,
+        BackendSource::Override,
+        "{label}: the override must win"
+    );
     assert_eq!(override_cfg.backend, RenderBackend::Software, "{label}");
-    draw_frame(override_fb, state, &state.asset.tpag_items, &state.asset.sprites);
+    draw_frame(
+        override_fb,
+        state,
+        &state.asset.tpag_items,
+        &state.asset.sprites,
+    );
 
     set_render_backend(None);
     assert_eq!(
-        default_fb.pixels, override_fb.pixels,
+        default_fb.pixels,
+        override_fb.pixels,
         "{label}: the same software path reached through two resolution sources must \
          produce the same pixels ({} bytes)",
         default_fb.pixels.len(),
@@ -151,14 +172,26 @@ fn the_build_default_and_the_software_override_draw_identical_frames() {
 
     for frame in 0..PROLOGUE_FRAMES {
         state.step(DT);
-        draw_pair(&state, &mut default_fb, &mut override_fb, &format!("prologue f{frame:03}"), &mut hashes);
+        draw_pair(
+            &state,
+            &mut default_fb,
+            &mut override_fb,
+            &format!("prologue f{frame:03}"),
+            &mut hashes,
+        );
     }
     state.input.tap = true;
     state.step(DT);
     state.input.tap = false;
     for frame in 0..PROLOGUE_FRAMES {
         state.step(DT);
-        draw_pair(&state, &mut default_fb, &mut override_fb, &format!("handover f{frame:03}"), &mut hashes);
+        draw_pair(
+            &state,
+            &mut default_fb,
+            &mut override_fb,
+            &format!("handover f{frame:03}"),
+            &mut hashes,
+        );
     }
     for room in ROOMS {
         let name = state.asset.rooms[room].name.clone();
@@ -177,7 +210,11 @@ fn the_build_default_and_the_software_override_draw_identical_frames() {
         }
     }
 
-    assert_eq!(hashes.len(), GATE_FRAMES as usize, "the gate walks exactly {GATE_FRAMES} frames");
+    assert_eq!(
+        hashes.len(),
+        GATE_FRAMES as usize,
+        "the gate walks exactly {GATE_FRAMES} frames"
+    );
     let distinct: std::collections::HashSet<u64> = hashes.iter().map(|(_, h)| *h).collect();
     println!(
         "{} frames drawn twice (build default vs software override), all byte-identical; \
@@ -203,7 +240,10 @@ fn the_build_default_and_the_software_override_draw_identical_frames() {
 fn resolve_backend_pins_the_priority_rule_and_the_accepted_values() {
     // Nothing asked for anything -> the build default.
     let cfg = resolve_backend(None, None).expect("unset env is not an error");
-    assert_eq!((cfg.backend, cfg.source, cfg.env_value), (BUILD_DEFAULT_BACKEND, BackendSource::BuildDefault, None));
+    assert_eq!(
+        (cfg.backend, cfg.source, cfg.env_value),
+        (BUILD_DEFAULT_BACKEND, BackendSource::BuildDefault, None)
+    );
 
     // An empty or whitespace-only value counts as unset (a shell `VAR=` exports "").
     for empty in ["", "   ", "\t"] {
@@ -227,24 +267,49 @@ fn resolve_backend_pins_the_priority_rule_and_the_accepted_values() {
         let cfg = resolve_backend(None, Some(value)).expect("accepted value");
         assert_eq!(cfg.backend, backend, "{value:?}");
         assert_eq!(cfg.source, BackendSource::Env, "{value:?}");
-        assert_eq!(cfg.env_value, Some(value.trim()), "{value:?}: the diagnostic keeps the value");
+        assert_eq!(
+            cfg.env_value,
+            Some(value.trim()),
+            "{value:?}: the diagnostic keeps the value"
+        );
     }
 
     // The override wins over the env var, including when it asks for the other
     // backend - and it must not claim the env var selected anything.
     for backend in RenderBackend::ALL {
-        let cfg = resolve_backend(Some(backend), Some("gpu-commands")).expect("override is always valid");
-        assert_eq!((cfg.backend, cfg.source, cfg.env_value), (backend, BackendSource::Override, None));
+        let cfg =
+            resolve_backend(Some(backend), Some("gpu-commands")).expect("override is always valid");
+        assert_eq!(
+            (cfg.backend, cfg.source, cfg.env_value),
+            (backend, BackendSource::Override, None)
+        );
+    }
+
+    // Recovery overrides must win even over an invalid process selection.
+    for backend in RenderBackend::ALL {
+        let cfg = resolve_backend(Some(backend), Some("not-a-backend")).unwrap();
+        assert_eq!(
+            (cfg.backend, cfg.source, cfg.env_value),
+            (backend, BackendSource::Override, None)
+        );
     }
 
     // An unrecognised value names the variable, the value and the accepted set.
     for bad in ["metal", "vulkan", "software2", "0"] {
         let err = resolve_rejected(bad);
-        assert_eq!(err, UnknownBackendValue { value: bad.to_string() });
+        assert_eq!(
+            err,
+            UnknownBackendValue {
+                value: bad.to_string()
+            }
+        );
         let text = err.to_string();
         assert!(text.contains(BACKEND_ENV), "{text}");
         assert!(text.contains(bad), "{text}");
-        for accepted in [RenderBackend::Software.name(), RenderBackend::GpuCommands.name()] {
+        for accepted in [
+            RenderBackend::Software.name(),
+            RenderBackend::GpuCommands.name(),
+        ] {
             assert!(text.contains(accepted), "{text} must list {accepted}");
         }
     }
@@ -268,15 +333,27 @@ fn an_unwired_backend_is_a_typed_refusal_not_a_silent_software_frame() {
 
     // The selection itself is valid: config() reports what was asked for...
     let cfg = render_backend_config().expect("'gpu-commands' is a backend, just not a wired one");
-    assert_eq!((cfg.backend, cfg.source), (RenderBackend::GpuCommands, BackendSource::Override));
+    assert_eq!(
+        (cfg.backend, cfg.source),
+        (RenderBackend::GpuCommands, BackendSource::Override)
+    );
     // ...and the readiness probe is what refuses it.
     match render_backend_status() {
         Err(BackendRefusal::NotWired { resolution }) => {
             assert_eq!(resolution.backend, RenderBackend::GpuCommands);
             assert_eq!(resolution.source, BackendSource::Override);
             let text = BackendRefusal::NotWired { resolution }.to_string();
-            for needle in ["gpu-commands", "not wired", BACKEND_ENV, "slice", "software"] {
-                assert!(text.contains(needle), "the refusal must name {needle:?}: {text}");
+            for needle in [
+                "gpu-commands",
+                "not wired",
+                BACKEND_ENV,
+                "slice",
+                "software",
+            ] {
+                assert!(
+                    text.contains(needle),
+                    "the refusal must name {needle:?}: {text}"
+                );
             }
         }
         other => panic!("an unwired backend must refuse the frame entry, got {other:?}"),
@@ -284,7 +361,12 @@ fn an_unwired_backend_is_a_typed_refusal_not_a_silent_software_frame() {
 
     // The frame entry refuses with the same diagnostic as a typed payload.
     let payload = catch_unwind(AssertUnwindSafe(|| {
-        draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites)
+        draw_frame(
+            &mut fb,
+            &state,
+            &state.asset.tpag_items,
+            &state.asset.sprites,
+        )
     }))
     .expect_err("draw_frame must not compose a frame on an unwired backend");
     let typed = payload
@@ -313,7 +395,12 @@ fn an_unwired_backend_is_a_typed_refusal_not_a_silent_software_frame() {
     // The lever works in the other direction too: the same call composes once the
     // operator (or a runtime fallback) steps back onto software.
     set_render_backend(Some(RenderBackend::Software));
-    draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
+    draw_frame(
+        &mut fb,
+        &state,
+        &state.asset.tpag_items,
+        &state.asset.sprites,
+    );
     assert!(
         !fb.pixels.iter().all(|b| *b == 0xAB),
         "stepping back to software must compose the frame again",
@@ -324,6 +411,42 @@ fn an_unwired_backend_is_a_typed_refusal_not_a_silent_software_frame() {
         0,
         "only the software leg drew",
     );
+    // A valid software cache may not bypass backend selection. Refusal must
+    // leave both the pixels and the cached raster inputs exactly untouched.
+    let mut cache = None;
+    draw_frame_cached(
+        &mut fb,
+        &state,
+        &state.asset.tpag_items,
+        &state.asset.sprites,
+        &mut cache,
+    );
+    assert!(
+        cache.is_some(),
+        "the software leg must have populated the cache"
+    );
+    let cache_before = cache.clone();
+    let pixels_before = fb.pixels.clone();
+    let cost_before = backend_frame_cost(RenderBackend::Software);
+    set_render_backend(Some(RenderBackend::GpuCommands));
+    let payload = catch_unwind(AssertUnwindSafe(|| {
+        draw_frame_cached(
+            &mut fb,
+            &state,
+            &state.asset.tpag_items,
+            &state.asset.sprites,
+            &mut cache,
+        )
+    }))
+    .expect_err("a cached software frame cannot satisfy a GPU request");
+    assert!(matches!(
+        payload.downcast_ref::<BackendRefusal>(),
+        Some(BackendRefusal::NotWired { .. })
+    ));
+    assert_eq!(fb.pixels, pixels_before);
+    assert_eq!(cache, cache_before);
+    assert_eq!(backend_frame_cost(RenderBackend::Software), cost_before);
+    assert!(backend_frame_cost(RenderBackend::GpuCommands).is_empty());
     set_frame_cost_recording(false);
     set_render_backend(None);
 }
@@ -340,17 +463,29 @@ fn the_frame_cost_hook_records_per_backend_samples() {
     set_frame_cost_recording(false);
     reset_backend_frame_costs();
     for _ in 0..16 {
-        draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
+        draw_frame(
+            &mut fb,
+            &state,
+            &state.asset.tpag_items,
+            &state.asset.sprites,
+        );
     }
     assert!(
-        RenderBackend::ALL.iter().all(|b| backend_frame_cost(*b).is_empty()),
+        RenderBackend::ALL
+            .iter()
+            .all(|b| backend_frame_cost(*b).is_empty()),
         "the recorder is off by default: nothing may be sampled",
     );
 
     set_frame_cost_recording(true);
     reset_backend_frame_costs();
     for _ in 0..FRAMES {
-        draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
+        draw_frame(
+            &mut fb,
+            &state,
+            &state.asset.tpag_items,
+            &state.asset.sprites,
+        );
     }
     let cost = backend_frame_cost(RenderBackend::Software);
     assert_eq!(cost.frames, FRAMES, "one sample per composed frame");
@@ -365,7 +500,10 @@ fn the_frame_cost_hook_records_per_backend_samples() {
         "software composition: {} frames, mean {mean:.0} ns, min {} ns, max {} ns",
         cost.frames, cost.min_ns, cost.max_ns,
     );
-    assert!(cost.total_ns >= cost.max_ns, "the total must contain the largest sample");
+    assert!(
+        cost.total_ns >= cost.max_ns,
+        "the total must contain the largest sample"
+    );
     assert!(
         backend_frame_cost(RenderBackend::GpuCommands).is_empty(),
         "the backend that never composed a frame must have no samples",
@@ -390,7 +528,12 @@ fn the_frame_cost_hook_records_per_backend_samples() {
 fn run_env_probe(child_env: Option<&str>) -> String {
     let exe = std::env::current_exe().expect("test binary path");
     let mut cmd = std::process::Command::new(exe);
-    cmd.args(["--exact", "env_probe_child", "--nocapture", "--test-threads=1"]);
+    cmd.args([
+        "--exact",
+        "env_probe_child",
+        "--nocapture",
+        "--test-threads=1",
+    ]);
     match child_env {
         Some(value) => cmd.env(BACKEND_ENV, value),
         None => cmd.env_remove(BACKEND_ENV),
@@ -420,7 +563,10 @@ fn the_env_var_selects_the_backend_in_a_fresh_process() {
         let text = run_env_probe(Some(value));
         let trimmed = value.trim();
         assert!(
-            text.contains(&format!("RESOLVED backend={} source=env env={trimmed}", backend.name())),
+            text.contains(&format!(
+                "RESOLVED backend={} source=env env={trimmed}",
+                backend.name()
+            )),
             "the child must resolve {BACKEND_ENV}={value:?} to {}:\n{text}",
             backend.name(),
         );
@@ -434,7 +580,10 @@ fn the_env_var_selects_the_backend_in_a_fresh_process() {
 
     // An unsolicited environment variable must not be silently ignored.
     let text = run_env_probe(Some("metal"));
-    assert!(text.contains("is not a render backend"), "the unknown value must be named:\n{text}");
+    assert!(
+        text.contains("is not a render backend"),
+        "the unknown value must be named:\n{text}"
+    );
     assert!(text.contains("metal"), "{text}");
     assert!(
         text.contains("REFUSED-FRAME backend=unknown-value"),
@@ -465,8 +614,14 @@ fn env_probe_child() {
     match value {
         None => {
             let cfg = render_backend_config().expect("nothing to reject");
-            assert_eq!((cfg.backend, cfg.source), (BUILD_DEFAULT_BACKEND, BackendSource::BuildDefault));
-            println!("RESOLVED backend={} source=build-default", cfg.backend.name());
+            assert_eq!(
+                (cfg.backend, cfg.source),
+                (BUILD_DEFAULT_BACKEND, BackendSource::BuildDefault)
+            );
+            println!(
+                "RESOLVED backend={} source=build-default",
+                cfg.backend.name()
+            );
         }
         Some(value) => match render_backend_config() {
             Ok(cfg) => {
@@ -476,23 +631,41 @@ fn env_probe_child() {
                     cfg.backend,
                     RenderBackend::parse(value).expect("the probe only passes accepted values"),
                 );
-                println!("RESOLVED backend={} source=env env={value}", cfg.backend.name());
+                println!(
+                    "RESOLVED backend={} source=env env={value}",
+                    cfg.backend.name()
+                );
                 if cfg.backend.is_wired() {
                     let state = boot();
                     let mut fb = Framebuffer::new(W, H);
                     fb.pixels.fill(0xAB);
-                    draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites);
-                    assert!(fb.pixels.iter().any(|b| *b != 0xAB), "the software leg composes");
+                    draw_frame(
+                        &mut fb,
+                        &state,
+                        &state.asset.tpag_items,
+                        &state.asset.sprites,
+                    );
+                    assert!(
+                        fb.pixels.iter().any(|b| *b != 0xAB),
+                        "the software leg composes"
+                    );
                     println!("DREW backend={}", cfg.backend.name());
                 } else {
                     let state = boot();
                     let mut fb = Framebuffer::new(W, H);
                     fb.pixels.fill(0xAB);
                     let payload = catch_unwind(AssertUnwindSafe(|| {
-                        draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites)
+                        draw_frame(
+                            &mut fb,
+                            &state,
+                            &state.asset.tpag_items,
+                            &state.asset.sprites,
+                        )
                     }))
                     .expect_err("an unwired backend must refuse the frame entry");
-                    let refusal = payload.downcast_ref::<BackendRefusal>().expect("typed payload");
+                    let refusal = payload
+                        .downcast_ref::<BackendRefusal>()
+                        .expect("typed payload");
                     assert!(matches!(refusal, BackendRefusal::NotWired { .. }));
                     assert!(fb.pixels.iter().all(|b| *b == 0xAB), "nothing was composed");
                     println!("REFUSED-FRAME backend={}", cfg.backend.name());
@@ -503,10 +676,17 @@ fn env_probe_child() {
                 let mut fb = Framebuffer::new(W, H);
                 fb.pixels.fill(0xAB);
                 let payload = catch_unwind(AssertUnwindSafe(|| {
-                    draw_frame(&mut fb, &state, &state.asset.tpag_items, &state.asset.sprites)
+                    draw_frame(
+                        &mut fb,
+                        &state,
+                        &state.asset.tpag_items,
+                        &state.asset.sprites,
+                    )
                 }))
                 .expect_err("an unrecognised value must refuse the frame entry");
-                let refusal = payload.downcast_ref::<BackendRefusal>().expect("typed payload");
+                let refusal = payload
+                    .downcast_ref::<BackendRefusal>()
+                    .expect("typed payload");
                 assert_eq!(*refusal, BackendRefusal::UnknownValue(unknown.clone()));
                 assert!(fb.pixels.iter().all(|b| *b == 0xAB), "nothing was composed");
                 println!("UNKNOWN {unknown}");

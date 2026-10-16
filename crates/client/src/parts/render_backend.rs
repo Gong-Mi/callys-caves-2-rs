@@ -94,7 +94,11 @@ impl RenderBackend {
     /// and trimmed, plus the two shell-prompt aliases (`cpu`, `gpu`).
     pub fn parse(value: &str) -> Option<RenderBackend> {
         let value = value.trim();
-        if let Some(backend) = Self::ALL.iter().copied().find(|b| b.name().eq_ignore_ascii_case(value)) {
+        if let Some(backend) = Self::ALL
+            .iter()
+            .copied()
+            .find(|b| b.name().eq_ignore_ascii_case(value))
+        {
             return Some(backend);
         }
         match value.to_ascii_lowercase().as_str() {
@@ -186,7 +190,9 @@ impl std::error::Error for UnknownBackendValue {}
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum BackendRefusal {
     /// The selected backend has no implementation yet (contract slices 1/4).
-    NotWired { resolution: BackendResolution<'static> },
+    NotWired {
+        resolution: BackendResolution<'static>,
+    },
     /// The env var names no backend, so the switch cannot be trusted to have
     /// selected what the operator asked for.
     UnknownValue(UnknownBackendValue),
@@ -250,7 +256,9 @@ pub fn resolve_backend(
                 source: BackendSource::Env,
                 env_value: Some(value),
             }),
-            None => Err(UnknownBackendValue { value: value.to_string() }),
+            None => Err(UnknownBackendValue {
+                value: value.to_string(),
+            }),
         },
         None => Ok(BackendResolution {
             backend: BUILD_DEFAULT_BACKEND,
@@ -322,7 +330,22 @@ pub fn set_render_backend(backend: Option<RenderBackend>) {
 /// What this process/thread currently selects, without judging whether the
 /// backend is implemented: `Err` only for an unrecognised env value.
 pub fn render_backend_config() -> Result<BackendResolution<'static>, UnknownBackendValue> {
-    resolve_backend(render_backend_override(), backend_env_value())
+    // Cache the parsed selection, not only the raw string: aliases such as
+    // "CPU" must not allocate a lowercase String on every rendered frame.
+    // Overrides bypass even an invalid process selection, so runtime recovery
+    // can explicitly choose software without mutating the environment.
+    if let Some(backend) = render_backend_override() {
+        return Ok(BackendResolution {
+            backend,
+            source: BackendSource::Override,
+            env_value: None,
+        });
+    }
+    static SELECTION: OnceLock<Result<BackendResolution<'static>, UnknownBackendValue>> =
+        OnceLock::new();
+    SELECTION
+        .get_or_init(|| resolve_backend(None, backend_env_value()))
+        .clone()
 }
 
 /// The readiness probe: the selection *plus* whether the frame entry can run on
