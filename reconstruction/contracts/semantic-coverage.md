@@ -41,11 +41,10 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 | tier | codes | share |
 | --- | --- | --- |
 | `object_cited_test` | 4 | 0.3% |
-| `object_cited_contract` | 294 | 21.7% |
-| `env_classified` | 30 | 2.2% |
-| `cited_src` | 12 | 0.9% |
-| `cited_test` | 615 | 45.4% |
-| `cited_contract` | 399 | 29.5% |
+| `env_classified` | 29 | 2.1% |
+| `cited_src` | 11 | 0.8% |
+| `cited_test` | 905 | 66.8% |
+| `cited_contract` | 405 | 29.9% |
 
 ## Environment (with) semantics scope
 
@@ -58,7 +57,7 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 - objects carrying events: **186**
 - CODE containers: `Object` 803, `RoomCC` 551
 - objects named in contract: **150**
-- objects named in test: **159**
+- objects named in test: **165**
 - objects named in src: **59**
 
 ## Execution evidence (traces given, not inferred)
@@ -76,9 +75,9 @@ argument in env-semantics.md.
 
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
-| `contract` | 88 | 399 | 163 |
-| `test` | 165 | 972 | 165 |
-| `src` | 26 | 41 | 66 |
+| `contract` | 97 | 405 | 163 |
+| `test` | 175 | 1269 | 172 |
+| `src` | 29 | 41 | 66 |
 
 ## Worklist: neither the CODE id nor its object is named anywhere
 
