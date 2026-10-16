@@ -88,6 +88,11 @@ fn hud_release_arms_ladder_and_rotates_pistol_to_shotgun() {
     // then rotate: pistol==1 && shotgunbought==1 -> shotgun branch.
     s.globals.insert("shotgunbought".into(), 1.0);
     s.drain_audio();
+    // The seeded duration table (WL8) keeps snd_weaponswap's is_playing gate
+    // shut for its real length (0.815 s = 25 ticks at 30 Hz) even after a
+    // drain — advance the clock past it so this second rotation's swap sound
+    // can queue, exactly like the original runner's audio device allows.
+    s.tick_count += 30;
     // Record the player's exact position right before the second tap; CODE
     // 519 spawns the label relative to obj_player at that instant, and CODE
     // 12 keeps the player drifting between our observations.
