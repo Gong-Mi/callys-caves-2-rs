@@ -1,6 +1,7 @@
 pub mod save;
 pub mod code_vm;
 pub mod ir_scene;
+pub mod sond_durations;
 pub mod original_player;
 pub mod original_player_combat;
 pub mod original_projectile_create;
