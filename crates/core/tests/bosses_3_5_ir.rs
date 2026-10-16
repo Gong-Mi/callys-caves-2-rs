@@ -12,8 +12,9 @@
 //! Fixture discipline: the ranged/chase fixtures keep the player alive+active
 //! (a parked player is invisible to distance_to_object — enemies-batch-2
 //! lesson) and ground the actors with a wall whose sprite box covers y+1.
+use callys_asset::GameDroidAsset;
 use callys_core::code_vm::{load_bundle_from_file, Bundle};
-use callys_core::ir_scene::Scene;
+use callys_core::ir_scene::{Scene, SpriteBounds};
 use std::path::Path;
 
 const P: i32 = 0;
@@ -37,10 +38,38 @@ fn bundle() -> Bundle {
     load_bundle_from_file(&p).expect("load full_ir.json")
 }
 
+/// WL7: the app's SPRT wiring (recorded bbox + bounds + masks) so the shared
+/// box source reads real geometry instead of integer points.
+fn wire_sprite_geometry(s: &mut Scene) {
+    let asset = GameDroidAsset::parse(
+        &Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/game.droid"),
+    )
+    .expect("parse game.droid");
+    for (sid, sp) in &asset.sprites {
+        s.sprite_bounds.insert(
+            *sid as i32,
+            SpriteBounds {
+                width: sp.width as f64,
+                height: sp.height as f64,
+                origin_x: sp.origin_x as f64,
+                origin_y: sp.origin_y as f64,
+                frames: sp.tpag_indices.len().max(1) as f64,
+            },
+        );
+        if let Some(bbox) = sp.bbox {
+            s.sprite_bboxes.insert(*sid as i32, bbox);
+        }
+        if !sp.masks.is_empty() {
+            s.sprite_masks.insert(*sid as i32, sp.masks.clone());
+        }
+    }
+}
+
 fn scene(b: &Bundle) -> Scene {
     let mut s = Scene::default();
     s.init_bundle(b);
     s.init_fresh_start_globals();
+    wire_sprite_geometry(&mut s);
     let init = s.create(b, INIT, -1000.0, -1000.0).expect("initializer");
     s.instances.get_mut(&init).unwrap().alive = false;
     s
@@ -211,10 +240,17 @@ fn boss4_ladder_chase_and_the_swing_cycle() {
         park(&mut s, p);
     }
     // Step 197: player within distance <= 100 -> swinging=1; the boss faces the
-    // player (xscale by x comparison) and walks hspeed ∓2.
+    // player (xscale by x comparison) and walks hspeed ∓2. WL7: the hspeed
+    // write only fires from the x±10 wall probes, and with real recorded
+    // boxes the boss's box is 115x120 ([230,345)x[144,264) at (300,200)) —
+    // any wall under the boss hits BOTH probes (flipping hspeed to +2), and
+    // no wall leaves it 0. Place the wall to the RIGHT of the x−10 probe's
+    // reach: x=350 gives box [350,382)x[260,292) — inside the x+10 probe
+    // box [240,355) but outside the x−10 box [220,345) — so only the x+10
+    // branch fires and hspeed = -2, the original expected value.
     let mut s = scene(&b);
     let p = player(&mut s, &b, 380.0, 200.0); // 80 px away
-    let _g = s.create(&b, WALL, 300.0, 216.0).unwrap();
+    let _g = s.create(&b, WALL, 350.0, 260.0).unwrap();
     let bs = s.create(&b, BOSS4, 300.0, 200.0).unwrap();
     s.dispatch(&b, bs, 3, 0).expect("chase step");
     assert_eq!(s.instances[&bs].fields["swinging"], 1.0,
