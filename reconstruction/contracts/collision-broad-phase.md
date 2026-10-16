@@ -48,21 +48,21 @@ sentinel 与 wrapping_mul/sqrtf 路径照旧）。半开约定使每个消费者
 11 个测试目标失败（其余全部通过，含全游戏连续通关 full_playthrough 7/7、
 distance_bbox 7/7、prec 3/3 重铸后）：
 
-| 目标 | 失败测试（示例） | 根因分类 |
-| --- | --- | --- |
-| core/woodblock_shattering_ir | blade_step_destroys… / logparts_die… / soundmute_suppresses… | i：刀片/木块夹具位置按整矩形校准，录制框不重叠 ⇒ CODE 274 不触发 |
-| core/physics_and_motion_ir | （待重铸逐条登记） | i |
-| core/mp_potential_step_avoidance_ir | （待重铸逐条登记） | i：候选盒几何换框源 |
-| core/ballistics_closure_ir / bosses_3_5_ir / final_boss_ir / enemies2_batch_ir / level2_enemy2_jump_ir | （待重铸逐条登记） | i：敌我接触/命中夹具按整矩形摆位 |
-| client/boss_kill_chains / bullet_combat_hit_ir / complete_combat_loop_ir | （待重铸逐条登记） | i：击杀链/命中夹具按整矩形摆位 |
+| 目标 | 失败测试（示例） | 根因分类 | 重铸要点（实测盒推导） |
+| --- | --- | --- | --- |
+| core/woodblock_shattering_ir | blade_step_destroys… / logparts_die… / soundmute_suppresses… | i（WL7b 已修提交） | 刀片/木块夹具接真实 SPRT 框并按 x+hspeed 探针重摆 |
+| core/physics_and_motion_ir | （collision_line notme 探针） | i（WL7b 已修提交） | 墙体按整数点盒摆位 |
+| core/mp_potential_step_avoidance_ir | （躲避夹具） | i（WL7b 已修提交） | 候选盒几何换框源后墙位按盒推导 |
+| core/ballistics_closure_ir | blade_sparks… / boomerang… / energywave_walls… / arrow_sticks… | i（本批） | 接线+墙位移；arrow_sticks 边界从原点距（旧接线点盒兜底）改录制盒距：箭盒 [306,327) 整数右边 326、玩家盒左边 x−6，间隙=x−332，x=348 恰 16 死 / x=347=15 活（实测探针校核） |
+| core/bosses_3_5_ir | boss3_projectiles… / boss4_ladder_chase… | i（本批） | boss4 盒 115×120，x±10 探针盒 [220,345)/[240,355)；墙 (350,260) 只命中 x+10 探 ⇒ hspeed=−2（原期望）；墙在 boss 正下方会双探命中翻成 +2 |
+| core/final_boss_ir | laser_hits_once… / laser_parry… / grenade… | i（本批） | 激光墙死：激光盒 [293,307)×[198,202)，旧双侧 32×32 默认盒互叠是接线缺口产物；墙 x 320→305（盒重叠 2px） |
+| core/enemies2_batch_ir | fireslime_rolls… | i（本批） | 接线即绿：fireblob 落地墙探在录制框下重命中 |
+| core/level2_enemy2_jump_ir | enemy2_jump_cycle… | i（本批） | 补 bbox/masks 接线；节奏按实测重导：t15/t90 两次发射（75 tick 周期），观测窗 90→150 |
+| client/boss_kill_chains | boss2/3/4/5_kill… | **i（夹具摆位，父代裁决）** | 裸 transition 进 rm_boss2(1280×480) 停在 y=494 界外，旧整矩形盒与地板行 1px 假重叠兜住；录制语义坠落→CODE 361 休眠带挂 boss→击杀链断。进房钉位（x 夹取、y≤h−80、速度清零）重力自沉降。裁决依据：连续通关真实走门击杀全绿=引擎无恙 |
+| client/bullet_combat_hit_ir | player_bullet_spawn… | i（本批） | 刀匪录制框 [x−16,x+13) + 每 tick 右移 4px ⇒ 命中 tick 4→5 |
+| client/complete_combat_loop_ir | complete_combat_loop… | i（本批） | 同上机制，命中窗 4→5 tick |
 
-分类口径：i=夹具按旧整矩形几何摆位（预期 RED，重铸夹具，不动引擎）；
-ii=引擎行为耦合（须逐条审）；iii=32×32 兜底依赖（canary 期已处理
-precise_collision_masks 一处；本批未见新例）。**初判全为 i 类**——待重铸时
-逐条用录制框数据证实或推翻。
-
-重铸纪律（与 WL1 一致）：从录制 bbox 数据推导摆位（先打印双方盒再摆），
-不得试凑；每条重铸显式钉住所用盒；测试意图（验证什么行为）不变。
+**终判：11 目标全部 i 类（夹具按旧整矩形几何摆位/接线缺口），无 ii 类引擎异常。**
 canary（the_map_open_contact_tick…）与缝测试已按 §5 重铸并通过。
 
 ## 5. canary 重铸
