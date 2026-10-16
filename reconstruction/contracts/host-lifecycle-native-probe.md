@@ -27,8 +27,9 @@ GPU、无前台窗口）逐相位驱动 Java 宿主实际执行的私有 native 
 - **nativeInit 重跑语义 = 内存重置（非幂等）+ 无泄漏 + 经 autosave 收敛**：往返后帧
   fingerprint 与「带档冷启动」完全相等，3 轮与两种 presenter 均一致。
 - 登记 3 项待办/缺陷候选（均不改码，交父代理）：① gameplay 每帧发出 1 条 `mus_*` 播放
-  命令（与原版 `audio_is_playing` 防叠 gate 契约冲突）；② 每次前后台往返都重放序章；
-  ③ 后台不暂停音频（真机侧，壳内无法验）。
+  命令（与原版 `audio_is_playing` 防叠 gate 契约冲突）；② 每次前后台往返都重放序章
+  （**WL14 已判定**：序章重放的*语义*忠实原版，残留*触发域*见 §5-3 与
+  `prologue-boot-semantics.md`）；③ 后台不暂停音频（真机侧，壳内无法验）。
 
 ## 1. 相位序列设计（对照 MainActivity，只读）
 
@@ -78,8 +79,9 @@ onResume         : startEngine() → running==true → 直接返回（nativeInit
 
 ## 2. 验收矩阵（相位 × 腿 × presenter × 结果）
 
-命令：`run_lifecycle_matrix_all.sh 3 220`；`settleFrames=220`（prologue 自退场在
-tick≈128，220 帧保证进入 gameplay；序章 taplock 会吞掉过早的点按，见 §2.3）。
+命令：`run_lifecycle_matrix_all.sh 3 220`；`settleFrames=220`（序章**无定时退场**——只有
+taplock 过期后的真实点按才退场（`prologue-boot-semantics.md` §2.1），220 帧加注入点按保证
+进入 gameplay；序章 taplock 会吞掉过早的点按，见 §2.3）。
 
 | 腿 | 断言（子项） | java | rust |
 |---|---|---|---|
@@ -226,8 +228,16 @@ android-app 源，故只登记**。
    播」。引擎侧已验为**后台不 tick、不发事件**（§4）；故「后台仍在响」只能来自 Java 侧
    已启动的流，须真机前台录音/`dumpsys media.audio_flinger` 验收。
 2. **缺陷候选①** 每帧 `mus_*` 命令（§4）——现象已验、根因未定位。
-3. **缺陷候选②** 每次前后台往返重放序章（§3.1）——native 层确证；真机侧需确认这是否
-   与原版 runner 的后台语义一致（若不一致，属 UX 可见回退）。
+3. **缺陷候选②** 每次前后台往返重放序章（§3.1）——**WL14 已判定（2026-10-16，恢复 GML 静态
+   证据：`prologue-boot-semantics.md`）**：候选②的**序章重放语义轴 = 忠实原版并关线**——原版
+   带档启动同样重放序章（CODE 17 `file_exists` 只决定 global 来源，l.1540 无条件
+   `instance_create(x, y, obj_introduction)`），无任何跳过分支，且无定时退场（只有 taplock=120
+   后的真实点按退场，CODE 554 l.15-21）。**残留未关的只剩触发域**：原版序章创建点唯一 = Game
+   Start（全树唯一 subtype 2）= 每进程一次，同进程前台恢复不重建；而宿主每轮 surface 重建都
+   重跑 nativeInit。二者是否等价取决于**原版 runner 的后台存活语义**（恢复树不含 runner/工程
+   元数据，静态不可判；原版 APK `d608f455…` + libyoyo `3bbedd09…` 已在 `reconstruction/`
+   本地，可 RE 或真机按 Home 对照）。若证不等价，**修复方向在宿主「往返不重建 GameState」，
+   不是给序章加跳过分支**（后者破坏冷启动忠实性）。
 4. **往返不续帧**：玩家坐标不入档（`lib.rs` 322）→ 回前台回房间起点。**已判定为忠实原版
    语义（WL10）**：原版存档无坐标字段、原版回房一律用逐房 `startx/starty` 常量；契约与
    file:line 证据见 `ir-save.md` §Original semantics，回归由
