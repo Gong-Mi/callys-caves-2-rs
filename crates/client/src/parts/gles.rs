@@ -378,6 +378,12 @@ pub mod gles {
             self.failed_entries
         }
 
+        /// Resident work is part of the frame's dirty state, even if the
+        /// software framebuffer bytes did not change.
+        pub fn has_pending_maintenance(&self) -> bool {
+            self.needs_reupload() || !self.pending_deletes.is_empty()
+        }
+
         pub fn pending_delete_names(&self) -> &[u32] {
             &self.pending_deletes
         }
@@ -422,6 +428,14 @@ pub mod gles {
                     entries += 1;
                     bytes += entry.bytes.len();
                 } else {
+                    // Invalidate the copy, not our ownership of its GL name.
+                    // A failed refresh still owns the old name; a failed create
+                    // may have generated a new one before TexImage failed.
+                    for name in [entry.texture, result.texture] {
+                        if name != 0 && !self.pending_deletes.contains(&name) {
+                            self.pending_deletes.push(name);
+                        }
+                    }
                     entry.texture = 0;
                     entry.resident_on_gpu = false;
                     failed += 1;
@@ -794,8 +808,9 @@ pub mod gles {
                     );
                     let error = glGetError();
                     if error != 0 {
-                        glDeleteTextures(1, tex.as_ptr());
-                        return (error, 0);
+                        // Account for this name even though its upload failed.
+                        // The context-owned queue deletes it on the next flush.
+                        return (error, tex[0]);
                     }
                     (0, tex[0])
                 } else {
@@ -812,11 +827,9 @@ pub mod gles {
                         bytes.as_ptr() as *const c_void,
                     );
                     let error = glGetError();
-                    if error == 0 {
-                        (0, existing)
-                    } else {
-                        (error, 0)
-                    }
+                    // The name remains owned even when the refresh fails;
+                    // apply_upload_results queues it before invalidating it.
+                    (error, existing)
                 }
             }
         }
@@ -892,6 +905,7 @@ pub mod gles {
             // present clears `force_present`, so a rebuilt surface or a host
             // surface event can never be eaten by this check.
             if !self.force_present
+                && !self.resident.has_pending_maintenance()
                 && self.last_presented.len() == pixels.len()
                 && self.last_presented.as_slice() == pixels
             {

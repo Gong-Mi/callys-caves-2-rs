@@ -224,6 +224,47 @@ fn removing_the_last_entry_leaves_the_set_clean() {
 }
 
 #[test]
+fn pending_maintenance_is_dirty_even_when_framebuffer_bytes_do_not_change() {
+    let mut set = ResidentSet::default();
+    assert!(!set.has_pending_maintenance());
+    set.register(entry(1, page_bytes(16), 2, 2)).unwrap();
+    assert!(set.has_pending_maintenance(), "new registration must bypass unchanged-frame skip");
+    set.apply_upload_results(&[ResidentUploadResult { index: 0, error: 0, texture: 11 }]);
+    assert!(!set.has_pending_maintenance());
+    set.apply_upload_results(&[ResidentUploadResult { index: 0, error: 0x0505, texture: 11 }]);
+    assert!(set.has_pending_maintenance(), "failure must get another frame to retry");
+    set.on_context_lost();
+    set.apply_upload_results(&[ResidentUploadResult { index: 0, error: 0, texture: 22 }]);
+    assert!(!set.has_pending_maintenance());
+    set.unregister(1);
+    assert!(set.has_pending_maintenance(), "even an empty set may still own queued names");
+    set.confirm_pending_deletes(1);
+    assert!(!set.has_pending_maintenance());
+}
+
+#[test]
+fn failed_refresh_and_failed_creation_keep_names_for_deletion() {
+    let mut set = ResidentSet::default();
+    set.register(entry(1, page_bytes(16), 2, 2)).unwrap();
+    set.apply_upload_results(&[ResidentUploadResult { index: 0, error: 0, texture: 11 }]);
+    // Production refresh failures returned texture=0. The old valid GL name
+    // must still be tracked when the GPU copy is invalidated.
+    assert_eq!(set.apply_upload_results(&[ResidentUploadResult { index: 0, error: 0x0505, texture: 0 }]), (0, 0));
+    assert_eq!(set.pending_delete_names(), &[11]);
+    assert_eq!(set.entries()[0].texture, 0);
+    assert!(set.needs_reupload());
+    // Failed creation can also have generated a real name before TexImage
+    // failed: defer that name to the same context-owned deletion queue.
+    set.apply_upload_results(&[ResidentUploadResult { index: 0, error: 0x0505, texture: 22 }]);
+    assert_eq!(set.pending_delete_names(), &[11, 22]);
+    assert_eq!(set.uploaded_totals(), (1, 16));
+    set.apply_upload_results(&[ResidentUploadResult { index: 0, error: 0, texture: 33 }]);
+    assert!(!set.needs_reupload());
+    assert_eq!(set.entries()[0].texture, 33);
+    assert_eq!(set.pending_delete_names(), &[11, 22]);
+}
+
+#[test]
 fn context_loss_keeps_bytes_drops_names_and_the_delete_queue() {
     let mut set = ResidentSet::default();
     let bytes = 8 * 4 * 4;
