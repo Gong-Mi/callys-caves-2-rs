@@ -1101,6 +1101,37 @@ include!("parts/font.rs");
 
 include!("parts/view_cull.rs");
 
+// Included after view_cull: the command model consumes the ordered stream
+// *downstream* of that guard (contract gpu-command-backend.md slice 1).
+include!("parts/gpu_commands.rs");
+
+/// The atlas page a resolved `TpagItem` samples from, in the shape the command
+/// model wants it: texture index, sampled rect and the texture's own size (the
+/// UV denominator). Every emit site has already resolved its atlas, so this
+/// cannot fail there; a missing atlas yields a zero-sized page rather than a
+/// panic, and such a site never reaches an emitter.
+fn atlas_page(state: &GameState, page: &callys_asset::TpagItem) -> AtlasPage {
+    let atlas = state
+        .atlases
+        .get(page.tex_id as usize)
+        .map(|a| (a.width(), a.height()))
+        .unwrap_or((0, 0));
+    AtlasPage {
+        tex: page.tex_id as usize,
+        rect: (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+        atlas,
+    }
+}
+
+/// Depth slot for the legacy (non-IR) draw path: it has no ordered emission
+/// stream to take one from and emits no commands, but `draw_tile` still wants
+/// the argument. Never observed - the legacy path passes no command list.
+const LEGACY_SLOT: DepthSlot = DepthSlot {
+    phase: callys_core::ir_scene::DrawPhase::Room,
+    depth: 0.0,
+    emit_order: 0,
+};
+
 fn draw_sprite(fb: &mut Framebuffer, state: &GameState, sprite_id: i32, frame: usize, dst: (i32, i32, u32, u32), flip_x: bool) -> bool {
     draw_sprite_alpha(fb, state, sprite_id, frame, dst, flip_x, 1.0)
 }
@@ -1140,6 +1171,12 @@ fn unpack_color(color: i32) -> (u8, u8, u8) {
 /// argument only ever short-circuits work whose result the raster cannot
 /// observe — so passing `None` reproduces the pre-culling path bit for bit.
 ///
+/// `gpu` is the command list (contract slice 1). When it is present this call
+/// appends exactly one quad for the blit below, taken from the same numbers the
+/// blit is called with and *after* the guard and the alpha test — so the list
+/// holds one command per drawn quad and nothing for a command that was culled
+/// or that writes no ink. Passing `None` emits nothing.
+///
 /// Returns false only when the sprite, its frame or its atlas page is missing,
 /// so the caller can fall back to a placeholder; a command that is simply
 /// invisible (alpha 0, zero scale, off-screen) returns true with nothing drawn.
@@ -1149,7 +1186,9 @@ fn draw_ir_sprite(
     cmd: &callys_core::ir_scene::DrawCommand,
     cam: (f64, f64),
     screen_scale: (f32, f32),
+    slot: DepthSlot,
     cull: Option<&mut ViewCullStats>,
+    gpu: Option<&mut GpuCommandList>,
 ) -> bool {
     let Ok(sprite_id) = usize::try_from(cmd.sprite) else { return false; };
     let Some(sprite) = state.asset.sprites.get(&sprite_id) else { return false; };
@@ -1196,6 +1235,24 @@ fn draw_ir_sprite(
     if alpha <= 0.0 { return true; }
     let color = unpack_color(cmd.color);
     let flood = if cmd.fog { Some(color) } else { None };
+    if let Some(list) = gpu {
+        // One quad per blit call, from the very numbers that call receives: the
+        // page rect as the source, the resolved atlas for the UV denominator,
+        // and the anchor/scale/rotation the blit's own projection uses.
+        list.emit_sprite(
+            slot,
+            atlas_page(state, page),
+            (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+            GpuQuadDst::Sprite {
+                anchor: dst_origin,
+                canvas: (sprite.width, sprite.height),
+                origin: (sprite.origin_x, sprite.origin_y),
+                scale,
+                rotation_deg: cmd.rotation,
+            },
+            GpuPaint { alpha, blend: color, flood },
+        );
+    }
     // The screen scale folds into BOTH the position and the sprite extent: a
     // GM draw places the sprite at world position with image_xscale in world
     // units, so the on-screen size is w * xscale * view_zoom. Passing the raw
@@ -1241,7 +1298,21 @@ fn placeholder_writes_pixels(
     x1 > x0 && y1 > y0
 }
 
-fn draw_tile(fb: &mut Framebuffer, state: &GameState, tile: &callys_asset::RoomTileInstance, cam_x: f32, cam_y: f32, scale_x: f32, scale_y: f32) -> bool {
+/// One room tile: the `blit_scaled` under it is the only thing a tile draws, so
+/// `gpu` appends that quad with the same clipped source rect and computed
+/// destination rect (contract slice 1). Tiles are unblended, unflooded and
+/// unrotated — `draw_tile` always passes `flip_x = false` and alpha 1.0.
+fn draw_tile(
+    fb: &mut Framebuffer,
+    state: &GameState,
+    tile: &callys_asset::RoomTileInstance,
+    cam_x: f32,
+    cam_y: f32,
+    scale_x: f32,
+    scale_y: f32,
+    slot: DepthSlot,
+    gpu: Option<&mut GpuCommandList>,
+) -> bool {
     if tile.bg_id < 0 { return false; }
     let Some(bg) = state.asset.backgrounds.get(&(tile.bg_id as usize)) else { return false; };
     let Some(page) = state.asset.tpag_items.get(&bg.tpag_ptr) else { return false; };
@@ -1257,6 +1328,14 @@ fn draw_tile(fb: &mut Framebuffer, state: &GameState, tile: &callys_asset::RoomT
     let dst_w = ((tile.width as f32 * tile.scale_x) * scale_x).max(1.0) as u32;
     let dst_h = ((tile.height as f32 * tile.scale_y) * scale_y).max(1.0) as u32;
 
+    if let Some(list) = gpu {
+        list.emit_tile(
+            slot,
+            atlas_page(state, page),
+            (src_x, src_y, src_w, src_h),
+            GpuQuadDst::Rect { x: dst_x, y: dst_y, w: dst_w, h: dst_h, flip_x: false },
+        );
+    }
     fb.blit_scaled(atlas, (src_x, src_y, src_w, src_h), (dst_x, dst_y, dst_w, dst_h), false);
     true
 }
@@ -1324,7 +1403,27 @@ pub fn draw_frame(
     tpag: &HashMap<usize, TpagItem>,
     sprites: &HashMap<usize, SpriteData>,
 ) {
-    draw_frame_inner(fb, state, tpag, sprites, None)
+    draw_frame_inner(fb, state, tpag, sprites, None, None)
+}
+
+/// `draw_frame` that additionally emits the frame's GPU command list (contract
+/// `gpu-command-backend.md` slice 1). The raster runs unchanged and the list is
+/// cleared first, so on return `list` holds exactly this frame's commands, in
+/// the order the raster consumed them, ready for `consume_command_list`.
+///
+/// The `RasterInputs` cache is deliberately not involved: a frame served from
+/// the cache rasterises nothing, so it has no commands to emit and the caller
+/// keeps the previous frame's list. Use `draw_frame` when no list is wanted -
+/// the emitters are the only difference between the two entry points.
+pub fn draw_frame_with_commands(
+    fb: &mut Framebuffer,
+    state: &GameState,
+    tpag: &HashMap<usize, TpagItem>,
+    sprites: &HashMap<usize, SpriteData>,
+    list: &mut GpuCommandList,
+) {
+    list.clear();
+    draw_frame_inner(fb, state, tpag, sprites, None, Some(list))
 }
 
 /// `draw_frame` that skips the raster (and the clear) when the captured raster
@@ -1338,7 +1437,7 @@ pub fn draw_frame_cached(
     sprites: &HashMap<usize, SpriteData>,
     cache: &mut Option<RasterInputs>,
 ) {
-    draw_frame_inner(fb, state, tpag, sprites, Some(cache))
+    draw_frame_inner(fb, state, tpag, sprites, Some(cache), None)
 }
 
 fn draw_frame_inner(
@@ -1347,6 +1446,7 @@ fn draw_frame_inner(
     _tpag: &HashMap<usize, TpagItem>,
     _sprites: &HashMap<usize, SpriteData>,
     mut cache: Option<&mut Option<RasterInputs>>,
+    mut gpu: Option<&mut GpuCommandList>,
 ) {
     let mut scale_x = fb.width as f32 / 960.0;
     let mut scale_y = fb.height as f32 / 540.0;
@@ -1404,7 +1504,7 @@ fn draw_frame_inner(
             }
             fb.fill_rect(0, 0, fb.width, fb.height, (0, 0, 0, 255));
             draw_ir_commands(fb, state, scene, view_origin, (scale_x, scale_y), true, &key.emissions,
-                cull_enabled.then_some(&mut cull_stats));
+                cull_enabled.then_some(&mut cull_stats), gpu.as_deref_mut());
             publish_view_cull_stats(cull_stats);
             return;
         }
@@ -1428,7 +1528,7 @@ fn draw_frame_inner(
         fb.fill_rect(0, 0, fb.width, fb.height, (15, 18, 30, 255));
 
         draw_ir_commands(fb, state, scene, (cam_x, cam_y), (scale_x, scale_y), false, &key.emissions,
-            cull_enabled.then_some(&mut cull_stats));
+            cull_enabled.then_some(&mut cull_stats), gpu.as_deref_mut());
         publish_view_cull_stats(cull_stats);
 
         // The IR scene already contains the original obj_UI button instances
@@ -1453,7 +1553,10 @@ fn draw_frame_inner(
 
     // Draw background tiles (depth >= 0)
     for tile in state.world.room_tiles.iter().filter(|t| t.depth >= 0) {
-        draw_tile(fb, state, tile, cam_x, cam_y, scale_x, scale_y);
+        // The legacy path has no ordered stream to take a depth slot from and
+        // emits no commands (contract slice 1 boundary: the list covers the IR
+        // paths the game actually plays).
+        draw_tile(fb, state, tile, cam_x, cam_y, scale_x, scale_y, LEGACY_SLOT, None);
     }
 
     for decoration in &state.world.decorations {
@@ -1615,16 +1718,29 @@ fn draw_frame_inner(
 /// `cull` carries the command-side view-culling counters (contract
 /// `gpu-command-backend.md` slice 2); `None` disables the guard and reproduces
 /// the pre-culling path exactly.
+///
+/// `gpu` carries the frame's command list (contract slice 1): every arm appends
+/// the commands the raster *drew* — one quad per blit, one fill per `fill_rect`,
+/// one outline per `draw_rect` — tagged with the emission's depth slot. Like
+/// `cull`, passing `None` changes nothing but the bookkeeping.
 fn draw_ir_commands(
     fb: &mut Framebuffer, state: &GameState, scene: &callys_core::ir_scene::Scene,
     cam: (f64, f64), screen_scale: (f32, f32), intro: bool,
     emissions: &[callys_core::ir_scene::DrawEmission],
     mut cull: Option<&mut ViewCullStats>,
+    mut gpu: Option<&mut GpuCommandList>,
 ) {
     use callys_core::ir_scene::DrawQueue;
     let (cam_x, cam_y) = cam;
     let (scale_x, scale_y) = screen_scale;
     for emission in emissions {
+        // The painter order the raster is walking, in the form the command list
+        // carries it: phase barrier, object depth, FIFO tie-break.
+        let slot = DepthSlot {
+            phase: emission.phase,
+            depth: emission.depth,
+            emit_order: emission.emit_order,
+        };
         match emission.queue {
             DrawQueue::Background(i) => {
                 let bg_cmd = &scene.backgrounds[i];
@@ -1642,9 +1758,24 @@ fn draw_ir_commands(
                             let dst_y = (world_y as f32 * scale_y) as i32;
                             let dst_w = ((page.w as f64 * bg_cmd.scale_x) as f32 * scale_x).max(1.0) as u32;
                             let dst_h = ((page.h as f64 * bg_cmd.scale_y) as f32 * scale_y).max(1.0) as u32;
+                            let rect = (page.x as u32, page.y as u32, page.w as u32, page.h as u32);
+                            if let Some(list) = gpu.as_deref_mut() {
+                                // The raster's background blit applies the
+                                // clamped alpha only; `bg_cmd.color` never
+                                // reaches it, so the blend stays the identity.
+                                list.emit_background(
+                                    slot,
+                                    atlas_page(state, page),
+                                    rect,
+                                    GpuQuadDst::Rect {
+                                        x: dst_x, y: dst_y, w: dst_w, h: dst_h, flip_x: false,
+                                    },
+                                    GpuPaint { alpha, ..GpuPaint::default() },
+                                );
+                            }
                             fb.blit_scaled_alpha(
                                 atlas,
-                                (page.x as u32, page.y as u32, page.w as u32, page.h as u32),
+                                rect,
                                 (dst_x, dst_y, dst_w, dst_h),
                                 false,
                                 alpha,
@@ -1658,12 +1789,17 @@ fn draw_ir_commands(
                 if let Some(counters) = cull.as_deref_mut() {
                     counters.sprite_commands += 1;
                 }
-                if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y), cull.as_deref_mut()) {
+                if !draw_ir_sprite(fb, state, cmd, (cam_x, cam_y), (scale_x, scale_y), slot,
+                    cull.as_deref_mut(), gpu.as_deref_mut()) {
                     let dst_x = ((cmd.x - cam_x) as f32 * scale_x) as i32;
                     let dst_y = ((cmd.y - cam_y) as f32 * scale_y) as i32;
                     let alpha = (cmd.alpha as f32).clamp(0.0, 1.0);
                     if alpha > 0.0 {
-                        fb.fill_rect(dst_x, dst_y, 32, 32, (60, 60, 70, (alpha * 255.0) as u8));
+                        let rgba = (60, 60, 70, (alpha * 255.0) as u8);
+                        if let Some(list) = gpu.as_deref_mut() {
+                            list.emit_fill(slot, (dst_x, dst_y, 32, 32), rgba);
+                        }
+                        fb.fill_rect(dst_x, dst_y, 32, 32, rgba);
                     }
                 }
             }
@@ -1684,8 +1820,19 @@ fn draw_ir_commands(
                 let mix = |lo: u8, hi: u8| -> u8 {
                     (lo as f32 + (hi as f32 - lo as f32) * pct).round() as u8
                 };
-                fb.fill_rect(left, top, w, h, (br, bg, bb, 255));
                 let fill_w = (w as f32 * pct).round() as u32;
+                if let Some(list) = gpu.as_deref_mut() {
+                    list.emit_fill(slot, (left, top, w, h), (br, bg, bb, 255));
+                    if fill_w > 0 {
+                        list.emit_fill(
+                            slot,
+                            (left, top, fill_w, h),
+                            (mix(nrr, xrr), mix(nrg, xrg), mix(nrb, xrb), 255),
+                        );
+                    }
+                    list.emit_outline(slot, (left, top, w, h), (0, 0, 0, 255));
+                }
+                fb.fill_rect(left, top, w, h, (br, bg, bb, 255));
                 if fill_w > 0 {
                     fb.fill_rect(left, top, fill_w, h, (mix(nrr, xrr), mix(nrg, xrg), mix(nrb, xrb), 255));
                 }
@@ -1730,9 +1877,9 @@ fn draw_ir_commands(
                     .and_then(|font| {
                         let page = state.asset.tpag_items.get(&font.page_tpag_ptr)?;
                         let atlas = state.atlases.get(page.tex_id as usize)?;
-                        Some((atlas, (page.x as u32, page.y as u32), font))
+                        Some((atlas, page.tex_id as usize, (page.x as u32, page.y as u32), font))
                     });
-                if let Some((atlas, page, font)) = gm_font {
+                if let Some((atlas, tex, page, font)) = gm_font {
                     // Scale the original pixel sizes into screen space the same
                     // way the sprite blits do: the game's views can be larger than
                     // the room pixels, and the fonts were baked for room pixels.
@@ -1745,6 +1892,7 @@ fn draw_ir_commands(
                         .unwrap_or(7);
                     fb.draw_text_gm(
                         atlas,
+                        tex,
                         page,
                         &font.glyphs,
                         space_shift,
@@ -1754,14 +1902,22 @@ fn draw_ir_commands(
                         scale,
                         (r, g, b),
                         alpha,
+                        slot,
+                        gpu.as_deref_mut(),
                     );
                 } else if !intro {
+                    // FONT_5X7 fallback: only reachable when the original FONT
+                    // chunk's page does not resolve. It has no atlas page to
+                    // model, so this slice emits nothing for it (contract
+                    // section 4 slice 1 boundary) - and the real assets resolve
+                    // every font (section 3).
                     let scale = ((scale_x.min(scale_y) * 2.0).round() as u32).max(1);
                     fb.draw_text_str(x, y, &cmd.text, scale, color);
                 }
             }
             DrawQueue::RoomTile(i) => {
-                draw_tile(fb, state, &scene.room_tiles[i], cam_x as f32, cam_y as f32, scale_x, scale_y);
+                draw_tile(fb, state, &scene.room_tiles[i], cam_x as f32, cam_y as f32, scale_x, scale_y,
+                    slot, gpu.as_deref_mut());
             }
             DrawQueue::Particle(i) => {
                 if intro { continue; }
@@ -1780,7 +1936,11 @@ fn draw_ir_commands(
                 let r = (p.color & 0xFF) as u8;
                 let g = ((p.color >> 8) & 0xFF) as u8;
                 let b = ((p.color >> 16) & 0xFF) as u8;
-                fb.fill_rect(x, y, w, h, (r, g, b, (alpha * 255.0) as u8));
+                let rgba = (r, g, b, (alpha * 255.0) as u8);
+                if let Some(list) = gpu.as_deref_mut() {
+                    list.emit_fill(slot, (x, y, w, h), rgba);
+                }
+                fb.fill_rect(x, y, w, h, rgba);
             }
         }
     }

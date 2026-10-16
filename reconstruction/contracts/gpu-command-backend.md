@@ -61,8 +61,20 @@
 
 ## 4. 施工切片（各自独立可验）
 
-1. **命令模型/发射**：draw command → GPU command list，保留软件光栅化；
-   等价门 = `draw_hash` 每帧 sha256 不变。
+1. **命令模型/发射**：✅ 已施工软件旁路捕获（WL16）；尚不是 GPU 绘制后端。
+   - `parts/gpu_commands.rs` 定义 sprite/tile/background/glyph/fill/outline 与原始 depth/phase/emit_order；
+     `draw_frame_with_commands` 显式开窗。默认 `draw_frame` / `draw_frame_cached` 不捕获，复用列表容量。
+   - 消费者只产连续页 run 与 float 顶点 staging，不全局按页重排、不调 GL；原始采样参数仍留在命令内，
+     staging 本身不替代像素等价门。父代理补矩形镜像 UV 的 RED→GREEN，并修正从未更新的 page_runs_max 断言。
+   - 默认软件与开启捕获的 `draw_hash` 400 帧均与 7394f1f 留存基线相同：
+     `2b24681a656763633945375a55a47ec954c4556748dd9b2b8ed5b50817aafc65`。
+     这是软件保持性，不是 GPU 像素等价。父级目标回归为 lib 37、命令列表 7、镜像回归 1，通过；全量另记。
+   - rm_level17 独立 40 帧观察：前 4 帧 stream 1432/kept 56/list quads 60，pre-guard run 57；
+     后 36 帧 stream 均值 799.3/kept 128/list quads 132，pre-guard run 15。
+     40 帧合计均值 124.8 quad、8.9 页 run、118.5 屏内 quad；连续八房路径的同房均值为 56.8 quad。
+     因此静态 census 的 71 屏内 quad 不是动态路径 golden；载入阶段/相机差异尚未因果定案，不宣称已解释。
+   - 明确未覆盖：FONT_5X7 fallback 字体与 legacy 非 IR 绘制；命令列表暂未携带帧清屏状态。
+     完整性门由 WL21 补齐；此时不能把统计列表当成完整 GPU 帧。背景 color 仍按旧光栅忽略，未趁机改行为。
 2. **命令侧视口剔除**：✅ 已施工（WL12，2026-10-16）。`parts/view_cull.rs` 守卫
    在 `draw_ir_sprite` 入口（解析页图集之前）拒绝视口外交命令；传 `None` 逐位
    复现旧路径。等价门：draw_hash 400 帧逐字节相等（隔离基线 worktree 对照）。
