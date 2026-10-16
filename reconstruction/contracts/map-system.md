@@ -38,6 +38,21 @@ rm_map(111)/rm_mapview3(112)/rm_mapview0(113) 的 90+ 房间绑定（obj_maptile
 - **rm_map 无玩家绑定**：CODE 692 尾部 `player.x = startx`（selector 0 写）在无玩家实例时**宿主报错 "write has no receiver"**——原版靠 obj_player 持久化（跨房存活）。夹具必须在 tap 前手动 `create(PLAYER)` 模拟持久玩家。
 - 邻接贴片判定用 `instance_place(160)`（同对象选择器）——场景里其他贴片即邻接源。
 
+## 地图返回 × 死亡层交互（跨 warp 的死亡现场）
+
+连续路线里「从 rm_mapview3 返回后 obj_youhavedied 独占激活」的现场已逐 tick 钉住
+（6 tick 时间线与双读数缝见 full-playthrough.md「停车点夹具纪律」）：CODE 540 的
+`instance_deactivate_all(true)` 会写进 persistent 玩家并跨 map warp 存活；
+obj_youhavedied 非 persistent、被换房丢弃；回程 CODE 692 的 `instance_activate_all`
+唤醒玩家后，下一 tick 若 health1 仍 1 就重建死亡层，现场退化为 obj_youhavedied
+唯一 active、玩家 inactive、warpfrommap 卡 1（obj_bg 挂起，CODE 362 不执行）。
+
+**该现场的原版忠实性以「接触本身是否命中」为条件**：已登记实例里那次命中是引擎
+整矩形前相的假阳（录制框读数下 y 相距 3.3px 不命中），接触后的链条是出货字节码。
+碰撞域修复（前相换录制框/掩码，feat/precise-collision-masks 线）后，该现场在原语义
+下不再可达；跨 warp 死亡层链由 full_playthrough 的 canary 测试钉住，修复落地时
+canary 转红即须按新碰撞语义重铸夹具。
+
 ## 测试
 
 `crates/core/tests/map_system_ir.rs` 3 项：迷雾门（无 visited 全灭 + 三 visited 精确保 3 贴片 + 三缩放房同表）；点击传送链（Step 高亮 255 + sprite 171 邻接 + tap 后 warpfrommap=1/target_room_warp=goto/玩家回钉 startx/starty）；CODE 476 的 **14 个显式分辨率分支**逐项经 IR 调度验证，并确认未列出的分辨率不触发地图跳转（其中四组分辨率此前有 live probe；全矩阵测试证明字节码分支，不等于原版 runner 全量实测）。
