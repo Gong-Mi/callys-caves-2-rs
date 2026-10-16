@@ -137,6 +137,93 @@ fn persistent_state_autosaves_and_reloads_through_file() {
 }
 
 #[test]
+fn ir_autosave_persists_no_player_coordinates_and_restore_lands_at_room_start() {
+    // WL10 judgement (ir-save.md, "Original semantics"): the original savefile.ini
+    // carries no player coordinates at all, and every original resume path repositions
+    // the player onto a per-room start constant. This pins the rewrite's side of that
+    // contract: a live position never reaches the file, and a cold restore leaves the
+    // player on the room start it was materialized with.
+    const PLAYER: i32 = 0;
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let dir = std::env::temp_dir().join(format!("cally-ir-coords-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let droid = dir.join("game.droid");
+    std::fs::copy(root.join("../../assets/game.droid"), &droid).unwrap();
+    let bundle = Arc::new(load_bundle_from_file(&root.join("../core/src/generated/full_ir.json")).unwrap());
+    let asset = GameDroidAsset::parse(&root.join("../../assets/game.droid")).unwrap();
+
+    // rm_town records an obj_player placement; that recorded position IS the room start.
+    let start = asset.rooms[0]
+        .objects
+        .iter()
+        .find(|instance| instance.object_id == PLAYER)
+        .expect("rm_town records an obj_player placement");
+    let (start_x, start_y) = (start.x as f64, start.y as f64);
+
+    let mut live = GameState::new_persistent(&droid).unwrap();
+    live.enable_ir_gameplay(bundle.clone()).unwrap();
+    live.retire_prologue();
+    let live_pos = {
+        let scene = live.scene.as_mut().unwrap();
+        assert_eq!(scene.current_room, 0.0, "the prologue rides rm_town");
+        let player = *scene.instances.iter()
+            .find(|(_, i)| i.object == PLAYER && i.alive)
+            .map(|(id, _)| id)
+            .expect("town carries the persistent player");
+        let walked = (start_x + 8.0, start_y);
+        scene.instances.get_mut(&player).unwrap().fields.insert("x".into(), walked.0);
+        scene.instances.get_mut(&player).unwrap().fields.insert("y".into(), walked.1);
+        // Progression change: room 0 on its own never triggers the autosave.
+        scene.globals.insert("haskey".into(), 1.0);
+        walked
+    };
+    live.step(1.0 / 60.0);
+    assert!(live.runtime_diagnostic.is_none());
+
+    let path = save_path_for_asset(&droid);
+    let saved = load_save(&path).unwrap().expect("the frame autosaved");
+    assert_eq!(saved.current_room, 0);
+    assert_eq!(saved.checkpoint.room_index, 0);
+    assert_eq!(
+        (saved.checkpoint.x, saved.checkpoint.y),
+        (0.0, 0.0),
+        "the file keeps the placeholder checkpoint; the live position {:?} must not reach it",
+        live_pos
+    );
+    assert_eq!(saved.scene_globals.get("haskey"), Some(&1.0));
+
+    // Cold session: the restore applies room/globals/collected only, so the player stays
+    // where the fresh boot materialized it — the room start, not the saved position.
+    let mut cold = GameState::new_persistent(&droid).unwrap();
+    assert!(cold.queue_boot_ir_restore(), "a v2 save with scene progress queues the restore");
+    cold.enable_ir_gameplay(bundle.clone()).unwrap();
+    cold.retire_prologue();
+    let save = load_save(&path).unwrap().unwrap();
+    cold.restore_ir_snapshot(&save).unwrap();
+    let restored = {
+        let scene = cold.scene.as_ref().unwrap();
+        assert_eq!(scene.current_room, 0.0);
+        let player = *scene.instances.iter()
+            .find(|(_, i)| i.object == PLAYER && i.alive)
+            .map(|(id, _)| id)
+            .expect("the restored session keeps the persistent player");
+        (scene.instances[&player].fields["x"], scene.instances[&player].fields["y"])
+    };
+    assert_eq!(
+        restored,
+        (start_x, start_y),
+        "cold restore lands on the room start {:?}, not the saved live position {:?}",
+        (start_x, start_y),
+        live_pos
+    );
+    for _ in 0..10 {
+        cold.step(1.0 / 60.0);
+        assert_eq!(cold.runtime_diagnostic, None);
+    }
+    std::fs::remove_dir_all(&dir).ok();
+}
+
+#[test]
 fn v1_v2_files_still_load_and_future_version_is_rejected() {
     let v2_minimal = r#"{"format_version":2,"current_room":3,
         "checkpoint":{"room_index":3,"x":1.0,"y":2.0},"max_health":4,"gems":0,"coins":7,
