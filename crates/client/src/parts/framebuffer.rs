@@ -214,9 +214,16 @@ impl Framebuffer {
     /// `draw_alpha` scales coverage further. `scale` is the screen-space
     /// stretch applied to every glyph box (nearest neighbour, like the other
     /// blits). Returns the glyph's advance (`shift`) in scaled pixels.
+    ///
+    /// `gpu` (contract `gpu-command-backend.md` slice 1) appends this glyph's
+    /// quad — the font page's atlas texture, the glyph's box inside it and the
+    /// scaled destination box — with the emission's depth slot, from exactly the
+    /// numbers used below. Emitting writes nothing back into the raster.
+    #[allow(clippy::too_many_arguments)]
     fn blit_glyph_gm(
         &mut self,
         atlas: &RgbaImage,
+        tex: usize,
         page: (u32, u32),
         glyph: &callys_asset::GlyphData,
         x: i32,
@@ -224,6 +231,8 @@ impl Framebuffer {
         scale: f32,
         color: (u8, u8, u8),
         alpha: f32,
+        slot: DepthSlot,
+        mut gpu: Option<&mut GpuCommandList>,
     ) -> u32 {
         let gw = glyph.w as u32;
         let gh = glyph.h as u32;
@@ -232,6 +241,19 @@ impl Framebuffer {
         }
         let dw = ((gw as f32) * scale).round() as u32;
         let dh = ((gh as f32) * scale).round() as u32;
+        if let Some(list) = gpu.as_deref_mut() {
+            list.emit_glyph(
+                slot,
+                AtlasPage {
+                    tex,
+                    rect: (page.0 + glyph.x as u32, page.1 + glyph.y as u32, gw, gh),
+                    atlas: (atlas.width(), atlas.height()),
+                },
+                (page.0 + glyph.x as u32, page.1 + glyph.y as u32, gw, gh),
+                GpuQuadDst::Rect { x, y, w: dw, h: dh, flip_x: false },
+                GpuPaint { alpha, blend: color, flood: None },
+            );
+        }
         for oy in 0..dh {
             let py = y + oy as i32;
             if py < 0 || py >= self.height as i32 {
@@ -277,9 +299,17 @@ impl Framebuffer {
     /// Characters outside the font's 96-glyph ASCII table are skipped by
     /// advancing one space width. Falls back to nothing when the font or its
     /// atlas is missing (the caller decides on a fallback).
+    ///
+    /// `gpu` (contract slice 1) emits one quad per glyph from inside this loop,
+    /// where the pen position and the glyph's box are both in hand: the command
+    /// list's glyph quads and the raster's glyph blits come from the same two
+    /// numbers, so they cannot drift. (`tex` is the font page's atlas texture;
+    /// `slot` is the emission's depth slot.)
+    #[allow(clippy::too_many_arguments)]
     fn draw_text_gm(
         &mut self,
         atlas: &RgbaImage,
+        tex: usize,
         page: (u32, u32),
         glyphs: &[callys_asset::GlyphData],
         space_shift: u16,
@@ -289,6 +319,8 @@ impl Framebuffer {
         scale: f32,
         color: (u8, u8, u8),
         alpha: f32,
+        slot: DepthSlot,
+        mut gpu: Option<&mut GpuCommandList>,
     ) {
         let mut pen = x;
         for ch in text.chars() {
@@ -304,7 +336,9 @@ impl Framebuffer {
                 .iter()
                 .find(|g| g.ch as u32 == code)
                 .unwrap_or(&glyphs[0]);
-            let adv = self.blit_glyph_gm(atlas, page, glyph, pen, y, scale, color, alpha);
+            let adv = self.blit_glyph_gm(
+                atlas, tex, page, glyph, pen, y, scale, color, alpha, slot, gpu.as_deref_mut(),
+            );
             pen += adv as i32;
         }
     }
