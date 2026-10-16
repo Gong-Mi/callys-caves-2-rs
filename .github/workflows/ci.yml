@@ -51,6 +51,8 @@ jobs:
         with:
           # contracts/*.json are consumed by tests and CI python scripts, so
           # they count as code; other reconstruction/ files are docs.
+          # .cargo/** is code: it carries the host link-step rustflags that the
+          # test leg depends on (see ci-mold-linker contract).
           filters: |
             code:
               - 'crates/**'
@@ -60,6 +62,7 @@ jobs:
               - 'reconstruction/contracts/**'
               - 'Cargo.toml'
               - 'Cargo.lock'
+              - '.cargo/**'
               - '.github/workflows/**'
       - name: Docs-only change
         if: steps.scope.outputs.code != 'true'
@@ -68,7 +71,18 @@ jobs:
         run: |
           sudo rm -f /etc/apt/sources.list.d/*chrome*
           sudo apt-get update
-          sudo apt-get install -y libsdl2-dev libsdl2-image-dev aapt zipalign
+          sudo apt-get install -y libsdl2-dev libsdl2-image-dev aapt zipalign mold
+      - name: Verify the host linker driver resolves mold
+        if: steps.scope.outputs.code == 'true'
+        run: |
+          # The host link step is configured for mold in .cargo/config.toml
+          # ([target.x86_64-unknown-linux-gnu] rustflags). Fail here, with the
+          # driver's own words, if mold is missing or unresolvable -- otherwise
+          # it surfaces later as a confusing linker error inside cargo.
+          mold --version
+          echo 'int main(void) { return 0; }' > "$RUNNER_TEMP/mold_probe.c"
+          cc -fuse-ld=mold "$RUNNER_TEMP/mold_probe.c" -o "$RUNNER_TEMP/mold_probe"
+          "$RUNNER_TEMP/mold_probe"
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
       - name: Set up sccache
@@ -83,6 +97,13 @@ jobs:
           # the rest report up-to-date.
           add-job-id-key: false
           cache-on-failure: true
+          # Cache-key note for the mold linker (.cargo/config.toml):
+          # rust-cache hashes .cargo/config.toml and the RUST* env vars into
+          # cacheKey (add-rust-environment-hash-key defaults to true) but not
+          # into restoreKey, so it still restores the previous target dir
+          # through restore-keys and the first shard to finish saves the new
+          # key. The one-off cost of this change is cargo invalidating its
+          # per-unit fingerprints (the rustflags changed), not a lost cache.
       - name: Install cargo-nextest
         uses: taiki-e/install-action@v2
         with:
@@ -111,6 +132,23 @@ jobs:
       - name: Run Tests (shard ${{ matrix.shard }}/4)
         if: steps.scope.outputs.code == 'true'
         run: cargo nextest run --workspace --cargo-profile ci-test --partition count:${{ matrix.shard }}/4
+      - name: Prove the test binaries were linked by mold
+        if: steps.scope.outputs.code == 'true'
+        run: |
+          # mold stamps "mold <version> (compatible with GNU ld)" into the
+          # linked output, so this observes the linker that actually ran
+          # instead of restating the configuration: a silent fallback to bfd
+          # or lld (their banners are "GNU ld ..." / "LLD <version>") fails
+          # here. Every shard builds all 168 test binaries, asset included.
+          bin=$(find target/ci-test/deps -maxdepth 1 -type f \
+                  -name 'font_chunk-*' ! -name '*.d' | head -1)
+          test -n "$bin" || { echo "no font_chunk test binary built" >&2; exit 1; }
+          if ! grep -a -qE 'mold [0-9]+\.[0-9]+.*compatible with GNU ld' "$bin"; then
+            echo "$bin carries no mold banner; it was linked by something else:" >&2
+            grep -a -oE 'LLD [0-9.]+|GNU ld \([^)]*\)[0-9. ]*' "$bin" | sort -u | head -3 >&2
+            exit 1
+          fi
+          echo "linked by: $(grep -a -oE 'mold [0-9.]+ \([^)]*\)' "$bin" | head -1)" >> "$GITHUB_STEP_SUMMARY"
       - name: Upload Native Executable
         if: steps.scope.outputs.code == 'true' && matrix.shard == 1
         uses: actions/upload-artifact@v4
