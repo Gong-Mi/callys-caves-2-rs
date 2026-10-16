@@ -763,7 +763,8 @@ pub mod gles {
         /// Uploads entry `index` into the current context. Returns the GL error
         /// (0 = none reported) and the name the entry should hold afterwards.
         /// A `glGenTextures` that returns 0 is a FAILURE even though it sets no
-        /// error, and a failed rebuild deletes the unusable name immediately.
+        /// error. A failed rebuild returns any generated name so the owning
+        /// ResidentSet can defer deletion without losing its ownership.
         fn upload_resident_entry(&mut self, index: usize, existing: u32) -> (u32, u32) {
             let (bytes, width, height) = match self.resident.entry(index) {
                 Some(entry) => (Arc::clone(&entry.bytes), entry.width, entry.height),

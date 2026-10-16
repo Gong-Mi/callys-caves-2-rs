@@ -87,41 +87,33 @@
    - 未跑（如实登记）：trace B（地图往返）、ref806 对照腿；不影响策略结论。
 4. **GPU 后端**：命令绘制 + `glReadPixels` 差分等价门（对 CPU 光栅逐帧对拍）。
 5. **skip 语义**：换成 RasterInputs 字段全等（已存在，~0.1 ms），顶点不哈希（§2 p5）。
-6. **EGL 丢失恢复**（#97 语义在命令后端下）：✅ **驻留重传形状已施工 + 实测**
-   （WL17，2026-10-16；harness 落 `~/cally-work/gmbench/recspike*`，契约只记结论与边界）。
-   - **施工**（`crates/client/src/parts/gles.rs`）：驻留纹理集 `ResidentTexture`
-     （调用方页 id → **调用方 RAM 字节**指针/长度 + w×h）+ `ResidentSet`（登记去重、
-     字节计账、`on_context_lost()` 只丢 GL 名**保留字节**、`needs_reupload` 脏位）
-     + `Presenter::register_resident_texture / unregister / clear / resident_*` +
-     `reupload_resident_set()`（死名 `glTexImage2D` 重建、活名 `glTexSubImage2D`
-     刷新 = 上传-only，无解码）。挂接点：`reset_display()` 末尾
-     `on_context_lost()`；`present()` 门树 `ensure_texture()` 之后
-     `if needs_reupload() { reupload_resident_set() }`。
-     **默认集合为空 ⇒ 现状逐位保持**（`needs_reupload` 恒 false，新代码只多一次
-     bool 判断）。
-   - **实测**（javm64 注入 `eglTerminate`；同一进程 A/B 交替 3 轮、min-of-3、
-     loadavg 33.4–34.3）：空集（现状）**6.664 ms** 到首个成功 present；登记
-     id{1,3} 共 **16.13 MB** 集合 **10.726 ms**，**Δ=+4.06 ms**（逐轮 +4.06/+5.98/
-     −2.52，方向 2/3 一致）。恢复帧（f3 = init_egl + program/VAO 重建 + 集合重传
-     + 帧上传）空集 6.554 ms vs 集合 10.570 ms（Δ +4.02 ms ≈ 16.9 MB ≈ 4.0 GB/s），
-     `reupload_entries=2 / reupload_bytes=16908288` 每轮复现。对比 WL15 同页集
-     **解码+上传 126.7 ms**：恢复走重传省两个数量级。
-   - **正确性**：恢复帧后把该页纹理挂 FBO `glReadPixels` 取 FNV-1a，与 harness
-     独立算的**源字节** FNV 相等（id1 `6c9f64ed99fe3bf0`、id3 `a8982ceb4d8d41c4`），
-     且**丢失前 == 恢复后**（6/6 轮 content_restored=true）；呈现帧 readback 与
-     丢失前基线 byte-equal（6/6 轮）；两腿各轮仍 **8/10、first_ok=3**（#97 语义未动）。
-   - **回归**（**生产特征集** .so，无 harness 桥 `262187756f88dda0`）：egllost 两腿
-     `8/10 first_ok=3`、post-loss `1f 7a 73 ff`、byte-equal true（18176 采样像素）
-     —— 与 `egl-context-loss-recovery.md` 同口径。
-   - **接入边界**：本切片只挂形状，**切片④命令后端才是登记方与采样方**（按 TPAG 页
-     把解码字节登记进集合、用同一 id 采样，复位钩子直接复用）。未做：局部/bbox
-     重传（`register` 现只收 `len == w*h*4` 的全页上传）、LRU/容量、纹理注销路径
-     （命令后端删页时调）。
-   - harness：`Recspike64.java` + `recspike_build.sh/run.sh/run_egllost.sh`
-     （私有 `work/recspike-libs{,-prod}/`、`recspike.dex`，不动共享 `work/libs`
-     与 `GmEglLost64.java`/`run_egllost.sh`）；桥在 `gles.rs` 的 `harness_bridge`
-     内，仅 `--features android,harness` 编译（prod/APK 的 `Recspike64` 导出数 = 0，
-     已核）。
+6. **EGL 丢失恢复**（#97 语义在命令后端下）：驻留集、失败重试与删除所有权已施工；
+   **命令后端登记/采样尚未接入**，不是完整 GPU renderer。
+   - `ResidentTexture` 持有 `Arc<[u8]>`、页 id、尺寸与 GL 名字；登记检查非零尺寸、
+     `c_int` 上限及 `checked_mul(w,h,4) == bytes.len()`。延迟上传不借用调用方裸指针。
+   - `ResidentSet` 逐项记账：仅 `error == 0 && texture != 0` 记成功，失败项仍需重试；
+     部分结果不改未处理项。成功次数/字节与失败次数均是累计量，不是集合当前大小。
+   - `on_context_lost()` 清 GL 名字与旧 context 删除队列，保留解码字节。
+     重传、注销删除均先核本线程 current context/display/draw surface。
+   - `unregister`、`clear` 与上传失败产生的仍存活名字进入待删队列；上传失败不能
+     遗失旧名字或刚创建的名字。删除成功后才出队；失败保留供重试。
+   - 父级修缮：`has_pending_maintenance()` 同时看 dirty 项与待删队列；
+     `present()` 的静止帧早退不得饿死维护任务。空集合/空队列仍保留原 skip 路径。
+   - **已取得的无头 GL 证据**：`recspike-r3.log`（修缮前候选 f4e54e3）含 empty、
+     set2、set2fault 各三轮；set2 每轮成功重传 2 项/16908288 字节；fault 腿每轮
+     失败 1 次后重试，累计成功 3 次/33685504 字节，最终页内容 FBO 回读与源字节一致。
+     三腿均 `8/10 first_ok=3`，呈现帧与丢失前逐字节相同；另有注销/clear 正常删除探针。
+     这些腿重复 setSurface，会 force，**不覆盖无 force 静止帧维护**；该组合由 WL25
+     对父级修后冻结候选另做正/负控，结果未返回前不称 GL 验收完成。
+   - **父级本机回归**：`gles_resident_reupload` 共 10 项，包括失败刷新/创建后名字
+     入队与静止维护判据；Android cfg 下实际执行。Ubuntu CI 对此文件是 0 用例，不能替代。
+   - **测量更正**：旧 `-10.880/+1.361`、`6.664 vs 10.726 ms / Δ+4.06` 的实现与
+     样本不再作为本候选证据。r3 的高负载 min-of-rounds 墙钟只作诊断，不证明 CPU 收益、
+     显著恢复加速或“省两个数量级”；未取得高分辨率进程 CPU + A/A/ABBA 置信区间。
+   - 桥仅在 `--features android,harness` 下导出；生产 APK 不启用 harness。独立审核
+     对修缮前候选实际构建核过生产/测量桥 0/15 个导出，父级新候选仍需独立构建验收。
+   - 未做：局部/bbox 重传、LRU/容量、命令后端登记/采样、驱动自发 reset 路径；
+     删除报错保留队列与另线程占 context 的真实驱动注入也未覆盖。
 7. **运行时回退开关**：✅ 开关机制已施工（WL18，2026-10-16）；**命令后端接入待切片①/④**。
    - **单一选择点**：`draw_frame` / `draw_frame_cached` → `draw_frame_inner`
      （`crates/client/src/lib.rs`）解析后端一次并 dispatch。软件臂就是把原 `draw_frame_inner`
@@ -189,9 +181,6 @@ spike 不追像素等价（任务边界）；命令路径的正确性以切片�
 2–9 ms/帧），命令后端接入后的真机 A/B 也应主要依据分层计数与 GPU 侧计时，而非本机的墙钟块差。
 父代理已同步 `SOURCE_LAYOUT.md` 的后端开关入口。命令后端仍未接线；以上不表示 GPU 渲染或自动回退已经完成。
 
-WL17 驻留重传（切片⑥）的边界：数字来自**注入 `eglTerminate`** 的 javm64 壳
-（≠ 驱动自发 reset / `EGL_CONTEXT_LOST` 通知路径，同 `egl-context-loss-recovery.md`
-的边界）；A/B 在 loadavg 33.4–34.3 的机器上取 min-of-3，逐轮 Δ 有 ±3 ms 抖动
-（−2.52…+5.98），**只有 min 配对值可引用**；集合内容验证走 FBO + `glReadPixels`
-（RGBA8 回读，非命令路径采样）；命令后端尚未登记/采样该集合，故「命令后端 + 驻留
-重传」的端到端恢复时间仍未验。
+WL17 驻留重传（切片⑥）的 GL 证据来自注入 `eglTerminate` 的 javm64 无头壳，
+使用本机真实驱动，非模拟 GPU；不覆盖驱动自发 `EGL_CONTEXT_LOST`、Activity、
+SurfaceFlinger/scanout/vsync。命令后端尚未登记/采样该集合，端到端恢复与性能未验。
