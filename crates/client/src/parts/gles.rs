@@ -127,6 +127,10 @@ pub mod gles {
         );
         fn glDrawArrays(mode: u32, first: c_int, count: c_int);
         fn glUniform1i(location: c_int, v0: c_int);
+        // Only consumed by the recovery re-upload path (contract slice 6): the
+        // first driver error after a resident-set upload is logged once, so a
+        // silent no-op upload cannot be mistaken for a successful one.
+        fn glGetError() -> u32;
 
         // libandroid.so: turn a Java Surface into an EGL window.
         fn ANativeWindow_fromSurface(env: *mut c_void, surface: *mut c_void) -> *mut c_void;
@@ -198,6 +202,136 @@ pub mod gles {
         }
     }
 
+    /// One page texture the command backend keeps decoded in RAM and wants back
+    /// on the GPU after an EGL context loss (contract slice 6).
+    ///
+    /// `source`/`len` are the CALLER's bytes - the resident RAM cache the atlas
+    /// loader already holds. The set never copies, re-reads, decodes or frees
+    /// them: recovery is "upload what is already in RAM" by construction, which
+    /// is the whole point (WL15 measured upload-only 8.7-19 ms against
+    /// decode+upload 127-298 ms for the same resident pages).
+    #[derive(Clone, Copy, Debug)]
+    pub struct ResidentTexture {
+        /// Caller's page id (the TPAG page id in the command backend).
+        pub id: u32,
+        /// GL texture name this id lives at while the context is alive; 0 means
+        /// "no GPU copy yet" (a registration, or a context that just died).
+        pub texture: u32,
+        /// Decoded BGRA/RGBA bytes to upload; owned by the caller, not by us.
+        pub source: *const u8,
+        pub len: usize,
+        pub width: u32,
+        pub height: u32,
+    }
+
+    /// The presenter's resident page-texture set.
+    ///
+    /// Default-empty, and an empty set is a strict no-op on every path:
+    /// `needs_reupload()` stays false, so `present()` runs exactly the frame it
+    /// ran before this slice and `reset_display()` only clears a set that was
+    /// already empty. That is what keeps the shipped recovery behaviour
+    /// bit-identical (regression: the javm64 loss legs stay 8/10 with
+    /// first_ok=3 and a byte-equal post-loss frame).
+    ///
+    /// On a context loss the GL names die but the caller's bytes do not, so the
+    /// set keeps its entries and only marks itself dirty: the next present that
+    /// gets a live context re-uploads the whole set.
+    #[derive(Default)]
+    pub struct ResidentSet {
+        entries: Vec<ResidentTexture>,
+        needs_reupload: bool,
+        uploaded_entries: u64,
+        uploaded_bytes: u64,
+    }
+
+    impl ResidentSet {
+        /// Register one page texture. Rejected (false) when the bytes or the
+        /// extent are unusable, or when the id is already registered - the page
+        /// set has one owner, so a silent replace would hide a bookkeeping bug.
+        pub fn register(&mut self, entry: ResidentTexture) -> bool {
+            if entry.source.is_null()
+                || entry.len == 0
+                || entry.width == 0
+                || entry.height == 0
+            {
+                return false;
+            }
+            // Full-page uploads only for now: the byte count must cover exactly
+            // the registered extent, or the driver would read past the caller's
+            // buffer. Region/bbox uploads (WL15's packed-bbox variant) need an
+            // extent AND an offset and belong to the command backend slice.
+            if entry.len != (entry.width as usize) * (entry.height as usize) * 4 {
+                return false;
+            }
+            if self.entries.iter().any(|e| e.id == entry.id) {
+                return false;
+            }
+            self.entries.push(entry);
+            // A fresh entry has no GPU copy, so the next present must upload it.
+            self.needs_reupload = true;
+            true
+        }
+
+        pub fn unregister(&mut self, id: u32) -> bool {
+            let before = self.entries.len();
+            self.entries.retain(|e| e.id != id);
+            before != self.entries.len()
+        }
+
+        pub fn clear(&mut self) {
+            self.entries.clear();
+            self.needs_reupload = false;
+        }
+
+        pub fn len(&self) -> usize {
+            self.entries.len()
+        }
+
+        pub fn is_empty(&self) -> bool {
+            self.entries.is_empty()
+        }
+
+        pub fn entries(&self) -> &[ResidentTexture] {
+            &self.entries
+        }
+
+        /// CPU bytes the recovery path has to move for this set.
+        pub fn bytes(&self) -> usize {
+            self.entries.iter().map(|e| e.len).sum()
+        }
+
+        pub fn needs_reupload(&self) -> bool {
+            self.needs_reupload
+        }
+
+        pub fn uploaded_totals(&self) -> (u64, u64) {
+            (self.uploaded_entries, self.uploaded_bytes)
+        }
+
+        fn entry_mut(&mut self, index: usize) -> Option<&mut ResidentTexture> {
+            self.entries.get_mut(index)
+        }
+
+        /// The context died: every GL name in this set is stale. The bytes are
+        /// the caller's and survive, so the recovery frame re-uploads them from
+        /// RAM instead of going back to decode.
+        pub fn on_context_lost(&mut self) {
+            if self.entries.is_empty() {
+                return;
+            }
+            for entry in &mut self.entries {
+                entry.texture = 0;
+            }
+            self.needs_reupload = true;
+        }
+
+        fn note_uploaded(&mut self, entries: usize, bytes: usize) {
+            self.needs_reupload = false;
+            self.uploaded_entries += entries as u64;
+            self.uploaded_bytes += bytes as u64;
+        }
+    }
+
     pub struct Presenter {
         display: *mut c_void,
         context: *mut c_void,
@@ -225,6 +359,10 @@ pub mod gles {
         /// `force_next_present` (host surface events). Only a successful
         /// present clears it.
         force_present: bool,
+        /// Page textures the command backend keeps resident (contract slice 6).
+        /// Empty by default: nothing about the presentation path below depends
+        /// on a non-empty set.
+        resident: ResidentSet,
     }
 
     // Only ever touched behind the mutex below; see the module comment.
@@ -258,6 +396,7 @@ pub mod gles {
                 blit_miss_logged: false,
                 last_presented: Vec::new(),
                 force_present: true,
+                resident: ResidentSet::default(),
             }
         }
 
@@ -292,6 +431,175 @@ pub mod gles {
         /// frame must be shown even when it did not change meanwhile.
         pub fn force_next_present(&mut self) {
             self.force_present = true;
+        }
+
+        // ---- resident page-texture set (contract slice 6) -------------------
+        //
+        // Shape only in this slice: the set is registered, survives a context
+        // loss in RAM, and is re-uploaded on the recovery frame. Nothing draws
+        // from it yet - the GPU command backend (slice 4) is what registers its
+        // page textures here and samples them; until then the default set is
+        // empty and every method below is inert.
+
+        /// Register a page texture the caller keeps decoded in RAM. `source`
+        /// must stay valid (and unchanged) until it is unregistered: the set
+        /// uploads the caller's bytes, it does not own them. Returns false for
+        /// unusable input, a duplicate id, or a byte count that does not match
+        /// `width * height * 4` (full-page uploads only - see `ResidentSet`).
+        pub fn register_resident_texture(
+            &mut self,
+            id: u32,
+            source: *const u8,
+            len: usize,
+            width: u32,
+            height: u32,
+        ) -> bool {
+            let accepted = self.resident.register(ResidentTexture {
+                id,
+                texture: 0,
+                source,
+                len,
+                width,
+                height,
+            });
+            if accepted {
+                log(&format!(
+                    "resident register id={id} {width}x{height} bytes={len} set={} set_bytes={}",
+                    self.resident.len(),
+                    self.resident.bytes()
+                ));
+            }
+            accepted
+        }
+
+        pub fn unregister_resident_texture(&mut self, id: u32) -> bool {
+            self.resident.unregister(id)
+        }
+
+        pub fn clear_resident_textures(&mut self) {
+            self.resident.clear();
+        }
+
+        pub fn resident_texture_count(&self) -> usize {
+            self.resident.len()
+        }
+
+        pub fn resident_texture_bytes(&self) -> usize {
+            self.resident.bytes()
+        }
+
+        pub fn resident_needs_reupload(&self) -> bool {
+            self.resident.needs_reupload()
+        }
+
+        /// `(entries, bytes)` uploaded by every re-upload pass so far - the
+        /// evidence that a recovery frame really moved the resident set.
+        pub fn resident_upload_totals(&self) -> (u64, u64) {
+            self.resident.uploaded_totals()
+        }
+
+        pub fn resident_entries(&self) -> &[ResidentTexture] {
+            self.resident.entries()
+        }
+
+        /// Whether a resident re-upload may run right now: a non-empty set plus
+        /// the same two gates `present()` establishes before it reaches the
+        /// hook (display and window surface alive, so a context is current).
+        /// Split out from `reupload_resident_set` so the DECISION is testable in
+        /// a process with no GL context - the GL work itself is measured on the
+        /// device by the javm64 harness.
+        pub fn resident_reupload_ready(&self) -> bool {
+            !self.resident.is_empty()
+                && self.display != EGL_NO_DISPLAY
+                && self.surface != EGL_NO_SURFACE
+        }
+
+        /// Upload the whole resident set into the live context: the recovery
+        /// step of contract slice 6. Entries whose GL name died get a fresh
+        /// texture (glTexImage2D), the rest are refreshed in place
+        /// (glTexSubImage2D) - upload-only, no decode.
+        ///
+        /// Returns `(entries, bytes)`; `(0, 0)` when the set is empty or no
+        /// surface/context is current, so a caller that cannot know whether a
+        /// context exists can call it unconditionally. A blocked call leaves the
+        /// set dirty, so the next frame with a live context retries.
+        pub fn reupload_resident_set(&mut self) -> (usize, usize) {
+            if !self.resident_reupload_ready() {
+                return (0, 0);
+            }
+            let mut entries = 0usize;
+            let mut bytes = 0usize;
+            let mut first_error = 0u32;
+            unsafe {
+                for index in 0..self.resident.len() {
+                    let (source, len, width, height, existing) = {
+                        let entry = &self.resident.entries()[index];
+                        (
+                            entry.source,
+                            entry.len,
+                            entry.width,
+                            entry.height,
+                            entry.texture,
+                        )
+                    };
+                    if existing == 0 {
+                        let mut tex = [0u32; 1];
+                        glGenTextures(1, tex.as_mut_ptr());
+                        glBindTexture(GL_TEXTURE_2D, tex[0]);
+                        // The frame texture's sampling contract, per page: pixel
+                        // art is never smoothed and pages are never wrapped.
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                        glTexImage2D(
+                            GL_TEXTURE_2D,
+                            0,
+                            GL_RGBA as c_int,
+                            width as c_int,
+                            height as c_int,
+                            0,
+                            GL_RGBA,
+                            GL_UNSIGNED_BYTE,
+                            source as *const c_void,
+                        );
+                        if let Some(entry) = self.resident.entry_mut(index) {
+                            entry.texture = tex[0];
+                        }
+                    } else {
+                        glBindTexture(GL_TEXTURE_2D, existing);
+                        glTexSubImage2D(
+                            GL_TEXTURE_2D,
+                            0,
+                            0,
+                            0,
+                            width as c_int,
+                            height as c_int,
+                            GL_RGBA,
+                            GL_UNSIGNED_BYTE,
+                            source as *const c_void,
+                        );
+                    }
+                    let err = glGetError();
+                    if err != 0 && first_error == 0 {
+                        first_error = err;
+                    }
+                    entries += 1;
+                    bytes += len;
+                }
+                // Leave unit 0 unbound: the frame upload below owns it next.
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
+            self.resident.note_uploaded(entries, bytes);
+            log(&format!(
+                "resident reupload: {entries} textures, {bytes} bytes (upload-only from caller RAM){}",
+                if first_error != 0 {
+                    format!(" first_driver_error=0x{first_error:x}")
+                } else {
+                    String::new()
+                }
+            ));
+            (entries, bytes)
         }
 
         pub fn release(&mut self) {
@@ -334,6 +642,18 @@ pub mod gles {
             // The framebuffer behind last_presented no longer exists on the
             // GPU: the next present must repaint even on an unchanged frame.
             self.force_present = true;
+            // Contract slice 6: the page textures the command backend keeps
+            // resident died with this context too. Keep the registered byte
+            // sources - the RAM cache IS the recovery source - and mark the set
+            // dirty, so the recovery frame re-uploads instead of re-decoding.
+            // With an empty set this is a no-op, which is why the shipped
+            // recovery path is unchanged.
+            //
+            // TODO(slice 4/6): the GPU command backend registers its page
+            // textures here (TPAG page id -> decoded page bytes) and draws from
+            // the same ids. Until that lands, the set only holds what a caller
+            // (the headless harness) registers, and nothing samples it.
+            self.resident.on_context_lost();
         }
 
         /// Upload one BGRA frame and swap, unless it is byte-identical to the
@@ -373,6 +693,14 @@ pub mod gles {
                 }
                 if self.surface_width <= 0 || self.surface_height <= 0 {
                     return false;
+                }
+                // Contract slice 6: the recovery frame is the one that holds a
+                // fresh context after a loss, so it is also the frame that has
+                // to put the resident page set back on the GPU - upload-only,
+                // from the caller's RAM bytes. The flag is false whenever the
+                // set is empty, so the default frame below is untouched.
+                if self.resident.needs_reupload() {
+                    self.reupload_resident_set();
                 }
                 glViewport(0, 0, self.surface_width, self.surface_height);
                 glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -652,5 +980,248 @@ pub mod gles {
             return std::ptr::null_mut();
         }
         unsafe { ANativeWindow_fromSurface(env, surface) }
+    }
+
+    /// Headless-harness bridge for the resident-set recovery measurement
+    /// (contract slice 6). Compiled only with `--features android,harness`, so
+    /// the shipped APK keeps exactly the production JNI surface: these entry
+    /// points exist for `~/cally-work/gmbench/Recspike64.java`, the javm64 shell
+    /// that injects an EGL loss and A/Bs "empty set (status quo)" against "N
+    /// registered page textures" through the REAL recovery path. Reimplementing
+    /// the re-upload in Java would measure the harness instead of the presenter.
+    ///
+    /// The harness class is not in `android-build/` on purpose (the host's Java
+    /// sources are not this slice's to edit): a native's JNI symbol is bound to
+    /// its DECLARING class, so the harness declares these natives in its own
+    /// class and this module exports the matching names.
+    #[cfg(all(target_os = "android", feature = "android", feature = "harness"))]
+    mod harness_bridge {
+        use super::*;
+
+        const JNI_TRUE: u8 = 1;
+        const JNI_FALSE: u8 = 0;
+
+        extern "C" {
+            // FBO readback, used only by the content checksum below.
+            fn glGenFramebuffers(n: c_int, framebuffers: *mut u32);
+            fn glBindFramebuffer(target: u32, framebuffer: u32);
+            fn glFramebufferTexture2D(
+                target: u32,
+                attachment: u32,
+                textarget: u32,
+                texture: u32,
+                level: c_int,
+            );
+            fn glCheckFramebufferStatus(target: u32) -> u32;
+            fn glReadPixels(
+                x: c_int,
+                y: c_int,
+                width: c_int,
+                height: c_int,
+                format: u32,
+                ty: u32,
+                pixels: *mut c_void,
+            );
+            fn glDeleteFramebuffers(n: c_int, framebuffers: *const u32);
+        }
+
+        const GL_FRAMEBUFFER: u32 = 0x8D40;
+        const GL_COLOR_ATTACHMENT0: u32 = 0x8CE0;
+        const GL_FRAMEBUFFER_COMPLETE: u32 = 0x8CD5;
+
+        fn with_presenter<R>(f: impl FnOnce(&mut Presenter) -> R) -> Option<R> {
+            let mut guard = match presenter().lock() {
+                Ok(guard) => guard,
+                Err(poisoned) => poisoned.into_inner(),
+            };
+            Some(f(&mut guard))
+        }
+
+        /// Bridge diagnostics: logcat is flooded on this device, so the harness
+        /// needs its evidence on the process' stdout (the run log) as well.
+        fn note(message: &str) {
+            log(message);
+            println!("[recspike-bridge] {message}");
+            use std::io::Write;
+            let _ = std::io::stdout().flush();
+        }
+
+        /// FNV-1a over the GPU-side bytes of a resident texture, or -1 when the
+        /// texture is not readable (no GL copy, FBO not renderable). Proves the
+        /// re-upload put the caller's bytes BACK on the GPU, not just that some
+        /// upload call happened.
+        fn gpu_checksum(texture: u32, width: u32, height: u32) -> i64 {
+            if texture == 0 || width == 0 || height == 0 {
+                return -1;
+            }
+            unsafe {
+                let mut fbo = [0u32; 1];
+                glGenFramebuffers(1, fbo.as_mut_ptr());
+                glBindFramebuffer(GL_FRAMEBUFFER, fbo[0]);
+                glFramebufferTexture2D(
+                    GL_FRAMEBUFFER,
+                    GL_COLOR_ATTACHMENT0,
+                    GL_TEXTURE_2D,
+                    texture,
+                    0,
+                );
+                if glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE {
+                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                    glDeleteFramebuffers(1, fbo.as_ptr());
+                    return -1;
+                }
+                let len = (width as usize) * (height as usize) * 4;
+                let mut pixels = vec![0u8; len];
+                glReadPixels(
+                    0,
+                    0,
+                    width as c_int,
+                    height as c_int,
+                    GL_RGBA,
+                    GL_UNSIGNED_BYTE,
+                    pixels.as_mut_ptr() as *mut c_void,
+                );
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                glDeleteFramebuffers(1, fbo.as_ptr());
+                let mut hash: u64 = 0xcbf2_9ce4_8422_2325; // FNV-1a 64 offset basis
+                for byte in &pixels {
+                    hash ^= *byte as u64;
+                    hash = hash.wrapping_mul(0x0000_0100_0000_01b3); // FNV-1a 64 prime
+                }
+                hash as i64
+            }
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentRegister(
+            _env: *mut c_void,
+            _class: *mut c_void,
+            id: c_int,
+            addr: i64,
+            len: c_int,
+            width: c_int,
+            height: c_int,
+        ) -> u8 {
+            // `addr` is an Android native address: those live at 0xb4000000_00000000
+            // and above, so as a SIGNED i64 they are NEGATIVE. The old `addr <= 0`
+            // guard therefore rejected every real pointer (both A/B legs silently
+            // measured the empty set). Only a null address is invalid.
+            if addr == 0 || len <= 0 || width <= 0 || height <= 0 {
+                note(&format!(
+                    "register REJECTED at the bridge id={id} addr=0x{addr:x} len={len} {width}x{height} (bad argument)"
+                ));
+                return JNI_FALSE;
+            }
+            let accepted = with_presenter(|p| {
+                p.register_resident_texture(
+                    id as u32,
+                    addr as usize as *const u8,
+                    len as usize,
+                    width as u32,
+                    height as u32,
+                )
+            })
+            .unwrap_or(false);
+            note(&format!(
+                "bridge register id={id} addr=0x{addr:x} len={len} {width}x{height} accepted={accepted}"
+            ));
+            if accepted {
+                JNI_TRUE
+            } else {
+                JNI_FALSE
+            }
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentUnregister(
+            _env: *mut c_void,
+            _class: *mut c_void,
+            id: c_int,
+        ) -> u8 {
+            let removed =
+                with_presenter(|p| p.unregister_resident_texture(id as u32)).unwrap_or(false);
+            if removed {
+                JNI_TRUE
+            } else {
+                JNI_FALSE
+            }
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentClear(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) {
+            let _ = with_presenter(|p| p.clear_resident_textures());
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentCount(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> c_int {
+            with_presenter(|p| p.resident_texture_count() as c_int).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentBytes(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> i64 {
+            with_presenter(|p| p.resident_texture_bytes() as i64).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentNeedsReupload(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> u8 {
+            let dirty = with_presenter(|p| p.resident_needs_reupload()).unwrap_or(false);
+            if dirty {
+                JNI_TRUE
+            } else {
+                JNI_FALSE
+            }
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentReupload(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> c_int {
+            with_presenter(|p| p.reupload_resident_set().0 as c_int).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentUploadedEntries(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> i64 {
+            with_presenter(|p| p.resident_upload_totals().0 as i64).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentUploadedBytes(
+            _env: *mut c_void,
+            _class: *mut c_void,
+        ) -> i64 {
+            with_presenter(|p| p.resident_upload_totals().1 as i64).unwrap_or(0)
+        }
+
+        #[no_mangle]
+        pub extern "C" fn Java_com_gongmi_callyscaves2_Recspike64_nativeResidentChecksum(
+            _env: *mut c_void,
+            _class: *mut c_void,
+            id: c_int,
+        ) -> i64 {
+            with_presenter(|p| {
+                p.resident_entries()
+                    .iter()
+                    .find(|e| e.id == id as u32)
+                    .map(|e| gpu_checksum(e.texture, e.width, e.height))
+                    .unwrap_or(-1)
+            })
+            .unwrap_or(-1)
+        }
     }
 }

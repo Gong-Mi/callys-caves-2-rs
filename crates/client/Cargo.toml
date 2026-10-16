@@ -16,6 +16,11 @@ required-features = ["desktop"]
 default = []
 desktop = ["dep:sdl2"]
 android = []
+# Headless-harness bridge for the resident-set EGL-recovery measurement
+# (contract `gpu-command-backend.md` slice 6): adds the JNI entry points
+# `~/cally-work/gmbench/Recspike64.java` drives. Never enabled for the APK or
+# CI builds - without it the cdylib exports the production surface only.
+harness = []
 
 [dependencies]
 callys-asset = { path = "../asset" }
