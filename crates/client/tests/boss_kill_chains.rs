@@ -72,6 +72,27 @@ fn enter_room(state: &mut GameState, room: usize) {
     s.transition_to_room(&bundle, room, &room_data).expect("transition");
 }
 
+/// WL7: a bare transition_to_room keeps the player where it was, which can
+/// land OUTSIDE the arena (rm_boss2 is 1280x480 and the suite entered at
+/// y=494 — the old full-rect box's 1px overlap with the floor row was the
+/// only thing holding it). Pin the player inside the room above the floor
+/// and let gravity settle it, like a real door entry does.
+fn pin_player_in_room(state: &mut GameState) {
+    let (w, h) = {
+        let s = state.scene.as_ref().unwrap();
+        let rd = &state.asset.rooms[s.current_room as usize];
+        (rd.width as f64, rd.height as f64)
+    };
+    let s = state.scene.as_mut().unwrap();
+    let player = s.instances.iter().find(|(_, i)| i.object == 0 && i.alive).map(|(id, _)| *id).unwrap();
+    let x = s.instances[&player].fields["x"].clamp(32.0, w - 32.0);
+    let y = s.instances[&player].fields["y"].min(h - 80.0);
+    s.write(player, -1, "x", None, x).unwrap();
+    s.write(player, -1, "y", None, y).unwrap();
+    s.write(player, -1, "hspeed", None, 0.0).unwrap();
+    s.write(player, -1, "vspeed", None, 0.0).unwrap();
+}
+
 fn boss_alive(state: &GameState, obj: i32) -> bool {
     scene(state).instances.values().any(|i| i.object == obj && i.alive)
 }
@@ -140,6 +161,7 @@ macro_rules! boss_kill_suite {
             let mut state = boot_like_android();
             skip_prologue(&mut state);
             enter_room(&mut state, $room);
+            pin_player_in_room(&mut state);
             for _ in 0..20 { step(&mut state); } // settle: queue holds the previous room's pass otherwise
             assert!(boss_alive(&state, $obj), $label);
             let draws_before = boss_draws(&state, $obj);
