@@ -1,0 +1,21 @@
+# Host link step of the CI test leg.
+#
+# Every shard of `cargo nextest run --workspace --partition count:N/4` still
+# builds all ~168 test binaries (the partition selects what runs, not what is
+# compiled), and a link is never cacheable, so the linker is the only lever left
+# on the build half of that leg.  mold is installed by
+# .github/workflows/ci.yml; the driver stays the toolchain default (`cc`) and
+# only the linker is swapped in via the driver flag.
+#
+# Scoped to the host triple on purpose:
+#   - android-apk.yml and compare-visuals.yml cross-compile to
+#     aarch64-linux-android / x86_64-linux-android and must keep the NDK linker;
+#   - local Termux builds are aarch64-linux-android too, so they are untouched;
+#   - the release-profile links (workspace + `--features desktop`) are done by
+#     mold as well, which is harmless: the workspace has no [profile] LTO, so no
+#     LTO link ends up on a different linker than the non-LTO ones.
+#
+# Consequence: a host x86_64 Linux build now needs mold on PATH
+# (`apt-get install -y mold`).  CI installs it in the dependencies step.
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "link-arg=-fuse-ld=mold"]
