@@ -40,10 +40,7 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 
 | tier | codes | share |
 | --- | --- | --- |
-| `object_cited_test` | 4 | 0.3% |
-| `env_classified` | 29 | 2.1% |
-| `cited_src` | 11 | 0.8% |
-| `cited_test` | 905 | 66.8% |
+| `cited_test` | 949 | 70.1% |
 | `cited_contract` | 405 | 29.9% |
 
 ## Environment (with) semantics scope
@@ -57,7 +54,7 @@ Frozen columns observed in the ledger: `stack_semantics` = {'unknown': 1354}, `b
 - objects carrying events: **186**
 - CODE containers: `Object` 803, `RoomCC` 551
 - objects named in contract: **150**
-- objects named in test: **165**
+- objects named in test: **169**
 - objects named in src: **59**
 
 ## Execution evidence (traces given, not inferred)
@@ -76,7 +73,7 @@ argument in env-semantics.md.
 | area | files | distinct CODE ids | distinct objects |
 | --- | --- | --- | --- |
 | `contract` | 97 | 405 | 163 |
-| `test` | 175 | 1269 | 172 |
+| `test` | 179 | 1354 | 177 |
 | `src` | 29 | 41 | 66 |
 
 ## Worklist: neither the CODE id nor its object is named anywhere
