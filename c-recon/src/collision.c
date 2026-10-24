@@ -398,8 +398,10 @@ static int select_ids(GmVM* vm, int32_t self, int32_t sel, int32_t* out, int cap
 /* CSprite::PreciseCollision @0x1e4298: inside the box intersection both masks
  * must have a set pixel at the same world pixel. A sprite without mask data is
  * solid — the runner's `[sprite+0x31] == 0` branch skips the mask test — so the
- * box verdict stands. The runner's loop carries no trig: rotation is not part of
- * this path. */
+ * box verdict stands. Only the axis-aligned mapping is wired: the runner's
+ * general branch (@0x1e47a8) calls sinf/cosf for BOTH angles before the same
+ * truncating cast, and that path is read but not implemented (sign convention
+ * still needs an oracle), so rotated instances keep the box verdict. */
 static int mask_probe_pos(GmVM* vm, int32_t tid, double x, double y, GmMaskProbe* p) {
     int r = mask_probe(vm, tid, p);
     if (r == 1) { p->ix = x; p->iy = y; }

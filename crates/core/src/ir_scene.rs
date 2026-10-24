@@ -1466,9 +1466,14 @@ impl Scene {
     /// recorded boxes, then map every integer world pixel in the intersection
     /// into both masks and require both bits. A sprite with no mask data is
     /// solid — the runner's `[sprite+0x31] == 0` branch skips the mask test — so
-    /// the box verdict stands. That loop carries no trig: rotation is not part
-    /// of this path, and neither is a scale special case (the runner has a
-    /// branch for scale == 1, but it computes the same mapping).
+    /// the box verdict stands.
+    ///
+    /// Only the axis-aligned mapping is wired. The runner's general branch
+    /// (@0x1e47a8) computes `sinf`/`cosf` of BOTH angles and rotates into mask
+    /// space before the same truncating cast; that path is read but not
+    /// implemented (its sign convention still needs an oracle), so a rotated
+    /// instance falls back to the box verdict instead of silently using an
+    /// unrotated mask.
     pub fn precise_overlap(&self, a: i32, ax: f64, ay: f64, b: i32) -> bool {
         let bx = self.instances.get(&b).and_then(|i| i.fields.get("x").copied()).unwrap_or(0.0);
         let by = self.instances.get(&b).and_then(|i| i.fields.get("y").copied()).unwrap_or(0.0);
