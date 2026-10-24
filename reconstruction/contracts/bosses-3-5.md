@@ -63,3 +63,16 @@ room50（rm_boss3）/room64（rm_boss4）/room80（rm_boss5）三个竞技场契
 - boss3 的移动全在 A11 节拍（`move_towards_point` 冲撞 speed 2 / 随机散射 choose(±3/±2)，20 tick 重装）；boss5 走 Step 追击（前方 100px 无墙则 ±1）。
 - finalboss(30) 与 obj_finalbosslaser(49) 未在本批；rm_boss6+ 纯名房段未触。
 - Draw 层（血条/fog）未铺；真机/GPU 视觉未验收。
+
+## 2026-10-24 重铸：boss4 追击夹具的墙位（掩码碰撞上线后）
+
+`instance_place` / `place_meeting` 已切到原版 `CSprite::PreciseCollision`
+（见 `collision-broad-phase.md` §7.3）：录制框只是宽相，真正的命中要两边掩码
+像素同时为 1。原夹具把墙摆在 (350,260)，它在 boss4（sprite 76，128×128，
+origin (48,64)，实例 `image_xscale=-1`）的**录制框内、掩码透明像素上**
+（mask(98,124)=0），所以精确碰撞下 x±10 两个探针都不命中，hspeed 保持 0。
+
+按真实 SPRT 掩码重新扫描（同一份数据、同一套镜像映射）后把墙改到
+**(310,206)**：+10 探针落在实心像素、−10 探针落在空像素，仍然只有 x+10 分支
+触发，`hspeed = -2` 这一"原版期望值"不变。断言与意图未改，只换了夹具摆位，
+并在测试注释里写明推导。

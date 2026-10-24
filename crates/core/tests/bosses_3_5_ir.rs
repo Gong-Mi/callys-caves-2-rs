@@ -13,7 +13,7 @@
 //! (a parked player is invisible to distance_to_object — enemies-batch-2
 //! lesson) and ground the actors with a wall whose sprite box covers y+1.
 use callys_asset::GameDroidAsset;
-use callys_core::code_vm::{load_bundle_from_file, Bundle};
+use callys_core::code_vm::{load_bundle_from_file, Bundle, Host};
 use callys_core::ir_scene::{Scene, SpriteBounds};
 use std::path::Path;
 
@@ -240,17 +240,23 @@ fn boss4_ladder_chase_and_the_swing_cycle() {
         park(&mut s, p);
     }
     // Step 197: player within distance <= 100 -> swinging=1; the boss faces the
-    // player (xscale by x comparison) and walks hspeed ∓2. WL7: the hspeed
-    // write only fires from the x±10 wall probes, and with real recorded
-    // boxes the boss's box is 115x120 ([230,345)x[144,264) at (300,200)) —
-    // any wall under the boss hits BOTH probes (flipping hspeed to +2), and
-    // no wall leaves it 0. Place the wall to the RIGHT of the x−10 probe's
-    // reach: x=350 gives box [350,382)x[260,292) — inside the x+10 probe
-    // box [240,355) but outside the x−10 box [220,345) — so only the x+10
-    // branch fires and hspeed = -2, the original expected value.
+    // player (xscale by x comparison) and walks hspeed ∓2. The hspeed write
+    // only fires from the x±10 wall probes, and the probe is a MASK test
+    // (CSprite::PreciseCollision @0x1e4298 — the recorded box is only the
+    // broad phase), so the wall has to sit where sprite 76's mask is solid for
+    // the +10 caller and transparent for the −10 one.
+    //
+    // The boss sprite is 76 (128x128, origin (48,64)) and the instance carries
+    // image_xscale = -1, so the mask lookup is mirrored: local = -(world − x)
+    // + 48. With the wall at (310,206) the +10 probe lands on a solid mask
+    // pixel while the −10 probe lands on an empty one (found by scanning the
+    // real SPRT mask, the same data the runner reads), so only the +10 branch
+    // fires and hspeed = -2. The old (350,260) sat inside the recorded box but
+    // on a transparent mask pixel — box-era fixtures cannot reproduce the
+    // original's walk once the precise path is on.
     let mut s = scene(&b);
     let p = player(&mut s, &b, 380.0, 200.0); // 80 px away
-    let _g = s.create(&b, WALL, 350.0, 260.0).unwrap();
+    let _g = s.create(&b, WALL, 310.0, 206.0).unwrap();
     let bs = s.create(&b, BOSS4, 300.0, 200.0).unwrap();
     s.dispatch(&b, bs, 3, 0).expect("chase step");
     assert_eq!(s.instances[&bs].fields["swinging"], 1.0,

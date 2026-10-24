@@ -14,3 +14,6 @@ assets/savefile.ini
 # Raw CALLY_CODE_TRACE full-suite run output (3.45M entries, 11M);
 # the deduped id set is the tracked artifact next to it.
 reconstruction/live-mem/trace/cally-code-trace-full-ledger.txt
+
+# python byte-code from the Unicorn oracle drivers
+c-recon/tools/oracle/__pycache__/

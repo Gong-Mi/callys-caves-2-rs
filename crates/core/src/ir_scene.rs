@@ -32,6 +32,42 @@ pub struct SpriteBounds {
     /// image_index advance. 0 means no animation data (never advances).
     pub frames: f64,
 }
+/// One sprite's mask plus the transform that maps a world pixel into it.
+/// `CSprite::PreciseCollision` maps with `vcvt.s32`, i.e. truncation, not floor.
+struct MaskCtx<'a> {
+    mask: &'a callys_asset::CollisionMask,
+    x: f32, y: f32,
+    sx: f32, sy: f32,
+    ox: f32, oy: f32,
+    ca: f32, sa: f32,
+    rotated: bool,
+}
+
+impl<'a> MaskCtx<'a> {
+    /// The runner works in float32 throughout (`vcvt.s32` for the cast, `sinf`/
+    /// `cosf` for the rotation), so this must not widen to f64: a 1-ULP
+    /// difference flips the pixel at the mask border. The rotated branch also
+    /// checks the un-truncated value against [0, dim) — a local -0.5 is
+    /// rejected there, while the axis-aligned branch truncates first and keeps
+    /// it. Both behaviours are oracle-verified.
+    fn hits(&self, wx: f64, wy: f64) -> bool {
+        let dx = wx as f32 - self.x;
+        let dy = wy as f32 - self.y;
+        let rx = dx * self.ca - dy * self.sa;
+        let ry = dx * self.sa + dy * self.ca;
+        let fx = rx / self.sx + self.ox;
+        let fy = ry / self.sy + self.oy;
+        if self.rotated
+            && (fx < 0.0 || fy < 0.0
+                || fx >= self.mask.width as f32
+                || fy >= self.mask.height as f32)
+        {
+            return false;
+        }
+        self.mask.pixel(fx as i32, fy as i32)
+    }
+}
+
 #[derive(Debug, Clone, Serialize, PartialEq)]
 pub struct DrawCommand {
     pub code: usize, pub offset: usize, pub instance: i32, pub view: i32,
@@ -319,6 +355,9 @@ fn rand_range(seed: &mut u64, min: f64, max: f64) -> f64 {
     min + r * (max - min)
 }
 
+// Staged for the `collision_line(prec=1)` port: unused until the C host
+// carries SPRT mask tables, so the two sides cannot diverge on that branch.
+#[allow(dead_code)]
 fn line_intersects_box(x1: f64, y1: f64, x2: f64, y2: f64, min_x: f64, max_x: f64, min_y: f64, max_y: f64) -> bool {
     let dx = x2 - x1;
     let dy = y2 - y1;
@@ -944,6 +983,11 @@ impl Scene {
     /// Bounded scheduler contract: active snapshot; alarm decrement/dispatch,
     /// then Step. New instances enter the next tick. No physics/animation advance.
     pub fn tick(&mut self,b:&Bundle)->Result<(),String> {
+        if std::env::var("GM_TRACE").is_ok() {
+            for (id, i) in &self.instances {
+                eprintln!("TICK-SNAP id={id} obj={} alive={} active={}", i.object, i.alive as i32, i.active as i32);
+            }
+        }
         self.tick_count += 1;
         let ids:Vec<_>=self.instances.iter().filter(|(_,i)|i.alive&&i.active&&!i.external).map(|(id,_)|*id).collect();
         for id in &ids {
@@ -1386,17 +1430,25 @@ impl Scene {
         let dy = py - iy;
         let ca = ang.cos();
         let sa = ang.sin();
-        // Inverse rotation (transpose), then un-scale, then origin offset.
-        let rx = dx * ca + dy * sa;
-        let ry = -dx * sa + dy * ca;
-        let lx = (rx / sx).floor() + ox;
-        let ly = (ry / sy).floor() + oy;
-        Some(mask.pixel(lx as i32, ly as i32))
+        // Runner mapping (verified with the Unicorn oracle at 0x1e4298):
+        // world = (c*lx + s*ly, -s*lx + c*ly)  =>  local = (c*dx - s*dy, s*dx + c*dy).
+        let rx = dx * ca - dy * sa;
+        let ry = dx * sa + dy * ca;
+        // This family (collision_point / collision_line) floors; the
+        // instance_place path truncates (vcvt.s32). Both oracle-verified.
+        let lx = ((rx / sx).floor() + ox) as i32;
+        let ly = ((ry / sy).floor() + oy) as i32;
+        Some(mask.pixel(lx, ly))
     }
     /// Walk a room-space line through `tid`'s mask at half-pixel resolution.
     /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
     /// None = no mask data (bbox fallback).
     fn line_mask_hit(&self, tid: i32, x1: f64, y1: f64, x2: f64, y2: f64) -> Option<bool> {
+        // Runner quirk (oracle-verified, PreciseCollisionLine @0x1e52bc): an
+        // exactly horizontal segment scanned right-to-left never hits — the
+        // walk only covers x in [x1, x2]. Reversed diagonals and verticals are
+        // direction-agnostic.
+        if y1 == y2 && x2 < x1 { return Some(false); }
         let len = ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).sqrt();
         let steps = ((len * 2.0).ceil() as usize).clamp(1, 4000);
         for s in 0..=steps {
@@ -1409,6 +1461,82 @@ impl Scene {
         }
         Some(false)
     }
+    fn mask_ctx_at(&self, id: i32, x: f64, y: f64) -> Option<MaskCtx<'_>> {
+        let inst = self.instances.get(&id)?;
+        let spr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+        let masks = self.sprite_masks.get(&spr).filter(|m| !m.is_empty())?;
+        let frame = inst.fields.get("image_index").copied().unwrap_or(0.0);
+        let idx = if frame < 0.0 { 0 } else { (frame as usize).min(masks.len() - 1) };
+        let b = self.sprite_bounds.get(&spr)?;
+        let angle = inst.fields.get("image_angle").copied().unwrap_or(0.0) as f32;
+        let rad = angle * std::f32::consts::PI / 180.0;
+        Some(MaskCtx {
+            mask: &masks[idx],
+            x: x as f32, y: y as f32,
+            sx: inst.fields.get("image_xscale").copied().unwrap_or(1.0) as f32,
+            sy: inst.fields.get("image_yscale").copied().unwrap_or(1.0) as f32,
+            ox: b.origin_x as f32, oy: b.origin_y as f32,
+            ca: rad.cos(), sa: rad.sin(),
+            rotated: angle != 0.0,
+        })
+    }
+
+    fn box_of(&self, id: i32, x: f64, y: f64) -> Option<(f64, f64, f64, f64)> {
+        let inst = self.instances.get(&id)?;
+        Some(self.compute_bounding_box_at(
+            inst.fields.get("mask_index").copied().unwrap_or(-1.0) as i32,
+            inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32,
+            x, y,
+            inst.fields.get("image_xscale").copied().unwrap_or(1.0),
+            inst.fields.get("image_yscale").copied().unwrap_or(1.0),
+            inst.fields.get("image_angle").copied().unwrap_or(0.0)))
+    }
+
+    /// Precise two-mask overlap for instance_place / place_meeting.
+    ///
+    /// Mirrors `CSprite::PreciseCollision` (libyoyo 0x1e4298): intersect the two
+    /// recorded boxes, then map every integer world pixel in the intersection
+    /// into both masks and require both bits. A sprite with no mask data is
+    /// solid — the runner's `[sprite+0x31] == 0` branch skips the mask test — so
+    /// the box verdict stands.
+    ///
+    /// Rotation and both rounding paths are oracle-verified (200/200 random
+    /// cases against the runner). The rotated branch checks the un-truncated
+    /// local value against [0, dim), the axis-aligned one truncates first.
+    pub fn precise_overlap(&self, a: i32, ax: f64, ay: f64, b: i32) -> bool {
+        let bx = self.instances.get(&b).and_then(|i| i.fields.get("x").copied()).unwrap_or(0.0);
+        let by = self.instances.get(&b).and_then(|i| i.fields.get("y").copied()).unwrap_or(0.0);
+        // The caller hands PreciseCollision int x/y (vcvt.s32 = truncation);
+        // the mask mapping is relative to that truncated centre, not to the
+        // fractional instance position.
+        let (ca, cb) = match (self.mask_ctx_at(a, ax.trunc(), ay.trunc()),
+                              self.mask_ctx_at(b, bx.trunc(), by.trunc())) {
+            (Some(ca), Some(cb)) => (ca, cb),
+            _ => return true,
+        };
+        let (pa, pb) = match (self.box_of(a, ax, ay), self.compute_bounding_box_for_instance(b)) {
+            (Some(pa), Some(pb)) => (pa, pb),
+            _ => return true,
+        };
+        let left = pa.0.max(pb.0);
+        let right = pa.1.min(pb.1);
+        let top = pa.2.max(pb.2);
+        let bottom = pa.3.min(pb.3);
+        if left > right || top > bottom { return false; }
+        let mut y = top as i64;
+        while y <= bottom as i64 {
+            let mut x = left as i64;
+            while x <= right as i64 {
+                if ca.hits(x as f64, y as f64) && cb.hits(x as f64, y as f64) {
+                    return true;
+                }
+                x += 1;
+            }
+            y += 1;
+        }
+        false
+    }
+
     fn self_field(&self,id:i32,n:&str)->Result<f64,String> {
         if n == "id" { return Ok(id as f64); }
         // GMS read-only sprite metadata: frame count of the instance's current

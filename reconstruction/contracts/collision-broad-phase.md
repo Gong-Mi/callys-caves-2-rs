@@ -28,9 +28,9 @@ sentinel 与 wrapping_mul/sqrtf 路径照旧）。半开约定使每个消费者
 | --- | --- | --- |
 | Event 4 碰撞派发 | ir_scene.rs tick 内 | 半开盒相交，命中派发 |
 | Mouse_7 / Mouse_0 局部派发 | ir_scene.rs | 点命中（UI/贴片点击） |
-| collision_point | host_impl.rs | inclusive 点测，prec 掩码二级门保留 |
-| instance_place / place_meeting | host_impl.rs | 候选位装箱 + inclusive 边相交 |
-| collision_line | host_impl.rs | 盒 vs 线（slab 触边不变），prec 路径不动 |
+| collision_point | host_impl.rs | inclusive 点测；prec=1 时追加掩码像素门 |
+| instance_place / place_meeting | host_impl.rs | 候选位装箱 + inclusive 边相交；两侧都有掩码且未旋转时追加逐像素掩码门（2026-10-24） |
+| collision_line | host_impl.rs | 盒 vs 线（slab 触边不变）；prec=1 走掩码线采样（2026-10-24） |
 | mp_potential_step | host_impl.rs | 候选盒走 compute_bounding_box_at（含 mask/角度） |
 
 **不是宽相消费者**（易误判）：CODE 361 休眠带 450px 走 distance_to_object
@@ -80,3 +80,196 @@ canary（the_map_open_contact_tick…）与缝测试已按 §5 重铸并通过�
 反汇编注释）；「切换后行为=原版行为」对 prec=0 路径成立（原版 prec=0 同样走
 录制框），prec=1 掩码路径未动。逐像素与原 runner 的碰撞差分属未验层
 （原设备实测）。
+
+## 7. instance_place / place_meeting 的掩码差距（2026-10-24 静态定位）
+
+`collision_line` / `collision_point` 的 `prec=1` 已在 wl63 落地（掩码表由
+`dump_sprites_c` 从 SPRT 记录生成：178 sprites / 227 frames / 341 KB 位图；
+C 与 Rust 双侧同一套 `mask_probe`，并有 98 条 C 断言）。2026-10-24 起
+`instance_place` / `place_meeting`（全库 599 + 50 个调用点，67 个 body）也在
+**两侧都有掩码且未旋转**时走逐像素掩码门：先求录制框交集，再在交集内逐像素
+映射到两张掩码、两边都为 1 才算命中；无掩码数据的一侧仍由录制框决定（对应
+runner 的 `[sprite+0x31] == 0` 分支）。**旋转仍是缺口，但路径已读**：轴对齐快速
+路径（@0x1e4484 起，scale==1）没有三角函数；一般分支（@0x1e47a8）对两个角度分别
+调用 `sinf`/`cosf`，再按
+
+    mask_x = base_x + ( dx·cosA − dy·sinA ) / sx
+    mask_y = base_y + ( −dx·sinA − dy·cosA ) / sy
+
+进入同一套截断采样（符号按"实参取了负角"解读，仍需 oracle 确认）。当前旋转实例
+在两侧都回退到盒子判定，不得声称已支持。
+
+原版路径（libyoyo ARMv7，SHA256 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）：
+
+```
+Command_InstancePlace      @0x1ca6d8   (800 B)
+  → CInstance::Collision_Instance @0x195558 (884 B)
+      → CSprite::PreciseCollision @0x1e4298 (1944 B)
+          → CSprite::UnpackWADMask @0x1e3994
+```
+
+`PreciseCollision` 的结构（静态读，未运行；旋转分支尚未读定）：
+
+1. 双方对各自 frame 调 `UnpackWADMask`；frame 先对 mask 数（`[sprite+0x3c]`）取模。
+2. 两个 `tagYYRECT` 求交：left=max、right=min、top=max、bottom=min。
+3. 对交区内每个整数像素 `(x, y)`，分别映射到 A/B 的掩码坐标：
+
+       mask = (int)( base + inv_scale * (world - offset) )     // vcvt.s32 截断，不是 floor
+
+   `base` 取 `[sprite+0x24]` / `[sprite+0x28]`，宽高 `[sprite+0x1c]` / `[sprite+0x20]`，
+   掩码字位在 `[sprite+0x40] + frame*8` 表项里；越界即视为该像素不命中。
+4. 两个掩码位同时为 1 → 命中；否则继续扫描。
+
+结论与纪律：
+
+* 当前 bbox-only 是**有名有据的近似**，不能写成"原版也这样"。
+* 移植前必须先把 `base`/`offset` 的确切定义与旋转分支读定（本循环内没有三角函数项，
+  旋转是否另走分支尚未证），再实现；用"盒重叠、掩码不重叠"的合成夹具证明行为变化。
+* 只做 C↔VM 对账不能证明这一步：两侧同时改成同一个错误实现也会全绿。原 runner 的
+  同输入对拍（或 Unicorn 合成内存 oracle）才是这一步的判据。
+
+### 7.1 独立佐证：GM8Emulator 的碰撞笔记（不同引擎世代，只作结构参照）
+
+`Adamcake/Legacy-GM8Emulator` 的 notes.txt 记录的 GM8 精确碰撞流程与我们读到的
+GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
+
+* AABB 由旋转后的四角求 min/max；四条失败条件是 `(self.right+1) <= other.left`
+  这类**包含边**比较，与我们的 inclusive 盒一致。
+* 精确阶段：取两个 AABB 交集里的每个**整数**像素，分别在两张掩码的坐标系里
+  "反旋转 → 反缩放 → 查位"，两边都有像素才算命中——与我们实现的顺序相同。
+* 两处我们**当前没有对齐**的细节：
+  1. 旋转中心是 `FISTP(x), FISTP(y)`（银行家舍入），而我们现在直接用未取整的
+     x/y；
+  2. 反旋转/反缩放后的取整：GM8 笔记写 floor，本二进制反汇编是 `vcvt.s32`
+     （向零截断）。两者只在负坐标上不同，未定。
+* 掩码基址：GM8 用掩码自身的 bbox 偏移；我们用 sprite origin。字段级来源
+  （`[sprite+0x24]/+0x28`）尚未证到具体语义。
+
+结论不变：axis-aligned 路径已接、C↔VM 全绿；但要宣称"等于原版"，必须先确定
+上面三点，最好用 Unicorn 合成内存 oracle 直接对拍 `0x1e4298`。
+
+### 7.2 oracle 前置事实（为 Unicorn 合成内存准备）
+
+* `CSprite::UnpackWADMask` @0x1e3994 的第一条判断是 `[sprite+0x31] != 0` → 直接
+  返回。所以 oracle 可以预先造好掩码表并把 +0x31 置 1，不必实现 WAD 解包。
+* 解包后的掩码是**每像素一字节**（查位：`[bits + row*width + col]`），与资产里
+  位压缩的 `CollisionMask`（0x80>>x%8）只是存储差异，占位语义相同；对拍时不要
+  把两种存储当成两种规则。
+* 调用点 `CInstance::Collision_Instance` @0x1957ac 的实参布局可直接照着造：
+  YYRECT 内嵌在 instance 的 +0xe8/+0xec 附近，r0..r3 与栈槽 0、4、8、12、16、20、
+  24、28、32、36、40、44 依次是 spriteA/frame/rectA/…/spriteB/frame/rectB/…。
+  具体寄存器—参数对应仍需逐条读，但不必从签名猜。
+
+### 7.3 Unicorn oracle：三处细节已由原函数判定
+
+工装：`c-recon/tools/oracle/precise_oracle.py`（Unicorn 2.1.4 映射 libyoyo
+ARMv7，`CSprite::PreciseCollision` @0x1e4298 直接调用）。踩过的必要件：
+VFP 需先写 CPACR=0x00F00000 与 FPEXC=0x40000000，否则 `vpush` 报非法指令；
+`sinf`/`cosf` 走 PLT（0xb6580/0xb658c），GOT 未重定位，须在 Python 里按
+softfp（实参/返回值都在 r0）接管；掩码表 `[sprite+0x40]` **直接**指向帧条目
+数组（条目 +4 是位图指针），不能再套一层指针；`[sprite+0x18] > 0` 是序言
+早退门，`[sprite+0x31]=1` 让 UnpackWADMask 立即返回。
+
+用原函数判定的事实：
+
+1. **取整是截断**：把世界像素 −1 映射到局部 −0.5（scale 2）时命中第 0 列，
+   只有 `vcvt.s32`（向零）能做到；floor 会落到 −1 越界。
+2. **base 是掩码偏移**：`base_x=1` 使同一世界像素从命中变不命中，说明基址直接
+   加到掩码列上。
+3. **旋转方向**：掩码像素 local (row 0, col 4) 在 +90° 时落到世界 (0, −4)，
+   在 −90° 时落到 (−1, 4)（后者含 float32 三角噪声的一位偏移）。由此
+   `world = (c·lx + s·ly, −s·lx + c·ly)`，即
+   `local = (c·dx − s·dy, s·dx + c·dy)`；旋转中心是调用方已经 `vcvt.s32`
+   过的整数 x/y，不是原始小数。
+
+随机对拍：`c-recon/tools/oracle/random_differential.py`（8–16 px 随机掩码、
+位置 ±10、scale ∈ {0.5,1,2}、角度 ∈ {0,±90,45}，共 200 例）——**200/200 一致**。
+
+对拍过程中还钉出一条**路径相关的边界语义**（首版只差这一条）：
+旋转分支先对"未截断"的局部值做 `[0, dim)` 比较（`vcmpe` + `bmi`），
+所以局部 −0.5 会被拒绝；轴对齐分支先 `vcvt.s32` 再比较，−0.5 截成 0 反而命中。
+`debug_mismatch.py` 用 1×1 探针逐像素定位到这条差异（A 侧、x=−8、y=9..13）。
+
+据此本轮已修并在两侧打开：`MaskCtx` / `mask_probe_pixel` 全部改用 **float32**
+（与原函数一致，f64 会在掩码边界翻一位），旋转符号、旋转中心 `trunc(x/y)`、
+截断与"旋转分支浮点边界检查"都按 oracle 结果实现；
+`instance_place` / `place_meeting` 的旋转路径已启用（不再是回退）。
+
+### 7.4 collision_point 同族已对拍（floor，不是 trunc）
+
+`CSprite::PreciseCollisionPoint` @0x1e4a30（调用链
+`collision_point` → F_CollisionPoint → Command_CollisionPoint →
+CInstance::Collision_Point @0x1944b0 → 本函数；序言里调用 `floorf@plt`）。
+`c-recon/tools/oracle/point_oracle.py` 直接调它，120 例随机
+（掩码 8×8、位置 ±4、scale ∈ {0.5,1,2}、角度 ∈ {0,±90,45}、点 ±8..12）
+对拍我们的映射：**120/120 一致**——前提是这一族用 **floor**。
+
+所以两族的取整不同，都已按原函数校准：
+
+| 函数 | 取整 | 证据 |
+| --- | --- | --- |
+| `instance_place` / `place_meeting`（PreciseCollision） | `vcvt.s32` 截断；旋转分支另有"未截断值 ∈ [0,dim)"检查 | 200/200 对拍 |
+| `collision_point`（PreciseCollisionPoint） | `floorf` | 120/120 对拍 |
+| `collision_line` | 暂按同族 floor（**未对拍**，采样步长也未证） | 待办 |
+
+C 侧因此有两个像素助手：`mask_probe_pixel`（截断，precise overlap 用）与
+`mask_probe_pixel_floor`（点/线用）；Rust 侧 `MaskCtx::hits` 与 `mask_hit`
+分别对应。`collision_line` 的采样粒度（半像素步进、4000 上限）仍是推断，
+下一步用 `PreciseCollisionLine` @0x1e52bc 对拍。
+
+### 7.5 collision_line 对拍：方向相关（我们目前是双向对称）
+
+`CSprite::PreciseCollisionLine` @0x1e52bc，调用点只有一个：
+`CInstance::Collision_Line` @0x195288。`line_oracle.py` 直接调它，
+参数序为 `(frame, rect*, x, y, sx, sy, angle, x1, y1, x2, y2)`。
+
+随机 80 例（8×8 掩码、scale ∈ {0.5,1,2}、角度 ∈ {0,±90,45}、端点 ±8..12）
+对拍：**78/80 一致**。两例不一致都是"我们命中、原函数不命中"。
+
+进一步定位到一条**方向相关**的实测（满掩码 8×8、原点 0、rect (0,0,7,7)）：
+
+    线段 (0,0)->(7,0)  -> 1
+    线段 (7,0)->(0,0)  -> 0      ← 同一段反着传就变 0
+    线段 (0,0)->(0,7)  -> 1
+    线段 (0,7)->(0,0)  -> 1
+
+进一步用单像素掩码把条件钉死：**只有"恰好水平（y1==y2）且 x2<x1"才恒为 0**，
+其余方向都正常：
+
+    (7,0)->(0,0)  0      (7,0)->(0,1)  1   ← 有 dy 就正常
+    (7,1)->(0,0)  1      (7,0)->(0,7)  1
+    (6,5)->(5,4)  1      (6,0)->(6,7)  1   （垂直双向都正常）
+
+对应实现：走线在 x∈[x1,x2] 上扫描，水平反向时区间为空。两侧已按此实现
+（`line_mask_hit` / `gm_line_mask_test` 开头 `y1==y2 && x2<x1 -> 0`），
+`line_oracle.py` 复跑 **80/80 一致**。
+
+这条怪癖在真实玩法里有效：CODE 108/119 的 `collision_line(x,y,player.x,player.y,…)`
+在玩家位于正左方且同高时会**看不到墙**（原版如此），移植端必须照抄。
+
+### 7.5.1 方向怪癖对既有夹具的影响（2026-10-24）
+
+把 `prec=1` 接到真实掩码、并把 §7.5 的"恰好水平且 x2<x1 恒 0"照抄进两侧实现后，
+三个既有测试暴露出来，全部按**保留断言意图、只换几何**重铸：
+
+| 测试 | 原夹具 | 问题 | 重铸 |
+|---|---|---|---|
+| `mines_shooter2_ir::shooter2_fires_only_with_line_of_sight` | 射手 800、玩家 400、墙 600（同高） | 视线段 800→400 恰好水平反向，原版恒不命中，墙挡不住 | 只有"被挡"阶段把玩家 y 挪到 401 让线段变斜；净空/出膛方向断言不动 |
+| `level12_mines_enemy_phases_ir::level12_shooter2_uses_clear_los_before_spawning_bullet_two` | 同上（玩家在左） | 同上 | 玩家改到 sx+400、墙改到 sx+200，线段沿 +x |
+| `bosses_3_5_ir::boss4_ladder_chase_and_the_swing_cycle` | 墙 (350,260) | 在 boss4 录制框内、掩码透明像素上（mask(98,124)=0），精确碰撞下两探针都不命中 | 墙改 (310,206)，见 `bosses-3-5.md` |
+
+这三处都不是放宽断言：被挡仍要求"整段没有 BULLET2"，追逐仍要求 `hspeed=-2`。
+
+### 7.6 待定：collision_line 的宽相框到底哪套
+
+- 原版 `CInstance::Collision_Line` 传给 `PreciseCollisionLine` 的是
+  `Compute_BoundingBox` 的**闭区间**框；
+- Rust 侧 `collision_line` 沿用 `bounds_for_instance` 的**半开**框
+  （`x..x+1`，main 一直如此）；
+- C 侧 `gm_instance_box` 是闭区间。
+
+三者只在"点框 + 线段恰好落在 .5 小数行/列"时给出不同答案：闭区间判 miss，
+半开判 hit。`physics_and_motion_ir::motion_integration_gravity_friction_and_builtins`
+的"notme==0 包含调用者自身"就踩在这条缝上（线段 y = cy = 200.5，点框 [200,200]）。
+本轮先恢复 main 的半开实现让该断言保持原样，**闭区间/半开的分歧登记为开放项**：
+需要一组小数行/列的语料差分（C 闭区间 vs Rust 半开）来定案，定案前不得声称两腿一致。

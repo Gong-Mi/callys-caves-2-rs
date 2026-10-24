@@ -1,3 +1,21 @@
+/// Liang-Barsky: does the segment (x1,y1)-(x2,y2) touch the inclusive box?
+/// The original's collision_line call sites pass all seven arguments; the box
+/// is Compute_BoundingBox for the candidate, so this is the same geometry the
+/// point and place tests use.
+fn segment_hits_box(x1:f64,y1:f64,x2:f64,y2:f64,l:f64,r:f64,t:f64,b:f64)->bool {
+    let dx=x2-x1; let dy=y2-y1;
+    let mut t0=0.0f64; let mut t1=1.0f64;
+    for (p,q) in [(-dx,x1-l),(dx,r-x1),(-dy,y1-t),(dy,b-y1)] {
+        if p==0.0 { if q<0.0 { return false; } }
+        else {
+            let rt=q/p;
+            if p<0.0 { if rt>t1 { return false; } if rt>t0 { t0=rt; } }
+            else { if rt<t0 { return false; } if rt<t1 { t1=rt; } }
+        }
+    }
+    true
+}
+
 impl Host for Scene {
     fn instruction(&mut self,code:usize,offset:usize){self.site=(code,offset);self.executed.push(self.site);}
     /// GMS `+` with a string operand. The shipped sites pair a literal with a
@@ -282,6 +300,36 @@ impl Host for Scene {
                 }
                 Ok(hit)
             }
+            "collision_line" => {
+                let x1=a[0]; let y1=a[1]; let x2=a[2]; let y2=a[3];
+                let s=int(a[4])?;
+                // a[5] is `prec`: with prec=1 the box is only the broad phase and
+                // the segment must also touch a mask pixel. A target with no mask
+                // data keeps the box verdict (line_mask_hit returns None), which
+                // is what the runner does when a sprite carries no masks.
+                let prec=a[5]>=0.5;
+                let notme=a[6]>=0.5;
+                let targets=self.select(id,s)?;
+                let mut hit=-4.0;
+                for tid in targets {
+                    if tid == id && notme { continue; }
+                    // Same Compute_BoundingBox the rest of the broad phase uses;
+                    // the half-open form keeps the slab test's touching-edge
+                    // behaviour unchanged (main's convention; the M1 wiring had
+                    // briefly swapped in the inclusive box and lost point-box
+                    // calls whose line runs through the pixel's half-open row).
+                    let Some((min_x, max_x, min_y, max_y)) = self.bounds_for_instance(tid) else { continue };
+                    if !line_intersects_box(x1, y1, x2, y2, min_x, max_x, min_y, max_y) {
+                        continue;
+                    }
+                    if prec {
+                        if let Some(false) = self.line_mask_hit(tid, x1, y1, x2, y2) { continue; }
+                    }
+                    hit = tid as f64;
+                    break;
+                }
+                Ok(hit)
+            }
             "instance_place" => {
                 let px = a[0]; let py = a[1]; let s = int(a[2])?;
                 let targets = self.select(id, s)?;
@@ -299,11 +347,23 @@ impl Host for Scene {
                     ),
                     None => return Err(format!("instance_place on missing instance {id}")),
                 };
+                if std::env::var("GM_TRACE").is_ok() {
+                    eprintln!("IP self={id} at {px:.17},{py:.17} obj={s} pbox={:.1}..{:.1} x {:.1}..{:.1} cands={}",
+                        pbox.0, pbox.1, pbox.2, pbox.3, targets.len());
+                }
                 let mut hit = -4.0;
                 for tid in targets {
                     if tid == id { continue; }
                     if let Some((il, ir, it, ib)) = self.compute_bounding_box_for_instance(tid) {
+                        if std::env::var("GM_TRACE").is_ok() {
+                            eprintln!("   cand {tid} box={il:.1}..{ir:.1} x {it:.1}..{ib:.1} hit={}",
+                                pbox.0 <= ir && pbox.1 >= il && pbox.2 <= ib && pbox.3 >= it);
+                        }
                         if pbox.0 <= ir && pbox.1 >= il && pbox.2 <= ib && pbox.3 >= it {
+                            // The runner does not stop at the box: it calls
+                            // Collision_Instance -> PreciseCollision, so the
+                            // recorded box is only the broad phase.
+                            if !self.precise_overlap(id, px, py, tid) { continue; }
                             hit = tid as f64;
                             break;
                         }
@@ -734,43 +794,6 @@ impl Host for Scene {
             | "AdColony_ShowVideo" | "ads_disable"
             | "shop_leave_rating"
             | "iap_purchase_details" | "iap_acquire" => Ok(0.0),
-            "collision_line" => {
-                let x1 = a[0]; let y1 = a[1]; let x2 = a[2]; let y2 = a[3];
-                let s = int(a[4])?;
-                // a[5] is `prec` (per-pixel mask test) and a[6] is `notme`.
-                // With prec=1 and SPRT mask data the line walks the target's
-                // collision bitmap; without mask data (fixture-wired sprites)
-                // it falls back to the bounding box.
-                let prec = a[5] >= 0.5;
-                let notme = a[6] >= 0.5;
-                let targets = self.select(id, s)?;
-                let mut hit = -4.0;
-                for tid in targets {
-                    if tid == id && notme { continue; }
-                    // Same Compute_BoundingBox the rest of the broad phase uses;
-                    // the half-open form keeps the slab test's touching-edge
-                    // behaviour unchanged.
-                    let Some((min_x, max_x, min_y, max_y)) = self.bounds_for_instance(tid) else { continue };
-                    if !line_intersects_box(x1, y1, x2, y2, min_x, max_x, min_y, max_y) {
-                        continue;
-                    }
-                    let passes = if prec {
-                        match self.line_mask_hit(tid, x1, y1, x2, y2) {
-                            Some(m) => m,
-                            // A sprite with no masks behaves as bbox-solid; a
-                            // mask-less fixture wiring must not flip results.
-                            None => true,
-                        }
-                    } else {
-                        true
-                    };
-                    if passes {
-                        hit = tid as f64;
-                        break;
-                    }
-                }
-                Ok(hit)
-            }
             "mp_potential_step" => {
                 let target_x = a[0]; let target_y = a[1]; let step_size = a[2];
                 let check_all = a.get(3).copied().unwrap_or(0.0) >= 0.5;

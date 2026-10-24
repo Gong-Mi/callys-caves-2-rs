@@ -1,0 +1,395 @@
+/* Instance creation + Create-event dispatch for IR lowered to C.
+ *
+ * Every semantic here is copied from the Rust scene, not invented:
+ *   - crates/core/src/ir_scene.rs create()/create_with_id(): id allocation,
+ *     the named engine defaults a fresh instance carries, and the fact that
+ *     Create runs before the caller sees the id;
+ *   - crates/core/src/ir_scene.rs dispatch(): the object's own (type 0,
+ *     subtype 0) handler runs; only when the object has none does the first
+ *     ancestor in parent_chain that owns one run. Never both - this is the
+ *     original runner's inheritance rule, and the parent's handler is not an
+ *     additional pass;
+ *   - crates/core/src/parts/host_impl.rs "instance_create" => create(...),
+ *     whose result is the new instance id as a Val;
+ *   - crates/core/src/ir_scene.rs call_audio_play()/audio_is_playing_sound()/
+ *     call_audio_stop_sound(): the voice domain.
+ *
+ * The object table itself lives in c-recon/gen/objects_data.c, generated from
+ * full_ir.json by scripts/gen_object_table.py; this file owns no table.
+ */
+#include "gml.h"
+
+#include <math.h>
+
+#include <stdio.h>
+
+/* c-recon/gen/registry.c (scripts/gen_registry.py): 1 = ran, 0 = no body. */
+int gml_dispatch(GmVM* vm, long code);
+
+/* c-recon/gen/objects_data.c */
+int32_t gm_object_sprite(int32_t id);          /* -1 when the id is unknown */
+int gm_object_create_code(int32_t id);         /* -1: no own Create body */
+int gm_object_parent_count(int32_t id);
+int32_t gm_object_parent(int32_t id, int index); /* -1 past the end */
+int gm_object_exists(int32_t id);
+
+/* Scene::insert_external() allocates from max(next_id, 200000)+1, so the first
+ * runtime instance is 200001 and room-placed ids (< 200000) can never collide
+ * with a spawned one. */
+#define GM_DYNAMIC_ID_FLOOR 200000
+#define GM_MAX_VOICES 64
+#define GM_DISPATCH_BUDGET 64 /* Scene::dispatch's depth guard */
+
+/* Scene keeps these on the scene; GmVM has no room for them (gml.h is shared
+ * host ABI), so they are file state and gm_objects_reset() is the fixture hook
+ * that stands in for constructing a fresh Scene. */
+static int32_t g_next_id;
+static int g_dispatch_depth;
+
+typedef struct {
+    double sound;
+    int32_t voice;
+    int looping;
+    int stopped;
+    int paused;
+    int64_t start_tick;
+} GmVoice;
+
+static GmVoice g_voices[GM_MAX_VOICES];
+static int g_nvoices;
+static int32_t g_next_voice = 1; /* Scene::next_voice_id starts at 1 */
+static int64_t g_audio_tick;
+
+/* ---------------------------------------------------------------- creation */
+
+/* The named engine defaults from Scene::create(); a fresh instance reads these
+ * instead of defaulting user fields to 0. */
+static void apply_engine_defaults(GmVM* vm, int32_t id, int32_t sprite, Val x, Val y) {
+    vm_set_field(vm, id, "id", VAL(id));
+    vm_set_field(vm, id, "x", x);
+    vm_set_field(vm, id, "y", y);
+    vm_set_field(vm, id, "sprite_index", VAL(sprite));
+    vm_set_field(vm, id, "image_index", VAL(0));
+    vm_set_field(vm, id, "image_xscale", VAL(1));
+    vm_set_field(vm, id, "image_yscale", VAL(1));
+    vm_set_field(vm, id, "image_angle", VAL(0));
+    vm_set_field(vm, id, "image_blend", VAL(16777215));
+    vm_set_field(vm, id, "image_alpha", VAL(1));
+    vm_set_field(vm, id, "image_speed", VAL(1));
+    vm_set_field(vm, id, "hspeed", VAL(0));
+    vm_set_field(vm, id, "vspeed", VAL(0));
+    vm_set_field(vm, id, "speed", VAL(0));
+    vm_set_field(vm, id, "direction", VAL(0));
+    vm_set_field(vm, id, "friction", VAL(0));
+    vm_set_field(vm, id, "gravity", VAL(0));
+    vm_set_field(vm, id, "gravity_direction", VAL(270));
+    vm_set_field(vm, id, "visible", VAL(1));
+}
+
+int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
+    (void)self; /* instance_create does not depend on its caller (Scene::create) */
+    if (!vm) return -1;
+    if (!gm_object_exists(obj)) {
+        /* Scene::create: "object {object} not compiled; no fallback Create" */
+        fprintf(stderr, "gm_instance_create: object %d is not in the object table\n", obj);
+        return -1;
+    }
+    g_next_id = (g_next_id > GM_DYNAMIC_ID_FLOOR ? g_next_id : GM_DYNAMIC_ID_FLOOR) + 1;
+    int32_t id = g_next_id;
+
+    GmInst* in = vm_add(vm, id, obj);
+    if (!in) {
+        fprintf(stderr, "gm_instance_create: instance table full (%d)\n", MAX_INST);
+        return -1;
+    }
+    apply_engine_defaults(vm, id, gm_object_sprite(obj), x, y);
+
+    if (gm_dispatch_create(vm, id) != 0) {
+        /* The instance is now half-built: Create never ran. Report it rather
+         * than handing back an id whose initialisation is silently missing. */
+        fprintf(stderr, "gm_instance_create: Create dispatch failed for instance %d (object %d)\n",
+                id, obj);
+        return -1;
+    }
+    return id;
+}
+
+/* ----------------------------------------------------------------- dispatch */
+
+/* Scene::dispatch(): the instance's own event wins; otherwise the first
+ * ancestor that carries one. `type`/`subtype` are the raw event ids. */
+/* Set when a dispatch names a body this binary does not carry. The driver turns
+ * it into exit code 4 so a corpus run can tell "not compiled in" apart from
+ * "ran and disagreed" — the difference matters when reading a diff. */
+int gm_missing_body_code = -1;
+/* Set while a body runs so a failure can name it, exactly like the VM's
+ * "CODE 315 @0x...: message" wrapper (the offset is bytecode-specific and the
+ * C side has no per-instruction site, so the comparison ignores it). */
+int gm_dispatch_code = -1;
+
+int gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype) {
+    if (!vm) return -1;
+    GmInst* in = vm_inst(vm, id);
+    if (!in) return -1; /* Scene::dispatch: "unknown instance" */
+
+    int code = gm_event_code_chain(in->object, type, subtype);
+    if (code < 0) return 0; /* no such event anywhere in the chain: a no-op */
+    if (g_dispatch_depth >= GM_DISPATCH_BUDGET) {
+        fprintf(stderr, "gm_dispatch: event recursion budget exhausted for CODE %d\n", code);
+        return -3;
+    }
+
+    int32_t prev = vm->cur;
+    vm->cur = id; /* the body's selector -1 is this instance */
+    g_dispatch_depth++;
+    int prev_code = gm_dispatch_code;
+    gm_dispatch_code = code;
+    int ran = gml_dispatch(vm, (long)code);
+    gm_dispatch_code = prev_code;
+    g_dispatch_depth--;
+    vm->cur = prev;
+
+    if (!ran) {
+        /* Never silently skip: the table names a body the registry cannot run. */
+        fprintf(stderr, "gm_dispatch: CODE %d (object %d) has no generated body\n", code,
+                in->object);
+        gm_missing_body_code = code;
+        return -4;
+    }
+    return 0;
+}
+
+/* ------------------------------------------------------------------- audio */
+
+double gm_audio_play(Val sound, Val priority, int looping) {
+    (void)priority; /* Scene::AudioVoice keeps no priority; only the command does */
+    if (g_nvoices >= GM_MAX_VOICES) {
+        fprintf(stderr, "gm_audio_play: voice table full (%d)\n", GM_MAX_VOICES);
+        return 0.0; /* 0 is never a live voice id */
+    }
+    GmVoice* v = &g_voices[g_nvoices++];
+    v->sound = sound;
+    v->voice = g_next_voice++;
+    v->looping = looping ? 1 : 0;
+    v->stopped = 0;
+    v->paused = 0;
+    v->start_tick = g_audio_tick;
+    return (double)v->voice;
+}
+
+/* Scene::audio_is_playing_sound, minus the expires_tick half: this host has no
+ * sond duration table yet, so every voice is "duration unknown" and therefore
+ * keeps playing until it is stopped. */
+int gm_audio_is_playing(Val sound) {
+    for (int i = 0; i < g_nvoices; i++) {
+        const GmVoice* v = &g_voices[i];
+        if (v->sound == sound && !v->stopped && !v->paused) return 1;
+    }
+    return 0;
+}
+
+/* Scene::call_audio_stop_sound marks every undrained voice of that sound. */
+void gm_audio_stop_sound(Val sound) {
+    for (int i = 0; i < g_nvoices; i++)
+        if (g_voices[i].sound == sound) g_voices[i].stopped = 1;
+}
+
+void gm_audio_pause_all(void) {
+    for (int i = 0; i < g_nvoices; i++) g_voices[i].paused = 1;
+}
+
+void gm_audio_resume_all(void) {
+    for (int i = 0; i < g_nvoices; i++) g_voices[i].paused = 0;
+}
+
+void gm_audio_stop_all(void) {
+    for (int i = 0; i < g_nvoices; i++) g_voices[i].stopped = 1;
+}
+
+/* Tick source for voice start times. GmVM carries no tick counter, so the
+ * scheduler that drives this host advances it; the value only ever labels a
+ * voice, it does not gate playback yet. */
+void gm_audio_step_tick(void) { g_audio_tick++; }
+
+int gm_audio_voice_count(void) { return g_nvoices; }
+
+/* Read-only row access for fixtures and the future scheduler. Returns 0 when
+ * the index is out of range. */
+int gm_audio_voice_info(int index, double* sound, int32_t* voice, int* looping, int* stopped,
+                        int64_t* start_tick) {
+    if (index < 0 || index >= g_nvoices) return 0;
+    const GmVoice* v = &g_voices[index];
+    if (sound) *sound = v->sound;
+    if (voice) *voice = v->voice;
+    if (looping) *looping = v->looping;
+    if (stopped) *stopped = v->stopped;
+    if (start_tick) *start_tick = v->start_tick;
+    return 1;
+}
+
+/* Fixture hook: the equivalent of constructing a fresh Scene. Not part of
+ * gml.h - nothing in the generated bodies may call it. */
+void gm_objects_reset(void) {
+    g_next_id = 0;
+    g_dispatch_depth = 0;
+    g_nvoices = 0;
+    g_next_voice = 1;
+    g_audio_tick = 0;
+}
+
+/* Integration hook: the collision module keeps its own parent graph because it
+ * must answer object_is_a() without a bundle. Feed it the whole declared roster
+ * once, before any body runs. */
+void gm_objects_register_parents(void) {
+    gm_collision_clear_parents();
+    for (int i = 0; i < GM_OBJECT_COUNT; i++) {
+        int32_t id = gm_object_id_at(i);
+        int n = gm_object_parent_count(id);
+        for (int k = 0; k < n; k++) gm_collision_add_parent(id, gm_object_parent(id, k));
+    }
+}
+
+int gm_dispatch_create(GmVM* vm, int32_t id) {
+    return gm_dispatch_event(vm, id, 0, 0);
+}
+
+/* Instance field access shared by the tick integration. */
+GmField* gm_find_field(GmInst* in, const char* name) {
+    if (!in) return NULL;
+    for (int i = 0; i < in->nfields; i++)
+        if (strcmp(in->fields[i].name, name) == 0) return &in->fields[i];
+    return NULL;
+}
+
+double gm_field_or(GmInst* in, const char* name, double dflt) {
+    GmField* f = gm_find_field(in, name);
+    return f ? f->value : dflt;
+}
+
+void gm_set_field(GmInst* in, const char* name, double v) {
+    if (!in) return;
+    GmField* f = gm_find_field(in, name);
+    if (f) { f->value = v; return; }
+    if (in->nfields >= MAX_FIELDS) return;
+    snprintf(in->fields[in->nfields].name, NAME_LEN, "%s", name);
+    in->fields[in->nfields].value = v;
+    in->nfields++;
+}
+
+/* Scene::tick, minus the pointer queue and particle integration this host does
+ * not model: snapshot the active instances in ascending id (the VM iterates a
+ * BTreeMap), decrement alarms and fire the ones that reach zero, then dispatch
+ * Step. New instances created during the tick enter the next one because the
+ * snapshot is taken up front. */
+int gm_tick(GmVM* vm) {
+#ifdef GM_TRACE
+    for (int i = 0; i < vm->ninst; i++)
+        fprintf(stderr, "TICK-SNAP id=%d obj=%d alive=%d active=%d\n",
+                vm->inst[i].id, vm->inst[i].object, vm->inst[i].alive, vm->inst[i].active);
+#endif
+    int32_t ids[MAX_INST];
+    int n = 0;
+    for (int i = 0; i < vm->ninst && n < MAX_INST; i++)
+        if (vm->inst[i].alive && vm->inst[i].active) ids[n++] = vm->inst[i].id;
+    for (int i = 1; i < n; i++) {
+        int32_t v = ids[i];
+        int j = i - 1;
+        while (j >= 0 && ids[j] > v) { ids[j + 1] = ids[j]; j--; }
+        ids[j + 1] = v;
+    }
+    for (int k = 0; k < n; k++) {
+        int32_t id = ids[k];
+        for (int idx = 0; idx < 12; idx++) {
+            GmInst* in = vm_inst(vm, id);
+            if (!in || !in->alive || !in->active) break;
+            if (in->alarms[idx] > 0) {
+                in->alarms[idx] -= 1;
+                if (in->alarms[idx] == 0) {
+                    in->alarms[idx] = -1;
+                    gm_dispatch_event(vm, id, 2, idx);
+                }
+            }
+        }
+    }
+    for (int k = 0; k < n; k++) {
+        GmInst* in = vm_inst(vm, ids[k]);
+        if (in && in->alive && in->active) gm_dispatch_event(vm, ids[k], 3, 0);
+    }
+
+    /* Standard GMS motion integration (ir_scene.rs:1085-1160), over every
+     * instance alive right now — the Step above may have created or retired
+     * some, and the VM iterates the post-step map. */
+    int32_t live[MAX_INST];
+    int nl = 0;
+    for (int i = 0; i < vm->ninst && nl < MAX_INST; i++)
+        if (vm->inst[i].alive && vm->inst[i].active) live[nl++] = vm->inst[i].id;
+    for (int i = 1; i < nl; i++) {
+        int32_t v = live[i];
+        int j = i - 1;
+        while (j >= 0 && live[j] > v) { live[j + 1] = live[j]; j--; }
+        live[j + 1] = v;
+    }
+    for (int k = 0; k < nl; k++) {
+        GmInst* in = vm_inst(vm, live[k]);
+        if (!in) continue;
+        /* 1. gravity */
+        double grav = gm_field_or(in, "gravity", 0.0);
+        if (grav != 0.0) {
+            double gdir = gm_field_or(in, "gravity_direction", 270.0);
+            double rad = gdir * M_PI / 180.0;
+            GmField* h = gm_find_field(in, "hspeed");
+            GmField* v = gm_find_field(in, "vspeed");
+            if (h) h->value += grav * cos(rad);
+            if (v) v->value += -grav * sin(rad);
+        }
+        /* 2. friction */
+        double frict = gm_field_or(in, "friction", 0.0);
+        double hsp = gm_field_or(in, "hspeed", 0.0);
+        double vsp = gm_field_or(in, "vspeed", 0.0);
+        if (frict != 0.0) {
+            double spd = sqrt(hsp * hsp + vsp * vsp);
+            if (spd > 0.0) {
+                double nspd = spd - frict;
+                if (nspd < 0.0) nspd = 0.0;
+                hsp = hsp * nspd / spd;
+                vsp = vsp * nspd / spd;
+                GmField* h = gm_find_field(in, "hspeed");
+                GmField* v = gm_find_field(in, "vspeed");
+                if (h) h->value = hsp;
+                if (v) v->value = vsp;
+            }
+        }
+        /* 3. position */
+        if (hsp != 0.0) { GmField* x = gm_find_field(in, "x"); if (x) x->value += hsp; }
+        if (vsp != 0.0) { GmField* y = gm_find_field(in, "y"); if (y) y->value += vsp; }
+        /* 4. speed / direction sync */
+        if (hsp != 0.0 || vsp != 0.0) {
+            double spd = sqrt(hsp * hsp + vsp * vsp);
+            double dir = atan2(-vsp, hsp) * 180.0 / M_PI;
+            if (dir < 0.0) dir += 360.0;
+            gm_set_field(in, "speed", spd);
+            gm_set_field(in, "direction", dir);
+        }
+        /* 5. sprite animation cycle */
+        double ispeed = gm_field_or(in, "image_speed", 1.0);
+        if (ispeed != 0.0) {
+            int32_t spr = (int32_t)gm_field_or(in, "sprite_index", -1.0);
+            double frames = (double)gm_sprite_frames(spr);
+            if (frames > 1.0) {
+                double idx = gm_field_or(in, "image_index", 0.0);
+                double next = idx + ispeed;
+                if (next >= frames) next = fmod(next, frames);
+                else if (next < 0.0) {
+                    double span = frames - 1.0;
+                    double d = -next;
+                    double pos = fabs(fmod(d, 2.0 * span));
+                    next = (pos <= span) ? pos : (2.0 * span - pos);
+                }
+                gm_set_field(in, "image_index", next);
+            } else if (frames == 1.0) {
+                gm_set_field(in, "image_index", 0.0);
+            }
+        }
+    }
+    return 0;
+}
