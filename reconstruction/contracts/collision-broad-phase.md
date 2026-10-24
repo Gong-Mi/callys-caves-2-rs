@@ -147,3 +147,15 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
 
 结论不变：axis-aligned 路径已接、C↔VM 全绿；但要宣称"等于原版"，必须先确定
 上面三点，最好用 Unicorn 合成内存 oracle 直接对拍 `0x1e4298`。
+
+### 7.2 oracle 前置事实（为 Unicorn 合成内存准备）
+
+* `CSprite::UnpackWADMask` @0x1e3994 的第一条判断是 `[sprite+0x31] != 0` → 直接
+  返回。所以 oracle 可以预先造好掩码表并把 +0x31 置 1，不必实现 WAD 解包。
+* 解包后的掩码是**每像素一字节**（查位：`[bits + row*width + col]`），与资产里
+  位压缩的 `CollisionMask`（0x80>>x%8）只是存储差异，占位语义相同；对拍时不要
+  把两种存储当成两种规则。
+* 调用点 `CInstance::Collision_Instance` @0x1957ac 的实参布局可直接照着造：
+  YYRECT 内嵌在 instance 的 +0xe8/+0xec 附近，r0..r3 与栈槽 0、4、8、12、16、20、
+  24、28、32、36、40、44 依次是 spriteA/frame/rectA/…/spriteB/frame/rectB/…。
+  具体寄存器—参数对应仍需逐条读，但不必从签名猜。
