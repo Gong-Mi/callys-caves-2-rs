@@ -395,6 +395,60 @@ static int select_ids(GmVM* vm, int32_t self, int32_t sel, int32_t* out, int cap
     return n;
 }
 
+/* CSprite::PreciseCollision @0x1e4298: inside the box intersection both masks
+ * must have a set pixel at the same world pixel. A sprite without mask data is
+ * solid — the runner's `[sprite+0x31] == 0` branch skips the mask test — so the
+ * box verdict stands. The runner's loop carries no trig: rotation is not part of
+ * this path. */
+static int mask_probe_pos(GmVM* vm, int32_t tid, double x, double y, GmMaskProbe* p) {
+    int r = mask_probe(vm, tid, p);
+    if (r == 1) { p->ix = x; p->iy = y; }
+    return r;
+}
+
+static int box_for_at(GmVM* vm, int32_t id, double x, double y, GmBox* out) {
+    GmInst* in = vm_inst(vm, id);
+    if (!in) return 0;
+    *out = box_at(sat_i32(field_or(in, "mask_index", -1.0)),
+                  sat_i32(field_or(in, "sprite_index", -1.0)),
+                  x, y,
+                  field_or(in, "image_xscale", 1.0),
+                  field_or(in, "image_yscale", 1.0),
+                  field_or(in, "image_angle", 0.0));
+    return 1;
+}
+
+static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b) {
+    GmInst* ib = vm_inst(vm, b);
+    if (!ib) return 1;
+    /* Rotation: the runner loop we read maps with two linear terms only; its
+     * rotated path is not pinned yet, so a rotated sprite keeps the box
+     * verdict instead of silently using an unrotated mask. */
+    GmInst* ia = vm_inst(vm, a);
+    if ((ia && field_or(ia, "image_angle", 0.0) != 0.0) ||
+        field_or(ib, "image_angle", 0.0) != 0.0) return 1;
+    GmMaskProbe pa, pb;
+    int ra = mask_probe_pos(vm, a, ax, ay, &pa);
+    if (ra == 0) return 1;                 /* no mask data on A: the box speaks */
+    if (ra < 0) return 0;                  /* zero scale: no pixel can hit */
+    int rb = mask_probe_pos(vm, b, field_or(ib, "x", 0.0), field_or(ib, "y", 0.0), &pb);
+    if (rb == 0) return 1;                 /* no mask data on B: the box speaks */
+    if (rb < 0) return 0;
+    GmBox ba, bb;
+    if (!box_for_at(vm, a, ax, ay, &ba) || !box_for_instance(vm, b, &bb)) return 1;
+    double left = ba.l > bb.l ? ba.l : bb.l;
+    double right = ba.r < bb.r ? ba.r : bb.r;
+    double top = ba.t > bb.t ? ba.t : bb.t;
+    double bottom = ba.b < bb.b ? ba.b : bb.b;
+    if (left > right || top > bottom) return 0;
+    for (long y = (long)top; y <= (long)bottom; y++)
+        for (long x = (long)left; x <= (long)right; x++)
+            if (mask_probe_pixel(&pa, (double)x, (double)y) &&
+                mask_probe_pixel(&pb, (double)x, (double)y))
+                return 1;
+    return 0;
+}
+
 int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
     GmInst* caller = vm_inst(vm, self);
     if (!caller) return GM_NOONE;
@@ -423,8 +477,12 @@ int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
                 tid, vm_inst(vm,tid)?vm_inst(vm,tid)->object:-1, tb.l, tb.r, tb.t, tb.b,
                 (pbox.l <= tb.r && pbox.r >= tb.l && pbox.t <= tb.b && pbox.b >= tb.t));
         #endif
-        if (pbox.l <= tb.r && pbox.r >= tb.l && pbox.t <= tb.b && pbox.b >= tb.t)
+        if (pbox.l <= tb.r && pbox.r >= tb.l && pbox.t <= tb.b && pbox.b >= tb.t) {
+            /* The runner continues into Collision_Instance -> PreciseCollision:
+             * the recorded box is only the broad phase. */
+            if (!precise_overlap(vm, self, (double)x, (double)y, tid)) continue;
             return tid;
+        }
     }
     return GM_NOONE;
 }

@@ -29,7 +29,7 @@ sentinel 与 wrapping_mul/sqrtf 路径照旧）。半开约定使每个消费者
 | Event 4 碰撞派发 | ir_scene.rs tick 内 | 半开盒相交，命中派发 |
 | Mouse_7 / Mouse_0 局部派发 | ir_scene.rs | 点命中（UI/贴片点击） |
 | collision_point | host_impl.rs | inclusive 点测；prec=1 时追加掩码像素门 |
-| instance_place / place_meeting | host_impl.rs | 候选位装箱 + inclusive 边相交 |
+| instance_place / place_meeting | host_impl.rs | 候选位装箱 + inclusive 边相交；两侧都有掩码且未旋转时追加逐像素掩码门（2026-10-24） |
 | collision_line | host_impl.rs | 盒 vs 线（slab 触边不变）；prec=1 走掩码线采样（2026-10-24） |
 | mp_potential_step | host_impl.rs | 候选盒走 compute_bounding_box_at（含 mask/角度） |
 
@@ -85,9 +85,12 @@ canary（the_map_open_contact_tick…）与缝测试已按 §5 重铸并通过�
 
 `collision_line` / `collision_point` 的 `prec=1` 已在 wl63 落地（掩码表由
 `dump_sprites_c` 从 SPRT 记录生成：178 sprites / 227 frames / 341 KB 位图；
-C 与 Rust 双侧同一套 `mask_probe`，并有 95 条 C 断言）。**但
-`instance_place` / `place_meeting` 仍只走录制框**，这是当前最大的玩法保真缺口
-（全库 599 + 50 个调用点，67 个 body）。
+C 与 Rust 双侧同一套 `mask_probe`，并有 98 条 C 断言）。2026-10-24 起
+`instance_place` / `place_meeting`（全库 599 + 50 个调用点，67 个 body）也在
+**两侧都有掩码且未旋转**时走逐像素掩码门：先求录制框交集，再在交集内逐像素
+映射到两张掩码、两边都为 1 才算命中；无掩码数据的一侧仍由录制框决定（对应
+runner 的 `[sprite+0x31] == 0` 分支）。**旋转仍是缺口**：本函数循环里没有
+三角函数项，旋转分支尚未读定，当前旋转实例回退到盒子判定，不得声称已支持。
 
 原版路径（libyoyo ARMv7，SHA256 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）：
 

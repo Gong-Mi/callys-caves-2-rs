@@ -355,6 +355,10 @@ impl Host for Scene {
                                 pbox.0 <= ir && pbox.1 >= il && pbox.2 <= ib && pbox.3 >= it);
                         }
                         if pbox.0 <= ir && pbox.1 >= il && pbox.2 <= ib && pbox.3 >= it {
+                            // The runner does not stop at the box: it calls
+                            // Collision_Instance -> PreciseCollision, so the
+                            // recorded box is only the broad phase.
+                            if !self.precise_overlap(id, px, py, tid) { continue; }
                             hit = tid as f64;
                             break;
                         }

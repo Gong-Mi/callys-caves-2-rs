@@ -17,7 +17,7 @@ body rather than guess.
 | --- | --- |
 | generator (`scripts/ir_to_c.py`) | 1354/1354 bodies, 0 refused, 52,411 lines of C |
 | C host (`c-recon/src/host.c`) | instances, fields, arrays (`alarm` is a 12-slot array), globals, selector resolution, `with` frames, `room_width`/`score` pseudo-fields |
-| collision (`c-recon/src/collision.c`) | `instance_place`, `place_meeting`, `distance_to_object`, mask line/point probes; 95 assertions |
+| collision (`c-recon/src/collision.c`) | `instance_place` / `place_meeting` (box + mask pixels), `distance_to_object`, mask line/point probes; 98 assertions |
 | objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 140 assertions |
 | geometry | 178 SPRT records emitted from `game.droid` (`c-recon/gen/sprites.c`) |
 | masks | 227 SPRT collision masks (341 KB of bits) emitted into the same file; `collision_line(prec=1)` walks them |

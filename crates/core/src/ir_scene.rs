@@ -32,6 +32,23 @@ pub struct SpriteBounds {
     /// image_index advance. 0 means no animation data (never advances).
     pub frames: f64,
 }
+/// One sprite's mask plus the transform that maps a world pixel into it.
+/// `CSprite::PreciseCollision` maps with `vcvt.s32`, i.e. truncation, not floor.
+struct MaskCtx<'a> {
+    mask: &'a callys_asset::CollisionMask,
+    x: f64, y: f64,
+    sx: f64, sy: f64,
+    ox: f64, oy: f64,
+}
+
+impl<'a> MaskCtx<'a> {
+    fn hits(&self, wx: f64, wy: f64) -> bool {
+        let lx = ((wx - self.x) / self.sx + self.ox) as i32;
+        let ly = ((wy - self.y) / self.sy + self.oy) as i32;
+        self.mask.pixel(lx, ly)
+    }
+}
+
 #[derive(Debug, Clone, Serialize, PartialEq)]
 pub struct DrawCommand {
     pub code: usize, pub offset: usize, pub instance: i32, pub view: i32,
@@ -1417,6 +1434,79 @@ impl Scene {
         }
         Some(false)
     }
+    fn mask_ctx_at(&self, id: i32, x: f64, y: f64) -> Option<MaskCtx<'_>> {
+        let inst = self.instances.get(&id)?;
+        let spr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
+        let masks = self.sprite_masks.get(&spr).filter(|m| !m.is_empty())?;
+        let frame = inst.fields.get("image_index").copied().unwrap_or(0.0);
+        let idx = if frame < 0.0 { 0 } else { (frame as usize).min(masks.len() - 1) };
+        let b = self.sprite_bounds.get(&spr)?;
+        Some(MaskCtx {
+            mask: &masks[idx], x, y,
+            sx: inst.fields.get("image_xscale").copied().unwrap_or(1.0),
+            sy: inst.fields.get("image_yscale").copied().unwrap_or(1.0),
+            ox: b.origin_x, oy: b.origin_y,
+        })
+    }
+
+    fn box_of(&self, id: i32, x: f64, y: f64) -> Option<(f64, f64, f64, f64)> {
+        let inst = self.instances.get(&id)?;
+        Some(self.compute_bounding_box_at(
+            inst.fields.get("mask_index").copied().unwrap_or(-1.0) as i32,
+            inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32,
+            x, y,
+            inst.fields.get("image_xscale").copied().unwrap_or(1.0),
+            inst.fields.get("image_yscale").copied().unwrap_or(1.0),
+            inst.fields.get("image_angle").copied().unwrap_or(0.0)))
+    }
+
+    /// Precise two-mask overlap for instance_place / place_meeting.
+    ///
+    /// Mirrors `CSprite::PreciseCollision` (libyoyo 0x1e4298): intersect the two
+    /// recorded boxes, then map every integer world pixel in the intersection
+    /// into both masks and require both bits. A sprite with no mask data is
+    /// solid — the runner's `[sprite+0x31] == 0` branch skips the mask test — so
+    /// the box verdict stands. That loop carries no trig: rotation is not part
+    /// of this path, and neither is a scale special case (the runner has a
+    /// branch for scale == 1, but it computes the same mapping).
+    pub fn precise_overlap(&self, a: i32, ax: f64, ay: f64, b: i32) -> bool {
+        let bx = self.instances.get(&b).and_then(|i| i.fields.get("x").copied()).unwrap_or(0.0);
+        let by = self.instances.get(&b).and_then(|i| i.fields.get("y").copied()).unwrap_or(0.0);
+        // Rotation is not in this loop yet: the runner's PreciseCollision maps
+        // with two linear terms only, and we have not read its rotated path.
+        // Until that is pinned, a rotated sprite keeps the box verdict instead
+        // of silently using an unrotated mask.
+        let rotated = |id: i32| self.instances.get(&id)
+            .map(|i| i.fields.get("image_angle").copied().unwrap_or(0.0) != 0.0)
+            .unwrap_or(false);
+        if rotated(a) || rotated(b) { return true; }
+        let (ca, cb) = match (self.mask_ctx_at(a, ax, ay), self.mask_ctx_at(b, bx, by)) {
+            (Some(ca), Some(cb)) => (ca, cb),
+            _ => return true,
+        };
+        let (pa, pb) = match (self.box_of(a, ax, ay), self.compute_bounding_box_for_instance(b)) {
+            (Some(pa), Some(pb)) => (pa, pb),
+            _ => return true,
+        };
+        let left = pa.0.max(pb.0);
+        let right = pa.1.min(pb.1);
+        let top = pa.2.max(pb.2);
+        let bottom = pa.3.min(pb.3);
+        if left > right || top > bottom { return false; }
+        let mut y = top as i64;
+        while y <= bottom as i64 {
+            let mut x = left as i64;
+            while x <= right as i64 {
+                if ca.hits(x as f64, y as f64) && cb.hits(x as f64, y as f64) {
+                    return true;
+                }
+                x += 1;
+            }
+            y += 1;
+        }
+        false
+    }
+
     fn self_field(&self,id:i32,n:&str)->Result<f64,String> {
         if n == "id" { return Ok(id as f64); }
         // GMS read-only sprite metadata: frame count of the instance's current

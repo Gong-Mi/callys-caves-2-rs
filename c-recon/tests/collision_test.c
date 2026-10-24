@@ -409,6 +409,33 @@ static void group_line_mask(void) {
             gm_line_mask_test(&g_vm, id, 0.0, 0.0, 1.0, 1.0), -1);
 }
 
+/* --- 12. instance_place is precise, not box-only --------------------------
+ * The runner's Command_InstancePlace goes through Collision_Instance ->
+ * CSprite::PreciseCollision, so two recorded boxes can overlap while the
+ * sprites are not touching. Scan sprite 1 (32x64 with a hole) for such an
+ * offset: the boxes overlap, the pixel test does not. */
+static void group_precise_place(void) {
+    new_vm();
+    /* Sprite 1 (caller) vs sprite 4 at (16, 8): the recorded boxes overlap but
+     * the two solid-pixel sets are disjoint (mask search over the emitted
+     * tables). That is exactly the case the box-only version called a hit. */
+    int32_t a = mk(100020, 34, 0.0, 0.0, 1);
+    int32_t b = mk(100021, 34, 16.0, 8.0, 4);
+    CHECK_I("precise place: overlapping boxes with disjoint pixels miss",
+            gm_instance_place(&g_vm, a, (Val)0.0, (Val)0.0, 34), -4);
+    /* Control: the same pair at the same position does share solid pixels. */
+    vm_set_field(&g_vm, b, "x", 0.0);
+    vm_set_field(&g_vm, b, "y", 0.0);
+    CHECK_I("precise place: a shared solid pixel still hits",
+            gm_instance_place(&g_vm, a, (Val)0.0, (Val)0.0, 34), b);
+    /* Rotation is not in this path yet: a rotated pair keeps the box verdict. */
+    vm_set_field(&g_vm, b, "x", 16.0);
+    vm_set_field(&g_vm, b, "y", 8.0);
+    vm_set_field(&g_vm, a, "image_angle", 90.0);
+    CHECK_I("precise place: rotated caller falls back to the box verdict",
+            gm_instance_place(&g_vm, a, (Val)0.0, (Val)0.0, 34), b);
+}
+
 int main(void) {
     group_pinned_player_lloyd();
     group_mask_and_signed_scale();
@@ -421,6 +448,7 @@ int main(void) {
     group_place_meeting();
     group_distance_selectors();
     group_line_mask();
+    group_precise_place();
     printf("collision_test: %d checks, %d failed\n", g_checks, g_fails);
     return g_fails ? 1 : 0;
 }
