@@ -246,3 +246,30 @@ C 侧因此有两个像素助手：`mask_probe_pixel`（截断，precise overlap
 
 这条怪癖在真实玩法里有效：CODE 108/119 的 `collision_line(x,y,player.x,player.y,…)`
 在玩家位于正左方且同高时会**看不到墙**（原版如此），移植端必须照抄。
+
+### 7.5.1 方向怪癖对既有夹具的影响（2026-10-24）
+
+把 `prec=1` 接到真实掩码、并把 §7.5 的"恰好水平且 x2<x1 恒 0"照抄进两侧实现后，
+三个既有测试暴露出来，全部按**保留断言意图、只换几何**重铸：
+
+| 测试 | 原夹具 | 问题 | 重铸 |
+|---|---|---|---|
+| `mines_shooter2_ir::shooter2_fires_only_with_line_of_sight` | 射手 800、玩家 400、墙 600（同高） | 视线段 800→400 恰好水平反向，原版恒不命中，墙挡不住 | 只有"被挡"阶段把玩家 y 挪到 401 让线段变斜；净空/出膛方向断言不动 |
+| `level12_mines_enemy_phases_ir::level12_shooter2_uses_clear_los_before_spawning_bullet_two` | 同上（玩家在左） | 同上 | 玩家改到 sx+400、墙改到 sx+200，线段沿 +x |
+| `bosses_3_5_ir::boss4_ladder_chase_and_the_swing_cycle` | 墙 (350,260) | 在 boss4 录制框内、掩码透明像素上（mask(98,124)=0），精确碰撞下两探针都不命中 | 墙改 (310,206)，见 `bosses-3-5.md` |
+
+这三处都不是放宽断言：被挡仍要求"整段没有 BULLET2"，追逐仍要求 `hspeed=-2`。
+
+### 7.6 待定：collision_line 的宽相框到底哪套
+
+- 原版 `CInstance::Collision_Line` 传给 `PreciseCollisionLine` 的是
+  `Compute_BoundingBox` 的**闭区间**框；
+- Rust 侧 `collision_line` 沿用 `bounds_for_instance` 的**半开**框
+  （`x..x+1`，main 一直如此）；
+- C 侧 `gm_instance_box` 是闭区间。
+
+三者只在"点框 + 线段恰好落在 .5 小数行/列"时给出不同答案：闭区间判 miss，
+半开判 hit。`physics_and_motion_ir::motion_integration_gravity_friction_and_builtins`
+的"notme==0 包含调用者自身"就踩在这条缝上（线段 y = cy = 200.5，点框 [200,200]）。
+本轮先恢复 main 的半开实现让该断言保持原样，**闭区间/半开的分歧登记为开放项**：
+需要一组小数行/列的语料差分（C 闭区间 vs Rust 半开）来定案，定案前不得声称两腿一致。

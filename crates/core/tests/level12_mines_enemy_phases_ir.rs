@@ -143,10 +143,13 @@ fn level12_shooter2_uses_clear_los_before_spawning_bullet_two() {
     let sy = 400.0;
     s.write(shooter, -1, "x", None, sx).unwrap();
     s.write(shooter, -1, "y", None, sy).unwrap();
-    s.write(player, -1, "x", None, sx - 400.0).unwrap();
+    s.write(player, -1, "x", None, sx + 400.0).unwrap();
     s.write(player, -1, "y", None, sy).unwrap();
     s.write(shooter, -1, "hpshooter2", None, 50.0).unwrap();
-    let blocker = s.create(&bundle, WALL, sx - 200.0, sy).unwrap();
+    // The runner's collision_line has a verified blind spot for exactly
+    // horizontal right-to-left segments, so the blocker test runs in the +x
+    // direction (see contracts/collision-broad-phase.md §7.5).
+    let blocker = s.create(&bundle, WALL, sx + 200.0, sy).unwrap();
     let before: Vec<i32> = s.instances.keys().copied().collect();
     s.dispatch(&bundle, shooter, 2, 1).unwrap();
     assert!(s.instances.keys().filter(|id| !before.contains(id)).all(|id| s.instances[id].object != BULLET2),

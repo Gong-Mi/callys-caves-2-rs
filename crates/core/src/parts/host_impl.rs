@@ -312,16 +312,21 @@ impl Host for Scene {
                 let targets=self.select(id,s)?;
                 let mut hit=-4.0;
                 for tid in targets {
-                    if notme && tid==id { continue; }
-                    if let Some((left,right,top,bottom))=self.compute_bounding_box_for_instance(tid) {
-                        if segment_hits_box(x1,y1,x2,y2,left,right,top,bottom) {
-                            if prec {
-                                if let Some(false) = self.line_mask_hit(tid,x1,y1,x2,y2) { continue; }
-                            }
-                            hit=tid as f64;
-                            break;
-                        }
+                    if tid == id && notme { continue; }
+                    // Same Compute_BoundingBox the rest of the broad phase uses;
+                    // the half-open form keeps the slab test's touching-edge
+                    // behaviour unchanged (main's convention; the M1 wiring had
+                    // briefly swapped in the inclusive box and lost point-box
+                    // calls whose line runs through the pixel's half-open row).
+                    let Some((min_x, max_x, min_y, max_y)) = self.bounds_for_instance(tid) else { continue };
+                    if !line_intersects_box(x1, y1, x2, y2, min_x, max_x, min_y, max_y) {
+                        continue;
                     }
+                    if prec {
+                        if let Some(false) = self.line_mask_hit(tid, x1, y1, x2, y2) { continue; }
+                    }
+                    hit = tid as f64;
+                    break;
                 }
                 Ok(hit)
             }

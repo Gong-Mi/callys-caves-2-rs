@@ -255,6 +255,9 @@ fn shooter2_hp_ladder_is_its_own_table() {
 fn shooter2_fires_only_with_line_of_sight() {
     let (bundle, mut s, player, _asset) = mines_scene(13.0);
     let shooter = one(&s, SHOOTER2);
+    // Player to the RIGHT: the runner's collision_line only scans x in
+    // [x1, x2], so an exactly horizontal right-to-left lane can never be
+    // blocked (contracts/collision-broad-phase.md §7.5).
     duel(&mut s, player, shooter, 400.0, 400.0, 800.0, 400.0, true);
     s.write(shooter, -1, "hpshooter2", None, 50.0).unwrap();
     // The room's own walls would silently cancel the volley, so the fixture
@@ -286,6 +289,11 @@ fn shooter2_fires_only_with_line_of_sight() {
     // otherwise be indistinguishable from a newly armed pose.
     s.instances.get_mut(&shooter).unwrap().alarms[2] = 0;
     let before: Vec<i32> = s.instances.keys().copied().collect();
+    // The runner's collision_line only scans x in [x1, x2], so an exactly
+    // horizontal right-to-left lane can never be blocked (§7.5). Offsetting
+    // the player by one pixel makes the lane diagonal and restores blocking
+    // without touching the clean-line phase above.
+    s.write(player, -1, "y", None, 401.0).unwrap();
     let wall = s.create(&bundle, WALL, 600.0, 400.0).expect("blocking wall");
     s.dispatch(&bundle, shooter, 2, 1).unwrap();
     assert!(new_ids(&s, &before).iter().all(|id| s.instances[id].object != BULLET2),
@@ -344,6 +352,9 @@ fn bullet_two_costs_a_heart_like_bullet_one() {
 fn shooter2_death_spray_has_xp_tiers_and_counts_traps() {
     let (bundle, mut s, player, _asset) = mines_scene(13.0);
     let shooter = one(&s, SHOOTER2);
+    // Player to the RIGHT: the runner's collision_line only scans x in
+    // [x1, x2], so an exactly horizontal right-to-left lane can never be
+    // blocked (contracts/collision-broad-phase.md §7.5).
     duel(&mut s, player, shooter, 400.0, 400.0, 800.0, 400.0, true);
     s.write(shooter, -1, "hpdrop", None, 1.0).unwrap();
     s.write(shooter, -1, "xpdrop", None, 2.0).unwrap(); // the two-orb tier
