@@ -27,6 +27,10 @@ def mask_px(m, x, y):
 
 
 def our_line(mask, x, y, sx, sy, ang, x1, y1, x2, y2):
+    # Oracle-verified quirk: an exactly horizontal right-to-left segment never
+    # hits (the runner walks x in [x1, x2]).
+    if y1 == y2 and x2 < x1:
+        return 0
     rad = f32(f32(ang) * f32(math.pi) / 180.0)
     c, s = f32(math.cos(rad)), f32(math.sin(rad))
     length = math.hypot(x2 - x1, y2 - y1)

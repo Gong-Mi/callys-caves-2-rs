@@ -234,6 +234,9 @@ int gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py) {
 }
 
 int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, double y2) {
+    /* Runner quirk (oracle-verified, PreciseCollisionLine @0x1e52bc): an exactly
+     * horizontal segment scanned right-to-left never hits. */
+    if (y1 == y2 && x2 < x1) return 0;
     GmMaskProbe p;
     int r = mask_probe(vm, tid, &p);
     if (r == 0) return -1;

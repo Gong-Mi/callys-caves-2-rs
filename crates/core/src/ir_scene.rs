@@ -1444,6 +1444,11 @@ impl Scene {
     /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
     /// None = no mask data (bbox fallback).
     fn line_mask_hit(&self, tid: i32, x1: f64, y1: f64, x2: f64, y2: f64) -> Option<bool> {
+        // Runner quirk (oracle-verified, PreciseCollisionLine @0x1e52bc): an
+        // exactly horizontal segment scanned right-to-left never hits — the
+        // walk only covers x in [x1, x2]. Reversed diagonals and verticals are
+        // direction-agnostic.
+        if y1 == y2 && x2 < x1 { return Some(false); }
         let len = ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).sqrt();
         let steps = ((len * 2.0).ceil() as usize).clamp(1, 4000);
         for s in 0..=steps {
