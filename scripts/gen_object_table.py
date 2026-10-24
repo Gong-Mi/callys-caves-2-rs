@@ -73,6 +73,7 @@ def build(ir_path: Path):
 
     rows = []
     parents: list[int] = []
+    events: list[tuple[int, int, int, int]] = []
     for obj in sorted(objs, key=lambda o: o["id"]):
         oid = as_id(obj["id"], "object id")
         sprite = as_id(obj["sprite"], f"object {oid} sprite")
@@ -91,10 +92,15 @@ def build(ir_path: Path):
             }
         )
         parents.extend(chain)
-    return ir, rows, parents
+        for ev in obj["events"]:
+            etype = as_id(ev["event_type"], f"object {oid} event_type")
+            sub = as_id(ev["subtype"], f"object {oid} subtype")
+            for c in ev["codes"]:
+                events.append((oid, etype, sub, as_id(c, f"object {oid} code")))
+    return ir, rows, parents, events
 
 
-def emit(ir_path: Path, ir: dict, rows, parents) -> str:
+def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
     n = len(rows)
     out: list[str] = []
     w = out.append
@@ -130,6 +136,35 @@ def emit(ir_path: Path, ir: dict, rows, parents) -> str:
     else:
         w("    0 /* unused: no object declares a parent */")
     w("};")
+    w("")
+    w("/* (object, event_type, subtype) -> code, in object order. */")
+    w("static const GmEventRow GM_EVENTS[] = {")
+    if events:
+        for (o, t, s, c) in events:
+            w(f"    {{ {o}, {t}, {s}, {c} }},")
+    else:
+        w("    { -1, -1, -1, -1 },")
+    w("};")
+    w(f"const int GM_EVENT_COUNT = {len(events)};")
+    w("")
+    w("int gm_event_code(int32_t object, int32_t type, int32_t subtype) {")
+    w("    for (int i = 0; i < GM_EVENT_COUNT; i++)")
+    w("        if (GM_EVENTS[i].object == object && GM_EVENTS[i].type == type &&")
+    w("            GM_EVENTS[i].subtype == subtype) return GM_EVENTS[i].code;")
+    w("    return -1;")
+    w("}")
+    w("")
+    w("/* dispatch(): own event first, then the first ancestor carrying one. */")
+    w("int gm_event_code_chain(int32_t object, int32_t type, int32_t subtype) {")
+    w("    int c = gm_event_code(object, type, subtype);")
+    w("    if (c >= 0) return c;")
+    w("    int n = gm_object_parent_count(object);")
+    w("    for (int k = 0; k < n; k++) {")
+    w("        c = gm_event_code(gm_object_parent(object, k), type, subtype);")
+    w("        if (c >= 0) return c;")
+    w("    }")
+    w("    return -1;")
+    w("}")
     w("")
     w("static const GmObjectRow GM_OBJECTS[] = {")
     for r in rows:
@@ -195,8 +230,8 @@ def main() -> int:
     ap.add_argument("--ir", type=Path, default=Path("crates/core/src/generated/full_ir.json"))
     ap.add_argument("--out", type=Path, default=Path("c-recon/gen/objects_data.c"))
     a = ap.parse_args()
-    ir, rows, parents = build(a.ir)
-    a.out.write_text(emit(a.ir, ir, rows, parents))
+    ir, rows, parents, events = build(a.ir)
+    a.out.write_text(emit(a.ir, ir, rows, parents, events))
     by_id = {r["id"]: r for r in rows}
     with_create = sum(1 for r in rows if r["create"] >= 0)
     inherited = 0

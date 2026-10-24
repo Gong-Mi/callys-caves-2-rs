@@ -54,10 +54,6 @@ static int cmp_slot(const void* a, const void* b) {
 static int cmp_global(const void* a, const void* b) {
     return strcmp(((const GmGlobal*)a)->name, ((const GmGlobal*)b)->name);
 }
-static int cmp_inst_id(const void* a, const void* b) {
-    int32_t x = *(const int32_t*)a, y = *(const int32_t*)b;
-    return (x > y) - (x < y);
-}
 
 static void dump(FILE* f, GmVM* vm) {
     char b1[40], b2[40];
@@ -147,7 +143,7 @@ int main(int argc, char** argv) {
     if (self < 0) self = vm->ninst ? vm->inst[0].id : 0;
     gm_objects_register_parents();
 
-    if (!run_code(vm, code, self)) return 2;
+    if (!run_code(vm, code, self)) return 3;   /* 3: this binary has no such body */
 
     FILE* out = fopen(argv[2], "w");
     if (!out) { perror(argv[2]); return 2; }

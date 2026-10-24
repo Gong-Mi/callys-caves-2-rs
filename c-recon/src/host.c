@@ -44,16 +44,47 @@ int32_t vm_first_of_object(GmVM* vm, int32_t object) {
     return -1;
 }
 
-int32_t vm_resolve(GmVM* vm, Val selector) {
+/* Mirrors ir_scene.rs select(): alive && active, own object or any ancestor,
+ * ascending id (the VM iterates a BTreeMap, so `with` picks the lowest id).
+ * An id at or above 100000 is an absolute instance id, never an object
+ * selector (ir_scene.rs:1474). */
+int vm_select(GmVM* vm, Val selector, int32_t* out, int max) {
     int32_t s = (int32_t)selector;
-    if (s == -1) return vm->cur;
-    if (s == -2) return vm->other;
-    /* Rust ir_scene.rs:1474: an id at or above 100000 is an absolute instance
-     * id, never an object selector. Without this branch a body that stores a
-     * collision result (`hitknifebandit = instance_place(...)`) and then reads
-     * `hitknifebandit.x` would look up "object 1001" and silently get 0. */
-    if (s >= 100000) return vm_inst(vm, s) ? s : -1;
-    if (s >= 0) return vm_first_of_object(vm, s);
+    if (max <= 0) return 0;
+    if (s == -1) { out[0] = vm->cur; return 1; }
+    if (s == -2) { out[0] = vm->other >= 0 ? vm->other : vm->cur; return 1; }
+    if (s < 0) return 0;
+    int n = 0;
+    for (int i = 0; i < vm->ninst; i++) {
+        GmInst* in = &vm->inst[i];
+        if (!in->alive || !in->active) continue;
+        int hit = (s >= 100000) ? (in->id == s)
+                                : (in->object == s || gm_object_is_a(in->object, s));
+        if (!hit) continue;
+        int k = n++;
+        while (k > 0 && out[k - 1] > in->id) { out[k] = out[k - 1]; k--; }
+        out[k] = in->id;
+        if (n >= max) break;
+    }
+    return n;
+}
+
+int32_t vm_resolve(GmVM* vm, Val selector) {
+    int32_t ids[MAX_ENV_SEL];
+    int n = vm_select(vm, selector, ids, MAX_ENV_SEL);
+    if (n > 0) return ids[0];
+    int32_t s = (int32_t)selector;
+    if (s < 0) return -1;
+    /* select_for_access(): a read still resolves a deactivated instance, so a
+     * body that deactivates everything and then reads its own object keeps
+     * working. */
+    for (int i = 0; i < vm->ninst; i++) {
+        GmInst* in = &vm->inst[i];
+        if (!in->alive) continue;
+        if ((s >= 100000) ? (in->id == s)
+                          : (in->object == s || gm_object_is_a(in->object, s)))
+            return in->id;
+    }
     return -1;
 }
 
@@ -208,12 +239,55 @@ Val GM_CALL(GmVM* vm, const char* name, int argc, ...) {
     if (strcmp(name, "min") == 0) return a[0] < a[1] ? a[0] : a[1];
     if (strcmp(name, "max") == 0) return a[0] > a[1] ? a[0] : a[1];
     if (strcmp(name, "instance_exists") == 0) {
-        int32_t id = vm_resolve(vm, a[0]);
-        return id >= 0 && vm_inst(vm, id) ? 1.0 : 0.0;
+        int32_t ids[MAX_ENV_SEL];
+        return vm_select(vm, a[0], ids, MAX_ENV_SEL) > 0 ? 1.0 : 0.0;
     }
     if (strcmp(name, "instance_destroy") == 0) {
+        /* Scene::destroy(): retire first, then run the Destroy event once. */
         GmInst* in = vm_inst(vm, vm->cur);
-        if (in) in->alive = 0;
+        if (in && in->alive) { in->alive = 0; gm_dispatch_event(vm, vm->cur, 1, 0); }
+        return 0.0;
+    }
+    if (strcmp(name, "action_kill_object") == 0) {
+        GmInst* in = vm_inst(vm, vm->cur);
+        if (in && in->alive) { in->alive = 0; gm_dispatch_event(vm, vm->cur, 1, 0); }
+        return 0.0;
+    }
+    if (strcmp(name, "choose") == 0) {
+        if (argc <= 0) return 0.0;
+        double r = next_rand(&vm->rng);
+        int idx = (int)(r * (double)argc);
+        if (idx >= argc) idx = argc - 1;
+        if (idx < 0) idx = 0;
+        return a[idx];
+    }
+    if (strcmp(name, "instance_number") == 0) {
+        int32_t ids[MAX_ENV_SEL];
+        return (Val)vm_select(vm, a[0], ids, MAX_ENV_SEL);
+    }
+    if (strcmp(name, "instance_activate_all") == 0) {
+        for (int i = 0; i < vm->ninst; i++) if (vm->inst[i].alive) vm->inst[i].active = 1;
+        return 0.0;
+    }
+    if (strcmp(name, "instance_deactivate_all") == 0) {
+        int keep_self = a[0] >= 0.5;
+        for (int i = 0; i < vm->ninst; i++)
+            if (vm->inst[i].alive && !(keep_self && vm->inst[i].id == vm->cur))
+                vm->inst[i].active = 0;
+        return 0.0;
+    }
+    if (strcmp(name, "instance_activate_object") == 0 ||
+        strcmp(name, "instance_deactivate_object") == 0) {
+        int32_t s = (int32_t)a[0];
+        if (s < 0) { fprintf(stderr, "GM_CALL: negative activation selector %d\n", s); return 0.0; }
+        int on = strcmp(name, "instance_activate_object") == 0;
+        for (int i = 0; i < vm->ninst; i++) {
+            GmInst* in = &vm->inst[i];
+            if (!in->alive) continue;
+            int hit = (s >= 100000) ? (in->id == s)
+                                    : (in->object == s || gm_object_is_a(in->object, s));
+            if (hit) in->active = on;
+        }
         return 0.0;
     }
     if (strcmp(name, "random_range") == 0) {
@@ -244,15 +318,9 @@ Val GM_CALL(GmVM* vm, const char* name, int argc, ...) {
 
 int GM_PUSHENV(GmVM* vm, Val selector) {
     if (vm->nenv >= MAX_ENV) return 0;
-    int32_t s = (int32_t)selector;
     int32_t ids[MAX_ENV_SEL];
-    int n = 0;
-    if (s >= 100000) {
-        if (vm_inst(vm, s)) ids[n++] = s;         /* instance id selector */
-    } else if (s >= 0) {
-        for (int i = 0; i < vm->ninst && n < MAX_ENV_SEL; i++)
-            if (vm->inst[i].alive && vm->inst[i].object == s) ids[n++] = vm->inst[i].id;
-    }
+    /* alive && active && own object or any ancestor, ascending id */
+    int n = vm_select(vm, selector, ids, MAX_ENV_SEL);
     if (n == 0) return 0;                          /* empty: jump to popenv */
     int f = vm->nenv++;
     memcpy(vm->env[f].ids, ids, sizeof(int32_t) * (size_t)n);

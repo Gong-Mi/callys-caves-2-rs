@@ -76,7 +76,7 @@ void gm_collision_add_parent(int32_t child, int32_t parent) {
 /* Reflexive reachability: is `object` the selector or one of its descendants?
  * GM selects children when the selector names an ancestor. Cyclic data (which
  * a valid object tree never has) is cut by `seen`. */
-static int object_is_a(int32_t object, int32_t sel) {
+int gm_object_is_a(int32_t object, int32_t sel) {
     int32_t stack[GM_MAX_PARENT_EDGES + 1];
     int32_t seen[GM_MAX_PARENT_EDGES + 1];
     int sp = 0, nseen = 0;
@@ -269,7 +269,7 @@ static int select_ids(GmVM* vm, int32_t self, int32_t sel, int32_t* out, int cap
         if (!in->alive || !in->active) continue;
         if (sel >= 100000) {               /* instance id selector */
             if (in->id != sel) continue;
-        } else if (!object_is_a(in->object, sel)) {
+        } else if (!gm_object_is_a(in->object, sel)) {
             continue;
         }
         out[n++] = in->id;

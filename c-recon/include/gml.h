@@ -49,6 +49,7 @@ typedef struct {
 } GmInst;
 
 typedef struct { char name[NAME_LEN]; Val value; } GmGlobal;
+typedef struct { int32_t object, type, subtype, code; } GmEventRow;
 
 typedef struct {
     int32_t cur;                 /* current self */
@@ -72,6 +73,7 @@ void  vm_init(GmVM* vm, int32_t self);
 GmInst* vm_inst(GmVM* vm, int32_t id);
 GmInst* vm_add(GmVM* vm, int32_t id, int32_t object);
 int32_t vm_first_of_object(GmVM* vm, int32_t object);   /* -1 when none */
+int     vm_select(GmVM* vm, Val selector, int32_t* out, int max);
 
 /* selector resolution: -1 current, -5 global sentinel, -2 other, >=0 object */
 int32_t vm_resolve(GmVM* vm, Val selector);
@@ -104,6 +106,7 @@ int     gm_place_meeting(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
 /* object creation + Create dispatch (c-recon/src/objects.c) */
 int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
 int     gm_dispatch_create(GmVM* vm, int32_t id);
+int     gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype);
 /* object table accessors (c-recon/gen/objects_data.c, generated) */
 int32_t gm_object_sprite(int32_t id);
 int     gm_object_create_code(int32_t id);
@@ -112,6 +115,9 @@ int32_t gm_object_parent(int32_t id, int index);
 int     gm_object_exists(int32_t id);
 int32_t gm_object_id_at(int index);
 const char* gm_object_name(int32_t id);
+/* event table: own event first, then the first ancestor carrying one */
+int     gm_event_code(int32_t object, int32_t type, int32_t subtype);
+int     gm_event_code_chain(int32_t object, int32_t type, int32_t subtype);
 /* register every declared object's parent chain into the collision graph */
 void    gm_objects_register_parents(void);
 extern const int GM_OBJECT_COUNT;
@@ -122,6 +128,9 @@ void    gm_audio_stop_sound(Val sound);
 void    gm_audio_stop_all(void);
 void    gm_audio_pause_all(void);
 void    gm_audio_resume_all(void);
+
+/* object inheritance (c-recon/src/collision.c) */
+int     gm_object_is_a(int32_t object, int32_t sel);
 
 /* collision parent graph (c-recon/src/collision.c) */
 void    gm_collision_add_parent(int32_t child, int32_t parent);

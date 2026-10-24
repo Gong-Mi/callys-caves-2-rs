@@ -114,23 +114,17 @@ int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
 
 /* ----------------------------------------------------------------- dispatch */
 
-int gm_dispatch_create(GmVM* vm, int32_t id) {
+/* Scene::dispatch(): the instance's own event wins; otherwise the first
+ * ancestor that carries one. `type`/`subtype` are the raw event ids. */
+int gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype) {
     if (!vm) return -1;
     GmInst* in = vm_inst(vm, id);
     if (!in) return -1; /* Scene::dispatch: "unknown instance" */
 
-    int code = gm_object_create_code(in->object);
-    if (code < 0) {
-        int np = gm_object_parent_count(in->object);
-        for (int k = 0; k < np && code < 0; k++) {
-            int32_t p = gm_object_parent(in->object, k);
-            if (p < 0) break;
-            code = gm_object_create_code(p);
-        }
-    }
-    if (code < 0) return 0; /* no Create anywhere in the chain: a valid no-op */
+    int code = gm_event_code_chain(in->object, type, subtype);
+    if (code < 0) return 0; /* no such event anywhere in the chain: a no-op */
     if (g_dispatch_depth >= GM_DISPATCH_BUDGET) {
-        fprintf(stderr, "gm_dispatch_create: event recursion budget exhausted for CODE %d\n", code);
+        fprintf(stderr, "gm_dispatch: event recursion budget exhausted for CODE %d\n", code);
         return -3;
     }
 
@@ -143,7 +137,7 @@ int gm_dispatch_create(GmVM* vm, int32_t id) {
 
     if (!ran) {
         /* Never silently skip: the table names a body the registry cannot run. */
-        fprintf(stderr, "gm_dispatch_create: CODE %d (object %d) has no generated body\n", code,
+        fprintf(stderr, "gm_dispatch: CODE %d (object %d) has no generated body\n", code,
                 in->object);
         return -4;
     }
@@ -238,4 +232,8 @@ void gm_objects_register_parents(void) {
         int n = gm_object_parent_count(id);
         for (int k = 0; k < n; k++) gm_collision_add_parent(id, gm_object_parent(id, k));
     }
+}
+
+int gm_dispatch_create(GmVM* vm, int32_t id) {
+    return gm_dispatch_event(vm, id, 0, 0);
 }
