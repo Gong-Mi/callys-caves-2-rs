@@ -400,6 +400,10 @@ static void group_line_mask(void) {
             gm_line_mask_test(&g_vm, id, px - 0.3, py, px + 0.3, py), 0);
     CHECK_I("line mask: segment through a set pixel hits",
             gm_line_mask_test(&g_vm, id, qx - 0.3, py, qx + 0.3, py), 1);
+    CHECK_I("point mask: point on a transparent pixel misses",
+            gm_mask_point_test(&g_vm, id, px, py), 0);
+    CHECK_I("point mask: point on a set pixel hits",
+            gm_mask_point_test(&g_vm, id, qx, py), 1);
     vm_set_field(&g_vm, id, "sprite_index", -1.0);
     CHECK_I("line mask: sprite -1 reports no mask data",
             gm_line_mask_test(&g_vm, id, 0.0, 0.0, 1.0, 1.0), -1);

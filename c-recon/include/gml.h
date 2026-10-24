@@ -169,6 +169,7 @@ int     gm_mask_frame(int32_t sprite, int32_t frame,
                       const unsigned char** bits, int32_t* w, int32_t* h);
 int     gm_line_mask_test(GmVM* vm, int32_t tid,
                           double x1, double y1, double x2, double y2);
+int     gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py);
 
 /* object creation + Create dispatch (c-recon/src/objects.c) */
 int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);

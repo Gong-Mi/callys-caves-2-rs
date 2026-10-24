@@ -137,13 +137,6 @@ static const GmSprite* sprite_lookup(int32_t sid) {
     return NULL;
 }
 
-/* ---- collision_line(prec=1): per-pixel mask walk --------------------------
- *
- * Mirrors ir_scene.rs `mask_hit` + `line_mask_hit` step for step: inverse
- * rotate, un-scale, add the origin, truncate; the walk advances at half-pixel
- * resolution and is capped at 4000 samples. Anything the Rust side returns as
- * None (no mask data / no instance) comes back as -1 so the caller keeps the
- * bounding-box verdict instead of inventing a pixel answer. */
 static int mask_pixel(const unsigned char* bits, int32_t w, int32_t h, int32_t x, int32_t y) {
     if (x < 0 || y < 0 || x >= w || y >= h) return 0;
     int32_t row = (w + 7) / 8;
@@ -164,42 +157,72 @@ int gm_mask_frame(int32_t sprite, int32_t frame,
     return 0;
 }
 
-int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, double y2) {
+/* ---- per-pixel mask probes (collision_line prec=1 / collision_point prec=1)
+ *
+ * Mirrors ir_scene.rs `mask_hit`: inverse rotate, un-scale, add the origin,
+ * truncate. `mask_probe` returns 1 when the target's mask is ready, 0 when
+ * there is no instance or no mask data (caller keeps the bounding-box verdict)
+ * and -1 when a zero scale makes every sample miss — Rust's Some(false). */
+typedef struct {
+    const unsigned char* bits;
+    int32_t w, h;
+    double ix, iy, sx, sy, ca, sa, ox, oy;
+} GmMaskProbe;
+
+static int mask_probe(GmVM* vm, int32_t tid, GmMaskProbe* p) {
     GmInst* in = NULL;
     for (int i = 0; i < vm->ninst; i++)
         if (vm->inst[i].id == tid) { in = &vm->inst[i]; break; }
-    if (!in) return -1;
+    if (!in) return 0;
     /* mask_hit keys the mask off sprite_index only; mask_index is a broad-phase
      * input, not the pixel source. */
     int32_t spr = (int32_t)gm_field_or(in, "sprite_index", -1.0);
     int32_t frame = (int32_t)gm_field_or(in, "image_index", 0.0);
-    const unsigned char* bits = NULL;
-    int32_t w = 0, h = 0;
-    if (!gm_mask_frame(spr, frame, &bits, &w, &h)) return -1;
-    double sx = gm_field_or(in, "image_xscale", 1.0);
-    double sy = gm_field_or(in, "image_yscale", 1.0);
-    if (sx == 0.0 || sy == 0.0) return 0;
-    double ix = gm_field_or(in, "x", 0.0);
-    double iy = gm_field_or(in, "y", 0.0);
+    if (!gm_mask_frame(spr, frame, &p->bits, &p->w, &p->h)) return 0;
+    p->ix = gm_field_or(in, "x", 0.0);
+    p->iy = gm_field_or(in, "y", 0.0);
+    p->sx = gm_field_or(in, "image_xscale", 1.0);
+    p->sy = gm_field_or(in, "image_yscale", 1.0);
     double ang = gm_field_or(in, "image_angle", 0.0) * (M_PI / 180.0);
-    double ox = 0.0, oy = 0.0;
+    p->ca = cos(ang);
+    p->sa = sin(ang);
+    p->ox = 0.0;
+    p->oy = 0.0;
     const GmSprite* sp = sprite_lookup(spr);
-    if (sp) { ox = sp->origin_x; oy = sp->origin_y; }
-    double ca = cos(ang), sa = sin(ang);
+    if (sp) { p->ox = sp->origin_x; p->oy = sp->origin_y; }
+    if (p->sx == 0.0 || p->sy == 0.0) return -1;
+    return 1;
+}
+
+static int mask_probe_pixel(const GmMaskProbe* p, double px, double py) {
+    double dx = px - p->ix, dy = py - p->iy;
+    double rx = dx * p->ca + dy * p->sa;
+    double ry = -dx * p->sa + dy * p->ca;
+    int32_t lx = (int32_t)(floor(rx / p->sx) + p->ox);
+    int32_t ly = (int32_t)(floor(ry / p->sy) + p->oy);
+    return mask_pixel(p->bits, p->w, p->h, lx, ly);
+}
+
+int gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py) {
+    GmMaskProbe p;
+    int r = mask_probe(vm, tid, &p);
+    if (r == 0) return -1;
+    if (r < 0) return 0;
+    return mask_probe_pixel(&p, px, py);
+}
+
+int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, double y2) {
+    GmMaskProbe p;
+    int r = mask_probe(vm, tid, &p);
+    if (r == 0) return -1;
+    if (r < 0) return 0;
     double len = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     long steps = (long)ceil(len * 2.0);
     if (steps < 1) steps = 1;
     if (steps > 4000) steps = 4000;
     for (long s = 0; s <= steps; s++) {
         double t = (double)s / (double)steps;
-        double px = x1 + (x2 - x1) * t;
-        double py = y1 + (y2 - y1) * t;
-        double dx = px - ix, dy = py - iy;
-        double rx = dx * ca + dy * sa;
-        double ry = -dx * sa + dy * ca;
-        int32_t lx = (int32_t)(floor(rx / sx) + ox);
-        int32_t ly = (int32_t)(floor(ry / sy) + oy);
-        if (mask_pixel(bits, w, h, lx, ly)) return 1;
+        if (mask_probe_pixel(&p, x1 + (x2 - x1) * t, y1 + (y2 - y1) * t)) return 1;
     }
     return 0;
 }

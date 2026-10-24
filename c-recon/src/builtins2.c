@@ -307,11 +307,11 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
         !strcmp(name, "mouse_check_button_pressed")) { *out = 0.0; return 1; }
 
     /* host_impl.rs:264 collision_point — inclusive box test on the instance's
-     * own box. The `precise` flag is not modelled (no mask bits in the C host),
-     * which is the same boundary the other collision builtins carry. */
+     * own box; with prec=1 the point must also land on a mask pixel. */
     if (!strcmp(name, "collision_point")) {
         double px = a[0], py = a[1];
         int32_t s = (int32_t)a[2];
+        int prec = a[3] >= 0.5;
         int notme = a[4] >= 0.5;
         int32_t ids[MAX_ENV_SEL];
         int n = vm_select(vm, (Val)s, ids, MAX_ENV_SEL);
@@ -319,7 +319,10 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
             if (notme && ids[i] == vm->cur) continue;
             double l, r, t, b;
             if (!gm_instance_box(vm, ids[i], &l, &r, &t, &b)) continue;
-            if (px >= l && px <= r && py >= t && py <= b) { *out = ids[i]; return 1; }
+            if (!(px >= l && px <= r && py >= t && py <= b)) continue;
+            if (prec && gm_mask_point_test(vm, ids[i], px, py) == 0) continue;
+            *out = ids[i];
+            return 1;
         }
         *out = -4.0;
         return 1;
