@@ -60,6 +60,7 @@ void gm_vm_init_ext(GmVM* vm) {
     vm->nini = 0;
     vm->ini_open_file = 0.0;
     vm->next_part_type = 1.0;
+    vm->next_part_system = 1.0;
     vm->npart_types = 0;
 }
 
@@ -239,7 +240,12 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
     /* host_impl.rs:650-690 particles: ids are handed out, setters are no-ops
      * because no dumped field can observe them. */
     if (!strcmp(name, "part_type_create")) { *out = vm->next_part_type; vm->next_part_type += 1.0; vm->npart_types++; return 1; }
-    if (!strcmp(name, "part_system_create")) { *out = 1.0; return 1; }
+    if (!strcmp(name, "part_system_create")) {
+        /* host_impl.rs:644 — a fresh id per call, starting at 1 */
+        *out = vm->next_part_system;
+        vm->next_part_system += 1.0;
+        return 1;
+    }
     if (!strncmp(name, "part_", 5)) return 1;
 
     /* host_impl.rs: platform stubs that must not stop a body */
@@ -254,6 +260,30 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
         !strcmp(name, "device_mouse_check_button_pressed") ||
         !strcmp(name, "device_mouse_check_button_released") ||
         !strcmp(name, "mouse_check_button_pressed")) { *out = 0.0; return 1; }
+
+    /* host_impl.rs:264 collision_point — inclusive box test on the instance's
+     * own box. The `precise` flag is not modelled (no mask bits in the C host),
+     * which is the same boundary the other collision builtins carry. */
+    if (!strcmp(name, "collision_point")) {
+        double px = a[0], py = a[1];
+        int32_t s = (int32_t)a[2];
+        int notme = a[4] >= 0.5;
+        int32_t ids[MAX_ENV_SEL];
+        int n = vm_select(vm, (Val)s, ids, MAX_ENV_SEL);
+        for (int i = 0; i < n; i++) {
+            if (notme && ids[i] == vm->cur) continue;
+            double l, r, t, b;
+            if (!gm_instance_box(vm, ids[i], &l, &r, &t, &b)) continue;
+            if (px >= l && px <= r && py >= t && py <= b) { *out = ids[i]; return 1; }
+        }
+        *out = -4.0;
+        return 1;
+    }
+
+    /* host_impl.rs:724 d3d_set_fog only feeds the draw state */
+    if (!strcmp(name, "d3d_set_fog")) return 1;
+    /* host_impl.rs:213 audio_sound_gain mutates the voice command, not state */
+    if (!strcmp(name, "audio_sound_gain")) return 1;
 
     if (!strcmp(name, "action_bounce") || !strcmp(name, "move_bounce_all") ||
         !strcmp(name, "move_bounce_solid") || !strcmp(name, "mp_potential_step")) return 1;

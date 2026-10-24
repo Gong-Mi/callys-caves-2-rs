@@ -78,6 +78,7 @@ typedef struct {
     int     nini;
     double  ini_open_file;
     double  next_part_type;
+    double  next_part_system;
     int     npart_types;
     GmInst inst[MAX_INST];
     int ninst;
@@ -157,6 +158,7 @@ void    gm_audio_resume_all(void);
 
 /* object inheritance (c-recon/src/collision.c) */
 int     gm_object_is_a(int32_t object, int32_t sel);
+int     gm_instance_box(GmVM* vm, int32_t id, double* l, double* r, double* t, double* b);
 
 /* collision parent graph (c-recon/src/collision.c) */
 void    gm_collision_add_parent(int32_t child, int32_t parent);

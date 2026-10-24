@@ -226,6 +226,17 @@ static GmBox box_at(int32_t mask, int32_t sprite, double xd, double yd,
 
 /* ir_scene.rs:782-794. Returns 0 where Rust returns None (unknown instance, or
  * an instance that never got x/y), so a half-built instance cannot collide. */
+static int box_for_instance(GmVM* vm, int32_t id, GmBox* out);
+
+/* Exported for the ext builtins (collision_point): the same inclusive box the
+ * overlap tests use, never a second geometry path. */
+int gm_instance_box(GmVM* vm, int32_t id, double* l, double* r, double* t, double* b) {
+    GmBox box;
+    if (!box_for_instance(vm, id, &box)) return 0;
+    *l = (double)box.l; *r = (double)box.r; *t = (double)box.t; *b = (double)box.b;
+    return 1;
+}
+
 static int box_for_instance(GmVM* vm, int32_t id, GmBox* out) {
     GmInst* in = vm_inst(vm, id);
     if (!in) return 0;

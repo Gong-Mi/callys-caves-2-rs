@@ -36,11 +36,11 @@ def c_implemented(sources=("c-recon/src/host.c", "c-recon/src/builtins2.c")):
         names |= set(re.findall(r'strncmp\(name, "([A-Za-z_][A-Za-z0-9_]*)"', text))
         for m in re.finditer(r'!strcmp\(name, "([A-Za-z_][A-Za-z0-9_]*)"\)', text):
             names.add(m.group(1))
-    # prefix families handled by strncmp over a whole namespace
-    for m in re.finditer(r'!strncmp\(name, "([a-z_]+)", (\d+)\)', Path(sources[1]).read_text()):
-        prefix = m.group(1)
-        names.add(prefix + "*")
-    return names
+    # Namespace families answered by one strncmp branch: return them apart so
+    # the caller can match by prefix instead of looking for a literal "draw_*".
+    prefixes = tuple(m.group(1) for m in
+                     re.finditer(r'!strncmp\(name, "([a-z_]+)", \d+\)', Path(sources[1]).read_text()))
+    return names, prefixes
 
 
 def calls_of(bundle):
@@ -72,7 +72,7 @@ def main():
 
     bundle = json.load(open(args.ir))
     own = owners(bundle)
-    c_impl = c_implemented()
+    c_impl, c_prefixes = c_implemented()
     body_calls = calls_of(bundle)
     codes = [c["id"] for c in bundle["codes"]]
     if args.code_file:
@@ -147,7 +147,8 @@ def main():
         if rust == "MISSING":
             classes["vm_reject"].append(c)
             continue
-        gap = body_calls.get(c, set()) - c_impl
+        gap = {n for n in body_calls.get(c, set())
+               if n not in c_impl and not n.startswith(c_prefixes)}
         if gap:
             classes["c_gap"].append(c)
             detail[c] = "missing builtin(s): " + ", ".join(sorted(gap))[:200]
