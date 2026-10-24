@@ -263,7 +263,11 @@ class Emitter:
                 if not a[1]:
                     args[k] = (self.materialise(a, where), True)
             names = ", ".join(a[0] for a in args)
-            self.push(f"GM_CALL(vm, \"{i['name']}\", {argc}{', ' if argc else ''}{names})")
+            # A call is never pure: it can touch the world (create instances,
+            # play audio, write globals). Marking it pure let `popz` drop
+            # statement-position calls entirely (11,201 sites across the
+            # library, incl. every audio_play_sound).
+            self.push(f"GM_CALL(vm, \"{i['name']}\", {argc}{', ' if argc else ''}{names})", pure=False)
         elif op == "popz":
             v = self.pop(where)
             if not v[1]:
