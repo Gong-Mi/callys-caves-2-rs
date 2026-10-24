@@ -22,6 +22,14 @@ body rather than guess.
 | geometry | 178 SPRT records emitted from `game.droid` (`c-recon/gen/sprites.c`) |
 | CODE 792 (`obj_bosspuff_Create_0`) | **C == VM, identical state** |
 | CODE 12 (`obj_player_Step_0`, 6163 instructions) | **C == VM, identical state** |
+| batch differential (`scripts/batch_diff.py`) | **1354/1354 bodies: 1297 identical, 57 same abort, 0 differences** |
+
+The batch run is a generator/host self-consistency check, not original-runner
+parity: the fixtures are generic (owning object, room 0, x=y=100), so a body
+that needs a different receiver aborts on both sides (`SAME_ABORT` = same
+reason, not same behaviour), and alarm/step timing is not exercised. What it
+does buy is the whole 1354-body loop in one pass: one bundle load per side
+instead of one per body (~0.5 s each on the Rust side).
 
 CODE 12 exercises collision (`instance_place` against `obj_knifebandit`), damage,
 alarms, item drop, `instance_create`, audio and the LCG. That it matches means
@@ -52,6 +60,11 @@ clang -std=c11 -O2 -ffp-contract=off -Wall -Ic-recon/include $SRC \
 
 # differential: the same fixture through both implementations
 python3 scripts/c_vm_diff.py --fixture c-recon/fixtures/code12_contact.txt --code 12
+
+# whole-corpus differential: one process per side for all 1354 bodies
+# (--build-c regenerates + compiles every body into --work, ~25 s)
+python3 scripts/batch_diff.py --build-c --work .hermes-batch
+python3 scripts/batch_diff.py --build-c --matrix --work .hermes-batch   # 18 worlds per body
 ```
 
 Two build flags are not cosmetic:
