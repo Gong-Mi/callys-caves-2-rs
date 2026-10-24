@@ -28,9 +28,9 @@ sentinel 与 wrapping_mul/sqrtf 路径照旧）。半开约定使每个消费者
 | --- | --- | --- |
 | Event 4 碰撞派发 | ir_scene.rs tick 内 | 半开盒相交，命中派发 |
 | Mouse_7 / Mouse_0 局部派发 | ir_scene.rs | 点命中（UI/贴片点击） |
-| collision_point | host_impl.rs | inclusive 点测，prec 掩码二级门保留 |
+| collision_point | host_impl.rs | inclusive 点测；prec=1 时追加掩码像素门 |
 | instance_place / place_meeting | host_impl.rs | 候选位装箱 + inclusive 边相交 |
-| collision_line | host_impl.rs | 盒 vs 线（slab 触边不变），prec 路径不动 |
+| collision_line | host_impl.rs | 盒 vs 线（slab 触边不变）；prec=1 走掩码线采样（2026-10-24） |
 | mp_potential_step | host_impl.rs | 候选盒走 compute_bounding_box_at（含 mask/角度） |
 
 **不是宽相消费者**（易误判）：CODE 361 休眠带 450px 走 distance_to_object
@@ -80,3 +80,40 @@ canary（the_map_open_contact_tick…）与缝测试已按 §5 重铸并通过�
 反汇编注释）；「切换后行为=原版行为」对 prec=0 路径成立（原版 prec=0 同样走
 录制框），prec=1 掩码路径未动。逐像素与原 runner 的碰撞差分属未验层
 （原设备实测）。
+
+## 7. instance_place / place_meeting 的掩码差距（2026-10-24 静态定位）
+
+`collision_line` / `collision_point` 的 `prec=1` 已在 wl63 落地（掩码表由
+`dump_sprites_c` 从 SPRT 记录生成：178 sprites / 227 frames / 341 KB 位图；
+C 与 Rust 双侧同一套 `mask_probe`，并有 95 条 C 断言）。**但
+`instance_place` / `place_meeting` 仍只走录制框**，这是当前最大的玩法保真缺口
+（全库 599 + 50 个调用点，67 个 body）。
+
+原版路径（libyoyo ARMv7，SHA256 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）：
+
+```
+Command_InstancePlace      @0x1ca6d8   (800 B)
+  → CInstance::Collision_Instance @0x195558 (884 B)
+      → CSprite::PreciseCollision @0x1e4298 (1944 B)
+          → CSprite::UnpackWADMask @0x1e3994
+```
+
+`PreciseCollision` 的结构（静态读，未运行；旋转分支尚未读定）：
+
+1. 双方对各自 frame 调 `UnpackWADMask`；frame 先对 mask 数（`[sprite+0x3c]`）取模。
+2. 两个 `tagYYRECT` 求交：left=max、right=min、top=max、bottom=min。
+3. 对交区内每个整数像素 `(x, y)`，分别映射到 A/B 的掩码坐标：
+
+       mask = (int)( base + inv_scale * (world - offset) )     // vcvt.s32 截断，不是 floor
+
+   `base` 取 `[sprite+0x24]` / `[sprite+0x28]`，宽高 `[sprite+0x1c]` / `[sprite+0x20]`，
+   掩码字位在 `[sprite+0x40] + frame*8` 表项里；越界即视为该像素不命中。
+4. 两个掩码位同时为 1 → 命中；否则继续扫描。
+
+结论与纪律：
+
+* 当前 bbox-only 是**有名有据的近似**，不能写成"原版也这样"。
+* 移植前必须先把 `base`/`offset` 的确切定义与旋转分支读定（本循环内没有三角函数项，
+  旋转是否另走分支尚未证），再实现；用"盒重叠、掩码不重叠"的合成夹具证明行为变化。
+* 只做 C↔VM 对账不能证明这一步：两侧同时改成同一个错误实现也会全绿。原 runner 的
+  同输入对拍（或 Unicorn 合成内存 oracle）才是这一步的判据。
