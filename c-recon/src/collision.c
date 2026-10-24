@@ -166,7 +166,8 @@ int gm_mask_frame(int32_t sprite, int32_t frame,
 typedef struct {
     const unsigned char* bits;
     int32_t w, h;
-    double ix, iy, sx, sy, ca, sa, ox, oy;
+    float ix, iy, sx, sy, ca, sa, ox, oy;
+    int rotated;
 } GmMaskProbe;
 
 static int mask_probe(GmVM* vm, int32_t tid, GmMaskProbe* p) {
@@ -183,27 +184,34 @@ static int mask_probe(GmVM* vm, int32_t tid, GmMaskProbe* p) {
     p->iy = gm_field_or(in, "y", 0.0);
     p->sx = gm_field_or(in, "image_xscale", 1.0);
     p->sy = gm_field_or(in, "image_yscale", 1.0);
-    double ang = gm_field_or(in, "image_angle", 0.0) * (M_PI / 180.0);
-    p->ca = cos(ang);
-    p->sa = sin(ang);
-    p->ox = 0.0;
-    p->oy = 0.0;
+    float ang = (float)gm_field_or(in, "image_angle", 0.0);
+    float rad = ang * (float)(M_PI / 180.0);
+    p->ca = cosf(rad);
+    p->sa = sinf(rad);
+    p->rotated = ang != 0.0f;
+    p->ox = 0.0f;
+    p->oy = 0.0f;
     const GmSprite* sp = sprite_lookup(spr);
-    if (sp) { p->ox = sp->origin_x; p->oy = sp->origin_y; }
-    if (p->sx == 0.0 || p->sy == 0.0) return -1;
+    if (sp) { p->ox = (float)sp->origin_x; p->oy = (float)sp->origin_y; }
+    if (p->sx == 0.0f || p->sy == 0.0f) return -1;
     return 1;
 }
 
 static int mask_probe_pixel(const GmMaskProbe* p, double px, double py) {
-    double dx = px - p->ix, dy = py - p->iy;
-    /* Runner mapping (Unicorn oracle, 0x1e4298):
+    /* Runner mapping (Unicorn oracle, 0x1e4298), in float32 throughout:
      * world = (c*lx + s*ly, -s*lx + c*ly) -> local = (c*dx - s*dy, s*dx + c*dy),
-     * then un-scale, add the mask base, and truncate (vcvt.s32). */
-    double rx = dx * p->ca - dy * p->sa;
-    double ry = dx * p->sa + dy * p->ca;
-    int32_t lx = (int32_t)((rx / p->sx) + p->ox);
-    int32_t ly = (int32_t)((ry / p->sy) + p->oy);
-    return mask_pixel(p->bits, p->w, p->h, lx, ly);
+     * un-scale, add the mask base, then truncate (vcvt.s32). The rotated branch
+     * additionally rejects a negative / oversized UN-truncated value, so a
+     * local -0.5 misses there while the axis-aligned branch keeps it. */
+    float dx = (float)px - p->ix, dy = (float)py - p->iy;
+    float rx = dx * p->ca - dy * p->sa;
+    float ry = dx * p->sa + dy * p->ca;
+    float fx = rx / p->sx + p->ox;
+    float fy = ry / p->sy + p->oy;
+    if (p->rotated &&
+        (fx < 0.0f || fy < 0.0f || fx >= (float)p->w || fy >= (float)p->h))
+        return 0;
+    return mask_pixel(p->bits, p->w, p->h, (int32_t)fx, (int32_t)fy);
 }
 
 int gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py) {
@@ -426,12 +434,6 @@ static int box_for_at(GmVM* vm, int32_t id, double x, double y, GmBox* out) {
 static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b) {
     GmInst* ib = vm_inst(vm, b);
     if (!ib) return 1;
-    /* Rotation: the runner loop we read maps with two linear terms only; its
-     * rotated path is not pinned yet, so a rotated sprite keeps the box
-     * verdict instead of silently using an unrotated mask. */
-    GmInst* ia = vm_inst(vm, a);
-    if ((ia && field_or(ia, "image_angle", 0.0) != 0.0) ||
-        field_or(ib, "image_angle", 0.0) != 0.0) return 1;
     GmMaskProbe pa, pb;
     /* int centre: the caller passes vcvt.s32(x/y), i.e. truncation. */
     int ra = mask_probe_pos(vm, a, trunc(ax), trunc(ay), &pa);

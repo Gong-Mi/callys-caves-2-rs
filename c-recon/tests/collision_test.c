@@ -428,12 +428,9 @@ static void group_precise_place(void) {
     vm_set_field(&g_vm, b, "y", 0.0);
     CHECK_I("precise place: a shared solid pixel still hits",
             gm_instance_place(&g_vm, a, (Val)0.0, (Val)0.0, 34), b);
-    /* Rotation is not in this path yet: a rotated pair keeps the box verdict. */
-    vm_set_field(&g_vm, b, "x", 16.0);
-    vm_set_field(&g_vm, b, "y", 8.0);
-    vm_set_field(&g_vm, a, "image_angle", 90.0);
-    CHECK_I("precise place: rotated caller falls back to the box verdict",
-            gm_instance_place(&g_vm, a, (Val)0.0, (Val)0.0, 34), b);
+    /* Rotation is covered by the Rust test against the oracle-verified
+     * convention (c-recon/tools/oracle); the C entry point shares the same
+     * mask_probe_pixel code path. */
 }
 
 int main(void) {

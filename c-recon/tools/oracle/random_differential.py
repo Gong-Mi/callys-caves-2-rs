@@ -53,7 +53,13 @@ def our_hit(ax, ay, sxa, sya, anga, amask, bx, by, sxb, syb, angb, bmask, wx, wy
         dx, dy = f32(wx - cx), f32(wy - cy)
         rx = f32(f32(dx * c) - f32(dy * s))
         ry = f32(f32(dx * s) + f32(dy * c))
-        res.append(mask_px(m, int(f32(rx / f32(sx))), int(f32(ry / f32(sy)))))
+        fx, fy = f32(rx / f32(sx)), f32(ry / f32(sy))
+        if ang != 0.0:
+            # rotated branch checks the FLOAT against [0, dim) before truncating
+            if fx < 0.0 or fy < 0.0 or fx >= len(m[0]) or fy >= len(m):
+                res.append(0)
+                continue
+        res.append(mask_px(m, int(fx), int(fy)))
     return 1 if res[0] and res[1] else 0
 
 
@@ -105,6 +111,11 @@ def main():
             if bad <= 8:
                 print('MISMATCH oracle=%d ours=%d A(%d,%d,%.2f,%.2f,%.0f) B(%d,%d,%.2f,%.2f) boxA=%s boxB=%s'
                       % (got, want, ax, ay, sxa, sya, anga, bx, by, sxb, syb, ba, bb))
+                import json
+                json.dump({'am': am, 'bm': bm, 'w': w, 'h': h, 'ax': ax, 'ay': ay,
+                           'bx': bx, 'by': by, 'sxa': sxa, 'sya': sya, 'sxb': sxb,
+                           'syb': syb, 'anga': anga, 'ba': ba, 'bb': bb},
+                          open('mismatch_%d.json' % bad, 'w'))
     print('cases=%d mismatches=%d' % (cases, bad))
 
 

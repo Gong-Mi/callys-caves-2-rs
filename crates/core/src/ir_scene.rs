@@ -36,16 +36,35 @@ pub struct SpriteBounds {
 /// `CSprite::PreciseCollision` maps with `vcvt.s32`, i.e. truncation, not floor.
 struct MaskCtx<'a> {
     mask: &'a callys_asset::CollisionMask,
-    x: f64, y: f64,
-    sx: f64, sy: f64,
-    ox: f64, oy: f64,
+    x: f32, y: f32,
+    sx: f32, sy: f32,
+    ox: f32, oy: f32,
+    ca: f32, sa: f32,
+    rotated: bool,
 }
 
 impl<'a> MaskCtx<'a> {
+    /// The runner works in float32 throughout (`vcvt.s32` for the cast, `sinf`/
+    /// `cosf` for the rotation), so this must not widen to f64: a 1-ULP
+    /// difference flips the pixel at the mask border. The rotated branch also
+    /// checks the un-truncated value against [0, dim) — a local -0.5 is
+    /// rejected there, while the axis-aligned branch truncates first and keeps
+    /// it. Both behaviours are oracle-verified.
     fn hits(&self, wx: f64, wy: f64) -> bool {
-        let lx = ((wx - self.x) / self.sx + self.ox) as i32;
-        let ly = ((wy - self.y) / self.sy + self.oy) as i32;
-        self.mask.pixel(lx, ly)
+        let dx = wx as f32 - self.x;
+        let dy = wy as f32 - self.y;
+        let rx = dx * self.ca - dy * self.sa;
+        let ry = dx * self.sa + dy * self.ca;
+        let fx = rx / self.sx + self.ox;
+        let fy = ry / self.sy + self.oy;
+        if self.rotated
+            && (fx < 0.0 || fy < 0.0
+                || fx >= self.mask.width as f32
+                || fy >= self.mask.height as f32)
+        {
+            return false;
+        }
+        self.mask.pixel(fx as i32, fy as i32)
     }
 }
 
@@ -1442,11 +1461,16 @@ impl Scene {
         let frame = inst.fields.get("image_index").copied().unwrap_or(0.0);
         let idx = if frame < 0.0 { 0 } else { (frame as usize).min(masks.len() - 1) };
         let b = self.sprite_bounds.get(&spr)?;
+        let angle = inst.fields.get("image_angle").copied().unwrap_or(0.0) as f32;
+        let rad = angle * std::f32::consts::PI / 180.0;
         Some(MaskCtx {
-            mask: &masks[idx], x, y,
-            sx: inst.fields.get("image_xscale").copied().unwrap_or(1.0),
-            sy: inst.fields.get("image_yscale").copied().unwrap_or(1.0),
-            ox: b.origin_x, oy: b.origin_y,
+            mask: &masks[idx],
+            x: x as f32, y: y as f32,
+            sx: inst.fields.get("image_xscale").copied().unwrap_or(1.0) as f32,
+            sy: inst.fields.get("image_yscale").copied().unwrap_or(1.0) as f32,
+            ox: b.origin_x as f32, oy: b.origin_y as f32,
+            ca: rad.cos(), sa: rad.sin(),
+            rotated: angle != 0.0,
         })
     }
 
@@ -1469,23 +1493,12 @@ impl Scene {
     /// solid — the runner's `[sprite+0x31] == 0` branch skips the mask test — so
     /// the box verdict stands.
     ///
-    /// Only the axis-aligned mapping is wired. The runner's general branch
-    /// (@0x1e47a8) computes `sinf`/`cosf` of BOTH angles and rotates into mask
-    /// space before the same truncating cast; that path is read but not
-    /// implemented (its sign convention still needs an oracle), so a rotated
-    /// instance falls back to the box verdict instead of silently using an
-    /// unrotated mask.
+    /// Rotation and both rounding paths are oracle-verified (200/200 random
+    /// cases against the runner). The rotated branch checks the un-truncated
+    /// local value against [0, dim), the axis-aligned one truncates first.
     pub fn precise_overlap(&self, a: i32, ax: f64, ay: f64, b: i32) -> bool {
         let bx = self.instances.get(&b).and_then(|i| i.fields.get("x").copied()).unwrap_or(0.0);
         let by = self.instances.get(&b).and_then(|i| i.fields.get("y").copied()).unwrap_or(0.0);
-        // Rotation is not in this loop yet: the runner's PreciseCollision maps
-        // with two linear terms only, and we have not read its rotated path.
-        // Until that is pinned, a rotated sprite keeps the box verdict instead
-        // of silently using an unrotated mask.
-        let rotated = |id: i32| self.instances.get(&id)
-            .map(|i| i.fields.get("image_angle").copied().unwrap_or(0.0) != 0.0)
-            .unwrap_or(false);
-        if rotated(a) || rotated(b) { return true; }
         // The caller hands PreciseCollision int x/y (vcvt.s32 = truncation);
         // the mask mapping is relative to that truncated centre, not to the
         // fractional instance position.

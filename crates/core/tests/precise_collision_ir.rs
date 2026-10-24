@@ -101,19 +101,28 @@ fn a_sprite_without_masks_keeps_the_box_verdict() {
 }
 
 #[test]
-fn rotation_falls_back_until_the_rotated_path_is_pinned() {
+fn rotation_uses_the_oracle_verified_convention() {
+    // Unicorn oracle (0x1e4298): a mask pixel at local (row 0, col 4) with the
+    // sprite rotated +90 lands on world (0, -4) and NOT on (0, 4), i.e.
+    // world = (c*lx + s*ly, -s*lx + c*ly).
     let mut s = Scene::default();
-    let bundle = empty_bundle();
-    s.sprite_masks.insert(10, vec![left_half()]);
-    s.sprite_masks.insert(11, vec![right_half()]);
+    let mut bar = CollisionMask { width: 8, height: 8, bits: vec![0; 8] };
+    bar.bits[0] = 0xff;                       // solid row 0, rows 1..7 empty
+    s.sprite_masks.insert(10, vec![bar]);
+    let mut dot = CollisionMask { width: 1, height: 1, bits: vec![0x80] };
+    dot.bits[0] = 0x80;
+    s.sprite_masks.insert(11, vec![dot]);
     rect(&mut s, 10, 8.0, 8.0, 0.0, 0.0);
-    rect(&mut s, 11, 8.0, 8.0, 0.0, 0.0);
+    rect(&mut s, 11, 1.0, 1.0, 0.0, 0.0);
     let a = instance(&mut s, 10, 0.0, 0.0, 10);
     let b = instance(&mut s, 11, 0.0, 0.0, 11);
     s.write(a, -1, "image_angle", None, 90.0).unwrap();
-    // The masks are disjoint, so a live pixel gate would answer false; the
-    // rotation guard is what keeps this at the box verdict. (instance_place is
-    // not used here because rotating the caller also moves its recorded box.)
-    assert!(s.precise_overlap(a, 0.0, 0.0, b),
-            "rotated sprites keep the box verdict for now");
+
+    // local (row 0, col c) maps to world (0, -c) at +90.
+    s.write(b, -1, "x", None, 0.0).unwrap();
+    s.write(b, -1, "y", None, -4.0).unwrap();
+    assert!(s.precise_overlap(a, 0.0, 0.0, b), "rotated row covers (0,-4)");
+    // One pixel to the side is row 1 of the mask, which is empty.
+    s.write(b, -1, "x", None, 1.0).unwrap();
+    assert!(!s.precise_overlap(a, 0.0, 0.0, b), "row 1 is transparent");
 }
