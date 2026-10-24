@@ -159,3 +159,35 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
   YYRECT 内嵌在 instance 的 +0xe8/+0xec 附近，r0..r3 与栈槽 0、4、8、12、16、20、
   24、28、32、36、40、44 依次是 spriteA/frame/rectA/…/spriteB/frame/rectB/…。
   具体寄存器—参数对应仍需逐条读，但不必从签名猜。
+
+### 7.3 Unicorn oracle：三处细节已由原函数判定
+
+工装：`c-recon/tools/oracle/precise_oracle.py`（Unicorn 2.1.4 映射 libyoyo
+ARMv7，`CSprite::PreciseCollision` @0x1e4298 直接调用）。踩过的必要件：
+VFP 需先写 CPACR=0x00F00000 与 FPEXC=0x40000000，否则 `vpush` 报非法指令；
+`sinf`/`cosf` 走 PLT（0xb6580/0xb658c），GOT 未重定位，须在 Python 里按
+softfp（实参/返回值都在 r0）接管；掩码表 `[sprite+0x40]` **直接**指向帧条目
+数组（条目 +4 是位图指针），不能再套一层指针；`[sprite+0x18] > 0` 是序言
+早退门，`[sprite+0x31]=1` 让 UnpackWADMask 立即返回。
+
+用原函数判定的事实：
+
+1. **取整是截断**：把世界像素 −1 映射到局部 −0.5（scale 2）时命中第 0 列，
+   只有 `vcvt.s32`（向零）能做到；floor 会落到 −1 越界。
+2. **base 是掩码偏移**：`base_x=1` 使同一世界像素从命中变不命中，说明基址直接
+   加到掩码列上。
+3. **旋转方向**：掩码像素 local (row 0, col 4) 在 +90° 时落到世界 (0, −4)，
+   在 −90° 时落到 (−1, 4)（后者含 float32 三角噪声的一位偏移）。由此
+   `world = (c·lx + s·ly, −s·lx + c·ly)`，即
+   `local = (c·dx − s·dy, s·dx + c·dy)`；旋转中心是调用方已经 `vcvt.s32`
+   过的整数 x/y，不是原始小数。
+
+随机对拍：`c-recon/tools/oracle/random_differential.py`（8–16 px 随机掩码、
+位置 ±10、scale ∈ {0.5,1,2}、角度 ∈ {0,±90,45}，共 200 例）——
+**199/200 一致**；唯一不一致是 −90° + scale 2 的边界例，归因于原函数用
+float32 `sinf/cosf` 而我们用 f64（cos(−90°) 的 −4.4e-8 偏置把像素推到边界）。
+
+据此本轮已修：`mask_hit` / 线点探针的旋转符号与取整改为上述形式；
+`precise_overlap` 的旋转中心改用 `trunc(x/y)`。**旋转仍未在
+instance_place/place_meeting 打开**：公式已验，但 float32 边界残差未收口，
+打开前需要把三角改成 f32 或先声明该边界。

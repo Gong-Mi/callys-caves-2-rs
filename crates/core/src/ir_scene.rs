@@ -1411,12 +1411,13 @@ impl Scene {
         let dy = py - iy;
         let ca = ang.cos();
         let sa = ang.sin();
-        // Inverse rotation (transpose), then un-scale, then origin offset.
-        let rx = dx * ca + dy * sa;
-        let ry = -dx * sa + dy * ca;
-        let lx = (rx / sx).floor() + ox;
-        let ly = (ry / sy).floor() + oy;
-        Some(mask.pixel(lx as i32, ly as i32))
+        // Runner mapping (verified with the Unicorn oracle at 0x1e4298):
+        // world = (c*lx + s*ly, -s*lx + c*ly)  =>  local = (c*dx - s*dy, s*dx + c*dy).
+        let rx = dx * ca - dy * sa;
+        let ry = dx * sa + dy * ca;
+        let lx = ((rx / sx) + ox) as i32;
+        let ly = ((ry / sy) + oy) as i32;
+        Some(mask.pixel(lx, ly))
     }
     /// Walk a room-space line through `tid`'s mask at half-pixel resolution.
     /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
@@ -1485,7 +1486,11 @@ impl Scene {
             .map(|i| i.fields.get("image_angle").copied().unwrap_or(0.0) != 0.0)
             .unwrap_or(false);
         if rotated(a) || rotated(b) { return true; }
-        let (ca, cb) = match (self.mask_ctx_at(a, ax, ay), self.mask_ctx_at(b, bx, by)) {
+        // The caller hands PreciseCollision int x/y (vcvt.s32 = truncation);
+        // the mask mapping is relative to that truncated centre, not to the
+        // fractional instance position.
+        let (ca, cb) = match (self.mask_ctx_at(a, ax.trunc(), ay.trunc()),
+                              self.mask_ctx_at(b, bx.trunc(), by.trunc())) {
             (Some(ca), Some(cb)) => (ca, cb),
             _ => return true,
         };

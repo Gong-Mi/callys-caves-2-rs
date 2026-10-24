@@ -196,10 +196,13 @@ static int mask_probe(GmVM* vm, int32_t tid, GmMaskProbe* p) {
 
 static int mask_probe_pixel(const GmMaskProbe* p, double px, double py) {
     double dx = px - p->ix, dy = py - p->iy;
-    double rx = dx * p->ca + dy * p->sa;
-    double ry = -dx * p->sa + dy * p->ca;
-    int32_t lx = (int32_t)(floor(rx / p->sx) + p->ox);
-    int32_t ly = (int32_t)(floor(ry / p->sy) + p->oy);
+    /* Runner mapping (Unicorn oracle, 0x1e4298):
+     * world = (c*lx + s*ly, -s*lx + c*ly) -> local = (c*dx - s*dy, s*dx + c*dy),
+     * then un-scale, add the mask base, and truncate (vcvt.s32). */
+    double rx = dx * p->ca - dy * p->sa;
+    double ry = dx * p->sa + dy * p->ca;
+    int32_t lx = (int32_t)((rx / p->sx) + p->ox);
+    int32_t ly = (int32_t)((ry / p->sy) + p->oy);
     return mask_pixel(p->bits, p->w, p->h, lx, ly);
 }
 
@@ -430,10 +433,11 @@ static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b)
     if ((ia && field_or(ia, "image_angle", 0.0) != 0.0) ||
         field_or(ib, "image_angle", 0.0) != 0.0) return 1;
     GmMaskProbe pa, pb;
-    int ra = mask_probe_pos(vm, a, ax, ay, &pa);
+    /* int centre: the caller passes vcvt.s32(x/y), i.e. truncation. */
+    int ra = mask_probe_pos(vm, a, trunc(ax), trunc(ay), &pa);
     if (ra == 0) return 1;                 /* no mask data on A: the box speaks */
     if (ra < 0) return 0;                  /* zero scale: no pixel can hit */
-    int rb = mask_probe_pos(vm, b, field_or(ib, "x", 0.0), field_or(ib, "y", 0.0), &pb);
+    int rb = mask_probe_pos(vm, b, trunc(field_or(ib, "x", 0.0)), trunc(field_or(ib, "y", 0.0)), &pb);
     if (rb == 0) return 1;                 /* no mask data on B: the box speaks */
     if (rb < 0) return 0;
     GmBox ba, bb;
