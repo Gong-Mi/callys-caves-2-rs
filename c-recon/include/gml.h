@@ -84,6 +84,23 @@ void  GM_WRITE_ARR(GmVM* vm, Val target, const char* name, Val index, Val value)
 /* builtin dispatch; argc is the shipped arity */
 Val   GM_CALL(GmVM* vm, const char* name, int argc, ...);
 
+/* geometry: emitted by crates/asset/examples/dump_sprites_c.rs */
+typedef struct {
+    int32_t id, width, height, origin_x, origin_y;
+    int32_t has_bbox, l, r, t, b;   /* recorded manual SPRT box when has_bbox */
+    int32_t frames;
+} GmSprite;
+extern const GmSprite GM_SPRITES[];
+extern const int GM_SPRITE_COUNT;
+
+/* collision (c-recon/src/collision.c) */
+int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
+int     gm_place_meeting(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
+
+/* object creation + Create dispatch (c-recon/src/objects.c) */
+int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
+int     gm_dispatch_create(GmVM* vm, int32_t id);
+
 /* with-environment (pushenv/popenv) */
 int   GM_PUSHENV(GmVM* vm, Val selector);
 int   GM_POPENV_NEXT(GmVM* vm);
