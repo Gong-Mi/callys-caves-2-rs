@@ -327,8 +327,11 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
 }
 
 pub fn load_bundle_from_file<P: AsRef<std::path::Path>>(path: P) -> Result<Bundle, Box<dyn std::error::Error>> {
-    let file = std::fs::File::open(path)?;
-    let reader = std::io::BufReader::new(file);
-    let bundle = serde_json::from_reader(reader)?;
+    // Read once and parse from the slice: `from_reader` pays a BufReader
+    // boundary per token, and this file is 52 MB with ~245 k instructions, so
+    // the per-process load is the dominant cost of both the test suite (162
+    // binaries each parse it) and the body-by-body differential.
+    let bytes = std::fs::read(path)?;
+    let bundle = serde_json::from_slice(&bytes)?;
     Ok(bundle)
 }
