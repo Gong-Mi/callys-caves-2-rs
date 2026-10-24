@@ -227,3 +227,15 @@ void gm_objects_reset(void) {
     g_next_voice = 1;
     g_audio_tick = 0;
 }
+
+/* Integration hook: the collision module keeps its own parent graph because it
+ * must answer object_is_a() without a bundle. Feed it the whole declared roster
+ * once, before any body runs. */
+void gm_objects_register_parents(void) {
+    gm_collision_clear_parents();
+    for (int i = 0; i < GM_OBJECT_COUNT; i++) {
+        int32_t id = gm_object_id_at(i);
+        int n = gm_object_parent_count(id);
+        for (int k = 0; k < n; k++) gm_collision_add_parent(id, gm_object_parent(id, k));
+    }
+}

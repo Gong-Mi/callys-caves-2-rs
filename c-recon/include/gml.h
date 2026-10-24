@@ -104,6 +104,29 @@ int     gm_place_meeting(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
 /* object creation + Create dispatch (c-recon/src/objects.c) */
 int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
 int     gm_dispatch_create(GmVM* vm, int32_t id);
+/* object table accessors (c-recon/gen/objects_data.c, generated) */
+int32_t gm_object_sprite(int32_t id);
+int     gm_object_create_code(int32_t id);
+int     gm_object_parent_count(int32_t id);
+int32_t gm_object_parent(int32_t id, int index);
+int     gm_object_exists(int32_t id);
+int32_t gm_object_id_at(int index);
+const char* gm_object_name(int32_t id);
+/* register every declared object's parent chain into the collision graph */
+void    gm_objects_register_parents(void);
+extern const int GM_OBJECT_COUNT;
+/* audio voices (c-recon/src/objects.c) */
+double  gm_audio_play(Val sound, Val priority, int looping);
+int     gm_audio_is_playing(Val sound);
+void    gm_audio_stop_sound(Val sound);
+void    gm_audio_stop_all(void);
+void    gm_audio_pause_all(void);
+void    gm_audio_resume_all(void);
+
+/* collision parent graph (c-recon/src/collision.c) */
+void    gm_collision_add_parent(int32_t child, int32_t parent);
+void    gm_collision_clear_parents(void);
+Val     gm_distance_to_object(GmVM* vm, int32_t self, Val obj);
 
 /* with-environment (pushenv/popenv) */
 int   GM_PUSHENV(GmVM* vm, Val selector);

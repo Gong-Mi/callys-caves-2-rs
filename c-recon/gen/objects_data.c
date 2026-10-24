@@ -238,6 +238,12 @@ static int obj_index(int32_t id) {
 
 int gm_object_exists(int32_t id) { return obj_index(id) >= 0; }
 
+/* The collision parent graph needs every declared object, not just the ones
+ * the fixture happens to place, so expose the id roster. */
+int32_t gm_object_id_at(int index) {
+    return (index >= 0 && index < GM_OBJECT_COUNT) ? GM_OBJECTS[index].id : -1;
+}
+
 const char* gm_object_name(int32_t id) {
     int i = obj_index(id);
     return i >= 0 ? GM_OBJECTS[i].name : NULL;

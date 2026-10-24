@@ -48,8 +48,13 @@ int32_t vm_resolve(GmVM* vm, Val selector) {
     int32_t s = (int32_t)selector;
     if (s == -1) return vm->cur;
     if (s == -2) return vm->other;
-    if (s < 0) return -1; /* globals are handled by the accessors */
-    return vm_first_of_object(vm, s);
+    /* Rust ir_scene.rs:1474: an id at or above 100000 is an absolute instance
+     * id, never an object selector. Without this branch a body that stores a
+     * collision result (`hitknifebandit = instance_place(...)`) and then reads
+     * `hitknifebandit.x` would look up "object 1001" and silently get 0. */
+    if (s >= 100000) return vm_inst(vm, s) ? s : -1;
+    if (s >= 0) return vm_first_of_object(vm, s);
+    return -1;
 }
 
 static GmField* find_field(GmInst* in, const char* name) {
@@ -216,11 +221,23 @@ Val GM_CALL(GmVM* vm, const char* name, int argc, ...) {
         double hi = a[0] < a[1] ? a[1] : a[0];
         return lo + (hi - lo) * next_rand(&vm->rng);
     }
-    if (strcmp(name, "audio_play_sound") == 0) {
-        /* M0: no voice table yet; return a synthetic id so callers stay alive */
-        static int64_t next_voice = 1;
-        return (Val)next_voice++;
-    }
+    /* ---- wired to the ported engine primitives ------------------------ */
+    if (strcmp(name, "instance_place") == 0)
+        return (Val)gm_instance_place(vm, vm->cur, a[0], a[1], (int32_t)a[2]);
+    if (strcmp(name, "place_meeting") == 0)
+        return gm_place_meeting(vm, vm->cur, a[0], a[1], (int32_t)a[2]) ? 1.0 : 0.0;
+    if (strcmp(name, "distance_to_object") == 0)
+        return gm_distance_to_object(vm, vm->cur, a[0]);
+    if (strcmp(name, "instance_create") == 0)
+        return (Val)gm_instance_create(vm, vm->cur, a[0], a[1], (int32_t)a[2]);
+    if (strcmp(name, "audio_play_sound") == 0)
+        return gm_audio_play(a[0], a[1], a[2] >= 0.5);
+    if (strcmp(name, "audio_is_playing") == 0)
+        return (Val)gm_audio_is_playing(a[0]);
+    if (strcmp(name, "audio_stop_sound") == 0) { gm_audio_stop_sound(a[0]); return 0.0; }
+    if (strcmp(name, "audio_stop_all") == 0) { gm_audio_stop_all(); return 0.0; }
+    if (strcmp(name, "audio_pause_all") == 0) { gm_audio_pause_all(); return 0.0; }
+    if (strcmp(name, "audio_resume_all") == 0) { gm_audio_resume_all(); return 0.0; }
     fprintf(stderr, "GM_CALL: unimplemented builtin %s/%d\n", name, argc);
     return 0.0;
 }
