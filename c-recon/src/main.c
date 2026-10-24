@@ -144,6 +144,10 @@ int main(int argc, char** argv) {
     gm_objects_register_parents();
 
     if (!run_code(vm, code, self)) return 3;   /* 3: this binary has no such body */
+    if (gm_missing_body_code >= 0) {           /* 4: a dispatched body is absent */
+        fprintf(stderr, "body %d has no generated function in this binary\n", gm_missing_body_code);
+        return 4;
+    }
 
     FILE* out = fopen(argv[2], "w");
     if (!out) { perror(argv[2]); return 2; }

@@ -51,6 +51,10 @@ typedef struct {
 typedef struct { char name[NAME_LEN]; Val value; } GmGlobal;
 typedef struct { int32_t object, type, subtype, code; } GmEventRow;
 
+#define GM_MAX_MAPS 8
+#define GM_MAP_MAX 32
+#define GM_INI_MAX 64
+
 typedef struct {
     int32_t cur;                 /* current self */
     int32_t other;               /* `other` for collision dispatch, -1 when unset */
@@ -58,6 +62,23 @@ typedef struct {
     double  score;
     int32_t view;
     double  room_width, room_height;
+    /* state the ext builtins own (c-recon/src/builtins2.c) */
+    double  display_w, display_h, current_room;
+    int     view_visible[8];
+    double  view_pos[8][2];      /* view_xview / view_yview */
+    double  view_port[8][2];     /* view_wport / view_hport */
+    int     view_port_set[8];
+    double  current_font;
+    int32_t draw_color;
+    double  draw_alpha;
+    struct { int32_t id; int n; struct { double key, val; } kv[GM_MAP_MAX]; } maps[GM_MAX_MAPS];
+    int     nmaps;
+    int32_t next_map_id;
+    struct { double file, sec, key, val; } ini[GM_INI_MAX];
+    int     nini;
+    double  ini_open_file;
+    double  next_part_type;
+    int     npart_types;
     GmInst inst[MAX_INST];
     int ninst;
     GmGlobal globals[MAX_GLOBALS];
@@ -70,6 +91,10 @@ typedef struct {
 
 /* lifecycle */
 void  vm_init(GmVM* vm, int32_t self);
+void  gm_vm_init_ext(GmVM* vm);
+double gm_next_rand(GmVM* vm);
+void   gm_rng_add(GmVM* vm, uint64_t delta);
+int    gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out);
 GmInst* vm_inst(GmVM* vm, int32_t id);
 GmInst* vm_add(GmVM* vm, int32_t id, int32_t object);
 int32_t vm_first_of_object(GmVM* vm, int32_t object);   /* -1 when none */
@@ -107,6 +132,7 @@ int     gm_place_meeting(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
 int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
 int     gm_dispatch_create(GmVM* vm, int32_t id);
 int     gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype);
+extern int gm_missing_body_code;
 /* object table accessors (c-recon/gen/objects_data.c, generated) */
 int32_t gm_object_sprite(int32_t id);
 int     gm_object_create_code(int32_t id);

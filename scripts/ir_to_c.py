@@ -152,7 +152,13 @@ class Emitter:
             "",
             f"void gml_{self.code['id']:04d}(GmVM* vm) {{",
         ]
-        body = [" " * 4 + d for d in self.decls] + self.lines
+        # A GML `var` may be declared twice in one body (two branches, or the
+        # same name re-declared after a jump target); the bytecode sees two
+        # store_locals, C sees one variable. Dedupe or the C file will not
+        # compile with "previous definition is here".
+        seen: set[str] = set()
+        decls = [d for d in self.decls if not (d in seen or seen.add(d))]
+        body = [" " * 4 + d for d in decls] + self.lines
         return "\n".join(head + body + ["}", ""])
 
     def instruction(self, i: dict) -> None:

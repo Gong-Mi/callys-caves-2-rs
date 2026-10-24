@@ -17,11 +17,37 @@ Classes:
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 ROOM = "ROOMW 1024\nROOMH 768\n"
+
+
+def c_implemented(sources=("c-recon/src/host.c", "c-recon/src/builtins2.c")):
+    """Builtins the C host answers. A body that calls anything else is a host
+    gap, not a divergence — reporting it as `differ` would hide real bugs."""
+    names = set()
+    for src in sources:
+        text = Path(src).read_text()
+        names |= set(re.findall(r'strcmp\(name, "([A-Za-z_][A-Za-z0-9_]*)"\)', text))
+        # the ext file also matches with !strcmp
+        names |= set(re.findall(r'strncmp\(name, "([A-Za-z_][A-Za-z0-9_]*)"', text))
+        for m in re.finditer(r'!strcmp\(name, "([A-Za-z_][A-Za-z0-9_]*)"\)', text):
+            names.add(m.group(1))
+    # prefix families handled by strncmp over a whole namespace
+    for m in re.finditer(r'!strncmp\(name, "([a-z_]+)", (\d+)\)', Path(sources[1]).read_text()):
+        prefix = m.group(1)
+        names.add(prefix + "*")
+    return names
+
+
+def calls_of(bundle):
+    out = {}
+    for c in bundle["codes"]:
+        out[c["id"]] = {i["name"] for i in c["instructions"] if i["op"] == "call"}
+    return out
 
 
 def owners(bundle):
@@ -46,6 +72,8 @@ def main():
 
     bundle = json.load(open(args.ir))
     own = owners(bundle)
+    c_impl = c_implemented()
+    body_calls = calls_of(bundle)
     codes = [c["id"] for c in bundle["codes"]]
     if args.code_file:
         wanted = {int(x) for x in Path(args.code_file).read_text().split() if x.strip()}
@@ -97,7 +125,7 @@ def main():
         print(r.stderr[-3000:], file=sys.stderr)
         return 2
 
-    classes = {"identical": [], "differ": [], "vm_reject": [], "c_only": [], "c_fail": [], "not_built": []}
+    classes = {"identical": [], "differ": [], "c_gap": [], "vm_reject": [], "c_only": [], "c_fail": [], "not_built": []}
     detail = {}
     for c in codes:
         rf = rout / f"{c}.txt"
@@ -105,7 +133,7 @@ def main():
         cf = cout / f"{c}.txt"
         p = subprocess.run([args.c_bin, str(fx / f"{c}.txt"), str(cf)],
                            capture_output=True, text=True)
-        if p.returncode == 3:
+        if p.returncode in (3, 4):
             classes["not_built"].append(c)
             continue
         if p.returncode != 0:
@@ -119,6 +147,11 @@ def main():
         if rust == "MISSING":
             classes["vm_reject"].append(c)
             continue
+        gap = body_calls.get(c, set()) - c_impl
+        if gap:
+            classes["c_gap"].append(c)
+            detail[c] = "missing builtin(s): " + ", ".join(sorted(gap))[:200]
+            continue
         if rust == ctext:
             classes["identical"].append(c)
         else:
@@ -130,7 +163,7 @@ def main():
 
     total = sum(len(v) for v in classes.values())
     print(f"\n=== {total} bodies ===")
-    for k in ("identical", "differ", "c_only", "vm_reject", "c_fail", "not_built"):
+    for k in ("identical", "differ", "c_gap", "c_only", "vm_reject", "c_fail", "not_built"):
         print(f"{k:>10}: {len(classes[k])}")
     if missing_owner:
         print(f"no owner : {len(missing_owner)} (skipped)")

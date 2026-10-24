@@ -116,6 +116,11 @@ int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
 
 /* Scene::dispatch(): the instance's own event wins; otherwise the first
  * ancestor that carries one. `type`/`subtype` are the raw event ids. */
+/* Set when a dispatch names a body this binary does not carry. The driver turns
+ * it into exit code 4 so a corpus run can tell "not compiled in" apart from
+ * "ran and disagreed" — the difference matters when reading a diff. */
+int gm_missing_body_code = -1;
+
 int gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype) {
     if (!vm) return -1;
     GmInst* in = vm_inst(vm, id);
@@ -139,6 +144,7 @@ int gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype) {
         /* Never silently skip: the table names a body the registry cannot run. */
         fprintf(stderr, "gm_dispatch: CODE %d (object %d) has no generated body\n", code,
                 in->object);
+        gm_missing_body_code = code;
         return -4;
     }
     return 0;

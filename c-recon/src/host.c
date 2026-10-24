@@ -18,6 +18,7 @@ void vm_init(GmVM* vm, int32_t self) {
     vm->cur = self;
     vm->other = -1;
     vm->rng = 305419896ull; /* Scene::default().rng_seed */
+    gm_vm_init_ext(vm);
 }
 
 GmInst* vm_inst(GmVM* vm, int32_t id) {
@@ -129,6 +130,7 @@ Val GM_READ(GmVM* vm, int32_t selector, const char* name) {
         if (strcmp(name, "view_xview") == 0 || strcmp(name, "view_yview") == 0) return 0.0;
         if (strcmp(name, "view_wport") == 0) return vm->room_width;
         if (strcmp(name, "view_hport") == 0) return vm->room_height;
+        if (strcmp(name, "room") == 0) return vm->current_room;
     }
     if (selector <= -5) {
         GmGlobal* g = find_global(vm, name);
@@ -191,6 +193,18 @@ static GmArraySlot* find_slot(GmInst* in, const char* name, int32_t index) {
 }
 
 Val GM_READ_ARR(GmVM* vm, Val target, const char* name, Val index) {
+    /* Scene::read answers the view_* arrays for selector -1 before any instance
+     * lookup; a body that stores view_visible[0] must not create an instance
+     * array of that name. */
+    if ((int32_t)target == -1) {
+        int32_t k = (int32_t)index;
+        int ok = (k >= 0 && k < 8);
+        if (strcmp(name, "view_visible") == 0) return (ok && vm->view_visible[k]) ? 1.0 : 0.0;
+        if (strcmp(name, "view_xview") == 0) return ok ? vm->view_pos[k][0] : 0.0;
+        if (strcmp(name, "view_yview") == 0) return ok ? vm->view_pos[k][1] : 0.0;
+        if (strcmp(name, "view_wport") == 0) return ok ? (vm->view_port_set[k] ? vm->view_port[k][0] : vm->display_w) : vm->display_w;
+        if (strcmp(name, "view_hport") == 0) return ok ? (vm->view_port_set[k] ? vm->view_port[k][1] : vm->display_h) : vm->display_h;
+    }
     int32_t id = vm_resolve(vm, target);
     GmInst* in = id >= 0 ? vm_inst(vm, id) : NULL;
     if (!in) return 0.0;
@@ -203,6 +217,18 @@ Val GM_READ_ARR(GmVM* vm, Val target, const char* name, Val index) {
 }
 
 void GM_WRITE_ARR(GmVM* vm, Val target, const char* name, Val index, Val value) {
+    if ((int32_t)target == -1) {
+        int32_t k = (int32_t)index;
+        if (k >= 0 && k < 8) {
+            if (strcmp(name, "view_visible") == 0) { vm->view_visible[k] = value >= 0.5; return; }
+            if (strcmp(name, "view_xview") == 0) { vm->view_pos[k][0] = value; return; }
+            if (strcmp(name, "view_yview") == 0) { vm->view_pos[k][1] = value; return; }
+            if (strcmp(name, "view_wport") == 0) { vm->view_port[k][0] = value; vm->view_port_set[k] = 1; return; }
+            if (strcmp(name, "view_hport") == 0) { vm->view_port[k][1] = value; vm->view_port_set[k] = 1; return; }
+        } else if (strcmp(name, "view_visible") == 0) {
+            return;   /* out of range is a silent no-op in the VM */
+        }
+    }
     int32_t id = vm_resolve(vm, target);
     GmInst* in = id >= 0 ? vm_inst(vm, id) : NULL;
     if (!in) return;
@@ -225,6 +251,10 @@ static double next_rand(uint64_t* seed) {
     *seed = *seed * 6364136223846793005ull + 1442695040888963407ull;
     return (double)(*seed >> 11) / 9007199254740992.0; /* 2^53 */
 }
+
+/* The ext builtins draw from the same LCG; exposing it keeps one stream. */
+double gm_next_rand(GmVM* vm) { return next_rand(&vm->rng); }
+void gm_rng_add(GmVM* vm, uint64_t delta) { vm->rng += delta; }
 
 static double gm_sign(Val v) { return v > 0 ? 1.0 : (v < 0 ? -1.0 : 0.0); }
 
@@ -312,6 +342,8 @@ Val GM_CALL(GmVM* vm, const char* name, int argc, ...) {
     if (strcmp(name, "audio_stop_all") == 0) { gm_audio_stop_all(); return 0.0; }
     if (strcmp(name, "audio_pause_all") == 0) { gm_audio_pause_all(); return 0.0; }
     if (strcmp(name, "audio_resume_all") == 0) { gm_audio_resume_all(); return 0.0; }
+    Val ext = 0.0;
+    if (gm_call_ext(vm, name, argc, a, &ext)) return ext;
     fprintf(stderr, "GM_CALL: unimplemented builtin %s/%d\n", name, argc);
     return 0.0;
 }
