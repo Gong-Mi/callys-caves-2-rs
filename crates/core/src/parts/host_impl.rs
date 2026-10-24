@@ -303,12 +303,11 @@ impl Host for Scene {
             "collision_line" => {
                 let x1=a[0]; let y1=a[1]; let x2=a[2]; let y2=a[3];
                 let s=int(a[4])?;
-                // a[5] is `prec`. It is ignored on purpose: neither this VM nor
-                // the C host carries SPRT mask bitmaps yet, so the line test is
-                // the recorded box on both sides. Do not add a second arm below
-                // — a later duplicate shadows this one and silently changes
-                // nothing (that happened once; the compiler caught it as an
-                // unreachable pattern).
+                // a[5] is `prec`: with prec=1 the box is only the broad phase and
+                // the segment must also touch a mask pixel. A target with no mask
+                // data keeps the box verdict (line_mask_hit returns None), which
+                // is what the runner does when a sprite carries no masks.
+                let prec=a[5]>=0.5;
                 let notme=a[6]>=0.5;
                 let targets=self.select(id,s)?;
                 let mut hit=-4.0;
@@ -316,6 +315,9 @@ impl Host for Scene {
                     if notme && tid==id { continue; }
                     if let Some((left,right,top,bottom))=self.compute_bounding_box_for_instance(tid) {
                         if segment_hits_box(x1,y1,x2,y2,left,right,top,bottom) {
+                            if prec {
+                                if let Some(false) = self.line_mask_hit(tid,x1,y1,x2,y2) { continue; }
+                            }
                             hit=tid as f64;
                             break;
                         }

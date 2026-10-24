@@ -15,15 +15,12 @@
  * width of the intermediate is load-bearing (see the half-pixel fixture in
  * tests/collision_test.c). Widening early changes the answer.
  *
- * Two Rust inputs are not available in the C host yet, and are reported rather
+ * One Rust input is still not available in the C host and is reported rather
  * than faked:
- *   - per-sprite pixel masks (`sprite_masks`): GM_SPRITES carries only the
- *     recorded manual bbox, so the mask-union branch (ir_scene.rs:814-839) has
- *     no data source here. Sprites without a recorded bbox take the whole-sprite
- *     rectangle (ir_scene.rs:840-842), which is what Rust does when a sprite has
- *     no mask either.
  *   - the compiled object table's parent chain: installed through
  *     gm_collision_add_parent() (direct edges, closed at query time).
+ * SPRT collision masks are no longer in that list: they are emitted into
+ * GM_SPRITE_MASKS (see gm_mask_frame) and drive collision_line(prec=1).
  */
 #include "gml.h"
 
@@ -138,6 +135,73 @@ static const GmSprite* sprite_lookup(int32_t sid) {
     for (int i = 0; i < GM_SPRITE_COUNT; i++)
         if (GM_SPRITES[i].id == sid) return &GM_SPRITES[i];
     return NULL;
+}
+
+/* ---- collision_line(prec=1): per-pixel mask walk --------------------------
+ *
+ * Mirrors ir_scene.rs `mask_hit` + `line_mask_hit` step for step: inverse
+ * rotate, un-scale, add the origin, truncate; the walk advances at half-pixel
+ * resolution and is capped at 4000 samples. Anything the Rust side returns as
+ * None (no mask data / no instance) comes back as -1 so the caller keeps the
+ * bounding-box verdict instead of inventing a pixel answer. */
+static int mask_pixel(const unsigned char* bits, int32_t w, int32_t h, int32_t x, int32_t y) {
+    if (x < 0 || y < 0 || x >= w || y >= h) return 0;
+    int32_t row = (w + 7) / 8;
+    return (bits[y * row + x / 8] & (0x80 >> (x % 8))) != 0;
+}
+
+int gm_mask_frame(int32_t sprite, int32_t frame,
+                  const unsigned char** bits, int32_t* w, int32_t* h) {
+    for (int i = 0; i < GM_SPRITE_MASK_COUNT; i++) {
+        const GmMaskSprite* m = &GM_SPRITE_MASKS[i];
+        if (m->sprite != sprite || m->nframes <= 0) continue;
+        int32_t f = frame < 0 ? 0 : (frame >= m->nframes ? m->nframes - 1 : frame);
+        *bits = m->frames[f].bits;
+        *w = m->frames[f].width;
+        *h = m->frames[f].height;
+        return 1;
+    }
+    return 0;
+}
+
+int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, double y2) {
+    GmInst* in = NULL;
+    for (int i = 0; i < vm->ninst; i++)
+        if (vm->inst[i].id == tid) { in = &vm->inst[i]; break; }
+    if (!in) return -1;
+    /* mask_hit keys the mask off sprite_index only; mask_index is a broad-phase
+     * input, not the pixel source. */
+    int32_t spr = (int32_t)gm_field_or(in, "sprite_index", -1.0);
+    int32_t frame = (int32_t)gm_field_or(in, "image_index", 0.0);
+    const unsigned char* bits = NULL;
+    int32_t w = 0, h = 0;
+    if (!gm_mask_frame(spr, frame, &bits, &w, &h)) return -1;
+    double sx = gm_field_or(in, "image_xscale", 1.0);
+    double sy = gm_field_or(in, "image_yscale", 1.0);
+    if (sx == 0.0 || sy == 0.0) return 0;
+    double ix = gm_field_or(in, "x", 0.0);
+    double iy = gm_field_or(in, "y", 0.0);
+    double ang = gm_field_or(in, "image_angle", 0.0) * (M_PI / 180.0);
+    double ox = 0.0, oy = 0.0;
+    const GmSprite* sp = sprite_lookup(spr);
+    if (sp) { ox = sp->origin_x; oy = sp->origin_y; }
+    double ca = cos(ang), sa = sin(ang);
+    double len = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    long steps = (long)ceil(len * 2.0);
+    if (steps < 1) steps = 1;
+    if (steps > 4000) steps = 4000;
+    for (long s = 0; s <= steps; s++) {
+        double t = (double)s / (double)steps;
+        double px = x1 + (x2 - x1) * t;
+        double py = y1 + (y2 - y1) * t;
+        double dx = px - ix, dy = py - iy;
+        double rx = dx * ca + dy * sa;
+        double ry = -dx * sa + dy * ca;
+        int32_t lx = (int32_t)(floor(rx / sx) + ox);
+        int32_t ly = (int32_t)(floor(ry / sy) + oy);
+        if (mask_pixel(bits, w, h, lx, ly)) return 1;
+    }
+    return 0;
 }
 
 /* ir_scene.rs:800-872. `mask`/`sprite` are the raw field values; mask_index

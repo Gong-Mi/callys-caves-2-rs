@@ -1404,8 +1404,6 @@ impl Scene {
     /// Walk a room-space line through `tid`'s mask at half-pixel resolution.
     /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
     /// None = no mask data (bbox fallback).
-    // Staged for the `collision_line(prec=1)` port (see line_intersects_box).
-    #[allow(dead_code)]
     fn line_mask_hit(&self, tid: i32, x1: f64, y1: f64, x2: f64, y2: f64) -> Option<bool> {
         let len = ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).sqrt();
         let steps = ((len * 2.0).ceil() as usize).clamp(1, 4000);

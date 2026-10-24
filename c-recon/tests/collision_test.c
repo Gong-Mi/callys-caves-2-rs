@@ -363,6 +363,48 @@ static void group_distance_selectors(void) {
     CHECK_D("distance: every candidate destroyed", gm_distance_to_object(&g_vm, a, 12), 1000000.0);
 }
 
+/* --- 11. collision_line(prec=1): per-pixel mask walk ----------------------
+ * The sprite table is emitted from the same SPRT records the runner reads, so
+ * this pins the C mask walk itself: a segment through a transparent pixel must
+ * miss, through a set pixel must hit, and a sprite with no mask data must
+ * report "no data" (-1) instead of inventing a pixel answer. */
+static void group_line_mask(void) {
+    new_vm();
+    int32_t spr = -1, zx = -1, zy = -1, nxp = -1;
+    for (int i = 0; i < GM_SPRITE_MASK_COUNT && spr < 0; i++) {
+        const GmMaskSprite* m = &GM_SPRITE_MASKS[i];
+        if (m->nframes <= 0) continue;
+        const GmMaskFrame* f = &m->frames[0];
+        int row = (f->width + 7) / 8;
+        for (int y = 0; y < f->height && zx < 0; y++) {
+            for (int x = 0; x + 1 < f->width; x++) {
+                int off = (f->bits[y * row + x / 8] & (0x80 >> (x % 8))) != 0;
+                int on = (f->bits[y * row + (x + 1) / 8] & (0x80 >> ((x + 1) % 8))) != 0;
+                if (!off && on) { zx = x; zy = y; nxp = x + 1; break; }
+            }
+        }
+        if (zx >= 0) spr = m->sprite;
+    }
+    CHECK_I("mask: a sprite with a transparent pixel exists", spr > 0, 1);
+    if (spr < 0) return;
+    const GmSprite* sp = NULL;
+    for (int i = 0; i < GM_SPRITE_COUNT; i++)
+        if (GM_SPRITES[i].id == spr) sp = &GM_SPRITES[i];
+    double ox = sp ? sp->origin_x : 0.0;
+    double oy = sp ? sp->origin_y : 0.0;
+    int32_t id = mk(100010, 34, 0.0, 0.0, spr);
+    /* mask_hit: lx = floor(px/1) + ox, so a world x of zx-ox+0.5 lands on zx. */
+    double px = (double)zx - ox + 0.5, py = (double)zy - oy + 0.5;
+    double qx = (double)nxp - ox + 0.5;
+    CHECK_I("line mask: segment through a transparent pixel misses",
+            gm_line_mask_test(&g_vm, id, px - 0.3, py, px + 0.3, py), 0);
+    CHECK_I("line mask: segment through a set pixel hits",
+            gm_line_mask_test(&g_vm, id, qx - 0.3, py, qx + 0.3, py), 1);
+    vm_set_field(&g_vm, id, "sprite_index", -1.0);
+    CHECK_I("line mask: sprite -1 reports no mask data",
+            gm_line_mask_test(&g_vm, id, 0.0, 0.0, 1.0, 1.0), -1);
+}
+
 int main(void) {
     group_pinned_player_lloyd();
     group_mask_and_signed_scale();
@@ -374,6 +416,7 @@ int main(void) {
     group_selectors();
     group_place_meeting();
     group_distance_selectors();
+    group_line_mask();
     printf("collision_test: %d checks, %d failed\n", g_checks, g_fails);
     return g_fails ? 1 : 0;
 }

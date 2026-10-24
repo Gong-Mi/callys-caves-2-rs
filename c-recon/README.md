@@ -17,12 +17,13 @@ body rather than guess.
 | --- | --- |
 | generator (`scripts/ir_to_c.py`) | 1354/1354 bodies, 0 refused, 52,411 lines of C |
 | C host (`c-recon/src/host.c`) | instances, fields, arrays (`alarm` is a 12-slot array), globals, selector resolution, `with` frames, `room_width`/`score` pseudo-fields |
-| collision (`c-recon/src/collision.c`) | `instance_place`, `place_meeting`, `distance_to_object`; 89 assertions |
+| collision (`c-recon/src/collision.c`) | `instance_place`, `place_meeting`, `distance_to_object`, mask line walk; 93 assertions |
 | objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 132 assertions |
 | geometry | 178 SPRT records emitted from `game.droid` (`c-recon/gen/sprites.c`) |
+| masks | 227 SPRT collision masks (341 KB of bits) emitted into the same file; `collision_line(prec=1)` walks them |
 | CODE 792 (`obj_bosspuff_Create_0`) | **C == VM, identical state** |
 | CODE 12 (`obj_player_Step_0`, 6163 instructions) | **C == VM, identical state** |
-| batch differential (`scripts/batch_diff.py`) | **1354/1354 bodies: 1297 identical, 57 same abort, 0 differences** |
+| batch differential (`scripts/batch_diff.py`) | **1354/1354 identical (Create→body); 24,372/24,372 with 18 worlds each** |
 
 The batch run is a generator/host self-consistency check, not original-runner
 parity: the fixtures are generic (owning object, room 0, x=y=100), so a body

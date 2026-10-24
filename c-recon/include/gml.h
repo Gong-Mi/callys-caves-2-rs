@@ -142,9 +142,33 @@ typedef struct {
 extern const GmSprite GM_SPRITES[];
 extern const int GM_SPRITE_COUNT;
 
+/* Collision mask bitmaps, emitted from the same SPRT records. Rows are padded
+ * to whole bytes and bit 0x80 is the leftmost pixel, exactly like
+ * `CollisionMask::pixel` in the asset crate. A sprite with no mask data keeps
+ * the bounding-box behaviour; `gm_mask_frame` reports the difference instead of
+ * returning an empty mask. */
+typedef struct {
+    int32_t width, height;
+    const unsigned char* bits;
+} GmMaskFrame;
+typedef struct {
+    int32_t sprite;
+    const GmMaskFrame* frames;
+    int32_t nframes;
+} GmMaskSprite;
+extern const GmMaskSprite GM_SPRITE_MASKS[];
+extern const int GM_SPRITE_MASK_COUNT;
+
 /* collision (c-recon/src/collision.c) */
 int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
 int     gm_place_meeting(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
+/* Mask lookup and the collision_line(prec=1) walk. `gm_line_mask_test` returns
+ * -1 when the target has no mask data (caller keeps the bbox verdict), 0 when
+ * the segment touches no mask pixel, 1 when it does. */
+int     gm_mask_frame(int32_t sprite, int32_t frame,
+                      const unsigned char** bits, int32_t* w, int32_t* h);
+int     gm_line_mask_test(GmVM* vm, int32_t tid,
+                          double x1, double y1, double x2, double y2);
 
 /* object creation + Create dispatch (c-recon/src/objects.c) */
 int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);

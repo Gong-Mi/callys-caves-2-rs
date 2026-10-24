@@ -335,10 +335,13 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
     }
 
     /* host_impl.rs collision_line: first instance whose box the segment
-     * touches, -4 when none. */
+     * touches, -4 when none. With prec=1 the box is only the broad phase; the
+     * segment then has to touch a mask pixel (gm_line_mask_test), and a target
+     * with no mask data keeps the box verdict. */
     if (!strcmp(name, "collision_line")) {
         double x1 = a[0], y1 = a[1], x2 = a[2], y2 = a[3];
         int32_t s = (int32_t)a[4];
+        int prec = a[5] >= 0.5;
         int notme = a[6] >= 0.5;
         int32_t ids[MAX_ENV_SEL];
         int n = vm_select(vm, (Val)s, ids, MAX_ENV_SEL);
@@ -347,7 +350,10 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
             if (notme && ids[i] == vm->cur) continue;
             double l, r, t, b;
             if (!gm_instance_box(vm, ids[i], &l, &r, &t, &b)) continue;
-            if (seg_hits_box(x1, y1, x2, y2, l, r, t, b)) { *out = ids[i]; return 1; }
+            if (!seg_hits_box(x1, y1, x2, y2, l, r, t, b)) continue;
+            if (prec && gm_line_mask_test(vm, ids[i], x1, y1, x2, y2) == 0) continue;
+            *out = ids[i];
+            return 1;
         }
         return 1;
     }

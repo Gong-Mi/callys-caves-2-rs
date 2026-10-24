@@ -36,6 +36,40 @@ fn main() {
     }
     out.push_str("};\n");
     out.push_str(&format!("const int GM_SPRITE_COUNT = {};\n", rows.len()));
+
+    // Collision mask bitmaps. `collision_line(prec=1)` needs the same per-pixel
+    // data the runner reads, and the C host cannot re-parse game.droid. Rows are
+    // padded to whole bytes, bit 0x80 = leftmost pixel, exactly like
+    // CollisionMask::pixel.
+    let mut total_bits = 0usize;
+    let mut frames_total = 0usize;
+    let mut mask_rows = String::new();
+    for (id, sp) in &rows {
+        if sp.masks.is_empty() { continue; }
+        let mut frame_tbl = String::new();
+        for (fi, m) in sp.masks.iter().enumerate() {
+            total_bits += m.bits.len();
+            frames_total += 1;
+            let sym = format!("M{}__{}", id, fi);
+            out.push_str(&format!("static const unsigned char {}[] = {{\n", sym));
+            for chunk in m.bits.chunks(16) {
+                out.push_str("    ");
+                for b in chunk { out.push_str(&format!("0x{:02x},", b)); }
+                out.push('\n');
+            }
+            out.push_str("};\n");
+            frame_tbl.push_str(&format!("    {{ {}, {}, {} }},\n", m.width, m.height, sym));
+        }
+        mask_rows.push_str(&format!(
+            "    {{ {}, GM_MASKS_{}, {} }}, /* {} */\n", id, id, sp.masks.len(), sp.name));
+        out.push_str(&format!("static const GmMaskFrame GM_MASKS_{}[] = {{\n{}}};\n",
+                              id, frame_tbl));
+    }
+    out.push_str("const GmMaskSprite GM_SPRITE_MASKS[] = {\n");
+    out.push_str(&mask_rows);
+    out.push_str("};\n");
+    out.push_str(&format!("const int GM_SPRITE_MASK_COUNT = {};\n", mask_rows.lines().count()));
     fs::write(&args[1], out).expect("write");
-    println!("{} sprites -> {}", rows.len(), args[1]);
+    println!("{} sprites -> {} ({} mask frames, {} bytes of bits)",
+             rows.len(), args[1], frames_total, total_bits);
 }
