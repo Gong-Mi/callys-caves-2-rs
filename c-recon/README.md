@@ -18,7 +18,7 @@ body rather than guess.
 | generator (`scripts/ir_to_c.py`) | 1354/1354 bodies, 0 refused, 52,411 lines of C |
 | C host (`c-recon/src/host.c`) | instances, fields, arrays (`alarm` is a 12-slot array), globals, selector resolution, `with` frames, `room_width`/`score` pseudo-fields |
 | collision (`c-recon/src/collision.c`) | `instance_place`, `place_meeting`, `distance_to_object`, mask line/point probes; 95 assertions |
-| objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 132 assertions |
+| objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 140 assertions |
 | geometry | 178 SPRT records emitted from `game.droid` (`c-recon/gen/sprites.c`) |
 | masks | 227 SPRT collision masks (341 KB of bits) emitted into the same file; `collision_line(prec=1)` walks them |
 | CODE 792 (`obj_bosspuff_Create_0`) | **C == VM, identical state** |
@@ -66,6 +66,9 @@ python3 scripts/c_vm_diff.py --fixture c-recon/fixtures/code12_contact.txt --cod
 # (--build-c regenerates + compiles every body into --work, ~25 s)
 python3 scripts/batch_diff.py --build-c --work .hermes-batch
 python3 scripts/batch_diff.py --build-c --matrix --work .hermes-batch   # 18 worlds per body
+# richer receiver set: one instance of every object, so a body that reads
+# another object's fields runs its real path instead of aborting
+python3 scripts/batch_diff.py --build-c --sequence --all-objects --work .hermes-batch
 ```
 
 Two build flags are not cosmetic:

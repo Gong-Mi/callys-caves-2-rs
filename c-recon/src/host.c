@@ -117,6 +117,27 @@ int32_t vm_resolve(GmVM* vm, Val selector) {
     return -1;
 }
 
+/* Scene::select_for_access(): the strict select (alive && active) wins; when it
+ * is empty, every alive instance matching the selector still counts, including
+ * deactivated ones. Writes go to ALL of them: GameMaker's `obj.var = v` is a
+ * loop over instances, not a pick-first. Reading keeps using vm_resolve, which
+ * takes the first of the same set. */
+static int vm_select_access(GmVM* vm, Val selector, int32_t* ids, int cap) {
+    int n = vm_select(vm, selector, ids, cap);
+    if (n > 0) return n;
+    int32_t s = (int32_t)selector;
+    if (s < 0) return 0;
+    n = 0;
+    for (int i = 0; i < vm->ninst && n < cap; i++) {
+        GmInst* in = &vm->inst[i];
+        if (!in->alive) continue;
+        if ((s >= 100000) ? (in->id == s)
+                          : (in->object == s || gm_object_is_a(in->object, s)))
+            ids[n++] = in->id;
+    }
+    return n;
+}
+
 static GmField* find_field(GmInst* in, const char* name) {
     for (int i = 0; i < in->nfields; i++)
         if (strcmp(in->fields[i].name, name) == 0) return &in->fields[i];
@@ -189,14 +210,18 @@ void GM_WRITE(GmVM* vm, int32_t selector, const char* name, Val value) {
         if (g) g->value = value;
         return;
     }
-    int32_t id = vm_resolve(vm, (Val)selector);
-    GmInst* in = id >= 0 ? vm_inst(vm, id) : NULL;
-    if (!in) {
+    int32_t ids[MAX_ENV_SEL];
+    int n = vm_select_access(vm, (Val)selector, ids, MAX_ENV_SEL);
+    if (n == 0) {
         if (selector >= 0) gm_fail("write", (int32_t)selector);
         return;
     }
-    GmField* f = ensure_field(in, name);
-    if (f) f->value = value;
+    for (int i = 0; i < n; i++) {
+        GmInst* in = vm_inst(vm, ids[i]);
+        if (!in) continue;
+        GmField* f = ensure_field(in, name);
+        if (f) f->value = value;
+    }
 }
 
 /* Fixture addressing: the state-file protocol names an instance id directly, so
@@ -274,25 +299,29 @@ void GM_WRITE_ARR(GmVM* vm, Val target, const char* name, Val index, Val value) 
             return;   /* out of range is a silent no-op in the VM */
         }
     }
-    int32_t id = vm_resolve(vm, target);
-    GmInst* in = id >= 0 ? vm_inst(vm, id) : NULL;
-    if (!in) {
+    int32_t ids[MAX_ENV_SEL];
+    int n = vm_select_access(vm, target, ids, MAX_ENV_SEL);
+    if (n == 0) {
         if (target >= 0) gm_fail("write", (int32_t)target);
         return;
     }
-    if (strcmp(name, "alarm") == 0) {
-        int32_t k = (int32_t)index;
-        if (k >= 0 && k < 12) in->alarms[k] = (int32_t)value;
-        return;
+    for (int i = 0; i < n; i++) {
+        GmInst* in = vm_inst(vm, ids[i]);
+        if (!in) continue;
+        if (strcmp(name, "alarm") == 0) {
+            int32_t k = (int32_t)index;
+            if (k >= 0 && k < 12) in->alarms[k] = (int32_t)value;
+            continue;
+        }
+        GmArraySlot* s = find_slot(in, name, (int32_t)index);
+        if (!s) {
+            if (in->narrays >= MAX_ARRAYS) continue;
+            s = &in->arrays[in->narrays++];
+            snprintf(s->name, NAME_LEN, "%s", name);
+            s->index = (int32_t)index;
+        }
+        s->value = value;
     }
-    GmArraySlot* s = find_slot(in, name, (int32_t)index);
-    if (!s) {
-        if (in->narrays >= MAX_ARRAYS) return;
-        s = &in->arrays[in->narrays++];
-        snprintf(s->name, NAME_LEN, "%s", name);
-        s->index = (int32_t)index;
-    }
-    s->value = value;
 }
 
 static double next_rand(uint64_t* seed) {

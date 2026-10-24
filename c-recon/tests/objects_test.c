@@ -283,6 +283,29 @@ static void test_reset_semantics(void) {
     CHECK_EQ_D(gm_audio_play(VAL(7), VAL(1), 0), 1);
 }
 
+/* GameMaker's `obj.var = v` writes every instance of that object; the C host
+ * used to resolve one instance and stop, which silently split the two sides on
+ * any body that re-zeroed the player from an alarm (CODE 372 and friends). */
+static void test_object_selector_write_hits_all(void) {
+    GmVM* vm = fresh_vm(100000);
+    vm_add(vm, 100000, 0);   /* obj_player */
+    vm_add(vm, 100001, 0);   /* second obj_player */
+    vm_add(vm, 100002, 4);   /* obj_wall: must not be touched */
+    GM_WRITE(vm, (Val)0, "hsp", (Val)-7.0);
+    CHECK_EQ_D(GM_READ(vm, (Val)100000, "hsp"), -7.0);
+    CHECK_EQ_D(GM_READ(vm, (Val)100001, "hsp"), -7.0);
+    CHECK_EQ_D(GM_READ(vm, (Val)100002, "hsp"), 0.0);
+    /* An instance-id selector is still a single target. */
+    GM_WRITE(vm, (Val)100001, "hsp", (Val)3.0);
+    CHECK_EQ_D(GM_READ(vm, (Val)100000, "hsp"), -7.0);
+    CHECK_EQ_D(GM_READ(vm, (Val)100001, "hsp"), 3.0);
+    /* Arrays follow the same rule (alarm slots are per instance). */
+    GM_WRITE_ARR(vm, (Val)0, "alarm", (Val)3, (Val)9.0);
+    CHECK_EQ_D(GM_READ_ARR(vm, (Val)100000, "alarm", (Val)3), 9.0);
+    CHECK_EQ_D(GM_READ_ARR(vm, (Val)100001, "alarm", (Val)3), 9.0);
+    CHECK_EQ_D(GM_READ_ARR(vm, (Val)100002, "alarm", (Val)3), -1.0); /* untouched slot keeps the -1 sentinel */
+}
+
 int main(void) {
     test_object_table();
     test_create_with_body();
@@ -290,6 +313,7 @@ int main(void) {
     test_dispatch_direct();
     test_audio_voices();
     test_reset_semantics();
+    test_object_selector_write_hits_all();
 
     printf("object rows: %d, parent edges: %d\n", GM_OBJECT_COUNT, GM_OBJECT_PARENT_EDGES);
     printf("checks: %d, failures: %d\n", checks, failures);

@@ -128,6 +128,9 @@ def main():
                     help="append N scheduler ticks after the sequence")
     ap.add_argument("--pretick", type=int, default=0,
                     help="run N scheduler ticks BEFORE the body (Create -> ticks -> body)")
+    ap.add_argument("--all-objects", action="store_true",
+                    help="put one instance of every object in the room, so a body that "
+                         "reads any receiver can actually run its real path")
     args = ap.parse_args()
 
     bundle = json.load(open(args.ir))
@@ -233,6 +236,12 @@ def main():
             lines.append("FIELD 100001 sprite_index 29")
             lines.append("FIELD 100001 x 500")
             lines.append("FIELD 100001 y 200")
+        if args.all_objects:
+            # One instance of every declared object: bodies that read another
+            # object's fields abort on a missing receiver, and the abort hides
+            # whatever the real path would have done.
+            for k, o in enumerate(bundle["objects"]):
+                lines.append(f"INST {110000 + k} {o['id']} 1")
         lines.append("CURRENT 100000")
         base = list(lines)
         for name, extra in variants:
