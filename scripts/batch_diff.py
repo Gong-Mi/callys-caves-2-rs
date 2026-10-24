@@ -126,6 +126,8 @@ def main():
                     help="run the owner's Create event before the body")
     ap.add_argument("--ticks", type=int, default=0,
                     help="append N scheduler ticks after the sequence")
+    ap.add_argument("--pretick", type=int, default=0,
+                    help="run N scheduler ticks BEFORE the body (Create -> ticks -> body)")
     args = ap.parse_args()
 
     bundle = json.load(open(args.ir))
@@ -213,7 +215,15 @@ def main():
         # so existing fixtures keep their meaning.
         head = [f"CODE {c}"]
         ccode = creates.get(obj)
-        if args.sequence and ccode is not None and ccode != c:
+        if args.pretick:
+            # Create -> N scheduler ticks -> body: the ordering a real room
+            # produces, and the only one where an alarm armed by Create has
+            # fired before the body under test runs.
+            if args.sequence and ccode is not None and ccode != c:
+                head.append(f"RUN {ccode} 100000")
+            head.append(f"TICK {args.pretick}")
+            head.append(f"RUN {c} 100000")
+        elif args.sequence and ccode is not None and ccode != c:
             head = [f"RUN {ccode} 100000", f"RUN {c} 100000"]
         if args.ticks:
             head = head + [f"TICK {args.ticks}"]
@@ -288,8 +298,15 @@ def main():
             detail[c] = ctext.strip()[:200]
             continue
         # The VM names the body and bytecode offset on a nested failure; the C
-        # side has the body but no instruction site, so drop both.
-        strip = lambda t: re.sub(r"\s*@0x[0-9a-f]+| offset=\d+", "", t)
+        # side prints either `ERROR CODE n: reason` or `ERROR reason`, so drop
+        # the CODE tag, the @0x site and the offset before comparing. A
+        # *different* reason must still compare unequal (that is the point).
+        def strip(t: str) -> str:
+            s = t.strip()
+            if s.startswith("ERROR"):
+                s = s[5:].lstrip()
+            s = re.sub(r"^CODE \d+\s*(?:@0x[0-9a-f]+)?:?\s*", "", s)
+            return re.sub(r"\s*(?:@0x[0-9a-f]+|offset=\d+)", "", s).strip()
         if rust.startswith("ERROR"):
             # Both sides can refuse the same body for the same reason; that is
             # agreement, not a gap. Only a different outcome is interesting.
