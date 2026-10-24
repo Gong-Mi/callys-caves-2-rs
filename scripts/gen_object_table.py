@@ -146,6 +146,7 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
         w("    { -1, -1, -1, -1 },")
     w("};")
     w(f"const int GM_EVENT_COUNT = {len(events)};")
+    w(f"const int GM_STRING_TABLE_LEN = {len(ir.get('string_table') or [])};")
     w("")
     w("int gm_event_code(int32_t object, int32_t type, int32_t subtype) {")
     w("    for (int i = 0; i < GM_EVENT_COUNT; i++)")

@@ -837,6 +837,7 @@ static const GmEventRow GM_EVENTS[] = {
     { 190, 2, 0, 802 },
 };
 const int GM_EVENT_COUNT = 803;
+const int GM_STRING_TABLE_LEN = 0;
 
 int gm_event_code(int32_t object, int32_t type, int32_t subtype) {
     for (int i = 0; i < GM_EVENT_COUNT; i++)

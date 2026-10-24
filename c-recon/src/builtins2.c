@@ -13,6 +13,8 @@
  */
 #include "gml.h"
 
+#define GM_STRING_REF_BASE 1099511627776.0   /* code_vm.rs:96 */
+
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
@@ -92,6 +94,26 @@ static void map_put(GmVM* vm, int id, double key, double val) {
     vm->maps[i].n++;
 }
 
+/* Liang-Barsky, inclusive edges — the same test as host_impl.rs
+ * segment_hits_box, on the same Compute_BoundingBox the other collision
+ * builtins use. */
+static int seg_hits_box(double x1, double y1, double x2, double y2,
+                        double l, double r, double t, double b) {
+    double dx = x2 - x1, dy = y2 - y1;
+    double t0 = 0.0, t1 = 1.0;
+    double p[4] = { -dx, dx, -dy, dy };
+    double q[4] = { x1 - l, r - x1, y1 - t, b - y1 };
+    for (int i = 0; i < 4; i++) {
+        if (p[i] == 0.0) { if (q[i] < 0.0) return 0; }
+        else {
+            double rt = q[i] / p[i];
+            if (p[i] < 0.0) { if (rt > t1) return 0; if (rt > t0) t0 = rt; }
+            else { if (rt < t0) return 0; if (rt < t1) t1 = rt; }
+        }
+    }
+    return 1;
+}
+
 /* --------------------------------------------------------------- builtins */
 
 int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
@@ -149,22 +171,26 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
         return 1;
     }
 
-    /* host_impl.rs:155 instance_deactivate_all / 171 activate_region */
-    if (!strcmp(name, "instance_activate_region") || !strcmp(name, "instance_deactivate_region")) {
+    /* host_impl.rs:184 instance_activate_region — activate whatever falls in
+     * the rectangle; the VM ignores the fifth argument and does not look at
+     * the `inside` flag, so neither does this. */
+    if (!strcmp(name, "instance_activate_region")) {
         double x0 = a[0], y0 = a[1];
         double x1 = x0 + a[2], y1 = y0 + a[3];
-        int on = !strcmp(name, "instance_activate_region");
-        int inside = a[4] >= 0.5;   /* `inside` flag: 1 = act on the region */
         for (int i = 0; i < vm->ninst; i++) {
             GmInst* in = &vm->inst[i];
             if (!in->alive) continue;
             double ix = field_or(in, "x", 0.0);
             double iy = field_or(in, "y", 0.0);
-            int hit = (ix >= x0 && ix <= x1 && iy >= y0 && iy <= y1);
-            if (inside ? hit : !hit) in->active = on;
+            if (ix >= x0 && ix <= x1 && iy >= y0 && iy <= y1) in->active = 1;
         }
         return 1;
     }
+    /* host_impl.rs:201 instance_deactivate_region is a no-op in the VM — the
+     * region test was never implemented there. Deactivating here would make
+     * this host stricter than the interpreter and change every dependent
+     * collision result. */
+    if (!strcmp(name, "instance_deactivate_region")) return 1;
 
     /* host_impl.rs: room warps only change the scheduler target; nothing in a
      * single-body run observes it. */
@@ -243,7 +269,26 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
     if (!strcmp(name, "part_system_create")) {
         /* host_impl.rs:644 — a fresh id per call, starting at 1 */
         *out = vm->next_part_system;
+        if (vm->npart_systems < 64) vm->part_systems[vm->npart_systems++] = *out;
         vm->next_part_system += 1.0;
+        return 1;
+    }
+    if (!strcmp(name, "part_particles_create")) {
+        /* host_impl.rs:727 — the system must have been created first, and the
+         * error text is the VM's. A live system would also spin the RNG once
+         * per particle, which is not modelled: refuse loudly rather than let a
+         * silently-diverging body diff as identical. */
+        double sys = a[0];
+        int found = 0;
+        for (int i = 0; i < vm->npart_systems; i++)
+            if (vm->part_systems[i] == sys) { found = 1; break; }
+        if (!found) {
+            char m[128];
+            snprintf(m, sizeof m, "part_particles_create: unknown particle system %g", sys);
+            gm_fail_msg(m);
+            return 1;
+        }
+        gm_fail_msg("part_particles_create: live particle system not modelled");
         return 1;
     }
     if (!strncmp(name, "part_", 5)) return 1;
@@ -280,13 +325,107 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
         return 1;
     }
 
+    /* Pooled string references: index = STRING_REF_BASE + table.len() + slot.
+     * Only the *number* of allocations is observable through the dump, so the
+     * text itself is not stored — the reference must match, nothing else. */
+    if (!strcmp(name, "string") || !strcmp(name, "string_format") || !strcmp(name, "string_digits")) {
+        if (!strcmp(name, "string") && a[0] >= GM_STRING_REF_BASE) { *out = a[0]; return 1; }
+        *out = GM_STRING_REF_BASE + (double)GM_STRING_TABLE_LEN + (double)vm->ndyn_strings++;
+        return 1;
+    }
+
+    /* host_impl.rs collision_line: first instance whose box the segment
+     * touches, -4 when none. */
+    if (!strcmp(name, "collision_line")) {
+        double x1 = a[0], y1 = a[1], x2 = a[2], y2 = a[3];
+        int32_t s = (int32_t)a[4];
+        int notme = a[6] >= 0.5;
+        int32_t ids[MAX_ENV_SEL];
+        int n = vm_select(vm, (Val)s, ids, MAX_ENV_SEL);
+        *out = -4.0;
+        for (int i = 0; i < n; i++) {
+            if (notme && ids[i] == vm->cur) continue;
+            double l, r, t, b;
+            if (!gm_instance_box(vm, ids[i], &l, &r, &t, &b)) continue;
+            if (seg_hits_box(x1, y1, x2, y2, l, r, t, b)) { *out = ids[i]; return 1; }
+        }
+        return 1;
+    }
+
     /* host_impl.rs:724 d3d_set_fog only feeds the draw state */
     if (!strcmp(name, "d3d_set_fog")) return 1;
     /* host_impl.rs:213 audio_sound_gain mutates the voice command, not state */
     if (!strcmp(name, "audio_sound_gain")) return 1;
 
+    /* host_impl.rs:882 action_bounce flips the instance's velocity fields */
     if (!strcmp(name, "action_bounce") || !strcmp(name, "move_bounce_all") ||
-        !strcmp(name, "move_bounce_solid") || !strcmp(name, "mp_potential_step")) return 1;
+        !strcmp(name, "move_bounce_solid")) {
+        GmInst* in = self_of(vm);
+        if (in) {
+            for (int i = 0; i < in->nfields; i++) {
+                if (!strcmp(in->fields[i].name, "hspeed") || !strcmp(in->fields[i].name, "vspeed"))
+                    in->fields[i].value = -in->fields[i].value;
+            }
+        }
+        return 1;
+    }
+    /* host_impl.rs:774 mp_potential_step: try 0, +-10, ... +-90 degrees and take
+     * the first candidate whose box does not overlap a solid (par_wall = 34)
+     * instance; it writes x/y/direction/speed and returns 1 when it reached
+     * within one step of the target. Treating it as a no-op left CODE 152
+     * stationary while the VM moved it. */
+    if (!strcmp(name, "mp_potential_step")) {
+        double tx = a[0], ty = a[1], step = a[2];
+        int check_all = a[3] >= 0.5;
+        GmInst* self = self_of(vm);
+        double ix = field_or(self, "x", 0.0), iy = field_or(self, "y", 0.0);
+        int32_t mask = (int32_t)field_or(self, "mask_index", -1.0);
+        int32_t spr = (int32_t)field_or(self, "sprite_index", -1.0);
+        double sx = field_or(self, "image_xscale", 1.0);
+        double sy = field_or(self, "image_yscale", 1.0);
+        double ang = field_or(self, "image_angle", 0.0);
+        double base = atan2(-(ty - iy), tx - ix) * 180.0 / M_PI;
+        if (base < 0.0) base += 360.0;
+        int found = 0;
+        double nx = 0.0, ny = 0.0, ndir = 0.0;
+        for (int deg = 0; deg <= 9 && !found; deg++) {
+            for (int sgn = 0; sgn < 2; sgn++) {
+                double sign = (sgn == 0) ? 1.0 : -1.0;
+                double cand = fmod(base + (double)deg * 10.0 * sign, 360.0);
+                if (cand < 0.0) cand += 360.0;
+                double rad = cand * M_PI / 180.0;
+                double cx = ix + step * cos(rad);
+                double cy = iy - step * sin(rad);
+                double l, r, t, b;
+                gm_box_at(mask, spr, cx, cy, sx, sy, ang, &l, &r, &t, &b);
+                int collides = 0;
+                for (int i = 0; i < vm->ninst && !collides; i++) {
+                    GmInst* o = &vm->inst[i];
+                    if (o->id == vm->cur || !o->alive || !o->active) continue;
+                    int solid = check_all ? 1
+                                          : (o->object == 34 || gm_object_is_a(o->object, 34));
+                    if (!solid) continue;
+                    double ol, orr, ot, ob;
+                    if (!gm_instance_box(vm, o->id, &ol, &orr, &ot, &ob)) continue;
+                    if (l <= orr && r >= ol && t <= ob && b >= ot) collides = 1;
+                }
+                if (!collides) { nx = cx; ny = cy; ndir = cand; found = 1; break; }
+                if (deg == 0) break;   /* do not repeat delta = 0 for both signs */
+            }
+        }
+        if (found) {
+            set_field(self, "x", nx);
+            set_field(self, "y", ny);
+            set_field(self, "direction", ndir);
+            set_field(self, "speed", step);
+            double dx = nx - tx, dy = ny - ty;
+            *out = (dx * dx + dy * dy <= step * step) ? 1.0 : 0.0;
+        } else {
+            set_field(self, "speed", 0.0);
+            *out = 0.0;
+        }
+        return 1;
+    }
 
     return 0;   /* not handled: caller falls through to the unimplemented path */
 }

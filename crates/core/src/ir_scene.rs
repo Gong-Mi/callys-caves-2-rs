@@ -319,6 +319,9 @@ fn rand_range(seed: &mut u64, min: f64, max: f64) -> f64 {
     min + r * (max - min)
 }
 
+// Staged for the `collision_line(prec=1)` port: unused until the C host
+// carries SPRT mask tables, so the two sides cannot diverge on that branch.
+#[allow(dead_code)]
 fn line_intersects_box(x1: f64, y1: f64, x2: f64, y2: f64, min_x: f64, max_x: f64, min_y: f64, max_y: f64) -> bool {
     let dx = x2 - x1;
     let dy = y2 - y1;
@@ -944,6 +947,11 @@ impl Scene {
     /// Bounded scheduler contract: active snapshot; alarm decrement/dispatch,
     /// then Step. New instances enter the next tick. No physics/animation advance.
     pub fn tick(&mut self,b:&Bundle)->Result<(),String> {
+        if std::env::var("GM_TRACE").is_ok() {
+            for (id, i) in &self.instances {
+                eprintln!("TICK-SNAP id={id} obj={} alive={} active={}", i.object, i.alive as i32, i.active as i32);
+            }
+        }
         self.tick_count += 1;
         let ids:Vec<_>=self.instances.iter().filter(|(_,i)|i.alive&&i.active&&!i.external).map(|(id,_)|*id).collect();
         for id in &ids {
@@ -1396,6 +1404,8 @@ impl Scene {
     /// Walk a room-space line through `tid`'s mask at half-pixel resolution.
     /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
     /// None = no mask data (bbox fallback).
+    // Staged for the `collision_line(prec=1)` port (see line_intersects_box).
+    #[allow(dead_code)]
     fn line_mask_hit(&self, tid: i32, x1: f64, y1: f64, x2: f64, y2: f64) -> Option<bool> {
         let len = ((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)).sqrt();
         let steps = ((len * 2.0).ceil() as usize).clamp(1, 4000);

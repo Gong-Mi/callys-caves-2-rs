@@ -29,6 +29,7 @@
 
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
 
 /* clang rewrites a sinf/cosf pair on the same argument into a sincosf call,
  * which bionic at this API level does not export (Rust's f32::sin_cos lowers
@@ -228,6 +229,24 @@ static GmBox box_at(int32_t mask, int32_t sprite, double xd, double yd,
  * an instance that never got x/y), so a half-built instance cannot collide. */
 static int box_for_instance(GmVM* vm, int32_t id, GmBox* out);
 
+/* GMS read-only sprite metadata (ir_scene.rs self_field): frame count of the
+ * SPRT record behind a sprite id. */
+int gm_sprite_frames(int32_t sprite) {
+    const GmSprite* sp = sprite_lookup(sprite);
+    return sp ? sp->frames : 0;
+}
+
+/* Candidate-position box for mp_potential_step: the same Compute_BoundingBox
+ * the collision tests use, evaluated at (x, y) instead of the instance's own
+ * position. Exporting it keeps one geometry path. */
+int gm_box_at(int32_t mask, int32_t sprite, double x, double y,
+              double sx, double sy, double angle,
+              double* l, double* r, double* t, double* b) {
+    GmBox box = box_at(mask, sprite, x, y, sx, sy, angle);
+    *l = (double)box.l; *r = (double)box.r; *t = (double)box.t; *b = (double)box.b;
+    return 1;
+}
+
 /* Exported for the ext builtins (collision_point): the same inclusive box the
  * overlap tests use, never a second geometry path. */
 int gm_instance_box(GmVM* vm, int32_t id, double* l, double* r, double* t, double* b) {
@@ -302,12 +321,21 @@ int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
                         field_or(caller, "image_angle", 0.0));
     int32_t ids[MAX_INST];
     int n = select_ids(vm, self, obj, ids, MAX_INST);
+#ifdef GM_TRACE
+    fprintf(stderr, "IP self=%d at %.17g,%.17g obj=%d pbox=%.1f..%.1f x %.1f..%.1f cands=%d\n",
+            self, (double)x, (double)y, obj, pbox.l, pbox.r, pbox.t, pbox.b, n);
+#endif
     for (int i = 0; i < n; i++) {
         int32_t tid = ids[i];
         if (tid == self) continue;
         GmBox tb;
         if (!box_for_instance(vm, tid, &tb)) continue;
         /* host_impl.rs:306: the runner's inclusive edge test. */
+        #ifdef GM_TRACE
+        fprintf(stderr, "   cand %d obj=%d box=%.1f..%.1f x %.1f..%.1f hit=%d\n",
+                tid, vm_inst(vm,tid)?vm_inst(vm,tid)->object:-1, tb.l, tb.r, tb.t, tb.b,
+                (pbox.l <= tb.r && pbox.r >= tb.l && pbox.t <= tb.b && pbox.b >= tb.t));
+        #endif
         if (pbox.l <= tb.r && pbox.r >= tb.l && pbox.t <= tb.b && pbox.b >= tb.t)
             return tid;
     }

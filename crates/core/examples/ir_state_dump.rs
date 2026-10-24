@@ -17,8 +17,14 @@ use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
+#[derive(Clone)]
+enum Step { Run(usize, i32), Tick(i64) }
+
 struct Template {
     current: i32,
+    /// Event sequence, in order. Empty means "run CODE once on `current`".
+    runs: Vec<Step>,
+    seed: Option<u64>,
     globals: BTreeMap<String, f64>,
     insts: BTreeMap<i32, (i32, bool)>,
     fields: BTreeMap<i32, BTreeMap<String, f64>>,
@@ -31,6 +37,8 @@ fn parse_template(path: &Path) -> Template {
     let text = fs::read_to_string(path).expect("read state");
     let mut t = Template {
         current: 0,
+        runs: Vec::new(),
+        seed: None,
         globals: BTreeMap::new(),
         insts: BTreeMap::new(),
         fields: BTreeMap::new(),
@@ -42,6 +50,9 @@ fn parse_template(path: &Path) -> Template {
         let w: Vec<&str> = line.split_whitespace().collect();
         match w.first().copied() {
             Some("CODE") => {}
+            Some("RUN") => { t.runs.push(Step::Run(w[1].parse().unwrap(), w[2].parse().unwrap())); }
+            Some("TICK") => { t.runs.push(Step::Tick(w[1].parse().unwrap())); }
+            Some("SEED") => { t.seed = Some(w[1].parse().unwrap()); }
             Some("CURRENT") => t.current = w[1].parse().unwrap(),
             Some("INST") => {
                 t.insts.insert(w[1].parse().unwrap(), (w[2].parse().unwrap(), w[3] != "0"));
@@ -79,6 +90,7 @@ fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroid
             alarms: [-1; 12],
         });
     }
+    if let Some(seed) = tpl.seed { scene.rng_seed = seed; }
     scene.globals = tpl.globals.clone();
     if let Some(w) = tpl.room_w { scene.room_width = w; }
     if let Some(h) = tpl.room_h { scene.room_height = h; }
@@ -159,11 +171,30 @@ fn main() {
             // parse the very same bytes or the diff measures fixture drift.
             let tpl = parse_template(Path::new(w[1]));
             let mut scene = build(&tpl, &bundle, asset.as_ref());
-            let text = match code_vm::execute(&bundle, code, tpl.current, &mut scene) {
+            let seq: Vec<Step> = if tpl.runs.is_empty() {
+                vec![Step::Run(code, tpl.current)]
+            } else { tpl.runs.clone() };
+            let mut result: Result<(), String> = Ok(());
+            for step in &seq {
+                result = match step {
+                    Step::Run(c, who) => code_vm::execute(&bundle, *c, *who, &mut scene)
+                        .map_err(|e| format!("{} offset={}", e.message, e.offset)),
+                    Step::Tick(n) => {
+                        let mut r = Ok(());
+                        for _ in 0..*n { r = scene.tick(&bundle); if r.is_err() { break; } }
+                        r
+                    }
+                };
+                if result.is_err() { break; }
+            }
+            let text = match result {
                 Ok(()) => { ok += 1; dump_state(&scene) }
-                Err(e) => { err += 1; format!("ERROR {} offset={}\n", e.message, e.offset) }
+                Err(msg) => { err += 1; format!("ERROR {msg}\n") }
             };
-            fs::write(outdir.join(format!("{code}.txt")), text).expect("write body");
+            // One body can be run under several fixtures; name the dump after
+            // the fixture so variants never overwrite each other.
+            let stem = Path::new(w[1]).file_stem().and_then(|s| s.to_str()).unwrap_or("body");
+            fs::write(outdir.join(format!("{stem}.txt")), text).expect("write body");
         }
         eprintln!("bodies: ok={ok} error={err}");
         return;
@@ -171,9 +202,19 @@ fn main() {
 
     let tpl = parse_template(&state_in);
     let mut scene = build(&tpl, &bundle, asset.as_ref());
-    let code: usize = fs::read_to_string(&state_in).expect("read state")
-        .lines().find_map(|l| l.strip_prefix("CODE "))
-        .expect("CODE line").trim().parse().expect("code id");
-    code_vm::execute(&bundle, code, tpl.current, &mut scene).expect("execute");
+    let seq: Vec<Step> = if tpl.runs.is_empty() {
+        let code: usize = fs::read_to_string(&state_in).expect("read state")
+            .lines().find_map(|l| l.strip_prefix("CODE "))
+            .expect("CODE line").trim().parse().expect("code id");
+        vec![Step::Run(code, tpl.current)]
+    } else {
+        tpl.runs.clone()
+    };
+    for step in &seq {
+        match step {
+            Step::Run(c, who) => code_vm::execute(&bundle, *c, *who, &mut scene).expect("execute"),
+            Step::Tick(n) => { for _ in 0..*n { scene.tick(&bundle).expect("tick"); } }
+        }
+    }
     fs::write(&out, dump_state(&scene)).expect("write out");
 }

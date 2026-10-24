@@ -70,6 +70,34 @@ int vm_select(GmVM* vm, Val selector, int32_t* out, int max) {
     return n;
 }
 
+jmp_buf gm_error_jmp;
+int gm_error_active = 0;
+char gm_error_msg[128];
+
+void gm_fail_msg(const char* msg) {
+    if (!gm_error_active) return;
+    if (gm_dispatch_code >= 0)
+        snprintf(gm_error_msg, sizeof gm_error_msg, "CODE %d: %s", gm_dispatch_code, msg);
+    else
+        snprintf(gm_error_msg, sizeof gm_error_msg, "%s", msg);
+    longjmp(gm_error_jmp, 1);
+}
+
+Val gm_div(Val a, Val b) {
+    if (b == 0.0) { gm_fail_msg("division by zero"); return 0.0; }
+    return a / b;
+}
+
+void gm_fail(const char* what, int32_t selector) {
+    if (gm_error_active) {
+        /* The message text matches ir_scene.rs so both sides produce the same
+         * ERROR line and a diff can compare them. */
+        snprintf(gm_error_msg, sizeof gm_error_msg, "%s has no receiver for selector %d",
+                 what, selector);
+        longjmp(gm_error_jmp, 1);
+    }
+}
+
 int32_t vm_resolve(GmVM* vm, Val selector) {
     int32_t ids[MAX_ENV_SEL];
     int n = vm_select(vm, selector, ids, MAX_ENV_SEL);
@@ -138,7 +166,18 @@ Val GM_READ(GmVM* vm, int32_t selector, const char* name) {
     }
     int32_t id = vm_resolve(vm, (Val)selector);
     GmInst* in = id >= 0 ? vm_inst(vm, id) : NULL;
-    if (!in) return 0.0;
+    if (!in) {
+        if (selector >= 0) gm_fail("read", (int32_t)selector);
+        return 0.0;
+    }
+    /* Built-in read-only instance fields (ir_scene.rs self_field). Without
+     * `id` a body doing `with (other.id)` resolves id 0, i.e. "the first
+     * instance of object 0", and can destroy the wrong instances. */
+    if (strcmp(name, "id") == 0) return (Val)in->id;
+    if (strcmp(name, "image_number") == 0 || strcmp(name, "image_single") == 0) {
+        GmField* sp = find_field(in, "sprite_index");
+        return (Val)gm_sprite_frames(sp ? (int32_t)sp->value : -1);
+    }
     GmField* f = find_field(in, name);
     return f ? f->value : 0.0;
 }
@@ -152,7 +191,10 @@ void GM_WRITE(GmVM* vm, int32_t selector, const char* name, Val value) {
     }
     int32_t id = vm_resolve(vm, (Val)selector);
     GmInst* in = id >= 0 ? vm_inst(vm, id) : NULL;
-    if (!in) return;
+    if (!in) {
+        if (selector >= 0) gm_fail("write", (int32_t)selector);
+        return;
+    }
     GmField* f = ensure_field(in, name);
     if (f) f->value = value;
 }
@@ -207,7 +249,10 @@ Val GM_READ_ARR(GmVM* vm, Val target, const char* name, Val index) {
     }
     int32_t id = vm_resolve(vm, target);
     GmInst* in = id >= 0 ? vm_inst(vm, id) : NULL;
-    if (!in) return 0.0;
+    if (!in) {
+        if (target >= 0) gm_fail("read", (int32_t)target);
+        return 0.0;
+    }
     if (strcmp(name, "alarm") == 0) {
         int32_t k = (int32_t)index;
         return (k >= 0 && k < 12) ? (Val)in->alarms[k] : 0.0;
@@ -231,7 +276,10 @@ void GM_WRITE_ARR(GmVM* vm, Val target, const char* name, Val index, Val value) 
     }
     int32_t id = vm_resolve(vm, target);
     GmInst* in = id >= 0 ? vm_inst(vm, id) : NULL;
-    if (!in) return;
+    if (!in) {
+        if (target >= 0) gm_fail("write", (int32_t)target);
+        return;
+    }
     if (strcmp(name, "alarm") == 0) {
         int32_t k = (int32_t)index;
         if (k >= 0 && k < 12) in->alarms[k] = (int32_t)value;

@@ -19,6 +19,8 @@
  */
 #include "gml.h"
 
+#include <math.h>
+
 #include <stdio.h>
 
 /* c-recon/gen/registry.c (scripts/gen_registry.py): 1 = ran, 0 = no body. */
@@ -120,6 +122,10 @@ int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
  * it into exit code 4 so a corpus run can tell "not compiled in" apart from
  * "ran and disagreed" — the difference matters when reading a diff. */
 int gm_missing_body_code = -1;
+/* Set while a body runs so a failure can name it, exactly like the VM's
+ * "CODE 315 @0x...: message" wrapper (the offset is bytecode-specific and the
+ * C side has no per-instruction site, so the comparison ignores it). */
+int gm_dispatch_code = -1;
 
 int gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype) {
     if (!vm) return -1;
@@ -136,7 +142,10 @@ int gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype) {
     int32_t prev = vm->cur;
     vm->cur = id; /* the body's selector -1 is this instance */
     g_dispatch_depth++;
+    int prev_code = gm_dispatch_code;
+    gm_dispatch_code = code;
     int ran = gml_dispatch(vm, (long)code);
+    gm_dispatch_code = prev_code;
     g_dispatch_depth--;
     vm->cur = prev;
 
@@ -242,4 +251,145 @@ void gm_objects_register_parents(void) {
 
 int gm_dispatch_create(GmVM* vm, int32_t id) {
     return gm_dispatch_event(vm, id, 0, 0);
+}
+
+/* Instance field access shared by the tick integration. */
+GmField* gm_find_field(GmInst* in, const char* name) {
+    if (!in) return NULL;
+    for (int i = 0; i < in->nfields; i++)
+        if (strcmp(in->fields[i].name, name) == 0) return &in->fields[i];
+    return NULL;
+}
+
+double gm_field_or(GmInst* in, const char* name, double dflt) {
+    GmField* f = gm_find_field(in, name);
+    return f ? f->value : dflt;
+}
+
+void gm_set_field(GmInst* in, const char* name, double v) {
+    if (!in) return;
+    GmField* f = gm_find_field(in, name);
+    if (f) { f->value = v; return; }
+    if (in->nfields >= MAX_FIELDS) return;
+    snprintf(in->fields[in->nfields].name, NAME_LEN, "%s", name);
+    in->fields[in->nfields].value = v;
+    in->nfields++;
+}
+
+/* Scene::tick, minus the pointer queue and particle integration this host does
+ * not model: snapshot the active instances in ascending id (the VM iterates a
+ * BTreeMap), decrement alarms and fire the ones that reach zero, then dispatch
+ * Step. New instances created during the tick enter the next one because the
+ * snapshot is taken up front. */
+int gm_tick(GmVM* vm) {
+#ifdef GM_TRACE
+    for (int i = 0; i < vm->ninst; i++)
+        fprintf(stderr, "TICK-SNAP id=%d obj=%d alive=%d active=%d\n",
+                vm->inst[i].id, vm->inst[i].object, vm->inst[i].alive, vm->inst[i].active);
+#endif
+    int32_t ids[MAX_INST];
+    int n = 0;
+    for (int i = 0; i < vm->ninst && n < MAX_INST; i++)
+        if (vm->inst[i].alive && vm->inst[i].active) ids[n++] = vm->inst[i].id;
+    for (int i = 1; i < n; i++) {
+        int32_t v = ids[i];
+        int j = i - 1;
+        while (j >= 0 && ids[j] > v) { ids[j + 1] = ids[j]; j--; }
+        ids[j + 1] = v;
+    }
+    for (int k = 0; k < n; k++) {
+        int32_t id = ids[k];
+        for (int idx = 0; idx < 12; idx++) {
+            GmInst* in = vm_inst(vm, id);
+            if (!in || !in->alive || !in->active) break;
+            if (in->alarms[idx] > 0) {
+                in->alarms[idx] -= 1;
+                if (in->alarms[idx] == 0) {
+                    in->alarms[idx] = -1;
+                    gm_dispatch_event(vm, id, 2, idx);
+                }
+            }
+        }
+    }
+    for (int k = 0; k < n; k++) {
+        GmInst* in = vm_inst(vm, ids[k]);
+        if (in && in->alive && in->active) gm_dispatch_event(vm, ids[k], 3, 0);
+    }
+
+    /* Standard GMS motion integration (ir_scene.rs:1085-1160), over every
+     * instance alive right now — the Step above may have created or retired
+     * some, and the VM iterates the post-step map. */
+    int32_t live[MAX_INST];
+    int nl = 0;
+    for (int i = 0; i < vm->ninst && nl < MAX_INST; i++)
+        if (vm->inst[i].alive && vm->inst[i].active) live[nl++] = vm->inst[i].id;
+    for (int i = 1; i < nl; i++) {
+        int32_t v = live[i];
+        int j = i - 1;
+        while (j >= 0 && live[j] > v) { live[j + 1] = live[j]; j--; }
+        live[j + 1] = v;
+    }
+    for (int k = 0; k < nl; k++) {
+        GmInst* in = vm_inst(vm, live[k]);
+        if (!in) continue;
+        /* 1. gravity */
+        double grav = gm_field_or(in, "gravity", 0.0);
+        if (grav != 0.0) {
+            double gdir = gm_field_or(in, "gravity_direction", 270.0);
+            double rad = gdir * M_PI / 180.0;
+            GmField* h = gm_find_field(in, "hspeed");
+            GmField* v = gm_find_field(in, "vspeed");
+            if (h) h->value += grav * cos(rad);
+            if (v) v->value += -grav * sin(rad);
+        }
+        /* 2. friction */
+        double frict = gm_field_or(in, "friction", 0.0);
+        double hsp = gm_field_or(in, "hspeed", 0.0);
+        double vsp = gm_field_or(in, "vspeed", 0.0);
+        if (frict != 0.0) {
+            double spd = sqrt(hsp * hsp + vsp * vsp);
+            if (spd > 0.0) {
+                double nspd = spd - frict;
+                if (nspd < 0.0) nspd = 0.0;
+                hsp = hsp * nspd / spd;
+                vsp = vsp * nspd / spd;
+                GmField* h = gm_find_field(in, "hspeed");
+                GmField* v = gm_find_field(in, "vspeed");
+                if (h) h->value = hsp;
+                if (v) v->value = vsp;
+            }
+        }
+        /* 3. position */
+        if (hsp != 0.0) { GmField* x = gm_find_field(in, "x"); if (x) x->value += hsp; }
+        if (vsp != 0.0) { GmField* y = gm_find_field(in, "y"); if (y) y->value += vsp; }
+        /* 4. speed / direction sync */
+        if (hsp != 0.0 || vsp != 0.0) {
+            double spd = sqrt(hsp * hsp + vsp * vsp);
+            double dir = atan2(-vsp, hsp) * 180.0 / M_PI;
+            if (dir < 0.0) dir += 360.0;
+            gm_set_field(in, "speed", spd);
+            gm_set_field(in, "direction", dir);
+        }
+        /* 5. sprite animation cycle */
+        double ispeed = gm_field_or(in, "image_speed", 1.0);
+        if (ispeed != 0.0) {
+            int32_t spr = (int32_t)gm_field_or(in, "sprite_index", -1.0);
+            double frames = (double)gm_sprite_frames(spr);
+            if (frames > 1.0) {
+                double idx = gm_field_or(in, "image_index", 0.0);
+                double next = idx + ispeed;
+                if (next >= frames) next = fmod(next, frames);
+                else if (next < 0.0) {
+                    double span = frames - 1.0;
+                    double d = -next;
+                    double pos = fabs(fmod(d, 2.0 * span));
+                    next = (pos <= span) ? pos : (2.0 * span - pos);
+                }
+                gm_set_field(in, "image_index", next);
+            } else if (frames == 1.0) {
+                gm_set_field(in, "image_index", 0.0);
+            }
+        }
+    }
+    return 0;
 }
