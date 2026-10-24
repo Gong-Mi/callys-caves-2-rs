@@ -79,6 +79,8 @@ class Oracle:
             return hook
         self.uc.hook_add(UC_HOOK_CODE, float_hook(math.sin), begin=0xb6580, end=0xb6580)
         self.uc.hook_add(UC_HOOK_CODE, float_hook(math.cos), begin=0xb658c, end=0xb658c)
+        # PreciseCollisionPoint calls floorf through its own PLT stub.
+        self.uc.hook_add(UC_HOOK_CODE, float_hook(math.floor), begin=0xb6910, end=0xb6910)
         self.next = HEAP
 
     def alloc(self, size):

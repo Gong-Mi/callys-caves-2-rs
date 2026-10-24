@@ -1434,8 +1434,10 @@ impl Scene {
         // world = (c*lx + s*ly, -s*lx + c*ly)  =>  local = (c*dx - s*dy, s*dx + c*dy).
         let rx = dx * ca - dy * sa;
         let ry = dx * sa + dy * ca;
-        let lx = ((rx / sx) + ox) as i32;
-        let ly = ((ry / sy) + oy) as i32;
+        // This family (collision_point / collision_line) floors; the
+        // instance_place path truncates (vcvt.s32). Both oracle-verified.
+        let lx = ((rx / sx).floor() + ox) as i32;
+        let ly = ((ry / sy).floor() + oy) as i32;
         Some(mask.pixel(lx, ly))
     }
     /// Walk a room-space line through `tid`'s mask at half-pixel resolution.

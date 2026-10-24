@@ -194,3 +194,25 @@ softfp（实参/返回值都在 r0）接管；掩码表 `[sprite+0x40]` **直接
 （与原函数一致，f64 会在掩码边界翻一位），旋转符号、旋转中心 `trunc(x/y)`、
 截断与"旋转分支浮点边界检查"都按 oracle 结果实现；
 `instance_place` / `place_meeting` 的旋转路径已启用（不再是回退）。
+
+### 7.4 collision_point 同族已对拍（floor，不是 trunc）
+
+`CSprite::PreciseCollisionPoint` @0x1e4a30（调用链
+`collision_point` → F_CollisionPoint → Command_CollisionPoint →
+CInstance::Collision_Point @0x1944b0 → 本函数；序言里调用 `floorf@plt`）。
+`c-recon/tools/oracle/point_oracle.py` 直接调它，120 例随机
+（掩码 8×8、位置 ±4、scale ∈ {0.5,1,2}、角度 ∈ {0,±90,45}、点 ±8..12）
+对拍我们的映射：**120/120 一致**——前提是这一族用 **floor**。
+
+所以两族的取整不同，都已按原函数校准：
+
+| 函数 | 取整 | 证据 |
+| --- | --- | --- |
+| `instance_place` / `place_meeting`（PreciseCollision） | `vcvt.s32` 截断；旋转分支另有"未截断值 ∈ [0,dim)"检查 | 200/200 对拍 |
+| `collision_point`（PreciseCollisionPoint） | `floorf` | 120/120 对拍 |
+| `collision_line` | 暂按同族 floor（**未对拍**，采样步长也未证） | 待办 |
+
+C 侧因此有两个像素助手：`mask_probe_pixel`（截断，precise overlap 用）与
+`mask_probe_pixel_floor`（点/线用）；Rust 侧 `MaskCtx::hits` 与 `mask_hit`
+分别对应。`collision_line` 的采样粒度（半像素步进、4000 上限）仍是推断，
+下一步用 `PreciseCollisionLine` @0x1e52bc 对拍。

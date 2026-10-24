@@ -214,12 +214,23 @@ static int mask_probe_pixel(const GmMaskProbe* p, double px, double py) {
     return mask_pixel(p->bits, p->w, p->h, (int32_t)fx, (int32_t)fy);
 }
 
+/* collision_point / collision_line floor their local coordinates (the runner
+ * calls floorf there), unlike instance_place's vcvt.s32 truncation. */
+static int mask_probe_pixel_floor(const GmMaskProbe* p, double px, double py) {
+    float dx = (float)px - p->ix, dy = (float)py - p->iy;
+    float rx = dx * p->ca - dy * p->sa;
+    float ry = dx * p->sa + dy * p->ca;
+    int32_t lx = (int32_t)floorf(rx / p->sx + p->ox);
+    int32_t ly = (int32_t)floorf(ry / p->sy + p->oy);
+    return mask_pixel(p->bits, p->w, p->h, lx, ly);
+}
+
 int gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py) {
     GmMaskProbe p;
     int r = mask_probe(vm, tid, &p);
     if (r == 0) return -1;
     if (r < 0) return 0;
-    return mask_probe_pixel(&p, px, py);
+    return mask_probe_pixel_floor(&p, px, py);
 }
 
 int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, double y2) {
@@ -233,7 +244,7 @@ int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, do
     if (steps > 4000) steps = 4000;
     for (long s = 0; s <= steps; s++) {
         double t = (double)s / (double)steps;
-        if (mask_probe_pixel(&p, x1 + (x2 - x1) * t, y1 + (y2 - y1) * t)) return 1;
+        if (mask_probe_pixel_floor(&p, x1 + (x2 - x1) * t, y1 + (y2 - y1) * t)) return 1;
     }
     return 0;
 }
