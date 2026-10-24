@@ -91,11 +91,15 @@ def main():
     for d in (fx, rout, cout):
         d.mkdir(parents=True, exist_ok=True)
 
+    # RoomCC bodies (551 of them) belong to a room, not an object. They still
+    # need a `self` anchor, so give them the player object: the body itself is
+    # room-creation code and does not read player fields unless it means to.
     missing_owner = [c for c in codes if c not in own]
+    for c in missing_owner:
+        own[c] = 0
     with open(work / "codes.txt", "w") as f:
         for c in codes:
-            if c in own:
-                f.write(f"{c} {fx / f'{c}.txt'}\n")
+            f.write(f"{c} {fx / f'{c}.txt'}\n")
 
     for c in codes:
         obj = own.get(c, -1)
