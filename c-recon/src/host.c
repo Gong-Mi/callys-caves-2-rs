@@ -85,6 +85,15 @@ static GmGlobal* ensure_global(GmVM* vm, const char* name) {
 }
 
 Val GM_READ(GmVM* vm, int32_t selector, const char* name) {
+    if (selector == -1) {
+        if (strcmp(name, "score") == 0) return vm->score;
+        if (strcmp(name, "view_current") == 0) return (Val)vm->view;
+        if (strcmp(name, "room_width") == 0) return vm->room_width;
+        if (strcmp(name, "room_height") == 0) return vm->room_height;
+        if (strcmp(name, "view_xview") == 0 || strcmp(name, "view_yview") == 0) return 0.0;
+        if (strcmp(name, "view_wport") == 0) return vm->room_width;
+        if (strcmp(name, "view_hport") == 0) return vm->room_height;
+    }
     if (selector <= -5) {
         GmGlobal* g = find_global(vm, name);
         return g ? g->value : 0.0;
@@ -97,6 +106,7 @@ Val GM_READ(GmVM* vm, int32_t selector, const char* name) {
 }
 
 void GM_WRITE(GmVM* vm, int32_t selector, const char* name, Val value) {
+    if (selector == -1 && strcmp(name, "score") == 0) { vm->score = value; return; }
     if (selector <= -5) {
         GmGlobal* g = ensure_global(vm, name);
         if (g) g->value = value;

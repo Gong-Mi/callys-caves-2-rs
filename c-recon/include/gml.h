@@ -53,6 +53,10 @@ typedef struct { char name[NAME_LEN]; Val value; } GmGlobal;
 typedef struct {
     int32_t cur;                 /* current self */
     int32_t other;               /* `other` for collision dispatch, -1 when unset */
+    /* pseudo-fields the VM answers for selector -1 (Scene::read special cases) */
+    double  score;
+    int32_t view;
+    double  room_width, room_height;
     GmInst inst[MAX_INST];
     int ninst;
     GmGlobal globals[MAX_GLOBALS];
