@@ -189,3 +189,28 @@ fn maskless_fixture_documents_the_point_box_fallback() {
         .unwrap();
     assert_eq!(hit2, target2 as f64, "with real bounds wired the recorded bbox answers");
 }
+
+#[test]
+fn prec_point_rounds_the_centre_and_the_query_before_sampling() {
+    let (b, mut s) = scene_with_masks();
+    // Call-site rounding (CInstance::Collision_Point @0x1944b0 lrints x/y and
+    // px/py; PreciseCollisionPoint then subtracts the ints). With origin (0,0)
+    // the sampled column is exactly the rounded difference, so lrint(100.0) -
+    // lrint(100.4) = 0 must land on pixel (0,0); the unrounded -0.4 becomes -0.2
+    // after the scale-2 divide and floors to -1, which misses.
+    let mut spr: Option<i32> = None;
+    for (sid, masks) in s.sprite_masks.iter() {
+        let bounds = match s.sprite_bounds.get(sid) { Some(b) => b, None => continue };
+        if bounds.origin_x != 0.0 || bounds.origin_y != 0.0 { continue; }
+        if masks.is_empty() || !masks[0].pixel(0, 0) { continue; }
+        spr = Some(*sid);
+        break;
+    }
+    let spr = spr.expect("a sprite with origin (0,0) and mask pixel (0,0) set");
+    let id = place(&mut s, &b, OBJ_WALL, spr, 100.4, 100.0);
+    s.write(id, -1, "image_xscale", None, 2.0).unwrap();
+    let hit = s
+        .call(&b, id, "collision_point", &[100.0, 100.0, OBJ_WALL as f64, 1.0, 0.0])
+        .unwrap();
+    assert_eq!(hit, id as f64, "rounded difference 0 must sample mask pixel (0,0)");
+}

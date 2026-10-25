@@ -468,25 +468,29 @@ static void group_line_broad_phase(void) {
 static void group_point_floor_negative(void) {
     new_vm();
     int32_t spr = -1;
-    for (int i = 0; i < GM_SPRITE_MASK_COUNT && spr < 0; i++) {
-        const GmMaskSprite* m = &GM_SPRITE_MASKS[i];
-        if (m->nframes <= 0) continue;
-        if (m->frames[0].width > 0 && (m->frames[0].bits[0] & 0x80)) spr = m->sprite;
+    for (int i = 0; i < GM_SPRITE_COUNT && spr < 0; i++) {
+        const GmSprite* s0 = &GM_SPRITES[i];
+        if (s0->origin_x != 0 || s0->origin_y != 0) continue;
+        for (int k = 0; k < GM_SPRITE_MASK_COUNT; k++) {
+            const GmMaskSprite* m = &GM_SPRITE_MASKS[k];
+            if (m->sprite != s0->id || m->nframes <= 0) continue;
+            const GmMaskFrame* f = &m->frames[0];
+            if (f->width > 0 && f->height > 0 && (f->bits[0] & 0x80)) { spr = s0->id; break; }
+        }
     }
-    CHECK_I("floor: a sprite with mask pixel (0,0) set exists", spr > 0, 1);
+    CHECK_I("mask: a sprite with origin 0,0 and pixel (0,0) set exists", spr > 0, 1);
     if (spr < 0) return;
-    const GmSprite* sp = NULL;
-    for (int i = 0; i < GM_SPRITE_COUNT; i++)
-        if (GM_SPRITES[i].id == spr) sp = &GM_SPRITES[i];
-    double ox = sp ? sp->origin_x : 0.0, oy = sp ? sp->origin_y : 0.0;
-    int32_t id = mk(100040, 34, 100.0, 100.0, spr);
-    /* local = (px - x) + origin, so px = x - origin - 0.5 gives local -0.5. */
-    double px = 100.0 - ox - 0.5, py = 100.0 - oy - 0.5;
-    CHECK_I("point mask: local -0.5 floors to pixel -1 and misses",
-            gm_mask_point_test(&g_vm, id, px, py), 0);
-    double qx = 100.0 - ox + 0.5, qy = 100.0 - oy + 0.5;
-    CHECK_I("point mask: local .5 floors onto pixel (0,0) and hits",
-            gm_mask_point_test(&g_vm, id, qx, qy), 1);
+    int32_t id = mk(100040, 34, 100.4, 100.0, spr);
+    vm_set_field(&g_vm, id, "image_xscale", 2.0);
+    /* Call-site rounding: lrint(100.0) - lrint(100.4) = 0, so the query lands on
+     * pixel 0. Without the rounding the raw -0.4 becomes -0.2 after the divide
+     * and floors to -1 (miss). */
+    CHECK_I("rounding: query 100.0 against x=100.4 stays on pixel 0 (hit)",
+            gm_mask_point_test(&g_vm, id, 100.0, 100.0), 1);
+    /* Floor vs truncation: a difference of -1 over scale 2 is local -0.5, which
+     * floors to -1 (miss) and would truncate to 0 (hit). */
+    CHECK_I("floor: local -0.5 floors to pixel -1 and misses",
+            gm_mask_point_test(&g_vm, id, 99.0, 100.0), 0);
 }
 
 int main(void) {

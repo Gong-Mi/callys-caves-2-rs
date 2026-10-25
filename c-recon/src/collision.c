@@ -214,6 +214,24 @@ static int mask_probe_pixel(const GmMaskProbe* p, double px, double py) {
     return mask_pixel(p->bits, p->w, p->h, (int32_t)fx, (int32_t)fy);
 }
 
+/* collision_point floors its local coordinate (the runner calls floorf there)
+ * and, like the line path, takes the difference on ROUNDED integers:
+ * Collision_Point @0x1944b0 lrints the centre (0x19467c/0x194690) and the query
+ * point (0x1946ac/0x1946bc) before PreciseCollisionPoint @0x1e4a30 subtracts the
+ * two ints (rsb at 0x1e4a9c). The line path is not rounded here yet: its walk
+ * inside PreciseCollisionLine @0x1e52bc is still undecoded, so it keeps the raw
+ * float difference. */
+static int mask_probe_pixel_point(const GmMaskProbe* p, double px, double py) {
+    int32_t qx = (int32_t)lrintf((float)px), qy = (int32_t)lrintf((float)py);
+    int32_t cx = (int32_t)lrintf(p->ix), cy = (int32_t)lrintf(p->iy);
+    float dx = (float)(qx - cx), dy = (float)(qy - cy);
+    float rx = dx * p->ca - dy * p->sa;
+    float ry = dx * p->sa + dy * p->ca;
+    int32_t lx = (int32_t)floorf(rx / p->sx + p->ox);
+    int32_t ly = (int32_t)floorf(ry / p->sy + p->oy);
+    return mask_pixel(p->bits, p->w, p->h, lx, ly);
+}
+
 /* collision_point / collision_line floor their local coordinates (the runner
  * calls floorf there), unlike instance_place's vcvt.s32 truncation. */
 static int mask_probe_pixel_floor(const GmMaskProbe* p, double px, double py) {
@@ -230,7 +248,7 @@ int gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py) {
     int r = mask_probe(vm, tid, &p);
     if (r == 0) return -1;
     if (r < 0) return 0;
-    return mask_probe_pixel_floor(&p, px, py);
+    return mask_probe_pixel_point(&p, px, py);
 }
 
 int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, double y2) {

@@ -139,17 +139,27 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
   "反旋转 → 反缩放 → 查位"，两边都有像素才算命中——与我们实现的顺序相同。
 * GM8 笔记提到的两处细节，一条仍未对齐、一条已定案：
   1. 旋转中心是 `FISTP(x), FISTP(y)`（银行家舍入），而我们现在直接用未取整的
-     x/y；**仍未对齐**。本二进制静态证据（libyoyo ARMv7,
-     sha256 `3bbedd09ad0cc6…`，符号表未剥）：`CInstance::Collision_Point`
-     @0x1944b0 在调 `CSprite::PreciseCollisionPoint` @0x1e4a30 之前，对
+     x/y。**collision_point 已对齐（2026-10-25）**，collision_line 仍是**未对齐**
+     （见下）。本二进制静态证据（libyoyo ARMv7, sha256 `3bbedd09ad0cc6…`，符号表
+     未剥）：`CInstance::Collision_Point` @0x1944b0 在调
+     `CSprite::PreciseCollisionPoint` @0x1e4a30 之前，对
      `[this+0xb4]`/`[this+0xb8]`（x/y，float32）各调一次 `lrint@plt`
-     （0x19467c / 0x194690 → r6/r8 → 作为 int 参数 r3 与栈[0]），对查询点
-     (px,py) 也各调一次（0x1946ac / 0x1946bc → 栈[0x10]/[0x14]）。被调方内部
-     直接做**整数**相减：`rsb r2, r6, [sp,#0x38]` → `vcvt.f32.s32` → 除 scale →
+     （0x19467c / 0x194690），对查询点 (px,py) 也各调一次（0x1946ac / 0x1946bc）；
+     被调方内部直接整数相减（`rsb` @0x1e4a9c）→ `vcvt.f32.s32` → 除 scale →
      加掩码基址（sprite +0x24/+0x28）→ `floorf`（0x1e4a94–0x1e4b04）。
-     即 runner 的精确点碰撞是在**取整后的整数坐标空间**里求差值；两侧现在都用
-     未取整 float，实例或查询点带小数时就会偏。**待 oracle 对拍后再改**
-     （本机 unicorn 的 manylinux 轮子在 Termux 加载失败，正源码重建）。
+     落地：C 的 `mask_probe_pixel_point`（`lrintf`）与 Rust 的 `mask_hit_point`
+     （`round_ties_even`，即 lrint 的默认 FE_TONEAREST，不是 half-away）在取差值前
+     先把中心和查询点取整到整数；两者的采样尾部共用 `mask_sample`，floor 改为
+     **先加基址再 floor**（与 vadd→floorf 同序）。夹具
+     `collision_test.c::group_point_floor_negative`（查询 100.0 对 x=100.4、scale 2
+     必须命中像素 (0,0)）与 `precise_collision_masks_ir.rs::
+     prec_point_rounds_the_centre_and_the_query_before_sampling`；两边的变异门都验过：
+     退回未取整差异，该条恰好变红。
+     **collision_line 还没对齐**：`CInstance::Collision_Line` @0x194f28 同样在
+     调用前 `lrint` 六个值（x/y 与四个端点，0x1951f4–0x195254），但
+     `PreciseCollisionLine` @0x1e52bc 的逐步走法（角度→方向向量→步长的循环体）
+     尚未解码，所以两条线的采样仍按原始 float 差异走、只把 floor 顺序统一了。
+     要收这条，先解 `0x1e5390` 起的走法，再改 `line_mask_hit`。
   2. 反旋转/反缩放后的取整——**已定案，而且本二进制本来就不止一套**：
      `PreciseCollisionPoint` 经 PLT 桩 `0xb6910` 调 `floorf`
      （`c-recon/tools/oracle/precise_oracle.py:82-83` 直接 hook 该桩做 oracle），

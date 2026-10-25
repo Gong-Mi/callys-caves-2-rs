@@ -292,7 +292,7 @@ impl Host for Scene {
                     // box (mask_index first), not the sprite rectangle.
                     if let Some((left, right, top, bottom)) = self.compute_bounding_box_for_instance(tid) {
                         if px >= left && px <= right && py >= top && py <= bottom {
-                            if prec && self.mask_hit(tid, px, py) == Some(false) { continue; }
+                            if prec && self.mask_hit_point(tid, px, py) == Some(false) { continue; }
                             hit = tid as f64;
                             break;
                         }

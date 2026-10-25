@@ -1398,14 +1398,12 @@ impl Scene {
         self.draw_depth_context = None;
         result
     }
-    /// GMS precise-mask point test. Transforms the room point through the
-    /// inverse of the draw pipeline — translate to the instance position,
-    /// undo `image_angle` (clockwise on the y-down screen), undo scale, then
-    /// re-add the sprite origin — and samples the instance's current-frame
-    /// collision mask. Returns None when the sprite carries no mask data
-    /// (fixtures wiring only `sprite_bounds`), letting callers fall back to
-    /// the bounding-box answer.
-    fn mask_hit(&self, tid: i32, px: f64, py: f64) -> Option<bool> {
+    /// Sample one sprite pixel for a delta already in world space.
+    /// `dx`/`dy` are the (possibly rounded) differences the caller produced;
+    /// this only does un-rotate -> un-scale -> add the mask base -> floor.
+    /// Returns None when the sprite carries no mask data (fixtures wiring only
+    /// `sprite_bounds`), letting callers fall back to the bounding-box answer.
+    fn mask_sample(&self, tid: i32, dx: f64, dy: f64) -> Option<bool> {
         let inst = self.instances.get(&tid)?;
         let spr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
         let masks = self.sprite_masks.get(&spr)?;
@@ -1415,8 +1413,6 @@ impl Scene {
         } else {
             (frame as usize).min(masks.len() - 1)
         })?;
-        let ix = inst.fields.get("x").copied().unwrap_or(0.0);
-        let iy = inst.fields.get("y").copied().unwrap_or(0.0);
         let sx = inst.fields.get("image_xscale").unwrap_or(&1.0).clone();
         let sy = inst.fields.get("image_yscale").unwrap_or(&1.0).clone();
         if sx == 0.0 || sy == 0.0 { return Some(false); }
@@ -1426,19 +1422,44 @@ impl Scene {
             .get(&spr)
             .map(|b| (b.origin_x, b.origin_y))
             .unwrap_or((0.0, 0.0));
-        let dx = px - ix;
-        let dy = py - iy;
         let ca = ang.cos();
         let sa = ang.sin();
         // Runner mapping (verified with the Unicorn oracle at 0x1e4298):
         // world = (c*lx + s*ly, -s*lx + c*ly)  =>  local = (c*dx - s*dy, s*dx + c*dy).
         let rx = dx * ca - dy * sa;
         let ry = dx * sa + dy * ca;
-        // This family (collision_point / collision_line) floors; the
-        // instance_place path truncates (vcvt.s32). Both oracle-verified.
-        let lx = ((rx / sx).floor() + ox) as i32;
-        let ly = ((ry / sy).floor() + oy) as i32;
+        // The precise family floors AFTER adding the mask base
+        // (vdiv -> vadd base -> floorf at 0x1e4aac-0x1e4abc); the
+        // instance_place path truncates (vcvt.s32) instead.
+        let lx = (rx / sx + ox).floor() as i32;
+        let ly = (ry / sy + oy).floor() as i32;
         Some(mask.pixel(lx, ly))
+    }
+
+    /// Mask probe for the collision_line walk. The line path still takes the
+    /// raw float difference: its per-step walk inside PreciseCollisionLine
+    /// @0x1e52bc is not decoded yet, while the call site does lrint both
+    /// endpoints and the centre (0x1951f4-0x195254) — see contract 7.1.
+    fn mask_hit(&self, tid: i32, px: f64, py: f64) -> Option<bool> {
+        let inst = self.instances.get(&tid)?;
+        let ix = inst.fields.get("x").copied().unwrap_or(0.0);
+        let iy = inst.fields.get("y").copied().unwrap_or(0.0);
+        self.mask_sample(tid, px - ix, py - iy)
+    }
+
+    /// Mask probe for collision_point. The runner rounds the centre and the
+    /// query point to integers at the call site (CInstance::Collision_Point
+    /// @0x1944b0: lrint@plt at 0x19467c/0x194690 for x/y, 0x1946ac/0x1946bc for
+    /// px/py) and PreciseCollisionPoint subtracts the two ints (rsb at
+    /// 0x1e4a9c) before vcvt.f32.s32. round_ties_even is lrint's default
+    /// FE_TONEAREST, not round-half-away.
+    fn mask_hit_point(&self, tid: i32, px: f64, py: f64) -> Option<bool> {
+        let inst = self.instances.get(&tid)?;
+        let ix = inst.fields.get("x").copied().unwrap_or(0.0);
+        let iy = inst.fields.get("y").copied().unwrap_or(0.0);
+        let dx = (px.round_ties_even() - ix.round_ties_even()) as f32 as f64;
+        let dy = (py.round_ties_even() - iy.round_ties_even()) as f32 as f64;
+        self.mask_sample(tid, dx, dy)
     }
     /// Walk a room-space line through `tid`'s mask at half-pixel resolution.
     /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
