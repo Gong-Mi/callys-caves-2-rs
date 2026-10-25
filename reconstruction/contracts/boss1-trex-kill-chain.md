@@ -47,9 +47,17 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
   GML 的 `with` 块在 IR 里编码为 `pushenv`/`popenv`，块内 `store selector=-1` 写的是
   **with 目标**而不是 body 属主——这正是我前几轮"无跨实例写"结论的盲点。
   真实武装：
-  - `CODE 284 obj_bullet_Step_0`：命中 trex 后（局部变量 `hittrex`，指令 719–727）
-    `if (global.poisonenabled == 1) (hittrex).alarm[6] = 1;`
-    同形状还有 `CODE 289 laserbeam` / `294 spikegunspike` / `303 rocket`。
+  - 按精确三元组重扫（`store` 前依次为 `cast to=2` → `load <var>` → 值常量；
+    数组 store 的索引常量在 cast 之后、store 之前）得到权威表：全库 1189 条
+    点写；其中对 `hittrex` 的写入 20 条 = 10 条 `flashing` + **7 条
+    `alarm[6] = 1`**，分别来自 `CODE 270 flame` / `274 blade` / `281 arrow` /
+    `284 bullet` / `289 laserbeam` / `294 spikegunspike` / `303 rocket`。
+    `CODE 284` 的门在指令 719–721：`if (global.poisonenabled == 1)`，723–727
+    写 `(hittrex).alarm[6] = 1`。
+    方法提醒：`other` 布尔字段不能当"点写"判据（284 这处 `other=false`，
+    目标是栈上的 `hittrex`）；`with` 块的块内写用 `selector=-1`。
+  - **trex 无剑眩晕**：同一张表里 `hittrex` 没有任何 `swordstunned` / `alarm[5]`
+    写入（`alarm[5]/[6]` 的点写全库 189 条，`hittrex` 只占 alarm[6] 那 7 条）。
   - 武装后由敌人自己的 `CODE 156` 置 poisoned=1、hp−0.25、生成 obj_damage、
     alarm[6]=30（本批另一条夹具覆盖）。
   - 剑眩晕对 trex **不存在**：全库扫 `(hittrex)` 的写入只有 flashing / hptrex /
