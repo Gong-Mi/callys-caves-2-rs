@@ -235,7 +235,11 @@ static int mask_probe_pixel_point(const GmMaskProbe* p, double px, double py) {
 /* collision_point / collision_line floor their local coordinates (the runner
  * calls floorf there), unlike instance_place's vcvt.s32 truncation. */
 static int mask_probe_pixel_floor(const GmMaskProbe* p, double px, double py) {
-    float dx = (float)px - p->ix, dy = (float)py - p->iy;
+    /* The runner's line walk keeps the sample point in float but subtracts the
+     * ROUNDED centre (Collision_Line @0x194f28 lrints x/y at 0x1951f4/0x195208
+     * before the call; PreciseCollisionLine subtracts the ints). */
+    float dx = (float)px - (float)(int32_t)lrintf(p->ix);
+    float dy = (float)py - (float)(int32_t)lrintf(p->iy);
     float rx = dx * p->ca - dy * p->sa;
     float ry = dx * p->sa + dy * p->ca;
     int32_t lx = (int32_t)floorf(rx / p->sx + p->ox);
@@ -254,6 +258,12 @@ int gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py) {
 int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, double y2) {
     /* Runner quirk (oracle-verified, PreciseCollisionLine @0x1e52bc): an exactly
      * horizontal segment scanned right-to-left never hits. */
+    /* The call site rounds the four endpoints too (lrint at
+     * 0x195224/0x195234/0x195244/0x195254). */
+    x1 = (double)(int32_t)lrintf((float)x1);
+    y1 = (double)(int32_t)lrintf((float)y1);
+    x2 = (double)(int32_t)lrintf((float)x2);
+    y2 = (double)(int32_t)lrintf((float)y2);
     if (y1 == y2 && x2 < x1) return 0;
     GmMaskProbe p;
     int r = mask_probe(vm, tid, &p);

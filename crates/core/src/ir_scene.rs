@@ -1444,7 +1444,13 @@ impl Scene {
         let inst = self.instances.get(&tid)?;
         let ix = inst.fields.get("x").copied().unwrap_or(0.0);
         let iy = inst.fields.get("y").copied().unwrap_or(0.0);
-        self.mask_sample(tid, px - ix, py - iy)
+        // Same call-site rounding as the point path, on the centre only: the
+        // runner's walk keeps the sample in float and subtracts the rounded
+        // integer position (Collision_Line @0x194f28 lrints x/y at
+        // 0x1951f4/0x195208 before PreciseCollisionLine).
+        let dx = px - ix.round_ties_even();
+        let dy = py - iy.round_ties_even();
+        self.mask_sample(tid, dx, dy)
     }
 
     /// Mask probe for collision_point. The runner rounds the centre and the
@@ -1465,6 +1471,13 @@ impl Scene {
     /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
     /// None = no mask data (bbox fallback).
     fn line_mask_hit(&self, tid: i32, x1: f64, y1: f64, x2: f64, y2: f64) -> Option<bool> {
+        // The call site rounds all four endpoints (lrint at
+        // 0x195224/0x195234/0x195244/0x195254), so sub-pixel segments collapse
+        // onto integers before the walk starts.
+        let x1 = x1.round_ties_even();
+        let y1 = y1.round_ties_even();
+        let x2 = x2.round_ties_even();
+        let y2 = y2.round_ties_even();
         // Runner quirk (oracle-verified, PreciseCollisionLine @0x1e52bc): an
         // exactly horizontal segment scanned right-to-left never hits — the
         // walk only covers x in [x1, x2]. Reversed diagonals and verticals are

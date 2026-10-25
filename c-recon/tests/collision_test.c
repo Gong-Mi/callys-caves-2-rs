@@ -397,13 +397,14 @@ static void group_line_mask(void) {
     double ox = sp ? sp->origin_x : 0.0;
     double oy = sp ? sp->origin_y : 0.0;
     int32_t id = mk(100010, 34, 0.0, 0.0, spr);
-    /* mask_hit: lx = floor(px/1) + ox, so a world x of zx-ox+0.5 lands on zx. */
-    double px = (double)zx - ox + 0.5, py = (double)zy - oy + 0.5;
-    double qx = (double)nxp - ox + 0.5;
+    /* The call site lrints both endpoints, so the segment has to be addressed on
+     * integer coordinates; lx = floor(px - 0) + ox lands on zx when px = zx-ox. */
+    double px = (double)zx - ox, py = (double)zy - oy;
+    double qx = (double)nxp - ox;
     CHECK_I("line mask: segment through a transparent pixel misses",
-            gm_line_mask_test(&g_vm, id, px - 0.3, py, px + 0.3, py), 0);
+            gm_line_mask_test(&g_vm, id, px, py, px, py), 0);
     CHECK_I("line mask: segment through a set pixel hits",
-            gm_line_mask_test(&g_vm, id, qx - 0.3, py, qx + 0.3, py), 1);
+            gm_line_mask_test(&g_vm, id, qx, py, qx, py), 1);
     CHECK_I("point mask: point on a transparent pixel misses",
             gm_mask_point_test(&g_vm, id, px, py), 0);
     CHECK_I("point mask: point on a set pixel hits",
@@ -493,6 +494,36 @@ static void group_point_floor_negative(void) {
             gm_mask_point_test(&g_vm, id, 99.0, 100.0), 0);
 }
 
+/* First sprite whose origin is (0,0) and whose frame-0 mask has pixel (0,0)
+ * set: with origin 0 the sampled column is exactly the difference the runner
+ * computes, so a rounding change is visible as a different pixel. */
+static int32_t origin_zero_mask_sprite(void) {
+    for (int i = 0; i < GM_SPRITE_COUNT; i++) {
+        const GmSprite* s0 = &GM_SPRITES[i];
+        if (s0->origin_x != 0 || s0->origin_y != 0) continue;
+        for (int k = 0; k < GM_SPRITE_MASK_COUNT; k++) {
+            const GmMaskSprite* m = &GM_SPRITE_MASKS[k];
+            if (m->sprite != s0->id || m->nframes <= 0) continue;
+            const GmMaskFrame* f = &m->frames[0];
+            if (f->width > 0 && f->height > 0 && (f->bits[0] & 0x80)) return s0->id;
+        }
+    }
+    return -1;
+}
+
+static void group_line_rounding(void) {
+    new_vm();
+    int32_t spr = origin_zero_mask_sprite();
+    CHECK_I("line rounding: an origin-0,0 mask sprite exists", spr > 0, 1);
+    if (spr < 0) return;
+    int32_t id = mk(100050, 34, 100.4, 100.0, spr);
+    /* A vertical segment at x=100.0 is an integer sample at every step. With
+     * lrint(100.4)=100 the difference is 0 and pixel (0,0) is hit; with the raw
+     * centre it is -0.4, floors to -1 and misses on every sample. */
+    CHECK_I("line rounding: vertical segment on the rounded column hits",
+            gm_line_mask_test(&g_vm, id, 100.0, 99.0, 100.0, 101.0), 1);
+}
+
 int main(void) {
     group_pinned_player_lloyd();
     group_mask_and_signed_scale();
@@ -508,6 +539,7 @@ int main(void) {
     group_precise_place();
     group_line_broad_phase();
     group_point_floor_negative();
+    group_line_rounding();
     printf("collision_test: %d checks, %d failed\n", g_checks, g_fails);
     return g_fails ? 1 : 0;
 }

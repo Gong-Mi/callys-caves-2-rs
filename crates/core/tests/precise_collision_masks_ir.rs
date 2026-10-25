@@ -198,19 +198,39 @@ fn prec_point_rounds_the_centre_and_the_query_before_sampling() {
     // the sampled column is exactly the rounded difference, so lrint(100.0) -
     // lrint(100.4) = 0 must land on pixel (0,0); the unrounded -0.4 becomes -0.2
     // after the scale-2 divide and floors to -1, which misses.
-    let mut spr: Option<i32> = None;
-    for (sid, masks) in s.sprite_masks.iter() {
-        let bounds = match s.sprite_bounds.get(sid) { Some(b) => b, None => continue };
-        if bounds.origin_x != 0.0 || bounds.origin_y != 0.0 { continue; }
-        if masks.is_empty() || !masks[0].pixel(0, 0) { continue; }
-        spr = Some(*sid);
-        break;
-    }
-    let spr = spr.expect("a sprite with origin (0,0) and mask pixel (0,0) set");
+    let spr = origin_zero_mask_sprite(&s).expect("a sprite with origin (0,0) and mask pixel (0,0) set");
     let id = place(&mut s, &b, OBJ_WALL, spr, 100.4, 100.0);
     s.write(id, -1, "image_xscale", None, 2.0).unwrap();
     let hit = s
         .call(&b, id, "collision_point", &[100.0, 100.0, OBJ_WALL as f64, 1.0, 0.0])
         .unwrap();
     assert_eq!(hit, id as f64, "rounded difference 0 must sample mask pixel (0,0)");
+}
+
+/// First sprite whose origin is (0,0) and whose frame-0 mask has pixel (0,0)
+/// set: with origin 0 the sampled column is exactly the difference the runner
+/// computes, so a rounding change shows up as a different pixel.
+fn origin_zero_mask_sprite(s: &Scene) -> Option<i32> {
+    for (sid, masks) in s.sprite_masks.iter() {
+        let bounds = match s.sprite_bounds.get(sid) { Some(b) => b, None => continue };
+        if bounds.origin_x != 0.0 || bounds.origin_y != 0.0 { continue; }
+        if masks.is_empty() || !masks[0].pixel(0, 0) { continue; }
+        return Some(*sid);
+    }
+    None
+}
+
+#[test]
+fn prec_line_rounds_the_centre_before_the_walk() {
+    let (b, mut s) = scene_with_masks();
+    // Collision_Line @0x194f28 lrints the centre and all four endpoints before
+    // PreciseCollisionLine. With the centre at 100.4 the vertical segment at an
+    // integer x is an exact sample: rounded, the difference is 0 and pixel (0,0)
+    // is hit; unrounded it is -0.4 on every sample and floors to -1.
+    let spr = origin_zero_mask_sprite(&s).expect("origin-0,0 mask sprite");
+    let id = place(&mut s, &b, OBJ_WALL, spr, 100.4, 100.0);
+    let hit = s
+        .call(&b, id, "collision_line", &[100.0, 99.0, 100.0, 101.0, OBJ_WALL as f64, 1.0, 0.0])
+        .unwrap();
+    assert_eq!(hit, id as f64, "the rounded column must sample mask pixel (0,0)");
 }
