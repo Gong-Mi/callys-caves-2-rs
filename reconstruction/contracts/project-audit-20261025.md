@@ -61,24 +61,37 @@ reflog 找回的对象。k80u 那边 `collision.c / ir_scene.rs / collision-broa
 
 ### #1 主线漂移
 
-**影响**：真正的问题不是"只做了 2 个 body"（1352 个 body 是数月工程量，不是缺陷），而是
-**分母不进任何机器可见的地方**，所以"权威实现方向"这句话随时可以和 2/1354 并排放着而不被
-任何东西打脸；IR 线每天加测试、C 线不跟，会让这个比值继续恶化而无人报警。
+**更正（2026-10-25 当晚核实，原问题描述错误）**：`scripts/batch_diff.py --build-c`
+会先用 `ir_to_c.py --all` 把 **1354/1354 个 body 全部生成 C** 编进一次性语料驱动
+（生成放 work 目录，不进 `c-recon/gen/`，避免脏树；全量编译约 25s）。
+所以 C 线的**生成本身是完整的**（0 refused），"只生成了 2/1354" 的说法作废。
+`c-recon/gen/` 只带 2 个 body 是刻意设计（契约注释原文），不是进度。
 
-**优先级：P1**。不要试图一口气补 body。
+**真正的影响**：单 body 执行的全量对账（ identical 1354 ）已经过了，但那是
+"generic fixture 跑一条 body"；**行为级序列**（Create→ticks→body、多实例、
+oracle 锚定）的 C 覆盖还很薄——checked-in fixtures 只有 code12_contact 和
+code792 两个。也就是说，C 线缺的不是"生成"，是"深层验证与行为夹具"。
 
-**最小第一批（两条，都不生成新 body）**：
+**优先级：P1**。
 
-1. `scripts/gen_registry.py` 输出里带一行 `/* BODIES generated=2 total=1354 */`，或更好：
-   写 `c-recon/gen/coverage.json`（`{"generated": [...], "total": 1354, "fixtures": [...]}`），
-   由现有生成器产出、**不手写**。
-2. 新增 workflow `c-recon`（独立 job，不进 4 分片）：clang 编 `src/*.c + gen/*.c`（清单改为
-   `find c-recon/gen -name '*.c'`，顺手解掉 dev_smoke 的硬编码）+ 跑 `collision_test` 与
-   `objects_test` + 跑 `scripts/batch_diff.py`，断言 coverage.json 的 `generated` 数**不下降**、
-   `total` 恒为 1354。
+**最小第一批**：
 
-**验收**：故意删 `gen/gml_0792.c` → job 必须因为 `undefined symbol` + 分母下降同时 RED。
-这一条就把 batch_diff 的"自洽"边界钉在 CI 里，而不是钉在契约散文里。
+1. 行为级序列对账：用现成的 `--sequence --ticks 30` 跑全量 corpus（Create→ticks→body），
+   把 C↔VM 从"单 body"扩到"真实序列"。本次已跑（2026-10-25，结果记在下面）。
+   以后作为 `dev_smoke.sh` 之外的定期深度校验，不接 CI（C 线只本地验证，用户裁决）。
+2. 给已用 oracle 钉死的语义在 C 侧各配一条 checked-in fixture（`c-recon/fixtures/`）：
+   碰撞取整/旋转（本批已加进 collision_test，109 checks）、掩码基址（base_probe），
+   让 checked-in 的单 body 断言不只有 code12/code792 两个。
+
+**验收**：`--sequence --ticks 30` 全量跑完 differ/c_only/c_fail 必须全为 0；
+新 fixture 沿用"oracle 表驱动 + 变异门"的既有纪律。
+
+**本次结果（2026-10-25，`--build-c --sequence --ticks 30` 全量）**：
+`=== 1354 bodies ===  identical: 1354, differ: 0, c_gap: 0, c_only: 0,
+vm_reject: 0, c_fail: 0, not_built: 0, no owner: 551 skipped, rc=0`。
+即 Create→30 tick→body 的行为级序列上，C 宿主与 Rust VM 逐字节一致。
+注意 "identical" 仍含"两侧同因 abort 的协议一致"成分；真正的原版等价仍只靠
+oracle 锚定的那部分（碰撞几何族）。
 
 ### #3 等价层级没有机器登记
 
