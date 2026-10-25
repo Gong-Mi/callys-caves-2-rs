@@ -260,3 +260,48 @@ fn bullet_arms_trex_poison_and_the_alarm_ticks() {
     assert_eq!(t.fields["hptrex"], hp_after_hit - 0.25, "Alarm 6 ticks 0.25 HP");
     assert_eq!(t.alarms[6], 30, "Alarm 6 re-arms at 30 frames");
 }
+
+#[test]
+fn bullet_poisons_trex_through_the_natural_tick_order() {
+    // Runtime check of the arming point (the proxy left this one open): no
+    // manual dispatch. Create the bullet on the trex with poisonenabled on,
+    // park the player inside the 450 px sleep band so the boss keeps
+    // stepping, then let the scheduler run.
+    // Tick 1: the bullet's own Step arms alarm[6] = 1 and deals its 1 damage.
+    // Tick 2: the alarm fires CODE 156 -> poisoned, hp - 0.25, re-arm 30.
+    let (bundle, mut s, trex) = boss_scene();
+    let x = s.instances[&trex].fields["x"];
+    let y = s.instances[&trex].fields["y"] - 80.0;
+    s.write(trex, -1, "x", None, x).unwrap();
+    s.write(trex, -1, "y", None, y).unwrap();
+    s.globals.insert("poisonenabled".to_string(), 1.0);
+    // Park the player next to the boss so CODE 361 does not suspend it.
+    if let Some(pid) = s.instances.iter().find(|(_, i)| i.object == 0 && i.alive).map(|(id, _)| *id) {
+        s.write(pid, -1, "x", None, x).unwrap();
+        s.write(pid, -1, "y", None, y).unwrap();
+    }
+    let hp_before = s.instances[&trex].fields["hptrex"];
+    let bullet = s.create(&bundle, 39, x, y).expect("create obj_bullet");
+    s.write(bullet, -1, "direction", None, 0.0).unwrap();
+    s.tick(&bundle).expect("tick 1");
+    assert!(!s.instances[&bullet].alive, "the bullet hit the trex and destroyed itself");
+    assert_eq!(
+        s.instances[&trex].alarms[6], 1,
+        "the bullet's normal Step is what arms alarm[6]"
+    );
+    s.tick(&bundle).expect("tick 2");
+    let t = &s.instances[&trex];
+    assert_eq!(t.fields["poisoned"], 1.0, "Alarm 6 fired on the following tick");
+    assert_eq!(t.fields["hptrex"], hp_before - 1.0 - 0.25, "1 bullet damage + 0.25 poison");
+    assert_eq!(t.alarms[6], 30, "re-armed at 30");
+    // A second bullet landing while the countdown runs rewrites alarm[6] to 1
+    // (the store is gated only by poisonenabled), so a fresh hit delays the
+    // next poison tick instead of shortening it.
+    let bullet2 = s.create(&bundle, 39, x, y).expect("create second obj_bullet");
+    s.write(bullet2, -1, "direction", None, 0.0).unwrap();
+    s.tick(&bundle).expect("tick 3");
+    assert_eq!(
+        s.instances[&trex].alarms[6], 1,
+        "a second hit overwrites the 30-frame countdown with 1"
+    );
+}

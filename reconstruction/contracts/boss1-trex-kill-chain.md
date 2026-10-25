@@ -67,6 +67,12 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
     alarm[6]=30（本批另一条夹具覆盖）。
   - 剑眩晕对 trex **不存在**：全库扫 `(hittrex)` 的写入只有 flashing / hptrex /
     alarm[6]，没有 swordstunned / alarm[5]；那些 stun 块属于别的家族。
+  运行时顺序也验过（`bullet_poisons_trex_through_the_natural_tick_order`，无手工
+  dispatch，靠调度器）：tick 1 子弹自己的 Step 武装 alarm[6]=1 并打掉 1 HP；
+  tick 2 该 alarm 归零触发 CODE 156 → poisoned=1、hp −0.25、alarm[6]=30。
+  另外发现一条对玩法可见的规则：**alarm[6]=1 的写只看 poisonenabled 门**，
+  在倒计时 30 期间再来一发会把 30 覆写成 1，于是下一跳毒被推迟而不是缩短
+  （夹具里第二发子弹的断言守着这一点）。
   夹具 `bullet_arms_trex_poison_and_the_alarm_ticks`：真实子弹命中 → alarm[6]=1 →
   直派 Alarm 6 → poisoned=1、hp−0.25、alarm[6]=30（scheduler 倒计时依赖 sleep
   sweep，由 alarm body 那条测试单独覆盖，夹具注释写明这个边界）。
