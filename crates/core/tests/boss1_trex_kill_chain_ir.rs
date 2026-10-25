@@ -223,3 +223,40 @@ fn energywave_damages_trex_and_flashes_it() {
         .any(|i| i.fields.get("damage") == Some(&3.0));
     assert!(dmg, "CODE 308 spawns obj_damage with damage=3");
 }
+
+#[test]
+fn bullet_arms_trex_poison_and_the_alarm_ticks() {
+    // The arming chain lives in GML, inside weapon Step bodies. CODE 284
+    // (obj_bullet_Step_0) hits obj_trex(25) through `hittrex` and, gated on
+    // global.poisonenabled, writes (hittrex).alarm[6] = 1 (instructions
+    // 719-727). The enemy's own Alarm 6 (CODE 156) then sets poisoned, ticks
+    // 0.25 HP and re-arms at 30.
+    let (bundle, mut s, trex) = boss_scene();
+    // Clear air: the chain applies only the first family it hits (canhit
+    // latch) and the trex stands on a wall tile.
+    let x = s.instances[&trex].fields["x"];
+    let y = s.instances[&trex].fields["y"] - 80.0;
+    s.write(trex, -1, "x", None, x).unwrap();
+    s.write(trex, -1, "y", None, y).unwrap();
+    s.globals.insert("poisonenabled".to_string(), 1.0);
+    let hp_before = s.instances[&trex].fields["hptrex"];
+    let bullet = s.create(&bundle, 39, x, y).expect("create obj_bullet");
+    s.write(bullet, -1, "direction", None, 0.0).unwrap();
+    s.dispatch(&bundle, bullet, 3, 0).expect("bullet Step dispatch");
+    // The bullet hit the trex (it destroys itself in the same block) and the
+    // poisonenabled gate armed alarm[6] = 1.
+    assert!(!s.instances[&bullet].alive, "CODE 284 destroys the bullet on hit");
+    assert_eq!(
+        s.instances[&trex].alarms[6], 1,
+        "poisonenabled bullet must arm the trex's Alarm 6"
+    );
+    // Fire the armed alarm directly: the scheduler's own countdown depends on
+    // the sleep sweep (the trex is 80 px up, away from the player), which is
+    // covered by the alarm-body test instead of being re-derived here.
+    let hp_after_hit = s.instances[&trex].fields["hptrex"];
+    s.dispatch(&bundle, trex, 2, 6).expect("Alarm 6 dispatch");
+    let t = &s.instances[&trex];
+    assert_eq!(t.fields["poisoned"], 1.0, "Alarm 6 sets poisoned");
+    assert_eq!(t.fields["hptrex"], hp_after_hit - 0.25, "Alarm 6 ticks 0.25 HP");
+    assert_eq!(t.alarms[6], 30, "Alarm 6 re-arms at 30 frames");
+}
