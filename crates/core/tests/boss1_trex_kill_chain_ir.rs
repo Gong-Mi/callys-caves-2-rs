@@ -335,3 +335,52 @@ fn bullet_window_matches_the_measured_thresholds() {
         assert_eq!(armed, expect_hit, "dx={dx} dy={dy}: expected hit={expect_hit}");
     }
 }
+
+#[test]
+fn weapon_flight_frames_to_the_trex_in_a_clear_lane() {
+    // Empty-lane flight, 200 px out, trex parked 80 px up (see
+    // weapon-ballistics.md). Frames counted until the trex's hp first changes;
+    // damage is the single-hit value the weapon's own family block applies.
+    let cases: Vec<(&str, i32, f64, f64, Option<(u32, f64)>)> = vec![
+        ("flame", 35, 15.0, 7.0, Some((8, 0.30))),
+        ("blade", 36, 20.0, 6.0, Some((8, 3.0))),
+        ("bomb", 37, 8.0, 5.0, None),
+        ("arrow", 38, 15.0, 3.0, Some((9, 2.0))),
+        ("bullet", 39, 25.0, 6.0, Some((7, 1.0))),
+        ("laserbeam", 41, 20.0, 6.0, Some((9, 0.25))),
+        ("spike", 42, 14.0, -3.0, Some((8, 3.0))),
+        ("boomerang", 43, 5.0, 7.0, None),
+        ("rocket", 44, 16.0, 3.0, Some((9, 6.0))),
+        ("energywave", 45, 20.0, -5.0, Some((8, 3.0))),
+    ];
+    for (name, obj, v, dy, expect) in cases {
+        let (bundle, mut s, trex) = boss_scene();
+        let (tx, ty) = (s.instances[&trex].fields["x"], s.instances[&trex].fields["y"] - 80.0);
+        s.write(trex, -1, "x", None, tx).unwrap();
+        s.write(trex, -1, "y", None, ty).unwrap();
+        let kill: Vec<i32> = s.instances.iter()
+            .filter(|(_, i)| i.object != 0 && i.object != 25)
+            .map(|(id, _)| *id).collect();
+        for id in kill {
+            if let Some(i) = s.instances.get_mut(&id) { i.alive = false; }
+        }
+        s.globals.insert("poisonenabled".to_string(), 1.0);
+        let hp0 = s.instances[&trex].fields["hptrex"];
+        let w = s.create(&bundle, obj, tx - 200.0, ty + dy).expect("create weapon");
+        s.write(w, -1, "hspeed", None, v).unwrap();
+        let mut got = None;
+        for tick in 1..=120u32 {
+            s.tick(&bundle).expect("tick");
+            let hp = s.instances[&trex].fields["hptrex"];
+            if hp != hp0 { got = Some((tick, hp0 - hp)); break; }
+        }
+        match expect {
+            Some((tick, dmg)) => {
+                let (gt, gd) = got.unwrap_or_else(|| panic!("{name} never reached the trex"));
+                assert_eq!(gt, tick, "{name}: frames to first contact");
+                assert!((gd - dmg).abs() < 0.01, "{name}: damage {gd} != {dmg}");
+            }
+            None => assert!(got.is_none(), "{name} must not connect in this lane, got {got:?}"),
+        }
+    }
+}

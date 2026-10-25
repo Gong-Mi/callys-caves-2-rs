@@ -72,6 +72,32 @@ thing it overlaps. A 100 px lane fares no better. So "the window exists" and
 be clear, and in rm_boss1 it usually is not. Flight fixtures for this reason
 belong in a hand-built empty room, not in the boss arena.
 
+## Measured: frames to first contact in a clear lane
+
+Empty room (every instance except the player and the trex removed), weapon
+spawned 200 px left of the trex at its documented `dy`, `hspeed = +V`, trex
+parked 80 px up. Frames counted until the trex's HP first changes:
+
+| weapon | frames | damage | note |
+|---|---|---|---|
+| bullet | 7 | 1.00 | |
+| flame | 8 | 0.30 | |
+| blade | 8 | 3.00 | |
+| spike | 8 | 3.00 | |
+| energywave | 8 | 3.00 | |
+| arrow | 9 | 2.00 | 0.3 gravity, still connects |
+| laserbeam | 9 | 0.25 | |
+| rocket | 9 | 6.00 | |
+| bomb | never | — | 0.3 gravity drops it below the lane before contact |
+| boomerang | never | — | at 5 px/frame it covers the lane in ~26 ticks but never lands a hit; its Step must turn it back before the window |
+
+Sword is absent: it has no `hspeed` of its own (its Step drives the motion) and
+was not modelled here.
+
+These eight numbers plus the two negatives are pinned by
+`weapon_flight_frames_to_the_trex_in_a_clear_lane` (9/9 with the rest of the
+boss1 suite).
+
 ## Not covered
 
 - The engine's despawn sweep (if any) and the room-bound clipping.
