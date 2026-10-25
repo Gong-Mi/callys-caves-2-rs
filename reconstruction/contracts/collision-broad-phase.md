@@ -104,7 +104,14 @@ ground truth**：`c-recon/tools/oracle/rotated_instance_probe.py`（两个 8×8 
 旧台账，已作废。对账状态：Rust 侧已有 parity 夹具
 `precise_collision_masks_ir::prec_instance_rotation_matches_the_runner_table`
 （同一合成掩码、同一角度表，0 命中 / 45·90·180 不命中），与探针表一致；
-C 侧走同构代码但**尚未**做 oracle 对账，登记为未验。
+C 侧也有同表的真实 sprite 夹具
+`collision_test.c::group_instance_rotation`（spr_line(0) × spr_pickupflare(4)
+都在 (0,0)：0 → 命中、目标转 90 → 不命中，表来自
+`c-recon/tools/oracle/real_sprite_table.py`）。**边界**：这条 C 夹具在"禁用掩码
+旋转（ca=1,sa=0）"的变异下仍通过——决定它的是宽相盒随角度变化；掩码旋转本身
+由既有的 `rot90` / `line90` 两条夹具守住（同一变异下它们变红）。所以两边都有
+rotation 覆盖，但"真实 sprite 的掩码旋转"还缺一个盒仍重叠、只由掩码翻转答案的
+对照案例。
 
 原版路径（libyoyo ARMv7，SHA256 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）：
 
