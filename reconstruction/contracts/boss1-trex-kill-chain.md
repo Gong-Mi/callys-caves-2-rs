@@ -44,4 +44,8 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
   alarm[6]=30、在 Boss 坐标生成 obj_damage(104) 且 damage=0.25）与
   `trex_alarm5_clears_sword_stun`（swordstunned 1→0）。两条都驱动真实字节码，
   不是手写逻辑；武器池只负责**武装**这两个 alarm，武装链本身仍未单测。
+  武装点已定位（全库扫描：同一 body 里既写 `swordstunned`/`poisoned` 又写
+  `alarm[5]`/`alarm[6]`）：`CODE 311 gml_Object_obj_sword_Step_0`（swordstunned
+  + alarm[5]）与 `CODE 294 gml_Object_obj_spikegunspike_Step_0`（swordstunned +
+  alarm[5]/[6]）；两者的命中/武器池分支尚未拆解。
 - Android 真机 Boss 战视觉与音效验收仍需单独一轮（CI 绿≠真机已验）。
