@@ -58,11 +58,29 @@ expectations, so an IR regeneration that changes weapon coverage fails loudly.
 Mutation gate (run 2026-10-25): changing `hitboss4 → 29` in the expected map
 turns `boss_variable_map_is_pinned` red; restoring it returns 2/2 green.
 
+## Boss 3/4/5 poison: resolved as unreachable (GML side)
+
+`Alarm_10` in each of the three bosses is the poison tick: `poisoned = 1`,
+`hp -= 0.25`, spawn `obj 104`, `alarm[10] = 30`. Nothing arms it:
+
+- `poisoned` has **zero point-writes** in the whole corpus — no body can set
+  another instance's flag; the only setters are the alarm bodies themselves.
+- The complete set of `alarm[10]` stores is: `obj_player` Create + Alarm_10,
+  `obj_boss3/4/5 Alarm_10` (their own re-arm), `obj_finalboss Alarm_9`,
+  `obj_endmusic Create`. No boss Create/Step appears, and no store sits inside
+  a `pushenv` block.
+- The final boss is the exception that proves the rule: its `Alarm_9` (room
+  110) sets `vspeed = -0.5` and `alarm[10] = 100`, so it poisons itself on a
+  timer *and* can be poisoned by weapons through `hit11`.
+
+So for bosses 3/4/5 the poison bodies are dead code unless the engine
+(libyoyo) writes `alarm[10]` itself. Pinned by
+`boss345_poison_has_no_armer_outside_its_own_chain`; mutation gate: dropping
+`219` from the expected owner list turns it red, restoring is green.
+
 ## Open
 
-- Boss 3/4/5 poison in play: their `Alarm_10` bodies exist and are tested
-  (`bosses_3_5_ir.rs` dispatches them), but nothing found so far *arms* them —
-  find the trigger (player contact? scripted phase?) or record that poison is
-  unreachable for those bosses.
+- Engine-side writes: everything above is GML. If libyoyo ever writes
+  `alarm[10]` / `poisoned` on a boss, these conclusions need revisiting.
 - In-play reachability of the armed paths (bullet/flame actually overlapping the
   boss hitbox) is not covered here.

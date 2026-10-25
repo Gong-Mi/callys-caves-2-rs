@@ -218,3 +218,64 @@ fn only_three_boss_paths_are_poison_armed_and_none_is_stunned() {
         == 0,
         "alarm[10]/alarm[11] are self-armed; a point-write would change that");
 }
+
+/// Nobody can poison another instance, and no boss body arms alarm[10] except
+/// its own alarm chain. Together these make weapon poison unreachable for
+/// bosses 3/4/5: their Alarm_10 tick exists, but nothing ever starts it.
+#[test]
+fn boss345_poison_has_no_armer_outside_its_own_chain() {
+    let ir = ir();
+    // 1. No point-write ever sets `poisoned` on another instance.
+    let poisoned_writes: Vec<i64> = point_writes(&ir)
+        .into_iter()
+        .filter(|(_, _, _, field, _)| field == "poisoned")
+        .map(|(c, _, _, _, _)| c)
+        .collect();
+    assert!(
+        poisoned_writes.is_empty(),
+        "poisoned must only ever be self-written; found {poisoned_writes:?}"
+    );
+
+    // 2. Every alarm[10] store in the corpus, with owner and with-block depth.
+    let mut alarm10: Vec<(i64, String, i64)> = Vec::new();
+    for c in ir["codes"].as_array().expect("codes") {
+        let id = c["id"].as_i64().expect("id");
+        let name = c["name"].as_str().unwrap_or_default().to_string();
+        let ins = c["instructions"].as_array().expect("instructions");
+        let mut depth = 0i64;
+        for (i, x) in ins.iter().enumerate() {
+            match x["op"].as_str() {
+                Some("pushenv") => depth += 1,
+                Some("popenv") => depth -= 1,
+                Some("store") if x["name"] == "alarm" && x["array"].as_bool() == Some(true) => {
+                    let idx = i
+                        .checked_sub(1)
+                        .and_then(|k| ins[k]["value"].as_i64());
+                    if idx == Some(10) {
+                        alarm10.push((id, name.clone(), depth));
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+    let mut owners: Vec<i64> = alarm10.iter().map(|(c, _, _)| *c).collect();
+    owners.sort_unstable();
+    owners.dedup();
+    assert_eq!(
+        owners,
+        vec![0, 2, 174, 189, 202, 219, 704],
+        "alarm[10] may only be armed by the player's own alarms, the bosses' own \
+         Alarm_10 re-arms, the final boss's Alarm_9 chain and endmusic"
+    );
+    assert!(
+        alarm10.iter().all(|(_, _, depth)| *depth == 0),
+        "no with-block may arm alarm[10]"
+    );
+    for boss_body in [163, 169, 171, 185, 187, 197, 199, 213, 215, 229] {
+        assert!(
+            !owners.contains(&boss_body),
+            "boss Create/Step body {boss_body} must not arm alarm[10]"
+        );
+    }
+}
