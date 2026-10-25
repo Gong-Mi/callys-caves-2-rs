@@ -99,7 +99,12 @@ runner 的 `[sprite+0x31] == 0` 分支）。**旋转仍是缺口，但路径已�
 进入同一套截断采样（符号按"实参取了负角"解读）。**旋转路径已由 oracle 探针取到
 ground truth**：`c-recon/tools/oracle/rotated_instance_probe.py`（两个 8×8 精灵、
 唯一实心像素 (4,0)、都在 (0,0)）：`angleB=0 → 1`、`45 → 0`、`90 → 0`、`180 → 0`。
-当前旋转实例在两侧仍回退到盒子判定（`0` 与 `1` 的差异就是缺口），不得声称已支持。
+**两侧其实都已实现这条路径**（`Scene::precise_overlap` + `MaskCtx::hits` /
+`c-recon` 的 `precise_overlap` + `mask_probe_pixel`），此前"回退到盒子"的说法是
+旧台账，已作废。对账状态：Rust 侧已有 parity 夹具
+`precise_collision_masks_ir::prec_instance_rotation_matches_the_runner_table`
+（同一合成掩码、同一角度表，0 命中 / 45·90·180 不命中），与探针表一致；
+C 侧走同构代码但**尚未**做 oracle 对账，登记为未验。
 
 原版路径（libyoyo ARMv7，SHA256 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）：
 
@@ -128,10 +133,9 @@ Command_InstancePlace      @0x1ca6d8   (800 B)
 结论与纪律：
 
 * 当前 bbox-only 是**有名有据的近似**，不能写成"原版也这样"。
-* 旋转分支已读定（同一函数内自算 A/B 两对 sin/cos，逐像素按 `angle==0` 分支；
-  oracle 探针表见上）；剩下的实现工作是把该分支移植到两侧，并用"盒重叠、掩码
-  重叠"的旋转夹具 + `rotated_instance_probe.py` 的表对账。`base` 的定义见 §7.1
-  第 3 条（= 绘制原点，同一字段）。
+* 旋转分支两侧都已实现，路径在同一个函数内（A/B 各自 sin/cos，逐像素按
+  `angle==0` 分支）；Rust 已用 oracle 探针表对账（parity 夹具见上），C 侧同构但
+  仍待同表对账。`base` 的定义见 §7.1 第 3 条（= 绘制原点，同一字段）。
 * 只做 C↔VM 对账不能证明这一步：两侧同时改成同一个错误实现也会全绿。原 runner 的
   同输入对拍（或 Unicorn 合成内存 oracle）才是这一步的判据。
 

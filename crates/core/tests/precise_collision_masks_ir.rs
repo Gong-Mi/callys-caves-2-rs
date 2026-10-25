@@ -234,3 +234,26 @@ fn prec_line_rounds_the_centre_before_the_walk() {
         .unwrap();
     assert_eq!(hit, id as f64, "the rounded column must sample mask pixel (0,0)");
 }
+
+#[test]
+fn prec_instance_rotation_matches_the_runner_table() {
+    // Mirrors c-recon/tools/oracle/rotated_instance_probe.py: two 8x8 sprites
+    // whose only solid pixel is (4,0), both at (0,0). The runner answers
+    // angleB=0 -> hit and 45/90/180 -> miss (rotating moves the sampled pixel
+    // off the solid one).
+    let (b, mut s) = scene_with_masks();
+    let mut bits = vec![0u8; 8]; // 8 rows, one byte per row (8 px wide)
+    bits[0] = 0x08; // x = 4 -> 0x80 >> 4
+    let mask = callys_asset::CollisionMask { width: 8, height: 8, bits };
+    s.sprite_masks.insert(9001, vec![mask]);
+    s.sprite_bounds.insert(9001, SpriteBounds {
+        width: 8.0, height: 8.0, origin_x: 0.0, origin_y: 0.0, frames: 1.0,
+    });
+    let a = place(&mut s, &b, OBJ_WALL, 9001, 0.0, 0.0);
+    let c = place(&mut s, &b, OBJ_WALL, 9001, 0.0, 0.0);
+    assert!(s.precise_overlap(a, 0.0, 0.0, c), "unrotated must hit");
+    for ang in [45.0, 90.0, 180.0] {
+        s.write(c, -1, "image_angle", None, ang).unwrap();
+        assert!(!s.precise_overlap(a, 0.0, 0.0, c), "angle {ang} must miss");
+    }
+}
