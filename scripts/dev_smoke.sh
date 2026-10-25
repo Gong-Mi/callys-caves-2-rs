@@ -45,6 +45,17 @@ if cargo nextest run -p callys-core --test precise_collision_masks_ir \
   fails=$((fails+1))
 fi
 
+if [ "${1:-}" = "--deep" ]; then
+  step "deep: boss chain C<->VM corpus (284/156/157, all objects, 3 ticks)"
+  out=$(python3 scripts/batch_diff.py --build-c --only 284,156,157 --all-objects \
+          --sequence --ticks 3 --work "$TMP/deep_boss" 2>/dev/null | grep -E "differ|c_fail|c_only|c_gap")
+  echo "$out"
+  if echo "$out" | grep -qE ": [1-9]"; then
+    echo "deep corpus FAILED"
+    fails=$((fails+1))
+  fi
+fi
+
 dt=$(( $(date +%s) - t0 ))
 echo
 if [ "$fails" -eq 0 ]; then

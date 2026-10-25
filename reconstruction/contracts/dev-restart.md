@@ -6,7 +6,8 @@
 | 命令 | 做什么 | 实测（prague，Termux aarch64） |
 | --- | --- | --- |
 | `bash scripts/dev_status.sh` | 只读自检：git HEAD/脏区、rustc/cargo/nextest/mold、javac、aapt2/zipalign/apksigner、android.jar、签名 keystore、libyoyo 哈希、unicorn 版本、上一次全量 Summary | ~1 s，`dev_status: READY` |
-| `bash scripts/dev_smoke.sh` | 三步冒烟：C 碰撞单测（107 checks）→ mask-base oracle 探针（base_probe.py）→ Rust 精确碰撞套件（nextest 单目标 5 tests） | 3 s（热 target）；冷构建另算 |
+| `bash scripts/dev_smoke.sh` | 三步冒烟：C 碰撞单测（109 checks）→ mask-base oracle 探针（base_probe.py）→ Rust 精确碰撞套件（nextest 单目标 6 tests） | 3 s（热 target）；冷构建另算 |
+| `bash scripts/dev_smoke.sh --deep` | 上面三步 + boss 链 C↔VM 语料（`batch_diff --build-c --only 284,156,157 --all-objects --sequence --ticks 3`），断言 differ/c_gap/c_only/c_fail 全 0 | 25 s（含一次全量 C 生成+编译） |
 
 ## 设计约束
 
