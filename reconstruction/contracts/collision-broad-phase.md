@@ -104,12 +104,12 @@ ground truth**：`c-recon/tools/oracle/rotated_instance_probe.py`（两个 8×8 
 旧台账，已作废。对账状态：Rust 侧已有 parity 夹具
 `precise_collision_masks_ir::prec_instance_rotation_matches_the_runner_table`
 （同一合成掩码、同一角度表，0 命中 / 45·90·180 不命中），与探针表一致。
-**C 侧还缺一条能判定的真实 sprite 夹具**：合成掩码进不了 C 的生成表，而现有
-`rot90` / `line90` 两条在"禁用掩码旋转（`ca=1, sa=0`）"的变异下会变红——说明
-它们守的是**宽相盒随角度变化**，不是掩码旋转本身。`real_sprite_table.py` 已能
-把真实 sprite 的掩码+原点喂给 runner 取表（spr_player 四角全 1、不具判别力；
-spr_player×spr_spikes 在 (0,0) 上是 0→1 / 90→0 的候选），但还没找到
-"盒仍重叠、只由掩码翻转答案"的确定案例，所以 C 的掩码旋转仍登记为未验。
+C 侧已补齐：`gm_precise_rects`（`c-recon/src/collision.c`）按 runner 的签名
+**注入两个矩形**，绕过 `Compute_BoundingBox`，于是能用与 oracle 相同的宽矩形测
+真实 sprite 对（spr_player 29 × spr_spikes 93，都在 (0,0)）：0 → 命中、目标转
+90 → 不命中，即 `real_sprite_table.py` 的表。变异门：把 `ca/sa` 强制成 1/0，
+该条 `got 1 want 0` 变红（同时 `rot90` / `line90` 也红，说明那两条守的是盒子）。
+先前"C 侧没有能判定的案例"的问题因此收口。
 
 原版路径（libyoyo ARMv7，SHA256 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）：
 

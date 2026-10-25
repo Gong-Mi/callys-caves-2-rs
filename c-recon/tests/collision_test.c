@@ -524,6 +524,24 @@ static void group_line_rounding(void) {
             gm_line_mask_test(&g_vm, id, 100.0, 99.0, 100.0, 101.0), 1);
 }
 
+/* --- 16. PreciseCollision on two real sprites, rotation included ----------
+ * Table from real_sprite_table.py: spr_player(29) vs spr_spikes(93) at (0,0)
+ * -> unrotated hit, target rotated 90 -> miss. Calls gm_precise_overlap
+ * directly, so the broad-phase box cannot decide the answer. */
+static void group_precise_rotation(void) {
+    new_vm();
+    int32_t a = mk(100070, 34, 0.0, 0.0, 29);
+    int32_t b = mk(100071, 34, 0.0, 0.0, 93);
+    /* Rects injected generously, exactly like the oracle: pixels outside a mask
+     * always miss, so the mask sampling is what decides. */
+    double rect[4] = { -64.0, 64.0, -64.0, 64.0 };   /* l, r, t, b */
+    CHECK_I("precise rotation: unrotated player/spikes overlap",
+            gm_precise_rects(&g_vm, a, rect, b, rect), 1);
+    vm_set_field(&g_vm, b, "image_angle", 90.0);
+    CHECK_I("precise rotation: 90-degree spikes clear the mask overlap",
+            gm_precise_rects(&g_vm, a, rect, b, rect), 0);
+}
+
 int main(void) {
     group_pinned_player_lloyd();
     group_mask_and_signed_scale();
@@ -540,6 +558,7 @@ int main(void) {
     group_line_broad_phase();
     group_point_floor_negative();
     group_line_rounding();
+    group_precise_rotation();
     printf("collision_test: %d checks, %d failed\n", g_checks, g_fails);
     return g_fails ? 1 : 0;
 }

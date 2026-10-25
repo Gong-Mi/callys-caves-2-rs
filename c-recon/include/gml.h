@@ -211,6 +211,12 @@ void    gm_audio_resume_all(void);
 int     gm_object_is_a(int32_t object, int32_t sel);
 int     gm_sprite_frames(int32_t sprite);
 int     gm_instance_box(GmVM* vm, int32_t id, double* l, double* r, double* t, double* b);
+/* PreciseCollision on two instances, without the broad-phase box. */
+int     gm_precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b);
+/* Rect-injecting variant: rect_* are {left, right, top, bottom}, as the runner's
+ * PreciseCollision receives them. */
+int     gm_precise_rects(GmVM* vm, int32_t a, const double* rect_a, int32_t b,
+                         const double* rect_b);
 int     gm_box_at(int32_t mask, int32_t sprite, double x, double y,
                   double sx, double sy, double angle,
                   double* l, double* r, double* t, double* b);

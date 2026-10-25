@@ -506,7 +506,12 @@ static int box_for_at(GmVM* vm, int32_t id, double x, double y, GmBox* out) {
     return 1;
 }
 
-static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b) {
+/* Exported for the unit tests: the runner's PreciseCollision on two instances,
+ * bypassing the broad-phase box so a fixture can isolate mask sampling (the
+ * box-vs-mask distinction mattered when a rotated case passed with ca/sa
+ * forced to 1/0 — see contract 7.0). */
+static int precise_core(GmVM* vm, int32_t a, double ax, double ay, int32_t b,
+                        const double* rect_a, const double* rect_b) {
     GmInst* ib = vm_inst(vm, b);
     if (!ib) return 1;
     GmMaskProbe pa, pb;
@@ -518,7 +523,16 @@ static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b)
     if (rb == 0) return 1;                 /* no mask data on B: the box speaks */
     if (rb < 0) return 0;
     GmBox ba, bb;
-    if (!box_for_at(vm, a, ax, ay, &ba) || !box_for_instance(vm, b, &bb)) return 1;
+    if (rect_a) {
+        ba.l = rect_a[0]; ba.r = rect_a[1]; ba.t = rect_a[2]; ba.b = rect_a[3];
+    } else if (!box_for_at(vm, a, ax, ay, &ba)) {
+        return 1;
+    }
+    if (rect_b) {
+        bb.l = rect_b[0]; bb.r = rect_b[1]; bb.t = rect_b[2]; bb.b = rect_b[3];
+    } else if (!box_for_instance(vm, b, &bb)) {
+        return 1;
+    }
     double left = ba.l > bb.l ? ba.l : bb.l;
     double right = ba.r < bb.r ? ba.r : bb.r;
     double top = ba.t > bb.t ? ba.t : bb.t;
@@ -530,6 +544,21 @@ static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b)
                 mask_probe_pixel(&pb, (double)x, (double)y))
                 return 1;
     return 0;
+}
+
+int gm_precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b) {
+    return precise_core(vm, a, ax, ay, b, NULL, NULL);
+}
+
+/* The runner's PreciseCollision takes both rectangles as arguments; this entry
+ * lets a fixture inject them (the Unicorn oracle does the same) so mask
+ * sampling is isolated from Compute_BoundingBox. */
+int gm_precise_rects(GmVM* vm, int32_t a, const double* rect_a, int32_t b,
+                     const double* rect_b) {
+    GmInst* ia = vm_inst(vm, a);
+    if (!ia) return 1;
+    return precise_core(vm, a, field_or(ia, "x", 0.0), field_or(ia, "y", 0.0),
+                        b, rect_a, rect_b);
 }
 
 int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
@@ -563,7 +592,7 @@ int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
         if (pbox.l <= tb.r && pbox.r >= tb.l && pbox.t <= tb.b && pbox.b >= tb.t) {
             /* The runner continues into Collision_Instance -> PreciseCollision:
              * the recorded box is only the broad phase. */
-            if (!precise_overlap(vm, self, (double)x, (double)y, tid)) continue;
+            if (!gm_precise_overlap(vm, self, (double)x, (double)y, tid)) continue;
             return tid;
         }
     }
