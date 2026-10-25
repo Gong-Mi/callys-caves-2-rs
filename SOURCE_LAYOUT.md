@@ -9,6 +9,7 @@ functions (e.g. search `"choose"`, not `fn choose`).
 | --- | --- | --- |
 | Font bitmaps | `crates/client/src/parts/font.rs`: `FONT_5X7` | existing client render tests |
 | Pixel blending / text drawing | `crates/client/src/lib.rs`: `impl Framebuffer` | `crates/client/tests/ir_scene_gameplay.rs` |
+| Resident uploads / deletion / static-frame maintenance | client `parts/gles.rs`: `ResidentSet`, `apply_upload_results`, `has_pending_maintenance`, `Presenter::present` | Android-only `gles_resident_reupload.rs`; headless GL probes are separate from Ubuntu CI |
 | Backend selection / cost hook | client `parts/render_backend.rs`: `render_backend_config`, `render_backend_status`, `set_render_backend`; client `lib.rs`: `draw_frame_inner` dispatch | `render_backend_switch.rs`, opt-in `render_backend_switch_perf.rs` |
 | Scene command consumption / camera | same client file: `draw_frame`, `draw_ir_sprite` (per-command: SPRT origin, facing mirror, `image_angle`, `image_blend`, `d3d_set_fog` flood), `Framebuffer::blit_sprite_gm`, `unpack_color`, `draw_sprite_alpha`, `draw_tile`, `camera_position_for_scene` | `draw_field_consumption.rs`, `particle_render_consumption.rs`, `prologue_render_regression.rs` in client tests |
 | Frame errors / lifecycle | same client file: `GameState`, `step_inner`, `nativeStep` | `ir_error_propagation.rs`, `room_lifecycle_error_boundary.rs` in client tests |
