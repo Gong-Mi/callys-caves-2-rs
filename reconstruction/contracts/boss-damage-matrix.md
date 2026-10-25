@@ -78,9 +78,33 @@ So for bosses 3/4/5 the poison bodies are dead code unless the engine
 `boss345_poison_has_no_armer_outside_its_own_chain`; mutation gate: dropping
 `219` from the expected owner list turns it red, restoring is green.
 
+## Engine side: libyoyo cannot arm an alarm either
+
+`libyoyo.so` keeps the alarm array inside `CInstance` at `(index + 62) * 4`
+bytes — `CInstance::SetTimer(int, int)` @ `0x193148` is four instructions:
+`cmp r1,#11; addls r1,r1,#62; strls r2,[r0,r1,lsl #2]; bx lr`, and
+`GetTimer` @ `0x193134` reads the same slot (returns `-1` for index > 11).
+
+The complete call-site set of `SetTimer` (whole `.text`, objdump + awk):
+
+| caller | address | what it does |
+|---|---|---|
+| `F_AlarmSet` | `0x115e08` | GML builtin `alarm_set()` |
+| `F_ActionSetAlarm` | `0x13e76c` | legacy action |
+| `YYGML_action_set_alarm` | `0x141c34` | legacy action |
+| `HandleAlarm` | `0x1cdeb8` | `SetTimer(i, GetTimer(i) - 1)` — **decrement only** |
+| `SV_Alarm` | `0x1fb7c8` | the VM store path for `alarm[i] = x` |
+
+So the engine only ever decrements a running alarm; it never starts one. Arming
+requires a GML write, and the corpus has no `alarm_set(...)` call at all (99
+distinct calls, none alarm-related), so the only arming form is
+`store alarm[i]` — which the exhaustive scan already covers, with-blocks
+included. Bosses 3/4/5 have no such write: their poison is unreachable in the
+shipped engine as well.
+
 ## Open
 
-- Engine-side writes: everything above is GML. If libyoyo ever writes
-  `alarm[10]` / `poisoned` on a boss, these conclusions need revisiting.
 - In-play reachability of the armed paths (bullet/flame actually overlapping the
   boss hitbox) is not covered here.
+- `CInstance` field layout beyond the alarm array is not mapped here; the
+  `poisoned` flag's offset was never needed because no body writes it.
