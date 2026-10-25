@@ -169,11 +169,24 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
      两者的唯一差别在负局部坐标（-0.5 → floor 得 -1 miss，trunc 得 0 hit），
      由 `c-recon/tests/collision_test.c` 的 `group_point_floor_negative` 钉住：
      把 floorf 换成截断，该夹具恰好一条变红（`got 1 want 0`）。
-* 掩码基址：GM8 用掩码自身的 bbox 偏移；我们用 sprite origin。字段级来源
-  （`[sprite+0x24]/+0x28`）尚未证到具体语义。
+* 掩码基址（`[sprite+0x24]/+0x28`）：**函数级已定** —— oracle 实验（合成 8×8
+  掩码，只有 (2,0) 为实心，`x=y=0`、scale=1、angle=0、查询 (0,0)）：
+  `base_x=0 → 0`（miss）、`base_x=2 → 1`（hit）。所以基址是在 unscale 之后、
+  `floorf` 之前**相加**的整数偏移（与 0x1e4aac–0x1e4ab4 的 `vadd` 一致）。
+  **仍未定的是语义归属**：两侧现在都拿资产的 `origin_x/origin_y` 当基址。
+  本二进制里同一对字段就是绘制原点——`CSprite::DrawSimple` @0x1ecab4 在
+  0x1ecb58 / 0x1ecb5c 用 `vldr s15,[r5,#36]` / `vldr s13,[r5,#40]` 读
+  `+0x24/+0x28` 当浮点原点来偏移绘制。也就是说「碰撞掩码基址」与「绘制原点」
+  是同一个字段，拿资产 origin 当基址在方向上成立；但"loader 把 SPRT 的 origin
+  写进 +0x24/+0x28"这一步仍只有 draw 正确性的间接证据，没有 asset-loader 的
+  反汇编或真 sprite 端到端对拍。k80u 那边的说法（base=掩码偏移、base_x=1 平移
+  一列）与本实验的"相加"行为一致，但仍需一个真实 sprite（origin 非 0）的
+  oracle/真机对拍才能把"origin vs mask offset"彻底钉死；在那之前不得声称与
+  runner 等价。
 
-结论不变：axis-aligned 路径已接、C↔VM 全绿；但要宣称"等于原版"，必须先确定
-上面三点，最好用 Unicorn 合成内存 oracle 直接对拍 `0x1e4298`。
+结论：axis-aligned 路径已接、C↔VM 全绿；第 1、2 条已按原版证据落地/定案，
+第 3 条的**函数级行为**（基址相加）已由 oracle 钉住，但"loader 把哪个字段写进
+`+0x24/+0x28`"仍未闭环，所以仍不能声称整族等于原版。
 
 ### 7.2 oracle 前置事实（为 Unicorn 合成内存准备）
 
