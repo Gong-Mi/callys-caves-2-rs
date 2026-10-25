@@ -43,9 +43,17 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
   `trex_alarm6_poisons_and_spawns_a_damage_cloud`（poisoned=1、hptrex−0.25、
   alarm[6]=30、在 Boss 坐标生成 obj_damage(104) 且 damage=0.25）与
   `trex_alarm5_clears_sword_stun`（swordstunned 1→0）。两条都驱动真实字节码，
-  不是手写逻辑；武器池只负责**武装**这两个 alarm，武装链本身仍未单测。
-  武装点已定位（全库扫描：同一 body 里既写 `swordstunned`/`poisoned` 又写
-  `alarm[5]`/`alarm[6]`）：`CODE 311 gml_Object_obj_sword_Step_0`（swordstunned
-  + alarm[5]）与 `CODE 294 gml_Object_obj_spikegunspike_Step_0`（swordstunned +
-  alarm[5]/[6]）；两者的命中/武器池分支尚未拆解。
+  不是手写逻辑；武器池只负责**武装**这两个 alarm，武装链本身仍未单测，
+  且**第一次武装点尚未找到**（三条否定证据）：`CODE 311 gml_Object_obj_sword_Step_0`
+  的 obj_trex(25) 分支（≈指令 334–372）只做伤害——`hptrex -= …`、
+  `instance_create(x, y, obj_damage)` 且 `damage=1`、`canhit=1`，不写
+  swordstunned/alarm[5]（它后段 ≈2404 起的 stun 块属于别的家族）；
+  `CODE 294 gml_Object_obj_spikegunspike_Step_0` 的 `instance_place` 只针对
+  object 20/34/42；全库静态扫描还显示：**没有任何** `other.`/跨实例的
+  `alarm[5]`/`alarm[6]` 写，也没有任何 `with` 块里写 alarm[5]/[6]——obj_trex 自己的
+  body 里只有 CODE 156 的 alarm[6] 自续（Create 只装 alarm[2]/[3]）。
+  ⇒ 首次武装要么在动态 selector 的写里（静态扫描解析不出的局部变量），要么在
+  engine 侧武器池代码路径，不在这些 body 的字面 store 中。下一批从
+  `CODE 12 obj_player_Step_0` 里找 alarm/poisoned 的间接写，或按"谁读
+  swordstunned"反查武装者。
 - Android 真机 Boss 战视觉与音效验收仍需单独一轮（CI 绿≠真机已验）。
