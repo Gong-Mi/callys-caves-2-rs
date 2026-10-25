@@ -193,3 +193,33 @@ fn trex_alarm5_clears_sword_stun() {
     s.dispatch(&bundle, trex, 2, 5).expect("Alarm 5 dispatch");
     assert_eq!(s.instances[&trex].fields["swordstunned"], 0.0);
 }
+
+#[test]
+fn energywave_damages_trex_and_flashes_it() {
+    // CODE 308 (obj_energywave_Step_0) walks its instance_place chain; the
+    // obj_trex(25) branch (instructions ~252-300) sets flashing, spawns a
+    // particle burst and deals 3 damage plus obj_damage(104).damage = 3.
+    // It does NOT stun the trex -- the stunned=1 / alarm[4]=10 block earlier
+    // in the same body belongs to the knife-bandit family.
+    //
+    // The chain applies only the FIRST family it hits (canhit latch) and the
+    // trex stands on a wall tile, so lift both to clear air first.
+    let (bundle, mut s, trex) = boss_scene();
+    let x = s.instances[&trex].fields["x"];
+    let y = s.instances[&trex].fields["y"] - 80.0;
+    s.write(trex, -1, "x", None, x).unwrap();
+    s.write(trex, -1, "y", None, y).unwrap();
+    let hp_before = s.instances[&trex].fields["hptrex"];
+    let wave = s.create(&bundle, 45, x, y).expect("create obj_energywave");
+    s.write(wave, -1, "direction", None, 0.0).unwrap();
+    s.dispatch(&bundle, wave, 3, 0).expect("energywave Step dispatch");
+    let t = &s.instances[&trex];
+    assert_eq!(t.fields["flashing"], 1.0, "CODE 308 flashes the hit trex");
+    assert_eq!(t.fields["hptrex"], hp_before - 3.0, "CODE 308 deals 3 damage");
+    let dmg = s
+        .instances
+        .values()
+        .filter(|i| i.object == 104 && i.alive)
+        .any(|i| i.fields.get("damage") == Some(&3.0));
+    assert!(dmg, "CODE 308 spawns obj_damage with damage=3");
+}

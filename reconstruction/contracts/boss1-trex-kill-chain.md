@@ -43,15 +43,19 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
   `trex_alarm6_poisons_and_spawns_a_damage_cloud`（poisoned=1、hptrex−0.25、
   alarm[6]=30、在 Boss 坐标生成 obj_damage(104) 且 damage=0.25）与
   `trex_alarm5_clears_sword_stun`（swordstunned 1→0）。两条都驱动真实字节码，
-  不是手写逻辑；武器池只负责**武装**这两个 alarm，武装链本身仍未单测。
-  已定位到一条真实的武装路径（**修正前一版"无跨实例写"的错误结论**：IR 里
-  `selector == 0` 就是 `other`，不是没有这类写）：`CODE 308
-  gml_Object_obj_energywave_Step_0` 的 `instance_place` 链包含 obj_trex(25)，
-  命中块（≈指令 45–72）做的是 `i = instance_create(x, y, 104)`、`i.damage = 3`、
-  `(hit).stunned = 1`、`(hit).alarm[4] = 10`、`canhit = 1`——注意它是
-  **stunned + alarm[4]**，与剑族的 `swordstunned + alarm[5]` 是两套标志。
-  毒仍无着落：全库没有任何跨实例 `poisoned` 写（只有敌人自己 Create 清零、
-  Alarm 6 置 1），所以首发毒要么走 alarm[6] 的跨实例写（本次扫描未命中），
-  要么在 engine 侧。下一批直接驱动 CODE 308 对 trex 的命中块写夹具，
-  并继续找 `(hit).alarm[6]`。
+  不是手写逻辑；武器池只负责**武装**这两个 alarm，武装链本身仍未单测，
+  **第一次武装点仍未被找到**（两次自我更正后的事实）：
+  `CODE 308 gml_Object_obj_energywave_Step_0` 的 instance_place 链确实包含
+  obj_trex(25)，但 trex 分支（≈指令 252–300）只做 `flashing=1`、
+  `hptrex -= 3`、粒子爆发、生成 `obj_damage(104)` 且 `damage=3`——**不写
+  stunned、不写 alarm**。同一 body 里 `(hit).stunned = 1; (hit).alarm[4] = 10`
+  的块属于 knife bandit 家族（局部变量 `hitknife`），不是 trex。
+  `CODE 311 obj_sword_Step_0` 的 trex 分支同样只做伤害（damage=1）；
+  它后段的 `swordstunned + alarm[5]` 块属于别的家族。
+  `CODE 294 obj_spikegunspike_Step_0` 只针对 object 20/34/42。
+  ⇒ trex 的 stunned/swordstunned 与 poisoned 首次武装都还在别处（或 engine 侧）。
+  新夹具 `energywave_damages_trex_and_flashes_it` 钉住 CODE 308 的**真实** trex
+  分支（flashing、hp−3、damage=3）。注意两条夹具纪律：canhit 闩让同一波只结算
+  第一个命中的家族；trex 站在墙瓦上时会被前面的 family 抢占，所以先把两者抬到
+  空中 80px 再派发。
 - Android 真机 Boss 战视觉与音效验收仍需单独一轮（CI 绿≠真机已验）。
