@@ -53,7 +53,9 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
     `alarm[6] = 1`**，分别来自 `CODE 270 flame` / `274 blade` / `281 arrow` /
     `284 bullet` / `289 laserbeam` / `294 spikegunspike` / `303 rocket`。
     `CODE 284` 的门在指令 719–721：`if (global.poisonenabled == 1)`，723–727
-    写 `(hittrex).alarm[6] = 1`。
+    写 `(hittrex).alarm[6] = 1`。**七个 body 逐个验过**（`scripts/scan_point_writes.py
+    --var hittrex --field alarm --index 6 --gate poisonenabled`）：门形状完全一致，
+    都是"load poisonenabled 距离 store 8 条、跨一个 bf"（8/bf）。
     方法提醒：`other` 布尔字段不能当"点写"判据（284 这处 `other=false`，
     目标是栈上的 `hittrex`）；`with` 块的块内写用 `selector=-1`。
   - **trex 无剑眩晕**：同一张表里 `hittrex` 没有任何 `swordstunned` / `alarm[5]`
