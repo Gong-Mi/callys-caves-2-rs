@@ -47,11 +47,19 @@ fi
 
 if [ "${1:-}" = "--deep" ]; then
   step "deep: boss chain C<->VM corpus (284/156/157, all objects, 3 ticks)"
+  # Red-team review of the first version: grepping the whole log for
+  # ": [1-9]" passes when the run crashes or prints "=== 0 bodies ===",
+  # and any detail line with "ERROR: 4" would fail spuriously. So: keep the
+  # exit code, require the summary block, and compare numerically.
   out=$(python3 scripts/batch_diff.py --build-c --only 284,156,157 --all-objects \
-          --sequence --ticks 3 --work "$TMP/deep_boss" 2>/dev/null | grep -E "differ|c_fail|c_only|c_gap")
-  echo "$out"
-  if echo "$out" | grep -qE ": [1-9]"; then
-    echo "deep corpus FAILED"
+          --sequence --ticks 3 --work "$TMP/deep_boss" 2>&1); rc=$?
+  printf '%s\n' "$out" | grep -E '^ *(differ|c_gap|c_only|c_fail) *: *[0-9]+$'
+  ncounters=$(printf '%s\n' "$out" | grep -cE '^ *(differ|c_gap|c_only|c_fail) *: *[0-9]+$')
+  if [ "$rc" -ne 0 ] || [ "$ncounters" -ne 4 ] \
+     || ! printf '%s\n' "$out" | grep -qE '^=== [1-9][0-9]* bodies ===' \
+     || printf '%s\n' "$out" | awk -F' *: *' \
+          '/^ *(differ|c_gap|c_only|c_fail) *:/ && ($2+0)>0 {bad=1} END{exit !bad}'; then
+    echo "deep corpus FAILED (rc=$rc)"
     fails=$((fails+1))
   fi
 fi
