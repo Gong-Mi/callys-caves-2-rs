@@ -96,8 +96,10 @@ runner 的 `[sprite+0x31] == 0` 分支）。**旋转仍是缺口，但路径已�
     mask_x = base_x + ( dx·cosA − dy·sinA ) / sx
     mask_y = base_y + ( −dx·sinA − dy·cosA ) / sy
 
-进入同一套截断采样（符号按"实参取了负角"解读，仍需 oracle 确认）。当前旋转实例
-在两侧都回退到盒子判定，不得声称已支持。
+进入同一套截断采样（符号按"实参取了负角"解读）。**旋转路径已由 oracle 探针取到
+ground truth**：`c-recon/tools/oracle/rotated_instance_probe.py`（两个 8×8 精灵、
+唯一实心像素 (4,0)、都在 (0,0)）：`angleB=0 → 1`、`45 → 0`、`90 → 0`、`180 → 0`。
+当前旋转实例在两侧仍回退到盒子判定（`0` 与 `1` 的差异就是缺口），不得声称已支持。
 
 原版路径（libyoyo ARMv7，SHA256 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）：
 
@@ -108,7 +110,10 @@ Command_InstancePlace      @0x1ca6d8   (800 B)
           → CSprite::UnpackWADMask @0x1e3994
 ```
 
-`PreciseCollision` 的结构（静态读，未运行；旋转分支尚未读定）：
+`PreciseCollision` 的结构（静态读 + oracle 探针；旋转在**同一个函数内**，不是另一个
+入口：0x1e47a8–0x1e4808 对 A/B 两个角度各算一对 `sinf`/`cosf`，角度实参在
+`[sp,#132]`/`[sp,#164]`，度→弧度常数取 `0x1e4a1c`/`0x1e4a20`；逐像素再按
+`vcmpe s5,#0` 选快速/一般路径，0x1e488c / 0x1e48c4）：
 
 1. 双方对各自 frame 调 `UnpackWADMask`；frame 先对 mask 数（`[sprite+0x3c]`）取模。
 2. 两个 `tagYYRECT` 求交：left=max、right=min、top=max、bottom=min。
@@ -123,8 +128,10 @@ Command_InstancePlace      @0x1ca6d8   (800 B)
 结论与纪律：
 
 * 当前 bbox-only 是**有名有据的近似**，不能写成"原版也这样"。
-* 移植前必须先把 `base`/`offset` 的确切定义与旋转分支读定（本循环内没有三角函数项，
-  旋转是否另走分支尚未证），再实现；用"盒重叠、掩码不重叠"的合成夹具证明行为变化。
+* 旋转分支已读定（同一函数内自算 A/B 两对 sin/cos，逐像素按 `angle==0` 分支；
+  oracle 探针表见上）；剩下的实现工作是把该分支移植到两侧，并用"盒重叠、掩码
+  重叠"的旋转夹具 + `rotated_instance_probe.py` 的表对账。`base` 的定义见 §7.1
+  第 3 条（= 绘制原点，同一字段）。
 * 只做 C↔VM 对账不能证明这一步：两侧同时改成同一个错误实现也会全绿。原 runner 的
   同输入对拍（或 Unicorn 合成内存 oracle）才是这一步的判据。
 
