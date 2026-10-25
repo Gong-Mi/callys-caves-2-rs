@@ -459,6 +459,36 @@ static void group_line_broad_phase(void) {
             gm_line_hits_instance(&g_vm, id, 190.0, 200.0, 210.0, 200.0), 1);
 }
 
+/* --- 13. collision_point(prec=1) floors the local coordinate ---------------
+ * The runner's PreciseCollisionPoint calls floorf (PLT stub 0xb6910, hooked by
+ * c-recon/tools/oracle/precise_oracle.py), while instance_place uses vcvt.s32
+ * (truncation). They only differ on negative coordinates: local -0.5 is pixel
+ * -1 (miss) after flooring but pixel 0 (hit) after truncation. This pins the
+ * floor side with a sprite whose mask pixel (0,0) is set. */
+static void group_point_floor_negative(void) {
+    new_vm();
+    int32_t spr = -1;
+    for (int i = 0; i < GM_SPRITE_MASK_COUNT && spr < 0; i++) {
+        const GmMaskSprite* m = &GM_SPRITE_MASKS[i];
+        if (m->nframes <= 0) continue;
+        if (m->frames[0].width > 0 && (m->frames[0].bits[0] & 0x80)) spr = m->sprite;
+    }
+    CHECK_I("floor: a sprite with mask pixel (0,0) set exists", spr > 0, 1);
+    if (spr < 0) return;
+    const GmSprite* sp = NULL;
+    for (int i = 0; i < GM_SPRITE_COUNT; i++)
+        if (GM_SPRITES[i].id == spr) sp = &GM_SPRITES[i];
+    double ox = sp ? sp->origin_x : 0.0, oy = sp ? sp->origin_y : 0.0;
+    int32_t id = mk(100040, 34, 100.0, 100.0, spr);
+    /* local = (px - x) + origin, so px = x - origin - 0.5 gives local -0.5. */
+    double px = 100.0 - ox - 0.5, py = 100.0 - oy - 0.5;
+    CHECK_I("point mask: local -0.5 floors to pixel -1 and misses",
+            gm_mask_point_test(&g_vm, id, px, py), 0);
+    double qx = 100.0 - ox + 0.5, qy = 100.0 - oy + 0.5;
+    CHECK_I("point mask: local .5 floors onto pixel (0,0) and hits",
+            gm_mask_point_test(&g_vm, id, qx, qy), 1);
+}
+
 int main(void) {
     group_pinned_player_lloyd();
     group_mask_and_signed_scale();
@@ -473,6 +503,7 @@ int main(void) {
     group_line_mask();
     group_precise_place();
     group_line_broad_phase();
+    group_point_floor_negative();
     printf("collision_test: %d checks, %d failed\n", g_checks, g_fails);
     return g_fails ? 1 : 0;
 }

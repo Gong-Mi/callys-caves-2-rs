@@ -137,11 +137,17 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
   这类**包含边**比较，与我们的 inclusive 盒一致。
 * 精确阶段：取两个 AABB 交集里的每个**整数**像素，分别在两张掩码的坐标系里
   "反旋转 → 反缩放 → 查位"，两边都有像素才算命中——与我们实现的顺序相同。
-* 两处我们**当前没有对齐**的细节：
+* GM8 笔记提到的两处细节，一条仍未对齐、一条已定案：
   1. 旋转中心是 `FISTP(x), FISTP(y)`（银行家舍入），而我们现在直接用未取整的
-     x/y；
-  2. 反旋转/反缩放后的取整：GM8 笔记写 floor，本二进制反汇编是 `vcvt.s32`
-     （向零截断）。两者只在负坐标上不同，未定。
+     x/y；**仍未对齐**。
+  2. 反旋转/反缩放后的取整——**已定案，而且本二进制本来就不止一套**：
+     `PreciseCollisionPoint` 经 PLT 桩 `0xb6910` 调 `floorf`
+     （`c-recon/tools/oracle/precise_oracle.py:82-83` 直接 hook 该桩做 oracle），
+     `instance_place` 才走 `vcvt.s32` 向零截断。Rust `mask_hit`
+     （`ir_scene.rs:1437-1440`）取 floor，C 的 `mask_probe_pixel_floor` 同；
+     两者的唯一差别在负局部坐标（-0.5 → floor 得 -1 miss，trunc 得 0 hit），
+     由 `c-recon/tests/collision_test.c` 的 `group_point_floor_negative` 钉住：
+     把 floorf 换成截断，该夹具恰好一条变红（`got 1 want 0`）。
 * 掩码基址：GM8 用掩码自身的 bbox 偏移；我们用 sprite origin。字段级来源
   （`[sprite+0x24]/+0x28`）尚未证到具体语义。
 
