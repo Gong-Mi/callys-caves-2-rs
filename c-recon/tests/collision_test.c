@@ -12,11 +12,15 @@
  *   3. A/B flips (angle 0 vs 90, scale 1 vs -1 vs 0.28125) where the same
  *      instance pair must change its answer.
  *
- * Build/run:
+ * Build/run (the whole geometry chain, not just the module under test: host.c
+ * already calls into objects/audio, so the test must link the same set the
+ * state_dump target does):
  *   clang -std=c11 -O2 -Wall -Ic-recon/include \
- *       c-recon/src/host.c c-recon/src/collision.c \
- *       c-recon/tests/collision_test.c c-recon/gen/sprites.c \
- *       -o c-recon/build/collision_test && ./c-recon/build/collision_test
+ *       c-recon/src/host.c c-recon/src/collision.c c-recon/src/objects.c \
+ *       c-recon/src/builtins2.c c-recon/gen/objects_data.c \
+ *       c-recon/gen/registry.c c-recon/gen/gml_0012.c c-recon/gen/gml_0792.c \
+ *       c-recon/gen/sprites.c c-recon/tests/collision_test.c \
+ *       -o c-recon/build/collision_test -lm && ./c-recon/build/collision_test
  */
 #include "gml.h"
 
@@ -433,6 +437,28 @@ static void group_precise_place(void) {
      * mask_probe_pixel code path. */
 }
 
+/* --- 12. collision_line broad phase: half-open on the inclusive integer box --
+ * The runner's broad phase is `min(x1,x2) < right+1 && max(x1,x2) >= left`
+ * (CInstance::Collision_Line @0x194f28); Rust mirrors it with
+ * bounds_for_instance (right+1, bottom+1). A sprite-less instance is the integer
+ * point box [x,x]x[y,y], so a segment on its .5 row/column must touch it and one
+ * 1.5 rows away must not. Reverting the +1 flips the first of each pair. */
+static void group_line_broad_phase(void) {
+    new_vm();
+    int32_t id = mk(100030, 34, 200.0, 200.0, -1);
+    CHECK_I("line box: .5 row touches the sprite-less point box",
+            gm_line_hits_instance(&g_vm, id, 190.0, 200.5, 210.0, 200.5), 1);
+    CHECK_I("line box: 1.5 rows above the point box misses",
+            gm_line_hits_instance(&g_vm, id, 190.0, 201.5, 210.0, 201.5), 0);
+    CHECK_I("line box: .5 column touches the sprite-less point box",
+            gm_line_hits_instance(&g_vm, id, 200.5, 190.0, 200.5, 210.0), 1);
+    CHECK_I("line box: 1.5 columns away misses",
+            gm_line_hits_instance(&g_vm, id, 201.5, 190.0, 201.5, 210.0), 0);
+    /* Control: the integer coordinate itself still hits. */
+    CHECK_I("line box: a segment through the point itself hits",
+            gm_line_hits_instance(&g_vm, id, 190.0, 200.0, 210.0, 200.0), 1);
+}
+
 int main(void) {
     group_pinned_player_lloyd();
     group_mask_and_signed_scale();
@@ -446,6 +472,7 @@ int main(void) {
     group_distance_selectors();
     group_line_mask();
     group_precise_place();
+    group_line_broad_phase();
     printf("collision_test: %d checks, %d failed\n", g_checks, g_fails);
     return g_fails ? 1 : 0;
 }

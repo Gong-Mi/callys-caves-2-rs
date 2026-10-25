@@ -368,6 +368,39 @@ int gm_instance_box(GmVM* vm, int32_t id, double* l, double* r, double* t, doubl
     return 1;
 }
 
+/* Liang-Barsky, inclusive edges: the same slab test host_impl.rs
+ * `segment_hits_box` runs. Lives here (not in builtins2.c) so collision_line and
+ * the unit tests share one geometry path. */
+int gm_seg_hits_box(double x1, double y1, double x2, double y2,
+                    double l, double r, double t, double b) {
+    double dx = x2 - x1, dy = y2 - y1;
+    double t0 = 0.0, t1 = 1.0;
+    double p[4] = { -dx, dx, -dy, dy };
+    double q[4] = { x1 - l, r - x1, y1 - t, b - y1 };
+    for (int i = 0; i < 4; i++) {
+        if (p[i] == 0.0) { if (q[i] < 0.0) return 0; }
+        else {
+            double rt = q[i] / p[i];
+            if (p[i] < 0.0) { if (rt > t1) return 0; if (rt > t0) t0 = rt; }
+            else { if (rt < t0) return 0; if (rt < t1) t1 = rt; }
+        }
+    }
+    return 1;
+}
+
+/* collision_line broad phase for one instance. The runner
+ * (CInstance::Collision_Line @0x194f28, 0x194fcc-0x195068) tests
+ * `min(x1,x2) < right+1 && max(x1,x2) >= left` -- a half-open box on the
+ * inclusive integer edges -- and Rust mirrors it with bounds_for_instance
+ * (right+1, bottom+1). Without the +1 a sprite-less point box [x,x] misses a
+ * segment that runs through its .5 row/column. */
+int gm_line_hits_instance(GmVM* vm, int32_t id, double x1, double y1,
+                          double x2, double y2) {
+    double l, r, t, b;
+    if (!gm_instance_box(vm, id, &l, &r, &t, &b)) return 0;
+    return gm_seg_hits_box(x1, y1, x2, y2, l, r + 1.0, t, b + 1.0);
+}
+
 static int box_for_instance(GmVM* vm, int32_t id, GmBox* out) {
     GmInst* in = vm_inst(vm, id);
     if (!in) return 0;

@@ -94,25 +94,9 @@ static void map_put(GmVM* vm, int id, double key, double val) {
     vm->maps[i].n++;
 }
 
-/* Liang-Barsky, inclusive edges — the same test as host_impl.rs
- * segment_hits_box, on the same Compute_BoundingBox the other collision
- * builtins use. */
-static int seg_hits_box(double x1, double y1, double x2, double y2,
-                        double l, double r, double t, double b) {
-    double dx = x2 - x1, dy = y2 - y1;
-    double t0 = 0.0, t1 = 1.0;
-    double p[4] = { -dx, dx, -dy, dy };
-    double q[4] = { x1 - l, r - x1, y1 - t, b - y1 };
-    for (int i = 0; i < 4; i++) {
-        if (p[i] == 0.0) { if (q[i] < 0.0) return 0; }
-        else {
-            double rt = q[i] / p[i];
-            if (p[i] < 0.0) { if (rt > t1) return 0; if (rt > t0) t0 = rt; }
-            else { if (rt < t0) return 0; if (rt < t1) t1 = rt; }
-        }
-    }
-    return 1;
-}
+/* Liang-Barsky moved to collision.c (gm_seg_hits_box) so collision_line and the
+ * unit tests share one geometry path; see gm_line_hits_instance there for the
+ * broad-phase box. */
 
 /* --------------------------------------------------------------- builtins */
 
@@ -351,9 +335,10 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
         *out = -4.0;
         for (int i = 0; i < n; i++) {
             if (notme && ids[i] == vm->cur) continue;
-            double l, r, t, b;
-            if (!gm_instance_box(vm, ids[i], &l, &r, &t, &b)) continue;
-            if (!seg_hits_box(x1, y1, x2, y2, l, r, t, b)) continue;
+            /* Broad phase: the runner's half-open box and Liang-Barsky live in
+             * collision.c (gm_line_hits_instance) so the unit tests share the
+             * exact path collision_line takes. */
+            if (!gm_line_hits_instance(vm, ids[i], x1, y1, x2, y2)) continue;
             if (prec && gm_line_mask_test(vm, ids[i], x1, y1, x2, y2) == 0) continue;
             *out = ids[i];
             return 1;

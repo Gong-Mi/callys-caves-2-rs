@@ -260,16 +260,25 @@ C 侧因此有两个像素助手：`mask_probe_pixel`（截断，precise overlap
 
 这三处都不是放宽断言：被挡仍要求"整段没有 BULLET2"，追逐仍要求 `hspeed=-2`。
 
-### 7.6 待定：collision_line 的宽相框到底哪套
+### 7.6 定案：collision_line 的宽相框是半开
 
-- 原版 `CInstance::Collision_Line` 传给 `PreciseCollisionLine` 的是
-  `Compute_BoundingBox` 的**闭区间**框；
-- Rust 侧 `collision_line` 沿用 `bounds_for_instance` 的**半开**框
-  （`x..x+1`，main 一直如此）；
-- C 侧 `gm_instance_box` 是闭区间。
+- 原版 `CInstance::Collision_Line`（@0x194f28）拿的是 `Compute_BoundingBox` 的**闭区间整数边**，
+  但宽相比较是 `min(x1,x2) < right+1 && max(x1,x2) >= left`（0x194fcc–0x195068）——
+  等于把闭区间框当 `[left, right+1)` 用；
+- Rust 侧 `collision_line` 走 `bounds_for_instance`（`right+1, bottom+1`），与上式同构；
+- C 侧此前直接拿 `gm_instance_box` 的闭区间比较，点框 `[x,x]x[y,y]` 会漏掉落在 .5 行/列的线段。
 
-三者只在"点框 + 线段恰好落在 .5 小数行/列"时给出不同答案：闭区间判 miss，
-半开判 hit。`physics_and_motion_ir::motion_integration_gravity_friction_and_builtins`
-的"notme==0 包含调用者自身"就踩在这条缝上（线段 y = cy = 200.5，点框 [200,200]）。
-本轮先恢复 main 的半开实现让该断言保持原样，**闭区间/半开的分歧登记为开放项**：
-需要一组小数行/列的语料差分（C 闭区间 vs Rust 半开）来定案，定案前不得声称两腿一致。
+定案：C 侧改为 `gm_line_hits_instance`（`c-recon/src/collision.c`）——同一闭区间框加 +1 后
+交给共享的 Liang-Barsky `gm_seg_hits_box`（从 `builtins2.c` 迁入 `collision.c`，builtins 与单测
+共用一条几何路径）。Rust 不动。
+
+证据：
+
+- `c-recon/tests/collision_test.c` 新增 `group_line_broad_phase`：.5 行命中、1.5 行 miss、
+  .5 列命中、1.5 列 miss、整数坐标命中；总数 97 → 102 checks，全绿。
+- **变异门**：把 `r + 1.0, b + 1.0` 改回 `r, b` 重编，恰好两条 ".5 行 / .5 列" 变红
+  （`got 0 want 1`），1.5 与整数三条仍绿——断言钉的是这条缝，不是区间。
+- 语料差分：`rm -rf c-recon/build/obj && python3 scripts/batch_diff.py --build-c` →
+  双侧各 1354 份产物，`differ.tsv` / `c_fail.tsv` / `c_only.tsv` 全为 0 字节。
+- 证据边界：这条缝在原语料里**不可达**（`c-recon/fixtures` 只有 code12_contact 与 code792），
+  所以"语料差分不变"不能单独证明修复生效，必须配上面那对小数夹具与变异门。

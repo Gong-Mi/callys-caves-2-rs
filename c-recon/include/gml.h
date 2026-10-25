@@ -214,6 +214,12 @@ int     gm_instance_box(GmVM* vm, int32_t id, double* l, double* r, double* t, d
 int     gm_box_at(int32_t mask, int32_t sprite, double x, double y,
                   double sx, double sy, double angle,
                   double* l, double* r, double* t, double* b);
+/* collision_line broad phase (half-open box on the inclusive integer edges) and
+ * the shared Liang-Barsky slab test it runs. */
+int     gm_seg_hits_box(double x1, double y1, double x2, double y2,
+                        double l, double r, double t, double b);
+int     gm_line_hits_instance(GmVM* vm, int32_t id, double x1, double y1,
+                              double x2, double y2);
 
 /* collision parent graph (c-recon/src/collision.c) */
 void    gm_collision_add_parent(int32_t child, int32_t parent);
