@@ -21,6 +21,9 @@
 
 ## 边界
 
+- **C 线（c-recon）只本地验证、不接 CI**（用户裁决 2026-10-25）：CI 对 C 线做不了
+  什么、只会拖时间；验证口径 = 本机 `dev_smoke.sh` + `batch_diff.py`，不把
+  c-recon 写进任何 workflow。任何"给 C 线加 CI 门"的建议默认驳回，除非用户改口。
 - status 的 `dirty(src)` 会漏掉 `android-build/` 与 `*.log`（构建产物与日志不算脏），
   其余未提交改动都会被计入。
 - smoke 假定 `~/cally/oracle/libyoyo.so` 或 `CALLY_LIBYOYO` 指向原版 ARMv7 库；
