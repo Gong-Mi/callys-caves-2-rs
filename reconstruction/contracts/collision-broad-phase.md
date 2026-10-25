@@ -166,6 +166,13 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
 
 ### 7.2 oracle 前置事实（为 Unicorn 合成内存准备）
 
+* **本机（prague）已可跑 oracle（2026-10-25）**：`python3 -m pip install --no-binary
+  unicorn --force-reinstall unicorn` 在 Termux 源码重建后，`libunicorn.so`（无版本号）
+  仍需手工软链到 `libunicorn.so.2`，否则 `import unicorn` 报
+  `Failed to load the Unicorn dynamic library`；libyoyo 用原版 APK 里的
+  `lib/armeabi-v7a/libyoyo.so`（sha256 `3bbedd09ad0cc6…`，4,689,844 B），
+  通过 `CALLY_LIBYOYO=<path>` 指定。实测：`precise_oracle.py` 3/3 符合预期、
+  `point_oracle.py` 120 组随机用例 `mismatches=0`。
 * `CSprite::UnpackWADMask` @0x1e3994 的第一条判断是 `[sprite+0x31] != 0` → 直接
   返回。所以 oracle 可以预先造好掩码表并把 +0x31 置 1，不必实现 WAD 解包。
 * 解包后的掩码是**每像素一字节**（查位：`[bits + row*width + col]`），与资产里
@@ -175,6 +182,10 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
   YYRECT 内嵌在 instance 的 +0xe8/+0xec 附近，r0..r3 与栈槽 0、4、8、12、16、20、
   24、28、32、36、40、44 依次是 spriteA/frame/rectA/…/spriteB/frame/rectB/…。
   具体寄存器—参数对应仍需逐条读，但不必从签名猜。
+* **oracle 的边界**：`point_oracle.py` 直接调 `PreciseCollisionPoint`
+  @0x1e4a30，而入参取整发生在上游 `CInstance::Collision_Point` @0x1944b0
+  （见 §7.1 第 1 条），所以它验证的是"给定整数入参后的算术"，**不覆盖调用点
+  取整**；要覆盖那一层得把 CInstance 也造出来跑，尚未做。
 
 ### 7.3 Unicorn oracle：三处细节已由原函数判定
 
