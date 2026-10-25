@@ -47,9 +47,12 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
   GML 的 `with` 块在 IR 里编码为 `pushenv`/`popenv`，块内 `store selector=-1` 写的是
   **with 目标**而不是 body 属主——这正是我前几轮"无跨实例写"结论的盲点。
   真实武装：
-  - 按精确三元组重扫（`store` 前依次为 `cast to=2` → `load <var>` → 值常量；
-    数组 store 的索引常量在 cast 之后、store 之前）得到权威表：全库 1189 条
-    点写；其中对 `hittrex` 的写入 20 条 = 10 条 `flashing` + **7 条
+  - 用途的权威表由代理红队用抽象栈模拟给出（GT：全库 **1532** 条点写，脚本
+    复核一致）。点写有两种形状：`load var; cast to=2; store`（plain）与
+    `load var; cast to=2; dup; <值表达式>; store`（复合赋值，`hp -= dmg` 属这类）
+    ——**所有扣血类写都在第二种**；我最初的脚本只认紧邻 cast，漏了 343 条
+    （全是 hp 家族），第二次修正为识别 dup 形状后才与 GT 对齐。
+    对 `hittrex` 的写入 **35 条** = 13 `flashing` + 15 `hptrex` + **7 条
     `alarm[6] = 1`**，分别来自 `CODE 270 flame` / `274 blade` / `281 arrow` /
     `284 bullet` / `289 laserbeam` / `294 spikegunspike` / `303 rocket`。
     `CODE 284` 的门在指令 719–721：`if (global.poisonenabled == 1)`，723–727

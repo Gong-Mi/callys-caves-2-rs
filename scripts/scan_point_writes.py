@@ -45,12 +45,25 @@ def point_writes(ir_path):
                     continue
                 idx = ins[j].get("value")
                 j -= 1
-            if j < 0 or ins[j].get("op") != "cast" or ins[j].get("to") != 2:
+            # Exactly two shapes reach the store:
+            #   plain    : load var; cast to=2; store
+            #   compound : load var; cast to=2; dup; <value expr>; store
+            #              (dest under the value, e.g. `hp -= dmg`)
+            var = None
+            if j >= 1 and ins[j].get("op") == "cast" and ins[j].get("to") == 2 \
+                    and ins[j - 1].get("op") == "load":
+                var = ins[j - 1].get("name")
+            else:
+                k = i - 1
+                while k >= 0 and (i - k) <= 6 and ins[k].get("op") != "dup":
+                    k -= 1
+                if k >= 2 and ins[k].get("op") == "dup" \
+                        and ins[k - 1].get("op") == "cast" and ins[k - 1].get("to") == 2 \
+                        and ins[k - 2].get("op") == "load":
+                    var = ins[k - 2].get("name")
+            if var is None:
                 continue
-            j -= 1
-            if j < 0 or ins[j].get("op") != "load":
-                continue
-            yield c, i, ins[j].get("name"), x.get("name"), idx, ins
+            yield c, i, var, x.get("name"), idx, ins
 
 
 def gate_of(ins, i, gate_name, window=20):
