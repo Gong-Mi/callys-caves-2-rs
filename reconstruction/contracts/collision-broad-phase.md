@@ -173,6 +173,7 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
   掩码，只有 (2,0) 为实心，`x=y=0`、scale=1、angle=0、查询 (0,0)）：
   `base_x=0 → 0`（miss）、`base_x=2 → 1`（hit）。所以基址是在 unscale 之后、
   `floorf` 之前**相加**的整数偏移（与 0x1e4aac–0x1e4ab4 的 `vadd` 一致）。
+  该实验已固化成 `c-recon/tools/oracle/base_probe.py`（自带 PASS/FAIL 判定）。
   **仍未定的是语义归属**：两侧现在都拿资产的 `origin_x/origin_y` 当基址。
   本二进制里同一对字段就是绘制原点——`CSprite::DrawSimple` @0x1ecab4 在
   0x1ecb58 / 0x1ecb5c 用 `vldr s15,[r5,#36]` / `vldr s13,[r5,#40]` 读
