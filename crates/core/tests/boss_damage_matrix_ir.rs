@@ -185,10 +185,17 @@ fn only_three_boss_paths_are_poison_armed_and_none_is_stunned() {
         vec![270, 274, 281, 284, 289, 294],
         "boss2 is only reached through hit15, and bomb/boomerang/rocket skip it"
     );
+    // hit11 looks like a final-boss path, but per body it only ever receives
+    // obj_hulkingbandit(21); the final boss is reached through hit17 alone.
+    // The nine armers on hit11 therefore never poison it.
     assert_eq!(
         armers(6, "hit11"),
         vec![270, 274, 278, 281, 284, 289, 294, 298, 303],
-        "final boss is reached through hit11 with the widest weapon set"
+        "hit11 armers exist, but hit11 holds the bandit, not the final boss"
+    );
+    assert!(
+        armers(6, "hit17").is_empty(),
+        "the final boss variable receives no poison arming at all"
     );
     for var in ["hit16", "hitboss2", "hitboss3", "hitboss4", "hitboss5", "hitfinalboss"] {
         assert!(
@@ -277,5 +284,67 @@ fn boss345_poison_has_no_armer_outside_its_own_chain() {
             !owners.contains(&boss_body),
             "boss Create/Step body {boss_body} must not arm alarm[10]"
         );
+    }
+}
+
+/// Per body, the final boss is only ever stored into `hit17` (the spike also
+/// uses `hit17alt`). Any matrix that reads variable names globally would
+/// wrongly credit `hit11` -- which holds the hulking bandit -- with a final
+/// boss poison path.
+#[test]
+fn final_boss_is_only_reached_through_hit17() {
+    let ir = ir();
+    let mut pairs: Vec<(i64, String)> = Vec::new();
+    for c in ir["codes"].as_array().expect("codes") {
+        let id = c["id"].as_i64().expect("id");
+        let ins = c["instructions"].as_array().expect("instructions");
+        for (i, x) in ins.iter().enumerate() {
+            if x["op"] != "call" || x["name"] != "instance_place" {
+                continue;
+            }
+            let mut obj = None;
+            let mut k = i as i64 - 1;
+            while k >= 0 && i as i64 - k <= 9 {
+                if ins[k as usize]["op"] == "cast" {
+                    if k >= 1 && ins[(k - 1) as usize]["op"] == "constant" {
+                        obj = ins[(k - 1) as usize]["value"].as_i64();
+                    }
+                    break;
+                }
+                if ins[k as usize]["op"] == "call" {
+                    break;
+                }
+                k -= 1;
+            }
+            if obj != Some(30) {
+                continue;
+            }
+            for j in (i + 1)..(i + 3).min(ins.len()) {
+                if ins[j]["op"] == "store" && ins[j]["selector"].as_i64() == Some(-1) {
+                    if let Some(name) = ins[j]["name"].as_str() {
+                        pairs.push((id, name.to_string()));
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    pairs.sort();
+    pairs.dedup();
+    let vars: Vec<&str> = pairs.iter().map(|(_, v)| v.as_str()).collect();
+    assert!(
+        vars.iter().all(|v| *v == "hit17" || *v == "hit17alt" || *v == "hitfinalboss"),
+        "the final boss must only ever land in hit17/hit17alt/hitfinalboss, got {vars:?}"
+    );
+    assert!(vars.contains(&"hit17"), "hit17 must appear");
+    assert!(vars.len() >= 10, "at least ten weapon bodies must test obj_finalboss");
+    // None of those variables is ever poison-armed.
+    for var in ["hit17", "hit17alt", "hitfinalboss"] {
+        let armed: Vec<i64> = point_writes(&ir)
+            .into_iter()
+            .filter(|(_, _, w, f, i)| f == "alarm" && *i == Some(6) && w == var)
+            .map(|(c, _, _, _, _)| c)
+            .collect();
+        assert!(armed.is_empty(), "{var} must have no poison armer, got {armed:?}");
     }
 }

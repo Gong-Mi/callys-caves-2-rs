@@ -34,9 +34,10 @@ AI timing) or the engine-side (libyoyo) weapon system.
 | `obj_trex` (25) | 270 flame, 274 blade, 281 arrow, 284 bullet, 289 laser, 294 spike, 303 rocket | none |
 | `obj_boss2` (26) | 270, 274, 281, 284, 289, 294 (via `hit15`; bomb 278, boomerang 298 and rocket 303 skip it) | none |
 | `obj_boss3` (27) | **none** (`hit16` has no alarm write) | none |
+| correction | `hit11` looks like a final-boss path but per body it only ever receives `obj_hulkingbandit` (21); the nine `alarm[6]` armers on `hit11` therefore never touch a boss. Resolving variables per body instead of globally is what produced this row. | |
 | `obj_boss4` (28) | **none** (`hitboss4` has no alarm write) | none |
 | `obj_boss5` (29) | **none** (`hitboss5` has no alarm write) | none |
-| `obj_finalboss` (30) | 270, 274, 278, 281, 284, 289, 294, 298, 303 (via `hit11`, the widest set) | none |
+| `obj_finalboss` (30) | **none** — the final boss only lands in `hit17`/`hit17alt`/`hitfinalboss`, and none of those carries an `alarm[6]` write. Its poison comes from its own `Alarm_9` → `alarm[10] = 100` timer | none |
 
 Two invariants fall out and are pinned as tests:
 

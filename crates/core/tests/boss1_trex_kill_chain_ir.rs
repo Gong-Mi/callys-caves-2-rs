@@ -305,3 +305,33 @@ fn bullet_poisons_trex_through_the_natural_tick_order() {
         "a second hit overwrites the 30-frame countdown with 1"
     );
 }
+
+#[test]
+fn bullet_window_matches_the_measured_thresholds() {
+    // boss-reachability.md models the hit box with the FULL sprite extent
+    // (width x height around the origin), not the manual SPRT bbox: for
+    // bullet (16x16, origin 9,9) against trex (96x64, origin 64,64) that
+    // gives dy_max = 6 - (-64) = 70 and dx_max = 6 - (-64) = 70. Both were
+    // measured against the engine: 70 hits, 72 misses on each axis. The
+    // manual boxes would have predicted 54 / 61, so this test also pins the
+    // choice of geometry.
+    for (dx, dy, expect_hit) in [
+        (70.0, 0.0, true), (72.0, 0.0, false),   // boss left of the bullet
+        (-40.0, 0.0, true), (-42.0, 0.0, false), // boss right of the bullet
+        (0.0, 70.0, true), (0.0, 72.0, false),   // boss below the bullet
+        (0.0, -8.0, true), (0.0, -10.0, false),  // boss above the bullet
+    ] {
+        let (bundle, mut s, trex) = boss_scene();
+        let (bx0, by0) = (s.instances[&trex].fields["x"], s.instances[&trex].fields["y"] - 80.0);
+        s.write(trex, -1, "x", None, bx0).unwrap();
+        s.write(trex, -1, "y", None, by0).unwrap();
+        s.globals.insert("poisonenabled".to_string(), 1.0);
+        // dx/dy are the boss-relative offsets that produce a hit, so the bullet
+        // is placed on the opposite side of the boss origin.
+        let bullet = s.create(&bundle, 39, bx0 - dx, by0 - dy).expect("create obj_bullet");
+        s.write(bullet, -1, "direction", None, 0.0).unwrap();
+        s.dispatch(&bundle, bullet, 3, 0).expect("bullet Step dispatch");
+        let armed = s.instances[&trex].alarms[6] == 1;
+        assert_eq!(armed, expect_hit, "dx={dx} dy={dy}: expected hit={expect_hit}");
+    }
+}
