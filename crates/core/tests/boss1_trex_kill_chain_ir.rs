@@ -158,3 +158,38 @@ fn bullets_kill_trex_and_death_cascade_opens_the_gate() {
         assert!(!s.instances[b].alive, "CODE 29 boulder opens after boss death");
     }
 }
+
+#[test]
+fn trex_alarm6_poisons_and_spawns_a_damage_cloud() {
+    // CODE 156 is armed by the weapon-pool path, so drive the alarm itself:
+    // poisoned=1, hptrex -= 0.25, instance_create(x, y, obj_damage) with
+    // damage=0.25, and alarm[6] re-arms at 30 frames.
+    let (bundle, mut s, trex) = boss_scene();
+    let hp_before = s.instances[&trex].fields["hptrex"];
+    let x = s.instances[&trex].fields["x"];
+    let y = s.instances[&trex].fields["y"];
+    s.dispatch(&bundle, trex, 2, 6).expect("Alarm 6 dispatch");
+    let t = &s.instances[&trex];
+    assert_eq!(t.fields["poisoned"], 1.0, "CODE 156 sets poisoned");
+    assert_eq!(t.fields["hptrex"], hp_before - 0.25, "CODE 156 ticks 0.25 HP");
+    assert_eq!(t.alarms[6], 30, "CODE 156 re-arms Alarm 6 at 30 frames");
+    let cloud = s
+        .instances
+        .iter()
+        .find(|(_, i)| i.object == 104 && i.alive)
+        .map(|(id, _)| *id)
+        .expect("CODE 156 spawns obj_damage (104) at the boss");
+    let c = &s.instances[&cloud];
+    assert_eq!(c.fields["damage"], 0.25, "spawned cloud carries 0.25 damage");
+    assert_eq!(c.fields["x"], x);
+    assert_eq!(c.fields["y"], y);
+}
+
+#[test]
+fn trex_alarm5_clears_sword_stun() {
+    // CODE 157 is the two-instruction stun clear: swordstunned = 0.
+    let (bundle, mut s, trex) = boss_scene();
+    s.write(trex, -1, "swordstunned", None, 1.0).unwrap();
+    s.dispatch(&bundle, trex, 2, 5).expect("Alarm 5 dispatch");
+    assert_eq!(s.instances[&trex].fields["swordstunned"], 0.0);
+}

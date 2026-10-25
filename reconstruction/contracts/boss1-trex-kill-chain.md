@@ -39,5 +39,9 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
 ## 边界
 
 - obj_trex 的 CODE 161 巡逻与 Alarm 2/3 转向在本批以 hspeed/x/帧窗行为取证；
-  毒（Alarm 6/CODE 156）、剑眩晕（Alarm 5/CODE 157）分支依赖武器池，尚未单测。
+  毒（Alarm 6/CODE 156）与剑眩晕（Alarm 5/CODE 157）已直派 alarm 覆盖：
+  `trex_alarm6_poisons_and_spawns_a_damage_cloud`（poisoned=1、hptrex−0.25、
+  alarm[6]=30、在 Boss 坐标生成 obj_damage(104) 且 damage=0.25）与
+  `trex_alarm5_clears_sword_stun`（swordstunned 1→0）。两条都驱动真实字节码，
+  不是手写逻辑；武器池只负责**武装**这两个 alarm，武装链本身仍未单测。
 - Android 真机 Boss 战视觉与音效验收仍需单独一轮（CI 绿≠真机已验）。
