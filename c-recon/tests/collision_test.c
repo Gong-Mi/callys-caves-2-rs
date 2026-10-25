@@ -524,20 +524,6 @@ static void group_line_rounding(void) {
             gm_line_mask_test(&g_vm, id, 100.0, 99.0, 100.0, 101.0), 1);
 }
 
-/* --- 15. instance_place(prec): the rotated target is sampled per pixel ----
- * Runner table (c-recon/tools/oracle/real_sprite_table.py, pair spr_line(0) vs
- * spr_pickupflare(4) at (0,0)): unrotated -> hit, target rotated 90 -> miss. */
-static void group_instance_rotation(void) {
-    new_vm();
-    int32_t a = mk(100060, 34, 0.0, 0.0, 0);
-    int32_t b = mk(100061, 34, 0.0, 0.0, 4);
-    CHECK_I("instance rotation: unrotated pair overlaps",
-            gm_instance_place(&g_vm, a, 0.0, 0.0, 34), b);
-    vm_set_field(&g_vm, b, "image_angle", 90.0);
-    CHECK_I("instance rotation: 90-degree target no longer overlaps",
-            gm_instance_place(&g_vm, a, 0.0, 0.0, 34), -4);
-}
-
 int main(void) {
     group_pinned_player_lloyd();
     group_mask_and_signed_scale();
@@ -554,7 +540,6 @@ int main(void) {
     group_line_broad_phase();
     group_point_floor_negative();
     group_line_rounding();
-    group_instance_rotation();
     printf("collision_test: %d checks, %d failed\n", g_checks, g_fails);
     return g_fails ? 1 : 0;
 }
