@@ -598,6 +598,11 @@ fn check(b: &Bundle, c: &Case) -> Result<Scene, String> {
         ));
     }
     for (i, (got, want)) in draws.iter().zip(e.draws.iter()).enumerate() {
+        // The fog flag lives on the engine command, not on ExpDraw: check the
+        // shipped draw before shadowing `got` with the comparable projection.
+        if draws[i].fog {
+            return Err(format!("{label}: sprite draw {i} carries fog, this body sets none"));
+        }
         let got = ExpDraw {
             sprite: got.sprite as f64,
             frame: got.frame,
@@ -611,9 +616,6 @@ fn check(b: &Bundle, c: &Case) -> Result<Scene, String> {
         };
         if got != *want {
             return Err(format!("{label}: sprite draw {i} = {got:?}, expected {want:?}"));
-        }
-        if got.fog {
-            return Err(format!("{label}: sprite draw {i} carries fog, this body sets none"));
         }
         if draws[i].view != c.view {
             return Err(format!("{label}: sprite draw {i} tagged view {}", draws[i].view));
@@ -690,6 +692,11 @@ enum Role {
     BarLt,
     /// `if (view_current == K)` XP bar under `level >= 20`.
     BarGe,
+    /// `if (view_current == K)` opening the health block of view `owner`. The six
+    /// of them form an independent-if CHAIN (each bf targets the next test), so
+    /// their comparison is evaluated on every draw while `obj_player` exists -
+    /// including for views that have no block at all.
+    HealthGate(i32),
     /// `if (health1 == K)` arm inside the health block of view `owner`.
     Health(i32),
     /// `if (global.level < 10)` level-text offset inside view `owner`.
@@ -777,26 +784,38 @@ fn guards(b: &Bundle) -> Vec<Guard> {
         .map(|(i, _)| i)
         .collect();
     assert!(view_idx.len() >= 30, "expected at least the 30 view guards");
-    let block_view = |pos: usize| out[view_idx[pos]].key as i32;
+    // Snapshot the keys: the role loop below mutates `out`, so a closure that
+    // indexes `out` would hold a second borrow across it.
+    let view_keys: Vec<i32> = view_idx.iter().map(|&i| out[i].key as i32).collect();
     for pos in 0..view_idx.len() {
         let role = match pos / 6 {
             0 => Role::Ui,
             1 => Role::Score,
             2 => Role::BarLt,
             3 => Role::BarGe,
-            _ => Role::Health(block_view(pos)),
+            _ => Role::HealthGate(view_keys[pos]),
         };
         out[view_idx[pos]].role = Some(role);
     }
     // Level guards: the text pairs sit inside a UI block, the XP pair at top
     // level. Ownership is decided by the enclosing UI span, not by guesswork.
+    // Snapshot the six UI spans first: the loop needs `out` mutably, so it
+    // cannot re-borrow `out` through `view_idx` inside the iteration.
+    let ui_spans: Vec<(f64, usize, usize)> = view_idx
+        .iter()
+        .take(6)
+        .map(|&i| (out[i].key, out[i].body_start, out[i].body_end))
+        .collect();
+    let health_spans: Vec<(f64, usize, usize)> = view_idx
+        .iter()
+        .skip(24)
+        .map(|&i| (out[i].key, out[i].body_start, out[i].body_end))
+        .collect();
     for g in out.iter_mut().filter(|g| g.axis == Axis::Level) {
-        let owner = view_idx
+        let owner = ui_spans
             .iter()
-            .take(6)
-            .map(|&i| out[i])
-            .find(|b| g.at >= b.body_start && g.at < b.body_end)
-            .map(|b| b.key as i32);
+            .find(|(_, start, end)| g.at >= *start && g.at < *end)
+            .map(|(key, _, _)| *key as i32);
         g.role = Some(match (g.compare, owner) {
             (1, Some(v)) => Role::TextLt(v),
             (5, Some(v)) => Role::TextGe(v),
@@ -806,12 +825,10 @@ fn guards(b: &Bundle) -> Vec<Guard> {
         });
     }
     for g in out.iter_mut().filter(|g| g.axis == Axis::Health) {
-        let owner = view_idx
+        let owner = health_spans
             .iter()
-            .skip(24)
-            .map(|&i| out[i])
-            .find(|b| g.at >= b.body_start && g.at < b.body_end)
-            .map(|b| b.key as i32)
+            .find(|(_, start, end)| g.at >= *start && g.at < *end)
+            .map(|(key, _, _)| *key as i32)
             .expect("every health1 arm sits inside a view block");
         g.role = Some(Role::Health(owner));
     }
@@ -842,14 +859,27 @@ fn assert_guard_ledger(s: &Scene, c: &Case, g: &[Guard]) -> Result<(), String> {
             Role::Ui | Role::Score => (true, c.view == gd.key as i32),
             Role::BarLt => (c.level < 20.0, c.level < 20.0 && c.view == gd.key as i32),
             Role::BarGe => (c.level >= 20.0, c.level >= 20.0 && c.view == gd.key as i32),
+            Role::HealthGate(owner) => {
+                // The chain is entered behind `instance_exists(obj_player)` and
+                // tests every remaining view, so the comparison runs whenever a
+                // player exists - the body only for the owner view.
+                (c.player, c.player && c.view == owner)
+            }
             Role::Health(owner) => {
                 let entered = c.player && c.view == owner;
                 (entered, entered && c.health1 == gd.key)
             }
             Role::TextLt(owner) => (c.view == owner, c.view == owner && c.level < 10.0),
-            Role::TextGe(owner) => (c.view == owner, c.view == owner && c.level >= 10.0),
+            // `>= 10` is the ELSE branch of `< 10`: its comparison only runs once
+            // the `< 10` test failed (the then-branch ends with a `b` past it).
+            Role::TextGe(owner) => (
+                c.view == owner && c.level >= 10.0,
+                c.view == owner && c.level >= 10.0,
+            ),
             Role::XpLt => (true, c.level < 20.0),
-            Role::XpGe => (true, c.level >= 20.0),
+            // `>= 20` is the ELSE of `< 20`: its comparison only runs when the
+            // `< 20` test failed and the then-branch's `b` did not skip it.
+            Role::XpGe => (c.level >= 20.0, c.level >= 20.0),
         };
         let got_cmp = ran(s, gd.cmp_off);
         if got_cmp != want_cmp {
@@ -1303,21 +1333,18 @@ fn the_reusable_validator_rejects_perturbed_bundle_copies() {
     let err = check(&perturbed, &view2).expect_err("the re-keyed guard must also reject view 2");
     assert!(err.contains("sprite draw") || err.contains("healthbar"), "unexpected: {err}");
     // The unperturbed bundle still rejects nothing.
-    check(&perturbed, &Case::new(3, 9.0, 2.0)).expect_err("view 3 uses its own block");
+    check(&perturbed, &Case::new(3, 9.0, 2.0)).expect("view 3 keeps its own block");
 
-    // (3) A jump target: health1 == 2's `bf` skips its own arm and the next
-    // one, so health1 = 2 draws nothing where one segment is expected.
+    // (3) A jump target: health1 == 2's `bf` normally skips its own arm when the
+    // comparison fails. Point it AT that arm's body instead, so every other
+    // health1 value draws the segment that only 2 should draw.
     let h2 = g
         .iter()
         .find(|gd| gd.axis == Axis::Health && gd.key == 2.0)
         .expect("health1 == 2 guard");
-    let next_guard = g
-        .iter()
-        .filter(|gd| gd.axis == Axis::Health)
-        .find(|gd| gd.body_start == h2.body_end)
-        .expect("the health1 == 3 guard follows immediately");
-    let perturbed = patch(h2.bf_off, Op::Bf { target: next_guard.body_end });
-    let err = check(&perturbed, &base).expect_err("a redirected health guard must be rejected");
+    let perturbed = patch(h2.bf_off, Op::Bf { target: h2.body_start });
+    let other = Case::new(0, 9.0, 3.0);
+    let err = check(&perturbed, &other).expect_err("a redirected health guard must be rejected");
     assert!(err.contains("sprite draw"), "unexpected rejection: {err}");
 
     // (4) A threshold: `level < 20` -> `< 21`, so level 20 takes both XP

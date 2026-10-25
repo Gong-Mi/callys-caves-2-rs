@@ -641,10 +641,13 @@ fn derive_spawn(body: &[Instruction], i: usize, want_obj: f64) -> Result<Spawn, 
     }
     let mut dy = 0.0;
     if let Some(v) = cst(&body[k + 1]) {
-        if !matches!(body[k + 2].op, Op::Add) {
-            return Err(format!("spawn [{i}]: `y + dy` has no add"));
-        }
-        dy = v;
+        // `y + K` and `y - K` both occur in this body (the weapon banner adds,
+        // the levelup overlay subtracts), so the offset is signed.
+        dy = match body[k + 2].op {
+            Op::Add => v,
+            Op::Sub => -v,
+            _ => return Err(format!("spawn [{i}]: `y +/- dy` has no add/sub")),
+        };
         k += 2;
     }
     k += 1;
@@ -654,10 +657,11 @@ fn derive_spawn(body: &[Instruction], i: usize, want_obj: f64) -> Result<Spawn, 
     }
     let mut dx = 0.0;
     if let Some(v) = cst(&body[k + 1]) {
-        if !matches!(body[k + 2].op, Op::Sub) {
-            return Err(format!("spawn [{i}]: `x - dx` has no sub"));
-        }
-        dx = v;
+        dx = match body[k + 2].op {
+            Op::Add => v,
+            Op::Sub => -v,
+            _ => return Err(format!("spawn [{i}]: `x +/- dx` has no add/sub")),
+        };
         k += 2;
     }
     k += 1;
@@ -668,7 +672,7 @@ fn derive_spawn(body: &[Instruction], i: usize, want_obj: f64) -> Result<Spawn, 
     if name != "instance_create" || argc != 3 {
         return Err(format!("spawn [{i}]: expected instance_create/3, got {name}/{argc}"));
     }
-    Ok(Spawn { obj, dx: -dx, dy, source: x_sel, call: body[k].code_offset })
+    Ok(Spawn { obj, dx, dy, source: x_sel, call: body[k].code_offset })
 }
 
 fn derive_alarm0(b: &Bundle) -> Result<A0, String> {
@@ -682,8 +686,19 @@ fn derive_alarm0(b: &Bundle) -> Result<A0, String> {
     if cst(&body[1]) != Some(1.0) || cpof(&body[2]) != Some(3) {
         return Err("CODE 368 [1..2]: expected `flag == 1`".into());
     }
-    if nxt(body, 6) != bfof(&body[3]) {
-        return Err("CODE 368 [3]: the flag test does not fall through to the spawn".into());
+    // The guard encloses BOTH the latch clear and the spawn: the bf jumps past
+    // the spawn call's popz, not to the spawn's first instruction. (The WIP
+    // file asserted the latter; the bytecode at code_offset 16 targets 84.)
+    let head_end = (4..body.len())
+        .find(|&j| matches!(body[j].op, Op::Popz))
+        .ok_or("CODE 368: the head block has no closing popz")?;
+    let head_next = body.get(head_end + 1).ok_or("CODE 368: the head block ends the body")?;
+    if bfof(&body[3]) != Some(head_next.offset) {
+        return Err(format!(
+            "CODE 368 [3]: the flag guard jumps to {:?}, expected {} (after the head popz)",
+            bfof(&body[3]),
+            head_next.offset
+        ));
     }
     if cst(&body[4]) != Some(0.0) || gstore(&body[5]) != Some(head_flag.as_str()) {
         return Err("CODE 368 [4..5]: expected the flag to be cleared before the spawn".into());
@@ -704,8 +719,8 @@ fn derive_alarm0(b: &Bundle) -> Result<A0, String> {
     }
     let level_cap = cst(&body[21]).ok_or("CODE 368 [21]: level ceiling is not a constant")?;
     let xp_reset = cst(&body[24]).ok_or("CODE 368 [24]: experience reset is not a constant")?;
-    if gstore(&body[25]) != Some(exp.as_str()) || !matches!(body[27].op, Op::Add) {
-        return Err("CODE 368 [25..27]: expected the experience reset and the level increment".into());
+    if gstore(&body[25]) != Some(exp.as_str()) || !matches!(body[28].op, Op::Add) {
+        return Err("CODE 368 [25..28]: expected the experience reset and the level increment".into());
     }
     let xp_growth = cst(&body[31]).ok_or("CODE 368 [31]: xp growth is not a constant")?;
     if !matches!(body[32].op, Op::Mul) || gstore(&body[33]) != Some(thr.as_str()) {
@@ -751,7 +766,19 @@ fn derive_alarm0(b: &Bundle) -> Result<A0, String> {
 
     // --- the 12 XP blocks ---------------------------------------------------
     let mut xp: Vec<XpBlock> = Vec::new();
-    let mut i = 62usize;
+    // Start at the first `load <weapon>xp; load <weapon>xptolevelup` pair. The
+    // head, the player block, the two choose() sites and the mid-body re-arm all
+    // sit in front of it; the WIP file hardcoded 62, which is the `constant 20`
+    // feeding the coinsound cast, so it derived zero XP blocks.
+    let mut i = (0..body.len().saturating_sub(1))
+        .find(|&k| match gload(&body[k]) {
+            Some(n) if n.ends_with("xp") => {
+                let want = format!("{n}tolevelup");
+                gload(&body[k + 1]) == Some(want.as_str())
+            }
+            _ => false,
+        })
+        .ok_or("CODE 368: no `xp` / `xptolevelup` pair")?;
     while i < body.len() {
         let Some(name) = gload(&body[i]) else { break };
         if !name.ends_with("xp") || !matches!(body.get(i + 1).and_then(gload), Some(t) if t == format!("{name}tolevelup"))
@@ -761,23 +788,33 @@ fn derive_alarm0(b: &Bundle) -> Result<A0, String> {
         if cpof(&body[i + 2]) != Some(5) {
             return Err(format!("CODE 368 [{i}] {name}: expected `xp >= xptolevelup`"));
         }
-        let bf = bfof(&body[i + 3]).ok_or_else(|| format!("CODE 368 [{i}] {name}: expected bf"))?;
+        let block_end = bfof(&body[i + 3]).ok_or_else(|| format!("CODE 368 [{i}] {name}: expected bf"))?;
         let level = gload(&body[i + 4]).ok_or_else(|| format!("CODE 368 [{i}] {name}: expected the level load"))?.to_string();
         if cst(&body[i + 5]) != Some(10.0) || cpof(&body[i + 6]) != Some(1) {
             return Err(format!("CODE 368 [{i}] {name}: expected `{level} < 10`"));
         }
-        if bfof(&body[i + 7]).is_none() {
-            return Err(format!("CODE 368 [{i}] {name}: the guard has no bf"));
-        }
+        // The `level < 10` guard closes before the level increment, so the
+        // guarded stores run only up to the SECOND bf. The pistol is the one
+        // block where the two differ (1 guarded store vs 4), which is exactly
+        // the shipped quirk this table pins.
+        let guard_end = bfof(&body[i + 7]).ok_or_else(|| format!("CODE 368 [{i}] {name}: the guard has no bf"))?;
         let mut guarded = Vec::new();
         let mut j = i + 8;
-        while nxt(body, j) != Some(bf) {
+        while nxt(body, j) != Some(guard_end) {
             if let Some((n, _, _)) = store_parts(&body[j]) {
                 guarded.push((n.to_string(), body[j].code_offset));
             }
             j += 1;
             if j >= body.len() {
                 return Err(format!("CODE 368 [{i}] {name}: the guard target is not in this body"));
+            }
+        }
+        // Advance to the end of the whole block so the next iteration lands on
+        // the following XP block.
+        while nxt(body, j) != Some(block_end) {
+            j += 1;
+            if j >= body.len() {
+                return Err(format!("CODE 368 [{i}] {name}: the block target is not in this body"));
             }
         }
         xp.push(XpBlock { xp: name.to_string(), level, start: body[i].code_offset, end: 0, guarded });
@@ -822,7 +859,7 @@ fn derive_alarm0(b: &Bundle) -> Result<A0, String> {
             return Err(format!("CODE 368 [{i}]: {level} tier {tier} toggles {flag}, expected {want_flag}"));
         }
         banner.push(BannerArm {
-            level,
+            level: level.to_string(),
             tier,
             flag,
             set_store: body[i + 11].code_offset,
@@ -887,12 +924,6 @@ fn derive_alarm0(b: &Bundle) -> Result<A0, String> {
         choose,
         banner_start,
     })
-}
-
-fn xp_snapshot(_name: &str, _b: &Bundle) -> () {}
-
-fn xp_start_after(_unit: &(), _start: usize) -> Option<usize> {
-    None
 }
 
 /// Derive CODE 368 from the live bundle and require it to reproduce the
@@ -1032,4 +1063,247 @@ fn set_constant(b: &mut Bundle, id: usize, code_offset: usize, value: f64) {
     let idx = ins_index(b, id, code_offset);
     let code = code_mut(b, id);
     code.instructions[idx].op = Op::Constant { value };
+}
+
+// ---- tests -----------------------------------------------------------------
+
+fn count(s: &Scene, object: i32) -> usize {
+    s.instances.values().filter(|i| i.object == object).count()
+}
+
+/// The multiplier CODE 368 applies to `thr` (`thr *= K`), read off the live
+/// bytecode: the pistol block uses a different constant than the other 11.
+fn growth(b: &Bundle, thr: &str) -> f64 {
+    let body = body(b, CODE_ALARM0);
+    let at = body
+        .iter()
+        .position(|x| gstore(x) == Some(thr))
+        .unwrap_or_else(|| panic!("CODE 368 never stores {thr}"));
+    for j in (0..at).rev().take(6) {
+        if matches!(body[j].op, Op::Mul) {
+            for k in (0..j).rev().take(4) {
+                if let Some(c) = cst(&body[k]) {
+                    return c;
+                }
+            }
+        }
+    }
+    panic!("CODE 368 has no growth constant before the {thr} store");
+}
+
+#[test]
+fn the_alarm1_body_is_the_shipped_damage_table() {
+    let b = bundle();
+    let a1 = validate_alarm1(&b).expect("CODE 367 must reproduce its damage table");
+    assert_eq!(a1.fams.len(), 12, "one family per weapon");
+    assert_eq!(a1.fams.iter().map(|f| f.arms.len()).sum::<usize>(), 120, "12 weapons x 10 tiers");
+    assert!(a1.fams.iter().all(|f| f.arms.len() == 10), "every family covers tiers 1..=10");
+    assert_eq!(a1.rearm.1, 1.0, "CODE 367 re-arms its own slot");
+    assert_eq!(a1.rearm.2, REARM);
+    assert_eq!(body(&b, CODE_ALARM1).len(), 796);
+    assert_eq!(branch_census(&b, CODE_ALARM1), (132, 0, 0), "132 bf = 120 arms + 12 ceilings");
+    assert_eq!(all_stores(&b, CODE_ALARM1).len(), 133, "120 damage + 12 ceiling + 1 alarm");
+}
+
+#[test]
+fn the_alarm0_body_is_the_shipped_progression_table() {
+    let b = bundle();
+    let a0 = validate_alarm0(&b).expect("CODE 368 must reproduce its XP and banner tables");
+    assert_eq!(a0.xp.len(), 12, "one XP block per weapon");
+    assert_eq!(a0.banner.len(), 36, "12 weapons x tiers 4/7/10");
+    assert_eq!(a0.choose.len(), 2, "coinsound and swordsound");
+    assert_eq!(body(&b, CODE_ALARM0).len(), 834);
+    assert_eq!(branch_census(&b, CODE_ALARM0), (103, 0, 36), "36 b = the && short-circuits");
+    let tiers: Vec<f64> = a0.banner.iter().map(|arm| arm.tier).collect();
+    assert!(tiers[..12].iter().all(|t| *t == 4.0), "the tier-4 block comes first");
+    assert!(tiers[12..24].iter().all(|t| *t == 7.0), "then tier 7");
+    assert!(tiers[24..].iter().all(|t| *t == 10.0), "then tier 10");
+}
+
+/// The validators must not be self-satisfying: every perturbation of a clone
+/// has to be rejected, or the embedded tables prove nothing.
+#[test]
+fn perturbing_the_tables_is_rejected() {
+    let base = bundle();
+
+    let mut b = base.clone();
+    set_stored_value(&mut b, CODE_ALARM1, DAMAGE[0].3[0], 42.0);
+    assert!(validate_alarm1(&b).is_err(), "a rewritten damage value must be caught");
+
+    let mut b = base.clone();
+    set_stored_value(&mut b, CODE_ALARM1, DAMAGE[0].4, 9.0);
+    assert!(validate_alarm1(&b).is_err(), "a ceiling that is not `> 10 -> 10` must be caught");
+
+    let mut b = base.clone();
+    set_bf_target(&mut b, CODE_ALARM1, DAMAGE[0].5, 0);
+    assert!(validate_alarm1(&b).is_err(), "an arm that stops falling through must be caught");
+
+    let mut b = base.clone();
+    set_store_name(&mut b, CODE_ALARM1, DAMAGE[1].3[0], DAMAGE[1].0);
+    assert!(validate_alarm1(&b).is_err(), "a family storing into its level global must be caught");
+
+    let mut b = base.clone();
+    set_store_name(&mut b, CODE_ALARM0, XP[0].3[0], XP[0].1);
+    assert!(validate_alarm0(&b).is_err(), "a renamed guarded store must be caught");
+
+    let mut b = base.clone();
+    let short = body(&b, CODE_ALARM0)
+        .iter()
+        .find(|x| matches!(x.op, Op::B { .. }))
+        .expect("CODE 368 has the && short-circuits")
+        .code_offset;
+    set_b_target(&mut b, CODE_ALARM0, short, 0);
+    assert!(validate_alarm0(&b).is_err(), "a broken && short-circuit must be caught");
+
+    let mut b = base.clone();
+    let cap_off = body(&b, CODE_ALARM0)[21].code_offset;
+    set_constant(&mut b, CODE_ALARM0, cap_off, 25.0);
+    assert!(validate_alarm0(&b).is_err(), "a raised player level cap must be caught");
+}
+
+#[test]
+fn code_367_tiers_each_family_and_clamps_above_ten() {
+    let mut f = fx(false);
+    for fam in DAMAGE.iter() {
+        let (level, damage, values) = (fam.0, fam.1, &fam.2);
+        for (n, want) in values.iter().enumerate() {
+            let lvl = (n + 1) as f64;
+            set_g(&mut f.s, level, lvl);
+            set_g(&mut f.s, damage, SENTINEL);
+            f.s.dispatch(&f.b, f.ui, 2, 1).expect("CODE 367");
+            assert_eq!(g(&f.s, damage), *want, "{level} == {lvl}");
+            assert_eq!(g(&f.s, level), lvl, "{level} stays put inside the table");
+        }
+        // Above the table no arm runs: the level clamps and the damage keeps
+        // whatever the previous dispatch stored (shipped quirk 5).
+        set_g(&mut f.s, level, 11.0);
+        set_g(&mut f.s, damage, SENTINEL);
+        f.s.dispatch(&f.b, f.ui, 2, 1).expect("CODE 367 clamp");
+        assert_eq!(g(&f.s, level), 10.0, "{level} > 10 clamps to 10");
+        assert_eq!(g(&f.s, damage), SENTINEL, "{damage}: no arm matches 11");
+    }
+    assert_eq!(f.s.instances[&f.ui].alarms[1], REARM as i32, "the body re-armed alarm[1]");
+}
+
+#[test]
+fn code_368_levels_the_player_and_spawns_the_levelup_overlay() {
+    let mut f = fx(true);
+    let thr0 = 80.0;
+    set_g(&mut f.s, "level", 5.0);
+    set_g(&mut f.s, "experience", 100.0);
+    set_g(&mut f.s, "xptolevelup", thr0);
+    set_g(&mut f.s, "drawlevelup", 0.0);
+    let before = count(&f.s, LEVELUP);
+    f.s.dispatch(&f.b, f.ui, 2, 0).expect("CODE 368");
+    assert_eq!(g(&f.s, "level"), 6.0);
+    assert_eq!(g(&f.s, "experience"), 1.0, "the xp reset is a constant 1");
+    assert_eq!(g(&f.s, "xptolevelup"), thr0 * growth(&f.b, "xptolevelup"));
+    assert_eq!(g(&f.s, "drawlevelup"), 0.0, "the latch is consumed in the same dispatch");
+    assert_eq!(count(&f.s, LEVELUP), before + 1, "obj_levelup spawned at the player");
+
+    // Below the threshold nothing happens at all.
+    set_g(&mut f.s, "level", 7.0);
+    set_g(&mut f.s, "experience", 10.0);
+    set_g(&mut f.s, "xptolevelup", 50.0);
+    f.s.dispatch(&f.b, f.ui, 2, 0).expect("CODE 368");
+    assert_eq!(g(&f.s, "level"), 7.0, "experience < xptolevelup leaves the level alone");
+    assert_eq!(g(&f.s, "experience"), 10.0);
+
+    // 20 -> 21 -> clamped back to 20, and no overlay: the inner `level <= 20`
+    // is read when the level is already 21 (shipped quirk 4).
+    set_g(&mut f.s, "level", 20.0);
+    set_g(&mut f.s, "experience", 999.0);
+    set_g(&mut f.s, "xptolevelup", 1.0);
+    set_g(&mut f.s, "drawlevelup", 0.0);
+    let before = count(&f.s, LEVELUP);
+    f.s.dispatch(&f.b, f.ui, 2, 0).expect("CODE 368");
+    assert_eq!(g(&f.s, "level"), 20.0, "the trailing clamp lands on 20");
+    assert_eq!(count(&f.s, LEVELUP), before, "no overlay at the ceiling");
+}
+
+#[test]
+fn code_368_levels_weapons_under_the_ceiling_and_the_pistol_escapes_it() {
+    let mut f = fx(true);
+    for flag in BANNER_FLAGS {
+        set_g(&mut f.s, flag, 0.0);
+    }
+    set_g(&mut f.s, "drawweaponlevelup", 0.0);
+
+    // A normal weapon: level 3 -> 4, xp reset, threshold grows.
+    set_g(&mut f.s, "shotgunlevel", 3.0);
+    set_g(&mut f.s, "shotgunxp", 100.0);
+    set_g(&mut f.s, "shotgunxptolevelup", 50.0);
+    f.s.dispatch(&f.b, f.ui, 2, 0).expect("CODE 368");
+    assert_eq!(g(&f.s, "shotgunlevel"), 4.0);
+    assert_eq!(g(&f.s, "shotgunxp"), 1.0);
+    assert_eq!(g(&f.s, "shotgunxptolevelup"), 50.0 * growth(&f.b, "shotgunxptolevelup"));
+
+    // At the ceiling the whole guarded arm is skipped.
+    set_g(&mut f.s, "shotgunlevel", 10.0);
+    set_g(&mut f.s, "shotgunxp", 100.0);
+    set_g(&mut f.s, "shotgunxptolevelup", 50.0);
+    f.s.dispatch(&f.b, f.ui, 2, 0).expect("CODE 368");
+    assert_eq!(g(&f.s, "shotgunlevel"), 10.0, "`level < 10` is the arm's own guard");
+    assert_eq!(g(&f.s, "shotgunxp"), 100.0);
+    assert_eq!(g(&f.s, "shotgunxptolevelup"), 50.0);
+
+    // The pistol guards ONLY its xp reset (shipped quirk 1).
+    set_g(&mut f.s, "pistollevel", 10.0);
+    set_g(&mut f.s, "pistolxp", 100.0);
+    set_g(&mut f.s, "pistolxptolevelup", 50.0);
+    f.s.dispatch(&f.b, f.ui, 2, 0).expect("CODE 368");
+    assert_eq!(g(&f.s, "pistollevel"), 11.0, "the pistol escapes the `level < 10` guard");
+    assert_eq!(g(&f.s, "pistolxp"), 100.0, "only the reset sits inside the guard");
+    assert_eq!(g(&f.s, "pistolxptolevelup"), 50.0 * growth(&f.b, "pistolxptolevelup"));
+
+    // ...and the next CODE 367 clamps it back.
+    f.s.dispatch(&f.b, f.ui, 2, 1).expect("CODE 367");
+    assert_eq!(g(&f.s, "pistollevel"), 10.0, "CODE 367 owns the clamp");
+}
+
+#[test]
+fn code_368_banner_arms_latch_the_weaponchange_overlay_and_clear_themselves() {
+    let mut f = fx(true);
+    for arm in BANNER.iter() {
+        let (level, tier, flag) = (arm.0, arm.1, arm.2);
+        for clear in BANNER_FLAGS {
+            set_g(&mut f.s, clear, 0.0);
+        }
+        set_g(&mut f.s, level, tier);
+        set_g(&mut f.s, flag, 1.0);
+        set_g(&mut f.s, "drawweaponchange", 0.0);
+        let before = count(&f.s, WEAPONCHANGE);
+        f.s.dispatch(&f.b, f.ui, 2, 0).expect("CODE 368");
+        assert_eq!(count(&f.s, WEAPONCHANGE), before + 1, "{flag}: the tail spawns the overlay");
+        assert_eq!(g(&f.s, flag), 0.0, "{flag} is a one-shot latch");
+        assert_eq!(g(&f.s, "drawweaponchange"), 0.0, "the tail consumes the overlay latch");
+
+        // Negative: the latch flag is required.
+        set_g(&mut f.s, flag, 0.0);
+        set_g(&mut f.s, "drawweaponchange", 0.0);
+        let before = count(&f.s, WEAPONCHANGE);
+        f.s.dispatch(&f.b, f.ui, 2, 0).expect("CODE 368");
+        assert_eq!(count(&f.s, WEAPONCHANGE), before, "{flag} == 0 draws nothing");
+        assert_eq!(g(&f.s, "drawweaponchange"), 0.0);
+    }
+}
+
+/// The slots CODE 365 armed are the ones the scheduler decrements: this drives
+/// the real `Scene::tick` instead of dispatching the bodies directly.
+#[test]
+fn the_real_alarm_slots_reach_both_bodies_on_a_tick() {
+    let mut f = fx(true);
+    let armed: Vec<i32> = f.s.instances[&f.ui].alarms.to_vec();
+    assert!(armed[0] > 0 && armed[1] > 0, "obj_UI Create armed alarm[0]/[1]: {armed:?}");
+    for _ in 0..45 {
+        f.s.tick(&f.b).expect("tick");
+    }
+    assert!(
+        f.s.executed.iter().any(|(c, _)| *c == CODE_ALARM0),
+        "alarm[0] dispatched CODE 368"
+    );
+    assert!(
+        f.s.executed.iter().any(|(c, _)| *c == CODE_ALARM1),
+        "alarm[1] dispatched CODE 367"
+    );
 }
