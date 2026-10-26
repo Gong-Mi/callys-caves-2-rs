@@ -7,10 +7,16 @@
  *
  *     CODE    <id>
  *     CURRENT <instance id>
- *     INST    <id> <object> <alive>
+ *     INST    <id> <object> [alive [active]]
  *     FIELD   <instance id> <name> <value>
  *     ARRAY   <instance id> <name> <index> <value>
  *     GLOBAL  <name> <value>
+ *
+ * The two trailing INST tokens are optional and default to 1, because `with` and
+ * the scheduler distinguish alive (retired by instance_destroy) from active
+ * (parked by instance_deactivate_*). A dump prints `ACTIVE <id> 0` for a
+ * deactivated instance, and nothing extra for a live one. `ACTIVE` is dump-only;
+ * fixture input expresses deactivation with the fourth INST token.
  */
 #include "gml.h"
 
@@ -83,6 +89,10 @@ static void dump(FILE* f, GmVM* vm) {
         if (in->nfields > 1) qsort(in->fields, (size_t)in->nfields, sizeof(GmField), cmp_field);
         if (in->narrays > 1) qsort(in->arrays, (size_t)in->narrays, sizeof(GmArraySlot), cmp_slot);
         fprintf(f, "INST %d %d %d\n", in->id, in->object, in->alive);
+        /* Deactivation is otherwise invisible in a dump, and `with`, Step and
+         * alarm dispatch all key off it. Print only the exceptional case so the
+         * dump of an ordinary world is unchanged. */
+        if (!in->active) fprintf(f, "ACTIVE %d 0\n", in->id);
         for (int k = 0; k < in->nfields; k++) {
             fmt_num(b1, sizeof b1, in->fields[k].value);
             fprintf(f, "FIELD %d %s %s\n", in->id, in->fields[k].name, b1);
@@ -125,7 +135,7 @@ static int run_fixture(const char* in_path, const char* out_path) {
     char line[512];
     while (fgets(line, sizeof(line), in)) {
         char kind[32], name[NAME_LEN];
-        long a, b; double v;
+        long a, b, c = 1, d = 1; double v;
         if (sscanf(line, "CODE %ld", &code) == 1) continue;
         unsigned long long seed;
         if (sscanf(line, "SEED %llu", &seed) == 1) { vm->rng = (uint64_t)seed; continue; }
@@ -138,9 +148,16 @@ static int run_fixture(const char* in_path, const char* out_path) {
             continue;
         }
         if (sscanf(line, "CURRENT %ld", &a) == 1) { self = (int32_t)a; continue; }
-        if (sscanf(line, "INST %ld %ld", &a, &b) == 2) {
+        int nf = sscanf(line, "INST %ld %ld %ld %ld", &a, &b, &c, &d);
+        if (nf >= 2) {
+            /* Omitted flags default to 1. This preserves existing three-token
+             * fixtures and also accepts <id> <object> with both flags implicit.
+             * Ignoring a supplied third or fourth token would run a different
+             * world than the VM and could still report a false `identical`. */
             GmInst* inst = vm_add(vm, (int32_t)a, (int32_t)b);
             if (!inst) { fprintf(stderr, "instance table full\n"); return 2; }
+            if (nf >= 3) inst->alive = c != 0;
+            if (nf >= 4) inst->active = d != 0;
             continue;
         }
         if (sscanf(line, "FIELD %ld %47s %lf", &a, name, &v) == 3) {

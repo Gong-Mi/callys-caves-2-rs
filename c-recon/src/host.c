@@ -430,12 +430,14 @@ int GM_PUSHENV(GmVM* vm, Val selector) {
     int32_t ids[MAX_ENV_SEL];
     /* alive && active && own object or any ancestor, ascending id */
     int n = vm_select(vm, selector, ids, MAX_ENV_SEL);
-    if (n == 0) return 0;                          /* empty: jump to popenv */
+    /* Rust pushes a frame even for an empty selection: pushenv jumps AT the
+     * matching popenv, which must pop this empty frame rather than an outer one. */
     int f = vm->nenv++;
-    memcpy(vm->env[f].ids, ids, sizeof(int32_t) * (size_t)n);
     vm->env[f].n = n;
     vm->env[f].pos = 0;
     vm->env[f].prev = vm->cur;
+    if (n == 0) return 0;
+    memcpy(vm->env[f].ids, ids, sizeof(int32_t) * (size_t)n);
     vm->cur = ids[0];
     return 1;
 }

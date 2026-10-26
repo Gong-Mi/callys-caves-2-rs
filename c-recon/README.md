@@ -17,8 +17,9 @@ body rather than guess.
 | --- | --- |
 | generator (`scripts/ir_to_c.py`) | 1354/1354 bodies, 0 refused, 52,411 lines of C |
 | C host (`c-recon/src/host.c`) | instances, fields, arrays (`alarm` is a 12-slot array), globals, selector resolution, `with` frames, `room_width`/`score` pseudo-fields |
-| collision (`c-recon/src/collision.c`) | `instance_place` / `place_meeting` (box + mask pixels), `distance_to_object`, mask line/point probes; 98 assertions |
+| collision (`c-recon/src/collision.c`) | `instance_place` / `place_meeting` (box + mask pixels), `distance_to_object`, mask line/point probes; 109 assertions |
 | objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 140 assertions |
+| with / destroy (`c-recon/tests/env_test.c`) | 142 assertions; six shipped-body C↔VM scenarios with 101 expectations (`scripts/env_fanout_diff.py`) |
 | geometry | 178 SPRT records emitted from `game.droid` (`c-recon/gen/sprites.c`) |
 | masks | 227 SPRT collision masks (341 KB of bits) emitted into the same file; `collision_line(prec=1)` walks them |
 | CODE 792 (`obj_bosspuff_Create_0`) | **C == VM, identical state** |
@@ -54,8 +55,9 @@ python3 scripts/gen_registry.py --gen c-recon/gen --out c-recon/gen/registry.c
 
 # build the driver
 SRC="c-recon/src/main.c c-recon/src/host.c c-recon/src/collision.c \
-     c-recon/src/objects.c c-recon/gen/objects_data.c c-recon/gen/registry.c \
-     c-recon/gen/gml_0012.c c-recon/gen/gml_0792.c c-recon/gen/sprites.c"
+     c-recon/src/objects.c c-recon/src/builtins2.c \
+     c-recon/gen/objects_data.c c-recon/gen/registry.c \
+     c-recon/gen/gml_*.c c-recon/gen/sprites.c"
 clang -std=c11 -O2 -ffp-contract=off -Wall -Ic-recon/include $SRC \
     -o c-recon/build/state_dump -lm
 
@@ -69,6 +71,9 @@ python3 scripts/batch_diff.py --build-c --matrix --work .hermes-batch   # 18 wor
 # richer receiver set: one instance of every object, so a body that reads
 # another object's fields runs its real path instead of aborting
 python3 scripts/batch_diff.py --build-c --sequence --all-objects --work .hermes-batch
+
+# targeted with/destroy scenarios; default rebuilds checked-in C and current Rust
+python3 scripts/env_fanout_diff.py --work "$TMPDIR/env"
 ```
 
 Two build flags are not cosmetic:
@@ -80,7 +85,11 @@ Two build flags are not cosmetic:
   correctly reported as drift.
 
 A fixture is the state-file protocol in `c-recon/src/main.c`
-(`CODE`/`CURRENT`/`ROOMW`/`ROOMH`/`INST`/`FIELD`/`ARRAY`/`GLOBAL`). The Rust
+(`CODE`/`CURRENT`/`ROOMW`/`ROOMH`/`INST`/`ACTIVE`/`FIELD`/`ARRAY`/`GLOBAL`).
+`INST` accepts `<id> <object> [alive [active]]`; both flags default to 1. Dumps
+print `ACTIVE <id> 0` only for deactivated instances, leaving ordinary dumps
+byte-for-byte unchanged. `ACTIVE` is dump-only metadata, not a second fixture
+input directive; input uses the fourth `INST` token. The Rust
 side (`ir_state_dump`) inserts instances directly and loads SPRT geometry from
 `--asset assets/game.droid`; without that geometry every instance degenerates to
 an integer point and a body testing `instance_place` takes the miss branch.
@@ -111,7 +120,6 @@ scan the object table instead of the instance table.
 
 1. Run the differential across every body the host can execute today; each
    difference is a generator bug or a host bug.
-2. `instance_destroy` + `with` fan-out over destroyed instances, then bodies
-   that iterate rooms.
+2. Bodies that iterate rooms.
 3. `draw_*` — 2796 `draw_sprite_ext` calls are currently recorded as calls into
    an unimplemented builtin, so a drawn frame still has no C-side oracle.

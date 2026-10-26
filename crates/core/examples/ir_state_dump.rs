@@ -26,7 +26,7 @@ struct Template {
     runs: Vec<Step>,
     seed: Option<u64>,
     globals: BTreeMap<String, f64>,
-    insts: BTreeMap<i32, (i32, bool)>,
+    insts: BTreeMap<i32, (i32, bool, bool)>,
     fields: BTreeMap<i32, BTreeMap<String, f64>>,
     arrays: BTreeMap<i32, BTreeMap<(String, i32), f64>>,
     room_w: Option<f64>,
@@ -55,7 +55,14 @@ fn parse_template(path: &Path) -> Template {
             Some("SEED") => { t.seed = Some(w[1].parse().unwrap()); }
             Some("CURRENT") => t.current = w[1].parse().unwrap(),
             Some("INST") => {
-                t.insts.insert(w[1].parse().unwrap(), (w[2].parse().unwrap(), w[3] != "0"));
+                // `<id> <object> [alive [active]]`; both flags default to true so
+                // the two-token form keeps its old meaning.
+                t.insts.insert(
+                    w[1].parse().unwrap(),
+                    (w[2].parse().unwrap(),
+                     w.get(3).map_or(true, |s| *s != "0"),
+                     w.get(4).map_or(true, |s| *s != "0")),
+                );
             }
             Some("FIELD") => {
                 t.fields.entry(w[1].parse().unwrap()).or_default()
@@ -78,11 +85,11 @@ fn parse_template(path: &Path) -> Template {
 fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroidAsset>) -> Scene {
     let mut scene = Scene::default();
     scene.init_bundle(bundle);
-    for (id, (object, alive)) in &tpl.insts {
+    for (id, (object, alive, active)) in &tpl.insts {
         scene.instances.insert(*id, Instance {
             object: *object,
             alive: *alive,
-            active: true,
+            active: *active,
             external: false,
             spawn_seq: 1,
             fields: tpl.fields.get(id).cloned().unwrap_or_default(),
@@ -115,6 +122,11 @@ fn dump_state(scene: &Scene) -> String {
     s.push_str(&format!("ROOMW {}\nROOMH {}\n", scene.room_width, scene.room_height));
     for (id, inst) in &scene.instances {
         s.push_str(&format!("INST {} {} {}\n", id, inst.object, inst.alive as i32));
+        // Output-only marker: fixture input expresses this with INST's fourth
+        // token instead. Ordinary active instances keep the old dump shape.
+        if !inst.active {
+            s.push_str(&format!("ACTIVE {} 0\n", id));
+        }
         for (k, v) in &inst.fields {
             s.push_str(&format!("FIELD {} {} {}\n", id, k, v));
         }

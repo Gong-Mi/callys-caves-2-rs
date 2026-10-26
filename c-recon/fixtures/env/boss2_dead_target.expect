@@ -1,0 +1,20 @@
+# Three obj_slime, the middle one already retired. A retired instance is not in
+# the `with` set: only the two live ones run their Destroy, so the counters read
+# 2 and only two puffs exist - at the live targets' own coordinates.
+GLOBAL greenslimeskilled 2
+GLOBAL enemieskilled 2
+!GLOBAL fireslimeskilled
+!GLOBAL greenslimeskilled 3
+COUNT_INST 32 3
+COUNT_INST 187 2
+COUNT_INST 154 1
+COUNT_INST 190 1
+INST 100002 32 0
+INST 200001 187 1
+INST 200002 187 1
+FIELD 200001 x 100
+FIELD 200002 x 140
+INST 200003 154 1
+INST 200004 190 1
+FIELD 200004 x 300
+FIELD 200004 y 200
