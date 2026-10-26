@@ -20,6 +20,7 @@ body rather than guess.
 | collision (`c-recon/src/collision.c`) | `instance_place` / `place_meeting` (box + mask pixels), `distance_to_object`, mask line/point probes; 109 assertions |
 | objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 140 assertions |
 | with / destroy (`c-recon/tests/env_test.c`) | 142 assertions; six shipped-body C↔VM scenarios with 101 expectations (`scripts/env_fanout_diff.py`) |
+| rooms (`c-recon/src/rooms.c`, `c-recon/gen/rooms_data.c`) | all 114 rooms / 71,014 placements / 551 RoomCC bindings; 29 assertions; nine warp scenarios with 79 expectations |
 | geometry | 178 SPRT records emitted from `game.droid` (`c-recon/gen/sprites.c`) |
 | masks | 227 SPRT collision masks (341 KB of bits) emitted into the same file; `collision_line(prec=1)` walks them |
 | CODE 792 (`obj_bosspuff_Create_0`) | **C == VM, identical state** |
@@ -53,10 +54,14 @@ python3 scripts/gen_object_table.py --ir crates/core/src/generated/full_ir.json 
     --out c-recon/gen/objects_data.c
 python3 scripts/gen_registry.py --gen c-recon/gen --out c-recon/gen/registry.c
 
+# regenerate every ROOM placement, RoomCC binding and view default
+cargo run -q -p callys-asset --example dump_rooms_c -- \
+    assets/game.droid crates/core/src/generated/full_ir.json c-recon/gen/rooms_data.c
+
 # build the driver
 SRC="c-recon/src/main.c c-recon/src/host.c c-recon/src/collision.c \
-     c-recon/src/objects.c c-recon/src/builtins2.c \
-     c-recon/gen/objects_data.c c-recon/gen/registry.c \
+     c-recon/src/objects.c c-recon/src/builtins2.c c-recon/src/rooms.c \
+     c-recon/gen/objects_data.c c-recon/gen/rooms_data.c c-recon/gen/registry.c \
      c-recon/gen/gml_*.c c-recon/gen/sprites.c"
 clang -std=c11 -O2 -ffp-contract=off -Wall -Ic-recon/include $SRC \
     -o c-recon/build/state_dump -lm
@@ -74,6 +79,10 @@ python3 scripts/batch_diff.py --build-c --sequence --all-objects --work .hermes-
 
 # targeted with/destroy scenarios; default rebuilds checked-in C and current Rust
 python3 scripts/env_fanout_diff.py --work "$TMPDIR/env"
+
+# full-corpus room warp scenarios (Create/RoomCC dependencies included)
+python3 scripts/env_fanout_diff.py --fixtures c-recon/fixtures/rooms \
+    --build-c --work "$TMPDIR/rooms"
 ```
 
 Two build flags are not cosmetic:
@@ -85,7 +94,11 @@ Two build flags are not cosmetic:
   correctly reported as drift.
 
 A fixture is the state-file protocol in `c-recon/src/main.c`
-(`CODE`/`CURRENT`/`ROOMW`/`ROOMH`/`INST`/`ACTIVE`/`FIELD`/`ARRAY`/`GLOBAL`).
+(`CODE`/`CURRENT`/`OTHER`/`ROOM`/`ROOMW`/`ROOMH`/`INST`/`ACTIVE`/`FIELD`/`ARRAY`/`GLOBAL`).
+`WARP <id>` seeds a pending transition; a bare `WARP` consumes it at the client
+boundary. `COLLIDE <code> <self> <other>` sets `other` only for that body and
+restores it before the next operation. `VIEW <i> <visible> <x> <y> <w> <h>`
+is dump-only effective view state; unset ports fall back to the display size.
 `INST` accepts `<id> <object> [alive [active]]`; both flags default to 1. Dumps
 print `ACTIVE <id> 0` only for deactivated instances, leaving ordinary dumps
 byte-for-byte unchanged. `ACTIVE` is dump-only metadata, not a second fixture
@@ -120,6 +133,5 @@ scan the object table instead of the instance table.
 
 1. Run the differential across every body the host can execute today; each
    difference is a generator bug or a host bug.
-2. Bodies that iterate rooms.
-3. `draw_*` — 2796 `draw_sprite_ext` calls are currently recorded as calls into
+2. `draw_*` — 2796 `draw_sprite_ext` calls are currently recorded as calls into
    an unimplemented builtin, so a drawn frame still has no C-side oracle.

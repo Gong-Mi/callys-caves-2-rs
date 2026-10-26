@@ -87,9 +87,9 @@ def build_c(work: Path) -> Path:
     subprocess.run([sys.executable, "scripts/gen_registry.py", "--gen", str(gen),
                     "--out", str(gen / "registry.c")], check=True)
     srcs = [f"c-recon/src/{n}.c" for n in
-            ("main", "host", "collision", "objects", "builtins2")]
+            ("main", "host", "collision", "objects", "builtins2", "rooms")]
     srcs += [str(gen / "registry.c"), "c-recon/gen/objects_data.c",
-             "c-recon/gen/sprites.c"]
+             "c-recon/gen/rooms_data.c", "c-recon/gen/sprites.c"]
     srcs += [str(p) for p in sorted(gen.glob("gml_*.c"))]
     common = ["clang", "-std=c11", "-O2", "-ffp-contract=off", "-w",
               "-I", "c-recon/include", "-c"]

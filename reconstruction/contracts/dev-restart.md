@@ -6,14 +6,14 @@
 | 命令 | 做什么 | 实测（prague，Termux aarch64） |
 | --- | --- | --- |
 | `bash scripts/dev_status.sh` | 只读自检：git HEAD/脏区、rustc/cargo/nextest/mold、javac、aapt2/zipalign/apksigner、android.jar、签名 keystore、libyoyo 哈希、unicorn 版本、上一次全量 Summary | ~1 s，`dev_status: READY` |
-| `bash scripts/dev_smoke.sh` | 六步冒烟：C 碰撞（109 checks）→ C 对象（140）→ C with/destroy（142）→ 6 个真实 CODE 的 C↔VM 场景（101 expectations）→ mask-base oracle → Rust 精确碰撞（6 tests） | 10 s（热 target）；冷构建另算 |
-| `bash scripts/dev_smoke.sh --deep` | 上面六步 + boss 链 C↔VM 语料（`batch_diff --build-c --only 284,156,157 --all-objects --sequence --ticks 3`），断言 differ/c_gap/c_only/c_fail 全 0 | deep 额外约 25 s（含一次全量 C 生成+编译） |
+| `bash scripts/dev_smoke.sh` | 七步冒烟：C 碰撞（109）→ C 对象（140）→ C with/destroy（142）→ C 房间数据/builtin（29）→ 6 个环境场景（101 expectations）→ mask-base oracle → Rust 精确碰撞（6） | 13 s（热 target）；冷构建另算 |
+| `bash scripts/dev_smoke.sh --deep` | 上面七步 + boss 链 3/3 identical（六个失败/缺口计数器全 0）+ 9 个真实换房场景（79 expectations） | 40 s（含全量 C 生成+编译） |
 
 ## 设计约束
 
 - **status 不构建**：只回答"缺什么"，缺项打 `MISSING` 并 exit 1，适合会话开场跑。
-- **smoke 六步各自独立记 PASS/FAIL**，任何一步红就 exit 1，方便定位是 C 几何、
-  对象/环境、场景差分、oracle 前置、还是 Rust 套件坏了；每步同时核对退出码和非零计数。
+- **smoke 七步各自独立记 PASS/FAIL**，任何一步红就 exit 1，方便定位是 C 几何、
+  对象/环境/房间、场景差分、oracle 前置、还是 Rust 套件坏了；每步同时核对退出码和非零计数。
 - 两者都用 `$TMPDIR` 而不是 `/tmp`：Termux 上 `/tmp` 不可写（本项目已知坑）。
 - 冒烟**不替代**全量：全量口径仍是
   `cargo nextest run --workspace --cargo-profile ci-test --no-fail-fast`
@@ -28,6 +28,6 @@
 - status 的 `dirty(src)` 会漏掉 `android-build/` 与 `*.log`（构建产物与日志不算脏），
   其余未提交改动都会被计入。
 - smoke 假定 `~/cally/oracle/libyoyo.so` 或 `CALLY_LIBYOYO` 指向原版 ARMv7 库；
-  没有它会红在第 5 步，这是预期行为（见 `collision-broad-phase.md` §7.2）。
-- 这组脚本覆盖碰撞几何、对象/with/destroy、真实 CODE 场景差分和 oracle，不覆盖
+  没有它会红在第 6 步，这是预期行为（见 `collision-broad-phase.md` §7.2）。
+- 这组脚本覆盖碰撞几何、对象/with/destroy、房间生命周期、真实 CODE 场景差分和 oracle，不覆盖
   APK 打包（`scripts/build_apk.sh` + `verify_apk.py`）和真机/无头壳验收。

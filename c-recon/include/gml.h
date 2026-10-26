@@ -30,12 +30,12 @@ Val  gm_div(Val a, Val b);
 #define GM_DIV(a, b)  gm_div((a), (b))
 #define GM_ADD(a, b)  ((a) + (b))
 
-#define MAX_INST      256   /* a RoomCC body creates the whole room */
+#define MAX_INST      2048  /* largest shipped room: 1472 placements + spawns */
 #define MAX_FIELDS    256
 #define MAX_ARRAYS    256
 #define MAX_GLOBALS   512
 #define MAX_ENV        32
-#define MAX_ENV_SEL    256
+#define MAX_ENV_SEL    MAX_INST
 #define NAME_LEN       48
 
 typedef struct { char name[NAME_LEN]; Val value; } GmField;
@@ -55,6 +55,21 @@ typedef struct {
 
 typedef struct { char name[NAME_LEN]; Val value; } GmGlobal;
 typedef struct { int32_t object, type, subtype, code; } GmEventRow;
+typedef struct {
+    int32_t instance_id, object_id, creation_code_id;
+    int32_t x, y;
+    double scale_x, scale_y, angle;
+} GmRoomPlacement;
+typedef struct { int32_t instance_id, object_id, code_id; } GmRoomBinding;
+typedef struct { int visible; double xview, yview, wport, hport; } GmRoomView;
+typedef struct {
+    int32_t width, height, speed;
+    const GmRoomPlacement* objects; int nobjects;
+    const GmRoomBinding* bindings; int nbindings;
+    const GmRoomView* views; int nviews;
+} GmRoom;
+extern const GmRoom GM_ROOMS[];
+extern const int GM_ROOM_COUNT;
 
 #define GM_MAX_MAPS 8
 #define GM_MAP_MAX 32
@@ -69,6 +84,8 @@ typedef struct {
     double  room_width, room_height;
     /* state the ext builtins own (c-recon/src/builtins2.c) */
     double  display_w, display_h, current_room;
+    uint64_t target_room_warp;
+    int     has_room_warp;       /* independent of target 0 / negative GML cast */
     int     view_visible[8];
     double  view_pos[8][2];      /* view_xview / view_yview */
     double  view_port[8][2];     /* view_wport / view_hport */
@@ -173,7 +190,9 @@ int     gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py);
 
 /* object creation + Create dispatch (c-recon/src/objects.c) */
 int32_t gm_instance_create(GmVM* vm, int32_t self, Val x, Val y, int32_t obj);
+int32_t gm_instance_create_placed(GmVM* vm, int32_t id, int32_t obj, Val x, Val y);
 int     gm_dispatch_create(GmVM* vm, int32_t id);
+int     gm_dispatch_body(GmVM* vm, int32_t id, int code);
 int     gm_dispatch_event(GmVM* vm, int32_t id, int type, int subtype);
 /* Field helpers objects.c shares with the tick integration. */
 double  gm_field_or(GmInst* in, const char* name, double dflt);
@@ -190,6 +209,7 @@ int     gm_object_create_code(int32_t id);
 int     gm_object_parent_count(int32_t id);
 int32_t gm_object_parent(int32_t id, int index);
 int     gm_object_exists(int32_t id);
+int     gm_object_persistent(int32_t id);
 int32_t gm_object_id_at(int index);
 const char* gm_object_name(int32_t id);
 /* event table: own event first, then the first ancestor carrying one */
@@ -231,6 +251,10 @@ int     gm_line_hits_instance(GmVM* vm, int32_t id, double x1, double y1,
 void    gm_collision_add_parent(int32_t child, int32_t parent);
 void    gm_collision_clear_parents(void);
 Val     gm_distance_to_object(GmVM* vm, int32_t self, Val obj);
+
+/* room transition lifecycle (c-recon/src/rooms.c) */
+int     gm_room_transition(GmVM* vm, uint64_t room_id);
+int     gm_room_consume_warp(GmVM* vm);
 
 /* with-environment (pushenv/popenv) */
 int   GM_PUSHENV(GmVM* vm, Val selector);

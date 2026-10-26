@@ -1,12 +1,13 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # dev_smoke.sh — 项目重启后的快速冒烟：把"这台机器还能不能跑对"压到 ~1 分钟。
-# 六个独立失败域：
+# 七个独立失败域：
 #   1. C 碰撞单测
 #   2. C 对象/创建/音频单测
 #   3. C with 环境与销毁单测
-#   4. 真实 CODE 的 C<->VM 环境场景差分
-#   5. mask-base oracle 探针（需 unicorn + libyoyo）
-#   6. Rust 精确碰撞套件（nextest，单个测试二进制）
+#   4. C 房间数据与 room builtin 单测
+#   5. 真实 CODE 的 C<->VM 环境场景差分
+#   6. mask-base oracle 探针（需 unicorn + libyoyo）
+#   7. Rust 精确碰撞套件（nextest，单个测试二进制）
 # 只读源码；编译产物写入 c-recon/build、target 或 $TMPDIR。
 #
 # 用法:  bash scripts/dev_smoke.sh [--deep]
@@ -26,7 +27,8 @@ mkdir -p "$ROOT/c-recon/build"
 # binary so adding a fixture body cannot silently leave a test with a stub dispatch.
 C_SOURCES=(
   c-recon/src/host.c c-recon/src/collision.c c-recon/src/objects.c
-  c-recon/src/builtins2.c c-recon/gen/objects_data.c c-recon/gen/registry.c
+  c-recon/src/builtins2.c c-recon/src/rooms.c
+  c-recon/gen/objects_data.c c-recon/gen/rooms_data.c c-recon/gen/registry.c
   c-recon/gen/gml_*.c c-recon/gen/sprites.c
 )
 
@@ -48,25 +50,31 @@ run_c_test() {
   return 0
 }
 
-if ! run_c_test "1/6 C collision unit test" collision_test \
+if ! run_c_test "1/7 C collision unit test" collision_test \
     "collision_test: 109 checks, 0 failed" \
     c-recon/tests/collision_test.c "$TMP/dev_smoke_c.log"; then
   fails=$((fails+1))
 fi
 
-if ! run_c_test "2/6 C object unit test" objects_test \
+if ! run_c_test "2/7 C object unit test" objects_test \
     "checks: 140, failures: 0" \
     c-recon/tests/objects_test.c "$TMP/dev_smoke_objects.log"; then
   fails=$((fails+1))
 fi
 
-if ! run_c_test "3/6 C with/destroy unit test" env_test \
+if ! run_c_test "3/7 C with/destroy unit test" env_test \
     "env checks: 142, failures: 0" \
     c-recon/tests/env_test.c "$TMP/dev_smoke_env.log"; then
   fails=$((fails+1))
 fi
 
-step "4/6 C<->VM with/destroy scenarios"
+if ! run_c_test "4/7 C room data/builtin unit test" rooms_test \
+    "room checks: 29, failures: 0" \
+    c-recon/tests/rooms_test.c "$TMP/dev_smoke_rooms.log"; then
+  fails=$((fails+1))
+fi
+
+step "5/7 C<->VM with/destroy scenarios"
 if clang -std=c11 -O2 -ffp-contract=off -Wall -Ic-recon/include \
     c-recon/src/main.c "${C_SOURCES[@]}" -o "$ROOT/c-recon/build/state_dump" -lm \
     2>"$TMP/dev_smoke_state_dump.log"; then
@@ -85,13 +93,13 @@ else
   fails=$((fails+1))
 fi
 
-step "5/6 mask-base oracle probe"
+step "6/7 mask-base oracle probe"
 if python3 c-recon/tools/oracle/base_probe.py 2>/dev/null | tail -3; then :; else
   echo "base_probe FAILED"
   fails=$((fails+1))
 fi
 
-step "6/6 Rust precise-collision suite (nextest)"
+step "7/7 Rust precise-collision suite (nextest)"
 out=$(cargo nextest run -p callys-core --test precise_collision_masks_ir \
         --cargo-profile ci-test --no-fail-fast 2>&1); rc=$?
 printf '%s\n' "$out" | grep -E "^ *Summary"
@@ -125,6 +133,20 @@ if [ "${1:-}" = "--deep" ]; then
   fi
   if [ "$rc" -ne 0 ] || [ "$deep_bad" -ne 0 ]; then
     echo "deep corpus FAILED (rc=$rc)"
+    fails=$((fails+1))
+  fi
+
+  step "deep: room warp C<->VM scenarios (9)"
+  # Reuse the full-corpus C driver built above: every RoomCC/Create body is
+  # present, so room coverage cannot silently degrade into C_MISSING_BODY.
+  out=$(python3 scripts/env_fanout_diff.py --fixtures c-recon/fixtures/rooms \
+          --c-bin "$TMP/deep_boss/state_dump" --work "$TMP/room_warp" 2>&1); rc=$?
+  printf '%s\n' "$out"
+  if [ "$rc" -ne 0 ] \
+     || ! printf '%s\n' "$out" | grep -qF '[env] 9 scenarios: identical=9 differ=0 failed=0' \
+     || ! printf '%s\n' "$out" | grep -qF '[env] expectations: 79/79 met' \
+     || ! printf '%s\n' "$out" | grep -qF '[env] PASS'; then
+    echo "room warp scenarios FAILED (rc=$rc)"
     fails=$((fails+1))
   fi
 fi

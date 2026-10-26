@@ -7,6 +7,7 @@ same questions `crates/core` answers from `Bundle::objects`:
   * what sprite does object N start with            (id -> sprite)
   * does N have a Create body, and which CODE is it (id -> Create code)
   * if N has none, which ancestors are consulted    (id -> parent_chain)
+  * is N persistent across room switches         (id -> persistent)
 
 Nothing here is hand-written: a missing object would otherwise show up as a
 silent "sprite 0, no Create" instance instead of an error, which is exactly the
@@ -87,6 +88,7 @@ def build(ir_path: Path):
                 "name": obj["name"],
                 "sprite": sprite,
                 "create": create_code(obj),
+                "persistent": 1 if obj.get("persistent") else 0,
                 "start": len(parents),
                 "count": len(chain),
             }
@@ -121,6 +123,7 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
     w("    int32_t id;")
     w("    int32_t sprite;")
     w("    int32_t create_code;   /* -1: no Create event of its own */")
+    w("    int32_t persistent;    /* GM room-switch retention flag */")
     w("    int32_t parent_start;  /* offset into GM_OBJECT_PARENTS */")
     w("    int32_t parent_count;")
     w("    const char* name;")
@@ -170,7 +173,7 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
     w("static const GmObjectRow GM_OBJECTS[] = {")
     for r in rows:
         w(
-            f'    {{ {r["id"]}, {r["sprite"]}, {r["create"]}, '
+            f'    {{ {r["id"]}, {r["sprite"]}, {r["create"]}, {r["persistent"]}, '
             f'{r["start"]}, {r["count"]}, "{r["name"]}" }},'
         )
     w("};")
@@ -210,6 +213,11 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
     w("int gm_object_create_code(int32_t id) {")
     w("    int i = obj_index(id);")
     w("    return i >= 0 ? GM_OBJECTS[i].create_code : -1;")
+    w("}")
+    w("")
+    w("int gm_object_persistent(int32_t id) {")
+    w("    int i = obj_index(id);")
+    w("    return i >= 0 ? GM_OBJECTS[i].persistent : 0;")
     w("}")
     w("")
     w("int gm_object_parent_count(int32_t id) {")

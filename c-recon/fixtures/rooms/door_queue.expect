@@ -1,0 +1,9 @@
+# The collision queues a warp but does not consume it inside CODE 13.
+ROOM 0
+WARP 1
+COUNT_INST 0 1
+COUNT_INST 69 1
+FIELD 100000 x 128
+FIELD 100000 y 140
+FIELD 100000 hspeed 0
+FIELD 100000 vspeed 0

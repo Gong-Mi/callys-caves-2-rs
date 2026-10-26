@@ -43,6 +43,18 @@ static void set_field(GmInst* in, const char* name, double v) {
 /* host.c owns next_rand; the LCG must be the same one. */
 int32_t gm_resolve_sel(GmVM* vm, Val sel) { return vm_resolve(vm, sel); }
 
+/* Rust float-to-usize casts saturate: NaN/negative => 0, overflow => usize::MAX. */
+static uint64_t room_target_from_gm(Val value) {
+    if (isnan(value) || value <= 0.0) return 0;
+    if (value >= 18446744073709551615.0) return UINT64_MAX;
+    return (uint64_t)value;
+}
+
+static void queue_room_target(GmVM* vm, Val value) {
+    vm->target_room_warp = room_target_from_gm(value);
+    vm->has_room_warp = 1;
+}
+
 /* ------------------------------------------------------------------ maps */
 
 typedef struct { double key, val; } GmKv;
@@ -51,6 +63,8 @@ void gm_vm_init_ext(GmVM* vm) {
     vm->display_w = 1136.0;
     vm->display_h = 640.0;
     vm->current_room = 0.0;
+    vm->target_room_warp = 0;
+    vm->has_room_warp = 0;
     vm->view_visible[0] = 1;
     for (int i = 0; i < 8; i++) { vm->view_pos[i][0] = vm->view_pos[i][1] = 0.0;
         vm->view_port[i][0] = vm->display_w; vm->view_port[i][1] = vm->display_h; }
@@ -176,10 +190,12 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
      * collision result. */
     if (!strcmp(name, "instance_deactivate_region")) return 1;
 
-    /* host_impl.rs: room warps only change the scheduler target; nothing in a
-     * single-body run observes it. */
-    if (!strcmp(name, "room_goto") || !strcmp(name, "room_restart") ||
-        !strcmp(name, "action_current_room") || !strcmp(name, "game_restart")) return 1;
+    /* host_impl.rs: room builtins queue a target for the client WARP boundary;
+     * action_current_room reads the current id instead of acting as a no-op. */
+    if (!strcmp(name, "action_current_room")) { *out = vm->current_room; return 1; }
+    if (!strcmp(name, "room_goto")) { queue_room_target(vm, a[0]); return 1; }
+    if (!strcmp(name, "room_restart")) { queue_room_target(vm, vm->current_room); return 1; }
+    if (!strcmp(name, "game_restart")) { vm->target_room_warp = 0; vm->has_room_warp = 1; return 1; }
 
     /* host_impl.rs:375 file_exists / file_delete: no disk dir is configured for
      * a single body, so both reduce to the in-memory ini view. */

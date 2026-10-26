@@ -18,10 +18,11 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 #[derive(Clone)]
-enum Step { Run(usize, i32), Tick(i64) }
+enum Step { Run(usize, i32), Tick(i64), ConsumeWarp, Collide(usize, i32, i32) }
 
 struct Template {
     current: i32,
+    other: Option<i32>,
     /// Event sequence, in order. Empty means "run CODE once on `current`".
     runs: Vec<Step>,
     seed: Option<u64>,
@@ -31,12 +32,15 @@ struct Template {
     arrays: BTreeMap<i32, BTreeMap<(String, i32), f64>>,
     room_w: Option<f64>,
     room_h: Option<f64>,
+    room: Option<f64>,
+    warp: Option<usize>,
 }
 
 fn parse_template(path: &Path) -> Template {
     let text = fs::read_to_string(path).expect("read state");
     let mut t = Template {
         current: 0,
+        other: None,
         runs: Vec::new(),
         seed: None,
         globals: BTreeMap::new(),
@@ -45,15 +49,24 @@ fn parse_template(path: &Path) -> Template {
         arrays: BTreeMap::new(),
         room_w: None,
         room_h: None,
+        room: None,
+        warp: None,
     };
     for line in text.lines() {
         let w: Vec<&str> = line.split_whitespace().collect();
         match w.first().copied() {
             Some("CODE") => {}
             Some("RUN") => { t.runs.push(Step::Run(w[1].parse().unwrap(), w[2].parse().unwrap())); }
+            Some("COLLIDE") => {
+                t.runs.push(Step::Collide(w[1].parse().unwrap(), w[2].parse().unwrap(), w[3].parse().unwrap()));
+            }
             Some("TICK") => { t.runs.push(Step::Tick(w[1].parse().unwrap())); }
             Some("SEED") => { t.seed = Some(w[1].parse().unwrap()); }
             Some("CURRENT") => t.current = w[1].parse().unwrap(),
+            Some("OTHER") => {
+                let id = w[1].parse().unwrap();
+                t.other = if id >= 0 { Some(id) } else { None };
+            }
             Some("INST") => {
                 // `<id> <object> [alive [active]]`; both flags default to true so
                 // the two-token form keeps its old meaning.
@@ -75,6 +88,11 @@ fn parse_template(path: &Path) -> Template {
             Some("GLOBAL") => { t.globals.insert(w[1].to_string(), w[2].parse().unwrap()); }
             Some("ROOMW") => t.room_w = Some(w[1].parse().unwrap()),
             Some("ROOMH") => t.room_h = Some(w[1].parse().unwrap()),
+            Some("ROOM") => t.room = Some(w[1].parse().unwrap()),
+            Some("WARP") => {
+                if w.len() == 1 { t.runs.push(Step::ConsumeWarp); }
+                else { t.warp = Some(w[1].parse().unwrap()); }
+            }
             Some(other) => panic!("unexpected token {other}"),
             None => {}
         }
@@ -99,8 +117,11 @@ fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroid
     }
     if let Some(seed) = tpl.seed { scene.rng_seed = seed; }
     scene.globals = tpl.globals.clone();
+    scene.other_instance = tpl.other;
     if let Some(w) = tpl.room_w { scene.room_width = w; }
     if let Some(h) = tpl.room_h { scene.room_height = h; }
+    if let Some(room) = tpl.room { scene.current_room = room; }
+    if let Some(target) = tpl.warp { scene.target_room_warp = Some(target); }
     // Collision needs the recorded SPRT geometry. Without it every instance
     // degenerates to an integer point and a body that tests `instance_place`
     // takes the "miss" branch — the C host has the table, so the fixture must
@@ -119,7 +140,16 @@ fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroid
 
 fn dump_state(scene: &Scene) -> String {
     let mut s = String::new();
+    s.push_str(&format!("ROOM {}\n", scene.current_room));
     s.push_str(&format!("ROOMW {}\nROOMH {}\n", scene.room_width, scene.room_height));
+    if let Some(target) = scene.target_room_warp { s.push_str(&format!("WARP {target}\n")); }
+    if let Some(other) = scene.other_instance { s.push_str(&format!("OTHER {other}\n")); }
+    for index in 0..8i32 {
+        let (x, y) = scene.view_positions.get(&index).copied().unwrap_or((0.0, 0.0));
+        let (w, h) = scene.view_ports.get(&index).copied()
+            .unwrap_or((scene.display_width, scene.display_height));
+        s.push_str(&format!("VIEW {} {} {} {} {} {}\n", index, scene.view_visible[index as usize] as i32, x, y, w, h));
+    }
     for (id, inst) in &scene.instances {
         s.push_str(&format!("INST {} {} {}\n", id, inst.object, inst.alive as i32));
         // Output-only marker: fixture input expresses this with INST's fourth
@@ -143,6 +173,16 @@ fn dump_state(scene: &Scene) -> String {
         s.push_str(&format!("GLOBAL {} {}\n", k, v));
     }
     s
+}
+
+fn consume_warp(scene: &mut Scene, bundle: &Bundle,
+                asset: Option<&callys_asset::GameDroidAsset>) -> Result<(), String> {
+    let Some(target) = scene.target_room_warp else { return Ok(()); };
+    let source = scene.current_room;
+    let asset = asset.ok_or_else(|| "room warp requires --asset".to_string())?;
+    let room = asset.rooms.get(target).ok_or_else(||
+        format!("room transition {source} -> {target}: target outside room table"))?;
+    scene.transition_to_room(bundle, target, room)
 }
 
 fn main() {
@@ -195,7 +235,16 @@ fn main() {
                         let mut r = Ok(());
                         for _ in 0..*n { r = scene.tick(&bundle); if r.is_err() { break; } }
                         r
-                    }
+                    },
+                    Step::ConsumeWarp => consume_warp(&mut scene, &bundle, asset.as_ref()),
+                    Step::Collide(code, who, other) => {
+                        let previous = scene.other_instance;
+                        scene.other_instance = Some(*other);
+                        let result = code_vm::execute(&bundle, *code, *who, &mut scene)
+                            .map_err(|e| format!("{} offset={}", e.message, e.offset));
+                        scene.other_instance = previous;
+                        result
+                    },
                 };
                 if result.is_err() { break; }
             }
@@ -225,7 +274,15 @@ fn main() {
     for step in &seq {
         match step {
             Step::Run(c, who) => code_vm::execute(&bundle, *c, *who, &mut scene).expect("execute"),
-            Step::Tick(n) => { for _ in 0..*n { scene.tick(&bundle).expect("tick"); } }
+            Step::Tick(n) => { for _ in 0..*n { scene.tick(&bundle).expect("tick"); } },
+            Step::ConsumeWarp => consume_warp(&mut scene, &bundle, asset.as_ref()).expect("consume warp"),
+            Step::Collide(code, who, other) => {
+                let previous = scene.other_instance;
+                scene.other_instance = Some(*other);
+                let result = code_vm::execute(&bundle, *code, *who, &mut scene);
+                scene.other_instance = previous;
+                result.expect("collide");
+            }
         }
     }
     fs::write(&out, dump_state(&scene)).expect("write out");

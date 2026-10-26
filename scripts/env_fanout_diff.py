@@ -54,9 +54,10 @@ def checked_in_c_binary(work: Path) -> Path:
     """Compile the current checked-in C sources; existence alone is not proof."""
     binary = work / "checked-in-state_dump"
     sources = [ROOT / "c-recon/src" / f"{name}.c" for name in
-               ("main", "host", "collision", "objects", "builtins2")]
+               ("main", "host", "collision", "objects", "builtins2", "rooms")]
     sources += [ROOT / "c-recon/gen/registry.c",
                 ROOT / "c-recon/gen/objects_data.c",
+                ROOT / "c-recon/gen/rooms_data.c",
                 ROOT / "c-recon/gen/sprites.c"]
     sources += sorted((ROOT / "c-recon/gen").glob("gml_*.c"))
     subprocess.run(["clang", "-std=c11", "-O2", "-ffp-contract=off", "-w",

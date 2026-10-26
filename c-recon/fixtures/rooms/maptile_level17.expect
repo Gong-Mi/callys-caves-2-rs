@@ -1,0 +1,8 @@
+# obj_maptile reads its own goto field, then the client consumes that dynamic target.
+ROOM 25
+!WARP
+COUNT_INST 0 1
+FIELD 100000 x 128
+FIELD 100000 y 204
+GLOBAL warpfrommap 1
+!INST 200001 160

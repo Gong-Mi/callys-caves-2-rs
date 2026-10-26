@@ -7,10 +7,14 @@
  *
  *     CODE    <id>
  *     CURRENT <instance id>
+ *     OTHER   <collision other id>
  *     INST    <id> <object> [alive [active]]
  *     FIELD   <instance id> <name> <value>
  *     ARRAY   <instance id> <name> <index> <value>
  *     GLOBAL  <name> <value>
+ *     ROOM    <room id>            (fixture setup and dump)
+ *     WARP    <room id>            (seed a pending warp)
+ *     WARP                         (consume it at the client boundary)
  *
  * The two trailing INST tokens are optional and default to 1, because `with` and
  * the scheduler distinguish alive (retired by instance_destroy) from active
@@ -72,8 +76,19 @@ static int cmp_global(const void* a, const void* b) {
 
 static void dump(FILE* f, GmVM* vm) {
     char b1[512], b2[512];
+    fmt_num(b1, sizeof b1, vm->current_room);
+    fprintf(f, "ROOM %s\n", b1);
     fmt_num(b1, sizeof b1, vm->room_width); fmt_num(b2, sizeof b2, vm->room_height);
     fprintf(f, "ROOMW %s\nROOMH %s\n", b1, b2);
+    if (vm->has_room_warp) fprintf(f, "WARP %llu\n", (unsigned long long)vm->target_room_warp);
+    if (vm->other >= 0) fprintf(f, "OTHER %d\n", vm->other);
+    for (int i = 0; i < 8; i++) {
+        char x[64], y[64], w[64], h[64];
+        fmt_num(x, sizeof x, vm->view_pos[i][0]); fmt_num(y, sizeof y, vm->view_pos[i][1]);
+        fmt_num(w, sizeof w, vm->view_port_set[i] ? vm->view_port[i][0] : vm->display_w);
+        fmt_num(h, sizeof h, vm->view_port_set[i] ? vm->view_port[i][1] : vm->display_h);
+        fprintf(f, "VIEW %d %d %s %s %s %s\n", i, vm->view_visible[i], x, y, w, h);
+    }
     /* instances in id order (Rust iterates a BTreeMap) */
     int idx[MAX_INST];
     for (int i = 0; i < vm->ninst; i++) idx[i] = i;
@@ -143,11 +158,27 @@ static int run_fixture(const char* in_path, const char* out_path) {
             if (nruns < 128) { runs[nruns].kind = 0; runs[nruns].code = a; runs[nruns].self = (int32_t)b; nruns++; }
             continue;
         }
+        if (sscanf(line, "COLLIDE %ld %ld %ld", &a, &b, &c) == 3) {
+            if (nruns < 128) { runs[nruns].kind = 3; runs[nruns].code = a; runs[nruns].self = (int32_t)b; runs[nruns].ticks = c; nruns++; }
+            continue;
+        }
         if (sscanf(line, "TICK %ld", &a) == 1) {
             if (nruns < 128) { runs[nruns].kind = 1; runs[nruns].ticks = a; nruns++; }
             continue;
         }
         if (sscanf(line, "CURRENT %ld", &a) == 1) { self = (int32_t)a; continue; }
+        if (sscanf(line, "OTHER %ld", &a) == 1) { vm->other = (int32_t)a; continue; }
+        if (sscanf(line, "ROOM %lf", &v) == 1) { vm->current_room = v; continue; }
+        unsigned long long warp;
+        if (sscanf(line, "WARP %llu", &warp) == 1) {
+            vm->target_room_warp = warp;
+            vm->has_room_warp = 1;
+            continue;
+        }
+        if (sscanf(line, "%31s", kind) == 1 && strcmp(kind, "WARP") == 0) {
+            if (nruns < 128) { runs[nruns].kind = 2; nruns++; }
+            continue;
+        }
         int nf = sscanf(line, "INST %ld %ld %ld %ld", &a, &b, &c, &d);
         if (nf >= 2) {
             /* Omitted flags default to 1. This preserves existing three-token
@@ -196,16 +227,26 @@ static int run_fixture(const char* in_path, const char* out_path) {
         for (int i = 0; i < nruns && ran; i++) {
             if (runs[i].kind == 1) {
                 for (long t = 0; t < runs[i].ticks; t++) gm_tick(vm);
+            } else if (runs[i].kind == 2) {
+                if (gm_room_consume_warp(vm) < 0) {
+                    if (gm_missing_body_code < 0) gm_fail_msg("room transition failed");
+                    ran = 0;
+                }
+            } else if (runs[i].kind == 3) {
+                int32_t previous_other = vm->other;
+                vm->other = (int32_t)runs[i].ticks;
+                ran = run_code(vm, runs[i].code, runs[i].self);
+                vm->other = previous_other;
             } else {
                 ran = run_code(vm, runs[i].code, runs[i].self);
             }
         }
         gm_error_active = 0;
-        if (!ran) return 3;                        /* 3: this binary has no such body */
         if (gm_missing_body_code >= 0) {           /* 4: a dispatched body is absent */
             fprintf(stderr, "body %d has no generated function in this binary\n", gm_missing_body_code);
             return 4;
         }
+        if (!ran) return 3;                        /* 3: this binary has no such body */
 
         FILE* out = fopen(out_path, "w");
         if (!out) { perror(out_path); return 2; }
