@@ -88,11 +88,23 @@ parked 80 px up. Frames counted until the trex's HP first changes:
 | arrow | 9 | 2.00 | 0.3 gravity, still connects |
 | laserbeam | 9 | 0.25 | |
 | rocket | 9 | 6.00 | |
-| bomb | never | — | 0.3 gravity drops it below the lane before contact |
-| boomerang | never | — | at 5 px/frame it covers the lane in ~26 ticks but never lands a hit; its Step must turn it back before the window |
+| bomb | never | — | **no boss HP write in the body at all** (see below) |
+| boomerang | never | — | **no boss HP write in the body at all** |
+| sword | 1 (touch range) | 1.00 | not a projectile: repositions on the player |
 
-Sword is absent: it has no `hspeed` of its own (its Step drives the motion) and
-was not modelled here.
+The first explanation I wrote for bomb/boomerang was wrong on both counts — I
+blamed the bomb's gravity and guessed the boomerang turns back. Measuring the
+bodies settles it: each writes 14 `hp*` fields, all regular enemies
+(`hpknife`, `hp`, `hpwolf`, `hptwo`, `hpfour`, `hpslime`, `hpghost`,
+`hpshooter1/2`, `hpfireslime`, `hphulkingbandit`, `hpzombie`, `hpfirehulk`,
+`hpskeleton`) and **none** of `hptrex` / `hpboss2..5` / `hpfinalboss`. The bomb
+does check `obj_trex` and then damage... `hpfour` (the bat) in the branch that
+follows, but it never touches a boss's HP. No amount of aim fixes that: these
+two weapons are not boss weapons.
+
+The sword is spawned at `(x ± 15, y - 15)` and its Step repositions itself from
+the player each tick (`x ± 5`, `y + 6`, `image_angle ± 25`), so it only connects
+when the player is at touch range — then it lands 1.00 on the very next tick.
 
 These eight numbers plus the two negatives are pinned by
 `weapon_flight_frames_to_the_trex_in_a_clear_lane` (9/9 with the rest of the

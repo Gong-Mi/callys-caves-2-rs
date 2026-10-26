@@ -384,3 +384,46 @@ fn weapon_flight_frames_to_the_trex_in_a_clear_lane() {
         }
     }
 }
+
+#[test]
+fn bomb_and_boomerang_cannot_damage_bosses_but_the_sword_can_at_touch_range() {
+    // The bomb and the boomerang carry no boss HP write at all: their 14 hp
+    // stores are the regular enemies (hpknife/hp/hpwolf/hptwo/hpfour/hpslime/
+    // hpghost/shooter1/2/fireslime/hulkingbandit/zombie/firehulk/skeleton) and
+    // nothing for hptrex/hpboss2..5/hpfinalboss. No trajectory can fix that.
+    let ir: serde_json::Value = serde_json::from_str(include_str!("../src/generated/full_ir.json"))
+        .expect("full_ir.json");
+    let boss_hp = ["hptrex", "hpboss2", "hpboss3", "hpboss4", "hpboss5", "hpfinalboss"];
+    for (name, code) in [("bomb", 278i64), ("boomerang", 298i64)] {
+        let body = ir["codes"].as_array().unwrap().iter()
+            .find(|c| c["id"].as_i64() == Some(code)).expect("code");
+        let writes: Vec<&str> = body["instructions"].as_array().unwrap().iter()
+            .filter(|x| x["op"] == "store")
+            .filter_map(|x| x["name"].as_str())
+            .filter(|n| boss_hp.contains(n))
+            .collect();
+        assert!(writes.is_empty(), "{name} must not write boss HP, got {writes:?}");
+    }
+
+    // The sword is not a projectile: its Step repositions itself relative to
+    // the player and checks from there, so it connects on the next tick when
+    // the player stands at touch range (damage 1.0).
+    let (bundle, mut s, trex) = boss_scene();
+    let (tx, ty) = (s.instances[&trex].fields["x"], s.instances[&trex].fields["y"] - 80.0);
+    s.write(trex, -1, "x", None, tx).unwrap();
+    s.write(trex, -1, "y", None, ty).unwrap();
+    let kill: Vec<i32> = s.instances.iter()
+        .filter(|(_, i)| i.object != 0 && i.object != 25).map(|(id, _)| *id).collect();
+    for id in kill { if let Some(i) = s.instances.get_mut(&id) { i.alive = false; } }
+    let pid = s.instances.iter().find(|(_, i)| i.object == 0 && i.alive).map(|(id, _)| *id)
+        .expect("player instance");
+    s.write(pid, -1, "x", None, tx - 20.0).unwrap();
+    s.write(pid, -1, "y", None, ty).unwrap();
+    let hp0 = s.instances[&trex].fields["hptrex"];
+    let _sword = s.create(&bundle, 46, tx - 20.0, ty + 15.0).expect("sword");
+    s.tick(&bundle).expect("one tick");
+    assert_eq!(
+        hp0 - s.instances[&trex].fields["hptrex"], 1.0,
+        "sword at touch range deals 1.0 on the first tick"
+    );
+}
