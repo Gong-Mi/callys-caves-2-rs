@@ -24,6 +24,11 @@ handles all 1354 CODE bodies, but only 15 lowered bodies are committed under
 (`select tier, count(*) from card group by tier`), not from how much the generator can
 emit — see `AGENTS.md` §5.
 
+The evidence chain is one-way: `bytecode/IR → VM state → native calls/events → draw
+commands → pixels`. Pixels are the **last** stage and a *consumer* of everything before
+them, so a matching frame proves the path ran, never that the semantics are right; all
+parity criteria live upstream (state, call order, events). See `AGENTS.md` §10.
+
 ## Controls
 
 Android:

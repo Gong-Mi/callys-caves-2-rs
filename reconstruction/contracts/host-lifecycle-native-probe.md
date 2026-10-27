@@ -304,6 +304,12 @@ sh run_lifecycle_matrix.sh java cycle 1 220 keep   # 保留存档 → 带档冷�
    audio 队列与 save 状态、init 次数。要测"present 成功"或"帧逐字节相等"，
    必须先给它一个真实 surface（SurfaceView 或 pbuffer），否则该轴一律记 N/A。
 
+5. **像素在数据链上的位置：最后一个环节，属于消费侧。**
+   `字节码/IR → VM 状态 → 原生调用与事件 → 绘制命令 → 像素`。它消费前面全部环节的产物，
+   所以"像素通过"既不能证明引擎语义正确，也不能证明 presenter 等价；它只能当端到端冒烟。
+   本矩阵早期把它当判据，导致两轮工作都花在渲染通道上，而不是拿语义证据——这是本文
+   §0 的旧数字需要被本附录覆盖的根本原因。
+
 复现入口（本轮实际使用）：
 `LD_PRELOAD=work/libs/libeglshim.so`（本机 `libEGL.so` 不导出 `eglGetString`，用 15 行 shim
 转发到 `eglQueryString(eglGetCurrentDisplay(), name)`）+ 1136x640 headless fallback。
