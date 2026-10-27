@@ -24,3 +24,6 @@ android-build/compiled/
 android-build/*.idsig
 *.log
 android-build/classes.dex
+
+# generated behaviour DB (rebuild with scripts/build_behavior_db.py)
+reconstruction/db/cally.db
