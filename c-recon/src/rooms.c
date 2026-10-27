@@ -1,4 +1,9 @@
-/* Room warp consumption and RoomData lifecycle for the C reconstruction.
+/* tier: host_authored
+ * provenance: 重建实现，镜像 Scene::transition_to_room；房间/放置数据本身来自
+ *             game.droid（gen/rooms_data.c，带 source_sha256）。
+ * original_gap: 原版 libyoyo 的 room 载入与 RoomCC 绑定路径未逐函数取证。
+ *
+ * Room warp consumption and RoomData lifecycle for the C reconstruction.
  *
  * Mirrors Scene::transition_to_room: Room End on the active snapshot, retain
  * persistent instances, load every placement/RoomCC binding, then Room Start.

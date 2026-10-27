@@ -13,6 +13,8 @@ Exit codes: 0 identical, 1 different, 2 harness failure.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import subprocess
 import sys
 import tempfile
@@ -26,6 +28,29 @@ IR = ROOT / "crates/core/src/generated/full_ir.json"
 def run(cmd: list[str], cwd: Path) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, cwd=cwd, text=True,
                           stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def binding_line(code: int, fixture_text: str) -> str:
+    """Identity of everything this result depends on (see AGENTS.md §3).
+
+    A passing diff without this line only says "it matched once". With it, the
+    result is void the moment the body, the fixture or the lowered C changes.
+    """
+    ir = json.loads(IR.read_text())
+    body = next((c for c in ir["codes"] if c["id"] == code), None)
+    body_sha = body["sha256"] if body else "absent"
+    src = ROOT / f"c-recon/gen/gml_{code:04d}.c"
+    impl_sha = sha256_bytes(src.read_bytes()) if src.exists() else "absent"
+    impl = str(src.relative_to(ROOT)) if src.exists() else "absent"
+    return (
+        f"BINDING v1 code={code} body_sha256={body_sha} "
+        f"fixture_sha256={sha256_bytes(fixture_text.encode())} "
+        f"impl={impl} impl_sha256={impl_sha}"
+    )
 
 
 def main() -> int:
@@ -47,6 +72,7 @@ def main() -> int:
 
     c_out = fixture.with_suffix(".c.out")
     r_out = fixture.with_suffix(".r.out")
+    print(binding_line(a.code, text))
 
     p = run([str(C_BIN), str(fixture), str(c_out)], ROOT)
     if p.returncode != 0:

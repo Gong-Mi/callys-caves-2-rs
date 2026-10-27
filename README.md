@@ -18,6 +18,12 @@ The Android client currently provides:
 
 The reconstruction is still being iterated. Original GameMaker bytecode behavior, exact room-transition creation code, progression, persistence, audio/music, menus/story scenes and the full enemy/boss behavior set remain separate reconstruction work; build success is not treated as gameplay parity.
 
+Numbers in this repository are **capability** unless marked otherwise: the C lowering
+handles all 1354 CODE bodies, but only 15 lowered bodies are committed under
+`c-recon/gen/`. Progress is counted from `reconstruction/db/cally.db`
+(`select tier, count(*) from card group by tier`), not from how much the generator can
+emit — see `AGENTS.md` §5.
+
 ## Controls
 
 Android:

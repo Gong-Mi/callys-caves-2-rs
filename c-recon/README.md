@@ -15,7 +15,8 @@ body rather than guess.
 
 | item | state |
 | --- | --- |
-| generator (`scripts/ir_to_c.py`) | 1354/1354 bodies, 0 refused, 52,411 lines of C |
+| generator (`scripts/ir_to_c.py`) | **capable**: 1354/1354 bodies, 0 refused, one `/* @<offset> <op> */` anchor per instruction (≈52k statements → ≈357k lines) |
+| committed bodies | **15** under `gen/gml_*.c` — capability ≠ delivery; run `--all --outdir <tmp>` to reproduce the other 1339 |
 | C host (`c-recon/src/host.c`) | instances, fields, arrays (`alarm` is a 12-slot array), globals, selector resolution, `with` frames, `room_width`/`score` pseudo-fields |
 | collision (`c-recon/src/collision.c`) | `instance_place` / `place_meeting` (box + mask pixels), `distance_to_object`, mask line/point probes; 109 assertions |
 | objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 140 assertions |
@@ -36,6 +37,16 @@ that needs a different receiver aborts on both sides (`SAME_ABORT` = same
 reason, not same behaviour), and alarm/step timing is not exercised. What it
 does buy is the whole 1354-body loop in one pass: one bundle load per side
 instead of one per body (~0.5 s each on the Rust side).
+
+## Provenance tiers (see `../AGENTS.md` §2)
+
+| files | tier | meaning |
+|---|---|---|
+| `gen/gml_*.c`, `gen/*_data.c` | `bytecode_anchored` / data-with-`source_sha256` | lowered from shipped CODE / parsed from `game.droid`; every statement carries its offset |
+| `src/host.c`, `objects.c`, `collision.c`, `rooms.c`, `draw.c`, `builtins2.c` | **`host_authored`** | hand-written engine semantics ported from the Rust reimplementation, **not** lowered bytecode; each file header states its `original_gap` |
+
+`C == VM` and the batch differential compare two of our own implementations; they are
+`test_anchored` evidence, not proof of equivalence with the original `libyoyo.so`.
 
 Draw equality is at the GML command-stream layer, including payload, provenance,
 phase and depth order. It is not rasterizer, framebuffer, original-runner or GPU

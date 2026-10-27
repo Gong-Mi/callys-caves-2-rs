@@ -1,4 +1,9 @@
-/* Instance creation + Create-event dispatch for IR lowered to C.
+/* tier: host_authored
+ * provenance: 重建实现，来源是 crates/core/src/ir_scene.rs 的 create()/
+ *             create_with_id()，不是由 shipped CODE 降级。
+ * original_gap: 原版 libyoyo 的 instance_create / Create 派发路径未逐函数取证。
+ *
+ * Instance creation + Create-event dispatch for IR lowered to C.
  *
  * Every semantic here is copied from the Rust scene, not invented:
  *   - crates/core/src/ir_scene.rs create()/create_with_id(): id allocation,

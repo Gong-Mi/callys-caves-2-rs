@@ -139,6 +139,10 @@ class Emitter:
                 # unreachable without a label: the shipped body cannot arrive
                 # here, so emitting it would only add noise
                 continue
+            # Per-instruction anchor: every emitted statement can be traced back
+            # to one bytecode offset. Without it a differential failure can only
+            # be located to the whole body, not to the instruction that diverged.
+            self.emit(f"/* @{i['offset']} {i['op']} */")
             self.instruction(i)
         # A `bf`/`b` may target the body end (skip to the function exit): give
         # that offset a real label instead of leaving a dangling goto.

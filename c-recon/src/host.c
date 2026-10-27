@@ -1,4 +1,11 @@
-/* Host primitives for IR lowered to C.
+/* tier: host_authored
+ * provenance: 重建实现。本文件不是由 shipped CODE 降级而来，而是照 crates/core 的
+ *             Rust 实现逐语义移植（下方注释给出对应关系）。
+ * original_gap: 原版 libyoyo 中承担同一职责的代码路径尚未逐函数取证；
+ *               C == VM 只证明两条自研实现互相同意，不证明与原件一致。
+ * 见 AGENTS.md 第 4 条、reconstruction/db/schema.sql 的 tier 定义。
+ *
+ * Host primitives for IR lowered to C.
  *
  * M0 scope: instance table, fields, arrays, globals, selector resolution and
  * the builtins CODE 12 uses. Every semantic below mirrors crates/core:

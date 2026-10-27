@@ -1,4 +1,9 @@
-/* Engine builtins that do not need instance geometry.
+/* tier: host_authored
+ * provenance: 重建实现，逐分支镜像 crates/core/src/parts/host_impl.rs 的 call()；
+ *             未实现的 builtin 走 c_gap（见文件内 unimplemented 路径），不假装通过。
+ * original_gap: 原版 libyoyo 各 builtin 的实参求值/副作用顺序未逐指令取证。
+ *
+ * Engine builtins that do not need instance geometry.
  *
  * Every branch here mirrors an arm of `call()` in
  * crates/core/src/parts/host_impl.rs; the comment above each group names the

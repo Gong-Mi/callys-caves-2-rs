@@ -1,4 +1,9 @@
-/* Collision geometry for IR lowered to C.
+/* tier: host_authored
+ * provenance: 重建实现，逐行移植自 crates/core/src/ir_scene.rs（下方给出行号）。
+ * original_gap: 原版 libyoyo 的碰撞 builtin 实现未逐指令取证；本文件里的 8 个 @0x
+ *               锚点只标到少量已知常量，不代表整文件已锚定。
+ *
+ * Collision geometry for IR lowered to C.
  *
  * Everything here is a line-by-line port of the Rust oracle, not a redesign:
  *

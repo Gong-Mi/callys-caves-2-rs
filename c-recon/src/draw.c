@@ -1,4 +1,9 @@
-/* Draw command storage and the original two-pass instance Draw scheduler.
+/* tier: host_authored
+ * provenance: 重建实现，命令流与调度镜像 Scene::draw_view；不是原件绘制管线。
+ * original_gap: 原版跨类别绘制顺序未取证（draw-stream-fingerprint.md 自述该指纹是
+ *               remake 回归基线，不是原件等价 oracle）。
+ *
+ * Draw command storage and the original two-pass instance Draw scheduler.
  *
  * This is a command-stream host, not a rasterizer. Payloads and provenance are
  * the same four GML queues that Scene exposes: sprite, text, healthbar and
