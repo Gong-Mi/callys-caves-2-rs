@@ -9,7 +9,7 @@
   "tier": "bytecode_anchored",
   "host_authored": 0,
   "original_gap": "覆盖度 ≠ 语义等价：C==VM 与 batch_diff 只证明两条自研实现互相同意；与原版 libyoyo 的逐指令/逐帧对照仍未做",
-  "anchor": "c-recon/gen/gml_*.c（1354 个）+ c-recon/gen/registry.c（2715 行）+ scripts/ir_to_c.py 的 @offset 输出",
+  "anchor": "c-recon/gen/gml_*.c（1354 个）+ c-recon/gen/registry.c（2715 行）+ scripts/ir_to_c.py 的 @offset 输出；普查脚本 scripts/audit_anchor_coverage.py",
   "notes": "这是交付面的口径：此前只提交 15 个体，capability 与 delivery 混报",
   "codes": [],
   "evidence": [
@@ -32,6 +32,11 @@
       "kind": "contract",
       "ref": "c-recon/README.md 状态表：generator capable 1354/1354",
       "note": "历史口径"
+    },
+    {
+      "kind": "test",
+      "ref": "scripts/audit_anchor_coverage.py → RESULT EXACT（ir_sha256 4bddbc9a…, gen_digest 555c43a9…, 1.7s）",
+      "note": "可复跑的锚点普查"
     }
   ]
 }
