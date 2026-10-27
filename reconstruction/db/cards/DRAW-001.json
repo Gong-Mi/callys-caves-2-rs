@@ -1,0 +1,27 @@
+{
+  "id": "DRAW-001",
+  "title": "绘制队列（sprite/text/healthbar/background + GUI 阶段）由重建实现给出顺序",
+  "scope_object": "engine",
+  "scope_event": "Draw",
+  "trigger": "每帧 Draw 结束后排空四条绘制队列",
+  "preconditions": "c-recon/src/draw.c 与 builtins2.c 编译进 c-recon",
+  "effects": "按 depth 降序 + GUI 阶段输出有序命令流",
+  "tier": "host_authored",
+  "host_authored": 1,
+  "original_gap": "原版跨类别绘制顺序未取证；draw-stream-fingerprint.md 自述该 FNV 指纹是 remake 回归基线、不是原版等价 oracle",
+  "anchor": "c-recon/src/draw.c:1",
+  "notes": "这是重建实现，按 AGENTS.md 第 4 条必须显式标 host_authored，不计入 bytecode 覆盖",
+  "codes": [],
+  "evidence": [
+    {
+      "kind": "contract",
+      "ref": "reconstruction/contracts/draw-stream-fingerprint.md",
+      "note": "自述非原件等价 oracle"
+    },
+    {
+      "kind": "test",
+      "ref": "c-recon/README.md#status: Draw 15 scenarios / 60 expectations",
+      "note": "自洽测试"
+    }
+  ]
+}

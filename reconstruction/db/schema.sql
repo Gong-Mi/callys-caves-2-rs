@@ -25,7 +25,11 @@ CREATE TABLE fact_code (
     event_type  INTEGER,             -- 0 Create, 2 Alarm, 3 Step, 4 Collision,
                                      -- 6 Mouse, 7 Other, 8 Draw, 9 KeyPress, 10 KeyRelease
     subtype     INTEGER,
-    instructions INTEGER NOT NULL
+    instructions INTEGER NOT NULL,
+    -- Per-body identity. Any equality claim (C == VM, C == original) must cite this
+    -- sha in its BINDING line; a passing log without it is not evidence.
+    sha256      TEXT NOT NULL,
+    name        TEXT NOT NULL
 );
 
 CREATE TABLE fact_builtin_call (
