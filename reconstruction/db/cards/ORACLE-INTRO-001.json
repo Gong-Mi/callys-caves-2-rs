@@ -1,0 +1,27 @@
+{
+  "id": "ORACLE-INTRO-001",
+  "title": "原版进入序章房间后：5 个绘制实例、id map 180、view0 448x252",
+  "scope_object": "engine",
+  "scope_event": "room load",
+  "trigger": "原版 com.vdogames.callyscaves2 启动并点击进入首个房间后",
+  "preconditions": "设备 root 可读 /proc/<pid>/mem；libyoyo 的 rw 段基址由 /proc/<pid>/maps 取得",
+  "effects": "room 指针非空；draw 链 5 条（obj_introduction/obj_logo/obj_phone/obj_viewresolution×2，含 x/y/depth）；id map 180/180；view0 448x252；depth 顺序 0 违规",
+  "tier": "device_anchored",
+  "host_authored": 0,
+  "original_gap": "房间身份未定：room+0x94=175 尚未映射到我们的 114 房间表；这 5 个实例由 RoomCC 代码创建，不在 gen/rooms_data.c 的 ROOM_*_OBJECTS 里，因此还不能与本方数据直接对账",
+  "anchor": "reconstruction/live-mem/tools/room_census.py 输出；进程 pid 21459，rw_base 0x7f8b2000，room=0xea486140",
+  "notes": "本卡只记录原版观测（device_anchored），不是等价证明；像素/帧未参与",
+  "codes": [],
+  "evidence": [
+    {
+      "kind": "device",
+      "ref": "2026-10-28 06:41 room_census.py 21459 7f8b2000，room=0xea486140 room+0x94=175 view0 448x252 draw=5 id_map=180/180 depth_violations=0",
+      "note": "原版活体状态抽样"
+    },
+    {
+      "kind": "oracle",
+      "ref": "APK sha256 d608f4557ad66326de36268b9ab062afec839344e57d85afb6220405ea8cd8c9；libyoyo.so 4689844B",
+      "note": "被测原件的身份"
+    }
+  ]
+}

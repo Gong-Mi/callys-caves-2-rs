@@ -98,6 +98,13 @@ README 写「generator 1354/1354 bodies」时，必须同时写「committed: 15�
   经常在像素上表现为"看起来差不多"。所以判据必须落在链条上游（状态与调用），
   下游只做端到端冒烟。
 
+- **像素由中间层完成，不在像素上判等。** 像素的上游是**绘制命令流**（引擎侧 draw list：
+  实例 id / 对象名 / x,y / depth / 链表序；本仓库侧 `ordered_draw_commands` 的
+  sprite/text/healthbar/background 四队列 + GUI 相位）。这一层两边都能**逐条读出**：
+  原版走 `room_census.py` 的 draw 链（CInstance +0x80/+0x180/+0x17C），本方走
+  `draw_order_ir` / `draw.c`。所以渲染正确的判据是**命令序列相等**（含 depth 排序与
+  tie-break），不是帧缓冲相等；只有命令层一致、还想验光栅化，才去开真 surface 看像素。
+
 - **`nonZeroPx=0` 时，像素轴记 N/A，不许写成"一致"**。空画布对空画布当然相等。
 - **任何常量哈希先复算再引用**。实测：`dcde318742a40325` 就是 727,040 个零 int 的
   FNV-1a（`h = h ^ 0; h *= 0x100000001b3`，迭代 727040 次）——2026-10-28 两条腿报告
