@@ -86,3 +86,21 @@ README 写「generator 1354/1354 bodies」时，必须同时写「committed: 15�
 
 `select tier, count(*) from card group by tier`。
 在 cards 为空之前，任何"完成度"都不是数据，是说法。
+
+## 10. 像素不是等价判据（项目曾经因此空转）
+
+渲染产物只能当**回归基线**，永远不能当"与原版等价"的证据。三条硬规矩：
+
+- **`nonZeroPx=0` 时，像素轴记 N/A，不许写成"一致"**。空画布对空画布当然相等。
+- **任何常量哈希先复算再引用**。实测：`dcde318742a40325` 就是 727,040 个零 int 的
+  FNV-1a（`h = h ^ 0; h *= 0x100000001b3`，迭代 727040 次）——2026-10-28 两条腿报告
+  "6 个相位哈希逐字节相等"，实际是同一个空画布常量自证了六次。
+- **差分轴固定为四域**，像素不在其中：① 调用序（surfaceCreated→nativeSetSurface→
+  nativeInit→nativeSetClockPaused）② 返回值语义（present / setSurface / paused）
+  ③ 事件域（audio 队列、haptic、save 文件状态）④ 状态快照（instance/field/global，
+  走 `c_vm_diff` 的 state dump，不走帧缓冲）。
+
+WHY：把 headless 环境里拿不到的像素当成判据，会让"一致性"永远看起来差一点，于是每一轮都在
+调渲染通道，而不是推进逆向本来要拿的语义证据。2026-10-28 那次 `restored_true=0/1`
+在 java 与 rust 两条腿上同时出现，根因是这台机器 headless 下压根拿不到 surface，
+不是 presenter 的缺陷。

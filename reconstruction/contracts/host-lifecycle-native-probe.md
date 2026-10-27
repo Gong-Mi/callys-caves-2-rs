@@ -278,3 +278,33 @@ sh run_lifecycle_matrix.sh java cycle 1 220 keep   # 保留存档 → 带档冷�
   无 SIGKILL/卡死。
 - 本轮把 P1/P2 扩成相位×腿矩阵，并新增：order 顺序、3 轮循环、重复 nativeInit 泄漏探针、
   armed/unarmed 测量纪律、音频事件队列相位 A/B、EGL 死亡与 surface 重建叠加腿。
+
+## 附录 A（2026-10-28）：像素轴撤回，以及一次伪差的澄清
+
+本轮在这台设备（rothko/Android 16）上重跑了 `java` 与 `rust` 两条 `cycle` 腿（各 1 轮、
+30–60 帧），用当前分支重建的 `libcallys_client.so`（sha256 `a8708326825e5123…`，
+`local.offt64` 的 forked build 线外），结论如下，**与本文正文 §0 的历史数字冲突的地方以本附录为准**：
+
+1. **`dcde318742a40325` 不是引擎状态，是空画布常量。**
+   `engineHash` 的实现是 `nativeBlitToIntArray` 后对 int[] 做 FNV-1a；实测 727,040 个零 int
+   迭代同一算法得到的正是 `dcde318742a40325`。两条腿每帧 `nonZeroPx=0/727040`，
+   所以"6 个相位哈希逐字节相等"只是同一个常量重复了六次，**不能作为 presenter 等价证据**。
+
+2. **`restored_true=0/1` 两边同时出现，归因是环境，不是 client。**
+   java 与 rust 两条腿的 RESULT 除 `rss_end` 外完全一致：
+   `detached_false=1/1 restored_true=0/1 byte_equal=0/1 engine_hash_stable=1/1 init_calls_total=1`。
+   这台机器 headless 下拿不到真实 surface（`engine canvas` 报 0x0，需 1136x640 fallback 才能建
+   ImageReader），`present` 一律 false 属于预期，不能读成缺陷。
+
+3. **"rust 的 present 在 detached 状态下返回 true" 是旧库伪差，已撤回。**
+   该观察来自 APK 内 8 月的旧 `libcallys_client.so`；换当前构建后 rust 腿 `A1-destroyed` 返回
+   false（expect false），与 java 一致。**本项不立 issue。**
+
+4. 本环境可用的差分轴（像素不参与）：调用序、present/setSurface/paused 的返回值、
+   audio 队列与 save 状态、init 次数。要测"present 成功"或"帧逐字节相等"，
+   必须先给它一个真实 surface（SurfaceView 或 pbuffer），否则该轴一律记 N/A。
+
+复现入口（本轮实际使用）：
+`LD_PRELOAD=work/libs/libeglshim.so`（本机 `libEGL.so` 不导出 `eglGetString`，用 15 行 shim
+转发到 `eglQueryString(eglGetCurrentDisplay(), name)`）+ 1136x640 headless fallback。
+两条腿日志：`~/cally-work/gmbench/work/logs/matrix-{java,rust}-cycle-20261028.log`。
