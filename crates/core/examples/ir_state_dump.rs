@@ -12,13 +12,13 @@
 //! The state file is the authority for the fixture: instances are inserted
 //! directly (no Create events) so both sides start from identical bytes.
 use callys_core::code_vm::{self, load_bundle_from_file, Bundle};
-use callys_core::ir_scene::{Instance, Scene, SpriteBounds};
+use callys_core::ir_scene::{DrawPhase, DrawQueue, Instance, Scene, SpriteBounds};
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
 #[derive(Clone)]
-enum Step { Run(usize, i32), Tick(i64), ConsumeWarp, Collide(usize, i32, i32) }
+enum Step { Run(usize, i32), Tick(i64), ConsumeWarp, Collide(usize, i32, i32), Draw(i32) }
 
 struct Template {
     current: i32,
@@ -34,6 +34,7 @@ struct Template {
     room_h: Option<f64>,
     room: Option<f64>,
     warp: Option<usize>,
+    views: BTreeMap<i32, (bool, f64, f64, f64, f64)>,
 }
 
 fn parse_template(path: &Path) -> Template {
@@ -51,6 +52,7 @@ fn parse_template(path: &Path) -> Template {
         room_h: None,
         room: None,
         warp: None,
+        views: BTreeMap::new(),
     };
     for line in text.lines() {
         let w: Vec<&str> = line.split_whitespace().collect();
@@ -61,6 +63,14 @@ fn parse_template(path: &Path) -> Template {
                 t.runs.push(Step::Collide(w[1].parse().unwrap(), w[2].parse().unwrap(), w[3].parse().unwrap()));
             }
             Some("TICK") => { t.runs.push(Step::Tick(w[1].parse().unwrap())); }
+            Some("DRAW") => { t.runs.push(Step::Draw(w[1].parse().unwrap())); }
+            Some("VIEW") => {
+                t.views.insert(w[1].parse().unwrap(), (
+                    w[2].parse::<i32>().unwrap() != 0,
+                    w[3].parse().unwrap(), w[4].parse().unwrap(),
+                    w[5].parse().unwrap(), w[6].parse().unwrap(),
+                ));
+            }
             Some("SEED") => { t.seed = Some(w[1].parse().unwrap()); }
             Some("CURRENT") => t.current = w[1].parse().unwrap(),
             Some("OTHER") => {
@@ -122,6 +132,11 @@ fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroid
     if let Some(h) = tpl.room_h { scene.room_height = h; }
     if let Some(room) = tpl.room { scene.current_room = room; }
     if let Some(target) = tpl.warp { scene.target_room_warp = Some(target); }
+    for (&index, &(visible, x, y, w, h)) in &tpl.views {
+        if (0..8).contains(&index) { scene.view_visible[index as usize] = visible; }
+        scene.view_positions.insert(index, (x, y));
+        scene.view_ports.insert(index, (w, h));
+    }
     // Collision needs the recorded SPRT geometry. Without it every instance
     // degenerates to an integer point and a body that tests `instance_place`
     // takes the "miss" branch — the C host has the table, so the fixture must
@@ -136,6 +151,10 @@ fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroid
         }
     }
     scene
+}
+
+fn hex_text(text: &str) -> String {
+    text.as_bytes().iter().map(|b| format!("{b:02x}")).collect()
 }
 
 fn dump_state(scene: &Scene) -> String {
@@ -172,6 +191,42 @@ fn dump_state(scene: &Scene) -> String {
     for (k, v) in &scene.globals {
         s.push_str(&format!("GLOBAL {} {}\n", k, v));
     }
+    // GML draw-builtins only. RoomTile/Particle are separate room-layer inputs,
+    // not draw_* calls, and the C host does not consume those layers yet.
+    for (order, emission) in scene.ordered_draw_commands().into_iter()
+        .filter(|e| matches!(e.queue, DrawQueue::Sprite(_) | DrawQueue::Text(_)
+            | DrawQueue::Healthbar(_) | DrawQueue::Background(_)))
+        .enumerate()
+    {
+        let phase = match emission.phase { DrawPhase::Room => 0, DrawPhase::Gui => 1 };
+        match emission.queue {
+            DrawQueue::Sprite(i) => {
+                let c = &scene.draws[i];
+                s.push_str(&format!("DRAW {order} SPRITE {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}\n",
+                    phase, c.code as i64, c.offset, c.instance, c.view, emission.depth,
+                    c.sprite, c.frame, c.x, c.y, c.scale_x, c.scale_y, c.rotation, c.color, c.alpha, c.fog as i32));
+            }
+            DrawQueue::Text(i) => {
+                let c = &scene.texts[i];
+                s.push_str(&format!("DRAW {order} TEXT {} {} {} {} {} {} {} {} {} {} {} {}\n",
+                    phase, c.code as i64, c.offset, c.instance, c.view, emission.depth,
+                    c.x, c.y, c.color, c.alpha, c.font, hex_text(&c.text)));
+            }
+            DrawQueue::Healthbar(i) => {
+                let c = &scene.healthbars[i];
+                s.push_str(&format!("DRAW {order} HEALTHBAR {} {} {} {} {} {} {} {} {} {} {} {} {} {}\n",
+                    phase, c.code as i64, c.offset, c.instance, c.view, emission.depth,
+                    c.x1, c.y1, c.x2, c.y2, c.amount, c.back_col, c.min_col, c.max_col));
+            }
+            DrawQueue::Background(i) => {
+                let c = &scene.backgrounds[i];
+                s.push_str(&format!("DRAW {order} BACKGROUND {} {} {} {} {} {} {} {} {} {} {} {} {} {}\n",
+                    phase, c.code as i64, c.offset, c.instance, c.view, emission.depth,
+                    c.background, c.x, c.y, c.scale_x, c.scale_y, c.rotation, c.color, c.alpha));
+            }
+            DrawQueue::RoomTile(_) | DrawQueue::Particle(_) => {}
+        }
+    }
     s
 }
 
@@ -205,10 +260,15 @@ fn main() {
             other => panic!("unknown arg {other}"),
         }
     }
-    let bundle: Bundle = load_bundle_from_file(&ir).expect("load full_ir.json");
+    let mut bundle: Bundle = load_bundle_from_file(&ir).expect("load full_ir.json");
     let asset = asset_path.as_ref().map(|p| {
         callys_asset::GameDroidAsset::parse(Path::new(p)).expect("game.droid")
     });
+    if let Some(asset) = &asset {
+        // Match every real Scene loader: STRG bytes come from game.droid, not
+        // from the older generated IR snapshot (which may omit string_table).
+        bundle.string_table = asset.string_table.clone();
+    }
 
     if let (Some(codes), Some(outdir)) = (codes, outdir) {
         fs::create_dir_all(&outdir).expect("outdir");
@@ -237,6 +297,7 @@ fn main() {
                         r
                     },
                     Step::ConsumeWarp => consume_warp(&mut scene, &bundle, asset.as_ref()),
+                    Step::Draw(view) => scene.draw_view(&bundle, *view),
                     Step::Collide(code, who, other) => {
                         let previous = scene.other_instance;
                         scene.other_instance = Some(*other);
@@ -276,6 +337,7 @@ fn main() {
             Step::Run(c, who) => code_vm::execute(&bundle, *c, *who, &mut scene).expect("execute"),
             Step::Tick(n) => { for _ in 0..*n { scene.tick(&bundle).expect("tick"); } },
             Step::ConsumeWarp => consume_warp(&mut scene, &bundle, asset.as_ref()).expect("consume warp"),
+            Step::Draw(view) => scene.draw_view(&bundle, *view).expect("draw view"),
             Step::Collide(code, who, other) => {
                 let previous = scene.other_instance;
                 scene.other_instance = Some(*other);

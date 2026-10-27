@@ -65,6 +65,8 @@ static int64_t g_audio_tick;
 /* The named engine defaults from Scene::create(); a fresh instance reads these
  * instead of defaulting user fields to 0. */
 static void apply_engine_defaults(GmVM* vm, int32_t id, int32_t sprite, Val x, Val y) {
+    GmInst* in = vm_inst(vm, id);
+    if (in) in->spawn_seq = vm->next_spawn_seq++;
     vm_set_field(vm, id, "id", VAL(id));
     vm_set_field(vm, id, "x", x);
     vm_set_field(vm, id, "y", y);
@@ -155,8 +157,9 @@ int32_t gm_instance_create_placed(GmVM* vm, int32_t id, int32_t obj, Val x, Val 
  * "ran and disagreed" — the difference matters when reading a diff. */
 int gm_missing_body_code = -1;
 /* Set while a body runs so a failure can name it, exactly like the VM's
- * "CODE 315 @0x...: message" wrapper (the offset is bytecode-specific and the
- * C side has no per-instruction site, so the comparison ignores it). */
+ * "CODE 315 @0x...: message" wrapper. Generated calls also update site_code /
+ * site_offset for Draw provenance; error comparison still ignores bytecode
+ * offsets because the C side has no per-instruction site. */
 int gm_dispatch_code = -1;
 
 int gm_dispatch_body(GmVM* vm, int32_t id, int code) {

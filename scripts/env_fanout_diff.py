@@ -54,7 +54,7 @@ def checked_in_c_binary(work: Path) -> Path:
     """Compile the current checked-in C sources; existence alone is not proof."""
     binary = work / "checked-in-state_dump"
     sources = [ROOT / "c-recon/src" / f"{name}.c" for name in
-               ("main", "host", "collision", "objects", "builtins2", "rooms")]
+               ("main", "host", "collision", "objects", "builtins2", "rooms", "draw")]
     sources += [ROOT / "c-recon/gen/registry.c",
                 ROOT / "c-recon/gen/objects_data.c",
                 ROOT / "c-recon/gen/rooms_data.c",
@@ -188,7 +188,28 @@ def main() -> int:
                 if not want or want.startswith("#"):
                     continue
                 expect_total += 1
-                if want.startswith("COUNT_INST "):
+                if want.startswith("COUNT_DRAW "):
+                    parts = want.split()
+                    try:
+                        if len(parts) != 3:
+                            raise ValueError("want COUNT_DRAW <SPRITE|TEXT|HEALTHBAR|BACKGROUND|ANY> <count>")
+                        kind, expected_count = parts[1], int(parts[2])
+                        if kind not in {"SPRITE", "TEXT", "HEALTHBAR", "BACKGROUND", "ANY"}:
+                            raise ValueError("unknown draw queue")
+                        if expected_count < 0:
+                            raise ValueError("count must be non-negative")
+                    except ValueError as exc:
+                        expect_missing += 1
+                        details.append(f"{fixture.stem}: invalid expectation {want!r}: {exc}")
+                        continue
+                    actual_count = sum(1 for line in dumped
+                                       if (fields := line.split()) and fields[0] == "DRAW"
+                                       and (kind == "ANY" or fields[2] == kind))
+                    if actual_count != expected_count:
+                        expect_missing += 1
+                        details.append(f"{fixture.stem}: {kind} draw count "
+                                       f"{actual_count}, want {expected_count}")
+                elif want.startswith("COUNT_INST "):
                     parts = want.split()
                     try:
                         if len(parts) != 3:

@@ -7,6 +7,7 @@ void gml_0345(GmVM* vm) {
     goto L_4197788;
     L_4197732: ;
     if (!TRUTH(NUMBOOL(GM_READ(vm, -5, "soundmute") == VAL(0)))) goto L_4197788;
+    GM_SITE(vm, 345, 4197776);
     (void)(GM_CALL(vm, "audio_play_sound", 3, GM_READ(vm, -5, "coinsound"), VAL(0), VAL(0)));
     L_4197788: ;
     return;

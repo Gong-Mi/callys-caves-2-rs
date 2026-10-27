@@ -50,6 +50,22 @@ def load_objects(ir_path: Path):
     return ir, objs
 
 
+def load_asset_strings(asset_path: Path) -> list[str]:
+    """Read STRG directly; generated full_ir snapshots may omit this table."""
+    from reverse_code import Reader
+
+    reader = Reader(asset_path.read_bytes())
+    lo, hi = reader.chunks["STRG"]
+    strings = []
+    for pos in reader.table(lo, lo, hi):
+        size = reader.u32(pos)
+        raw = reader.data[pos + 4:pos + 4 + size]
+        if b"\0" in raw:
+            raise SystemExit(f"{asset_path}: embedded NUL in STRG entry {len(strings)}")
+        strings.append(raw.decode("utf-8", errors="replace"))
+    return strings
+
+
 def as_id(value, what: str) -> int:
     if not isinstance(value, int) or isinstance(value, bool):
         raise SystemExit(f"{what}: expected an integer id, got {value!r}")
@@ -87,6 +103,7 @@ def build(ir_path: Path):
                 "id": oid,
                 "name": obj["name"],
                 "sprite": sprite,
+                "depth": as_id(obj["depth"], f"object {oid} depth"),
                 "create": create_code(obj),
                 "persistent": 1 if obj.get("persistent") else 0,
                 "start": len(parents),
@@ -104,6 +121,13 @@ def build(ir_path: Path):
 
 def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
     n = len(rows)
+    string_rows = []
+    string_data = bytearray()
+    for text in ir.get("string_table") or []:
+        raw = text.encode("utf-8")
+        string_rows.append((len(string_data), len(raw)))
+        string_data.extend(raw)
+        string_data.append(0)
     out: list[str] = []
     w = out.append
     w(f"/* {MARKER} from {ir_path.as_posix()}; do not hand-edit. */")
@@ -122,6 +146,7 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
     w("typedef struct {")
     w("    int32_t id;")
     w("    int32_t sprite;")
+    w("    int32_t depth;")
     w("    int32_t create_code;   /* -1: no Create event of its own */")
     w("    int32_t persistent;    /* GM room-switch retention flag */")
     w("    int32_t parent_start;  /* offset into GM_OBJECT_PARENTS */")
@@ -149,7 +174,26 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
         w("    { -1, -1, -1, -1 },")
     w("};")
     w(f"const int GM_EVENT_COUNT = {len(events)};")
-    w(f"const int GM_STRING_TABLE_LEN = {len(ir.get('string_table') or [])};")
+    w(f"const int GM_STRING_TABLE_LEN = {len(string_rows)};")
+    w("typedef struct { uint32_t offset, length; } GmStringRow;")
+    w("static const GmStringRow GM_STRING_ROWS[] = {")
+    if string_rows:
+        for offset, length in string_rows:
+            w(f"    {{ {offset}, {length} }},")
+    else:
+        w("    { 0, 0 },")
+    w("};")
+    w("static const unsigned char GM_STRING_DATA[] = {")
+    if string_data:
+        for i in range(0, len(string_data), 16):
+            w("    " + ", ".join(str(b) for b in string_data[i:i + 16]) + ",")
+    else:
+        w("    0,")
+    w("};")
+    w("const char* gm_static_string(int32_t index) {")
+    w("    return (index >= 0 && index < GM_STRING_TABLE_LEN)")
+    w("        ? (const char*)GM_STRING_DATA + GM_STRING_ROWS[index].offset : NULL;")
+    w("}")
     w("")
     w("int gm_event_code(int32_t object, int32_t type, int32_t subtype) {")
     w("    for (int i = 0; i < GM_EVENT_COUNT; i++)")
@@ -173,7 +217,7 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
     w("static const GmObjectRow GM_OBJECTS[] = {")
     for r in rows:
         w(
-            f'    {{ {r["id"]}, {r["sprite"]}, {r["create"]}, {r["persistent"]}, '
+            f'    {{ {r["id"]}, {r["sprite"]}, {r["depth"]}, {r["create"]}, {r["persistent"]}, '
             f'{r["start"]}, {r["count"]}, "{r["name"]}" }},'
         )
     w("};")
@@ -208,6 +252,11 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
     w("    return i >= 0 ? GM_OBJECTS[i].sprite : -1;")
     w("}")
     w("")
+    w("double gm_object_depth(int32_t id) {")
+    w("    int i = obj_index(id);")
+    w("    return i >= 0 ? (double)GM_OBJECTS[i].depth : 0.0;")
+    w("}")
+    w("")
     w("/* -1 covers both \"no Create body\" and \"unknown object\"; pair with")
     w(" * gm_object_exists() when the difference matters. */")
     w("int gm_object_create_code(int32_t id) {")
@@ -237,9 +286,12 @@ def emit(ir_path: Path, ir: dict, rows, parents, events) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ir", type=Path, default=Path("crates/core/src/generated/full_ir.json"))
+    ap.add_argument("--asset", type=Path, default=Path("assets/game.droid"))
     ap.add_argument("--out", type=Path, default=Path("c-recon/gen/objects_data.c"))
     a = ap.parse_args()
     ir, rows, parents, events = build(a.ir)
+    ir["string_table"] = load_asset_strings(a.asset)
+    print(f"strings: {len(ir['string_table'])} entries <- {a.asset}")
     a.out.write_text(emit(a.ir, ir, rows, parents, events))
     by_id = {r["id"]: r for r in rows}
     with_create = sum(1 for r in rows if r["create"] >= 0)

@@ -15,6 +15,8 @@
  *     ROOM    <room id>            (fixture setup and dump)
  *     WARP    <room id>            (seed a pending warp)
  *     WARP                         (consume it at the client boundary)
+ *     VIEW    <index> <visible> <x> <y> <w> <h>
+ *     DRAW    <view>               (run normal Draw + Draw GUI passes)
  *
  * The two trailing INST tokens are optional and default to 1, because `with` and
  * the scheduler distinguish alive (retired by instance_destroy) from active
@@ -47,19 +49,7 @@ static int run_code(GmVM* vm, long code, int32_t self) {
  * and the exponent form is only a fallback for magnitudes a positional string
  * cannot hold in the buffer. */
 static void fmt_num(char* buf, size_t n, double v) {
-    if (v != v) { snprintf(buf, n, "NaN"); return; }
-    if (v > 1.7976931348623157e308) { snprintf(buf, n, "inf"); return; }
-    if (v < -1.7976931348623157e308) { snprintf(buf, n, "-inf"); return; }
-    if (v == 0.0) { snprintf(buf, n, "%s", signbit(v) ? "-0" : "0"); return; }
-    for (int dec = 0; dec <= 40; dec++) {
-        char tmp[512];
-        snprintf(tmp, sizeof tmp, "%.*f", dec, v);
-        if (strtod(tmp, NULL) == v) { snprintf(buf, n, "%s", tmp); return; }
-    }
-    for (int sig = 15; sig <= 17; sig++) {
-        snprintf(buf, n, "%.*g", sig, v);
-        if (strtod(buf, NULL) == v) return;
-    }
+    gm_fmt_num(buf, n, v);
 }
 
 static int cmp_field(const void* a, const void* b) {
@@ -126,6 +116,72 @@ static void dump(FILE* f, GmVM* vm) {
         fmt_num(b1, sizeof b1, vm->globals[i].value);
         fprintf(f, "GLOBAL %s %s\n", vm->globals[i].name, b1);
     }
+
+    int order[GM_MAX_DRAWS];
+    for (int i = 0; i < vm->ndraws; i++) order[i] = i;
+    for (int i = 1; i < vm->ndraws; i++) {
+        int v = order[i], j = i - 1;
+        while (j >= 0) {
+            GmDrawCommand* a = &vm->draws[order[j]];
+            GmDrawCommand* b = &vm->draws[v];
+            if (a->phase < b->phase ||
+                (a->phase == b->phase && (a->depth > b->depth ||
+                 (a->depth == b->depth && a->emit_order <= b->emit_order)))) break;
+            order[j + 1] = order[j];
+            j--;
+        }
+        order[j + 1] = v;
+    }
+    for (int oi = 0; oi < vm->ndraws; oi++) {
+        GmDrawCommand* c = &vm->draws[order[oi]];
+        char nums[16][512];
+        fmt_num(nums[0], sizeof nums[0], c->depth);
+        if (c->kind == GM_DRAW_SPRITE) {
+            fmt_num(nums[1], sizeof nums[1], c->u.sprite.frame);
+            fmt_num(nums[2], sizeof nums[2], c->u.sprite.x);
+            fmt_num(nums[3], sizeof nums[3], c->u.sprite.y);
+            fmt_num(nums[4], sizeof nums[4], c->u.sprite.scale_x);
+            fmt_num(nums[5], sizeof nums[5], c->u.sprite.scale_y);
+            fmt_num(nums[6], sizeof nums[6], c->u.sprite.rotation);
+            fmt_num(nums[7], sizeof nums[7], c->u.sprite.alpha);
+            fprintf(f, "DRAW %d SPRITE %d %d %lld %d %d %s %d %s %s %s %s %s %s %d %s %d\n",
+                    oi, c->phase, c->code, (long long)c->offset, c->instance, c->view, nums[0],
+                    c->u.sprite.sprite, nums[1], nums[2], nums[3], nums[4], nums[5], nums[6],
+                    c->u.sprite.color, nums[7], c->u.sprite.fog);
+        } else if (c->kind == GM_DRAW_TEXT) {
+            fmt_num(nums[1], sizeof nums[1], c->u.text.x);
+            fmt_num(nums[2], sizeof nums[2], c->u.text.y);
+            fmt_num(nums[3], sizeof nums[3], c->u.text.alpha);
+            char number[512];
+            const char* text = gm_arg_text(vm, c->u.text.text, number, sizeof number);
+            fprintf(f, "DRAW %d TEXT %d %d %lld %d %d %s %s %s %d %s %d ",
+                    oi, c->phase, c->code, (long long)c->offset, c->instance, c->view, nums[0],
+                    nums[1], nums[2], c->u.text.color, nums[3], c->u.text.font);
+            for (const unsigned char* p = (const unsigned char*)text; *p; p++) fprintf(f, "%02x", *p);
+            fputc('\n', f);
+        } else if (c->kind == GM_DRAW_HEALTHBAR) {
+            fmt_num(nums[1], sizeof nums[1], c->u.healthbar.x1);
+            fmt_num(nums[2], sizeof nums[2], c->u.healthbar.y1);
+            fmt_num(nums[3], sizeof nums[3], c->u.healthbar.x2);
+            fmt_num(nums[4], sizeof nums[4], c->u.healthbar.y2);
+            fmt_num(nums[5], sizeof nums[5], c->u.healthbar.amount);
+            fprintf(f, "DRAW %d HEALTHBAR %d %d %lld %d %d %s %s %s %s %s %s %d %d %d\n",
+                    oi, c->phase, c->code, (long long)c->offset, c->instance, c->view, nums[0],
+                    nums[1], nums[2], nums[3], nums[4], nums[5], c->u.healthbar.back_col,
+                    c->u.healthbar.min_col, c->u.healthbar.max_col);
+        } else if (c->kind == GM_DRAW_BACKGROUND) {
+            fmt_num(nums[1], sizeof nums[1], c->u.background.x);
+            fmt_num(nums[2], sizeof nums[2], c->u.background.y);
+            fmt_num(nums[3], sizeof nums[3], c->u.background.scale_x);
+            fmt_num(nums[4], sizeof nums[4], c->u.background.scale_y);
+            fmt_num(nums[5], sizeof nums[5], c->u.background.rotation);
+            fmt_num(nums[6], sizeof nums[6], c->u.background.alpha);
+            fprintf(f, "DRAW %d BACKGROUND %d %d %lld %d %d %s %d %s %s %s %s %s %d %s\n",
+                    oi, c->phase, c->code, (long long)c->offset, c->instance, c->view, nums[0],
+                    c->u.background.background, nums[1], nums[2], nums[3], nums[4], nums[5],
+                    c->u.background.color, nums[6]);
+        }
+    }
 }
 
 /* Run one fixture through one body and write its state dump.
@@ -166,6 +222,24 @@ static int run_fixture(const char* in_path, const char* out_path) {
             if (nruns < 128) { runs[nruns].kind = 1; runs[nruns].ticks = a; nruns++; }
             continue;
         }
+        if (sscanf(line, "DRAW %ld", &a) == 1) {
+            if (nruns < 128) { runs[nruns].kind = 4; runs[nruns].ticks = a; nruns++; }
+            continue;
+        }
+        int view_index, view_visible;
+        double view_x, view_y, view_w, view_h;
+        if (sscanf(line, "VIEW %d %d %lf %lf %lf %lf", &view_index, &view_visible,
+                   &view_x, &view_y, &view_w, &view_h) == 6) {
+            if (view_index >= 0 && view_index < 8) {
+                vm->view_visible[view_index] = view_visible != 0;
+                vm->view_pos[view_index][0] = view_x;
+                vm->view_pos[view_index][1] = view_y;
+                vm->view_port[view_index][0] = view_w;
+                vm->view_port[view_index][1] = view_h;
+                vm->view_port_set[view_index] = 1;
+            }
+            continue;
+        }
         if (sscanf(line, "CURRENT %ld", &a) == 1) { self = (int32_t)a; continue; }
         if (sscanf(line, "OTHER %ld", &a) == 1) { vm->other = (int32_t)a; continue; }
         if (sscanf(line, "ROOM %lf", &v) == 1) { vm->current_room = v; continue; }
@@ -189,6 +263,7 @@ static int run_fixture(const char* in_path, const char* out_path) {
             if (!inst) { fprintf(stderr, "instance table full\n"); return 2; }
             if (nf >= 3) inst->alive = c != 0;
             if (nf >= 4) inst->active = d != 0;
+            inst->spawn_seq = 1; /* ir_state_dump::build uses one for direct fixtures */
             continue;
         }
         if (sscanf(line, "FIELD %ld %47s %lf", &a, name, &v) == 3) {
@@ -237,6 +312,11 @@ static int run_fixture(const char* in_path, const char* out_path) {
                 vm->other = (int32_t)runs[i].ticks;
                 ran = run_code(vm, runs[i].code, runs[i].self);
                 vm->other = previous_other;
+            } else if (runs[i].kind == 4) {
+                if (gm_draw_view(vm, (int32_t)runs[i].ticks) < 0) {
+                    if (gm_missing_body_code < 0) gm_fail_msg("draw view failed");
+                    ran = 0;
+                }
             } else {
                 ran = run_code(vm, runs[i].code, runs[i].self);
             }
@@ -252,6 +332,7 @@ static int run_fixture(const char* in_path, const char* out_path) {
         if (!out) { perror(out_path); return 2; }
         dump(out, vm);
         fclose(out);
+        gm_strings_free(vm);
         free(vm);
         return 0;
     }
@@ -259,6 +340,8 @@ static int run_fixture(const char* in_path, const char* out_path) {
     gm_error_active = 0;
     FILE* eout = fopen(out_path, "w");
     if (eout) { fprintf(eout, "ERROR %s\n", gm_error_msg); fclose(eout); }
+    gm_strings_free(vm);
+    free(vm);
     return 0;
 }
 

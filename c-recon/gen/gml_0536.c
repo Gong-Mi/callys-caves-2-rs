@@ -1,0 +1,75 @@
+/* generated from CODE 536 (gml_Object_obj_coinadd_Draw_0), source start 4836256, end 4837512. */
+/* Regenerate with scripts/ir_to_c.py; do not hand-edit. */
+#include "gml.h"
+
+void gml_0536(GmVM* vm) {
+    Val v1;
+    Val v2;
+    Val v3;
+    Val v4;
+    Val v5;
+    Val v6;
+    GM_SITE(vm, 536, 4836264);
+    (void)(GM_CALL(vm, "draw_set_font", 1, VAL(2)));
+    GM_SITE(vm, 536, 4836288);
+    (void)(GM_CALL(vm, "draw_set_color", 1, VAL(16777215)));
+    if (!TRUTH(NUMBOOL(GM_READ(vm, -1, "view_current") == VAL(0)))) goto L_4836484;
+    GM_SITE(vm, 536, 4836336);
+    GM_SITE(vm, 536, 4836372);
+    v1 = GM_ADD(STR_REF(1008), GM_CALL(vm, "string", 1, GM_READ(vm, -5, "coinpickup")));
+    (void)(GM_CALL(vm, "draw_text", 3, GM_READ(vm, 0, "x"), (GM_READ(vm, 0, "y") - VAL(70)), v1));
+    GM_SITE(vm, 536, 4836472);
+    (void)(GM_CALL(vm, "draw_sprite_ext", 9, VAL(88), VAL(0), (GM_READ(vm, 0, "x") - VAL(10)), (GM_READ(vm, 0, "y") - VAL(60)), VAL(1), VAL(1), VAL(0), VAL(-1), VAL(1)));
+    L_4836484: ;
+    if (!TRUTH(NUMBOOL(GM_READ(vm, -1, "view_current") == VAL(1)))) goto L_4836668;
+    GM_SITE(vm, 536, 4836520);
+    GM_SITE(vm, 536, 4836556);
+    v2 = GM_ADD(STR_REF(1008), GM_CALL(vm, "string", 1, GM_READ(vm, -5, "coinpickup")));
+    (void)(GM_CALL(vm, "draw_text", 3, GM_READ(vm, 0, "x"), (GM_READ(vm, 0, "y") - VAL(70)), v2));
+    GM_SITE(vm, 536, 4836656);
+    (void)(GM_CALL(vm, "draw_sprite_ext", 9, VAL(88), VAL(0), (GM_READ(vm, 0, "x") - VAL(10)), (GM_READ(vm, 0, "y") - VAL(60)), VAL(1), VAL(1), VAL(0), VAL(-1), VAL(1)));
+    L_4836668: ;
+    if (!TRUTH(NUMBOOL(GM_READ(vm, -1, "view_current") == VAL(2)))) goto L_4836688;
+    L_4836688: ;
+    if (!TRUTH(NUMBOOL(GM_READ(vm, -1, "view_current") == VAL(3)))) goto L_4836916;
+    GM_SITE(vm, 536, 4836716);
+    (void)(GM_CALL(vm, "draw_set_font", 1, VAL(3)));
+    GM_SITE(vm, 536, 4836740);
+    (void)(GM_CALL(vm, "draw_set_color", 1, VAL(16777215)));
+    GM_SITE(vm, 536, 4836768);
+    GM_SITE(vm, 536, 4836804);
+    v3 = GM_ADD(STR_REF(1008), GM_CALL(vm, "string", 1, GM_READ(vm, -5, "coinpickup")));
+    (void)(GM_CALL(vm, "draw_text", 3, GM_READ(vm, 0, "x"), (GM_READ(vm, 0, "y") - VAL(70)), v3));
+    GM_SITE(vm, 536, 4836904);
+    (void)(GM_CALL(vm, "draw_sprite_ext", 9, VAL(88), VAL(0), (GM_READ(vm, 0, "x") - VAL(10)), (GM_READ(vm, 0, "y") - VAL(60)), VAL(1), VAL(1), VAL(0), VAL(-1), VAL(1)));
+    L_4836916: ;
+    if (!TRUTH(NUMBOOL(GM_READ(vm, -1, "view_current") == VAL(4)))) goto L_4837144;
+    GM_SITE(vm, 536, 4836944);
+    (void)(GM_CALL(vm, "draw_set_font", 1, VAL(3)));
+    GM_SITE(vm, 536, 4836968);
+    (void)(GM_CALL(vm, "draw_set_color", 1, VAL(16777215)));
+    GM_SITE(vm, 536, 4836996);
+    GM_SITE(vm, 536, 4837032);
+    v4 = GM_ADD(STR_REF(1008), GM_CALL(vm, "string", 1, GM_READ(vm, -5, "coinpickup")));
+    (void)(GM_CALL(vm, "draw_text", 3, GM_READ(vm, 0, "x"), (GM_READ(vm, 0, "y") - VAL(70)), v4));
+    GM_SITE(vm, 536, 4837132);
+    (void)(GM_CALL(vm, "draw_sprite_ext", 9, VAL(88), VAL(0), (GM_READ(vm, 0, "x") - VAL(10)), (GM_READ(vm, 0, "y") - VAL(60)), VAL(1), VAL(1), VAL(0), VAL(-1), VAL(1)));
+    L_4837144: ;
+    if (!TRUTH(NUMBOOL(GM_READ(vm, -1, "view_current") == VAL(5)))) goto L_4837328;
+    GM_SITE(vm, 536, 4837180);
+    GM_SITE(vm, 536, 4837216);
+    v5 = GM_ADD(STR_REF(1008), GM_CALL(vm, "string", 1, GM_READ(vm, -5, "coinpickup")));
+    (void)(GM_CALL(vm, "draw_text", 3, GM_READ(vm, 0, "x"), (GM_READ(vm, 0, "y") - VAL(70)), v5));
+    GM_SITE(vm, 536, 4837316);
+    (void)(GM_CALL(vm, "draw_sprite_ext", 9, VAL(88), VAL(0), (GM_READ(vm, 0, "x") - VAL(10)), (GM_READ(vm, 0, "y") - VAL(60)), VAL(1), VAL(1), VAL(0), VAL(-1), VAL(1)));
+    L_4837328: ;
+    if (!TRUTH(NUMBOOL(GM_READ(vm, -1, "view_current") == VAL(6)))) goto L_4837512;
+    GM_SITE(vm, 536, 4837364);
+    GM_SITE(vm, 536, 4837400);
+    v6 = GM_ADD(STR_REF(1008), GM_CALL(vm, "string", 1, GM_READ(vm, -5, "coinpickup")));
+    (void)(GM_CALL(vm, "draw_text", 3, GM_READ(vm, 0, "x"), (GM_READ(vm, 0, "y") - VAL(70)), v6));
+    GM_SITE(vm, 536, 4837500);
+    (void)(GM_CALL(vm, "draw_sprite_ext", 9, VAL(88), VAL(0), (GM_READ(vm, 0, "x") - VAL(10)), (GM_READ(vm, 0, "y") - VAL(60)), VAL(1), VAL(1), VAL(0), VAL(-1), VAL(1)));
+    L_4837512: ;
+    return;
+}

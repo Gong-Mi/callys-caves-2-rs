@@ -12,6 +12,7 @@
 #include <setjmp.h>
 
 typedef double Val;
+typedef struct GmVM GmVM;
 
 /* GML reals. String references keep the VM's encoding: pool refs live at or
  * above 2^40 so they can never collide with gameplay numbers. */
@@ -27,8 +28,9 @@ typedef double Val;
  * yielding 0 — eight bodies in the corpus divide by a zero-initialised field
  * and the interpreter refuses them. */
 Val  gm_div(Val a, Val b);
+Val  gm_add(GmVM* vm, Val a, Val b);
 #define GM_DIV(a, b)  gm_div((a), (b))
-#define GM_ADD(a, b)  ((a) + (b))
+#define GM_ADD(a, b)  gm_add((vm), (a), (b))
 
 #define MAX_INST      2048  /* largest shipped room: 1472 placements + spawns */
 #define MAX_FIELDS    256
@@ -36,6 +38,7 @@ Val  gm_div(Val a, Val b);
 #define MAX_GLOBALS   512
 #define MAX_ENV        32
 #define MAX_ENV_SEL    MAX_INST
+#define GM_MAX_DRAWS   8192
 #define NAME_LEN       48
 
 typedef struct { char name[NAME_LEN]; Val value; } GmField;
@@ -46,6 +49,7 @@ typedef struct {
     int32_t object;
     int alive;
     int active;
+    uint64_t spawn_seq;
     GmField fields[MAX_FIELDS];
     int nfields;
     GmArraySlot arrays[MAX_ARRAYS];
@@ -75,7 +79,42 @@ extern const int GM_ROOM_COUNT;
 #define GM_MAP_MAX 32
 #define GM_INI_MAX 64
 
+typedef enum {
+    GM_DRAW_SPRITE = 0,
+    GM_DRAW_TEXT = 1,
+    GM_DRAW_HEALTHBAR = 2,
+    GM_DRAW_BACKGROUND = 3,
+} GmDrawKind;
+
 typedef struct {
+    GmDrawKind kind;
+    int32_t code, instance, view, phase;
+    int64_t offset;
+    double depth;
+    int emit_order;
+    union {
+        struct {
+            int32_t sprite, color;
+            double frame, x, y, scale_x, scale_y, rotation, alpha;
+            int fog;
+        } sprite;
+        struct {
+            Val text;
+            double x, y, alpha;
+            int32_t color, font;
+        } text;
+        struct {
+            double x1, y1, x2, y2, amount;
+            int32_t back_col, min_col, max_col;
+        } healthbar;
+        struct {
+            int32_t background, color;
+            double x, y, scale_x, scale_y, rotation, alpha;
+        } background;
+    } u;
+} GmDrawCommand;
+
+struct GmVM {
     int32_t cur;                 /* current self */
     int32_t other;               /* `other` for collision dispatch, -1 when unset */
     /* pseudo-fields the VM answers for selector -1 (Scene::read special cases) */
@@ -93,6 +132,18 @@ typedef struct {
     double  current_font;
     int32_t draw_color;
     double  draw_alpha;
+    int32_t site_code;
+    int64_t site_offset;
+    int     fog_enabled;
+    int32_t fog_color;
+    int     draw_phase;           /* 0 = room, 1 = Draw GUI */
+    int     has_draw_depth;
+    double  draw_depth;
+    GmDrawCommand draws[GM_MAX_DRAWS];
+    int     ndraws;
+    char**  dynamic_strings;
+    int     dyn_strings_cap;
+    uint64_t next_spawn_seq;
     struct { int32_t id; int n; struct { double key, val; } kv[GM_MAP_MAX]; } maps[GM_MAX_MAPS];
     int     nmaps;
     int32_t next_map_id;
@@ -113,7 +164,7 @@ typedef struct {
     /* with-environment frames: selector results and cursor */
     struct { int32_t ids[MAX_ENV_SEL]; int n; int pos; int32_t prev; } env[MAX_ENV];
     int nenv;
-} GmVM;
+};
 
 /* Error channel: the VM aborts a body on a bad receiver or a zero divisor and
  * reports why. Returning 0 instead made the C side silently succeed where the
@@ -141,6 +192,7 @@ int32_t vm_resolve(GmVM* vm, Val selector);
 /* field / array access used by generated code */
 Val   GM_READ(GmVM* vm, int32_t selector, const char* name);
 void  GM_WRITE(GmVM* vm, int32_t selector, const char* name, Val value);
+#define GM_SITE(vm, code, offset) do { (vm)->site_code = (code); (vm)->site_offset = (offset); } while (0)
 /* fixture helpers: address one instance by id, bypassing selector semantics */
 void  vm_set_field(GmVM* vm, int32_t id, const char* name, Val value);
 void  vm_set_array(GmVM* vm, int32_t id, const char* name, int32_t index, Val value);
@@ -149,6 +201,15 @@ void  GM_WRITE_ARR(GmVM* vm, Val target, const char* name, Val index, Val value)
 
 /* builtin dispatch; argc is the shipped arity */
 Val   GM_CALL(GmVM* vm, const char* name, int argc, ...);
+
+/* GML draw command recording and the real Draw/Draw GUI scheduler. Text is
+ * resolved at dump time so pooled string identity and payload share one pool. */
+void  gm_draw_clear(GmVM* vm);
+int   gm_draw_view(GmVM* vm, int32_t view);
+GmDrawCommand* gm_draw_push(GmVM* vm, GmDrawKind kind);
+const char* gm_arg_text(GmVM* vm, Val value, char* number_buf, size_t buf_len);
+void  gm_fmt_num(char* buf, size_t buf_len, double value);
+void  gm_strings_free(GmVM* vm);
 
 /* geometry: emitted by crates/asset/examples/dump_sprites_c.rs */
 typedef struct {
@@ -205,6 +266,7 @@ extern int gm_missing_body_code;
 extern int gm_dispatch_code;
 /* object table accessors (c-recon/gen/objects_data.c, generated) */
 int32_t gm_object_sprite(int32_t id);
+double  gm_object_depth(int32_t id);
 int     gm_object_create_code(int32_t id);
 int     gm_object_parent_count(int32_t id);
 int32_t gm_object_parent(int32_t id, int index);
@@ -219,6 +281,7 @@ int     gm_event_code_chain(int32_t object, int32_t type, int32_t subtype);
 void    gm_objects_register_parents(void);
 extern const int GM_OBJECT_COUNT;
 extern const int GM_STRING_TABLE_LEN;
+const char* gm_static_string(int32_t index);
 /* audio voices (c-recon/src/objects.c) */
 double  gm_audio_play(Val sound, Val priority, int looping);
 int     gm_audio_is_playing(Val sound);

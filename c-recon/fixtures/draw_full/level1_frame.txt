@@ -1,0 +1,31 @@
+CODE 13
+ROOM 0
+ROOMW 1024
+ROOMH 576
+CURRENT 100000
+INST 100000 0 1
+FIELD 100000 sprite_index 29
+FIELD 100000 x 400
+FIELD 100000 y 300
+INST 100005 69 1
+FIELD 100005 unlocked 1
+FIELD 100005 warproom 1
+FIELD 100005 warpx 128
+FIELD 100005 warpy 140
+GLOBAL haskey 0
+GLOBAL xptolevelup 100
+GLOBAL pistolxptolevelup 100
+GLOBAL shotgunxptolevelup 100
+GLOBAL assaultriflexptolevelup 100
+GLOBAL rocketxptolevelup 100
+GLOBAL laserxptolevelup 100
+GLOBAL bombgunxptolevelup 100
+GLOBAL icegunxptolevelup 100
+GLOBAL bowxptolevelup 100
+GLOBAL flamethrowerxptolevelup 100
+GLOBAL bladegunxptolevelup 100
+GLOBAL boomerangxptolevelup 100
+GLOBAL spikegunxptolevelup 100
+COLLIDE 13 100000 100005
+WARP
+DRAW 0
