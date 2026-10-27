@@ -15,8 +15,10 @@ body rather than guess.
 
 | item | state |
 | --- | --- |
-| generator (`scripts/ir_to_c.py`) | **capable**: 1354/1354 bodies, 0 refused, one `/* @<offset> <op> */` anchor per instruction (≈52k statements → ≈357k lines) |
-| committed bodies | **15** under `gen/gml_*.c` — capability ≠ delivery; run `--all --outdir <tmp>` to reproduce the other 1339 |
+| generator (`scripts/ir_to_c.py`) | 1354/1354 bodies, 0 refused, one `/* @<offset> <op> */` anchor per instruction |
+| committed bodies | **1354** under `gen/gml_*.c` (21 MB); `gen/registry.c` dispatches all 1354 ids |
+| anchor completeness | **245,144 / 245,144** instructions carry an anchor (100.00%), per-body delta 0 for all 1354 bodies |
+| build cost | `scripts/dev_smoke.sh` with the full set: **489 s** (was 24 s with 15 bodies); a syntax-only pass over all bodies takes 80 s |
 | C host (`c-recon/src/host.c`) | instances, fields, arrays (`alarm` is a 12-slot array), globals, selector resolution, `with` frames, `room_width`/`score` pseudo-fields |
 | collision (`c-recon/src/collision.c`) | `instance_place` / `place_meeting` (box + mask pixels), `distance_to_object`, mask line/point probes; 109 assertions |
 | objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 140 assertions |

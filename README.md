@@ -18,9 +18,10 @@ The Android client currently provides:
 
 The reconstruction is still being iterated. Original GameMaker bytecode behavior, exact room-transition creation code, progression, persistence, audio/music, menus/story scenes and the full enemy/boss behavior set remain separate reconstruction work; build success is not treated as gameplay parity.
 
-Numbers in this repository are **capability** unless marked otherwise: the C lowering
-handles all 1354 CODE bodies, but only 15 lowered bodies are committed under
-`c-recon/gen/`. Progress is counted from `reconstruction/db/cally.db`
+The C lowering now covers and **commits** all 1354 CODE bodies (`c-recon/gen/`, 21 MB,
+245,144/245,144 instructions anchored). Note the build cost: the full set makes
+`scripts/dev_smoke.sh` take ~8 min instead of ~25 s. Progress is counted from
+`reconstruction/db/cally.db`
 (`select tier, count(*) from card group by tier`), not from how much the generator can
 emit — see `AGENTS.md` §5.
 

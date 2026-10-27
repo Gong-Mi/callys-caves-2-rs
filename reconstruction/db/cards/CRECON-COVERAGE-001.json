@@ -1,0 +1,37 @@
+{
+  "id": "CRECON-COVERAGE-001",
+  "title": "C 降级覆盖 1354/1354 个 CODE 体，0 refused，逐指令锚点，整库语法可编译",
+  "scope_object": "engine",
+  "scope_event": "build",
+  "trigger": "python3 scripts/ir_to_c.py --ir full_ir.json --all --outdir c-recon/gen",
+  "preconditions": "full_ir.json 的 codes 数 = 1354；c-recon/include/gml.h 可用",
+  "effects": "gen/gml_*.c = 1354 个文件，每体首行注明 CODE id 与源字节区间，每条语句前有 /* @<offset> <op> */；registry.c 含 1354 个 id 的派发；clang -std=c11 -fsyntax-only 对全部 1354 体返回 rc=0（单进程 80s）；锚点完整性实测：245,144 条指令 / 245,144 个 @offset 锚点 = 100.00%，逐体差值全为 0（1354/1354）",
+  "tier": "bytecode_anchored",
+  "host_authored": 0,
+  "original_gap": "覆盖度 ≠ 语义等价：C==VM 与 batch_diff 只证明两条自研实现互相同意；与原版 libyoyo 的逐指令/逐帧对照仍未做",
+  "anchor": "c-recon/gen/gml_*.c（1354 个）+ c-recon/gen/registry.c（2715 行）+ scripts/ir_to_c.py 的 @offset 输出",
+  "notes": "这是交付面的口径：此前只提交 15 个体，capability 与 delivery 混报",
+  "codes": [],
+  "evidence": [
+    {
+      "kind": "bytecode",
+      "ref": "2026-10-28 06:2x ir_to_c.py --all: generated 1354/1354; refused 0",
+      "note": "生成器实跑输出"
+    },
+    {
+      "kind": "bytecode",
+      "ref": "2026-10-28 锚点普查：sum(instructions)=245144, sum(@offset)=245144, 每体差值=0 ×1354",
+      "note": "逐指令锚点完整性"
+    },
+    {
+      "kind": "test",
+      "ref": "2026-10-28 07:0x clang -std=c11 -fsyntax-only c-recon/gen/gml_*.c → rc=0, real 1m19.9s",
+      "note": "整库语法检查"
+    },
+    {
+      "kind": "contract",
+      "ref": "c-recon/README.md 状态表：generator capable 1354/1354",
+      "note": "历史口径"
+    }
+  ]
+}
