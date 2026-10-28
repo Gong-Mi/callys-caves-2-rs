@@ -245,7 +245,7 @@
  *      尾调用 `_SetCurrentTextureSettings()`
  *
  * ── 绑定的三个数值常量 ─────────────────────────────────────────────────
- *   GL 目标       0x0DE1 = GL_TEXTURE_2D（movw r0,#0xde1：0x182ab8 / 0x182c78 / 0x182cbc）
+ *   GL 目标       0x0DE1 = GL_TEXTURE_2D（movw r0,#0xde1 共四处：0x182ab8 / 0x182bd8 / 0x182c78 / 0x182cbc）
  *   单元基址      0x84C0 = GL_TEXTURE0（add 33792 + add 192：0x182b7c / 0x182b84）
  *   采样器槽号    9（GetSamplerState 的第二参：0x182a98 / 0x182bb4）
  *   纹理 ID 字段  Texture + 0x14（u32，glBindTexture 的第二参；-1 = "没有 GL id" 哨兵）
@@ -432,7 +432,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * 七、已证事实（六条，都能顺着地址复核）
  * ═══════════════════════════════════════════════════════════════════════════
- *   F1. eRenderState 是 **1..32 的稠密枚举**，七格是空的。
+ *   F1. eRenderState 是 **1..32 的稠密枚举**，六格是空的。
  *       证据：0x17fd28 `sub r0, r0, #1` + 0x17fd38 `cmp r0,#31` + 0x17fd3c `addls pc,pc,r0,lsl #2`
  *       （表 0x17fd44..0x17fdc0 共 32 项）；状态 0 与 >32 落 0x17fd40 直接返回。
  *       空操作状态：2、14、19、20、22、23（6 个）；`pop r3,r4,r5,r6,r7,pc` 是唯一出口。
@@ -494,7 +494,7 @@
  *     离屏 FBO 方向，未证（只证「==1 时翻转」）
  *   · YYTPageEntry 的 +0x08/+0x0a 我按公式叫「原点位移」，官方名未证；+0x00..+0x06 与 +0x0c/+0x0e
  *     的单位（texel vs 归一化）由「×1/宽」这一步反推为 texel，未在加载器侧复核
- *   · ePrimType 的枚举名：本卡只证 4（6 顶点两三角）与 5（4 顶点条带）两个取值；
+ *   · ePrimType 的枚举名：本卡只证 4（6 顶点 = 两个独立三角形）与 5（4 顶点，几何上只能按条带/扇铺满四边形）两个取值；
  *     与 GL_TRIANGLES/GL_TRIANGLE_STRIP 的 4/5 同号，但**同号不等于同义**，未证
  *   · GR_Texture_Draw 的顶点数组在 AllocVerts 之后的去向（Flush 里怎么进 VBO、索引怎么发）
  *   · GR_Text_Draw 的 UTF-16 → 字形（CFontGM::Draw_String 内部）与 Split_TextBlock 的断行规则

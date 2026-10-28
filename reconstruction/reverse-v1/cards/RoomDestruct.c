@@ -1,5 +1,9 @@
 /* cally 逆向卡：CRoom 析构与清扫族（原版 libyoyo.so，armv7）—— 一卡 22 节
- * @card 0x001a92c0 .. 0x001afee8（22 个函数 / 1443 条锚点（1418 指令 + 25 池字），地址各只出现一次）
+ * @card 0x001a92c0 .. 0x001afee8（22 个函数 / 1443 条锚点（1419 指令 + 24 池字），地址各只出现一次）
+ *       覆盖面：functions.tsv 里 CRoom:: 开头的方法共 37 个；本卡收 22 个未出卡的，其余 15 个已在
+ *       CRoom_ctor / Assign / Serialise / DeSerialise / LoadFromStream / LoadFromChunk / UpdateActive /
+ *       AddInstance（5 个）/ AddTile（2 个）/ CollisionUpdate_Room（UpdateLayers）里出卡
+ *       ⇒ 22 + 15 = 37，无重叠、无缺口（按 @func 首地址比对）。
  * @func 0x1afa00 0x1afeec  size 1264  316 条  §1  CRoom::~CRoom()                 （314 指令 + 2 池字）
  * @func 0x1abb24 0x1abd98  size 632   158 条  §2  CRoom::RemoveMarked()           （152 + 6）
  * @func 0x1ad0a4 0x1ad2c8  size 552   138 条  §3  CRoom::Clear()                  （134 + 4）
@@ -29,11 +33,15 @@
  * 符号: _ZN5CRoomD2Ev / _ZN5CRoomD1Ev 0x1afa00（同址两别名，本卡只发一次锚点）、_ZN5CRoom12RemoveMarkedEv、
  *       _ZN5CRoom5ClearEv … 全部取自 asm/functions.tsv 第 4535..4577 行区间与 .dynsym（st_size 直读）。
  * ABI : softfp；本族全体是 this 调用（r0 = CRoom*），无返回值（FindTile/FindTileAtDepth 例外：返回 int）。
- * 锚表: 每节一表 asm/index-CRoom_<name>.tsv（本次由 scripts/asm_index.py 从同一 libyoyo.so 生成，
- *       22 表行数与 asm/functions.tsv 的指令数列逐节相等：1443 = 1443）。
- *       合并校验: python3 scripts/check_card_anchors.py --card cards/RoomDestruct.c
- *                 --index <22 表按 §1..§22 顺序拼接> → index=1443 card=1443 missing=0 extra=0
- *                 mismatch=0 RESULT EXACT。
+ * 锚表: 22 张按函数切分的索引由 scripts/asm_index.py 从同一 libyoyo.so 现生成（--start <首> --end <末+4>），
+ *       行数与 asm/functions.tsv 的指令数列逐节相等：1443 = 1443。★ 本卡的索引**不在 asm/ 里**（本卡只写
+ *       cards/RoomDestruct.c 与 claims-batchBY.jsonl），生成物落在 scratch：
+ *         .hermes/cache/scratch/roomdestruct/<mangled>.tsv（22 个）+ index-RoomDestruct_all.tsv（拼接版）
+ *       复现（入库版）示例：python3 scripts/asm_index.py --so libyoyo.so --start 0x1afa00
+ *         --end 0x1afef0 --out asm/index-CRoom_dtor.tsv   # end 取「末条+4」，含 2 个池字
+ *       合并校验（本次实跑）: python3 scripts/check_card_anchors.py --card cards/RoomDestruct.c
+ *         --index <scratch>/index-RoomDestruct_all.tsv → index=1443 card=1443 missing=0 extra=0
+ *         mismatch=0 RESULT EXACT；全库口径 scripts/verify_reverse_v1.py → RoomDestruct 正文 1443 EXACT。
  * 同层: CRoom::CRoom 0x1ad2cc（对象布局与初值，见 CRoom_ctor 卡）、CRoom::Assign 0x1ad70c、
  *       CRoom::AddTile 0x1ac240 / AddTileToStorage 0x1aaf78（tile 表的两条生产者）、
  *       CRoom::AddInstance 家族 0x1aadac..0x1ab794、CLayerManager::CleanRoomLayers 0x1b93c8 /
@@ -42,7 +50,7 @@
  *       CCameraManager::DestroyCamera 0x16f2cc、RebuildTree 0x1cdb1c、MemoryManager::{Alloc 0x27ce78,
  *       Free 0x27c2d0}、operator delete _ZdlPv 0x27d1d0、memset@plt 0xb65b0、strlen@plt 0xb6538、
  *       strcpy@plt 0xb65a4；Run_Room 0x54298c、g_isZeus 0x5428e8、g_tree 0x5429a8、
- *       option_use_fast_collision 0x542379、三待办队列 0x542a4c/0x54258/0x542a64、dbg_csol 0x3eb70c。
+ *       option_use_fast_collision 0x542379、三待办队列 0x542a4c/0x542a58/0x542a64、dbg_csol 0x3eb70c。
  *
  * ── 一句话 ─────────────────────────────────────────────────────────────
  *   房间的拆除分四层，本卡拍中间三层：Room_Free（已出卡）拆**全局房间表**；~CRoom 拆**对象本身**；
@@ -2067,7 +2075,9 @@
 
 /* ── §22 循环体（0x1a93d0..0x1a9408）：三条实参
  *  s14 = [r4+384] = inst+0x180（float，深度快照）；vcvt.f64.f32 d7 → vstr d7,[sp]（第 2 实参，%f）；
- *  r12 = [[r4+0x80]+0x14] → str r12,[sp,#8]（第 3 实参，%s = 对象名）；r2 = inst（%p）。
+ *  r12 = [[r4+0x80]+0x14] → str r12,[sp,#8]（第 3 实参，%s）；r2 = inst（%p）。
+ *  ★ inst+0x80 = CObjectGM*（SetObjectIndex 0x193294 写它）、CObjectGM+0x14 = 对象名（Object_Name 卡 0x19edd4），
+ *  所以第 3 实参是「实例所属对象的名字」。
  *  格式串 = "0x%p\t%f\t%s"。下一个 r4 = inst+0x178（next）。 */
 /* @0x1a93d0 vldr s14, [r4, #384] */
 /* @0x1a93d4 vcvt.f64.f32 d7, s14 */

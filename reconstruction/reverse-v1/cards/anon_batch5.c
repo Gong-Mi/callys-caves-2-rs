@@ -43,7 +43,7 @@
  * ══ 六库的识别证据（每条都可在二进制里复核）═══════════════════════════
  *   libpcre 8.x（§1 / §3 / §4 / §5 / §6）
  *     ① 版本串指纹：pcre_version（0x266c9c，12 B）是 `ldr r0,[pc,#4]; add r0,pc,r0; bx lr`，
- *        池字 0x000f03c8 @0x266ca8 → 0x266cac + 0xf03c8 = 0x357074，读出的字符串是
+ *        池字 0x000f03c8（池址 0x266ca8）→ 0x266cac + 0xf03c8 = 0x357074，读出的字符串是
  *        "@PCRE_MAJOR@.@PCRE_MINOR@@PCRE_PRERELEASE@ @PCRE_DATE@" —— 未展开的 PCRE 版本宏模板。
  *        这段字面量只有 PCRE 的构建会产生，是这个二进制里最硬的 pcre 指纹。
  *     ② 具名邻居：pcre_compile2 0x2679c0(5,576 B)、pcre_compile 0x268f88(44 B)、
@@ -58,11 +58,13 @@
  *        就是 162。
  *     ④ 选项位：§1 入口 0x25e358 `ubfx r10,r3,#0xb,#1` 取 bit11 = 0x800 = pcre.h 的 PCRE_UTF8。
  *   spine-c（§2）
- *     ① 源码路径串：0x2867f8 `ldr r10,[pc,#0x2fc]` → 池字 @0x286b00 = 0x001057ac，
- *        add 后 = 0x3578e0 → `jni/../jni/yoyo/../../../spine-c/src/spine/Json.c`。
- *     ② JSON 语法常量：'"'=0x22 @0x286794、'\\'=0x5c @0x2867b8、90 项首字符表（34..123）
- *        @0x286b24；0x3578e0 之后同一片 rodata 里还有 `%4x` / `ull` / `alse` / `rue`
- *        （\uXXXX 的 sscanf 格式串 + null/true/false 的共享尾串）。
+ *     ① 源码路径串：0x2867dc 的 ldr r1,[pc,#0x314] 取池字（池址 0x286af8）= 0x000d10d0，
+ *        0x2867e8 处的 add（pc=0x2867f0）⇒ 0x3578c0 → `jni/../jni/yoyo/../../../spine-c/src/spine/Json.c`；
+ *        窗口内共 5 处引用同一路径串（0x2867dc / 0x286cd8 / 0x286e0c / 0x286ff4 / 0x287094）。
+ *     ② JSON 语法常量：'"'=0x22（0x286794）、''=0x5c（0x2867b8）、90 项首字符表（34..123，
+ *        0x286b24）；同一片 rodata 里 0x3578f4 = `%4x`（0x2867f8 取到）、0x3578f8 = `ull`、
+ *        0x3578fc = `alse`、0x357904 = `rue`（由 0x287184 / 0x287158 / 0x2871b4 取到后喂 strncmp）
+ *        —— \uXXXX 的格式串 + null/true/false 的共享尾串。
  *     ③ 具名邻居：spIkConstraintData_create 0x2866f0 / _dispose 0x286758（前）、
  *        Json_getError 0x2872b8 / Json_dispose 0x2872c8（后）；调用面是 malloc / calloc /
  *        strtod / sscanf / strncmp。
@@ -99,6 +101,12 @@
  *   候选：本卡写入时刻未被任何手写卡锚点覆盖、≥512 B、in-degree ≥2 的 ARM 段。
  *   排序：in-degree 降序、同分按 size 降序；本批 10 段占第 1..10 名
  *        （in-degree 5/5/4/4/4/3/2/2/2/2）。
+ *   并列处理（写清，免得看起来像漏选）：in-degree=2 的候选共 7 段 —— 222040(1416 B) /
+ *        2bb8b4(1248) / 230b68(856) / 25c988(740) / 2de214(588) / 27e458(548) / 23cea8(580)。
+ *        按 size 取前四（222040 / 2bb8b4 / 230b68 / 25c988），其中 25c988 与已选的 §3/§4/§5
+ *        同属 0x25b524 簇、同为 opcode 过滤形态，故改用其后一位的 2de214（588 B，Box2D）——
+ *        同 in-degree、换来一个新库的覆盖。这是同分内的口径选择，不是"跳过更热的段"；
+ *        25c988 记为下一批首选。
  *   排除 A（Thumb-2，14 段）：候选集里 in-degree 最高的两段其实是 Thumb-2 ——
  *        0x2f8e0a（1,170 B，in=51）、0x317798（684 B，in=7）；其后还有 0x2e8c38(4)、
  *        0x2fa06c(3)、0x2fb894(3)、0x2e90fc(3)、0x2fb68c(3)、0x317ba8(3)、0x2fec70(2)、
@@ -108,7 +116,7 @@
  *        比对整体失真；anon_batch2 已用同一理由跳过 5 段 Thumb-2，本卡沿用。这 14 段的
  *        地址与 in-degree 已列在此处，下一批可直接取用。
  *   排除 B（单函数过大）：0x25ff54（23,556 B，in=3）是 pcre 的 compile_branch 主体
- *        （体内 42 处 '?'、33 处 '0'、20 处 ')'、13 处 '\\' 的**模式字符**立即数，444 B 帧，
+ *        （体内 42 处 '?'、33 处 '0'、20 处 ')'、13 处 '' 的**模式字符**立即数，444 B 帧，
  *        pcre_compile2 两处 bl + 一处自递归），它和 26,424 B 的父标签 0x25fe2c 属于
  *        "一个函数一张卡"的量级，本批不出窗口。
  *   排除 C（重叠）：0x286b08（1,964 B，in=5）整体落在 0x28677c..0x2872b4 之内；本卡用 §2
@@ -117,12 +125,12 @@
  * ══ 计数口径（写死）═══════════════════════════════════════════════════
  *   段        [start,end)      index 行  pop{..,pc}  跳转表  分支跳出  段尾非指令
  *   25e350    25e350..25ed60     644        2          1(162)      0     1 池字
- *   28677c    28677c..2872b4     718       10          2(90/90)    0     1 池字 + 4 误译
- *   2670bc    2670bc..2679bc     576        3          1(111)      0     2 误译
+ *   28677c    28677c..2872b4     718       10          2(20/90)    0     1 池字 + 4 误译
+ *   2670bc    2670bc..2679bc     576        3          1(107)      0     2 误译
  *   25b5c4    25b5c4..25bba8     377        3          1(162)      0     1 误译
  *   25c788    25c788..25c988     128        3          0           0     1 误译
- *   265c10    265c10..266564     597        3          2(162/162)  0     0
- *   222040    222040..2225c8     354        2          1           0     4 池字
+ *   265c10    265c10..266564     597        3          2(162/16)   0     0
+ *   222040    222040..2225c8     354        2          1(27)       0     4 池字
  *   2bb8b4    2bb8b4..2bbd94     312        1          0           0     1 误译
  *   230b68    230b68..230eb8     212        1          0           1 尾续 0
  *   2de214    2de214..2de460     147        2          0           0     0
@@ -137,8 +145,8 @@
  *     230674 / 2d49b8 组；anon_batch4 覆盖 2b3bac..2bf198 十个 libjpeg 段；anon_26f1e8
  *     覆盖 pcre 的 match() 前 3,524 B；anon_268fb4 覆盖 0x268fb4 大块。本卡与它们零地址交集。
  *   本卡未收的同族待办：pcre 的 compile_branch 主体 0x25ff54（23,556 B）、0x25b524 簇首函数
- *     （10,856 B，被簇内 6 处调用）、0x265b58（184 B）、0x25fe2c（328 B），以及排除 A 的
- *     14 段 Thumb-2。
+ *     （10,856 B，被簇内 6 处调用）、0x265b58（184 B）、0x25fe2c（328 B）、25c988（740 B，
+ *     见"并列处理"），以及排除 A 的 14 段 Thumb-2。
  *
  * ══ 匿名段覆盖账（本卡落盘后）═════════════════════════════════════
  *   asm/anon_splits.tsv 521 段 / 399,240 B；≥512 B 的 137 段 / 342,112 B
@@ -165,7 +173,7 @@
  * ══ 校验（每节单独切出来跑，脚本原样未改）═════════════════════════════
  *   check_card_anchors.py --card <本节切片> --index asm/index-anon_<起址>.tsv
  *     → 10/10 节 RESULT EXACT，合计 4,065 条，missing / extra / mismatch 全 0
- *   跨卡：与 cards/*.c 其余卡片的 @0x 地址交集为 0。
+ *   跨卡：与 cards/ 下其余卡片的锚点地址交集为 0。
  *
  * ══ claims 对照 ═══════════════════════════════════════════════════════
  *   claims-batchBZ.jsonl: BZ5-001..BZ5-018
@@ -197,12 +205,13 @@
  *   ⑤ 预算闸门：0x25e374..0x25e388 读 [r12]、cmp #1000、自增、写回，bgt 0x25e710（mvn r0,#0）
  *      —— 每次进入自增，超过 1000 直接返回 -1。这是 study 期防指数爆炸的粗上限。
  *
- * 出口：2 个 —— 0x25e704（add sp,#52 + pop {r4..r11,pc}，r0 来自 [sp+0x18]）与 0x25e718
- *       （同一 pop，r0 = -1，预算/失败路径）。窗口内 0 条分支跳出。
+ * 出口：2 个 —— 0x25e704（add sp,#52 + pop {r4..r11,pc}；返回值由前驱决定：0x25e6fc 的
+ *       mvn r0,#2 = -3，或 0x25ed50 路径的 [sp+0x18]）与 0x25e718（r0 = -1，预算/失败路径）。
+ *       窗口内 0 条分支跳出。
  * 边界：段尾 0x25ed5c 是池字 0xfffffb8c（GOT 相对偏移），objdump 译成 andseq，非指令。
  * open：1. r0 的结构基址在本窗口内没有任何解引用 —— 只能证"传进来、存栈、不碰"。
  *       2. 与 pcre_study.c 的 set_start_bits / find_firstassertedchar 二选一未定。线索：本段
- *          调 _pcre_find_bracket（取 class/组的边界）并写 0x25e3d0 处的 12 B 本地缓冲，更像
+ *          调 _pcre_find_bracket（取 class/组的边界）并把 sp+40 的本地缓冲地址存进 [sp+0x1c]，更像
  *          "扫描起始位图"一侧；另一侧是 §6（0x265c10，带 32/16 步长）。
  * ═══════════════════════════════════════════════════════════════════ */
 /* @func 0x25e350 0x25ed60 anon_25e350 pcre_study_startbit_walker */
@@ -444,10 +453,10 @@
 /* @0x25e6f8 b 0x25e3d8 <_pcre_find_bracket+0x2dc> */
 /* @0x25e6fc mvn r0, #2 */
 /* @0x25e700 add sp, sp, #52 */
-/* @0x25e704 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} —— 出口 1：正常返回（r0 = [sp+0x18]） */
-/* @0x25e708 cmp r10, #0 —— 按 bit11（UTF-8）决定返回路径 */
+/* @0x25e704 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} —— 出口 1：pop {r4..r11,pc}（返回值见 0x25e6fc / 0x25ed50 两条前驱） */
+/* @0x25e708 cmp r10, #0 —— bit11（UTF-8）为 0 才 beq 0x25e69c；否则落下去返回 -1 */
 /* @0x25e70c beq 0x25e69c <_pcre_find_bracket+0x5a0> */
-/* @0x25e710 mvn r0, #0 —— 出口 2 的返回值 -1 */
+/* @0x25e710 mvn r0, #0 —— 出口 2 的返回值：mvn r0,#0 = -1 */
 /* @0x25e714 add sp, sp, #52 */
 /* @0x25e718 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} —— 出口 2：预算/失败返回 */
 /* @0x25e71c ldr r2, [pc, #0x638] */
@@ -858,11 +867,14 @@
  * spine-c（Esoteric Software Spine 运行时）spine-c/src/spine/Json.c 的递归下降解析器：字符串扫描器 + Json_parse
  * ─────────────────────────────────────────────────────────────────────
  * 身份证据（三条独立）
- *   ① 源码路径串（决定性）：0x2867f8 的 ldr r10,[pc,#0x2fc] 取池字 @0x286b00 = 0x001057ac，
- *      0x286800 的 add r10,pc,r10（pc = 0x286808）⇒ 0x3578e0，读出
+ *   ① 源码路径串（决定性）：0x2867dc 的 ldr r1,[pc,#0x314] 取池字（池址 0x286af8）= 0x000d10d0，
+ *      0x2867e8 的 add r1,pc,r1（pc = 0x2867f0）⇒ 0x3578c0，读出
  *      jni/../jni/yoyo/../../../spine-c/src/spine/Json.c —— 编译单元路径经 __FILE__ 留在 .rodata。
- *      同一片 rodata（0x3578b4 起）还并排放着 spIkConstraintData.c 的尾串，以及 0x3578e0 之后的
- *      %4x / ull / alse / rue（\uXXXX 的 sscanf 格式串 + null/true/false 的共享尾串）。
+ *      窗口内共 5 处引用同一路径串（0x2867dc / 0x286cd8 / 0x286e0c / 0x286ff4 / 0x287094），
+ *      是递归错误上报用的同一份 __FILE__。
+ *      同一片 rodata 里另有：0x3578f4 = %4x（0x2867f8 的 ldr + 0x28680c 的 add 取到，sscanf 解 \uXXXX）、
+ *      0x3578f8 = ull、0x3578fc = alse、0x357904 = rue（分别由 0x287184 / 0x287158 / 0x2871b4
+ *      取到后喂 strncmp，即 null / false / true 的共享尾串）。
  *   ② 邻接具名件：前 spIkConstraintData_create 0x2866f0(104 B) / _dispose 0x286758(36 B)；
  *      后 Json_getError 0x2872b8(16 B) / Json_dispose 0x2872c8(88 B) —— 同一 spine-c 目标的
  *      相邻 TU。
@@ -872,8 +884,8 @@
  *
  * 段内两个函数（本卡一并锚，边界由序言/出口确定）
  *   0x28677c..0x286b08（908 B / 227 条）= 字符串/引号扫描器：入口 0x286788 的 sub sp,#20，
- *     0x286794 的 cmp r3,#34（'"'）必须在引号上，主循环 0x2867a8..0x2867d8 处理 '\\'（0x5c）
- *     转义（add r1,r1,#2 跳过被转义字符）；0x286858 有 90 项跳转表；只被 0x286d38 / 0x286e78 /
+ *      0x286794 的 cmp r3,#34（'"'）必须在引号上，主循环 0x2867a8..0x2867d8 处理 ''（0x5c）
+ *     转义（add r1,r1,#2 跳过被转义字符）；0x286858 有 20 项跳转表（索引 = 次字节 - 98）；只被 0x286d38 / 0x286e78 /
  *     0x286f64 三处调用（都在后半段内），自身不递归。
  *   0x286b08..0x2872b4（1,964 B / 491 条）= Json_parse 本体：入口 0x286b08 的 push {r4..r9,lr}，
  *     0x286b1c 的 sub r3,r3,#34 + 0x286b24 的 addls pc,pc,r3,lsl #2 = 按首字符 '"'(34)..'{'(123)
@@ -881,6 +893,9 @@
  *     即解析 object/array 的成员值）；外部入口是 Json_create+0x70（0x287390）直接 bl 0x286b08。
  *     ⇒ 0x28677c 是子例程、0x286b08 是入口。本卡窗口 [0x28677c,0x2872b4) 同时覆盖
  *       asm/anon_splits.tsv 的两行（28677c 908 B + 286b08 1964 B），两行一起销账。
+ *
+ * in-degree：0x28677c 这一行 3 处（都在窗口内）；0x286b08 这一行 5 处（4 处窗口内 +
+ *       Json_create+0x70）—— 两行同属一个函数的两个入口，本卡把它们当一个窗口销账。
  *
  * 出口：10 个 pop {r4..r11,pc}（0x2868d4 / 0x286a00 / 0x286f6c / 0x286fac / 0x28717c /
  *       0x2871ac / 0x2871e0 / 0x2871f8 / 0x287204 / 0x287210）；窗口内 0 条分支跳出。
@@ -916,14 +931,14 @@
 /* @0x2867d0 cmp r3, #0 */
 /* @0x2867d4 cmpne r3, #34 */
 /* @0x2867d8 bne 0x2867b8 <spIkConstraintData_dispose+0x60> */
-/* @0x2867dc ldr r1, [pc, #0x314] —— 取 __FILE__ 串（…/spine-c/src/spine/Json.c） */
+/* @0x2867dc ldr r1, [pc, #0x314] —— 池字 0x000d10d0（池址 0x286af8）+ 0x2867e8 的 add ⇒ 0x3578c0（…/spine-c/src/spine/Json.c） */
 /* @0x2867e0 add r0, r0, #1 */
 /* @0x2867e4 mov r2, #141 */
 /* @0x2867e8 add r1, pc, r1 */
 /* @0x2867ec bl 0x285c10 <_malloc> */
 /* @0x2867f0 subs r7, r0, #0 */
 /* @0x2867f4 beq 0x286ac4 <spIkConstraintData_dispose+0x36c> */
-/* @0x2867f8 ldr r10, [pc, #0x2fc] —— 池字 0x001057ac → 0x3578e0 的 Json.c 路径串 */
+/* @0x2867f8 ldr r10, [pc, #0x2fc] —— ⇒ 0x3578f4 = "%4x"（\uXXXX 的 sscanf 格式串） */
 /* @0x2867fc add r3, sp, #8 */
 /* @0x286800 ldr r12, [pc, #0x2f8] */
 /* @0x286804 mov r6, r7 */
@@ -947,7 +962,7 @@
 /* @0x28684c add r2, r5, #1 */
 /* @0x286850 sub r1, r0, #98 */
 /* @0x286854 cmp r1, #19 */
-/* @0x286858 addls pc, pc, r1, lsl #2 —— 90 项跳转表（addls pc,pc,r1,lsl #2） */
+/* @0x286858 addls pc, pc, r1, lsl #2 —— 20 项跳转表：索引 = 次字符 - 98（0x286850 sub #98 / 0x286854 cmp #19） */
 /* @0x28685c b 0x2869dc <spIkConstraintData_dispose+0x284> */
 /* @0x286860 b 0x2869c8 <spIkConstraintData_dispose+0x270> */
 /* @0x286864 b 0x2869dc <spIkConstraintData_dispose+0x284> */
@@ -1523,7 +1538,7 @@
 /* @0x28714c mov r8, r7 */
 /* @0x287150 b 0x2870a4 <spIkConstraintData_dispose+0x94c> */
 /* @0x287154 add r0, r1, #1 */
-/* @0x287158 ldr r1, [pc, #0x134] */
+/* @0x287158 ldr r1, [pc, #0x134] —— ⇒ 0x3578fc = "alse"（strncmp 比 false） */
 /* @0x28715c mov r2, #4 */
 /* @0x287160 add r1, pc, r1 */
 /* @0x287164 bl 0xb65e0 <strncmp@plt> */
@@ -1534,7 +1549,7 @@
 /* @0x287178 add sp, sp, #12 */
 /* @0x28717c pop {r4, r5, r6, r7, r8, r9, pc} */
 /* @0x287180 add r0, r1, #1 */
-/* @0x287184 ldr r1, [pc, #0x10c] */
+/* @0x287184 ldr r1, [pc, #0x10c] —— ⇒ 0x3578f8 = "ull"（strncmp 比 null） */
 /* @0x287188 mov r2, #3 */
 /* @0x28718c add r1, pc, r1 */
 /* @0x287190 bl 0xb65e0 <strncmp@plt> */
@@ -1546,7 +1561,7 @@
 /* @0x2871a8 add sp, sp, #12 */
 /* @0x2871ac pop {r4, r5, r6, r7, r8, r9, pc} */
 /* @0x2871b0 add r0, r1, #1 */
-/* @0x2871b4 ldr r1, [pc, #0xe0] */
+/* @0x2871b4 ldr r1, [pc, #0xe0] —— ⇒ 0x357904 = "rue"（strncmp 比 true） */
 /* @0x2871b8 mov r2, #3 */
 /* @0x2871bc add r1, pc, r1 */
 /* @0x2871c0 bl 0xb65e0 <strncmp@plt> */
@@ -1626,7 +1641,8 @@
  *   ② opcode 头长：0x2670f0 的 cmp r5,#118 + 0x2670f4 的 addeq r4,r4,#6 —— 与
  *      _pcre_OP_lengths[118] = 6 逐字对上（本卡读 0x38ba04 复核）；随后按 118 / 119 / 129 /
  *      131 / 120 / 123 逐码分流，129 以上走 0x2672ec，131 以上走 0x2671f0。
- *   ③ 111 项 case 表：0x267354 的 addls pc,pc,r2,lsl #2（索引 = opcode - 29，表体 0x267358 起）。
+ *   ③ 107 项 case 表：0x26734c 的 sub r2,r2,#6 + 0x267350 的 cmp r2,#106 + 0x267354 的
+ *      addls pc,pc,r2,lsl #2（索引 = opcode - 6，表体 0x267358 起）。
  *      0x2670e0 的 movw r10,#0x180e 是入口常驻的掩码/常量（见 open 2）。
  *
  * 出口：3 个 pop {r4..r11,pc}（0x267230 / 0x2672b4 / 0x267328）；窗口内 0 条分支跳出。
@@ -1803,7 +1819,7 @@
 /* @0x267348 mov r3, r1 */
 /* @0x26734c sub r2, r2, #6 */
 /* @0x267350 cmp r2, #106 */
-/* @0x267354 addls pc, pc, r2, lsl #2 —— 111 项 case 表（索引 = opcode - 29） */
+/* @0x267354 addls pc, pc, r2, lsl #2 —— 107 项 case 表（索引 = opcode - 6，0x26734c/0x267350 定界） */
 /* @0x267358 b 0x267228 <_pcre_xclass+0x57c> */
 /* @0x26735c b 0x2676d0 <_pcre_xclass+0xa24> */
 /* @0x267360 b 0x2676b4 <_pcre_xclass+0xa08> */
@@ -2434,7 +2450,7 @@
 /* @0x25b8c4 b 0x25b5fc <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x4d4> */
 /* @0x25b8c8 mvn r0, #0 */
 /* @0x25b8cc add sp, sp, #28 */
-/* @0x25b8d0 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} —— 出口 1 */
+/* @0x25b8d0 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} —— 出口 1（r0 = -1，见 0x25b8c8 的 mvn r0,#0） */
 /* @0x25b8d4 mvn r0, #1 */
 /* @0x25b8d8 add sp, sp, #28 */
 /* @0x25b8dc pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} —— 出口 2 */
@@ -2631,7 +2647,8 @@
  *   ② 与 §1 同一套 +5 族判定：0x25c7c0 的 sub r1,r3,#133 + 0x25c7c4 的 sub r2,r3,#138 +
  *      0x25c7c8 的 cmp r2,#1 + 0x25c7cc 的 cmphi r1,#1 → 命中 {133,134,138,139} 走 0x25c894；
  *      _pcre_OP_lengths 在这四码取 5（0x38ba04 已读表复核）。
- *   ③ 逐码分流：0x25c7d4 的 cmp #125、0x25c7dc 的 cmp #129（{129,130} 走 0x25c958）、
+ *   ③ 逐码分流：0x25c7d4 的 cmp #125、0x25c7dc 的 sub r1,r3,#129 + 0x25c7e0 的 cmp r1,#1
+ *      （{129,130} 走 0x25c958）、
  *      0x25c7e8 的 cmp #85 / #94 一组；0x25c7f8 的 ldrb r3,[r0,#0x1] 读次字节。
  *
  * 出口：3 个 pop {r4..r11,pc}（0x25c890 / 0x25c94c / 0x25c980）；窗口内 0 条分支跳出。
@@ -2781,8 +2798,9 @@
  * 身份证据（四条）
  *   ① 调用面：pcre_study+0xec（0x2666cc，pcre_study 0x2665e0 具名）bl 到本段；段内 2 处
  *      bl 落回自身（0x26617c / 0x2661f8）⇒ 递归。
- *   ② 两张 162 项 opcode 表：0x265c70 的 cmp r3,#161 + 0x265c74 的 addls pc,pc,r3,lsl #2，
- *      以及 0x266088 的第二张 addls pc,pc,r3,lsl #2 —— 同一函数里出现两个满表分派点。
+ *   ② 两张 opcode 表：0x265c70 的 cmp r3,#161 + 0x265c74 的 addls pc,pc,r3,lsl #2（162 项），
+ *      以及 0x266080 的 sub r3,r3,#6 + 0x266084 的 cmp r3,#15 + 0x266088 的 addls pc,pc,r3,lsl #2
+ *      （16 项）—— 同一函数里出现两个不同域的 opcode 分派点。
  *   ③ 32/16 步长：0x265c24 的 cmp r6,#0 后，0x265c38 的 moveq r9,#32 / 0x265c3c 的
  *      movne r9,#16 —— pcre 的 class 位图宽度按 8 位/16 位字符域二选一。
  *   ④ 与 UTF-8/UTF-16 相关的外部件：bl _pcre_ord2utf（0x25fd98，148 B，具名）×1、
@@ -3083,7 +3101,7 @@
 /* @0x26607c ldrb r3, [r10, #0x1] */
 /* @0x266080 sub r3, r3, #6 */
 /* @0x266084 cmp r3, #15 */
-/* @0x266088 addls pc, pc, r3, lsl #2 —— 第二张 162 项 opcode 表 */
+/* @0x266088 addls pc, pc, r3, lsl #2 —— 第二张表：16 项（索引 = opcode - 6） */
 /* @0x26608c b 0x26611c <_pcre_ord2utf+0x6384> */
 /* @0x266090 b 0x26644c <_pcre_ord2utf+0x66b4> */
 /* @0x266094 b 0x266468 <_pcre_ord2utf+0x66d0> */
@@ -3419,8 +3437,8 @@
  *      "先从流里认出容器格式再解码"的位置。
  *
  * 形态：0x22204c 先 _alutInputStreamGetFileName 取文件名；0x22210c 起比 4CC；RIFF 分支在
- *       0x2222b4 读 "WAVE"，再按 chunk 读 "fmt "/"data"；0x2221e8 有一个 addls pc,pc,r3,lsl #2
- *       的 switch（按 chunk/状态分派），表体在段内。
+ *       0x2222b4 读 "WAVE"，再按 chunk 读 "fmt "/"data"；0x2221e0 的 sub r3,r3,#1 + 0x2221e4 的
+ *       cmp r3,#26 + 0x2221e8 的 addls pc,pc,r3,lsl #2 是 27 项 switch（按 chunk/状态分派）。
  * 出口：2 个 pop {r4..r11,pc}（0x22226c / 0x2222b0）；窗口内 0 条分支跳出。
  * 边界：0x2225b8..0x2225c4 是 4 个 GOT 相对池字（0xfffff7f8 / f7fc / f800 / f804），非指令。
  * open：1. freealut 里该静态例程的原名未证（alutLoader.c 的 loadWAV / loadAU 之一）。
@@ -3534,7 +3552,7 @@
 /* @0x2221dc ldr r3, [sp, #0x34] */
 /* @0x2221e0 sub r3, r3, #1 */
 /* @0x2221e4 cmp r3, #26 */
-/* @0x2221e8 addls pc, pc, r3, lsl #2 —— chunk/状态 switch 表 */
+/* @0x2221e8 addls pc, pc, r3, lsl #2 —— 27 项 chunk/状态 switch（索引 = [sp+0x34] - 1） */
 /* @0x2221ec b 0x22243c <_alutInputStreamReadUInt32LE+0x498> */
 /* @0x2221f0 b 0x22242c <_alutInputStreamReadUInt32LE+0x488> */
 /* @0x2221f4 b 0x2223cc <_alutInputStreamReadUInt32LE+0x428> */
@@ -4144,7 +4162,8 @@
  *      里同时被这两条公共入口调用的静态例程就是 _fetch_and_process_packet。
  *   ③ 状态机：0x230b88 读 [r8+0x58]（OggVorbis_File 的 state），按 3 / 4 / ≤1 三分支
  *      （0x230d04 / 0x230ca4 / 0x230d28）；0x230bec 读 [r8+0x5c]（当前流序号）与
- *      ogg_page_serialno 比较；错误路径 0x230df0 起连调 *_clear。
+ *      ogg_page_serialno 比较；清理路径两处 —— 0x230c10 的 vorbis_dsp_clear + 0x230c18 的
+ *      vorbis_block_clear、0x230cd4 的 vorbis_info_clear + 0x230cdc 的 vorbis_comment_clear。
  *
  * 出口：1 个 pop {r4..r11,pc}（0x230ccc）。
  * 边界：窗口内有 1 条分支落到 0x230eb8 = 本段末尾（下一段的起点），说明尾部是共用续块、

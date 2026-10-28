@@ -104,6 +104,50 @@
  *   0x1cacc0  Command_IsFree(CInstance*,float,float) 0x1cab94
  *   0x1c86e0 / 0x1c87a4 / 0x1c8850  .dynsym 未覆盖的局部函数（0x1c8380..0x1c8bb4 之间，碰撞命令群）
  *
+ * ── 一句话 ────────────────────────────────────────────────────────────────
+ *   两个实例的粗筛 + 掩码级精判：五道早退（自身/标记/骨架）→ 四道 bbox 分离闸 →
+ *   取两侧精灵（掩码号优先于精灵号）→ 三档判据（不查掩码 / 两侧都无掩码 / 逐像素）→
+ *   按全局 option_use_fast_collision 决定 x/y 用截断还是四舍五入 → CSprite::PreciseCollision。
+ *   本函数自己不写任何实例字段，唯一的全局副作用是 profile 的 Push/Pop。
+ *
+ * ── PreciseCollision 的 15 个实参槽（0x1957ac 快路径 / 0x1958a0 精确路径，同一张表）────
+ *    #  形参（CSprite_More 卡已定名）   落位            快路径（option != 0）        精确路径（option == 0）
+ *    1  int subA                      r1              (int)this->image_index      同（vcvt.s32）
+ *    2  tagYYRECT* rectA              r2              &this->bbox = this+0xe8     同
+ *    3  int xA                        r3              (int)this->x（截断）         lrint(this->x)
+ *    4  int yA                        [sp+0x00]       (int)this->y（截断）         lrint(this->y)
+ *    5  float sxA                     [sp+0x04]       this->image_xscale +0x98     同
+ *    6  float syA                     [sp+0x08]       this->image_yscale +0x9c     同
+ *    7  float rotA                    [sp+0x0c]       this->image_angle  +0xa0     同
+ *    8  CSprite* other                [sp+0x10]       另一侧的 Sprite_Data 结果     同
+ *    9  int subB                      [sp+0x14]       (int)other->image_index      同
+ *   10  tagYYRECT* rectB              [sp+0x18]       &other->bbox                同
+ *   11  int xB                        [sp+0x1c]       (int)other->x（截断）        lrint(other->x)
+ *   12  int yB                        [sp+0x20]       (int)other->y（截断）        lrint(other->y)
+ *   13  float sxB                     [sp+0x24]       other->image_xscale          同
+ *   14  float syB                     [sp+0x28]       other->image_yscale          同
+ *   15  float rotB                    [sp+0x2c]       other->image_angle           同
+ *   ★ 第 1/9/11/12 槽的「整数」是先用 vcvt.s32.f32 转成定点、再经 S 寄存器搬出去的
+ *     （vmov r1,s14 / vstr s11,[sp,#20]）—— 位模式是整数，不是浮点。别被 S 寄存器误读成 float。
+ *
+ * ── 已证（指令级）──────────────────────────────────────────────────────────
+ *  1. profile 门：0x195580 ldrb r3,[r6] + 0x195588 bne ⇒ *g_bProfile 非 0 才 Push(6,1)；
+ *     出口 0x1955a4/0x1955ac 对称 Pop。g_bProfile / g_Profiler 两槽相邻（0x3EDB70 / 0x3EDB74），
+ *     与 CSprite::PreciseCollision 卡用的是同一对 GOT 项，互为旁证。
+ *  2. 早退顺序是 this==other → this->0x68 → other->0x68 → 骨架 → bbox 脏 → bbox 相交：
+ *     前三条都直接 mov r5,#0 走出口；骨架那条把**持有骨架的一方**当新 this 传下去
+ *     （0x1955f4 / 0x195634 两处实参顺序相反）。
+ *  3. bbox 脏标志的重算顺序是 **先 other 后 this**（0x195640 判 other、0x19564c 判 this），
+ *     且都用 Compute_BoundingBox(x, true)。两个实例都脏时谁先被写由此决定。
+ *  4. 四道分离闸用严格 `<`（blt）判「分离」，没有 ±1 修正 ⇒ 边贴边（right == left）算相交。
+ *     §2 的椭圆版本则是 min >= right+1 / max < left，边界口径相差一个像素。
+ *  5. 掩码号取值规则两处同构：mask_index(+0xac) >= 0 用它，否则 sprite_index(+0x8c)；
+ *     拿到 CSprite* 后还要过 spr+0x18（帧数）> 0 这一关，否则返回 0。
+ *  6. 三档判据：checkMask==0 → 1；两侧 spr+0x30 都为 0 → 1；否则逐像素。第二档是「全实心」，
+ *     与 CSprite 卡「+0x31==0 视为全实心」是同一件事的两个字节（+0x30 标志、+0x31 数据就绪）。
+ *  7. option_use_fast_collision（0x542379，按字节读）是两条 15 实参调用**唯一**的差异来源：
+ *     非 0 走 0x19571c（vcvt.s32），0 走 0x1957e0（lrint）。image_index 两路都用 vcvt.s32。
+ *  8. 本函数零字段写：没有一条 str/strb/vstr 落在 [r5]/[r7]/[r9]/[r10] 上（只有写 [sp+…] 的传参）。
  */
 /* @0x195558 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} —— 帧：9 个核寄存器 36 B + 3 个 d 寄存器 24 B + 局部 60 B(0x3c) */
 /* @0x19555c vpush {d8, d9, d10} */
@@ -338,6 +382,49 @@
  *   Command_CollisionEllipse(CInstance*,float,float,float,float,int,bool) 0x1c8bb4
  *     → 0x1c8ca8（第 1 条出口）、0x1c8d50、0x1c8dc0
  *
+ * ── 椭圆判据（本节的核心，逐条落锚）────────────────────────────────────────
+ *  1. 椭圆只用它的**外接矩形**表示：两组四元整数
+ *       sp+0x18/0x1c/0x20/0x24 = { lrint(min(x1,x2)), lrint(min(y1,y2)),
+ *                                  lrint(max(x1,x2)), lrint(max(y1,y2)) }   （0x194c28..0x194c84）
+ *       sp+0x28/0x2c/0x30/0x34 = 同一组值再算一遍（0x194d20..0x194d80，这一份交给精灵/骨架）
+ *     两份值相同但独立计算：第一份给 InEll 做角点测试，第二份作为 queryRect 传下去。
+ *  2. 真正的椭圆判定只有一支静态函数 InEll(tagYYRECT*, int x, int y) 0x1949e8（42 条）：
+ *       a=rect[0], b=rect[1], c=rect[2], d=rect[3]（={left,top,right,bottom}）
+ *       cx=(c+a)/2, hw=(c-a)/2, cy=(d+b)/2, hh=(d-b)/2      ← 折半用 add rX,rX,rX,lsr #31 + asr #1
+ *       return ((x-cx)/hw)² + ((y-cy)/hh)² <= 1.0           ← 全 f64，vcmpe + movls r0,#1
+ *     折半的写法（0x194a00..0x194a40）先把符号位当无符号位加回去再算术右移，是「向零取整的
+ *     有符号除 2」，负数半宽也不会偏。hw==0 或 hh==0 时 vdiv 出 inf/NaN，比较结果为 hi ⇒ 判不中。
+ *  3. 用法（不是「八点采样」也不是「逐像素」）：
+ *       若 cx ∈ [bbox.left, bbox.right] 或 cy ∈ [bbox.top, bbox.bottom] ⇒ 直接进入像素级；
+ *       否则要求 bbox 的四角 (left,top)/(left,bottom)/(right,top)/(right,bottom) 至少一角满足
+ *       InEll(椭圆矩形, 角)（0x194d00 / 0x194e0c / 0x194e24 / 0x194e3c），四角全在外 ⇒ 返回 0。
+ *     ⇒ 判据是「中心在盒内 ∨ 盒角在椭圆内」，是粗筛而不是精确判碰；精确判碰交给
+ *       CSprite::PreciseCollisionEllipse / CSkeletonInstance::EllipseCollision。
+ *  4. 退化：lrint(x1)==lrint(x2) 或 lrint(y1)==lrint(y2) ⇒ 椭圆被压成零宽/零高，
+ *     直接转 Collision_Rectangle(x1,y1,x2,y2,checkMask)（0x194e68..0x194e80，传原始 float）。
+ *
+ * ── 已证（指令级）──────────────────────────────────────────────────────────
+ *  a. 实参：r1=x1、r2=y1、r3=x2、[sp+0x88]=y2、[sp+0x8c]=checkMask（帧 28+48+60 后栈形参偏移）。
+ *  b. 骨架路：SkeletonAnimation() 非 0 时用 CSkeletonSprite::ms_drawInstance（GOT 0x3ED93C）当
+ *     临时槽（存旧值 → 写 this → 调 CSkeletonInstance::ComputeBoundingBox → 还原），
+ *     成功则 +0x64=0 且 +0xb0=1，失败则退回「+0x64 脏 ⇒ Compute_BoundingBox(this,true)」。
+ *  c. 四道 bbox 闸带 +1 与无符号/有符号混用：`add r3,#1; vcvt.f32.s32; vcmpe; bge` 判
+ *     min >= right+1、`bmi` 判 max < left，y 同理。与 §1 的裸 `blt` 相差一个像素口径。
+ *  d. 闸⑤ +0x68(i_marked) 非 0 ⇒ 0；闸⑥ !checkMask ⇒ 1；闸⑦ +0xb0(i_precise)==0 ⇒ 1。
+ *     ⇒ 椭圆判碰**永远**要求实例「precise」标志为真，而该标志由 Compute_BoundingBox 从
+ *     spr+0x30 抄来；Collision_Instance 则改看两侧精灵的 spr+0x30。两条路的信息源同一、缓存位置不同。
+ *  e. 本函数对 this 的直接写只有两条 strbne（0x194b24 的 +0x64、0x194b28 的 +0xb0），
+ *     bbox(+0xe8..0xf4) 全部由 Compute_BoundingBox / 骨架 bbox 调用间接写。
+ *  f. 全函数**不读** option_use_fast_collision，x/y 一律 lrint（0x194be8/0x194bf8/0x194d30/
+ *     0x194d60/0x194da0/0x194db4/0x194ed0/0x194ee4 共八处，两两成对）。
+ *
+ * ── open ────────────────────────────────────────────────────────────────
+ *  1. CSkeletonInstance::ComputeBoundingBox 的返回值语义（0 = 失败？）只由本函数的用法反推，
+ *     没有被调方证据；它决定 +0x64/+0xb0 的两种收尾。
+ *  2. InEll 的两个 int 形参在原版里叫什么（点坐标？中心偏移？）不证自明地就是 (x,y)；但它的
+ *     第一形参在 Collision_Rectangle 里是否被复用、是否有第二个版本，本卡未查。
+ *  3. 传给 EllipseCollision 的 rect 是 sp+0x28（椭圆矩形），而传给 PreciseCollisionEllipse 的
+ *     第二实参是 &this->bbox、最后实参是 sp+0x28 —— 两个被调方的形参含义由各自卡片负责。
  */
 /* @0x194a90 push {r4, r5, r6, r7, r8, r9, lr} —— 帧：7 核寄存器 28 B + 6 个 d 寄存器 48 B + 局部 60 B；两个栈形参落在 [sp+0x88]/[sp+0x8c] */
 /* @0x194a94 vpush {d8, d9, d10, d11, d12, d13} */
@@ -673,9 +760,9 @@
  *       case 1: // restart：path_position += (path_position < 0 ? +1.0f : -1.0f); break;
  *       case 2: // continue：位移累加见 0x1943a0 / 0x194478
  *         break;
- *       case 3: // reverse：path_position = (path_position >= 0) ? 2.0f - path_position
- *                                                                 : -path_position;
- *                            path_speed = (path_position >= 0 ? -1 : 1) * fabsf(path_speed);
+ *       case 3: // reverse：fwd = (path_position >= 0)   ← 符号取的是**变换前**的 pos
+ *                            path_position = fwd ? 2.0f - path_position : -path_position;
+ *                            path_speed    = fwd ? -fabsf(path_speed) : +fabsf(path_speed);
  *                            break;                      // 0x19434c
  *       default: return 0;                                // 0x194210
  *       }
@@ -707,6 +794,37 @@
  *     语义：路径坐标系的世界原点，Adapt_Path 用它当基准，endaction==continue 时把
  *     「末点-首点」的旋转位移累加进去，从而让环状路径在接缝处连续。
  *
+ * ── 已证（指令级）──────────────────────────────────────────────────────────
+ *  1. 前置三闸都不写字段：path_index<0 / Path_Data==0 / GetPathLength<=0 直接返回 0。
+ *     CPath::GetPathLength 0x1a7ab8 只有 `ldr r0,[r0,#0x24]; bx lr` 两条 ⇒ 长度就是 CPath+0x24 的 float。
+ *  2. 步长是三项乘除：pt3/(path_scale*100) → ×path_speed → ÷pathlen，其中 pt3 是 GetPosition 的
+ *     第 3 出参；GetPosition 0x1a73bc 在 0x1a756c..0x1a7588 把三个出参按同一比例 s15/s13
+ *     线性插值（每点 12 B = {x,y,speed}），所以 pt3 与 x/y 同构，按位置就是「该点的速度」。
+ *     ⇒ 归一化位置增量 = path_speed × (点速度% / 100) / (path_scale × 路径长度)。
+ *  3. path_position 先写回、再判越界（0x1941d0 的 vstr 在 0x1941d8 的 blt 之前）——
+ *     所以「越界」这件事在函数内部是**已落地**的状态，不是候选值。
+ *  4. endaction 是 0..3 的四项跳表（cmp r3,#3 + addls pc,pc,r3,lsl#2），>=4 落到 0x194210 返回 0；
+ *     0/1/2/3 = stop/restart/continue/reverse，四支行为逐条见语义草案。
+ *  5. 只有 reverse 分支写 path_speed(+0x134)；只有 stop/default 分支写 path_index(-1)；
+ *     只有 continue 分支写 +0x144/+0x148。三者互斥，没有交叉。
+ *  6. 世界坐标 = pathxstart + path_scale·R(-θ)(P(pos) − P(0))，θ = path_orientation·π/180；
+ *     hspeed/vspeed 实参是「新坐标 − 旧坐标」（旧值在 0x1942d8 / 0x19430c 各读一次）。
+ *  7. 调用顺序固定为 SetHspeed → SetVspeed → SetSpeed(0) → SetPosition(nx,ny)（0x194308/0x19431c/
+ *     0x194328/0x194338）。前三个都会尾跳 Compute_Speed1/2 重算派生的运动学量，最后一个才落位。
+ *  8. 返回值 r5：正常推进恒 0（0x194234）；只有「位置越界」分支把它设成 (path_speed != 0)
+ *     （0x1941ec/0x1941f0），而 stop/>=4 两支另行清零（0x194210 / 0x194234 前）。
+ *  9. 本函数不碰 +0x64、不碰 bbox、不调 CollisionMarkDirty —— 路径推进靠 SetPosition 间接触发
+ *     脏标志（见 §7/§14 的对照：SetPathPosition 不置脏，SetPosition 置脏）。
+ *
+ * ── open ────────────────────────────────────────────────────────────────
+ *  1. CPath::GetPosition 第 3 出参的名字与量纲（「点速度」是推断；它按与 x/y 相同的比例插值）。
+ *  2. SetSpeed(0) 的后果：若 Compute_Speed2 按 speed/direction 重算 hspeed/vspeed，则本节末尾
+ *     刚写进去的位移会被清零（只剩 SetPosition 生效）；反过来若 Compute_Speed2 只改 speed，
+ *     则 hspeed/vspeed 保留。本卡只证调用顺序，不断言最终值。
+ *  3. 0x1941ec 把 (path_speed != 0) 当返回值传出去的**用意**没有证据：调用点里没有一处检查
+ *     这个返回值（见头的 7 个调用点）。可能是给将来用的「是否还在推进」标志。
+ *  4. path_positionprevious(+0x130) 全函数不读不写 —— 谁在什么时机刷新它（SetPathPositionPrevious
+ *     只有 1 个调用者 SV_PathPositionPrevious）不在本卡。
  */
 /* @0x19411c push {r4, r5, r6, r7, r8, r9, lr} —— 帧：7 核寄存器 28 B + 4 个 d 寄存器 32 B + 局部 28 B */
 /* @0x194120 vpush {d8, d9, d10, d11} */
@@ -1042,7 +1160,6 @@
  *   三点值得记：① 分派键是 **id+100000**（id>=100000 = 作用域变量域，见 Code_Variable_Find_Name 卡
  *   的 99999 分界）；② name 形参传 0、type 传 -1，说明这一路只按 id 查名，不按名字作用域搜；
  *   ③ tag 0x00FFFFFF 是「空值」哨兵，与 ctor 的 image_blend/基类 +0x58 用同一个值不是巧合。
- *
  */
 /* @0x19363c ldr r3, [r1] —— 入口第一件事就是取 console 的 vtable（r1 = tagIConsole&） */
 /* @0x193640 push {r4, r5, r6, r7, r8, r9, r10, lr} */
@@ -1572,31 +1689,11 @@
 /* @0x193e70 andseq r8, r11, r4, lsr #31 */
 /* @0x193e74 mulseq r11, r12, pc */
 /* @0x193e78 andseq lr, r9, r8, lsl #31 */
-/* ══ §5 CInstance::SetDeactivated(bool) 0x19230c ═════════════════════════════
- * @func 0x19230c 0x192340 size 52  13 条（11 指令 + 末 2 字 0x192338/0x19233c 为 literal pool）
- * 级别: 正文（13/13。写点、闸门、尾跳全钉）
- * 符号: _ZN9CInstance14SetDeactivatedEb → void CInstance::SetDeactivated(bool)
- * 位置: CInstance 方法群里地址最低的一个；下一个符号是 Compute_BoundingBox 0x192340（相隔 0x34 B）
- * 调用点（7）：F_InstanceDeactivateObject 0x10a624、F_InstanceDeactivateAll 0x10b500、
- *   F_InstanceActivateAll 0x10be5c、F_InstanceActivateObject 0x10bf58/0x10c118、
- *   F_LayerActivate 0x1bba68、F_LayerDeactivate 0x1bbbbc
- * 语义: this->[0x69] = d; if (g_isZeus) CLayerManager::UpdateInstanceActivation(Run_Room, this);
- *   +0x69 = Dump 的 i_deactivated（§4 第 47 行）；g_isZeus（0x5428e8，1 B）与 Run_Room
- *   （0x54298c，CRoom*）经 GOT 0x3ed92c / 0x3ed930 取得。两条出口都是 bx lr / b（无帧）
+/* ══ §5 已退役（2026-10-28）═════════════════════════════════════════════════════
+ * CInstance::SetDeactivated(0x19230c) 的 13 条锚点已由 cards/LayerHelpers.c §6 主张，
+ * 本卡原先的 §5 与它重复（跨卡共享地址 13 条）。层侧的版本额外写了 g_isZeus 分支，
+ * 因此保留 LayerHelpers 那份，本卡只留此说明，不再挂锚点。
  */
-/* @0x19230c ldr r3, [pc, #0x24] */
-/* @0x192310 strb r1, [r0, #0x69] */
-/* @0x192314 ldr r3, [pc, r3] */
-/* @0x192318 ldrb r3, [r3] */
-/* @0x19231c cmp r3, #0 */
-/* @0x192320 bxeq lr */
-/* @0x192324 ldr r3, [pc, #0x10] */
-/* @0x192328 mov r1, r0 */
-/* @0x19232c ldr r3, [pc, r3] */
-/* @0x192330 ldr r0, [r3] */
-/* @0x192334 b 0x1b8a28 <_ZN13CLayerManager24UpdateInstanceActivationEP5CRoomP9CInstance> */
-/* @0x192338 eoreq r11, r5, r0, lsl r6 */
-/* @0x19233c .word 0x0025b5fc */
 /* ══ §6 CInstance::Set_MaskIndex(int) 0x192ba8 ═══════════════════════════════
  * @func 0x192ba8 0x192bc4 size 28  7 条
  * 级别: 正文（7/7）
