@@ -1,0 +1,483 @@
+2e8c38	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2e8c3c	b0d7	sub	sp, #0x15c
+2e8c3e	4617	mov	r7, r2
+2e8c40	f8df2488	ldr.w	r2, [pc, #0x488]
+2e8c44	460c	mov	r4, r1
+2e8c46	f89d1180	ldrb.w	r1, [sp, #0x180]
+2e8c4a	447a	add	r2, pc
+2e8c4c	6812	ldr	r2, [r2]
+2e8c4e	f10d083c	add.w	r8, sp, #0x3c
+2e8c52	f10d0940	add.w	r9, sp, #0x40
+2e8c56	4605	mov	r5, r0
+2e8c58	9107	str	r1, [sp, #0x1c]
+2e8c5a	6811	ldr	r1, [r2]
+2e8c5c	9305	str	r3, [sp, #0x14]
+2e8c5e	920c	str	r2, [sp, #0x30]
+2e8c60	9155	str	r1, [sp, #0x154]
+2e8c62	2100	movs	r1, #0x0
+2e8c64	f8c81000	str.w	r1, [r8]
+2e8c68	f8c91000	str.w	r1, [r9]
+2e8c6c	b913	cbnz	r3, 0x2e8c74 <FT_Done_Face+0x98>
+2e8c6e	428f	cmp	r7, r1
+2e8c70	f2808220	bge.w	0x2e90b4 <FT_Done_Face+0x4d8>
+2e8c74	2c00	cmp	r4, #0x0
+2e8c76	f000821d	beq.w	0x2e90b4 <FT_Done_Face+0x4d8>
+2e8c7a	6823	ldr	r3, [r4]
+2e8c7c	f0130302	ands	r3, r3, #0x2
+2e8c80	d006	beq	0x2e8c90 <FT_Done_Face+0xb4>
+2e8c82	6923	ldr	r3, [r4, #0x10]
+2e8c84	f1130b00	adds.w	r11, r3, #0x0
+2e8c88	bf18	it	ne
+2e8c8a	f04f0b01	movne.w	r11, #0x1
+2e8c8e	e000	b	0x2e8c92 <FT_Done_Face+0xb6>
+2e8c90	469b	mov	r11, r3
+2e8c92	4628	mov	r0, r5
+2e8c94	4621	mov	r1, r4
+2e8c96	4642	mov	r2, r8
+2e8c98	f7fefba0	bl	0x2e73dc <FT_Stream_New>
+2e8c9c	ab0e	add	r3, sp, #0x38
+2e8c9e	6018	str	r0, [r3]
+2e8ca0	2800	cmp	r0, #0x0
+2e8ca2	f0408086	bne.w	0x2e8db2 <FT_Done_Face+0x1d6>
+2e8ca6	fa5ff28b	uxtb.w	r2, r11
+2e8caa	9206	str	r2, [sp, #0x18]
+2e8cac	6822	ldr	r2, [r4]
+2e8cae	6829	ldr	r1, [r5]
+2e8cb0	0716	lsls	r6, r2, #0x1c
+2e8cb2	9108	str	r1, [sp, #0x20]
+2e8cb4	d51d	bpl	0x2e8cf2 <FT_Done_Face+0x116>
+2e8cb6	6966	ldr	r6, [r4, #0x14]
+2e8cb8	b1de	cbz	r6, 0x2e8cf2 <FT_Done_Face+0x116>
+2e8cba	6831	ldr	r1, [r6]
+2e8cbc	6809	ldr	r1, [r1]
+2e8cbe	07cd	lsls	r5, r1, #0x1f
+2e8cc0	d512	bpl	0x2e8ce8 <FT_Done_Face+0x10c>
+2e8cc2	f0120310	ands	r3, r2, #0x10
+2e8cc6	4630	mov	r0, r6
+2e8cc8	4641	mov	r1, r8
+2e8cca	bf16	itet	ne
+2e8ccc	69a2	ldrne	r2, [r4, #0x18]
+2e8cce	461a	moveq	r2, r3
+2e8cd0	69e3	ldrne	r3, [r4, #0x1c]
+2e8cd2	e88d020c	stm.w	sp, {r2, r3, r9}
+2e8cd6	463b	mov	r3, r7
+2e8cd8	9a06	ldr	r2, [sp, #0x18]
+2e8cda	f7feff69	bl	0x2e7bb0 <FT_Done_GlyphSlot+0x96>
+2e8cde	900e	str	r0, [sp, #0x38]
+2e8ce0	2800	cmp	r0, #0x0
+2e8ce2	f0008161	beq.w	0x2e8fa8 <FT_Done_Face+0x3cc>
+2e8ce6	e001	b	0x2e8cec <FT_Done_Face+0x110>
+2e8ce8	2220	movs	r2, #0x20
+2e8cea	601a	str	r2, [r3]
+2e8cec	f8d80000	ldr.w	r0, [r8]
+2e8cf0	e156	b	0x2e8fa0 <FT_Done_Face+0x3c4>
+2e8cf2	220b	movs	r2, #0xb
+2e8cf4	601a	str	r2, [r3]
+2e8cf6	692b	ldr	r3, [r5, #0x10]
+2e8cf8	f1050814	add.w	r8, r5, #0x14
+2e8cfc	49f4	ldr	r1, [pc, #0x3d0]
+2e8cfe	f10d093c	add.w	r9, sp, #0x3c
+2e8d02	aa10	add	r2, sp, #0x40
+2e8d04	920a	str	r2, [sp, #0x28]
+2e8d06	eb080383	add.w	r3, r8, r3, lsl #2
+2e8d0a	9309	str	r3, [sp, #0x24]
+2e8d0c	2300	movs	r3, #0x0
+2e8d0e	4479	add	r1, pc
+2e8d10	910b	str	r1, [sp, #0x2c]
+2e8d12	9a09	ldr	r2, [sp, #0x24]
+2e8d14	4590	cmp	r8, r2
+2e8d16	d24e	bhs	0x2e8db6 <FT_Done_Face+0x1da>
+2e8d18	f8586b04	ldr	r6, [r8], #4
+2e8d1c	6832	ldr	r2, [r6]
+2e8d1e	6812	ldr	r2, [r2]
+2e8d20	07d0	lsls	r0, r2, #0x1f
+2e8d22	d5f6	bpl	0x2e8d12 <FT_Done_Face+0x136>
+2e8d24	6823	ldr	r3, [r4]
+2e8d26	4630	mov	r0, r6
+2e8d28	4649	mov	r1, r9
+2e8d2a	f10d0a38	add.w	r10, sp, #0x38
+2e8d2e	f0130310	ands	r3, r3, #0x10
+2e8d32	bf16	itet	ne
+2e8d34	69a2	ldrne	r2, [r4, #0x18]
+2e8d36	461a	moveq	r2, r3
+2e8d38	69e3	ldrne	r3, [r4, #0x1c]
+2e8d3a	e88d000c	stm.w	sp, {r2, r3}
+2e8d3e	aa10	add	r2, sp, #0x40
+2e8d40	463b	mov	r3, r7
+2e8d42	9202	str	r2, [sp, #0x8]
+2e8d44	9a06	ldr	r2, [sp, #0x18]
+2e8d46	f7feff33	bl	0x2e7bb0 <FT_Done_GlyphSlot+0x96>
+2e8d4a	4603	mov	r3, r0
+2e8d4c	900e	str	r0, [sp, #0x38]
+2e8d4e	2800	cmp	r0, #0x0
+2e8d50	f000812a	beq.w	0x2e8fa8 <FT_Done_Face+0x3cc>
+2e8d54	9907	ldr	r1, [sp, #0x1c]
+2e8d56	b331	cbz	r1, 0x2e8da6 <FT_Done_Face+0x1ca>
+2e8d58	f8582c04	ldr	r2, [r8, #-4]
+2e8d5c	990b	ldr	r1, [sp, #0x2c]
+2e8d5e	6812	ldr	r2, [r2]
+2e8d60	6890	ldr	r0, [r2, #0x8]
+2e8d62	9304	str	r3, [sp, #0x10]
+2e8d64	f5cdec06	blx	0xb6574 <strcmp@plt>
+2e8d68	9b04	ldr	r3, [sp, #0x10]
+2e8d6a	4601	mov	r1, r0
+2e8d6c	b9d8	cbnz	r0, 0x2e8da6 <FT_Done_Face+0x1ca>
+2e8d6e	b2db	uxtb	r3, r3
+2e8d70	2b8e	cmp	r3, #0x8e
+2e8d72	d118	bne	0x2e8da6 <FT_Done_Face+0x1ca>
+2e8d74	f8d90000	ldr.w	r0, [r9]
+2e8d78	f7fdfd95	bl	0x2e68a6 <FT_Stream_Seek>
+2e8d7c	f8ca0000	str.w	r0, [r10]
+2e8d80	b9d0	cbnz	r0, 0x2e8db8 <FT_Done_Face+0x1dc>
+2e8d82	4628	mov	r0, r5
+2e8d84	f8d91000	ldr.w	r1, [r9]
+2e8d88	463a	mov	r2, r7
+2e8d8a	9b05	ldr	r3, [sp, #0x14]
+2e8d8c	f000fa0a	bl	0x2e91a4 <FT_New_Face+0xcc>
+2e8d90	f8ca0000	str.w	r0, [r10]
+2e8d94	b938	cbnz	r0, 0x2e8da6 <FT_Done_Face+0x1ca>
+2e8d96	f8d90000	ldr.w	r0, [r9]
+2e8d9a	4659	mov	r1, r11
+2e8d9c	f7fefb5f	bl	0x2e745e <FT_Stream_Free>
+2e8da0	f8da0000	ldr.w	r0, [r10]
+2e8da4	e187	b	0x2e90b6 <FT_Done_Face+0x4da>
+2e8da6	f89d3038	ldrb.w	r3, [sp, #0x38]
+2e8daa	2b02	cmp	r3, #0x2
+2e8dac	d104	bne	0x2e8db8 <FT_Done_Face+0x1dc>
+2e8dae	4633	mov	r3, r6
+2e8db0	e7af	b	0x2e8d12 <FT_Done_Face+0x136>
+2e8db2	2300	movs	r3, #0x0
+2e8db4	9308	str	r3, [sp, #0x20]
+2e8db6	461e	mov	r6, r3
+2e8db8	9b0e	ldr	r3, [sp, #0x38]
+2e8dba	f00302fb	and	r2, r3, #0xfb
+2e8dbe	2a51	cmp	r2, #0x51
+2e8dc0	d003	beq	0x2e8dca <FT_Done_Face+0x1ee>
+2e8dc2	b2db	uxtb	r3, r3
+2e8dc4	2b02	cmp	r3, #0x2
+2e8dc6	f04080ea	bne.w	0x2e8f9e <FT_Done_Face+0x3c2>
+2e8dca	9907	ldr	r1, [sp, #0x1c]
+2e8dcc	2900	cmp	r1, #0x0
+2e8dce	f00080e1	beq.w	0x2e8f94 <FT_Done_Face+0x3b8>
+2e8dd2	f8dd903c	ldr.w	r9, [sp, #0x3c]
+2e8dd6	f1b90f00	cmp.w	r9, #0x0
+2e8dda	d040	beq	0x2e8e5e <FT_Done_Face+0x282>
+2e8ddc	4648	mov	r0, r9
+2e8dde	2100	movs	r1, #0x0
+2e8de0	f7fdfd61	bl	0x2e68a6 <FT_Stream_Seek>
+2e8de4	4603	mov	r3, r0
+2e8de6	2800	cmp	r0, #0x0
+2e8de8	d13c	bne	0x2e8e64 <FT_Done_Face+0x288>
+2e8dea	4648	mov	r0, r9
+2e8dec	a935	add	r1, sp, #0xd4
+2e8dee	2280	movs	r2, #0x80
+2e8df0	f7fdfdcd	bl	0x2e698e <FT_Stream_Read>
+2e8df4	4603	mov	r3, r0
+2e8df6	bba8	cbnz	r0, 0x2e8e64 <FT_Done_Face+0x288>
+2e8df8	f89d30d4	ldrb.w	r3, [sp, #0xd4]
+2e8dfc	bb8b	cbnz	r3, 0x2e8e62 <FT_Done_Face+0x286>
+2e8dfe	f89d311e	ldrb.w	r3, [sp, #0x11e]
+2e8e02	bb73	cbnz	r3, 0x2e8e62 <FT_Done_Face+0x286>
+2e8e04	f89d3126	ldrb.w	r3, [sp, #0x126]
+2e8e08	bb5b	cbnz	r3, 0x2e8e62 <FT_Done_Face+0x286>
+2e8e0a	f89d30d5	ldrb.w	r3, [sp, #0xd5]
+2e8e0e	1e5a	subs	r2, r3, #0x1
+2e8e10	2a20	cmp	r2, #0x20
+2e8e12	d826	bhi	0x2e8e62 <FT_Done_Face+0x286>
+2e8e14	f89d2113	ldrb.w	r2, [sp, #0x113]
+2e8e18	bb1a	cbnz	r2, 0x2e8e62 <FT_Done_Face+0x286>
+2e8e1a	aa56	add	r2, sp, #0x158
+2e8e1c	4413	add	r3, r2
+2e8e1e	f8133c82	ldrb	r3, [r3, #-130]
+2e8e22	b9f3	cbnz	r3, 0x2e8e62 <FT_Done_Face+0x286>
+2e8e24	f89d3127	ldrb.w	r3, [sp, #0x127]
+2e8e28	0619	lsls	r1, r3, #0x18
+2e8e2a	d41a	bmi	0x2e8e62 <FT_Done_Face+0x286>
+2e8e2c	f89d2128	ldrb.w	r2, [sp, #0x128]
+2e8e30	4628	mov	r0, r5
+2e8e32	f89d112a	ldrb.w	r1, [sp, #0x12a]
+2e8e36	0412	lsls	r2, r2, #0x10
+2e8e38	ea426303	orr.w	r3, r2, r3, lsl #24
+2e8e3c	f89d2129	ldrb.w	r2, [sp, #0x129]
+2e8e40	430b	orrs	r3, r1
+2e8e42	4649	mov	r1, r9
+2e8e44	ea432202	orr.w	r2, r3, r2, lsl #8
+2e8e48	9b05	ldr	r3, [sp, #0x14]
+2e8e4a	327f	adds	r2, #0x7f
+2e8e4c	f022027f	bic	r2, r2, #0x7f
+2e8e50	9300	str	r3, [sp]
+2e8e52	3280	adds	r2, #0x80
+2e8e54	463b	mov	r3, r7
+2e8e56	f000fa81	bl	0x2e935c <FT_New_Face+0x284>
+2e8e5a	4603	mov	r3, r0
+2e8e5c	e002	b	0x2e8e64 <FT_Done_Face+0x288>
+2e8e5e	2355	movs	r3, #0x55
+2e8e60	e000	b	0x2e8e64 <FT_Done_Face+0x288>
+2e8e62	2302	movs	r3, #0x2
+2e8e64	b2da	uxtb	r2, r3
+2e8e66	2a02	cmp	r2, #0x2
+2e8e68	d108	bne	0x2e8e7c <FT_Done_Face+0x2a0>
+2e8e6a	9905	ldr	r1, [sp, #0x14]
+2e8e6c	463b	mov	r3, r7
+2e8e6e	4628	mov	r0, r5
+2e8e70	2200	movs	r2, #0x0
+2e8e72	9100	str	r1, [sp]
+2e8e74	4649	mov	r1, r9
+2e8e76	f000fa71	bl	0x2e935c <FT_New_Face+0x284>
+2e8e7a	4603	mov	r3, r0
+2e8e7c	b2da	uxtb	r2, r3
+2e8e7e	2a02	cmp	r2, #0x2
+2e8e80	d001	beq	0x2e8e86 <FT_Done_Face+0x2aa>
+2e8e82	2a55	cmp	r2, #0x55
+2e8e84	d17d	bne	0x2e8f82 <FT_Done_Face+0x3a6>
+2e8e86	6822	ldr	r2, [r4]
+2e8e88	0752	lsls	r2, r2, #0x1d
+2e8e8a	d57a	bpl	0x2e8f82 <FT_Done_Face+0x3a6>
+2e8e8c	682a	ldr	r2, [r5]
+2e8e8e	f10d0a68	add.w	r10, sp, #0x68
+2e8e92	ab23	add	r3, sp, #0x8c
+2e8e94	a92c	add	r1, sp, #0xb0
+2e8e96	9300	str	r3, [sp]
+2e8e98	4628	mov	r0, r5
+2e8e9a	9101	str	r1, [sp, #0x4]
+2e8e9c	f04f0800	mov.w	r8, #0x0
+2e8ea0	920b	str	r2, [sp, #0x2c]
+2e8ea2	9309	str	r3, [sp, #0x24]
+2e8ea4	4653	mov	r3, r10
+2e8ea6	910a	str	r1, [sp, #0x28]
+2e8ea8	4649	mov	r1, r9
+2e8eaa	68e2	ldr	r2, [r4, #0xc]
+2e8eac	46c1	mov	r9, r8
+2e8eae	f8cd8044	str.w	r8, [sp, #0x44]
+2e8eb2	f7fdfd0b	bl	0x2e68cc <FT_Raccess_Guess>
+2e8eb6	4a87	ldr	r2, [pc, #0x21c]
+2e8eb8	2302	movs	r3, #0x2
+2e8eba	a912	add	r1, sp, #0x48
+2e8ebc	9107	str	r1, [sp, #0x1c]
+2e8ebe	447a	add	r2, pc
+2e8ec0	920d	str	r2, [sp, #0x34]
+2e8ec2	990d	ldr	r1, [sp, #0x34]
+2e8ec4	eb010248	add.w	r2, r1, r8, lsl #1
+2e8ec8	6852	ldr	r2, [r2, #0x4]
+2e8eca	3a03	subs	r2, #0x3
+2e8ecc	2a01	cmp	r2, #0x1
+2e8ece	d805	bhi	0x2e8edc <FT_Done_Face+0x300>
+2e8ed0	f1b90f00	cmp.w	r9, #0x0
+2e8ed4	d13b	bne	0x2e8f4e <FT_Done_Face+0x372>
+2e8ed6	2201	movs	r2, #0x1
+2e8ed8	9206	str	r2, [sp, #0x18]
+2e8eda	e001	b	0x2e8ee0 <FT_Done_Face+0x304>
+2e8edc	2100	movs	r1, #0x0
+2e8ede	9106	str	r1, [sp, #0x18]
+2e8ee0	a92c	add	r1, sp, #0xb0
+2e8ee2	f8512008	ldr.w	r2, [r1, r8]
+2e8ee6	2a00	cmp	r2, #0x0
+2e8ee8	d133	bne	0x2e8f52 <FT_Done_Face+0x376>
+2e8eea	2304	movs	r3, #0x4
+2e8eec	9312	str	r3, [sp, #0x48]
+2e8eee	f85a3008	ldr.w	r3, [r10, r8]
+2e8ef2	b903	cbnz	r3, 0x2e8ef6 <FT_Done_Face+0x31a>
+2e8ef4	68e3	ldr	r3, [r4, #0xc]
+2e8ef6	aa11	add	r2, sp, #0x44
+2e8ef8	4628	mov	r0, r5
+2e8efa	a912	add	r1, sp, #0x48
+2e8efc	9315	str	r3, [sp, #0x54]
+2e8efe	f7fefa6d	bl	0x2e73dc <FT_Stream_New>
+2e8f02	9a06	ldr	r2, [sp, #0x18]
+2e8f04	4603	mov	r3, r0
+2e8f06	b112	cbz	r2, 0x2e8f0e <FT_Done_Face+0x332>
+2e8f08	b2c2	uxtb	r2, r0
+2e8f0a	2a51	cmp	r2, #0x51
+2e8f0c	d01f	beq	0x2e8f4e <FT_Done_Face+0x372>
+2e8f0e	bb03	cbnz	r3, 0x2e8f52 <FT_Done_Face+0x376>
+2e8f10	9b05	ldr	r3, [sp, #0x14]
+2e8f12	4628	mov	r0, r5
+2e8f14	9911	ldr	r1, [sp, #0x44]
+2e8f16	f10d0c44	add.w	r12, sp, #0x44
+2e8f1a	9300	str	r3, [sp]
+2e8f1c	ab23	add	r3, sp, #0x8c
+2e8f1e	f8532008	ldr.w	r2, [r3, r8]
+2e8f22	463b	mov	r3, r7
+2e8f24	f8cdc010	str.w	r12, [sp, #0x10]
+2e8f28	f000fa18	bl	0x2e935c <FT_New_Face+0x284>
+2e8f2c	f8ddc010	ldr.w	r12, [sp, #0x10]
+2e8f30	2100	movs	r1, #0x0
+2e8f32	4603	mov	r3, r0
+2e8f34	f8dc0000	ldr.w	r0, [r12]
+2e8f38	9304	str	r3, [sp, #0x10]
+2e8f3a	f7fefa90	bl	0x2e745e <FT_Stream_Free>
+2e8f3e	9b04	ldr	r3, [sp, #0x10]
+2e8f40	b163	cbz	r3, 0x2e8f5c <FT_Done_Face+0x380>
+2e8f42	9906	ldr	r1, [sp, #0x18]
+2e8f44	2900	cmp	r1, #0x0
+2e8f46	bf18	it	ne
+2e8f48	f04f0901	movne.w	r9, #0x1
+2e8f4c	e001	b	0x2e8f52 <FT_Done_Face+0x376>
+2e8f4e	f04f0901	mov.w	r9, #0x1
+2e8f52	f1080804	add.w	r8, r8, #0x4
+2e8f56	f1b80f24	cmp.w	r8, #0x24
+2e8f5a	d1b2	bne	0x2e8ec2 <FT_Done_Face+0x2e6>
+2e8f5c	2400	movs	r4, #0x0
+2e8f5e	4625	mov	r5, r4
+2e8f60	f85a1004	ldr.w	r1, [r10, r4]
+2e8f64	b131	cbz	r1, 0x2e8f74 <FT_Done_Face+0x398>
+2e8f66	980b	ldr	r0, [sp, #0x2c]
+2e8f68	9304	str	r3, [sp, #0x10]
+2e8f6a	f7fef9e4	bl	0x2e7336 <ft_mem_free>
+2e8f6e	f84a5004	str.w	r5, [r10, r4]
+2e8f72	9b04	ldr	r3, [sp, #0x10]
+2e8f74	3404	adds	r4, #0x4
+2e8f76	2c24	cmp	r4, #0x24
+2e8f78	d1f2	bne	0x2e8f60 <FT_Done_Face+0x384>
+2e8f7a	2b00	cmp	r3, #0x0
+2e8f7c	bf14	ite	ne
+2e8f7e	2302	movne	r3, #0x2
+2e8f80	2300	moveq	r3, #0x0
+2e8f82	ac0e	add	r4, sp, #0x38
+2e8f84	930e	str	r3, [sp, #0x38]
+2e8f86	b92b	cbnz	r3, 0x2e8f94 <FT_Done_Face+0x3b8>
+2e8f88	980f	ldr	r0, [sp, #0x3c]
+2e8f8a	4659	mov	r1, r11
+2e8f8c	f7fefa67	bl	0x2e745e <FT_Stream_Free>
+2e8f90	6820	ldr	r0, [r4]
+2e8f92	e090	b	0x2e90b6 <FT_Done_Face+0x4da>
+2e8f94	f89d2038	ldrb.w	r2, [sp, #0x38]
+2e8f98	2a02	cmp	r2, #0x2
+2e8f9a	bf08	it	eq
+2e8f9c	920e	streq	r2, [sp, #0x38]
+2e8f9e	980f	ldr	r0, [sp, #0x3c]
+2e8fa0	4659	mov	r1, r11
+2e8fa2	f7fefa5c	bl	0x2e745e <FT_Stream_Free>
+2e8fa6	e07d	b	0x2e90a4 <FT_Done_Face+0x4c8>
+2e8fa8	ad0e	add	r5, sp, #0x38
+2e8faa	210c	movs	r1, #0xc
+2e8fac	9808	ldr	r0, [sp, #0x20]
+2e8fae	ac10	add	r4, sp, #0x40
+2e8fb0	462a	mov	r2, r5
+2e8fb2	f7fef8b8	bl	0x2e7126 <ft_mem_alloc>
+2e8fb6	f8d58000	ldr.w	r8, [r5]
+2e8fba	4601	mov	r1, r0
+2e8fbc	f1b80f00	cmp.w	r8, #0x0
+2e8fc0	d16b	bne	0x2e909a <FT_Done_Face+0x4be>
+2e8fc2	6822	ldr	r2, [r4]
+2e8fc4	6082	str	r2, [r0, #0x8]
+2e8fc6	6e10	ldr	r0, [r2, #0x60]
+2e8fc8	3010	adds	r0, #0x10
+2e8fca	f7fffca9	bl	0x2e8920 <FT_List_Add>
+2e8fce	2f00	cmp	r7, #0x0
+2e8fd0	db10	blt	0x2e8ff4 <FT_Done_Face+0x418>
+2e8fd2	6820	ldr	r0, [r4]
+2e8fd4	4641	mov	r1, r8
+2e8fd6	f7fefd4b	bl	0x2e7a70 <FT_New_GlyphSlot>
+2e8fda	6028	str	r0, [r5]
+2e8fdc	2800	cmp	r0, #0x0
+2e8fde	d15d	bne	0x2e909c <FT_Done_Face+0x4c0>
+2e8fe0	6820	ldr	r0, [r4]
+2e8fe2	a92c	add	r1, sp, #0xb0
+2e8fe4	f7fffca8	bl	0x2e8938 <FT_New_Size>
+2e8fe8	6028	str	r0, [r5]
+2e8fea	2800	cmp	r0, #0x0
+2e8fec	d156	bne	0x2e909c <FT_Done_Face+0x4c0>
+2e8fee	6823	ldr	r3, [r4]
+2e8ff0	9a2c	ldr	r2, [sp, #0xb0]
+2e8ff2	659a	str	r2, [r3, #0x58]
+2e8ff4	6823	ldr	r3, [r4]
+2e8ff6	689a	ldr	r2, [r3, #0x8]
+2e8ff8	07d5	lsls	r5, r2, #0x1f
+2e8ffa	d50c	bpl	0x2e9016 <FT_Done_Face+0x43a>
+2e8ffc	f8b3104a	ldrh.w	r1, [r3, #0x4a]
+2e9000	0408	lsls	r0, r1, #0x10
+2e9002	bf44	itt	mi
+2e9004	4249	rsbmi	r1, r1, #0
+2e9006	f8a3104a	strhmi.w	r1, [r3, #0x4a]
+2e900a	0691	lsls	r1, r2, #0x1a
+2e900c	bf5c	itt	pl
+2e900e	f8b3104a	ldrhpl.w	r1, [r3, #0x4a]
+2e9012	f8a3104e	strhpl.w	r1, [r3, #0x4e]
+2e9016	0793	lsls	r3, r2, #0x1e
+2e9018	d417	bmi	0x2e904a <FT_Done_Face+0x46e>
+2e901a	6823	ldr	r3, [r4]
+2e901c	2200	movs	r2, #0x0
+2e901e	f44f3180	mov.w	r1, #0x10000
+2e9022	f8d33080	ldr.w	r3, [r3, #0x80]
+2e9026	e8830006	stm.w	r3, {r1, r2}
+2e902a	609a	str	r2, [r3, #0x8]
+2e902c	611a	str	r2, [r3, #0x10]
+2e902e	615a	str	r2, [r3, #0x14]
+2e9030	2201	movs	r2, #0x1
+2e9032	641a	str	r2, [r3, #0x40]
+2e9034	22ff	movs	r2, #0xff
+2e9036	f8832038	strb.w	r2, [r3, #0x38]
+2e903a	9a05	ldr	r2, [sp, #0x14]
+2e903c	60d9	str	r1, [r3, #0xc]
+2e903e	2a00	cmp	r2, #0x0
+2e9040	d02c	beq	0x2e909c <FT_Done_Face+0x4c0>
+2e9042	6823	ldr	r3, [r4]
+2e9044	9905	ldr	r1, [sp, #0x14]
+2e9046	600b	str	r3, [r1]
+2e9048	e032	b	0x2e90b0 <FT_Done_Face+0x4d4>
+2e904a	2200	movs	r2, #0x0
+2e904c	4611	mov	r1, r2
+2e904e	6823	ldr	r3, [r4]
+2e9050	69d8	ldr	r0, [r3, #0x1c]
+2e9052	4282	cmp	r2, r0
+2e9054	dae1	bge	0x2e901a <FT_Done_Face+0x43e>
+2e9056	6a1e	ldr	r6, [r3, #0x20]
+2e9058	0110	lsls	r0, r2, #0x4
+2e905a	1833	adds	r3, r6, r0
+2e905c	5a35	ldrh	r5, [r6, r0]
+2e905e	042f	lsls	r7, r5, #0x10
+2e9060	bf44	itt	mi
+2e9062	426d	rsbmi	r5, r5, #0
+2e9064	5235	strhmi	r5, [r6, r0]
+2e9066	689d	ldr	r5, [r3, #0x8]
+2e9068	2d00	cmp	r5, #0x0
+2e906a	bfbc	itt	lt
+2e906c	426d	rsblt	r5, r5, #0
+2e906e	609d	strlt	r5, [r3, #0x8]
+2e9070	68dd	ldr	r5, [r3, #0xc]
+2e9072	2d00	cmp	r5, #0x0
+2e9074	bfbc	itt	lt
+2e9076	426d	rsblt	r5, r5, #0
+2e9078	60dd	strlt	r5, [r3, #0xc]
+2e907a	5e35	ldrsh	r5, [r6, r0]
+2e907c	2d00	cmp	r5, #0x0
+2e907e	db05	blt	0x2e908c <FT_Done_Face+0x4b0>
+2e9080	689d	ldr	r5, [r3, #0x8]
+2e9082	2d00	cmp	r5, #0x0
+2e9084	db02	blt	0x2e908c <FT_Done_Face+0x4b0>
+2e9086	68dd	ldr	r5, [r3, #0xc]
+2e9088	2d00	cmp	r5, #0x0
+2e908a	da04	bge	0x2e9096 <FT_Done_Face+0x4ba>
+2e908c	8059	strh	r1, [r3, #0x2]
+2e908e	5231	strh	r1, [r6, r0]
+2e9090	6059	str	r1, [r3, #0x4]
+2e9092	6099	str	r1, [r3, #0x8]
+2e9094	60d9	str	r1, [r3, #0xc]
+2e9096	3201	adds	r2, #0x1
+2e9098	e7d9	b	0x2e904e <FT_Done_Face+0x472>
+2e909a	b118	cbz	r0, 0x2e90a4 <FT_Done_Face+0x4c8>
+2e909c	6820	ldr	r0, [r4]
+2e909e	f7fffd9d	bl	0x2e8bdc <FT_Done_Face>
+2e90a2	e005	b	0x2e90b0 <FT_Done_Face+0x4d4>
+2e90a4	9910	ldr	r1, [sp, #0x40]
+2e90a6	b119	cbz	r1, 0x2e90b0 <FT_Done_Face+0x4d4>
+2e90a8	9808	ldr	r0, [sp, #0x20]
+2e90aa	4632	mov	r2, r6
+2e90ac	f7fffd56	bl	0x2e8b5c <FT_List_Finalize+0x38>
+2e90b0	980e	ldr	r0, [sp, #0x38]
+2e90b2	e000	b	0x2e90b6 <FT_Done_Face+0x4da>
+2e90b4	2006	movs	r0, #0x6
+2e90b6	990c	ldr	r1, [sp, #0x30]
+2e90b8	9a55	ldr	r2, [sp, #0x154]
+2e90ba	680b	ldr	r3, [r1]
+2e90bc	429a	cmp	r2, r3
+2e90be	d001	beq	0x2e90c4 <FT_Done_Face+0x4e8>
+2e90c0	f5cdea88	blx	0xb65d4 <__stack_chk_fail@plt>
+2e90c4	b057	add	sp, #0x15c
+2e90c6	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2e90ca	bf00	nop	
+2e90cc	4d0a	ldr	r5, [pc, #0x28]
+2e90ce	0010	movs	r0, r2
+2e90d0	5a12	ldrh	r2, [r2, r0]
+2e90d2	000a	movs	r2, r1

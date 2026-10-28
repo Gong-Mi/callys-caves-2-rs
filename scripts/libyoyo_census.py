@@ -94,6 +94,17 @@ def main() -> int:
         funcs.append((addr, size, name))
         if thumb:
             thumb_ranges.append((addr, addr + size))
+    # 2b) extra Thumb ranges proven by call-site encoding (not by .dynsym parity)
+    extra = out_dir / "thumb_ranges_extra.txt"
+    if extra.exists():
+        for line in extra.read_text(encoding="utf-8").splitlines():
+            if not line.strip() or line.lstrip().startswith("#"):
+                continue
+            a_hex, size = line.split()
+            lo, hi = int(a_hex, 16), int(a_hex, 16) + int(size)
+            thumb_ranges.append((lo, hi))
+            funcs.append((lo, hi - lo, f"anonT_{lo:x}"))
+
     funcs.sort()
 
     # 3) instructions

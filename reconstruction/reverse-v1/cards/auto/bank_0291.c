@@ -1,5 +1,5 @@
 /* libyoyo.so 覆盖卡组 0291
- * 函数 0x2e8376..0x2e9716，共 32 个；
+ * 函数 0x2e8376..0x2e9398，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
@@ -1015,302 +1015,550 @@
 /* @0x2e8c32 movs r0, #0x0 */
 /* @0x2e8c34 pop.w {r4, r5, r6, r7, r8, pc} */
 
-/* ── FUNC 0x2e8c38 · anon_2e8c38 · size=1180 · insn=296 */
-/* @0x2e8c38 svcmi #0xf0e92d */
-/* @0x2e8c3c .word 0x4617b0d7 */
-/* @0x2e8c40 strhs pc, [r8], #2271 */
-/* @0x2e8c44 .word 0xf89d460c */
+/* ── FUNC 0x2e8c38 · anonT_2e8c38 · size=1180 · insn=541 */
+/* @0x2e8c38 push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2e8c3c sub sp, #0x15c */
+/* @0x2e8c3e mov r7, r2 */
+/* @0x2e8c40 ldr.w r2, [pc, #0x488] */
+/* @0x2e8c44 mov r4, r1 */
+/* @0x2e8c46 ldrb.w r1, [sp, #0x180] */
 /* @0x2e8c48 ldrbtmi r1, [r10], #-384 */
-/* @0x2e8c4c .word 0xf10d6812 */
+/* @0x2e8c4a add r2, pc */
+/* @0x2e8c4c ldr r2, [r2] */
+/* @0x2e8c4e add.w r8, sp, #0x3c */
 /* @0x2e8c50 .word 0xf10d083c */
+/* @0x2e8c52 add.w r9, sp, #0x40 */
 /* @0x2e8c54 strmi r0, [r5], -r0, asr #18 */
-/* @0x2e8c58 ldmdavs r1, {r0, r1, r2, r8, r12, pc} */
-/* @0x2e8c5c andls r9, r12, #335544320 */
-/* @0x2e8c60 qaddhs r9, r5, r0 */
-/* @0x2e8c64 andne pc, r0, r8, asr #17 */
-/* @0x2e8c68 andne pc, r0, r9, asr #17 */
-/* @0x2e8c6c addmi r11, pc, #311296 */
-/* @0x2e8c70 eorhi pc, r0, #128, #4 */
-/* @0x2e8c74 .word 0xf0002c00 */
+/* @0x2e8c56 mov r5, r0 */
+/* @0x2e8c58 str r1, [sp, #0x1c] */
+/* @0x2e8c5a ldr r1, [r2] */
+/* @0x2e8c5c str r3, [sp, #0x14] */
+/* @0x2e8c5e str r2, [sp, #0x30] */
+/* @0x2e8c60 str r1, [sp, #0x154] */
+/* @0x2e8c62 movs r1, #0x0 */
+/* @0x2e8c64 str.w r1, [r8] */
+/* @0x2e8c68 str.w r1, [r9] */
+/* @0x2e8c6c cbnz r3, 0x2e8c74 <FT_Done_Face+0x98> */
+/* @0x2e8c6e cmp r7, r1 */
+/* @0x2e8c70 bge.w 0x2e90b4 <FT_Done_Face+0x4d8> */
+/* @0x2e8c74 cmp r4, #0x0 */
+/* @0x2e8c76 beq.w 0x2e90b4 <FT_Done_Face+0x4d8> */
 /* @0x2e8c78 stmdavs r3!, {r0, r2, r3, r4, r9, pc} */
-/* @0x2e8c7c movweq pc, #0x2013 */
-/* @0x2e8c80 stmdbvs r3!, {r1, r2, r12, lr, pc} */
-/* @0x2e8c84 bleq 0x3250d8 */
-/* @0x2e8c88 .word 0xf04fbf18 */
+/* @0x2e8c7a ldr r3, [r4] */
+/* @0x2e8c7c ands r3, r3, #0x2 */
+/* @0x2e8c80 beq 0x2e8c90 <FT_Done_Face+0xb4> */
+/* @0x2e8c82 ldr r3, [r4, #0x10] */
+/* @0x2e8c84 adds.w r11, r3, #0x0 */
+/* @0x2e8c88 it ne */
+/* @0x2e8c8a movne.w r11, #0x1 */
 /* @0x2e8c8c and r0, r0, r1, lsl #22 */
-/* @0x2e8c90 qadd8mi r4, r8, r11 */
-/* @0x2e8c94 strbmi r4, [r2], -r1, lsr #12 */
-/* @0x2e8c98 blx 0xfeb26c9a <b2_toiTime+0xfffffffffe3cd7f6> */
-/* @0x2e8c9c andsvs r10, r8, lr, lsl #22 */
-/* @0x2e8ca0 .word 0xf0402800 */
+/* @0x2e8c8e b 0x2e8c92 <FT_Done_Face+0xb6> */
+/* @0x2e8c90 mov r11, r3 */
+/* @0x2e8c92 mov r0, r5 */
+/* @0x2e8c94 mov r1, r4 */
+/* @0x2e8c96 mov r2, r8 */
+/* @0x2e8c98 bl 0x2e73dc <FT_Stream_New> */
+/* @0x2e8c9c add r3, sp, #0x38 */
+/* @0x2e8c9e str r0, [r3] */
+/* @0x2e8ca0 cmp r0, #0x0 */
+/* @0x2e8ca2 bne.w 0x2e8db2 <FT_Done_Face+0x1d6> */
 /* @0x2e8ca4 blx 0x1ac8ec4 <b2_toiTime+0x136fa20> */
+/* @0x2e8ca6 uxtb.w r2, r11 */
 /* @0x2e8ca8 andls pc, r6, #-1342177272 */
-/* @0x2e8cac stmdavs r9!, {r1, r5, r11, sp, lr} */
-/* @0x2e8cb0 .word 0x91080716 */
-/* @0x2e8cb4 stmdbvs r6!, {r0, r2, r3, r4, r8, r10, r12, lr, pc} ^ */
-/* @0x2e8cb8 ldmdavs r1!, {r1, r2, r3, r4, r6, r7, r8, r12, sp, pc} */
-/* @0x2e8cbc strbeq r6, [sp, r9, lsl #16] */
-/* @0x2e8cc0 .word 0xf012d512 */
+/* @0x2e8caa str r2, [sp, #0x18] */
+/* @0x2e8cac ldr r2, [r4] */
+/* @0x2e8cae ldr r1, [r5] */
+/* @0x2e8cb0 lsls r6, r2, #0x1c */
+/* @0x2e8cb2 str r1, [sp, #0x20] */
+/* @0x2e8cb4 bpl 0x2e8cf2 <FT_Done_Face+0x116> */
+/* @0x2e8cb6 ldr r6, [r4, #0x14] */
+/* @0x2e8cb8 cbz r6, 0x2e8cf2 <FT_Done_Face+0x116> */
+/* @0x2e8cba ldr r1, [r6] */
+/* @0x2e8cbc ldr r1, [r1] */
+/* @0x2e8cbe lsls r5, r1, #0x1f */
+/* @0x2e8cc0 bpl 0x2e8ce8 <FT_Done_Face+0x10c> */
+/* @0x2e8cc2 ands r3, r2, #0x10 */
 /* @0x2e8cc4 shadd16mi r0, r0, r0 */
-/* @0x2e8cc8 svclt #0x164641 */
-/* @0x2e8ccc ldrmi r6, [r10], -r2, lsr #19 */
-/* @0x2e8cd0 stm sp, {r0, r1, r5, r6, r7, r8, r11, sp, lr} */
+/* @0x2e8cc6 mov r0, r6 */
+/* @0x2e8cc8 mov r1, r8 */
+/* @0x2e8cca itet ne */
+/* @0x2e8ccc ldrne r2, [r4, #0x18] */
+/* @0x2e8cce moveq r2, r3 */
+/* @0x2e8cd0 ldrne r3, [r4, #0x1c] */
+/* @0x2e8cd2 stm.w sp, {r2, r3, r9} */
 /* @0x2e8cd4 ldrtmi r0, [r11], -r12, lsl #4 */
-/* @0x2e8cd8 .word 0xf7fe9a06 */
+/* @0x2e8cd6 mov r3, r7 */
+/* @0x2e8cd8 ldr r2, [sp, #0x18] */
+/* @0x2e8cda bl 0x2e7bb0 <FT_Done_GlyphSlot+0x96> */
 /* @0x2e8cdc andls pc, lr, r9, ror #30 */
-/* @0x2e8ce0 .word 0xf0002800 */
+/* @0x2e8cde str r0, [sp, #0x38] */
+/* @0x2e8ce0 cmp r0, #0x0 */
+/* @0x2e8ce2 beq.w 0x2e8fa8 <FT_Done_Face+0x3cc> */
 /* @0x2e8ce4 and r8, r1, r1, ror #2 */
-/* @0x2e8ce8 andsvs r2, r10, r0, lsr #4 */
-/* @0x2e8cec .word 0x0000f8d8 */
-/* @0x2e8cf0 andhs lr, r11, #-2147483627 */
-/* @0x2e8cf4 stmdbvs r11!, {r1, r3, r4, sp, lr} */
-/* @0x2e8cf8 ldmdaeq r4, {r0, r2, r8, r12, sp, lr, pc} */
-/* @0x2e8cfc .word 0xf10d49f4 */
+/* @0x2e8ce6 b 0x2e8cec <FT_Done_Face+0x110> */
+/* @0x2e8ce8 movs r2, #0x20 */
+/* @0x2e8cea str r2, [r3] */
+/* @0x2e8cec ldr.w r0, [r8] */
+/* @0x2e8cf0 b 0x2e8fa0 <FT_Done_Face+0x3c4> */
+/* @0x2e8cf2 movs r2, #0xb */
+/* @0x2e8cf4 str r2, [r3] */
+/* @0x2e8cf6 ldr r3, [r5, #0x10] */
+/* @0x2e8cf8 add.w r8, r5, #0x14 */
+/* @0x2e8cfc ldr r1, [pc, #0x3d0] */
+/* @0x2e8cfe add.w r9, sp, #0x3c */
 /* @0x2e8d00 bge 0x6eb1f8 <g_SWFvertbuff+0x18130> */
-/* @0x2e8d04 bl 0x50d534 <SrcVerts+0x6a578> */
+/* @0x2e8d02 add r2, sp, #0x40 */
+/* @0x2e8d04 str r2, [sp, #0x28] */
+/* @0x2e8d06 add.w r3, r8, r3, lsl #2 */
 /* @0x2e8d08 movwls r0, #0x9383 */
-/* @0x2e8d0c ldrbtmi r2, [r9], #-768 */
-/* @0x2e8d10 bls 0x54d144 <gp_ActiveMaskObjects+0x847c> */
-/* @0x2e8d14 suble r4, lr, #144, #10 */
-/* @0x2e8d18 blvs 0x426e80 <g_RomDisk+0x2f660> */
-/* @0x2e8d1c ldmdavs r2, {r1, r4, r5, r11, sp, lr} */
-/* @0x2e8d20 ldrble r0, [r6, #0x7d0]! */
-/* @0x2e8d24 ldrtmi r6, [r0], -r3, lsr #16 */
-/* @0x2e8d28 .word 0xf10d4649 */
+/* @0x2e8d0a str r3, [sp, #0x24] */
+/* @0x2e8d0c movs r3, #0x0 */
+/* @0x2e8d0e add r1, pc */
+/* @0x2e8d10 str r1, [sp, #0x2c] */
+/* @0x2e8d12 ldr r2, [sp, #0x24] */
+/* @0x2e8d14 cmp r8, r2 */
+/* @0x2e8d16 bhs 0x2e8db6 <FT_Done_Face+0x1da> */
+/* @0x2e8d18 ldr r6, [r8], #4 */
+/* @0x2e8d1c ldr r2, [r6] */
+/* @0x2e8d1e ldr r2, [r2] */
+/* @0x2e8d20 lsls r0, r2, #0x1f */
+/* @0x2e8d22 bpl 0x2e8d12 <FT_Done_Face+0x136> */
+/* @0x2e8d24 ldr r3, [r4] */
+/* @0x2e8d26 mov r0, r6 */
+/* @0x2e8d28 mov r1, r9 */
+/* @0x2e8d2a add.w r10, sp, #0x38 */
 /* @0x2e8d2c .word 0xf0130a38 */
+/* @0x2e8d2e ands r3, r3, #0x10 */
 /* @0x2e8d30 svclt #0x160310 */
-/* @0x2e8d34 ldrmi r6, [r10], -r2, lsr #19 */
-/* @0x2e8d38 stm sp, {r0, r1, r5, r6, r7, r8, r11, sp, lr} */
+/* @0x2e8d32 itet ne */
+/* @0x2e8d34 ldrne r2, [r4, #0x18] */
+/* @0x2e8d36 moveq r2, r3 */
+/* @0x2e8d38 ldrne r3, [r4, #0x1c] */
+/* @0x2e8d3a stm.w sp, {r2, r3} */
 /* @0x2e8d3c bge 0x6e8d74 <g_SWFvertbuff+0x15cac> */
-/* @0x2e8d40 andls r4, r2, #61865984 */
-/* @0x2e8d44 .word 0xf7fe9a06 */
+/* @0x2e8d3e add r2, sp, #0x40 */
+/* @0x2e8d40 mov r3, r7 */
+/* @0x2e8d42 str r2, [sp, #0x8] */
+/* @0x2e8d44 ldr r2, [sp, #0x18] */
+/* @0x2e8d46 bl 0x2e7bb0 <FT_Done_GlyphSlot+0x96> */
 /* @0x2e8d48 .word 0x4603ff33 */
-/* @0x2e8d4c stmdahs r0, {r1, r2, r3, r12, pc} */
-/* @0x2e8d50 msrhi CPSR_fx, r0 */
-/* @0x2e8d54 teqlt r1, #114688 */
-/* @0x2e8d58 .word 0x2c04f858 */
-/* @0x2e8d5c ldmdavs r2, {r0, r1, r3, r8, r11, r12, pc} */
-/* @0x2e8d60 movwls r6, #0x4890 */
-/* @0x2e8d64 .word 0xec06f5cd */
-/* @0x2e8d68 strmi r9, [r1], -r4, lsl #22 */
-/* @0x2e8d6c sbcslt r11, r11, #216, #18 */
-/* @0x2e8d70 tstle r8, lr, lsl #23 */
-/* @0x2e8d74 .word 0x0000f8d9 */
-/* @0x2e8d78 ldc2 p7, c15, [r5, #1012] */
-/* @0x2e8d7c andeq pc, r0, r10, asr #17 */
-/* @0x2e8d80 .word 0x4628b9d0 */
-/* @0x2e8d84 .word 0x1000f8d9 */
-/* @0x2e8d88 blls 0x43a678 <g_RomDisk+0x42e58> */
-/* @0x2e8d8c blx 0x5a4d94 <g_SWFlineaavertbuff+0x51ccc> */
-/* @0x2e8d90 andeq pc, r0, r10, asr #17 */
-/* @0x2e8d94 .word 0xf8d9b938 */
+/* @0x2e8d4a mov r3, r0 */
+/* @0x2e8d4c str r0, [sp, #0x38] */
+/* @0x2e8d4e cmp r0, #0x0 */
+/* @0x2e8d50 beq.w 0x2e8fa8 <FT_Done_Face+0x3cc> */
+/* @0x2e8d54 ldr r1, [sp, #0x1c] */
+/* @0x2e8d56 cbz r1, 0x2e8da6 <FT_Done_Face+0x1ca> */
+/* @0x2e8d58 ldr r2, [r8, #-4] */
+/* @0x2e8d5c ldr r1, [sp, #0x2c] */
+/* @0x2e8d5e ldr r2, [r2] */
+/* @0x2e8d60 ldr r0, [r2, #0x8] */
+/* @0x2e8d62 str r3, [sp, #0x10] */
+/* @0x2e8d64 blx 0xb6574 <strcmp@plt> */
+/* @0x2e8d68 ldr r3, [sp, #0x10] */
+/* @0x2e8d6a mov r1, r0 */
+/* @0x2e8d6c cbnz r0, 0x2e8da6 <FT_Done_Face+0x1ca> */
+/* @0x2e8d6e uxtb r3, r3 */
+/* @0x2e8d70 cmp r3, #0x8e */
+/* @0x2e8d72 bne 0x2e8da6 <FT_Done_Face+0x1ca> */
+/* @0x2e8d74 ldr.w r0, [r9] */
+/* @0x2e8d78 bl 0x2e68a6 <FT_Stream_Seek> */
+/* @0x2e8d7c str.w r0, [r10] */
+/* @0x2e8d80 cbnz r0, 0x2e8db8 <FT_Done_Face+0x1dc> */
+/* @0x2e8d82 mov r0, r5 */
+/* @0x2e8d84 ldr.w r1, [r9] */
+/* @0x2e8d88 mov r2, r7 */
+/* @0x2e8d8a ldr r3, [sp, #0x14] */
+/* @0x2e8d8c bl 0x2e91a4 <FT_New_Face+0xcc> */
+/* @0x2e8d90 str.w r0, [r10] */
+/* @0x2e8d94 cbnz r0, 0x2e8da6 <FT_Done_Face+0x1ca> */
+/* @0x2e8d96 ldr.w r0, [r9] */
 /* @0x2e8d98 ldrbmi r0, [r9], -r0 */
-/* @0x2e8d9c blx 0x1ae6d9e <b2_toiTime+0x138d8fa> */
-/* @0x2e8da0 .word 0x0000f8da */
-/* @0x2e8da4 .word 0xf89de187 */
+/* @0x2e8d9a mov r1, r11 */
+/* @0x2e8d9c bl 0x2e745e <FT_Stream_Free> */
+/* @0x2e8da0 ldr.w r0, [r10] */
+/* @0x2e8da4 b 0x2e90b6 <FT_Done_Face+0x4da> */
+/* @0x2e8da6 ldrb.w r3, [sp, #0x38] */
 /* @0x2e8da8 blhs 0x374e90 <_ZTS13C_UTF16String+0xbf3c> */
-/* @0x2e8dac ldrtmi sp, [r3], -r4, lsl #2 */
-/* @0x2e8db0 movwhs lr, #0x7af */
-/* @0x2e8db4 ldrmi r9, [lr], -r8, lsl #6 */
-/* @0x2e8db8 .word 0xf0039b0e */
+/* @0x2e8daa cmp r3, #0x2 */
+/* @0x2e8dac bne 0x2e8db8 <FT_Done_Face+0x1dc> */
+/* @0x2e8dae mov r3, r6 */
+/* @0x2e8db0 b 0x2e8d12 <FT_Done_Face+0x136> */
+/* @0x2e8db2 movs r3, #0x0 */
+/* @0x2e8db4 str r3, [sp, #0x20] */
+/* @0x2e8db6 mov r6, r3 */
+/* @0x2e8db8 ldr r3, [sp, #0x38] */
+/* @0x2e8dba and r2, r3, #0xfb */
 /* @0x2e8dbc bhs 0x17299b0 <b2_toiTime+0xfd050c> */
-/* @0x2e8dc0 sbcslt sp, r11, #3 */
-/* @0x2e8dc4 .word 0xf0402b02 */
+/* @0x2e8dbe cmp r2, #0x51 */
+/* @0x2e8dc0 beq 0x2e8dca <FT_Done_Face+0x1ee> */
+/* @0x2e8dc2 uxtb r3, r3 */
+/* @0x2e8dc4 cmp r3, #0x2 */
+/* @0x2e8dc6 bne.w 0x2e8f9e <FT_Done_Face+0x3c2> */
 /* @0x2e8dc8 stmdbls r7, {r1, r3, r5, r6, r7, pc} */
-/* @0x2e8dcc .word 0xf0002900 */
+/* @0x2e8dca ldr r1, [sp, #0x1c] */
+/* @0x2e8dcc cmp r1, #0x0 */
+/* @0x2e8dce beq.w 0x2e8f94 <FT_Done_Face+0x3b8> */
 /* @0x2e8dd0 .word 0xf8dd80e1 */
+/* @0x2e8dd2 ldr.w r9, [sp, #0x3c] */
 /* @0x2e8dd4 .word 0xf1b9903c */
+/* @0x2e8dd6 cmp.w r9, #0x0 */
 /* @0x2e8dd8 suble r0, r0, r0, lsl #30 */
-/* @0x2e8ddc .word 0x21004648 */
-/* @0x2e8de0 stc2l p7, c15, [r1, #-1012]! */
-/* @0x2e8de4 stmdahs r0, {r0, r1, r9, r10, lr} */
-/* @0x2e8de8 .word 0x4648d13c */
-/* @0x2e8dec addhs r10, r0, #868352 */
-/* @0x2e8df0 stc2l p7, c15, [sp, #1012] */
-/* @0x2e8df4 bllt 0xfecfa608 <b2_toiTime+0xfffffffffe5a1164> */
-/* @0x2e8df8 smullslo pc, r4, sp, r8 */
-/* @0x2e8dfc .word 0xf89dbb8b */
+/* @0x2e8dda beq 0x2e8e5e <FT_Done_Face+0x282> */
+/* @0x2e8ddc mov r0, r9 */
+/* @0x2e8dde movs r1, #0x0 */
+/* @0x2e8de0 bl 0x2e68a6 <FT_Stream_Seek> */
+/* @0x2e8de4 mov r3, r0 */
+/* @0x2e8de6 cmp r0, #0x0 */
+/* @0x2e8de8 bne 0x2e8e64 <FT_Done_Face+0x288> */
+/* @0x2e8dea mov r0, r9 */
+/* @0x2e8dec add r1, sp, #0xd4 */
+/* @0x2e8dee movs r2, #0x80 */
+/* @0x2e8df0 bl 0x2e698e <FT_Stream_Read> */
+/* @0x2e8df4 mov r3, r0 */
+/* @0x2e8df6 cbnz r0, 0x2e8e64 <FT_Done_Face+0x288> */
+/* @0x2e8df8 ldrb.w r3, [sp, #0xd4] */
+/* @0x2e8dfc cbnz r3, 0x2e8e62 <FT_Done_Face+0x286> */
+/* @0x2e8dfe ldrb.w r3, [sp, #0x11e] */
 /* @0x2e8e00 bllt 0x1fb5280 <b2_toiTime+0x185bddc> */
-/* @0x2e8e04 .word 0x3126f89d */
-/* @0x2e8e08 .word 0xf89dbb5b */
+/* @0x2e8e02 cbnz r3, 0x2e8e62 <FT_Done_Face+0x286> */
+/* @0x2e8e04 ldrb.w r3, [sp, #0x126] */
+/* @0x2e8e08 cbnz r3, 0x2e8e62 <FT_Done_Face+0x286> */
+/* @0x2e8e0a ldrb.w r3, [sp, #0xd5] */
 /* @0x2e8e0c mrcne p0, #0x2, r3, c10, c5, #0x6 */
-/* @0x2e8e10 stmdale r6!, {r5, r9, r11, sp} */
-/* @0x2e8e14 .word 0x2113f89d */
-/* @0x2e8e18 bge 0x1897a88 <b2_toiTime+0x113e5e4> */
-/* @0x2e8e1c .word 0xf8134413 */
+/* @0x2e8e0e subs r2, r3, #0x1 */
+/* @0x2e8e10 cmp r2, #0x20 */
+/* @0x2e8e12 bhi 0x2e8e62 <FT_Done_Face+0x286> */
+/* @0x2e8e14 ldrb.w r2, [sp, #0x113] */
+/* @0x2e8e18 cbnz r2, 0x2e8e62 <FT_Done_Face+0x286> */
+/* @0x2e8e1a add r2, sp, #0x158 */
+/* @0x2e8e1c add r3, r2 */
+/* @0x2e8e1e ldrb r3, [r3, #-130] */
 /* @0x2e8e20 ldmiblt r3!, {r1, r7, r10, r11, r12, sp} ^ */
-/* @0x2e8e24 .word 0x3127f89d */
-/* @0x2e8e28 ldrle r0, [r10], #-1561 */
-/* @0x2e8e2c .word 0x2128f89d */
-/* @0x2e8e30 .word 0xf89d4628 */
+/* @0x2e8e22 cbnz r3, 0x2e8e62 <FT_Done_Face+0x286> */
+/* @0x2e8e24 ldrb.w r3, [sp, #0x127] */
+/* @0x2e8e28 lsls r1, r3, #0x18 */
+/* @0x2e8e2a bmi 0x2e8e62 <FT_Done_Face+0x286> */
+/* @0x2e8e2c ldrb.w r2, [sp, #0x128] */
+/* @0x2e8e30 mov r0, r5 */
+/* @0x2e8e32 ldrb.w r1, [sp, #0x12a] */
 /* @0x2e8e34 ldreq r1, [r2], #-298 */
-/* @0x2e8e38 movwvs lr, #0x3a42 */
-/* @0x2e8e3c .word 0x2129f89d */
-/* @0x2e8e40 strbmi r4, [r9], -r11, lsl #6 */
-/* @0x2e8e44 andhs lr, r2, #274432 */
-/* @0x2e8e48 rsbslo r9, pc, #5120 */
-/* @0x2e8e4c rsbseq pc, pc, #34 */
-/* @0x2e8e50 addlo r9, r0, #0, #6 */
-/* @0x2e8e54 .word 0xf000463b */
+/* @0x2e8e36 lsls r2, r2, #0x10 */
+/* @0x2e8e38 orr.w r3, r2, r3, lsl #24 */
+/* @0x2e8e3c ldrb.w r2, [sp, #0x129] */
+/* @0x2e8e40 orrs r3, r1 */
+/* @0x2e8e42 mov r1, r9 */
+/* @0x2e8e44 orr.w r2, r3, r2, lsl #8 */
+/* @0x2e8e48 ldr r3, [sp, #0x14] */
+/* @0x2e8e4a adds r2, #0x7f */
+/* @0x2e8e4c bic r2, r2, #0x7f */
+/* @0x2e8e50 str r3, [sp] */
+/* @0x2e8e52 adds r2, #0x80 */
+/* @0x2e8e54 mov r3, r7 */
+/* @0x2e8e56 bl 0x2e935c <FT_New_Face+0x284> */
 /* @0x2e8e58 strmi pc, [r3], -r1, lsl #21 */
-/* @0x2e8e5c cmphs r5, #2 */
-/* @0x2e8e60 movwhs lr, #0x2000 */
-/* @0x2e8e64 bhs 0x3959d4 <ft_adobe_glyph_list+0x50b0> */
-/* @0x2e8e68 stmdbls r5, {r3, r8, r12, lr, pc} */
-/* @0x2e8e6c qasxmi r4, r8, r11 */
-/* @0x2e8e70 .word 0x91002200 */
-/* @0x2e8e74 .word 0xf0004649 */
+/* @0x2e8e5a mov r3, r0 */
+/* @0x2e8e5c b 0x2e8e64 <FT_Done_Face+0x288> */
+/* @0x2e8e5e movs r3, #0x55 */
+/* @0x2e8e60 b 0x2e8e64 <FT_Done_Face+0x288> */
+/* @0x2e8e62 movs r3, #0x2 */
+/* @0x2e8e64 uxtb r2, r3 */
+/* @0x2e8e66 cmp r2, #0x2 */
+/* @0x2e8e68 bne 0x2e8e7c <FT_Done_Face+0x2a0> */
+/* @0x2e8e6a ldr r1, [sp, #0x14] */
+/* @0x2e8e6c mov r3, r7 */
+/* @0x2e8e6e mov r0, r5 */
+/* @0x2e8e70 movs r2, #0x0 */
+/* @0x2e8e72 str r1, [sp] */
+/* @0x2e8e74 mov r1, r9 */
+/* @0x2e8e76 bl 0x2e935c <FT_New_Face+0x284> */
 /* @0x2e8e78 .word 0x4603fa71 */
-/* @0x2e8e7c bhs 0x3959ec <ft_adobe_glyph_list+0x50c8> */
-/* @0x2e8e80 bhs 0x185ce8c <b2_toiTime+0x11039e8> */
-/* @0x2e8e84 stmdavs r2!, {r0, r2, r3, r4, r5, r6, r8, r12, lr, pc} */
-/* @0x2e8e88 ldrble r0, [r10, #-0x752]! */
-/* @0x2e8e8c .word 0xf10d682a */
+/* @0x2e8e7a mov r3, r0 */
+/* @0x2e8e7c uxtb r2, r3 */
+/* @0x2e8e7e cmp r2, #0x2 */
+/* @0x2e8e80 beq 0x2e8e86 <FT_Done_Face+0x2aa> */
+/* @0x2e8e82 cmp r2, #0x55 */
+/* @0x2e8e84 bne 0x2e8f82 <FT_Done_Face+0x3a6> */
+/* @0x2e8e86 ldr r2, [r4] */
+/* @0x2e8e88 lsls r2, r2, #0x1d */
+/* @0x2e8e8a bpl 0x2e8f82 <FT_Done_Face+0x3a6> */
+/* @0x2e8e8c ldr r2, [r5] */
+/* @0x2e8e8e add.w r10, sp, #0x68 */
 /* @0x2e8e90 blge 0xbab838 <b2_toiTime+0x452394> */
-/* @0x2e8e94 movwls r10, #0x92c */
-/* @0x2e8e98 .word 0x91014628 */
-/* @0x2e8e9c stmdaeq r0, {r0, r1, r2, r3, r6, r12, sp, lr, pc} */
-/* @0x2e8ea0 movwls r9, #0x920b */
-/* @0x2e8ea4 qaddls r4, r3, r10 */
-/* @0x2e8ea8 stmvs r2!, {r0, r3, r6, r9, r10, lr} ^ */
-/* @0x2e8eac .word 0xf8cd46c1 */
+/* @0x2e8e92 add r3, sp, #0x8c */
+/* @0x2e8e94 add r1, sp, #0xb0 */
+/* @0x2e8e96 str r3, [sp] */
+/* @0x2e8e98 mov r0, r5 */
+/* @0x2e8e9a str r1, [sp, #0x4] */
+/* @0x2e8e9c mov.w r8, #0x0 */
+/* @0x2e8ea0 str r2, [sp, #0x2c] */
+/* @0x2e8ea2 str r3, [sp, #0x24] */
+/* @0x2e8ea4 mov r3, r10 */
+/* @0x2e8ea6 str r1, [sp, #0x28] */
+/* @0x2e8ea8 mov r1, r9 */
+/* @0x2e8eaa ldr r2, [r4, #0xc] */
+/* @0x2e8eac mov r9, r8 */
+/* @0x2e8eae str.w r8, [sp, #0x44] */
 /* @0x2e8eb0 .word 0xf7fd8044 */
+/* @0x2e8eb2 bl 0x2e68cc <FT_Raccess_Guess> */
 /* @0x2e8eb4 bmi 0xfe4e82e8 <b2_toiTime+0xfffffffffdd8ee44> */
-/* @0x2e8eb8 ldmdbge r2, {r1, r8, r9, sp} */
-/* @0x2e8ebc ldrbtmi r9, [r10], #-263 */
-/* @0x2e8ec0 stmdbls sp, {r0, r2, r3, r9, r12, pc} */
-/* @0x2e8ec4 subeq lr, r8, #1024 */
-/* @0x2e8ec8 blo 0x3c3018 <error_g0017+0x1bcbc> */
-/* @0x2e8ecc stmdale r5, {r0, r9, r11, sp} */
-/* @0x2e8ed0 svceq #0xf1b9 */
-/* @0x2e8ed4 andhs sp, r1, #-1073741810 */
-/* @0x2e8ed8 and r9, r1, r6, lsl #4 */
-/* @0x2e8edc .word 0x91062100 */
-/* @0x2e8ee0 .word 0xf851a92c */
+/* @0x2e8eb6 ldr r2, [pc, #0x21c] */
+/* @0x2e8eb8 movs r3, #0x2 */
+/* @0x2e8eba add r1, sp, #0x48 */
+/* @0x2e8ebc str r1, [sp, #0x1c] */
+/* @0x2e8ebe add r2, pc */
+/* @0x2e8ec0 str r2, [sp, #0x34] */
+/* @0x2e8ec2 ldr r1, [sp, #0x34] */
+/* @0x2e8ec4 add.w r2, r1, r8, lsl #1 */
+/* @0x2e8ec8 ldr r2, [r2, #0x4] */
+/* @0x2e8eca subs r2, #0x3 */
+/* @0x2e8ecc cmp r2, #0x1 */
+/* @0x2e8ece bhi 0x2e8edc <FT_Done_Face+0x300> */
+/* @0x2e8ed0 cmp.w r9, #0x0 */
+/* @0x2e8ed4 bne 0x2e8f4e <FT_Done_Face+0x372> */
+/* @0x2e8ed6 movs r2, #0x1 */
+/* @0x2e8ed8 str r2, [sp, #0x18] */
+/* @0x2e8eda b 0x2e8ee0 <FT_Done_Face+0x304> */
+/* @0x2e8edc movs r1, #0x0 */
+/* @0x2e8ede str r1, [sp, #0x18] */
+/* @0x2e8ee0 add r1, sp, #0xb0 */
+/* @0x2e8ee2 ldr.w r2, [r1, r8] */
 /* @0x2e8ee4 bhs 0x2f0f0c <FT_Done_Memory+0x7298> */
-/* @0x2e8ee8 movwhs sp, #0x4133 */
-/* @0x2e8eec .word 0xf85a9312 */
+/* @0x2e8ee6 cmp r2, #0x0 */
+/* @0x2e8ee8 bne 0x2e8f52 <FT_Done_Face+0x376> */
+/* @0x2e8eea movs r3, #0x4 */
+/* @0x2e8eec str r3, [sp, #0x48] */
+/* @0x2e8eee ldr.w r3, [r10, r8] */
 /* @0x2e8ef0 stmdblt r3, {r3, r12, sp} */
-/* @0x2e8ef4 bge 0x743288 <g_SWFvertbuff+0x701c0> */
-/* @0x2e8ef8 ldmdbge r2, {r3, r5, r9, r10, lr} */
-/* @0x2e8efc .word 0xf7fe9315 */
+/* @0x2e8ef2 cbnz r3, 0x2e8ef6 <FT_Done_Face+0x31a> */
+/* @0x2e8ef4 ldr r3, [r4, #0xc] */
+/* @0x2e8ef6 add r2, sp, #0x44 */
+/* @0x2e8ef8 mov r0, r5 */
+/* @0x2e8efa add r1, sp, #0x48 */
+/* @0x2e8efc str r3, [sp, #0x54] */
+/* @0x2e8efe bl 0x2e73dc <FT_Stream_New> */
 /* @0x2e8f00 bls 0x4a78bc <SrcVerts+0x4900> */
-/* @0x2e8f04 tstlt r2, r3, lsl #12 */
-/* @0x2e8f08 bhs 0x1755a18 <b2_toiTime+0xffc574> */
-/* @0x2e8f0c bllt 0x3dcf90 <error_g0017+0x35c34> */
-/* @0x2e8f10 strtmi r9, [r8], -r5, lsl #22 */
-/* @0x2e8f14 .word 0xf10d9911 */
+/* @0x2e8f02 ldr r2, [sp, #0x18] */
+/* @0x2e8f04 mov r3, r0 */
+/* @0x2e8f06 cbz r2, 0x2e8f0e <FT_Done_Face+0x332> */
+/* @0x2e8f08 uxtb r2, r0 */
+/* @0x2e8f0a cmp r2, #0x51 */
+/* @0x2e8f0c beq 0x2e8f4e <FT_Done_Face+0x372> */
+/* @0x2e8f0e cbnz r3, 0x2e8f52 <FT_Done_Face+0x376> */
+/* @0x2e8f10 ldr r3, [sp, #0x14] */
+/* @0x2e8f12 mov r0, r5 */
+/* @0x2e8f14 ldr r1, [sp, #0x44] */
+/* @0x2e8f16 add.w r12, sp, #0x44 */
 /* @0x2e8f18 movwls r0, #0xc44 */
-/* @0x2e8f1c .word 0xf853ab23 */
+/* @0x2e8f1a str r3, [sp] */
+/* @0x2e8f1c add r3, sp, #0x8c */
+/* @0x2e8f1e ldr.w r2, [r3, r8] */
 /* @0x2e8f20 ldrtmi r2, [r11], -r8 */
-/* @0x2e8f24 andsgt pc, r0, sp, asr #17 */
-/* @0x2e8f28 blx 0x924f30 <b2_toiTime+0x1cba8c> */
-/* @0x2e8f2c ldrsbgt pc, [r0], -sp */
-/* @0x2e8f30 strmi r2, [r3], -r0, lsl #2 */
-/* @0x2e8f34 .word 0x0000f8dc */
-/* @0x2e8f38 .word 0xf7fe9304 */
+/* @0x2e8f22 mov r3, r7 */
+/* @0x2e8f24 str.w r12, [sp, #0x10] */
+/* @0x2e8f28 bl 0x2e935c <FT_New_Face+0x284> */
+/* @0x2e8f2c ldr.w r12, [sp, #0x10] */
+/* @0x2e8f30 movs r1, #0x0 */
+/* @0x2e8f32 mov r3, r0 */
+/* @0x2e8f34 ldr.w r0, [r12] */
+/* @0x2e8f38 str r3, [sp, #0x10] */
+/* @0x2e8f3a bl 0x2e745e <FT_Stream_Free> */
 /* @0x2e8f3c blls 0x427984 <g_RomDisk+0x30164> */
-/* @0x2e8f40 stmdbls r6, {r0, r1, r5, r6, r8, r12, sp, pc} */
-/* @0x2e8f44 svclt #0x182900 */
-/* @0x2e8f48 stmdbeq r1, {r0, r1, r2, r3, r6, r12, sp, lr, pc} */
-/* @0x2e8f4c .word 0xf04fe001 */
+/* @0x2e8f3e ldr r3, [sp, #0x10] */
+/* @0x2e8f40 cbz r3, 0x2e8f5c <FT_Done_Face+0x380> */
+/* @0x2e8f42 ldr r1, [sp, #0x18] */
+/* @0x2e8f44 cmp r1, #0x0 */
+/* @0x2e8f46 it ne */
+/* @0x2e8f48 movne.w r9, #0x1 */
+/* @0x2e8f4c b 0x2e8f52 <FT_Done_Face+0x376> */
+/* @0x2e8f4e mov.w r9, #0x1 */
 /* @0x2e8f50 .word 0xf1080901 */
+/* @0x2e8f52 add.w r8, r8, #0x4 */
 /* @0x2e8f54 .word 0xf1b80804 */
+/* @0x2e8f56 cmp.w r8, #0x24 */
 /* @0x2e8f58 .word 0xd1b20f24 */
-/* @0x2e8f5c strtmi r2, [r5], -r0, lsl #8 */
-/* @0x2e8f60 andne pc, r4, r10, asr r8 */
-/* @0x2e8f64 stmdals r11, {r0, r4, r5, r8, r12, sp, pc} */
-/* @0x2e8f68 .word 0xf7fe9304 */
+/* @0x2e8f5a bne 0x2e8ec2 <FT_Done_Face+0x2e6> */
+/* @0x2e8f5c movs r4, #0x0 */
+/* @0x2e8f5e mov r5, r4 */
+/* @0x2e8f60 ldr.w r1, [r10, r4] */
+/* @0x2e8f64 cbz r1, 0x2e8f74 <FT_Done_Face+0x398> */
+/* @0x2e8f66 ldr r0, [sp, #0x2c] */
+/* @0x2e8f68 str r3, [sp, #0x10] */
+/* @0x2e8f6a bl 0x2e7336 <ft_mem_free> */
 /* @0x2e8f6c .word 0xf84af9e4 */
+/* @0x2e8f6e str.w r5, [r10, r4] */
 /* @0x2e8f70 blls 0x3fcf88 <g_RomDisk+0x5768> */
-/* @0x2e8f74 stchs p4, c3, [r4], #-16 */
-/* @0x2e8f78 blhs 0x31d748 */
-/* @0x2e8f7c movwhs r11, #0x2f14 */
-/* @0x2e8f80 .word 0xac0e2300 */
-/* @0x2e8f84 stmdblt r11!, {r1, r2, r3, r8, r9, r12, pc} */
-/* @0x2e8f88 ldrbmi r9, [r9], -pc, lsl #16 */
-/* @0x2e8f8c blx 0x1ce6f8c <b2_toiTime+0x158dae8> */
-/* @0x2e8f90 adds r6, r0, r0, lsr #16 */
-/* @0x2e8f94 mlashs r8, sp, r8, pc */
-/* @0x2e8f98 svclt #0x82a02 */
-/* @0x2e8f9c stmdals pc, {r1, r2, r3, r9, r12, pc} */
-/* @0x2e8fa0 .word 0xf7fe4659 */
+/* @0x2e8f72 ldr r3, [sp, #0x10] */
+/* @0x2e8f74 adds r4, #0x4 */
+/* @0x2e8f76 cmp r4, #0x24 */
+/* @0x2e8f78 bne 0x2e8f60 <FT_Done_Face+0x384> */
+/* @0x2e8f7a cmp r3, #0x0 */
+/* @0x2e8f7c ite ne */
+/* @0x2e8f7e movne r3, #0x2 */
+/* @0x2e8f80 moveq r3, #0x0 */
+/* @0x2e8f82 add r4, sp, #0x38 */
+/* @0x2e8f84 str r3, [sp, #0x38] */
+/* @0x2e8f86 cbnz r3, 0x2e8f94 <FT_Done_Face+0x3b8> */
+/* @0x2e8f88 ldr r0, [sp, #0x3c] */
+/* @0x2e8f8a mov r1, r11 */
+/* @0x2e8f8c bl 0x2e745e <FT_Stream_Free> */
+/* @0x2e8f90 ldr r0, [r4] */
+/* @0x2e8f92 b 0x2e90b6 <FT_Done_Face+0x4da> */
+/* @0x2e8f94 ldrb.w r2, [sp, #0x38] */
+/* @0x2e8f98 cmp r2, #0x2 */
+/* @0x2e8f9a it eq */
+/* @0x2e8f9c streq r2, [sp, #0x38] */
+/* @0x2e8f9e ldr r0, [sp, #0x3c] */
+/* @0x2e8fa0 mov r1, r11 */
+/* @0x2e8fa2 bl 0x2e745e <FT_Stream_Free> */
 /* @0x2e8fa4 rsbs pc, sp, r12, asr r10 */
-/* @0x2e8fa8 .word 0x210cad0e */
-/* @0x2e8fac .word 0xac109808 */
-/* @0x2e8fb0 .word 0xf7fe462a */
+/* @0x2e8fa6 b 0x2e90a4 <FT_Done_Face+0x4c8> */
+/* @0x2e8fa8 add r5, sp, #0x38 */
+/* @0x2e8faa movs r1, #0xc */
+/* @0x2e8fac ldr r0, [sp, #0x20] */
+/* @0x2e8fae add r4, sp, #0x40 */
+/* @0x2e8fb0 mov r2, r5 */
+/* @0x2e8fb2 bl 0x2e7126 <ft_mem_alloc> */
 /* @0x2e8fb4 .word 0xf8d5f8b8 */
+/* @0x2e8fb6 ldr.w r8, [r5] */
 /* @0x2e8fb8 strmi r8, [r1], -r0 */
-/* @0x2e8fbc svceq #0xf1b8 */
-/* @0x2e8fc0 stmdavs r2!, {r0, r1, r3, r5, r6, r8, r12, lr, pc} */
-/* @0x2e8fc4 cdpvs p0, #0x1, c6, c0, c2, #0x4 */
-/* @0x2e8fc8 .word 0xf7ff3010 */
+/* @0x2e8fba mov r1, r0 */
+/* @0x2e8fbc cmp.w r8, #0x0 */
+/* @0x2e8fc0 bne 0x2e909a <FT_Done_Face+0x4be> */
+/* @0x2e8fc2 ldr r2, [r4] */
+/* @0x2e8fc4 str r2, [r0, #0x8] */
+/* @0x2e8fc6 ldr r0, [r2, #0x60] */
+/* @0x2e8fc8 adds r0, #0x10 */
+/* @0x2e8fca bl 0x2e8920 <FT_List_Add> */
 /* @0x2e8fcc svchs #0xfca9 */
-/* @0x2e8fd0 stmdavs r0!, {r4, r8, r9, r11, r12, lr, pc} */
-/* @0x2e8fd4 .word 0xf7fe4641 */
+/* @0x2e8fce cmp r7, #0x0 */
+/* @0x2e8fd0 blt 0x2e8ff4 <FT_Done_Face+0x418> */
+/* @0x2e8fd2 ldr r0, [r4] */
+/* @0x2e8fd4 mov r1, r8 */
+/* @0x2e8fd6 bl 0x2e7a70 <FT_New_GlyphSlot> */
 /* @0x2e8fd8 eorvs pc, r8, r11, asr #26 */
-/* @0x2e8fdc cmple sp, r0, lsl #16 */
-/* @0x2e8fe0 stmdbge r12!, {r5, r11, sp, lr} */
-/* @0x2e8fe4 stc2 p7, c15, [r8], #1020 */
-/* @0x2e8fe8 stmdahs r0, {r3, r5, sp, lr} */
-/* @0x2e8fec stmdavs r3!, {r1, r2, r4, r6, r8, r12, lr, pc} */
-/* @0x2e8ff0 ldrvs r9, [r10, #0xa2c] */
-/* @0x2e8ff4 ldmvs r10, {r0, r1, r5, r11, sp, lr} */
-/* @0x2e8ff8 strle r0, [r12, #-0x7d5] */
-/* @0x2e8ffc strhne pc, [r10], #-131 */
-/* @0x2e9000 svclt #0x440408 */
-/* @0x2e9004 .word 0xf8a34249 */
+/* @0x2e8fda str r0, [r5] */
+/* @0x2e8fdc cmp r0, #0x0 */
+/* @0x2e8fde bne 0x2e909c <FT_Done_Face+0x4c0> */
+/* @0x2e8fe0 ldr r0, [r4] */
+/* @0x2e8fe2 add r1, sp, #0xb0 */
+/* @0x2e8fe4 bl 0x2e8938 <FT_New_Size> */
+/* @0x2e8fe8 str r0, [r5] */
+/* @0x2e8fea cmp r0, #0x0 */
+/* @0x2e8fec bne 0x2e909c <FT_Done_Face+0x4c0> */
+/* @0x2e8fee ldr r3, [r4] */
+/* @0x2e8ff0 ldr r2, [sp, #0xb0] */
+/* @0x2e8ff2 str r2, [r3, #0x58] */
+/* @0x2e8ff4 ldr r3, [r4] */
+/* @0x2e8ff6 ldr r2, [r3, #0x8] */
+/* @0x2e8ff8 lsls r5, r2, #0x1f */
+/* @0x2e8ffa bpl 0x2e9016 <FT_Done_Face+0x43a> */
+/* @0x2e8ffc ldrh.w r1, [r3, #0x4a] */
+/* @0x2e9000 lsls r0, r1, #0x10 */
+/* @0x2e9002 itt mi */
+/* @0x2e9004 rsbmi r1, r1, #0 */
+/* @0x2e9006 strhmi.w r1, [r3, #0x4a] */
 /* @0x2e9008 ldreq r1, [r1], r10, asr #32 */
-/* @0x2e900c rfeia r3! */
+/* @0x2e900a lsls r1, r2, #0x1a */
+/* @0x2e900c itt pl */
+/* @0x2e900e ldrhpl.w r1, [r3, #0x4a] */
 /* @0x2e9010 .word 0xf8a3104a */
+/* @0x2e9012 strhpl.w r1, [r3, #0x4e] */
 /* @0x2e9014 ldreq r1, [r3, lr, asr #32] */
-/* @0x2e9018 stmdavs r3!, {r0, r1, r2, r4, r10, r12, lr, pc} */
-/* @0x2e901c vst1.8 {d18, d19, d20, d21}, [pc], r0 */
+/* @0x2e9016 lsls r3, r2, #0x1e */
+/* @0x2e9018 bmi 0x2e904a <FT_Done_Face+0x46e> */
+/* @0x2e901a ldr r3, [r4] */
+/* @0x2e901c movs r2, #0x0 */
+/* @0x2e901e mov.w r1, #0x10000 */
 /* @0x2e9020 .word 0xf8d33180 */
+/* @0x2e9022 ldr.w r3, [r3, #0x80] */
 /* @0x2e9024 stm r3, {r7, r12, sp} */
+/* @0x2e9026 stm.w r3, {r1, r2} */
 /* @0x2e9028 addsvs r0, r10, r6 */
-/* @0x2e902c cmpvs r10, r10, lsl r1 */
-/* @0x2e9030 ldrvs r2, [r10], #-513 */
-/* @0x2e9034 .word 0xf88322ff */
+/* @0x2e902a str r2, [r3, #0x8] */
+/* @0x2e902c str r2, [r3, #0x10] */
+/* @0x2e902e str r2, [r3, #0x14] */
+/* @0x2e9030 movs r2, #0x1 */
+/* @0x2e9032 str r2, [r3, #0x40] */
+/* @0x2e9034 movs r2, #0xff */
+/* @0x2e9036 strb.w r2, [r3, #0x38] */
 /* @0x2e9038 bls 0x431120 <g_RomDisk+0x39900> */
-/* @0x2e903c bhs 0x3013a8 <TT_New_Context+0x11a0> */
-/* @0x2e9040 stmdavs r3!, {r2, r3, r5, r12, lr, pc} */
-/* @0x2e9044 andvs r9, r11, r5, lsl #18 */
-/* @0x2e9048 andhs lr, r0, #50 */
-/* @0x2e904c stmdavs r3!, {r0, r4, r9, r10, lr} */
-/* @0x2e9050 addmi r6, r2, #216, #18 */
-/* @0x2e9054 bvs 0xa9fbe0 <b2_toiTime+0x34673c> */
-/* @0x2e9058 ldmdane r3!, {r4, r8} */
-/* @0x2e905c strteq r5, [pc], #-2613 */
-/* @0x2e9060 rsbmi r11, sp, #68, #30 */
-/* @0x2e9064 ldmvs sp, {r0, r2, r4, r5, r9, r12, lr} */
-/* @0x2e9068 svclt #0xbc2d00 */
-/* @0x2e906c addsvs r4, sp, sp, ror #4 */
-/* @0x2e9070 stchs p8, c6, [r0, #-884] */
-/* @0x2e9074 rsbmi r11, sp, #188, #30 */
-/* @0x2e9078 mrcpl p0, #0x1, r6, c5, c13, #0x6 */
-/* @0x2e907c blle 0x434484 <g_RomDisk+0x3cc64> */
-/* @0x2e9080 stchs p8, c6, [r0, #-628] */
-/* @0x2e9084 ldmvs sp, {r1, r8, r9, r11, r12, lr, pc} ^ */
-/* @0x2e9088 ble 0x3f4490 <VS_Common+0x1134> */
-/* @0x2e908c eorspl r8, r1, #89 */
-/* @0x2e9090 addsvs r6, r9, r9, asr r0 */
-/* @0x2e9094 andlo r6, r1, #217 */
-/* @0x2e9098 ldrsblt lr, [r8, -r9] */
-/* @0x2e909c .word 0xf7ff6820 */
+/* @0x2e903a ldr r2, [sp, #0x14] */
+/* @0x2e903c str r1, [r3, #0xc] */
+/* @0x2e903e cmp r2, #0x0 */
+/* @0x2e9040 beq 0x2e909c <FT_Done_Face+0x4c0> */
+/* @0x2e9042 ldr r3, [r4] */
+/* @0x2e9044 ldr r1, [sp, #0x14] */
+/* @0x2e9046 str r3, [r1] */
+/* @0x2e9048 b 0x2e90b0 <FT_Done_Face+0x4d4> */
+/* @0x2e904a movs r2, #0x0 */
+/* @0x2e904c mov r1, r2 */
+/* @0x2e904e ldr r3, [r4] */
+/* @0x2e9050 ldr r0, [r3, #0x1c] */
+/* @0x2e9052 cmp r2, r0 */
+/* @0x2e9054 bge 0x2e901a <FT_Done_Face+0x43e> */
+/* @0x2e9056 ldr r6, [r3, #0x20] */
+/* @0x2e9058 lsls r0, r2, #0x4 */
+/* @0x2e905a adds r3, r6, r0 */
+/* @0x2e905c ldrh r5, [r6, r0] */
+/* @0x2e905e lsls r7, r5, #0x10 */
+/* @0x2e9060 itt mi */
+/* @0x2e9062 rsbmi r5, r5, #0 */
+/* @0x2e9064 strhmi r5, [r6, r0] */
+/* @0x2e9066 ldr r5, [r3, #0x8] */
+/* @0x2e9068 cmp r5, #0x0 */
+/* @0x2e906a itt lt */
+/* @0x2e906c rsblt r5, r5, #0 */
+/* @0x2e906e strlt r5, [r3, #0x8] */
+/* @0x2e9070 ldr r5, [r3, #0xc] */
+/* @0x2e9072 cmp r5, #0x0 */
+/* @0x2e9074 itt lt */
+/* @0x2e9076 rsblt r5, r5, #0 */
+/* @0x2e9078 strlt r5, [r3, #0xc] */
+/* @0x2e907a ldrsh r5, [r6, r0] */
+/* @0x2e907c cmp r5, #0x0 */
+/* @0x2e907e blt 0x2e908c <FT_Done_Face+0x4b0> */
+/* @0x2e9080 ldr r5, [r3, #0x8] */
+/* @0x2e9082 cmp r5, #0x0 */
+/* @0x2e9084 blt 0x2e908c <FT_Done_Face+0x4b0> */
+/* @0x2e9086 ldr r5, [r3, #0xc] */
+/* @0x2e9088 cmp r5, #0x0 */
+/* @0x2e908a bge 0x2e9096 <FT_Done_Face+0x4ba> */
+/* @0x2e908c strh r1, [r3, #0x2] */
+/* @0x2e908e strh r1, [r6, r0] */
+/* @0x2e9090 str r1, [r3, #0x4] */
+/* @0x2e9092 str r1, [r3, #0x8] */
+/* @0x2e9094 str r1, [r3, #0xc] */
+/* @0x2e9096 adds r2, #0x1 */
+/* @0x2e9098 b 0x2e904e <FT_Done_Face+0x472> */
+/* @0x2e909a cbz r0, 0x2e90a4 <FT_Done_Face+0x4c8> */
+/* @0x2e909c ldr r0, [r4] */
+/* @0x2e909e bl 0x2e8bdc <FT_Done_Face> */
 /* @0x2e90a0 mul r5, sp, sp */
-/* @0x2e90a4 tstlt r9, r0, lsl r9 */
-/* @0x2e90a8 ldrtmi r9, [r2], -r8, lsl #16 */
-/* @0x2e90ac ldc2l p7, c15, [r6, #-1020] */
-/* @0x2e90b0 and r9, r0, lr, lsl #16 */
-/* @0x2e90b4 stmdbls r12, {r1, r2, sp} */
-/* @0x2e90b8 stmdavs r11, {r0, r2, r4, r6, r9, r11, r12, pc} */
-/* @0x2e90bc mulle r1, r10, r2 */
-/* @0x2e90c0 b 0xfe5267fc <b2_toiTime+0xfffffffffddcd358> */
-/* @0x2e90c4 pop {r0, r1, r2, r4, r6, r12, sp, pc} */
+/* @0x2e90a2 b 0x2e90b0 <FT_Done_Face+0x4d4> */
+/* @0x2e90a4 ldr r1, [sp, #0x40] */
+/* @0x2e90a6 cbz r1, 0x2e90b0 <FT_Done_Face+0x4d4> */
+/* @0x2e90a8 ldr r0, [sp, #0x20] */
+/* @0x2e90aa mov r2, r6 */
+/* @0x2e90ac bl 0x2e8b5c <FT_List_Finalize+0x38> */
+/* @0x2e90b0 ldr r0, [sp, #0x38] */
+/* @0x2e90b2 b 0x2e90b6 <FT_Done_Face+0x4da> */
+/* @0x2e90b4 movs r0, #0x6 */
+/* @0x2e90b6 ldr r1, [sp, #0x30] */
+/* @0x2e90b8 ldr r2, [sp, #0x154] */
+/* @0x2e90ba ldr r3, [r1] */
+/* @0x2e90bc cmp r2, r3 */
+/* @0x2e90be beq 0x2e90c4 <FT_Done_Face+0x4e8> */
+/* @0x2e90c0 blx 0xb65d4 <__stack_chk_fail@plt> */
+/* @0x2e90c4 add sp, #0x15c */
+/* @0x2e90c6 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
 /* @0x2e90c8 svclt #0x8ff0 */
-/* @0x2e90cc andseq r4, r0, r10, lsl #26 */
-/* @0x2e90d0 andeq r5, r10, r2, lsl r10 */
+/* @0x2e90ca nop */
+/* @0x2e90cc ldr r5, [pc, #0x28] */
+/* @0x2e90ce movs r0, r2 */
+/* @0x2e90d0 ldrh r2, [r2, r0] */
+/* @0x2e90d2 movs r2, r1 */
+
+/* ── FUNC 0x2e90d4 · anon_2e90d4 · size=0 · insn=1 */
 /* @0x2e90d4 andeq pc, pc, r6, lsr #21 */
 
 /* ── FUNC 0x2e90d8 · FT_New_Face · size=34 · insn=17 */
@@ -1332,174 +1580,315 @@
 /* @0x2e90f6 add sp, #0x28 */
 /* @0x2e90f8 pop {r4, pc} */
 
-/* ── FUNC 0x2e90fc · anon_2e90fc · size=1520 · insn=381 */
-/* @0x2e90fc svcmi #0xf0e92d */
-/* @0x2e9100 strmi r11, [r7], -r11, lsl #1 */
-/* @0x2e9104 .word 0x469b4615 */
-/* @0x2e9108 ldrsbge pc, [r0], #-141 */
-/* @0x2e910c strmi r6, [r8], r6, lsl #16 */
-/* @0x2e9110 .word 0xf10db1a9 */
+/* ── FUNC 0x2e90fc · anonT_2e90fc · size=666 · insn=306 */
+/* @0x2e90fc push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2e9100 sub sp, #0x2c */
+/* @0x2e9102 mov r7, r0 */
+/* @0x2e9104 mov r5, r2 */
+/* @0x2e9106 mov r11, r3 */
+/* @0x2e9108 ldr.w r10, [sp, #0x50] */
+/* @0x2e910c ldr r6, [r0] */
+/* @0x2e910e mov r8, r1 */
+/* @0x2e9110 cbz r1, 0x2e913e <FT_New_Face+0x66> */
+/* @0x2e9112 add.w r9, sp, #0x8 */
 /* @0x2e9114 ldrtmi r0, [r0], -r8, lsl #18 */
-/* @0x2e9118 strbmi r2, [r10], -r8, lsr #2 */
-/* @0x2e911c .word 0xf803f7fe */
-/* @0x2e9120 strmi r9, [r4], -r2, lsl #20 */
-/* @0x2e9124 qasxmi r11, r10, r10 */
-/* @0x2e9128 .word 0xf7fd4641 */
+/* @0x2e9116 mov r0, r6 */
+/* @0x2e9118 movs r1, #0x28 */
+/* @0x2e911a mov r2, r9 */
+/* @0x2e911c bl 0x2e7126 <ft_mem_alloc> */
+/* @0x2e9120 ldr r2, [sp, #0x8] */
+/* @0x2e9122 mov r4, r0 */
+/* @0x2e9124 cbnz r2, 0x2e9136 <FT_New_Face+0x5e> */
+/* @0x2e9126 mov r2, r5 */
+/* @0x2e9128 mov r1, r8 */
+/* @0x2e912a bl 0x2e688a <FT_Stream_OpenMemory> */
 /* @0x2e912c bmi 0xa27fec <b2_toiTime+0x2ceb48> */
-/* @0x2e9130 .word 0x61a2447a */
-/* @0x2e9134 strhs lr, [r0], #-0 */
-/* @0x2e9138 teqlt r5, r2, lsl #26 */
-/* @0x2e913c strhs lr, [r6, #-0x0] */
-/* @0x2e9140 .word 0x46414630 */
-/* @0x2e9144 .word 0xf8f7f7fe */
-/* @0x2e9148 movwhs lr, #0x2025 */
-/* @0x2e914c movwls r9, #0x2406 */
-/* @0x2e9150 svceq #0xf1ba */
-/* @0x2e9154 ldrtmi sp, [r8], -r6 */
-/* @0x2e9158 movwhs r4, #0xa651 */
-/* @0x2e915c .word 0xf7fc9302 */
+/* @0x2e912e ldr r2, [pc, #0x70] */
+/* @0x2e9130 add r2, pc */
+/* @0x2e9132 str r2, [r4, #0x18] */
+/* @0x2e9134 b 0x2e9138 <FT_New_Face+0x60> */
+/* @0x2e9136 movs r4, #0x0 */
+/* @0x2e9138 ldr r5, [sp, #0x8] */
+/* @0x2e913a cbz r5, 0x2e914a <FT_New_Face+0x72> */
+/* @0x2e913c b 0x2e9140 <FT_New_Face+0x68> */
+/* @0x2e913e movs r5, #0x6 */
+/* @0x2e9140 mov r0, r6 */
+/* @0x2e9142 mov r1, r8 */
+/* @0x2e9144 bl 0x2e7336 <ft_mem_free> */
+/* @0x2e9148 b 0x2e9196 <FT_New_Face+0xbe> */
+/* @0x2e914a movs r3, #0x2 */
+/* @0x2e914c str r4, [sp, #0x18] */
+/* @0x2e914e str r3, [sp, #0x8] */
+/* @0x2e9150 cmp.w r10, #0x0 */
+/* @0x2e9154 beq 0x2e9164 <FT_New_Face+0x8c> */
+/* @0x2e9156 mov r0, r7 */
+/* @0x2e9158 mov r1, r10 */
+/* @0x2e915a movs r3, #0xa */
+/* @0x2e915c str r3, [sp, #0x8] */
+/* @0x2e915e bl 0x2e5ef0 <FT_Get_Module> */
 /* @0x2e9160 andls pc, r7, r7, asr #29 */
-/* @0x2e9164 ldrtmi r2, [r8], -r0, lsl #6 */
-/* @0x2e9168 strbmi r9, [r9], -r0, lsl #6 */
-/* @0x2e916c blls 0x83aadc <b2_toiTime+0xe1638> */
-/* @0x2e9170 stc2l p7, c15, [r2, #-1020]! */
-/* @0x2e9174 ldmdblt r0!, {r0, r1, r2, r9, r10, lr} */
-/* @0x2e9178 ldmdavs r3, {r0, r2, r4, r9, r11, r12, pc} */
-/* @0x2e917c vld2.32 {d6, d7}, [r2:64], r10 */
+/* @0x2e9162 str r0, [sp, #0x1c] */
+/* @0x2e9164 movs r3, #0x0 */
+/* @0x2e9166 mov r0, r7 */
+/* @0x2e9168 str r3, [sp] */
+/* @0x2e916a mov r1, r9 */
+/* @0x2e916c mov r2, r11 */
+/* @0x2e916e ldr r3, [sp, #0x54] */
+/* @0x2e9170 bl 0x2e8c38 <FT_Done_Face+0x5c> */
+/* @0x2e9174 mov r7, r0 */
+/* @0x2e9176 cbnz r0, 0x2e9186 <FT_New_Face+0xae> */
+/* @0x2e9178 ldr r2, [sp, #0x54] */
+/* @0x2e917a ldr r3, [r2] */
+/* @0x2e917c ldr r2, [r3, #0x8] */
+/* @0x2e917e bic r2, r2, #0x400 */
 /* @0x2e9180 addsvs r6, r10, r0, lsl #5 */
-/* @0x2e9184 strtmi lr, [r0], -r7 */
-/* @0x2e9188 .word 0xf7fd463d */
+/* @0x2e9182 str r2, [r3, #0x8] */
+/* @0x2e9184 b 0x2e9196 <FT_New_Face+0xbe> */
+/* @0x2e9186 mov r0, r4 */
+/* @0x2e9188 mov r5, r7 */
+/* @0x2e918a bl 0x2e689a <FT_Stream_Close> */
 /* @0x2e918c ldrtmi pc, [r0], -r6, lsl #23 */
-/* @0x2e9190 .word 0xf7fe4621 */
+/* @0x2e918e mov r0, r6 */
+/* @0x2e9190 mov r1, r4 */
+/* @0x2e9192 bl 0x2e7336 <ft_mem_free> */
 /* @0x2e9194 .word 0x4628f8d0 */
-/* @0x2e9198 pop {r0, r1, r3, r12, sp, pc} */
+/* @0x2e9196 mov r0, r5 */
+/* @0x2e9198 add sp, #0x2c */
+/* @0x2e919a pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
 /* @0x2e919c svclt #0x8ff0 */
-/* @0x2e91a0 .word 0xffffeb7d */
-/* @0x2e91a4 svcmi #0xf0e92d */
-/* @0x2e91a8 cdpne p0, #0x1, c11, c5, c11, #0x4 */
-/* @0x2e91ac movwls r4, #0x760c */
-/* @0x2e91b0 adclt r11, sp, #200, #30 */
-/* @0x2e91b4 cdpge p8, #0x0, c6, c9, c3, #0x0 */
-/* @0x2e91b8 strmi r9, [r8], -r5 */
-/* @0x2e91bc .word 0xf7fd9302 */
+/* @0x2e919e nop */
+/* @0x2e91a0 sbcs.w pc, sp, pc, ror #31 */
+/* @0x2e91a4 push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2e91a8 sub sp, #0x2c */
+/* @0x2e91aa subs r5, r2, #0x0 */
+/* @0x2e91ac mov r4, r1 */
+/* @0x2e91ae str r3, [sp, #0x1c] */
+/* @0x2e91b0 it gt */
+/* @0x2e91b2 uxthgt r5, r5 */
+/* @0x2e91b4 ldr r3, [r0] */
+/* @0x2e91b6 add r6, sp, #0x24 */
+/* @0x2e91b8 str r0, [sp, #0x14] */
+/* @0x2e91ba mov r0, r1 */
+/* @0x2e91bc str r3, [sp, #0x8] */
+/* @0x2e91be bl 0x2e6940 <FT_Stream_Pos> */
 /* @0x2e91c0 .word 0x4631fbbf */
-/* @0x2e91c4 strtmi r9, [r0], -r3 */
-/* @0x2e91c8 ldc2l p7, c15, [r12, #1012]! */
-/* @0x2e91cc svchs #0x9f09 */
-/* @0x2e91d0 blmi 0x1a5d754 <b2_toiTime+0x13042b0> */
-/* @0x2e91d4 .word 0xd1624298 */
-/* @0x2e91d8 ldrtmi r4, [r1], -r0, lsr #12 */
-/* @0x2e91dc ldc2 p7, c15, [r2], {253} */
-/* @0x2e91e0 .word 0x8024f8dd */
-/* @0x2e91e4 .word 0xf1b89006 */
+/* @0x2e91c2 mov r1, r6 */
+/* @0x2e91c4 str r0, [sp, #0xc] */
+/* @0x2e91c6 mov r0, r4 */
+/* @0x2e91c8 bl 0x2e6dc4 <FT_Stream_ReadULong> */
+/* @0x2e91cc ldr r7, [sp, #0x24] */
+/* @0x2e91ce cmp r7, #0x0 */
+/* @0x2e91d0 bne 0x2e9292 <FT_New_Face+0x1ba> */
+/* @0x2e91d2 ldr r3, [pc, #0x174] */
+/* @0x2e91d4 cmp r0, r3 */
+/* @0x2e91d6 bne 0x2e929e <FT_New_Face+0x1c6> */
+/* @0x2e91d8 mov r0, r4 */
+/* @0x2e91da mov r1, r6 */
+/* @0x2e91dc bl 0x2e6b04 <FT_Stream_ReadUShort> */
+/* @0x2e91e0 ldr.w r8, [sp, #0x24] */
+/* @0x2e91e4 str r0, [sp, #0x18] */
+/* @0x2e91e6 cmp.w r8, #0x0 */
 /* @0x2e91e8 cmple sp, r0, lsl #30 */
-/* @0x2e91ec .word 0x21064620 */
-/* @0x2e91f0 blx 0xfeaa71ee <b2_toiTime+0xfffffffffe34dd4a> */
-/* @0x2e91f4 stmdahs r0, {r0, r3, r12, pc} */
-/* @0x2e91f8 strmi sp, [r1], r12, asr #2 */
-/* @0x2e91fc strmi r4, [r3], r2, lsl #13 */
-/* @0x2e9200 .word 0xf04f4680 */
+/* @0x2e91ea bne 0x2e92a8 <FT_New_Face+0x1d0> */
+/* @0x2e91ec mov r0, r4 */
+/* @0x2e91ee movs r1, #0x6 */
+/* @0x2e91f0 bl 0x2e6930 <FT_Stream_Skip> */
+/* @0x2e91f4 str r0, [sp, #0x24] */
+/* @0x2e91f6 cmp r0, #0x0 */
+/* @0x2e91f8 bne 0x2e9294 <FT_New_Face+0x1bc> */
+/* @0x2e91fa mov r9, r0 */
+/* @0x2e91fc mov r10, r0 */
+/* @0x2e91fe mov r11, r0 */
+/* @0x2e9200 mov r8, r0 */
+/* @0x2e9202 mov.w r7, #0xffffffff */
 /* @0x2e9204 bls 0x477208 <g_RomDisk+0x7f9e8> */
-/* @0x2e9208 ble 0x12fa850 <b2_toiTime+0xba13ac> */
-/* @0x2e920c qasxmi r4, r0, r1 */
-/* @0x2e9210 ldc2l p7, c15, [r8, #1012] */
-/* @0x2e9214 andls r9, r4, r9, lsl #18 */
-/* @0x2e9218 qadd8mi r11, r0, r9 */
-/* @0x2e921c .word 0xf7fd2104 */
+/* @0x2e9206 ldr r2, [sp, #0x18] */
+/* @0x2e9208 cmp r8, r2 */
+/* @0x2e920a bge 0x2e928e <FT_New_Face+0x1b6> */
+/* @0x2e920c mov r1, r6 */
+/* @0x2e920e mov r0, r4 */
+/* @0x2e9210 bl 0x2e6dc4 <FT_Stream_ReadULong> */
+/* @0x2e9214 ldr r1, [sp, #0x24] */
+/* @0x2e9216 str r0, [sp, #0x10] */
+/* @0x2e9218 cbnz r1, 0x2e9242 <FT_New_Face+0x16a> */
+/* @0x2e921a mov r0, r4 */
+/* @0x2e921c movs r1, #0x4 */
+/* @0x2e921e bl 0x2e6930 <FT_Stream_Skip> */
 /* @0x2e9220 andls pc, r9, r7, lsl #23 */
-/* @0x2e9224 ldrtmi r11, [r1], -r8, ror #18 */
-/* @0x2e9228 .word 0xf7fd4620 */
+/* @0x2e9222 str r0, [sp, #0x24] */
+/* @0x2e9224 cbnz r0, 0x2e9242 <FT_New_Face+0x16a> */
+/* @0x2e9226 mov r1, r6 */
+/* @0x2e9228 mov r0, r4 */
+/* @0x2e922a bl 0x2e6dc4 <FT_Stream_ReadULong> */
 /* @0x2e922c stmdbls r9, {r0, r1, r3, r6, r7, r8, r10, r11, r12, sp, lr, pc} */
-/* @0x2e9230 ldmdblt r1!, {r0, r1, r7, r9, r10, lr} */
-/* @0x2e9234 ldrtmi r4, [r1], -r0, lsr #12 */
-/* @0x2e9238 stc2l p7, c15, [r4, #1012] */
-/* @0x2e923c stmdals r9, {r1, r7, r9, r10, lr} */
-/* @0x2e9240 stmdals r9, {r3, r8, r12, sp, pc} */
-/* @0x2e9244 bls 0x42131c <g_RomDisk+0x29afc> */
-/* @0x2e9248 addsmi r4, r10, #64, #22 */
-/* @0x2e924c stchs p1, c13, [r0, #-40] */
-/* @0x2e9250 streq pc, [r1, -r7, lsl #2] */
-/* @0x2e9254 bleq 0x8a5688 <b2_toiTime+0x14c1e4> */
-/* @0x2e9258 beq 0x8a5908 <b2_toiTime+0x14c464> */
-/* @0x2e925c stmdbeq r1, {r0, r1, r2, r3, r6, r12, sp, lr, pc} */
-/* @0x2e9260 eor sp, r5, r0, lsl r10 */
-/* @0x2e9264 blmi 0x118fa7c <b2_toiTime+0xa365d8> */
-/* @0x2e9268 swple r4, r10, [r9] */
-/* @0x2e926c .word 0xf1072d00 */
+/* @0x2e922e ldr r1, [sp, #0x24] */
+/* @0x2e9230 mov r11, r0 */
+/* @0x2e9232 cbnz r1, 0x2e9242 <FT_New_Face+0x16a> */
+/* @0x2e9234 mov r0, r4 */
+/* @0x2e9236 mov r1, r6 */
+/* @0x2e9238 bl 0x2e6dc4 <FT_Stream_ReadULong> */
+/* @0x2e923c mov r10, r0 */
+/* @0x2e923e ldr r0, [sp, #0x24] */
+/* @0x2e9240 cbz r0, 0x2e9246 <FT_New_Face+0x16e> */
+/* @0x2e9242 ldr r0, [sp, #0x24] */
+/* @0x2e9244 b 0x2e92b0 <FT_New_Face+0x1d8> */
+/* @0x2e9246 ldr r2, [sp, #0x10] */
+/* @0x2e9248 ldr r3, [pc, #0x100] */
+/* @0x2e924a cmp r2, r3 */
+/* @0x2e924c bne 0x2e9264 <FT_New_Face+0x18c> */
+/* @0x2e924e cmp r5, #0x0 */
+/* @0x2e9250 add.w r7, r7, #0x1 */
+/* @0x2e9254 add.w r11, r11, #0x16 */
+/* @0x2e9258 sub.w r10, r10, #0x16 */
+/* @0x2e925c mov.w r9, #0x1 */
+/* @0x2e9260 bge 0x2e9284 <FT_New_Face+0x1ac> */
+/* @0x2e9262 b 0x2e92b0 <FT_New_Face+0x1d8> */
+/* @0x2e9264 ldr r2, [sp, #0x10] */
+/* @0x2e9266 ldr r3, [pc, #0xe8] */
+/* @0x2e9268 cmp r2, r3 */
+/* @0x2e926a bne 0x2e9280 <FT_New_Face+0x1a8> */
+/* @0x2e926c cmp r5, #0x0 */
+/* @0x2e926e add.w r7, r7, #0x1 */
 /* @0x2e9270 .word 0xf10b0701 */
+/* @0x2e9272 add.w r11, r11, #0x18 */
 /* @0x2e9274 .word 0xf1aa0b18 */
+/* @0x2e9276 sub.w r10, r10, #0x18 */
 /* @0x2e9278 pkhbtmi r0, r1, r8, lsl #20 */
-/* @0x2e927c ands sp, r5, r2, lsl #20 */
-/* @0x2e9280 blle 0x334688 */
-/* @0x2e9284 andsle r4, r2, pc, lsr #5 */
-/* @0x2e9288 stmdaeq r1, {r3, r8, r12, sp, lr, pc} */
-/* @0x2e928c strhhs lr, [lr], r11 */
-/* @0x2e9290 ldrtmi lr, [r8], -lr */
-/* @0x2e9294 stmdbeq r0, {r0, r1, r2, r3, r6, r12, sp, lr, pc} */
-/* @0x2e9298 strbmi r4, [r11], r10, asr #13 */
-/* @0x2e929c ldrtmi lr, [r9], r8 */
-/* @0x2e92a0 .word 0x46bb46ba */
-/* @0x2e92a4 and r2, r3, r2 */
-/* @0x2e92a8 ldrb r4, [r3, r0, asr #12]! */
-/* @0x2e92ac andhs lr, r0, r0 */
-/* @0x2e92b0 stmdahs r0, {r0, r3, r12, pc} */
-/* @0x2e92b4 stmdavs r1!, {r3, r4, r5, r8, r12, lr, pc} ^ */
-/* @0x2e92b8 stmdble r2, {r0, r1, r3, r7, r8, r10, lr} */
-/* @0x2e92bc movwls r2, #0x9308 */
-/* @0x2e92c0 bl 0xff5e1390 <b2_toiTime+0xfffffffffee87eec> */
+/* @0x2e927a mov r9, r0 */
+/* @0x2e927c bge 0x2e9284 <FT_New_Face+0x1ac> */
+/* @0x2e927e b 0x2e92ac <FT_New_Face+0x1d4> */
+/* @0x2e9280 cmp r5, #0x0 */
+/* @0x2e9282 blt 0x2e9288 <FT_New_Face+0x1b0> */
+/* @0x2e9284 cmp r7, r5 */
+/* @0x2e9286 beq 0x2e92ae <FT_New_Face+0x1d6> */
+/* @0x2e9288 add.w r8, r8, #0x1 */
+/* @0x2e928c b 0x2e9206 <FT_New_Face+0x12e> */
+/* @0x2e928e movs r0, #0x8e */
+/* @0x2e9290 b 0x2e92b0 <FT_New_Face+0x1d8> */
+/* @0x2e9292 mov r0, r7 */
+/* @0x2e9294 mov.w r9, #0x0 */
+/* @0x2e9298 mov r10, r9 */
+/* @0x2e929a mov r11, r9 */
+/* @0x2e929c b 0x2e92b0 <FT_New_Face+0x1d8> */
+/* @0x2e929e mov r9, r7 */
+/* @0x2e92a0 mov r10, r7 */
+/* @0x2e92a2 mov r11, r7 */
+/* @0x2e92a4 movs r0, #0x2 */
+/* @0x2e92a6 b 0x2e92b0 <FT_New_Face+0x1d8> */
+/* @0x2e92a8 mov r0, r8 */
+/* @0x2e92aa b 0x2e9294 <FT_New_Face+0x1bc> */
+/* @0x2e92ac b 0x2e92b0 <FT_New_Face+0x1d8> */
+/* @0x2e92ae movs r0, #0x0 */
+/* @0x2e92b0 str r0, [sp, #0x24] */
+/* @0x2e92b2 cmp r0, #0x0 */
+/* @0x2e92b4 bne 0x2e9328 <FT_New_Face+0x250> */
+/* @0x2e92b6 ldr r1, [r4, #0x4] */
+/* @0x2e92b8 cmp r11, r1 */
+/* @0x2e92ba bls 0x2e92c2 <FT_New_Face+0x1ea> */
+/* @0x2e92bc movs r3, #0x8 */
+/* @0x2e92be str r3, [sp, #0x24] */
+/* @0x2e92c0 b 0x2e9328 <FT_New_Face+0x250> */
+/* @0x2e92c2 rsb r1, r11, r1 */
 /* @0x2e92c4 strmi r0, [r10, #0x101] */
-/* @0x2e92c8 stmdbls r3, {r3, r4, r5, r6, r7, r11, r12, lr, pc} */
-/* @0x2e92cc ldrbmi r4, [r9], #-1568 */
-/* @0x2e92d0 blx 0xffd672cc <b2_toiTime+0xffffffffff60de28> */
-/* @0x2e92d4 bllt 0x110d300 <b2_toiTime+0x9b3e5c> */
-/* @0x2e92d8 stmdals r2, {r1, r4, r5, r9, r10, lr} */
-/* @0x2e92dc .word 0xf7fd4651 */
+/* @0x2e92c6 cmp r10, r1 */
+/* @0x2e92c8 bhi 0x2e92bc <FT_New_Face+0x1e4> */
+/* @0x2e92ca ldr r1, [sp, #0xc] */
+/* @0x2e92cc mov r0, r4 */
+/* @0x2e92ce add r1, r11 */
+/* @0x2e92d0 bl 0x2e68a6 <FT_Stream_Seek> */
+/* @0x2e92d4 str r0, [sp, #0x24] */
+/* @0x2e92d6 cbnz r0, 0x2e9328 <FT_New_Face+0x250> */
+/* @0x2e92d8 mov r2, r6 */
+/* @0x2e92da ldr r0, [sp, #0x8] */
+/* @0x2e92dc mov r1, r10 */
+/* @0x2e92de bl 0x2e7126 <ft_mem_alloc> */
 /* @0x2e92e0 bls 0x568f70 <g_SWFlineaavertbuff+0x15ea8> */
-/* @0x2e92e4 ldmiblt r10!, {r1, r2, r9, r10, lr} ^ */
-/* @0x2e92e8 ldrtmi r4, [r1], -r0, lsr #12 */
-/* @0x2e92ec .word 0xf7fd4652 */
+/* @0x2e92e2 ldr r2, [sp, #0x24] */
+/* @0x2e92e4 mov r6, r0 */
+/* @0x2e92e6 cbnz r2, 0x2e9328 <FT_New_Face+0x250> */
+/* @0x2e92e8 mov r0, r4 */
+/* @0x2e92ea mov r1, r6 */
+/* @0x2e92ec mov r2, r10 */
+/* @0x2e92ee bl 0x2e698e <FT_Stream_Read> */
 /* @0x2e92f0 andls pc, r9, lr, asr #22 */
-/* @0x2e92f4 stmdals r2, {r5, r8, r12, sp, pc} */
-/* @0x2e92f8 .word 0xf7fe4631 */
+/* @0x2e92f2 str r0, [sp, #0x24] */
+/* @0x2e92f4 cbz r0, 0x2e9300 <FT_New_Face+0x228> */
+/* @0x2e92f6 ldr r0, [sp, #0x8] */
+/* @0x2e92f8 mov r1, r6 */
+/* @0x2e92fa bl 0x2e7336 <ft_mem_free> */
 /* @0x2e92fc ands pc, r3, r12, lsl r8 */
-/* @0x2e9300 strbvc lr, [r5, #0xa05]! */
-/* @0x2e9304 svceq #0xf1b9 */
-/* @0x2e9308 bmi 0x79d318 <b2_toiTime+0x43e74> */
-/* @0x2e930c and r4, r1, r10, ror r4 */
-/* @0x2e9310 ldrbtmi r4, [r10], #-2577 */
-/* @0x2e9314 ldrtmi r9, [r1], -r7, lsl #22 */
-/* @0x2e9318 ldrbmi r9, [r2], -r0, lsl #4 */
-/* @0x2e931c movwls r9, #0x1805 */
-/* @0x2e9320 .word 0xf7ff462b */
+/* @0x2e92fe b 0x2e9328 <FT_New_Face+0x250> */
+/* @0x2e9300 and.w r5, r5, r5, asr #31 */
+/* @0x2e9304 cmp.w r9, #0x0 */
+/* @0x2e9308 beq 0x2e9310 <FT_New_Face+0x238> */
+/* @0x2e930a ldr r2, [pc, #0x48] */
+/* @0x2e930c add r2, pc */
+/* @0x2e930e b 0x2e9314 <FT_New_Face+0x23c> */
+/* @0x2e9310 ldr r2, [pc, #0x44] */
+/* @0x2e9312 add r2, pc */
+/* @0x2e9314 ldr r3, [sp, #0x1c] */
+/* @0x2e9316 mov r1, r6 */
+/* @0x2e9318 str r2, [sp] */
+/* @0x2e931a mov r2, r10 */
+/* @0x2e931c ldr r0, [sp, #0x14] */
+/* @0x2e931e str r3, [sp, #0x4] */
+/* @0x2e9320 mov r3, r5 */
+/* @0x2e9322 bl 0x2e90fc <FT_New_Face+0x24> */
 /* @0x2e9324 andls pc, r9, r11, ror #29 */
-/* @0x2e9328 mlalo r4, sp, r8, pc */
-/* @0x2e932c andle r2, r1, r2, lsl #22 */
-/* @0x2e9330 and r9, r5, r9, lsl #16 */
-/* @0x2e9334 stmdbls r3, {r5, r9, r10, lr} */
-/* @0x2e9338 blx 0xff067334 <b2_toiTime+0xfffffffffe90de90> */
-/* @0x2e933c rscsle r2, r7, r0, lsl #16 */
-/* @0x2e9340 pop {r0, r1, r3, r12, sp, pc} */
+/* @0x2e9326 str r0, [sp, #0x24] */
+/* @0x2e9328 ldrb.w r3, [sp, #0x24] */
+/* @0x2e932c cmp r3, #0x2 */
+/* @0x2e932e beq 0x2e9334 <FT_New_Face+0x25c> */
+/* @0x2e9330 ldr r0, [sp, #0x24] */
+/* @0x2e9332 b 0x2e9340 <FT_New_Face+0x268> */
+/* @0x2e9334 mov r0, r4 */
+/* @0x2e9336 ldr r1, [sp, #0xc] */
+/* @0x2e9338 bl 0x2e68a6 <FT_Stream_Seek> */
+/* @0x2e933c cmp r0, #0x0 */
+/* @0x2e933e beq 0x2e9330 <FT_New_Face+0x258> */
+/* @0x2e9340 add sp, #0x2c */
+/* @0x2e9342 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
 /* @0x2e9344 svclt #0x8ff0 */
-/* @0x2e9348 ldrbtvc r7, [r9], #-49 */
-/* @0x2e934c movtmi r4, #0x9420 */
-/* @0x2e9350 ldrbpl r5, [r9], #-49 */
-/* @0x2e9354 andeq r5, r10, r1, ror r4 */
-/* @0x2e9358 andeq r5, r10, pc, ror #8 */
-/* @0x2e935c svcmi #0xf0e92d */
-/* @0x2e9360 stmdavs r3, {r1, r2, r3, r4, r9, r10, lr} */
-/* @0x2e9364 pkhbtmi r11, r0, r3, lsl #1 */
-/* @0x2e9368 movwls r4, #0x860d */
-/* @0x2e936c movwls r10, #0xb0e */
-/* @0x2e9370 .word 0xf7fdab0d */
+/* @0x2e9346 nop */
+/* @0x2e9348 strb r1, [r6] */
+/* @0x2e934a strb r1, [r7, #0x11] */
+/* @0x2e934c add r0, r4 */
+/* @0x2e934e muls r1, r1, r1 */
+/* @0x2e9350 str r1, [r6, r0] */
+/* @0x2e9352 strb r1, [r3, r1] */
+/* @0x2e9354 strb r1, [r6, r1] */
+/* @0x2e9356 movs r2, r1 */
+/* @0x2e9358 strb r7, [r5, r1] */
+/* @0x2e935a movs r2, r1 */
+/* @0x2e935c push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2e9360 mov r6, r3 */
+/* @0x2e9362 ldr r3, [r0] */
+/* @0x2e9364 sub sp, #0x4c */
+/* @0x2e9366 mov r8, r0 */
+/* @0x2e9368 mov r5, r1 */
+/* @0x2e936a str r3, [sp, #0x20] */
+/* @0x2e936c add r3, sp, #0x38 */
+/* @0x2e936e str r3, [sp] */
+/* @0x2e9370 add r3, sp, #0x34 */
+/* @0x2e9372 bl 0x2e6b50 <FT_Raccess_Get_HeaderInfo> */
 /* @0x2e9374 strmi pc, [r7], -sp, ror #23 */
-/* @0x2e9378 .word 0xf0402800 */
+/* @0x2e9376 mov r7, r0 */
+/* @0x2e9378 cmp r0, #0x0 */
+/* @0x2e937a bne.w 0x2e96d0 <FT_New_Face+0x5f8> */
 /* @0x2e937c blmi 0xfea89a28 <b2_toiTime+0xfffffffffe330584> */
-/* @0x2e9380 .word 0xf10d2401 */
+/* @0x2e937e ldr r3, [pc, #0x278] */
+/* @0x2e9380 movs r4, #0x1 */
+/* @0x2e9382 add.w r11, sp, #0x3c */
 /* @0x2e9384 .word 0xf10d0b3c */
+/* @0x2e9386 add.w r10, sp, #0x40 */
 /* @0x2e9388 .word 0xf8cd0a40 */
+/* @0x2e938a str.w r11, [sp, #0x8] */
 /* @0x2e938c strbmi r11, [r0], -r8 */
-/* @0x2e9390 andseq lr, r8, sp, lsl #17 */
-/* @0x2e9394 .word 0xf8cd4629 */
+/* @0x2e938e mov r0, r8 */
+/* @0x2e9390 stm.w sp, {r3, r4} */
+/* @0x2e9394 mov r1, r5 */
+
+/* ── FUNC 0x2e9398 · anon_2e9398 · size=852 · insn=214 */
 /* @0x2e9398 bls 0x6513d0 <g_SWFaavertbuff+0x7e308> */
 /* @0x2e939c .word 0xf7ff9b0e */
 /* @0x2e93a0 stmdahs r0, {r0, r1, r3, r8, r11, r12, sp, lr, pc} */
@@ -1714,33 +2103,3 @@
 /* @0x2e96e4 muleq r10, r0, r0 */
 /* @0x2e96e8 andeq r5, r10, r10, lsl #1 */
 /* @0x2e96ec andeq r5, r10, r11, ror #1 */
-
-/* ── FUNC 0x2e96f0 · FT_New_Memory_Face · size=38 · insn=19 */
-/* @0x2e96f0 push {r4, lr} */
-/* @0x2e96f2 sub sp, #0x28 */
-/* @0x2e96f4 cbz r1, 0x2e9710 <FT_New_Memory_Face+0x20> */
-/* @0x2e96f6 movs r4, #0x1 */
-/* @0x2e96f8 str r1, [sp, #0xc] */
-/* @0x2e96fa str r2, [sp, #0x10] */
-/* @0x2e96fc add r1, sp, #0x8 */
-/* @0x2e96fe movs r2, #0x0 */
-/* @0x2e9700 str r4, [sp] */
-/* @0x2e9702 str r2, [sp, #0x18] */
-/* @0x2e9704 mov r2, r3 */
-/* @0x2e9706 ldr r3, [sp, #0x30] */
-/* @0x2e9708 str r4, [sp, #0x8] */
-/* @0x2e970a bl 0x2e8c38 <FT_Done_Face+0x5c> */
-/* @0x2e970c mul r0, r5, r10 */
-/* @0x2e970e b 0x2e9712 <FT_New_Memory_Face+0x22> */
-/* @0x2e9710 movs r0, #0x6 */
-/* @0x2e9712 add sp, #0x28 */
-/* @0x2e9714 pop {r4, pc} */
-
-/* ── FUNC 0x2e9716 · FT_Open_Face · size=14 · insn=7 */
-/* @0x2e9716 push {r0, r1, r4, lr} */
-/* @0x2e9718 movs r4, #0x1 */
-/* @0x2e971a str r4, [sp] */
-/* @0x2e971c bl 0x2e8c38 <FT_Done_Face+0x5c> */
-/* @0x2e971e andlt pc, r2, r12, lsl #21 */
-/* @0x2e9720 add sp, #0x8 */
-/* @0x2e9722 pop {r4, pc} */

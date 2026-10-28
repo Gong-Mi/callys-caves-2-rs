@@ -1,0 +1,16 @@
+# 匿名 Thumb-2 区间：ISA 由**调用点编码**证明（ARM bl 命中 0 / Thumb bl 命中数与 in-degree 逐字相同）
+# 来源：cards/anon_isa_verdict.md（claims-batchCD）；地址为偶数（Thumb 位已剥离）
+2f8e0a	1170
+317798	684
+2e8c38	1180
+2fa06c	708
+2fb894	3156
+2e90fc	666
+2fb68c	518
+317ba8	692
+2fec70	5012
+309b08	2996
+2f0444	1154
+2f9ab6	1112
+2f08c6	1110
+2f1142	700

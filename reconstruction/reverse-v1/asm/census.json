@@ -5,12 +5,12 @@
     "0x31bb7c"
   ],
   "text_bytes": 2509740,
-  "functions_in_text": 9517,
-  "anonymous_regions": 265,
-  "instructions": 645282,
-  "attributed": 645282,
+  "functions_in_text": 9538,
+  "anonymous_regions": 272,
+  "instructions": 649229,
+  "attributed": 649229,
   "unattributed": 0,
   "unattributed_first": [],
   "coverage_pct": 100.0,
-  "funcs_with_instructions": 9178
+  "funcs_with_instructions": 9199
 }

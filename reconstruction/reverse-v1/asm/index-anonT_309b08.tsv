@@ -1,0 +1,1143 @@
+309b08	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+309b0c	b087	sub	sp, #0x1c
+309b0e	4605	mov	r5, r0
+309b10	4616	mov	r6, r2
+309b12	9103	str	r1, [sp, #0xc]
+309b14	aa04	add	r2, sp, #0x10
+309b16	6901	ldr	r1, [r0, #0x10]
+309b18	6e40	ldr	r0, [r0, #0x64]
+309b1a	31be	adds	r1, #0xbe
+309b1c	0049	lsls	r1, r1, #0x1
+309b1e	f7ddfb02	bl	0x2e7126 <ft_mem_alloc>
+309b22	9b04	ldr	r3, [sp, #0x10]
+309b24	4607	mov	r7, r0
+309b26	2b00	cmp	r3, #0x0
+309b28	f0408112	bne.w	0x309d50 <af_shaper_get_coverage+0x24c>
+309b2c	6005	str	r5, [r0]
+309b2e	f50074be	add.w	r4, r0, #0x17c
+309b32	6929	ldr	r1, [r5, #0x10]
+309b34	6084	str	r4, [r0, #0x8]
+309b36	f8c06178	str.w	r6, [r0, #0x178]
+309b3a	6041	str	r1, [r0, #0x4]
+309b3c	f64371ff	movw	r1, #0x3fff
+309b40	f8a03160	strh.w	r3, [r0, #0x160]
+309b44	f8c0316c	str.w	r3, [r0, #0x16c]
+309b48	f8c03170	str.w	r3, [r0, #0x170]
+309b4c	f8c03164	str.w	r3, [r0, #0x164]
+309b50	f8c03168	str.w	r3, [r0, #0x168]
+309b54	f8c03174	str.w	r3, [r0, #0x174]
+309b58	6de8	ldr	r0, [r5, #0x5c]
+309b5a	9002	str	r0, [sp, #0x8]
+309b5c	687a	ldr	r2, [r7, #0x4]
+309b5e	4293	cmp	r3, r2
+309b60	d205	bhs	0x309b6e <af_shaper_get_coverage+0x6a>
+309b62	eb070243	add.w	r2, r7, r3, lsl #1
+309b66	3301	adds	r3, #0x1
+309b68	f8a2117c	strh.w	r1, [r2, #0x17c]
+309b6c	e7f6	b	0x309b5c <af_shaper_get_coverage+0x58>
+309b6e	4628	mov	r0, r5
+309b70	497a	ldr	r1, [pc, #0x1e8]
+309b72	f7dbfebf	bl	0x2e58f4 <FT_Select_Charmap>
+309b76	bb78	cbnz	r0, 0x309bd8 <af_shaper_get_coverage+0xd4>
+309b78	f04f3bff	mov.w	r11, #0xffffffff
+309b7c	4606	mov	r6, r0
+309b7e	f10d0814	add.w	r8, sp, #0x14
+309b82	e009	b	0x309b98 <af_shaper_get_coverage+0x94>
+309b84	4b76	ldr	r3, [pc, #0x1d8]
+309b86	688a	ldr	r2, [r1, #0x8]
+309b88	447b	add	r3, pc
+309b8a	681b	ldr	r3, [r3]
+309b8c	f8533022	ldr.w	r3, [r3, r2, lsl #2]
+309b90	9301	str	r3, [sp, #0x4]
+309b92	685b	ldr	r3, [r3, #0x4]
+309b94	bb53	cbnz	r3, 0x309bec <af_shaper_get_coverage+0xe8>
+309b96	3601	adds	r6, #0x1
+309b98	4b72	ldr	r3, [pc, #0x1c8]
+309b9a	447b	add	r3, pc
+309b9c	681b	ldr	r3, [r3]
+309b9e	f8531026	ldr.w	r1, [r3, r6, lsl #2]
+309ba2	4699	mov	r9, r3
+309ba4	2900	cmp	r1, #0x0
+309ba6	d1ed	bne	0x309b84 <af_shaper_get_coverage+0x80>
+309ba8	1f1e	subs	r6, r3, #0x4
+309baa	f8561f04	ldr	r1, [r6, #4]!
+309bae	2900	cmp	r1, #0x0
+309bb0	f0408099	bne.w	0x309ce6 <af_shaper_get_coverage+0x1e2>
+309bb4	4638	mov	r0, r7
+309bb6	f859102b	ldr.w	r1, [r9, r11, lsl #2]
+309bba	4622	mov	r2, r4
+309bbc	2301	movs	r3, #0x1
+309bbe	f7ffffa1	bl	0x309b04 <af_shaper_get_coverage>
+309bc2	2630	movs	r6, #0x30
+309bc4	4628	mov	r0, r5
+309bc6	4631	mov	r1, r6
+309bc8	f7dbfeca	bl	0x2e5960 <FT_Get_Char_Index>
+309bcc	2800	cmp	r0, #0x0
+309bce	f0408094	bne.w	0x309cfa <af_shaper_get_coverage+0x1f6>
+309bd2	3601	adds	r6, #0x1
+309bd4	2e3a	cmp	r6, #0x3a
+309bd6	d1f5	bne	0x309bc4 <af_shaper_get_coverage+0xc0>
+309bd8	f8d72178	ldr.w	r2, [r7, #0x178]
+309bdc	f64373ff	movw	r3, #0x3fff
+309be0	4618	mov	r0, r3
+309be2	68d2	ldr	r2, [r2, #0xc]
+309be4	429a	cmp	r2, r3
+309be6	f0408095	bne.w	0x309d14 <af_shaper_get_coverage+0x210>
+309bea	e097	b	0x309d1c <af_shaper_get_coverage+0x218>
+309bec	6908	ldr	r0, [r1, #0x10]
+309bee	280a	cmp	r0, #0xa
+309bf0	d173	bne	0x309cda <af_shaper_get_coverage+0x1d6>
+309bf2	f8d71178	ldr.w	r1, [r7, #0x178]
+309bf6	f1030908	add.w	r9, r3, #0x8
+309bfa	f6437aff	movw	r10, #0x3fff
+309bfe	6909	ldr	r1, [r1, #0x10]
+309c00	428a	cmp	r2, r1
+309c02	bf08	it	eq
+309c04	46b3	moveq	r11, r6
+309c06	f8592c08	ldr	r2, [r9, #-8]
+309c0a	b36a	cbz	r2, 0x309c68 <af_shaper_get_coverage+0x164>
+309c0c	4611	mov	r1, r2
+309c0e	4628	mov	r0, r5
+309c10	9200	str	r2, [sp]
+309c12	f7dbfea5	bl	0x2e5960 <FT_Get_Char_Index>
+309c16	9a00	ldr	r2, [sp]
+309c18	9005	str	r0, [sp, #0x14]
+309c1a	b150	cbz	r0, 0x309c32 <af_shaper_get_coverage+0x12e>
+309c1c	6879	ldr	r1, [r7, #0x4]
+309c1e	4288	cmp	r0, r1
+309c20	d207	bhs	0x309c32 <af_shaper_get_coverage+0x12e>
+309c22	f8341010	ldrh.w	r1, [r4, r0, lsl #1]
+309c26	f3c1010d	ubfx	r1, r1, #0x0, #0xe
+309c2a	4551	cmp	r1, r10
+309c2c	bf08	it	eq
+309c2e	f8246010	strheq.w	r6, [r4, r0, lsl #1]
+309c32	4611	mov	r1, r2
+309c34	4628	mov	r0, r5
+309c36	4642	mov	r2, r8
+309c38	f7dbfea1	bl	0x2e597e <FT_Get_Next_Char>
+309c3c	9905	ldr	r1, [sp, #0x14]
+309c3e	4602	mov	r2, r0
+309c40	b179	cbz	r1, 0x309c62 <af_shaper_get_coverage+0x15e>
+309c42	f8590c04	ldr	r0, [r9, #-4]
+309c46	4282	cmp	r2, r0
+309c48	d80b	bhi	0x309c62 <af_shaper_get_coverage+0x15e>
+309c4a	6878	ldr	r0, [r7, #0x4]
+309c4c	4281	cmp	r1, r0
+309c4e	d2f0	bhs	0x309c32 <af_shaper_get_coverage+0x12e>
+309c50	f8340011	ldrh.w	r0, [r4, r1, lsl #1]
+309c54	f3c0000d	ubfx	r0, r0, #0x0, #0xe
+309c58	4550	cmp	r0, r10
+309c5a	d1ea	bne	0x309c32 <af_shaper_get_coverage+0x12e>
+309c5c	f8246011	strh.w	r6, [r4, r1, lsl #1]
+309c60	e7e7	b	0x309c32 <af_shaper_get_coverage+0x12e>
+309c62	f1090908	add.w	r9, r9, #0x8
+309c66	e7ce	b	0x309c06 <af_shaper_get_coverage+0x102>
+309c68	9a01	ldr	r2, [sp, #0x4]
+309c6a	6893	ldr	r3, [r2, #0x8]
+309c6c	f1030a08	add.w	r10, r3, #0x8
+309c70	f85a9c08	ldr	r9, [r10, #-8]
+309c74	f1b90f00	cmp.w	r9, #0x0
+309c78	d08d	beq	0x309b96 <af_shaper_get_coverage+0x92>
+309c7a	4628	mov	r0, r5
+309c7c	4649	mov	r1, r9
+309c7e	f7dbfe6f	bl	0x2e5960 <FT_Get_Char_Index>
+309c82	9005	str	r0, [sp, #0x14]
+309c84	b160	cbz	r0, 0x309ca0 <af_shaper_get_coverage+0x19c>
+309c86	687b	ldr	r3, [r7, #0x4]
+309c88	4298	cmp	r0, r3
+309c8a	d209	bhs	0x309ca0 <af_shaper_get_coverage+0x19c>
+309c8c	f8343010	ldrh.w	r3, [r4, r0, lsl #1]
+309c90	f3c3020d	ubfx	r2, r3, #0x0, #0xe
+309c94	42b2	cmp	r2, r6
+309c96	bf04	itt	eq
+309c98	f4434380	orreq	r3, r3, #0x4000
+309c9c	f8243010	strheq.w	r3, [r4, r0, lsl #1]
+309ca0	4649	mov	r1, r9
+309ca2	4628	mov	r0, r5
+309ca4	4642	mov	r2, r8
+309ca6	f7dbfe6a	bl	0x2e597e <FT_Get_Next_Char>
+309caa	9b05	ldr	r3, [sp, #0x14]
+309cac	4681	mov	r9, r0
+309cae	b18b	cbz	r3, 0x309cd4 <af_shaper_get_coverage+0x1d0>
+309cb0	f85a2c04	ldr	r2, [r10, #-4]
+309cb4	4290	cmp	r0, r2
+309cb6	d80d	bhi	0x309cd4 <af_shaper_get_coverage+0x1d0>
+309cb8	687a	ldr	r2, [r7, #0x4]
+309cba	4293	cmp	r3, r2
+309cbc	d2f0	bhs	0x309ca0 <af_shaper_get_coverage+0x19c>
+309cbe	f8342013	ldrh.w	r2, [r4, r3, lsl #1]
+309cc2	f3c2010d	ubfx	r1, r2, #0x0, #0xe
+309cc6	42b1	cmp	r1, r6
+309cc8	d1ea	bne	0x309ca0 <af_shaper_get_coverage+0x19c>
+309cca	f4424280	orr	r2, r2, #0x4000
+309cce	f8242013	strh.w	r2, [r4, r3, lsl #1]
+309cd2	e7e5	b	0x309ca0 <af_shaper_get_coverage+0x19c>
+309cd4	f10a0a08	add.w	r10, r10, #0x8
+309cd8	e7ca	b	0x309c70 <af_shaper_get_coverage+0x16c>
+309cda	4638	mov	r0, r7
+309cdc	4622	mov	r2, r4
+309cde	2300	movs	r3, #0x0
+309ce0	f7ffff10	bl	0x309b04 <af_shaper_get_coverage>
+309ce4	e757	b	0x309b96 <af_shaper_get_coverage+0x92>
+309ce6	690b	ldr	r3, [r1, #0x10]
+309ce8	2b0a	cmp	r3, #0xa
+309cea	f47faf5e	bne.w	0x309baa <af_shaper_get_coverage+0xa6>
+309cee	4638	mov	r0, r7
+309cf0	4622	mov	r2, r4
+309cf2	2300	movs	r3, #0x0
+309cf4	f7ffff06	bl	0x309b04 <af_shaper_get_coverage>
+309cf8	e757	b	0x309baa <af_shaper_get_coverage+0xa6>
+309cfa	687b	ldr	r3, [r7, #0x4]
+309cfc	4298	cmp	r0, r3
+309cfe	f4bfaf68	bhs.w	0x309bd2 <af_shaper_get_coverage+0xce>
+309d02	f8343010	ldrh.w	r3, [r4, r0, lsl #1]
+309d06	ea6f4343	mvn.w	r3, r3, lsl #17
+309d0a	ea6f4353	mvn.w	r3, r3, lsr #17
+309d0e	f8243010	strh.w	r3, [r4, r0, lsl #1]
+309d12	e75e	b	0x309bd2 <af_shaper_get_coverage+0xce>
+309d14	2300	movs	r3, #0x0
+309d16	687a	ldr	r2, [r7, #0x4]
+309d18	4293	cmp	r3, r2
+309d1a	db07	blt	0x309d2c <af_shaper_get_coverage+0x228>
+309d1c	4628	mov	r0, r5
+309d1e	9902	ldr	r1, [sp, #0x8]
+309d20	f7dbffec	bl	0x2e5cfc <FT_Set_Charmap>
+309d24	2300	movs	r3, #0x0
+309d26	9304	str	r3, [sp, #0x10]
+309d28	60fb	str	r3, [r7, #0xc]
+309d2a	e011	b	0x309d50 <af_shaper_get_coverage+0x24c>
+309d2c	f8342b02	ldrh	r2, [r4], #2
+309d30	f3c2010d	ubfx	r1, r2, #0x0, #0xe
+309d34	4281	cmp	r1, r0
+309d36	d109	bne	0x309d4c <af_shaper_get_coverage+0x248>
+309d38	f4024240	and	r2, r2, #0xc000
+309d3c	f8242c02	strh	r2, [r4, #-2]
+309d40	f8d71178	ldr.w	r1, [r7, #0x178]
+309d44	68c9	ldr	r1, [r1, #0xc]
+309d46	430a	orrs	r2, r1
+309d48	f8242c02	strh	r2, [r4, #-2]
+309d4c	3301	adds	r3, #0x1
+309d4e	e7e2	b	0x309d16 <af_shaper_get_coverage+0x212>
+309d50	9b03	ldr	r3, [sp, #0xc]
+309d52	9804	ldr	r0, [sp, #0x10]
+309d54	601f	str	r7, [r3]
+309d56	b007	add	sp, #0x1c
+309d58	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+309d5c	6963	ldr	r3, [r4, #0x14]
+309d5e	756e	strb	r6, [r5, #0x15]
+309d60	805c	strh	r4, [r3, #0x2]
+309d62	000e	movs	r6, r1
+309d64	804e	strh	r6, [r1, #0x2]
+309d66	000e	movs	r6, r1
+309d68	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+309d6c	f5ad5dd5	sub.w	sp, sp, #0x1aa0
+309d70	b083	sub	sp, #0xc
+309d72	f8df764c	ldr.w	r7, [pc, #0x64c]
+309d76	f10d0bc0	add.w	r11, sp, #0xc0
+309d7a	ad32	add	r5, sp, #0xc8
+309d7c	930b	str	r3, [sp, #0x2c]
+309d7e	460c	mov	r4, r1
+309d80	6843	ldr	r3, [r0, #0x4]
+309d82	2100	movs	r1, #0x0
+309d84	9006	str	r0, [sp, #0x18]
+309d86	f64022c8	movw	r2, #0xac8
+309d8a	f10d0988	add.w	r9, sp, #0x88
+309d8e	4658	mov	r0, r11
+309d90	681e	ldr	r6, [r3]
+309d92	447f	add	r7, pc
+309d94	9704	str	r7, [sp, #0x10]
+309d96	f5acec0c	blx	0xb65b0 <memset@plt>
+309d9a	2100	movs	r1, #0x0
+309d9c	223c	movs	r2, #0x3c
+309d9e	f8456c08	str	r6, [r5, #-8]
+309da2	f1a90504	sub.w	r5, r9, #0x4
+309da6	4628	mov	r0, r5
+309da8	f5acec02	blx	0xb65b0 <memset@plt>
+309dac	6864	ldr	r4, [r4, #0x4]
+309dae	f8c5b008	str.w	r11, [r5, #0x8]
+309db2	2100	movs	r1, #0x0
+309db4	221c	movs	r2, #0x1c
+309db6	6d66	ldr	r6, [r4, #0x54]
+309db8	f8d4c058	ldr.w	r12, [r4, #0x58]
+309dbc	9401	str	r4, [sp, #0x4]
+309dbe	ac1a	add	r4, sp, #0x68
+309dc0	f8d6709c	ldr.w	r7, [r6, #0x9c]
+309dc4	4620	mov	r0, r4
+309dc6	f8dc8028	ldr.w	r8, [r12, #0x28]
+309dca	970a	str	r7, [sp, #0x28]
+309dcc	683f	ldr	r7, [r7]
+309dce	f8cdc008	str.w	r12, [sp, #0x8]
+309dd2	970f	str	r7, [sp, #0x3c]
+309dd4	f5acebec	blx	0xb65b0 <memset@plt>
+309dd8	f50d51d6	add.w	r1, sp, #0x1ac0
+309ddc	f8d8300c	ldr.w	r3, [r8, #0xc]
+309de0	3110	adds	r1, #0x10
+309de2	f8ddc008	ldr.w	r12, [sp, #0x8]
+309de6	6809	ldr	r1, [r1]
+309de8	ea4f4a21	asr.w	r10, r1, #0x10
+309dec	b12b	cbz	r3, 0x309dfa <af_shaper_get_coverage+0x2f6>
+309dee	f8d83004	ldr.w	r3, [r8, #0x4]
+309df2	f00a020f	and	r2, r10, #0xf
+309df6	4293	cmp	r3, r2
+309df8	d00f	beq	0x309e1a <af_shaper_get_coverage+0x316>
+309dfa	f10c0c0c	add.w	r12, r12, #0xc
+309dfe	f00a030f	and	r3, r10, #0xf
+309e02	f8c83004	str.w	r3, [r8, #0x4]
+309e06	f1080e08	add.w	lr, r8, #0x8
+309e0a	e8bc000f	ldm.w	r12!, {r0, r1, r2, r3}
+309e0e	e8ae000f	stm.w	lr!, {r0, r1, r2, r3}
+309e12	e89c0007	ldm.w	r12, {r0, r1, r2}
+309e16	e88e0007	stm.w	lr, {r0, r1, r2}
+309e1a	f8d8300c	ldr.w	r3, [r8, #0xc]
+309e1e	9f01	ldr	r7, [sp, #0x4]
+309e20	f8d82010	ldr.w	r2, [r8, #0x10]
+309e24	6063	str	r3, [r4, #0x4]
+309e26	2300	movs	r3, #0x0
+309e28	60e3	str	r3, [r4, #0xc]
+309e2a	6123	str	r3, [r4, #0x10]
+309e2c	61a3	str	r3, [r4, #0x18]
+309e2e	6f7b	ldr	r3, [r7, #0x74]
+309e30	6027	str	r7, [r4]
+309e32	60a2	str	r2, [r4, #0x8]
+309e34	f00a020f	and	r2, r10, #0xf
+309e38	f8497c04	str	r7, [r9, #-4]
+309e3c	af32	add	r7, sp, #0xc8
+309e3e	6162	str	r2, [r4, #0x14]
+309e40	970d	str	r7, [sp, #0x34]
+309e42	af22	add	r7, sp, #0x88
+309e44	606b	str	r3, [r5, #0x4]
+309e46	970c	str	r7, [sp, #0x30]
+309e48	b96b	cbnz	r3, 0x309e66 <af_shaper_get_coverage+0x362>
+309e4a	9801	ldr	r0, [sp, #0x4]
+309e4c	4649	mov	r1, r9
+309e4e	9a06	ldr	r2, [sp, #0x18]
+309e50	f7fffe5a	bl	0x309b08 <af_shaper_get_coverage+0x4>
+309e54	2800	cmp	r0, #0x0
+309e56	d139	bne	0x309ecc <af_shaper_get_coverage+0x3c8>
+309e58	686b	ldr	r3, [r5, #0x4]
+309e5a	9f01	ldr	r7, [sp, #0x4]
+309e5c	677b	str	r3, [r7, #0x74]
+309e5e	f8df3564	ldr.w	r3, [pc, #0x564]
+309e62	447b	add	r3, pc
+309e64	67bb	str	r3, [r7, #0x78]
+309e66	f8d58004	ldr.w	r8, [r5, #0x4]
+309e6a	f1a40710	sub.w	r7, r4, #0x10
+309e6e	2300	movs	r3, #0x0
+309e70	9703	str	r7, [sp, #0xc]
+309e72	f8443c10	str	r3, [r4, #-16]
+309e76	9f0b	ldr	r7, [sp, #0x2c]
+309e78	f8d82004	ldr.w	r2, [r8, #0x4]
+309e7c	4297	cmp	r7, r2
+309e7e	d327	blo	0x309ed0 <af_shaper_get_coverage+0x3cc>
+309e80	469a	mov	r10, r3
+309e82	2206	movs	r2, #0x6
+309e84	f8442c10	str	r2, [r4, #-16]
+309e88	f8548c10	ldr	r8, [r4, #-16]
+309e8c	f1b80f00	cmp.w	r8, #0x0
+309e90	f0408286	bne.w	0x30a3a0 <af_shaper_get_coverage+0x89c>
+309e94	f8df3530	ldr.w	r3, [pc, #0x530]
+309e98	9f04	ldr	r7, [sp, #0x10]
+309e9a	58fa	ldr	r2, [r7, r3]
+309e9c	f8da3000	ldr.w	r3, [r10]
+309ea0	9211	str	r2, [sp, #0x44]
+309ea2	685b	ldr	r3, [r3, #0x4]
+309ea4	f8c5a00c	str.w	r10, [r5, #0xc]
+309ea8	f8523023	ldr.w	r3, [r2, r3, lsl #2]
+309eac	9305	str	r3, [sp, #0x14]
+309eae	68db	ldr	r3, [r3, #0xc]
+309eb0	2b00	cmp	r3, #0x0
+309eb2	d054	beq	0x309f5e <af_shaper_get_coverage+0x45a>
+309eb4	4650	mov	r0, r10
+309eb6	4621	mov	r1, r4
+309eb8	4798	blx	r3
+309eba	9f05	ldr	r7, [sp, #0x14]
+309ebc	69bb	ldr	r3, [r7, #0x18]
+309ebe	2b00	cmp	r3, #0x0
+309ec0	d059	beq	0x309f76 <af_shaper_get_coverage+0x472>
+309ec2	4658	mov	r0, r11
+309ec4	4651	mov	r1, r10
+309ec6	4798	blx	r3
+309ec8	2800	cmp	r0, #0x0
+309eca	d054	beq	0x309f76 <af_shaper_get_coverage+0x472>
+309ecc	4680	mov	r8, r0
+309ece	e267	b	0x30a3a0 <af_shaper_get_coverage+0x89c>
+309ed0	f8d83008	ldr.w	r3, [r8, #0x8]
+309ed4	9f0b	ldr	r7, [sp, #0x2c]
+309ed6	f833a017	ldrh.w	r10, [r3, r7, lsl #1]
+309eda	9f04	ldr	r7, [sp, #0x10]
+309edc	f8df34ec	ldr.w	r3, [pc, #0x4ec]
+309ee0	f3ca0a0d	ubfx	r10, r10, #0x0, #0xe
+309ee4	fa1ffa8a	uxth.w	r10, r10
+309ee8	58fb	ldr	r3, [r7, r3]
+309eea	f853c02a	ldr.w	r12, [r3, r10, lsl #2]
+309eee	f8df34d8	ldr.w	r3, [pc, #0x4d8]
+309ef2	f8dc2004	ldr.w	r2, [r12, #0x4]
+309ef6	58fb	ldr	r3, [r7, r3]
+309ef8	f8537022	ldr.w	r7, [r3, r2, lsl #2]
+309efc	eb08038a	add.w	r3, r8, r10, lsl #2
+309f00	9308	str	r3, [sp, #0x20]
+309f02	f8d3a010	ldr.w	r10, [r3, #0x10]
+309f06	f1ba0f00	cmp.w	r10, #0x0
+309f0a	d1bd	bne	0x309e88 <af_shaper_get_coverage+0x384>
+309f0c	f8d83000	ldr.w	r3, [r8]
+309f10	aa16	add	r2, sp, #0x58
+309f12	6879	ldr	r1, [r7, #0x4]
+309f14	6e5b	ldr	r3, [r3, #0x64]
+309f16	f8cdc008	str.w	r12, [sp, #0x8]
+309f1a	4618	mov	r0, r3
+309f1c	9307	str	r3, [sp, #0x1c]
+309f1e	f7ddf902	bl	0x2e7126 <ft_mem_alloc>
+309f22	9b16	ldr	r3, [sp, #0x58]
+309f24	f8ddc008	ldr.w	r12, [sp, #0x8]
+309f28	4681	mov	r9, r0
+309f2a	b9b3	cbnz	r3, 0x309f5a <af_shaper_get_coverage+0x456>
+309f2c	f8c0c000	str.w	r12, [r0]
+309f30	f8c08024	str.w	r8, [r0, #0x24]
+309f34	68bb	ldr	r3, [r7, #0x8]
+309f36	b16b	cbz	r3, 0x309f54 <af_shaper_get_coverage+0x450>
+309f38	f8d81000	ldr.w	r1, [r8]
+309f3c	4798	blx	r3
+309f3e	9016	str	r0, [sp, #0x58]
+309f40	b140	cbz	r0, 0x309f54 <af_shaper_get_coverage+0x450>
+309f42	693b	ldr	r3, [r7, #0x10]
+309f44	b10b	cbz	r3, 0x309f4a <af_shaper_get_coverage+0x446>
+309f46	4648	mov	r0, r9
+309f48	4798	blx	r3
+309f4a	9807	ldr	r0, [sp, #0x1c]
+309f4c	4649	mov	r1, r9
+309f4e	f7ddf9f2	bl	0x2e7336 <ft_mem_free>
+309f52	e799	b	0x309e88 <af_shaper_get_coverage+0x384>
+309f54	9f08	ldr	r7, [sp, #0x20]
+309f56	f8c79010	str.w	r9, [r7, #0x10]
+309f5a	46ca	mov	r10, r9
+309f5c	e794	b	0x309e88 <af_shaper_get_coverage+0x384>
+309f5e	46a4	mov	r12, r4
+309f60	f10a0e04	add.w	lr, r10, #0x4
+309f64	e8bc000f	ldm.w	r12!, {r0, r1, r2, r3}
+309f68	e8ae000f	stm.w	lr!, {r0, r1, r2, r3}
+309f6c	e89c0007	ldm.w	r12, {r0, r1, r2}
+309f70	e88e0007	stm.w	lr, {r0, r1, r2}
+309f74	e7a1	b	0x309eba <af_shaper_get_coverage+0x3b6>
+309f76	f50d51d6	add.w	r1, sp, #0x1ac0
+309f7a	9801	ldr	r0, [sp, #0x4]
+309f7c	3110	adds	r1, #0x10
+309f7e	6809	ldr	r1, [r1]
+309f80	f0210204	bic	r2, r1, #0x4
+309f84	990b	ldr	r1, [sp, #0x2c]
+309f86	f4425220	orr	r2, r2, #0x2800
+309f8a	f0420201	orr	r2, r2, #0x1
+309f8e	f7ddfae9	bl	0x2e7564 <FT_Load_Glyph>
+309f92	9004	str	r0, [sp, #0x10]
+309f94	2800	cmp	r0, #0x0
+309f96	f0408201	bne.w	0x30a39c <af_shaper_get_coverage+0x898>
+309f9a	6963	ldr	r3, [r4, #0x14]
+309f9c	af14	add	r7, sp, #0x50
+309f9e	970e	str	r7, [sp, #0x38]
+309fa0	2b01	cmp	r3, #0x1
+309fa2	f04080ba	bne.w	0x30a11a <af_shaper_get_coverage+0x616>
+309fa6	9f01	ldr	r7, [sp, #0x4]
+309fa8	f8d73080	ldr.w	r3, [r7, #0x80]
+309fac	f8933038	ldrb.w	r3, [r3, #0x38]
+309fb0	b13b	cbz	r3, 0x309fc2 <af_shaper_get_coverage+0x4be>
+309fb2	0618	lsls	r0, r3, #0x18
+309fb4	f14080b1	bpl.w	0x30a11a <af_shaper_get_coverage+0x616>
+309fb8	9f06	ldr	r7, [sp, #0x18]
+309fba	7d7b	ldrb	r3, [r7, #0x15]
+309fbc	2b00	cmp	r3, #0x0
+309fbe	f04080ac	bne.w	0x30a11a <af_shaper_get_coverage+0x616>
+309fc2	9f01	ldr	r7, [sp, #0x4]
+309fc4	f04f707a	mov.w	r0, #0x3e80000
+309fc8	f8d58004	ldr.w	r8, [r5, #0x4]
+309fcc	6d7f	ldr	r7, [r7, #0x54]
+309fce	9710	str	r7, [sp, #0x40]
+309fd0	9f01	ldr	r7, [sp, #0x4]
+309fd2	6dbb	ldr	r3, [r7, #0x58]
+309fd4	f1a4071c	sub.w	r7, r4, #0x1c
+309fd8	9709	str	r7, [sp, #0x24]
+309fda	f8d39028	ldr.w	r9, [r3, #0x28]
+309fde	2300	movs	r3, #0x0
+309fe0	f8443c18	str	r3, [r4, #-24]
+309fe4	f8b87160	ldrh.w	r7, [r8, #0x160]
+309fe8	f8443c1c	str	r3, [r4, #-28]
+309fec	f8b9c008	ldrh.w	r12, [r9, #0x8]
+309ff0	9707	str	r7, [sp, #0x1c]
+309ff2	9f01	ldr	r7, [sp, #0x4]
+309ff4	f8b73044	ldrh.w	r3, [r7, #0x44]
+309ff8	f8cdc008	str.w	r12, [sp, #0x8]
+309ffc	041b	lsls	r3, r3, #0x10
+309ffe	9306	str	r3, [sp, #0x18]
+30a000	4619	mov	r1, r3
+30a002	f7daff58	bl	0x2e4eb6 <FT_DivFix>
+30a006	4bf2	ldr	r3, [pc, #0x3c8]
+30a008	9f03	ldr	r7, [sp, #0xc]
+30a00a	447b	add	r3, pc
+30a00c	f5037380	add.w	r3, r3, #0x100
+30a010	9008	str	r0, [sp, #0x20]
+30a012	cb0f	ldm	r3, {r0, r1, r2, r3}
+30a014	e887000f	stm.w	r7, {r0, r1, r2, r3}
+30a018	9f01	ldr	r7, [sp, #0x4]
+30a01a	f8ddc008	ldr.w	r12, [sp, #0x8]
+30a01e	f8b73044	ldrh.w	r3, [r7, #0x44]
+30a022	2b00	cmp	r3, #0x0
+30a024	d079	beq	0x30a11a <af_shaper_get_coverage+0x616>
+30a026	f8da3000	ldr.w	r3, [r10]
+30a02a	9f11	ldr	r7, [sp, #0x44]
+30a02c	685b	ldr	r3, [r3, #0x4]
+30a02e	f8573023	ldr.w	r3, [r7, r3, lsl #2]
+30a032	695b	ldr	r3, [r3, #0x14]
+30a034	2b00	cmp	r3, #0x0
+30a036	d070	beq	0x30a11a <af_shaper_get_coverage+0x616>
+30a038	9907	ldr	r1, [sp, #0x1c]
+30a03a	4650	mov	r0, r10
+30a03c	aa13	add	r2, sp, #0x4c
+30a03e	ebbc0701	subs.w	r7, r12, r1
+30a042	a914	add	r1, sp, #0x50
+30a044	bf18	it	ne
+30a046	2701	movne	r7, #0x1
+30a048	4798	blx	r3
+30a04a	b95f	cbnz	r7, 0x30a064 <af_shaper_get_coverage+0x560>
+30a04c	9b13	ldr	r3, [sp, #0x4c]
+30a04e	2b00	cmp	r3, #0x0
+30a050	dc04	bgt	0x30a05c <af_shaper_get_coverage+0x558>
+30a052	f8543c18	ldr	r3, [r4, #-24]
+30a056	2b00	cmp	r3, #0x0
+30a058	dc49	bgt	0x30a0ee <af_shaper_get_coverage+0x5ea>
+30a05a	e04c	b	0x30a0f6 <af_shaper_get_coverage+0x5f2>
+30a05c	f8d82164	ldr.w	r2, [r8, #0x164]
+30a060	4293	cmp	r3, r2
+30a062	d0f6	beq	0x30a052 <af_shaper_get_coverage+0x54e>
+30a064	f8542c1c	ldr	r2, [r4, #-28]
+30a068	9901	ldr	r1, [sp, #0x4]
+30a06a	6868	ldr	r0, [r5, #0x4]
+30a06c	f7fefe70	bl	0x308d50 <TT_New_Context+0x8b48>
+30a070	f8d9100c	ldr.w	r1, [r9, #0xc]
+30a074	0400	lsls	r0, r0, #0x10
+30a076	f7fdf919	bl	0x3072ac <TT_New_Context+0x70a4>
+30a07a	9908	ldr	r1, [sp, #0x20]
+30a07c	f7daff1b	bl	0x2e4eb6 <FT_DivFix>
+30a080	f8543c1c	ldr	r3, [r4, #-28]
+30a084	f8c83164	str.w	r3, [r8, #0x164]
+30a088	f8b93008	ldrh.w	r3, [r9, #0x8]
+30a08c	f8a83160	strh.w	r3, [r8, #0x160]
+30a090	f5004000	add.w	r0, r0, #0x8000
+30a094	1400	asrs	r0, r0, #0x10
+30a096	f8c8016c	str.w	r0, [r8, #0x16c]
+30a09a	2f00	cmp	r7, #0x0
+30a09c	d0d9	beq	0x30a052 <af_shaper_get_coverage+0x54e>
+30a09e	f8542c18	ldr	r2, [r4, #-24]
+30a0a2	9901	ldr	r1, [sp, #0x4]
+30a0a4	6868	ldr	r0, [r5, #0x4]
+30a0a6	f7fefe53	bl	0x308d50 <TT_New_Context+0x8b48>
+30a0aa	f8d91010	ldr.w	r1, [r9, #0x10]
+30a0ae	0407	lsls	r7, r0, #0x10
+30a0b0	4638	mov	r0, r7
+30a0b2	f7fdf8fb	bl	0x3072ac <TT_New_Context+0x70a4>
+30a0b6	9908	ldr	r1, [sp, #0x20]
+30a0b8	f7dafefd	bl	0x2e4eb6 <FT_DivFix>
+30a0bc	f8543c18	ldr	r3, [r4, #-24]
+30a0c0	f8c83168	str.w	r3, [r8, #0x168]
+30a0c4	f8b93008	ldrh.w	r3, [r9, #0x8]
+30a0c8	f8a83160	strh.w	r3, [r8, #0x160]
+30a0cc	f5004000	add.w	r0, r0, #0x8000
+30a0d0	1400	asrs	r0, r0, #0x10
+30a0d2	f8c80170	str.w	r0, [r8, #0x170]
+30a0d6	f1c7407f	rsb.w	r0, r7, #0xff000000
+30a0da	9f06	ldr	r7, [sp, #0x18]
+30a0dc	f5000078	add.w	r0, r0, #0xf80000
+30a0e0	4438	add	r0, r7
+30a0e2	4639	mov	r1, r7
+30a0e4	f7dafee7	bl	0x2e4eb6 <FT_DivFix>
+30a0e8	f8c80174	str.w	r0, [r8, #0x174]
+30a0ec	e003	b	0x30a0f6 <af_shaper_get_coverage+0x5f2>
+30a0ee	f8d82168	ldr.w	r2, [r8, #0x168]
+30a0f2	4293	cmp	r3, r2
+30a0f4	d1d3	bne	0x30a09e <af_shaper_get_coverage+0x59a>
+30a0f6	9910	ldr	r1, [sp, #0x40]
+30a0f8	f8d82170	ldr.w	r2, [r8, #0x170]
+30a0fc	f101076c	add.w	r7, r1, #0x6c
+30a100	f8d8116c	ldr.w	r1, [r8, #0x16c]
+30a104	4638	mov	r0, r7
+30a106	f7dcfab3	bl	0x2e6670 <FT_Outline_EmboldenXY>
+30a10a	f8d83174	ldr.w	r3, [r8, #0x174]
+30a10e	4638	mov	r0, r7
+30a110	a916	add	r1, sp, #0x58
+30a112	f8443c04	str	r3, [r4, #-4]
+30a116	f7dcfa33	bl	0x2e6580 <FT_Outline_Transform>
+30a11a	9f0a	ldr	r7, [sp, #0x28]
+30a11c	7a3b	ldrb	r3, [r7, #0x8]
+30a11e	742b	strb	r3, [r5, #0x10]
+30a120	b1db	cbz	r3, 0x30a15a <af_shaper_get_coverage+0x656>
+30a122	f107030c	add.w	r3, r7, #0xc
+30a126	f10d0e98	add.w	lr, sp, #0x98
+30a12a	f10d08a8	add.w	r8, sp, #0xa8
+30a12e	cb0f	ldm	r3, {r0, r1, r2, r3}
+30a130	e88e000f	stm.w	lr, {r0, r1, r2, r3}
+30a134	f107031c	add.w	r3, r7, #0x1c
+30a138	9f03	ldr	r7, [sp, #0xc]
+30a13a	e8930003	ldm.w	r3, {r0, r1}
+30a13e	e8880003	stm.w	r8, {r0, r1}
+30a142	e89e000f	ldm.w	lr, {r0, r1, r2, r3}
+30a146	e887000f	stm.w	r7, {r0, r1, r2, r3}
+30a14a	a816	add	r0, sp, #0x58
+30a14c	f7daff16	bl	0x2e4f7c <FT_Matrix_Invert>
+30a150	b918	cbnz	r0, 0x30a15a <af_shaper_get_coverage+0x656>
+30a152	4640	mov	r0, r8
+30a154	a916	add	r1, sp, #0x58
+30a156	f7dcf9f7	bl	0x2e6548 <FT_Vector_Transform>
+30a15a	6cb2	ldr	r2, [r6, #0x48]
+30a15c	4b97	ldr	r3, [pc, #0x25c]
+30a15e	990f	ldr	r1, [sp, #0x3c]
+30a160	429a	cmp	r2, r3
+30a162	f1010714	add.w	r7, r1, #0x14
+30a166	f0408093	bne.w	0x30a290 <af_shaper_get_coverage+0x78c>
+30a16a	7c2b	ldrb	r3, [r5, #0x10]
+30a16c	b12b	cbz	r3, 0x30a17a <af_shaper_get_coverage+0x676>
+30a16e	f106006c	add.w	r0, r6, #0x6c
+30a172	6a69	ldr	r1, [r5, #0x24]
+30a174	6aaa	ldr	r2, [r5, #0x28]
+30a176	f7dcf955	bl	0x2e6424 <FT_Outline_Translate>
+30a17a	f8db3008	ldr.w	r3, [r11, #0x8]
+30a17e	9931	ldr	r1, [sp, #0xc4]
+30a180	62eb	str	r3, [r5, #0x2c]
+30a182	f8db3010	ldr.w	r3, [r11, #0x10]
+30a186	632b	str	r3, [r5, #0x30]
+30a188	6ab0	ldr	r0, [r6, #0x28]
+30a18a	f7fdf88f	bl	0x3072ac <TT_New_Context+0x70a4>
+30a18e	f8db3008	ldr.w	r3, [r11, #0x8]
+30a192	4418	add	r0, r3
+30a194	f8db3010	ldr.w	r3, [r11, #0x10]
+30a198	6368	str	r0, [r5, #0x34]
+30a19a	63ab	str	r3, [r5, #0x38]
+30a19c	f9b6306e	ldrsh.w	r3, [r6, #0x6e]
+30a1a0	2b00	cmp	r3, #0x0
+30a1a2	d077	beq	0x30a294 <af_shaper_get_coverage+0x790>
+30a1a4	9a05	ldr	r2, [sp, #0x14]
+30a1a6	f8d2c01c	ldr.w	r12, [r2, #0x1c]
+30a1aa	f1bc0f00	cmp.w	r12, #0x0
+30a1ae	d004	beq	0x30a1ba <af_shaper_get_coverage+0x6b6>
+30a1b0	980b	ldr	r0, [sp, #0x2c]
+30a1b2	4659	mov	r1, r11
+30a1b4	463a	mov	r2, r7
+30a1b6	4653	mov	r3, r10
+30a1b8	47e0	blx	r12
+30a1ba	6963	ldr	r3, [r4, #0x14]
+30a1bc	2b01	cmp	r3, #0x1
+30a1be	d050	beq	0x30a262 <af_shaper_get_coverage+0x75e>
+30a1c0	f8db2038	ldr.w	r2, [r11, #0x38]
+30a1c4	f8db3040	ldr.w	r3, [r11, #0x40]
+30a1c8	2a01	cmp	r2, #0x1
+30a1ca	dd40	ble	0x30a24e <af_shaper_get_coverage+0x74a>
+30a1cc	f8db1ab4	ldr.w	r1, [r11, #0xab4]
+30a1d0	0749	lsls	r1, r1, #0x1d
+30a1d2	d43c	bmi	0x30a24e <af_shaper_get_coverage+0x74a>
+30a1d4	f04f0e2c	mov.w	lr, #0x2c
+30a1d8	f8d3c004	ldr.w	r12, [r3, #0x4]
+30a1dc	fb0e3e02	mla	lr, lr, r2, r3
+30a1e0	f8d38008	ldr.w	r8, [r3, #0x8]
+30a1e4	6b68	ldr	r0, [r5, #0x34]
+30a1e6	f1bc0f17	cmp.w	r12, #0x17
+30a1ea	f1ae0e2c	sub.w	lr, lr, #0x2c
+30a1ee	f8de2004	ldr.w	r2, [lr, #0x4]
+30a1f2	f8de3008	ldr.w	r3, [lr, #0x8]
+30a1f6	ebc20000	rsb	r0, r2, r0
+30a1fa	ebcc0208	rsb	r2, r12, r8
+30a1fe	bfd8	it	le
+30a200	3a08	suble	r2, #0x8
+30a202	4403	add	r3, r0
+30a204	f1020920	add.w	r9, r2, #0x20
+30a208	2817	cmp	r0, #0x17
+30a20a	f029093f	bic	r9, r9, #0x3f
+30a20e	bfd8	it	le
+30a210	3308	addle	r3, #0x8
+30a212	45c1	cmp	r9, r8
+30a214	f1030120	add.w	r1, r3, #0x20
+30a218	f021013f	bic	r1, r1, #0x3f
+30a21c	f8c5902c	str.w	r9, [r5, #0x2c]
+30a220	6369	str	r1, [r5, #0x34]
+30a222	db06	blt	0x30a232 <af_shaper_get_coverage+0x72e>
+30a224	f1bc0f00	cmp.w	r12, #0x0
+30a228	bfc4	itt	gt
+30a22a	f1a90940	subgt.w	r9, r9, #0x40
+30a22e	f8c5902c	strgt.w	r9, [r5, #0x2c]
+30a232	f8dee008	ldr.w	lr, [lr, #0x8]
+30a236	4571	cmp	r1, lr
+30a238	dc03	bgt	0x30a242 <af_shaper_get_coverage+0x73e>
+30a23a	2800	cmp	r0, #0x0
+30a23c	bfc4	itt	gt
+30a23e	3140	addgt	r1, #0x40
+30a240	6369	strgt	r1, [r5, #0x34]
+30a242	6ae9	ldr	r1, [r5, #0x2c]
+30a244	1a8a	subs	r2, r1, r2
+30a246	f8c62090	str.w	r2, [r6, #0x90]
+30a24a	6b6a	ldr	r2, [r5, #0x34]
+30a24c	e01c	b	0x30a288 <af_shaper_get_coverage+0x784>
+30a24e	6ae9	ldr	r1, [r5, #0x2c]
+30a250	6b6b	ldr	r3, [r5, #0x34]
+30a252	f1010020	add.w	r0, r1, #0x20
+30a256	f020003f	bic	r0, r0, #0x3f
+30a25a	f1030220	add.w	r2, r3, #0x20
+30a25e	62e8	str	r0, [r5, #0x2c]
+30a260	e00c	b	0x30a27c <af_shaper_get_coverage+0x778>
+30a262	6b6b	ldr	r3, [r5, #0x34]
+30a264	f8db2ac4	ldr.w	r2, [r11, #0xac4]
+30a268	6ae9	ldr	r1, [r5, #0x2c]
+30a26a	f8dd0b80	ldr.w	r0, [sp, #0xb80]
+30a26e	441a	add	r2, r3
+30a270	3220	adds	r2, #0x20
+30a272	4408	add	r0, r1
+30a274	3020	adds	r0, #0x20
+30a276	f020003f	bic	r0, r0, #0x3f
+30a27a	62e8	str	r0, [r5, #0x2c]
+30a27c	f022023f	bic	r2, r2, #0x3f
+30a280	1a41	subs	r1, r0, r1
+30a282	636a	str	r2, [r5, #0x34]
+30a284	f8c61090	str.w	r1, [r6, #0x90]
+30a288	1ad3	subs	r3, r2, r3
+30a28a	f8c63094	str.w	r3, [r6, #0x94]
+30a28e	e001	b	0x30a294 <af_shaper_get_coverage+0x790>
+30a290	2307	movs	r3, #0x7
+30a292	9304	str	r3, [sp, #0x10]
+30a294	6a33	ldr	r3, [r6, #0x20]
+30a296	6af0	ldr	r0, [r6, #0x2c]
+30a298	1ac0	subs	r0, r0, r3
+30a29a	f8440c18	str	r0, [r4, #-24]
+30a29e	6b32	ldr	r2, [r6, #0x30]
+30a2a0	6a73	ldr	r3, [r6, #0x24]
+30a2a2	1ad3	subs	r3, r2, r3
+30a2a4	f8443c14	str	r3, [r4, #-20]
+30a2a8	f8da1008	ldr.w	r1, [r10, #0x8]
+30a2ac	f7fcfffe	bl	0x3072ac <TT_New_Context+0x70a4>
+30a2b0	f8440c18	str	r0, [r4, #-24]
+30a2b4	f8540c14	ldr	r0, [r4, #-20]
+30a2b8	f8da100c	ldr.w	r1, [r10, #0xc]
+30a2bc	f7fcfff6	bl	0x3072ac <TT_New_Context+0x70a4>
+30a2c0	7c2b	ldrb	r3, [r5, #0x10]
+30a2c2	f8440c14	str	r0, [r4, #-20]
+30a2c6	b14b	cbz	r3, 0x30a2dc <af_shaper_get_coverage+0x7d8>
+30a2c8	f10d0898	add.w	r8, sp, #0x98
+30a2cc	4638	mov	r0, r7
+30a2ce	4641	mov	r1, r8
+30a2d0	f7dcf956	bl	0x2e6580 <FT_Outline_Transform>
+30a2d4	a814	add	r0, sp, #0x50
+30a2d6	4641	mov	r1, r8
+30a2d8	f7dcf936	bl	0x2e6548 <FT_Vector_Transform>
+30a2dc	6ae9	ldr	r1, [r5, #0x2c]
+30a2de	b121	cbz	r1, 0x30a2ea <af_shaper_get_coverage+0x7e6>
+30a2e0	4638	mov	r0, r7
+30a2e2	4249	rsbs	r1, r1, #0
+30a2e4	2200	movs	r2, #0x0
+30a2e6	f7dcf89d	bl	0x2e6424 <FT_Outline_Translate>
+30a2ea	4638	mov	r0, r7
+30a2ec	a916	add	r1, sp, #0x58
+30a2ee	f7dcf86d	bl	0x2e63cc <FT_Outline_Get_CBox>
+30a2f2	f8540c08	ldr	r0, [r4, #-8]
+30a2f6	f8543c04	ldr	r3, [r4, #-4]
+30a2fa	f8542c10	ldr	r2, [r4, #-16]
+30a2fe	303f	adds	r0, #0x3f
+30a300	f8541c0c	ldr	r1, [r4, #-12]
+30a304	333f	adds	r3, #0x3f
+30a306	f022023f	bic	r2, r2, #0x3f
+30a30a	f023033f	bic	r3, r3, #0x3f
+30a30e	f021013f	bic	r1, r1, #0x3f
+30a312	f020003f	bic	r0, r0, #0x3f
+30a316	f8442c10	str	r2, [r4, #-16]
+30a31a	f8441c0c	str	r1, [r4, #-12]
+30a31e	1a59	subs	r1, r3, r1
+30a320	f8440c08	str	r0, [r4, #-8]
+30a324	1a80	subs	r0, r0, r2
+30a326	f8443c04	str	r3, [r4, #-4]
+30a32a	6232	str	r2, [r6, #0x20]
+30a32c	6273	str	r3, [r6, #0x24]
+30a32e	61b0	str	r0, [r6, #0x18]
+30a330	61f1	str	r1, [r6, #0x1c]
+30a332	f8541c18	ldr	r1, [r4, #-24]
+30a336	440a	add	r2, r1
+30a338	f022023f	bic	r2, r2, #0x3f
+30a33c	62f2	str	r2, [r6, #0x2c]
+30a33e	f8542c14	ldr	r2, [r4, #-20]
+30a342	4413	add	r3, r2
+30a344	f023033f	bic	r3, r3, #0x3f
+30a348	6333	str	r3, [r6, #0x30]
+30a34a	6963	ldr	r3, [r4, #0x14]
+30a34c	2b01	cmp	r3, #0x1
+30a34e	d00f	beq	0x30a370 <af_shaper_get_coverage+0x86c>
+30a350	6873	ldr	r3, [r6, #0x4]
+30a352	689b	ldr	r3, [r3, #0x8]
+30a354	075b	lsls	r3, r3, #0x1d
+30a356	d50b	bpl	0x30a370 <af_shaper_get_coverage+0x86c>
+30a358	6ab0	ldr	r0, [r6, #0x28]
+30a35a	f8da1008	ldr.w	r1, [r10, #0x8]
+30a35e	f7fcffa5	bl	0x3072ac <TT_New_Context+0x70a4>
+30a362	2300	movs	r3, #0x0
+30a364	f8c63090	str.w	r3, [r6, #0x90]
+30a368	f8c63094	str.w	r3, [r6, #0x94]
+30a36c	62b0	str	r0, [r6, #0x28]
+30a36e	e005	b	0x30a37c <af_shaper_get_coverage+0x878>
+30a370	6ab3	ldr	r3, [r6, #0x28]
+30a372	b11b	cbz	r3, 0x30a37c <af_shaper_get_coverage+0x878>
+30a374	6b6a	ldr	r2, [r5, #0x34]
+30a376	6aeb	ldr	r3, [r5, #0x2c]
+30a378	1ad3	subs	r3, r2, r3
+30a37a	62b3	str	r3, [r6, #0x28]
+30a37c	6b70	ldr	r0, [r6, #0x34]
+30a37e	f8da100c	ldr.w	r1, [r10, #0xc]
+30a382	f7fcff93	bl	0x3072ac <TT_New_Context+0x70a4>
+30a386	6ab3	ldr	r3, [r6, #0x28]
+30a388	4a0c	ldr	r2, [pc, #0x30]
+30a38a	3320	adds	r3, #0x20
+30a38c	f023033f	bic	r3, r3, #0x3f
+30a390	62b3	str	r3, [r6, #0x28]
+30a392	64b2	str	r2, [r6, #0x48]
+30a394	3020	adds	r0, #0x20
+30a396	f020003f	bic	r0, r0, #0x3f
+30a39a	6370	str	r0, [r6, #0x34]
+30a39c	f8dd8010	ldr.w	r8, [sp, #0x10]
+30a3a0	2300	movs	r3, #0x0
+30a3a2	4658	mov	r0, r11
+30a3a4	606b	str	r3, [r5, #0x4]
+30a3a6	60ab	str	r3, [r5, #0x8]
+30a3a8	9321	str	r3, [sp, #0x84]
+30a3aa	f7fefa09	bl	0x3087c0 <TT_New_Context+0x85b8>
+30a3ae	4640	mov	r0, r8
+30a3b0	f50d5dd5	add.w	sp, sp, #0x1aa0
+30a3b4	b003	add	sp, #0xc
+30a3b6	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+30a3ba	bf00	nop	
+30a3bc	746c	strb	r4, [r5, #0x11]
+30a3be	6f75	ldr	r5, [r6, #0x74]
+30a3c0	7ec2	ldrb	r2, [r0, #0x1b]
+30a3c2	000e	movs	r6, r1
+30a3c4	e9efffff	strd	pc, pc, [pc, #1020]!
+30a3c8	ff98ffff	.word	0xff98ffff
+30a3cc	ff94ffff	.word	0xff94ffff
+30a3d0	664e	str	r6, [r1, #0x64]
+30a3d2	0009	movs	r1, r1
+30a3d4	b537	push	{r0, r1, r2, r4, r5, lr}
+30a3d6	460d	mov	r5, r1
+30a3d8	4604	mov	r4, r0
+30a3da	b160	cbz	r0, 0x30a3f6 <af_shaper_get_coverage+0x8f2>
+30a3dc	6f43	ldr	r3, [r0, #0x74]
+30a3de	9301	str	r3, [sp, #0x4]
+30a3e0	b95b	cbnz	r3, 0x30a3fa <af_shaper_get_coverage+0x8f6>
+30a3e2	a901	add	r1, sp, #0x4
+30a3e4	f7fffb90	bl	0x309b08 <af_shaper_get_coverage+0x4>
+30a3e8	b950	cbnz	r0, 0x30a400 <af_shaper_get_coverage+0x8fc>
+30a3ea	9b01	ldr	r3, [sp, #0x4]
+30a3ec	6763	str	r3, [r4, #0x74]
+30a3ee	4b05	ldr	r3, [pc, #0x14]
+30a3f0	447b	add	r3, pc
+30a3f2	67a3	str	r3, [r4, #0x78]
+30a3f4	e001	b	0x30a3fa <af_shaper_get_coverage+0x8f6>
+30a3f6	2023	movs	r0, #0x23
+30a3f8	e002	b	0x30a400 <af_shaper_get_coverage+0x8fc>
+30a3fa	9b01	ldr	r3, [sp, #0x4]
+30a3fc	2000	movs	r0, #0x0
+30a3fe	602b	str	r3, [r5]
+30a400	b003	add	sp, #0xc
+30a402	bd30	pop	{r4, r5, pc}
+30a404	e461	b	0x309cca <af_shaper_get_coverage+0x1c6>
+30a406	ffffe92d	vtbl.8	d30, {d15, d16}, d29
+30a40a	43f7	mvns	r7, r6
+30a40c	4605	mov	r5, r0
+30a40e	460e	mov	r6, r1
+30a410	f8d0900c	ldr.w	r9, [r0, #0xc]
+30a414	f8d08010	ldr.w	r8, [r0, #0x10]
+30a418	4614	mov	r4, r2
+30a41a	7d07	ldrb	r7, [r0, #0x14]
+30a41c	4608	mov	r0, r1
+30a41e	4931	ldr	r1, [pc, #0xc4]
+30a420	4479	add	r1, pc
+30a422	f5ace8a8	blx	0xb6574 <strcmp@plt>
+30a426	b948	cbnz	r0, 0x30a43c <af_shaper_get_coverage+0x938>
+30a428	6820	ldr	r0, [r4]
+30a42a	a901	add	r1, sp, #0x4
+30a42c	462a	mov	r2, r5
+30a42e	f7ffffd1	bl	0x30a3d4 <af_shaper_get_coverage+0x8d0>
+30a432	2800	cmp	r0, #0x0
+30a434	d153	bne	0x30a4de <af_shaper_get_coverage+0x9da>
+30a436	9b01	ldr	r3, [sp, #0x4]
+30a438	689b	ldr	r3, [r3, #0x8]
+30a43a	e025	b	0x30a488 <af_shaper_get_coverage+0x984>
+30a43c	492a	ldr	r1, [pc, #0xa8]
+30a43e	4630	mov	r0, r6
+30a440	4479	add	r1, pc
+30a442	f5ace898	blx	0xb6574 <strcmp@plt>
+30a446	b938	cbnz	r0, 0x30a458 <af_shaper_get_coverage+0x954>
+30a448	4b28	ldr	r3, [pc, #0xa0]
+30a44a	447b	add	r3, pc
+30a44c	681b	ldr	r3, [r3]
+30a44e	f8533029	ldr.w	r3, [r3, r9, lsl #2]
+30a452	689b	ldr	r3, [r3, #0x8]
+30a454	6023	str	r3, [r4]
+30a456	e042	b	0x30a4de <af_shaper_get_coverage+0x9da>
+30a458	4925	ldr	r1, [pc, #0x94]
+30a45a	4630	mov	r0, r6
+30a45c	4479	add	r1, pc
+30a45e	f5ace88a	blx	0xb6574 <strcmp@plt>
+30a462	b910	cbnz	r0, 0x30a46a <af_shaper_get_coverage+0x966>
+30a464	f8c48000	str.w	r8, [r4]
+30a468	e039	b	0x30a4de <af_shaper_get_coverage+0x9da>
+30a46a	4922	ldr	r1, [pc, #0x88]
+30a46c	4630	mov	r0, r6
+30a46e	4479	add	r1, pc
+30a470	f5ace880	blx	0xb6574 <strcmp@plt>
+30a474	b950	cbnz	r0, 0x30a48c <af_shaper_get_coverage+0x988>
+30a476	6820	ldr	r0, [r4]
+30a478	a901	add	r1, sp, #0x4
+30a47a	462a	mov	r2, r5
+30a47c	f7ffffaa	bl	0x30a3d4 <af_shaper_get_coverage+0x8d0>
+30a480	2800	cmp	r0, #0x0
+30a482	d12c	bne	0x30a4de <af_shaper_get_coverage+0x9da>
+30a484	9b01	ldr	r3, [sp, #0x4]
+30a486	68db	ldr	r3, [r3, #0xc]
+30a488	6063	str	r3, [r4, #0x4]
+30a48a	e028	b	0x30a4de <af_shaper_get_coverage+0x9da>
+30a48c	491a	ldr	r1, [pc, #0x68]
+30a48e	4630	mov	r0, r6
+30a490	4479	add	r1, pc
+30a492	f5ace870	blx	0xb6574 <strcmp@plt>
+30a496	b908	cbnz	r0, 0x30a49c <af_shaper_get_coverage+0x998>
+30a498	7027	strb	r7, [r4]
+30a49a	e020	b	0x30a4de <af_shaper_get_coverage+0x9da>
+30a49c	4917	ldr	r1, [pc, #0x5c]
+30a49e	4630	mov	r0, r6
+30a4a0	4479	add	r1, pc
+30a4a2	f5ace868	blx	0xb6574 <strcmp@plt>
+30a4a6	b980	cbnz	r0, 0x30a4ca <af_shaper_get_coverage+0x9c6>
+30a4a8	69ab	ldr	r3, [r5, #0x18]
+30a4aa	6023	str	r3, [r4]
+30a4ac	69eb	ldr	r3, [r5, #0x1c]
+30a4ae	6063	str	r3, [r4, #0x4]
+30a4b0	6a2b	ldr	r3, [r5, #0x20]
+30a4b2	60a3	str	r3, [r4, #0x8]
+30a4b4	6a6b	ldr	r3, [r5, #0x24]
+30a4b6	60e3	str	r3, [r4, #0xc]
+30a4b8	6aab	ldr	r3, [r5, #0x28]
+30a4ba	6123	str	r3, [r4, #0x10]
+30a4bc	6aeb	ldr	r3, [r5, #0x2c]
+30a4be	6163	str	r3, [r4, #0x14]
+30a4c0	6b2b	ldr	r3, [r5, #0x30]
+30a4c2	61a3	str	r3, [r4, #0x18]
+30a4c4	6b6b	ldr	r3, [r5, #0x34]
+30a4c6	61e3	str	r3, [r4, #0x1c]
+30a4c8	e009	b	0x30a4de <af_shaper_get_coverage+0x9da>
+30a4ca	490d	ldr	r1, [pc, #0x34]
+30a4cc	4630	mov	r0, r6
+30a4ce	4479	add	r1, pc
+30a4d0	f5ace850	blx	0xb6574 <strcmp@plt>
+30a4d4	b910	cbnz	r0, 0x30a4dc <af_shaper_get_coverage+0x9d8>
+30a4d6	7d6b	ldrb	r3, [r5, #0x15]
+30a4d8	7023	strb	r3, [r4]
+30a4da	e000	b	0x30a4de <af_shaper_get_coverage+0x9da>
+30a4dc	200c	movs	r0, #0xc
+30a4de	b003	add	sp, #0xc
+30a4e0	e8bd83f0	pop.w	{r4, r5, r6, r7, r8, r9, pc}
+30a4e4	4b29	ldr	r3, [pc, #0xa4]
+30a4e6	0008	movs	r0, r1
+30a4e8	4b1d	ldr	r3, [pc, #0x74]
+30a4ea	0008	movs	r0, r1
+30a4ec	779e	strb	r6, [r3, #0x1e]
+30a4ee	000e	movs	r6, r1
+30a4f0	4b11	ldr	r3, [pc, #0x44]
+30a4f2	0008	movs	r0, r1
+30a4f4	4b0e	ldr	r3, [pc, #0x38]
+30a4f6	0008	movs	r0, r1
+30a4f8	4afe	ldr	r2, [pc, #0x3f8]
+30a4fa	0008	movs	r0, r1
+30a4fc	4af6	ldr	r2, [pc, #0x3d8]
+30a4fe	0008	movs	r0, r1
+30a500	4add	ldr	r2, [pc, #0x374]
+30a502	0008	movs	r0, r1
+30a504	e92d41f0	push.w	{r4, r5, r6, r7, r8, lr}
+30a508	4605	mov	r5, r0
+30a50a	460f	mov	r7, r1
+30a50c	4608	mov	r0, r1
+30a50e	4965	ldr	r1, [pc, #0x194]
+30a510	b08a	sub	sp, #0x28
+30a512	4614	mov	r4, r2
+30a514	461e	mov	r6, r3
+30a516	4479	add	r1, pc
+30a518	f5ace82c	blx	0xb6574 <strcmp@plt>
+30a51c	b9b0	cbnz	r0, 0x30a54c <af_shaper_get_coverage+0xa48>
+30a51e	2e00	cmp	r6, #0x0
+30a520	f04080bb	bne.w	0x30a69a <af_shaper_get_coverage+0xb96>
+30a524	4a60	ldr	r2, [pc, #0x180]
+30a526	447a	add	r2, pc
+30a528	6812	ldr	r2, [r2]
+30a52a	f8523026	ldr.w	r3, [r2, r6, lsl #2]
+30a52e	2b00	cmp	r3, #0x0
+30a530	f00080b3	beq.w	0x30a69a <af_shaper_get_coverage+0xb96>
+30a534	6898	ldr	r0, [r3, #0x8]
+30a536	6821	ldr	r1, [r4]
+30a538	4288	cmp	r0, r1
+30a53a	d105	bne	0x30a548 <af_shaper_get_coverage+0xa44>
+30a53c	691b	ldr	r3, [r3, #0x10]
+30a53e	2b0a	cmp	r3, #0xa
+30a540	d102	bne	0x30a548 <af_shaper_get_coverage+0xa44>
+30a542	60ee	str	r6, [r5, #0xc]
+30a544	2000	movs	r0, #0x0
+30a546	e0a9	b	0x30a69c <af_shaper_get_coverage+0xb98>
+30a548	3601	adds	r6, #0x1
+30a54a	e7ee	b	0x30a52a <af_shaper_get_coverage+0xa26>
+30a54c	4957	ldr	r1, [pc, #0x15c]
+30a54e	4638	mov	r0, r7
+30a550	4479	add	r1, pc
+30a552	f5ace810	blx	0xb6574 <strcmp@plt>
+30a556	b928	cbnz	r0, 0x30a564 <af_shaper_get_coverage+0xa60>
+30a558	2e00	cmp	r6, #0x0
+30a55a	f040809e	bne.w	0x30a69a <af_shaper_get_coverage+0xb96>
+30a55e	6823	ldr	r3, [r4]
+30a560	612b	str	r3, [r5, #0x10]
+30a562	e02b	b	0x30a5bc <af_shaper_get_coverage+0xab8>
+30a564	4952	ldr	r1, [pc, #0x148]
+30a566	4638	mov	r0, r7
+30a568	4479	add	r1, pc
+30a56a	f5ace804	blx	0xb6574 <strcmp@plt>
+30a56e	b970	cbnz	r0, 0x30a58e <af_shaper_get_coverage+0xa8a>
+30a570	2e00	cmp	r6, #0x0
+30a572	f0408092	bne.w	0x30a69a <af_shaper_get_coverage+0xb96>
+30a576	6820	ldr	r0, [r4]
+30a578	a902	add	r1, sp, #0x8
+30a57a	462a	mov	r2, r5
+30a57c	f7ffff2a	bl	0x30a3d4 <af_shaper_get_coverage+0x8d0>
+30a580	2800	cmp	r0, #0x0
+30a582	f040808b	bne.w	0x30a69c <af_shaper_get_coverage+0xb98>
+30a586	6862	ldr	r2, [r4, #0x4]
+30a588	9b02	ldr	r3, [sp, #0x8]
+30a58a	60da	str	r2, [r3, #0xc]
+30a58c	e086	b	0x30a69c <af_shaper_get_coverage+0xb98>
+30a58e	4949	ldr	r1, [pc, #0x124]
+30a590	4638	mov	r0, r7
+30a592	4479	add	r1, pc
+30a594	f5abefee	blx	0xb6574 <strcmp@plt>
+30a598	4680	mov	r8, r0
+30a59a	b988	cbnz	r0, 0x30a5c0 <af_shaper_get_coverage+0xabc>
+30a59c	b166	cbz	r6, 0x30a5b8 <af_shaper_get_coverage+0xab4>
+30a59e	4620	mov	r0, r4
+30a5a0	4641	mov	r1, r8
+30a5a2	220a	movs	r2, #0xa
+30a5a4	f5ace864	blx	0xb6670 <strtol@plt>
+30a5a8	b908	cbnz	r0, 0x30a5ae <af_shaper_get_coverage+0xaaa>
+30a5aa	7528	strb	r0, [r5, #0x14]
+30a5ac	e076	b	0x30a69c <af_shaper_get_coverage+0xb98>
+30a5ae	2801	cmp	r0, #0x1
+30a5b0	d173	bne	0x30a69a <af_shaper_get_coverage+0xb96>
+30a5b2	7528	strb	r0, [r5, #0x14]
+30a5b4	4640	mov	r0, r8
+30a5b6	e071	b	0x30a69c <af_shaper_get_coverage+0xb98>
+30a5b8	7823	ldrb	r3, [r4]
+30a5ba	752b	strb	r3, [r5, #0x14]
+30a5bc	4630	mov	r0, r6
+30a5be	e06d	b	0x30a69c <af_shaper_get_coverage+0xb98>
+30a5c0	493d	ldr	r1, [pc, #0xf4]
+30a5c2	4638	mov	r0, r7
+30a5c4	4479	add	r1, pc
+30a5c6	f5abefd6	blx	0xb6574 <strcmp@plt>
+30a5ca	2800	cmp	r0, #0x0
+30a5cc	d14e	bne	0x30a66c <af_shaper_get_coverage+0xb68>
+30a5ce	b30e	cbz	r6, 0x30a614 <af_shaper_get_coverage+0xb10>
+30a5d0	f10d0804	add.w	r8, sp, #0x4
+30a5d4	4606	mov	r6, r0
+30a5d6	220a	movs	r2, #0xa
+30a5d8	4620	mov	r0, r4
+30a5da	4641	mov	r1, r8
+30a5dc	af02	add	r7, sp, #0x8
+30a5de	f5ace848	blx	0xb6670 <strtol@plt>
+30a5e2	9b01	ldr	r3, [sp, #0x4]
+30a5e4	51b8	str	r0, [r7, r6]
+30a5e6	781a	ldrb	r2, [r3]
+30a5e8	2a2c	cmp	r2, #0x2c
+30a5ea	d156	bne	0x30a69a <af_shaper_get_coverage+0xb96>
+30a5ec	429c	cmp	r4, r3
+30a5ee	d054	beq	0x30a69a <af_shaper_get_coverage+0xb96>
+30a5f0	3604	adds	r6, #0x4
+30a5f2	1c5c	adds	r4, r3, #0x1
+30a5f4	2e1c	cmp	r6, #0x1c
+30a5f6	d1ee	bne	0x30a5d6 <af_shaper_get_coverage+0xad2>
+30a5f8	220a	movs	r2, #0xa
+30a5fa	4620	mov	r0, r4
+30a5fc	4641	mov	r1, r8
+30a5fe	f5ace838	blx	0xb6670 <strtol@plt>
+30a602	9b01	ldr	r3, [sp, #0x4]
+30a604	9009	str	r0, [sp, #0x24]
+30a606	781a	ldrb	r2, [r3]
+30a608	f0120fdf	tst.w	r2, #0xdf
+30a60c	d145	bne	0x30a69a <af_shaper_get_coverage+0xb96>
+30a60e	429c	cmp	r4, r3
+30a610	d043	beq	0x30a69a <af_shaper_get_coverage+0xb96>
+30a612	463c	mov	r4, r7
+30a614	e8941001	ldm.w	r4, {r0, r12}
+30a618	68a2	ldr	r2, [r4, #0x8]
+30a61a	2800	cmp	r0, #0x0
+30a61c	68e7	ldr	r7, [r4, #0xc]
+30a61e	6923	ldr	r3, [r4, #0x10]
+30a620	6966	ldr	r6, [r4, #0x14]
+30a622	69a1	ldr	r1, [r4, #0x18]
+30a624	69e4	ldr	r4, [r4, #0x1c]
+30a626	db38	blt	0x30a69a <af_shaper_get_coverage+0xb96>
+30a628	2a00	cmp	r2, #0x0
+30a62a	db36	blt	0x30a69a <af_shaper_get_coverage+0xb96>
+30a62c	2b00	cmp	r3, #0x0
+30a62e	db34	blt	0x30a69a <af_shaper_get_coverage+0xb96>
+30a630	2900	cmp	r1, #0x0
+30a632	db32	blt	0x30a69a <af_shaper_get_coverage+0xb96>
+30a634	4290	cmp	r0, r2
+30a636	dc30	bgt	0x30a69a <af_shaper_get_coverage+0xb96>
+30a638	429a	cmp	r2, r3
+30a63a	dc2e	bgt	0x30a69a <af_shaper_get_coverage+0xb96>
+30a63c	428b	cmp	r3, r1
+30a63e	dc2c	bgt	0x30a69a <af_shaper_get_coverage+0xb96>
+30a640	f5bc7ffa	cmp.w	r12, #0x1f4
+30a644	d829	bhi	0x30a69a <af_shaper_get_coverage+0xb96>
+30a646	f5b77ffa	cmp.w	r7, #0x1f4
+30a64a	d826	bhi	0x30a69a <af_shaper_get_coverage+0xb96>
+30a64c	f5b67ffa	cmp.w	r6, #0x1f4
+30a650	d823	bhi	0x30a69a <af_shaper_get_coverage+0xb96>
+30a652	f5b47ffa	cmp.w	r4, #0x1f4
+30a656	d820	bhi	0x30a69a <af_shaper_get_coverage+0xb96>
+30a658	61a8	str	r0, [r5, #0x18]
+30a65a	f8c5c01c	str.w	r12, [r5, #0x1c]
+30a65e	622a	str	r2, [r5, #0x20]
+30a660	626f	str	r7, [r5, #0x24]
+30a662	62ab	str	r3, [r5, #0x28]
+30a664	62ee	str	r6, [r5, #0x2c]
+30a666	6329	str	r1, [r5, #0x30]
+30a668	636c	str	r4, [r5, #0x34]
+30a66a	e76b	b	0x30a544 <af_shaper_get_coverage+0xa40>
+30a66c	4913	ldr	r1, [pc, #0x4c]
+30a66e	4638	mov	r0, r7
+30a670	4479	add	r1, pc
+30a672	f5abef80	blx	0xb6574 <strcmp@plt>
+30a676	4607	mov	r7, r0
+30a678	b968	cbnz	r0, 0x30a696 <af_shaper_get_coverage+0xb92>
+30a67a	b14e	cbz	r6, 0x30a690 <af_shaper_get_coverage+0xb8c>
+30a67c	4620	mov	r0, r4
+30a67e	4639	mov	r1, r7
+30a680	220a	movs	r2, #0xa
+30a682	f5abeff6	blx	0xb6670 <strtol@plt>
+30a686	b908	cbnz	r0, 0x30a68c <af_shaper_get_coverage+0xb88>
+30a688	7568	strb	r0, [r5, #0x15]
+30a68a	e007	b	0x30a69c <af_shaper_get_coverage+0xb98>
+30a68c	2301	movs	r3, #0x1
+30a68e	e000	b	0x30a692 <af_shaper_get_coverage+0xb8e>
+30a690	7823	ldrb	r3, [r4]
+30a692	756b	strb	r3, [r5, #0x15]
+30a694	e756	b	0x30a544 <af_shaper_get_coverage+0xa40>
+30a696	200c	movs	r0, #0xc
+30a698	e000	b	0x30a69c <af_shaper_get_coverage+0xb98>
+30a69a	2006	movs	r0, #0x6
+30a69c	b00a	add	sp, #0x28
+30a69e	e8bd81f0	pop.w	{r4, r5, r6, r7, r8, pc}
+30a6a2	bf00	nop	
+30a6a4	4a47	ldr	r2, [pc, #0x11c]
+30a6a6	0008	movs	r0, r1
+30a6a8	76c2	strb	r2, [r0, #0x1b]
+30a6aa	000e	movs	r6, r1
+30a6ac	4a1d	ldr	r2, [pc, #0x74]
+30a6ae	0008	movs	r0, r1
+30a6b0	4a14	ldr	r2, [pc, #0x50]
+30a6b2	0008	movs	r0, r1
+30a6b4	49fc	ldr	r1, [pc, #0x3f0]
+30a6b6	0008	movs	r0, r1
+30a6b8	49d2	ldr	r1, [pc, #0x348]
+30a6ba	0008	movs	r0, r1

@@ -1,0 +1,280 @@
+2e90fc	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2e9100	b08b	sub	sp, #0x2c
+2e9102	4607	mov	r7, r0
+2e9104	4615	mov	r5, r2
+2e9106	469b	mov	r11, r3
+2e9108	f8dda050	ldr.w	r10, [sp, #0x50]
+2e910c	6806	ldr	r6, [r0]
+2e910e	4688	mov	r8, r1
+2e9110	b1a9	cbz	r1, 0x2e913e <FT_New_Face+0x66>
+2e9112	f10d0908	add.w	r9, sp, #0x8
+2e9116	4630	mov	r0, r6
+2e9118	2128	movs	r1, #0x28
+2e911a	464a	mov	r2, r9
+2e911c	f7fef803	bl	0x2e7126 <ft_mem_alloc>
+2e9120	9a02	ldr	r2, [sp, #0x8]
+2e9122	4604	mov	r4, r0
+2e9124	b93a	cbnz	r2, 0x2e9136 <FT_New_Face+0x5e>
+2e9126	462a	mov	r2, r5
+2e9128	4641	mov	r1, r8
+2e912a	f7fdfbae	bl	0x2e688a <FT_Stream_OpenMemory>
+2e912e	4a1c	ldr	r2, [pc, #0x70]
+2e9130	447a	add	r2, pc
+2e9132	61a2	str	r2, [r4, #0x18]
+2e9134	e000	b	0x2e9138 <FT_New_Face+0x60>
+2e9136	2400	movs	r4, #0x0
+2e9138	9d02	ldr	r5, [sp, #0x8]
+2e913a	b135	cbz	r5, 0x2e914a <FT_New_Face+0x72>
+2e913c	e000	b	0x2e9140 <FT_New_Face+0x68>
+2e913e	2506	movs	r5, #0x6
+2e9140	4630	mov	r0, r6
+2e9142	4641	mov	r1, r8
+2e9144	f7fef8f7	bl	0x2e7336 <ft_mem_free>
+2e9148	e025	b	0x2e9196 <FT_New_Face+0xbe>
+2e914a	2302	movs	r3, #0x2
+2e914c	9406	str	r4, [sp, #0x18]
+2e914e	9302	str	r3, [sp, #0x8]
+2e9150	f1ba0f00	cmp.w	r10, #0x0
+2e9154	d006	beq	0x2e9164 <FT_New_Face+0x8c>
+2e9156	4638	mov	r0, r7
+2e9158	4651	mov	r1, r10
+2e915a	230a	movs	r3, #0xa
+2e915c	9302	str	r3, [sp, #0x8]
+2e915e	f7fcfec7	bl	0x2e5ef0 <FT_Get_Module>
+2e9162	9007	str	r0, [sp, #0x1c]
+2e9164	2300	movs	r3, #0x0
+2e9166	4638	mov	r0, r7
+2e9168	9300	str	r3, [sp]
+2e916a	4649	mov	r1, r9
+2e916c	465a	mov	r2, r11
+2e916e	9b15	ldr	r3, [sp, #0x54]
+2e9170	f7fffd62	bl	0x2e8c38 <FT_Done_Face+0x5c>
+2e9174	4607	mov	r7, r0
+2e9176	b930	cbnz	r0, 0x2e9186 <FT_New_Face+0xae>
+2e9178	9a15	ldr	r2, [sp, #0x54]
+2e917a	6813	ldr	r3, [r2]
+2e917c	689a	ldr	r2, [r3, #0x8]
+2e917e	f4226280	bic	r2, r2, #0x400
+2e9182	609a	str	r2, [r3, #0x8]
+2e9184	e007	b	0x2e9196 <FT_New_Face+0xbe>
+2e9186	4620	mov	r0, r4
+2e9188	463d	mov	r5, r7
+2e918a	f7fdfb86	bl	0x2e689a <FT_Stream_Close>
+2e918e	4630	mov	r0, r6
+2e9190	4621	mov	r1, r4
+2e9192	f7fef8d0	bl	0x2e7336 <ft_mem_free>
+2e9196	4628	mov	r0, r5
+2e9198	b00b	add	sp, #0x2c
+2e919a	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2e919e	bf00	nop	
+2e91a0	eb7dffff	sbcs.w	pc, sp, pc, ror #31
+2e91a4	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2e91a8	b08b	sub	sp, #0x2c
+2e91aa	1e15	subs	r5, r2, #0x0
+2e91ac	460c	mov	r4, r1
+2e91ae	9307	str	r3, [sp, #0x1c]
+2e91b0	bfc8	it	gt
+2e91b2	b2ad	uxthgt	r5, r5
+2e91b4	6803	ldr	r3, [r0]
+2e91b6	ae09	add	r6, sp, #0x24
+2e91b8	9005	str	r0, [sp, #0x14]
+2e91ba	4608	mov	r0, r1
+2e91bc	9302	str	r3, [sp, #0x8]
+2e91be	f7fdfbbf	bl	0x2e6940 <FT_Stream_Pos>
+2e91c2	4631	mov	r1, r6
+2e91c4	9003	str	r0, [sp, #0xc]
+2e91c6	4620	mov	r0, r4
+2e91c8	f7fdfdfc	bl	0x2e6dc4 <FT_Stream_ReadULong>
+2e91cc	9f09	ldr	r7, [sp, #0x24]
+2e91ce	2f00	cmp	r7, #0x0
+2e91d0	d15f	bne	0x2e9292 <FT_New_Face+0x1ba>
+2e91d2	4b5d	ldr	r3, [pc, #0x174]
+2e91d4	4298	cmp	r0, r3
+2e91d6	d162	bne	0x2e929e <FT_New_Face+0x1c6>
+2e91d8	4620	mov	r0, r4
+2e91da	4631	mov	r1, r6
+2e91dc	f7fdfc92	bl	0x2e6b04 <FT_Stream_ReadUShort>
+2e91e0	f8dd8024	ldr.w	r8, [sp, #0x24]
+2e91e4	9006	str	r0, [sp, #0x18]
+2e91e6	f1b80f00	cmp.w	r8, #0x0
+2e91ea	d15d	bne	0x2e92a8 <FT_New_Face+0x1d0>
+2e91ec	4620	mov	r0, r4
+2e91ee	2106	movs	r1, #0x6
+2e91f0	f7fdfb9e	bl	0x2e6930 <FT_Stream_Skip>
+2e91f4	9009	str	r0, [sp, #0x24]
+2e91f6	2800	cmp	r0, #0x0
+2e91f8	d14c	bne	0x2e9294 <FT_New_Face+0x1bc>
+2e91fa	4681	mov	r9, r0
+2e91fc	4682	mov	r10, r0
+2e91fe	4683	mov	r11, r0
+2e9200	4680	mov	r8, r0
+2e9202	f04f37ff	mov.w	r7, #0xffffffff
+2e9206	9a06	ldr	r2, [sp, #0x18]
+2e9208	4590	cmp	r8, r2
+2e920a	da40	bge	0x2e928e <FT_New_Face+0x1b6>
+2e920c	4631	mov	r1, r6
+2e920e	4620	mov	r0, r4
+2e9210	f7fdfdd8	bl	0x2e6dc4 <FT_Stream_ReadULong>
+2e9214	9909	ldr	r1, [sp, #0x24]
+2e9216	9004	str	r0, [sp, #0x10]
+2e9218	b999	cbnz	r1, 0x2e9242 <FT_New_Face+0x16a>
+2e921a	4620	mov	r0, r4
+2e921c	2104	movs	r1, #0x4
+2e921e	f7fdfb87	bl	0x2e6930 <FT_Stream_Skip>
+2e9222	9009	str	r0, [sp, #0x24]
+2e9224	b968	cbnz	r0, 0x2e9242 <FT_New_Face+0x16a>
+2e9226	4631	mov	r1, r6
+2e9228	4620	mov	r0, r4
+2e922a	f7fdfdcb	bl	0x2e6dc4 <FT_Stream_ReadULong>
+2e922e	9909	ldr	r1, [sp, #0x24]
+2e9230	4683	mov	r11, r0
+2e9232	b931	cbnz	r1, 0x2e9242 <FT_New_Face+0x16a>
+2e9234	4620	mov	r0, r4
+2e9236	4631	mov	r1, r6
+2e9238	f7fdfdc4	bl	0x2e6dc4 <FT_Stream_ReadULong>
+2e923c	4682	mov	r10, r0
+2e923e	9809	ldr	r0, [sp, #0x24]
+2e9240	b108	cbz	r0, 0x2e9246 <FT_New_Face+0x16e>
+2e9242	9809	ldr	r0, [sp, #0x24]
+2e9244	e034	b	0x2e92b0 <FT_New_Face+0x1d8>
+2e9246	9a04	ldr	r2, [sp, #0x10]
+2e9248	4b40	ldr	r3, [pc, #0x100]
+2e924a	429a	cmp	r2, r3
+2e924c	d10a	bne	0x2e9264 <FT_New_Face+0x18c>
+2e924e	2d00	cmp	r5, #0x0
+2e9250	f1070701	add.w	r7, r7, #0x1
+2e9254	f10b0b16	add.w	r11, r11, #0x16
+2e9258	f1aa0a16	sub.w	r10, r10, #0x16
+2e925c	f04f0901	mov.w	r9, #0x1
+2e9260	da10	bge	0x2e9284 <FT_New_Face+0x1ac>
+2e9262	e025	b	0x2e92b0 <FT_New_Face+0x1d8>
+2e9264	9a04	ldr	r2, [sp, #0x10]
+2e9266	4b3a	ldr	r3, [pc, #0xe8]
+2e9268	429a	cmp	r2, r3
+2e926a	d109	bne	0x2e9280 <FT_New_Face+0x1a8>
+2e926c	2d00	cmp	r5, #0x0
+2e926e	f1070701	add.w	r7, r7, #0x1
+2e9272	f10b0b18	add.w	r11, r11, #0x18
+2e9276	f1aa0a18	sub.w	r10, r10, #0x18
+2e927a	4681	mov	r9, r0
+2e927c	da02	bge	0x2e9284 <FT_New_Face+0x1ac>
+2e927e	e015	b	0x2e92ac <FT_New_Face+0x1d4>
+2e9280	2d00	cmp	r5, #0x0
+2e9282	db01	blt	0x2e9288 <FT_New_Face+0x1b0>
+2e9284	42af	cmp	r7, r5
+2e9286	d012	beq	0x2e92ae <FT_New_Face+0x1d6>
+2e9288	f1080801	add.w	r8, r8, #0x1
+2e928c	e7bb	b	0x2e9206 <FT_New_Face+0x12e>
+2e928e	208e	movs	r0, #0x8e
+2e9290	e00e	b	0x2e92b0 <FT_New_Face+0x1d8>
+2e9292	4638	mov	r0, r7
+2e9294	f04f0900	mov.w	r9, #0x0
+2e9298	46ca	mov	r10, r9
+2e929a	46cb	mov	r11, r9
+2e929c	e008	b	0x2e92b0 <FT_New_Face+0x1d8>
+2e929e	46b9	mov	r9, r7
+2e92a0	46ba	mov	r10, r7
+2e92a2	46bb	mov	r11, r7
+2e92a4	2002	movs	r0, #0x2
+2e92a6	e003	b	0x2e92b0 <FT_New_Face+0x1d8>
+2e92a8	4640	mov	r0, r8
+2e92aa	e7f3	b	0x2e9294 <FT_New_Face+0x1bc>
+2e92ac	e000	b	0x2e92b0 <FT_New_Face+0x1d8>
+2e92ae	2000	movs	r0, #0x0
+2e92b0	9009	str	r0, [sp, #0x24]
+2e92b2	2800	cmp	r0, #0x0
+2e92b4	d138	bne	0x2e9328 <FT_New_Face+0x250>
+2e92b6	6861	ldr	r1, [r4, #0x4]
+2e92b8	458b	cmp	r11, r1
+2e92ba	d902	bls	0x2e92c2 <FT_New_Face+0x1ea>
+2e92bc	2308	movs	r3, #0x8
+2e92be	9309	str	r3, [sp, #0x24]
+2e92c0	e032	b	0x2e9328 <FT_New_Face+0x250>
+2e92c2	ebcb0101	rsb	r1, r11, r1
+2e92c6	458a	cmp	r10, r1
+2e92c8	d8f8	bhi	0x2e92bc <FT_New_Face+0x1e4>
+2e92ca	9903	ldr	r1, [sp, #0xc]
+2e92cc	4620	mov	r0, r4
+2e92ce	4459	add	r1, r11
+2e92d0	f7fdfae9	bl	0x2e68a6 <FT_Stream_Seek>
+2e92d4	9009	str	r0, [sp, #0x24]
+2e92d6	bb38	cbnz	r0, 0x2e9328 <FT_New_Face+0x250>
+2e92d8	4632	mov	r2, r6
+2e92da	9802	ldr	r0, [sp, #0x8]
+2e92dc	4651	mov	r1, r10
+2e92de	f7fdff22	bl	0x2e7126 <ft_mem_alloc>
+2e92e2	9a09	ldr	r2, [sp, #0x24]
+2e92e4	4606	mov	r6, r0
+2e92e6	b9fa	cbnz	r2, 0x2e9328 <FT_New_Face+0x250>
+2e92e8	4620	mov	r0, r4
+2e92ea	4631	mov	r1, r6
+2e92ec	4652	mov	r2, r10
+2e92ee	f7fdfb4e	bl	0x2e698e <FT_Stream_Read>
+2e92f2	9009	str	r0, [sp, #0x24]
+2e92f4	b120	cbz	r0, 0x2e9300 <FT_New_Face+0x228>
+2e92f6	9802	ldr	r0, [sp, #0x8]
+2e92f8	4631	mov	r1, r6
+2e92fa	f7fef81c	bl	0x2e7336 <ft_mem_free>
+2e92fe	e013	b	0x2e9328 <FT_New_Face+0x250>
+2e9300	ea0575e5	and.w	r5, r5, r5, asr #31
+2e9304	f1b90f00	cmp.w	r9, #0x0
+2e9308	d002	beq	0x2e9310 <FT_New_Face+0x238>
+2e930a	4a12	ldr	r2, [pc, #0x48]
+2e930c	447a	add	r2, pc
+2e930e	e001	b	0x2e9314 <FT_New_Face+0x23c>
+2e9310	4a11	ldr	r2, [pc, #0x44]
+2e9312	447a	add	r2, pc
+2e9314	9b07	ldr	r3, [sp, #0x1c]
+2e9316	4631	mov	r1, r6
+2e9318	9200	str	r2, [sp]
+2e931a	4652	mov	r2, r10
+2e931c	9805	ldr	r0, [sp, #0x14]
+2e931e	9301	str	r3, [sp, #0x4]
+2e9320	462b	mov	r3, r5
+2e9322	f7fffeeb	bl	0x2e90fc <FT_New_Face+0x24>
+2e9326	9009	str	r0, [sp, #0x24]
+2e9328	f89d3024	ldrb.w	r3, [sp, #0x24]
+2e932c	2b02	cmp	r3, #0x2
+2e932e	d001	beq	0x2e9334 <FT_New_Face+0x25c>
+2e9330	9809	ldr	r0, [sp, #0x24]
+2e9332	e005	b	0x2e9340 <FT_New_Face+0x268>
+2e9334	4620	mov	r0, r4
+2e9336	9903	ldr	r1, [sp, #0xc]
+2e9338	f7fdfab5	bl	0x2e68a6 <FT_Stream_Seek>
+2e933c	2800	cmp	r0, #0x0
+2e933e	d0f7	beq	0x2e9330 <FT_New_Face+0x258>
+2e9340	b00b	add	sp, #0x2c
+2e9342	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2e9346	bf00	nop	
+2e9348	7031	strb	r1, [r6]
+2e934a	7479	strb	r1, [r7, #0x11]
+2e934c	4420	add	r0, r4
+2e934e	4349	muls	r1, r1, r1
+2e9350	5031	str	r1, [r6, r0]
+2e9352	5459	strb	r1, [r3, r1]
+2e9354	5471	strb	r1, [r6, r1]
+2e9356	000a	movs	r2, r1
+2e9358	546f	strb	r7, [r5, r1]
+2e935a	000a	movs	r2, r1
+2e935c	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2e9360	461e	mov	r6, r3
+2e9362	6803	ldr	r3, [r0]
+2e9364	b093	sub	sp, #0x4c
+2e9366	4680	mov	r8, r0
+2e9368	460d	mov	r5, r1
+2e936a	9308	str	r3, [sp, #0x20]
+2e936c	ab0e	add	r3, sp, #0x38
+2e936e	9300	str	r3, [sp]
+2e9370	ab0d	add	r3, sp, #0x34
+2e9372	f7fdfbed	bl	0x2e6b50 <FT_Raccess_Get_HeaderInfo>
+2e9376	4607	mov	r7, r0
+2e9378	2800	cmp	r0, #0x0
+2e937a	f04081a9	bne.w	0x2e96d0 <FT_New_Face+0x5f8>
+2e937e	4b9e	ldr	r3, [pc, #0x278]
+2e9380	2401	movs	r4, #0x1
+2e9382	f10d0b3c	add.w	r11, sp, #0x3c
+2e9386	f10d0a40	add.w	r10, sp, #0x40
+2e938a	f8cdb008	str.w	r11, [sp, #0x8]
+2e938e	4640	mov	r0, r8
+2e9390	e88d0018	stm.w	sp, {r3, r4}
+2e9394	4629	mov	r1, r5

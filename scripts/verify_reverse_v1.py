@@ -22,7 +22,8 @@ import re
 import sys
 from pathlib import Path
 
-ANCHOR = re.compile(r"/\* @0x([0-9a-f]+) ([A-Za-z.][A-Za-z0-9_.]*)")
+# cards write anchors either as "/* @0x... mnem" or, inside a block comment, "* @0x... mnem"
+ANCHOR = re.compile(r"(?:/\*|\*)\s+@0x([0-9a-f]+) ([A-Za-z.][A-Za-z0-9_.]*)")
 LEVEL = re.compile(r"级别:\s*(正文|骨架|桩|原始覆盖)")
 FUNC = re.compile(r"@func\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)")
 

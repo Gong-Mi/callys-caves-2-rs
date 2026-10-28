@@ -1,0 +1,279 @@
+317ba8	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+317bac	b093	sub	sp, #0x4c
+317bae	4606	mov	r6, r0
+317bb0	2400	movs	r4, #0x0
+317bb2	2000	movs	r0, #0x0
+317bb4	2500	movs	r5, #0x0
+317bb6	9206	str	r2, [sp, #0x18]
+317bb8	2203	movs	r2, #0x3
+317bba	e9c64500	strd	r4, r5, [r6]
+317bbe	f0110501	ands	r5, r1, #0x1
+317bc2	60b0	str	r0, [r6, #0x8]
+317bc4	4698	mov	r8, r3
+317bc6	60f0	str	r0, [r6, #0xc]
+317bc8	6130	str	r0, [r6, #0x10]
+317bca	9105	str	r1, [sp, #0x14]
+317bcc	6170	str	r0, [r6, #0x14]
+317bce	61b2	str	r2, [r6, #0x18]
+317bd0	9c1c	ldr	r4, [sp, #0x70]
+317bd2	9509	str	r5, [sp, #0x24]
+317bd4	f00080dd	beq.w	0x317d92 <ft_lzwstate_io+0xdde>
+317bd8	f0110f0e	tst.w	r1, #0xe
+317bdc	f04080d6	bne.w	0x317d8c <ft_lzwstate_io+0xdd8>
+317be0	4620	mov	r0, r4
+317be2	f002ef92	blx	0x31ab08 <_Unwind_GetLanguageSpecificData>
+317be6	900c	str	r0, [sp, #0x30]
+317be8	2800	cmp	r0, #0x0
+317bea	f00080de	beq.w	0x317daa <ft_lzwstate_io+0xdf6>
+317bee	2300	movs	r3, #0x0
+317bf0	220f	movs	r2, #0xf
+317bf2	60f0	str	r0, [r6, #0xc]
+317bf4	4620	mov	r0, r4
+317bf6	4619	mov	r1, r3
+317bf8	ad11	add	r5, sp, #0x44
+317bfa	9500	str	r5, [sp]
+317bfc	f001eff2	blx	0x319be4 <_Unwind_VRS_Get>
+317c00	9b11	ldr	r3, [sp, #0x44]
+317c02	4620	mov	r0, r4
+317c04	ac12	add	r4, sp, #0x48
+317c06	f0230a01	bic	r10, r3, #0x1
+317c0a	f002ef76	blx	0x31aaf8 <_Unwind_GetRegionStart>
+317c0e	9b0c	ldr	r3, [sp, #0x30]
+317c10	f10a3aff	add.w	r10, r10, #0xffffffff
+317c14	f8131b01	ldrb	r1, [r3], #1
+317c18	f8443d18	str	r3, [r4, #-24]!
+317c1c	4605	mov	r5, r0
+317c1e	ebc00a0a	rsb	r10, r0, r10
+317c22	4620	mov	r0, r4
+317c24	f000fe06	bl	0x318834 <__cxa_call_unexpected+0x16c>
+317c28	9b0c	ldr	r3, [sp, #0x30]
+317c2a	4602	mov	r2, r0
+317c2c	2800	cmp	r0, #0x0
+317c2e	bf08	it	eq
+317c30	462a	moveq	r2, r5
+317c32	f8135b01	ldrb	r5, [r3], #1
+317c36	9207	str	r2, [sp, #0x1c]
+317c38	2dff	cmp	r5, #0xff
+317c3a	950a	str	r5, [sp, #0x28]
+317c3c	930c	str	r3, [sp, #0x30]
+317c3e	f00080bd	beq.w	0x317dbc <ft_lzwstate_io+0xe08>
+317c42	4620	mov	r0, r4
+317c44	f000fdc4	bl	0x3187d0 <__cxa_call_unexpected+0x108>
+317c48	9b0c	ldr	r3, [sp, #0x30]
+317c4a	1818	adds	r0, r3, r0
+317c4c	9008	str	r0, [sp, #0x20]
+317c4e	f8135b01	ldrb	r5, [r3], #1
+317c52	4620	mov	r0, r4
+317c54	ac12	add	r4, sp, #0x48
+317c56	930c	str	r3, [sp, #0x30]
+317c58	f000fdba	bl	0x3187d0 <__cxa_call_unexpected+0x108>
+317c5c	9b0c	ldr	r3, [sp, #0x30]
+317c5e	f8443d14	str	r3, [r4, #-20]!
+317c62	181f	adds	r7, r3, r0
+317c64	429f	cmp	r7, r3
+317c66	d914	bls	0x317c92 <ft_lzwstate_io+0xcde>
+317c68	4629	mov	r1, r5
+317c6a	4620	mov	r0, r4
+317c6c	f000fde2	bl	0x318834 <__cxa_call_unexpected+0x16c>
+317c70	4629	mov	r1, r5
+317c72	4681	mov	r9, r0
+317c74	4620	mov	r0, r4
+317c76	f000fddd	bl	0x318834 <__cxa_call_unexpected+0x16c>
+317c7a	4629	mov	r1, r5
+317c7c	4683	mov	r11, r0
+317c7e	4620	mov	r0, r4
+317c80	f000fdd8	bl	0x318834 <__cxa_call_unexpected+0x16c>
+317c84	9004	str	r0, [sp, #0x10]
+317c86	4620	mov	r0, r4
+317c88	f000fda2	bl	0x3187d0 <__cxa_call_unexpected+0x108>
+317c8c	45ca	cmp	r10, r9
+317c8e	f080808f	bhs.w	0x317db0 <ft_lzwstate_io+0xdfc>
+317c92	4640	mov	r0, r8
+317c94	f7ffff50	bl	0x317b38 <ft_lzwstate_io+0xb84>
+317c98	9904	ldr	r1, [sp, #0x10]
+317c9a	2900	cmp	r1, #0x0
+317c9c	f0008085	beq.w	0x317daa <ft_lzwstate_io+0xdf6>
+317ca0	9c07	ldr	r4, [sp, #0x1c]
+317ca2	9d04	ldr	r5, [sp, #0x10]
+317ca4	1964	adds	r4, r4, r5
+317ca6	940b	str	r4, [sp, #0x2c]
+317ca8	2800	cmp	r0, #0x0
+317caa	f000808a	beq.w	0x317dc2 <ft_lzwstate_io+0xe0e>
+317cae	9d05	ldr	r5, [sp, #0x14]
+317cb0	f10d0a48	add.w	r10, sp, #0x48
+317cb4	9c05	ldr	r4, [sp, #0x14]
+317cb6	3801	subs	r0, #0x1
+317cb8	f0050506	and	r5, r5, #0x6
+317cbc	183f	adds	r7, r7, r0
+317cbe	f0040405	and	r4, r4, #0x5
+317cc2	f8ddb028	ldr.w	r11, [sp, #0x28]
+317cc6	9504	str	r5, [sp, #0x10]
+317cc8	9407	str	r4, [sp, #0x1c]
+317cca	f84a7d10	str	r7, [r10, #-16]!
+317cce	960a	str	r6, [sp, #0x28]
+317cd0	e041	b	0x317d56 <ft_lzwstate_io+0xda2>
+317cd2	4629	mov	r1, r5
+317cd4	9a08	ldr	r2, [sp, #0x20]
+317cd6	465b	mov	r3, r11
+317cd8	f8cd8000	str.w	r8, [sp]
+317cdc	f7ffff38	bl	0x317b50 <ft_lzwstate_io+0xb9c>
+317ce0	4606	mov	r6, r0
+317ce2	2800	cmp	r0, #0x0
+317ce4	d07b	beq	0x317dde <ft_lzwstate_io+0xe2a>
+317ce6	9906	ldr	r1, [sp, #0x18]
+317ce8	b351	cbz	r1, 0x317d40 <ft_lzwstate_io+0xd8c>
+317cea	f8589c34	ldr	r9, [r8, #-52]
+317cee	f1080358	add.w	r3, r8, #0x58
+317cf2	930f	str	r3, [sp, #0x3c]
+317cf4	f1d90201	rsbs.w	r2, r9, #0x1
+317cf8	bf38	it	lo
+317cfa	2200	movlo	r2, #0x0
+317cfc	2b00	cmp	r3, #0x0
+317cfe	bf14	ite	ne
+317d00	4613	movne	r3, r2
+317d02	f0420301	orreq	r3, r2, #0x1
+317d06	2b00	cmp	r3, #0x0
+317d08	d1c3	bne	0x317c92 <ft_lzwstate_io+0xcde>
+317d0a	4952	ldr	r1, [pc, #0x148]
+317d0c	4648	mov	r0, r9
+317d0e	4a52	ldr	r2, [pc, #0x148]
+317d10	4479	add	r1, pc
+317d12	6809	ldr	r1, [r1]
+317d14	447a	add	r2, pc
+317d16	6812	ldr	r2, [r2]
+317d18	f7fffe94	bl	0x317a44 <ft_lzwstate_io+0xa90>
+317d1c	b110	cbz	r0, 0x317d24 <ft_lzwstate_io+0xd70>
+317d1e	f8d83058	ldr.w	r3, [r8, #0x58]
+317d22	930f	str	r3, [sp, #0x3c]
+317d24	6833	ldr	r3, [r6]
+317d26	4630	mov	r0, r6
+317d28	4649	mov	r1, r9
+317d2a	aa0f	add	r2, sp, #0x3c
+317d2c	689b	ldr	r3, [r3, #0x8]
+317d2e	4798	blx	r3
+317d30	b130	cbz	r0, 0x317d40 <ft_lzwstate_io+0xd8c>
+317d32	9a09	ldr	r2, [sp, #0x24]
+317d34	2a00	cmp	r2, #0x0
+317d36	f0408082	bne.w	0x317e3e <ft_lzwstate_io+0xe8a>
+317d3a	9d05	ldr	r5, [sp, #0x14]
+317d3c	072b	lsls	r3, r5, #0x1c
+317d3e	d5a8	bpl	0x317c92 <ft_lzwstate_io+0xcde>
+317d40	9b0e	ldr	r3, [sp, #0x38]
+317d42	a812	add	r0, sp, #0x48
+317d44	f8403d08	str	r3, [r0, #-8]!
+317d48	f000fd54	bl	0x3187f4 <__cxa_call_unexpected+0x12c>
+317d4c	2800	cmp	r0, #0x0
+317d4e	d02b	beq	0x317da8 <ft_lzwstate_io+0xdf4>
+317d50	9f0e	ldr	r7, [sp, #0x38]
+317d52	183f	adds	r7, r7, r0
+317d54	970e	str	r7, [sp, #0x38]
+317d56	4650	mov	r0, r10
+317d58	f000fd4c	bl	0x3187f4 <__cxa_call_unexpected+0x12c>
+317d5c	2200	movs	r2, #0x0
+317d5e	2300	movs	r3, #0x0
+317d60	17c5	asrs	r5, r0, #0x1f
+317d62	4604	mov	r4, r0
+317d64	42a2	cmp	r2, r4
+317d66	41ab	sbcs	r3, r5
+317d68	dbb3	blt	0x317cd2 <ft_lzwstate_io+0xd1e>
+317d6a	ea540105	orrs.w	r1, r4, r5
+317d6e	d13a	bne	0x317de6 <ft_lzwstate_io+0xe32>
+317d70	9904	ldr	r1, [sp, #0x10]
+317d72	2902	cmp	r1, #0x2
+317d74	d1e4	bne	0x317d40 <ft_lzwstate_io+0xd8c>
+317d76	9e0a	ldr	r6, [sp, #0x28]
+317d78	f1080358	add.w	r3, r8, #0x58
+317d7c	e9c64500	strd	r4, r5, [r6]
+317d80	9c0b	ldr	r4, [sp, #0x2c]
+317d82	6173	str	r3, [r6, #0x14]
+317d84	2306	movs	r3, #0x6
+317d86	60b7	str	r7, [r6, #0x8]
+317d88	6134	str	r4, [r6, #0x10]
+317d8a	61b3	str	r3, [r6, #0x18]
+317d8c	b013	add	sp, #0x4c
+317d8e	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+317d92	9d05	ldr	r5, [sp, #0x14]
+317d94	07aa	lsls	r2, r5, #0x1e
+317d96	d5f9	bpl	0x317d8c <ft_lzwstate_io+0xdd8>
+317d98	f005030c	and	r3, r5, #0xc
+317d9c	2b0c	cmp	r3, #0xc
+317d9e	f47faf1f	bne.w	0x317be0 <ft_lzwstate_io+0xc2c>
+317da2	2302	movs	r3, #0x2
+317da4	61b3	str	r3, [r6, #0x18]
+317da6	e7f1	b	0x317d8c <ft_lzwstate_io+0xdd8>
+317da8	9e0a	ldr	r6, [sp, #0x28]
+317daa	2308	movs	r3, #0x8
+317dac	61b3	str	r3, [r6, #0x18]
+317dae	e7ed	b	0x317d8c <ft_lzwstate_io+0xdd8>
+317db0	44d9	add	r9, r11
+317db2	45ca	cmp	r10, r9
+317db4	f4ffaf70	blo.w	0x317c98 <ft_lzwstate_io+0xce4>
+317db8	9b0d	ldr	r3, [sp, #0x34]
+317dba	e753	b	0x317c64 <ft_lzwstate_io+0xcb0>
+317dbc	2500	movs	r5, #0x0
+317dbe	9508	str	r5, [sp, #0x20]
+317dc0	e745	b	0x317c4e <ft_lzwstate_io+0xc9a>
+317dc2	9c05	ldr	r4, [sp, #0x14]
+317dc4	f0040306	and	r3, r4, #0x6
+317dc8	2b02	cmp	r3, #0x2
+317dca	d1ee	bne	0x317daa <ft_lzwstate_io+0xdf6>
+317dcc	9c0b	ldr	r4, [sp, #0x2c]
+317dce	2300	movs	r3, #0x0
+317dd0	2200	movs	r2, #0x0
+317dd2	e9c62300	strd	r2, r3, [r6]
+317dd6	2306	movs	r3, #0x6
+317dd8	61b3	str	r3, [r6, #0x18]
+317dda	6134	str	r4, [r6, #0x10]
+317ddc	e7d6	b	0x317d8c <ft_lzwstate_io+0xdd8>
+317dde	9907	ldr	r1, [sp, #0x1c]
+317de0	2900	cmp	r1, #0x0
+317de2	d0aa	beq	0x317d3a <ft_lzwstate_io+0xd86>
+317de4	e7c7	b	0x317d76 <ft_lzwstate_io+0xdc2>
+317de6	9a06	ldr	r2, [sp, #0x18]
+317de8	2a00	cmp	r2, #0x0
+317dea	d0f8	beq	0x317dde <ft_lzwstate_io+0xe2a>
+317dec	f1180f58	cmn.w	r8, #0x58
+317df0	f8586c34	ldr	r6, [r8, #-52]
+317df4	f1080958	add.w	r9, r8, #0x58
+317df8	bf14	ite	ne
+317dfa	2300	movne	r3, #0x0
+317dfc	2301	moveq	r3, #0x1
+317dfe	2e00	cmp	r6, #0x0
+317e00	bf08	it	eq
+317e02	f0430301	orreq	r3, r3, #0x1
+317e06	2b00	cmp	r3, #0x0
+317e08	f47faf43	bne.w	0x317c92 <ft_lzwstate_io+0xcde>
+317e0c	4629	mov	r1, r5
+317e0e	9a08	ldr	r2, [sp, #0x20]
+317e10	465b	mov	r3, r11
+317e12	e88d0240	stm.w	sp, {r6, r9}
+317e16	f8cd8008	str.w	r8, [sp, #0x8]
+317e1a	f7fffea7	bl	0x317b6c <ft_lzwstate_io+0xbb8>
+317e1e	2800	cmp	r0, #0x0
+317e20	d08e	beq	0x317d40 <ft_lzwstate_io+0xd8c>
+317e22	9b09	ldr	r3, [sp, #0x24]
+317e24	2b00	cmp	r3, #0x0
+317e26	d088	beq	0x317d3a <ft_lzwstate_io+0xd86>
+317e28	9e0a	ldr	r6, [sp, #0x28]
+317e2a	2306	movs	r3, #0x6
+317e2c	e9c64500	strd	r4, r5, [r6]
+317e30	9c0b	ldr	r4, [sp, #0x2c]
+317e32	60b7	str	r7, [r6, #0x8]
+317e34	f8c69014	str.w	r9, [r6, #0x14]
+317e38	6134	str	r4, [r6, #0x10]
+317e3a	61b3	str	r3, [r6, #0x18]
+317e3c	e7a6	b	0x317d8c <ft_lzwstate_io+0xdd8>
+317e3e	9e0a	ldr	r6, [sp, #0x28]
+317e40	9b0f	ldr	r3, [sp, #0x3c]
+317e42	e9c64500	strd	r4, r5, [r6]
+317e46	9c0b	ldr	r4, [sp, #0x2c]
+317e48	6173	str	r3, [r6, #0x14]
+317e4a	2306	movs	r3, #0x6
+317e4c	60b7	str	r7, [r6, #0x8]
+317e4e	6134	str	r4, [r6, #0x10]
+317e50	61b3	str	r3, [r6, #0x18]
+317e52	e79b	b	0x317d8c <ft_lzwstate_io+0xdd8>
+317e54	9ef4	ldr	r6, [sp, #0x3d0]
+317e56	000d	movs	r5, r1
+317e58	9ef8	ldr	r6, [sp, #0x3e0]
+317e5a	000d	movs	r5, r1

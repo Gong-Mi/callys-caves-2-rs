@@ -1,0 +1,275 @@
+2f1142	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2f1146	469a	mov	r10, r3
+2f1148	23cc	movs	r3, #0xcc
+2f114a	b089	sub	sp, #0x24
+2f114c	fb031302	mla	r3, r3, r2, r1
+2f1150	4688	mov	r8, r1
+2f1152	4604	mov	r4, r0
+2f1154	9203	str	r2, [sp, #0xc]
+2f1156	3304	adds	r3, #0x4
+2f1158	9305	str	r3, [sp, #0x14]
+2f115a	f8d310c4	ldr.w	r1, [r3, #0xc4]
+2f115e	f8d360c8	ldr.w	r6, [r3, #0xc8]
+2f1162	6903	ldr	r3, [r0, #0x10]
+2f1164	9106	str	r1, [sp, #0x18]
+2f1166	f0130708	ands	r7, r3, #0x8
+2f116a	f0408145	bne.w	0x2f13f8 <FT_Done_Memory+0x7784>
+2f116e	6800	ldr	r0, [r0]
+2f1170	f7feffb4	bl	0x2f00dc <FT_Done_Memory+0x6468>
+2f1174	9906	ldr	r1, [sp, #0x18]
+2f1176	4406	add	r6, r0
+2f1178	6860	ldr	r0, [r4, #0x4]
+2f117a	f7feffaf	bl	0x2f00dc <FT_Done_Memory+0x6468>
+2f117e	9a03	ldr	r2, [sp, #0xc]
+2f1180	4605	mov	r5, r0
+2f1182	b91a	cbnz	r2, 0x2f118c <FT_Done_Memory+0x7518>
+2f1184	f89a3078	ldrb.w	r3, [r10, #0x78]
+2f1188	b94b	cbnz	r3, 0x2f119e <FT_Done_Memory+0x752a>
+2f118a	e005	b	0x2f1198 <FT_Done_Memory+0x7524>
+2f118c	9a03	ldr	r2, [sp, #0xc]
+2f118e	2a01	cmp	r2, #0x1
+2f1190	d10f	bne	0x2f11b2 <FT_Done_Memory+0x753e>
+2f1192	f89a3079	ldrb.w	r3, [r10, #0x79]
+2f1196	b92b	cbnz	r3, 0x2f11a4 <FT_Done_Memory+0x7530>
+2f1198	60a6	str	r6, [r4, #0x8]
+2f119a	60e5	str	r5, [r4, #0xc]
+2f119c	e128	b	0x2f13f0 <FT_Done_Memory+0x777c>
+2f119e	f89a307a	ldrb.w	r3, [r10, #0x7a]
+2f11a2	e001	b	0x2f11a8 <FT_Done_Memory+0x7534>
+2f11a4	f89a307b	ldrb.w	r3, [r10, #0x7b]
+2f11a8	3300	adds	r3, #0x0
+2f11aa	bf18	it	ne
+2f11ac	2301	movne	r3, #0x1
+2f11ae	9304	str	r3, [sp, #0x10]
+2f11b0	e000	b	0x2f11b4 <FT_Done_Memory+0x7540>
+2f11b2	9704	str	r7, [sp, #0x10]
+2f11b4	9a03	ldr	r2, [sp, #0xc]
+2f11b6	60e5	str	r5, [r4, #0xc]
+2f11b8	2a01	cmp	r2, #0x1
+2f11ba	d167	bne	0x2f128c <FT_Done_Memory+0x7618>
+2f11bc	f8d4b000	ldr.w	r11, [r4]
+2f11c0	f50871d0	add.w	r1, r8, #0x1a0
+2f11c4	6867	ldr	r7, [r4, #0x4]
+2f11c6	f89839bc	ldrb.w	r3, [r8, #0x9bc]
+2f11ca	f8d8019c	ldr.w	r0, [r8, #0x19c]
+2f11ce	445f	add	r7, r11
+2f11d0	9300	str	r3, [sp]
+2f11d2	b1c8	cbz	r0, 0x2f1208 <FT_Done_Memory+0x7594>
+2f11d4	68ca	ldr	r2, [r1, #0xc]
+2f11d6	f8d899b8	ldr.w	r9, [r8, #0x9b8]
+2f11da	ebc20c07	rsb	r12, r2, r7
+2f11de	f1c90200	rsb.w	r2, r9, #0x0
+2f11e2	4594	cmp	r12, r2
+2f11e4	db12	blt	0x2f120c <FT_Done_Memory+0x7598>
+2f11e6	688a	ldr	r2, [r1, #0x8]
+2f11e8	444a	add	r2, r9
+2f11ea	4297	cmp	r7, r2
+2f11ec	dc09	bgt	0x2f1202 <FT_Done_Memory+0x758e>
+2f11ee	9a00	ldr	r2, [sp]
+2f11f0	b91a	cbnz	r2, 0x2f11fa <FT_Done_Memory+0x7586>
+2f11f2	f8d829b4	ldr.w	r2, [r8, #0x9b4]
+2f11f6	4594	cmp	r12, r2
+2f11f8	dc0b	bgt	0x2f1212 <FT_Done_Memory+0x759e>
+2f11fa	f8d19010	ldr.w	r9, [r1, #0x10]
+2f11fe	2701	movs	r7, #0x1
+2f1200	e00a	b	0x2f1218 <FT_Done_Memory+0x75a4>
+2f1202	3801	subs	r0, #0x1
+2f1204	3120	adds	r1, #0x20
+2f1206	e7e4	b	0x2f11d2 <FT_Done_Memory+0x755e>
+2f1208	4681	mov	r9, r0
+2f120a	e004	b	0x2f1216 <FT_Done_Memory+0x75a2>
+2f120c	f04f0900	mov.w	r9, #0x0
+2f1210	e001	b	0x2f1216 <FT_Done_Memory+0x75a2>
+2f1212	f8dd9000	ldr.w	r9, [sp]
+2f1216	464f	mov	r7, r9
+2f1218	f8d823a0	ldr.w	r2, [r8, #0x3a0]
+2f121c	eb081042	add.w	r0, r8, r2, lsl #5
+2f1220	f5007061	add.w	r0, r0, #0x384
+2f1224	b1e2	cbz	r2, 0x2f1260 <FT_Done_Memory+0x75ec>
+2f1226	6881	ldr	r1, [r0, #0x8]
+2f1228	f8d8c9b8	ldr.w	r12, [r8, #0x9b8]
+2f122c	ebcb0101	rsb	r1, r11, r1
+2f1230	9102	str	r1, [sp, #0x8]
+2f1232	f1cc0300	rsb.w	r3, r12, #0x0
+2f1236	4299	cmp	r1, r3
+2f1238	db14	blt	0x2f1264 <FT_Done_Memory+0x75f0>
+2f123a	68c3	ldr	r3, [r0, #0xc]
+2f123c	ebcc0c03	rsb	r12, r12, r3
+2f1240	45e3	cmp	r11, r12
+2f1242	db0a	blt	0x2f125a <FT_Done_Memory+0x75e6>
+2f1244	9900	ldr	r1, [sp]
+2f1246	b921	cbnz	r1, 0x2f1252 <FT_Done_Memory+0x75de>
+2f1248	f8d829b4	ldr.w	r2, [r8, #0x9b4]
+2f124c	9b02	ldr	r3, [sp, #0x8]
+2f124e	4293	cmp	r3, r2
+2f1250	da0a	bge	0x2f1268 <FT_Done_Memory+0x75f4>
+2f1252	f0470702	orr	r7, r7, #0x2
+2f1256	6903	ldr	r3, [r0, #0x10]
+2f1258	e007	b	0x2f126a <FT_Done_Memory+0x75f6>
+2f125a	3a01	subs	r2, #0x1
+2f125c	3820	subs	r0, #0x20
+2f125e	e7e1	b	0x2f1224 <FT_Done_Memory+0x75b0>
+2f1260	4613	mov	r3, r2
+2f1262	e002	b	0x2f126a <FT_Done_Memory+0x75f6>
+2f1264	2300	movs	r3, #0x0
+2f1266	e000	b	0x2f126a <FT_Done_Memory+0x75f6>
+2f1268	9b00	ldr	r3, [sp]
+2f126a	2f02	cmp	r7, #0x2
+2f126c	d007	beq	0x2f127e <FT_Done_Memory+0x760a>
+2f126e	2f03	cmp	r7, #0x3
+2f1270	d007	beq	0x2f1282 <FT_Done_Memory+0x760e>
+2f1272	2f01	cmp	r7, #0x1
+2f1274	d10c	bne	0x2f1290 <FT_Done_Memory+0x761c>
+2f1276	ebc50509	rsb	r5, r5, r9
+2f127a	60a5	str	r5, [r4, #0x8]
+2f127c	e094	b	0x2f13a8 <FT_Done_Memory+0x7734>
+2f127e	60a3	str	r3, [r4, #0x8]
+2f1280	e092	b	0x2f13a8 <FT_Done_Memory+0x7734>
+2f1282	60a3	str	r3, [r4, #0x8]
+2f1284	ebc30309	rsb	r3, r3, r9
+2f1288	60e3	str	r3, [r4, #0xc]
+2f128a	e08d	b	0x2f13a8 <FT_Done_Memory+0x7734>
+2f128c	2700	movs	r7, #0x0
+2f128e	46b9	mov	r9, r7
+2f1290	f8d4b014	ldr.w	r11, [r4, #0x14]
+2f1294	f1bb0f00	cmp.w	r11, #0x0
+2f1298	d020	beq	0x2f12dc <FT_Done_Memory+0x7668>
+2f129a	f8db3010	ldr.w	r3, [r11, #0x10]
+2f129e	071b	lsls	r3, r3, #0x1c
+2f12a0	d405	bmi	0x2f12ae <FT_Done_Memory+0x763a>
+2f12a2	4658	mov	r0, r11
+2f12a4	4641	mov	r1, r8
+2f12a6	9a03	ldr	r2, [sp, #0xc]
+2f12a8	4653	mov	r3, r10
+2f12aa	f7ffff4a	bl	0x2f1142 <FT_Done_Memory+0x74ce>
+2f12ae	f8db600c	ldr.w	r6, [r11, #0xc]
+2f12b2	f8db3008	ldr.w	r3, [r11, #0x8]
+2f12b6	6860	ldr	r0, [r4, #0x4]
+2f12b8	eb030666	add.w	r6, r3, r6, asr #1
+2f12bc	6823	ldr	r3, [r4]
+2f12be	f8db2004	ldr.w	r2, [r11, #0x4]
+2f12c2	eb030060	add.w	r0, r3, r0, asr #1
+2f12c6	f8db3000	ldr.w	r3, [r11]
+2f12ca	9906	ldr	r1, [sp, #0x18]
+2f12cc	eb030262	add.w	r2, r3, r2, asr #1
+2f12d0	1a80	subs	r0, r0, r2
+2f12d2	f7feff03	bl	0x2f00dc <FT_Done_Memory+0x6468>
+2f12d6	4430	add	r0, r6
+2f12d8	eba00665	sub.w	r6, r0, r5, asr #1
+2f12dc	60a6	str	r6, [r4, #0x8]
+2f12de	60e5	str	r5, [r4, #0xc]
+2f12e0	f89a307c	ldrb.w	r3, [r10, #0x7c]
+2f12e4	2b00	cmp	r3, #0x0
+2f12e6	d046	beq	0x2f1376 <FT_Done_Memory+0x7702>
+2f12e8	2d40	cmp	r5, #0x40
+2f12ea	dc22	bgt	0x2f1332 <FT_Done_Memory+0x76be>
+2f12ec	2d1f	cmp	r5, #0x1f
+2f12ee	dd05	ble	0x2f12fc <FT_Done_Memory+0x7688>
+2f12f0	eb060665	add.w	r6, r6, r5, asr #1
+2f12f4	2540	movs	r5, #0x40
+2f12f6	f026063f	bic	r6, r6, #0x3f
+2f12fa	e03c	b	0x2f1376 <FT_Done_Memory+0x7702>
+2f12fc	2d00	cmp	r5, #0x0
+2f12fe	f1060320	add.w	r3, r6, #0x20
+2f1302	dd13	ble	0x2f132c <FT_Done_Memory+0x76b8>
+2f1304	1971	adds	r1, r6, r5
+2f1306	f023033f	bic	r3, r3, #0x3f
+2f130a	f1010220	add.w	r2, r1, #0x20
+2f130e	1b9e	subs	r6, r3, r6
+2f1310	f022023f	bic	r2, r2, #0x3f
+2f1314	2e00	cmp	r6, #0x0
+2f1316	bfb8	it	lt
+2f1318	4276	rsblt	r6, r6, #0
+2f131a	1a51	subs	r1, r2, r1
+2f131c	2900	cmp	r1, #0x0
+2f131e	bfb8	it	lt
+2f1320	4249	rsblt	r1, r1, #0
+2f1322	428e	cmp	r6, r1
+2f1324	bfcc	ite	gt
+2f1326	4616	movgt	r6, r2
+2f1328	461e	movle	r6, r3
+2f132a	e024	b	0x2f1376 <FT_Done_Memory+0x7702>
+2f132c	f023063f	bic	r6, r3, #0x3f
+2f1330	e021	b	0x2f1376 <FT_Done_Memory+0x7702>
+2f1332	9905	ldr	r1, [sp, #0x14]
+2f1334	688b	ldr	r3, [r1, #0x8]
+2f1336	1aea	subs	r2, r5, r3
+2f1338	2a00	cmp	r2, #0x0
+2f133a	bfb8	it	lt
+2f133c	4252	rsblt	r2, r2, #0
+2f133e	2a27	cmp	r2, #0x27
+2f1340	dc02	bgt	0x2f1348 <FT_Done_Memory+0x76d4>
+2f1342	2b2f	cmp	r3, #0x2f
+2f1344	dd03	ble	0x2f134e <FT_Done_Memory+0x76da>
+2f1346	461d	mov	r5, r3
+2f1348	2dbf	cmp	r5, #0xbf
+2f134a	dc11	bgt	0x2f1370 <FT_Done_Memory+0x76fc>
+2f134c	e000	b	0x2f1350 <FT_Done_Memory+0x76dc>
+2f134e	2530	movs	r5, #0x30
+2f1350	f005033f	and	r3, r5, #0x3f
+2f1354	2b09	cmp	r3, #0x9
+2f1356	dd0e	ble	0x2f1376 <FT_Done_Memory+0x7702>
+2f1358	2b1f	cmp	r3, #0x1f
+2f135a	f025023f	bic	r2, r5, #0x3f
+2f135e	dc02	bgt	0x2f1366 <FT_Done_Memory+0x76f2>
+2f1360	f102050a	add.w	r5, r2, #0xa
+2f1364	e007	b	0x2f1376 <FT_Done_Memory+0x7702>
+2f1366	2b35	cmp	r3, #0x35
+2f1368	dc05	bgt	0x2f1376 <FT_Done_Memory+0x7702>
+2f136a	f1020536	add.w	r5, r2, #0x36
+2f136e	e002	b	0x2f1376 <FT_Done_Memory+0x7702>
+2f1370	3520	adds	r5, #0x20
+2f1372	f025053f	bic	r5, r5, #0x3f
+2f1376	1972	adds	r2, r6, r5
+2f1378	f1060320	add.w	r3, r6, #0x20
+2f137c	3220	adds	r2, #0x20
+2f137e	f023033f	bic	r3, r3, #0x3f
+2f1382	f022023f	bic	r2, r2, #0x3f
+2f1386	1b9b	subs	r3, r3, r6
+2f1388	1b92	subs	r2, r2, r6
+2f138a	ea8370e3	eor.w	r0, r3, r3, asr #31
+2f138e	eba070e3	sub.w	r0, r0, r3, asr #31
+2f1392	1b52	subs	r2, r2, r5
+2f1394	60e5	str	r5, [r4, #0xc]
+2f1396	ea8271e2	eor.w	r1, r2, r2, asr #31
+2f139a	eba171e2	sub.w	r1, r1, r2, asr #31
+2f139e	4288	cmp	r0, r1
+2f13a0	bfc8	it	gt
+2f13a2	4613	movgt	r3, r2
+2f13a4	441e	add	r6, r3
+2f13a6	60a6	str	r6, [r4, #0x8]
+2f13a8	9a04	ldr	r2, [sp, #0x10]
+2f13aa	b30a	cbz	r2, 0x2f13f0 <FT_Done_Memory+0x777c>
+2f13ac	68e3	ldr	r3, [r4, #0xc]
+2f13ae	68a2	ldr	r2, [r4, #0x8]
+2f13b0	2b3f	cmp	r3, #0x3f
+2f13b2	bfc6	itte	gt
+2f13b4	3320	addgt	r3, #0x20
+2f13b6	f023033f	bicgt	r3, r3, #0x3f
+2f13ba	2340	movle	r3, #0x40
+2f13bc	2f02	cmp	r7, #0x2
+2f13be	d006	beq	0x2f13ce <FT_Done_Memory+0x775a>
+2f13c0	2f03	cmp	r7, #0x3
+2f13c2	d015	beq	0x2f13f0 <FT_Done_Memory+0x777c>
+2f13c4	2f01	cmp	r7, #0x1
+2f13c6	d104	bne	0x2f13d2 <FT_Done_Memory+0x775e>
+2f13c8	ebc30209	rsb	r2, r3, r9
+2f13cc	60a2	str	r2, [r4, #0x8]
+2f13ce	60e3	str	r3, [r4, #0xc]
+2f13d0	e00e	b	0x2f13f0 <FT_Done_Memory+0x777c>
+2f13d2	f0130f40	tst.w	r3, #0x40
+2f13d6	60e3	str	r3, [r4, #0xc]
+2f13d8	ea4f0363	asr.w	r3, r3, #0x1
+2f13dc	441a	add	r2, r3
+2f13de	bf15	itete	ne
+2f13e0	f022023f	bicne	r2, r2, #0x3f
+2f13e4	3220	addeq	r2, #0x20
+2f13e6	3220	addne	r2, #0x20
+2f13e8	f022023f	biceq	r2, r2, #0x3f
+2f13ec	1ad3	subs	r3, r2, r3
+2f13ee	60a3	str	r3, [r4, #0x8]
+2f13f0	6923	ldr	r3, [r4, #0x10]
+2f13f2	f0430308	orr	r3, r3, #0x8
+2f13f6	6123	str	r3, [r4, #0x10]
+2f13f8	b009	add	sp, #0x24
+2f13fa	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}

@@ -1,8 +1,720 @@
 /* libyoyo.so 覆盖卡组 0296
- * 函数 0x31a73c..0x31b134，共 32 个；
+ * 函数 0x319cc4..0x31afa4，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
+
+/* ── FUNC 0x319cc4 · anon_319cc4 · size=40 · insn=11 */
+/* @0x319cc4 push {r0, r1, r2, r3, r4, lr} */
+/* @0x319cc8 add r3, sp, #16 */
+/* @0x319ccc mov r12, r1 */
+/* @0x319cd0 mov r1, #0 */
+/* @0x319cd4 str r2, [r3, #-0x4]! */
+/* @0x319cd8 mov r2, r12 */
+/* @0x319cdc str r3, [sp] */
+/* @0x319ce0 mov r3, r1 */
+/* @0x319ce4 bl 0x319c68 <_Unwind_VRS_Set> */
+/* @0x319ce8 add sp, sp, #20 */
+/* @0x319cec ldr pc, [sp], #4 */
+
+/* ── FUNC 0x319cf0 · __gnu_Unwind_Backtrace · size=196 · insn=49 */
+/* @0x319cf0 ldr r3, [r2, #0x3c] */
+/* @0x319cf4 push {r4, r5, r6, r7, r8, lr} */
+/* @0x319cf8 add lr, r2, #4 */
+/* @0x319cfc str r3, [r2, #0x40] */
+/* @0x319d00 mov r7, r0 */
+/* @0x319d04 mov r8, r1 */
+/* @0x319d08 sub sp, sp, #568 */
+/* @0x319d0c ldm lr!, {r0, r1, r2, r3} */
+/* @0x319d10 add r12, sp, #92 */
+/* @0x319d14 add r4, sp, #88 */
+/* @0x319d18 stm r12!, {r0, r1, r2, r3} */
+/* @0x319d1c ldm lr!, {r0, r1, r2, r3} */
+/* @0x319d20 stm r12!, {r0, r1, r2, r3} */
+/* @0x319d24 ldm lr!, {r0, r1, r2, r3} */
+/* @0x319d28 stm r12!, {r0, r1, r2, r3} */
+/* @0x319d2c ldm lr, {r0, r1, r2, r3} */
+/* @0x319d30 stm r12, {r0, r1, r2, r3} */
+/* @0x319d34 mvn r3, #0 */
+/* @0x319d38 str r3, [sp, #0x58] */
+/* @0x319d3c mov r0, sp */
+/* @0x319d40 ldr r1, [sp, #0x98] */
+/* @0x319d44 bl 0x319744 <__gnu_uldivmod_helper+0x150> */
+/* @0x319d48 cmp r0, #0 */
+/* @0x319d4c beq 0x319d58 <__gnu_Unwind_Backtrace+0x68> */
+/* @0x319d50 mov r5, #9 */
+/* @0x319d54 b 0x319da0 <__gnu_Unwind_Backtrace+0xb0> */
+/* @0x319d58 mov r0, r4 */
+/* @0x319d5c mov r1, #12 */
+/* @0x319d60 mov r2, sp */
+/* @0x319d64 bl 0x319cc4 <_Unwind_VRS_Set+0x5c> */
+/* @0x319d68 mov r0, r4 */
+/* @0x319d6c mov r1, r8 */
+/* @0x319d70 blx r7 */
+/* @0x319d74 cmp r0, #0 */
+/* @0x319d78 bne 0x319d50 <__gnu_Unwind_Backtrace+0x60> */
+/* @0x319d7c mov r0, #8 */
+/* @0x319d80 mov r1, sp */
+/* @0x319d84 mov r2, r4 */
+/* @0x319d88 ldr r3, [sp, #0x10] */
+/* @0x319d8c blx r3 */
+/* @0x319d90 cmp r0, #9 */
+/* @0x319d94 cmpne r0, #5 */
+/* @0x319d98 mov r5, r0 */
+/* @0x319d9c bne 0x319d3c <__gnu_Unwind_Backtrace+0x4c> */
+/* @0x319da0 mov r0, r4 */
+/* @0x319da4 bl 0x319850 <__gnu_uldivmod_helper+0x25c> */
+/* @0x319da8 mov r0, r5 */
+/* @0x319dac add sp, sp, #568 */
+/* @0x319db0 pop {r4, r5, r6, r7, r8, pc} */
+
+/* ── FUNC 0x319db4 · anon_319db4 · size=1004 · insn=252 */
+/* @0x319db4 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x319db8 mov r6, r2 */
+/* @0x319dbc ldr r2, [r1, #0x4c] */
+/* @0x319dc0 sub sp, sp, #36 */
+/* @0x319dc4 subs r9, r3, #0 */
+/* @0x319dc8 mov r4, r1 */
+/* @0x319dcc add r5, r2, #4 */
+/* @0x319dd0 and r7, r0, #3 */
+/* @0x319dd4 ldr r2, [r2] */
+/* @0x319dd8 str r5, [sp, #0x18] */
+/* @0x319ddc str r2, [sp, #0x14] */
+/* @0x319de0 bne 0x319dfc <__gnu_Unwind_Backtrace+0x10c> */
+/* @0x319de4 lsl r2, r2, #8 */
+/* @0x319de8 mov r3, #3 */
+/* @0x319dec str r2, [sp, #0x14] */
+/* @0x319df0 strb r9, [sp, #0x1d] */
+/* @0x319df4 strb r3, [sp, #0x1c] */
+/* @0x319df8 b 0x319e24 <__gnu_Unwind_Backtrace+0x134> */
+/* @0x319dfc cmp r9, #2 */
+/* @0x319e00 bgt 0x319e24 <__gnu_Unwind_Backtrace+0x134> */
+/* @0x319e04 lsr r3, r2, #16 */
+/* @0x319e08 strb r3, [sp, #0x1d] */
+/* @0x319e0c lsl r2, r2, #16 */
+/* @0x319e10 str r2, [sp, #0x14] */
+/* @0x319e14 uxtb r3, r3 */
+/* @0x319e18 mov r2, #2 */
+/* @0x319e1c strb r2, [sp, #0x1c] */
+/* @0x319e20 add r5, r5, r3, lsl #2 */
+/* @0x319e24 cmp r7, #2 */
+/* @0x319e28 ldr r10, [r4, #0x50] */
+/* @0x319e2c ldreq r5, [r4, #0x38] */
+/* @0x319e30 ands r10, r10, #1 */
+/* @0x319e34 bne 0x31a130 <__gnu_Unwind_Backtrace+0x440> */
+/* @0x319e38 eor r0, r0, #8 */
+/* @0x319e3c ubfx r0, r0, #0x3, #0x1 */
+/* @0x319e40 str r0, [sp, #0xc] */
+/* @0x319e44 ldr r8, [r5] */
+/* @0x319e48 cmp r8, #0 */
+/* @0x319e4c beq 0x31a134 <__gnu_Unwind_Backtrace+0x444> */
+/* @0x319e50 cmp r9, #2 */
+/* @0x319e54 ldr r2, [r4, #0x48] */
+/* @0x319e58 mov r0, r6 */
+/* @0x319e5c mov r1, #15 */
+/* @0x319e60 ldreq r11, [r5, #0x4] */
+/* @0x319e64 addeq r5, r5, #8 */
+/* @0x319e68 ldrhne r11, [r5, #2] */
+/* @0x319e6c ldrhne r8, [r5] */
+/* @0x319e70 addne r5, r5, #4 */
+/* @0x319e74 bic r3, r11, #1 */
+/* @0x319e78 add r3, r3, r2 */
+/* @0x319e7c str r3, [sp, #0x4] */
+/* @0x319e80 bl 0x319c40 <_Unwind_VRS_Get+0x5c> */
+/* @0x319e84 ldr r3, [sp, #0x4] */
+/* @0x319e88 cmp r3, r0 */
+/* @0x319e8c movhi r0, #0 */
+/* @0x319e90 bhi 0x319ea8 <__gnu_Unwind_Backtrace+0x1b8> */
+/* @0x319e94 bic r2, r8, #1 */
+/* @0x319e98 add r3, r3, r2 */
+/* @0x319e9c cmp r0, r3 */
+/* @0x319ea0 movhs r0, #0 */
+/* @0x319ea4 movlo r0, #1 */
+/* @0x319ea8 and r11, r11, #1 */
+/* @0x319eac and r8, r8, #1 */
+/* @0x319eb0 orr r8, r8, r11, lsl #1 */
+/* @0x319eb4 cmp r8, #1 */
+/* @0x319eb8 beq 0x319f1c <__gnu_Unwind_Backtrace+0x22c> */
+/* @0x319ebc blo 0x319ecc <__gnu_Unwind_Backtrace+0x1dc> */
+/* @0x319ec0 cmp r8, #2 */
+/* @0x319ec4 beq 0x319ffc <__gnu_Unwind_Backtrace+0x30c> */
+/* @0x319ec8 b 0x31a194 <__gnu_Unwind_Backtrace+0x4a4> */
+/* @0x319ecc cmp r7, #0 */
+/* @0x319ed0 moveq r0, #0 */
+/* @0x319ed4 andne r0, r0, #1 */
+/* @0x319ed8 add r8, r5, #4 */
+/* @0x319edc cmp r0, #0 */
+/* @0x319ee0 beq 0x319f14 <__gnu_Unwind_Backtrace+0x224> */
+/* @0x319ee4 mov r0, r5 */
+/* @0x319ee8 bl 0x319630 <__gnu_uldivmod_helper+0x3c> */
+/* @0x319eec str r8, [r4, #0x38] */
+/* @0x319ef0 mov r5, r0 */
+/* @0x319ef4 mov r0, r4 */
+/* @0x319ef8 blx 0x318628 <__cxa_begin_cleanup> */
+/* @0x319efc cmp r0, #0 */
+/* @0x319f00 beq 0x31a194 <__gnu_Unwind_Backtrace+0x4a4> */
+/* @0x319f04 mov r0, r6 */
+/* @0x319f08 mov r1, #15 */
+/* @0x319f0c mov r2, r5 */
+/* @0x319f10 b 0x319fe8 <__gnu_Unwind_Backtrace+0x2f8> */
+/* @0x319f14 mov r5, r8 */
+/* @0x319f18 b 0x319e44 <__gnu_Unwind_Backtrace+0x154> */
+/* @0x319f1c cmp r7, #0 */
+/* @0x319f20 bne 0x319fa0 <__gnu_Unwind_Backtrace+0x2b0> */
+/* @0x319f24 cmp r0, #0 */
+/* @0x319f28 beq 0x319ff4 <__gnu_Unwind_Backtrace+0x304> */
+/* @0x319f2c ldr r3, [r5, #0x4] */
+/* @0x319f30 ldr r11, [r5] */
+/* @0x319f34 cmn r3, #2 */
+/* @0x319f38 lsr r11, r11, #31 */
+/* @0x319f3c beq 0x31a194 <__gnu_Unwind_Backtrace+0x4a4> */
+/* @0x319f40 cmn r3, #1 */
+/* @0x319f44 add r2, r4, #88 */
+/* @0x319f48 str r2, [sp, #0x10] */
+/* @0x319f4c beq 0x319f74 <__gnu_Unwind_Backtrace+0x284> */
+/* @0x319f50 add r0, r5, #4 */
+/* @0x319f54 bl 0x3198bc <__gnu_uldivmod_helper+0x2c8> */
+/* @0x319f58 mov r2, r11 */
+/* @0x319f5c add r3, sp, #16 */
+/* @0x319f60 mov r1, r0 */
+/* @0x319f64 mov r0, r4 */
+/* @0x319f68 blx 0x3185b4 <__cxa_type_match> */
+/* @0x319f6c subs r8, r0, #0 */
+/* @0x319f70 beq 0x319ff4 <__gnu_Unwind_Backtrace+0x304> */
+/* @0x319f74 mov r0, r6 */
+/* @0x319f78 mov r1, #13 */
+/* @0x319f7c bl 0x319c40 <_Unwind_VRS_Get+0x5c> */
+/* @0x319f80 cmp r8, #2 */
+/* @0x319f84 ldr r2, [sp, #0x10] */
+/* @0x319f88 moveq r3, r4 */
+/* @0x319f8c strne r2, [r4, #0x24] */
+/* @0x319f90 str r0, [r4, #0x20] */
+/* @0x319f94 streq r2, [r3, #0x2c]! */
+/* @0x319f98 bne 0x31a094 <__gnu_Unwind_Backtrace+0x3a4> */
+/* @0x319f9c b 0x31a090 <__gnu_Unwind_Backtrace+0x3a0> */
+/* @0x319fa0 mov r0, r6 */
+/* @0x319fa4 mov r1, #13 */
+/* @0x319fa8 ldr r8, [r4, #0x20] */
+/* @0x319fac bl 0x319c40 <_Unwind_VRS_Get+0x5c> */
+/* @0x319fb0 cmp r8, r0 */
+/* @0x319fb4 bne 0x319ff4 <__gnu_Unwind_Backtrace+0x304> */
+/* @0x319fb8 ldr r3, [r4, #0x28] */
+/* @0x319fbc cmp r5, r3 */
+/* @0x319fc0 bne 0x319ff4 <__gnu_Unwind_Backtrace+0x304> */
+/* @0x319fc4 mov r0, r5 */
+/* @0x319fc8 bl 0x319630 <__gnu_uldivmod_helper+0x3c> */
+/* @0x319fcc mov r1, #15 */
+/* @0x319fd0 mov r2, r0 */
+/* @0x319fd4 mov r0, r6 */
+/* @0x319fd8 bl 0x319cc4 <_Unwind_VRS_Set+0x5c> */
+/* @0x319fdc mov r0, r6 */
+/* @0x319fe0 mov r1, #0 */
+/* @0x319fe4 mov r2, r4 */
+/* @0x319fe8 bl 0x319cc4 <_Unwind_VRS_Set+0x5c> */
+/* @0x319fec mov r0, #7 */
+/* @0x319ff0 b 0x31a198 <__gnu_Unwind_Backtrace+0x4a8> */
+/* @0x319ff4 add r5, r5, #8 */
+/* @0x319ff8 b 0x319e44 <__gnu_Unwind_Backtrace+0x154> */
+/* @0x319ffc ldr r8, [r5] */
+/* @0x31a000 cmp r7, #0 */
+/* @0x31a004 bic r8, r8, #-2147483648 */
+/* @0x31a008 bne 0x31a0a0 <__gnu_Unwind_Backtrace+0x3b0> */
+/* @0x31a00c cmp r0, #0 */
+/* @0x31a010 beq 0x31a118 <__gnu_Unwind_Backtrace+0x428> */
+/* @0x31a014 ldr r3, [sp, #0xc] */
+/* @0x31a018 cmp r8, #0 */
+/* @0x31a01c orreq r3, r3, #1 */
+/* @0x31a020 cmp r3, #0 */
+/* @0x31a024 beq 0x31a118 <__gnu_Unwind_Backtrace+0x428> */
+/* @0x31a028 add r11, sp, #16 */
+/* @0x31a02c mov r12, r7 */
+/* @0x31a030 add r3, r4, #88 */
+/* @0x31a034 str r3, [sp, #0x8] */
+/* @0x31a038 cmp r12, r8 */
+/* @0x31a03c beq 0x31a07c <__gnu_Unwind_Backtrace+0x38c> */
+/* @0x31a040 add r12, r12, #1 */
+/* @0x31a044 ldr r3, [sp, #0x8] */
+/* @0x31a048 str r12, [sp, #0x4] */
+/* @0x31a04c add r0, r5, r12, lsl #2 */
+/* @0x31a050 str r3, [sp, #0x10] */
+/* @0x31a054 bl 0x3198bc <__gnu_uldivmod_helper+0x2c8> */
+/* @0x31a058 mov r2, #0 */
+/* @0x31a05c mov r3, r11 */
+/* @0x31a060 mov r1, r0 */
+/* @0x31a064 mov r0, r4 */
+/* @0x31a068 blx 0x3185b4 <__cxa_type_match> */
+/* @0x31a06c ldr r12, [sp, #0x4] */
+/* @0x31a070 cmp r0, #0 */
+/* @0x31a074 beq 0x31a038 <__gnu_Unwind_Backtrace+0x348> */
+/* @0x31a078 b 0x31a118 <__gnu_Unwind_Backtrace+0x428> */
+/* @0x31a07c mov r0, r6 */
+/* @0x31a080 mov r1, #13 */
+/* @0x31a084 bl 0x319c40 <_Unwind_VRS_Get+0x5c> */
+/* @0x31a088 ldr r3, [sp, #0x10] */
+/* @0x31a08c str r0, [r4, #0x20] */
+/* @0x31a090 str r3, [r4, #0x24] */
+/* @0x31a094 str r5, [r4, #0x28] */
+/* @0x31a098 mov r0, #6 */
+/* @0x31a09c b 0x31a198 <__gnu_Unwind_Backtrace+0x4a8> */
+/* @0x31a0a0 mov r0, r6 */
+/* @0x31a0a4 mov r1, #13 */
+/* @0x31a0a8 ldr r11, [r4, #0x20] */
+/* @0x31a0ac bl 0x319c40 <_Unwind_VRS_Get+0x5c> */
+/* @0x31a0b0 cmp r11, r0 */
+/* @0x31a0b4 bne 0x31a118 <__gnu_Unwind_Backtrace+0x428> */
+/* @0x31a0b8 ldr r3, [r4, #0x28] */
+/* @0x31a0bc cmp r5, r3 */
+/* @0x31a0c0 bne 0x31a118 <__gnu_Unwind_Backtrace+0x428> */
+/* @0x31a0c4 mov r10, #0 */
+/* @0x31a0c8 mov r3, #4 */
+/* @0x31a0cc str r8, [r4, #0x28] */
+/* @0x31a0d0 str r3, [r4, #0x30] */
+/* @0x31a0d4 add r3, r5, r3 */
+/* @0x31a0d8 str r10, [r4, #0x2c] */
+/* @0x31a0dc str r3, [r4, #0x34] */
+/* @0x31a0e0 ldr r3, [r5] */
+/* @0x31a0e4 cmp r3, r10 */
+/* @0x31a0e8 bge 0x31a114 <__gnu_Unwind_Backtrace+0x424> */
+/* @0x31a0ec add r0, r8, #1 */
+/* @0x31a0f0 add r0, r5, r0, lsl #2 */
+/* @0x31a0f4 bl 0x319630 <__gnu_uldivmod_helper+0x3c> */
+/* @0x31a0f8 mov r1, #15 */
+/* @0x31a0fc mov r2, r0 */
+/* @0x31a100 mov r0, r6 */
+/* @0x31a104 bl 0x319cc4 <_Unwind_VRS_Set+0x5c> */
+/* @0x31a108 mov r0, r6 */
+/* @0x31a10c mov r1, r10 */
+/* @0x31a110 b 0x319fe4 <__gnu_Unwind_Backtrace+0x2f4> */
+/* @0x31a114 mov r10, #1 */
+/* @0x31a118 ldr r3, [r5] */
+/* @0x31a11c add r8, r8, #1 */
+/* @0x31a120 cmp r3, #0 */
+/* @0x31a124 addlt r5, r5, #4 */
+/* @0x31a128 add r5, r5, r8, lsl #2 */
+/* @0x31a12c b 0x319e44 <__gnu_Unwind_Backtrace+0x154> */
+/* @0x31a130 mov r10, #0 */
+/* @0x31a134 cmp r9, #2 */
+/* @0x31a138 ble 0x31a144 <__gnu_Unwind_Backtrace+0x454> */
+/* @0x31a13c bl 0x3198d0 <__gnu_uldivmod_helper+0x2dc> */
+/* @0x31a140 b 0x31a150 <__gnu_Unwind_Backtrace+0x460> */
+/* @0x31a144 mov r0, r6 */
+/* @0x31a148 add r1, sp, #20 */
+/* @0x31a14c bl 0x31a73c <__gnu_unwind_execute> */
+/* @0x31a150 cmp r0, #0 */
+/* @0x31a154 bne 0x31a194 <__gnu_Unwind_Backtrace+0x4a4> */
+/* @0x31a158 cmp r10, #0 */
+/* @0x31a15c moveq r0, #8 */
+/* @0x31a160 beq 0x31a198 <__gnu_Unwind_Backtrace+0x4a8> */
+/* @0x31a164 mov r1, #15 */
+/* @0x31a168 mov r0, r6 */
+/* @0x31a16c bl 0x319c40 <_Unwind_VRS_Get+0x5c> */
+/* @0x31a170 mov r1, #14 */
+/* @0x31a174 mov r2, r0 */
+/* @0x31a178 mov r0, r6 */
+/* @0x31a17c bl 0x319cc4 <_Unwind_VRS_Set+0x5c> */
+/* @0x31a180 ldr r2, [pc, #0x18] */
+/* @0x31a184 mov r0, r6 */
+/* @0x31a188 mov r1, #15 */
+/* @0x31a18c ldr r2, [pc, r2] */
+/* @0x31a190 b 0x319fe8 <__gnu_Unwind_Backtrace+0x2f8> */
+/* @0x31a194 mov r0, #9 */
+/* @0x31a198 add sp, sp, #36 */
+/* @0x31a19c pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x31a1a0 andeq r7, sp, r0, asr #21 */
+
+/* ── FUNC 0x31a1a4 · __aeabi_unwind_cpp_pr0 · size=8 · insn=2 */
+/* @0x31a1a4 mov r3, #0 */
+/* @0x31a1a8 b 0x319db4 <__gnu_Unwind_Backtrace+0xc4> */
+
+/* ── FUNC 0x31a1ac · __aeabi_unwind_cpp_pr1 · size=8 · insn=2 */
+/* @0x31a1ac mov r3, #1 */
+/* @0x31a1b0 b 0x319db4 <__gnu_Unwind_Backtrace+0xc4> */
+
+/* ── FUNC 0x31a1b4 · __aeabi_unwind_cpp_pr2 · size=8 · insn=2 */
+/* @0x31a1b4 mov r3, #2 */
+/* @0x31a1b8 b 0x319db4 <__gnu_Unwind_Backtrace+0xc4> */
+
+/* ── FUNC 0x31a1bc · _Unwind_VRS_Pop · size=844 · insn=211 */
+/* @0x31a1bc push {r4, r5, r6, r7, r8, r9, lr} */
+/* @0x31a1c0 mov r4, r0 */
+/* @0x31a1c4 sub sp, sp, #268 */
+/* @0x31a1c8 mov r5, r2 */
+/* @0x31a1cc cmp r1, #4 */
+/* @0x31a1d0 addls pc, pc, r1, lsl #2 */
+/* @0x31a1d4 b 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a1d8 b 0x31a1ec <_Unwind_VRS_Pop+0x30> */
+/* @0x31a1dc b 0x31a230 <_Unwind_VRS_Pop+0x74> */
+/* @0x31a1e0 b 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a1e4 b 0x31a410 <_Unwind_VRS_Pop+0x254> */
+/* @0x31a1e8 b 0x31a48c <_Unwind_VRS_Pop+0x2d0> */
+/* @0x31a1ec cmp r3, #0 */
+/* @0x31a1f0 bne 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a1f4 uxth r1, r2 */
+/* @0x31a1f8 ldr r2, [r0, #0x38] */
+/* @0x31a1fc mov r0, #1 */
+/* @0x31a200 ands r12, r1, r0, lsl r3 */
+/* @0x31a204 addne r12, r4, r3, lsl #2 */
+/* @0x31a208 add r3, r3, #1 */
+/* @0x31a20c ldrne r6, [r2] */
+/* @0x31a210 addne r2, r2, #4 */
+/* @0x31a214 strne r6, [r12, #0x4] */
+/* @0x31a218 cmp r3, #16 */
+/* @0x31a21c bne 0x31a200 <_Unwind_VRS_Pop+0x44> */
+/* @0x31a220 ands r0, r5, #8192 */
+/* @0x31a224 streq r2, [r4, #0x38] */
+/* @0x31a228 beq 0x31a500 <_Unwind_VRS_Pop+0x344> */
+/* @0x31a22c b 0x31a4fc <_Unwind_VRS_Pop+0x340> */
+/* @0x31a230 bic r2, r3, #4 */
+/* @0x31a234 cmp r2, #1 */
+/* @0x31a238 bne 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a23c cmp r3, #1 */
+/* @0x31a240 lsr r6, r5, #16 */
+/* @0x31a244 uxth r5, r5 */
+/* @0x31a248 add r2, r5, r6 */
+/* @0x31a24c movne r1, #32 */
+/* @0x31a250 moveq r1, #16 */
+/* @0x31a254 cmp r2, r1 */
+/* @0x31a258 bhi 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a25c subs r1, r3, #1 */
+/* @0x31a260 rsbs r9, r1, #0 */
+/* @0x31a264 adcs r9, r9, r1 */
+/* @0x31a268 cmp r6, #15 */
+/* @0x31a26c movls r8, #0 */
+/* @0x31a270 movhi r8, #1 */
+/* @0x31a274 tst r9, r8 */
+/* @0x31a278 bne 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a27c cmp r8, #0 */
+/* @0x31a280 movne r8, r5 */
+/* @0x31a284 bne 0x31a290 <_Unwind_VRS_Pop+0xd4> */
+/* @0x31a288 cmp r2, #16 */
+/* @0x31a28c subhi r8, r2, #16 */
+/* @0x31a290 adds r7, r8, #0 */
+/* @0x31a294 movne r7, #1 */
+/* @0x31a298 cmp r3, #5 */
+/* @0x31a29c cmpne r8, #0 */
+/* @0x31a2a0 bne 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a2a4 cmp r6, #15 */
+/* @0x31a2a8 bhi 0x31a2e8 <_Unwind_VRS_Pop+0x12c> */
+/* @0x31a2ac ldr r2, [r4] */
+/* @0x31a2b0 tst r2, #1 */
+/* @0x31a2b4 beq 0x31a2e8 <_Unwind_VRS_Pop+0x12c> */
+/* @0x31a2b8 cmp r3, #5 */
+/* @0x31a2bc mov r0, r4 */
+/* @0x31a2c0 bic r1, r2, #1 */
+/* @0x31a2c4 str r1, [r0], #72 */
+/* @0x31a2c8 bne 0x31a2dc <_Unwind_VRS_Pop+0x120> */
+/* @0x31a2cc orr r1, r1, #2 */
+/* @0x31a2d0 str r1, [r4] */
+/* @0x31a2d4 bl 0x31a534 <__gnu_Unwind_Save_VFP_D> */
+/* @0x31a2d8 b 0x31a2e8 <_Unwind_VRS_Pop+0x12c> */
+/* @0x31a2dc bic r2, r2, #3 */
+/* @0x31a2e0 str r2, [r4] */
+/* @0x31a2e4 bl 0x31a524 <__gnu_Unwind_Save_VFP> */
+/* @0x31a2e8 cmp r7, #0 */
+/* @0x31a2ec beq 0x31a30c <_Unwind_VRS_Pop+0x150> */
+/* @0x31a2f0 ldr r3, [r4] */
+/* @0x31a2f4 tst r3, #4 */
+/* @0x31a2f8 beq 0x31a30c <_Unwind_VRS_Pop+0x150> */
+/* @0x31a2fc mov r0, r4 */
+/* @0x31a300 bic r3, r3, #4 */
+/* @0x31a304 str r3, [r0], #208 */
+/* @0x31a308 bl 0x31a544 <__gnu_Unwind_Save_VFP_D_16_to_31> */
+/* @0x31a30c cmp r9, #0 */
+/* @0x31a310 beq 0x31a328 <_Unwind_VRS_Pop+0x16c> */
+/* @0x31a314 add r0, sp, #128 */
+/* @0x31a318 bl 0x31a524 <__gnu_Unwind_Save_VFP> */
+/* @0x31a31c cmp r7, #0 */
+/* @0x31a320 bne 0x31a348 <_Unwind_VRS_Pop+0x18c> */
+/* @0x31a324 b 0x31a34c <_Unwind_VRS_Pop+0x190> */
+/* @0x31a328 cmp r6, #15 */
+/* @0x31a32c bhi 0x31a338 <_Unwind_VRS_Pop+0x17c> */
+/* @0x31a330 add r0, sp, #128 */
+/* @0x31a334 bl 0x31a534 <__gnu_Unwind_Save_VFP_D> */
+/* @0x31a338 cmp r7, #0 */
+/* @0x31a33c beq 0x31a34c <_Unwind_VRS_Pop+0x190> */
+/* @0x31a340 mov r0, sp */
+/* @0x31a344 bl 0x31a544 <__gnu_Unwind_Save_VFP_D_16_to_31> */
+/* @0x31a348 rsb r5, r6, #16 */
+/* @0x31a34c ldr r2, [r4, #0x38] */
+/* @0x31a350 cmp r5, #0 */
+/* @0x31a354 mov r3, r2 */
+/* @0x31a358 ble 0x31a388 <_Unwind_VRS_Pop+0x1cc> */
+/* @0x31a35c add r3, sp, #128 */
+/* @0x31a360 lsl r5, r5, #1 */
+/* @0x31a364 add r3, r3, r6, lsl #3 */
+/* @0x31a368 sub r0, r2, #4 */
+/* @0x31a36c rsb r3, r2, r3 */
+/* @0x31a370 mov r1, r5 */
+/* @0x31a374 subs r1, r1, #1 */
+/* @0x31a378 ldrhs r12, [r0, #0x4]! */
+/* @0x31a37c strhs r12, [r3, r0] */
+/* @0x31a380 bhs 0x31a374 <_Unwind_VRS_Pop+0x1b8> */
+/* @0x31a384 add r3, r2, r5, lsl #2 */
+/* @0x31a388 cmp r7, #0 */
+/* @0x31a38c beq 0x31a3cc <_Unwind_VRS_Pop+0x210> */
+/* @0x31a390 cmp r6, #16 */
+/* @0x31a394 movhs r0, r6 */
+/* @0x31a398 movlo r0, #16 */
+/* @0x31a39c add r2, sp, #264 */
+/* @0x31a3a0 lsl r8, r8, #1 */
+/* @0x31a3a4 add r0, r2, r0, lsl #3 */
+/* @0x31a3a8 mov r2, #0 */
+/* @0x31a3ac sub r0, r0, #392 */
+/* @0x31a3b0 cmp r2, r8 */
+/* @0x31a3b4 lsl r1, r2, #2 */
+/* @0x31a3b8 ldrne r1, [r3, r2, lsl #2] */
+/* @0x31a3bc strne r1, [r0, r2, lsl #2] */
+/* @0x31a3c0 addne r2, r2, #1 */
+/* @0x31a3c4 bne 0x31a3b0 <_Unwind_VRS_Pop+0x1f4> */
+/* @0x31a3c8 add r3, r3, r1 */
+/* @0x31a3cc cmp r9, #0 */
+/* @0x31a3d0 addne r3, r3, #4 */
+/* @0x31a3d4 cmp r9, #0 */
+/* @0x31a3d8 str r3, [r4, #0x38] */
+/* @0x31a3dc beq 0x31a3ec <_Unwind_VRS_Pop+0x230> */
+/* @0x31a3e0 add r0, sp, #128 */
+/* @0x31a3e4 bl 0x31a51c <__gnu_Unwind_Restore_VFP> */
+/* @0x31a3e8 b 0x31a4fc <_Unwind_VRS_Pop+0x340> */
+/* @0x31a3ec cmp r6, #15 */
+/* @0x31a3f0 bhi 0x31a3fc <_Unwind_VRS_Pop+0x240> */
+/* @0x31a3f4 add r0, sp, #128 */
+/* @0x31a3f8 bl 0x31a52c <__gnu_Unwind_Restore_VFP_D> */
+/* @0x31a3fc cmp r7, #0 */
+/* @0x31a400 beq 0x31a4fc <_Unwind_VRS_Pop+0x340> */
+/* @0x31a404 mov r0, sp */
+/* @0x31a408 bl 0x31a53c <__gnu_Unwind_Restore_VFP_D_16_to_31> */
+/* @0x31a40c b 0x31a4fc <_Unwind_VRS_Pop+0x340> */
+/* @0x31a410 cmp r3, #3 */
+/* @0x31a414 bne 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a418 lsr r7, r2, #16 */
+/* @0x31a41c uxth r5, r2 */
+/* @0x31a420 add r3, r5, r7 */
+/* @0x31a424 cmp r3, #16 */
+/* @0x31a428 bhi 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a42c ldr r3, [r0] */
+/* @0x31a430 tst r3, #8 */
+/* @0x31a434 beq 0x31a444 <_Unwind_VRS_Pop+0x288> */
+/* @0x31a438 bic r3, r3, #8 */
+/* @0x31a43c str r3, [r0], #336 */
+/* @0x31a440 bl 0x31a590 <__gnu_Unwind_Save_WMMXD> */
+/* @0x31a444 add r6, sp, #128 */
+/* @0x31a448 lsl r5, r5, #1 */
+/* @0x31a44c add r7, r6, r7, lsl #3 */
+/* @0x31a450 mov r0, r6 */
+/* @0x31a454 bl 0x31a590 <__gnu_Unwind_Save_WMMXD> */
+/* @0x31a458 ldr r3, [r4, #0x38] */
+/* @0x31a45c mov r2, r5 */
+/* @0x31a460 sub r1, r3, #4 */
+/* @0x31a464 rsb r7, r3, r7 */
+/* @0x31a468 subs r2, r2, #1 */
+/* @0x31a46c ldrhs r0, [r1, #0x4]! */
+/* @0x31a470 strhs r0, [r7, r1] */
+/* @0x31a474 bhs 0x31a468 <_Unwind_VRS_Pop+0x2ac> */
+/* @0x31a478 add r5, r3, r5, lsl #2 */
+/* @0x31a47c mov r0, r6 */
+/* @0x31a480 str r5, [r4, #0x38] */
+/* @0x31a484 bl 0x31a54c <__gnu_Unwind_Restore_WMMXD> */
+/* @0x31a488 b 0x31a4fc <_Unwind_VRS_Pop+0x340> */
+/* @0x31a48c cmp r2, #16 */
+/* @0x31a490 cmpls r3, #0 */
+/* @0x31a494 bne 0x31a4f4 <_Unwind_VRS_Pop+0x338> */
+/* @0x31a498 ldr r3, [r0] */
+/* @0x31a49c tst r3, #16 */
+/* @0x31a4a0 beq 0x31a4b0 <_Unwind_VRS_Pop+0x2f4> */
+/* @0x31a4a4 bic r3, r3, #16 */
+/* @0x31a4a8 str r3, [r0], #464 */
+/* @0x31a4ac bl 0x31a5e8 <__gnu_Unwind_Save_WMMXC> */
+/* @0x31a4b0 add r6, sp, #128 */
+/* @0x31a4b4 mov r0, r6 */
+/* @0x31a4b8 bl 0x31a5e8 <__gnu_Unwind_Save_WMMXC> */
+/* @0x31a4bc ldr r2, [r4, #0x38] */
+/* @0x31a4c0 mov r3, #0 */
+/* @0x31a4c4 mov r1, #1 */
+/* @0x31a4c8 ands r12, r5, r1, lsl r3 */
+/* @0x31a4cc ldrne r0, [r2] */
+/* @0x31a4d0 addne r2, r2, #4 */
+/* @0x31a4d4 strne r0, [r6, r3, lsl #2] */
+/* @0x31a4d8 add r3, r3, #1 */
+/* @0x31a4dc cmp r3, #4 */
+/* @0x31a4e0 bne 0x31a4c8 <_Unwind_VRS_Pop+0x30c> */
+/* @0x31a4e4 str r2, [r4, #0x38] */
+/* @0x31a4e8 mov r0, r6 */
+/* @0x31a4ec bl 0x31a5d4 <__gnu_Unwind_Restore_WMMXC> */
+/* @0x31a4f0 b 0x31a4fc <_Unwind_VRS_Pop+0x340> */
+/* @0x31a4f4 mov r0, #2 */
+/* @0x31a4f8 b 0x31a500 <_Unwind_VRS_Pop+0x344> */
+/* @0x31a4fc mov r0, #0 */
+/* @0x31a500 add sp, sp, #268 */
+/* @0x31a504 pop {r4, r5, r6, r7, r8, r9, pc} */
+
+/* ── FUNC 0x31a508 · __restore_core_regs · size=20 · insn=5 */
+/* @0x31a508 add r1, r0, #52 */
+/* @0x31a50c ldm r1, {r3, r4, r5} */
+/* @0x31a510 push {r3, r4, r5} */
+/* @0x31a514 ldm r0, {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11} */
+/* @0x31a518 ldm sp, {sp, lr, pc} */
+
+/* ── FUNC 0x31a508 · restore_core_regs · alias of the symbol above · insn=0 */
+
+/* ── FUNC 0x31a51c · anon_31a51c · size=220 · insn=56 */
+/* @0x31a51c fldmiax r0, {d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15} */
+/* @0x31a520 bx lr */
+/* @0x31a524 fstmiax r0, {d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15} */
+/* @0x31a528 bx lr */
+/* @0x31a52c vldmia r0, {d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15} */
+/* @0x31a530 bx lr */
+/* @0x31a534 vstmia r0, {d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15} */
+/* @0x31a538 bx lr */
+/* @0x31a53c vldmia r0, {d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31} */
+/* @0x31a540 bx lr */
+/* @0x31a544 vstmia r0, {d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31} */
+/* @0x31a548 bx lr */
+/* @0x31a54c ldcl p1, c0, [r0], #8 */
+/* @0x31a550 ldcl p1, c1, [r0], #8 */
+/* @0x31a554 ldcl p1, c2, [r0], #8 */
+/* @0x31a558 ldcl p1, c3, [r0], #8 */
+/* @0x31a55c ldcl p1, c4, [r0], #8 */
+/* @0x31a560 ldcl p1, c5, [r0], #8 */
+/* @0x31a564 ldcl p1, c6, [r0], #8 */
+/* @0x31a568 ldcl p1, c7, [r0], #8 */
+/* @0x31a56c ldcl p1, c8, [r0], #8 */
+/* @0x31a570 ldcl p1, c9, [r0], #8 */
+/* @0x31a574 ldcl p1, c10, [r0], #8 */
+/* @0x31a578 ldcl p1, c11, [r0], #8 */
+/* @0x31a57c ldcl p1, c12, [r0], #8 */
+/* @0x31a580 ldcl p1, c13, [r0], #8 */
+/* @0x31a584 ldcl p1, c14, [r0], #8 */
+/* @0x31a588 ldcl p1, c15, [r0], #8 */
+/* @0x31a58c bx lr */
+/* @0x31a590 stcl p1, c0, [r0], #8 */
+/* @0x31a594 stcl p1, c1, [r0], #8 */
+/* @0x31a598 stcl p1, c2, [r0], #8 */
+/* @0x31a59c stcl p1, c3, [r0], #8 */
+/* @0x31a5a0 stcl p1, c4, [r0], #8 */
+/* @0x31a5a4 stcl p1, c5, [r0], #8 */
+/* @0x31a5a8 stcl p1, c6, [r0], #8 */
+/* @0x31a5ac stcl p1, c7, [r0], #8 */
+/* @0x31a5b0 stcl p1, c8, [r0], #8 */
+/* @0x31a5b4 stcl p1, c9, [r0], #8 */
+/* @0x31a5b8 stcl p1, c10, [r0], #8 */
+/* @0x31a5bc stcl p1, c11, [r0], #8 */
+/* @0x31a5c0 stcl p1, c12, [r0], #8 */
+/* @0x31a5c4 stcl p1, c13, [r0], #8 */
+/* @0x31a5c8 stcl p1, c14, [r0], #8 */
+/* @0x31a5cc stcl p1, c15, [r0], #8 */
+/* @0x31a5d0 bx lr */
+/* @0x31a5d4 ldc2 p1, c8, [r0], #4 */
+/* @0x31a5d8 ldc2 p1, c9, [r0], #4 */
+/* @0x31a5dc ldc2 p1, c10, [r0], #4 */
+/* @0x31a5e0 ldc2 p1, c11, [r0], #4 */
+/* @0x31a5e4 bx lr */
+/* @0x31a5e8 stc2 p1, c8, [r0], #4 */
+/* @0x31a5ec stc2 p1, c9, [r0], #4 */
+/* @0x31a5f0 stc2 p1, c10, [r0], #4 */
+/* @0x31a5f4 stc2 p1, c11, [r0], #4 */
+/* @0x31a5f8 bx lr */
+
+/* ── FUNC 0x31a5fc · _Unwind_RaiseException · size=36 · insn=9 */
+/* @0x31a5fc push {sp, lr, pc} */
+/* @0x31a600 push {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12} */
+/* @0x31a604 mov r3, #0 */
+/* @0x31a608 push {r2, r3} */
+/* @0x31a60c add r1, sp, #4 */
+/* @0x31a610 bl 0x319a6c <__gnu_Unwind_RaiseException> */
+/* @0x31a614 ldr lr, [sp, #0x40] */
+/* @0x31a618 add sp, sp, #72 */
+/* @0x31a61c bx lr */
+
+/* ── FUNC 0x31a5fc · ___Unwind_RaiseException · alias of the symbol above · insn=0 */
+
+/* ── FUNC 0x31a620 · _Unwind_Resume · size=36 · insn=9 */
+/* @0x31a620 push {sp, lr, pc} */
+/* @0x31a624 push {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12} */
+/* @0x31a628 mov r3, #0 */
+/* @0x31a62c push {r2, r3} */
+/* @0x31a630 add r1, sp, #4 */
+/* @0x31a634 bl 0x319b2c <__gnu_Unwind_Resume> */
+/* @0x31a638 ldr lr, [sp, #0x40] */
+/* @0x31a63c add sp, sp, #72 */
+/* @0x31a640 bx lr */
+
+/* ── FUNC 0x31a620 · ___Unwind_Resume · alias of the symbol above · insn=0 */
+
+/* ── FUNC 0x31a644 · _Unwind_Resume_or_Rethrow · size=36 · insn=9 */
+/* @0x31a644 push {sp, lr, pc} */
+/* @0x31a648 push {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12} */
+/* @0x31a64c mov r3, #0 */
+/* @0x31a650 push {r2, r3} */
+/* @0x31a654 add r1, sp, #4 */
+/* @0x31a658 bl 0x319ba0 <__gnu_Unwind_Resume_or_Rethrow> */
+/* @0x31a65c ldr lr, [sp, #0x40] */
+/* @0x31a660 add sp, sp, #72 */
+/* @0x31a664 bx lr */
+
+/* ── FUNC 0x31a644 · ___Unwind_Resume_or_Rethrow · alias of the symbol above · insn=0 */
+
+/* ── FUNC 0x31a668 · _Unwind_ForcedUnwind · size=36 · insn=9 */
+/* @0x31a668 push {sp, lr, pc} */
+/* @0x31a66c push {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12} */
+/* @0x31a670 mov r3, #0 */
+/* @0x31a674 push {r2, r3} */
+/* @0x31a678 add r3, sp, #4 */
+/* @0x31a67c bl 0x319b10 <__gnu_Unwind_ForcedUnwind> */
+/* @0x31a680 ldr lr, [sp, #0x40] */
+/* @0x31a684 add sp, sp, #72 */
+/* @0x31a688 bx lr */
+
+/* ── FUNC 0x31a668 · ___Unwind_ForcedUnwind · alias of the symbol above · insn=0 */
+
+/* ── FUNC 0x31a68c · _Unwind_Backtrace · size=36 · insn=9 */
+/* @0x31a68c push {sp, lr, pc} */
+/* @0x31a690 push {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12} */
+/* @0x31a694 mov r3, #0 */
+/* @0x31a698 push {r2, r3} */
+/* @0x31a69c add r2, sp, #4 */
+/* @0x31a6a0 bl 0x319cf0 <__gnu_Unwind_Backtrace> */
+/* @0x31a6a4 ldr lr, [sp, #0x40] */
+/* @0x31a6a8 add sp, sp, #72 */
+/* @0x31a6ac bx lr */
+
+/* ── FUNC 0x31a68c · ___Unwind_Backtrace · alias of the symbol above · insn=0 */
+
+/* ── FUNC 0x31a6b0 · anon_31a6b0 · size=136 · insn=35 */
+/* @0x31a6b0 ldrb r3, [r0, #0x8] */
+/* @0x31a6b4 cmp r3, #0 */
+/* @0x31a6b8 bne 0x31a6ec <___Unwind_Backtrace+0x60> */
+/* @0x31a6bc ldrb r3, [r0, #0x9] */
+/* @0x31a6c0 cmp r3, #0 */
+/* @0x31a6c4 beq 0x31a708 <___Unwind_Backtrace+0x7c> */
+/* @0x31a6c8 sub r3, r3, #1 */
+/* @0x31a6cc strb r3, [r0, #0x9] */
+/* @0x31a6d0 ldr r3, [r0, #0x4] */
+/* @0x31a6d4 add r2, r3, #4 */
+/* @0x31a6d8 str r2, [r0, #0x4] */
+/* @0x31a6dc ldr r3, [r3] */
+/* @0x31a6e0 str r3, [r0] */
+/* @0x31a6e4 mov r3, #3 */
+/* @0x31a6e8 b 0x31a6f0 <___Unwind_Backtrace+0x64> */
+/* @0x31a6ec sub r3, r3, #1 */
+/* @0x31a6f0 strb r3, [r0, #0x8] */
+/* @0x31a6f4 ldr r3, [r0] */
+/* @0x31a6f8 lsl r2, r3, #8 */
+/* @0x31a6fc str r2, [r0] */
+/* @0x31a700 lsr r0, r3, #24 */
+/* @0x31a704 bx lr */
+/* @0x31a708 mov r0, #176 */
+/* @0x31a70c bx lr */
+/* @0x31a710 push {r0, r1, r2, r3, r4, lr} */
+/* @0x31a714 mov r1, #0 */
+/* @0x31a718 add r3, sp, #12 */
+/* @0x31a71c mov r2, #12 */
+/* @0x31a720 str r3, [sp] */
+/* @0x31a724 mov r3, r1 */
+/* @0x31a728 bl 0x319be4 <_Unwind_VRS_Get> */
+/* @0x31a72c ldr r0, [sp, #0xc] */
+/* @0x31a730 add sp, sp, #20 */
+/* @0x31a734 ldr pc, [sp], #4 */
+/* @0x31a738 b 0x31a710 <___Unwind_Backtrace+0x84> */
 
 /* ── FUNC 0x31a73c · __gnu_unwind_execute · size=892 · insn=223 */
 /* @0x31a73c push {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, lr} */
@@ -565,168 +1277,3 @@
 /* ── FUNC 0x31afa4 · __gedf2 · size=152 · insn=2 */
 /* @0x31afa4 mvn r12, #0 */
 /* @0x31afa8 b 0x31afb8 <__nedf2+0x4> */
-
-/* ── FUNC 0x31afa4 · __gtdf2 · alias of the symbol above · insn=0 */
-
-/* ── FUNC 0x31afac · __ledf2 · size=144 · insn=2 */
-/* @0x31afac mov r12, #1 */
-/* @0x31afb0 b 0x31afb8 <__nedf2+0x4> */
-
-/* ── FUNC 0x31afac · __ltdf2 · alias of the symbol above · insn=0 */
-
-/* ── FUNC 0x31afb4 · __cmpdf2 · size=136 · insn=34 */
-/* @0x31afb4 mov r12, #1 */
-/* @0x31afb8 str r12, [sp, #-0x4]! */
-/* @0x31afbc lsl r12, r1, #1 */
-/* @0x31afc0 mvns r12, r12, asr #21 */
-/* @0x31afc4 lsl r12, r3, #1 */
-/* @0x31afc8 mvnsne r12, r12, asr #21 */
-/* @0x31afcc beq 0x31b00c <__nedf2+0x58> */
-/* @0x31afd0 add sp, sp, #4 */
-/* @0x31afd4 orrs r12, r0, r1, lsl #1 */
-/* @0x31afd8 orrseq r12, r2, r3, lsl #1 */
-/* @0x31afdc teqne r1, r3 */
-/* @0x31afe0 teqeq r0, r2 */
-/* @0x31afe4 moveq r0, #0 */
-/* @0x31afe8 bxeq lr */
-/* @0x31afec cmn r0, #0 */
-/* @0x31aff0 teq r1, r3 */
-/* @0x31aff4 cmppl r1, r3 */
-/* @0x31aff8 cmpeq r0, r2 */
-/* @0x31affc asrhs r0, r3, #31 */
-/* @0x31b000 mvnlo r0, r3, asr #31 */
-/* @0x31b004 orr r0, r0, #1 */
-/* @0x31b008 bx lr */
-/* @0x31b00c lsl r12, r1, #1 */
-/* @0x31b010 mvns r12, r12, asr #21 */
-/* @0x31b014 bne 0x31b020 <__nedf2+0x6c> */
-/* @0x31b018 orrs r12, r0, r1, lsl #12 */
-/* @0x31b01c bne 0x31b034 <__nedf2+0x80> */
-/* @0x31b020 lsl r12, r3, #1 */
-/* @0x31b024 mvns r12, r12, asr #21 */
-/* @0x31b028 bne 0x31afd0 <__nedf2+0x1c> */
-/* @0x31b02c orrs r12, r2, r3, lsl #12 */
-/* @0x31b030 beq 0x31afd0 <__nedf2+0x1c> */
-/* @0x31b034 ldr r0, [sp], #4 */
-/* @0x31b038 bx lr */
-
-/* ── FUNC 0x31afb4 · __eqdf2 · alias of the symbol above · insn=0 */
-
-/* ── FUNC 0x31afb4 · __nedf2 · alias of the symbol above · insn=0 */
-
-/* ── FUNC 0x31b03c · __aeabi_cdrcmple · size=48 · insn=7 */
-/* @0x31b03c mov r12, r0 */
-/* @0x31b040 mov r0, r2 */
-/* @0x31b044 mov r2, r12 */
-/* @0x31b048 mov r12, r1 */
-/* @0x31b04c mov r1, r3 */
-/* @0x31b050 mov r3, r12 */
-/* @0x31b054 b 0x31b058 <__aeabi_cdcmple> */
-
-/* ── FUNC 0x31b058 · __aeabi_cdcmpeq · size=20 · insn=5 */
-/* @0x31b058 push {r0, lr} */
-/* @0x31b05c bl 0x31afb4 <__nedf2> */
-/* @0x31b060 cmp r0, #0 */
-/* @0x31b064 cmnmi r0, #0 */
-/* @0x31b068 pop {r0, pc} */
-
-/* ── FUNC 0x31b058 · __aeabi_cdcmple · alias of the symbol above · insn=0 */
-
-/* ── FUNC 0x31b06c · __aeabi_dcmpeq · size=20 · insn=5 */
-/* @0x31b06c str lr, [sp, #-0x8]! */
-/* @0x31b070 bl 0x31b058 <__aeabi_cdcmple> */
-/* @0x31b074 moveq r0, #1 */
-/* @0x31b078 movne r0, #0 */
-/* @0x31b07c ldr pc, [sp], #8 */
-
-/* ── FUNC 0x31b080 · __aeabi_dcmplt · size=20 · insn=5 */
-/* @0x31b080 str lr, [sp, #-0x8]! */
-/* @0x31b084 bl 0x31b058 <__aeabi_cdcmple> */
-/* @0x31b088 movlo r0, #1 */
-/* @0x31b08c movhs r0, #0 */
-/* @0x31b090 ldr pc, [sp], #8 */
-
-/* ── FUNC 0x31b094 · __aeabi_dcmple · size=20 · insn=5 */
-/* @0x31b094 str lr, [sp, #-0x8]! */
-/* @0x31b098 bl 0x31b058 <__aeabi_cdcmple> */
-/* @0x31b09c movls r0, #1 */
-/* @0x31b0a0 movhi r0, #0 */
-/* @0x31b0a4 ldr pc, [sp], #8 */
-
-/* ── FUNC 0x31b0a8 · __aeabi_dcmpge · size=20 · insn=5 */
-/* @0x31b0a8 str lr, [sp, #-0x8]! */
-/* @0x31b0ac bl 0x31b03c <__aeabi_cdrcmple> */
-/* @0x31b0b0 movls r0, #1 */
-/* @0x31b0b4 movhi r0, #0 */
-/* @0x31b0b8 ldr pc, [sp], #8 */
-
-/* ── FUNC 0x31b0bc · __aeabi_dcmpgt · size=20 · insn=5 */
-/* @0x31b0bc str lr, [sp, #-0x8]! */
-/* @0x31b0c0 bl 0x31b03c <__aeabi_cdrcmple> */
-/* @0x31b0c4 movlo r0, #1 */
-/* @0x31b0c8 movhs r0, #0 */
-/* @0x31b0cc ldr pc, [sp], #8 */
-
-/* ── FUNC 0x31b0d0 · __aeabi_d2uiz · size=84 · insn=21 */
-/* @0x31b0d0 lsls r2, r1, #1 */
-/* @0x31b0d4 bhs 0x31b104 <__fixunsdfsi+0x34> */
-/* @0x31b0d8 adds r2, r2, #2097152 */
-/* @0x31b0dc bhs 0x31b10c <__fixunsdfsi+0x3c> */
-/* @0x31b0e0 bpl 0x31b104 <__fixunsdfsi+0x34> */
-/* @0x31b0e4 mvn r3, #992 */
-/* @0x31b0e8 subs r2, r3, r2, asr #21 */
-/* @0x31b0ec bmi 0x31b114 <__fixunsdfsi+0x44> */
-/* @0x31b0f0 lsl r3, r1, #11 */
-/* @0x31b0f4 orr r3, r3, #-2147483648 */
-/* @0x31b0f8 orr r3, r3, r0, lsr #21 */
-/* @0x31b0fc lsr r0, r3, r2 */
-/* @0x31b100 bx lr */
-/* @0x31b104 mov r0, #0 */
-/* @0x31b108 bx lr */
-/* @0x31b10c orrs r0, r0, r1, lsl #12 */
-/* @0x31b110 bne 0x31b11c <__fixunsdfsi+0x4c> */
-/* @0x31b114 mvn r0, #0 */
-/* @0x31b118 bx lr */
-/* @0x31b11c mov r0, #0 */
-/* @0x31b120 bx lr */
-
-/* ── FUNC 0x31b0d0 · __fixunsdfsi · alias of the symbol above · insn=0 */
-
-/* ── FUNC 0x31b124 · __gesf2 · size=116 · insn=2 */
-/* @0x31b124 mvn r12, #0 */
-/* @0x31b128 b 0x31b138 <__nesf2+0x4> */
-
-/* ── FUNC 0x31b124 · __gtsf2 · alias of the symbol above · insn=0 */
-
-/* ── FUNC 0x31b12c · __lesf2 · size=108 · insn=2 */
-/* @0x31b12c mov r12, #1 */
-/* @0x31b130 b 0x31b138 <__nesf2+0x4> */
-
-/* ── FUNC 0x31b12c · __ltsf2 · alias of the symbol above · insn=0 */
-
-/* ── FUNC 0x31b134 · __cmpsf2 · size=100 · insn=25 */
-/* @0x31b134 mov r12, #1 */
-/* @0x31b138 str r12, [sp, #-0x4]! */
-/* @0x31b13c lsl r2, r0, #1 */
-/* @0x31b140 lsl r3, r1, #1 */
-/* @0x31b144 mvns r12, r2, asr #24 */
-/* @0x31b148 mvnsne r12, r3, asr #24 */
-/* @0x31b14c beq 0x31b170 <__nesf2+0x3c> */
-/* @0x31b150 add sp, sp, #4 */
-/* @0x31b154 orrs r12, r2, r3, lsr #1 */
-/* @0x31b158 teqne r0, r1 */
-/* @0x31b15c subspl r0, r2, r3 */
-/* @0x31b160 asrhi r0, r1, #31 */
-/* @0x31b164 mvnlo r0, r1, asr #31 */
-/* @0x31b168 orrne r0, r0, #1 */
-/* @0x31b16c bx lr */
-/* @0x31b170 mvns r12, r2, asr #24 */
-/* @0x31b174 bne 0x31b180 <__nesf2+0x4c> */
-/* @0x31b178 lsls r12, r0, #9 */
-/* @0x31b17c bne 0x31b190 <__nesf2+0x5c> */
-/* @0x31b180 mvns r12, r3, asr #24 */
-/* @0x31b184 bne 0x31b150 <__nesf2+0x1c> */
-/* @0x31b188 lsls r12, r1, #9 */
-/* @0x31b18c beq 0x31b150 <__nesf2+0x1c> */
-/* @0x31b190 ldr r0, [sp], #4 */
-/* @0x31b194 bx lr */
