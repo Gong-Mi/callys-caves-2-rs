@@ -53,9 +53,9 @@
 
 ## 已钉的语义
 
-    汇总：135 张卡、42,924 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          claims 1,172 条（proven 986 / narrowed 86 / open 90 / refuted 6 / inferred 4）
-          真实进度（按 @func 起址去重）：247 个函数，171,712 / 593,104 B = 29.0%（可达集）
+    汇总：140 张卡、47,060 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          claims 1,267 条（proven 1,073 / narrowed 89 / open 97 / refuted 7 / inferred 4）
+          真实进度（按 @func 起址去重）：261 个函数，188,268 / 593,104 B = 31.7%（可达集）
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -279,6 +279,22 @@
 
     一处账本纠正：claims CEG-003 说 Command_RestartGame 是 208 B 写 -201 —— 实测 **88 B 写 -200**，
     Command_EndGame 才是 4 B `bx lr`；已按 refuted 改写。
+
+## 第十轮（存档 / 层构建 / 房间与对象操作 / 变量名域）
+
+    Command_SaveGame    388 条 正文  18 段；实参是 IBuffer 句柄号；19 个写点里 18 个类型码 6、1 个码 9
+    Command_Unzip       196 条 正文  短读仍按 stat.size 落盘；size==0 的 entry 只开不关（漏句柄）；返回 entry 数
+    Command_Bounce      165 条 正文  四向命中组合；35 步扫描 base=lrint(dir/10)*10，两侧各 350°
+    CLayerManager::BuildRoomLayers 766 条 骨架  层数据块 → CLayer 字段映射；层类型 4 路决定元素类
+    CLayerManager::InitLayerFunctions 1364 条 骨架  **151 条注册三元组**（名字→handler→argc），149 个 handler
+    Room_Free / Add / Duplicate  617 条 正文  Free 释放 CRoom 并清名字表、先置 Run_Room=0；
+                                     Add/Duplicate 只追加不覆盖；**Duplicate 是 CRoom+0xd0 的唯一置 1 者**
+    Object_Add/Prepare/Load/GetInstance 299 条 正文  OBJT payload={count,offsets} 相对 g_pWADBaseAddress；
+                                     对象号 = 记录序号（装完 g_ObjectNumber=191）；GetInstance 的 id 四分流
+    Variable_GetName_Scope / BuiltIn_Add 341 条 正文  四张名字域表；BuiltIn_Add 的 16 B 项四字段、
+                                     第 4 实参死参、表固定 500 项不扩容（满则 ShowMessage）
+
+    一处措辞回改：池压链是**插回链头 LIFO**，不是尾插（DuplicateRoomLayers 卡已改）。
 
 ## 结构结论
 
