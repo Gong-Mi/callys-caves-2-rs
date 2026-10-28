@@ -1,0 +1,25 @@
+27ce78	e92d4070	push	{r4, r5, r6, lr}
+27ce7c	e2506000	subs	r6, r0, #0
+27ce80	e1a05003	mov	r5, r3
+27ce84	0a00000e	beq	0x27cec4 <_ZN13MemoryManager5AllocEjPKcib+0x4c>
+27ce88	ebffffb1	bl	0x27cd54 <_ZN13MemoryManager6_AllocEjPKcib>
+27ce8c	e2901000	adds	r1, r0, #0
+27ce90	e1a04000	mov	r4, r0
+27ce94	13a01001	movne	r1, #1
+27ce98	e1110005	tst	r1, r5
+27ce9c	1a00000a	bne	0x27cecc <_ZN13MemoryManager5AllocEjPKcib+0x54>
+27cea0	e3510000	cmp	r1, #0
+27cea4	0a000006	beq	0x27cec4 <_ZN13MemoryManager5AllocEjPKcib+0x4c>
+27cea8	e3a00000	mov	r0, #0
+27ceac	e1a03006	mov	r3, r6
+27ceb0	e1a01000	mov	r1, r0
+27ceb4	e1a02004	mov	r2, r4
+27ceb8	ebfffb8d	bl	0x27bcf4 <_Z11logLocation8ELogTypePKvS1_j>
+27cebc	e1a00004	mov	r0, r4
+27cec0	e8bd8070	pop	{r4, r5, r6, pc}
+27cec4	e3a00000	mov	r0, #0
+27cec8	e8bd8070	pop	{r4, r5, r6, pc}
+27cecc	e3a01000	mov	r1, #0
+27ced0	e1a02006	mov	r2, r6
+27ced4	ebf8e5b5	bl	0xb65b0 <memset@plt>
+27ced8	eafffff2	b	0x27cea8 <_ZN13MemoryManager5AllocEjPKcib+0x30>

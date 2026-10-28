@@ -53,8 +53,8 @@
 
 ## 已钉的语义
 
-    汇总：53 张卡、18,525 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          正文 15 张 / 骨架 38 张；claims 335 条（proven 276 / narrowed 27 / open 31 / refuted 1）
+    汇总：67 张卡、20,020 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          正文 36 张 / 骨架 31 张；claims 446 条（proven 368 / narrowed 38 / open 38 / refuted 2）
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -113,6 +113,35 @@
 
     补一条纠正：DoDestroy/DoInstanceDestroy **与 DoPop/DoPush 没有调用边**（tag 释放走 FREE_RValue__Pre），
     耦合只在数据位——DoPushEnv 的 with 遍历按 +0x68/+0x69 跳过，而置这两个字节的正是 DoDestroy。
+
+## 第三轮（按调用图派工的依赖环）
+
+`scripts/call_graph.py` 把已出卡函数指向未出卡函数的边算出来（17,168 条内部边，未覆盖被调方 154 个），
+第三轮按被调次数派工 14 个：
+
+    FREE_RValue__Pre 0xc0a7c 564 条 正文   入口只按 tag&0x00FFFFFF 分三支：1 字符串 / 2 数组 / 3 指针（条件虚删除）
+                                           tag1 归零链是 dec() 的逐指令内联；4 条 bl dec 全在静态死块
+                                           数组三处释放全走 YYStrFree（无 delete）；61 条指令（10.8%）静态不可达
+    boxType        0xd7784  97 条 正文   返回值 = 数据指针 + 消费字节数；eVM_Type 0/1/2/3/4/5/6/9，7-8 空档
+    InternalGetYYVar 0x196a70 69 条 正文 变量表 +0 size/+4 count/+8 mask/+0xc threshold/+0x10 nodes(12B)；
+                                           hash=key+1 且只比 hash；未命中读时惰性创建，默认 tag 来自 this+0x58
+    Find_Slot_From_Name 0xd21ec 15 条 正文 全局名走线性 strcmp（声明顺序即 id）；0 是合法槽、-1 才是未找到
+    VMError        0xd4210  56 条 正文   不是 abort/setjmp：置 Code_Error_Occured=1 后正常返回；
+                                           只有 g_bLaunchedFromPlayer==0 才 exit(-1)；.text 里 177 处 bl
+    JSThrowType/ReferenceError 各 71 条 正文  深拷贝异常值进 g_exceptionVar(0x75645c)、置 g_fThrownExceptionUnwinding=1
+                                           后尾跳 UnwindExceptionStack（逐帧 PerformReturn）
+    F_JS_ToNumber  0x24cfac 338 条 正文   真签名 (RValue& out, RValue& in)；只认 8 个 tag；十六进制有符号 vcvt；
+                                           尾部垃圾 → NaN {0xFFFFFFFF,0x7FFFFFFF}
+    F_JS_ToInt32   0x24d5c8  90 条 正文   输出是 tag0 double；取模靠 mov r1,#0 丢高字（不是掩码），再严格 bgt 2^31 折符号
+    UpdateActiveLists 0x1d30a4 48 条 正文 三个待办队列 0x542a4c/0x542a64/0x542a58，判据 [list+8]!=0
+    MemoryManager::Alloc 0x27ce78 25 条 正文 file/line 不落地（logLocation 是空桩）；16B 头 {size,0xDEADC0DE,0xBAADB00B,0}
+    _RefThing::dec  0xc09f8  33 条 正文   非零只减计数；归零 YYFree→清字段→LOCK/decr→UNLOCK→delete；0xc0a48 段静态不可达
+    YYAlloc         0xcef4c   6 条 正文   尾跳 Alloc(size,"…/Code_Main.cpp",1293,false)，不清零
+    Code_Variable_Find_Name 0xd25fc 7 条 正文  id>=100000 走全局/内建表，<100000 返回 "<unknown built-in variable>"
+
+    两条被推翻的旧说法（都当场回改到原卡里）：
+    · 「tag 5/12 = bool」→ 5 是 .bss 零常量（+0.0）、12 是显式 0.0（null）
+    · 「LOCK_RVALUE_MUTEX 提供保护」→ 本构建两个锁函数都是单条 `bx lr` 空操作
 
 ## 结构结论
 

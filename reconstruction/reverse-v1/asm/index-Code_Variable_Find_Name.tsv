@@ -1,0 +1,7 @@
+d25fc	e308369f	movw	r3, #0x869f
+d2600	e3403001	movt	r3, #0x1
+d2604	e1520003	cmp	r2, r3
+d2608	ca000001	bgt	0xd2614 <_Z23Code_Variable_Find_NamePKcii+0x18>
+d260c	e1a00002	mov	r0, r2
+d2610	ea048548	b	0x1f3b38 <_Z26Variable_BuiltIn_Find_Namei>
+d2614	eaffff03	b	0xd2228 <_Z22Variable_GetName_ScopePKcii>

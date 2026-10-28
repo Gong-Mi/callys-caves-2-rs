@@ -1,0 +1,97 @@
+d7784	e92d4070	push	{r4, r5, r6, lr}
+d7788	e1a06000	mov	r6, r0
+d778c	e24dd008	sub	sp, sp, #8
+d7790	e3510009	cmp	r1, #9
+d7794	908ff101	addls	pc, pc, r1, lsl #2
+d7798	ea000010	b	0xd77e0 <_Z7boxTypeR6RValue8eVM_TypePh+0x5c>
+d779c	ea00001a	b	0xd780c <_Z7boxTypeR6RValue8eVM_TypePh+0x88>
+d77a0	ea000022	b	0xd7830 <_Z7boxTypeR6RValue8eVM_TypePh+0xac>
+d77a4	ea00002c	b	0xd785c <_Z7boxTypeR6RValue8eVM_TypePh+0xd8>
+d77a8	ea000005	b	0xd77c4 <_Z7boxTypeR6RValue8eVM_TypePh+0x40>
+d77ac	ea000036	b	0xd788c <_Z7boxTypeR6RValue8eVM_TypePh+0x108>
+d77b0	ea000041	b	0xd78bc <_Z7boxTypeR6RValue8eVM_TypePh+0x138>
+d77b4	ea00004c	b	0xd78ec <_Z7boxTypeR6RValue8eVM_TypePh+0x168>
+d77b8	ea000008	b	0xd77e0 <_Z7boxTypeR6RValue8eVM_TypePh+0x5c>
+d77bc	ea000007	b	0xd77e0 <_Z7boxTypeR6RValue8eVM_TypePh+0x5c>
+d77c0	ea000009	b	0xd77ec <_Z7boxTypeR6RValue8eVM_TypePh+0x68>
+d77c4	e0c200d8	ldrd	r0, r1, [r2], #8
+d77c8	e3a03000	mov	r3, #0
+d77cc	e586300c	str	r3, [r6, #0xc]
+d77d0	e58d2004	str	r2, [sp, #0x4]
+d77d4	eb090662	bl	0x319164 <__floatdidf>
+d77d8	e8860003	stm	r6, {r0, r1}
+d77dc	e59d2004	ldr	r2, [sp, #0x4]
+d77e0	e1a00002	mov	r0, r2
+d77e4	e28dd008	add	sp, sp, #8
+d77e8	e8bd8070	pop	{r4, r5, r6, pc}
+d77ec	e3a03000	mov	r3, #0
+d77f0	e3a01005	mov	r1, #5
+d77f4	e5803000	str	r3, [r0]
+d77f8	e580100c	str	r1, [r0, #0xc]
+d77fc	e5803004	str	r3, [r0, #0x4]
+d7800	e1a00002	mov	r0, r2
+d7804	e28dd008	add	sp, sp, #8
+d7808	e8bd8070	pop	{r4, r5, r6, pc}
+d780c	e5921000	ldr	r1, [r2]
+d7810	e2822008	add	r2, r2, #8
+d7814	e5123004	ldr	r3, [r2, #-0x4]
+d7818	e3a00000	mov	r0, #0
+d781c	e586000c	str	r0, [r6, #0xc]
+d7820	e1a00002	mov	r0, r2
+d7824	e886000a	stm	r6, {r1, r3}
+d7828	e28dd008	add	sp, sp, #8
+d782c	e8bd8070	pop	{r4, r5, r6, pc}
+d7830	ecf27a01	vldmia	r2!, {s15}
+d7834	eeb76ae7	vcvt.f64.f32	d6, s15
+d7838	e3a03000	mov	r3, #0
+d783c	e580300c	str	r3, [r0, #0xc]
+d7840	ec554b16	vmov	r4, r5, d6
+d7844	ee161a10	vmov	r1, s12
+d7848	e1a03005	mov	r3, r5
+d784c	e880000a	stm	r0, {r1, r3}
+d7850	e1a00002	mov	r0, r2
+d7854	e28dd008	add	sp, sp, #8
+d7858	e8bd8070	pop	{r4, r5, r6, pc}
+d785c	e3a03000	mov	r3, #0
+d7860	e580300c	str	r3, [r0, #0xc]
+d7864	e4924004	ldr	r4, [r2], #4
+d7868	ee064a90	vmov	s13, r4
+d786c	eeb86be6	vcvt.f64.s32	d6, s13
+d7870	ec554b16	vmov	r4, r5, d6
+d7874	ee161a10	vmov	r1, s12
+d7878	e1a03005	mov	r3, r5
+d787c	e880000a	stm	r0, {r1, r3}
+d7880	e1a00002	mov	r0, r2
+d7884	e28dd008	add	sp, sp, #8
+d7888	e8bd8070	pop	{r4, r5, r6, pc}
+d788c	e3a0300d	mov	r3, #13
+d7890	e580300c	str	r3, [r0, #0xc]
+d7894	e4924004	ldr	r4, [r2], #4
+d7898	ee074a90	vmov	s15, r4
+d789c	eeb87be7	vcvt.f64.s32	d7, s15
+d78a0	ec554b17	vmov	r4, r5, d7
+d78a4	ee171a10	vmov	r1, s14
+d78a8	e1a03005	mov	r3, r5
+d78ac	e880000a	stm	r0, {r1, r3}
+d78b0	e1a00002	mov	r0, r2
+d78b4	e28dd008	add	sp, sp, #8
+d78b8	e8bd8070	pop	{r4, r5, r6, pc}
+d78bc	e592c000	ldr	r12, [r2]
+d78c0	e2822010	add	r2, r2, #16
+d78c4	e512000c	ldr	r0, [r2, #-0xc]
+d78c8	e5121008	ldr	r1, [r2, #-0x8]
+d78cc	e5123004	ldr	r3, [r2, #-0x4]
+d78d0	e5860004	str	r0, [r6, #0x4]
+d78d4	e1a00002	mov	r0, r2
+d78d8	e586c000	str	r12, [r6]
+d78dc	e5861008	str	r1, [r6, #0x8]
+d78e0	e586300c	str	r3, [r6, #0xc]
+d78e4	e28dd008	add	sp, sp, #8
+d78e8	e8bd8070	pop	{r4, r5, r6, pc}
+d78ec	e4923004	ldr	r3, [r2], #4
+d78f0	e3a01001	mov	r1, #1
+d78f4	e580100c	str	r1, [r0, #0xc]
+d78f8	e5803000	str	r3, [r0]
+d78fc	e1a00002	mov	r0, r2
+d7900	e28dd008	add	sp, sp, #8
+d7904	e8bd8070	pop	{r4, r5, r6, pc}

@@ -25,6 +25,9 @@
  *   kind = dst->tag & 0x00FFFFFF（bic #0xFF000000，0x207a4c）。
  *   kind==1（字符串）：先释放 dst 的旧串 —— 0x207bbc..0x207d00 是 FREE_RValue__Pre 的 kind1 分支内联副本：
  *     LOCK_RVALUE_MUTEX → --[ptr+4] → 归零则 YYFree(ptr->[0])、ptr->[0]=ptr->[8]=0，再走 _RefThing<char const*>::dec()
+ *     ⚠ 修正（batchM，FREE-012）：本构建里 LOCK_RVALUE_MUTEX(0x190f2c) / UNLOCK(0x190f30)
+ *       都是单条 `bx lr`（原始字节 0xe12fff1e 已复核）——它们是**空操作**，不提供同步；
+ *       本卡下文凡写「LOCK 保护」处，一律按无锁理解。
  *     与 operator delete 的第二级递减（0x207cac..0x207d00）。与 FREE_RValue__Pre(0xc0a7c) 的 kind1 头（0xc0ac0..0xc0ad8）
  *     同构：同一 [ptr+4] 计数、同一 YYFree([ptr]) 载荷。
  *   kind==2：0x207a60..0x207a70 的判定 (tag-1)&0x00FFFFFF&~3 == 0 在本分支恒真

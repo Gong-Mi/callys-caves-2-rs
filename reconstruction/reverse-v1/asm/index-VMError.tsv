@@ -1,0 +1,61 @@
+d4210	e92d000e	push	{r1, r2, r3}
+d4214	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+d4218	e24ddb01	sub	sp, sp, #1024
+d421c	e59f40cc	ldr	r4, [pc, #0xcc]
+d4220	e24dd00c	sub	sp, sp, #12
+d4224	e59f30c8	ldr	r3, [pc, #0xc8]
+d4228	e3a07001	mov	r7, #1
+d422c	e08f4004	add	r4, pc, r4
+d4230	e59fc0c0	ldr	r12, [pc, #0xc0]
+d4234	e59f20c0	ldr	r2, [pc, #0xc0]
+d4238	e7945003	ldr	r5, [r4, r3]
+d423c	e59d1424	ldr	r1, [sp, #0x424]
+d4240	e5953000	ldr	r3, [r5]
+d4244	e58d3404	str	r3, [sp, #0x404]
+d4248	e794300c	ldr	r3, [r4, r12]
+d424c	e5c37000	strb	r7, [r3]
+d4250	e7946002	ldr	r6, [r4, r2]
+d4254	e5d63000	ldrb	r3, [r6]
+d4258	e3530000	cmp	r3, #0
+d425c	0a00000c	beq	0xd4294 <_Z7VMErrorP6VMExecPKcz+0x84>
+d4260	e5903050	ldr	r3, [r0, #0x50]
+d4264	e3a02000	mov	r2, #0
+d4268	e580204c	str	r2, [r0, #0x4c]
+d426c	e5803044	str	r3, [r0, #0x44]
+d4270	e59d2404	ldr	r2, [sp, #0x404]
+d4274	e5953000	ldr	r3, [r5]
+d4278	e1520003	cmp	r2, r3
+d427c	1a000018	bne	0xd42e4 <_Z7VMErrorP6VMExecPKcz+0xd4>
+d4280	e28ddb01	add	sp, sp, #1024
+d4284	e28dd00c	add	sp, sp, #12
+d4288	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+d428c	e28dd00c	add	sp, sp, #12
+d4290	e12fff1e	bx	lr
+d4294	e28d3e42	add	r3, sp, #1056
+d4298	e28d8004	add	r8, sp, #4
+d429c	e2833008	add	r3, r3, #8
+d42a0	e58d3000	str	r3, [sp]
+d42a4	e1a00008	mov	r0, r8
+d42a8	e1a02003	mov	r2, r3
+d42ac	ebff88f2	bl	0xb667c <vsprintf@plt>
+d42b0	e5d63000	ldrb	r3, [r6]
+d42b4	e3530000	cmp	r3, #0
+d42b8	1affffec	bne	0xd4270 <_Z7VMErrorP6VMExecPKcz+0x60>
+d42bc	e1a00008	mov	r0, r8
+d42c0	e1a01007	mov	r1, r7
+d42c4	eb006329	bl	0xecf70 <_Z17Error_Show_ActionPKcb>
+d42c8	e59f3030	ldr	r3, [pc, #0x30]
+d42cc	e7943003	ldr	r3, [r4, r3]
+d42d0	e5d33000	ldrb	r3, [r3]
+d42d4	e3530000	cmp	r3, #0
+d42d8	0a000002	beq	0xd42e8 <_Z7VMErrorP6VMExecPKcz+0xd8>
+d42dc	eb00e00f	bl	0x10c320 <_Z14YYGML_game_endv>
+d42e0	eaffffe2	b	0xd4270 <_Z7VMErrorP6VMExecPKcz+0x60>
+d42e4	ebff88ba	bl	0xb65d4 <__stack_chk_fail@plt>
+d42e8	e3e00000	mvn	r0, #0
+d42ec	ebff88e5	bl	0xb6688 <exit@plt>
+d42f0	0031da24	eorseq	sp, r1, r4, lsr #20
+d42f4	ffffbd00	.word	0xffffbd00
+d42f8	ffffbf14	.word	0xffffbf14
+d42fc	ffffbfdc	.word	0xffffbfdc
+d4300	ffffbfe0	.word	0xffffbfe0

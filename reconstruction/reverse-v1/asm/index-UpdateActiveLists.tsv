@@ -1,0 +1,48 @@
+1d30a4	e92d4038	push	{r3, r4, r5, lr}
+1d30a8	e59f409c	ldr	r4, [pc, #0x9c]
+1d30ac	e59f309c	ldr	r3, [pc, #0x9c]
+1d30b0	e08f4004	add	r4, pc, r4
+1d30b4	e7945003	ldr	r5, [r4, r3]
+1d30b8	e5d53000	ldrb	r3, [r5]
+1d30bc	e3530000	cmp	r3, #0
+1d30c0	1a00001b	bne	0x1d3134 <_Z17UpdateActiveListsv+0x90>
+1d30c4	e59f3088	ldr	r3, [pc, #0x88]
+1d30c8	e7943003	ldr	r3, [r4, r3]
+1d30cc	e5933008	ldr	r3, [r3, #0x8]
+1d30d0	e3530000	cmp	r3, #0
+1d30d4	1a000014	bne	0x1d312c <_Z17UpdateActiveListsv+0x88>
+1d30d8	e59f3078	ldr	r3, [pc, #0x78]
+1d30dc	e7943003	ldr	r3, [r4, r3]
+1d30e0	e5933008	ldr	r3, [r3, #0x8]
+1d30e4	e3530000	cmp	r3, #0
+1d30e8	1a00000d	bne	0x1d3124 <_Z17UpdateActiveListsv+0x80>
+1d30ec	e59f3068	ldr	r3, [pc, #0x68]
+1d30f0	e7943003	ldr	r3, [r4, r3]
+1d30f4	e5933008	ldr	r3, [r3, #0x8]
+1d30f8	e3530000	cmp	r3, #0
+1d30fc	1a000006	bne	0x1d311c <_Z17UpdateActiveListsv+0x78>
+1d3100	e5d53000	ldrb	r3, [r5]
+1d3104	e3530000	cmp	r3, #0
+1d3108	08bd8038	popeq	{r3, r4, r5, pc}
+1d310c	e59f304c	ldr	r3, [pc, #0x4c]
+1d3110	e7940003	ldr	r0, [r4, r3]
+1d3114	e8bd4038	pop	{r3, r4, r5, lr}
+1d3118	ea0335e3	b	0x2a08ac <_ZN9CProfiler3PopEv>
+1d311c	ebffff71	bl	0x1d2ee8 <_Z20ChangeInstanceDepthsv>
+1d3120	eafffff6	b	0x1d3100 <_Z17UpdateActiveListsv+0x5c>
+1d3124	ebffff5d	bl	0x1d2ea0 <_Z19ChangeInstanceTypesv>
+1d3128	eaffffef	b	0x1d30ec <_Z17UpdateActiveListsv+0x48>
+1d312c	ebffffd0	bl	0x1d3074 <_Z27ProcessActivateDeactveListsv>
+1d3130	eaffffe8	b	0x1d30d8 <_Z17UpdateActiveListsv+0x34>
+1d3134	e59f3024	ldr	r3, [pc, #0x24]
+1d3138	e3a01006	mov	r1, #6
+1d313c	e3a02007	mov	r2, #7
+1d3140	e7940003	ldr	r0, [r4, r3]
+1d3144	eb03357b	bl	0x2a0738 <_ZN9CProfiler4PushEii>
+1d3148	eaffffdd	b	0x1d30c4 <_Z17UpdateActiveListsv+0x20>
+1d314c	0021eba0	eoreq	lr, r1, r0, lsr #23
+1d3150	ffffbf18	.word	0xffffbf18
+1d3154	ffffbff8	.word	0xffffbff8
+1d3158	ffffbff0	.word	0xffffbff0
+1d315c	ffffc454	.word	0xffffc454
+1d3160	ffffbf1c	.word	0xffffbf1c

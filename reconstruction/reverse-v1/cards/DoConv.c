@@ -38,6 +38,11 @@
  *
  * ── 动态源（src=5）：按 [sp+0xc] 的运行期 tag 改写成 src 码（@0xeb64c..@0xeb7e4）────
  *   tag 0 → src 0      tag 13 → src 0     tag 1  → src 6     tag 5,12 → src 4
+ *   ⚠ 修正（batchP，cards/F_JS_ToNumber.c）：tag 5 与 12 **不是 bool**——
+ *     5 = 复制 .bss 0x7563e4 的 16 字节零常量（+0.0），12 = 显式 0.0（null）；
+ *     本表的 src 4 只说明「进了哪个转换叶子」，不能反推 tag 名称。
+ *   ⚠ eVM_Type 枚举已由 boxType 定死：0=8B double 1=float32 2=int32 3=int64 4=bool
+ *     5=16B RValue 6=string 9=undefined，7/8 是空档（原先『整体差一』的疑点不成立）。
  *   tag 7 → src 2      tag 10 → src 3
  *   tag 2 → VMError "DoConv :1: illegal array use"（@0xebec8）
  *   tag 3 → VMError "DoConv :1: illegal pointer use"（@0xeb778）

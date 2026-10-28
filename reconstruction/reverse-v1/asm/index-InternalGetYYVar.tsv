@@ -1,0 +1,69 @@
+196a70	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+196a74	e1a07000	mov	r7, r0
+196a78	e5904060	ldr	r4, [r0, #0x60]
+196a7c	e1a08001	mov	r8, r1
+196a80	e3540000	cmp	r4, #0
+196a84	0a00003b	beq	0x196b78 <_ZN12YYObjectBase16InternalGetYYVarEi+0x108>
+196a88	e1a00008	mov	r0, r8
+196a8c	eb0080ec	bl	0x1b6e44 <_Z21CHashMapCalculateHashi>
+196a90	e594c008	ldr	r12, [r4, #0x8]
+196a94	e5949010	ldr	r9, [r4, #0x10]
+196a98	e3c00102	bic	r0, r0, #-2147483648
+196a9c	e00c3000	and	r3, r12, r0
+196aa0	e1a05083	lsl	r5, r3, #1
+196aa4	e0852003	add	r2, r5, r3
+196aa8	e0892102	add	r2, r9, r2, lsl #2
+196aac	e5922008	ldr	r2, [r2, #0x8]
+196ab0	e3520000	cmp	r2, #0
+196ab4	0a00001a	beq	0x196b24 <_ZN12YYObjectBase16InternalGetYYVarEi+0xb4>
+196ab8	e1500002	cmp	r0, r2
+196abc	0a000026	beq	0x196b5c <_ZN12YYObjectBase16InternalGetYYVarEi+0xec>
+196ac0	e594a000	ldr	r10, [r4]
+196ac4	e00c2002	and	r2, r12, r2
+196ac8	e083100a	add	r1, r3, r10
+196acc	e0622001	rsb	r2, r2, r1
+196ad0	e112000c	tst	r2, r12
+196ad4	4a000012	bmi	0x196b24 <_ZN12YYObjectBase16InternalGetYYVarEi+0xb4>
+196ad8	e3a04000	mov	r4, #0
+196adc	ea000003	b	0x196af0 <_ZN12YYObjectBase16InternalGetYYVarEi+0x80>
+196ae0	e1500002	cmp	r0, r2
+196ae4	0a00001a	beq	0x196b54 <_ZN12YYObjectBase16InternalGetYYVarEi+0xe4>
+196ae8	e1560004	cmp	r6, r4
+196aec	ba00000c	blt	0x196b24 <_ZN12YYObjectBase16InternalGetYYVarEi+0xb4>
+196af0	e2833001	add	r3, r3, #1
+196af4	e2844001	add	r4, r4, #1
+196af8	e00c3003	and	r3, r12, r3
+196afc	e083100a	add	r1, r3, r10
+196b00	e1a05083	lsl	r5, r3, #1
+196b04	e0852003	add	r2, r5, r3
+196b08	e0892102	add	r2, r9, r2, lsl #2
+196b0c	e5922008	ldr	r2, [r2, #0x8]
+196b10	e00c6002	and	r6, r12, r2
+196b14	e3520000	cmp	r2, #0
+196b18	e0666001	rsb	r6, r6, r1
+196b1c	e006600c	and	r6, r6, r12
+196b20	1affffee	bne	0x196ae0 <_ZN12YYObjectBase16InternalGetYYVarEi+0x70>
+196b24	ebffe8a5	bl	0x190dc0 <_Z9GetRValuev>
+196b28	e3a03000	mov	r3, #0
+196b2c	e1a01008	mov	r1, r8
+196b30	e1a04000	mov	r4, r0
+196b34	e5970058	ldr	r0, [r7, #0x58]
+196b38	e1a02004	mov	r2, r4
+196b3c	e5843000	str	r3, [r4]
+196b40	e5843004	str	r3, [r4, #0x4]
+196b44	e584000c	str	r0, [r4, #0xc]
+196b48	e5970060	ldr	r0, [r7, #0x60]
+196b4c	ebfffe2d	bl	0x196408 <_ZN8CHashMapIiP6RValueLi3EE6InsertEiS1_>
+196b50	ea000006	b	0x196b70 <_ZN12YYObjectBase16InternalGetYYVarEi+0x100>
+196b54	e3730001	cmn	r3, #1
+196b58	0afffff1	beq	0x196b24 <_ZN12YYObjectBase16InternalGetYYVarEi+0xb4>
+196b5c	e0853003	add	r3, r5, r3
+196b60	e0899103	add	r9, r9, r3, lsl #2
+196b64	e3790004	cmn	r9, #4
+196b68	15994004	ldrne	r4, [r9, #0x4]
+196b6c	0affffec	beq	0x196b24 <_ZN12YYObjectBase16InternalGetYYVarEi+0xb4>
+196b70	e1a00004	mov	r0, r4
+196b74	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+196b78	ebffeb17	bl	0x1917dc <_ZN12YYObjectBase9AllocVarsEv>
+196b7c	e5974060	ldr	r4, [r7, #0x60]
+196b80	eaffffc0	b	0x196a88 <_ZN12YYObjectBase16InternalGetYYVarEi+0x18>

@@ -1,0 +1,338 @@
+24cfac	e591300c	ldr	r3, [r1, #0xc]
+24cfb0	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+24cfb4	e3c334ff	bic	r3, r3, #-16777216
+24cfb8	e24dd018	sub	sp, sp, #24
+24cfbc	e1a06000	mov	r6, r0
+24cfc0	e353000d	cmp	r3, #13
+24cfc4	908ff103	addls	pc, pc, r3, lsl #2
+24cfc8	ea000080	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24cfcc	ea00008b	b	0x24d200 <_Z13F_JS_ToNumberR6RValueS0_+0x254>
+24cfd0	ea00000b	b	0x24d004 <_Z13F_JS_ToNumberR6RValueS0_+0x58>
+24cfd4	ea00007d	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24cfd8	ea00007c	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24cfdc	ea00007b	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24cfe0	ea00008f	b	0x24d224 <_Z13F_JS_ToNumberR6RValueS0_+0x278>
+24cfe4	ea00009b	b	0x24d258 <_Z13F_JS_ToNumberR6RValueS0_+0x2ac>
+24cfe8	ea0000b8	b	0x24d2d0 <_Z13F_JS_ToNumberR6RValueS0_+0x324>
+24cfec	ea000077	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24cff0	ea000076	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24cff4	ea0000c0	b	0x24d2fc <_Z13F_JS_ToNumberR6RValueS0_+0x350>
+24cff8	ea000074	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24cffc	ea000077	b	0x24d1e0 <_Z13F_JS_ToNumberR6RValueS0_+0x234>
+24d000	ea00007e	b	0x24d200 <_Z13F_JS_ToNumberR6RValueS0_+0x254>
+24d004	e5912000	ldr	r2, [r1]
+24d008	e3a03000	mov	r3, #0
+24d00c	e5924000	ldr	r4, [r2]
+24d010	e580300c	str	r3, [r0, #0xc]
+24d014	e1540003	cmp	r4, r3
+24d018	e58d4000	str	r4, [sp]
+24d01c	0a0000cb	beq	0x24d350 <_Z13F_JS_ToNumberR6RValueS0_+0x3a4>
+24d020	e5d43000	ldrb	r3, [r4]
+24d024	e3530000	cmp	r3, #0
+24d028	0a0000c8	beq	0x24d350 <_Z13F_JS_ToNumberR6RValueS0_+0x3a4>
+24d02c	e3028028	movw	r8, #0x2028
+24d030	e3a07001	mov	r7, #1
+24d034	e1a0000d	mov	r0, sp
+24d038	ebfb0abe	bl	0x10fb38 <utf8_extract_char>
+24d03c	e30f3f7f	movw	r3, #0xff7f
+24d040	e2401009	sub	r1, r0, #9
+24d044	e0003003	and	r3, r0, r3
+24d048	e6ff1071	uxth	r1, r1
+24d04c	e3530020	cmp	r3, #32
+24d050	13510002	cmpne	r1, #2
+24d054	9a0000b9	bls	0x24d340 <_Z13F_JS_ToNumberR6RValueS0_+0x394>
+24d058	e350000d	cmp	r0, #13
+24d05c	0a0000b7	beq	0x24d340 <_Z13F_JS_ToNumberR6RValueS0_+0x394>
+24d060	e1500008	cmp	r0, r8
+24d064	1350000c	cmpne	r0, #12
+24d068	0a0000b4	beq	0x24d340 <_Z13F_JS_ToNumberR6RValueS0_+0x394>
+24d06c	e35000a0	cmp	r0, #160
+24d070	da00000d	ble	0x24d0ac <_Z13F_JS_ToNumberR6RValueS0_+0x100>
+24d074	ebffc9f6	bl	0x23f854 <_Z21utf8proc_get_propertyi>
+24d078	e3a03001	mov	r3, #1
+24d07c	e340307f	movt	r3, #0x7f
+24d080	e3500000	cmp	r0, #0
+24d084	0a000008	beq	0x24d0ac <_Z13F_JS_ToNumberR6RValueS0_+0x100>
+24d088	e1d020b0	ldrh	r2, [r0]
+24d08c	e2422007	sub	r2, r2, #7
+24d090	e6ff2072	uxth	r2, r2
+24d094	e3520016	cmp	r2, #22
+24d098	e1a01217	lsl	r1, r7, r2
+24d09c	e0013003	and	r3, r1, r3
+24d0a0	8a000001	bhi	0x24d0ac <_Z13F_JS_ToNumberR6RValueS0_+0x100>
+24d0a4	e3530000	cmp	r3, #0
+24d0a8	1a0000a4	bne	0x24d340 <_Z13F_JS_ToNumberR6RValueS0_+0x394>
+24d0ac	e58d4000	str	r4, [sp]
+24d0b0	e5d43000	ldrb	r3, [r4]
+24d0b4	e3530000	cmp	r3, #0
+24d0b8	0a0000a4	beq	0x24d350 <_Z13F_JS_ToNumberR6RValueS0_+0x3a4>
+24d0bc	e28d0004	add	r0, sp, #4
+24d0c0	e58d4004	str	r4, [sp, #0x4]
+24d0c4	e58d4008	str	r4, [sp, #0x8]
+24d0c8	ebfb0a9a	bl	0x10fb38 <utf8_extract_char>
+24d0cc	e59d5000	ldr	r5, [sp]
+24d0d0	e5d53001	ldrb	r3, [r5, #0x1]
+24d0d4	e3500030	cmp	r0, #48
+24d0d8	e1a04000	mov	r4, r0
+24d0dc	0a0000b5	beq	0x24d3b8 <_Z13F_JS_ToNumberR6RValueS0_+0x40c>
+24d0e0	e3530058	cmp	r3, #88
+24d0e4	0a0000b6	beq	0x24d3c4 <_Z13F_JS_ToNumberR6RValueS0_+0x418>
+24d0e8	e3500049	cmp	r0, #73
+24d0ec	0a0000d7	beq	0x24d450 <_Z13F_JS_ToNumberR6RValueS0_+0x4a4>
+24d0f0	e350002d	cmp	r0, #45
+24d0f4	0a0000e3	beq	0x24d488 <_Z13F_JS_ToNumberR6RValueS0_+0x4dc>
+24d0f8	e350002b	cmp	r0, #43
+24d0fc	0a0000ef	beq	0x24d4c0 <_Z13F_JS_ToNumberR6RValueS0_+0x514>
+24d100	e240302d	sub	r3, r0, #45
+24d104	e6ff3073	uxth	r3, r3
+24d108	e3530001	cmp	r3, #1
+24d10c	9a0000a3	bls	0x24d3a0 <_Z13F_JS_ToNumberR6RValueS0_+0x3f4>
+24d110	e2443030	sub	r3, r4, #48
+24d114	e6ff3073	uxth	r3, r3
+24d118	e3530009	cmp	r3, #9
+24d11c	9a00009f	bls	0x24d3a0 <_Z13F_JS_ToNumberR6RValueS0_+0x3f4>
+24d120	e59d4008	ldr	r4, [sp, #0x8]
+24d124	e28d5008	add	r5, sp, #8
+24d128	e3028028	movw	r8, #0x2028
+24d12c	e3a07001	mov	r7, #1
+24d130	e5d43000	ldrb	r3, [r4]
+24d134	e1a00005	mov	r0, r5
+24d138	e3530000	cmp	r3, #0
+24d13c	0a000023	beq	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24d140	ebfb0a7c	bl	0x10fb38 <utf8_extract_char>
+24d144	e30f3f7f	movw	r3, #0xff7f
+24d148	e2401009	sub	r1, r0, #9
+24d14c	e0003003	and	r3, r0, r3
+24d150	e6ff1071	uxth	r1, r1
+24d154	e3530020	cmp	r3, #32
+24d158	13510002	cmpne	r1, #2
+24d15c	9a000082	bls	0x24d36c <_Z13F_JS_ToNumberR6RValueS0_+0x3c0>
+24d160	e350000d	cmp	r0, #13
+24d164	0a000080	beq	0x24d36c <_Z13F_JS_ToNumberR6RValueS0_+0x3c0>
+24d168	e1500008	cmp	r0, r8
+24d16c	1350000c	cmpne	r0, #12
+24d170	0a00007d	beq	0x24d36c <_Z13F_JS_ToNumberR6RValueS0_+0x3c0>
+24d174	e35000a0	cmp	r0, #160
+24d178	da00000d	ble	0x24d1b4 <_Z13F_JS_ToNumberR6RValueS0_+0x208>
+24d17c	ebffc9b4	bl	0x23f854 <_Z21utf8proc_get_propertyi>
+24d180	e3a03001	mov	r3, #1
+24d184	e340307f	movt	r3, #0x7f
+24d188	e3500000	cmp	r0, #0
+24d18c	0a000008	beq	0x24d1b4 <_Z13F_JS_ToNumberR6RValueS0_+0x208>
+24d190	e1d020b0	ldrh	r2, [r0]
+24d194	e2422007	sub	r2, r2, #7
+24d198	e6ff2072	uxth	r2, r2
+24d19c	e3520016	cmp	r2, #22
+24d1a0	e1a01217	lsl	r1, r7, r2
+24d1a4	e0013003	and	r3, r1, r3
+24d1a8	8a000001	bhi	0x24d1b4 <_Z13F_JS_ToNumberR6RValueS0_+0x208>
+24d1ac	e3530000	cmp	r3, #0
+24d1b0	1a00006d	bne	0x24d36c <_Z13F_JS_ToNumberR6RValueS0_+0x3c0>
+24d1b4	e58d4008	str	r4, [sp, #0x8]
+24d1b8	e5d43000	ldrb	r3, [r4]
+24d1bc	e3530000	cmp	r3, #0
+24d1c0	0a000002	beq	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24d1c4	e3e02000	mvn	r2, #0
+24d1c8	e3e03102	mvn	r3, #-2147483648
+24d1cc	e886000c	stm	r6, {r2, r3}
+24d1d0	e3a0c000	mov	r12, #0
+24d1d4	e1a0000c	mov	r0, r12
+24d1d8	e28dd018	add	sp, sp, #24
+24d1dc	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+24d1e0	e3a03000	mov	r3, #0
+24d1e4	e5803000	str	r3, [r0]
+24d1e8	e1a0c003	mov	r12, r3
+24d1ec	e5803004	str	r3, [r0, #0x4]
+24d1f0	e580300c	str	r3, [r0, #0xc]
+24d1f4	e1a0000c	mov	r0, r12
+24d1f8	e28dd018	add	sp, sp, #24
+24d1fc	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+24d200	e5910000	ldr	r0, [r1]
+24d204	e3a03000	mov	r3, #0
+24d208	e5912004	ldr	r2, [r1, #0x4]
+24d20c	e1a0c003	mov	r12, r3
+24d210	e586300c	str	r3, [r6, #0xc]
+24d214	e8860005	stm	r6, {r0, r2}
+24d218	e1a0000c	mov	r0, r12
+24d21c	e28dd018	add	sp, sp, #24
+24d220	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+24d224	e59f42b8	ldr	r4, [pc, #0x2b8]
+24d228	e3a0c000	mov	r12, #0
+24d22c	e08f4004	add	r4, pc, r4
+24d230	e2844e93	add	r4, r4, #2352
+24d234	e284400c	add	r4, r4, #12
+24d238	e8b4000f	ldm	r4!, {r0, r1, r2, r3}
+24d23c	e5860000	str	r0, [r6]
+24d240	e1a0000c	mov	r0, r12
+24d244	e5861004	str	r1, [r6, #0x4]
+24d248	e5862008	str	r2, [r6, #0x8]
+24d24c	e586300c	str	r3, [r6, #0xc]
+24d250	e28dd018	add	sp, sp, #24
+24d254	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+24d258	e28d7008	add	r7, sp, #8
+24d25c	e3a03000	mov	r3, #0
+24d260	e1a02003	mov	r2, r3
+24d264	e58d3010	str	r3, [sp, #0x10]
+24d268	e1a00007	mov	r0, r7
+24d26c	e3a04000	mov	r4, #0
+24d270	e3e034ff	mvn	r3, #-16777216
+24d274	e3a05000	mov	r5, #0
+24d278	e58d3014	str	r3, [sp, #0x14]
+24d27c	e1cd40f8	strd	r4, r5, [sp, #8]
+24d280	ebfffeb7	bl	0x24cd64 <_Z16F_JS_ToPrimitiveR6RValueS0_i>
+24d284	e3500002	cmp	r0, #2
+24d288	e1a04000	mov	r4, r0
+24d28c	0a000038	beq	0x24d374 <_Z13F_JS_ToNumberR6RValueS0_+0x3c8>
+24d290	e3500001	cmp	r0, #1
+24d294	0a000021	beq	0x24d320 <_Z13F_JS_ToNumberR6RValueS0_+0x374>
+24d298	e1a00006	mov	r0, r6
+24d29c	e1a01007	mov	r1, r7
+24d2a0	ebffff41	bl	0x24cfac <_Z13F_JS_ToNumberR6RValueS0_>
+24d2a4	e3500001	cmp	r0, #1
+24d2a8	0a00001c	beq	0x24d320 <_Z13F_JS_ToNumberR6RValueS0_+0x374>
+24d2ac	e59d3014	ldr	r3, [sp, #0x14]
+24d2b0	e2433001	sub	r3, r3, #1
+24d2b4	e3c334ff	bic	r3, r3, #-16777216
+24d2b8	e3c33003	bic	r3, r3, #3
+24d2bc	e3530000	cmp	r3, #0
+24d2c0	1affffc2	bne	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24d2c4	e1a00007	mov	r0, r7
+24d2c8	ebf9cdeb	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+24d2cc	eaffffbf	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24d2d0	e5912000	ldr	r2, [r1]
+24d2d4	e3a03000	mov	r3, #0
+24d2d8	e1a0c003	mov	r12, r3
+24d2dc	e580300c	str	r3, [r0, #0xc]
+24d2e0	ee072a90	vmov	s15, r2
+24d2e4	eeb87be7	vcvt.f64.s32	d7, s15
+24d2e8	ec532b17	vmov	r2, r3, d7
+24d2ec	e880000c	stm	r0, {r2, r3}
+24d2f0	e1a0000c	mov	r0, r12
+24d2f4	e28dd018	add	sp, sp, #24
+24d2f8	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+24d2fc	e8910003	ldm	r1, {r0, r1}
+24d300	eb032f97	bl	0x319164 <__floatdidf>
+24d304	e3a03000	mov	r3, #0
+24d308	e1a0c003	mov	r12, r3
+24d30c	e586300c	str	r3, [r6, #0xc]
+24d310	e8860003	stm	r6, {r0, r1}
+24d314	e1a0000c	mov	r0, r12
+24d318	e28dd018	add	sp, sp, #24
+24d31c	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+24d320	e59d3014	ldr	r3, [sp, #0x14]
+24d324	e2433001	sub	r3, r3, #1
+24d328	e3c334ff	bic	r3, r3, #-16777216
+24d32c	e3c33003	bic	r3, r3, #3
+24d330	e3530000	cmp	r3, #0
+24d334	0a000009	beq	0x24d360 <_Z13F_JS_ToNumberR6RValueS0_+0x3b4>
+24d338	e3a0c001	mov	r12, #1
+24d33c	eaffffa4	b	0x24d1d4 <_Z13F_JS_ToNumberR6RValueS0_+0x228>
+24d340	e59d4000	ldr	r4, [sp]
+24d344	e5d43000	ldrb	r3, [r4]
+24d348	e3530000	cmp	r3, #0
+24d34c	1affff38	bne	0x24d034 <_Z13F_JS_ToNumberR6RValueS0_+0x88>
+24d350	e3a03000	mov	r3, #0
+24d354	e5863000	str	r3, [r6]
+24d358	e5863004	str	r3, [r6, #0x4]
+24d35c	eaffff9b	b	0x24d1d0 <_Z13F_JS_ToNumberR6RValueS0_+0x224>
+24d360	e1a00007	mov	r0, r7
+24d364	ebf9cdc4	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+24d368	eafffff2	b	0x24d338 <_Z13F_JS_ToNumberR6RValueS0_+0x38c>
+24d36c	e59d4008	ldr	r4, [sp, #0x8]
+24d370	eaffff6e	b	0x24d130 <_Z13F_JS_ToNumberR6RValueS0_+0x184>
+24d374	e59d3014	ldr	r3, [sp, #0x14]
+24d378	e2433001	sub	r3, r3, #1
+24d37c	e3c334ff	bic	r3, r3, #-16777216
+24d380	e3c33003	bic	r3, r3, #3
+24d384	e3530000	cmp	r3, #0
+24d388	11a0c000	movne	r12, r0
+24d38c	1affff90	bne	0x24d1d4 <_Z13F_JS_ToNumberR6RValueS0_+0x228>
+24d390	e1a00007	mov	r0, r7
+24d394	ebf9cdb8	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+24d398	e1a0c004	mov	r12, r4
+24d39c	eaffff8c	b	0x24d1d4 <_Z13F_JS_ToNumberR6RValueS0_+0x228>
+24d3a0	e1a00005	mov	r0, r5
+24d3a4	e28d1008	add	r1, sp, #8
+24d3a8	ebf9a4aa	bl	0xb6658 <strtod@plt>
+24d3ac	e59d4008	ldr	r4, [sp, #0x8]
+24d3b0	e8860003	stm	r6, {r0, r1}
+24d3b4	eaffff5a	b	0x24d124 <_Z13F_JS_ToNumberR6RValueS0_+0x178>
+24d3b8	e20330df	and	r3, r3, #223
+24d3bc	e3530058	cmp	r3, #88
+24d3c0	1affff52	bne	0x24d110 <_Z13F_JS_ToNumberR6RValueS0_+0x164>
+24d3c4	e5d50002	ldrb	r0, [r5, #0x2]
+24d3c8	e3a01010	mov	r1, #16
+24d3cc	ebffcab2	bl	0x23fe9c <_Z16isValidRadixCharci>
+24d3d0	e2854002	add	r4, r5, #2
+24d3d4	e3500000	cmp	r0, #0
+24d3d8	0affff79	beq	0x24d1c4 <_Z13F_JS_ToNumberR6RValueS0_+0x218>
+24d3dc	e5d53002	ldrb	r3, [r5, #0x2]
+24d3e0	e3530000	cmp	r3, #0
+24d3e4	1a000004	bne	0x24d3fc <_Z13F_JS_ToNumberR6RValueS0_+0x450>
+24d3e8	e3a02000	mov	r2, #0
+24d3ec	e3a03000	mov	r3, #0
+24d3f0	e58d4008	str	r4, [sp, #0x8]
+24d3f4	e886000c	stm	r6, {r2, r3}
+24d3f8	eaffff49	b	0x24d124 <_Z13F_JS_ToNumberR6RValueS0_+0x178>
+24d3fc	e1a05004	mov	r5, r4
+24d400	e3a07000	mov	r7, #0
+24d404	e3a01010	mov	r1, #16
+24d408	e1a00003	mov	r0, r3
+24d40c	ebffcaa2	bl	0x23fe9c <_Z16isValidRadixCharci>
+24d410	e1a04005	mov	r4, r5
+24d414	e3a01010	mov	r1, #16
+24d418	e2855001	add	r5, r5, #1
+24d41c	e3500000	cmp	r0, #0
+24d420	0a000006	beq	0x24d440 <_Z13F_JS_ToNumberR6RValueS0_+0x494>
+24d424	e5d40000	ldrb	r0, [r4]
+24d428	e1a04005	mov	r4, r5
+24d42c	ebffca78	bl	0x23fe14 <_Z12getRadixCharci>
+24d430	e5d53000	ldrb	r3, [r5]
+24d434	e3530000	cmp	r3, #0
+24d438	e0807207	add	r7, r0, r7, lsl #4
+24d43c	1afffff0	bne	0x24d404 <_Z13F_JS_ToNumberR6RValueS0_+0x458>
+24d440	ee077a90	vmov	s15, r7
+24d444	eeb87be7	vcvt.f64.s32	d7, s15
+24d448	ec532b17	vmov	r2, r3, d7
+24d44c	eaffffe7	b	0x24d3f0 <_Z13F_JS_ToNumberR6RValueS0_+0x444>
+24d450	e59f1090	ldr	r1, [pc, #0x90]
+24d454	e1a00005	mov	r0, r5
+24d458	e3a02008	mov	r2, #8
+24d45c	e08f1001	add	r1, pc, r1
+24d460	ebf9a45e	bl	0xb65e0 <strncmp@plt>
+24d464	e3500000	cmp	r0, #0
+24d468	02854008	addeq	r4, r5, #8
+24d46c	1affff27	bne	0x24d110 <_Z13F_JS_ToNumberR6RValueS0_+0x164>
+24d470	e58d4008	str	r4, [sp, #0x8]
+24d474	e3a03000	mov	r3, #0
+24d478	e5860000	str	r0, [r6]
+24d47c	e3473ff0	movt	r3, #0x7ff0
+24d480	e5863004	str	r3, [r6, #0x4]
+24d484	eaffff26	b	0x24d124 <_Z13F_JS_ToNumberR6RValueS0_+0x178>
+24d488	e59f105c	ldr	r1, [pc, #0x5c]
+24d48c	e1a00005	mov	r0, r5
+24d490	e3a02009	mov	r2, #9
+24d494	e08f1001	add	r1, pc, r1
+24d498	ebf9a450	bl	0xb65e0 <strncmp@plt>
+24d49c	e3500000	cmp	r0, #0
+24d4a0	1affffbe	bne	0x24d3a0 <_Z13F_JS_ToNumberR6RValueS0_+0x3f4>
+24d4a4	e2854009	add	r4, r5, #9
+24d4a8	e3a03000	mov	r3, #0
+24d4ac	e58d4008	str	r4, [sp, #0x8]
+24d4b0	e34f3ff0	movt	r3, #0xfff0
+24d4b4	e5860000	str	r0, [r6]
+24d4b8	e5863004	str	r3, [r6, #0x4]
+24d4bc	eaffff18	b	0x24d124 <_Z13F_JS_ToNumberR6RValueS0_+0x178>
+24d4c0	e59f1028	ldr	r1, [pc, #0x28]
+24d4c4	e1a00005	mov	r0, r5
+24d4c8	e3a02009	mov	r2, #9
+24d4cc	e08f1001	add	r1, pc, r1
+24d4d0	ebf9a442	bl	0xb65e0 <strncmp@plt>
+24d4d4	e3500000	cmp	r0, #0
+24d4d8	1affffb0	bne	0x24d3a0 <_Z13F_JS_ToNumberR6RValueS0_+0x3f4>
+24d4dc	e2854009	add	r4, r5, #9
+24d4e0	eaffffe2	b	0x24d470 <_Z13F_JS_ToNumberR6RValueS0_+0x4c4>
+24d4e4	00508874	subseq	r8, r0, r4, ror r8
+24d4e8	00107f90	mulseq	r0, r0, pc
+24d4ec	00108a28	andseq	r8, r0, r8, lsr #20
+24d4f0	001089fc	ldrsheq	r8, [r0], -r12

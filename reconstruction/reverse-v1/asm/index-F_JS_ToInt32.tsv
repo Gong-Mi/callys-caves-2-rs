@@ -1,0 +1,90 @@
+24d5c8	e92d4070	push	{r4, r5, r6, lr}
+24d5cc	ed2d8b02	vpush	{d8}
+24d5d0	e24dd010	sub	sp, sp, #16
+24d5d4	e1a04000	mov	r4, r0
+24d5d8	e3a02000	mov	r2, #0
+24d5dc	e1a0000d	mov	r0, sp
+24d5e0	e3a03000	mov	r3, #0
+24d5e4	e3a0c000	mov	r12, #0
+24d5e8	e1cd20f0	strd	r2, r3, [sp]
+24d5ec	e58dc008	str	r12, [sp, #0x8]
+24d5f0	e3e034ff	mvn	r3, #-16777216
+24d5f4	e58d300c	str	r3, [sp, #0xc]
+24d5f8	ebfffe6b	bl	0x24cfac <_Z13F_JS_ToNumberR6RValueS0_>
+24d5fc	e2505000	subs	r5, r0, #0
+24d600	0a000009	beq	0x24d62c <_Z12F_JS_ToInt32R6RValueS0_+0x64>
+24d604	e59d300c	ldr	r3, [sp, #0xc]
+24d608	e2433001	sub	r3, r3, #1
+24d60c	e3c334ff	bic	r3, r3, #-16777216
+24d610	e3c33003	bic	r3, r3, #3
+24d614	e3530000	cmp	r3, #0
+24d618	11a00005	movne	r0, r5
+24d61c	0a000015	beq	0x24d678 <_Z12F_JS_ToInt32R6RValueS0_+0xb0>
+24d620	e28dd010	add	sp, sp, #16
+24d624	ecbd8b02	vpop	{d8}
+24d628	e8bd8070	pop	{r4, r5, r6, pc}
+24d62c	ed9d7b00	vldr	d7, [sp]
+24d630	eeb47b47	vcmp.f64	d7, d7
+24d634	e584500c	str	r5, [r4, #0xc]
+24d638	e5845000	str	r5, [r4]
+24d63c	e5845004	str	r5, [r4, #0x4]
+24d640	eef1fa10	vmrs	APSR_nzcv, fpscr
+24d644	6a000007	bvs	0x24d668 <_Z12F_JS_ToInt32R6RValueS0_+0xa0>
+24d648	e1a0000d	mov	r0, sp
+24d64c	ebffccc7	bl	0x240970 <_Z7yyisinfR6RValue>
+24d650	e2505000	subs	r5, r0, #0
+24d654	1a000003	bne	0x24d668 <_Z12F_JS_ToInt32R6RValueS0_+0xa0>
+24d658	ed9d7b00	vldr	d7, [sp]
+24d65c	eeb57b40	vcmp.f64	d7, #0
+24d660	eef1fa10	vmrs	APSR_nzcv, fpscr
+24d664	1a000009	bne	0x24d690 <_Z12F_JS_ToInt32R6RValueS0_+0xc8>
+24d668	e3a00000	mov	r0, #0
+24d66c	e28dd010	add	sp, sp, #16
+24d670	ecbd8b02	vpop	{d8}
+24d674	e8bd8070	pop	{r4, r5, r6, pc}
+24d678	e1a0000d	mov	r0, sp
+24d67c	ebf9ccfe	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+24d680	e1a00005	mov	r0, r5
+24d684	e28dd010	add	sp, sp, #16
+24d688	ecbd8b02	vpop	{d8}
+24d68c	e8bd8070	pop	{r4, r5, r6, pc}
+24d690	eeb76b00	vmov.f64	d6, #1.000000e+00
+24d694	eebf8b00	vmov.f64	d8, #-1.000000e+00
+24d698	eeb05bc7	vabs.f64	d5, d7
+24d69c	eeb57bc0	vcmpe.f64	d7, #0
+24d6a0	ec510b15	vmov	r0, r1, d5
+24d6a4	eef1fa10	vmrs	APSR_nzcv, fpscr
+24d6a8	5eb08b46	vmovpl.f64	d8, d6
+24d6ac	ebf9a3b9	bl	0xb6598 <floor@plt>
+24d6b0	ec410b16	vmov	d6, r0, r1
+24d6b4	ee286b06	vmul.f64	d6, d8, d6
+24d6b8	ec510b16	vmov	r0, r1, d6
+24d6bc	eb032f77	bl	0x3194a0 <__fixdfdi>
+24d6c0	e3a01000	mov	r1, #0
+24d6c4	eb032ea6	bl	0x319164 <__floatdidf>
+24d6c8	ed9f7b14	vldr	d7, [pc, #80]
+24d6cc	e1a02000	mov	r2, r0
+24d6d0	e1a03001	mov	r3, r1
+24d6d4	ec432b15	vmov	d5, r2, r3
+24d6d8	eeb45bc7	vcmpe.f64	d5, d7
+24d6dc	eef1fa10	vmrs	APSR_nzcv, fpscr
+24d6e0	ca000004	bgt	0x24d6f8 <_Z12F_JS_ToInt32R6RValueS0_+0x130>
+24d6e4	e1a00005	mov	r0, r5
+24d6e8	e884000c	stm	r4, {r2, r3}
+24d6ec	e28dd010	add	sp, sp, #16
+24d6f0	ecbd8b02	vpop	{d8}
+24d6f4	e8bd8070	pop	{r4, r5, r6, pc}
+24d6f8	ec432b15	vmov	d5, r2, r3
+24d6fc	ed9f7b09	vldr	d7, [pc, #36]
+24d700	e1a00005	mov	r0, r5
+24d704	ee355b47	vsub.f64	d5, d5, d7
+24d708	ec532b15	vmov	r2, r3, d5
+24d70c	e884000c	stm	r4, {r2, r3}
+24d710	e28dd010	add	sp, sp, #16
+24d714	ecbd8b02	vpop	{d8}
+24d718	e8bd8070	pop	{r4, r5, r6, pc}
+24d71c	e320f000	nop	
+24d720	00000000	andeq	r0, r0, r0
+24d724	41e00000	mvnmi	r0, r0
+24d728	00000000	andeq	r0, r0, r0
+24d72c	41f00000	mvnsmi	r0, r0
