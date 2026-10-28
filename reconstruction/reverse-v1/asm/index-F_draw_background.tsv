@@ -1,0 +1,49 @@
+11db10	e59f30b4	ldr	r3, [pc, #0xb4]
+11db14	e92d4070	push	{r4, r5, r6, lr}
+11db18	e79f3003	ldr	r3, [pc, r3]
+11db1c	e59d4010	ldr	r4, [sp, #0x10]
+11db20	e5d31000	ldrb	r1, [r3]
+11db24	e3510000	cmp	r1, #0
+11db28	e1a00004	mov	r0, r4
+11db2c	0a000011	beq	0x11db78 <_Z16F_DrawBackgroundR6RValueP9CInstanceS2_iPS_+0x68>
+11db30	e3a01000	mov	r1, #0
+11db34	ebfec34d	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+11db38	eb03453f	bl	0x1ef03c <_Z11Sprite_Datai>
+11db3c	e2505000	subs	r5, r0, #0
+11db40	0a00001c	beq	0x11dbb8 <_Z16F_DrawBackgroundR6RValueP9CInstanceS2_iPS_+0xa8>
+11db44	e1a00004	mov	r0, r4
+11db48	e3a01001	mov	r1, #1
+11db4c	ebfec44c	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11db50	e3a01002	mov	r1, #2
+11db54	e1a06000	mov	r6, r0
+11db58	e1a00004	mov	r0, r4
+11db5c	ebfec448	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11db60	e1a02006	mov	r2, r6
+11db64	e3a01000	mov	r1, #0
+11db68	e1a03000	mov	r3, r0
+11db6c	e1a00005	mov	r0, r5
+11db70	e8bd4070	pop	{r4, r5, r6, lr}
+11db74	ea033bce	b	0x1ecab4 <_ZN7CSprite10DrawSimpleEiff>
+11db78	ebfec33c	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+11db7c	ebfe9704	bl	0xc3794 <_Z15Background_Datai>
+11db80	e2505000	subs	r5, r0, #0
+11db84	0a00000b	beq	0x11dbb8 <_Z16F_DrawBackgroundR6RValueP9CInstanceS2_iPS_+0xa8>
+11db88	e1a00004	mov	r0, r4
+11db8c	e3a01001	mov	r1, #1
+11db90	ebfec43b	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11db94	e3a01002	mov	r1, #2
+11db98	e1a06000	mov	r6, r0
+11db9c	e1a00004	mov	r0, r4
+11dba0	ebfec437	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11dba4	e1a01006	mov	r1, r6
+11dba8	e1a02000	mov	r2, r0
+11dbac	e1a00005	mov	r0, r5
+11dbb0	e8bd4070	pop	{r4, r5, r6, lr}
+11dbb4	eafe90fe	b	0xc1fb4 <_ZN11CBackground10DrawSimpleEff>
+11dbb8	e59f0010	ldr	r0, [pc, #0x10]
+11dbbc	e3a01000	mov	r1, #0
+11dbc0	e8bd4070	pop	{r4, r5, r6, lr}
+11dbc4	e08f0000	add	r0, pc, r0
+11dbc8	eaff3ce8	b	0xecf70 <_Z17Error_Show_ActionPKcb>
+11dbcc	002cfe0c	eoreq	pc, r12, r12, lsl #28
+11dbd0	0021c610	eoreq	r12, r1, r0, lsl r6

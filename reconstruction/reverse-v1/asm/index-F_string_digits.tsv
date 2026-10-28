@@ -1,0 +1,46 @@
+10ff6c	e92d40f0	push	{r4, r5, r6, r7, lr}
+10ff70	e24dd00c	sub	sp, sp, #12
+10ff74	e1a07000	mov	r7, r0
+10ff78	e3a01000	mov	r1, #0
+10ff7c	e59d0020	ldr	r0, [sp, #0x20]
+10ff80	ebff0152	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+10ff84	e2504000	subs	r4, r0, #0
+10ff88	03a00001	moveq	r0, #1
+10ff8c	0a000001	beq	0x10ff98 <_Z14F_StringDigitsR6RValueP9CInstanceS2_iPS_+0x2c>
+10ff90	ebfe9968	bl	0xb6538 <strlen@plt>
+10ff94	e2800001	add	r0, r0, #1
+10ff98	e59f1080	ldr	r1, [pc, #0x80]
+10ff9c	e3a03001	mov	r3, #1
+10ffa0	e300286d	movw	r2, #0x86d
+10ffa4	e28d5008	add	r5, sp, #8
+10ffa8	e08f1001	add	r1, pc, r1
+10ffac	eb05b3b1	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+10ffb0	e58d4000	str	r4, [sp]
+10ffb4	e1a03004	mov	r3, r4
+10ffb8	e1a06000	mov	r6, r0
+10ffbc	e5250004	str	r0, [r5, #-0x4]!
+10ffc0	ea000005	b	0x10ffdc <_Z14F_StringDigitsR6RValueP9CInstanceS2_iPS_+0x70>
+10ffc4	ebfffedb	bl	0x10fb38 <utf8_extract_char>
+10ffc8	e2403030	sub	r3, r0, #48
+10ffcc	e6ff3073	uxth	r3, r3
+10ffd0	e3530009	cmp	r3, #9
+10ffd4	9a00000d	bls	0x110010 <_Z14F_StringDigitsR6RValueP9CInstanceS2_iPS_+0xa4>
+10ffd8	e59d3000	ldr	r3, [sp]
+10ffdc	e5d31000	ldrb	r1, [r3]
+10ffe0	e1a0000d	mov	r0, sp
+10ffe4	e3510000	cmp	r1, #0
+10ffe8	1afffff5	bne	0x10ffc4 <_Z14F_StringDigitsR6RValueP9CInstanceS2_iPS_+0x58>
+10ffec	e1a00005	mov	r0, r5
+10fff0	ebffff8c	bl	0x10fe28 <utf8_add_char>
+10fff4	e1a00007	mov	r0, r7
+10fff8	e1a01006	mov	r1, r6
+10fffc	ebff5495	bl	0xe5258 <_Z14YYCreateStringP6RValuePKc>
+110000	e1a00006	mov	r0, r6
+110004	ebfefbe1	bl	0xcef90 <_Z6YYFreePKv>
+110008	e28dd00c	add	sp, sp, #12
+11000c	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+110010	e1a01000	mov	r1, r0
+110014	e1a00005	mov	r0, r5
+110018	ebffff82	bl	0x10fe28 <utf8_add_char>
+11001c	eaffffed	b	0x10ffd8 <_Z14F_StringDigitsR6RValueP9CInstanceS2_iPS_+0x6c>
+110020	00228e9c	mlaeq	r2, r12, lr, r8

@@ -1,0 +1,57 @@
+1227c0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1227c4	e24dd02c	sub	sp, sp, #44
+1227c8	e1a00001	mov	r0, r1
+1227cc	e28d2020	add	r2, sp, #32
+1227d0	e59d4050	ldr	r4, [sp, #0x50]
+1227d4	e28d3024	add	r3, sp, #36
+1227d8	e1a01004	mov	r1, r4
+1227dc	ebffffb8	bl	0x1226c4 <_Z16GetSpriteIndicesP9CInstanceP6RValueRiS3_>
+1227e0	e3500000	cmp	r0, #0
+1227e4	1a000001	bne	0x1227f0 <_Z15F_DrawSpriteExtR6RValueP9CInstanceS2_iPS_+0x30>
+1227e8	e28dd02c	add	sp, sp, #44
+1227ec	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1227f0	e59d0020	ldr	r0, [sp, #0x20]
+1227f4	eb033210	bl	0x1ef03c <_Z11Sprite_Datai>
+1227f8	e3a01002	mov	r1, #2
+1227fc	e59d8024	ldr	r8, [sp, #0x24]
+122800	e1a05000	mov	r5, r0
+122804	e1a00004	mov	r0, r4
+122808	ebfeb11d	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+12280c	e3a01003	mov	r1, #3
+122810	e1a07000	mov	r7, r0
+122814	e1a00004	mov	r0, r4
+122818	ebfeb119	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+12281c	e3a01004	mov	r1, #4
+122820	e1a06000	mov	r6, r0
+122824	e1a00004	mov	r0, r4
+122828	ebfeb115	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+12282c	e3a01005	mov	r1, #5
+122830	e1a03000	mov	r3, r0
+122834	e1a00004	mov	r0, r4
+122838	e58d301c	str	r3, [sp, #0x1c]
+12283c	ebfeb110	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+122840	e3a01006	mov	r1, #6
+122844	e1a0b000	mov	r11, r0
+122848	e1a00004	mov	r0, r4
+12284c	ebfeb10c	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+122850	e3a01007	mov	r1, #7
+122854	e1a0a000	mov	r10, r0
+122858	e1a00004	mov	r0, r4
+12285c	ebfeb003	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+122860	e3a01008	mov	r1, #8
+122864	e1a09000	mov	r9, r0
+122868	e1a00004	mov	r0, r4
+12286c	ebfeb104	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+122870	e59d301c	ldr	r3, [sp, #0x1c]
+122874	e58db004	str	r11, [sp, #0x4]
+122878	e1a01008	mov	r1, r8
+12287c	e58da008	str	r10, [sp, #0x8]
+122880	e1a02007	mov	r2, r7
+122884	e58d3000	str	r3, [sp]
+122888	e1a03006	mov	r3, r6
+12288c	e58d900c	str	r9, [sp, #0xc]
+122890	e58d0010	str	r0, [sp, #0x10]
+122894	e1a00005	mov	r0, r5
+122898	eb0327a0	bl	0x1ec720 <_ZN7CSprite4DrawEifffffjf>
+12289c	e28dd02c	add	sp, sp, #44
+1228a0	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}

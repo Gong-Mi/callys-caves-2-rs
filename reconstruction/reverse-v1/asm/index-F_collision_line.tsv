@@ -1,0 +1,56 @@
+1092d0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1092d4	e24dd01c	sub	sp, sp, #28
+1092d8	e1a05000	mov	r5, r0
+1092dc	e1a06001	mov	r6, r1
+1092e0	e59d4040	ldr	r4, [sp, #0x40]
+1092e4	e3a01000	mov	r1, #0
+1092e8	e1a00004	mov	r0, r4
+1092ec	ebff1664	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1092f0	e3a01001	mov	r1, #1
+1092f4	e1a09000	mov	r9, r0
+1092f8	e1a00004	mov	r0, r4
+1092fc	ebff1660	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+109300	e3a01002	mov	r1, #2
+109304	e1a08000	mov	r8, r0
+109308	e1a00004	mov	r0, r4
+10930c	ebff165c	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+109310	e3a01003	mov	r1, #3
+109314	e1a07000	mov	r7, r0
+109318	e1a00004	mov	r0, r4
+10931c	ebff1658	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+109320	e3a01004	mov	r1, #4
+109324	e1a03000	mov	r3, r0
+109328	e1a00004	mov	r0, r4
+10932c	e58d3014	str	r3, [sp, #0x14]
+109330	ebff154e	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+109334	e3a01005	mov	r1, #5
+109338	e1a0b000	mov	r11, r0
+10933c	e1a00004	mov	r0, r4
+109340	ebff1508	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+109344	e3a01006	mov	r1, #6
+109348	e1a0a000	mov	r10, r0
+10934c	e1a00004	mov	r0, r4
+109350	ebff1504	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+109354	e59d3014	ldr	r3, [sp, #0x14]
+109358	e1a02008	mov	r2, r8
+10935c	e58db004	str	r11, [sp, #0x4]
+109360	e58da008	str	r10, [sp, #0x8]
+109364	e1a01009	mov	r1, r9
+109368	e58d3000	str	r3, [sp]
+10936c	e1a03007	mov	r3, r7
+109370	e58d000c	str	r0, [sp, #0xc]
+109374	e1a00006	mov	r0, r6
+109378	eb030804	bl	0x1cb390 <_Z21Command_CollisionLineP9CInstanceffffibb>
+10937c	e3a03000	mov	r3, #0
+109380	e585300c	str	r3, [r5, #0xc]
+109384	e3500000	cmp	r0, #0
+109388	15902078	ldrne	r2, [r0, #0x78]
+10938c	03a03000	moveq	r3, #0
+109390	03a02000	moveq	r2, #0
+109394	034c3010	movteq	r3, #0xc010
+109398	1e072a90	vmovne	s15, r2
+10939c	1eb87be7	vcvtne.f64.s32	d7, s15
+1093a0	1c532b17	vmovne	r2, r3, d7
+1093a4	e885000c	stm	r5, {r2, r3}
+1093a8	e28dd01c	add	sp, sp, #28
+1093ac	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}

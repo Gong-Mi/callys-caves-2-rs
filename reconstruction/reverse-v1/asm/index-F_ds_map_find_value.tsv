@@ -1,0 +1,198 @@
+106bcc	e92d40f0	push	{r4, r5, r6, r7, lr}
+106bd0	e24dd01c	sub	sp, sp, #28
+106bd4	e28d5004	add	r5, sp, #4
+106bd8	e1a04000	mov	r4, r0
+106bdc	e59d6030	ldr	r6, [sp, #0x30]
+106be0	e1a00005	mov	r0, r5
+106be4	ebffe00b	bl	0xfec18 <_ZN12DS_AutoMutexC2Ev>
+106be8	e3a01000	mov	r1, #0
+106bec	e1a00006	mov	r0, r6
+106bf0	ebff1f1e	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+106bf4	e3500000	cmp	r0, #0
+106bf8	ba00003b	blt	0x106cec <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x120>
+106bfc	e59f32d4	ldr	r3, [pc, #0x2d4]
+106c00	e79f3003	ldr	r3, [pc, r3]
+106c04	e5933000	ldr	r3, [r3]
+106c08	e1500003	cmp	r0, r3
+106c0c	aa000036	bge	0x106cec <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x120>
+106c10	e59f32c4	ldr	r3, [pc, #0x2c4]
+106c14	e79f3003	ldr	r3, [pc, r3]
+106c18	e5933004	ldr	r3, [r3, #0x4]
+106c1c	e7930100	ldr	r0, [r3, r0, lsl #2]
+106c20	e3500000	cmp	r0, #0
+106c24	0a000030	beq	0x106cec <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x120>
+106c28	e2861010	add	r1, r6, #16
+106c2c	eb03f22c	bl	0x2034e4 <_ZN7CDS_Map4FindEP6RValue>
+106c30	e3500000	cmp	r0, #0
+106c34	0a00003f	beq	0x106d38 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x16c>
+106c38	e1a03000	mov	r3, r0
+106c3c	e594600c	ldr	r6, [r4, #0xc]
+106c40	e5b30010	ldr	r0, [r3, #0x10]!
+106c44	e28dc008	add	r12, sp, #8
+106c48	e3c6e4ff	bic	lr, r6, #-16777216
+106c4c	e35e0001	cmp	lr, #1
+106c50	e5932008	ldr	r2, [r3, #0x8]
+106c54	e5931004	ldr	r1, [r3, #0x4]
+106c58	e593300c	ldr	r3, [r3, #0xc]
+106c5c	e8ac000f	stm	r12!, {r0, r1, r2, r3}
+106c60	e59d2014	ldr	r2, [sp, #0x14]
+106c64	e3c224ff	bic	r2, r2, #-16777216
+106c68	e58d2014	str	r2, [sp, #0x14]
+106c6c	0a000036	beq	0x106d4c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x180>
+106c70	e35e0002	cmp	lr, #2
+106c74	1a000004	bne	0x106c8c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0xc0>
+106c78	e2466001	sub	r6, r6, #1
+106c7c	e3c664ff	bic	r6, r6, #-16777216
+106c80	e3c66003	bic	r6, r6, #3
+106c84	e3560000	cmp	r6, #0
+106c88	0a000069	beq	0x106e34 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x268>
+106c8c	e59d1010	ldr	r1, [sp, #0x10]
+106c90	e3c234ff	bic	r3, r2, #-16777216
+106c94	e584200c	str	r2, [r4, #0xc]
+106c98	e3a02000	mov	r2, #0
+106c9c	e5842000	str	r2, [r4]
+106ca0	e5841008	str	r1, [r4, #0x8]
+106ca4	e353000e	cmp	r3, #14
+106ca8	908ff103	addls	pc, pc, r3, lsl #2
+106cac	ea000018	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106cb0	ea00001c	b	0x106d28 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x15c>
+106cb4	ea00003c	b	0x106dac <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x1e0>
+106cb8	ea000044	b	0x106dd0 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x204>
+106cbc	ea000012	b	0x106d0c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x140>
+106cc0	ea000013	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106cc4	ea000012	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106cc8	ea00002d	b	0x106d84 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x1b8>
+106ccc	ea00000e	b	0x106d0c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x140>
+106cd0	ea00000f	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106cd4	ea00000e	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106cd8	ea000012	b	0x106d28 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x15c>
+106cdc	ea00000c	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106ce0	ea00000b	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106ce4	ea00000f	b	0x106d28 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x15c>
+106ce8	ea000007	b	0x106d0c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x140>
+106cec	e59f01ec	ldr	r0, [pc, #0x1ec]
+106cf0	e3a01000	mov	r1, #0
+106cf4	e08f0000	add	r0, pc, r0
+106cf8	ebff989c	bl	0xecf70 <_Z17Error_Show_ActionPKcb>
+106cfc	e1a00005	mov	r0, r5
+106d00	ebffdfd9	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+106d04	e28dd01c	add	sp, sp, #28
+106d08	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+106d0c	e59d2008	ldr	r2, [sp, #0x8]
+106d10	e5842000	str	r2, [r4]
+106d14	e584300c	str	r3, [r4, #0xc]
+106d18	e1a00005	mov	r0, r5
+106d1c	ebffdfd2	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+106d20	e28dd01c	add	sp, sp, #28
+106d24	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+106d28	e59d1008	ldr	r1, [sp, #0x8]
+106d2c	e59d200c	ldr	r2, [sp, #0xc]
+106d30	e8840006	stm	r4, {r1, r2}
+106d34	eafffff6	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106d38	e3a02005	mov	r2, #5
+106d3c	e5840000	str	r0, [r4]
+106d40	e5840004	str	r0, [r4, #0x4]
+106d44	e584200c	str	r2, [r4, #0xc]
+106d48	eafffff2	b	0x106d18 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x14c>
+106d4c	e5946000	ldr	r6, [r4]
+106d50	e3560000	cmp	r6, #0
+106d54	0a000007	beq	0x106d78 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x1ac>
+106d58	eb022873	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+106d5c	e5967004	ldr	r7, [r6, #0x4]
+106d60	e2477001	sub	r7, r7, #1
+106d64	e5867004	str	r7, [r6, #0x4]
+106d68	e3570000	cmp	r7, #0
+106d6c	0a000022	beq	0x106dfc <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x230>
+106d70	eb02286e	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+106d74	e59d2014	ldr	r2, [sp, #0x14]
+106d78	e3a03000	mov	r3, #0
+106d7c	e5843000	str	r3, [r4]
+106d80	eaffffc1	b	0x106c8c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0xc0>
+106d84	e59d2008	ldr	r2, [sp, #0x8]
+106d88	e3520000	cmp	r2, #0
+106d8c	e5842000	str	r2, [r4]
+106d90	0affffdf	beq	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106d94	ebff332e	bl	0xd3a54 <_Z18GetContextStackTopv>
+106d98	e59d1008	ldr	r1, [sp, #0x8]
+106d9c	eb022a5b	bl	0x191710 <_Z22DeterminePotentialRootP12YYObjectBaseS0_>
+106da0	e594300c	ldr	r3, [r4, #0xc]
+106da4	e3c334ff	bic	r3, r3, #-16777216
+106da8	eaffffd9	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106dac	e59d2008	ldr	r2, [sp, #0x8]
+106db0	e3520000	cmp	r2, #0
+106db4	0affffd5	beq	0x106d10 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x144>
+106db8	e5923004	ldr	r3, [r2, #0x4]
+106dbc	e2833001	add	r3, r3, #1
+106dc0	e5823004	str	r3, [r2, #0x4]
+106dc4	e594300c	ldr	r3, [r4, #0xc]
+106dc8	e3c334ff	bic	r3, r3, #-16777216
+106dcc	eaffffcf	b	0x106d10 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x144>
+106dd0	e59d2008	ldr	r2, [sp, #0x8]
+106dd4	e3520000	cmp	r2, #0
+106dd8	e5842000	str	r2, [r4]
+106ddc	0affffcc	beq	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106de0	e5920008	ldr	r0, [r2, #0x8]
+106de4	e5921000	ldr	r1, [r2]
+106de8	e3500000	cmp	r0, #0
+106dec	05824008	streq	r4, [r2, #0x8]
+106df0	e2811001	add	r1, r1, #1
+106df4	e5821000	str	r1, [r2]
+106df8	eaffffc5	b	0x106d14 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x148>
+106dfc	e5960000	ldr	r0, [r6]
+106e00	ebff2062	bl	0xcef90 <_Z6YYFreePKv>
+106e04	e5867000	str	r7, [r6]
+106e08	e5867008	str	r7, [r6, #0x8]
+106e0c	eb022846	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+106e10	e5967004	ldr	r7, [r6, #0x4]
+106e14	e2477001	sub	r7, r7, #1
+106e18	e5867004	str	r7, [r6, #0x4]
+106e1c	e3570000	cmp	r7, #0
+106e20	0a000007	beq	0x106e44 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x278>
+106e24	eb022841	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+106e28	e1a00006	mov	r0, r6
+106e2c	eb05d8e7	bl	0x27d1d0 <_ZdlPv>
+106e30	eaffffce	b	0x106d70 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x1a4>
+106e34	e1a00004	mov	r0, r4
+106e38	ebfee70f	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+106e3c	e59d2014	ldr	r2, [sp, #0x14]
+106e40	eaffff91	b	0x106c8c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0xc0>
+106e44	e5960000	ldr	r0, [r6]
+106e48	ebff2050	bl	0xcef90 <_Z6YYFreePKv>
+106e4c	e5867000	str	r7, [r6]
+106e50	e5867008	str	r7, [r6, #0x8]
+106e54	eb022834	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+106e58	e5967004	ldr	r7, [r6, #0x4]
+106e5c	e2477001	sub	r7, r7, #1
+106e60	e5867004	str	r7, [r6, #0x4]
+106e64	e3570000	cmp	r7, #0
+106e68	0a000003	beq	0x106e7c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x2b0>
+106e6c	eb02282f	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+106e70	e1a00006	mov	r0, r6
+106e74	eb05d8d5	bl	0x27d1d0 <_ZdlPv>
+106e78	eaffffe9	b	0x106e24 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x258>
+106e7c	e5960000	ldr	r0, [r6]
+106e80	ebff2042	bl	0xcef90 <_Z6YYFreePKv>
+106e84	e5867000	str	r7, [r6]
+106e88	e5867008	str	r7, [r6, #0x8]
+106e8c	eb022826	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+106e90	e5963004	ldr	r3, [r6, #0x4]
+106e94	e2433001	sub	r3, r3, #1
+106e98	e5863004	str	r3, [r6, #0x4]
+106e9c	e3530000	cmp	r3, #0
+106ea0	1a000008	bne	0x106ec8 <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x2fc>
+106ea4	e5960000	ldr	r0, [r6]
+106ea8	ebff2038	bl	0xcef90 <_Z6YYFreePKv>
+106eac	e3a03000	mov	r3, #0
+106eb0	e1a00006	mov	r0, r6
+106eb4	e5863000	str	r3, [r6]
+106eb8	e5863008	str	r3, [r6, #0x8]
+106ebc	ebfee6cd	bl	0xc09f8 <_ZN9_RefThingIPKcE3decEv>
+106ec0	e1a00006	mov	r0, r6
+106ec4	eb05d8c1	bl	0x27d1d0 <_ZdlPv>
+106ec8	eb022818	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+106ecc	e1a00006	mov	r0, r6
+106ed0	eb05d8be	bl	0x27d1d0 <_ZdlPv>
+106ed4	eaffffe4	b	0x106e6c <_Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_+0x2a0>
+106ed8	002e7078	eoreq	r7, lr, r8, ror r0
+106edc	002e6d28	eoreq	r6, lr, r8, lsr #26
+106ee0	00230f08	eoreq	r0, r3, r8, lsl #30

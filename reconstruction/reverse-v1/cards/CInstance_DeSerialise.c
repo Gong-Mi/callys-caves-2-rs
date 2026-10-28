@@ -1,8 +1,11 @@
 /* cally 逆向卡：CInstance::DeSerialise(IBuffer*, bool)（原版 libyoyo.so，armv7）
  * @func 0x19766c 0x197fac  size 2368  592 条（589 条指令 + 末 3 字 0x197fa0..0x197fa8 为 literal pool）
  * 级别: 正文（592/592 逐条落锚。54 个 IBuffer::Read 读点、54 次 YYGet* 拆值、52 个直接落点逐条解出
- *       ⇒ 流序即字段序；写侧 CInstance::Serialise 0x196bf4 的 54 个写点与本函数逐一对应（唯一不对称：
- *       object_index 在读侧走 SetObjectIndex，不直写 +0x7c）。
+ *       ⇒ 流序即字段序；写侧 CInstance::Serialise 0x196bf4 的 54 个写点与本函数逐一对应。
+ *       ⚠ 修正（batchAL，cards/CInstance_Serialise.c）：不对称共三处，不是一处 ——
+ *         ① object_index 读侧走 SetObjectIndex、写侧直读 +0x7c；
+ *         ② 写侧入口在 +0x64(bbox 脏) 非 0 时先 Compute_BoundingBox(true)；
+ *         ③ 变量块个数写侧取全局 *(int*)0x544b48，读侧用 *(this+0x24) 当门。
  *       未钉：+0x144 / +0x148 / +0x0b0 三个槽位的语义名，以及 *(int*)0x544b48 计的是什么）
  * 符号: _ZN9CInstance11DeSerialiseEP7IBufferb → void CInstance::DeSerialise(IBuffer* buf, bool bRegister)
  * ABI : softfp；无返回值（三处出口都是直接 pop {..., pc}）；全函数不碰 VFP

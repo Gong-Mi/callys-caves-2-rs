@@ -1,0 +1,50 @@
+ff49c	e92d40f0	push	{r4, r5, r6, r7, lr}
+ff4a0	e24dd00c	sub	sp, sp, #12
+ff4a4	e28d6004	add	r6, sp, #4
+ff4a8	e1a05000	mov	r5, r0
+ff4ac	e59d7020	ldr	r7, [sp, #0x20]
+ff4b0	e3a04000	mov	r4, #0
+ff4b4	e1a00006	mov	r0, r6
+ff4b8	ebfffdd6	bl	0xfec18 <_ZN12DS_AutoMutexC2Ev>
+ff4bc	e585400c	str	r4, [r5, #0xc]
+ff4c0	e5854000	str	r4, [r5]
+ff4c4	e1a00007	mov	r0, r7
+ff4c8	e5854004	str	r4, [r5, #0x4]
+ff4cc	e1a01004	mov	r1, r4
+ff4d0	ebff3ce6	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+ff4d4	e3500000	cmp	r0, #0
+ff4d8	ba000016	blt	0xff538 <_Z14F_DsMapReplaceR6RValueP9CInstanceS2_iPS_+0x9c>
+ff4dc	e59f3074	ldr	r3, [pc, #0x74]
+ff4e0	e79f3003	ldr	r3, [pc, r3]
+ff4e4	e5933000	ldr	r3, [r3]
+ff4e8	e1500003	cmp	r0, r3
+ff4ec	aa000011	bge	0xff538 <_Z14F_DsMapReplaceR6RValueP9CInstanceS2_iPS_+0x9c>
+ff4f0	e59f3064	ldr	r3, [pc, #0x64]
+ff4f4	e79f3003	ldr	r3, [pc, r3]
+ff4f8	e5933004	ldr	r3, [r3, #0x4]
+ff4fc	e7930100	ldr	r0, [r3, r0, lsl #2]
+ff500	e1500004	cmp	r0, r4
+ff504	0a00000b	beq	0xff538 <_Z14F_DsMapReplaceR6RValueP9CInstanceS2_iPS_+0x9c>
+ff508	e2871010	add	r1, r7, #16
+ff50c	e2872020	add	r2, r7, #32
+ff510	eb0431cb	bl	0x20bc44 <_ZN7CDS_Map7ReplaceEP6RValueS1_>
+ff514	e3500000	cmp	r0, #0
+ff518	e1a00006	mov	r0, r6
+ff51c	15854000	strne	r4, [r5]
+ff520	13a03000	movne	r3, #0
+ff524	13433ff0	movtne	r3, #0x3ff0
+ff528	15853004	strne	r3, [r5, #0x4]
+ff52c	ebfffdce	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+ff530	e28dd00c	add	sp, sp, #12
+ff534	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+ff538	e59f0020	ldr	r0, [pc, #0x20]
+ff53c	e3a01000	mov	r1, #0
+ff540	e08f0000	add	r0, pc, r0
+ff544	ebffb689	bl	0xecf70 <_Z17Error_Show_ActionPKcb>
+ff548	e1a00006	mov	r0, r6
+ff54c	ebfffdc6	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+ff550	e28dd00c	add	sp, sp, #12
+ff554	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+ff558	002ee798	mlaeq	lr, r8, r7, lr
+ff55c	002ee448	eoreq	lr, lr, r8, asr #8
+ff560	002386bc	.word	0x002386bc

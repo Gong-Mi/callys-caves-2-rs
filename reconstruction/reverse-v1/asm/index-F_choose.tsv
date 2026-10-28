@@ -1,0 +1,167 @@
+113978	e92d43f8	push	{r3, r4, r5, r6, r7, r8, r9, lr}
+11397c	e2535000	subs	r5, r3, #0
+113980	e3a02000	mov	r2, #0
+113984	e1a04000	mov	r4, r0
+113988	e59d6020	ldr	r6, [sp, #0x20]
+11398c	e580200c	str	r2, [r0, #0xc]
+113990	e5802000	str	r2, [r0]
+113994	e5802004	str	r2, [r0, #0x4]
+113998	08bd83f8	popeq	{r3, r4, r5, r6, r7, r8, r9, pc}
+11399c	e1a00005	mov	r0, r5
+1139a0	ebfec316	bl	0xc4600 <_Z8YYRandomi>
+1139a4	eddf7a99	vldr	s15, [pc, #612]
+1139a8	ee060a10	vmov	s12, r0
+1139ac	eeb87a46	vcvt.f32.u32	s14, s12
+1139b0	ee777a27	vadd.f32	s15, s14, s15
+1139b4	eeb76ae7	vcvt.f64.f32	d6, s15
+1139b8	ec510b16	vmov	r0, r1, d6
+1139bc	ebfe8af5	bl	0xb6598 <floor@plt>
+1139c0	e594200c	ldr	r2, [r4, #0xc]
+1139c4	e3c234ff	bic	r3, r2, #-16777216
+1139c8	ec410b17	vmov	d7, r0, r1
+1139cc	eefd7bc7	vcvt.s32.f64	s15, d7
+1139d0	ee170a90	vmov	r0, s15
+1139d4	e1550000	cmp	r5, r0
+1139d8	d2450001	suble	r0, r5, #1
+1139dc	e3530001	cmp	r3, #1
+1139e0	e1a07200	lsl	r7, r0, #4
+1139e4	e0865007	add	r5, r6, r7
+1139e8	0a00002b	beq	0x113a9c <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x124>
+1139ec	e3530002	cmp	r3, #2
+1139f0	1a000008	bne	0x113a18 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0xa0>
+1139f4	e2422001	sub	r2, r2, #1
+1139f8	e3c224ff	bic	r2, r2, #-16777216
+1139fc	e3c22003	bic	r2, r2, #3
+113a00	e3520000	cmp	r2, #0
+113a04	0a000059	beq	0x113b70 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x1f8>
+113a08	e3a02000	mov	r2, #0
+113a0c	e3a03005	mov	r3, #5
+113a10	e5842008	str	r2, [r4, #0x8]
+113a14	e584300c	str	r3, [r4, #0xc]
+113a18	e595300c	ldr	r3, [r5, #0xc]
+113a1c	e3a01000	mov	r1, #0
+113a20	e5952008	ldr	r2, [r5, #0x8]
+113a24	e5841000	str	r1, [r4]
+113a28	e584300c	str	r3, [r4, #0xc]
+113a2c	e595300c	ldr	r3, [r5, #0xc]
+113a30	e5842008	str	r2, [r4, #0x8]
+113a34	e3c334ff	bic	r3, r3, #-16777216
+113a38	e353000e	cmp	r3, #14
+113a3c	908ff103	addls	pc, pc, r3, lsl #2
+113a40	ea000010	b	0x113a88 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x110>
+113a44	ea000010	b	0x113a8c <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x114>
+113a48	ea000029	b	0x113af4 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x17c>
+113a4c	ea00002e	b	0x113b0c <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x194>
+113a50	ea00000a	b	0x113a80 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x108>
+113a54	ea00000b	b	0x113a88 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x110>
+113a58	ea00000a	b	0x113a88 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x110>
+113a5c	ea00001b	b	0x113ad0 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x158>
+113a60	ea000006	b	0x113a80 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x108>
+113a64	ea000007	b	0x113a88 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x110>
+113a68	ea000006	b	0x113a88 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x110>
+113a6c	ea000006	b	0x113a8c <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x114>
+113a70	ea000004	b	0x113a88 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x110>
+113a74	ea000003	b	0x113a88 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x110>
+113a78	ea000003	b	0x113a8c <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x114>
+113a7c	eaffffff	b	0x113a80 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x108>
+113a80	e7963007	ldr	r3, [r6, r7]
+113a84	e5843000	str	r3, [r4]
+113a88	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+113a8c	e7962007	ldr	r2, [r6, r7]
+113a90	e5953004	ldr	r3, [r5, #0x4]
+113a94	e884000c	stm	r4, {r2, r3}
+113a98	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+113a9c	e5948000	ldr	r8, [r4]
+113aa0	e3580000	cmp	r8, #0
+113aa4	0a000006	beq	0x113ac4 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x14c>
+113aa8	eb01f51f	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+113aac	e5989004	ldr	r9, [r8, #0x4]
+113ab0	e2499001	sub	r9, r9, #1
+113ab4	e5889004	str	r9, [r8, #0x4]
+113ab8	e3590000	cmp	r9, #0
+113abc	0a00001d	beq	0x113b38 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x1c0>
+113ac0	eb01f51a	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+113ac4	e3a03000	mov	r3, #0
+113ac8	e5843000	str	r3, [r4]
+113acc	eaffffd1	b	0x113a18 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0xa0>
+113ad0	e7963007	ldr	r3, [r6, r7]
+113ad4	e5843000	str	r3, [r4]
+113ad8	e7963007	ldr	r3, [r6, r7]
+113adc	e3530000	cmp	r3, #0
+113ae0	08bd83f8	popeq	{r3, r4, r5, r6, r7, r8, r9, pc}
+113ae4	ebfeffda	bl	0xd3a54 <_Z18GetContextStackTopv>
+113ae8	e7961007	ldr	r1, [r6, r7]
+113aec	e8bd43f8	pop	{r3, r4, r5, r6, r7, r8, r9, lr}
+113af0	ea01f706	b	0x191710 <_Z22DeterminePotentialRootP12YYObjectBaseS0_>
+113af4	e7963007	ldr	r3, [r6, r7]
+113af8	e3530000	cmp	r3, #0
+113afc	15932004	ldrne	r2, [r3, #0x4]
+113b00	12822001	addne	r2, r2, #1
+113b04	15832004	strne	r2, [r3, #0x4]
+113b08	eaffffdd	b	0x113a84 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x10c>
+113b0c	e7963007	ldr	r3, [r6, r7]
+113b10	e3530000	cmp	r3, #0
+113b14	e5843000	str	r3, [r4]
+113b18	08bd83f8	popeq	{r3, r4, r5, r6, r7, r8, r9, pc}
+113b1c	e5931008	ldr	r1, [r3, #0x8]
+113b20	e5932000	ldr	r2, [r3]
+113b24	e3510000	cmp	r1, #0
+113b28	05834008	streq	r4, [r3, #0x8]
+113b2c	e2822001	add	r2, r2, #1
+113b30	e5832000	str	r2, [r3]
+113b34	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+113b38	e5980000	ldr	r0, [r8]
+113b3c	ebfeed13	bl	0xcef90 <_Z6YYFreePKv>
+113b40	e5889000	str	r9, [r8]
+113b44	e5889008	str	r9, [r8, #0x8]
+113b48	eb01f4f7	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+113b4c	e5989004	ldr	r9, [r8, #0x4]
+113b50	e2499001	sub	r9, r9, #1
+113b54	e5889004	str	r9, [r8, #0x4]
+113b58	e3590000	cmp	r9, #0
+113b5c	0a000006	beq	0x113b7c <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x204>
+113b60	eb01f4f2	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+113b64	e1a00008	mov	r0, r8
+113b68	eb05a598	bl	0x27d1d0 <_ZdlPv>
+113b6c	eaffffd3	b	0x113ac0 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x148>
+113b70	e1a00004	mov	r0, r4
+113b74	ebfeb3c0	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+113b78	eaffffa2	b	0x113a08 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x90>
+113b7c	e5980000	ldr	r0, [r8]
+113b80	ebfeed02	bl	0xcef90 <_Z6YYFreePKv>
+113b84	e5889000	str	r9, [r8]
+113b88	e5889008	str	r9, [r8, #0x8]
+113b8c	eb01f4e6	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+113b90	e5989004	ldr	r9, [r8, #0x4]
+113b94	e2499001	sub	r9, r9, #1
+113b98	e5889004	str	r9, [r8, #0x4]
+113b9c	e3590000	cmp	r9, #0
+113ba0	0a000003	beq	0x113bb4 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x23c>
+113ba4	eb01f4e1	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+113ba8	e1a00008	mov	r0, r8
+113bac	eb05a587	bl	0x27d1d0 <_ZdlPv>
+113bb0	eaffffea	b	0x113b60 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x1e8>
+113bb4	e5980000	ldr	r0, [r8]
+113bb8	ebfeecf4	bl	0xcef90 <_Z6YYFreePKv>
+113bbc	e5889000	str	r9, [r8]
+113bc0	e5889008	str	r9, [r8, #0x8]
+113bc4	eb01f4d8	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+113bc8	e5989004	ldr	r9, [r8, #0x4]
+113bcc	e2499001	sub	r9, r9, #1
+113bd0	e5889004	str	r9, [r8, #0x4]
+113bd4	e3590000	cmp	r9, #0
+113bd8	0a000003	beq	0x113bec <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x274>
+113bdc	eb01f4d3	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+113be0	e1a00008	mov	r0, r8
+113be4	eb05a579	bl	0x27d1d0 <_ZdlPv>
+113be8	eaffffed	b	0x113ba4 <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x22c>
+113bec	e5980000	ldr	r0, [r8]
+113bf0	ebfeece6	bl	0xcef90 <_Z6YYFreePKv>
+113bf4	e1a00008	mov	r0, r8
+113bf8	e5889000	str	r9, [r8]
+113bfc	e5889008	str	r9, [r8, #0x8]
+113c00	ebfeb37c	bl	0xc09f8 <_ZN9_RefThingIPKcE3decEv>
+113c04	e1a00008	mov	r0, r8
+113c08	eb05a570	bl	0x27d1d0 <_ZdlPv>
+113c0c	eafffff2	b	0x113bdc <_Z8F_ChooseR6RValueP9CInstanceS2_iPS_+0x264>
+113c10	00000000	andeq	r0, r0, r0

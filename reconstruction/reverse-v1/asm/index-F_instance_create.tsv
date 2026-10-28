@@ -1,0 +1,39 @@
+109598	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+10959c	e3a01002	mov	r1, #2
+1095a0	e59d4018	ldr	r4, [sp, #0x18]
+1095a4	e1a05000	mov	r5, r0
+1095a8	e1a00004	mov	r0, r4
+1095ac	ebff14af	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1095b0	e3a01000	mov	r1, #0
+1095b4	e1a07000	mov	r7, r0
+1095b8	e1a00004	mov	r0, r4
+1095bc	ebff15b0	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1095c0	e3a01001	mov	r1, #1
+1095c4	e1a06000	mov	r6, r0
+1095c8	e1a00004	mov	r0, r4
+1095cc	ebff15ac	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1095d0	e1a01006	mov	r1, r6
+1095d4	e1a02000	mov	r2, r0
+1095d8	e1a00007	mov	r0, r7
+1095dc	eb030096	bl	0x1c983c <_Z14Command_Createiff>
+1095e0	e59f3048	ldr	r3, [pc, #0x48]
+1095e4	e79f3003	ldr	r3, [pc, r3]
+1095e8	e5d33000	ldrb	r3, [r3]
+1095ec	e3530000	cmp	r3, #0
+1095f0	1a00000a	bne	0x109620 <_Z16F_InstanceCreateR6RValueP9CInstanceS2_iPS_+0x88>
+1095f4	e3500000	cmp	r0, #0
+1095f8	e585300c	str	r3, [r5, #0xc]
+1095fc	15902078	ldrne	r2, [r0, #0x78]
+109600	03a03000	moveq	r3, #0
+109604	03a02000	moveq	r2, #0
+109608	034b3ff0	movteq	r3, #0xbff0
+10960c	1e072a90	vmovne	s15, r2
+109610	1eb87be7	vcvtne.f64.s32	d7, s15
+109614	1c532b17	vmovne	r2, r3, d7
+109618	e885000c	stm	r5, {r2, r3}
+10961c	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+109620	e3a03006	mov	r3, #6
+109624	e5850000	str	r0, [r5]
+109628	e585300c	str	r3, [r5, #0xc]
+10962c	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+109630	002e45d4	.word	0x002e45d4

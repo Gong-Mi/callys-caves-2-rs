@@ -1,0 +1,44 @@
+108f80	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+108f84	e24dd008	sub	sp, sp, #8
+108f88	e1a05000	mov	r5, r0
+108f8c	e1a06001	mov	r6, r1
+108f90	e59d4028	ldr	r4, [sp, #0x28]
+108f94	e3a01000	mov	r1, #0
+108f98	e1a00004	mov	r0, r4
+108f9c	ebff1738	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108fa0	e3a01001	mov	r1, #1
+108fa4	e1a09000	mov	r9, r0
+108fa8	e1a00004	mov	r0, r4
+108fac	ebff1734	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108fb0	e3a01002	mov	r1, #2
+108fb4	e1a07000	mov	r7, r0
+108fb8	e1a00004	mov	r0, r4
+108fbc	ebff162b	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+108fc0	e3a01003	mov	r1, #3
+108fc4	e1a08000	mov	r8, r0
+108fc8	e1a00004	mov	r0, r4
+108fcc	ebff15e5	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+108fd0	e3a01004	mov	r1, #4
+108fd4	e1a0a000	mov	r10, r0
+108fd8	e1a00004	mov	r0, r4
+108fdc	ebff15e1	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+108fe0	e1a02007	mov	r2, r7
+108fe4	e1a03008	mov	r3, r8
+108fe8	e58da000	str	r10, [sp]
+108fec	e1a01009	mov	r1, r9
+108ff0	e58d0004	str	r0, [sp, #0x4]
+108ff4	e1a00006	mov	r0, r6
+108ff8	eb02fe69	bl	0x1c89a4 <_Z22Command_CollisionPointP9CInstanceffibb>
+108ffc	e3a03000	mov	r3, #0
+109000	e585300c	str	r3, [r5, #0xc]
+109004	e3500000	cmp	r0, #0
+109008	15902078	ldrne	r2, [r0, #0x78]
+10900c	03a03000	moveq	r3, #0
+109010	03a02000	moveq	r2, #0
+109014	034c3010	movteq	r3, #0xc010
+109018	1e072a90	vmovne	s15, r2
+10901c	1eb87be7	vcvtne.f64.s32	d7, s15
+109020	1c532b17	vmovne	r2, r3, d7
+109024	e885000c	stm	r5, {r2, r3}
+109028	e28dd008	add	sp, sp, #8
+10902c	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}

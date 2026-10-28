@@ -1,0 +1,61 @@
+10ad88	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+10ad8c	e24dd034	sub	sp, sp, #52
+10ad90	e3a04000	mov	r4, #0
+10ad94	e1a09001	mov	r9, r1
+10ad98	e580400c	str	r4, [r0, #0xc]
+10ad9c	e1a01004	mov	r1, r4
+10ada0	e5804000	str	r4, [r0]
+10ada4	e1a08000	mov	r8, r0
+10ada8	e3083480	movw	r3, #0x8480
+10adac	e344312e	movt	r3, #0x412e
+10adb0	e5803004	str	r3, [r0, #0x4]
+10adb4	e1a05002	mov	r5, r2
+10adb8	e59d0050	ldr	r0, [sp, #0x50]
+10adbc	e28d600c	add	r6, sp, #12
+10adc0	ebff0eaa	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+10adc4	e58d4000	str	r4, [sp]
+10adc8	e1a03005	mov	r3, r5
+10adcc	e1a02009	mov	r2, r9
+10add0	e1a01000	mov	r1, r0
+10add4	e1a00006	mov	r0, r6
+10add8	eb0248a0	bl	0x19d060 <_ZN15WithObjIteratorC2EiP9CInstanceS1_b>
+10addc	e1a00006	mov	r0, r6
+10ade0	eb024c19	bl	0x19de4c <_ZN15WithObjIteratordeEv>
+10ade4	e3500000	cmp	r0, #0
+10ade8	e1a00006	mov	r0, r6
+10adec	0a000019	beq	0x10ae58 <_Z18F_DistanceToObjectR6RValueP9CInstanceS2_iPS_+0xd0>
+10adf0	eb024c15	bl	0x19de4c <_ZN15WithObjIteratordeEv>
+10adf4	e1a07000	mov	r7, r0
+10adf8	e1a00006	mov	r0, r6
+10adfc	eb0248f1	bl	0x19d1c8 <_ZN15WithObjIterator4NextEv>
+10ae00	e5d73068	ldrb	r3, [r7, #0x68]
+10ae04	e3530000	cmp	r3, #0
+10ae08	1afffff3	bne	0x10addc <_Z18F_DistanceToObjectR6RValueP9CInstanceS2_iPS_+0x54>
+10ae0c	e5d73069	ldrb	r3, [r7, #0x69]
+10ae10	e3530000	cmp	r3, #0
+10ae14	1afffff0	bne	0x10addc <_Z18F_DistanceToObjectR6RValueP9CInstanceS2_iPS_+0x54>
+10ae18	e1a00007	mov	r0, r7
+10ae1c	e1a01009	mov	r1, r9
+10ae20	e5984000	ldr	r4, [r8]
+10ae24	e5985004	ldr	r5, [r8, #0x4]
+10ae28	ebffff9b	bl	0x10ac9c <_Z8FindDistP9CInstanceS0_>
+10ae2c	ee060a10	vmov	s12, r0
+10ae30	eeb77ac6	vcvt.f64.f32	d7, s12
+10ae34	ec454b16	vmov	d6, r4, r5
+10ae38	eeb46bc7	vcmpe.f64	d6, d7
+10ae3c	eef1fa10	vmrs	APSR_nzcv, fpscr
+10ae40	5a000006	bpl	0x10ae60 <_Z18F_DistanceToObjectR6RValueP9CInstanceS2_iPS_+0xd8>
+10ae44	e8980003	ldm	r8, {r0, r1}
+10ae48	e1a02000	mov	r2, r0
+10ae4c	e1a03001	mov	r3, r1
+10ae50	e888000c	stm	r8, {r2, r3}
+10ae54	eaffffe0	b	0x10addc <_Z18F_DistanceToObjectR6RValueP9CInstanceS2_iPS_+0x54>
+10ae58	e28dd034	add	sp, sp, #52
+10ae5c	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+10ae60	e1a01009	mov	r1, r9
+10ae64	e1a00007	mov	r0, r7
+10ae68	ebffff8b	bl	0x10ac9c <_Z8FindDistP9CInstanceS0_>
+10ae6c	ee060a90	vmov	s13, r0
+10ae70	eeb76ae6	vcvt.f64.f32	d6, s13
+10ae74	ec510b16	vmov	r0, r1, d6
+10ae78	eafffff2	b	0x10ae48 <_Z18F_DistanceToObjectR6RValueP9CInstanceS2_iPS_+0xc0>

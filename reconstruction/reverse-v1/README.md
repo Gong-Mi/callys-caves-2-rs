@@ -53,9 +53,9 @@
 
 ## 已钉的语义
 
-    汇总：109 张卡、33,699 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          claims 822 条（proven 682 / narrowed 71 / open 66 / refuted 3）
-          可达性靶子：入口可达 1,439 个函数（≈148,276 条指令），已出卡 109，剩余约 1,300
+    汇总：124 张卡、38,971 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          claims 960 条（proven 796+ / narrowed 77 / open 74 / refuted 4）
+          可达性靶子：入口可达 1,439 个函数（≈148,276 条指令），已出卡 124，剩余约 1,280
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -213,6 +213,26 @@
     · 「room+0x80 是链头」→ 头 +0x84 / 尾 +0x80 / next +0x17c / prev +0x178（两处尾插现场一致）
     · 「bbox 字段是 float」→ int32 tagYYRECT
     · 「room+0xb8/+0xc0 是层项数组」→ 是 tile 表（56 B 记录 = 14 字段）
+
+## 第七轮（资源装载 / 房间表 / 层 / 实例插入 / 内建 API）
+
+    LoadGameData       667 条 正文  10 个 Init → 代码表 → 全局实例 → 31 tag 块链 → 回填 id；
+                                    头部只校验 pWAD[4]==size-8；**非 WAD 静默返回 1**
+    RunnerLoadWad       21 条 正文  打 "LoadGameData()" 后尾跳 LoadGameData(*0x544b78, *0x544b74)
+    Room_Load          219 条 正文  五段；n!=0 重装泄漏旧 CRoom（名字表存前必 Free，两表不对称）
+    Room_LoadOrder      90 条 正文  七档 bytecode version 分支（本包 GEN8[1]=16 → >=14 档）
+    CRoom::CRoom       272 条 正文  建三图 → 标量/8 背景/8 视野 → Clear 释放并改 30/640/480/0x00C0C0C0/1 → 重建三图
+    DrawRoomLayers     118 条 骨架  从链尾 +0xd8 沿 +0x6c 反向；层升序 ⇒ depth 大的先画
+    CLayerManager::AddInstance 41 / AddInstanceToLayer 184 条 骨架  四道门 + 三级归层；36 B 池造 type 2 元素
+    CRoom::AddInstance 520 条 正文  5 节（含 ToStorage）：4 个改活房间 + 1 个暂存；A 链排序键是 +0x184 快照
+    CRoom::AddTile     162 条 正文  cap=count+10 扩容、++room_maxtileid 覆写 +0x20
+    Variable_Global_Init 26 条 正文  globdecl={cap,data}，ReAlloc(10000) 后逐字节清零
+    Builtins_Instance  721 条 正文  9 个：activate/deactivate 不碰链；deactivate_all(notme)=先全灭再点亮自己
+    Builtins_Draw      331 条 正文  5 个：都不读 argc、都不写 ret；CSprite::Draw 九参表两处互证
+    Builtins_DsString 1230 条 正文  11 个：ds_map 键是 **RValue 不是 string**（CRC32 六路分派）
+
+    又改了两处旧说法：房间表在 0x5425d0（0x542990 是 Run_Room_List）；
+    CInstance 读写不对称是三处而非一处（object_index / bbox 前置重算 / 变量块计数取全局）
 
 ## 结构结论
 

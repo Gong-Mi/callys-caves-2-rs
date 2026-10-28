@@ -1,0 +1,42 @@
+10ec98	e59f1098	ldr	r1, [pc, #0x98]
+10ec9c	e3a0cc01	mov	r12, #256
+10eca0	e92d4030	push	{r4, r5, lr}
+10eca4	e24dd01c	sub	sp, sp, #28
+10eca8	e1a04000	mov	r4, r0
+10ecac	e3a03001	mov	r3, #1
+10ecb0	e08f1001	add	r1, pc, r1
+10ecb4	e580300c	str	r3, [r0, #0xc]
+10ecb8	e3002621	movw	r2, #0x621
+10ecbc	e1a0000c	mov	r0, r12
+10ecc0	e58dc00c	str	r12, [sp, #0xc]
+10ecc4	e59d5028	ldr	r5, [sp, #0x28]
+10ecc8	eb05b86a	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+10eccc	e28d1010	add	r1, sp, #16
+10ecd0	e1a03005	mov	r3, r5
+10ecd4	e3a05000	mov	r5, #0
+10ecd8	e1a02000	mov	r2, r0
+10ecdc	e28d0018	add	r0, sp, #24
+10ece0	e58d2010	str	r2, [sp, #0x10]
+10ece4	e5202004	str	r2, [r0, #-0x4]!
+10ece8	e5c25000	strb	r5, [r2]
+10ecec	e28d200c	add	r2, sp, #12
+10ecf0	ebff04a0	bl	0xcff78 <_Z13STRING_RValuePPcS0_PiPK6RValue>
+10ecf4	e59d0010	ldr	r0, [sp, #0x10]
+10ecf8	e59d1014	ldr	r1, [sp, #0x14]
+10ecfc	e3a0304a	mov	r3, #74
+10ed00	e59f2034	ldr	r2, [pc, #0x34]
+10ed04	e0601001	rsb	r1, r0, r1
+10ed08	e58d5000	str	r5, [sp]
+10ed0c	e08f2002	add	r2, pc, r2
+10ed10	e2811001	add	r1, r1, #1
+10ed14	eb05b870	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+10ed18	e1a05000	mov	r5, r0
+10ed1c	e1a00004	mov	r0, r4
+10ed20	e1a01005	mov	r1, r5
+10ed24	ebff594b	bl	0xe5258 <_Z14YYCreateStringP6RValuePKc>
+10ed28	e1a00005	mov	r0, r5
+10ed2c	eb05b567	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+10ed30	e28dd01c	add	sp, sp, #28
+10ed34	e8bd8030	pop	{r4, r5, pc}
+10ed38	0022a194	mlaeq	r2, r4, r1, r10
+10ed3c	00222324	eoreq	r2, r2, r4, lsr #6

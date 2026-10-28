@@ -1,0 +1,81 @@
+1ab654	e92d43f8	push	{r3, r4, r5, r6, r7, r8, r9, lr}
+1ab658	e1a06000	mov	r6, r0
+1ab65c	e5903084	ldr	r3, [r0, #0x84]
+1ab660	e1a04001	mov	r4, r1
+1ab664	e5902088	ldr	r2, [r0, #0x88]
+1ab668	e3530000	cmp	r3, #0
+1ab66c	1d917a60	vldrne	s14, [r1, #384]
+1ab670	e2822001	add	r2, r2, #1
+1ab674	e5802088	str	r2, [r0, #0x88]
+1ab678	0a00003d	beq	0x1ab774 <_ZN5CRoom11AddInstanceEP9CInstance+0x120>
+1ab67c	edd37a61	vldr	s15, [r3, #388]
+1ab680	eef47ac7	vcmpe.f32	s15, s14
+1ab684	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ab688	9a00002c	bls	0x1ab740 <_ZN5CRoom11AddInstanceEP9CInstance+0xec>
+1ab68c	e593317c	ldr	r3, [r3, #0x17c]
+1ab690	e3530000	cmp	r3, #0
+1ab694	1afffff8	bne	0x1ab67c <_ZN5CRoom11AddInstanceEP9CInstance+0x28>
+1ab698	e5962080	ldr	r2, [r6, #0x80]
+1ab69c	ed847a61	vstr	s14, [r4, #388]
+1ab6a0	e582417c	str	r4, [r2, #0x17c]
+1ab6a4	e5842178	str	r2, [r4, #0x178]
+1ab6a8	e5864080	str	r4, [r6, #0x80]
+1ab6ac	e584317c	str	r3, [r4, #0x17c]
+1ab6b0	e59f50d8	ldr	r5, [pc, #0xd8]
+1ab6b4	e3002132	movw	r2, #0x132
+1ab6b8	e59f10d4	ldr	r1, [pc, #0xd4]
+1ab6bc	e3a03001	mov	r3, #1
+1ab6c0	e79f5005	ldr	r5, [pc, r5]
+1ab6c4	e3a00010	mov	r0, #16
+1ab6c8	e08f1001	add	r1, pc, r1
+1ab6cc	e5949078	ldr	r9, [r4, #0x78]
+1ab6d0	e8950180	ldm	r5, {r7, r8}
+1ab6d4	eb0345e7	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1ab6d8	e0098008	and	r8, r9, r8
+1ab6dc	e7971188	ldr	r1, [r7, r8, lsl #3]
+1ab6e0	e0872188	add	r2, r7, r8, lsl #3
+1ab6e4	e3510000	cmp	r1, #0
+1ab6e8	15921004	ldrne	r1, [r2, #0x4]
+1ab6ec	e1a03000	mov	r3, r0
+1ab6f0	e5809008	str	r9, [r0, #0x8]
+1ab6f4	e580400c	str	r4, [r0, #0xc]
+1ab6f8	13a00000	movne	r0, #0
+1ab6fc	15831000	strne	r1, [r3]
+1ab700	15813004	strne	r3, [r1, #0x4]
+1ab704	15823004	strne	r3, [r2, #0x4]
+1ab708	15830004	strne	r0, [r3, #0x4]
+1ab70c	e5953008	ldr	r3, [r5, #0x8]
+1ab710	05820004	streq	r0, [r2, #0x4]
+1ab714	07870188	streq	r0, [r7, r8, lsl #3]
+1ab718	e2833001	add	r3, r3, #1
+1ab71c	05801004	streq	r1, [r0, #0x4]
+1ab720	05801000	streq	r1, [r0]
+1ab724	e1a00006	mov	r0, r6
+1ab728	e1a01004	mov	r1, r4
+1ab72c	e5853008	str	r3, [r5, #0x8]
+1ab730	eb006978	bl	0x1c5d18 <_ZN13CLayerManager11AddInstanceEP5CRoomP9CInstance>
+1ab734	e1a00004	mov	r0, r4
+1ab738	e8bd43f8	pop	{r3, r4, r5, r6, r7, r8, r9, lr}
+1ab73c	ea008354	b	0x1cc494 <_Z15CollisionInsertP9CInstance>
+1ab740	e5932178	ldr	r2, [r3, #0x178]
+1ab744	e3520000	cmp	r2, #0
+1ab748	0584317c	streq	r3, [r4, #0x17c]
+1ab74c	15842178	strne	r2, [r4, #0x178]
+1ab750	15932178	ldrne	r2, [r3, #0x178]
+1ab754	05834178	streq	r4, [r3, #0x178]
+1ab758	1584317c	strne	r3, [r4, #0x17c]
+1ab75c	05864084	streq	r4, [r6, #0x84]
+1ab760	1582417c	strne	r4, [r2, #0x17c]
+1ab764	05842178	streq	r2, [r4, #0x178]
+1ab768	15834178	strne	r4, [r3, #0x178]
+1ab76c	ed847a61	vstr	s14, [r4, #388]
+1ab770	eaffffce	b	0x1ab6b0 <_ZN5CRoom11AddInstanceEP9CInstance+0x5c>
+1ab774	e5912180	ldr	r2, [r1, #0x180]
+1ab778	e5861084	str	r1, [r6, #0x84]
+1ab77c	e5861080	str	r1, [r6, #0x80]
+1ab780	e5812184	str	r2, [r1, #0x184]
+1ab784	e581317c	str	r3, [r1, #0x17c]
+1ab788	e5813178	str	r3, [r1, #0x178]
+1ab78c	eaffffc7	b	0x1ab6b0 <_ZN5CRoom11AddInstanceEP9CInstance+0x5c>
+1ab790	00242584	eoreq	r2, r4, r4, lsl #11
+1ab794	001a15e4	andseq	r1, r10, r4, ror #11

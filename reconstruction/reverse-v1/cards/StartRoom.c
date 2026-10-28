@@ -24,7 +24,9 @@
  * ── 全局表（GOT 基址 0x3f1c58；每个地址都是「池字偏移 → GOT 槽 → 槽内 addend」实测）──
  *   0x542954 int    退出/中断码闸门：本函数入口无条件写 -1；DoAStep 的 13 个检查点要求它仍为 -1
  *                   （ASTEP-003）；EndRoom 会先存档再恢复
- *   0x542990 int    房间对象表 count   ┐ {count, CRoom** array}，下标 = 房间号
+ *   0x5425d0 int    房间对象表 count   ┐ {count, CRoom** array}，下标 = 房间号
+ *   ⚠ 修正（batchAN，cards/Room_Load.c）：房间表在 **0x5425d0**（24 B 匿名块，六格）；
+ *     0x542990 是导出符号 **Run_Room_List**（size 8），只被 Run_EndGame 读，与本函数无关
  *   0x542994 ptr    房间对象表 array   ┘
  *   0x542958 int    当前房间号（本函数写两次）
  *   0x54298c ptr    Run_Room（CRoom*，读写函数 Run_Room_Set 0x1cba58）
@@ -137,7 +139,7 @@
 /* @0x1d3910 str r2, [r3] */
 /* @0x1d3914 bne 0x1d4308 <_Z9StartRoomib+0xa28> */
 /* ── 段2：Effect_Clear / 房间对象表 / 当前房间号 / 第一次 Run_Room_Set（1d3918-1d3944）
- *   r4 = &g_rooms(0x542990)，r5 = count；count <= roomIndex → 1d424c 扩容（段36、39-41）。
+ *   r4 = &g_rooms(0x5425d0)，r5 = count；count <= roomIndex → 1d424c 扩容（段36、39-41）。
  *   r3 = &curRoom(0x542958)，1d3938 写入 roomIndex。
  *   1d393c/1d3940 取 array[roomIndex]，1d3944 交给 Run_Room_Set ——
  *   注意此刻 array[idx] 可能是 NULL（新房间），所以 1d3948 立刻要判断 Run_Room 是否为空。 */
@@ -1058,7 +1060,7 @@
 /* ── 段48：literal pool（1d440c-1d444c，17 字；objdump 把前 1/6/9/11/17 个字译成了指令，非指令）──
  *   1d440c 0x0021e358  GOT 基址加数（1d38f8 的 add 用 pc=0x1d3900 → 0x3f1c58）
  *   1d4410 0xffffc154 → 槽 0x3eddac → 0x542954  退出码闸门
- *   1d4414 0xffffeed8 → 槽 0x3f0b30 → 0x542990  房间表 count（+4 即 array）
+ *   1d4414 0xffffeed8 → 槽 0x3f0b30 → 0x5425d0  房间表 count（+4 即 array）
  *   1d4418 0xffffd784 → 槽 0x3ef3dc → 0x542958  当前房间号
  *   1d441c 0xffffbcd8 → 槽 0x3ed930 → 0x54298c  Run_Room
  *   1d4420 0xffffbff4 → 槽 0x3edc4c → 0x536f28  ms_ID2Instance

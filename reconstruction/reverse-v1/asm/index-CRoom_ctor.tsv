@@ -1,0 +1,272 @@
+1ad2cc	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+1ad2d0	e3a01001	mov	r1, #1
+1ad2d4	e1a04000	mov	r4, r0
+1ad2d8	e3a05000	mov	r5, #0
+1ad2dc	e3a02080	mov	r2, #128
+1ad2e0	e5805084	str	r5, [r0, #0x84]
+1ad2e4	e58020e4	str	r2, [r0, #0xe4]
+1ad2e8	e3a0307f	mov	r3, #127
+1ad2ec	e58030ec	str	r3, [r0, #0xec]
+1ad2f0	e1a03001	mov	r3, r1
+1ad2f4	e5841098	str	r1, [r4, #0x98]
+1ad2f8	e3a02046	mov	r2, #70
+1ad2fc	e58410e0	str	r1, [r4, #0xe0]
+1ad300	e3a00c06	mov	r0, #1536
+1ad304	e59f13e8	ldr	r1, [pc, #0x3e8]
+1ad308	e5845080	str	r5, [r4, #0x80]
+1ad30c	e08f1001	add	r1, pc, r1
+1ad310	e5845088	str	r5, [r4, #0x88]
+1ad314	e5845090	str	r5, [r4, #0x90]
+1ad318	e584508c	str	r5, [r4, #0x8c]
+1ad31c	e5845094	str	r5, [r4, #0x94]
+1ad320	e58450bc	str	r5, [r4, #0xbc]
+1ad324	e58450c0	str	r5, [r4, #0xc0]
+1ad328	e58450d8	str	r5, [r4, #0xd8]
+1ad32c	e58450d4	str	r5, [r4, #0xd4]
+1ad330	e58450dc	str	r5, [r4, #0xdc]
+1ad334	e58450f4	str	r5, [r4, #0xf4]
+1ad338	eb033ece	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1ad33c	e3a02c06	mov	r2, #1536
+1ad340	e1a01005	mov	r1, r5
+1ad344	e58400f4	str	r0, [r4, #0xf4]
+1ad348	ebfc2498	bl	0xb65b0 <memset@plt>
+1ad34c	e59420e4	ldr	r2, [r4, #0xe4]
+1ad350	eddf7ae6	vldr	s15, [pc, #920]
+1ad354	e58450e8	str	r5, [r4, #0xe8]
+1ad358	e1520005	cmp	r2, r5
+1ad35c	ee062a90	vmov	s13, r2
+1ad360	eeb87ae6	vcvt.f32.s32	s14, s13
+1ad364	ee677a27	vmul.f32	s15, s14, s15
+1ad368	eefd7ae7	vcvt.s32.f32	s15, s15
+1ad36c	edc47a3c	vstr	s15, [r4, #240]
+1ad370	da000006	ble	0x1ad390 <_ZN5CRoomC2Ev+0xc4>
+1ad374	e0822082	add	r2, r2, r2, lsl #1
+1ad378	e59430f4	ldr	r3, [r4, #0xf4]
+1ad37c	e0832102	add	r2, r3, r2, lsl #2
+1ad380	e5835008	str	r5, [r3, #0x8]
+1ad384	e283300c	add	r3, r3, #12
+1ad388	e1530002	cmp	r3, r2
+1ad38c	1afffffb	bne	0x1ad380 <_ZN5CRoomC2Ev+0xb4>
+1ad390	e59f1360	ldr	r1, [pc, #0x360]
+1ad394	e3a05000	mov	r5, #0
+1ad398	e3a02080	mov	r2, #128
+1ad39c	e3a0307f	mov	r3, #127
+1ad3a0	e58420f8	str	r2, [r4, #0xf8]
+1ad3a4	e08f1001	add	r1, pc, r1
+1ad3a8	e5843100	str	r3, [r4, #0x100]
+1ad3ac	e3a02046	mov	r2, #70
+1ad3b0	e3a03001	mov	r3, #1
+1ad3b4	e5845108	str	r5, [r4, #0x108]
+1ad3b8	e3a00c06	mov	r0, #1536
+1ad3bc	eb033ead	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1ad3c0	e3a02c06	mov	r2, #1536
+1ad3c4	e1a01005	mov	r1, r5
+1ad3c8	e5840108	str	r0, [r4, #0x108]
+1ad3cc	ebfc2477	bl	0xb65b0 <memset@plt>
+1ad3d0	e59420f8	ldr	r2, [r4, #0xf8]
+1ad3d4	eddf7ac5	vldr	s15, [pc, #788]
+1ad3d8	e58450fc	str	r5, [r4, #0xfc]
+1ad3dc	e1520005	cmp	r2, r5
+1ad3e0	ee062a90	vmov	s13, r2
+1ad3e4	eeb87ae6	vcvt.f32.s32	s14, s13
+1ad3e8	ee677a27	vmul.f32	s15, s14, s15
+1ad3ec	eefd7ae7	vcvt.s32.f32	s15, s15
+1ad3f0	edc47a41	vstr	s15, [r4, #260]
+1ad3f4	da000007	ble	0x1ad418 <_ZN5CRoomC2Ev+0x14c>
+1ad3f8	e0822082	add	r2, r2, r2, lsl #1
+1ad3fc	e5943108	ldr	r3, [r4, #0x108]
+1ad400	e1a01005	mov	r1, r5
+1ad404	e0832102	add	r2, r3, r2, lsl #2
+1ad408	e5831008	str	r1, [r3, #0x8]
+1ad40c	e283300c	add	r3, r3, #12
+1ad410	e1530002	cmp	r3, r2
+1ad414	1afffffb	bne	0x1ad408 <_ZN5CRoomC2Ev+0x13c>
+1ad418	e59f12dc	ldr	r1, [pc, #0x2dc]
+1ad41c	e3a05000	mov	r5, #0
+1ad420	e3a02080	mov	r2, #128
+1ad424	e3a0307f	mov	r3, #127
+1ad428	e5842110	str	r2, [r4, #0x110]
+1ad42c	e08f1001	add	r1, pc, r1
+1ad430	e5843118	str	r3, [r4, #0x118]
+1ad434	e3a02046	mov	r2, #70
+1ad438	e3a03001	mov	r3, #1
+1ad43c	e5845120	str	r5, [r4, #0x120]
+1ad440	e3a00c06	mov	r0, #1536
+1ad444	eb033e8b	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1ad448	e3a02c06	mov	r2, #1536
+1ad44c	e1a01005	mov	r1, r5
+1ad450	e5840120	str	r0, [r4, #0x120]
+1ad454	ebfc2455	bl	0xb65b0 <memset@plt>
+1ad458	e5942110	ldr	r2, [r4, #0x110]
+1ad45c	eddf7aa3	vldr	s15, [pc, #652]
+1ad460	e5845114	str	r5, [r4, #0x114]
+1ad464	e1520005	cmp	r2, r5
+1ad468	ee062a90	vmov	s13, r2
+1ad46c	eeb87ae6	vcvt.f32.s32	s14, s13
+1ad470	ee677a27	vmul.f32	s15, s14, s15
+1ad474	eefd7ae7	vcvt.s32.f32	s15, s15
+1ad478	edc47a47	vstr	s15, [r4, #284]
+1ad47c	da000007	ble	0x1ad4a0 <_ZN5CRoomC2Ev+0x1d4>
+1ad480	e0822082	add	r2, r2, r2, lsl #1
+1ad484	e5943120	ldr	r3, [r4, #0x120]
+1ad488	e1a01005	mov	r1, r5
+1ad48c	e0832102	add	r2, r3, r2, lsl #2
+1ad490	e5831008	str	r1, [r3, #0x8]
+1ad494	e283300c	add	r3, r3, #12
+1ad498	e1530002	cmp	r3, r2
+1ad49c	1afffffb	bne	0x1ad490 <_ZN5CRoomC2Ev+0x1c4>
+1ad4a0	e3a03000	mov	r3, #0
+1ad4a4	e1a05004	mov	r5, r4
+1ad4a8	e1a06003	mov	r6, r3
+1ad4ac	e3a02001	mov	r2, #1
+1ad4b0	e8840018	stm	r4, {r3, r4}
+1ad4b4	e5843008	str	r3, [r4, #0x8]
+1ad4b8	e584300c	str	r3, [r4, #0xc]
+1ad4bc	e5843010	str	r3, [r4, #0x10]
+1ad4c0	e5843014	str	r3, [r4, #0x14]
+1ad4c4	e5c43018	strb	r3, [r4, #0x18]
+1ad4c8	e584301c	str	r3, [r4, #0x1c]
+1ad4cc	e5c43020	strb	r3, [r4, #0x20]
+1ad4d0	e5c43044	strb	r3, [r4, #0x44]
+1ad4d4	e5843068	str	r3, [r4, #0x68]
+1ad4d8	e584306c	str	r3, [r4, #0x6c]
+1ad4dc	e58430a4	str	r3, [r4, #0xa4]
+1ad4e0	e58430a8	str	r3, [r4, #0xa8]
+1ad4e4	e5c430d0	strb	r3, [r4, #0xd0]
+1ad4e8	e58430cc	str	r3, [r4, #0xcc]
+1ad4ec	e58430b4	str	r3, [r4, #0xb4]
+1ad4f0	e5c42045	strb	r2, [r4, #0x45]
+1ad4f4	e5c42046	strb	r2, [r4, #0x46]
+1ad4f8	e3a0002c	mov	r0, #44
+1ad4fc	e2866001	add	r6, r6, #1
+1ad500	eb033c07	bl	0x27c524 <_Znwj>
+1ad504	e3560008	cmp	r6, #8
+1ad508	e2855004	add	r5, r5, #4
+1ad50c	e5850020	str	r0, [r5, #0x20]
+1ad510	1afffff8	bne	0x1ad4f8 <_ZN5CRoomC2Ev+0x22c>
+1ad514	e1a06004	mov	r6, r4
+1ad518	e3a05000	mov	r5, #0
+1ad51c	e3e07000	mvn	r7, #0
+1ad520	e3a00044	mov	r0, #68
+1ad524	e2855001	add	r5, r5, #1
+1ad528	eb033bfd	bl	0x27c524 <_Znwj>
+1ad52c	e3550008	cmp	r5, #8
+1ad530	e2866004	add	r6, r6, #4
+1ad534	e580703c	str	r7, [r0, #0x3c]
+1ad538	e5807040	str	r7, [r0, #0x40]
+1ad53c	e5860044	str	r0, [r6, #0x44]
+1ad540	1afffff6	bne	0x1ad520 <_ZN5CRoomC2Ev+0x254>
+1ad544	e3a05000	mov	r5, #0
+1ad548	e1a00004	mov	r0, r4
+1ad54c	e58450bc	str	r5, [r4, #0xbc]
+1ad550	e58450c0	str	r5, [r4, #0xc0]
+1ad554	e58450b8	str	r5, [r4, #0xb8]
+1ad558	ebfffed1	bl	0x1ad0a4 <_ZN5CRoom5ClearEv>
+1ad55c	e59400e4	ldr	r0, [r4, #0xe4]
+1ad560	e59f1198	ldr	r1, [pc, #0x198]
+1ad564	e3a02046	mov	r2, #70
+1ad568	e240c001	sub	r12, r0, #1
+1ad56c	e3a03001	mov	r3, #1
+1ad570	e0800080	add	r0, r0, r0, lsl #1
+1ad574	e08f1001	add	r1, pc, r1
+1ad578	e584c0ec	str	r12, [r4, #0xec]
+1ad57c	e1a06100	lsl	r6, r0, #2
+1ad580	e1a00006	mov	r0, r6
+1ad584	eb033e3b	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1ad588	e1a02006	mov	r2, r6
+1ad58c	e1a01005	mov	r1, r5
+1ad590	e58400f4	str	r0, [r4, #0xf4]
+1ad594	ebfc2405	bl	0xb65b0 <memset@plt>
+1ad598	e59420e4	ldr	r2, [r4, #0xe4]
+1ad59c	eddf7a53	vldr	s15, [pc, #332]
+1ad5a0	e58450e8	str	r5, [r4, #0xe8]
+1ad5a4	e1520005	cmp	r2, r5
+1ad5a8	ee062a90	vmov	s13, r2
+1ad5ac	eeb87ae6	vcvt.f32.s32	s14, s13
+1ad5b0	ee677a27	vmul.f32	s15, s14, s15
+1ad5b4	eefd7ae7	vcvt.s32.f32	s15, s15
+1ad5b8	edc47a3c	vstr	s15, [r4, #240]
+1ad5bc	da000007	ble	0x1ad5e0 <_ZN5CRoomC2Ev+0x314>
+1ad5c0	e0822082	add	r2, r2, r2, lsl #1
+1ad5c4	e59430f4	ldr	r3, [r4, #0xf4]
+1ad5c8	e1a01005	mov	r1, r5
+1ad5cc	e0832102	add	r2, r3, r2, lsl #2
+1ad5d0	e5831008	str	r1, [r3, #0x8]
+1ad5d4	e283300c	add	r3, r3, #12
+1ad5d8	e1530002	cmp	r3, r2
+1ad5dc	1afffffb	bne	0x1ad5d0 <_ZN5CRoomC2Ev+0x304>
+1ad5e0	e59400f8	ldr	r0, [r4, #0xf8]
+1ad5e4	e3a02046	mov	r2, #70
+1ad5e8	e59f1114	ldr	r1, [pc, #0x114]
+1ad5ec	e3a03001	mov	r3, #1
+1ad5f0	e240c001	sub	r12, r0, #1
+1ad5f4	e584c100	str	r12, [r4, #0x100]
+1ad5f8	e0800080	add	r0, r0, r0, lsl #1
+1ad5fc	e08f1001	add	r1, pc, r1
+1ad600	e1a05100	lsl	r5, r0, #2
+1ad604	e1a00005	mov	r0, r5
+1ad608	eb033e1a	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1ad60c	e1a02005	mov	r2, r5
+1ad610	e3a01000	mov	r1, #0
+1ad614	e5840108	str	r0, [r4, #0x108]
+1ad618	ebfc23e4	bl	0xb65b0 <memset@plt>
+1ad61c	e59420f8	ldr	r2, [r4, #0xf8]
+1ad620	eddf7a32	vldr	s15, [pc, #200]
+1ad624	e3a01000	mov	r1, #0
+1ad628	e1520001	cmp	r2, r1
+1ad62c	e58410fc	str	r1, [r4, #0xfc]
+1ad630	ee062a90	vmov	s13, r2
+1ad634	eeb87ae6	vcvt.f32.s32	s14, s13
+1ad638	ee677a27	vmul.f32	s15, s14, s15
+1ad63c	eefd7ae7	vcvt.s32.f32	s15, s15
+1ad640	edc47a41	vstr	s15, [r4, #260]
+1ad644	da000006	ble	0x1ad664 <_ZN5CRoomC2Ev+0x398>
+1ad648	e0822082	add	r2, r2, r2, lsl #1
+1ad64c	e5943108	ldr	r3, [r4, #0x108]
+1ad650	e0832102	add	r2, r3, r2, lsl #2
+1ad654	e5831008	str	r1, [r3, #0x8]
+1ad658	e283300c	add	r3, r3, #12
+1ad65c	e1530002	cmp	r3, r2
+1ad660	1afffffb	bne	0x1ad654 <_ZN5CRoomC2Ev+0x388>
+1ad664	e5940110	ldr	r0, [r4, #0x110]
+1ad668	e3a02046	mov	r2, #70
+1ad66c	e59f1094	ldr	r1, [pc, #0x94]
+1ad670	e3a03001	mov	r3, #1
+1ad674	e240c001	sub	r12, r0, #1
+1ad678	e584c118	str	r12, [r4, #0x118]
+1ad67c	e0800080	add	r0, r0, r0, lsl #1
+1ad680	e08f1001	add	r1, pc, r1
+1ad684	e1a05100	lsl	r5, r0, #2
+1ad688	e1a00005	mov	r0, r5
+1ad68c	eb033df9	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1ad690	e1a02005	mov	r2, r5
+1ad694	e3a01000	mov	r1, #0
+1ad698	e5840120	str	r0, [r4, #0x120]
+1ad69c	ebfc23c3	bl	0xb65b0 <memset@plt>
+1ad6a0	e5942110	ldr	r2, [r4, #0x110]
+1ad6a4	eddf7a11	vldr	s15, [pc, #68]
+1ad6a8	e3a01000	mov	r1, #0
+1ad6ac	e1520001	cmp	r2, r1
+1ad6b0	e5841114	str	r1, [r4, #0x114]
+1ad6b4	ee062a90	vmov	s13, r2
+1ad6b8	eeb87ae6	vcvt.f32.s32	s14, s13
+1ad6bc	ee677a27	vmul.f32	s15, s14, s15
+1ad6c0	eefd7ae7	vcvt.s32.f32	s15, s15
+1ad6c4	edc47a47	vstr	s15, [r4, #284]
+1ad6c8	da000006	ble	0x1ad6e8 <_ZN5CRoomC2Ev+0x41c>
+1ad6cc	e0822082	add	r2, r2, r2, lsl #1
+1ad6d0	e5943120	ldr	r3, [r4, #0x120]
+1ad6d4	e0832102	add	r2, r3, r2, lsl #2
+1ad6d8	e5831008	str	r1, [r3, #0x8]
+1ad6dc	e283300c	add	r3, r3, #12
+1ad6e0	e1530002	cmp	r3, r2
+1ad6e4	1afffffb	bne	0x1ad6d8 <_ZN5CRoomC2Ev+0x40c>
+1ad6e8	e1a00004	mov	r0, r4
+1ad6ec	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+1ad6f0	3f19999a	svclo	#0x19999a
+1ad6f4	00183d24	andseq	r3, r8, r4, lsr #26
+1ad6f8	00183c8c	andseq	r3, r8, r12, lsl #25
+1ad6fc	00183c04	andseq	r3, r8, r4, lsl #24
+1ad700	00183abc	ldrheq	r3, [r8], -r12
+1ad704	00183a34	andseq	r3, r8, r4, lsr r10
+1ad708	001839b0	ldrheq	r3, [r8], -r0
