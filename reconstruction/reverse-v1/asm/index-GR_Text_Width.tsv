@@ -1,0 +1,80 @@
+172bc8	e92d4070	push	{r4, r5, r6, lr}
+172bcc	e24dd010	sub	sp, sp, #16
+172bd0	e1a05002	mov	r5, r2
+172bd4	e1a06000	mov	r6, r0
+172bd8	e3a04000	mov	r4, #0
+172bdc	e58d4004	str	r4, [sp, #0x4]
+172be0	e58d4000	str	r4, [sp]
+172be4	e58d400c	str	r4, [sp, #0xc]
+172be8	e58d4008	str	r4, [sp, #0x8]
+172bec	ebfffe3c	bl	0x1724e4 <_Z7SetFontv>
+172bf0	e1a00006	mov	r0, r6
+172bf4	e1a01005	mov	r1, r5
+172bf8	e1a0200d	mov	r2, sp
+172bfc	ebfffe57	bl	0x172560 <_Z15Split_TextBlockPKciP11TStringList>
+172c00	e59d3008	ldr	r3, [sp, #0x8]
+172c04	e1530004	cmp	r3, r4
+172c08	da00003b	ble	0x172cfc <_Z13GR_Text_WidthPKcii+0x134>
+172c0c	e59f50f0	ldr	r5, [pc, #0xf0]
+172c10	e1a06004	mov	r6, r4
+172c14	e79f5005	ldr	r5, [pc, r5]
+172c18	e59d1000	ldr	r1, [sp]
+172c1c	e5950000	ldr	r0, [r5]
+172c20	e3510000	cmp	r1, #0
+172c24	0a000008	beq	0x172c4c <_Z13GR_Text_WidthPKcii+0x84>
+172c28	e3540000	cmp	r4, #0
+172c2c	11a03004	movne	r3, r4
+172c30	1a000002	bne	0x172c40 <_Z13GR_Text_WidthPKcii+0x78>
+172c34	ea00002c	b	0x172cec <_Z13GR_Text_WidthPKcii+0x124>
+172c38	e2533001	subs	r3, r3, #1
+172c3c	0a00002a	beq	0x172cec <_Z13GR_Text_WidthPKcii+0x124>
+172c40	e5911000	ldr	r1, [r1]
+172c44	e3510000	cmp	r1, #0
+172c48	1afffffa	bne	0x172c38 <_Z13GR_Text_WidthPKcii+0x70>
+172c4c	ebfe17ac	bl	0xf8b04 <_ZN7CFontGM9TextWidthEPt>
+172c50	e1500006	cmp	r0, r6
+172c54	ba00000e	blt	0x172c94 <_Z13GR_Text_WidthPKcii+0xcc>
+172c58	e59d1000	ldr	r1, [sp]
+172c5c	e5950000	ldr	r0, [r5]
+172c60	e3510000	cmp	r1, #0
+172c64	0a000008	beq	0x172c8c <_Z13GR_Text_WidthPKcii+0xc4>
+172c68	e3540000	cmp	r4, #0
+172c6c	11a03004	movne	r3, r4
+172c70	1a000002	bne	0x172c80 <_Z13GR_Text_WidthPKcii+0xb8>
+172c74	ea00001e	b	0x172cf4 <_Z13GR_Text_WidthPKcii+0x12c>
+172c78	e2533001	subs	r3, r3, #1
+172c7c	0a00001c	beq	0x172cf4 <_Z13GR_Text_WidthPKcii+0x12c>
+172c80	e5911000	ldr	r1, [r1]
+172c84	e3510000	cmp	r1, #0
+172c88	1afffffa	bne	0x172c78 <_Z13GR_Text_WidthPKcii+0xb0>
+172c8c	ebfe179c	bl	0xf8b04 <_ZN7CFontGM9TextWidthEPt>
+172c90	e1a06000	mov	r6, r0
+172c94	e59d3008	ldr	r3, [sp, #0x8]
+172c98	e2844001	add	r4, r4, #1
+172c9c	e1530004	cmp	r3, r4
+172ca0	caffffdc	bgt	0x172c18 <_Z13GR_Text_WidthPKcii+0x50>
+172ca4	e59d0000	ldr	r0, [sp]
+172ca8	e3500000	cmp	r0, #0
+172cac	0a000004	beq	0x172cc4 <_Z13GR_Text_WidthPKcii+0xfc>
+172cb0	e5904000	ldr	r4, [r0]
+172cb4	eb042585	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+172cb8	e3540000	cmp	r4, #0
+172cbc	e1a00004	mov	r0, r4
+172cc0	1afffffa	bne	0x172cb0 <_Z13GR_Text_WidthPKcii+0xe8>
+172cc4	e59d000c	ldr	r0, [sp, #0xc]
+172cc8	e3a03000	mov	r3, #0
+172ccc	e58d3008	str	r3, [sp, #0x8]
+172cd0	e1500003	cmp	r0, r3
+172cd4	e58d3000	str	r3, [sp]
+172cd8	0a000000	beq	0x172ce0 <_Z13GR_Text_WidthPKcii+0x118>
+172cdc	eb04257b	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+172ce0	e1a00006	mov	r0, r6
+172ce4	e28dd010	add	sp, sp, #16
+172ce8	e8bd8070	pop	{r4, r5, r6, pc}
+172cec	e5911004	ldr	r1, [r1, #0x4]
+172cf0	eaffffd5	b	0x172c4c <_Z13GR_Text_WidthPKcii+0x84>
+172cf4	e5911004	ldr	r1, [r1, #0x4]
+172cf8	eaffffe3	b	0x172c8c <_Z13GR_Text_WidthPKcii+0xc4>
+172cfc	e1a06004	mov	r6, r4
+172d00	eaffffe7	b	0x172ca4 <_Z13GR_Text_WidthPKcii+0xdc>
+172d04	0027d690	mlaeq	r7, r0, r6, sp

@@ -1,0 +1,380 @@
+21bc30	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+21bc34	ed2d8b02	vpush	{d8}
+21bc38	e24dd054	sub	sp, sp, #84
+21bc3c	e59f9580	ldr	r9, [pc, #0x580]
+21bc40	e59f3580	ldr	r3, [pc, #0x580]
+21bc44	e08f9009	add	r9, pc, r9
+21bc48	e7993003	ldr	r3, [r9, r3]
+21bc4c	e5d33000	ldrb	r3, [r3]
+21bc50	e3530000	cmp	r3, #0
+21bc54	0a000004	beq	0x21bc6c <_Z10Audio_Tickv+0x3c>
+21bc58	e59f356c	ldr	r3, [pc, #0x56c]
+21bc5c	e7993003	ldr	r3, [r9, r3]
+21bc60	e5d33000	ldrb	r3, [r3]
+21bc64	e3530000	cmp	r3, #0
+21bc68	0a000002	beq	0x21bc78 <_Z10Audio_Tickv+0x48>
+21bc6c	e28dd054	add	sp, sp, #84
+21bc70	ecbd8b02	vpop	{d8}
+21bc74	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+21bc78	e59f3550	ldr	r3, [pc, #0x550]
+21bc7c	e7990003	ldr	r0, [r9, r3]
+21bc80	eb000978	bl	0x21e268 <_ZN14CAudioGroupMan6UpdateEv>
+21bc84	e59f3548	ldr	r3, [pc, #0x548]
+21bc88	e7993003	ldr	r3, [r9, r3]
+21bc8c	e5930000	ldr	r0, [r3]
+21bc90	e3500000	cmp	r0, #0
+21bc94	0a000000	beq	0x21bc9c <_Z10Audio_Tickv+0x6c>
+21bc98	ebffe7aa	bl	0x215b48 <_ZN9CListener6UpdateEv>
+21bc9c	e59f0534	ldr	r0, [pc, #0x534]
+21bca0	e28d2040	add	r2, sp, #64
+21bca4	e58d203c	str	r2, [sp, #0x3c]
+21bca8	e3a04000	mov	r4, #0
+21bcac	e08f0000	add	r0, pc, r0
+21bcb0	ebffe8c6	bl	0x215fd0 <_Z7checkALPKc>
+21bcb4	e59f0520	ldr	r0, [pc, #0x520]
+21bcb8	e08f0000	add	r0, pc, r0
+21bcbc	e2801038	add	r1, r0, #56
+21bcc0	eb002a32	bl	0x226590 <_ZN9COggAudio4TickEP12cARRAY_CLASSIP6CNoiseE>
+21bcc4	eef76a00	vmov.f32	s13, #1.000000e+00
+21bcc8	e59f3510	ldr	r3, [pc, #0x510]
+21bccc	e28dc040	add	r12, sp, #64
+21bcd0	e28de04c	add	lr, sp, #76
+21bcd4	e08f3003	add	r3, pc, r3
+21bcd8	e8930007	ldm	r3, {r0, r1, r2}
+21bcdc	e28d3050	add	r3, sp, #80
+21bce0	e9030007	stmdb	r3, {r0, r1, r2}
+21bce4	e5bc3004	ldr	r3, [r12, #0x4]!
+21bce8	e5930000	ldr	r0, [r3]
+21bcec	e3500000	cmp	r0, #0
+21bcf0	da000016	ble	0x21bd50 <_Z10Audio_Tickv+0x120>
+21bcf4	e5931004	ldr	r1, [r3, #0x4]
+21bcf8	e0810100	add	r0, r1, r0, lsl #2
+21bcfc	e4913004	ldr	r3, [r1], #4
+21bd00	e3530000	cmp	r3, #0
+21bd04	0a00000f	beq	0x21bd48 <_Z10Audio_Tickv+0x118>
+21bd08	e5932020	ldr	r2, [r3, #0x20]
+21bd0c	e3520000	cmp	r2, #0
+21bd10	da00000c	ble	0x21bd48 <_Z10Audio_Tickv+0x118>
+21bd14	ed937a01	vldr	s14, [r3, #4]
+21bd18	edd37a07	vldr	s15, [r3, #28]
+21bd1c	ee777a27	vadd.f32	s15, s14, s15
+21bd20	eef57ac0	vcmpe.f32	s15, #0
+21bd24	eef1fa10	vmrs	APSR_nzcv, fpscr
+21bd28	45834004	strmi	r4, [r3, #0x4]
+21bd2c	4a000003	bmi	0x21bd40 <_Z10Audio_Tickv+0x110>
+21bd30	eef47ae6	vcmpe.f32	s15, s13
+21bd34	eef1fa10	vmrs	APSR_nzcv, fpscr
+21bd38	cef07a66	vmovgt.f32	s15, s13
+21bd3c	edc37a01	vstr	s15, [r3, #4]
+21bd40	e2422001	sub	r2, r2, #1
+21bd44	e5832020	str	r2, [r3, #0x20]
+21bd48	e1510000	cmp	r1, r0
+21bd4c	1affffea	bne	0x21bcfc <_Z10Audio_Tickv+0xcc>
+21bd50	e15c000e	cmp	r12, lr
+21bd54	1affffe2	bne	0x21bce4 <_Z10Audio_Tickv+0xb4>
+21bd58	e59f3484	ldr	r3, [pc, #0x484]
+21bd5c	e08f3003	add	r3, pc, r3
+21bd60	e5936038	ldr	r6, [r3, #0x38]
+21bd64	e3560000	cmp	r6, #0
+21bd68	da000042	ble	0x21be78 <_Z10Audio_Tickv+0x248>
+21bd6c	e59f8474	ldr	r8, [pc, #0x474]
+21bd70	e3a04000	mov	r4, #0
+21bd74	e59f7470	ldr	r7, [pc, #0x470]
+21bd78	eeb78a00	vmov.f32	s16, #1.000000e+00
+21bd7c	e08f8008	add	r8, pc, r8
+21bd80	e1a0a004	mov	r10, r4
+21bd84	e08f7007	add	r7, pc, r7
+21bd88	e1a03006	mov	r3, r6
+21bd8c	e3a0b000	mov	r11, #0
+21bd90	ea000009	b	0x21bdbc <_Z10Audio_Tickv+0x18c>
+21bd94	e2833001	add	r3, r3, #1
+21bd98	e5853008	str	r3, [r5, #0x8]
+21bd9c	e3530003	cmp	r3, #3
+21bda0	c585a008	strgt	r10, [r5, #0x8]
+21bda4	ca000000	bgt	0x21bdac <_Z10Audio_Tickv+0x17c>
+21bda8	0a000100	beq	0x21c1b0 <_Z10Audio_Tickv+0x580>
+21bdac	e2844001	add	r4, r4, #1
+21bdb0	e1540006	cmp	r4, r6
+21bdb4	0a00002f	beq	0x21be78 <_Z10Audio_Tickv+0x248>
+21bdb8	e5973038	ldr	r3, [r7, #0x38]
+21bdbc	e1530004	cmp	r3, r4
+21bdc0	c598303c	ldrgt	r3, [r8, #0x3c]
+21bdc4	d3a05000	movle	r5, #0
+21bdc8	c7935104	ldrgt	r5, [r3, r4, lsl #2]
+21bdcc	e5d53005	ldrb	r3, [r5, #0x5]
+21bdd0	e3530000	cmp	r3, #0
+21bdd4	0afffff4	beq	0x21bdac <_Z10Audio_Tickv+0x17c>
+21bdd8	e5953008	ldr	r3, [r5, #0x8]
+21bddc	e3530000	cmp	r3, #0
+21bde0	1affffeb	bne	0x21bd94 <_Z10Audio_Tickv+0x164>
+21bde4	e595302c	ldr	r3, [r5, #0x2c]
+21bde8	e3530000	cmp	r3, #0
+21bdec	da00000c	ble	0x21be24 <_Z10Audio_Tickv+0x1f4>
+21bdf0	ed957a09	vldr	s14, [r5, #36]
+21bdf4	edd57a0a	vldr	s15, [r5, #40]
+21bdf8	ee777a27	vadd.f32	s15, s14, s15
+21bdfc	eef57ac0	vcmpe.f32	s15, #0
+21be00	eef1fa10	vmrs	APSR_nzcv, fpscr
+21be04	4585b024	strmi	r11, [r5, #0x24]
+21be08	4a000003	bmi	0x21be1c <_Z10Audio_Tickv+0x1ec>
+21be0c	eef47ac8	vcmpe.f32	s15, s16
+21be10	eef1fa10	vmrs	APSR_nzcv, fpscr
+21be14	cef07a48	vmovgt.f32	s15, s16
+21be18	edc57a09	vstr	s15, [r5, #36]
+21be1c	e2433001	sub	r3, r3, #1
+21be20	e585302c	str	r3, [r5, #0x2c]
+21be24	e5953010	ldr	r3, [r5, #0x10]
+21be28	e3530000	cmp	r3, #0
+21be2c	baffffde	blt	0x21bdac <_Z10Audio_Tickv+0x17c>
+21be30	e5950018	ldr	r0, [r5, #0x18]
+21be34	ebffec89	bl	0x217060 <_Z24Audio_GetGainFromSoundIDi>
+21be38	edd57a09	vldr	s15, [r5, #36]
+21be3c	e5953038	ldr	r3, [r5, #0x38]
+21be40	e301100a	movw	r1, #0x100a
+21be44	e3530000	cmp	r3, #0
+21be48	1d937a0a	vldrne	s14, [r3, #40]
+21be4c	e59f339c	ldr	r3, [pc, #0x39c]
+21be50	e7993003	ldr	r3, [r9, r3]
+21be54	e5933000	ldr	r3, [r3]
+21be58	ee050a90	vmov	s11, r0
+21be5c	e5950010	ldr	r0, [r5, #0x10]
+21be60	ee657aa7	vmul.f32	s15, s11, s15
+21be64	e7930100	ldr	r0, [r3, r0, lsl #2]
+21be68	1e677a87	vmulne.f32	s15, s15, s14
+21be6c	ee172a90	vmov	r2, s15
+21be70	ebfa6b00	bl	0xb6a78 <alSourcef@plt>
+21be74	eaffffcc	b	0x21bdac <_Z10Audio_Tickv+0x17c>
+21be78	e59f3374	ldr	r3, [pc, #0x374]
+21be7c	e08f3003	add	r3, pc, r3
+21be80	e593a040	ldr	r10, [r3, #0x40]
+21be84	e35a0000	cmp	r10, #0
+21be88	da000055	ble	0x21bfe4 <_Z10Audio_Tickv+0x3b4>
+21be8c	e59f2364	ldr	r2, [pc, #0x364]
+21be90	e1a0300a	mov	r3, r10
+21be94	e59fe360	ldr	lr, [pc, #0x360]
+21be98	e3a07000	mov	r7, #0
+21be9c	e08f2002	add	r2, pc, r2
+21bea0	e58d2034	str	r2, [sp, #0x34]
+21bea4	e59f2354	ldr	r2, [pc, #0x354]
+21bea8	e08fe00e	add	lr, pc, lr
+21beac	e58de038	str	lr, [sp, #0x38]
+21beb0	e08f2002	add	r2, pc, r2
+21beb4	e58d2030	str	r2, [sp, #0x30]
+21beb8	e1570003	cmp	r7, r3
+21bebc	aa000043	bge	0x21bfd0 <_Z10Audio_Tickv+0x3a0>
+21bec0	e59de034	ldr	lr, [sp, #0x34]
+21bec4	e59e3044	ldr	r3, [lr, #0x44]
+21bec8	e7936107	ldr	r6, [r3, r7, lsl #2]
+21becc	e3560000	cmp	r6, #0
+21bed0	0a00003e	beq	0x21bfd0 <_Z10Audio_Tickv+0x3a0>
+21bed4	e5d63018	ldrb	r3, [r6, #0x18]
+21bed8	e3530000	cmp	r3, #0
+21bedc	0a00003b	beq	0x21bfd0 <_Z10Audio_Tickv+0x3a0>
+21bee0	e5968034	ldr	r8, [r6, #0x34]
+21bee4	e3580000	cmp	r8, #0
+21bee8	da000038	ble	0x21bfd0 <_Z10Audio_Tickv+0x3a0>
+21beec	e1a03008	mov	r3, r8
+21bef0	e3a04000	mov	r4, #0
+21bef4	ea000009	b	0x21bf20 <_Z10Audio_Tickv+0x2f0>
+21bef8	e5963038	ldr	r3, [r6, #0x38]
+21befc	e5c50005	strb	r0, [r5, #0x5]
+21bf00	e5850008	str	r0, [r5, #0x8]
+21bf04	e5c5000d	strb	r0, [r5, #0xd]
+21bf08	e5850038	str	r0, [r5, #0x38]
+21bf0c	e783000b	str	r0, [r3, r11]
+21bf10	e2844001	add	r4, r4, #1
+21bf14	e1540008	cmp	r4, r8
+21bf18	0a00002c	beq	0x21bfd0 <_Z10Audio_Tickv+0x3a0>
+21bf1c	e5963034	ldr	r3, [r6, #0x34]
+21bf20	e1530004	cmp	r3, r4
+21bf24	e1a0b104	lsl	r11, r4, #2
+21bf28	dafffff8	ble	0x21bf10 <_Z10Audio_Tickv+0x2e0>
+21bf2c	e5963038	ldr	r3, [r6, #0x38]
+21bf30	e7935104	ldr	r5, [r3, r4, lsl #2]
+21bf34	e3550000	cmp	r5, #0
+21bf38	e1a00005	mov	r0, r5
+21bf3c	0afffff3	beq	0x21bf10 <_Z10Audio_Tickv+0x2e0>
+21bf40	ebffe95d	bl	0x2164bc <_Z20Audio_NoiseIsPlayingP6CNoise>
+21bf44	e3500000	cmp	r0, #0
+21bf48	0affffea	beq	0x21bef8 <_Z10Audio_Tickv+0x2c8>
+21bf4c	e59f129c	ldr	r1, [pc, #0x29c]
+21bf50	e595c010	ldr	r12, [r5, #0x10]
+21bf54	e596e008	ldr	lr, [r6, #0x8]
+21bf58	e799b001	ldr	r11, [r9, r1]
+21bf5c	e3011004	movw	r1, #0x1004
+21bf60	e5962000	ldr	r2, [r6]
+21bf64	e5963004	ldr	r3, [r6, #0x4]
+21bf68	e59b0000	ldr	r0, [r11]
+21bf6c	e790010c	ldr	r0, [r0, r12, lsl #2]
+21bf70	e58de000	str	lr, [sp]
+21bf74	ebfa6aec	bl	0xb6b2c <alSource3f@plt>
+21bf78	e59b1000	ldr	r1, [r11]
+21bf7c	e5950010	ldr	r0, [r5, #0x10]
+21bf80	e596c014	ldr	r12, [r6, #0x14]
+21bf84	e596200c	ldr	r2, [r6, #0xc]
+21bf88	e7910100	ldr	r0, [r1, r0, lsl #2]
+21bf8c	e3011006	movw	r1, #0x1006
+21bf90	e5963010	ldr	r3, [r6, #0x10]
+21bf94	e58dc000	str	r12, [sp]
+21bf98	ebfa6ae3	bl	0xb6b2c <alSource3f@plt>
+21bf9c	ebfa6aac	bl	0xb6a54 <alGetError@plt>
+21bfa0	e2502000	subs	r2, r0, #0
+21bfa4	0affffd9	beq	0x21bf10 <_Z10Audio_Tickv+0x2e0>
+21bfa8	e59f3254	ldr	r3, [pc, #0x254]
+21bfac	e2844001	add	r4, r4, #1
+21bfb0	e59d1038	ldr	r1, [sp, #0x38]
+21bfb4	e7993003	ldr	r3, [r9, r3]
+21bfb8	e5930000	ldr	r0, [r3]
+21bfbc	e5903000	ldr	r3, [r0]
+21bfc0	e593300c	ldr	r3, [r3, #0xc]
+21bfc4	e12fff33	blx	r3
+21bfc8	e1540008	cmp	r4, r8
+21bfcc	1affffd2	bne	0x21bf1c <_Z10Audio_Tickv+0x2ec>
+21bfd0	e2877001	add	r7, r7, #1
+21bfd4	e157000a	cmp	r7, r10
+21bfd8	159d2030	ldrne	r2, [sp, #0x30]
+21bfdc	15923040	ldrne	r3, [r2, #0x40]
+21bfe0	1affffb4	bne	0x21beb8 <_Z10Audio_Tickv+0x288>
+21bfe4	e59fa21c	ldr	r10, [pc, #0x21c]
+21bfe8	e08fa00a	add	r10, pc, r10
+21bfec	e59a3050	ldr	r3, [r10, #0x50]
+21bff0	e3530000	cmp	r3, #0
+21bff4	da000051	ble	0x21c140 <_Z10Audio_Tickv+0x510>
+21bff8	e59f920c	ldr	r9, [pc, #0x20c]
+21bffc	e1a0600a	mov	r6, r10
+21c000	e59f8208	ldr	r8, [pc, #0x208]
+21c004	e3a04000	mov	r4, #0
+21c008	e59f7204	ldr	r7, [pc, #0x204]
+21c00c	e08f9009	add	r9, pc, r9
+21c010	e08f8008	add	r8, pc, r8
+21c014	ed9f8a69	vldr	s16, [pc, #420]
+21c018	e08f7007	add	r7, pc, r7
+21c01c	e28db040	add	r11, sp, #64
+21c020	ea000003	b	0x21c034 <_Z10Audio_Tickv+0x404>
+21c024	e5962050	ldr	r2, [r6, #0x50]
+21c028	e2844001	add	r4, r4, #1
+21c02c	e1520004	cmp	r2, r4
+21c030	da000042	ble	0x21c140 <_Z10Audio_Tickv+0x510>
+21c034	e59a3054	ldr	r3, [r10, #0x54]
+21c038	e7935104	ldr	r5, [r3, r4, lsl #2]
+21c03c	e3550000	cmp	r5, #0
+21c040	0afffff7	beq	0x21c024 <_Z10Audio_Tickv+0x3f4>
+21c044	e5d5300c	ldrb	r3, [r5, #0xc]
+21c048	e3530000	cmp	r3, #0
+21c04c	0afffff4	beq	0x21c024 <_Z10Audio_Tickv+0x3f4>
+21c050	e5950010	ldr	r0, [r5, #0x10]
+21c054	e3001312	movw	r1, #0x312
+21c058	e3a02001	mov	r2, #1
+21c05c	e1a0300b	mov	r3, r11
+21c060	e3e0c000	mvn	r12, #0
+21c064	e58dc040	str	r12, [sp, #0x40]
+21c068	ebfa6ab2	bl	0xb6b38 <alcGetIntegerv@plt>
+21c06c	e59d0040	ldr	r0, [sp, #0x40]
+21c070	ed956a00	vldr	s12, [r5]
+21c074	eef87ac6	vcvt.f32.s32	s15, s12
+21c078	ee050a90	vmov	s11, r0
+21c07c	eeb87ae5	vcvt.f32.s32	s14, s11
+21c080	eec77a27	vdiv.f32	s15, s14, s15
+21c084	eef47ac8	vcmpe.f32	s15, s16
+21c088	eef1fa10	vmrs	APSR_nzcv, fpscr
+21c08c	daffffe4	ble	0x21c024 <_Z10Audio_Tickv+0x3f4>
+21c090	e3a01003	mov	r1, #3
+21c094	e3a02000	mov	r2, #0
+21c098	e1a00080	lsl	r0, r0, #1
+21c09c	ebfaaa8b	bl	0xc6ad0 <_Z12CreateBufferi14eBuffer_Formati>
+21c0a0	ee080a90	vmov	s17, r0
+21c0a4	ebfaa99d	bl	0xc6720 <_Z10GetIBufferi>
+21c0a8	e59d2040	ldr	r2, [sp, #0x40]
+21c0ac	e1a03000	mov	r3, r0
+21c0b0	e590100c	ldr	r1, [r0, #0xc]
+21c0b4	e5950010	ldr	r0, [r5, #0x10]
+21c0b8	e58d302c	str	r3, [sp, #0x2c]
+21c0bc	ebfa6aa0	bl	0xb6b44 <alcCaptureSamples@plt>
+21c0c0	e59de040	ldr	lr, [sp, #0x40]
+21c0c4	e3a02000	mov	r2, #0
+21c0c8	e59d302c	ldr	r3, [sp, #0x2c]
+21c0cc	e3a00003	mov	r0, #3
+21c0d0	ee05ea90	vmov	s11, lr
+21c0d4	e1a0c08e	lsl	r12, lr, #1
+21c0d8	e5931010	ldr	r1, [r3, #0x10]
+21c0dc	eeb87be5	vcvt.f64.s32	d7, s11
+21c0e0	ee054a90	vmov	s11, r4
+21c0e4	e2844001	add	r4, r4, #1
+21c0e8	e15c0001	cmp	r12, r1
+21c0ec	d583c020	strle	r12, [r3, #0x20]
+21c0f0	c5831020	strgt	r1, [r3, #0x20]
+21c0f4	e1a01009	mov	r1, r9
+21c0f8	e58d2000	str	r2, [sp]
+21c0fc	e58d2010	str	r2, [sp, #0x10]
+21c100	e58d2020	str	r2, [sp, #0x20]
+21c104	e58d8004	str	r8, [sp, #0x4]
+21c108	eeb86be5	vcvt.f64.s32	d6, s11
+21c10c	e58d7014	str	r7, [sp, #0x14]
+21c110	ee377b07	vadd.f64	d7, d7, d7
+21c114	ed8d6b02	vstr	d6, [sp, #8]
+21c118	eeb86be8	vcvt.f64.s32	d6, s17
+21c11c	ed8d7b06	vstr	d7, [sp, #24]
+21c120	ec532b16	vmov	r2, r3, d6
+21c124	ebffbf25	bl	0x20bdc0 <_Z11CreateDsMapiz>
+21c128	e3a02049	mov	r2, #73
+21c12c	ee181a90	vmov	r1, s17
+21c130	ebfdc652	bl	0x18da80 <_Z33CreateAsynEventWithDSMapAndBufferiii>
+21c134	e5962050	ldr	r2, [r6, #0x50]
+21c138	e1520004	cmp	r2, r4
+21c13c	caffffbc	bgt	0x21c034 <_Z10Audio_Tickv+0x404>
+21c140	e59f60d0	ldr	r6, [pc, #0xd0]
+21c144	e08f6006	add	r6, pc, r6
+21c148	e5963030	ldr	r3, [r6, #0x30]
+21c14c	e3530000	cmp	r3, #0
+21c150	c3a04000	movgt	r4, #0
+21c154	c1a07006	movgt	r7, r6
+21c158	da00000e	ble	0x21c198 <_Z10Audio_Tickv+0x568>
+21c15c	e5963034	ldr	r3, [r6, #0x34]
+21c160	e2845bc3	add	r5, r4, #199680
+21c164	e2855d05	add	r5, r5, #320
+21c168	e7933104	ldr	r3, [r3, r4, lsl #2]
+21c16c	e1a00005	mov	r0, r5
+21c170	e2844001	add	r4, r4, #1
+21c174	e3530000	cmp	r3, #0
+21c178	0a000003	beq	0x21c18c <_Z10Audio_Tickv+0x55c>
+21c17c	ebffe8f7	bl	0x216560 <_Z31Audio_GetNoiseFromQueuedSoundIDi>
+21c180	e1a01005	mov	r1, r5
+21c184	e3a02000	mov	r2, #0
+21c188	ebfff736	bl	0x219e68 <_Z31Audio_Unqueue_Processed_BuffersP6CNoiseib>
+21c18c	e5973030	ldr	r3, [r7, #0x30]
+21c190	e1530004	cmp	r3, r4
+21c194	cafffff0	bgt	0x21c15c <_Z10Audio_Tickv+0x52c>
+21c198	e59f007c	ldr	r0, [pc, #0x7c]
+21c19c	e08f0000	add	r0, pc, r0
+21c1a0	ebffe78a	bl	0x215fd0 <_Z7checkALPKc>
+21c1a4	e28dd054	add	sp, sp, #84
+21c1a8	ecbd8b02	vpop	{d8}
+21c1ac	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+21c1b0	e1a00005	mov	r0, r5
+21c1b4	e3a01001	mov	r1, #1
+21c1b8	ebfff7bc	bl	0x21a0b0 <_Z20Audio_StopSoundNoiseP6CNoiseb>
+21c1bc	eafffefa	b	0x21bdac <_Z10Audio_Tickv+0x17c>
+21c1c0	3dcccccd	stcllo	p12, c12, [r12, #820]
+21c1c4	001d600c	andseq	r6, sp, r12
+21c1c8	ffffd0e0	.word	0xffffd0e0
+21c1cc	fffff79c	.word	0xfffff79c
+21c1d0	ffffd400	.word	0xffffd400
+21c1d4	fffff78c	.word	0xfffff78c
+21c1d8	0013850c	andseq	r8, r3, r12, lsl #10
+21c1dc	005395dc	ldrsbeq	r9, [r3], #-92
+21c1e0	001d95dc	ldrsbeq	r9, [sp], -r12
+21c1e4	00539538	subseq	r9, r3, r8, lsr r5
+21c1e8	00539518	subseq	r9, r3, r8, lsl r5
+21c1ec	00539510	subseq	r9, r3, r0, lsl r5
+21c1f0	fffff77c	.word	0xfffff77c
+21c1f4	00539418	subseq	r9, r3, r8, lsl r4
+21c1f8	005393f8	ldrsheq	r9, [r3], #-56
+21c1fc	00137d6c	andseq	r7, r3, r12, ror #26
+21c200	005393e4	subseq	r9, r3, r4, ror #7
+21c204	ffffbac4	.word	0xffffbac4
+21c208	005392ac	subseq	r9, r3, r12, lsr #5
+21c20c	00137fb8	ldrheq	r7, [r3], -r8
+21c210	001381bc	ldrheq	r8, [r3], -r12
+21c214	001381c4	andseq	r8, r3, r4, asr #3
+21c218	00539150	subseq	r9, r3, r0, asr r1
+21c21c	0013804c	andseq	r8, r3, r12, asr #32

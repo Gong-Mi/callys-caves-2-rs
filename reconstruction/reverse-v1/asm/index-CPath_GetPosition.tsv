@@ -116,4 +116,3 @@
 1a7588	edc56a00	vstr	s13, [r5]
 1a758c	eaffffb4	b	0x1a7464 <_ZN5CPath11GetPositionEfRfS0_S0_+0xa8>
 1a7590	e1a01201	lsl	r1, r1, #4
-1a7594	eaffffd6	b	0x1a74f4 <_ZN5CPath11GetPositionEfRfS0_S0_+0x138>
