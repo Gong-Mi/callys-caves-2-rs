@@ -1,0 +1,220 @@
+21b8c0	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+21b8c4	ed2d8b02	vpush	{d8}
+21b8c8	e1a06000	mov	r6, r0
+21b8cc	e59f5324	ldr	r5, [pc, #0x324]
+21b8d0	e24dd008	sub	sp, sp, #8
+21b8d4	e59f3320	ldr	r3, [pc, #0x320]
+21b8d8	e1a07001	mov	r7, r1
+21b8dc	e08f5005	add	r5, pc, r5
+21b8e0	e1a0a002	mov	r10, r2
+21b8e4	e7953003	ldr	r3, [r5, r3]
+21b8e8	e5d33000	ldrb	r3, [r3]
+21b8ec	e3530000	cmp	r3, #0
+21b8f0	1a0000a8	bne	0x21bb98 <_Z17Audio_PlaySoundOniiid+0x2d8>
+21b8f4	e59f3304	ldr	r3, [pc, #0x304]
+21b8f8	e7953003	ldr	r3, [r5, r3]
+21b8fc	e5d33000	ldrb	r3, [r3]
+21b900	e3530000	cmp	r3, #0
+21b904	0a0000a3	beq	0x21bb98 <_Z17Audio_PlaySoundOniiid+0x2d8>
+21b908	ebfa6c51	bl	0xb6a54 <alGetError@plt>
+21b90c	e2502000	subs	r2, r0, #0
+21b910	1a00008e	bne	0x21bb50 <_Z17Audio_PlaySoundOniiid+0x290>
+21b914	e59f32e8	ldr	r3, [pc, #0x2e8]
+21b918	e1a08fa6	lsr	r8, r6, #31
+21b91c	e08f3003	add	r3, pc, r3
+21b920	e5932040	ldr	r2, [r3, #0x40]
+21b924	e1520006	cmp	r2, r6
+21b928	d3888001	orrle	r8, r8, #1
+21b92c	e3580000	cmp	r8, #0
+21b930	1a000098	bne	0x21bb98 <_Z17Audio_PlaySoundOniiid+0x2d8>
+21b934	e5933044	ldr	r3, [r3, #0x44]
+21b938	e7934106	ldr	r4, [r3, r6, lsl #2]
+21b93c	e3540000	cmp	r4, #0
+21b940	0a00008b	beq	0x21bb74 <_Z17Audio_PlaySoundOniiid+0x2b4>
+21b944	e5d43018	ldrb	r3, [r4, #0x18]
+21b948	e3530000	cmp	r3, #0
+21b94c	0a000088	beq	0x21bb74 <_Z17Audio_PlaySoundOniiid+0x2b4>
+21b950	e1a00007	mov	r0, r7
+21b954	ebffea74	bl	0x21632c <_Z14Audio_GetSoundi>
+21b958	e2509000	subs	r9, r0, #0
+21b95c	0a00009a	beq	0x21bbcc <_Z17Audio_PlaySoundOniiid+0x30c>
+21b960	e59f32a0	ldr	r3, [pc, #0x2a0]
+21b964	e599104c	ldr	r1, [r9, #0x4c]
+21b968	e7950003	ldr	r0, [r5, r3]
+21b96c	eb000a1b	bl	0x21e1e0 <_ZN14CAudioGroupMan13IsGroupLoadedEi>
+21b970	e2506000	subs	r6, r0, #0
+21b974	0a000064	beq	0x21bb0c <_Z17Audio_PlaySoundOniiid+0x24c>
+21b978	ed9d7b0c	vldr	d7, [sp, #48]
+21b97c	eeb78bc7	vcvt.f32.f64	s16, d7
+21b980	e1a00007	mov	r0, r7
+21b984	ee181a10	vmov	r1, s16
+21b988	ebfffd13	bl	0x21addc <_Z26Audio_GetSoundSourceToPlayif>
+21b98c	e2506000	subs	r6, r0, #0
+21b990	0a000080	beq	0x21bb98 <_Z17Audio_PlaySoundOniiid+0x2d8>
+21b994	e59f3270	ldr	r3, [pc, #0x270]
+21b998	e35a0000	cmp	r10, #0
+21b99c	edd98a01	vldr	s17, [r9, #4]
+21b9a0	e3a0e5fe	mov	lr, #1065353216
+21b9a4	d3a0a000	movle	r10, #0
+21b9a8	c3a0a001	movgt	r10, #1
+21b9ac	e7952003	ldr	r2, [r5, r3]
+21b9b0	e1a00004	mov	r0, r4
+21b9b4	e1a01006	mov	r1, r6
+21b9b8	e5867018	str	r7, [r6, #0x18]
+21b9bc	e586e024	str	lr, [r6, #0x24]
+21b9c0	ed868a07	vstr	s16, [r6, #28]
+21b9c4	e5923000	ldr	r3, [r2]
+21b9c8	e5c6a004	strb	r10, [r6, #0x4]
+21b9cc	e586802c	str	r8, [r6, #0x2c]
+21b9d0	e283c001	add	r12, r3, #1
+21b9d4	e5863014	str	r3, [r6, #0x14]
+21b9d8	e582c000	str	r12, [r2]
+21b9dc	ebffe7d8	bl	0x215944 <_ZN8CEmitter17AddNoiseToEmitterEP6CNoise>
+21b9e0	e5967010	ldr	r7, [r6, #0x10]
+21b9e4	ebfa6c1a	bl	0xb6a54 <alGetError@plt>
+21b9e8	e2502000	subs	r2, r0, #0
+21b9ec	1a00006d	bne	0x21bba8 <_Z17Audio_PlaySoundOniiid+0x2e8>
+21b9f0	e59f3218	ldr	r3, [pc, #0x218]
+21b9f4	e3001202	movw	r1, #0x202
+21b9f8	e3a02000	mov	r2, #0
+21b9fc	e7958003	ldr	r8, [r5, r3]
+21ba00	e5983000	ldr	r3, [r8]
+21ba04	e7930107	ldr	r0, [r3, r7, lsl #2]
+21ba08	ebfa6c17	bl	0xb6a6c <alSourcei@plt>
+21ba0c	e5983000	ldr	r3, [r8]
+21ba10	e3011023	movw	r1, #0x1023
+21ba14	e5942020	ldr	r2, [r4, #0x20]
+21ba18	e7930107	ldr	r0, [r3, r7, lsl #2]
+21ba1c	ebfa6c15	bl	0xb6a78 <alSourcef@plt>
+21ba20	edd47a0a	vldr	s15, [r4, #40]
+21ba24	ee687aa7	vmul.f32	s15, s17, s15
+21ba28	e5983000	ldr	r3, [r8]
+21ba2c	e301100a	movw	r1, #0x100a
+21ba30	e7930107	ldr	r0, [r3, r7, lsl #2]
+21ba34	ee172a90	vmov	r2, s15
+21ba38	ebfa6c0e	bl	0xb6a78 <alSourcef@plt>
+21ba3c	ed997a02	vldr	s14, [r9, #8]
+21ba40	edd47a0b	vldr	s15, [r4, #44]
+21ba44	ee677a87	vmul.f32	s15, s15, s14
+21ba48	e5983000	ldr	r3, [r8]
+21ba4c	e3011003	movw	r1, #0x1003
+21ba50	e7930107	ldr	r0, [r3, r7, lsl #2]
+21ba54	ee172a90	vmov	r2, s15
+21ba58	ebfa6c06	bl	0xb6a78 <alSourcef@plt>
+21ba5c	e5983000	ldr	r3, [r8]
+21ba60	e3011020	movw	r1, #0x1020
+21ba64	e594201c	ldr	r2, [r4, #0x1c]
+21ba68	e7930107	ldr	r0, [r3, r7, lsl #2]
+21ba6c	ebfa6c01	bl	0xb6a78 <alSourcef@plt>
+21ba70	e5983000	ldr	r3, [r8]
+21ba74	e3011021	movw	r1, #0x1021
+21ba78	e5942024	ldr	r2, [r4, #0x24]
+21ba7c	e7930107	ldr	r0, [r3, r7, lsl #2]
+21ba80	ebfa6bfc	bl	0xb6a78 <alSourcef@plt>
+21ba84	e5981000	ldr	r1, [r8]
+21ba88	e594c008	ldr	r12, [r4, #0x8]
+21ba8c	e5942000	ldr	r2, [r4]
+21ba90	e7910107	ldr	r0, [r1, r7, lsl #2]
+21ba94	e3011004	movw	r1, #0x1004
+21ba98	e5943004	ldr	r3, [r4, #0x4]
+21ba9c	e58dc000	str	r12, [sp]
+21baa0	ebfa6c21	bl	0xb6b2c <alSource3f@plt>
+21baa4	e5981000	ldr	r1, [r8]
+21baa8	e594c014	ldr	r12, [r4, #0x14]
+21baac	e594200c	ldr	r2, [r4, #0xc]
+21bab0	e5943010	ldr	r3, [r4, #0x10]
+21bab4	e7910107	ldr	r0, [r1, r7, lsl #2]
+21bab8	e3011006	movw	r1, #0x1006
+21babc	e58dc000	str	r12, [sp]
+21bac0	ebfa6c19	bl	0xb6b2c <alSource3f@plt>
+21bac4	e1a01006	mov	r1, r6
+21bac8	e1a00009	mov	r0, r9
+21bacc	ebffee41	bl	0x2173d8 <_Z21Audio_StartSoundNoiseP12cAudio_SoundP6CNoise>
+21bad0	ebfa6bdf	bl	0xb6a54 <alGetError@plt>
+21bad4	e2502000	subs	r2, r0, #0
+21bad8	0a000007	beq	0x21bafc <_Z17Audio_PlaySoundOniiid+0x23c>
+21badc	e59f3130	ldr	r3, [pc, #0x130]
+21bae0	e59f1130	ldr	r1, [pc, #0x130]
+21bae4	e7953003	ldr	r3, [r5, r3]
+21bae8	e08f1001	add	r1, pc, r1
+21baec	e5930000	ldr	r0, [r3]
+21baf0	e5903000	ldr	r3, [r0]
+21baf4	e593300c	ldr	r3, [r3, #0xc]
+21baf8	e12fff33	blx	r3
+21bafc	e5960014	ldr	r0, [r6, #0x14]
+21bb00	e28dd008	add	sp, sp, #8
+21bb04	ecbd8b02	vpop	{d8}
+21bb08	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+21bb0c	e59f3100	ldr	r3, [pc, #0x100]
+21bb10	e1a00007	mov	r0, r7
+21bb14	e7953003	ldr	r3, [r5, r3]
+21bb18	e5934000	ldr	r4, [r3]
+21bb1c	e5943000	ldr	r3, [r4]
+21bb20	e593500c	ldr	r5, [r3, #0xc]
+21bb24	ebfff207	bl	0x218348 <_Z13Audio_GetNamei>
+21bb28	e59f10ec	ldr	r1, [pc, #0xec]
+21bb2c	e599304c	ldr	r3, [r9, #0x4c]
+21bb30	e08f1001	add	r1, pc, r1
+21bb34	e1a02000	mov	r2, r0
+21bb38	e1a00004	mov	r0, r4
+21bb3c	e12fff35	blx	r5
+21bb40	e1a00006	mov	r0, r6
+21bb44	e28dd008	add	sp, sp, #8
+21bb48	ecbd8b02	vpop	{d8}
+21bb4c	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+21bb50	e59f30bc	ldr	r3, [pc, #0xbc]
+21bb54	e59f10c4	ldr	r1, [pc, #0xc4]
+21bb58	e7953003	ldr	r3, [r5, r3]
+21bb5c	e08f1001	add	r1, pc, r1
+21bb60	e5930000	ldr	r0, [r3]
+21bb64	e5903000	ldr	r3, [r0]
+21bb68	e593300c	ldr	r3, [r3, #0xc]
+21bb6c	e12fff33	blx	r3
+21bb70	eaffff67	b	0x21b914 <_Z17Audio_PlaySoundOniiid+0x54>
+21bb74	e59f3098	ldr	r3, [pc, #0x98]
+21bb78	e1a02006	mov	r2, r6
+21bb7c	e59f10a0	ldr	r1, [pc, #0xa0]
+21bb80	e7953003	ldr	r3, [r5, r3]
+21bb84	e08f1001	add	r1, pc, r1
+21bb88	e5930000	ldr	r0, [r3]
+21bb8c	e5903000	ldr	r3, [r0]
+21bb90	e593300c	ldr	r3, [r3, #0xc]
+21bb94	e12fff33	blx	r3
+21bb98	e3e00000	mvn	r0, #0
+21bb9c	e28dd008	add	sp, sp, #8
+21bba0	ecbd8b02	vpop	{d8}
+21bba4	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+21bba8	e59f3064	ldr	r3, [pc, #0x64]
+21bbac	e59f1074	ldr	r1, [pc, #0x74]
+21bbb0	e7953003	ldr	r3, [r5, r3]
+21bbb4	e08f1001	add	r1, pc, r1
+21bbb8	e5930000	ldr	r0, [r3]
+21bbbc	e5903000	ldr	r3, [r0]
+21bbc0	e593300c	ldr	r3, [r3, #0xc]
+21bbc4	e12fff33	blx	r3
+21bbc8	eaffff88	b	0x21b9f0 <_Z17Audio_PlaySoundOniiid+0x130>
+21bbcc	e59f3040	ldr	r3, [pc, #0x40]
+21bbd0	e1a02007	mov	r2, r7
+21bbd4	e59f1050	ldr	r1, [pc, #0x50]
+21bbd8	e7953003	ldr	r3, [r5, r3]
+21bbdc	e08f1001	add	r1, pc, r1
+21bbe0	e5930000	ldr	r0, [r3]
+21bbe4	e5903000	ldr	r3, [r0]
+21bbe8	e593300c	ldr	r3, [r3, #0xc]
+21bbec	e12fff33	blx	r3
+21bbf0	e1a00009	mov	r0, r9
+21bbf4	eaffffc1	b	0x21bb00 <_Z17Audio_PlaySoundOniiid+0x240>
+21bbf8	001d6374	andseq	r6, sp, r4, ror r3
+21bbfc	ffffd3fc	.word	0xffffd3fc
+21bc00	ffffd0e0	.word	0xffffd0e0
+21bc04	00539978	subseq	r9, r3, r8, ror r9
+21bc08	ffffd400	.word	0xffffd400
+21bc0c	fffff7a0	.word	0xfffff7a0
+21bc10	fffff77c	.word	0xfffff77c
+21bc14	ffffbac4	.word	0xffffbac4
+21bc18	00138670	andseq	r8, r3, r0, ror r6
+21bc1c	00138524	andseq	r8, r3, r4, lsr #10
+21bc20	001385b4	ldrheq	r8, [r3], -r4
+21bc24	001385f0	ldrsheq	r8, [r3], -r0
+21bc28	00138580	andseq	r8, r3, r0, lsl #11
+21bc2c	00138450	andseq	r8, r3, r0, asr r4
