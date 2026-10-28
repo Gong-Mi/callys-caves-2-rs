@@ -1,0 +1,432 @@
+1986ec	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1986f0	ed2d8b02	vpush	{d8}
+1986f4	e24dd014	sub	sp, sp, #20
+1986f8	e1a04002	mov	r4, r2
+1986fc	e88d0003	stm	sp, {r0, r1}
+198700	e5900080	ldr	r0, [r0, #0x80]
+198704	e3500000	cmp	r0, #0
+198708	0a000004	beq	0x198720 <_ZN9CInstance6AssignEPS_b+0x34>
+19870c	e59d1000	ldr	r1, [sp]
+198710	eb001679	bl	0x19e0fc <_ZN9CObjectGM14RemoveInstanceEP9CInstance>
+198714	e59d5000	ldr	r5, [sp]
+198718	e3a03000	mov	r3, #0
+19871c	e5853080	str	r3, [r5, #0x80]
+198720	e59d6004	ldr	r6, [sp, #0x4]
+198724	e59d7000	ldr	r7, [sp]
+198728	e596c078	ldr	r12, [r6, #0x78]
+19872c	e5962090	ldr	r2, [r6, #0x90]
+198730	e596008c	ldr	r0, [r6, #0x8c]
+198734	e5963094	ldr	r3, [r6, #0x94]
+198738	e59610a8	ldr	r1, [r6, #0xa8]
+19873c	e5965098	ldr	r5, [r6, #0x98]
+198740	e5872090	str	r2, [r7, #0x90]
+198744	e59620ac	ldr	r2, [r6, #0xac]
+198748	e5873094	str	r3, [r7, #0x94]
+19874c	e5d630b0	ldrb	r3, [r6, #0xb0]
+198750	e587c078	str	r12, [r7, #0x78]
+198754	e587008c	str	r0, [r7, #0x8c]
+198758	e596c09c	ldr	r12, [r6, #0x9c]
+19875c	e59600a0	ldr	r0, [r6, #0xa0]
+198760	e5875098	str	r5, [r7, #0x98]
+198764	e587c09c	str	r12, [r7, #0x9c]
+198768	e58700a0	str	r0, [r7, #0xa0]
+19876c	e596c0a4	ldr	r12, [r6, #0xa4]
+198770	e5960180	ldr	r0, [r6, #0x180]
+198774	e58720ac	str	r2, [r7, #0xac]
+198778	e59620b4	ldr	r2, [r6, #0xb4]
+19877c	e5c730b0	strb	r3, [r7, #0xb0]
+198780	e3a03000	mov	r3, #0
+198784	e5c7306b	strb	r3, [r7, #0x6b]
+198788	e58720b4	str	r2, [r7, #0xb4]
+19878c	e59620b8	ldr	r2, [r6, #0xb8]
+198790	e59630bc	ldr	r3, [r6, #0xbc]
+198794	e58710a8	str	r1, [r7, #0xa8]
+198798	e58720b8	str	r2, [r7, #0xb8]
+19879c	e59620c0	ldr	r2, [r6, #0xc0]
+1987a0	e58730bc	str	r3, [r7, #0xbc]
+1987a4	e587c0a4	str	r12, [r7, #0xa4]
+1987a8	e59630c4	ldr	r3, [r6, #0xc4]
+1987ac	e5870180	str	r0, [r7, #0x180]
+1987b0	e58720c0	str	r2, [r7, #0xc0]
+1987b4	e59610c8	ldr	r1, [r6, #0xc8]
+1987b8	e59620cc	ldr	r2, [r6, #0xcc]
+1987bc	e58730c4	str	r3, [r7, #0xc4]
+1987c0	e5d63064	ldrb	r3, [r6, #0x64]
+1987c4	e58710c8	str	r1, [r7, #0xc8]
+1987c8	e58720cc	str	r2, [r7, #0xcc]
+1987cc	e3530000	cmp	r3, #0
+1987d0	e59610d0	ldr	r1, [r6, #0xd0]
+1987d4	e59620d4	ldr	r2, [r6, #0xd4]
+1987d8	e58710d0	str	r1, [r7, #0xd0]
+1987dc	e58720d4	str	r2, [r7, #0xd4]
+1987e0	e59610d8	ldr	r1, [r6, #0xd8]
+1987e4	e59620dc	ldr	r2, [r6, #0xdc]
+1987e8	e58710d8	str	r1, [r7, #0xd8]
+1987ec	e58720dc	str	r2, [r7, #0xdc]
+1987f0	e59610e0	ldr	r1, [r6, #0xe0]
+1987f4	e59620e4	ldr	r2, [r6, #0xe4]
+1987f8	e5c73064	strb	r3, [r7, #0x64]
+1987fc	e58710e0	str	r1, [r7, #0xe0]
+198800	e58720e4	str	r2, [r7, #0xe4]
+198804	1a000165	bne	0x198da0 <_ZN9CInstance6AssignEPS_b+0x6b4>
+198808	e59d3004	ldr	r3, [sp, #0x4]
+19880c	e3540000	cmp	r4, #0
+198810	e59d8000	ldr	r8, [sp]
+198814	e59d9004	ldr	r9, [sp, #0x4]
+198818	e5b350e8	ldr	r5, [r3, #0xe8]!
+19881c	e288c0e8	add	r12, r8, #232
+198820	e5930004	ldr	r0, [r3, #0x4]
+198824	e5931008	ldr	r1, [r3, #0x8]
+198828	e593200c	ldr	r2, [r3, #0xc]
+19882c	e58850e8	str	r5, [r8, #0xe8]
+198830	e58c0004	str	r0, [r12, #0x4]
+198834	e58c1008	str	r1, [r12, #0x8]
+198838	e58c200c	str	r2, [r12, #0xc]
+19883c	e5d9c065	ldrb	r12, [r9, #0x65]
+198840	e5d91066	ldrb	r1, [r9, #0x66]
+198844	e5d92067	ldrb	r2, [r9, #0x67]
+198848	e599307c	ldr	r3, [r9, #0x7c]
+19884c	e5990080	ldr	r0, [r9, #0x80]
+198850	e5c8c065	strb	r12, [r8, #0x65]
+198854	e5c81066	strb	r1, [r8, #0x66]
+198858	e5c82067	strb	r2, [r8, #0x67]
+19885c	e588307c	str	r3, [r8, #0x7c]
+198860	e5880080	str	r0, [r8, #0x80]
+198864	0a000003	beq	0x198878 <_ZN9CInstance6AssignEPS_b+0x18c>
+198868	e3500000	cmp	r0, #0
+19886c	0a000001	beq	0x198878 <_ZN9CInstance6AssignEPS_b+0x18c>
+198870	e1a01008	mov	r1, r8
+198874	eb0015ec	bl	0x19e02c <_ZN9CObjectGM11AddInstanceEP9CInstance>
+198878	e59d2004	ldr	r2, [sp, #0x4]
+19887c	e3a0400c	mov	r4, #12
+198880	e59d3000	ldr	r3, [sp]
+198884	e59210f8	ldr	r1, [r2, #0xf8]
+198888	e2544001	subs	r4, r4, #1
+19888c	e2822004	add	r2, r2, #4
+198890	e2833004	add	r3, r3, #4
+198894	e58310f4	str	r1, [r3, #0xf4]
+198898	1afffff9	bne	0x198884 <_ZN9CInstance6AssignEPS_b+0x198>
+19889c	e59dc004	ldr	r12, [sp, #0x4]
+1988a0	e59c3060	ldr	r3, [r12, #0x60]
+1988a4	e3530000	cmp	r3, #0
+1988a8	0a0000ba	beq	0x198b98 <_ZN9CInstance6AssignEPS_b+0x4ac>
+1988ac	e3a00014	mov	r0, #20
+1988b0	eb038f1b	bl	0x27c524 <_Znwj>
+1988b4	e59f13f4	ldr	r1, [pc, #0x3f4]
+1988b8	e3a02008	mov	r2, #8
+1988bc	e3a03007	mov	r3, #7
+1988c0	e08f1001	add	r1, pc, r1
+1988c4	e1a05000	mov	r5, r0
+1988c8	e5802000	str	r2, [r0]
+1988cc	e5803008	str	r3, [r0, #0x8]
+1988d0	e3a02046	mov	r2, #70
+1988d4	e5804010	str	r4, [r0, #0x10]
+1988d8	e3a03001	mov	r3, #1
+1988dc	e3a00060	mov	r0, #96
+1988e0	eb039164	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1988e4	e3a02060	mov	r2, #96
+1988e8	e1a01004	mov	r1, r4
+1988ec	e5850010	str	r0, [r5, #0x10]
+1988f0	ebfc772e	bl	0xb65b0 <memset@plt>
+1988f4	e5952000	ldr	r2, [r5]
+1988f8	eddf7aeb	vldr	s15, [pc, #940]
+1988fc	e5854004	str	r4, [r5, #0x4]
+198900	e3520000	cmp	r2, #0
+198904	ee062a90	vmov	s13, r2
+198908	eeb87ae6	vcvt.f32.s32	s14, s13
+19890c	ee677a27	vmul.f32	s15, s14, s15
+198910	eefd7ae7	vcvt.s32.f32	s15, s15
+198914	edc57a03	vstr	s15, [r5, #12]
+198918	da000006	ble	0x198938 <_ZN9CInstance6AssignEPS_b+0x24c>
+19891c	e0822082	add	r2, r2, r2, lsl #1
+198920	e5953010	ldr	r3, [r5, #0x10]
+198924	e0832102	add	r2, r3, r2, lsl #2
+198928	e5834008	str	r4, [r3, #0x8]
+19892c	e283300c	add	r3, r3, #12
+198930	e1530002	cmp	r3, r2
+198934	1afffffb	bne	0x198928 <_ZN9CInstance6AssignEPS_b+0x23c>
+198938	e59d4000	ldr	r4, [sp]
+19893c	e5845060	str	r5, [r4, #0x60]
+198940	e59d5004	ldr	r5, [sp, #0x4]
+198944	e5953060	ldr	r3, [r5, #0x60]
+198948	e5932004	ldr	r2, [r3, #0x4]
+19894c	e3520000	cmp	r2, #0
+198950	da000090	ble	0x198b98 <_ZN9CInstance6AssignEPS_b+0x4ac>
+198954	e59f6358	ldr	r6, [pc, #0x358]
+198958	e3a07000	mov	r7, #0
+19895c	ed9f8ad2	vldr	s16, [pc, #840]
+198960	e58d7008	str	r7, [sp, #0x8]
+198964	e08f6006	add	r6, pc, r6
+198968	e58d600c	str	r6, [sp, #0xc]
+19896c	e5934010	ldr	r4, [r3, #0x10]
+198970	e3a03000	mov	r3, #0
+198974	e59d1008	ldr	r1, [sp, #0x8]
+198978	ea000000	b	0x198980 <_ZN9CInstance6AssignEPS_b+0x294>
+19897c	e284400c	add	r4, r4, #12
+198980	e5942008	ldr	r2, [r4, #0x8]
+198984	e3520000	cmp	r2, #0
+198988	dafffffb	ble	0x19897c <_ZN9CInstance6AssignEPS_b+0x290>
+19898c	e1510003	cmp	r1, r3
+198990	e2833001	add	r3, r3, #1
+198994	1afffff8	bne	0x19897c <_ZN9CInstance6AssignEPS_b+0x290>
+198998	e5947000	ldr	r7, [r4]
+19899c	ebffe107	bl	0x190dc0 <_Z9GetRValuev>
+1989a0	e5944004	ldr	r4, [r4, #0x4]
+1989a4	e594300c	ldr	r3, [r4, #0xc]
+1989a8	e5942008	ldr	r2, [r4, #0x8]
+1989ac	e580300c	str	r3, [r0, #0xc]
+1989b0	e1a06000	mov	r6, r0
+1989b4	e594300c	ldr	r3, [r4, #0xc]
+1989b8	e5802008	str	r2, [r0, #0x8]
+1989bc	e3c334ff	bic	r3, r3, #-16777216
+1989c0	e353000e	cmp	r3, #14
+1989c4	908ff103	addls	pc, pc, r3, lsl #2
+1989c8	ea000010	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+1989cc	ea000049	b	0x198af8 <_ZN9CInstance6AssignEPS_b+0x40c>
+1989d0	ea00005f	b	0x198b54 <_ZN9CInstance6AssignEPS_b+0x468>
+1989d4	ea000053	b	0x198b28 <_ZN9CInstance6AssignEPS_b+0x43c>
+1989d8	ea00000a	b	0x198a08 <_ZN9CInstance6AssignEPS_b+0x31c>
+1989dc	ea00000b	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+1989e0	ea00000a	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+1989e4	ea000046	b	0x198b04 <_ZN9CInstance6AssignEPS_b+0x418>
+1989e8	ea000006	b	0x198a08 <_ZN9CInstance6AssignEPS_b+0x31c>
+1989ec	ea000007	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+1989f0	ea000006	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+1989f4	ea00003f	b	0x198af8 <_ZN9CInstance6AssignEPS_b+0x40c>
+1989f8	ea000004	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+1989fc	ea000003	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+198a00	ea00003c	b	0x198af8 <_ZN9CInstance6AssignEPS_b+0x40c>
+198a04	eaffffff	b	0x198a08 <_ZN9CInstance6AssignEPS_b+0x31c>
+198a08	e5943000	ldr	r3, [r4]
+198a0c	e5863000	str	r3, [r6]
+198a10	e59d9000	ldr	r9, [sp]
+198a14	e5998060	ldr	r8, [r9, #0x60]
+198a18	e5983004	ldr	r3, [r8, #0x4]
+198a1c	e598200c	ldr	r2, [r8, #0xc]
+198a20	e1530002	cmp	r3, r2
+198a24	ca0000a3	bgt	0x198cb8 <_ZN9CInstance6AssignEPS_b+0x5cc>
+198a28	e2833001	add	r3, r3, #1
+198a2c	e1a00007	mov	r0, r7
+198a30	e5883004	str	r3, [r8, #0x4]
+198a34	eb007902	bl	0x1b6e44 <_Z21CHashMapCalculateHashi>
+198a38	e5984008	ldr	r4, [r8, #0x8]
+198a3c	e598a010	ldr	r10, [r8, #0x10]
+198a40	e3c00102	bic	r0, r0, #-2147483648
+198a44	e0003004	and	r3, r0, r4
+198a48	e0832083	add	r2, r3, r3, lsl #1
+198a4c	e08a2102	add	r2, r10, r2, lsl #2
+198a50	e5921008	ldr	r1, [r2, #0x8]
+198a54	e3510000	cmp	r1, #0
+198a58	1598b000	ldrne	r11, [r8]
+198a5c	13a05000	movne	r5, #0
+198a60	1a000010	bne	0x198aa8 <_ZN9CInstance6AssignEPS_b+0x3bc>
+198a64	ea000040	b	0x198b6c <_ZN9CInstance6AssignEPS_b+0x480>
+198a68	e5929000	ldr	r9, [r2]
+198a6c	e5925004	ldr	r5, [r2, #0x4]
+198a70	e5820008	str	r0, [r2, #0x8]
+198a74	e1a00001	mov	r0, r1
+198a78	e5827000	str	r7, [r2]
+198a7c	e1a07009	mov	r7, r9
+198a80	e5826004	str	r6, [r2, #0x4]
+198a84	e1a06005	mov	r6, r5
+198a88	e2833001	add	r3, r3, #1
+198a8c	e28c5001	add	r5, r12, #1
+198a90	e0033004	and	r3, r3, r4
+198a94	e0832083	add	r2, r3, r3, lsl #1
+198a98	e08a2102	add	r2, r10, r2, lsl #2
+198a9c	e5921008	ldr	r1, [r2, #0x8]
+198aa0	e3510000	cmp	r1, #0
+198aa4	0a000030	beq	0x198b6c <_ZN9CInstance6AssignEPS_b+0x480>
+198aa8	e08bc003	add	r12, r11, r3
+198aac	e0019004	and	r9, r1, r4
+198ab0	e069c00c	rsb	r12, r9, r12
+198ab4	e00cc004	and	r12, r12, r4
+198ab8	e15c0005	cmp	r12, r5
+198abc	baffffe9	blt	0x198a68 <_ZN9CInstance6AssignEPS_b+0x37c>
+198ac0	11a0c005	movne	r12, r5
+198ac4	1affffef	bne	0x198a88 <_ZN9CInstance6AssignEPS_b+0x39c>
+198ac8	e1510000	cmp	r1, r0
+198acc	1affffed	bne	0x198a88 <_ZN9CInstance6AssignEPS_b+0x39c>
+198ad0	e5925000	ldr	r5, [r2]
+198ad4	e1570005	cmp	r7, r5
+198ad8	1affffea	bne	0x198a88 <_ZN9CInstance6AssignEPS_b+0x39c>
+198adc	e5983004	ldr	r3, [r8, #0x4]
+198ae0	e5827000	str	r7, [r2]
+198ae4	e5826004	str	r6, [r2, #0x4]
+198ae8	e2433001	sub	r3, r3, #1
+198aec	e5821008	str	r1, [r2, #0x8]
+198af0	e5883004	str	r3, [r8, #0x4]
+198af4	ea00001f	b	0x198b78 <_ZN9CInstance6AssignEPS_b+0x48c>
+198af8	e894000c	ldm	r4, {r2, r3}
+198afc	e880000c	stm	r0, {r2, r3}
+198b00	eaffffc2	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+198b04	e5943000	ldr	r3, [r4]
+198b08	e5803000	str	r3, [r0]
+198b0c	e5943000	ldr	r3, [r4]
+198b10	e3530000	cmp	r3, #0
+198b14	0affffbd	beq	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+198b18	ebfcebcd	bl	0xd3a54 <_Z18GetContextStackTopv>
+198b1c	e5941000	ldr	r1, [r4]
+198b20	ebffe2fa	bl	0x191710 <_Z22DeterminePotentialRootP12YYObjectBaseS0_>
+198b24	eaffffb9	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+198b28	e5943000	ldr	r3, [r4]
+198b2c	e3530000	cmp	r3, #0
+198b30	e5803000	str	r3, [r0]
+198b34	0affffb5	beq	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+198b38	e5931008	ldr	r1, [r3, #0x8]
+198b3c	e5932000	ldr	r2, [r3]
+198b40	e3510000	cmp	r1, #0
+198b44	05830008	streq	r0, [r3, #0x8]
+198b48	e2822001	add	r2, r2, #1
+198b4c	e5832000	str	r2, [r3]
+198b50	eaffffae	b	0x198a10 <_ZN9CInstance6AssignEPS_b+0x324>
+198b54	e5943000	ldr	r3, [r4]
+198b58	e3530000	cmp	r3, #0
+198b5c	15932004	ldrne	r2, [r3, #0x4]
+198b60	12822001	addne	r2, r2, #1
+198b64	15832004	strne	r2, [r3, #0x4]
+198b68	eaffffa7	b	0x198a0c <_ZN9CInstance6AssignEPS_b+0x320>
+198b6c	e5827000	str	r7, [r2]
+198b70	e5826004	str	r6, [r2, #0x4]
+198b74	e5820008	str	r0, [r2, #0x8]
+198b78	e59d4004	ldr	r4, [sp, #0x4]
+198b7c	e59d5008	ldr	r5, [sp, #0x8]
+198b80	e5943060	ldr	r3, [r4, #0x60]
+198b84	e2855001	add	r5, r5, #1
+198b88	e58d5008	str	r5, [sp, #0x8]
+198b8c	e5932004	ldr	r2, [r3, #0x4]
+198b90	e1520005	cmp	r2, r5
+198b94	caffff74	bgt	0x19896c <_ZN9CInstance6AssignEPS_b+0x280>
+198b98	e59d4004	ldr	r4, [sp, #0x4]
+198b9c	e59d9004	ldr	r9, [sp, #0x4]
+198ba0	e59d8000	ldr	r8, [sp]
+198ba4	e5943134	ldr	r3, [r4, #0x134]
+198ba8	e5d47068	ldrb	r7, [r4, #0x68]
+198bac	e594112c	ldr	r1, [r4, #0x12c]
+198bb0	e5d46069	ldrb	r6, [r4, #0x69]
+198bb4	e5942130	ldr	r2, [r4, #0x130]
+198bb8	e5945128	ldr	r5, [r4, #0x128]
+198bbc	e599c14c	ldr	r12, [r9, #0x14c]
+198bc0	e5944140	ldr	r4, [r4, #0x140]
+198bc4	e5d9015c	ldrb	r0, [r9, #0x15c]
+198bc8	e5883134	str	r3, [r8, #0x134]
+198bcc	e5993138	ldr	r3, [r9, #0x138]
+198bd0	e588112c	str	r1, [r8, #0x12c]
+198bd4	e5882130	str	r2, [r8, #0x130]
+198bd8	e5d9115d	ldrb	r1, [r9, #0x15d]
+198bdc	e5992160	ldr	r2, [r9, #0x160]
+198be0	e5883138	str	r3, [r8, #0x138]
+198be4	e5993164	ldr	r3, [r9, #0x164]
+198be8	e599813c	ldr	r8, [r9, #0x13c]
+198bec	e59d9000	ldr	r9, [sp]
+198bf0	e5c97068	strb	r7, [r9, #0x68]
+198bf4	e59d7004	ldr	r7, [sp, #0x4]
+198bf8	e5c96069	strb	r6, [r9, #0x69]
+198bfc	e589813c	str	r8, [r9, #0x13c]
+198c00	e5976150	ldr	r6, [r7, #0x150]
+198c04	e5894140	str	r4, [r9, #0x140]
+198c08	e5974154	ldr	r4, [r7, #0x154]
+198c0c	e5895128	str	r5, [r9, #0x128]
+198c10	e589c14c	str	r12, [r9, #0x14c]
+198c14	e5896150	str	r6, [r9, #0x150]
+198c18	e597c158	ldr	r12, [r7, #0x158]
+198c1c	e5894154	str	r4, [r9, #0x154]
+198c20	e5c9015c	strb	r0, [r9, #0x15c]
+198c24	e5892160	str	r2, [r9, #0x160]
+198c28	e5972088	ldr	r2, [r7, #0x88]
+198c2c	e5893164	str	r3, [r9, #0x164]
+198c30	e5d7315e	ldrb	r3, [r7, #0x15e]
+198c34	e3520000	cmp	r2, #0
+198c38	e589c158	str	r12, [r9, #0x158]
+198c3c	e5c9115d	strb	r1, [r9, #0x15d]
+198c40	e5c9315e	strb	r3, [r9, #0x15e]
+198c44	0a000011	beq	0x198c90 <_ZN9CInstance6AssignEPS_b+0x5a4>
+198c48	e59d6000	ldr	r6, [sp]
+198c4c	e5964088	ldr	r4, [r6, #0x88]
+198c50	e3540000	cmp	r4, #0
+198c54	0a000005	beq	0x198c70 <_ZN9CInstance6AssignEPS_b+0x584>
+198c58	e1a00004	mov	r0, r4
+198c5c	ebfc954c	bl	0xbe194 <_ZN17CSkeletonInstanceD2Ev>
+198c60	e1a00004	mov	r0, r4
+198c64	eb039159	bl	0x27d1d0 <_ZdlPv>
+198c68	e3a03000	mov	r3, #0
+198c6c	e5863088	str	r3, [r6, #0x88]
+198c70	e3a00034	mov	r0, #52
+198c74	eb038e2a	bl	0x27c524 <_Znwj>
+198c78	e59d7004	ldr	r7, [sp, #0x4]
+198c7c	e5971088	ldr	r1, [r7, #0x88]
+198c80	e1a04000	mov	r4, r0
+198c84	ebfc9e13	bl	0xc04d8 <_ZN17CSkeletonInstanceC2EPS_>
+198c88	e59d8000	ldr	r8, [sp]
+198c8c	e5884088	str	r4, [r8, #0x88]
+198c90	e59d9004	ldr	r9, [sp, #0x4]
+198c94	e59dc000	ldr	r12, [sp]
+198c98	e5993170	ldr	r3, [r9, #0x170]
+198c9c	e58c3170	str	r3, [r12, #0x170]
+198ca0	e28dd014	add	sp, sp, #20
+198ca4	ecbd8b02	vpop	{d8}
+198ca8	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+198cac	3f19999a	svclo	#0x19999a
+198cb0	00198770	andseq	r8, r9, r0, ror r7
+198cb4	001986cc	andseq	r8, r9, r12, asr #13
+198cb8	e5989000	ldr	r9, [r8]
+198cbc	e3a03001	mov	r3, #1
+198cc0	e59d100c	ldr	r1, [sp, #0xc]
+198cc4	e3a02046	mov	r2, #70
+198cc8	e5985010	ldr	r5, [r8, #0x10]
+198ccc	e1a00319	lsl	r0, r9, r3
+198cd0	e5880000	str	r0, [r8]
+198cd4	e0804109	add	r4, r0, r9, lsl #2
+198cd8	e2400001	sub	r0, r0, #1
+198cdc	e5880008	str	r0, [r8, #0x8]
+198ce0	e1a04104	lsl	r4, r4, #2
+198ce4	e1a00004	mov	r0, r4
+198ce8	eb039062	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+198cec	e1a02004	mov	r2, r4
+198cf0	e3a01000	mov	r1, #0
+198cf4	e5880010	str	r0, [r8, #0x10]
+198cf8	ebfc762c	bl	0xb65b0 <memset@plt>
+198cfc	e5982000	ldr	r2, [r8]
+198d00	e3a0c000	mov	r12, #0
+198d04	e588c004	str	r12, [r8, #0x4]
+198d08	e152000c	cmp	r2, r12
+198d0c	ee062a90	vmov	s13, r2
+198d10	eef87ae6	vcvt.f32.s32	s15, s13
+198d14	ee677a88	vmul.f32	s15, s15, s16
+198d18	eefd7ae7	vcvt.s32.f32	s15, s15
+198d1c	edc87a03	vstr	s15, [r8, #12]
+198d20	da000007	ble	0x198d44 <_ZN9CInstance6AssignEPS_b+0x658>
+198d24	e0822082	add	r2, r2, r2, lsl #1
+198d28	e5983010	ldr	r3, [r8, #0x10]
+198d2c	e0832102	add	r2, r3, r2, lsl #2
+198d30	e3a00000	mov	r0, #0
+198d34	e283300c	add	r3, r3, #12
+198d38	e5030004	str	r0, [r3, #-0x4]
+198d3c	e1530002	cmp	r3, r2
+198d40	1afffffa	bne	0x198d30 <_ZN9CInstance6AssignEPS_b+0x644>
+198d44	e3590000	cmp	r9, #0
+198d48	c1a04005	movgt	r4, r5
+198d4c	c3a0a000	movgt	r10, #0
+198d50	da000009	ble	0x198d7c <_ZN9CInstance6AssignEPS_b+0x690>
+198d54	e5943008	ldr	r3, [r4, #0x8]
+198d58	e1a00008	mov	r0, r8
+198d5c	e28aa001	add	r10, r10, #1
+198d60	e3530000	cmp	r3, #0
+198d64	da000001	ble	0x198d70 <_ZN9CInstance6AssignEPS_b+0x684>
+198d68	e8940006	ldm	r4, {r1, r2}
+198d6c	ebfff5a5	bl	0x196408 <_ZN8CHashMapIiP6RValueLi3EE6InsertEiS1_>
+198d70	e15a0009	cmp	r10, r9
+198d74	e284400c	add	r4, r4, #12
+198d78	1afffff5	bne	0x198d54 <_ZN9CInstance6AssignEPS_b+0x668>
+198d7c	e1a00005	mov	r0, r5
+198d80	eb038d52	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+198d84	edd86a00	vldr	s13, [r8]
+198d88	eef87ae6	vcvt.f32.s32	s15, s13
+198d8c	e5983004	ldr	r3, [r8, #0x4]
+198d90	ee677a88	vmul.f32	s15, s15, s16
+198d94	eefd7ae7	vcvt.s32.f32	s15, s15
+198d98	edc87a03	vstr	s15, [r8, #12]
+198d9c	eaffff21	b	0x198a28 <_ZN9CInstance6AssignEPS_b+0x33c>
+198da0	e1a00007	mov	r0, r7
+198da4	eb00cd09	bl	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+198da8	eafffe96	b	0x198808 <_ZN9CInstance6AssignEPS_b+0x11c>

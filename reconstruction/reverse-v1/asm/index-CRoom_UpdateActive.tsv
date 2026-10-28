@@ -1,0 +1,116 @@
+1abd9c	e590108c	ldr	r1, [r0, #0x8c]
+1abda0	e92d4070	push	{r4, r5, r6, lr}
+1abda4	e3510000	cmp	r1, #0
+1abda8	e1a04000	mov	r4, r0
+1abdac	1a000003	bne	0x1abdc0 <_ZN5CRoom12UpdateActiveEv+0x24>
+1abdb0	ea00002b	b	0x1abe64 <_ZN5CRoom12UpdateActiveEv+0xc8>
+1abdb4	e3550000	cmp	r5, #0
+1abdb8	0a000029	beq	0x1abe64 <_ZN5CRoom12UpdateActiveEv+0xc8>
+1abdbc	e1a01005	mov	r1, r5
+1abdc0	e5d13069	ldrb	r3, [r1, #0x69]
+1abdc4	e5915178	ldr	r5, [r1, #0x178]
+1abdc8	e3530000	cmp	r3, #0
+1abdcc	1afffff8	bne	0x1abdb4 <_ZN5CRoom12UpdateActiveEv+0x18>
+1abdd0	e591317c	ldr	r3, [r1, #0x17c]
+1abdd4	e5940094	ldr	r0, [r4, #0x94]
+1abdd8	e3530000	cmp	r3, #0
+1abddc	0584508c	streq	r5, [r4, #0x8c]
+1abde0	15835178	strne	r5, [r3, #0x178]
+1abde4	e2400001	sub	r0, r0, #1
+1abde8	15912178	ldrne	r2, [r1, #0x178]
+1abdec	01a02005	moveq	r2, r5
+1abdf0	1591317c	ldrne	r3, [r1, #0x17c]
+1abdf4	e3520000	cmp	r2, #0
+1abdf8	05843090	streq	r3, [r4, #0x90]
+1abdfc	1582317c	strne	r3, [r2, #0x17c]
+1abe00	e5943084	ldr	r3, [r4, #0x84]
+1abe04	e5942088	ldr	r2, [r4, #0x88]
+1abe08	e3530000	cmp	r3, #0
+1abe0c	e5840094	str	r0, [r4, #0x94]
+1abe10	e2822001	add	r2, r2, #1
+1abe14	1d917a60	vldrne	s14, [r1, #384]
+1abe18	e5842088	str	r2, [r4, #0x88]
+1abe1c	0a00004b	beq	0x1abf50 <_ZN5CRoom12UpdateActiveEv+0x1b4>
+1abe20	edd37a61	vldr	s15, [r3, #388]
+1abe24	eef47ac7	vcmpe.f32	s15, s14
+1abe28	eef1fa10	vmrs	APSR_nzcv, fpscr
+1abe2c	9a00003a	bls	0x1abf1c <_ZN5CRoom12UpdateActiveEv+0x180>
+1abe30	e593317c	ldr	r3, [r3, #0x17c]
+1abe34	e3530000	cmp	r3, #0
+1abe38	1afffff8	bne	0x1abe20 <_ZN5CRoom12UpdateActiveEv+0x84>
+1abe3c	e5942080	ldr	r2, [r4, #0x80]
+1abe40	ed817a61	vstr	s14, [r1, #388]
+1abe44	e582117c	str	r1, [r2, #0x17c]
+1abe48	e5812178	str	r2, [r1, #0x178]
+1abe4c	e5841080	str	r1, [r4, #0x80]
+1abe50	e581317c	str	r3, [r1, #0x17c]
+1abe54	e5910080	ldr	r0, [r1, #0x80]
+1abe58	ebffc873	bl	0x19e02c <_ZN9CObjectGM11AddInstanceEP9CInstance>
+1abe5c	e3550000	cmp	r5, #0
+1abe60	1affffd5	bne	0x1abdbc <_ZN5CRoom12UpdateActiveEv+0x20>
+1abe64	e5941080	ldr	r1, [r4, #0x80]
+1abe68	e3510000	cmp	r1, #0
+1abe6c	08bd8070	popeq	{r4, r5, r6, pc}
+1abe70	e3a06000	mov	r6, #0
+1abe74	ea000002	b	0x1abe84 <_ZN5CRoom12UpdateActiveEv+0xe8>
+1abe78	e3550000	cmp	r5, #0
+1abe7c	08bd8070	popeq	{r4, r5, r6, pc}
+1abe80	e1a01005	mov	r1, r5
+1abe84	e5d13069	ldrb	r3, [r1, #0x69]
+1abe88	e5915178	ldr	r5, [r1, #0x178]
+1abe8c	e3530000	cmp	r3, #0
+1abe90	0afffff8	beq	0x1abe78 <_ZN5CRoom12UpdateActiveEv+0xdc>
+1abe94	e591317c	ldr	r3, [r1, #0x17c]
+1abe98	e5940088	ldr	r0, [r4, #0x88]
+1abe9c	e3530000	cmp	r3, #0
+1abea0	05845080	streq	r5, [r4, #0x80]
+1abea4	15835178	strne	r5, [r3, #0x178]
+1abea8	e2400001	sub	r0, r0, #1
+1abeac	15912178	ldrne	r2, [r1, #0x178]
+1abeb0	01a02005	moveq	r2, r5
+1abeb4	1591317c	ldrne	r3, [r1, #0x17c]
+1abeb8	e3520000	cmp	r2, #0
+1abebc	05843084	streq	r3, [r4, #0x84]
+1abec0	1582317c	strne	r3, [r2, #0x17c]
+1abec4	e5943090	ldr	r3, [r4, #0x90]
+1abec8	e5942094	ldr	r2, [r4, #0x94]
+1abecc	e3530000	cmp	r3, #0
+1abed0	e5816178	str	r6, [r1, #0x178]
+1abed4	e581617c	str	r6, [r1, #0x17c]
+1abed8	e2822001	add	r2, r2, #1
+1abedc	e5840088	str	r0, [r4, #0x88]
+1abee0	e5842094	str	r2, [r4, #0x94]
+1abee4	15831178	strne	r1, [r3, #0x178]
+1abee8	15943090	ldrne	r3, [r4, #0x90]
+1abeec	05841090	streq	r1, [r4, #0x90]
+1abef0	0584108c	streq	r1, [r4, #0x8c]
+1abef4	1581317c	strne	r3, [r1, #0x17c]
+1abef8	0581317c	streq	r3, [r1, #0x17c]
+1abefc	15841090	strne	r1, [r4, #0x90]
+1abf00	05813178	streq	r3, [r1, #0x178]
+1abf04	15816178	strne	r6, [r1, #0x178]
+1abf08	e5910080	ldr	r0, [r1, #0x80]
+1abf0c	ebffc87a	bl	0x19e0fc <_ZN9CObjectGM14RemoveInstanceEP9CInstance>
+1abf10	e3550000	cmp	r5, #0
+1abf14	1affffd9	bne	0x1abe80 <_ZN5CRoom12UpdateActiveEv+0xe4>
+1abf18	e8bd8070	pop	{r4, r5, r6, pc}
+1abf1c	e5932178	ldr	r2, [r3, #0x178]
+1abf20	e3520000	cmp	r2, #0
+1abf24	0581317c	streq	r3, [r1, #0x17c]
+1abf28	15812178	strne	r2, [r1, #0x178]
+1abf2c	15932178	ldrne	r2, [r3, #0x178]
+1abf30	05831178	streq	r1, [r3, #0x178]
+1abf34	1581317c	strne	r3, [r1, #0x17c]
+1abf38	05841084	streq	r1, [r4, #0x84]
+1abf3c	1582117c	strne	r1, [r2, #0x17c]
+1abf40	05812178	streq	r2, [r1, #0x178]
+1abf44	15831178	strne	r1, [r3, #0x178]
+1abf48	ed817a61	vstr	s14, [r1, #388]
+1abf4c	eaffffc0	b	0x1abe54 <_ZN5CRoom12UpdateActiveEv+0xb8>
+1abf50	e5912180	ldr	r2, [r1, #0x180]
+1abf54	e5841084	str	r1, [r4, #0x84]
+1abf58	e5841080	str	r1, [r4, #0x80]
+1abf5c	e5812184	str	r2, [r1, #0x184]
+1abf60	e581317c	str	r3, [r1, #0x17c]
+1abf64	e5813178	str	r3, [r1, #0x178]
+1abf68	eaffffb9	b	0x1abe54 <_ZN5CRoom12UpdateActiveEv+0xb8>

@@ -1,0 +1,357 @@
+192340	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+192344	ed2d8b08	vpush	{d8, d9, d10, d11}
+192348	e1a04000	mov	r4, r0
+19234c	e59f7480	ldr	r7, [pc, #0x480]
+192350	e24dd014	sub	sp, sp, #20
+192354	e59f347c	ldr	r3, [pc, #0x47c]
+192358	e1a0a001	mov	r10, r1
+19235c	e08f7007	add	r7, pc, r7
+192360	e7979003	ldr	r9, [r7, r3]
+192364	e5d93000	ldrb	r3, [r9]
+192368	e3530000	cmp	r3, #0
+19236c	1a0000bc	bne	0x192664 <_ZN9CInstance19Compute_BoundingBoxEb+0x324>
+192370	e28460e8	add	r6, r4, #232
+192374	e594c0ac	ldr	r12, [r4, #0xac]
+192378	e896000f	ldm	r6, {r0, r1, r2, r3}
+19237c	e35c0000	cmp	r12, #0
+192380	e88d000f	stm	sp, {r0, r1, r2, r3}
+192384	a1a0000c	movge	r0, r12
+192388	b594008c	ldrlt	r0, [r4, #0x8c]
+19238c	eb01732a	bl	0x1ef03c <_Z11Sprite_Datai>
+192390	e3500000	cmp	r0, #0
+192394	e1a05000	mov	r5, r0
+192398	0a000143	beq	0x1928ac <_ZN9CInstance19Compute_BoundingBoxEb+0x56c>
+19239c	ed947a28	vldr	s14, [r4, #160]
+1923a0	eeb57a40	vcmp.f32	s14, #0
+1923a4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1923a8	0a0000b3	beq	0x19267c <_ZN9CInstance19Compute_BoundingBoxEb+0x33c>
+1923ac	e5902008	ldr	r2, [r0, #0x8]
+1923b0	edd47a26	vldr	s15, [r4, #152]
+1923b4	e5903010	ldr	r3, [r0, #0x10]
+1923b8	edd46a27	vldr	s13, [r4, #156]
+1923bc	e5901024	ldr	r1, [r0, #0x24]
+1923c0	e1520003	cmp	r2, r3
+1923c4	b0613003	rsblt	r3, r1, r3
+1923c8	a0612002	rsbge	r2, r1, r2
+1923cc	b0611002	rsblt	r1, r1, r2
+1923d0	a0611003	rsbge	r1, r1, r3
+1923d4	b2833001	addlt	r3, r3, #1
+1923d8	a2822001	addge	r2, r2, #1
+1923dc	be0a1a90	vmovlt	s21, r1
+1923e0	be093a10	vmovlt	s18, r3
+1923e4	e5903014	ldr	r3, [r0, #0x14]
+1923e8	ae0a1a90	vmovge	s21, r1
+1923ec	e5901028	ldr	r1, [r0, #0x28]
+1923f0	ae092a10	vmovge	s18, r2
+1923f4	e590200c	ldr	r2, [r0, #0xc]
+1923f8	eef8aaea	vcvt.f32.s32	s21, s21
+1923fc	e1520003	cmp	r2, r3
+192400	eeb89ac9	vcvt.f32.s32	s18, s18
+192404	ee67aaaa	vmul.f32	s21, s15, s21
+192408	ee279a89	vmul.f32	s18, s15, s18
+19240c	ba000065	blt	0x1925a8 <_ZN9CInstance19Compute_BoundingBoxEb+0x268>
+192410	e0612002	rsb	r2, r1, r2
+192414	e0611003	rsb	r1, r1, r3
+192418	e2822001	add	r2, r2, #1
+19241c	ee0b1a10	vmov	s22, r1
+192420	ee052a90	vmov	s11, r2
+192424	eeb8bacb	vcvt.f32.s32	s22, s22
+192428	eef8bae5	vcvt.f32.s32	s23, s11
+19242c	ee26ba8b	vmul.f32	s22, s13, s22
+192430	ee66baab	vmul.f32	s23, s13, s23
+192434	eddf9ae4	vldr	s19, [pc, #912]
+192438	eddf7ae4	vldr	s15, [pc, #912]
+19243c	ee277a29	vmul.f32	s14, s14, s19
+192440	eec79a27	vdiv.f32	s19, s14, s15
+192444	ee190a90	vmov	r0, s19
+192448	ebfc904f	bl	0xb658c <cosf@plt>
+19244c	ee080a90	vmov	s17, r0
+192450	ee190a90	vmov	r0, s19
+192454	ebfc9049	bl	0xb6580 <sinf@plt>
+192458	ee28aaaa	vmul.f32	s20, s17, s21
+19245c	e59f3378	ldr	r3, [pc, #0x378]
+192460	e7976003	ldr	r6, [r7, r3]
+192464	e5d63000	ldrb	r3, [r6]
+192468	ee686a89	vmul.f32	s13, s17, s18
+19246c	eef46aca	vcmpe.f32	s13, s20
+192470	eef1fa10	vmrs	APSR_nzcv, fpscr
+192474	5ef07a4a	vmovpl.f32	s15, s20
+192478	ee080a10	vmov	s16, r0
+19247c	5eb0aa66	vmovpl.f32	s20, s13
+192480	ee287a2b	vmul.f32	s14, s16, s23
+192484	ee689a0b	vmul.f32	s19, s16, s22
+192488	eeb47ae9	vcmpe.f32	s14, s19
+19248c	5ef06a67	vmovpl.f32	s13, s15
+192490	eef1fa10	vmrs	APSR_nzcv, fpscr
+192494	5ef07a69	vmovpl.f32	s15, s19
+192498	5ef09a47	vmovpl.f32	s19, s14
+19249c	5eb07a67	vmovpl.f32	s14, s15
+1924a0	e3530000	cmp	r3, #0
+1924a4	0a000059	beq	0x192610 <_ZN9CInstance19Compute_BoundingBoxEb+0x2d0>
+1924a8	e59f3330	ldr	r3, [pc, #0x330]
+1924ac	e7973003	ldr	r3, [r7, r3]
+1924b0	e5d33000	ldrb	r3, [r3]
+1924b4	e3530000	cmp	r3, #0
+1924b8	1a000054	bne	0x192610 <_ZN9CInstance19Compute_BoundingBoxEb+0x2d0>
+1924bc	edd47a2d	vldr	s15, [r4, #180]
+1924c0	ee3aaa27	vadd.f32	s20, s20, s15
+1924c4	e3a03001	mov	r3, #1
+1924c8	ee7a9a29	vadd.f32	s19, s20, s19
+1924cc	ee776aa6	vadd.f32	s13, s15, s13
+1924d0	eefd9ae9	vcvt.s32.f32	s19, s19
+1924d4	ee191a90	vmov	r1, s19
+1924d8	ee367a87	vadd.f32	s14, s13, s14
+1924dc	eebd7ac7	vcvt.s32.f32	s14, s14
+1924e0	ed847a3a	vstr	s14, [r4, #232]
+1924e4	e2412001	sub	r2, r1, #1
+1924e8	e58420f0	str	r2, [r4, #0xf0]
+1924ec	ee687aab	vmul.f32	s15, s17, s23
+1924f0	ee688a8b	vmul.f32	s17, s17, s22
+1924f4	ee289a09	vmul.f32	s18, s16, s18
+1924f8	ee288a2a	vmul.f32	s16, s16, s21
+1924fc	eef47ae8	vcmpe.f32	s15, s17
+192500	eef1fa10	vmrs	APSR_nzcv, fpscr
+192504	eeb49ac8	vcmpe.f32	s18, s16
+192508	5eb07a68	vmovpl.f32	s14, s17
+19250c	5ef08a67	vmovpl.f32	s17, s15
+192510	5ef07a47	vmovpl.f32	s15, s14
+192514	eef1fa10	vmrs	APSR_nzcv, fpscr
+192518	5eb07a48	vmovpl.f32	s14, s16
+19251c	5eb08a49	vmovpl.f32	s16, s18
+192520	5eb09a47	vmovpl.f32	s18, s14
+192524	e3530000	cmp	r3, #0
+192528	0a000028	beq	0x1925d0 <_ZN9CInstance19Compute_BoundingBoxEb+0x290>
+19252c	e59f32ac	ldr	r3, [pc, #0x2ac]
+192530	e7973003	ldr	r3, [r7, r3]
+192534	e5d33000	ldrb	r3, [r3]
+192538	e3530000	cmp	r3, #0
+19253c	1a000023	bne	0x1925d0 <_ZN9CInstance19Compute_BoundingBoxEb+0x290>
+192540	ed947a2e	vldr	s14, [r4, #184]
+192544	ee788a87	vadd.f32	s17, s17, s14
+192548	ee389ac9	vsub.f32	s18, s17, s18
+19254c	ee777a27	vadd.f32	s15, s14, s15
+192550	eebd9ac9	vcvt.s32.f32	s18, s18
+192554	ee191a10	vmov	r1, s18
+192558	ee378ac8	vsub.f32	s16, s15, s16
+19255c	eebd8ac8	vcvt.s32.f32	s16, s16
+192560	ed848a3b	vstr	s16, [r4, #236]
+192564	e2413001	sub	r3, r1, #1
+192568	e58430f4	str	r3, [r4, #0xf4]
+19256c	e5d53030	ldrb	r3, [r5, #0x30]
+192570	e5c430b0	strb	r3, [r4, #0xb0]
+192574	e35a0000	cmp	r10, #0
+192578	e3a03000	mov	r3, #0
+19257c	e5c43064	strb	r3, [r4, #0x64]
+192580	1a000033	bne	0x192654 <_ZN9CInstance19Compute_BoundingBoxEb+0x314>
+192584	e5d93000	ldrb	r3, [r9]
+192588	e3530000	cmp	r3, #0
+19258c	0a000002	beq	0x19259c <_ZN9CInstance19Compute_BoundingBoxEb+0x25c>
+192590	e59f324c	ldr	r3, [pc, #0x24c]
+192594	e7970003	ldr	r0, [r7, r3]
+192598	eb0438c3	bl	0x2a08ac <_ZN9CProfiler3PopEv>
+19259c	e28dd014	add	sp, sp, #20
+1925a0	ecbd8b08	vpop	{d8, d9, d10, d11}
+1925a4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1925a8	e0613003	rsb	r3, r1, r3
+1925ac	e0611002	rsb	r1, r1, r2
+1925b0	e2833001	add	r3, r3, #1
+1925b4	ee0b1a10	vmov	s22, r1
+1925b8	ee073a90	vmov	s15, r3
+1925bc	eeb8bacb	vcvt.f32.s32	s22, s22
+1925c0	eef8bae7	vcvt.f32.s32	s23, s15
+1925c4	ee26ba8b	vmul.f32	s22, s13, s22
+1925c8	ee66baab	vmul.f32	s23, s13, s23
+1925cc	eaffff98	b	0x192434 <_ZN9CInstance19Compute_BoundingBoxEb+0xf4>
+1925d0	ed947a2e	vldr	s14, [r4, #184]
+1925d4	ee777a87	vadd.f32	s15, s15, s14
+1925d8	ee378ac8	vsub.f32	s16, s15, s16
+1925dc	eeb76ac8	vcvt.f64.f32	d6, s16
+1925e0	ec510b16	vmov	r0, r1, d6
+1925e4	ebfc903f	bl	0xb66e8 <lrint@plt>
+1925e8	edd47a2e	vldr	s15, [r4, #184]
+1925ec	ee788aa7	vadd.f32	s17, s17, s15
+1925f0	ee389ac9	vsub.f32	s18, s17, s18
+1925f4	eeb77ac9	vcvt.f64.f32	d7, s18
+1925f8	e58400ec	str	r0, [r4, #0xec]
+1925fc	ec510b17	vmov	r0, r1, d7
+192600	ebfc9038	bl	0xb66e8 <lrint@plt>
+192604	e2400001	sub	r0, r0, #1
+192608	e58400f4	str	r0, [r4, #0xf4]
+19260c	eaffffd6	b	0x19256c <_ZN9CInstance19Compute_BoundingBoxEb+0x22c>
+192610	edd47a2d	vldr	s15, [r4, #180]
+192614	ee766aa7	vadd.f32	s13, s13, s15
+192618	ee367a87	vadd.f32	s14, s13, s14
+19261c	eeb76ac7	vcvt.f64.f32	d6, s14
+192620	ec510b16	vmov	r0, r1, d6
+192624	ebfc902f	bl	0xb66e8 <lrint@plt>
+192628	edd47a2d	vldr	s15, [r4, #180]
+19262c	ee3aaa27	vadd.f32	s20, s20, s15
+192630	ee7a9a29	vadd.f32	s19, s20, s19
+192634	eeb77ae9	vcvt.f64.f32	d7, s19
+192638	e58400e8	str	r0, [r4, #0xe8]
+19263c	ec510b17	vmov	r0, r1, d7
+192640	ebfc9028	bl	0xb66e8 <lrint@plt>
+192644	e5d63000	ldrb	r3, [r6]
+192648	e2400001	sub	r0, r0, #1
+19264c	e58400f0	str	r0, [r4, #0xf0]
+192650	eaffffa5	b	0x1924ec <_ZN9CInstance19Compute_BoundingBoxEb+0x1ac>
+192654	e1a00004	mov	r0, r4
+192658	e1a0100d	mov	r1, sp
+19265c	eb00ed6e	bl	0x1cdc1c <_Z15CollisionUpdateP9CInstanceR9tagYYRECT>
+192660	eaffffc7	b	0x192584 <_ZN9CInstance19Compute_BoundingBoxEb+0x244>
+192664	e59f3178	ldr	r3, [pc, #0x178]
+192668	e3a01006	mov	r1, #6
+19266c	e3a02002	mov	r2, #2
+192670	e7970003	ldr	r0, [r7, r3]
+192674	eb04382f	bl	0x2a0738 <_ZN9CProfiler4PushEii>
+192678	eaffff3c	b	0x192370 <_ZN9CInstance19Compute_BoundingBoxEb+0x30>
+19267c	e1a03000	mov	r3, r0
+192680	e59f2154	ldr	r2, [pc, #0x154]
+192684	e5b3c008	ldr	r12, [r3, #0x8]!
+192688	e5930004	ldr	r0, [r3, #0x4]
+19268c	e5931008	ldr	r1, [r3, #0x8]
+192690	e593300c	ldr	r3, [r3, #0xc]
+192694	e584c0e8	str	r12, [r4, #0xe8]
+192698	e5860004	str	r0, [r6, #0x4]
+19269c	e5861008	str	r1, [r6, #0x8]
+1926a0	e586300c	str	r3, [r6, #0xc]
+1926a4	e7976002	ldr	r6, [r7, r2]
+1926a8	e59400f0	ldr	r0, [r4, #0xf0]
+1926ac	e59430e8	ldr	r3, [r4, #0xe8]
+1926b0	e5d62000	ldrb	r2, [r6]
+1926b4	e2800001	add	r0, r0, #1
+1926b8	e59410f4	ldr	r1, [r4, #0xf4]
+1926bc	e0630000	rsb	r0, r3, r0
+1926c0	e3520000	cmp	r2, #0
+1926c4	e59420ec	ldr	r2, [r4, #0xec]
+1926c8	e2811001	add	r1, r1, #1
+1926cc	ee080a10	vmov	s16, r0
+1926d0	e062b001	rsb	r11, r2, r1
+1926d4	0a000043	beq	0x1927e8 <_ZN9CInstance19Compute_BoundingBoxEb+0x4a8>
+1926d8	e59f1100	ldr	r1, [pc, #0x100]
+1926dc	e7971001	ldr	r1, [r7, r1]
+1926e0	e5d11000	ldrb	r1, [r1]
+1926e4	e3510000	cmp	r1, #0
+1926e8	1a00003e	bne	0x1927e8 <_ZN9CInstance19Compute_BoundingBoxEb+0x4a8>
+1926ec	e5951024	ldr	r1, [r5, #0x24]
+1926f0	ed947a26	vldr	s14, [r4, #152]
+1926f4	edd47a2d	vldr	s15, [r4, #180]
+1926f8	eeb88ac8	vcvt.f32.s32	s16, s16
+1926fc	e0613003	rsb	r3, r1, r3
+192700	e1a01002	mov	r1, r2
+192704	e3a0c001	mov	r12, #1
+192708	ee053a90	vmov	s11, r3
+19270c	eef86ae5	vcvt.f32.s32	s13, s11
+192710	ee477a26	vmla.f32	s15, s14, s13
+192714	eefd7ae7	vcvt.s32.f32	s15, s15
+192718	ee173a90	vmov	r3, s15
+19271c	eef87ae7	vcvt.f32.s32	s15, s15
+192720	ee477a08	vmla.f32	s15, s14, s16
+192724	e58430e8	str	r3, [r4, #0xe8]
+192728	eefd7ae7	vcvt.s32.f32	s15, s15
+19272c	ee172a90	vmov	r2, s15
+192730	edc47a3c	vstr	s15, [r4, #240]
+192734	e1520003	cmp	r2, r3
+192738	b58420e8	strlt	r2, [r4, #0xe8]
+19273c	b58430f0	strlt	r3, [r4, #0xf0]
+192740	e35c0000	cmp	r12, #0
+192744	0a000040	beq	0x19284c <_ZN9CInstance19Compute_BoundingBoxEb+0x50c>
+192748	e59f3090	ldr	r3, [pc, #0x90]
+19274c	e7973003	ldr	r3, [r7, r3]
+192750	e5d33000	ldrb	r3, [r3]
+192754	e3530000	cmp	r3, #0
+192758	1a00003b	bne	0x19284c <_ZN9CInstance19Compute_BoundingBoxEb+0x50c>
+19275c	e5952028	ldr	r2, [r5, #0x28]
+192760	ee05ba90	vmov	s11, r11
+192764	ed947a27	vldr	s14, [r4, #156]
+192768	edd47a2e	vldr	s15, [r4, #184]
+19276c	e0622001	rsb	r2, r2, r1
+192770	eef86ae5	vcvt.f32.s32	s13, s11
+192774	ee052a90	vmov	s11, r2
+192778	eeb86ae5	vcvt.f32.s32	s12, s11
+19277c	ee477a06	vmla.f32	s15, s14, s12
+192780	eefd7ae7	vcvt.s32.f32	s15, s15
+192784	ee172a90	vmov	r2, s15
+192788	eef87ae7	vcvt.f32.s32	s15, s15
+19278c	ee477a26	vmla.f32	s15, s14, s13
+192790	e58420ec	str	r2, [r4, #0xec]
+192794	eefd7ae7	vcvt.s32.f32	s15, s15
+192798	ee173a90	vmov	r3, s15
+19279c	edc47a3d	vstr	s15, [r4, #244]
+1927a0	e1530002	cmp	r3, r2
+1927a4	b58430ec	strlt	r3, [r4, #0xec]
+1927a8	b1a03002	movlt	r3, r2
+1927ac	e5d52030	ldrb	r2, [r5, #0x30]
+1927b0	e2431001	sub	r1, r3, #1
+1927b4	e59430f0	ldr	r3, [r4, #0xf0]
+1927b8	e58410f4	str	r1, [r4, #0xf4]
+1927bc	e2433001	sub	r3, r3, #1
+1927c0	e5c420b0	strb	r2, [r4, #0xb0]
+1927c4	e58430f0	str	r3, [r4, #0xf0]
+1927c8	eaffff69	b	0x192574 <_ZN9CInstance19Compute_BoundingBoxEb+0x234>
+1927cc	40490fdb	ldrdmi	r0, r1, [r9], #-251
+1927d0	43340000	teqmi	r4, #0
+1927d4	0025f8f4	.word	0x0025f8f4
+1927d8	ffffbf18	.word	0xffffbf18
+1927dc	ffffea30	.word	0xffffea30
+1927e0	ffffea34	.word	0xffffea34
+1927e4	ffffbf1c	.word	0xffffbf1c
+1927e8	e5952024	ldr	r2, [r5, #0x24]
+1927ec	ed947a26	vldr	s14, [r4, #152]
+1927f0	edd47a2d	vldr	s15, [r4, #180]
+1927f4	e0623003	rsb	r3, r2, r3
+1927f8	ee063a10	vmov	s12, r3
+1927fc	eef86ac6	vcvt.f32.s32	s13, s12
+192800	ee467a87	vmla.f32	s15, s13, s14
+192804	eeb76ae7	vcvt.f64.f32	d6, s15
+192808	ec510b16	vmov	r0, r1, d6
+19280c	ebfc8fb5	bl	0xb66e8 <lrint@plt>
+192810	ed947a26	vldr	s14, [r4, #152]
+192814	eeb88ac8	vcvt.f32.s32	s16, s16
+192818	ee060a90	vmov	s13, r0
+19281c	e58400e8	str	r0, [r4, #0xe8]
+192820	eef87ae6	vcvt.f32.s32	s15, s13
+192824	ee487a07	vmla.f32	s15, s16, s14
+192828	eeb76ae7	vcvt.f64.f32	d6, s15
+19282c	ec510b16	vmov	r0, r1, d6
+192830	ebfc8fac	bl	0xb66e8 <lrint@plt>
+192834	e5d6c000	ldrb	r12, [r6]
+192838	e59430e8	ldr	r3, [r4, #0xe8]
+19283c	e59410ec	ldr	r1, [r4, #0xec]
+192840	e1a02000	mov	r2, r0
+192844	e58400f0	str	r0, [r4, #0xf0]
+192848	eaffffb9	b	0x192734 <_ZN9CInstance19Compute_BoundingBoxEb+0x3f4>
+19284c	e5952028	ldr	r2, [r5, #0x28]
+192850	ed947a27	vldr	s14, [r4, #156]
+192854	edd47a2e	vldr	s15, [r4, #184]
+192858	e0622001	rsb	r2, r2, r1
+19285c	ee062a10	vmov	s12, r2
+192860	eef86ac6	vcvt.f32.s32	s13, s12
+192864	ee467a87	vmla.f32	s15, s13, s14
+192868	eeb76ae7	vcvt.f64.f32	d6, s15
+19286c	ec510b16	vmov	r0, r1, d6
+192870	ebfc8f9c	bl	0xb66e8 <lrint@plt>
+192874	ed947a27	vldr	s14, [r4, #156]
+192878	ee05ba90	vmov	s11, r11
+19287c	ee060a90	vmov	s13, r0
+192880	e58400ec	str	r0, [r4, #0xec]
+192884	eef87ae6	vcvt.f32.s32	s15, s13
+192888	eef86ae5	vcvt.f32.s32	s13, s11
+19288c	ee467a87	vmla.f32	s15, s13, s14
+192890	eeb76ae7	vcvt.f64.f32	d6, s15
+192894	ec510b16	vmov	r0, r1, d6
+192898	ebfc8f92	bl	0xb66e8 <lrint@plt>
+19289c	e59420ec	ldr	r2, [r4, #0xec]
+1928a0	e1a03000	mov	r3, r0
+1928a4	e58400f4	str	r0, [r4, #0xf4]
+1928a8	eaffffbc	b	0x1927a0 <_ZN9CInstance19Compute_BoundingBoxEb+0x460>
+1928ac	ed947a2d	vldr	s14, [r4, #180]
+1928b0	edd47a2e	vldr	s15, [r4, #184]
+1928b4	eebd7ac7	vcvt.s32.f32	s14, s14
+1928b8	e5c400b0	strb	r0, [r4, #0xb0]
+1928bc	eefd7ae7	vcvt.s32.f32	s15, s15
+1928c0	ed847a3a	vstr	s14, [r4, #232]
+1928c4	ed847a3c	vstr	s14, [r4, #240]
+1928c8	edc47a3b	vstr	s15, [r4, #236]
+1928cc	edc47a3d	vstr	s15, [r4, #244]
+1928d0	eaffff27	b	0x192574 <_ZN9CInstance19Compute_BoundingBoxEb+0x234>

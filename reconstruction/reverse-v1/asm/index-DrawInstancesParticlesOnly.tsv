@@ -1,0 +1,275 @@
+1b0b04	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+1b0b08	ed2d8b04	vpush	{d8, d9}
+1b0b0c	e24dd01c	sub	sp, sp, #28
+1b0b10	eddf8af4	vldr	s17, [pc, #976]
+1b0b14	ebffd2fc	bl	0x1a570c <_Z27ParticleSystem_LargestDepthv>
+1b0b18	e59f63d0	ldr	r6, [pc, #0x3d0]
+1b0b1c	e59f33d0	ldr	r3, [pc, #0x3d0]
+1b0b20	e08f6006	add	r6, pc, r6
+1b0b24	e7963003	ldr	r3, [r6, r3]
+1b0b28	e5933000	ldr	r3, [r3]
+1b0b2c	e5934084	ldr	r4, [r3, #0x84]
+1b0b30	ee080a10	vmov	s16, r0
+1b0b34	eeb48ae8	vcmpe.f32	s16, s17
+1b0b38	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0b3c	da00002b	ble	0x1b0bf0 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xec>
+1b0b40	e3540000	cmp	r4, #0
+1b0b44	0a0000cb	beq	0x1b0e78 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x374>
+1b0b48	e3a07000	mov	r7, #0
+1b0b4c	eef79a00	vmov.f32	s19, #1.000000e+00
+1b0b50	e3e084ff	mvn	r8, #-16777216
+1b0b54	ed9f9ae4	vldr	s18, [pc, #912]
+1b0b58	ea00001d	b	0x1b0bd4 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xd0>
+1b0b5c	e5d43069	ldrb	r3, [r4, #0x69]
+1b0b60	e3530000	cmp	r3, #0
+1b0b64	1a00001d	bne	0x1b0be0 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xdc>
+1b0b68	e5d43065	ldrb	r3, [r4, #0x65]
+1b0b6c	e3530000	cmp	r3, #0
+1b0b70	0a00001a	beq	0x1b0be0 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xdc>
+1b0b74	edd47a60	vldr	s15, [r4, #384]
+1b0b78	eef47ac8	vcmpe.f32	s15, s16
+1b0b7c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0b80	5a000067	bpl	0x1b0d24 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x220>
+1b0b84	e59f336c	ldr	r3, [pc, #0x36c]
+1b0b88	e7965003	ldr	r5, [r6, r3]
+1b0b8c	e5d53000	ldrb	r3, [r5]
+1b0b90	e3530000	cmp	r3, #0
+1b0b94	0a000004	beq	0x1b0bac <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xa8>
+1b0b98	eeb48ac9	vcmpe.f32	s16, s18
+1b0b9c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0ba0	de180a10	vmovle	r0, s16
+1b0ba4	ce190a10	vmovgt	r0, s18
+1b0ba8	ebfec98b	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b0bac	ee180a10	vmov	r0, s16
+1b0bb0	ebffd321	bl	0x1a583c <_Z24ParticleSystem_DrawDepthf>
+1b0bb4	ee180a10	vmov	r0, s16
+1b0bb8	ebffd2f7	bl	0x1a579c <_Z24ParticleSystem_NextDepthf>
+1b0bbc	ee080a10	vmov	s16, r0
+1b0bc0	eeb48ae8	vcmpe.f32	s16, s17
+1b0bc4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0bc8	da000008	ble	0x1b0bf0 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xec>
+1b0bcc	e3540000	cmp	r4, #0
+1b0bd0	0a0000a8	beq	0x1b0e78 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x374>
+1b0bd4	e5d43068	ldrb	r3, [r4, #0x68]
+1b0bd8	e3530000	cmp	r3, #0
+1b0bdc	0affffde	beq	0x1b0b5c <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x58>
+1b0be0	e594417c	ldr	r4, [r4, #0x17c]
+1b0be4	eeb48ae8	vcmpe.f32	s16, s17
+1b0be8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0bec	cafffff6	bgt	0x1b0bcc <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xc8>
+1b0bf0	e3540000	cmp	r4, #0
+1b0bf4	0a0000b3	beq	0x1b0ec8 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x3c4>
+1b0bf8	eef78a00	vmov.f32	s17, #1.000000e+00
+1b0bfc	e3a07000	mov	r7, #0
+1b0c00	e3e084ff	mvn	r8, #-16777216
+1b0c04	ed9f8ab8	vldr	s16, [pc, #736]
+1b0c08	ea00000b	b	0x1b0c3c <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x138>
+1b0c0c	e59fc2e8	ldr	r12, [pc, #0x2e8]
+1b0c10	e1a00004	mov	r0, r4
+1b0c14	e1a01004	mov	r1, r4
+1b0c18	e3a02008	mov	r2, #8
+1b0c1c	e3a03000	mov	r3, #0
+1b0c20	e796500c	ldr	r5, [r6, r12]
+1b0c24	e5854000	str	r4, [r5]
+1b0c28	ebfd09d4	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1b0c2c	e5857000	str	r7, [r5]
+1b0c30	e594417c	ldr	r4, [r4, #0x17c]
+1b0c34	e3540000	cmp	r4, #0
+1b0c38	0a0000a2	beq	0x1b0ec8 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x3c4>
+1b0c3c	e5d43068	ldrb	r3, [r4, #0x68]
+1b0c40	e3530000	cmp	r3, #0
+1b0c44	1afffff9	bne	0x1b0c30 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x12c>
+1b0c48	e5d43069	ldrb	r3, [r4, #0x69]
+1b0c4c	e3530000	cmp	r3, #0
+1b0c50	1afffff6	bne	0x1b0c30 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x12c>
+1b0c54	e5d43065	ldrb	r3, [r4, #0x65]
+1b0c58	e3530000	cmp	r3, #0
+1b0c5c	0afffff3	beq	0x1b0c30 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x12c>
+1b0c60	e59f3290	ldr	r3, [pc, #0x290]
+1b0c64	e7963003	ldr	r3, [r6, r3]
+1b0c68	e5d33000	ldrb	r3, [r3]
+1b0c6c	e3530000	cmp	r3, #0
+1b0c70	0a000005	beq	0x1b0c8c <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x188>
+1b0c74	edd47a60	vldr	s15, [r4, #384]
+1b0c78	eef47ac8	vcmpe.f32	s15, s16
+1b0c7c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0c80	de170a90	vmovle	r0, s15
+1b0c84	ce180a10	vmovgt	r0, s16
+1b0c88	ebfec953	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b0c8c	e5940080	ldr	r0, [r4, #0x80]
+1b0c90	e3a01008	mov	r1, #8
+1b0c94	e3a02000	mov	r2, #0
+1b0c98	ebffb40f	bl	0x19dcdc <_ZN9CObjectGM17HasEventRecursiveEii>
+1b0c9c	e3500000	cmp	r0, #0
+1b0ca0	1affffd9	bne	0x1b0c0c <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x108>
+1b0ca4	e594008c	ldr	r0, [r4, #0x8c]
+1b0ca8	eb00f8e3	bl	0x1ef03c <_Z11Sprite_Datai>
+1b0cac	e2509000	subs	r9, r0, #0
+1b0cb0	0affffde	beq	0x1b0c30 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x12c>
+1b0cb4	e59f3240	ldr	r3, [pc, #0x240]
+1b0cb8	edd47a26	vldr	s15, [r4, #152]
+1b0cbc	eef47a68	vcmp.f32	s15, s17
+1b0cc0	e7965003	ldr	r5, [r6, r3]
+1b0cc4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0cc8	e5854000	str	r4, [r5]
+1b0ccc	1a000080	bne	0x1b0ed4 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x3d0>
+1b0cd0	ed947a27	vldr	s14, [r4, #156]
+1b0cd4	eeb47a68	vcmp.f32	s14, s17
+1b0cd8	edd46a28	vldr	s13, [r4, #160]
+1b0cdc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0ce0	0a000086	beq	0x1b0f00 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x3fc>
+1b0ce4	e594c0a8	ldr	r12, [r4, #0xa8]
+1b0ce8	ed946a29	vldr	s12, [r4, #164]
+1b0cec	edd45a24	vldr	s11, [r4, #144]
+1b0cf0	eefd5ae5	vcvt.s32.f32	s11, s11
+1b0cf4	e59420b4	ldr	r2, [r4, #0xb4]
+1b0cf8	e1a00009	mov	r0, r9
+1b0cfc	e59430b8	ldr	r3, [r4, #0xb8]
+1b0d00	edcd7a00	vstr	s15, [sp]
+1b0d04	ed8d7a01	vstr	s14, [sp, #4]
+1b0d08	edcd6a02	vstr	s13, [sp, #8]
+1b0d0c	e58dc00c	str	r12, [sp, #0xc]
+1b0d10	ed8d6a04	vstr	s12, [sp, #16]
+1b0d14	ee151a90	vmov	r1, s11
+1b0d18	eb00ee80	bl	0x1ec720 <_ZN7CSprite4DrawEifffffjf>
+1b0d1c	e5857000	str	r7, [r5]
+1b0d20	eaffffc2	b	0x1b0c30 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x12c>
+1b0d24	e59f31cc	ldr	r3, [pc, #0x1cc]
+1b0d28	e7965003	ldr	r5, [r6, r3]
+1b0d2c	e5d53000	ldrb	r3, [r5]
+1b0d30	e3530000	cmp	r3, #0
+1b0d34	0a000004	beq	0x1b0d4c <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x248>
+1b0d38	eef47ac9	vcmpe.f32	s15, s18
+1b0d3c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0d40	de170a90	vmovle	r0, s15
+1b0d44	ce190a10	vmovgt	r0, s18
+1b0d48	ebfec923	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b0d4c	e5940080	ldr	r0, [r4, #0x80]
+1b0d50	e3a01008	mov	r1, #8
+1b0d54	e3a02000	mov	r2, #0
+1b0d58	ebffb3df	bl	0x19dcdc <_ZN9CObjectGM17HasEventRecursiveEii>
+1b0d5c	e3500000	cmp	r0, #0
+1b0d60	0a00000a	beq	0x1b0d90 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x28c>
+1b0d64	e59fc190	ldr	r12, [pc, #0x190]
+1b0d68	e1a00004	mov	r0, r4
+1b0d6c	e1a01004	mov	r1, r4
+1b0d70	e3a02008	mov	r2, #8
+1b0d74	e3a03000	mov	r3, #0
+1b0d78	e796500c	ldr	r5, [r6, r12]
+1b0d7c	e5854000	str	r4, [r5]
+1b0d80	ebfd097e	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1b0d84	e5857000	str	r7, [r5]
+1b0d88	e594417c	ldr	r4, [r4, #0x17c]
+1b0d8c	eaffff94	b	0x1b0be4 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xe0>
+1b0d90	e594008c	ldr	r0, [r4, #0x8c]
+1b0d94	eb00f8a8	bl	0x1ef03c <_Z11Sprite_Datai>
+1b0d98	e2509000	subs	r9, r0, #0
+1b0d9c	0affff8f	beq	0x1b0be0 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xdc>
+1b0da0	e59f3154	ldr	r3, [pc, #0x154]
+1b0da4	edd47a26	vldr	s15, [r4, #152]
+1b0da8	eef47a69	vcmp.f32	s15, s19
+1b0dac	e7965003	ldr	r5, [r6, r3]
+1b0db0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0db4	e5854000	str	r4, [r5]
+1b0db8	1a000018	bne	0x1b0e20 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x31c>
+1b0dbc	ed947a27	vldr	s14, [r4, #156]
+1b0dc0	eeb47a69	vcmp.f32	s14, s19
+1b0dc4	edd46a28	vldr	s13, [r4, #160]
+1b0dc8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0dcc	1a000026	bne	0x1b0e6c <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x368>
+1b0dd0	eef56a40	vcmp.f32	s13, #0
+1b0dd4	e594c0a8	ldr	r12, [r4, #0xa8]
+1b0dd8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0ddc	1a000012	bne	0x1b0e2c <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x328>
+1b0de0	e15c0008	cmp	r12, r8
+1b0de4	ed946a29	vldr	s12, [r4, #164]
+1b0de8	1a000010	bne	0x1b0e30 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x32c>
+1b0dec	eeb46a69	vcmp.f32	s12, s19
+1b0df0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0df4	1a00000d	bne	0x1b0e30 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x32c>
+1b0df8	e5940090	ldr	r0, [r4, #0x90]
+1b0dfc	ebfc16c3	bl	0xb6910 <floorf@plt>
+1b0e00	e59420b4	ldr	r2, [r4, #0xb4]
+1b0e04	e59430b8	ldr	r3, [r4, #0xb8]
+1b0e08	ee070a90	vmov	s15, r0
+1b0e0c	e1a00009	mov	r0, r9
+1b0e10	eefd7ae7	vcvt.s32.f32	s15, s15
+1b0e14	ee171a90	vmov	r1, s15
+1b0e18	eb00ef25	bl	0x1ecab4 <_ZN7CSprite10DrawSimpleEiff>
+1b0e1c	ea00000f	b	0x1b0e60 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x35c>
+1b0e20	e594c0a8	ldr	r12, [r4, #0xa8]
+1b0e24	ed947a27	vldr	s14, [r4, #156]
+1b0e28	edd46a28	vldr	s13, [r4, #160]
+1b0e2c	ed946a29	vldr	s12, [r4, #164]
+1b0e30	edd45a24	vldr	s11, [r4, #144]
+1b0e34	eefd5ae5	vcvt.s32.f32	s11, s11
+1b0e38	e59420b4	ldr	r2, [r4, #0xb4]
+1b0e3c	e1a00009	mov	r0, r9
+1b0e40	e59430b8	ldr	r3, [r4, #0xb8]
+1b0e44	edcd7a00	vstr	s15, [sp]
+1b0e48	ed8d7a01	vstr	s14, [sp, #4]
+1b0e4c	edcd6a02	vstr	s13, [sp, #8]
+1b0e50	e58dc00c	str	r12, [sp, #0xc]
+1b0e54	ed8d6a04	vstr	s12, [sp, #16]
+1b0e58	ee151a90	vmov	r1, s11
+1b0e5c	eb00ee2f	bl	0x1ec720 <_ZN7CSprite4DrawEifffffjf>
+1b0e60	e5857000	str	r7, [r5]
+1b0e64	e594417c	ldr	r4, [r4, #0x17c]
+1b0e68	eaffff5d	b	0x1b0be4 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0xe0>
+1b0e6c	e594c0a8	ldr	r12, [r4, #0xa8]
+1b0e70	ed946a29	vldr	s12, [r4, #164]
+1b0e74	eaffffed	b	0x1b0e30 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x32c>
+1b0e78	e59f3078	ldr	r3, [pc, #0x78]
+1b0e7c	ed9f9a1a	vldr	s18, [pc, #104]
+1b0e80	eddf8a18	vldr	s17, [pc, #96]
+1b0e84	e7965003	ldr	r5, [r6, r3]
+1b0e88	e5d53000	ldrb	r3, [r5]
+1b0e8c	e3530000	cmp	r3, #0
+1b0e90	0a000004	beq	0x1b0ea8 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x3a4>
+1b0e94	eeb48ac9	vcmpe.f32	s16, s18
+1b0e98	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0e9c	de180a10	vmovle	r0, s16
+1b0ea0	ce190a10	vmovgt	r0, s18
+1b0ea4	ebfec8cc	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b0ea8	ee180a10	vmov	r0, s16
+1b0eac	ebffd262	bl	0x1a583c <_Z24ParticleSystem_DrawDepthf>
+1b0eb0	ee180a10	vmov	r0, s16
+1b0eb4	ebffd238	bl	0x1a579c <_Z24ParticleSystem_NextDepthf>
+1b0eb8	ee080a10	vmov	s16, r0
+1b0ebc	eeb48ae8	vcmpe.f32	s16, s17
+1b0ec0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0ec4	caffffef	bgt	0x1b0e88 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x384>
+1b0ec8	e28dd01c	add	sp, sp, #28
+1b0ecc	ecbd8b04	vpop	{d8, d9}
+1b0ed0	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+1b0ed4	e594c0a8	ldr	r12, [r4, #0xa8]
+1b0ed8	ed947a27	vldr	s14, [r4, #156]
+1b0edc	edd46a28	vldr	s13, [r4, #160]
+1b0ee0	ed946a29	vldr	s12, [r4, #164]
+1b0ee4	eaffff80	b	0x1b0cec <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x1e8>
+1b0ee8	ccbebc20	ldcgt	p12, c11, [lr], #128
+1b0eec	462be000	strtmi	lr, [r11], -r0
+1b0ef0	00241130	eoreq	r1, r4, r0, lsr r1
+1b0ef4	ffffbcd8	.word	0xffffbcd8
+1b0ef8	ffffc0b4	.word	0xffffc0b4
+1b0efc	ffffbce4	.word	0xffffbce4
+1b0f00	eef56a40	vcmp.f32	s13, #0
+1b0f04	e594c0a8	ldr	r12, [r4, #0xa8]
+1b0f08	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0f0c	1afffff3	bne	0x1b0ee0 <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x3dc>
+1b0f10	e15c0008	cmp	r12, r8
+1b0f14	ed946a29	vldr	s12, [r4, #164]
+1b0f18	1affff73	bne	0x1b0cec <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x1e8>
+1b0f1c	eeb46a68	vcmp.f32	s12, s17
+1b0f20	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0f24	1affff70	bne	0x1b0cec <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x1e8>
+1b0f28	e5940090	ldr	r0, [r4, #0x90]
+1b0f2c	ebfc1677	bl	0xb6910 <floorf@plt>
+1b0f30	e59420b4	ldr	r2, [r4, #0xb4]
+1b0f34	e59430b8	ldr	r3, [r4, #0xb8]
+1b0f38	ee070a90	vmov	s15, r0
+1b0f3c	e1a00009	mov	r0, r9
+1b0f40	eefd7ae7	vcvt.s32.f32	s15, s15
+1b0f44	ee171a90	vmov	r1, s15
+1b0f48	eb00eed9	bl	0x1ecab4 <_ZN7CSprite10DrawSimpleEiff>
+1b0f4c	eaffff72	b	0x1b0d1c <_Z26DrawInstancesParticlesOnlyP9tagYYRECT+0x218>

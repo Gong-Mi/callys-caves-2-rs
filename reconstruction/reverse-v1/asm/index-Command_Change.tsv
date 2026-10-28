@@ -1,0 +1,53 @@
+1c9bb4	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1c9bb8	e1a04000	mov	r4, r0
+1c9bbc	e1a00001	mov	r0, r1
+1c9bc0	e1a05001	mov	r5, r1
+1c9bc4	e1a06002	mov	r6, r2
+1c9bc8	ebff544a	bl	0x19ecf8 <_Z13Object_Existsi>
+1c9bcc	e2507000	subs	r7, r0, #0
+1c9bd0	0a000019	beq	0x1c9c3c <_Z14Command_ChangeP9CInstanceib+0x88>
+1c9bd4	e594307c	ldr	r3, [r4, #0x7c]
+1c9bd8	e1550003	cmp	r5, r3
+1c9bdc	08bd81f0	popeq	{r4, r5, r6, r7, r8, pc}
+1c9be0	e3560000	cmp	r6, #0
+1c9be4	0a000010	beq	0x1c9c2c <_Z14Command_ChangeP9CInstanceib+0x78>
+1c9be8	e5d4606a	ldrb	r6, [r4, #0x6a]
+1c9bec	e3560000	cmp	r6, #0
+1c9bf0	0a000018	beq	0x1c9c58 <_Z14Command_ChangeP9CInstanceib+0xa4>
+1c9bf4	e1a01005	mov	r1, r5
+1c9bf8	e1a00004	mov	r0, r4
+1c9bfc	ebff25d9	bl	0x193368 <_ZN9CInstance17ChangeObjectIndexEi>
+1c9c00	e1a00004	mov	r0, r4
+1c9c04	e1a01004	mov	r1, r4
+1c9c08	e3a0200e	mov	r2, #14
+1c9c0c	e3a03000	mov	r3, #0
+1c9c10	ebfca5da	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1c9c14	e3a02000	mov	r2, #0
+1c9c18	e1a00004	mov	r0, r4
+1c9c1c	e1a01004	mov	r1, r4
+1c9c20	e1a03002	mov	r3, r2
+1c9c24	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+1c9c28	eafca5d4	b	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1c9c2c	e1a00004	mov	r0, r4
+1c9c30	e1a01005	mov	r1, r5
+1c9c34	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+1c9c38	eaff25ca	b	0x193368 <_ZN9CInstance17ChangeObjectIndexEi>
+1c9c3c	e59f0040	ldr	r0, [pc, #0x40]
+1c9c40	e1a01005	mov	r1, r5
+1c9c44	e08f0000	add	r0, pc, r0
+1c9c48	ebfff9cc	bl	0x1c8380 <_ZN13CLayerManager16DeSerializeLayerEP5CRoomP7IBuffer+0xeb0>
+1c9c4c	e1a01007	mov	r1, r7
+1c9c50	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+1c9c54	eafc8cc5	b	0xecf70 <_Z17Error_Show_ActionPKcb>
+1c9c58	e1a00004	mov	r0, r4
+1c9c5c	e1a01004	mov	r1, r4
+1c9c60	e1a03006	mov	r3, r6
+1c9c64	e3a02001	mov	r2, #1
+1c9c68	ebfca5c4	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1c9c6c	e1a00004	mov	r0, r4
+1c9c70	e1a01004	mov	r1, r4
+1c9c74	e1a03006	mov	r3, r6
+1c9c78	e3a0200c	mov	r2, #12
+1c9c7c	ebfca5bf	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1c9c80	eaffffdb	b	0x1c9bf4 <_Z14Command_ChangeP9CInstanceib+0x40>
+1c9c84	00186fcc	andseq	r6, r8, r12, asr #31
