@@ -1,7 +1,7 @@
 //! Headless event host for a bounded IR scene, NOT GameWorld or a full GM runner.
 //! Event bodies come exclusively from CODE IR/OBJT bindings. No intro timers or
 //! coordinates are hand-translated here. External instances are explicitly inert.
-use crate::code_vm::{self, Bundle, Host, STRING_REF_BASE};
+use crate::code_vm::{self, Bundle, Host, Payload, Value, STRING_REF_BASE};
 use serde::Serialize;
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -723,16 +723,16 @@ impl Scene {
 
             // Apply scale if specified
             if inst.scale_x.is_finite() && inst.scale_x != 0.0 {
-                let _ = self.write(inst_id, -1, "image_xscale", None, inst.scale_x as f64);
+                let _ = self.write_raw(inst_id, -1, "image_xscale", None, inst.scale_x as f64);
             }
             if inst.scale_y.is_finite() && inst.scale_y != 0.0 {
-                let _ = self.write(inst_id, -1, "image_yscale", None, inst.scale_y as f64);
+                let _ = self.write_raw(inst_id, -1, "image_yscale", None, inst.scale_y as f64);
             }
             // The placement's rotation is part of the instance's initial state
             // (GM image_angle) and feeds the rotated sprite box the collision
             // queries use; three original placements depend on it.
             if inst.rotation.is_finite() {
-                let _ = self.write(inst_id, -1, "image_angle", None, inst.rotation as f64);
+                let _ = self.write_raw(inst_id, -1, "image_angle", None, inst.rotation as f64);
             }
 
             // Run creation code if bound
@@ -1102,7 +1102,7 @@ impl Scene {
             };
 
             for target_obj in col_events {
-                let targets = match self.select(id, target_obj) {
+                let targets = match self.select_raw(id, target_obj) {
                     Ok(t) => t,
                     Err(_) => continue,
                 };
@@ -1608,10 +1608,32 @@ impl Scene {
         if idx < b.string_table.len() { return b.string_table.get(idx).cloned(); }
         self.dynamic_strings.get(idx - b.string_table.len()).cloned()
     }
-    /// Store a runtime-built string and hand back a fresh reference.
-    pub fn alloc_string(&mut self, b: &Bundle, text: String) -> f64 {
+    /// Store a runtime-built string and hand back its pool index (the payload of
+    /// a `Value` with tag 1).
+    pub fn alloc_string_index(&mut self, b: &Bundle, text: String) -> u32 {
         self.dynamic_strings.push(text);
-        STRING_REF_BASE + (b.string_table.len() + self.dynamic_strings.len() - 1) as f64
+        (b.string_table.len() + self.dynamic_strings.len() - 1) as u32
+    }
+    /// Store a runtime-built string and hand back a fresh reference in the legacy
+    /// numeric encoding (the scene's variable tables are still `f64`).
+    pub fn alloc_string(&mut self, b: &Bundle, text: String) -> f64 {
+        STRING_REF_BASE + self.alloc_string_index(b, text) as f64
+    }
+    /// Text behind a pool index: the bundle's literal table first, then this
+    /// scene's runtime entries.
+    fn pool_text_index(&self, b: &Bundle, index: u32) -> Option<String> {
+        let index = index as usize;
+        if index < b.string_table.len() { return b.string_table.get(index).cloned(); }
+        self.dynamic_strings.get(index - b.string_table.len()).cloned()
+    }
+    /// A `Value` argument as text: string references resolve through the pool,
+    /// everything numeric renders the way GMS renders it (`string()` / implicit
+    /// coercion). Undefined and the unmodelled tags have no text here.
+    fn value_text(&self, b: &Bundle, v: Value) -> String {
+        match v.payload {
+            Payload::Str(index) => self.pool_text_index(b, index).unwrap_or_default(),
+            _ => v.to_legacy_numeric().map(gm_real_text).unwrap_or_default(),
+        }
     }
     /// A string argument as text: pooled references resolve, plain numbers
     /// render the way GMS renders them (`string()` / implicit coercion).
@@ -1625,9 +1647,9 @@ impl Scene {
     /// ignores them.
     fn select_for_access(&self, id: i32, s: i32) -> Vec<i32> {
         if s < 0 {
-            return self.select(id, s).unwrap_or_default();
+            return self.select_raw(id, s).unwrap_or_default();
         }
-        let strict = self.select(id, s).unwrap_or_default();
+        let strict = self.select_raw(id, s).unwrap_or_default();
         if !strict.is_empty() {
             return strict;
         }

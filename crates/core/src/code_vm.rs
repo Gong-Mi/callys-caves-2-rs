@@ -1,5 +1,12 @@
-//! Numeric CODE interpreter. Deliberately separate from generated event bodies.
+//! CODE interpreter. Deliberately separate from generated event bodies.
+//!
+//! The stack is `Vec<Value>`: every slot carries the RValue tag from
+//! `reconstruction/contracts/value-model.md` (real / int32 / int64 / string /
+//! undefined / null / bool), so integer wraparound, i64 pairs and the ±1e-05
+//! comparison tolerance happen on the tag the original VM would have seen
+//! instead of being flattened into one `f64`.
 use serde::Deserialize;
+pub use crate::value::{Payload, Value, STRING_REF_BASE};
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Bundle {
@@ -67,33 +74,44 @@ impl std::fmt::Display for VmError {
 }
 impl std::error::Error for VmError {}
 pub trait Host {
-    fn read(&mut self, instance: i32, selector: i32, name: &str, index: Option<i32>) -> Result<f64, String>;
-    fn write(&mut self, instance: i32, selector: i32, name: &str, index: Option<i32>, value: f64) -> Result<(), String>;
-    fn call(&mut self, bundle: &Bundle, instance: i32, name: &str, args: &[f64]) -> Result<f64, String>;
+    fn read(&mut self, instance: i32, selector: i32, name: &str, index: Option<i32>) -> Result<Value, String>;
+    fn write(&mut self, instance: i32, selector: i32, name: &str, index: Option<i32>, value: Value) -> Result<(), String>;
+    fn call(&mut self, bundle: &Bundle, instance: i32, name: &str, args: &[Value]) -> Result<Value, String>;
     fn select(&self, instance: i32, selector: i32) -> Result<Vec<i32>, String>;
-    /// GMS `+` concatenates when an operand is a string. The VM delegates here
-    /// once either operand carries a pooled string reference (>= STRING_REF_BASE);
-    /// hosts without strings keep the numeric default.
-    fn string_concat(&mut self, _bundle: &Bundle, _lhs: f64, _rhs: f64) -> Result<f64, String> {
+    /// GMS `+` concatenates when an operand is a string (DoAdd mode1: ToString
+    /// both sides, then join). The VM delegates here as soon as either operand
+    /// is `Value::string(..)`; hosts without a string pool keep the error.
+    fn string_concat(&mut self, _bundle: &Bundle, _lhs: Value, _rhs: Value) -> Result<Value, String> {
         Err("string concatenation is unsupported by this host".into())
+    }
+    /// Text behind a string reference. The default resolves the bundle's literal
+    /// table only (that needs no host state); hosts that own runtime-built
+    /// strings override this to cover the tail of the pool.
+    fn string_text(&self, bundle: &Bundle, value: Value) -> Result<String, String> {
+        match value.payload {
+            Payload::Str(index) if (index as usize) < bundle.string_table.len() => {
+                Ok(bundle.string_table[index as usize].clone())
+            }
+            Payload::Str(index) => Err(format!("string reference {index} is not in the bundle string table")),
+            _ => Err(format!("{value} is not a string")),
+        }
     }
     fn instruction(&mut self, _code: usize, _offset: usize) {}
 }
 pub fn prologue_bundle() -> Bundle { serde_json::from_str(include_str!("generated/prologue_ir.json")).expect("generated IR schema") }
-fn integer(v: f64) -> Result<i32, String> {
-    if v.is_finite() && v.fract() == 0.0 && v >= i32::MIN as f64 && v <= i32::MAX as f64 { Ok(v as i32) }
-    else { Err(format!("unsupported non-i32 selector/index {v}")) }
+/// Selector / array index: an int32 slot is taken as-is, anything else must be an
+/// integral real in range (a bad index is a scheduling bug, not a silent zero).
+fn integer(v: Value) -> Result<i32, String> {
+    match v.payload {
+        Payload::Int32(i) => Ok(i),
+        _ => {
+            let x = v.to_real().map_err(|_| format!("unsupported non-i32 selector/index {v}"))?;
+            if x.is_finite() && x.fract() == 0.0 && x >= i32::MIN as f64 && x <= i32::MAX as f64 { Ok(x as i32) }
+            else { Err(format!("unsupported non-i32 selector/index {x}")) }
+        }
+    }
 }
-fn pop(stack: &mut Vec<f64>) -> Result<f64, String> { stack.pop().ok_or("stack underflow".into()) }
-
-/// GMS 1.4 values are variants: a string is a reference, not a number. The
-/// numeric IR keeps that type on the value itself, so it survives loads,
-/// stores and snapshots — a pooled string reference is always >= this base and
-/// indexes the pool (the bundle's string table first, the host's runtime
-/// entries after it). Gameplay numbers (positions, hp, score, asset ids) never
-/// approach 2^40, so string references and numbers cannot collide the way raw
-/// table indices did with the score/damage values `draw_text` receives.
-pub const STRING_REF_BASE: f64 = 1_099_511_627_776.0;
+fn pop(stack: &mut Vec<Value>) -> Result<Value, String> { stack.pop().ok_or("stack underflow".into()) }
 
 /// Which CODE bodies actually executed — an execution ledger, not a coverage
 /// claim about behaviour.
@@ -227,8 +245,10 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
             if budget == 0 { return Err("instruction budget exhausted".into()); }
             budget -= 1; pc += 1;
             match &i.op {
-                Op::Constant{value} => stack.push(*value),
-                Op::String{string_id} => stack.push(STRING_REF_BASE + *string_id as f64),
+                // A lowered constant is a real. Legacy IR files may still carry a
+                // pooled string reference as a constant, so decode that encoding.
+                Op::Constant{value} => stack.push(Value::from_legacy_numeric(*value)),
+                Op::String{string_id} => stack.push(Value::string(*string_id as u32)),
                 Op::Load{name,selector,array,other} => {
                     let (s, index) = if *array {
                         let idx=integer(pop(&mut stack)?)?;
@@ -273,30 +293,60 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                 }
                 Op::StoreLocal{name} => { let value=pop(&mut stack)?; locals.insert(name.clone(),value); }
                 Op::Cast{to} => {
+                    // DoConv type codes: src/dst are 0..6 (real/f32/int32/int64/bool/
+                    // dynamic/string); the lowered IR only carries the dst.
                     let v=pop(&mut stack)?;
-                    stack.push(match to { 0|5 => v, 4 => if v >= 0.5 {1.0} else {0.0}, 2 => integer(v.trunc())? as f64, _=>return Err("unsupported cast".into()) });
+                    stack.push(v.cast(*to)?);
                 }
                 Op::Add|Op::Sub|Op::Mul|Op::Div|Op::Cmp{..} => {
                     let rhs=pop(&mut stack)?; let lhs=pop(&mut stack)?;
-                    let v=if matches!(i.op, Op::Add) && (lhs >= STRING_REF_BASE || rhs >= STRING_REF_BASE) {
-                        // GMS joins strings with `+`; the shipped concat sites
-                        // pair a literal with string(...). The host owns the
-                        // string pool, so it resolves and stores the result.
-                        host.string_concat(bundle, lhs, rhs)?
-                    } else { match i.op {
-                        Op::Add=>lhs+rhs, Op::Sub=>lhs-rhs, Op::Mul=>lhs*rhs,
-                        Op::Div=>{ if rhs==0.0 {return Err("division by zero".into());} lhs/rhs }
-                        Op::Cmp{comparison} => { let b=match comparison {1=>lhs<rhs,2=>lhs<=rhs,3=>lhs==rhs,4=>lhs!=rhs,5=>lhs>=rhs,6=>lhs>rhs,_=>return Err("unsupported comparison".into())}; if b {1.0} else {0.0} },
+                    let v=match i.op {
+                        // GMS joins strings with `+` (DoAdd mode1: either side a
+                        // string -> ToString both, then concatenate). The host owns
+                        // the string pool, so it resolves and stores the result.
+                        Op::Add if lhs.is_string() || rhs.is_string() => host.string_concat(bundle, lhs, rhs)?,
+                        Op::Add => lhs.add(rhs)?,
+                        Op::Sub => lhs.sub(rhs)?,
+                        Op::Mul => lhs.mul(rhs)?,
+                        Op::Div => lhs.div(rhs)?,
+                        Op::Cmp{comparison} => {
+                            if lhs.is_string() || rhs.is_string() {
+                                // DoSet 0x66: strcmp, then the same K = 1..6 order.
+                                // A string against a non-string is a combination the
+                                // card leaves open; unsupported combinations yield a
+                                // value, not an error (only != is 1).
+                                match (lhs.is_string(), rhs.is_string()) {
+                                    (true, true) => {
+                                        let a = host.string_text(bundle, lhs)?;
+                                        let b = host.string_text(bundle, rhs)?;
+                                        let ord = a.cmp(&b);
+                                        let truth = match comparison {
+                                            1 => ord.is_lt(), 2 => ord.is_le(), 3 => ord.is_eq(),
+                                            4 => ord.is_ne(), 5 => ord.is_ge(), 6 => ord.is_gt(),
+                                            _ => return Err("unsupported comparison".into()),
+                                        };
+                                        Value::int32(if truth {1} else {0})
+                                    }
+                                    _ => Value::int32(if comparison == 4 {1} else {0}),
+                                }
+                            } else {
+                                lhs.compare(rhs, comparison)?
+                            }
+                        }
                         _=>unreachable!(),
-                    } }; stack.push(v);
+                    }; stack.push(v);
                 }
-                Op::Not => { let v=pop(&mut stack)?; stack.push(if v>=0.5 {0.0} else {1.0}); }
+                // DoNot mode1: JS_ToBoolean then negate, result is a 4-byte int.
+                Op::Not => { let v=pop(&mut stack)?; stack.push(v.logical_not()); }
                 Op::Dup => { let v=pop(&mut stack)?; stack.push(v); stack.push(v); }
-                Op::And => { let rhs=pop(&mut stack)?; let lhs=pop(&mut stack)?; stack.push(((lhs as i64 as i32) & (rhs as i64 as i32)) as f64); }
+                // DoAnd: bool x bool is logical (short-circuit and, tag 13);
+                // everything else is GML's ToInt64 & ToInt64, written back in the
+                // width of the widest operand.
+                Op::And => { let rhs=pop(&mut stack)?; let lhs=pop(&mut stack)?; stack.push(lhs.bit_and(rhs)?); }
                 Op::LoadLocal{name} => { let v=*locals.get(name).ok_or(format!("undefined local {name}"))?; stack.push(v); }
                 Op::B{target} => pc=boundaries[target],
                 Op::Bt{target}|Op::Bf{target} => {
-                    let yes=pop(&mut stack)? >= 0.5;
+                    let yes=pop(&mut stack)?.to_bool();
                     if yes == matches!(i.op,Op::Bt{..}) { pc=boundaries[target]; }
                 }
                 Op::Pushenv{target} => {
@@ -318,7 +368,8 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                 Op::Popz => { pop(&mut stack)?; }
                 Op::Exit => break,
             }
-            if stack.iter().any(|x| !x.is_finite()) { return Err("non-finite numeric value unsupported".into()); }
+            // Only a real payload can be non-finite; integers and bools always pass.
+            if stack.iter().any(|v| !v.is_finite()) { return Err("non-finite numeric value unsupported".into()); }
         }
         if !stack.is_empty() || !environments.is_empty() { return Err("unbalanced stack/environment at CODE exit".into()); }
         Ok(())

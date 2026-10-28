@@ -16,17 +16,14 @@ fn segment_hits_box(x1:f64,y1:f64,x2:f64,y2:f64,l:f64,r:f64,t:f64,b:f64)->bool {
     true
 }
 
-impl Host for Scene {
-    fn instruction(&mut self,code:usize,offset:usize){self.site=(code,offset);self.executed.push(self.site);}
-    /// GMS `+` with a string operand. The shipped sites pair a literal with a
-    /// `string()` result ("+" + string(global.coinpickup)); both sides resolve
-    /// through the pool and the joined text becomes a fresh reference so the
-    /// consumer (draw_text) still sees one string value.
-    fn string_concat(&mut self, b: &Bundle, lhs: f64, rhs: f64) -> Result<f64, String> {
-        let text = format!("{}{}", self.arg_text(b, lhs), self.arg_text(b, rhs));
-        Ok(self.alloc_string(b, text))
-    }
-    fn select(&self,id:i32,s:i32)->Result<Vec<i32>,String> {
+impl Scene {
+    fn instruction_raw(&mut self,code:usize,offset:usize){self.site=(code,offset);self.executed.push(self.site);}
+    /// GMS `+` with a string operand: DoAdd mode1 resolves both sides through the
+    /// pool and joins the text into a fresh reference so the consumer (draw_text)
+    /// still sees one string value. The Value-level entry point is the `Host`
+    /// impl at the bottom of this file; it renders numbers the same way
+    /// (`Scene::value_text`).
+    fn select_raw(&self,id:i32,s:i32)->Result<Vec<i32>,String> {
         if s == -1 {return Ok(vec![id]);}
         if s == -2 {
             if let Some(other_id) = self.other_instance { return Ok(vec![other_id]); }
@@ -46,7 +43,7 @@ impl Host for Scene {
             }
         }).map(|(id,_)|*id).collect())
     }
-    fn read(&mut self,id:i32,s:i32,n:&str,index:Option<i32>)->Result<f64,String> {
+    fn read_raw(&mut self,id:i32,s:i32,n:&str,index:Option<i32>)->Result<f64,String> {
         if s == -1 && n == "score" && index.is_none() { return Ok(self.score); }
         if s == -5 {
             if index.is_some(){return Err("global arrays unsupported".into());}
@@ -82,7 +79,7 @@ impl Host for Scene {
         }
         self.self_field(target,n)
     }
-    fn write(&mut self,id:i32,s:i32,n:&str,index:Option<i32>,value:f64)->Result<(),String> {
+    fn write_raw(&mut self,id:i32,s:i32,n:&str,index:Option<i32>,value:f64)->Result<(),String> {
         if !value.is_finite(){return Err("non-finite store".into());}
         if s == -1 && n == "score" && index.is_none() { self.score = value; return Ok(()); }
         if s == -5 {
@@ -120,7 +117,7 @@ impl Host for Scene {
             } else {i.fields.insert(n.into(),value);}
         } Ok(())
     }
-    fn call(&mut self,b:&Bundle,id:i32,n:&str,a:&[f64])->Result<f64,String> {
+    fn call_raw(&mut self,b:&Bundle,id:i32,n:&str,a:&[f64])->Result<f64,String> {
         let expected_argc = match n {
             "instance_activate_all" | "instance_destroy" | "draw_self" | "display_get_width"
             | "display_get_height" | "randomize" | "action_current_room" | "ini_close"
@@ -178,7 +175,7 @@ impl Host for Scene {
             }
             "instance_deactivate_object" => {
                 let s = int(a[0])?;
-                let ids = self.select(id, s)?;
+                let ids = self.select_raw(id, s)?;
                 for tid in ids {
                     if let Some(inst) = self.instances.get_mut(&tid) {
                         inst.active = false;
@@ -213,7 +210,7 @@ impl Host for Scene {
                 }
                 Ok(0.0)
             }
-            "instance_exists" => Ok(if self.select(id, int(a[0])?)?.is_empty() { 0.0 } else { 1.0 }),
+            "instance_exists" => Ok(if self.select_raw(id, int(a[0])?)?.is_empty() { 0.0 } else { 1.0 }),
             "instance_destroy" => { self.destroy(b, id)?; Ok(0.0) }
             "mouse_check_button_pressed" => {
                 if a[0] != 1.0 { return Err("only left-button input supported".into()); }
@@ -283,7 +280,7 @@ impl Host for Scene {
                 let px = a[0]; let py = a[1]; let s = int(a[2])?;
                 let prec = a[3] >= 0.5;
                 let notme = a[4] >= 0.5;
-                let targets = self.select(id, s)?;
+                let targets = self.select_raw(id, s)?;
                 let mut hit = 0.0;
                 for tid in targets {
                     if notme && tid == id { continue; }
@@ -309,7 +306,7 @@ impl Host for Scene {
                 // is what the runner does when a sprite carries no masks.
                 let prec=a[5]>=0.5;
                 let notme=a[6]>=0.5;
-                let targets=self.select(id,s)?;
+                let targets=self.select_raw(id,s)?;
                 let mut hit=-4.0;
                 for tid in targets {
                     if tid == id && notme { continue; }
@@ -332,7 +329,7 @@ impl Host for Scene {
             }
             "instance_place" => {
                 let px = a[0]; let py = a[1]; let s = int(a[2])?;
-                let targets = self.select(id, s)?;
+                let targets = self.select_raw(id, s)?;
                 // The CALLER is boxed at the candidate position with its own
                 // mask/sprite, exactly like the runner's Compute_BoundingBox; the
                 // overlap test stays the runner's inclusive edge test.
@@ -534,7 +531,7 @@ impl Host for Scene {
                 let targets = match selector {
                     -3 => self.instances.keys().copied().collect(), // all
                     s if s < -3 => Vec::new(), // noone / absent special object
-                    s => self.select(id, s)?,
+                    s => self.select_raw(id, s)?,
                 };
                 let mut min_dist: f64 = 1_000_000.0;
                 // Same Compute_BoundingBox the broad phase consumes; FindDist
@@ -557,7 +554,7 @@ impl Host for Scene {
                 Ok(min_dist)
             }
             "place_meeting" => {
-                let hit = match self.call(b, id, "instance_place", &[a[0], a[1], a[2]]) {
+                let hit = match self.call_raw(b, id, "instance_place", &[a[0], a[1], a[2]]) {
                     Ok(tid) => tid > 0.0,
                     Err(_) => false,
                 };
@@ -599,7 +596,7 @@ impl Host for Scene {
             }
             "instance_number" => {
                 let obj_id = int(a[0])?;
-                let targets = self.select(id, obj_id)?;
+                let targets = self.select_raw(id, obj_id)?;
                 Ok(targets.len() as f64)
             }
             "action_kill_object" => { self.destroy(b, id)?; Ok(0.0) }
@@ -918,6 +915,62 @@ impl Host for Scene {
                 Ok(0.0)
             }
             _ => Err(format!("unsupported builtin {n}")),
+        }
+    }
+}
+
+/// ── Host 边界：值模型 ↔ 场景的数字表 ─────────────────────────────────────────
+///
+/// 值栈、算子、Dup/Pop/Store 都在 `Value` 上说话；`Scene` 的实例变量表、全局表、
+/// 数组表仍是 `f64`（`fields/arrays/globals`），下面 60 个内建也仍按 f64 计算。
+/// 这一段是**迁移中的边界层**，不是值模型：
+///
+///   * value → 数字表：`to_legacy_numeric`（数字给原值、字符串回到
+///     `STRING_REF_BASE + pool index`）；`undefined`/array/pointer 在数字表里没有
+///     表示，按错误返回。
+///   * 数字表 → value：`from_legacy_numeric`（≥ 2^40 的整数还原成 tag 1 的字符串
+///     引用，其余是 real）。数字表分不出 int32 与 double —— 那是旧模型已经丢掉的
+///     信息，这里不补。
+///   * alarm 槽本质是整数（`[i32; 12]`）：读出来是 tag 7，写进去走 `int()`。
+///
+/// 哪些字段该跟着变成 `Value`、`Host::call` 的 60 个内建要不要吃 tag，是库外的
+/// 决定。这一轮只保证 VM 内部（栈与算子）不再把 tag 拍平。
+impl Host for Scene {
+    fn instruction(&mut self, code: usize, offset: usize) { self.instruction_raw(code, offset) }
+
+    fn read(&mut self, id: i32, s: i32, n: &str, index: Option<i32>) -> Result<Value, String> {
+        let v = self.read_raw(id, s, n, index)?;
+        // alarm 槽是 [i32; 12]，本质是整数，读出来保持 tag 7。
+        if n == "alarm" && index.is_some() { return Ok(Value::int32(v as i32)); }
+        Ok(Value::from_legacy_numeric(v))
+    }
+
+    fn write(&mut self, id: i32, s: i32, n: &str, index: Option<i32>, value: Value) -> Result<(), String> {
+        if let Payload::Real(v) = value.payload {
+            if !v.is_finite() { return Err("non-finite store".into()); }
+        }
+        let flat = value.to_legacy_numeric()?;
+        self.write_raw(id, s, n, index, flat)
+    }
+
+    fn call(&mut self, b: &Bundle, id: i32, n: &str, a: &[Value]) -> Result<Value, String> {
+        let flat = a.iter().map(Value::to_legacy_numeric).collect::<Result<Vec<_>, _>>()?;
+        Ok(Value::from_legacy_numeric(self.call_raw(b, id, n, &flat)?))
+    }
+
+    fn select(&self, id: i32, s: i32) -> Result<Vec<i32>, String> { self.select_raw(id, s) }
+
+    fn string_concat(&mut self, b: &Bundle, lhs: Value, rhs: Value) -> Result<Value, String> {
+        let text = format!("{}{}", self.value_text(b, lhs), self.value_text(b, rhs));
+        Ok(Value::string(self.alloc_string_index(b, text)))
+    }
+
+    fn string_text(&self, b: &Bundle, value: Value) -> Result<String, String> {
+        match value.payload {
+            Payload::Str(index) => self
+                .pool_text_index(b, index)
+                .ok_or_else(|| format!("string reference {index} is not in the pool")),
+            _ => Err(format!("{value} is not a string")),
         }
     }
 }
