@@ -1,0 +1,86 @@
+19eebc	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+19eec0	e24ddf42	sub	sp, sp, #264
+19eec4	e59f6130	ldr	r6, [pc, #0x130]
+19eec8	e28d7004	add	r7, sp, #4
+19eecc	e59f412c	ldr	r4, [pc, #0x12c]
+19eed0	e3a0200a	mov	r2, #10
+19eed4	e79f6006	ldr	r6, [pc, r6]
+19eed8	e1a01007	mov	r1, r7
+19eedc	e79f4004	ldr	r4, [pc, r4]
+19eee0	e5963000	ldr	r3, [r6]
+19eee4	e5940000	ldr	r0, [r4]
+19eee8	e58d3104	str	r3, [sp, #0x104]
+19eeec	ebfc969c	bl	0xc4964 <_Z5_itoaiPci>
+19eef0	e3a000dc	mov	r0, #220
+19eef4	eb03758a	bl	0x27c524 <_Znwj>
+19eef8	e5941000	ldr	r1, [r4]
+19eefc	e1a08000	mov	r8, r0
+19ef00	ebfff97b	bl	0x19d4f4 <_ZN9CObjectGMC2Ei>
+19ef04	e1a00007	mov	r0, r7
+19ef08	ebfc5d8a	bl	0xb6538 <strlen@plt>
+19ef0c	e59f10f0	ldr	r1, [pc, #0xf0]
+19ef10	e3a020e2	mov	r2, #226
+19ef14	e3a03001	mov	r3, #1
+19ef18	e08f1001	add	r1, pc, r1
+19ef1c	e280000c	add	r0, r0, #12
+19ef20	eb0377d4	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19ef24	e59f30dc	ldr	r3, [pc, #0xdc]
+19ef28	e08f3003	add	r3, pc, r3
+19ef2c	e1a05000	mov	r5, r0
+19ef30	e8b30007	ldm	r3!, {r0, r1, r2}
+19ef34	e5852008	str	r2, [r5, #0x8]
+19ef38	e5850000	str	r0, [r5]
+19ef3c	e285000b	add	r0, r5, #11
+19ef40	e5851004	str	r1, [r5, #0x4]
+19ef44	e1a01007	mov	r1, r7
+19ef48	ebfc5d95	bl	0xb65a4 <strcpy@plt>
+19ef4c	e1a01005	mov	r1, r5
+19ef50	e1a00008	mov	r0, r8
+19ef54	ebfff8fb	bl	0x19d348 <_ZN9CObjectGM10SetNameRefEPc>
+19ef58	e59fc0ac	ldr	r12, [pc, #0xac]
+19ef5c	e59f10ac	ldr	r1, [pc, #0xac]
+19ef60	e3002132	movw	r2, #0x132
+19ef64	e79fc00c	ldr	r12, [pc, r12]
+19ef68	e3a03001	mov	r3, #1
+19ef6c	e08f1001	add	r1, pc, r1
+19ef70	e3a00010	mov	r0, #16
+19ef74	e59c5000	ldr	r5, [r12]
+19ef78	e594a000	ldr	r10, [r4]
+19ef7c	e8950280	ldm	r5, {r7, r9}
+19ef80	eb0377bc	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19ef84	e00a9009	and	r9, r10, r9
+19ef88	e7971189	ldr	r1, [r7, r9, lsl #3]
+19ef8c	e0872189	add	r2, r7, r9, lsl #3
+19ef90	e3510000	cmp	r1, #0
+19ef94	15921004	ldrne	r1, [r2, #0x4]
+19ef98	e1a03000	mov	r3, r0
+19ef9c	e580800c	str	r8, [r0, #0xc]
+19efa0	e580a008	str	r10, [r0, #0x8]
+19efa4	13a00000	movne	r0, #0
+19efa8	05820004	streq	r0, [r2, #0x4]
+19efac	15831000	strne	r1, [r3]
+19efb0	15813004	strne	r3, [r1, #0x4]
+19efb4	15823004	strne	r3, [r2, #0x4]
+19efb8	15830004	strne	r0, [r3, #0x4]
+19efbc	e59d2104	ldr	r2, [sp, #0x104]
+19efc0	e5963000	ldr	r3, [r6]
+19efc4	07870189	streq	r0, [r7, r9, lsl #3]
+19efc8	05801000	streq	r1, [r0]
+19efcc	05801004	streq	r1, [r0, #0x4]
+19efd0	e1520003	cmp	r2, r3
+19efd4	e5940000	ldr	r0, [r4]
+19efd8	e5953008	ldr	r3, [r5, #0x8]
+19efdc	e2802001	add	r2, r0, #1
+19efe0	e5842000	str	r2, [r4]
+19efe4	e2833001	add	r3, r3, #1
+19efe8	e5853008	str	r3, [r5, #0x8]
+19efec	1a000001	bne	0x19eff8 <_Z10Object_Addv+0x13c>
+19eff0	e28ddf42	add	sp, sp, #264
+19eff4	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+19eff8	ebfc5d75	bl	0xb65d4 <__stack_chk_fail@plt>
+19effc	0024ea7c	eoreq	lr, r4, r12, ror r10
+19f000	00251808	eoreq	r1, r5, r8, lsl #16
+19f004	001adfac	andseq	sp, r10, r12, lsr #31
+19f008	001adfd4	ldrsbeq	sp, [r10], -r4
+19f00c	0024ecd8	.word	0x0024ecd8
+19f010	001add40	andseq	sp, r10, r0, asr #26

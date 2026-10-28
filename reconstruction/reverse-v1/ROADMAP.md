@@ -35,3 +35,16 @@
 
 每张卡：锚点与二进制逐字一致（`check_card_anchors.py` → RESULT EXACT）、级别诚实、
 open 项点名。全库收口用 `verify_reverse_v1.py`。
+
+## 匿名区已切分（2026-10-28）
+
+`scripts/split_anon.py` 用两个独立信号（`bl` 直接目标 + ARM prologue）把 371 个 `anon_*` 合并块切成 752 段：
+
+    有入口证据的段        478（其余 274 段为 region-start 或纯 literal 碎片）
+    ≥ 64 B                365 段 / 423.9 KB
+    ≥ 1 KB                 91 段 / 332.5 KB   ← 真正要出卡的"大匿名函数"在这里
+    无证据且 ≤64 B         169 段 / 2.5 KB     ← 当数据看，不出卡
+
+切分表：`asm/anon_splits.tsv`（start / size / parent_anon / evidence）。
+注意：这些段**没有符号名**，卡里只能用 `anon_<addr>` 称呼；级别最多到"骨架 + 地址锚点"，
+除非从调用点/caller 的用法反推出语义。

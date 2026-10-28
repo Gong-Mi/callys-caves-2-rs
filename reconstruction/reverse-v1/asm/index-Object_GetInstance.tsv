@@ -1,0 +1,54 @@
+14ec2c	e3700001	cmn	r0, #1
+14ec30	0a00000e	beq	0x14ec70 <_Z18Object_GetInstanceiP9CInstanceS0_+0x44>
+14ec34	e3700002	cmn	r0, #2
+14ec38	0a00001b	beq	0x14ecac <_Z18Object_GetInstanceiP9CInstanceS0_+0x80>
+14ec3c	e308369f	movw	r3, #0x869f
+14ec40	e3403001	movt	r3, #0x1
+14ec44	e1500003	cmp	r0, r3
+14ec48	ca000019	bgt	0x14ecb4 <_Z18Object_GetInstanceiP9CInstanceS0_+0x88>
+14ec4c	e59f30a8	ldr	r3, [pc, #0xa8]
+14ec50	e79f3003	ldr	r3, [pc, r3]
+14ec54	e5933000	ldr	r3, [r3]
+14ec58	e5932004	ldr	r2, [r3, #0x4]
+14ec5c	e5933000	ldr	r3, [r3]
+14ec60	e0002002	and	r2, r0, r2
+14ec64	e7931182	ldr	r1, [r3, r2, lsl #3]
+14ec68	e3510000	cmp	r1, #0
+14ec6c	1a000004	bne	0x14ec84 <_Z18Object_GetInstanceiP9CInstanceS0_+0x58>
+14ec70	e1a00001	mov	r0, r1
+14ec74	e12fff1e	bx	lr
+14ec78	e5911004	ldr	r1, [r1, #0x4]
+14ec7c	e3510000	cmp	r1, #0
+14ec80	0afffffa	beq	0x14ec70 <_Z18Object_GetInstanceiP9CInstanceS0_+0x44>
+14ec84	e5913008	ldr	r3, [r1, #0x8]
+14ec88	e1500003	cmp	r0, r3
+14ec8c	1afffff9	bne	0x14ec78 <_Z18Object_GetInstanceiP9CInstanceS0_+0x4c>
+14ec90	e591000c	ldr	r0, [r1, #0xc]
+14ec94	e3500000	cmp	r0, #0
+14ec98	0a000016	beq	0x14ecf8 <_Z18Object_GetInstanceiP9CInstanceS0_+0xcc>
+14ec9c	e59000d0	ldr	r0, [r0, #0xd0]
+14eca0	e3500000	cmp	r0, #0
+14eca4	15900008	ldrne	r0, [r0, #0x8]
+14eca8	e12fff1e	bx	lr
+14ecac	e1a00002	mov	r0, r2
+14ecb0	e12fff1e	bx	lr
+14ecb4	e59f3044	ldr	r3, [pc, #0x44]
+14ecb8	e79f3003	ldr	r3, [pc, r3]
+14ecbc	e5932004	ldr	r2, [r3, #0x4]
+14ecc0	e5933000	ldr	r3, [r3]
+14ecc4	e0002002	and	r2, r0, r2
+14ecc8	e7931182	ldr	r1, [r3, r2, lsl #3]
+14eccc	e3510000	cmp	r1, #0
+14ecd0	1a000003	bne	0x14ece4 <_Z18Object_GetInstanceiP9CInstanceS0_+0xb8>
+14ecd4	eaffffe5	b	0x14ec70 <_Z18Object_GetInstanceiP9CInstanceS0_+0x44>
+14ecd8	e5911004	ldr	r1, [r1, #0x4]
+14ecdc	e3510000	cmp	r1, #0
+14ece0	0affffe2	beq	0x14ec70 <_Z18Object_GetInstanceiP9CInstanceS0_+0x44>
+14ece4	e5913008	ldr	r3, [r1, #0x8]
+14ece8	e1500003	cmp	r0, r3
+14ecec	1afffff9	bne	0x14ecd8 <_Z18Object_GetInstanceiP9CInstanceS0_+0xac>
+14ecf0	e591000c	ldr	r0, [r1, #0xc]
+14ecf4	e12fff1e	bx	lr
+14ecf8	e12fff1e	bx	lr
+14ecfc	0029efec	eoreq	lr, r9, r12, ror #31
+14ed00	0029ef8c	eoreq	lr, r9, r12, lsl #31

@@ -1,0 +1,617 @@
+1b5348	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1b534c	e24dd0a4	sub	sp, sp, #164
+1b5350	e59f633c	ldr	r6, [pc, #0x33c]
+1b5354	e28d401c	add	r4, sp, #28
+1b5358	e59f8338	ldr	r8, [pc, #0x338]
+1b535c	e3a01080	mov	r1, #128
+1b5360	e08f6006	add	r6, pc, r6
+1b5364	e59f2330	ldr	r2, [pc, #0x330]
+1b5368	e79f8008	ldr	r8, [pc, r8]
+1b536c	e1a00004	mov	r0, r4
+1b5370	e5965008	ldr	r5, [r6, #0x8]
+1b5374	e08f2002	add	r2, pc, r2
+1b5378	e598c000	ldr	r12, [r8]
+1b537c	e1a03005	mov	r3, r5
+1b5380	e58dc09c	str	r12, [sp, #0x9c]
+1b5384	ebfc048f	bl	0xb65c8 <snprintf@plt>
+1b5388	e1a00004	mov	r0, r4
+1b538c	ebfc994d	bl	0xdb8c8 <_Z8YYStrDupPKc>
+1b5390	e5964008	ldr	r4, [r6, #0x8]
+1b5394	e2941001	adds	r1, r4, #1
+1b5398	e58d100c	str	r1, [sp, #0xc]
+1b539c	e58d0010	str	r0, [sp, #0x10]
+1b53a0	1a000094	bne	0x1b55f8 <_Z8Room_Addv+0x2b0>
+1b53a4	e596000c	ldr	r0, [r6, #0xc]
+1b53a8	e3500000	cmp	r0, #0
+1b53ac	0a00009e	beq	0x1b562c <_Z8Room_Addv+0x2e4>
+1b53b0	e3540000	cmp	r4, #0
+1b53b4	da000013	ble	0x1b5408 <_Z8Room_Addv+0xc0>
+1b53b8	e59fb2e0	ldr	r11, [pc, #0x2e0]
+1b53bc	e1a09006	mov	r9, r6
+1b53c0	e1a0a001	mov	r10, r1
+1b53c4	e1a07001	mov	r7, r1
+1b53c8	e08fb00b	add	r11, pc, r11
+1b53cc	e790010a	ldr	r0, [r0, r10, lsl #2]
+1b53d0	e1a0610a	lsl	r6, r10, #2
+1b53d4	eb031c1e	bl	0x27c454 <_ZN13MemoryManager11IsAllocatedEPKv>
+1b53d8	e3500000	cmp	r0, #0
+1b53dc	0a000002	beq	0x1b53ec <_Z8Room_Addv+0xa4>
+1b53e0	e59b300c	ldr	r3, [r11, #0xc]
+1b53e4	e793010a	ldr	r0, [r3, r10, lsl #2]
+1b53e8	eb031bb8	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b53ec	e5992008	ldr	r2, [r9, #0x8]
+1b53f0	e28aa001	add	r10, r10, #1
+1b53f4	e599300c	ldr	r3, [r9, #0xc]
+1b53f8	e15a0002	cmp	r10, r2
+1b53fc	e7837006	str	r7, [r3, r6]
+1b5400	e599000c	ldr	r0, [r9, #0xc]
+1b5404	bafffff0	blt	0x1b53cc <_Z8Room_Addv+0x84>
+1b5408	eb031bb0	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b540c	e59f1290	ldr	r1, [pc, #0x290]
+1b5410	e3a03000	mov	r3, #0
+1b5414	e08f1001	add	r1, pc, r1
+1b5418	e1a02003	mov	r2, r3
+1b541c	e581300c	str	r3, [r1, #0xc]
+1b5420	e59f3280	ldr	r3, [pc, #0x280]
+1b5424	e1550004	cmp	r5, r4
+1b5428	e59d100c	ldr	r1, [sp, #0xc]
+1b542c	e08f3003	add	r3, pc, r3
+1b5430	e5831008	str	r1, [r3, #0x8]
+1b5434	aa00000e	bge	0x1b5474 <_Z8Room_Addv+0x12c>
+1b5438	e59f026c	ldr	r0, [pc, #0x26c]
+1b543c	e1a03104	lsl	r3, r4, #2
+1b5440	e08f0000	add	r0, pc, r0
+1b5444	ea000000	b	0x1b544c <_Z8Room_Addv+0x104>
+1b5448	e590200c	ldr	r2, [r0, #0xc]
+1b544c	e0821003	add	r1, r2, r3
+1b5450	e2444001	sub	r4, r4, #1
+1b5454	e1540005	cmp	r4, r5
+1b5458	e5111004	ldr	r1, [r1, #-0x4]
+1b545c	e7821003	str	r1, [r2, r3]
+1b5460	e2433004	sub	r3, r3, #4
+1b5464	1afffff7	bne	0x1b5448 <_Z8Room_Addv+0x100>
+1b5468	e59f3240	ldr	r3, [pc, #0x240]
+1b546c	e08f3003	add	r3, pc, r3
+1b5470	e593200c	ldr	r2, [r3, #0xc]
+1b5474	e59d3010	ldr	r3, [sp, #0x10]
+1b5478	e3a00f49	mov	r0, #292
+1b547c	e59f6230	ldr	r6, [pc, #0x230]
+1b5480	e7823105	str	r3, [r2, r5, lsl #2]
+1b5484	e08f6006	add	r6, pc, r6
+1b5488	eb031c25	bl	0x27c524 <_Znwj>
+1b548c	e1a0a000	mov	r10, r0
+1b5490	ebffdf8d	bl	0x1ad2cc <_ZN5CRoomC2Ev>
+1b5494	e1a0000a	mov	r0, r10
+1b5498	ebffcf88	bl	0x1a92c0 <_ZN5CRoom16CreateWADStorageEv>
+1b549c	e5964000	ldr	r4, [r6]
+1b54a0	e5960004	ldr	r0, [r6, #0x4]
+1b54a4	e2949001	adds	r9, r4, #1
+1b54a8	1a000066	bne	0x1b5648 <_Z8Room_Addv+0x300>
+1b54ac	e3500000	cmp	r0, #0
+1b54b0	0a00006f	beq	0x1b5674 <_Z8Room_Addv+0x32c>
+1b54b4	e3540000	cmp	r4, #0
+1b54b8	da00002c	ble	0x1b5570 <_Z8Room_Addv+0x228>
+1b54bc	e59f11f4	ldr	r1, [pc, #0x1f4]
+1b54c0	e1a02006	mov	r2, r6
+1b54c4	e59fc1f0	ldr	r12, [pc, #0x1f0]
+1b54c8	e1a06009	mov	r6, r9
+1b54cc	e08f1001	add	r1, pc, r1
+1b54d0	e58d500c	str	r5, [sp, #0xc]
+1b54d4	e08fc00c	add	r12, pc, r12
+1b54d8	e58d4010	str	r4, [sp, #0x10]
+1b54dc	e1a03000	mov	r3, r0
+1b54e0	e1a04001	mov	r4, r1
+1b54e4	e1a0500c	mov	r5, r12
+1b54e8	e1a0b002	mov	r11, r2
+1b54ec	e58d8014	str	r8, [sp, #0x14]
+1b54f0	e5932000	ldr	r2, [r3]
+1b54f4	e30f0eee	movw	r0, #0xfeee
+1b54f8	e34f0eee	movt	r0, #0xfeee
+1b54fc	e1520000	cmp	r2, r0
+1b5500	0a000012	beq	0x1b5550 <_Z8Room_Addv+0x208>
+1b5504	e7937106	ldr	r7, [r3, r6, lsl #2]
+1b5508	e1a08106	lsl	r8, r6, #2
+1b550c	e0830008	add	r0, r3, r8
+1b5510	e3570000	cmp	r7, #0
+1b5514	0a00000d	beq	0x1b5550 <_Z8Room_Addv+0x208>
+1b5518	e597e000	ldr	lr, [r7]
+1b551c	e30f3eee	movw	r3, #0xfeee
+1b5520	e34f3eee	movt	r3, #0xfeee
+1b5524	e15e0003	cmp	lr, r3
+1b5528	0a000005	beq	0x1b5544 <_Z8Room_Addv+0x1fc>
+1b552c	e1a00007	mov	r0, r7
+1b5530	ebffe932	bl	0x1afa00 <_ZN5CRoomD2Ev>
+1b5534	e1a00007	mov	r0, r7
+1b5538	eb031f24	bl	0x27d1d0 <_ZdlPv>
+1b553c	e5950004	ldr	r0, [r5, #0x4]
+1b5540	e0800008	add	r0, r0, r8
+1b5544	e3a01000	mov	r1, #0
+1b5548	e5801000	str	r1, [r0]
+1b554c	e5943004	ldr	r3, [r4, #0x4]
+1b5550	e59b2000	ldr	r2, [r11]
+1b5554	e2866001	add	r6, r6, #1
+1b5558	e1560002	cmp	r6, r2
+1b555c	baffffe3	blt	0x1b54f0 <_Z8Room_Addv+0x1a8>
+1b5560	e59d500c	ldr	r5, [sp, #0xc]
+1b5564	e1a00003	mov	r0, r3
+1b5568	e59d4010	ldr	r4, [sp, #0x10]
+1b556c	e59d8014	ldr	r8, [sp, #0x14]
+1b5570	eb031b56	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5574	e59f2144	ldr	r2, [pc, #0x144]
+1b5578	e3a03000	mov	r3, #0
+1b557c	e08f2002	add	r2, pc, r2
+1b5580	e1a01003	mov	r1, r3
+1b5584	e5823004	str	r3, [r2, #0x4]
+1b5588	e59f3134	ldr	r3, [pc, #0x134]
+1b558c	e1550004	cmp	r5, r4
+1b5590	e08f3003	add	r3, pc, r3
+1b5594	e5839000	str	r9, [r3]
+1b5598	aa00000e	bge	0x1b55d8 <_Z8Room_Addv+0x290>
+1b559c	e59f0124	ldr	r0, [pc, #0x124]
+1b55a0	e1a03104	lsl	r3, r4, #2
+1b55a4	e08f0000	add	r0, pc, r0
+1b55a8	ea000000	b	0x1b55b0 <_Z8Room_Addv+0x268>
+1b55ac	e5901004	ldr	r1, [r0, #0x4]
+1b55b0	e0812003	add	r2, r1, r3
+1b55b4	e2444001	sub	r4, r4, #1
+1b55b8	e1540005	cmp	r4, r5
+1b55bc	e5122004	ldr	r2, [r2, #-0x4]
+1b55c0	e7812003	str	r2, [r1, r3]
+1b55c4	e2433004	sub	r3, r3, #4
+1b55c8	1afffff7	bne	0x1b55ac <_Z8Room_Addv+0x264>
+1b55cc	e59f30f8	ldr	r3, [pc, #0xf8]
+1b55d0	e08f3003	add	r3, pc, r3
+1b55d4	e5931004	ldr	r1, [r3, #0x4]
+1b55d8	e59d209c	ldr	r2, [sp, #0x9c]
+1b55dc	e1a00005	mov	r0, r5
+1b55e0	e781a105	str	r10, [r1, r5, lsl #2]
+1b55e4	e5983000	ldr	r3, [r8]
+1b55e8	e1520003	cmp	r2, r3
+1b55ec	1a000027	bne	0x1b5690 <_Z8Room_Addv+0x348>
+1b55f0	e28dd0a4	add	sp, sp, #164
+1b55f4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1b55f8	e59d300c	ldr	r3, [sp, #0xc]
+1b55fc	e596000c	ldr	r0, [r6, #0xc]
+1b5600	e1b01103	lsls	r1, r3, #2
+1b5604	0a000008	beq	0x1b562c <_Z8Room_Addv+0x2e4>
+1b5608	e59f20c0	ldr	r2, [pc, #0xc0]
+1b560c	e3a03000	mov	r3, #0
+1b5610	e58d3000	str	r3, [sp]
+1b5614	e3a0305c	mov	r3, #92
+1b5618	e08f2002	add	r2, pc, r2
+1b561c	eb031e2e	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1b5620	e1a02000	mov	r2, r0
+1b5624	e586000c	str	r0, [r6, #0xc]
+1b5628	eaffff7c	b	0x1b5420 <_Z8Room_Addv+0xd8>
+1b562c	eb031b27	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5630	e59f109c	ldr	r1, [pc, #0x9c]
+1b5634	e3a03000	mov	r3, #0
+1b5638	e08f1001	add	r1, pc, r1
+1b563c	e1a02003	mov	r2, r3
+1b5640	e581300c	str	r3, [r1, #0xc]
+1b5644	eaffff75	b	0x1b5420 <_Z8Room_Addv+0xd8>
+1b5648	e1b01109	lsls	r1, r9, #2
+1b564c	0a000008	beq	0x1b5674 <_Z8Room_Addv+0x32c>
+1b5650	e59f2080	ldr	r2, [pc, #0x80]
+1b5654	e3a03000	mov	r3, #0
+1b5658	e58d3000	str	r3, [sp]
+1b565c	e3a03087	mov	r3, #135
+1b5660	e08f2002	add	r2, pc, r2
+1b5664	eb031e1c	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1b5668	e1a01000	mov	r1, r0
+1b566c	e5860004	str	r0, [r6, #0x4]
+1b5670	eaffffc4	b	0x1b5588 <_Z8Room_Addv+0x240>
+1b5674	eb031b15	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5678	e59f205c	ldr	r2, [pc, #0x5c]
+1b567c	e3a03000	mov	r3, #0
+1b5680	e08f2002	add	r2, pc, r2
+1b5684	e1a01003	mov	r1, r3
+1b5688	e5823004	str	r3, [r2, #0x4]
+1b568c	eaffffbd	b	0x1b5588 <_Z8Room_Addv+0x240>
+1b5690	ebfc03cf	bl	0xb65d4 <__stack_chk_fail@plt>
+1b5694	0038d268	eorseq	sp, r8, r8, ror #4
+1b5698	002385e8	eoreq	r8, r3, r8, ror #11
+1b569c	00198020	andseq	r8, r9, r0, lsr #32
+1b56a0	0038d200	eorseq	sp, r8, r0, lsl #4
+1b56a4	0038d1b4	ldrhteq	sp, [r8], -r4
+1b56a8	0038d19c	mlaseq	r8, r12, r1, sp
+1b56ac	0038d188	eorseq	sp, r8, r8, lsl #3
+1b56b0	0038d15c	eorseq	sp, r8, r12, asr r1
+1b56b4	0038d144	eorseq	sp, r8, r4, asr #2
+1b56b8	0038d0fc	ldrshteq	sp, [r8], -r12
+1b56bc	0038d0f4	ldrshteq	sp, [r8], -r4
+1b56c0	0038d04c	eorseq	sp, r8, r12, asr #32
+1b56c4	0038d038	eorseq	sp, r8, r8, lsr r0
+1b56c8	0038d024	eorseq	sp, r8, r4, lsr #32
+1b56cc	0038cff8	ldrshteq	r12, [r8], -r8
+1b56d0	00197d10	andseq	r7, r9, r0, lsl sp
+1b56d4	0038cf90	mlaseq	r8, r0, pc, r12
+1b56d8	00197c90	mulseq	r9, r0, r12
+1b56dc	0038cf48	eorseq	r12, r8, r8, asr #30
+1b56e0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1b56e4	e24dd0ac	sub	sp, sp, #172
+1b56e8	e59fa3b0	ldr	r10, [pc, #0x3b0]
+1b56ec	e58d0014	str	r0, [sp, #0x14]
+1b56f0	e79fa00a	ldr	r10, [pc, r10]
+1b56f4	e59a3000	ldr	r3, [r10]
+1b56f8	e58d30a4	str	r3, [sp, #0xa4]
+1b56fc	ebfffef0	bl	0x1b52c4 <_Z9Room_Datai>
+1b5700	e3500000	cmp	r0, #0
+1b5704	0a0000e2	beq	0x1b5a94 <_Z14Room_Duplicatei+0x3b4>
+1b5708	e59f4394	ldr	r4, [pc, #0x394]
+1b570c	e28d6024	add	r6, sp, #36
+1b5710	e59f2390	ldr	r2, [pc, #0x390]
+1b5714	e3a01080	mov	r1, #128
+1b5718	e08f4004	add	r4, pc, r4
+1b571c	e1a00006	mov	r0, r6
+1b5720	e08f2002	add	r2, pc, r2
+1b5724	e5945000	ldr	r5, [r4]
+1b5728	e1a03005	mov	r3, r5
+1b572c	ebfc03a5	bl	0xb65c8 <snprintf@plt>
+1b5730	e1a00006	mov	r0, r6
+1b5734	ebfc9863	bl	0xdb8c8 <_Z8YYStrDupPKc>
+1b5738	e594b008	ldr	r11, [r4, #0x8]
+1b573c	e29b1001	adds	r1, r11, #1
+1b5740	e58d100c	str	r1, [sp, #0xc]
+1b5744	e58d0010	str	r0, [sp, #0x10]
+1b5748	1a00001f	bne	0x1b57cc <_Z14Room_Duplicatei+0xec>
+1b574c	e594000c	ldr	r0, [r4, #0xc]
+1b5750	e3500000	cmp	r0, #0
+1b5754	0a0000c7	beq	0x1b5a78 <_Z14Room_Duplicatei+0x398>
+1b5758	e35b0000	cmp	r11, #0
+1b575c	da000013	ble	0x1b57b0 <_Z14Room_Duplicatei+0xd0>
+1b5760	e59f9344	ldr	r9, [pc, #0x344]
+1b5764	e1a08004	mov	r8, r4
+1b5768	e1a07001	mov	r7, r1
+1b576c	e1a06001	mov	r6, r1
+1b5770	e08f9009	add	r9, pc, r9
+1b5774	e7900107	ldr	r0, [r0, r7, lsl #2]
+1b5778	e1a04107	lsl	r4, r7, #2
+1b577c	eb031b34	bl	0x27c454 <_ZN13MemoryManager11IsAllocatedEPKv>
+1b5780	e3500000	cmp	r0, #0
+1b5784	0a000002	beq	0x1b5794 <_Z14Room_Duplicatei+0xb4>
+1b5788	e599300c	ldr	r3, [r9, #0xc]
+1b578c	e7930107	ldr	r0, [r3, r7, lsl #2]
+1b5790	eb031ace	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5794	e5982008	ldr	r2, [r8, #0x8]
+1b5798	e2877001	add	r7, r7, #1
+1b579c	e598300c	ldr	r3, [r8, #0xc]
+1b57a0	e1570002	cmp	r7, r2
+1b57a4	e7836004	str	r6, [r3, r4]
+1b57a8	e598000c	ldr	r0, [r8, #0xc]
+1b57ac	bafffff0	blt	0x1b5774 <_Z14Room_Duplicatei+0x94>
+1b57b0	eb031ac6	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b57b4	e59f12f4	ldr	r1, [pc, #0x2f4]
+1b57b8	e3a03000	mov	r3, #0
+1b57bc	e08f1001	add	r1, pc, r1
+1b57c0	e1a02003	mov	r2, r3
+1b57c4	e581300c	str	r3, [r1, #0xc]
+1b57c8	ea00000b	b	0x1b57fc <_Z14Room_Duplicatei+0x11c>
+1b57cc	e59d200c	ldr	r2, [sp, #0xc]
+1b57d0	e594000c	ldr	r0, [r4, #0xc]
+1b57d4	e1b01102	lsls	r1, r2, #2
+1b57d8	0a0000a6	beq	0x1b5a78 <_Z14Room_Duplicatei+0x398>
+1b57dc	e59f22d0	ldr	r2, [pc, #0x2d0]
+1b57e0	e3a03000	mov	r3, #0
+1b57e4	e58d3000	str	r3, [sp]
+1b57e8	e3a0305c	mov	r3, #92
+1b57ec	e08f2002	add	r2, pc, r2
+1b57f0	eb031db9	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1b57f4	e1a02000	mov	r2, r0
+1b57f8	e584000c	str	r0, [r4, #0xc]
+1b57fc	e59f32b4	ldr	r3, [pc, #0x2b4]
+1b5800	e155000b	cmp	r5, r11
+1b5804	e59d100c	ldr	r1, [sp, #0xc]
+1b5808	e08f3003	add	r3, pc, r3
+1b580c	e5831008	str	r1, [r3, #0x8]
+1b5810	aa00000e	bge	0x1b5850 <_Z14Room_Duplicatei+0x170>
+1b5814	e59f02a0	ldr	r0, [pc, #0x2a0]
+1b5818	e1a0310b	lsl	r3, r11, #2
+1b581c	e08f0000	add	r0, pc, r0
+1b5820	ea000000	b	0x1b5828 <_Z14Room_Duplicatei+0x148>
+1b5824	e590200c	ldr	r2, [r0, #0xc]
+1b5828	e0821003	add	r1, r2, r3
+1b582c	e24bb001	sub	r11, r11, #1
+1b5830	e15b0005	cmp	r11, r5
+1b5834	e5111004	ldr	r1, [r1, #-0x4]
+1b5838	e7821003	str	r1, [r2, r3]
+1b583c	e2433004	sub	r3, r3, #4
+1b5840	1afffff7	bne	0x1b5824 <_Z14Room_Duplicatei+0x144>
+1b5844	e59f3274	ldr	r3, [pc, #0x274]
+1b5848	e08f3003	add	r3, pc, r3
+1b584c	e593200c	ldr	r2, [r3, #0xc]
+1b5850	e59d3010	ldr	r3, [sp, #0x10]
+1b5854	e3a00f49	mov	r0, #292
+1b5858	e1a01105	lsl	r1, r5, #2
+1b585c	e58d100c	str	r1, [sp, #0xc]
+1b5860	e59fb25c	ldr	r11, [pc, #0x25c]
+1b5864	e7823105	str	r3, [r2, r5, lsl #2]
+1b5868	eb031b2d	bl	0x27c524 <_Znwj>
+1b586c	e08fb00b	add	r11, pc, r11
+1b5870	e58d0010	str	r0, [sp, #0x10]
+1b5874	ebffde94	bl	0x1ad2cc <_ZN5CRoomC2Ev>
+1b5878	e59b4000	ldr	r4, [r11]
+1b587c	e59b0004	ldr	r0, [r11, #0x4]
+1b5880	e2949001	adds	r9, r4, #1
+1b5884	1a000069	bne	0x1b5a30 <_Z14Room_Duplicatei+0x350>
+1b5888	e3500000	cmp	r0, #0
+1b588c	0a000072	beq	0x1b5a5c <_Z14Room_Duplicatei+0x37c>
+1b5890	e3540000	cmp	r4, #0
+1b5894	da00002a	ble	0x1b5944 <_Z14Room_Duplicatei+0x264>
+1b5898	e59f1228	ldr	r1, [pc, #0x228]
+1b589c	e1a06009	mov	r6, r9
+1b58a0	e59fc224	ldr	r12, [pc, #0x224]
+1b58a4	e1a02009	mov	r2, r9
+1b58a8	e08f1001	add	r1, pc, r1
+1b58ac	e58d401c	str	r4, [sp, #0x1c]
+1b58b0	e08fc00c	add	r12, pc, r12
+1b58b4	e1a03000	mov	r3, r0
+1b58b8	e1a08001	mov	r8, r1
+1b58bc	e58d5018	str	r5, [sp, #0x18]
+1b58c0	e1a0400c	mov	r4, r12
+1b58c4	e5931000	ldr	r1, [r3]
+1b58c8	e30f0eee	movw	r0, #0xfeee
+1b58cc	e34f0eee	movt	r0, #0xfeee
+1b58d0	e1510000	cmp	r1, r0
+1b58d4	0a000013	beq	0x1b5928 <_Z14Room_Duplicatei+0x248>
+1b58d8	e7937106	ldr	r7, [r3, r6, lsl #2]
+1b58dc	e1a05106	lsl	r5, r6, #2
+1b58e0	e0830005	add	r0, r3, r5
+1b58e4	e3570000	cmp	r7, #0
+1b58e8	0a00000e	beq	0x1b5928 <_Z14Room_Duplicatei+0x248>
+1b58ec	e597e000	ldr	lr, [r7]
+1b58f0	e30f3eee	movw	r3, #0xfeee
+1b58f4	e34f3eee	movt	r3, #0xfeee
+1b58f8	e15e0003	cmp	lr, r3
+1b58fc	0a000007	beq	0x1b5920 <_Z14Room_Duplicatei+0x240>
+1b5900	e1a00007	mov	r0, r7
+1b5904	e58d2008	str	r2, [sp, #0x8]
+1b5908	ebffe83c	bl	0x1afa00 <_ZN5CRoomD2Ev>
+1b590c	e1a00007	mov	r0, r7
+1b5910	eb031e2e	bl	0x27d1d0 <_ZdlPv>
+1b5914	e5940004	ldr	r0, [r4, #0x4]
+1b5918	e59d2008	ldr	r2, [sp, #0x8]
+1b591c	e0800005	add	r0, r0, r5
+1b5920	e5802000	str	r2, [r0]
+1b5924	e5983004	ldr	r3, [r8, #0x4]
+1b5928	e59b1000	ldr	r1, [r11]
+1b592c	e2866001	add	r6, r6, #1
+1b5930	e1560001	cmp	r6, r1
+1b5934	baffffe2	blt	0x1b58c4 <_Z14Room_Duplicatei+0x1e4>
+1b5938	e59d5018	ldr	r5, [sp, #0x18]
+1b593c	e1a00003	mov	r0, r3
+1b5940	e59d401c	ldr	r4, [sp, #0x1c]
+1b5944	eb031a61	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5948	e59f1180	ldr	r1, [pc, #0x180]
+1b594c	e3a03000	mov	r3, #0
+1b5950	e08f1001	add	r1, pc, r1
+1b5954	e1a02003	mov	r2, r3
+1b5958	e5813004	str	r3, [r1, #0x4]
+1b595c	e59f3170	ldr	r3, [pc, #0x170]
+1b5960	e1550004	cmp	r5, r4
+1b5964	e08f3003	add	r3, pc, r3
+1b5968	e5839000	str	r9, [r3]
+1b596c	aa00000e	bge	0x1b59ac <_Z14Room_Duplicatei+0x2cc>
+1b5970	e59f0160	ldr	r0, [pc, #0x160]
+1b5974	e1a03104	lsl	r3, r4, #2
+1b5978	e08f0000	add	r0, pc, r0
+1b597c	ea000000	b	0x1b5984 <_Z14Room_Duplicatei+0x2a4>
+1b5980	e5902004	ldr	r2, [r0, #0x4]
+1b5984	e0821003	add	r1, r2, r3
+1b5988	e2444001	sub	r4, r4, #1
+1b598c	e1540005	cmp	r4, r5
+1b5990	e5111004	ldr	r1, [r1, #-0x4]
+1b5994	e7821003	str	r1, [r2, r3]
+1b5998	e2433004	sub	r3, r3, #4
+1b599c	1afffff7	bne	0x1b5980 <_Z14Room_Duplicatei+0x2a0>
+1b59a0	e59f3134	ldr	r3, [pc, #0x134]
+1b59a4	e08f3003	add	r3, pc, r3
+1b59a8	e5932004	ldr	r2, [r3, #0x4]
+1b59ac	e59d1010	ldr	r1, [sp, #0x10]
+1b59b0	e1550009	cmp	r5, r9
+1b59b4	e59d300c	ldr	r3, [sp, #0xc]
+1b59b8	e7821003	str	r1, [r2, r3]
+1b59bc	aa000016	bge	0x1b5a1c <_Z14Room_Duplicatei+0x33c>
+1b59c0	e59f2118	ldr	r2, [pc, #0x118]
+1b59c4	e3a03001	mov	r3, #1
+1b59c8	e59d100c	ldr	r1, [sp, #0xc]
+1b59cc	e08f2002	add	r2, pc, r2
+1b59d0	e5922004	ldr	r2, [r2, #0x4]
+1b59d4	e7920001	ldr	r0, [r2, r1]
+1b59d8	e5c030d0	strb	r3, [r0, #0xd0]
+1b59dc	e59d2014	ldr	r2, [sp, #0x14]
+1b59e0	e1520009	cmp	r2, r9
+1b59e4	a3a01000	movge	r1, #0
+1b59e8	b59f30f4	ldrlt	r3, [pc, #0xf4]
+1b59ec	b08f3003	addlt	r3, pc, r3
+1b59f0	b5933004	ldrlt	r3, [r3, #0x4]
+1b59f4	b7931102	ldrlt	r1, [r3, r2, lsl #2]
+1b59f8	e3a02000	mov	r2, #0
+1b59fc	ebffdf42	bl	0x1ad70c <_ZN5CRoom6AssignEPS_b>
+1b5a00	e59d20a4	ldr	r2, [sp, #0xa4]
+1b5a04	e1a00005	mov	r0, r5
+1b5a08	e59a3000	ldr	r3, [r10]
+1b5a0c	e1520003	cmp	r2, r3
+1b5a10	1a000021	bne	0x1b5a9c <_Z14Room_Duplicatei+0x3bc>
+1b5a14	e28dd0ac	add	sp, sp, #172
+1b5a18	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1b5a1c	e3a03000	mov	r3, #0
+1b5a20	e3a02001	mov	r2, #1
+1b5a24	e1a00003	mov	r0, r3
+1b5a28	e5c320d0	strb	r2, [r3, #0xd0]
+1b5a2c	eaffffea	b	0x1b59dc <_Z14Room_Duplicatei+0x2fc>
+1b5a30	e1b01109	lsls	r1, r9, #2
+1b5a34	0a000008	beq	0x1b5a5c <_Z14Room_Duplicatei+0x37c>
+1b5a38	e59f20a8	ldr	r2, [pc, #0xa8]
+1b5a3c	e3a03000	mov	r3, #0
+1b5a40	e58d3000	str	r3, [sp]
+1b5a44	e3a03087	mov	r3, #135
+1b5a48	e08f2002	add	r2, pc, r2
+1b5a4c	eb031d22	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1b5a50	e1a02000	mov	r2, r0
+1b5a54	e58b0004	str	r0, [r11, #0x4]
+1b5a58	eaffffbf	b	0x1b595c <_Z14Room_Duplicatei+0x27c>
+1b5a5c	eb031a1b	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5a60	e59f1084	ldr	r1, [pc, #0x84]
+1b5a64	e3a03000	mov	r3, #0
+1b5a68	e08f1001	add	r1, pc, r1
+1b5a6c	e1a02003	mov	r2, r3
+1b5a70	e5813004	str	r3, [r1, #0x4]
+1b5a74	eaffffb8	b	0x1b595c <_Z14Room_Duplicatei+0x27c>
+1b5a78	eb031a14	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5a7c	e59f106c	ldr	r1, [pc, #0x6c]
+1b5a80	e3a03000	mov	r3, #0
+1b5a84	e08f1001	add	r1, pc, r1
+1b5a88	e1a02003	mov	r2, r3
+1b5a8c	e581300c	str	r3, [r1, #0xc]
+1b5a90	eaffff59	b	0x1b57fc <_Z14Room_Duplicatei+0x11c>
+1b5a94	e3e05000	mvn	r5, #0
+1b5a98	eaffffd8	b	0x1b5a00 <_Z14Room_Duplicatei+0x320>
+1b5a9c	ebfc02cc	bl	0xb65d4 <__stack_chk_fail@plt>
+1b5aa0	00238260	eoreq	r8, r3, r0, ror #4
+1b5aa4	0038ceb0	ldrhteq	r12, [r8], -r0
+1b5aa8	00197c74	andseq	r7, r9, r4, ror r12
+1b5aac	0038ce58	eorseq	r12, r8, r8, asr lr
+1b5ab0	0038ce0c	eorseq	r12, r8, r12, lsl #28
+1b5ab4	00197b3c	andseq	r7, r9, r12, lsr r11
+1b5ab8	0038cdc0	eorseq	r12, r8, r0, asr #27
+1b5abc	0038cdac	eorseq	r12, r8, r12, lsr #27
+1b5ac0	0038cd80	eorseq	r12, r8, r0, lsl #27
+1b5ac4	0038cd5c	eorseq	r12, r8, r12, asr sp
+1b5ac8	0038cd20	eorseq	r12, r8, r0, lsr #26
+1b5acc	0038cd18	eorseq	r12, r8, r8, lsl sp
+1b5ad0	0038cc78	eorseq	r12, r8, r8, ror r12
+1b5ad4	0038cc64	eorseq	r12, r8, r4, ror #24
+1b5ad8	0038cc50	eorseq	r12, r8, r0, asr r12
+1b5adc	0038cc24	eorseq	r12, r8, r4, lsr #24
+1b5ae0	0038cbfc	ldrshteq	r12, [r8], -r12
+1b5ae4	0038cbdc	ldrsbteq	r12, [r8], -r12
+1b5ae8	001978a8	andseq	r7, r9, r8, lsr #17
+1b5aec	0038cb60	eorseq	r12, r8, r0, ror #22
+1b5af0	0038cb44	eorseq	r12, r8, r4, asr #22
+1b5044	e92d4ff8	push	{r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1b5048	e3a04000	mov	r4, #0
+1b504c	e59f81bc	ldr	r8, [pc, #0x1bc]
+1b5050	e59f31bc	ldr	r3, [pc, #0x1bc]
+1b5054	e08f8008	add	r8, pc, r8
+1b5058	e79f3003	ldr	r3, [pc, r3]
+1b505c	e5982000	ldr	r2, [r8]
+1b5060	e5834000	str	r4, [r3]
+1b5064	e1520004	cmp	r2, r4
+1b5068	0a00002e	beq	0x1b5128 <_Z9Room_Freev+0xe4>
+1b506c	e5985004	ldr	r5, [r8, #0x4]
+1b5070	e1550004	cmp	r5, r4
+1b5074	0a000061	beq	0x1b5200 <_Z9Room_Freev+0x1bc>
+1b5078	e1520004	cmp	r2, r4
+1b507c	da00001f	ble	0x1b5100 <_Z9Room_Freev+0xbc>
+1b5080	e59fa190	ldr	r10, [pc, #0x190]
+1b5084	e1a09004	mov	r9, r4
+1b5088	e59fb18c	ldr	r11, [pc, #0x18c]
+1b508c	e08fa00a	add	r10, pc, r10
+1b5090	e08fb00b	add	r11, pc, r11
+1b5094	e5951000	ldr	r1, [r5]
+1b5098	e30f3eee	movw	r3, #0xfeee
+1b509c	e34f3eee	movt	r3, #0xfeee
+1b50a0	e30f2eee	movw	r2, #0xfeee
+1b50a4	e1510003	cmp	r1, r3
+1b50a8	e34f2eee	movt	r2, #0xfeee
+1b50ac	e1a07104	lsl	r7, r4, #2
+1b50b0	0a00000e	beq	0x1b50f0 <_Z9Room_Freev+0xac>
+1b50b4	e7956104	ldr	r6, [r5, r4, lsl #2]
+1b50b8	e0853007	add	r3, r5, r7
+1b50bc	e3560000	cmp	r6, #0
+1b50c0	e1a00006	mov	r0, r6
+1b50c4	0a000009	beq	0x1b50f0 <_Z9Room_Freev+0xac>
+1b50c8	e5961000	ldr	r1, [r6]
+1b50cc	e1510002	cmp	r1, r2
+1b50d0	0a000004	beq	0x1b50e8 <_Z9Room_Freev+0xa4>
+1b50d4	ebffea49	bl	0x1afa00 <_ZN5CRoomD2Ev>
+1b50d8	e1a00006	mov	r0, r6
+1b50dc	eb03203b	bl	0x27d1d0 <_ZdlPv>
+1b50e0	e59b3004	ldr	r3, [r11, #0x4]
+1b50e4	e0833007	add	r3, r3, r7
+1b50e8	e5839000	str	r9, [r3]
+1b50ec	e59a5004	ldr	r5, [r10, #0x4]
+1b50f0	e5983000	ldr	r3, [r8]
+1b50f4	e2844001	add	r4, r4, #1
+1b50f8	e1540003	cmp	r4, r3
+1b50fc	baffffe4	blt	0x1b5094 <_Z9Room_Freev+0x50>
+1b5100	e1a00005	mov	r0, r5
+1b5104	eb031c71	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5108	e59f3110	ldr	r3, [pc, #0x110]
+1b510c	e3a02000	mov	r2, #0
+1b5110	e08f3003	add	r3, pc, r3
+1b5114	e5832004	str	r2, [r3, #0x4]
+1b5118	e59f3104	ldr	r3, [pc, #0x104]
+1b511c	e3a02000	mov	r2, #0
+1b5120	e08f3003	add	r3, pc, r3
+1b5124	e5832000	str	r2, [r3]
+1b5128	e59f50f8	ldr	r5, [pc, #0xf8]
+1b512c	e08f5005	add	r5, pc, r5
+1b5130	e5954014	ldr	r4, [r5, #0x14]
+1b5134	e2540000	subs	r0, r4, #0
+1b5138	0a000029	beq	0x1b51e4 <_Z9Room_Freev+0x1a0>
+1b513c	eb031c63	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5140	e3a03000	mov	r3, #0
+1b5144	e5853014	str	r3, [r5, #0x14]
+1b5148	e59f50dc	ldr	r5, [pc, #0xdc]
+1b514c	e3a04000	mov	r4, #0
+1b5150	e08f5005	add	r5, pc, r5
+1b5154	e595600c	ldr	r6, [r5, #0xc]
+1b5158	e5854010	str	r4, [r5, #0x10]
+1b515c	e1560004	cmp	r6, r4
+1b5160	0a000022	beq	0x1b51f0 <_Z9Room_Freev+0x1ac>
+1b5164	e5953008	ldr	r3, [r5, #0x8]
+1b5168	e1530004	cmp	r3, r4
+1b516c	da000011	ble	0x1b51b8 <_Z9Room_Freev+0x174>
+1b5170	e59f80b8	ldr	r8, [pc, #0xb8]
+1b5174	e1a07004	mov	r7, r4
+1b5178	e08f8008	add	r8, pc, r8
+1b517c	e7960104	ldr	r0, [r6, r4, lsl #2]
+1b5180	e1a06104	lsl	r6, r4, #2
+1b5184	eb031cb2	bl	0x27c454 <_ZN13MemoryManager11IsAllocatedEPKv>
+1b5188	e3500000	cmp	r0, #0
+1b518c	0a000002	beq	0x1b519c <_Z9Room_Freev+0x158>
+1b5190	e598300c	ldr	r3, [r8, #0xc]
+1b5194	e7930104	ldr	r0, [r3, r4, lsl #2]
+1b5198	eb031c4c	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b519c	e5952008	ldr	r2, [r5, #0x8]
+1b51a0	e2844001	add	r4, r4, #1
+1b51a4	e595300c	ldr	r3, [r5, #0xc]
+1b51a8	e1540002	cmp	r4, r2
+1b51ac	e7837006	str	r7, [r3, r6]
+1b51b0	e595600c	ldr	r6, [r5, #0xc]
+1b51b4	bafffff0	blt	0x1b517c <_Z9Room_Freev+0x138>
+1b51b8	e1a00006	mov	r0, r6
+1b51bc	eb031c43	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b51c0	e59f306c	ldr	r3, [pc, #0x6c]
+1b51c4	e3a02000	mov	r2, #0
+1b51c8	e08f3003	add	r3, pc, r3
+1b51cc	e583200c	str	r2, [r3, #0xc]
+1b51d0	e59f3060	ldr	r3, [pc, #0x60]
+1b51d4	e3a02000	mov	r2, #0
+1b51d8	e08f3003	add	r3, pc, r3
+1b51dc	e5832008	str	r2, [r3, #0x8]
+1b51e0	e8bd8ff8	pop	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1b51e4	eb031c39	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b51e8	e5854014	str	r4, [r5, #0x14]
+1b51ec	eaffffd5	b	0x1b5148 <_Z9Room_Freev+0x104>
+1b51f0	e1a00006	mov	r0, r6
+1b51f4	eb031c35	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b51f8	e585600c	str	r6, [r5, #0xc]
+1b51fc	eafffff3	b	0x1b51d0 <_Z9Room_Freev+0x18c>
+1b5200	e1a00005	mov	r0, r5
+1b5204	eb031c31	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b5208	e5885004	str	r5, [r8, #0x4]
+1b520c	eaffffc1	b	0x1b5118 <_Z9Room_Freev+0xd4>
+1b5210	0038d574	eorseq	sp, r8, r4, ror r5
+1b5214	002388d0	.word	0x002388d0
+1b5218	0038d53c	eorseq	sp, r8, r12, lsr r5
+1b521c	0038d538	eorseq	sp, r8, r8, lsr r5
+1b5220	0038d4b8	ldrhteq	sp, [r8], -r8
+1b5224	0038d4a8	eorseq	sp, r8, r8, lsr #9
+1b5228	0038d49c	mlaseq	r8, r12, r4, sp
+1b522c	0038d478	eorseq	sp, r8, r8, ror r4
+1b5230	0038d450	eorseq	sp, r8, r0, asr r4
+1b5234	0038d400	eorseq	sp, r8, r0, lsl #8
+1b5238	0038d3f0	ldrshteq	sp, [r8], -r0
