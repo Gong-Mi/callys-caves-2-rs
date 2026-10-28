@@ -2,3 +2,11 @@
 {"id": "EXECIT-002", "claim": "Code_Execute 是纯转发；ExecuteIt 返回 0 时调 Error_Show_Action(msg,false) 并把全局字节写 0", "status": "proven", "evidence": "asm 0xcfc60-0xcfcb0，21/21 锚点 EXACT", "card": "Code_Execute.c"}
 {"id": "EXECIT-003", "claim": "type==1 与 type==2 语义相同（同一处理路径）", "status": "narrowed", "evidence": "asm 控制流相同，但调用者语义未查", "card": "ExecuteIt.c"}
 {"id": "EXECIT-004", "claim": "VM::Exec 的 9 个实参含义", "status": "open", "evidence": "仅见调用点，未回溯填参", "card": "ExecuteIt.c"}
+{"id": "HANDLER-001", "claim": "48 个 Do* 处理器的统一签名是 (uint32 arg, uchar* sp, const uchar* base, VMExec* exec)，返回新的值栈顶 sp", "status": "proven", "evidence": "DoPushImmediate 4 条全解 + DoBranchTrue/False 尾部 add r0,r1,#4", "card": "DoPushImmediate.c / DoBranchTrue.c"}
+{"id": "HANDLER-002", "claim": "DoPushImmediate 把 16 位立即数符号扩展后压栈（str r0,[r1,#-4]!）", "status": "proven", "evidence": "0xd3244-0xd3250 全 4 条", "card": "DoPushImmediate.c"}
+{"id": "BRANCH-001", "claim": "跳转的落地方式：exec[0x44] += off*4，idx=(p<0?p+3:p)>>2，exec[0x48]=((void**)exec[0x5c])[idx]", "status": "proven", "evidence": "DoBranch 0xd3254-0xd3288 与 DoBranchTrue/False 相同前缀", "card": "DoBranch.c"}
+{"id": "BRANCH-002", "claim": "条件跳转的条件取自语义栈顶 (*(int32*)sp)，跳完弹 1 个值（sp+4）", "status": "proven", "evidence": "0xd328c ldr r12,[r1] + 尾部 add r0,r1,#4", "card": "DoBranchTrue.c"}
+{"id": "CALL-001", "claim": "GML 脚本 id 基址 100000：DoCallGML 用 id-100000 调 Script_Data(idx)，实参个数取 opcode 参数低 16 位", "status": "proven", "evidence": "0xe8b10 sub r0,r2,#99328 / 0xe8b1c sub r0,r0,#672 / 0xe8b28 uxth", "card": "DoCallGML.c"}
+{"id": "CALL-002", "claim": "DoCallScript(scr,argc,sp,exec,NULL,NULL) 的返回值语义与两个 NULL 实参", "status": "open", "evidence": "仅见调用点", "card": "DoCallGML.c"}
+{"id": "CONV-001", "claim": "DoConvIntToVariable 就地把栈顶 int32 转 12 字节实数 RValue，返回 sp-12", "status": "proven", "evidence": "0xd773c-0xd775c vcvt.f64.s32 + 三次写 12 字节", "card": "DoConvIntToVariable.c"}
+{"id": "CONV-002", "claim": "RValue 12 字节的字段布局（tag 位置）与 vstr s14 的来源", "status": "open", "evidence": "s14 未在本函数内赋值", "card": "DoConvIntToVariable.c"}

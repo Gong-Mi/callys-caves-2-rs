@@ -1,0 +1,17 @@
+d32d0	e591c000	ldr	r12, [r1]
+d32d4	e35c0000	cmp	r12, #0
+d32d8	1a00000b	bne	0xd330c <_Z13DoBranchFalsejPhPKhP6VMExec+0x3c>
+d32dc	e5932044	ldr	r2, [r3, #0x44]
+d32e0	e1a00480	lsl	r0, r0, #9
+d32e4	e593c05c	ldr	r12, [r3, #0x5c]
+d32e8	e2422004	sub	r2, r2, #4
+d32ec	e08223c0	add	r2, r2, r0, asr #7
+d32f0	e5832044	str	r2, [r3, #0x44]
+d32f4	e2820003	add	r0, r2, #3
+d32f8	e3520000	cmp	r2, #0
+d32fc	b1a02000	movlt	r2, r0
+d3300	e1a02142	asr	r2, r2, #2
+d3304	e79c2102	ldr	r2, [r12, r2, lsl #2]
+d3308	e5832048	str	r2, [r3, #0x48]
+d330c	e2810004	add	r0, r1, #4
+d3310	e12fff1e	bx	lr

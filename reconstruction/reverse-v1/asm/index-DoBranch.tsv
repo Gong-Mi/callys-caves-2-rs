@@ -1,0 +1,14 @@
+d3254	e5932044	ldr	r2, [r3, #0x44]
+d3258	e1a0c480	lsl	r12, r0, #9
+d325c	e1a00001	mov	r0, r1
+d3260	e593105c	ldr	r1, [r3, #0x5c]
+d3264	e2422004	sub	r2, r2, #4
+d3268	e08223cc	add	r2, r2, r12, asr #7
+d326c	e5832044	str	r2, [r3, #0x44]
+d3270	e282c003	add	r12, r2, #3
+d3274	e3520000	cmp	r2, #0
+d3278	b1a0200c	movlt	r2, r12
+d327c	e1a02142	asr	r2, r2, #2
+d3280	e7912102	ldr	r2, [r1, r2, lsl #2]
+d3284	e5832048	str	r2, [r3, #0x48]
+d3288	e12fff1e	bx	lr
