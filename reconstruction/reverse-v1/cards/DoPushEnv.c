@@ -13,7 +13,8 @@
  *     w0 = -7 → VMError "Cannot use local in with statement"（串 0x332a84）→ 返回 sp+4      ; d4e68 → d4ed8..d4ee8
  *     w0 = -5 → VMError "Cannot use global in with statement"（串 0x332a60）→ 返回 sp+4     ; d4e70 → d4f08..d4f18
  *     w0 = -4 → 压 [0, env2, env1] 12 B（env1 写进被消费的那一个字），跳码；env1/env2 都不动     ; d4e74 → d4f1c..d4f68
- *     w0 = -3 → 遍历 Run_Room->[0x80] 的实例链，计数后压：0 → [0] 8 B；1 → [0, env1] 8 B；
+ *     w0 = -3 → 遍历 Run_Room 的实例链（room+0x80 是该链**尾**，头在 +0x84；沿 +0x178 反向走），
+ *     计数后压：0 → [0] 8 B；1 → [0, env1] 8 B；
  *               2 → [inst, 0, env1] 12 B；>2 → [-1, end, base, env2, env1] 20 B          ; d4e78 → d4f6c..d53d0
  *     w0 = -2 → 压 [0, env2, env1] 且 env1/env2 互换（exec[0x14]=旧 env2、exec[0x18]=旧 env1） ; d4e7c → d4eb8..d4ed4
  *     w0 = -1 与 w0 = -6 → 同一条：压 [0, env2, env1]，env2 = 旧 env1（env1 不动）            ; d4e80 / d4e6c → d4eec..d4f04

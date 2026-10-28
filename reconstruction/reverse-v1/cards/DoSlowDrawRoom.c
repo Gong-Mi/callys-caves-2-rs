@@ -15,7 +15,8 @@
  *   三股流各自只保留一个游标，比较只发生在游标之间 —— 说明三股流本已按 depth 有序（结构推断）。
  *
  * ── 三股流的入口（全部来自 CRoom）───────────────────────────────
- *   实例绘制链: room+0x84 头，next 在 CInstance+0x17c（注意不是步进链 room+0x80 / next +0x178）
+ *   实例链: room+0x84 = **头**，next 在 CInstance+0x17c、prev 在 +0x178；room+0x80 是**同一个链的尾**，
+ *   ⚠ 修正（2026-10-28，CRoom::DeSerialise 0x1acd58..0x1acda4 实证）：不是『两条链』，也不是 +0x80 当头
  *   层项数组  : room+0xb8 条数，room+0xc0 基址，步长 56 字节（rsb+lsl 算出 i*56）
  *   粒子      : ParticleSystem_LargestDepth()/NextDepth() 给出当前 depth 游标，-1e8 表示空
  *

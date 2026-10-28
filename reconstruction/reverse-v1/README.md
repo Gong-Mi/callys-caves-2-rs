@@ -53,8 +53,9 @@
 
 ## 已钉的语义
 
-    汇总：77 张卡、20,683 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          正文 46 张 / 骨架 30 张 / 桩 1 张；claims 529 条（proven 440 / narrowed 43 / open 44 / refuted 2）
+    汇总：95 张卡、28,934 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          claims 679 条（proven 562 / narrowed 60 / open 55 / refuted 2）
+          可达性靶子：入口可达 1,439 个函数（≈148,276 条指令），已出卡 95，剩余 1,344
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -163,6 +164,26 @@
 
     又改了两张旧卡：DoPushEnv 的 +0xd0 是实例**节点链** {+0 next,+8 inst}（不是 inst+0x178 串起来）；
     DoInstanceDestroy 的 id>99999 走**另一张表**（GOT 0x3edc4c ≠ 0x3edc44），不是同一查表。
+
+## 第五轮（对象/房间/事件/调用层）
+
+    CRoom::DeSerialise  0x1ac33c 841 条 正文  12 段流序无版本号；tile 表 +0xb8/+0xbc/+0xc0；
+                                              实例表 A(+0x84 头/+0x80 尾/+0x88 计数，depth 降序) 与 B(+0x90/+0x8c/+0x94)；
+                                              room_maxtileid 往返净不变
+    StartRoom           0x1d38e0 732 条 骨架  0x542954=-1 → IO_Clear → Effect_Clear → 房间表扩容 → Run_Room_Set；
+                                              持久房间只重挂不重建；事件 14/0 → 7/2 → 房间创建码 → 7/4
+    Draw_Room           0x1b3e98 740 条 骨架  自己不选路；DrawTheRoom(0x1b3b10) 按 room+0xb8 / +0x88 选慢/快；
+                                              离屏表面 0x3f5110、回贴闸 0x3f50fc、方式 0x3f50b0
+    HandleOther         0x1ce594 1736 条 骨架  只跑 Other 事件四趟（0/1/40+i/50+i）；候选来自事件→对象 id 数组；
+                                              每趟创建计数快照跳过本趟新建实例
+    CLayerManager*      Duplicate 1171 / DeSerialize 937 条 骨架  CLayer = 112 B 池对象（56 B 是绘制侧层项记录）
+    Call_Normal(_std)   各 729 条 正文  与 DoCall 家族零调用边；62 个十进制位编码 case；std 与非 std 仅 3 字不同
+    CInstance::CInstance 257 条 正文  sizeof=432、整块清零、字段初始化表（+0xd8=270.0、alarm 全 -1…）
+    Perform_Event / Perform_Event_Object / Object_Name  正文
+
+    一处跨卡冲突已实证裁定：早期卡把 room+0x80 当链头、+0x178 当 next，是反的。
+    真值：room+0x84 头 / +0x80 尾 / +0x17c next / +0x178 prev（DeSerialise 0x1acd58..0x1acda4 的尾插现场）。
+    四张卡已回改（DoSlowDrawRoom、DoAStep、DoPushEnv、StartRoom），claims ROOMCHAIN-001/002/003。
 
 ## 结构结论
 

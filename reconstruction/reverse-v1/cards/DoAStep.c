@@ -115,7 +115,8 @@
 /* @0x1d335c bl 0x17b8f0 <_ZN12GraphicsPerf4PushEjPKc> */
 /* ── 房间指针对齐 + pending-draw 闸门 ──────────────────────────
  *   r9 = [GOT 0x3ED930] = 0x54298C = &Run_Room；[r9] = CRoom*
- *   r3 = pc-relative 0x5429D0（.bss 字节）；r2 = *r3；r4 = [room+0x80]（步进链头）
+ *   r3 = pc-relative 0x5429D0（.bss 字节）；r2 = *r3；r4 = [room+0x80]
+ *   ⚠ 修正：room+0x80 是实例链的**尾**（头在 +0x84），从尾部沿 +0x178(prev) 反向走通全链
  *   若 *0x5429D0 != 0 → 1d35c4：清标志 → room->RemoveMarked() →
  *       Perform_Event_All(8, 65) → room->RemoveMarked() → 回到实例循环
  *       （8 = ev_draw，与 DoSlowDrawRoom 的 HasEventRecursive(8,0) 同一常量；65 未钉）
