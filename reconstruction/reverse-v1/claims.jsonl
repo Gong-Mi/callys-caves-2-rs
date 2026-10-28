@@ -14,3 +14,7 @@
 {"id": "BUILTIN-001", "claim": "内置函数表步长 16 字节、函数指针在表项 +4；索引先与 0x0FFFFFFF 掩码（高 4 位另作标志）；超界走 VMError", "status": "proven", "evidence": "0xd4ddc lsl #4 / 0xd4de0 ldr r3,[r4,#4] / 0xd4da4 blt VMError", "card": "DoPushBuiltin.c"}
 {"id": "ID-001", "claim": "GameMaker 的 id 分区以 100000 为基址，脚本与局部变量共用编号空间（DoCallGML 与 DoPushLocal 都减 100000）", "status": "proven", "evidence": "0xe8b10/e8b1c 与 0xd4a60/d4a68 两组减法", "card": "DoCallGML.c / DoPushLocal.c"}
 {"id": "LOCAL-001", "claim": "局部变量表：self+4 = 个数，槽位 16 字节，索引 = id-100000；值栈顶先写 tag 0x00FFFFFF 表示『局部变量引用』", "status": "narrowed", "evidence": "头部 12 条；拷贝/越界语义未证", "card": "DoPushLocal.c"}
+{"id": "RVALUE-002", "claim": "RValue 的类型 tag 在 +12（高字节），取值 0..14；DoPushGlobal 用 addls pc,pc,r12,lsl #2 的 15 路跳转表按 tag 分派", "status": "proven", "evidence": "0xd4c30/0xd4c40/0xd4c44-0xd4c80", "card": "DoPushGlobal.c"}
+{"id": "GLOBAL-001", "claim": "全局变量表与局部变量表同构：16 字节槽、索引基址 100000；全局基址来自 GOT 单例 +4，局部来自 self +4", "status": "proven", "evidence": "0xd4bd8-0xd4c28 与 0xd4a34-0xd4a80 逐条对应", "card": "DoPushGlobal.c"}
+{"id": "FRAME-001", "claim": "VMExec+0x28 是当前调用帧指针，+0x4c 是帧深度（PerformReturn 里自减）；帧内已知字段 +0x04/+0x0c/+0x18/+0x20/+0x24/+0x3c", "status": "proven", "evidence": "0xe4314-0xe4344", "card": "PerformReturn.c"}
+{"id": "FRAME-002", "claim": "帧内六个已知字段各自是 self / other / 返回地址 / 旧 sp / 旧值基址中的哪一个", "status": "open", "evidence": "只见读取，未见写入点", "card": "PerformReturn.c"}

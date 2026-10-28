@@ -1,0 +1,127 @@
+e42d8	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e42dc	e1a06001	mov	r6, r1
+e42e0	e59f51d4	ldr	r5, [pc, #0x1d4]
+e42e4	e24dd00c	sub	sp, sp, #12
+e42e8	e59f31d0	ldr	r3, [pc, #0x1d0]
+e42ec	e08f5005	add	r5, pc, r5
+e42f0	e59f21cc	ldr	r2, [pc, #0x1cc]
+e42f4	e7953003	ldr	r3, [r5, r3]
+e42f8	e5931000	ldr	r1, [r3]
+e42fc	e2811001	add	r1, r1, #1
+e4300	e5831000	str	r1, [r3]
+e4304	e7953002	ldr	r3, [r5, r2]
+e4308	e5d33000	ldrb	r3, [r3]
+e430c	e3530000	cmp	r3, #0
+e4310	1a000061	bne	0xe449c <_Z13PerformReturnPhP6VMExec+0x1c4>
+e4314	e596b028	ldr	r11, [r6, #0x28]
+e4318	e596304c	ldr	r3, [r6, #0x4c]
+e431c	e28b803c	add	r8, r11, #60
+e4320	e59b4018	ldr	r4, [r11, #0x18]
+e4324	e2433001	sub	r3, r3, #1
+e4328	e586304c	str	r3, [r6, #0x4c]
+e432c	e3540000	cmp	r4, #0
+e4330	0a000056	beq	0xe4490 <_Z13PerformReturnPhP6VMExec+0x1b8>
+e4334	e59b300c	ldr	r3, [r11, #0xc]
+e4338	e59b1024	ldr	r1, [r11, #0x24]
+e433c	e59b2004	ldr	r2, [r11, #0x4]
+e4340	e3530000	cmp	r3, #0
+e4344	e59b0020	ldr	r0, [r11, #0x20]
+e4348	e59b9010	ldr	r9, [r11, #0x10]
+e434c	b3a03000	movlt	r3, #0
+e4350	e59b7014	ldr	r7, [r11, #0x14]
+e4354	e59be000	ldr	lr, [r11]
+e4358	e59bc01c	ldr	r12, [r11, #0x1c]
+e435c	e5861034	str	r1, [r6, #0x34]
+e4360	a5961040	ldrge	r1, [r6, #0x40]
+e4364	e5862030	str	r2, [r6, #0x30]
+e4368	a5962008	ldrge	r2, [r6, #0x8]
+e436c	a0633001	rsbge	r3, r3, r1
+e4370	e586003c	str	r0, [r6, #0x3c]
+e4374	e596000c	ldr	r0, [r6, #0xc]
+e4378	a0823003	addge	r3, r2, r3
+e437c	e5941010	ldr	r1, [r4, #0x10]
+e4380	e5942004	ldr	r2, [r4, #0x4]
+e4384	e3500000	cmp	r0, #0
+e4388	e5869014	str	r9, [r6, #0x14]
+e438c	e5867018	str	r7, [r6, #0x18]
+e4390	e586e044	str	lr, [r6, #0x44]
+e4394	e586402c	str	r4, [r6, #0x2c]
+e4398	e586c038	str	r12, [r6, #0x38]
+e439c	e5863028	str	r3, [r6, #0x28]
+e43a0	e5861024	str	r1, [r6, #0x24]
+e43a4	e5862050	str	r2, [r6, #0x50]
+e43a8	0a00003f	beq	0xe44ac <_Z13PerformReturnPhP6VMExec+0x1d4>
+e43ac	e59b2030	ldr	r2, [r11, #0x30]
+e43b0	e1a00004	mov	r0, r4
+e43b4	e59b302c	ldr	r3, [r11, #0x2c]
+e43b8	e5862010	str	r2, [r6, #0x10]
+e43bc	e586300c	str	r3, [r6, #0xc]
+e43c0	eb0020e2	bl	0xec750 <_ZN8VMBuffer13convertBufferEv>
+e43c4	e5963044	ldr	r3, [r6, #0x44]
+e43c8	e596202c	ldr	r2, [r6, #0x2c]
+e43cc	e3530000	cmp	r3, #0
+e43d0	e2830003	add	r0, r3, #3
+e43d4	e5941014	ldr	r1, [r4, #0x14]
+e43d8	e5922018	ldr	r2, [r2, #0x18]
+e43dc	b1a03000	movlt	r3, r0
+e43e0	e1a03143	asr	r3, r3, #2
+e43e4	e59b0028	ldr	r0, [r11, #0x28]
+e43e8	e5861058	str	r1, [r6, #0x58]
+e43ec	e7923103	ldr	r3, [r2, r3, lsl #2]
+e43f0	e586205c	str	r2, [r6, #0x5c]
+e43f4	e5863048	str	r3, [r6, #0x48]
+e43f8	eb066374	bl	0x27d1d0 <_ZdlPv>
+e43fc	e59f20c4	ldr	r2, [pc, #0xc4]
+e4400	e59f30c4	ldr	r3, [pc, #0xc4]
+e4404	e7959002	ldr	r9, [r5, r2]
+e4408	e7953003	ldr	r3, [r5, r3]
+e440c	e58d3004	str	r3, [sp, #0x4]
+e4410	e5993000	ldr	r3, [r9]
+e4414	e59d2004	ldr	r2, [sp, #0x4]
+e4418	e2535001	subs	r5, r3, #1
+e441c	e5924000	ldr	r4, [r2]
+e4420	4a000012	bmi	0xe4470 <_Z13PerformReturnPhP6VMExec+0x198>
+e4424	e3a07000	mov	r7, #0
+e4428	e3a0a005	mov	r10, #5
+e442c	ea000004	b	0xe4444 <_Z13PerformReturnPhP6VMExec+0x16c>
+e4430	e3750001	cmn	r5, #1
+e4434	e5847008	str	r7, [r4, #0x8]
+e4438	e584a00c	str	r10, [r4, #0xc]
+e443c	e4847010	str	r7, [r4], #16
+e4440	0a000009	beq	0xe446c <_Z13PerformReturnPhP6VMExec+0x194>
+e4444	e594300c	ldr	r3, [r4, #0xc]
+e4448	e2455001	sub	r5, r5, #1
+e444c	e2433001	sub	r3, r3, #1
+e4450	e3c334ff	bic	r3, r3, #-16777216
+e4454	e3c33003	bic	r3, r3, #3
+e4458	e3530000	cmp	r3, #0
+e445c	1afffff3	bne	0xe4430 <_Z13PerformReturnPhP6VMExec+0x158>
+e4460	e1a00004	mov	r0, r4
+e4464	ebff7184	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e4468	eafffff0	b	0xe4430 <_Z13PerformReturnPhP6VMExec+0x158>
+e446c	e5993000	ldr	r3, [r9]
+e4470	e5962008	ldr	r2, [r6, #0x8]
+e4474	e0888203	add	r8, r8, r3, lsl #4
+e4478	e59b3038	ldr	r3, [r11, #0x38]
+e447c	e59b1008	ldr	r1, [r11, #0x8]
+e4480	e0823003	add	r3, r2, r3
+e4484	e59d2004	ldr	r2, [sp, #0x4]
+e4488	e5891000	str	r1, [r9]
+e448c	e5823000	str	r3, [r2]
+e4490	e1a00008	mov	r0, r8
+e4494	e28dd00c	add	sp, sp, #12
+e4498	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e449c	e59f302c	ldr	r3, [pc, #0x2c]
+e44a0	e7950003	ldr	r0, [r5, r3]
+e44a4	eb06f100	bl	0x2a08ac <_ZN9CProfiler3PopEv>
+e44a8	eaffff99	b	0xe4314 <_Z13PerformReturnPhP6VMExec+0x3c>
+e44ac	e5960010	ldr	r0, [r6, #0x10]
+e44b0	eb02d2b4	bl	0x198f88 <_ZN12YYObjectBase4FreeEPS_>
+e44b4	e596402c	ldr	r4, [r6, #0x2c]
+e44b8	eaffffbb	b	0xe43ac <_Z13PerformReturnPhP6VMExec+0xd4>
+e44bc	0030d964	eorseq	sp, r0, r4, ror #18
+e44c0	ffffc0d0	.word	0xffffc0d0
+e44c4	ffffbf18	.word	0xffffbf18
+e44c8	ffffc0bc	.word	0xffffc0bc
+e44cc	ffffc0c0	.word	0xffffc0c0
+e44d0	ffffbf1c	.word	0xffffbf1c
