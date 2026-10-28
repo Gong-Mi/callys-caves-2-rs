@@ -70,10 +70,22 @@ def main() -> int:
             if src and dst and src != dst:
                 edges[(src, dst)] += 1
 
-    carded = {p.stem for p in (root / "cards").glob("*.c")}
+    def norm(name: str) -> str:
+        # "MemoryManager::Alloc" / "_RefThing<char const*>::dec" must match
+        # MemoryManager_Alloc.c / _RefThing_dec.c
+        return re.sub(r"[^A-Za-z0-9]+", "_", name).strip("_")
+
+    carded = {p.stem.lower() for p in (root / "cards").glob("*.c")}
+    carded |= {norm(c) for c in carded}
+
+    def is_carded(name: str) -> bool:
+        trail = norm(name).lower()
+        last = trail.split("_")[-1]
+        return any(trail == c or trail.endswith(c) or c.endswith(trail) or c.endswith("_" + last)
+                   for c in carded)
     callees = collections.Counter()
     for (src, dst), n in edges.items():
-        if src in carded and dst not in carded:
+        if is_carded(src) and not is_carded(dst):
             callees[dst] += n
 
     print(f"边 {len(edges)} 条；已出卡函数 {len(carded)} 个")
