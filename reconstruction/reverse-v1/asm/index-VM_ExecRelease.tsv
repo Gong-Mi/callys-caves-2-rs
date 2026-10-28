@@ -1,0 +1,162 @@
+e4540	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e4544	e1a09001	mov	r9, r1
+e4548	e59f5250	ldr	r5, [pc, #0x250]
+e454c	e1a04000	mov	r4, r0
+e4550	e59f324c	ldr	r3, [pc, #0x24c]
+e4554	e24dd00c	sub	sp, sp, #12
+e4558	e08f5005	add	r5, pc, r5
+e455c	e59f1244	ldr	r1, [pc, #0x244]
+e4560	e590c028	ldr	r12, [r0, #0x28]
+e4564	e3a07000	mov	r7, #0
+e4568	e7953003	ldr	r3, [r5, r3]
+e456c	e59f2238	ldr	r2, [pc, #0x238]
+e4570	e5930000	ldr	r0, [r3]
+e4574	e2800001	add	r0, r0, #1
+e4578	e5830000	str	r0, [r3]
+e457c	e7953001	ldr	r3, [r5, r1]
+e4580	e58d3000	str	r3, [sp]
+e4584	e7958002	ldr	r8, [r5, r2]
+e4588	e59d2000	ldr	r2, [sp]
+e458c	e5884000	str	r4, [r8]
+e4590	e5922000	ldr	r2, [r2]
+e4594	e58d2004	str	r2, [sp, #0x4]
+e4598	e5942044	ldr	r2, [r4, #0x44]
+e459c	e594105c	ldr	r1, [r4, #0x5c]
+e45a0	e3520000	cmp	r2, #0
+e45a4	e2826003	add	r6, r2, #3
+e45a8	e5943050	ldr	r3, [r4, #0x50]
+e45ac	a1a06002	movge	r6, r2
+e45b0	e5940058	ldr	r0, [r4, #0x58]
+e45b4	e1a06146	asr	r6, r6, #2
+e45b8	e1520003	cmp	r2, r3
+e45bc	e1a03002	mov	r3, r2
+e45c0	e7911106	ldr	r1, [r1, r6, lsl #2]
+e45c4	e2816001	add	r6, r1, #1
+e45c8	e5846048	str	r6, [r4, #0x48]
+e45cc	e7906101	ldr	r6, [r0, r1, lsl #2]
+e45d0	aa000032	bge	0xe46a0 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x160>
+e45d4	e59f11d4	ldr	r1, [pc, #0x1d4]
+e45d8	e795a001	ldr	r10, [r5, r1]
+e45dc	e594b024	ldr	r11, [r4, #0x24]
+e45e0	e3a01004	mov	r1, #4
+e45e4	e5843054	str	r3, [r4, #0x54]
+e45e8	e59fe1c4	ldr	lr, [pc, #0x1c4]
+e45ec	e79b0002	ldr	r0, [r11, r2]
+e45f0	e08b2002	add	r2, r11, r2
+e45f4	e0822001	add	r2, r2, r1
+e45f8	e3100101	tst	r0, #1073741824
+e45fc	e7e3b850	ubfx	r11, r0, #0x10, #0x4
+e4600	1795100e	ldrne	r1, [r5, lr]
+e4604	1791110b	ldrne	r1, [r1, r11, lsl #2]
+e4608	e59fb1a8	ldr	r11, [pc, #0x1a8]
+e460c	12811004	addne	r1, r1, #4
+e4610	e0813003	add	r3, r1, r3
+e4614	e1a0100c	mov	r1, r12
+e4618	e5843044	str	r3, [r4, #0x44]
+e461c	e1a03004	mov	r3, r4
+e4620	e12fff36	blx	r6
+e4624	e5da2000	ldrb	r2, [r10]
+e4628	e5943048	ldr	r3, [r4, #0x48]
+e462c	e3520000	cmp	r2, #0
+e4630	e5942058	ldr	r2, [r4, #0x58]
+e4634	e2836001	add	r6, r3, #1
+e4638	e59f117c	ldr	r1, [pc, #0x17c]
+e463c	e5846048	str	r6, [r4, #0x48]
+e4640	e7926103	ldr	r6, [r2, r3, lsl #2]
+e4644	e1a0c000	mov	r12, r0
+e4648	e59f0170	ldr	r0, [pc, #0x170]
+e464c	0a00000e	beq	0xe468c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x14c>
+e4650	e7953001	ldr	r3, [r5, r1]
+e4654	e5982000	ldr	r2, [r8]
+e4658	e5933000	ldr	r3, [r3]
+e465c	e1520003	cmp	r2, r3
+e4660	1a00000e	bne	0xe46a0 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x160>
+e4664	e795c00b	ldr	r12, [r5, r11]
+e4668	e795b000	ldr	r11, [r5, r0]
+e466c	e8bc000f	ldm	r12!, {r0, r1, r2, r3}
+e4670	e59bb000	ldr	r11, [r11]
+e4674	e24bc010	sub	r12, r11, #16
+e4678	e50b0010	str	r0, [r11, #-0x10]
+e467c	e58c1004	str	r1, [r12, #0x4]
+e4680	e58c2008	str	r2, [r12, #0x8]
+e4684	e58c300c	str	r3, [r12, #0xc]
+e4688	e5ca7000	strb	r7, [r10]
+e468c	e5943044	ldr	r3, [r4, #0x44]
+e4690	e5942050	ldr	r2, [r4, #0x50]
+e4694	e1530002	cmp	r3, r2
+e4698	e1a02003	mov	r2, r3
+e469c	baffffce	blt	0xe45dc <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x9c>
+e46a0	e594304c	ldr	r3, [r4, #0x4c]
+e46a4	e3530000	cmp	r3, #0
+e46a8	ca000021	bgt	0xe4734 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1f4>
+e46ac	e89d000c	ldm	sp, {r2, r3}
+e46b0	e3590000	cmp	r9, #0
+e46b4	e5823000	str	r3, [r2]
+e46b8	0a000002	beq	0xe46c8 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x188>
+e46bc	e5943028	ldr	r3, [r4, #0x28]
+e46c0	e153000c	cmp	r3, r12
+e46c4	8a00002c	bhi	0xe477c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x23c>
+e46c8	e59f30f4	ldr	r3, [pc, #0xf4]
+e46cc	e5940008	ldr	r0, [r4, #0x8]
+e46d0	e795c003	ldr	r12, [r5, r3]
+e46d4	e59c3004	ldr	r3, [r12, #0x4]
+e46d8	e3530000	cmp	r3, #0
+e46dc	0a000009	beq	0xe4708 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1c8>
+e46e0	e2831008	add	r1, r3, #8
+e46e4	e2832601	add	r2, r3, #1048576
+e46e8	e1500001	cmp	r0, r1
+e46ec	e2822008	add	r2, r2, #8
+e46f0	3a000001	blo	0xe46fc <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1bc>
+e46f4	e1520000	cmp	r2, r0
+e46f8	8a000015	bhi	0xe4754 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x214>
+e46fc	e5933000	ldr	r3, [r3]
+e4700	e3530000	cmp	r3, #0
+e4704	1afffff5	bne	0xe46e0 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1a0>
+e4708	eb065ef0	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+e470c	e594500c	ldr	r5, [r4, #0xc]
+e4710	e3550000	cmp	r5, #0
+e4714	1a000004	bne	0xe472c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1ec>
+e4718	e5940010	ldr	r0, [r4, #0x10]
+e471c	e3500000	cmp	r0, #0
+e4720	0a000001	beq	0xe472c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1ec>
+e4724	eb02d217	bl	0x198f88 <_ZN12YYObjectBase4FreeEPS_>
+e4728	e5845010	str	r5, [r4, #0x10]
+e472c	e28dd00c	add	sp, sp, #12
+e4730	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e4734	e1a0000c	mov	r0, r12
+e4738	e1a01004	mov	r1, r4
+e473c	ebfffee5	bl	0xe42d8 <_Z13PerformReturnPhP6VMExec>
+e4740	e5007004	str	r7, [r0, #-0x4]
+e4744	e240c010	sub	r12, r0, #16
+e4748	e5007010	str	r7, [r0, #-0x10]
+e474c	e500700c	str	r7, [r0, #-0xc]
+e4750	eaffff90	b	0xe4598 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x58>
+e4754	e59c1008	ldr	r1, [r12, #0x8]
+e4758	e59c2010	ldr	r2, [r12, #0x10]
+e475c	e59c300c	ldr	r3, [r12, #0xc]
+e4760	e2822001	add	r2, r2, #1
+e4764	e5801000	str	r1, [r0]
+e4768	e2433001	sub	r3, r3, #1
+e476c	e58c0008	str	r0, [r12, #0x8]
+e4770	e58c2010	str	r2, [r12, #0x10]
+e4774	e58c300c	str	r3, [r12, #0xc]
+e4778	eaffffe3	b	0xe470c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1cc>
+e477c	e59c0000	ldr	r0, [r12]
+e4780	e59c1004	ldr	r1, [r12, #0x4]
+e4784	e59c2008	ldr	r2, [r12, #0x8]
+e4788	e59c300c	ldr	r3, [r12, #0xc]
+e478c	e5890000	str	r0, [r9]
+e4790	e5891004	str	r1, [r9, #0x4]
+e4794	e5892008	str	r2, [r9, #0x8]
+e4798	e589300c	str	r3, [r9, #0xc]
+e479c	eaffffc9	b	0xe46c8 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x188>
+e47a0	0030d6f8	ldrshteq	sp, [r0], -r8
+e47a4	ffffc0d4	.word	0xffffc0d4
+e47a8	ffffc0bc	.word	0xffffc0bc
+e47ac	ffffbf58	.word	0xffffbf58
+e47b0	ffffc0cc	.word	0xffffc0cc
+e47b4	ffffc09c	.word	0xffffc09c
+e47b8	ffffc0d8	.word	0xffffc0d8
+e47bc	ffffc0dc	.word	0xffffc0dc
+e47c0	ffffc0e0	.word	0xffffc0e0
+e47c4	ffffc0e4	.word	0xffffc0e4

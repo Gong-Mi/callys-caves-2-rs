@@ -27,3 +27,4 @@ android-build/classes.dex
 
 # generated behaviour DB (rebuild with scripts/build_behavior_db.py)
 reconstruction/db/cally.db
+reconstruction/reverse-v1/asm/instructions.jsonl
