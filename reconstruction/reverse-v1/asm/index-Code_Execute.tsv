@@ -1,0 +1,21 @@
+cfc60	e92d4010	push	{r4, lr}
+cfc64	e24dd008	sub	sp, sp, #8
+cfc68	e59dc010	ldr	r12, [sp, #0x10]
+cfc6c	e58dc000	str	r12, [sp]
+cfc70	ebffff27	bl	0xcf914 <_Z9ExecuteItP9CInstanceS0_P5CCodeP6RValuei>
+cfc74	e2504000	subs	r4, r0, #0
+cfc78	1a000008	bne	0xcfca0 <_Z12Code_ExecuteP9CInstanceS0_P5CCodeP6RValuei+0x40>
+cfc7c	e59f3028	ldr	r3, [pc, #0x28]
+cfc80	e1a01004	mov	r1, r4
+cfc84	e79f3003	ldr	r3, [pc, r3]
+cfc88	e5933000	ldr	r3, [r3]
+cfc8c	e5930000	ldr	r0, [r3]
+cfc90	eb0074b6	bl	0xecf70 <_Z17Error_Show_ActionPKcb>
+cfc94	e59f3014	ldr	r3, [pc, #0x14]
+cfc98	e79f3003	ldr	r3, [pc, r3]
+cfc9c	e5c34000	strb	r4, [r3]
+cfca0	e1a00004	mov	r0, r4
+cfca4	e28dd008	add	sp, sp, #8
+cfca8	e8bd8010	pop	{r4, pc}
+cfcac	0031deec	eorseq	sp, r1, r12, ror #29
+cfcb0	0031decc	eorseq	sp, r1, r12, asr #29
