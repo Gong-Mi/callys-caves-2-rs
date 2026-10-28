@@ -1,0 +1,108 @@
+e61b4	e92d4070	push	{r4, r5, r6, lr}
+e61b8	e1a04001	mov	r4, r1
+e61bc	e1a01c20	lsr	r1, r0, #24
+e61c0	e24dd008	sub	sp, sp, #8
+e61c4	e35100ff	cmp	r1, #255
+e61c8	e1a05002	mov	r5, r2
+e61cc	e1a01820	lsr	r1, r0, #16
+e61d0	0a00002c	beq	0xe6288 <_Z9DoPopNulljPhPKhP6VMExec+0xd4>
+e61d4	e201c00f	and	r12, r1, #15
+e61d8	e35c0006	cmp	r12, #6
+e61dc	908ff10c	addls	pc, pc, r12, lsl #2
+e61e0	ea00005c	b	0xe6358 <_Z9DoPopNulljPhPKhP6VMExec+0x1a4>
+e61e4	ea000012	b	0xe6234 <_Z9DoPopNulljPhPKhP6VMExec+0x80>
+e61e8	ea00000e	b	0xe6228 <_Z9DoPopNulljPhPKhP6VMExec+0x74>
+e61ec	ea00000d	b	0xe6228 <_Z9DoPopNulljPhPKhP6VMExec+0x74>
+e61f0	ea00000f	b	0xe6234 <_Z9DoPopNulljPhPKhP6VMExec+0x80>
+e61f4	ea00000b	b	0xe6228 <_Z9DoPopNulljPhPKhP6VMExec+0x74>
+e61f8	ea000010	b	0xe6240 <_Z9DoPopNulljPhPKhP6VMExec+0x8c>
+e61fc	eaffffff	b	0xe6200 <_Z9DoPopNulljPhPKhP6VMExec+0x4c>
+e6200	e5945000	ldr	r5, [r4]
+e6204	e3550000	cmp	r5, #0
+e6208	0a000006	beq	0xe6228 <_Z9DoPopNulljPhPKhP6VMExec+0x74>
+e620c	eb02ab46	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+e6210	e5956004	ldr	r6, [r5, #0x4]
+e6214	e2466001	sub	r6, r6, #1
+e6218	e5856004	str	r6, [r5, #0x4]
+e621c	e3560000	cmp	r6, #0
+e6220	0a000023	beq	0xe62b4 <_Z9DoPopNulljPhPKhP6VMExec+0x100>
+e6224	eb02ab41	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+e6228	e2840004	add	r0, r4, #4
+e622c	e28dd008	add	sp, sp, #8
+e6230	e8bd8070	pop	{r4, r5, r6, pc}
+e6234	e2840008	add	r0, r4, #8
+e6238	e28dd008	add	sp, sp, #8
+e623c	e8bd8070	pop	{r4, r5, r6, pc}
+e6240	e594300c	ldr	r3, [r4, #0xc]
+e6244	e3e024ff	mvn	r2, #-16777216
+e6248	e0031002	and	r1, r3, r2
+e624c	e1510002	cmp	r1, r2
+e6250	0a000025	beq	0xe62ec <_Z9DoPopNulljPhPKhP6VMExec+0x138>
+e6254	e2433001	sub	r3, r3, #1
+e6258	e3c334ff	bic	r3, r3, #-16777216
+e625c	e3c33003	bic	r3, r3, #3
+e6260	e3530000	cmp	r3, #0
+e6264	0a00000f	beq	0xe62a8 <_Z9DoPopNulljPhPKhP6VMExec+0xf4>
+e6268	e1a00004	mov	r0, r4
+e626c	e3a03000	mov	r3, #0
+e6270	e3a02005	mov	r2, #5
+e6274	e5843008	str	r3, [r4, #0x8]
+e6278	e584200c	str	r2, [r4, #0xc]
+e627c	e4803010	str	r3, [r0], #16
+e6280	e28dd008	add	sp, sp, #8
+e6284	e8bd8070	pop	{r4, r5, r6, pc}
+e6288	e58d3000	str	r3, [sp]
+e628c	e3a0c001	mov	r12, #1
+e6290	e6ef1071	uxtb	r1, r1
+e6294	e1a02004	mov	r2, r4
+e6298	e1a03005	mov	r3, r5
+e629c	e58dc004	str	r12, [sp, #0x4]
+e62a0	ebffc863	bl	0xd8434 <_Z7DoBreakjhPhPKhP6VMExecb>
+e62a4	eaffffe0	b	0xe622c <_Z9DoPopNulljPhPKhP6VMExec+0x78>
+e62a8	e1a00004	mov	r0, r4
+e62ac	ebff69f2	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e62b0	eaffffec	b	0xe6268 <_Z9DoPopNulljPhPKhP6VMExec+0xb4>
+e62b4	e5950000	ldr	r0, [r5]
+e62b8	ebffa334	bl	0xcef90 <_Z6YYFreePKv>
+e62bc	e5856000	str	r6, [r5]
+e62c0	e5856008	str	r6, [r5, #0x8]
+e62c4	eb02ab18	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+e62c8	e5956004	ldr	r6, [r5, #0x4]
+e62cc	e2466001	sub	r6, r6, #1
+e62d0	e5856004	str	r6, [r5, #0x4]
+e62d4	e3560000	cmp	r6, #0
+e62d8	0a000008	beq	0xe6300 <_Z9DoPopNulljPhPKhP6VMExec+0x14c>
+e62dc	eb02ab13	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+e62e0	e1a00005	mov	r0, r5
+e62e4	eb065bb9	bl	0x27d1d0 <_ZdlPv>
+e62e8	eaffffcd	b	0xe6224 <_Z9DoPopNulljPhPKhP6VMExec+0x70>
+e62ec	e59f006c	ldr	r0, [pc, #0x6c]
+e62f0	e08f0000	add	r0, pc, r0
+e62f4	eb05ba02	bl	0x254b04 <_Z21JSThrowReferenceErrorPKc>
+e62f8	e594300c	ldr	r3, [r4, #0xc]
+e62fc	eaffffd4	b	0xe6254 <_Z9DoPopNulljPhPKhP6VMExec+0xa0>
+e6300	e5950000	ldr	r0, [r5]
+e6304	ebffa321	bl	0xcef90 <_Z6YYFreePKv>
+e6308	e5856000	str	r6, [r5]
+e630c	e5856008	str	r6, [r5, #0x8]
+e6310	eb02ab05	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+e6314	e5956004	ldr	r6, [r5, #0x4]
+e6318	e2466001	sub	r6, r6, #1
+e631c	e5856004	str	r6, [r5, #0x4]
+e6320	e3560000	cmp	r6, #0
+e6324	1a000007	bne	0xe6348 <_Z9DoPopNulljPhPKhP6VMExec+0x194>
+e6328	e5950000	ldr	r0, [r5]
+e632c	ebffa317	bl	0xcef90 <_Z6YYFreePKv>
+e6330	e1a00005	mov	r0, r5
+e6334	e5856000	str	r6, [r5]
+e6338	e5856008	str	r6, [r5, #0x8]
+e633c	ebff69ad	bl	0xc09f8 <_ZN9_RefThingIPKcE3decEv>
+e6340	e1a00005	mov	r0, r5
+e6344	eb065ba1	bl	0x27d1d0 <_ZdlPv>
+e6348	eb02aaf8	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+e634c	e1a00005	mov	r0, r5
+e6350	eb065b9e	bl	0x27d1d0 <_ZdlPv>
+e6354	eaffffe0	b	0xe62dc <_Z9DoPopNulljPhPKhP6VMExec+0x128>
+e6358	e1a00004	mov	r0, r4
+e635c	eaffffb2	b	0xe622c <_Z9DoPopNulljPhPKhP6VMExec+0x78>
+e6360	0024e2ac	eoreq	lr, r4, r12, lsr #5

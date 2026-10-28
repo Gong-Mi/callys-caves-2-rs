@@ -53,25 +53,69 @@
 
 ## 已钉的语义
 
-    Code_Execute    0x0cfc60   21 条  EXACT  正文
-      纯转发 ExecuteIt；返回 0 时 Error_Show_Action(msg,false) + 全局字节写 0
-    ExecuteIt       0x0cf914  211 条  EXACT  骨架
-      按 code->type([+8]) 分派：<1 或 >3 → 返回 1；1..2 → 调 [code+0x64]+4 回调后返回 1；
-      ==3 → 唯一真正执行路径，末尾 VM::Exec
-    VM::Exec        0x0e7fd0  366 条  EXACT  骨架
-      按全局 debug 标志二选一，分别调 ExecDebug(0xe47c8, 992 B) / ExecRelease(0xe4540, 648 B)
-    VM::ExecRelease 0x0e4540  162 条  EXACT  骨架
-      线程化派发：r6 = [VMExec+0x58][pc]，pc+1 写回 [+0x48]，blx r6；PerformReturn 走退栈
+    汇总：40 张卡、15,784 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          正文 8 张 / 骨架 32 张；claims 195 条（proven 161 / narrowed 15 / open 19）
+
+    入口链
+      Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
+      ExecuteIt       0x0cf914  211 条  骨架   code->type([+8])：<1/>3 返回 1；1..2 调 [code+0x64]+4；==3 才执行
+      VM::Exec        0x0e7fd0  366 条  骨架   按 debug 全局二选一 → ExecDebug(992 B) / ExecRelease(648 B)
+      VM::ExecRelease 0x0e4540  162 条  骨架   线程化派发：[VMExec+0x58][pc] → blx；+0x48 是 pc
+      PerformReturn   0xe42d8   127 条  骨架   exec+0x28 帧指针、exec+0x4c 帧深度（返回自减）
+
+    栈与变量
+      DoPushImmediate 0xd3244     4 条  正文   sxth 后 str [sp,#-4]!（立即数入栈）
+      DoPushBuiltin   0xd4d74    34 条  正文   索引=base&0x0FFFFFFF；表项 16B、fn 在 +4；越界 VMError
+      DoPushLocal     0xd4a34   105 条  骨架   槽 = id-100000，步长 16；栈顶 tag 0x00FFFFFF
+      DoPushGlobal    0xd4bd8   103 条  骨架   与局部同构，基址换成 GOT 单例 +4
+      DoPushEnv       0xd4dfc   416 条  骨架   with 压栈：位域 w0∈[-7,-1] 六类标记；>99999 走 ms_ID2Instance
+      DoPopEnv        0xd3840    74 条  骨架   码指针回填 (exec+0x44-4)+arg*4，再 exec+0x5c[code/4] → +0x48
+      DoPopLocalVariable 0xe1f5c 46 条  正文   dst=self+4+idx*16；写回的是空结果 {0,0,tag5}
+      DoPop           0xe65e4  1530 条  骨架   只收 kind 2/5/15；[15:0] count、[19:16] kind、位30 带 base
+      DoPopNull       0xe61b4   108 条  骨架   kind5 才填 null；0xFF 前缀转 DoBreak
+      DoDup           0xd5560   182 条  正文   dup / swap 双模式；16B 拷贝按 tag 分引用计数
+
+    取值与运算
+      DoPush          0xe9e88  1372 条  骨架   kind 0..15；8/4/16 三档载荷；**负 id 是第二级 opcode**（-1..-14）
+      DoRet           0xe3fe8   188 条  正文   sub=(arg>>16)&0xFF 定 memcpy 0/4/8/16；返回值进 frame+0x2c+n*16
+      DoExit          0xe44d4    27 条  正文   depth≤0 复位取指；depth>0 走 PerformReturn 后压 16B tag0
+      DoConv          0xeb3f8   832 条  正文   src/dst 类型码 + 103 项预解析表 → 44 个叶子
+      DoAdd           0xdc524  1015 条  骨架   mode=(arg>>8)&0xF；type 字节高位=左、低位=右；tag0 double/7 int32/10 int64/1 string
+      DoSub/DoDiv/DoXor/DoAnd/DoShl/DoRem/DoMul/DoMod/DoShr/DoOr  各 460–637 条，全部 骨架
+                                             统一：消费表定结果槽 → 算术表（9~12 条内核）→ 压回
+      DoNeg/DoNot     0xe096c/0xd7908    骨架   mode1/mode2 两条语义（DoNot 的 ! 与 ~ 栈效应不同）
+
+    调用与比较
+      DoCall          0xe8b48   786 条  骨架   id 四分流：<100000 内建 / +100000 脚本 / 499999 间接 / >500000 扩展
+      DoCallGML       0xe8b00    18 条  正文   DoCall 路径 A 的特化
+      DoCallLibrary   0xe3e58   100 条  正文   desc=table+idx*0x50、fn=desc[0x40]、5 参协议
+      DoSet           0xe2014  1863 条  骨架   **不是赋值，是比较算子**：K=(arg>>8)&0xF，实数比较带 1e-05 容差
 
 ## 结构结论
 
-原版没有 opcode 比较链，也没有跳转表分支树：`VMExec+0x58` 是一张**预解析的处理器指针表**，
-主循环取表项后 `blx`。语义全在 48 个 `DoXxx(int, uchar* ip, uchar* base, VMExec*)` 里，
-合计 70,532 B ≈ 17,633 条指令（最大 DoSet 7,452 B、DoPop 6,088 B、DoPush 5,488 B、DoAdd 4,060 B）。
+原版没有 opcode 比较链：`VMExec+0x58` 是一张**预解析的处理器指针表**，主循环取表项后 `blx`。
+语义全在 48 个 `DoXxx(uint32 arg, uchar* sp, const uchar* base, VMExec*)` 里（返回新的值栈顶），
+合计 70,532 B ≈ 17,633 条指令。
+
+三条贯穿全库的事实（都已锚到指令）：
+
+    RValue      栈上 16 字节，类型 tag 在 +12 的高字节，取值 0..14
+                0/13 real、1 string、2 array、3 pointer、5 undefined、7 int32、10 int64
+                0x00FFFFFF 是「尚未解析的变量引用」占位
+    id 分区     基址 100000：脚本 id、局部槽、全局槽都用 id-100000；槽步长 16 字节
+    opcode 参数 位域：[15:0] 有符号 count（sxth）、[19:16] 子种类（ubfx #0x10,#4）、
+                位 30 = 附带变量基址（ands #0x40000000），位 29 = id 内嵌于 arg
+
+两条方法学教训（写进库里，避免再犯）：
+
+    · ARM `add pc,pc,rX,lsl #2` 的基址是**该指令地址 + 8**，紧跟其后的 `b` 是越界 default 而非 case 0。
+      早先 DoPushGlobal 的 tag 落点表整表错一位，已按此修正并作废（claims RVALUE-003）。
+    · 函数名不可信：`DoSet` 名字像赋值，实际是比较算子；`DoRem` 写回的是**商**；
+      DoDiv/DoAnd/DoShl 的错误串分别写成 `'*' operator`/`DoAdd`/`DoOr`（原版复制粘贴错位）。
 
 ## 下一步
 
-    · 48 个 Do* 处理器逐个出卡（小 → 大），每张跑 check_card_anchors
-    · 处理器齐了以后，在 javam/ART harness 里跑同一段 GML 字节码，比对
-      "我们的 VM 状态轨迹"与"按 C 卡实现的轨迹"——两边都在我们手里，不碰原版 app
-    · cards/auto 里的 8,722 个函数按调用图逐步升级为骨架/正文，优先 Do* 的直接依赖
+    · 32 张骨架里挑「调用链主干」升级正文：DoPush（负 id 二级 opcode 的 14 条）、DoCall、DoPop
+    · 补齐尚未出卡的 Do* 剩余函数（见 functions.tsv 里 _Z*Do* 且签名不同的那批）
+    · 在 javam/ART harness 里跑同一段 GML 字节码，比对"我们的 VM 状态轨迹"与"按 C 卡实现的轨迹"
+      ——两边都在我们手里，不碰原版 app

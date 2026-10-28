@@ -14,10 +14,11 @@
 {"id": "BUILTIN-001", "claim": "内置函数表步长 16 字节、函数指针在表项 +4；索引先与 0x0FFFFFFF 掩码（高 4 位另作标志）；超界走 VMError", "status": "proven", "evidence": "0xd4ddc lsl #4 / 0xd4de0 ldr r3,[r4,#4] / 0xd4da4 blt VMError", "card": "DoPushBuiltin.c"}
 {"id": "ID-001", "claim": "GameMaker 的 id 分区以 100000 为基址，脚本与局部变量共用编号空间（DoCallGML 与 DoPushLocal 都减 100000）", "status": "proven", "evidence": "0xe8b10/e8b1c 与 0xd4a60/d4a68 两组减法", "card": "DoCallGML.c / DoPushLocal.c"}
 {"id": "LOCAL-001", "claim": "局部变量表：self+4 = 个数，槽位 16 字节，索引 = id-100000；值栈顶先写 tag 0x00FFFFFF 表示『局部变量引用』", "status": "narrowed", "evidence": "头部 12 条；拷贝/越界语义未证", "card": "DoPushLocal.c"}
-{"id": "RVALUE-002", "claim": "RValue 的类型 tag 在 +12（高字节），取值 0..14；DoPushGlobal 用 addls pc,pc,r12,lsl #2 的 15 路跳转表按 tag 分派", "status": "proven", "evidence": "0xd4c30/0xd4c40/0xd4c44-0xd4c80", "card": "DoPushGlobal.c"}
+{"id": "RVALUE-002", "claim": "RValue 的类型 tag 在 +12（高字节），取值 0..14；DoPushGlobal 用 addls pc,pc,r12,lsl #2 的 15 路跳转表按 tag 分派", "status": "proven", "evidence": "0xd4c30/0xd4c40/0xd4c44-0xd4c80（落点映射见 RVALUE-003 修正）", "card": "DoPushGlobal.c"}
 {"id": "GLOBAL-001", "claim": "全局变量表与局部变量表同构：16 字节槽、索引基址 100000；全局基址来自 GOT 单例 +4，局部来自 self +4", "status": "proven", "evidence": "0xd4bd8-0xd4c28 与 0xd4a34-0xd4a80 逐条对应", "card": "DoPushGlobal.c"}
 {"id": "FRAME-001", "claim": "VMExec+0x28 是当前调用帧指针，+0x4c 是帧深度（PerformReturn 里自减）；帧内已知字段 +0x04/+0x0c/+0x18/+0x20/+0x24/+0x3c", "status": "proven", "evidence": "0xe4314-0xe4344", "card": "PerformReturn.c"}
 {"id": "FRAME-002", "claim": "帧内六个已知字段各自是 self / other / 返回地址 / 旧 sp / 旧值基址中的哪一个", "status": "open", "evidence": "只见读取，未见写入点", "card": "PerformReturn.c"}
 {"id": "OPARG-001", "claim": "opcode 参数是位域：[15:0] 有符号 count（sxth），[19:16] 子种类（ubfx #0x10,#4），位 30 = 附带变量基址（ands #0x40000000），被掩掉的高位正是 DoPushBuiltin 的 & 0x0FFFFFFF", "status": "proven", "evidence": "0xe6608 / 0xe666c / 0xe66a8 与 0xd4d94 掩码互证", "card": "DoPop.c"}
 {"id": "POP-001", "claim": "DoPop 只接受 kind 2/5/15，其余走 VMError；kind 2 与 kind 5 起始点不同（0xe6978 vs 主路径）", "status": "proven", "evidence": "0xe6614-0xe6644 / 0xe66a0", "card": "DoPop.c"}
 {"id": "POP-002", "claim": "DoPop 里 count == -9 的分支语义（是否『弹到帧基』）", "status": "open", "evidence": "0xe66b8 cmn r9,#9", "card": "DoPop.c"}
+{"id": "RVALUE-003", "claim": "ARM `add pc,pc,rX,lsl #2` 的基址是该指令地址+8，紧跟其后的 b 是越界 fallthrough 而非 case 0；DoPushGlobal 的正确落点是 tag0→d4ca8、tag1→d4d18、tag2→d4d34、tag3→d4c8c（本仓库早先「整表错一位」的写法已作废）", "status": "proven", "evidence": "batchC（cards/DoAdd.c 的交叉复核）+ 0xd4c48 的指令地址 0xd4c48+8=0xd4c50 即第一条 b", "card": "DoPushGlobal.c / DoAdd.c"}

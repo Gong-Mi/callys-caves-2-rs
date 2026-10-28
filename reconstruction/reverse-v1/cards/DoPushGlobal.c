@@ -14,7 +14,10 @@
  *   else        r5 = n + slot*16                ; d4c28 —— 与局部变量同构，只是基址换成全局单例
  *   src  = *(uint32*)(r5+0xc); tag = src & 0xFF000000 >> 24   ; d4c2c/d4c30/d4c40
  *   **switch (tag) 0..14：`cmp #14; addls pc,pc,r12,lsl #2` + 15 条 b 组成的跳转表**  ; d4c44-d4c80
- *     0→d4c94 1→d4ca8 2→d4d18 3→d4d34 4→d4c8c 5/6→d4c94 …（按 b 的目标表）
+ *     ⚠ 修正（2026-10-28，batchC 交叉复核）：ARM 的 `add pc,pc,rX,lsl #2` 基址是**该指令地址 + 8**，
+ *     所以紧跟其后的那条 `b` 是越界 fallthrough（default），不是 case 0。正确的落点是：
+ *       tag0 → d4ca8   tag1 → d4d18   tag2 → d4d34   tag3 → d4c8c   …
+ *     本卡原先写的「0→d4c94 1→d4ca8 2→d4d18 3→d4d34」整表**错一位**，已作废（claims RVALUE-002 已改写）。
  *
  * 结论（新增三条硬事实）：
  *   1. RValue 的**类型 tag 在 +12（高字节）**，取值 **0..14**，按 tag 走 15 路跳转表；
