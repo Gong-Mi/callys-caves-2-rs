@@ -1,0 +1,221 @@
+195558	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+19555c	ed2d8b06	vpush	{d8, d9, d10}
+195560	e1a05000	mov	r5, r0
+195564	e59f4350	ldr	r4, [pc, #0x350]
+195568	e24dd03c	sub	sp, sp, #60
+19556c	e59f334c	ldr	r3, [pc, #0x34c]
+195570	e1a07001	mov	r7, r1
+195574	e08f4004	add	r4, pc, r4
+195578	e1a08002	mov	r8, r2
+19557c	e7946003	ldr	r6, [r4, r3]
+195580	e5d63000	ldrb	r3, [r6]
+195584	e3530000	cmp	r3, #0
+195588	1a00001c	bne	0x195600 <_ZN9CInstance18Collision_InstanceEPS_b+0xa8>
+19558c	e1550007	cmp	r5, r7
+195590	0a000002	beq	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+195594	e5d53068	ldrb	r3, [r5, #0x68]
+195598	e3530000	cmp	r3, #0
+19559c	0a00000a	beq	0x1955cc <_ZN9CInstance18Collision_InstanceEPS_b+0x74>
+1955a0	e3a05000	mov	r5, #0
+1955a4	e5d63000	ldrb	r3, [r6]
+1955a8	e3530000	cmp	r3, #0
+1955ac	0a000002	beq	0x1955bc <_ZN9CInstance18Collision_InstanceEPS_b+0x64>
+1955b0	e59f330c	ldr	r3, [pc, #0x30c]
+1955b4	e7940003	ldr	r0, [r4, r3]
+1955b8	eb042cbb	bl	0x2a08ac <_ZN9CProfiler3PopEv>
+1955bc	e1a00005	mov	r0, r5
+1955c0	e28dd03c	add	sp, sp, #60
+1955c4	ecbd8b06	vpop	{d8, d9, d10}
+1955c8	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1955cc	e5d73068	ldrb	r3, [r7, #0x68]
+1955d0	e3530000	cmp	r3, #0
+1955d4	1afffff1	bne	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+1955d8	e1a00005	mov	r0, r5
+1955dc	ebfff6dd	bl	0x193158 <_ZN9CInstance17SkeletonAnimationEv>
+1955e0	e3500000	cmp	r0, #0
+1955e4	0a00000b	beq	0x195618 <_ZN9CInstance18Collision_InstanceEPS_b+0xc0>
+1955e8	e1a00005	mov	r0, r5
+1955ec	e1a01007	mov	r1, r7
+1955f0	e1a02008	mov	r2, r8
+1955f4	ebffff26	bl	0x195294 <_ZN9CInstance18Collision_SkeletonEPS_b>
+1955f8	e1a05000	mov	r5, r0
+1955fc	eaffffe8	b	0x1955a4 <_ZN9CInstance18Collision_InstanceEPS_b+0x4c>
+195600	e59f32bc	ldr	r3, [pc, #0x2bc]
+195604	e3a01006	mov	r1, #6
+195608	e3a02001	mov	r2, #1
+19560c	e7940003	ldr	r0, [r4, r3]
+195610	eb042c48	bl	0x2a0738 <_ZN9CProfiler4PushEii>
+195614	eaffffdc	b	0x19558c <_ZN9CInstance18Collision_InstanceEPS_b+0x34>
+195618	e1a00007	mov	r0, r7
+19561c	ebfff6cd	bl	0x193158 <_ZN9CInstance17SkeletonAnimationEv>
+195620	e3500000	cmp	r0, #0
+195624	0a000005	beq	0x195640 <_ZN9CInstance18Collision_InstanceEPS_b+0xe8>
+195628	e1a01005	mov	r1, r5
+19562c	e1a00007	mov	r0, r7
+195630	e1a02008	mov	r2, r8
+195634	ebffff16	bl	0x195294 <_ZN9CInstance18Collision_SkeletonEPS_b>
+195638	e1a05000	mov	r5, r0
+19563c	eaffffd8	b	0x1955a4 <_ZN9CInstance18Collision_InstanceEPS_b+0x4c>
+195640	e5d73064	ldrb	r3, [r7, #0x64]
+195644	e3530000	cmp	r3, #0
+195648	1a00005e	bne	0x1957c8 <_ZN9CInstance18Collision_InstanceEPS_b+0x270>
+19564c	e5d53064	ldrb	r3, [r5, #0x64]
+195650	e3530000	cmp	r3, #0
+195654	1a000057	bne	0x1957b8 <_ZN9CInstance18Collision_InstanceEPS_b+0x260>
+195658	e59520f0	ldr	r2, [r5, #0xf0]
+19565c	e59730e8	ldr	r3, [r7, #0xe8]
+195660	e1520003	cmp	r2, r3
+195664	baffffcd	blt	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+195668	e59720f0	ldr	r2, [r7, #0xf0]
+19566c	e59530e8	ldr	r3, [r5, #0xe8]
+195670	e1520003	cmp	r2, r3
+195674	baffffc9	blt	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+195678	e59520f4	ldr	r2, [r5, #0xf4]
+19567c	e59730ec	ldr	r3, [r7, #0xec]
+195680	e1520003	cmp	r2, r3
+195684	baffffc5	blt	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+195688	e59720f4	ldr	r2, [r7, #0xf4]
+19568c	e59530ec	ldr	r3, [r5, #0xec]
+195690	e1520003	cmp	r2, r3
+195694	baffffc1	blt	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+195698	e59500ac	ldr	r0, [r5, #0xac]
+19569c	e3500000	cmp	r0, #0
+1956a0	b595008c	ldrlt	r0, [r5, #0x8c]
+1956a4	eb016664	bl	0x1ef03c <_Z11Sprite_Datai>
+1956a8	e3500000	cmp	r0, #0
+1956ac	e1a09000	mov	r9, r0
+1956b0	0affffba	beq	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+1956b4	e5903018	ldr	r3, [r0, #0x18]
+1956b8	e3530000	cmp	r3, #0
+1956bc	0affffb7	beq	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+1956c0	e59700ac	ldr	r0, [r7, #0xac]
+1956c4	e3500000	cmp	r0, #0
+1956c8	ba000077	blt	0x1958ac <_ZN9CInstance18Collision_InstanceEPS_b+0x354>
+1956cc	eb01665a	bl	0x1ef03c <_Z11Sprite_Datai>
+1956d0	e1a0a000	mov	r10, r0
+1956d4	e35a0000	cmp	r10, #0
+1956d8	0affffb0	beq	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+1956dc	e59a3018	ldr	r3, [r10, #0x18]
+1956e0	e3530000	cmp	r3, #0
+1956e4	0affffad	beq	0x1955a0 <_ZN9CInstance18Collision_InstanceEPS_b+0x48>
+1956e8	e3580000	cmp	r8, #0
+1956ec	0a000039	beq	0x1957d8 <_ZN9CInstance18Collision_InstanceEPS_b+0x280>
+1956f0	e5d93030	ldrb	r3, [r9, #0x30]
+1956f4	e3530000	cmp	r3, #0
+1956f8	1a000002	bne	0x195708 <_ZN9CInstance18Collision_InstanceEPS_b+0x1b0>
+1956fc	e5da3030	ldrb	r3, [r10, #0x30]
+195700	e3530000	cmp	r3, #0
+195704	0a000033	beq	0x1957d8 <_ZN9CInstance18Collision_InstanceEPS_b+0x280>
+195708	e59f31b8	ldr	r3, [pc, #0x1b8]
+19570c	e7943003	ldr	r3, [r4, r3]
+195710	e5d33000	ldrb	r3, [r3]
+195714	e3530000	cmp	r3, #0
+195718	0a000030	beq	0x1957e0 <_ZN9CInstance18Collision_InstanceEPS_b+0x288>
+19571c	edd57a2e	vldr	s15, [r5, #184]
+195720	eefd7ae7	vcvt.s32.f32	s15, s15
+195724	edd75a24	vldr	s11, [r7, #144]
+195728	ed976a2d	vldr	s12, [r7, #180]
+19572c	edd76a2e	vldr	s13, [r7, #184]
+195730	e58da010	str	r10, [sp, #0x10]
+195734	e5951098	ldr	r1, [r5, #0x98]
+195738	ed957a24	vldr	s14, [r5, #144]
+19573c	e595209c	ldr	r2, [r5, #0x9c]
+195740	e1a00009	mov	r0, r9
+195744	ee173a90	vmov	r3, s15
+195748	edd57a2d	vldr	s15, [r5, #180]
+19574c	e58d2008	str	r2, [sp, #0x8]
+195750	eefd5ae5	vcvt.s32.f32	s11, s11
+195754	e58d1004	str	r1, [sp, #0x4]
+195758	e28520e8	add	r2, r5, #232
+19575c	e59510a0	ldr	r1, [r5, #0xa0]
+195760	e58d100c	str	r1, [sp, #0xc]
+195764	eebd6ac6	vcvt.s32.f32	s12, s12
+195768	eefd6ae6	vcvt.s32.f32	s13, s13
+19576c	e58d3000	str	r3, [sp]
+195770	e28730e8	add	r3, r7, #232
+195774	e5971098	ldr	r1, [r7, #0x98]
+195778	eebd7ac7	vcvt.s32.f32	s14, s14
+19577c	e58d3018	str	r3, [sp, #0x18]
+195780	e58d1024	str	r1, [sp, #0x24]
+195784	e597109c	ldr	r1, [r7, #0x9c]
+195788	e59730a0	ldr	r3, [r7, #0xa0]
+19578c	edcd5a05	vstr	s11, [sp, #20]
+195790	ed8d6a07	vstr	s12, [sp, #28]
+195794	edcd6a08	vstr	s13, [sp, #32]
+195798	e58d1028	str	r1, [sp, #0x28]
+19579c	eefd7ae7	vcvt.s32.f32	s15, s15
+1957a0	e58d302c	str	r3, [sp, #0x2c]
+1957a4	ee171a10	vmov	r1, s14
+1957a8	ee173a90	vmov	r3, s15
+1957ac	eb013ab9	bl	0x1e4298 <_ZN7CSprite16PreciseCollisionEiP9tagYYRECTiifffPS_iS1_iifff>
+1957b0	e1a05000	mov	r5, r0
+1957b4	eaffff7a	b	0x1955a4 <_ZN9CInstance18Collision_InstanceEPS_b+0x4c>
+1957b8	e1a00005	mov	r0, r5
+1957bc	e3a01001	mov	r1, #1
+1957c0	ebfff2de	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1957c4	eaffffa3	b	0x195658 <_ZN9CInstance18Collision_InstanceEPS_b+0x100>
+1957c8	e1a00007	mov	r0, r7
+1957cc	e3a01001	mov	r1, #1
+1957d0	ebfff2da	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1957d4	eaffff9c	b	0x19564c <_ZN9CInstance18Collision_InstanceEPS_b+0xf4>
+1957d8	e3a05001	mov	r5, #1
+1957dc	eaffff70	b	0x1955a4 <_ZN9CInstance18Collision_InstanceEPS_b+0x4c>
+1957e0	edd57a2d	vldr	s15, [r5, #180]
+1957e4	eeb76ae7	vcvt.f64.f32	d6, s15
+1957e8	ed958a24	vldr	s16, [r5, #144]
+1957ec	ec510b16	vmov	r0, r1, d6
+1957f0	ebfc83bc	bl	0xb66e8 <lrint@plt>
+1957f4	edd57a2e	vldr	s15, [r5, #184]
+1957f8	eeb76ae7	vcvt.f64.f32	d6, s15
+1957fc	eebd8ac8	vcvt.s32.f32	s16, s16
+195800	e1a08000	mov	r8, r0
+195804	ec510b16	vmov	r0, r1, d6
+195808	ebfc83b6	bl	0xb66e8 <lrint@plt>
+19580c	edd77a2d	vldr	s15, [r7, #180]
+195810	eeb76ae7	vcvt.f64.f32	d6, s15
+195814	ed95aa26	vldr	s20, [r5, #152]
+195818	edd59a27	vldr	s19, [r5, #156]
+19581c	ed959a28	vldr	s18, [r5, #160]
+195820	edd78a24	vldr	s17, [r7, #144]
+195824	eefd8ae8	vcvt.s32.f32	s17, s17
+195828	e1a03000	mov	r3, r0
+19582c	ec510b16	vmov	r0, r1, d6
+195830	e58d3034	str	r3, [sp, #0x34]
+195834	ebfc83ab	bl	0xb66e8 <lrint@plt>
+195838	edd77a2e	vldr	s15, [r7, #184]
+19583c	eeb76ae7	vcvt.f64.f32	d6, s15
+195840	e1a0b000	mov	r11, r0
+195844	ec510b16	vmov	r0, r1, d6
+195848	ebfc83a6	bl	0xb66e8 <lrint@plt>
+19584c	e59d3034	ldr	r3, [sp, #0x34]
+195850	edcd8a05	vstr	s17, [sp, #20]
+195854	ed8daa01	vstr	s20, [sp, #4]
+195858	edcd9a02	vstr	s19, [sp, #8]
+19585c	ed8d9a03	vstr	s18, [sp, #12]
+195860	e58d3000	str	r3, [sp]
+195864	e287c0e8	add	r12, r7, #232
+195868	e58db01c	str	r11, [sp, #0x1c]
+19586c	e28520e8	add	r2, r5, #232
+195870	e58da010	str	r10, [sp, #0x10]
+195874	e1a03008	mov	r3, r8
+195878	e597e098	ldr	lr, [r7, #0x98]
+19587c	e58dc018	str	r12, [sp, #0x18]
+195880	ee181a10	vmov	r1, s16
+195884	e58de024	str	lr, [sp, #0x24]
+195888	e597e09c	ldr	lr, [r7, #0x9c]
+19588c	e597c0a0	ldr	r12, [r7, #0xa0]
+195890	e58de028	str	lr, [sp, #0x28]
+195894	e58dc02c	str	r12, [sp, #0x2c]
+195898	e58d0020	str	r0, [sp, #0x20]
+19589c	e1a00009	mov	r0, r9
+1958a0	eb013a7c	bl	0x1e4298 <_ZN7CSprite16PreciseCollisionEiP9tagYYRECTiifffPS_iS1_iifff>
+1958a4	e1a05000	mov	r5, r0
+1958a8	eaffff3d	b	0x1955a4 <_ZN9CInstance18Collision_InstanceEPS_b+0x4c>
+1958ac	e597008c	ldr	r0, [r7, #0x8c]
+1958b0	eb0165e1	bl	0x1ef03c <_Z11Sprite_Datai>
+1958b4	e1a0a000	mov	r10, r0
+1958b8	eaffff85	b	0x1956d4 <_ZN9CInstance18Collision_InstanceEPS_b+0x17c>
+1958bc	0025c6dc	.word	0x0025c6dc
+1958c0	ffffbf18	.word	0xffffbf18
+1958c4	ffffbf1c	.word	0xffffbf1c
+1958c8	ffffea30	.word	0xffffea30

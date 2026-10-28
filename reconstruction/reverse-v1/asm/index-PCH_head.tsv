@@ -1,0 +1,38 @@
+1e4298	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1e429c	ed2d8b0a	vpush	{d8, d9, d10, d11, d12}
+1e42a0	e1a04000	mov	r4, r0
+1e42a4	e59f7778	ldr	r7, [pc, #0x778]
+1e42a8	e24dd02c	sub	sp, sp, #44
+1e42ac	e59f0774	ldr	r0, [pc, #0x774]
+1e42b0	e1a0a001	mov	r10, r1
+1e42b4	e08f7007	add	r7, pc, r7
+1e42b8	e58d300c	str	r3, [sp, #0xc]
+1e42bc	e58d701c	str	r7, [sp, #0x1c]
+1e42c0	e1a05002	mov	r5, r2
+1e42c4	e7970000	ldr	r0, [r7, r0]
+1e42c8	e59d9078	ldr	r9, [sp, #0x78]
+1e42cc	e59d6088	ldr	r6, [sp, #0x88]
+1e42d0	e5d03000	ldrb	r3, [r0]
+1e42d4	e58d0020	str	r0, [sp, #0x20]
+1e42d8	e3530000	cmp	r3, #0
+1e42dc	e59db098	ldr	r11, [sp, #0x98]
+1e42e0	1a00012a	bne	0x1e4790 <_ZN7CSprite16PreciseCollisionEiP9tagYYRECTiifffPS_iS1_iifff+0x4f8>
+1e42e4	e3560000	cmp	r6, #0
+1e42e8	0a0000a9	beq	0x1e4594 <_ZN7CSprite16PreciseCollisionEiP9tagYYRECTiifffPS_iS1_iifff+0x2fc>
+1e42ec	e5943018	ldr	r3, [r4, #0x18]
+1e42f0	e3530000	cmp	r3, #0
+1e42f4	da0000a6	ble	0x1e4594 <_ZN7CSprite16PreciseCollisionEiP9tagYYRECTiifffPS_iS1_iifff+0x2fc>
+1e42f8	e5963018	ldr	r3, [r6, #0x18]
+1e42fc	e3530000	cmp	r3, #0
+1e4300	da0000a3	ble	0x1e4594 <_ZN7CSprite16PreciseCollisionEiP9tagYYRECTiifffPS_iS1_iifff+0x2fc>
+1e4304	e1a00004	mov	r0, r4
+1e4308	e1a0100a	mov	r1, r10
+1e430c	ebfffda0	bl	0x1e3994 <_ZN7CSprite13UnpackWADMaskEi>
+1e4310	e1a00006	mov	r0, r6
+1e4314	e59d108c	ldr	r1, [sp, #0x8c]
+1e4318	ebfffd9d	bl	0x1e3994 <_ZN7CSprite13UnpackWADMaskEi>
+1e431c	e594703c	ldr	r7, [r4, #0x3c]
+1e4320	e3570000	cmp	r7, #0
+1e4324	da000003	ble	0x1e4338 <_ZN7CSprite16PreciseCollisionEiP9tagYYRECTiifffPS_iS1_iifff+0xa0>
+1e4328	e1a0000a	mov	r0, r10
+1e432c	e1a01007	mov	r1, r7

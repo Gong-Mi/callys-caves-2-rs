@@ -1,0 +1,187 @@
+1c30f8	e92d4ff8	push	{r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1c30fc	e2509000	subs	r9, r0, #0
+1c3100	e1a07001	mov	r7, r1
+1c3104	08bd8ff8	popeq	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1c3108	e3510000	cmp	r1, #0
+1c310c	08bd8ff8	popeq	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1c3110	e59920d4	ldr	r2, [r9, #0xd4]
+1c3114	e3520000	cmp	r2, #0
+1c3118	0a000051	beq	0x1c3264 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x16c>
+1c311c	e5913004	ldr	r3, [r1, #0x4]
+1c3120	e5921004	ldr	r1, [r2, #0x4]
+1c3124	e1530001	cmp	r3, r1
+1c3128	a1a01002	movge	r1, r2
+1c312c	ba00005d	blt	0x1c32a8 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x1b0>
+1c3130	e5911068	ldr	r1, [r1, #0x68]
+1c3134	e3510000	cmp	r1, #0
+1c3138	0a000049	beq	0x1c3264 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x16c>
+1c313c	e5910004	ldr	r0, [r1, #0x4]
+1c3140	e1500003	cmp	r0, r3
+1c3144	dafffff9	ble	0x1c3130 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x38>
+1c3148	e591306c	ldr	r3, [r1, #0x6c]
+1c314c	e3530000	cmp	r3, #0
+1c3150	0a000093	beq	0x1c33a4 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x2ac>
+1c3154	e59920dc	ldr	r2, [r9, #0xdc]
+1c3158	e2822001	add	r2, r2, #1
+1c315c	e58920dc	str	r2, [r9, #0xdc]
+1c3160	e587306c	str	r3, [r7, #0x6c]
+1c3164	e5932068	ldr	r2, [r3, #0x68]
+1c3168	e5872068	str	r2, [r7, #0x68]
+1c316c	e5932068	ldr	r2, [r3, #0x68]
+1c3170	e3520000	cmp	r2, #0
+1c3174	058970d8	streq	r7, [r9, #0xd8]
+1c3178	1582706c	strne	r7, [r2, #0x6c]
+1c317c	e5837068	str	r7, [r3, #0x68]
+1c3180	e59930e8	ldr	r3, [r9, #0xe8]
+1c3184	e59920f0	ldr	r2, [r9, #0xf0]
+1c3188	e5978000	ldr	r8, [r7]
+1c318c	e1530002	cmp	r3, r2
+1c3190	ca000046	bgt	0x1c32b0 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x1b8>
+1c3194	e2833001	add	r3, r3, #1
+1c3198	e1a00008	mov	r0, r8
+1c319c	e58930e8	str	r3, [r9, #0xe8]
+1c31a0	ebffcf27	bl	0x1b6e44 <_Z21CHashMapCalculateHashi>
+1c31a4	e59950ec	ldr	r5, [r9, #0xec]
+1c31a8	e59910f4	ldr	r1, [r9, #0xf4]
+1c31ac	e3c00102	bic	r0, r0, #-2147483648
+1c31b0	e0003005	and	r3, r0, r5
+1c31b4	e0832083	add	r2, r3, r3, lsl #1
+1c31b8	e0812102	add	r2, r1, r2, lsl #2
+1c31bc	e592c008	ldr	r12, [r2, #0x8]
+1c31c0	e35c0000	cmp	r12, #0
+1c31c4	1599a0e4	ldrne	r10, [r9, #0xe4]
+1c31c8	13a06000	movne	r6, #0
+1c31cc	1a000010	bne	0x1c3214 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x11c>
+1c31d0	ea000030	b	0x1c3298 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x1a0>
+1c31d4	e592b000	ldr	r11, [r2]
+1c31d8	e5926004	ldr	r6, [r2, #0x4]
+1c31dc	e5820008	str	r0, [r2, #0x8]
+1c31e0	e1a0000c	mov	r0, r12
+1c31e4	e5828000	str	r8, [r2]
+1c31e8	e1a0800b	mov	r8, r11
+1c31ec	e5827004	str	r7, [r2, #0x4]
+1c31f0	e1a07006	mov	r7, r6
+1c31f4	e2833001	add	r3, r3, #1
+1c31f8	e2846001	add	r6, r4, #1
+1c31fc	e0033005	and	r3, r3, r5
+1c3200	e0832083	add	r2, r3, r3, lsl #1
+1c3204	e0812102	add	r2, r1, r2, lsl #2
+1c3208	e592c008	ldr	r12, [r2, #0x8]
+1c320c	e35c0000	cmp	r12, #0
+1c3210	0a000020	beq	0x1c3298 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x1a0>
+1c3214	e08a4003	add	r4, r10, r3
+1c3218	e00cb005	and	r11, r12, r5
+1c321c	e06b4004	rsb	r4, r11, r4
+1c3220	e0044005	and	r4, r4, r5
+1c3224	e1540006	cmp	r4, r6
+1c3228	baffffe9	blt	0x1c31d4 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0xdc>
+1c322c	11a04006	movne	r4, r6
+1c3230	1affffef	bne	0x1c31f4 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0xfc>
+1c3234	e15c0000	cmp	r12, r0
+1c3238	1affffed	bne	0x1c31f4 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0xfc>
+1c323c	e5926000	ldr	r6, [r2]
+1c3240	e1580006	cmp	r8, r6
+1c3244	1affffea	bne	0x1c31f4 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0xfc>
+1c3248	e59930e8	ldr	r3, [r9, #0xe8]
+1c324c	e5828000	str	r8, [r2]
+1c3250	e5827004	str	r7, [r2, #0x4]
+1c3254	e2433001	sub	r3, r3, #1
+1c3258	e582c008	str	r12, [r2, #0x8]
+1c325c	e58930e8	str	r3, [r9, #0xe8]
+1c3260	e8bd8ff8	pop	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1c3264	e59930d8	ldr	r3, [r9, #0xd8]
+1c3268	e59920dc	ldr	r2, [r9, #0xdc]
+1c326c	e3530000	cmp	r3, #0
+1c3270	e2822001	add	r2, r2, #1
+1c3274	e58920dc	str	r2, [r9, #0xdc]
+1c3278	0a000052	beq	0x1c33c8 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x2d0>
+1c327c	e5837068	str	r7, [r3, #0x68]
+1c3280	e3a03000	mov	r3, #0
+1c3284	e59920d8	ldr	r2, [r9, #0xd8]
+1c3288	e587206c	str	r2, [r7, #0x6c]
+1c328c	e58970d8	str	r7, [r9, #0xd8]
+1c3290	e5873068	str	r3, [r7, #0x68]
+1c3294	eaffffb9	b	0x1c3180 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x88>
+1c3298	e5828000	str	r8, [r2]
+1c329c	e5827004	str	r7, [r2, #0x4]
+1c32a0	e5820008	str	r0, [r2, #0x8]
+1c32a4	e8bd8ff8	pop	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1c32a8	e1a01002	mov	r1, r2
+1c32ac	eaffffa5	b	0x1c3148 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x50>
+1c32b0	e599a0e4	ldr	r10, [r9, #0xe4]
+1c32b4	e3a03001	mov	r3, #1
+1c32b8	e59f1120	ldr	r1, [pc, #0x120]
+1c32bc	e3a02046	mov	r2, #70
+1c32c0	e59960f4	ldr	r6, [r9, #0xf4]
+1c32c4	e1a0031a	lsl	r0, r10, r3
+1c32c8	e08f1001	add	r1, pc, r1
+1c32cc	e080410a	add	r4, r0, r10, lsl #2
+1c32d0	e58900e4	str	r0, [r9, #0xe4]
+1c32d4	e2400001	sub	r0, r0, #1
+1c32d8	e58900ec	str	r0, [r9, #0xec]
+1c32dc	e1a04104	lsl	r4, r4, #2
+1c32e0	e1a00004	mov	r0, r4
+1c32e4	eb02e6e3	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c32e8	e1a02004	mov	r2, r4
+1c32ec	e3a01000	mov	r1, #0
+1c32f0	e58900f4	str	r0, [r9, #0xf4]
+1c32f4	ebfbccad	bl	0xb65b0 <memset@plt>
+1c32f8	e59920e4	ldr	r2, [r9, #0xe4]
+1c32fc	eddf7a36	vldr	s15, [pc, #216]
+1c3300	e3a01000	mov	r1, #0
+1c3304	e1520001	cmp	r2, r1
+1c3308	e58910e8	str	r1, [r9, #0xe8]
+1c330c	ee062a90	vmov	s13, r2
+1c3310	eeb87ae6	vcvt.f32.s32	s14, s13
+1c3314	ee677a27	vmul.f32	s15, s14, s15
+1c3318	eefd7ae7	vcvt.s32.f32	s15, s15
+1c331c	edc97a3c	vstr	s15, [r9, #240]
+1c3320	da000006	ble	0x1c3340 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x248>
+1c3324	e0822082	add	r2, r2, r2, lsl #1
+1c3328	e59930f4	ldr	r3, [r9, #0xf4]
+1c332c	e0832102	add	r2, r3, r2, lsl #2
+1c3330	e5831008	str	r1, [r3, #0x8]
+1c3334	e283300c	add	r3, r3, #12
+1c3338	e1530002	cmp	r3, r2
+1c333c	1afffffb	bne	0x1c3330 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x238>
+1c3340	e35a0000	cmp	r10, #0
+1c3344	c289b0e4	addgt	r11, r9, #228
+1c3348	c1a04006	movgt	r4, r6
+1c334c	c3a05000	movgt	r5, #0
+1c3350	da000009	ble	0x1c337c <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x284>
+1c3354	e5943008	ldr	r3, [r4, #0x8]
+1c3358	e1a0000b	mov	r0, r11
+1c335c	e2855001	add	r5, r5, #1
+1c3360	e3530000	cmp	r3, #0
+1c3364	da000001	ble	0x1c3370 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x278>
+1c3368	e8940006	ldm	r4, {r1, r2}
+1c336c	ebfffdc7	bl	0x1c2a90 <_ZN8CHashMapIiP6CLayerLi7EE6InsertEiS1_>
+1c3370	e155000a	cmp	r5, r10
+1c3374	e284400c	add	r4, r4, #12
+1c3378	1afffff5	bne	0x1c3354 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x25c>
+1c337c	e1a00006	mov	r0, r6
+1c3380	eb02e3d2	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1c3384	edd96a39	vldr	s13, [r9, #228]
+1c3388	eeb87ae6	vcvt.f32.s32	s14, s13
+1c338c	eddf7a12	vldr	s15, [pc, #72]
+1c3390	e59930e8	ldr	r3, [r9, #0xe8]
+1c3394	ee677a27	vmul.f32	s15, s14, s15
+1c3398	eefd7ae7	vcvt.s32.f32	s15, s15
+1c339c	edc97a3c	vstr	s15, [r9, #240]
+1c33a0	eaffff7b	b	0x1c3194 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x9c>
+1c33a4	e59910dc	ldr	r1, [r9, #0xdc]
+1c33a8	e2811001	add	r1, r1, #1
+1c33ac	e58910dc	str	r1, [r9, #0xdc]
+1c33b0	e582706c	str	r7, [r2, #0x6c]
+1c33b4	e59920d4	ldr	r2, [r9, #0xd4]
+1c33b8	e5872068	str	r2, [r7, #0x68]
+1c33bc	e58970d4	str	r7, [r9, #0xd4]
+1c33c0	e587306c	str	r3, [r7, #0x6c]
+1c33c4	eaffff6d	b	0x1c3180 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x88>
+1c33c8	e58970d8	str	r7, [r9, #0xd8]
+1c33cc	e58970d4	str	r7, [r9, #0xd4]
+1c33d0	e587306c	str	r3, [r7, #0x6c]
+1c33d4	e5873068	str	r3, [r7, #0x68]
+1c33d8	eaffff68	b	0x1c3180 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer+0x88>
+1c33dc	3f19999a	svclo	#0x19999a
+1c33e0	0016dd68	andseq	sp, r6, r8, ror #26

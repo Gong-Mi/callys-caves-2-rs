@@ -1,0 +1,50 @@
+1b8868	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1b886c	e1a05000	mov	r5, r0
+1b8870	e1a00001	mov	r0, r1
+1b8874	ebfff972	bl	0x1b6e44 <_Z21CHashMapCalculateHashi>
+1b8878	e59510ec	ldr	r1, [r5, #0xec]
+1b887c	e59570f4	ldr	r7, [r5, #0xf4]
+1b8880	e3c08102	bic	r8, r0, #-2147483648
+1b8884	e0083001	and	r3, r8, r1
+1b8888	e1a04083	lsl	r4, r3, #1
+1b888c	e0842003	add	r2, r4, r3
+1b8890	e0872102	add	r2, r7, r2, lsl #2
+1b8894	e5922008	ldr	r2, [r2, #0x8]
+1b8898	e3520000	cmp	r2, #0
+1b889c	0a00001a	beq	0x1b890c <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi+0xa4>
+1b88a0	e1580002	cmp	r8, r2
+1b88a4	0a00001c	beq	0x1b891c <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi+0xb4>
+1b88a8	e59500e4	ldr	r0, [r5, #0xe4]
+1b88ac	e0012002	and	r2, r1, r2
+1b88b0	e083c000	add	r12, r3, r0
+1b88b4	e062200c	rsb	r2, r2, r12
+1b88b8	e1120001	tst	r2, r1
+1b88bc	4a000012	bmi	0x1b890c <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi+0xa4>
+1b88c0	e3a0c000	mov	r12, #0
+1b88c4	ea000003	b	0x1b88d8 <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi+0x70>
+1b88c8	e1580002	cmp	r8, r2
+1b88cc	0a000010	beq	0x1b8914 <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi+0xac>
+1b88d0	e155000c	cmp	r5, r12
+1b88d4	ba00000c	blt	0x1b890c <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi+0xa4>
+1b88d8	e2833001	add	r3, r3, #1
+1b88dc	e28cc001	add	r12, r12, #1
+1b88e0	e0013003	and	r3, r1, r3
+1b88e4	e0836000	add	r6, r3, r0
+1b88e8	e1a04083	lsl	r4, r3, #1
+1b88ec	e0842003	add	r2, r4, r3
+1b88f0	e0872102	add	r2, r7, r2, lsl #2
+1b88f4	e5922008	ldr	r2, [r2, #0x8]
+1b88f8	e0015002	and	r5, r1, r2
+1b88fc	e3520000	cmp	r2, #0
+1b8900	e0655006	rsb	r5, r5, r6
+1b8904	e0055001	and	r5, r5, r1
+1b8908	1affffee	bne	0x1b88c8 <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi+0x60>
+1b890c	e3a00000	mov	r0, #0
+1b8910	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+1b8914	e3730001	cmn	r3, #1
+1b8918	0afffffb	beq	0x1b890c <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi+0xa4>
+1b891c	e0843003	add	r3, r4, r3
+1b8920	e0877103	add	r7, r7, r3, lsl #2
+1b8924	e2970004	adds	r0, r7, #4
+1b8928	15970004	ldrne	r0, [r7, #0x4]
+1b892c	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}

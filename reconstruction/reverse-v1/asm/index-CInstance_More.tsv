@@ -1,0 +1,108 @@
+19230c	e59f3024	ldr	r3, [pc, #0x24]
+192310	e5c01069	strb	r1, [r0, #0x69]
+192314	e79f3003	ldr	r3, [pc, r3]
+192318	e5d33000	ldrb	r3, [r3]
+19231c	e3530000	cmp	r3, #0
+192320	012fff1e	bxeq	lr
+192324	e59f3010	ldr	r3, [pc, #0x10]
+192328	e1a01000	mov	r1, r0
+19232c	e79f3003	ldr	r3, [pc, r3]
+192330	e5930000	ldr	r0, [r3]
+192334	ea0099bb	b	0x1b8a28 <_ZN13CLayerManager24UpdateInstanceActivationEP5CRoomP9CInstance>
+192338	0025b610	eoreq	r11, r5, r0, lsl r6
+19233c	0025b5fc	.word	0x0025b5fc
+192ba8	e59020ac	ldr	r2, [r0, #0xac]
+192bac	e1520001	cmp	r2, r1
+192bb0	012fff1e	bxeq	lr
+192bb4	e3a02001	mov	r2, #1
+192bb8	e58010ac	str	r1, [r0, #0xac]
+192bbc	e5c02064	strb	r2, [r0, #0x64]
+192bc0	ea00e582	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+192fec	ee071a90	vmov	s15, r1
+192ff0	ed907a26	vldr	s14, [r0, #152]
+192ff4	e1a03000	mov	r3, r0
+192ff8	eeb47a67	vcmp.f32	s14, s15
+192ffc	eef1fa10	vmrs	APSR_nzcv, fpscr
+193000	012fff1e	bxeq	lr
+193004	e5831098	str	r1, [r3, #0x98]
+193008	e3a02001	mov	r2, #1
+19300c	e5c02064	strb	r2, [r0, #0x64]
+193010	ea00e46e	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+193014	ee071a90	vmov	s15, r1
+193018	ed907a27	vldr	s14, [r0, #156]
+19301c	e1a03000	mov	r3, r0
+193020	eeb47a67	vcmp.f32	s14, s15
+193024	eef1fa10	vmrs	APSR_nzcv, fpscr
+193028	012fff1e	bxeq	lr
+19302c	e583109c	str	r1, [r3, #0x9c]
+193030	e3a02001	mov	r2, #1
+193034	e5c02064	strb	r2, [r0, #0x64]
+193038	ea00e464	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+19303c	ee071a90	vmov	s15, r1
+193040	ed907a28	vldr	s14, [r0, #160]
+193044	e1a03000	mov	r3, r0
+193048	eeb47a67	vcmp.f32	s14, s15
+19304c	eef1fa10	vmrs	APSR_nzcv, fpscr
+193050	012fff1e	bxeq	lr
+193054	e58310a0	str	r1, [r3, #0xa0]
+193058	e3a02001	mov	r2, #1
+19305c	e5c02064	strb	r2, [r0, #0x64]
+193060	ea00e45a	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+1930d4	ee071a90	vmov	s15, r1
+1930d8	ed907a34	vldr	s14, [r0, #208]
+1930dc	e1a03000	mov	r3, r0
+1930e0	eeb47a67	vcmp.f32	s14, s15
+1930e4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1930e8	012fff1e	bxeq	lr
+1930ec	e58310d0	str	r1, [r3, #0xd0]
+1930f0	eafffe6a	b	0x192aa0 <_ZN9CInstance14Compute_Speed2Ev>
+1930f4	ee071a90	vmov	s15, r1
+1930f8	ed907a38	vldr	s14, [r0, #224]
+1930fc	e1a03000	mov	r3, r0
+193100	eeb47a67	vcmp.f32	s14, s15
+193104	eef1fa10	vmrs	APSR_nzcv, fpscr
+193108	012fff1e	bxeq	lr
+19310c	e58310e0	str	r1, [r3, #0xe0]
+193110	eafffdf0	b	0x1928d8 <_ZN9CInstance14Compute_Speed1Ev>
+193114	ee071a90	vmov	s15, r1
+193118	ed907a39	vldr	s14, [r0, #228]
+19311c	e1a03000	mov	r3, r0
+193120	eeb47a67	vcmp.f32	s14, s15
+193124	eef1fa10	vmrs	APSR_nzcv, fpscr
+193128	012fff1e	bxeq	lr
+19312c	e58310e4	str	r1, [r3, #0xe4]
+193130	eafffde8	b	0x1928d8 <_ZN9CInstance14Compute_Speed1Ev>
+193148	e351000b	cmp	r1, #11
+19314c	9281103e	addls	r1, r1, #62
+193150	97802101	strls	r2, [r0, r1, lsl #2]
+193154	e12fff1e	bx	lr
+1935c4	ee071a90	vmov	s15, r1
+1935c8	eef57ac0	vcmpe.f32	s15, #0
+1935cc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1935d0	4a000005	bmi	0x1935ec <_ZN9CInstance15SetPathPositionEf+0x28>
+1935d4	eeb77a00	vmov.f32	s14, #1.000000e+00
+1935d8	eef47a47	vcmp.f32	s15, s14
+1935dc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1935e0	cef07a47	vmovgt.f32	s15, s14
+1935e4	edc07a4b	vstr	s15, [r0, #300]
+1935e8	e12fff1e	bx	lr
+1935ec	eddf7a01	vldr	s15, [pc, #4]
+1935f0	edc07a4b	vstr	s15, [r0, #300]
+1935f4	e12fff1e	bx	lr
+1935f8	00000000	andeq	r0, r0, r0
+1935fc	ee071a90	vmov	s15, r1
+193600	eef57ac0	vcmpe.f32	s15, #0
+193604	eef1fa10	vmrs	APSR_nzcv, fpscr
+193608	4a000005	bmi	0x193624 <_ZN9CInstance23SetPathPositionPreviousEf+0x28>
+19360c	eeb77a00	vmov.f32	s14, #1.000000e+00
+193610	eef47a47	vcmp.f32	s15, s14
+193614	eef1fa10	vmrs	APSR_nzcv, fpscr
+193618	cef07a47	vmovgt.f32	s15, s14
+19361c	edc07a4c	vstr	s15, [r0, #304]
+193620	e12fff1e	bx	lr
+193624	eddf7a01	vldr	s15, [pc, #4]
+193628	edc07a4c	vstr	s15, [r0, #304]
+19362c	e12fff1e	bx	lr
+193630	00000000	andeq	r0, r0, r0
+193634	e5801134	str	r1, [r0, #0x134]
+193638	e12fff1e	bx	lr

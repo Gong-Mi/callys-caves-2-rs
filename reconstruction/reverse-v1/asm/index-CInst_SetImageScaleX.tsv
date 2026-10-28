@@ -1,0 +1,10 @@
+192fec	ee071a90	vmov	s15, r1
+192ff0	ed907a26	vldr	s14, [r0, #152]
+192ff4	e1a03000	mov	r3, r0
+192ff8	eeb47a67	vcmp.f32	s14, s15
+192ffc	eef1fa10	vmrs	APSR_nzcv, fpscr
+193000	012fff1e	bxeq	lr
+193004	e5831098	str	r1, [r3, #0x98]
+193008	e3a02001	mov	r2, #1
+19300c	e5c02064	strb	r2, [r0, #0x64]
+193010	ea00e46e	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>

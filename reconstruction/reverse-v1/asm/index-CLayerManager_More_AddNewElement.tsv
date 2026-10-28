@@ -1,0 +1,31 @@
+1c5ff0	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1c5ff4	e2508000	subs	r8, r0, #0
+1c5ff8	e1a06003	mov	r6, r3
+1c5ffc	e1a05001	mov	r5, r1
+1c6000	e1a04002	mov	r4, r2
+1c6004	0a000015	beq	0x1c6060 <_ZN13CLayerManager13AddNewElementEP5CRoomP6CLayerP17CLayerElementBaseb+0x70>
+1c6008	e3510000	cmp	r1, #0
+1c600c	0a000013	beq	0x1c6060 <_ZN13CLayerManager13AddNewElementEP5CRoomP6CLayerP17CLayerElementBaseb+0x70>
+1c6010	e3520000	cmp	r2, #0
+1c6014	0a000011	beq	0x1c6060 <_ZN13CLayerManager13AddNewElementEP5CRoomP6CLayerP17CLayerElementBaseb+0x70>
+1c6018	e59fc048	ldr	r12, [pc, #0x48]
+1c601c	e3a03000	mov	r3, #0
+1c6020	e79fc00c	ldr	r12, [pc, r12]
+1c6024	e59ce000	ldr	lr, [r12]
+1c6028	e28e7001	add	r7, lr, #1
+1c602c	e58c7000	str	r7, [r12]
+1c6030	e582e004	str	lr, [r2, #0x4]
+1c6034	ebfff938	bl	0x1c451c <_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb>
+1c6038	e3560000	cmp	r6, #0
+1c603c	1a000001	bne	0x1c6048 <_ZN13CLayerManager13AddNewElementEP5CRoomP6CLayerP17CLayerElementBaseb+0x58>
+1c6040	e5940004	ldr	r0, [r4, #0x4]
+1c6044	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+1c6048	e1a00008	mov	r0, r8
+1c604c	e1a01005	mov	r1, r5
+1c6050	e1a02004	mov	r2, r4
+1c6054	ebffd198	bl	0x1ba6bc <_ZN13CLayerManager23BuildElementRuntimeDataEP5CRoomP6CLayerP17CLayerElementBase>
+1c6058	e5940004	ldr	r0, [r4, #0x4]
+1c605c	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+1c6060	e3e00000	mvn	r0, #0
+1c6064	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+1c6068	0022aac0	eoreq	r10, r2, r0, asr #21

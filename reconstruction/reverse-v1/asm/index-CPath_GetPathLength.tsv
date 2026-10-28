@@ -1,0 +1,26 @@
+1a7ab8	e5900024	ldr	r0, [r0, #0x24]
+1a7abc	e12fff1e	bx	lr
+1a7ac0	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+1a7ac4	ed2d8b04	vpush	{d8, d9}
+1a7ac8	e24dd01c	sub	sp, sp, #28
+1a7acc	e28d600c	add	r6, sp, #12
+1a7ad0	e28d7010	add	r7, sp, #16
+1a7ad4	e1a04003	mov	r4, r3
+1a7ad8	ee082a90	vmov	s17, r2
+1a7adc	e1a03007	mov	r3, r7
+1a7ae0	e1a02006	mov	r2, r6
+1a7ae4	ee081a10	vmov	s16, r1
+1a7ae8	e28d8014	add	r8, sp, #20
+1a7aec	e3a01000	mov	r1, #0
+1a7af0	e58d8000	str	r8, [sp]
+1a7af4	e1a05000	mov	r5, r0
+1a7af8	ebfffe2f	bl	0x1a73bc <_ZN5CPath11GetPositionEfRfS0_S0_>
+1a7afc	e3540000	cmp	r4, #0
+1a7b00	e1a00005	mov	r0, r5
+1a7b04	0ddd7a04	vldreq	s15, [sp, #16]
+1a7b08	0d9d7a03	vldreq	s14, [sp, #12]
+1a7b0c	0e788ae7	vsubeq.f32	s17, s17, s15
+1a7b10	0e388a47	vsubeq.f32	s16, s16, s14
+1a7b14	ebffffe7	bl	0x1a7ab8 <_ZN5CPath13GetPathLengthEv>
+1a7b18	eef57a00	vmov.f32	s15, #2.500000e-01
+1a7b1c	ee060a10	vmov	s12, r0

@@ -1,0 +1,70 @@
+17fc0c	e2400002	sub	r0, r0, #2
+17fc10	e3e03000	mvn	r3, #0
+17fc14	e3500009	cmp	r0, #9
+17fc18	e5813000	str	r3, [r1]
+17fc1c	8a000003	bhi	0x17fc30 <_Z12ConvertBlend6eBlendPi+0x24>
+17fc20	e59f3010	ldr	r3, [pc, #0x10]
+17fc24	e08f3003	add	r3, pc, r3
+17fc28	e7930100	ldr	r0, [r3, r0, lsl #2]
+17fc2c	e12fff1e	bx	lr
+17fc30	e3a00000	mov	r0, #0
+17fc34	e12fff1e	bx	lr
+17fc38	001ddf28	andseq	sp, sp, r8, lsr #30
+17fc3c	e2400001	sub	r0, r0, #1
+17fc40	e3500006	cmp	r0, #6
+17fc44	8a000004	bhi	0x17fc5c <_Z17ConvertComparison8eCmpFunc+0x20>
+17fc48	e59f3014	ldr	r3, [pc, #0x14]
+17fc4c	e08f3003	add	r3, pc, r3
+17fc50	e0830100	add	r0, r3, r0, lsl #2
+17fc54	e5900028	ldr	r0, [r0, #0x28]
+17fc58	e12fff1e	bx	lr
+17fc5c	e3000207	movw	r0, #0x207
+17fc60	e12fff1e	bx	lr
+17fc64	001ddf00	andseq	sp, sp, r0, lsl #30
+17fc68	e3500001	cmp	r0, #1
+17fc6c	0a00000b	beq	0x17fca0 <_Z11ConvertCull5eCull+0x38>
+17fc70	e3500002	cmp	r0, #2
+17fc74	1a000007	bne	0x17fc98 <_Z11ConvertCull5eCull+0x30>
+17fc78	e59f3040	ldr	r3, [pc, #0x40]
+17fc7c	e3002901	movw	r2, #0x901
+17fc80	e79f3003	ldr	r3, [pc, r3]
+17fc84	e5930000	ldr	r0, [r3]
+17fc88	e3500001	cmp	r0, #1
+17fc8c	11a00002	movne	r0, r2
+17fc90	03a00c09	moveq	r0, #2304
+17fc94	e12fff1e	bx	lr
+17fc98	e3e00000	mvn	r0, #0
+17fc9c	e12fff1e	bx	lr
+17fca0	e59f301c	ldr	r3, [pc, #0x1c]
+17fca4	e3002901	movw	r2, #0x901
+17fca8	e79f3003	ldr	r3, [pc, r3]
+17fcac	e5930000	ldr	r0, [r3]
+17fcb0	e3500001	cmp	r0, #1
+17fcb4	01a00002	moveq	r0, r2
+17fcb8	13a00c09	movne	r0, #2304
+17fcbc	e12fff1e	bx	lr
+17fcc0	0027045c	eoreq	r0, r7, r12, asr r4
+17fcc4	00270434	eoreq	r0, r7, r4, lsr r4
+17fcc8	e3500002	cmp	r0, #2
+17fccc	8a000004	bhi	0x17fce4 <_Z14ConvertFogMode4eFog+0x1c>
+17fcd0	e59f3018	ldr	r3, [pc, #0x18]
+17fcd4	e08f3003	add	r3, pc, r3
+17fcd8	e0830100	add	r0, r3, r0, lsl #2
+17fcdc	e5900044	ldr	r0, [r0, #0x44]
+17fce0	e12fff1e	bx	lr
+17fce4	e3a00b01	mov	r0, #1024
+17fce8	e3440618	movt	r0, #0x4618
+17fcec	e12fff1e	bx	lr
+17fcf0	001dde78	andseq	sp, sp, r8, ror lr
+17fcf4	e12fff1e	bx	lr
+17fcf8	e2400002	sub	r0, r0, #2
+17fcfc	e3500006	cmp	r0, #6
+17fd00	8a000004	bhi	0x17fd18 <_Z16ConvertStencilOp10eStencilOp+0x20>
+17fd04	e59f3014	ldr	r3, [pc, #0x14]
+17fd08	e08f3003	add	r3, pc, r3
+17fd0c	e0830100	add	r0, r3, r0, lsl #2
+17fd10	e5900050	ldr	r0, [r0, #0x50]
+17fd14	e12fff1e	bx	lr
+17fd18	e3a00c1e	mov	r0, #7680
+17fd1c	e12fff1e	bx	lr
+17fd20	001dde44	andseq	sp, sp, r4, asr #28

@@ -225,3 +225,494 @@
 286afc	000d10e0	andeq	r1, sp, r0, ror #1
 286b00	001057ac	andseq	r5, r0, r12, lsr #15
 286b04	004d01cc	subeq	r0, sp, r12, asr #3
+286b08	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+286b0c	e1a06001	mov	r6, r1
+286b10	e5d13000	ldrb	r3, [r1]
+286b14	e24dd00c	sub	sp, sp, #12
+286b18	e1a05000	mov	r5, r0
+286b1c	e2433022	sub	r3, r3, #34
+286b20	e3530059	cmp	r3, #89
+286b24	908ff103	addls	pc, pc, r3, lsl #2
+286b28	ea0001ad	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b2c	ea000109	b	0x286f58 <spIkConstraintData_dispose+0x800>
+286b30	ea0001ab	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b34	ea0001aa	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b38	ea0001a9	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b3c	ea0001a8	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b40	ea0001a7	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b44	ea0001a6	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b48	ea0001a5	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b4c	ea0001a4	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b50	ea0001a3	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b54	ea0001a2	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b58	ea000104	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b5c	ea0001a0	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b60	ea00019f	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b64	ea000101	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b68	ea000100	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b6c	ea0000ff	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b70	ea0000fe	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b74	ea0000fd	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b78	ea0000fc	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b7c	ea0000fb	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b80	ea0000fa	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b84	ea0000f9	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b88	ea0000f8	b	0x286f70 <spIkConstraintData_dispose+0x818>
+286b8c	ea000194	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b90	ea000193	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b94	ea000192	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b98	ea000191	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286b9c	ea000190	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286ba0	ea00018f	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286ba4	ea00018e	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286ba8	ea00018d	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bac	ea00018c	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bb0	ea00018b	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bb4	ea00018a	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bb8	ea000189	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bbc	ea000188	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bc0	ea000187	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bc4	ea000186	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bc8	ea000185	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bcc	ea000184	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bd0	ea000183	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bd4	ea000182	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bd8	ea000181	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bdc	ea000180	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286be0	ea00017f	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286be4	ea00017e	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286be8	ea00017d	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bec	ea00017c	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bf0	ea00017b	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bf4	ea00017a	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bf8	ea000179	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286bfc	ea000178	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c00	ea000177	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c04	ea000176	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c08	ea000175	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c0c	ea000174	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c10	ea0000e6	b	0x286fb0 <spIkConstraintData_dispose+0x858>
+286c14	ea000172	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c18	ea000171	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c1c	ea000170	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c20	ea00016f	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c24	ea00016e	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c28	ea00016d	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c2c	ea00016c	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c30	ea00016b	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c34	ea00016a	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c38	ea000169	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c3c	ea000144	b	0x287154 <spIkConstraintData_dispose+0x9fc>
+286c40	ea000167	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c44	ea000166	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c48	ea000165	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c4c	ea000164	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c50	ea000163	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c54	ea000162	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c58	ea000161	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c5c	ea000147	b	0x287180 <spIkConstraintData_dispose+0xa28>
+286c60	ea00015f	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c64	ea00015e	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c68	ea00015d	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c6c	ea00015c	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c70	ea00015b	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c74	ea00014d	b	0x2871b0 <spIkConstraintData_dispose+0xa58>
+286c78	ea000159	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c7c	ea000158	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c80	ea000157	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c84	ea000156	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c88	ea000155	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c8c	ea000154	b	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+286c90	eaffffff	b	0x286c94 <spIkConstraintData_dispose+0x53c>
+286c94	e2914001	adds	r4, r1, #1
+286c98	e3a03006	mov	r3, #6
+286c9c	e5803008	str	r3, [r0, #0x8]
+286ca0	e5d13001	ldrb	r3, [r1, #0x1]
+286ca4	0a000009	beq	0x286cd0 <spIkConstraintData_dispose+0x578>
+286ca8	e2432001	sub	r2, r3, #1
+286cac	e352001f	cmp	r2, #31
+286cb0	8a000006	bhi	0x286cd0 <spIkConstraintData_dispose+0x578>
+286cb4	e2816002	add	r6, r1, #2
+286cb8	e1a04006	mov	r4, r6
+286cbc	e2866001	add	r6, r6, #1
+286cc0	e5d43000	ldrb	r3, [r4]
+286cc4	e2432001	sub	r2, r3, #1
+286cc8	e352001f	cmp	r2, #31
+286ccc	9afffff9	bls	0x286cb8 <spIkConstraintData_dispose+0x560>
+286cd0	e353007d	cmp	r3, #125
+286cd4	0a00014b	beq	0x287208 <spIkConstraintData_dispose+0xab0>
+286cd8	e59f25a4	ldr	r2, [pc, #0x5a4]
+286cdc	e3a00001	mov	r0, #1
+286ce0	e3a01020	mov	r1, #32
+286ce4	e3a0304d	mov	r3, #77
+286ce8	e08f2002	add	r2, pc, r2
+286cec	ebfffbd6	bl	0x285c4c <_calloc>
+286cf0	e3500000	cmp	r0, #0
+286cf4	e1a09000	mov	r9, r0
+286cf8	e5850004	str	r0, [r5, #0x4]
+286cfc	0a00013e	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+286d00	e5d43000	ldrb	r3, [r4]
+286d04	e2433001	sub	r3, r3, #1
+286d08	e353001f	cmp	r3, #31
+286d0c	8a000006	bhi	0x286d2c <spIkConstraintData_dispose+0x5d4>
+286d10	e2843001	add	r3, r4, #1
+286d14	e1a04003	mov	r4, r3
+286d18	e2833001	add	r3, r3, #1
+286d1c	e5d42000	ldrb	r2, [r4]
+286d20	e2422001	sub	r2, r2, #1
+286d24	e352001f	cmp	r2, #31
+286d28	9afffff9	bls	0x286d14 <spIkConstraintData_dispose+0x5bc>
+286d2c	e1a02004	mov	r2, r4
+286d30	e2890008	add	r0, r9, #8
+286d34	e2891010	add	r1, r9, #16
+286d38	ebfffe8f	bl	0x28677c <spIkConstraintData_dispose+0x24>
+286d3c	e2502000	subs	r2, r0, #0
+286d40	0a00012d	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+286d44	e5d23000	ldrb	r3, [r2]
+286d48	e2433001	sub	r3, r3, #1
+286d4c	e353001f	cmp	r3, #31
+286d50	8a000006	bhi	0x286d70 <spIkConstraintData_dispose+0x618>
+286d54	e2823001	add	r3, r2, #1
+286d58	e1a02003	mov	r2, r3
+286d5c	e2833001	add	r3, r3, #1
+286d60	e5d21000	ldrb	r1, [r2]
+286d64	e2411001	sub	r1, r1, #1
+286d68	e351001f	cmp	r1, #31
+286d6c	9afffff9	bls	0x286d58 <spIkConstraintData_dispose+0x600>
+286d70	e5993010	ldr	r3, [r9, #0x10]
+286d74	e3a00000	mov	r0, #0
+286d78	e5890010	str	r0, [r9, #0x10]
+286d7c	e589301c	str	r3, [r9, #0x1c]
+286d80	e5d23000	ldrb	r3, [r2]
+286d84	e353003a	cmp	r3, #58
+286d88	1a000128	bne	0x287230 <spIkConstraintData_dispose+0xad8>
+286d8c	e2921001	adds	r1, r2, #1
+286d90	0a00000a	beq	0x286dc0 <spIkConstraintData_dispose+0x668>
+286d94	e5d23001	ldrb	r3, [r2, #0x1]
+286d98	e2433001	sub	r3, r3, #1
+286d9c	e353001f	cmp	r3, #31
+286da0	8a000006	bhi	0x286dc0 <spIkConstraintData_dispose+0x668>
+286da4	e2822002	add	r2, r2, #2
+286da8	e1a01002	mov	r1, r2
+286dac	e2822001	add	r2, r2, #1
+286db0	e5d13000	ldrb	r3, [r1]
+286db4	e2433001	sub	r3, r3, #1
+286db8	e353001f	cmp	r3, #31
+286dbc	9afffff9	bls	0x286da8 <spIkConstraintData_dispose+0x650>
+286dc0	e1a00009	mov	r0, r9
+286dc4	ebffff4f	bl	0x286b08 <spIkConstraintData_dispose+0x3b0>
+286dc8	e2504000	subs	r4, r0, #0
+286dcc	0a00010a	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+286dd0	e5d43000	ldrb	r3, [r4]
+286dd4	e2433001	sub	r3, r3, #1
+286dd8	e353001f	cmp	r3, #31
+286ddc	8a000006	bhi	0x286dfc <spIkConstraintData_dispose+0x6a4>
+286de0	e2843001	add	r3, r4, #1
+286de4	e1a04003	mov	r4, r3
+286de8	e2833001	add	r3, r3, #1
+286dec	e5d42000	ldrb	r2, [r4]
+286df0	e2422001	sub	r2, r2, #1
+286df4	e352001f	cmp	r2, #31
+286df8	9afffff9	bls	0x286de4 <spIkConstraintData_dispose+0x68c>
+286dfc	e3a03001	mov	r3, #1
+286e00	e585300c	str	r3, [r5, #0xc]
+286e04	e5d43000	ldrb	r3, [r4]
+286e08	e3a07000	mov	r7, #0
+286e0c	e59f6474	ldr	r6, [pc, #0x474]
+286e10	e353002c	cmp	r3, #44
+286e14	e08f6006	add	r6, pc, r6
+286e18	1a000108	bne	0x287240 <spIkConstraintData_dispose+0xae8>
+286e1c	e3a00001	mov	r0, #1
+286e20	e3a01020	mov	r1, #32
+286e24	e1a02006	mov	r2, r6
+286e28	e3a0304d	mov	r3, #77
+286e2c	ebfffb86	bl	0x285c4c <_calloc>
+286e30	e2508000	subs	r8, r0, #0
+286e34	0a0000f0	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+286e38	e2942001	adds	r2, r4, #1
+286e3c	e5898000	str	r8, [r9]
+286e40	0a00000a	beq	0x286e70 <spIkConstraintData_dispose+0x718>
+286e44	e5d43001	ldrb	r3, [r4, #0x1]
+286e48	e2433001	sub	r3, r3, #1
+286e4c	e353001f	cmp	r3, #31
+286e50	8a000006	bhi	0x286e70 <spIkConstraintData_dispose+0x718>
+286e54	e2844002	add	r4, r4, #2
+286e58	e1a02004	mov	r2, r4
+286e5c	e2844001	add	r4, r4, #1
+286e60	e5d23000	ldrb	r3, [r2]
+286e64	e2433001	sub	r3, r3, #1
+286e68	e353001f	cmp	r3, #31
+286e6c	9afffff9	bls	0x286e58 <spIkConstraintData_dispose+0x700>
+286e70	e2880008	add	r0, r8, #8
+286e74	e2881010	add	r1, r8, #16
+286e78	ebfffe3f	bl	0x28677c <spIkConstraintData_dispose+0x24>
+286e7c	e250c000	subs	r12, r0, #0
+286e80	0a0000dd	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+286e84	e5dc3000	ldrb	r3, [r12]
+286e88	e2433001	sub	r3, r3, #1
+286e8c	e353001f	cmp	r3, #31
+286e90	8a000006	bhi	0x286eb0 <spIkConstraintData_dispose+0x758>
+286e94	e28c3001	add	r3, r12, #1
+286e98	e1a0c003	mov	r12, r3
+286e9c	e2833001	add	r3, r3, #1
+286ea0	e5dc2000	ldrb	r2, [r12]
+286ea4	e2422001	sub	r2, r2, #1
+286ea8	e352001f	cmp	r2, #31
+286eac	9afffff9	bls	0x286e98 <spIkConstraintData_dispose+0x740>
+286eb0	e5983010	ldr	r3, [r8, #0x10]
+286eb4	e5887010	str	r7, [r8, #0x10]
+286eb8	e588301c	str	r3, [r8, #0x1c]
+286ebc	e5dc3000	ldrb	r3, [r12]
+286ec0	e353003a	cmp	r3, #58
+286ec4	1a0000e4	bne	0x28725c <spIkConstraintData_dispose+0xb04>
+286ec8	e29c1001	adds	r1, r12, #1
+286ecc	0a00000a	beq	0x286efc <spIkConstraintData_dispose+0x7a4>
+286ed0	e5dc3001	ldrb	r3, [r12, #0x1]
+286ed4	e2433001	sub	r3, r3, #1
+286ed8	e353001f	cmp	r3, #31
+286edc	8a000006	bhi	0x286efc <spIkConstraintData_dispose+0x7a4>
+286ee0	e28cc002	add	r12, r12, #2
+286ee4	e1a0100c	mov	r1, r12
+286ee8	e28cc001	add	r12, r12, #1
+286eec	e5d13000	ldrb	r3, [r1]
+286ef0	e2433001	sub	r3, r3, #1
+286ef4	e353001f	cmp	r3, #31
+286ef8	9afffff9	bls	0x286ee4 <spIkConstraintData_dispose+0x78c>
+286efc	e1a00008	mov	r0, r8
+286f00	ebffff00	bl	0x286b08 <spIkConstraintData_dispose+0x3b0>
+286f04	e2504000	subs	r4, r0, #0
+286f08	0a0000bb	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+286f0c	e5d43000	ldrb	r3, [r4]
+286f10	e2433001	sub	r3, r3, #1
+286f14	e353001f	cmp	r3, #31
+286f18	8a000006	bhi	0x286f38 <spIkConstraintData_dispose+0x7e0>
+286f1c	e2843001	add	r3, r4, #1
+286f20	e1a04003	mov	r4, r3
+286f24	e2833001	add	r3, r3, #1
+286f28	e5d42000	ldrb	r2, [r4]
+286f2c	e2422001	sub	r2, r2, #1
+286f30	e352001f	cmp	r2, #31
+286f34	9afffff9	bls	0x286f20 <spIkConstraintData_dispose+0x7c8>
+286f38	e595300c	ldr	r3, [r5, #0xc]
+286f3c	e2833001	add	r3, r3, #1
+286f40	e585300c	str	r3, [r5, #0xc]
+286f44	e5d43000	ldrb	r3, [r4]
+286f48	e353002c	cmp	r3, #44
+286f4c	1a0000bb	bne	0x287240 <spIkConstraintData_dispose+0xae8>
+286f50	e1a09008	mov	r9, r8
+286f54	eaffffb0	b	0x286e1c <spIkConstraintData_dispose+0x6c4>
+286f58	e1a02001	mov	r2, r1
+286f5c	e2800008	add	r0, r0, #8
+286f60	e2851010	add	r1, r5, #16
+286f64	ebfffe04	bl	0x28677c <spIkConstraintData_dispose+0x24>
+286f68	e28dd00c	add	sp, sp, #12
+286f6c	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+286f70	e1a00001	mov	r0, r1
+286f74	e28d1004	add	r1, sp, #4
+286f78	ebf8bdb6	bl	0xb6658 <strtod@plt>
+286f7c	e59d4004	ldr	r4, [sp, #0x4]
+286f80	e1560004	cmp	r6, r4
+286f84	ec410b16	vmov	d6, r0, r1
+286f88	eef77bc6	vcvt.f32.f64	s15, d6
+286f8c	0a0000b7	beq	0x287270 <spIkConstraintData_dispose+0xb18>
+286f90	edc57a06	vstr	s15, [r5, #24]
+286f94	e1a00004	mov	r0, r4
+286f98	e3a03003	mov	r3, #3
+286f9c	e5853008	str	r3, [r5, #0x8]
+286fa0	eefd7ae7	vcvt.s32.f32	s15, s15
+286fa4	edc57a05	vstr	s15, [r5, #20]
+286fa8	e28dd00c	add	sp, sp, #12
+286fac	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+286fb0	e2914001	adds	r4, r1, #1
+286fb4	e3a03005	mov	r3, #5
+286fb8	e5803008	str	r3, [r0, #0x8]
+286fbc	e5d13001	ldrb	r3, [r1, #0x1]
+286fc0	0a000009	beq	0x286fec <spIkConstraintData_dispose+0x894>
+286fc4	e2432001	sub	r2, r3, #1
+286fc8	e352001f	cmp	r2, #31
+286fcc	8a000006	bhi	0x286fec <spIkConstraintData_dispose+0x894>
+286fd0	e2816002	add	r6, r1, #2
+286fd4	e1a04006	mov	r4, r6
+286fd8	e2866001	add	r6, r6, #1
+286fdc	e5d43000	ldrb	r3, [r4]
+286fe0	e2432001	sub	r2, r3, #1
+286fe4	e352001f	cmp	r2, #31
+286fe8	9afffff9	bls	0x286fd4 <spIkConstraintData_dispose+0x87c>
+286fec	e353005d	cmp	r3, #93
+286ff0	0a000084	beq	0x287208 <spIkConstraintData_dispose+0xab0>
+286ff4	e59f2290	ldr	r2, [pc, #0x290]
+286ff8	e3a00001	mov	r0, #1
+286ffc	e3a01020	mov	r1, #32
+287000	e3a0304d	mov	r3, #77
+287004	e08f2002	add	r2, pc, r2
+287008	ebfffb0f	bl	0x285c4c <_calloc>
+28700c	e3500000	cmp	r0, #0
+287010	e1a08000	mov	r8, r0
+287014	e5850004	str	r0, [r5, #0x4]
+287018	0a000077	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+28701c	e5d43000	ldrb	r3, [r4]
+287020	e2433001	sub	r3, r3, #1
+287024	e353001f	cmp	r3, #31
+287028	8a000006	bhi	0x287048 <spIkConstraintData_dispose+0x8f0>
+28702c	e2843001	add	r3, r4, #1
+287030	e1a04003	mov	r4, r3
+287034	e2833001	add	r3, r3, #1
+287038	e5d42000	ldrb	r2, [r4]
+28703c	e2422001	sub	r2, r2, #1
+287040	e352001f	cmp	r2, #31
+287044	9afffff9	bls	0x287030 <spIkConstraintData_dispose+0x8d8>
+287048	e1a01004	mov	r1, r4
+28704c	e1a00008	mov	r0, r8
+287050	ebfffeac	bl	0x286b08 <spIkConstraintData_dispose+0x3b0>
+287054	e2504000	subs	r4, r0, #0
+287058	0a000067	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+28705c	e5d43000	ldrb	r3, [r4]
+287060	e2433001	sub	r3, r3, #1
+287064	e353001f	cmp	r3, #31
+287068	8a000006	bhi	0x287088 <spIkConstraintData_dispose+0x930>
+28706c	e2843001	add	r3, r4, #1
+287070	e1a04003	mov	r4, r3
+287074	e2833001	add	r3, r3, #1
+287078	e5d42000	ldrb	r2, [r4]
+28707c	e2422001	sub	r2, r2, #1
+287080	e352001f	cmp	r2, #31
+287084	9afffff9	bls	0x287070 <spIkConstraintData_dispose+0x918>
+287088	e3a03001	mov	r3, #1
+28708c	e585300c	str	r3, [r5, #0xc]
+287090	e5d43000	ldrb	r3, [r4]
+287094	e59f61f4	ldr	r6, [pc, #0x1f4]
+287098	e353002c	cmp	r3, #44
+28709c	e08f6006	add	r6, pc, r6
+2870a0	1a00005b	bne	0x287214 <spIkConstraintData_dispose+0xabc>
+2870a4	e3a00001	mov	r0, #1
+2870a8	e3a01020	mov	r1, #32
+2870ac	e1a02006	mov	r2, r6
+2870b0	e3a0304d	mov	r3, #77
+2870b4	ebfffae4	bl	0x285c4c <_calloc>
+2870b8	e2507000	subs	r7, r0, #0
+2870bc	0a00004e	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+2870c0	e2941001	adds	r1, r4, #1
+2870c4	e5887000	str	r7, [r8]
+2870c8	0a00000a	beq	0x2870f8 <spIkConstraintData_dispose+0x9a0>
+2870cc	e5d43001	ldrb	r3, [r4, #0x1]
+2870d0	e2433001	sub	r3, r3, #1
+2870d4	e353001f	cmp	r3, #31
+2870d8	8a000006	bhi	0x2870f8 <spIkConstraintData_dispose+0x9a0>
+2870dc	e2844002	add	r4, r4, #2
+2870e0	e1a01004	mov	r1, r4
+2870e4	e2844001	add	r4, r4, #1
+2870e8	e5d13000	ldrb	r3, [r1]
+2870ec	e2433001	sub	r3, r3, #1
+2870f0	e353001f	cmp	r3, #31
+2870f4	9afffff9	bls	0x2870e0 <spIkConstraintData_dispose+0x988>
+2870f8	e1a00007	mov	r0, r7
+2870fc	ebfffe81	bl	0x286b08 <spIkConstraintData_dispose+0x3b0>
+287100	e2504000	subs	r4, r0, #0
+287104	0a00003c	beq	0x2871fc <spIkConstraintData_dispose+0xaa4>
+287108	e5d43000	ldrb	r3, [r4]
+28710c	e2433001	sub	r3, r3, #1
+287110	e353001f	cmp	r3, #31
+287114	8a000006	bhi	0x287134 <spIkConstraintData_dispose+0x9dc>
+287118	e2843001	add	r3, r4, #1
+28711c	e1a04003	mov	r4, r3
+287120	e2833001	add	r3, r3, #1
+287124	e5d41000	ldrb	r1, [r4]
+287128	e2411001	sub	r1, r1, #1
+28712c	e351001f	cmp	r1, #31
+287130	9afffff9	bls	0x28711c <spIkConstraintData_dispose+0x9c4>
+287134	e595300c	ldr	r3, [r5, #0xc]
+287138	e2833001	add	r3, r3, #1
+28713c	e585300c	str	r3, [r5, #0xc]
+287140	e5d43000	ldrb	r3, [r4]
+287144	e353002c	cmp	r3, #44
+287148	1a000031	bne	0x287214 <spIkConstraintData_dispose+0xabc>
+28714c	e1a08007	mov	r8, r7
+287150	eaffffd3	b	0x2870a4 <spIkConstraintData_dispose+0x94c>
+287154	e2810001	add	r0, r1, #1
+287158	e59f1134	ldr	r1, [pc, #0x134]
+28715c	e3a02004	mov	r2, #4
+287160	e08f1001	add	r1, pc, r1
+287164	ebf8bd1d	bl	0xb65e0 <strncmp@plt>
+287168	e3500000	cmp	r0, #0
+28716c	1a00001c	bne	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+287170	e5850008	str	r0, [r5, #0x8]
+287174	e2860005	add	r0, r6, #5
+287178	e28dd00c	add	sp, sp, #12
+28717c	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+287180	e2810001	add	r0, r1, #1
+287184	e59f110c	ldr	r1, [pc, #0x10c]
+287188	e3a02003	mov	r2, #3
+28718c	e08f1001	add	r1, pc, r1
+287190	ebf8bd12	bl	0xb65e0 <strncmp@plt>
+287194	e3500000	cmp	r0, #0
+287198	1a000011	bne	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+28719c	e2860004	add	r0, r6, #4
+2871a0	e3a03002	mov	r3, #2
+2871a4	e5853008	str	r3, [r5, #0x8]
+2871a8	e28dd00c	add	sp, sp, #12
+2871ac	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+2871b0	e2810001	add	r0, r1, #1
+2871b4	e59f10e0	ldr	r1, [pc, #0xe0]
+2871b8	e3a02003	mov	r2, #3
+2871bc	e08f1001	add	r1, pc, r1
+2871c0	ebf8bd06	bl	0xb65e0 <strncmp@plt>
+2871c4	e3500000	cmp	r0, #0
+2871c8	1a000005	bne	0x2871e4 <spIkConstraintData_dispose+0xa8c>
+2871cc	e3a03001	mov	r3, #1
+2871d0	e2860004	add	r0, r6, #4
+2871d4	e5853008	str	r3, [r5, #0x8]
+2871d8	e5853014	str	r3, [r5, #0x14]
+2871dc	e28dd00c	add	sp, sp, #12
+2871e0	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+2871e4	e59f30b4	ldr	r3, [pc, #0xb4]
+2871e8	e3a00000	mov	r0, #0
+2871ec	e08f3003	add	r3, pc, r3
+2871f0	e5836000	str	r6, [r3]
+2871f4	e28dd00c	add	sp, sp, #12
+2871f8	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+2871fc	e3a00000	mov	r0, #0
+287200	e28dd00c	add	sp, sp, #12
+287204	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+287208	e2840001	add	r0, r4, #1
+28720c	e28dd00c	add	sp, sp, #12
+287210	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+287214	e353005d	cmp	r3, #93
+287218	0afffffa	beq	0x287208 <spIkConstraintData_dispose+0xab0>
+28721c	e59f3080	ldr	r3, [pc, #0x80]
+287220	e3a00000	mov	r0, #0
+287224	e08f3003	add	r3, pc, r3
+287228	e5834000	str	r4, [r3]
+28722c	eaffff4d	b	0x286f68 <spIkConstraintData_dispose+0x810>
+287230	e59f3070	ldr	r3, [pc, #0x70]
+287234	e08f3003	add	r3, pc, r3
+287238	e5832000	str	r2, [r3]
+28723c	eaffff49	b	0x286f68 <spIkConstraintData_dispose+0x810>
+287240	e353007d	cmp	r3, #125
+287244	0affffef	beq	0x287208 <spIkConstraintData_dispose+0xab0>
+287248	e59f305c	ldr	r3, [pc, #0x5c]
+28724c	e3a00000	mov	r0, #0
+287250	e08f3003	add	r3, pc, r3
+287254	e5834000	str	r4, [r3]
+287258	eaffff42	b	0x286f68 <spIkConstraintData_dispose+0x810>
+28725c	e59f304c	ldr	r3, [pc, #0x4c]
+287260	e3a00000	mov	r0, #0
+287264	e08f3003	add	r3, pc, r3
+287268	e583c000	str	r12, [r3]
+28726c	eaffff3d	b	0x286f68 <spIkConstraintData_dispose+0x810>
+287270	e59f303c	ldr	r3, [pc, #0x3c]
+287274	e3a00000	mov	r0, #0
+287278	e08f3003	add	r3, pc, r3
+28727c	e5836000	str	r6, [r3]
+287280	eaffff38	b	0x286f68 <spIkConstraintData_dispose+0x810>
+287284	000d0bd0	ldrdeq	r0, r1, [sp], -r0
+287288	000d0aa4	andeq	r0, sp, r4, lsr #21
+28728c	000d08b4	strheq	r0, [sp], -r4
+287290	000d081c	andeq	r0, sp, r12, lsl r8
+287294	000d0794	muleq	sp, r4, r7
+287298	000d0764	andeq	r0, sp, r4, ror #14
+28729c	000d0740	andeq	r0, sp, r0, asr #14
+2872a0	004cf9d4	.word	0x004cf9d4
+2872a4	004cf99c	umaaleq	pc, r12, r12, r9
+2872a8	004cf98c	subeq	pc, r12, r12, lsl #19
+2872ac	004cf970	subeq	pc, r12, r0, ror r9
+2872b0	004cf95c	subeq	pc, r12, r12, asr r9

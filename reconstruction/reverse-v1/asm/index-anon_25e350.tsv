@@ -1,0 +1,644 @@
+25e350	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+25e354	e24dd034	sub	sp, sp, #52
+25e358	e7e0a5d3	ubfx	r10, r3, #0xb, #0x1
+25e35c	e59f89f4	ldr	r8, [pc, #0x9f4]
+25e360	e59dc05c	ldr	r12, [sp, #0x5c]
+25e364	e1a07002	mov	r7, r2
+25e368	e58d300c	str	r3, [sp, #0xc]
+25e36c	e08f8008	add	r8, pc, r8
+25e370	e58d0010	str	r0, [sp, #0x10]
+25e374	e59c3000	ldr	r3, [r12]
+25e378	e59d6058	ldr	r6, [sp, #0x58]
+25e37c	e3530ffa	cmp	r3, #1000
+25e380	e2833001	add	r3, r3, #1
+25e384	e58c3000	str	r3, [r12]
+25e388	ca0000e0	bgt	0x25e710 <_pcre_find_bracket+0x614>
+25e38c	e5d13000	ldrb	r3, [r1]
+25e390	e3a05000	mov	r5, #0
+25e394	e59dc00c	ldr	r12, [sp, #0xc]
+25e398	e283207b	add	r2, r3, #123
+25e39c	e2833076	add	r3, r3, #118
+25e3a0	e20cc402	and	r12, r12, #33554432
+25e3a4	e58d5014	str	r5, [sp, #0x14]
+25e3a8	e6ef3073	uxtb	r3, r3
+25e3ac	e6ef2072	uxtb	r2, r2
+25e3b0	e3530001	cmp	r3, #1
+25e3b4	83520001	cmphi	r2, #1
+25e3b8	e58dc020	str	r12, [sp, #0x20]
+25e3bc	82814003	addhi	r4, r1, #3
+25e3c0	92814005	addls	r4, r1, #5
+25e3c4	e3e0c000	mvn	r12, #0
+25e3c8	e58dc018	str	r12, [sp, #0x18]
+25e3cc	e5d43000	ldrb	r3, [r4]
+25e3d0	e28dc028	add	r12, sp, #40
+25e3d4	e58dc01c	str	r12, [sp, #0x1c]
+25e3d8	e35300a1	cmp	r3, #161
+25e3dc	908ff103	addls	pc, pc, r3, lsl #2
+25e3e0	ea0000c5	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e3e4	ea000189	b	0x25ea10 <_pcre_find_bracket+0x914>
+25e3e8	ea0000a5	b	0x25e684 <_pcre_find_bracket+0x588>
+25e3ec	ea0000a4	b	0x25e684 <_pcre_find_bracket+0x588>
+25e3f0	ea0000a3	b	0x25e684 <_pcre_find_bracket+0x588>
+25e3f4	ea0000a2	b	0x25e684 <_pcre_find_bracket+0x588>
+25e3f8	ea0000a1	b	0x25e684 <_pcre_find_bracket+0x588>
+25e3fc	ea0000a6	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e400	ea0000a5	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e404	ea0000a4	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e408	ea0000a3	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e40c	ea0000a2	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e410	ea0000a1	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e414	ea0000a0	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e418	ea00009f	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e41c	ea0000b9	b	0x25e708 <_pcre_find_bracket+0x60c>
+25e420	ea00009c	b	0x25e698 <_pcre_find_bracket+0x59c>
+25e424	ea00009b	b	0x25e698 <_pcre_find_bracket+0x59c>
+25e428	ea00009b	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e42c	ea00009a	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e430	ea000099	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e434	ea000098	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e438	ea000097	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e43c	ea000096	b	0x25e69c <_pcre_find_bracket+0x5a0>
+25e440	ea00008f	b	0x25e684 <_pcre_find_bracket+0x588>
+25e444	ea00008e	b	0x25e684 <_pcre_find_bracket+0x588>
+25e448	ea00008d	b	0x25e684 <_pcre_find_bracket+0x588>
+25e44c	ea00008c	b	0x25e684 <_pcre_find_bracket+0x588>
+25e450	ea00008b	b	0x25e684 <_pcre_find_bracket+0x588>
+25e454	ea00008a	b	0x25e684 <_pcre_find_bracket+0x588>
+25e458	ea000180	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e45c	ea00017f	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e460	ea00017e	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e464	ea00017d	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e468	ea00014e	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e46c	ea00014d	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e470	ea00017a	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e474	ea000179	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e478	ea00014a	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e47c	ea000149	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e480	ea000148	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e484	ea000147	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e488	ea000135	b	0x25e964 <_pcre_find_bracket+0x868>
+25e48c	ea000145	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e490	ea000172	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e494	ea000143	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e498	ea000142	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e49c	ea000141	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4a0	ea000140	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4a4	ea00016d	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e4a8	ea00016c	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e4ac	ea00013d	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4b0	ea00013c	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4b4	ea00013b	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4b8	ea00013a	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4bc	ea000128	b	0x25e964 <_pcre_find_bracket+0x868>
+25e4c0	ea000138	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4c4	ea000165	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e4c8	ea000136	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4cc	ea000135	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4d0	ea000134	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4d4	ea000133	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4d8	ea000160	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e4dc	ea00015f	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e4e0	ea000130	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4e4	ea00012f	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4e8	ea00012e	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4ec	ea00012d	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4f0	ea00011b	b	0x25e964 <_pcre_find_bracket+0x868>
+25e4f4	ea00012b	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e4f8	ea000158	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e4fc	ea000129	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e500	ea000128	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e504	ea000127	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e508	ea000126	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e50c	ea000153	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e510	ea000152	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e514	ea000123	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e518	ea000122	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e51c	ea000121	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e520	ea000120	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e524	ea00010e	b	0x25e964 <_pcre_find_bracket+0x868>
+25e528	ea00011e	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e52c	ea00014b	b	0x25ea60 <_pcre_find_bracket+0x964>
+25e530	ea00011c	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e534	ea00011b	b	0x25e9a8 <_pcre_find_bracket+0x8ac>
+25e538	ea00019b	b	0x25ebac <_pcre_find_bracket+0xab0>
+25e53c	ea00019a	b	0x25ebac <_pcre_find_bracket+0xab0>
+25e540	ea000187	b	0x25eb64 <_pcre_find_bracket+0xa68>
+25e544	ea000186	b	0x25eb64 <_pcre_find_bracket+0xa68>
+25e548	ea000197	b	0x25ebac <_pcre_find_bracket+0xab0>
+25e54c	ea000196	b	0x25ebac <_pcre_find_bracket+0xab0>
+25e550	ea00018b	b	0x25eb84 <_pcre_find_bracket+0xa88>
+25e554	ea00018a	b	0x25eb84 <_pcre_find_bracket+0xa88>
+25e558	ea000121	b	0x25e9e4 <_pcre_find_bracket+0x8e8>
+25e55c	ea000192	b	0x25ebac <_pcre_find_bracket+0xab0>
+25e560	ea00017f	b	0x25eb64 <_pcre_find_bracket+0xa68>
+25e564	ea000190	b	0x25ebac <_pcre_find_bracket+0xab0>
+25e568	ea000185	b	0x25eb84 <_pcre_find_bracket+0xa88>
+25e56c	ea000062	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e570	ea000061	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e574	ea000060	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e578	ea00005f	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e57c	ea00005e	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e580	ea00005d	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e584	ea00005c	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e588	ea00005b	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e58c	ea00005a	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e590	ea000059	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e594	ea000058	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e598	ea000057	b	0x25e6fc <_pcre_find_bracket+0x600>
+25e59c	ea000159	b	0x25eb08 <_pcre_find_bracket+0xa0c>
+25e5a0	ea000158	b	0x25eb08 <_pcre_find_bracket+0xa0c>
+25e5a4	ea000157	b	0x25eb08 <_pcre_find_bracket+0xa0c>
+25e5a8	ea00013d	b	0x25eaa4 <_pcre_find_bracket+0x9a8>
+25e5ac	ea00013c	b	0x25eaa4 <_pcre_find_bracket+0x9a8>
+25e5b0	ea00009e	b	0x25e830 <_pcre_find_bracket+0x734>
+25e5b4	ea00009d	b	0x25e830 <_pcre_find_bracket+0x734>
+25e5b8	ea00006e	b	0x25e778 <_pcre_find_bracket+0x67c>
+25e5bc	ea000030	b	0x25e684 <_pcre_find_bracket+0x588>
+25e5c0	ea000112	b	0x25ea10 <_pcre_find_bracket+0x914>
+25e5c4	ea000111	b	0x25ea10 <_pcre_find_bracket+0x914>
+25e5c8	ea000110	b	0x25ea10 <_pcre_find_bracket+0x914>
+25e5cc	ea00010f	b	0x25ea10 <_pcre_find_bracket+0x914>
+25e5d0	ea00010e	b	0x25ea10 <_pcre_find_bracket+0x914>
+25e5d4	ea00002a	b	0x25e684 <_pcre_find_bracket+0x588>
+25e5d8	ea000023	b	0x25e66c <_pcre_find_bracket+0x570>
+25e5dc	ea000022	b	0x25e66c <_pcre_find_bracket+0x570>
+25e5e0	ea000021	b	0x25e66c <_pcre_find_bracket+0x570>
+25e5e4	ea000020	b	0x25e66c <_pcre_find_bracket+0x570>
+25e5e8	ea00002f	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e5ec	ea00002e	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e5f0	ea00002d	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e5f4	ea00002c	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e5f8	ea00002b	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e5fc	ea00002a	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e600	ea000052	b	0x25e750 <_pcre_find_bracket+0x654>
+25e604	ea000028	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e608	ea000027	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e60c	ea000026	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e610	ea000025	b	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e614	ea00004d	b	0x25e750 <_pcre_find_bracket+0x654>
+25e618	ea000019	b	0x25e684 <_pcre_find_bracket+0x588>
+25e61c	ea000018	b	0x25e684 <_pcre_find_bracket+0x588>
+25e620	ea000017	b	0x25e684 <_pcre_find_bracket+0x588>
+25e624	ea000016	b	0x25e684 <_pcre_find_bracket+0x588>
+25e628	ea000015	b	0x25e684 <_pcre_find_bracket+0x588>
+25e62c	ea00003a	b	0x25e71c <_pcre_find_bracket+0x620>
+25e630	ea000039	b	0x25e71c <_pcre_find_bracket+0x620>
+25e634	ea000038	b	0x25e71c <_pcre_find_bracket+0x620>
+25e638	ea000112	b	0x25ea88 <_pcre_find_bracket+0x98c>
+25e63c	ea000010	b	0x25e684 <_pcre_find_bracket+0x588>
+25e640	ea000110	b	0x25ea88 <_pcre_find_bracket+0x98c>
+25e644	ea00000e	b	0x25e684 <_pcre_find_bracket+0x588>
+25e648	ea00010e	b	0x25ea88 <_pcre_find_bracket+0x98c>
+25e64c	ea00000c	b	0x25e684 <_pcre_find_bracket+0x588>
+25e650	ea00010c	b	0x25ea88 <_pcre_find_bracket+0x98c>
+25e654	ea00000a	b	0x25e684 <_pcre_find_bracket+0x588>
+25e658	ea000009	b	0x25e684 <_pcre_find_bracket+0x588>
+25e65c	ea00002b	b	0x25e710 <_pcre_find_bracket+0x614>
+25e660	ea00002a	b	0x25e710 <_pcre_find_bracket+0x614>
+25e664	ea000006	b	0x25e684 <_pcre_find_bracket+0x588>
+25e668	ea00002b	b	0x25e71c <_pcre_find_bracket+0x620>
+25e66c	e5d42001	ldrb	r2, [r4, #0x1]
+25e670	e5d43002	ldrb	r3, [r4, #0x2]
+25e674	e1833402	orr	r3, r3, r2, lsl #8
+25e678	e7f43003	ldrb	r3, [r4, r3]!
+25e67c	e3530077	cmp	r3, #119
+25e680	0afffff9	beq	0x25e66c <_pcre_find_bracket+0x570>
+25e684	e59f26d0	ldr	r2, [pc, #0x6d0]
+25e688	e7982002	ldr	r2, [r8, r2]
+25e68c	e7d23003	ldrb	r3, [r2, r3]
+25e690	e7f43003	ldrb	r3, [r4, r3]!
+25e694	eaffff4f	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25e698	e2844002	add	r4, r4, #2
+25e69c	e5d43001	ldrb	r3, [r4, #0x1]
+25e6a0	e2855001	add	r5, r5, #1
+25e6a4	e2844001	add	r4, r4, #1
+25e6a8	eaffff4a	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25e6ac	e59dc05c	ldr	r12, [sp, #0x5c]
+25e6b0	e1a01004	mov	r1, r4
+25e6b4	e58d6000	str	r6, [sp]
+25e6b8	e1a02007	mov	r2, r7
+25e6bc	e59d0010	ldr	r0, [sp, #0x10]
+25e6c0	e58dc004	str	r12, [sp, #0x4]
+25e6c4	e59d300c	ldr	r3, [sp, #0xc]
+25e6c8	ebffff20	bl	0x25e350 <_pcre_find_bracket+0x254>
+25e6cc	e3500000	cmp	r0, #0
+25e6d0	ba00000a	blt	0x25e700 <_pcre_find_bracket+0x604>
+25e6d4	e0855000	add	r5, r5, r0
+25e6d8	e5d42001	ldrb	r2, [r4, #0x1]
+25e6dc	e5d43002	ldrb	r3, [r4, #0x2]
+25e6e0	e1833402	orr	r3, r3, r2, lsl #8
+25e6e4	e7f43003	ldrb	r3, [r4, r3]!
+25e6e8	e3530077	cmp	r3, #119
+25e6ec	0afffff9	beq	0x25e6d8 <_pcre_find_bracket+0x5dc>
+25e6f0	e5d43003	ldrb	r3, [r4, #0x3]
+25e6f4	e2844003	add	r4, r4, #3
+25e6f8	eaffff36	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25e6fc	e3e00002	mvn	r0, #2
+25e700	e28dd034	add	sp, sp, #52
+25e704	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+25e708	e35a0000	cmp	r10, #0
+25e70c	0affffe2	beq	0x25e69c <_pcre_find_bracket+0x5a0>
+25e710	e3e00000	mvn	r0, #0
+25e714	e28dd034	add	sp, sp, #52
+25e718	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+25e71c	e59f2638	ldr	r2, [pc, #0x638]
+25e720	e7982002	ldr	r2, [r8, r2]
+25e724	e7d23003	ldrb	r3, [r2, r3]
+25e728	e0843003	add	r3, r4, r3
+25e72c	e5d31001	ldrb	r1, [r3, #0x1]
+25e730	e5d32002	ldrb	r2, [r3, #0x2]
+25e734	e1822401	orr	r2, r2, r1, lsl #8
+25e738	e7f32002	ldrb	r2, [r3, r2]!
+25e73c	e3520077	cmp	r2, #119
+25e740	0afffff9	beq	0x25e72c <_pcre_find_bracket+0x630>
+25e744	e2834003	add	r4, r3, #3
+25e748	e5d33003	ldrb	r3, [r3, #0x3]
+25e74c	eaffff21	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25e750	e5d42001	ldrb	r2, [r4, #0x1]
+25e754	e5d43002	ldrb	r3, [r4, #0x2]
+25e758	e1833402	orr	r3, r3, r2, lsl #8
+25e75c	e0842003	add	r2, r4, r3
+25e760	e7d43003	ldrb	r3, [r4, r3]
+25e764	e3530077	cmp	r3, #119
+25e768	0affffcf	beq	0x25e6ac <_pcre_find_bracket+0x5b0>
+25e76c	e2824003	add	r4, r2, #3
+25e770	e5d23003	ldrb	r3, [r2, #0x3]
+25e774	eaffff17	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25e778	e5d4c001	ldrb	r12, [r4, #0x1]
+25e77c	e5d43002	ldrb	r3, [r4, #0x2]
+25e780	e183c40c	orr	r12, r3, r12, lsl #8
+25e784	e087c00c	add	r12, r7, r12
+25e788	e1a0300c	mov	r3, r12
+25e78c	e5d31001	ldrb	r1, [r3, #0x1]
+25e790	e5d32002	ldrb	r2, [r3, #0x2]
+25e794	e1822401	orr	r2, r2, r1, lsl #8
+25e798	e7f32002	ldrb	r2, [r3, r2]!
+25e79c	e3520077	cmp	r2, #119
+25e7a0	0afffff9	beq	0x25e78c <_pcre_find_bracket+0x690>
+25e7a4	e1540003	cmp	r4, r3
+25e7a8	23a03000	movhs	r3, #0
+25e7ac	33a03001	movlo	r3, #1
+25e7b0	e154000c	cmp	r4, r12
+25e7b4	93a03000	movls	r3, #0
+25e7b8	e3530000	cmp	r3, #0
+25e7bc	1a000108	bne	0x25ebe4 <_pcre_find_bracket+0xae8>
+25e7c0	e3560000	cmp	r6, #0
+25e7c4	0a00000a	beq	0x25e7f4 <_pcre_find_bracket+0x6f8>
+25e7c8	e5963004	ldr	r3, [r6, #0x4]
+25e7cc	e15c0003	cmp	r12, r3
+25e7d0	0a000103	beq	0x25ebe4 <_pcre_find_bracket+0xae8>
+25e7d4	e1a03006	mov	r3, r6
+25e7d8	ea000002	b	0x25e7e8 <_pcre_find_bracket+0x6ec>
+25e7dc	e5932004	ldr	r2, [r3, #0x4]
+25e7e0	e15c0002	cmp	r12, r2
+25e7e4	0a0000fe	beq	0x25ebe4 <_pcre_find_bracket+0xae8>
+25e7e8	e5933000	ldr	r3, [r3]
+25e7ec	e3530000	cmp	r3, #0
+25e7f0	1afffff9	bne	0x25e7dc <_pcre_find_bracket+0x6e0>
+25e7f4	e59d005c	ldr	r0, [sp, #0x5c]
+25e7f8	e28d3028	add	r3, sp, #40
+25e7fc	e1a0100c	mov	r1, r12
+25e800	e58d3000	str	r3, [sp]
+25e804	e1a02007	mov	r2, r7
+25e808	e59d300c	ldr	r3, [sp, #0xc]
+25e80c	e58d0004	str	r0, [sp, #0x4]
+25e810	e2844003	add	r4, r4, #3
+25e814	e59d0010	ldr	r0, [sp, #0x10]
+25e818	e58d6028	str	r6, [sp, #0x28]
+25e81c	e58dc02c	str	r12, [sp, #0x2c]
+25e820	ebfffeca	bl	0x25e350 <_pcre_find_bracket+0x254>
+25e824	e5d43000	ldrb	r3, [r4]
+25e828	e0855000	add	r5, r5, r0
+25e82c	eafffee9	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25e830	e59dc020	ldr	r12, [sp, #0x20]
+25e834	e35c0000	cmp	r12, #0
+25e838	1a0000f4	bne	0x25ec10 <_pcre_find_bracket+0xb14>
+25e83c	e59dc010	ldr	r12, [sp, #0x10]
+25e840	e5d41001	ldrb	r1, [r4, #0x1]
+25e844	e5d43002	ldrb	r3, [r4, #0x2]
+25e848	e1dc92b4	ldrh	r9, [r12, #36]
+25e84c	e1dc22b2	ldrh	r2, [r12, #34]
+25e850	e1831401	orr	r1, r3, r1, lsl #8
+25e854	e5d4b003	ldrb	r11, [r4, #0x3]
+25e858	e5d43004	ldrb	r3, [r4, #0x4]
+25e85c	e0292199	mla	r9, r9, r1, r2
+25e860	e183b40b	orr	r11, r3, r11, lsl #8
+25e864	e35b0000	cmp	r11, #0
+25e868	e59d0010	ldr	r0, [sp, #0x10]
+25e86c	e24bc001	sub	r12, r11, #1
+25e870	e3e0b102	mvn	r11, #-2147483648
+25e874	e0809009	add	r9, r0, r9
+25e878	0a0000e2	beq	0x25ec08 <_pcre_find_bracket+0xb0c>
+25e87c	e58d5024	str	r5, [sp, #0x24]
+25e880	e1a0500c	mov	r5, r12
+25e884	e5d92000	ldrb	r2, [r9]
+25e888	e1a00007	mov	r0, r7
+25e88c	e5d93001	ldrb	r3, [r9, #0x1]
+25e890	e1a0100a	mov	r1, r10
+25e894	e1832402	orr	r2, r3, r2, lsl #8
+25e898	ebfffe17	bl	0x25e0fc <_pcre_find_bracket>
+25e89c	e250c000	subs	r12, r0, #0
+25e8a0	0a000121	beq	0x25ed2c <_pcre_find_bracket+0xc30>
+25e8a4	e1a0300c	mov	r3, r12
+25e8a8	e5d31001	ldrb	r1, [r3, #0x1]
+25e8ac	e5d32002	ldrb	r2, [r3, #0x2]
+25e8b0	e1822401	orr	r2, r2, r1, lsl #8
+25e8b4	e7f32002	ldrb	r2, [r3, r2]!
+25e8b8	e3520077	cmp	r2, #119
+25e8bc	0afffff9	beq	0x25e8a8 <_pcre_find_bracket+0x7ac>
+25e8c0	e1540003	cmp	r4, r3
+25e8c4	23a03000	movhs	r3, #0
+25e8c8	33a03001	movlo	r3, #1
+25e8cc	e154000c	cmp	r4, r12
+25e8d0	93a03000	movls	r3, #0
+25e8d4	e3530000	cmp	r3, #0
+25e8d8	1a0000c6	bne	0x25ebf8 <_pcre_find_bracket+0xafc>
+25e8dc	e3560000	cmp	r6, #0
+25e8e0	0a00000a	beq	0x25e910 <_pcre_find_bracket+0x814>
+25e8e4	e5962004	ldr	r2, [r6, #0x4]
+25e8e8	e152000c	cmp	r2, r12
+25e8ec	0a0000c1	beq	0x25ebf8 <_pcre_find_bracket+0xafc>
+25e8f0	e1a03006	mov	r3, r6
+25e8f4	ea000002	b	0x25e904 <_pcre_find_bracket+0x808>
+25e8f8	e5932004	ldr	r2, [r3, #0x4]
+25e8fc	e152000c	cmp	r2, r12
+25e900	0a0000bc	beq	0x25ebf8 <_pcre_find_bracket+0xafc>
+25e904	e5933000	ldr	r3, [r3]
+25e908	e3530000	cmp	r3, #0
+25e90c	1afffff9	bne	0x25e8f8 <_pcre_find_bracket+0x7fc>
+25e910	e59d205c	ldr	r2, [sp, #0x5c]
+25e914	e28d0028	add	r0, sp, #40
+25e918	e1a0100c	mov	r1, r12
+25e91c	e58d0000	str	r0, [sp]
+25e920	e59d300c	ldr	r3, [sp, #0xc]
+25e924	e2455001	sub	r5, r5, #1
+25e928	e58d2004	str	r2, [sp, #0x4]
+25e92c	e1a02007	mov	r2, r7
+25e930	e59d0010	ldr	r0, [sp, #0x10]
+25e934	e58dc02c	str	r12, [sp, #0x2c]
+25e938	e58d6028	str	r6, [sp, #0x28]
+25e93c	ebfffe83	bl	0x25e350 <_pcre_find_bracket+0x254>
+25e940	e59dc010	ldr	r12, [sp, #0x10]
+25e944	e1dc32b4	ldrh	r3, [r12, #36]
+25e948	e0899003	add	r9, r9, r3
+25e94c	e15b0000	cmp	r11, r0
+25e950	a1a0b000	movge	r11, r0
+25e954	e3750001	cmn	r5, #1
+25e958	1affffc9	bne	0x25e884 <_pcre_find_bracket+0x788>
+25e95c	e59d5024	ldr	r5, [sp, #0x24]
+25e960	ea0000a8	b	0x25ec08 <_pcre_find_bracket+0xb0c>
+25e964	e5d41001	ldrb	r1, [r4, #0x1]
+25e968	e35a0000	cmp	r10, #0
+25e96c	e5d43002	ldrb	r3, [r4, #0x2]
+25e970	e2842004	add	r2, r4, #4
+25e974	e1833401	orr	r3, r3, r1, lsl #8
+25e978	e0835005	add	r5, r3, r5
+25e97c	0a000095	beq	0x25ebd8 <_pcre_find_bracket+0xadc>
+25e980	e5d43003	ldrb	r3, [r4, #0x3]
+25e984	e35300bf	cmp	r3, #191
+25e988	9a000092	bls	0x25ebd8 <_pcre_find_bracket+0xadc>
+25e98c	e59f13cc	ldr	r1, [pc, #0x3cc]
+25e990	e203303f	and	r3, r3, #63
+25e994	e7981001	ldr	r1, [r8, r1]
+25e998	e7d13003	ldrb	r3, [r1, r3]
+25e99c	e0824003	add	r4, r2, r3
+25e9a0	e7d23003	ldrb	r3, [r2, r3]
+25e9a4	eafffe8b	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25e9a8	e59f23ac	ldr	r2, [pc, #0x3ac]
+25e9ac	e35a0000	cmp	r10, #0
+25e9b0	e7982002	ldr	r2, [r8, r2]
+25e9b4	e7d23003	ldrb	r3, [r2, r3]
+25e9b8	e0844003	add	r4, r4, r3
+25e9bc	0a000083	beq	0x25ebd0 <_pcre_find_bracket+0xad4>
+25e9c0	e5543001	ldrb	r3, [r4, #-0x1]
+25e9c4	e35300bf	cmp	r3, #191
+25e9c8	9a000080	bls	0x25ebd0 <_pcre_find_bracket+0xad4>
+25e9cc	e59f238c	ldr	r2, [pc, #0x38c]
+25e9d0	e203303f	and	r3, r3, #63
+25e9d4	e7982002	ldr	r2, [r8, r2]
+25e9d8	e7d23003	ldrb	r3, [r2, r3]
+25e9dc	e7f43003	ldrb	r3, [r4, r3]!
+25e9e0	eafffe7c	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25e9e4	e5d41003	ldrb	r1, [r4, #0x3]
+25e9e8	e5d42001	ldrb	r2, [r4, #0x1]
+25e9ec	e241100f	sub	r1, r1, #15
+25e9f0	e5d43002	ldrb	r3, [r4, #0x2]
+25e9f4	e3510001	cmp	r1, #1
+25e9f8	e1832402	orr	r2, r3, r2, lsl #8
+25e9fc	83a01004	movhi	r1, #4
+25ea00	93a01006	movls	r1, #6
+25ea04	e7f43001	ldrb	r3, [r4, r1]!
+25ea08	e0825005	add	r5, r2, r5
+25ea0c	eafffe71	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ea10	e59dc018	ldr	r12, [sp, #0x18]
+25ea14	e35c0000	cmp	r12, #0
+25ea18	b58d5018	strlt	r5, [sp, #0x18]
+25ea1c	ba000008	blt	0x25ea44 <_pcre_find_bracket+0x948>
+25ea20	e59dc014	ldr	r12, [sp, #0x14]
+25ea24	e22c2001	eor	r2, r12, #1
+25ea28	e59dc018	ldr	r12, [sp, #0x18]
+25ea2c	e155000c	cmp	r5, r12
+25ea30	a3a02000	movge	r2, #0
+25ea34	b2022001	andlt	r2, r2, #1
+25ea38	e3520000	cmp	r2, #0
+25ea3c	11a0c005	movne	r12, r5
+25ea40	e58dc018	str	r12, [sp, #0x18]
+25ea44	e3530077	cmp	r3, #119
+25ea48	1a0000c0	bne	0x25ed50 <_pcre_find_bracket+0xc54>
+25ea4c	e3a05000	mov	r5, #0
+25ea50	e5d43003	ldrb	r3, [r4, #0x3]
+25ea54	e58d5014	str	r5, [sp, #0x14]
+25ea58	e2844003	add	r4, r4, #3
+25ea5c	eafffe5d	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ea60	e35a0000	cmp	r10, #0
+25ea64	e2855001	add	r5, r5, #1
+25ea68	e2842002	add	r2, r4, #2
+25ea6c	0a000002	beq	0x25ea7c <_pcre_find_bracket+0x980>
+25ea70	e5d43001	ldrb	r3, [r4, #0x1]
+25ea74	e35300bf	cmp	r3, #191
+25ea78	8affffc3	bhi	0x25e98c <_pcre_find_bracket+0x890>
+25ea7c	e5d43002	ldrb	r3, [r4, #0x2]
+25ea80	e1a04002	mov	r4, r2
+25ea84	eafffe53	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ea88	e59f12cc	ldr	r1, [pc, #0x2cc]
+25ea8c	e5d42001	ldrb	r2, [r4, #0x1]
+25ea90	e7981001	ldr	r1, [r8, r1]
+25ea94	e7d13003	ldrb	r3, [r1, r3]
+25ea98	e0833002	add	r3, r3, r2
+25ea9c	e7f43003	ldrb	r3, [r4, r3]!
+25eaa0	eafffe4c	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25eaa4	e59dc020	ldr	r12, [sp, #0x20]
+25eaa8	e35c0000	cmp	r12, #0
+25eaac	13a0b000	movne	r11, #0
+25eab0	0a000069	beq	0x25ec5c <_pcre_find_bracket+0xb60>
+25eab4	e2844003	add	r4, r4, #3
+25eab8	e5d43000	ldrb	r3, [r4]
+25eabc	e2432062	sub	r2, r3, #98
+25eac0	e6ef2072	uxtb	r2, r2
+25eac4	e352000b	cmp	r2, #11
+25eac8	81a0200b	movhi	r2, r11
+25eacc	8a00000b	bhi	0x25eb00 <_pcre_find_bracket+0xa04>
+25ead0	e3a00001	mov	r0, #1
+25ead4	e3001533	movw	r1, #0x533
+25ead8	e1a02210	lsl	r2, r0, r2
+25eadc	e0021001	and	r1, r2, r1
+25eae0	e3510000	cmp	r1, #0
+25eae4	1a00004b	bne	0x25ec18 <_pcre_find_bracket+0xb1c>
+25eae8	e3120d23	tst	r2, #2240
+25eaec	1a000052	bne	0x25ec3c <_pcre_find_bracket+0xb40>
+25eaf0	e3120f83	tst	r2, #524
+25eaf4	e1a0200b	mov	r2, r11
+25eaf8	15d43001	ldrbne	r3, [r4, #0x1]
+25eafc	12844001	addne	r4, r4, #1
+25eb00	e0855002	add	r5, r5, r2
+25eb04	eafffe33	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25eb08	e3530070	cmp	r3, #112
+25eb0c	12844021	addne	r4, r4, #33
+25eb10	05d42001	ldrbeq	r2, [r4, #0x1]
+25eb14	05d43002	ldrbeq	r3, [r4, #0x2]
+25eb18	01833402	orreq	r3, r3, r2, lsl #8
+25eb1c	00844003	addeq	r4, r4, r3
+25eb20	e5d43000	ldrb	r3, [r4]
+25eb24	e2432062	sub	r2, r3, #98
+25eb28	e6ef2072	uxtb	r2, r2
+25eb2c	e352000b	cmp	r2, #11
+25eb30	8a000009	bhi	0x25eb5c <_pcre_find_bracket+0xa60>
+25eb34	e3a00001	mov	r0, #1
+25eb38	e3001533	movw	r1, #0x533
+25eb3c	e1a02210	lsl	r2, r0, r2
+25eb40	e0021001	and	r1, r2, r1
+25eb44	e3510000	cmp	r1, #0
+25eb48	1a000038	bne	0x25ec30 <_pcre_find_bracket+0xb34>
+25eb4c	e3120d23	tst	r2, #2240
+25eb50	1a000077	bne	0x25ed34 <_pcre_find_bracket+0xc38>
+25eb54	e3120f83	tst	r2, #524
+25eb58	1a000033	bne	0x25ec2c <_pcre_find_bracket+0xb30>
+25eb5c	e2855001	add	r5, r5, #1
+25eb60	eafffe1c	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25eb64	e5d43001	ldrb	r3, [r4, #0x1]
+25eb68	e2855001	add	r5, r5, #1
+25eb6c	e243300f	sub	r3, r3, #15
+25eb70	e3530001	cmp	r3, #1
+25eb74	83a03002	movhi	r3, #2
+25eb78	93a03004	movls	r3, #4
+25eb7c	e7f43003	ldrb	r3, [r4, r3]!
+25eb80	eafffe14	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25eb84	e5d42003	ldrb	r2, [r4, #0x3]
+25eb88	e242200f	sub	r2, r2, #15
+25eb8c	e3520001	cmp	r2, #1
+25eb90	8afffebb	bhi	0x25e684 <_pcre_find_bracket+0x588>
+25eb94	e59f21c0	ldr	r2, [pc, #0x1c0]
+25eb98	e2844002	add	r4, r4, #2
+25eb9c	e7982002	ldr	r2, [r8, r2]
+25eba0	e7d23003	ldrb	r3, [r2, r3]
+25eba4	e7f43003	ldrb	r3, [r4, r3]!
+25eba8	eafffe0a	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ebac	e5d42001	ldrb	r2, [r4, #0x1]
+25ebb0	e242200f	sub	r2, r2, #15
+25ebb4	e3520001	cmp	r2, #1
+25ebb8	9afffff5	bls	0x25eb94 <_pcre_find_bracket+0xa98>
+25ebbc	e59f2198	ldr	r2, [pc, #0x198]
+25ebc0	e7982002	ldr	r2, [r8, r2]
+25ebc4	e7d23003	ldrb	r3, [r2, r3]
+25ebc8	e7f43003	ldrb	r3, [r4, r3]!
+25ebcc	eafffe01	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ebd0	e5d43000	ldrb	r3, [r4]
+25ebd4	eafffdff	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ebd8	e5d43004	ldrb	r3, [r4, #0x4]
+25ebdc	e1a04002	mov	r4, r2
+25ebe0	eafffdfc	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ebe4	e3a0c001	mov	r12, #1
+25ebe8	e2844003	add	r4, r4, #3
+25ebec	e58dc014	str	r12, [sp, #0x14]
+25ebf0	e5d43000	ldrb	r3, [r4]
+25ebf4	eafffdf7	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ebf8	e59d5024	ldr	r5, [sp, #0x24]
+25ebfc	e3a0b000	mov	r11, #0
+25ec00	e3a0c001	mov	r12, #1
+25ec04	e58dc014	str	r12, [sp, #0x14]
+25ec08	e2844005	add	r4, r4, #5
+25ec0c	eaffffa9	b	0x25eab8 <_pcre_find_bracket+0x9bc>
+25ec10	e3a0b000	mov	r11, #0
+25ec14	eafffffb	b	0x25ec08 <_pcre_find_bracket+0xb0c>
+25ec18	e5d43001	ldrb	r3, [r4, #0x1]
+25ec1c	e3a02000	mov	r2, #0
+25ec20	e2844001	add	r4, r4, #1
+25ec24	e0855002	add	r5, r5, r2
+25ec28	eafffdea	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ec2c	e0855000	add	r5, r5, r0
+25ec30	e5d43001	ldrb	r3, [r4, #0x1]
+25ec34	e2844001	add	r4, r4, #1
+25ec38	eafffde6	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ec3c	e5d41001	ldrb	r1, [r4, #0x1]
+25ec40	e2844005	add	r4, r4, #5
+25ec44	e5542003	ldrb	r2, [r4, #-0x3]
+25ec48	e5d43000	ldrb	r3, [r4]
+25ec4c	e1822401	orr	r2, r2, r1, lsl #8
+25ec50	e0020b92	mul	r2, r2, r11
+25ec54	e0855002	add	r5, r5, r2
+25ec58	eafffdde	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ec5c	e5d42001	ldrb	r2, [r4, #0x1]
+25ec60	e1a00007	mov	r0, r7
+25ec64	e5d43002	ldrb	r3, [r4, #0x2]
+25ec68	e1a0100a	mov	r1, r10
+25ec6c	e1832402	orr	r2, r3, r2, lsl #8
+25ec70	ebfffd21	bl	0x25e0fc <_pcre_find_bracket>
+25ec74	e250c000	subs	r12, r0, #0
+25ec78	0a00002b	beq	0x25ed2c <_pcre_find_bracket+0xc30>
+25ec7c	e1a0300c	mov	r3, r12
+25ec80	e5d31001	ldrb	r1, [r3, #0x1]
+25ec84	e5d32002	ldrb	r2, [r3, #0x2]
+25ec88	e1822401	orr	r2, r2, r1, lsl #8
+25ec8c	e7f32002	ldrb	r2, [r3, r2]!
+25ec90	e3520077	cmp	r2, #119
+25ec94	0afffff9	beq	0x25ec80 <_pcre_find_bracket+0xb84>
+25ec98	e1540003	cmp	r4, r3
+25ec9c	23a03000	movhs	r3, #0
+25eca0	33a03001	movlo	r3, #1
+25eca4	e154000c	cmp	r4, r12
+25eca8	93a03000	movls	r3, #0
+25ecac	e3530000	cmp	r3, #0
+25ecb0	1a000019	bne	0x25ed1c <_pcre_find_bracket+0xc20>
+25ecb4	e3560000	cmp	r6, #0
+25ecb8	0a00000a	beq	0x25ece8 <_pcre_find_bracket+0xbec>
+25ecbc	e5962004	ldr	r2, [r6, #0x4]
+25ecc0	e152000c	cmp	r2, r12
+25ecc4	0a000014	beq	0x25ed1c <_pcre_find_bracket+0xc20>
+25ecc8	e1a03006	mov	r3, r6
+25eccc	ea000002	b	0x25ecdc <_pcre_find_bracket+0xbe0>
+25ecd0	e5932004	ldr	r2, [r3, #0x4]
+25ecd4	e152000c	cmp	r2, r12
+25ecd8	0a00000f	beq	0x25ed1c <_pcre_find_bracket+0xc20>
+25ecdc	e5933000	ldr	r3, [r3]
+25ece0	e3530000	cmp	r3, #0
+25ece4	1afffff9	bne	0x25ecd0 <_pcre_find_bracket+0xbd4>
+25ece8	e59d205c	ldr	r2, [sp, #0x5c]
+25ecec	e28d0028	add	r0, sp, #40
+25ecf0	e1a0100c	mov	r1, r12
+25ecf4	e58d0000	str	r0, [sp]
+25ecf8	e59d300c	ldr	r3, [sp, #0xc]
+25ecfc	e58d2004	str	r2, [sp, #0x4]
+25ed00	e1a02007	mov	r2, r7
+25ed04	e59d0010	ldr	r0, [sp, #0x10]
+25ed08	e58d6028	str	r6, [sp, #0x28]
+25ed0c	e58dc02c	str	r12, [sp, #0x2c]
+25ed10	ebfffd8e	bl	0x25e350 <_pcre_find_bracket+0x254>
+25ed14	e1a0b000	mov	r11, r0
+25ed18	eaffff65	b	0x25eab4 <_pcre_find_bracket+0x9b8>
+25ed1c	e3a0c001	mov	r12, #1
+25ed20	e3a0b000	mov	r11, #0
+25ed24	e58dc014	str	r12, [sp, #0x14]
+25ed28	eaffff61	b	0x25eab4 <_pcre_find_bracket+0x9b8>
+25ed2c	e3e00001	mvn	r0, #1
+25ed30	eafffe72	b	0x25e700 <_pcre_find_bracket+0x604>
+25ed34	e5d41001	ldrb	r1, [r4, #0x1]
+25ed38	e2844005	add	r4, r4, #5
+25ed3c	e5542003	ldrb	r2, [r4, #-0x3]
+25ed40	e5d43000	ldrb	r3, [r4]
+25ed44	e1822401	orr	r2, r2, r1, lsl #8
+25ed48	e0825005	add	r5, r2, r5
+25ed4c	eafffda1	b	0x25e3d8 <_pcre_find_bracket+0x2dc>
+25ed50	e59d0018	ldr	r0, [sp, #0x18]
+25ed54	eafffe69	b	0x25e700 <_pcre_find_bracket+0x604>
+25ed58	001938e4	andseq	r3, r9, r4, ror #17
+25ed5c	fffffb8c	.word	0xfffffb8c

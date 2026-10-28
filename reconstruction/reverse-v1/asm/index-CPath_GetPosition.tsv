@@ -1,0 +1,119 @@
+1a73bc	e92d0070	push	{r4, r5, r6}
+1a73c0	ee071a90	vmov	s15, r1
+1a73c4	e590c020	ldr	r12, [r0, #0x20]
+1a73c8	e3a04000	mov	r4, #0
+1a73cc	e59d500c	ldr	r5, [sp, #0xc]
+1a73d0	e3a06000	mov	r6, #0
+1a73d4	e35c0000	cmp	r12, #0
+1a73d8	e5824000	str	r4, [r2]
+1a73dc	e34462c8	movt	r6, #0x42c8
+1a73e0	e5834000	str	r4, [r3]
+1a73e4	e5856000	str	r6, [r5]
+1a73e8	da00001d	ble	0x1a7464 <_ZN5CPath11GetPositionEfRfS0_S0_+0xa8>
+1a73ec	e35c0001	cmp	r12, #1
+1a73f0	0a000014	beq	0x1a7448 <_ZN5CPath11GetPositionEfRfS0_S0_+0x8c>
+1a73f4	ed907a09	vldr	s14, [r0, #36]
+1a73f8	eeb57a40	vcmp.f32	s14, #0
+1a73fc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a7400	0a000010	beq	0x1a7448 <_ZN5CPath11GetPositionEfRfS0_S0_+0x8c>
+1a7404	eef57ac0	vcmpe.f32	s15, #0
+1a7408	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a740c	4a00000d	bmi	0x1a7448 <_ZN5CPath11GetPositionEfRfS0_S0_+0x8c>
+1a7410	eef76a00	vmov.f32	s13, #1.000000e+00
+1a7414	eef47ae6	vcmpe.f32	s15, s13
+1a7418	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a741c	da000012	ble	0x1a746c <_ZN5CPath11GetPositionEfRfS0_S0_+0xb0>
+1a7420	e590100c	ldr	r1, [r0, #0xc]
+1a7424	e24cc21f	sub	r12, r12, #-268435455
+1a7428	e081c20c	add	r12, r1, r12, lsl #4
+1a742c	e59c1000	ldr	r1, [r12]
+1a7430	e5821000	str	r1, [r2]
+1a7434	e59c2004	ldr	r2, [r12, #0x4]
+1a7438	e5832000	str	r2, [r3]
+1a743c	e59c3008	ldr	r3, [r12, #0x8]
+1a7440	e5853000	str	r3, [r5]
+1a7444	ea000006	b	0x1a7464 <_ZN5CPath11GetPositionEfRfS0_S0_+0xa8>
+1a7448	e590100c	ldr	r1, [r0, #0xc]
+1a744c	e5910000	ldr	r0, [r1]
+1a7450	e5820000	str	r0, [r2]
+1a7454	e5912004	ldr	r2, [r1, #0x4]
+1a7458	e5832000	str	r2, [r3]
+1a745c	e5913008	ldr	r3, [r1, #0x8]
+1a7460	e5853000	str	r3, [r5]
+1a7464	e8bd0070	pop	{r4, r5, r6}
+1a7468	e12fff1e	bx	lr
+1a746c	eef57a40	vcmp.f32	s15, #0
+1a7470	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a7474	0afffff3	beq	0x1a7448 <_ZN5CPath11GetPositionEfRfS0_S0_+0x8c>
+1a7478	eef47a66	vcmp.f32	s15, s13
+1a747c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a7480	0affffe6	beq	0x1a7420 <_ZN5CPath11GetPositionEfRfS0_S0_+0x64>
+1a7484	e35c0002	cmp	r12, #2
+1a7488	e590600c	ldr	r6, [r0, #0xc]
+1a748c	ee277a27	vmul.f32	s14, s14, s15
+1a7490	03a01000	moveq	r1, #0
+1a7494	0286c010	addeq	r12, r6, #16
+1a7498	0a000015	beq	0x1a74f4 <_ZN5CPath11GetPositionEfRfS0_S0_+0x138>
+1a749c	edd67a07	vldr	s15, [r6, #28]
+1a74a0	eeb47ae7	vcmpe.f32	s14, s15
+1a74a4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a74a8	b286c010	addlt	r12, r6, #16
+1a74ac	b3a01000	movlt	r1, #0
+1a74b0	ba00000f	blt	0x1a74f4 <_ZN5CPath11GetPositionEfRfS0_S0_+0x138>
+1a74b4	e24c4002	sub	r4, r12, #2
+1a74b8	e2860020	add	r0, r6, #32
+1a74bc	e3a01000	mov	r1, #0
+1a74c0	ea000003	b	0x1a74d4 <_ZN5CPath11GetPositionEfRfS0_S0_+0x118>
+1a74c4	ed507a01	vldr	s15, [r0, #-4]
+1a74c8	eeb47ae7	vcmpe.f32	s14, s15
+1a74cc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a74d0	ba00002e	blt	0x1a7590 <_ZN5CPath11GetPositionEfRfS0_S0_+0x1d4>
+1a74d4	e2811001	add	r1, r1, #1
+1a74d8	e1a0c000	mov	r12, r0
+1a74dc	e1510004	cmp	r1, r4
+1a74e0	e2800010	add	r0, r0, #16
+1a74e4	1afffff6	bne	0x1a74c4 <_ZN5CPath11GetPositionEfRfS0_S0_+0x108>
+1a74e8	e1a01201	lsl	r1, r1, #4
+1a74ec	e281c010	add	r12, r1, #16
+1a74f0	e086c00c	add	r12, r6, r12
+1a74f4	e0861001	add	r1, r6, r1
+1a74f8	e5910000	ldr	r0, [r1]
+1a74fc	e5820000	str	r0, [r2]
+1a7500	e5910004	ldr	r0, [r1, #0x4]
+1a7504	e5830000	str	r0, [r3]
+1a7508	e5910008	ldr	r0, [r1, #0x8]
+1a750c	e5850000	str	r0, [r5]
+1a7510	edd17a03	vldr	s15, [r1, #12]
+1a7514	eddc6a03	vldr	s13, [r12, #12]
+1a7518	ee766ae7	vsub.f32	s13, s13, s15
+1a751c	eef56a40	vcmp.f32	s13, #0
+1a7520	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a7524	0affffce	beq	0x1a7464 <_ZN5CPath11GetPositionEfRfS0_S0_+0xa8>
+1a7528	ee777a67	vsub.f32	s15, s14, s15
+1a752c	eddc5a00	vldr	s11, [r12]
+1a7530	ed917a00	vldr	s14, [r1]
+1a7534	ed926a00	vldr	s12, [r2]
+1a7538	ee357ac7	vsub.f32	s14, s11, s14
+1a753c	ee277a27	vmul.f32	s14, s14, s15
+1a7540	ee877a26	vdiv.f32	s14, s14, s13
+1a7544	ee367a07	vadd.f32	s14, s12, s14
+1a7548	ed827a00	vstr	s14, [r2]
+1a754c	ed9c6a01	vldr	s12, [r12, #4]
+1a7550	ed917a01	vldr	s14, [r1, #4]
+1a7554	ee367a47	vsub.f32	s14, s12, s14
+1a7558	ed936a00	vldr	s12, [r3]
+1a755c	ee277a27	vmul.f32	s14, s14, s15
+1a7560	ee877a26	vdiv.f32	s14, s14, s13
+1a7564	ee367a07	vadd.f32	s14, s12, s14
+1a7568	ed837a00	vstr	s14, [r3]
+1a756c	ed9c6a02	vldr	s12, [r12, #8]
+1a7570	ed917a02	vldr	s14, [r1, #8]
+1a7574	ee367a47	vsub.f32	s14, s12, s14
+1a7578	ed956a00	vldr	s12, [r5]
+1a757c	ee677a27	vmul.f32	s15, s14, s15
+1a7580	eec76aa6	vdiv.f32	s13, s15, s13
+1a7584	ee766a26	vadd.f32	s13, s12, s13
+1a7588	edc56a00	vstr	s13, [r5]
+1a758c	eaffffb4	b	0x1a7464 <_ZN5CPath11GetPositionEfRfS0_S0_+0xa8>
+1a7590	e1a01201	lsl	r1, r1, #4
+1a7594	eaffffd6	b	0x1a74f4 <_ZN5CPath11GetPositionEfRfS0_S0_+0x138>

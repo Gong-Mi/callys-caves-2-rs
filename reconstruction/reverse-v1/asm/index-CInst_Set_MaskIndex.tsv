@@ -1,0 +1,7 @@
+192ba8	e59020ac	ldr	r2, [r0, #0xac]
+192bac	e1520001	cmp	r2, r1
+192bb0	012fff1e	bxeq	lr
+192bb4	e3a02001	mov	r2, #1
+192bb8	e58010ac	str	r1, [r0, #0xac]
+192bbc	e5c02064	strb	r2, [r0, #0x64]
+192bc0	ea00e582	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>

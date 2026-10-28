@@ -81,6 +81,14 @@ def main() -> int:
                 prologue.setdefault(row["a"], set()).add("prologue")
             prev_word = mnem
 
+    # 3rd signal: 4-byte data words in .data/.rodata that point into an anon region.
+    # Method tables (`str rX,[base,#imm]` entries) never show up as a `bl`, so this is the only
+    # way to see them. Produced by the inline scan in the session log; file is optional.
+    data_entries = asm / "anon_data_entries.txt"
+    if data_entries.exists():
+        for line in data_entries.read_text(encoding="utf-8").split():
+            entries.setdefault(int(line, 16), set()).add("data-ptr")
+
     merged: dict[int, set[str]] = {}
     for d in (entries, prologue):
         for k, v in d.items():
