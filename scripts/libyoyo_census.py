@@ -131,7 +131,50 @@ def main() -> int:
             mnem, ops = ".word", f"0x{m.group(2)}"
         insns[addr] = (m.group(2), mnem, ops)
 
-    # 3b) Thumb ranges take precedence over the ARM pass
+    # 3b) unnamed Thumb-2: a stripped static function carries no symbol, so the only hint is
+    #     that the ARM decode is nonsense (svc / undefined / .word runs). Retry those ranges
+    #     with the Thumb triple and keep whichever decode is cleaner.
+    SUSPECT = ("svc", "undefined", ".word", "andeq", "eorseq")
+    def bad_ratio(rng_lo, rng_hi, table) -> float:
+        tot = bad = 0
+        for a, (_w, m, _o) in table.items():
+            if rng_lo <= a < rng_hi:
+                tot += 1
+                if m.startswith(SUSPECT):
+                    bad += 1
+        return bad / tot if tot else 0.0
+
+    # anonymous ranges from the previous census pass (functions.tsv is written by it);
+    # on the very first run there is nothing to retry, and the ranges get built below anyway.
+    prev_anon: list[tuple[int, int]] = []
+    prev_tsv = out_dir / "functions.tsv"
+    if prev_tsv.exists():
+        for line in prev_tsv.read_text(encoding="utf-8").splitlines():
+            cols = line.split("\t")
+            if len(cols) >= 7 and cols[2].startswith("anon_"):
+                a = int(cols[0], 16)
+                prev_anon.append((a, a + int(cols[1])))
+
+    thumb_fixed = 0
+    import os as _os
+    _retry = _os.environ.get("CENSUS_UNNAMED_THUMB") == "1"
+    for lo, hi in (prev_anon if _retry else []):
+        if bad_ratio(lo, hi, insns) < 0.10:
+            continue
+        t = run([tool("llvm-objdump"), "-d", "--triple=thumbv7-linux-androideabi",
+                 f"--start-address={lo:#x}", f"--stop-address={hi:#x}", str(so)])
+        cand = parse(t)
+        if not cand:
+            continue
+        if bad_ratio(lo, hi, cand) < bad_ratio(lo, hi, insns):
+            for a in [x for x in insns if lo <= x < hi]:
+                del insns[a]
+            insns.update(cand)
+            thumb_fixed += 1
+    print(f"unnamed Thumb-2 regions re-decoded: {thumb_fixed} "
+          f"(opt-in via CENSUS_UNNAMED_THUMB=1; off by default: the heuristic doubled the "
+          f"anon segment count and is not evidence enough to ship)", file=sys.stderr)
+
     insns.update(insnsThumb)
     for lo, hi in thumb_ranges:
         for a in [x for x in insns if lo <= x < hi and x not in insnsThumb]:
