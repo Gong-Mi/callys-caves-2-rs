@@ -1,0 +1,109 @@
+1c33e4	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1c33e8	ed2d8b02	vpush	{d8}
+1c33ec	e24dd00c	sub	sp, sp, #12
+1c33f0	e59fa190	ldr	r10, [pc, #0x190]
+1c33f4	e88d0003	stm	sp, {r0, r1}
+1c33f8	e79fa00a	ldr	r10, [pc, r10]
+1c33fc	e59a7008	ldr	r7, [r10, #0x8]
+1c3400	e3570000	cmp	r7, #0
+1c3404	1a00003b	bne	0x1c34f8 <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi+0x114>
+1c3408	e59a3010	ldr	r3, [r10, #0x10]
+1c340c	e3530000	cmp	r3, #0
+1c3410	da000036	ble	0x1c34f0 <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi+0x10c>
+1c3414	e59f9170	ldr	r9, [pc, #0x170]
+1c3418	e3a08001	mov	r8, #1
+1c341c	e3a04000	mov	r4, #0
+1c3420	e3a05000	mov	r5, #0
+1c3424	e08f9009	add	r9, pc, r9
+1c3428	ed9f8a55	vldr	s16, [pc, #340]
+1c342c	e3a0203f	mov	r2, #63
+1c3430	e3a00070	mov	r0, #112
+1c3434	e1a01009	mov	r1, r9
+1c3438	e3a03001	mov	r3, #1
+1c343c	eb02e68d	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c3440	e3a0b000	mov	r11, #0
+1c3444	e3e02000	mvn	r2, #0
+1c3448	e2506000	subs	r6, r0, #0
+1c344c	e2860030	add	r0, r6, #48
+1c3450	0a000013	beq	0x1c34a4 <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi+0xc0>
+1c3454	e5862000	str	r2, [r6]
+1c3458	ed868a02	vstr	s16, [r6, #8]
+1c345c	e586b004	str	r11, [r6, #0x4]
+1c3460	ed868a03	vstr	s16, [r6, #12]
+1c3464	ed868a04	vstr	s16, [r6, #16]
+1c3468	ed868a05	vstr	s16, [r6, #20]
+1c346c	e5c68018	strb	r8, [r6, #0x18]
+1c3470	e1c644f8	strd	r4, r5, [r6, #72]
+1c3474	e5c6b019	strb	r11, [r6, #0x19]
+1c3478	e586b01c	str	r11, [r6, #0x1c]
+1c347c	e5862020	str	r2, [r6, #0x20]
+1c3480	e5862024	str	r2, [r6, #0x24]
+1c3484	e5862028	str	r2, [r6, #0x28]
+1c3488	eb0144a6	bl	0x214728 <_ZN13CTimingSource5ResetEv>
+1c348c	e586b05c	str	r11, [r6, #0x5c]
+1c3490	e586b058	str	r11, [r6, #0x58]
+1c3494	e586b060	str	r11, [r6, #0x60]
+1c3498	e5868064	str	r8, [r6, #0x64]
+1c349c	e586b068	str	r11, [r6, #0x68]
+1c34a0	e586b06c	str	r11, [r6, #0x6c]
+1c34a4	e59a3000	ldr	r3, [r10]
+1c34a8	e3a01000	mov	r1, #0
+1c34ac	e2877001	add	r7, r7, #1
+1c34b0	e59a2008	ldr	r2, [r10, #0x8]
+1c34b4	e1530001	cmp	r3, r1
+1c34b8	058a6004	streq	r6, [r10, #0x4]
+1c34bc	1583606c	strne	r6, [r3, #0x6c]
+1c34c0	e2822001	add	r2, r2, #1
+1c34c4	0586306c	streq	r3, [r6, #0x6c]
+1c34c8	05863068	streq	r3, [r6, #0x68]
+1c34cc	15863068	strne	r3, [r6, #0x68]
+1c34d0	e59a3010	ldr	r3, [r10, #0x10]
+1c34d4	058a6000	streq	r6, [r10]
+1c34d8	158a6000	strne	r6, [r10]
+1c34dc	1586106c	strne	r1, [r6, #0x6c]
+1c34e0	e1570003	cmp	r7, r3
+1c34e4	e58a2008	str	r2, [r10, #0x8]
+1c34e8	baffffcf	blt	0x1c342c <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi+0x48>
+1c34ec	e59a7008	ldr	r7, [r10, #0x8]
+1c34f0	e1a03083	lsl	r3, r3, #1
+1c34f4	e58a3010	str	r3, [r10, #0x10]
+1c34f8	e59a4000	ldr	r4, [r10]
+1c34fc	e3a0e001	mov	lr, #1
+1c3500	e59d1004	ldr	r1, [sp, #0x4]
+1c3504	e2477001	sub	r7, r7, #1
+1c3508	e59d0000	ldr	r0, [sp]
+1c350c	e594306c	ldr	r3, [r4, #0x6c]
+1c3510	e5942068	ldr	r2, [r4, #0x68]
+1c3514	e3530000	cmp	r3, #0
+1c3518	e58a7008	str	r7, [r10, #0x8]
+1c351c	15832068	strne	r2, [r3, #0x68]
+1c3520	15942068	ldrne	r2, [r4, #0x68]
+1c3524	1594306c	ldrne	r3, [r4, #0x6c]
+1c3528	058a2000	streq	r2, [r10]
+1c352c	e3520000	cmp	r2, #0
+1c3530	058a3004	streq	r3, [r10, #0x4]
+1c3534	1582306c	strne	r3, [r2, #0x6c]
+1c3538	e59f2050	ldr	r2, [pc, #0x50]
+1c353c	e59f3050	ldr	r3, [pc, #0x50]
+1c3540	e79f2002	ldr	r2, [pc, r2]
+1c3544	e5841004	str	r1, [r4, #0x4]
+1c3548	e79f3003	ldr	r3, [pc, r3]
+1c354c	e1a01004	mov	r1, r4
+1c3550	e592c000	ldr	r12, [r2]
+1c3554	e5932000	ldr	r2, [r3]
+1c3558	e5c4e019	strb	lr, [r4, #0x19]
+1c355c	e152000c	cmp	r2, r12
+1c3560	b1a0200c	movlt	r2, r12
+1c3564	e082200e	add	r2, r2, lr
+1c3568	e5832000	str	r2, [r3]
+1c356c	e5842000	str	r2, [r4]
+1c3570	ebfffee0	bl	0x1c30f8 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer>
+1c3574	e1a00004	mov	r0, r4
+1c3578	e28dd00c	add	sp, sp, #12
+1c357c	ecbd8b02	vpop	{d8}
+1c3580	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1c3584	00000000	andeq	r0, r0, r0
+1c3588	0022d464	eoreq	sp, r2, r4, ror #8
+1c358c	0018a270	andseq	r10, r8, r0, ror r2
+1c3590	0022d340	eoreq	sp, r2, r0, asr #6
+1c3594	0022d594	mlaeq	r2, r4, r5, sp

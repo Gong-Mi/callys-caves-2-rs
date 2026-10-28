@@ -1,0 +1,329 @@
+1b7ac4	e5913020	ldr	r3, [r1, #0x20]
+1b7ac8	e92d4070	push	{r4, r5, r6, lr}
+1b7acc	e3530000	cmp	r3, #0
+1b7ad0	e1a04001	mov	r4, r1
+1b7ad4	e1a05000	mov	r5, r0
+1b7ad8	13e01000	mvnne	r1, #0
+1b7adc	13a00000	movne	r0, #0
+1b7ae0	15831170	strne	r1, [r3, #0x170]
+1b7ae4	15c30174	strbne	r0, [r3, #0x174]
+1b7ae8	e3520000	cmp	r2, #0
+1b7aec	0a000006	beq	0x1b7b0c <_ZN13CLayerManager21RemoveInstanceElementEP6CLayerP21CLayerInstanceElementb+0x48>
+1b7af0	e594201c	ldr	r2, [r4, #0x1c]
+1b7af4	e372000e	cmn	r2, #14
+1b7af8	0a000003	beq	0x1b7b0c <_ZN13CLayerManager21RemoveInstanceElementEP6CLayerP21CLayerInstanceElementb+0x48>
+1b7afc	e3a00000	mov	r0, #0
+1b7b00	e3a03001	mov	r3, #1
+1b7b04	e1a01000	mov	r1, r0
+1b7b08	ebfd4d87	bl	0x10b12c <_Z17DoInstanceDestroyP9CInstanceS0_ib>
+1b7b0c	e5943018	ldr	r3, [r4, #0x18]
+1b7b10	e3e00000	mvn	r0, #0
+1b7b14	e5942014	ldr	r2, [r4, #0x14]
+1b7b18	e3a06002	mov	r6, #2
+1b7b1c	e3530000	cmp	r3, #0
+1b7b20	e5951060	ldr	r1, [r5, #0x60]
+1b7b24	15832014	strne	r2, [r3, #0x14]
+1b7b28	e0811000	add	r1, r1, r0
+1b7b2c	15942014	ldrne	r2, [r4, #0x14]
+1b7b30	15943018	ldrne	r3, [r4, #0x18]
+1b7b34	05852058	streq	r2, [r5, #0x58]
+1b7b38	e3520000	cmp	r2, #0
+1b7b3c	0585305c	streq	r3, [r5, #0x5c]
+1b7b40	15823018	strne	r3, [r2, #0x18]
+1b7b44	e3a03000	mov	r3, #0
+1b7b48	e59f2058	ldr	r2, [pc, #0x58]
+1b7b4c	e5851060	str	r1, [r5, #0x60]
+1b7b50	e79f2002	ldr	r2, [pc, r2]
+1b7b54	e5843014	str	r3, [r4, #0x14]
+1b7b58	e5843018	str	r3, [r4, #0x18]
+1b7b5c	e5921000	ldr	r1, [r2]
+1b7b60	e592c008	ldr	r12, [r2, #0x8]
+1b7b64	e1510003	cmp	r1, r3
+1b7b68	e5846000	str	r6, [r4]
+1b7b6c	e5840004	str	r0, [r4, #0x4]
+1b7b70	e28cc001	add	r12, r12, #1
+1b7b74	e5c43008	strb	r3, [r4, #0x8]
+1b7b78	e584300c	str	r3, [r4, #0xc]
+1b7b7c	e5843010	str	r3, [r4, #0x10]
+1b7b80	e5843020	str	r3, [r4, #0x20]
+1b7b84	e584001c	str	r0, [r4, #0x1c]
+1b7b88	e582c008	str	r12, [r2, #0x8]
+1b7b8c	15814018	strne	r4, [r1, #0x18]
+1b7b90	05824004	streq	r4, [r2, #0x4]
+1b7b94	05824000	streq	r4, [r2]
+1b7b98	15824000	strne	r4, [r2]
+1b7b9c	15841014	strne	r1, [r4, #0x14]
+1b7ba0	15843018	strne	r3, [r4, #0x18]
+1b7ba4	e8bd8070	pop	{r4, r5, r6, pc}
+1b7ba8	00238d14	eoreq	r8, r3, r4, lsl sp
+1b87f4	e3500000	cmp	r0, #0
+1b87f8	012fff1e	bxeq	lr
+1b87fc	e59000d4	ldr	r0, [r0, #0xd4]
+1b8800	e3500000	cmp	r0, #0
+1b8804	012fff1e	bxeq	lr
+1b8808	e3520000	cmp	r2, #0
+1b880c	0a00000c	beq	0x1b8844 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x50>
+1b8810	e5903004	ldr	r3, [r0, #0x4]
+1b8814	e1530001	cmp	r3, r1
+1b8818	0a000002	beq	0x1b8828 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x34>
+1b881c	da000004	ble	0x1b8834 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x40>
+1b8820	e3a00000	mov	r0, #0
+1b8824	e12fff1e	bx	lr
+1b8828	e5d03019	ldrb	r3, [r0, #0x19]
+1b882c	e3530000	cmp	r3, #0
+1b8830	112fff1e	bxne	lr
+1b8834	e5900068	ldr	r0, [r0, #0x68]
+1b8838	e3500000	cmp	r0, #0
+1b883c	1afffff3	bne	0x1b8810 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x1c>
+1b8840	e12fff1e	bx	lr
+1b8844	e5903004	ldr	r3, [r0, #0x4]
+1b8848	e1530001	cmp	r3, r1
+1b884c	012fff1e	bxeq	lr
+1b8850	e1510003	cmp	r1, r3
+1b8854	bafffff1	blt	0x1b8820 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x2c>
+1b8858	e5900068	ldr	r0, [r0, #0x68]
+1b885c	e3500000	cmp	r0, #0
+1b8860	1afffff7	bne	0x1b8844 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x50>
+1b8864	e12fff1e	bx	lr
+1c33e4	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1c33e8	ed2d8b02	vpush	{d8}
+1c33ec	e24dd00c	sub	sp, sp, #12
+1c33f0	e59fa190	ldr	r10, [pc, #0x190]
+1c33f4	e88d0003	stm	sp, {r0, r1}
+1c33f8	e79fa00a	ldr	r10, [pc, r10]
+1c33fc	e59a7008	ldr	r7, [r10, #0x8]
+1c3400	e3570000	cmp	r7, #0
+1c3404	1a00003b	bne	0x1c34f8 <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi+0x114>
+1c3408	e59a3010	ldr	r3, [r10, #0x10]
+1c340c	e3530000	cmp	r3, #0
+1c3410	da000036	ble	0x1c34f0 <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi+0x10c>
+1c3414	e59f9170	ldr	r9, [pc, #0x170]
+1c3418	e3a08001	mov	r8, #1
+1c341c	e3a04000	mov	r4, #0
+1c3420	e3a05000	mov	r5, #0
+1c3424	e08f9009	add	r9, pc, r9
+1c3428	ed9f8a55	vldr	s16, [pc, #340]
+1c342c	e3a0203f	mov	r2, #63
+1c3430	e3a00070	mov	r0, #112
+1c3434	e1a01009	mov	r1, r9
+1c3438	e3a03001	mov	r3, #1
+1c343c	eb02e68d	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c3440	e3a0b000	mov	r11, #0
+1c3444	e3e02000	mvn	r2, #0
+1c3448	e2506000	subs	r6, r0, #0
+1c344c	e2860030	add	r0, r6, #48
+1c3450	0a000013	beq	0x1c34a4 <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi+0xc0>
+1c3454	e5862000	str	r2, [r6]
+1c3458	ed868a02	vstr	s16, [r6, #8]
+1c345c	e586b004	str	r11, [r6, #0x4]
+1c3460	ed868a03	vstr	s16, [r6, #12]
+1c3464	ed868a04	vstr	s16, [r6, #16]
+1c3468	ed868a05	vstr	s16, [r6, #20]
+1c346c	e5c68018	strb	r8, [r6, #0x18]
+1c3470	e1c644f8	strd	r4, r5, [r6, #72]
+1c3474	e5c6b019	strb	r11, [r6, #0x19]
+1c3478	e586b01c	str	r11, [r6, #0x1c]
+1c347c	e5862020	str	r2, [r6, #0x20]
+1c3480	e5862024	str	r2, [r6, #0x24]
+1c3484	e5862028	str	r2, [r6, #0x28]
+1c3488	eb0144a6	bl	0x214728 <_ZN13CTimingSource5ResetEv>
+1c348c	e586b05c	str	r11, [r6, #0x5c]
+1c3490	e586b058	str	r11, [r6, #0x58]
+1c3494	e586b060	str	r11, [r6, #0x60]
+1c3498	e5868064	str	r8, [r6, #0x64]
+1c349c	e586b068	str	r11, [r6, #0x68]
+1c34a0	e586b06c	str	r11, [r6, #0x6c]
+1c34a4	e59a3000	ldr	r3, [r10]
+1c34a8	e3a01000	mov	r1, #0
+1c34ac	e2877001	add	r7, r7, #1
+1c34b0	e59a2008	ldr	r2, [r10, #0x8]
+1c34b4	e1530001	cmp	r3, r1
+1c34b8	058a6004	streq	r6, [r10, #0x4]
+1c34bc	1583606c	strne	r6, [r3, #0x6c]
+1c34c0	e2822001	add	r2, r2, #1
+1c34c4	0586306c	streq	r3, [r6, #0x6c]
+1c34c8	05863068	streq	r3, [r6, #0x68]
+1c34cc	15863068	strne	r3, [r6, #0x68]
+1c34d0	e59a3010	ldr	r3, [r10, #0x10]
+1c34d4	058a6000	streq	r6, [r10]
+1c34d8	158a6000	strne	r6, [r10]
+1c34dc	1586106c	strne	r1, [r6, #0x6c]
+1c34e0	e1570003	cmp	r7, r3
+1c34e4	e58a2008	str	r2, [r10, #0x8]
+1c34e8	baffffcf	blt	0x1c342c <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi+0x48>
+1c34ec	e59a7008	ldr	r7, [r10, #0x8]
+1c34f0	e1a03083	lsl	r3, r3, #1
+1c34f4	e58a3010	str	r3, [r10, #0x10]
+1c34f8	e59a4000	ldr	r4, [r10]
+1c34fc	e3a0e001	mov	lr, #1
+1c3500	e59d1004	ldr	r1, [sp, #0x4]
+1c3504	e2477001	sub	r7, r7, #1
+1c3508	e59d0000	ldr	r0, [sp]
+1c350c	e594306c	ldr	r3, [r4, #0x6c]
+1c3510	e5942068	ldr	r2, [r4, #0x68]
+1c3514	e3530000	cmp	r3, #0
+1c3518	e58a7008	str	r7, [r10, #0x8]
+1c351c	15832068	strne	r2, [r3, #0x68]
+1c3520	15942068	ldrne	r2, [r4, #0x68]
+1c3524	1594306c	ldrne	r3, [r4, #0x6c]
+1c3528	058a2000	streq	r2, [r10]
+1c352c	e3520000	cmp	r2, #0
+1c3530	058a3004	streq	r3, [r10, #0x4]
+1c3534	1582306c	strne	r3, [r2, #0x6c]
+1c3538	e59f2050	ldr	r2, [pc, #0x50]
+1c353c	e59f3050	ldr	r3, [pc, #0x50]
+1c3540	e79f2002	ldr	r2, [pc, r2]
+1c3544	e5841004	str	r1, [r4, #0x4]
+1c3548	e79f3003	ldr	r3, [pc, r3]
+1c354c	e1a01004	mov	r1, r4
+1c3550	e592c000	ldr	r12, [r2]
+1c3554	e5932000	ldr	r2, [r3]
+1c3558	e5c4e019	strb	lr, [r4, #0x19]
+1c355c	e152000c	cmp	r2, r12
+1c3560	b1a0200c	movlt	r2, r12
+1c3564	e082200e	add	r2, r2, lr
+1c3568	e5832000	str	r2, [r3]
+1c356c	e5842000	str	r2, [r4]
+1c3570	ebfffee0	bl	0x1c30f8 <_ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer>
+1c3574	e1a00004	mov	r0, r4
+1c3578	e28dd00c	add	sp, sp, #12
+1c357c	ecbd8b02	vpop	{d8}
+1c3580	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1c3584	00000000	andeq	r0, r0, r0
+1c3588	0022d464	eoreq	sp, r2, r4, ror #8
+1c358c	0018a270	andseq	r10, r8, r0, ror r2
+1c3590	0022d340	eoreq	sp, r2, r0, asr #6
+1c3594	0022d594	mlaeq	r2, r4, r5, sp
+1cc494	e59f305c	ldr	r3, [pc, #0x5c]
+1cc498	e92d4070	push	{r4, r5, r6, lr}
+1cc49c	e79f3003	ldr	r3, [pc, r3]
+1cc4a0	e1a05000	mov	r5, r0
+1cc4a4	e5d33000	ldrb	r3, [r3]
+1cc4a8	e3530000	cmp	r3, #0
+1cc4ac	08bd8070	popeq	{r4, r5, r6, pc}
+1cc4b0	e59f4044	ldr	r4, [pc, #0x44]
+1cc4b4	e79f4004	ldr	r4, [pc, r4]
+1cc4b8	e5943000	ldr	r3, [r4]
+1cc4bc	e3530000	cmp	r3, #0
+1cc4c0	0a000005	beq	0x1cc4dc <_Z15CollisionInsertP9CInstance+0x48>
+1cc4c4	e1a00005	mov	r0, r5
+1cc4c8	e3a01001	mov	r1, #1
+1cc4cc	ebff179b	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cc4d0	e1a00005	mov	r0, r5
+1cc4d4	e8bd4070	pop	{r4, r5, r6, lr}
+1cc4d8	eafffeb8	b	0x1cbfc0 <_Z17CollisionMarkTestP9CInstance>
+1cc4dc	e3a00018	mov	r0, #24
+1cc4e0	eb02c00f	bl	0x27c524 <_Znwj>
+1cc4e4	e3a01b01	mov	r1, #1024
+1cc4e8	e1a06000	mov	r6, r0
+1cc4ec	ebffff8b	bl	0x1cc320 <_ZN5RTreeIP9CInstanceifLi6ELi2EEC2Ei>
+1cc4f0	e5846000	str	r6, [r4]
+1cc4f4	eafffff2	b	0x1cc4c4 <_Z15CollisionInsertP9CInstance+0x30>
+1cc4f8	002241e4	eoreq	r4, r2, r4, ror #3
+1cc4fc	00221d90	mlaeq	r2, r0, sp, r1
+1cd9f0	e92d40f0	push	{r4, r5, r6, r7, lr}
+1cd9f4	e24dd024	sub	sp, sp, #36
+1cd9f8	e59f4108	ldr	r4, [pc, #0x108]
+1cd9fc	e59f3108	ldr	r3, [pc, #0x108]
+1cda00	e08f4004	add	r4, pc, r4
+1cda04	e58d000c	str	r0, [sp, #0xc]
+1cda08	e7943003	ldr	r3, [r4, r3]
+1cda0c	e5d33000	ldrb	r3, [r3]
+1cda10	e3530000	cmp	r3, #0
+1cda14	0a000039	beq	0x1cdb00 <_Z15CollisionRemoveP9CInstance+0x110>
+1cda18	e59f30f0	ldr	r3, [pc, #0xf0]
+1cda1c	e7943003	ldr	r3, [r4, r3]
+1cda20	e5932000	ldr	r2, [r3]
+1cda24	e3520000	cmp	r2, #0
+1cda28	0a000017	beq	0x1cda8c <_Z15CollisionRemoveP9CInstance+0x9c>
+1cda2c	e1a03000	mov	r3, r0
+1cda30	e59050e8	ldr	r5, [r0, #0xe8]
+1cda34	e59360f0	ldr	r6, [r3, #0xf0]
+1cda38	e3a07001	mov	r7, #1
+1cda3c	e593c0ec	ldr	r12, [r3, #0xec]
+1cda40	e1a00002	mov	r0, r2
+1cda44	e593e0f4	ldr	lr, [r3, #0xf4]
+1cda48	e28d1010	add	r1, sp, #16
+1cda4c	e28d2018	add	r2, sp, #24
+1cda50	e28d300c	add	r3, sp, #12
+1cda54	e58d7000	str	r7, [sp]
+1cda58	e1560005	cmp	r6, r5
+1cda5c	d58d6010	strle	r6, [sp, #0x10]
+1cda60	c58d5010	strgt	r5, [sp, #0x10]
+1cda64	e1560005	cmp	r6, r5
+1cda68	a58d6018	strge	r6, [sp, #0x18]
+1cda6c	b58d5018	strlt	r5, [sp, #0x18]
+1cda70	e15e000c	cmp	lr, r12
+1cda74	d58de014	strle	lr, [sp, #0x14]
+1cda78	c58dc014	strgt	r12, [sp, #0x14]
+1cda7c	e15e000c	cmp	lr, r12
+1cda80	a58de01c	strge	lr, [sp, #0x1c]
+1cda84	b58dc01c	strlt	r12, [sp, #0x1c]
+1cda88	ebffffba	bl	0x1cd978 <_ZN5RTreeIP9CInstanceifLi6ELi2EE6RemoveEPKiS4_RKS1_b>
+1cda8c	e59d300c	ldr	r3, [sp, #0xc]
+1cda90	e59f207c	ldr	r2, [pc, #0x7c]
+1cda94	e59fc07c	ldr	r12, [pc, #0x7c]
+1cda98	e2831f66	add	r1, r3, #408
+1cda9c	e59301a0	ldr	r0, [r3, #0x1a0]
+1cdaa0	e7942002	ldr	r2, [r4, r2]
+1cdaa4	e1500002	cmp	r0, r2
+1cdaa8	0593019c	ldreq	r0, [r3, #0x19c]
+1cdaac	05932198	ldreq	r2, [r3, #0x198]
+1cdab0	05820004	streq	r0, [r2, #0x4]
+1cdab4	0593019c	ldreq	r0, [r3, #0x19c]
+1cdab8	05802000	streq	r2, [r0]
+1cdabc	e3a00000	mov	r0, #0
+1cdac0	e5831198	str	r1, [r3, #0x198]
+1cdac4	e2832f63	add	r2, r3, #396
+1cdac8	e58301a0	str	r0, [r3, #0x1a0]
+1cdacc	e583119c	str	r1, [r3, #0x19c]
+1cdad0	e5930194	ldr	r0, [r3, #0x194]
+1cdad4	e794100c	ldr	r1, [r4, r12]
+1cdad8	e1500001	cmp	r0, r1
+1cdadc	0593118c	ldreq	r1, [r3, #0x18c]
+1cdae0	05930190	ldreq	r0, [r3, #0x190]
+1cdae4	05810004	streq	r0, [r1, #0x4]
+1cdae8	05930190	ldreq	r0, [r3, #0x190]
+1cdaec	05801000	streq	r1, [r0]
+1cdaf0	e3a01000	mov	r1, #0
+1cdaf4	e583218c	str	r2, [r3, #0x18c]
+1cdaf8	e5832190	str	r2, [r3, #0x190]
+1cdafc	e5831194	str	r1, [r3, #0x194]
+1cdb00	e28dd024	add	sp, sp, #36
+1cdb04	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+1cdb08	00224250	eoreq	r4, r2, r0, asr r2
+1cdb0c	ffffea30	.word	0xffffea30
+1cdb10	ffffc5f4	.word	0xffffc5f4
+1cdb14	ffffeeec	.word	0xffffeeec
+1cdb18	ffffeee4	.word	0xffffeee4
+19230c	e59f3024	ldr	r3, [pc, #0x24]
+192310	e5c01069	strb	r1, [r0, #0x69]
+192314	e79f3003	ldr	r3, [pc, r3]
+192318	e5d33000	ldrb	r3, [r3]
+19231c	e3530000	cmp	r3, #0
+192320	012fff1e	bxeq	lr
+192324	e59f3010	ldr	r3, [pc, #0x10]
+192328	e1a01000	mov	r1, r0
+19232c	e79f3003	ldr	r3, [pc, r3]
+192330	e5930000	ldr	r0, [r3]
+192334	ea0099bb	b	0x1b8a28 <_ZN13CLayerManager24UpdateInstanceActivationEP5CRoomP9CInstance>
+192338	0025b610	eoreq	r11, r5, r0, lsl r6
+19233c	0025b5fc	.word	0x0025b5fc
+192fa4	e92d4038	push	{r3, r4, r5, lr}
+192fa8	e1a05001	mov	r5, r1
+192fac	e5901084	ldr	r1, [r0, #0x84]
+192fb0	e1a04000	mov	r4, r0
+192fb4	e3510000	cmp	r1, #0
+192fb8	0a000003	beq	0x192fcc <_ZN9CInstance18RebuildPhysicsBodyEP5CRoom+0x28>
+192fbc	e59500b4	ldr	r0, [r5, #0xb4]
+192fc0	eb029710	bl	0x238c08 <_ZN13CPhysicsWorld11DestroyBodyEP14CPhysicsObject>
+192fc4	e3a03000	mov	r3, #0
+192fc8	e5843084	str	r3, [r4, #0x84]
+192fcc	e5943080	ldr	r3, [r4, #0x80]
+192fd0	e5d3301c	ldrb	r3, [r3, #0x1c]
+192fd4	e3530000	cmp	r3, #0
+192fd8	08bd8038	popeq	{r3, r4, r5, pc}
+192fdc	e1a00004	mov	r0, r4
+192fe0	e1a01005	mov	r1, r5
+192fe4	e8bd4038	pop	{r3, r4, r5, lr}
+192fe8	eaffff39	b	0x192cd4 <_ZN9CInstance17CreatePhysicsBodyEP5CRoom>

@@ -1,0 +1,19 @@
+134e84	e59f3040	ldr	r3, [pc, #0x40]
+134e88	e92d4010	push	{r4, lr}
+134e8c	e79f3003	ldr	r3, [pc, r3]
+134e90	e1a04000	mov	r4, r0
+134e94	e5d31000	ldrb	r1, [r3]
+134e98	e3510000	cmp	r1, #0
+134e9c	18bd8010	popne	{r4, pc}
+134ea0	e580100c	str	r1, [r0, #0xc]
+134ea4	e59d0008	ldr	r0, [sp, #0x8]
+134ea8	ebfe6670	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+134eac	eb0388b2	bl	0x21717c <_Z20Audio_SoundIsPlayingi>
+134eb0	ee070a90	vmov	s15, r0
+134eb4	eeb87b67	vcvt.f64.u32	d7, s15
+134eb8	ec510b17	vmov	r0, r1, d7
+134ebc	ee172a10	vmov	r2, s14
+134ec0	e1a03001	mov	r3, r1
+134ec4	e884000c	stm	r4, {r2, r3}
+134ec8	e8bd8010	pop	{r4, pc}
+134ecc	002ba1c0	eoreq	r10, r11, r0, asr #3

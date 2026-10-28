@@ -1,0 +1,32 @@
+109518	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+10951c	e1a05000	mov	r5, r0
+109520	e59d4018	ldr	r4, [sp, #0x18]
+109524	e1a08001	mov	r8, r1
+109528	e3a01000	mov	r1, #0
+10952c	e1a00004	mov	r0, r4
+109530	ebff15d3	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+109534	e3a01001	mov	r1, #1
+109538	e1a07000	mov	r7, r0
+10953c	e1a00004	mov	r0, r4
+109540	ebff15cf	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+109544	e3a01002	mov	r1, #2
+109548	e1a06000	mov	r6, r0
+10954c	e1a00004	mov	r0, r4
+109550	ebff14c6	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+109554	e1a02006	mov	r2, r6
+109558	e1a01007	mov	r1, r7
+10955c	e1a03000	mov	r3, r0
+109560	e1a00008	mov	r0, r8
+109564	eb03045b	bl	0x1ca6d8 <_Z21Command_InstancePlaceP9CInstanceffi>
+109568	e3a03000	mov	r3, #0
+10956c	e585300c	str	r3, [r5, #0xc]
+109570	e3500000	cmp	r0, #0
+109574	15902078	ldrne	r2, [r0, #0x78]
+109578	03a03000	moveq	r3, #0
+10957c	03a02000	moveq	r2, #0
+109580	034c3010	movteq	r3, #0xc010
+109584	1e072a90	vmovne	s15, r2
+109588	1eb87be7	vcvtne.f64.s32	d7, s15
+10958c	1c532b17	vmovne	r2, r3, d7
+109590	e885000c	stm	r5, {r2, r3}
+109594	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}

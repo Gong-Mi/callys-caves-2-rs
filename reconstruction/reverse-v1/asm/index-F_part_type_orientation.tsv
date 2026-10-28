@@ -1,0 +1,35 @@
+1292f0	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+1292f4	e24dd00c	sub	sp, sp, #12
+1292f8	e3a01000	mov	r1, #0
+1292fc	e59d4028	ldr	r4, [sp, #0x28]
+129300	e1a00004	mov	r0, r4
+129304	ebfe9559	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+129308	e3a01001	mov	r1, #1
+12930c	e1a05000	mov	r5, r0
+129310	e1a00004	mov	r0, r4
+129314	ebfe965a	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+129318	e3a01002	mov	r1, #2
+12931c	e1a08000	mov	r8, r0
+129320	e1a00004	mov	r0, r4
+129324	ebfe9656	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+129328	e3a01003	mov	r1, #3
+12932c	e1a07000	mov	r7, r0
+129330	e1a00004	mov	r0, r4
+129334	ebfe9652	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+129338	e3a01004	mov	r1, #4
+12933c	e1a06000	mov	r6, r0
+129340	e1a00004	mov	r0, r4
+129344	ebfe964e	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+129348	e3a01005	mov	r1, #5
+12934c	e1a09000	mov	r9, r0
+129350	e1a00004	mov	r0, r4
+129354	ebfe9503	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+129358	e58d9000	str	r9, [sp]
+12935c	e1a01008	mov	r1, r8
+129360	e1a02007	mov	r2, r7
+129364	e1a03006	mov	r3, r6
+129368	e58d0004	str	r0, [sp, #0x4]
+12936c	e1a00005	mov	r0, r5
+129370	eb01e822	bl	0x1a3400 <_Z24ParticleType_Orientationiffffb>
+129374	e28dd00c	add	sp, sp, #12
+129378	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}

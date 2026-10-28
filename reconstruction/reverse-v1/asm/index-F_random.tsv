@@ -1,0 +1,22 @@
+10dddc	e92d4070	push	{r4, r5, r6, lr}
+10dde0	ed2d8b02	vpush	{d8}
+10dde4	e1a04000	mov	r4, r0
+10dde8	e3a05000	mov	r5, #0
+10ddec	e3a01000	mov	r1, #0
+10ddf0	e580500c	str	r5, [r0, #0xc]
+10ddf4	e3431ff0	movt	r1, #0x3ff0
+10ddf8	e3a00000	mov	r0, #0
+10ddfc	e59d6018	ldr	r6, [sp, #0x18]
+10de00	ebfed9e4	bl	0xc4598 <_Z9fYYRandomd>
+10de04	ec410b18	vmov	d8, r0, r1
+10de08	e1a00006	mov	r0, r6
+10de0c	e1a01005	mov	r1, r5
+10de10	ebff0343	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+10de14	ec410b17	vmov	d7, r0, r1
+10de18	ee287b07	vmul.f64	d7, d8, d7
+10de1c	ec510b17	vmov	r0, r1, d7
+10de20	ee172a10	vmov	r2, s14
+10de24	e1a03001	mov	r3, r1
+10de28	e884000c	stm	r4, {r2, r3}
+10de2c	ecbd8b02	vpop	{d8}
+10de30	e8bd8070	pop	{r4, r5, r6, pc}

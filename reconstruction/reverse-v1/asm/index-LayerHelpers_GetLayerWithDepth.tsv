@@ -1,0 +1,29 @@
+1b87f4	e3500000	cmp	r0, #0
+1b87f8	012fff1e	bxeq	lr
+1b87fc	e59000d4	ldr	r0, [r0, #0xd4]
+1b8800	e3500000	cmp	r0, #0
+1b8804	012fff1e	bxeq	lr
+1b8808	e3520000	cmp	r2, #0
+1b880c	0a00000c	beq	0x1b8844 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x50>
+1b8810	e5903004	ldr	r3, [r0, #0x4]
+1b8814	e1530001	cmp	r3, r1
+1b8818	0a000002	beq	0x1b8828 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x34>
+1b881c	da000004	ble	0x1b8834 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x40>
+1b8820	e3a00000	mov	r0, #0
+1b8824	e12fff1e	bx	lr
+1b8828	e5d03019	ldrb	r3, [r0, #0x19]
+1b882c	e3530000	cmp	r3, #0
+1b8830	112fff1e	bxne	lr
+1b8834	e5900068	ldr	r0, [r0, #0x68]
+1b8838	e3500000	cmp	r0, #0
+1b883c	1afffff3	bne	0x1b8810 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x1c>
+1b8840	e12fff1e	bx	lr
+1b8844	e5903004	ldr	r3, [r0, #0x4]
+1b8848	e1530001	cmp	r3, r1
+1b884c	012fff1e	bxeq	lr
+1b8850	e1510003	cmp	r1, r3
+1b8854	bafffff1	blt	0x1b8820 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x2c>
+1b8858	e5900068	ldr	r0, [r0, #0x68]
+1b885c	e3500000	cmp	r0, #0
+1b8860	1afffff7	bne	0x1b8844 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib+0x50>
+1b8864	e12fff1e	bx	lr

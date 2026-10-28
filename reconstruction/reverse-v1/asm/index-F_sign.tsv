@@ -1,0 +1,25 @@
+10de6c	e92d4010	push	{r4, lr}
+10de70	e3a01000	mov	r1, #0
+10de74	e1a04000	mov	r4, r0
+10de78	e59d0008	ldr	r0, [sp, #0x8]
+10de7c	ebff0328	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+10de80	e3a03000	mov	r3, #0
+10de84	e584300c	str	r3, [r4, #0xc]
+10de88	ec410b17	vmov	d7, r0, r1
+10de8c	eeb57bc0	vcmpe.f64	d7, #0
+10de90	eef1fa10	vmrs	APSR_nzcv, fpscr
+10de94	ba000008	blt	0x10debc <_Z6F_SignR6RValueP9CInstanceS2_iPS_+0x50>
+10de98	eeb57b40	vcmp.f64	d7, #0
+10de9c	eef1fa10	vmrs	APSR_nzcv, fpscr
+10dea0	03a02000	moveq	r2, #0
+10dea4	13a02001	movne	r2, #1
+10dea8	ee072a90	vmov	s15, r2
+10deac	eeb87be7	vcvt.f64.s32	d7, s15
+10deb0	ec532b17	vmov	r2, r3, d7
+10deb4	e884000c	stm	r4, {r2, r3}
+10deb8	e8bd8010	pop	{r4, pc}
+10debc	e3a02000	mov	r2, #0
+10dec0	e3a03000	mov	r3, #0
+10dec4	e34b3ff0	movt	r3, #0xbff0
+10dec8	e884000c	stm	r4, {r2, r3}
+10decc	e8bd8010	pop	{r4, pc}

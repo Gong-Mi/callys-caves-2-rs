@@ -1,0 +1,37 @@
+138474	e92d4070	push	{r4, r5, r6, lr}
+138478	e24ddb02	sub	sp, sp, #2048
+13847c	e59f4080	ldr	r4, [pc, #0x80]
+138480	e24dd008	sub	sp, sp, #8
+138484	e3a01000	mov	r1, #0
+138488	e1a05000	mov	r5, r0
+13848c	e79f4004	ldr	r4, [pc, r4]
+138490	e59d0818	ldr	r0, [sp, #0x818]
+138494	e5943000	ldr	r3, [r4]
+138498	e58d3804	str	r3, [sp, #0x804]
+13849c	ebfe600b	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+1384a0	e1a06000	mov	r6, r0
+1384a4	eb015db0	bl	0x18fb6c <_ZN8LoadSave14SaveFileExistsEPKc>
+1384a8	e3500000	cmp	r0, #0
+1384ac	0a00000c	beq	0x1384e4 <_Z12F_FileDeleteR6RValueP9CInstanceS2_iPS_+0x70>
+1384b0	e1a02006	mov	r2, r6
+1384b4	e28d6004	add	r6, sp, #4
+1384b8	e3a01b02	mov	r1, #2048
+1384bc	e1a00006	mov	r0, r6
+1384c0	eb015d27	bl	0x18f964 <_ZN8LoadSave16_GetSaveFileNameEPciPKc>
+1384c4	e1a00006	mov	r0, r6
+1384c8	eb015eb8	bl	0x18ffb0 <_ZN8LoadSave14RemoveSaveFileEPKc>
+1384cc	ee070a90	vmov	s15, r0
+1384d0	eeb87be7	vcvt.f64.s32	d7, s15
+1384d4	ec510b17	vmov	r0, r1, d7
+1384d8	ee172a10	vmov	r2, s14
+1384dc	e1a03001	mov	r3, r1
+1384e0	e885000c	stm	r5, {r2, r3}
+1384e4	e59d2804	ldr	r2, [sp, #0x804]
+1384e8	e5943000	ldr	r3, [r4]
+1384ec	e1520003	cmp	r2, r3
+1384f0	1a000002	bne	0x138500 <_Z12F_FileDeleteR6RValueP9CInstanceS2_iPS_+0x8c>
+1384f4	e28ddb02	add	sp, sp, #2048
+1384f8	e28dd008	add	sp, sp, #8
+1384fc	e8bd8070	pop	{r4, r5, r6, pc}
+138500	ebfdf833	bl	0xb65d4 <__stack_chk_fail@plt>
+138504	002b54c4	eoreq	r5, r11, r4, asr #9

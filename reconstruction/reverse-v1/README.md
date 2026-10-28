@@ -53,9 +53,9 @@
 
 ## 已钉的语义
 
-    汇总：124 张卡、38,971 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          claims 960 条（proven 796+ / narrowed 77 / open 74 / refuted 4）
-          可达性靶子：入口可达 1,439 个函数（≈148,276 条指令），已出卡 124，剩余约 1,280
+    汇总：128 张卡、40,190 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          claims 1,063 条（proven 890 / narrowed 81 / open 85 / refuted 5 / inferred 3）
+          可达性靶子：入口可达 1,439 个函数（≈148,276 条指令），已出卡 128，剩余约 1,270
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -233,6 +233,27 @@
 
     又改了两处旧说法：房间表在 0x5425d0（0x542990 是 Run_Room_List）；
     CInstance 读写不对称是三处而非一处（object_index / bbox 前置重算 / 变量块计数取全局）
+
+## 第八轮（剩余游戏内建 API + 层/碰撞辅助）
+
+    Builtins_Motion     249 条 正文  instance_activate_region/place/destroy/exists/number、
+                                     mp_potential_step、move_towards_point、point_direction、sign
+                                     · point_direction = atan2f×180/π 归一化 ⇒ 度 [0,360)、0=右/90=上/270=下；θ=+0 返回 −0.0
+                                     · instance_number(-1/-2) 返回 0/1 不是计数；对象索引是「objgm+0xd0 链计数 + 全局表按 +0x7c 过滤」两处相加
+    Builtins_IO         223 条 正文  · YYRandom = 16 字滞后 Fibonacci（state@0x479a88 + idx@0x479a84），InitRandom 用 MSVC 0x343fd/0x269ec3
+                                     · irandom_range=[min,max] 闭；random_range=[min,max) 开；random(n)=[0,n)
+                                     · ini 写侧 "%f"（6 位小数）、格式 [section]\r\nkey="value"\r\n；未开时读写共用同一条错误串
+    Builtins_AudioPart  278 条 正文  · 两道门 0x755314（后端 Sound_/Audio_）与 0x755363（总开关）
+                                     · 粒子类型描述符 164 B，字段表全解，默认 grav_y=270.0f
+    Builtins_Draw2      208 条 正文  · draw_sprite 走 GetSpriteIndices + CSprite::DrawSimple（四参，不是九参 Draw）
+                                     · IAP 内建不碰 JNI；真 JNI 在三跳后的 IAP_AcquireM
+    LayerHelpers        329 条 正文  7 节：RemoveInstanceElement / GetLayerWithDepth / AddDynamicLayer /
+                                     CollisionInsert / CollisionRemove / SetDeactivated / RebuildPhysicsBody
+                                     · Add↔Remove 完全互逆，唯一不对称是 +0x180 depth 只由 Add 覆写
+                                     · SetDeactivated：g_isZeus==0 只改字节，!=0 取 *(Run_Room) 尾调 UpdateInstanceActivation
+
+    两处回改：CLayerManager::AddInstance 的第一道门是「0x5428e8 == 0 就返回」（1c5d34 popeq），早先写反了；
+    F_InstanceDestroy.c 退役（与 Builtins_Motion §3 同 24 条锚点重复，语义已并入后者）
 
 ## 结构结论
 

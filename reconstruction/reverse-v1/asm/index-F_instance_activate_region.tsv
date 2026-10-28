@@ -1,0 +1,38 @@
+10c24c	e92d4038	push	{r3, r4, r5, lr}
+10c250	ed2d8b02	vpush	{d8}
+10c254	e3a01004	mov	r1, #4
+10c258	e59d5018	ldr	r5, [sp, #0x18]
+10c25c	e59f4078	ldr	r4, [pc, #0x78]
+10c260	e1a00005	mov	r0, r5
+10c264	e08f4004	add	r4, pc, r4
+10c268	ebff093e	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+10c26c	e3a01000	mov	r1, #0
+10c270	e5c4000c	strb	r0, [r4, #0xc]
+10c274	e1a00005	mov	r0, r5
+10c278	ebff0a81	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+10c27c	e3a01001	mov	r1, #1
+10c280	e5840010	str	r0, [r4, #0x10]
+10c284	e1a00005	mov	r0, r5
+10c288	ebff0a7d	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+10c28c	e3a01002	mov	r1, #2
+10c290	edd48a04	vldr	s17, [r4, #16]
+10c294	e5840014	str	r0, [r4, #0x14]
+10c298	e1a00005	mov	r0, r5
+10c29c	ebff0a78	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+10c2a0	e3a01003	mov	r1, #3
+10c2a4	ed948a05	vldr	s16, [r4, #20]
+10c2a8	ee070a90	vmov	s15, r0
+10c2ac	e1a00005	mov	r0, r5
+10c2b0	ee788aa7	vadd.f32	s17, s17, s15
+10c2b4	edc48a06	vstr	s17, [r4, #24]
+10c2b8	ebff0a71	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+10c2bc	e59f301c	ldr	r3, [pc, #0x1c]
+10c2c0	ee070a90	vmov	s15, r0
+10c2c4	e79f0003	ldr	r0, [pc, r3]
+10c2c8	ee388a27	vadd.f32	s16, s16, s15
+10c2cc	ed848a07	vstr	s16, [r4, #28]
+10c2d0	ecbd8b02	vpop	{d8}
+10c2d4	e8bd4038	pop	{r3, r4, r5, lr}
+10c2d8	eafffe06	b	0x10baf8 <_Z15GetDeactiveListPFvP9CInstanceE>
+10c2dc	00377474	eorseq	r7, r7, r4, ror r4
+10c2e0	002e1e00	eoreq	r1, lr, r0, lsl #28

@@ -1,0 +1,75 @@
+1cd9f0	e92d40f0	push	{r4, r5, r6, r7, lr}
+1cd9f4	e24dd024	sub	sp, sp, #36
+1cd9f8	e59f4108	ldr	r4, [pc, #0x108]
+1cd9fc	e59f3108	ldr	r3, [pc, #0x108]
+1cda00	e08f4004	add	r4, pc, r4
+1cda04	e58d000c	str	r0, [sp, #0xc]
+1cda08	e7943003	ldr	r3, [r4, r3]
+1cda0c	e5d33000	ldrb	r3, [r3]
+1cda10	e3530000	cmp	r3, #0
+1cda14	0a000039	beq	0x1cdb00 <_Z15CollisionRemoveP9CInstance+0x110>
+1cda18	e59f30f0	ldr	r3, [pc, #0xf0]
+1cda1c	e7943003	ldr	r3, [r4, r3]
+1cda20	e5932000	ldr	r2, [r3]
+1cda24	e3520000	cmp	r2, #0
+1cda28	0a000017	beq	0x1cda8c <_Z15CollisionRemoveP9CInstance+0x9c>
+1cda2c	e1a03000	mov	r3, r0
+1cda30	e59050e8	ldr	r5, [r0, #0xe8]
+1cda34	e59360f0	ldr	r6, [r3, #0xf0]
+1cda38	e3a07001	mov	r7, #1
+1cda3c	e593c0ec	ldr	r12, [r3, #0xec]
+1cda40	e1a00002	mov	r0, r2
+1cda44	e593e0f4	ldr	lr, [r3, #0xf4]
+1cda48	e28d1010	add	r1, sp, #16
+1cda4c	e28d2018	add	r2, sp, #24
+1cda50	e28d300c	add	r3, sp, #12
+1cda54	e58d7000	str	r7, [sp]
+1cda58	e1560005	cmp	r6, r5
+1cda5c	d58d6010	strle	r6, [sp, #0x10]
+1cda60	c58d5010	strgt	r5, [sp, #0x10]
+1cda64	e1560005	cmp	r6, r5
+1cda68	a58d6018	strge	r6, [sp, #0x18]
+1cda6c	b58d5018	strlt	r5, [sp, #0x18]
+1cda70	e15e000c	cmp	lr, r12
+1cda74	d58de014	strle	lr, [sp, #0x14]
+1cda78	c58dc014	strgt	r12, [sp, #0x14]
+1cda7c	e15e000c	cmp	lr, r12
+1cda80	a58de01c	strge	lr, [sp, #0x1c]
+1cda84	b58dc01c	strlt	r12, [sp, #0x1c]
+1cda88	ebffffba	bl	0x1cd978 <_ZN5RTreeIP9CInstanceifLi6ELi2EE6RemoveEPKiS4_RKS1_b>
+1cda8c	e59d300c	ldr	r3, [sp, #0xc]
+1cda90	e59f207c	ldr	r2, [pc, #0x7c]
+1cda94	e59fc07c	ldr	r12, [pc, #0x7c]
+1cda98	e2831f66	add	r1, r3, #408
+1cda9c	e59301a0	ldr	r0, [r3, #0x1a0]
+1cdaa0	e7942002	ldr	r2, [r4, r2]
+1cdaa4	e1500002	cmp	r0, r2
+1cdaa8	0593019c	ldreq	r0, [r3, #0x19c]
+1cdaac	05932198	ldreq	r2, [r3, #0x198]
+1cdab0	05820004	streq	r0, [r2, #0x4]
+1cdab4	0593019c	ldreq	r0, [r3, #0x19c]
+1cdab8	05802000	streq	r2, [r0]
+1cdabc	e3a00000	mov	r0, #0
+1cdac0	e5831198	str	r1, [r3, #0x198]
+1cdac4	e2832f63	add	r2, r3, #396
+1cdac8	e58301a0	str	r0, [r3, #0x1a0]
+1cdacc	e583119c	str	r1, [r3, #0x19c]
+1cdad0	e5930194	ldr	r0, [r3, #0x194]
+1cdad4	e794100c	ldr	r1, [r4, r12]
+1cdad8	e1500001	cmp	r0, r1
+1cdadc	0593118c	ldreq	r1, [r3, #0x18c]
+1cdae0	05930190	ldreq	r0, [r3, #0x190]
+1cdae4	05810004	streq	r0, [r1, #0x4]
+1cdae8	05930190	ldreq	r0, [r3, #0x190]
+1cdaec	05801000	streq	r1, [r0]
+1cdaf0	e3a01000	mov	r1, #0
+1cdaf4	e583218c	str	r2, [r3, #0x18c]
+1cdaf8	e5832190	str	r2, [r3, #0x190]
+1cdafc	e5831194	str	r1, [r3, #0x194]
+1cdb00	e28dd024	add	sp, sp, #36
+1cdb04	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+1cdb08	00224250	eoreq	r4, r2, r0, asr r2
+1cdb0c	ffffea30	.word	0xffffea30
+1cdb10	ffffc5f4	.word	0xffffc5f4
+1cdb14	ffffeeec	.word	0xffffeeec
+1cdb18	ffffeee4	.word	0xffffeee4

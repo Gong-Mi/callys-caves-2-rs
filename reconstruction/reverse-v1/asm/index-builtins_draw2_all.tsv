@@ -1,0 +1,208 @@
+122748	e92d40f0	push	{r4, r5, r6, r7, lr}
+12274c	e24dd00c	sub	sp, sp, #12
+122750	e1a00001	mov	r0, r1
+122754	e28d3004	add	r3, sp, #4
+122758	e59d4020	ldr	r4, [sp, #0x20]
+12275c	e1a0200d	mov	r2, sp
+122760	e1a01004	mov	r1, r4
+122764	ebffffd6	bl	0x1226c4 <_Z16GetSpriteIndicesP9CInstanceP6RValueRiS3_>
+122768	e3500000	cmp	r0, #0
+12276c	1a000001	bne	0x122778 <_Z12F_DrawSpriteR6RValueP9CInstanceS2_iPS_+0x30>
+122770	e28dd00c	add	sp, sp, #12
+122774	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+122778	e59d0000	ldr	r0, [sp]
+12277c	eb03322e	bl	0x1ef03c <_Z11Sprite_Datai>
+122780	e3a01002	mov	r1, #2
+122784	e59d6004	ldr	r6, [sp, #0x4]
+122788	e1a07000	mov	r7, r0
+12278c	e1a00004	mov	r0, r4
+122790	ebfeb13b	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+122794	e3a01003	mov	r1, #3
+122798	e1a05000	mov	r5, r0
+12279c	e1a00004	mov	r0, r4
+1227a0	ebfeb137	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1227a4	e1a01006	mov	r1, r6
+1227a8	e1a02005	mov	r2, r5
+1227ac	e1a03000	mov	r3, r0
+1227b0	e1a00007	mov	r0, r7
+1227b4	eb0328be	bl	0x1ecab4 <_ZN7CSprite10DrawSimpleEiff>
+1227b8	e28dd00c	add	sp, sp, #12
+1227bc	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+121d70	e92d4030	push	{r4, r5, lr}
+121d74	e24dd014	sub	sp, sp, #20
+121d78	e28d2010	add	r2, sp, #16
+121d7c	e3a05000	mov	r5, #0
+121d80	e59d4020	ldr	r4, [sp, #0x20]
+121d84	e3a01b01	mov	r1, #1024
+121d88	e5225004	str	r5, [r2, #-0x4]!
+121d8c	e2840020	add	r0, r4, #32
+121d90	ebffffd2	bl	0x121ce0 <_Z14GetTextFromArgPK6RValueiPPc>
+121d94	e1a01005	mov	r1, r5
+121d98	e1a00004	mov	r0, r4
+121d9c	ebfeb3b8	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+121da0	e3a01001	mov	r1, #1
+121da4	e1a05000	mov	r5, r0
+121da8	e1a00004	mov	r0, r4
+121dac	ebfeb3b4	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+121db0	e3e0c000	mvn	r12, #0
+121db4	e59d200c	ldr	r2, [sp, #0xc]
+121db8	e1a0300c	mov	r3, r12
+121dbc	e58dc000	str	r12, [sp]
+121dc0	e1a01000	mov	r1, r0
+121dc4	e1a00005	mov	r0, r5
+121dc8	eb01440a	bl	0x172df8 <_Z12GR_Text_DrawffPKcii>
+121dcc	e59d000c	ldr	r0, [sp, #0xc]
+121dd0	eb05693e	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+121dd4	e28dd014	add	sp, sp, #20
+121dd8	e8bd8030	pop	{r4, r5, pc}
+143ba8	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+143bac	e3a01000	mov	r1, #0
+143bb0	e59d4018	ldr	r4, [sp, #0x18]
+143bb4	e1a00004	mov	r0, r4
+143bb8	ebfe2aea	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+143bbc	e3a01001	mov	r1, #1
+143bc0	e1a05000	mov	r5, r0
+143bc4	e1a00004	mov	r0, r4
+143bc8	ebfe2bd5	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+143bcc	ebfdcac5	bl	0xb66e8 <lrint@plt>
+143bd0	e3a01002	mov	r1, #2
+143bd4	e1a07000	mov	r7, r0
+143bd8	e1a00004	mov	r0, r4
+143bdc	ebfe2b23	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+143be0	e3a01003	mov	r1, #3
+143be4	e1a06000	mov	r6, r0
+143be8	e1a00004	mov	r0, r4
+143bec	ebfe2b1f	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+143bf0	e1a01007	mov	r1, r7
+143bf4	e6bf2076	sxth	r2, r6
+143bf8	e6bf3070	sxth	r3, r0
+143bfc	e1a00005	mov	r0, r5
+143c00	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+143c04	ea009245	b	0x168520 <_Z14GR_D3D_Set_Fogbjss>
+155070	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+155074	e24dd03c	sub	sp, sp, #60
+155078	e1a06000	mov	r6, r0
+15507c	e3a02000	mov	r2, #0
+155080	e59d4060	ldr	r4, [sp, #0x60]
+155084	e1a03002	mov	r3, r2
+155088	e3a01001	mov	r1, #1
+15508c	e580300c	str	r3, [r0, #0xc]
+155090	e34b2ff0	movt	r2, #0xbff0
+155094	e5802004	str	r2, [r0, #0x4]
+155098	e5863000	str	r3, [r6]
+15509c	e1a00004	mov	r0, r4
+1550a0	ebfded0a	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+1550a4	e1a07000	mov	r7, r0
+1550a8	e1a00004	mov	r0, r4
+1550ac	ebfff872	bl	0x15327c <_Z22F_IAP_ProductPurchasedR6RValueP9CInstanceS2_iPS_+0x48>
+1550b0	e3500000	cmp	r0, #0
+1550b4	ba000004	blt	0x1550cc <_Z13F_IAP_AcquireR6RValueP9CInstanceS2_iPS_+0x5c>
+1550b8	e59f3110	ldr	r3, [pc, #0x110]
+1550bc	e79f3003	ldr	r3, [pc, r3]
+1550c0	e5932000	ldr	r2, [r3]
+1550c4	e1500002	cmp	r0, r2
+1550c8	ba00000a	blt	0x1550f8 <_Z13F_IAP_AcquireR6RValueP9CInstanceS2_iPS_+0x88>
+1550cc	e59f3100	ldr	r3, [pc, #0x100]
+1550d0	e1a02007	mov	r2, r7
+1550d4	e59f10fc	ldr	r1, [pc, #0xfc]
+1550d8	e79f3003	ldr	r3, [pc, r3]
+1550dc	e08f1001	add	r1, pc, r1
+1550e0	e5930000	ldr	r0, [r3]
+1550e4	e5903000	ldr	r3, [r0]
+1550e8	e593300c	ldr	r3, [r3, #0xc]
+1550ec	e12fff33	blx	r3
+1550f0	e28dd03c	add	sp, sp, #60
+1550f4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1550f8	e5933004	ldr	r3, [r3, #0x4]
+1550fc	e7933100	ldr	r3, [r3, r0, lsl #2]
+155100	e5938000	ldr	r8, [r3]
+155104	ebfff7c5	bl	0x153020 <_Z16F_IAP_StoreStateR6RValueP9CInstanceS2_iPS_+0x2c>
+155108	e59f30cc	ldr	r3, [pc, #0xcc]
+15510c	e79f3003	ldr	r3, [pc, r3]
+155110	e5933004	ldr	r3, [r3, #0x4]
+155114	e7939100	ldr	r9, [r3, r0, lsl #2]
+155118	e1a04000	mov	r4, r0
+15511c	e5990004	ldr	r0, [r9, #0x4]
+155120	e3500000	cmp	r0, #0
+155124	0a000000	beq	0x15512c <_Z13F_IAP_AcquireR6RValueP9CInstanceS2_iPS_+0xbc>
+155128	ebfde798	bl	0xcef90 <_Z6YYFreePKv>
+15512c	e1a00008	mov	r0, r8
+155130	e59fb0a8	ldr	r11, [pc, #0xa8]
+155134	ebfe19e3	bl	0xdb8c8 <_Z8YYStrDupPKc>
+155138	ee074a90	vmov	s15, r4
+15513c	e59fa0a0	ldr	r10, [pc, #0xa0]
+155140	e3a0c000	mov	r12, #0
+155144	eeb87be7	vcvt.f64.s32	d7, s15
+155148	e59fe098	ldr	lr, [pc, #0x98]
+15514c	e59f1098	ldr	r1, [pc, #0x98]
+155150	e3a02000	mov	r2, #0
+155154	e08fe00e	add	lr, pc, lr
+155158	e08fb00b	add	r11, pc, r11
+15515c	e08fa00a	add	r10, pc, r10
+155160	e08f1001	add	r1, pc, r1
+155164	e3a03000	mov	r3, #0
+155168	e3433ff0	movt	r3, #0x3ff0
+15516c	ec554b17	vmov	r4, r5, d7
+155170	ed9f7b14	vldr	d7, [pc, #80]
+155174	e5890004	str	r0, [r9, #0x4]
+155178	ed8d7b02	vstr	d7, [sp, #8]
+15517c	ed8d7b06	vstr	d7, [sp, #24]
+155180	e58de024	str	lr, [sp, #0x24]
+155184	e58dc000	str	r12, [sp]
+155188	e3a00004	mov	r0, #4
+15518c	e58dc030	str	r12, [sp, #0x30]
+155190	e1cd42f8	strd	r4, r5, [sp, #40]
+155194	e58d8010	str	r8, [sp, #0x10]
+155198	e58d7020	str	r7, [sp, #0x20]
+15519c	e58db004	str	r11, [sp, #0x4]
+1551a0	e58da014	str	r10, [sp, #0x14]
+1551a4	ebfffe31	bl	0x154a70 <_Z19YYIAPEventsDispatchv+0xe88>
+1551a8	e3a01001	mov	r1, #1
+1551ac	ebfffa46	bl	0x153acc <_Z16InitIAPFunctionsv+0x5f8>
+1551b0	e1a02004	mov	r2, r4
+1551b4	e1a03005	mov	r3, r5
+1551b8	e886000c	stm	r6, {r2, r3}
+1551bc	e28dd03c	add	sp, sp, #60
+1551c0	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1551c4	e320f000	nop	
+1551d0	0029aa18	eoreq	r10, r9, r8, lsl r10
+1551d4	00298868	eoreq	r8, r9, r8, ror #16
+1551d8	001f11dc	ldrsbeq	r1, [pc], -r12
+1551dc	0029a9c0	eoreq	r10, r9, r0, asr #19
+1551e0	001f0fd8	ldrsbeq	r0, [pc], -r8
+1551e4	001f0fec	andseq	r0, pc, r12, ror #31
+1551e8	001f0fe4	andseq	r0, pc, r4, ror #31
+1551ec	001f0fc8	andseq	r0, pc, r8, asr #31
+153450	e92d4070	push	{r4, r5, r6, lr}
+153454	e3a05000	mov	r5, #0
+153458	e59d6010	ldr	r6, [sp, #0x10]
+15345c	e1a04000	mov	r4, r0
+153460	e580500c	str	r5, [r0, #0xc]
+153464	e5805000	str	r5, [r0]
+153468	e5805004	str	r5, [r0, #0x4]
+15346c	e1a00006	mov	r0, r6
+153470	ebffffca	bl	0x1533a0 <_Z22F_IAP_ProductPurchasedR6RValueP9CInstanceS2_iPS_+0x16c>
+153474	e2502000	subs	r2, r0, #0
+153478	b8bd8070	poplt	{r4, r5, r6, pc}
+15347c	e59f3048	ldr	r3, [pc, #0x48]
+153480	e79f3003	ldr	r3, [pc, r3]
+153484	e5933000	ldr	r3, [r3]
+153488	e1520003	cmp	r2, r3
+15348c	a8bd8070	popge	{r4, r5, r6, pc}
+153490	e59f3038	ldr	r3, [pc, #0x38]
+153494	e1a00006	mov	r0, r6
+153498	e3a01001	mov	r1, #1
+15349c	e79f3003	ldr	r3, [pc, r3]
+1534a0	e5933004	ldr	r3, [r3, #0x4]
+1534a4	e7936102	ldr	r6, [r3, r2, lsl #2]
+1534a8	ebfdecf0	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1534ac	e1a01000	mov	r1, r0
+1534b0	e1a00006	mov	r0, r6
+1534b4	eb00de5f	bl	0x18ae38 <_ZN12CIAPPurchase11PopulateMapEi>
+1534b8	e1a03005	mov	r3, r5
+1534bc	e5845000	str	r5, [r4]
+1534c0	e3433ff0	movt	r3, #0x3ff0
+1534c4	e5843004	str	r3, [r4, #0x4]
+1534c8	e8bd8070	pop	{r4, r5, r6, pc}
+1534cc	0029c648	eoreq	r12, r9, r8, asr #12
+1534d0	0029c630	eoreq	r12, r9, r0, lsr r6

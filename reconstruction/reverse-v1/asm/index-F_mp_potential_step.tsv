@@ -1,0 +1,39 @@
+108a34	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+108a38	e24dd008	sub	sp, sp, #8
+108a3c	e3a06000	mov	r6, #0
+108a40	e1a05000	mov	r5, r0
+108a44	e59d4028	ldr	r4, [sp, #0x28]
+108a48	e1a07001	mov	r7, r1
+108a4c	e580600c	str	r6, [r0, #0xc]
+108a50	e1a01006	mov	r1, r6
+108a54	e1a00004	mov	r0, r4
+108a58	ebff1889	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108a5c	e3a01001	mov	r1, #1
+108a60	e1a0a000	mov	r10, r0
+108a64	e1a00004	mov	r0, r4
+108a68	ebff1885	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108a6c	e3a01002	mov	r1, #2
+108a70	e1a09000	mov	r9, r0
+108a74	e1a00004	mov	r0, r4
+108a78	ebff1881	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108a7c	e3a01003	mov	r1, #3
+108a80	e1a08000	mov	r8, r0
+108a84	e1a00004	mov	r0, r4
+108a88	ebff1736	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+108a8c	e1a03008	mov	r3, r8
+108a90	e3e0c002	mvn	r12, #2
+108a94	e1a0100a	mov	r1, r10
+108a98	e1a02009	mov	r2, r9
+108a9c	e58dc000	str	r12, [sp]
+108aa0	e58d0004	str	r0, [sp, #0x4]
+108aa4	e1a00007	mov	r0, r7
+108aa8	eb025086	bl	0x19ccc8 <_Z21Motion_Potential_StepP9CInstancefffib>
+108aac	e3500000	cmp	r0, #0
+108ab0	01a06000	moveq	r6, r0
+108ab4	11a03006	movne	r3, r6
+108ab8	01a03006	moveq	r3, r6
+108abc	13433ff0	movtne	r3, #0x3ff0
+108ac0	e5856000	str	r6, [r5]
+108ac4	e5853004	str	r3, [r5, #0x4]
+108ac8	e28dd008	add	sp, sp, #8
+108acc	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}

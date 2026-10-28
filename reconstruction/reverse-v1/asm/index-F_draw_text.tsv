@@ -1,0 +1,27 @@
+121d70	e92d4030	push	{r4, r5, lr}
+121d74	e24dd014	sub	sp, sp, #20
+121d78	e28d2010	add	r2, sp, #16
+121d7c	e3a05000	mov	r5, #0
+121d80	e59d4020	ldr	r4, [sp, #0x20]
+121d84	e3a01b01	mov	r1, #1024
+121d88	e5225004	str	r5, [r2, #-0x4]!
+121d8c	e2840020	add	r0, r4, #32
+121d90	ebffffd2	bl	0x121ce0 <_Z14GetTextFromArgPK6RValueiPPc>
+121d94	e1a01005	mov	r1, r5
+121d98	e1a00004	mov	r0, r4
+121d9c	ebfeb3b8	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+121da0	e3a01001	mov	r1, #1
+121da4	e1a05000	mov	r5, r0
+121da8	e1a00004	mov	r0, r4
+121dac	ebfeb3b4	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+121db0	e3e0c000	mvn	r12, #0
+121db4	e59d200c	ldr	r2, [sp, #0xc]
+121db8	e1a0300c	mov	r3, r12
+121dbc	e58dc000	str	r12, [sp]
+121dc0	e1a01000	mov	r1, r0
+121dc4	e1a00005	mov	r0, r5
+121dc8	eb01440a	bl	0x172df8 <_Z12GR_Text_DrawffPKcii>
+121dcc	e59d000c	ldr	r0, [sp, #0xc]
+121dd0	eb05693e	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+121dd4	e28dd014	add	sp, sp, #20
+121dd8	e8bd8030	pop	{r4, r5, pc}

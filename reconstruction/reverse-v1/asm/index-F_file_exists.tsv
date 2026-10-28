@@ -1,0 +1,24 @@
+137acc	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+137ad0	e3a01000	mov	r1, #0
+137ad4	e1a04000	mov	r4, r0
+137ad8	e59d0018	ldr	r0, [sp, #0x18]
+137adc	e1a05001	mov	r5, r1
+137ae0	ebfe627a	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+137ae4	e584500c	str	r5, [r4, #0xc]
+137ae8	e1a06000	mov	r6, r0
+137aec	eb015f6e	bl	0x18f8ac <_ZN8LoadSave16BundleFileExistsEPKc>
+137af0	e2507000	subs	r7, r0, #0
+137af4	13a03000	movne	r3, #0
+137af8	13433ff0	movtne	r3, #0x3ff0
+137afc	1a000007	bne	0x137b20 <_Z12F_FileExistsR6RValueP9CInstanceS2_iPS_+0x54>
+137b00	e1a00006	mov	r0, r6
+137b04	eb016018	bl	0x18fb6c <_ZN8LoadSave14SaveFileExistsEPKc>
+137b08	e3500000	cmp	r0, #0
+137b0c	01a05000	moveq	r5, r0
+137b10	13a03000	movne	r3, #0
+137b14	13433ff0	movtne	r3, #0x3ff0
+137b18	01a03005	moveq	r3, r5
+137b1c	11a05007	movne	r5, r7
+137b20	e5845000	str	r5, [r4]
+137b24	e5843004	str	r3, [r4, #0x4]
+137b28	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}

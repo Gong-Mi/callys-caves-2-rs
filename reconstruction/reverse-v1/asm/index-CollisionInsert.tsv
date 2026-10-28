@@ -1,0 +1,27 @@
+1cc494	e59f305c	ldr	r3, [pc, #0x5c]
+1cc498	e92d4070	push	{r4, r5, r6, lr}
+1cc49c	e79f3003	ldr	r3, [pc, r3]
+1cc4a0	e1a05000	mov	r5, r0
+1cc4a4	e5d33000	ldrb	r3, [r3]
+1cc4a8	e3530000	cmp	r3, #0
+1cc4ac	08bd8070	popeq	{r4, r5, r6, pc}
+1cc4b0	e59f4044	ldr	r4, [pc, #0x44]
+1cc4b4	e79f4004	ldr	r4, [pc, r4]
+1cc4b8	e5943000	ldr	r3, [r4]
+1cc4bc	e3530000	cmp	r3, #0
+1cc4c0	0a000005	beq	0x1cc4dc <_Z15CollisionInsertP9CInstance+0x48>
+1cc4c4	e1a00005	mov	r0, r5
+1cc4c8	e3a01001	mov	r1, #1
+1cc4cc	ebff179b	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cc4d0	e1a00005	mov	r0, r5
+1cc4d4	e8bd4070	pop	{r4, r5, r6, lr}
+1cc4d8	eafffeb8	b	0x1cbfc0 <_Z17CollisionMarkTestP9CInstance>
+1cc4dc	e3a00018	mov	r0, #24
+1cc4e0	eb02c00f	bl	0x27c524 <_Znwj>
+1cc4e4	e3a01b01	mov	r1, #1024
+1cc4e8	e1a06000	mov	r6, r0
+1cc4ec	ebffff8b	bl	0x1cc320 <_ZN5RTreeIP9CInstanceifLi6ELi2EEC2Ei>
+1cc4f0	e5846000	str	r6, [r4]
+1cc4f4	eafffff2	b	0x1cc4c4 <_Z15CollisionInsertP9CInstance+0x30>
+1cc4f8	002241e4	eoreq	r4, r2, r4, ror #3
+1cc4fc	00221d90	mlaeq	r2, r0, sp, r1

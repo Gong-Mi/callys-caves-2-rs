@@ -1,0 +1,35 @@
+134b5c	e59f3080	ldr	r3, [pc, #0x80]
+134b60	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+134b64	e79f3003	ldr	r3, [pc, r3]
+134b68	e24dd008	sub	sp, sp, #8
+134b6c	e1a07000	mov	r7, r0
+134b70	e5d31000	ldrb	r1, [r3]
+134b74	e59d6020	ldr	r6, [sp, #0x20]
+134b78	e3510000	cmp	r1, #0
+134b7c	1a000016	bne	0x134bdc <_Z16F_AudioPlaySoundR6RValueP9CInstanceS2_iPS_+0x80>
+134b80	e580100c	str	r1, [r0, #0xc]
+134b84	e1a00006	mov	r0, r6
+134b88	ebfe6738	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+134b8c	e3a01001	mov	r1, #1
+134b90	e1a08000	mov	r8, r0
+134b94	e1a00006	mov	r0, r6
+134b98	ebfe67e1	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+134b9c	e1a04000	mov	r4, r0
+134ba0	e1a05001	mov	r5, r1
+134ba4	e1a00006	mov	r0, r6
+134ba8	e3a01002	mov	r1, #2
+134bac	ebfe672f	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+134bb0	e1a02004	mov	r2, r4
+134bb4	e1a03005	mov	r3, r5
+134bb8	e58d0000	str	r0, [sp]
+134bbc	e1a00008	mov	r0, r8
+134bc0	eb039a84	bl	0x21b5d8 <_Z15Audio_PlaySoundidi>
+134bc4	ee070a90	vmov	s15, r0
+134bc8	eeb87be7	vcvt.f64.s32	d7, s15
+134bcc	ec510b17	vmov	r0, r1, d7
+134bd0	ee172a10	vmov	r2, s14
+134bd4	e1a03001	mov	r3, r1
+134bd8	e887000c	stm	r7, {r2, r3}
+134bdc	e28dd008	add	sp, sp, #8
+134be0	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+134be4	002ba4e8	eoreq	r10, r11, r8, ror #9
