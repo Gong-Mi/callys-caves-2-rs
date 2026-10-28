@@ -20,7 +20,9 @@
  *   bit23 路径：栈顶 RValue 的 tag 必须 == 6，否则 VMError "FOo"（串 0x332a5c，原文如此）；通过则
  *     env1 = RValue 载荷、env2 = 旧 env1，并在 sp+4 起写 [0, 旧 env2, 旧 env1]，返回 sp+4      ; d4e20..d4eb4
  *   w0 ∈ [0, 99999]（0x1869F）→ 对象 id：g_ObjectHash（0x542374）桶链 —— mask 在 [+4]、桶基址 [+0]、
- *   节点 {+4 next, +8 key, +0xc 值}；值是 CObjectGM*，其 [+0xd0] 为首实例，链 next 在 [inst+0x178]，
+ *   节点 {+4 next, +8 key, +0xc 值}；值是 CObjectGM*，其 [+0xd0] 为**实例节点链的头**，
+ *   节点布局 {+0 next, +8 inst}（不是把实例本身串起来、next 也不在 inst+0x178）。
+ *   ⚠ 修正（batchR，cards/Variable_GetValue.c 与 AddInstance 0x19e02c/0x19e0d8 互证）
  *     只挑 [inst+0x68]==0 且 [inst+0x69]==0 的实例                                ; d504c..d50c4
  *   w0 > 99999 → 实例 id：CInstance::ms_ID2Instance（0x536f28）同构桶链，命中且两个 flag 都为 0 才用  ; d51b4..d5214
  *   "已处理"集合两个探针：HandleInstance(inst)（d5110）与 InstanceHandled(inst)（d5194 / d5288）；
@@ -43,7 +45,7 @@
  *   4. 记录只有 4/8/12/16/20 B 五种，与 DoPopEnv 的四个收尾点严格对应：
  *      4 B = 单个实例或纯标记（只改 env1 后 sp+4）；8 B = [0] 或 [0, env1]；12 B = [0, env2, env1] 或 [inst, 0, env1]；
  *      16 B = [inst, 0, env2, env1]；20 B = [-1, end, base, env2, env1]（堆数组）。
- * open：with 循环的字节码协议（PushEnv ↔ PopEnv 的配对与迭代次数）；CInstance +0x68/+0x69/+0x7c/+0xd0/+0x178 的字段名；
+ * open：with 循环的字节码协议（PushEnv ↔ PopEnv 的配对与迭代次数）；CObjectGM +0xd0 节点链与 CInstance +0x178 步进链的命名；
  *       数组 [0]=0 的填充用途（d5368 存的是上一轮的 r6，不是当前实例）；0xF0 记录的产生方；
  *       MemoryManager 行号 8769/8904 对应的源码语句。
  */

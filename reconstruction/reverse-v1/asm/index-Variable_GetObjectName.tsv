@@ -1,0 +1,80 @@
+1f3f8c	e3700003	cmn	r0, #3
+1f3f90	e1a02000	mov	r2, r0
+1f3f94	0a00001d	beq	0x1f4010 <_Z22Variable_GetObjectNameii+0x84>
+1f3f98	e3500000	cmp	r0, #0
+1f3f9c	ba000038	blt	0x1f4084 <_Z22Variable_GetObjectNameii+0xf8>
+1f3fa0	e308369f	movw	r3, #0x869f
+1f3fa4	e3403001	movt	r3, #0x1
+1f3fa8	e1500003	cmp	r0, r3
+1f3fac	da000029	ble	0x1f4058 <_Z22Variable_GetObjectNameii+0xcc>
+1f3fb0	e59f30f0	ldr	r3, [pc, #0xf0]
+1f3fb4	e79f3003	ldr	r3, [pc, r3]
+1f3fb8	e5931004	ldr	r1, [r3, #0x4]
+1f3fbc	e5933000	ldr	r3, [r3]
+1f3fc0	e0001001	and	r1, r0, r1
+1f3fc4	e7933181	ldr	r3, [r3, r1, lsl #3]
+1f3fc8	e3530000	cmp	r3, #0
+1f3fcc	1a000003	bne	0x1f3fe0 <_Z22Variable_GetObjectNameii+0x54>
+1f3fd0	ea00002e	b	0x1f4090 <_Z22Variable_GetObjectNameii+0x104>
+1f3fd4	e5933004	ldr	r3, [r3, #0x4]
+1f3fd8	e3530000	cmp	r3, #0
+1f3fdc	0a00001e	beq	0x1f405c <_Z22Variable_GetObjectNameii+0xd0>
+1f3fe0	e5931008	ldr	r1, [r3, #0x8]
+1f3fe4	e1520001	cmp	r2, r1
+1f3fe8	1afffff9	bne	0x1f3fd4 <_Z22Variable_GetObjectNameii+0x48>
+1f3fec	e593300c	ldr	r3, [r3, #0xc]
+1f3ff0	e3530000	cmp	r3, #0
+1f3ff4	0a000028	beq	0x1f409c <_Z22Variable_GetObjectNameii+0x110>
+1f3ff8	e5d32068	ldrb	r2, [r3, #0x68]
+1f3ffc	e3520000	cmp	r2, #0
+1f4000	0a000013	beq	0x1f4054 <_Z22Variable_GetObjectNameii+0xc8>
+1f4004	e59f00a0	ldr	r0, [pc, #0xa0]
+1f4008	e08f0000	add	r0, pc, r0
+1f400c	e12fff1e	bx	lr
+1f4010	e59f3098	ldr	r3, [pc, #0x98]
+1f4014	e79f3003	ldr	r3, [pc, r3]
+1f4018	e5933000	ldr	r3, [r3]
+1f401c	e5933080	ldr	r3, [r3, #0x80]
+1f4020	e3530000	cmp	r3, #0
+1f4024	1a000003	bne	0x1f4038 <_Z22Variable_GetObjectNameii+0xac>
+1f4028	ea00000e	b	0x1f4068 <_Z22Variable_GetObjectNameii+0xdc>
+1f402c	e3520000	cmp	r2, #0
+1f4030	e1a03002	mov	r3, r2
+1f4034	0a00000b	beq	0x1f4068 <_Z22Variable_GetObjectNameii+0xdc>
+1f4038	e5d31068	ldrb	r1, [r3, #0x68]
+1f403c	e5932178	ldr	r2, [r3, #0x178]
+1f4040	e3510000	cmp	r1, #0
+1f4044	1afffff8	bne	0x1f402c <_Z22Variable_GetObjectNameii+0xa0>
+1f4048	e5d31069	ldrb	r1, [r3, #0x69]
+1f404c	e3510000	cmp	r1, #0
+1f4050	1afffff5	bne	0x1f402c <_Z22Variable_GetObjectNameii+0xa0>
+1f4054	e593007c	ldr	r0, [r3, #0x7c]
+1f4058	eafeab3d	b	0x19ed54 <_Z11Object_Namei>
+1f405c	e59f0050	ldr	r0, [pc, #0x50]
+1f4060	e08f0000	add	r0, pc, r0
+1f4064	e12fff1e	bx	lr
+1f4068	e59f3048	ldr	r3, [pc, #0x48]
+1f406c	e3a02001	mov	r2, #1
+1f4070	e59f0044	ldr	r0, [pc, #0x44]
+1f4074	e79f3003	ldr	r3, [pc, r3]
+1f4078	e08f0000	add	r0, pc, r0
+1f407c	e5c32000	strb	r2, [r3]
+1f4080	e12fff1e	bx	lr
+1f4084	e59f0034	ldr	r0, [pc, #0x34]
+1f4088	e08f0000	add	r0, pc, r0
+1f408c	e12fff1e	bx	lr
+1f4090	e59f002c	ldr	r0, [pc, #0x2c]
+1f4094	e08f0000	add	r0, pc, r0
+1f4098	e12fff1e	bx	lr
+1f409c	e59f0024	ldr	r0, [pc, #0x24]
+1f40a0	e08f0000	add	r0, pc, r0
+1f40a4	e12fff1e	bx	lr
+1f40a8	001f9c90	mulseq	pc, r0, r12
+1f40ac	0015e7d4	ldrsbeq	lr, [r5], -r4
+1f40b0	001f9914	andseq	r9, pc, r4, lsl r9
+1f40b4	0015e77c	andseq	lr, r5, r12, ror r7
+1f40b8	001f9cec	andseq	r9, pc, r12, ror #25
+1f40bc	0015e764	andseq	lr, r5, r4, ror #14
+1f40c0	0015e754	andseq	lr, r5, r4, asr r7
+1f40c4	0015e748	andseq	lr, r5, r8, asr #14
+1f40c8	0015e73c	andseq	lr, r5, r12, lsr r7

@@ -1,0 +1,17 @@
+319414	e3530000	cmp	r3, #0
+319418	03520000	cmpeq	r2, #0
+31941c	1a000006	bne	0x31943c <__aeabi_ldivmod+0x28>
+319420	e3510000	cmp	r1, #0
+319424	03500000	cmpeq	r0, #0
+319428	b3a01102	movlt	r1, #-2147483648
+31942c	b3a00000	movlt	r0, #0
+319430	c3e01102	mvngt	r1, #-2147483648
+319434	c3e00000	mvngt	r0, #0
+319438	ea000006	b	0x319458 <__aeabi_ldiv0>
+31943c	e24dd008	sub	sp, sp, #8
+319440	e92d6000	push	{sp, lr}
+319444	eb00005b	bl	0x3195b8 <__gnu_ldivmod_helper>
+319448	e59de004	ldr	lr, [sp, #0x4]
+31944c	e28dd008	add	sp, sp, #8
+319450	e8bd000c	pop	{r2, r3}
+319454	e12fff1e	bx	lr

@@ -53,8 +53,8 @@
 
 ## 已钉的语义
 
-    汇总：67 张卡、20,020 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          正文 36 张 / 骨架 31 张；claims 446 条（proven 368 / narrowed 38 / open 38 / refuted 2）
+    汇总：77 张卡、20,683 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          正文 46 张 / 骨架 30 张 / 桩 1 张；claims 529 条（proven 440 / narrowed 43 / open 44 / refuted 2）
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -142,6 +142,27 @@
     两条被推翻的旧说法（都当场回改到原卡里）：
     · 「tag 5/12 = bool」→ 5 是 .bss 零常量（+0.0）、12 是显式 0.0（null）
     · 「LOCK_RVALUE_MUTEX 提供保护」→ 本构建两个锁函数都是单条 `bx lr` 空操作
+
+## 第四轮（变量系统与上下文栈）
+
+    Variable_GetValue  0x1f3ce0 171 条 正文  p1=域(-3 全体/0..99999 对象/>99999 实例)、p2=≤9999 内建序号 | ≥10000 变量 id、
+                                              p3=INT_MIN 标量 | 数组下标(ldiv 32000)；返回 0 时 out 一字节不写，0x00FFFFFF 占位保留
+    Variable_SetValue  0x1f4348 265 条 正文  只做「解析实例集合」的派发，不释放旧值、不做 tag 拷贝、不处理下标；
+                                              释放与写回在 SET_RValue(0xd0c38)/SET_RValue_Array(0xcff4c)/ARRAY_LVAL_RValue(0xd0e60)
+                                              写路径无深拷贝：tag1 ++[+4]、tag2 ++[容器+0] 并回指 holder
+    Variable_GetObjectName 0x1f3f8c 80 条 正文 第二参是死参；六个失败出口统一 "<unknown_object>"，只有 id==-3 且无活实例才置 0x75505c=1
+    PushContextStack   0xd3968 51 条 正文    .bss 0x47f27c cap / 0x47f280 count / 0x47f284 data，门字节 0x47f295；
+                                              无深度上限、按需倍增、永不回收；溢出无错误分支（cap 先翻倍再写元素）
+    PopContextStack    0xd3a34   8 条 正文    只 --count 且防下溢；不清槽、不释放
+    GetContextStackTop 0xd3a54  15 条 正文    栈顶 = GC 写屏障的 parent：157 个调用点里 127 个紧跟 bl DeterminePotentialRoot
+    _RefThing::assign  0xdc418   5 条 正文    if(p) ++p->[+4]; return p —— 纯 retain，不读第二参
+    F_InstanceDestroy  0x10b190 24 条 正文    参数解析后尾跳 DoInstanceDestroy，返回值既不读也不写
+    anon_319414        0x319414 17 条 正文    就是 __aeabi_ldivmod：除零 → 按被除符号夹逼后 raise(SIGFPE)
+    Stubs_TailJumps    （合并卡） 27 条 桩    YYFree ≡ YYStrFree ≡ b MemoryManager::Free；唯一走 libc free 的是
+                                              operator delete(void*,char const*,int)；LOCK/UNLOCK/DeterminePotentialRoot 都是 bx lr
+
+    又改了两张旧卡：DoPushEnv 的 +0xd0 是实例**节点链** {+0 next,+8 inst}（不是 inst+0x178 串起来）；
+    DoInstanceDestroy 的 id>99999 走**另一张表**（GOT 0x3edc4c ≠ 0x3edc44），不是同一查表。
 
 ## 结构结论
 

@@ -1,0 +1,5 @@
+dc418	e3500000	cmp	r0, #0
+dc41c	15903004	ldrne	r3, [r0, #0x4]
+dc420	12833001	addne	r3, r3, #1
+dc424	15803004	strne	r3, [r0, #0x4]
+dc428	e12fff1e	bx	lr

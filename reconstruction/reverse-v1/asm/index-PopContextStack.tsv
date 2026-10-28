@@ -1,0 +1,8 @@
+d3a34	e59f3014	ldr	r3, [pc, #0x14]
+d3a38	e79f3003	ldr	r3, [pc, r3]
+d3a3c	e5932000	ldr	r2, [r3]
+d3a40	e3520000	cmp	r2, #0
+d3a44	c2422001	subgt	r2, r2, #1
+d3a48	c5832000	strgt	r2, [r3]
+d3a4c	e12fff1e	bx	lr
+d3a50	0031a1c8	eorseq	r10, r1, r8, asr #3
