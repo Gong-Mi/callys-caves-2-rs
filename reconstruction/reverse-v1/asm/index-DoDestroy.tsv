@@ -1,0 +1,26 @@
+10b0c4	e92d4010	push	{r4, lr}
+10b0c8	e2504000	subs	r4, r0, #0
+10b0cc	08bd8010	popeq	{r4, pc}
+10b0d0	e5d42068	ldrb	r2, [r4, #0x68]
+10b0d4	e3520000	cmp	r2, #0
+10b0d8	18bd8010	popne	{r4, pc}
+10b0dc	e5d43069	ldrb	r3, [r4, #0x69]
+10b0e0	e3530000	cmp	r3, #0
+10b0e4	18bd8010	popne	{r4, pc}
+10b0e8	e3510000	cmp	r1, #0
+10b0ec	1a00000b	bne	0x10b120 <_Z9DoDestroyP9CInstanceb+0x5c>
+10b0f0	e1a03001	mov	r3, r1
+10b0f4	e3a0200c	mov	r2, #12
+10b0f8	e1a01004	mov	r1, r4
+10b0fc	ebffa09f	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+10b100	e59f3020	ldr	r3, [pc, #0x20]
+10b104	e3a02001	mov	r2, #1
+10b108	e5c42068	strb	r2, [r4, #0x68]
+10b10c	e79f3003	ldr	r3, [pc, r3]
+10b110	e5932000	ldr	r2, [r3]
+10b114	e2822001	add	r2, r2, #1
+10b118	e5832000	str	r2, [r3]
+10b11c	e8bd8010	pop	{r4, pc}
+10b120	e8bd4010	pop	{r4, lr}
+10b124	ea02fa8a	b	0x1c9b54 <_Z15Command_DestroyP9CInstance>
+10b128	002e2fa8	eoreq	r2, lr, r8, lsr #31

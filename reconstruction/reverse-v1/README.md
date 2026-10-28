@@ -93,6 +93,19 @@
 
 ## 结构结论
 
+**opcode 表已定位**（`asm/handler_table.tsv`，由 `scripts/find_handler_table.py` 从 .data 指针扫描得出）：
+.data 0x3f20b4 起 32 项、每项 4 字节，就是 `VM::ExecRelease` 里 `[VMExec+0x58][pc]` 的落点：
+
+    0 Push   1 PushLocal   2 PushGlobal  3 PushBuiltin  4 PushImmediate
+    5 Pop    6 Dup         7 Conv
+    8 Mul    9 Div        10 Rem        11 Mod         12 Add   13 Sub
+   14 And   15 Or         16 Xor       17 Neg         18 Not   19 Shl   20 Shr
+   21 Set  22 Branch     23 BranchTrue 24 BranchFalse
+   25 Call 26 PushEnv    27 PopEnv     28 Ret         29 Exit  30 PopNull  31 PopNull(重复)
+
+DoSet 落在 21（Shr 与 Branch 之间），与「它是比较算子而非赋值」互相印证；
+slot 31 与 30 同值、DoBreak 不在表内，仍是 open（OPCODE-002）。
+
 原版没有 opcode 比较链：`VMExec+0x58` 是一张**预解析的处理器指针表**，主循环取表项后 `blx`。
 语义全在 48 个 `DoXxx(uint32 arg, uchar* sp, const uchar* base, VMExec*)` 里（返回新的值栈顶），
 合计 70,532 B ≈ 17,633 条指令。
