@@ -1,0 +1,130 @@
+24f2b0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+24f2b4	e24dd044	sub	sp, sp, #68
+24f2b8	e1a0a001	mov	r10, r1
+24f2bc	e1a07002	mov	r7, r2
+24f2c0	e59f11c8	ldr	r1, [pc, #0x1c8]
+24f2c4	e1a08003	mov	r8, r3
+24f2c8	e59f21c4	ldr	r2, [pc, #0x1c4]
+24f2cc	e1a05000	mov	r5, r0
+24f2d0	e59d6070	ldr	r6, [sp, #0x70]
+24f2d4	e08f1001	add	r1, pc, r1
+24f2d8	e08f2002	add	r2, pc, r2
+24f2dc	e59dc068	ldr	r12, [sp, #0x68]
+24f2e0	e58d1018	str	r1, [sp, #0x18]
+24f2e4	e58d201c	str	r2, [sp, #0x1c]
+24f2e8	e1a09fa6	lsr	r9, r6, #31
+24f2ec	e59f11a4	ldr	r1, [pc, #0x1a4]
+24f2f0	e1a0b00c	mov	r11, r12
+24f2f4	e59f21a0	ldr	r2, [pc, #0x1a0]
+24f2f8	e08f1001	add	r1, pc, r1
+24f2fc	e59f319c	ldr	r3, [pc, #0x19c]
+24f300	e08f2002	add	r2, pc, r2
+24f304	e58d1024	str	r1, [sp, #0x24]
+24f308	e58d2028	str	r2, [sp, #0x28]
+24f30c	e08f3003	add	r3, pc, r3
+24f310	e59f118c	ldr	r1, [pc, #0x18c]
+24f314	e59f218c	ldr	r2, [pc, #0x18c]
+24f318	e58d3020	str	r3, [sp, #0x20]
+24f31c	e08f1001	add	r1, pc, r1
+24f320	e3a03000	mov	r3, #0
+24f324	e08f2002	add	r2, pc, r2
+24f328	e58d102c	str	r1, [sp, #0x2c]
+24f32c	e58d2014	str	r2, [sp, #0x14]
+24f330	e58d3030	str	r3, [sp, #0x30]
+24f334	e58d3034	str	r3, [sp, #0x34]
+24f338	e58d3038	str	r3, [sp, #0x38]
+24f33c	e58d303c	str	r3, [sp, #0x3c]
+24f340	e1560007	cmp	r6, r7
+24f344	d1a04009	movle	r4, r9
+24f348	c3894001	orrgt	r4, r9, #1
+24f34c	e1a0200a	mov	r2, r10
+24f350	e3540000	cmp	r4, #0
+24f354	e1a03007	mov	r3, r7
+24f358	1a00003b	bne	0x24f44c <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x19c>
+24f35c	e595001c	ldr	r0, [r5, #0x1c]
+24f360	e5951020	ldr	r1, [r5, #0x20]
+24f364	e58d6000	str	r6, [sp]
+24f368	e98d0910	stmib	sp, {r4, r8, r11}
+24f36c	eb00a807	bl	0x279390 <pcre_exec>
+24f370	e3500000	cmp	r0, #0
+24f374	ba000012	blt	0x24f3c4 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x114>
+24f378	e0888180	add	r8, r8, r0, lsl #3
+24f37c	e1a0b000	mov	r11, r0
+24f380	e1a00005	mov	r0, r5
+24f384	e28d1040	add	r1, sp, #64
+24f388	e5185004	ldr	r5, [r8, #-0x4]
+24f38c	e3a03001	mov	r3, #1
+24f390	e59f2114	ldr	r2, [pc, #0x114]
+24f394	e58d403c	str	r4, [sp, #0x3c]
+24f398	ee065a90	vmov	s13, r5
+24f39c	e08f2002	add	r2, pc, r2
+24f3a0	eeb87be6	vcvt.f64.s32	d7, s13
+24f3a4	ec576b17	vmov	r6, r7, d7
+24f3a8	e16161f0	strd	r6, r7, [r1, #-16]!
+24f3ac	ebffff59	bl	0x24f118 <_Z13JS_Object_PutP12YYObjectBaseP6RValuePKcb>
+24f3b0	e59d706c	ldr	r7, [sp, #0x6c]
+24f3b4	e1a00005	mov	r0, r5
+24f3b8	e587b000	str	r11, [r7]
+24f3bc	e28dd044	add	sp, sp, #68
+24f3c0	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+24f3c4	e2800006	add	r0, r0, #6
+24f3c8	e3500005	cmp	r0, #5
+24f3cc	908ff100	addls	pc, pc, r0, lsl #2
+24f3d0	ea00002b	b	0x24f484 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x1d4>
+24f3d4	ea000019	b	0x24f440 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x190>
+24f3d8	ea000015	b	0x24f434 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x184>
+24f3dc	ea000011	b	0x24f428 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x178>
+24f3e0	ea00000d	b	0x24f41c <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x16c>
+24f3e4	ea000003	b	0x24f3f8 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x148>
+24f3e8	eaffffff	b	0x24f3ec <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x13c>
+24f3ec	e2866001	add	r6, r6, #1
+24f3f0	e1a09fa6	lsr	r9, r6, #31
+24f3f4	eaffffd1	b	0x24f340 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x90>
+24f3f8	e59f30b0	ldr	r3, [pc, #0xb0]
+24f3fc	e59d102c	ldr	r1, [sp, #0x2c]
+24f400	e59d2014	ldr	r2, [sp, #0x14]
+24f404	e7923003	ldr	r3, [r2, r3]
+24f408	e5930000	ldr	r0, [r3]
+24f40c	e5903000	ldr	r3, [r0]
+24f410	e593300c	ldr	r3, [r3, #0xc]
+24f414	e12fff33	blx	r3
+24f418	eaffffc8	b	0x24f340 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x90>
+24f41c	e59f308c	ldr	r3, [pc, #0x8c]
+24f420	e59d1028	ldr	r1, [sp, #0x28]
+24f424	eafffff5	b	0x24f400 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x150>
+24f428	e59f3080	ldr	r3, [pc, #0x80]
+24f42c	e59d1024	ldr	r1, [sp, #0x24]
+24f430	eafffff2	b	0x24f400 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x150>
+24f434	e59f3074	ldr	r3, [pc, #0x74]
+24f438	e59d1020	ldr	r1, [sp, #0x20]
+24f43c	eaffffef	b	0x24f400 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x150>
+24f440	e59f3068	ldr	r3, [pc, #0x68]
+24f444	e59d101c	ldr	r1, [sp, #0x1c]
+24f448	eaffffec	b	0x24f400 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x150>
+24f44c	e28d1040	add	r1, sp, #64
+24f450	e59f205c	ldr	r2, [pc, #0x5c]
+24f454	e3a0c000	mov	r12, #0
+24f458	e1a00005	mov	r0, r5
+24f45c	e3a04000	mov	r4, #0
+24f460	e3a05000	mov	r5, #0
+24f464	e1a0300c	mov	r3, r12
+24f468	e16141f0	strd	r4, r5, [r1, #-16]!
+24f46c	e08f2002	add	r2, pc, r2
+24f470	e58dc03c	str	r12, [sp, #0x3c]
+24f474	ebffff27	bl	0x24f118 <_Z13JS_Object_PutP12YYObjectBaseP6RValuePKcb>
+24f478	e3e00000	mvn	r0, #0
+24f47c	e28dd044	add	sp, sp, #68
+24f480	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+24f484	e59f3024	ldr	r3, [pc, #0x24]
+24f488	e59d1018	ldr	r1, [sp, #0x18]
+24f48c	eaffffdb	b	0x24f400 <_Z12DoRegExpExecP12YYObjectBasePKciPiiS3_i+0x150>
+24f490	00106e64	andseq	r6, r0, r4, ror #28
+24f494	00106e44	andseq	r6, r0, r4, asr #28
+24f498	00106de8	andseq	r6, r0, r8, ror #27
+24f49c	00106dc4	andseq	r6, r0, r4, asr #27
+24f4a0	00106df0	ldrsheq	r6, [r0], -r0
+24f4a4	00106d90	mulseq	r0, r0, sp
+24f4a8	001a292c	andseq	r2, r10, r12, lsr #18
+24f4ac	00106d04	andseq	r6, r0, r4, lsl #26
+24f4b0	ffffbac4	.word	0xffffbac4
+24f4b4	00106c34	andseq	r6, r0, r4, lsr r12

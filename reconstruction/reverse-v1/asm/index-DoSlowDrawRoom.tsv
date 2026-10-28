@@ -1,0 +1,281 @@
+1b06a0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1b06a4	ed2d8b08	vpush	{d8, d9, d10, d11}
+1b06a8	e24dd02c	sub	sp, sp, #44
+1b06ac	eddf8af5	vldr	s17, [pc, #980]
+1b06b0	e1a09000	mov	r9, r0
+1b06b4	ebffd414	bl	0x1a570c <_Z27ParticleSystem_LargestDepthv>
+1b06b8	e59f73d0	ldr	r7, [pc, #0x3d0]
+1b06bc	eef7aa00	vmov.f32	s21, #1.000000e+00
+1b06c0	e59f33cc	ldr	r3, [pc, #0x3cc]
+1b06c4	e3a05000	mov	r5, #0
+1b06c8	e08f7007	add	r7, pc, r7
+1b06cc	e1a0b005	mov	r11, r5
+1b06d0	e1a08005	mov	r8, r5
+1b06d4	e3e0a4ff	mvn	r10, #-16777216
+1b06d8	e7976003	ldr	r6, [r7, r3]
+1b06dc	ed9faaea	vldr	s20, [pc, #936]
+1b06e0	e5963000	ldr	r3, [r6]
+1b06e4	e5934084	ldr	r4, [r3, #0x84]
+1b06e8	e1a01003	mov	r1, r3
+1b06ec	e59330b8	ldr	r3, [r3, #0xb8]
+1b06f0	ee080a10	vmov	s16, r0
+1b06f4	e1550003	cmp	r5, r3
+1b06f8	aa000075	bge	0x1b08d4 <_Z14DoSlowDrawRoomP9tagYYRECT+0x234>
+1b06fc	e065c185	rsb	r12, r5, r5, lsl #3
+1b0700	e59120c0	ldr	r2, [r1, #0xc0]
+1b0704	e3540000	cmp	r4, #0
+1b0708	e082b18c	add	r11, r2, r12, lsl #3
+1b070c	0a0000a7	beq	0x1b09b0 <_Z14DoSlowDrawRoomP9tagYYRECT+0x310>
+1b0710	e5d42068	ldrb	r2, [r4, #0x68]
+1b0714	e3520000	cmp	r2, #0
+1b0718	1a0000a2	bne	0x1b09a8 <_Z14DoSlowDrawRoomP9tagYYRECT+0x308>
+1b071c	e5d42069	ldrb	r2, [r4, #0x69]
+1b0720	e3520000	cmp	r2, #0
+1b0724	1a00009f	bne	0x1b09a8 <_Z14DoSlowDrawRoomP9tagYYRECT+0x308>
+1b0728	e5d42065	ldrb	r2, [r4, #0x65]
+1b072c	e3520000	cmp	r2, #0
+1b0730	0a00009c	beq	0x1b09a8 <_Z14DoSlowDrawRoomP9tagYYRECT+0x308>
+1b0734	e1550003	cmp	r5, r3
+1b0738	ba00009c	blt	0x1b09b0 <_Z14DoSlowDrawRoomP9tagYYRECT+0x310>
+1b073c	e3540000	cmp	r4, #0
+1b0740	0a000068	beq	0x1b08e8 <_Z14DoSlowDrawRoomP9tagYYRECT+0x248>
+1b0744	edd47a60	vldr	s15, [r4, #384]
+1b0748	eeb48ae7	vcmpe.f32	s16, s15
+1b074c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0750	ca000064	bgt	0x1b08e8 <_Z14DoSlowDrawRoomP9tagYYRECT+0x248>
+1b0754	e1550003	cmp	r5, r3
+1b0758	aa000078	bge	0x1b0940 <_Z14DoSlowDrawRoomP9tagYYRECT+0x2a0>
+1b075c	ed9b7a07	vldr	s14, [r11, #28]
+1b0760	eeb47ae7	vcmpe.f32	s14, s15
+1b0764	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0768	da000074	ble	0x1b0940 <_Z14DoSlowDrawRoomP9tagYYRECT+0x2a0>
+1b076c	eeb47ae8	vcmpe.f32	s14, s17
+1b0770	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0774	de170a10	vmovle	r0, s14
+1b0778	ce180a90	vmovgt	r0, s17
+1b077c	ebfeca96	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b0780	eddb6a05	vldr	s13, [r11, #20]
+1b0784	eef85ae6	vcvt.f32.s32	s11, s13
+1b0788	ed9b7a00	vldr	s14, [r11]
+1b078c	ed9b6a09	vldr	s12, [r11, #36]
+1b0790	eddb7a01	vldr	s15, [r11, #4]
+1b0794	eddb6a0a	vldr	s13, [r11, #40]
+1b0798	e59b0008	ldr	r0, [r11, #0x8]
+1b079c	eeb09a47	vmov.f32	s18, s14
+1b07a0	ee059a86	vmla.f32	s18, s11, s12
+1b07a4	eddb5a06	vldr	s11, [r11, #24]
+1b07a8	eeb86ae5	vcvt.f32.s32	s12, s11
+1b07ac	eef09a67	vmov.f32	s19, s15
+1b07b0	ee469a26	vmla.f32	s19, s12, s13
+1b07b4	eeb47ac9	vcmpe.f32	s14, s18
+1b07b8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b07bc	eeb47a49	vcmp.f32	s14, s18
+1b07c0	5eb0ba49	vmovpl.f32	s22, s18
+1b07c4	4eb0ba47	vmovmi.f32	s22, s14
+1b07c8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b07cc	eef47ae9	vcmpe.f32	s15, s19
+1b07d0	ceb09a47	vmovgt.f32	s18, s14
+1b07d4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b07d8	eef47a69	vcmp.f32	s15, s19
+1b07dc	5ef0ba69	vmovpl.f32	s23, s19
+1b07e0	4ef0ba67	vmovmi.f32	s23, s15
+1b07e4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b07e8	cef09a67	vmovgt.f32	s19, s15
+1b07ec	ebfc4b93	bl	0xc3640 <_Z17Background_Existsi>
+1b07f0	e3500000	cmp	r0, #0
+1b07f4	0a000031	beq	0x1b08c0 <_Z14DoSlowDrawRoomP9tagYYRECT+0x220>
+1b07f8	edd95a02	vldr	s11, [r9, #8]
+1b07fc	eef87ae5	vcvt.f32.s32	s15, s11
+1b0800	eeb4bae7	vcmpe.f32	s22, s15
+1b0804	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0808	8a00002c	bhi	0x1b08c0 <_Z14DoSlowDrawRoomP9tagYYRECT+0x220>
+1b080c	edd96a03	vldr	s13, [r9, #12]
+1b0810	eef87ae6	vcvt.f32.s32	s15, s13
+1b0814	eef4bae7	vcmpe.f32	s23, s15
+1b0818	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b081c	8a000027	bhi	0x1b08c0 <_Z14DoSlowDrawRoomP9tagYYRECT+0x220>
+1b0820	ed997a00	vldr	s14, [r9]
+1b0824	eef87ac7	vcvt.f32.s32	s15, s14
+1b0828	eeb49ae7	vcmpe.f32	s18, s15
+1b082c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0830	ba000022	blt	0x1b08c0 <_Z14DoSlowDrawRoomP9tagYYRECT+0x220>
+1b0834	edd95a01	vldr	s11, [r9, #4]
+1b0838	eef87ae5	vcvt.f32.s32	s15, s11
+1b083c	eef49ae7	vcmpe.f32	s19, s15
+1b0840	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0844	ba00001d	blt	0x1b08c0 <_Z14DoSlowDrawRoomP9tagYYRECT+0x220>
+1b0848	e59b0008	ldr	r0, [r11, #0x8]
+1b084c	ebfc4bd0	bl	0xc3794 <_Z15Background_Datai>
+1b0850	eddb6a06	vldr	s13, [r11, #24]
+1b0854	eef87ae6	vcvt.f32.s32	s15, s13
+1b0858	e59b100c	ldr	r1, [r11, #0xc]
+1b085c	e59b2010	ldr	r2, [r11, #0x10]
+1b0860	e59b3014	ldr	r3, [r11, #0x14]
+1b0864	ee071a10	vmov	s14, r1
+1b0868	ee053a90	vmov	s11, r3
+1b086c	edcd7a00	vstr	s15, [sp]
+1b0870	ee072a90	vmov	s15, r2
+1b0874	e59be000	ldr	lr, [r11]
+1b0878	eeb87ac7	vcvt.f32.s32	s14, s14
+1b087c	e58de004	str	lr, [sp, #0x4]
+1b0880	e59be004	ldr	lr, [r11, #0x4]
+1b0884	e58de008	str	lr, [sp, #0x8]
+1b0888	eef87ae7	vcvt.f32.s32	s15, s15
+1b088c	e59be024	ldr	lr, [r11, #0x24]
+1b0890	ee171a10	vmov	r1, s14
+1b0894	e58de00c	str	lr, [sp, #0xc]
+1b0898	e59be028	ldr	lr, [r11, #0x28]
+1b089c	eef85ae5	vcvt.f32.s32	s11, s11
+1b08a0	e58de010	str	lr, [sp, #0x10]
+1b08a4	e59be02c	ldr	lr, [r11, #0x2c]
+1b08a8	ee172a90	vmov	r2, s15
+1b08ac	e58de014	str	lr, [sp, #0x14]
+1b08b0	e59be030	ldr	lr, [r11, #0x30]
+1b08b4	ee153a90	vmov	r3, s11
+1b08b8	e58de018	str	lr, [sp, #0x18]
+1b08bc	ebfc4630	bl	0xc2184 <_ZN11CBackground8DrawPartEffffffffjf>
+1b08c0	e5961000	ldr	r1, [r6]
+1b08c4	e2855001	add	r5, r5, #1
+1b08c8	e59130b8	ldr	r3, [r1, #0xb8]
+1b08cc	e1550003	cmp	r5, r3
+1b08d0	baffff89	blt	0x1b06fc <_Z14DoSlowDrawRoomP9tagYYRECT+0x5c>
+1b08d4	e3540000	cmp	r4, #0
+1b08d8	1affff8c	bne	0x1b0710 <_Z14DoSlowDrawRoomP9tagYYRECT+0x70>
+1b08dc	eeb48aca	vcmpe.f32	s16, s20
+1b08e0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b08e4	da000059	ble	0x1b0a50 <_Z14DoSlowDrawRoomP9tagYYRECT+0x3b0>
+1b08e8	e1550003	cmp	r5, r3
+1b08ec	aa000003	bge	0x1b0900 <_Z14DoSlowDrawRoomP9tagYYRECT+0x260>
+1b08f0	ed9b7a07	vldr	s14, [r11, #28]
+1b08f4	eeb48ac7	vcmpe.f32	s16, s14
+1b08f8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b08fc	ba00007c	blt	0x1b0af4 <_Z14DoSlowDrawRoomP9tagYYRECT+0x454>
+1b0900	eeb48aca	vcmpe.f32	s16, s20
+1b0904	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0908	da00002d	ble	0x1b09c4 <_Z14DoSlowDrawRoomP9tagYYRECT+0x324>
+1b090c	eeb48ae8	vcmpe.f32	s16, s17
+1b0910	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0914	de180a10	vmovle	r0, s16
+1b0918	ce180a90	vmovgt	r0, s17
+1b091c	ebfeca2e	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b0920	ee180a10	vmov	r0, s16
+1b0924	ebffd3c4	bl	0x1a583c <_Z24ParticleSystem_DrawDepthf>
+1b0928	ee180a10	vmov	r0, s16
+1b092c	ebffd39a	bl	0x1a579c <_Z24ParticleSystem_NextDepthf>
+1b0930	e5961000	ldr	r1, [r6]
+1b0934	e59130b8	ldr	r3, [r1, #0xb8]
+1b0938	ee080a10	vmov	s16, r0
+1b093c	eaffff6c	b	0x1b06f4 <_Z14DoSlowDrawRoomP9tagYYRECT+0x54>
+1b0940	eef47ae8	vcmpe.f32	s15, s17
+1b0944	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0948	de170a90	vmovle	r0, s15
+1b094c	ce180a90	vmovgt	r0, s17
+1b0950	ebfeca21	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b0954	e5940080	ldr	r0, [r4, #0x80]
+1b0958	e3a01008	mov	r1, #8
+1b095c	e3a02000	mov	r2, #0
+1b0960	ebffb4dd	bl	0x19dcdc <_ZN9CObjectGM17HasEventRecursiveEii>
+1b0964	e3500000	cmp	r0, #0
+1b0968	0a000019	beq	0x1b09d4 <_Z14DoSlowDrawRoomP9tagYYRECT+0x334>
+1b096c	e59fe124	ldr	lr, [pc, #0x124]
+1b0970	e1a00004	mov	r0, r4
+1b0974	e1a01004	mov	r1, r4
+1b0978	e3a02008	mov	r2, #8
+1b097c	e3a03000	mov	r3, #0
+1b0980	e797e00e	ldr	lr, [r7, lr]
+1b0984	e58de024	str	lr, [sp, #0x24]
+1b0988	e58e4000	str	r4, [lr]
+1b098c	ebfd0a7b	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1b0990	e59dc024	ldr	r12, [sp, #0x24]
+1b0994	e58c8000	str	r8, [r12]
+1b0998	e5961000	ldr	r1, [r6]
+1b099c	e594417c	ldr	r4, [r4, #0x17c]
+1b09a0	e59130b8	ldr	r3, [r1, #0xb8]
+1b09a4	eaffff52	b	0x1b06f4 <_Z14DoSlowDrawRoomP9tagYYRECT+0x54>
+1b09a8	e594417c	ldr	r4, [r4, #0x17c]
+1b09ac	eaffff50	b	0x1b06f4 <_Z14DoSlowDrawRoomP9tagYYRECT+0x54>
+1b09b0	e5db2034	ldrb	r2, [r11, #0x34]
+1b09b4	e3520000	cmp	r2, #0
+1b09b8	1affff5f	bne	0x1b073c <_Z14DoSlowDrawRoomP9tagYYRECT+0x9c>
+1b09bc	e2855001	add	r5, r5, #1
+1b09c0	eaffff4b	b	0x1b06f4 <_Z14DoSlowDrawRoomP9tagYYRECT+0x54>
+1b09c4	e3540000	cmp	r4, #0
+1b09c8	0a000024	beq	0x1b0a60 <_Z14DoSlowDrawRoomP9tagYYRECT+0x3c0>
+1b09cc	edd47a60	vldr	s15, [r4, #384]
+1b09d0	eaffff5f	b	0x1b0754 <_Z14DoSlowDrawRoomP9tagYYRECT+0xb4>
+1b09d4	e594008c	ldr	r0, [r4, #0x8c]
+1b09d8	eb00f997	bl	0x1ef03c <_Z11Sprite_Datai>
+1b09dc	e2501000	subs	r1, r0, #0
+1b09e0	0affffec	beq	0x1b0998 <_Z14DoSlowDrawRoomP9tagYYRECT+0x2f8>
+1b09e4	e59f30ac	ldr	r3, [pc, #0xac]
+1b09e8	edd47a26	vldr	s15, [r4, #152]
+1b09ec	eef47a6a	vcmp.f32	s15, s21
+1b09f0	e7973003	ldr	r3, [r7, r3]
+1b09f4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b09f8	e58d3024	str	r3, [sp, #0x24]
+1b09fc	e5834000	str	r4, [r3]
+1b0a00	0a000018	beq	0x1b0a68 <_Z14DoSlowDrawRoomP9tagYYRECT+0x3c8>
+1b0a04	e594e0a8	ldr	lr, [r4, #0xa8]
+1b0a08	ed947a27	vldr	s14, [r4, #156]
+1b0a0c	edd46a28	vldr	s13, [r4, #160]
+1b0a10	ed946a29	vldr	s12, [r4, #164]
+1b0a14	edd45a24	vldr	s11, [r4, #144]
+1b0a18	eefd5ae5	vcvt.s32.f32	s11, s11
+1b0a1c	e59420b4	ldr	r2, [r4, #0xb4]
+1b0a20	e1a00001	mov	r0, r1
+1b0a24	e59430b8	ldr	r3, [r4, #0xb8]
+1b0a28	edcd7a00	vstr	s15, [sp]
+1b0a2c	ed8d7a01	vstr	s14, [sp, #4]
+1b0a30	edcd6a02	vstr	s13, [sp, #8]
+1b0a34	e58de00c	str	lr, [sp, #0xc]
+1b0a38	ed8d6a04	vstr	s12, [sp, #16]
+1b0a3c	ee151a90	vmov	r1, s11
+1b0a40	eb00ef36	bl	0x1ec720 <_ZN7CSprite4DrawEifffffjf>
+1b0a44	e59dc024	ldr	r12, [sp, #0x24]
+1b0a48	e58c8000	str	r8, [r12]
+1b0a4c	eaffffd1	b	0x1b0998 <_Z14DoSlowDrawRoomP9tagYYRECT+0x2f8>
+1b0a50	e28dd02c	add	sp, sp, #44
+1b0a54	ecbd8b08	vpop	{d8, d9, d10, d11}
+1b0a58	e8bd4ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1b0a5c	eaff5222	b	0x1852ec <_ZN8Graphics5FlushEv>
+1b0a60	ed9b7a07	vldr	s14, [r11, #28]
+1b0a64	eaffff40	b	0x1b076c <_Z14DoSlowDrawRoomP9tagYYRECT+0xcc>
+1b0a68	ed947a27	vldr	s14, [r4, #156]
+1b0a6c	eeb47a6a	vcmp.f32	s14, s21
+1b0a70	edd46a28	vldr	s13, [r4, #160]
+1b0a74	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0a78	0a000007	beq	0x1b0a9c <_Z14DoSlowDrawRoomP9tagYYRECT+0x3fc>
+1b0a7c	e594e0a8	ldr	lr, [r4, #0xa8]
+1b0a80	ed946a29	vldr	s12, [r4, #164]
+1b0a84	eaffffe2	b	0x1b0a14 <_Z14DoSlowDrawRoomP9tagYYRECT+0x374>
+1b0a88	462be000	strtmi	lr, [r11], -r0
+1b0a8c	ccbebc20	ldcgt	p12, c11, [lr], #128
+1b0a90	00241588	eoreq	r1, r4, r8, lsl #11
+1b0a94	ffffbcd8	.word	0xffffbcd8
+1b0a98	ffffbce4	.word	0xffffbce4
+1b0a9c	eef56a40	vcmp.f32	s13, #0
+1b0aa0	e594e0a8	ldr	lr, [r4, #0xa8]
+1b0aa4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0aa8	1affffd8	bne	0x1b0a10 <_Z14DoSlowDrawRoomP9tagYYRECT+0x370>
+1b0aac	e15e000a	cmp	lr, r10
+1b0ab0	ed946a29	vldr	s12, [r4, #164]
+1b0ab4	1affffd6	bne	0x1b0a14 <_Z14DoSlowDrawRoomP9tagYYRECT+0x374>
+1b0ab8	eeb46a6a	vcmp.f32	s12, s21
+1b0abc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1b0ac0	1affffd3	bne	0x1b0a14 <_Z14DoSlowDrawRoomP9tagYYRECT+0x374>
+1b0ac4	e5940090	ldr	r0, [r4, #0x90]
+1b0ac8	e58d1020	str	r1, [sp, #0x20]
+1b0acc	ebfc178f	bl	0xb6910 <floorf@plt>
+1b0ad0	e59d1020	ldr	r1, [sp, #0x20]
+1b0ad4	e59420b4	ldr	r2, [r4, #0xb4]
+1b0ad8	e59430b8	ldr	r3, [r4, #0xb8]
+1b0adc	ee060a90	vmov	s13, r0
+1b0ae0	e1a00001	mov	r0, r1
+1b0ae4	eefd6ae6	vcvt.s32.f32	s13, s13
+1b0ae8	ee161a90	vmov	r1, s13
+1b0aec	eb00eff0	bl	0x1ecab4 <_ZN7CSprite10DrawSimpleEiff>
+1b0af0	eaffffd3	b	0x1b0a44 <_Z14DoSlowDrawRoomP9tagYYRECT+0x3a4>
+1b0af4	e3540000	cmp	r4, #0
+1b0af8	0affff1b	beq	0x1b076c <_Z14DoSlowDrawRoomP9tagYYRECT+0xcc>
+1b0afc	edd47a60	vldr	s15, [r4, #384]
+1b0b00	eaffff16	b	0x1b0760 <_Z14DoSlowDrawRoomP9tagYYRECT+0xc0>

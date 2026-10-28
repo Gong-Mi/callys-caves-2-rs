@@ -12,12 +12,17 @@
  *   if (*(void**)(frame+0x18) == 0) goto 0xe4490 ; e4320/e432c —— 空帧/末尾帧的特例
  *   随后从帧内 +0x0c / +0x24 / +0x04 / +0x20 取字段                    ; e4334-e4344
  *
- * 结论（新增三条硬事实）：
+ * 结论：
  *   1. exec->[0x28] 是**当前调用帧指针**，exec->[0x4c] 是**帧深度**（返回时自减）。
  *   2. 帧内至少五个字段：+0x04、+0x0c、+0x18、+0x20、+0x24，以及 +0x3c（恢复点）。
  *   3. PerformReturn 是 VM::ExecRelease 的唯二出口之一（另一处是循环出口 bge）。
- * open：各字段的语义（self/other/返回地址/旧 sp/旧值基址）、refcount 的 4 段处理、
- *       全局计数器与调试标志的符号名。
+ *
+ * 帧格式已由 DoCallScript（cards/DoCallScript.c）闭合，本卡的 open 收窄为：
+ *   frame+0x00 = **返回地址 / pc**（DoCallScript e8608/e8624 写入 exec[0x44]，
+ *                本卡 e4354/e4390 用 str lr,[r6,#0x44] 还回去）——不是旧 sp
+ *   frame+0x08 = 旧全局 Argument 绝对值；frame+0x38 = 旧 sp 相对栈基址的偏移
+ *   ⇒ 早先 CALL-007「旧 sp 存 frame+0」的说法已 refuted（claims XFRAME-002）
+ * open：self/other 落在帧内哪两个槽、refcount 的 4 段处理、全局计数器与调试标志的符号名。
  */
 /* @0xe42d8 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0xe42dc mov r6, r1 */

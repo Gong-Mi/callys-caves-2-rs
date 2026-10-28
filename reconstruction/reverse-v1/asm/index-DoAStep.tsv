@@ -1,0 +1,230 @@
+1d32c0	e92d43f8	push	{r3, r4, r5, r6, r7, r8, r9, lr}
+1d32c4	eb01079f	bl	0x215148 <Timing_Time>
+1d32c8	e59f6344	ldr	r6, [pc, #0x344]
+1d32cc	e59fc344	ldr	r12, [pc, #0x344]
+1d32d0	e08f6006	add	r6, pc, r6
+1d32d4	e59fe340	ldr	lr, [pc, #0x340]
+1d32d8	e796c00c	ldr	r12, [r6, r12]
+1d32dc	e796e00e	ldr	lr, [r6, lr]
+1d32e0	e1cc40d0	ldrd	r4, r5, [r12]
+1d32e4	e1a03001	mov	r3, r1
+1d32e8	e59f1330	ldr	r1, [pc, #0x330]
+1d32ec	e1a02000	mov	r2, r0
+1d32f0	e3080080	movw	r0, #0x8080
+1d32f4	e08f1001	add	r1, pc, r1
+1d32f8	e34f0f80	movt	r0, #0xff80
+1d32fc	e1cc20f0	strd	r2, r3, [r12]
+1d3300	e0522004	subs	r2, r2, r4
+1d3304	e0c33005	sbc	r3, r3, r5
+1d3308	e1ce20f0	strd	r2, r3, [lr]
+1d330c	ebfea177	bl	0x17b8f0 <_ZN12GraphicsPerf4PushEjPKc>
+1d3310	e3a00000	mov	r0, #0
+1d3314	ebfc0de4	bl	0xd6aac <_Z12MarkAndSweepP12YYObjectBase>
+1d3318	ebfea1fc	bl	0x17bb10 <_ZN12GraphicsPerf3PopEv>
+1d331c	e59f3300	ldr	r3, [pc, #0x300]
+1d3320	e7960003	ldr	r0, [r6, r3]
+1d3324	ebfe53da	bl	0x168294 <_ZN18RenderStateManager5ForceEv>
+1d3328	ebfff6e9	bl	0x1d0ed4 <_Z19Check_LoadGameStatev>
+1d332c	e59f12f4	ldr	r1, [pc, #0x2f4]
+1d3330	e3a00cff	mov	r0, #65280
+1d3334	e34f0f00	movt	r0, #0xff00
+1d3338	e08f1001	add	r1, pc, r1
+1d333c	ebfea16b	bl	0x17b8f0 <_ZN12GraphicsPerf4PushEjPKc>
+1d3340	ebfee80d	bl	0x18d37c <_Z13IO_Start_Stepv>
+1d3344	ebfe1b58	bl	0x15a0ac <_Z19UpdateYoYoFunctionsv>
+1d3348	ebfea1f0	bl	0x17bb10 <_ZN12GraphicsPerf3PopEv>
+1d334c	e59f12d8	ldr	r1, [pc, #0x2d8]
+1d3350	e3a000ff	mov	r0, #255
+1d3354	e34f0f00	movt	r0, #0xff00
+1d3358	e08f1001	add	r1, pc, r1
+1d335c	ebfea163	bl	0x17b8f0 <_ZN12GraphicsPerf4PushEjPKc>
+1d3360	e59f22c8	ldr	r2, [pc, #0x2c8]
+1d3364	e59f32c8	ldr	r3, [pc, #0x2c8]
+1d3368	e7969002	ldr	r9, [r6, r2]
+1d336c	e08f3003	add	r3, pc, r3
+1d3370	e5d32000	ldrb	r2, [r3]
+1d3374	e5990000	ldr	r0, [r9]
+1d3378	e3520000	cmp	r2, #0
+1d337c	e5904080	ldr	r4, [r0, #0x80]
+1d3380	1a00008f	bne	0x1d35c4 <_Z7DoAStepv+0x304>
+1d3384	e3540000	cmp	r4, #0
+1d3388	0a000096	beq	0x1d35e8 <_Z7DoAStepv+0x328>
+1d338c	e3a07000	mov	r7, #0
+1d3390	e1a08007	mov	r8, r7
+1d3394	e59430b8	ldr	r3, [r4, #0xb8]
+1d3398	e1a00004	mov	r0, r4
+1d339c	e59420b4	ldr	r2, [r4, #0xb4]
+1d33a0	e5945178	ldr	r5, [r4, #0x178]
+1d33a4	e58430c8	str	r3, [r4, #0xc8]
+1d33a8	e594312c	ldr	r3, [r4, #0x12c]
+1d33ac	e58420c4	str	r2, [r4, #0xc4]
+1d33b0	e5843130	str	r3, [r4, #0x130]
+1d33b4	ebffff70	bl	0x1d317c <_Z16Instance_AnimateP9CInstance>
+1d33b8	e5d4215c	ldrb	r2, [r4, #0x15c]
+1d33bc	e5943128	ldr	r3, [r4, #0x128]
+1d33c0	e1a04005	mov	r4, r5
+1d33c4	e3520000	cmp	r2, #0
+1d33c8	13a08001	movne	r8, #1
+1d33cc	e3530000	cmp	r3, #0
+1d33d0	a3a07001	movge	r7, #1
+1d33d4	e3550000	cmp	r5, #0
+1d33d8	1affffed	bne	0x1d3394 <_Z7DoAStepv+0xd4>
+1d33dc	e5990000	ldr	r0, [r9]
+1d33e0	ebff62ee	bl	0x1abfa0 <_ZN5CRoom12UpdateLayersEv>
+1d33e4	e3a00001	mov	r0, #1
+1d33e8	ebffeadf	bl	0x1cdf6c <_Z10HandleStepi>
+1d33ec	ebffff2c	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d33f0	e59f3240	ldr	r3, [pc, #0x240]
+1d33f4	e7964003	ldr	r4, [r6, r3]
+1d33f8	e5943000	ldr	r3, [r4]
+1d33fc	e3730001	cmn	r3, #1
+1d3400	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d3404	eb031cd6	bl	0x29a764 <_Z17ProcessNetworkingv>
+1d3408	ebffff25	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d340c	e5943000	ldr	r3, [r4]
+1d3410	e3730001	cmn	r3, #1
+1d3414	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d3418	e3580000	cmp	r8, #0
+1d341c	1a000074	bne	0x1d35f4 <_Z7DoAStepv+0x334>
+1d3420	ebffff1f	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d3424	e5943000	ldr	r3, [r4]
+1d3428	e3730001	cmn	r3, #1
+1d342c	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d3430	ebffea4e	bl	0x1cdd70 <_Z11HandleAlarmv>
+1d3434	ebffff1a	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d3438	e5943000	ldr	r3, [r4]
+1d343c	e3730001	cmn	r3, #1
+1d3440	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d3444	eb0009fc	bl	0x1d5c3c <_Z14HandleKeyboardv>
+1d3448	ebffff15	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d344c	e5943000	ldr	r3, [r4]
+1d3450	e3730001	cmn	r3, #1
+1d3454	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d3458	eb0024bf	bl	0x1dc75c <_Z14HandleJoystickv>
+1d345c	ebffff10	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d3460	e5943000	ldr	r3, [r4]
+1d3464	e3730001	cmn	r3, #1
+1d3468	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d346c	eb0020d2	bl	0x1db7bc <_Z11HandleMousev>
+1d3470	ebffff0b	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d3474	e5943000	ldr	r3, [r4]
+1d3478	e3730001	cmn	r3, #1
+1d347c	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d3480	e3a00000	mov	r0, #0
+1d3484	ebffeab8	bl	0x1cdf6c <_Z10HandleStepi>
+1d3488	ebffff05	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d348c	e5943000	ldr	r3, [r4]
+1d3490	e3730001	cmn	r3, #1
+1d3494	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d3498	e1a00007	mov	r0, r7
+1d349c	ebfffa12	bl	0x1d1cec <_Z22HandleInstanceMovementb>
+1d34a0	e1a05000	mov	r5, r0
+1d34a4	ebfffefe	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d34a8	e5943000	ldr	r3, [r4]
+1d34ac	e3730001	cmn	r3, #1
+1d34b0	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d34b4	ebffec36	bl	0x1ce594 <_Z11HandleOtherv>
+1d34b8	ebfffef9	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d34bc	e5943000	ldr	r3, [r4]
+1d34c0	e3730001	cmn	r3, #1
+1d34c4	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d34c8	ebffebaf	bl	0x1ce38c <_Z17HandleAsyncEventsv>
+1d34cc	ebfffef4	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d34d0	e5943000	ldr	r3, [r4]
+1d34d4	e3730001	cmn	r3, #1
+1d34d8	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d34dc	e3550000	cmp	r5, #0
+1d34e0	0a000045	beq	0x1d35fc <_Z7DoAStepv+0x33c>
+1d34e4	e3a00002	mov	r0, #2
+1d34e8	ebffea9f	bl	0x1cdf6c <_Z10HandleStepi>
+1d34ec	ebfffeec	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d34f0	e5943000	ldr	r3, [r4]
+1d34f4	e3730001	cmn	r3, #1
+1d34f8	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d34fc	ebff46ae	bl	0x1a4fbc <_Z24ParticleSystem_UpdateAllv>
+1d3500	ebfea182	bl	0x17bb10 <_ZN12GraphicsPerf3PopEv>
+1d3504	e59f1130	ldr	r1, [pc, #0x130]
+1d3508	e3e008ff	mvn	r0, #16711680
+1d350c	e08f1001	add	r1, pc, r1
+1d3510	ebfea0f6	bl	0x17b8f0 <_ZN12GraphicsPerf4PushEjPKc>
+1d3514	e5990000	ldr	r0, [r9]
+1d3518	ebff6181	bl	0x1abb24 <_ZN5CRoom12RemoveMarkedEv>
+1d351c	e59f311c	ldr	r3, [pc, #0x11c]
+1d3520	e7963003	ldr	r3, [r6, r3]
+1d3524	e5d33000	ldrb	r3, [r3]
+1d3528	e3530000	cmp	r3, #0
+1d352c	0a000001	beq	0x1d3538 <_Z7DoAStepv+0x278>
+1d3530	ebff8258	bl	0x1b3e98 <_Z9Draw_Roomv>
+1d3534	ebfffeda	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d3538	ebfea174	bl	0x17bb10 <_ZN12GraphicsPerf3PopEv>
+1d353c	e59f3100	ldr	r3, [pc, #0x100]
+1d3540	e08f3003	add	r3, pc, r3
+1d3544	e5d32001	ldrb	r2, [r3, #0x1]
+1d3548	e3520000	cmp	r2, #0
+1d354c	1a000007	bne	0x1d3570 <_Z7DoAStepv+0x2b0>
+1d3550	e59f20f0	ldr	r2, [pc, #0xf0]
+1d3554	e7962002	ldr	r2, [r6, r2]
+1d3558	e5922000	ldr	r2, [r2]
+1d355c	e3520000	cmp	r2, #0
+1d3560	0a000002	beq	0x1d3570 <_Z7DoAStepv+0x2b0>
+1d3564	e3a02001	mov	r2, #1
+1d3568	e5c32001	strb	r2, [r3, #0x1]
+1d356c	ebfffb8b	bl	0x1d23a0 <CheckLicense>
+1d3570	e59f10d4	ldr	r1, [pc, #0xd4]
+1d3574	e3080080	movw	r0, #0x8080
+1d3578	e34f0f00	movt	r0, #0xff00
+1d357c	e08f1001	add	r1, pc, r1
+1d3580	ebfea0da	bl	0x17b8f0 <_ZN12GraphicsPerf4PushEjPKc>
+1d3584	e5990000	ldr	r0, [r9]
+1d3588	ebff631c	bl	0x1ac200 <_ZN5CRoom16ScrollBackgroundEv>
+1d358c	ebfffec4	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d3590	e59f30b8	ldr	r3, [pc, #0xb8]
+1d3594	e7963003	ldr	r3, [r6, r3]
+1d3598	e5932000	ldr	r2, [r3]
+1d359c	e2822001	add	r2, r2, #1
+1d35a0	e5832000	str	r2, [r3]
+1d35a4	ebfea159	bl	0x17bb10 <_ZN12GraphicsPerf3PopEv>
+1d35a8	e59f30a4	ldr	r3, [pc, #0xa4]
+1d35ac	e7963003	ldr	r3, [r6, r3]
+1d35b0	e5933000	ldr	r3, [r3]
+1d35b4	e3530000	cmp	r3, #0
+1d35b8	08bd83f8	popeq	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d35bc	e8bd43f8	pop	{r3, r4, r5, r6, r7, r8, r9, lr}
+1d35c0	eaffda62	b	0x1c9f50 <_Z15Command_EndGamev>
+1d35c4	e3a02000	mov	r2, #0
+1d35c8	e5c32000	strb	r2, [r3]
+1d35cc	ebff6154	bl	0x1abb24 <_ZN5CRoom12RemoveMarkedEv>
+1d35d0	e3a00008	mov	r0, #8
+1d35d4	e3a01041	mov	r1, #65
+1d35d8	ebfc7f74	bl	0xf33b0 <_Z17Perform_Event_Allii>
+1d35dc	e5990000	ldr	r0, [r9]
+1d35e0	ebff614f	bl	0x1abb24 <_ZN5CRoom12RemoveMarkedEv>
+1d35e4	eaffff66	b	0x1d3384 <_Z7DoAStepv+0xc4>
+1d35e8	e1a07004	mov	r7, r4
+1d35ec	e1a08004	mov	r8, r4
+1d35f0	eaffff79	b	0x1d33dc <_Z7DoAStepv+0x11c>
+1d35f4	ebfff2ae	bl	0x1d00b4 <_Z14HandleTimeLinev>
+1d35f8	eaffff88	b	0x1d3420 <_Z7DoAStepv+0x160>
+1d35fc	ebffe3bf	bl	0x1cc500 <_Z15HandleCollisionv>
+1d3600	ebfffea7	bl	0x1d30a4 <_Z17UpdateActiveListsv>
+1d3604	e5943000	ldr	r3, [r4]
+1d3608	e3730001	cmn	r3, #1
+1d360c	18bd83f8	popne	{r3, r4, r5, r6, r7, r8, r9, pc}
+1d3610	eaffffb3	b	0x1d34e4 <_Z7DoAStepv+0x224>
+1d3614	0021e980	eoreq	lr, r1, r0, lsl #19
+1d3618	ffffef20	.word	0xffffef20
+1d361c	ffffef24	.word	0xffffef24
+1d3620	0017dd88	andseq	sp, r7, r8, lsl #27
+1d3624	ffffc0a8	.word	0xffffc0a8
+1d3628	0017dd58	andseq	sp, r7, r8, asr sp
+1d362c	0017dd40	andseq	sp, r7, r0, asr #26
+1d3630	ffffbcd8	.word	0xffffbcd8
+1d3634	0036f65c	eorseq	pc, r6, r12, asr r6
+1d3638	ffffc154	.word	0xffffc154
+1d363c	001643d8	ldrsbeq	r4, [r6], -r8
+1d3640	ffffc974	.word	0xffffc974
+1d3644	0036f488	eorseq	pc, r6, r8, lsl #9
+1d3648	ffffef04	.word	0xffffef04
+1d364c	0017db24	andseq	sp, r7, r4, lsr #22
+1d3650	ffffebf0	.word	0xffffebf0
+1d3654	ffffef10	.word	0xffffef10

@@ -53,8 +53,8 @@
 
 ## 已钉的语义
 
-    汇总：40 张卡、15,784 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          正文 8 张 / 骨架 32 张；claims 195 条（proven 161 / narrowed 15 / open 19）
+    汇总：53 张卡、18,525 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          正文 15 张 / 骨架 38 张；claims 335 条（proven 276 / narrowed 27 / open 31 / refuted 1）
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -90,6 +90,29 @@
       DoCallGML       0xe8b00    18 条  正文   DoCall 路径 A 的特化
       DoCallLibrary   0xe3e58   100 条  正文   desc=table+idx*0x50、fn=desc[0x40]、5 参协议
       DoSet           0xe2014  1863 条  骨架   **不是赋值，是比较算子**：K=(arg>>8)&0xF，实数比较带 1e-05 容差
+
+## 第二轮（并行子代理）补上的关键结论
+
+    DoCallScript 0xe8588  350 条  骨架   帧格式闭合：frame=sp-60，15 字写 14 个（+0x34 空槽）；
+                                         frame+0 存 pc/返回地址（不是旧 sp）、+0x08 旧 Argument、+0x38 旧 sp 偏移；
+                                         进码十件套：exec[0x24]=blob[0x10]、[0x44]=code[0x6c]、[0x48]=blob[0x18][pc/4]
+    DoBreak      0xd8434  140 条  骨架   断点补丁字 0xFFFF0000、表 256×16 B；uxth(arg) 三态（0 单步 / 0xFFFF 下标守卫 / 其它直返）
+    DoReplace    0x24a99c 998 条  正文   $ 模板五规则 + 回调路 count+2 个实参（JS replace(fn) 语义）；
+                                         两位组号读 repl[i+3] 是原版错位
+    DoRegExpExec 0x24f2b0 130 条  正文   成功返回末捕获结束偏移并写 lastIndex；NOMATCH 自行线性续搜
+    DoSlowDrawRoom 0x1b06a0 281 条 骨架   三股流合并（层项数组步长 56 B / 绘制链 +0x17c / 粒子 depth 游标）；
+                                         可见性 = +0x65!=0 && +0x68==0 && +0x69==0；深度上限 11000.0f
+    DoAStep      0x1d32c0 230 条  正文   整帧 step 驱动：UpdateLayers→Step(1)→…→Step(2)→Particles；
+                                         五段 profiler 段名实取；「退出码闸门 0x542954==-1」重复 13 次
+    DoFrameTiming 0x2903f8 135 条 正文   60 fps 预算：budget=(1e6/fps)−0.5·(1e6/60)−(t−now)+debt，clamp 0..1e6 后 Timing_Wait
+    DoOperation  0x207a0c 196 条  正文   op 1/2/3（Grid/Add/Multiply）；kind=tag&0x00FFFFFF 的 15 路表在 0x207ab0
+    DoGenerationalGC 0xd6850 151 条 正文   开关 0x47f295；MarkAndSweepGen 后按 200/30/2.0/1.1/0.5/4.0 决定下一代
+    DoTheWork    0x2a16dc  46 条  正文   srand48(2101988) → RunnerLoadWad → PrepareGame → Run_Start
+    DoDestroy    0x10b0c4  26 条  正文   +0x68/+0x69 双闸门先于 hard 判断；软路只置 +0x68，硬路 Command_Destroy 另置 +0x6A
+    DoInstanceDestroy 0x10b12c 25 条 骨架   WithObjIterator(id,self,other) + do/while（每实例 2 次 de() + 1 次 Next()）
+
+    补一条纠正：DoDestroy/DoInstanceDestroy **与 DoPop/DoPush 没有调用边**（tag 释放走 FREE_RValue__Pre），
+    耦合只在数据位——DoPushEnv 的 with 遍历按 +0x68/+0x69 跳过，而置这两个字节的正是 DoDestroy。
 
 ## 结构结论
 
