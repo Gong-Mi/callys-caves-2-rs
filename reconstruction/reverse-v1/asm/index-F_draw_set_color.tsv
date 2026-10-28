@@ -1,0 +1,6 @@
+11a9c4	e92d4008	push	{r3, lr}
+11a9c8	e3a01000	mov	r1, #0
+11a9cc	e59d0008	ldr	r0, [sp, #0x8]
+11a9d0	ebfecfa6	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+11a9d4	e8bd4008	pop	{r3, lr}
+11a9d8	ea013cee	b	0x169d98 <_Z21YYGML_draw_set_colourj>

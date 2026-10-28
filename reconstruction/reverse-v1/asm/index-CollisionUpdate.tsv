@@ -1,0 +1,85 @@
+1cdc1c	e59f3144	ldr	r3, [pc, #0x144]
+1cdc20	e92d40f0	push	{r4, r5, r6, r7, lr}
+1cdc24	e79f3003	ldr	r3, [pc, r3]
+1cdc28	e24dd03c	sub	sp, sp, #60
+1cdc2c	e1a04001	mov	r4, r1
+1cdc30	e5d33000	ldrb	r3, [r3]
+1cdc34	e58d000c	str	r0, [sp, #0xc]
+1cdc38	e3530000	cmp	r3, #0
+1cdc3c	0a000002	beq	0x1cdc4c <_Z15CollisionUpdateP9CInstanceR9tagYYRECT+0x30>
+1cdc40	e5d03068	ldrb	r3, [r0, #0x68]
+1cdc44	e3530000	cmp	r3, #0
+1cdc48	0a000001	beq	0x1cdc54 <_Z15CollisionUpdateP9CInstanceR9tagYYRECT+0x38>
+1cdc4c	e28dd03c	add	sp, sp, #60
+1cdc50	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+1cdc54	e5d03069	ldrb	r3, [r0, #0x69]
+1cdc58	e3530000	cmp	r3, #0
+1cdc5c	1afffffa	bne	0x1cdc4c <_Z15CollisionUpdateP9CInstanceR9tagYYRECT+0x30>
+1cdc60	e5903080	ldr	r3, [r0, #0x80]
+1cdc64	e5933000	ldr	r3, [r3]
+1cdc68	e3130010	tst	r3, #16
+1cdc6c	0afffff6	beq	0x1cdc4c <_Z15CollisionUpdateP9CInstanceR9tagYYRECT+0x30>
+1cdc70	e59f50f4	ldr	r5, [pc, #0xf4]
+1cdc74	e79f5005	ldr	r5, [pc, r5]
+1cdc78	e5950000	ldr	r0, [r5]
+1cdc7c	e3500000	cmp	r0, #0
+1cdc80	0a000030	beq	0x1cdd48 <_Z15CollisionUpdateP9CInstanceR9tagYYRECT+0x12c>
+1cdc84	e5946000	ldr	r6, [r4]
+1cdc88	e28d1010	add	r1, sp, #16
+1cdc8c	e5947008	ldr	r7, [r4, #0x8]
+1cdc90	e28d2018	add	r2, sp, #24
+1cdc94	e594c004	ldr	r12, [r4, #0x4]
+1cdc98	e3a03001	mov	r3, #1
+1cdc9c	e594e00c	ldr	lr, [r4, #0xc]
+1cdca0	e58d3000	str	r3, [sp]
+1cdca4	e28d300c	add	r3, sp, #12
+1cdca8	e1570006	cmp	r7, r6
+1cdcac	d58d7010	strle	r7, [sp, #0x10]
+1cdcb0	c58d6010	strgt	r6, [sp, #0x10]
+1cdcb4	e15e000c	cmp	lr, r12
+1cdcb8	d58de014	strle	lr, [sp, #0x14]
+1cdcbc	c58dc014	strgt	r12, [sp, #0x14]
+1cdcc0	e15e000c	cmp	lr, r12
+1cdcc4	a58de01c	strge	lr, [sp, #0x1c]
+1cdcc8	b58dc01c	strlt	r12, [sp, #0x1c]
+1cdccc	e1570006	cmp	r7, r6
+1cdcd0	a58d7018	strge	r7, [sp, #0x18]
+1cdcd4	b58d6018	strlt	r6, [sp, #0x18]
+1cdcd8	ebffff26	bl	0x1cd978 <_ZN5RTreeIP9CInstanceifLi6ELi2EE6RemoveEPKiS4_RKS1_b>
+1cdcdc	e59dc00c	ldr	r12, [sp, #0xc]
+1cdce0	e3a02000	mov	r2, #0
+1cdce4	e5950000	ldr	r0, [r5]
+1cdce8	e1a03002	mov	r3, r2
+1cdcec	e58d2030	str	r2, [sp, #0x30]
+1cdcf0	e28d1020	add	r1, sp, #32
+1cdcf4	e59c50e8	ldr	r5, [r12, #0xe8]
+1cdcf8	e2802010	add	r2, r0, #16
+1cdcfc	e59c60f0	ldr	r6, [r12, #0xf0]
+1cdd00	e59ce0ec	ldr	lr, [r12, #0xec]
+1cdd04	e59c40f4	ldr	r4, [r12, #0xf4]
+1cdd08	e58dc034	str	r12, [sp, #0x34]
+1cdd0c	e1560005	cmp	r6, r5
+1cdd10	d58d6020	strle	r6, [sp, #0x20]
+1cdd14	c58d5020	strgt	r5, [sp, #0x20]
+1cdd18	e1560005	cmp	r6, r5
+1cdd1c	a58d6028	strge	r6, [sp, #0x28]
+1cdd20	b58d5028	strlt	r5, [sp, #0x28]
+1cdd24	e154000e	cmp	r4, lr
+1cdd28	d58d4024	strle	r4, [sp, #0x24]
+1cdd2c	c58de024	strgt	lr, [sp, #0x24]
+1cdd30	e154000e	cmp	r4, lr
+1cdd34	a58d402c	strge	r4, [sp, #0x2c]
+1cdd38	b58de02c	strlt	lr, [sp, #0x2c]
+1cdd3c	ebfffe6f	bl	0x1cd700 <_ZN5RTreeIP9CInstanceifLi6ELi2EE10InsertRectERKNS2_6BranchEPPNS2_4NodeEi>
+1cdd40	e28dd03c	add	sp, sp, #60
+1cdd44	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+1cdd48	e3a00018	mov	r0, #24
+1cdd4c	eb02b9f4	bl	0x27c524 <_Znwj>
+1cdd50	e3a01b01	mov	r1, #1024
+1cdd54	e1a06000	mov	r6, r0
+1cdd58	ebfff970	bl	0x1cc320 <_ZN5RTreeIP9CInstanceifLi6ELi2EEC2Ei>
+1cdd5c	e5856000	str	r6, [r5]
+1cdd60	e1a00006	mov	r0, r6
+1cdd64	eaffffc6	b	0x1cdc84 <_Z15CollisionUpdateP9CInstanceR9tagYYRECT+0x68>
+1cdd68	00222a5c	eoreq	r2, r2, r12, asr r10
+1cdd6c	002205d0	.word	0x002205d0

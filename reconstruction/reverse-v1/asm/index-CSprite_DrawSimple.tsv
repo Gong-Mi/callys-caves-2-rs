@@ -1,0 +1,196 @@
+1ecab4	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1ecab8	ed2d8b02	vpush	{d8}
+1ecabc	ee083a10	vmov	s16, r3
+1ecac0	e59f42d0	ldr	r4, [pc, #0x2d0]
+1ecac4	e24dd020	sub	sp, sp, #32
+1ecac8	e59fc2cc	ldr	r12, [pc, #0x2cc]
+1ecacc	e1a05000	mov	r5, r0
+1ecad0	e08f4004	add	r4, pc, r4
+1ecad4	e1a08001	mov	r8, r1
+1ecad8	ee082a90	vmov	s17, r2
+1ecadc	e794600c	ldr	r6, [r4, r12]
+1ecae0	e5d63000	ldrb	r3, [r6]
+1ecae4	e3530000	cmp	r3, #0
+1ecae8	1a000062	bne	0x1ecc78 <_ZN7CSprite10DrawSimpleEiff+0x1c4>
+1ecaec	e5957018	ldr	r7, [r5, #0x18]
+1ecaf0	e3570000	cmp	r7, #0
+1ecaf4	da000023	ble	0x1ecb88 <_ZN7CSprite10DrawSimpleEiff+0xd4>
+1ecaf8	e1a00008	mov	r0, r8
+1ecafc	e1a01007	mov	r1, r7
+1ecb00	eb04b0b9	bl	0x318dec <__aeabi_idivmod>
+1ecb04	e59f3294	ldr	r3, [pc, #0x294]
+1ecb08	e7943003	ldr	r3, [r4, r3]
+1ecb0c	e5d33000	ldrb	r3, [r3]
+1ecb10	e2518000	subs	r8, r1, #0
+1ecb14	b0888007	addlt	r8, r8, r7
+1ecb18	e3530000	cmp	r3, #0
+1ecb1c	1a00005b	bne	0x1ecc90 <_ZN7CSprite10DrawSimpleEiff+0x1dc>
+1ecb20	e59f327c	ldr	r3, [pc, #0x27c]
+1ecb24	e595202c	ldr	r2, [r5, #0x2c]
+1ecb28	e7943003	ldr	r3, [r4, r3]
+1ecb2c	e5d33000	ldrb	r3, [r3]
+1ecb30	e3530000	cmp	r3, #0
+1ecb34	e5953074	ldr	r3, [r5, #0x74]
+1ecb38	0a000018	beq	0x1ecba0 <_ZN7CSprite10DrawSimpleEiff+0xec>
+1ecb3c	e3530001	cmp	r3, #1
+1ecb40	0a000062	beq	0x1eccd0 <_ZN7CSprite10DrawSimpleEiff+0x21c>
+1ecb44	e3530002	cmp	r3, #2
+1ecb48	0a000052	beq	0x1ecc98 <_ZN7CSprite10DrawSimpleEiff+0x1e4>
+1ecb4c	e5953054	ldr	r3, [r5, #0x54]
+1ecb50	e3530000	cmp	r3, #0
+1ecb54	0a00007d	beq	0x1ecd50 <_ZN7CSprite10DrawSimpleEiff+0x29c>
+1ecb58	edd57a09	vldr	s15, [r5, #36]
+1ecb5c	edd56a0a	vldr	s13, [r5, #40]
+1ecb60	eeb87ae7	vcvt.f32.s32	s14, s15
+1ecb64	e7930108	ldr	r0, [r3, r8, lsl #2]
+1ecb68	eef87ae6	vcvt.f32.s32	s15, s13
+1ecb6c	ee387ac7	vsub.f32	s14, s17, s14
+1ecb70	ee787a67	vsub.f32	s15, s16, s15
+1ecb74	ee171a10	vmov	r1, s14
+1ecb78	ee172a90	vmov	r2, s15
+1ecb7c	ebfe1f39	bl	0x174868 <_Z22GR_Texture_Draw_SimpleP12YYTPageEntryff>
+1ecb80	e3500000	cmp	r0, #0
+1ecb84	0a000067	beq	0x1ecd28 <_ZN7CSprite10DrawSimpleEiff+0x274>
+1ecb88	e5d63000	ldrb	r3, [r6]
+1ecb8c	e3530000	cmp	r3, #0
+1ecb90	1a000032	bne	0x1ecc60 <_ZN7CSprite10DrawSimpleEiff+0x1ac>
+1ecb94	e28dd020	add	sp, sp, #32
+1ecb98	ecbd8b02	vpop	{d8}
+1ecb9c	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+1ecba0	e3530002	cmp	r3, #2
+1ecba4	0a00003b	beq	0x1ecc98 <_ZN7CSprite10DrawSimpleEiff+0x1e4>
+1ecba8	e59f11f8	ldr	r1, [pc, #0x1f8]
+1ecbac	ee062a90	vmov	s13, r2
+1ecbb0	eef87ae6	vcvt.f32.s32	s15, s13
+1ecbb4	e7942001	ldr	r2, [r4, r1]
+1ecbb8	edd26a01	vldr	s13, [r2, #4]
+1ecbbc	eeb87ae6	vcvt.f32.s32	s14, s13
+1ecbc0	ee377a48	vsub.f32	s14, s14, s16
+1ecbc4	eef47ac7	vcmpe.f32	s15, s14
+1ecbc8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ecbcc	ba000011	blt	0x1ecc18 <_ZN7CSprite10DrawSimpleEiff+0x164>
+1ecbd0	edd26a03	vldr	s13, [r2, #12]
+1ecbd4	eeb87ae6	vcvt.f32.s32	s14, s13
+1ecbd8	ee387a47	vsub.f32	s14, s16, s14
+1ecbdc	eef47ac7	vcmpe.f32	s15, s14
+1ecbe0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ecbe4	ba00000b	blt	0x1ecc18 <_ZN7CSprite10DrawSimpleEiff+0x164>
+1ecbe8	edd26a00	vldr	s13, [r2]
+1ecbec	eeb87ae6	vcvt.f32.s32	s14, s13
+1ecbf0	ee377a68	vsub.f32	s14, s14, s17
+1ecbf4	eef47ac7	vcmpe.f32	s15, s14
+1ecbf8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ecbfc	ba000005	blt	0x1ecc18 <_ZN7CSprite10DrawSimpleEiff+0x164>
+1ecc00	ed927a02	vldr	s14, [r2, #8]
+1ecc04	eeb87ac7	vcvt.f32.s32	s14, s14
+1ecc08	ee387ac7	vsub.f32	s14, s17, s14
+1ecc0c	eef47ac7	vcmpe.f32	s15, s14
+1ecc10	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ecc14	aaffffc8	bge	0x1ecb3c <_ZN7CSprite10DrawSimpleEiff+0x88>
+1ecc18	e59f318c	ldr	r3, [pc, #0x18c]
+1ecc1c	e7943003	ldr	r3, [r4, r3]
+1ecc20	e5d33000	ldrb	r3, [r3]
+1ecc24	e3530000	cmp	r3, #0
+1ecc28	0affffd6	beq	0x1ecb88 <_ZN7CSprite10DrawSimpleEiff+0xd4>
+1ecc2c	e59f317c	ldr	r3, [pc, #0x17c]
+1ecc30	e7947003	ldr	r7, [r4, r3]
+1ecc34	e1a00007	mov	r0, r7
+1ecc38	ebfe07ff	bl	0x16ec3c <_ZN14CCameraManager15GetActiveCameraEv>
+1ecc3c	e3500000	cmp	r0, #0
+1ecc40	0affffd0	beq	0x1ecb88 <_ZN7CSprite10DrawSimpleEiff+0xd4>
+1ecc44	e1a00007	mov	r0, r7
+1ecc48	ebfe07fb	bl	0x16ec3c <_ZN14CCameraManager15GetActiveCameraEv>
+1ecc4c	ebfe01d1	bl	0x16d398 <_ZN7CCamera4Is2DEv>
+1ecc50	e3500000	cmp	r0, #0
+1ecc54	1affffcb	bne	0x1ecb88 <_ZN7CSprite10DrawSimpleEiff+0xd4>
+1ecc58	e5953074	ldr	r3, [r5, #0x74]
+1ecc5c	eaffffb6	b	0x1ecb3c <_ZN7CSprite10DrawSimpleEiff+0x88>
+1ecc60	e59f314c	ldr	r3, [pc, #0x14c]
+1ecc64	e7940003	ldr	r0, [r4, r3]
+1ecc68	e28dd020	add	sp, sp, #32
+1ecc6c	ecbd8b02	vpop	{d8}
+1ecc70	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+1ecc74	ea02cf0c	b	0x2a08ac <_ZN9CProfiler3PopEv>
+1ecc78	e59f3134	ldr	r3, [pc, #0x134]
+1ecc7c	e3a01006	mov	r1, #6
+1ecc80	e3a02010	mov	r2, #16
+1ecc84	e7940003	ldr	r0, [r4, r3]
+1ecc88	eb02ceaa	bl	0x2a0738 <_ZN9CProfiler4PushEii>
+1ecc8c	eaffff96	b	0x1ecaec <_ZN7CSprite10DrawSimpleEiff+0x38>
+1ecc90	ebfdf03f	bl	0x168d94 <_Z22UpdateTransRoomExtentsv>
+1ecc94	eaffffa1	b	0x1ecb20 <_ZN7CSprite10DrawSimpleEiff+0x6c>
+1ecc98	e5950058	ldr	r0, [r5, #0x58]
+1ecc9c	e3a0c5fe	mov	r12, #1065353216
+1ecca0	e3a02000	mov	r2, #0
+1ecca4	e3e03000	mvn	r3, #0
+1ecca8	e58d2008	str	r2, [sp, #0x8]
+1eccac	e1a01008	mov	r1, r8
+1eccb0	e58d300c	str	r3, [sp, #0xc]
+1eccb4	ee182a90	vmov	r2, s17
+1eccb8	ee183a10	vmov	r3, s16
+1eccbc	e58dc000	str	r12, [sp]
+1eccc0	e58dc004	str	r12, [sp, #0x4]
+1eccc4	e58dc010	str	r12, [sp, #0x10]
+1eccc8	ebfb4dbb	bl	0xc03bc <_ZN15CSkeletonSprite4DrawEifffffjf>
+1ecccc	eaffffad	b	0x1ecb88 <_ZN7CSprite10DrawSimpleEiff+0xd4>
+1eccd0	e5952024	ldr	r2, [r5, #0x24]
+1eccd4	e3a0c5fe	mov	r12, #1065353216
+1eccd8	e5953028	ldr	r3, [r5, #0x28]
+1eccdc	e1a00005	mov	r0, r5
+1ecce0	e3e0e000	mvn	lr, #0
+1ecce4	e3a05000	mov	r5, #0
+1ecce8	ee072a10	vmov	s14, r2
+1eccec	edcd8a00	vstr	s17, [sp]
+1eccf0	ee073a90	vmov	s15, r3
+1eccf4	ed8d8a01	vstr	s16, [sp, #4]
+1eccf8	eeb87ac7	vcvt.f32.s32	s14, s14
+1eccfc	e1a01008	mov	r1, r8
+1ecd00	e58d5010	str	r5, [sp, #0x10]
+1ecd04	e58de014	str	lr, [sp, #0x14]
+1ecd08	e58dc008	str	r12, [sp, #0x8]
+1ecd0c	e58dc00c	str	r12, [sp, #0xc]
+1ecd10	e58dc018	str	r12, [sp, #0x18]
+1ecd14	eef87ae7	vcvt.f32.s32	s15, s15
+1ecd18	ee172a10	vmov	r2, s14
+1ecd1c	ee173a90	vmov	r3, s15
+1ecd20	ebfffc78	bl	0x1ebf08 <_ZN7CSprite7DrawSWFEifffffffjf>
+1ecd24	eaffff97	b	0x1ecb88 <_ZN7CSprite10DrawSimpleEiff+0xd4>
+1ecd28	e59f1088	ldr	r1, [pc, #0x88]
+1ecd2c	e59f3088	ldr	r3, [pc, #0x88]
+1ecd30	e595205c	ldr	r2, [r5, #0x5c]
+1ecd34	e08f1001	add	r1, pc, r1
+1ecd38	e7943003	ldr	r3, [r4, r3]
+1ecd3c	e5930000	ldr	r0, [r3]
+1ecd40	e5903000	ldr	r3, [r0]
+1ecd44	e593300c	ldr	r3, [r3, #0xc]
+1ecd48	e12fff33	blx	r3
+1ecd4c	eaffff8d	b	0x1ecb88 <_ZN7CSprite10DrawSimpleEiff+0xd4>
+1ecd50	edd56a09	vldr	s13, [r5, #36]
+1ecd54	eeb87ae6	vcvt.f32.s32	s14, s13
+1ecd58	edd56a0a	vldr	s13, [r5, #40]
+1ecd5c	e5953050	ldr	r3, [r5, #0x50]
+1ecd60	e7930108	ldr	r0, [r3, r8, lsl #2]
+1ecd64	eef87ae6	vcvt.f32.s32	s15, s13
+1ecd68	ee387ac7	vsub.f32	s14, s17, s14
+1ecd6c	ee787a67	vsub.f32	s15, s16, s15
+1ecd70	ee171a10	vmov	r1, s14
+1ecd74	ee172a90	vmov	r2, s15
+1ecd78	ebfe1dc6	bl	0x174498 <_Z22GR_Texture_Draw_Simpleiff>
+1ecd7c	e3500000	cmp	r0, #0
+1ecd80	1affff80	bne	0x1ecb88 <_ZN7CSprite10DrawSimpleEiff+0xd4>
+1ecd84	e59f1034	ldr	r1, [pc, #0x34]
+1ecd88	e59f302c	ldr	r3, [pc, #0x2c]
+1ecd8c	e595205c	ldr	r2, [r5, #0x5c]
+1ecd90	e08f1001	add	r1, pc, r1
+1ecd94	eaffffe7	b	0x1ecd38 <_ZN7CSprite10DrawSimpleEiff+0x284>
+1ecd98	00205180	eoreq	r5, r0, r0, lsl #3
+1ecd9c	ffffbf18	.word	0xffffbf18
+1ecda0	ffffd9e0	.word	0xffffd9e0
+1ecda4	ffffe490	.word	0xffffe490
+1ecda8	ffffe500	.word	0xffffe500
+1ecdac	ffffbcd4	.word	0xffffbcd4
+1ecdb0	ffffc024	.word	0xffffc024
+1ecdb4	ffffbf1c	.word	0xffffbf1c
+1ecdb8	00165860	andseq	r5, r6, r0, ror #16
+1ecdbc	ffffbac4	.word	0xffffbac4
+1ecdc0	00165804	andseq	r5, r6, r4, lsl #16

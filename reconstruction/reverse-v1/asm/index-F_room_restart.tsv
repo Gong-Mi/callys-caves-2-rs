@@ -1,0 +1,5 @@
+109be8	e59f3008	ldr	r3, [pc, #0x8]
+109bec	e79f3003	ldr	r3, [pc, r3]
+109bf0	e5930000	ldr	r0, [r3]
+109bf4	ea0300cf	b	0x1c9f38 <_Z19Command_CurrentRoomi>
+109bf8	002e44bc	.word	0x002e44bc

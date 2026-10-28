@@ -1,0 +1,16 @@
+108520	e92d4038	push	{r3, r4, r5, lr}
+108524	e1a04001	mov	r4, r1
+108528	e59d5010	ldr	r5, [sp, #0x10]
+10852c	e3a01000	mov	r1, #0
+108530	e1a00005	mov	r0, r5
+108534	ebff19d2	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108538	e1a01000	mov	r1, r0
+10853c	e1a00004	mov	r0, r4
+108540	eb022ac7	bl	0x193064 <_ZN9CInstance12SetDirectionEf>
+108544	e1a00005	mov	r0, r5
+108548	e3a01001	mov	r1, #1
+10854c	ebff19cc	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108550	e1a01000	mov	r1, r0
+108554	e1a00004	mov	r0, r4
+108558	e8bd4038	pop	{r3, r4, r5, lr}
+10855c	ea022adc	b	0x1930d4 <_ZN9CInstance8SetSpeedEf>

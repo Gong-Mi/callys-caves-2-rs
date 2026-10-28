@@ -1,0 +1,177 @@
+1931c0	e92d4070	push	{r4, r5, r6, lr}
+1931c4	e1a04000	mov	r4, r0
+1931c8	e584108c	str	r1, [r4, #0x8c]
+1931cc	e1a00001	mov	r0, r1
+1931d0	e1a05001	mov	r5, r1
+1931d4	eb016f2f	bl	0x1eee98 <_Z13Sprite_Existsi>
+1931d8	e3500000	cmp	r0, #0
+1931dc	01a05000	moveq	r5, r0
+1931e0	1a00000a	bne	0x193210 <_ZN9CInstance14SetSpriteIndexEi+0x50>
+1931e4	edd47a24	vldr	s15, [r4, #144]
+1931e8	eefd7ae7	vcvt.s32.f32	s15, s15
+1931ec	e1a00004	mov	r0, r4
+1931f0	ee173a90	vmov	r3, s15
+1931f4	e1550003	cmp	r5, r3
+1931f8	d3a03000	movle	r3, #0
+1931fc	d5843090	strle	r3, [r4, #0x90]
+193200	e3a03001	mov	r3, #1
+193204	e5c43064	strb	r3, [r4, #0x64]
+193208	e8bd4070	pop	{r4, r5, r6, lr}
+19320c	ea00e3ef	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+193210	e1a00005	mov	r0, r5
+193214	eb016f88	bl	0x1ef03c <_Z11Sprite_Datai>
+193218	e5946088	ldr	r6, [r4, #0x88]
+19321c	e3560000	cmp	r6, #0
+193220	e5905018	ldr	r5, [r0, #0x18]
+193224	0a000005	beq	0x193240 <_ZN9CInstance14SetSpriteIndexEi+0x80>
+193228	e1a00006	mov	r0, r6
+19322c	ebfcabd8	bl	0xbe194 <_ZN17CSkeletonInstanceD2Ev>
+193230	e1a00006	mov	r0, r6
+193234	eb03a7e5	bl	0x27d1d0 <_ZdlPv>
+193238	e3a03000	mov	r3, #0
+19323c	e5843088	str	r3, [r4, #0x88]
+193240	e1a00004	mov	r0, r4
+193244	ebffffc3	bl	0x193158 <_ZN9CInstance17SkeletonAnimationEv>
+193248	eaffffe5	b	0x1931e4 <_ZN9CInstance14SetSpriteIndexEi+0x24>
+1958cc	e3520000	cmp	r2, #0
+1958d0	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1958d4	e1a05000	mov	r5, r0
+1958d8	e1a06001	mov	r6, r1
+1958dc	05801078	streq	r1, [r0, #0x78]
+1958e0	08bd81f0	popeq	{r4, r5, r6, r7, r8, pc}
+1958e4	e59f4100	ldr	r4, [pc, #0x100]
+1958e8	e590c078	ldr	r12, [r0, #0x78]
+1958ec	e79f4004	ldr	r4, [pc, r4]
+1958f0	e5941004	ldr	r1, [r4, #0x4]
+1958f4	e5947000	ldr	r7, [r4]
+1958f8	e00c2001	and	r2, r12, r1
+1958fc	e7973182	ldr	r3, [r7, r2, lsl #3]
+195900	e087e182	add	lr, r7, r2, lsl #3
+195904	e3530000	cmp	r3, #0
+195908	0a000009	beq	0x195934 <_ZN9CInstance5SetIDEib+0x68>
+19590c	e5930008	ldr	r0, [r3, #0x8]
+195910	e15c0000	cmp	r12, r0
+195914	1a000003	bne	0x195928 <_ZN9CInstance5SetIDEib+0x5c>
+195918	ea00001d	b	0x195994 <_ZN9CInstance5SetIDEib+0xc8>
+19591c	e5932008	ldr	r2, [r3, #0x8]
+195920	e15c0002	cmp	r12, r2
+195924	0a00001a	beq	0x195994 <_ZN9CInstance5SetIDEib+0xc8>
+195928	e5933004	ldr	r3, [r3, #0x4]
+19592c	e3530000	cmp	r3, #0
+195930	1afffff9	bne	0x19591c <_ZN9CInstance5SetIDEib+0x50>
+195934	e0018006	and	r8, r1, r6
+195938	e59f10b0	ldr	r1, [pc, #0xb0]
+19593c	e3002132	movw	r2, #0x132
+195940	e3a03001	mov	r3, #1
+195944	e5856078	str	r6, [r5, #0x78]
+195948	e3a00010	mov	r0, #16
+19594c	e08f1001	add	r1, pc, r1
+195950	eb039d48	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+195954	e7973188	ldr	r3, [r7, r8, lsl #3]
+195958	e0872188	add	r2, r7, r8, lsl #3
+19595c	e3530000	cmp	r3, #0
+195960	e5806008	str	r6, [r0, #0x8]
+195964	e580500c	str	r5, [r0, #0xc]
+195968	0a00001a	beq	0x1959d8 <_ZN9CInstance5SetIDEib+0x10c>
+19596c	e5923004	ldr	r3, [r2, #0x4]
+195970	e3a01000	mov	r1, #0
+195974	e5803000	str	r3, [r0]
+195978	e5830004	str	r0, [r3, #0x4]
+19597c	e5820004	str	r0, [r2, #0x4]
+195980	e5801004	str	r1, [r0, #0x4]
+195984	e5943008	ldr	r3, [r4, #0x8]
+195988	e2833001	add	r3, r3, #1
+19598c	e5843008	str	r3, [r4, #0x8]
+195990	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+195994	e5931000	ldr	r1, [r3]
+195998	e3510000	cmp	r1, #0
+19599c	15932004	ldrne	r2, [r3, #0x4]
+1959a0	05930004	ldreq	r0, [r3, #0x4]
+1959a4	15812004	strne	r2, [r1, #0x4]
+1959a8	15930004	ldrne	r0, [r3, #0x4]
+1959ac	058e0000	streq	r0, [lr]
+1959b0	e3500000	cmp	r0, #0
+1959b4	058e1004	streq	r1, [lr, #0x4]
+1959b8	15801000	strne	r1, [r0]
+1959bc	e1a00003	mov	r0, r3
+1959c0	eb039a42	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1959c4	e994000a	ldmib	r4, {r1, r3}
+1959c8	e5947000	ldr	r7, [r4]
+1959cc	e2433001	sub	r3, r3, #1
+1959d0	e5843008	str	r3, [r4, #0x8]
+1959d4	eaffffd6	b	0x195934 <_ZN9CInstance5SetIDEib+0x68>
+1959d8	e5820004	str	r0, [r2, #0x4]
+1959dc	e7870188	str	r0, [r7, r8, lsl #3]
+1959e0	e5803004	str	r3, [r0, #0x4]
+1959e4	e5803000	str	r3, [r0]
+1959e8	eaffffe5	b	0x195984 <_ZN9CInstance5SetIDEib+0xb8>
+1959ec	00258358	eoreq	r8, r5, r8, asr r3
+1959f0	001b7360	andseq	r7, r11, r0, ror #6
+193064	ee071a90	vmov	s15, r1
+193068	e92d4010	push	{r4, lr}
+19306c	eef57ac0	vcmpe.f32	s15, #0
+193070	e1a04000	mov	r4, r0
+193074	eef1fa10	vmrs	APSR_nzcv, fpscr
+193078	5a000004	bpl	0x193090 <_ZN9CInstance12SetDirectionEf+0x2c>
+19307c	ed9f7a13	vldr	s14, [pc, #76]
+193080	ee777a87	vadd.f32	s15, s15, s14
+193084	eef57ac0	vcmpe.f32	s15, #0
+193088	eef1fa10	vmrs	APSR_nzcv, fpscr
+19308c	4afffffb	bmi	0x193080 <_ZN9CInstance12SetDirectionEf+0x1c>
+193090	ed9f7a0e	vldr	s14, [pc, #56]
+193094	eef47ac7	vcmpe.f32	s15, s14
+193098	eef1fa10	vmrs	APSR_nzcv, fpscr
+19309c	da000003	ble	0x1930b0 <_ZN9CInstance12SetDirectionEf+0x4c>
+1930a0	ee777ac7	vsub.f32	s15, s15, s14
+1930a4	eef47ac7	vcmpe.f32	s15, s14
+1930a8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1930ac	cafffffb	bgt	0x1930a0 <_ZN9CInstance12SetDirectionEf+0x3c>
+1930b0	ee170a90	vmov	r0, s15
+1930b4	e3a01000	mov	r1, #0
+1930b8	e34413b4	movt	r1, #0x43b4
+1930bc	ebfc8db3	bl	0xb6790 <fmodf@plt>
+1930c0	e58400cc	str	r0, [r4, #0xcc]
+1930c4	e1a00004	mov	r0, r4
+1930c8	e8bd4010	pop	{r4, lr}
+1930cc	eafffe73	b	0x192aa0 <_ZN9CInstance14Compute_Speed2Ev>
+1930d0	43b40000	.word	0x43b40000
+193e7c	ee071a90	vmov	s15, r1
+193e80	edd06a2d	vldr	s13, [r0, #180]
+193e84	e1a03000	mov	r3, r0
+193e88	ee072a10	vmov	s14, r2
+193e8c	eef46a67	vcmp.f32	s13, s15
+193e90	eef1fa10	vmrs	APSR_nzcv, fpscr
+193e94	1a000003	bne	0x193ea8 <_ZN9CInstance11SetPositionEff+0x2c>
+193e98	edd06a2e	vldr	s13, [r0, #184]
+193e9c	eef46a47	vcmp.f32	s13, s14
+193ea0	eef1fa10	vmrs	APSR_nzcv, fpscr
+193ea4	012fff1e	bxeq	lr
+193ea8	e3a02001	mov	r2, #1
+193eac	edc37a2d	vstr	s15, [r3, #180]
+193eb0	ed837a2e	vstr	s14, [r3, #184]
+193eb4	e1a00003	mov	r0, r3
+193eb8	e5c32064	strb	r2, [r3, #0x64]
+193ebc	ea00e0c3	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+19357c	e92d4010	push	{r4, lr}
+193580	e1a04000	mov	r4, r0
+193584	e590008c	ldr	r0, [r0, #0x8c]
+193588	eb016e42	bl	0x1eee98 <_Z13Sprite_Existsi>
+19358c	e3500000	cmp	r0, #0
+193590	08bd8010	popeq	{r4, pc}
+193594	e594008c	ldr	r0, [r4, #0x8c]
+193598	eb016ea7	bl	0x1ef03c <_Z11Sprite_Datai>
+19359c	e5903074	ldr	r3, [r0, #0x74]
+1935a0	e3530002	cmp	r3, #2
+1935a4	0a000001	beq	0x1935b0 <_ZN9CInstance14GetImageNumberEv+0x34>
+1935a8	e5900018	ldr	r0, [r0, #0x18]
+1935ac	e8bd8010	pop	{r4, pc}
+1935b0	e1a00004	mov	r0, r4
+1935b4	ebfffee7	bl	0x193158 <_ZN9CInstance17SkeletonAnimationEv>
+1935b8	e3a01000	mov	r1, #0
+1935bc	e8bd4010	pop	{r4, lr}
+1935c0	eafcab16	b	0xbe220 <_ZN17CSkeletonInstance10FrameCountEi>
+193134	e351000b	cmp	r1, #11
+193138	9281103e	addls	r1, r1, #62
+19313c	97900101	ldrls	r0, [r0, r1, lsl #2]
+193140	83e00000	mvnhi	r0, #0
+193144	e12fff1e	bx	lr

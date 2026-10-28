@@ -53,9 +53,9 @@
 
 ## 已钉的语义
 
-    汇总：128 张卡、40,190 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          claims 1,063 条（proven 890 / narrowed 81 / open 85 / refuted 5 / inferred 3）
-          可达性靶子：入口可达 1,439 个函数（≈148,276 条指令），已出卡 128，剩余约 1,270
+    汇总：135 张卡、42,924 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          claims 1,172 条（proven 986 / narrowed 86 / open 90 / refuted 6 / inferred 4）
+          真实进度（按 @func 起址去重）：247 个函数，171,712 / 593,104 B = 29.0%（可达集）
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -254,6 +254,31 @@
 
     两处回改：CLayerManager::AddInstance 的第一道门是「0x5428e8 == 0 就返回」（1c5d34 popeq），早先写反了；
     F_InstanceDestroy.c 退役（与 Builtins_Motion §3 同 24 条锚点重复，语义已并入后者）
+
+## 第九轮（游戏内建 API 收尾 + 绘制/命令/层删除）
+
+    **87 个游戏实际调用的 builtin 到这里全部有正文卡。** 本轮补完最后 28 个（总 1,020 B）：
+    Builtins_Misc1(14) + Builtins_Misc2(14)：motion_set、object_exists、action_bounce、
+      part_type_create/shape/alpha1、part_system_create、display/window 尺寸、audio_stop_sound、
+      ini_open/close、move_bounce_solid/all、room_goto/restart、audio_pause/resume/stop_all、
+      draw_set_alpha/color/font、action_current_room/kill_object、draw_self、game_restart
+      · room 链接口唯一：Command_GotoRoom(0x1c9e08) 写 New_Room，第二实参是死参
+      · New_Room 六档消费在 SingleStep：-1/-200(RestartGame)/-300(LoadGame)/-100|-400(清 Run_Running)/其余 SwitchRoom
+      · draw_set_color/alpha 是三个互不重叠的全局写点（0x3f23d0 / 0x3f23cc / 0x3f2410）
+    CSprite_Draw      550 条 正文  Draw 九参 / DrawSimple 四参 / DrawTiled **十三参**（不是 12）；
+                                    三函数零全局写、零深度设置（深度由调用方设）；剔除用 g_transRoomExtents 四边
+    CInstance_Setters 177 条 正文  SetSpriteIndex 先写后校验；SetID 维护第三张表 ms_ID2Instance(0x536f28)；
+                                    SetPosition 只在位精确不等时写 +0xb4/+0xb8；GetTimer 越界返回 -1
+    Command_Collision 675 条 正文  collision_line/rectangle/place_meeting 三命令；
+                                    ShouldUseFastCollision 三值分流（-1 直接 0 / 1 走树 / 2 走链）；
+                                    快路不带 obj 过滤，过滤在回调里重做；慢路不排除候选==inst 而快路无条件排除（不等价，已记）
+    LayerRemove       796 条 正文  删一层 = N 次元素销号（表 2/表 3）+ 1 次层销号（表 1）；
+                                    bDestroy=1 时 type 2 走 DoInstanceDestroy ⇒ **删层会硬销毁层内实例**
+    CollisionUpdate_Room 237 条 正文 g_tree 懒建在四道闸之后；旧盒 = 入参 rect、新盒 = +0xe8..+0xf4；
+                                    UpdateLayers 只认 type 1/4/5，type 2 停用会断整层遍历
+
+    一处账本纠正：claims CEG-003 说 Command_RestartGame 是 208 B 写 -201 —— 实测 **88 B 写 -200**，
+    Command_EndGame 才是 4 B `bx lr`；已按 refuted 改写。
 
 ## 结构结论
 

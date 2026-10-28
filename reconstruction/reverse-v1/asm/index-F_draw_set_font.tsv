@@ -1,0 +1,6 @@
+11bd58	e92d4008	push	{r3, lr}
+11bd5c	e3a01000	mov	r1, #0
+11bd60	e59d0008	ldr	r0, [sp, #0x8]
+11bd64	ebfecac1	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+11bd68	e8bd4008	pop	{r3, lr}
+11bd6c	ea015b55	b	0x172ac8 <_Z16GR_Text_Set_Fonti>

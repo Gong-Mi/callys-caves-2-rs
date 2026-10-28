@@ -1,0 +1,13 @@
+128fdc	e92d4038	push	{r3, r4, r5, lr}
+128fe0	e3a01000	mov	r1, #0
+128fe4	e59d4010	ldr	r4, [sp, #0x10]
+128fe8	e1a00004	mov	r0, r4
+128fec	ebfe961f	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+128ff0	e3a01001	mov	r1, #1
+128ff4	e1a05000	mov	r5, r0
+128ff8	e1a00004	mov	r0, r4
+128ffc	ebfe961b	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+129000	e1a01000	mov	r1, r0
+129004	e1a00005	mov	r0, r5
+129008	e8bd4038	pop	{r3, r4, r5, lr}
+12900c	ea01e864	b	0x1a31a4 <_Z18ParticleType_Shapeii>

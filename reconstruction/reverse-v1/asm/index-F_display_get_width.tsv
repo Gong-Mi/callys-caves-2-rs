@@ -1,0 +1,12 @@
+119bc4	e92d4010	push	{r4, lr}
+119bc8	e3a03000	mov	r3, #0
+119bcc	e580300c	str	r3, [r0, #0xc]
+119bd0	e1a04000	mov	r4, r0
+119bd4	eb018fd2	bl	0x17db24 <_Z21Graphics_DisplayWidthv>
+119bd8	ee070a90	vmov	s15, r0
+119bdc	eeb87be7	vcvt.f64.s32	d7, s15
+119be0	ec510b17	vmov	r0, r1, d7
+119be4	ee172a10	vmov	r2, s14
+119be8	e1a03001	mov	r3, r1
+119bec	e884000c	stm	r4, {r2, r3}
+119bf0	e8bd8010	pop	{r4, pc}

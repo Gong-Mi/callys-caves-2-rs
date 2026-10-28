@@ -1,0 +1,12 @@
+128f40	e92d4010	push	{r4, lr}
+128f44	e3a03000	mov	r3, #0
+128f48	e580300c	str	r3, [r0, #0xc]
+128f4c	e1a04000	mov	r4, r0
+128f50	eb01e844	bl	0x1a3068 <_Z19ParticleType_Createv>
+128f54	ee070a90	vmov	s15, r0
+128f58	eeb87be7	vcvt.f64.s32	d7, s15
+128f5c	ec510b17	vmov	r0, r1, d7
+128f60	ee172a10	vmov	r2, s14
+128f64	e1a03001	mov	r3, r1
+128f68	e884000c	stm	r4, {r2, r3}
+128f6c	e8bd8010	pop	{r4, pc}

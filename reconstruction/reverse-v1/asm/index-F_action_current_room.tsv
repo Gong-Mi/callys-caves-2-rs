@@ -1,0 +1,2 @@
+13e6d0	e3a00000	mov	r0, #0
+13e6d4	ea022e17	b	0x1c9f38 <_Z19Command_CurrentRoomi>
