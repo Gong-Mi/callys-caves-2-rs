@@ -8,7 +8,7 @@
 /* @0x16c2c0 mov r0, #24 */
 /* @0x16c2c4 b 0x16ae64 <_Z24GR_Draw_Circle_Precisioni> */
 
-/* ── FUNC 0x16c2c8 · anon_16c2c8 · size=48 · insn=12 */
+/* ── FUNC 0x16c2c8 · anon_16c2c8 · size=44 · insn=12 */
 /* @0x16c2c8 bx lr */
 /* @0x16c2cc push {r4, r5, r6, lr} */
 /* @0x16c2d0 mov r5, r1 */

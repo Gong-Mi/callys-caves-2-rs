@@ -2177,7 +2177,7 @@
 /* @0xde5dc mlaeq r5, r8, r12, r4 */
 /* @0xde5e0 eoreq r4, r5, r8, lsr #25 */
 
-/* ── FUNC 0xde5e4 · anon_de5e4 · size=4 · insn=1 */
+/* ── FUNC 0xde5e4 · anon_de5e4 · size=0 · insn=1 */
 /* @0xde5e4 andeq r0, r0, r0 */
 
 /* ── FUNC 0xde5e8 · DoMod(unsigned int, unsigned char*, unsigned char const*, VMExec*) · size=2436 · insn=609 */
@@ -2791,7 +2791,7 @@
 /* @0xdef64 mov r6, r9 */
 /* @0xdef68 b 0xde694 <_Z5DoModjPhPKhP6VMExec+0xac> */
 
-/* ── FUNC 0xdef6c · anon_def6c · size=4 · insn=1 */
+/* ── FUNC 0xdef6c · anon_def6c · size=0 · insn=1 */
 /* @0xdef6c nop */
 
 /* ── FUNC 0xdef70 · DoAnd(unsigned int, unsigned char*, unsigned char const*, VMExec*) · size=2196 · insn=549 */

@@ -260,7 +260,7 @@
 /* @0x1182bc rscsmi r1, r5, r0, lsl #16 */
 /* @0x1182c0 eoreq r9, sp, r0, asr #30 */
 
-/* ── FUNC 0x1182c4 · anon_1182c4 · size=4 · insn=1 */
+/* ── FUNC 0x1182c4 · anon_1182c4 · size=0 · insn=1 */
 /* @0x1182c4 nop */
 
 /* ── FUNC 0x1182c8 · F_DateGetDayOfYear(RValue&, CInstance*, CInstance*, int, RValue*) · size=284 · insn=71 */
@@ -336,7 +336,7 @@
 /* @0x1183dc rscsmi r1, r5, r0, lsl #16 */
 /* @0x1183e0 eoreq r9, sp, r8, lsl #28 */
 
-/* ── FUNC 0x1183e4 · anon_1183e4 · size=4 · insn=1 */
+/* ── FUNC 0x1183e4 · anon_1183e4 · size=0 · insn=1 */
 /* @0x1183e4 nop */
 
 /* ── FUNC 0x1183e8 · F_DateGetHourOfYear(RValue&, CInstance*, CInstance*, int, RValue*) · size=276 · insn=69 */
@@ -410,7 +410,7 @@
 /* @0x1184f4 rscsmi r1, r5, r0, lsl #16 */
 /* @0x1184f8 eoreq r9, sp, r8, ror #25 */
 
-/* ── FUNC 0x1184fc · anon_1184fc · size=4 · insn=1 */
+/* ── FUNC 0x1184fc · anon_1184fc · size=0 · insn=1 */
 /* @0x1184fc nop */
 
 /* ── FUNC 0x118500 · F_DateGetMinuteOfYear(RValue&, CInstance*, CInstance*, int, RValue*) · size=276 · insn=69 */
@@ -484,7 +484,7 @@
 /* @0x11860c rscsmi r1, r5, r0, lsl #16 */
 /* @0x118610 .word 0x002d9bd0 */
 
-/* ── FUNC 0x118614 · anon_118614 · size=4 · insn=1 */
+/* ── FUNC 0x118614 · anon_118614 · size=0 · insn=1 */
 /* @0x118614 nop */
 
 /* ── FUNC 0x118618 · F_DateGetSecondOfYear(RValue&, CInstance*, CInstance*, int, RValue*) · size=260 · insn=65 */
@@ -554,7 +554,7 @@
 /* @0x118714 rscsmi r1, r5, r0, lsl #16 */
 /* @0x118718 .word 0x002d9ab8 */
 
-/* ── FUNC 0x11871c · anon_11871c · size=4 · insn=1 */
+/* ── FUNC 0x11871c · anon_11871c · size=0 · insn=1 */
 /* @0x11871c nop */
 
 /* ── FUNC 0x118720 · InitMiscFunctions() · size=3500 · insn=875 */

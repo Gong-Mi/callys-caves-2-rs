@@ -594,7 +594,7 @@
 
 /* ── FUNC 0x191064 · CGCGeneration::~CGCGeneration() · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x1910b4 · anon_1910b4 · size=52 · insn=13 */
+/* ── FUNC 0x1910b4 · anon_1910b4 · size=48 · insn=13 */
 /* @0x1910b4 push {r4, lr} */
 /* @0x1910b8 ldr r4, [pc, #0x24] */
 /* @0x1910bc ldr r4, [pc, r4] */

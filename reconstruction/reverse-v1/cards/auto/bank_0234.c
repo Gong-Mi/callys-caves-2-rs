@@ -1,93 +1,8 @@
 /* libyoyo.so 覆盖卡组 0234
- * 函数 0x2818e0..0x282f74，共 32 个；
+ * 函数 0x281a2c..0x282f8c，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x2818e0 · spCurveTimeline_getCurvePercent · size=332 · insn=83 */
-/* @0x2818e0 vmov s15, r2 */
-/* @0x2818e4 add r3, r1, r1, lsl #3 */
-/* @0x2818e8 ldr r0, [r0, #0x8] */
-/* @0x2818ec vcmpe.f32 s15, #0 */
-/* @0x2818f0 add r1, r1, r3, lsl #1 */
-/* @0x2818f4 push {r4, r5} */
-/* @0x2818f8 add r3, r0, r1, lsl #2 */
-/* @0x2818fc vldr s14, [r3] */
-/* @0x281900 vmrs APSR_nzcv, fpscr */
-/* @0x281904 bmi 0x2819d0 <spCurveTimeline_getCurvePercent+0xf0> */
-/* @0x281908 vmov.f32 s13, #1.000000e+00 */
-/* @0x28190c vcmp.f32 s15, s13 */
-/* @0x281910 vmrs APSR_nzcv, fpscr */
-/* @0x281914 vmovgt.f32 s15, s13 */
-/* @0x281918 vcmp.f32 s14, #0 */
-/* @0x28191c vmrs APSR_nzcv, fpscr */
-/* @0x281920 beq 0x2819b4 <spCurveTimeline_getCurvePercent+0xd4> */
-/* @0x281924 vmov.f32 s13, #1.000000e+00 */
-/* @0x281928 vcmp.f32 s14, s13 */
-/* @0x28192c vmrs APSR_nzcv, fpscr */
-/* @0x281930 beq 0x2819c0 <spCurveTimeline_getCurvePercent+0xe0> */
-/* @0x281934 add r4, r1, #1 */
-/* @0x281938 lsl r2, r4, #2 */
-/* @0x28193c mov r12, r4 */
-/* @0x281940 add r3, r0, r2 */
-/* @0x281944 vldr s14, [r3] */
-/* @0x281948 vcmpe.f32 s15, s14 */
-/* @0x28194c vmrs APSR_nzcv, fpscr */
-/* @0x281950 addhi r2, r2, #8 */
-/* @0x281954 addhi r1, r1, #19 */
-/* @0x281958 addhi r2, r0, r2 */
-/* @0x28195c movhi r3, r4 */
-/* @0x281960 bhi 0x281980 <spCurveTimeline_getCurvePercent+0xa0> */
-/* @0x281964 b 0x281a1c <spCurveTimeline_getCurvePercent+0x13c> */
-/* @0x281968 mov r5, r2 */
-/* @0x28196c vldr s14, [r5] */
-/* @0x281970 vcmpe.f32 s15, s14 */
-/* @0x281974 add r2, r2, #8 */
-/* @0x281978 vmrs APSR_nzcv, fpscr */
-/* @0x28197c bls 0x2819d8 <spCurveTimeline_getCurvePercent+0xf8> */
-/* @0x281980 add r3, r3, #2 */
-/* @0x281984 cmp r3, r1 */
-/* @0x281988 mov r12, r3 */
-/* @0x28198c bne 0x281968 <spCurveTimeline_getCurvePercent+0x88> */
-/* @0x281990 vmov.f32 s12, #1.000000e+00 */
-/* @0x281994 add r3, r0, r3, lsl #2 */
-/* @0x281998 vldr s13, [r3, #-4] */
-/* @0x28199c vsub.f32 s15, s15, s14 */
-/* @0x2819a0 vsub.f32 s11, s12, s13 */
-/* @0x2819a4 vmul.f32 s15, s11, s15 */
-/* @0x2819a8 vsub.f32 s14, s12, s14 */
-/* @0x2819ac vdiv.f32 s15, s15, s14 */
-/* @0x2819b0 vadd.f32 s15, s15, s13 */
-/* @0x2819b4 vmov r0, s15 */
-/* @0x2819b8 pop {r4, r5} */
-/* @0x2819bc bx lr */
-/* @0x2819c0 vldr s15, [pc, #96] */
-/* @0x2819c4 pop {r4, r5} */
-/* @0x2819c8 vmov r0, s15 */
-/* @0x2819cc bx lr */
-/* @0x2819d0 vldr s15, [pc, #80] */
-/* @0x2819d4 b 0x281918 <spCurveTimeline_getCurvePercent+0x38> */
-/* @0x2819d8 cmp r4, r12 */
-/* @0x2819dc beq 0x281a1c <spCurveTimeline_getCurvePercent+0x13c> */
-/* @0x2819e0 sub r3, r12, #-1073741822 */
-/* @0x2819e4 add r3, r0, r3, lsl #2 */
-/* @0x2819e8 vldr s12, [r3] */
-/* @0x2819ec vldr s13, [r3, #4] */
-/* @0x2819f0 add r0, r0, r12, lsl #2 */
-/* @0x2819f4 vsub.f32 s15, s15, s12 */
-/* @0x2819f8 vldr s11, [r0, #4] */
-/* @0x2819fc pop {r4, r5} */
-/* @0x281a00 vsub.f32 s11, s11, s13 */
-/* @0x281a04 vmul.f32 s15, s11, s15 */
-/* @0x281a08 vsub.f32 s14, s14, s12 */
-/* @0x281a0c vdiv.f32 s15, s15, s14 */
-/* @0x281a10 vadd.f32 s15, s15, s13 */
-/* @0x281a14 vmov r0, s15 */
-/* @0x281a18 bx lr */
-/* @0x281a1c vldr s13, [pc, #4] */
-/* @0x281a20 vmov.f32 s12, s13 */
-/* @0x281a24 b 0x2819f0 <spCurveTimeline_getCurvePercent+0x110> */
-/* @0x281a28 andeq r0, r0, r0 */
 
 /* ── FUNC 0x281a2c · _spRotateTimeline_apply · size=492 · insn=123 */
 /* @0x281a2c push {r3, r4, r5, r6, r7, lr} */
@@ -1518,3 +1433,16 @@
 /* @0x282f80 ldr r3, [pc, r3] */
 /* @0x282f84 b 0x282a10 <_spBaseTimeline_create> */
 /* @0x282f88 andseq lr, r6, r8, asr r9 */
+
+/* ── FUNC 0x282f8c · spIkConstraintTimeline_setFrame · size=44 · insn=11 */
+/* @0x282f8c vldr s14, [sp] */
+/* @0x282f90 vcvt.f32.s32 s15, s14 */
+/* @0x282f94 add r1, r1, r1, lsl #1 */
+/* @0x282f98 ldr r12, [r0, #0x10] */
+/* @0x282f9c add r0, r1, #1 */
+/* @0x282fa0 add r1, r12, r1, lsl #2 */
+/* @0x282fa4 add r0, r12, r0, lsl #2 */
+/* @0x282fa8 str r2, [r1] */
+/* @0x282fac str r3, [r0] */
+/* @0x282fb0 vstr s15, [r0, #4] */
+/* @0x282fb4 bx lr */

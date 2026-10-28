@@ -419,7 +419,7 @@
 /* @0x1891cc str r5, [r4, #0x8] */
 /* @0x1891d0 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x1891d4 · anon_1891d4 · size=104 · insn=26 */
+/* ── FUNC 0x1891d4 · anon_1891d4 · size=100 · insn=26 */
 /* @0x1891d4 push {r4, r5, r6, lr} */
 /* @0x1891d8 mov r6, r1 */
 /* @0x1891dc mov r5, r2 */
@@ -1741,7 +1741,7 @@
 /* @0x18a614 eoreq r6, r6, r8, asr r0 */
 /* @0x18a618 eoreq r4, r6, r8, rrx */
 
-/* ── FUNC 0x18a61c · anon_18a61c · size=72 · insn=18 */
+/* ── FUNC 0x18a61c · anon_18a61c · size=68 · insn=18 */
 /* @0x18a61c bx lr */
 /* @0x18a620 mov r0, #1 */
 /* @0x18a624 bx lr */
@@ -2605,7 +2605,7 @@
 /* @0x18b33c andseq r11, r11, r4, lsl r4 */
 /* @0x18b340 andseq r10, r11, r12, ror pc */
 
-/* ── FUNC 0x18b344 · anon_18b344 · size=4 · insn=1 */
+/* ── FUNC 0x18b344 · anon_18b344 · size=0 · insn=1 */
 /* @0x18b344 andeq r0, r0, r0 */
 
 /* ── FUNC 0x18b348 · CIAPProduct::PopulateMap(int) · size=496 · insn=122 */

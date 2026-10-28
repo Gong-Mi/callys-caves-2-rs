@@ -1,4 +1,4 @@
-b6fd0	14144	anon_b6fd0	anon_b6fd0	b6fd0	ba70c	3536
+b6fd0	14140	anon_b6fd0	anon_b6fd0	b6fd0	ba70c	3536
 ba710	12180	GLFuncImport(bool)	_Z12GLFuncImportb	ba710	bd6a0	3045
 bd6a4	64	GLFuncImportDestroy()	_Z19GLFuncImportDestroyv	bd6a4	bd6e0	16
 bd6e4	304	_spAtlasPage_createTexture	_spAtlasPage_createTexture	bd6e4	bd810	76
@@ -66,7 +66,7 @@ c08c8	104	CSkeletonInstance::GetDuration(char*) const	_ZNK17CSkeletonInstance11G
 c0930	200	CSkeletonInstance::GetFrames(char*) const	_ZNK17CSkeletonInstance9GetFramesEPc	c0930	c09f4	50
 c09f8	132	_RefThing<char const*>::dec()	_ZN9_RefThingIPKcE3decEv	c09f8	c0a78	33
 c0a7c	2256	FREE_RValue__Pre(RValue*)	_Z16FREE_RValue__PreP6RValue	c0a7c	c1348	564
-c134c	4	anon_c134c	anon_c134c	c134c	c134c	1
+c134c	0	anon_c134c	anon_c134c	c134c	c134c	1
 c1350	304	CSkeletonSprite::GetSlotData(CDS_List*)	_ZN15CSkeletonSprite11GetSlotDataEP8CDS_List	c1350	c147c	74
 c1480	576	CSkeletonInstance::SetBoneState(char const*, int)	_ZN17CSkeletonInstance12SetBoneStateEPKci	c1480	c16bc	144
 c16c0	692	CSkeletonInstance::SetBoneData(char const*, int)	_ZN17CSkeletonInstance11SetBoneDataEPKci	c16c0	c1970	173
@@ -338,7 +338,7 @@ ce274	68	FINALIZE_Code_Function()	_Z22FINALIZE_Code_Functionv	ce274	ce2b4	17
 ce2b8	180	CCode::~CCode()	_ZN5CCodeD1Ev	ce2b8	ce368	45
 ce2b8	180	CCode::~CCode()	_ZN5CCodeD2Ev	ce2b8	ce368	45
 ce36c	28	CCode::~CCode()	_ZN5CCodeD0Ev	ce36c	ce384	7
-ce388	180	anon_ce388	anon_ce388	ce388	ce438	45
+ce388	176	anon_ce388	anon_ce388	ce388	ce438	45
 ce43c	132	VMBuffer::~VMBuffer()	_ZN8VMBufferD1Ev	ce43c	ce4bc	33
 ce43c	132	VMBuffer::~VMBuffer()	_ZN8VMBufferD2Ev	ce43c	ce4bc	33
 ce4c0	140	VMBuffer::~VMBuffer()	_ZN8VMBufferD0Ev	ce4c0	ce548	35
@@ -515,9 +515,9 @@ dc42c	248	_RefThing<char const*>::remove(_RefThing<char const*>*)	_ZN9_RefThingI
 dc524	4060	DoAdd(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z5DoAddjPhPKhP6VMExec	dc524	dd4fc	1015
 dd500	2152	DoSub(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z5DoSubjPhPKhP6VMExec	dd500	ddd64	538
 ddd68	2172	DoDiv(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z5DoDivjPhPKhP6VMExec	ddd68	de5e0	543
-de5e4	4	anon_de5e4	anon_de5e4	de5e4	de5e4	1
+de5e4	0	anon_de5e4	anon_de5e4	de5e4	de5e4	1
 de5e8	2436	DoMod(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z5DoModjPhPKhP6VMExec	de5e8	def68	609
-def6c	4	anon_def6c	anon_def6c	def6c	def6c	1
+def6c	0	anon_def6c	anon_def6c	def6c	def6c	1
 def70	2196	DoAnd(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z5DoAndjPhPKhP6VMExec	def70	df800	549
 df804	2260	DoOr(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z4DoOrjPhPKhP6VMExec	df804	e00d4	565
 e00d8	2196	DoXor(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z5DoXorjPhPKhP6VMExec	e00d8	e0968	549
@@ -552,7 +552,7 @@ e9790	1096	YYGML_CallExtensionFunction(CInstance*, CInstance*, YYRValue&, int, i
 e9bd8	688	VM::PokeDSGrid(int, int, int, RValue&)	_ZN2VM10PokeDSGridEiiiR6RValue	e9bd8	e9e84	172
 e9e88	5488	DoPush(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z6DoPushjPhPKhP6VMExec	e9e88	eb3f4	1372
 eb3f8	3340	DoConv(unsigned int, unsigned char*, unsigned char const*, VMExec*)	_Z6DoConvjPhPKhP6VMExec	eb3f8	ec100	832
-ec104	4	anon_ec104	anon_ec104	ec104	ec104	1
+ec104	0	anon_ec104	anon_ec104	ec104	ec104	1
 ec108	60	ParamSize(int)	_Z9ParamSizei	ec108	ec140	15
 ec144	100	VM::DebugInfo(VMBuffer*, int)	_ZN2VM9DebugInfoEP8VMBufferi	ec144	ec1a4	25
 ec1a8	272	VM::DebugLine(VMDebugInfo*, char const*)	_ZN2VM9DebugLineEP11VMDebugInfoPKc	ec1a8	ec2b4	68
@@ -777,7 +777,7 @@ f63c0	24	Extension_Function_GetKind(int)	_Z26Extension_Function_GetKindi	f63c0	f
 f63d8	24	Extension_Function_GetCode(int)	_Z26Extension_Function_GetCodei	f63d8	f63ec	6
 f63f0	544	Extension_Initialize()	_Z20Extension_Initializev	f63f0	f660c	136
 f6610	648	Extension_Finalize()	_Z18Extension_Finalizev	f6610	f6894	162
-f6898	48	anon_f6898	anon_f6898	f6898	f68c4	12
+f6898	44	anon_f6898	anon_f6898	f6898	f68c4	12
 f68c8	944	YYFTGlyphCache::GetLRUSlot(YYGlyph2*, int, bool)	_ZN14YYFTGlyphCache10GetLRUSlotEP8YYGlyph2ib	f68c8	f6c74	236
 f6c78	40	yywcslen(unsigned short const*)	_Z8yywcslenPKt	f6c78	f6c9c	10
 f6ca0	192	CFontGM::GetFont()	_ZN7CFontGM7GetFontEv	f6ca0	f6d5c	48
@@ -857,10 +857,10 @@ fac94	84	Font_FreeTextures()	_Z17Font_FreeTexturesv	fac94	face4	21
 face8	16	FINALIZE_Font_Main()	_Z18FINALIZE_Font_Mainv	face8	facf4	4
 facf8	24	F_DsSetPrecision(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_DsSetPrecisionR6RValueP9CInstanceS2_iPS_	facf8	fad0c	6
 fad10	264	F_DsQueueCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z15F_DsQueueCreateR6RValueP9CInstanceS2_iPS_	fad10	fae14	66
-fae18	492	anon_fae18	anon_fae18	fae18	fb000	123
+fae18	488	anon_fae18	anon_fae18	fae18	fb000	123
 fb004	444	F_DsMapSecureSaveBuffer(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_DsMapSecureSaveBufferR6RValueP9CInstanceS2_iPS_	fb004	fb1bc	111
 fb1c0	396	F_DsMapSecureSave(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_DsMapSecureSaveR6RValueP9CInstanceS2_iPS_	fb1c0	fb348	99
-fb34c	116	anon_fb34c	anon_fb34c	fb34c	fb3bc	29
+fb34c	112	anon_fb34c	anon_fb34c	fb34c	fb3bc	29
 fb3c0	456	F_DsMapSecureLoad(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_DsMapSecureLoadR6RValueP9CInstanceS2_iPS_	fb3c0	fb584	114
 fb588	340	F_DsMapSecureLoadBuffer(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_DsMapSecureLoadBufferR6RValueP9CInstanceS2_iPS_	fb588	fb6d8	85
 fb6dc	264	F_DsPriorityCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z18F_DsPriorityCreateR6RValueP9CInstanceS2_iPS_	fb6dc	fb7e0	66
@@ -1039,7 +1039,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 107de8	360	F_Rectangle_In_Circle(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_Rectangle_In_CircleR6RValueP9CInstanceS2_iPS_	107de8	107f4c	90
 107f50	100	F_PlaceEmpty(RValue&, CInstance*, CInstance*, int, RValue*)	_Z12F_PlaceEmptyR6RValueP9CInstanceS2_iPS_	107f50	107fb0	25
 107fb4	192	F_PlaceMeeting(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_PlaceMeetingR6RValueP9CInstanceS2_iPS_	107fb4	108070	48
-108074	4	anon_108074	anon_108074	108074	108074	1
+108074	0	anon_108074	anon_108074	108074	108074	1
 108078	232	F_PlaceSnapped(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_PlaceSnappedR6RValueP9CInstanceS2_iPS_	108078	10815c	58
 108160	60	F_MoveSnap(RValue&, CInstance*, CInstance*, int, RValue*)	_Z10F_MoveSnapR6RValueP9CInstanceS2_iPS_	108160	108198	15
 10819c	80	F_MoveTowardsPoint(RValue&, CInstance*, CInstance*, int, RValue*)	_Z18F_MoveTowardsPointR6RValueP9CInstanceS2_iPS_	10819c	1081e8	20
@@ -1053,7 +1053,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1084cc	84	F_MoveContact(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_MoveContactR6RValueP9CInstanceS2_iPS_	1084cc	10851c	21
 108520	64	F_MotionSet(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11F_MotionSetR6RValueP9CInstanceS2_iPS_	108520	10855c	16
 108560	60	F_MotionAdd(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11F_MotionAddR6RValueP9CInstanceS2_iPS_	108560	108598	15
-10859c	4	anon_10859c	anon_10859c	10859c	10859c	1
+10859c	0	anon_10859c	anon_10859c	10859c	10859c	1
 1085a0	248	F_DistanceToPoint(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_DistanceToPointR6RValueP9CInstanceS2_iPS_	1085a0	10868c	60
 108698	192	F_Point_In_Circle(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_Point_In_CircleR6RValueP9CInstanceS2_iPS_	108698	108754	48
 108758	244	F_InstanceFind(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_InstanceFindR6RValueP9CInstanceS2_iPS_	108758	108848	61
@@ -1183,7 +1183,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 10e018	96	F_Lerp(RValue&, CInstance*, CInstance*, int, RValue*)	_Z6F_LerpR6RValueP9CInstanceS2_iPS_	10e018	10e074	24
 10e078	112	F_DotProduct(RValue&, CInstance*, CInstance*, int, RValue*)	_Z12F_DotProductR6RValueP9CInstanceS2_iPS_	10e078	10e0e4	28
 10e0e8	148	F_DotProduct_3D(RValue&, CInstance*, CInstance*, int, RValue*)	_Z15F_DotProduct_3DR6RValueP9CInstanceS2_iPS_	10e0e8	10e178	37
-10e17c	4	anon_10e17c	anon_10e17c	10e17c	10e17c	1
+10e17c	0	anon_10e17c	anon_10e17c	10e17c	10e17c	1
 10e180	160	F_MathSetEpsilon(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_MathSetEpsilonR6RValueP9CInstanceS2_iPS_	10e180	10e21c	40
 10e220	44	F_RandomSetSeed(RValue&, CInstance*, CInstance*, int, RValue*)	_Z15F_RandomSetSeedR6RValueP9CInstanceS2_iPS_	10e220	10e248	11
 10e24c	56	F_RandomUseOldVersion(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_RandomUseOldVersionR6RValueP9CInstanceS2_iPS_	10e24c	10e280	14
@@ -1235,7 +1235,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 10f53c	120	F_ArraySet(RValue&, CInstance*, CInstance*, int, RValue*)	_Z10F_ArraySetR6RValueP9CInstanceS2_iPS_	10f53c	10f5b0	30
 10f5b4	144	F_ArraySet2D(RValue&, CInstance*, CInstance*, int, RValue*)	_Z12F_ArraySet2DR6RValueP9CInstanceS2_iPS_	10f5b4	10f640	36
 10f644	168	F_ArraySet2DPost(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_ArraySet2DPostR6RValueP9CInstanceS2_iPS_	10f644	10f6e8	42
-10f6ec	4	anon_10f6ec	anon_10f6ec	10f6ec	10f6ec	1
+10f6ec	0	anon_10f6ec	anon_10f6ec	10f6ec	10f6ec	1
 10f6f0	128	F_Mean(RValue&, CInstance*, CInstance*, int, RValue*)	_Z6F_MeanR6RValueP9CInstanceS2_iPS_	10f6f0	10f764	30
 10f770	116	F_Sqrt(RValue&, CInstance*, CInstance*, int, RValue*)	_Z6F_SqrtR6RValueP9CInstanceS2_iPS_	10f770	10f7e0	29
 10f7e4	212	F_StringFormat(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_StringFormatR6RValueP9CInstanceS2_iPS_	10f7e4	10f8b4	53
@@ -1275,7 +1275,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 110f78	48	YYGML_irandom(int)	_Z13YYGML_irandomi	110f78	110fa4	12
 110fa8	16	YYGML_abs(double)	_Z9YYGML_absd	110fa8	110fb4	4
 110fb8	52	YYGML_sign(double)	_Z10YYGML_signd	110fb8	110fe8	13
-110fec	4	anon_110fec	anon_110fec	110fec	110fec	1
+110fec	0	anon_110fec	anon_110fec	110fec	110fec	1
 110ff0	64	YYGML_sins(double)	_Z10YYGML_sinsd	110ff0	111024	14
 111030	64	YYGML_cos(double)	_Z9YYGML_cosd	111030	111064	14
 111070	48	YYGML_degtorad(double)	_Z14YYGML_degtoradd	111070	11109c	12
@@ -1343,11 +1343,11 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 115430	104	F_DateWeekSpan(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DateWeekSpanR6RValueP9CInstanceS2_iPS_	115430	115494	26
 115498	108	F_DateDaySpan(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_DateDaySpanR6RValueP9CInstanceS2_iPS_	115498	115500	27
 115504	96	F_DateHourSpan(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DateHourSpanR6RValueP9CInstanceS2_iPS_	115504	115560	24
-115564	4	anon_115564	anon_115564	115564	115564	1
+115564	0	anon_115564	anon_115564	115564	115564	1
 115568	104	F_DateMinuteSpan(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_DateMinuteSpanR6RValueP9CInstanceS2_iPS_	115568	1155cc	26
 1155d0	104	F_DateSecondSpan(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_DateSecondSpanR6RValueP9CInstanceS2_iPS_	1155d0	115634	26
 115638	116	F_DateCompareDateTime(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_DateCompareDateTimeR6RValueP9CInstanceS2_iPS_	115638	1156a8	29
-1156ac	4	anon_1156ac	anon_1156ac	1156ac	1156ac	1
+1156ac	0	anon_1156ac	anon_1156ac	1156ac	1156ac	1
 1156b0	248	F_DateIncYear(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_DateIncYearR6RValueP9CInstanceS2_iPS_	1156b0	1157a4	62
 1157a8	240	F_DateIncMonth(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DateIncMonthR6RValueP9CInstanceS2_iPS_	1157a8	115894	60
 115898	240	F_DateIncWeek(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_DateIncWeekR6RValueP9CInstanceS2_iPS_	115898	115984	60
@@ -1370,26 +1370,26 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 11662c	220	F_ExternalDefine8(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_ExternalDefine8R6RValueP9CInstanceS2_iPS_	11662c	116704	55
 116708	80	F_ShowDebugOverlay(RValue&, CInstance*, CInstance*, int, RValue*)	_Z18F_ShowDebugOverlayR6RValueP9CInstanceS2_iPS_	116708	116754	20
 116758	228	F_GameSetSpeed(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_GameSetSpeedR6RValueP9CInstanceS2_iPS_	116758	116838	57
-11683c	4	anon_11683c	anon_11683c	11683c	11683c	1
+11683c	0	anon_11683c	anon_11683c	11683c	11683c	1
 116840	132	F_GameGetSpeed(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_GameGetSpeedR6RValueP9CInstanceS2_iPS_	116840	1168c0	33
-1168c4	4	anon_1168c4	anon_1168c4	1168c4	1168c4	1
+1168c4	0	anon_1168c4	anon_1168c4	1168c4	1168c4	1
 1168c8	220	F_EventInherited(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_EventInheritedR6RValueP9CInstanceS2_iPS_	1168c8	1169a0	55
 1169a4	268	F_VariableInstanceGet(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_VariableInstanceGetR6RValueP9CInstanceS2_iPS_	1169a4	116aac	67
 116ab0	200	F_VariableInstanceSet(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_VariableInstanceSetR6RValueP9CInstanceS2_iPS_	116ab0	116b74	50
 116b78	196	F_DateGetWeekday(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_DateGetWeekdayR6RValueP9CInstanceS2_iPS_	116b78	116c38	49
-116c3c	4	anon_116c3c	anon_116c3c	116c3c	116c3c	1
+116c3c	0	anon_116c3c	anon_116c3c	116c3c	116c3c	1
 116c40	212	F_DateGetYear(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_DateGetYearR6RValueP9CInstanceS2_iPS_	116c40	116d10	53
-116d14	4	anon_116d14	anon_116d14	116d14	116d14	1
+116d14	0	anon_116d14	anon_116d14	116d14	116d14	1
 116d18	204	F_DateGetMonth(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DateGetMonthR6RValueP9CInstanceS2_iPS_	116d18	116de0	51
-116de4	4	anon_116de4	anon_116de4	116de4	116de4	1
+116de4	0	anon_116de4	anon_116de4	116de4	116de4	1
 116de8	196	F_DateGetDay(RValue&, CInstance*, CInstance*, int, RValue*)	_Z12F_DateGetDayR6RValueP9CInstanceS2_iPS_	116de8	116ea8	49
-116eac	4	anon_116eac	anon_116eac	116eac	116eac	1
+116eac	0	anon_116eac	anon_116eac	116eac	116eac	1
 116eb0	196	F_DateGetHour(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_DateGetHourR6RValueP9CInstanceS2_iPS_	116eb0	116f70	49
-116f74	4	anon_116f74	anon_116f74	116f74	116f74	1
+116f74	0	anon_116f74	anon_116f74	116f74	116f74	1
 116f78	196	F_DateGetMinute(RValue&, CInstance*, CInstance*, int, RValue*)	_Z15F_DateGetMinuteR6RValueP9CInstanceS2_iPS_	116f78	117038	49
-11703c	4	anon_11703c	anon_11703c	11703c	11703c	1
+11703c	0	anon_11703c	anon_11703c	11703c	11703c	1
 117040	196	F_DateGetSecond(RValue&, CInstance*, CInstance*, int, RValue*)	_Z15F_DateGetSecondR6RValueP9CInstanceS2_iPS_	117040	117100	49
-117104	4	anon_117104	anon_117104	117104	117104	1
+117104	0	anon_117104	anon_117104	117104	117104	1
 117108	336	F_DateIsToday(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_DateIsTodayR6RValueP9CInstanceS2_iPS_	117108	117254	84
 117258	368	F_DateDateTimeString(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20F_DateDateTimeStringR6RValueP9CInstanceS2_iPS_	117258	1173c4	92
 1173c8	368	F_DateDateString(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_DateDateStringR6RValueP9CInstanceS2_iPS_	1173c8	117534	92
@@ -1402,24 +1402,24 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 117a5c	84	is_leap_year(int)	_Z12is_leap_yeari	117a5c	117aac	21
 117ab0	296	F_DateDaysInMonth(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_DateDaysInMonthR6RValueP9CInstanceS2_iPS_	117ab0	117bd4	74
 117bd8	220	F_DateDaysInYear(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_DateDaysInYearR6RValueP9CInstanceS2_iPS_	117bd8	117cb0	55
-117cb4	4	anon_117cb4	anon_117cb4	117cb4	117cb4	1
+117cb4	0	anon_117cb4	anon_117cb4	117cb4	117cb4	1
 117cb8	220	F_DateLeapYear(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DateLeapYearR6RValueP9CInstanceS2_iPS_	117cb8	117d90	55
-117d94	4	anon_117d94	anon_117d94	117d94	117d94	1
+117d94	0	anon_117d94	anon_117d94	117d94	117d94	1
 117d98	340	_yytimegm(tm*)	_Z9_yytimegmP2tm	117d98	117ee8	85
 117eec	172	date_is_valid(int, int, int)	_Z13date_is_validiii	117eec	117f94	43
 117f98	188	F_DateValidDateTime(RValue&, CInstance*, CInstance*, int, RValue*)	_Z19F_DateValidDateTimeR6RValueP9CInstanceS2_iPS_	117f98	118050	47
 118054	108	F_DateValidDate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z15F_DateValidDateR6RValueP9CInstanceS2_iPS_	118054	1180bc	27
 1180c0	208	GetSecondOfYear(int, int, int, int, int, int)	_Z15GetSecondOfYeariiiiii	1180c0	11818c	52
 118190	308	F_DateGetWeek(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_DateGetWeekR6RValueP9CInstanceS2_iPS_	118190	1182c0	77
-1182c4	4	anon_1182c4	anon_1182c4	1182c4	1182c4	1
+1182c4	0	anon_1182c4	anon_1182c4	1182c4	1182c4	1
 1182c8	284	F_DateGetDayOfYear(RValue&, CInstance*, CInstance*, int, RValue*)	_Z18F_DateGetDayOfYearR6RValueP9CInstanceS2_iPS_	1182c8	1183e0	71
-1183e4	4	anon_1183e4	anon_1183e4	1183e4	1183e4	1
+1183e4	0	anon_1183e4	anon_1183e4	1183e4	1183e4	1
 1183e8	276	F_DateGetHourOfYear(RValue&, CInstance*, CInstance*, int, RValue*)	_Z19F_DateGetHourOfYearR6RValueP9CInstanceS2_iPS_	1183e8	1184f8	69
-1184fc	4	anon_1184fc	anon_1184fc	1184fc	1184fc	1
+1184fc	0	anon_1184fc	anon_1184fc	1184fc	1184fc	1
 118500	276	F_DateGetMinuteOfYear(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_DateGetMinuteOfYearR6RValueP9CInstanceS2_iPS_	118500	118610	69
-118614	4	anon_118614	anon_118614	118614	118614	1
+118614	0	anon_118614	anon_118614	118614	118614	1
 118618	260	F_DateGetSecondOfYear(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_DateGetSecondOfYearR6RValueP9CInstanceS2_iPS_	118618	118718	65
-11871c	4	anon_11871c	anon_11871c	11871c	11871c	1
+11871c	0	anon_11871c	anon_11871c	11871c	11871c	1
 118720	3500	InitMiscFunctions()	_Z17InitMiscFunctionsv	118720	1194c8	875
 1194cc	728	F_ExternalCall(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_ExternalCallR6RValueP9CInstanceS2_iPS_	1194cc	1197a0	182
 1197a4	224	F_VariableGlobalExists(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22F_VariableGlobalExistsR6RValueP9CInstanceS2_iPS_	1197a4	119880	56
@@ -2230,7 +2230,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 138a9c	184	F_ExecuteShell(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_ExecuteShellR6RValueP9CInstanceS2_iPS_	138a9c	138b50	46
 138b54	76	F_EnvironmentGetVariable(RValue&, CInstance*, CInstance*, int, RValue*)	_Z24F_EnvironmentGetVariableR6RValueP9CInstanceS2_iPS_	138b54	138b9c	19
 138ba0	324	HttpRequestCallback(HTTP_REQ_CONTEXT*, void*, int*)	_Z19HttpRequestCallbackP16HTTP_REQ_CONTEXTPvPi	138ba0	138ce0	79
-138ce4	4	anon_138ce4	anon_138ce4	138ce4	138ce4	1
+138ce4	0	anon_138ce4	anon_138ce4	138ce4	138ce4	1
 138ce8	392	HttpBufferRequestCallback(HTTP_REQ_CONTEXT*, void*, int*)	_Z25HttpBufferRequestCallbackP16HTTP_REQ_CONTEXTPvPi	138ce8	138e6c	96
 138e70	272	HttpGetFileCallback(HTTP_REQ_CONTEXT*, void*, int*)	_Z19HttpGetFileCallbackP16HTTP_REQ_CONTEXTPvPi	138e70	138f7c	66
 138f80	244	F_HttpPostString(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_HttpPostStringR6RValueP9CInstanceS2_iPS_	138f80	139070	61
@@ -2249,9 +2249,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1398a4	196	F_FileOpenWrite(RValue&, CInstance*, CInstance*, int, RValue*)	_Z15F_FileOpenWriteR6RValueP9CInstanceS2_iPS_	1398a4	139964	49
 139968	196	F_FileOpenAppend(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_FileOpenAppendR6RValueP9CInstanceS2_iPS_	139968	139a28	49
 139a2c	116	F_FileEof(RValue&, CInstance*, CInstance*, int, RValue*)	_Z9F_FileEofR6RValueP9CInstanceS2_iPS_	139a2c	139a9c	29
-139aa0	184	anon_139aa0	anon_139aa0	139aa0	139b54	46
+139aa0	180	anon_139aa0	anon_139aa0	139aa0	139b54	46
 139b58	48	F_FileReadString(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_FileReadStringR6RValueP9CInstanceS2_iPS_	139b58	139b84	12
-139b88	184	anon_139b88	anon_139b88	139b88	139c3c	46
+139b88	180	anon_139b88	anon_139b88	139b88	139c3c	46
 139c40	48	F_FileReadLn(RValue&, CInstance*, CInstance*, int, RValue*)	_Z12F_FileReadLnR6RValueP9CInstanceS2_iPS_	139c40	139c6c	12
 139c70	88	F_FileReadReal(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_FileReadRealR6RValueP9CInstanceS2_iPS_	139c70	139cc4	22
 139cc8	96	F_FileWriteString(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_FileWriteStringR6RValueP9CInstanceS2_iPS_	139cc8	139d24	24
@@ -2551,7 +2551,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 145e38	208	F_D3DModelWall(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_D3DModelWallR6RValueP9CInstanceS2_iPS_	145e38	145f04	52
 145f08	208	F_D3DModelFloor(RValue&, CInstance*, CInstance*, int, RValue*)	_Z15F_D3DModelFloorR6RValueP9CInstanceS2_iPS_	145f08	145fd4	52
 145fd8	180	F_GPUGetFog(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11F_GPUGetFogR6RValueP9CInstanceS2_iPS_	145fd8	146088	43
-14608c	4	anon_14608c	anon_14608c	14608c	14608c	1
+14608c	0	anon_14608c	anon_14608c	14608c	14608c	1
 146090	16	F_GPUPushState(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_GPUPushStateR6RValueP9CInstanceS2_iPS_	146090	14609c	4
 1460a0	16	F_GPUPopState(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_GPUPopStateR6RValueP9CInstanceS2_iPS_	1460a0	1460ac	4
 1460b0	548	F_GPUGetState(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_GPUGetStateR6RValueP9CInstanceS2_iPS_	1460b0	1462d0	137
@@ -2665,7 +2665,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 14c2e4	192	F_PhysicsFixtureSetBoxShape(RValue&, CInstance*, CInstance*, int, RValue*)	_Z27F_PhysicsFixtureSetBoxShapeR6RValueP9CInstanceS2_iPS_	14c2e4	14c3a0	48
 14c3a4	248	F_PhysicsFixtureSetEdgeShape(RValue&, CInstance*, CInstance*, int, RValue*)	_Z28F_PhysicsFixtureSetEdgeShapeR6RValueP9CInstanceS2_iPS_	14c3a4	14c498	62
 14c49c	224	F_PhysicsFixtureAddShapePoint(RValue&, CInstance*, CInstance*, int, RValue*)	_Z29F_PhysicsFixtureAddShapePointR6RValueP9CInstanceS2_iPS_	14c49c	14c578	56
-14c57c	292	anon_14c57c	anon_14c57c	14c57c	14c69c	73
+14c57c	288	anon_14c57c	anon_14c57c	14c57c	14c69c	73
 14c6a0	108	F_PhysicsBindFixture(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20F_PhysicsBindFixtureR6RValueP9CInstanceS2_iPS_	14c6a0	14c708	27
 14c70c	136	F_PhysicsBindFixtureExt(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_PhysicsBindFixtureExtR6RValueP9CInstanceS2_iPS_	14c70c	14c790	34
 14c794	220	F_PhysicsSetMass(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_PhysicsSetMassR6RValueP9CInstanceS2_iPS_	14c794	14c86c	55
@@ -2746,7 +2746,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 151350	108	F_GamepadGetAxisDeadzone(RValue&, CInstance*, CInstance*, int, RValue*)	_Z24F_GamepadGetAxisDeadzoneR6RValueP9CInstanceS2_iPS_	151350	1513b8	27
 1513bc	104	F_GamepadGetDescription(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_GamepadGetDescriptionR6RValueP9CInstanceS2_iPS_	1513bc	151420	26
 151424	120	F_GamepadButtonCount(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20F_GamepadButtonCountR6RValueP9CInstanceS2_iPS_	151424	151498	30
-15149c	24	anon_15149c	anon_15149c	15149c	1514b0	6
+15149c	20	anon_15149c	anon_15149c	15149c	1514b0	6
 1514b4	156	F_GamepadButtonCheck(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20F_GamepadButtonCheckR6RValueP9CInstanceS2_iPS_	1514b4	15154c	39
 151550	156	F_GamepadButtonCheckPressed(RValue&, CInstance*, CInstance*, int, RValue*)	_Z27F_GamepadButtonCheckPressedR6RValueP9CInstanceS2_iPS_	151550	1515e8	39
 1515ec	156	F_GamepadButtonCheckReleased(RValue&, CInstance*, CInstance*, int, RValue*)	_Z28F_GamepadButtonCheckReleasedR6RValueP9CInstanceS2_iPS_	1515ec	151684	39
@@ -2769,17 +2769,17 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 152bcc	208	SGamepadMapping::FindFromGUID(unsigned char const*)	_ZN15SGamepadMapping12FindFromGUIDEPKh	152bcc	152c98	52
 152c9c	856	InitGamepadFunctions()	_Z20InitGamepadFunctionsv	152c9c	152ff0	214
 152ff4	44	F_IAP_StoreState(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_IAP_StoreStateR6RValueP9CInstanceS2_iPS_	152ff4	15301c	11
-153020	512	anon_153020	anon_153020	153020	15321c	128
+153020	508	anon_153020	anon_153020	153020	15321c	128
 153220	20	F_IAP_Deprecated(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_IAP_DeprecatedR6RValueP9CInstanceS2_iPS_	153220	153230	5
 153234	72	F_IAP_ProductPurchased(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22F_IAP_ProductPurchasedR6RValueP9CInstanceS2_iPS_	153234	153278	18
-15327c	468	anon_15327c	anon_15327c	15327c	15344c	117
+15327c	464	anon_15327c	anon_15327c	15327c	15344c	117
 153450	132	F_IAP_PurchaseDetails(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_IAP_PurchaseDetailsR6RValueP9CInstanceS2_iPS_	153450	1534d0	33
 1534d4	572	InitIAPFunctions()	_Z16InitIAPFunctionsv	1534d4	15370c	143
-153710	1240	anon_153710	anon_153710	153710	153be4	310
+153710	1236	anon_153710	anon_153710	153710	153be4	310
 153be8	3720	YYIAPEventsDispatch()	_Z19YYIAPEventsDispatchv	153be8	154a6c	928
-154a70	356	anon_154a70	anon_154a70	154a70	154bd0	89
+154a70	352	anon_154a70	anon_154a70	154a70	154bd0	89
 154bd4	1176	F_IAP_Activate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_IAP_ActivateR6RValueP9CInstanceS2_iPS_	154bd4	155068	294
-15506c	4	anon_15506c	anon_15506c	15506c	15506c	1
+15506c	0	anon_15506c	anon_15506c	15506c	15506c	1
 155070	384	F_IAP_Acquire(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_IAP_AcquireR6RValueP9CInstanceS2_iPS_	155070	1551ec	94
 1551f0	196	F_IAP_Consume(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_IAP_ConsumeR6RValueP9CInstanceS2_iPS_	1551f0	1552b0	49
 1552b4	64	F_IAP_RestoreAll(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_IAP_RestoreAllR6RValueP9CInstanceS2_iPS_	1552b4	1552f0	16
@@ -2792,9 +2792,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 155724	272	F_IAP_EnumerateProducts(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_IAP_EnumerateProductsR6RValueP9CInstanceS2_iPS_	155724	155830	68
 155834	168	F_Push_GetFirstLocalNotification(RValue&, CInstance*, CInstance*, int, RValue*)	_Z32F_Push_GetFirstLocalNotificationR6RValueP9CInstanceS2_iPS_	155834	1558d8	42
 1558dc	168	F_Push_GetNextLocalNotification(RValue&, CInstance*, CInstance*, int, RValue*)	_Z31F_Push_GetNextLocalNotificationR6RValueP9CInstanceS2_iPS_	1558dc	155980	42
-155984	4	anon_155984	anon_155984	155984	155984	1
+155984	0	anon_155984	anon_155984	155984	155984	1
 155988	348	F_Push_LocalNotification(RValue&, CInstance*, CInstance*, int, RValue*)	_Z24F_Push_LocalNotificationR6RValueP9CInstanceS2_iPS_	155988	155ae0	85
-155ae4	4	anon_155ae4	anon_155ae4	155ae4	155ae4	1
+155ae4	0	anon_155ae4	anon_155ae4	155ae4	155ae4	1
 155ae8	104	F_Push_CancelLocalNotification(RValue&, CInstance*, CInstance*, int, RValue*)	_Z30F_Push_CancelLocalNotificationR6RValueP9CInstanceS2_iPS_	155ae8	155b4c	26
 155b50	48	SPushNotificationEvent::SPushNotificationEvent(int, ePushEventType, char const*)	_ZN22SPushNotificationEventC1Ei14ePushEventTypePKc	155b50	155b7c	12
 155b50	48	SPushNotificationEvent::SPushNotificationEvent(int, ePushEventType, char const*)	_ZN22SPushNotificationEventC2Ei14ePushEventTypePKc	155b50	155b7c	12
@@ -2802,7 +2802,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 155b80	32	SPushNotificationEvent::~SPushNotificationEvent()	_ZN22SPushNotificationEventD2Ev	155b80	155b9c	8
 155ba0	88	Push_InitQueue()	_Z14Push_InitQueuev	155ba0	155bf4	22
 155bf8	676	Push_DispatchEvents()	_Z19Push_DispatchEventsv	155bf8	155e98	167
-155e9c	4	anon_155e9c	anon_155e9c	155e9c	155e9c	1
+155e9c	0	anon_155e9c	anon_155e9c	155e9c	155e9c	1
 155ea0	228	InitPushFunctions()	_Z17InitPushFunctionsv	155ea0	155f80	57
 155f84	172	Push_SendEvent(bool, ePushEventType, char const*)	_Z14Push_SendEventb14ePushEventTypePKc	155f84	15602c	43
 156030	52	F_YoYo_AchievementsAvailable(RValue&, CInstance*, CInstance*, int, RValue*)	_Z28F_YoYo_AchievementsAvailableR6RValueP9CInstanceS2_iPS_	156030	156060	13
@@ -2968,7 +2968,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 159a9c	144	AddAchievementCacheBlock(eCacheType, char const*, unsigned int*)	_Z24AddAchievementCacheBlock10eCacheTypePKcPj	159a9c	159b28	36
 159b2c	56	Cache_ReadInt32(unsigned char*, int*)	_Z15Cache_ReadInt32PhPi	159b2c	159b60	14
 159b64	44	Cache_ReadString(unsigned char*, int*)	_Z16Cache_ReadStringPhPi	159b64	159b8c	11
-159b90	248	anon_159b90	anon_159b90	159b90	159c84	62
+159b90	244	anon_159b90	anon_159b90	159b90	159c84	62
 159c88	56	UpdateCache(eCacheType, char const*, unsigned int)	_Z11UpdateCache10eCacheTypePKcj	159c88	159cbc	14
 159cc0	52	CacheAchievement(eCacheType, char const*, unsigned int*)	_Z16CacheAchievement10eCacheTypePKcPj	159cc0	159cf0	13
 159cf4	16	YoYo_GetPlatform_DoWork()	_Z23YoYo_GetPlatform_DoWorkv	159cf4	159d00	4
@@ -3300,7 +3300,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 166488	736	CBitmap32::CBitmap32(int, IBitmap*, bool, bool)	_ZN9CBitmap32C2EiP7IBitmapbb	166488	166764	184
 166768	1796	CBitmap32::CBitmap32(int, int, unsigned int, unsigned int, int)	_ZN9CBitmap32C1Eiijji	166768	166e68	447
 166768	1796	CBitmap32::CBitmap32(int, int, unsigned int, unsigned int, int)	_ZN9CBitmap32C2Eiijji	166768	166e68	447
-166e6c	4	anon_166e6c	anon_166e6c	166e6c	166e6c	1
+166e6c	0	anon_166e6c	anon_166e6c	166e6c	166e6c	1
 166e70	352	CBitmap32::CBitmap32(IBitmap*, bool, bool)	_ZN9CBitmap32C1EP7IBitmapbb	166e70	166fcc	88
 166e70	352	CBitmap32::CBitmap32(IBitmap*, bool, bool)	_ZN9CBitmap32C2EP7IBitmapbb	166e70	166fcc	88
 166fd0	440	CBitmap32::CBitmap32(IBitmap*, bool, bool, int)	_ZN9CBitmap32C1EP7IBitmapbbi	166fd0	167184	110
@@ -3423,7 +3423,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 16bfc4	276	GR_Draw_Button(float, float, float, float, bool)	_Z14GR_Draw_Buttonffffb	16bfc4	16c0d4	69
 16c0d8	488	GR_Draw_Healthbar(float, float, float, float, float, unsigned int, unsigned int, unsigned int, unsigned int, int, bool, bool)	_Z17GR_Draw_Healthbarfffffjjjjibb	16c0d8	16c2bc	122
 16c2c0	8	INITIALIZE_Graphics_Draw()	_Z24INITIALIZE_Graphics_Drawv	16c2c0	16c2c4	2
-16c2c8	48	anon_16c2c8	anon_16c2c8	16c2c8	16c2f4	12
+16c2c8	44	anon_16c2c8	anon_16c2c8	16c2c8	16c2f4	12
 16c2f8	44	F_ViewGetVisible(RValue&, CInstance*, CInstance*, int, RValue*)	_Z16F_ViewGetVisibleR6RValueP9CInstanceS2_iPS_	16c2f8	16c320	11
 16c324	44	F_ViewGetXport(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_ViewGetXportR6RValueP9CInstanceS2_iPS_	16c324	16c34c	11
 16c350	44	F_ViewGetYport(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_ViewGetYportR6RValueP9CInstanceS2_iPS_	16c350	16c378	11
@@ -3627,11 +3627,11 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 175208	584	GR_Texture_Draw_Part(int, float, float, float, float, float, float, float, float, float, unsigned int, float)	_Z20GR_Texture_Draw_Partifffffffffjf	175208	17544c	146
 175450	996	GR_Texture_Draw_Part(YYTPageEntry*, float, float, float, float, float, float, float, float, float, unsigned int, float)	_Z20GR_Texture_Draw_PartP12YYTPageEntryfffffffffjf	175450	175830	249
 175834	600	GR_Texture_Draw_Part_Color(int, float, float, float, float, float, float, float, float, float, unsigned int, unsigned int, unsigned int, unsigned int, float)	_Z26GR_Texture_Draw_Part_Colorifffffffffjjjjf	175834	175a88	150
-175a8c	4	anon_175a8c	anon_175a8c	175a8c	175a8c	1
+175a8c	0	anon_175a8c	anon_175a8c	175a8c	175a8c	1
 175a90	1020	GR_Texture_Draw_Part_Color(YYTPageEntry*, float, float, float, float, float, float, float, float, float, unsigned int, unsigned int, unsigned int, unsigned int, float)	_Z26GR_Texture_Draw_Part_ColorP12YYTPageEntryfffffffffjjjjf	175a90	175e88	253
-175e8c	4	anon_175e8c	anon_175e8c	175e8c	175e8c	1
+175e8c	0	anon_175e8c	anon_175e8c	175e8c	175e8c	1
 175e90	1052	GR_Texture_Draw_Tiled(int, float, float, float, float, float, float, bool, bool, float, float, float, float, unsigned int, float)	_Z21GR_Texture_Draw_Tilediffffffbbffffjf	175e90	1762a8	261
-1762ac	4	anon_1762ac	anon_1762ac	1762ac	1762ac	1
+1762ac	0	anon_1762ac	anon_1762ac	1762ac	1762ac	1
 1762b0	1308	GR_Texture_Draw_Tiled(YYTPageEntry*, float, float, float, float, float, float, bool, bool, float, float, float, float, unsigned int, float)	_Z21GR_Texture_Draw_TiledP12YYTPageEntryffffffbbffffjf	1762b0	1767c8	327
 1767cc	4	FINALIZE_Graphics_Texture()	_Z25FINALIZE_Graphics_Texturev	1767cc	1767cc	1
 1767d0	96	Graphics::TextureFlush(bool)	_ZN8Graphics12TextureFlushEb	1767d0	17682c	24
@@ -3668,14 +3668,14 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 179d3c	40	INITIALIZE_Graphics_Window()	_Z26INITIALIZE_Graphics_Windowv	179d3c	179d60	10
 179d64	940	GR_Window_View_Convert(int, int, int, int&, int&)	_Z22GR_Window_View_ConvertiiiRiS_	179d64	17a10c	235
 17a110	676	GR_Window_View_Convert_World(int, float, float, int&, int&)	_Z28GR_Window_View_Convert_WorldiffRiS_	17a110	17a3b0	169
-17a3b4	4	anon_17a3b4	anon_17a3b4	17a3b4	17a3b4	1
+17a3b4	0	anon_17a3b4	anon_17a3b4	17a3b4	17a3b4	1
 17a3b8	744	GR_Window_Views_Get_ID(int, int)	_Z22GR_Window_Views_Get_IDii	17a3b8	17a69c	186
 17a6a0	908	GR_Window_Views_Convert(int, int, int&, int&)	_Z23GR_Window_Views_ConvertiiRiS_	17a6a0	17aa28	227
 17aa2c	68	GR_Window_View_Mouse_Get_X(int)	_Z26GR_Window_View_Mouse_Get_Xi	17aa2c	17aa6c	17
 17aa70	68	GR_Window_View_Mouse_Get_Y(int)	_Z26GR_Window_View_Mouse_Get_Yi	17aa70	17aab0	17
 17aab4	20	GR_Window_Mouse_Get_X()	_Z21GR_Window_Mouse_Get_Xv	17aab4	17aac4	5
 17aac8	20	GR_Window_Mouse_Get_Y()	_Z21GR_Window_Mouse_Get_Yv	17aac8	17aad8	5
-17aadc	4	anon_17aadc	anon_17aadc	17aadc	17aadc	1
+17aadc	0	anon_17aadc	anon_17aadc	17aadc	17aadc	1
 17aae0	416	GR_Window_View_Mouse_Set(int, int, int)	_Z24GR_Window_View_Mouse_Setiii	17aae0	17ac7c	104
 17ac80	108	GR_Window_Views_Mouse_Set(int, int)	_Z25GR_Window_Views_Mouse_Setii	17ac80	17ace8	27
 17acec	160	GR_Window_Views_Mouse_Get_XY(int&, int&, int)	_Z28GR_Window_Views_Mouse_Get_XYRiS_i	17acec	17ad88	40
@@ -3872,9 +3872,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 183d34	84	DeleteVertexBuilderResources()	_Z28DeleteVertexBuilderResourcesv	183d34	183d84	21
 183d88	732	SetLightingUniforms(GLSLShader*, int)	_Z19SetLightingUniformsP10GLSLShaderi	183d88	184060	183
 184064	296	SetFogUniforms(GLSLShader*)	_Z14SetFogUniformsP10GLSLShader	184064	184188	74
-18418c	4	anon_18418c	anon_18418c	18418c	18418c	1
+18418c	0	anon_18418c	anon_18418c	18418c	18418c	1
 184190	156	SetAlphaTestUniforms(GLSLShader*)	_Z20SetAlphaTestUniformsP10GLSLShader	184190	184228	39
-18422c	4	anon_18422c	anon_18422c	18422c	18422c	1
+18422c	0	anon_18422c	anon_18422c	18422c	18422c	1
 184230	60	SetTransformUniforms(GLSLShader*)	_Z20SetTransformUniformsP10GLSLShader	184230	184268	15
 18426c	1420	StartShaderBlock(int)	_Z16StartShaderBlocki	18426c	1847f4	355
 1847f8	80	EndShaderBlock()	_Z14EndShaderBlockv	1847f8	184844	20
@@ -3941,7 +3941,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 188cec	316	GraphicsRecorder::ReAllocVerts(SVertexNormal_Float*, int&, int&, int)	_ZN16GraphicsRecorder12ReAllocVertsEP19SVertexNormal_FloatRiS2_i	188cec	188e24	79
 188e28	760	GraphicsRecorder::AddPrims(ePrimType, int, void*)	_ZN16GraphicsRecorder8AddPrimsE9ePrimTypeiPv	188e28	18911c	190
 189120	180	GraphicsRecorder::ChangeColour(unsigned int)	_ZN16GraphicsRecorder12ChangeColourEj	189120	1891d0	45
-1891d4	104	anon_1891d4	anon_1891d4	1891d4	189238	26
+1891d4	100	anon_1891d4	anon_1891d4	1891d4	189238	26
 18923c	480	HalfTextureRGBA(int, int, unsigned int*, int, int, unsigned int*)	_Z15HalfTextureRGBAiiPjiiS_	18923c	189418	120
 18941c	464	HalfTextureRGB(int, int, unsigned char*, int, int, unsigned char*)	_Z14HalfTextureRGBiiPhiiS_	18941c	1895e8	116
 1895ec	892	loadTexture(Texture*)	_Z11loadTextureP7Texture	1895ec	189964	223
@@ -3953,7 +3953,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 18a3b0	360	ReadPNGFilePreallocated(void*, int, int*, int*, void*, bool)	_Z23ReadPNGFilePreallocatedPviPiS0_S_b	18a3b0	18a514	90
 18a518	52	FreePNGFile()	_Z11FreePNGFilev	18a518	18a548	13
 18a54c	208	ReadPNGFileHeader(void*, int, int*, int*, bool)	_Z17ReadPNGFileHeaderPviPiS0_b	18a54c	18a618	52
-18a61c	72	anon_18a61c	anon_18a61c	18a61c	18a660	18
+18a61c	68	anon_18a61c	anon_18a61c	18a61c	18a660	18
 18a664	44	ReadGifData(GifFileType*, unsigned char*, int)	_Z11ReadGifDataP11GifFileTypePhi	18a664	18a68c	11
 18a690	152	jpeg_memory_src(jpeg_decompress_struct*, unsigned char const*, unsigned int)	_Z15jpeg_memory_srcP22jpeg_decompress_structPKhj	18a690	18a724	38
 18a728	496	ReadJPEGFile(void*, int, int*, int*, bool)	_Z12ReadJPEGFilePviPiS0_b	18a728	18a914	124
@@ -3964,9 +3964,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 18b04c	192	CIAPProduct::SetFromProduct(CIAPProduct const&)	_ZN11CIAPProduct14SetFromProductERKS_	18b04c	18b108	48
 18b10c	92	CIAPProduct::GetProductType(CIAPProduct const&)	_ZN11CIAPProduct14GetProductTypeERKS_	18b10c	18b164	23
 18b168	476	CIAPProduct::SetFromJSON(json_object*)	_ZN11CIAPProduct11SetFromJSONEP11json_object	18b168	18b340	119
-18b344	4	anon_18b344	anon_18b344	18b344	18b344	1
+18b344	0	anon_18b344	anon_18b344	18b344	18b344	1
 18b348	496	CIAPProduct::PopulateMap(int)	_ZN11CIAPProduct11PopulateMapEi	18b348	18b534	122
-18b538	140	anon_18b538	anon_18b538	18b538	18b5c0	35
+18b538	136	anon_18b538	anon_18b538	18b538	18b5c0	35
 18b5c4	732	CIAPProduct::SetFromMap(int)	_ZN11CIAPProduct10SetFromMapEi	18b5c4	18b89c	183
 18b8a0	76	IO_Quit()	_Z7IO_Quitv	18b8a0	18b8e8	19
 18b8ec	532	IO_Playback_Update()	_Z18IO_Playback_Updatev	18b8ec	18bafc	133
@@ -4093,7 +4093,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 18ffb0	100	LoadSave::RemoveSaveFile(char const*)	_ZN8LoadSave14RemoveSaveFileEPKc	18ffb0	190010	25
 190014	448	GamepadInitM()	_Z12GamepadInitMv	190014	1901d0	112
 1901d4	700	SetupGMLMappings(int)	_Z16SetupGMLMappingsi	1901d4	19048c	175
-190490	996	anon_190490	anon_190490	190490	190870	249
+190490	992	anon_190490	anon_190490	190490	190870	249
 190874	124	RegisterAndroidGamepadConnected(int, int, int)	_Z31RegisterAndroidGamepadConnectediii	190874	1908ec	31
 1908f0	260	iCadeSetButtonState(int, bool)	_Z19iCadeSetButtonStateib	1908f0	1909f0	65
 1909f4	4	GamepadReportFailureM()	_Z21GamepadReportFailureMv	1909f4	1909f4	1
@@ -4125,7 +4125,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 190f58	268	CGCGeneration::CGCGeneration()	_ZN13CGCGenerationC2Ev	190f58	191060	67
 191064	80	CGCGeneration::~CGCGeneration()	_ZN13CGCGenerationD1Ev	191064	1910b0	20
 191064	80	CGCGeneration::~CGCGeneration()	_ZN13CGCGenerationD2Ev	191064	1910b0	20
-1910b4	52	anon_1910b4	anon_1910b4	1910b4	1910e4	13
+1910b4	48	anon_1910b4	anon_1910b4	1910b4	1910e4	13
 1910e8	224	CGCGeneration::IsRoot(YYObjectBase*)	_ZN13CGCGeneration6IsRootEP12YYObjectBase	1910e8	1911c4	56
 1911c8	404	CGCGeneration::RemoveRoot(YYObjectBase*)	_ZN13CGCGeneration10RemoveRootEP12YYObjectBase	1911c8	191358	101
 19135c	164	CGCGeneration::AddDynamicRoot(YYObjectBase*, bool)	_ZN13CGCGeneration14AddDynamicRootEP12YYObjectBaseb	19135c	1913fc	41
@@ -4155,9 +4155,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 192218	244	YYObjectBase::HasValue(char const*)	_ZN12YYObjectBase8HasValueEPKc	192218	192308	61
 19230c	52	CInstance::SetDeactivated(bool)	_ZN9CInstance14SetDeactivatedEb	19230c	19233c	13
 192340	1428	CInstance::Compute_BoundingBox(bool)	_ZN9CInstance19Compute_BoundingBoxEb	192340	1928d0	357
-1928d4	4	anon_1928d4	anon_1928d4	1928d4	1928d4	1
+1928d4	0	anon_1928d4	anon_1928d4	1928d4	1928d4	1
 1928d8	452	CInstance::Compute_Speed1()	_ZN9CInstance14Compute_Speed1Ev	1928d8	192a98	110
-192a9c	4	anon_192a9c	anon_192a9c	192a9c	192a9c	1
+192a9c	0	anon_192a9c	anon_192a9c	192a9c	192a9c	1
 192aa0	264	CInstance::Compute_Speed2()	_ZN9CInstance14Compute_Speed2Ev	192aa0	192ba4	66
 192ba8	28	CInstance::Set_MaskIndex(int)	_ZN9CInstance13Set_MaskIndexEi	192ba8	192bc0	7
 192bc4	272	CInstance::RelinkObjectTypes()	_ZN9CInstance17RelinkObjectTypesEv	192bc4	192cd0	68
@@ -4322,11 +4322,11 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1a1c70	44	Eff_Create09()	_Z12Eff_Create09v	1a1c70	1a1c98	11
 1a1c9c	532	Eff_Effect09(int, float, float, int, unsigned int)	_Z12Eff_Effect09iffij	1a1c9c	1a1eac	133
 1a1eb0	28	Eff_Create10()	_Z12Eff_Create10v	1a1eb0	1a1ec8	7
-1a1ecc	4	anon_1a1ecc	anon_1a1ecc	1a1ecc	1a1ecc	1
+1a1ecc	0	anon_1a1ecc	anon_1a1ecc	1a1ecc	1a1ecc	1
 1a1ed0	708	Eff_Effect10(int, float, float, int, unsigned int)	_Z12Eff_Effect10iffij	1a1ed0	1a2190	177
-1a2194	4	anon_1a2194	anon_1a2194	1a2194	1a2194	1
+1a2194	0	anon_1a2194	anon_1a2194	1a2194	1a2194	1
 1a2198	28	Eff_Create11()	_Z12Eff_Create11v	1a2198	1a21b0	7
-1a21b4	4	anon_1a21b4	anon_1a21b4	1a21b4	1a21b4	1
+1a21b4	0	anon_1a21b4	anon_1a21b4	1a21b4	1a21b4	1
 1a21b8	752	Eff_Effect11(int, float, float, int, unsigned int)	_Z12Eff_Effect11iffij	1a21b8	1a24a4	188
 1a24a8	76	Eff_Create_Types()	_Z16Eff_Create_Typesv	1a24a8	1a24f0	19
 1a24f4	220	Eff_Check_Systems()	_Z17Eff_Check_Systemsv	1a24f4	1a25cc	55
@@ -4551,7 +4551,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1abb24	632	CRoom::RemoveMarked()	_ZN5CRoom12RemoveMarkedEv	1abb24	1abd98	158
 1abd9c	464	CRoom::UpdateActive()	_ZN5CRoom12UpdateActiveEv	1abd9c	1abf68	116
 1abf6c	48	_GetSpriteFrames(int)	_Z16_GetSpriteFramesi	1abf6c	1abf98	12
-1abf9c	4	anon_1abf9c	anon_1abf9c	1abf9c	1abf9c	1
+1abf9c	0	anon_1abf9c	anon_1abf9c	1abf9c	1abf9c	1
 1abfa0	608	CRoom::UpdateLayers()	_ZN5CRoom12UpdateLayersEv	1abfa0	1ac1fc	152
 1ac200	64	CRoom::ScrollBackground()	_ZN5CRoom16ScrollBackgroundEv	1ac200	1ac23c	16
 1ac240	252	CRoom::AddTile(RTile*)	_ZN5CRoom7AddTileEP5RTile	1ac240	1ac338	63
@@ -4672,7 +4672,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1b6e44	8	CHashMapCalculateHash(int)	_Z21CHashMapCalculateHashi	1b6e44	1b6e48	2
 1b6e4c	116	ElementsHaveLoop(LinkedList<CLayerElementBase>*)	_Z16ElementsHaveLoopP10LinkedListI17CLayerElementBaseE	1b6e4c	1b6ebc	29
 1b6ec0	60	IsLayerListInOrder(CRoom*)	_Z18IsLayerListInOrderP5CRoom	1b6ec0	1b6ef8	15
-1b6efc	4	anon_1b6efc	anon_1b6efc	1b6efc	1b6efc	1
+1b6efc	0	anon_1b6efc	anon_1b6efc	1b6efc	1b6efc	1
 1b6f00	2048	CLayerManager::Init()	_ZN13CLayerManager4InitEv	1b6f00	1b76fc	510
 1b7700	752	CLayerManager::Close()	_ZN13CLayerManager5CloseEv	1b7700	1b79ec	188
 1b79f0	20	CLayerManager::SetLayerIndexWatermark(int)	_ZN13CLayerManager22SetLayerIndexWatermarkEi	1b79f0	1b7a00	5
@@ -4868,24 +4868,24 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1c3eb4	1640	CHashMap<int, CLayerInstanceElement*, 7>::Insert(int, CLayerInstanceElement*)	_ZN8CHashMapIiP21CLayerInstanceElementLi7EE6InsertEiS1_	1c3eb4	1c4518	410
 1c451c	708	CLayerManager::AddElementToLayer(CRoom*, CLayer*, CLayerElementBase*, bool)	_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb	1c451c	1c47dc	177
 1c47e0	4692	CLayerManager::DuplicateRoomLayers(CRoom*, CRoom*)	_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_	1c47e0	1c5a30	1171
-1c5a34	4	anon_1c5a34	anon_1c5a34	1c5a34	1c5a34	1
+1c5a34	0	anon_1c5a34	anon_1c5a34	1c5a34	1c5a34	1
 1c5a38	736	CLayerManager::AddInstanceToLayer(CRoom*, CLayer*, CInstance*)	_ZN13CLayerManager18AddInstanceToLayerEP5CRoomP6CLayerP9CInstance	1c5a38	1c5d14	184
 1c5d18	164	CLayerManager::AddInstance(CRoom*, CInstance*)	_ZN13CLayerManager11AddInstanceEP5CRoomP9CInstance	1c5d18	1c5db8	41
 1c5dbc	388	CLayerManager::BuildRoomLayerRuntimeData(CRoom*)	_ZN13CLayerManager25BuildRoomLayerRuntimeDataEP5CRoom	1c5dbc	1c5f3c	97
 1c5f40	176	CLayerManager::ChangeInstanceDepth(CRoom*, CInstance*)	_ZN13CLayerManager19ChangeInstanceDepthEP5CRoomP9CInstance	1c5f40	1c5fec	44
 1c5ff0	124	CLayerManager::AddNewElement(CRoom*, CLayer*, CLayerElementBase*, bool)	_ZN13CLayerManager13AddNewElementEP5CRoomP6CLayerP17CLayerElementBaseb	1c5ff0	1c6068	31
-1c606c	4	anon_1c606c	anon_1c606c	1c606c	1c606c	1
+1c606c	0	anon_1c606c	anon_1c606c	1c606c	1c606c	1
 1c6070	3076	CLayerManager::BuildRoomLayers(CRoom*, YYRoomLayers*)	_ZN13CLayerManager15BuildRoomLayersEP5CRoomP12YYRoomLayers	1c6070	1c6c70	766
-1c6c74	4	anon_1c6c74	anon_1c6c74	1c6c74	1c6c74	1
+1c6c74	0	anon_1c6c74	anon_1c6c74	1c6c74	1c6c74	1
 1c6c78	124	CLayerManager::AddNewElementAtDepth(CRoom*, int, CLayerElementBase*, bool, bool)	_ZN13CLayerManager20AddNewElementAtDepthEP5CRoomiP17CLayerElementBasebb	1c6c78	1c6cf0	31
 1c6cf4	432	F_LayerAddInstance(RValue&, CInstance*, CInstance*, int, RValue*)	_Z18F_LayerAddInstanceR6RValueP9CInstanceS2_iPS_	1c6cf4	1c6ea0	108
 1c6ea4	436	F_LayerBackgroundCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_LayerBackgroundCreateR6RValueP9CInstanceS2_iPS_	1c6ea4	1c7054	109
 1c7058	324	F_LayerSpriteCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z19F_LayerSpriteCreateR6RValueP9CInstanceS2_iPS_	1c7058	1c7198	81
 1c719c	420	F_LayerTilemapCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20F_LayerTilemapCreateR6RValueP9CInstanceS2_iPS_	1c719c	1c733c	105
 1c7340	396	F_LayerTileCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_LayerTileCreateR6RValueP9CInstanceS2_iPS_	1c7340	1c74c8	99
-1c74cc	4	anon_1c74cc	anon_1c74cc	1c74cc	1c74cc	1
+1c74cc	0	anon_1c74cc	anon_1c74cc	1c74cc	1c74cc	1
 1c74d0	3760	CLayerManager::DeSerializeLayer(CRoom*, IBuffer*)	_ZN13CLayerManager16DeSerializeLayerEP5CRoomP7IBuffer	1c74d0	1c837c	937
-1c8380	1572	anon_1c8380	anon_1c8380	1c8380	1c89a0	393
+1c8380	1568	anon_1c8380	anon_1c8380	1c8380	1c89a0	393
 1c89a4	528	Command_CollisionPoint(CInstance*, float, float, int, bool, bool)	_Z22Command_CollisionPointP9CInstanceffibb	1c89a4	1c8bb0	132
 1c8bb4	580	Command_CollisionEllipse(CInstance*, float, float, float, float, int, bool, bool)	_Z24Command_CollisionEllipseP9CInstanceffffibb	1c8bb4	1c8df4	145
 1c8df8	216	ShouldUseFastCollision(int, CObjectGM**)	_Z22ShouldUseFastCollisioniPP9CObjectGM	1c8df8	1c8ecc	54
@@ -4926,12 +4926,12 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1cafa0	660	Command_Bounce(CInstance*, bool, bool)	_Z14Command_BounceP9CInstancebb	1cafa0	1cb230	165
 1cb234	348	RTree<CInstance*, int, float, 6, 2>::SearchLine(RTree<CInstance*, int, float, 6, 2>::Node*, RTree<CInstance*, int, float, 6, 2>::Line*, int&, bool (*)(CInstance*, void*), void*)	_ZN5RTreeIP9CInstanceifLi6ELi2EE10SearchLineEPNS2_4NodeEPNS2_4LineERiPFbS1_PvES8_	1cb234	1cb38c	87
 1cb390	996	Command_CollisionLine(CInstance*, float, float, float, float, int, bool, bool)	_Z21Command_CollisionLineP9CInstanceffffibb	1cb390	1cb770	249
-1cb774	4	anon_1cb774	anon_1cb774	1cb774	1cb774	1
+1cb774	0	anon_1cb774	anon_1cb774	1cb774	1cb774	1
 1cb778	732	INITIALIZE_Run_Global()	_Z21INITIALIZE_Run_Globalv	1cb778	1cba50	183
-1cba54	4	anon_1cba54	anon_1cba54	1cba54	1cba54	1
+1cba54	0	anon_1cba54	anon_1cba54	1cba54	1cba54	1
 1cba58	20	Run_Room_Set(CRoom*)	_Z12Run_Room_SetP5CRoom	1cba58	1cba68	5
 1cba6c	420	FINALIZE_Run_Global()	_Z19FINALIZE_Run_Globalv	1cba6c	1cbc0c	105
-1cbc10	476	anon_1cbc10	anon_1cbc10	1cbc10	1cbde8	119
+1cbc10	472	anon_1cbc10	anon_1cbc10	1cbc10	1cbde8	119
 1cbdec	108	RTree<CInstance*, int, float, 6, 2>::~RTree()	_ZN5RTreeIP9CInstanceifLi6ELi2EED1Ev	1cbdec	1cbe54	27
 1cbdec	108	RTree<CInstance*, int, float, 6, 2>::~RTree()	_ZN5RTreeIP9CInstanceifLi6ELi2EED2Ev	1cbdec	1cbe54	27
 1cbe58	28	RTree<CInstance*, int, float, 6, 2>::~RTree()	_ZN5RTreeIP9CInstanceifLi6ELi2EED0Ev	1cbe58	1cbe70	7
@@ -5010,19 +5010,19 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1d500c	8	CGestureRotate::NumUsedTouches()	_ZN14CGestureRotate14NumUsedTouchesEv	1d500c	1d5010	2
 1d5014	40	CGesturePinch::IsUsingTouchUID(int)	_ZN13CGesturePinch15IsUsingTouchUIDEi	1d5014	1d5038	10
 1d503c	40	CGestureRotate::IsUsingTouchUID(int)	_ZN14CGestureRotate15IsUsingTouchUIDEi	1d503c	1d5060	10
-1d5064	4	anon_1d5064	anon_1d5064	1d5064	1d5064	1
+1d5064	0	anon_1d5064	anon_1d5064	1d5064	1d5064	1
 1d5068	76	F_GestureGetDragTime(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20F_GestureGetDragTimeR6RValueP9CInstanceS2_iPS_	1d5068	1d50b0	19
-1d50b4	4	anon_1d50b4	anon_1d50b4	1d50b4	1d50b4	1
+1d50b4	0	anon_1d50b4	anon_1d50b4	1d50b4	1d50b4	1
 1d50b8	40	F_GestureGetDragDistance(RValue&, CInstance*, CInstance*, int, RValue*)	_Z24F_GestureGetDragDistanceR6RValueP9CInstanceS2_iPS_	1d50b8	1d50dc	10
 1d50e0	40	F_GestureGetFlickSpeed(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22F_GestureGetFlickSpeedR6RValueP9CInstanceS2_iPS_	1d50e0	1d5104	10
 1d5108	76	F_GestureGetDoubleTapTime(RValue&, CInstance*, CInstance*, int, RValue*)	_Z25F_GestureGetDoubleTapTimeR6RValueP9CInstanceS2_iPS_	1d5108	1d5150	19
-1d5154	4	anon_1d5154	anon_1d5154	1d5154	1d5154	1
+1d5154	0	anon_1d5154	anon_1d5154	1d5154	1d5154	1
 1d5158	40	F_GestureGetDoubleTapDistance(RValue&, CInstance*, CInstance*, int, RValue*)	_Z29F_GestureGetDoubleTapDistanceR6RValueP9CInstanceS2_iPS_	1d5158	1d517c	10
 1d5180	40	F_GestureGetPinchDistance(RValue&, CInstance*, CInstance*, int, RValue*)	_Z25F_GestureGetPinchDistanceR6RValueP9CInstanceS2_iPS_	1d5180	1d51a4	10
 1d51a8	40	F_GestureGetPinchAngleTowards(RValue&, CInstance*, CInstance*, int, RValue*)	_Z29F_GestureGetPinchAngleTowardsR6RValueP9CInstanceS2_iPS_	1d51a8	1d51cc	10
 1d51d0	40	F_GestureGetPinchAngleAway(RValue&, CInstance*, CInstance*, int, RValue*)	_Z26F_GestureGetPinchAngleAwayR6RValueP9CInstanceS2_iPS_	1d51d0	1d51f4	10
 1d51f8	76	F_GestureGetRotateTime(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22F_GestureGetRotateTimeR6RValueP9CInstanceS2_iPS_	1d51f8	1d5240	19
-1d5244	4	anon_1d5244	anon_1d5244	1d5244	1d5244	1
+1d5244	0	anon_1d5244	anon_1d5244	1d5244	1d5244	1
 1d5248	40	F_GestureGetRotateAngle(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_GestureGetRotateAngleR6RValueP9CInstanceS2_iPS_	1d5248	1d526c	10
 1d5270	52	F_GestureGetTapCount(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20F_GestureGetTapCountR6RValueP9CInstanceS2_iPS_	1d5270	1d52a0	13
 1d52a4	52	CGesture::~CGesture()	_ZN8CGestureD1Ev	1d52a4	1d52d4	13
@@ -5049,13 +5049,13 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1d5504	40	CGestureRotate::~CGestureRotate()	_ZN14CGestureRotateD1Ev	1d5504	1d5528	10
 1d5504	40	CGestureRotate::~CGestureRotate()	_ZN14CGestureRotateD2Ev	1d5504	1d5528	10
 1d552c	48	CGestureRotate::~CGestureRotate()	_ZN14CGestureRotateD0Ev	1d552c	1d5558	12
-1d555c	4	anon_1d555c	anon_1d555c	1d555c	1d555c	1
+1d555c	0	anon_1d555c	anon_1d555c	1d555c	1d555c	1
 1d5560	68	F_GestureDragTime(RValue&, CInstance*, CInstance*, int, RValue*)	_Z17F_GestureDragTimeR6RValueP9CInstanceS2_iPS_	1d5560	1d55a0	17
-1d55a4	4	anon_1d55a4	anon_1d55a4	1d55a4	1d55a4	1
+1d55a4	0	anon_1d55a4	anon_1d55a4	1d55a4	1d55a4	1
 1d55a8	68	F_GestureDoubleTapTime(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22F_GestureDoubleTapTimeR6RValueP9CInstanceS2_iPS_	1d55a8	1d55e8	17
-1d55ec	4	anon_1d55ec	anon_1d55ec	1d55ec	1d55ec	1
+1d55ec	0	anon_1d55ec	anon_1d55ec	1d55ec	1d55ec	1
 1d55f0	68	F_GestureRotateTime(RValue&, CInstance*, CInstance*, int, RValue*)	_Z19F_GestureRotateTimeR6RValueP9CInstanceS2_iPS_	1d55f0	1d5630	17
-1d5634	4	anon_1d5634	anon_1d5634	1d5634	1d5634	1
+1d5634	0	anon_1d5634	anon_1d5634	1d5634	1d5634	1
 1d5638	36	F_GestureDragDistance(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21F_GestureDragDistanceR6RValueP9CInstanceS2_iPS_	1d5638	1d5658	9
 1d565c	36	F_GestureFlickSpeed(RValue&, CInstance*, CInstance*, int, RValue*)	_Z19F_GestureFlickSpeedR6RValueP9CInstanceS2_iPS_	1d565c	1d567c	9
 1d5680	36	F_GestureDoubleTapDistance(RValue&, CInstance*, CInstance*, int, RValue*)	_Z26F_GestureDoubleTapDistanceR6RValueP9CInstanceS2_iPS_	1d5680	1d56a0	9
@@ -5106,7 +5106,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1d9864	168	ConvertRawPos(float, float, int, float&, float&, float&, float&)	_Z13ConvertRawPosffiRfS_S_S_	1d9864	1d9908	42
 1d990c	912	CSingleFingerGesture::GenerateMap(int, int, int, int, long long)	_ZN20CSingleFingerGesture11GenerateMapEiiiix	1d990c	1d9c98	228
 1d9c9c	3232	CGesturePinch::Update(long long)	_ZN13CGesturePinch6UpdateEx	1d9c9c	1da938	808
-1da93c	4	anon_1da93c	anon_1da93c	1da93c	1da93c	1
+1da93c	0	anon_1da93c	anon_1da93c	1da93c	1da93c	1
 1da940	3024	CGestureRotate::Update(long long)	_ZN14CGestureRotate6UpdateEx	1da940	1db50c	754
 1db510	128	CGestureEvent::~CGestureEvent()	_ZN13CGestureEventD1Ev	1db510	1db58c	32
 1db510	128	CGestureEvent::~CGestureEvent()	_ZN13CGestureEventD2Ev	1db510	1db58c	32
@@ -5220,12 +5220,12 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 1e12dc	116	Shader_Find(char const*)	_Z11Shader_FindPKc	1e12dc	1e134c	29
 1e1350	464	AddShader(char*, int, char*, char*, char*, char*, char*, char*, char*, char*, char*, int, char*, int, char*, int, char*, int, char*, char*, int, unsigned int*)	_Z9AddShaderPciS_S_S_S_S_S_S_S_S_iS_iS_iS_iS_S_iPj	1e1350	1e151c	116
 1e1520	540	FlushShader()	_Z11FlushShaderv	1e1520	1e1738	135
-1e173c	4	anon_1e173c	anon_1e173c	1e173c	1e173c	1
+1e173c	0	anon_1e173c	anon_1e173c	1e173c	1e173c	1
 1e1740	260	F_Shader_Set_Uniform_I(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22F_Shader_Set_Uniform_IR6RValueP9CInstanceS2_iPS_	1e1740	1e1840	63
-1e1844	4	anon_1e1844	anon_1e1844	1e1844	1e1844	1
+1e1844	0	anon_1e1844	anon_1e1844	1e1844	1e1844	1
 1e1848	272	F_Shader_Set_Uniform_I_Array(RValue&, CInstance*, CInstance*, int, RValue*)	_Z28F_Shader_Set_Uniform_I_ArrayR6RValueP9CInstanceS2_iPS_	1e1848	1e1954	68
 1e1958	260	F_Shader_Set_Uniform_F(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22F_Shader_Set_Uniform_FR6RValueP9CInstanceS2_iPS_	1e1958	1e1a58	63
-1e1a5c	4	anon_1e1a5c	anon_1e1a5c	1e1a5c	1e1a5c	1
+1e1a5c	0	anon_1e1a5c	anon_1e1a5c	1e1a5c	1e1a5c	1
 1e1a60	272	F_Shader_Set_Uniform_F_Array(RValue&, CInstance*, CInstance*, int, RValue*)	_Z28F_Shader_Set_Uniform_F_ArrayR6RValueP9CInstanceS2_iPS_	1e1a60	1e1b6c	68
 1e1b70	88	F_Shader_Set_Uniform_Matrix(RValue&, CInstance*, CInstance*, int, RValue*)	_Z27F_Shader_Set_Uniform_MatrixR6RValueP9CInstanceS2_iPS_	1e1b70	1e1bc4	22
 1e1bc8	272	F_Shader_Set_Uniform_Matrix_Array(RValue&, CInstance*, CInstance*, int, RValue*)	_Z33F_Shader_Set_Uniform_Matrix_ArrayR6RValueP9CInstanceS2_iPS_	1e1bc8	1e1cd4	68
@@ -6018,7 +6018,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 210ab8	2916	Call_Normal_std(int, double*, char const**, RValue*)	_Z15Call_Normal_stdiPdPPKcP6RValue	210ab8	211618	729
 21161c	2444	Call_Real(int, double*, RValue*)	_Z9Call_RealiPdP6RValue	21161c	211fa4	611
 211fa8	2916	Call_Normal(int, double*, char const**, RValue*)	_Z11Call_NormaliPdPPKcP6RValue	211fa8	212b08	729
-212b0c	4	anon_212b0c	anon_212b0c	212b0c	212b0c	1
+212b0c	0	anon_212b0c	anon_212b0c	212b0c	212b0c	1
 212b10	520	DLL_Call(int, int, RValue*, RValue*)	_Z8DLL_CalliiP6RValueS0_	212b10	212d14	128
 212d18	136	DLL_Free_All()	_Z12DLL_Free_Allv	212d18	212d9c	34
 212da0	4	FINALIZATION_Support_DLL()	_Z24FINALIZATION_Support_DLLv	212da0	212da0	1
@@ -6032,7 +6032,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2130a4	700	AddStringToGrid(CDS_Grid*, int, int, char*)	_Z15AddStringToGridP8CDS_GridiiPc	2130a4	21335c	175
 213360	456	_PopulateDSGrid(char**, int, int, int)	_Z15_PopulateDSGridPPciii	213360	213524	114
 213528	260	LoadCSV(char*)	_Z7LoadCSVPc	213528	213628	65
-21362c	2732	anon_21362c	anon_21362c	21362c	2140d4	683
+21362c	2728	anon_21362c	anon_21362c	21362c	2140d4	683
 2140d8	64	MD5Init(MD5_CTX*)	_Z7MD5InitP7MD5_CTX	2140d8	214114	16
 214118	184	MD5Update(MD5_CTX*, unsigned char*, unsigned int)	_Z9MD5UpdateP7MD5_CTXPhj	214118	2141cc	46
 2141d0	196	MD5Final(MD5_CTX*)	_Z8MD5FinalP7MD5_CTX	2141d0	214290	49
@@ -6089,9 +6089,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 21503c	60	IsPathDelimiter(char const*, int)	_Z15IsPathDelimiterPKci	21503c	215074	15
 215078	60	ExcludeTrailingPathDelimiter(char const*)	_Z28ExcludeTrailingPathDelimiterPKc	215078	2150b0	15
 2150b4	144	ForceDirectories(char const*)	_Z16ForceDirectoriesPKc	2150b4	215140	36
-215144	4	anon_215144	anon_215144	215144	215144	1
+215144	0	anon_215144	anon_215144	215144	215144	1
 215148	108	Timing_Time	Timing_Time	215148	2151b0	27
-2151b4	4	anon_2151b4	anon_2151b4	2151b4	2151b4	1
+2151b4	0	anon_2151b4	anon_2151b4	2151b4	2151b4	1
 2151b8	56	Timing_Init	Timing_Init	2151b8	2151ec	14
 2151f0	148	Timing_Sleep	Timing_Sleep	2151f0	215280	37
 215284	24	EnvironmentGetVariable(char*)	_Z22EnvironmentGetVariablePc	215284	215298	6
@@ -6136,7 +6136,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 215ef4	204	cARRAY_CLASS<CNoise*>::~cARRAY_CLASS()	_ZN12cARRAY_CLASSIP6CNoiseED2Ev	215ef4	215fbc	51
 215fc0	16	OggAudioSyncDrawDebug()	_Z21OggAudioSyncDrawDebugv	215fc0	215fcc	4
 215fd0	120	checkAL(char const*)	_Z7checkALPKc	215fd0	216044	30
-216048	532	anon_216048	anon_216048	216048	216258	133
+216048	528	anon_216048	anon_216048	216048	216258	133
 21625c	204	Audio_CreateSources(int)	_Z19Audio_CreateSourcesi	21625c	216324	51
 216328	4	Audio_Clean()	_Z11Audio_Cleanv	216328	216328	1
 21632c	292	Audio_GetSound(int)	_Z14Audio_GetSoundi	21632c	21644c	73
@@ -6182,9 +6182,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 217f6c	208	Audio_PauseSound(int)	_Z16Audio_PauseSoundi	217f6c	218038	52
 21803c	112	Audio_SetEmitterGain(int, double)	_Z20Audio_SetEmitterGainid	21803c	2180a8	28
 2180ac	104	Audio_GetEmitterGain(int)	_Z20Audio_GetEmitterGaini	2180ac	218110	26
-218114	4	anon_218114	anon_218114	218114	218114	1
+218114	0	anon_218114	anon_218114	218114	218114	1
 218118	116	Audio_SetMasterGain(int, double)	_Z19Audio_SetMasterGainid	218118	218188	27
-21818c	4	anon_21818c	anon_21818c	21818c	21818c	1
+21818c	0	anon_21818c	anon_21818c	21818c	21818c	1
 218190	44	Audio_GetMasterGain(int)	_Z19Audio_GetMasterGaini	218190	2181b8	11
 2181bc	292	Audio_SetEmitterPitch(int, double)	_Z21Audio_SetEmitterPitchid	2181bc	2182dc	73
 2182e0	104	Audio_GetEmitterPitch(int)	_Z21Audio_GetEmitterPitchi	2182e0	218344	26
@@ -6268,7 +6268,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 21db24	4	CNoise::Clear()	_ZN6CNoise5ClearEv	21db24	21db24	1
 21db28	20	CNoise::~CNoise()	_ZN6CNoiseD1Ev	21db28	21db38	5
 21db28	20	CNoise::~CNoise()	_ZN6CNoiseD2Ev	21db28	21db38	5
-21db3c	24	anon_21db3c	anon_21db3c	21db3c	21db50	6
+21db3c	20	anon_21db3c	anon_21db3c	21db3c	21db50	6
 21db54	44	CAudioGroup::CAudioGroup(int)	_ZN11CAudioGroupC1Ei	21db54	21db7c	11
 21db54	44	CAudioGroup::CAudioGroup(int)	_ZN11CAudioGroupC2Ei	21db54	21db7c	11
 21db80	116	CAudioGroup::~CAudioGroup()	_ZN11CAudioGroupD1Ev	21db80	21dbf0	29
@@ -6291,7 +6291,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 21e018	388	CAudioGroupMan::LoadGroup(int)	_ZN14CAudioGroupMan9LoadGroupEi	21e018	21e198	97
 21e19c	68	CAudioGroupMan::UnloadGroup(int)	_ZN14CAudioGroupMan11UnloadGroupEi	21e19c	21e1dc	17
 21e1e0	52	CAudioGroupMan::IsGroupLoaded(int)	_ZN14CAudioGroupMan13IsGroupLoadedEi	21e1e0	21e210	13
-21e214	4	anon_21e214	anon_21e214	21e214	21e214	1
+21e214	0	anon_21e214	anon_21e214	21e214	21e214	1
 21e218	80	CAudioGroupMan::GetLoadProgress(int)	_ZN14CAudioGroupMan15GetLoadProgressEi	21e218	21e25c	18
 21e268	284	CAudioGroupMan::Update()	_ZN14CAudioGroupMan6UpdateEv	21e268	21e380	71
 21e384	1076	YYAudioDrawDebug()	_Z16YYAudioDrawDebugv	21e384	21e7b4	269
@@ -6405,7 +6405,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 221a34	220	alutInit	alutInit	221a34	221b0c	55
 221b10	104	alutInitWithoutContext	alutInitWithoutContext	221b10	221b74	26
 221b78	208	alutExit	alutExit	221b78	221c44	52
-221c48	152	anon_221c48	anon_221c48	221c48	221cdc	38
+221c48	148	anon_221c48	anon_221c48	221c48	221cdc	38
 221ce0	180	_alutInputStreamConstructFromFile	_alutInputStreamConstructFromFile	221ce0	221d90	45
 221d94	48	_alutInputStreamConstructFromMemory	_alutInputStreamConstructFromMemory	221d94	221dc0	12
 221dc4	8	_alutInputGetData	_alutInputGetData	221dc4	221dc8	2
@@ -6418,7 +6418,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 221f1c	56	_alutInputStreamReadUInt16LE	_alutInputStreamReadUInt16LE	221f1c	221f50	14
 221f54	80	_alutInputStreamReadInt32BE	_alutInputStreamReadInt32BE	221f54	221fa0	20
 221fa4	80	_alutInputStreamReadUInt32LE	_alutInputStreamReadUInt32LE	221fa4	221ff0	20
-221ff4	1496	anon_221ff4	anon_221ff4	221ff4	2225c8	374
+221ff4	1492	anon_221ff4	anon_221ff4	221ff4	2225c8	374
 2225cc	72	_alutCreateBufferFromInputStream	_alutCreateBufferFromInputStream	2225cc	222610	18
 222614	36	alutCreateBufferFromFile	alutCreateBufferFromFile	222614	222634	9
 222638	44	alutCreateBufferFromFileImage	alutCreateBufferFromFileImage	222638	222660	11
@@ -6433,7 +6433,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2228fc	32	_alutOutputStreamDestroy	_alutOutputStreamDestroy	2228fc	222918	8
 22291c	8	_alutOutputStreamGetData	_alutOutputStreamGetData	22291c	222920	2
 222924	12	_alutOutputStreamGetLength	_alutOutputStreamGetLength	222924	22292c	3
-222930	88	anon_222930	anon_222930	222930	222984	22
+222930	84	anon_222930	anon_222930	222930	222984	22
 222988	44	_alutOutputStreamWriteInt16BE	_alutOutputStreamWriteInt16BE	222988	2229b0	11
 2229b4	60	_alutOutputStreamWriteInt32BE	_alutOutputStreamWriteInt32BE	2229b4	2229ec	15
 2229f0	168	alutSleep	alutSleep	2229f0	222a94	42
@@ -6443,8 +6443,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 222b7c	72	_alutFormatGetBitsPerSample	_alutFormatGetBitsPerSample	222b7c	222bc0	18
 222bc4	8	alutGetMajorVersion	alutGetMajorVersion	222bc4	222bc8	2
 222bcc	8	alutGetMinorVersion	alutGetMinorVersion	222bcc	222bd0	2
-222bd4	100	anon_222bd4	anon_222bd4	222bd4	222c34	25
-222c40	736	anon_222c40	anon_222c40	222c40	222f1c	184
+222bd4	840	anon_222bd4	anon_222bd4	222bd4	222f1c	209
 222f20	136	alutLoadMemoryWaveform	alutLoadMemoryWaveform	222f20	222fa4	34
 222fa8	128	alutCreateBufferWaveform	alutCreateBufferWaveform	222fa8	223024	32
 223028	68	alutLoadMemoryHelloWorld	alutLoadMemoryHelloWorld	223028	223068	17
@@ -6473,7 +6472,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 223674	16	ogg_zip_read(void*, unsigned int, unsigned int, void*)	_Z12ogg_zip_readPvjjS_	223674	223680	4
 223684	8	ogg_zip_close(void*)	_Z13ogg_zip_closePv	223684	223688	2
 22368c	72	ogg_read(void*, unsigned int, unsigned int, void*)	_Z8ogg_readPvjjS_	22368c	2236d0	18
-2236d4	124	anon_2236d4	anon_2236d4	2236d4	22374c	31
+2236d4	120	anon_2236d4	anon_2236d4	2236d4	22374c	31
 223750	132	COggThread::COggThread()	_ZN10COggThreadC1Ev	223750	2237d0	33
 223750	132	COggThread::COggThread()	_ZN10COggThreadC2Ev	223750	2237d0	33
 2237d4	100	COggThread::StartThread()	_ZN10COggThread11StartThreadEv	2237d4	223834	25
@@ -6489,9 +6488,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 223ba4	56	COggThread::Seek_Sound(int, float)	_ZN10COggThread10Seek_SoundEif	223ba4	223bd8	14
 223bdc	60	COggThread::Quit()	_ZN10COggThread4QuitEv	223bdc	223c14	15
 223c18	156	COggThread::LogError(char const*, ...)	_ZN10COggThread8LogErrorEPKcz	223c18	223cb0	39
-223cb4	508	anon_223cb4	anon_223cb4	223cb4	223eac	127
+223cb4	504	anon_223cb4	anon_223cb4	223cb4	223eac	127
 223eb0	452	GetStreamInfo(cAudio_Sound*)	_Z13GetStreamInfoP12cAudio_Sound	223eb0	224070	113
-224074	1788	anon_224074	anon_224074	224074	22476c	447
+224074	1784	anon_224074	anon_224074	224074	22476c	447
 224770	80	COggThread::ShowError()	_ZN10COggThread9ShowErrorEv	224770	2247bc	20
 2247c0	116	COggThread::Tick()	_ZN10COggThread4TickEv	2247c0	224830	29
 224834	180	COggSyncThread::COggSyncThread()	_ZN14COggSyncThreadC1Ev	224834	2248e4	45
@@ -6515,7 +6514,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2250c8	68	COggSyncThread::Quit()	_ZN14COggSyncThread4QuitEv	2250c8	225108	17
 22510c	124	COggSyncThread::Tick()	_ZN14COggSyncThread4TickEv	22510c	225184	31
 225188	168	COggSyncThread::MixData(void*, int, int, int, float, float)	_ZN14COggSyncThread7MixDataEPviiiff	225188	22522c	42
-225230	2544	anon_225230	anon_225230	225230	225c1c	636
+225230	2540	anon_225230	anon_225230	225230	225c1c	636
 225c20	44	COggSyncThread::StartSyncGroup()	_ZN14COggSyncThread14StartSyncGroupEv	225c20	225c48	11
 225c4c	40	COggSyncThread::StopSyncGroup()	_ZN14COggSyncThread13StopSyncGroupEv	225c4c	225c70	10
 225c74	32	COggSyncThread::PauseSyncGroup()	_ZN14COggSyncThread14PauseSyncGroupEv	225c74	225c90	8
@@ -6562,9 +6561,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 228754	936	vorbis_book_decodev_add	vorbis_book_decodev_add	228754	228af8	234
 228afc	1060	vorbis_book_decodev_set	vorbis_book_decodev_set	228afc	228f1c	265
 228f20	1136	vorbis_book_decodevv_add	vorbis_book_decodevv_add	228f20	22938c	284
-229390	1308	anon_229390	anon_229390	229390	2298a8	327
+229390	1304	anon_229390	anon_229390	229390	2298a8	327
 2298ac	1400	vorbis_lsp_to_curve	vorbis_lsp_to_curve	2298ac	229e20	350
-229e24	3164	anon_229e24	anon_229e24	229e24	22aa7c	791
+229e24	3160	anon_229e24	anon_229e24	229e24	22aa7c	791
 22aa80	12	vorbis_comment_init	vorbis_comment_init	22aa80	22aa88	3
 22aa8c	244	vorbis_comment_query	vorbis_comment_query	22aa8c	22ab7c	61
 22ab80	204	vorbis_comment_query_count	vorbis_comment_query_count	22ab80	22ac48	51
@@ -6574,17 +6573,17 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 22ad10	436	vorbis_info_clear	vorbis_info_clear	22ad10	22aec0	109
 22aec4	160	vorbis_synthesis_idheader	vorbis_synthesis_idheader	22aec4	22af60	40
 22af64	1716	vorbis_synthesis_headerin	vorbis_synthesis_headerin	22af64	22b614	429
-22b618	2404	anon_22b618	anon_22b618	22b618	22bf78	601
+22b618	2400	anon_22b618	anon_22b618	22b618	22bf78	601
 22bf7c	8040	mdct_backward	mdct_backward	22bf7c	22dee0	2010
 22dee4	36	res0_free_info	res0_free_info	22dee4	22df04	9
 22df08	156	res0_free_look	res0_free_look	22df08	22dfa0	39
 22dfa4	564	res0_unpack	res0_unpack	22dfa4	22e1d4	141
 22e1d8	600	res0_look	res0_look	22e1d8	22e42c	150
-22e430	780	anon_22e430	anon_22e430	22e430	22e738	195
+22e430	776	anon_22e430	anon_22e430	22e430	22e738	195
 22e73c	108	res0_inverse	res0_inverse	22e73c	22e7a4	27
 22e7a8	108	res1_inverse	res1_inverse	22e7a8	22e810	27
 22e814	604	res2_inverse	res2_inverse	22e814	22ea6c	151
-22ea70	128	anon_22ea70	anon_22ea70	22ea70	22eaec	32
+22ea70	124	anon_22ea70	anon_22ea70	22ea70	22eaec	32
 22eaf0	36	_ilog	_ilog	22eaf0	22eb10	9
 22eb14	628	_make_words	_make_words	22eb14	22ed84	157
 22ed88	144	_book_maptype1_quantvals	_book_maptype1_quantvals	22ed88	22ee14	36
@@ -6592,13 +6591,13 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 22f554	68	vorbis_staticbook_destroy	vorbis_staticbook_destroy	22f554	22f594	17
 22f598	108	vorbis_book_clear	vorbis_book_clear	22f598	22f600	27
 22f604	1140	vorbis_book_init_decode	vorbis_book_init_decode	22f604	22fa74	285
-22fa78	500	anon_22fa78	anon_22fa78	22fa78	22fc68	125
+22fa78	496	anon_22fa78	anon_22fa78	22fa78	22fc68	125
 22fc6c	8	vorbis_synthesis	vorbis_synthesis	22fc6c	22fc70	2
 22fc74	8	vorbis_synthesis_trackonly	vorbis_synthesis_trackonly	22fc74	22fc78	2
 22fc7c	144	vorbis_packet_blocksize	vorbis_packet_blocksize	22fc7c	22fd08	36
-22fd0c	4536	anon_22fd0c	anon_22fd0c	22fd0c	230ec0	1134
+22fd0c	4532	anon_22fd0c	anon_22fd0c	22fd0c	230ec0	1134
 230ec4	248	ov_clear	ov_clear	230ec4	230fb8	62
-230fbc	460	anon_230fbc	anon_230fbc	230fbc	231184	115
+230fbc	456	anon_230fbc	anon_230fbc	230fbc	231184	115
 231188	44	ov_test_callbacks	ov_test_callbacks	231188	2311b0	11
 2311b4	80	ov_test	ov_test	2311b4	231200	20
 231204	8	ov_streams	ov_streams	231204	231208	2
@@ -6610,7 +6609,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 231424	184	ov_time_total	ov_time_total	231424	2314d8	46
 2314dc	316	ov_bitrate	ov_bitrate	2314dc	231614	79
 231618	1196	ov_raw_seek	ov_raw_seek	231618	231ac0	299
-231ac4	388	anon_231ac4	anon_231ac4	231ac4	231c44	97
+231ac4	384	anon_231ac4	anon_231ac4	231ac4	231c44	97
 231c48	164	ov_open_callbacks	ov_open_callbacks	231c48	231ce8	41
 231cec	80	ov_open	ov_open	231cec	231d38	20
 231d3c	88	ov_fopen	ov_fopen	231d3c	231d90	22
@@ -6641,7 +6640,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 233538	24	oggpack_writealign	oggpack_writealign	233538	23354c	6
 233550	376	oggpackB_write	oggpackB_write	233550	2336c4	94
 2336c8	24	oggpackB_writealign	oggpackB_writealign	2336c8	2336dc	6
-2336e0	296	anon_2336e0	anon_2336e0	2336e0	233804	74
+2336e0	292	anon_2336e0	anon_2336e0	2336e0	233804	74
 233808	40	oggpack_writecopy	oggpack_writecopy	233808	23382c	10
 233830	40	oggpackB_writecopy	oggpackB_writecopy	233830	233854	10
 233858	4	oggpackB_writeclear	oggpackB_writeclear	233858	233858	1
@@ -6665,7 +6664,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 233e54	4	oggpackB_bits	oggpackB_bits	233e54	233e54	1
 233e58	8	oggpack_get_buffer	oggpack_get_buffer	233e58	233e5c	2
 233e60	4	oggpackB_get_buffer	oggpackB_get_buffer	233e60	233e60	1
-233e64	272	anon_233e64	anon_233e64	233e64	233f70	68
+233e64	268	anon_233e64	anon_233e64	233e64	233f70	68
 233f74	12	ogg_page_version	ogg_page_version	233f74	233f7c	3
 233f80	16	ogg_page_continued	ogg_page_continued	233f80	233f8c	4
 233f90	16	ogg_page_bos	ogg_page_bos	233f90	233f9c	4
@@ -6677,10 +6676,10 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 23412c	36	ogg_stream_check	ogg_stream_check	23412c	23414c	9
 234150	84	ogg_stream_clear	ogg_stream_clear	234150	2341a0	21
 2341a4	148	ogg_stream_init	ogg_stream_init	2341a4	234234	37
-234238	252	anon_234238	anon_234238	234238	234330	63
+234238	248	anon_234238	anon_234238	234238	234330	63
 234334	32	ogg_stream_destroy	ogg_stream_destroy	234334	234350	8
 234354	224	ogg_page_checksum_set	ogg_page_checksum_set	234354	234430	56
-234434	836	anon_234434	anon_234434	234434	234774	209
+234434	832	anon_234434	anon_234434	234434	234774	209
 234778	592	ogg_stream_iovecin	ogg_stream_iovecin	234778	2349c4	148
 2349c8	60	ogg_stream_packetin	ogg_stream_packetin	2349c8	234a00	15
 234a04	12	ogg_stream_flush	ogg_stream_flush	234a04	234a0c	3
@@ -6785,7 +6784,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 237ad4	4	b2ContactListener::PreSolve(b2Contact*, b2Manifold const*)	_ZN17b2ContactListener8PreSolveEP9b2ContactPK10b2Manifold	237ad4	237ad4	1
 237ad8	4	b2ContactListener::PostSolve(b2Contact*, b2ContactImpulse const*)	_ZN17b2ContactListener9PostSolveEP9b2ContactPK16b2ContactImpulse	237ad8	237ad8	1
 237adc	40	b2ContactListener::~b2ContactListener()	_ZN17b2ContactListenerD0Ev	237adc	237b00	10
-237b04	116	anon_237b04	anon_237b04	237b04	237b74	29
+237b04	112	anon_237b04	anon_237b04	237b04	237b74	29
 237b78	16	yoyo_b2relassert(bool, wchar_t const*)	_Z16yoyo_b2relassertbPKw	237b78	237b84	4
 237b88	52	CPhysicsWorld::SetDebugMode()	_ZN13CPhysicsWorld12SetDebugModeEv	237b88	237bb8	13
 237bbc	60	CPhysicsWorld::SetTraceMsg(char*)	_ZN13CPhysicsWorld11SetTraceMsgEPc	237bbc	237bf4	15
@@ -6928,7 +6927,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 23cd14	112	F_JS_Array_isArray(RValue&, CInstance*, CInstance*, int, RValue*)	_Z18F_JS_Array_isArrayR6RValueP9CInstanceS2_iPS_	23cd14	23cd80	28
 23cd84	160	HasInstance(YYObjectBase*, RValue*)	_Z11HasInstanceP12YYObjectBaseP6RValue	23cd84	23ce20	40
 23ce24	128	F_JS_Array_getLength(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20F_JS_Array_getLengthR6RValueP9CInstanceS2_iPS_	23ce24	23cea0	32
-23cea4	588	anon_23cea4	anon_23cea4	23cea4	23d0ec	147
+23cea4	584	anon_23cea4	anon_23cea4	23cea4	23d0ec	147
 23d0f0	264	JS_DefaultGetOwnProperty(YYObjectBase*, RValue*, char const*)	_Z24JS_DefaultGetOwnPropertyP12YYObjectBaseP6RValuePKc	23d0f0	23d1f4	66
 23d1f8	168	Balloc_D2A	Balloc_D2A	23d1f8	23d29c	42
 23d2a0	52	Bfree_D2A	Bfree_D2A	23d2a0	23d2d0	13
@@ -6950,7 +6949,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 23dd14	84	nrv_alloc_D2A	nrv_alloc_D2A	23dd14	23dd64	21
 23dd68	68	freedtoa(char*)	_Z8freedtoaPc	23dd68	23dda8	17
 23ddac	544	quorem_D2A	quorem_D2A	23ddac	23dfc8	136
-23dfcc	4	anon_23dfcc	anon_23dfcc	23dfcc	23dfcc	1
+23dfcc	0	anon_23dfcc	anon_23dfcc	23dfcc	23dfcc	1
 23dfd0	5016	gdtoa(FPI*, int, unsigned int*, int*, int, int, int*, char**)	_Z5gdtoaP3FPIiPjPiiiS2_PPc	23dfd0	23f364	1254
 23f368	628	g__fmt_D2A	g__fmt_D2A	23f368	23f5d8	157
 23f5dc	232	add_nanbits_D2A	add_nanbits_D2A	23f5dc	23f6c0	58
@@ -7025,10 +7024,10 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2441d4	404	JS_CreateNativeErrorSetup(char const*, void (*)(RValue&, CInstance*, CInstance*, int, RValue*), YYObjectBase**, YYObjectBase*)	_Z25JS_CreateNativeErrorSetupPKcPFvR6RValueP9CInstanceS4_iPS1_EPP12YYObjectBaseS9_	2441d4	244364	101
 244368	576	JS_ErrorObjectSetup()	_Z19JS_ErrorObjectSetupv	244368	2445a4	144
 2445a8	988	JS_NumberObjectSetup()	_Z20JS_NumberObjectSetupv	2445a8	244980	247
-244984	4	anon_244984	anon_244984	244984	244984	1
+244984	0	anon_244984	anon_244984	244984	244984	1
 244988	48	DateGetNow()	_Z10DateGetNowv	244988	2449b4	12
 2449b8	28	JS_Date_now(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11JS_Date_nowR6RValueP9CInstanceS2_iPS_	2449b8	2449d0	7
-2449d4	4	anon_2449d4	anon_2449d4	2449d4	2449d4	1
+2449d4	0	anon_2449d4	anon_2449d4	2449d4	2449d4	1
 2449d8	32	Day(double)	_Z3Dayd	2449d8	2449f4	8
 2449f8	16	TimeWithinDay(double)	_Z13TimeWithinDayd	2449f8	244a04	4
 244a08	160	DaysInYear(double)	_Z10DaysInYeard	244a08	244aa4	40
@@ -7037,33 +7036,33 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 244b90	88	YearFromTime(double)	_Z12YearFromTimed	244b90	244be4	22
 244be8	64	InLeapYear(double)	_Z10InLeapYeard	244be8	244c24	16
 244c28	60	DayWithinYear(double)	_Z13DayWithinYeard	244c28	244c60	15
-244c64	4	anon_244c64	anon_244c64	244c64	244c64	1
+244c64	0	anon_244c64	anon_244c64	244c64	244c64	1
 244c68	760	MonthFromTime(double)	_Z13MonthFromTimed	244c68	244f5c	190
 244f60	392	DateFromTime(double)	_Z12DateFromTimed	244f60	2450e4	98
 2450e8	44	WeekDay(double)	_Z7WeekDayd	2450e8	245110	11
 245114	4	LocalTime(double)	_Z9LocalTimed	245114	245114	1
 245118	4	UTC(double)	_Z3UTCd	245118	245118	1
-24511c	4	anon_24511c	anon_24511c	24511c	24511c	1
+24511c	0	anon_24511c	anon_24511c	24511c	24511c	1
 245120	56	HourFromTime(double)	_Z12HourFromTimed	245120	245154	14
 245158	56	MinFromTime(double)	_Z11MinFromTimed	245158	24518c	14
 245190	56	SecFromTime(double)	_Z11SecFromTimed	245190	2451c4	14
 2451c8	16	msFromTime(double)	_Z10msFromTimed	2451c8	2451d4	4
 2451d8	228	MakeTime(double, double, double, double)	_Z8MakeTimedddd	2451d8	2452b8	57
-2452bc	4	anon_2452bc	anon_2452bc	2452bc	2452bc	1
+2452bc	0	anon_2452bc	anon_2452bc	2452bc	2452bc	1
 2452c0	176	CalcTimeFromYear(double)	_Z16CalcTimeFromYeard	2452c0	245364	42
 245370	268	MakeDay(double, double, double)	_Z7MakeDayddd	245370	245478	67
-24547c	4	anon_24547c	anon_24547c	24547c	24547c	1
+24547c	0	anon_24547c	anon_24547c	24547c	24547c	1
 245480	108	MakeDate(double, double)	_Z8MakeDatedd	245480	2454e8	27
-2454ec	4	anon_2454ec	anon_2454ec	2454ec	2454ec	1
+2454ec	0	anon_2454ec	anon_2454ec	2454ec	2454ec	1
 2454f0	2436	JS_Date_parse(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13JS_Date_parseR6RValueP9CInstanceS2_iPS_	2454f0	245e70	609
-245e74	4	anon_245e74	anon_245e74	245e74	245e74	1
+245e74	0	anon_245e74	anon_245e74	245e74	245e74	1
 245e78	92	TimeClip(double)	_Z8TimeClipd	245e78	245ed0	23
-245ed4	4	anon_245ed4	anon_245ed4	245ed4	245ed4	1
+245ed4	0	anon_245ed4	anon_245ed4	245ed4	245ed4	1
 245ed8	424	JS_Date_UTC(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11JS_Date_UTCR6RValueP9CInstanceS2_iPS_	245ed8	24607c	103
 246080	132	JS_Date_create(RValue&, CInstance*, CInstance*, int, RValue*, double)	_Z14JS_Date_createR6RValueP9CInstanceS2_iPS_d	246080	246100	33
-246104	4	anon_246104	anon_246104	246104	246104	1
+246104	0	anon_246104	anon_246104	246104	246104	1
 246108	540	JS_Date_constructor(RValue&, CInstance*, CInstance*, int, RValue*)	_Z19JS_Date_constructorR6RValueP9CInstanceS2_iPS_	246108	246320	132
-246324	4	anon_246324	anon_246324	246324	246324	1
+246324	0	anon_246324	anon_246324	246324	246324	1
 246328	2456	JS_DateObjectSetup()	_Z18JS_DateObjectSetupv	246328	246cbc	614
 246cc0	544	JS_RegExpObjectSetup()	_Z20JS_RegExpObjectSetupv	246cc0	246edc	136
 246ee0	200	JS_JSONObjectSetup()	_Z18JS_JSONObjectSetupv	246ee0	246fa4	50
@@ -7075,7 +7074,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 247c68	220	JSArrayPut(RValue*, RValue*, RValue*)	_Z10JSArrayPutP6RValueS0_S0_	247c68	247d40	55
 247d44	1616	JS_DefineOwnProperty_Internal(YYObjectBase*, char const*, RValue*, bool)	_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb	247d44	248390	404
 248394	72	JS_DefineOwnProperty(YYObjectBase*, char const*, RValue*, bool)	_Z20JS_DefineOwnPropertyP12YYObjectBasePKcP6RValueb	248394	2483d8	18
-2483dc	4	anon_2483dc	anon_2483dc	2483dc	2483dc	1
+2483dc	0	anon_2483dc	anon_2483dc	2483dc	2483dc	1
 2483e0	560	F_JS_FromPropertyDescriptor(RValue*, RValue*)	_Z27F_JS_FromPropertyDescriptorP6RValueS0_	2483e0	24860c	138
 248610	12	JS_DefineOwnPropertyRV(YYObjectBase*, RValue*, RValue*, bool)	_Z22JS_DefineOwnPropertyRVP12YYObjectBaseP6RValueS2_b	248610	248618	3
 24861c	156	JS_Array_Put(YYObjectBase*, RValue*, char const*)	_Z12JS_Array_PutP12YYObjectBaseP6RValuePKc	24861c	2486b4	39
@@ -7116,7 +7115,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 24d874	120	F_JS_IsFinite(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_JS_IsFiniteR6RValueP9CInstanceS2_iPS_	24d874	24d8e8	30
 24d8ec	156	JS_ToUint16(RValue&, RValue&)	_Z11JS_ToUint16R6RValueS0_	24d8ec	24d984	39
 24d988	772	JS_String_fromCharCode(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22JS_String_fromCharCodeR6RValueP9CInstanceS2_iPS_	24d988	24dc88	193
-24dc8c	4	anon_24dc8c	anon_24dc8c	24dc8c	24dc8c	1
+24dc8c	0	anon_24dc8c	anon_24dc8c	24dc8c	24dc8c	1
 24dc90	172	JS_Number_Constructor(RValue&, CInstance*, CInstance*, int, RValue*)	_Z21JS_Number_ConstructorR6RValueP9CInstanceS2_iPS_	24dc90	24dd38	43
 24dd3c	888	F_JS_ToString(RValue&, RValue*)	_Z13F_JS_ToStringR6RValuePS_	24dd3c	24e0b0	222
 24e0b4	576	UnwindExceptionStack()	_Z20UnwindExceptionStackv	24e0b4	24e2f0	144
@@ -7169,9 +7168,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2524f8	100	JS_Math_floor(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13JS_Math_floorR6RValueP9CInstanceS2_iPS_	2524f8	252558	25
 25255c	100	JS_Math_log(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11JS_Math_logR6RValueP9CInstanceS2_iPS_	25255c	2525bc	25
 2525c0	204	JS_Math_max(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11JS_Math_maxR6RValueP9CInstanceS2_iPS_	2525c0	252688	51
-25268c	4	anon_25268c	anon_25268c	25268c	25268c	1
+25268c	0	anon_25268c	anon_25268c	25268c	25268c	1
 252690	204	JS_Math_min(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11JS_Math_minR6RValueP9CInstanceS2_iPS_	252690	252758	51
-25275c	4	anon_25275c	anon_25275c	25275c	25275c	1
+25275c	0	anon_25275c	anon_25275c	25275c	25275c	1
 252760	704	JS_Math_pow(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11JS_Math_powR6RValueP9CInstanceS2_iPS_	252760	252a1c	176
 252a20	120	JS_Math_round(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13JS_Math_roundR6RValueP9CInstanceS2_iPS_	252a20	252a94	30
 252a98	100	JS_Math_sin(RValue&, CInstance*, CInstance*, int, RValue*)	_Z11JS_Math_sinR6RValueP9CInstanceS2_iPS_	252a98	252af8	25
@@ -7197,7 +7196,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 254d4c	204	F_JSNew(RValue&, CInstance*, CInstance*, int, RValue*)	_Z7F_JSNewR6RValueP9CInstanceS2_iPS_	254d4c	254e14	51
 254e18	536	JS_Global_parseInt(RValue&, CInstance*, CInstance*, int, RValue*)	_Z18JS_Global_parseIntR6RValueP9CInstanceS2_iPS_	254e18	25502c	134
 255030	316	JS_Global_parseFloat(RValue&, CInstance*, CInstance*, int, RValue*)	_Z20JS_Global_parseFloatR6RValueP9CInstanceS2_iPS_	255030	255168	79
-25516c	4	anon_25516c	anon_25516c	25516c	25516c	1
+25516c	0	anon_25516c	anon_25516c	25516c	25516c	1
 255170	212	F_JS_Object_defineProperty(RValue&, CInstance*, CInstance*, int, RValue*)	_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_	255170	255240	53
 255244	168	F_JS_Object_getOwnPropertyDescriptor(RValue&, CInstance*, CInstance*, int, RValue*)	_Z36F_JS_Object_getOwnPropertyDescriptorR6RValueP9CInstanceS2_iPS_	255244	2552e8	42
 2552ec	136	F_JS_Object_prototype_hasOwnProperty(RValue&, CInstance*, CInstance*, int, RValue*)	_Z36F_JS_Object_prototype_hasOwnPropertyR6RValueP9CInstanceS2_iPS_	2552ec	255370	34
@@ -7212,16 +7211,16 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 255e34	572	JS_String_prototype_trim(RValue&, CInstance*, CInstance*, int, RValue*)	_Z24JS_String_prototype_trimR6RValueP9CInstanceS2_iPS_	255e34	25606c	143
 256070	92	F_JSStringCall(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_JSStringCallR6RValueP9CInstanceS2_iPS_	256070	2560c8	23
 2560cc	712	JS_String_prototype_search(RValue&, CInstance*, CInstance*, int, RValue*)	_Z26JS_String_prototype_searchR6RValueP9CInstanceS2_iPS_	2560cc	256390	178
-256394	4	anon_256394	anon_256394	256394	256394	1
+256394	0	anon_256394	anon_256394	256394	256394	1
 256398	852	JS_String_prototype_match(RValue&, CInstance*, CInstance*, int, RValue*)	_Z25JS_String_prototype_matchR6RValueP9CInstanceS2_iPS_	256398	2566e8	211
-2566ec	4	anon_2566ec	anon_2566ec	2566ec	2566ec	1
+2566ec	0	anon_2566ec	anon_2566ec	2566ec	2566ec	1
 2566f0	148	SortCompare(RValue*, RValue*, RValue*)	_Z11SortCompareP6RValueS0_S0_	2566f0	256780	37
 256784	916	JS_Error_prototype_toString(RValue&, CInstance*, CInstance*, int, RValue*)	_Z27JS_Error_prototype_toStringR6RValueP9CInstanceS2_iPS_	256784	256b14	229
 256b18	860	JS_Number_Prototype_toString(RValue&, CInstance*, CInstance*, int, RValue*)	_Z28JS_Number_Prototype_toStringR6RValueP9CInstanceS2_iPS_	256b18	256e70	215
 256e74	96	JS_Number_Prototype_toLocaleString(RValue&, CInstance*, CInstance*, int, RValue*)	_Z34JS_Number_Prototype_toLocaleStringR6RValueP9CInstanceS2_iPS_	256e74	256ed0	24
-256ed4	4	anon_256ed4	anon_256ed4	256ed4	256ed4	1
+256ed4	0	anon_256ed4	anon_256ed4	256ed4	256ed4	1
 256ed8	364	JS_Number_Prototype_toFixed(RValue&, CInstance*, CInstance*, int, RValue*)	_Z27JS_Number_Prototype_toFixedR6RValueP9CInstanceS2_iPS_	256ed8	257040	89
-257044	4	anon_257044	anon_257044	257044	257044	1
+257044	0	anon_257044	anon_257044	257044	257044	1
 257048	512	JS_Number_Prototype_toPrecision(RValue&, CInstance*, CInstance*, int, RValue*)	_Z31JS_Number_Prototype_toPrecisionR6RValueP9CInstanceS2_iPS_	257048	257244	128
 257248	1140	JS_RegExp_prototype_exec(RValue&, CInstance*, CInstance*, int, RValue*)	_Z24JS_RegExp_prototype_execR6RValueP9CInstanceS2_iPS_	257248	2576b8	285
 2576bc	684	JS_RegExp_prototype_test(RValue&, CInstance*, CInstance*, int, RValue*)	_Z24JS_RegExp_prototype_testR6RValueP9CInstanceS2_iPS_	2576bc	257964	171
@@ -7243,15 +7242,15 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 25a814	1216	JS_Global_abstractEqualityComparison(RValue&, RValue&, RValue&)	_Z36JS_Global_abstractEqualityComparisonR6RValueS0_S0_	25a814	25acd0	304
 25acd4	1108	F_JSNewObject(RValue&, CInstance*, CInstance*, int, RValue*)	_Z13F_JSNewObjectR6RValueP9CInstanceS2_iPS_	25acd4	25b124	277
 25b128	1020	JS_Array_prototype_unshift(RValue&, CInstance*, CInstance*, int, RValue*)	_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_	25b128	25b520	255
-25b524	10860	anon_25b524	anon_25b524	25b524	25df8c	2715
+25b524	10856	anon_25b524	anon_25b524	25b524	25df8c	2715
 25df90	364	pcre_pattern_to_host_byte_order	pcre_pattern_to_host_byte_order	25df90	25e0f8	91
 25e0fc	596	_pcre_find_bracket	_pcre_find_bracket	25e0fc	25e34c	149
-25e350	2580	anon_25e350	anon_25e350	25e350	25ed60	645
+25e350	2576	anon_25e350	anon_25e350	25e350	25ed60	645
 25ed64	188	pcre_config	pcre_config	25ed64	25ee1c	47
 25ee20	808	pcre_fullinfo	pcre_fullinfo	25ee20	25f144	202
 25f148	212	pcre_get_stringnumber	pcre_get_stringnumber	25f148	25f218	53
 25f21c	352	pcre_get_stringtable_entries	pcre_get_stringtable_entries	25f21c	25f378	88
-25f37c	168	anon_25f37c	anon_25f37c	25f37c	25f420	42
+25f37c	164	anon_25f37c	anon_25f37c	25f37c	25f420	42
 25f424	104	pcre_copy_substring	pcre_copy_substring	25f424	25f488	26
 25f48c	68	pcre_copy_named_substring	pcre_copy_named_substring	25f48c	25f4cc	17
 25f4d0	252	pcre_get_substring_list	pcre_get_substring_list	25f4d0	25f5c8	63
@@ -7267,19 +7266,19 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 25f9fc	452	_pcre_is_newline	_pcre_is_newline	25f9fc	25fbbc	113
 25fbc0	472	_pcre_was_newline	_pcre_was_newline	25fbc0	25fd94	118
 25fd98	148	_pcre_ord2utf	_pcre_ord2utf	25fd98	25fe28	37
-25fe2c	26428	anon_25fe2c	anon_25fe2c	25fe2c	266564	6607
+25fe2c	26424	anon_25fe2c	anon_25fe2c	25fe2c	266564	6607
 266568	120	pcre_refcount	pcre_refcount	266568	2665dc	30
 2665e0	752	pcre_study	pcre_study	2665e0	2668cc	188
 2668d0	36	pcre_free_study	pcre_free_study	2668d0	2668f0	9
 2668f4	936	_pcre_valid_utf	_pcre_valid_utf	2668f4	266c98	234
 266c9c	16	pcre_version	pcre_version	266c9c	266ca8	4
 266cac	1040	_pcre_xclass	_pcre_xclass	266cac	2670b8	260
-2670bc	2308	anon_2670bc	anon_2670bc	2670bc	2679bc	577
+2670bc	2304	anon_2670bc	anon_2670bc	2670bc	2679bc	577
 2679c0	5576	pcre_compile2	pcre_compile2	2679c0	268f84	1394
 268f88	44	pcre_compile	pcre_compile	268f88	268fb0	11
-268fb4	21940	anon_268fb4	anon_268fb4	268fb4	26e564	5485
+268fb4	21936	anon_268fb4	anon_268fb4	268fb4	26e564	5485
 26e568	3200	pcre_dfa_exec	pcre_dfa_exec	26e568	26f1e4	800
-26f1e8	41384	anon_26f1e8	anon_26f1e8	26f1e8	27938c	10346
+26f1e8	41380	anon_26f1e8	anon_26f1e8	26f1e8	27938c	10346
 279390	4408	pcre_exec	pcre_exec	279390	27a4c4	1102
 27a4c8	628	CLangMan::Language_Load(unsigned char*, unsigned int, unsigned char*)	_ZN8CLangMan13Language_LoadEPhjS0_	27a4c8	27a738	157
 27a73c	212	CLangMan::SetActiveLanguage(char*, char*)	_ZN8CLangMan17SetActiveLanguageEPcS0_	27a73c	27a80c	53
@@ -7322,7 +7321,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 27b8a0	56	CBucket<16u, 262144u, true>::Free(void const*)	_ZN7CBucketILj16ELj262144ELb1EE4FreeEPKv	27b8a0	27b8d4	14
 27b8d8	8	CBucket<8u, 131072u, true>::GetSize()	_ZN7CBucketILj8ELj131072ELb1EE7GetSizeEv	27b8d8	27b8dc	2
 27b8e0	56	CBucket<8u, 131072u, true>::Free(void const*)	_ZN7CBucketILj8ELj131072ELb1EE4FreeEPKv	27b8e0	27b914	14
-27b918	48	anon_27b918	anon_27b918	27b918	27b944	12
+27b918	44	anon_27b918	anon_27b918	27b918	27b944	12
 27b948	4	memLogPushContext(char const*)	_Z17memLogPushContextPKc	27b948	27b948	1
 27b94c	4	memLogPopContext()	_Z16memLogPopContextv	27b94c	27b94c	1
 27b950	216	iffLogGetName(char const*)	_Z13iffLogGetNamePKc	27b950	27ba24	54
@@ -7385,7 +7384,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 27e070	20	Mutex::Mutex(char const*)	_ZN5MutexC2EPKc	27e070	27e080	5
 27e084	24	Mutex::Lock()	_ZN5Mutex4LockEv	27e084	27e098	6
 27e09c	8	Mutex::Unlock()	_ZN5Mutex6UnlockEv	27e09c	27e0a0	2
-27e0a4	28	anon_27e0a4	anon_27e0a4	27e0a4	27e0bc	7
+27e0a4	24	anon_27e0a4	anon_27e0a4	27e0a4	27e0bc	7
 27e0c0	72	CThread::Start(void* (*)(void*), void*, CThread::ePriority)	_ZN7CThread5StartEPFPvS0_ES0_NS_9ePriorityE	27e0c0	27e104	18
 27e108	12	CThread::WaitForExit()	_ZN7CThread11WaitForExitEv	27e108	27e110	3
 27e114	48	CThread::Sleep(int)	_ZN7CThread5SleepEi	27e114	27e140	12
@@ -7404,16 +7403,16 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 27e344	68	mc_debug	mc_debug	27e344	27e384	17
 27e388	64	mc_error	mc_error	27e388	27e3c4	16
 27e3c8	64	mc_info	mc_info	27e3c8	27e404	16
-27e408	940	anon_27e408	anon_27e408	27e408	27e7b0	235
+27e408	936	anon_27e408	anon_27e408	27e408	27e7b0	235
 27e7b4	20	json_object_get	json_object_get	27e7b4	27e7c4	5
 27e7c8	44	json_object_put	json_object_put	27e7c8	27e7f0	11
-27e7f4	32	anon_27e7f4	anon_27e7f4	27e7f4	27e810	8
+27e7f4	28	anon_27e7f4	anon_27e7f4	27e7f4	27e810	8
 27e814	20	json_object_is_type	json_object_is_type	27e814	27e824	5
 27e828	8	json_object_get_type	json_object_get_type	27e828	27e82c	2
 27e830	108	json_object_to_json_string	json_object_to_json_string	27e830	27e898	27
 27e89c	88	json_object_new_object	json_object_new_object	27e89c	27e8f0	22
 27e8f4	28	json_object_get_object	json_object_get_object	27e8f4	27e90c	7
-27e910	240	anon_27e910	anon_27e910	27e910	27e9fc	60
+27e910	236	anon_27e910	anon_27e910	27e910	27e9fc	60
 27ea00	56	json_object_object_add	json_object_object_add	27ea00	27ea34	14
 27ea38	8	json_object_object_get	json_object_object_get	27ea38	27ea3c	2
 27ea40	8	json_object_object_del	json_object_object_del	27ea40	27ea44	2
@@ -7422,9 +7421,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 27eaf8	48	json_object_new_int	json_object_new_int	27eaf8	27eb24	12
 27eb28	144	json_object_get_int	json_object_get_int	27eb28	27ebb4	36
 27ebb8	52	json_object_new_double	json_object_new_double	27ebb8	27ebe8	13
-27ebec	4	anon_27ebec	anon_27ebec	27ebec	27ebec	1
+27ebec	0	anon_27ebec	anon_27ebec	27ebec	27ebec	1
 27ebf0	164	json_object_get_double	json_object_get_double	27ebf0	27ec90	39
-27ec94	4	anon_27ec94	anon_27ec94	27ec94	27ec94	1
+27ec94	0	anon_27ec94	anon_27ec94	27ec94	27ec94	1
 27ec98	40	json_object_new_null	json_object_new_null	27ec98	27ecbc	10
 27ecc0	72	json_object_new_string	json_object_new_string	27ecc0	27ed04	18
 27ed08	80	json_object_new_string_len	json_object_new_string_len	27ed08	27ed54	20
@@ -7435,7 +7434,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 27edf0	8	json_object_array_add	json_object_array_add	27edf0	27edf4	2
 27edf8	8	json_object_array_put_idx	json_object_array_put_idx	27edf8	27edfc	2
 27ee00	8	json_object_array_get_idx	json_object_array_get_idx	27ee00	27ee04	2
-27ee08	244	anon_27ee08	anon_27ee08	27ee08	27eef8	61
+27ee08	240	anon_27ee08	anon_27ee08	27ee08	27eef8	61
 27eefc	132	utf8_get_charW	utf8_get_charW	27eefc	27ef7c	33
 27ef80	48	utf8_char_sizeW	utf8_char_sizeW	27ef80	27efac	12
 27efb0	64	json_tokener_reset	json_tokener_reset	27efb0	27efec	16
@@ -7452,7 +7451,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2808ec	48	lh_kchar_table_new	lh_kchar_table_new	2808ec	280918	12
 28091c	48	lh_kptr_table_new	lh_kptr_table_new	28091c	280948	12
 28094c	72	lh_table_free	lh_table_free	28094c	280990	18
-280994	4	anon_280994	anon_280994	280994	280994	1
+280994	0	anon_280994	anon_280994	280994	280994	1
 280998	240	lh_table_insert	lh_table_insert	280998	280a84	60
 280a88	148	lh_table_resize	lh_table_resize	280a88	280b18	37
 280b1c	144	lh_table_lookup_entry	lh_table_lookup_entry	280b1c	280ba8	36
@@ -7464,7 +7463,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 280dbc	224	sprintbuf	sprintbuf	280dbc	280e98	56
 280e9c	20	printbuf_reset	printbuf_reset	280e9c	280eac	5
 280eb0	32	printbuf_free	printbuf_free	280eb0	280ecc	8
-280ed0	112	anon_280ed0	anon_280ed0	280ed0	280f3c	28
+280ed0	108	anon_280ed0	anon_280ed0	280ed0	280f3c	28
 280f40	468	_spEventTimeline_apply	_spEventTimeline_apply	280f40	281110	117
 281114	188	_spAttachmentTimeline_apply	_spAttachmentTimeline_apply	281114	2811cc	47
 2811d0	228	_spDrawOrderTimeline_apply	_spDrawOrderTimeline_apply	2811d0	2812b0	57
@@ -7554,7 +7553,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 283bb0	176	spAnimationStateData_setMix	spAnimationStateData_setMix	283bb0	283c5c	44
 283c60	72	spAnimationStateData_setMixByName	spAnimationStateData_setMixByName	283c60	283ca4	18
 283ca8	108	spAnimationStateData_getMix	spAnimationStateData_getMix	283ca8	283d10	27
-283d14	836	anon_283d14	anon_283d14	283d14	284054	209
+283d14	832	anon_283d14	anon_283d14	283d14	284054	209
 284058	96	spAtlasPage_create	spAtlasPage_create	284058	2840b4	24
 2840b8	32	spAtlasPage_dispose	spAtlasPage_dispose	2840b8	2840d4	8
 2840d8	28	spAtlasRegion_create	spAtlasRegion_create	2840d8	2840f0	7
@@ -7616,7 +7615,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 28667c	116	spIkConstraint_apply	spIkConstraint_apply	28667c	2866ec	29
 2866f0	104	spIkConstraintData_create	spIkConstraintData_create	2866f0	286754	26
 286758	36	spIkConstraintData_dispose	spIkConstraintData_dispose	286758	286778	9
-28677c	2876	anon_28677c	anon_28677c	28677c	2872b4	719
+28677c	2872	anon_28677c	anon_28677c	28677c	2872b4	719
 2872b8	16	Json_getError	Json_getError	2872b8	2872c4	4
 2872c8	88	Json_dispose	Json_dispose	2872c8	28731c	22
 287320	164	Json_create	Json_create	287320	2873c0	41
@@ -7633,7 +7632,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2876f4	72	spPathAttachment_create	spPathAttachment_create	2876f4	287738	18
 28773c	4	spPathAttachment_computeWorldVertices	spPathAttachment_computeWorldVertices	28773c	28773c	1
 287740	28	spPathAttachment_computeWorldVertices1	spPathAttachment_computeWorldVertices1	287740	287758	7
-28775c	528	anon_28775c	anon_28775c	28775c	287968	132
+28775c	524	anon_28775c	anon_28775c	28775c	287968	132
 28796c	260	spPathConstraint_create	spPathConstraint_create	28796c	287a6c	65
 287a70	100	spPathConstraint_dispose	spPathConstraint_dispose	287a70	287ad0	25
 287ad4	3252	spPathConstraint_computeWorldPositions	spPathConstraint_computeWorldPositions	287ad4	288784	813
@@ -7645,7 +7644,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 288fdc	100	spRegionAttachment_setUVs	spRegionAttachment_setUVs	288fdc	28903c	25
 289040	308	spRegionAttachment_updateOffset	spRegionAttachment_updateOffset	289040	289170	77
 289174	288	spRegionAttachment_computeWorldVertices	spRegionAttachment_computeWorldVertices	289174	289290	72
-289294	568	anon_289294	anon_289294	289294	2894c8	142
+289294	564	anon_289294	anon_289294	289294	2894c8	142
 2894cc	304	spSkeleton_dispose	spSkeleton_dispose	2894cc	2895f8	76
 2895fc	1348	spSkeleton_updateCache	spSkeleton_updateCache	2895fc	289b3c	337
 289b40	932	spSkeleton_create	spSkeleton_create	289b40	289ee0	233
@@ -7691,7 +7690,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 28b238	92	spSkeletonData_findIkConstraint	spSkeletonData_findIkConstraint	28b238	28b290	23
 28b294	92	spSkeletonData_findTransformConstraint	spSkeletonData_findTransformConstraint	28b294	28b2ec	23
 28b2f0	92	spSkeletonData_findPathConstraint	spSkeletonData_findPathConstraint	28b2f0	28b348	23
-28b34c	948	anon_28b34c	anon_28b34c	28b34c	28b6fc	237
+28b34c	944	anon_28b34c	anon_28b34c	28b34c	28b6fc	237
 28b700	52	spSkeletonJson_createWithLoader	spSkeletonJson_createWithLoader	28b700	28b730	13
 28b734	24	spSkeletonJson_create	spSkeletonJson_create	28b734	28b748	6
 28b74c	56	spSkeletonJson_dispose	spSkeletonJson_dispose	28b74c	28b780	14
@@ -7868,7 +7867,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 298df4	52	InitNetworking()	_Z14InitNetworkingv	298df4	298e24	13
 298e28	108	AllocSocket()	_Z11AllocSocketv	298e28	298e90	27
 298e94	316	F_NETWORK_Create_Socket(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_NETWORK_Create_SocketR6RValueP9CInstanceS2_iPS_	298e94	298fcc	79
-298fd0	604	anon_298fd0	anon_298fd0	298fd0	299228	151
+298fd0	600	anon_298fd0	anon_298fd0	298fd0	299228	151
 29922c	12	F_NETWORK_Create_Server(RValue&, CInstance*, CInstance*, int, RValue*)	_Z23F_NETWORK_Create_ServerR6RValueP9CInstanceS2_iPS_	29922c	299234	3
 299238	12	F_NETWORK_Create_Server_Raw(RValue&, CInstance*, CInstance*, int, RValue*)	_Z27F_NETWORK_Create_Server_RawR6RValueP9CInstanceS2_iPS_	299238	299240	3
 299244	312	FreeSocket(int)	_Z10FreeSocketi	299244	299378	78
@@ -7891,7 +7890,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 299c10	36	RelyDeletePacket(int)	_Z16RelyDeletePacketi	299c10	299c30	9
 299c34	52	RelyClearList()	_Z13RelyClearListv	299c34	299c64	13
 299c68	312	RelySendReliable(int, char const*, int, int, int)	_Z16RelySendReliableiPKciii	299c68	299d9c	78
-299da0	232	anon_299da0	anon_299da0	299da0	299e84	58
+299da0	228	anon_299da0	anon_299da0	299da0	299e84	58
 299e88	184	F_NETWORK_Send_UDP(RValue&, CInstance*, CInstance*, int, RValue*)	_Z18F_NETWORK_Send_UDPR6RValueP9CInstanceS2_iPS_	299e88	299f3c	46
 299f40	184	F_NETWORK_Send_UDP_Raw(RValue&, CInstance*, CInstance*, int, RValue*)	_Z22F_NETWORK_Send_UDP_RawR6RValueP9CInstanceS2_iPS_	299f40	299ff4	46
 299ff8	192	RelySendData(int, char const*, int, int, int)	_Z12RelySendDataiPKciii	299ff8	29a0b4	48
@@ -7949,7 +7948,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 29d62c	8	DbgServer::Process()	_ZN9DbgServer7ProcessEv	29d62c	29d630	2
 29d634	180	DebuggerMessageLoop()	_Z19DebuggerMessageLoopv	29d634	29d6e4	45
 29d6e8	56	DebuggerMessageLoopTick()	_Z23DebuggerMessageLoopTickv	29d6e8	29d71c	14
-29d720	80	anon_29d720	anon_29d720	29d720	29d76c	20
+29d720	76	anon_29d720	anon_29d720	29d720	29d76c	20
 29d770	568	TickDebugger()	_Z12TickDebuggerv	29d770	29d9a4	142
 29d9a8	8	DbgSocket::Write(void*, unsigned int)	_ZN9DbgSocket5WriteEPvj	29d9a8	29d9ac	2
 29d9b0	12	DbgSocket::GetUserData()	_ZN9DbgSocket11GetUserDataEv	29d9b0	29d9b8	3
@@ -7970,7 +7969,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 29fb30	796	Debug_SendGameStructure(DbgSocket*, Buffer_Standard*)	_Z23Debug_SendGameStructureP9DbgSocketP15Buffer_Standard	29fb30	29fe48	199
 29fe4c	376	Debug_SendYYDebug(DbgSocket*, Buffer_Standard*)	_Z17Debug_SendYYDebugP9DbgSocketP15Buffer_Standard	29fe4c	29ffc0	94
 29ffc4	40	cmpDumpNode(void const*, void const*)	_Z11cmpDumpNodePKvS0_	29ffc4	29ffe8	10
-29ffec	184	anon_29ffec	anon_29ffec	29ffec	2a00a0	46
+29ffec	180	anon_29ffec	anon_29ffec	29ffec	2a00a0	46
 2a00a4	12	CProfiler::CProfiler()	_ZN9CProfilerC1Ev	2a00a4	2a00ac	3
 2a00a4	12	CProfiler::CProfiler()	_ZN9CProfilerC2Ev	2a00a4	2a00ac	3
 2a00b0	692	CProfiler::Init(char const*, int)	_ZN9CProfiler4InitEPKci	2a00b0	2a0360	173
@@ -8001,440 +8000,380 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2a297c	684	InitGMLFunctions()	_Z16InitGMLFunctionsv	2a297c	2a2c24	171
 2a2c28	20	SetLaunchedFromPlayer(char const*, bool)	_Z21SetLaunchedFromPlayerPKcb	2a2c28	2a2c38	5
 2a2c3c	560	RunGame()	_Z7RunGamev	2a2c3c	2a2e68	140
-2a2e6c	36	anon_2a2e6c	anon_2a2e6c	2a2e6c	2a2e8c	9
+2a2e6c	32	anon_2a2e6c	anon_2a2e6c	2a2e6c	2a2e8c	9
 2a2e90	44	android_getCpuFamily	android_getCpuFamily	2a2e90	2a2eb8	11
 2a2ebc	44	android_getCpuFeatures	android_getCpuFeatures	2a2ebc	2a2ee4	11
-2a2ee8	3176	anon_2a2ee8	anon_2a2ee8	2a2ee8	2a3b4c	794
-2a31ed	1968	zip_close	zip_close			0
-2a3b4e	60	anon_2a3b4e	anon_2a3b4e	2a3b4e	2a3b86	15
-2a3b4f	58	_zip_cdir_grow(zip_cdir*, int, zip_error*)	_Z14_zip_cdir_growP8zip_cdiriP9zip_error			0
-2a3b88	80	anon_2a3b88	anon_2a3b88	2a3b88	2a3bd4	20
-2a3b89	78	_zip_cdir_new(int, zip_error*)	_Z13_zip_cdir_newiP9zip_error			0
-2a3bd6	88	anon_2a3bd6	anon_2a3bd6	2a3bd6	2a3c2a	22
-2a3bd7	32	_zip_dirent_finalize(zip_dirent*)	_Z20_zip_dirent_finalizeP10zip_dirent			0
-2a3bf7	54	_zip_cdir_free(zip_cdir*)	_Z14_zip_cdir_freeP8zip_cdir			0
-2a3c2c	680	anon_2a3c2c	anon_2a3c2c	2a3c2c	2a3ed0	170
-2a3c2d	42	_zip_dirent_init(zip_dirent*)	_Z16_zip_dirent_initP10zip_dirent			0
-2a3c59	136	_zip_dirent_torrent_normalize(zip_dirent*)	_Z29_zip_dirent_torrent_normalizeP10zip_dirent			0
-2a3ce1	304	_zip_dirent_write(zip_dirent*, __sFILE*, int, zip_error*)	_Z17_zip_dirent_writeP10zip_direntP7__sFILEiP9zip_error			0
-2a3e11	176	_zip_cdir_write(zip_cdir*, __sFILE*, zip_error*)	_Z15_zip_cdir_writeP8zip_cdirP7__sFILEP9zip_error			0
-2a3ec1	18	_zip_read2(unsigned char**)	_Z10_zip_read2PPh			0
-2a3ed2	32	anon_2a3ed2	anon_2a3ed2	2a3ed2	2a3eee	8
-2a3ed3	28	_zip_read4(unsigned char**)	_Z10_zip_read4PPh			0
-2a3ef0	1072	anon_2a3ef0	anon_2a3ef0	2a3ef0	2a431c	268
-2a3ef1	536	_zip_dirent_read(zip_dirent*, __sFILE*, unsigned char**, unsigned int*, int, zip_error*)	_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error			0
-2a4109	516	_zip_dirent_read_buff(zip_dirent*, IBuffer*, unsigned char**, unsigned int*, int, zip_error*)	_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error			0
-2a430d	8	_zip_error_clear(zip_error*)	_Z16_zip_error_clearP9zip_error			0
-2a4315	10	_zip_error_copy(zip_error*, zip_error*)	_Z15_zip_error_copyP9zip_errorS0_			0
-2a431e	60	anon_2a431e	anon_2a431e	2a431e	2a4356	15
-2a431f	16	_zip_error_fini(zip_error*)	_Z15_zip_error_finiP9zip_error			0
-2a432f	32	_zip_error_get(zip_error*, int*, int*)	_Z14_zip_error_getP9zip_errorPiS1_			0
-2a434f	10	_zip_error_init(zip_error*)	_Z15_zip_error_initP9zip_error			0
-2a4358	384	anon_2a4358	anon_2a4358	2a4358	2a44d4	96
-2a4359	8	_zip_error_set(zip_error*, int, int)	_Z14_zip_error_setP9zip_errorii			0
-2a4361	40	zip_error_get_sys_type	zip_error_get_sys_type			0
-2a4389	110	zip_fclose	zip_fclose			0
-2a43f9	192	_zip_filerange_crc(__sFILE*, long, long, unsigned long*, zip_error*)	_Z18_zip_filerange_crcP7__sFILEllPmP9zip_error			0
-2a44b9	30	zip_fopen	zip_fopen			0
-2a44d6	176	anon_2a44d6	anon_2a44d6	2a44d6	2a4582	44
-2a44d7	174	_zip_file_fillbuf(void*, unsigned int, zip_file*)	_Z17_zip_file_fillbufPvjP8zip_file			0
-2a4584	908	anon_2a4584	anon_2a4584	2a4584	2a490c	227
-2a4585	488	zip_fopen_index	zip_fopen_index			0
-2a476d	280	zip_fread	zip_fread			0
-2a4885	120	_zip_free(zip*)	_Z9_zip_freeP3zip			0
-2a48fd	18	zip_get_archive_flag	zip_get_archive_flag			0
-2a490e	100	anon_2a490e	anon_2a490e	2a490e	2a496e	25
-2a490f	12	zip_get_num_files	zip_get_num_files			0
-2a491b	86	_zip_get_name(zip*, int, int, zip_error*)	_Z13_zip_get_nameP3zipiiP9zip_error			0
-2a4970	3580	anon_2a4970	anon_2a4970	2a4970	2a5768	895
-2a4971	8	zip_get_name	zip_get_name			0
-2a4979	42	_zip_memdup(void const*, unsigned int, zip_error*)	_Z11_zip_memdupPKvjP9zip_error			0
-2a49a5	180	_zip_name_locate(zip*, char const*, int, zip_error*)	_Z16_zip_name_locateP3zipPKciP9zip_error			0
-2a4a59	8	zip_name_locate	zip_name_locate			0
-2a4de1	960	zip_open	zip_open			0
-2a51a1	728	zip_open_buff	zip_open_buff			0
-2a555d	276	zip_source_zip	zip_source_zip			0
-2a5671	36	zip_stat	zip_stat			0
-2a5695	208	zip_stat_index	zip_stat_index			0
-2a5765	6	zip_strerror	zip_strerror			0
-2a576a	40	anon_2a576a	anon_2a576a	2a576a	2a578e	10
-2a576b	38	_zip_entry_free(zip_entry*)	_Z15_zip_entry_freeP9zip_entry			0
-2a5790	352	anon_2a5790	anon_2a5790	2a5790	2a58ec	88
-2a5791	102	_zip_entry_new(zip*)	_Z14_zip_entry_newP3zip			0
-2a57f9	240	_zip_error_strerror(zip_error*)	_Z19_zip_error_strerrorP9zip_error			0
-2a58e9	6	zip_file_error_get	zip_file_error_get			0
-2a58ee	312	anon_2a58ee	anon_2a58ee	2a58ee	2a5a22	78
-2a58ef	144	_zip_file_get_offset(zip*, int)	_Z20_zip_file_get_offsetP3zipi			0
-2a597f	76	_zip_new(zip_error*)	_Z8_zip_newP9zip_error			0
-2a59cb	44	zip_source_function	zip_source_function			0
-2a59f7	44	_zip_unchange_data(zip_entry*)	_Z18_zip_unchange_dataP9zip_entry			0
-2a5a24	1180	anon_2a5a24	anon_2a5a24	2a5a24	2a5ebc	295
-2a5a25	40	png_set_sig_bytes	png_set_sig_bytes			0
-2a5a4d	92	png_sig_cmp	png_sig_cmp			0
-2a5aa9	72	png_zalloc	png_zalloc			0
-2a5af1	4	png_zfree	png_zfree			0
-2a5af5	20	png_reset_crc	png_reset_crc			0
-2a5b09	48	png_calculate_crc	png_calculate_crc			0
-2a5b39	44	png_info_init_3	png_info_init_3			0
-2a5b65	44	png_create_info_struct	png_create_info_struct			0
-2a5b91	48	png_data_freer	png_data_freer			0
-2a5bc1	766	png_free_data	png_free_data			0
-2a5ebe	60	anon_2a5ebe	anon_2a5ebe	2a5ebe	2a5ef6	15
-2a5ebf	58	png_info_destroy	png_info_destroy			0
-2a5ef8	304	anon_2a5ef8	anon_2a5ef8	2a5ef8	2a6024	76
-2a5ef9	40	png_destroy_info_struct	png_destroy_info_struct			0
-2a5f21	8	png_get_io_ptr	png_get_io_ptr			0
-2a5f29	8	png_init_io	png_init_io			0
-2a5f31	132	png_convert_to_rfc1123	png_convert_to_rfc1123			0
-2a5fb5	12	png_get_copyright	png_get_copyright			0
-2a5fc1	12	png_get_libpng_ver	png_get_libpng_ver			0
-2a5fcd	12	png_get_header_ver	png_get_header_ver			0
-2a5fd9	12	png_get_header_version	png_get_header_version			0
-2a5fe5	66	png_handle_as_unknown	png_handle_as_unknown			0
-2a6026	24	anon_2a6026	anon_2a6026	2a6026	2a603a	6
-2a6027	16	png_reset_zstream	png_reset_zstream			0
-2a6037	6	png_access_version_number	png_access_version_number			0
-2a603c	1300	anon_2a603c	anon_2a603c	2a603c	2a654c	325
-2a603d	42	png_64bit_product	png_64bit_product			0
-2a6069	328	png_check_cHRM_fixed	png_check_cHRM_fixed			0
-2a61b1	488	png_check_IHDR	png_check_IHDR			0
-2a642d	72	png_error	png_error			0
-2a6475	88	png_warning	png_warning			0
-2a64cd	56	png_chunk_error	png_chunk_error			0
-2a6505	56	png_chunk_warning	png_chunk_warning			0
-2a653d	18	png_set_longjmp_fn	png_set_longjmp_fn			0
-2a654e	40	anon_2a654e	anon_2a654e	2a654e	2a6572	10
-2a654f	16	png_set_error_fn	png_set_error_fn			0
-2a655f	8	png_get_error_ptr	png_get_error_ptr			0
-2a6567	14	png_get_valid	png_get_valid			0
-2a6574	28	anon_2a6574	anon_2a6574	2a6574	2a658c	7
-2a6575	12	png_get_rowbytes	png_get_rowbytes			0
-2a6581	14	png_get_rows	png_get_rows			0
-2a658e	192	anon_2a658e	anon_2a658e	2a658e	2a664a	48
-2a658f	12	png_get_image_width	png_get_image_width			0
-2a659b	12	png_get_image_height	png_get_image_height			0
-2a65a7	12	png_get_bit_depth	png_get_bit_depth			0
-2a65b3	12	png_get_color_type	png_get_color_type			0
-2a65bf	12	png_get_filter_type	png_get_filter_type			0
-2a65cb	12	png_get_interlace_type	png_get_interlace_type			0
-2a65d7	12	png_get_compression_type	png_get_compression_type			0
-2a65e3	32	png_get_x_pixels_per_meter	png_get_x_pixels_per_meter			0
-2a6603	32	png_get_y_pixels_per_meter	png_get_y_pixels_per_meter			0
-2a6623	40	png_get_pixels_per_meter	png_get_pixels_per_meter			0
-2a664c	148	anon_2a664c	anon_2a664c	2a664c	2a66dc	37
-2a664d	52	png_get_pixel_aspect_ratio	png_get_pixel_aspect_ratio			0
-2a6681	32	png_get_x_offset_microns	png_get_x_offset_microns			0
-2a66a1	32	png_get_y_offset_microns	png_get_y_offset_microns			0
-2a66c1	30	png_get_x_offset_pixels	png_get_x_offset_pixels			0
-2a66de	32	anon_2a66de	anon_2a66de	2a66de	2a66fa	8
-2a66df	30	png_get_y_offset_pixels	png_get_y_offset_pixels			0
-2a66fc	28	anon_2a66fc	anon_2a66fc	2a66fc	2a6714	7
-2a66fd	12	png_get_channels	png_get_channels			0
-2a6709	14	png_get_signature	png_get_signature			0
-2a6716	32	anon_2a6716	anon_2a6716	2a6716	2a6732	8
-2a6717	30	png_get_bKGD	png_get_bKGD			0
-2a6734	172	anon_2a6734	anon_2a6734	2a6734	2a67dc	43
-2a6735	170	png_get_cHRM	png_get_cHRM			0
-2a67de	124	anon_2a67de	anon_2a67de	2a67de	2a6856	31
-2a67df	122	png_get_cHRM_fixed	png_get_cHRM_fixed			0
-2a6858	40	anon_2a6858	anon_2a6858	2a6858	2a687c	10
-2a6859	38	png_get_gAMA	png_get_gAMA			0
-2a687e	68	anon_2a687e	anon_2a687e	2a687e	2a68be	17
-2a687f	32	png_get_gAMA_fixed	png_get_gAMA_fixed			0
-2a689f	34	png_get_sRGB	png_get_sRGB			0
-2a68c0	72	anon_2a68c0	anon_2a68c0	2a68c0	2a6904	18
-2a68c1	70	png_get_iCCP	png_get_iCCP			0
-2a6906	28	anon_2a6906	anon_2a6906	2a6906	2a691e	7
-2a6907	26	png_get_sPLT	png_get_sPLT			0
-2a6920	32	anon_2a6920	anon_2a6920	2a6920	2a693c	8
-2a6921	30	png_get_hIST	png_get_hIST			0
-2a693e	204	anon_2a693e	anon_2a693e	2a693e	2a6a06	51
-2a693f	144	png_get_IHDR	png_get_IHDR			0
-2a69cf	58	png_get_oFFs	png_get_oFFs			0
-2a6a08	100	anon_2a6a08	anon_2a6a08	2a6a08	2a6a68	25
-2a6a09	98	png_get_pCAL	png_get_pCAL			0
-2a6a6a	52	anon_2a6a6a	anon_2a6a6a	2a6a6a	2a6a9a	13
-2a6a6b	50	png_get_sCAL	png_get_sCAL			0
-2a6a9c	88	anon_2a6a9c	anon_2a6a9c	2a6a9c	2a6af0	22
-2a6a9d	52	png_get_pHYs	png_get_pHYs			0
-2a6ad1	34	png_get_PLTE	png_get_PLTE			0
-2a6af2	32	anon_2a6af2	anon_2a6af2	2a6af2	2a6b0e	8
-2a6af3	30	png_get_sBIT	png_get_sBIT			0
-2a6b10	40	anon_2a6b10	anon_2a6b10	2a6b10	2a6b34	10
-2a6b11	38	png_get_text	png_get_text			0
-2a6b36	112	anon_2a6b36	anon_2a6b36	2a6b36	2a6ba2	28
-2a6b37	32	png_get_tIME	png_get_tIME			0
-2a6b57	78	png_get_tRNS	png_get_tRNS			0
-2a6ba4	28	anon_2a6ba4	anon_2a6ba4	2a6ba4	2a6bbc	7
-2a6ba5	26	png_get_unknown_chunks	png_get_unknown_chunks			0
-2a6bbe	64	anon_2a6bbe	anon_2a6bbe	2a6bbe	2a6bfa	16
-2a6bbf	8	png_get_rgb_to_gray_status	png_get_rgb_to_gray_status			0
-2a6bc7	8	png_get_user_chunk_ptr	png_get_user_chunk_ptr			0
-2a6bcf	8	png_get_compression_buffer_size	png_get_compression_buffer_size			0
-2a6bd7	8	png_get_user_width_max	png_get_user_width_max			0
-2a6bdf	8	png_get_user_height_max	png_get_user_height_max			0
-2a6be7	8	png_get_chunk_cache_max	png_get_chunk_cache_max			0
-2a6bef	8	png_get_chunk_malloc_max	png_get_chunk_malloc_max			0
-2a6bf7	6	png_get_io_state	png_get_io_state			0
-2a6bfc	8	anon_2a6bfc	anon_2a6bfc	2a6bfc	2a6c00	2
-2a6bfd	6	png_get_io_chunk_name	png_get_io_chunk_name			0
-2a6c02	136	anon_2a6c02	anon_2a6c02	2a6c02	2a6c86	34
-2a6c03	84	png_create_struct_2	png_create_struct_2			0
-2a6c57	8	png_create_struct	png_create_struct			0
-2a6c5f	42	png_destroy_struct_2	png_destroy_struct_2			0
-2a6c88	144	anon_2a6c88	anon_2a6c88	2a6c88	2a6d14	36
-2a6c89	8	png_destroy_struct	png_destroy_struct			0
-2a6c91	14	png_malloc_default	png_malloc_default			0
-2a6ca1	56	png_malloc	png_malloc			0
-2a6cd9	24	png_calloc	png_calloc			0
-2a6cf1	12	png_free_default	png_free_default			0
-2a6cfd	26	png_free	png_free			0
-2a6d16	32	anon_2a6d16	anon_2a6d16	2a6d16	2a6d32	8
-2a6d17	30	png_malloc_warn	png_malloc_warn			0
-2a6d34	6872	anon_2a6d34	anon_2a6d34	2a6d34	2a8808	1718
-2a6d35	16	png_set_mem_fn	png_set_mem_fn			0
-2a6d45	8	png_get_mem_ptr	png_get_mem_ptr			0
-2a6d4d	656	png_create_read_struct_2	png_create_read_struct_2			0
-2a6fdd	18	png_create_read_struct	png_create_read_struct			0
-2a6ff1	1112	png_read_info	png_read_info			0
-2a7449	48	png_read_update_info	png_read_update_info			0
-2a7479	16	png_start_read_image	png_start_read_image			0
-2a7489	856	png_read_row	png_read_row			0
-2a77e1	96	png_read_rows	png_read_rows			0
-2a7841	60	png_read_image	png_read_image			0
-2a787d	1000	png_read_end	png_read_end			0
-2a7c65	456	png_read_destroy	png_read_destroy			0
-2a7e2d	140	png_destroy_read_struct	png_destroy_read_struct			0
-2a7eb9	8	png_set_read_status_fn	png_set_read_status_fn			0
-2a7ec1	324	png_read_png	png_read_png			0
-2a8005	44	png_default_read_data	png_default_read_data			0
-2a8031	28	png_read_data	png_read_data			0
-2a804d	80	png_set_read_fn	png_set_read_fn			0
-2a809d	140	png_set_crc_action	png_set_crc_action			0
-2a8129	92	png_set_background	png_set_background			0
-2a8185	16	png_set_strip_16	png_set_strip_16			0
-2a8195	16	png_set_strip_alpha	png_set_strip_alpha			0
-2a81a5	1426	png_set_quantize	png_set_quantize			0
-2a8739	88	png_set_gamma	png_set_gamma			0
-2a8791	32	png_set_expand	png_set_expand			0
-2a87b1	32	png_set_palette_to_rgb	png_set_palette_to_rgb			0
-2a87d1	28	png_set_expand_gray_1_2_4_to_8	png_set_expand_gray_1_2_4_to_8			0
-2a87ed	30	png_set_tRNS_to_alpha	png_set_tRNS_to_alpha			0
-2a880a	28	anon_2a880a	anon_2a880a	2a880a	2a8822	7
-2a880b	26	png_set_gray_to_rgb	png_set_gray_to_rgb			0
-2a8824	780	anon_2a8824	anon_2a8824	2a8824	2a8b2c	195
-2a8825	204	png_set_rgb_to_gray_fixed	png_set_rgb_to_gray_fixed			0
-2a88f1	180	png_set_rgb_to_gray	png_set_rgb_to_gray			0
-2a89a9	20	png_set_read_user_transform_fn	png_set_read_user_transform_fn			0
-2a89bd	370	png_read_transform_info	png_read_transform_info			0
-2a8b2e	508	anon_2a8b2e	anon_2a8b2e	2a8b2e	2a8d26	127
-2a8b2f	196	png_do_unpack	png_do_unpack			0
-2a8bf3	310	png_do_unshift	png_do_unshift			0
-2a8d28	276	anon_2a8d28	anon_2a8d28	2a8d28	2a8e38	69
-2a8d29	48	png_do_chop	png_do_chop			0
-2a8d59	226	png_do_read_swap_alpha	png_do_read_swap_alpha			0
-2a8e3a	628	anon_2a8e3a	anon_2a8e3a	2a8e3a	2a90aa	157
-2a8e3b	132	png_do_read_invert_alpha	png_do_read_invert_alpha			0
-2a8ebf	494	png_do_read_filler	png_do_read_filler			0
-2a90ac	4140	anon_2a90ac	anon_2a90ac	2a90ac	2aa0d4	1035
-2a90ad	256	png_do_gray_to_rgb	png_do_gray_to_rgb			0
-2a91ad	1166	png_do_rgb_to_gray	png_do_rgb_to_gray			0
-2a963d	68	png_build_grayscale_palette	png_build_grayscale_palette			0
-2a9681	2646	png_do_background	png_do_background			0
-2aa0d6	708	anon_2aa0d6	anon_2aa0d6	2aa0d6	2aa396	177
-2aa0d7	706	png_do_gamma	png_do_gamma			0
-2aa398	6292	anon_2aa398	anon_2aa398	2aa398	2abc28	1573
-2aa399	420	png_do_expand_palette	png_do_expand_palette			0
-2aa53d	792	png_do_expand	png_do_expand			0
-2aa855	214	png_do_quantize	png_do_quantize			0
-2aa92d	880	png_do_read_transformations	png_do_read_transformations			0
-2aaca1	1236	png_build_gamma_table	png_build_gamma_table			0
-2ab179	2172	png_init_read_transformations	png_init_read_transformations			0
-2ab9f9	134	png_do_read_intrapixel	png_do_read_intrapixel			0
-2abb6d	40	png_get_uint_31	png_get_uint_31			0
-2abb95	120	png_read_sig	png_read_sig			0
-2abc0d	30	png_crc_read	png_crc_read			0
-2abc2a	108	anon_2abc2a	anon_2abc2a	2abc2a	2abc92	27
-2abc2b	104	png_crc_error	png_crc_error			0
-2abc94	11896	anon_2abc94	anon_2abc94	2abc94	2aeb08	2974
-2abc95	116	png_crc_finish	png_crc_finish			0
-2abd09	328	png_decompress_chunk	png_decompress_chunk			0
-2abe51	276	png_handle_IHDR	png_handle_IHDR			0
-2abf65	356	png_handle_PLTE	png_handle_PLTE			0
-2ac0c9	72	png_handle_IEND	png_handle_IEND			0
-2ac111	296	png_handle_gAMA	png_handle_gAMA			0
-2ac239	240	png_handle_sBIT	png_handle_sBIT			0
-2ac329	876	png_handle_cHRM	png_handle_cHRM			0
-2ac695	384	png_handle_sRGB	png_handle_sRGB			0
-2ac815	472	png_handle_iCCP	png_handle_iCCP			0
-2ac9ed	512	png_handle_sPLT	png_handle_sPLT			0
-2acbed	372	png_handle_tRNS	png_handle_tRNS			0
-2acd61	312	png_handle_bKGD	png_handle_bKGD			0
-2ace99	192	png_handle_hIST	png_handle_hIST			0
-2acf59	216	png_handle_pHYs	png_handle_pHYs			0
-2ad031	248	png_handle_oFFs	png_handle_oFFs			0
-2ad129	552	png_handle_pCAL	png_handle_pCAL			0
-2ad351	384	png_handle_sCAL	png_handle_sCAL			0
-2ad4d1	180	png_handle_tIME	png_handle_tIME			0
-2ad585	328	png_handle_tEXt	png_handle_tEXt			0
-2ad6cd	388	png_handle_zTXt	png_handle_zTXt			0
-2ad851	484	png_handle_iTXt	png_handle_iTXt			0
-2ada35	320	png_handle_unknown	png_handle_unknown			0
-2adb75	80	png_check_chunk_name	png_check_chunk_name			0
-2adbc5	108	png_read_chunk_header	png_read_chunk_header			0
-2adc31	490	png_combine_row	png_combine_row			0
-2ade1d	812	png_do_read_interlace	png_do_read_interlace			0
-2ae149	276	png_read_filter_row	png_read_filter_row			0
-2ae25d	568	png_read_finish_row	png_read_finish_row			0
-2ae495	544	png_read_start_row	png_read_start_row			0
-2ae6b5	32	png_set_bKGD	png_set_bKGD			0
-2ae6d9	264	png_set_cHRM	png_set_cHRM			0
-2ae7e1	280	png_set_cHRM_fixed	png_set_cHRM_fixed			0
-2ae8f9	144	png_set_gAMA	png_set_gAMA			0
-2ae989	124	png_set_gAMA_fixed	png_set_gAMA_fixed			0
-2aea09	124	png_set_hIST	png_set_hIST			0
-2aea85	134	png_set_IHDR	png_set_IHDR			0
-2aeb0a	28	anon_2aeb0a	anon_2aeb0a	2aeb0a	2aeb22	7
-2aeb0b	24	png_set_oFFs	png_set_oFFs			0
-2aeb24	328	anon_2aeb24	anon_2aeb24	2aeb24	2aec68	82
-2aeb25	292	png_set_pCAL	png_set_pCAL			0
-2aec49	34	png_set_sCAL	png_set_sCAL			0
-2aec6a	28	anon_2aec6a	anon_2aec6a	2aec6a	2aec82	7
-2aec6b	24	png_set_pHYs	png_set_pHYs			0
-2aec84	2000	anon_2aec84	anon_2aec84	2aec84	2af450	500
-2aec85	152	png_set_PLTE	png_set_PLTE			0
-2aed1d	24	png_set_sBIT	png_set_sBIT			0
-2aed35	18	png_set_sRGB	png_set_sRGB			0
-2aed49	256	png_set_sRGB_gAMA_and_cHRM	png_set_sRGB_gAMA_and_cHRM			0
-2aee49	176	png_set_iCCP	png_set_iCCP			0
-2aeef9	488	png_set_text_2	png_set_text_2			0
-2af0e1	32	png_set_text	png_set_text			0
-2af101	76	png_set_tIME	png_set_tIME			0
-2af14d	192	png_set_tRNS	png_set_tRNS			0
-2af20d	308	png_set_sPLT	png_set_sPLT			0
-2af341	244	png_set_unknown_chunks	png_set_unknown_chunks			0
-2af435	30	png_set_unknown_chunk_location	png_set_unknown_chunk_location			0
-2af452	16	anon_2af452	anon_2af452	2af452	2af45e	4
-2af453	14	png_permit_mng_features	png_permit_mng_features			0
-2af460	296	anon_2af460	anon_2af460	2af460	2af584	74
-2af461	192	png_set_keep_unknown_chunks	png_set_keep_unknown_chunks			0
-2af521	12	png_set_read_user_chunk_fn	png_set_read_user_chunk_fn			0
-2af52d	44	png_set_rows	png_set_rows			0
-2af559	46	png_set_compression_buffer_size	png_set_compression_buffer_size			0
-2af586	16	anon_2af586	anon_2af586	2af586	2af592	4
-2af587	14	png_set_invalid	png_set_invalid			0
-2af594	492	anon_2af594	anon_2af594	2af594	2af77c	123
-2af595	12	png_set_user_limits	png_set_user_limits			0
-2af5a1	8	png_set_chunk_cache_max	png_set_chunk_cache_max			0
-2af5a9	8	png_set_chunk_malloc_max	png_set_chunk_malloc_max			0
-2af5b1	392	png_check_keyword	png_check_keyword			0
-2af739	16	png_set_bgr	png_set_bgr			0
-2af749	24	png_set_swap	png_set_swap			0
-2af761	30	png_set_packing	png_set_packing			0
-2af77e	360	anon_2af77e	anon_2af77e	2af77e	2af8e2	90
-2af77f	24	png_set_packswap	png_set_packswap			0
-2af797	28	png_set_shift	png_set_shift			0
-2af7b3	28	png_set_interlace_handling	png_set_interlace_handling			0
-2af7cf	68	png_set_filler	png_set_filler			0
-2af813	24	png_set_add_alpha	png_set_add_alpha			0
-2af82b	16	png_set_swap_alpha	png_set_swap_alpha			0
-2af83b	16	png_set_invert_alpha	png_set_invert_alpha			0
-2af84b	16	png_set_invert_mono	png_set_invert_mono			0
-2af85b	92	png_do_invert	png_do_invert			0
-2af8b7	46	png_do_swap	png_do_swap			0
-2af8e4	700	anon_2af8e4	anon_2af8e4	2af8e4	2afb9c	175
-2af8e5	76	png_do_packswap	png_do_packswap			0
-2af931	440	png_do_strip_filler	png_do_strip_filler			0
-2afae9	182	png_do_bgr	png_do_bgr			0
-2afb9e	28	anon_2afb9e	anon_2afb9e	2afb9e	2afbb6	7
-2afb9f	16	png_set_user_transform_info	png_set_user_transform_info			0
-2afbaf	8	png_get_user_transform_ptr	png_get_user_transform_ptr			0
-2afbb8	2448	anon_2afbb8	anon_2afbb8	2afbb8	2b0544	612
-2afbb9	44	png_default_write_data	png_default_write_data			0
-2afbe5	12	png_default_flush	png_default_flush			0
-2afbf1	28	png_write_data	png_write_data			0
-2afc0d	12	png_flush	png_flush			0
-2afc19	88	png_set_write_fn	png_set_write_fn			0
-2afc71	420	png_write_info_before_PLTE	png_write_info_before_PLTE			0
-2afe15	536	png_write_info	png_write_info			0
-2b002d	284	png_write_end	png_write_end			0
-2b0149	32	png_convert_from_struct_tm	png_convert_from_struct_tm			0
-2b0169	26	png_convert_from_time_t	png_convert_from_time_t			0
-2b0185	480	png_create_write_struct_2	png_create_write_struct_2			0
-2b0365	18	png_create_write_struct	png_create_write_struct			0
-2b0379	376	png_write_row	png_write_row			0
-2b04f1	32	png_write_rows	png_write_rows			0
-2b0511	54	png_write_image	png_write_image			0
-2b0546	16	anon_2b0546	anon_2b0546	2b0546	2b0552	4
-2b0547	12	png_set_flush	png_set_flush			0
-2b0554	320	anon_2b0554	anon_2b0554	2b0554	2b0690	80
-2b0555	148	png_write_flush	png_write_flush			0
-2b05e9	170	png_write_destroy	png_write_destroy			0
-2b0692	128	anon_2b0692	anon_2b0692	2b0692	2b070e	32
-2b0693	126	png_destroy_write_struct	png_destroy_write_struct			0
-2b0710	376	anon_2b0710	anon_2b0710	2b0710	2b0884	94
-2b0711	372	png_set_filter	png_set_filter			0
-2b0885	2	png_set_filter_heuristics	png_set_filter_heuristics			0
-2b0886	64	anon_2b0886	anon_2b0886	2b0886	2b08c2	16
-2b0887	20	png_set_compression_level	png_set_compression_level			0
-2b089b	20	png_set_compression_mem_level	png_set_compression_mem_level			0
-2b08af	20	png_set_compression_strategy	png_set_compression_strategy			0
-2b08c4	316	anon_2b08c4	anon_2b08c4	2b08c4	2b09fc	79
-2b08c5	76	png_set_compression_window_bits	png_set_compression_window_bits			0
-2b0911	44	png_set_compression_method	png_set_compression_method			0
-2b093d	8	png_set_write_status_fn	png_set_write_status_fn			0
-2b0945	20	png_set_write_user_transform_fn	png_set_write_user_transform_fn			0
-2b0959	166	png_write_png	png_write_png			0
-2b09fe	216	anon_2b09fe	anon_2b09fe	2b09fe	2b0ad2	54
-2b09ff	214	png_do_pack	png_do_pack			0
-2b0ad4	608	anon_2b0ad4	anon_2b0ad4	2b0ad4	2b0d30	152
-2b0ad5	388	png_do_shift	png_do_shift			0
-2b0c59	218	png_do_write_swap_alpha	png_do_write_swap_alpha			0
-2b0d32	140	anon_2b0d32	anon_2b0d32	2b0d32	2b0dba	35
-2b0d33	138	png_do_write_invert_alpha	png_do_write_invert_alpha			0
-2b0dbc	252	anon_2b0dbc	anon_2b0dbc	2b0dbc	2b0eb4	63
-2b0dbd	250	png_do_write_transformations	png_do_write_transformations			0
-2b0eb6	624	anon_2b0eb6	anon_2b0eb6	2b0eb6	2b1122	156
-2b0eb7	134	png_do_write_intrapixel	png_do_write_intrapixel			0
-2b1124	372	anon_2b1124	anon_2b1124	2b1124	2b1294	93
-2b1125	16	png_save_uint_32	png_save_uint_32			0
-2b1135	4	png_save_int_32	png_save_int_32			0
-2b1139	8	png_save_uint_16	png_save_uint_16			0
-2b1141	96	png_write_sig	png_write_sig			0
-2b11a1	100	png_write_chunk_start	png_write_chunk_start			0
-2b1205	34	png_write_chunk_data	png_write_chunk_data			0
-2b1296	40	anon_2b1296	anon_2b1296	2b1296	2b12ba	10
-2b1297	38	png_write_chunk_end	png_write_chunk_end			0
-2b12bc	6976	anon_2b12bc	anon_2b12bc	2b12bc	2b2df8	1744
-2b12bd	38	png_write_chunk	png_write_chunk			0
-2b12e5	748	png_write_IHDR	png_write_IHDR			0
-2b15d1	208	png_write_PLTE	png_write_PLTE			0
-2b16a1	236	png_write_IDAT	png_write_IDAT			0
-2b178d	52	png_write_IEND	png_write_IEND			0
-2b17c1	84	png_write_gAMA	png_write_gAMA			0
-2b1819	52	png_write_gAMA_fixed	png_write_gAMA_fixed			0
-2b184d	68	png_write_sRGB	png_write_sRGB			0
-2b1891	252	png_write_iCCP	png_write_iCCP			0
-2b198d	288	png_write_sPLT	png_write_sPLT			0
-2b1aad	160	png_write_sBIT	png_write_sBIT			0
-2b1b51	368	png_write_cHRM	png_write_cHRM			0
-2b1cc1	192	png_write_cHRM_fixed	png_write_cHRM_fixed			0
-2b1d81	212	png_write_tRNS	png_write_tRNS			0
-2b1e55	212	png_write_bKGD	png_write_bKGD			0
-2b1f29	108	png_write_hIST	png_write_hIST			0
-2b1f95	112	png_write_tEXt	png_write_tEXt			0
-2b2005	180	png_write_zTXt	png_write_zTXt			0
-2b20b9	288	png_write_iTXt	png_write_iTXt			0
-2b21d9	120	png_write_oFFs	png_write_oFFs			0
-2b2251	308	png_write_pCAL	png_write_pCAL			0
-2b2385	148	png_write_sCAL	png_write_sCAL			0
-2b2419	120	png_write_pHYs	png_write_pHYs			0
-2b2491	128	png_write_tIME	png_write_tIME			0
-2b2511	252	png_write_start_row	png_write_start_row			0
-2b260d	400	png_write_finish_row	png_write_finish_row			0
-2b279d	416	png_do_write_interlace	png_do_write_interlace			0
-2b293d	156	png_write_filtered_row	png_write_filtered_row			0
-2b29d9	1060	png_write_find_filter	png_write_find_filter			0
+2a2ee8	768	anon_2a2ee8	anon_2a2ee8	2a2ee8	2a31e8	193
+2a31ec	1968	zip_close	zip_close	2a31ec	2a399a	877
+2a399c	432	anon_2a399c	anon_2a399c	2a399c	2a3b4c	109
+2a3b4e	58	_zip_cdir_grow(zip_cdir*, int, zip_error*)	_Z14_zip_cdir_growP8zip_cdiriP9zip_error	2a3b4e	2a3b86	26
+2a3b88	78	_zip_cdir_new(int, zip_error*)	_Z13_zip_cdir_newiP9zip_error	2a3b88	2a3bd4	36
+2a3bd6	32	_zip_dirent_finalize(zip_dirent*)	_Z20_zip_dirent_finalizeP10zip_dirent	2a3bd6	2a3bf4	13
+2a3bf6	54	_zip_cdir_free(zip_cdir*)	_Z14_zip_cdir_freeP8zip_cdir	2a3bf6	2a3c2a	24
+2a3c2c	42	_zip_dirent_init(zip_dirent*)	_Z16_zip_dirent_initP10zip_dirent	2a3c2c	2a3c54	21
+2a3c58	136	_zip_dirent_torrent_normalize(zip_dirent*)	_Z29_zip_dirent_torrent_normalizeP10zip_dirent	2a3c58	2a3cde	65
+2a3ce0	304	_zip_dirent_write(zip_dirent*, __sFILE*, int, zip_error*)	_Z17_zip_dirent_writeP10zip_direntP7__sFILEiP9zip_error	2a3ce0	2a3e0e	133
+2a3e10	176	_zip_cdir_write(zip_cdir*, __sFILE*, zip_error*)	_Z15_zip_cdir_writeP8zip_cdirP7__sFILEP9zip_error	2a3e10	2a3ebe	74
+2a3ec0	18	_zip_read2(unsigned char**)	_Z10_zip_read2PPh	2a3ec0	2a3ed0	7
+2a3ed2	28	_zip_read4(unsigned char**)	_Z10_zip_read4PPh	2a3ed2	2a3eec	12
+2a3eee	0	anon_2a3eee	anon_2a3eee	2a3eee	2a3eee	1
+2a3ef0	536	_zip_dirent_read(zip_dirent*, __sFILE*, unsigned char**, unsigned int*, int, zip_error*)	_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error	2a3ef0	2a4106	251
+2a4108	516	_zip_dirent_read_buff(zip_dirent*, IBuffer*, unsigned char**, unsigned int*, int, zip_error*)	_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error	2a4108	2a430a	237
+2a430c	8	_zip_error_clear(zip_error*)	_Z16_zip_error_clearP9zip_error	2a430c	2a4312	4
+2a4314	10	_zip_error_copy(zip_error*, zip_error*)	_Z15_zip_error_copyP9zip_errorS0_	2a4314	2a431c	5
+2a431e	16	_zip_error_fini(zip_error*)	_Z15_zip_error_finiP9zip_error	2a431e	2a432c	8
+2a432e	32	_zip_error_get(zip_error*, int*, int*)	_Z14_zip_error_getP9zip_errorPiS1_	2a432e	2a434c	15
+2a434e	10	_zip_error_init(zip_error*)	_Z15_zip_error_initP9zip_error	2a434e	2a4356	5
+2a4358	8	_zip_error_set(zip_error*, int, int)	_Z14_zip_error_setP9zip_errorii	2a4358	2a435e	4
+2a4360	40	zip_error_get_sys_type	zip_error_get_sys_type	2a4360	2a4386	20
+2a4388	110	zip_fclose	zip_fclose	2a4388	2a43f4	49
+2a43f8	192	_zip_filerange_crc(__sFILE*, long, long, unsigned long*, zip_error*)	_Z18_zip_filerange_crcP7__sFILEllPmP9zip_error	2a43f8	2a44b6	84
+2a44b8	30	zip_fopen	zip_fopen	2a44b8	2a44d4	15
+2a44d6	174	_zip_file_fillbuf(void*, unsigned int, zip_file*)	_Z17_zip_file_fillbufPvjP8zip_file	2a44d6	2a4582	83
+2a4584	488	zip_fopen_index	zip_fopen_index	2a4584	2a476a	213
+2a476c	280	zip_fread	zip_fread	2a476c	2a4880	133
+2a4884	120	_zip_free(zip*)	_Z9_zip_freeP3zip	2a4884	2a48fa	55
+2a48fc	18	zip_get_archive_flag	zip_get_archive_flag	2a48fc	2a490c	9
+2a490e	12	zip_get_num_files	zip_get_num_files	2a490e	2a4918	6
+2a491a	86	_zip_get_name(zip*, int, int, zip_error*)	_Z13_zip_get_nameP3zipiiP9zip_error	2a491a	2a496e	41
+2a4970	8	zip_get_name	zip_get_name	2a4970	2a4974	2
+2a4978	42	_zip_memdup(void const*, unsigned int, zip_error*)	_Z11_zip_memdupPKvjP9zip_error	2a4978	2a49a0	20
+2a49a4	180	_zip_name_locate(zip*, char const*, int, zip_error*)	_Z16_zip_name_locateP3zipPKciP9zip_error	2a49a4	2a4a56	85
+2a4a58	8	zip_name_locate	zip_name_locate	2a4a58	2a4a5c	2
+2a4a60	892	anon_2a4a60	anon_2a4a60	2a4a60	2a4ddc	224
+2a4de0	960	zip_open	zip_open	2a4de0	2a519c	431
+2a51a0	728	zip_open_buff	zip_open_buff	2a51a0	2a5474	330
+2a5478	224	anon_2a5478	anon_2a5478	2a5478	2a5558	57
+2a555c	276	zip_source_zip	zip_source_zip	2a555c	2a566c	121
+2a5670	36	zip_stat	zip_stat	2a5670	2a5692	17
+2a5694	208	zip_stat_index	zip_stat_index	2a5694	2a5760	97
+2a5764	6	zip_strerror	zip_strerror	2a5764	2a5768	3
+2a576a	38	_zip_entry_free(zip_entry*)	_Z15_zip_entry_freeP9zip_entry	2a576a	2a578e	16
+2a5790	102	_zip_entry_new(zip*)	_Z14_zip_entry_newP3zip	2a5790	2a57f4	48
+2a57f8	240	_zip_error_strerror(zip_error*)	_Z19_zip_error_strerrorP9zip_error	2a57f8	2a58e6	108
+2a58e8	6	zip_file_error_get	zip_file_error_get	2a58e8	2a58ec	3
+2a58ee	144	_zip_file_get_offset(zip*, int)	_Z20_zip_file_get_offsetP3zipi	2a58ee	2a597c	66
+2a597e	76	_zip_new(zip_error*)	_Z8_zip_newP9zip_error	2a597e	2a59c8	37
+2a59ca	44	zip_source_function	zip_source_function	2a59ca	2a59f4	19
+2a59f6	44	_zip_unchange_data(zip_entry*)	_Z18_zip_unchange_dataP9zip_entry	2a59f6	2a5a20	22
+2a5a22	0	anon_2a5a22	anon_2a5a22	2a5a22	2a5a22	1
+2a5a24	40	png_set_sig_bytes	png_set_sig_bytes	2a5a24	2a5a4a	18
+2a5a4c	92	png_sig_cmp	png_sig_cmp	2a5a4c	2a5aa6	43
+2a5aa8	72	png_zalloc	png_zalloc	2a5aa8	2a5aee	30
+2a5af0	4	png_zfree	png_zfree	2a5af0	2a5af0	1
+2a5af4	20	png_reset_crc	png_reset_crc	2a5af4	2a5b06	10
+2a5b08	48	png_calculate_crc	png_calculate_crc	2a5b08	2a5b36	21
+2a5b38	44	png_info_init_3	png_info_init_3	2a5b38	2a5b62	20
+2a5b64	44	png_create_info_struct	png_create_info_struct	2a5b64	2a5b8c	18
+2a5b90	48	png_data_freer	png_data_freer	2a5b90	2a5bbe	20
+2a5bc0	766	png_free_data	png_free_data	2a5bc0	2a5ebc	321
+2a5ebe	58	png_info_destroy	png_info_destroy	2a5ebe	2a5ef6	26
+2a5ef8	40	png_destroy_info_struct	png_destroy_info_struct	2a5ef8	2a5f1e	19
+2a5f20	8	png_get_io_ptr	png_get_io_ptr	2a5f20	2a5f26	4
+2a5f28	8	png_init_io	png_init_io	2a5f28	2a5f2e	4
+2a5f30	132	png_convert_to_rfc1123	png_convert_to_rfc1123	2a5f30	2a5fb2	54
+2a5fb4	12	png_get_copyright	png_get_copyright	2a5fb4	2a5fbe	6
+2a5fc0	12	png_get_libpng_ver	png_get_libpng_ver	2a5fc0	2a5fca	6
+2a5fcc	12	png_get_header_ver	png_get_header_ver	2a5fcc	2a5fd6	6
+2a5fd8	12	png_get_header_version	png_get_header_version	2a5fd8	2a5fe2	6
+2a5fe4	66	png_handle_as_unknown	png_handle_as_unknown	2a5fe4	2a6024	32
+2a6026	16	png_reset_zstream	png_reset_zstream	2a6026	2a6034	8
+2a6036	6	png_access_version_number	png_access_version_number	2a6036	2a603a	2
+2a603c	42	png_64bit_product	png_64bit_product	2a603c	2a6064	18
+2a6068	328	png_check_cHRM_fixed	png_check_cHRM_fixed	2a6068	2a61ae	156
+2a61b0	488	png_check_IHDR	png_check_IHDR	2a61b0	2a6396	223
+2a6398	144	anon_2a6398	anon_2a6398	2a6398	2a6428	37
+2a642c	72	png_error	png_error	2a642c	2a6472	33
+2a6474	88	png_warning	png_warning	2a6474	2a64ca	41
+2a64cc	56	png_chunk_error	png_chunk_error	2a64cc	2a6502	25
+2a6504	56	png_chunk_warning	png_chunk_warning	2a6504	2a653a	25
+2a653c	18	png_set_longjmp_fn	png_set_longjmp_fn	2a653c	2a654c	8
+2a654e	16	png_set_error_fn	png_set_error_fn	2a654e	2a655c	8
+2a655e	8	png_get_error_ptr	png_get_error_ptr	2a655e	2a6564	4
+2a6566	14	png_get_valid	png_get_valid	2a6566	2a6572	7
+2a6574	12	png_get_rowbytes	png_get_rowbytes	2a6574	2a657e	6
+2a6580	14	png_get_rows	png_get_rows	2a6580	2a658c	6
+2a658e	12	png_get_image_width	png_get_image_width	2a658e	2a6598	6
+2a659a	12	png_get_image_height	png_get_image_height	2a659a	2a65a4	6
+2a65a6	12	png_get_bit_depth	png_get_bit_depth	2a65a6	2a65b0	6
+2a65b2	12	png_get_color_type	png_get_color_type	2a65b2	2a65bc	6
+2a65be	12	png_get_filter_type	png_get_filter_type	2a65be	2a65c8	6
+2a65ca	12	png_get_interlace_type	png_get_interlace_type	2a65ca	2a65d4	6
+2a65d6	12	png_get_compression_type	png_get_compression_type	2a65d6	2a65e0	6
+2a65e2	32	png_get_x_pixels_per_meter	png_get_x_pixels_per_meter	2a65e2	2a6600	15
+2a6602	32	png_get_y_pixels_per_meter	png_get_y_pixels_per_meter	2a6602	2a6620	15
+2a6622	40	png_get_pixels_per_meter	png_get_pixels_per_meter	2a6622	2a6648	19
+2a664a	0	anon_2a664a	anon_2a664a	2a664a	2a664a	1
+2a664c	52	png_get_pixel_aspect_ratio	png_get_pixel_aspect_ratio	2a664c	2a667e	24
+2a6680	32	png_get_x_offset_microns	png_get_x_offset_microns	2a6680	2a669e	15
+2a66a0	32	png_get_y_offset_microns	png_get_y_offset_microns	2a66a0	2a66be	15
+2a66c0	30	png_get_x_offset_pixels	png_get_x_offset_pixels	2a66c0	2a66dc	14
+2a66de	30	png_get_y_offset_pixels	png_get_y_offset_pixels	2a66de	2a66fa	14
+2a66fc	12	png_get_channels	png_get_channels	2a66fc	2a6706	6
+2a6708	14	png_get_signature	png_get_signature	2a6708	2a6714	6
+2a6716	30	png_get_bKGD	png_get_bKGD	2a6716	2a6732	15
+2a6734	170	png_get_cHRM	png_get_cHRM	2a6734	2a67dc	70
+2a67de	122	png_get_cHRM_fixed	png_get_cHRM_fixed	2a67de	2a6856	56
+2a6858	38	png_get_gAMA	png_get_gAMA	2a6858	2a687c	18
+2a687e	32	png_get_gAMA_fixed	png_get_gAMA_fixed	2a687e	2a689c	16
+2a689e	34	png_get_sRGB	png_get_sRGB	2a689e	2a68be	17
+2a68c0	70	png_get_iCCP	png_get_iCCP	2a68c0	2a6904	32
+2a6906	26	png_get_sPLT	png_get_sPLT	2a6906	2a691e	12
+2a6920	30	png_get_hIST	png_get_hIST	2a6920	2a693c	15
+2a693e	144	png_get_IHDR	png_get_IHDR	2a693e	2a69ca	66
+2a69ce	58	png_get_oFFs	png_get_oFFs	2a69ce	2a6a06	29
+2a6a08	98	png_get_pCAL	png_get_pCAL	2a6a08	2a6a68	43
+2a6a6a	50	png_get_sCAL	png_get_sCAL	2a6a6a	2a6a9a	22
+2a6a9c	52	png_get_pHYs	png_get_pHYs	2a6a9c	2a6ace	26
+2a6ad0	34	png_get_PLTE	png_get_PLTE	2a6ad0	2a6af0	17
+2a6af2	30	png_get_sBIT	png_get_sBIT	2a6af2	2a6b0e	15
+2a6b10	38	png_get_text	png_get_text	2a6b10	2a6b34	19
+2a6b36	32	png_get_tIME	png_get_tIME	2a6b36	2a6b54	15
+2a6b56	78	png_get_tRNS	png_get_tRNS	2a6b56	2a6ba2	38
+2a6ba4	26	png_get_unknown_chunks	png_get_unknown_chunks	2a6ba4	2a6bbc	12
+2a6bbe	8	png_get_rgb_to_gray_status	png_get_rgb_to_gray_status	2a6bbe	2a6bc4	4
+2a6bc6	8	png_get_user_chunk_ptr	png_get_user_chunk_ptr	2a6bc6	2a6bcc	4
+2a6bce	8	png_get_compression_buffer_size	png_get_compression_buffer_size	2a6bce	2a6bd4	4
+2a6bd6	8	png_get_user_width_max	png_get_user_width_max	2a6bd6	2a6bdc	4
+2a6bde	8	png_get_user_height_max	png_get_user_height_max	2a6bde	2a6be4	4
+2a6be6	8	png_get_chunk_cache_max	png_get_chunk_cache_max	2a6be6	2a6bec	4
+2a6bee	8	png_get_chunk_malloc_max	png_get_chunk_malloc_max	2a6bee	2a6bf4	4
+2a6bf6	6	png_get_io_state	png_get_io_state	2a6bf6	2a6bfa	2
+2a6bfc	6	png_get_io_chunk_name	png_get_io_chunk_name	2a6bfc	2a6c00	2
+2a6c02	84	png_create_struct_2	png_create_struct_2	2a6c02	2a6c54	38
+2a6c56	8	png_create_struct	png_create_struct	2a6c56	2a6c5a	3
+2a6c5e	42	png_destroy_struct_2	png_destroy_struct_2	2a6c5e	2a6c86	20
+2a6c88	8	png_destroy_struct	png_destroy_struct	2a6c88	2a6c8c	3
+2a6c90	14	png_malloc_default	png_malloc_default	2a6c90	2a6c9c	7
+2a6ca0	56	png_malloc	png_malloc	2a6ca0	2a6cd6	26
+2a6cd8	24	png_calloc	png_calloc	2a6cd8	2a6cee	10
+2a6cf0	12	png_free_default	png_free_default	2a6cf0	2a6cfa	6
+2a6cfc	26	png_free	png_free	2a6cfc	2a6d14	11
+2a6d16	30	png_malloc_warn	png_malloc_warn	2a6d16	2a6d32	15
+2a6d34	16	png_set_mem_fn	png_set_mem_fn	2a6d34	2a6d42	8
+2a6d44	8	png_get_mem_ptr	png_get_mem_ptr	2a6d44	2a6d4a	4
+2a6d4c	656	png_create_read_struct_2	png_create_read_struct_2	2a6d4c	2a6fda	297
+2a6fdc	18	png_create_read_struct	png_create_read_struct	2a6fdc	2a6fec	9
+2a6ff0	1112	png_read_info	png_read_info	2a6ff0	2a7446	511
+2a7448	48	png_read_update_info	png_read_update_info	2a7448	2a7476	22
+2a7478	16	png_start_read_image	png_start_read_image	2a7478	2a7486	8
+2a7488	856	png_read_row	png_read_row	2a7488	2a77de	360
+2a77e0	96	png_read_rows	png_read_rows	2a77e0	2a783c	42
+2a7840	60	png_read_image	png_read_image	2a7840	2a7878	26
+2a787c	1000	png_read_end	png_read_end	2a787c	2a7c62	459
+2a7c64	456	png_read_destroy	png_read_destroy	2a7c64	2a7e28	197
+2a7e2c	140	png_destroy_read_struct	png_destroy_read_struct	2a7e2c	2a7eb4	60
+2a7eb8	8	png_set_read_status_fn	png_set_read_status_fn	2a7eb8	2a7ebe	4
+2a7ec0	324	png_read_png	png_read_png	2a7ec0	2a8002	149
+2a8004	44	png_default_read_data	png_default_read_data	2a8004	2a802e	20
+2a8030	28	png_read_data	png_read_data	2a8030	2a804a	13
+2a804c	80	png_set_read_fn	png_set_read_fn	2a804c	2a809a	35
+2a809c	140	png_set_crc_action	png_set_crc_action	2a809c	2a8126	56
+2a8128	92	png_set_background	png_set_background	2a8128	2a8182	37
+2a8184	16	png_set_strip_16	png_set_strip_16	2a8184	2a8192	8
+2a8194	16	png_set_strip_alpha	png_set_strip_alpha	2a8194	2a81a2	8
+2a81a4	1426	png_set_quantize	png_set_quantize	2a81a4	2a8734	628
+2a8738	88	png_set_gamma	png_set_gamma	2a8738	2a878e	34
+2a8790	32	png_set_expand	png_set_expand	2a8790	2a87ae	16
+2a87b0	32	png_set_palette_to_rgb	png_set_palette_to_rgb	2a87b0	2a87ce	16
+2a87d0	28	png_set_expand_gray_1_2_4_to_8	png_set_expand_gray_1_2_4_to_8	2a87d0	2a87ea	14
+2a87ec	30	png_set_tRNS_to_alpha	png_set_tRNS_to_alpha	2a87ec	2a8808	8
+2a880a	26	png_set_gray_to_rgb	png_set_gray_to_rgb	2a880a	2a8822	7
+2a8824	204	png_set_rgb_to_gray_fixed	png_set_rgb_to_gray_fixed	2a8824	2a88ee	88
+2a88f0	180	png_set_rgb_to_gray	png_set_rgb_to_gray	2a88f0	2a89a2	66
+2a89a4	0	anon_2a89a4	anon_2a89a4	2a89a4	2a89a4	1
+2a89a8	20	png_set_read_user_transform_fn	png_set_read_user_transform_fn	2a89a8	2a89ba	10
+2a89bc	370	png_read_transform_info	png_read_transform_info	2a89bc	2a8b2c	168
+2a8b2e	196	png_do_unpack	png_do_unpack	2a8b2e	2a8bf0	94
+2a8bf2	310	png_do_unshift	png_do_unshift	2a8bf2	2a8d26	145
+2a8d28	48	png_do_chop	png_do_chop	2a8d28	2a8d56	23
+2a8d58	226	png_do_read_swap_alpha	png_do_read_swap_alpha	2a8d58	2a8e38	92
+2a8e3a	132	png_do_read_invert_alpha	png_do_read_invert_alpha	2a8e3a	2a8ebc	64
+2a8ebe	494	png_do_read_filler	png_do_read_filler	2a8ebe	2a90aa	212
+2a90ac	256	png_do_gray_to_rgb	png_do_gray_to_rgb	2a90ac	2a91aa	123
+2a91ac	1166	png_do_rgb_to_gray	png_do_rgb_to_gray	2a91ac	2a9638	496
+2a963c	68	png_build_grayscale_palette	png_build_grayscale_palette	2a963c	2a967e	33
+2a9680	2646	png_do_background	png_do_background	2a9680	2aa0d4	1129
+2aa0d6	706	png_do_gamma	png_do_gamma	2aa0d6	2aa396	283
+2aa398	420	png_do_expand_palette	png_do_expand_palette	2aa398	2aa538	193
+2aa53c	792	png_do_expand	png_do_expand	2aa53c	2aa850	345
+2aa854	214	png_do_quantize	png_do_quantize	2aa854	2aa928	101
+2aa92c	880	png_do_read_transformations	png_do_read_transformations	2aa92c	2aac9a	360
+2aac9c	0	anon_2aac9c	anon_2aac9c	2aac9c	2aac9c	1
+2aaca0	1236	png_build_gamma_table	png_build_gamma_table	2aaca0	2ab172	494
+2ab174	0	anon_2ab174	anon_2ab174	2ab174	2ab174	1
+2ab178	2172	png_init_read_transformations	png_init_read_transformations	2ab178	2ab9f2	922
+2ab9f4	0	anon_2ab9f4	anon_2ab9f4	2ab9f4	2ab9f4	1
+2ab9f8	134	png_do_read_intrapixel	png_do_read_intrapixel	2ab9f8	2aba7c	67
+2aba80	232	anon_2aba80	anon_2aba80	2aba80	2abb68	59
+2abb6c	40	png_get_uint_31	png_get_uint_31	2abb6c	2abb92	18
+2abb94	120	png_read_sig	png_read_sig	2abb94	2abc0a	53
+2abc0c	30	png_crc_read	png_crc_read	2abc0c	2abc28	13
+2abc2a	104	png_crc_error	png_crc_error	2abc2a	2abc90	43
+2abc92	0	anon_2abc92	anon_2abc92	2abc92	2abc92	1
+2abc94	116	png_crc_finish	png_crc_finish	2abc94	2abd06	52
+2abd08	328	png_decompress_chunk	png_decompress_chunk	2abd08	2abe4e	144
+2abe50	276	png_handle_IHDR	png_handle_IHDR	2abe50	2abf62	124
+2abf64	356	png_handle_PLTE	png_handle_PLTE	2abf64	2ac0c6	163
+2ac0c8	72	png_handle_IEND	png_handle_IEND	2ac0c8	2ac10e	35
+2ac110	296	png_handle_gAMA	png_handle_gAMA	2ac110	2ac236	126
+2ac238	240	png_handle_sBIT	png_handle_sBIT	2ac238	2ac326	104
+2ac328	876	png_handle_cHRM	png_handle_cHRM	2ac328	2ac692	373
+2ac694	384	png_handle_sRGB	png_handle_sRGB	2ac694	2ac812	169
+2ac814	472	png_handle_iCCP	png_handle_iCCP	2ac814	2ac9ea	213
+2ac9ec	512	png_handle_sPLT	png_handle_sPLT	2ac9ec	2acbea	231
+2acbec	372	png_handle_tRNS	png_handle_tRNS	2acbec	2acd5e	171
+2acd60	312	png_handle_bKGD	png_handle_bKGD	2acd60	2ace96	134
+2ace98	192	png_handle_hIST	png_handle_hIST	2ace98	2acf56	90
+2acf58	216	png_handle_pHYs	png_handle_pHYs	2acf58	2ad02e	98
+2ad030	248	png_handle_oFFs	png_handle_oFFs	2ad030	2ad126	106
+2ad128	552	png_handle_pCAL	png_handle_pCAL	2ad128	2ad34e	243
+2ad350	384	png_handle_sCAL	png_handle_sCAL	2ad350	2ad4ce	168
+2ad4d0	180	png_handle_tIME	png_handle_tIME	2ad4d0	2ad582	82
+2ad584	328	png_handle_tEXt	png_handle_tEXt	2ad584	2ad6ca	152
+2ad6cc	388	png_handle_zTXt	png_handle_zTXt	2ad6cc	2ad84e	174
+2ad850	484	png_handle_iTXt	png_handle_iTXt	2ad850	2ada30	211
+2ada34	320	png_handle_unknown	png_handle_unknown	2ada34	2adb70	133
+2adb74	80	png_check_chunk_name	png_check_chunk_name	2adb74	2adbc0	38
+2adbc4	108	png_read_chunk_header	png_read_chunk_header	2adbc4	2adc2c	45
+2adc30	490	png_combine_row	png_combine_row	2adc30	2ade18	227
+2ade1c	812	png_do_read_interlace	png_do_read_interlace	2ade1c	2ae146	323
+2ae148	276	png_read_filter_row	png_read_filter_row	2ae148	2ae258	127
+2ae25c	568	png_read_finish_row	png_read_finish_row	2ae25c	2ae490	242
+2ae494	544	png_read_start_row	png_read_start_row	2ae494	2ae6b0	243
+2ae6b4	32	png_set_bKGD	png_set_bKGD	2ae6b4	2ae6d2	14
+2ae6d4	0	anon_2ae6d4	anon_2ae6d4	2ae6d4	2ae6d4	1
+2ae6d8	264	png_set_cHRM	png_set_cHRM	2ae6d8	2ae7de	73
+2ae7e0	280	png_set_cHRM_fixed	png_set_cHRM_fixed	2ae7e0	2ae8f6	131
+2ae8f8	144	png_set_gAMA	png_set_gAMA	2ae8f8	2ae984	54
+2ae988	124	png_set_gAMA_fixed	png_set_gAMA_fixed	2ae988	2aea00	50
+2aea04	0	anon_2aea04	anon_2aea04	2aea04	2aea04	1
+2aea08	124	png_set_hIST	png_set_hIST	2aea08	2aea80	55
+2aea84	134	png_set_IHDR	png_set_IHDR	2aea84	2aeb08	66
+2aeb0a	24	png_set_oFFs	png_set_oFFs	2aeb0a	2aeb20	11
+2aeb22	0	anon_2aeb22	anon_2aeb22	2aeb22	2aeb22	1
+2aeb24	292	png_set_pCAL	png_set_pCAL	2aeb24	2aec44	133
+2aec48	34	png_set_sCAL	png_set_sCAL	2aec48	2aec68	12
+2aec6a	24	png_set_pHYs	png_set_pHYs	2aec6a	2aec80	11
+2aec82	0	anon_2aec82	anon_2aec82	2aec82	2aec82	1
+2aec84	152	png_set_PLTE	png_set_PLTE	2aec84	2aed18	65
+2aed1c	24	png_set_sBIT	png_set_sBIT	2aed1c	2aed32	11
+2aed34	18	png_set_sRGB	png_set_sRGB	2aed34	2aed44	9
+2aed48	256	png_set_sRGB_gAMA_and_cHRM	png_set_sRGB_gAMA_and_cHRM	2aed48	2aee46	117
+2aee48	176	png_set_iCCP	png_set_iCCP	2aee48	2aeef4	76
+2aeef8	488	png_set_text_2	png_set_text_2	2aeef8	2af0dc	224
+2af0e0	32	png_set_text	png_set_text	2af0e0	2af0fc	13
+2af100	76	png_set_tIME	png_set_tIME	2af100	2af148	35
+2af14c	192	png_set_tRNS	png_set_tRNS	2af14c	2af208	87
+2af20c	308	png_set_sPLT	png_set_sPLT	2af20c	2af33c	133
+2af340	244	png_set_unknown_chunks	png_set_unknown_chunks	2af340	2af430	106
+2af434	30	png_set_unknown_chunk_location	png_set_unknown_chunk_location	2af434	2af450	13
+2af452	14	png_permit_mng_features	png_permit_mng_features	2af452	2af45e	7
+2af460	192	png_set_keep_unknown_chunks	png_set_keep_unknown_chunks	2af460	2af51c	75
+2af520	12	png_set_read_user_chunk_fn	png_set_read_user_chunk_fn	2af520	2af52a	6
+2af52c	44	png_set_rows	png_set_rows	2af52c	2af556	19
+2af558	46	png_set_compression_buffer_size	png_set_compression_buffer_size	2af558	2af584	15
+2af586	14	png_set_invalid	png_set_invalid	2af586	2af592	7
+2af594	12	png_set_user_limits	png_set_user_limits	2af594	2af59e	6
+2af5a0	8	png_set_chunk_cache_max	png_set_chunk_cache_max	2af5a0	2af5a6	4
+2af5a8	8	png_set_chunk_malloc_max	png_set_chunk_malloc_max	2af5a8	2af5ae	4
+2af5b0	392	png_check_keyword	png_check_keyword	2af5b0	2af736	185
+2af738	16	png_set_bgr	png_set_bgr	2af738	2af746	8
+2af748	24	png_set_swap	png_set_swap	2af748	2af75e	12
+2af760	30	png_set_packing	png_set_packing	2af760	2af77c	14
+2af77e	24	png_set_packswap	png_set_packswap	2af77e	2af794	12
+2af796	28	png_set_shift	png_set_shift	2af796	2af7b0	13
+2af7b2	28	png_set_interlace_handling	png_set_interlace_handling	2af7b2	2af7cc	11
+2af7ce	68	png_set_filler	png_set_filler	2af7ce	2af810	29
+2af812	24	png_set_add_alpha	png_set_add_alpha	2af812	2af828	12
+2af82a	16	png_set_swap_alpha	png_set_swap_alpha	2af82a	2af838	8
+2af83a	16	png_set_invert_alpha	png_set_invert_alpha	2af83a	2af848	8
+2af84a	16	png_set_invert_mono	png_set_invert_mono	2af84a	2af858	8
+2af85a	92	png_do_invert	png_do_invert	2af85a	2af8b4	44
+2af8b6	46	png_do_swap	png_do_swap	2af8b6	2af8e2	22
+2af8e4	76	png_do_packswap	png_do_packswap	2af8e4	2af92e	35
+2af930	440	png_do_strip_filler	png_do_strip_filler	2af930	2afae6	181
+2afae8	182	png_do_bgr	png_do_bgr	2afae8	2afb9c	84
+2afb9e	16	png_set_user_transform_info	png_set_user_transform_info	2afb9e	2afbac	8
+2afbae	8	png_get_user_transform_ptr	png_get_user_transform_ptr	2afbae	2afbb4	4
+2afbb6	0	anon_2afbb6	anon_2afbb6	2afbb6	2afbb6	1
+2afbb8	44	png_default_write_data	png_default_write_data	2afbb8	2afbe2	20
+2afbe4	12	png_default_flush	png_default_flush	2afbe4	2afbee	6
+2afbf0	28	png_write_data	png_write_data	2afbf0	2afc0a	13
+2afc0c	12	png_flush	png_flush	2afc0c	2afc16	6
+2afc18	88	png_set_write_fn	png_set_write_fn	2afc18	2afc6e	43
+2afc70	420	png_write_info_before_PLTE	png_write_info_before_PLTE	2afc70	2afe12	172
+2afe14	536	png_write_info	png_write_info	2afe14	2b002a	233
+2b002c	284	png_write_end	png_write_end	2b002c	2b0146	125
+2b0148	32	png_convert_from_struct_tm	png_convert_from_struct_tm	2b0148	2b0166	16
+2b0168	26	png_convert_from_time_t	png_convert_from_time_t	2b0168	2b0180	13
+2b0184	480	png_create_write_struct_2	png_create_write_struct_2	2b0184	2b0362	222
+2b0364	18	png_create_write_struct	png_create_write_struct	2b0364	2b0374	9
+2b0378	376	png_write_row	png_write_row	2b0378	2b04ee	161
+2b04f0	32	png_write_rows	png_write_rows	2b04f0	2b050e	15
+2b0510	54	png_write_image	png_write_image	2b0510	2b0544	24
+2b0546	12	png_set_flush	png_set_flush	2b0546	2b0550	6
+2b0552	0	anon_2b0552	anon_2b0552	2b0552	2b0552	1
+2b0554	148	png_write_flush	png_write_flush	2b0554	2b05e6	62
+2b05e8	170	png_write_destroy	png_write_destroy	2b05e8	2b0690	71
+2b0692	126	png_destroy_write_struct	png_destroy_write_struct	2b0692	2b070e	56
+2b0710	372	png_set_filter	png_set_filter	2b0710	2b0882	166
+2b0884	2	png_set_filter_heuristics	png_set_filter_heuristics	2b0884	2b0884	1
+2b0886	20	png_set_compression_level	png_set_compression_level	2b0886	2b0898	10
+2b089a	20	png_set_compression_mem_level	png_set_compression_mem_level	2b089a	2b08ac	10
+2b08ae	20	png_set_compression_strategy	png_set_compression_strategy	2b08ae	2b08c0	10
+2b08c2	0	anon_2b08c2	anon_2b08c2	2b08c2	2b08c2	1
+2b08c4	76	png_set_compression_window_bits	png_set_compression_window_bits	2b08c4	2b090e	38
+2b0910	44	png_set_compression_method	png_set_compression_method	2b0910	2b093a	17
+2b093c	8	png_set_write_status_fn	png_set_write_status_fn	2b093c	2b0942	4
+2b0944	20	png_set_write_user_transform_fn	png_set_write_user_transform_fn	2b0944	2b0956	10
+2b0958	166	png_write_png	png_write_png	2b0958	2b09fc	74
+2b09fe	214	png_do_pack	png_do_pack	2b09fe	2b0ad2	96
+2b0ad4	388	png_do_shift	png_do_shift	2b0ad4	2b0c54	174
+2b0c58	218	png_do_write_swap_alpha	png_do_write_swap_alpha	2b0c58	2b0d30	88
+2b0d32	138	png_do_write_invert_alpha	png_do_write_invert_alpha	2b0d32	2b0dba	63
+2b0dbc	250	png_do_write_transformations	png_do_write_transformations	2b0dbc	2b0eb4	106
+2b0eb6	134	png_do_write_intrapixel	png_do_write_intrapixel	2b0eb6	2b0f3a	67
+2b0f3e	484	anon_2b0f3e	anon_2b0f3e	2b0f3e	2b1122	122
+2b1124	16	png_save_uint_32	png_save_uint_32	2b1124	2b1132	8
+2b1134	4	png_save_int_32	png_save_int_32	2b1134	2b1134	1
+2b1138	8	png_save_uint_16	png_save_uint_16	2b1138	2b113e	4
+2b1140	96	png_write_sig	png_write_sig	2b1140	2b119c	40
+2b11a0	100	png_write_chunk_start	png_write_chunk_start	2b11a0	2b1202	44
+2b1204	34	png_write_chunk_data	png_write_chunk_data	2b1204	2b1224	15
+2b1228	108	anon_2b1228	anon_2b1228	2b1228	2b1294	28
+2b1296	38	png_write_chunk_end	png_write_chunk_end	2b1296	2b12ba	17
+2b12bc	38	png_write_chunk	png_write_chunk	2b12bc	2b12e0	16
+2b12e4	748	png_write_IHDR	png_write_IHDR	2b12e4	2b15ce	332
+2b15d0	208	png_write_PLTE	png_write_PLTE	2b15d0	2b169e	87
+2b16a0	236	png_write_IDAT	png_write_IDAT	2b16a0	2b178a	103
+2b178c	52	png_write_IEND	png_write_IEND	2b178c	2b17be	21
+2b17c0	84	png_write_gAMA	png_write_gAMA	2b17c0	2b1812	39
+2b1814	0	anon_2b1814	anon_2b1814	2b1814	2b1814	1
+2b1818	52	png_write_gAMA_fixed	png_write_gAMA_fixed	2b1818	2b184a	26
+2b184c	68	png_write_sRGB	png_write_sRGB	2b184c	2b188e	33
+2b1890	252	png_write_iCCP	png_write_iCCP	2b1890	2b198a	114
+2b198c	288	png_write_sPLT	png_write_sPLT	2b198c	2b1aaa	125
+2b1aac	160	png_write_sBIT	png_write_sBIT	2b1aac	2b1b4a	72
+2b1b4c	0	anon_2b1b4c	anon_2b1b4c	2b1b4c	2b1b4c	1
+2b1b50	368	png_write_cHRM	png_write_cHRM	2b1b50	2b1cbe	147
+2b1cc0	192	png_write_cHRM_fixed	png_write_cHRM_fixed	2b1cc0	2b1d7e	82
+2b1d80	212	png_write_tRNS	png_write_tRNS	2b1d80	2b1e52	95
+2b1e54	212	png_write_bKGD	png_write_bKGD	2b1e54	2b1f26	97
+2b1f28	108	png_write_hIST	png_write_hIST	2b1f28	2b1f92	48
+2b1f94	112	png_write_tEXt	png_write_tEXt	2b1f94	2b2002	51
+2b2004	180	png_write_zTXt	png_write_zTXt	2b2004	2b20b6	84
+2b20b8	288	png_write_iTXt	png_write_iTXt	2b20b8	2b21d6	131
+2b21d8	120	png_write_oFFs	png_write_oFFs	2b21d8	2b224e	53
+2b2250	308	png_write_pCAL	png_write_pCAL	2b2250	2b2382	135
+2b2384	148	png_write_sCAL	png_write_sCAL	2b2384	2b2416	63
+2b2418	120	png_write_pHYs	png_write_pHYs	2b2418	2b248e	53
+2b2490	128	png_write_tIME	png_write_tIME	2b2490	2b250e	59
+2b2510	252	png_write_start_row	png_write_start_row	2b2510	2b260a	110
+2b260c	400	png_write_finish_row	png_write_finish_row	2b260c	2b279a	172
+2b279c	416	png_do_write_interlace	png_do_write_interlace	2b279c	2b293a	184
+2b293c	156	png_write_filtered_row	png_write_filtered_row	2b293c	2b29d6	70
+2b29d8	1060	png_write_find_filter	png_write_find_filter	2b29d8	2b2df8	464
 2b2dfc	260	jpeg_CreateDecompress	jpeg_CreateDecompress	2b2dfc	2b2efc	65
 2b2f00	4	jpeg_destroy_decompress	jpeg_destroy_decompress	2b2f00	2b2f00	1
 2b2f04	4	jpeg_abort_decompress	jpeg_abort_decompress	2b2f04	2b2f04	1
@@ -8443,38 +8382,38 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2b3240	64	jpeg_input_complete	jpeg_input_complete	2b3240	2b327c	16
 2b3280	64	jpeg_has_multiple_scans	jpeg_has_multiple_scans	2b3280	2b32bc	16
 2b32c0	228	jpeg_finish_decompress	jpeg_finish_decompress	2b32c0	2b33a0	57
-2b33a4	260	anon_2b33a4	anon_2b33a4	2b33a4	2b34a4	65
+2b33a4	256	anon_2b33a4	anon_2b33a4	2b33a4	2b34a4	65
 2b34a8	280	jpeg_start_decompress	jpeg_start_decompress	2b34a8	2b35bc	70
 2b35c0	216	jpeg_read_scanlines	jpeg_read_scanlines	2b35c0	2b3694	54
 2b3698	232	jpeg_read_raw_data	jpeg_read_raw_data	2b3698	2b377c	58
 2b3780	112	jpeg_start_output	jpeg_start_output	2b3780	2b37ec	28
 2b37f0	172	jpeg_finish_output	jpeg_finish_output	2b37f0	2b3898	43
-2b389c	1604	anon_2b389c	anon_2b389c	2b389c	2b3edc	401
+2b389c	1600	anon_2b389c	anon_2b389c	2b389c	2b3edc	401
 2b3ee0	120	jinit_input_controller	jinit_input_controller	2b3ee0	2b3f54	30
-2b3f58	7752	anon_2b3f58	anon_2b3f58	2b3f58	2b5d9c	1938
+2b3f58	7748	anon_2b3f58	anon_2b3f58	2b3f58	2b5d9c	1938
 2b5da0	348	jpeg_resync_to_restart	jpeg_resync_to_restart	2b5da0	2b5ef8	87
 2b5efc	192	jinit_marker_reader	jinit_marker_reader	2b5efc	2b5fb8	48
 2b5fbc	232	jpeg_save_markers	jpeg_save_markers	2b5fbc	2b60a0	58
 2b60a4	72	jpeg_set_marker_processor	jpeg_set_marker_processor	2b60a4	2b60e8	18
-2b60ec	752	anon_2b60ec	anon_2b60ec	2b60ec	2b63d8	188
+2b60ec	748	anon_2b60ec	anon_2b60ec	2b60ec	2b63d8	188
 2b63dc	616	jpeg_calc_output_dimensions	jpeg_calc_output_dimensions	2b63dc	2b6640	154
 2b6644	148	jpeg_new_colormap	jpeg_new_colormap	2b6644	2b66d4	37
 2b66d8	864	jinit_master_decompress	jinit_master_decompress	2b66d8	2b6a34	216
-2b6a38	1380	anon_2b6a38	anon_2b6a38	2b6a38	2b6f98	345
+2b6a38	1376	anon_2b6a38	anon_2b6a38	2b6a38	2b6f98	345
 2b6f9c	428	jinit_merged_upsampler	jinit_merged_upsampler	2b6f9c	2b7144	107
-2b7148	3732	anon_2b7148	anon_2b7148	2b7148	2b7fd8	933
+2b7148	3728	anon_2b7148	anon_2b7148	2b7148	2b7fd8	933
 2b7fdc	168	jinit_phuff_decoder	jinit_phuff_decoder	2b7fdc	2b8080	42
-2b8084	904	anon_2b8084	anon_2b8084	2b8084	2b8408	226
+2b8084	900	anon_2b8084	anon_2b8084	2b8084	2b8408	226
 2b840c	220	jinit_d_post_controller	jinit_d_post_controller	2b840c	2b84e4	55
-2b84e8	1512	anon_2b84e8	anon_2b84e8	2b84e8	2b8acc	378
+2b84e8	1508	anon_2b84e8	anon_2b84e8	2b84e8	2b8acc	378
 2b8ad0	752	jinit_upsampler	jinit_upsampler	2b8ad0	2b8dbc	188
-2b8dc0	512	anon_2b8dc0	anon_2b8dc0	2b8dc0	2b8fbc	128
+2b8dc0	508	anon_2b8dc0	anon_2b8dc0	2b8dc0	2b8fbc	128
 2b8fc0	148	jpeg_std_error	jpeg_std_error	2b8fc0	2b9050	37
-2b9054	4192	anon_2b9054	anon_2b9054	2b9054	2ba0b0	1048
+2b9054	4188	anon_2b9054	anon_2b9054	2b9054	2ba0b0	1048
 2ba0b4	436	jinit_memory_mgr	jinit_memory_mgr	2ba0b4	2ba264	109
-2ba268	2760	anon_2ba268	anon_2ba268	2ba268	2bad2c	690
+2ba268	2756	anon_2ba268	anon_2ba268	2ba268	2bad2c	690
 2bad30	968	jinit_1pass_quantizer	jinit_1pass_quantizer	2bad30	2bb0f4	242
-2bb0f8	5468	anon_2bb0f8	anon_2bb0f8	2bb0f8	2bc650	1367
+2bb0f8	5464	anon_2bb0f8	anon_2bb0f8	2bb0f8	2bc650	1367
 2bc654	408	jinit_2pass_quantizer	jinit_2pass_quantizer	2bc654	2bc7e8	102
 2bc7ec	20	jdiv_round_up	jdiv_round_up	2bc7ec	2bc7fc	5
 2bc800	28	jround_up	jround_up	2bc800	2bc818	7
@@ -8485,19 +8424,19 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2bc8b8	44	jpeg_destroy	jpeg_destroy	2bc8b8	2bc8e0	11
 2bc8e4	36	jpeg_alloc_quant_table	jpeg_alloc_quant_table	2bc8e4	2bc904	9
 2bc908	36	jpeg_alloc_huff_table	jpeg_alloc_huff_table	2bc908	2bc928	9
-2bc92c	4212	anon_2bc92c	anon_2bc92c	2bc92c	2bd99c	1053
+2bc92c	4208	anon_2bc92c	anon_2bc92c	2bc92c	2bd99c	1053
 2bd9a0	372	jinit_d_coef_controller	jinit_d_coef_controller	2bd9a0	2bdb10	93
-2bdb14	1108	anon_2bdb14	anon_2bdb14	2bdb14	2bdf64	277
+2bdb14	1104	anon_2bdb14	anon_2bdb14	2bdb14	2bdf64	277
 2bdf68	556	jinit_color_deconverter	jinit_color_deconverter	2bdf68	2be190	139
-2be194	744	anon_2be194	anon_2be194	2be194	2be478	186
+2be194	740	anon_2be194	anon_2be194	2be194	2be478	186
 2be47c	148	jinit_inverse_dct	jinit_inverse_dct	2be47c	2be50c	37
 2be510	928	jpeg_make_d_derived_tbl	jpeg_make_d_derived_tbl	2be510	2be8ac	232
-2be8b0	380	anon_2be8b0	anon_2be8b0	2be8b0	2bea28	95
+2be8b0	376	anon_2be8b0	anon_2be8b0	2be8b0	2bea28	95
 2bea2c	352	jpeg_fill_bit_buffer	jpeg_fill_bit_buffer	2bea2c	2beb88	88
 2beb8c	264	jpeg_huff_decode	jpeg_huff_decode	2beb8c	2bec90	66
-2bec94	1288	anon_2bec94	anon_2bec94	2bec94	2bf198	322
+2bec94	1284	anon_2bec94	anon_2bec94	2bec94	2bf198	322
 2bf19c	100	jinit_huff_decoder	jinit_huff_decoder	2bf19c	2bf1fc	25
-2bf200	1556	anon_2bf200	anon_2bf200	2bf200	2bf810	389
+2bf200	1552	anon_2bf200	anon_2bf200	2bf200	2bf810	389
 2bf814	456	jinit_d_main_controller	jinit_d_main_controller	2bf814	2bf9d8	114
 2bf9dc	1144	jpeg_idct_float	jpeg_idct_float	2bf9dc	2bfe50	286
 2bfe54	1380	jpeg_idct_ifast	jpeg_idct_ifast	2bfe54	2c03b4	345
@@ -8505,7 +8444,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2c0b24	1168	jpeg_idct_4x4	jpeg_idct_4x4	2c0b24	2c0fb0	292
 2c0fb4	652	jpeg_idct_2x2	jpeg_idct_2x2	2c0fb4	2c123c	163
 2c1240	52	jpeg_idct_1x1	jpeg_idct_1x1	2c1240	2c1270	13
-2c1274	264	anon_2c1274	anon_2c1274	2c1274	2c1378	66
+2c1274	260	anon_2c1274	anon_2c1274	2c1274	2c1378	66
 2c137c	8	jpeg_get_small	jpeg_get_small	2c137c	2c1380	2
 2c1384	8	jpeg_free_small	jpeg_free_small	2c1384	2c1388	2
 2c138c	8	jpeg_get_large	jpeg_get_large	2c138c	2c1390	2
@@ -8514,7 +8453,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2c13ac	128	jpeg_open_backing_store	jpeg_open_backing_store	2c13ac	2c1428	32
 2c142c	12	jpeg_mem_init	jpeg_mem_init	2c142c	2c1434	3
 2c1438	4	jpeg_mem_term	jpeg_mem_term	2c1438	2c1438	1
-2c143c	1524	anon_2c143c	anon_2c143c	2c143c	2c1a2c	381
+2c143c	1520	anon_2c143c	anon_2c143c	2c143c	2c1a2c	381
 2c1a30	544	DGifGetScreenDesc(GifFileType*)	_Z17DGifGetScreenDescP11GifFileType	2c1a30	2c1c4c	136
 2c1c50	360	DGifOpen(void*, int (*)(GifFileType*, unsigned char*, int), int*)	_Z8DGifOpenPvPFiP11GifFileTypePhiEPi	2c1c50	2c1db4	90
 2c1db8	240	DGifGetRecordType(GifFileType*, GifRecordType*)	_Z17DGifGetRecordTypeP11GifFileTypeP13GifRecordType	2c1db8	2c1ea4	60
@@ -8647,9 +8586,9 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2c7b08	460	b2ContactManager::AddPair(void*, void*)	_ZN16b2ContactManager7AddPairEPvS0_	2c7b08	2c7cd0	115
 2c7cd4	508	void b2DynamicTree::Query<b2BroadPhase>(b2BroadPhase*, b2AABB const&) const	_ZNK13b2DynamicTree5QueryI12b2BroadPhaseEEvPT_RK6b2AABB	2c7cd4	2c7ecc	127
 2c7ed0	92	void std::priv::__unguarded_linear_insert<b2Pair*, b2Pair, bool (*)(b2Pair const&, b2Pair const&)>(b2Pair*, b2Pair, bool (*)(b2Pair const&, b2Pair const&))	_ZNSt4priv25__unguarded_linear_insertIP6b2PairS1_PFbRKS1_S4_EEEvT_T0_T1_	2c7ed0	2c7f28	23
-2c7f2c	180	anon_2c7f2c	anon_2c7f2c	2c7f2c	2c7fdc	45
+2c7f2c	176	anon_2c7f2c	anon_2c7f2c	2c7f2c	2c7fdc	45
 2c7fe0	316	void std::__adjust_heap<b2Pair*, int, b2Pair, bool (*)(b2Pair const&, b2Pair const&)>(b2Pair*, int, int, b2Pair, bool (*)(b2Pair const&, b2Pair const&))	_ZSt13__adjust_heapIP6b2PairiS0_PFbRKS0_S3_EEvT_T0_S7_T1_T2_	2c7fe0	2c8118	79
-2c811c	484	anon_2c811c	anon_2c811c	2c811c	2c82fc	121
+2c811c	480	anon_2c811c	anon_2c811c	2c811c	2c82fc	121
 2c8300	472	void b2BroadPhase::UpdatePairs<b2ContactManager>(b2ContactManager*)	_ZN12b2BroadPhase11UpdatePairsI16b2ContactManagerEEvPT_	2c8300	2c84d4	118
 2c84d8	8	b2ContactManager::FindNewContacts()	_ZN16b2ContactManager15FindNewContactsEv	2c84d8	2c84dc	2
 2c84e0	60	b2Fixture::b2Fixture()	_ZN9b2FixtureC1Ev	2c84e0	2c8518	15
@@ -9010,15 +8949,15 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2d48a0	24	b2QueryCallback::~b2QueryCallback()	_ZN15b2QueryCallbackD1Ev	2d48a0	2d48b4	6
 2d48a0	24	b2QueryCallback::~b2QueryCallback()	_ZN15b2QueryCallbackD2Ev	2d48a0	2d48b4	6
 2d48b8	8	b2QueryCallback::ReportParticle(int)	_ZN15b2QueryCallback14ReportParticleEi	2d48b8	2d48bc	2
-2d48c0	208	anon_2d48c0	anon_2d48c0	2d48c0	2d498c	52
+2d48c0	204	anon_2d48c0	anon_2d48c0	2d48c0	2d498c	52
 2d4990	40	b2QueryCallback::~b2QueryCallback()	_ZN15b2QueryCallbackD0Ev	2d4990	2d49b4	10
-2d49b8	1540	anon_2d49b8	anon_2d49b8	2d49b8	2d4fb8	385
+2d49b8	1536	anon_2d49b8	anon_2d49b8	2d49b8	2d4fb8	385
 2d4fbc	268	b2ParticleSystem::b2ParticleSystem()	_ZN16b2ParticleSystemC1Ev	2d4fbc	2d50c4	67
 2d4fbc	268	b2ParticleSystem::b2ParticleSystem()	_ZN16b2ParticleSystemC2Ev	2d4fbc	2d50c4	67
 2d50c8	248	b2ParticleSystem::~b2ParticleSystem()	_ZN16b2ParticleSystemD1Ev	2d50c8	2d51bc	62
 2d50c8	248	b2ParticleSystem::~b2ParticleSystem()	_ZN16b2ParticleSystemD2Ev	2d50c8	2d51bc	62
 2d51c0	36	b2ParticleSystem::DestroyParticle(int, bool)	_ZN16b2ParticleSystem15DestroyParticleEib	2d51c0	2d51e0	9
-2d51e4	88	anon_2d51e4	anon_2d51e4	2d51e4	2d5238	22
+2d51e4	84	anon_2d51e4	anon_2d51e4	2d51e4	2d5238	22
 2d523c	136	b2ParticleSystem::DestroyParticlesInShape(b2Shape const&, b2Transform const&, bool)	_ZN16b2ParticleSystem23DestroyParticlesInShapeERK7b2ShapeRK11b2Transformb	2d523c	2d52c0	34
 2d52c4	68	b2ParticleSystem::DestroyParticlesInGroup(b2ParticleGroup*, bool)	_ZN16b2ParticleSystem23DestroyParticlesInGroupEP15b2ParticleGroupb	2d52c4	2d5304	17
 2d5308	632	b2ParticleSystem::CreateParticleGroupCallback::operator()(int, int, int) const	_ZNK16b2ParticleSystem27CreateParticleGroupCallbackclEiii	2d5308	2d557c	158
@@ -9049,13 +8988,13 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2d8584	36	b2ParticleSystem::GetCriticalPressure(b2TimeStep const&) const	_ZNK16b2ParticleSystem19GetCriticalPressureERK10b2TimeStep	2d8584	2d85a4	9
 2d85a8	20	b2ParticleSystem::GetParticleStride() const	_ZNK16b2ParticleSystem17GetParticleStrideEv	2d85a8	2d85b8	5
 2d85bc	36	b2ParticleSystem::GetParticleMass() const	_ZNK16b2ParticleSystem15GetParticleMassEv	2d85bc	2d85dc	9
-2d85e0	1088	anon_2d85e0	anon_2d85e0	2d85e0	2d8a1c	272
+2d85e0	1084	anon_2d85e0	anon_2d85e0	2d85e0	2d8a1c	272
 2d8a20	36	b2ParticleSystem::GetParticleInvMass() const	_ZNK16b2ParticleSystem18GetParticleInvMassEv	2d8a20	2d8a40	9
 2d8a44	580	b2ParticleSystem::SolveDamping(b2TimeStep const&)	_ZN16b2ParticleSystem12SolveDampingERK10b2TimeStep	2d8a44	2d8c84	145
 2d8c88	528	b2ParticleSystem::SolveViscous(b2TimeStep const&)	_ZN16b2ParticleSystem12SolveViscousERK10b2TimeStep	2d8c88	2d8e94	132
 2d8e98	524	b2ParticleSystem::SolvePowder(b2TimeStep const&)	_ZN16b2ParticleSystem11SolvePowderERK10b2TimeStep	2d8e98	2d90a0	131
 2d90a4	888	b2ParticleSystem::SolvePressure(b2TimeStep const&)	_ZN16b2ParticleSystem13SolvePressureERK10b2TimeStep	2d90a4	2d9418	222
-2d941c	1096	anon_2d941c	anon_2d941c	2d941c	2d9860	274
+2d941c	1092	anon_2d941c	anon_2d941c	2d941c	2d9860	274
 2d9864	8	b2ParticleSystem::GetParticleFlagsBuffer()	_ZN16b2ParticleSystem22GetParticleFlagsBufferEv	2d9864	2d9868	2
 2d986c	8	b2ParticleSystem::GetParticlePositionBuffer()	_ZN16b2ParticleSystem25GetParticlePositionBufferEv	2d986c	2d9870	2
 2d9874	8	b2ParticleSystem::GetParticleVelocityBuffer()	_ZN16b2ParticleSystem25GetParticleVelocityBufferEv	2d9874	2d9878	2
@@ -9109,7 +9048,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2dd224	316	b2EPCollider::ComputePolygonSeparation()	_ZN12b2EPCollider24ComputePolygonSeparationEv	2dd224	2dd35c	79
 2dd360	3420	b2EPCollider::Collide(b2Manifold*, b2EdgeShape const*, b2Transform const&, b2PolygonShape const*, b2Transform const&)	_ZN12b2EPCollider7CollideEP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS7_	2dd360	2de0b8	855
 2de0bc	56	b2CollideEdgeAndPolygon(b2Manifold*, b2EdgeShape const*, b2Transform const&, b2PolygonShape const*, b2Transform const&)	_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_	2de0bc	2de0f0	14
-2de0f4	880	anon_2de0f4	anon_2de0f4	2de0f4	2de460	220
+2de0f4	876	anon_2de0f4	anon_2de0f4	2de0f4	2de460	220
 2de464	1180	b2CollidePolygons(b2Manifold*, b2PolygonShape const*, b2Transform const&, b2PolygonShape const*, b2Transform const&)	_Z17b2CollidePolygonsP10b2ManifoldPK14b2PolygonShapeRK11b2TransformS3_S6_	2de464	2de8fc	295
 2de900	164	b2DynamicTree::b2DynamicTree()	_ZN13b2DynamicTreeC1Ev	2de900	2de9a0	41
 2de900	164	b2DynamicTree::b2DynamicTree()	_ZN13b2DynamicTreeC2Ev	2de900	2de9a0	41
@@ -9204,306 +9143,261 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 2e4588	760	b2GearJoint::b2GearJoint(b2GearJointDef const*)	_ZN11b2GearJointC2EPK14b2GearJointDef	2e4588	2e487c	190
 2e4880	132	b2GearJoint::SetRatio(float)	_ZN11b2GearJoint8SetRatioEf	2e4880	2e4900	33
 2e4904	8	b2GearJoint::GetRatio() const	_ZNK11b2GearJoint8GetRatioEv	2e4904	2e4908	2
-2e490c	1056	anon_2e490c	anon_2e490c	2e490c	2e4d28	264
-2e4d1d	14	FT_RoundFix	FT_RoundFix			0
-2e4d2a	20	anon_2e4d2a	anon_2e4d2a	2e4d2a	2e4d3a	5
-2e4d2b	12	FT_CeilFix	FT_CeilFix			0
-2e4d37	6	FT_FloorFix	FT_FloorFix			0
-2e4d3c	380	anon_2e4d3c	anon_2e4d3c	2e4d3c	2e4eb4	95
-2e4d3d	118	FT_MulDiv	FT_MulDiv			0
-2e4ded	96	FT_MulDiv_No_Round	FT_MulDiv_No_Round			0
-2e4e4d	28	FT_MulFix	FT_MulFix			0
-2e4eb6	200	anon_2e4eb6	anon_2e4eb6	2e4eb6	2e4f7a	50
-2e4eb7	88	FT_DivFix	FT_DivFix			0
-2e4f0f	110	FT_Matrix_Multiply	FT_Matrix_Multiply			0
-2e4f7c	84	anon_2e4f7c	anon_2e4f7c	2e4f7c	2e4fcc	21
-2e4f7d	82	FT_Matrix_Invert	FT_Matrix_Invert			0
-2e4fce	132	anon_2e4fce	anon_2e4fce	2e4fce	2e504e	33
-2e4fcf	130	FT_Matrix_Multiply_Scaled	FT_Matrix_Multiply_Scaled			0
-2e5050	72	anon_2e5050	anon_2e5050	2e5050	2e5094	18
-2e5051	70	FT_Vector_Transform_Scaled	FT_Vector_Transform_Scaled			0
-2e5096	304	anon_2e5096	anon_2e5096	2e5096	2e51c2	76
-2e5097	300	FT_Vector_NormLen	FT_Vector_NormLen			0
-2e51c4	372	anon_2e51c4	anon_2e51c4	2e51c4	2e5334	93
-2e51c5	132	ft_corner_orientation	ft_corner_orientation			0
-2e5249	116	ft_corner_is_flat	ft_corner_is_flat			0
-2e52bd	32	FT_GlyphLoader_Rewind	FT_GlyphLoader_Rewind			0
-2e52dd	28	FT_GlyphLoader_Prepare	FT_GlyphLoader_Prepare			0
-2e52f9	62	FT_GlyphLoader_Add	FT_GlyphLoader_Add			0
-2e5336	16	anon_2e5336	anon_2e5336	2e5336	2e5342	4
-2e5337	14	ft_hash_str_lookup	ft_hash_str_lookup			0
-2e5344	16	anon_2e5344	anon_2e5344	2e5344	2e5350	4
-2e5345	14	ft_hash_num_lookup	ft_hash_num_lookup			0
-2e5352	40	anon_2e5352	anon_2e5352	2e5352	2e5376	10
-2e5353	38	ft_service_list_lookup	ft_service_list_lookup			0
-2e5378	28	anon_2e5378	anon_2e5378	2e5378	2e5390	7
-2e5379	20	ft_validator_init	ft_validator_init			0
-2e538d	6	ft_validator_run	ft_validator_run			0
-2e5392	128	anon_2e5392	anon_2e5392	2e5392	2e540e	32
-2e5393	12	ft_validator_error	ft_validator_error			0
-2e539f	114	FT_Set_Transform	FT_Set_Transform			0
-2e5410	748	anon_2e5410	anon_2e5410	2e5410	2e56f8	187
-2e5411	20	FT_Reference_Face	FT_Reference_Face			0
-2e5425	188	FT_Match_Size	FT_Match_Size			0
-2e54e1	68	ft_synthesize_vertical_metrics	ft_synthesize_vertical_metrics			0
-2e5525	100	FT_Select_Metrics	FT_Select_Metrics			0
-2e5589	370	FT_Request_Metrics	FT_Request_Metrics			0
-2e56fa	52	anon_2e56fa	anon_2e56fa	2e56fa	2e572a	13
-2e56fb	50	FT_Select_Size	FT_Select_Size			0
-2e572c	168	anon_2e572c	anon_2e572c	2e572c	2e57d0	42
-2e572d	96	FT_Request_Size	FT_Request_Size			0
-2e578d	70	FT_Set_Char_Size	FT_Set_Char_Size			0
-2e57d2	76	anon_2e57d2	anon_2e57d2	2e57d2	2e581a	19
-2e57d3	74	FT_Set_Pixel_Sizes	FT_Set_Pixel_Sizes			0
-2e581c	356	anon_2e581c	anon_2e581c	2e581c	2e597c	89
-2e581d	142	FT_Get_Kerning	FT_Get_Kerning			0
-2e58ad	72	FT_Get_Track_Kerning	FT_Get_Track_Kerning			0
-2e58f5	68	FT_Select_Charmap	FT_Select_Charmap			0
-2e5939	40	FT_Get_Charmap_Index	FT_Get_Charmap_Index			0
-2e5961	30	FT_Get_Char_Index	FT_Get_Char_Index			0
-2e597e	64	anon_2e597e	anon_2e597e	2e597e	2e59ba	16
-2e597f	62	FT_Get_Next_Char	FT_Get_Next_Char			0
-2e59bc	1032	anon_2e59bc	anon_2e59bc	2e59bc	2e5dc0	258
-2e59bd	58	FT_Get_First_Char	FT_Get_First_Char			0
-2e59f9	168	FT_Face_Properties	FT_Face_Properties			0
-2e5aa1	88	FT_Get_Name_Index	FT_Get_Name_Index			0
-2e5af9	128	FT_Get_Glyph_Name	FT_Get_Glyph_Name			0
-2e5b79	72	FT_Get_Postscript_Name	FT_Get_Postscript_Name			0
-2e5bc1	52	FT_Get_Sfnt_Table	FT_Get_Sfnt_Table			0
-2e5bf5	72	FT_Load_Sfnt_Table	FT_Load_Sfnt_Table			0
-2e5c3d	72	FT_Sfnt_Table_Info	FT_Sfnt_Table_Info			0
-2e5c85	60	FT_Get_CMap_Language_ID	FT_Get_CMap_Language_ID			0
-2e5cc1	60	FT_Get_CMap_Format	FT_Get_CMap_Format			0
-2e5cfd	60	FT_Set_Charmap	FT_Set_Charmap			0
-2e5d69	56	FT_Face_GetCharVariantIndex	FT_Face_GetCharVariantIndex			0
-2e5da1	34	FT_Face_GetCharVariantIsDefault	FT_Face_GetCharVariantIsDefault			0
-2e5dc2	168	anon_2e5dc2	anon_2e5dc2	2e5dc2	2e5e66	42
-2e5dc3	28	FT_Face_GetVariantSelectors	FT_Face_GetVariantSelectors			0
-2e5ddf	32	FT_Face_GetVariantsOfChar	FT_Face_GetVariantsOfChar			0
-2e5dff	32	FT_Face_GetCharsOfVariant	FT_Face_GetCharsOfVariant			0
-2e5e1f	24	FT_Activate_Size	FT_Activate_Size			0
-2e5e37	50	FT_Lookup_Renderer	FT_Lookup_Renderer			0
-2e5e68	208	anon_2e5e68	anon_2e5e68	2e5e68	2e5f34	52
-2e5e69	6	FT_Get_Renderer	FT_Get_Renderer			0
-2e5e71	104	FT_Render_Glyph_Internal	FT_Render_Glyph_Internal			0
-2e5ed9	24	FT_Render_Glyph	FT_Render_Glyph			0
-2e5ef1	56	FT_Get_Module	FT_Get_Module			0
-2e5f29	14	FT_Get_Module_Interface	FT_Get_Module_Interface			0
-2e5f36	180	anon_2e5f36	anon_2e5f36	2e5f36	2e5fe6	45
-2e5f37	76	ft_module_get_service	ft_module_get_service			0
-2e5f83	20	FT_Property_Set	FT_Property_Set			0
-2e5f97	16	FT_Property_Get	FT_Property_Get			0
-2e5fa7	16	ft_property_string_set	ft_property_string_set			0
-2e5fb7	20	FT_Reference_Library	FT_Reference_Library			0
-2e5fcb	30	FT_Library_Version	FT_Library_Version			0
-2e5fe8	824	anon_2e5fe8	anon_2e5fe8	2e5fe8	2e631c	206
-2e5fe9	18	FT_Set_Debug_Hook	FT_Set_Debug_Hook			0
-2e5ffd	48	FT_Get_TrueType_Engine_Type	FT_Get_TrueType_Engine_Type			0
-2e602d	76	FT_Get_SubGlyph_Info	FT_Get_SubGlyph_Info			0
-2e6079	678	FT_Outline_Decompose	FT_Outline_Decompose			0
-2e631e	80	anon_2e631e	anon_2e631e	2e631e	2e636a	20
-2e631f	78	FT_Outline_Check	FT_Outline_Check			0
-2e636c	232	anon_2e636c	anon_2e636c	2e636c	2e6450	58
-2e636d	96	FT_Outline_Copy	FT_Outline_Copy			0
-2e63cd	88	FT_Outline_Get_CBox	FT_Outline_Get_CBox			0
-2e6425	46	FT_Outline_Translate	FT_Outline_Translate			0
-2e6452	120	anon_2e6452	anon_2e6452	2e6452	2e64c6	30
-2e6453	116	FT_Outline_Reverse	FT_Outline_Reverse			0
-2e64c8	944	anon_2e64c8	anon_2e64c8	2e64c8	2e6874	236
-2e64c9	84	FT_Outline_Render	FT_Outline_Render			0
-2e651d	44	FT_Outline_Get_Bitmap	FT_Outline_Get_Bitmap			0
-2e6549	56	FT_Vector_Transform	FT_Vector_Transform			0
-2e6581	36	FT_Outline_Transform	FT_Outline_Transform			0
-2e65a5	204	FT_Outline_Get_Orientation	FT_Outline_Get_Orientation			0
-2e6671	512	FT_Outline_EmboldenXY	FT_Outline_EmboldenXY			0
-2e6871	6	FT_Outline_Embolden	FT_Outline_Embolden			0
-2e6876	88	anon_2e6876	anon_2e6876	2e6876	2e68ca	22
-2e6877	20	FT_Get_Sfnt_Name_Count	FT_Get_Sfnt_Name_Count			0
-2e688b	16	FT_Stream_OpenMemory	FT_Stream_OpenMemory			0
-2e689b	12	FT_Stream_Close	FT_Stream_Close			0
-2e68a7	36	FT_Stream_Seek	FT_Stream_Seek			0
-2e68cc	196	anon_2e68cc	anon_2e68cc	2e68cc	2e698c	49
-2e68cd	100	FT_Raccess_Guess	FT_Raccess_Guess			0
-2e6931	16	FT_Stream_Skip	FT_Stream_Skip			0
-2e6941	4	FT_Stream_Pos	FT_Stream_Pos			0
-2e6945	74	FT_Stream_ReadAt	FT_Stream_ReadAt			0
-2e698e	20	anon_2e698e	anon_2e698e	2e698e	2e699e	5
-2e698f	18	FT_Stream_Read	FT_Stream_Read			0
-2e69a0	64	anon_2e69a0	anon_2e69a0	2e69a0	2e69dc	16
-2e69a1	62	FT_Stream_TryRead	FT_Stream_TryRead			0
-2e69de	296	anon_2e69de	anon_2e69de	2e69de	2e6b02	74
-2e69df	20	FT_Stream_GetChar	FT_Stream_GetChar			0
-2e69f3	32	FT_Stream_GetUShort	FT_Stream_GetUShort			0
-2e6a13	32	FT_Stream_GetUShortLE	FT_Stream_GetUShortLE			0
-2e6a33	40	FT_Stream_GetUOffset	FT_Stream_GetUOffset			0
-2e6a5b	48	FT_Stream_GetULong	FT_Stream_GetULong			0
-2e6a8b	48	FT_Stream_GetULongLE	FT_Stream_GetULongLE			0
-2e6abb	74	FT_Stream_ReadChar	FT_Stream_ReadChar			0
-2e6b04	1176	anon_2e6b04	anon_2e6b04	2e6b04	2e6f98	294
-2e6b05	76	FT_Stream_ReadUShort	FT_Stream_ReadUShort			0
-2e6b51	468	FT_Raccess_Get_HeaderInfo	FT_Raccess_Get_HeaderInfo			0
-2e6d25	76	FT_Stream_ReadUShortLE	FT_Stream_ReadUShortLE			0
-2e6d71	84	FT_Stream_ReadUOffset	FT_Stream_ReadUOffset			0
-2e6dc5	88	FT_Stream_ReadULong	FT_Stream_ReadULong			0
-2e6ee9	88	FT_Stream_ReadULongLE	FT_Stream_ReadULongLE			0
-2e6f41	32	FT_Atan2	FT_Atan2			0
-2e6f61	40	FT_Vector_Unit	FT_Vector_Unit			0
-2e6f89	18	FT_Cos	FT_Cos			0
-2e6f9a	20	anon_2e6f9a	anon_2e6f9a	2e6f9a	2e6faa	5
-2e6f9b	18	FT_Sin	FT_Sin			0
-2e6fac	208	anon_2e6fac	anon_2e6fac	2e6fac	2e7078	52
-2e6fad	24	FT_Tan	FT_Tan			0
-2e6fc5	100	FT_Vector_Rotate	FT_Vector_Rotate			0
-2e7029	82	FT_Vector_Length	FT_Vector_Length			0
-2e707a	20	anon_2e707a	anon_2e707a	2e707a	2e708a	5
-2e707b	18	FT_Hypot	FT_Hypot			0
-2e708c	68	anon_2e708c	anon_2e708c	2e708c	2e70cc	17
-2e708d	66	FT_Vector_Polarize	FT_Vector_Polarize			0
-2e70ce	20	anon_2e70ce	anon_2e70ce	2e70ce	2e70de	5
-2e70cf	16	FT_Vector_From_Polar	FT_Vector_From_Polar			0
-2e70e0	72	anon_2e70e0	anon_2e70e0	2e70e0	2e7124	18
-2e70e1	32	FT_Angle_Diff	FT_Angle_Diff			0
-2e7101	38	ft_mem_qalloc	ft_mem_qalloc			0
-2e7126	40	anon_2e7126	anon_2e7126	2e7126	2e714a	10
-2e7127	38	ft_mem_alloc	ft_mem_alloc			0
-2e714c	492	anon_2e714c	anon_2e714c	2e714c	2e7334	123
-2e714d	28	FT_GlyphLoader_New	FT_GlyphLoader_New			0
-2e72f9	62	FT_New_Library	FT_New_Library			0
-2e7336	12	anon_2e7336	anon_2e7336	2e7336	2e733e	3
-2e7337	10	ft_mem_free	ft_mem_free			0
-2e7340	104	anon_2e7340	anon_2e7340	2e7340	2e73a4	26
-2e7341	76	FT_GlyphLoader_Reset	FT_GlyphLoader_Reset			0
-2e738d	26	FT_GlyphLoader_Done	FT_GlyphLoader_Done			0
-2e73a6	56	anon_2e73a6	anon_2e73a6	2e73a6	2e73da	14
-2e73a7	54	ft_hash_str_free	ft_hash_str_free			0
-2e73dc	132	anon_2e73dc	anon_2e73dc	2e73dc	2e745c	33
-2e73dd	130	FT_Stream_New	FT_Stream_New			0
-2e745e	96	anon_2e745e	anon_2e745e	2e745e	2e74ba	24
-2e745f	30	FT_Stream_Free	FT_Stream_Free			0
-2e74bc	72	anon_2e74bc	anon_2e74bc	2e74bc	2e7500	18
-2e74bd	70	FT_Attach_Stream	FT_Attach_Stream			0
-2e7502	84	anon_2e7502	anon_2e7502	2e7502	2e7552	21
-2e7503	32	FT_Attach_File	FT_Attach_File			0
-2e7523	50	ft_glyphslot_free_bitmap	ft_glyphslot_free_bitmap			0
-2e7554	1144	anon_2e7554	anon_2e7554	2e7554	2e79c8	286
-2e7555	14	ft_glyphslot_set_bitmap	ft_glyphslot_set_bitmap			0
-2e7565	808	FT_Load_Glyph	FT_Load_Glyph			0
-2e788d	196	FT_Get_Advances	FT_Get_Advances			0
-2e7951	122	FT_Get_Advance	FT_Get_Advance			0
-2e79ca	40	anon_2e79ca	anon_2e79ca	2e79ca	2e79ee	10
-2e79cb	38	FT_Load_Char	FT_Load_Char			0
-2e79f0	300	anon_2e79f0	anon_2e79f0	2e79f0	2e7b18	75
-2e79f1	58	ft_glyphslot_alloc_bitmap	ft_glyphslot_alloc_bitmap			0
-2e7a71	170	FT_New_GlyphSlot	FT_New_GlyphSlot			0
-2e7b1a	928	anon_2e7b1a	anon_2e7b1a	2e7b1a	2e7eb6	232
-2e7b1b	66	FT_Done_GlyphSlot	FT_Done_GlyphSlot			0
-2e7dbb	68	FT_Outline_Done_Internal	FT_Outline_Done_Internal			0
-2e7dff	12	FT_Outline_Done	FT_Outline_Done			0
-2e7e0b	24	FT_Stream_ReleaseFrame	FT_Stream_ReleaseFrame			0
-2e7e23	128	FT_Stream_EnterFrame	FT_Stream_EnterFrame			0
-2e7ea3	22	FT_Stream_ExtractFrame	FT_Stream_ExtractFrame			0
-2e7eb8	472	anon_2e7eb8	anon_2e7eb8	2e7eb8	2e808c	118
-2e7eb9	28	FT_Stream_ExitFrame	FT_Stream_ExitFrame			0
-2e7ed5	316	FT_Stream_ReadFields	FT_Stream_ReadFields			0
-2e8011	126	ft_mem_qrealloc	ft_mem_qrealloc			0
-2e808e	68	anon_2e808e	anon_2e808e	2e808e	2e80ce	17
-2e808f	66	ft_mem_realloc	ft_mem_realloc			0
-2e80d0	56	anon_2e80d0	anon_2e80d0	2e80d0	2e8104	14
-2e80d1	54	FT_GlyphLoader_CreateExtra	FT_GlyphLoader_CreateExtra			0
-2e8106	368	anon_2e8106	anon_2e8106	2e8106	2e8272	92
-2e8107	248	FT_GlyphLoader_CheckPoints	FT_GlyphLoader_CheckPoints			0
-2e81ff	118	FT_GlyphLoader_CopyPoints	FT_GlyphLoader_CopyPoints			0
-2e8274	260	anon_2e8274	anon_2e8274	2e8274	2e8374	65
-2e8275	70	FT_GlyphLoader_CheckSubGlyphs	FT_GlyphLoader_CheckSubGlyphs			0
-2e82bd	60	ft_hash_str_init	ft_hash_str_init			0
-2e82f9	126	FT_CMap_Done	FT_CMap_Done			0
-2e8376	320	anon_2e8376	anon_2e8376	2e8376	2e84b2	80
-2e8377	148	FT_CMap_New	FT_CMap_New			0
-2e840b	156	FT_Outline_New_Internal	FT_Outline_New_Internal			0
-2e84a7	12	FT_Outline_New	FT_Outline_New			0
-2e84b4	1040	anon_2e84b4	anon_2e84b4	2e84b4	2e88c0	260
-2e84b5	60	ft_hash_num_init	ft_hash_num_init			0
-2e85a9	8	ft_hash_str_insert	ft_hash_str_insert			0
-2e85b1	8	ft_hash_num_insert	ft_hash_num_insert			0
-2e85b9	396	FT_Raccess_Get_DataOffsets	FT_Raccess_Get_DataOffsets			0
-2e8745	164	FT_Get_Sfnt_Name	FT_Get_Sfnt_Name			0
-2e87e9	176	FT_Get_Sfnt_LangTag	FT_Get_Sfnt_LangTag			0
-2e8899	42	ft_mem_dup	ft_mem_dup			0
-2e88c2	96	anon_2e88c2	anon_2e88c2	2e88c2	2e891e	24
-2e88c3	36	ft_mem_strdup	ft_mem_strdup			0
-2e88e7	40	ft_mem_strcpyn	ft_mem_strcpyn			0
-2e890f	18	FT_List_Find	FT_List_Find			0
-2e8920	188	anon_2e8920	anon_2e8920	2e8920	2e89d8	47
-2e8921	24	FT_List_Add	FT_List_Add			0
-2e8939	162	FT_New_Size	FT_New_Size			0
-2e89da	52	anon_2e89da	anon_2e89da	2e89da	2e8a0a	13
-2e89db	24	FT_List_Insert	FT_List_Insert			0
-2e89f3	26	FT_List_Remove	FT_List_Remove			0
-2e8a0c	108	anon_2e8a0c	anon_2e8a0c	2e8a0c	2e8a74	27
-2e8a0d	106	FT_Done_Size	FT_Done_Size			0
-2e8a76	40	anon_2e8a76	anon_2e8a76	2e8a76	2e8a9a	10
-2e8a77	36	FT_List_Up	FT_List_Up			0
-2e8a9c	3196	anon_2e8a9c	anon_2e8a9c	2e8a9c	2e9714	799
-2e8a9d	104	FT_Set_Renderer	FT_Set_Renderer			0
-2e8b05	32	FT_List_Iterate	FT_List_Iterate			0
-2e8b25	54	FT_List_Finalize	FT_List_Finalize			0
-2e8bdd	92	FT_Done_Face	FT_Done_Face			0
-2e90d9	34	FT_New_Face	FT_New_Face			0
-2e96f1	38	FT_New_Memory_Face	FT_New_Memory_Face			0
-2e9716	16	anon_2e9716	anon_2e9716	2e9716	2e9722	4
-2e9717	14	FT_Open_Face	FT_Open_Face			0
-2e9724	1088	anon_2e9724	anon_2e9724	2e9724	2e9b60	272
-2e9725	236	FT_Remove_Module	FT_Remove_Module			0
-2e9811	380	FT_Add_Module	FT_Add_Module			0
-2e998d	148	FT_Done_Library	FT_Done_Library			0
-2e9a21	32	FT_Add_Default_Modules	FT_Add_Default_Modules			0
-2e9a41	240	FT_Set_Default_Properties	FT_Set_Default_Properties			0
-2e9b31	50	FT_Init_FreeType	FT_Init_FreeType			0
-2e9b62	116	anon_2e9b62	anon_2e9b62	2e9b62	2e9bd2	29
-2e9b63	24	FT_Done_FreeType	FT_Done_FreeType			0
-2e9bd4	133896	anon_2e9bd4	anon_2e9bd4	2e9bd4	30a6d8	33474
-2e9bd5	112	FT_Stream_Open	FT_Stream_Open			0
-2e9c45	48	FT_New_Memory	FT_New_Memory			0
-2e9c75	4	FT_Done_Memory	FT_Done_Memory			0
-2f1401	2534	ps_hints_apply	ps_hints_apply			0
-2fcdf5	7804	TT_RunIns	TT_RunIns			0
-300209	106	TT_New_Context	TT_New_Context			0
-309b05	4	af_shaper_get_coverage	af_shaper_get_coverage			0
-30a6c1	20	af_shaper_buf_create	af_shaper_buf_create			0
-30a6d5	6	af_shaper_buf_destroy	af_shaper_buf_destroy			0
-30a6da	41700	anon_30a6da	anon_30a6da	30a6da	3149ba	10425
-30a6db	184	af_shaper_get_cluster	af_shaper_get_cluster			0
-30a793	32	af_shaper_get_elem	af_shaper_get_elem			0
-3149bc	16	anon_3149bc	anon_3149bc	3149bc	3149c8	4
-3149bd	14	FT_Bitmap_Init	FT_Bitmap_Init			0
-3149ca	16	anon_3149ca	anon_3149ca	3149ca	3149d6	4
-3149cb	14	FT_Bitmap_New	FT_Bitmap_New			0
-3149d8	1136	anon_3149d8	anon_3149d8	3149d8	314e44	284
-3149d9	248	FT_Bitmap_Copy	FT_Bitmap_Copy			0
-314ad1	752	FT_Bitmap_Convert	FT_Bitmap_Convert			0
-314dc1	92	FT_GlyphSlot_Own_Bitmap	FT_GlyphSlot_Own_Bitmap			0
-314e1d	42	FT_Bitmap_Done	FT_Bitmap_Done			0
-314e46	7292	anon_314e46	anon_314e46	314e46	316abe	1823
-314e47	838	FT_Bitmap_Embolden	FT_Bitmap_Embolden			0
-316ac0	900	anon_316ac0	anon_316ac0	316ac0	316e40	225
-316ac1	408	FT_Stream_OpenGzip	FT_Stream_OpenGzip			0
-316c59	132	FT_Gzip_Uncompress	FT_Gzip_Uncompress			0
-316e42	80	anon_316e42	anon_316e42	316e42	316e8e	20
-316e43	24	ft_lzwstate_reset	ft_lzwstate_reset			0
-316e5b	52	ft_lzwstate_init	ft_lzwstate_init			0
-316e90	7608	anon_316e90	anon_316e90	316e90	318c44	1902
-316e91	196	FT_Stream_OpenLZW	FT_Stream_OpenLZW			0
-316f55	58	ft_lzwstate_done	ft_lzwstate_done			0
-316fb5	602	ft_lzwstate_io	ft_lzwstate_io			0
-317f81	360	__gxx_personality_v0	__gxx_personality_v0			0
-3185b5	116	__cxa_type_match	__cxa_type_match			0
-318629	80	__cxa_begin_cleanup	__cxa_begin_cleanup			0
-3186c9	260	__cxa_call_unexpected	__cxa_call_unexpected			0
+2e490c	1036	anon_2e490c	anon_2e490c	2e490c	2e4d18	260
+2e4d1c	14	FT_RoundFix	FT_RoundFix	2e4d1c	2e4d28	5
+2e4d2a	12	FT_CeilFix	FT_CeilFix	2e4d2a	2e4d34	5
+2e4d36	6	FT_FloorFix	FT_FloorFix	2e4d36	2e4d3a	3
+2e4d3c	118	FT_MulDiv	FT_MulDiv	2e4d3c	2e4db0	56
+2e4db4	52	anon_2e4db4	anon_2e4db4	2e4db4	2e4de8	14
+2e4dec	96	FT_MulDiv_No_Round	FT_MulDiv_No_Round	2e4dec	2e4e4a	46
+2e4e4c	28	FT_MulFix	FT_MulFix	2e4e4c	2e4e66	11
+2e4e68	76	anon_2e4e68	anon_2e4e68	2e4e68	2e4eb4	20
+2e4eb6	88	FT_DivFix	FT_DivFix	2e4eb6	2e4f0c	42
+2e4f0e	110	FT_Matrix_Multiply	FT_Matrix_Multiply	2e4f0e	2e4f7a	50
+2e4f7c	82	FT_Matrix_Invert	FT_Matrix_Invert	2e4f7c	2e4fcc	37
+2e4fce	130	FT_Matrix_Multiply_Scaled	FT_Matrix_Multiply_Scaled	2e4fce	2e504e	54
+2e5050	70	FT_Vector_Transform_Scaled	FT_Vector_Transform_Scaled	2e5050	2e5094	30
+2e5096	300	FT_Vector_NormLen	FT_Vector_NormLen	2e5096	2e51be	116
+2e51c2	0	anon_2e51c2	anon_2e51c2	2e51c2	2e51c2	1
+2e51c4	132	ft_corner_orientation	ft_corner_orientation	2e51c4	2e5244	62
+2e5248	116	ft_corner_is_flat	ft_corner_is_flat	2e5248	2e52ba	54
+2e52bc	32	FT_GlyphLoader_Rewind	FT_GlyphLoader_Rewind	2e52bc	2e52da	15
+2e52dc	28	FT_GlyphLoader_Prepare	FT_GlyphLoader_Prepare	2e52dc	2e52f6	12
+2e52f8	62	FT_GlyphLoader_Add	FT_GlyphLoader_Add	2e52f8	2e5334	28
+2e5336	14	ft_hash_str_lookup	ft_hash_str_lookup	2e5336	2e5342	7
+2e5344	14	ft_hash_num_lookup	ft_hash_num_lookup	2e5344	2e5350	7
+2e5352	38	ft_service_list_lookup	ft_service_list_lookup	2e5352	2e5376	18
+2e5378	20	ft_validator_init	ft_validator_init	2e5378	2e538a	7
+2e538c	6	ft_validator_run	ft_validator_run	2e538c	2e5390	2
+2e5392	12	ft_validator_error	ft_validator_error	2e5392	2e539a	4
+2e539e	114	FT_Set_Transform	FT_Set_Transform	2e539e	2e540e	51
+2e5410	20	FT_Reference_Face	FT_Reference_Face	2e5410	2e5422	10
+2e5424	188	FT_Match_Size	FT_Match_Size	2e5424	2e54dc	87
+2e54e0	68	ft_synthesize_vertical_metrics	ft_synthesize_vertical_metrics	2e54e0	2e5522	32
+2e5524	100	FT_Select_Metrics	FT_Select_Metrics	2e5524	2e5586	48
+2e5588	370	FT_Request_Metrics	FT_Request_Metrics	2e5588	2e56f8	164
+2e56fa	50	FT_Select_Size	FT_Select_Size	2e56fa	2e572a	25
+2e572c	96	FT_Request_Size	FT_Request_Size	2e572c	2e578a	47
+2e578c	70	FT_Set_Char_Size	FT_Set_Char_Size	2e578c	2e57d0	35
+2e57d2	74	FT_Set_Pixel_Sizes	FT_Set_Pixel_Sizes	2e57d2	2e581a	37
+2e581c	142	FT_Get_Kerning	FT_Get_Kerning	2e581c	2e58a8	69
+2e58ac	72	FT_Get_Track_Kerning	FT_Get_Track_Kerning	2e58ac	2e58f2	33
+2e58f4	68	FT_Select_Charmap	FT_Select_Charmap	2e58f4	2e5936	32
+2e5938	40	FT_Get_Charmap_Index	FT_Get_Charmap_Index	2e5938	2e595e	20
+2e5960	30	FT_Get_Char_Index	FT_Get_Char_Index	2e5960	2e597c	15
+2e597e	62	FT_Get_Next_Char	FT_Get_Next_Char	2e597e	2e59ba	31
+2e59bc	58	FT_Get_First_Char	FT_Get_First_Char	2e59bc	2e59f4	27
+2e59f8	168	FT_Face_Properties	FT_Face_Properties	2e59f8	2e5a9e	77
+2e5aa0	88	FT_Get_Name_Index	FT_Get_Name_Index	2e5aa0	2e5af6	43
+2e5af8	128	FT_Get_Glyph_Name	FT_Get_Glyph_Name	2e5af8	2e5b76	59
+2e5b78	72	FT_Get_Postscript_Name	FT_Get_Postscript_Name	2e5b78	2e5bbe	35
+2e5bc0	52	FT_Get_Sfnt_Table	FT_Get_Sfnt_Table	2e5bc0	2e5bf2	26
+2e5bf4	72	FT_Load_Sfnt_Table	FT_Load_Sfnt_Table	2e5bf4	2e5c3a	34
+2e5c3c	72	FT_Sfnt_Table_Info	FT_Sfnt_Table_Info	2e5c3c	2e5c82	34
+2e5c84	60	FT_Get_CMap_Language_ID	FT_Get_CMap_Language_ID	2e5c84	2e5cbe	30
+2e5cc0	60	FT_Get_CMap_Format	FT_Get_CMap_Format	2e5cc0	2e5cfa	30
+2e5cfc	60	FT_Set_Charmap	FT_Set_Charmap	2e5cfc	2e5d36	29
+2e5d38	44	anon_2e5d38	anon_2e5d38	2e5d38	2e5d64	12
+2e5d68	56	FT_Face_GetCharVariantIndex	FT_Face_GetCharVariantIndex	2e5d68	2e5d9e	27
+2e5da0	34	FT_Face_GetCharVariantIsDefault	FT_Face_GetCharVariantIsDefault	2e5da0	2e5dc0	16
+2e5dc2	28	FT_Face_GetVariantSelectors	FT_Face_GetVariantSelectors	2e5dc2	2e5ddc	14
+2e5dde	32	FT_Face_GetVariantsOfChar	FT_Face_GetVariantsOfChar	2e5dde	2e5dfc	15
+2e5dfe	32	FT_Face_GetCharsOfVariant	FT_Face_GetCharsOfVariant	2e5dfe	2e5e1c	15
+2e5e1e	24	FT_Activate_Size	FT_Activate_Size	2e5e1e	2e5e34	12
+2e5e36	50	FT_Lookup_Renderer	FT_Lookup_Renderer	2e5e36	2e5e66	24
+2e5e68	6	FT_Get_Renderer	FT_Get_Renderer	2e5e68	2e5e6c	3
+2e5e70	104	FT_Render_Glyph_Internal	FT_Render_Glyph_Internal	2e5e70	2e5ed6	48
+2e5ed8	24	FT_Render_Glyph	FT_Render_Glyph	2e5ed8	2e5eee	11
+2e5ef0	56	FT_Get_Module	FT_Get_Module	2e5ef0	2e5f26	27
+2e5f28	14	FT_Get_Module_Interface	FT_Get_Module_Interface	2e5f28	2e5f34	7
+2e5f36	76	ft_module_get_service	ft_module_get_service	2e5f36	2e5f80	37
+2e5f82	20	FT_Property_Set	FT_Property_Set	2e5f82	2e5f94	8
+2e5f96	16	FT_Property_Get	FT_Property_Get	2e5f96	2e5fa4	7
+2e5fa6	16	ft_property_string_set	ft_property_string_set	2e5fa6	2e5fb4	7
+2e5fb6	20	FT_Reference_Library	FT_Reference_Library	2e5fb6	2e5fc8	9
+2e5fca	30	FT_Library_Version	FT_Library_Version	2e5fca	2e5fe6	15
+2e5fe8	18	FT_Set_Debug_Hook	FT_Set_Debug_Hook	2e5fe8	2e5ff8	7
+2e5ffc	48	FT_Get_TrueType_Engine_Type	FT_Get_TrueType_Engine_Type	2e5ffc	2e602a	23
+2e602c	76	FT_Get_SubGlyph_Info	FT_Get_SubGlyph_Info	2e602c	2e6076	36
+2e6078	678	FT_Outline_Decompose	FT_Outline_Decompose	2e6078	2e631c	302
+2e631e	78	FT_Outline_Check	FT_Outline_Check	2e631e	2e636a	35
+2e636c	96	FT_Outline_Copy	FT_Outline_Copy	2e636c	2e63ca	48
+2e63cc	88	FT_Outline_Get_CBox	FT_Outline_Get_CBox	2e63cc	2e6422	42
+2e6424	46	FT_Outline_Translate	FT_Outline_Translate	2e6424	2e6450	22
+2e6452	116	FT_Outline_Reverse	FT_Outline_Reverse	2e6452	2e64c2	50
+2e64c6	0	anon_2e64c6	anon_2e64c6	2e64c6	2e64c6	1
+2e64c8	84	FT_Outline_Render	FT_Outline_Render	2e64c8	2e651a	39
+2e651c	44	FT_Outline_Get_Bitmap	FT_Outline_Get_Bitmap	2e651c	2e6544	21
+2e6548	56	FT_Vector_Transform	FT_Vector_Transform	2e6548	2e657e	26
+2e6580	36	FT_Outline_Transform	FT_Outline_Transform	2e6580	2e65a2	17
+2e65a4	204	FT_Outline_Get_Orientation	FT_Outline_Get_Orientation	2e65a4	2e666c	90
+2e6670	512	FT_Outline_EmboldenXY	FT_Outline_EmboldenXY	2e6670	2e686e	241
+2e6870	6	FT_Outline_Embolden	FT_Outline_Embolden	2e6870	2e6874	3
+2e6876	20	FT_Get_Sfnt_Name_Count	FT_Get_Sfnt_Name_Count	2e6876	2e6888	9
+2e688a	16	FT_Stream_OpenMemory	FT_Stream_OpenMemory	2e688a	2e6898	8
+2e689a	12	FT_Stream_Close	FT_Stream_Close	2e689a	2e68a4	6
+2e68a6	36	FT_Stream_Seek	FT_Stream_Seek	2e68a6	2e68c8	18
+2e68ca	0	anon_2e68ca	anon_2e68ca	2e68ca	2e68ca	1
+2e68cc	100	FT_Raccess_Guess	FT_Raccess_Guess	2e68cc	2e692e	48
+2e6930	16	FT_Stream_Skip	FT_Stream_Skip	2e6930	2e693e	7
+2e6940	4	FT_Stream_Pos	FT_Stream_Pos	2e6940	2e6942	2
+2e6944	74	FT_Stream_ReadAt	FT_Stream_ReadAt	2e6944	2e698c	32
+2e698e	18	FT_Stream_Read	FT_Stream_Read	2e698e	2e699e	9
+2e69a0	62	FT_Stream_TryRead	FT_Stream_TryRead	2e69a0	2e69dc	30
+2e69de	20	FT_Stream_GetChar	FT_Stream_GetChar	2e69de	2e69f0	10
+2e69f2	32	FT_Stream_GetUShort	FT_Stream_GetUShort	2e69f2	2e6a10	14
+2e6a12	32	FT_Stream_GetUShortLE	FT_Stream_GetUShortLE	2e6a12	2e6a30	14
+2e6a32	40	FT_Stream_GetUOffset	FT_Stream_GetUOffset	2e6a32	2e6a58	19
+2e6a5a	48	FT_Stream_GetULong	FT_Stream_GetULong	2e6a5a	2e6a88	21
+2e6a8a	48	FT_Stream_GetULongLE	FT_Stream_GetULongLE	2e6a8a	2e6ab8	21
+2e6aba	74	FT_Stream_ReadChar	FT_Stream_ReadChar	2e6aba	2e6b02	34
+2e6b04	76	FT_Stream_ReadUShort	FT_Stream_ReadUShort	2e6b04	2e6b4e	37
+2e6b50	468	FT_Raccess_Get_HeaderInfo	FT_Raccess_Get_HeaderInfo	2e6b50	2e6d22	207
+2e6d24	76	FT_Stream_ReadUShortLE	FT_Stream_ReadUShortLE	2e6d24	2e6d6e	37
+2e6d70	84	FT_Stream_ReadUOffset	FT_Stream_ReadUOffset	2e6d70	2e6dc2	41
+2e6dc4	88	FT_Stream_ReadULong	FT_Stream_ReadULong	2e6dc4	2e6e1a	43
+2e6e1c	200	anon_2e6e1c	anon_2e6e1c	2e6e1c	2e6ee4	51
+2e6ee8	88	FT_Stream_ReadULongLE	FT_Stream_ReadULongLE	2e6ee8	2e6f3e	43
+2e6f40	32	FT_Atan2	FT_Atan2	2e6f40	2e6f5e	15
+2e6f60	40	FT_Vector_Unit	FT_Vector_Unit	2e6f60	2e6f86	20
+2e6f88	18	FT_Cos	FT_Cos	2e6f88	2e6f98	9
+2e6f9a	18	FT_Sin	FT_Sin	2e6f9a	2e6faa	9
+2e6fac	24	FT_Tan	FT_Tan	2e6fac	2e6fc0	11
+2e6fc4	100	FT_Vector_Rotate	FT_Vector_Rotate	2e6fc4	2e7026	46
+2e7028	82	FT_Vector_Length	FT_Vector_Length	2e7028	2e7078	39
+2e707a	18	FT_Hypot	FT_Hypot	2e707a	2e708a	8
+2e708c	66	FT_Vector_Polarize	FT_Vector_Polarize	2e708c	2e70cc	31
+2e70ce	16	FT_Vector_From_Polar	FT_Vector_From_Polar	2e70ce	2e70dc	8
+2e70de	0	anon_2e70de	anon_2e70de	2e70de	2e70de	1
+2e70e0	32	FT_Angle_Diff	FT_Angle_Diff	2e70e0	2e70fe	14
+2e7100	38	ft_mem_qalloc	ft_mem_qalloc	2e7100	2e7124	19
+2e7126	38	ft_mem_alloc	ft_mem_alloc	2e7126	2e714a	17
+2e714c	28	FT_GlyphLoader_New	FT_GlyphLoader_New	2e714c	2e7166	14
+2e7168	396	anon_2e7168	anon_2e7168	2e7168	2e72f4	100
+2e72f8	62	FT_New_Library	FT_New_Library	2e72f8	2e7334	30
+2e7336	10	ft_mem_free	ft_mem_free	2e7336	2e733e	5
+2e7340	76	FT_GlyphLoader_Reset	FT_GlyphLoader_Reset	2e7340	2e7388	33
+2e738c	26	FT_GlyphLoader_Done	FT_GlyphLoader_Done	2e738c	2e73a4	10
+2e73a6	54	ft_hash_str_free	ft_hash_str_free	2e73a6	2e73da	26
+2e73dc	130	FT_Stream_New	FT_Stream_New	2e73dc	2e745c	61
+2e745e	30	FT_Stream_Free	FT_Stream_Free	2e745e	2e747a	13
+2e747e	60	anon_2e747e	anon_2e747e	2e747e	2e74ba	16
+2e74bc	70	FT_Attach_Stream	FT_Attach_Stream	2e74bc	2e7500	32
+2e7502	32	FT_Attach_File	FT_Attach_File	2e7502	2e751e	15
+2e7522	50	ft_glyphslot_free_bitmap	ft_glyphslot_free_bitmap	2e7522	2e7552	23
+2e7554	14	ft_glyphslot_set_bitmap	ft_glyphslot_set_bitmap	2e7554	2e7560	7
+2e7564	808	FT_Load_Glyph	FT_Load_Glyph	2e7564	2e788a	369
+2e788c	196	FT_Get_Advances	FT_Get_Advances	2e788c	2e794c	87
+2e7950	122	FT_Get_Advance	FT_Get_Advance	2e7950	2e79c8	55
+2e79ca	38	FT_Load_Char	FT_Load_Char	2e79ca	2e79ee	19
+2e79f0	58	ft_glyphslot_alloc_bitmap	ft_glyphslot_alloc_bitmap	2e79f0	2e7a28	28
+2e7a2c	64	anon_2e7a2c	anon_2e7a2c	2e7a2c	2e7a6c	17
+2e7a70	170	FT_New_GlyphSlot	FT_New_GlyphSlot	2e7a70	2e7b18	81
+2e7b1a	66	FT_Done_GlyphSlot	FT_Done_GlyphSlot	2e7b1a	2e7b5a	33
+2e7b5e	600	anon_2e7b5e	anon_2e7b5e	2e7b5e	2e7db6	151
+2e7dba	68	FT_Outline_Done_Internal	FT_Outline_Done_Internal	2e7dba	2e7dfc	31
+2e7dfe	12	FT_Outline_Done	FT_Outline_Done	2e7dfe	2e7e08	5
+2e7e0a	24	FT_Stream_ReleaseFrame	FT_Stream_ReleaseFrame	2e7e0a	2e7e20	12
+2e7e22	128	FT_Stream_EnterFrame	FT_Stream_EnterFrame	2e7e22	2e7e9e	59
+2e7ea2	22	FT_Stream_ExtractFrame	FT_Stream_ExtractFrame	2e7ea2	2e7eb6	11
+2e7eb8	28	FT_Stream_ExitFrame	FT_Stream_ExitFrame	2e7eb8	2e7ed2	13
+2e7ed4	316	FT_Stream_ReadFields	FT_Stream_ReadFields	2e7ed4	2e800c	142
+2e8010	126	ft_mem_qrealloc	ft_mem_qrealloc	2e8010	2e808c	54
+2e808e	66	ft_mem_realloc	ft_mem_realloc	2e808e	2e80ce	30
+2e80d0	54	FT_GlyphLoader_CreateExtra	FT_GlyphLoader_CreateExtra	2e80d0	2e8104	24
+2e8106	248	FT_GlyphLoader_CheckPoints	FT_GlyphLoader_CheckPoints	2e8106	2e81fa	110
+2e81fe	118	FT_GlyphLoader_CopyPoints	FT_GlyphLoader_CopyPoints	2e81fe	2e8272	50
+2e8274	70	FT_GlyphLoader_CheckSubGlyphs	FT_GlyphLoader_CheckSubGlyphs	2e8274	2e82b8	34
+2e82bc	60	ft_hash_str_init	ft_hash_str_init	2e82bc	2e82f6	29
+2e82f8	126	FT_CMap_Done	FT_CMap_Done	2e82f8	2e8374	58
+2e8376	148	FT_CMap_New	FT_CMap_New	2e8376	2e8406	66
+2e840a	156	FT_Outline_New_Internal	FT_Outline_New_Internal	2e840a	2e84a2	68
+2e84a6	12	FT_Outline_New	FT_Outline_New	2e84a6	2e84b0	5
+2e84b2	0	anon_2e84b2	anon_2e84b2	2e84b2	2e84b2	1
+2e84b4	60	ft_hash_num_init	ft_hash_num_init	2e84b4	2e84ee	29
+2e84f0	180	anon_2e84f0	anon_2e84f0	2e84f0	2e85a4	46
+2e85a8	8	ft_hash_str_insert	ft_hash_str_insert	2e85a8	2e85ae	4
+2e85b0	8	ft_hash_num_insert	ft_hash_num_insert	2e85b0	2e85b6	4
+2e85b8	396	FT_Raccess_Get_DataOffsets	FT_Raccess_Get_DataOffsets	2e85b8	2e8742	175
+2e8744	164	FT_Get_Sfnt_Name	FT_Get_Sfnt_Name	2e8744	2e87e4	76
+2e87e8	176	FT_Get_Sfnt_LangTag	FT_Get_Sfnt_LangTag	2e87e8	2e8894	81
+2e8898	42	ft_mem_dup	ft_mem_dup	2e8898	2e88c0	19
+2e88c2	36	ft_mem_strdup	ft_mem_strdup	2e88c2	2e88e2	15
+2e88e6	40	ft_mem_strcpyn	ft_mem_strcpyn	2e88e6	2e890c	20
+2e890e	18	FT_List_Find	FT_List_Find	2e890e	2e891e	9
+2e8920	24	FT_List_Add	FT_List_Add	2e8920	2e8936	12
+2e8938	162	FT_New_Size	FT_New_Size	2e8938	2e89d8	77
+2e89da	24	FT_List_Insert	FT_List_Insert	2e89da	2e89f0	12
+2e89f2	26	FT_List_Remove	FT_List_Remove	2e89f2	2e8a0a	13
+2e8a0c	106	FT_Done_Size	FT_Done_Size	2e8a0c	2e8a74	47
+2e8a76	36	FT_List_Up	FT_List_Up	2e8a76	2e8a98	18
+2e8a9a	0	anon_2e8a9a	anon_2e8a9a	2e8a9a	2e8a9a	1
+2e8a9c	104	FT_Set_Renderer	FT_Set_Renderer	2e8a9c	2e8b02	47
+2e8b04	32	FT_List_Iterate	FT_List_Iterate	2e8b04	2e8b22	16
+2e8b24	54	FT_List_Finalize	FT_List_Finalize	2e8b24	2e8b58	25
+2e8b5c	124	anon_2e8b5c	anon_2e8b5c	2e8b5c	2e8bd8	32
+2e8bdc	92	FT_Done_Face	FT_Done_Face	2e8bdc	2e8c34	39
+2e8c38	1180	anon_2e8c38	anon_2e8c38	2e8c38	2e90d4	296
+2e90d8	34	FT_New_Face	FT_New_Face	2e90d8	2e90f8	17
+2e90fc	1520	anon_2e90fc	anon_2e90fc	2e90fc	2e96ec	381
+2e96f0	38	FT_New_Memory_Face	FT_New_Memory_Face	2e96f0	2e9714	19
+2e9716	14	FT_Open_Face	FT_Open_Face	2e9716	2e9722	7
+2e9724	236	FT_Remove_Module	FT_Remove_Module	2e9724	2e980c	106
+2e9810	380	FT_Add_Module	FT_Add_Module	2e9810	2e998a	176
+2e998c	148	FT_Done_Library	FT_Done_Library	2e998c	2e9a1e	69
+2e9a20	32	FT_Add_Default_Modules	FT_Add_Default_Modules	2e9a20	2e9a3e	16
+2e9a40	240	FT_Set_Default_Properties	FT_Set_Default_Properties	2e9a40	2e9b2e	111
+2e9b30	50	FT_Init_FreeType	FT_Init_FreeType	2e9b30	2e9b60	22
+2e9b62	24	FT_Done_FreeType	FT_Done_FreeType	2e9b62	2e9b78	11
+2e9b7a	88	anon_2e9b7a	anon_2e9b7a	2e9b7a	2e9bd2	23
+2e9bd4	112	FT_Stream_Open	FT_Stream_Open	2e9bd4	2e9c40	51
+2e9c44	48	FT_New_Memory	FT_New_Memory	2e9c44	2e9c70	20
+2e9c74	4	FT_Done_Memory	FT_Done_Memory	2e9c74	2e9c74	1
+2e9c78	30596	anon_2e9c78	anon_2e9c78	2e9c78	2f13fc	7650
+2f1400	2534	ps_hints_apply	ps_hints_apply	2f1400	2f1de4	1154
+2f1de8	45064	anon_2f1de8	anon_2f1de8	2f1de8	2fcdf0	11267
+2fcdf4	7804	TT_RunIns	TT_RunIns	2fcdf4	2fec6e	3369
+2fec70	5524	anon_2fec70	anon_2fec70	2fec70	300204	1382
+300208	106	TT_New_Context	TT_New_Context	300208	300270	50
+300274	39052	anon_300274	anon_300274	300274	309b00	9764
+309b04	4	af_shaper_get_coverage	af_shaper_get_coverage	309b04	309b06	2
+309b08	2996	anon_309b08	anon_309b08	309b08	30a6bc	750
+30a6c0	20	af_shaper_buf_create	af_shaper_buf_create	30a6c0	30a6d0	9
+30a6d4	6	af_shaper_buf_destroy	af_shaper_buf_destroy	30a6d4	30a6d8	3
+30a6da	184	af_shaper_get_cluster	af_shaper_get_cluster	30a6da	30a78e	83
+30a792	32	af_shaper_get_elem	af_shaper_get_elem	30a792	30a7b0	16
+30a7b2	41480	anon_30a7b2	anon_30a7b2	30a7b2	3149ba	10371
+3149bc	14	FT_Bitmap_Init	FT_Bitmap_Init	3149bc	3149c8	6
+3149ca	14	FT_Bitmap_New	FT_Bitmap_New	3149ca	3149d6	6
+3149d8	248	FT_Bitmap_Copy	FT_Bitmap_Copy	3149d8	314acc	116
+314ad0	752	FT_Bitmap_Convert	FT_Bitmap_Convert	314ad0	314dbc	334
+314dc0	92	FT_GlyphSlot_Own_Bitmap	FT_GlyphSlot_Own_Bitmap	314dc0	314e1a	41
+314e1c	42	FT_Bitmap_Done	FT_Bitmap_Done	314e1c	314e44	21
+314e46	838	FT_Bitmap_Embolden	FT_Bitmap_Embolden	314e46	31518a	372
+31518e	6448	anon_31518e	anon_31518e	31518e	316abe	1613
+316ac0	408	FT_Stream_OpenGzip	FT_Stream_OpenGzip	316ac0	316c54	183
+316c58	132	FT_Gzip_Uncompress	FT_Gzip_Uncompress	316c58	316cd8	63
+316cdc	356	anon_316cdc	anon_316cdc	316cdc	316e40	90
+316e42	24	ft_lzwstate_reset	ft_lzwstate_reset	316e42	316e58	12
+316e5a	52	ft_lzwstate_init	ft_lzwstate_init	316e5a	316e8a	24
+316e8e	0	anon_316e8e	anon_316e8e	316e8e	316e8e	1
+316e90	196	FT_Stream_OpenLZW	FT_Stream_OpenLZW	316e90	316f52	91
+316f54	58	ft_lzwstate_done	ft_lzwstate_done	316f54	316f8c	25
+316f90	32	anon_316f90	anon_316f90	316f90	316fb0	9
+316fb4	602	ft_lzwstate_io	ft_lzwstate_io	316fb4	31720c	274
+317210	3436	anon_317210	anon_317210	317210	317f7c	860
+317f80	360	__gxx_personality_v0	__gxx_personality_v0	317f80	3180e6	164
+3180e8	1224	anon_3180e8	anon_3180e8	3180e8	3185b0	307
+3185b4	116	__cxa_type_match	__cxa_type_match	3185b4	318626	53
+318628	80	__cxa_begin_cleanup	__cxa_begin_cleanup	318628	318676	34
+318678	76	anon_318678	anon_318678	318678	3186c4	20
+3186c8	260	__cxa_call_unexpected	__cxa_call_unexpected	3186c8	3187c8	106
+3187cc	1144	anon_3187cc	anon_3187cc	3187cc	318c44	287
 318c48	168	__udivsi3	__udivsi3	318c48	318cec	42
 318cf0	32	__aeabi_uidivmod	__aeabi_uidivmod	318cf0	318d0c	8
 318d10	220	__divsi3	__divsi3	318d10	318de8	55
 318dec	32	__aeabi_idivmod	__aeabi_idivmod	318dec	318e08	8
-318e0c	8	anon_318e0c	anon_318e0c	318e0c	318e10	2
+318e0c	4	anon_318e0c	anon_318e0c	318e0c	318e10	2
 318e14	688	__aeabi_dsub	__aeabi_dsub	318e14	318e14	1
 318e14	688	__subdf3	__subdf3	318e14	318e14	1
 318e18	684	__adddf3	__adddf3	318e18	3190c0	171
@@ -9531,7 +9425,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 319388	140	__floatundisf	__floatundisf	319388	319394	4
 319398	124	__aeabi_l2f	__aeabi_l2f	319398	319410	31
 319398	124	__floatdisf	__floatdisf	319398	319410	31
-319414	68	anon_319414	anon_319414	319414	319454	17
+319414	64	anon_319414	anon_319414	319414	319454	17
 319458	16	__aeabi_idiv0	__aeabi_idiv0	319458	319464	4
 319458	16	__aeabi_ldiv0	__aeabi_ldiv0	319458	319464	4
 319468	56	__aeabi_f2lz	__aeabi_f2lz	319468	31949c	14
@@ -9544,7 +9438,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 319550	104	__fixunsdfdi	__fixunsdfdi	319550	3195b4	26
 3195b8	60	__gnu_ldivmod_helper	__gnu_ldivmod_helper	3195b8	3195f0	15
 3195f4	60	__gnu_uldivmod_helper	__gnu_uldivmod_helper	3195f4	31962c	15
-319630	1076	anon_319630	anon_319630	319630	319a60	269
+319630	1072	anon_319630	anon_319630	319630	319a60	269
 319a64	8	_Unwind_GetCFA	_Unwind_GetCFA	319a64	319a68	2
 319a6c	164	__gnu_Unwind_RaiseException	__gnu_Unwind_RaiseException	319a6c	319b0c	41
 319b10	28	__gnu_Unwind_ForcedUnwind	__gnu_Unwind_ForcedUnwind	319b10	319b28	7
@@ -9553,18 +9447,18 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 319bc0	4	_Unwind_Complete	_Unwind_Complete	319bc0	319bc0	1
 319bc4	32	_Unwind_DeleteException	_Unwind_DeleteException	319bc4	319be0	8
 319be4	92	_Unwind_VRS_Get	_Unwind_VRS_Get	319be4	319c3c	23
-319c40	40	anon_319c40	anon_319c40	319c40	319c64	10
+319c40	36	anon_319c40	anon_319c40	319c40	319c64	10
 319c68	92	_Unwind_VRS_Set	_Unwind_VRS_Set	319c68	319cc0	23
-319cc4	44	anon_319cc4	anon_319cc4	319cc4	319cec	11
+319cc4	40	anon_319cc4	anon_319cc4	319cc4	319cec	11
 319cf0	196	__gnu_Unwind_Backtrace	__gnu_Unwind_Backtrace	319cf0	319db0	49
-319db4	1008	anon_319db4	anon_319db4	319db4	31a1a0	252
+319db4	1004	anon_319db4	anon_319db4	319db4	31a1a0	252
 31a1a4	8	__aeabi_unwind_cpp_pr0	__aeabi_unwind_cpp_pr0	31a1a4	31a1a8	2
 31a1ac	8	__aeabi_unwind_cpp_pr1	__aeabi_unwind_cpp_pr1	31a1ac	31a1b0	2
 31a1b4	8	__aeabi_unwind_cpp_pr2	__aeabi_unwind_cpp_pr2	31a1b4	31a1b8	2
 31a1bc	844	_Unwind_VRS_Pop	_Unwind_VRS_Pop	31a1bc	31a504	211
 31a508	20	__restore_core_regs	__restore_core_regs	31a508	31a518	5
 31a508	20	restore_core_regs	restore_core_regs	31a508	31a518	5
-31a51c	224	anon_31a51c	anon_31a51c	31a51c	31a5f8	56
+31a51c	220	anon_31a51c	anon_31a51c	31a51c	31a5f8	56
 31a5fc	36	_Unwind_RaiseException	_Unwind_RaiseException	31a5fc	31a61c	9
 31a5fc	36	___Unwind_RaiseException	___Unwind_RaiseException	31a5fc	31a61c	9
 31a620	36	_Unwind_Resume	_Unwind_Resume	31a620	31a640	9
@@ -9575,7 +9469,7 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 31a668	36	___Unwind_ForcedUnwind	___Unwind_ForcedUnwind	31a668	31a688	9
 31a68c	36	_Unwind_Backtrace	_Unwind_Backtrace	31a68c	31a6ac	9
 31a68c	36	___Unwind_Backtrace	___Unwind_Backtrace	31a68c	31a6ac	9
-31a6b0	140	anon_31a6b0	anon_31a6b0	31a6b0	31a738	35
+31a6b0	136	anon_31a6b0	anon_31a6b0	31a6b0	31a738	35
 31a73c	892	__gnu_unwind_execute	__gnu_unwind_execute	31a73c	31aab4	223
 31aab8	64	__gnu_unwind_frame	__gnu_unwind_frame	31aab8	31aaf4	16
 31aaf8	16	_Unwind_GetRegionStart	_Unwind_GetRegionStart	31aaf8	31ab04	4
@@ -9620,4 +9514,4 @@ fffc4	80	F_DsListCreate(RValue&, CInstance*, CInstance*, int, RValue*)	_Z14F_DsL
 31b20c	20	__aeabi_fcmpgt	__aeabi_fcmpgt	31b20c	31b21c	5
 31b220	1144	__divdi3	__divdi3	31b220	31b694	286
 31b698	996	__udivdi3	__udivdi3	31b698	31ba78	249
-31ba7c	256	anon_31ba7c	anon_31ba7c	31ba7c	31bb78	64
+31ba7c	252	anon_31ba7c	anon_31ba7c	31ba7c	31bb78	64

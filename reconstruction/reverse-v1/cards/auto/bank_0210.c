@@ -1,20 +1,8 @@
 /* libyoyo.so 覆盖卡组 0210
- * 函数 0x235b1c..0x2368f8，共 32 个；
+ * 函数 0x235b44..0x236964，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x235b1c · IniFile::ReadInt(char const*, char const*, int) · size=40 · insn=10 */
-/* @0x235b1c push {r4, lr} */
-/* @0x235b20 mov r4, r3 */
-/* @0x235b24 bl 0x235ad0 <_ZN7IniFile6GetKeyEPKcS1_> */
-/* @0x235b28 cmp r0, #0 */
-/* @0x235b2c beq 0x235b3c <_ZN7IniFile7ReadIntEPKcS1_i+0x20> */
-/* @0x235b30 ldr r0, [r0, #0x8] */
-/* @0x235b34 pop {r4, lr} */
-/* @0x235b38 b 0xb66b8 <atoi@plt> */
-/* @0x235b3c mov r0, r4 */
-/* @0x235b40 pop {r4, pc} */
 
 /* ── FUNC 0x235b44 · IniFile::ReadFloat(char const*, char const*, float) · size=52 · insn=13 */
 /* @0x235b44 push {r4, lr} */
@@ -981,3 +969,35 @@
 /* @0x236958 str r3, [r12] */
 /* @0x23695c b 0x23658c <_ZN15CPhysicsFixture13AllocVerticesEi> */
 /* @0x236960 mulseq r11, r8, r11 */
+
+/* ── FUNC 0x236964 · CPhysicsFixture::SetChainShape(bool) · size=120 · insn=30 */
+/* @0x236964 push {r3, r4, r5, lr} */
+/* @0x236968 mov r4, r0 */
+/* @0x23696c mov r5, r1 */
+/* @0x236970 bl 0x2365d0 <_ZN15CPhysicsFixture11DeleteShapeEv> */
+/* @0x236974 strb r5, [r4, #0x19] */
+/* @0x236978 mov r0, #40 */
+/* @0x23697c bl 0x27c524 <_Znwj> */
+/* @0x236980 ldr r12, [r4, #0x20] */
+/* @0x236984 ldr r2, [pc, #0x4c] */
+/* @0x236988 mov r1, #3 */
+/* @0x23698c ldr r2, [pc, r2] */
+/* @0x236990 add r2, r2, #8 */
+/* @0x236994 mov r3, r0 */
+/* @0x236998 movw r0, #0xd70a */
+/* @0x23699c str r1, [r3, #0x4] */
+/* @0x2369a0 movt r0, #0x3c23 */
+/* @0x2369a4 str r2, [r3] */
+/* @0x2369a8 mov r1, #8 */
+/* @0x2369ac mov r2, #0 */
+/* @0x2369b0 str r0, [r3, #0x8] */
+/* @0x2369b4 str r2, [r3, #0xc] */
+/* @0x2369b8 mov r0, r4 */
+/* @0x2369bc str r2, [r3, #0x10] */
+/* @0x2369c0 strb r2, [r3, #0x24] */
+/* @0x2369c4 strb r2, [r3, #0x25] */
+/* @0x2369c8 str r3, [r12] */
+/* @0x2369cc str r2, [r4, #0xc] */
+/* @0x2369d0 pop {r3, r4, r5, lr} */
+/* @0x2369d4 b 0x23658c <_ZN15CPhysicsFixture13AllocVerticesEi> */
+/* @0x2369d8 andseq r10, r11, r12, lsr #22 */

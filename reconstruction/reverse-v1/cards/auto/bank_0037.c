@@ -43,7 +43,7 @@
 /* @0x10e174 vpop {d8, d9, d10, d11, d12} */
 /* @0x10e178 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x10e17c · anon_10e17c · size=4 · insn=1 */
+/* ── FUNC 0x10e17c · anon_10e17c · size=0 · insn=1 */
 /* @0x10e17c andeq r0, r0, r0 */
 
 /* ── FUNC 0x10e180 · F_MathSetEpsilon(RValue&, CInstance*, CInstance*, int, RValue*) · size=160 · insn=40 */

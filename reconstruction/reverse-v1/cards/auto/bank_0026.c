@@ -1645,7 +1645,7 @@
 /* @0xfae10 .word 0xffffc220 */
 /* @0xfae14 eoreq r12, r3, r8, asr #27 */
 
-/* ── FUNC 0xfae18 · anon_fae18 · size=492 · insn=123 */
+/* ── FUNC 0xfae18 · anon_fae18 · size=488 · insn=123 */
 /* @0xfae18 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0xfae1c add r11, sp, #32 */
 /* @0xfae20 ldr r1, [pc, #0x1c8] */
@@ -1984,7 +1984,7 @@
 /* @0xfb344 eoreq r12, r3, r4, asr #18 */
 /* @0xfb348 .word 0x0023c8bc */
 
-/* ── FUNC 0xfb34c · anon_fb34c · size=116 · insn=29 */
+/* ── FUNC 0xfb34c · anon_fb34c · size=112 · insn=29 */
 /* @0xfb34c push {r4, r5, r6, r7, r8, lr} */
 /* @0xfb350 mov r4, r0 */
 /* @0xfb354 bl 0xfae18 <_Z15F_DsQueueCreateR6RValueP9CInstanceS2_iPS_+0x108> */

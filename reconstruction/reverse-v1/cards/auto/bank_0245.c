@@ -1,45 +1,8 @@
 /* libyoyo.so 覆盖卡组 0245
- * 函数 0x2970f8..0x29922c，共 32 个；
+ * 函数 0x2970f8..0x299238，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x2970f8 · yyServer::yyServer(bool) · size=140 · insn=35 */
-/* @0x2970f8 push {r4, r5, r6, lr} */
-/* @0x2970fc mov r4, r0 */
-/* @0x297100 strb r1, [r0, #0x1d] */
-/* @0x297104 mov r5, #0 */
-/* @0x297108 ldr r1, [pc, #0x6c] */
-/* @0x29710c mov r2, #72 */
-/* @0x297110 mov r3, #1 */
-/* @0x297114 mov r0, #65536 */
-/* @0x297118 add r1, pc, r1 */
-/* @0x29711c str r5, [r4] */
-/* @0x297120 str r5, [r4, #0x4] */
-/* @0x297124 str r5, [r4, #0x8] */
-/* @0x297128 bl 0x27ce78 <_ZN13MemoryManager5AllocEjPKcib> */
-/* @0x29712c ldr r6, [pc, #0x4c] */
-/* @0x297130 mov r12, #65536 */
-/* @0x297134 mov r2, #131072 */
-/* @0x297138 ldr r6, [pc, r6] */
-/* @0x29713c movw r3, #0x3f6 */
-/* @0x297140 strb r5, [r4, #0x1c] */
-/* @0x297144 ldrb r1, [r6] */
-/* @0x297148 str r5, [r4, #0x20] */
-/* @0x29714c cmp r1, r5 */
-/* @0x297150 str r5, [r4, #0x28] */
-/* @0x297154 str r12, [r4, #0x10] */
-/* @0x297158 str r2, [r4, #0x14] */
-/* @0x29715c str r3, [r4, #0x24] */
-/* @0x297160 str r0, [r4, #0xc] */
-/* @0x297164 bne 0x297174 <_ZN8yyServerC2Eb+0x7c> */
-/* @0x297168 bl 0x294d18 <_ZN8yySocket7StartupEv> */
-/* @0x29716c mov r3, #1 */
-/* @0x297170 strb r3, [r6] */
-/* @0x297174 mov r0, r4 */
-/* @0x297178 pop {r4, r5, r6, pc} */
-/* @0x29717c andeq r2, r12, r12, lsl #8 */
-/* @0x297180 andseq r10, r5, r4, ror #16 */
 
 /* ── FUNC 0x2970f8 · yyServer::yyServer(bool) · alias of the symbol above · insn=0 */
 
@@ -2038,7 +2001,7 @@
 /* @0x298fc8 andeq r0, r12, r12, asr #14 */
 /* @0x298fcc andeq r0, r12, r4, asr r7 */
 
-/* ── FUNC 0x298fd0 · anon_298fd0 · size=604 · insn=151 */
+/* ── FUNC 0x298fd0 · anon_298fd0 · size=600 · insn=151 */
 /* @0x298fd0 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x298fd4 mov r9, r2 */
 /* @0x298fd8 ldr r11, [pc, #0x228] */
@@ -2195,3 +2158,8 @@
 /* @0x29922c ldr r1, [sp] */
 /* @0x299230 mov r2, #0 */
 /* @0x299234 b 0x298fd0 <_Z23F_NETWORK_Create_SocketR6RValueP9CInstanceS2_iPS_+0x13c> */
+
+/* ── FUNC 0x299238 · F_NETWORK_Create_Server_Raw(RValue&, CInstance*, CInstance*, int, RValue*) · size=12 · insn=3 */
+/* @0x299238 ldr r1, [sp] */
+/* @0x29923c mov r2, #1 */
+/* @0x299240 b 0x298fd0 <_Z23F_NETWORK_Create_SocketR6RValueP9CInstanceS2_iPS_+0x13c> */

@@ -1,10 +1,8 @@
 /* libyoyo.so 覆盖卡组 0215
- * 函数 0x23be54..0x23c714，共 32 个；
+ * 函数 0x23be6c..0x23c748，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x23be54 · CRunnerContactListener::~CRunnerContactListener() · alias of the symbol above · insn=0 */
 
 /* ── FUNC 0x23be6c · CRunnerContactListener::~CRunnerContactListener() · size=40 · insn=10 */
 /* @0x23be6c ldr r3, [pc, #0x1c] */
@@ -634,3 +632,23 @@
 /* @0x23c73c str r2, [r3, #0x28] */
 /* @0x23c740 b 0x27d1d0 <_ZdlPv> */
 /* @0x23c744 mulseq r11, r0, r4 */
+
+/* ── FUNC 0x23c748 · C_UTF16String::~C_UTF16String() · size=72 · insn=18 */
+/* @0x23c748 push {r4, lr} */
+/* @0x23c74c mov r4, r0 */
+/* @0x23c750 ldr r0, [r0, #0x4] */
+/* @0x23c754 ldr r3, [pc, #0x2c] */
+/* @0x23c758 cmp r0, #0 */
+/* @0x23c75c ldr r3, [pc, r3] */
+/* @0x23c760 add r3, r3, #8 */
+/* @0x23c764 str r3, [r4] */
+/* @0x23c768 beq 0x23c770 <_ZN13C_UTF16StringD2Ev+0x28> */
+/* @0x23c76c bl 0x27c2d0 <_ZN13MemoryManager4FreeEPKv> */
+/* @0x23c770 ldr r3, [pc, #0x14] */
+/* @0x23c774 mov r0, r4 */
+/* @0x23c778 ldr r3, [pc, r3] */
+/* @0x23c77c add r3, r3, #8 */
+/* @0x23c780 str r3, [r4] */
+/* @0x23c784 pop {r4, pc} */
+/* @0x23c788 mulseq r11, r12, sp */
+/* @0x23c78c andseq r4, r11, r8, ror sp */

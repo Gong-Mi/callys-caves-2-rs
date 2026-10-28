@@ -1,743 +1,1912 @@
 /* libyoyo.so 覆盖卡组 0259
- * 函数 0x2ae495..0x2af461，共 32 个；
+ * 函数 0x2af82a..0x2b0710，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
 
-/* ── FUNC 0x2ae495 · png_read_start_row · size=544 · insn=0 */
+/* ── FUNC 0x2af82a · png_set_swap_alpha · size=16 · insn=8 */
+/* @0x2af82a cbz r0, 0x2af838 <png_set_swap_alpha+0xe> */
+/* @0x2af82c ldr.w r3, [r0, #0x134] */
+/* @0x2af82e vst4.8 {d19, d21, d23, d25}, [r3:256], r4 */
+/* @0x2af830 orr r3, r3, #0x20000 */
+/* @0x2af832 .word 0xf8c03300 */
+/* @0x2af834 str.w r3, [r0, #0x134] */
+/* @0x2af836 .word 0x47703134 */
+/* @0x2af838 bx lr */
 
-/* ── FUNC 0x2ae6b5 · png_set_bKGD · size=32 · insn=0 */
+/* ── FUNC 0x2af83a · png_set_invert_alpha · size=16 · insn=8 */
+/* @0x2af83a cbz r0, 0x2af848 <png_set_invert_alpha+0xe> */
+/* @0x2af83c ldr.w r3, [r0, #0x134] */
+/* @0x2af83e vst4.8 {d19, d21, d23, d25}, [r3:256], r4 */
+/* @0x2af840 orr r3, r3, #0x80000 */
+/* @0x2af842 .word 0xf8c02300 */
+/* @0x2af844 str.w r3, [r0, #0x134] */
+/* @0x2af846 .word 0x47703134 */
+/* @0x2af848 bx lr */
 
-/* ── FUNC 0x2ae6d9 · png_set_cHRM · size=264 · insn=0 */
+/* ── FUNC 0x2af84a · png_set_invert_mono · size=16 · insn=8 */
+/* @0x2af84a cbz r0, 0x2af858 <png_set_invert_mono+0xe> */
+/* @0x2af84c ldr.w r3, [r0, #0x134] */
+/* @0x2af84e .word 0xf0433134 */
+/* @0x2af850 orr r3, r3, #0x20 */
+/* @0x2af852 .word 0xf8c00320 */
+/* @0x2af854 str.w r3, [r0, #0x134] */
+/* @0x2af856 .word 0x47703134 */
+/* @0x2af858 bx lr */
 
-/* ── FUNC 0x2ae7e1 · png_set_cHRM_fixed · size=280 · insn=0 */
+/* ── FUNC 0x2af85a · png_do_invert · size=92 · insn=44 */
+/* @0x2af85a push {r4, lr} */
+/* @0x2af85c ldrb r3, [r0, #0x8] */
+/* @0x2af85e cbnz r3, 0x2af874 <png_do_invert+0x1a> */
+/* @0x2af860 ldr r3, [r0, #0x4] */
+/* @0x2af862 add r3, r1 */
+/* @0x2af864 cmp r1, r3 */
+/* @0x2af866 beq 0x2af872 <png_do_invert+0x18> */
+/* @0x2af868 ldrb r2, [r1] */
+/* @0x2af86a mvns r2, r2 */
+/* @0x2af86c strb r2, [r1], #1 */
+/* @0x2af86e ldrb r2, [r8, r1, lsl #22]! */
+/* @0x2af870 b 0x2af864 <png_do_invert+0xa> */
+/* @0x2af872 pop {r4, pc} */
+/* @0x2af874 ldrh r3, [r0, #0x8] */
+/* @0x2af876 movw r2, #0x804 */
+/* @0x2af87a cmp r3, r2 */
+/* @0x2af87c bne 0x2af892 <png_do_invert+0x38> */
+/* @0x2af87e ldr r2, [r0, #0x4] */
+/* @0x2af880 movs r3, #0x0 */
+/* @0x2af882 cmp r3, r2 */
+/* @0x2af884 bhs 0x2af890 <png_do_invert+0x36> */
+/* @0x2af886 ldrb r0, [r1, r3] */
+/* @0x2af888 mvns r0, r0 */
+/* @0x2af88a strb r0, [r1, r3] */
+/* @0x2af88c adds r3, #0x2 */
+/* @0x2af88e b 0x2af882 <png_do_invert+0x28> */
+/* @0x2af890 pop {r4, pc} */
+/* @0x2af892 movw r2, #0x1004 */
+/* @0x2af896 cmp r3, r2 */
+/* @0x2af898 bne 0x2af8b4 <png_do_invert+0x5a> */
+/* @0x2af89a ldr r0, [r0, #0x4] */
+/* @0x2af89c movs r3, #0x0 */
+/* @0x2af89e cmp r3, r0 */
+/* @0x2af8a0 bhs 0x2af8b4 <png_do_invert+0x5a> */
+/* @0x2af8a2 ldrb r2, [r1, r3] */
+/* @0x2af8a4 mvns r2, r2 */
+/* @0x2af8a6 strb r2, [r1, r3] */
+/* @0x2af8a8 adds r2, r1, r3 */
+/* @0x2af8aa adds r3, #0x4 */
+/* @0x2af8ac ldrb r4, [r2, #0x1] */
+/* @0x2af8ae mvns r4, r4 */
+/* @0x2af8b0 strb r4, [r2, #0x1] */
+/* @0x2af8b2 b 0x2af89e <png_do_invert+0x44> */
+/* @0x2af8b4 pop {r4, pc} */
 
-/* ── FUNC 0x2ae8f9 · png_set_gAMA · size=144 · insn=0 */
+/* ── FUNC 0x2af8b6 · png_do_swap · size=46 · insn=22 */
+/* @0x2af8b6 push {r4, lr} */
+/* @0x2af8b8 ldrb r3, [r0, #0x9] */
+/* @0x2af8ba cmp r3, #0x10 */
+/* @0x2af8bc bne 0x2af8e2 <png_do_swap+0x2c> */
+/* @0x2af8be ldrb r3, [r0, #0xa] */
+/* @0x2af8c0 ldr r2, [r0] */
+/* @0x2af8c2 muls r2, r3, r2 */
+/* @0x2af8c4 movs r3, #0x0 */
+/* @0x2af8c6 cmp r3, r2 */
+/* @0x2af8c8 add.w r1, r1, #0x2 */
+/* @0x2af8ca andle r0, r9, r2, lsl #2 */
+/* @0x2af8cc beq 0x2af8e2 <png_do_swap+0x2c> */
+/* @0x2af8ce ldrb r0, [r1, #-2] */
+/* @0x2af8d2 adds r3, #0x1 */
+/* @0x2af8d4 ldrb r4, [r1, #-1] */
+/* @0x2af8d6 .word 0xf8014c01 */
+/* @0x2af8d8 strb r0, [r1, #-1] */
+/* @0x2af8da .word 0xf8010c01 */
+/* @0x2af8dc strb r4, [r1, #-2] */
+/* @0x2af8de ldrb r4, [r1, r2, lsl #24]! */
+/* @0x2af8e0 b 0x2af8c6 <png_do_swap+0x10> */
+/* @0x2af8e2 pop {r4, pc} */
 
-/* ── FUNC 0x2ae989 · png_set_gAMA_fixed · size=124 · insn=0 */
+/* ── FUNC 0x2af8e4 · png_do_packswap · size=76 · insn=35 */
+/* @0x2af8e4 ldrb r3, [r0, #0x9] */
+/* @0x2af8e6 cmp r3, #0x7 */
+/* @0x2af8e8 bhi 0x2af922 <png_do_packswap+0x3e> */
+/* @0x2af8ea cmp r3, #0x1 */
+/* @0x2af8ec ldr r2, [r0, #0x4] */
+/* @0x2af8ee beq 0x2af902 <png_do_packswap+0x1e> */
+/* @0x2af8f0 cmp r3, #0x2 */
+/* @0x2af8f2 beq 0x2af908 <png_do_packswap+0x24> */
+/* @0x2af8f4 cmp r3, #0x4 */
+/* @0x2af8f6 bne 0x2af922 <png_do_packswap+0x3e> */
+/* @0x2af8f8 ldr r3, [pc, #0x28] */
+/* @0x2af8fa add r3, pc */
+/* @0x2af8fc add.w r3, r3, #0x200 */
+/* @0x2af900 b 0x2af910 <png_do_packswap+0x2c> */
+/* @0x2af902 ldr r3, [pc, #0x24] */
+/* @0x2af904 add r3, pc */
+/* @0x2af906 b 0x2af910 <png_do_packswap+0x2c> */
+/* @0x2af908 ldr r3, [pc, #0x20] */
+/* @0x2af90a add r3, pc */
+/* @0x2af90c add.w r3, r3, #0x100 */
+/* @0x2af910 add r2, r1 */
+/* @0x2af912 cmp r1, r2 */
+/* @0x2af914 mov r0, r1 */
+/* @0x2af916 bhs 0x2af922 <png_do_packswap+0x3e> */
+/* @0x2af918 ldrb r0, [r0] */
+/* @0x2af91a ldrb r0, [r3, r0] */
+/* @0x2af91c strb r0, [r1], #1 */
+/* @0x2af920 b 0x2af912 <png_do_packswap+0x2e> */
+/* @0x2af922 bx lr */
+/* @0x2af924 lsls r6, r4, #0x5 */
+/* @0x2af926 movs r6, r1 */
+/* @0x2af928 lsls r4, r3, #0x5 */
+/* @0x2af92a movs r6, r1 */
+/* @0x2af92c lsls r6, r2, #0x5 */
+/* @0x2af92e movs r6, r1 */
 
-/* ── FUNC 0x2aea09 · png_set_hIST · size=124 · insn=0 */
+/* ── FUNC 0x2af930 · png_do_strip_filler · size=440 · insn=181 */
+/* @0x2af930 push {r4, r5, r6, lr} */
+/* @0x2af932 ldrb r4, [r0, #0x8] */
+/* @0x2af934 ldr r3, [r0] */
+/* @0x2af936 cmp r4, #0x2 */
+/* @0x2af938 beq 0x2af946 <png_do_strip_filler+0x16> */
+/* @0x2af93a cmp r4, #0x6 */
+/* @0x2af93c bne.w 0x2afa42 <png_do_strip_filler+0x112> */
+/* @0x2af940 lsls r5, r2, #0x9 */
+/* @0x2af942 bpl.w 0x2afada <png_do_strip_filler+0x1aa> */
+/* @0x2af944 bvc 0xfe40fc74 <b2_toiTime+0xfffffffffdcb67d0> */
+/* @0x2af946 ldrb r5, [r0, #0xa] */
+/* @0x2af948 cmp r5, #0x4 */
+/* @0x2af94a bne 0x2afa42 <png_do_strip_filler+0x112> */
+/* @0x2af94c ldrb r4, [r0, #0x9] */
+/* @0x2af94e and r5, r2, #0x80 */
+/* @0x2af950 .word 0x2c080580 */
+/* @0x2af952 cmp r4, #0x8 */
+/* @0x2af954 bne 0x2af9b2 <png_do_strip_filler+0x82> */
+/* @0x2af956 cbnz r5, 0x2af962 <png_do_strip_filler+0x32> */
+/* @0x2af958 movs r5, #0x3 */
+/* @0x2af95a mov r4, r1 */
+/* @0x2af95c mla r5, r5, r3, r1 */
+/* @0x2af960 b 0x2af992 <png_do_strip_filler+0x62> */
+/* @0x2af962 adds r4, r1, #0x4 */
+/* @0x2af964 adds r1, #0x3 */
+/* @0x2af966 movs r5, #0x1 */
+/* @0x2af968 cmp r5, r3 */
+/* @0x2af96a bhs 0x2af98a <png_do_strip_filler+0x5a> */
+/* @0x2af96c ldrb r6, [r4] */
+/* @0x2af96e adds r5, #0x1 */
+/* @0x2af970 adds r4, #0x4 */
+/* @0x2af972 adds r1, #0x3 */
+/* @0x2af974 strb r6, [r1, #-3] */
+/* @0x2af978 ldrb r6, [r4, #-3] */
+/* @0x2af97c strb r6, [r1, #-2] */
+/* @0x2af980 ldrb r6, [r4, #-2] */
+/* @0x2af984 strb r6, [r1, #-1] */
+/* @0x2af988 b 0x2af968 <png_do_strip_filler+0x38> */
+/* @0x2af98a movs r1, #0x18 */
+/* @0x2af98c strb r1, [r0, #0xb] */
+/* @0x2af98e movs r1, #0x3 */
+/* @0x2af990 b 0x2afa00 <png_do_strip_filler+0xd0> */
+/* @0x2af992 cmp r4, r5 */
+/* @0x2af994 beq 0x2af98a <png_do_strip_filler+0x5a> */
+/* @0x2af996 ldrb r6, [r1, #0x1] */
+/* @0x2af998 adds r4, #0x3 */
+/* @0x2af99a adds r1, #0x4 */
+/* @0x2af99c strb r6, [r4, #-3] */
+/* @0x2af9a0 ldrb r6, [r1, #-2] */
+/* @0x2af9a4 strb r6, [r4, #-2] */
+/* @0x2af9a8 ldrb r6, [r1, #-1] */
+/* @0x2af9ac strb r6, [r4, #-1] */
+/* @0x2af9b0 b 0x2af992 <png_do_strip_filler+0x62> */
+/* @0x2af9b2 cbnz r5, 0x2af9b8 <png_do_strip_filler+0x88> */
+/* @0x2af9b4 mov r4, r1 */
+/* @0x2af9b6 b 0x2afa08 <png_do_strip_filler+0xd8> */
+/* @0x2af9b8 add.w r4, r1, #0x8 */
+/* @0x2af9bc adds r1, #0x6 */
+/* @0x2af9be movs r5, #0x1 */
+/* @0x2af9c0 cmp r5, r3 */
+/* @0x2af9c2 bhs 0x2af9fa <png_do_strip_filler+0xca> */
+/* @0x2af9c4 ldrb r6, [r4] */
+/* @0x2af9c6 adds r5, #0x1 */
+/* @0x2af9c8 adds r4, #0x8 */
+/* @0x2af9ca adds r1, #0x6 */
+/* @0x2af9cc strb r6, [r1, #-6] */
+/* @0x2af9d0 ldrb r6, [r4, #-7] */
+/* @0x2af9d4 strb r6, [r1, #-5] */
+/* @0x2af9d8 ldrb r6, [r4, #-6] */
+/* @0x2af9dc strb r6, [r1, #-4] */
+/* @0x2af9e0 ldrb r6, [r4, #-5] */
+/* @0x2af9e4 strb r6, [r1, #-3] */
+/* @0x2af9e8 ldrb r6, [r4, #-4] */
+/* @0x2af9ec strb r6, [r1, #-2] */
+/* @0x2af9f0 ldrb r6, [r4, #-3] */
+/* @0x2af9f4 strb r6, [r1, #-1] */
+/* @0x2af9f8 b 0x2af9c0 <png_do_strip_filler+0x90> */
+/* @0x2af9fa movs r1, #0x30 */
+/* @0x2af9fc strb r1, [r0, #0xb] */
+/* @0x2af9fe movs r1, #0x6 */
+/* @0x2afa00 muls r3, r1, r3 */
+/* @0x2afa02 str r3, [r0, #0x4] */
+/* @0x2afa04 movs r3, #0x3 */
+/* @0x2afa06 b 0x2afad8 <png_do_strip_filler+0x1a8> */
+/* @0x2afa08 cmp r5, r3 */
+/* @0x2afa0a beq 0x2af9fa <png_do_strip_filler+0xca> */
+/* @0x2afa0c ldrb r6, [r1, #0x2] */
+/* @0x2afa0e adds r5, #0x1 */
+/* @0x2afa10 adds r1, #0x8 */
+/* @0x2afa12 adds r4, #0x6 */
+/* @0x2afa14 strb r6, [r4, #-6] */
+/* @0x2afa18 ldrb r6, [r1, #-5] */
+/* @0x2afa1c strb r6, [r4, #-5] */
+/* @0x2afa20 ldrb r6, [r1, #-4] */
+/* @0x2afa24 strb r6, [r4, #-4] */
+/* @0x2afa28 ldrb r6, [r1, #-3] */
+/* @0x2afa2c strb r6, [r4, #-3] */
+/* @0x2afa30 ldrb r6, [r1, #-2] */
+/* @0x2afa34 strb r6, [r4, #-2] */
+/* @0x2afa38 ldrb r6, [r1, #-1] */
+/* @0x2afa3c strb r6, [r4, #-1] */
+/* @0x2afa40 b 0x2afa08 <png_do_strip_filler+0xd8> */
+/* @0x2afa42 cbz r4, 0x2afa4c <png_do_strip_filler+0x11c> */
+/* @0x2afa44 cmp r4, #0x4 */
+/* @0x2afa46 bne 0x2afada <png_do_strip_filler+0x1aa> */
+/* @0x2afa48 lsls r4, r2, #0x9 */
+/* @0x2afa4a bpl 0x2afada <png_do_strip_filler+0x1aa> */
+/* @0x2afa4c ldrb r4, [r0, #0xa] */
+/* @0x2afa4e cmp r4, #0x2 */
+/* @0x2afa50 bne 0x2afada <png_do_strip_filler+0x1aa> */
+/* @0x2afa52 ldrb r4, [r0, #0x9] */
+/* @0x2afa54 cmp r4, #0x8 */
+/* @0x2afa56 and r4, r2, #0x80 */
+/* @0x2afa58 tstle r3, r0, lsl #9 */
+/* @0x2afa5a bne 0x2afa84 <png_do_strip_filler+0x154> */
+/* @0x2afa5c cbz r4, 0x2afa74 <png_do_strip_filler+0x144> */
+/* @0x2afa5e movs r4, #0x0 */
+/* @0x2afa60 cmp r4, r3 */
+/* @0x2afa62 beq 0x2afa6e <png_do_strip_filler+0x13e> */
+/* @0x2afa64 ldrb.w r5, [r1, r4, lsl #1] */
+/* @0x2afa68 strb r5, [r1, r4] */
+/* @0x2afa6a adds r4, #0x1 */
+/* @0x2afa6c b 0x2afa60 <png_do_strip_filler+0x130> */
+/* @0x2afa6e movs r1, #0x8 */
+/* @0x2afa70 strb r1, [r0, #0xb] */
+/* @0x2afa72 b 0x2afab6 <png_do_strip_filler+0x186> */
+/* @0x2afa74 cmp r4, r3 */
+/* @0x2afa76 beq 0x2afa6e <png_do_strip_filler+0x13e> */
+/* @0x2afa78 add.w r5, r1, r4, lsl #1 */
+/* @0x2afa7c ldrb r5, [r5, #0x1] */
+/* @0x2afa7e strb r5, [r1, r4] */
+/* @0x2afa80 adds r4, #0x1 */
+/* @0x2afa82 b 0x2afa74 <png_do_strip_filler+0x144> */
+/* @0x2afa84 cbnz r4, 0x2afa8a <png_do_strip_filler+0x15a> */
+/* @0x2afa86 mov r5, r1 */
+/* @0x2afa88 b 0x2afabc <png_do_strip_filler+0x18c> */
+/* @0x2afa8a adds r4, r1, #0x4 */
+/* @0x2afa8c adds r1, #0x2 */
+/* @0x2afa8e movs r5, #0x1 */
+/* @0x2afa90 cmp r5, r3 */
+/* @0x2afa92 add.w r4, r4, #0x4 */
+/* @0x2afa94 .word 0xf1010404 */
+/* @0x2afa96 add.w r1, r1, #0x2 */
+/* @0x2afa98 andle r0, r9, #-2147483648 */
+/* @0x2afa9a bhs 0x2afab0 <png_do_strip_filler+0x180> */
+/* @0x2afa9c ldrb r6, [r4, #-4] */
+/* @0x2afaa0 adds r5, #0x1 */
+/* @0x2afaa2 strb r6, [r1, #-2] */
+/* @0x2afaa4 .word 0xf8146c02 */
+/* @0x2afaa6 ldrb r6, [r4, #-3] */
+/* @0x2afaa8 .word 0xf8016c03 */
+/* @0x2afaaa strb r6, [r1, #-1] */
+/* @0x2afaac strb r6, [pc, r1, lsl #24]! */
+/* @0x2afaae b 0x2afa90 <png_do_strip_filler+0x160> */
+/* @0x2afab0 lsls r3, r3, #0x1 */
+/* @0x2afab2 movs r1, #0x10 */
+/* @0x2afab4 strb r1, [r0, #0xb] */
+/* @0x2afab6 str r3, [r0, #0x4] */
+/* @0x2afab8 movs r3, #0x1 */
+/* @0x2afaba b 0x2afad8 <png_do_strip_filler+0x1a8> */
+/* @0x2afabc cmp r4, r3 */
+/* @0x2afabe add.w r5, r5, #0x2 */
+/* @0x2afac0 rscsle r0, r5, r2, lsl #10 */
+/* @0x2afac2 beq 0x2afab0 <png_do_strip_filler+0x180> */
+/* @0x2afac4 ldrb r6, [r1, #0x2] */
+/* @0x2afac6 adds r4, #0x1 */
+/* @0x2afac8 adds r1, #0x4 */
+/* @0x2afaca strb r6, [r5, #-2] */
+/* @0x2afacc .word 0xf8116c02 */
+/* @0x2aface ldrb r6, [r1, #-1] */
+/* @0x2afad0 .word 0xf8056c01 */
+/* @0x2afad2 strb r6, [r5, #-1] */
+/* @0x2afad4 ldrb r6, [r1, r1, lsl #24]! */
+/* @0x2afad6 b 0x2afabc <png_do_strip_filler+0x18c> */
+/* @0x2afad8 strb r3, [r0, #0xa] */
+/* @0x2afada lsls r3, r2, #0x9 */
+/* @0x2afadc bpl 0x2afae6 <png_do_strip_filler+0x1b6> */
+/* @0x2afade ldrb r3, [r0, #0x8] */
+/* @0x2afae0 bic r3, r3, #0x4 */
+/* @0x2afae4 strb r3, [r0, #0x8] */
+/* @0x2afae6 pop {r4, r5, r6, pc} */
 
-/* ── FUNC 0x2aea85 · png_set_IHDR · size=134 · insn=0 */
+/* ── FUNC 0x2afae8 · png_do_bgr · size=182 · insn=84 */
+/* @0x2afae8 push {r4, lr} */
+/* @0x2afaea ldrb r3, [r0, #0x8] */
+/* @0x2afaec lsls r2, r3, #0x1e */
+/* @0x2afaee bpl 0x2afb9c <png_do_bgr+0xb4> */
+/* @0x2afaf0 ldr r2, [r0] */
+/* @0x2afaf2 ldrb r0, [r0, #0x9] */
+/* @0x2afaf4 cmp r0, #0x8 */
+/* @0x2afaf6 bne 0x2afb3e <png_do_bgr+0x56> */
+/* @0x2afaf8 cmp r3, #0x2 */
+/* @0x2afafa bne 0x2afb1a <png_do_bgr+0x32> */
+/* @0x2afafc movs r3, #0x3 */
+/* @0x2afafe mla r2, r3, r2, r1 */
+/* @0x2afb00 addsmi r1, r1, #536870912 */
+/* @0x2afb02 cmp r1, r2 */
+/* @0x2afb04 beq 0x2afb18 <png_do_bgr+0x30> */
+/* @0x2afb06 ldrb r3, [r1] */
+/* @0x2afb08 adds r1, #0x3 */
+/* @0x2afb0a ldrb r0, [r1, #-1] */
+/* @0x2afb0c .word 0xf8010c01 */
+/* @0x2afb0e strb r3, [r1, #-1] */
+/* @0x2afb10 .word 0xf8013c01 */
+/* @0x2afb12 strb r0, [r1, #-3] */
+/* @0x2afb14 ldrb r0, [r4, r3, lsl #24]! */
+/* @0x2afb16 b 0x2afb02 <png_do_bgr+0x1a> */
+/* @0x2afb18 pop {r4, pc} */
+/* @0x2afb1a cmp r3, #0x6 */
+/* @0x2afb1c bne 0x2afb9c <png_do_bgr+0xb4> */
+/* @0x2afb1e movs r3, #0x0 */
+/* @0x2afb20 cmp r3, r2 */
+/* @0x2afb22 add.w r1, r1, #0x4 */
+/* @0x2afb24 andle r0, r9, r4, lsl #2 */
+/* @0x2afb26 beq 0x2afb3c <png_do_bgr+0x54> */
+/* @0x2afb28 ldrb r0, [r1, #-4] */
+/* @0x2afb2c adds r3, #0x1 */
+/* @0x2afb2e ldrb r4, [r1, #-2] */
+/* @0x2afb30 .word 0xf8014c02 */
+/* @0x2afb32 strb r0, [r1, #-2] */
+/* @0x2afb34 .word 0xf8010c02 */
+/* @0x2afb36 strb r4, [r1, #-4] */
+/* @0x2afb38 ldrb r4, [r1, r4, lsl #24]! */
+/* @0x2afb3a b 0x2afb20 <png_do_bgr+0x38> */
+/* @0x2afb3c pop {r4, pc} */
+/* @0x2afb3e cmp r0, #0x10 */
+/* @0x2afb40 bne 0x2afb9c <png_do_bgr+0xb4> */
+/* @0x2afb42 cmp r3, #0x2 */
+/* @0x2afb44 bne 0x2afb70 <png_do_bgr+0x88> */
+/* @0x2afb46 movs r3, #0x0 */
+/* @0x2afb48 cmp r3, r2 */
+/* @0x2afb4a beq 0x2afb6e <png_do_bgr+0x86> */
+/* @0x2afb4c ldrb r0, [r1] */
+/* @0x2afb4e adds r3, #0x1 */
+/* @0x2afb50 ldrb r4, [r1, #0x4] */
+/* @0x2afb52 adds r1, #0x6 */
+/* @0x2afb54 strb r0, [r1, #-2] */
+/* @0x2afb58 strb r4, [r1, #-6] */
+/* @0x2afb5c ldrb r0, [r1, #-5] */
+/* @0x2afb60 ldrb r4, [r1, #-1] */
+/* @0x2afb64 strb r0, [r1, #-1] */
+/* @0x2afb68 strb r4, [r1, #-5] */
+/* @0x2afb6c b 0x2afb48 <png_do_bgr+0x60> */
+/* @0x2afb6e pop {r4, pc} */
+/* @0x2afb70 cmp r3, #0x6 */
+/* @0x2afb72 bne 0x2afb9c <png_do_bgr+0xb4> */
+/* @0x2afb74 movs r3, #0x0 */
+/* @0x2afb76 cmp r3, r2 */
+/* @0x2afb78 beq 0x2afb9c <png_do_bgr+0xb4> */
+/* @0x2afb7a ldrb r0, [r1] */
+/* @0x2afb7c adds r3, #0x1 */
+/* @0x2afb7e ldrb r4, [r1, #0x4] */
+/* @0x2afb80 adds r1, #0x8 */
+/* @0x2afb82 strb r0, [r1, #-4] */
+/* @0x2afb84 .word 0xf8010c04 */
+/* @0x2afb86 strb r4, [r1, #-8] */
+/* @0x2afb88 .word 0xf8114c08 */
+/* @0x2afb8a ldrb r0, [r1, #-7] */
+/* @0x2afb8c .word 0xf8110c07 */
+/* @0x2afb8e ldrb r4, [r1, #-3] */
+/* @0x2afb90 .word 0xf8014c03 */
+/* @0x2afb92 strb r0, [r1, #-3] */
+/* @0x2afb94 .word 0xf8010c03 */
+/* @0x2afb96 strb r4, [r1, #-7] */
+/* @0x2afb98 strb r4, [r12, r7, lsl #24]! */
+/* @0x2afb9a b 0x2afb76 <png_do_bgr+0x8e> */
+/* @0x2afb9c pop {r4, pc} */
 
-/* ── FUNC 0x2aeb0a · anon_2aeb0a · size=28 · insn=7 */
-/* @0x2aeb0a .word 0xb141b148 */
-/* @0x2aeb0e blls 0x2c8542 <_ZN9b2Fixture6CreateEP16b2BlockAllocatorP6b2BodyPK12b2FixtureDef+0x26> */
-/* @0x2aeb12 .word 0xf881664a */
-/* @0x2aeb16 stmvs r11, {r2, r3, r5, r6, r12, sp} */
-/* @0x2aeb1a orrvc pc, r0, #1124073472 */
-/* @0x2aeb1e ldrbmi r6, [r0, -r11, lsl #1]! */
-/* @0x2aeb22 .word 0xe92d0000 */
+/* ── FUNC 0x2afb9e · png_set_user_transform_info · size=16 · insn=8 */
+/* @0x2afb9e cbz r0, 0x2afbac <png_set_user_transform_info+0xe> */
+/* @0x2afba0 str.w r1, [r0, #0x124] */
+/* @0x2afba2 .word 0xf8801124 */
+/* @0x2afba4 strb.w r2, [r0, #0x128] */
+/* @0x2afba6 .word 0xf8802128 */
+/* @0x2afba8 strb.w r3, [r0, #0x129] */
+/* @0x2afbaa ldrbmi r3, [r0, -r9, lsr #2]! */
+/* @0x2afbac bx lr */
 
-/* ── FUNC 0x2aeb0b · png_set_oFFs · size=24 · insn=0 */
+/* ── FUNC 0x2afbae · png_get_user_transform_ptr · size=8 · insn=4 */
+/* @0x2afbae cbz r0, 0x2afbb4 <png_get_user_transform_ptr+0x6> */
+/* @0x2afbb0 ldr.w r0, [r0, #0x124] */
+/* @0x2afbb2 ldrbmi r0, [r0, -r4, lsr #2]! */
+/* @0x2afbb4 bx lr */
 
-/* ── FUNC 0x2aeb24 · anon_2aeb24 · size=328 · insn=82 */
-/* @0x2aeb24 svcmi #0xf7e92d */
-/* @0x2aeb28 blls 0x5c059c <g_SWFlineaavertbuff+0x6d4d4> */
-/* @0x2aeb2c .word 0xf8dd460c */
-/* @0x2aeb30 .word 0x46059034 */
-/* @0x2aeb34 movwls r9, #0x1f0e */
-/* @0x2aeb38 .word 0xf8dd9e0f */
-/* @0x2aeb3c stmdahs r0, {r6, pc} */
-/* @0x2aeb40 stmdbhs r0, {r0, r1, r2, r4, r5, r6, r12, lr, pc} */
-/* @0x2aeb44 ssub16mi sp, r0, r5 */
-/* @0x2aeb48 .word 0xf6079200 */
-/* @0x2aeb4c .word 0xf100ecf6 */
-/* @0x2aeb50 strtmi r0, [r8], -r1, lsl #20 */
-/* @0x2aeb54 .word 0xf7f84651 */
-/* @0x2aeb58 bls 0x2eced8 <FT_Done_Memory+0x3264> */
-/* @0x2aeb5c adceq pc, r0, r4, asr #17 */
-/* @0x2aeb60 ldmdbmi r5!, {r3, r4, r8, r11, r12, sp, pc} */
-/* @0x2aeb64 ldrbtmi r4, [r9], #-1576 */
-/* @0x2aeb68 ssaxmi lr, r1, r4 */
-/* @0x2aeb6c .word 0xf6074652 */
-/* @0x2aeb70 blls 0x32a010 */
-/* @0x2aeb74 adcsls pc, r4, r4, lsl #17 */
-/* @0x2aeb78 .word 0xf8c44630 */
-/* @0x2aeb7c .word 0xf8c4b0a4 */
-/* @0x2aeb80 .word 0xf88430a8 */
-/* @0x2aeb84 .word 0xf60770b5 */
-/* @0x2aeb88 .word 0xf100ecd8 */
-/* @0x2aeb8c strtmi r0, [r8], -r1, lsl #18 */
-/* @0x2aeb90 .word 0xf7f84649 */
-/* @0x2aeb94 .word 0xf8c4f8c0 */
-/* @0x2aeb98 ldmdblt r8, {r2, r3, r5, r7} */
-/* @0x2aeb9c strtmi r4, [r8], -r7, lsr #18 */
-/* @0x2aeba0 eors r4, r7, r9, ror r4 */
-/* @0x2aeba4 ldclne p6, c4, [lr], #-196 */
-/* @0x2aeba8 adcseq r4, r6, r10, asr #12 */
-/* @0x2aebac stc p6, c15, [r6, #-28] */
-/* @0x2aebb0 ldrtmi r4, [r1], -r8, lsr #12 */
-/* @0x2aebb4 .word 0xf8aff7f8 */
-/* @0x2aebb8 adcseq pc, r0, r4, asr #17 */
-/* @0x2aebbc stmdbmi r0!, {r3, r4, r8, r11, r12, sp, pc} */
-/* @0x2aebc0 ldrbtmi r4, [r9], #-1576 */
-/* @0x2aebc4 ldrtmi lr, [r2], -r6, lsr #32 */
-/* @0x2aebc8 .word 0xf6072100 */
-/* @0x2aebcc .word 0xf1a8ecf2 */
-/* @0x2aebd0 strhs r0, [r0], -r4, lsl #16 */
-/* @0x2aebd4 .word 0xf858e005 */
-/* @0x2aebd8 strbmi r1, [r10], -r4, lsl #30 */
-/* @0x2aebdc stcl p6, c15, [lr], #28 */
-/* @0x2aebe0 adcsmi r3, lr, #1048576 */
-/* @0x2aebe4 .word 0xf8d8da1b */
-/* @0x2aebe8 .word 0xf6070004 */
-/* @0x2aebec .word 0xf8d4eca6 */
-/* @0x2aebf0 .word 0xf100a0b0 */
-/* @0x2aebf4 strtmi r0, [r8], -r1, lsl #18 */
-/* @0x2aebf8 .word 0xf7f84649 */
-/* @0x2aebfc .word 0xf84af88c */
-/* @0x2aec00 .word 0xf8d40026 */
-/* @0x2aec04 .word 0xf85330b0 */
-/* @0x2aec08 stmdahs r0, {r1, r2, r5} */
-/* @0x2aec0c stmdbmi sp, {r0, r1, r5, r6, r7, r8, r12, lr, pc} */
-/* @0x2aec10 ldrbtmi r4, [r9], #-1576 */
-/* @0x2aec14 pop {r0, r1, r12, sp, pc} */
-/* @0x2aec18 .word 0xf7f74ff0 */
-/* @0x2aec1c stmvs r3!, {r0, r1, r3, r5, r10, r11, r12, sp, pc} */
-/* @0x2aec20 orrvs pc, r0, #1124073472 */
-/* @0x2aec24 .word 0xf8d460a3 */
-/* @0x2aec28 .word 0xf04330b8 */
-/* @0x2aec2c .word 0xf8c40380 */
-/* @0x2aec30 strhlt r3, [r3], -r8 */
-/* @0x2aec34 svchi #0xf0e8bd */
-/* @0x2aec38 strheq lr, [sp], -r0 */
-/* @0x2aec3c muleq sp, r11, pc */
-/* @0x2aec40 muleq sp, r12, pc */
-/* @0x2aec44 andeq lr, sp, r0, ror pc */
-/* @0x2aec48 .word 0xb169b170 */
-/* @0x2aec4c sbcshs pc, r12, r1, lsl #17 */
-/* @0x2aec50 movwhs lr, #0x9dd */
-/* @0x2aec54 teqhs r8, #3162112 */
-/* @0x2aec58 movwhs lr, #0x29dd */
-/* @0x2aec5c teqhs r10, #3162112 */
-/* @0x2aec60 vst2.32 {d22, d23}, [r3], r11 */
-/* @0x2aec64 addvs r4, r11, r0, lsl #7 */
-/* @0x2aec68 .word 0xb1484770 */
+/* ── FUNC 0x2afbb6 · anon_2afbb6 · size=0 · insn=1 */
+/* @0x2afbb6 ldrlt r0, [r8, #-0x0]! */
 
-/* ── FUNC 0x2aeb25 · png_set_pCAL · size=292 · insn=0 */
+/* ── FUNC 0x2afbb8 · png_default_write_data · size=44 · insn=20 */
+/* @0x2afbb8 push {r3, r4, r5, lr} */
+/* @0x2afbba mov r5, r2 */
+/* @0x2afbbc mov r4, r0 */
+/* @0x2afbbe cbz r0, 0x2afbde <png_default_write_data+0x26> */
+/* @0x2afbc0 mov r0, r1 */
+/* @0x2afbc2 ldr.w r3, [r4, #0x118] */
+/* @0x2afbc4 .word 0x21013118 */
+/* @0x2afbc6 movs r1, #0x1 */
+/* @0x2afbc8 blx 0xb68bc <fwrite@plt> */
+/* @0x2afbcc cmp r0, r5 */
+/* @0x2afbce beq 0x2afbde <png_default_write_data+0x26> */
+/* @0x2afbd0 ldr r1, [pc, #0xc] */
+/* @0x2afbd2 mov r0, r4 */
+/* @0x2afbd4 pop.w {r3, r4, r5, lr} */
+/* @0x2afbd8 add r1, pc */
+/* @0x2afbda b.w 0x2a642c <png_error> */
+/* @0x2afbdc ldclt p12, c11, [r8, #-156]! */
+/* @0x2afbde pop {r3, r4, r5, pc} */
+/* @0x2afbe0 b 0x2b00cc <png_write_end+0xa0> */
+/* @0x2afbe2 movs r5, r1 */
 
-/* ── FUNC 0x2aec49 · png_set_sCAL · size=34 · insn=0 */
+/* ── FUNC 0x2afbe4 · png_default_flush · size=12 · insn=6 */
+/* @0x2afbe4 cbz r0, 0x2afbee <png_default_flush+0xa> */
+/* @0x2afbe6 ldr.w r0, [r0, #0x118] */
+/* @0x2afbe8 .word 0xf06b0118 */
+/* @0x2afbea b.w 0x31bb1c <__udivdi3+0x484> */
+/* @0x2afbec .word 0x4770bf97 */
+/* @0x2afbee bx lr */
 
-/* ── FUNC 0x2aec6a · anon_2aec6a · size=28 · insn=7 */
-/* @0x2aec6a .word 0xb141b148 */
-/* @0x2aec6e blls 0x2c89a2 <_ZN9b2Fixture13SetFilterDataERK8b2Filter+0x6> */
-/* @0x2aec72 .word 0xf881670a */
-/* @0x2aec76 stmvs r11, {r3, r4, r5, r6, r12, sp} */
-/* @0x2aec7a orreq pc, r0, #67 */
-/* @0x2aec7e ldrbmi r6, [r0, -r11, lsl #1]! */
-/* @0x2aec82 ldrblt r0, [r8, #0x0]! */
+/* ── FUNC 0x2afbf0 · png_write_data · size=28 · insn=13 */
+/* @0x2afbf0 push {r3, lr} */
+/* @0x2afbf2 ldr.w r3, [r0, #0x110] */
+/* @0x2afbf4 .word 0xb10b3110 */
+/* @0x2afbf6 cbz r3, 0x2afbfc <png_write_data+0xc> */
+/* @0x2afbf8 blx r3 */
+/* @0x2afbfa pop {r3, pc} */
+/* @0x2afbfc ldr r1, [pc, #0x8] */
+/* @0x2afbfe pop.w {r3, lr} */
+/* @0x2afc00 ldrbtmi r4, [r9], #-8 */
+/* @0x2afc02 add r1, pc */
+/* @0x2afc04 b.w 0x2a642c <png_error> */
+/* @0x2afc08 b 0x2b00b8 <png_write_end+0x8c> */
+/* @0x2afc0a movs r5, r1 */
 
-/* ── FUNC 0x2aec6b · png_set_pHYs · size=24 · insn=0 */
+/* ── FUNC 0x2afc0c · png_flush · size=12 · insn=6 */
+/* @0x2afc0c push {r3, lr} */
+/* @0x2afc0e ldr.w r3, [r0, #0x210] */
+/* @0x2afc10 .word 0xb1033210 */
+/* @0x2afc12 cbz r3, 0x2afc16 <png_flush+0xa> */
+/* @0x2afc14 blx r3 */
+/* @0x2afc16 pop {r3, pc} */
 
-/* ── FUNC 0x2aec84 · anon_2aec84 · size=2000 · insn=500 */
-/* @0x2aec84 .word 0x460cb5f8 */
-/* @0x2aec88 sadd16mi r4, lr, r7 */
-/* @0x2aec8c stmdahs r0, {r0, r2, r9, r10, lr} */
-/* @0x2aec90 stmdbhs r0, {r0, r1, r2, r3, r4, r5, r12, lr, pc} */
-/* @0x2aec94 mcrvc p0, #0x2, sp, c11, c13, #0x1 */
-/* @0x2aec98 svclt #0x52b03 */
-/* @0x2aec9c andhs r7, r1, r10, lsl #28 */
-/* @0x2aeca0 addvc pc, r0, pc, asr #8 */
-/* @0x2aeca4 mcrhs p0, #0x0, r4, c0, c0, #0x4 */
-/* @0x2aeca8 addmi sp, r6, #1024 */
-/* @0x2aecac blhs 0x3a60e8 <_ZTSPKDn+0x920> */
-/* @0x2aecb0 .word 0xd1044628 */
-/* @0x2aecb4 ldrbtmi r4, [r9], #-2327 */
-/* @0x2aecb8 blx 0xff0ecc9e <b2_toiTime+0xfffffffffe9937fa> */
-/* @0x2aecbc ldmdbmi r6, {r0, r2, sp, lr, pc} */
-/* @0x2aecc0 ldrhtmi lr, [r8], #141 */
-/* @0x2aecc4 .word 0xf7f74479 */
-/* @0x2aecc8 movwhs r11, #0xbd5 */
-/* @0x2aeccc addpl pc, r0, #1325400064 */
-/* @0x2aecd0 strtmi r4, [r1], -r8, lsr #12 */
-/* @0x2aecd4 .word 0xff74f7f6 */
-/* @0x2aecd8 .word 0x7140f44f */
-/* @0x2aecdc .word 0xf7f74628 */
-/* @0x2aece0 andhs pc, r3, #1004 */
-/* @0x2aece4 shsub16mi r4, r9, r2 */
-/* @0x2aece8 .word 0xf8c5b2b6 */
-/* @0x2aecec .word 0xf60701d8 */
-/* @0x2aecf0 .word 0xf8d5ec66 */
-/* @0x2aecf4 ldrdvs r3, r4, [r3, -r8]! */
-/* @0x2aecf8 bicsvs pc, r12, r5, lsr #17 */
-/* @0x2aecfc ldrsbtlo pc, [r8], r4 */
-/* @0x2aed00 vst1.32 {d24, d25, d26, d27}, [r3:128], r6 */
-/* @0x2aed04 .word 0xf8c45380 */
-/* @0x2aed08 stmvs r3!, {r3, r4, r5, r7, r12, sp} */
-/* @0x2aed0c movweq pc, #0x8043 */
-/* @0x2aed10 ldcllt p0, c6, [r8, #652]! */
-/* @0x2aed14 strdeq lr, pc, [sp], -r3 */
-/* @0x2aed18 andeq lr, sp, r5, ror #29 */
-/* @0x2aed1c .word 0xb141b148 */
-/* @0x2aed20 strbvs r6, [r11], #-2067 */
-/* @0x2aed24 .word 0xf8817913 */
-/* @0x2aed28 stmvs r11, {r3, r6, r12, sp} */
-/* @0x2aed2c movweq pc, #0x2043 */
-/* @0x2aed30 ldrbmi r6, [r0, -r11, lsl #1]! */
-/* @0x2aed34 .word 0xb129b130 */
-/* @0x2aed38 .word 0xf881688b */
-/* @0x2aed3c vst4.8 {d18, d19, d20, d21}, [r3:128], r12 */
-/* @0x2aed40 addvs r6, r11, r0, lsl #6 */
-/* @0x2aed44 andeq r4, r0, r0, ror r7 */
-/* @0x2aed48 .word 0x460cb530 */
-/* @0x2aed4c strmi r11, [r5], -pc, lsl #1 */
-/* @0x2aed50 subsle r2, r2, r0, lsl #16 */
-/* @0x2aed54 subsle r2, r0, r0, lsl #18 */
-/* @0x2aed58 .word 0xffecf7ff */
-/* @0x2aed5c ldmib r3, {r3, r5, r8, r9, sp, pc} ^ */
-/* @0x2aed60 strtmi r2, [r8], -r0, lsl #6 */
-/* @0x2aed64 .word 0xf7ff4621 */
-/* @0x2aed68 strtmi pc, [r8], -r7, asr #27 */
-/* @0x2aed6c vmax.s8 d20, d11, d17 */
-/* @0x2aed70 .word 0xf7ff128f */
-/* @0x2aed74 .word 0xf44ffe09 */
-/* @0x2aed78 vqadd.s8 q10, q4, q13 */
-/* @0x2aed7c .word 0xf24701e8 */
-/* @0x2aed80 .word 0xf64e5230 */
-/* @0x2aed84 stm sp, {r5, r6, r8, r9, sp} */
-/* @0x2aed88 .word 0xf643000f */
-/* @0x2aed8c qadd8mi r2, r8, r8 */
-/* @0x2aed90 strtmi r9, [r1], -r4, lsl #6 */
-/* @0x2aed94 cmnvc r0, #268435460 */
-/* @0x2aed98 eorhs pc, r6, #74448896 */
-/* @0x2aed9c vcgt.s8 d25, d8, d5 */
-/* @0x2aeda0 .word 0xf7ff0384 */
-/* @0x2aeda4 tstge r8, #1856 */
-/* @0x2aeda8 movwhs lr, #0x9d3 */
-/* @0x2aedac strtmi r4, [r1], -r8, lsr #12 */
-/* @0x2aedb0 movwhs lr, #0x9cd */
-/* @0x2aedb4 ldmib r3, {r1, r2, r4, r8, r9, sp, pc} ^ */
-/* @0x2aedb8 stmib sp, {r8, r9, sp} ^ */
-/* @0x2aedbc tstge r6, #134217728 */
-/* @0x2aedc0 movwhs lr, #0x9d3 */
-/* @0x2aedc4 movwhs lr, #0x49cd */
-/* @0x2aedc8 ldmib r3, {r0, r2, r4, r8, r9, sp, pc} ^ */
-/* @0x2aedcc stmib sp, {r8, r9, sp} ^ */
-/* @0x2aedd0 tstge r5, #402653184 */
-/* @0x2aedd4 movwhs lr, #0x9d3 */
-/* @0x2aedd8 movwhs lr, #0x89cd */
-/* @0x2aeddc ldmib r3, {r2, r4, r8, r9, sp, pc} ^ */
-/* @0x2aede0 stmib sp, {r8, r9, sp} ^ */
-/* @0x2aede4 tstge r4, #671088640 */
-/* @0x2aede8 movwhs lr, #0x9d3 */
-/* @0x2aedec movwhs lr, #0xc9cd */
-/* @0x2aedf0 ldmib r3, {r0, r1, r4, r8, r9, sp, pc} ^ */
-/* @0x2aedf4 .word 0xf7ff2300 */
-/* @0x2aedf8 andlt pc, pc, pc, ror #24 */
-/* @0x2aedfc svclt #0xbd30 */
-/* @0x2aee00 and r0, r0, r0 */
-/* @0x2aee04 svclo #0xdd1758 */
-/* @0x2aee08 andeq r0, r0, r0 */
-/* @0x2aee0c svclo #0xd50e56 */
-/* @0x2aee10 andmi r0, r0, r0 */
-/* @0x2aee14 svclo #0xe47ae1 */
-/* @0x2aee18 andvs r0, r0, r0 */
-/* @0x2aee1c svclo #0xd51eb8 */
-/* @0x2aee20 andmi r0, r0, r0 */
-/* @0x2aee24 svclo #0xd33333 */
-/* @0x2aee28 andmi r0, r0, r0 */
-/* @0x2aee2c svclo #0xe33333 */
-/* @0x2aee30 andmi r0, r0, r0 */
-/* @0x2aee34 svclo #0xc33333 */
-/* @0x2aee38 and r0, r0, r0 */
-/* @0x2aee3c svclo #0xaeb851 */
-/* @0x2aee40 and r0, r0, r0 */
-/* @0x2aee44 svclo #0xd40346 */
-/* @0x2aee48 svcmi #0xf8e92d */
-/* @0x2aee4c ldrmi r4, [r7], -r12, lsl #12 */
-/* @0x2aee50 .word 0xf8dd469b */
-/* @0x2aee54 strmi r9, [r5], -r8, lsr #32 */
-/* @0x2aee58 stmdahs r0, {r0, r1, r3, r9, r10, r11, r12, pc} */
-/* @0x2aee5c stmdbhs r0, {r1, r2, r6, r12, lr, pc} */
-/* @0x2aee60 bhs 0x2e2f78 <_ZN15b2ContactSolver24SolvePositionConstraintsEv+0x2c> */
-/* @0x2aee64 .word 0xf1b9d042 */
-/* @0x2aee68 eorsle r0, pc, r0, lsl #30 */
-/* @0x2aee6c .word 0xf6074610 */
-/* @0x2aee70 .word 0xf100eb64 */
-/* @0x2aee74 strtmi r0, [r8], -r1, lsl #20 */
-/* @0x2aee78 .word 0xf7f74651 */
-/* @0x2aee7c strmi pc, [r0], r12, asr #30 */
-/* @0x2aee80 ldmdbmi r11, {r3, r4, r8, r11, r12, sp, pc} */
-/* @0x2aee84 ldrbtmi r4, [r9], #-1576 */
-/* @0x2aee88 shadd16mi lr, r9, r0 */
-/* @0x2aee8c .word 0xf6074652 */
-/* @0x2aee90 qadd8mi lr, r8, r6 */
-/* @0x2aee94 .word 0xf7f74631 */
-/* @0x2aee98 .word 0x4607ff3e */
-/* @0x2aee9c qsaxmi r11, r8, r0 */
-/* @0x2aeea0 .word 0xf7f74641 */
-/* @0x2aeea4 ldmdbmi r3, {r0, r1, r3, r5, r8, r9, r10, r11, r12, sp, lr, pc} */
-/* @0x2aeea8 ldrbtmi r4, [r9], #-1576 */
-/* @0x2aeeac svcmi #0xf8e8bd */
-/* @0x2aeeb0 blt 0xffaece94 <b2_toiTime+0xffffffffff3939f0> */
-/* @0x2aeeb4 ldrtmi r4, [r2], -r9, asr #12 */
-/* @0x2aeeb8 bl 0xfe2ec6dc <b2_toiTime+0xfffffffffdb93238> */
-/* @0x2aeebc strtmi r2, [r8], -r0, lsl #6 */
-/* @0x2aeec0 andshs r4, r0, #34603008 */
-/* @0x2aeec4 mrc2 p7, #0x3, apsr_nzcv, c12, c6, #0x7 */
-/* @0x2aeec8 ldrsbtlo pc, [r8], r4 */
-/* @0x2aeecc sbcvs pc, r12, r4, asr #17 */
-/* @0x2aeed0 tsteq r0, #67 */
-/* @0x2aeed4 adcslo pc, r8, r4, asr #17 */
-/* @0x2aeed8 .word 0xf8c468a3 */
-/* @0x2aeedc .word 0xf44380c4 */
-/* @0x2aeee0 .word 0xf8c45380 */
-/* @0x2aeee4 .word 0xf88470c8 */
-/* @0x2aeee8 .word 0x60a3b0d0 */
-/* @0x2aeeec svchi #0xf8e8bd */
-/* @0x2aeef0 andeq lr, sp, r10, lsr sp */
-/* @0x2aeef4 andeq lr, sp, r0, asr #26 */
-/* @0x2aeef8 svcmi #0xf0e92d */
-/* @0x2aeefc strmi r11, [r12], -r7, lsl #1 */
-/* @0x2aef00 movwls r4, #0x3691 */
-/* @0x2aef04 stmdblt r8, {r2, r12, pc} */
-/* @0x2aef08 rsc r2, r3, r0 */
-/* @0x2aef0c rscsle r2, r11, r0, lsl #18 */
-/* @0x2aef10 blhs 0x2d5b24 <_ZN16b2ParticleSystem20ComputeDepthForGroupEP15b2ParticleGroup+0x204> */
-/* @0x2aef14 blvs 0x6232fc <g_SWFaavertbuff+0x50234> */
-/* @0x2aef18 blvs 0x1c80784 <b2_toiTime+0x15272e0> */
-/* @0x2aef1c adcsmi r4, r9, #687865856 */
-/* @0x2aef20 blvs 0xfec66384 <b2_toiTime+0xfffffffffe50cee0> */
-/* @0x2aef24 ldmdaeq r12, {r0, r1, r2, r3, r6, r12, sp, lr, pc} */
-/* @0x2aef28 ldrdlo r11, r12, [r8, -r6] */
-/* @0x2aef2c blx 0x4c7cba <SrcVerts+0x24cfe> */
-/* @0x2aef30 .word 0xf7f7f101 */
-/* @0x2aef34 movvs pc, #240, #28 */
-/* @0x2aef38 .word 0x6367b910 */
-/* @0x2aef3c sbc r6, r8, r6, lsr #7 */
-/* @0x2aef40 blx 0x4c080e <SrcVerts+0x1d852> */
-/* @0x2aef44 .word 0xf607f207 */
-/* @0x2aef48 stmdals r4, {r1, r3, r4, r5, r8, r9, r11, sp, lr, pc} */
-/* @0x2aef4c .word 0xf7f74631 */
-/* @0x2aef50 movwhs pc, #0xed5 */
-/* @0x2aef54 blmi 0x1b13b60 <b2_toiTime+0x13ba6bc> */
-/* @0x2aef58 ldrbtmi r4, [r11], #-1613 */
-/* @0x2aef5c ands r9, sp, r5, lsl #6 */
-/* @0x2aef60 .word 0x63269b03 */
-/* @0x2aef64 .word 0x0108f103 */
-/* @0x2aef68 blx 0x4c7cf6 <SrcVerts+0x24d3a> */
-/* @0x2aef6c .word 0xf7f7f101 */
-/* @0x2aef70 movvs pc, #3360 */
-/* @0x2aef74 .word 0x6325b910 */
-/* @0x2aef78 adc r6, r10, r7, ror #6 */
-/* @0x2aef7c ldrsbtlo pc, [r8], r4 */
-/* @0x2aef80 orrmi pc, r0, #1124073472 */
-/* @0x2aef84 adcslo pc, r8, r4, asr #17 */
-/* @0x2aef88 blvs 0xfeba8f1c <b2_toiTime+0xfffffffffe44fa78> */
-/* @0x2aef8c blvs 0xc49134 <b2_toiTime+0x4efc90> */
-/* @0x2aef90 stmdblt r0, {r8, r9, r12, pc} ^ */
-/* @0x2aef94 ldrlo r9, [r12, #-0xb01] */
-/* @0x2aef98 movwls r3, #0x1301 */
-/* @0x2aef9c blls 0x3957a8 <ft_adobe_glyph_list+0x4e84> */
-/* @0x2aefa0 blle 0xfff3fa10 <b2_toiTime+0xffffffffff7e656c> */
-/* @0x2aefa4 stmdavs r10!, {r4, r5, r7, r8, r9, r10, sp, lr, pc} */
-/* @0x2aefa8 blhs 0x3760fc <_ZTS13C_UTF16String+0xd1a8> */
-/* @0x2aefac stmdble r4, {r1, r9, r12, pc} */
-/* @0x2aefb0 stmdbls r5, {r2, r11, r12, pc} */
-/* @0x2aefb4 blx 0x1a6cf98 <b2_toiTime+0x1313af4> */
-/* @0x2aefb8 .word 0xf607e7ec */
-/* @0x2aefbc blls 0x369abc <_ZTS13C_UTF16String+0xb68> */
-/* @0x2aefc0 strmi r2, [r1], r0, lsl #22 */
-/* @0x2aefc4 stmdbvs r8!, {r0, r3, r8, r10, r11, r12, lr, pc} ^ */
-/* @0x2aefc8 .word 0xf607b108 */
-/* @0x2aefcc selmi lr, r0, r6 */
-/* @0x2aefd0 smulwblt r8, r8, r9 */
-/* @0x2aefd4 b 0xfeeec7f8 <b2_toiTime+0xfffffffffe793354> */
-/* @0x2aefd8 strhs lr, [r0, -r2] */
-/* @0x2aefdc strh r4, [r0], -r8 */
-/* @0x2aefe0 tsths r12, #7340032 */
-/* @0x2aefe4 blx 0x38928e <_ZTS13C_UTF16String+0x2033a> */
-/* @0x2aefe8 vmlals.f64 d15, d0, d6 */
-/* @0x2aefec qaddlt r4, lr, r8 */
-/* @0x2aeff0 ldmdblt r10, {r1, r11, r12, sp, lr} ^ */
-/* @0x2aeff4 .word 0xf04f9a02 */
-/* @0x2aeff8 blls 0x2b1800 <png_write_gAMA+0x40> */
-/* @0x2aeffc svclt #0xcc2a00 */
-/* @0x2af000 .word 0xf04f2201 */
-/* @0x2af004 .word 0xf84332ff */
-/* @0x2af008 and r2, r6, r11 */
-/* @0x2af00c b 0xfe7ec830 <b2_toiTime+0xfffffffffe09338c> */
-/* @0x2af010 blls 0x2d5820 <_ZNK16b2ParticleSystem26JoinParticleGroupsCallbackclEiii+0x2a0> */
-/* @0x2af014 andhs pc, r11, r3, asr #16 */
-/* @0x2af018 .word 0xf1094682 */
-/* @0x2af01c stmdals r4, {r2, r8} */
-/* @0x2af020 ldrtmi r4, [r9], #-1089 */
-/* @0x2af024 .word 0xf7f74451 */
-/* @0x2af028 rsbsvs pc, r0, r6, ror lr */
-/* @0x2af02c subsle r2, r0, r0, lsl #16 */
-/* @0x2af030 stmdavs r9!, {r1, r3, r6, r9, r10, lr} ^ */
-/* @0x2af034 b 0xff36c858 <b2_toiTime+0xfffffffffec133b4> */
-/* @0x2af038 .word 0xf04f6872 */
-/* @0x2af03c .word 0xf8020300 */
-/* @0x2af040 .word 0xf1093009 */
-/* @0x2af044 stmdavs r10!, {r0, r8, r11} */
-/* @0x2af048 bhs 0x2c9210 <_ZN7b2World11CreateJointEPK10b2JointDef+0x118> */
-/* @0x2af04c .word 0x4642dd1d */
-/* @0x2af050 cmnvs r0, r8, asr #8 */
-/* @0x2af054 .word 0xf6076969 */
-/* @0x2af058 ldmdbvs r2!, {r1, r4, r5, r7, r9, r11, sp, lr, pc} ^ */
-/* @0x2af05c movweq pc, #0x4f */
-/* @0x2af060 andlo pc, r8, r2, lsl #16 */
-/* @0x2af064 stmdaeq r1, {r3, r8, r12, sp, lr, pc} */
-/* @0x2af068 bl 0x349638 */
-/* @0x2af06c ldrtmi r0, [r10], -r8 */
-/* @0x2af070 stmibvs r9!, {r4, r5, r7, r8, sp, lr} */
-/* @0x2af074 b 0xfeb6c898 <b2_toiTime+0xfffffffffe4133f4> */
-/* @0x2af078 .word 0xf04f69b2 */
-/* @0x2af07c ldrbpl r0, [r3, #0x300] */
-/* @0x2af080 ldmibvs r2!, {r0, r8, r9, r10, r12, sp} */
-/* @0x2af084 adcsvs r4, r2, r10, lsr r4 */
-/* @0x2af088 andhs lr, r0, #4 */
-/* @0x2af08c cmnvs r2, r8, asr #8 */
-/* @0x2af090 ldrhtvs r6, [r0], r2 */
-/* @0x2af094 svceq #0xf1ba */
-/* @0x2af098 ldmvs r0!, {r2, r12, lr, pc} */
-/* @0x2af09c stmvs r9!, {r1, r4, r6, r9, r10, lr} */
-/* @0x2af0a0 b 0xfe5ec8c4 <b2_toiTime+0xfffffffffde93420> */
-/* @0x2af0a4 .word 0xf04f68b2 */
-/* @0x2af0a8 .word 0xf8020300 */
-/* @0x2af0ac blls 0x2bb0dc <jinit_1pass_quantizer+0x3ac> */
-/* @0x2af0b0 andhs pc, r11, r3, asr r8 */
-/* @0x2af0b4 vstrle s4, [r4, #-0] */
-/* @0x2af0b8 .word 0xf8c62200 */
-/* @0x2af0bc rscsvs r10, r2, r0, lsl r0 */
-/* @0x2af0c0 movwhs lr, #0x3 */
-/* @0x2af0c4 andge pc, r12, r6, asr #17 */
-/* @0x2af0c8 blvs 0xb8759c <b2_toiTime+0x42e0f8> */
-/* @0x2af0cc .word 0x63233301 */
-/* @0x2af0d0 andhs lr, r1, r0, ror #14 */
-/* @0x2af0d4 pop {r0, r1, r2, r12, sp, pc} */
-/* @0x2af0d8 svclt #0x8ff0 */
-/* @0x2af0dc strheq lr, [sp], -r12 */
-/* @0x2af0e0 .word 0x4604b510 */
-/* @0x2af0e4 .word 0xff08f7ff */
-/* @0x2af0e8 stmdbmi r4, {r4, r5, r8, r12, sp, pc} */
-/* @0x2af0ec pop {r5, r9, r10, lr} */
-/* @0x2af0f0 ldrbtmi r4, [r9], #-16 */
-/* @0x2af0f4 ldmiblt r10, {r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, r12, sp, lr, pc} */
-/* @0x2af0f8 svclt #0xbd10 */
-/* @0x2af0fc andeq lr, sp, r10, asr #22 */
-/* @0x2af100 movwlt r11, #0x1308 */
-/* @0x2af104 .word 0x312cf8d0 */
-/* @0x2af108 ldrle r0, [r12], #-1435 */
-/* @0x2af10c bllo 0x30d360 <af_shaper_get_elem+0x2bce> */
-/* @0x2af110 stmdale r12, {r0, r1, r3, r8, r9, r11, sp} */
-/* @0x2af114 bllo 0x30d468 <af_shaper_get_elem+0x2cd6> */
-/* @0x2af118 stmdale r8, {r1, r2, r3, r4, r8, r9, r11, sp} */
-/* @0x2af11c blhs 0x88d570 <b2_toiTime+0x1340cc> */
-/* @0x2af120 ldmdbvc r3, {r0, r2, r11, r12, lr, pc} ^ */
-/* @0x2af124 stmdale r2, {r0, r1, r3, r4, r5, r8, r9, r11, sp} */
-/* @0x2af128 blhs 0x11cd77c <b2_toiTime+0xa742d8> */
-/* @0x2af12c stmdbmi r6, {r0, r1, r8, r11, r12, lr, pc} */
-/* @0x2af130 .word 0xf7f74479 */
-/* @0x2af134 ldmdavs r3, {r0, r1, r2, r3, r4, r7, r8, r11, r12, sp, pc} */
-/* @0x2af138 ldmdavs r3, {r0, r1, r3, r6, r7, r8, r9, sp, lr} ^ */
-/* @0x2af13c stmvs r11, {r0, r1, r3, r10, sp, lr} */
-/* @0x2af140 movwvc pc, #0x443 */
-/* @0x2af144 ldrbmi r6, [r0, -r11, lsl #1]! */
-/* @0x2af148 andeq lr, sp, lr, lsr #22 */
-/* @0x2af14c mvnsmi lr, sp, lsr #18 */
-/* @0x2af150 ldrmi r4, [r0], r12, lsl #12 */
-/* @0x2af154 mcrls p6, #0x0, r4, c6, c13, #0x0 */
-/* @0x2af158 stmdahs r0, {r0, r1, r2, r9, r10, lr} */
-/* @0x2af15c stmdbhs r0, {r0, r1, r2, r3, r6, r12, lr, pc} */
-/* @0x2af160 .word 0xf5b3d04d */
-/* @0x2af164 stmdble r5, {r7, r8, r9, r10, r11, r12, sp, lr} */
-/* @0x2af168 pop {r1, r2, r5, r8, r11, lr} */
-/* @0x2af16c ldrbtmi r4, [r9], #-496 */
-/* @0x2af170 stmiblt r0, {r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, r12, sp, lr, pc} */
-/* @0x2af174 movwhs r11, #0x1a2 */
-/* @0x2af178 andpl pc, r0, #1325400064 */
-/* @0x2af17c stc2 p7, c15, [r0, #-984]! */
-/* @0x2af180 .word 0xf44f4638 */
-/* @0x2af184 .word 0xf7f77180 */
-/* @0x2af188 cdpne p13, #0x6, c15, c11, c11, #0x4 */
-/* @0x2af18c strbtvs r2, [r0], #3071 */
-/* @0x2af190 subeq pc, r12, #13041664 */
-/* @0x2af194 stclvs p8, c13, [r0], #16 */
-/* @0x2af198 strtmi r4, [r10], -r1, asr #12 */
-/* @0x2af19c b 0x66c9c0 <g_SWFlinevertbuff+0x198f8> */
-/* @0x2af1a0 cdpvc p3, #0x2, c11, c3, c14, #0x0 */
-/* @0x2af1a4 blx 0x3379b0 */
-/* @0x2af1a8 cdpvc p3, #0x6, c15, c2, c3, #0x0 */
-/* @0x2af1ac ldmdbhi r2!, {r1, r3, r8, r11, r12, sp, pc} */
-/* @0x2af1b0 bhs 0x3671d8 <_ZTS12CDS_Priority+0x9230> */
-/* @0x2af1b4 ldmdahi r2!, {r0, r2, r3, r8, r12, lr, pc} ^ */
-/* @0x2af1b8 .word 0xdc05429a */
-/* @0x2af1bc addsmi r8, r10, #11665408 */
-/* @0x2af1c0 ldmhi r2!, {r1, r10, r11, r12, lr, pc} ^ */
-/* @0x2af1c4 stcle p2, c4, [r4, #-616] */
-/* @0x2af1c8 ldrtmi r4, [r8], -pc, lsl #18 */
-/* @0x2af1cc .word 0xf7f74479 */
-/* @0x2af1d0 ldmdavs r3!, {r0, r4, r6, r8, r11, r12, sp, lr, pc} */
-/* @0x2af1d4 svclt #0x82d00 */
-/* @0x2af1d8 strvs r2, [r3, #-0x501]! */
-/* @0x2af1dc strbvs r6, [r3, #-0x873]! */
-/* @0x2af1e0 .word 0xf8a48933 */
-/* @0x2af1e4 rschi r3, r5, #88 */
-/* @0x2af1e8 stmvs r3!, {r0, r2, r3, r6, r8, r12, sp, pc} */
-/* @0x2af1ec tsteq r0, #67 */
-/* @0x2af1f0 .word 0xf8d460a3 */
-/* @0x2af1f4 vst4.32 {d19, d20, d21, d22}, [r3:256], r8 */
-/* @0x2af1f8 .word 0xf8c45300 */
-/* @0x2af1fc pop {r3, r4, r5, r7, r12, sp} */
-/* @0x2af200 svclt #0x81f0 */
-/* @0x2af204 andeq lr, sp, r12, lsl #22 */
-/* @0x2af208 andeq lr, sp, pc, asr #21 */
-/* @0x2af20c svcmi #0xf0e92d */
-/* @0x2af210 addlt r4, r5, r12, lsl #12 */
-/* @0x2af214 .word 0x46994690 */
-/* @0x2af218 stmdahs r0, {r0, r2, r9, r10, lr} */
-/* @0x2af21c addhi pc, r6, r0 */
-/* @0x2af220 .word 0xf0002900 */
-/* @0x2af224 .word 0xf8d18083 */
-/* @0x2af228 ldrmi r1, [r9], #-216 */
-/* @0x2af22c .word 0xf7f70109 */
-/* @0x2af230 .word 0x4606fd72 */
-/* @0x2af234 ldmdbmi pc!, {r3, r4, r5, r8, r11, r12, sp, pc} */
-/* @0x2af238 ldrbtmi r4, [r9], #-1576 */
-/* @0x2af23c pop {r0, r2, r12, sp, pc} */
-/* @0x2af240 .word 0xf7f74ff0 */
-/* @0x2af244 .word 0xf8d4b917 */
-/* @0x2af248 .word 0x46c320d8 */
-/* @0x2af24c ldrsbne pc, [r4], #132 */
-/* @0x2af250 tsteq r2, r0, lsl #14 */
-/* @0x2af254 ldmib r2!, {r0, r1, r2, r9, r10, r12, sp, lr, pc} */
-/* @0x2af258 .word 0xf8d44628 */
-/* @0x2af25c .word 0xf7f710d4 */
-/* @0x2af260 blmi 0x102e79c <b2_toiTime+0x8d52f8> */
-/* @0x2af264 sbcsvc pc, r4, r4, asr #17 */
-/* @0x2af268 movwls r4, #0x247b */
-/* @0x2af26c ldrbtmi r4, [r11], #-2867 */
-/* @0x2af270 strbmi r9, [pc, #-0x303] */
-/* @0x2af274 ldrsbhs pc, [r8], #132 */
-/* @0x2af278 .word 0xf8dbda49 */
-/* @0x2af27c bl 0x46f284 <g_RomDisk+0x77a64> */
-/* @0x2af280 .word 0xf6070802 */
-/* @0x2af284 b 0x16a97f4 <b2_toiTime+0xf50350> */
-/* @0x2af288 bl 0x4352b0 <g_RomDisk+0x3da90> */
-/* @0x2af28c .word 0x1c420a08 */
-/* @0x2af290 andls r4, r1, #40, #12 */
-/* @0x2af294 .word 0xf7f74611 */
-/* @0x2af298 .word 0xf846fd3e */
-/* @0x2af29c bls 0x2ef2c4 <FT_Done_Memory+0x5650> */
-/* @0x2af2a0 strtmi r11, [r8], -r0, lsr #18 */
-/* @0x2af2a4 .word 0xf7f79903 */
-/* @0x2af2a8 eor pc, r12, r5, ror #17 */
-/* @0x2af2ac .word 0x1000f8db */
-/* @0x2af2b0 stmib r4, {r0, r1, r2, r9, r10, r12, sp, lr, pc} */
-/* @0x2af2b4 .word 0x100cf8db */
-/* @0x2af2b8 strtmi r2, [r8], -r10, lsl #6 */
-/* @0x2af2bc .word 0xf7f74359 */
-/* @0x2af2c0 strmi pc, [r2], -r10, lsr #26 */
-/* @0x2af2c4 andeq pc, r8, r10, asr #17 */
-/* @0x2af2c8 strtmi r11, [r8], -r8, ror #18 */
-/* @0x2af2cc andls r9, r1, #32768 */
-/* @0x2af2d0 .word 0xf8d0f7f7 */
-/* @0x2af2d4 .word 0xf8564628 */
-/* @0x2af2d8 .word 0xf7f71008 */
-/* @0x2af2dc bls 0x32e720 */
-/* @0x2af2e0 andhs pc, r8, r6, asr #16 */
-/* @0x2af2e4 .word 0xf8dbe00f */
-/* @0x2af2e8 movwhs r2, #0xa00c */
-/* @0x2af2ec .word 0x1008f8db */
-/* @0x2af2f0 .word 0xf607435a */
-/* @0x2af2f4 .word 0xf8dbe964 */
-/* @0x2af2f8 .word 0xf8ca200c */
-/* @0x2af2fc .word 0xf89b200c */
-/* @0x2af300 .word 0xf88a2004 */
-/* @0x2af304 strlo r2, [r1, -r4] */
-/* @0x2af308 bleq 0x6eb73c <g_SWFvertbuff+0x18674> */
-/* @0x2af30c stmvs r3!, {r0, r4, r5, r7, r8, r9, r10, sp, lr, pc} */
-/* @0x2af310 .word 0xf8c4444a */
-/* @0x2af314 .word 0xf44360d4 */
-/* @0x2af318 adcvs r5, r3, r0, lsl #6 */
-/* @0x2af31c ldrsbtlo pc, [r8], r4 */
-/* @0x2af320 sbcshs pc, r8, r4, asr #17 */
-/* @0x2af324 hinteq #0x43 */
-/* @0x2af328 adcslo pc, r8, r4, asr #17 */
-/* @0x2af32c pop {r0, r2, r12, sp, pc} */
-/* @0x2af330 svclt #0x8ff0 */
-/* @0x2af334 muleq sp, r3, r10 */
-/* @0x2af338 andeq lr, sp, r1, lsl #21 */
-/* @0x2af33c andeq lr, sp, r11, ror r10 */
-/* @0x2af340 svcmi #0xf7e92d */
-/* @0x2af344 ldrmi r4, [r5], -r12, lsl #12 */
-/* @0x2af348 .word 0x4606461f */
-/* @0x2af34c rsble r2, r10, r0, lsl #16 */
-/* @0x2af350 rsble r2, r8, r0, lsl #18 */
-/* @0x2af354 rsble r2, r6, r0, lsl #22 */
-/* @0x2af358 .word 0x10c0f8d1 */
-/* @0x2af35c ldmdbeq r4, {r0, r1, r2, r3, r6, r12, sp, lr, pc} */
-/* @0x2af360 blx 0x5003ce <SrcVerts+0x5d412> */
-/* @0x2af364 .word 0xf7f7f101 */
-/* @0x2af368 pkhtbmi pc, r0, r6, asr #25 */
-/* @0x2af36c stmdbmi pc!, {r3, r4, r5, r8, r11, r12, sp, pc} */
-/* @0x2af370 ldrbtmi r4, [r9], #-1584 */
-/* @0x2af374 pop {r0, r1, r12, sp, pc} */
-/* @0x2af378 .word 0xf7f74ff0 */
-/* @0x2af37c .word 0xf8d4b87b */
-/* @0x2af380 .word 0xf8d420c0 */
-/* @0x2af384 .word 0xf8df10bc */
-/* @0x2af388 blx 0x51b632 <SrcVerts+0x78676> */
-/* @0x2af38c .word 0xf607f202 */
-/* @0x2af390 shadd16mi lr, r0, r6 */
-/* @0x2af394 ldrsbtne pc, [r12], r4 */
-/* @0x2af398 .word 0xf7f744fb */
-/* @0x2af39c movwhs pc, #0xcaf */
-/* @0x2af3a0 .word 0xf8c4469a */
-/* @0x2af3a4 ldrmi r3, [r10, #0xbc]! */
-/* @0x2af3a8 .word 0x30c0f8d4 */
-/* @0x2af3ac ldrbmi sp, [r3], #-2608 */
-/* @0x2af3b0 blx 0x2f780a <ps_hints_apply+0x640a> */
-/* @0x2af3b4 stmdavs r9!, {r0, r1, r9, r12, sp, lr, pc} */
-/* @0x2af3b8 movweq pc, #0x4f */
-/* @0x2af3bc stmdbeq r2, {r3, r8, r9, r11, sp, lr, pc} */
-/* @0x2af3c0 andne pc, r2, r8, asr #16 */
-/* @0x2af3c4 andlo pc, r4, r9, lsl #17 */
-/* @0x2af3c8 .word 0xf8c968ea */
-/* @0x2af3cc .word 0xf8d6200c */
-/* @0x2af3d0 .word 0xf889212c */
-/* @0x2af3d4 stmvs r9!, {r4, sp} ^ */
-/* @0x2af3d8 .word 0xf8c9b911 */
-/* @0x2af3dc ands r1, r3, r8 */
-/* @0x2af3e0 .word 0xf7f74630 */
-/* @0x2af3e4 .word 0x4602fc98 */
-/* @0x2af3e8 andeq pc, r8, r9, asr #17 */
-/* @0x2af3ec ldrtmi r11, [r0], -r0, asr #18 */
-/* @0x2af3f0 andls r4, r1, #93323264 */
-/* @0x2af3f4 rfeda lr! */
-/* @0x2af3f8 .word 0xf8c99a01 */
-/* @0x2af3fc and r2, r3, r12 */
-/* @0x2af400 stmvs r10!, {r0, r3, r5, r7, r11, sp, lr} ^ */
-/* @0x2af404 ldm r10, {r0, r1, r2, r9, r10, r12, sp, lr, pc} ^ */
-/* @0x2af408 beq 0x32b838 */
-/* @0x2af40c bfi r3, r4, #10, #1 */
-/* @0x2af410 .word 0xf8d4441f */
-/* @0x2af414 .word 0xf8c430b8 */
-/* @0x2af418 vst4.32 {d24, d25, d26, d27}, [r3:256], r12 */
-/* @0x2af41c .word 0xf8c47300 */
-/* @0x2af420 .word 0xf8c470c0 */
-/* @0x2af424 strhlt r3, [r3], -r8 */
-/* @0x2af428 svchi #0xf0e8bd */
-/* @0x2af42c andeq lr, sp, r1, lsr #19 */
-/* @0x2af430 andeq lr, sp, r11, ror r9 */
-/* @0x2af434 cmplt r9, r0, ror #2 */
-/* @0x2af438 blle 0x4f9c40 <SrcVerts+0x56c84> */
-/* @0x2af43c .word 0x00c0f8d1 */
-/* @0x2af440 ble 0x3ffe50 <g_RomDisk+0x8630> */
-/* @0x2af444 ldrsbtne pc, [r12], r1 */
-/* @0x2af448 blx 0x2b74a2 <jinit_merged_upsampler+0x506> */
-/* @0x2af44c ldrvc r1, [r3], #-514 */
-/* @0x2af450 .word 0xb1204770 */
+/* ── FUNC 0x2afc18 · png_set_write_fn · size=88 · insn=43 */
+/* @0x2afc18 push {r4, lr} */
+/* @0x2afc1a mov r4, r0 */
+/* @0x2afc1c cbz r0, 0x2afc5e <png_set_write_fn+0x46> */
+/* @0x2afc1e str.w r1, [r0, #0x118] */
+/* @0x2afc20 ldmdblt r2, {r3, r4, r8, r12} */
+/* @0x2afc22 cbnz r2, 0x2afc2a <png_set_write_fn+0x12> */
+/* @0x2afc24 ldr r2, [pc, #0x38] */
+/* @0x2afc26 add r2, pc */
+/* @0x2afc28 ldr r2, [r2] */
+/* @0x2afc2a str.w r2, [r4, #0x110] */
+/* @0x2afc2c ldmdblt r3, {r4, r8, sp} */
+/* @0x2afc2e cbnz r3, 0x2afc36 <png_set_write_fn+0x1e> */
+/* @0x2afc30 ldr r3, [pc, #0x30] */
+/* @0x2afc32 add r3, pc */
+/* @0x2afc34 ldr r3, [r3] */
+/* @0x2afc36 str.w r3, [r4, #0x210] */
+/* @0x2afc38 .word 0xf8d43210 */
+/* @0x2afc3a ldr.w r3, [r4, #0x114] */
+/* @0x2afc3c cmnlt r3, r4, lsl r1 */
+/* @0x2afc3e cbz r3, 0x2afc5e <png_set_write_fn+0x46> */
+/* @0x2afc40 ldr r1, [pc, #0x24] */
+/* @0x2afc42 mov r0, r4 */
+/* @0x2afc44 movs r3, #0x0 */
+/* @0x2afc46 str.w r3, [r4, #0x114] */
+/* @0x2afc48 ldrbtmi r3, [r9], #-276 */
+/* @0x2afc4a add r1, pc */
+/* @0x2afc4c bl 0x2a6474 <png_warning> */
+/* @0x2afc50 ldr r1, [pc, #0x18] */
+/* @0x2afc52 mov r0, r4 */
+/* @0x2afc54 add r1, pc */
+/* @0x2afc56 pop.w {r4, lr} */
+/* @0x2afc58 .word 0xf7f64010 */
+/* @0x2afc5a b.w 0x2a6474 <png_warning> */
+/* @0x2afc5c ldclt p12, c11, [r0, #-44] */
+/* @0x2afc5e pop {r4, pc} */
+/* @0x2afc60 subs r6, r7, #0x1 */
+/* @0x2afc62 movs r4, r2 */
+/* @0x2afc64 subs r6, r6, #0x1 */
+/* @0x2afc66 movs r4, r2 */
+/* @0x2afc68 b 0x2b00c0 <png_write_end+0x94> */
+/* @0x2afc6a movs r5, r1 */
+/* @0x2afc6c b 0x2b0120 <png_write_end+0xf4> */
+/* @0x2afc6e movs r5, r1 */
 
-/* ── FUNC 0x2aec85 · png_set_PLTE · size=152 · insn=0 */
+/* ── FUNC 0x2afc70 · png_write_info_before_PLTE · size=420 · insn=172 */
+/* @0x2afc70 push.w {r4, r5, r6, r7, r8, lr} */
+/* @0x2afc74 mov r4, r1 */
+/* @0x2afc76 sub sp, #0x38 */
+/* @0x2afc78 mov r5, r0 */
+/* @0x2afc7a cmp r0, #0x0 */
+/* @0x2afc7c beq.w 0x2afe04 <png_write_info_before_PLTE+0x194> */
+/* @0x2afc80 cmp r1, #0x0 */
+/* @0x2afc82 beq.w 0x2afe04 <png_write_info_before_PLTE+0x194> */
+/* @0x2afc84 .word 0xf8d080bf */
+/* @0x2afc86 ldr.w r3, [r0, #0x12c] */
+/* @0x2afc88 .word 0xf413312c */
+/* @0x2afc8a ands r6, r3, #0x400 */
+/* @0x2afc8c .word 0xf0406680 */
+/* @0x2afc8e bne.w 0x2afe04 <png_write_info_before_PLTE+0x194> */
+/* @0x2afc90 .word 0xf00180b9 */
+/* @0x2afc92 bl 0x2b1140 <png_write_sig> */
+/* @0x2afc94 .word 0xf8d5fa55 */
+/* @0x2afc96 ldr.w r3, [r5, #0x12c] */
+/* @0x2afc98 ldrbeq r3, [r10], #300 */
+/* @0x2afc9a lsls r2, r3, #0x13 */
+/* @0x2afc9c bpl 0x2afcb2 <png_write_info_before_PLTE+0x42> */
+/* @0x2afc9e ldr.w r3, [r5, #0x2dc] */
+/* @0x2afca0 ldrsblt r3, [r3, -r12]! */
+/* @0x2afca2 cbz r3, 0x2afcb2 <png_write_info_before_PLTE+0x42> */
+/* @0x2afca4 ldr r1, [pc, #0x164] */
+/* @0x2afca6 mov r0, r5 */
+/* @0x2afca8 add r1, pc */
+/* @0x2afcaa bl 0x2a6474 <png_warning> */
+/* @0x2afcac .word 0xf8c5fbe3 */
+/* @0x2afcae str.w r6, [r5, #0x2dc] */
+/* @0x2afcb0 mcrvc p2, #0x3, r6, c2, c12, #0x6 */
+/* @0x2afcb2 ldrb r2, [r4, #0x19] */
+/* @0x2afcb4 mov r0, r5 */
+/* @0x2afcb6 ldrb r3, [r4, #0x18] */
+/* @0x2afcb8 str r2, [sp] */
+/* @0x2afcba ldrb r2, [r4, #0x1a] */
+/* @0x2afcbc str r2, [sp, #0x4] */
+/* @0x2afcbe ldrb r2, [r4, #0x1b] */
+/* @0x2afcc0 str r2, [sp, #0x8] */
+/* @0x2afcc2 ldrb r2, [r4, #0x1c] */
+/* @0x2afcc4 str r2, [sp, #0xc] */
+/* @0x2afcc6 ldm.w r4, {r1, r2} */
+/* @0x2afcc8 .word 0xf0010006 */
+/* @0x2afcca bl 0x2b12e4 <png_write_IHDR> */
+/* @0x2afccc stmvs r3!, {r0, r1, r3, r8, r9, r11, r12, sp, lr, pc} */
+/* @0x2afcce ldr r3, [r4, #0x8] */
+/* @0x2afcd0 lsls r3, r3, #0x1f */
+/* @0x2afcd2 bpl 0x2afce6 <png_write_info_before_PLTE+0x76> */
+/* @0x2afcd4 vldr s15, [r4, #40] */
+/* @0x2afcd8 vcvt.f64.f32 d6, s15 */
+/* @0x2afcdc mov r0, r5 */
+/* @0x2afcde vmov r2, r3, d6 */
+/* @0x2afce0 .word 0xf0012b16 */
+/* @0x2afce2 bl 0x2b17c0 <png_write_gAMA> */
+/* @0x2afce4 stmvs r3!, {r0, r2, r3, r5, r6, r8, r10, r11, r12, sp, lr, pc} */
+/* @0x2afce6 ldr r3, [r4, #0x8] */
+/* @0x2afce8 lsls r7, r3, #0x14 */
+/* @0x2afcea bpl 0x2afcf6 <png_write_info_before_PLTE+0x86> */
+/* @0x2afcec mov r0, r5 */
+/* @0x2afcee ldrb.w r1, [r4, #0x2c] */
+/* @0x2afcf0 .word 0xf001102c */
+/* @0x2afcf2 bl 0x2b184c <png_write_sRGB> */
+/* @0x2afcf4 stmvs r3!, {r0, r1, r3, r5, r7, r8, r10, r11, r12, sp, lr, pc} */
+/* @0x2afcf6 ldr r3, [r4, #0x8] */
+/* @0x2afcf8 lsls r6, r3, #0x13 */
+/* @0x2afcfa bpl 0x2afd12 <png_write_info_before_PLTE+0xa2> */
+/* @0x2afcfc ldr.w r3, [r4, #0xcc] */
+/* @0x2afd00 mov r0, r5 */
+/* @0x2afd02 ldr.w r1, [r4, #0xc4] */
+/* @0x2afd04 andhs r1, r0, #196 */
+/* @0x2afd06 movs r2, #0x0 */
+/* @0x2afd08 str r3, [sp] */
+/* @0x2afd0a ldr.w r3, [r4, #0xc8] */
+/* @0x2afd0c .word 0xf00130c8 */
+/* @0x2afd0e bl 0x2b1890 <png_write_iCCP> */
+/* @0x2afd10 stmvs r3!, {r0, r1, r2, r3, r4, r5, r7, r8, r10, r11, r12, sp, lr, pc} */
+/* @0x2afd12 ldr r3, [r4, #0x8] */
+/* @0x2afd14 lsls r0, r3, #0x1e */
+/* @0x2afd16 bpl 0x2afd24 <png_write_info_before_PLTE+0xb4> */
+/* @0x2afd18 mov r0, r5 */
+/* @0x2afd1a add.w r1, r4, #0x44 */
+/* @0x2afd1c cdpvc p1, #0x6, c0, c2, c4, #0x2 */
+/* @0x2afd1e ldrb r2, [r4, #0x19] */
+/* @0x2afd20 bl 0x2b1aac <png_write_sBIT> */
+/* @0x2afd24 ldr r3, [r4, #0x8] */
+/* @0x2afd26 lsls r1, r3, #0x1d */
+/* @0x2afd28 bpl 0x2afd90 <png_write_info_before_PLTE+0x120> */
+/* @0x2afd2a vldr s14, [r4, #132] */
+/* @0x2afd2c .word 0xeeb77a21 */
+/* @0x2afd2e vcvt.f64.f32 d7, s14 */
+/* @0x2afd30 vldr s15, [r4, #796] */
+/* @0x2afd32 vldr s13, [r4, #128] */
+/* @0x2afd34 strtmi r6, [r8], -r0, lsr #20 */
+/* @0x2afd36 mov r0, r5 */
+/* @0x2afd38 vstr d7, [sp] */
+/* @0x2afd3c vldr s14, [r4, #136] */
+/* @0x2afd40 vcvt.f64.f32 d7, s14 */
+/* @0x2afd44 vstr d7, [sp, #8] */
+/* @0x2afd48 vldr s14, [r4, #140] */
+/* @0x2afd4c vcvt.f64.f32 d7, s14 */
+/* @0x2afd50 vstr d7, [sp, #16] */
+/* @0x2afd54 vldr s14, [r4, #144] */
+/* @0x2afd58 vcvt.f64.f32 d7, s14 */
+/* @0x2afd5c vstr d7, [sp, #24] */
+/* @0x2afd60 vldr s14, [r4, #148] */
+/* @0x2afd64 vcvt.f64.f32 d7, s14 */
+/* @0x2afd68 vstr d7, [sp, #32] */
+/* @0x2afd6c vldr s14, [r4, #152] */
+/* @0x2afd70 vcvt.f64.f32 d7, s14 */
+/* @0x2afd74 vstr d7, [sp, #40] */
+/* @0x2afd78 vldr s14, [r4, #156] */
+/* @0x2afd7c vcvt.f64.f32 d7, s14 */
+/* @0x2afd80 vstr d7, [sp, #48] */
+/* @0x2afd84 vcvt.f64.f32 d7, s13 */
+/* @0x2afd88 vmov r2, r3, d7 */
+/* @0x2afd8c bl 0x2b1b50 <png_write_cHRM> */
+/* @0x2afd90 ldr.w r3, [r4, #0xc0] */
+/* @0x2afd94 cbnz r3, 0x2afda4 <png_write_info_before_PLTE+0x134> */
+/* @0x2afd96 ldr.w r3, [r5, #0x12c] */
+/* @0x2afd98 vst4.8 {d19, d21, d23, d25}, [r3:128], r12 */
+/* @0x2afd9a orr r3, r3, #0x400 */
+/* @0x2afd9c .word 0xf8c56380 */
+/* @0x2afd9e str.w r3, [r5, #0x12c] */
+/* @0x2afda0 eor r3, pc, r12, lsr #2 */
+/* @0x2afda2 b 0x2afe04 <png_write_info_before_PLTE+0x194> */
+/* @0x2afda4 ldr.w r8, [pc, #0x68] */
+/* @0x2afda8 movs r7, #0x14 */
+/* @0x2afdaa ldr.w r6, [r4, #0xbc] */
+/* @0x2afdac ldrbtmi r6, [r8], #188 */
+/* @0x2afdae add r8, pc */
+/* @0x2afdb0 ldr.w r2, [r4, #0xc0] */
+/* @0x2afdb4 ldr.w r3, [r4, #0xbc] */
+/* @0x2afdb8 mla r3, r7, r2, r3 */
+/* @0x2afdbc cmp r6, r3 */
+/* @0x2afdbe bhs 0x2afd96 <png_write_info_before_PLTE+0x126> */
+/* @0x2afdc0 mov r0, r5 */
+/* @0x2afdc2 mov r1, r6 */
+/* @0x2afdc4 bl 0x2a5fe4 <png_handle_as_unknown> */
+/* @0x2afdc8 cmp r0, #0x1 */
+/* @0x2afdca beq 0x2afe00 <png_write_info_before_PLTE+0x190> */
+/* @0x2afdcc ldrb r3, [r6, #0x10] */
+/* @0x2afdce cbz r3, 0x2afe00 <png_write_info_before_PLTE+0x190> */
+/* @0x2afdd0 tst.w r3, #0x6 */
+/* @0x2afdd4 bne 0x2afe00 <png_write_info_before_PLTE+0x190> */
+/* @0x2afdd6 ldrb r3, [r6, #0x3] */
+/* @0x2afdd8 lsls r2, r3, #0x1a */
+/* @0x2afdda bmi 0x2afde8 <png_write_info_before_PLTE+0x178> */
+/* @0x2afddc cmp r0, #0x3 */
+/* @0x2afdde beq 0x2afde8 <png_write_info_before_PLTE+0x178> */
+/* @0x2afde0 ldr.w r3, [r5, #0x130] */
+/* @0x2afde4 lsls r3, r3, #0xf */
+/* @0x2afde6 bpl 0x2afe00 <png_write_info_before_PLTE+0x190> */
+/* @0x2afde8 ldr r3, [r6, #0xc] */
+/* @0x2afdea cbnz r3, 0x2afdf4 <png_write_info_before_PLTE+0x184> */
+/* @0x2afdec mov r0, r5 */
+/* @0x2afdee mov r1, r8 */
+/* @0x2afdf0 bl 0x2a6474 <png_warning> */
+/* @0x2afdf4 mov r0, r5 */
+/* @0x2afdf6 mov r1, r6 */
+/* @0x2afdf8 ldr r2, [r6, #0x8] */
+/* @0x2afdfa ldr r3, [r6, #0xc] */
+/* @0x2afdfc bl 0x2b12bc <png_write_chunk> */
+/* @0x2afe00 adds r6, #0x14 */
+/* @0x2afe02 b 0x2afdb0 <png_write_info_before_PLTE+0x140> */
+/* @0x2afe04 add sp, #0x38 */
+/* @0x2afe06 pop.w {r4, r5, r6, r7, r8, pc} */
+/* @0x2afe08 svclt #0x81f0 */
+/* @0x2afe0a nop */
+/* @0x2afe0c ldm r1, {r1, r5, r7} */
+/* @0x2afe0e movs r5, r1 */
+/* @0x2afe10 b 0x2b0078 <png_write_end+0x4c> */
+/* @0x2afe12 movs r5, r1 */
 
-/* ── FUNC 0x2aed1d · png_set_sBIT · size=24 · insn=0 */
+/* ── FUNC 0x2afe14 · png_write_info · size=536 · insn=233 */
+/* @0x2afe14 push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2afe18 mov r6, r1 */
+/* @0x2afe1a sub sp, #0x14 */
+/* @0x2afe1c mov r7, r0 */
+/* @0x2afe1e cmp r0, #0x0 */
+/* @0x2afe20 beq.w 0x2b0022 <png_write_info+0x20e> */
+/* @0x2afe24 cmp r1, #0x0 */
+/* @0x2afe26 beq.w 0x2b0022 <png_write_info+0x20e> */
+/* @0x2afe28 .word 0xf7ff80fc */
+/* @0x2afe2a bl 0x2afc70 <png_write_info_before_PLTE> */
+/* @0x2afe2c ldmvs r3!, {r0, r5, r8, r9, r10, r11, r12, sp, lr, pc} */
+/* @0x2afe2e ldr r3, [r6, #0x8] */
+/* @0x2afe30 lsls r2, r3, #0x1c */
+/* @0x2afe32 bpl 0x2afe40 <png_write_info+0x2c> */
+/* @0x2afe34 mov r0, r7 */
+/* @0x2afe36 ldr r1, [r6, #0x10] */
+/* @0x2afe38 ldrh r2, [r6, #0x14] */
+/* @0x2afe3a bl 0x2b15d0 <png_write_PLTE> */
+/* @0x2afe3c and pc, r7, r9, asr #23 */
+/* @0x2afe3e b 0x2afe50 <png_write_info+0x3c> */
+/* @0x2afe40 ldrb r3, [r6, #0x19] */
+/* @0x2afe42 cmp r3, #0x3 */
+/* @0x2afe44 bne 0x2afe50 <png_write_info+0x3c> */
+/* @0x2afe46 ldr r1, [pc, #0x1e0] */
+/* @0x2afe48 mov r0, r7 */
+/* @0x2afe4a add r1, pc */
+/* @0x2afe4c bl 0x2a642c <png_error> */
+/* @0x2afe50 ldr r3, [r6, #0x8] */
+/* @0x2afe52 lsls r3, r3, #0x1b */
+/* @0x2afe54 bpl 0x2afe8c <png_write_info+0x78> */
+/* @0x2afe56 ldr.w r3, [r7, #0x134] */
+/* @0x2afe58 tsteq sp, #52, #2 */
+/* @0x2afe5a lsls r5, r3, #0xc */
+/* @0x2afe5c bmi 0x2afe72 <png_write_info+0x5e> */
+/* @0x2afe5e ldrb r2, [r6, #0x19] */
+/* @0x2afe60 mov r0, r7 */
+/* @0x2afe62 ldrh r3, [r6, #0x16] */
+/* @0x2afe64 ldr r1, [r6, #0x4c] */
+/* @0x2afe66 str r2, [sp] */
+/* @0x2afe68 add.w r2, r6, #0x50 */
+/* @0x2afe6c bl 0x2b1d80 <png_write_tRNS> */
+/* @0x2afe70 b 0x2afe8c <png_write_info+0x78> */
+/* @0x2afe72 ldrb r3, [r6, #0x19] */
+/* @0x2afe74 cmp r3, #0x3 */
+/* @0x2afe76 bne 0x2afe5e <png_write_info+0x4a> */
+/* @0x2afe78 movs r3, #0x0 */
+/* @0x2afe7a ldrh r2, [r6, #0x16] */
+/* @0x2afe7c cmp r3, r2 */
+/* @0x2afe7e bge 0x2afe5e <png_write_info+0x4a> */
+/* @0x2afe80 ldr r2, [r6, #0x4c] */
+/* @0x2afe82 ldrb r1, [r2, r3] */
+/* @0x2afe84 mvns r1, r1 */
+/* @0x2afe86 strb r1, [r2, r3] */
+/* @0x2afe88 adds r3, #0x1 */
+/* @0x2afe8a b 0x2afe7a <png_write_info+0x66> */
+/* @0x2afe8c ldr r3, [r6, #0x8] */
+/* @0x2afe8e lsls r4, r3, #0x1a */
+/* @0x2afe90 bpl 0x2afe9e <png_write_info+0x8a> */
+/* @0x2afe92 mov r0, r7 */
+/* @0x2afe94 add.w r1, r6, #0x5a */
+/* @0x2afe98 ldrb r2, [r6, #0x19] */
+/* @0x2afe9a bl 0x2b1e54 <png_write_bKGD> */
+/* @0x2afe9c ldmvs r3!, {r0, r1, r3, r4, r6, r7, r8, r9, r10, r11, r12, sp, lr, pc} */
+/* @0x2afe9e ldr r3, [r6, #0x8] */
+/* @0x2afea0 lsls r0, r3, #0x19 */
+/* @0x2afea2 bpl 0x2afeae <png_write_info+0x9a> */
+/* @0x2afea4 mov r0, r7 */
+/* @0x2afea6 ldr r1, [r6, #0x7c] */
+/* @0x2afea8 ldrh r2, [r6, #0x14] */
+/* @0x2afeaa bl 0x2b1f28 <png_write_hIST> */
+/* @0x2afeac ldmvs r3!, {r0, r2, r3, r4, r5, r11, r12, sp, lr, pc} */
+/* @0x2afeae ldr r3, [r6, #0x8] */
+/* @0x2afeb0 lsls r1, r3, #0x17 */
+/* @0x2afeb2 bpl 0x2afec2 <png_write_info+0xae> */
+/* @0x2afeb4 mov r0, r7 */
+/* @0x2afeb6 ldr r1, [r6, #0x64] */
+/* @0x2afeb8 ldr r2, [r6, #0x68] */
+/* @0x2afeba ldrb.w r3, [r6, #0x6c] */
+/* @0x2afebc .word 0xf002306c */
+/* @0x2afebe bl 0x2b21d8 <png_write_oFFs> */
+/* @0x2afec0 ldmvs r3!, {r0, r1, r3, r7, r8, r11, r12, sp, lr, pc} */
+/* @0x2afec2 ldr r3, [r6, #0x8] */
+/* @0x2afec4 lsls r2, r3, #0x15 */
+/* @0x2afec6 bpl 0x2afeec <png_write_info+0xd8> */
+/* @0x2afec8 ldrb.w r3, [r6, #0xb4] */
+/* @0x2afecc add.w r1, r6, #0xa0 */
+/* @0x2afed0 mov r0, r7 */
+/* @0x2afed2 str r3, [sp] */
+/* @0x2afed4 ldrb.w r3, [r6, #0xb5] */
+/* @0x2afed8 str r3, [sp, #0x4] */
+/* @0x2afeda ldr.w r3, [r6, #0xac] */
+/* @0x2afedc movwls r3, #0x20ac */
+/* @0x2afede str r3, [sp, #0x8] */
+/* @0x2afee0 ldr.w r3, [r6, #0xb0] */
+/* @0x2afee4 str r3, [sp, #0xc] */
+/* @0x2afee6 ldm r1, {r1, r2, r3} */
+/* @0x2afee8 bl 0x2b2250 <png_write_pCAL> */
+/* @0x2afeec ldr r3, [r6, #0x8] */
+/* @0x2afeee lsls r3, r3, #0x11 */
+/* @0x2afef0 bpl 0x2aff08 <png_write_info+0xf4> */
+/* @0x2afef2 ldrd r4, r5, [r6, #232] */
+/* @0x2afef4 shasxmi r4, r8, r10 */
+/* @0x2afef6 mov r0, r7 */
+/* @0x2afef8 ldrb.w r1, [r6, #0xdc] */
+/* @0x2afefc ldrd r2, r3, [r6, #224] */
+/* @0x2aff00 strd r4, r5, [sp] */
+/* @0x2aff04 bl 0x2b2384 <png_write_sCAL> */
+/* @0x2aff08 ldr r3, [r6, #0x8] */
+/* @0x2aff0a lsls r5, r3, #0x18 */
+/* @0x2aff0c bpl 0x2aff1c <png_write_info+0x108> */
+/* @0x2aff0e mov r0, r7 */
+/* @0x2aff10 ldr r1, [r6, #0x70] */
+/* @0x2aff12 ldr r2, [r6, #0x74] */
+/* @0x2aff14 ldrb.w r3, [r6, #0x78] */
+/* @0x2aff18 bl 0x2b2418 <png_write_pHYs> */
+/* @0x2aff1c ldr r3, [r6, #0x8] */
+/* @0x2aff1e lsls r4, r3, #0x16 */
+/* @0x2aff20 bpl 0x2aff38 <png_write_info+0x124> */
+/* @0x2aff22 mov r0, r7 */
+/* @0x2aff24 add.w r1, r6, #0x3c */
+/* @0x2aff28 bl 0x2b2490 <png_write_tIME> */
+/* @0x2aff2c ldr.w r3, [r7, #0x12c] */
+/* @0x2aff30 orr r3, r3, #0x200 */
+/* @0x2aff34 str.w r3, [r7, #0x12c] */
+/* @0x2aff38 ldr r3, [r6, #0x8] */
+/* @0x2aff3a lsls r0, r3, #0x12 */
+/* @0x2aff3c bpl 0x2aff42 <png_write_info+0x12e> */
+/* @0x2aff3e movs r4, #0x0 */
+/* @0x2aff40 b 0x2aff54 <png_write_info+0x140> */
+/* @0x2aff42 mov.w r8, #0x0 */
+/* @0x2aff44 .word 0xf04f0800 */
+/* @0x2aff46 mov.w r10, #0x1c */
+/* @0x2aff48 .word 0xf06f0a1c */
+/* @0x2aff4a mvn r9, #0x2 */
+/* @0x2aff4c .word 0xf06f0902 */
+/* @0x2aff4e mvn r11, #0x1 */
+/* @0x2aff50 ands r0, r8, r1, lsl #22 */
+/* @0x2aff52 b 0x2aff86 <png_write_info+0x172> */
+/* @0x2aff54 ldr.w r3, [r6, #0xd8] */
+/* @0x2aff58 cmp r4, r3 */
+/* @0x2aff5a bge 0x2aff42 <png_write_info+0x12e> */
+/* @0x2aff5c ldr.w r1, [r6, #0xd4] */
+/* @0x2aff60 mov r0, r7 */
+/* @0x2aff62 add.w r1, r1, r4, lsl #4 */
+/* @0x2aff64 strlo r1, [r1], #-260 */
+/* @0x2aff66 adds r4, #0x1 */
+/* @0x2aff68 bl 0x2b198c <png_write_sPLT> */
+/* @0x2aff6c b 0x2aff54 <png_write_info+0x140> */
+/* @0x2aff6e bne 0x2affb0 <png_write_info+0x19c> */
+/* @0x2aff70 str r3, [sp] */
+/* @0x2aff72 mov r0, r7 */
+/* @0x2aff74 ldr r1, [r4, #0x4] */
+/* @0x2aff76 ldr r2, [r4, #0x8] */
+/* @0x2aff78 bl 0x2b2004 <png_write_zTXt> */
+/* @0x2aff7c ldr r3, [r6, #0x38] */
+/* @0x2aff7e str.w r11, [r3, r5] */
+/* @0x2aff80 .word 0xf108b005 */
+/* @0x2aff82 add.w r8, r8, #0x1 */
+/* @0x2aff84 blvs 0xf71f90 <b2_toiTime+0x818aec> */
+/* @0x2aff86 ldr r3, [r6, #0x30] */
+/* @0x2aff88 cmp r8, r3 */
+/* @0x2aff8a bge 0x2affc8 <png_write_info+0x1b4> */
+/* @0x2aff8c mul r5, r10, r8 */
+/* @0x2aff90 ldr r3, [r6, #0x38] */
+/* @0x2aff92 adds r4, r3, r5 */
+/* @0x2aff94 ldr r3, [r3, r5] */
+/* @0x2aff96 cmp r3, #0x0 */
+/* @0x2aff98 ble 0x2aff6e <png_write_info+0x15a> */
+/* @0x2aff9a ldr r2, [r4, #0x18] */
+/* @0x2aff9c mov r1, r3 */
+/* @0x2aff9e mov r0, r7 */
+/* @0x2affa0 str r2, [sp] */
+/* @0x2affa2 ldr r2, [r4, #0x8] */
+/* @0x2affa4 str r2, [sp, #0x4] */
+/* @0x2affa6 ldr r2, [r4, #0x4] */
+/* @0x2affa8 ldr r3, [r4, #0x14] */
+/* @0x2affaa bl 0x2b20b8 <png_write_iTXt> */
+/* @0x2affac and pc, r7, r5, lsl #17 */
+/* @0x2affae b 0x2affc0 <png_write_info+0x1ac> */
+/* @0x2affb0 adds r3, #0x1 */
+/* @0x2affb2 bne 0x2aff82 <png_write_info+0x16e> */
+/* @0x2affb4 mov r0, r7 */
+/* @0x2affb6 ldr r1, [r4, #0x4] */
+/* @0x2affb8 ldr r2, [r4, #0x8] */
+/* @0x2affba movs r3, #0x0 */
+/* @0x2affbc bl 0x2b1f94 <png_write_tEXt> */
+/* @0x2affc0 ldr r3, [r6, #0x38] */
+/* @0x2affc2 str.w r9, [r3, r5] */
+/* @0x2affc4 ldrb r9, [r12, r5] */
+/* @0x2affc6 b 0x2aff82 <png_write_info+0x16e> */
+/* @0x2affc8 ldr.w r3, [r6, #0xc0] */
+/* @0x2affcc cbz r3, 0x2b0022 <png_write_info+0x20e> */
+/* @0x2affce ldr.w r4, [r6, #0xbc] */
+/* @0x2affd0 ldrhs r4, [r4, #-0xbc] */
+/* @0x2affd2 movs r5, #0x14 */
+/* @0x2affd4 ldr.w r2, [r6, #0xc0] */
+/* @0x2affd8 ldr.w r3, [r6, #0xbc] */
+/* @0x2affdc mla r3, r5, r2, r3 */
+/* @0x2affe0 cmp r4, r3 */
+/* @0x2affe2 bhs 0x2b0022 <png_write_info+0x20e> */
+/* @0x2affe4 mov r0, r7 */
+/* @0x2affe6 mov r1, r4 */
+/* @0x2affe8 bl 0x2a5fe4 <png_handle_as_unknown> */
+/* @0x2affec cmp r0, #0x1 */
+/* @0x2affee beq 0x2b001e <png_write_info+0x20a> */
+/* @0x2afff0 ldrb r3, [r4, #0x10] */
+/* @0x2afff2 cbz r3, 0x2b001e <png_write_info+0x20a> */
+/* @0x2afff4 and r2, r3, #0x6 */
+/* @0x2afff8 cmp r2, #0x2 */
+/* @0x2afffa bne 0x2b001e <png_write_info+0x20a> */
+/* @0x2afffc lsls r1, r3, #0x1c */
+/* @0x2afffe bmi 0x2b001e <png_write_info+0x20a> */
+/* @0x2b0000 ldrb r3, [r4, #0x3] */
+/* @0x2b0002 lsls r2, r3, #0x1a */
+/* @0x2b0004 bmi 0x2b0012 <png_write_info+0x1fe> */
+/* @0x2b0006 cmp r0, #0x3 */
+/* @0x2b0008 beq 0x2b0012 <png_write_info+0x1fe> */
+/* @0x2b000a ldr.w r3, [r7, #0x130] */
+/* @0x2b000c bicseq r3, r11, #48, #2 */
+/* @0x2b000e lsls r3, r3, #0xf */
+/* @0x2b0010 bpl 0x2b001e <png_write_info+0x20a> */
+/* @0x2b0012 mov r0, r7 */
+/* @0x2b0014 mov r1, r4 */
+/* @0x2b0016 ldr r2, [r4, #0x8] */
+/* @0x2b0018 ldr r3, [r4, #0xc] */
+/* @0x2b001a bl 0x2b12bc <png_write_chunk> */
+/* @0x2b001c ldrlo pc, [r4], #-2383 */
+/* @0x2b001e adds r4, #0x14 */
+/* @0x2b0020 b 0x2affd4 <png_write_info+0x1c0> */
+/* @0x2b0022 add sp, #0x14 */
+/* @0x2b0024 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x2b0028 b 0x2b019c <png_create_write_struct_2+0x18> */
+/* @0x2b002a movs r5, r1 */
 
-/* ── FUNC 0x2aed35 · png_set_sRGB · size=18 · insn=0 */
+/* ── FUNC 0x2b002c · png_write_end · size=284 · insn=125 */
+/* @0x2b002c push.w {r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2b0030 mov r5, r1 */
+/* @0x2b0032 mov r4, r0 */
+/* @0x2b0034 cmp r0, #0x0 */
+/* @0x2b0036 beq.w 0x2b013c <png_write_end+0x110> */
+/* @0x2b0038 .word 0xf8d08081 */
+/* @0x2b003a ldr.w r3, [r0, #0x12c] */
+/* @0x2b003c ldrbeq r3, [pc, -r12, lsr #2] */
+/* @0x2b003e lsls r7, r3, #0x1d */
+/* @0x2b0040 bmi 0x2b004a <png_write_end+0x1e> */
+/* @0x2b0042 ldr r1, [pc, #0x100] */
+/* @0x2b0044 add r1, pc */
+/* @0x2b0046 bl 0x2a642c <png_error> */
+/* @0x2b0048 ldmdblt sp, {r0, r4, r5, r6, r7, r8, r11, r12, sp, lr, pc} ^ */
+/* @0x2b004a cbnz r5, 0x2b0064 <png_write_end+0x38> */
+/* @0x2b004c ldr.w r3, [r4, #0x12c] */
+/* @0x2b0050 mov r0, r4 */
+/* @0x2b0052 orr r3, r3, #0x8 */
+/* @0x2b0054 .word 0xf8c40308 */
+/* @0x2b0056 str.w r3, [r4, #0x12c] */
+/* @0x2b0058 andlt r3, r3, r12, lsr #2 */
+/* @0x2b005a add sp, #0xc */
+/* @0x2b005c pop.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2b0060 b.w 0x2b178c <png_write_IEND> */
+/* @0x2b0064 ldr r3, [r5, #0x8] */
+/* @0x2b0066 lsls r6, r3, #0x16 */
+/* @0x2b0068 bpl 0x2b007c <png_write_end+0x50> */
+/* @0x2b006a ldr.w r3, [r4, #0x12c] */
+/* @0x2b006c ldreq r3, [r8, #0x12c] */
+/* @0x2b006e lsls r0, r3, #0x16 */
+/* @0x2b0070 bmi 0x2b007c <png_write_end+0x50> */
+/* @0x2b0072 mov r0, r4 */
+/* @0x2b0074 add.w r1, r5, #0x3c */
+/* @0x2b0078 bl 0x2b2490 <png_write_tIME> */
+/* @0x2b007c mov.w r8, #0x0 */
+/* @0x2b0080 mov.w r10, #0x1c */
+/* @0x2b0084 mvn r9, #0x2 */
+/* @0x2b0088 mvn r11, #0x1 */
+/* @0x2b008c ldr r3, [r5, #0x30] */
+/* @0x2b008e cmp r8, r3 */
+/* @0x2b0090 bge 0x2b00e8 <png_write_end+0xbc> */
+/* @0x2b0092 mul r7, r10, r8 */
+/* @0x2b0094 blvs 0xfedadcbc <b2_toiTime+0xfffffffffe654818> */
+/* @0x2b0096 ldr r3, [r5, #0x38] */
+/* @0x2b0098 adds r6, r3, r7 */
+/* @0x2b009a ldr r3, [r3, r7] */
+/* @0x2b009c cmp r3, #0x0 */
+/* @0x2b009e ble 0x2b00b6 <png_write_end+0x8a> */
+/* @0x2b00a0 ldr r2, [r6, #0x18] */
+/* @0x2b00a2 mov r1, r3 */
+/* @0x2b00a4 mov r0, r4 */
+/* @0x2b00a6 str r2, [sp] */
+/* @0x2b00a8 ldr r2, [r6, #0x8] */
+/* @0x2b00aa str r2, [sp, #0x4] */
+/* @0x2b00ac ldr r2, [r6, #0x4] */
+/* @0x2b00ae ldr r3, [r6, #0x14] */
+/* @0x2b00b0 bl 0x2b20b8 <png_write_iTXt> */
+/* @0x2b00b4 b 0x2b00dc <png_write_end+0xb0> */
+/* @0x2b00b6 bne 0x2b00cc <png_write_end+0xa0> */
+/* @0x2b00b8 str r3, [sp] */
+/* @0x2b00ba mov r0, r4 */
+/* @0x2b00bc ldr r1, [r6, #0x4] */
+/* @0x2b00be ldr r2, [r6, #0x8] */
+/* @0x2b00c0 bl 0x2b2004 <png_write_zTXt> */
+/* @0x2b00c4 ldr r3, [r5, #0x38] */
+/* @0x2b00c6 str.w r11, [r3, r7] */
+/* @0x2b00c8 and r11, r10, r7 */
+/* @0x2b00ca b 0x2b00e2 <png_write_end+0xb6> */
+/* @0x2b00cc adds r3, #0x1 */
+/* @0x2b00ce bne 0x2b00e2 <png_write_end+0xb6> */
+/* @0x2b00d0 mov r0, r4 */
+/* @0x2b00d2 ldr r1, [r6, #0x4] */
+/* @0x2b00d4 ldr r2, [r6, #0x8] */
+/* @0x2b00d6 movs r3, #0x0 */
+/* @0x2b00d8 bl 0x2b1f94 <png_write_tEXt> */
+/* @0x2b00dc ldr r3, [r5, #0x38] */
+/* @0x2b00de str.w r9, [r3, r7] */
+/* @0x2b00e0 .word 0xf1089007 */
+/* @0x2b00e2 add.w r8, r8, #0x1 */
+/* @0x2b00e4 ldrb r0, [r1, r1, lsl #16] */
+/* @0x2b00e6 b 0x2b008c <png_write_end+0x60> */
+/* @0x2b00e8 ldr.w r3, [r5, #0xc0] */
+/* @0x2b00ec cmp r3, #0x0 */
+/* @0x2b00ee beq 0x2b004c <png_write_end+0x20> */
+/* @0x2b00f0 ldr.w r6, [r5, #0xbc] */
+/* @0x2b00f4 movs r7, #0x14 */
+/* @0x2b00f6 ldr.w r2, [r5, #0xc0] */
+/* @0x2b00f8 .word 0xf8d520c0 */
+/* @0x2b00fa ldr.w r3, [r5, #0xbc] */
+/* @0x2b00fc blx 0x47c3f6 <targetStr+0x11b6> */
+/* @0x2b00fe mla r3, r7, r2, r3 */
+/* @0x2b0100 addsmi r3, lr, #134217728 */
+/* @0x2b0102 cmp r6, r3 */
+/* @0x2b0104 bhs 0x2b004c <png_write_end+0x20> */
+/* @0x2b0106 mov r0, r4 */
+/* @0x2b0108 mov r1, r6 */
+/* @0x2b010a bl 0x2a5fe4 <png_handle_as_unknown> */
+/* @0x2b010c stmdahs r1, {r0, r1, r3, r5, r6, r8, r9, r10, r11, r12, sp, lr, pc} */
+/* @0x2b010e cmp r0, #0x1 */
+/* @0x2b0110 beq 0x2b0138 <png_write_end+0x10c> */
+/* @0x2b0112 ldrb r3, [r6, #0x10] */
+/* @0x2b0114 cbz r3, 0x2b0138 <png_write_end+0x10c> */
+/* @0x2b0116 lsls r1, r3, #0x1c */
+/* @0x2b0118 bpl 0x2b0138 <png_write_end+0x10c> */
+/* @0x2b011a ldrb r3, [r6, #0x3] */
+/* @0x2b011c lsls r2, r3, #0x1a */
+/* @0x2b011e bmi 0x2b012c <png_write_end+0x100> */
+/* @0x2b0120 cmp r0, #0x3 */
+/* @0x2b0122 beq 0x2b012c <png_write_end+0x100> */
+/* @0x2b0124 ldr.w r3, [r4, #0x130] */
+/* @0x2b0128 lsls r3, r3, #0xf */
+/* @0x2b012a bpl 0x2b0138 <png_write_end+0x10c> */
+/* @0x2b012c mov r0, r4 */
+/* @0x2b012e mov r1, r6 */
+/* @0x2b0130 ldr r2, [r6, #0x8] */
+/* @0x2b0132 ldr r3, [r6, #0xc] */
+/* @0x2b0134 bl 0x2b12bc <png_write_chunk> */
+/* @0x2b0138 adds r6, #0x14 */
+/* @0x2b013a b 0x2b00f6 <png_write_end+0xca> */
+/* @0x2b013c add sp, #0xc */
+/* @0x2b013e pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x2b0140 svclt #0x8ff0 */
+/* @0x2b0142 nop */
+/* @0x2b0144 udf #0xe9 */
+/* @0x2b0146 movs r5, r1 */
 
-/* ── FUNC 0x2aed49 · png_set_sRGB_gAMA_and_cHRM · size=256 · insn=0 */
+/* ── FUNC 0x2b0148 · png_convert_from_struct_tm · size=32 · insn=16 */
+/* @0x2b0148 ldr r3, [r1, #0x14] */
+/* @0x2b014a addw r3, r3, #0x76c */
+/* @0x2b014c andhi r7, r3, r12, ror #6 */
+/* @0x2b014e strh r3, [r0] */
+/* @0x2b0150 ldr r3, [r1, #0x10] */
+/* @0x2b0152 adds r3, #0x1 */
+/* @0x2b0154 strb r3, [r0, #0x2] */
+/* @0x2b0156 ldr r3, [r1, #0xc] */
+/* @0x2b0158 strb r3, [r0, #0x3] */
+/* @0x2b015a ldr r3, [r1, #0x8] */
+/* @0x2b015c strb r3, [r0, #0x4] */
+/* @0x2b015e ldr r3, [r1, #0x4] */
+/* @0x2b0160 strb r3, [r0, #0x5] */
+/* @0x2b0162 ldr r3, [r1] */
+/* @0x2b0164 strb r3, [r0, #0x6] */
+/* @0x2b0166 bx lr */
 
-/* ── FUNC 0x2aee49 · png_set_iCCP · size=176 · insn=0 */
+/* ── FUNC 0x2b0168 · png_convert_from_time_t · size=26 · insn=13 */
+/* @0x2b0168 push {r0, r1, r4, lr} */
+/* @0x2b016a mov r4, r0 */
+/* @0x2b016c add r0, sp, #0x8 */
+/* @0x2b016e str r1, [r0, #-4]! */
+/* @0x2b0170 .word 0xf6061d04 */
+/* @0x2b0172 blx 0xb6f4c <gmtime@plt> */
+/* @0x2b0174 strmi lr, [r1], -r12, ror #29 */
+/* @0x2b0176 mov r1, r0 */
+/* @0x2b0178 mov r0, r4 */
+/* @0x2b017a bl 0x2b0148 <png_convert_from_struct_tm> */
+/* @0x2b017c andlt pc, r2, r5, ror #31 */
+/* @0x2b017e add sp, #0x8 */
+/* @0x2b0180 pop {r4, pc} */
 
-/* ── FUNC 0x2aeef9 · png_set_text_2 · size=488 · insn=0 */
+/* ── FUNC 0x2b0184 · png_create_write_struct_2 · size=480 · insn=222 */
+/* @0x2b0184 push {r4, r5, r6, r7, lr} */
+/* @0x2b0186 sub sp, #0x84 */
+/* @0x2b0188 str r0, [sp] */
+/* @0x2b018a ldr r0, [sp, #0x98] */
+/* @0x2b018c str r3, [sp, #0x1c] */
+/* @0x2b018e ldr r3, [sp, #0xa0] */
+/* @0x2b0190 str r0, [sp, #0x8] */
+/* @0x2b0192 ldr r0, [pc, #0x1b4] */
+/* @0x2b0194 str r2, [sp, #0x18] */
+/* @0x2b0196 str r3, [sp, #0x10] */
+/* @0x2b0198 add r0, pc */
+/* @0x2b019a ldr r2, [sp, #0x9c] */
+/* @0x2b019c ldr r3, [pc, #0x1ac] */
+/* @0x2b019e str r0, [sp, #0x4] */
+/* @0x2b01a0 str r1, [sp, #0x14] */
+/* @0x2b01a2 mov r1, r2 */
+/* @0x2b01a4 str r2, [sp, #0xc] */
+/* @0x2b01a6 ldr r3, [r0, r3] */
+/* @0x2b01a8 movs r0, #0x1 */
+/* @0x2b01aa ldr r2, [sp, #0x8] */
+/* @0x2b01ac ldr r3, [r3] */
+/* @0x2b01ae str r3, [sp, #0x7c] */
+/* @0x2b01b0 movs r3, #0x0 */
+/* @0x2b01b2 str r3, [sp, #0x24] */
+/* @0x2b01b4 bl 0x2a6c02 <png_create_struct_2> */
+/* @0x2b01b8 str r0, [sp, #0x28] */
+/* @0x2b01ba ldr r0, [sp, #0x28] */
+/* @0x2b01bc cmp r0, #0x0 */
+/* @0x2b01be beq.w 0x2b032e <png_create_write_struct_2+0x1aa> */
+/* @0x2b01c0 bls 0x5504a0 <gp_ActiveMaskObjects+0xb7d8> */
+/* @0x2b01c2 ldr r2, [sp, #0x28] */
+/* @0x2b01c4 ldr r3, [pc, #0x17c] */
+/* @0x2b01c6 str.w r3, [r2, #0x308] */
+/* @0x2b01c8 bls 0x53cdf0 <obj_has_event+0x2280> */
+/* @0x2b01ca ldr r2, [sp, #0x28] */
+/* @0x2b01cc ldr r0, [sp, #0x28] */
+/* @0x2b01ce str.w r3, [r2, #0x30c] */
+/* @0x2b01d0 bls 0x2fce08 <TT_RunIns+0x14> */
+/* @0x2b01d2 ldr r2, [sp, #0x4] */
+/* @0x2b01d4 ldr r3, [pc, #0x178] */
+/* @0x2b01d6 ldr r1, [r2, r3] */
+/* @0x2b01d8 mov.w r2, #0x100 */
+/* @0x2b01dc bl 0x2a653c <png_set_longjmp_fn> */
+/* @0x2b01e0 blx 0xb6904 <setjmp@plt> */
+/* @0x2b01e4 mov r4, r0 */
+/* @0x2b01e6 cbz r0, 0x2b01ec <png_create_write_struct_2+0x68> */
+/* @0x2b01e8 blx 0xb6c88 <abort@plt> */
+/* @0x2b01ec add r1, sp, #0x8 */
+/* @0x2b01ee ldr r0, [sp, #0x28] */
+/* @0x2b01f0 ldm r1, {r1, r2, r3} */
+/* @0x2b01f2 bl 0x2a6d34 <png_set_mem_fn> */
+/* @0x2b01f4 stmdbge r5, {r0, r1, r2, r3, r4, r7, r8, r10, r11, r12, sp, lr, pc} */
+/* @0x2b01f6 add r1, sp, #0x14 */
+/* @0x2b01f8 ldr r0, [sp, #0x28] */
+/* @0x2b01fa ldm r1, {r1, r2, r3} */
+/* @0x2b01fc bl 0x2a654e <png_set_error_fn> */
+/* @0x2b0200 ldr r3, [sp] */
+/* @0x2b0202 cbnz r3, 0x2b0210 <png_create_write_struct_2+0x8c> */
+/* @0x2b0204 ldr r3, [sp, #0x28] */
+/* @0x2b0206 ldr.w r3, [r3, #0x130] */
+/* @0x2b0208 orrseq r3, r11, #48, #2 */
+/* @0x2b020a lsls r3, r3, #0xe */
+/* @0x2b020c bmi 0x2b0250 <png_create_write_struct_2+0xcc> */
+/* @0x2b020e b 0x2b02d2 <png_create_write_struct_2+0x14e> */
+/* @0x2b0210 ldr r5, [pc, #0x140] */
+/* @0x2b0212 mov.w r3, #0xffffffff */
+/* @0x2b0214 .word 0x260133ff */
+/* @0x2b0216 movs r6, #0x1 */
+/* @0x2b0218 add r5, pc */
+/* @0x2b021a ldr r0, [sp] */
+/* @0x2b021c adds r3, #0x1 */
+/* @0x2b021e ldrb r2, [r3, r5] */
+/* @0x2b0220 mov r7, r3 */
+/* @0x2b0222 ldrb r1, [r0, r3] */
+/* @0x2b0224 cmp r1, r2 */
+/* @0x2b0226 beq 0x2b0236 <png_create_write_struct_2+0xb2> */
+/* @0x2b0228 ldr r1, [sp, #0x28] */
+/* @0x2b022a ldr.w r0, [r1, #0x130] */
+/* @0x2b022c vst4.8 {d16, d18, d20, d22}, [r0:256], r0 */
+/* @0x2b022e orr r0, r0, #0x20000 */
+/* @0x2b0230 .word 0xf8c13000 */
+/* @0x2b0232 str.w r0, [r1, #0x130] */
+/* @0x2b0234 stmdals r0, {r4, r5, r8} */
+/* @0x2b0236 ldr r0, [sp] */
+/* @0x2b0238 ldrb r1, [r0, r7] */
+/* @0x2b023a cmp r1, #0x2e */
+/* @0x2b023c bne 0x2b0246 <png_create_write_struct_2+0xc2> */
+/* @0x2b023e cmp r4, #0x0 */
+/* @0x2b0240 bne 0x2b0204 <png_create_write_struct_2+0x80> */
+/* @0x2b0242 mov r4, r6 */
+/* @0x2b0244 b 0x2b024a <png_create_write_struct_2+0xc6> */
+/* @0x2b0246 cmp r1, #0x0 */
+/* @0x2b0248 beq 0x2b0204 <png_create_write_struct_2+0x80> */
+/* @0x2b024a cmp r2, #0x0 */
+/* @0x2b024c bne 0x2b021a <png_create_write_struct_2+0x96> */
+/* @0x2b024e b 0x2b0204 <png_create_write_struct_2+0x80> */
+/* @0x2b0250 ldr r2, [sp] */
+/* @0x2b0252 cbz r2, 0x2b02a6 <png_create_write_struct_2+0x122> */
+/* @0x2b0254 movs r0, #0x0 */
+/* @0x2b0256 ldrb r4, [r2] */
+/* @0x2b0258 bl 0x2a5fcc <png_get_header_ver> */
+/* @0x2b025c ldrb r3, [r0] */
+/* @0x2b025e cmp r3, r4 */
+/* @0x2b0260 bne 0x2b028e <png_create_write_struct_2+0x10a> */
+/* @0x2b0262 ldr r0, [sp] */
+/* @0x2b0264 ldrb r3, [r0] */
+/* @0x2b0266 cmp r3, #0x31 */
+/* @0x2b0268 beq 0x2b0274 <png_create_write_struct_2+0xf0> */
+/* @0x2b026a ldr r2, [sp] */
+/* @0x2b026c ldrb r3, [r2] */
+/* @0x2b026e cmp r3, #0x30 */
+/* @0x2b0270 bne 0x2b02d2 <png_create_write_struct_2+0x14e> */
+/* @0x2b0272 b 0x2b0286 <png_create_write_struct_2+0x102> */
+/* @0x2b0274 ldr r3, [sp] */
+/* @0x2b0276 movs r0, #0x0 */
+/* @0x2b0278 ldrb r4, [r3, #0x2] */
+/* @0x2b027a bl 0x2a5fcc <png_get_header_ver> */
+/* @0x2b027c stmvc r3, {r0, r1, r2, r5, r7, r9, r10, r11, r12, sp, lr, pc} */
+/* @0x2b027e ldrb r3, [r0, #0x2] */
+/* @0x2b0280 cmp r3, r4 */
+/* @0x2b0282 bne 0x2b028e <png_create_write_struct_2+0x10a> */
+/* @0x2b0284 b 0x2b026a <png_create_write_struct_2+0xe6> */
+/* @0x2b0286 ldr r0, [sp] */
+/* @0x2b0288 ldrb r3, [r0, #0x2] */
+/* @0x2b028a cmp r3, #0x38 */
+/* @0x2b028c bhi 0x2b02d2 <png_create_write_struct_2+0x14e> */
+/* @0x2b028e add r4, sp, #0x2c */
+/* @0x2b0290 ldr r2, [pc, #0xc4] */
+/* @0x2b0292 movs r1, #0x50 */
+/* @0x2b0294 ldr r3, [sp] */
+/* @0x2b0296 mov r0, r4 */
+/* @0x2b0298 add r2, pc */
+/* @0x2b029a blx 0xb65c8 <snprintf@plt> */
+/* @0x2b029c stmdals r10, {r1, r2, r4, r7, r8, r11, sp, lr, pc} */
+/* @0x2b029e ldr r0, [sp, #0x28] */
+/* @0x2b02a0 mov r1, r4 */
+/* @0x2b02a2 bl 0x2a6474 <png_warning> */
+/* @0x2b02a4 andhs pc, r0, r7, ror #17 */
+/* @0x2b02a6 movs r0, #0x0 */
+/* @0x2b02a8 add r4, sp, #0x2c */
+/* @0x2b02aa bl 0x2a5fcc <png_get_header_ver> */
+/* @0x2b02ac bmi 0xdafcf0 <b2_toiTime+0x65684c> */
+/* @0x2b02ae ldr r2, [pc, #0xac] */
+/* @0x2b02b0 movs r1, #0x50 */
+/* @0x2b02b2 add r2, pc */
+/* @0x2b02b4 mov r3, r0 */
+/* @0x2b02b6 mov r0, r4 */
+/* @0x2b02b8 blx 0xb65c8 <snprintf@plt> */
+/* @0x2b02bc ldr r0, [sp, #0x28] */
+/* @0x2b02be mov r1, r4 */
+/* @0x2b02c0 bl 0x2a6474 <png_warning> */
+/* @0x2b02c4 ldr r1, [pc, #0x98] */
+/* @0x2b02c6 ldr r0, [sp, #0x28] */
+/* @0x2b02c8 add r1, pc */
+/* @0x2b02ca bl 0x2a6474 <png_warning> */
+/* @0x2b02cc movwhs pc, #0x18d3 */
+/* @0x2b02ce movs r3, #0x1 */
+/* @0x2b02d0 str r3, [sp, #0x24] */
+/* @0x2b02d2 ldr r3, [sp, #0x28] */
+/* @0x2b02d4 mov.w r2, #0x2000 */
+/* @0x2b02d8 str.w r2, [r3, #0x174] */
+/* @0x2b02dc ldr r3, [sp, #0x24] */
+/* @0x2b02de cbnz r3, 0x2b02fe <png_create_write_struct_2+0x17a> */
+/* @0x2b02e0 ldr r4, [sp, #0x28] */
+/* @0x2b02e2 ldr r0, [sp, #0x28] */
+/* @0x2b02e4 ldr r3, [sp, #0x28] */
+/* @0x2b02e6 ldr.w r1, [r3, #0x174] */
+/* @0x2b02e8 .word 0xf7f61174 */
+/* @0x2b02ea bl 0x2a6d16 <png_malloc_warn> */
+/* @0x2b02ec blls 0x56f744 <g_SWFlineaavertbuff+0x1c67c> */
+/* @0x2b02ee ldr r3, [sp, #0x28] */
+/* @0x2b02f0 str.w r0, [r4, #0x170] */
+/* @0x2b02f4 ldr.w r3, [r3, #0x170] */
+/* @0x2b02f8 cbnz r3, 0x2b02fe <png_create_write_struct_2+0x17a> */
+/* @0x2b02fa movs r3, #0x1 */
+/* @0x2b02fc str r3, [sp, #0x24] */
+/* @0x2b02fe ldr r1, [sp, #0x24] */
+/* @0x2b0300 ldr r0, [sp, #0x28] */
+/* @0x2b0302 cbz r1, 0x2b0324 <png_create_write_struct_2+0x1a0> */
+/* @0x2b0304 ldr r3, [sp, #0x28] */
+/* @0x2b0306 movs r4, #0x0 */
+/* @0x2b0308 ldr.w r1, [r3, #0x170] */
+/* @0x2b030c bl 0x2a6cfc <png_free> */
+/* @0x2b0310 ldr r3, [sp, #0x28] */
+/* @0x2b0312 ldr r1, [sp, #0x10] */
+/* @0x2b0314 ldr r0, [sp, #0x28] */
+/* @0x2b0316 str.w r4, [r3, #0x170] */
+/* @0x2b0318 bls 0x3408e0 */
+/* @0x2b031a ldr r2, [sp, #0x8] */
+/* @0x2b031c bl 0x2a6c5e <png_destroy_struct_2> */
+/* @0x2b0320 mov r0, r4 */
+/* @0x2b0322 b 0x2b032e <png_create_write_struct_2+0x1aa> */
+/* @0x2b0324 mov r2, r1 */
+/* @0x2b0326 mov r3, r1 */
+/* @0x2b0328 bl 0x2afc18 <png_set_write_fn> */
+/* @0x2b032c ldr r0, [sp, #0x28] */
+/* @0x2b032e ldr r2, [sp, #0x4] */
+/* @0x2b0330 ldr r3, [pc, #0x18] */
+/* @0x2b0332 ldr r3, [r2, r3] */
+/* @0x2b0334 ldr r2, [sp, #0x7c] */
+/* @0x2b0336 ldr r3, [r3] */
+/* @0x2b0338 cmp r2, r3 */
+/* @0x2b033a beq 0x2b0340 <png_create_write_struct_2+0x1bc> */
+/* @0x2b033c blx 0xb65d4 <__stack_chk_fail@plt> */
+/* @0x2b0340 add sp, #0x84 */
+/* @0x2b0342 pop {r4, r5, r6, r7, pc} */
+/* @0x2b0344 rsbs r0, r0, #0 */
+/* @0x2b0346 movs r7, r1 */
+/* @0x2b0348 subs r4, r7, r2 */
+/* @0x2b034a movs r4, r2 */
+/* @0x2b034c pop {pc} */
+/* @0x2b034e .word 0xffff e4ac */
+/* @0x2b0350 .word 0xffffe4ac */
+/* @0x2b0352 vsra.u32 q14, q4, #0x1 */
+/* @0x2b0354 andeq r12, sp, r8, asr r1 */
+/* @0x2b0356 movs r5, r1 */
+/* @0x2b0358 stm r5!, {r3} */
+/* @0x2b035a movs r5, r1 */
+/* @0x2b035c stm r4!, {r0, r3, r6} */
+/* @0x2b035e movs r5, r1 */
+/* @0x2b0360 stm r4!, {r0, r3, r5, r6} */
+/* @0x2b0362 movs r5, r1 */
 
-/* ── FUNC 0x2af0e1 · png_set_text · size=32 · insn=0 */
+/* ── FUNC 0x2b0364 · png_create_write_struct · size=18 · insn=9 */
+/* @0x2b0364 push {r0, r1, r2, r3, r4, lr} */
+/* @0x2b0366 movs r4, #0x0 */
+/* @0x2b0368 str r4, [sp] */
+/* @0x2b036a str r4, [sp, #0x4] */
+/* @0x2b036c str r4, [sp, #0x8] */
+/* @0x2b036e bl 0x2b0184 <png_create_write_struct_2> */
+/* @0x2b0370 andlt pc, r4, r9, lsl #30 */
+/* @0x2b0372 add sp, #0x10 */
+/* @0x2b0374 pop {r4, pc} */
 
-/* ── FUNC 0x2af101 · png_set_tIME · size=76 · insn=0 */
+/* ── FUNC 0x2b0378 · png_write_row · size=376 · insn=161 */
+/* @0x2b0378 push {r3, r4, r5, lr} */
+/* @0x2b037a mov r5, r1 */
+/* @0x2b037c mov r4, r0 */
+/* @0x2b037e cmp r0, #0x0 */
+/* @0x2b0380 beq.w 0x2b04e8 <png_write_row+0x170> */
+/* @0x2b0384 ldr.w r3, [r0, #0x1a8] */
+/* @0x2b0388 cbnz r3, 0x2b03a6 <png_write_row+0x2e> */
+/* @0x2b038a ldrb.w r3, [r0, #0x1e8] */
+/* @0x2b038c ldmdblt r3, {r3, r5, r6, r7, r8, r12, sp} ^ */
+/* @0x2b038e cbnz r3, 0x2b03a6 <png_write_row+0x2e> */
+/* @0x2b0390 ldr.w r3, [r0, #0x12c] */
+/* @0x2b0394 lsls r2, r3, #0x15 */
+/* @0x2b0396 bmi 0x2b03a0 <png_write_row+0x28> */
+/* @0x2b0398 ldr r1, [pc, #0x150] */
+/* @0x2b039a add r1, pc */
+/* @0x2b039c bl 0x2a642c <png_error> */
+/* @0x2b03a0 mov r0, r4 */
+/* @0x2b03a2 bl 0x2b2510 <png_write_start_row> */
+/* @0x2b03a4 .word 0xf894f8b5 */
+/* @0x2b03a6 ldrb.w r3, [r4, #0x1e7] */
+/* @0x2b03a8 blhs 0x2bcb4c <jpeg_alloc_huff_table+0x244> */
+/* @0x2b03aa cmp r3, #0x0 */
+/* @0x2b03ac beq 0x2b0430 <png_write_row+0xb8> */
+/* @0x2b03ae ldr.w r3, [r4, #0x134] */
+/* @0x2b03b0 .word 0x079b3134 */
+/* @0x2b03b2 lsls r3, r3, #0x1e */
+/* @0x2b03b4 bpl 0x2b0430 <png_write_row+0xb8> */
+/* @0x2b03b6 ldrb.w r3, [r4, #0x1e8] */
+/* @0x2b03b8 blhs 0x43cb60 <g_RomDisk+0x45340> */
+/* @0x2b03ba cmp r3, #0x6 */
+/* @0x2b03bc bhi 0x2b0430 <png_write_row+0xb8> */
+/* @0x2b03be tbb [pc, r3] */
+/* @0x2b03c0 stceq p0, c15, [r4, #-12] */
+/* @0x2b03c2 lsrs r4, r0, #0x14 */
+/* @0x2b03c4 subs r5, r2, r4 */
+/* @0x2b03c6 cmp r2, #0x23 */
+/* @0x2b03c8 movs r3, r6 */
+/* @0x2b03ca ldr.w r3, [r4, #0x1a8] */
+/* @0x2b03cc ldrbeq r3, [r8, -r8, lsr #3] */
+/* @0x2b03ce lsls r0, r3, #0x1d */
+/* @0x2b03d0 beq 0x2b0430 <png_write_row+0xb8> */
+/* @0x2b03d2 mov r0, r4 */
+/* @0x2b03d4 pop.w {r3, r4, r5, lr} */
+/* @0x2b03d8 b.w 0x2b260c <png_write_finish_row> */
+/* @0x2b03dc ldr.w r3, [r4, #0x1a8] */
+/* @0x2b03e0 lsls r1, r3, #0x1d */
+/* @0x2b03e2 bne 0x2b03d2 <png_write_row+0x5a> */
+/* @0x2b03e4 ldr.w r3, [r4, #0x18c] */
+/* @0x2b03e8 cmp r3, #0x4 */
+/* @0x2b03ea b 0x2b0424 <png_write_row+0xac> */
+/* @0x2b03ec ldr.w r3, [r4, #0x1a8] */
+/* @0x2b03f0 and r3, r3, #0x7 */
+/* @0x2b03f4 cmp r3, #0x4 */
+/* @0x2b03f6 b 0x2b0412 <png_write_row+0x9a> */
+/* @0x2b03f8 ldr.w r3, [r4, #0x1a8] */
+/* @0x2b03fc lsls r2, r3, #0x1e */
+/* @0x2b03fe bne 0x2b03d2 <png_write_row+0x5a> */
+/* @0x2b0400 ldr.w r3, [r4, #0x18c] */
+/* @0x2b0404 cmp r3, #0x2 */
+/* @0x2b0406 b 0x2b0424 <png_write_row+0xac> */
+/* @0x2b0408 ldr.w r3, [r4, #0x1a8] */
+/* @0x2b040c and r3, r3, #0x3 */
+/* @0x2b0410 cmp r3, #0x2 */
+/* @0x2b0412 beq 0x2b0430 <png_write_row+0xb8> */
+/* @0x2b0414 b 0x2b03d2 <png_write_row+0x5a> */
+/* @0x2b0416 ldr.w r3, [r4, #0x1a8] */
+/* @0x2b0418 ldrbeq r3, [r11, r8, lsr #3] */
+/* @0x2b041a lsls r3, r3, #0x1f */
+/* @0x2b041c bmi 0x2b03d2 <png_write_row+0x5a> */
+/* @0x2b041e ldr.w r3, [r4, #0x18c] */
+/* @0x2b0420 blhs 0x2fca58 <ps_hints_apply+0xb658> */
+/* @0x2b0422 cmp r3, #0x1 */
+/* @0x2b0424 bhi 0x2b0430 <png_write_row+0xb8> */
+/* @0x2b0426 b 0x2b03d2 <png_write_row+0x5a> */
+/* @0x2b0428 ldr.w r3, [r4, #0x1a8] */
+/* @0x2b042c lsls r0, r3, #0x1f */
+/* @0x2b042e bpl 0x2b03d2 <png_write_row+0x5a> */
+/* @0x2b0430 ldrb.w r3, [r4, #0x1ea] */
+/* @0x2b0434 ldrb.w r0, [r4, #0x1ef] */
+/* @0x2b0438 ldr.w r2, [r4, #0x198] */
+/* @0x2b043c strb.w r3, [r4, #0x1cc] */
+/* @0x2b0440 ldrb.w r3, [r4, #0x1ec] */
+/* @0x2b0444 str.w r2, [r4, #0x1c4] */
+/* @0x2b0448 strb.w r0, [r4, #0x1ce] */
+/* @0x2b044c strb.w r3, [r4, #0x1cd] */
+/* @0x2b0450 muls r3, r0, r3 */
+/* @0x2b0452 uxtb r3, r3 */
+/* @0x2b0454 strb.w r3, [r4, #0x1cf] */
+/* @0x2b0458 cmp r3, #0x7 */
+/* @0x2b045a bls 0x2b0462 <png_write_row+0xea> */
+/* @0x2b045c lsrs r3, r3, #0x3 */
+/* @0x2b045e muls r2, r3, r2 */
+/* @0x2b0460 b 0x2b0468 <png_write_row+0xf0> */
+/* @0x2b0462 muls r2, r3, r2 */
+/* @0x2b0464 adds r2, #0x7 */
+/* @0x2b0466 lsrs r2, r2, #0x3 */
+/* @0x2b0468 ldr.w r0, [r4, #0x1b0] */
+/* @0x2b046c mov r1, r5 */
+/* @0x2b046e str.w r2, [r4, #0x1c8] */
+/* @0x2b0470 .word 0xf50421c8 */
+/* @0x2b0472 add.w r5, r4, #0x1c4 */
+/* @0x2b0474 andlo r7, r1, r2, ror #11 */
+/* @0x2b0476 adds r0, #0x1 */
+/* @0x2b0478 blx 0xb65bc <memcpy@plt> */
+/* @0x2b047c ldrb.w r3, [r4, #0x1e7] */
+/* @0x2b0480 cbz r3, 0x2b04a6 <png_write_row+0x12e> */
+/* @0x2b0482 ldrb.w r2, [r4, #0x1e8] */
+/* @0x2b0484 bhs 0x3f8c2c <g_RomDisk+0x140c> */
+/* @0x2b0486 cmp r2, #0x5 */
+/* @0x2b0488 bhi 0x2b04a6 <png_write_row+0x12e> */
+/* @0x2b048a ldr.w r3, [r4, #0x134] */
+/* @0x2b048c .word 0x07993134 */
+/* @0x2b048e lsls r1, r3, #0x1e */
+/* @0x2b0490 bpl 0x2b04a6 <png_write_row+0x12e> */
+/* @0x2b0492 ldr.w r1, [r4, #0x1b0] */
+/* @0x2b0494 .word 0x462811b0 */
+/* @0x2b0496 mov r0, r5 */
+/* @0x2b0498 adds r1, #0x1 */
+/* @0x2b049a bl 0x2b279c <png_do_write_interlace> */
+/* @0x2b049c .word 0xf8d4f97f */
+/* @0x2b049e ldr.w r3, [r4, #0x1c4] */
+/* @0x2b04a0 blhs 0x2bcbb8 <jpeg_alloc_huff_table+0x2b0> */
+/* @0x2b04a2 cmp r3, #0x0 */
+/* @0x2b04a4 beq 0x2b03d2 <png_write_row+0x5a> */
+/* @0x2b04a6 ldr.w r3, [r4, #0x134] */
+/* @0x2b04a8 tstlt r3, r4, lsr r1 */
+/* @0x2b04aa cbz r3, 0x2b04b2 <png_write_row+0x13a> */
+/* @0x2b04ac mov r0, r4 */
+/* @0x2b04ae bl 0x2b0dbc <png_do_write_transformations> */
+/* @0x2b04b0 .word 0xf8d4fc85 */
+/* @0x2b04b2 ldr.w r3, [r4, #0x2dc] */
+/* @0x2b04b4 smmlseq r11, r12, r2, r3 */
+/* @0x2b04b6 lsls r3, r3, #0x1d */
+/* @0x2b04b8 bpl 0x2b04ce <png_write_row+0x156> */
+/* @0x2b04ba ldrb.w r3, [r4, #0x2e4] */
+/* @0x2b04bc blhs 0x12bd054 <b2_toiTime+0xb63bb0> */
+/* @0x2b04be cmp r3, #0x40 */
+/* @0x2b04c0 bne 0x2b04ce <png_write_row+0x156> */
+/* @0x2b04c2 ldr.w r1, [r4, #0x1b0] */
+/* @0x2b04c4 .word 0x462811b0 */
+/* @0x2b04c6 mov r0, r5 */
+/* @0x2b04c8 adds r1, #0x1 */
+/* @0x2b04ca bl 0x2b0eb6 <png_do_write_intrapixel> */
+/* @0x2b04cc qsub8mi pc, r0, r4 */
+/* @0x2b04ce mov r0, r4 */
+/* @0x2b04d0 mov r1, r5 */
+/* @0x2b04d2 bl 0x2b29d8 <png_write_find_filter> */
+/* @0x2b04d4 .word 0xf8d4fa81 */
+/* @0x2b04d6 ldr.w r3, [r4, #0x260] */
+/* @0x2b04d8 .word 0xb12b3260 */
+/* @0x2b04da cbz r3, 0x2b04e8 <png_write_row+0x170> */
+/* @0x2b04dc mov r0, r4 */
+/* @0x2b04de ldr.w r1, [r4, #0x1a8] */
+/* @0x2b04e0 .word 0xf89411a8 */
+/* @0x2b04e2 ldrb.w r2, [r4, #0x1e8] */
+/* @0x2b04e4 ldrmi r2, [r8, r8, ror #3] */
+/* @0x2b04e6 blx r3 */
+/* @0x2b04e8 pop {r3, r4, r5, pc} */
+/* @0x2b04ea nop */
+/* @0x2b04ec blt 0x2b044c <png_write_row+0xd4> */
+/* @0x2b04ee movs r5, r1 */
 
-/* ── FUNC 0x2af14d · png_set_tRNS · size=192 · insn=0 */
+/* ── FUNC 0x2b04f0 · png_write_rows · size=32 · insn=15 */
+/* @0x2b04f0 push {r3, r4, r5, r6, r7, lr} */
+/* @0x2b04f2 mov r6, r1 */
+/* @0x2b04f4 mov r7, r2 */
+/* @0x2b04f6 mov r5, r0 */
+/* @0x2b04f8 cbz r0, 0x2b050e <png_write_rows+0x1e> */
+/* @0x2b04fa movs r4, #0x0 */
+/* @0x2b04fc cmp r4, r7 */
+/* @0x2b04fe beq 0x2b050e <png_write_rows+0x1e> */
+/* @0x2b0500 ldr.w r1, [r6, r4, lsl #2] */
+/* @0x2b0504 mov r0, r5 */
+/* @0x2b0506 bl 0x2b0378 <png_write_row> */
+/* @0x2b0508 strlo pc, [r1], #-3895 */
+/* @0x2b050a adds r4, #0x1 */
+/* @0x2b050c b 0x2b04fc <png_write_rows+0xc> */
+/* @0x2b050e pop {r3, r4, r5, r6, r7, pc} */
 
-/* ── FUNC 0x2af20d · png_set_sPLT · size=308 · insn=0 */
+/* ── FUNC 0x2b0510 · png_write_image · size=54 · insn=24 */
+/* @0x2b0510 push.w {r4, r5, r6, r7, r8, lr} */
+/* @0x2b0514 mov r7, r1 */
+/* @0x2b0516 mov r6, r0 */
+/* @0x2b0518 cbz r0, 0x2b0542 <png_write_image+0x32> */
+/* @0x2b051a bl 0x2af7b2 <png_set_interlace_handling> */
+/* @0x2b051c strhs pc, [r0, #-0x94a] */
+/* @0x2b051e movs r5, #0x0 */
+/* @0x2b0520 mov r8, r0 */
+/* @0x2b0522 cmp r5, r8 */
+/* @0x2b0524 bge 0x2b0542 <png_write_image+0x32> */
+/* @0x2b0526 movs r4, #0x0 */
+/* @0x2b0528 ldr.w r3, [r6, #0x190] */
+/* @0x2b052c cmp r4, r3 */
+/* @0x2b052e bhs 0x2b053e <png_write_image+0x2e> */
+/* @0x2b0530 ldr.w r1, [r7, r4, lsl #2] */
+/* @0x2b0534 mov r0, r6 */
+/* @0x2b0536 bl 0x2b0378 <png_write_row> */
+/* @0x2b0538 strlo pc, [r1], #-3871 */
+/* @0x2b053a adds r4, #0x1 */
+/* @0x2b053c b 0x2b0528 <png_write_image+0x18> */
+/* @0x2b053e adds r5, #0x1 */
+/* @0x2b0540 b 0x2b0522 <png_write_image+0x12> */
+/* @0x2b0542 pop.w {r4, r5, r6, r7, r8, pc} */
+/* @0x2b0544 ldrshlt r8, [r8, -r0] */
 
-/* ── FUNC 0x2af341 · png_set_unknown_chunks · size=244 · insn=0 */
+/* ── FUNC 0x2b0546 · png_set_flush · size=12 · insn=6 */
+/* @0x2b0546 cbz r0, 0x2b0550 <png_set_flush+0xa> */
+/* @0x2b0548 bic.w r1, r1, r1, asr #31 */
+/* @0x2b054a .word 0xf8c071e1 */
+/* @0x2b054c str.w r1, [r0, #0x214] */
+/* @0x2b054e .word 0x47701214 */
+/* @0x2b0550 bx lr */
 
-/* ── FUNC 0x2af435 · png_set_unknown_chunk_location · size=30 · insn=0 */
+/* ── FUNC 0x2b0552 · anon_2b0552 · size=0 · insn=1 */
+/* @0x2b0552 ldrblt r0, [r0, #-0x0]! */
 
-/* ── FUNC 0x2af452 · anon_2af452 · size=16 · insn=4 */
-/* @0x2af452 .word 0xf001b120 */
-/* @0x2af456 .word 0xf8c00105 */
-/* @0x2af45a .word 0x460812dc */
-/* @0x2af45e push {r4, r5, r6, r8, r9, r10, lr} */
+/* ── FUNC 0x2b0554 · png_write_flush · size=148 · insn=62 */
+/* @0x2b0554 push {r4, r5, r6, lr} */
+/* @0x2b0556 mov r4, r0 */
+/* @0x2b0558 cmp r0, #0x0 */
+/* @0x2b055a beq 0x2b05e2 <png_write_flush+0x8e> */
+/* @0x2b055c ldr.w r2, [r0, #0x1a8] */
+/* @0x2b0560 ldr.w r3, [r0, #0x194] */
+/* @0x2b0564 cmp r2, r3 */
+/* @0x2b0566 bhs 0x2b05e2 <png_write_flush+0x8e> */
+/* @0x2b0568 ldr r6, [pc, #0x78] */
+/* @0x2b056a add.w r5, r0, #0x138 */
+/* @0x2b056c ldrbtmi r7, [lr], #-1436 */
+/* @0x2b056e add r6, pc */
+/* @0x2b0570 mov r0, r5 */
+/* @0x2b0572 movs r1, #0x2 */
+/* @0x2b0574 blx 0xb69ac <deflate@plt> */
+/* @0x2b0578 cbz r0, 0x2b0588 <png_write_flush+0x34> */
+/* @0x2b057a ldr.w r1, [r4, #0x150] */
+/* @0x2b057c qsaxmi r1, r0, r0 */
+/* @0x2b057e mov r0, r4 */
+/* @0x2b0580 cbnz r1, 0x2b0584 <png_write_flush+0x30> */
+/* @0x2b0582 mov r1, r6 */
+/* @0x2b0584 bl 0x2a642c <png_error> */
+/* @0x2b0588 ldr.w r3, [r4, #0x148] */
+/* @0x2b058c cbnz r3, 0x2b05ae <png_write_flush+0x5a> */
+/* @0x2b058e mov r0, r4 */
+/* @0x2b0590 ldr.w r1, [r4, #0x170] */
+/* @0x2b0594 ldr.w r2, [r4, #0x174] */
+/* @0x2b0598 bl 0x2b16a0 <png_write_IDAT> */
+/* @0x2b059c ldr.w r3, [r4, #0x170] */
+/* @0x2b05a0 str.w r3, [r4, #0x144] */
+/* @0x2b05a4 ldr.w r3, [r4, #0x174] */
+/* @0x2b05a8 str.w r3, [r4, #0x148] */
+/* @0x2b05ac b 0x2b0570 <png_write_flush+0x1c> */
+/* @0x2b05ae ldr.w r2, [r4, #0x174] */
+/* @0x2b05b0 addsmi r2, r10, #116, #2 */
+/* @0x2b05b2 cmp r2, r3 */
+/* @0x2b05b4 beq 0x2b05d2 <png_write_flush+0x7e> */
+/* @0x2b05b6 subs r2, r2, r3 */
+/* @0x2b05b8 mov r0, r4 */
+/* @0x2b05ba ldr.w r1, [r4, #0x170] */
+/* @0x2b05bc .word 0xf0011170 */
+/* @0x2b05be bl 0x2b16a0 <png_write_IDAT> */
+/* @0x2b05c0 .word 0xf8d4f86f */
+/* @0x2b05c2 ldr.w r3, [r4, #0x170] */
+/* @0x2b05c4 .word 0xf8c43170 */
+/* @0x2b05c6 str.w r3, [r4, #0x144] */
+/* @0x2b05c8 .word 0xf8d43144 */
+/* @0x2b05ca ldr.w r3, [r4, #0x174] */
+/* @0x2b05cc .word 0xf8c43174 */
+/* @0x2b05ce str.w r3, [r4, #0x148] */
+/* @0x2b05d0 movwhs r3, #0x148 */
+/* @0x2b05d2 movs r3, #0x0 */
+/* @0x2b05d4 mov r0, r4 */
+/* @0x2b05d6 str.w r3, [r4, #0x218] */
+/* @0x2b05d8 pop {r3, r4, r9, r12, sp} */
+/* @0x2b05da pop.w {r4, r5, r6, lr} */
+/* @0x2b05dc .word 0xf7ff4070 */
+/* @0x2b05de b.w 0x2afc0c <png_flush> */
+/* @0x2b05e0 .word 0xbd70bb15 */
+/* @0x2b05e2 pop {r4, r5, r6, pc} */
+/* @0x2b05e4 bge 0x2b0606 <png_write_destroy+0x1e> */
+/* @0x2b05e6 movs r5, r1 */
 
-/* ── FUNC 0x2af453 · png_permit_mng_features · size=14 · insn=0 */
+/* ── FUNC 0x2b05e8 · png_write_destroy · size=170 · insn=71 */
+/* @0x2b05e8 push.w {r4, r5, r6, r7, r8, r9, r10, lr} */
+/* @0x2b05ec mov r4, r0 */
+/* @0x2b05ee sub sp, #0x100 */
+/* @0x2b05f0 add.w r0, r0, #0x138 */
+/* @0x2b05f4 blx 0xb69b8 <deflateEnd@plt> */
+/* @0x2b05f8 mov r0, r4 */
+/* @0x2b05fa ldr.w r1, [r4, #0x170] */
+/* @0x2b05fc vst4.16 {d17, d19, d21, d23}, [pc:256], r0 */
+/* @0x2b05fe mov.w r5, #0x100 */
+/* @0x2b0600 .word 0xf7f67580 */
+/* @0x2b0602 bl 0x2a6cfc <png_free> */
+/* @0x2b0604 qsub16mi pc, r0, r11 */
+/* @0x2b0606 mov r0, r4 */
+/* @0x2b0608 ldr.w r1, [r4, #0x1b0] */
+/* @0x2b060c bl 0x2a6cfc <png_free> */
+/* @0x2b0610 mov r0, r4 */
+/* @0x2b0612 ldr.w r1, [r4, #0x1ac] */
+/* @0x2b0614 .word 0xf7f611ac */
+/* @0x2b0616 bl 0x2a6cfc <png_free> */
+/* @0x2b0618 qsub16mi pc, r0, r1 */
+/* @0x2b061a mov r0, r4 */
+/* @0x2b061c ldr.w r1, [r4, #0x1b4] */
+/* @0x2b0620 bl 0x2a6cfc <png_free> */
+/* @0x2b0624 mov r0, r4 */
+/* @0x2b0626 ldr.w r1, [r4, #0x1b8] */
+/* @0x2b0628 .word 0xf7f611b8 */
+/* @0x2b062a bl 0x2a6cfc <png_free> */
+/* @0x2b062c strtmi pc, [r0], -r7, ror #22 */
+/* @0x2b062e mov r0, r4 */
+/* @0x2b0630 ldr.w r1, [r4, #0x1bc] */
+/* @0x2b0634 bl 0x2a6cfc <png_free> */
+/* @0x2b0638 mov r0, r4 */
+/* @0x2b063a ldr.w r1, [r4, #0x1c0] */
+/* @0x2b063c .word 0xf7f611c0 */
+/* @0x2b063e bl 0x2a6cfc <png_free> */
+/* @0x2b0640 qsaxmi pc, r0, sp */
+/* @0x2b0642 mov r0, r4 */
+/* @0x2b0644 ldr.w r1, [r4, #0x2bc] */
+/* @0x2b0648 bl 0x2a6cfc <png_free> */
+/* @0x2b064c mov r1, r4 */
+/* @0x2b064e mov r2, r5 */
+/* @0x2b0650 mov r0, sp */
+/* @0x2b0652 blx 0xb65bc <memcpy@plt> */
+/* @0x2b0654 .word 0xf8d4efb4 */
+/* @0x2b0656 ldr.w r10, [r4, #0x104] */
+/* @0x2b0658 .word 0xf8d4a104 */
+/* @0x2b065a ldr.w r9, [r4, #0x108] */
+/* @0x2b065c strtmi r9, [r0], -r8, lsl #2 */
+/* @0x2b065e mov r0, r4 */
+/* @0x2b0660 ldr.w r8, [r4, #0x10c] */
+/* @0x2b0664 movs r1, #0x0 */
+/* @0x2b0666 ldr.w r7, [r4, #0x2f0] */
+/* @0x2b0668 vst1.64 {d23, d24, d25, d26}, [pc:256], r0 */
+/* @0x2b066a mov.w r2, #0x338 */
+/* @0x2b066c .word 0xf605724e */
+/* @0x2b066e blx 0xb65b0 <memset@plt> */
+/* @0x2b0670 .word 0xf8c4efa0 */
+/* @0x2b0672 str.w r10, [r4, #0x104] */
+/* @0x2b0674 .word 0xf8c4a104 */
+/* @0x2b0676 str.w r9, [r4, #0x108] */
+/* @0x2b0678 strtmi r9, [r0], -r8, lsl #2 */
+/* @0x2b067a mov r0, r4 */
+/* @0x2b067c str.w r8, [r4, #0x10c] */
+/* @0x2b0680 mov r1, sp */
+/* @0x2b0682 str.w r7, [r4, #0x2f0] */
+/* @0x2b0684 qsub8mi r7, r10, r0 */
+/* @0x2b0686 mov r2, r5 */
+/* @0x2b0688 blx 0xb65bc <memcpy@plt> */
+/* @0x2b068c add sp, #0x100 */
+/* @0x2b068e pop.w {r4, r5, r6, r7, r8, r9, r10, pc} */
+/* @0x2b0690 push {r4, r5, r6, r7, r8, r9, r10, pc} */
 
-/* ── FUNC 0x2af460 · anon_2af460 · size=296 · insn=74 */
-/* @0x2af460 svcmi #0xf8e92d */
-/* @0x2af464 ldrmi r4, [r3], lr, lsl #12 */
-/* @0x2af468 .word 0x4604461d */
-/* @0x2af46c subsle r2, r5, r0, lsl #16 */
-/* @0x2af470 cdpne p9, #0x8, c11, c11, c3, #0x6 */
-/* @0x2af474 .word 0xf8d02b01 */
-/* @0x2af478 stmdale r7, {r4, r5, r8, r12, sp} */
-/* @0x2af47c svclt #0x82903 */
-/* @0x2af480 biclo pc, r0, #1124073472 */
-/* @0x2af484 vst4.8 {d29, d30, d31, d0}, [r3], r10 */
-/* @0x2af488 and r4, r1, r0, lsl #6 */
-/* @0x2af48c movwmi pc, #0x423 */
-/* @0x2af490 teqlo r0, r4, asr #17 */
-/* @0x2af494 ldrsblo pc, [r0, -r4]! */
-/* @0x2af498 orrlo pc, r0, #587202560 */
-/* @0x2af49c teqlo r0, r4, asr #17 */
-/* @0x2af4a0 svchi #0xf8e8bd */
-/* @0x2af4a4 .word 0xf8d0b3d2 */
-/* @0x2af4a8 .word 0xf04f82cc */
-/* @0x2af4ac bl 0x3718c8 <_ZTS13C_UTF16String+0x8974> */
-/* @0x2af4b0 blx 0x4f1cda <SrcVerts+0x4ed1e> */
-/* @0x2af4b4 .word 0xf7f7f10a */
-/* @0x2af4b8 .word 0xf8d4fbf3 */
-/* @0x2af4bc .word 0x460712d0 */
-/* @0x2af4c0 blx 0x51ba2e <SrcVerts+0x78a72> */
-/* @0x2af4c4 .word 0xf607f208 */
-/* @0x2af4c8 qsub16mi lr, r0, r10 */
-/* @0x2af4cc sbcsne pc, r0, #212, #16 */
-/* @0x2af4d0 .word 0xfc14f7f7 */
-/* @0x2af4d4 .word 0xf8c42300 */
-/* @0x2af4d8 .word 0xf04f32d0 */
-/* @0x2af4dc ldrbmi r0, [r9], -r5, lsl #18 */
-/* @0x2af4e0 .word 0xf808fb09 */
-/* @0x2af4e4 .word 0xf205fb09 */
-/* @0x2af4e8 andeq lr, r8, r7, lsl #22 */
-/* @0x2af4ec stmdaeq r4, {r3, r8, r12, sp, lr, pc} */
-/* @0x2af4f0 .word 0xf60744b8 */
-/* @0x2af4f4 movwhs lr, #0x864 */
-/* @0x2af4f8 ble 0x3fffac <g_RomDisk+0x878c> */
-/* @0x2af4fc .word 0xf203fb09 */
-/* @0x2af500 .word 0xf8083301 */
-/* @0x2af504 ldrb r6, [r7, r2]! */
-/* @0x2af508 sbclo pc, r0, #212, #16 */
-/* @0x2af50c sbcge pc, r12, #196, #16 */
-/* @0x2af510 orrvs pc, r0, #1124073472 */
-/* @0x2af514 sbcsvc pc, r0, #196, #16 */
-/* @0x2af518 sbclo pc, r0, #196, #16 */
-/* @0x2af51c svchi #0xf8e8bd */
-/* @0x2af520 .word 0xf8c0b118 */
-/* @0x2af524 .word 0xf8c022c8 */
-/* @0x2af528 ldrbmi r1, [r0, -r4, asr #5]! */
-/* @0x2af52c .word 0x460cb538 */
-/* @0x2af530 orrlt r4, r0, r5, lsl r6 */
-/* @0x2af534 .word 0xf8d1b179 */
-/* @0x2af538 strdlt r3, r4, [r11, -r8]! */
-/* @0x2af53c mulle r3, r3, r2 */
-/* @0x2af540 movwhs r2, #0x240 */
-/* @0x2af544 blx 0x11ed526 <b2_toiTime+0xa94082> */
-/* @0x2af548 rscspl pc, r8, r4, asr #17 */
-/* @0x2af54c stmvs r3!, {r0, r2, r3, r4, r8, r12, sp, pc} */
-/* @0x2af550 movwmi pc, #0x443 */
-/* @0x2af554 ldclt p0, c6, [r8, #-652]! */
-/* @0x2af558 .word 0x460db538 */
-/* @0x2af55c orrlt r4, r8, r4, lsl #12 */
-/* @0x2af560 ldrsbne pc, [r0, #-128]! */
-/* @0x2af564 blx 0xff56d54a <b2_toiTime+0xfffffffffee140a6> */
-/* @0x2af568 cmnpl r4, r4, asr #17 */
-/* @0x2af56c strtmi r4, [r9], -r0, lsr #12 */
-/* @0x2af570 blx 0xfe86d556 <b2_toiTime+0xfffffffffe1140b2> */
-/* @0x2af574 ldrsblo pc, [r4, #-132]! */
-/* @0x2af578 smlalbtlo pc, r8, r4, r8 */
-/* @0x2af57c cmneq r0, r4, asr #17 */
-/* @0x2af580 smlalbteq pc, r4, r4, r8 */
-/* @0x2af584 .word 0xb120bd38 */
+/* ── FUNC 0x2b0692 · png_destroy_write_struct · size=126 · insn=56 */
+/* @0x2b0692 push.w {r3, r4, r5, r6, r7, r8, r9, lr} */
+/* @0x2b0696 mov r8, r1 */
+/* @0x2b0698 mov r5, r0 */
+/* @0x2b069a cbz r0, 0x2b06a8 <png_destroy_write_struct+0x16> */
+/* @0x2b069c ldr r4, [r0] */
+/* @0x2b069e ldr.w r7, [r4, #0x2f0] */
+/* @0x2b06a2 ldr.w r6, [r4, #0x2e8] */
+/* @0x2b06a6 b 0x2b06ae <png_destroy_write_struct+0x1c> */
+/* @0x2b06a8 mov r4, r0 */
+/* @0x2b06aa mov r6, r0 */
+/* @0x2b06ac mov r7, r0 */
+/* @0x2b06ae cmp.w r8, #0x0 */
+/* @0x2b06b2 beq 0x2b06f6 <png_destroy_write_struct+0x64> */
+/* @0x2b06b4 ldr.w r9, [r8] */
+/* @0x2b06b6 .word 0xf1b99000 */
+/* @0x2b06b8 cmp.w r9, #0x0 */
+/* @0x2b06ba andsle r0, r11, r0, lsl #30 */
+/* @0x2b06bc beq 0x2b06f6 <png_destroy_write_struct+0x64> */
+/* @0x2b06be cbz r4, 0x2b06e6 <png_destroy_write_struct+0x54> */
+/* @0x2b06c0 mov.w r3, #0xffffffff */
+/* @0x2b06c2 qsub8mi r3, r0, pc */
+/* @0x2b06c4 mov r0, r4 */
+/* @0x2b06c6 mov r1, r9 */
+/* @0x2b06c8 movw r2, #0x7fff */
+/* @0x2b06ca .word 0xf7f572ff */
+/* @0x2b06cc bl 0x2a5bc0 <png_free_data> */
+/* @0x2b06ce .word 0xf8d4fa78 */
+/* @0x2b06d0 ldr.w r3, [r4, #0x2cc] */
+/* @0x2b06d2 teqlt r11, r12, asr #5 */
+/* @0x2b06d4 cbz r3, 0x2b06e6 <png_destroy_write_struct+0x54> */
+/* @0x2b06d6 mov r0, r4 */
+/* @0x2b06d8 ldr.w r1, [r4, #0x2d0] */
+/* @0x2b06da .word 0xf7f612d0 */
+/* @0x2b06dc bl 0x2a6cfc <png_free> */
+/* @0x2b06de movwhs pc, #0xb0e */
+/* @0x2b06e0 movs r3, #0x0 */
+/* @0x2b06e2 str.w r3, [r4, #0x2cc] */
+/* @0x2b06e6 mov r0, r9 */
+/* @0x2b06e8 mov r1, r7 */
+/* @0x2b06ea mov r2, r6 */
+/* @0x2b06ec bl 0x2a6c5e <png_destroy_struct_2> */
+/* @0x2b06ee movwhs pc, #0xab7 */
+/* @0x2b06f0 movs r3, #0x0 */
+/* @0x2b06f2 str.w r3, [r8] */
+/* @0x2b06f6 cbz r4, 0x2b070c <png_destroy_write_struct+0x7a> */
+/* @0x2b06f8 mov r0, r4 */
+/* @0x2b06fa bl 0x2b05e8 <png_write_destroy> */
+/* @0x2b06fe mov r0, r4 */
+/* @0x2b0700 mov r1, r7 */
+/* @0x2b0702 mov r2, r6 */
+/* @0x2b0704 bl 0x2a6c5e <png_destroy_struct_2> */
+/* @0x2b0706 movwhs pc, #0xaab */
+/* @0x2b0708 movs r3, #0x0 */
+/* @0x2b070a str r3, [r5] */
+/* @0x2b070c pop.w {r3, r4, r5, r6, r7, r8, r9, pc} */
+/* @0x2b070e ldrlt r8, [r0, #-0x3f8] */
 
-/* ── FUNC 0x2af461 · png_set_keep_unknown_chunks · size=192 · insn=0 */
+/* ── FUNC 0x2b0710 · png_set_filter · size=372 · insn=166 */
+/* @0x2b0710 push {r4, lr} */
+/* @0x2b0712 mov r4, r0 */
+/* @0x2b0714 cmp r0, #0x0 */
+/* @0x2b0716 beq.w 0x2b086c <png_set_filter+0x15c> */
+/* @0x2b0718 .word 0xf8d080a9 */
+/* @0x2b071a ldr.w r3, [r0, #0x2dc] */
+/* @0x2b071c smmlseq r8, r12, r2, r3 */
+/* @0x2b071e lsls r0, r3, #0x1d */
+/* @0x2b0720 bpl 0x2b0726 <png_set_filter+0x16> */
+/* @0x2b0722 cmp r1, #0x40 */
+/* @0x2b0724 beq 0x2b072c <png_set_filter+0x1c> */
+/* @0x2b0726 cmp r1, #0x0 */
+/* @0x2b0728 bne.w 0x2b085e <png_set_filter+0x14e> */
+/* @0x2b072c uxtb r3, r2 */
+/* @0x2b072e cmp r3, #0x7 */
+/* @0x2b0730 bhi 0x2b0762 <png_set_filter+0x52> */
+/* @0x2b0732 tbb [pc, r3] */
+/* @0x2b0734 .word 0x0c04f003 */
+/* @0x2b0736 lsrs r4, r0, #0x10 */
+/* @0x2b0738 asrs r0, r2, #0x8 */
+/* @0x2b073a lsls r4, r2, #0x18 */
+/* @0x2b073c lsls r6, r0, #0x18 */
+/* @0x2b073e movs r3, #0x8 */
+/* @0x2b0740 b 0x2b0750 <png_set_filter+0x40> */
+/* @0x2b0742 ldr r1, [pc, #0x12c] */
+/* @0x2b0744 mov r0, r4 */
+/* @0x2b0746 add r1, pc */
+/* @0x2b0748 bl 0x2a6474 <png_warning> */
+/* @0x2b074c b 0x2b0766 <png_set_filter+0x56> */
+/* @0x2b074e movs r3, #0x10 */
+/* @0x2b0750 strb.w r3, [r4, #0x1e9] */
+/* @0x2b0754 b 0x2b0766 <png_set_filter+0x56> */
+/* @0x2b0756 movs r3, #0x20 */
+/* @0x2b0758 b 0x2b0750 <png_set_filter+0x40> */
+/* @0x2b075a movs r3, #0x40 */
+/* @0x2b075c b 0x2b0750 <png_set_filter+0x40> */
+/* @0x2b075e movs r3, #0x80 */
+/* @0x2b0760 b 0x2b0750 <png_set_filter+0x40> */
+/* @0x2b0762 strb.w r2, [r4, #0x1e9] */
+/* @0x2b0764 .word 0xf8d421e9 */
+/* @0x2b0766 ldr.w r3, [r4, #0x1b0] */
+/* @0x2b0768 blhs 0x2bce30 <jpeg_alloc_huff_table+0x528> */
+/* @0x2b076a cmp r3, #0x0 */
+/* @0x2b076c beq 0x2b086c <png_set_filter+0x15c> */
+/* @0x2b076e ldrb.w r3, [r4, #0x1e9] */
+/* @0x2b0770 ldrbeq r3, [r9], r9, ror #3 */
+/* @0x2b0772 lsls r1, r3, #0x1b */
+/* @0x2b0774 bpl 0x2b0790 <png_set_filter+0x80> */
+/* @0x2b0776 ldr.w r3, [r4, #0x1b4] */
+/* @0x2b0778 stmdblt r11, {r2, r4, r5, r7, r8, r12, sp} ^ */
+/* @0x2b077a cbnz r3, 0x2b0790 <png_set_filter+0x80> */
+/* @0x2b077c ldr.w r1, [r4, #0x19c] */
+/* @0x2b0780 mov r0, r4 */
+/* @0x2b0782 adds r1, #0x1 */
+/* @0x2b0784 bl 0x2a6ca0 <png_malloc> */
+/* @0x2b0788 movs r3, #0x1 */
+/* @0x2b078a str.w r0, [r4, #0x1b4] */
+/* @0x2b078c strhvc r0, [r3], -r4 */
+/* @0x2b078e strb r3, [r0] */
+/* @0x2b0790 ldrb.w r3, [r4, #0x1e9] */
+/* @0x2b0794 lsls r2, r3, #0x1a */
+/* @0x2b0796 bpl 0x2b07d0 <png_set_filter+0xc0> */
+/* @0x2b0798 ldr.w r3, [r4, #0x1b8] */
+/* @0x2b079c cbnz r3, 0x2b07d0 <png_set_filter+0xc0> */
+/* @0x2b079e ldr.w r3, [r4, #0x1ac] */
+/* @0x2b07a0 ldmdblt r11, {r2, r3, r5, r7, r8, r12, sp} ^ */
+/* @0x2b07a2 cbnz r3, 0x2b07bc <png_set_filter+0xac> */
+/* @0x2b07a4 ldr r1, [pc, #0xcc] */
+/* @0x2b07a6 mov r0, r4 */
+/* @0x2b07a8 add r1, pc */
+/* @0x2b07aa bl 0x2a6474 <png_warning> */
+/* @0x2b07ac .word 0xf894fe63 */
+/* @0x2b07ae ldrb.w r3, [r4, #0x1e9] */
+/* @0x2b07b0 .word 0xf02331e9 */
+/* @0x2b07b2 bic r3, r3, #0x20 */
+/* @0x2b07b4 .word 0xf8840320 */
+/* @0x2b07b6 strb.w r3, [r4, #0x1e9] */
+/* @0x2b07b8 and r3, r9, r9, ror #3 */
+/* @0x2b07ba b 0x2b07d0 <png_set_filter+0xc0> */
+/* @0x2b07bc ldr.w r1, [r4, #0x19c] */
+/* @0x2b07c0 mov r0, r4 */
+/* @0x2b07c2 adds r1, #0x1 */
+/* @0x2b07c4 bl 0x2a6ca0 <png_malloc> */
+/* @0x2b07c8 movs r3, #0x2 */
+/* @0x2b07ca str.w r0, [r4, #0x1b8] */
+/* @0x2b07cc strhvc r0, [r3], -r8 */
+/* @0x2b07ce strb r3, [r0] */
+/* @0x2b07d0 ldrb.w r3, [r4, #0x1e9] */
+/* @0x2b07d4 lsls r3, r3, #0x19 */
+/* @0x2b07d6 bpl 0x2b0810 <png_set_filter+0x100> */
+/* @0x2b07d8 ldr.w r3, [r4, #0x1bc] */
+/* @0x2b07dc cbnz r3, 0x2b0810 <png_set_filter+0x100> */
+/* @0x2b07de ldr.w r3, [r4, #0x1ac] */
+/* @0x2b07e0 ldmdblt r11, {r2, r3, r5, r7, r8, r12, sp} ^ */
+/* @0x2b07e2 cbnz r3, 0x2b07fc <png_set_filter+0xec> */
+/* @0x2b07e4 ldr r1, [pc, #0x90] */
+/* @0x2b07e6 mov r0, r4 */
+/* @0x2b07e8 add r1, pc */
+/* @0x2b07ea bl 0x2a6474 <png_warning> */
+/* @0x2b07ec .word 0xf894fe43 */
+/* @0x2b07ee ldrb.w r3, [r4, #0x1e9] */
+/* @0x2b07f0 .word 0xf02331e9 */
+/* @0x2b07f2 bic r3, r3, #0x40 */
+/* @0x2b07f4 .word 0xf8840340 */
+/* @0x2b07f6 strb.w r3, [r4, #0x1e9] */
+/* @0x2b07f8 and r3, r9, r9, ror #3 */
+/* @0x2b07fa b 0x2b0810 <png_set_filter+0x100> */
+/* @0x2b07fc ldr.w r1, [r4, #0x19c] */
+/* @0x2b0800 mov r0, r4 */
+/* @0x2b0802 adds r1, #0x1 */
+/* @0x2b0804 bl 0x2a6ca0 <png_malloc> */
+/* @0x2b0808 movs r3, #0x3 */
+/* @0x2b080a str.w r0, [r4, #0x1bc] */
+/* @0x2b080c strhvc r0, [r3], -r12 */
+/* @0x2b080e strb r3, [r0] */
+/* @0x2b0810 ldrsb.w r3, [r4, #0x1e9] */
+/* @0x2b0814 cmp r3, #0x0 */
+/* @0x2b0816 bge 0x2b0850 <png_set_filter+0x140> */
+/* @0x2b0818 ldr.w r3, [r4, #0x1c0] */
+/* @0x2b081c cbnz r3, 0x2b0850 <png_set_filter+0x140> */
+/* @0x2b081e ldr.w r3, [r4, #0x1ac] */
+/* @0x2b0820 ldmdblt r11, {r2, r3, r5, r7, r8, r12, sp} ^ */
+/* @0x2b0822 cbnz r3, 0x2b083c <png_set_filter+0x12c> */
+/* @0x2b0824 ldr r1, [pc, #0x54] */
+/* @0x2b0826 mov r0, r4 */
+/* @0x2b0828 add r1, pc */
+/* @0x2b082a bl 0x2a6474 <png_warning> */
+/* @0x2b082c .word 0xf894fe23 */
+/* @0x2b082e ldrb.w r3, [r4, #0x1e9] */
+/* @0x2b0830 .word 0xf00331e9 */
+/* @0x2b0832 and r3, r3, #0x7f */
+/* @0x2b0834 .word 0xf884037f */
+/* @0x2b0836 strb.w r3, [r4, #0x1e9] */
+/* @0x2b0838 and r3, r9, r9, ror #3 */
+/* @0x2b083a b 0x2b0850 <png_set_filter+0x140> */
+/* @0x2b083c ldr.w r1, [r4, #0x19c] */
+/* @0x2b0840 mov r0, r4 */
+/* @0x2b0842 adds r1, #0x1 */
+/* @0x2b0844 bl 0x2a6ca0 <png_malloc> */
+/* @0x2b0848 movs r3, #0x4 */
+/* @0x2b084a str.w r0, [r4, #0x1c0] */
+/* @0x2b084c andvc r0, r3, r0, asr #3 */
+/* @0x2b084e strb r3, [r0] */
+/* @0x2b0850 ldrb.w r3, [r4, #0x1e9] */
+/* @0x2b0854 cbnz r3, 0x2b086c <png_set_filter+0x15c> */
+/* @0x2b0856 movs r3, #0x8 */
+/* @0x2b0858 strb.w r3, [r4, #0x1e9] */
+/* @0x2b085c pop {r4, pc} */
+/* @0x2b085e ldr r1, [pc, #0x20] */
+/* @0x2b0860 mov r0, r4 */
+/* @0x2b0862 pop.w {r4, lr} */
+/* @0x2b0864 ldrbtmi r4, [r9], #-16 */
+/* @0x2b0866 add r1, pc */
+/* @0x2b0868 b.w 0x2a642c <png_error> */
+/* @0x2b086c pop {r4, pc} */
+/* @0x2b086e nop */
+/* @0x2b0870 bhi 0x2b08f8 <png_set_compression_window_bits+0x34> */
+/* @0x2b0872 movs r5, r1 */
+/* @0x2b0874 bhi 0x2b0878 <png_set_filter+0x168> */
+/* @0x2b0876 movs r5, r1 */
+/* @0x2b0878 bvc 0x2b0842 <png_set_filter+0x132> */
+/* @0x2b087a movs r5, r1 */
+/* @0x2b087c bvc 0x2b0816 <png_set_filter+0x106> */
+/* @0x2b087e movs r5, r1 */
+/* @0x2b0880 bvc 0x2b07ea <png_set_filter+0xda> */
+/* @0x2b0882 movs r5, r1 */

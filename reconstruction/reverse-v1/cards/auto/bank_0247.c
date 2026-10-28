@@ -1,140 +1,8 @@
 /* libyoyo.so 覆盖卡组 0247
- * 函数 0x29a83c..0x29cb88，共 32 个；
+ * 函数 0x29aa44..0x29cc30，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x29a83c · ExecuteDebugScript(char*, VMBuffer*, RValue*) · size=520 · insn=130 */
-/* @0x29a83c push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
-/* @0x29a840 mov r9, r1 */
-/* @0x29a844 ldr r5, [pc, #0x1d0] */
-/* @0x29a848 sub sp, sp, #124 */
-/* @0x29a84c ldr r3, [pc, #0x1cc] */
-/* @0x29a850 mov r6, r2 */
-/* @0x29a854 add r5, pc, r5 */
-/* @0x29a858 ldr r7, [r5, r3] */
-/* @0x29a85c ldr r4, [r7] */
-/* @0x29a860 cmp r4, #0 */
-/* @0x29a864 movne lr, r4 */
-/* @0x29a868 beq 0x29a9ec <_Z18ExecuteDebugScriptPcP8VMBufferP6RValue+0x1b0> */
-/* @0x29a86c ldr r12, [pc, #0x1b0] */
-/* @0x29a870 mov r3, #0 */
-/* @0x29a874 mvn r2, #-16777216 */
-/* @0x29a878 str r3, [r6] */
-/* @0x29a87c str r3, [r6, #0x4] */
-/* @0x29a880 mov r1, #1 */
-/* @0x29a884 str r2, [r6, #0xc] */
-/* @0x29a888 ldr r0, [pc, #0x198] */
-/* @0x29a88c ldr r12, [r5, r12] */
-/* @0x29a890 ldr r2, [pc, #0x194] */
-/* @0x29a894 str r12, [sp, #0x10] */
-/* @0x29a898 ldr r0, [r5, r0] */
-/* @0x29a89c ldrb r11, [r12] */
-/* @0x29a8a0 strb r1, [r12] */
-/* @0x29a8a4 mov r12, #16384 */
-/* @0x29a8a8 str r0, [sp, #0xc] */
-/* @0x29a8ac ldrb r10, [r0] */
-/* @0x29a8b0 strb r3, [r0] */
-/* @0x29a8b4 mov r0, r12 */
-/* @0x29a8b8 ldr r7, [r5, r2] */
-/* @0x29a8bc mov r2, #202 */
-/* @0x29a8c0 ldr r1, [pc, #0x168] */
-/* @0x29a8c4 ldr r3, [r7] */
-/* @0x29a8c8 add r1, pc, r1 */
-/* @0x29a8cc cmp r3, #0 */
-/* @0x29a8d0 ldrne lr, [r3, #0x14] */
-/* @0x29a8d4 moveq r4, lr */
-/* @0x29a8d8 ldrne r4, [r3, #0x18] */
-/* @0x29a8dc ldr r3, [pc, #0x150] */
-/* @0x29a8e0 ldr r3, [r5, r3] */
-/* @0x29a8e4 str r12, [sp, #0x58] */
-/* @0x29a8e8 str lr, [sp, #0x2c] */
-/* @0x29a8ec str r3, [sp, #0x14] */
-/* @0x29a8f0 mov r3, #1 */
-/* @0x29a8f4 ldr r12, [sp, #0x14] */
-/* @0x29a8f8 str r4, [sp, #0x30] */
-/* @0x29a8fc mov r4, #0 */
-/* @0x29a900 strb r4, [r12] */
-/* @0x29a904 bl 0x27ce78 <_ZN13MemoryManager5AllocEjPKcib> */
-/* @0x29a908 ldr r8, [r7] */
-/* @0x29a90c ldr r12, [sp, #0x58] */
-/* @0x29a910 ldr r1, [r9, #0x10] */
-/* @0x29a914 cmp r8, r4 */
-/* @0x29a918 ldr lr, [r9, #0x4] */
-/* @0x29a91c sub r12, r12, #16 */
-/* @0x29a920 ldr r2, [pc, #0x110] */
-/* @0x29a924 str r4, [sp, #0x50] */
-/* @0x29a928 add r2, pc, r2 */
-/* @0x29a92c str r4, [sp, #0x54] */
-/* @0x29a930 str r4, [sp, #0x5c] */
-/* @0x29a934 str r4, [sp, #0x64] */
-/* @0x29a938 str r4, [sp, #0x74] */
-/* @0x29a93c str r9, [sp, #0x44] */
-/* @0x29a940 str r1, [sp, #0x3c] */
-/* @0x29a944 str lr, [sp, #0x68] */
-/* @0x29a948 str r2, [sp, #0x4c] */
-/* @0x29a94c str r0, [sp, #0x20] */
-/* @0x29a950 add r0, r0, r12 */
-/* @0x29a954 str r0, [sp, #0x40] */
-/* @0x29a958 beq 0x29a9b8 <_Z18ExecuteDebugScriptPcP8VMBufferP6RValue+0x17c> */
-/* @0x29a95c add r12, sp, #24 */
-/* @0x29a960 ldr lr, [r8, #0x10] */
-/* @0x29a964 mov r2, r4 */
-/* @0x29a968 mov r1, r6 */
-/* @0x29a96c mov r0, r12 */
-/* @0x29a970 str r12, [r7] */
-/* @0x29a974 str lr, [sp, #0x28] */
-/* @0x29a978 bl 0xe47c8 <_ZN2VM9ExecDebugER6VMExecP6RValueb> */
-/* @0x29a97c ldr r12, [sp, #0x14] */
-/* @0x29a980 str r8, [r7] */
-/* @0x29a984 ldrb r2, [r12] */
-/* @0x29a988 cmp r2, #0 */
-/* @0x29a98c beq 0x29a9a0 <_Z18ExecuteDebugScriptPcP8VMBufferP6RValue+0x164> */
-/* @0x29a990 ldr r1, [pc, #0xa4] */
-/* @0x29a994 mov r0, r6 */
-/* @0x29a998 add r1, pc, r1 */
-/* @0x29a99c bl 0xe5258 <_Z14YYCreateStringP6RValuePKc> */
-/* @0x29a9a0 ldr r12, [sp, #0x10] */
-/* @0x29a9a4 strb r11, [r12] */
-/* @0x29a9a8 ldr r12, [sp, #0xc] */
-/* @0x29a9ac strb r10, [r12] */
-/* @0x29a9b0 add sp, sp, #124 */
-/* @0x29a9b4 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
-/* @0x29a9b8 ldr r2, [pc, #0x80] */
-/* @0x29a9bc ldr r2, [r5, r2] */
-/* @0x29a9c0 ldr r0, [r2] */
-/* @0x29a9c4 bl 0xd41e4 <_Z20YYAllocLocalStackNewi> */
-/* @0x29a9c8 add r12, sp, #24 */
-/* @0x29a9cc mov r1, r6 */
-/* @0x29a9d0 mov r2, #1 */
-/* @0x29a9d4 str r8, [sp, #0x24] */
-/* @0x29a9d8 str r12, [r7] */
-/* @0x29a9dc str r0, [sp, #0x28] */
-/* @0x29a9e0 mov r0, r12 */
-/* @0x29a9e4 bl 0xe47c8 <_ZN2VM9ExecDebugER6VMExecP6RValueb> */
-/* @0x29a9e8 b 0x29a97c <_Z18ExecuteDebugScriptPcP8VMBufferP6RValue+0x140> */
-/* @0x29a9ec mov r0, #432 */
-/* @0x29a9f0 bl 0x27c524 <_Znwj> */
-/* @0x29a9f4 mov r1, #0 */
-/* @0x29a9f8 mov r3, r4 */
-/* @0x29a9fc str r4, [sp] */
-/* @0x29aa00 str r4, [sp, #0x4] */
-/* @0x29aa04 mov r2, r1 */
-/* @0x29aa08 mov r8, r0 */
-/* @0x29aa0c bl 0x1994dc <_ZN9CInstanceC2Effiib> */
-/* @0x29aa10 str r8, [r7] */
-/* @0x29aa14 mov lr, r8 */
-/* @0x29aa18 b 0x29a86c <_Z18ExecuteDebugScriptPcP8VMBufferP6RValue+0x30> */
-/* @0x29aa1c ldrsheq r7, [r5], -r12 */
-/* @0x29aa20 .word 0xfffffdb4 */
-/* @0x29aa24 .word 0xffffbfdc */
-/* @0x29aa28 .word 0xffffc158 */
-/* @0x29aa2c .word 0xffffbf58 */
-/* @0x29aa30 .word 0x000bf0fc */
-/* @0x29aa34 .word 0xffffbf14 */
-/* @0x29aa38 .word 0x000bf0dc */
-/* @0x29aa3c andeq pc, r11, r4, ror r0 */
-/* @0x29aa40 .word 0xffffc104 */
 
 /* ── FUNC 0x29aa44 · Debug_GetJSInstances(Buffer_Standard*, Buffer_Standard*) · size=328 · insn=82 */
 /* @0x29aa44 ldr r12, [r0] */
@@ -2368,3 +2236,43 @@
 /* @0x29cc24 andseq r1, r5, r4, lsl #3 */
 /* @0x29cc28 andeq r5, r9, r8, asr #23 */
 /* @0x29cc2c andeq r0, r0, r12, lsl #22 */
+
+/* ── FUNC 0x29cc30 · DebuggerStopBackgroundMessageLoop() · size=152 · insn=38 */
+/* @0x29cc30 push {r3, r4, r5, lr} */
+/* @0x29cc34 mov r1, #0 */
+/* @0x29cc38 ldr r5, [pc, #0x7c] */
+/* @0x29cc3c ldr r0, [pc, #0x7c] */
+/* @0x29cc40 add r5, pc, r5 */
+/* @0x29cc44 ldr r0, [pc, r0] */
+/* @0x29cc48 bl 0x2a04b8 <_ZN9CProfiler5PauseEb> */
+/* @0x29cc4c ldr r4, [r5, #0x214] */
+/* @0x29cc50 cmp r4, #0 */
+/* @0x29cc54 popeq {r3, r4, r5, pc} */
+/* @0x29cc58 ldr r0, [r4, #0x14] */
+/* @0x29cc5c bl 0x27e084 <_ZN5Mutex4LockEv> */
+/* @0x29cc60 mov r3, #1 */
+/* @0x29cc64 ldr r0, [r4, #0x14] */
+/* @0x29cc68 strb r3, [r4, #0x8] */
+/* @0x29cc6c bl 0x27e09c <_ZN5Mutex6UnlockEv> */
+/* @0x29cc70 ldr r0, [r5, #0x214] */
+/* @0x29cc74 bl 0x27e108 <_ZN7CThread11WaitForExitEv> */
+/* @0x29cc78 ldr r4, [r5, #0x214] */
+/* @0x29cc7c cmp r4, #0 */
+/* @0x29cc80 beq 0x29cca8 <_Z33DebuggerStopBackgroundMessageLoopv+0x78> */
+/* @0x29cc84 ldr r5, [r4, #0x14] */
+/* @0x29cc88 cmp r5, #0 */
+/* @0x29cc8c beq 0x29cca0 <_Z33DebuggerStopBackgroundMessageLoopv+0x70> */
+/* @0x29cc90 mov r0, r5 */
+/* @0x29cc94 bl 0x27e020 <_ZN5MutexD2Ev> */
+/* @0x29cc98 mov r0, r5 */
+/* @0x29cc9c bl 0x27d1d0 <_ZdlPv> */
+/* @0x29cca0 mov r0, r4 */
+/* @0x29cca4 bl 0x27d1d0 <_ZdlPv> */
+/* @0x29cca8 ldr r3, [pc, #0x14] */
+/* @0x29ccac mov r2, #0 */
+/* @0x29ccb0 add r3, pc, r3 */
+/* @0x29ccb4 str r2, [r3, #0x214] */
+/* @0x29ccb8 pop {r3, r4, r5, pc} */
+/* @0x29ccbc subeq r10, r11, r8, asr #31 */
+/* @0x29ccc0 andseq r0, r5, r8, lsr #30 */
+/* @0x29ccc4 subeq r10, r11, r8, asr pc */

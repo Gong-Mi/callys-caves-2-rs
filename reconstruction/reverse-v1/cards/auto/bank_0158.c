@@ -23,7 +23,7 @@
 /* @0x1d562c smlawbmi lr, r0, r4, r8 */
 /* @0x1d5630 .word 0x0021b5dc */
 
-/* ── FUNC 0x1d5634 · anon_1d5634 · size=4 · insn=1 */
+/* ── FUNC 0x1d5634 · anon_1d5634 · size=0 · insn=1 */
 /* @0x1d5634 nop */
 
 /* ── FUNC 0x1d5638 · F_GestureDragDistance(RValue&, CInstance*, CInstance*, int, RValue*) · size=36 · insn=9 */

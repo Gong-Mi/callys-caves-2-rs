@@ -1,48 +1,8 @@
 /* libyoyo.so 覆盖卡组 0248
- * 函数 0x29cc30..0x29f380，共 32 个；
+ * 函数 0x29ccc8..0x29f4e4，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x29cc30 · DebuggerStopBackgroundMessageLoop() · size=152 · insn=38 */
-/* @0x29cc30 push {r3, r4, r5, lr} */
-/* @0x29cc34 mov r1, #0 */
-/* @0x29cc38 ldr r5, [pc, #0x7c] */
-/* @0x29cc3c ldr r0, [pc, #0x7c] */
-/* @0x29cc40 add r5, pc, r5 */
-/* @0x29cc44 ldr r0, [pc, r0] */
-/* @0x29cc48 bl 0x2a04b8 <_ZN9CProfiler5PauseEb> */
-/* @0x29cc4c ldr r4, [r5, #0x214] */
-/* @0x29cc50 cmp r4, #0 */
-/* @0x29cc54 popeq {r3, r4, r5, pc} */
-/* @0x29cc58 ldr r0, [r4, #0x14] */
-/* @0x29cc5c bl 0x27e084 <_ZN5Mutex4LockEv> */
-/* @0x29cc60 mov r3, #1 */
-/* @0x29cc64 ldr r0, [r4, #0x14] */
-/* @0x29cc68 strb r3, [r4, #0x8] */
-/* @0x29cc6c bl 0x27e09c <_ZN5Mutex6UnlockEv> */
-/* @0x29cc70 ldr r0, [r5, #0x214] */
-/* @0x29cc74 bl 0x27e108 <_ZN7CThread11WaitForExitEv> */
-/* @0x29cc78 ldr r4, [r5, #0x214] */
-/* @0x29cc7c cmp r4, #0 */
-/* @0x29cc80 beq 0x29cca8 <_Z33DebuggerStopBackgroundMessageLoopv+0x78> */
-/* @0x29cc84 ldr r5, [r4, #0x14] */
-/* @0x29cc88 cmp r5, #0 */
-/* @0x29cc8c beq 0x29cca0 <_Z33DebuggerStopBackgroundMessageLoopv+0x70> */
-/* @0x29cc90 mov r0, r5 */
-/* @0x29cc94 bl 0x27e020 <_ZN5MutexD2Ev> */
-/* @0x29cc98 mov r0, r5 */
-/* @0x29cc9c bl 0x27d1d0 <_ZdlPv> */
-/* @0x29cca0 mov r0, r4 */
-/* @0x29cca4 bl 0x27d1d0 <_ZdlPv> */
-/* @0x29cca8 ldr r3, [pc, #0x14] */
-/* @0x29ccac mov r2, #0 */
-/* @0x29ccb0 add r3, pc, r3 */
-/* @0x29ccb4 str r2, [r3, #0x214] */
-/* @0x29ccb8 pop {r3, r4, r5, pc} */
-/* @0x29ccbc subeq r10, r11, r8, asr #31 */
-/* @0x29ccc0 andseq r0, r5, r8, lsr #30 */
-/* @0x29ccc4 subeq r10, r11, r8, asr pc */
 
 /* ── FUNC 0x29ccc8 · DebuggerCreateIPSocket() · size=184 · insn=46 */
 /* @0x29ccc8 ldr r3, [pc, #0x9c] */
@@ -734,7 +694,7 @@
 /* @0x29d718 b 0x29d62c <_ZN9DbgServer7ProcessEv> */
 /* @0x29d71c andseq r0, r5, r4, lsl #12 */
 
-/* ── FUNC 0x29d720 · anon_29d720 · size=80 · insn=20 */
+/* ── FUNC 0x29d720 · anon_29d720 · size=76 · insn=20 */
 /* @0x29d720 push {r4, r5, r6, lr} */
 /* @0x29d724 mov r4, r0 */
 /* @0x29d728 ldr r6, [pc, #0x3c] */
@@ -2672,3 +2632,408 @@
 /* @0x29f4d8 andseq lr, r4, r0, asr r7 */
 /* @0x29f4dc andseq lr, r4, r12, ror #4 */
 /* @0x29f4e0 andeq r10, r11, r8, asr r7 */
+
+/* ── FUNC 0x29f4e4 · AddFunctionNames(Buffer_Standard*) · size=1612 · insn=403 */
+/* @0x29f4e4 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x29f4e8 sub sp, sp, #20 */
+/* @0x29f4ec ldr r3, [pc, #0x608] */
+/* @0x29f4f0 add r7, r0, #44 */
+/* @0x29f4f4 ldr r12, [pc, #0x604] */
+/* @0x29f4f8 mov r6, r0 */
+/* @0x29f4fc add r3, pc, r3 */
+/* @0x29f500 str r3, [sp, #0x4] */
+/* @0x29f504 ldr r4, [sp, #0x4] */
+/* @0x29f508 mov r9, #0 */
+/* @0x29f50c ldr r3, [r0] */
+/* @0x29f510 mov r2, r7 */
+/* @0x29f514 mov r1, #5 */
+/* @0x29f518 ldr r8, [r4, r12] */
+/* @0x29f51c vldr s15, [r8] */
+/* @0x29f520 vcvt.f64.u32 d7, s15 */
+/* @0x29f524 str r9, [r0, #0x38] */
+/* @0x29f528 vmov r4, r5, d7 */
+/* @0x29f52c vstr s14, [r6, #44] */
+/* @0x29f530 str r5, [r6, #0x30] */
+/* @0x29f534 ldr r3, [r3, #0x8] */
+/* @0x29f538 blx r3 */
+/* @0x29f53c ldr r3, [r8] */
+/* @0x29f540 cmp r3, r9 */
+/* @0x29f544 ble 0x29f580 <_Z16AddFunctionNamesP15Buffer_Standard+0x9c> */
+/* @0x29f548 ldr r3, [pc, #0x5b4] */
+/* @0x29f54c mov r4, r9 */
+/* @0x29f550 ldr r12, [sp, #0x4] */
+/* @0x29f554 mov r5, r9 */
+/* @0x29f558 ldr r9, [r12, r3] */
+/* @0x29f55c ldr r1, [r9] */
+/* @0x29f560 mov r0, r6 */
+/* @0x29f564 add r5, r5, #1 */
+/* @0x29f568 add r1, r1, r4 */
+/* @0x29f56c add r4, r4, #80 */
+/* @0x29f570 bl 0x29e624 <_Z11WriteStringP15Buffer_StandardPKc> */
+/* @0x29f574 ldr r3, [r8] */
+/* @0x29f578 cmp r3, r5 */
+/* @0x29f57c bgt 0x29f55c <_Z16AddFunctionNamesP15Buffer_Standard+0x78> */
+/* @0x29f580 ldr r3, [pc, #0x580] */
+/* @0x29f584 ldr r4, [sp, #0x4] */
+/* @0x29f588 ldr r3, [r4, r3] */
+/* @0x29f58c str r3, [sp, #0xc] */
+/* @0x29f590 ldrb r3, [r3] */
+/* @0x29f594 cmp r3, #0 */
+/* @0x29f598 bne 0x29f634 <_Z16AddFunctionNamesP15Buffer_Standard+0x150> */
+/* @0x29f59c ldr r2, [pc, #0x568] */
+/* @0x29f5a0 ldr r4, [sp, #0x4] */
+/* @0x29f5a4 ldr r2, [r4, r2] */
+/* @0x29f5a8 ldr r1, [r2] */
+/* @0x29f5ac cmp r1, #0 */
+/* @0x29f5b0 ble 0x29fad4 <_Z16AddFunctionNamesP15Buffer_Standard+0x5f0> */
+/* @0x29f5b4 ldr r2, [pc, #0x554] */
+/* @0x29f5b8 lsl r1, r1, #4 */
+/* @0x29f5bc mov r9, r3 */
+/* @0x29f5c0 ldr r8, [r4, r2] */
+/* @0x29f5c4 ldr r2, [r8, r3] */
+/* @0x29f5c8 add r3, r3, #16 */
+/* @0x29f5cc cmp r2, #0 */
+/* @0x29f5d0 addne r9, r9, #1 */
+/* @0x29f5d4 cmp r3, r1 */
+/* @0x29f5d8 bne 0x29f5c4 <_Z16AddFunctionNamesP15Buffer_Standard+0xe0> */
+/* @0x29f5dc vmov s15, r9 */
+/* @0x29f5e0 ldr r3, [r6] */
+/* @0x29f5e4 mov r11, #0 */
+/* @0x29f5e8 mov r0, r6 */
+/* @0x29f5ec vcvt.f64.u32 d7, s15 */
+/* @0x29f5f0 str r11, [r6, #0x38] */
+/* @0x29f5f4 mov r1, #5 */
+/* @0x29f5f8 mov r2, r7 */
+/* @0x29f5fc vmov r4, r5, d7 */
+/* @0x29f600 vstr s14, [r6, #44] */
+/* @0x29f604 str r5, [r6, #0x30] */
+/* @0x29f608 ldr r3, [r3, #0x8] */
+/* @0x29f60c blx r3 */
+/* @0x29f610 cmp r9, r11 */
+/* @0x29f614 beq 0x29f634 <_Z16AddFunctionNamesP15Buffer_Standard+0x150> */
+/* @0x29f618 mov r4, r11 */
+/* @0x29f61c ldr r1, [r8, r4, lsl #4] */
+/* @0x29f620 mov r0, r6 */
+/* @0x29f624 add r4, r4, #1 */
+/* @0x29f628 bl 0x29e624 <_Z11WriteStringP15Buffer_StandardPKc> */
+/* @0x29f62c cmp r4, r9 */
+/* @0x29f630 bne 0x29f61c <_Z16AddFunctionNamesP15Buffer_Standard+0x138> */
+/* @0x29f634 ldr r3, [r6] */
+/* @0x29f638 mov r8, #0 */
+/* @0x29f63c ldr r4, [r6, #0x1c] */
+/* @0x29f640 mov r0, r6 */
+/* @0x29f644 str r8, [r6, #0x2c] */
+/* @0x29f648 mov r1, #5 */
+/* @0x29f64c str r8, [r6, #0x30] */
+/* @0x29f650 mov r2, r7 */
+/* @0x29f654 ldr r3, [r3, #0x8] */
+/* @0x29f658 str r8, [r6, #0x38] */
+/* @0x29f65c str r4, [sp, #0x8] */
+/* @0x29f660 blx r3 */
+/* @0x29f664 ldr r3, [pc, #0x4a8] */
+/* @0x29f668 ldr r12, [sp, #0x4] */
+/* @0x29f66c ldr r11, [r12, r3] */
+/* @0x29f670 ldr r3, [r11, #0x4] */
+/* @0x29f674 cmp r3, r8 */
+/* @0x29f678 ble 0x29f704 <_Z16AddFunctionNamesP15Buffer_Standard+0x220> */
+/* @0x29f67c mov r10, r8 */
+/* @0x29f680 ldr r3, [r11] */
+/* @0x29f684 mov r1, #6 */
+/* @0x29f688 mov r2, r7 */
+/* @0x29f68c mov r0, r6 */
+/* @0x29f690 cmp r3, r10 */
+/* @0x29f694 lsl r9, r10, #2 */
+/* @0x29f698 ble 0x29f6f4 <_Z16AddFunctionNamesP15Buffer_Standard+0x210> */
+/* @0x29f69c ldr r3, [r11, #0xc] */
+/* @0x29f6a0 ldr r3, [r3, r10, lsl #2] */
+/* @0x29f6a4 cmp r3, #0 */
+/* @0x29f6a8 beq 0x29f6f4 <_Z16AddFunctionNamesP15Buffer_Standard+0x210> */
+/* @0x29f6ac vmov s15, r10 */
+/* @0x29f6b0 ldr r3, [r6] */
+/* @0x29f6b4 mov lr, #0 */
+/* @0x29f6b8 str lr, [r6, #0x38] */
+/* @0x29f6bc vcvt.f64.s32 d7, s15 */
+/* @0x29f6c0 add r8, r8, #1 */
+/* @0x29f6c4 vmov r4, r5, d7 */
+/* @0x29f6c8 vstr s14, [r6, #44] */
+/* @0x29f6cc str r5, [r6, #0x30] */
+/* @0x29f6d0 ldr r3, [r3, #0x8] */
+/* @0x29f6d4 blx r3 */
+/* @0x29f6d8 ldr r3, [r11] */
+/* @0x29f6dc mov r1, #0 */
+/* @0x29f6e0 mov r0, r6 */
+/* @0x29f6e4 cmp r3, r10 */
+/* @0x29f6e8 ldrgt r3, [r11, #0xc] */
+/* @0x29f6ec ldrgt r1, [r3, r9] */
+/* @0x29f6f0 bl 0x29e624 <_Z11WriteStringP15Buffer_StandardPKc> */
+/* @0x29f6f4 ldr r3, [r11, #0x4] */
+/* @0x29f6f8 add r10, r10, #1 */
+/* @0x29f6fc cmp r3, r10 */
+/* @0x29f700 bgt 0x29f680 <_Z16AddFunctionNamesP15Buffer_Standard+0x19c> */
+/* @0x29f704 ldr r3, [r6] */
+/* @0x29f708 mov r1, #0 */
+/* @0x29f70c ldr r2, [sp, #0x8] */
+/* @0x29f710 mov r0, r6 */
+/* @0x29f714 mov r4, r1 */
+/* @0x29f718 ldr r5, [r6, #0x1c] */
+/* @0x29f71c ldr r3, [r3, #0x10] */
+/* @0x29f720 blx r3 */
+/* @0x29f724 vmov s15, r8 */
+/* @0x29f728 ldr r3, [r6] */
+/* @0x29f72c mov r1, #6 */
+/* @0x29f730 vcvt.f64.s32 d7, s15 */
+/* @0x29f734 mov r2, r7 */
+/* @0x29f738 mov r0, r6 */
+/* @0x29f73c str r4, [r6, #0x38] */
+/* @0x29f740 vmov r8, r9, d7 */
+/* @0x29f744 vstr s14, [r6, #44] */
+/* @0x29f748 mov r8, r4 */
+/* @0x29f74c str r9, [r6, #0x30] */
+/* @0x29f750 ldr r3, [r3, #0x8] */
+/* @0x29f754 blx r3 */
+/* @0x29f758 ldr r3, [r6] */
+/* @0x29f75c mov r2, r5 */
+/* @0x29f760 mov r1, r4 */
+/* @0x29f764 mov r0, r6 */
+/* @0x29f768 ldr r3, [r3, #0x10] */
+/* @0x29f76c blx r3 */
+/* @0x29f770 ldr r3, [r6] */
+/* @0x29f774 str r4, [r6, #0x2c] */
+/* @0x29f778 mov r0, r6 */
+/* @0x29f77c str r4, [r6, #0x30] */
+/* @0x29f780 mov r1, #5 */
+/* @0x29f784 ldr r3, [r3, #0x8] */
+/* @0x29f788 mov r2, r7 */
+/* @0x29f78c str r4, [r6, #0x38] */
+/* @0x29f790 ldr r11, [r6, #0x1c] */
+/* @0x29f794 blx r3 */
+/* @0x29f798 ldr r3, [pc, #0x378] */
+/* @0x29f79c ldr r12, [sp, #0x4] */
+/* @0x29f7a0 ldr r5, [r12, r3] */
+/* @0x29f7a4 ldr r3, [r5, #0x4] */
+/* @0x29f7a8 cmp r3, r4 */
+/* @0x29f7ac ble 0x29f838 <_Z16AddFunctionNamesP15Buffer_Standard+0x354> */
+/* @0x29f7b0 mov r9, r4 */
+/* @0x29f7b4 str r11, [sp, #0x8] */
+/* @0x29f7b8 str r7, [sp] */
+/* @0x29f7bc ldr r3, [r5] */
+/* @0x29f7c0 add r10, r4, #99328 */
+/* @0x29f7c4 ldr r2, [sp] */
+/* @0x29f7c8 add r10, r10, #672 */
+/* @0x29f7cc cmp r3, r4 */
+/* @0x29f7d0 mov r0, r6 */
+/* @0x29f7d4 mov r1, #6 */
+/* @0x29f7d8 ble 0x29f820 <_Z16AddFunctionNamesP15Buffer_Standard+0x33c> */
+/* @0x29f7dc ldr r3, [r5, #0xc] */
+/* @0x29f7e0 ldr r7, [r3, r4, lsl #2] */
+/* @0x29f7e4 cmp r7, #0 */
+/* @0x29f7e8 beq 0x29f820 <_Z16AddFunctionNamesP15Buffer_Standard+0x33c> */
+/* @0x29f7ec vmov s15, r10 */
+/* @0x29f7f0 ldr lr, [r6] */
+/* @0x29f7f4 str r9, [r6, #0x38] */
+/* @0x29f7f8 add r8, r8, #1 */
+/* @0x29f7fc vcvt.f64.s32 d7, s15 */
+/* @0x29f800 vmov r10, r11, d7 */
+/* @0x29f804 vstr s14, [r6, #44] */
+/* @0x29f808 str r11, [r6, #0x30] */
+/* @0x29f80c ldr r10, [lr, #0x8] */
+/* @0x29f810 blx r10 */
+/* @0x29f814 mov r0, r6 */
+/* @0x29f818 mov r1, r7 */
+/* @0x29f81c bl 0x29e624 <_Z11WriteStringP15Buffer_StandardPKc> */
+/* @0x29f820 ldr r3, [r5, #0x4] */
+/* @0x29f824 add r4, r4, #1 */
+/* @0x29f828 cmp r3, r4 */
+/* @0x29f82c bgt 0x29f7bc <_Z16AddFunctionNamesP15Buffer_Standard+0x2d8> */
+/* @0x29f830 ldr r11, [sp, #0x8] */
+/* @0x29f834 ldr r7, [sp] */
+/* @0x29f838 ldr r3, [r6] */
+/* @0x29f83c mov r2, r11 */
+/* @0x29f840 mov r1, #0 */
+/* @0x29f844 mov r0, r6 */
+/* @0x29f848 mov r5, r1 */
+/* @0x29f84c ldr r4, [r6, #0x1c] */
+/* @0x29f850 ldr r3, [r3, #0x10] */
+/* @0x29f854 blx r3 */
+/* @0x29f858 vmov s15, r8 */
+/* @0x29f85c ldr r3, [r6] */
+/* @0x29f860 mov r1, #6 */
+/* @0x29f864 vcvt.f64.s32 d7, s15 */
+/* @0x29f868 mov r2, r7 */
+/* @0x29f86c mov r0, r6 */
+/* @0x29f870 str r5, [r6, #0x38] */
+/* @0x29f874 vmov r8, r9, d7 */
+/* @0x29f878 vstr s14, [r6, #44] */
+/* @0x29f87c str r9, [r6, #0x30] */
+/* @0x29f880 ldr r3, [r3, #0x8] */
+/* @0x29f884 blx r3 */
+/* @0x29f888 ldr r3, [r6] */
+/* @0x29f88c mov r2, r4 */
+/* @0x29f890 mov r1, r5 */
+/* @0x29f894 mov r0, r6 */
+/* @0x29f898 ldr r3, [r3, #0x10] */
+/* @0x29f89c blx r3 */
+/* @0x29f8a0 ldr r12, [pc, #0x274] */
+/* @0x29f8a4 ldr r4, [sp, #0x4] */
+/* @0x29f8a8 mov r0, r6 */
+/* @0x29f8ac ldr r3, [r6] */
+/* @0x29f8b0 mov r1, #5 */
+/* @0x29f8b4 mov r2, r7 */
+/* @0x29f8b8 ldr r11, [r4, r12] */
+/* @0x29f8bc vldr s15, [r11] */
+/* @0x29f8c0 vcvt.f64.u32 d7, s15 */
+/* @0x29f8c4 str r5, [r6, #0x38] */
+/* @0x29f8c8 vmov r8, r9, d7 */
+/* @0x29f8cc vstr s14, [r6, #44] */
+/* @0x29f8d0 str r9, [r6, #0x30] */
+/* @0x29f8d4 ldr r3, [r3, #0x8] */
+/* @0x29f8d8 blx r3 */
+/* @0x29f8dc ldr r3, [r11] */
+/* @0x29f8e0 cmp r3, r5 */
+/* @0x29f8e4 ble 0x29f9ec <_Z16AddFunctionNamesP15Buffer_Standard+0x508> */
+/* @0x29f8e8 ldr r3, [pc, #0x230] */
+/* @0x29f8ec mov r9, r5 */
+/* @0x29f8f0 ldr r4, [sp, #0x4] */
+/* @0x29f8f4 mov r8, r5 */
+/* @0x29f8f8 ldr r10, [r4, r3] */
+/* @0x29f8fc str r11, [sp] */
+/* @0x29f900 ldr r3, [r10] */
+/* @0x29f904 mov r0, r6 */
+/* @0x29f908 ldr r1, [r3, r8] */
+/* @0x29f90c bl 0x29e624 <_Z11WriteStringP15Buffer_StandardPKc> */
+/* @0x29f910 ldr r2, [r10] */
+/* @0x29f914 ldr r3, [r6] */
+/* @0x29f918 mov r12, #0 */
+/* @0x29f91c add r2, r2, r8 */
+/* @0x29f920 mov r0, r6 */
+/* @0x29f924 mov r1, #5 */
+/* @0x29f928 ldr r4, [r2, #0x4] */
+/* @0x29f92c mov r2, r7 */
+/* @0x29f930 str r12, [r6, #0x38] */
+/* @0x29f934 vmov s15, r4 */
+/* @0x29f938 vcvt.f64.u32 d7, s15 */
+/* @0x29f93c vmov r4, r5, d7 */
+/* @0x29f940 vstr s14, [r6, #44] */
+/* @0x29f944 str r5, [r6, #0x30] */
+/* @0x29f948 ldr r3, [r3, #0x8] */
+/* @0x29f94c blx r3 */
+/* @0x29f950 ldr r3, [r10] */
+/* @0x29f954 add r3, r3, r8 */
+/* @0x29f958 ldr r3, [r3, #0x4] */
+/* @0x29f95c cmp r3, #0 */
+/* @0x29f960 movgt r11, #0 */
+/* @0x29f964 ble 0x29f9d4 <_Z16AddFunctionNamesP15Buffer_Standard+0x4f0> */
+/* @0x29f968 add r4, r11, #199680 */
+/* @0x29f96c ldr r3, [r6] */
+/* @0x29f970 add r4, r4, #320 */
+/* @0x29f974 mov r12, #0 */
+/* @0x29f978 mov r1, #6 */
+/* @0x29f97c str r12, [r6, #0x38] */
+/* @0x29f980 vmov s15, r4 */
+/* @0x29f984 mov r2, r7 */
+/* @0x29f988 mov r0, r6 */
+/* @0x29f98c vcvt.f64.s32 d7, s15 */
+/* @0x29f990 vmov r4, r5, d7 */
+/* @0x29f994 vstr s14, [r6, #44] */
+/* @0x29f998 str r5, [r6, #0x30] */
+/* @0x29f99c ldr r3, [r3, #0x8] */
+/* @0x29f9a0 blx r3 */
+/* @0x29f9a4 ldr r3, [r10] */
+/* @0x29f9a8 mov r0, r6 */
+/* @0x29f9ac add r3, r3, r8 */
+/* @0x29f9b0 ldr r3, [r3, #0x8] */
+/* @0x29f9b4 ldr r1, [r3, r11, lsl #2] */
+/* @0x29f9b8 add r11, r11, #1 */
+/* @0x29f9bc bl 0x29e624 <_Z11WriteStringP15Buffer_StandardPKc> */
+/* @0x29f9c0 ldr r3, [r10] */
+/* @0x29f9c4 add r3, r3, r8 */
+/* @0x29f9c8 ldr r3, [r3, #0x4] */
+/* @0x29f9cc cmp r3, r11 */
+/* @0x29f9d0 bgt 0x29f968 <_Z16AddFunctionNamesP15Buffer_Standard+0x484> */
+/* @0x29f9d4 ldr r4, [sp] */
+/* @0x29f9d8 add r9, r9, #1 */
+/* @0x29f9dc add r8, r8, #12 */
+/* @0x29f9e0 ldr r3, [r4] */
+/* @0x29f9e4 cmp r3, r9 */
+/* @0x29f9e8 bgt 0x29f900 <_Z16AddFunctionNamesP15Buffer_Standard+0x41c> */
+/* @0x29f9ec ldr r3, [sp, #0xc] */
+/* @0x29f9f0 ldrb r9, [r3] */
+/* @0x29f9f4 cmp r9, #0 */
+/* @0x29f9f8 beq 0x29fa04 <_Z16AddFunctionNamesP15Buffer_Standard+0x520> */
+/* @0x29f9fc add sp, sp, #20 */
+/* @0x29fa00 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x29fa04 ldr lr, [pc, #0x118] */
+/* @0x29fa08 mov r3, #10 */
+/* @0x29fa0c ldr r4, [sp, #0x4] */
+/* @0x29fa10 mov r2, r7 */
+/* @0x29fa14 ldr r12, [r6] */
+/* @0x29fa18 mov r1, #12 */
+/* @0x29fa1c mov r0, r6 */
+/* @0x29fa20 ldr r8, [r4, lr] */
+/* @0x29fa24 str r3, [r6, #0x38] */
+/* @0x29fa28 ldr r3, [r8] */
+/* @0x29fa2c asr r5, r3, #31 */
+/* @0x29fa30 str r3, [r6, #0x2c] */
+/* @0x29fa34 str r5, [r6, #0x30] */
+/* @0x29fa38 ldr r3, [r12, #0x8] */
+/* @0x29fa3c blx r3 */
+/* @0x29fa40 ldr r4, [sp, #0x4] */
+/* @0x29fa44 ldr r12, [pc, #0xdc] */
+/* @0x29fa48 mov r2, r7 */
+/* @0x29fa4c ldr r3, [r6] */
+/* @0x29fa50 mov r0, r6 */
+/* @0x29fa54 mov r1, #5 */
+/* @0x29fa58 ldr r7, [r4, r12] */
+/* @0x29fa5c vldr s15, [r7] */
+/* @0x29fa60 vcvt.f64.u32 d7, s15 */
+/* @0x29fa64 str r9, [r6, #0x38] */
+/* @0x29fa68 vmov r4, r5, d7 */
+/* @0x29fa6c vstr s14, [r6, #44] */
+/* @0x29fa70 str r5, [r6, #0x30] */
+/* @0x29fa74 ldr r3, [r3, #0x8] */
+/* @0x29fa78 blx r3 */
+/* @0x29fa7c ldr r3, [r7] */
+/* @0x29fa80 cmp r3, #0 */
+/* @0x29fa84 ble 0x29f9fc <_Z16AddFunctionNamesP15Buffer_Standard+0x518> */
+/* @0x29fa88 ldr r5, [sp, #0x4] */
+/* @0x29fa8c mov r4, r9 */
+/* @0x29fa90 ldr r3, [r8] */
+/* @0x29fa94 mov r0, r6 */
+/* @0x29fa98 ldr r2, [pc, #0x8c] */
+/* @0x29fa9c ldr r3, [r3, r4, lsl #2] */
+/* @0x29faa0 add r4, r4, #1 */
+/* @0x29faa4 cmn r3, #4 */
+/* @0x29faa8 ldrne r2, [r5, r2] */
+/* @0x29faac moveq r1, #0 */
+/* @0x29fab0 ldrne r1, [r2] */
+/* @0x29fab4 addne r1, r1, #4 */
+/* @0x29fab8 addne r1, r1, r3 */
+/* @0x29fabc bl 0x29e624 <_Z11WriteStringP15Buffer_StandardPKc> */
+/* @0x29fac0 ldr r3, [r7] */
+/* @0x29fac4 cmp r3, r4 */
+/* @0x29fac8 bgt 0x29fa90 <_Z16AddFunctionNamesP15Buffer_Standard+0x5ac> */
+/* @0x29facc add sp, sp, #20 */
+/* @0x29fad0 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x29fad4 ldr r12, [r6] */
+/* @0x29fad8 mov r0, r6 */
+/* @0x29fadc str r3, [r6, #0x2c] */
+/* @0x29fae0 mov r1, #5 */
+/* @0x29fae4 str r3, [r6, #0x30] */
+/* @0x29fae8 mov r2, r7 */
+/* @0x29faec str r3, [r6, #0x38] */
+/* @0x29faf0 ldr r3, [r12, #0x8] */
+/* @0x29faf4 blx r3 */
+/* @0x29faf8 b 0x29f634 <_Z16AddFunctionNamesP15Buffer_Standard+0x150> */
+/* @0x29fafc andseq r2, r5, r4, asr r7 */
+/* @0x29fb00 .word 0xffffbec4 */
+/* @0x29fb04 .word 0xffffbec8 */
+/* @0x29fb08 .word 0xffffbcd4 */
+/* @0x29fb0c .word 0xffffbfe4 */
+/* @0x29fb10 .word 0xffffbfe8 */
+/* @0x29fb14 .word 0xffffbf4c */
+/* @0x29fb18 .word 0xffffbf50 */
+/* @0x29fb1c .word 0xffffbf5c */
+/* @0x29fb20 .word 0xffffbf60 */
+/* @0x29fb24 .word 0xffffc114 */
+/* @0x29fb28 .word 0xfffff070 */
+/* @0x29fb2c .word 0xffffbcf4 */

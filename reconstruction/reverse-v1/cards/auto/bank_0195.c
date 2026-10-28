@@ -1658,7 +1658,7 @@
 
 /* ── FUNC 0x21db28 · CNoise::~CNoise() · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x21db3c · anon_21db3c · size=24 · insn=6 */
+/* ── FUNC 0x21db3c · anon_21db3c · size=20 · insn=6 */
 /* @0x21db3c push {r3, lr} */
 /* @0x21db40 ldr r3, [r0, #0xc] */
 /* @0x21db44 ldr r0, [r3, #0x4] */

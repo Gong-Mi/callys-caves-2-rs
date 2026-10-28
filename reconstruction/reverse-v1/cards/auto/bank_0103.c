@@ -744,7 +744,7 @@
 
 /* ── FUNC 0x166768 · CBitmap32::CBitmap32(int, int, unsigned int, unsigned int, int) · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x166e6c · anon_166e6c · size=4 · insn=1 */
+/* ── FUNC 0x166e6c · anon_166e6c · size=0 · insn=1 */
 /* @0x166e6c nop */
 
 /* ── FUNC 0x166e70 · CBitmap32::CBitmap32(IBitmap*, bool, bool) · size=352 · insn=88 */

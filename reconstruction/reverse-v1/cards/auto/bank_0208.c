@@ -1,11 +1,8 @@
 /* libyoyo.so 覆盖卡组 0208
- * 函数 0x233b24..0x234a1c，共 32 个；
+ * 函数 0x233b28..0x234a80，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x233b24 · oggpackB_adv1 · size=4 · insn=1 */
-/* @0x233b24 b 0x233af0 <oggpack_adv1> */
 
 /* ── FUNC 0x233b28 · oggpack_read · size=264 · insn=66 */
 /* @0x233b28 cmp r1, #32 */
@@ -234,7 +231,7 @@
 /* ── FUNC 0x233e60 · oggpackB_get_buffer · size=4 · insn=1 */
 /* @0x233e60 b 0x233e58 <oggpack_get_buffer> */
 
-/* ── FUNC 0x233e64 · anon_233e64 · size=272 · insn=68 */
+/* ── FUNC 0x233e64 · anon_233e64 · size=268 · insn=68 */
 /* @0x233e64 ldr r12, [r0, #0x24] */
 /* @0x233e68 ldr r3, [r0, #0x20] */
 /* @0x233e6c push {r4, r5, r6, r7, r8, r9, r10, r11} */
@@ -503,7 +500,7 @@
 /* @0x234230 mvn r0, #0 */
 /* @0x234234 pop {r3, r4, r5, r6, r7, pc} */
 
-/* ── FUNC 0x234238 · anon_234238 · size=252 · insn=63 */
+/* ── FUNC 0x234238 · anon_234238 · size=248 · insn=63 */
 /* @0x234238 push {r3, r4, r5, lr} */
 /* @0x23423c mov r5, r1 */
 /* @0x234240 ldmib r0, {r1, r3} */
@@ -636,7 +633,7 @@
 /* @0x23442c andseq r4, r3, r12, lsr r7 */
 /* @0x234430 andseq r4, r3, r0, lsl #14 */
 
-/* ── FUNC 0x234434 · anon_234434 · size=836 · insn=209 */
+/* ── FUNC 0x234434 · anon_234434 · size=832 · insn=209 */
 /* @0x234434 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x234438 sub sp, sp, #20 */
 /* @0x23443c ldr r6, [r0, #0x1c] */
@@ -1050,3 +1047,31 @@
 /* @0x234a74 b 0x234a58 <ogg_stream_pageout+0x3c> */
 /* @0x234a78 mov r0, #0 */
 /* @0x234a7c pop {r4, r5, r6, pc} */
+
+/* ── FUNC 0x234a80 · ogg_stream_pageout_fill · size=104 · insn=26 */
+/* @0x234a80 push {r4, r5, r6, lr} */
+/* @0x234a84 mov r6, r1 */
+/* @0x234a88 mov r5, r2 */
+/* @0x234a8c mov r4, r0 */
+/* @0x234a90 bl 0x23412c <ogg_stream_check> */
+/* @0x234a94 cmp r0, #0 */
+/* @0x234a98 bne 0x234ae0 <ogg_stream_pageout_fill+0x60> */
+/* @0x234a9c ldr r3, [r4, #0x148] */
+/* @0x234aa0 ldr r2, [r4, #0x1c] */
+/* @0x234aa4 cmp r3, #0 */
+/* @0x234aa8 bne 0x234ad4 <ogg_stream_pageout_fill+0x54> */
+/* @0x234aac cmp r2, #0 */
+/* @0x234ab0 beq 0x234ac0 <ogg_stream_pageout_fill+0x40> */
+/* @0x234ab4 ldr r2, [r4, #0x14c] */
+/* @0x234ab8 rsbs r2, r2, #1 */
+/* @0x234abc movlo r2, #0 */
+/* @0x234ac0 mov r0, r4 */
+/* @0x234ac4 mov r1, r6 */
+/* @0x234ac8 mov r3, r5 */
+/* @0x234acc pop {r4, r5, r6, lr} */
+/* @0x234ad0 b 0x234434 <ogg_page_checksum_set+0xe0> */
+/* @0x234ad4 adds r2, r2, #0 */
+/* @0x234ad8 movne r2, #1 */
+/* @0x234adc b 0x234ac0 <ogg_stream_pageout_fill+0x40> */
+/* @0x234ae0 mov r0, #0 */
+/* @0x234ae4 pop {r4, r5, r6, pc} */

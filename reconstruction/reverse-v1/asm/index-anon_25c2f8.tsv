@@ -1,0 +1,185 @@
+25c2f8	e92d0ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11}
+25c2fc	e1a04000	mov	r4, r0
+25c300	e59d7020	ldr	r7, [sp, #0x20]
+25c304	e5938010	ldr	r8, [r3, #0x10]
+25c308	e5936020	ldr	r6, [r3, #0x20]
+25c30c	e0888007	add	r8, r8, r7
+25c310	e5d4c000	ldrb	r12, [r4]
+25c314	e35c0000	cmp	r12, #0
+25c318	0a000064	beq	0x25c4b0 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1388>
+25c31c	e35c0075	cmp	r12, #117
+25c320	0a000086	beq	0x25c540 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1418>
+25c324	e35c0070	cmp	r12, #112
+25c328	0a00007f	beq	0x25c52c <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1404>
+25c32c	e24c5055	sub	r5, r12, #85
+25c330	e3550046	cmp	r5, #70
+25c334	908ff105	addls	pc, pc, r5, lsl #2
+25c338	ea000048	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c33c	ea000075	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c340	ea000074	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c344	ea000073	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c348	ea000072	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c34c	ea000071	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c350	ea000070	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c354	ea00006a	b	0x25c504 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13dc>
+25c358	ea000069	b	0x25c504 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13dc>
+25c35c	ea000068	b	0x25c504 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13dc>
+25c360	ea00006c	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c364	ea00006b	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c368	ea00006a	b	0x25c518 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13f0>
+25c36c	ea000064	b	0x25c504 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13dc>
+25c370	ea00003a	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c374	ea000039	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c378	ea000038	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c37c	ea000037	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c380	ea000036	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c384	ea000035	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c388	ea000034	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c38c	ea000033	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c390	ea000032	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c394	ea000031	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c398	ea000030	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c39c	ea00002f	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3a0	ea00002e	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3a4	ea00002d	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3a8	ea00002c	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3ac	ea00002b	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3b0	ea00002a	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3b4	ea000029	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3b8	ea000028	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3bc	ea000027	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3c0	ea000026	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3c4	ea000025	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3c8	ea000024	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3cc	ea000023	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3d0	ea000022	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3d4	ea000021	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3d8	ea000020	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3dc	ea00001f	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3e0	ea00001e	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3e4	ea00001d	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3e8	ea00001c	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3ec	ea00001b	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3f0	ea00001a	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3f4	ea000019	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3f8	ea000018	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c3fc	ea000017	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c400	ea000016	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c404	ea000015	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c408	ea000014	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c40c	ea000013	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c410	ea000012	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c414	ea000011	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c418	ea000010	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c41c	ea00000f	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c420	ea00000e	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c424	ea00000d	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c428	ea00000c	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c42c	ea00000b	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c430	ea00000a	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c434	ea000009	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c438	ea000008	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c43c	ea000005	b	0x25c458 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1330>
+25c440	ea000006	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c444	ea000003	b	0x25c458 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1330>
+25c448	ea000004	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c44c	ea000001	b	0x25c458 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1330>
+25c450	ea000002	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c454	eaffffff	b	0x25c458 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1330>
+25c458	e5d45001	ldrb	r5, [r4, #0x1]
+25c45c	e0844005	add	r4, r4, r5
+25c460	e59f516c	ldr	r5, [pc, #0x16c]
+25c464	e3520000	cmp	r2, #0
+25c468	e79f5005	ldr	r5, [pc, r5]
+25c46c	e7d5500c	ldrb	r5, [r5, r12]
+25c470	e0844005	add	r4, r4, r5
+25c474	0affffa5	beq	0x25c310 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x11e8>
+25c478	e24cc01d	sub	r12, r12, #29
+25c47c	e35c0037	cmp	r12, #55
+25c480	8affffa2	bhi	0x25c310 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x11e8>
+25c484	e554c001	ldrb	r12, [r4, #-0x1]
+25c488	e35c00bf	cmp	r12, #191
+25c48c	9affff9f	bls	0x25c310 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x11e8>
+25c490	e59f5140	ldr	r5, [pc, #0x140]
+25c494	e20cc03f	and	r12, r12, #63
+25c498	e79f5005	ldr	r5, [pc, r5]
+25c49c	e7d5c00c	ldrb	r12, [r5, r12]
+25c4a0	e084400c	add	r4, r4, r12
+25c4a4	e5d4c000	ldrb	r12, [r4]
+25c4a8	e35c0000	cmp	r12, #0
+25c4ac	1affff9a	bne	0x25c31c <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x11f4>
+25c4b0	e1580006	cmp	r8, r6
+25c4b4	2a000010	bhs	0x25c4fc <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x13d4>
+25c4b8	e2882002	add	r2, r8, #2
+25c4bc	e6ef5071	uxtb	r5, r1
+25c4c0	e1a00002	mov	r0, r2
+25c4c4	e5504002	ldrb	r4, [r0, #-0x2]
+25c4c8	e2800002	add	r0, r0, #2
+25c4cc	e5d8c001	ldrb	r12, [r8, #0x1]
+25c4d0	e18cc404	orr	r12, r12, r4, lsl #8
+25c4d4	e08c4001	add	r4, r12, r1
+25c4d8	e085c00c	add	r12, r5, r12
+25c4dc	e1a04444	asr	r4, r4, #8
+25c4e0	e5404004	strb	r4, [r0, #-0x4]
+25c4e4	e5c8c001	strb	r12, [r8, #0x1]
+25c4e8	e1a08002	mov	r8, r2
+25c4ec	e593c020	ldr	r12, [r3, #0x20]
+25c4f0	e15c0002	cmp	r12, r2
+25c4f4	e2822002	add	r2, r2, #2
+25c4f8	8afffff1	bhi	0x25c4c4 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x139c>
+25c4fc	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+25c500	e12fff1e	bx	lr
+25c504	e5d45003	ldrb	r5, [r4, #0x3]
+25c508	e245500f	sub	r5, r5, #15
+25c50c	e3550001	cmp	r5, #1
+25c510	92844002	addls	r4, r4, #2
+25c514	eaffffd1	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c518	e5d45001	ldrb	r5, [r4, #0x1]
+25c51c	e245500f	sub	r5, r5, #15
+25c520	e3550001	cmp	r5, #1
+25c524	92844002	addls	r4, r4, #2
+25c528	eaffffcc	b	0x25c460 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1338>
+25c52c	e5d45001	ldrb	r5, [r4, #0x1]
+25c530	e5d4c002	ldrb	r12, [r4, #0x2]
+25c534	e18cc405	orr	r12, r12, r5, lsl #8
+25c538	e084400c	add	r4, r4, r12
+25c53c	eaffff73	b	0x25c310 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x11e8>
+25c540	e1580006	cmp	r8, r6
+25c544	e1a0c008	mov	r12, r8
+25c548	25939014	ldrhs	r9, [r3, #0x14]
+25c54c	2a000011	bhs	0x25c598 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1470>
+25c550	e5d8b000	ldrb	r11, [r8]
+25c554	e284a001	add	r10, r4, #1
+25c558	e5d85001	ldrb	r5, [r8, #0x1]
+25c55c	e5939014	ldr	r9, [r3, #0x14]
+25c560	e185540b	orr	r5, r5, r11, lsl #8
+25c564	e0895005	add	r5, r9, r5
+25c568	e15a0005	cmp	r10, r5
+25c56c	1a000006	bne	0x25c58c <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x1464>
+25c570	ea000015	b	0x25c5cc <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x14a4>
+25c574	e5dcb000	ldrb	r11, [r12]
+25c578	e5dc5001	ldrb	r5, [r12, #0x1]
+25c57c	e185540b	orr	r5, r5, r11, lsl #8
+25c580	e0895005	add	r5, r9, r5
+25c584	e15a0005	cmp	r10, r5
+25c588	0a00000f	beq	0x25c5cc <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x14a4>
+25c58c	e28cc002	add	r12, r12, #2
+25c590	e15c0006	cmp	r12, r6
+25c594	3afffff6	blo	0x25c574 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x144c>
+25c598	e5d45001	ldrb	r5, [r4, #0x1]
+25c59c	e5d4c002	ldrb	r12, [r4, #0x2]
+25c5a0	e18cc405	orr	r12, r12, r5, lsl #8
+25c5a4	e089900c	add	r9, r9, r12
+25c5a8	e1500009	cmp	r0, r9
+25c5ac	8a000006	bhi	0x25c5cc <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x14a4>
+25c5b0	e08cc001	add	r12, r12, r1
+25c5b4	e5c4c002	strb	r12, [r4, #0x2]
+25c5b8	e1a0c44c	asr	r12, r12, #8
+25c5bc	e5c4c001	strb	r12, [r4, #0x1]
+25c5c0	e5938010	ldr	r8, [r3, #0x10]
+25c5c4	e5936020	ldr	r6, [r3, #0x20]
+25c5c8	e0888007	add	r8, r8, r7
+25c5cc	e2844003	add	r4, r4, #3
+25c5d0	eaffff4e	b	0x25c310 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x11e8>
+25c5d4	00195374	andseq	r5, r9, r4, ror r3
+25c5d8	00195348	andseq	r5, r9, r8, asr #6

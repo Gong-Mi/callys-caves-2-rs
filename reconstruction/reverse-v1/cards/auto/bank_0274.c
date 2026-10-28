@@ -1,856 +1,894 @@
 /* libyoyo.so 覆盖卡组 0274
- * 函数 0x2cc77c..0x2cd3a8，共 32 个；
+ * 函数 0x2ce3c4..0x2cf0a0，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
 
-/* ── FUNC 0x2cc77c · b2PolygonAndCircleContact::Create(b2Fixture*, int, b2Fixture*, int, b2BlockAllocator*) · size=52 · insn=13 */
-/* @0x2cc77c push {r4, r5, r6, lr} */
-/* @0x2cc780 mov r1, #148 */
-/* @0x2cc784 mov r5, r0 */
-/* @0x2cc788 ldr r0, [sp, #0x10] */
-/* @0x2cc78c mov r6, r2 */
-/* @0x2cc790 bl 0x2c65c0 <_ZN16b2BlockAllocator8AllocateEi> */
-/* @0x2cc794 subs r4, r0, #0 */
-/* @0x2cc798 beq 0x2cc7a8 <_ZN25b2PolygonAndCircleContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator+0x2c> */
-/* @0x2cc79c mov r1, r5 */
-/* @0x2cc7a0 mov r2, r6 */
-/* @0x2cc7a4 bl 0x2cc740 <_ZN25b2PolygonAndCircleContactC2EP9b2FixtureS1_> */
-/* @0x2cc7a8 mov r0, r4 */
-/* @0x2cc7ac pop {r4, r5, r6, pc} */
+/* ── FUNC 0x2ce3c4 · b2MotorJoint::InitVelocityConstraints(b2SolverData const&) · size=684 · insn=171 */
+/* @0x2ce3c4 ldr r2, [r0, #0x30] */
+/* @0x2ce3c8 ldr r3, [r0, #0x34] */
+/* @0x2ce3cc push {r4, r5, r6, r7, r8, r9, r10, lr} */
+/* @0x2ce3d0 vpush {d8, d9, d10, d11, d12, d13, d14} */
+/* @0x2ce3d4 mov r7, r1 */
+/* @0x2ce3d8 vldr s16, [r2, #144] */
+/* @0x2ce3dc add r1, r2, #44 */
+/* @0x2ce3e0 mov r4, r0 */
+/* @0x2ce3e4 ldr r6, [r2, #0x8] */
+/* @0x2ce3e8 add lr, r0, #136 */
+/* @0x2ce3ec ldr r12, [r3, #0x8] */
+/* @0x2ce3f0 add r10, r0, #128 */
+/* @0x2ce3f4 ldm r1, {r0, r1} */
+/* @0x2ce3f8 add r9, r3, #44 */
+/* @0x2ce3fc ldr r8, [r7, #0x18] */
+/* @0x2ce400 vldr s23, [r2, #136] */
+/* @0x2ce404 vldr s22, [r3, #136] */
+/* @0x2ce408 ldr r5, [r7, #0x1c] */
+/* @0x2ce40c str r6, [r4, #0x68] */
+/* @0x2ce410 add r6, r6, r6, lsl #1 */
+/* @0x2ce414 str r12, [r4, #0x6c] */
+/* @0x2ce418 add r12, r12, r12, lsl #1 */
+/* @0x2ce41c stm r10, {r0, r1} */
+/* @0x2ce420 lsl r6, r6, #2 */
+/* @0x2ce424 ldm r9, {r0, r1} */
+/* @0x2ce428 vldr s17, [r3, #144] */
+/* @0x2ce42c add r2, r8, r6 */
+/* @0x2ce430 lsl r12, r12, #2 */
+/* @0x2ce434 vldr s20, [r2, #8] */
+/* @0x2ce438 add r3, r8, r12 */
+/* @0x2ce43c stm lr, {r0, r1} */
+/* @0x2ce440 vstr s23, [r4, #156] */
+/* @0x2ce444 vmov r0, s20 */
+/* @0x2ce448 vstr s22, [r4, #160] */
+/* @0x2ce44c vstr s16, [r4, #164] */
+/* @0x2ce450 vstr s17, [r4, #168] */
+/* @0x2ce454 vldr s21, [r3, #8] */
+/* @0x2ce458 vldr s27, [r3] */
+/* @0x2ce45c vldr s26, [r3, #4] */
+/* @0x2ce460 vldr s25, [r2] */
+/* @0x2ce464 vldr s24, [r2, #4] */
+/* @0x2ce468 add r6, r5, r6 */
+/* @0x2ce46c add r5, r5, r12 */
+/* @0x2ce470 bl 0xb6580 <sinf@plt> */
+/* @0x2ce474 vmov s18, r0 */
+/* @0x2ce478 vmov r0, s20 */
+/* @0x2ce47c bl 0xb658c <cosf@plt> */
+/* @0x2ce480 vsub.f32 s20, s21, s20 */
+/* @0x2ce484 vmov s19, r0 */
+/* @0x2ce488 vmov r0, s21 */
+/* @0x2ce48c bl 0xb6580 <sinf@plt> */
+/* @0x2ce490 vmov s28, r0 */
+/* @0x2ce494 vmov r0, s21 */
+/* @0x2ce498 bl 0xb658c <cosf@plt> */
+/* @0x2ce49c vldr s13, [r4, #132] */
+/* @0x2ce4a0 vneg.f32 s13, s13 */
+/* @0x2ce4a4 vldr s14, [r4, #128] */
+/* @0x2ce4a8 vldr s1, [r6] */
+/* @0x2ce4ac vldr s2, [r6, #4] */
+/* @0x2ce4b0 vldr s3, [r6, #8] */
+/* @0x2ce4b4 vldr s4, [r5] */
+/* @0x2ce4b8 vldr s5, [r5, #4] */
+/* @0x2ce4bc vldr s6, [r5, #8] */
+/* @0x2ce4c0 vmul.f32 s15, s13, s18 */
+/* @0x2ce4c4 vmul.f32 s13, s13, s19 */
+/* @0x2ce4c8 vneg.f32 s14, s14 */
+/* @0x2ce4cc vmov s10, r0 */
+/* @0x2ce4d0 vnmls.f32 s15, s14, s19 */
+/* @0x2ce4d4 vmla.f32 s13, s14, s18 */
+/* @0x2ce4d8 vstr s15, [r4, #112] */
+/* @0x2ce4dc vstr s13, [r4, #116] */
+/* @0x2ce4e0 vldr s14, [r4, #140] */
+/* @0x2ce4e4 vneg.f32 s14, s14 */
+/* @0x2ce4e8 vldr s12, [r4, #136] */
+/* @0x2ce4ec ldrb r3, [r7, #0x14] */
+/* @0x2ce4f0 vmul.f32 s11, s14, s28 */
+/* @0x2ce4f4 vneg.f32 s12, s12 */
+/* @0x2ce4f8 vmul.f32 s14, s14, s10 */
+/* @0x2ce4fc vnmls.f32 s11, s12, s10 */
+/* @0x2ce500 vmla.f32 s14, s12, s28 */
+/* @0x2ce504 vstr s11, [r4, #120] */
+/* @0x2ce508 vadd.f32 s9, s23, s22 */
+/* @0x2ce50c vstr s14, [r4, #124] */
+/* @0x2ce510 vmul.f32 s8, s16, s15 */
+/* @0x2ce514 vmul.f32 s7, s17, s11 */
+/* @0x2ce518 vmul.f32 s0, s16, s13 */
+/* @0x2ce51c vmov.f32 s28, s9 */
+/* @0x2ce520 vmla.f32 s28, s8, s15 */
+/* @0x2ce524 vmul.f32 s10, s7, s14 */
+/* @0x2ce528 vnmul.f32 s12, s16, s15 */
+/* @0x2ce52c vmla.f32 s9, s0, s13 */
+/* @0x2ce530 vnmls.f32 s10, s12, s13 */
+/* @0x2ce534 vmul.f32 s12, s17, s14 */
+/* @0x2ce538 vmov.f32 s8, s28 */
+/* @0x2ce53c vmla.f32 s9, s12, s14 */
+/* @0x2ce540 vmla.f32 s8, s7, s11 */
+/* @0x2ce544 vmul.f32 s12, s10, s10 */
+/* @0x2ce548 vnmls.f32 s12, s9, s8 */
+/* @0x2ce54c vcmp.f32 s12, #0 */
+/* @0x2ce550 vmrs APSR_nzcv, fpscr */
+/* @0x2ce554 vmovne.f32 s7, #1.000000e+00 */
+/* @0x2ce558 vdivne.f32 s12, s7, s12 */
+/* @0x2ce55c vadd.f32 s7, s16, s17 */
+/* @0x2ce560 vnmul.f32 s10, s12, s10 */
+/* @0x2ce564 vmul.f32 s8, s8, s12 */
+/* @0x2ce568 vstr s10, [r4, #176] */
+/* @0x2ce56c vstr s10, [r4, #180] */
+/* @0x2ce570 vmul.f32 s12, s9, s12 */
+/* @0x2ce574 vldr s9, [r4, #68] */
+/* @0x2ce578 vstr s8, [r4, #172] */
+/* @0x2ce57c vldr s8, [r4, #76] */
+/* @0x2ce580 vcmpe.f32 s7, #0 */
+/* @0x2ce584 vstr s12, [r4, #184] */
+/* @0x2ce588 vmrs APSR_nzcv, fpscr */
+/* @0x2ce58c vmovgt.f32 s12, #1.000000e+00 */
+/* @0x2ce590 vdivgt.f32 s7, s12, s7 */
+/* @0x2ce594 vldr s12, [r4, #72] */
+/* @0x2ce598 cmp r3, #0 */
+/* @0x2ce59c vmul.f32 s10, s12, s18 */
+/* @0x2ce5a0 vstr s7, [r4, #188] */
+/* @0x2ce5a4 vmul.f32 s12, s12, s19 */
+/* @0x2ce5a8 vadd.f32 s27, s11, s27 */
+/* @0x2ce5ac vadd.f32 s26, s14, s26 */
+/* @0x2ce5b0 vnmls.f32 s10, s9, s19 */
+/* @0x2ce5b4 vmla.f32 s12, s9, s18 */
+/* @0x2ce5b8 vsub.f32 s25, s27, s25 */
+/* @0x2ce5bc vsub.f32 s24, s26, s24 */
+/* @0x2ce5c0 vsub.f32 s25, s25, s15 */
+/* @0x2ce5c4 vsub.f32 s24, s24, s13 */
+/* @0x2ce5c8 vsub.f32 s10, s25, s10 */
+/* @0x2ce5cc vsub.f32 s12, s24, s12 */
+/* @0x2ce5d0 vstr s10, [r4, #144] */
+/* @0x2ce5d4 vsub.f32 s20, s20, s8 */
+/* @0x2ce5d8 vstr s12, [r4, #148] */
+/* @0x2ce5dc vstr s20, [r4, #152] */
+/* @0x2ce5e0 bne 0x2ce614 <_ZN12b2MotorJoint23InitVelocityConstraintsERK12b2SolverData+0x250> */
+/* @0x2ce5e4 mov r3, #0 */
+/* @0x2ce5e8 str r3, [r4, #0x50] */
+/* @0x2ce5ec str r3, [r4, #0x54] */
+/* @0x2ce5f0 str r3, [r4, #0x58] */
+/* @0x2ce5f4 vpop {d8, d9, d10, d11, d12, d13, d14} */
+/* @0x2ce5f8 vstr s1, [r6] */
+/* @0x2ce5fc vstr s2, [r6, #4] */
+/* @0x2ce600 vstr s3, [r6, #8] */
+/* @0x2ce604 vstr s4, [r5] */
+/* @0x2ce608 vstr s5, [r5, #4] */
+/* @0x2ce60c vstr s6, [r5, #8] */
+/* @0x2ce610 pop {r4, r5, r6, r7, r8, r9, r10, pc} */
+/* @0x2ce614 vldr s9, [r7, #8] */
+/* @0x2ce618 vldr s10, [r4, #80] */
+/* @0x2ce61c vmul.f32 s10, s9, s10 */
+/* @0x2ce620 vldr s12, [r4, #84] */
+/* @0x2ce624 vldr s8, [r4, #88] */
+/* @0x2ce628 vmul.f32 s12, s9, s12 */
+/* @0x2ce62c vstr s10, [r4, #80] */
+/* @0x2ce630 vmul.f32 s13, s13, s10 */
+/* @0x2ce634 vstr s12, [r4, #84] */
+/* @0x2ce638 vmul.f32 s14, s14, s10 */
+/* @0x2ce63c vnmls.f32 s13, s15, s12 */
+/* @0x2ce640 vnmls.f32 s14, s11, s12 */
+/* @0x2ce644 vmul.f32 s15, s9, s8 */
+/* @0x2ce648 vadd.f32 s13, s15, s13 */
+/* @0x2ce64c vstr s15, [r4, #88] */
+/* @0x2ce650 vadd.f32 s14, s15, s14 */
+/* @0x2ce654 vmls.f32 s1, s23, s10 */
+/* @0x2ce658 vmla.f32 s4, s22, s10 */
+/* @0x2ce65c vmls.f32 s2, s23, s12 */
+/* @0x2ce660 vmla.f32 s5, s22, s12 */
+/* @0x2ce664 vmls.f32 s3, s16, s13 */
+/* @0x2ce668 vmla.f32 s6, s17, s14 */
+/* @0x2ce66c b 0x2ce5f4 <_ZN12b2MotorJoint23InitVelocityConstraintsERK12b2SolverData+0x230> */
 
-/* ── FUNC 0x2cc7b0 · b2PolygonContact::~b2PolygonContact() · size=24 · insn=6 */
-/* @0x2cc7b0 ldr r3, [pc, #0xc] */
-/* @0x2cc7b4 ldr r3, [pc, r3] */
-/* @0x2cc7b8 add r3, r3, #8 */
-/* @0x2cc7bc str r3, [r0] */
-/* @0x2cc7c0 bx lr */
-/* @0x2cc7c4 andseq r5, r2, r12, asr #6 */
+/* ── FUNC 0x2ce670 · b2MotorJointDef::Initialize(b2Body*, b2Body*) · size=84 · insn=21 */
+/* @0x2ce670 vldr s14, [r2, #16] */
+/* @0x2ce674 vldr s15, [r1, #16] */
+/* @0x2ce678 vsub.f32 s15, s14, s15 */
+/* @0x2ce67c vldr s12, [r1, #20] */
+/* @0x2ce680 vldr s8, [r2, #12] */
+/* @0x2ce684 vldr s13, [r1, #12] */
+/* @0x2ce688 vldr s11, [r1, #24] */
+/* @0x2ce68c vldr s9, [r2, #72] */
+/* @0x2ce690 vldr s10, [r1, #72] */
+/* @0x2ce694 str r1, [r0, #0x8] */
+/* @0x2ce698 str r2, [r0, #0xc] */
+/* @0x2ce69c vmul.f32 s14, s15, s12 */
+/* @0x2ce6a0 vsub.f32 s13, s8, s13 */
+/* @0x2ce6a4 vmul.f32 s15, s15, s11 */
+/* @0x2ce6a8 vmla.f32 s14, s13, s11 */
+/* @0x2ce6ac vmls.f32 s15, s12, s13 */
+/* @0x2ce6b0 vstr s14, [r0, #20] */
+/* @0x2ce6b4 vsub.f32 s14, s9, s10 */
+/* @0x2ce6b8 vstr s15, [r0, #24] */
+/* @0x2ce6bc vstr s14, [r0, #28] */
+/* @0x2ce6c0 bx lr */
 
-/* ── FUNC 0x2cc7b0 · b2PolygonContact::~b2PolygonContact() · alias of the symbol above · insn=0 */
+/* ── FUNC 0x2ce6c4 · b2MotorJoint::b2MotorJoint(b2MotorJointDef const*) · size=108 · insn=27 */
+/* @0x2ce6c4 push {r3, r4, r5, r6, r7, lr} */
+/* @0x2ce6c8 mov r4, r0 */
+/* @0x2ce6cc mov r5, r1 */
+/* @0x2ce6d0 bl 0x2cdee0 <_ZN7b2JointC2EPK10b2JointDef> */
+/* @0x2ce6d4 ldr r2, [pc, #0x50] */
+/* @0x2ce6d8 add r1, r5, #20 */
+/* @0x2ce6dc mov r3, r4 */
+/* @0x2ce6e0 ldr r7, [r5, #0x1c] */
+/* @0x2ce6e4 ldr r2, [pc, r2] */
+/* @0x2ce6e8 ldm r1, {r0, r1} */
+/* @0x2ce6ec ldr r6, [r5, #0x20] */
+/* @0x2ce6f0 add r2, r2, #8 */
+/* @0x2ce6f4 ldr r12, [r5, #0x24] */
+/* @0x2ce6f8 str r2, [r3], #68 */
+/* @0x2ce6fc ldr r2, [r5, #0x28] */
+/* @0x2ce700 stm r3, {r0, r1} */
+/* @0x2ce704 mov r3, #0 */
+/* @0x2ce708 str r7, [r4, #0x4c] */
+/* @0x2ce70c mov r0, r4 */
+/* @0x2ce710 str r6, [r4, #0x5c] */
+/* @0x2ce714 str r12, [r4, #0x60] */
+/* @0x2ce718 str r2, [r4, #0x64] */
+/* @0x2ce71c str r3, [r4, #0x50] */
+/* @0x2ce720 str r3, [r4, #0x54] */
+/* @0x2ce724 str r3, [r4, #0x58] */
+/* @0x2ce728 pop {r3, r4, r5, r6, r7, pc} */
+/* @0x2ce72c andseq r3, r2, r12, ror r4 */
 
-/* ── FUNC 0x2cc7c8 · b2PolygonContact::~b2PolygonContact() · size=40 · insn=10 */
-/* @0x2cc7c8 ldr r3, [pc, #0x1c] */
-/* @0x2cc7cc push {r4, lr} */
-/* @0x2cc7d0 ldr r3, [pc, r3] */
-/* @0x2cc7d4 mov r4, r0 */
-/* @0x2cc7d8 add r3, r3, #8 */
-/* @0x2cc7dc str r3, [r0] */
-/* @0x2cc7e0 bl 0x27d1d0 <_ZdlPv> */
-/* @0x2cc7e4 mov r0, r4 */
-/* @0x2cc7e8 pop {r4, pc} */
-/* @0x2cc7ec andseq r5, r2, r0, lsr r3 */
+/* ── FUNC 0x2ce6c4 · b2MotorJoint::b2MotorJoint(b2MotorJointDef const*) · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x2cc7f0 · b2PolygonContact::Evaluate(b2Manifold*, b2Transform const&, b2Transform const&) · size=52 · insn=13 */
-/* @0x2cc7f0 mov r12, r0 */
-/* @0x2cc7f4 mov r0, r1 */
-/* @0x2cc7f8 ldr r1, [r12, #0x30] */
-/* @0x2cc7fc ldr r12, [r12, #0x34] */
-/* @0x2cc800 str lr, [sp, #-0x4]! */
-/* @0x2cc804 sub sp, sp, #12 */
-/* @0x2cc808 ldr r12, [r12, #0xc] */
-/* @0x2cc80c ldr r1, [r1, #0xc] */
-/* @0x2cc810 str r3, [sp] */
-/* @0x2cc814 mov r3, r12 */
-/* @0x2cc818 bl 0x2de464 <_Z17b2CollidePolygonsP10b2ManifoldPK14b2PolygonShapeRK11b2TransformS3_S6_> */
-/* @0x2cc81c add sp, sp, #12 */
-/* @0x2cc820 ldr pc, [sp], #4 */
+/* ── FUNC 0x2ce730 · b2MotorJoint::SetMaxForce(float) · size=152 · insn=38 */
+/* @0x2ce730 push {r4, lr} */
+/* @0x2ce734 vpush {d8} */
+/* @0x2ce738 vmov s16, r1 */
+/* @0x2ce73c ldr r3, [pc, #0x7c] */
+/* @0x2ce740 sub sp, sp, #16 */
+/* @0x2ce744 vcmp.f32 s16, s16 */
+/* @0x2ce748 mov r4, r0 */
+/* @0x2ce74c ldr r3, [pc, r3] */
+/* @0x2ce750 ldr r3, [r3] */
+/* @0x2ce754 vmrs APSR_nzcv, fpscr */
+/* @0x2ce758 bne 0x2ce780 <_ZN12b2MotorJoint11SetMaxForceEf+0x50> */
+/* @0x2ce75c mov r1, #0 */
+/* @0x2ce760 movw r2, #0x7f80 */
+/* @0x2ce764 strh r1, [sp] */
+/* @0x2ce768 strh r2, [sp, #2] */
+/* @0x2ce76c vldr s15, [sp] */
+/* @0x2ce770 vneg.f32 s14, s15 */
+/* @0x2ce774 vcmpe.f32 s16, s14 */
+/* @0x2ce778 vmrs APSR_nzcv, fpscr */
+/* @0x2ce77c bgt 0x2ce7a0 <_ZN12b2MotorJoint11SetMaxForceEf+0x70> */
+/* @0x2ce780 mov r0, #0 */
+/* @0x2ce784 ldr r1, [pc, #0x38] */
+/* @0x2ce788 add r1, pc, r1 */
+/* @0x2ce78c blx r3 */
+/* @0x2ce790 vstr s16, [r4, #92] */
+/* @0x2ce794 add sp, sp, #16 */
+/* @0x2ce798 vpop {d8} */
+/* @0x2ce79c pop {r4, pc} */
+/* @0x2ce7a0 vcmpe.f32 s16, s15 */
+/* @0x2ce7a4 vmrs APSR_nzcv, fpscr */
+/* @0x2ce7a8 bpl 0x2ce780 <_ZN12b2MotorJoint11SetMaxForceEf+0x50> */
+/* @0x2ce7ac vcmpe.f32 s16, #0 */
+/* @0x2ce7b0 vmrs APSR_nzcv, fpscr */
+/* @0x2ce7b4 movge r0, #1 */
+/* @0x2ce7b8 bge 0x2ce784 <_ZN12b2MotorJoint11SetMaxForceEf+0x54> */
+/* @0x2ce7bc b 0x2ce780 <_ZN12b2MotorJoint11SetMaxForceEf+0x50> */
+/* @0x2ce7c0 andseq r2, r2, r12, ror sp */
+/* @0x2ce7c4 andeq lr, r8, r0, lsr #24 */
 
-/* ── FUNC 0x2cc824 · b2PolygonContact::Destroy(b2Contact*, b2BlockAllocator*) · size=44 · insn=11 */
-/* @0x2cc824 push {r3, r4, r5, lr} */
-/* @0x2cc828 mov r5, r1 */
-/* @0x2cc82c ldr r3, [r0] */
-/* @0x2cc830 mov r4, r0 */
-/* @0x2cc834 ldr r3, [r3, #0x4] */
-/* @0x2cc838 blx r3 */
-/* @0x2cc83c mov r0, r5 */
-/* @0x2cc840 mov r1, r4 */
-/* @0x2cc844 mov r2, #148 */
-/* @0x2cc848 pop {r3, r4, r5, lr} */
-/* @0x2cc84c b 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* ── FUNC 0x2ce7c8 · b2MotorJoint::GetMaxForce() const · size=8 · insn=2 */
+/* @0x2ce7c8 ldr r0, [r0, #0x5c] */
+/* @0x2ce7cc bx lr */
 
-/* ── FUNC 0x2cc850 · b2PolygonContact::b2PolygonContact(b2Fixture*, b2Fixture*) · size=60 · insn=15 */
-/* @0x2cc850 push {r4, lr} */
-/* @0x2cc854 sub sp, sp, #8 */
-/* @0x2cc858 mov r3, r2 */
-/* @0x2cc85c mov r2, #0 */
-/* @0x2cc860 str r2, [sp] */
-/* @0x2cc864 mov r4, r0 */
-/* @0x2cc868 bl 0x2cc120 <_ZN9b2ContactC2EP9b2FixtureiS1_i> */
-/* @0x2cc86c ldr r3, [pc, #0x14] */
-/* @0x2cc870 mov r0, r4 */
-/* @0x2cc874 ldr r3, [pc, r3] */
-/* @0x2cc878 add r3, r3, #8 */
-/* @0x2cc87c str r3, [r4] */
-/* @0x2cc880 add sp, sp, #8 */
-/* @0x2cc884 pop {r4, pc} */
-/* @0x2cc888 ldrsbeq r5, [r2], -r12 */
+/* ── FUNC 0x2ce7d0 · b2MotorJoint::SetMaxTorque(float) · size=152 · insn=38 */
+/* @0x2ce7d0 push {r4, lr} */
+/* @0x2ce7d4 vpush {d8} */
+/* @0x2ce7d8 vmov s16, r1 */
+/* @0x2ce7dc ldr r3, [pc, #0x7c] */
+/* @0x2ce7e0 sub sp, sp, #16 */
+/* @0x2ce7e4 vcmp.f32 s16, s16 */
+/* @0x2ce7e8 mov r4, r0 */
+/* @0x2ce7ec ldr r3, [pc, r3] */
+/* @0x2ce7f0 ldr r3, [r3] */
+/* @0x2ce7f4 vmrs APSR_nzcv, fpscr */
+/* @0x2ce7f8 bne 0x2ce820 <_ZN12b2MotorJoint12SetMaxTorqueEf+0x50> */
+/* @0x2ce7fc mov r1, #0 */
+/* @0x2ce800 movw r2, #0x7f80 */
+/* @0x2ce804 strh r1, [sp] */
+/* @0x2ce808 strh r2, [sp, #2] */
+/* @0x2ce80c vldr s15, [sp] */
+/* @0x2ce810 vneg.f32 s14, s15 */
+/* @0x2ce814 vcmpe.f32 s16, s14 */
+/* @0x2ce818 vmrs APSR_nzcv, fpscr */
+/* @0x2ce81c bgt 0x2ce840 <_ZN12b2MotorJoint12SetMaxTorqueEf+0x70> */
+/* @0x2ce820 mov r0, #0 */
+/* @0x2ce824 ldr r1, [pc, #0x38] */
+/* @0x2ce828 add r1, pc, r1 */
+/* @0x2ce82c blx r3 */
+/* @0x2ce830 vstr s16, [r4, #96] */
+/* @0x2ce834 add sp, sp, #16 */
+/* @0x2ce838 vpop {d8} */
+/* @0x2ce83c pop {r4, pc} */
+/* @0x2ce840 vcmpe.f32 s16, s15 */
+/* @0x2ce844 vmrs APSR_nzcv, fpscr */
+/* @0x2ce848 bpl 0x2ce820 <_ZN12b2MotorJoint12SetMaxTorqueEf+0x50> */
+/* @0x2ce84c vcmpe.f32 s16, #0 */
+/* @0x2ce850 vmrs APSR_nzcv, fpscr */
+/* @0x2ce854 movge r0, #1 */
+/* @0x2ce858 bge 0x2ce824 <_ZN12b2MotorJoint12SetMaxTorqueEf+0x54> */
+/* @0x2ce85c b 0x2ce820 <_ZN12b2MotorJoint12SetMaxTorqueEf+0x50> */
+/* @0x2ce860 ldrsbeq r2, [r2], -r12 */
+/* @0x2ce864 andeq lr, r8, r8, lsl #24 */
 
-/* ── FUNC 0x2cc850 · b2PolygonContact::b2PolygonContact(b2Fixture*, b2Fixture*) · alias of the symbol above · insn=0 */
+/* ── FUNC 0x2ce868 · b2MotorJoint::GetMaxTorque() const · size=8 · insn=2 */
+/* @0x2ce868 ldr r0, [r0, #0x60] */
+/* @0x2ce86c bx lr */
 
-/* ── FUNC 0x2cc88c · b2PolygonContact::Create(b2Fixture*, int, b2Fixture*, int, b2BlockAllocator*) · size=52 · insn=13 */
-/* @0x2cc88c push {r4, r5, r6, lr} */
-/* @0x2cc890 mov r1, #148 */
-/* @0x2cc894 mov r5, r0 */
-/* @0x2cc898 ldr r0, [sp, #0x10] */
-/* @0x2cc89c mov r6, r2 */
-/* @0x2cc8a0 bl 0x2c65c0 <_ZN16b2BlockAllocator8AllocateEi> */
-/* @0x2cc8a4 subs r4, r0, #0 */
-/* @0x2cc8a8 beq 0x2cc8b8 <_ZN16b2PolygonContact6CreateEP9b2FixtureiS1_iP16b2BlockAllocator+0x2c> */
-/* @0x2cc8ac mov r1, r5 */
-/* @0x2cc8b0 mov r2, r6 */
-/* @0x2cc8b4 bl 0x2cc850 <_ZN16b2PolygonContactC2EP9b2FixtureS1_> */
-/* @0x2cc8b8 mov r0, r4 */
-/* @0x2cc8bc pop {r4, r5, r6, pc} */
+/* ── FUNC 0x2ce870 · b2MotorJoint::SetLinearOffset(b2Vec2 const&) · size=116 · insn=29 */
+/* @0x2ce870 vldr s15, [r0, #68] */
+/* @0x2ce874 vldr s14, [r1] */
+/* @0x2ce878 vcmp.f32 s14, s15 */
+/* @0x2ce87c mov r3, r0 */
+/* @0x2ce880 vmrs APSR_nzcv, fpscr */
+/* @0x2ce884 bne 0x2ce89c <_ZN12b2MotorJoint15SetLinearOffsetERK6b2Vec2+0x2c> */
+/* @0x2ce888 vldr s14, [r1, #4] */
+/* @0x2ce88c vldr s15, [r0, #72] */
+/* @0x2ce890 vcmp.f32 s14, s15 */
+/* @0x2ce894 vmrs APSR_nzcv, fpscr */
+/* @0x2ce898 bxeq lr */
+/* @0x2ce89c ldr r2, [r3, #0x30] */
+/* @0x2ce8a0 add r3, r3, #68 */
+/* @0x2ce8a4 ldrh r0, [r2, #4] */
+/* @0x2ce8a8 tst r0, #2 */
+/* @0x2ce8ac orreq r0, r0, #2 */
+/* @0x2ce8b0 strheq r0, [r2, #4] */
+/* @0x2ce8b4 moveq r12, #0 */
+/* @0x2ce8b8 streq r12, [r2, #0xa0] */
+/* @0x2ce8bc ldr r2, [r3, #-0x10] */
+/* @0x2ce8c0 ldrh r0, [r2, #4] */
+/* @0x2ce8c4 tst r0, #2 */
+/* @0x2ce8c8 orreq r0, r0, #2 */
+/* @0x2ce8cc strheq r0, [r2, #4] */
+/* @0x2ce8d0 ldm r1, {r0, r1} */
+/* @0x2ce8d4 moveq r12, #0 */
+/* @0x2ce8d8 streq r12, [r2, #0xa0] */
+/* @0x2ce8dc stm r3, {r0, r1} */
+/* @0x2ce8e0 bx lr */
 
-/* ── FUNC 0x2cc8c0 · b2Joint::ShiftOrigin(b2Vec2 const&) · size=4 · insn=1 */
-/* @0x2cc8c0 bx lr */
+/* ── FUNC 0x2ce8e4 · b2MotorJoint::GetLinearOffset() const · size=8 · insn=2 */
+/* @0x2ce8e4 add r0, r0, #68 */
+/* @0x2ce8e8 bx lr */
 
-/* ── FUNC 0x2cc8c4 · b2Joint::~b2Joint() · size=24 · insn=6 */
-/* @0x2cc8c4 ldr r3, [pc, #0xc] */
-/* @0x2cc8c8 ldr r3, [pc, r3] */
-/* @0x2cc8cc add r3, r3, #8 */
-/* @0x2cc8d0 str r3, [r0] */
-/* @0x2cc8d4 bx lr */
-/* @0x2cc8d8 andseq r5, r2, r12, lsl #5 */
+/* ── FUNC 0x2ce8ec · b2MotorJoint::SetAngularOffset(float) · size=84 · insn=21 */
+/* @0x2ce8ec vmov s15, r1 */
+/* @0x2ce8f0 vldr s14, [r0, #76] */
+/* @0x2ce8f4 vcmp.f32 s14, s15 */
+/* @0x2ce8f8 vmrs APSR_nzcv, fpscr */
+/* @0x2ce8fc bxeq lr */
+/* @0x2ce900 ldr r3, [r0, #0x30] */
+/* @0x2ce904 ldrh r2, [r3, #4] */
+/* @0x2ce908 tst r2, #2 */
+/* @0x2ce90c orreq r2, r2, #2 */
+/* @0x2ce910 strheq r2, [r3, #4] */
+/* @0x2ce914 moveq r1, #0 */
+/* @0x2ce918 streq r1, [r3, #0xa0] */
+/* @0x2ce91c ldr r3, [r0, #0x34] */
+/* @0x2ce920 ldrh r2, [r3, #4] */
+/* @0x2ce924 tst r2, #2 */
+/* @0x2ce928 orreq r2, r2, #2 */
+/* @0x2ce92c strheq r2, [r3, #4] */
+/* @0x2ce930 moveq r1, #0 */
+/* @0x2ce934 streq r1, [r3, #0xa0] */
+/* @0x2ce938 vstr s15, [r0, #76] */
+/* @0x2ce93c bx lr */
 
-/* ── FUNC 0x2cc8c4 · b2Joint::~b2Joint() · alias of the symbol above · insn=0 */
+/* ── FUNC 0x2ce940 · b2MotorJoint::GetAngularOffset() const · size=8 · insn=2 */
+/* @0x2ce940 ldr r0, [r0, #0x4c] */
+/* @0x2ce944 bx lr */
 
-/* ── FUNC 0x2cc8dc · b2DistanceJoint::SolveVelocityConstraints(b2SolverData const&) · size=260 · insn=65 */
-/* @0x2cc8dc ldr r2, [r0, #0x6c] */
-/* @0x2cc8e0 vpush {d8, d9, d10, d11} */
-/* @0x2cc8e4 ldr r3, [r0, #0x70] */
-/* @0x2cc8e8 vldr s16, [r0, #124] */
-/* @0x2cc8ec ldr r1, [r1, #0x1c] */
-/* @0x2cc8f0 vldr s0, [r0, #132] */
-/* @0x2cc8f4 add r2, r2, r2, lsl #1 */
-/* @0x2cc8f8 vldr s11, [r0, #136] */
-/* @0x2cc8fc add r3, r3, r3, lsl #1 */
-/* @0x2cc900 vldr s10, [r0, #128] */
-/* @0x2cc904 add r2, r1, r2, lsl #2 */
-/* @0x2cc908 vldr s2, [r2, #4] */
-/* @0x2cc90c add r3, r1, r3, lsl #2 */
-/* @0x2cc910 vmov.f32 s8, s2 */
-/* @0x2cc914 vldr s6, [r3, #4] */
-/* @0x2cc918 vldr s9, [r2, #8] */
-/* @0x2cc91c vldr s12, [r3, #8] */
-/* @0x2cc920 vldr s4, [r3] */
-/* @0x2cc924 vldr s1, [r2] */
-/* @0x2cc928 vldr s15, [r0, #120] */
-/* @0x2cc92c vmov.f32 s23, s6 */
-/* @0x2cc930 vldr s14, [r0, #116] */
-/* @0x2cc934 vldr s20, [r0, #76] */
-/* @0x2cc938 vldr s7, [r0, #100] */
-/* @0x2cc93c vldr s19, [r0, #96] */
-/* @0x2cc940 vldr s13, [r0, #172] */
-/* @0x2cc944 vldr s18, [r0, #164] */
-/* @0x2cc948 vldr s3, [r0, #156] */
-/* @0x2cc94c vmla.f32 s8, s9, s16 */
-/* @0x2cc950 vldr s5, [r0, #160] */
-/* @0x2cc954 vldr s17, [r0, #168] */
-/* @0x2cc958 vmla.f32 s23, s12, s0 */
-/* @0x2cc95c vmov.f32 s22, s4 */
-/* @0x2cc960 vmov.f32 s21, s1 */
-/* @0x2cc964 vmls.f32 s22, s12, s11 */
-/* @0x2cc968 vmls.f32 s21, s9, s10 */
-/* @0x2cc96c vsub.f32 s8, s23, s8 */
-/* @0x2cc970 vmul.f32 s8, s8, s15 */
-/* @0x2cc974 vsub.f32 s21, s22, s21 */
-/* @0x2cc978 vmla.f32 s8, s21, s14 */
-/* @0x2cc97c vadd.f32 s8, s8, s20 */
-/* @0x2cc980 vmla.f32 s8, s7, s19 */
-/* @0x2cc984 vnmul.f32 s13, s13, s8 */
-/* @0x2cc988 vmul.f32 s14, s13, s14 */
-/* @0x2cc98c vmul.f32 s15, s13, s15 */
-/* @0x2cc990 vmul.f32 s10, s10, s14 */
-/* @0x2cc994 vmul.f32 s11, s11, s14 */
-/* @0x2cc998 vnmls.f32 s10, s16, s15 */
-/* @0x2cc99c vnmls.f32 s11, s0, s15 */
-/* @0x2cc9a0 vmls.f32 s9, s10, s18 */
-/* @0x2cc9a4 vmla.f32 s12, s11, s17 */
-/* @0x2cc9a8 vpop {d8, d9, d10, d11} */
-/* @0x2cc9ac vmls.f32 s1, s3, s14 */
-/* @0x2cc9b0 vmls.f32 s2, s3, s15 */
-/* @0x2cc9b4 vmla.f32 s4, s5, s14 */
-/* @0x2cc9b8 vmla.f32 s6, s5, s15 */
-/* @0x2cc9bc vadd.f32 s13, s7, s13 */
-/* @0x2cc9c0 vstr s13, [r0, #100] */
-/* @0x2cc9c4 vstr s9, [r2, #8] */
-/* @0x2cc9c8 vstr s1, [r2] */
-/* @0x2cc9cc vstr s2, [r2, #4] */
-/* @0x2cc9d0 vstr s12, [r3, #8] */
-/* @0x2cc9d4 vstr s4, [r3] */
-/* @0x2cc9d8 vstr s6, [r3, #4] */
-/* @0x2cc9dc bx lr */
+/* ── FUNC 0x2ce948 · b2MouseJoint::SolvePositionConstraints(b2SolverData const&) · size=8 · insn=2 */
+/* @0x2ce948 mov r0, #1 */
+/* @0x2ce94c bx lr */
 
-/* ── FUNC 0x2cc9e0 · b2DistanceJoint::GetAnchorA() const · size=64 · insn=16 */
-/* @0x2cc9e0 ldr r3, [r1, #0x30] */
-/* @0x2cc9e4 vldr s15, [r1, #84] */
-/* @0x2cc9e8 vldr s12, [r3, #24] */
-/* @0x2cc9ec vldr s11, [r3, #20] */
-/* @0x2cc9f0 vmul.f32 s14, s12, s15 */
-/* @0x2cc9f4 vldr s13, [r1, #80] */
-/* @0x2cc9f8 vldr s9, [r3, #16] */
-/* @0x2cc9fc vldr s10, [r3, #12] */
-/* @0x2cca00 vmul.f32 s15, s11, s15 */
-/* @0x2cca04 vmla.f32 s14, s13, s11 */
-/* @0x2cca08 vnmls.f32 s15, s12, s13 */
-/* @0x2cca0c vadd.f32 s14, s14, s9 */
-/* @0x2cca10 vadd.f32 s15, s15, s10 */
-/* @0x2cca14 vstr s14, [r0, #4] */
-/* @0x2cca18 vstr s15, [r0] */
-/* @0x2cca1c bx lr */
+/* ── FUNC 0x2ce950 · b2MouseJoint::GetAnchorA() const · size=24 · insn=6 */
+/* @0x2ce950 add r1, r1, #76 */
+/* @0x2ce954 mov r3, r0 */
+/* @0x2ce958 ldm r1, {r0, r1} */
+/* @0x2ce95c stm r3, {r0, r1} */
+/* @0x2ce960 mov r0, r3 */
+/* @0x2ce964 bx lr */
 
-/* ── FUNC 0x2cca20 · b2DistanceJoint::GetAnchorB() const · size=64 · insn=16 */
-/* @0x2cca20 ldr r3, [r1, #0x34] */
-/* @0x2cca24 vldr s15, [r1, #92] */
-/* @0x2cca28 vldr s12, [r3, #24] */
-/* @0x2cca2c vldr s11, [r3, #20] */
-/* @0x2cca30 vmul.f32 s14, s12, s15 */
-/* @0x2cca34 vldr s13, [r1, #88] */
-/* @0x2cca38 vldr s9, [r3, #16] */
-/* @0x2cca3c vldr s10, [r3, #12] */
-/* @0x2cca40 vmul.f32 s15, s11, s15 */
-/* @0x2cca44 vmla.f32 s14, s13, s11 */
-/* @0x2cca48 vnmls.f32 s15, s12, s13 */
-/* @0x2cca4c vadd.f32 s14, s14, s9 */
-/* @0x2cca50 vadd.f32 s15, s15, s10 */
-/* @0x2cca54 vstr s14, [r0, #4] */
-/* @0x2cca58 vstr s15, [r0] */
-/* @0x2cca5c bx lr */
+/* ── FUNC 0x2ce968 · b2MouseJoint::GetAnchorB() const · size=64 · insn=16 */
+/* @0x2ce968 ldr r3, [r1, #0x34] */
+/* @0x2ce96c vldr s15, [r1, #72] */
+/* @0x2ce970 vldr s12, [r3, #24] */
+/* @0x2ce974 vldr s11, [r3, #20] */
+/* @0x2ce978 vmul.f32 s14, s12, s15 */
+/* @0x2ce97c vldr s13, [r1, #68] */
+/* @0x2ce980 vldr s9, [r3, #16] */
+/* @0x2ce984 vldr s10, [r3, #12] */
+/* @0x2ce988 vmul.f32 s15, s11, s15 */
+/* @0x2ce98c vmla.f32 s14, s13, s11 */
+/* @0x2ce990 vnmls.f32 s15, s12, s13 */
+/* @0x2ce994 vadd.f32 s14, s14, s9 */
+/* @0x2ce998 vadd.f32 s15, s15, s10 */
+/* @0x2ce99c vstr s14, [r0, #4] */
+/* @0x2ce9a0 vstr s15, [r0] */
+/* @0x2ce9a4 bx lr */
 
-/* ── FUNC 0x2cca60 · b2DistanceJoint::GetReactionForce(float) const · size=40 · insn=10 */
-/* @0x2cca60 vmov s14, r2 */
-/* @0x2cca64 vldr s15, [r1, #100] */
-/* @0x2cca68 vldr s13, [r1, #116] */
-/* @0x2cca6c vmul.f32 s15, s14, s15 */
-/* @0x2cca70 vldr s14, [r1, #120] */
-/* @0x2cca74 vmul.f32 s14, s15, s14 */
-/* @0x2cca78 vmul.f32 s15, s15, s13 */
-/* @0x2cca7c vstr s14, [r0, #4] */
-/* @0x2cca80 vstr s15, [r0] */
-/* @0x2cca84 bx lr */
+/* ── FUNC 0x2ce9a8 · b2MouseJoint::GetReactionForce(float) const · size=32 · insn=8 */
+/* @0x2ce9a8 vmov s15, r2 */
+/* @0x2ce9ac vldr s14, [r1, #100] */
+/* @0x2ce9b0 vldr s13, [r1, #96] */
+/* @0x2ce9b4 vmul.f32 s14, s15, s14 */
+/* @0x2ce9b8 vmul.f32 s15, s15, s13 */
+/* @0x2ce9bc vstr s14, [r0, #4] */
+/* @0x2ce9c0 vstr s15, [r0] */
+/* @0x2ce9c4 bx lr */
 
-/* ── FUNC 0x2cca88 · b2DistanceJoint::GetReactionTorque(float) const · size=8 · insn=2 */
-/* @0x2cca88 mov r0, #0 */
-/* @0x2cca8c bx lr */
+/* ── FUNC 0x2ce9c8 · b2MouseJoint::GetReactionTorque(float) const · size=24 · insn=6 */
+/* @0x2ce9c8 vmov s14, r1 */
+/* @0x2ce9cc vldr s15, [pc, #8] */
+/* @0x2ce9d0 vmul.f32 s14, s14, s15 */
+/* @0x2ce9d4 vmov r0, s14 */
+/* @0x2ce9d8 bx lr */
+/* @0x2ce9dc andeq r0, r0, r0 */
 
-/* ── FUNC 0x2cca90 · b2DistanceJoint::~b2DistanceJoint() · size=24 · insn=6 */
-/* @0x2cca90 ldr r3, [pc, #0xc] */
-/* @0x2cca94 ldr r3, [pc, r3] */
-/* @0x2cca98 add r3, r3, #8 */
-/* @0x2cca9c str r3, [r0] */
-/* @0x2ccaa0 bx lr */
-/* @0x2ccaa4 andseq r5, r2, r0, asr #1 */
+/* ── FUNC 0x2ce9e0 · b2MouseJoint::ShiftOrigin(b2Vec2 const&) · size=36 · insn=9 */
+/* @0x2ce9e0 vldr s15, [r1] */
+/* @0x2ce9e4 vldr s14, [r0, #76] */
+/* @0x2ce9e8 vldr s13, [r0, #80] */
+/* @0x2ce9ec vsub.f32 s14, s14, s15 */
+/* @0x2ce9f0 vldr s15, [r1, #4] */
+/* @0x2ce9f4 vsub.f32 s15, s13, s15 */
+/* @0x2ce9f8 vstr s14, [r0, #76] */
+/* @0x2ce9fc vstr s15, [r0, #80] */
+/* @0x2cea00 bx lr */
 
-/* ── FUNC 0x2cca90 · b2DistanceJoint::~b2DistanceJoint() · alias of the symbol above · insn=0 */
+/* ── FUNC 0x2cea04 · b2MouseJoint::~b2MouseJoint() · size=24 · insn=6 */
+/* @0x2cea04 ldr r3, [pc, #0xc] */
+/* @0x2cea08 ldr r3, [pc, r3] */
+/* @0x2cea0c add r3, r3, #8 */
+/* @0x2cea10 str r3, [r0] */
+/* @0x2cea14 bx lr */
+/* @0x2cea18 andseq r3, r2, r12, asr #2 */
 
-/* ── FUNC 0x2ccaa8 · b2Joint::Dump() · size=16 · insn=4 */
-/* @0x2ccaa8 ldr r0, [pc, #0x4] */
-/* @0x2ccaac add r0, pc, r0 */
-/* @0x2ccab0 b 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccab4 strheq pc, [r8], -r4 */
+/* ── FUNC 0x2cea04 · b2MouseJoint::~b2MouseJoint() · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x2ccab8 · b2DistanceJoint::Dump() · size=296 · insn=74 */
-/* @0x2ccab8 push {r4, r5, r6, lr} */
-/* @0x2ccabc mov r4, r0 */
-/* @0x2ccac0 ldr r2, [r4, #0x30] */
-/* @0x2ccac4 sub sp, sp, #8 */
-/* @0x2ccac8 ldr r3, [r4, #0x34] */
-/* @0x2ccacc ldr r0, [pc, #0xe4] */
-/* @0x2ccad0 ldr r6, [r2, #0x8] */
-/* @0x2ccad4 add r0, pc, r0 */
-/* @0x2ccad8 ldr r5, [r3, #0x8] */
-/* @0x2ccadc bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccae0 ldr r0, [pc, #0xd4] */
-/* @0x2ccae4 mov r1, r6 */
-/* @0x2ccae8 add r0, pc, r0 */
-/* @0x2ccaec bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccaf0 ldr r0, [pc, #0xc8] */
-/* @0x2ccaf4 mov r1, r5 */
-/* @0x2ccaf8 add r0, pc, r0 */
-/* @0x2ccafc bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccb00 ldr r0, [pc, #0xbc] */
-/* @0x2ccb04 ldrb r1, [r4, #0x3d] */
-/* @0x2ccb08 add r0, pc, r0 */
-/* @0x2ccb0c bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccb10 vldr s13, [r4, #80] */
-/* @0x2ccb14 vldr s14, [r4, #84] */
-/* @0x2ccb18 vcvt.f64.f32 d5, s13 */
-/* @0x2ccb1c ldr r0, [pc, #0xa4] */
-/* @0x2ccb20 add r0, pc, r0 */
-/* @0x2ccb24 vcvt.f64.f32 d7, s14 */
-/* @0x2ccb28 vmov r2, r3, d5 */
-/* @0x2ccb2c vstr d7, [sp] */
-/* @0x2ccb30 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccb34 vldr s13, [r4, #88] */
-/* @0x2ccb38 vldr s14, [r4, #92] */
-/* @0x2ccb3c vcvt.f64.f32 d5, s13 */
-/* @0x2ccb40 ldr r0, [pc, #0x84] */
-/* @0x2ccb44 add r0, pc, r0 */
-/* @0x2ccb48 vcvt.f64.f32 d7, s14 */
-/* @0x2ccb4c vmov r2, r3, d5 */
-/* @0x2ccb50 vstr d7, [sp] */
-/* @0x2ccb54 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccb58 vldr s15, [r4, #104] */
-/* @0x2ccb5c vcvt.f64.f32 d6, s15 */
-/* @0x2ccb60 ldr r0, [pc, #0x68] */
-/* @0x2ccb64 add r0, pc, r0 */
-/* @0x2ccb68 vmov r2, r3, d6 */
-/* @0x2ccb6c bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccb70 vldr s15, [r4, #68] */
-/* @0x2ccb74 vcvt.f64.f32 d5, s15 */
-/* @0x2ccb78 ldr r0, [pc, #0x54] */
-/* @0x2ccb7c add r0, pc, r0 */
-/* @0x2ccb80 vmov r2, r3, d5 */
-/* @0x2ccb84 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccb88 vldr s15, [r4, #72] */
-/* @0x2ccb8c vcvt.f64.f32 d6, s15 */
-/* @0x2ccb90 ldr r0, [pc, #0x40] */
-/* @0x2ccb94 add r0, pc, r0 */
-/* @0x2ccb98 vmov r2, r3, d6 */
-/* @0x2ccb9c bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccba0 ldr r0, [pc, #0x34] */
-/* @0x2ccba4 ldr r1, [r4, #0x38] */
-/* @0x2ccba8 add r0, pc, r0 */
-/* @0x2ccbac add sp, sp, #8 */
-/* @0x2ccbb0 pop {r4, r5, r6, lr} */
-/* @0x2ccbb4 b 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2ccbb8 strheq pc, [r8], -r12 */
-/* @0x2ccbbc andeq pc, r8, r4, asr #7 */
-/* @0x2ccbc0 .word 0x0008f3d0 */
-/* @0x2ccbc4 .word 0x0008f3dc */
-/* @0x2ccbc8 andeq pc, r8, r8, ror #7 */
-/* @0x2ccbcc .word 0x0008f3f0 */
-/* @0x2ccbd0 .word 0x0008f3fc */
-/* @0x2ccbd4 .word 0x0008f3fc */
-/* @0x2ccbd8 andeq pc, r8, r4, lsl #8 */
-/* @0x2ccbdc andeq pc, r8, r0, lsl r4 */
+/* ── FUNC 0x2cea1c · b2MouseJoint::Dump() · size=16 · insn=4 */
+/* @0x2cea1c ldr r0, [pc, #0x4] */
+/* @0x2cea20 add r0, pc, r0 */
+/* @0x2cea24 b 0x2c6a74 <_Z5b2LogPKcz> */
+/* @0x2cea28 andeq sp, r8, r0, lsr #13 */
 
-/* ── FUNC 0x2ccbe0 · b2Joint::~b2Joint() · size=40 · insn=10 */
-/* @0x2ccbe0 ldr r3, [pc, #0x1c] */
-/* @0x2ccbe4 push {r4, lr} */
-/* @0x2ccbe8 ldr r3, [pc, r3] */
-/* @0x2ccbec mov r4, r0 */
-/* @0x2ccbf0 add r3, r3, #8 */
-/* @0x2ccbf4 str r3, [r0] */
-/* @0x2ccbf8 bl 0x27d1d0 <_ZdlPv> */
-/* @0x2ccbfc mov r0, r4 */
-/* @0x2ccc00 pop {r4, pc} */
-/* @0x2ccc04 andseq r4, r2, r12, ror #30 */
+/* ── FUNC 0x2cea2c · b2MouseJoint::~b2MouseJoint() · size=40 · insn=10 */
+/* @0x2cea2c ldr r3, [pc, #0x1c] */
+/* @0x2cea30 push {r4, lr} */
+/* @0x2cea34 ldr r3, [pc, r3] */
+/* @0x2cea38 mov r4, r0 */
+/* @0x2cea3c add r3, r3, #8 */
+/* @0x2cea40 str r3, [r0] */
+/* @0x2cea44 bl 0x27d1d0 <_ZdlPv> */
+/* @0x2cea48 mov r0, r4 */
+/* @0x2cea4c pop {r4, pc} */
+/* @0x2cea50 andseq r3, r2, r0, lsr #2 */
 
-/* ── FUNC 0x2ccc08 · b2DistanceJoint::~b2DistanceJoint() · size=40 · insn=10 */
-/* @0x2ccc08 ldr r3, [pc, #0x1c] */
-/* @0x2ccc0c push {r4, lr} */
-/* @0x2ccc10 ldr r3, [pc, r3] */
-/* @0x2ccc14 mov r4, r0 */
-/* @0x2ccc18 add r3, r3, #8 */
-/* @0x2ccc1c str r3, [r0] */
-/* @0x2ccc20 bl 0x27d1d0 <_ZdlPv> */
-/* @0x2ccc24 mov r0, r4 */
-/* @0x2ccc28 pop {r4, pc} */
-/* @0x2ccc2c andseq r4, r2, r4, asr #30 */
+/* ── FUNC 0x2cea54 · b2MouseJoint::SolveVelocityConstraints(b2SolverData const&) · size=352 · insn=88 */
+/* @0x2cea54 ldr r2, [r0, #0x74] */
+/* @0x2cea58 vldr s10, [r0, #120] */
+/* @0x2cea5c push {r4, lr} */
+/* @0x2cea60 vpush {d8, d9, d10} */
+/* @0x2cea64 mov r4, r0 */
+/* @0x2cea68 vldr s9, [r4, #124] */
+/* @0x2cea6c ldr r0, [r1, #0x1c] */
+/* @0x2cea70 add r3, r2, r2, lsl #1 */
+/* @0x2cea74 vldr s11, [r4, #164] */
+/* @0x2cea78 vldr s13, [r4, #108] */
+/* @0x2cea7c add r3, r0, r3, lsl #2 */
+/* @0x2cea80 vldr s20, [r3, #4] */
+/* @0x2cea84 vmov.f32 s4, s20 */
+/* @0x2cea88 vldr s16, [r3, #8] */
+/* @0x2cea8c vldr s21, [r3] */
+/* @0x2cea90 vldr s17, [r4, #100] */
+/* @0x2cea94 vldr s12, [r4, #160] */
+/* @0x2cea98 vldr s18, [r4, #96] */
+/* @0x2cea9c vldr s14, [r4, #156] */
+/* @0x2ceaa0 vldr s6, [r4, #148] */
+/* @0x2ceaa4 vmla.f32 s4, s16, s10 */
+/* @0x2ceaa8 vldr s15, [r4, #152] */
+/* @0x2ceaac vldr s7, [r4, #144] */
+/* @0x2ceab0 vldr s19, [r1] */
+/* @0x2ceab4 vldr s8, [r4, #104] */
+/* @0x2ceab8 sub sp, sp, #8 */
+/* @0x2ceabc vmov.f32 s5, s21 */
+/* @0x2ceac0 vmls.f32 s5, s16, s9 */
+/* @0x2ceac4 vadd.f32 s11, s4, s11 */
+/* @0x2ceac8 vmla.f32 s11, s13, s17 */
+/* @0x2ceacc vadd.f32 s12, s5, s12 */
+/* @0x2cead0 vmla.f32 s12, s13, s18 */
+/* @0x2cead4 vneg.f32 s11, s11 */
+/* @0x2cead8 vmul.f32 s14, s11, s14 */
+/* @0x2ceadc vneg.f32 s12, s12 */
+/* @0x2ceae0 vmul.f32 s15, s11, s15 */
+/* @0x2ceae4 vmla.f32 s14, s12, s6 */
+/* @0x2ceae8 vmla.f32 s15, s12, s7 */
+/* @0x2ceaec vadd.f32 s14, s17, s14 */
+/* @0x2ceaf0 vmul.f32 s13, s14, s14 */
+/* @0x2ceaf4 vstr s14, [r4, #100] */
+/* @0x2ceaf8 vadd.f32 s15, s18, s15 */
+/* @0x2ceafc vmul.f32 s19, s19, s8 */
+/* @0x2ceb00 vstr s15, [r4, #96] */
+/* @0x2ceb04 vmla.f32 s13, s15, s15 */
+/* @0x2ceb08 vmul.f32 s12, s19, s19 */
+/* @0x2ceb0c vcmpe.f32 s12, s13 */
+/* @0x2ceb10 vmrs APSR_nzcv, fpscr */
+/* @0x2ceb14 bmi 0x2ceb54 <_ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData+0x100> */
+/* @0x2ceb18 vsub.f32 s18, s15, s18 */
+/* @0x2ceb1c vldr s12, [r4, #136] */
+/* @0x2ceb20 vldr s15, [r4, #140] */
+/* @0x2ceb24 vmul.f32 s13, s18, s9 */
+/* @0x2ceb28 vsub.f32 s17, s14, s17 */
+/* @0x2ceb2c vnmls.f32 s13, s17, s10 */
+/* @0x2ceb30 vmla.f32 s21, s12, s18 */
+/* @0x2ceb34 vmla.f32 s16, s13, s15 */
+/* @0x2ceb38 vstr s21, [r3] */
+/* @0x2ceb3c vmla.f32 s20, s12, s17 */
+/* @0x2ceb40 vstr s16, [r3, #8] */
+/* @0x2ceb44 vstr s20, [r3, #4] */
+/* @0x2ceb48 add sp, sp, #8 */
+/* @0x2ceb4c vpop {d8, d9, d10} */
+/* @0x2ceb50 pop {r4, pc} */
+/* @0x2ceb54 vsqrt.f32 s14, s13 */
+/* @0x2ceb58 vcmp.f32 s14, s14 */
+/* @0x2ceb5c vmrs APSR_nzcv, fpscr */
+/* @0x2ceb60 bne 0x2ceb8c <_ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData+0x138> */
+/* @0x2ceb64 vdiv.f32 s19, s19, s14 */
+/* @0x2ceb68 vldr s15, [r4, #96] */
+/* @0x2ceb6c vldr s14, [r4, #100] */
+/* @0x2ceb70 add r2, r2, r2, lsl #1 */
+/* @0x2ceb74 add r3, r0, r2, lsl #2 */
+/* @0x2ceb78 vmul.f32 s15, s19, s15 */
+/* @0x2ceb7c vmul.f32 s14, s19, s14 */
+/* @0x2ceb80 vstr s15, [r4, #96] */
+/* @0x2ceb84 vstr s14, [r4, #100] */
+/* @0x2ceb88 b 0x2ceb18 <_ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData+0xc4> */
+/* @0x2ceb8c vmov r0, s13 */
+/* @0x2ceb90 str r1, [sp, #0x4] */
+/* @0x2ceb94 bl 0xb6700 <sqrtf@plt> */
+/* @0x2ceb98 ldr r1, [sp, #0x4] */
+/* @0x2ceb9c vldr s9, [r4, #124] */
+/* @0x2ceba0 ldr r2, [r4, #0x74] */
+/* @0x2ceba4 vldr s10, [r4, #120] */
+/* @0x2ceba8 vmov s14, r0 */
+/* @0x2cebac ldr r0, [r1, #0x1c] */
+/* @0x2cebb0 b 0x2ceb64 <_ZN12b2MouseJoint24SolveVelocityConstraintsERK12b2SolverData+0x110> */
 
-/* ── FUNC 0x2ccc30 · b2DistanceJoint::SolvePositionConstraints(b2SolverData const&) · size=564 · insn=141 */
-/* @0x2ccc30 vldr s15, [r0, #68] */
-/* @0x2ccc34 vcmpe.f32 s15, #0 */
-/* @0x2ccc38 push {r4, r5, r6, r7, lr} */
-/* @0x2ccc3c vpush {d8, d9, d10, d11, d12, d13} */
-/* @0x2ccc40 mov r4, r0 */
-/* @0x2ccc44 sub sp, sp, #12 */
-/* @0x2ccc48 vmrs APSR_nzcv, fpscr */
-/* @0x2ccc4c movgt r0, #1 */
-/* @0x2ccc50 ble 0x2ccc60 <_ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData+0x30> */
-/* @0x2ccc54 add sp, sp, #12 */
-/* @0x2ccc58 vpop {d8, d9, d10, d11, d12, d13} */
-/* @0x2ccc5c pop {r4, r5, r6, r7, pc} */
-/* @0x2ccc60 ldr r7, [r4, #0x6c] */
-/* @0x2ccc64 ldr r6, [r4, #0x70] */
-/* @0x2ccc68 ldr r5, [r1, #0x18] */
-/* @0x2ccc6c add r2, r7, r7, lsl #1 */
-/* @0x2ccc70 add r3, r6, r6, lsl #1 */
-/* @0x2ccc74 add r2, r5, r2, lsl #2 */
-/* @0x2ccc78 vldr s23, [r2, #8] */
-/* @0x2ccc7c vmov r0, s23 */
-/* @0x2ccc80 add r3, r5, r3, lsl #2 */
-/* @0x2ccc84 vldr s27, [r2] */
-/* @0x2ccc88 vldr s22, [r3, #8] */
-/* @0x2ccc8c vldr s26, [r2, #4] */
-/* @0x2ccc90 vldr s25, [r3] */
-/* @0x2ccc94 vldr s24, [r3, #4] */
-/* @0x2ccc98 str r1, [sp, #0x4] */
-/* @0x2ccc9c bl 0xb6580 <sinf@plt> */
-/* @0x2ccca0 vmov s16, r0 */
-/* @0x2ccca4 vmov r0, s23 */
-/* @0x2ccca8 bl 0xb658c <cosf@plt> */
-/* @0x2cccac vmov s17, r0 */
-/* @0x2cccb0 vmov r0, s22 */
-/* @0x2cccb4 bl 0xb6580 <sinf@plt> */
-/* @0x2cccb8 vmov s21, r0 */
-/* @0x2cccbc vmov r0, s22 */
-/* @0x2cccc0 bl 0xb658c <cosf@plt> */
-/* @0x2cccc4 vldr s15, [r4, #152] */
-/* @0x2cccc8 vldr s18, [r4, #92] */
-/* @0x2ccccc vsub.f32 s18, s18, s15 */
-/* @0x2cccd0 vldr s10, [r4, #88] */
-/* @0x2cccd4 vldr s13, [r4, #148] */
-/* @0x2cccd8 vldr s19, [r4, #84] */
-/* @0x2cccdc vldr s11, [r4, #144] */
-/* @0x2ccce0 vldr s12, [r4, #80] */
-/* @0x2ccce4 vldr s15, [r4, #140] */
-/* @0x2ccce8 vsub.f32 s13, s10, s13 */
-/* @0x2cccec vsub.f32 s19, s19, s11 */
-/* @0x2cccf0 vsub.f32 s15, s12, s15 */
-/* @0x2cccf4 vmov s14, r0 */
-/* @0x2cccf8 vmul.f32 s20, s18, s14 */
-/* @0x2cccfc vmul.f32 s18, s18, s21 */
-/* @0x2ccd00 vmla.f32 s20, s13, s21 */
-/* @0x2ccd04 vmul.f32 s21, s19, s17 */
-/* @0x2ccd08 vnmls.f32 s18, s13, s14 */
-/* @0x2ccd0c vmla.f32 s21, s15, s16 */
-/* @0x2ccd10 vmul.f32 s19, s19, s16 */
-/* @0x2ccd14 vadd.f32 s16, s24, s20 */
-/* @0x2ccd18 vsub.f32 s16, s16, s26 */
-/* @0x2ccd1c vnmls.f32 s19, s15, s17 */
-/* @0x2ccd20 vadd.f32 s17, s25, s18 */
-/* @0x2ccd24 vsub.f32 s16, s16, s21 */
-/* @0x2ccd28 vsub.f32 s17, s17, s27 */
-/* @0x2ccd2c vmul.f32 s14, s16, s16 */
-/* @0x2ccd30 vsub.f32 s17, s17, s19 */
-/* @0x2ccd34 vmla.f32 s14, s17, s17 */
-/* @0x2ccd38 vsqrt.f32 s15, s14 */
-/* @0x2ccd3c vcmp.f32 s15, s15 */
-/* @0x2ccd40 vmrs APSR_nzcv, fpscr */
-/* @0x2ccd44 bne 0x2cce30 <_ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData+0x200> */
-/* @0x2ccd48 vldr s14, [pc, #256] */
-/* @0x2ccd4c vcmpe.f32 s15, s14 */
-/* @0x2ccd50 vmrs APSR_nzcv, fpscr */
-/* @0x2ccd54 vmovpl.f32 s13, #1.000000e+00 */
-/* @0x2ccd58 vldrmi s14, [pc, #244] */
-/* @0x2ccd5c vmovpl.f32 s14, s15 */
-/* @0x2ccd60 vdivpl.f32 s15, s13, s15 */
-/* @0x2ccd64 vmulpl.f32 s17, s17, s15 */
-/* @0x2ccd68 vmulpl.f32 s16, s16, s15 */
-/* @0x2ccd6c vldr s15, [r4, #104] */
-/* @0x2ccd70 vsub.f32 s14, s14, s15 */
-/* @0x2ccd74 vldr s15, [pc, #220] */
-/* @0x2ccd78 vcmpe.f32 s14, s15 */
-/* @0x2ccd7c vmrs APSR_nzcv, fpscr */
-/* @0x2ccd80 bpl 0x2ccd94 <_ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData+0x164> */
-/* @0x2ccd84 vldr s15, [pc, #208] */
-/* @0x2ccd88 vcmpe.f32 s14, s15 */
-/* @0x2ccd8c vmrs APSR_nzcv, fpscr */
-/* @0x2ccd90 vmovpl.f32 s15, s14 */
-/* @0x2ccd94 vldr s12, [r4, #172] */
-/* @0x2ccd98 vldr s14, [r4, #160] */
-/* @0x2ccd9c vldr s13, [r4, #156] */
-/* @0x2ccda0 vldr s10, [r4, #164] */
-/* @0x2ccda4 vnmul.f32 s12, s12, s15 */
-/* @0x2ccda8 vldr s11, [r4, #168] */
-/* @0x2ccdac add r6, r6, r6, lsl #1 */
-/* @0x2ccdb0 add r7, r7, r7, lsl #1 */
-/* @0x2ccdb4 add r7, r5, r7, lsl #2 */
-/* @0x2ccdb8 add r5, r5, r6, lsl #2 */
-/* @0x2ccdbc vmul.f32 s17, s12, s17 */
-/* @0x2ccdc0 vmul.f32 s16, s12, s16 */
-/* @0x2ccdc4 vmul.f32 s21, s21, s17 */
-/* @0x2ccdc8 vmul.f32 s20, s20, s17 */
-/* @0x2ccdcc vnmls.f32 s21, s19, s16 */
-/* @0x2ccdd0 vnmls.f32 s20, s18, s16 */
-/* @0x2ccdd4 vmla.f32 s25, s17, s14 */
-/* @0x2ccdd8 vmla.f32 s24, s16, s14 */
-/* @0x2ccddc vldr s14, [pc, #124] */
-/* @0x2ccde0 vmls.f32 s27, s17, s13 */
-/* @0x2ccde4 vmls.f32 s26, s16, s13 */
-/* @0x2ccde8 vstr s27, [r7] */
-/* @0x2ccdec vmls.f32 s23, s21, s10 */
-/* @0x2ccdf0 vstr s26, [r7, #4] */
-/* @0x2ccdf4 vmla.f32 s22, s20, s11 */
-/* @0x2ccdf8 vstr s23, [r7, #8] */
-/* @0x2ccdfc vstr s25, [r5] */
-/* @0x2cce00 vstr s24, [r5, #4] */
-/* @0x2cce04 vcmpe.f32 s15, #0 */
-/* @0x2cce08 vstr s22, [r5, #8] */
-/* @0x2cce0c vmrs APSR_nzcv, fpscr */
-/* @0x2cce10 vnegle.f32 s15, s15 */
-/* @0x2cce14 vcmpe.f32 s15, s14 */
-/* @0x2cce18 vmrs APSR_nzcv, fpscr */
-/* @0x2cce1c movpl r0, #0 */
-/* @0x2cce20 movmi r0, #1 */
-/* @0x2cce24 add sp, sp, #12 */
-/* @0x2cce28 vpop {d8, d9, d10, d11, d12, d13} */
-/* @0x2cce2c pop {r4, r5, r6, r7, pc} */
-/* @0x2cce30 vmov r0, s14 */
-/* @0x2cce34 bl 0xb6700 <sqrtf@plt> */
-/* @0x2cce38 ldr r1, [sp, #0x4] */
-/* @0x2cce3c ldr r7, [r4, #0x6c] */
-/* @0x2cce40 ldr r6, [r4, #0x70] */
-/* @0x2cce44 ldr r5, [r1, #0x18] */
-/* @0x2cce48 vmov s15, r0 */
-/* @0x2cce4c b 0x2ccd48 <_ZN15b2DistanceJoint24SolvePositionConstraintsERK12b2SolverData+0x118> */
-/* @0x2cce50 strlo r0, [r0], #-0 */
-/* @0x2cce54 andeq r0, r0, r0 */
-/* @0x2cce58 cdplo p12, #0x4, c12, c12, c13, #0x6 */
-/* @0x2cce5c cdplt p12, #0x4, c12, c12, c13, #0x6 */
-/* @0x2cce60 bllo 0xfebc2a90 <b2_toiTime+0xfffffffffe4695ec> */
+/* ── FUNC 0x2cebb4 · b2MouseJoint::InitVelocityConstraints(b2SolverData const&) · size=520 · insn=130 */
+/* @0x2cebb4 push {r4, r5, r6, r7, r8, lr} */
+/* @0x2cebb8 vpush {d8, d9, d10} */
+/* @0x2cebbc mov r7, r1 */
+/* @0x2cebc0 ldr r6, [r0, #0x34] */
+/* @0x2cebc4 mov r4, r0 */
+/* @0x2cebc8 ldr lr, [r1, #0x18] */
+/* @0x2cebcc vldr s16, [r6, #144] */
+/* @0x2cebd0 add r1, r6, #44 */
+/* @0x2cebd4 ldr r12, [r7, #0x1c] */
+/* @0x2cebd8 ldr r3, [r6, #0x8] */
+/* @0x2cebdc vldr s17, [r6, #136] */
+/* @0x2cebe0 add r2, r0, #128 */
+/* @0x2cebe4 ldm r1, {r0, r1} */
+/* @0x2cebe8 add r5, r3, r3, lsl #1 */
+/* @0x2cebec str r3, [r4, #0x74] */
+/* @0x2cebf0 stm r2, {r0, r1} */
+/* @0x2cebf4 vstr s17, [r4, #136] */
+/* @0x2cebf8 lsl r5, r5, #2 */
+/* @0x2cebfc vstr s16, [r4, #140] */
+/* @0x2cec00 add r3, lr, r5 */
+/* @0x2cec04 add r5, r12, r5 */
+/* @0x2cec08 vldr s20, [r3] */
+/* @0x2cec0c vldr s19, [r3, #4] */
+/* @0x2cec10 ldr r8, [r3, #0x8] */
+/* @0x2cec14 mov r0, r8 */
+/* @0x2cec18 bl 0xb6580 <sinf@plt> */
+/* @0x2cec1c vmov s18, r0 */
+/* @0x2cec20 mov r0, r8 */
+/* @0x2cec24 bl 0xb658c <cosf@plt> */
+/* @0x2cec28 vldr s14, [r4, #84] */
+/* @0x2cec2c vldr s15, [pc, #384] */
+/* @0x2cec30 vmul.f32 s15, s14, s15 */
+/* @0x2cec34 vldr s14, [r6, #132] */
+/* @0x2cec38 vldr s13, [r7] */
+/* @0x2cec3c vldr s10, [r4, #88] */
+/* @0x2cec40 vldr s5, [r5, #8] */
+/* @0x2cec44 vldr s6, [r5] */
+/* @0x2cec48 vldr s7, [r5, #4] */
+/* @0x2cec4c vldr s3, [r4, #76] */
+/* @0x2cec50 vldr s4, [r4, #80] */
+/* @0x2cec54 ldrb r3, [r7, #0x14] */
+/* @0x2cec58 vmul.f32 s8, s15, s15 */
+/* @0x2cec5c vmul.f32 s8, s14, s8 */
+/* @0x2cec60 vmov s11, r0 */
+/* @0x2cec64 vadd.f32 s14, s14, s14 */
+/* @0x2cec68 vmul.f32 s8, s13, s8 */
+/* @0x2cec6c vmul.f32 s14, s14, s10 */
+/* @0x2cec70 vldr s10, [r4, #68] */
+/* @0x2cec74 vmov.f32 s12, s8 */
+/* @0x2cec78 vmla.f32 s12, s14, s15 */
+/* @0x2cec7c vldr s14, [r4, #72] */
+/* @0x2cec80 vmul.f32 s12, s12, s13 */
+/* @0x2cec84 vldr s13, [r4, #128] */
+/* @0x2cec88 vcmp.f32 s12, #0 */
+/* @0x2cec8c vmrs APSR_nzcv, fpscr */
+/* @0x2cec90 vmovne.f32 s15, #1.000000e+00 */
+/* @0x2cec94 vstreq s12, [r4, #108] */
+/* @0x2cec98 vdivne.f32 s15, s15, s12 */
+/* @0x2cec9c vmovne.f32 s12, s15 */
+/* @0x2ceca0 vstrne s15, [r4, #108] */
+/* @0x2ceca4 vldr s15, [r4, #132] */
+/* @0x2ceca8 vsub.f32 s14, s14, s15 */
+/* @0x2cecac vmul.f32 s15, s14, s18 */
+/* @0x2cecb0 vmul.f32 s14, s14, s11 */
+/* @0x2cecb4 vsub.f32 s13, s10, s13 */
+/* @0x2cecb8 vmla.f32 s14, s13, s18 */
+/* @0x2cecbc vmul.f32 s10, s16, s14 */
+/* @0x2cecc0 vstr s14, [r4, #124] */
+/* @0x2cecc4 vnmls.f32 s15, s13, s11 */
+/* @0x2cecc8 vmov.f32 s9, s17 */
+/* @0x2ceccc vstr s15, [r4, #120] */
+/* @0x2cecd0 vmla.f32 s9, s10, s14 */
+/* @0x2cecd4 vmul.f32 s13, s16, s15 */
+/* @0x2cecd8 vnmul.f32 s11, s16, s15 */
+/* @0x2cecdc vmov.f32 s10, s9 */
+/* @0x2cece0 vmov.f32 s9, s17 */
+/* @0x2cece4 vmla.f32 s9, s13, s15 */
+/* @0x2cece8 vmul.f32 s11, s11, s14 */
+/* @0x2cecec vmul.f32 s13, s11, s11 */
+/* @0x2cecf0 vadd.f32 s10, s10, s12 */
+/* @0x2cecf4 vadd.f32 s9, s9, s12 */
+/* @0x2cecf8 vnmls.f32 s13, s10, s9 */
+/* @0x2cecfc vcmp.f32 s13, #0 */
+/* @0x2ced00 vmul.f32 s12, s8, s12 */
+/* @0x2ced04 vmrs APSR_nzcv, fpscr */
+/* @0x2ced08 vmovne.f32 s8, #1.000000e+00 */
+/* @0x2ced0c vstr s12, [r4, #92] */
+/* @0x2ced10 vdivne.f32 s13, s8, s13 */
+/* @0x2ced14 cmp r3, #0 */
+/* @0x2ced18 vldr s8, [pc, #152] */
+/* @0x2ced1c vadd.f32 s20, s20, s15 */
+/* @0x2ced20 vadd.f32 s19, s14, s19 */
+/* @0x2ced24 vsub.f32 s20, s20, s3 */
+/* @0x2ced28 vsub.f32 s19, s19, s4 */
+/* @0x2ced2c vnmul.f32 s11, s13, s11 */
+/* @0x2ced30 vmul.f32 s9, s9, s13 */
+/* @0x2ced34 vstr s11, [r4, #148] */
+/* @0x2ced38 vstr s11, [r4, #152] */
+/* @0x2ced3c vmul.f32 s13, s10, s13 */
+/* @0x2ced40 vstr s9, [r4, #144] */
+/* @0x2ced44 vmul.f32 s20, s12, s20 */
+/* @0x2ced48 vstr s13, [r4, #156] */
+/* @0x2ced4c vmul.f32 s12, s12, s19 */
+/* @0x2ced50 vstr s20, [r4, #160] */
+/* @0x2ced54 vstr s12, [r4, #164] */
+/* @0x2ced58 vmul.f32 s13, s5, s8 */
+/* @0x2ced5c bne 0x2ced80 <_ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData+0x1cc> */
+/* @0x2ced60 mov r3, #0 */
+/* @0x2ced64 str r3, [r4, #0x60] */
+/* @0x2ced68 str r3, [r4, #0x64] */
+/* @0x2ced6c vpop {d8, d9, d10} */
+/* @0x2ced70 vstr s6, [r5] */
+/* @0x2ced74 vstr s7, [r5, #4] */
+/* @0x2ced78 vstr s13, [r5, #8] */
+/* @0x2ced7c pop {r4, r5, r6, r7, r8, pc} */
+/* @0x2ced80 vldr s12, [r7, #8] */
+/* @0x2ced84 vldr s11, [r4, #96] */
+/* @0x2ced88 vmul.f32 s11, s12, s11 */
+/* @0x2ced8c vldr s10, [r4, #100] */
+/* @0x2ced90 vmul.f32 s14, s14, s11 */
+/* @0x2ced94 vstr s11, [r4, #96] */
+/* @0x2ced98 vmul.f32 s12, s12, s10 */
+/* @0x2ced9c vnmls.f32 s14, s15, s12 */
+/* @0x2ceda0 vstr s12, [r4, #100] */
+/* @0x2ceda4 vmla.f32 s6, s17, s11 */
+/* @0x2ceda8 vmla.f32 s13, s16, s14 */
+/* @0x2cedac vmla.f32 s7, s17, s12 */
+/* @0x2cedb0 b 0x2ced6c <_ZN12b2MouseJoint23InitVelocityConstraintsERK12b2SolverData+0x1b8> */
+/* @0x2cedb4 ldrdmi r0, r1, [r9], #251 */
+/* @0x2cedb8 svclo #0x7ae148 */
 
-/* ── FUNC 0x2cce64 · b2DistanceJoint::InitVelocityConstraints(b2SolverData const&) · size=892 · insn=223 */
-/* @0x2cce64 ldr r2, [r0, #0x30] */
-/* @0x2cce68 vldr s15, [r2, #136] */
-/* @0x2cce6c push {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr} */
-/* @0x2cce70 vpush {d8, d9, d10, d11, d12, d13, d14} */
-/* @0x2cce74 mov r5, r1 */
-/* @0x2cce78 ldr r3, [r0, #0x34] */
-/* @0x2cce7c add r1, r2, #44 */
-/* @0x2cce80 ldr lr, [r2, #0x8] */
-/* @0x2cce84 mov r4, r0 */
-/* @0x2cce88 ldr r8, [r5, #0x18] */
-/* @0x2cce8c add r10, r0, #140 */
-/* @0x2cce90 ldr r12, [r3, #0x8] */
-/* @0x2cce94 add r7, r0, #148 */
-/* @0x2cce98 ldr r11, [r2, #0x90] */
-/* @0x2cce9c add r9, r3, #44 */
-/* @0x2ccea0 ldm r1, {r0, r1} */
-/* @0x2ccea4 str lr, [r4, #0x6c] */
-/* @0x2ccea8 add lr, lr, lr, lsl #1 */
-/* @0x2cceac ldr r6, [r5, #0x1c] */
-/* @0x2cceb0 lsl lr, lr, #2 */
-/* @0x2cceb4 str r12, [r4, #0x70] */
-/* @0x2cceb8 add r12, r12, r12, lsl #1 */
-/* @0x2ccebc add r2, r8, lr */
-/* @0x2ccec0 stm r10, {r0, r1} */
-/* @0x2ccec4 add lr, r6, lr */
-/* @0x2ccec8 lsl r12, r12, #2 */
-/* @0x2ccecc ldm r9, {r0, r1} */
-/* @0x2cced0 ldr r10, [r3, #0x88] */
-/* @0x2cced4 vldr s24, [r2] */
-/* @0x2cced8 ldr r9, [r3, #0x90] */
-/* @0x2ccedc add r3, r8, r12 */
-/* @0x2ccee0 ldr r8, [r2, #0x8] */
-/* @0x2ccee4 add r12, r6, r12 */
-/* @0x2ccee8 stm r7, {r0, r1} */
-/* @0x2cceec vstr s15, [r4, #156] */
-/* @0x2ccef0 str r11, [r4, #0xa4] */
-/* @0x2ccef4 vldr s26, [r2, #4] */
-/* @0x2ccef8 str r10, [r4, #0xa0] */
-/* @0x2ccefc mov r0, r8 */
-/* @0x2ccf00 str r9, [r4, #0xa8] */
-/* @0x2ccf04 vldr s25, [r3] */
-/* @0x2ccf08 ldr r7, [r3, #0x8] */
-/* @0x2ccf0c vldr s27, [r3, #4] */
-/* @0x2ccf10 vldr s21, [lr] */
-/* @0x2ccf14 vldr s20, [lr, #4] */
-/* @0x2ccf18 vldr s19, [lr, #8] */
-/* @0x2ccf1c vldr s18, [r12] */
-/* @0x2ccf20 vldr s17, [r12, #4] */
-/* @0x2ccf24 vldr s16, [r12, #8] */
-/* @0x2ccf28 bl 0xb6580 <sinf@plt> */
-/* @0x2ccf2c vmov s22, r0 */
-/* @0x2ccf30 mov r0, r8 */
-/* @0x2ccf34 bl 0xb658c <cosf@plt> */
-/* @0x2ccf38 vmov s23, r0 */
-/* @0x2ccf3c mov r0, r7 */
-/* @0x2ccf40 bl 0xb6580 <sinf@plt> */
-/* @0x2ccf44 vmov s28, r0 */
-/* @0x2ccf48 mov r0, r7 */
-/* @0x2ccf4c bl 0xb658c <cosf@plt> */
-/* @0x2ccf50 vldr s15, [r4, #144] */
-/* @0x2ccf54 vldr s14, [r4, #84] */
-/* @0x2ccf58 vsub.f32 s14, s14, s15 */
-/* @0x2ccf5c vldr s13, [r4, #140] */
-/* @0x2ccf60 vldr s11, [r4, #80] */
-/* @0x2ccf64 vmul.f32 s15, s14, s22 */
-/* @0x2ccf68 vsub.f32 s11, s11, s13 */
-/* @0x2ccf6c vmov s10, r0 */
-/* @0x2ccf70 vnmls.f32 s15, s11, s23 */
-/* @0x2ccf74 vstr s15, [r4, #124] */
-/* @0x2ccf78 vldr s12, [r4, #92] */
-/* @0x2ccf7c vldr s13, [r4, #152] */
-/* @0x2ccf80 vsub.f32 s13, s12, s13 */
-/* @0x2ccf84 vldr s8, [r4, #88] */
-/* @0x2ccf88 vldr s9, [r4, #148] */
-/* @0x2ccf8c vmul.f32 s12, s13, s10 */
-/* @0x2ccf90 vsub.f32 s9, s8, s9 */
-/* @0x2ccf94 vmul.f32 s13, s13, s28 */
-/* @0x2ccf98 vmla.f32 s12, s9, s28 */
-/* @0x2ccf9c vmul.f32 s14, s14, s23 */
-/* @0x2ccfa0 vstr s12, [r4, #136] */
-/* @0x2ccfa4 vnmls.f32 s13, s9, s10 */
-/* @0x2ccfa8 vmla.f32 s14, s11, s22 */
-/* @0x2ccfac vstr s13, [r4, #132] */
-/* @0x2ccfb0 vadd.f32 s12, s12, s27 */
-/* @0x2ccfb4 vstr s14, [r4, #128] */
-/* @0x2ccfb8 vsub.f32 s26, s12, s26 */
-/* @0x2ccfbc vadd.f32 s13, s13, s25 */
-/* @0x2ccfc0 vsub.f32 s14, s26, s14 */
-/* @0x2ccfc4 vsub.f32 s24, s13, s24 */
-/* @0x2ccfc8 vstr s14, [r4, #120] */
-/* @0x2ccfcc vmul.f32 s14, s14, s14 */
-/* @0x2ccfd0 vsub.f32 s15, s24, s15 */
-/* @0x2ccfd4 vmla.f32 s14, s15, s15 */
-/* @0x2ccfd8 vstr s15, [r4, #116] */
-/* @0x2ccfdc vsqrt.f32 s15, s14 */
-/* @0x2ccfe0 vcmp.f32 s15, s15 */
-/* @0x2ccfe4 vmrs APSR_nzcv, fpscr */
-/* @0x2ccfe8 bne 0x2cd1c0 <_ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData+0x35c> */
-/* @0x2ccfec vldr s14, [pc, #480] */
-/* @0x2ccff0 vcmpe.f32 s15, s14 */
-/* @0x2ccff4 vmrs APSR_nzcv, fpscr */
-/* @0x2ccff8 ble 0x2cd19c <_ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData+0x338> */
-/* @0x2ccffc vmov.f32 s12, #1.000000e+00 */
-/* @0x2cd000 vldr s13, [r4, #116] */
-/* @0x2cd004 vldr s14, [r4, #120] */
-/* @0x2cd008 vdiv.f32 s12, s12, s15 */
-/* @0x2cd00c vmul.f32 s13, s12, s13 */
-/* @0x2cd010 vmul.f32 s12, s12, s14 */
-/* @0x2cd014 vstr s13, [r4, #116] */
-/* @0x2cd018 vstr s12, [r4, #120] */
-/* @0x2cd01c vldr s1, [r4, #128] */
-/* @0x2cd020 vmul.f32 s14, s13, s1 */
-/* @0x2cd024 vldr s3, [r4, #124] */
-/* @0x2cd028 vldr s2, [r4, #136] */
-/* @0x2cd02c vldr s5, [r4, #164] */
-/* @0x2cd030 vldr s4, [r4, #132] */
-/* @0x2cd034 vldr s7, [r4, #156] */
-/* @0x2cd038 vldr s6, [r4, #168] */
-/* @0x2cd03c vldr s8, [r4, #160] */
-/* @0x2cd040 vnmls.f32 s14, s12, s3 */
-/* @0x2cd044 vmul.f32 s13, s13, s2 */
-/* @0x2cd048 vmul.f32 s11, s14, s5 */
-/* @0x2cd04c vnmls.f32 s13, s12, s4 */
-/* @0x2cd050 vmov.f32 s12, s7 */
-/* @0x2cd054 vmla.f32 s12, s11, s14 */
-/* @0x2cd058 vldr s11, [r4, #68] */
-/* @0x2cd05c vmov.f32 s14, s12 */
-/* @0x2cd060 vmul.f32 s12, s13, s6 */
-/* @0x2cd064 vadd.f32 s14, s14, s8 */
-/* @0x2cd068 vmla.f32 s14, s12, s13 */
-/* @0x2cd06c vldr s12, [pc, #356] */
-/* @0x2cd070 vcmp.f32 s14, #0 */
-/* @0x2cd074 vmrs APSR_nzcv, fpscr */
-/* @0x2cd078 vmovne.f32 s13, #1.000000e+00 */
-/* @0x2cd07c vldreq s13, [pc, #340] */
-/* @0x2cd080 vdivne.f32 s13, s13, s14 */
-/* @0x2cd084 vcmpe.f32 s11, #0 */
-/* @0x2cd088 vstr s13, [r4, #172] */
-/* @0x2cd08c vmrs APSR_nzcv, fpscr */
-/* @0x2cd090 ble 0x2cd1b4 <_ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData+0x350> */
-/* @0x2cd094 vldr s9, [pc, #320] */
-/* @0x2cd098 vmul.f32 s9, s11, s9 */
-/* @0x2cd09c vldr s10, [r4, #72] */
-/* @0x2cd0a0 vldr s11, [r5] */
-/* @0x2cd0a4 vldr s0, [r4, #104] */
-/* @0x2cd0a8 vadd.f32 s22, s13, s13 */
-/* @0x2cd0ac vmul.f32 s13, s13, s9 */
-/* @0x2cd0b0 vmul.f32 s10, s22, s10 */
-/* @0x2cd0b4 vmul.f32 s13, s13, s9 */
-/* @0x2cd0b8 vmul.f32 s10, s10, s9 */
-/* @0x2cd0bc vmla.f32 s10, s11, s13 */
-/* @0x2cd0c0 vmul.f32 s10, s10, s11 */
-/* @0x2cd0c4 vcmp.f32 s10, s12 */
-/* @0x2cd0c8 vmrs APSR_nzcv, fpscr */
-/* @0x2cd0cc vmovne.f32 s12, #1.000000e+00 */
-/* @0x2cd0d0 vdivne.f32 s12, s12, s10 */
-/* @0x2cd0d4 vadd.f32 s14, s12, s14 */
-/* @0x2cd0d8 vstr s12, [r4, #96] */
-/* @0x2cd0dc vsub.f32 s15, s15, s0 */
-/* @0x2cd0e0 vcmp.f32 s14, #0 */
-/* @0x2cd0e4 vmul.f32 s11, s15, s11 */
-/* @0x2cd0e8 vmrs APSR_nzcv, fpscr */
-/* @0x2cd0ec vldreq s14, [pc, #228] */
-/* @0x2cd0f0 vmovne.f32 s15, #1.000000e+00 */
-/* @0x2cd0f4 vdivne.f32 s14, s15, s14 */
-/* @0x2cd0f8 vmul.f32 s13, s11, s13 */
-/* @0x2cd0fc vstr s14, [r4, #172] */
-/* @0x2cd100 vmul.f32 s12, s12, s13 */
-/* @0x2cd104 vstr s12, [r4, #76] */
-/* @0x2cd108 ldrb r3, [r5, #0x14] */
-/* @0x2cd10c cmp r3, #0 */
-/* @0x2cd110 moveq r3, #0 */
-/* @0x2cd114 streq r3, [r4, #0x64] */
-/* @0x2cd118 beq 0x2cd164 <_ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData+0x300> */
-/* @0x2cd11c vldr s14, [r4, #100] */
-/* @0x2cd120 vldr s15, [r5, #8] */
-/* @0x2cd124 vmul.f32 s15, s14, s15 */
-/* @0x2cd128 vldr s14, [r4, #116] */
-/* @0x2cd12c vldr s13, [r4, #120] */
-/* @0x2cd130 vmul.f32 s14, s15, s14 */
-/* @0x2cd134 vstr s15, [r4, #100] */
-/* @0x2cd138 vmul.f32 s1, s14, s1 */
-/* @0x2cd13c vmul.f32 s15, s15, s13 */
-/* @0x2cd140 vmul.f32 s2, s14, s2 */
-/* @0x2cd144 vnmls.f32 s1, s15, s3 */
-/* @0x2cd148 vnmls.f32 s2, s15, s4 */
-/* @0x2cd14c vmls.f32 s21, s7, s14 */
-/* @0x2cd150 vmla.f32 s18, s8, s14 */
-/* @0x2cd154 vmls.f32 s19, s1, s5 */
-/* @0x2cd158 vmla.f32 s16, s2, s6 */
-/* @0x2cd15c vmls.f32 s20, s7, s15 */
-/* @0x2cd160 vmla.f32 s17, s8, s15 */
-/* @0x2cd164 ldr r3, [r4, #0x6c] */
-/* @0x2cd168 ldr r2, [r4, #0x70] */
-/* @0x2cd16c add r3, r3, r3, lsl #1 */
-/* @0x2cd170 add r2, r2, r2, lsl #1 */
-/* @0x2cd174 add r3, r6, r3, lsl #2 */
-/* @0x2cd178 vstr s21, [r3] */
-/* @0x2cd17c vstr s20, [r3, #4] */
-/* @0x2cd180 vstr s19, [r3, #8] */
-/* @0x2cd184 add r6, r6, r2, lsl #2 */
-/* @0x2cd188 vstr s18, [r6] */
-/* @0x2cd18c vstr s17, [r6, #4] */
-/* @0x2cd190 vstr s16, [r6, #8] */
-/* @0x2cd194 vpop {d8, d9, d10, d11, d12, d13, d14} */
-/* @0x2cd198 pop {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc} */
-/* @0x2cd19c vldr s14, [pc, #52] */
-/* @0x2cd1a0 vmov.f32 s13, s14 */
-/* @0x2cd1a4 vstr s14, [r4, #116] */
-/* @0x2cd1a8 vstr s14, [r4, #120] */
-/* @0x2cd1ac vmov.f32 s12, s14 */
-/* @0x2cd1b0 b 0x2cd01c <_ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData+0x1b8> */
-/* @0x2cd1b4 vstr s12, [r4, #96] */
-/* @0x2cd1b8 vstr s12, [r4, #76] */
-/* @0x2cd1bc b 0x2cd108 <_ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData+0x2a4> */
-/* @0x2cd1c0 vmov r0, s14 */
-/* @0x2cd1c4 bl 0xb6700 <sqrtf@plt> */
-/* @0x2cd1c8 ldr r6, [r5, #0x1c] */
-/* @0x2cd1cc vmov s15, r0 */
-/* @0x2cd1d0 b 0x2ccfec <_ZN15b2DistanceJoint23InitVelocityConstraintsERK12b2SolverData+0x188> */
-/* @0x2cd1d4 bllo 0xfebc2e04 <b2_toiTime+0xfffffffffe469960> */
-/* @0x2cd1d8 andeq r0, r0, r0 */
-/* @0x2cd1dc ldrdmi r0, r1, [r9], #251 */
+/* ── FUNC 0x2cedbc · b2MouseJoint::b2MouseJoint(b2MouseJointDef const*) · size=660 · insn=165 */
+/* @0x2cedbc push {r4, r5, r6, lr} */
+/* @0x2cedc0 sub sp, sp, #16 */
+/* @0x2cedc4 mov r4, r0 */
+/* @0x2cedc8 mov r5, r1 */
+/* @0x2cedcc ldr r6, [pc, #0x264] */
+/* @0x2cedd0 bl 0x2cdee0 <_ZN7b2JointC2EPK10b2JointDef> */
+/* @0x2cedd4 vldr s15, [r5, #20] */
+/* @0x2cedd8 vcmp.f32 s15, s15 */
+/* @0x2ceddc ldr r3, [pc, #0x258] */
+/* @0x2cede0 ldr r6, [pc, r6] */
+/* @0x2cede4 ldr r3, [pc, r3] */
+/* @0x2cede8 ldr r2, [r6] */
+/* @0x2cedec add r3, r3, #8 */
+/* @0x2cedf0 vmrs APSR_nzcv, fpscr */
+/* @0x2cedf4 str r3, [r4] */
+/* @0x2cedf8 bne 0x2cee20 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x64> */
+/* @0x2cedfc mov r3, #0 */
+/* @0x2cee00 movw r1, #0x7f80 */
+/* @0x2cee04 strh r3, [sp] */
+/* @0x2cee08 strh r1, [sp, #2] */
+/* @0x2cee0c vldr s14, [sp] */
+/* @0x2cee10 vneg.f32 s13, s14 */
+/* @0x2cee14 vcmpe.f32 s15, s13 */
+/* @0x2cee18 vmrs APSR_nzcv, fpscr */
+/* @0x2cee1c bgt 0x2cefec <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x230> */
+/* @0x2cee20 mov r0, #0 */
+/* @0x2cee24 ldr r1, [pc, #0x214] */
+/* @0x2cee28 add r1, pc, r1 */
+/* @0x2cee2c blx r2 */
+/* @0x2cee30 vldr s15, [r5, #28] */
+/* @0x2cee34 vcmp.f32 s15, s15 */
+/* @0x2cee38 ldr r3, [r6] */
+/* @0x2cee3c vmrs APSR_nzcv, fpscr */
+/* @0x2cee40 bne 0x2cee68 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0xac> */
+/* @0x2cee44 mov r1, #0 */
+/* @0x2cee48 movw r2, #0x7f80 */
+/* @0x2cee4c strh r1, [sp] */
+/* @0x2cee50 strh r2, [sp, #2] */
+/* @0x2cee54 vldr s14, [sp] */
+/* @0x2cee58 vneg.f32 s13, s14 */
+/* @0x2cee5c vcmpe.f32 s15, s13 */
+/* @0x2cee60 vmrs APSR_nzcv, fpscr */
+/* @0x2cee64 bgt 0x2cefcc <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x210> */
+/* @0x2cee68 mov r0, #0 */
+/* @0x2cee6c ldr r1, [pc, #0x1d0] */
+/* @0x2cee70 add r1, pc, r1 */
+/* @0x2cee74 blx r3 */
+/* @0x2cee78 vldr s15, [r5, #32] */
+/* @0x2cee7c vcmp.f32 s15, s15 */
+/* @0x2cee80 ldr r3, [r6] */
+/* @0x2cee84 vmrs APSR_nzcv, fpscr */
+/* @0x2cee88 bne 0x2ceeb0 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0xf4> */
+/* @0x2cee8c mov r1, #0 */
+/* @0x2cee90 movw r2, #0x7f80 */
+/* @0x2cee94 strh r1, [sp] */
+/* @0x2cee98 strh r2, [sp, #2] */
+/* @0x2cee9c vldr s14, [sp] */
+/* @0x2ceea0 vneg.f32 s13, s14 */
+/* @0x2ceea4 vcmpe.f32 s15, s13 */
+/* @0x2ceea8 vmrs APSR_nzcv, fpscr */
+/* @0x2ceeac bgt 0x2cefac <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x1f0> */
+/* @0x2ceeb0 mov r0, #0 */
+/* @0x2ceeb4 ldr r1, [pc, #0x18c] */
+/* @0x2ceeb8 add r1, pc, r1 */
+/* @0x2ceebc blx r3 */
+/* @0x2ceec0 vldr s15, [r5, #36] */
+/* @0x2ceec4 vcmp.f32 s15, s15 */
+/* @0x2ceec8 ldr r3, [r6] */
+/* @0x2ceecc vmrs APSR_nzcv, fpscr */
+/* @0x2ceed0 bne 0x2ceef8 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x13c> */
+/* @0x2ceed4 mov r1, #0 */
+/* @0x2ceed8 movw r2, #0x7f80 */
+/* @0x2ceedc strh r1, [sp] */
+/* @0x2ceee0 strh r2, [sp, #2] */
+/* @0x2ceee4 vldr s14, [sp] */
+/* @0x2ceee8 vneg.f32 s13, s14 */
+/* @0x2ceeec vcmpe.f32 s15, s13 */
+/* @0x2ceef0 vmrs APSR_nzcv, fpscr */
+/* @0x2ceef4 bgt 0x2cef8c <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x1d0> */
+/* @0x2ceef8 mov r0, #0 */
+/* @0x2ceefc ldr r1, [pc, #0x148] */
+/* @0x2cef00 add r1, pc, r1 */
+/* @0x2cef04 blx r3 */
+/* @0x2cef08 add r2, r5, #20 */
+/* @0x2cef0c add r12, r4, #76 */
+/* @0x2cef10 ldr r3, [r4, #0x34] */
+/* @0x2cef14 ldm r2, {r0, r1} */
+/* @0x2cef18 vldr s15, [r3, #16] */
+/* @0x2cef1c vldr s11, [r3, #20] */
+/* @0x2cef20 vldr s13, [r3, #24] */
+/* @0x2cef24 vldr s12, [r3, #12] */
+/* @0x2cef28 ldr r2, [r5, #0x1c] */
+/* @0x2cef2c stm r12, {r0, r1} */
+/* @0x2cef30 vldr s14, [r4, #80] */
+/* @0x2cef34 vsub.f32 s14, s14, s15 */
+/* @0x2cef38 vldr s10, [r4, #76] */
+/* @0x2cef3c ldr r1, [r5, #0x20] */
+/* @0x2cef40 mov r3, #0 */
+/* @0x2cef44 str r2, [r4, #0x68] */
+/* @0x2cef48 mov r0, r4 */
+/* @0x2cef4c ldr r2, [r5, #0x24] */
+/* @0x2cef50 str r3, [r4, #0x60] */
+/* @0x2cef54 str r3, [r4, #0x64] */
+/* @0x2cef58 str r1, [r4, #0x54] */
+/* @0x2cef5c str r3, [r4, #0x5c] */
+/* @0x2cef60 str r2, [r4, #0x58] */
+/* @0x2cef64 str r3, [r4, #0x6c] */
+/* @0x2cef68 vmul.f32 s15, s14, s11 */
+/* @0x2cef6c vmul.f32 s14, s14, s13 */
+/* @0x2cef70 vsub.f32 s12, s10, s12 */
+/* @0x2cef74 vmls.f32 s14, s11, s12 */
+/* @0x2cef78 vmla.f32 s15, s12, s13 */
+/* @0x2cef7c vstr s14, [r4, #72] */
+/* @0x2cef80 vstr s15, [r4, #68] */
+/* @0x2cef84 add sp, sp, #16 */
+/* @0x2cef88 pop {r4, r5, r6, pc} */
+/* @0x2cef8c vcmpe.f32 s15, s14 */
+/* @0x2cef90 vmrs APSR_nzcv, fpscr */
+/* @0x2cef94 bpl 0x2ceef8 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x13c> */
+/* @0x2cef98 vcmpe.f32 s15, #0 */
+/* @0x2cef9c vmrs APSR_nzcv, fpscr */
+/* @0x2cefa0 movge r0, #1 */
+/* @0x2cefa4 bge 0x2ceefc <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x140> */
+/* @0x2cefa8 b 0x2ceef8 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x13c> */
+/* @0x2cefac vcmpe.f32 s15, s14 */
+/* @0x2cefb0 vmrs APSR_nzcv, fpscr */
+/* @0x2cefb4 bpl 0x2ceeb0 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0xf4> */
+/* @0x2cefb8 vcmpe.f32 s15, #0 */
+/* @0x2cefbc vmrs APSR_nzcv, fpscr */
+/* @0x2cefc0 movge r0, #1 */
+/* @0x2cefc4 bge 0x2ceeb4 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0xf8> */
+/* @0x2cefc8 b 0x2ceeb0 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0xf4> */
+/* @0x2cefcc vcmpe.f32 s15, s14 */
+/* @0x2cefd0 vmrs APSR_nzcv, fpscr */
+/* @0x2cefd4 bpl 0x2cee68 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0xac> */
+/* @0x2cefd8 vcmpe.f32 s15, #0 */
+/* @0x2cefdc vmrs APSR_nzcv, fpscr */
+/* @0x2cefe0 movge r0, #1 */
+/* @0x2cefe4 bge 0x2cee6c <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0xb0> */
+/* @0x2cefe8 b 0x2cee68 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0xac> */
+/* @0x2cefec vcmpe.f32 s15, s14 */
+/* @0x2ceff0 vmrs APSR_nzcv, fpscr */
+/* @0x2ceff4 bpl 0x2cee20 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x64> */
+/* @0x2ceff8 vldr s15, [r5, #24] */
+/* @0x2ceffc vcmp.f32 s15, s15 */
+/* @0x2cf000 vmrs APSR_nzcv, fpscr */
+/* @0x2cf004 bne 0x2cee20 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x64> */
+/* @0x2cf008 strh r3, [sp] */
+/* @0x2cf00c strh r1, [sp, #2] */
+/* @0x2cf010 vldr s14, [sp] */
+/* @0x2cf014 vneg.f32 s13, s14 */
+/* @0x2cf018 vcmpe.f32 s15, s13 */
+/* @0x2cf01c vmrs APSR_nzcv, fpscr */
+/* @0x2cf020 ble 0x2cee20 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x64> */
+/* @0x2cf024 vcmpe.f32 s15, s14 */
+/* @0x2cf028 vmrs APSR_nzcv, fpscr */
+/* @0x2cf02c bpl 0x2cee20 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x64> */
+/* @0x2cf030 mov r0, #1 */
+/* @0x2cf034 b 0x2cee24 <_ZN12b2MouseJointC2EPK15b2MouseJointDef+0x68> */
+/* @0x2cf038 andseq r2, r2, r8, ror #13 */
+/* @0x2cf03c andseq r2, r2, r0, lsl #27 */
+/* @0x2cf040 andeq lr, r8, r4, lsl r7 */
+/* @0x2cf044 andeq lr, r8, r4, lsr #14 */
+/* @0x2cf048 andeq lr, r8, r4, lsr #15 */
+/* @0x2cf04c andeq lr, r8, r12, lsr r8 */
 
-/* ── FUNC 0x2cd1e0 · b2DistanceJointDef::Initialize(b2Body*, b2Body*, b2Vec2 const&, b2Vec2 const&) · size=204 · insn=51 */
-/* @0x2cd1e0 vldr s15, [r1, #16] */
-/* @0x2cd1e4 vldr s14, [r3, #4] */
-/* @0x2cd1e8 vsub.f32 s14, s14, s15 */
-/* @0x2cd1ec vldr s9, [r1, #20] */
-/* @0x2cd1f0 vldr s8, [r1, #24] */
-/* @0x2cd1f4 vldr s6, [r3] */
-/* @0x2cd1f8 vldr s10, [r1, #12] */
-/* @0x2cd1fc push {r4, lr} */
-/* @0x2cd200 vldr s12, [r2, #20] */
-/* @0x2cd204 vldr s11, [r2, #24] */
-/* @0x2cd208 mov r4, r0 */
-/* @0x2cd20c vldr s15, [r2, #16] */
-/* @0x2cd210 vldr s7, [r2, #12] */
-/* @0x2cd214 ldr r0, [sp, #0x8] */
-/* @0x2cd218 str r1, [r4, #0x8] */
-/* @0x2cd21c str r2, [r4, #0xc] */
-/* @0x2cd220 vmul.f32 s13, s14, s9 */
-/* @0x2cd224 vmul.f32 s14, s14, s8 */
-/* @0x2cd228 vsub.f32 s10, s6, s10 */
-/* @0x2cd22c vmla.f32 s13, s10, s8 */
-/* @0x2cd230 vmls.f32 s14, s9, s10 */
-/* @0x2cd234 vstr s13, [r4, #20] */
-/* @0x2cd238 vstr s14, [r4, #24] */
-/* @0x2cd23c vldr s14, [r0, #4] */
-/* @0x2cd240 vsub.f32 s15, s14, s15 */
-/* @0x2cd244 vldr s13, [r0] */
-/* @0x2cd248 vmul.f32 s14, s15, s12 */
-/* @0x2cd24c vmul.f32 s15, s15, s11 */
-/* @0x2cd250 vsub.f32 s13, s13, s7 */
-/* @0x2cd254 vmla.f32 s14, s13, s11 */
-/* @0x2cd258 vmls.f32 s15, s12, s13 */
-/* @0x2cd25c vstr s14, [r4, #28] */
-/* @0x2cd260 vstr s15, [r4, #32] */
-/* @0x2cd264 vldr s15, [r3, #4] */
-/* @0x2cd268 vldr s14, [r0, #4] */
-/* @0x2cd26c vsub.f32 s14, s14, s15 */
-/* @0x2cd270 vldr s13, [r0] */
-/* @0x2cd274 vldr s15, [r3] */
-/* @0x2cd278 vmul.f32 s14, s14, s14 */
-/* @0x2cd27c vsub.f32 s15, s13, s15 */
-/* @0x2cd280 vmla.f32 s14, s15, s15 */
-/* @0x2cd284 vsqrt.f32 s15, s14 */
-/* @0x2cd288 vcmp.f32 s15, s15 */
-/* @0x2cd28c vmrs APSR_nzcv, fpscr */
-/* @0x2cd290 bne 0x2cd29c <_ZN18b2DistanceJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_+0xbc> */
-/* @0x2cd294 vstr s15, [r4, #36] */
-/* @0x2cd298 pop {r4, pc} */
-/* @0x2cd29c vmov r0, s14 */
-/* @0x2cd2a0 bl 0xb6700 <sqrtf@plt> */
-/* @0x2cd2a4 vmov s15, r0 */
-/* @0x2cd2a8 b 0x2cd294 <_ZN18b2DistanceJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_+0xb4> */
+/* ── FUNC 0x2cedbc · b2MouseJoint::b2MouseJoint(b2MouseJointDef const*) · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x2cd2ac · b2DistanceJoint::b2DistanceJoint(b2DistanceJointDef const*) · size=116 · insn=29 */
-/* @0x2cd2ac push {r3, r4, r5, r6, r7, lr} */
-/* @0x2cd2b0 mov r4, r0 */
-/* @0x2cd2b4 mov r5, r1 */
-/* @0x2cd2b8 bl 0x2cdee0 <_ZN7b2JointC2EPK10b2JointDef> */
-/* @0x2cd2bc add r3, r5, #20 */
-/* @0x2cd2c0 ldr r2, [pc, #0x54] */
-/* @0x2cd2c4 add r6, r5, #28 */
-/* @0x2cd2c8 ldr r7, [r5, #0x24] */
-/* @0x2cd2cc ldm r3, {r0, r1} */
-/* @0x2cd2d0 ldr r2, [pc, r2] */
-/* @0x2cd2d4 mov r3, r4 */
-/* @0x2cd2d8 add r2, r2, #8 */
-/* @0x2cd2dc str r2, [r3], #80 */
-/* @0x2cd2e0 add r12, r4, #88 */
-/* @0x2cd2e4 stm r3, {r0, r1} */
-/* @0x2cd2e8 mov r3, #0 */
-/* @0x2cd2ec ldm r6, {r0, r1} */
-/* @0x2cd2f0 ldr r2, [r5, #0x2c] */
-/* @0x2cd2f4 ldr r6, [r5, #0x28] */
-/* @0x2cd2f8 stm r12, {r0, r1} */
-/* @0x2cd2fc mov r0, r4 */
-/* @0x2cd300 str r7, [r4, #0x68] */
-/* @0x2cd304 str r6, [r4, #0x44] */
-/* @0x2cd308 str r2, [r4, #0x48] */
-/* @0x2cd30c str r3, [r4, #0x64] */
-/* @0x2cd310 str r3, [r4, #0x60] */
-/* @0x2cd314 str r3, [r4, #0x4c] */
-/* @0x2cd318 pop {r3, r4, r5, r6, r7, pc} */
-/* @0x2cd31c andseq r4, r2, r8, lsl #17 */
+/* ── FUNC 0x2cf050 · b2MouseJoint::SetTarget(b2Vec2 const&) · size=48 · insn=12 */
+/* @0x2cf050 ldr r2, [r0, #0x34] */
+/* @0x2cf054 mov r3, r0 */
+/* @0x2cf058 add r3, r3, #76 */
+/* @0x2cf05c ldrh r0, [r2, #4] */
+/* @0x2cf060 tst r0, #2 */
+/* @0x2cf064 orreq r0, r0, #2 */
+/* @0x2cf068 strheq r0, [r2, #4] */
+/* @0x2cf06c ldm r1, {r0, r1} */
+/* @0x2cf070 moveq r12, #0 */
+/* @0x2cf074 streq r12, [r2, #0xa0] */
+/* @0x2cf078 stm r3, {r0, r1} */
+/* @0x2cf07c bx lr */
 
-/* ── FUNC 0x2cd2ac · b2DistanceJoint::b2DistanceJoint(b2DistanceJointDef const*) · alias of the symbol above · insn=0 */
+/* ── FUNC 0x2cf080 · b2MouseJoint::GetTarget() const · size=8 · insn=2 */
+/* @0x2cf080 add r0, r0, #76 */
+/* @0x2cf084 bx lr */
 
-/* ── FUNC 0x2cd320 · b2FrictionJoint::SolvePositionConstraints(b2SolverData const&) · size=8 · insn=2 */
-/* @0x2cd320 mov r0, #1 */
-/* @0x2cd324 bx lr */
+/* ── FUNC 0x2cf088 · b2MouseJoint::SetMaxForce(float) · size=8 · insn=2 */
+/* @0x2cf088 str r1, [r0, #0x68] */
+/* @0x2cf08c bx lr */
 
-/* ── FUNC 0x2cd328 · b2FrictionJoint::GetAnchorA() const · size=64 · insn=16 */
-/* @0x2cd328 ldr r3, [r1, #0x30] */
-/* @0x2cd32c vldr s15, [r1, #72] */
-/* @0x2cd330 vldr s12, [r3, #24] */
-/* @0x2cd334 vldr s11, [r3, #20] */
-/* @0x2cd338 vmul.f32 s14, s12, s15 */
-/* @0x2cd33c vldr s13, [r1, #68] */
-/* @0x2cd340 vldr s9, [r3, #16] */
-/* @0x2cd344 vldr s10, [r3, #12] */
-/* @0x2cd348 vmul.f32 s15, s11, s15 */
-/* @0x2cd34c vmla.f32 s14, s13, s11 */
-/* @0x2cd350 vnmls.f32 s15, s12, s13 */
-/* @0x2cd354 vadd.f32 s14, s14, s9 */
-/* @0x2cd358 vadd.f32 s15, s15, s10 */
-/* @0x2cd35c vstr s14, [r0, #4] */
-/* @0x2cd360 vstr s15, [r0] */
-/* @0x2cd364 bx lr */
+/* ── FUNC 0x2cf090 · b2MouseJoint::GetMaxForce() const · size=8 · insn=2 */
+/* @0x2cf090 ldr r0, [r0, #0x68] */
+/* @0x2cf094 bx lr */
 
-/* ── FUNC 0x2cd368 · b2FrictionJoint::GetAnchorB() const · size=64 · insn=16 */
-/* @0x2cd368 ldr r3, [r1, #0x34] */
-/* @0x2cd36c vldr s15, [r1, #80] */
-/* @0x2cd370 vldr s12, [r3, #24] */
-/* @0x2cd374 vldr s11, [r3, #20] */
-/* @0x2cd378 vmul.f32 s14, s12, s15 */
-/* @0x2cd37c vldr s13, [r1, #76] */
-/* @0x2cd380 vldr s9, [r3, #16] */
-/* @0x2cd384 vldr s10, [r3, #12] */
-/* @0x2cd388 vmul.f32 s15, s11, s15 */
-/* @0x2cd38c vmla.f32 s14, s13, s11 */
-/* @0x2cd390 vnmls.f32 s15, s12, s13 */
-/* @0x2cd394 vadd.f32 s14, s14, s9 */
-/* @0x2cd398 vadd.f32 s15, s15, s10 */
-/* @0x2cd39c vstr s14, [r0, #4] */
-/* @0x2cd3a0 vstr s15, [r0] */
-/* @0x2cd3a4 bx lr */
+/* ── FUNC 0x2cf098 · b2MouseJoint::SetFrequency(float) · size=8 · insn=2 */
+/* @0x2cf098 str r1, [r0, #0x54] */
+/* @0x2cf09c bx lr */
 
-/* ── FUNC 0x2cd3a8 · b2FrictionJoint::GetReactionForce(float) const · size=32 · insn=8 */
-/* @0x2cd3a8 vmov s15, r2 */
-/* @0x2cd3ac vldr s14, [r1, #88] */
-/* @0x2cd3b0 vldr s13, [r1, #84] */
-/* @0x2cd3b4 vmul.f32 s14, s15, s14 */
-/* @0x2cd3b8 vmul.f32 s15, s15, s13 */
-/* @0x2cd3bc vstr s14, [r0, #4] */
-/* @0x2cd3c0 vstr s15, [r0] */
-/* @0x2cd3c4 bx lr */
+/* ── FUNC 0x2cf0a0 · b2MouseJoint::GetFrequency() const · size=8 · insn=2 */
+/* @0x2cf0a0 ldr r0, [r0, #0x54] */
+/* @0x2cf0a4 bx lr */

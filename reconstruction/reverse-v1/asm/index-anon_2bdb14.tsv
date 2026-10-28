@@ -1,0 +1,277 @@
+2bdb14	e92d43f8	push	{r3, r4, r5, r6, r7, r8, r9, lr}
+2bdb18	e3a01001	mov	r1, #1
+2bdb1c	e5903004	ldr	r3, [r0, #0x4]
+2bdb20	e3a02b01	mov	r2, #1024
+2bdb24	e1a04000	mov	r4, r0
+2bdb28	e59051a4	ldr	r5, [r0, #0x1a4]
+2bdb2c	e5933000	ldr	r3, [r3]
+2bdb30	e12fff33	blx	r3
+2bdb34	e5943004	ldr	r3, [r4, #0x4]
+2bdb38	e3a01001	mov	r1, #1
+2bdb3c	e3a02b01	mov	r2, #1024
+2bdb40	e5933000	ldr	r3, [r3]
+2bdb44	e5850008	str	r0, [r5, #0x8]
+2bdb48	e1a00004	mov	r0, r4
+2bdb4c	e12fff33	blx	r3
+2bdb50	e5943004	ldr	r3, [r4, #0x4]
+2bdb54	e3a01001	mov	r1, #1
+2bdb58	e3a02b01	mov	r2, #1024
+2bdb5c	e5933000	ldr	r3, [r3]
+2bdb60	e585000c	str	r0, [r5, #0xc]
+2bdb64	e1a00004	mov	r0, r4
+2bdb68	e12fff33	blx	r3
+2bdb6c	e5943004	ldr	r3, [r4, #0x4]
+2bdb70	e3a01001	mov	r1, #1
+2bdb74	e3a02b01	mov	r2, #1024
+2bdb78	e5933000	ldr	r3, [r3]
+2bdb7c	e5850010	str	r0, [r5, #0x10]
+2bdb80	e1a00004	mov	r0, r4
+2bdb84	e12fff33	blx	r3
+2bdb88	e5959008	ldr	r9, [r5, #0x8]
+2bdb8c	e595800c	ldr	r8, [r5, #0xc]
+2bdb90	e3a04c8d	mov	r4, #36096
+2bdb94	e5957010	ldr	r7, [r5, #0x10]
+2bdb98	e3a0cc69	mov	r12, #26880
+2bdb9c	e3a02caf	mov	r2, #44800
+2bdba0	e3a03d2e	mov	r3, #2944
+2bdba4	e340402c	movt	r4, #0x2c
+2bdba8	e340c05b	movt	r12, #0x5b
+2bdbac	e34f2f1d	movt	r2, #0xff1d
+2bdbb0	e34f3f4d	movt	r3, #0xff4d
+2bdbb4	e3a01000	mov	r1, #0
+2bdbb8	e5850014	str	r0, [r5, #0x14]
+2bdbbc	e1a06843	asr	r6, r3, #16
+2bdbc0	e1a05842	asr	r5, r2, #16
+2bdbc4	e7896001	str	r6, [r9, r1]
+2bdbc8	e2833b59	add	r3, r3, #91136
+2bdbcc	e7885001	str	r5, [r8, r1]
+2bdbd0	e2822b71	add	r2, r2, #115712
+2bdbd4	e787c001	str	r12, [r7, r1]
+2bdbd8	e2833fba	add	r3, r3, #744
+2bdbdc	e7804001	str	r4, [r0, r1]
+2bdbe0	e2811004	add	r1, r1, #4
+2bdbe4	e3510b01	cmp	r1, #1024
+2bdbe8	e2822e1a	add	r2, r2, #416
+2bdbec	e24cccb6	sub	r12, r12, #46592
+2bdbf0	e2444b16	sub	r4, r4, #22528
+2bdbf4	e2833001	add	r3, r3, #1
+2bdbf8	e2822002	add	r2, r2, #2
+2bdbfc	e24cc0d2	sub	r12, r12, #210
+2bdc00	e244401a	sub	r4, r4, #26
+2bdc04	1affffec	bne	0x2bdbbc <jinit_d_coef_controller+0x21c>
+2bdc08	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+2bdc0c	e92d0ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11}
+2bdc10	e24dd018	sub	sp, sp, #24
+2bdc14	e590605c	ldr	r6, [r0, #0x5c]
+2bdc18	e58d300c	str	r3, [sp, #0xc]
+2bdc1c	e59031a4	ldr	r3, [r0, #0x1a4]
+2bdc20	e5900120	ldr	r0, [r0, #0x120]
+2bdc24	e59d400c	ldr	r4, [sp, #0xc]
+2bdc28	e593b00c	ldr	r11, [r3, #0xc]
+2bdc2c	e593c010	ldr	r12, [r3, #0x10]
+2bdc30	e0642102	rsb	r2, r4, r2, lsl #2
+2bdc34	e593a008	ldr	r10, [r3, #0x8]
+2bdc38	e5939014	ldr	r9, [r3, #0x14]
+2bdc3c	e58d2014	str	r2, [sp, #0x14]
+2bdc40	e58d1010	str	r1, [sp, #0x10]
+2bdc44	e58db004	str	r11, [sp, #0x4]
+2bdc48	e58dc008	str	r12, [sp, #0x8]
+2bdc4c	e59db038	ldr	r11, [sp, #0x38]
+2bdc50	e25bb001	subs	r11, r11, #1
+2bdc54	e58db038	str	r11, [sp, #0x38]
+2bdc58	4a00002c	bmi	0x2bdd10 <jinit_d_coef_controller+0x370>
+2bdc5c	e59d2010	ldr	r2, [sp, #0x10]
+2bdc60	e3560000	cmp	r6, #0
+2bdc64	e59d400c	ldr	r4, [sp, #0xc]
+2bdc68	e59db014	ldr	r11, [sp, #0x14]
+2bdc6c	e592c000	ldr	r12, [r2]
+2bdc70	e5921004	ldr	r1, [r2, #0x4]
+2bdc74	e084300b	add	r3, r4, r11
+2bdc78	e5922008	ldr	r2, [r2, #0x8]
+2bdc7c	e79cc003	ldr	r12, [r12, r3]
+2bdc80	e7917003	ldr	r7, [r1, r3]
+2bdc84	e7928003	ldr	r8, [r2, r3]
+2bdc88	e4942004	ldr	r2, [r4], #4
+2bdc8c	e58dc000	str	r12, [sp]
+2bdc90	e58d400c	str	r4, [sp, #0xc]
+2bdc94	0affffec	beq	0x2bdc4c <jinit_d_coef_controller+0x2ac>
+2bdc98	e3a03000	mov	r3, #0
+2bdc9c	e7d84003	ldrb	r4, [r8, r3]
+2bdca0	e2822003	add	r2, r2, #3
+2bdca4	e59dc000	ldr	r12, [sp]
+2bdca8	e79ab104	ldr	r11, [r10, r4, lsl #2]
+2bdcac	e7dc1003	ldrb	r1, [r12, r3]
+2bdcb0	e080b00b	add	r11, r0, r11
+2bdcb4	e7d7c003	ldrb	r12, [r7, r3]
+2bdcb8	e0805001	add	r5, r0, r1
+2bdcbc	e2833001	add	r3, r3, #1
+2bdcc0	e7dbb001	ldrb	r11, [r11, r1]
+2bdcc4	e1530006	cmp	r3, r6
+2bdcc8	e6bfc07c	sxth	r12, r12
+2bdccc	e542b003	strb	r11, [r2, #-0x3]
+2bdcd0	e59db008	ldr	r11, [sp, #0x8]
+2bdcd4	e79b4104	ldr	r4, [r11, r4, lsl #2]
+2bdcd8	e799b10c	ldr	r11, [r9, r12, lsl #2]
+2bdcdc	e08b4004	add	r4, r11, r4
+2bdce0	e7d54844	ldrb	r4, [r5, r4, asr #16]
+2bdce4	e5424002	strb	r4, [r2, #-0x2]
+2bdce8	e59d4004	ldr	r4, [sp, #0x4]
+2bdcec	e794c10c	ldr	r12, [r4, r12, lsl #2]
+2bdcf0	e080c00c	add	r12, r0, r12
+2bdcf4	e7dc1001	ldrb	r1, [r12, r1]
+2bdcf8	e5421001	strb	r1, [r2, #-0x1]
+2bdcfc	1affffe6	bne	0x2bdc9c <jinit_d_coef_controller+0x2fc>
+2bdd00	e59db038	ldr	r11, [sp, #0x38]
+2bdd04	e25bb001	subs	r11, r11, #1
+2bdd08	e58db038	str	r11, [sp, #0x38]
+2bdd0c	5affffd2	bpl	0x2bdc5c <jinit_d_coef_controller+0x2bc>
+2bdd10	e28dd018	add	sp, sp, #24
+2bdd14	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+2bdd18	e12fff1e	bx	lr
+2bdd1c	e92d07f0	push	{r4, r5, r6, r7, r8, r9, r10}
+2bdd20	e59d901c	ldr	r9, [sp, #0x1c]
+2bdd24	e5908024	ldr	r8, [r0, #0x24]
+2bdd28	e2599001	subs	r9, r9, #1
+2bdd2c	e590705c	ldr	r7, [r0, #0x5c]
+2bdd30	4a000017	bmi	0x2bdd94 <jinit_d_coef_controller+0x3f4>
+2bdd34	e043a102	sub	r10, r3, r2, lsl #2
+2bdd38	e1a05102	lsl	r5, r2, #2
+2bdd3c	e3580000	cmp	r8, #0
+2bdd40	da00000f	ble	0x2bdd84 <jinit_d_coef_controller+0x3e4>
+2bdd44	e2416004	sub	r6, r1, #4
+2bdd48	e3a04000	mov	r4, #0
+2bdd4c	e5b63004	ldr	r3, [r6, #0x4]!
+2bdd50	e3570000	cmp	r7, #0
+2bdd54	e79a2005	ldr	r2, [r10, r5]
+2bdd58	e7933005	ldr	r3, [r3, r5]
+2bdd5c	e0822004	add	r2, r2, r4
+2bdd60	1083c007	addne	r12, r3, r7
+2bdd64	0a000003	beq	0x2bdd78 <jinit_d_coef_controller+0x3d8>
+2bdd68	e4d30001	ldrb	r0, [r3], #1
+2bdd6c	e153000c	cmp	r3, r12
+2bdd70	e6c20008	strb	r0, [r2], r8
+2bdd74	1afffffb	bne	0x2bdd68 <jinit_d_coef_controller+0x3c8>
+2bdd78	e2844001	add	r4, r4, #1
+2bdd7c	e1540008	cmp	r4, r8
+2bdd80	1afffff1	bne	0x2bdd4c <jinit_d_coef_controller+0x3ac>
+2bdd84	e2499001	sub	r9, r9, #1
+2bdd88	e2855004	add	r5, r5, #4
+2bdd8c	e3790001	cmn	r9, #1
+2bdd90	1affffe9	bne	0x2bdd3c <jinit_d_coef_controller+0x39c>
+2bdd94	e8bd07f0	pop	{r4, r5, r6, r7, r8, r9, r10}
+2bdd98	e12fff1e	bx	lr
+2bdd9c	e92d00f0	push	{r4, r5, r6, r7}
+2bdda0	e0632102	rsb	r2, r3, r2, lsl #2
+2bdda4	e590705c	ldr	r7, [r0, #0x5c]
+2bdda8	e59d6010	ldr	r6, [sp, #0x10]
+2bddac	e2566001	subs	r6, r6, #1
+2bddb0	4a00000e	bmi	0x2bddf0 <jinit_d_coef_controller+0x450>
+2bddb4	e5914000	ldr	r4, [r1]
+2bddb8	e083c002	add	r12, r3, r2
+2bddbc	e3570000	cmp	r7, #0
+2bddc0	e4930004	ldr	r0, [r3], #4
+2bddc4	e794400c	ldr	r4, [r4, r12]
+2bddc8	0afffff7	beq	0x2bddac <jinit_d_coef_controller+0x40c>
+2bddcc	e0845007	add	r5, r4, r7
+2bddd0	e4d4c001	ldrb	r12, [r4], #1
+2bddd4	e1540005	cmp	r4, r5
+2bddd8	e5c0c002	strb	r12, [r0, #0x2]
+2bdddc	e5c0c001	strb	r12, [r0, #0x1]
+2bdde0	e4c0c003	strb	r12, [r0], #3
+2bdde4	1afffff9	bne	0x2bddd0 <jinit_d_coef_controller+0x430>
+2bdde8	e2566001	subs	r6, r6, #1
+2bddec	5afffff0	bpl	0x2bddb4 <jinit_d_coef_controller+0x414>
+2bddf0	e8bd00f0	pop	{r4, r5, r6, r7}
+2bddf4	e12fff1e	bx	lr
+2bddf8	e92d0ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11}
+2bddfc	e24dd018	sub	sp, sp, #24
+2bde00	e590505c	ldr	r5, [r0, #0x5c]
+2bde04	e58d3010	str	r3, [sp, #0x10]
+2bde08	e59031a4	ldr	r3, [r0, #0x1a4]
+2bde0c	e5900120	ldr	r0, [r0, #0x120]
+2bde10	e59d4010	ldr	r4, [sp, #0x10]
+2bde14	e593600c	ldr	r6, [r3, #0xc]
+2bde18	e593b010	ldr	r11, [r3, #0x10]
+2bde1c	e0642102	rsb	r2, r4, r2, lsl #2
+2bde20	e593a008	ldr	r10, [r3, #0x8]
+2bde24	e5939014	ldr	r9, [r3, #0x14]
+2bde28	e58d2014	str	r2, [sp, #0x14]
+2bde2c	e58d100c	str	r1, [sp, #0xc]
+2bde30	e58d6004	str	r6, [sp, #0x4]
+2bde34	e58db008	str	r11, [sp, #0x8]
+2bde38	e59d6038	ldr	r6, [sp, #0x38]
+2bde3c	e2566001	subs	r6, r6, #1
+2bde40	e58d6038	str	r6, [sp, #0x38]
+2bde44	4a000035	bmi	0x2bdf20 <jinit_d_coef_controller+0x580>
+2bde48	e59dc00c	ldr	r12, [sp, #0xc]
+2bde4c	e3550000	cmp	r5, #0
+2bde50	e59d200c	ldr	r2, [sp, #0xc]
+2bde54	e59d6010	ldr	r6, [sp, #0x10]
+2bde58	e59db014	ldr	r11, [sp, #0x14]
+2bde5c	e59c4000	ldr	r4, [r12]
+2bde60	e5921008	ldr	r1, [r2, #0x8]
+2bde64	e086300b	add	r3, r6, r11
+2bde68	e592200c	ldr	r2, [r2, #0xc]
+2bde6c	e59cc004	ldr	r12, [r12, #0x4]
+2bde70	e7944003	ldr	r4, [r4, r3]
+2bde74	e7928003	ldr	r8, [r2, r3]
+2bde78	e79c6003	ldr	r6, [r12, r3]
+2bde7c	e7917003	ldr	r7, [r1, r3]
+2bde80	e59d3010	ldr	r3, [sp, #0x10]
+2bde84	e58d4000	str	r4, [sp]
+2bde88	e4932004	ldr	r2, [r3], #4
+2bde8c	e58d3010	str	r3, [sp, #0x10]
+2bde90	0affffe8	beq	0x2bde38 <jinit_d_coef_controller+0x498>
+2bde94	e3a03000	mov	r3, #0
+2bde98	e7d74003	ldrb	r4, [r7, r3]
+2bde9c	e2822004	add	r2, r2, #4
+2bdea0	e59db000	ldr	r11, [sp]
+2bdea4	e7d6c003	ldrb	r12, [r6, r3]
+2bdea8	e7db1003	ldrb	r1, [r11, r3]
+2bdeac	e79ab104	ldr	r11, [r10, r4, lsl #2]
+2bdeb0	e6bfc07c	sxth	r12, r12
+2bdeb4	e081b00b	add	r11, r1, r11
+2bdeb8	e26bb0ff	rsb	r11, r11, #255
+2bdebc	e7d0b00b	ldrb	r11, [r0, r11]
+2bdec0	e542b004	strb	r11, [r2, #-0x4]
+2bdec4	e59db008	ldr	r11, [sp, #0x8]
+2bdec8	e79b4104	ldr	r4, [r11, r4, lsl #2]
+2bdecc	e799b10c	ldr	r11, [r9, r12, lsl #2]
+2bded0	e08b4004	add	r4, r11, r4
+2bded4	e0814844	add	r4, r1, r4, asr #16
+2bded8	e26440ff	rsb	r4, r4, #255
+2bdedc	e7d04004	ldrb	r4, [r0, r4]
+2bdee0	e5424003	strb	r4, [r2, #-0x3]
+2bdee4	e59d4004	ldr	r4, [sp, #0x4]
+2bdee8	e794c10c	ldr	r12, [r4, r12, lsl #2]
+2bdeec	e081100c	add	r1, r1, r12
+2bdef0	e26110ff	rsb	r1, r1, #255
+2bdef4	e7d01001	ldrb	r1, [r0, r1]
+2bdef8	e5421002	strb	r1, [r2, #-0x2]
+2bdefc	e7d81003	ldrb	r1, [r8, r3]
+2bdf00	e2833001	add	r3, r3, #1
+2bdf04	e1530005	cmp	r3, r5
+2bdf08	e5421001	strb	r1, [r2, #-0x1]
+2bdf0c	1affffe1	bne	0x2bde98 <jinit_d_coef_controller+0x4f8>
+2bdf10	e59d6038	ldr	r6, [sp, #0x38]
+2bdf14	e2566001	subs	r6, r6, #1
+2bdf18	e58d6038	str	r6, [sp, #0x38]
+2bdf1c	5affffc9	bpl	0x2bde48 <jinit_d_coef_controller+0x4a8>
+2bdf20	e28dd018	add	sp, sp, #24
+2bdf24	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+2bdf28	e12fff1e	bx	lr
+2bdf2c	e12fff1e	bx	lr
+2bdf30	e52de004	str	lr, [sp, #-0x4]!
+2bdf34	e24dd00c	sub	sp, sp, #12
+2bdf38	e591e000	ldr	lr, [r1]
+2bdf3c	e1a01002	mov	r1, r2
+2bdf40	e59dc010	ldr	r12, [sp, #0x10]
+2bdf44	e1a02003	mov	r2, r3
+2bdf48	e3a03000	mov	r3, #0
+2bdf4c	e58dc000	str	r12, [sp]
+2bdf50	e590c05c	ldr	r12, [r0, #0x5c]
+2bdf54	e1a0000e	mov	r0, lr
+2bdf58	e58dc004	str	r12, [sp, #0x4]
+2bdf5c	ebfffa2e	bl	0x2bc81c <jcopy_sample_rows>
+2bdf60	e28dd00c	add	sp, sp, #12
+2bdf64	e49df004	ldr	pc, [sp], #4

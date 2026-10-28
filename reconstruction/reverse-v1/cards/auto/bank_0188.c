@@ -2692,7 +2692,7 @@
 /* @0x212b04 ldrsheq pc, [sp], -r12 */
 /* @0x212b08 ldrsbeq pc, [sp], -r12 */
 
-/* ── FUNC 0x212b0c · anon_212b0c · size=4 · insn=1 */
+/* ── FUNC 0x212b0c · anon_212b0c · size=0 · insn=1 */
 /* @0x212b0c andeq r0, r0, r0 */
 
 /* ── FUNC 0x212b10 · DLL_Call(int, int, RValue*, RValue*) · size=520 · insn=128 */
@@ -3430,7 +3430,7 @@
 /* @0x213624 mvn r0, #0 */
 /* @0x213628 b 0x2135bc <_Z7LoadCSVPc+0x94> */
 
-/* ── FUNC 0x21362c · anon_21362c · size=2732 · insn=683 */
+/* ── FUNC 0x21362c · anon_21362c · size=2728 · insn=683 */
 /* @0x21362c ldr r3, [r1] */
 /* @0x213630 movw r2, #0xa478 */
 /* @0x213634 push {r4, r5, r6, r7, r8, r9, r10, r11} */

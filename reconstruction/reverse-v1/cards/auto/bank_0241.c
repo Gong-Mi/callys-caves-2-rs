@@ -1,37 +1,8 @@
 /* libyoyo.so 覆盖卡组 0241
- * 函数 0x28ee80..0x28fe70，共 32 个；
+ * 函数 0x28eeec..0x290274，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x28ee80 · spSlot_setToSetupPose · size=108 · insn=27 */
-/* @0x28ee80 ldr r3, [r0] */
-/* @0x28ee84 push {r4, lr} */
-/* @0x28ee88 mov r4, r0 */
-/* @0x28ee8c ldr r1, [r3, #0x10] */
-/* @0x28ee90 ldr r2, [r3, #0x14] */
-/* @0x28ee94 str r1, [r0, #0x8] */
-/* @0x28ee98 ldr r1, [r3, #0x18] */
-/* @0x28ee9c str r2, [r0, #0xc] */
-/* @0x28eea0 ldr r2, [r3, #0xc] */
-/* @0x28eea4 str r1, [r0, #0x10] */
-/* @0x28eea8 ldr r1, [r3, #0x1c] */
-/* @0x28eeac cmp r2, #0 */
-/* @0x28eeb0 str r1, [r0, #0x14] */
-/* @0x28eeb4 beq 0x28eee0 <spSlot_setToSetupPose+0x60> */
-/* @0x28eeb8 ldr r0, [r0, #0x4] */
-/* @0x28eebc ldr r1, [r3] */
-/* @0x28eec0 ldr r0, [r0, #0x4] */
-/* @0x28eec4 bl 0x28a314 <spSkeleton_getAttachmentForSlotIndex> */
-/* @0x28eec8 mov r3, #0 */
-/* @0x28eecc str r3, [r4, #0x18] */
-/* @0x28eed0 mov r1, r0 */
-/* @0x28eed4 mov r0, r4 */
-/* @0x28eed8 pop {r4, lr} */
-/* @0x28eedc b 0x28ee1c <spSlot_setAttachment> */
-/* @0x28eee0 mov r1, r2 */
-/* @0x28eee4 pop {r4, lr} */
-/* @0x28eee8 b 0x28ee1c <spSlot_setAttachment> */
 
 /* ── FUNC 0x28eeec · spSlot_create · size=64 · insn=16 */
 /* @0x28eeec ldr r2, [pc, #0x34] */
@@ -1344,3 +1315,10 @@
 /* @0x290268 strdeq r7, r8, [r12], -r0 */
 /* @0x29026c strdeq r11, r12, [r11], -r4 */
 /* @0x290270 andeq r7, r12, r0, asr pc */
+
+/* ── FUNC 0x290274 · getJNIEnv · size=20 · insn=5 */
+/* @0x290274 ldr r3, [pc, #0x8] */
+/* @0x290278 ldr r3, [pc, r3] */
+/* @0x29027c ldr r0, [r3] */
+/* @0x290280 b 0xb6d30 <pthread_getspecific@plt> */
+/* @0x290284 andseq r1, r6, r12, lsr #13 */

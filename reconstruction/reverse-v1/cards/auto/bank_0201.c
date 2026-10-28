@@ -1,5 +1,5 @@
 /* libyoyo.so 覆盖卡组 0201
- * 函数 0x2228fc..0x2233f4，共 32 个；
+ * 函数 0x2228fc..0x223474，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
@@ -23,7 +23,7 @@
 /* @0x222928 rsb r0, r0, r2 */
 /* @0x22292c bx lr */
 
-/* ── FUNC 0x222930 · anon_222930 · size=88 · insn=22 */
+/* ── FUNC 0x222930 · anon_222930 · size=84 · insn=22 */
 /* @0x222930 push {r3, r4, r5, r6, r7, lr} */
 /* @0x222934 mov r5, r2 */
 /* @0x222938 ldr r6, [r0, #0x8] */
@@ -212,7 +212,7 @@
 /* @0x222bcc mov r0, #1 */
 /* @0x222bd0 bx lr */
 
-/* ── FUNC 0x222bd4 · anon_222bd4 · size=100 · insn=25 */
+/* ── FUNC 0x222bd4 · anon_222bd4 · size=840 · insn=209 */
 /* @0x222bd4 vmov.f64 d5, #5.000000e-01 */
 /* @0x222bd8 vmov d4, r2, r3 */
 /* @0x222bdc vmov.f64 d6, #-1.000000e+00 */
@@ -238,8 +238,6 @@
 /* @0x222c2c vmovgt r0, r1, d6 */
 /* @0x222c30 bx lr */
 /* @0x222c34 nop */
-
-/* ── FUNC 0x222c40 · anon_222c40 · size=736 · insn=184 */
 /* @0x222c40 sub r0, r0, #256 */
 /* @0x222c44 push {r4, r5, r6, r7, r8, r9, r10, lr} */
 /* @0x222c48 vpush {d8, d9, d10, d11, d12} */
@@ -799,3 +797,28 @@
 /* @0x223470 pop {r4, pc} */
 
 /* ── FUNC 0x2233f4 · SOggChannel::SOggChannel() · alias of the symbol above · insn=0 */
+
+/* ── FUNC 0x223474 · SOggChannel::Init(unsigned int) · size=92 · insn=23 */
+/* @0x223474 push {r4, lr} */
+/* @0x223478 mov r4, r0 */
+/* @0x22347c ldr r0, [pc, #0x44] */
+/* @0x223480 str r1, [r4, #0x2b4] */
+/* @0x223484 add r0, pc, r0 */
+/* @0x223488 bl 0x215fd0 <_Z7checkALPKc> */
+/* @0x22348c add r1, r4, #684 */
+/* @0x223490 mov r0, #2 */
+/* @0x223494 bl 0xb6af0 <alGenBuffers@plt> */
+/* @0x223498 ldr r0, [pc, #0x2c] */
+/* @0x22349c add r0, pc, r0 */
+/* @0x2234a0 bl 0x215fd0 <_Z7checkALPKc> */
+/* @0x2234a4 mov r3, #1 */
+/* @0x2234a8 mov r0, #32768 */
+/* @0x2234ac strb r3, [r4, #0x2d4] */
+/* @0x2234b0 bl 0xb6544 <malloc@plt> */
+/* @0x2234b4 add r3, r0, #16384 */
+/* @0x2234b8 str r0, [r4, #0x29c] */
+/* @0x2234bc str r0, [r4, #0x2a0] */
+/* @0x2234c0 str r3, [r4, #0x2a4] */
+/* @0x2234c4 pop {r4, pc} */
+/* @0x2234c8 andseq r1, r3, r8, asr #16 */
+/* @0x2234cc andseq r1, r3, r0, asr r8 */

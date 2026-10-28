@@ -836,7 +836,7 @@
 /* @0x1abf94 moveq r0, #1 */
 /* @0x1abf98 pop {r4, pc} */
 
-/* ── FUNC 0x1abf9c · anon_1abf9c · size=4 · insn=1 */
+/* ── FUNC 0x1abf9c · anon_1abf9c · size=0 · insn=1 */
 /* @0x1abf9c andeq r0, r0, r0 */
 
 /* ── FUNC 0x1abfa0 · CRoom::UpdateLayers() · size=608 · insn=152 */

@@ -1,11 +1,8 @@
 /* libyoyo.so 覆盖卡组 0230
- * 函数 0x27d1dc..0x27e144，共 32 个；
+ * 函数 0x27d1e0..0x27e148，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x27d1dc · operator delete(void*, char const*, int) · size=4 · insn=1 */
-/* @0x27d1dc b 0xb655c <free@plt> */
 
 /* ── FUNC 0x27d1e0 · MemoryManager::GetSize(void const*) · size=84 · insn=21 */
 /* @0x27d1e0 push {r3, r4, r5, lr} */
@@ -1004,7 +1001,7 @@
 /* @0x27e09c add r0, r0, #4 */
 /* @0x27e0a0 b 0xb6cd0 <pthread_mutex_unlock@plt> */
 
-/* ── FUNC 0x27e0a4 · anon_27e0a4 · size=28 · insn=7 */
+/* ── FUNC 0x27e0a4 · anon_27e0a4 · size=24 · insn=7 */
 /* @0x27e0a4 push {r4, lr} */
 /* @0x27e0a8 mov r4, r0 */
 /* @0x27e0ac ldr r3, [r0, #0x10] */
@@ -1054,3 +1051,6 @@
 
 /* ── FUNC 0x27e144 · FlushProfile() · size=4 · insn=1 */
 /* @0x27e144 bx lr */
+
+/* ── FUNC 0x27e148 · InitProfile() · size=4 · insn=1 */
+/* @0x27e148 bx lr */

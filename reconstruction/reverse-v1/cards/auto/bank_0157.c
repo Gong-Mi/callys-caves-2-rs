@@ -4,7 +4,7 @@
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
 
-/* ── FUNC 0x1d5244 · anon_1d5244 · size=4 · insn=1 */
+/* ── FUNC 0x1d5244 · anon_1d5244 · size=0 · insn=1 */
 /* @0x1d5244 nop */
 
 /* ── FUNC 0x1d5248 · F_GestureGetRotateAngle(RValue&, CInstance*, CInstance*, int, RValue*) · size=40 · insn=10 */
@@ -256,7 +256,7 @@
 /* @0x1d5554 pop {r4, pc} */
 /* @0x1d5558 eoreq r11, r1, r8, asr #13 */
 
-/* ── FUNC 0x1d555c · anon_1d555c · size=4 · insn=1 */
+/* ── FUNC 0x1d555c · anon_1d555c · size=0 · insn=1 */
 /* @0x1d555c andeq r0, r0, r0 */
 
 /* ── FUNC 0x1d5560 · F_GestureDragTime(RValue&, CInstance*, CInstance*, int, RValue*) · size=68 · insn=17 */
@@ -278,7 +278,7 @@
 /* @0x1d559c smlawbmi lr, r0, r4, r8 */
 /* @0x1d55a0 eoreq r11, r1, r12, asr #12 */
 
-/* ── FUNC 0x1d55a4 · anon_1d55a4 · size=4 · insn=1 */
+/* ── FUNC 0x1d55a4 · anon_1d55a4 · size=0 · insn=1 */
 /* @0x1d55a4 nop */
 
 /* ── FUNC 0x1d55a8 · F_GestureDoubleTapTime(RValue&, CInstance*, CInstance*, int, RValue*) · size=68 · insn=17 */
@@ -300,5 +300,5 @@
 /* @0x1d55e4 ldrdmi r1, r2, [r3, #-32]! */
 /* @0x1d55e8 eoreq r11, r1, r0, lsl r6 */
 
-/* ── FUNC 0x1d55ec · anon_1d55ec · size=4 · insn=1 */
+/* ── FUNC 0x1d55ec · anon_1d55ec · size=0 · insn=1 */
 /* @0x1d55ec nop */

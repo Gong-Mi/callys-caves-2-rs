@@ -993,7 +993,7 @@
 /* @0x14607c pop {r4, r5, pc} */
 /* @0x146088 eoreq r7, r10, r8, lsl #26 */
 
-/* ── FUNC 0x14608c · anon_14608c · size=4 · insn=1 */
+/* ── FUNC 0x14608c · anon_14608c · size=0 · insn=1 */
 /* @0x14608c nop */
 
 /* ── FUNC 0x146090 · F_GPUPushState(RValue&, CInstance*, CInstance*, int, RValue*) · size=16 · insn=4 */

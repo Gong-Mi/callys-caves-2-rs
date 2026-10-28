@@ -1,83 +1,8 @@
 /* libyoyo.so 覆盖卡组 0207
- * 函数 0x232d04..0x233af0，共 32 个；
+ * 函数 0x232e28..0x233b24，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x232d04 · ov_time_tell · size=292 · insn=73 */
-/* @0x232d04 ldr r3, [r0, #0x58] */
-/* @0x232d08 push {r4, r5, r6, r7, r8, r9, r10, lr} */
-/* @0x232d0c cmp r3, #1 */
-/* @0x232d10 mov r8, r0 */
-/* @0x232d14 ble 0x232e0c <ov_time_tell+0x108> */
-/* @0x232d18 ldr r9, [r0, #0x4] */
-/* @0x232d1c cmp r9, #0 */
-/* @0x232d20 bne 0x232d70 <ov_time_tell+0x6c> */
-/* @0x232d24 ldr r0, [r0, #0x50] */
-/* @0x232d28 mov r6, #0 */
-/* @0x232d2c ldr lr, [r8, #0x54] */
-/* @0x232d30 mov r7, #0 */
-/* @0x232d34 mov r4, r6 */
-/* @0x232d38 mov r5, r7 */
-/* @0x232d3c mov r12, #1000 */
-/* @0x232d40 ldr r3, [r8, #0x48] */
-/* @0x232d44 umull r0, r1, r0, r12 */
-/* @0x232d48 add r9, r3, r9 */
-/* @0x232d4c ldr r2, [r9, #0x8] */
-/* @0x232d50 mla r1, r12, lr, r1 */
-/* @0x232d54 asr r3, r2, #31 */
-/* @0x232d58 subs r0, r0, r4 */
-/* @0x232d5c sbc r1, r1, r5 */
-/* @0x232d60 bl 0x319414 <__aeabi_ldivmod> */
-/* @0x232d64 adds r0, r0, r6 */
-/* @0x232d68 adc r1, r1, r7 */
-/* @0x232d6c pop {r4, r5, r6, r7, r8, r9, r10, pc} */
-/* @0x232d70 mvn r1, #0 */
-/* @0x232d74 bl 0x23138c <ov_pcm_total> */
-/* @0x232d78 mov r4, r0 */
-/* @0x232d7c mov r5, r1 */
-/* @0x232d80 mov r0, r8 */
-/* @0x232d84 mvn r1, #0 */
-/* @0x232d88 bl 0x231424 <ov_time_total> */
-/* @0x232d8c ldr r9, [r8, #0x34] */
-/* @0x232d90 subs r9, r9, #1 */
-/* @0x232d94 lslpl r10, r9, #4 */
-/* @0x232d98 addpl r10, r10, #8 */
-/* @0x232d9c mov r6, r0 */
-/* @0x232da0 mov r7, r1 */
-/* @0x232da4 bpl 0x232db4 <ov_time_tell+0xb0> */
-/* @0x232da8 b 0x232e18 <ov_time_tell+0x114> */
-/* @0x232dac subs r9, r9, #1 */
-/* @0x232db0 blo 0x232dfc <ov_time_tell+0xf8> */
-/* @0x232db4 ldr r3, [r8, #0x44] */
-/* @0x232db8 mov r0, r8 */
-/* @0x232dbc mov r1, r9 */
-/* @0x232dc0 ldrd r2, r3, [r3, r10] */
-/* @0x232dc4 sub r10, r10, #16 */
-/* @0x232dc8 subs r4, r4, r2 */
-/* @0x232dcc sbc r5, r5, r3 */
-/* @0x232dd0 bl 0x231424 <ov_time_total> */
-/* @0x232dd4 ldrd r2, r3, [r8, #80] */
-/* @0x232dd8 subs r6, r6, r0 */
-/* @0x232ddc sbc r7, r7, r1 */
-/* @0x232de0 cmp r2, r4 */
-/* @0x232de4 sbcs r1, r3, r5 */
-/* @0x232de8 blt 0x232dac <ov_time_tell+0xa8> */
-/* @0x232dec lsl r9, r9, #5 */
-/* @0x232df0 mov r0, r2 */
-/* @0x232df4 mov lr, r3 */
-/* @0x232df8 b 0x232d3c <ov_time_tell+0x38> */
-/* @0x232dfc mov r0, r2 */
-/* @0x232e00 mov lr, r3 */
-/* @0x232e04 mvn r9, #31 */
-/* @0x232e08 b 0x232d3c <ov_time_tell+0x38> */
-/* @0x232e0c mvn r0, #130 */
-/* @0x232e10 mvn r1, #0 */
-/* @0x232e14 pop {r4, r5, r6, r7, r8, r9, r10, pc} */
-/* @0x232e18 lsl r9, r9, #5 */
-/* @0x232e1c ldr r0, [r8, #0x50] */
-/* @0x232e20 ldr lr, [r8, #0x54] */
-/* @0x232e24 b 0x232d3c <ov_time_tell+0x38> */
 
 /* ── FUNC 0x232e28 · ov_info · size=80 · insn=20 */
 /* @0x232e28 ldr r3, [r0, #0x4] */
@@ -673,7 +598,7 @@
 /* @0x2336d8 mov r1, #0 */
 /* @0x2336dc b 0x233550 <oggpackB_write> */
 
-/* ── FUNC 0x2336e0 · anon_2336e0 · size=296 · insn=74 */
+/* ── FUNC 0x2336e0 · anon_2336e0 · size=292 · insn=74 */
 /* @0x2336e0 push {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x2336e4 mov r8, r2 */
 /* @0x2336e8 ldr r2, [r0, #0x4] */
@@ -971,3 +896,6 @@
 /* @0x233b18 strgt r2, [r0, #0xc] */
 /* @0x233b1c strgt r3, [r0] */
 /* @0x233b20 bx lr */
+
+/* ── FUNC 0x233b24 · oggpackB_adv1 · size=4 · insn=1 */
+/* @0x233b24 b 0x233af0 <oggpack_adv1> */

@@ -5853,7 +5853,7 @@
 /* @0xec0fc mov r7, r5 */
 /* @0xec100 b 0xeb46c <_Z6DoConvjPhPKhP6VMExec+0x74> */
 
-/* ── FUNC 0xec104 · anon_ec104 · size=4 · insn=1 */
+/* ── FUNC 0xec104 · anon_ec104 · size=0 · insn=1 */
 /* @0xec104 nop */
 
 /* ── FUNC 0xec108 · ParamSize(int) · size=60 · insn=15 */

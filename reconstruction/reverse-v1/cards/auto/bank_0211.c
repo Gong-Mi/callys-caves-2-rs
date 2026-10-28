@@ -1,40 +1,8 @@
 /* libyoyo.so 覆盖卡组 0211
- * 函数 0x236964..0x237ad0，共 32 个；
+ * 函数 0x2369dc..0x237ad4，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x236964 · CPhysicsFixture::SetChainShape(bool) · size=120 · insn=30 */
-/* @0x236964 push {r3, r4, r5, lr} */
-/* @0x236968 mov r4, r0 */
-/* @0x23696c mov r5, r1 */
-/* @0x236970 bl 0x2365d0 <_ZN15CPhysicsFixture11DeleteShapeEv> */
-/* @0x236974 strb r5, [r4, #0x19] */
-/* @0x236978 mov r0, #40 */
-/* @0x23697c bl 0x27c524 <_Znwj> */
-/* @0x236980 ldr r12, [r4, #0x20] */
-/* @0x236984 ldr r2, [pc, #0x4c] */
-/* @0x236988 mov r1, #3 */
-/* @0x23698c ldr r2, [pc, r2] */
-/* @0x236990 add r2, r2, #8 */
-/* @0x236994 mov r3, r0 */
-/* @0x236998 movw r0, #0xd70a */
-/* @0x23699c str r1, [r3, #0x4] */
-/* @0x2369a0 movt r0, #0x3c23 */
-/* @0x2369a4 str r2, [r3] */
-/* @0x2369a8 mov r1, #8 */
-/* @0x2369ac mov r2, #0 */
-/* @0x2369b0 str r0, [r3, #0x8] */
-/* @0x2369b4 str r2, [r3, #0xc] */
-/* @0x2369b8 mov r0, r4 */
-/* @0x2369bc str r2, [r3, #0x10] */
-/* @0x2369c0 strb r2, [r3, #0x24] */
-/* @0x2369c4 strb r2, [r3, #0x25] */
-/* @0x2369c8 str r3, [r12] */
-/* @0x2369cc str r2, [r4, #0xc] */
-/* @0x2369d0 pop {r3, r4, r5, lr} */
-/* @0x2369d4 b 0x23658c <_ZN15CPhysicsFixture13AllocVerticesEi> */
-/* @0x2369d8 andseq r10, r11, r12, lsr #22 */
 
 /* ── FUNC 0x2369dc · CPhysicsFixture::CheckPolygonIntegrity() · size=236 · insn=59 */
 /* @0x2369dc push {r4, r5, r6, r7, r8, r9, r10, lr} */
@@ -1183,3 +1151,6 @@
 
 /* ── FUNC 0x237ad0 · b2ContactListener::EndContact(b2Contact*) · size=4 · insn=1 */
 /* @0x237ad0 bx lr */
+
+/* ── FUNC 0x237ad4 · b2ContactListener::PreSolve(b2Contact*, b2Manifold const*) · size=4 · insn=1 */
+/* @0x237ad4 bx lr */

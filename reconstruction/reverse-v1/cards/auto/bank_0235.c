@@ -1,21 +1,8 @@
 /* libyoyo.so 覆盖卡组 0235
- * 函数 0x282f8c..0x283b2c，共 32 个；
+ * 函数 0x282fb8..0x283b58，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x282f8c · spIkConstraintTimeline_setFrame · size=44 · insn=11 */
-/* @0x282f8c vldr s14, [sp] */
-/* @0x282f90 vcvt.f32.s32 s15, s14 */
-/* @0x282f94 add r1, r1, r1, lsl #1 */
-/* @0x282f98 ldr r12, [r0, #0x10] */
-/* @0x282f9c add r0, r1, #1 */
-/* @0x282fa0 add r1, r12, r1, lsl #2 */
-/* @0x282fa4 add r0, r12, r0, lsl #2 */
-/* @0x282fa8 str r2, [r1] */
-/* @0x282fac str r3, [r0] */
-/* @0x282fb0 vstr s15, [r0, #4] */
-/* @0x282fb4 bx lr */
 
 /* ── FUNC 0x282fb8 · spTransformConstraintTimeline_create · size=24 · insn=6 */
 /* @0x282fb8 ldr r3, [pc, #0xc] */
@@ -822,3 +809,27 @@
 /* @0x283b4c str r4, [r0] */
 /* @0x283b50 pop {r4, pc} */
 /* @0x283b54 andeq r3, sp, r12, lsl #19 */
+
+/* ── FUNC 0x283b58 · spAnimationStateData_dispose · size=88 · insn=22 */
+/* @0x283b58 push {r4, r5, r6, lr} */
+/* @0x283b5c mov r6, r0 */
+/* @0x283b60 ldr r5, [r0, #0x8] */
+/* @0x283b64 cmp r5, #0 */
+/* @0x283b68 beq 0x283ba4 <spAnimationStateData_dispose+0x4c> */
+/* @0x283b6c ldr r0, [r5, #0x4] */
+/* @0x283b70 cmp r0, #0 */
+/* @0x283b74 beq 0x283b8c <spAnimationStateData_dispose+0x34> */
+/* @0x283b78 ldr r4, [r0, #0x8] */
+/* @0x283b7c bl 0x283af8 <_ToEntry_dispose> */
+/* @0x283b80 cmp r4, #0 */
+/* @0x283b84 mov r0, r4 */
+/* @0x283b88 bne 0x283b78 <spAnimationStateData_dispose+0x20> */
+/* @0x283b8c ldr r4, [r5, #0x8] */
+/* @0x283b90 mov r0, r5 */
+/* @0x283b94 bl 0x283b28 <_FromEntry_dispose> */
+/* @0x283b98 cmp r4, #0 */
+/* @0x283b9c movne r5, r4 */
+/* @0x283ba0 bne 0x283b6c <spAnimationStateData_dispose+0x14> */
+/* @0x283ba4 mov r0, r6 */
+/* @0x283ba8 pop {r4, r5, r6, lr} */
+/* @0x283bac b 0x285c80 <_free> */

@@ -1680,7 +1680,7 @@
 /* @0x153018 bx lr */
 /* @0x15301c eoreq r12, r9, r4, asr #21 */
 
-/* ── FUNC 0x153020 · anon_153020 · size=512 · insn=128 */
+/* ── FUNC 0x153020 · anon_153020 · size=508 · insn=128 */
 /* @0x153020 push {r3, r4, r5, r6, r7, lr} */
 /* @0x153024 ldr r3, [pc, #0x110] */
 /* @0x153028 ldr r2, [pc, #0x110] */
@@ -1837,7 +1837,7 @@
 /* @0x153274 str r3, [r4, #0x4] */
 /* @0x153278 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x15327c · anon_15327c · size=468 · insn=117 */
+/* ── FUNC 0x15327c · anon_15327c · size=464 · insn=117 */
 /* @0x15327c ldr r1, [r0, #0xc] */
 /* @0x153280 push {r3, r4, r5, r6, r7, lr} */
 /* @0x153284 cmp r1, #0 */
@@ -2136,7 +2136,7 @@
 /* @0x153708 andseq r2, pc, r8, lsl #21 */
 /* @0x15370c andseq r2, pc, r0, lsl #21 */
 
-/* ── FUNC 0x153710 · anon_153710 · size=1240 · insn=310 */
+/* ── FUNC 0x153710 · anon_153710 · size=1236 · insn=310 */
 /* @0x153710 push {r4, r5, r6, r7, r8, r9, r10, lr} */
 /* @0x153714 sub sp, sp, #24 */
 /* @0x153718 add r7, sp, #4 */
@@ -3378,7 +3378,7 @@
 /* @0x154a68 b 0x154440 <_Z19YYIAPEventsDispatchv+0x858> */
 /* @0x154a6c bl 0xb65d4 <__stack_chk_fail@plt> */
 
-/* ── FUNC 0x154a70 · anon_154a70 · size=356 · insn=89 */
+/* ── FUNC 0x154a70 · anon_154a70 · size=352 · insn=89 */
 /* @0x154a70 push {r0, r1, r2, r3} */
 /* @0x154a74 mov r0, #4 */
 /* @0x154a78 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
@@ -3765,7 +3765,7 @@
 /* @0x155064 ldrsheq r0, [pc], -r8 */
 /* @0x155068 andseq r0, pc, r8, ror pc */
 
-/* ── FUNC 0x15506c · anon_15506c · size=4 · insn=1 */
+/* ── FUNC 0x15506c · anon_15506c · size=0 · insn=1 */
 /* @0x15506c andeq r0, r0, r0 */
 
 /* ── FUNC 0x155070 · F_IAP_Acquire(RValue&, CInstance*, CInstance*, int, RValue*) · size=384 · insn=94 */

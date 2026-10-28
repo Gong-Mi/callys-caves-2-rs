@@ -881,7 +881,7 @@
 /* @0x159b88 str r5, [r4] */
 /* @0x159b8c pop {r4, r5, r6, pc} */
 
-/* ── FUNC 0x159b90 · anon_159b90 · size=248 · insn=62 */
+/* ── FUNC 0x159b90 · anon_159b90 · size=244 · insn=62 */
 /* @0x159b90 push {r4, r5, r6, r7, r8, r9, lr} */
 /* @0x159b94 sub sp, sp, #276 */
 /* @0x159b98 ldr r9, [pc, #0xd8] */

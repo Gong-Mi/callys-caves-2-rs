@@ -56,6 +56,7 @@ def main() -> int:
 
     manifest = []
     emitted: set[int] = set()
+    emitted_insn: set[int] = set()   # guards against overlapping symbol/anon ranges
     for bank_idx in range(0, len(funcs), a.per_bank):
         bank = funcs[bank_idx:bank_idx + a.per_bank]
         name = f"bank_{bank_idx // a.per_bank:04d}.c"
@@ -78,10 +79,15 @@ def main() -> int:
                 lines.append("")
                 continue
             emitted.add(f["addr"])
-            total += len(rows)
             lines.append(f"/* ── FUNC {f['addr']:#x} · {f['dem']} · size={f['size']} · insn={len(rows)} */")
+            kept = 0
             for addr, mnem, ops in rows:
+                if addr in emitted_insn:
+                    continue
+                emitted_insn.add(addr)
+                kept += 1
                 lines.append(f"/* @0x{addr:x} {mnem} {ops} */" if ops else f"/* @0x{addr:x} {mnem} */")
+            total += kept
             lines.append("")
         (out / name).write_text("\n".join(lines), encoding="utf-8")
         manifest.append((name, len(bank), total))

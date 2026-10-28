@@ -1481,7 +1481,7 @@
 /* @0x190488 eoreq sp, r5, r12, lsr #15 */
 /* @0x19048c eorseq r5, r10, r8, lsr #12 */
 
-/* ── FUNC 0x190490 · anon_190490 · size=996 · insn=249 */
+/* ── FUNC 0x190490 · anon_190490 · size=992 · insn=249 */
 /* @0x190490 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x190494 add r11, sp, #32 */
 /* @0x190498 ldr r7, [pc, #0x3a0] */

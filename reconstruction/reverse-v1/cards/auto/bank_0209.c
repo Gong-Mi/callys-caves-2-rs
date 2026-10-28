@@ -1,36 +1,8 @@
 /* libyoyo.so 覆盖卡组 0209
- * 函数 0x234a80..0x235ad0，共 32 个；
+ * 函数 0x234ae8..0x235b1c，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x234a80 · ogg_stream_pageout_fill · size=104 · insn=26 */
-/* @0x234a80 push {r4, r5, r6, lr} */
-/* @0x234a84 mov r6, r1 */
-/* @0x234a88 mov r5, r2 */
-/* @0x234a8c mov r4, r0 */
-/* @0x234a90 bl 0x23412c <ogg_stream_check> */
-/* @0x234a94 cmp r0, #0 */
-/* @0x234a98 bne 0x234ae0 <ogg_stream_pageout_fill+0x60> */
-/* @0x234a9c ldr r3, [r4, #0x148] */
-/* @0x234aa0 ldr r2, [r4, #0x1c] */
-/* @0x234aa4 cmp r3, #0 */
-/* @0x234aa8 bne 0x234ad4 <ogg_stream_pageout_fill+0x54> */
-/* @0x234aac cmp r2, #0 */
-/* @0x234ab0 beq 0x234ac0 <ogg_stream_pageout_fill+0x40> */
-/* @0x234ab4 ldr r2, [r4, #0x14c] */
-/* @0x234ab8 rsbs r2, r2, #1 */
-/* @0x234abc movlo r2, #0 */
-/* @0x234ac0 mov r0, r4 */
-/* @0x234ac4 mov r1, r6 */
-/* @0x234ac8 mov r3, r5 */
-/* @0x234acc pop {r4, r5, r6, lr} */
-/* @0x234ad0 b 0x234434 <ogg_page_checksum_set+0xe0> */
-/* @0x234ad4 adds r2, r2, #0 */
-/* @0x234ad8 movne r2, #1 */
-/* @0x234adc b 0x234ac0 <ogg_stream_pageout_fill+0x40> */
-/* @0x234ae0 mov r0, #0 */
-/* @0x234ae4 pop {r4, r5, r6, pc} */
 
 /* ── FUNC 0x234ae8 · ogg_stream_eos · size=28 · insn=7 */
 /* @0x234ae8 push {r4, lr} */
@@ -1130,3 +1102,15 @@
 /* @0x235b10 bne 0x235af4 <_ZN7IniFile6GetKeyEPKcS1_+0x24> */
 /* @0x235b14 mov r0, r4 */
 /* @0x235b18 pop {r3, r4, r5, pc} */
+
+/* ── FUNC 0x235b1c · IniFile::ReadInt(char const*, char const*, int) · size=40 · insn=10 */
+/* @0x235b1c push {r4, lr} */
+/* @0x235b20 mov r4, r3 */
+/* @0x235b24 bl 0x235ad0 <_ZN7IniFile6GetKeyEPKcS1_> */
+/* @0x235b28 cmp r0, #0 */
+/* @0x235b2c beq 0x235b3c <_ZN7IniFile7ReadIntEPKcS1_i+0x20> */
+/* @0x235b30 ldr r0, [r0, #0x8] */
+/* @0x235b34 pop {r4, lr} */
+/* @0x235b38 b 0xb66b8 <atoi@plt> */
+/* @0x235b3c mov r0, r4 */
+/* @0x235b40 pop {r4, pc} */

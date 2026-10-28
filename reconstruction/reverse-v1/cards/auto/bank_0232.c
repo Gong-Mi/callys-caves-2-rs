@@ -1,11 +1,8 @@
 /* libyoyo.so 覆盖卡组 0232
- * 函数 0x27ebec..0x280998，共 32 个；
+ * 函数 0x27ebf0..0x280a88，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x27ebec · anon_27ebec · size=4 · insn=1 */
-/* @0x27ebec andeq r0, r0, r0 */
 
 /* ── FUNC 0x27ebf0 · json_object_get_double · size=164 · insn=39 */
 /* @0x27ebf0 cmp r0, #0 */
@@ -48,7 +45,7 @@
 /* @0x27ec84 nop */
 /* @0x27ec90 strheq r1, [r12], -r8 */
 
-/* ── FUNC 0x27ec94 · anon_27ec94 · size=4 · insn=1 */
+/* ── FUNC 0x27ec94 · anon_27ec94 · size=0 · insn=1 */
 /* @0x27ec94 nop */
 
 /* ── FUNC 0x27ec98 · json_object_new_null · size=40 · insn=10 */
@@ -163,7 +160,7 @@
 /* @0x27ee00 ldr r0, [r0, #0x18] */
 /* @0x27ee04 b 0x27e200 <array_list_get_idx> */
 
-/* ── FUNC 0x27ee08 · anon_27ee08 · size=244 · insn=61 */
+/* ── FUNC 0x27ee08 · anon_27ee08 · size=240 · insn=61 */
 /* @0x27ee08 push {r3, r4, r5, r6, r7, r8, r9, lr} */
 /* @0x27ee0c mov r5, r1 */
 /* @0x27ee10 ldr r1, [pc, #0x98] */
@@ -1960,7 +1957,7 @@
 /* @0x28098c pop {r3, r4, r5, lr} */
 /* @0x280990 b 0xb655c <free@plt> */
 
-/* ── FUNC 0x280994 · anon_280994 · size=4 · insn=1 */
+/* ── FUNC 0x280994 · anon_280994 · size=0 · insn=1 */
 /* @0x280994 andeq r0, r0, r0 */
 
 /* ── FUNC 0x280998 · lh_table_insert · size=240 · insn=60 */
@@ -2024,3 +2021,42 @@
 /* @0x280a7c b 0x2809dc <lh_table_insert+0x44> */
 /* @0x280a80 mvnpl r8, pc, lsl r5 */
 /* @0x280a84 svclo #0xe51eb8 */
+
+/* ── FUNC 0x280a88 · lh_table_resize · size=148 · insn=37 */
+/* @0x280a88 push {r4, r5, r6, r7, lr} */
+/* @0x280a8c mov r6, r0 */
+/* @0x280a90 ldr r12, [r6, #0x34] */
+/* @0x280a94 sub sp, sp, #12 */
+/* @0x280a98 mov r7, r1 */
+/* @0x280a9c ldr r3, [r6, #0x30] */
+/* @0x280aa0 ldr r1, [r0, #0x1c] */
+/* @0x280aa4 mov r2, #0 */
+/* @0x280aa8 mov r0, r7 */
+/* @0x280aac str r12, [sp] */
+/* @0x280ab0 bl 0x280834 <lh_table_new> */
+/* @0x280ab4 ldr r4, [r6, #0x20] */
+/* @0x280ab8 cmp r4, #0 */
+/* @0x280abc mov r5, r0 */
+/* @0x280ac0 beq 0x280adc <lh_table_resize+0x54> */
+/* @0x280ac4 ldm r4, {r1, r2} */
+/* @0x280ac8 mov r0, r5 */
+/* @0x280acc bl 0x280998 <lh_table_insert> */
+/* @0x280ad0 ldr r4, [r4, #0x8] */
+/* @0x280ad4 cmp r4, #0 */
+/* @0x280ad8 bne 0x280ac4 <lh_table_resize+0x3c> */
+/* @0x280adc ldr r0, [r6, #0x28] */
+/* @0x280ae0 bl 0xb655c <free@plt> */
+/* @0x280ae4 ldr r12, [r5, #0x28] */
+/* @0x280ae8 ldr r1, [r5, #0x20] */
+/* @0x280aec mov r0, r5 */
+/* @0x280af0 ldr r3, [r5, #0x24] */
+/* @0x280af4 ldr r2, [r6, #0xc] */
+/* @0x280af8 str r12, [r6, #0x28] */
+/* @0x280afc add r2, r2, #1 */
+/* @0x280b00 str r7, [r6] */
+/* @0x280b04 str r1, [r6, #0x20] */
+/* @0x280b08 str r2, [r6, #0xc] */
+/* @0x280b0c str r3, [r6, #0x24] */
+/* @0x280b10 add sp, sp, #12 */
+/* @0x280b14 pop {r4, r5, r6, r7, lr} */
+/* @0x280b18 b 0xb655c <free@plt> */

@@ -1,28 +1,8 @@
 /* libyoyo.so 覆盖卡组 0237
- * 函数 0x2853c8..0x28667c，共 32 个；
+ * 函数 0x285410..0x2866f0，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x2853c8 · spBone_create · size=72 · insn=18 */
-/* @0x2853c8 push {r3, r4, r5, r6, r7, lr} */
-/* @0x2853cc mov r5, r2 */
-/* @0x2853d0 ldr r2, [pc, #0x34] */
-/* @0x2853d4 mov r7, r0 */
-/* @0x2853d8 mov r6, r1 */
-/* @0x2853dc mov r3, #46 */
-/* @0x2853e0 mov r1, #88 */
-/* @0x2853e4 add r2, pc, r2 */
-/* @0x2853e8 mov r0, #1 */
-/* @0x2853ec bl 0x285c4c <_calloc> */
-/* @0x2853f0 mov r4, r0 */
-/* @0x2853f4 str r7, [r0] */
-/* @0x2853f8 str r6, [r0, #0x4] */
-/* @0x2853fc str r5, [r0, #0x8] */
-/* @0x285400 bl 0x285388 <spBone_setToSetupPose> */
-/* @0x285404 mov r0, r4 */
-/* @0x285408 pop {r3, r4, r5, r6, r7, pc} */
-/* @0x28540c andeq r2, sp, r4, lsl #6 */
 
 /* ── FUNC 0x285410 · spBone_getWorldRotationX · size=60 · insn=15 */
 /* @0x285410 vldr s14, [r0, #64] */
@@ -1293,3 +1273,31 @@
 /* @0x2866e4 add sp, sp, #12 */
 /* @0x2866e8 ldr lr, [sp], #4 */
 /* @0x2866ec b 0x285e48 <spIkConstraint_apply1> */
+
+/* ── FUNC 0x2866f0 · spIkConstraintData_create · size=104 · insn=26 */
+/* @0x2866f0 push {r4, r5, r6, lr} */
+/* @0x2866f4 mov r3, #36 */
+/* @0x2866f8 ldr r6, [pc, #0x54] */
+/* @0x2866fc mov r5, r0 */
+/* @0x286700 mov r1, #24 */
+/* @0x286704 mov r0, #1 */
+/* @0x286708 add r6, pc, r6 */
+/* @0x28670c mov r2, r6 */
+/* @0x286710 bl 0x285c4c <_calloc> */
+/* @0x286714 mov r4, r0 */
+/* @0x286718 mov r0, r5 */
+/* @0x28671c bl 0xb6538 <strlen@plt> */
+/* @0x286720 mov r1, r6 */
+/* @0x286724 mov r2, #37 */
+/* @0x286728 add r0, r0, #1 */
+/* @0x28672c bl 0x285c10 <_malloc> */
+/* @0x286730 mov r1, r5 */
+/* @0x286734 str r0, [r4] */
+/* @0x286738 bl 0xb65a4 <strcpy@plt> */
+/* @0x28673c mov r2, #1065353216 */
+/* @0x286740 mov r3, #1 */
+/* @0x286744 mov r0, r4 */
+/* @0x286748 str r3, [r4, #0x10] */
+/* @0x28674c str r2, [r4, #0x14] */
+/* @0x286750 pop {r4, r5, r6, pc} */
+/* @0x286754 andeq r1, sp, r0, ror r1 */

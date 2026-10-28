@@ -3130,7 +3130,7 @@
 /* @0x17a3ac eoreq r3, r7, r8, lsl #15 */
 /* @0x17a3b0 .word 0x002739b8 */
 
-/* ── FUNC 0x17a3b4 · anon_17a3b4 · size=4 · insn=1 */
+/* ── FUNC 0x17a3b4 · anon_17a3b4 · size=0 · insn=1 */
 /* @0x17a3b4 nop */
 
 /* ── FUNC 0x17a3b8 · GR_Window_Views_Get_ID(int, int) · size=744 · insn=186 */
@@ -3602,7 +3602,7 @@
 /* @0x17aad4 bx lr */
 /* @0x17aad8 eoreq r5, r7, r12, asr #1 */
 
-/* ── FUNC 0x17aadc · anon_17aadc · size=4 · insn=1 */
+/* ── FUNC 0x17aadc · anon_17aadc · size=0 · insn=1 */
 /* @0x17aadc andeq r0, r0, r0 */
 
 /* ── FUNC 0x17aae0 · GR_Window_View_Mouse_Set(int, int, int) · size=416 · insn=104 */

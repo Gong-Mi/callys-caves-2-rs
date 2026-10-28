@@ -720,7 +720,7 @@
 /* @0x10f6e4 .word 0x002298bc */
 /* @0x10f6e8 eoreq r9, r2, r0, asr #17 */
 
-/* ── FUNC 0x10f6ec · anon_10f6ec · size=4 · insn=1 */
+/* ── FUNC 0x10f6ec · anon_10f6ec · size=0 · insn=1 */
 /* @0x10f6ec andeq r0, r0, r0 */
 
 /* ── FUNC 0x10f6f0 · F_Mean(RValue&, CInstance*, CInstance*, int, RValue*) · size=128 · insn=30 */

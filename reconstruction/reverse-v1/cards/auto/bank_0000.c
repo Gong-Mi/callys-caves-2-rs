@@ -4,7 +4,7 @@
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
 
-/* ── FUNC 0xb6fd0 · anon_b6fd0 · size=14144 · insn=3536 */
+/* ── FUNC 0xb6fd0 · anon_b6fd0 · size=14140 · insn=3536 */
 /* @0xb6fd0 push {r4, r5, r6, r7, r8, r9, r10, lr} */
 /* @0xb6fd4 sub sp, sp, #8 */
 /* @0xb6fd8 mov r6, r3 */

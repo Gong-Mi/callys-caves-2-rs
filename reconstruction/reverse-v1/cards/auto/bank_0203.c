@@ -1,55 +1,8 @@
 /* libyoyo.so 覆盖卡组 0203
- * 函数 0x224834..0x225fa4，共 32 个；
+ * 函数 0x224834..0x22609c，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x224834 · COggSyncThread::COggSyncThread() · size=180 · insn=45 */
-/* @0x224834 push {r4, r5, r6, lr} */
-/* @0x224838 mov r4, r0 */
-/* @0x22483c mov r5, #0 */
-/* @0x224840 mov r0, #8 */
-/* @0x224844 strb r5, [r4, #0x83c] */
-/* @0x224848 str r5, [r4, #0x834] */
-/* @0x22484c str r5, [r4, #0x838] */
-/* @0x224850 strb r5, [r4, #0x83d] */
-/* @0x224854 str r5, [r4, #0x840] */
-/* @0x224858 str r5, [r4, #0x844] */
-/* @0x22485c bl 0x27c524 <_Znwj> */
-/* @0x224860 ldr r1, [pc, #0x7c] */
-/* @0x224864 add r1, pc, r1 */
-/* @0x224868 mov r6, r0 */
-/* @0x22486c bl 0x27e070 <_ZN5MutexC2EPKc> */
-/* @0x224870 mov r1, #2080 */
-/* @0x224874 str r6, [r4, #0x848] */
-/* @0x224878 mvn r12, #0 */
-/* @0x22487c strb r5, [r4, #0x800] */
-/* @0x224880 mov r2, #0 */
-/* @0x224884 mov r3, #0 */
-/* @0x224888 strb r5, [r4, #0x801] */
-/* @0x22488c mov r0, r4 */
-/* @0x224890 strb r5, [r4] */
-/* @0x224894 strb r5, [r4, #0x802] */
-/* @0x224898 strb r5, [r4, #0x803] */
-/* @0x22489c str r5, [r4, #0x808] */
-/* @0x2248a0 str r5, [r4, #0x82c] */
-/* @0x2248a4 strb r5, [r4, #0x84d] */
-/* @0x2248a8 strb r5, [r4, #0x84e] */
-/* @0x2248ac str r5, [r4, #0x80c] */
-/* @0x2248b0 strb r5, [r4, #0x850] */
-/* @0x2248b4 strb r5, [r4, #0x84f] */
-/* @0x2248b8 strb r5, [r4, #0x851] */
-/* @0x2248bc strb r5, [r4, #0x852] */
-/* @0x2248c0 strb r5, [r4, #0x853] */
-/* @0x2248c4 strb r5, [r4, #0x854] */
-/* @0x2248c8 str r5, [r4, #0x828] */
-/* @0x2248cc str r5, [r4, #0x858] */
-/* @0x2248d0 str r5, [r4, #0x85c] */
-/* @0x2248d4 str r5, [r4, #0x860] */
-/* @0x2248d8 str r12, [r4, #0x810] */
-/* @0x2248dc strd r2, r3, [r4, r1] */
-/* @0x2248e0 pop {r4, r5, r6, pc} */
-/* @0x2248e4 andseq sp, r0, r0, asr pc */
 
 /* ── FUNC 0x224834 · COggSyncThread::COggSyncThread() · alias of the symbol above · insn=0 */
 
@@ -685,7 +638,7 @@
 /* @0x225228 pop {r4, r5} */
 /* @0x22522c bx lr */
 
-/* ── FUNC 0x225230 · anon_225230 · size=2544 · insn=636 */
+/* ── FUNC 0x225230 · anon_225230 · size=2540 · insn=636 */
 /* @0x225230 ldr r3, [r0, #0x2a8] */
 /* @0x225234 cmp r2, #0 */
 /* @0x225238 push {r4, r5, r6, r7, r8, lr} */
@@ -1629,3 +1582,30 @@
 /* @0x226090 cmp r3, r5 */
 /* @0x226094 bgt 0x22606c <_ZN9COggAudio4QuitEv+0xc8> */
 /* @0x226098 pop {r4, r5, r6, r7, r8, pc} */
+
+/* ── FUNC 0x22609c · COggAudio::Suspend() · size=100 · insn=25 */
+/* @0x22609c push {r4, r5, r6, lr} */
+/* @0x2260a0 mov r6, r0 */
+/* @0x2260a4 ldr r0, [r0] */
+/* @0x2260a8 cmp r0, #0 */
+/* @0x2260ac popeq {r4, r5, r6, pc} */
+/* @0x2260b0 ldr r3, [pc, #0x44] */
+/* @0x2260b4 mov r2, #1 */
+/* @0x2260b8 ldr r1, [r6, #0x14] */
+/* @0x2260bc ldr r3, [pc, r3] */
+/* @0x2260c0 cmp r1, #0 */
+/* @0x2260c4 strb r2, [r3] */
+/* @0x2260c8 pople {r4, r5, r6, pc} */
+/* @0x2260cc mov r4, #0 */
+/* @0x2260d0 mov r5, r4 */
+/* @0x2260d4 add r0, r0, r4 */
+/* @0x2260d8 add r5, r5, #1 */
+/* @0x2260dc bl 0x223844 <_ZN10COggThread7SuspendEv> */
+/* @0x2260e0 ldr r3, [r6, #0x14] */
+/* @0x2260e4 add r4, r4, #2096 */
+/* @0x2260e8 cmp r3, r5 */
+/* @0x2260ec add r4, r4, #4 */
+/* @0x2260f0 pople {r4, r5, r6, pc} */
+/* @0x2260f4 ldr r0, [r6] */
+/* @0x2260f8 b 0x2260d4 <_ZN9COggAudio7SuspendEv+0x38> */
+/* @0x2260fc ldrheq r11, [r12], -r12 */

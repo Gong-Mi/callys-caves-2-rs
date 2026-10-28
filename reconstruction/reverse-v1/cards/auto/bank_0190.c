@@ -228,7 +228,7 @@
 /* @0x21513c movlo r0, #0 */
 /* @0x215140 pop {r4, pc} */
 
-/* ── FUNC 0x215144 · anon_215144 · size=4 · insn=1 */
+/* ── FUNC 0x215144 · anon_215144 · size=0 · insn=1 */
 /* @0x215144 andeq r0, r0, r0 */
 
 /* ── FUNC 0x215148 · Timing_Time · size=108 · insn=27 */
@@ -260,7 +260,7 @@
 /* @0x2151ac addmi r4, pc, r0 */
 /* @0x2151b0 subseq r0, r4, r0, lsl #2 */
 
-/* ── FUNC 0x2151b4 · anon_2151b4 · size=4 · insn=1 */
+/* ── FUNC 0x2151b4 · anon_2151b4 · size=0 · insn=1 */
 /* @0x2151b4 nop */
 
 /* ── FUNC 0x2151b8 · Timing_Init · size=56 · insn=14 */

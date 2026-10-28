@@ -1,16 +1,16 @@
 {
-  "so": "/data/data/com.termux/files/usr/tmp/yoyo_1793147743/lib/armeabi-v7a/libyoyo.so",
+  "so": "/data/data/com.termux/files/home/cally-oracle/libyoyo.so",
   "text": [
     "0xb6fd0",
     "0x31bb7c"
   ],
   "text_bytes": 2509740,
-  "functions_in_text": 9623,
-  "anonymous_regions": 371,
-  "instructions": 627423,
-  "attributed": 627423,
+  "functions_in_text": 9517,
+  "anonymous_regions": 265,
+  "instructions": 645282,
+  "attributed": 645282,
   "unattributed": 0,
   "unattributed_first": [],
   "coverage_pct": 100.0,
-  "funcs_with_instructions": 8722
+  "funcs_with_instructions": 9178
 }

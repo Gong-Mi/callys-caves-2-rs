@@ -265,7 +265,7 @@
 /* @0x184184 .word 0xffffbbd0 */
 /* @0x184188 .word 0xffffe87c */
 
-/* ── FUNC 0x18418c · anon_18418c · size=4 · insn=1 */
+/* ── FUNC 0x18418c · anon_18418c · size=0 · insn=1 */
 /* @0x18418c andeq r0, r0, r0 */
 
 /* ── FUNC 0x184190 · SetAlphaTestUniforms(GLSLShader*) · size=156 · insn=39 */
@@ -309,7 +309,7 @@
 /* @0x184224 .word 0xffffe888 */
 /* @0x184228 .word 0xffffbbfc */
 
-/* ── FUNC 0x18422c · anon_18422c · size=4 · insn=1 */
+/* ── FUNC 0x18422c · anon_18422c · size=0 · insn=1 */
 /* @0x18422c nop */
 
 /* ── FUNC 0x184230 · SetTransformUniforms(GLSLShader*) · size=60 · insn=15 */

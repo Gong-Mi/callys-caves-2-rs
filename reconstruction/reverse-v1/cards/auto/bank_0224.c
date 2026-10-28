@@ -1,35 +1,8 @@
 /* libyoyo.so 覆盖卡组 0224
- * 函数 0x2524f8..0x25516c，共 32 个；
+ * 函数 0x25255c..0x255170，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x2524f8 · JS_Math_floor(RValue&, CInstance*, CInstance*, int, RValue*) · size=100 · insn=25 */
-/* @0x2524f8 cmp r3, #0 */
-/* @0x2524fc push {r3, r4, r5, lr} */
-/* @0x252500 mov r5, #0 */
-/* @0x252504 mov r4, r0 */
-/* @0x252508 ldr r1, [sp, #0x10] */
-/* @0x25250c str r5, [r0, #0xc] */
-/* @0x252510 ble 0x252538 <_Z13JS_Math_floorR6RValueP9CInstanceS2_iPS_+0x40> */
-/* @0x252514 bl 0x24cfac <_Z13F_JS_ToNumberR6RValueS0_> */
-/* @0x252518 cmp r0, #1 */
-/* @0x25251c beq 0x252548 <_Z13JS_Math_floorR6RValueP9CInstanceS2_iPS_+0x50> */
-/* @0x252520 mov r1, r5 */
-/* @0x252524 mov r0, r4 */
-/* @0x252528 bl 0xceb24 <_Z9YYGetRealPK6RValuei> */
-/* @0x25252c bl 0xb6598 <floor@plt> */
-/* @0x252530 stm r4, {r0, r1} */
-/* @0x252534 pop {r3, r4, r5, pc} */
-/* @0x252538 mvn r2, #0 */
-/* @0x25253c mvn r3, #-2147483648 */
-/* @0x252540 stm r0, {r2, r3} */
-/* @0x252544 pop {r3, r4, r5, pc} */
-/* @0x252548 ldr r0, [pc, #0x8] */
-/* @0x25254c pop {r3, r4, r5, lr} */
-/* @0x252550 add r0, pc, r0 */
-/* @0x252554 b 0x24e58c <_Z16JSThrowTypeErrorPKc> */
-/* @0x252558 ldrsheq r3, [r0], -r8 */
 
 /* ── FUNC 0x25255c · JS_Math_log(RValue&, CInstance*, CInstance*, int, RValue*) · size=100 · insn=25 */
 /* @0x25255c cmp r3, #0 */
@@ -111,7 +84,7 @@
 /* @0x252684 .word 0xfff00000 */
 /* @0x252688 andseq r3, r0, r0, ror #17 */
 
-/* ── FUNC 0x25268c · anon_25268c · size=4 · insn=1 */
+/* ── FUNC 0x25268c · anon_25268c · size=0 · insn=1 */
 /* @0x25268c nop */
 
 /* ── FUNC 0x252690 · JS_Math_min(RValue&, CInstance*, CInstance*, int, RValue*) · size=204 · insn=51 */
@@ -167,7 +140,7 @@
 /* @0x252754 svcvc #0xf00000 */
 /* @0x252758 andseq r3, r0, r0, lsl r8 */
 
-/* ── FUNC 0x25275c · anon_25275c · size=4 · insn=1 */
+/* ── FUNC 0x25275c · anon_25275c · size=0 · insn=1 */
 /* @0x25275c nop */
 
 /* ── FUNC 0x252760 · JS_Math_pow(RValue&, CInstance*, CInstance*, int, RValue*) · size=704 · insn=176 */
@@ -2911,5 +2884,60 @@
 /* @0x255164 .word 0xffefffff */
 /* @0x255168 andseq r1, r0, r8, lsl r8 */
 
-/* ── FUNC 0x25516c · anon_25516c · size=4 · insn=1 */
+/* ── FUNC 0x25516c · anon_25516c · size=0 · insn=1 */
 /* @0x25516c nop */
+
+/* ── FUNC 0x255170 · F_JS_Object_defineProperty(RValue&, CInstance*, CInstance*, int, RValue*) · size=212 · insn=53 */
+/* @0x255170 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x255174 cmp r3, #0 */
+/* @0x255178 sub sp, sp, #36 */
+/* @0x25517c mov r7, r0 */
+/* @0x255180 ldr r6, [sp, #0x48] */
+/* @0x255184 beq 0x255198 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x28> */
+/* @0x255188 ldr r3, [r6, #0xc] */
+/* @0x25518c bic r3, r3, #-16777216 */
+/* @0x255190 cmp r3, #6 */
+/* @0x255194 beq 0x2551ac <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x3c> */
+/* @0x255198 ldr r0, [pc, #0xa0] */
+/* @0x25519c add r0, pc, r0 */
+/* @0x2551a0 bl 0x24e58c <_Z16JSThrowTypeErrorPKc> */
+/* @0x2551a4 add sp, sp, #36 */
+/* @0x2551a8 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x2551ac add r1, r6, #16 */
+/* @0x2551b0 mov r0, sp */
+/* @0x2551b4 mov r4, #0 */
+/* @0x2551b8 mov r5, #0 */
+/* @0x2551bc mov r9, #0 */
+/* @0x2551c0 strd r4, r5, [sp] */
+/* @0x2551c4 str r9, [sp, #0x8] */
+/* @0x2551c8 mvn r8, #-16777216 */
+/* @0x2551cc str r8, [sp, #0xc] */
+/* @0x2551d0 bl 0x24dd3c <_Z13F_JS_ToStringR6RValuePS_> */
+/* @0x2551d4 cmp r0, #1 */
+/* @0x2551d8 beq 0x255198 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x28> */
+/* @0x2551dc add r11, sp, #16 */
+/* @0x2551e0 add r1, r6, #32 */
+/* @0x2551e4 strd r4, r5, [sp, #16] */
+/* @0x2551e8 mov r0, r11 */
+/* @0x2551ec str r9, [sp, #0x18] */
+/* @0x2551f0 str r8, [sp, #0x1c] */
+/* @0x2551f4 bl 0x24195c <_Z25F_JS_ToPropertyDescriptorP6RValueS0_> */
+/* @0x2551f8 cmp r0, #1 */
+/* @0x2551fc beq 0x255198 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x28> */
+/* @0x255200 mov r1, sp */
+/* @0x255204 mov r2, r11 */
+/* @0x255208 ldr r0, [r6] */
+/* @0x25520c mov r3, #1 */
+/* @0x255210 bl 0x248610 <_Z22JS_DefineOwnPropertyRVP12YYObjectBaseP6RValueS2_b> */
+/* @0x255214 cmp r0, #2 */
+/* @0x255218 beq 0x255198 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x28> */
+/* @0x25521c ldr r0, [r6] */
+/* @0x255220 ldr r1, [r6, #0x4] */
+/* @0x255224 ldr r2, [r6, #0x8] */
+/* @0x255228 ldr r3, [r6, #0xc] */
+/* @0x25522c str r0, [r7] */
+/* @0x255230 str r1, [r7, #0x4] */
+/* @0x255234 str r2, [r7, #0x8] */
+/* @0x255238 str r3, [r7, #0xc] */
+/* @0x25523c b 0x2551a4 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x34> */
+/* @0x255240 andseq r0, r0, r12, lsr #27 */

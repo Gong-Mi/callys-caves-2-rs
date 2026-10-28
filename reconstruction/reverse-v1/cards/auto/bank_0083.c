@@ -417,7 +417,7 @@
 /* @0x14c574 ldrsbeq r7, [pc], -r12 */
 /* @0x14c578 andseq r7, pc, r8, asr #16 */
 
-/* ── FUNC 0x14c57c · anon_14c57c · size=292 · insn=73 */
+/* ── FUNC 0x14c57c · anon_14c57c · size=288 · insn=73 */
 /* @0x14c57c push {r4, r5, r6, r7, r8, r9, lr} */
 /* @0x14c580 vpush {d8} */
 /* @0x14c584 mov r6, r0 */

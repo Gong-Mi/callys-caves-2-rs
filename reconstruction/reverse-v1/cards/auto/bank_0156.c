@@ -1941,7 +1941,7 @@
 /* @0x1d505c mov r0, #1 */
 /* @0x1d5060 bx lr */
 
-/* ── FUNC 0x1d5064 · anon_1d5064 · size=4 · insn=1 */
+/* ── FUNC 0x1d5064 · anon_1d5064 · size=0 · insn=1 */
 /* @0x1d5064 andeq r0, r0, r0 */
 
 /* ── FUNC 0x1d5068 · F_GestureGetDragTime(RValue&, CInstance*, CInstance*, int, RValue*) · size=76 · insn=19 */
@@ -1965,7 +1965,7 @@
 /* @0x1d50ac smlawbmi lr, r0, r4, r8 */
 /* @0x1d50b0 eoreq r11, r1, r0, asr r11 */
 
-/* ── FUNC 0x1d50b4 · anon_1d50b4 · size=4 · insn=1 */
+/* ── FUNC 0x1d50b4 · anon_1d50b4 · size=0 · insn=1 */
 /* @0x1d50b4 nop */
 
 /* ── FUNC 0x1d50b8 · F_GestureGetDragDistance(RValue&, CInstance*, CInstance*, int, RValue*) · size=40 · insn=10 */
@@ -2013,7 +2013,7 @@
 /* @0x1d514c smlawbmi lr, r0, r4, r8 */
 /* @0x1d5150 .word 0x0021babc */
 
-/* ── FUNC 0x1d5154 · anon_1d5154 · size=4 · insn=1 */
+/* ── FUNC 0x1d5154 · anon_1d5154 · size=0 · insn=1 */
 /* @0x1d5154 nop */
 
 /* ── FUNC 0x1d5158 · F_GestureGetDoubleTapDistance(RValue&, CInstance*, CInstance*, int, RValue*) · size=40 · insn=10 */

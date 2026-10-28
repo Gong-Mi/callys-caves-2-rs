@@ -41,7 +41,8 @@ def tool(name: str) -> str:
     raise SystemExit(f"cannot find {name}")
 
 SYM = re.compile(r"^[0-9a-f]+:\s+([0-9a-f]{8})\s+(\d+)\s+FUNC\s+\S+\s+\S+\s+\d+\s+(\S+)$")
-INSN = re.compile(r"^\s*([0-9a-f]+):\s+([0-9a-f]{8})\s+(\S+)\s*(.*)$")
+# ARM prints an 8-hex word; Thumb-2 prints 4 hex or two 4-hex halves ("e92d 4ff0")
+INSN = re.compile(r"^\s*([0-9a-f]+):\s+([0-9a-f]{4}(?:\s?[0-9a-f]{4})?)\s+(\S+)\s*(.*)$")
 
 
 def run(cmd: list[str]) -> str:
@@ -79,19 +80,45 @@ def main() -> int:
 
     # 2) functions
     funcs = []
+    thumb_ranges: list[tuple[int, int]] = []
     for line in run([tool("readelf"), "-sW", str(so)]).splitlines():
         m = SYM.match(line.strip())
         if not m:
             continue
         addr, size, name = int(m.group(1), 16), int(m.group(2)), m.group(3)
+        thumb = addr % 2 == 1
+        if thumb:            # bit0 = ISA select: the real address is even
+            addr -= 1
         if size == 0 or not (text_lo <= addr < text_hi):
             continue
         funcs.append((addr, size, name))
+        if thumb:
+            thumb_ranges.append((addr, addr + size))
     funcs.sort()
 
     # 3) instructions
     dis = run([tool("llvm-objdump"), "-d", f"--triple={a.triple}",
                f"--start-address={text_lo:#x}", f"--stop-address={text_hi:#x}", str(so)])
+    def parse(text: str) -> dict[int, tuple[str, str, str]]:
+        out: dict[int, tuple[str, str, str]] = {}
+        for line in text.splitlines():
+            m = INSN.match(line)
+            if not m:
+                continue
+            addr = int(m.group(1), 16)
+            mnem = m.group(3)
+            ops = re.split(r"\s+@\s", m.group(4))[0].strip()
+            if mnem.startswith("<"):
+                mnem, ops = ".word", f"0x{m.group(2)}"
+            out[addr] = (m.group(2).replace(" ", ""), mnem, ops)
+        return out
+
+    insnsThumb: dict[int, tuple[str, str, str]] = {}
+    for lo, hi in thumb_ranges:
+        t = run([tool("llvm-objdump"), "-d", "--triple=thumbv7-linux-androideabi",
+                 f"--start-address={lo:#x}", f"--stop-address={hi:#x}", str(so)])
+        for k, v in parse(t).items():
+            insnsThumb[k] = v
     insns: dict[int, tuple[str, str, str]] = {}
     for line in dis.splitlines():
         m = INSN.match(line)
@@ -104,30 +131,49 @@ def main() -> int:
             mnem, ops = ".word", f"0x{m.group(2)}"
         insns[addr] = (m.group(2), mnem, ops)
 
-    # 4) attribute: smallest enclosing symbol wins, so nested symbols are not swallowed
+    # 3b) Thumb ranges take precedence over the ARM pass
+    insns.update(insnsThumb)
+    for lo, hi in thumb_ranges:
+        for a in [x for x in insns if lo <= x < hi and x not in insnsThumb]:
+            pass
+
+    # 4) attribute: smallest enclosing symbol wins, so nested symbols are not swallowed.
+    #    NOTE: cannot step by 4 — Thumb-2 instructions are 2 or 4 bytes, so the walk has to
+    #    come from the decoded instruction addresses themselves.
+    import bisect
+
+    addrs = sorted(insns)
     owner: dict[int, int] = {}
     for addr, size, _ in sorted(funcs, key=lambda f: (f[1], f[0])):
-        for ins_addr in range(addr, addr + size, 4):
-            if ins_addr in insns and ins_addr not in owner:
+        lo = bisect.bisect_left(addrs, addr)
+        hi = bisect.bisect_left(addrs, addr + size)
+        for ins_addr in addrs[lo:hi]:
+            if ins_addr not in owner:
                 owner[ins_addr] = addr
 
     # 4b) everything still unowned is an anonymous region (stripped statics, literal pools,
-    #     jump tables). Give each contiguous run a synthetic function so coverage is total
-    #     and the anonymity is explicit rather than hidden.
-    anon_ranges = []
+    #     jump tables). Contiguity is judged on the decoded instruction stream, not on a +4 step,
+    #     because Thumb-2 mixes 2- and 4-byte instructions.
+    unowned = [a for a in addrs if a not in owner]
+    order = {a: i for i, a in enumerate(addrs)}
+    anon_ranges: list[tuple[int, int]] = []
     run_start = prev = None
-    for ins_addr in sorted(set(insns) - set(owner)):
-        if prev is None or ins_addr != prev + 4:
-            if run_start is not None:
-                anon_ranges.append((run_start, prev + 4))
-            run_start = ins_addr
-        prev = ins_addr
+    for ins_addr in unowned:
+        if prev is not None and order[ins_addr] == order[prev] + 1:
+            prev = ins_addr
+            continue
+        if run_start is not None:
+            anon_ranges.append((run_start, prev))
+        run_start = prev = ins_addr
     if run_start is not None:
-        anon_ranges.append((run_start, prev + 4))
+        anon_ranges.append((run_start, prev))
+
     for lo, hi in anon_ranges:
-        funcs.append((lo, hi - lo, f"anon_{lo:x}"))
-        for ins_addr in range(lo, hi, 4):
-            if ins_addr in insns:
+        a = bisect.bisect_left(addrs, lo)
+        b = bisect.bisect_right(addrs, hi)
+        funcs.append((lo, addrs[b - 1] - lo, f"anon_{lo:x}"))
+        for ins_addr in addrs[a:b]:
+            if ins_addr not in owner:
                 owner[ins_addr] = lo
     funcs.sort()
 

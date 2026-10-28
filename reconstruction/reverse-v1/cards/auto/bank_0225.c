@@ -1,63 +1,8 @@
 /* libyoyo.so 覆盖卡组 0225
- * 函数 0x255170..0x2583e4，共 32 个；
+ * 函数 0x255244..0x25883c，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x255170 · F_JS_Object_defineProperty(RValue&, CInstance*, CInstance*, int, RValue*) · size=212 · insn=53 */
-/* @0x255170 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
-/* @0x255174 cmp r3, #0 */
-/* @0x255178 sub sp, sp, #36 */
-/* @0x25517c mov r7, r0 */
-/* @0x255180 ldr r6, [sp, #0x48] */
-/* @0x255184 beq 0x255198 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x28> */
-/* @0x255188 ldr r3, [r6, #0xc] */
-/* @0x25518c bic r3, r3, #-16777216 */
-/* @0x255190 cmp r3, #6 */
-/* @0x255194 beq 0x2551ac <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x3c> */
-/* @0x255198 ldr r0, [pc, #0xa0] */
-/* @0x25519c add r0, pc, r0 */
-/* @0x2551a0 bl 0x24e58c <_Z16JSThrowTypeErrorPKc> */
-/* @0x2551a4 add sp, sp, #36 */
-/* @0x2551a8 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
-/* @0x2551ac add r1, r6, #16 */
-/* @0x2551b0 mov r0, sp */
-/* @0x2551b4 mov r4, #0 */
-/* @0x2551b8 mov r5, #0 */
-/* @0x2551bc mov r9, #0 */
-/* @0x2551c0 strd r4, r5, [sp] */
-/* @0x2551c4 str r9, [sp, #0x8] */
-/* @0x2551c8 mvn r8, #-16777216 */
-/* @0x2551cc str r8, [sp, #0xc] */
-/* @0x2551d0 bl 0x24dd3c <_Z13F_JS_ToStringR6RValuePS_> */
-/* @0x2551d4 cmp r0, #1 */
-/* @0x2551d8 beq 0x255198 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x28> */
-/* @0x2551dc add r11, sp, #16 */
-/* @0x2551e0 add r1, r6, #32 */
-/* @0x2551e4 strd r4, r5, [sp, #16] */
-/* @0x2551e8 mov r0, r11 */
-/* @0x2551ec str r9, [sp, #0x18] */
-/* @0x2551f0 str r8, [sp, #0x1c] */
-/* @0x2551f4 bl 0x24195c <_Z25F_JS_ToPropertyDescriptorP6RValueS0_> */
-/* @0x2551f8 cmp r0, #1 */
-/* @0x2551fc beq 0x255198 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x28> */
-/* @0x255200 mov r1, sp */
-/* @0x255204 mov r2, r11 */
-/* @0x255208 ldr r0, [r6] */
-/* @0x25520c mov r3, #1 */
-/* @0x255210 bl 0x248610 <_Z22JS_DefineOwnPropertyRVP12YYObjectBaseP6RValueS2_b> */
-/* @0x255214 cmp r0, #2 */
-/* @0x255218 beq 0x255198 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x28> */
-/* @0x25521c ldr r0, [r6] */
-/* @0x255220 ldr r1, [r6, #0x4] */
-/* @0x255224 ldr r2, [r6, #0x8] */
-/* @0x255228 ldr r3, [r6, #0xc] */
-/* @0x25522c str r0, [r7] */
-/* @0x255230 str r1, [r7, #0x4] */
-/* @0x255234 str r2, [r7, #0x8] */
-/* @0x255238 str r3, [r7, #0xc] */
-/* @0x25523c b 0x2551a4 <_Z26F_JS_Object_definePropertyR6RValueP9CInstanceS2_iPS_+0x34> */
-/* @0x255240 andseq r0, r0, r12, lsr #27 */
 
 /* ── FUNC 0x255244 · F_JS_Object_getOwnPropertyDescriptor(RValue&, CInstance*, CInstance*, int, RValue*) · size=168 · insn=42 */
 /* @0x255244 cmp r3, #0 */
@@ -1193,7 +1138,7 @@
 /* @0x25638c andeq pc, pc, r12, lsr r12 */
 /* @0x256390 .word 0x000ff8f0 */
 
-/* ── FUNC 0x256394 · anon_256394 · size=4 · insn=1 */
+/* ── FUNC 0x256394 · anon_256394 · size=0 · insn=1 */
 /* @0x256394 andeq r0, r0, r0 */
 
 /* ── FUNC 0x256398 · JS_String_prototype_match(RValue&, CInstance*, CInstance*, int, RValue*) · size=852 · insn=211 */
@@ -1409,7 +1354,7 @@
 /* @0x2566e4 andeq pc, pc, r4, asr #22 */
 /* @0x2566e8 andeq pc, pc, r8, lsl #22 */
 
-/* ── FUNC 0x2566ec · anon_2566ec · size=4 · insn=1 */
+/* ── FUNC 0x2566ec · anon_2566ec · size=0 · insn=1 */
 /* @0x2566ec nop */
 
 /* ── FUNC 0x2566f0 · SortCompare(RValue*, RValue*, RValue*) · size=148 · insn=37 */
@@ -1925,7 +1870,7 @@
 /* @0x256ecc andeq lr, pc, r0, ror r6 */
 /* @0x256ed0 andeq pc, pc, r8, lsl #1 */
 
-/* ── FUNC 0x256ed4 · anon_256ed4 · size=4 · insn=1 */
+/* ── FUNC 0x256ed4 · anon_256ed4 · size=0 · insn=1 */
 /* @0x256ed4 andeq r0, r0, r0 */
 
 /* ── FUNC 0x256ed8 · JS_Number_Prototype_toFixed(RValue&, CInstance*, CInstance*, int, RValue*) · size=364 · insn=89 */
@@ -2019,7 +1964,7 @@
 /* @0x25703c andeq pc, pc, r0, asr #21 */
 /* @0x257040 andeq r11, sp, r4, ror #9 */
 
-/* ── FUNC 0x257044 · anon_257044 · size=4 · insn=1 */
+/* ── FUNC 0x257044 · anon_257044 · size=0 · insn=1 */
 /* @0x257044 nop */
 
 /* ── FUNC 0x257048 · JS_Number_Prototype_toPrecision(RValue&, CInstance*, CInstance*, int, RValue*) · size=512 · insn=128 */
@@ -3570,3 +3515,389 @@
 /* @0x258830 andeq r9, sp, r8, lsr #27 */
 /* @0x258834 andeq r8, sp, r0, asr #1 */
 /* @0x258838 andeq lr, pc, r0, lsl #7 */
+
+/* ── FUNC 0x25883c · JS_String_prototype_split(RValue&, CInstance*, CInstance*, int, RValue*) · size=1536 · insn=384 */
+/* @0x25883c push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x258840 add r11, sp, #32 */
+/* @0x258844 ldr r4, [pc, #0x5d8] */
+/* @0x258848 sub sp, sp, #268 */
+/* @0x25884c sub r8, r11, #36 */
+/* @0x258850 ldr r4, [pc, r4] */
+/* @0x258854 str r2, [r11, #-0x100] */
+/* @0x258858 str r1, [r8, #-0xd4]! */
+/* @0x25885c mov r7, r0 */
+/* @0x258860 ldr r2, [r4] */
+/* @0x258864 mov r0, r8 */
+/* @0x258868 mov r5, r1 */
+/* @0x25886c mov r9, r3 */
+/* @0x258870 ldr r6, [r11, #0x4] */
+/* @0x258874 mov r3, #6 */
+/* @0x258878 str r2, [r11, #-0x28] */
+/* @0x25887c str r3, [r11, #-0xec] */
+/* @0x258880 bl 0x2423a4 <_Z23JS_CheckObjectCoercibleR6RValue> */
+/* @0x258884 cmp r0, #1 */
+/* @0x258888 beq 0x258a08 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1cc> */
+/* @0x25888c sub r12, r11, #232 */
+/* @0x258890 mov r1, r8 */
+/* @0x258894 mov r10, #0 */
+/* @0x258898 str r12, [r11, #-0x104] */
+/* @0x25889c mov r0, r12 */
+/* @0x2588a0 mvn r8, #-16777216 */
+/* @0x2588a4 str r10, [r11, #-0xe8] */
+/* @0x2588a8 str r10, [r11, #-0xe4] */
+/* @0x2588ac str r10, [r11, #-0xe0] */
+/* @0x2588b0 str r8, [r11, #-0xdc] */
+/* @0x2588b4 bl 0x24dd3c <_Z13F_JS_ToStringR6RValuePS_> */
+/* @0x2588b8 cmp r0, #2 */
+/* @0x2588bc beq 0x2589f0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1b4> */
+/* @0x2588c0 cmp r0, #1 */
+/* @0x2588c4 beq 0x258a08 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1cc> */
+/* @0x2588c8 str r6, [sp] */
+/* @0x2588cc mov r1, r5 */
+/* @0x2588d0 ldr r2, [r11, #-0x100] */
+/* @0x2588d4 mov r0, r7 */
+/* @0x2588d8 mov r3, r10 */
+/* @0x2588dc bl 0x242c84 <_Z24F_JSNewArray_NoArgumentsR6RValueP9CInstanceS2_iPS_> */
+/* @0x2588e0 cmp r9, #1 */
+/* @0x2588e4 ble 0x258a18 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1dc> */
+/* @0x2588e8 ldr r3, [r6, #0x1c] */
+/* @0x2588ec cmp r3, #5 */
+/* @0x2588f0 mvneq r12, #0 */
+/* @0x2588f4 streq r12, [r11, #-0x110] */
+/* @0x2588f8 beq 0x25892c <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0xf0> */
+/* @0x2588fc sub r0, r11, #184 */
+/* @0x258900 add r1, r6, #16 */
+/* @0x258904 str r10, [r11, #-0xb8] */
+/* @0x258908 str r10, [r11, #-0xb4] */
+/* @0x25890c str r10, [r11, #-0xb0] */
+/* @0x258910 str r8, [r11, #-0xac] */
+/* @0x258914 bl 0x24d4f4 <_Z13F_JS_ToUint32R6RValueS0_> */
+/* @0x258918 ldr r2, [r11, #-0xb8] */
+/* @0x25891c ldr r3, [r11, #-0xb4] */
+/* @0x258920 vmov d7, r2, r3 */
+/* @0x258924 vcvt.s32.f64 s15, d7 */
+/* @0x258928 vstr s15, [r11, #-272] */
+/* @0x25892c ldr r5, [r11, #-0xe8] */
+/* @0x258930 ldr r0, [r5] */
+/* @0x258934 bl 0xb6538 <strlen@plt> */
+/* @0x258938 mov r3, #0 */
+/* @0x25893c mvn r2, #-16777216 */
+/* @0x258940 str r3, [r11, #-0xd8] */
+/* @0x258944 str r3, [r11, #-0xd4] */
+/* @0x258948 str r3, [r11, #-0xd0] */
+/* @0x25894c str r2, [r11, #-0xcc] */
+/* @0x258950 str r0, [r11, #-0x100] */
+/* @0x258954 ldr r3, [r6, #0xc] */
+/* @0x258958 cmp r3, #5 */
+/* @0x25895c beq 0x258a40 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x204> */
+/* @0x258960 bic r3, r3, #-16777216 */
+/* @0x258964 cmp r3, #6 */
+/* @0x258968 beq 0x258a58 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x21c> */
+/* @0x25896c sub r12, r11, #216 */
+/* @0x258970 mov r1, r6 */
+/* @0x258974 str r12, [r11, #-0x118] */
+/* @0x258978 mov r0, r12 */
+/* @0x25897c bl 0x24dd3c <_Z13F_JS_ToStringR6RValuePS_> */
+/* @0x258980 cmp r0, #2 */
+/* @0x258984 beq 0x2589f0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1b4> */
+/* @0x258988 cmp r0, #1 */
+/* @0x25898c beq 0x258aa8 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x26c> */
+/* @0x258990 ldr r12, [r11, #-0x110] */
+/* @0x258994 cmp r12, #0 */
+/* @0x258998 bne 0x258ad0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x294> */
+/* @0x25899c ldr r3, [r11, #-0xcc] */
+/* @0x2589a0 sub r3, r3, #1 */
+/* @0x2589a4 bic r3, r3, #-16777216 */
+/* @0x2589a8 bic r3, r3, #3 */
+/* @0x2589ac cmp r3, #0 */
+/* @0x2589b0 bne 0x2589bc <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x180> */
+/* @0x2589b4 sub r0, r11, #216 */
+/* @0x2589b8 bl 0xc0a7c <_Z16FREE_RValue__PreP6RValue> */
+/* @0x2589bc ldr r1, [r11, #-0xdc] */
+/* @0x2589c0 mov r3, #0 */
+/* @0x2589c4 str r3, [r11, #-0xd0] */
+/* @0x2589c8 mov r2, #5 */
+/* @0x2589cc sub r1, r1, #1 */
+/* @0x2589d0 str r3, [r11, #-0xd8] */
+/* @0x2589d4 bic r3, r1, #-16777216 */
+/* @0x2589d8 str r2, [r11, #-0xcc] */
+/* @0x2589dc bic r3, r3, #3 */
+/* @0x2589e0 cmp r3, #0 */
+/* @0x2589e4 bne 0x2589f0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1b4> */
+/* @0x2589e8 sub r0, r11, #232 */
+/* @0x2589ec bl 0xc0a7c <_Z16FREE_RValue__PreP6RValue> */
+/* @0x2589f0 ldr r2, [r11, #-0x28] */
+/* @0x2589f4 ldr r3, [r4] */
+/* @0x2589f8 cmp r2, r3 */
+/* @0x2589fc bne 0x258e14 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x5d8> */
+/* @0x258a00 sub sp, r11, #32 */
+/* @0x258a04 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x258a08 ldr r0, [pc, #0x418] */
+/* @0x258a0c add r0, pc, r0 */
+/* @0x258a10 bl 0x24e58c <_Z16JSThrowTypeErrorPKc> */
+/* @0x258a14 b 0x2589f0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1b4> */
+/* @0x258a18 ldr r5, [r11, #-0xe8] */
+/* @0x258a1c ldr r0, [r5] */
+/* @0x258a20 bl 0xb6538 <strlen@plt> */
+/* @0x258a24 cmp r9, #0 */
+/* @0x258a28 str r10, [r11, #-0xd8] */
+/* @0x258a2c str r10, [r11, #-0xd4] */
+/* @0x258a30 str r10, [r11, #-0xd0] */
+/* @0x258a34 str r8, [r11, #-0xcc] */
+/* @0x258a38 str r0, [r11, #-0x100] */
+/* @0x258a3c bne 0x258e18 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x5dc> */
+/* @0x258a40 ldr r2, [pc, #0x3e4] */
+/* @0x258a44 sub r1, r11, #232 */
+/* @0x258a48 ldr r0, [r7] */
+/* @0x258a4c add r2, pc, r2 */
+/* @0x258a50 bl 0x24861c <_Z12JS_Array_PutP12YYObjectBaseP6RValuePKc> */
+/* @0x258a54 b 0x2589f0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1b4> */
+/* @0x258a58 ldr r8, [r6] */
+/* @0x258a5c ldr r1, [pc, #0x3cc] */
+/* @0x258a60 ldr r0, [r8, #0x40] */
+/* @0x258a64 add r1, pc, r1 */
+/* @0x258a68 bl 0xb6574 <strcmp@plt> */
+/* @0x258a6c cmp r0, #0 */
+/* @0x258a70 bne 0x25896c <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x130> */
+/* @0x258a74 ldr r12, [r11, #-0x110] */
+/* @0x258a78 cmp r12, #0 */
+/* @0x258a7c beq 0x25899c <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x160> */
+/* @0x258a80 ldr r12, [r11, #-0x100] */
+/* @0x258a84 sub r3, r11, #232 */
+/* @0x258a88 ldr r2, [r5] */
+/* @0x258a8c mov r0, r7 */
+/* @0x258a90 str r3, [sp, #0x4] */
+/* @0x258a94 mov r1, r8 */
+/* @0x258a98 str r12, [sp] */
+/* @0x258a9c ldr r3, [r11, #-0x110] */
+/* @0x258aa0 bl 0x2486b8 <_Z31JS_String_prototype_split_RegExR6RValueP12YYObjectBasePKciiPS_> */
+/* @0x258aa4 b 0x25899c <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x160> */
+/* @0x258aa8 ldr r0, [pc, #0x384] */
+/* @0x258aac add r0, pc, r0 */
+/* @0x258ab0 bl 0x24e58c <_Z16JSThrowTypeErrorPKc> */
+/* @0x258ab4 ldr r3, [r11, #-0xdc] */
+/* @0x258ab8 sub r3, r3, #1 */
+/* @0x258abc bic r3, r3, #-16777216 */
+/* @0x258ac0 bic r3, r3, #3 */
+/* @0x258ac4 cmp r3, #0 */
+/* @0x258ac8 bne 0x2589f0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1b4> */
+/* @0x258acc b 0x2589e8 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1ac> */
+/* @0x258ad0 ldr r12, [r11, #-0x100] */
+/* @0x258ad4 cmp r12, #0 */
+/* @0x258ad8 beq 0x258dac <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x570> */
+/* @0x258adc mov r10, #0 */
+/* @0x258ae0 mov r3, r7 */
+/* @0x258ae4 sub r12, r11, #184 */
+/* @0x258ae8 mov r8, r10 */
+/* @0x258aec str r12, [r11, #-0x114] */
+/* @0x258af0 mov r9, r10 */
+/* @0x258af4 sub r12, r11, #200 */
+/* @0x258af8 mov r5, r10 */
+/* @0x258afc str r12, [r11, #-0x108] */
+/* @0x258b00 mov r7, r10 */
+/* @0x258b04 sub r12, r11, #168 */
+/* @0x258b08 str r4, [r11, #-0x11c] */
+/* @0x258b0c str r12, [r11, #-0x10c] */
+/* @0x258b10 mov r10, r3 */
+/* @0x258b14 b 0x258c28 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x3ec> */
+/* @0x258b18 rsb r12, r8, r7 */
+/* @0x258b1c mov r1, #0 */
+/* @0x258b20 add r3, r12, #15 */
+/* @0x258b24 add r2, r12, #1 */
+/* @0x258b28 bic r3, r3, #7 */
+/* @0x258b2c str r12, [r11, #-0x120] */
+/* @0x258b30 sub sp, sp, r3 */
+/* @0x258b34 add r7, sp, #8 */
+/* @0x258b38 mov r0, r7 */
+/* @0x258b3c bl 0xb65b0 <memset@plt> */
+/* @0x258b40 ldr r1, [r11, #-0xe8] */
+/* @0x258b44 ldr r12, [r11, #-0x120] */
+/* @0x258b48 mov r0, r7 */
+/* @0x258b4c ldr r1, [r1] */
+/* @0x258b50 mov r2, r12 */
+/* @0x258b54 add r1, r1, r8 */
+/* @0x258b58 bl 0xb6568 <strncpy@plt> */
+/* @0x258b5c mov r1, r7 */
+/* @0x258b60 sub r0, r11, #200 */
+/* @0x258b64 mvn r3, #-16777216 */
+/* @0x258b68 str r5, [r11, #-0xc8] */
+/* @0x258b6c str r3, [r11, #-0xbc] */
+/* @0x258b70 str r5, [r11, #-0xc4] */
+/* @0x258b74 str r5, [r11, #-0xc0] */
+/* @0x258b78 bl 0xe5258 <_Z14YYCreateStringP6RValuePKc> */
+/* @0x258b7c mov r2, #0 */
+/* @0x258b80 ldr r1, [r10] */
+/* @0x258b84 mov r3, r2 */
+/* @0x258b88 sub r0, r11, #184 */
+/* @0x258b8c str r5, [sp] */
+/* @0x258b90 mvn r12, #-16777216 */
+/* @0x258b94 str r5, [r11, #-0xb8] */
+/* @0x258b98 str r12, [r11, #-0xac] */
+/* @0x258b9c str r5, [r11, #-0xb4] */
+/* @0x258ba0 str r5, [r11, #-0xb0] */
+/* @0x258ba4 bl 0x23ce24 <_Z20F_JS_Array_getLengthR6RValueP9CInstanceS2_iPS_> */
+/* @0x258ba8 vldr s14, [r11, #-184] */
+/* @0x258bac vldr s15, [r11, #-180] */
+/* @0x258bb0 vcvt.s32.f64 s13, d7 */
+/* @0x258bb4 sub r1, r11, #168 */
+/* @0x258bb8 mov r2, #10 */
+/* @0x258bbc vmov r0, s13 */
+/* @0x258bc0 bl 0xc4964 <_Z5_itoaiPci> */
+/* @0x258bc4 ldr r0, [r10] */
+/* @0x258bc8 sub r1, r11, #200 */
+/* @0x258bcc sub r2, r11, #168 */
+/* @0x258bd0 bl 0x24861c <_Z12JS_Array_PutP12YYObjectBaseP6RValuePKc> */
+/* @0x258bd4 ldr r3, [r11, #-0xbc] */
+/* @0x258bd8 sub r3, r3, #1 */
+/* @0x258bdc bic r3, r3, #-16777216 */
+/* @0x258be0 bic r3, r3, #3 */
+/* @0x258be4 cmp r3, #0 */
+/* @0x258be8 beq 0x258c5c <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x420> */
+/* @0x258bec ldr r12, [r11, #-0x110] */
+/* @0x258bf0 add r9, r9, #1 */
+/* @0x258bf4 mov r3, #5 */
+/* @0x258bf8 str r5, [r11, #-0xc0] */
+/* @0x258bfc cmp r9, r12 */
+/* @0x258c00 str r3, [r11, #-0xbc] */
+/* @0x258c04 str r5, [r11, #-0xc8] */
+/* @0x258c08 beq 0x258dd4 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x598> */
+/* @0x258c0c mov r7, r4 */
+/* @0x258c10 mov r8, r4 */
+/* @0x258c14 mov r0, r6 */
+/* @0x258c18 bl 0x27d1d0 <_ZdlPv> */
+/* @0x258c1c ldr r12, [r11, #-0x100] */
+/* @0x258c20 cmp r7, r12 */
+/* @0x258c24 beq 0x258c68 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x42c> */
+/* @0x258c28 ldr r2, [r11, #-0xe8] */
+/* @0x258c2c mov r1, r7 */
+/* @0x258c30 ldr r3, [r11, #-0xd8] */
+/* @0x258c34 ldr r0, [r2] */
+/* @0x258c38 ldr r2, [r3] */
+/* @0x258c3c bl 0x242604 <_Z13JS_SplitMatchPKciS0_> */
+/* @0x258c40 subs r6, r0, #0 */
+/* @0x258c44 beq 0x258c54 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x418> */
+/* @0x258c48 ldr r4, [r6] */
+/* @0x258c4c cmp r4, r8 */
+/* @0x258c50 bne 0x258b18 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x2dc> */
+/* @0x258c54 add r7, r7, #1 */
+/* @0x258c58 b 0x258c14 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x3d8> */
+/* @0x258c5c sub r0, r11, #200 */
+/* @0x258c60 bl 0xc0a7c <_Z16FREE_RValue__PreP6RValue> */
+/* @0x258c64 b 0x258bec <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x3b0> */
+/* @0x258c68 mov r3, r10 */
+/* @0x258c6c mov r10, r7 */
+/* @0x258c70 rsb r10, r8, r10 */
+/* @0x258c74 mov r7, r3 */
+/* @0x258c78 add r3, r10, #15 */
+/* @0x258c7c mov r1, #0 */
+/* @0x258c80 bic r3, r3, #7 */
+/* @0x258c84 add r2, r10, #1 */
+/* @0x258c88 sub sp, sp, r3 */
+/* @0x258c8c mov r5, r1 */
+/* @0x258c90 add r9, sp, #8 */
+/* @0x258c94 ldr r4, [r11, #-0x11c] */
+/* @0x258c98 mvn r6, #-16777216 */
+/* @0x258c9c mov r0, r9 */
+/* @0x258ca0 bl 0xb65b0 <memset@plt> */
+/* @0x258ca4 ldr r3, [r11, #-0xe8] */
+/* @0x258ca8 mov r2, r10 */
+/* @0x258cac mov r0, r9 */
+/* @0x258cb0 ldr r1, [r3] */
+/* @0x258cb4 add r1, r1, r8 */
+/* @0x258cb8 bl 0xb6568 <strncpy@plt> */
+/* @0x258cbc mov r1, r9 */
+/* @0x258cc0 sub r0, r11, #200 */
+/* @0x258cc4 str r5, [r11, #-0xc8] */
+/* @0x258cc8 str r5, [r11, #-0xc4] */
+/* @0x258ccc str r5, [r11, #-0xc0] */
+/* @0x258cd0 str r6, [r11, #-0xbc] */
+/* @0x258cd4 bl 0xe5258 <_Z14YYCreateStringP6RValuePKc> */
+/* @0x258cd8 mov r3, r5 */
+/* @0x258cdc ldr r1, [r7] */
+/* @0x258ce0 mov r2, r5 */
+/* @0x258ce4 sub r0, r11, #184 */
+/* @0x258ce8 str r5, [sp] */
+/* @0x258cec str r5, [r11, #-0xb8] */
+/* @0x258cf0 str r5, [r11, #-0xb4] */
+/* @0x258cf4 str r5, [r11, #-0xb0] */
+/* @0x258cf8 str r6, [r11, #-0xac] */
+/* @0x258cfc bl 0x23ce24 <_Z20F_JS_Array_getLengthR6RValueP9CInstanceS2_iPS_> */
+/* @0x258d00 ldr r8, [r11, #-0xb8] */
+/* @0x258d04 sub r1, r11, #168 */
+/* @0x258d08 ldr r9, [r11, #-0xb4] */
+/* @0x258d0c mov r2, #10 */
+/* @0x258d10 vmov d7, r8, r9 */
+/* @0x258d14 vcvt.s32.f64 s15, d7 */
+/* @0x258d18 vmov r0, s15 */
+/* @0x258d1c bl 0xc4964 <_Z5_itoaiPci> */
+/* @0x258d20 ldr r0, [r7] */
+/* @0x258d24 sub r2, r11, #168 */
+/* @0x258d28 sub r1, r11, #200 */
+/* @0x258d2c bl 0x24861c <_Z12JS_Array_PutP12YYObjectBaseP6RValuePKc> */
+/* @0x258d30 ldr r3, [r11, #-0xcc] */
+/* @0x258d34 sub r3, r3, #1 */
+/* @0x258d38 and r3, r3, r6 */
+/* @0x258d3c bic r3, r3, #3 */
+/* @0x258d40 cmp r3, r5 */
+/* @0x258d44 beq 0x258dec <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x5b0> */
+/* @0x258d48 ldr r1, [r11, #-0xdc] */
+/* @0x258d4c mov r3, #0 */
+/* @0x258d50 str r3, [r11, #-0xd0] */
+/* @0x258d54 mov r2, #5 */
+/* @0x258d58 sub r1, r1, #1 */
+/* @0x258d5c str r3, [r11, #-0xd8] */
+/* @0x258d60 bic r3, r1, #-16777216 */
+/* @0x258d64 str r2, [r11, #-0xcc] */
+/* @0x258d68 bic r3, r3, #3 */
+/* @0x258d6c cmp r3, #0 */
+/* @0x258d70 beq 0x258de0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x5a4> */
+/* @0x258d74 ldr r1, [r11, #-0xbc] */
+/* @0x258d78 mov r3, #0 */
+/* @0x258d7c str r3, [r11, #-0xe0] */
+/* @0x258d80 mov r2, #5 */
+/* @0x258d84 sub r1, r1, #1 */
+/* @0x258d88 str r3, [r11, #-0xe8] */
+/* @0x258d8c bic r3, r1, #-16777216 */
+/* @0x258d90 str r2, [r11, #-0xdc] */
+/* @0x258d94 bic r3, r3, #3 */
+/* @0x258d98 cmp r3, #0 */
+/* @0x258d9c bne 0x2589f0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1b4> */
+/* @0x258da0 sub r0, r11, #200 */
+/* @0x258da4 bl 0xc0a7c <_Z16FREE_RValue__PreP6RValue> */
+/* @0x258da8 b 0x2589f0 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x1b4> */
+/* @0x258dac ldr r2, [r11, #-0xe8] */
+/* @0x258db0 mov r1, r12 */
+/* @0x258db4 ldr r3, [r11, #-0xd8] */
+/* @0x258db8 ldr r0, [r2] */
+/* @0x258dbc ldr r2, [r3] */
+/* @0x258dc0 bl 0x242604 <_Z13JS_SplitMatchPKciS0_> */
+/* @0x258dc4 cmp r0, #0 */
+/* @0x258dc8 beq 0x258df8 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x5bc> */
+/* @0x258dcc bl 0x27d1d0 <_ZdlPv> */
+/* @0x258dd0 b 0x25899c <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x160> */
+/* @0x258dd4 ldr r4, [r11, #-0x11c] */
+/* @0x258dd8 mov r0, r6 */
+/* @0x258ddc b 0x258dcc <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x590> */
+/* @0x258de0 sub r0, r11, #232 */
+/* @0x258de4 bl 0xc0a7c <_Z16FREE_RValue__PreP6RValue> */
+/* @0x258de8 b 0x258d74 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x538> */
+/* @0x258dec sub r0, r11, #216 */
+/* @0x258df0 bl 0xc0a7c <_Z16FREE_RValue__PreP6RValue> */
+/* @0x258df4 b 0x258d48 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x50c> */
+/* @0x258df8 bl 0x27d1d0 <_ZdlPv> */
+/* @0x258dfc ldr r2, [pc, #0x34] */
+/* @0x258e00 ldr r0, [r7] */
+/* @0x258e04 sub r1, r11, #232 */
+/* @0x258e08 add r2, pc, r2 */
+/* @0x258e0c bl 0x24861c <_Z12JS_Array_PutP12YYObjectBaseP6RValuePKc> */
+/* @0x258e10 b 0x25899c <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x160> */
+/* @0x258e14 bl 0xb65d4 <__stack_chk_fail@plt> */
+/* @0x258e18 mvn r12, #0 */
+/* @0x258e1c str r12, [r11, #-0x110] */
+/* @0x258e20 b 0x258954 <_Z25JS_String_prototype_splitR6RValueP9CInstanceS2_iPS_+0x118> */
+/* @0x258e24 andseq r5, r9, r0, lsl #2 */
+/* @0x258e28 andeq sp, pc, r12, lsr r5 */
+/* @0x258e2c andeq r9, sp, r0, lsr #21 */
+/* @0x258e30 andeq sp, pc, r8, asr #3 */
+/* @0x258e34 muleq pc, r12, r4 */
+/* @0x258e38 andeq r9, sp, r4, ror #13 */

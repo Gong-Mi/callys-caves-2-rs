@@ -1,35 +1,8 @@
 /* libyoyo.so 覆盖卡组 0240
- * 函数 0x28ad78..0x28ee64，共 32 个；
+ * 函数 0x28addc..0x28ee80，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x28ad78 · spSkeletonBounds_getPolygon · size=100 · insn=25 */
-/* @0x28ad78 push {r4, r5} */
-/* @0x28ad7c ldr r4, [r0] */
-/* @0x28ad80 cmp r4, #0 */
-/* @0x28ad84 ble 0x28adbc <spSkeletonBounds_getPolygon+0x44> */
-/* @0x28ad88 ldr r2, [r0, #0x4] */
-/* @0x28ad8c ldr r3, [r2] */
-/* @0x28ad90 cmp r3, r1 */
-/* @0x28ad94 movne r3, #0 */
-/* @0x28ad98 bne 0x28adac <spSkeletonBounds_getPolygon+0x34> */
-/* @0x28ad9c b 0x28adc8 <spSkeletonBounds_getPolygon+0x50> */
-/* @0x28ada0 ldr r12, [r2, #0x4]! */
-/* @0x28ada4 cmp r12, r1 */
-/* @0x28ada8 beq 0x28adcc <spSkeletonBounds_getPolygon+0x54> */
-/* @0x28adac add r3, r3, #1 */
-/* @0x28adb0 cmp r3, r4 */
-/* @0x28adb4 lsl r5, r3, #2 */
-/* @0x28adb8 bne 0x28ada0 <spSkeletonBounds_getPolygon+0x28> */
-/* @0x28adbc mov r0, #0 */
-/* @0x28adc0 pop {r4, r5} */
-/* @0x28adc4 bx lr */
-/* @0x28adc8 mov r5, #0 */
-/* @0x28adcc ldr r3, [r0, #0x8] */
-/* @0x28add0 ldr r0, [r3, r5] */
-/* @0x28add4 pop {r4, r5} */
-/* @0x28add8 bx lr */
 
 /* ── FUNC 0x28addc · spSkeletonData_create · size=28 · insn=7 */
 /* @0x28addc ldr r2, [pc, #0x10] */
@@ -403,7 +376,7 @@
 /* @0x28b344 mov r0, r5 */
 /* @0x28b348 pop {r4, r5, r6, r7, r8, pc} */
 
-/* ── FUNC 0x28b34c · anon_28b34c · size=948 · insn=237 */
+/* ── FUNC 0x28b34c · anon_28b34c · size=944 · insn=237 */
 /* @0x28b34c push {r4, r5, lr} */
 /* @0x28b350 mov r5, r1 */
 /* @0x28b354 ldr r1, [pc, #0x98] */
@@ -4229,3 +4202,32 @@
 /* @0x28ee74 vsub.f32 s15, s14, s15 */
 /* @0x28ee78 vmov r0, s15 */
 /* @0x28ee7c bx lr */
+
+/* ── FUNC 0x28ee80 · spSlot_setToSetupPose · size=108 · insn=27 */
+/* @0x28ee80 ldr r3, [r0] */
+/* @0x28ee84 push {r4, lr} */
+/* @0x28ee88 mov r4, r0 */
+/* @0x28ee8c ldr r1, [r3, #0x10] */
+/* @0x28ee90 ldr r2, [r3, #0x14] */
+/* @0x28ee94 str r1, [r0, #0x8] */
+/* @0x28ee98 ldr r1, [r3, #0x18] */
+/* @0x28ee9c str r2, [r0, #0xc] */
+/* @0x28eea0 ldr r2, [r3, #0xc] */
+/* @0x28eea4 str r1, [r0, #0x10] */
+/* @0x28eea8 ldr r1, [r3, #0x1c] */
+/* @0x28eeac cmp r2, #0 */
+/* @0x28eeb0 str r1, [r0, #0x14] */
+/* @0x28eeb4 beq 0x28eee0 <spSlot_setToSetupPose+0x60> */
+/* @0x28eeb8 ldr r0, [r0, #0x4] */
+/* @0x28eebc ldr r1, [r3] */
+/* @0x28eec0 ldr r0, [r0, #0x4] */
+/* @0x28eec4 bl 0x28a314 <spSkeleton_getAttachmentForSlotIndex> */
+/* @0x28eec8 mov r3, #0 */
+/* @0x28eecc str r3, [r4, #0x18] */
+/* @0x28eed0 mov r1, r0 */
+/* @0x28eed4 mov r0, r4 */
+/* @0x28eed8 pop {r4, lr} */
+/* @0x28eedc b 0x28ee1c <spSlot_setAttachment> */
+/* @0x28eee0 mov r1, r2 */
+/* @0x28eee4 pop {r4, lr} */
+/* @0x28eee8 b 0x28ee1c <spSlot_setAttachment> */

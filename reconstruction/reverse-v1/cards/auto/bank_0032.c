@@ -2240,7 +2240,7 @@
 /* @0x10806c str r3, [r5, #0x4] */
 /* @0x108070 pop {r4, r5, r6, r7, r8, pc} */
 
-/* ── FUNC 0x108074 · anon_108074 · size=4 · insn=1 */
+/* ── FUNC 0x108074 · anon_108074 · size=0 · insn=1 */
 /* @0x108074 andeq r0, r0, r0 */
 
 /* ── FUNC 0x108078 · F_PlaceSnapped(RValue&, CInstance*, CInstance*, int, RValue*) · size=232 · insn=58 */
@@ -2598,5 +2598,5 @@
 /* @0x108594 pop {r4, r5, r6, lr} */
 /* @0x108598 b 0x193ec0 <_ZN9CInstance11AddTo_SpeedEff> */
 
-/* ── FUNC 0x10859c · anon_10859c · size=4 · insn=1 */
+/* ── FUNC 0x10859c · anon_10859c · size=0 · insn=1 */
 /* @0x10859c andeq r0, r0, r0 */

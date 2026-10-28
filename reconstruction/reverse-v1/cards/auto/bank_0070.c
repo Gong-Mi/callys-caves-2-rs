@@ -490,7 +490,7 @@
 /* @0x139a98 .word 0x002065dc */
 /* @0x139a9c eoreq r5, r11, r12, lsl #16 */
 
-/* ── FUNC 0x139aa0 · anon_139aa0 · size=184 · insn=46 */
+/* ── FUNC 0x139aa0 · anon_139aa0 · size=180 · insn=46 */
 /* @0x139aa0 push {r4, r5, r6, r7, r8, r9, lr} */
 /* @0x139aa4 sub sp, sp, #1024 */
 /* @0x139aa8 ldr r5, [pc, #0xa0] */
@@ -552,7 +552,7 @@
 /* @0x139b80 eoreq r5, r11, r4, lsl r7 */
 /* @0x139b84 eoreq r6, r0, r0, lsl #13 */
 
-/* ── FUNC 0x139b88 · anon_139b88 · size=184 · insn=46 */
+/* ── FUNC 0x139b88 · anon_139b88 · size=180 · insn=46 */
 /* @0x139b88 push {r4, r5, r6, r7, r8, r9, r10, lr} */
 /* @0x139b8c sub sp, sp, #1024 */
 /* @0x139b90 ldr r8, [pc, #0xa0] */

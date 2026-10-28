@@ -52,7 +52,7 @@
 /* @0x1b6ef4 mov r0, #1 */
 /* @0x1b6ef8 bx lr */
 
-/* ── FUNC 0x1b6efc · anon_1b6efc · size=4 · insn=1 */
+/* ── FUNC 0x1b6efc · anon_1b6efc · size=0 · insn=1 */
 /* @0x1b6efc andeq r0, r0, r0 */
 
 /* ── FUNC 0x1b6f00 · CLayerManager::Init() · size=2048 · insn=510 */

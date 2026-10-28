@@ -683,7 +683,7 @@
 /* @0xc1344 bl 0x27d1d0 <_ZdlPv> */
 /* @0xc1348 b 0xc12e4 <_Z16FREE_RValue__PreP6RValue+0x868> */
 
-/* ── FUNC 0xc134c · anon_c134c · size=4 · insn=1 */
+/* ── FUNC 0xc134c · anon_c134c · size=0 · insn=1 */
 /* @0xc134c andeq r0, r0, r0 */
 
 /* ── FUNC 0xc1350 · CSkeletonSprite::GetSlotData(CDS_List*) · size=304 · insn=74 */

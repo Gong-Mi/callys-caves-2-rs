@@ -1,15 +1,8 @@
 /* libyoyo.so 覆盖卡组 0242
- * 函数 0x290274..0x293c90，共 32 个；
+ * 函数 0x290288..0x293d40，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x290274 · getJNIEnv · size=20 · insn=5 */
-/* @0x290274 ldr r3, [pc, #0x8] */
-/* @0x290278 ldr r3, [pc, r3] */
-/* @0x29027c ldr r0, [r3] */
-/* @0x290280 b 0xb6d30 <pthread_getspecific@plt> */
-/* @0x290284 andseq r1, r6, r12, lsr #13 */
 
 /* ── FUNC 0x290288 · PackageManagerHasSystemFeature(char const*) · size=368 · insn=92 */
 /* @0x290288 push {r4, r5, r6, r7, r8, lr} */
@@ -3828,3 +3821,13 @@
 /* @0x293d34 ldr r3, [r3, #0x2a8] */
 /* @0x293d38 blx r3 */
 /* @0x293d3c b 0x293cfc <Java_com_yoyogames_runner_RunnerJNILib_DsMapAddString+0x6c> */
+
+/* ── FUNC 0x293d40 · Java_com_yoyogames_runner_RunnerJNILib_CreateAsynEventWithDSMap · size=32 · insn=8 */
+/* @0x293d40 push {r3, r4, r5, lr} */
+/* @0x293d44 mov r4, r2 */
+/* @0x293d48 mov r5, r3 */
+/* @0x293d4c bl 0x290614 <setJNIEnv> */
+/* @0x293d50 mov r0, r4 */
+/* @0x293d54 mov r1, r5 */
+/* @0x293d58 pop {r3, r4, r5, lr} */
+/* @0x293d5c b 0x18da04 <_Z24CreateAsynEventWithDSMapii> */

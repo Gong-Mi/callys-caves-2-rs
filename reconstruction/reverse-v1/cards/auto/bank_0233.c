@@ -1,47 +1,8 @@
 /* libyoyo.so 覆盖卡组 0233
- * 函数 0x280a88..0x2817d8，共 32 个；
+ * 函数 0x280b1c..0x2818e0，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x280a88 · lh_table_resize · size=148 · insn=37 */
-/* @0x280a88 push {r4, r5, r6, r7, lr} */
-/* @0x280a8c mov r6, r0 */
-/* @0x280a90 ldr r12, [r6, #0x34] */
-/* @0x280a94 sub sp, sp, #12 */
-/* @0x280a98 mov r7, r1 */
-/* @0x280a9c ldr r3, [r6, #0x30] */
-/* @0x280aa0 ldr r1, [r0, #0x1c] */
-/* @0x280aa4 mov r2, #0 */
-/* @0x280aa8 mov r0, r7 */
-/* @0x280aac str r12, [sp] */
-/* @0x280ab0 bl 0x280834 <lh_table_new> */
-/* @0x280ab4 ldr r4, [r6, #0x20] */
-/* @0x280ab8 cmp r4, #0 */
-/* @0x280abc mov r5, r0 */
-/* @0x280ac0 beq 0x280adc <lh_table_resize+0x54> */
-/* @0x280ac4 ldm r4, {r1, r2} */
-/* @0x280ac8 mov r0, r5 */
-/* @0x280acc bl 0x280998 <lh_table_insert> */
-/* @0x280ad0 ldr r4, [r4, #0x8] */
-/* @0x280ad4 cmp r4, #0 */
-/* @0x280ad8 bne 0x280ac4 <lh_table_resize+0x3c> */
-/* @0x280adc ldr r0, [r6, #0x28] */
-/* @0x280ae0 bl 0xb655c <free@plt> */
-/* @0x280ae4 ldr r12, [r5, #0x28] */
-/* @0x280ae8 ldr r1, [r5, #0x20] */
-/* @0x280aec mov r0, r5 */
-/* @0x280af0 ldr r3, [r5, #0x24] */
-/* @0x280af4 ldr r2, [r6, #0xc] */
-/* @0x280af8 str r12, [r6, #0x28] */
-/* @0x280afc add r2, r2, #1 */
-/* @0x280b00 str r7, [r6] */
-/* @0x280b04 str r1, [r6, #0x20] */
-/* @0x280b08 str r2, [r6, #0xc] */
-/* @0x280b0c str r3, [r6, #0x24] */
-/* @0x280b10 add sp, sp, #12 */
-/* @0x280b14 pop {r4, r5, r6, r7, lr} */
-/* @0x280b18 b 0xb655c <free@plt> */
 
 /* ── FUNC 0x280b1c · lh_table_lookup_entry · size=144 · insn=36 */
 /* @0x280b1c push {r3, r4, r5, r6, r7, lr} */
@@ -298,7 +259,7 @@
 /* @0x280ec8 pop {r4, lr} */
 /* @0x280ecc b 0xb655c <free@plt> */
 
-/* ── FUNC 0x280ed0 · anon_280ed0 · size=112 · insn=28 */
+/* ── FUNC 0x280ed0 · anon_280ed0 · size=108 · insn=28 */
 /* @0x280ed0 push {r4, r5, r6, r7, r8, lr} */
 /* @0x280ed4 vpush {d8} */
 /* @0x280ed8 mov r8, r0 */
@@ -985,3 +946,88 @@
 /* @0x2818d4 mrclo p9, #0x4, r9, c9, c10, #0x4 */
 /* @0x2818d8 bllo 0xff3a8778 <b2_toiTime+0xfffffffffec4f2d4> */
 /* @0x2818dc vmullo.f32 s20, s21, s23 */
+
+/* ── FUNC 0x2818e0 · spCurveTimeline_getCurvePercent · size=332 · insn=83 */
+/* @0x2818e0 vmov s15, r2 */
+/* @0x2818e4 add r3, r1, r1, lsl #3 */
+/* @0x2818e8 ldr r0, [r0, #0x8] */
+/* @0x2818ec vcmpe.f32 s15, #0 */
+/* @0x2818f0 add r1, r1, r3, lsl #1 */
+/* @0x2818f4 push {r4, r5} */
+/* @0x2818f8 add r3, r0, r1, lsl #2 */
+/* @0x2818fc vldr s14, [r3] */
+/* @0x281900 vmrs APSR_nzcv, fpscr */
+/* @0x281904 bmi 0x2819d0 <spCurveTimeline_getCurvePercent+0xf0> */
+/* @0x281908 vmov.f32 s13, #1.000000e+00 */
+/* @0x28190c vcmp.f32 s15, s13 */
+/* @0x281910 vmrs APSR_nzcv, fpscr */
+/* @0x281914 vmovgt.f32 s15, s13 */
+/* @0x281918 vcmp.f32 s14, #0 */
+/* @0x28191c vmrs APSR_nzcv, fpscr */
+/* @0x281920 beq 0x2819b4 <spCurveTimeline_getCurvePercent+0xd4> */
+/* @0x281924 vmov.f32 s13, #1.000000e+00 */
+/* @0x281928 vcmp.f32 s14, s13 */
+/* @0x28192c vmrs APSR_nzcv, fpscr */
+/* @0x281930 beq 0x2819c0 <spCurveTimeline_getCurvePercent+0xe0> */
+/* @0x281934 add r4, r1, #1 */
+/* @0x281938 lsl r2, r4, #2 */
+/* @0x28193c mov r12, r4 */
+/* @0x281940 add r3, r0, r2 */
+/* @0x281944 vldr s14, [r3] */
+/* @0x281948 vcmpe.f32 s15, s14 */
+/* @0x28194c vmrs APSR_nzcv, fpscr */
+/* @0x281950 addhi r2, r2, #8 */
+/* @0x281954 addhi r1, r1, #19 */
+/* @0x281958 addhi r2, r0, r2 */
+/* @0x28195c movhi r3, r4 */
+/* @0x281960 bhi 0x281980 <spCurveTimeline_getCurvePercent+0xa0> */
+/* @0x281964 b 0x281a1c <spCurveTimeline_getCurvePercent+0x13c> */
+/* @0x281968 mov r5, r2 */
+/* @0x28196c vldr s14, [r5] */
+/* @0x281970 vcmpe.f32 s15, s14 */
+/* @0x281974 add r2, r2, #8 */
+/* @0x281978 vmrs APSR_nzcv, fpscr */
+/* @0x28197c bls 0x2819d8 <spCurveTimeline_getCurvePercent+0xf8> */
+/* @0x281980 add r3, r3, #2 */
+/* @0x281984 cmp r3, r1 */
+/* @0x281988 mov r12, r3 */
+/* @0x28198c bne 0x281968 <spCurveTimeline_getCurvePercent+0x88> */
+/* @0x281990 vmov.f32 s12, #1.000000e+00 */
+/* @0x281994 add r3, r0, r3, lsl #2 */
+/* @0x281998 vldr s13, [r3, #-4] */
+/* @0x28199c vsub.f32 s15, s15, s14 */
+/* @0x2819a0 vsub.f32 s11, s12, s13 */
+/* @0x2819a4 vmul.f32 s15, s11, s15 */
+/* @0x2819a8 vsub.f32 s14, s12, s14 */
+/* @0x2819ac vdiv.f32 s15, s15, s14 */
+/* @0x2819b0 vadd.f32 s15, s15, s13 */
+/* @0x2819b4 vmov r0, s15 */
+/* @0x2819b8 pop {r4, r5} */
+/* @0x2819bc bx lr */
+/* @0x2819c0 vldr s15, [pc, #96] */
+/* @0x2819c4 pop {r4, r5} */
+/* @0x2819c8 vmov r0, s15 */
+/* @0x2819cc bx lr */
+/* @0x2819d0 vldr s15, [pc, #80] */
+/* @0x2819d4 b 0x281918 <spCurveTimeline_getCurvePercent+0x38> */
+/* @0x2819d8 cmp r4, r12 */
+/* @0x2819dc beq 0x281a1c <spCurveTimeline_getCurvePercent+0x13c> */
+/* @0x2819e0 sub r3, r12, #-1073741822 */
+/* @0x2819e4 add r3, r0, r3, lsl #2 */
+/* @0x2819e8 vldr s12, [r3] */
+/* @0x2819ec vldr s13, [r3, #4] */
+/* @0x2819f0 add r0, r0, r12, lsl #2 */
+/* @0x2819f4 vsub.f32 s15, s15, s12 */
+/* @0x2819f8 vldr s11, [r0, #4] */
+/* @0x2819fc pop {r4, r5} */
+/* @0x281a00 vsub.f32 s11, s11, s13 */
+/* @0x281a04 vmul.f32 s15, s11, s15 */
+/* @0x281a08 vsub.f32 s14, s14, s12 */
+/* @0x281a0c vdiv.f32 s15, s15, s14 */
+/* @0x281a10 vadd.f32 s15, s15, s13 */
+/* @0x281a14 vmov r0, s15 */
+/* @0x281a18 bx lr */
+/* @0x281a1c vldr s13, [pc, #4] */
+/* @0x281a20 vmov.f32 s12, s13 */
+/* @0x281a24 b 0x2819f0 <spCurveTimeline_getCurvePercent+0x110> */
+/* @0x281a28 andeq r0, r0, r0 */

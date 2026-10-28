@@ -1,33 +1,8 @@
 /* libyoyo.so 覆盖卡组 0202
- * 函数 0x223474..0x2247c0，共 32 个；
+ * 函数 0x2234d0..0x224834，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x223474 · SOggChannel::Init(unsigned int) · size=92 · insn=23 */
-/* @0x223474 push {r4, lr} */
-/* @0x223478 mov r4, r0 */
-/* @0x22347c ldr r0, [pc, #0x44] */
-/* @0x223480 str r1, [r4, #0x2b4] */
-/* @0x223484 add r0, pc, r0 */
-/* @0x223488 bl 0x215fd0 <_Z7checkALPKc> */
-/* @0x22348c add r1, r4, #684 */
-/* @0x223490 mov r0, #2 */
-/* @0x223494 bl 0xb6af0 <alGenBuffers@plt> */
-/* @0x223498 ldr r0, [pc, #0x2c] */
-/* @0x22349c add r0, pc, r0 */
-/* @0x2234a0 bl 0x215fd0 <_Z7checkALPKc> */
-/* @0x2234a4 mov r3, #1 */
-/* @0x2234a8 mov r0, #32768 */
-/* @0x2234ac strb r3, [r4, #0x2d4] */
-/* @0x2234b0 bl 0xb6544 <malloc@plt> */
-/* @0x2234b4 add r3, r0, #16384 */
-/* @0x2234b8 str r0, [r4, #0x29c] */
-/* @0x2234bc str r0, [r4, #0x2a0] */
-/* @0x2234c0 str r3, [r4, #0x2a4] */
-/* @0x2234c4 pop {r4, pc} */
-/* @0x2234c8 andseq r1, r3, r8, asr #16 */
-/* @0x2234cc andseq r1, r3, r0, asr r8 */
 
 /* ── FUNC 0x2234d0 · SOggChannel::~SOggChannel() · size=72 · insn=18 */
 /* @0x2234d0 ldrb r3, [r0, #0x2d4] */
@@ -178,7 +153,7 @@
 /* @0x2236cc str r5, [r4, #0x2c0] */
 /* @0x2236d0 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x2236d4 · anon_2236d4 · size=124 · insn=31 */
+/* ── FUNC 0x2236d4 · anon_2236d4 · size=120 · insn=31 */
 /* @0x2236d4 push {r4, r5, lr} */
 /* @0x2236d8 sub sp, sp, #12 */
 /* @0x2236dc mov r4, r0 */
@@ -586,7 +561,7 @@
 /* @0x223cac bl 0xb65d4 <__stack_chk_fail@plt> */
 /* @0x223cb0 andseq r9, r12, r8, lsl sp */
 
-/* ── FUNC 0x223cb4 · anon_223cb4 · size=508 · insn=127 */
+/* ── FUNC 0x223cb4 · anon_223cb4 · size=504 · insn=127 */
 /* @0x223cb4 ldr r12, [pc, #0x64] */
 /* @0x223cb8 push {r4, r5, lr} */
 /* @0x223cbc ldr r12, [pc, r12] */
@@ -830,7 +805,7 @@
 /* @0x22406c ldrsbeq r9, [r12], -r12 */
 /* @0x224070 andseq r0, r3, r12, ror sp */
 
-/* ── FUNC 0x224074 · anon_224074 · size=1788 · insn=447 */
+/* ── FUNC 0x224074 · anon_224074 · size=1784 · insn=447 */
 /* @0x224074 push {r4, r5, r6, r7, r8, r9, lr} */
 /* @0x224078 mov r5, r0 */
 /* @0x22407c ldr r0, [r0, #0x2a8] */
@@ -1331,3 +1306,50 @@
 /* @0x224828 b 0x223aa4 <_ZN10COggThread6UnlockEv> */
 /* @0x22482c andseq r8, r12, r4, lsr pc */
 /* @0x224830 andseq r0, r3, r4, ror #12 */
+
+/* ── FUNC 0x224834 · COggSyncThread::COggSyncThread() · size=180 · insn=45 */
+/* @0x224834 push {r4, r5, r6, lr} */
+/* @0x224838 mov r4, r0 */
+/* @0x22483c mov r5, #0 */
+/* @0x224840 mov r0, #8 */
+/* @0x224844 strb r5, [r4, #0x83c] */
+/* @0x224848 str r5, [r4, #0x834] */
+/* @0x22484c str r5, [r4, #0x838] */
+/* @0x224850 strb r5, [r4, #0x83d] */
+/* @0x224854 str r5, [r4, #0x840] */
+/* @0x224858 str r5, [r4, #0x844] */
+/* @0x22485c bl 0x27c524 <_Znwj> */
+/* @0x224860 ldr r1, [pc, #0x7c] */
+/* @0x224864 add r1, pc, r1 */
+/* @0x224868 mov r6, r0 */
+/* @0x22486c bl 0x27e070 <_ZN5MutexC2EPKc> */
+/* @0x224870 mov r1, #2080 */
+/* @0x224874 str r6, [r4, #0x848] */
+/* @0x224878 mvn r12, #0 */
+/* @0x22487c strb r5, [r4, #0x800] */
+/* @0x224880 mov r2, #0 */
+/* @0x224884 mov r3, #0 */
+/* @0x224888 strb r5, [r4, #0x801] */
+/* @0x22488c mov r0, r4 */
+/* @0x224890 strb r5, [r4] */
+/* @0x224894 strb r5, [r4, #0x802] */
+/* @0x224898 strb r5, [r4, #0x803] */
+/* @0x22489c str r5, [r4, #0x808] */
+/* @0x2248a0 str r5, [r4, #0x82c] */
+/* @0x2248a4 strb r5, [r4, #0x84d] */
+/* @0x2248a8 strb r5, [r4, #0x84e] */
+/* @0x2248ac str r5, [r4, #0x80c] */
+/* @0x2248b0 strb r5, [r4, #0x850] */
+/* @0x2248b4 strb r5, [r4, #0x84f] */
+/* @0x2248b8 strb r5, [r4, #0x851] */
+/* @0x2248bc strb r5, [r4, #0x852] */
+/* @0x2248c0 strb r5, [r4, #0x853] */
+/* @0x2248c4 strb r5, [r4, #0x854] */
+/* @0x2248c8 str r5, [r4, #0x828] */
+/* @0x2248cc str r5, [r4, #0x858] */
+/* @0x2248d0 str r5, [r4, #0x85c] */
+/* @0x2248d4 str r5, [r4, #0x860] */
+/* @0x2248d8 str r12, [r4, #0x810] */
+/* @0x2248dc strd r2, r3, [r4, r1] */
+/* @0x2248e0 pop {r4, r5, r6, pc} */
+/* @0x2248e4 andseq sp, r0, r0, asr pc */

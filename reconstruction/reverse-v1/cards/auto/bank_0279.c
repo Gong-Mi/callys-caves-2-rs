@@ -1,999 +1,930 @@
 /* libyoyo.so 覆盖卡组 0279
- * 函数 0x2d214c..0x2d2eac，共 32 个；
+ * 函数 0x2d44c8..0x2d51e4，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
 
-/* ── FUNC 0x2d214c · b2RevoluteJoint::EnableMotor(bool) · size=64 · insn=16 */
-/* @0x2d214c ldr r3, [r0, #0x30] */
-/* @0x2d2150 ldrh r2, [r3, #4] */
-/* @0x2d2154 tst r2, #2 */
-/* @0x2d2158 orreq r2, r2, #2 */
-/* @0x2d215c strheq r2, [r3, #4] */
-/* @0x2d2160 moveq r12, #0 */
-/* @0x2d2164 streq r12, [r3, #0xa0] */
-/* @0x2d2168 ldr r3, [r0, #0x34] */
-/* @0x2d216c ldrh r2, [r3, #4] */
-/* @0x2d2170 tst r2, #2 */
-/* @0x2d2174 orreq r2, r2, #2 */
-/* @0x2d2178 strheq r2, [r3, #4] */
-/* @0x2d217c moveq r12, #0 */
-/* @0x2d2180 streq r12, [r3, #0xa0] */
-/* @0x2d2184 strb r1, [r0, #0x64] */
-/* @0x2d2188 bx lr */
+/* ── FUNC 0x2d44c8 · b2ParticleColor::GetColor() const · size=72 · insn=18 */
+/* @0x2d44c8 ldrb r2, [r1, #0x1] */
+/* @0x2d44cc vldr s15, [pc, #56] */
+/* @0x2d44d0 vmov s12, r2 */
+/* @0x2d44d4 ldrb r2, [r1] */
+/* @0x2d44d8 ldrb r1, [r1, #0x2] */
+/* @0x2d44dc vcvt.f32.s32 s12, s12 */
+/* @0x2d44e0 vmov s14, r2 */
+/* @0x2d44e4 vmov s13, r1 */
+/* @0x2d44e8 vcvt.f32.s32 s14, s14 */
+/* @0x2d44ec vcvt.f32.s32 s13, s13 */
+/* @0x2d44f0 vmul.f32 s12, s12, s15 */
+/* @0x2d44f4 vmul.f32 s14, s14, s15 */
+/* @0x2d44f8 vstr s12, [r0, #4] */
+/* @0x2d44fc vmul.f32 s15, s13, s15 */
+/* @0x2d4500 vstr s14, [r0] */
+/* @0x2d4504 vstr s15, [r0, #8] */
+/* @0x2d4508 bx lr */
+/* @0x2d450c bllo 0xfe2f4718 <b2_toiTime+0xfffffffffdb9b274> */
 
-/* ── FUNC 0x2d218c · b2RevoluteJoint::GetMotorTorque(float) const · size=20 · insn=5 */
-/* @0x2d218c vmov s14, r1 */
-/* @0x2d2190 vldr s15, [r0, #96] */
-/* @0x2d2194 vmul.f32 s14, s14, s15 */
-/* @0x2d2198 vmov r0, s14 */
-/* @0x2d219c bx lr */
+/* ── FUNC 0x2d4510 · b2ParticleColor::Set(b2Color const&) · size=80 · insn=20 */
+/* @0x2d4510 vldr s14, [r1] */
+/* @0x2d4514 vldr s15, [pc, #64] */
+/* @0x2d4518 vmul.f32 s14, s14, s15 */
+/* @0x2d451c mvn r3, #0 */
+/* @0x2d4520 vcvt.s32.f32 s14, s14 */
+/* @0x2d4524 vmov r2, s14 */
+/* @0x2d4528 strb r2, [r0] */
+/* @0x2d452c vldr s14, [r1, #4] */
+/* @0x2d4530 vmul.f32 s14, s14, s15 */
+/* @0x2d4534 vcvt.s32.f32 s14, s14 */
+/* @0x2d4538 vmov r2, s14 */
+/* @0x2d453c strb r2, [r0, #0x1] */
+/* @0x2d4540 vldr s14, [r1, #8] */
+/* @0x2d4544 vmul.f32 s15, s14, s15 */
+/* @0x2d4548 strb r3, [r0, #0x3] */
+/* @0x2d454c vcvt.s32.f32 s15, s15 */
+/* @0x2d4550 vmov r3, s15 */
+/* @0x2d4554 strb r3, [r0, #0x2] */
+/* @0x2d4558 bx lr */
+/* @0x2d455c cmnmi pc, #0 */
 
-/* ── FUNC 0x2d21a0 · b2RevoluteJoint::SetMotorSpeed(float) · size=64 · insn=16 */
-/* @0x2d21a0 ldr r3, [r0, #0x30] */
-/* @0x2d21a4 ldrh r2, [r3, #4] */
-/* @0x2d21a8 tst r2, #2 */
-/* @0x2d21ac orreq r2, r2, #2 */
-/* @0x2d21b0 strheq r2, [r3, #4] */
-/* @0x2d21b4 moveq r12, #0 */
-/* @0x2d21b8 streq r12, [r3, #0xa0] */
-/* @0x2d21bc ldr r3, [r0, #0x34] */
-/* @0x2d21c0 ldrh r2, [r3, #4] */
-/* @0x2d21c4 tst r2, #2 */
-/* @0x2d21c8 orreq r2, r2, #2 */
-/* @0x2d21cc strheq r2, [r3, #4] */
-/* @0x2d21d0 moveq r12, #0 */
-/* @0x2d21d4 streq r12, [r3, #0xa0] */
-/* @0x2d21d8 str r1, [r0, #0x6c] */
-/* @0x2d21dc bx lr */
+/* ── FUNC 0x2d4560 · b2ParticleGroup::b2ParticleGroup() · size=152 · insn=38 */
+/* @0x2d4560 ldr r12, [pc, #0x8c] */
+/* @0x2d4564 mov r3, r0 */
+/* @0x2d4568 push {r4, r5, r6, r7, r8} */
+/* @0x2d456c ldr r12, [pc, r12] */
+/* @0x2d4570 ldrb r5, [r0, #0x4c] */
+/* @0x2d4574 add r7, r0, #40 */
+/* @0x2d4578 ldm r12, {r0, r1} */
+/* @0x2d457c mvn r6, #0 */
+/* @0x2d4580 orr r5, r5, #1 */
+/* @0x2d4584 str r6, [r3, #0x1c] */
+/* @0x2d4588 add r6, r3, #48 */
+/* @0x2d458c and r5, r5, #253 */
+/* @0x2d4590 mov r2, #0 */
+/* @0x2d4594 mov r4, #0 */
+/* @0x2d4598 mov r8, #1065353216 */
+/* @0x2d459c str r4, [r3, #0x20] */
+/* @0x2d45a0 str r4, [r3, #0x24] */
+/* @0x2d45a4 bfi r5, r2, #2, #1 */
+/* @0x2d45a8 str r8, [r3, #0x10] */
+/* @0x2d45ac str r2, [r3] */
+/* @0x2d45b0 str r2, [r3, #0x4] */
+/* @0x2d45b4 str r2, [r3, #0x8] */
+/* @0x2d45b8 str r2, [r3, #0xc] */
+/* @0x2d45bc str r2, [r3, #0x14] */
+/* @0x2d45c0 str r2, [r3, #0x18] */
+/* @0x2d45c4 stm r7, {r0, r1} */
+/* @0x2d45c8 stm r6, {r0, r1} */
+/* @0x2d45cc mov r0, r3 */
+/* @0x2d45d0 str r4, [r3, #0x38] */
+/* @0x2d45d4 strb r5, [r3, #0x4c] */
+/* @0x2d45d8 str r4, [r3, #0x3c] */
+/* @0x2d45dc str r4, [r3, #0x40] */
+/* @0x2d45e0 str r4, [r3, #0x44] */
+/* @0x2d45e4 str r8, [r3, #0x48] */
+/* @0x2d45e8 str r2, [r3, #0x50] */
+/* @0x2d45ec pop {r4, r5, r6, r7, r8} */
+/* @0x2d45f0 bx lr */
+/* @0x2d45f4 andseq r12, r1, r12, ror #30 */
 
-/* ── FUNC 0x2d21e0 · b2RevoluteJoint::SetMaxMotorTorque(float) · size=64 · insn=16 */
-/* @0x2d21e0 ldr r3, [r0, #0x30] */
-/* @0x2d21e4 ldrh r2, [r3, #4] */
-/* @0x2d21e8 tst r2, #2 */
-/* @0x2d21ec orreq r2, r2, #2 */
-/* @0x2d21f0 strheq r2, [r3, #4] */
-/* @0x2d21f4 moveq r12, #0 */
-/* @0x2d21f8 streq r12, [r3, #0xa0] */
-/* @0x2d21fc ldr r3, [r0, #0x34] */
-/* @0x2d2200 ldrh r2, [r3, #4] */
-/* @0x2d2204 tst r2, #2 */
-/* @0x2d2208 orreq r2, r2, #2 */
-/* @0x2d220c strheq r2, [r3, #4] */
-/* @0x2d2210 moveq r12, #0 */
-/* @0x2d2214 streq r12, [r3, #0xa0] */
-/* @0x2d2218 str r1, [r0, #0x68] */
-/* @0x2d221c bx lr */
+/* ── FUNC 0x2d4560 · b2ParticleGroup::b2ParticleGroup() · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x2d2220 · b2RevoluteJoint::IsLimitEnabled() const · size=8 · insn=2 */
-/* @0x2d2220 ldrb r0, [r0, #0x70] */
-/* @0x2d2224 bx lr */
+/* ── FUNC 0x2d45f8 · b2ParticleGroup::~b2ParticleGroup() · size=4 · insn=1 */
+/* @0x2d45f8 bx lr */
 
-/* ── FUNC 0x2d2228 · b2RevoluteJoint::EnableLimit(bool) · size=84 · insn=21 */
-/* @0x2d2228 ldrb r3, [r0, #0x70] */
-/* @0x2d222c cmp r3, r1 */
-/* @0x2d2230 bxeq lr */
-/* @0x2d2234 ldr r3, [r0, #0x30] */
-/* @0x2d2238 ldrh r2, [r3, #4] */
-/* @0x2d223c tst r2, #2 */
-/* @0x2d2240 orreq r2, r2, #2 */
-/* @0x2d2244 strheq r2, [r3, #4] */
-/* @0x2d2248 moveq r12, #0 */
-/* @0x2d224c streq r12, [r3, #0xa0] */
-/* @0x2d2250 ldr r3, [r0, #0x34] */
-/* @0x2d2254 ldrh r2, [r3, #4] */
-/* @0x2d2258 tst r2, #2 */
-/* @0x2d225c orreq r2, r2, #2 */
-/* @0x2d2260 strheq r2, [r3, #4] */
-/* @0x2d2264 moveq r12, #0 */
-/* @0x2d2268 streq r12, [r3, #0xa0] */
-/* @0x2d226c mov r3, #0 */
-/* @0x2d2270 strb r1, [r0, #0x70] */
-/* @0x2d2274 str r3, [r0, #0x5c] */
-/* @0x2d2278 bx lr */
+/* ── FUNC 0x2d45f8 · b2ParticleGroup::~b2ParticleGroup() · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x2d227c · b2RevoluteJoint::GetLowerLimit() const · size=8 · insn=2 */
-/* @0x2d227c ldr r0, [r0, #0x78] */
-/* @0x2d2280 bx lr */
+/* ── FUNC 0x2d45fc · b2ParticleGroup::GetBufferIndex() const · size=8 · insn=2 */
+/* @0x2d45fc ldr r0, [r0, #0x4] */
+/* @0x2d4600 bx lr */
 
-/* ── FUNC 0x2d2284 · b2RevoluteJoint::GetUpperLimit() const · size=8 · insn=2 */
-/* @0x2d2284 ldr r0, [r0, #0x7c] */
-/* @0x2d2288 bx lr */
+/* ── FUNC 0x2d4604 · b2ParticleGroup::GetGroupFlags() const · size=8 · insn=2 */
+/* @0x2d4604 ldr r0, [r0, #0xc] */
+/* @0x2d4608 bx lr */
 
-/* ── FUNC 0x2d228c · b2RevoluteJoint::SetLimits(float, float) · size=180 · insn=45 */
-/* @0x2d228c push {r4, lr} */
-/* @0x2d2290 vpush {d8} */
-/* @0x2d2294 vmov s16, r1 */
-/* @0x2d2298 vmov s17, r2 */
-/* @0x2d229c ldr r3, [pc, #0x94] */
-/* @0x2d22a0 ldr r1, [pc, #0x94] */
-/* @0x2d22a4 mov r4, r0 */
-/* @0x2d22a8 vcmpe.f32 s16, s17 */
-/* @0x2d22ac ldr r3, [pc, r3] */
-/* @0x2d22b0 add r1, pc, r1 */
-/* @0x2d22b4 ldr r3, [r3] */
-/* @0x2d22b8 vmrs APSR_nzcv, fpscr */
-/* @0x2d22bc movhi r0, #0 */
-/* @0x2d22c0 movls r0, #1 */
-/* @0x2d22c4 blx r3 */
-/* @0x2d22c8 vldr s15, [r4, #120] */
-/* @0x2d22cc vcmp.f32 s15, s16 */
-/* @0x2d22d0 vmrs APSR_nzcv, fpscr */
-/* @0x2d22d4 bne 0x2d22e8 <_ZN15b2RevoluteJoint9SetLimitsEff+0x5c> */
-/* @0x2d22d8 vldr s15, [r4, #124] */
-/* @0x2d22dc vcmp.f32 s15, s17 */
-/* @0x2d22e0 vmrs APSR_nzcv, fpscr */
-/* @0x2d22e4 beq 0x2d2330 <_ZN15b2RevoluteJoint9SetLimitsEff+0xa4> */
-/* @0x2d22e8 ldr r3, [r4, #0x30] */
-/* @0x2d22ec ldrh r2, [r3, #4] */
-/* @0x2d22f0 tst r2, #2 */
-/* @0x2d22f4 orreq r2, r2, #2 */
-/* @0x2d22f8 strheq r2, [r3, #4] */
-/* @0x2d22fc moveq r1, #0 */
-/* @0x2d2300 streq r1, [r3, #0xa0] */
-/* @0x2d2304 ldr r3, [r4, #0x34] */
-/* @0x2d2308 ldrh r2, [r3, #4] */
-/* @0x2d230c tst r2, #2 */
-/* @0x2d2310 orreq r2, r2, #2 */
-/* @0x2d2314 strheq r2, [r3, #4] */
-/* @0x2d2318 moveq r1, #0 */
-/* @0x2d231c streq r1, [r3, #0xa0] */
-/* @0x2d2320 mov r3, #0 */
-/* @0x2d2324 vstr s16, [r4, #120] */
-/* @0x2d2328 vstr s17, [r4, #124] */
-/* @0x2d232c str r3, [r4, #0x5c] */
-/* @0x2d2330 vpop {d8} */
-/* @0x2d2334 pop {r4, pc} */
-/* @0x2d2338 andseq pc, r1, r12, lsl r2 */
-/* @0x2d233c andeq r11, r8, r4, ror r5 */
+/* ── FUNC 0x2d460c · b2ParticleGroup::SetGroupFlags(int) · size=8 · insn=2 */
+/* @0x2d460c str r1, [r0, #0xc] */
+/* @0x2d4610 bx lr */
 
-/* ── FUNC 0x2d2340 · b2RopeJoint::SolveVelocityConstraints(b2SolverData const&) · size=300 · insn=75 */
-/* @0x2d2340 ldr r2, [r0, #0x60] */
-/* @0x2d2344 vpush {d8, d9, d10} */
-/* @0x2d2348 ldr r3, [r0, #0x64] */
-/* @0x2d234c vldr s2, [r0, #112] */
-/* @0x2d2350 ldr r12, [r1, #0x1c] */
-/* @0x2d2354 vldr s3, [r0, #120] */
-/* @0x2d2358 add r2, r2, r2, lsl #1 */
-/* @0x2d235c vldr s1, [r0, #124] */
-/* @0x2d2360 add r3, r3, r3, lsl #1 */
-/* @0x2d2364 vldr s11, [r0, #116] */
-/* @0x2d2368 add r2, r12, r2, lsl #2 */
-/* @0x2d236c vldr s5, [r2, #4] */
-/* @0x2d2370 add r3, r12, r3, lsl #2 */
-/* @0x2d2374 vmov.f32 s13, s5 */
-/* @0x2d2378 vldr s9, [r3, #4] */
-/* @0x2d237c vldr s10, [r2, #8] */
-/* @0x2d2380 vldr s12, [r3, #8] */
-/* @0x2d2384 vldr s7, [r3] */
-/* @0x2d2388 vldr s4, [r2] */
-/* @0x2d238c vldr s0, [r0, #108] */
-/* @0x2d2390 vmov.f32 s17, s9 */
-/* @0x2d2394 vldr s14, [r0, #104] */
-/* @0x2d2398 vldr s16, [r0, #88] */
-/* @0x2d239c vldr s15, [r0, #84] */
-/* @0x2d23a0 vldr s19, [pc, #192] */
-/* @0x2d23a4 vldr s18, [r0, #152] */
-/* @0x2d23a8 vmla.f32 s17, s12, s3 */
-/* @0x2d23ac vmla.f32 s13, s10, s2 */
-/* @0x2d23b0 vmov.f32 s6, s7 */
-/* @0x2d23b4 vmov.f32 s8, s4 */
-/* @0x2d23b8 vmls.f32 s6, s12, s1 */
-/* @0x2d23bc vmls.f32 s8, s10, s11 */
-/* @0x2d23c0 vsub.f32 s13, s17, s13 */
-/* @0x2d23c4 vldr s17, [r0, #156] */
-/* @0x2d23c8 vmul.f32 s13, s13, s0 */
-/* @0x2d23cc vsub.f32 s8, s6, s8 */
-/* @0x2d23d0 vldr s6, [r0, #144] */
-/* @0x2d23d4 vmla.f32 s13, s8, s14 */
-/* @0x2d23d8 vsub.f32 s15, s16, s15 */
-/* @0x2d23dc vldr s16, [r0, #92] */
-/* @0x2d23e0 vcmpe.f32 s15, #0 */
-/* @0x2d23e4 vmrs APSR_nzcv, fpscr */
-/* @0x2d23e8 vldrmi s8, [r1, #4] */
-/* @0x2d23ec vmlami.f32 s13, s15, s8 */
-/* @0x2d23f0 vldr s15, [r0, #160] */
-/* @0x2d23f4 vldr s8, [r0, #148] */
-/* @0x2d23f8 vmov.f32 s20, s16 */
-/* @0x2d23fc vmls.f32 s20, s15, s13 */
-/* @0x2d2400 vmov.f32 s15, s20 */
-/* @0x2d2404 vcmpe.f32 s20, s19 */
-/* @0x2d2408 vmrs APSR_nzcv, fpscr */
-/* @0x2d240c vmovgt.f32 s15, s19 */
-/* @0x2d2410 vstr s15, [r0, #92] */
-/* @0x2d2414 vsub.f32 s15, s15, s16 */
-/* @0x2d2418 vmul.f32 s14, s15, s14 */
-/* @0x2d241c vmul.f32 s15, s15, s0 */
-/* @0x2d2420 vmul.f32 s11, s11, s14 */
-/* @0x2d2424 vmul.f32 s13, s1, s14 */
-/* @0x2d2428 vnmls.f32 s11, s2, s15 */
-/* @0x2d242c vnmls.f32 s13, s3, s15 */
-/* @0x2d2430 vmls.f32 s10, s11, s18 */
-/* @0x2d2434 vmla.f32 s12, s13, s17 */
-/* @0x2d2438 vstr s10, [r2, #8] */
-/* @0x2d243c vpop {d8, d9, d10} */
-/* @0x2d2440 vmls.f32 s4, s6, s14 */
-/* @0x2d2444 vmls.f32 s5, s6, s15 */
-/* @0x2d2448 vstr s4, [r2] */
-/* @0x2d244c vmla.f32 s7, s8, s14 */
-/* @0x2d2450 vstr s5, [r2, #4] */
-/* @0x2d2454 vstr s12, [r3, #8] */
-/* @0x2d2458 vmla.f32 s9, s8, s15 */
-/* @0x2d245c vstr s7, [r3] */
-/* @0x2d2460 vstr s9, [r3, #4] */
-/* @0x2d2464 bx lr */
-/* @0x2d2468 andeq r0, r0, r0 */
+/* ── FUNC 0x2d4614 · b2ParticleGroup::GetTransform() const · size=8 · insn=2 */
+/* @0x2d4614 add r0, r0, #60 */
+/* @0x2d4618 bx lr */
 
-/* ── FUNC 0x2d246c · b2RopeJoint::GetAnchorA() const · size=64 · insn=16 */
-/* @0x2d246c ldr r3, [r1, #0x30] */
-/* @0x2d2470 vldr s15, [r1, #72] */
-/* @0x2d2474 vldr s12, [r3, #24] */
-/* @0x2d2478 vldr s11, [r3, #20] */
-/* @0x2d247c vmul.f32 s14, s12, s15 */
-/* @0x2d2480 vldr s13, [r1, #68] */
-/* @0x2d2484 vldr s9, [r3, #16] */
-/* @0x2d2488 vldr s10, [r3, #12] */
-/* @0x2d248c vmul.f32 s15, s11, s15 */
-/* @0x2d2490 vmla.f32 s14, s13, s11 */
-/* @0x2d2494 vnmls.f32 s15, s12, s13 */
-/* @0x2d2498 vadd.f32 s14, s14, s9 */
-/* @0x2d249c vadd.f32 s15, s15, s10 */
-/* @0x2d24a0 vstr s14, [r0, #4] */
-/* @0x2d24a4 vstr s15, [r0] */
-/* @0x2d24a8 bx lr */
+/* ── FUNC 0x2d461c · b2ParticleGroup::GetPosition() const · size=8 · insn=2 */
+/* @0x2d461c add r0, r0, #60 */
+/* @0x2d4620 bx lr */
 
-/* ── FUNC 0x2d24ac · b2RopeJoint::GetAnchorB() const · size=64 · insn=16 */
-/* @0x2d24ac ldr r3, [r1, #0x34] */
-/* @0x2d24b0 vldr s15, [r1, #80] */
-/* @0x2d24b4 vldr s12, [r3, #24] */
-/* @0x2d24b8 vldr s11, [r3, #20] */
-/* @0x2d24bc vmul.f32 s14, s12, s15 */
-/* @0x2d24c0 vldr s13, [r1, #76] */
-/* @0x2d24c4 vldr s9, [r3, #16] */
-/* @0x2d24c8 vldr s10, [r3, #12] */
-/* @0x2d24cc vmul.f32 s15, s11, s15 */
-/* @0x2d24d0 vmla.f32 s14, s13, s11 */
-/* @0x2d24d4 vnmls.f32 s15, s12, s13 */
-/* @0x2d24d8 vadd.f32 s14, s14, s9 */
-/* @0x2d24dc vadd.f32 s15, s15, s10 */
-/* @0x2d24e0 vstr s14, [r0, #4] */
-/* @0x2d24e4 vstr s15, [r0] */
-/* @0x2d24e8 bx lr */
+/* ── FUNC 0x2d4624 · b2ParticleGroup::GetAngle() const · size=16 · insn=4 */
+/* @0x2d4624 mov r3, r0 */
+/* @0x2d4628 ldr r0, [r0, #0x44] */
+/* @0x2d462c ldr r1, [r3, #0x48] */
+/* @0x2d4630 b 0xb6778 <atan2f@plt> */
 
-/* ── FUNC 0x2d24ec · b2RopeJoint::GetReactionForce(float) const · size=40 · insn=10 */
-/* @0x2d24ec vmov s14, r2 */
-/* @0x2d24f0 vldr s15, [r1, #92] */
-/* @0x2d24f4 vldr s13, [r1, #104] */
-/* @0x2d24f8 vmul.f32 s15, s14, s15 */
-/* @0x2d24fc vldr s14, [r1, #108] */
-/* @0x2d2500 vmul.f32 s14, s15, s14 */
-/* @0x2d2504 vmul.f32 s15, s15, s13 */
-/* @0x2d2508 vstr s14, [r0, #4] */
-/* @0x2d250c vstr s15, [r0] */
-/* @0x2d2510 bx lr */
+/* ── FUNC 0x2d4634 · b2ParticleGroup::GetUserData() const · size=8 · insn=2 */
+/* @0x2d4634 ldr r0, [r0, #0x50] */
+/* @0x2d4638 bx lr */
 
-/* ── FUNC 0x2d2514 · b2RopeJoint::GetReactionTorque(float) const · size=8 · insn=2 */
-/* @0x2d2514 mov r0, #0 */
-/* @0x2d2518 bx lr */
+/* ── FUNC 0x2d463c · b2ParticleGroup::SetUserData(void*) · size=8 · insn=2 */
+/* @0x2d463c str r1, [r0, #0x50] */
+/* @0x2d4640 bx lr */
 
-/* ── FUNC 0x2d251c · b2RopeJoint::~b2RopeJoint() · size=24 · insn=6 */
-/* @0x2d251c ldr r3, [pc, #0xc] */
-/* @0x2d2520 ldr r3, [pc, r3] */
-/* @0x2d2524 add r3, r3, #8 */
-/* @0x2d2528 str r3, [r0] */
-/* @0x2d252c bx lr */
-/* @0x2d2530 andseq pc, r1, r4, lsr r6 */
+/* ── FUNC 0x2d4644 · b2ParticleGroup::UpdateStatistics() const · size=464 · insn=116 */
+/* @0x2d4644 push {r4, r5, r6, lr} */
+/* @0x2d4648 mov r4, r0 */
+/* @0x2d464c ldr r0, [r0] */
+/* @0x2d4650 ldr r2, [r4, #0x1c] */
+/* @0x2d4654 ldr r3, [r0] */
+/* @0x2d4658 cmp r2, r3 */
+/* @0x2d465c popeq {r4, r5, r6, pc} */
+/* @0x2d4660 bl 0x2d85bc <_ZNK16b2ParticleSystem15GetParticleMassEv> */
+/* @0x2d4664 ldr r6, [r4, #0x4] */
+/* @0x2d4668 ldr r5, [r4, #0x8] */
+/* @0x2d466c vldr s10, [pc, #412] */
+/* @0x2d4670 ldr r12, [r4] */
+/* @0x2d4674 vstr s10, [r4, #32] */
+/* @0x2d4678 cmp r6, r5 */
+/* @0x2d467c vstr s10, [r4, #40] */
+/* @0x2d4680 vstr s10, [r4, #44] */
+/* @0x2d4684 vstr s10, [r4, #48] */
+/* @0x2d4688 vstr s10, [r4, #52] */
+/* @0x2d468c vmov s15, r0 */
+/* @0x2d4690 bge 0x2d4750 <_ZNK15b2ParticleGroup16UpdateStatisticsEv+0x10c> */
+/* @0x2d4694 ldr r0, [r12, #0x38] */
+/* @0x2d4698 vmov.f32 s6, s10 */
+/* @0x2d469c ldr r2, [r12, #0x40] */
+/* @0x2d46a0 lsl r1, r6, #3 */
+/* @0x2d46a4 add r3, r0, r1 */
+/* @0x2d46a8 add r0, r0, r5, lsl #3 */
+/* @0x2d46ac add r1, r2, r1 */
+/* @0x2d46b0 vmov.f32 s7, s10 */
+/* @0x2d46b4 vmov.f32 s8, s10 */
+/* @0x2d46b8 vmov.f32 s9, s10 */
+/* @0x2d46bc vldr s12, [r3, #4] */
+/* @0x2d46c0 mov r2, r3 */
+/* @0x2d46c4 vldr s13, [r2] */
+/* @0x2d46c8 mov r2, r1 */
+/* @0x2d46cc vmov.f32 s11, s8 */
+/* @0x2d46d0 add r3, r3, #8 */
+/* @0x2d46d4 cmp r3, r0 */
+/* @0x2d46d8 add r1, r1, #8 */
+/* @0x2d46dc vmla.f32 s11, s15, s13 */
+/* @0x2d46e0 vmla.f32 s7, s15, s12 */
+/* @0x2d46e4 vstr s11, [r4, #40] */
+/* @0x2d46e8 vmov.f32 s14, s10 */
+/* @0x2d46ec vstr s7, [r4, #44] */
+/* @0x2d46f0 vldr s8, [r1, #-4] */
+/* @0x2d46f4 vldr s13, [r2] */
+/* @0x2d46f8 vmla.f32 s14, s15, s8 */
+/* @0x2d46fc vmla.f32 s6, s15, s13 */
+/* @0x2d4700 vstr s14, [r4, #52] */
+/* @0x2d4704 vmov.f32 s8, s11 */
+/* @0x2d4708 vstr s6, [r4, #48] */
+/* @0x2d470c vmov.f32 s10, s14 */
+/* @0x2d4710 vadd.f32 s9, s15, s9 */
+/* @0x2d4714 bne 0x2d46bc <_ZNK15b2ParticleGroup16UpdateStatisticsEv+0x78> */
+/* @0x2d4718 vcmpe.f32 s9, #0 */
+/* @0x2d471c vstr s9, [r4, #32] */
+/* @0x2d4720 vmrs APSR_nzcv, fpscr */
+/* @0x2d4724 ble 0x2d4750 <_ZNK15b2ParticleGroup16UpdateStatisticsEv+0x10c> */
+/* @0x2d4728 vmov.f32 s10, #1.000000e+00 */
+/* @0x2d472c vdiv.f32 s9, s10, s9 */
+/* @0x2d4730 vmul.f32 s11, s11, s9 */
+/* @0x2d4734 vmul.f32 s12, s7, s9 */
+/* @0x2d4738 vstr s11, [r4, #40] */
+/* @0x2d473c vmul.f32 s13, s6, s9 */
+/* @0x2d4740 vstr s12, [r4, #44] */
+/* @0x2d4744 vmul.f32 s9, s14, s9 */
+/* @0x2d4748 vstr s13, [r4, #48] */
+/* @0x2d474c vstr s9, [r4, #52] */
+/* @0x2d4750 cmp r6, r5 */
+/* @0x2d4754 vldr s10, [pc, #180] */
+/* @0x2d4758 vstr s10, [r4, #36] */
+/* @0x2d475c vstr s10, [r4, #56] */
+/* @0x2d4760 bge 0x2d4804 <_ZNK15b2ParticleGroup16UpdateStatisticsEv+0x1c0> */
+/* @0x2d4764 ldr r3, [r12, #0x38] */
+/* @0x2d4768 vmov.f32 s8, s10 */
+/* @0x2d476c ldr r2, [r12, #0x40] */
+/* @0x2d4770 lsl r6, r6, #3 */
+/* @0x2d4774 add r1, r3, r5, lsl #3 */
+/* @0x2d4778 add r3, r3, r6 */
+/* @0x2d477c add r2, r2, r6 */
+/* @0x2d4780 vldr s4, [r4, #40] */
+/* @0x2d4784 vldr s5, [r4, #44] */
+/* @0x2d4788 vldr s6, [r4, #48] */
+/* @0x2d478c vldr s7, [r4, #52] */
+/* @0x2d4790 vldr s11, [r3, #4] */
+/* @0x2d4794 mov r0, r2 */
+/* @0x2d4798 vsub.f32 s11, s11, s5 */
+/* @0x2d479c vldr s13, [r0] */
+/* @0x2d47a0 vldr s12, [r3] */
+/* @0x2d47a4 vldr s9, [r2, #4] */
+/* @0x2d47a8 add r3, r3, #8 */
+/* @0x2d47ac add r2, r2, #8 */
+/* @0x2d47b0 cmp r3, r1 */
+/* @0x2d47b4 vsub.f32 s13, s13, s6 */
+/* @0x2d47b8 vmul.f32 s14, s11, s11 */
+/* @0x2d47bc vmul.f32 s13, s11, s13 */
+/* @0x2d47c0 vsub.f32 s12, s12, s4 */
+/* @0x2d47c4 vsub.f32 s11, s9, s7 */
+/* @0x2d47c8 vmla.f32 s14, s12, s12 */
+/* @0x2d47cc vnmls.f32 s13, s12, s11 */
+/* @0x2d47d0 vmla.f32 s8, s15, s14 */
+/* @0x2d47d4 vmla.f32 s10, s15, s13 */
+/* @0x2d47d8 vmov.f32 s14, s8 */
+/* @0x2d47dc vmov.f32 s13, s10 */
+/* @0x2d47e0 bne 0x2d4790 <_ZNK15b2ParticleGroup16UpdateStatisticsEv+0x14c> */
+/* @0x2d47e4 vcmpe.f32 s8, #0 */
+/* @0x2d47e8 vstr s10, [r4, #56] */
+/* @0x2d47ec vstr s8, [r4, #36] */
+/* @0x2d47f0 vmrs APSR_nzcv, fpscr */
+/* @0x2d47f4 vmovgt.f32 s15, #1.000000e+00 */
+/* @0x2d47f8 vdivgt.f32 s14, s15, s8 */
+/* @0x2d47fc vmulgt.f32 s13, s10, s14 */
+/* @0x2d4800 vstrgt s13, [r4, #56] */
+/* @0x2d4804 ldr r3, [r12] */
+/* @0x2d4808 str r3, [r4, #0x1c] */
+/* @0x2d480c pop {r4, r5, r6, pc} */
+/* @0x2d4810 andeq r0, r0, r0 */
 
-/* ── FUNC 0x2d251c · b2RopeJoint::~b2RopeJoint() · alias of the symbol above · insn=0 */
+/* ── FUNC 0x2d4814 · b2ParticleGroup::GetMass() const · size=20 · insn=5 */
+/* @0x2d4814 push {r4, lr} */
+/* @0x2d4818 mov r4, r0 */
+/* @0x2d481c bl 0x2d4644 <_ZNK15b2ParticleGroup16UpdateStatisticsEv> */
+/* @0x2d4820 ldr r0, [r4, #0x20] */
+/* @0x2d4824 pop {r4, pc} */
 
-/* ── FUNC 0x2d2534 · b2RopeJoint::Dump() · size=240 · insn=60 */
-/* @0x2d2534 push {r4, r5, r6, lr} */
-/* @0x2d2538 mov r4, r0 */
-/* @0x2d253c ldr r2, [r4, #0x30] */
-/* @0x2d2540 sub sp, sp, #8 */
-/* @0x2d2544 ldr r3, [r4, #0x34] */
-/* @0x2d2548 ldr r0, [pc, #0xb4] */
-/* @0x2d254c ldr r6, [r2, #0x8] */
-/* @0x2d2550 add r0, pc, r0 */
-/* @0x2d2554 ldr r5, [r3, #0x8] */
-/* @0x2d2558 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d255c ldr r0, [pc, #0xa4] */
-/* @0x2d2560 mov r1, r6 */
-/* @0x2d2564 add r0, pc, r0 */
-/* @0x2d2568 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d256c ldr r0, [pc, #0x98] */
-/* @0x2d2570 mov r1, r5 */
-/* @0x2d2574 add r0, pc, r0 */
-/* @0x2d2578 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d257c ldr r0, [pc, #0x8c] */
-/* @0x2d2580 ldrb r1, [r4, #0x3d] */
-/* @0x2d2584 add r0, pc, r0 */
-/* @0x2d2588 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d258c vldr s13, [r4, #68] */
-/* @0x2d2590 vldr s14, [r4, #72] */
-/* @0x2d2594 vcvt.f64.f32 d5, s13 */
-/* @0x2d2598 ldr r0, [pc, #0x74] */
-/* @0x2d259c add r0, pc, r0 */
-/* @0x2d25a0 vcvt.f64.f32 d7, s14 */
-/* @0x2d25a4 vmov r2, r3, d5 */
-/* @0x2d25a8 vstr d7, [sp] */
-/* @0x2d25ac bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d25b0 vldr s13, [r4, #76] */
-/* @0x2d25b4 vldr s14, [r4, #80] */
-/* @0x2d25b8 vcvt.f64.f32 d5, s13 */
-/* @0x2d25bc ldr r0, [pc, #0x54] */
-/* @0x2d25c0 add r0, pc, r0 */
-/* @0x2d25c4 vcvt.f64.f32 d7, s14 */
-/* @0x2d25c8 vmov r2, r3, d5 */
-/* @0x2d25cc vstr d7, [sp] */
-/* @0x2d25d0 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d25d4 vldr s15, [r4, #84] */
-/* @0x2d25d8 vcvt.f64.f32 d6, s15 */
-/* @0x2d25dc ldr r0, [pc, #0x38] */
-/* @0x2d25e0 add r0, pc, r0 */
-/* @0x2d25e4 vmov r2, r3, d6 */
-/* @0x2d25e8 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d25ec ldr r0, [pc, #0x2c] */
-/* @0x2d25f0 ldr r1, [r4, #0x38] */
-/* @0x2d25f4 add r0, pc, r0 */
-/* @0x2d25f8 add sp, sp, #8 */
-/* @0x2d25fc pop {r4, r5, r6, lr} */
-/* @0x2d2600 b 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2604 strdeq r9, r10, [r8], -r4 */
-/* @0x2d2608 andeq r9, r8, r8, asr #18 */
-/* @0x2d260c andeq r9, r8, r4, asr r9 */
-/* @0x2d2610 andeq r9, r8, r0, ror #18 */
-/* @0x2d2614 andeq r9, r8, r12, ror #18 */
-/* @0x2d2618 andeq r9, r8, r4, ror r9 */
-/* @0x2d261c andeq r9, r8, r12, ror sp */
-/* @0x2d2620 andeq r9, r8, r4, asr #19 */
+/* ── FUNC 0x2d4828 · b2ParticleGroup::GetInertia() const · size=20 · insn=5 */
+/* @0x2d4828 push {r4, lr} */
+/* @0x2d482c mov r4, r0 */
+/* @0x2d4830 bl 0x2d4644 <_ZNK15b2ParticleGroup16UpdateStatisticsEv> */
+/* @0x2d4834 ldr r0, [r4, #0x24] */
+/* @0x2d4838 pop {r4, pc} */
 
-/* ── FUNC 0x2d2624 · b2RopeJoint::~b2RopeJoint() · size=40 · insn=10 */
-/* @0x2d2624 ldr r3, [pc, #0x1c] */
-/* @0x2d2628 push {r4, lr} */
-/* @0x2d262c ldr r3, [pc, r3] */
-/* @0x2d2630 mov r4, r0 */
-/* @0x2d2634 add r3, r3, #8 */
-/* @0x2d2638 str r3, [r0] */
-/* @0x2d263c bl 0x27d1d0 <_ZdlPv> */
-/* @0x2d2640 mov r0, r4 */
-/* @0x2d2644 pop {r4, pc} */
-/* @0x2d2648 andseq pc, r1, r8, lsr #10 */
+/* ── FUNC 0x2d483c · b2ParticleGroup::GetCenter() const · size=40 · insn=10 */
+/* @0x2d483c push {r3, r4, r5, lr} */
+/* @0x2d4840 mov r5, r1 */
+/* @0x2d4844 add r5, r5, #40 */
+/* @0x2d4848 mov r4, r0 */
+/* @0x2d484c mov r0, r1 */
+/* @0x2d4850 bl 0x2d4644 <_ZNK15b2ParticleGroup16UpdateStatisticsEv> */
+/* @0x2d4854 ldm r5, {r0, r1} */
+/* @0x2d4858 stm r4, {r0, r1} */
+/* @0x2d485c mov r0, r4 */
+/* @0x2d4860 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x2d264c · b2RopeJoint::SolvePositionConstraints(b2SolverData const&) · size=504 · insn=126 */
-/* @0x2d264c push {r4, r5, r6, r7, r8, lr} */
-/* @0x2d2650 vpush {d8, d9, d10, d11, d12, d13} */
-/* @0x2d2654 mov r4, r0 */
-/* @0x2d2658 ldr r7, [r0, #0x60] */
-/* @0x2d265c mov r8, r1 */
-/* @0x2d2660 ldr r6, [r0, #0x64] */
-/* @0x2d2664 ldr r5, [r1, #0x18] */
-/* @0x2d2668 add r2, r7, r7, lsl #1 */
-/* @0x2d266c add r3, r6, r6, lsl #1 */
-/* @0x2d2670 add r2, r5, r2, lsl #2 */
-/* @0x2d2674 vldr s23, [r2, #8] */
-/* @0x2d2678 vmov r0, s23 */
-/* @0x2d267c add r3, r5, r3, lsl #2 */
-/* @0x2d2680 vldr s27, [r2] */
-/* @0x2d2684 vldr s22, [r3, #8] */
-/* @0x2d2688 vldr s26, [r2, #4] */
-/* @0x2d268c vldr s25, [r3] */
-/* @0x2d2690 vldr s24, [r3, #4] */
-/* @0x2d2694 bl 0xb6580 <sinf@plt> */
-/* @0x2d2698 vmov s16, r0 */
-/* @0x2d269c vmov r0, s23 */
-/* @0x2d26a0 bl 0xb658c <cosf@plt> */
-/* @0x2d26a4 vmov s17, r0 */
-/* @0x2d26a8 vmov r0, s22 */
-/* @0x2d26ac bl 0xb6580 <sinf@plt> */
-/* @0x2d26b0 vmov s21, r0 */
-/* @0x2d26b4 vmov r0, s22 */
-/* @0x2d26b8 bl 0xb658c <cosf@plt> */
-/* @0x2d26bc vldr s15, [r4, #140] */
-/* @0x2d26c0 vldr s18, [r4, #80] */
-/* @0x2d26c4 vsub.f32 s18, s18, s15 */
-/* @0x2d26c8 vldr s10, [r4, #76] */
-/* @0x2d26cc vldr s13, [r4, #136] */
-/* @0x2d26d0 vldr s19, [r4, #72] */
-/* @0x2d26d4 vldr s11, [r4, #132] */
-/* @0x2d26d8 vldr s12, [r4, #68] */
-/* @0x2d26dc vldr s15, [r4, #128] */
-/* @0x2d26e0 vsub.f32 s13, s10, s13 */
-/* @0x2d26e4 vsub.f32 s19, s19, s11 */
-/* @0x2d26e8 vsub.f32 s15, s12, s15 */
-/* @0x2d26ec vmov s14, r0 */
-/* @0x2d26f0 vmul.f32 s20, s18, s14 */
-/* @0x2d26f4 vmul.f32 s18, s18, s21 */
-/* @0x2d26f8 vmla.f32 s20, s13, s21 */
-/* @0x2d26fc vmul.f32 s21, s19, s17 */
-/* @0x2d2700 vnmls.f32 s18, s13, s14 */
-/* @0x2d2704 vmla.f32 s21, s15, s16 */
-/* @0x2d2708 vmul.f32 s19, s19, s16 */
-/* @0x2d270c vadd.f32 s16, s24, s20 */
-/* @0x2d2710 vsub.f32 s16, s16, s26 */
-/* @0x2d2714 vnmls.f32 s19, s15, s17 */
-/* @0x2d2718 vadd.f32 s17, s25, s18 */
-/* @0x2d271c vsub.f32 s16, s16, s21 */
-/* @0x2d2720 vsub.f32 s17, s17, s27 */
-/* @0x2d2724 vmul.f32 s14, s16, s16 */
-/* @0x2d2728 vsub.f32 s17, s17, s19 */
-/* @0x2d272c vmla.f32 s14, s17, s17 */
-/* @0x2d2730 vsqrt.f32 s15, s14 */
-/* @0x2d2734 vcmp.f32 s15, s15 */
-/* @0x2d2738 vmrs APSR_nzcv, fpscr */
-/* @0x2d273c bne 0x2d2818 <_ZN11b2RopeJoint24SolvePositionConstraintsERK12b2SolverData+0x1cc> */
-/* @0x2d2740 vldr s14, [pc, #236] */
-/* @0x2d2744 vcmpe.f32 s15, s14 */
-/* @0x2d2748 vldr s12, [pc, #232] */
-/* @0x2d274c vmrs APSR_nzcv, fpscr */
-/* @0x2d2750 vmovpl.f32 s13, #1.000000e+00 */
-/* @0x2d2754 vldrmi s14, [pc, #224] */
-/* @0x2d2758 vmovpl.f32 s14, s15 */
-/* @0x2d275c vdivpl.f32 s15, s13, s15 */
-/* @0x2d2760 vmulpl.f32 s17, s17, s15 */
-/* @0x2d2764 vmulpl.f32 s16, s16, s15 */
-/* @0x2d2768 vldr s15, [r4, #84] */
-/* @0x2d276c vsub.f32 s15, s14, s15 */
-/* @0x2d2770 vcmpe.f32 s15, s12 */
-/* @0x2d2774 vmrs APSR_nzcv, fpscr */
-/* @0x2d2778 bpl 0x2d278c <_ZN11b2RopeJoint24SolvePositionConstraintsERK12b2SolverData+0x140> */
-/* @0x2d277c vcmpe.f32 s15, #0 */
-/* @0x2d2780 vmrs APSR_nzcv, fpscr */
-/* @0x2d2784 vmovpl.f32 s12, s15 */
-/* @0x2d2788 vldrmi s12, [pc, #172] */
-/* @0x2d278c vldr s14, [r4, #160] */
-/* @0x2d2790 vldr s13, [r4, #144] */
-/* @0x2d2794 vnmul.f32 s12, s14, s12 */
-/* @0x2d2798 vldr s9, [r4, #152] */
-/* @0x2d279c vldr s14, [r4, #148] */
-/* @0x2d27a0 vldr s10, [r4, #156] */
-/* @0x2d27a4 add r7, r7, r7, lsl #1 */
-/* @0x2d27a8 add r6, r6, r6, lsl #1 */
-/* @0x2d27ac vldr s11, [pc, #140] */
-/* @0x2d27b0 add r7, r5, r7, lsl #2 */
-/* @0x2d27b4 add r5, r5, r6, lsl #2 */
-/* @0x2d27b8 vmul.f32 s17, s12, s17 */
-/* @0x2d27bc vmul.f32 s16, s12, s16 */
-/* @0x2d27c0 vmul.f32 s21, s21, s17 */
-/* @0x2d27c4 vmul.f32 s20, s20, s17 */
-/* @0x2d27c8 vnmls.f32 s21, s19, s16 */
-/* @0x2d27cc vnmls.f32 s20, s18, s16 */
-/* @0x2d27d0 vmls.f32 s27, s13, s17 */
-/* @0x2d27d4 vmls.f32 s26, s13, s16 */
-/* @0x2d27d8 vstr s27, [r7] */
-/* @0x2d27dc vmls.f32 s23, s21, s9 */
-/* @0x2d27e0 vstr s26, [r7, #4] */
-/* @0x2d27e4 vmla.f32 s25, s14, s17 */
-/* @0x2d27e8 vstr s23, [r7, #8] */
-/* @0x2d27ec vmla.f32 s24, s14, s16 */
-/* @0x2d27f0 vstr s25, [r5] */
-/* @0x2d27f4 vmla.f32 s22, s20, s10 */
-/* @0x2d27f8 vstr s24, [r5, #4] */
-/* @0x2d27fc vstr s22, [r5, #8] */
-/* @0x2d2800 vpop {d8, d9, d10, d11, d12, d13} */
-/* @0x2d2804 vcmpe.f32 s15, s11 */
-/* @0x2d2808 vmrs APSR_nzcv, fpscr */
-/* @0x2d280c movpl r0, #0 */
-/* @0x2d2810 movmi r0, #1 */
-/* @0x2d2814 pop {r4, r5, r6, r7, r8, pc} */
-/* @0x2d2818 vmov r0, s14 */
-/* @0x2d281c bl 0xb6700 <sqrtf@plt> */
-/* @0x2d2820 ldr r5, [r8, #0x18] */
-/* @0x2d2824 ldr r7, [r4, #0x60] */
-/* @0x2d2828 ldr r6, [r4, #0x64] */
-/* @0x2d282c vmov s15, r0 */
-/* @0x2d2830 b 0x2d2740 <_ZN11b2RopeJoint24SolvePositionConstraintsERK12b2SolverData+0xf4> */
-/* @0x2d2834 strlo r0, [r0], #-0 */
-/* @0x2d2838 cdplo p12, #0x4, c12, c12, c13, #0x6 */
-/* @0x2d283c andeq r0, r0, r0 */
-/* @0x2d2840 bllo 0xfebc8470 <b2_toiTime+0xfffffffffe46efcc> */
+/* ── FUNC 0x2d4864 · b2ParticleGroup::GetLinearVelocity() const · size=40 · insn=10 */
+/* @0x2d4864 push {r3, r4, r5, lr} */
+/* @0x2d4868 mov r5, r1 */
+/* @0x2d486c add r5, r5, #48 */
+/* @0x2d4870 mov r4, r0 */
+/* @0x2d4874 mov r0, r1 */
+/* @0x2d4878 bl 0x2d4644 <_ZNK15b2ParticleGroup16UpdateStatisticsEv> */
+/* @0x2d487c ldm r5, {r0, r1} */
+/* @0x2d4880 stm r4, {r0, r1} */
+/* @0x2d4884 mov r0, r4 */
+/* @0x2d4888 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x2d2844 · b2RopeJoint::InitVelocityConstraints(b2SolverData const&) · size=772 · insn=193 */
-/* @0x2d2844 ldr r2, [r0, #0x30] */
-/* @0x2d2848 vldr s15, [r2, #136] */
-/* @0x2d284c push {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr} */
-/* @0x2d2850 vpush {d8, d9, d10, d11, d12, d13, d14} */
-/* @0x2d2854 mov r5, r1 */
-/* @0x2d2858 ldr r3, [r0, #0x34] */
-/* @0x2d285c add r1, r2, #44 */
-/* @0x2d2860 ldr lr, [r2, #0x8] */
-/* @0x2d2864 mov r4, r0 */
-/* @0x2d2868 ldr r7, [r5, #0x18] */
-/* @0x2d286c add r10, r0, #128 */
-/* @0x2d2870 ldr r12, [r3, #0x8] */
-/* @0x2d2874 add r6, r0, #136 */
-/* @0x2d2878 ldr r11, [r2, #0x90] */
-/* @0x2d287c add r9, r3, #44 */
-/* @0x2d2880 ldm r1, {r0, r1} */
-/* @0x2d2884 str lr, [r4, #0x60] */
-/* @0x2d2888 add lr, lr, lr, lsl #1 */
-/* @0x2d288c ldr r8, [r5, #0x1c] */
-/* @0x2d2890 lsl lr, lr, #2 */
-/* @0x2d2894 str r12, [r4, #0x64] */
-/* @0x2d2898 add r12, r12, r12, lsl #1 */
-/* @0x2d289c add r2, r7, lr */
-/* @0x2d28a0 stm r10, {r0, r1} */
-/* @0x2d28a4 add lr, r8, lr */
-/* @0x2d28a8 lsl r12, r12, #2 */
-/* @0x2d28ac ldm r9, {r0, r1} */
-/* @0x2d28b0 ldr r10, [r3, #0x88] */
-/* @0x2d28b4 vldr s24, [r2] */
-/* @0x2d28b8 ldr r9, [r3, #0x90] */
-/* @0x2d28bc add r3, r7, r12 */
-/* @0x2d28c0 ldr r7, [r2, #0x8] */
-/* @0x2d28c4 add r12, r8, r12 */
-/* @0x2d28c8 stm r6, {r0, r1} */
-/* @0x2d28cc vstr s15, [r4, #144] */
-/* @0x2d28d0 str r11, [r4, #0x98] */
-/* @0x2d28d4 vldr s26, [r2, #4] */
-/* @0x2d28d8 str r10, [r4, #0x94] */
-/* @0x2d28dc mov r0, r7 */
-/* @0x2d28e0 str r9, [r4, #0x9c] */
-/* @0x2d28e4 vldr s25, [r3] */
-/* @0x2d28e8 ldr r6, [r3, #0x8] */
-/* @0x2d28ec vldr s27, [r3, #4] */
-/* @0x2d28f0 vldr s21, [lr] */
-/* @0x2d28f4 vldr s20, [lr, #4] */
-/* @0x2d28f8 vldr s19, [lr, #8] */
-/* @0x2d28fc vldr s18, [r12] */
-/* @0x2d2900 vldr s17, [r12, #4] */
-/* @0x2d2904 vldr s16, [r12, #8] */
-/* @0x2d2908 bl 0xb6580 <sinf@plt> */
-/* @0x2d290c vmov s22, r0 */
-/* @0x2d2910 mov r0, r7 */
-/* @0x2d2914 bl 0xb658c <cosf@plt> */
-/* @0x2d2918 vmov s23, r0 */
-/* @0x2d291c mov r0, r6 */
-/* @0x2d2920 bl 0xb6580 <sinf@plt> */
-/* @0x2d2924 vmov s28, r0 */
-/* @0x2d2928 mov r0, r6 */
-/* @0x2d292c bl 0xb658c <cosf@plt> */
-/* @0x2d2930 vldr s15, [r4, #132] */
-/* @0x2d2934 vldr s14, [r4, #72] */
-/* @0x2d2938 vsub.f32 s14, s14, s15 */
-/* @0x2d293c vldr s13, [r4, #128] */
-/* @0x2d2940 vldr s11, [r4, #68] */
-/* @0x2d2944 vmul.f32 s15, s14, s22 */
-/* @0x2d2948 vsub.f32 s11, s11, s13 */
-/* @0x2d294c vmov s10, r0 */
-/* @0x2d2950 vnmls.f32 s15, s11, s23 */
-/* @0x2d2954 vstr s15, [r4, #112] */
-/* @0x2d2958 vldr s12, [r4, #80] */
-/* @0x2d295c vldr s13, [r4, #140] */
-/* @0x2d2960 vsub.f32 s13, s12, s13 */
-/* @0x2d2964 vldr s8, [r4, #76] */
-/* @0x2d2968 vldr s9, [r4, #136] */
-/* @0x2d296c vmul.f32 s12, s13, s10 */
-/* @0x2d2970 vsub.f32 s9, s8, s9 */
-/* @0x2d2974 vmul.f32 s13, s13, s28 */
-/* @0x2d2978 vmla.f32 s12, s9, s28 */
-/* @0x2d297c vmul.f32 s14, s14, s23 */
-/* @0x2d2980 vstr s12, [r4, #124] */
-/* @0x2d2984 vnmls.f32 s13, s9, s10 */
-/* @0x2d2988 vmla.f32 s14, s11, s22 */
-/* @0x2d298c vstr s13, [r4, #120] */
-/* @0x2d2990 vadd.f32 s12, s12, s27 */
-/* @0x2d2994 vstr s14, [r4, #116] */
-/* @0x2d2998 vsub.f32 s26, s12, s26 */
-/* @0x2d299c vadd.f32 s13, s13, s25 */
-/* @0x2d29a0 vsub.f32 s14, s26, s14 */
-/* @0x2d29a4 vsub.f32 s24, s13, s24 */
-/* @0x2d29a8 vstr s14, [r4, #108] */
-/* @0x2d29ac vmul.f32 s14, s14, s14 */
-/* @0x2d29b0 vsub.f32 s15, s24, s15 */
-/* @0x2d29b4 vmla.f32 s14, s15, s15 */
-/* @0x2d29b8 vstr s15, [r4, #104] */
-/* @0x2d29bc vsqrt.f32 s15, s14 */
-/* @0x2d29c0 vcmp.f32 s15, s15 */
-/* @0x2d29c4 vmrs APSR_nzcv, fpscr */
-/* @0x2d29c8 bne 0x2d2b30 <_ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData+0x2ec> */
-/* @0x2d29cc vldr s14, [r4, #84] */
-/* @0x2d29d0 vsub.f32 s14, s15, s14 */
-/* @0x2d29d4 vstr s15, [r4, #88] */
-/* @0x2d29d8 vcmpe.f32 s14, #0 */
-/* @0x2d29dc vldr s14, [pc, #348] */
-/* @0x2d29e0 vmrs APSR_nzcv, fpscr */
-/* @0x2d29e4 vcmpe.f32 s15, s14 */
-/* @0x2d29e8 movgt r3, #2 */
-/* @0x2d29ec movle r3, #0 */
-/* @0x2d29f0 str r3, [r4, #0xa4] */
-/* @0x2d29f4 vmrs APSR_nzcv, fpscr */
-/* @0x2d29f8 ble 0x2d2b14 <_ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData+0x2d0> */
-/* @0x2d29fc vmov.f32 s3, #1.000000e+00 */
-/* @0x2d2a00 vldr s12, [r4, #104] */
-/* @0x2d2a04 vldr s14, [r4, #108] */
-/* @0x2d2a08 vldr s4, [r4, #116] */
-/* @0x2d2a0c vldr s6, [r4, #112] */
-/* @0x2d2a10 vldr s5, [r4, #124] */
-/* @0x2d2a14 vldr s8, [r4, #152] */
-/* @0x2d2a18 vldr s10, [r4, #144] */
-/* @0x2d2a1c vldr s7, [r4, #120] */
-/* @0x2d2a20 vldr s9, [r4, #156] */
-/* @0x2d2a24 vldr s11, [r4, #148] */
-/* @0x2d2a28 vdiv.f32 s15, s3, s15 */
-/* @0x2d2a2c vmul.f32 s12, s15, s12 */
-/* @0x2d2a30 vmul.f32 s15, s15, s14 */
-/* @0x2d2a34 vstr s12, [r4, #104] */
-/* @0x2d2a38 vmul.f32 s13, s12, s4 */
-/* @0x2d2a3c vstr s15, [r4, #108] */
-/* @0x2d2a40 vnmls.f32 s13, s15, s6 */
-/* @0x2d2a44 vmul.f32 s14, s12, s5 */
-/* @0x2d2a48 vmul.f32 s2, s8, s13 */
-/* @0x2d2a4c vmov.f32 s1, s10 */
-/* @0x2d2a50 vnmls.f32 s14, s15, s7 */
-/* @0x2d2a54 vmla.f32 s1, s2, s13 */
-/* @0x2d2a58 vmul.f32 s2, s9, s14 */
-/* @0x2d2a5c vadd.f32 s13, s1, s11 */
-/* @0x2d2a60 vmla.f32 s13, s2, s14 */
-/* @0x2d2a64 vcmp.f32 s13, #0 */
-/* @0x2d2a68 vmrs APSR_nzcv, fpscr */
-/* @0x2d2a6c vdivne.f32 s13, s3, s13 */
-/* @0x2d2a70 beq 0x2d2b0c <_ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData+0x2c8> */
-/* @0x2d2a74 ldrb r3, [r5, #0x14] */
-/* @0x2d2a78 vstr s13, [r4, #160] */
-/* @0x2d2a7c cmp r3, #0 */
-/* @0x2d2a80 moveq r3, #0 */
-/* @0x2d2a84 streq r3, [r4, #0x5c] */
-/* @0x2d2a88 bne 0x2d2ac8 <_ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData+0x284> */
-/* @0x2d2a8c ldr r2, [r4, #0x60] */
-/* @0x2d2a90 ldr r3, [r4, #0x64] */
-/* @0x2d2a94 ldr r1, [r5, #0x1c] */
-/* @0x2d2a98 add r2, r2, r2, lsl #1 */
-/* @0x2d2a9c add r3, r3, r3, lsl #1 */
-/* @0x2d2aa0 add r2, r1, r2, lsl #2 */
-/* @0x2d2aa4 vstr s21, [r2] */
-/* @0x2d2aa8 vstr s20, [r2, #4] */
-/* @0x2d2aac vstr s19, [r2, #8] */
-/* @0x2d2ab0 add r3, r1, r3, lsl #2 */
-/* @0x2d2ab4 vstr s18, [r3] */
-/* @0x2d2ab8 vstr s17, [r3, #4] */
-/* @0x2d2abc vstr s16, [r3, #8] */
-/* @0x2d2ac0 vpop {d8, d9, d10, d11, d12, d13, d14} */
-/* @0x2d2ac4 pop {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc} */
-/* @0x2d2ac8 vldr s13, [r4, #92] */
-/* @0x2d2acc vldr s14, [r5, #8] */
-/* @0x2d2ad0 vmul.f32 s14, s13, s14 */
-/* @0x2d2ad4 vmul.f32 s12, s14, s12 */
-/* @0x2d2ad8 vstr s14, [r4, #92] */
-/* @0x2d2adc vmul.f32 s15, s14, s15 */
-/* @0x2d2ae0 vmul.f32 s4, s4, s12 */
-/* @0x2d2ae4 vmul.f32 s5, s5, s12 */
-/* @0x2d2ae8 vnmls.f32 s4, s6, s15 */
-/* @0x2d2aec vnmls.f32 s5, s7, s15 */
-/* @0x2d2af0 vmls.f32 s19, s8, s4 */
-/* @0x2d2af4 vmla.f32 s16, s9, s5 */
-/* @0x2d2af8 vmls.f32 s21, s10, s12 */
-/* @0x2d2afc vmls.f32 s20, s10, s15 */
-/* @0x2d2b00 vmla.f32 s18, s11, s12 */
-/* @0x2d2b04 vmla.f32 s17, s11, s15 */
-/* @0x2d2b08 b 0x2d2a8c <_ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData+0x248> */
-/* @0x2d2b0c vldr s13, [pc, #48] */
-/* @0x2d2b10 b 0x2d2a74 <_ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData+0x230> */
-/* @0x2d2b14 vpop {d8, d9, d10, d11, d12, d13, d14} */
-/* @0x2d2b18 mov r3, #0 */
-/* @0x2d2b1c str r3, [r4, #0x68] */
-/* @0x2d2b20 str r3, [r4, #0x6c] */
-/* @0x2d2b24 str r3, [r4, #0xa0] */
-/* @0x2d2b28 str r3, [r4, #0x5c] */
-/* @0x2d2b2c pop {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc} */
-/* @0x2d2b30 vmov r0, s14 */
-/* @0x2d2b34 bl 0xb6700 <sqrtf@plt> */
-/* @0x2d2b38 vmov s15, r0 */
-/* @0x2d2b3c b 0x2d29cc <_ZN11b2RopeJoint23InitVelocityConstraintsERK12b2SolverData+0x188> */
-/* @0x2d2b40 bllo 0xfebc8770 <b2_toiTime+0xfffffffffe46f2cc> */
-/* @0x2d2b44 andeq r0, r0, r0 */
+/* ── FUNC 0x2d488c · b2ParticleGroup::GetAngularVelocity() const · size=20 · insn=5 */
+/* @0x2d488c push {r4, lr} */
+/* @0x2d4890 mov r4, r0 */
+/* @0x2d4894 bl 0x2d4644 <_ZNK15b2ParticleGroup16UpdateStatisticsEv> */
+/* @0x2d4898 ldr r0, [r4, #0x38] */
+/* @0x2d489c pop {r4, pc} */
 
-/* ── FUNC 0x2d2b48 · b2RopeJoint::b2RopeJoint(b2RopeJointDef const*) · size=108 · insn=27 */
-/* @0x2d2b48 push {r4, r5, r6, lr} */
-/* @0x2d2b4c mov r4, r0 */
-/* @0x2d2b50 mov r5, r1 */
-/* @0x2d2b54 bl 0x2cdee0 <_ZN7b2JointC2EPK10b2JointDef> */
-/* @0x2d2b58 add r3, r5, #20 */
-/* @0x2d2b5c ldr r2, [pc, #0x4c] */
-/* @0x2d2b60 add r6, r5, #28 */
-/* @0x2d2b64 ldr r5, [r5, #0x24] */
-/* @0x2d2b68 ldm r3, {r0, r1} */
-/* @0x2d2b6c ldr r2, [pc, r2] */
-/* @0x2d2b70 mov r3, r4 */
-/* @0x2d2b74 add r2, r2, #8 */
-/* @0x2d2b78 str r2, [r3], #68 */
-/* @0x2d2b7c add r12, r4, #76 */
-/* @0x2d2b80 stm r3, {r0, r1} */
-/* @0x2d2b84 mov r2, #0 */
-/* @0x2d2b88 ldm r6, {r0, r1} */
-/* @0x2d2b8c mov r3, #0 */
-/* @0x2d2b90 stm r12, {r0, r1} */
-/* @0x2d2b94 mov r0, r4 */
-/* @0x2d2b98 str r5, [r4, #0x54] */
-/* @0x2d2b9c str r2, [r4, #0xa4] */
-/* @0x2d2ba0 str r3, [r4, #0xa0] */
-/* @0x2d2ba4 str r3, [r4, #0x5c] */
-/* @0x2d2ba8 str r3, [r4, #0x58] */
-/* @0x2d2bac pop {r4, r5, r6, pc} */
-/* @0x2d2bb0 andseq pc, r1, r8 */
+/* ── FUNC 0x2d48a0 · b2QueryCallback::~b2QueryCallback() · size=24 · insn=6 */
+/* @0x2d48a0 ldr r3, [pc, #0xc] */
+/* @0x2d48a4 ldr r3, [pc, r3] */
+/* @0x2d48a8 add r3, r3, #8 */
+/* @0x2d48ac str r3, [r0] */
+/* @0x2d48b0 bx lr */
+/* @0x2d48b4 ldrsbeq sp, [r1], -r12 */
 
-/* ── FUNC 0x2d2b48 · b2RopeJoint::b2RopeJoint(b2RopeJointDef const*) · alias of the symbol above · insn=0 */
+/* ── FUNC 0x2d48a0 · b2QueryCallback::~b2QueryCallback() · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x2d2bb4 · b2RopeJoint::GetMaxLength() const · size=8 · insn=2 */
-/* @0x2d2bb4 ldr r0, [r0, #0x54] */
-/* @0x2d2bb8 bx lr */
+/* ── FUNC 0x2d48b8 · b2QueryCallback::ReportParticle(int) · size=8 · insn=2 */
+/* @0x2d48b8 mov r0, #0 */
+/* @0x2d48bc bx lr */
 
-/* ── FUNC 0x2d2bbc · b2RopeJoint::GetLimitState() const · size=8 · insn=2 */
-/* @0x2d2bbc ldr r0, [r0, #0xa4] */
-/* @0x2d2bc0 bx lr */
+/* ── FUNC 0x2d48c0 · anon_2d48c0 · size=204 · insn=52 */
+/* @0x2d48c0 mov r0, #0 */
+/* @0x2d48c4 bx lr */
+/* @0x2d48c8 ldr r0, [r0, #0x8] */
+/* @0x2d48cc ubfx r0, r0, #0x1, #0x1 */
+/* @0x2d48d0 bx lr */
+/* @0x2d48d4 ldr r0, [r0] */
+/* @0x2d48d8 lsr r0, r0, #31 */
+/* @0x2d48dc bx lr */
+/* @0x2d48e0 ldr r3, [r0] */
+/* @0x2d48e4 cmp r3, #0 */
+/* @0x2d48e8 ldrge r0, [r0, #0x4] */
+/* @0x2d48ec lsrge r0, r0, #31 */
+/* @0x2d48f0 movlt r0, #1 */
+/* @0x2d48f4 bx lr */
+/* @0x2d48f8 ldr r0, [r0] */
+/* @0x2d48fc lsr r0, r0, #31 */
+/* @0x2d4900 bx lr */
+/* @0x2d4904 ldr r3, [r0] */
+/* @0x2d4908 cmp r3, #0 */
+/* @0x2d490c ldrge r0, [r0, #0x4] */
+/* @0x2d4910 lsrge r0, r0, #31 */
+/* @0x2d4914 movlt r0, #1 */
+/* @0x2d4918 bx lr */
+/* @0x2d491c ldr r3, [r0] */
+/* @0x2d4920 cmp r3, #0 */
+/* @0x2d4924 blt 0x2d4940 <_ZN15b2QueryCallback14ReportParticleEi+0x88> */
+/* @0x2d4928 ldr r3, [r0, #0x4] */
+/* @0x2d492c cmp r3, #0 */
+/* @0x2d4930 blt 0x2d4940 <_ZN15b2QueryCallback14ReportParticleEi+0x88> */
+/* @0x2d4934 ldr r0, [r0, #0x8] */
+/* @0x2d4938 lsr r0, r0, #31 */
+/* @0x2d493c bx lr */
+/* @0x2d4940 mov r0, #1 */
+/* @0x2d4944 bx lr */
+/* @0x2d4948 ldr r3, [pc, #0xc] */
+/* @0x2d494c ldr r3, [pc, r3] */
+/* @0x2d4950 add r3, r3, #8 */
+/* @0x2d4954 str r3, [r0] */
+/* @0x2d4958 bx lr */
+/* @0x2d495c andseq sp, r1, r4, lsr r2 */
+/* @0x2d4960 ldr r3, [pc, #0xc] */
+/* @0x2d4964 ldr r3, [pc, r3] */
+/* @0x2d4968 add r3, r3, #8 */
+/* @0x2d496c str r3, [r0] */
+/* @0x2d4970 bx lr */
+/* @0x2d4974 andseq sp, r1, r12, lsl r2 */
+/* @0x2d4978 ldr r3, [pc, #0xc] */
+/* @0x2d497c ldr r3, [pc, r3] */
+/* @0x2d4980 add r3, r3, #8 */
+/* @0x2d4984 str r3, [r0] */
+/* @0x2d4988 bx lr */
+/* @0x2d498c andseq sp, r1, r4, lsl #4 */
 
-/* ── FUNC 0x2d2bc4 · b2WeldJoint::SolveVelocityConstraints(b2SolverData const&) · size=540 · insn=135 */
-/* @0x2d2bc4 ldr r2, [r0, #0x74] */
-/* @0x2d2bc8 vldr s15, [r0, #68] */
-/* @0x2d2bcc ldr r12, [r0, #0x78] */
-/* @0x2d2bd0 vcmpe.f32 s15, #0 */
-/* @0x2d2bd4 ldr r1, [r1, #0x1c] */
-/* @0x2d2bd8 vpush {d8, d9, d10, d11, d12, d13} */
-/* @0x2d2bdc add r2, r2, r2, lsl #1 */
-/* @0x2d2be0 vldr s7, [r0, #156] */
-/* @0x2d2be4 add r12, r12, r12, lsl #1 */
-/* @0x2d2be8 vldr s8, [r0, #160] */
-/* @0x2d2bec add r2, r1, r2, lsl #2 */
-/* @0x2d2bf0 vldr s2, [r0, #164] */
-/* @0x2d2bf4 add r3, r1, r12, lsl #2 */
-/* @0x2d2bf8 vmrs APSR_nzcv, fpscr */
-/* @0x2d2bfc vldr s3, [r0, #168] */
-/* @0x2d2c00 vldr s4, [r2] */
-/* @0x2d2c04 vldr s6, [r2, #4] */
-/* @0x2d2c08 vldr s14, [r2, #8] */
-/* @0x2d2c0c vldr s5, [r3] */
-/* @0x2d2c10 vldr s9, [r3, #4] */
-/* @0x2d2c14 vldr s15, [r3, #8] */
-/* @0x2d2c18 ble 0x2d2d04 <_ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData+0x140> */
-/* @0x2d2c1c vsub.f32 s24, s15, s14 */
-/* @0x2d2c20 vldr s13, [r0, #76] */
-/* @0x2d2c24 vldr s17, [r0, #112] */
-/* @0x2d2c28 vldr s12, [r0, #100] */
-/* @0x2d2c2c vldr s16, [r0, #204] */
-/* @0x2d2c30 vldr s18, [r0, #132] */
-/* @0x2d2c34 vldr s1, [r0, #136] */
-/* @0x2d2c38 vldr s19, [r0, #124] */
-/* @0x2d2c3c vldr s0, [r0, #128] */
-/* @0x2d2c40 vldr s10, [r0, #184] */
-/* @0x2d2c44 vldr s23, [r0, #172] */
-/* @0x2d2c48 vldr s11, [r0, #188] */
-/* @0x2d2c4c vldr s22, [r0, #176] */
-/* @0x2d2c50 vldr s21, [r0, #104] */
-/* @0x2d2c54 vldr s20, [r0, #108] */
-/* @0x2d2c58 vadd.f32 s13, s24, s13 */
-/* @0x2d2c5c vmla.f32 s13, s17, s12 */
-/* @0x2d2c60 vnmul.f32 s16, s16, s13 */
-/* @0x2d2c64 vmla.f32 s15, s3, s16 */
-/* @0x2d2c68 vmov.f32 s12, s9 */
-/* @0x2d2c6c vmla.f32 s12, s15, s18 */
-/* @0x2d2c70 vmov.f32 s13, s5 */
-/* @0x2d2c74 vmls.f32 s14, s2, s16 */
-/* @0x2d2c78 vmls.f32 s13, s15, s1 */
-/* @0x2d2c7c vsub.f32 s12, s12, s6 */
-/* @0x2d2c80 vmls.f32 s12, s14, s19 */
-/* @0x2d2c84 vsub.f32 s13, s13, s4 */
-/* @0x2d2c88 vmla.f32 s13, s14, s0 */
-/* @0x2d2c8c vmul.f32 s10, s12, s10 */
-/* @0x2d2c90 vmul.f32 s11, s12, s11 */
-/* @0x2d2c94 vmla.f32 s10, s13, s23 */
-/* @0x2d2c98 vmla.f32 s11, s13, s22 */
-/* @0x2d2c9c vneg.f32 s12, s10 */
-/* @0x2d2ca0 vmul.f32 s0, s0, s12 */
-/* @0x2d2ca4 vmul.f32 s1, s1, s12 */
-/* @0x2d2ca8 vneg.f32 s13, s11 */
-/* @0x2d2cac vnmls.f32 s0, s19, s13 */
-/* @0x2d2cb0 vnmls.f32 s1, s18, s13 */
-/* @0x2d2cb4 vmls.f32 s4, s7, s12 */
-/* @0x2d2cb8 vmla.f32 s5, s8, s12 */
-/* @0x2d2cbc vmls.f32 s14, s2, s0 */
-/* @0x2d2cc0 vmla.f32 s15, s3, s1 */
-/* @0x2d2cc4 vmls.f32 s6, s7, s13 */
-/* @0x2d2cc8 vmla.f32 s9, s8, s13 */
-/* @0x2d2ccc vadd.f32 s16, s17, s16 */
-/* @0x2d2cd0 vsub.f32 s10, s21, s10 */
-/* @0x2d2cd4 vstr s16, [r0, #112] */
-/* @0x2d2cd8 vsub.f32 s11, s20, s11 */
-/* @0x2d2cdc vstr s10, [r0, #104] */
-/* @0x2d2ce0 vstr s11, [r0, #108] */
-/* @0x2d2ce4 vstr s4, [r2] */
-/* @0x2d2ce8 vstr s6, [r2, #4] */
-/* @0x2d2cec vstr s14, [r2, #8] */
-/* @0x2d2cf0 vpop {d8, d9, d10, d11, d12, d13} */
-/* @0x2d2cf4 vstr s5, [r3] */
-/* @0x2d2cf8 vstr s9, [r3, #4] */
-/* @0x2d2cfc vstr s15, [r3, #8] */
-/* @0x2d2d00 bx lr */
-/* @0x2d2d04 vmov.f32 s1, s9 */
-/* @0x2d2d08 vldr s19, [r0, #132] */
-/* @0x2d2d0c vldr s16, [r0, #136] */
-/* @0x2d2d10 vldr s18, [r0, #124] */
-/* @0x2d2d14 vldr s0, [r0, #128] */
-/* @0x2d2d18 vldr s11, [r0, #184] */
-/* @0x2d2d1c vldr s17, [r0, #172] */
-/* @0x2d2d20 vldr s12, [r0, #188] */
-/* @0x2d2d24 vmla.f32 s1, s15, s19 */
-/* @0x2d2d28 vldr s27, [r0, #176] */
-/* @0x2d2d2c vldr s26, [r0, #196] */
-/* @0x2d2d30 vldr s13, [r0, #192] */
-/* @0x2d2d34 vldr s25, [r0, #200] */
-/* @0x2d2d38 vldr s24, [r0, #180] */
-/* @0x2d2d3c vldr s23, [r0, #204] */
-/* @0x2d2d40 vldr s22, [r0, #104] */
-/* @0x2d2d44 vldr s21, [r0, #108] */
-/* @0x2d2d48 vldr s20, [r0, #112] */
-/* @0x2d2d4c vmov.f32 s10, s5 */
-/* @0x2d2d50 vmls.f32 s10, s15, s16 */
-/* @0x2d2d54 vsub.f32 s1, s1, s6 */
-/* @0x2d2d58 vmls.f32 s1, s14, s18 */
-/* @0x2d2d5c vsub.f32 s10, s10, s4 */
-/* @0x2d2d60 vmla.f32 s10, s14, s0 */
-/* @0x2d2d64 vmul.f32 s11, s1, s11 */
-/* @0x2d2d68 vmul.f32 s12, s1, s12 */
-/* @0x2d2d6c vmla.f32 s11, s10, s17 */
-/* @0x2d2d70 vsub.f32 s17, s15, s14 */
-/* @0x2d2d74 vmla.f32 s12, s10, s27 */
-/* @0x2d2d78 vmla.f32 s11, s17, s26 */
-/* @0x2d2d7c vmul.f32 s13, s1, s13 */
-/* @0x2d2d80 vmla.f32 s12, s17, s25 */
-/* @0x2d2d84 vmla.f32 s13, s10, s24 */
-/* @0x2d2d88 vneg.f32 s1, s11 */
-/* @0x2d2d8c vmul.f32 s16, s16, s1 */
-/* @0x2d2d90 vmul.f32 s0, s0, s1 */
-/* @0x2d2d94 vneg.f32 s10, s12 */
-/* @0x2d2d98 vmla.f32 s13, s17, s23 */
-/* @0x2d2d9c vnmls.f32 s16, s19, s10 */
-/* @0x2d2da0 vnmls.f32 s0, s18, s10 */
-/* @0x2d2da4 vsub.f32 s16, s16, s13 */
-/* @0x2d2da8 vsub.f32 s0, s0, s13 */
-/* @0x2d2dac vsub.f32 s11, s22, s11 */
-/* @0x2d2db0 vsub.f32 s12, s21, s12 */
-/* @0x2d2db4 vstr s11, [r0, #104] */
-/* @0x2d2db8 vsub.f32 s13, s20, s13 */
-/* @0x2d2dbc vstr s12, [r0, #108] */
-/* @0x2d2dc0 vmls.f32 s4, s7, s1 */
-/* @0x2d2dc4 vstr s13, [r0, #112] */
-/* @0x2d2dc8 vmla.f32 s5, s8, s1 */
-/* @0x2d2dcc vmls.f32 s6, s7, s10 */
-/* @0x2d2dd0 vmla.f32 s9, s8, s10 */
-/* @0x2d2dd4 vmls.f32 s14, s0, s2 */
-/* @0x2d2dd8 vmla.f32 s15, s16, s3 */
-/* @0x2d2ddc b 0x2d2ce4 <_ZN11b2WeldJoint24SolveVelocityConstraintsERK12b2SolverData+0x120> */
+/* ── FUNC 0x2d4990 · b2QueryCallback::~b2QueryCallback() · size=40 · insn=10 */
+/* @0x2d4990 ldr r3, [pc, #0x1c] */
+/* @0x2d4994 push {r4, lr} */
+/* @0x2d4998 ldr r3, [pc, r3] */
+/* @0x2d499c mov r4, r0 */
+/* @0x2d49a0 add r3, r3, #8 */
+/* @0x2d49a4 str r3, [r0] */
+/* @0x2d49a8 bl 0x27d1d0 <_ZdlPv> */
+/* @0x2d49ac mov r0, r4 */
+/* @0x2d49b0 pop {r4, pc} */
+/* @0x2d49b4 andseq sp, r1, r8, ror #3 */
 
-/* ── FUNC 0x2d2de0 · b2WeldJoint::GetAnchorA() const · size=64 · insn=16 */
-/* @0x2d2de0 ldr r3, [r1, #0x30] */
-/* @0x2d2de4 vldr s15, [r1, #84] */
-/* @0x2d2de8 vldr s12, [r3, #24] */
-/* @0x2d2dec vldr s11, [r3, #20] */
-/* @0x2d2df0 vmul.f32 s14, s12, s15 */
-/* @0x2d2df4 vldr s13, [r1, #80] */
-/* @0x2d2df8 vldr s9, [r3, #16] */
-/* @0x2d2dfc vldr s10, [r3, #12] */
-/* @0x2d2e00 vmul.f32 s15, s11, s15 */
-/* @0x2d2e04 vmla.f32 s14, s13, s11 */
-/* @0x2d2e08 vnmls.f32 s15, s12, s13 */
-/* @0x2d2e0c vadd.f32 s14, s14, s9 */
-/* @0x2d2e10 vadd.f32 s15, s15, s10 */
-/* @0x2d2e14 vstr s14, [r0, #4] */
-/* @0x2d2e18 vstr s15, [r0] */
-/* @0x2d2e1c bx lr */
+/* ── FUNC 0x2d49b8 · anon_2d49b8 · size=1536 · insn=385 */
+/* @0x2d49b8 ldr r3, [pc, #0x1c] */
+/* @0x2d49bc push {r4, lr} */
+/* @0x2d49c0 ldr r3, [pc, r3] */
+/* @0x2d49c4 mov r4, r0 */
+/* @0x2d49c8 add r3, r3, #8 */
+/* @0x2d49cc str r3, [r0] */
+/* @0x2d49d0 bl 0x27d1d0 <_ZdlPv> */
+/* @0x2d49d4 mov r0, r4 */
+/* @0x2d49d8 pop {r4, pc} */
+/* @0x2d49dc andseq sp, r1, r0, asr #3 */
+/* @0x2d49e0 ldr r3, [pc, #0x1c] */
+/* @0x2d49e4 push {r4, lr} */
+/* @0x2d49e8 ldr r3, [pc, r3] */
+/* @0x2d49ec mov r4, r0 */
+/* @0x2d49f0 add r3, r3, #8 */
+/* @0x2d49f4 str r3, [r0] */
+/* @0x2d49f8 bl 0x27d1d0 <_ZdlPv> */
+/* @0x2d49fc mov r0, r4 */
+/* @0x2d4a00 pop {r4, pc} */
+/* @0x2d4a04 mulseq r1, r8, r1 */
+/* @0x2d4a08 ldr r3, [pc, #0x1c] */
+/* @0x2d4a0c push {r4, lr} */
+/* @0x2d4a10 ldr r3, [pc, r3] */
+/* @0x2d4a14 mov r4, r0 */
+/* @0x2d4a18 add r3, r3, #8 */
+/* @0x2d4a1c str r3, [r0] */
+/* @0x2d4a20 bl 0x27d1d0 <_ZdlPv> */
+/* @0x2d4a24 mov r0, r4 */
+/* @0x2d4a28 pop {r4, pc} */
+/* @0x2d4a2c andseq sp, r1, r0, ror r1 */
+/* @0x2d4a30 push {r3, r4, r5, lr} */
+/* @0x2d4a34 mov r4, r0 */
+/* @0x2d4a38 ldr r0, [r1] */
+/* @0x2d4a3c ldr r1, [r4] */
+/* @0x2d4a40 lsl r1, r1, #2 */
+/* @0x2d4a44 bl 0x2c65c0 <_ZN16b2BlockAllocator8AllocateEi> */
+/* @0x2d4a48 ldr r2, [r4] */
+/* @0x2d4a4c mov r1, #0 */
+/* @0x2d4a50 lsl r2, r2, #2 */
+/* @0x2d4a54 mov r5, r0 */
+/* @0x2d4a58 bl 0xb65b0 <memset@plt> */
+/* @0x2d4a5c mov r0, r5 */
+/* @0x2d4a60 pop {r3, r4, r5, pc} */
+/* @0x2d4a64 add r12, r1, #1 */
+/* @0x2d4a68 sub sp, sp, #8 */
+/* @0x2d4a6c lsl r12, r12, #1 */
+/* @0x2d4a70 cmp r12, r2 */
+/* @0x2d4a74 push {r4, r5, r6, r7, r8} */
+/* @0x2d4a78 movge r5, r12 */
+/* @0x2d4a7c str r3, [sp, #0x18] */
+/* @0x2d4a80 mov r8, r1 */
+/* @0x2d4a84 mov r4, r0 */
+/* @0x2d4a88 addge r3, r0, r1, lsl #3 */
+/* @0x2d4a8c movge r12, r1 */
+/* @0x2d4a90 bge 0x2d4ae4 <_ZN15b2QueryCallbackD0Ev+0x154> */
+/* @0x2d4a94 mov r7, r1 */
+/* @0x2d4a98 b 0x2d4aa0 <_ZN15b2QueryCallbackD0Ev+0x110> */
+/* @0x2d4a9c mov r12, r5 */
+/* @0x2d4aa0 lsl r3, r12, #3 */
+/* @0x2d4aa4 add r6, r4, r7, lsl #3 */
+/* @0x2d4aa8 add r0, r4, r3 */
+/* @0x2d4aac sub r3, r3, #8 */
+/* @0x2d4ab0 add r3, r4, r3 */
+/* @0x2d4ab4 ldr r5, [r0, #0x4] */
+/* @0x2d4ab8 ldr r1, [r0, #-0x4] */
+/* @0x2d4abc cmp r5, r1 */
+/* @0x2d4ac0 sublo r12, r12, #1 */
+/* @0x2d4ac4 add r5, r12, #1 */
+/* @0x2d4ac8 movhs r3, r0 */
+/* @0x2d4acc ldm r3, {r0, r1} */
+/* @0x2d4ad0 mov r7, r12 */
+/* @0x2d4ad4 lsl r5, r5, #1 */
+/* @0x2d4ad8 cmp r5, r2 */
+/* @0x2d4adc stm r6, {r0, r1} */
+/* @0x2d4ae0 blt 0x2d4a9c <_ZN15b2QueryCallbackD0Ev+0x10c> */
+/* @0x2d4ae4 cmp r5, r2 */
+/* @0x2d4ae8 bne 0x2d4b04 <_ZN15b2QueryCallbackD0Ev+0x174> */
+/* @0x2d4aec sub r2, r5, #-536870911 */
+/* @0x2d4af0 sub r12, r5, #1 */
+/* @0x2d4af4 add r2, r4, r2, lsl #3 */
+/* @0x2d4af8 ldm r2, {r0, r1} */
+/* @0x2d4afc stm r3, {r0, r1} */
+/* @0x2d4b00 mov r3, r2 */
+/* @0x2d4b04 cmp r8, r12 */
+/* @0x2d4b08 ldr r7, [sp, #0x18] */
+/* @0x2d4b0c ldr r5, [sp, #0x1c] */
+/* @0x2d4b10 bge 0x2d4b74 <_ZN15b2QueryCallbackD0Ev+0x1e4> */
+/* @0x2d4b14 sub r2, r12, #1 */
+/* @0x2d4b18 add r2, r2, r2, lsr #31 */
+/* @0x2d4b1c asr r2, r2, #1 */
+/* @0x2d4b20 lsl r1, r2, #3 */
+/* @0x2d4b24 add r0, r4, r1 */
+/* @0x2d4b28 ldr r0, [r0, #0x4] */
+/* @0x2d4b2c cmp r5, r0 */
+/* @0x2d4b30 bls 0x2d4b74 <_ZN15b2QueryCallbackD0Ev+0x1e4> */
+/* @0x2d4b34 add r3, r4, r1 */
+/* @0x2d4b38 sub r6, r2, #1 */
+/* @0x2d4b3c add r12, r4, r12, lsl #3 */
+/* @0x2d4b40 cmp r8, r2 */
+/* @0x2d4b44 ldm r3, {r0, r1} */
+/* @0x2d4b48 add r6, r6, r6, lsr #31 */
+/* @0x2d4b4c asr r6, r6, #1 */
+/* @0x2d4b50 stm r12, {r0, r1} */
+/* @0x2d4b54 bge 0x2d4b74 <_ZN15b2QueryCallbackD0Ev+0x1e4> */
+/* @0x2d4b58 lsl r1, r6, #3 */
+/* @0x2d4b5c mov r12, r2 */
+/* @0x2d4b60 add r0, r4, r1 */
+/* @0x2d4b64 mov r2, r6 */
+/* @0x2d4b68 ldr r0, [r0, #0x4] */
+/* @0x2d4b6c cmp r0, r5 */
+/* @0x2d4b70 blo 0x2d4b34 <_ZN15b2QueryCallbackD0Ev+0x1a4> */
+/* @0x2d4b74 str r7, [r3] */
+/* @0x2d4b78 str r5, [r3, #0x4] */
+/* @0x2d4b7c pop {r4, r5, r6, r7, r8} */
+/* @0x2d4b80 add sp, sp, #8 */
+/* @0x2d4b84 bx lr */
+/* @0x2d4b88 rsb r3, r0, r1 */
+/* @0x2d4b8c cmp r3, #135 */
+/* @0x2d4b90 push {r4, r5, r6, r7, r8, lr} */
+/* @0x2d4b94 mov r6, r0 */
+/* @0x2d4b98 sub sp, sp, #16 */
+/* @0x2d4b9c mov r7, r1 */
+/* @0x2d4ba0 mov r8, r2 */
+/* @0x2d4ba4 ble 0x2d4d08 <_ZN15b2QueryCallbackD0Ev+0x378> */
+/* @0x2d4ba8 cmp r2, #0 */
+/* @0x2d4bac beq 0x2d4c8c <_ZN15b2QueryCallbackD0Ev+0x2fc> */
+/* @0x2d4bb0 asr r3, r3, #4 */
+/* @0x2d4bb4 ldr lr, [r6, #0x4] */
+/* @0x2d4bb8 sub r8, r8, #1 */
+/* @0x2d4bbc ldr r5, [r7, #-0x4] */
+/* @0x2d4bc0 add r3, r6, r3, lsl #3 */
+/* @0x2d4bc4 ldr r12, [r3, #0x4] */
+/* @0x2d4bc8 cmp lr, r12 */
+/* @0x2d4bcc bhs 0x2d4c78 <_ZN15b2QueryCallbackD0Ev+0x2e8> */
+/* @0x2d4bd0 cmp r12, r5 */
+/* @0x2d4bd4 blo 0x2d4be4 <_ZN15b2QueryCallbackD0Ev+0x254> */
+/* @0x2d4bd8 cmp lr, r5 */
+/* @0x2d4bdc movhs r12, lr */
+/* @0x2d4be0 movlo r12, r5 */
+/* @0x2d4be4 mov r3, r7 */
+/* @0x2d4be8 mov r2, r6 */
+/* @0x2d4bec cmp r12, lr */
+/* @0x2d4bf0 mov r4, r2 */
+/* @0x2d4bf4 bls 0x2d4c08 <_ZN15b2QueryCallbackD0Ev+0x278> */
+/* @0x2d4bf8 add r4, r4, #8 */
+/* @0x2d4bfc ldr lr, [r4, #0x4] */
+/* @0x2d4c00 cmp lr, r12 */
+/* @0x2d4c04 blo 0x2d4bf8 <_ZN15b2QueryCallbackD0Ev+0x268> */
+/* @0x2d4c08 cmp r12, r5 */
+/* @0x2d4c0c sub r3, r3, #8 */
+/* @0x2d4c10 bhs 0x2d4c24 <_ZN15b2QueryCallbackD0Ev+0x294> */
+/* @0x2d4c14 sub r3, r3, #8 */
+/* @0x2d4c18 ldr r5, [r3, #0x4] */
+/* @0x2d4c1c cmp r5, r12 */
+/* @0x2d4c20 bhi 0x2d4c14 <_ZN15b2QueryCallbackD0Ev+0x284> */
+/* @0x2d4c24 cmp r4, r3 */
+/* @0x2d4c28 bhs 0x2d4c4c <_ZN15b2QueryCallbackD0Ev+0x2bc> */
+/* @0x2d4c2c ldr r5, [r4] */
+/* @0x2d4c30 add r2, r4, #8 */
+/* @0x2d4c34 ldm r3, {r0, r1} */
+/* @0x2d4c38 stm r4, {r0, r1} */
+/* @0x2d4c3c stm r3, {r5, lr} */
+/* @0x2d4c40 ldr r5, [r3, #-0x4] */
+/* @0x2d4c44 ldr lr, [r4, #0xc] */
+/* @0x2d4c48 b 0x2d4bec <_ZN15b2QueryCallbackD0Ev+0x25c> */
+/* @0x2d4c4c mov r1, r7 */
+/* @0x2d4c50 mov r0, r4 */
+/* @0x2d4c54 mov r2, r8 */
+/* @0x2d4c58 bl 0x2d4b88 <_ZN15b2QueryCallbackD0Ev+0x1f8> */
+/* @0x2d4c5c rsb r3, r6, r4 */
+/* @0x2d4c60 cmp r3, #135 */
+/* @0x2d4c64 ble 0x2d4d08 <_ZN15b2QueryCallbackD0Ev+0x378> */
+/* @0x2d4c68 cmp r8, #0 */
+/* @0x2d4c6c beq 0x2d4c90 <_ZN15b2QueryCallbackD0Ev+0x300> */
+/* @0x2d4c70 mov r7, r4 */
+/* @0x2d4c74 b 0x2d4bb0 <_ZN15b2QueryCallbackD0Ev+0x220> */
+/* @0x2d4c78 cmp r12, r5 */
+/* @0x2d4c7c movlo r12, r5 */
+/* @0x2d4c80 cmp lr, r5 */
+/* @0x2d4c84 movlo r12, lr */
+/* @0x2d4c88 b 0x2d4be4 <_ZN15b2QueryCallbackD0Ev+0x254> */
+/* @0x2d4c8c mov r4, r7 */
+/* @0x2d4c90 asr r8, r3, #3 */
+/* @0x2d4c94 sub r5, r8, #2 */
+/* @0x2d4c98 asr r5, r5, #1 */
+/* @0x2d4c9c add r7, r6, r5, lsl #3 */
+/* @0x2d4ca0 ldr r12, [r7, #0x4] */
+/* @0x2d4ca4 mov r1, r5 */
+/* @0x2d4ca8 ldr r3, [r7], #-8 */
+/* @0x2d4cac mov r0, r6 */
+/* @0x2d4cb0 mov r2, r8 */
+/* @0x2d4cb4 str r12, [sp] */
+/* @0x2d4cb8 bl 0x2d4a64 <_ZN15b2QueryCallbackD0Ev+0xd4> */
+/* @0x2d4cbc cmp r5, #0 */
+/* @0x2d4cc0 sub r5, r5, #1 */
+/* @0x2d4cc4 bne 0x2d4ca0 <_ZN15b2QueryCallbackD0Ev+0x310> */
+/* @0x2d4cc8 add r7, sp, #8 */
+/* @0x2d4ccc sub r4, r4, #8 */
+/* @0x2d4cd0 rsb r5, r6, r4 */
+/* @0x2d4cd4 ldm r4, {r0, r1} */
+/* @0x2d4cd8 asr r2, r5, #3 */
+/* @0x2d4cdc stm r7, {r0, r1} */
+/* @0x2d4ce0 ldm r6, {r0, r1} */
+/* @0x2d4ce4 ldr r12, [sp, #0xc] */
+/* @0x2d4ce8 ldr r3, [sp, #0x8] */
+/* @0x2d4cec stm r4, {r0, r1} */
+/* @0x2d4cf0 mov r0, r6 */
+/* @0x2d4cf4 str r12, [sp] */
+/* @0x2d4cf8 mov r1, #0 */
+/* @0x2d4cfc bl 0x2d4a64 <_ZN15b2QueryCallbackD0Ev+0xd4> */
+/* @0x2d4d00 cmp r5, #15 */
+/* @0x2d4d04 bgt 0x2d4ccc <_ZN15b2QueryCallbackD0Ev+0x33c> */
+/* @0x2d4d08 add sp, sp, #16 */
+/* @0x2d4d0c pop {r4, r5, r6, r7, r8, pc} */
+/* @0x2d4d10 cmp r0, r1 */
+/* @0x2d4d14 push {r4, r5, r6, r7, r8, r9, r10} */
+/* @0x2d4d18 mov r6, r0 */
+/* @0x2d4d1c mov r9, r1 */
+/* @0x2d4d20 beq 0x2d4d94 <_ZN15b2QueryCallbackD0Ev+0x404> */
+/* @0x2d4d24 add r4, r0, #8 */
+/* @0x2d4d28 cmp r1, r4 */
+/* @0x2d4d2c beq 0x2d4d94 <_ZN15b2QueryCallbackD0Ev+0x404> */
+/* @0x2d4d30 add r5, r0, #16 */
+/* @0x2d4d34 ldr r12, [r4, #0x4] */
+/* @0x2d4d38 mov r2, r4 */
+/* @0x2d4d3c ldr r3, [r6, #0x4] */
+/* @0x2d4d40 mov r7, r5 */
+/* @0x2d4d44 ldr r8, [r5, #-0x8] */
+/* @0x2d4d48 cmp r12, r3 */
+/* @0x2d4d4c bhs 0x2d4d9c <_ZN15b2QueryCallbackD0Ev+0x40c> */
+/* @0x2d4d50 rsb r2, r6, r4 */
+/* @0x2d4d54 asr r2, r2, #3 */
+/* @0x2d4d58 cmp r2, #0 */
+/* @0x2d4d5c movgt r10, r5 */
+/* @0x2d4d60 ble 0x2d4d80 <_ZN15b2QueryCallbackD0Ev+0x3f0> */
+/* @0x2d4d64 sub r1, r10, #16 */
+/* @0x2d4d68 sub r3, r10, #8 */
+/* @0x2d4d6c subs r2, r2, #1 */
+/* @0x2d4d70 ldm r1, {r0, r1} */
+/* @0x2d4d74 mov r10, r3 */
+/* @0x2d4d78 stm r3, {r0, r1} */
+/* @0x2d4d7c bne 0x2d4d64 <_ZN15b2QueryCallbackD0Ev+0x3d4> */
+/* @0x2d4d80 stm r6, {r8, r12} */
+/* @0x2d4d84 cmp r9, r7 */
+/* @0x2d4d88 add r4, r4, #8 */
+/* @0x2d4d8c add r5, r5, #8 */
+/* @0x2d4d90 bne 0x2d4d34 <_ZN15b2QueryCallbackD0Ev+0x3a4> */
+/* @0x2d4d94 pop {r4, r5, r6, r7, r8, r9, r10} */
+/* @0x2d4d98 bx lr */
+/* @0x2d4d9c ldr r1, [r4, #-0x4] */
+/* @0x2d4da0 sub r3, r4, #8 */
+/* @0x2d4da4 cmp r12, r1 */
+/* @0x2d4da8 blo 0x2d4db4 <_ZN15b2QueryCallbackD0Ev+0x424> */
+/* @0x2d4dac b 0x2d4dd8 <_ZN15b2QueryCallbackD0Ev+0x448> */
+/* @0x2d4db0 mov r3, r10 */
+/* @0x2d4db4 ldm r3, {r0, r1} */
+/* @0x2d4db8 sub r10, r3, #8 */
+/* @0x2d4dbc stm r2, {r0, r1} */
+/* @0x2d4dc0 mov r2, r3 */
+/* @0x2d4dc4 ldr r1, [r3, #-0x4] */
+/* @0x2d4dc8 cmp r12, r1 */
+/* @0x2d4dcc blo 0x2d4db0 <_ZN15b2QueryCallbackD0Ev+0x420> */
+/* @0x2d4dd0 stm r3, {r8, r12} */
+/* @0x2d4dd4 b 0x2d4d84 <_ZN15b2QueryCallbackD0Ev+0x3f4> */
+/* @0x2d4dd8 mov r3, r4 */
+/* @0x2d4ddc stm r3, {r8, r12} */
+/* @0x2d4de0 b 0x2d4d84 <_ZN15b2QueryCallbackD0Ev+0x3f4> */
+/* @0x2d4de4 rsb r3, r0, r1 */
+/* @0x2d4de8 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2d4dec vpush {d8} */
+/* @0x2d4df0 asrs r3, r3, #3 */
+/* @0x2d4df4 sub sp, sp, #20 */
+/* @0x2d4df8 mov r9, r2 */
+/* @0x2d4dfc rsb r2, r1, r2 */
+/* @0x2d4e00 mov r6, r0 */
+/* @0x2d4e04 add r2, r0, r2 */
+/* @0x2d4e08 mov r4, r1 */
+/* @0x2d4e0c str r3, [sp] */
+/* @0x2d4e10 moveq r0, r9 */
+/* @0x2d4e14 str r2, [sp, #0xc] */
+/* @0x2d4e18 beq 0x2d4e8c <_ZN15b2QueryCallbackD0Ev+0x4fc> */
+/* @0x2d4e1c rsb r0, r6, r9 */
+/* @0x2d4e20 asr r0, r0, #3 */
+/* @0x2d4e24 rsb r2, r3, r0 */
+/* @0x2d4e28 str r2, [sp, #0x4] */
+/* @0x2d4e2c cmp r3, r2 */
+/* @0x2d4e30 ldrne r10, [sp] */
+/* @0x2d4e34 bne 0x2d4e9c <_ZN15b2QueryCallbackD0Ev+0x50c> */
+/* @0x2d4e38 cmp r6, r1 */
+/* @0x2d4e3c beq 0x2d4e88 <_ZN15b2QueryCallbackD0Ev+0x4f8> */
+/* @0x2d4e40 add r12, r6, #8 */
+/* @0x2d4e44 add r3, r1, #8 */
+/* @0x2d4e48 mov r7, r1 */
+/* @0x2d4e4c mov r5, r12 */
+/* @0x2d4e50 mov r2, r5 */
+/* @0x2d4e54 ldmdb r3, {r0, r1} */
+/* @0x2d4e58 ldr r8, [r6, #0x4] */
+/* @0x2d4e5c cmp r4, r12 */
+/* @0x2d4e60 ldr r9, [r2, #-0x8]! */
+/* @0x2d4e64 mov r6, r12 */
+/* @0x2d4e68 add r5, r5, #8 */
+/* @0x2d4e6c add r12, r12, #8 */
+/* @0x2d4e70 add r3, r3, #8 */
+/* @0x2d4e74 add r7, r7, #8 */
+/* @0x2d4e78 stm r2, {r0, r1} */
+/* @0x2d4e7c str r9, [r3, #-0x10] */
+/* @0x2d4e80 str r8, [r7, #-0x4] */
+/* @0x2d4e84 bne 0x2d4e50 <_ZN15b2QueryCallbackD0Ev+0x4c0> */
+/* @0x2d4e88 ldr r0, [sp, #0xc] */
+/* @0x2d4e8c add sp, sp, #20 */
+/* @0x2d4e90 vpop {d8} */
+/* @0x2d4e94 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x2d4e98 mov r10, r1 */
+/* @0x2d4e9c mov r1, r10 */
+/* @0x2d4ea0 bl 0x318dec <__aeabi_idivmod> */
+/* @0x2d4ea4 mov r0, r10 */
+/* @0x2d4ea8 cmp r1, #0 */
+/* @0x2d4eac bne 0x2d4e98 <_ZN15b2QueryCallbackD0Ev+0x508> */
+/* @0x2d4eb0 cmp r10, #0 */
+/* @0x2d4eb4 ble 0x2d4e88 <_ZN15b2QueryCallbackD0Ev+0x4f8> */
+/* @0x2d4eb8 ldr r3, [sp, #0x4] */
+/* @0x2d4ebc mov r11, r1 */
+/* @0x2d4ec0 ldr r2, [sp] */
+/* @0x2d4ec4 lsl r3, r3, #3 */
+/* @0x2d4ec8 str r3, [sp, #0x8] */
+/* @0x2d4ecc lsl r4, r2, #3 */
+/* @0x2d4ed0 rsb r5, r3, #0 */
+/* @0x2d4ed4 rsb r9, r4, r9 */
+/* @0x2d4ed8 ldr r3, [sp] */
+/* @0x2d4edc vldr s17, [r6] */
+/* @0x2d4ee0 ldr r2, [sp, #0x4] */
+/* @0x2d4ee4 vldr s16, [r6, #4] */
+/* @0x2d4ee8 cmp r3, r2 */
+/* @0x2d4eec blt 0x2d4f5c <_ZN15b2QueryCallbackD0Ev+0x5cc> */
+/* @0x2d4ef0 mov r0, r3 */
+/* @0x2d4ef4 mov r1, r10 */
+/* @0x2d4ef8 bl 0x318d10 <__divsi3> */
+/* @0x2d4efc cmp r0, #1 */
+/* @0x2d4f00 subgt r7, r0, #1 */
+/* @0x2d4f04 movgt r2, r6 */
+/* @0x2d4f08 movgt r12, #0 */
+/* @0x2d4f0c ble 0x2d4fb4 <_ZN15b2QueryCallbackD0Ev+0x624> */
+/* @0x2d4f10 cmp r9, r2 */
+/* @0x2d4f14 add r3, r2, r4 */
+/* @0x2d4f18 add r12, r12, #1 */
+/* @0x2d4f1c ldmhi r3, {r0, r1} */
+/* @0x2d4f20 stmhi r2, {r0, r1} */
+/* @0x2d4f24 movhi r2, r3 */
+/* @0x2d4f28 add r3, r2, r5 */
+/* @0x2d4f2c cmp r12, r7 */
+/* @0x2d4f30 ldm r3, {r0, r1} */
+/* @0x2d4f34 stm r2, {r0, r1} */
+/* @0x2d4f38 mov r2, r3 */
+/* @0x2d4f3c bne 0x2d4f10 <_ZN15b2QueryCallbackD0Ev+0x580> */
+/* @0x2d4f40 add r11, r11, #1 */
+/* @0x2d4f44 vstr s17, [r3] */
+/* @0x2d4f48 cmp r11, r10 */
+/* @0x2d4f4c vstr s16, [r3, #4] */
+/* @0x2d4f50 add r6, r6, #8 */
+/* @0x2d4f54 bne 0x2d4ed8 <_ZN15b2QueryCallbackD0Ev+0x548> */
+/* @0x2d4f58 b 0x2d4e88 <_ZN15b2QueryCallbackD0Ev+0x4f8> */
+/* @0x2d4f5c ldr r0, [sp, #0x4] */
+/* @0x2d4f60 mov r1, r10 */
+/* @0x2d4f64 bl 0x318d10 <__divsi3> */
+/* @0x2d4f68 subs r7, r0, #0 */
+/* @0x2d4f6c ble 0x2d4fb4 <_ZN15b2QueryCallbackD0Ev+0x624> */
+/* @0x2d4f70 ldr r3, [sp, #0x8] */
+/* @0x2d4f74 mov r2, r6 */
+/* @0x2d4f78 mov r12, #0 */
+/* @0x2d4f7c add r8, r6, r3 */
+/* @0x2d4f80 cmp r8, r2 */
+/* @0x2d4f84 add r3, r2, r5 */
+/* @0x2d4f88 add r12, r12, #1 */
+/* @0x2d4f8c ldmlo r3, {r0, r1} */
+/* @0x2d4f90 stmlo r2, {r0, r1} */
+/* @0x2d4f94 movlo r2, r3 */
+/* @0x2d4f98 add r3, r2, r4 */
+/* @0x2d4f9c cmp r12, r7 */
+/* @0x2d4fa0 ldm r3, {r0, r1} */
+/* @0x2d4fa4 stm r2, {r0, r1} */
+/* @0x2d4fa8 mov r2, r3 */
+/* @0x2d4fac bne 0x2d4f80 <_ZN15b2QueryCallbackD0Ev+0x5f0> */
+/* @0x2d4fb0 b 0x2d4f40 <_ZN15b2QueryCallbackD0Ev+0x5b0> */
+/* @0x2d4fb4 mov r3, r6 */
+/* @0x2d4fb8 b 0x2d4f40 <_ZN15b2QueryCallbackD0Ev+0x5b0> */
 
-/* ── FUNC 0x2d2e20 · b2WeldJoint::GetAnchorB() const · size=64 · insn=16 */
-/* @0x2d2e20 ldr r3, [r1, #0x34] */
-/* @0x2d2e24 vldr s15, [r1, #92] */
-/* @0x2d2e28 vldr s12, [r3, #24] */
-/* @0x2d2e2c vldr s11, [r3, #20] */
-/* @0x2d2e30 vmul.f32 s14, s12, s15 */
-/* @0x2d2e34 vldr s13, [r1, #88] */
-/* @0x2d2e38 vldr s9, [r3, #16] */
-/* @0x2d2e3c vldr s10, [r3, #12] */
-/* @0x2d2e40 vmul.f32 s15, s11, s15 */
-/* @0x2d2e44 vmla.f32 s14, s13, s11 */
-/* @0x2d2e48 vnmls.f32 s15, s12, s13 */
-/* @0x2d2e4c vadd.f32 s14, s14, s9 */
-/* @0x2d2e50 vadd.f32 s15, s15, s10 */
-/* @0x2d2e54 vstr s14, [r0, #4] */
-/* @0x2d2e58 vstr s15, [r0] */
-/* @0x2d2e5c bx lr */
+/* ── FUNC 0x2d4fbc · b2ParticleSystem::b2ParticleSystem() · size=268 · insn=67 */
+/* @0x2d4fbc mov r2, #0 */
+/* @0x2d4fc0 mov r1, #1065353216 */
+/* @0x2d4fc4 push {r4, r5, r6, r7} */
+/* @0x2d4fc8 mov r4, #1048576000 */
+/* @0x2d4fcc mov r12, #1056964608 */
+/* @0x2d4fd0 movw r7, #0xcccd */
+/* @0x2d4fd4 str r2, [r0, #0x30] */
+/* @0x2d4fd8 movt r7, #0x3d4c */
+/* @0x2d4fdc movw r6, #0xcccd */
+/* @0x2d4fe0 str r2, [r0, #0x34] */
+/* @0x2d4fe4 movt r6, #0x3dcc */
+/* @0x2d4fe8 movw r5, #0xcccd */
+/* @0x2d4fec str r2, [r0, #0x38] */
+/* @0x2d4ff0 movt r5, #0x3e4c */
+/* @0x2d4ff4 str r2, [r0, #0x3c] */
+/* @0x2d4ff8 str r2, [r0, #0x40] */
+/* @0x2d4ffc str r2, [r0, #0x44] */
+/* @0x2d5000 str r2, [r0, #0x54] */
+/* @0x2d5004 str r2, [r0, #0x58] */
+/* @0x2d5008 str r1, [r0, #0xc] */
+/* @0x2d500c str r1, [r0, #0x10] */
+/* @0x2d5010 str r1, [r0, #0x14] */
+/* @0x2d5014 str r1, [r0, #0x18] */
+/* @0x2d5018 str r1, [r0, #0x1c] */
+/* @0x2d501c str r1, [r0, #0x20] */
+/* @0x2d5020 str r2, [r0, #0x60] */
+/* @0x2d5024 str r2, [r0, #0x64] */
+/* @0x2d5028 str r2, [r0] */
+/* @0x2d502c str r2, [r0, #0x4] */
+/* @0x2d5030 str r2, [r0, #0x8] */
+/* @0x2d5034 str r2, [r0, #0x24] */
+/* @0x2d5038 str r2, [r0, #0x28] */
+/* @0x2d503c str r2, [r0, #0x2c] */
+/* @0x2d5040 str r2, [r0, #0x48] */
+/* @0x2d5044 str r2, [r0, #0x4c] */
+/* @0x2d5048 str r2, [r0, #0x50] */
+/* @0x2d504c str r2, [r0, #0x5c] */
+/* @0x2d5050 str r2, [r0, #0x68] */
+/* @0x2d5054 str r2, [r0, #0x6c] */
+/* @0x2d5058 str r2, [r0, #0x70] */
+/* @0x2d505c str r2, [r0, #0x74] */
+/* @0x2d5060 str r2, [r0, #0x78] */
+/* @0x2d5064 str r2, [r0, #0x7c] */
+/* @0x2d5068 str r2, [r0, #0x80] */
+/* @0x2d506c str r7, [r0, #0xac] */
+/* @0x2d5070 str r6, [r0, #0xc0] */
+/* @0x2d5074 str r5, [r0, #0xc4] */
+/* @0x2d5078 str r4, [r0, #0xb4] */
+/* @0x2d507c str r4, [r0, #0xb8] */
+/* @0x2d5080 str r4, [r0, #0xbc] */
+/* @0x2d5084 str r2, [r0, #0x84] */
+/* @0x2d5088 str r1, [r0, #0xb0] */
+/* @0x2d508c str r2, [r0, #0x88] */
+/* @0x2d5090 str r2, [r0, #0x8c] */
+/* @0x2d5094 str r2, [r0, #0x90] */
+/* @0x2d5098 str r2, [r0, #0x94] */
+/* @0x2d509c str r2, [r0, #0x98] */
+/* @0x2d50a0 str r2, [r0, #0x9c] */
+/* @0x2d50a4 str r2, [r0, #0xa0] */
+/* @0x2d50a8 str r12, [r0, #0xc8] */
+/* @0x2d50ac str r2, [r0, #0xa4] */
+/* @0x2d50b0 str r12, [r0, #0xcc] */
+/* @0x2d50b4 str r2, [r0, #0xa8] */
+/* @0x2d50b8 str r12, [r0, #0xd0] */
+/* @0x2d50bc str r2, [r0, #0xd4] */
+/* @0x2d50c0 pop {r4, r5, r6, r7} */
+/* @0x2d50c4 bx lr */
 
-/* ── FUNC 0x2d2e60 · b2WeldJoint::GetReactionForce(float) const · size=32 · insn=8 */
-/* @0x2d2e60 vmov s15, r2 */
-/* @0x2d2e64 vldr s14, [r1, #108] */
-/* @0x2d2e68 vldr s13, [r1, #104] */
-/* @0x2d2e6c vmul.f32 s14, s15, s14 */
-/* @0x2d2e70 vmul.f32 s15, s13, s15 */
-/* @0x2d2e74 vstr s14, [r0, #4] */
-/* @0x2d2e78 vstr s15, [r0] */
-/* @0x2d2e7c bx lr */
+/* ── FUNC 0x2d4fbc · b2ParticleSystem::b2ParticleSystem() · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x2d2e80 · b2WeldJoint::GetReactionTorque(float) const · size=20 · insn=5 */
-/* @0x2d2e80 vmov s14, r1 */
-/* @0x2d2e84 vldr s15, [r0, #112] */
-/* @0x2d2e88 vmul.f32 s14, s14, s15 */
-/* @0x2d2e8c vmov r0, s14 */
-/* @0x2d2e90 bx lr */
+/* ── FUNC 0x2d50c8 · b2ParticleSystem::~b2ParticleSystem() · size=248 · insn=62 */
+/* @0x2d50c8 push {r4, lr} */
+/* @0x2d50cc mov r4, r0 */
+/* @0x2d50d0 ldr r0, [r0, #0xd4] */
+/* @0x2d50d4 cmp r0, #0 */
+/* @0x2d50d8 beq 0x2d51b8 <_ZN16b2ParticleSystemD2Ev+0xf0> */
+/* @0x2d50dc ldr r2, [r4, #0x28] */
+/* @0x2d50e0 ldr r1, [r4, #0x30] */
+/* @0x2d50e4 lsl r2, r2, #2 */
+/* @0x2d50e8 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d50ec ldr r2, [r4, #0x28] */
+/* @0x2d50f0 ldr r0, [r4, #0xd4] */
+/* @0x2d50f4 ldr r1, [r4, #0x38] */
+/* @0x2d50f8 lsl r2, r2, #3 */
+/* @0x2d50fc bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d5100 ldr r2, [r4, #0x28] */
+/* @0x2d5104 ldr r0, [r4, #0xd4] */
+/* @0x2d5108 ldr r1, [r4, #0x40] */
+/* @0x2d510c lsl r2, r2, #3 */
+/* @0x2d5110 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d5114 ldr r2, [r4, #0x28] */
+/* @0x2d5118 ldr r0, [r4, #0xd4] */
+/* @0x2d511c ldr r1, [r4, #0x54] */
+/* @0x2d5120 lsl r2, r2, #2 */
+/* @0x2d5124 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d5128 ldr r2, [r4, #0x28] */
+/* @0x2d512c ldr r0, [r4, #0xd4] */
+/* @0x2d5130 ldr r1, [r4, #0x60] */
+/* @0x2d5134 lsl r2, r2, #2 */
+/* @0x2d5138 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d513c ldr r2, [r4, #0x28] */
+/* @0x2d5140 ldr r0, [r4, #0xd4] */
+/* @0x2d5144 ldr r1, [r4, #0x50] */
+/* @0x2d5148 lsl r2, r2, #2 */
+/* @0x2d514c bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d5150 ldr r2, [r4, #0x28] */
+/* @0x2d5154 ldr r0, [r4, #0xd4] */
+/* @0x2d5158 ldr r1, [r4, #0x5c] */
+/* @0x2d515c lsl r2, r2, #2 */
+/* @0x2d5160 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d5164 ldr r2, [r4, #0x28] */
+/* @0x2d5168 ldr r0, [r4, #0xd4] */
+/* @0x2d516c ldr r1, [r4, #0x48] */
+/* @0x2d5170 lsl r2, r2, #2 */
+/* @0x2d5174 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d5178 ldr r2, [r4, #0x28] */
+/* @0x2d517c ldr r0, [r4, #0xd4] */
+/* @0x2d5180 ldr r1, [r4, #0x4c] */
+/* @0x2d5184 lsl r2, r2, #3 */
+/* @0x2d5188 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d518c ldr r2, [r4, #0x78] */
+/* @0x2d5190 ldr r0, [r4, #0xd4] */
+/* @0x2d5194 ldr r1, [r4, #0x7c] */
+/* @0x2d5198 add r2, r2, r2, lsl #1 */
+/* @0x2d519c lsl r2, r2, #3 */
+/* @0x2d51a0 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d51a4 ldr r2, [r4, #0x6c] */
+/* @0x2d51a8 ldr r0, [r4, #0xd4] */
+/* @0x2d51ac ldr r1, [r4, #0x70] */
+/* @0x2d51b0 lsl r2, r2, #3 */
+/* @0x2d51b4 bl 0x2c6710 <_ZN16b2BlockAllocator4FreeEPvi> */
+/* @0x2d51b8 mov r0, r4 */
+/* @0x2d51bc pop {r4, pc} */
 
-/* ── FUNC 0x2d2e94 · b2WeldJoint::~b2WeldJoint() · size=24 · insn=6 */
-/* @0x2d2e94 ldr r3, [pc, #0xc] */
-/* @0x2d2e98 ldr r3, [pc, r3] */
-/* @0x2d2e9c add r3, r3, #8 */
-/* @0x2d2ea0 str r3, [r0] */
-/* @0x2d2ea4 bx lr */
-/* @0x2d2ea8 ldrheq lr, [r1], -r12 */
+/* ── FUNC 0x2d50c8 · b2ParticleSystem::~b2ParticleSystem() · alias of the symbol above · insn=0 */
 
-/* ── FUNC 0x2d2e94 · b2WeldJoint::~b2WeldJoint() · alias of the symbol above · insn=0 */
+/* ── FUNC 0x2d51c0 · b2ParticleSystem::DestroyParticle(int, bool) · size=36 · insn=9 */
+/* @0x2d51c0 ldr r3, [r0, #0x30] */
+/* @0x2d51c4 cmp r2, #0 */
+/* @0x2d51c8 movw r0, #0x202 */
+/* @0x2d51cc movne r2, r0 */
+/* @0x2d51d0 moveq r2, #2 */
+/* @0x2d51d4 ldr r0, [r3, r1, lsl #2] */
+/* @0x2d51d8 orr r0, r0, r2 */
+/* @0x2d51dc str r0, [r3, r1, lsl #2] */
+/* @0x2d51e0 bx lr */
 
-/* ── FUNC 0x2d2eac · b2WeldJoint::Dump() · size=296 · insn=74 */
-/* @0x2d2eac push {r4, r5, r6, lr} */
-/* @0x2d2eb0 mov r4, r0 */
-/* @0x2d2eb4 ldr r2, [r4, #0x30] */
-/* @0x2d2eb8 sub sp, sp, #8 */
-/* @0x2d2ebc ldr r3, [r4, #0x34] */
-/* @0x2d2ec0 ldr r0, [pc, #0xe4] */
-/* @0x2d2ec4 ldr r6, [r2, #0x8] */
-/* @0x2d2ec8 add r0, pc, r0 */
-/* @0x2d2ecc ldr r5, [r3, #0x8] */
-/* @0x2d2ed0 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2ed4 ldr r0, [pc, #0xd4] */
-/* @0x2d2ed8 mov r1, r6 */
-/* @0x2d2edc add r0, pc, r0 */
-/* @0x2d2ee0 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2ee4 ldr r0, [pc, #0xc8] */
-/* @0x2d2ee8 mov r1, r5 */
-/* @0x2d2eec add r0, pc, r0 */
-/* @0x2d2ef0 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2ef4 ldr r0, [pc, #0xbc] */
-/* @0x2d2ef8 ldrb r1, [r4, #0x3d] */
-/* @0x2d2efc add r0, pc, r0 */
-/* @0x2d2f00 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2f04 vldr s13, [r4, #80] */
-/* @0x2d2f08 vldr s14, [r4, #84] */
-/* @0x2d2f0c vcvt.f64.f32 d5, s13 */
-/* @0x2d2f10 ldr r0, [pc, #0xa4] */
-/* @0x2d2f14 add r0, pc, r0 */
-/* @0x2d2f18 vcvt.f64.f32 d7, s14 */
-/* @0x2d2f1c vmov r2, r3, d5 */
-/* @0x2d2f20 vstr d7, [sp] */
-/* @0x2d2f24 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2f28 vldr s13, [r4, #88] */
-/* @0x2d2f2c vldr s14, [r4, #92] */
-/* @0x2d2f30 vcvt.f64.f32 d5, s13 */
-/* @0x2d2f34 ldr r0, [pc, #0x84] */
-/* @0x2d2f38 add r0, pc, r0 */
-/* @0x2d2f3c vcvt.f64.f32 d7, s14 */
-/* @0x2d2f40 vmov r2, r3, d5 */
-/* @0x2d2f44 vstr d7, [sp] */
-/* @0x2d2f48 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2f4c vldr s15, [r4, #96] */
-/* @0x2d2f50 vcvt.f64.f32 d6, s15 */
-/* @0x2d2f54 ldr r0, [pc, #0x68] */
-/* @0x2d2f58 add r0, pc, r0 */
-/* @0x2d2f5c vmov r2, r3, d6 */
-/* @0x2d2f60 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2f64 vldr s15, [r4, #68] */
-/* @0x2d2f68 vcvt.f64.f32 d5, s15 */
-/* @0x2d2f6c ldr r0, [pc, #0x54] */
-/* @0x2d2f70 add r0, pc, r0 */
-/* @0x2d2f74 vmov r2, r3, d5 */
-/* @0x2d2f78 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2f7c vldr s15, [r4, #72] */
-/* @0x2d2f80 vcvt.f64.f32 d6, s15 */
-/* @0x2d2f84 ldr r0, [pc, #0x40] */
-/* @0x2d2f88 add r0, pc, r0 */
-/* @0x2d2f8c vmov r2, r3, d6 */
-/* @0x2d2f90 bl 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2f94 ldr r0, [pc, #0x34] */
-/* @0x2d2f98 ldr r1, [r4, #0x38] */
-/* @0x2d2f9c add r0, pc, r0 */
-/* @0x2d2fa0 add sp, sp, #8 */
-/* @0x2d2fa4 pop {r4, r5, r6, lr} */
-/* @0x2d2fa8 b 0x2c6a74 <_Z5b2LogPKcz> */
-/* @0x2d2fac strheq r9, [r8], -r0 */
-/* @0x2d2fb0 ldrdeq r8, r9, [r8], -r0 */
-/* @0x2d2fb4 ldrdeq r8, r9, [r8], -r12 */
-/* @0x2d2fb8 andeq r8, r8, r8, ror #31 */
-/* @0x2d2fbc strdeq r8, r9, [r8], -r4 */
-/* @0x2d2fc0 strdeq r8, r9, [r8], -r12 */
-/* @0x2d2fc4 ldrdeq r9, r10, [r8], -r4 */
-/* @0x2d2fc8 andeq r9, r8, r8 */
-/* @0x2d2fcc andeq r9, r8, r0, lsl r0 */
-/* @0x2d2fd0 andeq r9, r8, r12, lsl r0 */
+/* ── FUNC 0x2d51e4 · anon_2d51e4 · size=84 · insn=22 */
+/* @0x2d51e4 push {r3, r4, r5, lr} */
+/* @0x2d51e8 mov r4, r0 */
+/* @0x2d51ec ldr r0, [r0, #0x8] */
+/* @0x2d51f0 mov r5, r1 */
+/* @0x2d51f4 ldr r2, [r4, #0x4] */
+/* @0x2d51f8 add r1, r4, #12 */
+/* @0x2d51fc ldr r3, [r0] */
+/* @0x2d5200 ldr r2, [r2, #0x38] */
+/* @0x2d5204 ldr r3, [r3, #0x10] */
+/* @0x2d5208 add r2, r2, r5, lsl #3 */
+/* @0x2d520c blx r3 */
+/* @0x2d5210 cmp r0, #0 */
+/* @0x2d5214 beq 0x2d5234 <_ZN16b2ParticleSystem15DestroyParticleEib+0x74> */
+/* @0x2d5218 mov r1, r5 */
+/* @0x2d521c ldr r0, [r4, #0x4] */
+/* @0x2d5220 ldrb r2, [r4, #0x1c] */
+/* @0x2d5224 bl 0x2d51c0 <_ZN16b2ParticleSystem15DestroyParticleEib> */
+/* @0x2d5228 ldr r3, [r4, #0x20] */
+/* @0x2d522c add r3, r3, #1 */
+/* @0x2d5230 str r3, [r4, #0x20] */
+/* @0x2d5234 mov r0, #1 */
+/* @0x2d5238 pop {r3, r4, r5, pc} */

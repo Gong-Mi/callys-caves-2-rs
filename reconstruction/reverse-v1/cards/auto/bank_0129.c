@@ -1593,7 +1593,7 @@
 /* @0x1928cc vstr s15, [r4, #244] */
 /* @0x1928d0 b 0x192574 <_ZN9CInstance19Compute_BoundingBoxEb+0x234> */
 
-/* ── FUNC 0x1928d4 · anon_1928d4 · size=4 · insn=1 */
+/* ── FUNC 0x1928d4 · anon_1928d4 · size=0 · insn=1 */
 /* @0x1928d4 andeq r0, r0, r0 */
 
 /* ── FUNC 0x1928d8 · CInstance::Compute_Speed1() · size=452 · insn=110 */
@@ -1708,5 +1708,5 @@
 /* @0x192a94 .word 0x43b40000 */
 /* @0x192a98 adcsmi r0, r4, #0 */
 
-/* ── FUNC 0x192a9c · anon_192a9c · size=4 · insn=1 */
+/* ── FUNC 0x192a9c · anon_192a9c · size=0 · insn=1 */
 /* @0x192a9c nop */

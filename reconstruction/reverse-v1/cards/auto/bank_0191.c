@@ -584,7 +584,7 @@
 /* @0x216040 ldrsheq r7, [sp], -r8 */
 /* @0x216044 andseq sp, r3, r12, lsl #22 */
 
-/* ── FUNC 0x216048 · anon_216048 · size=532 · insn=133 */
+/* ── FUNC 0x216048 · anon_216048 · size=528 · insn=133 */
 /* @0x216048 push {r4, r5, r6, r7, r8, r9, r10, lr} */
 /* @0x21604c mov r5, r1 */
 /* @0x216050 ldr r6, [pc, #0x1e8] */

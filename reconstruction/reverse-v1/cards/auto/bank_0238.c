@@ -1,36 +1,8 @@
 /* libyoyo.so 覆盖卡组 0238
- * 函数 0x2866f0..0x289294，共 32 个；
+ * 函数 0x286758..0x2894cc，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x2866f0 · spIkConstraintData_create · size=104 · insn=26 */
-/* @0x2866f0 push {r4, r5, r6, lr} */
-/* @0x2866f4 mov r3, #36 */
-/* @0x2866f8 ldr r6, [pc, #0x54] */
-/* @0x2866fc mov r5, r0 */
-/* @0x286700 mov r1, #24 */
-/* @0x286704 mov r0, #1 */
-/* @0x286708 add r6, pc, r6 */
-/* @0x28670c mov r2, r6 */
-/* @0x286710 bl 0x285c4c <_calloc> */
-/* @0x286714 mov r4, r0 */
-/* @0x286718 mov r0, r5 */
-/* @0x28671c bl 0xb6538 <strlen@plt> */
-/* @0x286720 mov r1, r6 */
-/* @0x286724 mov r2, #37 */
-/* @0x286728 add r0, r0, #1 */
-/* @0x28672c bl 0x285c10 <_malloc> */
-/* @0x286730 mov r1, r5 */
-/* @0x286734 str r0, [r4] */
-/* @0x286738 bl 0xb65a4 <strcpy@plt> */
-/* @0x28673c mov r2, #1065353216 */
-/* @0x286740 mov r3, #1 */
-/* @0x286744 mov r0, r4 */
-/* @0x286748 str r3, [r4, #0x10] */
-/* @0x28674c str r2, [r4, #0x14] */
-/* @0x286750 pop {r4, r5, r6, pc} */
-/* @0x286754 andeq r1, sp, r0, ror r1 */
 
 /* ── FUNC 0x286758 · spIkConstraintData_dispose · size=36 · insn=9 */
 /* @0x286758 push {r4, lr} */
@@ -43,7 +15,7 @@
 /* @0x286774 pop {r4, lr} */
 /* @0x286778 b 0x285c80 <_free> */
 
-/* ── FUNC 0x28677c · anon_28677c · size=2876 · insn=719 */
+/* ── FUNC 0x28677c · anon_28677c · size=2872 · insn=719 */
 /* @0x28677c push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x286780 mov r4, r2 */
 /* @0x286784 ldrb r3, [r2] */
@@ -1093,7 +1065,7 @@
 /* @0x287754 ldr r4, [sp], #4 */
 /* @0x287758 b 0x28f64c <spVertexAttachment_computeWorldVertices1> */
 
-/* ── FUNC 0x28775c · anon_28775c · size=528 · insn=132 */
+/* ── FUNC 0x28775c · anon_28775c · size=524 · insn=132 */
 /* @0x28775c vcmp.f32 s0, #0 */
 /* @0x287760 push {r4, lr} */
 /* @0x287764 vmrs APSR_nzcv, fpscr */
@@ -2859,7 +2831,7 @@
 /* @0x28928c vstr s15, [r2, #28] */
 /* @0x289290 bx lr */
 
-/* ── FUNC 0x289294 · anon_289294 · size=568 · insn=142 */
+/* ── FUNC 0x289294 · anon_289294 · size=564 · insn=142 */
 /* @0x289294 push {r4, r5, r6, r7, r8, lr} */
 /* @0x289298 subs r7, r1, #0 */
 /* @0x28929c pople {r4, r5, r6, r7, r8, pc} */
@@ -3002,3 +2974,81 @@
 /* @0x2894c0 cmp r4, #0 */
 /* @0x2894c4 bne 0x2894a0 <spRegionAttachment_computeWorldVertices+0x32c> */
 /* @0x2894c8 pop {r3, r4, r5, r6, r7, pc} */
+
+/* ── FUNC 0x2894cc · spSkeleton_dispose · size=304 · insn=76 */
+/* @0x2894cc push {r3, r4, r5, lr} */
+/* @0x2894d0 mov r4, r0 */
+/* @0x2894d4 ldr r0, [r0, #0x68] */
+/* @0x2894d8 bl 0x285c80 <_free> */
+/* @0x2894dc ldr r3, [r4, #0x4] */
+/* @0x2894e0 cmp r3, #0 */
+/* @0x2894e4 movgt r5, #0 */
+/* @0x2894e8 ble 0x289508 <spSkeleton_dispose+0x3c> */
+/* @0x2894ec ldr r3, [r4, #0x8] */
+/* @0x2894f0 ldr r0, [r3, r5, lsl #2] */
+/* @0x2894f4 add r5, r5, #1 */
+/* @0x2894f8 bl 0x284efc <spBone_dispose> */
+/* @0x2894fc ldr r3, [r4, #0x4] */
+/* @0x289500 cmp r3, r5 */
+/* @0x289504 bgt 0x2894ec <spSkeleton_dispose+0x20> */
+/* @0x289508 ldr r0, [r4, #0x8] */
+/* @0x28950c bl 0x285c80 <_free> */
+/* @0x289510 ldr r3, [r4, #0x10] */
+/* @0x289514 cmp r3, #0 */
+/* @0x289518 movgt r5, #0 */
+/* @0x28951c ble 0x28953c <spSkeleton_dispose+0x70> */
+/* @0x289520 ldr r3, [r4, #0x14] */
+/* @0x289524 ldr r0, [r3, r5, lsl #2] */
+/* @0x289528 add r5, r5, #1 */
+/* @0x28952c bl 0x28ee00 <spSlot_dispose> */
+/* @0x289530 ldr r3, [r4, #0x10] */
+/* @0x289534 cmp r3, r5 */
+/* @0x289538 bgt 0x289520 <spSkeleton_dispose+0x54> */
+/* @0x28953c ldr r0, [r4, #0x14] */
+/* @0x289540 bl 0x285c80 <_free> */
+/* @0x289544 ldr r3, [r4, #0x1c] */
+/* @0x289548 cmp r3, #0 */
+/* @0x28954c movgt r5, #0 */
+/* @0x289550 ble 0x289570 <spSkeleton_dispose+0xa4> */
+/* @0x289554 ldr r3, [r4, #0x20] */
+/* @0x289558 ldr r0, [r3, r5, lsl #2] */
+/* @0x28955c add r5, r5, #1 */
+/* @0x289560 bl 0x285e2c <spIkConstraint_dispose> */
+/* @0x289564 ldr r3, [r4, #0x1c] */
+/* @0x289568 cmp r3, r5 */
+/* @0x28956c bgt 0x289554 <spSkeleton_dispose+0x88> */
+/* @0x289570 ldr r0, [r4, #0x20] */
+/* @0x289574 bl 0x285c80 <_free> */
+/* @0x289578 ldr r0, [r4, #0x24] */
+/* @0x28957c bl 0x285c80 <_free> */
+/* @0x289580 ldr r3, [r4, #0x28] */
+/* @0x289584 cmp r3, #0 */
+/* @0x289588 movgt r5, #0 */
+/* @0x28958c ble 0x2895ac <spSkeleton_dispose+0xe0> */
+/* @0x289590 ldr r3, [r4, #0x2c] */
+/* @0x289594 ldr r0, [r3, r5, lsl #2] */
+/* @0x289598 add r5, r5, #1 */
+/* @0x28959c bl 0x28f0f4 <spTransformConstraint_dispose> */
+/* @0x2895a0 ldr r3, [r4, #0x28] */
+/* @0x2895a4 cmp r3, r5 */
+/* @0x2895a8 bgt 0x289590 <spSkeleton_dispose+0xc4> */
+/* @0x2895ac ldr r0, [r4, #0x2c] */
+/* @0x2895b0 bl 0x285c80 <_free> */
+/* @0x2895b4 ldr r3, [r4, #0x30] */
+/* @0x2895b8 cmp r3, #0 */
+/* @0x2895bc movgt r5, #0 */
+/* @0x2895c0 ble 0x2895e0 <spSkeleton_dispose+0x114> */
+/* @0x2895c4 ldr r3, [r4, #0x34] */
+/* @0x2895c8 ldr r0, [r3, r5, lsl #2] */
+/* @0x2895cc add r5, r5, #1 */
+/* @0x2895d0 bl 0x287a70 <spPathConstraint_dispose> */
+/* @0x2895d4 ldr r3, [r4, #0x30] */
+/* @0x2895d8 cmp r3, r5 */
+/* @0x2895dc bgt 0x2895c4 <spSkeleton_dispose+0xf8> */
+/* @0x2895e0 ldr r0, [r4, #0x34] */
+/* @0x2895e4 bl 0x285c80 <_free> */
+/* @0x2895e8 ldr r0, [r4, #0x18] */
+/* @0x2895ec bl 0x285c80 <_free> */
+/* @0x2895f0 mov r0, r4 */
+/* @0x2895f4 pop {r3, r4, r5, lr} */
+/* @0x2895f8 b 0x285c80 <_free> */

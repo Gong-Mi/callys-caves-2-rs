@@ -302,7 +302,7 @@
 /* @0x1a1ec4 pop {r3, pc} */
 /* @0x1a1ec8 .word 0x0024e8dc */
 
-/* ── FUNC 0x1a1ecc · anon_1a1ecc · size=4 · insn=1 */
+/* ── FUNC 0x1a1ecc · anon_1a1ecc · size=0 · insn=1 */
 /* @0x1a1ecc andeq r0, r0, r0 */
 
 /* ── FUNC 0x1a1ed0 · Eff_Effect10(int, float, float, int, unsigned int) · size=708 · insn=177 */
@@ -484,7 +484,7 @@
 /* @0x1a218c mlaeq r4, r8, r8, lr */
 /* @0x1a2190 eoreq r11, r4, r12, lsl #19 */
 
-/* ── FUNC 0x1a2194 · anon_1a2194 · size=4 · insn=1 */
+/* ── FUNC 0x1a2194 · anon_1a2194 · size=0 · insn=1 */
 /* @0x1a2194 nop */
 
 /* ── FUNC 0x1a2198 · Eff_Create11() · size=28 · insn=7 */
@@ -496,7 +496,7 @@
 /* @0x1a21ac pop {r3, pc} */
 /* @0x1a21b0 .word 0x0024e5f8 */
 
-/* ── FUNC 0x1a21b4 · anon_1a21b4 · size=4 · insn=1 */
+/* ── FUNC 0x1a21b4 · anon_1a21b4 · size=0 · insn=1 */
 /* @0x1a21b4 andeq r0, r0, r0 */
 
 /* ── FUNC 0x1a21b8 · Eff_Effect11(int, float, float, int, unsigned int) · size=752 · insn=188 */

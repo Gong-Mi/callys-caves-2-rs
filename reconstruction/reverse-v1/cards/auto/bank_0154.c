@@ -4,7 +4,7 @@
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
 
-/* ── FUNC 0x1cb774 · anon_1cb774 · size=4 · insn=1 */
+/* ── FUNC 0x1cb774 · anon_1cb774 · size=0 · insn=1 */
 /* @0x1cb774 andeq r0, r0, r0 */
 
 /* ── FUNC 0x1cb778 · INITIALIZE_Run_Global() · size=732 · insn=183 */
@@ -192,7 +192,7 @@
 /* @0x1cba4c .word 0xffffebec */
 /* @0x1cba50 .word 0xffffeec8 */
 
-/* ── FUNC 0x1cba54 · anon_1cba54 · size=4 · insn=1 */
+/* ── FUNC 0x1cba54 · anon_1cba54 · size=0 · insn=1 */
 /* @0x1cba54 nop */
 
 /* ── FUNC 0x1cba58 · Run_Room_Set(CRoom*) · size=20 · insn=5 */
@@ -309,7 +309,7 @@
 /* @0x1cbc08 .word 0xffffeec8 */
 /* @0x1cbc0c .word 0xffffbf64 */
 
-/* ── FUNC 0x1cbc10 · anon_1cbc10 · size=476 · insn=119 */
+/* ── FUNC 0x1cbc10 · anon_1cbc10 · size=472 · insn=119 */
 /* @0x1cbc10 ldr r2, [r0] */
 /* @0x1cbc14 ldr r3, [r1, #0x8] */
 /* @0x1cbc18 cmp r2, r3 */

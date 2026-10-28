@@ -460,7 +460,7 @@
 /* @0x15597c pop {r4, r5, r6, r8, r9, pc} */
 /* @0x155980 eoreq r12, r9, r8, lsl #20 */
 
-/* ── FUNC 0x155984 · anon_155984 · size=4 · insn=1 */
+/* ── FUNC 0x155984 · anon_155984 · size=0 · insn=1 */
 /* @0x155984 andeq r0, r0, r0 */
 
 /* ── FUNC 0x155988 · F_Push_LocalNotification(RValue&, CInstance*, CInstance*, int, RValue*) · size=348 · insn=85 */
@@ -550,7 +550,7 @@
 /* @0x155adc andseq r0, pc, r12, lsr #19 */
 /* @0x155ae0 andseq r0, pc, r0, asr #18 */
 
-/* ── FUNC 0x155ae4 · anon_155ae4 · size=4 · insn=1 */
+/* ── FUNC 0x155ae4 · anon_155ae4 · size=0 · insn=1 */
 /* @0x155ae4 nop */
 
 /* ── FUNC 0x155ae8 · F_Push_CancelLocalNotification(RValue&, CInstance*, CInstance*, int, RValue*) · size=104 · insn=26 */
@@ -802,7 +802,7 @@
 /* @0x155e94 andseq r10, sp, r12, ror sp */
 /* @0x155e98 andseq r0, pc, r4, lsl r3 */
 
-/* ── FUNC 0x155e9c · anon_155e9c · size=4 · insn=1 */
+/* ── FUNC 0x155e9c · anon_155e9c · size=0 · insn=1 */
 /* @0x155e9c nop */
 
 /* ── FUNC 0x155ea0 · InitPushFunctions() · size=228 · insn=57 */

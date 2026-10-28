@@ -1,18 +1,8 @@
 /* libyoyo.so 覆盖卡组 0219
- * 函数 0x242ebc..0x244c64，共 32 个；
+ * 函数 0x242edc..0x244c68，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x242ebc · translate(EJSRetVal) · size=32 · insn=8 */
-/* @0x242ebc cmp r0, #1 */
-/* @0x242ec0 beq 0x242ed4 <_Z9translate9EJSRetVal+0x18> */
-/* @0x242ec4 cmp r0, #2 */
-/* @0x242ec8 mvneq r0, #3 */
-/* @0x242ecc movne r0, #0 */
-/* @0x242ed0 bx lr */
-/* @0x242ed4 mvn r0, #4 */
-/* @0x242ed8 bx lr */
 
 /* ── FUNC 0x242edc · myswap(RValue*, int, int) · size=120 · insn=30 */
 /* @0x242edc push {r4, r5, r6, r7, r8, r9, r10, r11} */
@@ -1756,7 +1746,7 @@
 /* @0x24497c .word 0xffffbf64 */
 /* @0x244980 andseq r1, r1, r12, asr #1 */
 
-/* ── FUNC 0x244984 · anon_244984 · size=4 · insn=1 */
+/* ── FUNC 0x244984 · anon_244984 · size=0 · insn=1 */
 /* @0x244984 andeq r0, r0, r0 */
 
 /* ── FUNC 0x244988 · DateGetNow() · size=48 · insn=12 */
@@ -1782,7 +1772,7 @@
 /* @0x2449cc stm r4, {r0, r1} */
 /* @0x2449d0 pop {r4, pc} */
 
-/* ── FUNC 0x2449d4 · anon_2449d4 · size=4 · insn=1 */
+/* ── FUNC 0x2449d4 · anon_2449d4 · size=0 · insn=1 */
 /* @0x2449d4 andeq r0, r0, r0 */
 
 /* ── FUNC 0x2449d8 · Day(double) · size=32 · insn=8 */
@@ -1964,5 +1954,197 @@
 /* @0x244c5c vmov r0, r1, d7 */
 /* @0x244c60 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x244c64 · anon_244c64 · size=4 · insn=1 */
+/* ── FUNC 0x244c64 · anon_244c64 · size=0 · insn=1 */
 /* @0x244c64 andeq r0, r0, r0 */
+
+/* ── FUNC 0x244c68 · MonthFromTime(double) · size=760 · insn=190 */
+/* @0x244c68 push {r3, r4, r5, lr} */
+/* @0x244c6c vpush {d8} */
+/* @0x244c70 mov r4, r0 */
+/* @0x244c74 mov r5, r1 */
+/* @0x244c78 bl 0x244c28 <_Z13DayWithinYeard> */
+/* @0x244c7c vmov d8, r0, r1 */
+/* @0x244c80 mov r0, r4 */
+/* @0x244c84 mov r1, r5 */
+/* @0x244c88 bl 0x244be8 <_Z10InLeapYeard> */
+/* @0x244c8c vcmpe.f64 d8, #0 */
+/* @0x244c90 vmrs APSR_nzcv, fpscr */
+/* @0x244c94 vmov d7, r0, r1 */
+/* @0x244c98 blt 0x244cb4 <_Z13MonthFromTimed+0x4c> */
+/* @0x244c9c vmov.f64 d6, #3.100000e+01 */
+/* @0x244ca0 vcmpe.f64 d8, d6 */
+/* @0x244ca4 vmrs APSR_nzcv, fpscr */
+/* @0x244ca8 movmi r0, #0 */
+/* @0x244cac movmi r1, #0 */
+/* @0x244cb0 bmi 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244cb4 vmov.f64 d6, #3.100000e+01 */
+/* @0x244cb8 vcmpe.f64 d8, d6 */
+/* @0x244cbc vmrs APSR_nzcv, fpscr */
+/* @0x244cc0 blt 0x244cd8 <_Z13MonthFromTimed+0x70> */
+/* @0x244cc4 vldr d6, [pc, #572] */
+/* @0x244cc8 vadd.f64 d6, d7, d6 */
+/* @0x244ccc vcmpe.f64 d8, d6 */
+/* @0x244cd0 vmrs APSR_nzcv, fpscr */
+/* @0x244cd4 bmi 0x244e6c <_Z13MonthFromTimed+0x204> */
+/* @0x244cd8 vldr d6, [pc, #552] */
+/* @0x244cdc vcmpe.f64 d8, d6 */
+/* @0x244ce0 vmrs APSR_nzcv, fpscr */
+/* @0x244ce4 bge 0x244d44 <_Z13MonthFromTimed+0xdc> */
+/* @0x244ce8 vldr d6, [pc, #544] */
+/* @0x244cec vcmpe.f64 d8, d6 */
+/* @0x244cf0 vmrs APSR_nzcv, fpscr */
+/* @0x244cf4 blt 0x244d0c <_Z13MonthFromTimed+0xa4> */
+/* @0x244cf8 vldr d6, [pc, #536] */
+/* @0x244cfc vadd.f64 d6, d7, d6 */
+/* @0x244d00 vcmpe.f64 d8, d6 */
+/* @0x244d04 vmrs APSR_nzcv, fpscr */
+/* @0x244d08 bmi 0x244ea4 <_Z13MonthFromTimed+0x23c> */
+/* @0x244d0c vldr d6, [pc, #516] */
+/* @0x244d10 vcmpe.f64 d8, d6 */
+/* @0x244d14 vmrs APSR_nzcv, fpscr */
+/* @0x244d18 blt 0x244d68 <_Z13MonthFromTimed+0x100> */
+/* @0x244d1c vldr d6, [pc, #508] */
+/* @0x244d20 vadd.f64 d6, d7, d6 */
+/* @0x244d24 vcmpe.f64 d8, d6 */
+/* @0x244d28 vmrs APSR_nzcv, fpscr */
+/* @0x244d2c bpl 0x244d68 <_Z13MonthFromTimed+0x100> */
+/* @0x244d30 mov r1, #0 */
+/* @0x244d34 movt r1, #0x4010 */
+/* @0x244d38 mov r0, #0 */
+/* @0x244d3c vpop {d8} */
+/* @0x244d40 pop {r3, r4, r5, pc} */
+/* @0x244d44 vldr d6, [pc, #452] */
+/* @0x244d48 vadd.f64 d6, d7, d6 */
+/* @0x244d4c vcmpe.f64 d8, d6 */
+/* @0x244d50 vmrs APSR_nzcv, fpscr */
+/* @0x244d54 movmi r0, #0 */
+/* @0x244d58 movmi r1, #1073741824 */
+/* @0x244d5c bpl 0x244ce8 <_Z13MonthFromTimed+0x80> */
+/* @0x244d60 vpop {d8} */
+/* @0x244d64 pop {r3, r4, r5, pc} */
+/* @0x244d68 vldr d6, [pc, #432] */
+/* @0x244d6c vcmpe.f64 d8, d6 */
+/* @0x244d70 vmrs APSR_nzcv, fpscr */
+/* @0x244d74 blt 0x244d98 <_Z13MonthFromTimed+0x130> */
+/* @0x244d78 vldr d6, [pc, #424] */
+/* @0x244d7c vadd.f64 d6, d7, d6 */
+/* @0x244d80 vcmpe.f64 d8, d6 */
+/* @0x244d84 vmrs APSR_nzcv, fpscr */
+/* @0x244d88 movmi r1, #0 */
+/* @0x244d8c movmi r0, #0 */
+/* @0x244d90 movtmi r1, #0x4014 */
+/* @0x244d94 bmi 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244d98 vldr d6, [pc, #392] */
+/* @0x244d9c vcmpe.f64 d8, d6 */
+/* @0x244da0 vmrs APSR_nzcv, fpscr */
+/* @0x244da4 bge 0x244e80 <_Z13MonthFromTimed+0x218> */
+/* @0x244da8 vldr d6, [pc, #384] */
+/* @0x244dac vcmpe.f64 d8, d6 */
+/* @0x244db0 vmrs APSR_nzcv, fpscr */
+/* @0x244db4 blt 0x244dcc <_Z13MonthFromTimed+0x164> */
+/* @0x244db8 vldr d6, [pc, #376] */
+/* @0x244dbc vadd.f64 d6, d7, d6 */
+/* @0x244dc0 vcmpe.f64 d8, d6 */
+/* @0x244dc4 vmrs APSR_nzcv, fpscr */
+/* @0x244dc8 bmi 0x244ef4 <_Z13MonthFromTimed+0x28c> */
+/* @0x244dcc vldr d6, [pc, #356] */
+/* @0x244dd0 vcmpe.f64 d8, d6 */
+/* @0x244dd4 vmrs APSR_nzcv, fpscr */
+/* @0x244dd8 blt 0x244df0 <_Z13MonthFromTimed+0x188> */
+/* @0x244ddc vldr d6, [pc, #348] */
+/* @0x244de0 vadd.f64 d6, d7, d6 */
+/* @0x244de4 vcmpe.f64 d8, d6 */
+/* @0x244de8 vmrs APSR_nzcv, fpscr */
+/* @0x244dec bmi 0x244ec4 <_Z13MonthFromTimed+0x25c> */
+/* @0x244df0 vldr d6, [pc, #328] */
+/* @0x244df4 vcmpe.f64 d8, d6 */
+/* @0x244df8 vmrs APSR_nzcv, fpscr */
+/* @0x244dfc blt 0x244e14 <_Z13MonthFromTimed+0x1ac> */
+/* @0x244e00 vldr d6, [pc, #320] */
+/* @0x244e04 vadd.f64 d6, d7, d6 */
+/* @0x244e08 vcmpe.f64 d8, d6 */
+/* @0x244e0c vmrs APSR_nzcv, fpscr */
+/* @0x244e10 bmi 0x244ed4 <_Z13MonthFromTimed+0x26c> */
+/* @0x244e14 vldr d6, [pc, #300] */
+/* @0x244e18 vcmpe.f64 d8, d6 */
+/* @0x244e1c vmrs APSR_nzcv, fpscr */
+/* @0x244e20 blt 0x244e38 <_Z13MonthFromTimed+0x1d0> */
+/* @0x244e24 vldr d6, [pc, #292] */
+/* @0x244e28 vadd.f64 d6, d7, d6 */
+/* @0x244e2c vcmpe.f64 d8, d6 */
+/* @0x244e30 vmrs APSR_nzcv, fpscr */
+/* @0x244e34 bmi 0x244ee4 <_Z13MonthFromTimed+0x27c> */
+/* @0x244e38 vldr d6, [pc, #272] */
+/* @0x244e3c vcmpe.f64 d8, d6 */
+/* @0x244e40 vmrs APSR_nzcv, fpscr */
+/* @0x244e44 blt 0x244eb4 <_Z13MonthFromTimed+0x24c> */
+/* @0x244e48 vldr d6, [pc, #264] */
+/* @0x244e4c vadd.f64 d7, d7, d6 */
+/* @0x244e50 vmov.f64 d5, #1.100000e+01 */
+/* @0x244e54 vmov.f64 d6, #-1.000000e+00 */
+/* @0x244e58 vcmpe.f64 d8, d7 */
+/* @0x244e5c vmrs APSR_nzcv, fpscr */
+/* @0x244e60 vmovpl r0, r1, d6 */
+/* @0x244e64 vmovmi r0, r1, d5 */
+/* @0x244e68 b 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244e6c vpop {d8} */
+/* @0x244e70 mov r0, #0 */
+/* @0x244e74 mov r1, #0 */
+/* @0x244e78 movt r1, #0x3ff0 */
+/* @0x244e7c pop {r3, r4, r5, pc} */
+/* @0x244e80 vldr d6, [pc, #168] */
+/* @0x244e84 vadd.f64 d6, d7, d6 */
+/* @0x244e88 vcmpe.f64 d8, d6 */
+/* @0x244e8c vmrs APSR_nzcv, fpscr */
+/* @0x244e90 bpl 0x244da8 <_Z13MonthFromTimed+0x140> */
+/* @0x244e94 mov r1, #0 */
+/* @0x244e98 mov r0, #0 */
+/* @0x244e9c movt r1, #0x4018 */
+/* @0x244ea0 b 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244ea4 mov r1, #0 */
+/* @0x244ea8 mov r0, #0 */
+/* @0x244eac movt r1, #0x4008 */
+/* @0x244eb0 b 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244eb4 mov r1, #0 */
+/* @0x244eb8 mov r0, #0 */
+/* @0x244ebc movt r1, #0xbff0 */
+/* @0x244ec0 b 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244ec4 mov r1, #0 */
+/* @0x244ec8 mov r0, #0 */
+/* @0x244ecc movt r1, #0x4020 */
+/* @0x244ed0 b 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244ed4 mov r1, #0 */
+/* @0x244ed8 mov r0, #0 */
+/* @0x244edc movt r1, #0x4022 */
+/* @0x244ee0 b 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244ee4 mov r1, #0 */
+/* @0x244ee8 mov r0, #0 */
+/* @0x244eec movt r1, #0x4024 */
+/* @0x244ef0 b 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244ef4 mov r1, #0 */
+/* @0x244ef8 mov r0, #0 */
+/* @0x244efc movt r1, #0x401c */
+/* @0x244f00 b 0x244d3c <_Z13MonthFromTimed+0xd4> */
+/* @0x244f04 nop */
+/* @0x244f08 andeq r0, r0, r0 */
+/* @0x244f0c submi r8, sp, r0 */
+/* @0x244f10 andeq r0, r0, r0 */
+/* @0x244f14 subsmi r8, r6, r0 */
+/* @0x244f18 andeq r0, r0, r0 */
+/* @0x244f1c subsmi r0, lr, r0 */
+/* @0x244f20 andeq r0, r0, r0 */
+/* @0x244f24 rsbmi lr, r2, r0 */
+/* @0x244f28 andeq r0, r0, r0 */
+/* @0x244f2c rsbmi r10, r6, r0 */
+/* @0x244f30 andeq r0, r0, r0 */
+/* @0x244f34 rsbmi r8, r10, r0 */
+/* @0x244f38 andeq r0, r0, r0 */
+/* @0x244f3c rsbmi r6, lr, r0 */
+/* @0x244f40 andeq r0, r0, r0 */
+/* @0x244f44 rsbsmi r1, r1, r0 */
+/* @0x244f48 andeq r0, r0, r0 */
+/* @0x244f4c rsbsmi r0, r3, r0 */
+/* @0x244f50 andeq r0, r0, r0 */
+/* @0x244f54 rsbsmi lr, r4, r0 */
+/* @0x244f58 andeq r0, r0, r0 */
+/* @0x244f5c rsbsmi sp, r6, r0 */

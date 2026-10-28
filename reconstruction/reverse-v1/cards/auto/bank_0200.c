@@ -351,7 +351,7 @@
 /* @0x221c40 pop {r4, r5, r6, pc} */
 /* @0x221c44 subseq r3, r3, r8, ror #17 */
 
-/* ── FUNC 0x221c48 · anon_221c48 · size=152 · insn=38 */
+/* ── FUNC 0x221c48 · anon_221c48 · size=148 · insn=38 */
 /* @0x221c48 push {r4, r5, r6, lr} */
 /* @0x221c4c mov r4, r0 */
 /* @0x221c50 ldrb r6, [r0] */
@@ -612,7 +612,7 @@
 /* @0x221fec add sp, sp, #8 */
 /* @0x221ff0 pop {r4, pc} */
 
-/* ── FUNC 0x221ff4 · anon_221ff4 · size=1496 · insn=374 */
+/* ── FUNC 0x221ff4 · anon_221ff4 · size=1492 · insn=374 */
 /* @0x221ff4 cmn r0, #1 */
 /* @0x221ff8 bxeq lr */
 /* @0x221ffc ldr r3, [pc, #0x34] */

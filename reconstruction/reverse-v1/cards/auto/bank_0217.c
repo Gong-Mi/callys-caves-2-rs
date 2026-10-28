@@ -1,74 +1,8 @@
 /* libyoyo.so 覆盖卡组 0217
- * 函数 0x23da24..0x2407e8，共 32 个；
+ * 函数 0x23db24..0x240828，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x23da24 · d2b_D2A · size=256 · insn=64 */
-/* @0x23da24 push {r4, r5, r6, r7, r8, r9, lr} */
-/* @0x23da28 mov r4, r0 */
-/* @0x23da2c sub sp, sp, #12 */
-/* @0x23da30 mov r0, #1 */
-/* @0x23da34 mov r5, r1 */
-/* @0x23da38 mov r8, r3 */
-/* @0x23da3c ubfx r7, r1, #0x14, #0xb */
-/* @0x23da40 mov r9, r2 */
-/* @0x23da44 bl 0x23d1f8 <Balloc_D2A> */
-/* @0x23da48 cmp r7, #0 */
-/* @0x23da4c ubfx r3, r5, #0x0, #0x14 */
-/* @0x23da50 str r4, [sp] */
-/* @0x23da54 orrne r3, r3, #1048576 */
-/* @0x23da58 cmp r4, #0 */
-/* @0x23da5c str r3, [sp, #0x4] */
-/* @0x23da60 mov r6, r0 */
-/* @0x23da64 beq 0x23dad4 <d2b_D2A+0xb0> */
-/* @0x23da68 mov r0, sp */
-/* @0x23da6c bl 0x23d2d4 <lo0bits_D2A> */
-/* @0x23da70 cmp r0, #0 */
-/* @0x23da74 rsbne r1, r0, #32 */
-/* @0x23da78 ldrne r3, [sp, #0x4] */
-/* @0x23da7c ldmeq sp, {r3, r4} */
-/* @0x23da80 ldrne r2, [sp] */
-/* @0x23da84 lsrne r4, r3, r0 */
-/* @0x23da88 strne r4, [sp, #0x4] */
-/* @0x23da8c orrne r3, r2, r3, lsl r1 */
-/* @0x23da90 cmp r4, #0 */
-/* @0x23da94 str r4, [r6, #0x18] */
-/* @0x23da98 moveq r4, #1 */
-/* @0x23da9c movne r4, #2 */
-/* @0x23daa0 cmp r7, #0 */
-/* @0x23daa4 str r3, [r6, #0x14] */
-/* @0x23daa8 str r4, [r6, #0x10] */
-/* @0x23daac beq 0x23daf8 <d2b_D2A+0xd4> */
-/* @0x23dab0 sub r7, r7, #1072 */
-/* @0x23dab4 rsb r3, r0, #53 */
-/* @0x23dab8 sub r7, r7, #3 */
-/* @0x23dabc add r0, r7, r0 */
-/* @0x23dac0 str r0, [r9] */
-/* @0x23dac4 mov r0, r6 */
-/* @0x23dac8 str r3, [r8] */
-/* @0x23dacc add sp, sp, #12 */
-/* @0x23dad0 pop {r4, r5, r6, r7, r8, r9, pc} */
-/* @0x23dad4 add r0, sp, #4 */
-/* @0x23dad8 mov r4, #1 */
-/* @0x23dadc bl 0x23d2d4 <lo0bits_D2A> */
-/* @0x23dae0 ldr r3, [sp, #0x4] */
-/* @0x23dae4 cmp r7, #0 */
-/* @0x23dae8 str r4, [r6, #0x10] */
-/* @0x23daec str r3, [r6, #0x14] */
-/* @0x23daf0 add r0, r0, #32 */
-/* @0x23daf4 bne 0x23dab0 <d2b_D2A+0x8c> */
-/* @0x23daf8 add r3, r6, r4, lsl #2 */
-/* @0x23dafc sub r0, r0, #1072 */
-/* @0x23db00 sub r0, r0, #2 */
-/* @0x23db04 str r0, [r9] */
-/* @0x23db08 ldr r0, [r3, #0x10] */
-/* @0x23db0c bl 0x23d41c <hi0bits_D2A> */
-/* @0x23db10 rsb r0, r0, r4, lsl #5 */
-/* @0x23db14 str r0, [r8] */
-/* @0x23db18 mov r0, r6 */
-/* @0x23db1c add sp, sp, #12 */
-/* @0x23db20 pop {r4, r5, r6, r7, r8, r9, pc} */
 
 /* ── FUNC 0x23db24 · strcp_D2A · size=44 · insn=11 */
 /* @0x23db24 ldrb r3, [r1] */
@@ -382,7 +316,7 @@
 /* @0x23dfc4 add sp, sp, #60 */
 /* @0x23dfc8 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
 
-/* ── FUNC 0x23dfcc · anon_23dfcc · size=4 · insn=1 */
+/* ── FUNC 0x23dfcc · anon_23dfcc · size=0 · insn=1 */
 /* @0x23dfcc andeq r0, r0, r0 */
 
 /* ── FUNC 0x23dfd0 · gdtoa(FPI*, int, unsigned int*, int*, int, int, int*, char**) · size=5016 · insn=1254 */
@@ -3012,3 +2946,17 @@
 /* @0x24081c bx lr */
 /* @0x240820 mov r0, #0 */
 /* @0x240824 bx lr */
+
+/* ── FUNC 0x240828 · JS_IsAccessorDescriptor(RValue*) · size=48 · insn=12 */
+/* @0x240828 ldr r3, [r0, #0xc] */
+/* @0x24082c bic r3, r3, #-16777216 */
+/* @0x240830 cmp r3, #6 */
+/* @0x240834 beq 0x240840 <_Z23JS_IsAccessorDescriptorP6RValue+0x18> */
+/* @0x240838 mov r0, #0 */
+/* @0x24083c bx lr */
+/* @0x240840 ldr r3, [r0] */
+/* @0x240844 ldr r0, [r3, #0x48] */
+/* @0x240848 subs r3, r0, #2 */
+/* @0x24084c rsbs r0, r3, #0 */
+/* @0x240850 adcs r0, r0, r3 */
+/* @0x240854 bx lr */

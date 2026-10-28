@@ -30,7 +30,7 @@
 /* @0x11555c vpop {d8} */
 /* @0x115560 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x115564 · anon_115564 · size=4 · insn=1 */
+/* ── FUNC 0x115564 · anon_115564 · size=0 · insn=1 */
 /* @0x115564 andeq r0, r0, r0 */
 
 /* ── FUNC 0x115568 · F_DateMinuteSpan(RValue&, CInstance*, CInstance*, int, RValue*) · size=104 · insn=26 */
@@ -120,7 +120,7 @@
 /* @0x1156a4 vpop {d8} */
 /* @0x1156a8 pop {r3, r4, r5, pc} */
 
-/* ── FUNC 0x1156ac · anon_1156ac · size=4 · insn=1 */
+/* ── FUNC 0x1156ac · anon_1156ac · size=0 · insn=1 */
 /* @0x1156ac andeq r0, r0, r0 */
 
 /* ── FUNC 0x1156b0 · F_DateIncYear(RValue&, CInstance*, CInstance*, int, RValue*) · size=248 · insn=62 */
@@ -1290,7 +1290,7 @@
 /* @0x116834 .word 0xffffbcdc */
 /* @0x116838 mlaeq r2, r0, pc, r2 */
 
-/* ── FUNC 0x11683c · anon_11683c · size=4 · insn=1 */
+/* ── FUNC 0x11683c · anon_11683c · size=0 · insn=1 */
 /* @0x11683c nop */
 
 /* ── FUNC 0x116840 · F_GameGetSpeed(RValue&, CInstance*, CInstance*, int, RValue*) · size=132 · insn=33 */
@@ -1328,7 +1328,7 @@
 /* @0x1168bc smlawbmi lr, r0, r4, r8 */
 /* @0x1168c0 .word 0x002d70dc */
 
-/* ── FUNC 0x1168c4 · anon_1168c4 · size=4 · insn=1 */
+/* ── FUNC 0x1168c4 · anon_1168c4 · size=0 · insn=1 */
 /* @0x1168c4 nop */
 
 /* ── FUNC 0x1168c8 · F_EventInherited(RValue&, CInstance*, CInstance*, int, RValue*) · size=220 · insn=55 */

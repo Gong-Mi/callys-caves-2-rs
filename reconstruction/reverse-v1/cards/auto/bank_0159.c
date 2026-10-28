@@ -3364,7 +3364,7 @@
 /* @0x1da934 .word 0x002164f0 */
 /* @0x1da938 andseq r2, r7, r4, lsl #14 */
 
-/* ── FUNC 0x1da93c · anon_1da93c · size=4 · insn=1 */
+/* ── FUNC 0x1da93c · anon_1da93c · size=0 · insn=1 */
 /* @0x1da93c andeq r0, r0, r0 */
 
 /* ── FUNC 0x1da940 · CGestureRotate::Update(long long) · size=3024 · insn=754 */

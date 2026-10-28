@@ -2357,7 +2357,7 @@
 /* @0x1c5a2c str r3, [r4, #0x68] */
 /* @0x1c5a30 b 0x1c4f1c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x73c> */
 
-/* ── FUNC 0x1c5a34 · anon_1c5a34 · size=4 · insn=1 */
+/* ── FUNC 0x1c5a34 · anon_1c5a34 · size=0 · insn=1 */
 /* @0x1c5a34 nop */
 
 /* ── FUNC 0x1c5a38 · CLayerManager::AddInstanceToLayer(CRoom*, CLayer*, CInstance*) · size=736 · insn=184 */
@@ -2767,7 +2767,7 @@
 /* @0x1c6064 pop {r4, r5, r6, r7, r8, pc} */
 /* @0x1c6068 eoreq r10, r2, r0, asr #21 */
 
-/* ── FUNC 0x1c606c · anon_1c606c · size=4 · insn=1 */
+/* ── FUNC 0x1c606c · anon_1c606c · size=0 · insn=1 */
 /* @0x1c606c andeq r0, r0, r0 */
 
 /* ── FUNC 0x1c6070 · CLayerManager::BuildRoomLayers(CRoom*, YYRoomLayers*) · size=3076 · insn=766 */
@@ -3538,7 +3538,7 @@
 /* @0x1c6c6c bl 0x1b6f00 <_ZN13CLayerManager4InitEv> */
 /* @0x1c6c70 b 0x1c60b4 <_ZN13CLayerManager15BuildRoomLayersEP5CRoomP12YYRoomLayers+0x44> */
 
-/* ── FUNC 0x1c6c74 · anon_1c6c74 · size=4 · insn=1 */
+/* ── FUNC 0x1c6c74 · anon_1c6c74 · size=0 · insn=1 */
 /* @0x1c6c74 nop */
 
 /* ── FUNC 0x1c6c78 · CLayerManager::AddNewElementAtDepth(CRoom*, int, CLayerElementBase*, bool, bool) · size=124 · insn=31 */
@@ -4086,7 +4086,7 @@
 /* @0x1c74c4 eoreq r6, r2, r4, ror r2 */
 /* @0x1c74c8 andseq r9, r8, r8, asr r6 */
 
-/* ── FUNC 0x1c74cc · anon_1c74cc · size=4 · insn=1 */
+/* ── FUNC 0x1c74cc · anon_1c74cc · size=0 · insn=1 */
 /* @0x1c74cc andeq r0, r0, r0 */
 
 /* ── FUNC 0x1c74d0 · CLayerManager::DeSerializeLayer(CRoom*, IBuffer*) · size=3760 · insn=937 */
@@ -5028,7 +5028,7 @@
 /* @0x1c8378 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
 /* @0x1c837c andeq r0, r0, r0 */
 
-/* ── FUNC 0x1c8380 · anon_1c8380 · size=1572 · insn=393 */
+/* ── FUNC 0x1c8380 · anon_1c8380 · size=1568 · insn=393 */
 /* @0x1c8380 push {r3, r4, r5, lr} */
 /* @0x1c8384 mov r5, r1 */
 /* @0x1c8388 ldr r4, [pc, #0x2c] */

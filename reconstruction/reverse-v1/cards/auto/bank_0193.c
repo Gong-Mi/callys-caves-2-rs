@@ -392,7 +392,7 @@
 /* @0x21810c andseq r6, sp, r12, ror #24 */
 /* @0x218110 ldrheq sp, [r3], #-20 */
 
-/* ── FUNC 0x218114 · anon_218114 · size=4 · insn=1 */
+/* ── FUNC 0x218114 · anon_218114 · size=0 · insn=1 */
 /* @0x218114 andeq r0, r0, r0 */
 
 /* ── FUNC 0x218118 · Audio_SetMasterGain(int, double) · size=116 · insn=27 */
@@ -424,7 +424,7 @@
 /* @0x218184 ldrsheq r6, [sp], -r12 */
 /* @0x218188 andseq r9, sp, r8, ror r2 */
 
-/* ── FUNC 0x21818c · anon_21818c · size=4 · insn=1 */
+/* ── FUNC 0x21818c · anon_21818c · size=0 · insn=1 */
 /* @0x21818c nop */
 
 /* ── FUNC 0x218190 · Audio_GetMasterGain(int) · size=44 · insn=11 */

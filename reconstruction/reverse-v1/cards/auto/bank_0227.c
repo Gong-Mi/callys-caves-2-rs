@@ -1,11 +1,8 @@
 /* libyoyo.so 覆盖卡组 0227
- * 函数 0x25f6d8..0x27b274，共 32 个；
+ * 函数 0x25f6dc..0x27b368，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x25f6d8 · pcre_jit_free_unused_memory · size=4 · insn=1 */
-/* @0x25f6d8 bx lr */
 
 /* ── FUNC 0x25f6dc · pcre_maketables · size=800 · insn=200 */
 /* @0x25f6dc push {r3, r4, r5, r6, r7, r8, r9, lr} */
@@ -483,7 +480,7 @@
 /* @0x25fe24 andseq r1, r9, r8, asr #20 */
 /* @0x25fe28 ldrsheq r1, [r9], -r12 */
 
-/* ── FUNC 0x25fe2c · anon_25fe2c · size=26428 · insn=6607 */
+/* ── FUNC 0x25fe2c · anon_25fe2c · size=26424 · insn=6607 */
 /* @0x25fe2c push {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x25fe30 mov r8, r1 */
 /* @0x25fe34 ldr r7, [sp, #0x2c] */
@@ -7829,7 +7826,7 @@
 /* @0x2670b4 orr r3, r3, r7, lsl #24 */
 /* @0x2670b8 b 0x266ee8 <_pcre_xclass+0x23c> */
 
-/* ── FUNC 0x2670bc · anon_2670bc · size=2308 · insn=577 */
+/* ── FUNC 0x2670bc · anon_2670bc · size=2304 · insn=577 */
 /* @0x2670bc push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x2670c0 sub sp, sp, #52 */
 /* @0x2670c4 mov r4, r0 */
@@ -9817,7 +9814,7 @@
 /* @0x268fac add sp, sp, #12 */
 /* @0x268fb0 ldr pc, [sp], #4 */
 
-/* ── FUNC 0x268fb4 · anon_268fb4 · size=21940 · insn=5485 */
+/* ── FUNC 0x268fb4 · anon_268fb4 · size=21936 · insn=5485 */
 /* @0x268fb4 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x268fb8 sub sp, sp, #8192 */
 /* @0x268fbc sub sp, sp, #28 */
@@ -16106,7 +16103,7 @@
 /* @0x26f1e0 b 0x26e624 <pcre_dfa_exec+0xbc> */
 /* @0x26f1e4 mulseq r8, r0, r6 */
 
-/* ── FUNC 0x26f1e8 · anon_26f1e8 · size=41384 · insn=10346 */
+/* ── FUNC 0x26f1e8 · anon_26f1e8 · size=41380 · insn=10346 */
 /* @0x26f1e8 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x26f1ec subs r4, r1, #0 */
 /* @0x26f1f0 sub sp, sp, #316 */
@@ -28519,3 +28516,36 @@
 /* @0x27b35c str r2, [r0, #0x14] */
 /* @0x27b360 str r2, [r0] */
 /* @0x27b364 bx lr */
+
+/* ── FUNC 0x27b368 · CBucket<8u, 131072u, true>::Check() · size=124 · insn=31 */
+/* @0x27b368 ldr r12, [r0, #0x8] */
+/* @0x27b36c push {r4, r5, r6} */
+/* @0x27b370 cmp r12, #0 */
+/* @0x27b374 beq 0x27b3d8 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x70> */
+/* @0x27b378 ldr r4, [pc, #0x60] */
+/* @0x27b37c mov r6, #0 */
+/* @0x27b380 mov r5, #42 */
+/* @0x27b384 ldr r4, [pc, r4] */
+/* @0x27b388 ldr r3, [r0, #0x4] */
+/* @0x27b38c cmp r3, #0 */
+/* @0x27b390 beq 0x27b3bc <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x54> */
+/* @0x27b394 add r1, r3, #8 */
+/* @0x27b398 add r2, r3, #131072 */
+/* @0x27b39c cmp r12, r1 */
+/* @0x27b3a0 add r2, r2, #8 */
+/* @0x27b3a4 blo 0x27b3b0 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x48> */
+/* @0x27b3a8 cmp r2, r12 */
+/* @0x27b3ac bhi 0x27b3c0 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x58> */
+/* @0x27b3b0 ldr r3, [r3] */
+/* @0x27b3b4 cmp r3, #0 */
+/* @0x27b3b8 bne 0x27b394 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x2c> */
+/* @0x27b3bc str r5, [r6] */
+/* @0x27b3c0 ldr r12, [r12] */
+/* @0x27b3c4 ldr r3, [r4] */
+/* @0x27b3c8 cmp r12, #0 */
+/* @0x27b3cc add r3, r3, #1 */
+/* @0x27b3d0 str r3, [r4] */
+/* @0x27b3d4 bne 0x27b388 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x20> */
+/* @0x27b3d8 pop {r4, r5, r6} */
+/* @0x27b3dc bx lr */
+/* @0x27b3e0 andseq r2, r7, r0, asr #16 */

@@ -1101,7 +1101,7 @@
 /* @0xce380 mov r0, r4 */
 /* @0xce384 pop {r4, pc} */
 
-/* ── FUNC 0xce388 · anon_ce388 · size=180 · insn=45 */
+/* ── FUNC 0xce388 · anon_ce388 · size=176 · insn=45 */
 /* @0xce388 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0xce38c mov r4, r0 */
 /* @0xce390 ldr r5, [r0] */

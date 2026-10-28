@@ -176,7 +176,7 @@
 /* @0x116c34 rscsmi r1, r5, r0, lsl #16 */
 /* @0x116c38 eoreq r11, sp, r8, asr r5 */
 
-/* ── FUNC 0x116c3c · anon_116c3c · size=4 · insn=1 */
+/* ── FUNC 0x116c3c · anon_116c3c · size=0 · insn=1 */
 /* @0x116c3c nop */
 
 /* ── FUNC 0x116c40 · F_DateGetYear(RValue&, CInstance*, CInstance*, int, RValue*) · size=212 · insn=53 */
@@ -234,7 +234,7 @@
 /* @0x116d0c addsmi r11, sp, r0 */
 /* @0x116d10 mlaeq sp, r0, r4, r11 */
 
-/* ── FUNC 0x116d14 · anon_116d14 · size=4 · insn=1 */
+/* ── FUNC 0x116d14 · anon_116d14 · size=0 · insn=1 */
 /* @0x116d14 nop */
 
 /* ── FUNC 0x116d18 · F_DateGetMonth(RValue&, CInstance*, CInstance*, int, RValue*) · size=204 · insn=51 */
@@ -290,7 +290,7 @@
 /* @0x116ddc rscsmi r1, r5, r0, lsl #16 */
 /* @0x116de0 .word 0x002db3b8 */
 
-/* ── FUNC 0x116de4 · anon_116de4 · size=4 · insn=1 */
+/* ── FUNC 0x116de4 · anon_116de4 · size=0 · insn=1 */
 /* @0x116de4 nop */
 
 /* ── FUNC 0x116de8 · F_DateGetDay(RValue&, CInstance*, CInstance*, int, RValue*) · size=196 · insn=49 */
@@ -344,7 +344,7 @@
 /* @0x116ea4 rscsmi r1, r5, r0, lsl #16 */
 /* @0x116ea8 eoreq r11, sp, r8, ror #5 */
 
-/* ── FUNC 0x116eac · anon_116eac · size=4 · insn=1 */
+/* ── FUNC 0x116eac · anon_116eac · size=0 · insn=1 */
 /* @0x116eac nop */
 
 /* ── FUNC 0x116eb0 · F_DateGetHour(RValue&, CInstance*, CInstance*, int, RValue*) · size=196 · insn=49 */
@@ -398,7 +398,7 @@
 /* @0x116f6c rscsmi r1, r5, r0, lsl #16 */
 /* @0x116f70 eoreq r11, sp, r0, lsr #4 */
 
-/* ── FUNC 0x116f74 · anon_116f74 · size=4 · insn=1 */
+/* ── FUNC 0x116f74 · anon_116f74 · size=0 · insn=1 */
 /* @0x116f74 nop */
 
 /* ── FUNC 0x116f78 · F_DateGetMinute(RValue&, CInstance*, CInstance*, int, RValue*) · size=196 · insn=49 */
@@ -452,7 +452,7 @@
 /* @0x117034 rscsmi r1, r5, r0, lsl #16 */
 /* @0x117038 eoreq r11, sp, r8, asr r1 */
 
-/* ── FUNC 0x11703c · anon_11703c · size=4 · insn=1 */
+/* ── FUNC 0x11703c · anon_11703c · size=0 · insn=1 */
 /* @0x11703c nop */
 
 /* ── FUNC 0x117040 · F_DateGetSecond(RValue&, CInstance*, CInstance*, int, RValue*) · size=196 · insn=49 */
@@ -506,7 +506,7 @@
 /* @0x1170fc rscsmi r1, r5, r0, lsl #16 */
 /* @0x117100 mlaeq sp, r0, r0, r11 */
 
-/* ── FUNC 0x117104 · anon_117104 · size=4 · insn=1 */
+/* ── FUNC 0x117104 · anon_117104 · size=0 · insn=1 */
 /* @0x117104 nop */
 
 /* ── FUNC 0x117108 · F_DateIsToday(RValue&, CInstance*, CInstance*, int, RValue*) · size=336 · insn=84 */
@@ -1280,7 +1280,7 @@
 /* @0x117cac rscsmi r1, r5, r0, lsl #16 */
 /* @0x117cb0 .word 0x002da4f8 */
 
-/* ── FUNC 0x117cb4 · anon_117cb4 · size=4 · insn=1 */
+/* ── FUNC 0x117cb4 · anon_117cb4 · size=0 · insn=1 */
 /* @0x117cb4 nop */
 
 /* ── FUNC 0x117cb8 · F_DateLeapYear(RValue&, CInstance*, CInstance*, int, RValue*) · size=220 · insn=55 */
@@ -1340,7 +1340,7 @@
 /* @0x117d8c rscsmi r1, r5, r0, lsl #16 */
 /* @0x117d90 eoreq r10, sp, r8, lsl r4 */
 
-/* ── FUNC 0x117d94 · anon_117d94 · size=4 · insn=1 */
+/* ── FUNC 0x117d94 · anon_117d94 · size=0 · insn=1 */
 /* @0x117d94 nop */
 
 /* ── FUNC 0x117d98 · _yytimegm(tm*) · size=340 · insn=85 */

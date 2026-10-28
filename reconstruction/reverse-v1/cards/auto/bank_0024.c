@@ -1086,7 +1086,7 @@
 /* @0xf6890 eoreq r7, pc, r12, lsr #7 */
 /* @0xf6894 eoreq r1, r4, r4, lsl #3 */
 
-/* ── FUNC 0xf6898 · anon_f6898 · size=48 · insn=12 */
+/* ── FUNC 0xf6898 · anon_f6898 · size=44 · insn=12 */
 /* @0xf6898 ldr r3, [r0] */
 /* @0xf689c ldr r2, [r1] */
 /* @0xf68a0 ldrh r0, [r3] */

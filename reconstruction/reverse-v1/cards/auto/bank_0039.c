@@ -1199,7 +1199,7 @@
 /* @0x110fe4 vmov r0, r1, d7 */
 /* @0x110fe8 bx lr */
 
-/* ── FUNC 0x110fec · anon_110fec · size=4 · insn=1 */
+/* ── FUNC 0x110fec · anon_110fec · size=0 · insn=1 */
 /* @0x110fec andeq r0, r0, r0 */
 
 /* ── FUNC 0x110ff0 · YYGML_sins(double) · size=64 · insn=14 */

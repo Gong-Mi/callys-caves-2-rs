@@ -1,494 +1,596 @@
 /* libyoyo.so 覆盖卡组 0251
- * 函数 0x2a4358..0x2a57f9，共 32 个；
+ * 函数 0x2a4584..0x2a5af4，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
 
-/* ── FUNC 0x2a4358 · anon_2a4358 · size=384 · insn=96 */
-/* @0x2a4358 stm r0, {r3, r8, r12, sp, pc} */
-/* @0x2a435c ldrbmi r0, [r0, -r6]! */
-/* @0x2a4360 blle 0x56e368 <g_SWFlineaavertbuff+0x1b2a0> */
-/* @0x2a4364 ldrbtmi r4, [r11], #-2822 */
-/* @0x2a4368 ldmdavs r11, {r0, r1, r3, r4, r11, sp, lr} */
-/* @0x2a436c ble 0x3f4dd4 <PS_Common+0x160> */
-/* @0x2a4370 ldrbtmi r4, [r11], #-2820 */
-/* @0x2a4374 .word 0xf853681b */
-/* @0x2a4378 ldrbmi r0, [r0, -r0, lsr #32]! */
-/* @0x2a437c ldrbmi r2, [r0, -r0]! */
-/* @0x2a4380 andseq sp, r4, lr, lsl r7 */
-/* @0x2a4384 andseq sp, r4, r6, lsl r7 */
-/* @0x2a4388 .word 0x4604b570 */
-/* @0x2a438c .word 0xb1086b00 */
-/* @0x2a4390 bl 0xd61be0 <b2_toiTime+0x60873c> */
-/* @0x2a4394 .word 0xf6126ae0 */
-/* @0x2a4398 blvs 0xade728 <b2_toiTime+0x385284> */
-/* @0x2a439c ldm lr, {r1, r4, r9, r10, r12, sp, lr, pc} ^ */
-/* @0x2a43a0 movwhs r6, #0x820 */
-/* @0x2a43a4 addmi r6, r11, #132096 */
-/* @0x2a43a8 .word 0x6c02da13 */
-/* @0x2a43ac streq lr, [r3], r2, lsl #22 */
-/* @0x2a43b0 eorpl pc, r3, r2, asr r8 */
-/* @0x2a43b4 smlatble r10, r5, r2, r4 */
-/* @0x2a43b8 orrmi pc, r0, #1073741824 */
-/* @0x2a43bc .word 0xf8523b01 */
-/* @0x2a43c0 eorsvs r3, r3, r3, lsr #32 */
-/* @0x2a43c4 blvs 0xfe93e458 <b2_toiTime+0xfffffffffe1e4fb4> */
-/* @0x2a43c8 orrsvs r3, r10, #4096 */
-/* @0x2a43cc movwlo lr, #0x1001 */
-/* @0x2a43d0 stmdavs r5!, {r0, r3, r5, r6, r7, r8, r9, r10, sp, lr, pc} ^ */
-/* @0x2a43d4 stmdbvs r3!, {r0, r2, r4, r6, r8, r11, r12, sp, pc} */
-/* @0x2a43d8 movweq pc, #0x5003 */
-/* @0x2a43dc .word 0xd1052b05 */
-/* @0x2a43e0 bvs 0x1b7ee7c <b2_toiTime+0x14259d8> */
-/* @0x2a43e4 svclt #0x14429d */
-/* @0x2a43e8 strhs r2, [r0, #-0x507] */
-/* @0x2a43ec .word 0xf6124620 */
-/* @0x2a43f0 .word 0x4628e8b6 */
-/* @0x2a43f4 andeq r11, r0, r0, ror sp */
-/* @0x2a43f8 svcmi #0xf0e92d */
-/* @0x2a43fc stcpl p5, c15, [r0, #-692] */
-/* @0x2a4400 cdpmi p0, #0x2, c11, c12, c3, #0x4 */
-/* @0x2a4404 .word 0xf50d4614 */
-/* @0x2a4408 ldrbtmi r5, [lr], #-512 */
-/* @0x2a440c eorslo r6, r0, #3538944 */
-/* @0x2a4410 .word 0xf8d2461f */
-/* @0x2a4414 ldmdavs r3!, {r12, pc} */
-/* @0x2a4418 andpl pc, r0, #54525952 */
-/* @0x2a441c strmi r3, [r0], r4, lsl #4 */
-/* @0x2a4420 strmi r2, [sp], -r0 */
-/* @0x2a4424 .word 0x46016013 */
-/* @0x2a4428 ldrtmi r4, [r3], r2, lsl #12 */
-/* @0x2a442c ldc p6, c15, [r10, #-72]! */
-/* @0x2a4430 andhs r4, r0, #42991616 */
-/* @0x2a4434 .word 0x46406038 */
-/* @0x2a4438 stcl p6, c15, [r12, #-72] */
-/* @0x2a443c ldmdblt r0, {r0, r2, r9, r10, lr} */
-/* @0x2a4440 beq 0x3e087c <error_g0017+0x39520> */
-/* @0x2a4444 .word 0xf612e00c */
-/* @0x2a4448 ldrdhs lr, pc, [r4, -r8] */
-/* @0x2a444c strbmi r6, [r8], -r2, lsl #16 */
-/* @0x2a4450 ldmdavs r8!, {r0, r1, r3, r4, sp, lr, pc} */
-/* @0x2a4454 shsaxmi r4, r2, r1 */
-/* @0x2a4458 .word 0xf6121ba4 */
-/* @0x2a445c eorsvs lr, r8, r4, lsr #26 */
-/* @0x2a4460 ldcle p12, c2, [r6, #-0] */
-/* @0x2a4464 qaddhs r4, r0, r1 */
-/* @0x2a4468 svcpl #0xf5b4 */
-/* @0x2a446c .word 0x4622bfb4 */
-/* @0x2a4470 andpl pc, r0, #1325400064 */
-/* @0x2a4474 .word 0xf6124643 */
-/* @0x2a4478 strmi lr, [r6], -r8, lsr #20 */
-/* @0x2a447c mvnle r2, r0, lsl #16 */
-/* @0x2a4480 bl 0xff161cd0 <b2_toiTime+0xfffffffffea0882c> */
-/* @0x2a4484 stmdavs r2, {r0, r2, r8, sp} */
-/* @0x2a4488 .word 0xf7ff4648 */
-/* @0x2a448c .word 0xf04fff65 */
-/* @0x2a4490 .word 0xf50d35ff */
-/* @0x2a4494 strtmi r5, [r8], -r0, lsl #6 */
-/* @0x2a4498 ldmdavs r10, {r2, r8, r9, r12, sp} */
-/* @0x2a449c .word 0x3000f8db */
-/* @0x2a44a0 mulle r1, r10, r2 */
-/* @0x2a44a4 ldm r6, {r1, r4, r9, r10, r12, sp, lr, pc} */
-/* @0x2a44a8 stcpl p5, c15, [r0, #-52] */
-/* @0x2a44ac pop {r0, r1, r12, sp, pc} */
-/* @0x2a44b0 svclt #0x8ff0 */
-/* @0x2a44b4 andseq r9, r4, r10, asr #10 */
-/* @0x2a44b8 .word 0x4605b538 */
-/* @0x2a44bc .word 0xf0004614 */
-/* @0x2a44c0 vmlsne.f32 s30, s3, s22 */
-/* @0x2a44c4 strtmi sp, [r8], -r5, lsl #22 */
-/* @0x2a44c8 pop {r1, r5, r9, r10, lr} */
-/* @0x2a44cc .word 0xf0004038 */
-/* @0x2a44d0 andhs r11, r0, r9, asr r8 */
-/* @0x2a44d4 push {r3, r4, r5, r8, r10, r11, r12, sp, pc} */
-
-/* ── FUNC 0x2a4359 · _zip_error_set(zip_error*, int, int) · size=8 · insn=0 */
-
-/* ── FUNC 0x2a4361 · zip_error_get_sys_type · size=40 · insn=0 */
-
-/* ── FUNC 0x2a4389 · zip_fclose · size=110 · insn=0 */
-
-/* ── FUNC 0x2a43f9 · _zip_filerange_crc(__sFILE*, long, long, unsigned long*, zip_error*) · size=192 · insn=0 */
-
-/* ── FUNC 0x2a44b9 · zip_fopen · size=30 · insn=0 */
-
-/* ── FUNC 0x2a44d6 · anon_2a44d6 · size=176 · insn=44 */
-/* @0x2a44d6 .word 0x41b8e92d */
-/* @0x2a44da ldmdavs r5, {r0, r1, r2, r9, r10, lr} ^ */
-/* @0x2a44de ldrmi r4, [r4], -r8, lsl #13 */
-/* @0x2a44e2 mrsle r2, spsr */
-/* @0x2a44e6 bfieq r6, r3, #18, #10 */
-/* @0x2a44ea bvs 0x799612 <b2_toiTime+0x4016e> */
-/* @0x2a44ee suble r2, r5, r0, lsl #22 */
-/* @0x2a44f2 suble r2, r3, r0, lsl #18 */
-/* @0x2a44f6 ldmdavs r8, {r0, r1, r4, r11, sp, lr} ^ */
-/* @0x2a44fa ldmibvs r1, {r3, r4, r6, r8, r12, sp, pc} */
-/* @0x2a44fe .word 0xf612462a */
-/* @0x2a4502 stmdahs r0, {r3, r5, r6, r7, r10, r11, sp, lr, pc} */
-/* @0x2a4506 .word 0xf612da0c */
-/* @0x2a450a .word 0x2104eb76 */
-/* @0x2a450e stcne p8, c6, [r0, #-8]! */
-/* @0x2a4512 ldmvs r8, {r0, r1, r2, r4, sp, lr, pc} */
-/* @0x2a4516 stmdavs r3, {r5, r8, r12, sp, pc} */
-/* @0x2a451a ldmibvs r2, {r0, r3, r5, r9, r10, lr} */
-/* @0x2a451e .word 0x4798691b */
-/* @0x2a4522 bvs 0xb7e5b2 <b2_toiTime+0x42510e> */
-/* @0x2a4526 svclt #0x284598 */
-/* @0x2a452a ldmdavs r3, {r3, r4, r7, r9, r10, lr} ^ */
-/* @0x2a452e ldrtmi r11, [r8], -r3, ror #2 */
-/* @0x2a4532 strbmi r2, [r2], -r1, lsl #2 */
-/* @0x2a4536 stmib r8, {r1, r4, r9, r10, r12, sp, lr, pc} ^ */
-/* @0x2a453a .word 0xd10d1e05 */
-/* @0x2a453e tsths r1, r0, lsr #26 */
-/* @0x2a4542 .word 0xf7ff2200 */
-/* @0x2a4546 ands pc, r7, r8, lsl #30 */
-/* @0x2a454a .word 0xb1b86890 */
-/* @0x2a454e andhs r4, r1, #59768832 */
-/* @0x2a4552 .word 0xf6294643 */
-/* @0x2a4556 strb lr, [pc, r2, lsr #23]! */
-/* @0x2a455a .word 0xf612da07 */
-/* @0x2a455e .word 0x2105eb4c */
-/* @0x2a4562 stcne p8, c6, [r0, #-8]! */
-/* @0x2a4566 mrc2 p7, #0x7, apsr_nzcv, c7, c15, #0x7 */
-/* @0x2a456a stmibvs r3!, {r3, sp, lr, pc} */
-/* @0x2a456e .word 0x61a3442b */
-/* @0x2a4572 blne 0x197ee06 <b2_toiTime+0x1225962> */
-/* @0x2a4576 and r6, r1, r3, lsr #4 */
-/* @0x2a457a ldrblo pc, [pc, #0x4f]! */
-/* @0x2a457e pop {r3, r5, r9, r10, lr} */
-/* @0x2a4582 push {r3, r4, r5, r7, r8, pc} */
-
-/* ── FUNC 0x2a44d7 · _zip_file_fillbuf(void*, unsigned int, zip_file*) · size=174 · insn=0 */
-
-/* ── FUNC 0x2a4584 · anon_2a4584 · size=908 · insn=227 */
-/* @0x2a4584 ldrbmi lr, [r0, sp, lsr #18]! */
-/* @0x2a4588 strmi r1, [r5], -pc, lsl #28 */
-/* @0x2a458c bvs 0xff39b19c <b2_toiTime+0xfffffffffec41cf8> */
-/* @0x2a4590 blle 0x475014 <g_RomDisk+0x7d7f4> */
-/* @0x2a4594 andeq pc, r12, r5, lsl #2 */
-/* @0x2a4598 andhs r2, r0, #-2147483644 */
-/* @0x2a459c mrc2 p7, #0x6, apsr_nzcv, c12, c15, #0x7 */
-/* @0x2a45a0 sbcs r2, lr, r0, lsl #8 */
-/* @0x2a45a4 streq pc, [r8], #-18 */
-/* @0x2a45a8 tsths r4, r9, lsl #2 */
-/* @0x2a45ac cmnmi r9, #68608 */
-/* @0x2a45b0 bllo 0x33a724 */
-/* @0x2a45b4 stmdale r2, {r0, r8, r9, r11, sp} */
-/* @0x2a45b8 mrshs r3, apsr */
-/* @0x2a45bc bvs 0xd9c634 <b2_toiTime+0x643190> */
-/* @0x2a45c0 addmi r6, pc, #5832704 */
-/* @0x2a45c4 .word 0xf04fdae6 */
+/* ── FUNC 0x2a4584 · zip_fopen_index · size=488 · insn=213 */
+/* @0x2a4584 push.w {r4, r5, r6, r7, r8, r9, r10, lr} */
+/* @0x2a4588 subs r7, r1, #0x0 */
+/* @0x2a458a mov r5, r0 */
+/* @0x2a458c blt 0x2a4594 <zip_fopen_index+0x10> */
+/* @0x2a458e ldr r3, [r0, #0x2c] */
+/* @0x2a4590 cmp r7, r3 */
+/* @0x2a4592 blt 0x2a45a4 <zip_fopen_index+0x20> */
+/* @0x2a4594 add.w r0, r5, #0xc */
+/* @0x2a4598 movs r1, #0x12 */
+/* @0x2a459a movs r2, #0x0 */
+/* @0x2a459c bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a45a0 movs r4, #0x0 */
+/* @0x2a45a2 b 0x2a4762 <zip_fopen_index+0x1de> */
+/* @0x2a45a4 ands r4, r2, #0x8 */
+/* @0x2a45a8 bne 0x2a45be <zip_fopen_index+0x3a> */
+/* @0x2a45aa movs r1, #0x14 */
+/* @0x2a45ac ldr r3, [r0, #0x34] */
+/* @0x2a45ae muls r1, r7, r1 */
+/* @0x2a45b0 ldr r3, [r3, r1] */
+/* @0x2a45b2 subs r3, #0x2 */
+/* @0x2a45b4 cmp r3, #0x1 */
+/* @0x2a45b6 bhi 0x2a45be <zip_fopen_index+0x3a> */
+/* @0x2a45b8 adds r0, #0xc */
+/* @0x2a45ba movs r1, #0xf */
+/* @0x2a45bc b 0x2a45f8 <zip_fopen_index+0x74> */
+/* @0x2a45be ldr r3, [r5, #0x20] */
+/* @0x2a45c0 ldr r1, [r3, #0x4] */
+/* @0x2a45c2 cmp r7, r1 */
+/* @0x2a45c4 bge 0x2a4594 <zip_fopen_index+0x10> */
+/* @0x2a45c6 mov.w r8, #0x3c */
 /* @0x2a45c8 ldmdavs r11, {r2, r3, r4, r5, r11} */
-/* @0x2a45cc .word 0xf807fb08 */
-/* @0x2a45d0 ldmhi r11, {r0, r1, r6, r10, lr} ^ */
-/* @0x2a45d4 blhs 0x4d0c68 <SrcVerts+0x2dcac> */
-/* @0x2a45d8 streq pc, [r4], #-2 */
-/* @0x2a45dc .word 0x2c00d106 */
-/* @0x2a45e0 .word 0xf04fbf0c */
+/* @0x2a45ca ldr r3, [r3] */
+/* @0x2a45cc mul r8, r8, r7 */
+/* @0x2a45d0 add r3, r8 */
+/* @0x2a45d2 ldrh r3, [r3, #0x6] */
+/* @0x2a45d4 cbz r3, 0x2a4600 <zip_fopen_index+0x7c> */
+/* @0x2a45d6 cmp r3, #0x8 */
+/* @0x2a45d8 and r4, r2, #0x4 */
+/* @0x2a45dc bne 0x2a45ec <zip_fopen_index+0x68> */
+/* @0x2a45de cmp r4, #0x0 */
+/* @0x2a45e0 ite eq */
+/* @0x2a45e2 moveq.w r9, #0x6 */
 /* @0x2a45e4 .word 0xf04f0906 */
+/* @0x2a45e6 movne.w r9, #0x0 */
 /* @0x2a45e8 and r0, r11, r0, lsl #18 */
-/* @0x2a45ec stmdbeq r0, {r0, r1, r2, r3, r6, r12, sp, lr, pc} */
-/* @0x2a45f0 .word 0xf105b944 */
+/* @0x2a45ea b 0x2a4604 <zip_fopen_index+0x80> */
+/* @0x2a45ec mov.w r9, #0x0 */
+/* @0x2a45f0 cbnz r4, 0x2a4604 <zip_fopen_index+0x80> */
+/* @0x2a45f2 add.w r0, r5, #0xc */
 /* @0x2a45f4 tsths r0, r12 */
-/* @0x2a45f8 .word 0xf7ff4622 */
+/* @0x2a45f6 movs r1, #0x10 */
+/* @0x2a45f8 mov r2, r4 */
+/* @0x2a45fa bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a45fc adcs pc, r0, sp, lsr #29 */
-/* @0x2a4600 stmdbeq r4, {r0, r1, r2, r3, r6, r12, sp, lr, pc} */
-/* @0x2a4604 .word 0xf6112034 */
+/* @0x2a45fe b 0x2a4762 <zip_fopen_index+0x1de> */
+/* @0x2a4600 mov.w r9, #0x4 */
+/* @0x2a4604 movs r0, #0x34 */
+/* @0x2a4606 blx 0xb6544 <malloc@plt> */
 /* @0x2a4608 .word 0x4604ef9e */
-/* @0x2a460c .word 0xf105b930 */
+/* @0x2a460a mov r4, r0 */
+/* @0x2a460c cbnz r0, 0x2a461c <zip_fopen_index+0x98> */
+/* @0x2a460e add.w r0, r5, #0xc */
 /* @0x2a4610 .word 0x210e000c */
-/* @0x2a4614 .word 0xf7ff4622 */
+/* @0x2a4612 movs r1, #0xe */
+/* @0x2a4614 mov r2, r4 */
+/* @0x2a4616 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a4618 mlas r7, pc, lr, pc */
-/* @0x2a461c blvs 0xfed3f5d0 <b2_toiTime+0xfffffffffe5e612c> */
-/* @0x2a4620 addmi r1, r10, #1424 */
-/* @0x2a4624 .word 0xf103db16 */
+/* @0x2a461a b 0x2a468c <zip_fopen_index+0x108> */
+/* @0x2a461c ldr r3, [r5, #0x3c] */
+/* @0x2a461e ldr r2, [r5, #0x38] */
+/* @0x2a4620 subs r1, r3, #0x1 */
+/* @0x2a4622 cmp r2, r1 */
+/* @0x2a4624 blt 0x2a4654 <zip_fopen_index+0xd0> */
+/* @0x2a4626 add.w r10, r3, #0xa */
 /* @0x2a4628 .word 0x6c280a0a */
-/* @0x2a462c orreq lr, r10, pc, asr #20 */
-/* @0x2a4630 b 0x161e80 <_Z29F_Steam_IsScreenshotRequestedR6RValueP9CInstanceS2_iPS_+0x14> */
-/* @0x2a4634 ldmdblt r0, {r1, r2, r9, r10, lr} ^ */
-/* @0x2a4638 andeq pc, r12, r5, lsl #2 */
-/* @0x2a463c ldrtmi r2, [r2], -lr, lsl #2 */
-/* @0x2a4640 mcr2 p7, #0x4, pc, c10, c15, #0x7 */
-/* @0x2a4644 .word 0xf6114620 */
+/* @0x2a462a ldr r0, [r5, #0x40] */
+/* @0x2a462c lsl.w r1, r10, #0x2 */
+/* @0x2a4630 blx 0xb6c28 <realloc@plt> */
+/* @0x2a4634 mov r6, r0 */
+/* @0x2a4636 cbnz r0, 0x2a464e <zip_fopen_index+0xca> */
+/* @0x2a4638 add.w r0, r5, #0xc */
+/* @0x2a463c movs r1, #0xe */
+/* @0x2a463e mov r2, r6 */
+/* @0x2a4640 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a4644 mov r0, r4 */
+/* @0x2a4646 blx 0xb655c <free@plt> */
 /* @0x2a4648 ldrtmi lr, [r4], -r10, lsl #31 */
-/* @0x2a464c .word 0xf8c5e01e */
+/* @0x2a464a mov r4, r6 */
+/* @0x2a464c b 0x2a468c <zip_fopen_index+0x108> */
+/* @0x2a464e str.w r10, [r5, #0x3c] */
 /* @0x2a4650 strtvs r10, [r8], #-60 */
-/* @0x2a4654 strtmi r6, [r0], -r11, lsr #23 */
-/* @0x2a4658 strhs r6, [r0], -r10, lsr #24 */
-/* @0x2a465c .word 0x63a91c59 */
-/* @0x2a4660 eormi pc, r3, r2, asr #16 */
-/* @0x2a4664 blpl 0x3e276c <error_g0017+0x3b410> */
-/* @0x2a4668 mrc2 p7, #0x3, apsr_nzcv, c1, c15, #0x7 */
-/* @0x2a466c ldrtmi r6, [r0], -r6, lsr #2 */
-/* @0x2a4670 shasxmi r4, r2, r1 */
-/* @0x2a4674 .word 0xec16f612 */
-/* @0x2a4678 .word 0x33fff04f */
-/* @0x2a467c smultbvs r3, r6, r2 */
-/* @0x2a4680 mvnvs r6, r6, lsr #4 */
-/* @0x2a4684 rscvs r6, r6, #-2147483607 */
-/* @0x2a4688 rsbvs r6, r0, #-1744830464 */
-/* @0x2a468c andsls pc, r0, r4, asr #17 */
-/* @0x2a4690 bvs 0xd75f38 <b2_toiTime+0x61ca94> */
-/* @0x2a4694 ldmdavs r11, {r0, r3, r4, r5, r9, r10, lr} */
-/* @0x2a4698 ldmhi r11, {r0, r1, r6, r10, lr} ^ */
-/* @0x2a469c bvs 0xd7cc30 <b2_toiTime+0x62378c> */
-/* @0x2a46a0 strbmi r6, [r3], #-2075 */
-/* @0x2a46a4 mvnvs r6, r11, asr r9 */
-/* @0x2a46a8 ldmdavs r11, {r0, r1, r3, r5, r9, r11, sp, lr} */
-/* @0x2a46ac ldmdbvs r11, {r0, r1, r6, r10, lr} */
-/* @0x2a46b0 bvs 0xd7cf44 <b2_toiTime+0x623aa0> */
-/* @0x2a46b4 strbmi r6, [r3], #-2075 */
-/* @0x2a46b8 adcvs r6, r3, #14352384 */
-/* @0x2a46bc .word 0xf917f001 */
-/* @0x2a46c0 orrlt r6, r8, #160, #2 */
-/* @0x2a46c4 ldreq r6, [r11, r3, lsr #18] */
-/* @0x2a46c8 bvs 0xb996d8 <b2_toiTime+0x440234> */
-/* @0x2a46cc sub r6, r8, r3, ror #3 */
-/* @0x2a46d0 andpl pc, r0, pc, asr #8 */
-/* @0x2a46d4 svc #0x36f611 */
-/* @0x2a46d8 rscvs r4, r0, #6291456 */
-/* @0x2a46dc .word 0xf105b950 */
+/* @0x2a4652 str r0, [r5, #0x40] */
+/* @0x2a4654 ldr r3, [r5, #0x38] */
+/* @0x2a4656 mov r0, r4 */
+/* @0x2a4658 ldr r2, [r5, #0x40] */
+/* @0x2a465a movs r6, #0x0 */
+/* @0x2a465c adds r1, r3, #0x1 */
+/* @0x2a465e str r1, [r5, #0x38] */
+/* @0x2a4660 str.w r4, [r2, r3, lsl #2] */
+/* @0x2a4664 str r5, [r0], #4 */
+/* @0x2a4668 bl 0x2a434e <_Z15_zip_error_initP9zip_error> */
+/* @0x2a466c str r6, [r4, #0x10] */
+/* @0x2a466e mov r0, r6 */
+/* @0x2a4670 mov r1, r6 */
+/* @0x2a4672 mov r2, r6 */
+/* @0x2a4674 blx 0xb6ea4 <crc32@plt> */
+/* @0x2a4678 mov.w r3, #0xffffffff */
+/* @0x2a467c str r6, [r4, #0x28] */
+/* @0x2a467e str r3, [r4, #0x14] */
+/* @0x2a4680 str r6, [r4, #0x20] */
+/* @0x2a4682 str r6, [r4, #0x1c] */
+/* @0x2a4684 str r6, [r4, #0x18] */
+/* @0x2a4686 str r6, [r4, #0x2c] */
+/* @0x2a4688 str r6, [r4, #0x30] */
+/* @0x2a468a str r0, [r4, #0x24] */
+/* @0x2a468c str.w r9, [r4, #0x10] */
+/* @0x2a4690 mov r0, r5 */
+/* @0x2a4692 ldr r3, [r5, #0x20] */
+/* @0x2a4694 mov r1, r7 */
+/* @0x2a4696 ldr r3, [r3] */
+/* @0x2a4698 add r3, r8 */
+/* @0x2a469a ldrh r3, [r3, #0x6] */
+/* @0x2a469c str r3, [r4, #0x14] */
+/* @0x2a469e ldr r3, [r5, #0x20] */
+/* @0x2a46a0 ldr r3, [r3] */
+/* @0x2a46a2 add r3, r8 */
+/* @0x2a46a4 ldr r3, [r3, #0x14] */
+/* @0x2a46a6 str r3, [r4, #0x1c] */
+/* @0x2a46a8 ldr r3, [r5, #0x20] */
+/* @0x2a46aa ldr r3, [r3] */
+/* @0x2a46ac add r3, r8 */
+/* @0x2a46ae ldr r3, [r3, #0x10] */
+/* @0x2a46b0 str r3, [r4, #0x20] */
+/* @0x2a46b2 ldr r3, [r5, #0x20] */
+/* @0x2a46b4 ldr r3, [r3] */
+/* @0x2a46b6 add r3, r8 */
+/* @0x2a46b8 ldr r3, [r3, #0xc] */
+/* @0x2a46ba str r3, [r4, #0x28] */
+/* @0x2a46bc bl 0x2a58ee <_Z20_zip_file_get_offsetP3zipi> */
+/* @0x2a46c0 str r0, [r4, #0x18] */
+/* @0x2a46c2 cbz r0, 0x2a4728 <zip_fopen_index+0x1a4> */
+/* @0x2a46c4 ldr r3, [r4, #0x10] */
+/* @0x2a46c6 lsls r3, r3, #0x1e */
+/* @0x2a46c8 bmi 0x2a46d0 <zip_fopen_index+0x14c> */
+/* @0x2a46ca ldr r3, [r4, #0x20] */
+/* @0x2a46cc str r3, [r4, #0x1c] */
+/* @0x2a46ce b 0x2a4762 <zip_fopen_index+0x1de> */
+/* @0x2a46d0 mov.w r0, #0x2000 */
+/* @0x2a46d4 blx 0xb6544 <malloc@plt> */
+/* @0x2a46d8 mov r6, r0 */
+/* @0x2a46da str r0, [r4, #0x2c] */
+/* @0x2a46dc cbnz r0, 0x2a46f4 <zip_fopen_index+0x170> */
+/* @0x2a46de add.w r0, r5, #0xc */
 /* @0x2a46e0 .word 0x210e000c */
-/* @0x2a46e4 .word 0xf7ff4632 */
+/* @0x2a46e2 movs r1, #0xe */
+/* @0x2a46e4 mov r2, r6 */
+/* @0x2a46e6 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a46e8 qasxmi pc, r0, r7 */
-/* @0x2a46ec mcr2 p7, #0x2, pc, c12, c15, #0x7 */
-/* @0x2a46f0 eors r4, r6, r4, lsr r6 */
-/* @0x2a46f4 .word 0x5100f44f */
-/* @0x2a46f8 .word 0xf7ff4622 */
+/* @0x2a46ea mov r0, r4 */
+/* @0x2a46ec bl 0x2a4388 <zip_fclose> */
+/* @0x2a46f0 mov r4, r6 */
+/* @0x2a46f2 b 0x2a4762 <zip_fopen_index+0x1de> */
+/* @0x2a46f4 mov.w r1, #0x2000 */
+/* @0x2a46f8 mov r2, r4 */
+/* @0x2a46fa bl 0x2a44d6 <_Z17_zip_file_fillbufPvjP8zip_file> */
 /* @0x2a46fc .word 0xf1b0feec */
+/* @0x2a46fe subs.w r8, r0, #0x0 */
 /* @0x2a4700 .word 0xdc050800 */
-/* @0x2a4704 andeq pc, r12, r5, lsl #2 */
-/* @0x2a4708 .word 0xf7ff1d21 */
+/* @0x2a4702 bgt 0x2a4710 <zip_fopen_index+0x18c> */
+/* @0x2a4704 add.w r0, r5, #0xc */
+/* @0x2a4708 adds r1, r4, #0x4 */
+/* @0x2a470a bl 0x2a4314 <_Z15_zip_error_copyP9zip_errorS0_> */
 /* @0x2a470c and pc, r11, r3, lsl #28 */
-/* @0x2a4710 .word 0xf6112038 */
+/* @0x2a470e b 0x2a4728 <zip_fopen_index+0x1a4> */
+/* @0x2a4710 movs r0, #0x38 */
+/* @0x2a4712 blx 0xb6544 <malloc@plt> */
 /* @0x2a4714 .word 0x4606ef18 */
-/* @0x2a4718 stmdblt r8, {r5, r8, r9, sp, lr} ^ */
-/* @0x2a471c andeq pc, r12, r5, lsl #2 */
-/* @0x2a4720 ldrtmi r2, [r2], -lr, lsl #2 */
-/* @0x2a4724 mrc2 p7, #0x0, apsr_nzcv, c8, c15, #0x7 */
-/* @0x2a4728 .word 0xf7ff4620 */
+/* @0x2a4716 mov r6, r0 */
+/* @0x2a4718 str r0, [r4, #0x30] */
+/* @0x2a471a cbnz r0, 0x2a4730 <zip_fopen_index+0x1ac> */
+/* @0x2a471c add.w r0, r5, #0xc */
+/* @0x2a4720 movs r1, #0xe */
+/* @0x2a4722 mov r2, r6 */
+/* @0x2a4724 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a4728 mov r0, r4 */
+/* @0x2a472a bl 0x2a4388 <zip_fclose> */
 /* @0x2a472c ldr pc, [r7, -sp, lsr #28]! */
-/* @0x2a4730 strhs r6, [r0, -r3, ror #21] */
-/* @0x2a4734 .word 0xf06f4a0c */
+/* @0x2a472e b 0x2a45a0 <zip_fopen_index+0x1c> */
+/* @0x2a4730 ldr r3, [r4, #0x2c] */
+/* @0x2a4732 movs r7, #0x0 */
+/* @0x2a4734 ldr r2, [pc, #0x30] */
+/* @0x2a4736 mvn r1, #0xe */
 /* @0x2a4738 andvs r0, r7, #-2147483645 */
-/* @0x2a473c smlabbeq r8, r0, r8, lr */
-/* @0x2a4740 subvs r4, r7, #2046820352 */
-/* @0x2a4744 addvs r2, r7, #56, #6 */
-/* @0x2a4748 bl 0xffb61f98 <b2_toiTime+0xffffffffff408af4> */
-/* @0x2a474c .word 0xb1404602 */
-/* @0x2a4750 andeq pc, r12, r5, lsl #2 */
-/* @0x2a4754 .word 0xf7ff210d */
+/* @0x2a473a str r7, [r0, #0x20] */
+/* @0x2a473c stm.w r0, {r3, r8} */
+/* @0x2a4740 add r2, pc */
+/* @0x2a4742 str r7, [r0, #0x24] */
+/* @0x2a4744 movs r3, #0x38 */
+/* @0x2a4746 str r7, [r0, #0x28] */
+/* @0x2a4748 blx 0xb6f10 <inflateInit2_@plt> */
+/* @0x2a474c mov r2, r0 */
+/* @0x2a474e cbz r0, 0x2a4762 <zip_fopen_index+0x1de> */
+/* @0x2a4750 add.w r0, r5, #0xc */
+/* @0x2a4754 movs r1, #0xd */
+/* @0x2a4756 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a4758 qsub8mi pc, r0, pc */
-/* @0x2a475c mrc2 p7, #0x0, apsr_nzcv, c4, c15, #0x7 */
-/* @0x2a4760 qasxmi r4, r0, r12 */
-/* @0x2a4764 .word 0x87f0e8bd */
-/* @0x2a4768 andeq r7, lr, r8, lsl #17 */
-/* @0x2a476c mvnsmi lr, sp, lsr #18 */
-/* @0x2a4770 ldrmi r4, [r7], -lr, lsl #12 */
-/* @0x2a4774 stmdahs r0, {r2, r9, r10, lr} */
-/* @0x2a4778 stmdavs r3, {r0, r2, r3, r4, r5, r6, r12, lr, pc} ^ */
-/* @0x2a477c cmnle r10, r0, lsl #22 */
-/* @0x2a4780 ldrbeq r6, [r8, r3, lsl #18] */
-/* @0x2a4784 andhs sp, r0, r2, lsl #10 */
-/* @0x2a4788 ldrhhi lr, [r0, #141]! */
-/* @0x2a478c rscsle r2, r10, r0, lsl #20 */
-/* @0x2a4790 stmdblt r2!, {r1, r5, r6, r7, r8, r11, sp, lr} ^ */
-/* @0x2a4794 .word 0xf0430759 */
+/* @0x2a475a mov r0, r4 */
+/* @0x2a475c bl 0x2a4388 <zip_fclose> */
+/* @0x2a4760 mov r4, r7 */
+/* @0x2a4762 mov r0, r4 */
+/* @0x2a4764 pop.w {r4, r5, r6, r7, r8, r9, r10, pc} */
+/* @0x2a4768 ldrb r0, [r1, #0x2] */
+/* @0x2a476a movs r6, r1 */
+
+/* ── FUNC 0x2a476c · zip_fread · size=280 · insn=133 */
+/* @0x2a476c push.w {r4, r5, r6, r7, r8, lr} */
+/* @0x2a4770 mov r6, r1 */
+/* @0x2a4772 mov r7, r2 */
+/* @0x2a4774 mov r4, r0 */
+/* @0x2a4776 cmp r0, #0x0 */
+/* @0x2a4778 beq 0x2a4876 <zip_fread+0x10a> */
+/* @0x2a477a ldr r3, [r0, #0x4] */
+/* @0x2a477c cmp r3, #0x0 */
+/* @0x2a477e bne 0x2a4876 <zip_fread+0x10a> */
+/* @0x2a4780 ldr r3, [r0, #0x10] */
+/* @0x2a4782 lsls r0, r3, #0x1f */
+/* @0x2a4784 bpl 0x2a478c <zip_fread+0x20> */
+/* @0x2a4786 movs r0, #0x0 */
+/* @0x2a4788 pop.w {r4, r5, r6, r7, r8, pc} */
+/* @0x2a478c cmp r2, #0x0 */
+/* @0x2a478e beq 0x2a4786 <zip_fread+0x1a> */
+/* @0x2a4790 ldr r2, [r4, #0x1c] */
+/* @0x2a4792 cbnz r2, 0x2a47ae <zip_fread+0x42> */
+/* @0x2a4794 lsls r1, r3, #0x1d */
+/* @0x2a4796 orr r2, r3, #0x1 */
 /* @0x2a4798 .word 0x61220201 */
-/* @0x2a479c bvs 0x1b59f70 <b2_toiTime+0x1400acc> */
-/* @0x2a47a0 addsmi r6, r10, #667648 */
-/* @0x2a47a4 stcne p0, c13, [r0, #-956]! */
-/* @0x2a47a8 andhs r2, r0, #-1073741823 */
-/* @0x2a47ac ldreq lr, [r10, r1, rrx] */
-/* @0x2a47b0 strmi sp, [r8], -r7, lsl #8 */
-/* @0x2a47b4 ldrtmi r4, [r9], -r2, lsr #12 */
-/* @0x2a47b8 mcr2 p7, #0x4, pc, c13, c15, #0x7 */
-/* @0x2a47bc ldcle p14, c1, [r0], #-20 */
-/* @0x2a47c0 blvs 0xb9c93c <b2_toiTime+0x443498> */
-/* @0x2a47c4 blvs 0xb7cb30 <b2_toiTime+0x42368c> */
-/* @0x2a47c8 blvs 0xb7cc4c <b2_toiTime+0x4237a8> */
-/* @0x2a47cc ldrsbhi pc, [r4], -r3 */
-/* @0x2a47d0 .word 0x21026b20 */
-/* @0x2a47d4 stmdb r2, {r1, r4, r9, r10, r12, sp, lr, pc} */
-/* @0x2a47d8 strmi r1, [r2], -r3, asr #26 */
-/* @0x2a47dc ldmle r7!, {r0, r1, r2, r8, r9, r11, sp} ^ */
-/* @0x2a47e0 .word 0xf850a002 */
+/* @0x2a479a str r2, [r4, #0x10] */
+/* @0x2a479c bpl 0x2a4786 <zip_fread+0x1a> */
+/* @0x2a479e ldr r2, [r4, #0x24] */
+/* @0x2a47a0 ldr r3, [r4, #0x28] */
+/* @0x2a47a2 cmp r2, r3 */
+/* @0x2a47a4 beq 0x2a4786 <zip_fread+0x1a> */
+/* @0x2a47a6 adds r0, r4, #0x4 */
+/* @0x2a47a8 movs r1, #0x7 */
+/* @0x2a47aa movs r2, #0x0 */
+/* @0x2a47ac b 0x2a4872 <zip_fread+0x106> */
+/* @0x2a47ae lsls r2, r3, #0x1e */
+/* @0x2a47b0 bmi 0x2a47c2 <zip_fread+0x56> */
+/* @0x2a47b2 mov r0, r1 */
+/* @0x2a47b4 mov r2, r4 */
+/* @0x2a47b6 mov r1, r7 */
+/* @0x2a47b8 bl 0x2a44d6 <_Z17_zip_file_fillbufPvjP8zip_file> */
+/* @0x2a47bc subs r5, r0, #0x0 */
+/* @0x2a47be bgt 0x2a4822 <zip_fread+0xb6> */
+/* @0x2a47c0 b 0x2a487e <zip_fread+0x112> */
+/* @0x2a47c2 ldr r3, [r4, #0x30] */
+/* @0x2a47c4 str r1, [r3, #0xc] */
+/* @0x2a47c6 ldr r3, [r4, #0x30] */
+/* @0x2a47c8 str r7, [r3, #0x10] */
+/* @0x2a47ca ldr r3, [r4, #0x30] */
+/* @0x2a47cc ldr.w r8, [r3, #0x14] */
+/* @0x2a47d0 ldr r0, [r4, #0x30] */
+/* @0x2a47d2 movs r1, #0x2 */
+/* @0x2a47d4 blx 0xb69dc <inflate@plt> */
+/* @0x2a47d8 adds r3, r0, #0x5 */
+/* @0x2a47da mov r2, r0 */
+/* @0x2a47dc cmp r3, #0x7 */
+/* @0x2a47de bhi 0x2a47d0 <zip_fread+0x64> */
+/* @0x2a47e0 adr r0, #8 <zip_fread+0x7a> */
+/* @0x2a47e2 ldr.w r1, [r0, r3, lsl #2] */
 /* @0x2a47e4 strmi r1, [r8], #-35 */
-/* @0x2a47e8 svclt #0x4700 */
-/* @0x2a47ec andeq r0, r0, r9, asr r0 */
-/* @0x2a47f0 andeq r0, r0, r3, lsl #1 */
-/* @0x2a47f4 andeq r0, r0, r3, lsl #1 */
-/* @0x2a47f8 andeq r0, r0, r3, lsl #1 */
-/* @0x2a47fc .word 0xffffffe5 */
-/* @0x2a4800 andeq r0, r0, r9, lsr #32 */
-/* @0x2a4804 andeq r0, r0, r1, lsr #32 */
-/* @0x2a4808 andeq r0, r0, r3, lsl #1 */
-/* @0x2a480c ldmdbvs r11, {r0, r1, r5, r8, r9, r11, sp, lr} ^ */
-/* @0x2a4810 sbcle r4, r4, r3, asr #10 */
-/* @0x2a4814 ldmdbvs sp, {r0, r1, r5, r8, r9, r11, sp, lr} ^ */
-/* @0x2a4818 bl 0xff4befac <b2_toiTime+0xfffffffffed65b08> */
+/* @0x2a47e6 add r0, r1 */
+/* @0x2a47e8 bx r0 */
+/* @0x2a47ea nop */
+/* @0x2a47ec lsls r1, r3, #0x1 */
+/* @0x2a47ee movs r0, r0 */
+/* @0x2a47f0 lsls r3, r0, #0x2 */
+/* @0x2a47f2 movs r0, r0 */
+/* @0x2a47f4 lsls r3, r0, #0x2 */
+/* @0x2a47f6 movs r0, r0 */
+/* @0x2a47f8 lsls r3, r0, #0x2 */
+/* @0x2a47fa movs r0, r0 */
+/* @0x2a47fc .word 0xffe5 ffff */
+/* @0x2a4800 movs r1, r5 */
+/* @0x2a4802 movs r0, r0 */
+/* @0x2a4804 movs r1, r4 */
+/* @0x2a4806 movs r0, r0 */
+/* @0x2a4808 lsls r3, r0, #0x2 */
+/* @0x2a480a movs r0, r0 */
+/* @0x2a480c ldr r3, [r4, #0x30] */
+/* @0x2a480e ldr r3, [r3, #0x14] */
+/* @0x2a4810 cmp r3, r8 */
+/* @0x2a4812 beq 0x2a479e <zip_fread+0x32> */
+/* @0x2a4814 ldr r3, [r4, #0x30] */
+/* @0x2a4816 ldr r5, [r3, #0x14] */
+/* @0x2a4818 ldr r3, [r4, #0x1c] */
+/* @0x2a481a rsb r5, r8, r5 */
 /* @0x2a481c addsmi r0, sp, #20971520 */
-/* @0x2a4820 stmdbvs r3!, {r0, r3, r8, r9, r12, lr, pc} */
-/* @0x2a4824 strle r0, [r9, #-0x75b] */
-/* @0x2a4828 ldrtmi r6, [r1], -r0, ror #20 */
-/* @0x2a482c .word 0xf612462a */
+/* @0x2a481e cmp r5, r3 */
+/* @0x2a4820 blo 0x2a4836 <zip_fread+0xca> */
+/* @0x2a4822 ldr r3, [r4, #0x10] */
+/* @0x2a4824 lsls r3, r3, #0x1d */
+/* @0x2a4826 bpl 0x2a483c <zip_fread+0xd0> */
+/* @0x2a4828 ldr r0, [r4, #0x24] */
+/* @0x2a482a mov r1, r6 */
+/* @0x2a482c mov r2, r5 */
+/* @0x2a482e blx 0xb6ea4 <crc32@plt> */
 /* @0x2a4830 rsbvs lr, r0, #59392 */
-/* @0x2a4834 adcsmi lr, sp, #2 */
-/* @0x2a4838 ldrb sp, [r2, r10, asr #7]! */
-/* @0x2a483c blne 0x197efd0 <b2_toiTime+0x1225b2c> */
-/* @0x2a4840 ands r6, r12, r3, ror #3 */
-/* @0x2a4844 ldmdavs r11, {r0, r1, r5, r8, r9, r11, sp, lr} ^ */
-/* @0x2a4848 strtmi r11, [r2], -r11, lsl #19 */
-/* @0x2a484c vst1.64 {d22, d23}, [pc:128], r0 */
+/* @0x2a4832 str r0, [r4, #0x24] */
+/* @0x2a4834 b 0x2a483c <zip_fread+0xd0> */
+/* @0x2a4836 cmp r5, r7 */
+/* @0x2a4838 blo 0x2a47d0 <zip_fread+0x64> */
+/* @0x2a483a b 0x2a4822 <zip_fread+0xb6> */
+/* @0x2a483c ldr r3, [r4, #0x1c] */
+/* @0x2a483e subs r3, r3, r5 */
+/* @0x2a4840 str r3, [r4, #0x1c] */
+/* @0x2a4842 b 0x2a487e <zip_fread+0x112> */
+/* @0x2a4844 ldr r3, [r4, #0x30] */
+/* @0x2a4846 ldr r3, [r3, #0x4] */
+/* @0x2a4848 cbnz r3, 0x2a486e <zip_fread+0x102> */
+/* @0x2a484a mov r2, r4 */
+/* @0x2a484c ldr r0, [r4, #0x2c] */
+/* @0x2a484e mov.w r1, #0x2000 */
 /* @0x2a4850 .word 0xf7ff5100 */
+/* @0x2a4852 bl 0x2a44d6 <_Z17_zip_file_fillbufPvjP8zip_file> */
 /* @0x2a4854 cdpne p14, #0x0, c15, c2, c0, #0x2 */
-/* @0x2a4858 stcne p1, c13, [r0, #-8]! */
-/* @0x2a485c and r2, r8, r5, lsl r1 */
-/* @0x2a4860 blvs 0xb9b48c <b2_toiTime+0x441fe8> */
-/* @0x2a4864 andsvs r6, r9, r1, ror #21 */
-/* @0x2a4868 subsvs r6, r10, r3, lsr #22 */
-/* @0x2a486c stcne p7, c14, [r0, #-704]! */
-/* @0x2a4870 .word 0xf7ff210d */
+/* @0x2a4856 subs r2, r0, #0x0 */
+/* @0x2a4858 bne 0x2a4860 <zip_fread+0xf4> */
+/* @0x2a485a adds r0, r4, #0x4 */
+/* @0x2a485c movs r1, #0x15 */
+/* @0x2a485e b 0x2a4872 <zip_fread+0x106> */
+/* @0x2a4860 blt 0x2a4876 <zip_fread+0x10a> */
+/* @0x2a4862 ldr r3, [r4, #0x30] */
+/* @0x2a4864 ldr r1, [r4, #0x2c] */
+/* @0x2a4866 str r1, [r3] */
+/* @0x2a4868 ldr r3, [r4, #0x30] */
+/* @0x2a486a str r2, [r3, #0x4] */
+/* @0x2a486c b 0x2a47d0 <zip_fread+0x64> */
+/* @0x2a486e adds r0, r4, #0x4 */
+/* @0x2a4870 movs r1, #0xd */
+/* @0x2a4872 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a4874 .word 0xf04ffd71 */
+/* @0x2a4876 mov.w r0, #0xffffffff */
 /* @0x2a4878 pop {r0, r1, r2, r3, r4, r5, r6, r7, r12, sp} */
+/* @0x2a487a pop.w {r4, r5, r6, r7, r8, pc} */
 /* @0x2a487c qsub8mi r8, r8, r0 */
-/* @0x2a4880 ldrhhi lr, [r0, #141]! */
-/* @0x2a4884 .word 0x4604b570 */
-/* @0x2a4888 eorsle r2, r6, r0, lsl #16 */
-/* @0x2a488c .word 0xb1086800 */
-/* @0x2a4890 mcr p6, #0x3, pc, c4, c1, #0x0 */
-/* @0x2a4894 .word 0xb1086860 */
-/* @0x2a4898 svc #0xdaf611 */
-/* @0x2a489c .word 0xf7ff6a20 */
+/* @0x2a487e mov r0, r5 */
+/* @0x2a4880 pop.w {r4, r5, r6, r7, r8, pc} */
+
+/* ── FUNC 0x2a4884 · _zip_free(zip*) · size=120 · insn=55 */
+/* @0x2a4884 push {r4, r5, r6, lr} */
+/* @0x2a4886 mov r4, r0 */
+/* @0x2a4888 cmp r0, #0x0 */
+/* @0x2a488a beq 0x2a48fa <_Z9_zip_freeP3zip+0x76> */
+/* @0x2a488c ldr r0, [r0] */
+/* @0x2a488e cbz r0, 0x2a4894 <_Z9_zip_freeP3zip+0x10> */
+/* @0x2a4890 blx 0xb655c <free@plt> */
+/* @0x2a4894 ldr r0, [r4, #0x4] */
+/* @0x2a4896 cbz r0, 0x2a489c <_Z9_zip_freeP3zip+0x18> */
+/* @0x2a4898 blx 0xb6850 <fclose@plt> */
+/* @0x2a489c ldr r0, [r4, #0x20] */
+/* @0x2a489e bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
 /* @0x2a48a0 blvs 0x1ba2f50 <b2_toiTime+0x1449aac> */
-/* @0x2a48a4 strhs r11, [r0, #-0x16b] */
-/* @0x2a48a8 bvs 0xffb6e100 <b2_toiTime+0xffffffffff414c5c> */
-/* @0x2a48ac addsmi r6, sp, #96, #22 */
-/* @0x2a48b0 blx 0x45b0ce <g_RomDisk+0x638ae> */
+/* @0x2a48a2 ldr r3, [r4, #0x34] */
+/* @0x2a48a4 cbz r3, 0x2a48c2 <_Z9_zip_freeP3zip+0x3e> */
+/* @0x2a48a6 movs r5, #0x0 */
+/* @0x2a48a8 movs r6, #0x14 */
+/* @0x2a48aa ldr r3, [r4, #0x2c] */
+/* @0x2a48ac ldr r0, [r4, #0x34] */
+/* @0x2a48ae cmp r5, r3 */
+/* @0x2a48b0 bge 0x2a48be <_Z9_zip_freeP3zip+0x3a> */
+/* @0x2a48b2 mla r0, r6, r5, r0 */
 /* @0x2a48b4 .word 0xf0000005 */
+/* @0x2a48b6 bl 0x2a576a <_Z15_zip_entry_freeP9zip_entry> */
 /* @0x2a48b8 strlo pc, [r1, #-0xf58] */
-/* @0x2a48bc .word 0xf611e7f5 */
+/* @0x2a48ba adds r5, #0x1 */
+/* @0x2a48bc b 0x2a48aa <_Z9_zip_freeP3zip+0x26> */
+/* @0x2a48be blx 0xb655c <free@plt> */
 /* @0x2a48c0 strhs lr, [r0, #-0xe4e] */
-/* @0x2a48c4 addsmi r6, sp, #166912 */
-/* @0x2a48c8 .word 0x6c23da0f */
-/* @0x2a48cc eoreq pc, r5, r3, asr r8 */
-/* @0x2a48d0 stmdblt r6, {r1, r2, r6, r11, sp, lr} ^ */
-/* @0x2a48d4 .word 0x21083004 */
-/* @0x2a48d8 .word 0xf7ff4632 */
+/* @0x2a48c2 movs r5, #0x0 */
+/* @0x2a48c4 ldr r3, [r4, #0x38] */
+/* @0x2a48c6 cmp r5, r3 */
+/* @0x2a48c8 bge 0x2a48ea <_Z9_zip_freeP3zip+0x66> */
+/* @0x2a48ca ldr r3, [r4, #0x40] */
+/* @0x2a48cc ldr.w r0, [r3, r5, lsl #2] */
+/* @0x2a48d0 ldr r6, [r0, #0x4] */
+/* @0x2a48d2 cbnz r6, 0x2a48e6 <_Z9_zip_freeP3zip+0x62> */
+/* @0x2a48d4 adds r0, #0x4 */
+/* @0x2a48d6 movs r1, #0x8 */
+/* @0x2a48d8 mov r2, r6 */
+/* @0x2a48da bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a48dc stcvs p13, c15, [r3], #-244 */
-/* @0x2a48e0 eorlo pc, r5, r3, asr r8 */
-/* @0x2a48e4 strlo r6, [r1, #-0x1e] */
-/* @0x2a48e8 stcvs p7, c14, [r0], #-944 */
-/* @0x2a48ec mrc p6, #0x1, apsr_nzcv, c6, c1, #0x0 */
-/* @0x2a48f0 pop {r5, r9, r10, lr} */
+/* @0x2a48de ldr r3, [r4, #0x40] */
+/* @0x2a48e0 ldr.w r3, [r3, r5, lsl #2] */
+/* @0x2a48e4 str r6, [r3] */
+/* @0x2a48e6 adds r5, #0x1 */
+/* @0x2a48e8 b 0x2a48c4 <_Z9_zip_freeP3zip+0x40> */
+/* @0x2a48ea ldr r0, [r4, #0x40] */
+/* @0x2a48ec blx 0xb655c <free@plt> */
+/* @0x2a48f0 mov r0, r4 */
+/* @0x2a48f2 pop.w {r4, r5, r6, lr} */
 /* @0x2a48f4 .word 0xf0774070 */
+/* @0x2a48f6 b.w 0x31babc <__udivdi3+0x424> */
 /* @0x2a48f8 ldcllt p8, c11, [r0, #-900]! */
-/* @0x2a48fc svclt #0x4c0713 */
-/* @0x2a4900 stmibvs r3, {r0, r1, r7, r8, r11, sp, lr} ^ */
-/* @0x2a4904 svclt #0xc420b */
-/* @0x2a4908 andhs r2, r1, r0 */
-/* @0x2a490c .word 0xb1084770 */
+/* @0x2a48fa pop {r4, r5, r6, pc} */
 
-/* ── FUNC 0x2a4585 · zip_fopen_index · size=488 · insn=0 */
+/* ── FUNC 0x2a48fc · zip_get_archive_flag · size=18 · insn=9 */
+/* @0x2a48fc lsls r3, r2, #0x1c */
+/* @0x2a48fe ite mi */
+/* @0x2a4900 ldrmi r3, [r0, #0x18] */
+/* @0x2a4902 ldrpl r3, [r0, #0x1c] */
+/* @0x2a4904 tst r3, r1 */
+/* @0x2a4906 ite eq */
+/* @0x2a4908 moveq r0, #0x0 */
+/* @0x2a490a movne r0, #0x1 */
+/* @0x2a490c bx lr */
 
-/* ── FUNC 0x2a476d · zip_fread · size=280 · insn=0 */
-
-/* ── FUNC 0x2a4885 · _zip_free(zip*) · size=120 · insn=0 */
-
-/* ── FUNC 0x2a48fd · zip_get_archive_flag · size=18 · insn=0 */
-
-/* ── FUNC 0x2a490e · anon_2a490e · size=100 · insn=25 */
-/* @0x2a490e bvs 0xff2d0d36 <b2_toiTime+0xfffffffffeb77892> */
-/* @0x2a4912 .word 0xf04f4770 */
+/* ── FUNC 0x2a490e · zip_get_num_files · size=12 · insn=6 */
+/* @0x2a490e cbz r0, 0x2a4914 <zip_get_num_files+0x6> */
+/* @0x2a4910 ldr r0, [r0, #0x2c] */
+/* @0x2a4912 bx lr */
+/* @0x2a4914 mov.w r0, #0xffffffff */
 /* @0x2a4916 .word 0x477030ff */
-/* @0x2a491a ldrblt r2, [r0, #-0x900]! */
-/* @0x2a491e ldrmi r4, [r8], -r4, lsl #12 */
-/* @0x2a4922 bvs 0xffb9b532 <b2_toiTime+0xffffffffff44208e> */
-/* @0x2a4926 blle 0x3f5392 <g_MP3UpdateVolume+0xb6> */
-/* @0x2a492a andhs r2, r0, #-2147483644 */
-/* @0x2a492e ldc2 p7, c15, [r3, #-1020] */
-/* @0x2a4932 ldcllt p0, c2, [r0, #-0]! */
-/* @0x2a4936 streq pc, [r8, #-0x12] */
-/* @0x2a493a tsths r4, #-1073741822 */
-/* @0x2a493e movtmi r6, #0xbb62 */
-/* @0x2a4942 ldmpl r3, {r1, r2, r4, r6, r7, r11, r12} ^ */
-/* @0x2a4946 .word 0xd1022b01 */
-/* @0x2a494a qadd16mi r2, r10, r7 */
-/* @0x2a494e ldmvs r3!, {r1, r2, r3, r5, r6, r7, r8, r9, r10, sp, lr, pc} */
-/* @0x2a4952 bvs 0xb52ec6 <b2_toiTime+0x3f9a22> */
-/* @0x2a4956 rscle r2, r7, r0, lsl #20 */
-/* @0x2a495a addsmi r6, r9, #5439488 */
-/* @0x2a495e ldmdavs r3, {r2, r5, r6, r7, r9, r11, r12, lr, pc} */
-/* @0x2a4962 blx 0x32d25c */
+/* @0x2a4918 bx lr */
+
+/* ── FUNC 0x2a491a · _zip_get_name(zip*, int, int, zip_error*) · size=86 · insn=41 */
+/* @0x2a491a cmp r1, #0x0 */
+/* @0x2a491c push {r4, r5, r6, lr} */
+/* @0x2a491e mov r4, r0 */
+/* @0x2a4920 mov r0, r3 */
+/* @0x2a4922 blt 0x2a492a <_Z13_zip_get_nameP3zipiiP9zip_error+0x10> */
+/* @0x2a4924 ldr r3, [r4, #0x2c] */
+/* @0x2a4926 cmp r1, r3 */
+/* @0x2a4928 blt 0x2a4936 <_Z13_zip_get_nameP3zipiiP9zip_error+0x1c> */
+/* @0x2a492a movs r1, #0x12 */
+/* @0x2a492c movs r2, #0x0 */
+/* @0x2a492e bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a4932 movs r0, #0x0 */
+/* @0x2a4934 pop {r4, r5, r6, pc} */
+/* @0x2a4936 ands r5, r2, #0x8 */
+/* @0x2a493a bne 0x2a4954 <_Z13_zip_get_nameP3zipiiP9zip_error+0x3a> */
+/* @0x2a493c movs r3, #0x14 */
+/* @0x2a493e ldr r2, [r4, #0x34] */
+/* @0x2a4940 muls r3, r1, r3 */
+/* @0x2a4942 adds r6, r2, r3 */
+/* @0x2a4944 ldr r3, [r2, r3] */
+/* @0x2a4946 cmp r3, #0x1 */
+/* @0x2a4948 bne 0x2a4950 <_Z13_zip_get_nameP3zipiiP9zip_error+0x36> */
+/* @0x2a494a movs r1, #0x17 */
+/* @0x2a494c mov r2, r5 */
+/* @0x2a494e b 0x2a492e <_Z13_zip_get_nameP3zipiiP9zip_error+0x14> */
+/* @0x2a4950 ldr r3, [r6, #0x8] */
+/* @0x2a4952 cbnz r3, 0x2a496c <_Z13_zip_get_nameP3zipiiP9zip_error+0x52> */
+/* @0x2a4954 ldr r2, [r4, #0x20] */
+/* @0x2a4956 cmp r2, #0x0 */
+/* @0x2a4958 beq 0x2a492a <_Z13_zip_get_nameP3zipiiP9zip_error+0x10> */
+/* @0x2a495a ldr r3, [r2, #0x4] */
+/* @0x2a495c cmp r1, r3 */
+/* @0x2a495e bge 0x2a492a <_Z13_zip_get_nameP3zipiiP9zip_error+0x10> */
+/* @0x2a4960 ldr r3, [r2] */
+/* @0x2a4962 movs r2, #0x3c */
+/* @0x2a4964 mla r1, r2, r1, r3 */
 /* @0x2a4966 stmibvs r8, {r0, r8, r12, sp} */
-/* @0x2a496a ssub16mi r11, r8, r0 */
-/* @0x2a496e .word 0xf100bd70 */
+/* @0x2a4968 ldr r0, [r1, #0x18] */
+/* @0x2a496a pop {r4, r5, r6, pc} */
+/* @0x2a496c mov r0, r3 */
+/* @0x2a496e pop {r4, r5, r6, pc} */
 
-/* ── FUNC 0x2a490f · zip_get_num_files · size=12 · insn=0 */
+/* ── FUNC 0x2a4970 · zip_get_name · size=8 · insn=2 */
+/* @0x2a4970 add.w r3, r0, #0xc */
+/* @0x2a4974 b.w 0x2a491a <_Z13_zip_get_nameP3zipiiP9zip_error> */
 
-/* ── FUNC 0x2a491b · _zip_get_name(zip*, int, int, zip_error*) · size=86 · insn=0 */
-
-/* ── FUNC 0x2a4970 · anon_2a4970 · size=3580 · insn=895 */
-/* @0x2a4970 movweq pc, #0xc100 */
-/* @0x2a4974 svclt #0xd1f7ff */
-/* @0x2a4978 .word 0x4606b5f8 */
-/* @0x2a497c strmi r4, [sp], -r8, lsl #12 */
-/* @0x2a4980 .word 0xf6114617 */
+/* ── FUNC 0x2a4978 · _zip_memdup(void const*, unsigned int, zip_error*) · size=42 · insn=20 */
+/* @0x2a4978 push {r3, r4, r5, r6, r7, lr} */
+/* @0x2a497a mov r6, r0 */
+/* @0x2a497c mov r0, r1 */
+/* @0x2a497e mov r5, r1 */
+/* @0x2a4980 mov r7, r2 */
+/* @0x2a4982 blx 0xb6544 <malloc@plt> */
 /* @0x2a4984 strmi lr, [r4], -r0, ror #27 */
-/* @0x2a4988 ldrtmi r11, [r8], -r8, lsr #18 */
-/* @0x2a498c strtmi r2, [r2], -lr, lsl #2 */
-/* @0x2a4990 stc2l p7, c15, [r2], #1020 */
-/* @0x2a4994 ldrtmi lr, [r1], -r3 */
-/* @0x2a4998 .word 0xf611462a */
+/* @0x2a4986 mov r4, r0 */
+/* @0x2a4988 cbnz r0, 0x2a4996 <_Z11_zip_memdupPKvjP9zip_error+0x1e> */
+/* @0x2a498a mov r0, r7 */
+/* @0x2a498c movs r1, #0xe */
+/* @0x2a498e mov r2, r4 */
+/* @0x2a4990 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a4994 b 0x2a499e <_Z11_zip_memdupPKvjP9zip_error+0x26> */
+/* @0x2a4996 mov r1, r6 */
+/* @0x2a4998 mov r2, r5 */
+/* @0x2a499a blx 0xb65bc <memcpy@plt> */
 /* @0x2a499c qadd16mi lr, r0, r0 */
-/* @0x2a49a0 strdeq r11, r12, [r0], -r8 */
-/* @0x2a49a4 svcmi #0xf0e92d */
-/* @0x2a49a8 addlt r4, r5, r3, lsl #13 */
-/* @0x2a49ac sadd16mi r4, pc, r6 */
-/* @0x2a49b0 ldmdblt r9, {r3, r7, r9, r10, lr} */
-/* @0x2a49b4 tsths r2, r8, lsl r6 */
-/* @0x2a49b8 eors r4, pc, r2, asr #12 */
-/* @0x2a49bc strle r0, [r3, #-0x7d3] */
-/* @0x2a49c0 ldrbtmi r4, [sp], #-3363 */
-/* @0x2a49c4 and r6, r2, sp, lsr #16 */
-/* @0x2a49c8 ldrbtmi r4, [sp], #-3362 */
-/* @0x2a49cc .word 0xf016682d */
+/* @0x2a499e mov r0, r4 */
+/* @0x2a49a0 pop {r3, r4, r5, r6, r7, pc} */
+
+/* ── FUNC 0x2a49a4 · _zip_name_locate(zip*, char const*, int, zip_error*) · size=180 · insn=85 */
+/* @0x2a49a4 push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2a49a8 mov r11, r0 */
+/* @0x2a49aa sub sp, #0x14 */
+/* @0x2a49ac mov r6, r2 */
+/* @0x2a49ae mov r7, r3 */
+/* @0x2a49b0 mov r8, r1 */
+/* @0x2a49b2 cbnz r1, 0x2a49bc <_Z16_zip_name_locateP3zipPKciP9zip_error+0x18> */
+/* @0x2a49b4 mov r0, r3 */
+/* @0x2a49b6 movs r1, #0x12 */
+/* @0x2a49b8 mov r2, r8 */
+/* @0x2a49ba b 0x2a4a3c <_Z16_zip_name_locateP3zipPKciP9zip_error+0x98> */
+/* @0x2a49bc lsls r3, r2, #0x1f */
+/* @0x2a49be bpl 0x2a49c8 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x24> */
+/* @0x2a49c0 ldr r5, [pc, #0x8c] */
+/* @0x2a49c2 add r5, pc */
+/* @0x2a49c4 ldr r5, [r5] */
+/* @0x2a49c6 b 0x2a49ce <_Z16_zip_name_locateP3zipPKciP9zip_error+0x2a> */
+/* @0x2a49c8 ldr r5, [pc, #0x88] */
+/* @0x2a49ca add r5, pc */
+/* @0x2a49cc ldr r5, [r5] */
+/* @0x2a49ce ands r2, r6, #0x8 */
 /* @0x2a49d0 .word 0xf04f0208 */
+/* @0x2a49d2 mov.w r4, #0x0 */
 /* @0x2a49d4 .word 0xf04f0400 */
+/* @0x2a49d6 mov.w r10, #0x3c */
 /* @0x2a49d8 andls r0, r2, #60, #20 */
-/* @0x2a49dc .word 0xf8dbbf16 */
+/* @0x2a49da str r2, [sp, #0x8] */
+/* @0x2a49dc itet ne */
+/* @0x2a49de ldrne.w r3, [r11, #0x20] */
 /* @0x2a49e0 .word 0xf8db3020 */
+/* @0x2a49e2 ldreq.w r9, [r11, #0x2c] */
 /* @0x2a49e4 .word 0xf8d3902c */
+/* @0x2a49e6 ldrne.w r9, [r3, #0x4] */
 /* @0x2a49e8 .word 0xf0069004 */
+/* @0x2a49ea and r3, r6, #0x2 */
 /* @0x2a49ec movwls r0, #0x3302 */
-/* @0x2a49f0 ble 0xab5f28 <b2_toiTime+0x35ca84> */
-/* @0x2a49f4 teqlt r2, r2, lsl #20 */
-/* @0x2a49f8 .word 0x3020f8db */
-/* @0x2a49fc blx 0x53ea72 <obj_has_event+0x3f02> */
+/* @0x2a49ee str r3, [sp, #0xc] */
+/* @0x2a49f0 cmp r4, r9 */
+/* @0x2a49f2 bge 0x2a4a36 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x92> */
+/* @0x2a49f4 ldr r2, [sp, #0x8] */
+/* @0x2a49f6 cbz r2, 0x2a4a06 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x62> */
+/* @0x2a49f8 ldr.w r3, [r11, #0x20] */
+/* @0x2a49fc ldr r3, [r3] */
+/* @0x2a49fe mla r3, r10, r4, r3 */
 /* @0x2a4a00 ldmibvs r11, {r2, r8, r9, r12, sp} */
-/* @0x2a4a04 ldrtmi lr, [r11], -r6 */
-/* @0x2a4a08 qsaxmi r4, r1, r8 */
-/* @0x2a4a0c .word 0xf7ff4632 */
+/* @0x2a4a02 ldr r3, [r3, #0x18] */
+/* @0x2a4a04 b 0x2a4a14 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x70> */
+/* @0x2a4a06 mov r3, r7 */
+/* @0x2a4a08 mov r0, r11 */
+/* @0x2a4a0a mov r1, r4 */
+/* @0x2a4a0c mov r2, r6 */
+/* @0x2a4a0e bl 0x2a491a <_Z13_zip_get_nameP3zipiiP9zip_error> */
 /* @0x2a4a10 strmi pc, [r3], -r4, lsl #31 */
-/* @0x2a4a14 bls 0x390fc8 <ft_adobe_glyph_list+0x6a4> */
-/* @0x2a4a18 sasxmi r11, r8, r10 */
-/* @0x2a4a1c movwls r2, #0x112f */
-/* @0x2a4a20 svc #0x22f611 */
-/* @0x2a4a24 .word 0xb1009b01 */
-/* @0x2a4a28 strbmi r1, [r0], -r3, asr #24 */
-/* @0x2a4a2c .word 0x47a84619 */
-/* @0x2a4a30 strlo r11, [r1], #-328 */
-/* @0x2a4a34 .word 0x4638e7dc */
-/* @0x2a4a38 andhs r2, r0, #1073741826 */
-/* @0x2a4a3c stc2 p7, c15, [r12], {255} */
-/* @0x2a4a40 rscslo pc, pc, pc, asr #32 */
-/* @0x2a4a44 strtmi lr, [r0], -r0 */
-/* @0x2a4a48 pop {r0, r2, r12, sp, pc} */
+/* @0x2a4a12 mov r3, r0 */
+/* @0x2a4a14 cbz r3, 0x2a4a32 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x8e> */
+/* @0x2a4a16 ldr r2, [sp, #0xc] */
+/* @0x2a4a18 cbz r2, 0x2a4a2a <_Z16_zip_name_locateP3zipPKciP9zip_error+0x86> */
+/* @0x2a4a1a mov r0, r3 */
+/* @0x2a4a1c movs r1, #0x2f */
+/* @0x2a4a1e str r3, [sp, #0x4] */
+/* @0x2a4a20 blx 0xb6868 <strrchr@plt> */
+/* @0x2a4a24 ldr r3, [sp, #0x4] */
+/* @0x2a4a26 cbz r0, 0x2a4a2a <_Z16_zip_name_locateP3zipPKciP9zip_error+0x86> */
+/* @0x2a4a28 adds r3, r0, #0x1 */
+/* @0x2a4a2a mov r0, r8 */
+/* @0x2a4a2c mov r1, r3 */
+/* @0x2a4a2e blx r5 */
+/* @0x2a4a30 cbz r0, 0x2a4a46 <_Z16_zip_name_locateP3zipPKciP9zip_error+0xa2> */
+/* @0x2a4a32 adds r4, #0x1 */
+/* @0x2a4a34 b 0x2a49f0 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x4c> */
+/* @0x2a4a36 mov r0, r7 */
+/* @0x2a4a38 movs r1, #0x9 */
+/* @0x2a4a3a movs r2, #0x0 */
+/* @0x2a4a3c bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a4a40 mov.w r0, #0xffffffff */
+/* @0x2a4a44 b 0x2a4a48 <_Z16_zip_name_locateP3zipPKciP9zip_error+0xa4> */
+/* @0x2a4a46 mov r0, r4 */
+/* @0x2a4a48 add sp, #0x14 */
+/* @0x2a4a4a pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
 /* @0x2a4a4c svclt #0x8ff0 */
-/* @0x2a4a50 andseq sp, r4, r10, asr #1 */
-/* @0x2a4a54 andseq sp, r4, r6, asr #1 */
-/* @0x2a4a58 movweq pc, #0xc100 */
-/* @0x2a4a5c svclt #0xa2f7ff */
+/* @0x2a4a4e nop */
+/* @0x2a4a50 beq 0x2a49e8 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x44> */
+/* @0x2a4a52 movs r4, r2 */
+/* @0x2a4a54 beq 0x2a49e4 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x40> */
+/* @0x2a4a56 movs r4, r2 */
+
+/* ── FUNC 0x2a4a58 · zip_name_locate · size=8 · insn=2 */
+/* @0x2a4a58 add.w r3, r0, #0xc */
+/* @0x2a4a5c b.w 0x2a49a4 <_Z16_zip_name_locateP3zipPKciP9zip_error> */
+
+/* ── FUNC 0x2a4a60 · anon_2a4a60 · size=892 · insn=224 */
 /* @0x2a4a60 .word 0x4604b51f */
 /* @0x2a4a64 .word 0xb1699201 */
 /* @0x2a4a68 bge 0x376290 <_ZTS13C_UTF16String+0xd33c> */
@@ -713,428 +815,773 @@
 /* @0x2a4dd4 str pc, [r0, r0, lsl #30]! */
 /* @0x2a4dd8 andslt r1, r3, r8, lsr #22 */
 /* @0x2a4ddc svchi #0xf0e8bd */
-/* @0x2a4de0 svcmi #0xf0e92d */
-/* @0x2a4de4 ldrmi r11, [r5], -r9, lsr #1 */
-/* @0x2a4de8 andls r9, r6, r4, lsl #2 */
-/* @0x2a4dec bhs 0x2d3254 <_ZN11b2WeldJoint24SolvePositionConstraintsERK12b2SolverData+0x258> */
-/* @0x2a4df0 tsths r2, #107 */
-/* @0x2a4df4 svcge #0xee012 */
-/* @0x2a4df8 .word 0xf6114639 */
+
+/* ── FUNC 0x2a4de0 · zip_open · size=960 · insn=431 */
+/* @0x2a4de0 push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2a4de4 sub sp, #0xa4 */
+/* @0x2a4de6 mov r5, r2 */
+/* @0x2a4de8 str r1, [sp, #0x10] */
+/* @0x2a4dea str r0, [sp, #0x18] */
+/* @0x2a4dec cbnz r0, 0x2a4df6 <zip_open+0x16> */
+/* @0x2a4dee cmp r2, #0x0 */
+/* @0x2a4df0 beq 0x2a4eca <zip_open+0xea> */
+/* @0x2a4df2 movs r3, #0x12 */
+/* @0x2a4df4 b 0x2a4e1c <zip_open+0x3c> */
+/* @0x2a4df6 add r7, sp, #0x38 */
+/* @0x2a4df8 mov r1, r7 */
+/* @0x2a4dfa blx 0xb69f4 <stat@plt> */
 /* @0x2a4dfc ldrshlt lr, [r0, -r12]! */
-/* @0x2a4e00 ldrbeq r9, [r1, r4, lsl #20] */
-/* @0x2a4e04 stchs p4, c13, [r0, #-48] */
-/* @0x2a4e08 movwhs sp, #0xb05f */
-/* @0x2a4e0c blls 0x3dce2c <error_g0017+0x35ad0> */
-/* @0x2a4e10 streq pc, [r2], #-19 */
-/* @0x2a4e14 stchs p0, c13, [r0, #-36] */
-/* @0x2a4e18 movwhs sp, #0xa057 */
-/* @0x2a4e1c subs r6, r4, r11, lsr #32 */
-/* @0x2a4e20 strtmi r9, [r9], -r6, lsl #16 */
-/* @0x2a4e24 .word 0xff49f7ff */
-/* @0x2a4e28 stmibmi r6!, {r0, r1, r2, r4, r5, r7, r8, sp, lr, pc} */
-/* @0x2a4e2c ldrbtmi r9, [r9], #-2054 */
-/* @0x2a4e30 stc p6, c15, [r8, #-68] */
-/* @0x2a4e34 stmdblt r0!, {r1, r2, r9, r10, lr} */
-/* @0x2a4e38 suble r2, r8, r0, lsl #26 */
-/* @0x2a4e3c eorvs r2, r11, r11, lsl #6 */
-/* @0x2a4e40 strtmi lr, [r1], -r11, lsr #3 */
-/* @0x2a4e44 .word 0xf6122202 */
+/* @0x2a4dfe cbz r0, 0x2a4e0e <zip_open+0x2e> */
+/* @0x2a4e00 ldr r2, [sp, #0x10] */
+/* @0x2a4e02 lsls r1, r2, #0x1f */
+/* @0x2a4e04 bmi 0x2a4e20 <zip_open+0x40> */
+/* @0x2a4e06 cmp r5, #0x0 */
+/* @0x2a4e08 beq 0x2a4eca <zip_open+0xea> */
+/* @0x2a4e0a movs r3, #0xb */
+/* @0x2a4e0c b 0x2a4e1c <zip_open+0x3c> */
+/* @0x2a4e0e ldr r3, [sp, #0x10] */
+/* @0x2a4e10 ands r4, r3, #0x2 */
+/* @0x2a4e14 beq 0x2a4e2a <zip_open+0x4a> */
+/* @0x2a4e16 cmp r5, #0x0 */
+/* @0x2a4e18 beq 0x2a4eca <zip_open+0xea> */
+/* @0x2a4e1a movs r3, #0xa */
+/* @0x2a4e1c str r3, [r5] */
+/* @0x2a4e1e b 0x2a4eca <zip_open+0xea> */
+/* @0x2a4e20 ldr r0, [sp, #0x18] */
+/* @0x2a4e22 mov r1, r5 */
+/* @0x2a4e24 bl 0x2a4cba <zip_name_locate+0x262> */
+/* @0x2a4e28 b 0x2a519a <zip_open+0x3ba> */
+/* @0x2a4e2a ldr r1, [pc, #0x298] */
+/* @0x2a4e2c ldr r0, [sp, #0x18] */
+/* @0x2a4e2e add r1, pc */
+/* @0x2a4e30 blx 0xb6844 <fopen@plt> */
+/* @0x2a4e34 mov r6, r0 */
+/* @0x2a4e36 cbnz r0, 0x2a4e42 <zip_open+0x62> */
+/* @0x2a4e38 cmp r5, #0x0 */
+/* @0x2a4e3a beq 0x2a4ece <zip_open+0xee> */
+/* @0x2a4e3c movs r3, #0xb */
+/* @0x2a4e3e str r3, [r5] */
+/* @0x2a4e40 b 0x2a519a <zip_open+0x3ba> */
+/* @0x2a4e42 mov r1, r4 */
+/* @0x2a4e44 movs r2, #0x2 */
+/* @0x2a4e46 blx 0xb6ed4 <fseeko@plt> */
 /* @0x2a4e48 ldrtmi lr, [r0], -r6, asr #16 */
-/* @0x2a4e4c stmda r8, {r1, r4, r9, r10, r12, sp, lr, pc} ^ */
-/* @0x2a4e50 stmdals r6, {r3, r4, r5, r8, r11, r12, sp, pc} */
-/* @0x2a4e54 .word 0xf7ff4629 */
+/* @0x2a4e4a mov r0, r6 */
+/* @0x2a4e4c blx 0xb6ee0 <ftello@plt> */
+/* @0x2a4e50 cbnz r0, 0x2a4e62 <zip_open+0x82> */
+/* @0x2a4e52 ldr r0, [sp, #0x18] */
+/* @0x2a4e54 mov r1, r5 */
+/* @0x2a4e56 bl 0x2a4cba <zip_name_locate+0x262> */
 /* @0x2a4e58 .word 0x4604ff30 */
-/* @0x2a4e5c subvs r11, r6, r0, lsl #6 */
-/* @0x2a4e60 ldmibmi r7, {r1, r2, r5, sp, lr, pc} */
-/* @0x2a4e64 addmi r2, r8, #536870912 */
-/* @0x2a4e68 .word 0x4601bfb8 */
-/* @0x2a4e6c submi r4, r9, #48, #12 */
-/* @0x2a4e70 ldmda r0!, {r1, r4, r9, r10, r12, sp, lr, pc} */
-/* @0x2a4e74 tstle sp, r1 */
-/* @0x2a4e78 mrc p6, #0x5, apsr_nzcv, c14, c1, #0x0 */
-/* @0x2a4e7c blhs 0x97ee90 <b2_toiTime+0x2259ec> */
-/* @0x2a4e80 ands sp, r7, r7, lsr #2 */
-/* @0x2a4e84 svceq #0xf1b8 */
-/* @0x2a4e88 stmdals r6, {r2, r3, r4, r12, lr, pc} */
-/* @0x2a4e8c .word 0xf7ff4629 */
+/* @0x2a4e5a mov r4, r0 */
+/* @0x2a4e5c cbz r0, 0x2a4ea0 <zip_open+0xc0> */
+/* @0x2a4e5e str r6, [r0, #0x4] */
+/* @0x2a4e60 b 0x2a4eb0 <zip_open+0xd0> */
+/* @0x2a4e62 ldr r1, [pc, #0x25c] */
+/* @0x2a4e64 movs r2, #0x2 */
+/* @0x2a4e66 cmp r0, r1 */
+/* @0x2a4e68 it lt */
+/* @0x2a4e6a movlt r1, r0 */
+/* @0x2a4e6c mov r0, r6 */
+/* @0x2a4e6e rsbs r1, r1, #0 */
+/* @0x2a4e70 blx 0xb6ed4 <fseeko@plt> */
+/* @0x2a4e74 adds r0, #0x1 */
+/* @0x2a4e76 bne 0x2a4eb4 <zip_open+0xd4> */
+/* @0x2a4e78 blx 0xb6bf8 <__errno@plt> */
+/* @0x2a4e7c ldr r3, [r0] */
+/* @0x2a4e7e cmp r3, #0x1b */
+/* @0x2a4e80 bne 0x2a4ed2 <zip_open+0xf2> */
+/* @0x2a4e82 b 0x2a4eb4 <zip_open+0xd4> */
+/* @0x2a4e84 cmp.w r8, #0x0 */
+/* @0x2a4e88 beq 0x2a4ec4 <zip_open+0xe4> */
+/* @0x2a4e8a ldr r0, [sp, #0x18] */
+/* @0x2a4e8c mov r1, r5 */
+/* @0x2a4e8e bl 0x2a4cba <zip_name_locate+0x262> */
 /* @0x2a4e90 .word 0x4604ff14 */
-/* @0x2a4e94 .word 0xf0402800 */
+/* @0x2a4e92 mov r4, r0 */
+/* @0x2a4e94 cmp r0, #0x0 */
+/* @0x2a4e96 bne.w 0x2a515a <zip_open+0x37a> */
 /* @0x2a4e98 strbmi r8, [r0], -r0, ror #2 */
-/* @0x2a4e9c mcr2 p7, #0x5, pc, c11, c14, #0x7 */
-/* @0x2a4ea0 .word 0xf6114630 */
+/* @0x2a4e9a mov r0, r8 */
+/* @0x2a4e9c bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
+/* @0x2a4ea0 mov r0, r6 */
+/* @0x2a4ea2 blx 0xb6850 <fclose@plt> */
 /* @0x2a4ea4 ldrd lr, pc, [r3], -r6 */
-/* @0x2a4ea8 ldc2l p7, c15, [r2, #1020]! */
-/* @0x2a4eac mvnvs r6, r3, lsr #19 */
-/* @0x2a4eb0 cmn r2, r0, lsr #12 */
-/* @0x2a4eb4 .word 0xf6114882 */
+/* @0x2a4ea6 b 0x2a4eb0 <zip_open+0xd0> */
+/* @0x2a4ea8 bl 0x2a4a90 <zip_name_locate+0x38> */
+/* @0x2a4eac ldr r3, [r4, #0x18] */
+/* @0x2a4eae str r3, [r4, #0x1c] */
+/* @0x2a4eb0 mov r0, r4 */
+/* @0x2a4eb2 b 0x2a519a <zip_open+0x3ba> */
+/* @0x2a4eb4 ldr r0, [pc, #0x208] */
+/* @0x2a4eb6 blx 0xb6544 <malloc@plt> */
 /* @0x2a4eb8 strmi lr, [r3], r6, asr #22 */
-/* @0x2a4ebc .word 0xb10db968 */
-/* @0x2a4ec0 eorvs r2, r11, lr, lsl #6 */
-/* @0x2a4ec4 .word 0xf6114630 */
+/* @0x2a4eba mov r11, r0 */
+/* @0x2a4ebc cbnz r0, 0x2a4eda <zip_open+0xfa> */
+/* @0x2a4ebe cbz r5, 0x2a4ec4 <zip_open+0xe4> */
+/* @0x2a4ec0 movs r3, #0xe */
+/* @0x2a4ec2 str r3, [r5] */
+/* @0x2a4ec4 mov r0, r6 */
+/* @0x2a4ec6 blx 0xb6850 <fclose@plt> */
 /* @0x2a4ec8 andhs lr, r0, r4, asr #25 */
-/* @0x2a4ecc strtmi lr, [r8], -r5, ror #2 */
-/* @0x2a4ed0 movwhs lr, #0x4163 */
-/* @0x2a4ed4 mvnsle r2, r0, lsl #26 */
-/* @0x2a4ed8 shsub8mi lr, r0, r4 */
-/* @0x2a4edc ldmda lr, {r1, r4, r9, r10, r12, sp, lr, pc} */
-/* @0x2a4ee0 qaddhs r4, r8, r1 */
-/* @0x2a4ee4 shsub16mi r4, r3, r6 */
-/* @0x2a4ee8 stcl p6, c15, [lr], #68 */
-/* @0x2a4eec strhhi pc, [r12], -r6 */
-/* @0x2a4ef0 stmdaeq r0, {r3, r12, sp, lr, pc} ^ */
-/* @0x2a4ef4 .word 0xf488fa1f */
-/* @0x2a4ef8 teqlt r4, r8 */
-/* @0x2a4efc movwhs r11, #0x510d */
-/* @0x2a4f00 ldrbmi r6, [r8], -r11, lsr #32 */
-/* @0x2a4f04 bl 0xd62750 <b2_toiTime+0x6092ac> */
-/* @0x2a4f08 .word 0x4622e7dc */
-/* @0x2a4f0c tsths r3, r8, lsr r6 */
-/* @0x2a4f10 .word 0xf7ff46a0 */
+/* @0x2a4eca movs r0, #0x0 */
+/* @0x2a4ecc b 0x2a519a <zip_open+0x3ba> */
+/* @0x2a4ece mov r0, r5 */
+/* @0x2a4ed0 b 0x2a519a <zip_open+0x3ba> */
+/* @0x2a4ed2 movs r3, #0x4 */
+/* @0x2a4ed4 cmp r5, #0x0 */
+/* @0x2a4ed6 bne 0x2a4ec2 <zip_open+0xe2> */
+/* @0x2a4ed8 b 0x2a4ec4 <zip_open+0xe4> */
+/* @0x2a4eda mov r0, r6 */
+/* @0x2a4edc blx 0xb6f1c <clearerr@plt> */
+/* @0x2a4ee0 mov r0, r11 */
+/* @0x2a4ee2 movs r1, #0x1 */
+/* @0x2a4ee4 ldr r2, [pc, #0x1d8] */
+/* @0x2a4ee6 mov r3, r6 */
+/* @0x2a4ee8 blx 0xb68c8 <fread@plt> */
+/* @0x2a4eec ldrh.w r8, [r6, #0xc] */
+/* @0x2a4ef0 and r8, r8, #0x40 */
+/* @0x2a4ef4 uxth.w r4, r8 */
+/* @0x2a4ef8 str r0, [sp, #0x20] */
+/* @0x2a4efa cbz r4, 0x2a4f0a <zip_open+0x12a> */
+/* @0x2a4efc cbz r5, 0x2a4f02 <zip_open+0x122> */
+/* @0x2a4efe movs r3, #0x5 */
+/* @0x2a4f00 str r3, [r5] */
+/* @0x2a4f02 mov r0, r11 */
+/* @0x2a4f04 blx 0xb655c <free@plt> */
+/* @0x2a4f08 b 0x2a4ec4 <zip_open+0xe4> */
+/* @0x2a4f0a mov r2, r4 */
+/* @0x2a4f0c mov r0, r7 */
+/* @0x2a4f0e movs r1, #0x13 */
+/* @0x2a4f10 mov r8, r4 */
+/* @0x2a4f12 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a4f14 .word 0xf04ffa21 */
+/* @0x2a4f16 mov.w r2, #0xffffffff */
 /* @0x2a4f18 blmi 0x1d71b1c <b2_toiTime+0x1618678> */
-/* @0x2a4f1c bmi 0x1d8972c <b2_toiTime+0x1630288> */
-/* @0x2a4f20 .word 0xf8cd447b */
+/* @0x2a4f1a ldr r3, [pc, #0x1ac] */
+/* @0x2a4f1c str r2, [sp, #0x8] */
+/* @0x2a4f1e ldr r2, [pc, #0x1ac] */
+/* @0x2a4f20 add r3, pc */
+/* @0x2a4f22 str.w r11, [sp, #0x1c] */
 /* @0x2a4f24 movwls r11, #0xa01c */
-/* @0x2a4f28 blge 0x5b6118 <g_SWFlineaavertbuff+0x63050> */
-/* @0x2a4f2c movwls r9, #0x320b */
-/* @0x2a4f30 blls 0x4cb754 <SrcVerts+0x28798> */
-/* @0x2a4f34 smlabteq r11, r2, r11, lr */
-/* @0x2a4f38 sadd16mi r4, r0, r9 */
-/* @0x2a4f3c .word 0xf7ff3912 */
+/* @0x2a4f26 str r3, [sp, #0x28] */
+/* @0x2a4f28 add r2, pc */
+/* @0x2a4f2a add r3, sp, #0x30 */
+/* @0x2a4f2c str r2, [sp, #0x2c] */
+/* @0x2a4f2e str r3, [sp, #0xc] */
+/* @0x2a4f30 ldr r2, [sp, #0x1c] */
+/* @0x2a4f32 ldr r3, [sp, #0x20] */
+/* @0x2a4f34 rsb r1, r2, r11 */
+/* @0x2a4f38 add r1, r3 */
+/* @0x2a4f3a mov r0, r2 */
+/* @0x2a4f3c subs r1, #0x12 */
+/* @0x2a4f3e bl 0x2a4b48 <zip_name_locate+0xf0> */
 /* @0x2a4f40 strmi pc, [r1], r3, lsl #28 */
-/* @0x2a4f44 .word 0xf0002800 */
+/* @0x2a4f42 mov r9, r0 */
+/* @0x2a4f44 cmp r0, #0x0 */
+/* @0x2a4f46 beq.w 0x2a513a <zip_open+0x35a> */
 /* @0x2a4f48 blls 0x4c5330 <SrcVerts+0x22374> */
-/* @0x2a4f4c andeq pc, r1, #1073741826 */
-/* @0x2a4f50 ldrbmi r9, [r11], #-519 */
-/* @0x2a4f54 movweq lr, #0x3bc9 */
-/* @0x2a4f58 movwls r3, #0x5b16 */
-/* @0x2a4f5c ldrtmi sp, [r8], -r3, lsl #10 */
-/* @0x2a4f60 andhs r2, r0, #-1073741820 */
-/* @0x2a4f64 stmdbls r10, {r0, r4, sp, lr, pc} */
-/* @0x2a4f68 .word 0xf6112204 */
+/* @0x2a4f4a ldr r3, [sp, #0x20] */
+/* @0x2a4f4c add.w r2, r9, #0x1 */
+/* @0x2a4f50 str r2, [sp, #0x1c] */
+/* @0x2a4f52 add r3, r11 */
+/* @0x2a4f54 rsb r3, r9, r3 */
+/* @0x2a4f58 subs r3, #0x16 */
+/* @0x2a4f5a str r3, [sp, #0x14] */
+/* @0x2a4f5c bpl 0x2a4f66 <zip_open+0x186> */
+/* @0x2a4f5e mov r0, r7 */
+/* @0x2a4f60 movs r1, #0x13 */
+/* @0x2a4f62 movs r2, #0x0 */
+/* @0x2a4f64 b 0x2a4f8a <zip_open+0x1aa> */
+/* @0x2a4f66 ldr r1, [sp, #0x28] */
+/* @0x2a4f68 movs r2, #0x4 */
+/* @0x2a4f6a blx 0xb6c40 <memcmp@plt> */
 /* @0x2a4f6c strmi lr, [r4], -r10, ror #28 */
-/* @0x2a4f70 mvnsle r2, r0, lsl #16 */
-/* @0x2a4f74 andeq pc, r4, r9, lsl #2 */
-/* @0x2a4f78 andhs r9, r4, #180224 */
-/* @0x2a4f7c mcr p6, #0x3, pc, c0, c1, #0x0 */
-/* @0x2a4f80 smlawblt r8, r2, r6, r4 */
-/* @0x2a4f84 .word 0x21014638 */
-/* @0x2a4f88 .word 0xf7ff4622 */
+/* @0x2a4f6e mov r4, r0 */
+/* @0x2a4f70 cmp r0, #0x0 */
+/* @0x2a4f72 bne 0x2a4f5e <zip_open+0x17e> */
+/* @0x2a4f74 add.w r0, r9, #0x4 */
+/* @0x2a4f78 ldr r1, [sp, #0x2c] */
+/* @0x2a4f7a movs r2, #0x4 */
+/* @0x2a4f7c blx 0xb6c40 <memcmp@plt> */
+/* @0x2a4f80 mov r10, r0 */
+/* @0x2a4f82 cbz r0, 0x2a4f90 <zip_open+0x1b0> */
+/* @0x2a4f84 mov r0, r7 */
+/* @0x2a4f86 movs r1, #0x1 */
+/* @0x2a4f88 mov r2, r4 */
+/* @0x2a4f8a bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a4f8c sbc pc, lr, r5, ror #19 */
-/* @0x2a4f90 .word 0xf109a80c */
+/* @0x2a4f8e b 0x2a512e <zip_open+0x34e> */
+/* @0x2a4f90 add r0, sp, #0x30 */
+/* @0x2a4f92 add.w r3, r9, #0x8 */
 /* @0x2a4f94 movwls r0, #0xc308 */
-/* @0x2a4f98 .word 0xff92f7fe */
-/* @0x2a4f9c stmdage r12, {r0, r3, r12, pc} */
-/* @0x2a4fa0 .word 0xff8ef7fe */
-/* @0x2a4fa4 .word 0xf7fe4639 */
+/* @0x2a4f96 str r3, [sp, #0x30] */
+/* @0x2a4f98 bl 0x2a3ec0 <_Z10_zip_read2PPh> */
+/* @0x2a4f9c str r0, [sp, #0x24] */
+/* @0x2a4f9e add r0, sp, #0x30 */
+/* @0x2a4fa0 bl 0x2a3ec0 <_Z10_zip_read2PPh> */
+/* @0x2a4fa4 mov r1, r7 */
+/* @0x2a4fa6 bl 0x2a3b88 <_Z13_zip_cdir_newiP9zip_error> */
 /* @0x2a4fa8 strmi pc, [r4], -pc, ror #27 */
-/* @0x2a4fac .word 0xf0002800 */
+/* @0x2a4faa mov r4, r0 */
+/* @0x2a4fac cmp r0, #0x0 */
+/* @0x2a4fae beq.w 0x2a512e <zip_open+0x34e> */
 /* @0x2a4fb0 stmdage r12, {r1, r2, r3, r4, r5, r7, pc} */
-/* @0x2a4fb4 .word 0xff8df7fe */
-/* @0x2a4fb8 stmdage r12, {r5, r7, sp, lr} */
-/* @0x2a4fbc .word 0xff89f7fe */
-/* @0x2a4fc0 andsge pc, r0, r4, asr #17 */
-/* @0x2a4fc4 stmdage r12, {r5, r6, r7, sp, lr} */
-/* @0x2a4fc8 .word 0xff7af7fe */
-/* @0x2a4fcc addmi r9, r3, #5120 */
-/* @0x2a4fd0 adchi r4, r0, #1048576 */
-/* @0x2a4fd4 stmdavs r3!, {r0, r1, r8, r9, r11, r12, lr, pc} ^ */
-/* @0x2a4fd8 addsmi r9, r3, #36864 */
-/* @0x2a4fdc ldrtmi sp, [r8], -r3 */
-/* @0x2a4fe0 andhs r2, r0, #-1073741820 */
-/* @0x2a4fe4 blls 0x3dd0f8 <error_g0017+0x35d9c> */
-/* @0x2a4fe8 strle r0, [r6, #-0x75a] */
-/* @0x2a4fec addmi r9, r3, #5120 */
-/* @0x2a4ff0 ldrtmi sp, [r8], -r3 */
-/* @0x2a4ff4 uadd16mi r2, r2, r5 */
-/* @0x2a4ff8 teqlt r9, r9, lsr r0 */
-/* @0x2a4ffc andseq pc, r6, r9, lsl #2 */
-/* @0x2a5000 .word 0xf7ff463a */
+/* @0x2a4fb2 add r0, sp, #0x30 */
+/* @0x2a4fb4 bl 0x2a3ed2 <_Z10_zip_read4PPh> */
+/* @0x2a4fb8 str r0, [r4, #0x8] */
+/* @0x2a4fba add r0, sp, #0x30 */
+/* @0x2a4fbc bl 0x2a3ed2 <_Z10_zip_read4PPh> */
+/* @0x2a4fc0 str.w r10, [r4, #0x10] */
+/* @0x2a4fc4 str r0, [r4, #0xc] */
+/* @0x2a4fc6 add r0, sp, #0x30 */
+/* @0x2a4fc8 bl 0x2a3ec0 <_Z10_zip_read2PPh> */
+/* @0x2a4fcc ldr r3, [sp, #0x14] */
+/* @0x2a4fce cmp r3, r0 */
+/* @0x2a4fd0 mov r1, r0 */
+/* @0x2a4fd2 strh r0, [r4, #0x14] */
+/* @0x2a4fd4 blt 0x2a4fde <zip_open+0x1fe> */
+/* @0x2a4fd6 ldr r3, [r4, #0x4] */
+/* @0x2a4fd8 ldr r2, [sp, #0x24] */
+/* @0x2a4fda cmp r3, r2 */
+/* @0x2a4fdc beq 0x2a4fe6 <zip_open+0x206> */
+/* @0x2a4fde mov r0, r7 */
+/* @0x2a4fe0 movs r1, #0x13 */
+/* @0x2a4fe2 movs r2, #0x0 */
+/* @0x2a4fe4 b 0x2a506e <zip_open+0x28e> */
+/* @0x2a4fe6 ldr r3, [sp, #0x10] */
+/* @0x2a4fe8 lsls r2, r3, #0x1d */
+/* @0x2a4fea bpl 0x2a4ffa <zip_open+0x21a> */
+/* @0x2a4fec ldr r3, [sp, #0x14] */
+/* @0x2a4fee cmp r3, r0 */
+/* @0x2a4ff0 beq 0x2a4ffa <zip_open+0x21a> */
+/* @0x2a4ff2 mov r0, r7 */
+/* @0x2a4ff4 movs r1, #0x15 */
+/* @0x2a4ff6 mov r2, r10 */
+/* @0x2a4ff8 b 0x2a506e <zip_open+0x28e> */
+/* @0x2a4ffa cbz r1, 0x2a500c <zip_open+0x22c> */
+/* @0x2a4ffc add.w r0, r9, #0x16 */
+/* @0x2a5000 mov r2, r7 */
+/* @0x2a5002 bl 0x2a4978 <_Z11_zip_memdupPKvjP9zip_error> */
 /* @0x2a5004 strhvs pc, [r0, -r9]! */
-/* @0x2a5008 eorsle r2, r2, r0, lsl #16 */
-/* @0x2a500c bl 0xff57f2a0 <b2_toiTime+0xfffffffffee25dfc> */
+/* @0x2a5006 str r0, [r4, #0x10] */
+/* @0x2a5008 cmp r0, #0x0 */
+/* @0x2a500a beq 0x2a5072 <zip_open+0x292> */
+/* @0x2a500c ldr r3, [r4, #0x8] */
+/* @0x2a500e rsb r2, r11, r9 */
 /* @0x2a5010 addsmi r0, r3, #-1879048192 */
-/* @0x2a5014 bl 0xff399830 <b2_toiTime+0xfffffffffec4038c> */
+/* @0x2a5012 cmp r3, r2 */
+/* @0x2a5014 bhs 0x2a5022 <zip_open+0x242> */
+/* @0x2a5016 rsb r3, r3, r9 */
 /* @0x2a5018 bge 0x5a5c44 <g_SWFlineaavertbuff+0x52b7c> */
-/* @0x2a501c andls r9, r5, #12, #6 */
-/* @0x2a5020 ldrtmi lr, [r0], -r11, lsr #32 */
-/* @0x2a5024 svc #0x7af611 */
-/* @0x2a5028 stmvs r1!, {r4, r5, r9, r10, lr} ^ */
-/* @0x2a502c .word 0xf6112200 */
+/* @0x2a501a add r2, sp, #0x30 */
+/* @0x2a501c str r3, [sp, #0x30] */
+/* @0x2a501e str r2, [sp, #0x14] */
+/* @0x2a5020 b 0x2a507a <zip_open+0x29a> */
+/* @0x2a5022 mov r0, r6 */
+/* @0x2a5024 blx 0xb6f1c <clearerr@plt> */
+/* @0x2a5028 mov r0, r6 */
+/* @0x2a502a ldr r1, [r4, #0xc] */
+/* @0x2a502c movs r2, #0x0 */
+/* @0x2a502e blx 0xb6ed4 <fseeko@plt> */
 /* @0x2a5030 rfeia r6! */
+/* @0x2a5032 ldrh.w r10, [r6, #0xc] */
 /* @0x2a5034 .word 0xf00aa00c */
+/* @0x2a5036 and r10, r10, #0x40 */
 /* @0x2a5038 blx 0xa67940 <b2_toiTime+0x30e49c> */
+/* @0x2a503a uxth.w r10, r10 */
 /* @0x2a503c .word 0xf1bafa8a */
+/* @0x2a503e cmp.w r10, #0x0 */
 /* @0x2a5040 .word 0xd1080f00 */
-/* @0x2a5044 .word 0xf6114630 */
+/* @0x2a5042 bne 0x2a5056 <zip_open+0x276> */
+/* @0x2a5044 mov r0, r6 */
+/* @0x2a5046 blx 0xb6ee0 <ftello@plt> */
 /* @0x2a5048 stmvs r3!, {r2, r3, r6, r8, r9, r10, r11, sp, lr, pc} ^ */
-/* @0x2a504c swple r4, r8, [r2] */
-/* @0x2a5050 andsge pc, r4, sp, asr #17 */
-/* @0x2a5054 ldmibhi r2!, {r0, r4, sp, lr, pc} */
-/* @0x2a5058 subeq pc, r0, #2 */
-/* @0x2a505c bhs 0x2d1aac <_ZN15b2RevoluteJoint23InitVelocityConstraintsERK12b2SolverData+0x1e0> */
-/* @0x2a5060 addshi pc, r8, r0 */
-/* @0x2a5064 stcl p6, c15, [r8, #68] */
-/* @0x2a5068 stmdavs r2, {r2, r8, sp} */
-/* @0x2a506c .word 0xf7ff4638 */
+/* @0x2a504a ldr r3, [r4, #0xc] */
+/* @0x2a504c cmp r0, r3 */
+/* @0x2a504e bne 0x2a5056 <zip_open+0x276> */
+/* @0x2a5050 str.w r10, [sp, #0x14] */
+/* @0x2a5054 b 0x2a507a <zip_open+0x29a> */
+/* @0x2a5056 ldrh r2, [r6, #0xc] */
+/* @0x2a5058 and r2, r2, #0x40 */
+/* @0x2a505c uxth r2, r2 */
+/* @0x2a505e cmp r2, #0x0 */
+/* @0x2a5060 beq.w 0x2a5194 <zip_open+0x3b4> */
+/* @0x2a5064 blx 0xb6bf8 <__errno@plt> */
+/* @0x2a5068 movs r1, #0x4 */
+/* @0x2a506a ldr r2, [r0] */
+/* @0x2a506c mov r0, r7 */
+/* @0x2a506e bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a5070 qsub16mi pc, r0, r3 */
-/* @0x2a5074 b 0x1f628c0 <b2_toiTime+0x180941c> */
-/* @0x2a5078 stmvs r3!, {r0, r3, r4, r6, sp, lr, pc} */
-/* @0x2a507c stmibeq r0!, {r0, r2, r3, r8, r12, sp, lr, pc} */
-/* @0x2a5080 beq 0x2e11c4 <_ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener+0x94> */
-/* @0x2a5084 stcllo p8, c15, [r12, #-292]! */
-/* @0x2a5088 ldrmi r6, [r10, #0x863] */
-/* @0x2a508c blls 0x6194b0 <g_SWFaavertbuff+0x463e8> */
-/* @0x2a5090 strtmi r11, [r0], -r11, lsr #2 */
-/* @0x2a5094 orrlo pc, r0, r10, lsl #10 */
-/* @0x2a5098 .word 0xf7fe463a */
+/* @0x2a5072 mov r0, r4 */
+/* @0x2a5074 blx 0xb655c <free@plt> */
+/* @0x2a5078 b 0x2a512e <zip_open+0x34e> */
+/* @0x2a507a ldr r3, [r4, #0x8] */
+/* @0x2a507c add.w r9, sp, #0xa0 */
+/* @0x2a5080 mov.w r10, #0x0 */
+/* @0x2a5084 str r3, [r9, #-108]! */
+/* @0x2a5088 ldr r3, [r4, #0x4] */
+/* @0x2a508a cmp r10, r3 */
+/* @0x2a508c bne 0x2a509e <zip_open+0x2be> */
+/* @0x2a508e ldr r3, [sp, #0x34] */
+/* @0x2a5090 cbz r3, 0x2a509e <zip_open+0x2be> */
+/* @0x2a5092 mov r0, r4 */
+/* @0x2a5094 add.w r1, r10, #0x10000 */
+/* @0x2a5098 mov r2, r7 */
+/* @0x2a509a bl 0x2a3b4e <_Z14_zip_cdir_growP8zip_cdiriP9zip_error> */
 /* @0x2a509c stmdavs r0!, {r3, r4, r6, r8, r10, r11, r12, sp, lr, pc} */
-/* @0x2a50a0 movwhs r2, #0x23c */
-/* @0x2a50a4 stm sp, {r0, r4, r5, r9, r10, lr} */
+/* @0x2a509e ldr r0, [r4] */
+/* @0x2a50a0 movs r2, #0x3c */
+/* @0x2a50a2 movs r3, #0x0 */
+/* @0x2a50a4 mov r1, r6 */
+/* @0x2a50a6 stm.w sp, {r3, r7} */
 /* @0x2a50a8 strbmi r0, [r11], -r8, lsl #1 */
-/* @0x2a50ac andeq pc, r10, r2, lsl #22 */
-/* @0x2a50b0 .word 0xf7fe9a05 */
+/* @0x2a50aa mov r3, r9 */
+/* @0x2a50ac mla r0, r2, r10, r0 */
+/* @0x2a50b0 ldr r2, [sp, #0x14] */
+/* @0x2a50b2 bl 0x2a3ef0 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error> */
 /* @0x2a50b4 stmdahs r0, {r0, r2, r3, r4, r8, r9, r10, r11, r12, sp, lr, pc} */
-/* @0x2a50b8 .word 0xf8c4da0a */
+/* @0x2a50b6 cmp r0, #0x0 */
+/* @0x2a50b8 bge 0x2a50d0 <zip_open+0x2f0> */
+/* @0x2a50ba str.w r10, [r4, #0x4] */
 /* @0x2a50bc eor r10, r8, r4 */
-/* @0x2a50c0 andeq r0, r1, r6, lsl r0 */
-/* @0x2a50c4 andeq r7, lr, sp, asr #3 */
-/* @0x2a50c8 andeq r7, lr, r8, ror #1 */
-/* @0x2a50cc andeq r10, lr, lr, lsr #18 */
-/* @0x2a50d0 .word 0xf10a6863 */
+/* @0x2a50be b 0x2a5112 <zip_open+0x332> */
+/* @0x2a50c0 movs r6, r2 */
+/* @0x2a50c2 movs r1, r0 */
+/* @0x2a50c4 strb r5, [r1, #0x7] */
+/* @0x2a50c6 movs r6, r1 */
+/* @0x2a50c8 strb r0, [r5, #0x3] */
+/* @0x2a50ca movs r6, r1 */
+/* @0x2a50cc add r1, sp, #0xb8 */
+/* @0x2a50ce movs r6, r1 */
+/* @0x2a50d0 ldr r3, [r4, #0x4] */
+/* @0x2a50d2 add.w r10, r10, #0x1 */
 /* @0x2a50d4 ldrmi r0, [r10, #0xa01] */
-/* @0x2a50d8 movtlt sp, #0x4bd6 */
-/* @0x2a50dc svceq #0xf1b8 */
-/* @0x2a50e0 blls 0x359154 */
-/* @0x2a50e4 .word 0xdc052b00 */
-/* @0x2a50e8 .word 0x46414630 */
-/* @0x2a50ec .word 0xf7ff463a */
+/* @0x2a50d6 cmp r10, r3 */
+/* @0x2a50d8 blt 0x2a5088 <zip_open+0x2a8> */
+/* @0x2a50da cbz r4, 0x2a512e <zip_open+0x34e> */
+/* @0x2a50dc cmp.w r8, #0x0 */
+/* @0x2a50e0 beq 0x2a511a <zip_open+0x33a> */
+/* @0x2a50e2 ldr r3, [sp, #0x8] */
+/* @0x2a50e4 cmp r3, #0x0 */
+/* @0x2a50e6 bgt 0x2a50f4 <zip_open+0x314> */
+/* @0x2a50e8 mov r0, r6 */
+/* @0x2a50ea mov r1, r8 */
+/* @0x2a50ec mov r2, r7 */
+/* @0x2a50ee bl 0x2a4cfe <zip_name_locate+0x2a6> */
 /* @0x2a50f0 andls pc, r2, r6, lsl #28 */
-/* @0x2a50f4 shasxmi r4, r0, r10 */
-/* @0x2a50f8 .word 0xf7ff4621 */
+/* @0x2a50f2 str r0, [sp, #0x8] */
+/* @0x2a50f4 mov r2, r7 */
+/* @0x2a50f6 mov r0, r6 */
+/* @0x2a50f8 mov r1, r4 */
+/* @0x2a50fa bl 0x2a4cfe <zip_name_locate+0x2a6> */
 /* @0x2a50fc bls 0x364904 <_ZTS12CDS_Priority+0x695c> */
-/* @0x2a5100 strmi r4, [r1], r2, lsl #5 */
-/* @0x2a5104 strbmi sp, [r0], -r5, lsl #20 */
-/* @0x2a5108 ldc2l p7, c15, [r5, #-1016]! */
-/* @0x2a510c andls pc, r8, sp, asr #17 */
-/* @0x2a5110 qadd16mi lr, r0, r1 */
-/* @0x2a5114 stc2l p7, c15, [pc, #-1016]! */
-/* @0x2a5118 blls 0x3dd144 <error_g0017+0x35de8> */
-/* @0x2a511c strle r0, [r8, #-0x75b] */
-/* @0x2a5120 qasxmi r4, r1, r0 */
-/* @0x2a5124 .word 0xf7ff463a */
+/* @0x2a50fe ldr r2, [sp, #0x8] */
+/* @0x2a5100 cmp r2, r0 */
+/* @0x2a5102 mov r9, r0 */
+/* @0x2a5104 bge 0x2a5112 <zip_open+0x332> */
+/* @0x2a5106 mov r0, r8 */
+/* @0x2a5108 bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
+/* @0x2a510c str.w r9, [sp, #0x8] */
+/* @0x2a5110 b 0x2a5136 <zip_open+0x356> */
+/* @0x2a5112 mov r0, r4 */
+/* @0x2a5114 bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
+/* @0x2a5118 b 0x2a512e <zip_open+0x34e> */
+/* @0x2a511a ldr r3, [sp, #0x10] */
+/* @0x2a511c lsls r3, r3, #0x1d */
+/* @0x2a511e bpl 0x2a5132 <zip_open+0x352> */
+/* @0x2a5120 mov r0, r6 */
+/* @0x2a5122 mov r1, r4 */
+/* @0x2a5124 mov r2, r7 */
+/* @0x2a5126 bl 0x2a4cfe <zip_name_locate+0x2a6> */
 /* @0x2a5128 andls pc, r2, r10, ror #27 */
-/* @0x2a512c strbmi lr, [r4], -r3 */
-/* @0x2a5130 .word 0xf8cde001 */
+/* @0x2a512a str r0, [sp, #0x8] */
+/* @0x2a512c b 0x2a5136 <zip_open+0x356> */
+/* @0x2a512e mov r4, r8 */
+/* @0x2a5130 b 0x2a5136 <zip_open+0x356> */
+/* @0x2a5132 str.w r8, [sp, #0x8] */
 /* @0x2a5134 strtmi r8, [r0], r8 */
-/* @0x2a5138 usub8mi lr, r8, r10 */
-/* @0x2a513c b 0x662988 <g_SWFlinevertbuff+0xf8c0> */
-/* @0x2a5140 bhs 0x2cb950 <_ZNK13b2DynamicTree7RayCastI21b2WorldRayCastWrapperEEvPT_RK14b2RayCastInput+0x70> */
-/* @0x2a5144 mrcge p6, #0x4, apsr_nzcv, c14, c15, #0x5 */
-/* @0x2a5148 ldrtmi r4, [r9], -r8, lsr #12 */
-/* @0x2a514c .word 0xf7ff464a */
+/* @0x2a5136 mov r8, r4 */
+/* @0x2a5138 b 0x2a4f30 <zip_open+0x150> */
+/* @0x2a513a mov r0, r11 */
+/* @0x2a513c blx 0xb655c <free@plt> */
+/* @0x2a5140 ldr r2, [sp, #0x8] */
+/* @0x2a5142 cmp r2, #0x0 */
+/* @0x2a5144 bge.w 0x2a4e84 <zip_open+0xa4> */
+/* @0x2a5148 mov r0, r5 */
+/* @0x2a514a mov r1, r7 */
+/* @0x2a514c mov r2, r9 */
+/* @0x2a514e bl 0x2a4a60 <zip_name_locate+0x8> */
 /* @0x2a5150 strbmi pc, [r0], -r7, lsl #25 */
-/* @0x2a5154 stc2l p7, c15, [pc, #-1016] */
-/* @0x2a5158 .word 0xf8c0e6b4 */
+/* @0x2a5152 mov r0, r8 */
+/* @0x2a5154 bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
+/* @0x2a5158 b 0x2a4ec4 <zip_open+0xe4> */
+/* @0x2a515a str.w r8, [r0, #0x20] */
 /* @0x2a515c subvs r8, r6, r0, lsr #32 */
-/* @0x2a5160 .word 0xf8d82014 */
+/* @0x2a515e str r6, [r0, #0x4] */
+/* @0x2a5160 movs r0, #0x14 */
+/* @0x2a5162 ldr.w r3, [r8, #0x4] */
 /* @0x2a5164 cmpmi r8, #4 */
-/* @0x2a5168 stmib r12!, {r0, r4, r9, r10, r12, sp, lr, pc} ^ */
-/* @0x2a516c ldmdblt r0!, {r5, r6, r8, r9, sp, lr} */
-/* @0x2a5170 movwhs r11, #0xe10d */
-/* @0x2a5174 strtmi r6, [r0], -r11, lsr #32 */
-/* @0x2a5178 blx 0xfe3e317e <b2_toiTime+0xfffffffffdc89cda> */
-/* @0x2a517c .word 0xf8d8e6a5 */
+/* @0x2a5166 muls r0, r3, r0 */
+/* @0x2a5168 blx 0xb6544 <malloc@plt> */
+/* @0x2a516c str r0, [r4, #0x34] */
+/* @0x2a516e cbnz r0, 0x2a517e <zip_open+0x39e> */
+/* @0x2a5170 cbz r5, 0x2a5176 <zip_open+0x396> */
+/* @0x2a5172 movs r3, #0xe */
+/* @0x2a5174 str r3, [r5] */
+/* @0x2a5176 mov r0, r4 */
+/* @0x2a5178 bl 0x2a4884 <_Z9_zip_freeP3zip> */
+/* @0x2a517c b 0x2a4eca <zip_open+0xea> */
+/* @0x2a517e ldr.w r3, [r8, #0x4] */
 /* @0x2a5180 strtmi r3, [r0], -r4 */
-/* @0x2a5184 .word 0xf6bf4599 */
+/* @0x2a5182 mov r0, r4 */
+/* @0x2a5184 cmp r9, r3 */
+/* @0x2a5186 bge.w 0x2a4ea8 <zip_open+0xc8> */
 /* @0x2a5188 .word 0xf000ae8f */
+/* @0x2a518a bl 0x2a5790 <_Z14_zip_entry_newP3zip> */
 /* @0x2a518c .word 0xf109fb01 */
+/* @0x2a518e add.w r9, r9, #0x1 */
 /* @0x2a5190 ldrb r0, [r4, r1, lsl #18]! */
-/* @0x2a5194 tsths r3, r8, lsr r6 */
-/* @0x2a5198 eorlt lr, r9, r9, ror #14 */
-/* @0x2a519c svchi #0xf0e8bd */
-/* @0x2a51a0 svcmi #0xf0e92d */
-/* @0x2a51a4 .word 0x4606b093 */
-/* @0x2a51a8 bvs 0x3499bc */
-/* @0x2a51ac stmdblt r10, {r0, r3, r8, r12, pc} ^ */
-/* @0x2a51b0 stmdbls r3, {r3, r5, r7, r11, lr} */
-/* @0x2a51b4 .word 0xf7ff4478 */
+/* @0x2a5192 b 0x2a517e <zip_open+0x39e> */
+/* @0x2a5194 mov r0, r7 */
+/* @0x2a5196 movs r1, #0x13 */
+/* @0x2a5198 b 0x2a506e <zip_open+0x28e> */
+/* @0x2a519a add sp, #0xa4 */
+/* @0x2a519c pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+
+/* ── FUNC 0x2a51a0 · zip_open_buff · size=728 · insn=330 */
+/* @0x2a51a0 push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2a51a4 sub sp, #0x4c */
+/* @0x2a51a6 mov r6, r0 */
+/* @0x2a51a8 str r2, [sp, #0xc] */
+/* @0x2a51aa ldr r2, [r0, #0x20] */
+/* @0x2a51ac str r1, [sp, #0x24] */
+/* @0x2a51ae cbnz r2, 0x2a51c4 <zip_open_buff+0x24> */
+/* @0x2a51b0 ldr r0, [pc, #0x2a0] */
+/* @0x2a51b2 ldr r1, [sp, #0xc] */
+/* @0x2a51b4 add r0, pc */
+/* @0x2a51b6 bl 0x2a4cba <zip_name_locate+0x262> */
 /* @0x2a51b8 stmdahs r0, {r7, r8, r10, r11, r12, sp, lr, pc} */
-/* @0x2a51bc cmphi r9, r0 */
-/* @0x2a51c0 cmp r6, r6, lsl #1 */
-/* @0x2a51c4 .word 0x21026803 */
-/* @0x2a51c8 ldmdbvs r11, {r0, r5, r7, r10, r11, lr} */
-/* @0x2a51cc svclt #0xa842a2 */
-/* @0x2a51d0 ldrmi r4, [r8, r2, lsr #12] */
-/* @0x2a51d4 .word 0xf6114620 */
+/* @0x2a51ba cmp r0, #0x0 */
+/* @0x2a51bc beq.w 0x2a5472 <zip_open_buff+0x2d2> */
+/* @0x2a51c0 str r6, [r0, #0x8] */
+/* @0x2a51c2 b 0x2a5472 <zip_open_buff+0x2d2> */
+/* @0x2a51c4 ldr r3, [r0] */
+/* @0x2a51c6 movs r1, #0x2 */
+/* @0x2a51c8 ldr r4, [pc, #0x284] */
+/* @0x2a51ca ldr r3, [r3, #0x10] */
+/* @0x2a51cc cmp r2, r4 */
+/* @0x2a51ce it ge */
+/* @0x2a51d0 movge r2, r4 */
+/* @0x2a51d2 blx r3 */
+/* @0x2a51d4 mov r0, r4 */
+/* @0x2a51d6 blx 0xb6544 <malloc@plt> */
 /* @0x2a51d8 selmi lr, r1, r6 */
-/* @0x2a51dc bls 0x3936a4 <ft_adobe_glyph_list+0x2d80> */
-/* @0x2a51e0 .word 0xf0002a00 */
+/* @0x2a51da mov r9, r0 */
+/* @0x2a51dc cbnz r0, 0x2a51ec <zip_open_buff+0x4c> */
+/* @0x2a51de ldr r2, [sp, #0xc] */
+/* @0x2a51e0 cmp r2, #0x0 */
+/* @0x2a51e2 beq.w 0x2a5470 <zip_open_buff+0x2d0> */
 /* @0x2a51e4 movwhs r8, #0xe145 */
-/* @0x2a51e8 .word 0xe1416013 */
-/* @0x2a51ec strbmi r4, [r9], -r3, lsr #12 */
-/* @0x2a51f0 ldrtmi r2, [r0], -r1, lsl #4 */
-/* @0x2a51f4 ldcl p6, c15, [r2, #-160] */
-/* @0x2a51f8 andhs r10, r0, #960 */
-/* @0x2a51fc .word 0xf04f2113 */
+/* @0x2a51e6 movs r3, #0xe */
+/* @0x2a51e8 str r3, [r2] */
+/* @0x2a51ea b 0x2a5470 <zip_open_buff+0x2d0> */
+/* @0x2a51ec mov r3, r4 */
+/* @0x2a51ee mov r1, r9 */
+/* @0x2a51f0 movs r2, #0x1 */
+/* @0x2a51f2 mov r0, r6 */
+/* @0x2a51f4 blx 0xcdc9c <_ZN7IBuffer4ReadEPKvjj> */
+/* @0x2a51f8 add r5, sp, #0x3c */
+/* @0x2a51fa movs r2, #0x0 */
+/* @0x2a51fc movs r1, #0x13 */
+/* @0x2a51fe mov.w r8, #0xffffffff */
 /* @0x2a5200 strhs r3, [r0], #-2303 */
-/* @0x2a5204 strtmi r9, [r8], -r7 */
-/* @0x2a5208 .word 0xf8a6f7ff */
-/* @0x2a520c bmi 0xfe77805c <b2_toiTime+0xfffffffffe01ebb8> */
-/* @0x2a5210 .word 0xf8cd447b */
+/* @0x2a5202 movs r4, #0x0 */
+/* @0x2a5204 str r0, [sp, #0x1c] */
+/* @0x2a5206 mov r0, r5 */
+/* @0x2a5208 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a520c ldr r3, [pc, #0x248] */
+/* @0x2a520e ldr r2, [pc, #0x24c] */
+/* @0x2a5210 add r3, pc */
+/* @0x2a5212 str.w r9, [sp, #0x18] */
 /* @0x2a5214 movwls r9, #0xa018 */
-/* @0x2a5218 blge 0x5f6408 <g_SWFaavertbuff+0x23340> */
-/* @0x2a521c movwls r9, #0x420b */
-/* @0x2a5220 bls 0x48be40 <prim_v+0x248c> */
-/* @0x2a5224 smlabteq r9, r3, r11, lr */
-/* @0x2a5228 sadd16mi r4, r8, r1 */
-/* @0x2a522c .word 0xf7ff3912 */
+/* @0x2a5216 str r3, [sp, #0x28] */
+/* @0x2a5218 add r2, pc */
+/* @0x2a521a add r3, sp, #0x34 */
+/* @0x2a521c str r2, [sp, #0x2c] */
+/* @0x2a521e str r3, [sp, #0x10] */
+/* @0x2a5220 ldr r3, [sp, #0x18] */
+/* @0x2a5222 ldr r2, [sp, #0x1c] */
+/* @0x2a5224 rsb r1, r3, r9 */
+/* @0x2a5228 add r1, r2 */
+/* @0x2a522a mov r0, r3 */
+/* @0x2a522c subs r1, #0x12 */
+/* @0x2a522e bl 0x2a4b48 <zip_name_locate+0xf0> */
 /* @0x2a5230 strmi pc, [r7], -r11, lsl #25 */
-/* @0x2a5234 .word 0xf0002800 */
+/* @0x2a5232 mov r7, r0 */
+/* @0x2a5234 cmp r0, #0x0 */
+/* @0x2a5236 beq.w 0x2a53e2 <zip_open_buff+0x242> */
 /* @0x2a5238 blls 0x485590 <mstack+0x8a4> */
-/* @0x2a523c andls r1, r6, #31232 */
-/* @0x2a5240 blne 0xff976374 <b2_toiTime+0xffffffffff21ced0> */
-/* @0x2a5244 movwls r3, #0x8b16 */
-/* @0x2a5248 strtmi sp, [r8], -r3, lsl #10 */
-/* @0x2a524c andhs r2, r0, #-1073741820 */
-/* @0x2a5250 stmdbls r10, {r4, sp, lr, pc} */
-/* @0x2a5254 .word 0xf6112204 */
+/* @0x2a523a ldr r3, [sp, #0x1c] */
+/* @0x2a523c adds r2, r7, #0x1 */
+/* @0x2a523e str r2, [sp, #0x18] */
+/* @0x2a5240 add r3, r9 */
+/* @0x2a5242 subs r3, r3, r7 */
+/* @0x2a5244 subs r3, #0x16 */
+/* @0x2a5246 str r3, [sp, #0x20] */
+/* @0x2a5248 bpl 0x2a5252 <zip_open_buff+0xb2> */
+/* @0x2a524a mov r0, r5 */
+/* @0x2a524c movs r1, #0x13 */
+/* @0x2a524e movs r2, #0x0 */
+/* @0x2a5250 b 0x2a5274 <zip_open_buff+0xd4> */
+/* @0x2a5252 ldr r1, [sp, #0x28] */
+/* @0x2a5254 movs r2, #0x4 */
+/* @0x2a5256 blx 0xb6c40 <memcmp@plt> */
 /* @0x2a5258 .word 0x4683ecf4 */
-/* @0x2a525c mvnsle r2, r0, lsl #16 */
-/* @0x2a5260 stmdbls r11, {r3, r4, r5, r8, r10, r11, r12} */
-/* @0x2a5264 .word 0xf6112204 */
+/* @0x2a525a mov r11, r0 */
+/* @0x2a525c cmp r0, #0x0 */
+/* @0x2a525e bne 0x2a524a <zip_open_buff+0xaa> */
+/* @0x2a5260 adds r0, r7, #0x4 */
+/* @0x2a5262 ldr r1, [sp, #0x2c] */
+/* @0x2a5264 movs r2, #0x4 */
+/* @0x2a5266 blx 0xb6c40 <memcmp@plt> */
 /* @0x2a5268 andls lr, r5, r12, ror #25 */
-/* @0x2a526c strtmi r11, [r8], -r8, lsr #2 */
-/* @0x2a5270 ldrbmi r2, [r10], -r1, lsl #2 */
-/* @0x2a5274 .word 0xf870f7ff */
-/* @0x2a5278 stmdage sp, {r1, r2, r3, r5, r7, sp, lr, pc} */
-/* @0x2a527c movweq pc, #0x8107 */
-/* @0x2a5280 .word 0xf7fe930d */
+/* @0x2a526a str r0, [sp, #0x14] */
+/* @0x2a526c cbz r0, 0x2a527a <zip_open_buff+0xda> */
+/* @0x2a526e mov r0, r5 */
+/* @0x2a5270 movs r1, #0x1 */
+/* @0x2a5272 mov r2, r11 */
+/* @0x2a5274 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a5278 b 0x2a53d8 <zip_open_buff+0x238> */
+/* @0x2a527a add r0, sp, #0x34 */
+/* @0x2a527c add.w r3, r7, #0x8 */
+/* @0x2a5280 str r3, [sp, #0x34] */
+/* @0x2a5282 bl 0x2a3ec0 <_Z10_zip_read2PPh> */
 /* @0x2a5284 pkhbtmi pc, r3, sp, lsl #28 */
-/* @0x2a5288 .word 0xf7fea80d */
+/* @0x2a5286 mov r11, r0 */
+/* @0x2a5288 add r0, sp, #0x34 */
+/* @0x2a528a bl 0x2a3ec0 <_Z10_zip_read2PPh> */
 /* @0x2a528c qadd16mi pc, r9, r9 */
-/* @0x2a5290 ldc2l p7, c15, [r10], #-1016 */
-/* @0x2a5294 stmdahs r0, {r1, r7, r9, r10, lr} */
-/* @0x2a5298 addshi pc, lr, r0 */
-/* @0x2a529c .word 0xf7fea80d */
+/* @0x2a528e mov r1, r5 */
+/* @0x2a5290 bl 0x2a3b88 <_Z13_zip_cdir_newiP9zip_error> */
+/* @0x2a5294 mov r10, r0 */
+/* @0x2a5296 cmp r0, #0x0 */
+/* @0x2a5298 beq.w 0x2a53d8 <zip_open_buff+0x238> */
+/* @0x2a529c add r0, sp, #0x34 */
+/* @0x2a529e bl 0x2a3ed2 <_Z10_zip_read4PPh> */
 /* @0x2a52a0 .word 0xf8cafe18 */
+/* @0x2a52a2 str.w r0, [r10, #0x8] */
 /* @0x2a52a4 stmdage sp, {r3} */
-/* @0x2a52a8 mrc2 p7, #0x0, apsr_nzcv, c3, c14, #0x7 */
-/* @0x2a52ac .word 0xf8ca9b05 */
+/* @0x2a52a6 add r0, sp, #0x34 */
+/* @0x2a52a8 bl 0x2a3ed2 <_Z10_zip_read4PPh> */
+/* @0x2a52ac ldr r3, [sp, #0x14] */
+/* @0x2a52ae str.w r3, [r10, #0x10] */
 /* @0x2a52b0 .word 0xf8ca3010 */
+/* @0x2a52b2 str.w r0, [r10, #0xc] */
 /* @0x2a52b4 stmdage sp, {r2, r3} */
-/* @0x2a52b8 mcr2 p7, #0x0, pc, c2, c14, #0x7 */
-/* @0x2a52bc addmi r9, r3, #8, #22 */
-/* @0x2a52c0 .word 0xf8aa4601 */
+/* @0x2a52b6 add r0, sp, #0x34 */
+/* @0x2a52b8 bl 0x2a3ec0 <_Z10_zip_read2PPh> */
+/* @0x2a52bc ldr r3, [sp, #0x20] */
+/* @0x2a52be cmp r3, r0 */
+/* @0x2a52c0 mov r1, r0 */
+/* @0x2a52c2 strh.w r0, [r10, #0x14] */
 /* @0x2a52c4 blle 0x36531c <_ZTS12CDS_Priority+0x7374> */
-/* @0x2a52c8 .word 0x3004f8da */
-/* @0x2a52cc andle r4, r3, r11, asr r5 */
-/* @0x2a52d0 tsths r3, r8, lsr #12 */
-/* @0x2a52d4 and r2, r8, r0, lsl #4 */
-/* @0x2a52d8 ldrbeq r9, [r2, -r9, lsl #20] */
-/* @0x2a52dc blls 0x4da704 <SrcVerts+0x37748> */
-/* @0x2a52e0 andle r4, r5, r3, lsl #5 */
-/* @0x2a52e4 strtmi r9, [r8], -r5, lsl #20 */
-/* @0x2a52e8 .word 0xf7ff2115 */
+/* @0x2a52c6 blt 0x2a52d0 <zip_open_buff+0x130> */
+/* @0x2a52c8 ldr.w r3, [r10, #0x4] */
+/* @0x2a52cc cmp r3, r11 */
+/* @0x2a52ce beq 0x2a52d8 <zip_open_buff+0x138> */
+/* @0x2a52d0 mov r0, r5 */
+/* @0x2a52d2 movs r1, #0x13 */
+/* @0x2a52d4 movs r2, #0x0 */
+/* @0x2a52d6 b 0x2a52ea <zip_open_buff+0x14a> */
+/* @0x2a52d8 ldr r2, [sp, #0x24] */
+/* @0x2a52da lsls r2, r2, #0x1d */
+/* @0x2a52dc bpl 0x2a52f0 <zip_open_buff+0x150> */
+/* @0x2a52de ldr r3, [sp, #0x20] */
+/* @0x2a52e0 cmp r3, r0 */
+/* @0x2a52e2 beq 0x2a52f0 <zip_open_buff+0x150> */
+/* @0x2a52e4 ldr r2, [sp, #0x14] */
+/* @0x2a52e6 mov r0, r5 */
+/* @0x2a52e8 movs r1, #0x15 */
+/* @0x2a52ea bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a52ec and pc, r8, r5, lsr r8 */
-/* @0x2a52f0 .word 0xf107b159 */
+/* @0x2a52ee b 0x2a5302 <zip_open_buff+0x162> */
+/* @0x2a52f0 cbz r1, 0x2a530a <zip_open_buff+0x16a> */
+/* @0x2a52f2 add.w r0, r7, #0x16 */
 /* @0x2a52f4 qadd16mi r0, r10, r6 */
-/* @0x2a52f8 blx 0x12632fe <b2_toiTime+0xb09e5a> */
-/* @0x2a52fc andseq pc, r0, r10, asr #17 */
-/* @0x2a5300 uadd16mi r11, r0, r8 */
-/* @0x2a5304 stmdb r10!, {r0, r4, r9, r10, r12, sp, lr, pc} */
-/* @0x2a5308 .word 0xf8dae066 */
+/* @0x2a52f6 mov r2, r5 */
+/* @0x2a52f8 bl 0x2a4978 <_Z11_zip_memdupPKvjP9zip_error> */
+/* @0x2a52fc str.w r0, [r10, #0x10] */
+/* @0x2a5300 cbnz r0, 0x2a530a <zip_open_buff+0x16a> */
+/* @0x2a5302 mov r0, r10 */
+/* @0x2a5304 blx 0xb655c <free@plt> */
+/* @0x2a5308 b 0x2a53d8 <zip_open_buff+0x238> */
+/* @0x2a530a ldr.w r3, [r10, #0x8] */
 /* @0x2a530c bl 0xff4f1334 <b2_toiTime+0xfffffffffed97e90> */
+/* @0x2a530e rsb r2, r9, r7 */
 /* @0x2a5310 addsmi r0, r3, #1879048192 */
-/* @0x2a5314 bne 0x299b2c <_Z13RelyAddPacketiPKciji+0x30> */
-/* @0x2a5318 strls r10, [sp, -sp, lsl #20] */
-/* @0x2a531c and r9, r8, r5, lsl #4 */
-/* @0x2a5320 shasxmi r6, r0, r3 */
-/* @0x2a5324 .word 0xf8da2100 */
+/* @0x2a5312 cmp r3, r2 */
+/* @0x2a5314 bhs 0x2a5320 <zip_open_buff+0x180> */
+/* @0x2a5316 subs r7, r7, r3 */
+/* @0x2a5318 add r2, sp, #0x34 */
+/* @0x2a531a str r7, [sp, #0x34] */
+/* @0x2a531c str r2, [sp, #0x14] */
+/* @0x2a531e b 0x2a5332 <zip_open_buff+0x192> */
+/* @0x2a5320 ldr r3, [r6] */
+/* @0x2a5322 mov r0, r6 */
+/* @0x2a5324 movs r1, #0x0 */
+/* @0x2a5326 ldr.w r2, [r10, #0xc] */
 /* @0x2a5328 ldmdbvs r11, {r2, r3, sp} */
-/* @0x2a532c movwhs r4, #0x798 */
-/* @0x2a5330 .word 0xf8da9305 */
+/* @0x2a532a ldr r3, [r3, #0x10] */
+/* @0x2a532c blx r3 */
+/* @0x2a532e movs r3, #0x0 */
+/* @0x2a5330 str r3, [sp, #0x14] */
+/* @0x2a5332 ldr.w r3, [r10, #0x8] */
 /* @0x2a5334 svcge #0x123008 */
-/* @0x2a5338 bleq 0x2e147c <_ZN8b2Island8SolveTOIERK10b2TimeStepii+0x1b8> */
-/* @0x2a533c ldclo p8, c15, [r0, #-284] */
-/* @0x2a5340 .word 0x3004f8da */
-/* @0x2a5344 swple r4, r11, [r7] */
-/* @0x2a5348 .word 0xb12b9b0e */
-/* @0x2a534c .word 0xf50b4650 */
+/* @0x2a5336 add r7, sp, #0x48 */
+/* @0x2a5338 mov.w r11, #0x0 */
+/* @0x2a533c str r3, [r7, #-16]! */
+/* @0x2a5340 ldr.w r3, [r10, #0x4] */
+/* @0x2a5344 cmp r11, r3 */
+/* @0x2a5346 bne 0x2a5358 <zip_open_buff+0x1b8> */
+/* @0x2a5348 ldr r3, [sp, #0x38] */
+/* @0x2a534a cbz r3, 0x2a5358 <zip_open_buff+0x1b8> */
+/* @0x2a534c mov r0, r10 */
+/* @0x2a534e add.w r1, r11, #0x10000 */
 /* @0x2a5350 strtmi r3, [r10], -r0, lsl #3 */
-/* @0x2a5354 blx 0x1a3356 <_Z18ParticleType_Deathiii+0x2a> */
-/* @0x2a5358 .word 0x0000f8da */
-/* @0x2a535c andhs r2, r0, #60, #6 */
-/* @0x2a5360 stm sp, {r0, r4, r5, r9, r10, lr} */
+/* @0x2a5352 mov r2, r5 */
+/* @0x2a5354 bl 0x2a3b4e <_Z14_zip_cdir_growP8zip_cdiriP9zip_error> */
+/* @0x2a5358 ldr.w r0, [r10] */
+/* @0x2a535c movs r3, #0x3c */
+/* @0x2a535e movs r2, #0x0 */
+/* @0x2a5360 mov r1, r6 */
+/* @0x2a5362 stm.w sp, {r2, r5} */
 /* @0x2a5364 blx 0x3653fe <_ZTS12CDS_Priority+0x7456> */
+/* @0x2a5366 mla r0, r3, r11, r0 */
 /* @0x2a5368 bls 0x3e539c <error_g0017+0x3e040> */
-/* @0x2a536c .word 0xf7fe463b */
+/* @0x2a536a ldr r2, [sp, #0x14] */
+/* @0x2a536c mov r3, r7 */
+/* @0x2a536e bl 0x2a4108 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error> */
 /* @0x2a5370 stmdahs r0, {r0, r1, r3, r6, r7, r9, r10, r11, r12, sp, lr, pc} */
-/* @0x2a5374 .word 0xf8cada02 */
+/* @0x2a5372 cmp r0, #0x0 */
+/* @0x2a5374 bge 0x2a537c <zip_open_buff+0x1dc> */
+/* @0x2a5376 str.w r11, [r10, #0x4] */
 /* @0x2a5378 ands r11, pc, r4 */
-/* @0x2a537c .word 0x3004f8da */
-/* @0x2a5380 bleq 0x3217b4 */
-/* @0x2a5384 blle 0xff9769f8 <b2_toiTime+0xffffffffff21d554> */
-/* @0x2a5388 svceq #0xf1ba */
-/* @0x2a538c biclt sp, r12, r4, lsr #32 */
-/* @0x2a5390 svceq #0xf1b8 */
-/* @0x2a5394 ldrtmi sp, [r0], -r5, lsl #24 */
-/* @0x2a5398 strtmi r4, [r10], -r1, lsr #12 */
-/* @0x2a539c .word 0xfc1df7ff */
-/* @0x2a53a0 ldrtmi r4, [r0], -r0, lsl #13 */
-/* @0x2a53a4 qsaxmi r4, r10, r1 */
-/* @0x2a53a8 .word 0xfc17f7ff */
-/* @0x2a53ac strmi r4, [r7], -r0, lsl #11 */
-/* @0x2a53b0 strtmi sp, [r0], -r4, lsl #20 */
-/* @0x2a53b4 .word 0xf7fe46b8 */
+/* @0x2a537a b 0x2a53bc <zip_open_buff+0x21c> */
+/* @0x2a537c ldr.w r3, [r10, #0x4] */
+/* @0x2a5380 add.w r11, r11, #0x1 */
+/* @0x2a5384 cmp r11, r3 */
+/* @0x2a5386 blt 0x2a5340 <zip_open_buff+0x1a0> */
+/* @0x2a5388 cmp.w r10, #0x0 */
+/* @0x2a538c beq 0x2a53d8 <zip_open_buff+0x238> */
+/* @0x2a538e cbz r4, 0x2a53c4 <zip_open_buff+0x224> */
+/* @0x2a5390 cmp.w r8, #0x0 */
+/* @0x2a5394 bgt 0x2a53a2 <zip_open_buff+0x202> */
+/* @0x2a5396 mov r0, r6 */
+/* @0x2a5398 mov r1, r4 */
+/* @0x2a539a mov r2, r5 */
+/* @0x2a539c bl 0x2a4bda <zip_name_locate+0x182> */
+/* @0x2a53a0 mov r8, r0 */
+/* @0x2a53a2 mov r0, r6 */
+/* @0x2a53a4 mov r1, r10 */
+/* @0x2a53a6 mov r2, r5 */
+/* @0x2a53a8 bl 0x2a4bda <zip_name_locate+0x182> */
+/* @0x2a53ac cmp r8, r0 */
+/* @0x2a53ae mov r7, r0 */
+/* @0x2a53b0 bge 0x2a53bc <zip_open_buff+0x21c> */
+/* @0x2a53b2 mov r0, r4 */
+/* @0x2a53b4 mov r8, r7 */
+/* @0x2a53b6 bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
 /* @0x2a53b8 ands pc, r0, lr, lsl r12 */
-/* @0x2a53bc .word 0xf7fe4650 */
+/* @0x2a53ba b 0x2a53de <zip_open_buff+0x23e> */
+/* @0x2a53bc mov r0, r10 */
+/* @0x2a53be bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
 /* @0x2a53c0 and pc, r9, r10, lsl r12 */
-/* @0x2a53c4 ldrbeq r9, [r3, -r9, lsl #20] */
-/* @0x2a53c8 ldrtmi sp, [r0], -r8, lsl #10 */
-/* @0x2a53cc qsaxmi r4, r10, r1 */
-/* @0x2a53d0 .word 0xfc03f7ff */
-/* @0x2a53d4 and r4, r2, r0, lsl #13 */
-/* @0x2a53d8 and r4, r0, r2, lsr #13 */
-/* @0x2a53dc ldrbmi r4, [r4], -r0, lsr #13 */
-/* @0x2a53e0 .word 0x4648e71e */
-/* @0x2a53e4 ldm r10!, {r0, r4, r9, r10, r12, sp, lr, pc} */
-/* @0x2a53e8 svceq #0xf1b8 */
-/* @0x2a53ec stmdals r3, {r3, r9, r11, r12, lr, pc} */
-/* @0x2a53f0 ldrtmi r4, [r10], -r9, lsr #12 */
-/* @0x2a53f4 blx 0xfe33fa <b2_toiTime+0x889f56> */
-/* @0x2a53f8 .word 0xf7fe4620 */
+/* @0x2a53c2 b 0x2a53d8 <zip_open_buff+0x238> */
+/* @0x2a53c4 ldr r2, [sp, #0x24] */
+/* @0x2a53c6 lsls r3, r2, #0x1d */
+/* @0x2a53c8 bpl 0x2a53dc <zip_open_buff+0x23c> */
+/* @0x2a53ca mov r0, r6 */
+/* @0x2a53cc mov r1, r10 */
+/* @0x2a53ce mov r2, r5 */
+/* @0x2a53d0 bl 0x2a4bda <zip_name_locate+0x182> */
+/* @0x2a53d4 mov r8, r0 */
+/* @0x2a53d6 b 0x2a53de <zip_open_buff+0x23e> */
+/* @0x2a53d8 mov r10, r4 */
+/* @0x2a53da b 0x2a53de <zip_open_buff+0x23e> */
+/* @0x2a53dc mov r8, r4 */
+/* @0x2a53de mov r4, r10 */
+/* @0x2a53e0 b 0x2a5220 <zip_open_buff+0x80> */
+/* @0x2a53e2 mov r0, r9 */
+/* @0x2a53e4 blx 0xb655c <free@plt> */
+/* @0x2a53e8 cmp.w r8, #0x0 */
+/* @0x2a53ec bge 0x2a5400 <zip_open_buff+0x260> */
+/* @0x2a53ee ldr r0, [sp, #0xc] */
+/* @0x2a53f0 mov r1, r5 */
+/* @0x2a53f2 mov r2, r7 */
+/* @0x2a53f4 bl 0x2a4a60 <zip_name_locate+0x8> */
+/* @0x2a53f8 mov r0, r4 */
+/* @0x2a53fa bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
 /* @0x2a53fc ldrsht pc, [r7], -r12 */
-/* @0x2a5400 eorsle r2, r5, r0, lsl #24 */
-/* @0x2a5404 stmdbls r3, {r1, r2, r4, r11, lr} */
-/* @0x2a5408 .word 0xf7ff4478 */
+/* @0x2a53fe b 0x2a5470 <zip_open_buff+0x2d0> */
+/* @0x2a5400 cmp r4, #0x0 */
+/* @0x2a5402 beq 0x2a5470 <zip_open_buff+0x2d0> */
+/* @0x2a5404 ldr r0, [pc, #0x58] */
+/* @0x2a5406 ldr r1, [sp, #0xc] */
+/* @0x2a5408 add r0, pc */
+/* @0x2a540a bl 0x2a4cba <zip_name_locate+0x262> */
 /* @0x2a540c .word 0x4605fc56 */
-/* @0x2a5410 qadd16mi r11, r0, r8 */
-/* @0x2a5414 blx 0xffea3416 <b2_toiTime+0xffffffffff749f72> */
-/* @0x2a5418 andvs lr, r4, #40 */
-/* @0x2a541c addvs r6, r6, r7, asr #32 */
-/* @0x2a5420 stmdavs r3!, {r2, r4, sp} ^ */
-/* @0x2a5424 .word 0xf6114358 */
+/* @0x2a540e mov r5, r0 */
+/* @0x2a5410 cbnz r0, 0x2a541a <zip_open_buff+0x27a> */
+/* @0x2a5412 mov r0, r4 */
+/* @0x2a5414 bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir> */
+/* @0x2a5418 b 0x2a546c <zip_open_buff+0x2cc> */
+/* @0x2a541a str r4, [r0, #0x20] */
+/* @0x2a541c str r7, [r0, #0x4] */
+/* @0x2a541e str r6, [r0, #0x8] */
+/* @0x2a5420 movs r0, #0x14 */
+/* @0x2a5422 ldr r3, [r4, #0x4] */
+/* @0x2a5424 muls r0, r3, r0 */
+/* @0x2a5426 blx 0xb6544 <malloc@plt> */
 /* @0x2a5428 .word 0x6368e88e */
-/* @0x2a542c blls 0x393934 <ft_adobe_glyph_list+0x3010> */
-/* @0x2a5430 bls 0x391884 <ft_adobe_glyph_list+0xf60> */
-/* @0x2a5434 andsvs r2, r3, lr, lsl #6 */
-/* @0x2a5438 .word 0xf7ff4628 */
+/* @0x2a542a str r0, [r5, #0x34] */
+/* @0x2a542c cbnz r0, 0x2a5440 <zip_open_buff+0x2a0> */
+/* @0x2a542e ldr r3, [sp, #0xc] */
+/* @0x2a5430 cbz r3, 0x2a5438 <zip_open_buff+0x298> */
+/* @0x2a5432 ldr r2, [sp, #0xc] */
+/* @0x2a5434 movs r3, #0xe */
+/* @0x2a5436 str r3, [r2] */
+/* @0x2a5438 mov r0, r5 */
+/* @0x2a543a bl 0x2a4884 <_Z9_zip_freeP3zip> */
 /* @0x2a543c ands pc, r7, r3, lsr #20 */
-/* @0x2a5440 strtmi r6, [r8], -r3, ror #16 */
-/* @0x2a5444 ble 0x5f5ec8 <g_SWFaavertbuff+0x22e00> */
-/* @0x2a5448 .word 0xf9a2f000 */
-/* @0x2a544c ldrb r3, [r7, r1, lsl #14]! */
-/* @0x2a5450 andeq r0, r1, r6, lsl r0 */
-/* @0x2a5454 andeq r6, lr, r8, ror #28 */
-/* @0x2a5458 strdeq r6, r7, [lr], -r8 */
-/* @0x2a545c andeq r10, lr, lr, lsr r6 */
-/* @0x2a5460 andeq r6, lr, r4, lsl r12 */
-/* @0x2a5464 blx 0x7e346a <b2_toiTime+0x89fc6> */
-/* @0x2a5468 mvnvs r6, r11, lsr #19 */
-/* @0x2a546c and r4, r0, r8, lsr #12 */
-/* @0x2a5470 andslt r2, r3, r0 */
-/* @0x2a5474 svchi #0xf0e8bd */
+/* @0x2a543e b 0x2a5470 <zip_open_buff+0x2d0> */
+/* @0x2a5440 ldr r3, [r4, #0x4] */
+/* @0x2a5442 mov r0, r5 */
+/* @0x2a5444 cmp r7, r3 */
+/* @0x2a5446 bge 0x2a5464 <zip_open_buff+0x2c4> */
+/* @0x2a5448 bl 0x2a5790 <_Z14_zip_entry_newP3zip> */
+/* @0x2a544c adds r7, #0x1 */
+/* @0x2a544e b 0x2a5440 <zip_open_buff+0x2a0> */
+/* @0x2a5450 movs r6, r2 */
+/* @0x2a5452 movs r1, r0 */
+/* @0x2a5454 ldr r0, [r5, #0x64] */
+/* @0x2a5456 movs r6, r1 */
+/* @0x2a5458 ldr r0, [r7, #0x5c] */
+/* @0x2a545a movs r6, r1 */
+/* @0x2a545c adr r6, #248 <zip_open_buff+0x2fe> */
+/* @0x2a545e movs r6, r1 */
+/* @0x2a5460 ldr r4, [r2, #0x40] */
+/* @0x2a5462 movs r6, r1 */
+/* @0x2a5464 bl 0x2a4a90 <zip_name_locate+0x38> */
+/* @0x2a5468 ldr r3, [r5, #0x18] */
+/* @0x2a546a str r3, [r5, #0x1c] */
+/* @0x2a546c mov r0, r5 */
+/* @0x2a546e b 0x2a5472 <zip_open_buff+0x2d2> */
+/* @0x2a5470 movs r0, #0x0 */
+/* @0x2a5472 add sp, #0x4c */
+/* @0x2a5474 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+
+/* ── FUNC 0x2a5478 · anon_2a5478 · size=224 · insn=57 */
 /* @0x2a5478 mvnsmi lr, sp, lsr #18 */
 /* @0x2a547c ldmdami r6!, {r2, r9, r10, lr} */
 /* @0x2a5480 stcpl p5, c15, [r0, #-692] */
@@ -1192,263 +1639,699 @@
 /* @0x2a5550 pop {r1, r12, sp, pc} */
 /* @0x2a5554 svclt #0x81f0 */
 /* @0x2a5558 andseq r8, r4, lr, asr #9 */
-/* @0x2a555c svcmi #0xf0e92d */
-/* @0x2a5560 strmi r11, [pc], -r5, lsl #1 */
-/* @0x2a5564 stcls p6, c4, [pc, #-580] */
-/* @0x2a5568 stmdahs r0, {r1, r2, r9, r10, lr} */
-/* @0x2a556c cmplt r1, r12, rrx */
-/* @0x2a5570 bhs 0x2cbdb0 <_ZNK7b2World7RayCastEP17b2RayCastCallbackRK6b2Vec2S4_+0x68> */
-/* @0x2a5574 .word 0x1c68db07 */
-/* @0x2a5578 .word 0xf1b9db05 */
+
+/* ── FUNC 0x2a555c · zip_source_zip · size=276 · insn=121 */
+/* @0x2a555c push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x2a5560 sub sp, #0x14 */
+/* @0x2a5562 mov r7, r1 */
+/* @0x2a5564 mov r9, r2 */
+/* @0x2a5566 ldr r5, [sp, #0x3c] */
+/* @0x2a5568 mov r6, r0 */
+/* @0x2a556a cmp r0, #0x0 */
+/* @0x2a556c beq 0x2a5648 <zip_source_zip+0xec> */
+/* @0x2a556e cbz r1, 0x2a5586 <zip_source_zip+0x2a> */
+/* @0x2a5570 ldr r2, [sp, #0x38] */
+/* @0x2a5572 cmp r2, #0x0 */
+/* @0x2a5574 blt 0x2a5586 <zip_source_zip+0x2a> */
+/* @0x2a5576 adds r0, r5, #0x1 */
+/* @0x2a5578 blt 0x2a5586 <zip_source_zip+0x2a> */
+/* @0x2a557a cmp.w r9, #0x0 */
 /* @0x2a557c blle 0x329184 */
-/* @0x2a5580 ldrmi r6, [r1, #0xaca] */
-/* @0x2a5584 .word 0xf106db06 */
+/* @0x2a557e blt 0x2a5586 <zip_source_zip+0x2a> */
+/* @0x2a5580 ldr r2, [r1, #0x2c] */
+/* @0x2a5582 cmp r9, r2 */
+/* @0x2a5584 blt 0x2a5594 <zip_source_zip+0x38> */
+/* @0x2a5586 add.w r0, r6, #0xc */
 /* @0x2a5588 tsths r2, r12 */
-/* @0x2a558c .word 0xf7fe2200 */
+/* @0x2a558a movs r1, #0x12 */
+/* @0x2a558c movs r2, #0x0 */
+/* @0x2a558e bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a5590 rsb pc, r7, r3, ror #29 */
-/* @0x2a5594 streq pc, [r8], #-19 */
-/* @0x2a5598 blvs 0x15599cc <b2_toiTime+0xe00528> */
-/* @0x2a559c blx 0x2ed9f6 <FT_Done_Memory+0x3d82> */
+/* @0x2a5592 b 0x2a5664 <zip_source_zip+0x108> */
+/* @0x2a5594 ands r4, r3, #0x8 */
+/* @0x2a5598 bne 0x2a55b2 <zip_source_zip+0x56> */
+/* @0x2a559a ldr r2, [r1, #0x34] */
+/* @0x2a559c movs r1, #0x14 */
+/* @0x2a559e mul r1, r1, r9 */
 /* @0x2a55a0 ldmdapl r2, {r0, r3, r8, r12, sp, lr, pc} ^ */
-/* @0x2a55a4 bhs 0x2f3db4 <ps_hints_apply+0x29b4> */
-/* @0x2a55a8 .word 0xf106d803 */
+/* @0x2a55a2 ldr r2, [r2, r1] */
+/* @0x2a55a4 subs r2, #0x2 */
+/* @0x2a55a6 cmp r2, #0x1 */
+/* @0x2a55a8 bhi 0x2a55b2 <zip_source_zip+0x56> */
+/* @0x2a55aa add.w r0, r6, #0xc */
 /* @0x2a55ac mrshs r0, apsr */
-/* @0x2a55b0 bls 0x65d61c <g_SWFlinevertbuff+0xa554> */
-/* @0x2a55b4 stmdblt r2!, {r0, r2, r3, r6, r8, r12, sp, pc} ^ */
-/* @0x2a55b8 .word 0xd10a1c69 */
-/* @0x2a55bc strle r0, [r6], #-1754 */
-/* @0x2a55c0 stmdaeq r4, {r0, r1, r6, r12, sp, lr, pc} */
-/* @0x2a55c4 ldrblo pc, [pc, #0x4f]! */
-/* @0x2a55c8 bhs 0x2dd5e4 <_ZN12b2EPCollider7CollideEP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS7_+0x284> */
-/* @0x2a55cc .word 0xf04fd0f6 */
+/* @0x2a55ae movs r1, #0xf */
+/* @0x2a55b0 b 0x2a55e6 <zip_source_zip+0x8a> */
+/* @0x2a55b2 ldr r2, [sp, #0x38] */
+/* @0x2a55b4 cbz r5, 0x2a55ca <zip_source_zip+0x6e> */
+/* @0x2a55b6 cbnz r2, 0x2a55d2 <zip_source_zip+0x76> */
+/* @0x2a55b8 adds r1, r5, #0x1 */
+/* @0x2a55ba bne 0x2a55d2 <zip_source_zip+0x76> */
+/* @0x2a55bc lsls r2, r3, #0x1b */
+/* @0x2a55be bmi 0x2a55ce <zip_source_zip+0x72> */
+/* @0x2a55c0 orr r8, r3, #0x4 */
+/* @0x2a55c4 mov.w r5, #0xffffffff */
+/* @0x2a55c8 b 0x2a55d6 <zip_source_zip+0x7a> */
+/* @0x2a55ca cmp r2, #0x0 */
+/* @0x2a55cc beq 0x2a55bc <zip_source_zip+0x60> */
+/* @0x2a55ce mov.w r5, #0xffffffff */
 /* @0x2a55d0 .word 0xf02335ff */
+/* @0x2a55d2 bic r8, r3, #0x4 */
 /* @0x2a55d4 eorhs r0, r8, r4, lsl #16 */
-/* @0x2a55d8 svc #0xb4f610 */
-/* @0x2a55dc ldmdblt r8!, {r2, r9, r10, lr} */
-/* @0x2a55e0 andeq pc, r12, r6, lsl #2 */
-/* @0x2a55e4 strtmi r2, [r2], -lr, lsl #2 */
-/* @0x2a55e8 mrc2 p7, #0x5, apsr_nzcv, c6, c14, #0x7 */
-/* @0x2a55ec eors r4, r10, r0, lsr #12 */
-/* @0x2a55f0 beq 0x5e1a14 <g_SWFaavertbuff+0xe94c> */
-/* @0x2a55f4 bleq 0x3e1a30 <error_g0017+0x3a6d4> */
-/* @0x2a55f8 usaxmi r4, r8, r1 */
-/* @0x2a55fc mcr2 p7, #0x4, pc, c10, c14, #0x7 */
-/* @0x2a5600 .word 0x46494638 */
-/* @0x2a5604 stcne p6, c4, [r3, #-264]! */
-/* @0x2a5608 .word 0xf844f000 */
-/* @0x2a560c blle 0x9ef614 <b2_toiTime+0x296170> */
-/* @0x2a5610 .word 0x46494638 */
-/* @0x2a5614 .word 0xf7fe4642 */
+/* @0x2a55d6 movs r0, #0x28 */
+/* @0x2a55d8 blx 0xb6544 <malloc@plt> */
+/* @0x2a55dc mov r4, r0 */
+/* @0x2a55de cbnz r0, 0x2a55f0 <zip_source_zip+0x94> */
+/* @0x2a55e0 add.w r0, r6, #0xc */
+/* @0x2a55e4 movs r1, #0xe */
+/* @0x2a55e6 mov r2, r4 */
+/* @0x2a55e8 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a55ec mov r0, r4 */
+/* @0x2a55ee b 0x2a5666 <zip_source_zip+0x10a> */
+/* @0x2a55f0 add.w r10, r7, #0xc */
+/* @0x2a55f4 add.w r11, sp, #0x4 */
+/* @0x2a55f8 mov r1, r10 */
+/* @0x2a55fa mov r0, r11 */
+/* @0x2a55fc bl 0x2a4314 <_Z15_zip_error_copyP9zip_errorS0_> */
+/* @0x2a5600 mov r0, r7 */
+/* @0x2a5602 mov r1, r9 */
+/* @0x2a5604 mov r2, r8 */
+/* @0x2a5606 adds r3, r4, #0x4 */
+/* @0x2a5608 bl 0x2a5694 <zip_stat_index> */
+/* @0x2a560c cmp r0, #0x0 */
+/* @0x2a560e blt 0x2a564c <zip_source_zip+0xf0> */
+/* @0x2a5610 mov r0, r7 */
+/* @0x2a5612 mov r1, r9 */
+/* @0x2a5614 mov r2, r8 */
+/* @0x2a5616 bl 0x2a4584 <zip_fopen_index> */
 /* @0x2a5618 .word 0x6020ffb5 */
-/* @0x2a561c blls 0x651ce4 <g_SWFaavertbuff+0x7ec1c> */
-/* @0x2a5620 eorvs r6, r3, #1342177286 */
-/* @0x2a5624 movweq pc, #0x4018 */
-/* @0x2a5628 .word 0x61a5d103 */
-/* @0x2a562c .word 0x83a36165 */
-/* @0x2a5630 stmdbmi lr, {r0, r1, r5, r6, r7, sp, lr} */
-/* @0x2a5634 qasxmi r4, r2, r0 */
-/* @0x2a5638 .word 0xf0004479 */
+/* @0x2a561a str r0, [r4] */
+/* @0x2a561c cbz r0, 0x2a564c <zip_source_zip+0xf0> */
+/* @0x2a561e ldr r3, [sp, #0x38] */
+/* @0x2a5620 str r5, [r4, #0x24] */
+/* @0x2a5622 str r3, [r4, #0x20] */
+/* @0x2a5624 ands r3, r8, #0x4 */
+/* @0x2a5628 bne 0x2a5632 <zip_source_zip+0xd6> */
+/* @0x2a562a str r5, [r4, #0x18] */
+/* @0x2a562c str r5, [r4, #0x14] */
+/* @0x2a562e strh r3, [r4, #0x1c] */
+/* @0x2a5630 str r3, [r4, #0xc] */
+/* @0x2a5632 ldr r1, [pc, #0x38] */
+/* @0x2a5634 mov r0, r6 */
+/* @0x2a5636 mov r2, r4 */
+/* @0x2a5638 add r1, pc */
+/* @0x2a563a bl 0x2a59ca <zip_source_function> */
 /* @0x2a563c strmi pc, [r6], -r6, asr #19 */
-/* @0x2a5640 qadd16mi r11, r0, r0 */
-/* @0x2a5644 svc #0x8af610 */
-/* @0x2a5648 and r4, r12, r0, lsr r6 */
-/* @0x2a564c .word 0xf6104620 */
+/* @0x2a563e mov r6, r0 */
+/* @0x2a5640 cbnz r0, 0x2a5648 <zip_source_zip+0xec> */
+/* @0x2a5642 mov r0, r4 */
+/* @0x2a5644 blx 0xb655c <free@plt> */
+/* @0x2a5648 mov r0, r6 */
+/* @0x2a564a b 0x2a5666 <zip_source_zip+0x10a> */
+/* @0x2a564c mov r0, r4 */
+/* @0x2a564e blx 0xb655c <free@plt> */
 /* @0x2a5650 .word 0xf106ef86 */
+/* @0x2a5652 add.w r0, r6, #0xc */
 /* @0x2a5654 ldrbmi r0, [r1], -r12 */
-/* @0x2a5658 mrc2 p7, #0x2, apsr_nzcv, c12, c14, #0x7 */
-/* @0x2a565c usaxmi r4, r9, r0 */
-/* @0x2a5660 mrc2 p7, #0x2, apsr_nzcv, c8, c14, #0x7 */
-/* @0x2a5664 andlt r2, r5, r0 */
-/* @0x2a5668 svchi #0xf0e8bd */
-/* @0x2a566c .word 0xfffffe3d */
-/* @0x2a5670 .word 0x4605b570 */
-/* @0x2a5674 sadd16mi r4, lr, r4 */
-/* @0x2a5678 .word 0xf9eef7ff */
-/* @0x2a567c blle 0x42ce88 <g_RomDisk+0x35668> */
-/* @0x2a5680 strtmi r4, [r2], -r8, lsr #12 */
-/* @0x2a5684 pop {r0, r1, r4, r5, r9, r10, lr} */
+/* @0x2a5656 mov r1, r10 */
+/* @0x2a5658 bl 0x2a4314 <_Z15_zip_error_copyP9zip_errorS0_> */
+/* @0x2a565c mov r0, r10 */
+/* @0x2a565e mov r1, r11 */
+/* @0x2a5660 bl 0x2a4314 <_Z15_zip_error_copyP9zip_errorS0_> */
+/* @0x2a5664 movs r0, #0x0 */
+/* @0x2a5666 add sp, #0x14 */
+/* @0x2a5668 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x2a566c mrc2 p15, #0x1, apsr_nzcv, c13, c15, #0x7 */
+
+/* ── FUNC 0x2a5670 · zip_stat · size=36 · insn=17 */
+/* @0x2a5670 push {r4, r5, r6, lr} */
+/* @0x2a5672 mov r5, r0 */
+/* @0x2a5674 mov r4, r2 */
+/* @0x2a5676 mov r6, r3 */
+/* @0x2a5678 bl 0x2a4a58 <zip_name_locate> */
+/* @0x2a567c subs r1, r0, #0x0 */
+/* @0x2a567e blt 0x2a568e <zip_stat+0x1e> */
+/* @0x2a5680 mov r0, r5 */
+/* @0x2a5682 mov r2, r4 */
+/* @0x2a5684 mov r3, r6 */
+/* @0x2a5686 pop.w {r4, r5, r6, lr} */
 /* @0x2a5688 .word 0xf0004070 */
+/* @0x2a568a b.w 0x2a5694 <zip_stat_index> */
 /* @0x2a568c .word 0xf04fb803 */
+/* @0x2a568e mov.w r0, #0xffffffff */
 /* @0x2a5690 ldcllt p0, c3, [r0, #-1020]! */
-/* @0x2a5694 mvnsmi lr, sp, lsr #18 */
-/* @0x2a5698 strmi r1, [r5], -lr, lsl #28 */
-/* @0x2a569c sadd8mi r4, r12, r0 */
-/* @0x2a56a0 .word 0xf105da04 */
+/* @0x2a5692 pop {r4, r5, r6, pc} */
+
+/* ── FUNC 0x2a5694 · zip_stat_index · size=208 · insn=97 */
+/* @0x2a5694 push.w {r4, r5, r6, r7, r8, lr} */
+/* @0x2a5698 subs r6, r1, #0x0 */
+/* @0x2a569a mov r5, r0 */
+/* @0x2a569c mov r8, r2 */
+/* @0x2a569e mov r4, r3 */
+/* @0x2a56a0 bge 0x2a56ac <zip_stat_index+0x18> */
+/* @0x2a56a2 add.w r0, r5, #0xc */
 /* @0x2a56a4 tsths r2, r12 */
-/* @0x2a56a8 eor r2, r0, r0, lsl #4 */
-/* @0x2a56ac addsmi r6, lr, #798720 */
-/* @0x2a56b0 .word 0xf7ffdaf7 */
+/* @0x2a56a6 movs r1, #0x12 */
+/* @0x2a56a8 movs r2, #0x0 */
+/* @0x2a56aa b 0x2a56ee <zip_stat_index+0x5a> */
+/* @0x2a56ac ldr r3, [r0, #0x2c] */
+/* @0x2a56ae cmp r6, r3 */
+/* @0x2a56b0 bge 0x2a56a2 <zip_stat_index+0xe> */
+/* @0x2a56b2 bl 0x2a4970 <zip_get_name> */
 /* @0x2a56b4 .word 0x4607f95d */
-/* @0x2a56b8 suble r2, pc, r0, lsl #16 */
-/* @0x2a56bc stmdaeq r8, {r3, r4, r12, sp, lr, pc} */
-/* @0x2a56c0 tsths r4, #24, #2 */
-/* @0x2a56c4 cmnmi r3, #107520 */
-/* @0x2a56c8 stmpl r11, {r1, r3, r6, r7, r11, r12} ^ */
-/* @0x2a56cc blhs 0x2f42dc <ps_hints_apply+0x2edc> */
-/* @0x2a56d0 ldmdavs r3, {r4, r11, r12, lr, pc} ^ */
-/* @0x2a56d4 andshs r4, r12, #34603008 */
-/* @0x2a56d8 .word 0xc000f8d3 */
-/* @0x2a56dc movwhs r6, #0x3858 */
-/* @0x2a56e0 stmdahs r0, {r5, r6, r7, r8, r9, r10, lr} */
-/* @0x2a56e4 .word 0xf105da35 */
+/* @0x2a56b6 mov r7, r0 */
+/* @0x2a56b8 cmp r0, #0x0 */
+/* @0x2a56ba beq 0x2a575c <zip_stat_index+0xc8> */
+/* @0x2a56bc ands r8, r8, #0x8 */
+/* @0x2a56c0 bne 0x2a56f4 <zip_stat_index+0x60> */
+/* @0x2a56c2 movs r3, #0x14 */
+/* @0x2a56c4 ldr r1, [r5, #0x34] */
+/* @0x2a56c6 muls r3, r6, r3 */
+/* @0x2a56c8 adds r2, r1, r3 */
+/* @0x2a56ca ldr r3, [r1, r3] */
+/* @0x2a56cc subs r3, #0x2 */
+/* @0x2a56ce cmp r3, #0x1 */
+/* @0x2a56d0 bhi 0x2a56f4 <zip_stat_index+0x60> */
+/* @0x2a56d2 ldr r3, [r2, #0x4] */
+/* @0x2a56d4 mov r1, r4 */
+/* @0x2a56d6 movs r2, #0x1c */
+/* @0x2a56d8 ldr.w r12, [r3] */
+/* @0x2a56dc ldr r0, [r3, #0x4] */
+/* @0x2a56de movs r3, #0x3 */
+/* @0x2a56e0 blx r12 */
+/* @0x2a56e2 cmp r0, #0x0 */
+/* @0x2a56e4 bge 0x2a5752 <zip_stat_index+0xbe> */
+/* @0x2a56e6 add.w r0, r5, #0xc */
 /* @0x2a56e8 mrshs r0, apsr */
-/* @0x2a56ec .word 0xf7fe4642 */
+/* @0x2a56ea movs r1, #0xf */
+/* @0x2a56ec mov r2, r8 */
+/* @0x2a56ee bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a56f0 eors pc, r3, r3, lsr lr */
-/* @0x2a56f4 bhs 0x2bffa4 <jpeg_idct_ifast+0x150> */
-/* @0x2a56f8 ldmdavs r3, {r0, r1, r4, r6, r7, r12, lr, pc} ^ */
-/* @0x2a56fc ble 0xff6b617c <b2_toiTime+0xfffffffffef5ccd8> */
-/* @0x2a5700 ldmdavs r2, {r2, r3, r4, r5, r8, r9, sp} */
-/* @0x2a5704 ldrmi r4, [r10], #-883 */
-/* @0x2a5708 .word 0x60a268d2 */
-/* @0x2a570c ldmdavs r2, {r1, r3, r5, r9, r11, sp, lr} */
-/* @0x2a5710 ldmdbvs r2, {r1, r3, r4, r10, lr} ^ */
-/* @0x2a5714 bvs 0xd3dba4 <b2_toiTime+0x5e4700> */
-/* @0x2a5718 ldrmi r6, [r10], #-2066 */
-/* @0x2a571c smlalvs r6, r2, r2, r8 */
-/* @0x2a5720 ldmdavs r2, {r1, r3, r5, r9, r11, sp, lr} */
-/* @0x2a5724 ldmdbvs r2, {r1, r3, r4, r10, lr} */
-/* @0x2a5728 bvs 0xd3dcb8 <b2_toiTime+0x5e4814> */
-/* @0x2a572c ldrmi r6, [r10], #-2066 */
-/* @0x2a5730 .word 0x832288d2 */
-/* @0x2a5734 ldmdavs r2, {r1, r3, r5, r9, r11, sp, lr} */
-/* @0x2a5738 ldmhi r11, {r0, r1, r4, r10, lr} */
-/* @0x2a573c andeq pc, r1, #19 */
-/* @0x2a5740 ldrbeq sp, [r11], -r6 */
-/* @0x2a5744 .word 0xf64fbf4c */
+/* @0x2a56f2 b 0x2a575c <zip_stat_index+0xc8> */
+/* @0x2a56f4 ldr r2, [r5, #0x20] */
+/* @0x2a56f6 cmp r2, #0x0 */
+/* @0x2a56f8 beq 0x2a56a2 <zip_stat_index+0xe> */
+/* @0x2a56fa ldr r3, [r2, #0x4] */
+/* @0x2a56fc cmp r6, r3 */
+/* @0x2a56fe bge 0x2a56a2 <zip_stat_index+0xe> */
+/* @0x2a5700 movs r3, #0x3c */
+/* @0x2a5702 ldr r2, [r2] */
+/* @0x2a5704 muls r3, r6, r3 */
+/* @0x2a5706 add r2, r3 */
+/* @0x2a5708 ldr r2, [r2, #0xc] */
+/* @0x2a570a str r2, [r4, #0x8] */
+/* @0x2a570c ldr r2, [r5, #0x20] */
+/* @0x2a570e ldr r2, [r2] */
+/* @0x2a5710 add r2, r3 */
+/* @0x2a5712 ldr r2, [r2, #0x14] */
+/* @0x2a5714 str r2, [r4, #0x10] */
+/* @0x2a5716 ldr r2, [r5, #0x20] */
+/* @0x2a5718 ldr r2, [r2] */
+/* @0x2a571a add r2, r3 */
+/* @0x2a571c ldr r2, [r2, #0x8] */
+/* @0x2a571e str r2, [r4, #0xc] */
+/* @0x2a5720 ldr r2, [r5, #0x20] */
+/* @0x2a5722 ldr r2, [r2] */
+/* @0x2a5724 add r2, r3 */
+/* @0x2a5726 ldr r2, [r2, #0x10] */
+/* @0x2a5728 str r2, [r4, #0x14] */
+/* @0x2a572a ldr r2, [r5, #0x20] */
+/* @0x2a572c ldr r2, [r2] */
+/* @0x2a572e add r2, r3 */
+/* @0x2a5730 ldrh r2, [r2, #0x6] */
+/* @0x2a5732 strh r2, [r4, #0x18] */
+/* @0x2a5734 ldr r2, [r5, #0x20] */
+/* @0x2a5736 ldr r2, [r2] */
+/* @0x2a5738 add r3, r2 */
+/* @0x2a573a ldrh r3, [r3, #0x4] */
+/* @0x2a573c ands r2, r3, #0x1 */
+/* @0x2a5740 beq 0x2a5750 <zip_stat_index+0xbc> */
+/* @0x2a5742 lsls r3, r3, #0x19 */
+/* @0x2a5744 ite mi */
+/* @0x2a5746 movwmi r3, #0xffff */
 /* @0x2a5748 movwhs r7, #0x13ff */
-/* @0x2a574c and r8, r0, r3, ror #6 */
-/* @0x2a5750 rsbvs r8, r6, r2, ror #6 */
-/* @0x2a5754 eorvs r2, r7, r0 */
-/* @0x2a5758 ldrhhi lr, [r0, #141]! */
-/* @0x2a575c rscslo pc, pc, pc, asr #32 */
-/* @0x2a5760 ldrhhi lr, [r0, #141]! */
-/* @0x2a5764 .word 0xf000300c */
+/* @0x2a574a movpl r3, #0x1 */
+/* @0x2a574c strh r3, [r4, #0x1a] */
+/* @0x2a574e b 0x2a5752 <zip_stat_index+0xbe> */
+/* @0x2a5750 strh r2, [r4, #0x1a] */
+/* @0x2a5752 str r6, [r4, #0x4] */
+/* @0x2a5754 movs r0, #0x0 */
+/* @0x2a5756 str r7, [r4] */
+/* @0x2a5758 pop.w {r4, r5, r6, r7, r8, pc} */
+/* @0x2a575c mov.w r0, #0xffffffff */
+/* @0x2a5760 pop.w {r4, r5, r6, r7, r8, pc} */
+
+/* ── FUNC 0x2a5764 · zip_strerror · size=6 · insn=3 */
+/* @0x2a5764 adds r0, #0xc */
+/* @0x2a5766 b.w 0x2a57f8 <_Z19_zip_error_strerrorP9zip_error> */
 /* @0x2a5768 ldrlt r11, [r8, #-0x847]! */
 
-/* ── FUNC 0x2a4971 · zip_get_name · size=8 · insn=0 */
-
-/* ── FUNC 0x2a4979 · _zip_memdup(void const*, unsigned int, zip_error*) · size=42 · insn=0 */
-
-/* ── FUNC 0x2a49a5 · _zip_name_locate(zip*, char const*, int, zip_error*) · size=180 · insn=0 */
-
-/* ── FUNC 0x2a4a59 · zip_name_locate · size=8 · insn=0 */
-
-/* ── FUNC 0x2a4de1 · zip_open · size=960 · insn=0 */
-
-/* ── FUNC 0x2a51a1 · zip_open_buff · size=728 · insn=0 */
-
-/* ── FUNC 0x2a555d · zip_source_zip · size=276 · insn=0 */
-
-/* ── FUNC 0x2a5671 · zip_stat · size=36 · insn=0 */
-
-/* ── FUNC 0x2a5695 · zip_stat_index · size=208 · insn=0 */
-
-/* ── FUNC 0x2a5765 · zip_strerror · size=6 · insn=0 */
-
-/* ── FUNC 0x2a576a · anon_2a576a · size=40 · insn=10 */
-/* @0x2a576a .word 0x4604b538 */
-/* @0x2a576e strhs r6, [r0, #-0x880] */
-/* @0x2a5772 mrc p6, #0x7, apsr_nzcv, c4, c0, #0x0 */
-/* @0x2a5776 adcvs r6, r5, r0, ror #17 */
-/* @0x2a577a mrc p6, #0x7, apsr_nzcv, c0, c0, #0x0 */
-/* @0x2a577e .word 0x33fff04f */
-/* @0x2a5782 strtmi r6, [r0], -r5, ror #1 */
-/* @0x2a5786 pop {r0, r1, r5, r8, sp, lr} */
+/* ── FUNC 0x2a576a · _zip_entry_free(zip_entry*) · size=38 · insn=16 */
+/* @0x2a576a push {r3, r4, r5, lr} */
+/* @0x2a576c mov r4, r0 */
+/* @0x2a576e ldr r0, [r0, #0x8] */
+/* @0x2a5770 movs r5, #0x0 */
+/* @0x2a5772 blx 0xb655c <free@plt> */
+/* @0x2a5776 ldr r0, [r4, #0xc] */
+/* @0x2a5778 str r5, [r4, #0x8] */
+/* @0x2a577a blx 0xb655c <free@plt> */
+/* @0x2a577e mov.w r3, #0xffffffff */
+/* @0x2a5782 str r5, [r4, #0xc] */
+/* @0x2a5784 mov r0, r4 */
+/* @0x2a5786 str r3, [r4, #0x10] */
+/* @0x2a5788 pop.w {r3, r4, r5, lr} */
 /* @0x2a578a .word 0xf0004038 */
+/* @0x2a578c b.w 0x2a59f6 <_Z18_zip_unchange_dataP9zip_entry> */
 /* @0x2a578e ldrlt r11, [r8, #-0x933]! */
 
-/* ── FUNC 0x2a576b · _zip_entry_free(zip_entry*) · size=38 · insn=0 */
-
-/* ── FUNC 0x2a5790 · anon_2a5790 · size=352 · insn=88 */
-/* @0x2a5790 .word 0x4604b538 */
-/* @0x2a5794 andshs r11, r4, r0, lsr r9 */
-/* @0x2a5798 mrc p6, #0x6, apsr_nzcv, c4, c0, #0x0 */
-/* @0x2a579c andhs r4, r12, r5, lsl #12 */
-/* @0x2a57a0 ldrsb r11, [r0], -sp */
-/* @0x2a57a4 bvs 0xff3403b8 <b2_toiTime+0xfffffffffebe6f14> */
-/* @0x2a57a8 addmi r1, r10, #1424 */
-/* @0x2a57ac tstlo r0, #16, #22 */
-/* @0x2a57b0 movwvs r2, #0x3114 */
-/* @0x2a57b4 blvs 0x12b6520 <b2_toiTime+0xb5d07c> */
-/* @0x2a57b8 b 0x1063004 <b2_toiTime+0x909b60> */
-/* @0x2a57bc .word 0x63604605 */
-/* @0x2a57c0 .word 0xf104b930 */
+/* ── FUNC 0x2a5790 · _zip_entry_new(zip*) · size=102 · insn=48 */
+/* @0x2a5790 push {r3, r4, r5, lr} */
+/* @0x2a5792 mov r4, r0 */
+/* @0x2a5794 cbnz r0, 0x2a57a4 <_Z14_zip_entry_newP3zip+0x14> */
+/* @0x2a5796 movs r0, #0x14 */
+/* @0x2a5798 blx 0xb6544 <malloc@plt> */
+/* @0x2a579c mov r5, r0 */
+/* @0x2a579e movs r0, #0xc */
+/* @0x2a57a0 cbnz r5, 0x2a57da <_Z14_zip_entry_newP3zip+0x4a> */
+/* @0x2a57a2 b 0x2a57c6 <_Z14_zip_entry_newP3zip+0x36> */
+/* @0x2a57a4 ldr r3, [r0, #0x30] */
+/* @0x2a57a6 ldr r2, [r0, #0x2c] */
+/* @0x2a57a8 subs r1, r3, #0x1 */
+/* @0x2a57aa cmp r2, r1 */
+/* @0x2a57ac blt 0x2a57d0 <_Z14_zip_entry_newP3zip+0x40> */
+/* @0x2a57ae adds r3, #0x10 */
+/* @0x2a57b0 movs r1, #0x14 */
+/* @0x2a57b2 str r3, [r0, #0x30] */
+/* @0x2a57b4 muls r1, r3, r1 */
+/* @0x2a57b6 ldr r0, [r0, #0x34] */
+/* @0x2a57b8 blx 0xb6c28 <realloc@plt> */
+/* @0x2a57bc mov r5, r0 */
+/* @0x2a57be str r0, [r4, #0x34] */
+/* @0x2a57c0 cbnz r0, 0x2a57d0 <_Z14_zip_entry_newP3zip+0x40> */
+/* @0x2a57c2 add.w r0, r4, #0xc */
 /* @0x2a57c4 .word 0x210e000c */
-/* @0x2a57c8 .word 0xf7fe462a */
+/* @0x2a57c6 movs r1, #0xe */
+/* @0x2a57c8 mov r2, r5 */
+/* @0x2a57ca bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
 /* @0x2a57cc ands pc, r0, r5, asr #27 */
-/* @0x2a57d0 ldrhs r6, [r4, #-0xae2] */
-/* @0x2a57d4 blx 0x40056a <g_RomDisk+0x8d4a> */
+/* @0x2a57ce b 0x2a57f2 <_Z14_zip_entry_newP3zip+0x62> */
+/* @0x2a57d0 ldr r2, [r4, #0x2c] */
+/* @0x2a57d2 movs r5, #0x14 */
+/* @0x2a57d4 ldr r3, [r4, #0x34] */
+/* @0x2a57d6 mla r5, r5, r2, r3 */
 /* @0x2a57d8 movwhs r3, #0x502 */
-/* @0x2a57dc rscslo pc, pc, #79 */
-/* @0x2a57e0 adcvs r6, r11, r11, lsr #32 */
-/* @0x2a57e4 smulwtvs r10, r11, r0 */
-/* @0x2a57e8 tstlt r4, r11, rrx */
-/* @0x2a57ec movwlo r6, #0x1ae3 */
-/* @0x2a57f0 strtmi r6, [r8], -r3, ror #5 */
-/* @0x2a57f4 andeq r11, r0, r8, lsr sp */
-/* @0x2a57f8 mvnsmi lr, #737280 */
-/* @0x2a57fc ldcmi p0, c11, [r1, #-660]! */
-/* @0x2a5800 blmi 0xef7024 <b2_toiTime+0x79db80> */
-/* @0x2a5804 stmpl r12!, {r0, r2, r3, r4, r5, r6, r10, lr} ^ */
-/* @0x2a5808 strtmi r6, [r1], r3, lsr #16 */
-/* @0x2a580c .word 0xf7fe9323 */
+/* @0x2a57da movs r3, #0x0 */
+/* @0x2a57dc mov.w r2, #0xffffffff */
+/* @0x2a57e0 str r3, [r5] */
+/* @0x2a57e2 str r3, [r5, #0x8] */
+/* @0x2a57e4 str r3, [r5, #0xc] */
+/* @0x2a57e6 str r2, [r5, #0x10] */
+/* @0x2a57e8 str r3, [r5, #0x4] */
+/* @0x2a57ea cbz r4, 0x2a57f2 <_Z14_zip_entry_newP3zip+0x62> */
+/* @0x2a57ec ldr r3, [r4, #0x2c] */
+/* @0x2a57ee adds r3, #0x1 */
+/* @0x2a57f0 str r3, [r4, #0x2c] */
+/* @0x2a57f2 mov r0, r5 */
+/* @0x2a57f4 pop {r3, r4, r5, pc} */
+
+/* ── FUNC 0x2a57f8 · _zip_error_strerror(zip_error*) · size=240 · insn=108 */
+/* @0x2a57f8 push.w {r4, r5, r6, r7, r8, r9, lr} */
+/* @0x2a57fc sub sp, #0x94 */
+/* @0x2a57fe ldr r5, [pc, #0xc4] */
+/* @0x2a5800 mov r7, r0 */
+/* @0x2a5802 ldr r3, [pc, #0xc4] */
+/* @0x2a5804 add r5, pc */
+/* @0x2a5806 ldr r4, [r5, r3] */
+/* @0x2a5808 ldr r3, [r4] */
+/* @0x2a580a mov r9, r4 */
+/* @0x2a580c str r3, [sp, #0x8c] */
+/* @0x2a580e bl 0x2a431e <_Z15_zip_error_finiP9zip_error> */
 /* @0x2a5810 ldmdavs r10!, {r1, r2, r7, r8, r10, r11, r12, sp, lr, pc} */
-/* @0x2a5814 blle 0x3b001c <error_g0017+0x8cc0> */
-/* @0x2a5818 stmpl r11!, {r2, r3, r5, r8, r9, r11, lr} ^ */
-/* @0x2a581c addsmi r6, r10, #1769472 */
-/* @0x2a5820 vmlage.f64 d13, d3, d7 */
-/* @0x2a5824 strhs r4, [r0], #-2346 */
-/* @0x2a5828 ldrbtmi r4, [r9], #-1584 */
-/* @0x2a582c mrc p6, #0x4, apsr_nzcv, c0, c0, #0x0 */
-/* @0x2a5830 blmi 0xcdd888 <b2_toiTime+0x5843e4> */
-/* @0x2a5834 .word 0xf85358eb */
+/* @0x2a5812 ldr r2, [r7] */
+/* @0x2a5814 cmp r2, #0x0 */
+/* @0x2a5816 blt 0x2a5822 <_Z19_zip_error_strerrorP9zip_error+0x2a> */
+/* @0x2a5818 ldr r3, [pc, #0xb0] */
+/* @0x2a581a ldr r3, [r5, r3] */
+/* @0x2a581c ldr r3, [r3] */
+/* @0x2a581e cmp r2, r3 */
+/* @0x2a5820 blt 0x2a5832 <_Z19_zip_error_strerrorP9zip_error+0x3a> */
+/* @0x2a5822 add r6, sp, #0xc */
+/* @0x2a5824 ldr r1, [pc, #0xa8] */
+/* @0x2a5826 movs r4, #0x0 */
+/* @0x2a5828 mov r0, r6 */
+/* @0x2a582a add r1, pc */
+/* @0x2a582c blx 0xb6550 <sprintf@plt> */
+/* @0x2a5830 b 0x2a585c <_Z19_zip_error_strerrorP9zip_error+0x64> */
+/* @0x2a5832 ldr r3, [pc, #0xa0] */
+/* @0x2a5834 ldr r3, [r5, r3] */
+/* @0x2a5836 ldr.w r4, [r3, r2, lsl #2] */
 /* @0x2a5838 blmi 0xc758c8 <b2_toiTime+0x51c424> */
-/* @0x2a583c .word 0xf85358eb */
+/* @0x2a583a ldr r3, [pc, #0x9c] */
+/* @0x2a583c ldr r3, [r5, r3] */
+/* @0x2a583e ldr.w r3, [r3, r2, lsl #2] */
 /* @0x2a5840 blhs 0x2f18d0 <ps_hints_apply+0x4d0> */
-/* @0x2a5844 blhs 0x359860 */
-/* @0x2a5848 ldmdavs r8!, {r4, r5, r8, r12, lr, pc} ^ */
-/* @0x2a584c bl 0x1de3098 <b2_toiTime+0x1689bf4> */
-/* @0x2a5850 ldmdavs r8!, {r1, sp, lr, pc} ^ */
-/* @0x2a5854 bl 0x1e630a0 <b2_toiTime+0x1709bfc> */
-/* @0x2a5858 teqlt r8, #6291456 */
-/* @0x2a585c .word 0xf6104630 */
+/* @0x2a5842 cmp r3, #0x1 */
+/* @0x2a5844 beq 0x2a5852 <_Z19_zip_error_strerrorP9zip_error+0x5a> */
+/* @0x2a5846 cmp r3, #0x2 */
+/* @0x2a5848 bne 0x2a58ac <_Z19_zip_error_strerrorP9zip_error+0xb4> */
+/* @0x2a584a ldr r0, [r7, #0x4] */
+/* @0x2a584c blx 0xb6f28 <zError@plt> */
+/* @0x2a5850 b 0x2a5858 <_Z19_zip_error_strerrorP9zip_error+0x60> */
+/* @0x2a5852 ldr r0, [r7, #0x4] */
+/* @0x2a5854 blx 0xb6f34 <strerror@plt> */
+/* @0x2a5858 mov r6, r0 */
+/* @0x2a585a cbz r0, 0x2a58ac <_Z19_zip_error_strerrorP9zip_error+0xb4> */
+/* @0x2a585c mov r0, r6 */
+/* @0x2a585e blx 0xb6538 <strlen@plt> */
 /* @0x2a5860 strmi lr, [r0], r12, ror #28 */
-/* @0x2a5864 strtmi r11, [r0], -r4, lsr #2 */
-/* @0x2a5868 mcr p6, #0x3, pc, c6, c0, #0x0 */
-/* @0x2a586c and r1, r0, r3, lsl #25 */
-/* @0x2a5870 .word 0xf1084623 */
+/* @0x2a5862 mov r8, r0 */
+/* @0x2a5864 cbz r4, 0x2a5870 <_Z19_zip_error_strerrorP9zip_error+0x78> */
+/* @0x2a5866 mov r0, r4 */
+/* @0x2a5868 blx 0xb6538 <strlen@plt> */
+/* @0x2a586c adds r3, r0, #0x2 */
+/* @0x2a586e b 0x2a5872 <_Z19_zip_error_strerrorP9zip_error+0x7a> */
+/* @0x2a5870 mov r3, r4 */
+/* @0x2a5872 add.w r0, r8, #0x1 */
 /* @0x2a5874 ldrmi r0, [r8], #-1 */
-/* @0x2a5878 mcr p6, #0x3, pc, c4, c0, #0x0 */
-/* @0x2a587c ldmdblt r8, {r7, r9, r10, lr} */
-/* @0x2a5880 stmpl r11!, {r2, r4, r8, r9, r11, lr} ^ */
-/* @0x2a5884 muls r2, r8, r11 */
-/* @0x2a5888 bmi 0x7d3d00 <b2_toiTime+0x7a85c> */
-/* @0x2a588c ssub16mi r4, r3, r10 */
-/* @0x2a5890 blmi 0x79d8a0 <b2_toiTime+0x443fc> */
-/* @0x2a5894 ldrbtmi r4, [r11], #-1570 */
-/* @0x2a5898 .word 0x46404912 */
-/* @0x2a589c ldrbtmi r9, [r9], #-1536 */
-/* @0x2a58a0 mrc p6, #0x2, apsr_nzcv, c6, c0, #0x0 */
-/* @0x2a58a4 andhi pc, r8, r7, asr #17 */
-/* @0x2a58a8 and r4, r0, r0, asr #12 */
-/* @0x2a58ac bls 0xb77134 <b2_toiTime+0x41dc90> */
-/* @0x2a58b0 .word 0x3000f8d9 */
-/* @0x2a58b4 mulle r1, r10, r2 */
-/* @0x2a58b8 mcr p6, #0x4, pc, c12, c0, #0x0 */
-/* @0x2a58bc pop {r0, r2, r5, r12, sp, pc} */
+/* @0x2a5876 add r0, r3 */
+/* @0x2a5878 blx 0xb6544 <malloc@plt> */
+/* @0x2a587c mov r8, r0 */
+/* @0x2a587e cbnz r0, 0x2a5888 <_Z19_zip_error_strerrorP9zip_error+0x90> */
+/* @0x2a5880 ldr r3, [pc, #0x50] */
+/* @0x2a5882 ldr r3, [r5, r3] */
+/* @0x2a5884 ldr r0, [r3, #0x38] */
+/* @0x2a5886 b 0x2a58ae <_Z19_zip_error_strerrorP9zip_error+0xb6> */
+/* @0x2a5888 cbnz r4, 0x2a5892 <_Z19_zip_error_strerrorP9zip_error+0x9a> */
+/* @0x2a588a ldr r2, [pc, #0x50] */
+/* @0x2a588c add r2, pc */
+/* @0x2a588e mov r3, r2 */
+/* @0x2a5890 b 0x2a5898 <_Z19_zip_error_strerrorP9zip_error+0xa0> */
+/* @0x2a5892 ldr r3, [pc, #0x4c] */
+/* @0x2a5894 mov r2, r4 */
+/* @0x2a5896 add r3, pc */
+/* @0x2a5898 ldr r1, [pc, #0x48] */
+/* @0x2a589a mov r0, r8 */
+/* @0x2a589c str r6, [sp] */
+/* @0x2a589e add r1, pc */
+/* @0x2a58a0 blx 0xb6550 <sprintf@plt> */
+/* @0x2a58a4 str.w r8, [r7, #0x8] */
+/* @0x2a58a8 mov r0, r8 */
+/* @0x2a58aa b 0x2a58ae <_Z19_zip_error_strerrorP9zip_error+0xb6> */
+/* @0x2a58ac mov r0, r4 */
+/* @0x2a58ae ldr r2, [sp, #0x8c] */
+/* @0x2a58b0 ldr.w r3, [r9] */
+/* @0x2a58b4 cmp r2, r3 */
+/* @0x2a58b6 beq 0x2a58bc <_Z19_zip_error_strerrorP9zip_error+0xc4> */
+/* @0x2a58b8 blx 0xb65d4 <__stack_chk_fail@plt> */
+/* @0x2a58bc add sp, #0x94 */
+/* @0x2a58be pop.w {r4, r5, r6, r7, r8, r9, pc} */
 /* @0x2a58c0 svclt #0x83f0 */
-/* @0x2a58c4 andseq r12, r4, r0, asr r4 */
-/* @0x2a58c8 .word 0xffffbd00 */
+/* @0x2a58c2 nop */
+/* @0x2a58c4 stm r4!, {r4, r6} */
+/* @0x2a58c6 movs r4, r2 */
+/* @0x2a58c8 pop {pc} */
+/* @0x2a58ca vcvt.f32.u32 d31, d16, #0x1 */
 /* @0x2a58cc .word 0xfffffe30 */
+/* @0x2a58ce .word 0xffff 69d8 */
 /* @0x2a58d0 ldrdeq r6, r7, [lr], -r8 */
-/* @0x2a58d4 .word 0xfffffe40 */
-/* @0x2a58d8 .word 0xfffffe34 */
-/* @0x2a58dc andeq r6, lr, r5, ror r9 */
-/* @0x2a58e0 andeq r6, lr, r8, ror #18 */
-/* @0x2a58e4 andeq r6, lr, r5, ror r9 */
-/* @0x2a58e8 .word 0xf7fe3004 */
+/* @0x2a58d2 movs r6, r1 */
+/* @0x2a58d4 mcr2 p15, #0x2, pc, c0, c15, #0x7 */
+/* @0x2a58d8 mrc2 p15, #0x1, apsr_nzcv, c4, c15, #0x7 */
+/* @0x2a58dc ldr r5, [r6, #0x14] */
+/* @0x2a58de movs r6, r1 */
+/* @0x2a58e0 ldr r0, [r5, #0x14] */
+/* @0x2a58e2 movs r6, r1 */
+/* @0x2a58e4 ldr r5, [r6, #0x14] */
+/* @0x2a58e6 movs r6, r1 */
+
+/* ── FUNC 0x2a58e8 · zip_file_error_get · size=6 · insn=3 */
+/* @0x2a58e8 adds r0, #0x4 */
+/* @0x2a58ea b.w 0x2a432e <_Z14_zip_error_getP9zip_errorPiS1_> */
 /* @0x2a58ec ldrblt r11, [r0, #0xd20]! */
 
-/* ── FUNC 0x2a5791 · _zip_entry_new(zip*) · size=102 · insn=0 */
+/* ── FUNC 0x2a58ee · _zip_file_get_offset(zip*, int) · size=144 · insn=66 */
+/* @0x2a58ee push {r4, r5, r6, r7, lr} */
+/* @0x2a58f0 movs r2, #0x3c */
+/* @0x2a58f2 ldr r3, [r0, #0x20] */
+/* @0x2a58f4 sub sp, #0x4c */
+/* @0x2a58f6 ldr r5, [r0, #0x4] */
+/* @0x2a58f8 mov r4, r0 */
+/* @0x2a58fa add.w r7, r0, #0xc */
+/* @0x2a58fe ldr r3, [r3] */
+/* @0x2a5900 mla r1, r2, r1, r3 */
+/* @0x2a5902 blvs 0xfe631d0e <b2_toiTime+0xfffffffffded886a> */
+/* @0x2a5904 ldr r6, [r1, #0x38] */
+/* @0x2a5906 cbz r5, 0x2a593c <_Z20_zip_file_get_offsetP3zipi+0x4e> */
+/* @0x2a5908 mov r0, r5 */
+/* @0x2a590a mov r1, r6 */
+/* @0x2a590c movs r2, #0x0 */
+/* @0x2a590e blx 0xb6ed4 <fseeko@plt> */
+/* @0x2a5912 mov r5, r0 */
+/* @0x2a5914 cbz r0, 0x2a5928 <_Z20_zip_file_get_offsetP3zipi+0x3a> */
+/* @0x2a5916 blx 0xb6bf8 <__errno@plt> */
+/* @0x2a591a movs r1, #0x4 */
+/* @0x2a591c ldr r2, [r0] */
+/* @0x2a591e mov r0, r7 */
+/* @0x2a5920 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a5922 andhs pc, r0, r10, lsl sp */
+/* @0x2a5924 movs r0, #0x0 */
+/* @0x2a5926 b 0x2a597a <_Z20_zip_file_get_offsetP3zipi+0x8c> */
+/* @0x2a5928 movs r3, #0x1 */
+/* @0x2a592a add r0, sp, #0xc */
+/* @0x2a592c stm.w sp, {r3, r7} */
+/* @0x2a592e strtmi r0, [r10], -r8, lsl #1 */
+/* @0x2a5930 mov r2, r5 */
+/* @0x2a5932 ldr r1, [r4, #0x4] */
+/* @0x2a5934 mov r3, r5 */
+/* @0x2a5936 bl 0x2a3ef0 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error> */
+/* @0x2a593a b 0x2a5962 <_Z20_zip_file_get_offsetP3zipi+0x74> */
+/* @0x2a593c ldr r0, [r0, #0x8] */
+/* @0x2a593e mov r1, r5 */
+/* @0x2a5940 mov r2, r6 */
+/* @0x2a5942 ldr r3, [r0] */
+/* @0x2a5944 ldr r3, [r3, #0x10] */
+/* @0x2a5946 blx r3 */
+/* @0x2a5948 ldr r1, [r4, #0x8] */
+/* @0x2a594a add r0, sp, #0xc */
+/* @0x2a594c ldr r2, [r1, #0xc] */
+/* @0x2a594e ldr r3, [r1, #0x1c] */
+/* @0x2a5950 add r3, r2 */
+/* @0x2a5952 add r2, sp, #0x8 */
+/* @0x2a5954 str r3, [sp, #0x8] */
+/* @0x2a5956 movs r3, #0x1 */
+/* @0x2a5958 stm.w sp, {r3, r7} */
+/* @0x2a595a strtmi r0, [r11], -r8, lsl #1 */
+/* @0x2a595c mov r3, r5 */
+/* @0x2a595e bl 0x2a4108 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error> */
+/* @0x2a5962 cbnz r0, 0x2a5978 <_Z20_zip_file_get_offsetP3zipi+0x8a> */
+/* @0x2a5964 ldrh.w r5, [sp, #0x28] */
+/* @0x2a5966 stmdage r3, {r3, r5, r12, lr} */
+/* @0x2a5968 add r0, sp, #0xc */
+/* @0x2a596a ldrh.w r3, [sp, #0x30] */
+/* @0x2a596e adds r5, #0x1e */
+/* @0x2a5970 add r5, r3 */
+/* @0x2a5972 add r5, r6 */
+/* @0x2a5974 bl 0x2a3bd6 <_Z20_zip_dirent_finalizeP10zip_dirent> */
+/* @0x2a5976 strtmi pc, [r8], -pc, lsr #18 */
+/* @0x2a5978 mov r0, r5 */
+/* @0x2a597a add sp, #0x4c */
+/* @0x2a597c pop {r4, r5, r6, r7, pc} */
 
-/* ── FUNC 0x2a57f9 · _zip_error_strerror(zip_error*) · size=240 · insn=0 */
+/* ── FUNC 0x2a597e · _zip_new(zip_error*) · size=76 · insn=37 */
+/* @0x2a597e push {r3, r4, r5, lr} */
+/* @0x2a5980 mov r5, r0 */
+/* @0x2a5982 movs r0, #0x44 */
+/* @0x2a5984 blx 0xb6544 <malloc@plt> */
+/* @0x2a5986 .word 0x4604edde */
+/* @0x2a5988 mov r4, r0 */
+/* @0x2a598a cbnz r0, 0x2a5998 <_Z8_zip_newP9zip_error+0x1a> */
+/* @0x2a598c mov r0, r5 */
+/* @0x2a598e movs r1, #0xe */
+/* @0x2a5990 mov r2, r4 */
+/* @0x2a5992 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a5996 b 0x2a59c6 <_Z8_zip_newP9zip_error+0x48> */
+/* @0x2a5998 movs r5, #0x0 */
+/* @0x2a599a adds r0, #0xc */
+/* @0x2a599c str r5, [r0, #-12] */
+/* @0x2a599e .word 0xf8405c0c */
+/* @0x2a59a0 str r5, [r0, #-8] */
+/* @0x2a59a2 .word 0xf8405c08 */
+/* @0x2a59a4 str r5, [r0, #-4] */
+/* @0x2a59a6 .word 0xf7fe5c04 */
+/* @0x2a59a8 bl 0x2a434e <_Z15_zip_error_initP9zip_error> */
+/* @0x2a59aa .word 0xf04ffcd1 */
+/* @0x2a59ac mov.w r3, #0xffffffff */
+/* @0x2a59ae eorvs r3, r5, #-67108861 */
+/* @0x2a59b0 str r5, [r4, #0x20] */
+/* @0x2a59b2 str r5, [r4, #0x24] */
+/* @0x2a59b4 str r3, [r4, #0x28] */
+/* @0x2a59b6 str r5, [r4, #0x30] */
+/* @0x2a59b8 str r5, [r4, #0x2c] */
+/* @0x2a59ba str r5, [r4, #0x34] */
+/* @0x2a59bc str r5, [r4, #0x3c] */
+/* @0x2a59be str r5, [r4, #0x38] */
+/* @0x2a59c0 str r5, [r4, #0x40] */
+/* @0x2a59c2 str r5, [r4, #0x1c] */
+/* @0x2a59c4 str r5, [r4, #0x18] */
+/* @0x2a59c6 mov r0, r4 */
+/* @0x2a59c8 pop {r3, r4, r5, pc} */
+
+/* ── FUNC 0x2a59ca · zip_source_function · size=44 · insn=19 */
+/* @0x2a59ca push {r3, r4, r5, r6, r7, lr} */
+/* @0x2a59cc mov r6, r1 */
+/* @0x2a59ce mov r7, r2 */
+/* @0x2a59d0 mov r5, r0 */
+/* @0x2a59d2 cbz r0, 0x2a59f4 <zip_source_function+0x2a> */
+/* @0x2a59d4 movs r0, #0x8 */
+/* @0x2a59d6 blx 0xb6544 <malloc@plt> */
+/* @0x2a59da mov r4, r0 */
+/* @0x2a59dc cbnz r0, 0x2a59ec <zip_source_function+0x22> */
+/* @0x2a59de add.w r0, r5, #0xc */
+/* @0x2a59e2 movs r1, #0xe */
+/* @0x2a59e4 mov r2, r4 */
+/* @0x2a59e6 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii> */
+/* @0x2a59ea b 0x2a59f0 <zip_source_function+0x26> */
+/* @0x2a59ec stm.w r0, {r6, r7} */
+/* @0x2a59ee strtmi r0, [r0], -r0, asr #1 */
+/* @0x2a59f0 mov r0, r4 */
+/* @0x2a59f2 pop {r3, r4, r5, r6, r7, pc} */
+/* @0x2a59f4 pop {r3, r4, r5, r6, r7, pc} */
+
+/* ── FUNC 0x2a59f6 · _zip_unchange_data(zip_entry*) · size=44 · insn=22 */
+/* @0x2a59f6 push {r3, r4, r5, lr} */
+/* @0x2a59f8 mov r4, r0 */
+/* @0x2a59fa ldr r3, [r0, #0x4] */
+/* @0x2a59fc cbz r3, 0x2a5a14 <_Z18_zip_unchange_dataP9zip_entry+0x1e> */
+/* @0x2a59fe movs r1, #0x0 */
+/* @0x2a5a00 ldr r5, [r3] */
+/* @0x2a5a02 ldr r0, [r3, #0x4] */
+/* @0x2a5a04 mov r2, r1 */
+/* @0x2a5a06 movs r3, #0x5 */
+/* @0x2a5a08 blx r5 */
+/* @0x2a5a0a ldr r0, [r4, #0x4] */
+/* @0x2a5a0c blx 0xb655c <free@plt> */
+/* @0x2a5a0e movwhs lr, #0xda6 */
+/* @0x2a5a10 movs r3, #0x0 */
+/* @0x2a5a12 str r3, [r4, #0x4] */
+/* @0x2a5a14 ldr r3, [r4, #0x8] */
+/* @0x2a5a16 cmp r3, #0x0 */
+/* @0x2a5a18 ite ne */
+/* @0x2a5a1a movne r3, #0x4 */
+/* @0x2a5a1c moveq r3, #0x0 */
+/* @0x2a5a1e str r3, [r4] */
+/* @0x2a5a20 pop {r3, r4, r5, pc} */
+
+/* ── FUNC 0x2a5a22 · anon_2a5a22 · size=0 · insn=1 */
+/* @0x2a5a22 ldrlt r0, [r8, #-0x0]! */
+
+/* ── FUNC 0x2a5a24 · png_set_sig_bytes · size=40 · insn=18 */
+/* @0x2a5a24 push {r3, r4, r5, lr} */
+/* @0x2a5a26 mov r5, r0 */
+/* @0x2a5a28 cbz r0, 0x2a5a44 <png_set_sig_bytes+0x20> */
+/* @0x2a5a2a cmp r1, #0x0 */
+/* @0x2a5a2c blt 0x2a5a3e <png_set_sig_bytes+0x1a> */
+/* @0x2a5a2e cmp r1, #0x8 */
+/* @0x2a5a30 mov r4, r1 */
+/* @0x2a5a32 bls 0x2a5a40 <png_set_sig_bytes+0x1c> */
+/* @0x2a5a34 ldr r1, [pc, #0x10] */
+/* @0x2a5a36 add r1, pc */
+/* @0x2a5a38 bl 0x2a642c <png_error> */
+/* @0x2a5a3c b 0x2a5a40 <png_set_sig_bytes+0x1c> */
+/* @0x2a5a3e movs r4, #0x0 */
+/* @0x2a5a40 strb.w r4, [r5, #0x1f0] */
+/* @0x2a5a44 pop {r3, r4, r5, pc} */
+/* @0x2a5a46 nop */
+/* @0x2a5a48 str r4, [r4, #0x7c] */
+/* @0x2a5a4a movs r6, r1 */
+
+/* ── FUNC 0x2a5a4c · png_sig_cmp · size=92 · insn=43 */
+/* @0x2a5a4c push {r0, r1, r2, r3, r4, r5, r6, lr} */
+/* @0x2a5a4e mov r3, r1 */
+/* @0x2a5a50 ldr r4, [pc, #0x4c] */
+/* @0x2a5a52 mov r6, r0 */
+/* @0x2a5a54 add r5, sp, #0x4 */
+/* @0x2a5a56 cmp r2, #0x8 */
+/* @0x2a5a58 add r4, pc */
+/* @0x2a5a5a ldr r4, [r4] */
+/* @0x2a5a5c ldr r1, [r4] */
+/* @0x2a5a5e str r1, [sp, #0xc] */
+/* @0x2a5a60 ldr r1, [pc, #0x40] */
+/* @0x2a5a62 add r1, pc */
+/* @0x2a5a64 ldr r0, [r1] */
+/* @0x2a5a66 ldr r1, [r1, #0x4] */
+/* @0x2a5a68 stm r5!, {r0, r1} */
+/* @0x2a5a6a bhi 0x2a5a70 <png_sig_cmp+0x24> */
+/* @0x2a5a6c cbnz r2, 0x2a5a72 <png_sig_cmp+0x26> */
+/* @0x2a5a6e b 0x2a5a8c <png_sig_cmp+0x40> */
+/* @0x2a5a70 movs r2, #0x8 */
+/* @0x2a5a72 cmp r3, #0x7 */
+/* @0x2a5a74 bhi 0x2a5a8c <png_sig_cmp+0x40> */
+/* @0x2a5a76 adds r1, r2, r3 */
+/* @0x2a5a78 adds r0, r6, r3 */
+/* @0x2a5a7a cmp r1, #0x8 */
+/* @0x2a5a7c add r1, sp, #0x4 */
+/* @0x2a5a7e it hi */
+/* @0x2a5a80 rsbhi.w r2, r3, #0x8 */
+/* @0x2a5a84 add r1, r3 */
+/* @0x2a5a86 blx 0xb6c40 <memcmp@plt> */
+/* @0x2a5a88 ldrd lr, pc, [r1], -r12 */
+/* @0x2a5a8a b 0x2a5a90 <png_sig_cmp+0x44> */
+/* @0x2a5a8c mov.w r0, #0xffffffff */
+/* @0x2a5a90 ldr r2, [sp, #0xc] */
+/* @0x2a5a92 ldr r3, [r4] */
+/* @0x2a5a94 cmp r2, r3 */
+/* @0x2a5a96 beq 0x2a5a9c <png_sig_cmp+0x50> */
+/* @0x2a5a98 blx 0xb65d4 <__stack_chk_fail@plt> */
+/* @0x2a5a9c add sp, #0x10 */
+/* @0x2a5a9e pop {r4, r5, r6, pc} */
+/* @0x2a5aa0 ldrb r4, [r7, #0x1b] */
+/* @0x2a5aa2 movs r4, r2 */
+/* @0x2a5aa4 ldr r6, [sp, #0x178] */
+/* @0x2a5aa6 movs r6, r1 */
+
+/* ── FUNC 0x2a5aa8 · png_zalloc · size=72 · insn=30 */
+/* @0x2a5aa8 push {r3, r4, r5, r6, r7, lr} */
+/* @0x2a5aaa mov r6, r1 */
+/* @0x2a5aac mov r7, r2 */
+/* @0x2a5aae mov r4, r0 */
+/* @0x2a5ab0 cbz r0, 0x2a5ace <png_zalloc+0x26> */
+/* @0x2a5ab2 ldr.w r5, [r0, #0x130] */
+/* @0x2a5ab4 sasxmi r5, r1, r0 */
+/* @0x2a5ab6 mov r1, r2 */
+/* @0x2a5ab8 mov.w r0, #0xffffffff */
+/* @0x2a5abc blx 0x318c48 <__udivsi3> */
+/* @0x2a5ac0 cmp r6, r0 */
+/* @0x2a5ac2 bls 0x2a5ad2 <png_zalloc+0x2a> */
+/* @0x2a5ac4 ldr r1, [pc, #0x24] */
+/* @0x2a5ac6 mov r0, r4 */
+/* @0x2a5ac8 add r1, pc */
+/* @0x2a5aca bl 0x2a6474 <png_warning> */
+/* @0x2a5acc .word 0x2000fcd3 */
+/* @0x2a5ace movs r0, #0x0 */
+/* @0x2a5ad0 pop {r3, r4, r5, r6, r7, pc} */
+/* @0x2a5ad2 orr r3, r5, #0x100000 */
+/* @0x2a5ad4 strtmi r1, [r0], -r0, lsl #7 */
+/* @0x2a5ad6 mov r0, r4 */
+/* @0x2a5ad8 str.w r3, [r4, #0x130] */
+/* @0x2a5adc mul r1, r6, r7 */
+/* @0x2a5ae0 bl 0x2a6ca0 <png_malloc> */
+/* @0x2a5ae4 str.w r5, [r4, #0x130] */
+/* @0x2a5ae8 pop {r3, r4, r5, r6, r7, pc} */
+/* @0x2a5aea nop */
+/* @0x2a5aec str r3, [r6, #0x74] */
+/* @0x2a5aee movs r6, r1 */
+
+/* ── FUNC 0x2a5af0 · png_zfree · size=4 · insn=1 */
+/* @0x2a5af0 b.w 0x2a6cfc <png_free> */
+
+/* ── FUNC 0x2a5af4 · png_reset_crc · size=20 · insn=10 */
+/* @0x2a5af4 push {r4, lr} */
+/* @0x2a5af6 mov r4, r0 */
+/* @0x2a5af8 movs r0, #0x0 */
+/* @0x2a5afa mov r1, r0 */
+/* @0x2a5afc mov r2, r0 */
+/* @0x2a5afe blx 0xb6ea4 <crc32@plt> */
+/* @0x2a5b00 .word 0xf8c4e9d2 */
+/* @0x2a5b02 str.w r0, [r4, #0x1d4] */
+/* @0x2a5b04 ldclt p1, c0, [r0, #-848] */
+/* @0x2a5b06 pop {r4, pc} */

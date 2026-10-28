@@ -1,32 +1,8 @@
 /* libyoyo.so 覆盖卡组 0236
- * 函数 0x283b58..0x285388，共 32 个；
+ * 函数 0x283bb0..0x2853c8，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x283b58 · spAnimationStateData_dispose · size=88 · insn=22 */
-/* @0x283b58 push {r4, r5, r6, lr} */
-/* @0x283b5c mov r6, r0 */
-/* @0x283b60 ldr r5, [r0, #0x8] */
-/* @0x283b64 cmp r5, #0 */
-/* @0x283b68 beq 0x283ba4 <spAnimationStateData_dispose+0x4c> */
-/* @0x283b6c ldr r0, [r5, #0x4] */
-/* @0x283b70 cmp r0, #0 */
-/* @0x283b74 beq 0x283b8c <spAnimationStateData_dispose+0x34> */
-/* @0x283b78 ldr r4, [r0, #0x8] */
-/* @0x283b7c bl 0x283af8 <_ToEntry_dispose> */
-/* @0x283b80 cmp r4, #0 */
-/* @0x283b84 mov r0, r4 */
-/* @0x283b88 bne 0x283b78 <spAnimationStateData_dispose+0x20> */
-/* @0x283b8c ldr r4, [r5, #0x8] */
-/* @0x283b90 mov r0, r5 */
-/* @0x283b94 bl 0x283b28 <_FromEntry_dispose> */
-/* @0x283b98 cmp r4, #0 */
-/* @0x283b9c movne r5, r4 */
-/* @0x283ba0 bne 0x283b6c <spAnimationStateData_dispose+0x14> */
-/* @0x283ba4 mov r0, r6 */
-/* @0x283ba8 pop {r4, r5, r6, lr} */
-/* @0x283bac b 0x285c80 <_free> */
 
 /* ── FUNC 0x283bb0 · spAnimationStateData_setMix · size=176 · insn=44 */
 /* @0x283bb0 push {r3, r4, r5, r6, r7, lr} */
@@ -123,7 +99,7 @@
 /* @0x283d0c ldr r4, [sp], #4 */
 /* @0x283d10 bx lr */
 
-/* ── FUNC 0x283d14 · anon_283d14 · size=836 · insn=209 */
+/* ── FUNC 0x283d14 · anon_283d14 · size=832 · insn=209 */
 /* @0x283d14 ldr r3, [pc, #0xc8] */
 /* @0x283d18 ldr r2, [r0] */
 /* @0x283d1c ldr r3, [pc, r3] */
@@ -1631,3 +1607,23 @@
 /* @0x2853bc str r2, [r0, #0x28] */
 /* @0x2853c0 str r3, [r0, #0x2c] */
 /* @0x2853c4 bx lr */
+
+/* ── FUNC 0x2853c8 · spBone_create · size=72 · insn=18 */
+/* @0x2853c8 push {r3, r4, r5, r6, r7, lr} */
+/* @0x2853cc mov r5, r2 */
+/* @0x2853d0 ldr r2, [pc, #0x34] */
+/* @0x2853d4 mov r7, r0 */
+/* @0x2853d8 mov r6, r1 */
+/* @0x2853dc mov r3, #46 */
+/* @0x2853e0 mov r1, #88 */
+/* @0x2853e4 add r2, pc, r2 */
+/* @0x2853e8 mov r0, #1 */
+/* @0x2853ec bl 0x285c4c <_calloc> */
+/* @0x2853f0 mov r4, r0 */
+/* @0x2853f4 str r7, [r0] */
+/* @0x2853f8 str r6, [r0, #0x4] */
+/* @0x2853fc str r5, [r0, #0x8] */
+/* @0x285400 bl 0x285388 <spBone_setToSetupPose> */
+/* @0x285404 mov r0, r4 */
+/* @0x285408 pop {r3, r4, r5, r6, r7, pc} */
+/* @0x28540c andeq r2, sp, r4, lsl #6 */

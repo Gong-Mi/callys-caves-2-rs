@@ -1,35 +1,8 @@
 /* libyoyo.so 覆盖卡组 0204
- * 函数 0x22609c..0x2280d0，共 32 个；
+ * 函数 0x226100..0x22825c，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x22609c · COggAudio::Suspend() · size=100 · insn=25 */
-/* @0x22609c push {r4, r5, r6, lr} */
-/* @0x2260a0 mov r6, r0 */
-/* @0x2260a4 ldr r0, [r0] */
-/* @0x2260a8 cmp r0, #0 */
-/* @0x2260ac popeq {r4, r5, r6, pc} */
-/* @0x2260b0 ldr r3, [pc, #0x44] */
-/* @0x2260b4 mov r2, #1 */
-/* @0x2260b8 ldr r1, [r6, #0x14] */
-/* @0x2260bc ldr r3, [pc, r3] */
-/* @0x2260c0 cmp r1, #0 */
-/* @0x2260c4 strb r2, [r3] */
-/* @0x2260c8 pople {r4, r5, r6, pc} */
-/* @0x2260cc mov r4, #0 */
-/* @0x2260d0 mov r5, r4 */
-/* @0x2260d4 add r0, r0, r4 */
-/* @0x2260d8 add r5, r5, #1 */
-/* @0x2260dc bl 0x223844 <_ZN10COggThread7SuspendEv> */
-/* @0x2260e0 ldr r3, [r6, #0x14] */
-/* @0x2260e4 add r4, r4, #2096 */
-/* @0x2260e8 cmp r3, r5 */
-/* @0x2260ec add r4, r4, #4 */
-/* @0x2260f0 pople {r4, r5, r6, pc} */
-/* @0x2260f4 ldr r0, [r6] */
-/* @0x2260f8 b 0x2260d4 <_ZN9COggAudio7SuspendEv+0x38> */
-/* @0x2260fc ldrheq r11, [r12], -r12 */
 
 /* ── FUNC 0x226100 · COggAudio::Unsuspend() · size=24 · insn=6 */
 /* @0x226100 ldr r3, [pc, #0xc] */
@@ -2227,3 +2200,323 @@
 /* @0x228250 mov r1, #1 */
 /* @0x228254 bl 0x233a7c <oggpack_adv> */
 /* @0x228258 b 0x22822c <vorbis_book_decode+0x15c> */
+
+/* ── FUNC 0x22825c · vorbis_book_decodevs_add · size=1272 · insn=318 */
+/* @0x22825c push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
+/* @0x228260 add r11, sp, #32 */
+/* @0x228264 ldr r4, [pc, #0x4e4] */
+/* @0x228268 sub sp, sp, #44 */
+/* @0x22826c mov r7, r0 */
+/* @0x228270 ldr r4, [pc, r4] */
+/* @0x228274 mov r6, r2 */
+/* @0x228278 ldr r0, [r0, #0x8] */
+/* @0x22827c ldr r2, [r4] */
+/* @0x228280 cmp r0, #0 */
+/* @0x228284 str r1, [r11, #-0x44] */
+/* @0x228288 str r4, [r11, #-0x3c] */
+/* @0x22828c str r2, [r11, #-0x28] */
+/* @0x228290 ble 0x2284b4 <vorbis_book_decodevs_add+0x258> */
+/* @0x228294 ldr r5, [r7] */
+/* @0x228298 mov r0, r3 */
+/* @0x22829c mov r1, r5 */
+/* @0x2282a0 bl 0x318d10 <__divsi3> */
+/* @0x2282a4 ldr r8, [r7, #0xc] */
+/* @0x2282a8 ldr r1, [r11, #0x4] */
+/* @0x2282ac subs r8, r1, r8 */
+/* @0x2282b0 lsl r12, r0, #2 */
+/* @0x2282b4 str r0, [r11, #-0x30] */
+/* @0x2282b8 add r3, r12, #14 */
+/* @0x2282bc str r12, [r11, #-0x40] */
+/* @0x2282c0 bic r3, r3, #7 */
+/* @0x2282c4 sub sp, sp, r3 */
+/* @0x2282c8 str sp, [r11, #-0x38] */
+/* @0x2282cc sub sp, sp, r3 */
+/* @0x2282d0 str sp, [r11, #-0x34] */
+/* @0x2282d4 bmi 0x228510 <vorbis_book_decodevs_add+0x2b4> */
+/* @0x2282d8 ldr r2, [r11, #-0x30] */
+/* @0x2282dc cmp r2, #0 */
+/* @0x2282e0 ble 0x228444 <vorbis_book_decodevs_add+0x1e8> */
+/* @0x2282e4 mov r9, #0 */
+/* @0x2282e8 str r8, [r11, #-0x48] */
+/* @0x2282ec mov r8, r9 */
+/* @0x2282f0 mov r0, r6 */
+/* @0x2282f4 ldr r1, [r7, #0x24] */
+/* @0x2282f8 ldr r5, [r7, #0x28] */
+/* @0x2282fc bl 0x23388c <oggpack_look> */
+/* @0x228300 cmp r0, #0 */
+/* @0x228304 blt 0x228504 <vorbis_book_decodevs_add+0x2a8> */
+/* @0x228308 ldr r3, [r7, #0x20] */
+/* @0x22830c ldr r4, [r3, r0, lsl #2] */
+/* @0x228310 cmp r4, #0 */
+/* @0x228314 bge 0x2284d4 <vorbis_book_decodevs_add+0x278> */
+/* @0x228318 ldr r2, [r7, #0x8] */
+/* @0x22831c ubfx r3, r4, #0x0, #0xf */
+/* @0x228320 ubfx r4, r4, #0xf, #0xf */
+/* @0x228324 rsb r10, r3, r2 */
+/* @0x228328 b 0x228330 <vorbis_book_decodevs_add+0xd4> */
+/* @0x22832c sub r5, r5, #1 */
+/* @0x228330 mov r0, r6 */
+/* @0x228334 mov r1, r5 */
+/* @0x228338 bl 0x23388c <oggpack_look> */
+/* @0x22833c cmp r5, #1 */
+/* @0x228340 movle r3, #0 */
+/* @0x228344 movgt r3, #1 */
+/* @0x228348 ands r3, r3, r0, lsr #31 */
+/* @0x22834c bne 0x22832c <vorbis_book_decodevs_add+0xd0> */
+/* @0x228350 cmp r0, #0 */
+/* @0x228354 blt 0x22873c <vorbis_book_decodevs_add+0x4e0> */
+/* @0x228358 rev r0, r0 */
+/* @0x22835c movw r3, #0xf0f */
+/* @0x228360 movw r1, #0xf0f0 */
+/* @0x228364 bfi r3, r3, #16, #16 */
+/* @0x228368 bfi r1, r1, #16, #16 */
+/* @0x22836c and r3, r3, r0, lsr #4 */
+/* @0x228370 and r0, r1, r0, lsl #4 */
+/* @0x228374 movw r1, #0x3333 */
+/* @0x228378 orr r0, r0, r3 */
+/* @0x22837c bfi r1, r1, #16, #16 */
+/* @0x228380 movw r3, #0xcccc */
+/* @0x228384 bfi r3, r3, #16, #16 */
+/* @0x228388 and r1, r1, r0, lsr #2 */
+/* @0x22838c and r3, r3, r0, lsl #2 */
+/* @0x228390 orr r12, r3, r1 */
+/* @0x228394 rsb r3, r4, r10 */
+/* @0x228398 movw r0, #0xaaaa */
+/* @0x22839c movw r1, #0x5555 */
+/* @0x2283a0 bfi r0, r0, #16, #16 */
+/* @0x2283a4 bfi r1, r1, #16, #16 */
+/* @0x2283a8 cmp r3, #1 */
+/* @0x2283ac and r0, r0, r12, lsl #1 */
+/* @0x2283b0 and r1, r1, r12, lsr #1 */
+/* @0x2283b4 orr r0, r0, r1 */
+/* @0x2283b8 ble 0x2283f4 <vorbis_book_decodevs_add+0x198> */
+/* @0x2283bc ldr lr, [r7, #0x14] */
+/* @0x2283c0 asr r3, r3, #1 */
+/* @0x2283c4 add r2, r3, r4 */
+/* @0x2283c8 ldr r2, [lr, r2, lsl #2] */
+/* @0x2283cc cmp r2, r0 */
+/* @0x2283d0 movls r1, r3 */
+/* @0x2283d4 movhi r1, #0 */
+/* @0x2283d8 cmp r2, r0 */
+/* @0x2283dc add r4, r4, r1 */
+/* @0x2283e0 movls r3, #0 */
+/* @0x2283e4 rsb r10, r3, r10 */
+/* @0x2283e8 rsb r3, r4, r10 */
+/* @0x2283ec cmp r3, #1 */
+/* @0x2283f0 bgt 0x2283c0 <vorbis_book_decodevs_add+0x164> */
+/* @0x2283f4 ldr r3, [r7, #0x1c] */
+/* @0x2283f8 mov r0, r6 */
+/* @0x2283fc ldrb r1, [r3, r4] */
+/* @0x228400 cmp r1, r5 */
+/* @0x228404 bgt 0x22872c <vorbis_book_decodevs_add+0x4d0> */
+/* @0x228408 bl 0x233a7c <oggpack_adv> */
+/* @0x22840c ldr r12, [r11, #-0x38] */
+/* @0x228410 str r4, [r12, r9] */
+/* @0x228414 ldr r5, [r7] */
+/* @0x228418 add r8, r8, #1 */
+/* @0x22841c ldr r3, [r7, #0x10] */
+/* @0x228420 ldr r2, [r11, #-0x30] */
+/* @0x228424 mul r4, r4, r5 */
+/* @0x228428 cmp r8, r2 */
+/* @0x22842c add r4, r3, r4, lsl #2 */
+/* @0x228430 ldr r3, [r11, #-0x34] */
+/* @0x228434 str r4, [r3, r9] */
+/* @0x228438 add r9, r9, #4 */
+/* @0x22843c bne 0x2282f0 <vorbis_book_decodevs_add+0x94> */
+/* @0x228440 ldr r8, [r11, #-0x48] */
+/* @0x228444 cmp r5, #0 */
+/* @0x228448 ble 0x2284b4 <vorbis_book_decodevs_add+0x258> */
+/* @0x22844c ldr r2, [r11, #-0x40] */
+/* @0x228450 ldr r4, [r11, #-0x34] */
+/* @0x228454 ldr r6, [r11, #-0x44] */
+/* @0x228458 ldr r7, [r11, #-0x30] */
+/* @0x22845c add r12, r4, r2 */
+/* @0x228460 ldr r10, [r11, #-0x34] */
+/* @0x228464 mov r4, #0 */
+/* @0x228468 mov r9, r2 */
+/* @0x22846c cmp r7, #0 */
+/* @0x228470 ble 0x2284a4 <vorbis_book_decodevs_add+0x248> */
+/* @0x228474 lsl r0, r4, #2 */
+/* @0x228478 mov r2, r10 */
+/* @0x22847c mov r3, r6 */
+/* @0x228480 str r4, [r11, #-0x30] */
+/* @0x228484 ldr r1, [r2], #4 */
+/* @0x228488 ldr r4, [r3] */
+/* @0x22848c cmp r2, r12 */
+/* @0x228490 ldr r1, [r1, r0] */
+/* @0x228494 add r1, r4, r1, asr r8 */
+/* @0x228498 str r1, [r3], #4 */
+/* @0x22849c bne 0x228484 <vorbis_book_decodevs_add+0x228> */
+/* @0x2284a0 ldr r4, [r11, #-0x30] */
+/* @0x2284a4 add r4, r4, #1 */
+/* @0x2284a8 add r6, r6, r9 */
+/* @0x2284ac cmp r4, r5 */
+/* @0x2284b0 bne 0x22846c <vorbis_book_decodevs_add+0x210> */
+/* @0x2284b4 mov r0, #0 */
+/* @0x2284b8 ldr r12, [r11, #-0x3c] */
+/* @0x2284bc ldr r2, [r11, #-0x28] */
+/* @0x2284c0 ldr r3, [r12] */
+/* @0x2284c4 cmp r2, r3 */
+/* @0x2284c8 bne 0x22874c <vorbis_book_decodevs_add+0x4f0> */
+/* @0x2284cc sub sp, r11, #32 */
+/* @0x2284d0 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
+/* @0x2284d4 ldr r3, [r7, #0x1c] */
+/* @0x2284d8 mov r0, r6 */
+/* @0x2284dc add r3, r3, r4 */
+/* @0x2284e0 sub r4, r4, #1 */
+/* @0x2284e4 ldrb r1, [r3, #-0x1] */
+/* @0x2284e8 bl 0x233a7c <oggpack_adv> */
+/* @0x2284ec ldr r3, [r11, #-0x38] */
+/* @0x2284f0 cmn r4, #1 */
+/* @0x2284f4 str r4, [r3, r9] */
+/* @0x2284f8 bne 0x228414 <vorbis_book_decodevs_add+0x1b8> */
+/* @0x2284fc mvn r0, #0 */
+/* @0x228500 b 0x2284b8 <vorbis_book_decodevs_add+0x25c> */
+/* @0x228504 ldr r10, [r7, #0x8] */
+/* @0x228508 mov r4, #0 */
+/* @0x22850c b 0x228330 <vorbis_book_decodevs_add+0xd4> */
+/* @0x228510 cmp r0, #0 */
+/* @0x228514 strgt r8, [r11, #-0x48] */
+/* @0x228518 movgt r9, #0 */
+/* @0x22851c movgt r3, r9 */
+/* @0x228520 movgt r8, r3 */
+/* @0x228524 ble 0x22867c <vorbis_book_decodevs_add+0x420> */
+/* @0x228528 mov r0, r6 */
+/* @0x22852c ldr r1, [r7, #0x24] */
+/* @0x228530 ldr r5, [r7, #0x28] */
+/* @0x228534 bl 0x23388c <oggpack_look> */
+/* @0x228538 cmp r0, #0 */
+/* @0x22853c blt 0x228720 <vorbis_book_decodevs_add+0x4c4> */
+/* @0x228540 ldr r3, [r7, #0x20] */
+/* @0x228544 ldr r4, [r3, r0, lsl #2] */
+/* @0x228548 cmp r4, #0 */
+/* @0x22854c bge 0x2286f4 <vorbis_book_decodevs_add+0x498> */
+/* @0x228550 ldr r2, [r7, #0x8] */
+/* @0x228554 ubfx r3, r4, #0x0, #0xf */
+/* @0x228558 ubfx r4, r4, #0xf, #0xf */
+/* @0x22855c rsb r10, r3, r2 */
+/* @0x228560 b 0x228568 <vorbis_book_decodevs_add+0x30c> */
+/* @0x228564 sub r5, r5, #1 */
+/* @0x228568 mov r0, r6 */
+/* @0x22856c mov r1, r5 */
+/* @0x228570 bl 0x23388c <oggpack_look> */
+/* @0x228574 cmp r5, #1 */
+/* @0x228578 movle r3, #0 */
+/* @0x22857c movgt r3, #1 */
+/* @0x228580 ands r3, r3, r0, lsr #31 */
+/* @0x228584 bne 0x228564 <vorbis_book_decodevs_add+0x308> */
+/* @0x228588 cmp r0, #0 */
+/* @0x22858c blt 0x22873c <vorbis_book_decodevs_add+0x4e0> */
+/* @0x228590 rev r0, r0 */
+/* @0x228594 movw r12, #0xf0f */
+/* @0x228598 movw r3, #0xf0f0 */
+/* @0x22859c bfi r12, r12, #16, #16 */
+/* @0x2285a0 bfi r3, r3, #16, #16 */
+/* @0x2285a4 and r12, r12, r0, lsr #4 */
+/* @0x2285a8 and r0, r3, r0, lsl #4 */
+/* @0x2285ac movw r1, #0x3333 */
+/* @0x2285b0 orr r0, r0, r12 */
+/* @0x2285b4 bfi r1, r1, #16, #16 */
+/* @0x2285b8 movw r3, #0xcccc */
+/* @0x2285bc bfi r3, r3, #16, #16 */
+/* @0x2285c0 and r1, r1, r0, lsr #2 */
+/* @0x2285c4 and r12, r3, r0, lsl #2 */
+/* @0x2285c8 orr r12, r12, r1 */
+/* @0x2285cc rsb r3, r4, r10 */
+/* @0x2285d0 movw r0, #0xaaaa */
+/* @0x2285d4 movw r1, #0x5555 */
+/* @0x2285d8 bfi r0, r0, #16, #16 */
+/* @0x2285dc bfi r1, r1, #16, #16 */
+/* @0x2285e0 cmp r3, #1 */
+/* @0x2285e4 and r0, r0, r12, lsl #1 */
+/* @0x2285e8 and r1, r1, r12, lsr #1 */
+/* @0x2285ec orr r0, r0, r1 */
+/* @0x2285f0 ble 0x22862c <vorbis_book_decodevs_add+0x3d0> */
+/* @0x2285f4 ldr lr, [r7, #0x14] */
+/* @0x2285f8 asr r3, r3, #1 */
+/* @0x2285fc add r2, r3, r4 */
+/* @0x228600 ldr r2, [lr, r2, lsl #2] */
+/* @0x228604 cmp r2, r0 */
+/* @0x228608 movls r1, r3 */
+/* @0x22860c movhi r1, #0 */
+/* @0x228610 cmp r2, r0 */
+/* @0x228614 add r4, r4, r1 */
+/* @0x228618 movls r3, #0 */
+/* @0x22861c rsb r10, r3, r10 */
+/* @0x228620 rsb r3, r4, r10 */
+/* @0x228624 cmp r3, #1 */
+/* @0x228628 bgt 0x2285f8 <vorbis_book_decodevs_add+0x39c> */
+/* @0x22862c ldr r3, [r7, #0x1c] */
+/* @0x228630 mov r0, r6 */
+/* @0x228634 ldrb r1, [r3, r4] */
+/* @0x228638 cmp r1, r5 */
+/* @0x22863c bgt 0x22872c <vorbis_book_decodevs_add+0x4d0> */
+/* @0x228640 bl 0x233a7c <oggpack_adv> */
+/* @0x228644 ldr r2, [r11, #-0x38] */
+/* @0x228648 str r4, [r2, r9] */
+/* @0x22864c ldr r5, [r7] */
+/* @0x228650 add r8, r8, #1 */
+/* @0x228654 ldr r3, [r11, #-0x30] */
+/* @0x228658 ldr r12, [r11, #-0x34] */
+/* @0x22865c mul r4, r4, r5 */
+/* @0x228660 cmp r8, r3 */
+/* @0x228664 ldr r3, [r7, #0x10] */
+/* @0x228668 add r4, r3, r4, lsl #2 */
+/* @0x22866c str r4, [r12, r9] */
+/* @0x228670 add r9, r9, #4 */
+/* @0x228674 bne 0x228528 <vorbis_book_decodevs_add+0x2cc> */
+/* @0x228678 ldr r8, [r11, #-0x48] */
+/* @0x22867c cmp r5, #0 */
+/* @0x228680 ble 0x2284b4 <vorbis_book_decodevs_add+0x258> */
+/* @0x228684 ldr r2, [r11, #-0x34] */
+/* @0x228688 rsb r8, r8, #0 */
+/* @0x22868c ldr r3, [r11, #-0x40] */
+/* @0x228690 mov r4, #0 */
+/* @0x228694 ldr r6, [r11, #-0x44] */
+/* @0x228698 ldr r7, [r11, #-0x30] */
+/* @0x22869c add r12, r2, r3 */
+/* @0x2286a0 mov r9, r3 */
+/* @0x2286a4 mov r10, r2 */
+/* @0x2286a8 cmp r7, #0 */
+/* @0x2286ac ble 0x2286e0 <vorbis_book_decodevs_add+0x484> */
+/* @0x2286b0 lsl r0, r4, #2 */
+/* @0x2286b4 mov r2, r10 */
+/* @0x2286b8 mov r3, r6 */
+/* @0x2286bc str r4, [r11, #-0x30] */
+/* @0x2286c0 ldr r1, [r2], #4 */
+/* @0x2286c4 ldr r4, [r3] */
+/* @0x2286c8 cmp r2, r12 */
+/* @0x2286cc ldr r1, [r1, r0] */
+/* @0x2286d0 add r1, r4, r1, lsl r8 */
+/* @0x2286d4 str r1, [r3], #4 */
+/* @0x2286d8 bne 0x2286c0 <vorbis_book_decodevs_add+0x464> */
+/* @0x2286dc ldr r4, [r11, #-0x30] */
+/* @0x2286e0 add r4, r4, #1 */
+/* @0x2286e4 add r6, r6, r9 */
+/* @0x2286e8 cmp r4, r5 */
+/* @0x2286ec bne 0x2286a8 <vorbis_book_decodevs_add+0x44c> */
+/* @0x2286f0 b 0x2284b4 <vorbis_book_decodevs_add+0x258> */
+/* @0x2286f4 ldr r3, [r7, #0x1c] */
+/* @0x2286f8 mov r0, r6 */
+/* @0x2286fc add r3, r3, r4 */
+/* @0x228700 sub r4, r4, #1 */
+/* @0x228704 ldrb r1, [r3, #-0x1] */
+/* @0x228708 bl 0x233a7c <oggpack_adv> */
+/* @0x22870c ldr r12, [r11, #-0x38] */
+/* @0x228710 cmn r4, #1 */
+/* @0x228714 str r4, [r12, r9] */
+/* @0x228718 bne 0x22864c <vorbis_book_decodevs_add+0x3f0> */
+/* @0x22871c b 0x2284fc <vorbis_book_decodevs_add+0x2a0> */
+/* @0x228720 ldr r10, [r7, #0x8] */
+/* @0x228724 mov r4, #0 */
+/* @0x228728 b 0x228568 <vorbis_book_decodevs_add+0x30c> */
+/* @0x22872c add r1, r5, #1 */
+/* @0x228730 bl 0x233a7c <oggpack_adv> */
+/* @0x228734 mvn r0, #0 */
+/* @0x228738 b 0x2284b8 <vorbis_book_decodevs_add+0x25c> */
+/* @0x22873c mov r0, r6 */
+/* @0x228740 mov r1, #1 */
+/* @0x228744 bl 0x233a7c <oggpack_adv> */
+/* @0x228748 b 0x2284fc <vorbis_book_decodevs_add+0x2a0> */
+/* @0x22874c bl 0xb65d4 <__stack_chk_fail@plt> */
+/* @0x228750 andseq r5, r12, r0, ror #13 */

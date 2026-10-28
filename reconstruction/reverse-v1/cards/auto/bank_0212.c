@@ -1,11 +1,8 @@
 /* libyoyo.so 覆盖卡组 0212
- * 函数 0x237ad4..0x238c14，共 32 个；
+ * 函数 0x237ad8..0x238cb0，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x237ad4 · b2ContactListener::PreSolve(b2Contact*, b2Manifold const*) · size=4 · insn=1 */
-/* @0x237ad4 bx lr */
 
 /* ── FUNC 0x237ad8 · b2ContactListener::PostSolve(b2Contact*, b2ContactImpulse const*) · size=4 · insn=1 */
 /* @0x237ad8 bx lr */
@@ -22,7 +19,7 @@
 /* @0x237afc pop {r4, pc} */
 /* @0x237b00 ldrsbeq r9, [r11], -r12 */
 
-/* ── FUNC 0x237b04 · anon_237b04 · size=116 · insn=29 */
+/* ── FUNC 0x237b04 · anon_237b04 · size=112 · insn=29 */
 /* @0x237b04 push {r4, r5, lr} */
 /* @0x237b08 sub sp, sp, #1024 */
 /* @0x237b0c ldr r4, [pc, #0x58] */
@@ -1210,3 +1207,18 @@
 /* @0x238ca4 cmp r3, #0 */
 /* @0x238ca8 bne 0x238c80 <_ZN13CPhysicsWorld10SetGravityEff+0x6c> */
 /* @0x238cac bx lr */
+
+/* ── FUNC 0x238cb0 · CPhysicsWorld::GetValidCollisionData(CInstance*) · size=52 · insn=13 */
+/* @0x238cb0 ldr r0, [r0, #0xc] */
+/* @0x238cb4 cmp r0, #0 */
+/* @0x238cb8 bxeq lr */
+/* @0x238cbc ldr r2, [r0, #0x8] */
+/* @0x238cc0 ldr r3, [r0, #0x4] */
+/* @0x238cc4 ldr r2, [r2, #0x8] */
+/* @0x238cc8 ldr r3, [r3, #0x8] */
+/* @0x238ccc ldr r2, [r2, #0xa4] */
+/* @0x238cd0 ldr r3, [r3, #0xa4] */
+/* @0x238cd4 cmp r3, r1 */
+/* @0x238cd8 cmpne r2, r1 */
+/* @0x238cdc movne r0, #0 */
+/* @0x238ce0 bx lr */

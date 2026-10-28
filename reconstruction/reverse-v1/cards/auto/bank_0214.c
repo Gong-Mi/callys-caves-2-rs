@@ -1,41 +1,8 @@
 /* libyoyo.so 覆盖卡组 0214
- * 函数 0x23a194..0x23be54，共 32 个；
+ * 函数 0x23a210..0x23be54，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x23a194 · CPhysicsWorld::SetParticleCategoryFlags(int, unsigned int) · size=124 · insn=31 */
-/* @0x23a194 push {r4, r5, r6, r7, r8, lr} */
-/* @0x23a198 mov r7, r0 */
-/* @0x23a19c ldr r0, [r0, #0x10] */
-/* @0x23a1a0 movw r3, #0x9298 */
-/* @0x23a1a4 movt r3, #0x1 */
-/* @0x23a1a8 mov r5, r1 */
-/* @0x23a1ac mov r4, r2 */
-/* @0x23a1b0 ldr r8, [r0, r3] */
-/* @0x23a1b4 bl 0x2cb568 <_ZN7b2World22GetParticleFlagsBufferEv> */
-/* @0x23a1b8 mov r6, r0 */
-/* @0x23a1bc ldr r0, [r7, #0x10] */
-/* @0x23a1c0 bl 0x2cb598 <_ZN7b2World25GetParticleUserDataBufferEv> */
-/* @0x23a1c4 cmp r8, #0 */
-/* @0x23a1c8 pople {r4, r5, r6, r7, r8, pc} */
-/* @0x23a1cc cmp r5, #0 */
-/* @0x23a1d0 beq 0x23a1f8 <_ZN13CPhysicsWorld24SetParticleCategoryFlagsEij+0x64> */
-/* @0x23a1d4 lsl r1, r8, #2 */
-/* @0x23a1d8 mov r3, #0 */
-/* @0x23a1dc ldr r12, [r0, r3] */
-/* @0x23a1e0 cmp r12, r5 */
-/* @0x23a1e4 streq r4, [r6, r3] */
-/* @0x23a1e8 add r3, r3, #4 */
-/* @0x23a1ec cmp r3, r1 */
-/* @0x23a1f0 bne 0x23a1dc <_ZN13CPhysicsWorld24SetParticleCategoryFlagsEij+0x48> */
-/* @0x23a1f4 pop {r4, r5, r6, r7, r8, pc} */
-/* @0x23a1f8 add r3, r6, r8, lsl #2 */
-/* @0x23a1fc mov r0, r6 */
-/* @0x23a200 str r4, [r0], #4 */
-/* @0x23a204 cmp r0, r3 */
-/* @0x23a208 bne 0x23a200 <_ZN13CPhysicsWorld24SetParticleCategoryFlagsEij+0x6c> */
-/* @0x23a20c pop {r4, r5, r6, r7, r8, pc} */
 
 /* ── FUNC 0x23a210 · CPhysicsWorld::SetParticleGroupFlags(int, unsigned int) · size=32 · insn=8 */
 /* @0x23a210 push {r4, lr} */
@@ -1913,3 +1880,5 @@
 /* @0x23be60 str r3, [r0] */
 /* @0x23be64 bx lr */
 /* @0x23be68 andseq r5, r11, r8, ror #12 */
+
+/* ── FUNC 0x23be54 · CRunnerContactListener::~CRunnerContactListener() · alias of the symbol above · insn=0 */

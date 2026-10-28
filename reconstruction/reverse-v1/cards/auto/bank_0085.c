@@ -2941,7 +2941,7 @@
 /* @0x151494 eoreq lr, r9, r12, lsl #12 */
 /* @0x151498 .word 0x0029e5fc */
 
-/* ── FUNC 0x15149c · anon_15149c · size=24 · insn=6 */
+/* ── FUNC 0x15149c · anon_15149c · size=20 · insn=6 */
 /* @0x15149c push {r3, lr} */
 /* @0x1514a0 bl 0x190ac4 <_Z17GamepadSupportedMv> */
 /* @0x1514a4 cmp r0, #0 */

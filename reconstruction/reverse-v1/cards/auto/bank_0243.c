@@ -1,18 +1,8 @@
 /* libyoyo.so 覆盖卡组 0243
- * 函数 0x293d40..0x29528c，共 32 个；
+ * 函数 0x293d60..0x2952dc，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x293d40 · Java_com_yoyogames_runner_RunnerJNILib_CreateAsynEventWithDSMap · size=32 · insn=8 */
-/* @0x293d40 push {r3, r4, r5, lr} */
-/* @0x293d44 mov r4, r2 */
-/* @0x293d48 mov r5, r3 */
-/* @0x293d4c bl 0x290614 <setJNIEnv> */
-/* @0x293d50 mov r0, r4 */
-/* @0x293d54 mov r1, r5 */
-/* @0x293d58 pop {r3, r4, r5, lr} */
-/* @0x293d5c b 0x18da04 <_Z24CreateAsynEventWithDSMapii> */
 
 /* ── FUNC 0x293d60 · Java_com_yoyogames_runner_RunnerJNILib_jCreateDsMap · size=700 · insn=175 */
 /* @0x293d60 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
@@ -1450,3 +1440,9 @@
 /* @0x2952d0 ldr r0, [sp, #0x4] */
 /* @0x2952d4 add sp, sp, #12 */
 /* @0x2952d8 ldr pc, [sp], #4 */
+
+/* ── FUNC 0x2952dc · yySocket::Read(void*, unsigned int, unsigned int) · size=16 · insn=4 */
+/* @0x2952dc ldr r12, [r0, #0xc] */
+/* @0x2952e0 ldr r0, [r0] */
+/* @0x2952e4 orr r3, r3, r12 */
+/* @0x2952e8 b 0xb6df0 <recv@plt> */

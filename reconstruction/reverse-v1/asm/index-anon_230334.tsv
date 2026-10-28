@@ -1,0 +1,208 @@
+230334	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+230338	e24dd03c	sub	sp, sp, #60
+23033c	e1a07003	mov	r7, r3
+230340	e1a06000	mov	r6, r0
+230344	e59d4064	ldr	r4, [sp, #0x64]
+230348	e88d0006	stm	sp, {r1, r2}
+23034c	e3540000	cmp	r4, #0
+230350	e59d8060	ldr	r8, [sp, #0x60]
+230354	0a0000ad	beq	0x230610 <vorbis_packet_blocksize+0x994>
+230358	e59d0000	ldr	r0, [sp]
+23035c	e2865078	add	r5, r6, #120
+230360	e28db018	add	r11, sp, #24
+230364	ebffea5f	bl	0x22ace8 <vorbis_info_init>
+230368	e59d0004	ldr	r0, [sp, #0x4]
+23036c	ebffe9c3	bl	0x22aa80 <vorbis_comment_init>
+230370	e3a03002	mov	r3, #2
+230374	e5863058	str	r3, [r6, #0x58]
+230378	e1a00004	mov	r0, r4
+23037c	eb000f03	bl	0x233f90 <ogg_page_bos>
+230380	e3500000	cmp	r0, #0
+230384	0a000052	beq	0x2304d4 <vorbis_packet_blocksize+0x858>
+230388	e3570000	cmp	r7, #0
+23038c	0a000024	beq	0x230424 <vorbis_packet_blocksize+0x7a8>
+230390	e597a000	ldr	r10, [r7]
+230394	e1a00004	mov	r0, r4
+230398	e5989000	ldr	r9, [r8]
+23039c	eb000f3e	bl	0x23409c <ogg_page_serialno>
+2303a0	e35a0000	cmp	r10, #0
+2303a4	0a00000e	beq	0x2303e4 <vorbis_packet_blocksize+0x768>
+2303a8	e3590000	cmp	r9, #0
+2303ac	0a00000c	beq	0x2303e4 <vorbis_packet_blocksize+0x768>
+2303b0	e59a3000	ldr	r3, [r10]
+2303b4	e1500003	cmp	r0, r3
+2303b8	0a000052	beq	0x230508 <vorbis_packet_blocksize+0x88c>
+2303bc	e1a0200a	mov	r2, r10
+2303c0	e249c001	sub	r12, r9, #1
+2303c4	e3a03000	mov	r3, #0
+2303c8	ea000002	b	0x2303d8 <vorbis_packet_blocksize+0x75c>
+2303cc	e5b21004	ldr	r1, [r2, #0x4]!
+2303d0	e1500001	cmp	r0, r1
+2303d4	0a00004b	beq	0x230508 <vorbis_packet_blocksize+0x88c>
+2303d8	e153000c	cmp	r3, r12
+2303dc	e2833001	add	r3, r3, #1
+2303e0	1afffff9	bne	0x2303cc <vorbis_packet_blocksize+0x750>
+2303e4	e1a00004	mov	r0, r4
+2303e8	eb000f2b	bl	0x23409c <ogg_page_serialno>
+2303ec	e5981000	ldr	r1, [r8]
+2303f0	e2811001	add	r1, r1, #1
+2303f4	e1a0a000	mov	r10, r0
+2303f8	e5970000	ldr	r0, [r7]
+2303fc	e5881000	str	r1, [r8]
+230400	e3500000	cmp	r0, #0
+230404	0a000048	beq	0x23052c <vorbis_packet_blocksize+0x8b0>
+230408	e1a01101	lsl	r1, r1, #2
+23040c	ebfa1a05	bl	0xb6c28 <realloc@plt>
+230410	e1a03000	mov	r3, r0
+230414	e5870000	str	r0, [r7]
+230418	e5982000	ldr	r2, [r8]
+23041c	e2422107	sub	r2, r2, #-1073741823
+230420	e783a102	str	r10, [r3, r2, lsl #2]
+230424	e5963058	ldr	r3, [r6, #0x58]
+230428	e3530002	cmp	r3, #2
+23042c	ca000010	bgt	0x230474 <vorbis_packet_blocksize+0x7f8>
+230430	e1a00004	mov	r0, r4
+230434	eb000f18	bl	0x23409c <ogg_page_serialno>
+230438	e1a01000	mov	r1, r0
+23043c	e1a00005	mov	r0, r5
+230440	eb0013ab	bl	0x2352f4 <ogg_stream_reset_serialno>
+230444	e1a01004	mov	r1, r4
+230448	e1a00005	mov	r0, r5
+23044c	eb001296	bl	0x234eac <ogg_stream_pagein>
+230450	e1a00005	mov	r0, r5
+230454	e1a0100b	mov	r1, r11
+230458	eb0013b2	bl	0x235328 <ogg_stream_packetout>
+23045c	e3500000	cmp	r0, #0
+230460	da000003	ble	0x230474 <vorbis_packet_blocksize+0x7f8>
+230464	e1a0000b	mov	r0, r11
+230468	ebffea95	bl	0x22aec4 <vorbis_synthesis_idheader>
+23046c	e3500000	cmp	r0, #0
+230470	1a000032	bne	0x230540 <vorbis_packet_blocksize+0x8c4>
+230474	e3a02902	mov	r2, #32768
+230478	e3a03000	mov	r3, #0
+23047c	e1a00006	mov	r0, r6
+230480	e1a01004	mov	r1, r4
+230484	ebfffe20	bl	0x22fd0c <vorbis_packet_blocksize+0x90>
+230488	e3e0207f	mvn	r2, #127
+23048c	e3e03000	mvn	r3, #0
+230490	e1510003	cmp	r1, r3
+230494	01500002	cmpeq	r0, r2
+230498	0a000031	beq	0x230564 <vorbis_packet_blocksize+0x8e8>
+23049c	e3500000	cmp	r0, #0
+2304a0	e2d13000	sbcs	r3, r1, #0
+2304a4	ba00000d	blt	0x2304e0 <vorbis_packet_blocksize+0x864>
+2304a8	e5963058	ldr	r3, [r6, #0x58]
+2304ac	e3530003	cmp	r3, #3
+2304b0	1affffb0	bne	0x230378 <vorbis_packet_blocksize+0x6fc>
+2304b4	e1a00004	mov	r0, r4
+2304b8	e596a1c8	ldr	r10, [r6, #0x1c8]
+2304bc	eb000ef6	bl	0x23409c <ogg_page_serialno>
+2304c0	e15a0000	cmp	r10, r0
+2304c4	1affffab	bne	0x230378 <vorbis_packet_blocksize+0x6fc>
+2304c8	e2860078	add	r0, r6, #120
+2304cc	e1a01004	mov	r1, r4
+2304d0	eb001275	bl	0x234eac <ogg_stream_pagein>
+2304d4	e5963058	ldr	r3, [r6, #0x58]
+2304d8	e3530003	cmp	r3, #3
+2304dc	0a000022	beq	0x23056c <vorbis_packet_blocksize+0x8f0>
+2304e0	e3e0b083	mvn	r11, #131
+2304e4	e59d0000	ldr	r0, [sp]
+2304e8	ebffea08	bl	0x22ad10 <vorbis_info_clear>
+2304ec	e59d0004	ldr	r0, [sp, #0x4]
+2304f0	ebffe9d5	bl	0x22ac4c <vorbis_comment_clear>
+2304f4	e1a0000b	mov	r0, r11
+2304f8	e3a03002	mov	r3, #2
+2304fc	e5863058	str	r3, [r6, #0x58]
+230500	e28dd03c	add	sp, sp, #60
+230504	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+230508	e5970000	ldr	r0, [r7]
+23050c	e3500000	cmp	r0, #0
+230510	0a000000	beq	0x230518 <vorbis_packet_blocksize+0x89c>
+230514	ebfa1810	bl	0xb655c <free@plt>
+230518	e3a03000	mov	r3, #0
+23051c	e3e0b084	mvn	r11, #132
+230520	e5873000	str	r3, [r7]
+230524	e5883000	str	r3, [r8]
+230528	eaffffed	b	0x2304e4 <vorbis_packet_blocksize+0x868>
+23052c	e3a00004	mov	r0, #4
+230530	ebfa1803	bl	0xb6544 <malloc@plt>
+230534	e1a03000	mov	r3, r0
+230538	e5870000	str	r0, [r7]
+23053c	eaffffb5	b	0x230418 <vorbis_packet_blocksize+0x79c>
+230540	e3a03003	mov	r3, #3
+230544	e89d0003	ldm	sp, {r0, r1}
+230548	e5863058	str	r3, [r6, #0x58]
+23054c	e1a0200b	mov	r2, r11
+230550	ebffea83	bl	0x22af64 <vorbis_synthesis_headerin>
+230554	e3500000	cmp	r0, #0
+230558	0affffc5	beq	0x230474 <vorbis_packet_blocksize+0x7f8>
+23055c	e3e0b084	mvn	r11, #132
+230560	eaffffdf	b	0x2304e4 <vorbis_packet_blocksize+0x868>
+230564	e3e0b07f	mvn	r11, #127
+230568	eaffffdd	b	0x2304e4 <vorbis_packet_blocksize+0x868>
+23056c	e3a0a000	mov	r10, #0
+230570	e2868078	add	r8, r6, #120
+230574	e1a0700a	mov	r7, r10
+230578	e28d5018	add	r5, sp, #24
+23057c	ea000009	b	0x2305a8 <vorbis_packet_blocksize+0x92c>
+230580	e3700001	cmn	r0, #1
+230584	0afffff4	beq	0x23055c <vorbis_packet_blocksize+0x8e0>
+230588	e89d0003	ldm	sp, {r0, r1}
+23058c	e1a02005	mov	r2, r5
+230590	ebffea73	bl	0x22af64 <vorbis_synthesis_headerin>
+230594	e250b000	subs	r11, r0, #0
+230598	1affffd1	bne	0x2304e4 <vorbis_packet_blocksize+0x868>
+23059c	e3570000	cmp	r7, #0
+2305a0	1a000029	bne	0x23064c <vorbis_packet_blocksize+0x9d0>
+2305a4	e3a07001	mov	r7, #1
+2305a8	e1a00008	mov	r0, r8
+2305ac	e1a01005	mov	r1, r5
+2305b0	eb00135c	bl	0x235328 <ogg_stream_packetout>
+2305b4	e3500000	cmp	r0, #0
+2305b8	1afffff0	bne	0x230580 <vorbis_packet_blocksize+0x904>
+2305bc	e3a03000	mov	r3, #0
+2305c0	e1a00006	mov	r0, r6
+2305c4	e1a01004	mov	r1, r4
+2305c8	e3a02902	mov	r2, #32768
+2305cc	ebfffdce	bl	0x22fd0c <vorbis_packet_blocksize+0x90>
+2305d0	e3500000	cmp	r0, #0
+2305d4	e2d13000	sbcs	r3, r1, #0
+2305d8	e1a00004	mov	r0, r4
+2305dc	baffffde	blt	0x23055c <vorbis_packet_blocksize+0x8e0>
+2305e0	e596b1c8	ldr	r11, [r6, #0x1c8]
+2305e4	eb000eac	bl	0x23409c <ogg_page_serialno>
+2305e8	e15b0000	cmp	r11, r0
+2305ec	e1a00004	mov	r0, r4
+2305f0	0a000017	beq	0x230654 <vorbis_packet_blocksize+0x9d8>
+2305f4	eb000e65	bl	0x233f90 <ogg_page_bos>
+2305f8	e3500000	cmp	r0, #0
+2305fc	0affffee	beq	0x2305bc <vorbis_packet_blocksize+0x940>
+230600	e35a0000	cmp	r10, #0
+230604	e3a0a001	mov	r10, #1
+230608	0affffeb	beq	0x2305bc <vorbis_packet_blocksize+0x940>
+23060c	eaffffd2	b	0x23055c <vorbis_packet_blocksize+0x8e0>
+230610	e28da008	add	r10, sp, #8
+230614	e3a02902	mov	r2, #32768
+230618	e3a03000	mov	r3, #0
+23061c	e3e0407f	mvn	r4, #127
+230620	e1a0100a	mov	r1, r10
+230624	e3e05000	mvn	r5, #0
+230628	ebfffdb7	bl	0x22fd0c <vorbis_packet_blocksize+0x90>
+23062c	e1510005	cmp	r1, r5
+230630	01500004	cmpeq	r0, r4
+230634	0a00000c	beq	0x23066c <vorbis_packet_blocksize+0x9f0>
+230638	e3500000	cmp	r0, #0
+23063c	e2d13000	sbcs	r3, r1, #0
+230640	ba000007	blt	0x230664 <vorbis_packet_blocksize+0x9e8>
+230644	e1a0400a	mov	r4, r10
+230648	eaffff42	b	0x230358 <vorbis_packet_blocksize+0x6dc>
+23064c	e3a00000	mov	r0, #0
+230650	eaffffaa	b	0x230500 <vorbis_packet_blocksize+0x884>
+230654	e1a00008	mov	r0, r8
+230658	e1a01004	mov	r1, r4
+23065c	eb001212	bl	0x234eac <ogg_stream_pagein>
+230660	eaffffd0	b	0x2305a8 <vorbis_packet_blocksize+0x92c>
+230664	e3e00083	mvn	r0, #131
+230668	eaffffa4	b	0x230500 <vorbis_packet_blocksize+0x884>
+23066c	e3e0007f	mvn	r0, #127
+230670	eaffffa2	b	0x230500 <vorbis_packet_blocksize+0x884>

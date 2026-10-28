@@ -373,7 +373,7 @@
 /* @0x1e1734 .word 0xffffd9d0 */
 /* @0x1e1738 .word 0xffffd9c0 */
 
-/* ── FUNC 0x1e173c · anon_1e173c · size=4 · insn=1 */
+/* ── FUNC 0x1e173c · anon_1e173c · size=0 · insn=1 */
 /* @0x1e173c andeq r0, r0, r0 */
 
 /* ── FUNC 0x1e1740 · F_Shader_Set_Uniform_I(RValue&, CInstance*, CInstance*, int, RValue*) · size=260 · insn=63 */
@@ -441,7 +441,7 @@
 /* @0x1e1834 nop */
 /* @0x1e1840 .word 0x0020f5f4 */
 
-/* ── FUNC 0x1e1844 · anon_1e1844 · size=4 · insn=1 */
+/* ── FUNC 0x1e1844 · anon_1e1844 · size=0 · insn=1 */
 /* @0x1e1844 nop */
 
 /* ── FUNC 0x1e1848 · F_Shader_Set_Uniform_I_Array(RValue&, CInstance*, CInstance*, int, RValue*) · size=272 · insn=68 */
@@ -579,7 +579,7 @@
 /* @0x1e1a4c nop */
 /* @0x1e1a58 .word 0x0020f3dc */
 
-/* ── FUNC 0x1e1a5c · anon_1e1a5c · size=4 · insn=1 */
+/* ── FUNC 0x1e1a5c · anon_1e1a5c · size=0 · insn=1 */
 /* @0x1e1a5c nop */
 
 /* ── FUNC 0x1e1a60 · F_Shader_Set_Uniform_F_Array(RValue&, CInstance*, CInstance*, int, RValue*) · size=272 · insn=68 */

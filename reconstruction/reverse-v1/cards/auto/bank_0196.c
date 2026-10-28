@@ -467,7 +467,7 @@
 /* @0x21e20c adcs r0, r0, r3 */
 /* @0x21e210 pop {r3, pc} */
 
-/* ── FUNC 0x21e214 · anon_21e214 · size=4 · insn=1 */
+/* ── FUNC 0x21e214 · anon_21e214 · size=0 · insn=1 */
 /* @0x21e214 andeq r0, r0, r0 */
 
 /* ── FUNC 0x21e218 · CAudioGroupMan::GetLoadProgress(int) · size=80 · insn=18 */

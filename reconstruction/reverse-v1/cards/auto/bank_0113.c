@@ -1554,7 +1554,7 @@
 /* @0x175a84 mlaeq r7, r12, r0, r8 */
 /* @0x175a88 eoreq r7, r7, r0, lsr #31 */
 
-/* ── FUNC 0x175a8c · anon_175a8c · size=4 · insn=1 */
+/* ── FUNC 0x175a8c · anon_175a8c · size=0 · insn=1 */
 /* @0x175a8c andeq r0, r0, r0 */
 
 /* ── FUNC 0x175a90 · GR_Texture_Draw_Part_Color(YYTPageEntry*, float, float, float, float, float, float, float, float, float, unsigned int, unsigned int, unsigned int, unsigned int, float) · size=1020 · insn=253 */
@@ -1812,7 +1812,7 @@
 /* @0x175e84 eoreq r8, r7, r12, lsr r3 */
 /* @0x175e88 .word 0x00277cbc */
 
-/* ── FUNC 0x175e8c · anon_175e8c · size=4 · insn=1 */
+/* ── FUNC 0x175e8c · anon_175e8c · size=0 · insn=1 */
 /* @0x175e8c nop */
 
 /* ── FUNC 0x175e90 · GR_Texture_Draw_Tiled(int, float, float, float, float, float, float, bool, bool, float, float, float, float, unsigned int, float) · size=1052 · insn=261 */
@@ -2078,7 +2078,7 @@
 /* @0x1762a4 .word 0xffffbccc */
 /* @0x1762a8 .word 0xffffbcd0 */
 
-/* ── FUNC 0x1762ac · anon_1762ac · size=4 · insn=1 */
+/* ── FUNC 0x1762ac · anon_1762ac · size=0 · insn=1 */
 /* @0x1762ac nop */
 
 /* ── FUNC 0x1762b0 · GR_Texture_Draw_Tiled(YYTPageEntry*, float, float, float, float, float, float, bool, bool, float, float, float, float, unsigned int, float) · size=1308 · insn=327 */

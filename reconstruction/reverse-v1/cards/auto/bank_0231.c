@@ -1,11 +1,8 @@
 /* libyoyo.so 覆盖卡组 0231
- * 函数 0x27e148..0x27ebb8，共 32 个；
+ * 函数 0x27e14c..0x27ebec，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x27e148 · InitProfile() · size=4 · insn=1 */
-/* @0x27e148 bx lr */
 
 /* ── FUNC 0x27e14c · array_list_new · size=100 · insn=25 */
 /* @0x27e14c push {r3, r4, r5, lr} */
@@ -208,7 +205,7 @@
 /* @0x27e400 bx lr */
 /* @0x27e404 andseq r3, r7, r8, rrx */
 
-/* ── FUNC 0x27e408 · anon_27e408 · size=940 · insn=235 */
+/* ── FUNC 0x27e408 · anon_27e408 · size=936 · insn=235 */
 /* @0x27e408 ldr r2, [r0, #0x18] */
 /* @0x27e40c mov r0, r1 */
 /* @0x27e410 ldr r1, [pc, #0x4] */
@@ -465,7 +462,7 @@
 /* @0x27e7ec blx r3 */
 /* @0x27e7f0 pop {r3, pc} */
 
-/* ── FUNC 0x27e7f4 · anon_27e7f4 · size=32 · insn=8 */
+/* ── FUNC 0x27e7f4 · anon_27e7f4 · size=28 · insn=8 */
 /* @0x27e7f4 push {r4, lr} */
 /* @0x27e7f8 mov r4, r0 */
 /* @0x27e7fc ldr r0, [r0] */
@@ -548,7 +545,7 @@
 /* @0x27e908 movne r0, #0 */
 /* @0x27e90c bx lr */
 
-/* ── FUNC 0x27e910 · anon_27e910 · size=240 · insn=60 */
+/* ── FUNC 0x27e910 · anon_27e910 · size=236 · insn=60 */
 /* @0x27e910 push {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0x27e914 mov r4, r1 */
 /* @0x27e918 ldr r1, [pc, #0xc8] */
@@ -748,3 +745,6 @@
 /* @0x27ebe0 str r3, [r0, #0x8] */
 /* @0x27ebe4 pop {r3, r4, r5, pc} */
 /* @0x27ebe8 .word 0xfffff83c */
+
+/* ── FUNC 0x27ebec · anon_27ebec · size=0 · insn=1 */
+/* @0x27ebec andeq r0, r0, r0 */

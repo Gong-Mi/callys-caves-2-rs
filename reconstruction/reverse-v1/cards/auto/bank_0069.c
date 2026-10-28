@@ -1208,7 +1208,7 @@
 /* @0x138cdc eoreq r7, r0, r8, lsl #9 */
 /* @0x138ce0 andseq r7, pc, r4, ror #27 */
 
-/* ── FUNC 0x138ce4 · anon_138ce4 · size=4 · insn=1 */
+/* ── FUNC 0x138ce4 · anon_138ce4 · size=0 · insn=1 */
 /* @0x138ce4 nop */
 
 /* ── FUNC 0x138ce8 · HttpBufferRequestCallback(HTTP_REQ_CONTEXT*, void*, int*) · size=392 · insn=96 */

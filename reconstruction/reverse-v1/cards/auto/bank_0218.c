@@ -1,22 +1,8 @@
 /* libyoyo.so 覆盖卡组 0218
- * 函数 0x240828..0x242c84，共 32 个；
+ * 函数 0x240858..0x242ebc，共 32 个；
  * 级别: 原始覆盖（锚点全挂，语义未钉）
  * 由 scripts/gen_cards.py 生成；锚点权威来源 asm/instructions.jsonl
  */
-
-/* ── FUNC 0x240828 · JS_IsAccessorDescriptor(RValue*) · size=48 · insn=12 */
-/* @0x240828 ldr r3, [r0, #0xc] */
-/* @0x24082c bic r3, r3, #-16777216 */
-/* @0x240830 cmp r3, #6 */
-/* @0x240834 beq 0x240840 <_Z23JS_IsAccessorDescriptorP6RValue+0x18> */
-/* @0x240838 mov r0, #0 */
-/* @0x24083c bx lr */
-/* @0x240840 ldr r3, [r0] */
-/* @0x240844 ldr r0, [r3, #0x48] */
-/* @0x240848 subs r3, r0, #2 */
-/* @0x24084c rsbs r0, r3, #0 */
-/* @0x240850 adcs r0, r0, r3 */
-/* @0x240854 bx lr */
 
 /* ── FUNC 0x240858 · JS_IsGenericDescriptor(RValue*) · size=68 · insn=17 */
 /* @0x240858 ldr r3, [r0, #0xc] */
@@ -2536,3 +2522,13 @@
 /* @0x242eb0 .word 0xffffc0c4 */
 /* @0x242eb4 andseq r2, r1, r0, ror #15 */
 /* @0x242eb8 .word 0xffffc050 */
+
+/* ── FUNC 0x242ebc · translate(EJSRetVal) · size=32 · insn=8 */
+/* @0x242ebc cmp r0, #1 */
+/* @0x242ec0 beq 0x242ed4 <_Z9translate9EJSRetVal+0x18> */
+/* @0x242ec4 cmp r0, #2 */
+/* @0x242ec8 mvneq r0, #3 */
+/* @0x242ecc movne r0, #0 */
+/* @0x242ed0 bx lr */
+/* @0x242ed4 mvn r0, #4 */
+/* @0x242ed8 bx lr */
