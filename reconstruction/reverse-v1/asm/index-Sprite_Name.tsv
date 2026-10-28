@@ -1,0 +1,33 @@
+1eeee0	e3500000	cmp	r0, #0
+1eeee4	ba000012	blt	0x1eef34 <_Z11Sprite_Namei+0x54>
+1eeee8	e59f305c	ldr	r3, [pc, #0x5c]
+1eeeec	e79f3003	ldr	r3, [pc, r3]
+1eeef0	e5933000	ldr	r3, [r3]
+1eeef4	e1500003	cmp	r0, r3
+1eeef8	aa00000a	bge	0x1eef28 <_Z11Sprite_Namei+0x48>
+1eeefc	e59f304c	ldr	r3, [pc, #0x4c]
+1eef00	e79f3003	ldr	r3, [pc, r3]
+1eef04	e5933004	ldr	r3, [r3, #0x4]
+1eef08	e7933100	ldr	r3, [r3, r0, lsl #2]
+1eef0c	e3530000	cmp	r3, #0
+1eef10	0a00000a	beq	0x1eef40 <_Z11Sprite_Namei+0x60>
+1eef14	e59f3038	ldr	r3, [pc, #0x38]
+1eef18	e79f3003	ldr	r3, [pc, r3]
+1eef1c	e5933000	ldr	r3, [r3]
+1eef20	e7930100	ldr	r0, [r3, r0, lsl #2]
+1eef24	e12fff1e	bx	lr
+1eef28	e59f0028	ldr	r0, [pc, #0x28]
+1eef2c	e08f0000	add	r0, pc, r0
+1eef30	e12fff1e	bx	lr
+1eef34	e59f0020	ldr	r0, [pc, #0x20]
+1eef38	e08f0000	add	r0, pc, r0
+1eef3c	e12fff1e	bx	lr
+1eef40	e59f0018	ldr	r0, [pc, #0x18]
+1eef44	e08f0000	add	r0, pc, r0
+1eef48	e12fff1e	bx	lr
+1eef4c	00201f24	eoreq	r1, r0, r4, lsr #30
+1eef50	00201f08	eoreq	r1, r0, r8, lsl #30
+1eef54	00201ef4	.word	0x00201ef4
+1eef58	00141b94	mulseq	r4, r4, r11
+1eef5c	00141b88	andseq	r1, r4, r8, lsl #23
+1eef60	00141b7c	andseq	r1, r4, r12, ror r11

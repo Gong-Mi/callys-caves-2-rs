@@ -1,0 +1,96 @@
+1eebbc	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+1eebc0	e59f915c	ldr	r9, [pc, #0x15c]
+1eebc4	e59f315c	ldr	r3, [pc, #0x15c]
+1eebc8	e08f9009	add	r9, pc, r9
+1eebcc	e7997003	ldr	r7, [r9, r3]
+1eebd0	e5970004	ldr	r0, [r7, #0x4]
+1eebd4	e3500000	cmp	r0, #0
+1eebd8	0a000026	beq	0x1eec78 <_Z11Sprite_Initv+0xbc>
+1eebdc	e59f3148	ldr	r3, [pc, #0x148]
+1eebe0	e7998003	ldr	r8, [r9, r3]
+1eebe4	e5983000	ldr	r3, [r8]
+1eebe8	e3530000	cmp	r3, #0
+1eebec	e59f313c	ldr	r3, [pc, #0x13c]
+1eebf0	d799a003	ldrle	r10, [r9, r3]
+1eebf4	da000018	ble	0x1eec5c <_Z11Sprite_Initv+0xa0>
+1eebf8	e799a003	ldr	r10, [r9, r3]
+1eebfc	e3a04000	mov	r4, #0
+1eec00	e1a06004	mov	r6, r4
+1eec04	e7903104	ldr	r3, [r0, r4, lsl #2]
+1eec08	e1a05104	lsl	r5, r4, #2
+1eec0c	e0802005	add	r2, r0, r5
+1eec10	e2844001	add	r4, r4, #1
+1eec14	e3530000	cmp	r3, #0
+1eec18	e1a00003	mov	r0, r3
+1eec1c	0a000004	beq	0x1eec34 <_Z11Sprite_Initv+0x78>
+1eec20	e5933000	ldr	r3, [r3]
+1eec24	e5933004	ldr	r3, [r3, #0x4]
+1eec28	e12fff33	blx	r3
+1eec2c	e5972004	ldr	r2, [r7, #0x4]
+1eec30	e0822005	add	r2, r2, r5
+1eec34	e5826000	str	r6, [r2]
+1eec38	e59a3000	ldr	r3, [r10]
+1eec3c	e7930005	ldr	r0, [r3, r5]
+1eec40	eb0235a2	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1eec44	e5982000	ldr	r2, [r8]
+1eec48	e59a3000	ldr	r3, [r10]
+1eec4c	e1520004	cmp	r2, r4
+1eec50	e7836005	str	r6, [r3, r5]
+1eec54	e5970004	ldr	r0, [r7, #0x4]
+1eec58	caffffe9	bgt	0x1eec04 <_Z11Sprite_Initv+0x48>
+1eec5c	eb02359b	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1eec60	e59a0000	ldr	r0, [r10]
+1eec64	e3a04000	mov	r4, #0
+1eec68	e5874004	str	r4, [r7, #0x4]
+1eec6c	eb023597	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1eec70	e5884000	str	r4, [r8]
+1eec74	e58a4000	str	r4, [r10]
+1eec78	e59f30b4	ldr	r3, [pc, #0xb4]
+1eec7c	e7994003	ldr	r4, [r9, r3]
+1eec80	e5940010	ldr	r0, [r4, #0x10]
+1eec84	e3500000	cmp	r0, #0
+1eec88	0a000000	beq	0x1eec90 <_Z11Sprite_Initv+0xd4>
+1eec8c	eb02358f	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1eec90	e5940000	ldr	r0, [r4]
+1eec94	e3a05000	mov	r5, #0
+1eec98	e59f1098	ldr	r1, [pc, #0x98]
+1eec9c	e3a02046	mov	r2, #70
+1eeca0	e240c001	sub	r12, r0, #1
+1eeca4	e3a03001	mov	r3, #1
+1eeca8	e0800080	add	r0, r0, r0, lsl #1
+1eecac	e08f1001	add	r1, pc, r1
+1eecb0	e5845010	str	r5, [r4, #0x10]
+1eecb4	e1a06100	lsl	r6, r0, #2
+1eecb8	e584c008	str	r12, [r4, #0x8]
+1eecbc	e1a00006	mov	r0, r6
+1eecc0	eb02386c	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1eecc4	e1a02006	mov	r2, r6
+1eecc8	e1a01005	mov	r1, r5
+1eeccc	e5840010	str	r0, [r4, #0x10]
+1eecd0	ebfb1e36	bl	0xb65b0 <memset@plt>
+1eecd4	e5942000	ldr	r2, [r4]
+1eecd8	eddf7a10	vldr	s15, [pc, #64]
+1eecdc	e5845004	str	r5, [r4, #0x4]
+1eece0	e1520005	cmp	r2, r5
+1eece4	ee062a90	vmov	s13, r2
+1eece8	eeb87ae6	vcvt.f32.s32	s14, s13
+1eecec	ee677a27	vmul.f32	s15, s14, s15
+1eecf0	eefd7ae7	vcvt.s32.f32	s15, s15
+1eecf4	edc47a03	vstr	s15, [r4, #12]
+1eecf8	d8bd87f0	pople	{r4, r5, r6, r7, r8, r9, r10, pc}
+1eecfc	e5943010	ldr	r3, [r4, #0x10]
+1eed00	e0822082	add	r2, r2, r2, lsl #1
+1eed04	e1a01005	mov	r1, r5
+1eed08	e0832102	add	r2, r3, r2, lsl #2
+1eed0c	e5831008	str	r1, [r3, #0x8]
+1eed10	e283300c	add	r3, r3, #12
+1eed14	e1530002	cmp	r3, r2
+1eed18	1afffffb	bne	0x1eed0c <_Z11Sprite_Initv+0x150>
+1eed1c	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+1eed20	3f19999a	svclo	#0x19999a
+1eed24	00203088	eoreq	r3, r0, r8, lsl #1
+1eed28	fffff1b8	.word	0xfffff1b8
+1eed2c	fffff1c0	.word	0xfffff1c0
+1eed30	fffff1bc	.word	0xfffff1bc
+1eed34	fffff1c4	.word	0xfffff1c4
+1eed38	00142384	andseq	r2, r4, r4, lsl #7

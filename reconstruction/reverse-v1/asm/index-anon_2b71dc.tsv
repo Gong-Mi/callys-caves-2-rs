@@ -1,0 +1,199 @@
+2b71dc	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2b71e0	e2732001	rsbs	r2, r3, #1
+2b71e4	e24dd00c	sub	sp, sp, #12
+2b71e8	e1a04000	mov	r4, r0
+2b71ec	33a02000	movlo	r2, #0
+2b71f0	e3520000	cmp	r2, #0
+2b71f4	e590a198	ldr	r10, [r0, #0x198]
+2b71f8	e58d2004	str	r2, [sp, #0x4]
+2b71fc	e5900170	ldr	r0, [r0, #0x170]
+2b7200	0a000054	beq	0x2b7358 <jinit_merged_upsampler+0x3bc>
+2b7204	e2900000	adds	r0, r0, #0
+2b7208	13a00001	movne	r0, #1
+2b720c	e5941174	ldr	r1, [r4, #0x174]
+2b7210	e5942178	ldr	r2, [r4, #0x178]
+2b7214	e3510000	cmp	r1, #0
+2b7218	0a000002	beq	0x2b7228 <jinit_merged_upsampler+0x28c>
+2b721c	e2411001	sub	r1, r1, #1
+2b7220	e1520001	cmp	r2, r1
+2b7224	1a000001	bne	0x2b7230 <jinit_merged_upsampler+0x294>
+2b7228	e352000d	cmp	r2, #13
+2b722c	da000067	ble	0x2b73d0 <jinit_merged_upsampler+0x434>
+2b7230	e5942000	ldr	r2, [r4]
+2b7234	e3a0c010	mov	r12, #16
+2b7238	e1a00004	mov	r0, r4
+2b723c	e5823018	str	r3, [r2, #0x18]
+2b7240	e5943000	ldr	r3, [r4]
+2b7244	e5941170	ldr	r1, [r4, #0x170]
+2b7248	e582c014	str	r12, [r2, #0x14]
+2b724c	e583101c	str	r1, [r3, #0x1c]
+2b7250	e5943000	ldr	r3, [r4]
+2b7254	e5942174	ldr	r2, [r4, #0x174]
+2b7258	e5832020	str	r2, [r3, #0x20]
+2b725c	e5943000	ldr	r3, [r4]
+2b7260	e5942178	ldr	r2, [r4, #0x178]
+2b7264	e5832024	str	r2, [r3, #0x24]
+2b7268	e5943000	ldr	r3, [r4]
+2b726c	e5933000	ldr	r3, [r3]
+2b7270	e12fff33	blx	r3
+2b7274	e5943124	ldr	r3, [r4, #0x124]
+2b7278	e3530000	cmp	r3, #0
+2b727c	da00002b	ble	0x2b7330 <jinit_merged_upsampler+0x394>
+2b7280	e1a09004	mov	r9, r4
+2b7284	e3a08000	mov	r8, #0
+2b7288	e3a07073	mov	r7, #115
+2b728c	e5993128	ldr	r3, [r9, #0x128]
+2b7290	e59d2004	ldr	r2, [sp, #0x4]
+2b7294	e5936004	ldr	r6, [r3, #0x4]
+2b7298	e3520000	cmp	r2, #0
+2b729c	e594208c	ldr	r2, [r4, #0x8c]
+2b72a0	e082b406	add	r11, r2, r6, lsl #8
+2b72a4	1a000002	bne	0x2b72b4 <jinit_merged_upsampler+0x318>
+2b72a8	e7922406	ldr	r2, [r2, r6, lsl #8]
+2b72ac	e3520000	cmp	r2, #0
+2b72b0	ba00007e	blt	0x2b74b0 <jinit_merged_upsampler+0x514>
+2b72b4	e594516c	ldr	r5, [r4, #0x16c]
+2b72b8	e5942170	ldr	r2, [r4, #0x170]
+2b72bc	e1550002	cmp	r5, r2
+2b72c0	d08bb105	addle	r11, r11, r5, lsl #2
+2b72c4	ca000014	bgt	0x2b731c <jinit_merged_upsampler+0x380>
+2b72c8	e49b2004	ldr	r2, [r11], #4
+2b72cc	e1a00004	mov	r0, r4
+2b72d0	e594c174	ldr	r12, [r4, #0x174]
+2b72d4	e3e01000	mvn	r1, #0
+2b72d8	e1c22fc2	bic	r2, r2, r2, asr #31
+2b72dc	e15c0002	cmp	r12, r2
+2b72e0	0a000007	beq	0x2b7304 <jinit_merged_upsampler+0x368>
+2b72e4	e5942000	ldr	r2, [r4]
+2b72e8	e5826018	str	r6, [r2, #0x18]
+2b72ec	e594c000	ldr	r12, [r4]
+2b72f0	e5827014	str	r7, [r2, #0x14]
+2b72f4	e58c501c	str	r5, [r12, #0x1c]
+2b72f8	e5942000	ldr	r2, [r4]
+2b72fc	e5922004	ldr	r2, [r2, #0x4]
+2b7300	e12fff32	blx	r2
+2b7304	e5942178	ldr	r2, [r4, #0x178]
+2b7308	e2855001	add	r5, r5, #1
+2b730c	e50b2004	str	r2, [r11, #-0x4]
+2b7310	e5942170	ldr	r2, [r4, #0x170]
+2b7314	e1520005	cmp	r2, r5
+2b7318	aaffffea	bge	0x2b72c8 <jinit_merged_upsampler+0x32c>
+2b731c	e5943124	ldr	r3, [r4, #0x124]
+2b7320	e2888001	add	r8, r8, #1
+2b7324	e2899004	add	r9, r9, #4
+2b7328	e1530008	cmp	r3, r8
+2b732c	caffffd6	bgt	0x2b728c <jinit_merged_upsampler+0x2f0>
+2b7330	e5942174	ldr	r2, [r4, #0x174]
+2b7334	e59d1004	ldr	r1, [sp, #0x4]
+2b7338	e3520000	cmp	r2, #0
+2b733c	1a00000c	bne	0x2b7374 <jinit_merged_upsampler+0x3d8>
+2b7340	e3510000	cmp	r1, #0
+2b7344	0a00004e	beq	0x2b7484 <jinit_merged_upsampler+0x4e8>
+2b7348	e59f1190	ldr	r1, [pc, #0x190]
+2b734c	e08f1001	add	r1, pc, r1
+2b7350	e58a1004	str	r1, [r10, #0x4]
+2b7354	ea00000b	b	0x2b7388 <jinit_merged_upsampler+0x3ec>
+2b7358	e1530000	cmp	r3, r0
+2b735c	c3a00001	movgt	r0, #1
+2b7360	da000040	ble	0x2b7468 <jinit_merged_upsampler+0x4cc>
+2b7364	e5942124	ldr	r2, [r4, #0x124]
+2b7368	e3520001	cmp	r2, #1
+2b736c	13a00001	movne	r0, #1
+2b7370	eaffffa5	b	0x2b720c <jinit_merged_upsampler+0x270>
+2b7374	e3510000	cmp	r1, #0
+2b7378	0a000017	beq	0x2b73dc <jinit_merged_upsampler+0x440>
+2b737c	e59f1160	ldr	r1, [pc, #0x160]
+2b7380	e08f1001	add	r1, pc, r1
+2b7384	e58a1004	str	r1, [r10, #0x4]
+2b7388	e3530000	cmp	r3, #0
+2b738c	da00002c	ble	0x2b7444 <jinit_merged_upsampler+0x4a8>
+2b7390	e3a05000	mov	r5, #0
+2b7394	e1a07004	mov	r7, r4
+2b7398	e1a08005	mov	r8, r5
+2b739c	e1a0600a	mov	r6, r10
+2b73a0	e3520000	cmp	r2, #0
+2b73a4	e5973128	ldr	r3, [r7, #0x128]
+2b73a8	e2855001	add	r5, r5, #1
+2b73ac	e2877004	add	r7, r7, #4
+2b73b0	0a000037	beq	0x2b7494 <jinit_merged_upsampler+0x4f8>
+2b73b4	e5868018	str	r8, [r6, #0x18]
+2b73b8	e2866004	add	r6, r6, #4
+2b73bc	e5943124	ldr	r3, [r4, #0x124]
+2b73c0	e1530005	cmp	r3, r5
+2b73c4	da00001e	ble	0x2b7444 <jinit_merged_upsampler+0x4a8>
+2b73c8	e5942174	ldr	r2, [r4, #0x174]
+2b73cc	eafffff3	b	0x2b73a0 <jinit_merged_upsampler+0x404>
+2b73d0	e3500000	cmp	r0, #0
+2b73d4	0affffa6	beq	0x2b7274 <jinit_merged_upsampler+0x2d8>
+2b73d8	eaffff94	b	0x2b7230 <jinit_merged_upsampler+0x294>
+2b73dc	e59f2104	ldr	r2, [pc, #0x104]
+2b73e0	e08f2002	add	r2, pc, r2
+2b73e4	e58a2004	str	r2, [r10, #0x4]
+2b73e8	e3530000	cmp	r3, #0
+2b73ec	da000014	ble	0x2b7444 <jinit_merged_upsampler+0x4a8>
+2b73f0	e3a05000	mov	r5, #0
+2b73f4	e1a07004	mov	r7, r4
+2b73f8	e1a09005	mov	r9, r5
+2b73fc	e1a0600a	mov	r6, r10
+2b7400	e5973128	ldr	r3, [r7, #0x128]
+2b7404	e1a00004	mov	r0, r4
+2b7408	e3a01000	mov	r1, #0
+2b740c	e2855001	add	r5, r5, #1
+2b7410	e2877004	add	r7, r7, #4
+2b7414	e2866004	add	r6, r6, #4
+2b7418	e5932018	ldr	r2, [r3, #0x18]
+2b741c	e282800a	add	r8, r2, #10
+2b7420	e08a8108	add	r8, r10, r8, lsl #2
+2b7424	e2883004	add	r3, r8, #4
+2b7428	eb001c38	bl	0x2be510 <jpeg_make_d_derived_tbl>
+2b742c	e5983004	ldr	r3, [r8, #0x4]
+2b7430	e58a303c	str	r3, [r10, #0x3c]
+2b7434	e5869014	str	r9, [r6, #0x14]
+2b7438	e5943124	ldr	r3, [r4, #0x124]
+2b743c	e1530005	cmp	r3, r5
+2b7440	caffffee	bgt	0x2b7400 <jinit_merged_upsampler+0x464>
+2b7444	e3a03000	mov	r3, #0
+2b7448	e5ca3008	strb	r3, [r10, #0x8]
+2b744c	e59420fc	ldr	r2, [r4, #0xfc]
+2b7450	e58a3010	str	r3, [r10, #0x10]
+2b7454	e58a300c	str	r3, [r10, #0xc]
+2b7458	e58a2028	str	r2, [r10, #0x28]
+2b745c	e58a3014	str	r3, [r10, #0x14]
+2b7460	e28dd00c	add	sp, sp, #12
+2b7464	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2b7468	e350003f	cmp	r0, #63
+2b746c	e5942124	ldr	r2, [r4, #0x124]
+2b7470	d3a00000	movle	r0, #0
+2b7474	c3a00001	movgt	r0, #1
+2b7478	e3520001	cmp	r2, #1
+2b747c	13a00001	movne	r0, #1
+2b7480	eaffff61	b	0x2b720c <jinit_merged_upsampler+0x270>
+2b7484	e59f2060	ldr	r2, [pc, #0x60]
+2b7488	e08f2002	add	r2, pc, r2
+2b748c	e58a2004	str	r2, [r10, #0x4]
+2b7490	eaffffd4	b	0x2b73e8 <jinit_merged_upsampler+0x44c>
+2b7494	e5932014	ldr	r2, [r3, #0x14]
+2b7498	e1a00004	mov	r0, r4
+2b749c	e3a01001	mov	r1, #1
+2b74a0	e08a3102	add	r3, r10, r2, lsl #2
+2b74a4	e283302c	add	r3, r3, #44
+2b74a8	eb001c18	bl	0x2be510 <jpeg_make_d_derived_tbl>
+2b74ac	eaffffc0	b	0x2b73b4 <jinit_merged_upsampler+0x418>
+2b74b0	e5942000	ldr	r2, [r4]
+2b74b4	e1a00004	mov	r0, r4
+2b74b8	e59d3004	ldr	r3, [sp, #0x4]
+2b74bc	e3e01000	mvn	r1, #0
+2b74c0	e5826018	str	r6, [r2, #0x18]
+2b74c4	e594c000	ldr	r12, [r4]
+2b74c8	e5827014	str	r7, [r2, #0x14]
+2b74cc	e58c301c	str	r3, [r12, #0x1c]
+2b74d0	e5942000	ldr	r2, [r4]
+2b74d4	e5922004	ldr	r2, [r2, #0x4]
+2b74d8	e12fff32	blx	r2
+2b74dc	eaffff74	b	0x2b72b4 <jinit_merged_upsampler+0x318>
+2b74e0	000009fc	strdeq	r0, r1, [r0], -r12
+2b74e4	00000168	andeq	r0, r0, r8, ror #2
+2b74e8	0000021c	andeq	r0, r0, r12, lsl r2
+2b74ec	0000062c	andeq	r0, r0, r12, lsr #12
+2b74f0	e59020fc	ldr	r2, [r0, #0xfc]
+2b74f4	e3a03001	mov	r3, #1

@@ -1,0 +1,54 @@
+1eef64	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1eef68	ebffff06	bl	0x1eeb88 <_Z21CHashMapCalculateHashIPKcEjT_>
+1eef6c	e59f20c4	ldr	r2, [pc, #0xc4]
+1eef70	e79f2002	ldr	r2, [pc, r2]
+1eef74	e5921008	ldr	r1, [r2, #0x8]
+1eef78	e5927010	ldr	r7, [r2, #0x10]
+1eef7c	e3c00102	bic	r0, r0, #-2147483648
+1eef80	e0003001	and	r3, r0, r1
+1eef84	e1a04083	lsl	r4, r3, #1
+1eef88	e084c003	add	r12, r4, r3
+1eef8c	e087c10c	add	r12, r7, r12, lsl #2
+1eef90	e59cc008	ldr	r12, [r12, #0x8]
+1eef94	e35c0000	cmp	r12, #0
+1eef98	0a00001a	beq	0x1ef008 <_Z11Sprite_FindPKc+0xa4>
+1eef9c	e150000c	cmp	r0, r12
+1eefa0	0a00001c	beq	0x1ef018 <_Z11Sprite_FindPKc+0xb4>
+1eefa4	e5928000	ldr	r8, [r2]
+1eefa8	e001c00c	and	r12, r1, r12
+1eefac	e0832008	add	r2, r3, r8
+1eefb0	e06cc002	rsb	r12, r12, r2
+1eefb4	e11c0001	tst	r12, r1
+1eefb8	4a000012	bmi	0x1ef008 <_Z11Sprite_FindPKc+0xa4>
+1eefbc	e3a0c000	mov	r12, #0
+1eefc0	ea000003	b	0x1eefd4 <_Z11Sprite_FindPKc+0x70>
+1eefc4	e1500002	cmp	r0, r2
+1eefc8	0a000010	beq	0x1ef010 <_Z11Sprite_FindPKc+0xac>
+1eefcc	e155000c	cmp	r5, r12
+1eefd0	ba00000c	blt	0x1ef008 <_Z11Sprite_FindPKc+0xa4>
+1eefd4	e2833001	add	r3, r3, #1
+1eefd8	e28cc001	add	r12, r12, #1
+1eefdc	e0033001	and	r3, r3, r1
+1eefe0	e0836008	add	r6, r3, r8
+1eefe4	e1a04083	lsl	r4, r3, #1
+1eefe8	e0842003	add	r2, r4, r3
+1eefec	e0872102	add	r2, r7, r2, lsl #2
+1eeff0	e5922008	ldr	r2, [r2, #0x8]
+1eeff4	e0015002	and	r5, r1, r2
+1eeff8	e3520000	cmp	r2, #0
+1eeffc	e0655006	rsb	r5, r5, r6
+1ef000	e0055001	and	r5, r5, r1
+1ef004	1affffee	bne	0x1eefc4 <_Z11Sprite_FindPKc+0x60>
+1ef008	e3e00000	mvn	r0, #0
+1ef00c	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+1ef010	e3730001	cmn	r3, #1
+1ef014	0a000005	beq	0x1ef030 <_Z11Sprite_FindPKc+0xcc>
+1ef018	e0843003	add	r3, r4, r3
+1ef01c	e0877103	add	r7, r7, r3, lsl #2
+1ef020	e3770004	cmn	r7, #4
+1ef024	0afffff7	beq	0x1ef008 <_Z11Sprite_FindPKc+0xa4>
+1ef028	e5970004	ldr	r0, [r7, #0x4]
+1ef02c	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+1ef030	e1a00003	mov	r0, r3
+1ef034	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+1ef038	00201ea4	eoreq	r1, r0, r4, lsr #29

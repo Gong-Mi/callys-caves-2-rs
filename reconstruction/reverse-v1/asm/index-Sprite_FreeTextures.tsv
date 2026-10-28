@@ -1,0 +1,21 @@
+1eee30	e92d4070	push	{r4, r5, r6, lr}
+1eee34	e59f5040	ldr	r5, [pc, #0x40]
+1eee38	e79f5005	ldr	r5, [pc, r5]
+1eee3c	e5953000	ldr	r3, [r5]
+1eee40	e3530000	cmp	r3, #0
+1eee44	d8bd8070	pople	{r4, r5, r6, pc}
+1eee48	e59f6030	ldr	r6, [pc, #0x30]
+1eee4c	e3a04000	mov	r4, #0
+1eee50	e79f6006	ldr	r6, [pc, r6]
+1eee54	e5963004	ldr	r3, [r6, #0x4]
+1eee58	e7930104	ldr	r0, [r3, r4, lsl #2]
+1eee5c	e2844001	add	r4, r4, #1
+1eee60	e3500000	cmp	r0, #0
+1eee64	0a000000	beq	0x1eee6c <_Z19Sprite_FreeTexturesv+0x3c>
+1eee68	ebffda23	bl	0x1e56fc <_ZN7CSprite11FreeTextureEv>
+1eee6c	e5953000	ldr	r3, [r5]
+1eee70	e1530004	cmp	r3, r4
+1eee74	cafffff6	bgt	0x1eee54 <_Z19Sprite_FreeTexturesv+0x24>
+1eee78	e8bd8070	pop	{r4, r5, r6, pc}
+1eee7c	00201fd8	.word	0x00201fd8
+1eee80	00201fb8	.word	0x00201fb8

@@ -1,0 +1,5 @@
+1eee84	e59f3008	ldr	r3, [pc, #0x8]
+1eee88	e79f3003	ldr	r3, [pc, r3]
+1eee8c	e5930000	ldr	r0, [r3]
+1eee90	e12fff1e	bx	lr
+1eee94	00201f88	eoreq	r1, r0, r8, lsl #31
