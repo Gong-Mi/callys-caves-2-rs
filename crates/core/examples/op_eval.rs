@@ -35,31 +35,31 @@
 //! 写进 16 字节：real/bool 8 字节 double、int32 4 字节、int64 8 字节、string ≤11
 //! 字节内联 ASCII（与 `diff/c/vm_ref.c` 的镜像编码一致）。
 //!
-//! `sp` 按 16 字节 RValue 槽记账（与协议示例 `"sp": -16` 一致）：二元 -16、一元 0、
-//! `dup` +16、`push_immediate` -16、`conv` 0，失败 0。
+//! `sp` 由 VM 的**字节位移**给出（不是 16 字节槽）：`code_vm` 的栈槽带宽度
+//! （int32/float32/bool/string 4、real/int64 8、RValue 16），`push_immediate`
+//! 是 -4、二元是 `+右宽+左宽-结果宽`、`dup` 是 `-n*size`、比较是
+//! `wa+wb-4`（两个 8 字节槽 → +12）。适配层从 `Host::stack_pointer` 的快照里
+//! 取**算子里那条指令**的前后差，失败 0。
 //!
 //! # op 覆盖
 //!
-//! `code_vm::Op` 只有 Constant/String/Load/Store/LoadLocal/StoreLocal/Cast/
-//! Add/Sub/Mul/Div/Not/Dup/And/Cmp/B/Bt/Bf/Pushenv/Popenv/Call/Popz/Exit。
-//! 因此 `rem`、`mod`、`or`、`xor`、`shl`、`shr`、`neg` 在 Rust 侧**没有**对应
-//! 实现（不是本层没接，是库的 op 集里没有），一律回 `unsupported:<op>`。
+//! `code_vm::Op` 现在有全部 22 个协议算子对应的分支：Add/Sub/Mul/Div/And、
+//! Rem/Mod/Or/Xor/Shl/Shr/Neg/Not（mode/type 位域按卡）、Cast、Constant/
+//! ConstantTagged（push_immediate 的 tag 7）、Dup/DupMode（swap）与 DoSet 的
+//! Cmp。格式 nibble 不是 5 时，操作数在进入 VM 前按**声明类**解码（class 0
+//! double、1 f32、2 int32、3 int64、4 bool、6 string），这正是原版
+//! `as_f64/as_i64/as_i32` 读裸槽的方式；nibble 5 才按 +12 tag 分派。
 //!
-//! # 已知分歧（正是差分要暴露的东西，本层不修）
+//! # 已知分歧（本层不修，留给库）
 //!
-//!   * `dup` 的 swap 变体在 `Op::Dup` 里没有参数（IR 的 Dup 只有普通复制），C 侧
-//!     mode≠0 是 `DoDup` 的 swap 模式（非 16B RValue 的 type 直接报
-//!     `Argument type N currently unhandled by DoDup swap mode`），本层跑的是复制。
-//!   * DoDiv 的实数路径不判零，库的 `Value::div` 也照卡给 IEEE ±inf/NaN；但
-//!     `execute` 每条指令后都拒收非有限值，于是 1.0/0.0 会变成
-//!     `non-finite numeric value unsupported`（协议里是一条 error，不是 ±inf）。
-//!   * DoRem 写回的是**商**（卡已证名字与实现不符），`Op` 里没有 rem → 未接。
-//!   * `conv` 的目标类型 6（string）要在 host 的池里分配文本，VM 侧报
-//!     `unsupported cast`，本层渲染成 `unsupported:conv`。
-//!   * `push_immediate` 的 lowered 形式是 `Op::Constant`（real），所以这一行的
-//!     结果 tag 是 0；C 侧按 4 字节 int32 给 tag 7。栈单位也不同（-16 vs -4）。
-//!   * 库的 `Cmp` K 只到 1..6；K=7..10 / 14 / 15 在契约里是 open，回
-//!     `unsupported comparison`（渲染成原文）。
+//!   * DoAdd/DoSub/DoMul/DoDiv/DoAnd 的 `mode != 0` 慢路径（boxType +
+//!     F_JS_ToNumber/ToInt32）在库里还没有 mode 参数，走的是快路径语义。
+//!   * `conv` 的 flags（mode bit8=ToBoolean、bit9=ToNumber）没有进 `Op::Cast`；
+//!     只有 dst 参与。dst=6（string）要在 host 池里分配文本 → `unsupported cast`。
+//!   * JS ToNumber 对字符串要 `strtod` 文本；VM 侧没有池，慢路径遇到字符串
+//!     报该算子的字符串错误（DoNot mode1 的 ToBoolean 例外，走 host 文本）。
+//!   * DoSet 的 K=7..10 / 14 / 15 在契约里是 open，仍是
+//!     `unsupported comparison`。
 //!
 //! 输出行的字段集按协议的两个示例：成功 `{"id","ok","sp","result":{"bytes","tag"}}`，
 //! 失败 `{"id","ok","error"}`（失败也带 `sp: 0`，协议要求）。
@@ -75,8 +75,8 @@ struct RValue {
     tag: u32,
 }
 
-/// 16 字节操作数在栈上的宽度（协议按 RValue 槽计，与卡片 16B 装箱路径一致）。
-const SLOT: i32 = 16;
+/// 16 字节操作数在栈上的宽度由**声明类**决定（0/3→8、1/2/4/6→4、5→16），
+/// 不再有统一的「槽」常量。`code_vm::class_width` 是这张表的唯一实现。
 
 /// 把两个操作数交给库、再把栈顶收回来。操作数经 `Host::read` 进入 VM，所以
 /// tag 与整数宽度都是真的进了 `Value`，没有 f64 中转。
@@ -88,6 +88,8 @@ struct CaptureHost {
     strings: Vec<String>,
     /// 每条 `Store` 交出来的栈顶。
     values: Vec<Value>,
+    /// 每条指令执行后的值栈字节位移（`Host::stack_pointer` 的快照）。
+    pointers: Vec<i32>,
 }
 
 impl CaptureHost {
@@ -146,6 +148,11 @@ impl code_vm::Host for CaptureHost {
 
     fn select(&self, _instance: i32, _selector: i32) -> Result<Vec<i32>, String> {
         Err("adapter: unexpected select".into())
+    }
+
+    /// 记录每条指令后的字节位移；`eval` 只取算子里那条指令的前后差。
+    fn stack_pointer(&mut self, sp: i32) {
+        self.pointers.push(sp);
     }
 
     /// GMS 的 `+`：任一侧是串就 ToString 两边再拼（DoAdd mode1）。
@@ -291,8 +298,9 @@ fn inline_text(bytes: &[u8; 16]) -> String {
     String::from_utf8_lossy(&bytes[0..end]).into_owned()
 }
 
-/// 16 字节 RValue → `Value`：tag 原样进值，字符串进本层池。
-fn to_value(v: &RValue, host: &mut CaptureHost, op: &str) -> Result<Value, String> {
+/// 16 字节 RValue → `Value`：tag 原样进值，字符串进本层池。用于格式 nibble
+/// 为 5（动态 RValue 槽）的读。
+fn to_value(v: &RValue, host: &mut CaptureHost) -> Result<Value, String> {
     // 24 位 tag 截成 u8：0x00FFFFFF 占位落成 TAG_UNRESOLVED 哨兵，其余 tag 都 < 256。
     let tag = v.tag as u8;
     Ok(match tag {
@@ -311,9 +319,24 @@ fn to_value(v: &RValue, host: &mut CaptureHost, op: &str) -> Result<Value, Strin
         // 布局。原样交给库，由它按卡片的 tag 表报错。
         tag => {
             let raw = u32::from_le_bytes(v.bytes[0..4].try_into().unwrap());
-            let _ = op;
-            Value::opaque(tag as u8, raw)
+            Value::opaque(tag, raw)
         }
+    })
+}
+
+/// 按**指令字声明的存储类**读裸槽：0 double、1 float32、2 int32、3 int64、
+/// 4 bool、6 string；5 是动态 RValue（按 +12 tag），表外 7..15 没有内核
+/// （值本身不参与运算，这里按 tag 兜底）。原版 `as_f64/as_i64/as_i32` 就是
+/// 这样按声明类读裸槽的 —— 快路径不看 tag。
+fn to_class_value(v: &RValue, cls: i64, host: &mut CaptureHost) -> Result<Value, String> {
+    Ok(match cls {
+        0 => Value::real(f64::from_le_bytes(v.bytes[0..8].try_into().unwrap())),
+        1 => Value::real(f32::from_le_bytes(v.bytes[0..4].try_into().unwrap()) as f64),
+        2 => Value::int32(i32::from_le_bytes(v.bytes[0..4].try_into().unwrap())),
+        3 => Value::int64(i64::from_le_bytes(v.bytes[0..8].try_into().unwrap())),
+        4 => Value::boolean(i32::from_le_bytes(v.bytes[0..4].try_into().unwrap()) != 0),
+        6 => host.intern(inline_text(&v.bytes)),
+        _ => to_value(v, host)?,
     })
 }
 
@@ -333,68 +356,129 @@ struct Evaluated {
     text: Option<String>,
 }
 
-fn load(name: &str) -> Op {
-    Op::Load {
-        name: name.to_string(),
-        selector: 0,
-        array: false,
-        other: false,
-    }
+fn load_slot(name: &str, width: u8) -> Op {
+    Op::LoadSlot { name: name.to_string(), width }
+}
+
+/// 4 bit 存储类 → 栈槽字节宽度（与 `code_vm::class_width` 同一张表）。
+fn slot_width(cls: i64) -> u8 {
+    code_vm::class_width((cls & 0x0F) as u8) as u8
 }
 
 /// 一条用例：返回 (结果值, 栈顶位移)。
 fn eval(op: &str, mode: i64, ty: i64, a: &RValue, b: &RValue) -> Result<Evaluated, String> {
-    // 二元算子的名字（DoSet 的 K=1..6 与 Cmp 的 comparison 1..6 同序）。
-    let binary = |op: &str| -> Option<Op> {
-        Some(match op {
-            "add" => Op::Add,
-            "sub" => Op::Sub,
-            "mul" => Op::Mul,
-            "div" => Op::Div,
-            "and" => Op::And,
-            "set_lt" => Op::Cmp { comparison: 1 },
-            "set_le" => Op::Cmp { comparison: 2 },
-            "set_eq" => Op::Cmp { comparison: 3 },
-            "set_ne" => Op::Cmp { comparison: 4 },
-            "set_ge" => Op::Cmp { comparison: 5 },
-            "set_gt" => Op::Cmp { comparison: 6 },
-            _ => return None,
-        })
-    };
+    let ty = (ty & 0xFF) as u8;
+    // DoSet 的 0xFF 是「两侧都是 16 字节 RValue」的哨兵（vm_ref: ha=hb=5），
+    // 先归一成 0x55，后面的宽度与声明类都按 5 处理。
+    let ty = if op.starts_with("set_") && ty == 0xFF { 0x55 } else { ty };
+    let mode_n = (mode as u32 & 0x0F) as u8;
 
     if op == "push_immediate" {
-        // mode 当 16 位立即数（有符号）；库的 lowered 形式就是 Op::Constant。
+        // mode 当 16 位立即数（有符号）；卡里是 sxth + 4 字节 int32（tag 7）。
         let imm = ((mode as u32) & 0xffff) as u16 as i16 as f64;
-        let host = run(CaptureHost::default(), vec![Op::Constant { value: imm }], 1)
-            .map_err(|m| render_error(op, m))?;
-        return Ok(Evaluated {
-            value: host.values[0],
-            sp: -SLOT,
-            text: None,
-        });
+        let host = run(
+            CaptureHost::default(),
+            vec![Op::ConstantTagged { value: imm, tag: value::TAG_INT32 }],
+            1,
+        )
+        .map_err(|m| render_error(op, m))?;
+        let sp = *host.pointers.first().ok_or("adapter: missing stack pointer")?;
+        return Ok(Evaluated { value: host.values[0], sp, text: None });
     }
 
-    // 其余每个算子都从 Load 起手：tag 由 host 交给库，不经 f64 中转。
-    // （needs_rhs 决定是否再取第二个操作数：dup / conv / not 是一元的。）
-    let (ops, stores, needs_rhs): (Vec<Op>, usize, bool) = if op == "dup" {
-        (vec![load("a"), Op::Dup], 2, false)
-    } else if op == "conv" {
-        let dst = ((ty >> 4) & 0x0f) as u8;
-        (vec![load("a"), Op::Cast { to: dst }], 1, false)
-    } else if op == "not" {
-        (vec![load("a"), Op::Not], 1, false)
-    } else if let Some(kernel) = binary(op) {
-        (vec![load("a"), load("b"), kernel], 1, true)
-    } else {
-        // rem / mod / or / xor / shl / shr / neg：code_vm::Op 里没有，库侧无实现。
-        return Err(format!("unsupported:{op}"));
+    // 22 个协议算子全部落到 code_vm 的变体上；kernel 为 None 的四个
+    // （dup/conv/not/neg）由下面的 if 链决定 operand 形状。
+    let kernel: Option<Op> = match op {
+        "add" => Some(Op::Add),
+        "sub" => Some(Op::Sub),
+        "mul" => Some(Op::Mul),
+        "div" => Some(Op::Div),
+        "and" => Some(Op::AndMode { mode: mode_n, ty }),
+        "rem" => Some(Op::Rem { mode: mode_n, ty }),
+        "mod" => Some(Op::Mod { mode: mode_n, ty }),
+        "or" => Some(Op::Or { mode: mode_n, ty }),
+        "xor" => Some(Op::Xor { mode: mode_n, ty }),
+        "shl" => Some(Op::Shl { mode: mode_n, ty }),
+        "shr" => Some(Op::Shr { mode: mode_n, ty }),
+        "set_lt" => Some(Op::CmpMode { comparison: 1, ty }),
+        "set_le" => Some(Op::CmpMode { comparison: 2, ty }),
+        "set_eq" => Some(Op::CmpMode { comparison: 3, ty }),
+        "set_ne" => Some(Op::CmpMode { comparison: 4, ty }),
+        "set_ge" => Some(Op::CmpMode { comparison: 5, ty }),
+        "set_gt" => Some(Op::CmpMode { comparison: 6, ty }),
+        "dup" | "conv" | "not" | "neg" => None,
+        _ => return Err(format!("unsupported:{op}")),
     };
 
+    let ha = (ty >> 4) & 0x0F;
+    let hb = ty & 0x0F;
+    // 这些算子的 mode≠0 是 JS 装箱慢路径：boxType 之后 F_JS_ToNumber /
+    // F_JS_ToInt32 按 +12 tag 读值，与指令字的声明类无关。
+    let js_path = (matches!(op, "and" | "or" | "xor" | "shl" | "shr") && mode != 0)
+        || (matches!(op, "neg" | "not") && (mode == 1 || mode == 2));
+
+    let (ops, stores, kernel_index) = if op == "dup" {
+        let kernel = if mode == 0 {
+            Op::Dup
+        } else {
+            Op::DupMode { mode: mode as u8, ty }
+        };
+        // 普通 dup 存两次（校验副本）；swap 只返回栈顶，存一次。
+        let stores = if mode == 0 { 2 } else { 1 };
+        (vec![load_slot("a", slot_width(ty as i64)), kernel], stores, 1)
+    } else if op == "conv" {
+        let dst = (ty >> 4) & 0x0F;
+        (
+            vec![load_slot("a", slot_width((ty & 0x0F) as i64)), Op::Cast { to: dst }],
+            1,
+            1,
+        )
+    } else if op == "not" {
+        (
+            vec![load_slot("a", slot_width((ty & 0x0F) as i64)), Op::NotMode { mode: mode_n, ty }],
+            1,
+            1,
+        )
+    } else if op == "neg" {
+        (
+            vec![load_slot("a", slot_width((ty & 0x0F) as i64)), Op::Neg { mode: mode_n, ty }],
+            1,
+            1,
+        )
+    } else {
+        (
+            vec![
+                load_slot("a", slot_width(ha as i64)),
+                load_slot("b", slot_width(hb as i64)),
+                kernel.expect("binary kernel"),
+            ],
+            1,
+            2,
+        )
+    };
+
+    // 每个算子都从 Load 起手：格式 nibble 不是 5 时按声明类解码，nibble 5
+    // 才按 +12 tag；dup 的 type 是元素宽度类，不动值的 tag 语义。
     let mut host = CaptureHost::default();
-    let lhs = to_value(a, &mut host, op)?;
+    let lhs = if op == "dup" {
+        to_value(a, &mut host)?
+    } else if js_path {
+        to_value(a, &mut host)?
+    } else {
+        let cls = if op == "conv" || op == "not" || op == "neg" {
+            (ty & 0x0F) as i64
+        } else {
+            ha as i64
+        };
+        to_class_value(a, cls, &mut host)?
+    };
     host.push(lhs);
-    if needs_rhs {
-        let rhs = to_value(b, &mut host, op)?;
+    if kernel_index == 2 {
+        let rhs = if js_path {
+            to_value(b, &mut host)?
+        } else {
+            to_class_value(b, hb as i64, &mut host)?
+        };
         host.push(rhs);
     }
     let host = run(host, ops, stores).map_err(|m| render_error(op, m))?;
@@ -404,13 +488,11 @@ fn eval(op: &str, mode: i64, ty: i64, a: &RValue, b: &RValue) -> Result<Evaluate
         Payload::Str(index) => host.text(index),
         _ => None,
     };
-    let sp = if op == "dup" {
-        SLOT
-    } else if needs_rhs {
-        -SLOT
-    } else {
-        0
-    };
+    if host.pointers.len() <= kernel_index {
+        return Err("adapter: missing stack pointer".into());
+    }
+    // 算子里那条指令的前后差 = 卡里的 sp 位移（load 的宽度差已被抵消）。
+    let sp = host.pointers[kernel_index] - host.pointers[kernel_index - 1];
     Ok(Evaluated { value, sp, text })
 }
 
@@ -454,9 +536,8 @@ fn success_line(id: &str, result: &Evaluated) -> Result<String, String> {
     line.push_str("{\"id\": ");
     line.push_str(id);
     line.push_str(", \"ok\": true, \"sp\": ");
-    // 注意：**不能**用 ×16 把槽换成字节 —— 原版的 push_immediate 只推 4 字节、
-    // 二元运算按操作数宽度推 8/4/16，不是固定 16 字节/槽。这里保留 VM 自己的槽计数，
-    // 让差分如实暴露"栈单位不同"这一层差异，不做假换算。
+    // sp 是 VM 的字节位移（卡的口径）：push_immediate -4、二元 +右宽+左宽-结果宽、
+    // dup -n*size、DoSet wa+wb-4。不是 16 字节/槽，也没有任何比例换算。
     line.push_str(&result.sp.to_string());
     line.push_str(", \"result\": {\"bytes\": \"");
     line.push_str(&hex_encode(&bytes));

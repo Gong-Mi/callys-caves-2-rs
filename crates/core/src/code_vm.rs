@@ -7,6 +7,7 @@
 //! instead of being flattened into one `f64`.
 use serde::Deserialize;
 pub use crate::value::{Payload, Value, STRING_REF_BASE};
+use crate::value::BitOp;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Bundle {
@@ -59,12 +60,45 @@ pub struct Instruction { pub offset: usize, pub code_offset: usize, pub words_ra
 #[derive(Debug, Clone, Deserialize)]
 #[serde(tag = "op", rename_all = "snake_case")]
 pub enum Op {
-    Constant { value: f64 }, String { string_id: usize },
+    Constant { value: f64 },
+    /// 带 tag 的立即数。`push_immediate` 在卡里是 `sxth` 后压 4 字节 int32
+    /// （tag 7），lowered 的 `Constant` 只有 real 载荷、装不下这个 tag，所以单列
+    /// 一个变体：`value` 是数值，`tag` 是原版写进 RValue +12 的类型。
+    ConstantTagged { value: f64, tag: u8 },
+    String { string_id: usize },
     Load { name: String, selector: i32, array: bool, #[serde(default)] other: bool },
+    /// 从**声明了存储类**的槽读操作数（DoAdd/DoSet/DoRem 的格式 nibble）。宽度
+    /// 由指令字决定而不是由运行期 tag 决定：0/3→8、1/2/4/6→4、5→16。
+    /// 普通的 `Load` 仍按值的 tag 推宽度（变量读出来是 RValue）。
+    LoadSlot { name: String, width: u8 },
     Store { name: String, selector: i32, array: bool, #[serde(default)] other: bool },
     LoadLocal { name: String },
     StoreLocal { name: String }, Cast { to: u8 },
-    Add, Sub, Mul, Div, Not, Dup, And, Cmp { comparison: u8 }, B { target: usize }, Bt { target: usize }, Bf { target: usize },
+    Add, Sub, Mul, Div,
+    /// DoRem：**写回商**（卡已证名字与实现不符），没有 mode 慢路径。
+    Rem { mode: u8, ty: u8 },
+    /// DoMod：mode==1 是常量路径（NaN 不报错），其余与 mode 0 同路。
+    Mod { mode: u8, ty: u8 },
+    Or { mode: u8, ty: u8 },
+    Xor { mode: u8, ty: u8 },
+    Shl { mode: u8, ty: u8 },
+    Shr { mode: u8, ty: u8 },
+    /// DoNeg：mode 0/3..15 强类型取负、1 通用取负、2 纯数值化。
+    Neg { mode: u8, ty: u8 },
+    /// DoNot：mode 0/3..15 是按位取反，1 是逻辑 `!`，2 是 JS 的 `~`。
+    /// 裸 `Not` 保留给旧 IR 的「逻辑非」语义。
+    NotMode { mode: u8, ty: u8 },
+    Not, Dup,
+    /// DoSet 的 K=1..6，带 type 字节：0xFF 已由适配层归一成 0x55，格式码
+    /// 7..15 走「给值不给错」，其余两侧按声明类 + tag 解析。
+    CmpMode { comparison: u8, ty: u8 },
+    /// DoDup 的 swap 模式（`arg & 0xFF00 != 0`）：只接受 type==5；n/m 都是
+    /// 16 字节槽计数，协议只带 bits[11:8]，m 按 0 处理 → 交换是空操作。
+    DupMode { mode: u8, ty: u8 },
+    And,
+    /// DoAnd 带上 mode/type（`And` 是旧 IR 的 tag 分派形式，保持不动）。
+    AndMode { mode: u8, ty: u8 },
+    Cmp { comparison: u8 }, B { target: usize }, Bt { target: usize }, Bf { target: usize },
     Pushenv { target: usize }, Popenv { target: usize }, Call { name: String, argc: usize }, Popz, Exit,
 }
 #[derive(Debug, Clone, PartialEq)]
@@ -97,6 +131,9 @@ pub trait Host {
         }
     }
     fn instruction(&mut self, _code: usize, _offset: usize) {}
+    /// 每条指令执行后的值栈字节位移（负数 = 栈向下长，与卡里的 `sp` 同号）。
+    /// 诊断口：差分适配层用它取单条算子的位移，正常运行不实现也无成本。
+    fn stack_pointer(&mut self, _sp: i32) {}
 }
 pub fn prologue_bundle() -> Bundle { serde_json::from_str(include_str!("generated/prologue_ir.json")).expect("generated IR schema") }
 /// Selector / array index: an int32 slot is taken as-is, anything else must be an
@@ -111,8 +148,6 @@ fn integer(v: Value) -> Result<i32, String> {
         }
     }
 }
-fn pop(stack: &mut Vec<Value>) -> Result<Value, String> { stack.pop().ok_or("stack underflow".into()) }
-
 /// Which CODE bodies actually executed — an execution ledger, not a coverage
 /// claim about behaviour.
 ///
@@ -206,11 +241,111 @@ pub mod coverage {
     }
 }
 
-/// Runtime is numeric-only. Every event gets an empty stack and a bounded budget.
+/// 栈槽：16 字节 RValue 的**值** + 它在原版值栈上占的**字节宽度**。
+///
+/// 宽度不是固定 16：卡里的落点公式按操作数宽度推进 —— `push_immediate` 是 -4、
+/// `int32+int32` 是 +4、`real+real` 是 +8、两个 16 字节 RValue 槽是 +28。
+/// 宽度默认由值的 tag 推（`Value::stack_width`）；指令字声明了存储类的读用
+/// `Op::LoadSlot` 显式给（0/3→8、1/2/4/6→4、5→16）。
+#[derive(Debug, Clone, Copy)]
+struct Slot { value: Value, width: i32 }
+
+/// 值栈 + 字节位移。push 下移、pop 上移，于是二元运算的位移自然就是
+/// `右宽 + 左宽 - 结果宽`（卡 DoAdd「结果落点」段 / DoSet 的 `r7-4`）。
+#[derive(Debug, Default)]
+struct ValueStack { slots: Vec<Slot>, sp: i32 }
+
+impl ValueStack {
+    fn push(&mut self, value: Value) { self.push_width(value, value.stack_width()) }
+    fn push_width(&mut self, value: Value, width: i32) { self.sp -= width; self.slots.push(Slot { value, width }) }
+    fn push_slot(&mut self, slot: Slot) { self.sp -= slot.width; self.slots.push(slot) }
+    fn pop(&mut self) -> Result<Slot, String> {
+        let slot = self.slots.pop().ok_or_else(|| "stack underflow".to_string())?;
+        self.sp += slot.width;
+        Ok(slot)
+    }
+    fn pop_value(&mut self) -> Result<Value, String> { Ok(self.pop()?.value) }
+    fn top(&self) -> Result<Slot, String> { self.slots.last().copied().ok_or_else(|| "stack underflow".to_string()) }
+    fn len(&self) -> usize { self.slots.len() }
+    fn is_empty(&self) -> bool { self.slots.is_empty() }
+}
+
+/// 存储类 → 字节宽度（DoDup 宽度表 / DoAdd 的 `slot_w`）。
+pub fn class_width(cls: u8) -> i32 {
+    match cls { 0 | 3 => 8, 1 | 2 | 4 | 6 => 4, 5 => 16, _ => 0 }
+}
+
+const fn pair_bit(left: u8, right: u8) -> u64 { 1u64 << ((left as u32) * 7 + right as u32) }
+
+/// (0 real, 2 int32, 3 int64) 的九种组合 —— DoSub/DoDiv/DoRem/DoMod 的合法表。
+const P9: u64 = pair_bit(0, 0) | pair_bit(0, 2) | pair_bit(0, 3)
+    | pair_bit(2, 0) | pair_bit(2, 2) | pair_bit(2, 3)
+    | pair_bit(3, 0) | pair_bit(3, 2) | pair_bit(3, 3);
+const REM_OK: u64 = P9;
+const MOD_OK: u64 = P9;
+/// DoAnd/DoOr 的 bool 组合：bool×bool 与 bool 和 real 混算。
+const OR_OK: u64 = P9 | pair_bit(0, 4) | pair_bit(4, 0) | pair_bit(4, 4);
+const AND_OK: u64 = OR_OK;
+/// DoXor 卡：只有 (4,4) 是 bool 内核，其余带 4 的组合全部 VMError。
+const XOR_OK: u64 = P9 | pair_bit(4, 4);
+/// DoShl：表4 合并了 (real,int32)/(real,int64) 与 (int64,int32)/(int64,int64)。
+const SHL_OK: u64 = pair_bit(0, 0) | pair_bit(0, 2) | pair_bit(0, 3)
+    | pair_bit(2, 0) | pair_bit(2, 2)
+    | pair_bit(3, 0) | pair_bit(3, 2) | pair_bit(3, 3);
+/// DoSet 卡里 16 个已列出的类型组合（含 (4,6)/(6,4) 两条 bool×string）。
+const SET_TYPES_OK: u64 = pair_bit(0, 0) | pair_bit(0, 2) | pair_bit(0, 4)
+    | pair_bit(2, 0) | pair_bit(2, 2) | pair_bit(2, 3) | pair_bit(2, 4)
+    | pair_bit(3, 0) | pair_bit(3, 2) | pair_bit(3, 3)
+    | pair_bit(4, 0) | pair_bit(4, 2) | pair_bit(4, 4) | pair_bit(4, 6)
+    | pair_bit(6, 4) | pair_bit(6, 6);
+/// DoShr：pair ∈ {0,2,3,32,34,35,48,50,51}。
+const SHR_OK: u64 = pair_bit(0, 0) | pair_bit(2, 0) | pair_bit(3, 0)
+    | pair_bit(0, 2) | pair_bit(2, 2) | pair_bit(3, 2)
+    | pair_bit(0, 3) | pair_bit(2, 3) | pair_bit(3, 3);
+
+fn pair_ok(mask: u64, la: u8, lb: u8) -> bool { (mask >> (la as u32 * 7 + lb as u32)) & 1 != 0 }
+
+/// 指令字的两个格式 nibble → 两侧真实存储类（nib==5 时按值的 tag 反查）。
+fn resolve_pair(op: &crate::value::Verdict, ty: u8, a: Value, b: Value) -> Result<(u8, u8), String> {
+    let la = crate::value::resolve_class(a, (ty >> 4) & 0xF, op, 1)?;
+    let lb = crate::value::resolve_class(b, ty & 0xF, op, 2)?;
+    Ok((la, lb))
+}
+
+/// JS 慢路径的数值化：字符串要读 host 的文本池再按 strtod 的前缀口径
+/// （`F_JS_ToNumber`）；其余值原样交给 `Value::js_to_number`。
+fn numeric_operand<H: Host>(bundle: &Bundle, host: &mut H, v: Value) -> Result<Value, String> {
+    if v.is_string() {
+        let text = host.string_text(bundle, v)?;
+        return Ok(Value::real(crate::value::parse_js_number(&text)));
+    }
+    Ok(v)
+}
+
+/// 立即数按 tag 装成值（`push_immediate` 的 tag 7 走 int32）。
+fn constant_value(value: f64, tag: u8) -> Value {
+    match tag {
+        crate::value::TAG_INT32 => Value::int32(crate::value::f2i32(value)),
+        crate::value::TAG_INT64 => Value::int64(crate::value::f2i64(value)),
+        crate::value::TAG_BOOL => Value::boolean(value != 0.0),
+        crate::value::TAG_UNDEFINED => Value::undefined(),
+        crate::value::TAG_NULL => Value::null(),
+        crate::value::TAG_STRING => Value::string(crate::value::f2i32(value) as u32),
+        _ => Value::real(value),
+    }
+}
+
+/// Runtime is value-tagged. Every event gets an empty stack and a bounded budget.
 /// Unsupported code never falls back to the legacy handwritten state machines.
 pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut H) -> Result<(), VmError> {
+    execute_with_sp(bundle, code, instance, host).map(|_| ())
+}
+
+/// 与 `execute` 同一条解释器，但把退出时的值栈字节位移交出来（负数 = 向下长）。
+/// 差分适配层用 `Host::stack_pointer` 取**单条算子**的位移，这个返回值是全体的和。
+pub fn execute_with_sp<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut H) -> Result<i32, VmError> {
     let mut offset = 0;
-    let result = (|| -> Result<(), String> {
+    let result = (|| -> Result<i32, String> {
         if bundle.schema != 1 { return Err("unsupported IR schema".into()); }
         let body = bundle.codes.iter().find(|c| c.id == code).ok_or("missing CODE body")?;
         offset = body.start;
@@ -233,8 +368,8 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
         // been validated and is about to run - a missing id, an unsupported
         // schema or a malformed span must not appear as "executed".
         coverage::record(code);
-        let mut stack = Vec::new();
-        let mut locals = std::collections::BTreeMap::new();
+        let mut stack = ValueStack::default();
+        let mut locals: std::collections::BTreeMap<String, Slot> = std::collections::BTreeMap::new();
         let mut environments: Vec<(i32, std::vec::IntoIter<i32>)> = Vec::new();
         let mut current = instance;
         let mut pc = 0;
@@ -248,23 +383,30 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                 // A lowered constant is a real. Legacy IR files may still carry a
                 // pooled string reference as a constant, so decode that encoding.
                 Op::Constant{value} => stack.push(Value::from_legacy_numeric(*value)),
+                Op::ConstantTagged{value, tag} => stack.push(constant_value(*value, *tag)),
                 Op::String{string_id} => stack.push(Value::string(*string_id as u32)),
                 Op::Load{name,selector,array,other} => {
                     let (s, index) = if *array {
-                        let idx=integer(pop(&mut stack)?)?;
-                        (integer(pop(&mut stack)?)?,Some(idx))
+                        let idx=integer(stack.pop_value()?)?;
+                        (integer(stack.pop_value()?)?,Some(idx))
                     } else if *other {
-                        (integer(pop(&mut stack)?)?, None)
+                        (integer(stack.pop_value()?)?, None)
                     } else {
                         (*selector,None)
                     };
                     stack.push(host.read(current,s,name,index)?);
                 }
+                // The opcode word declared this slot's storage class, so the byte
+                // width is known even when the value's tag disagrees with it.
+                Op::LoadSlot{name,width} => {
+                    let v = host.read(current, 0, name, None)?;
+                    stack.push_width(v, *width as i32);
+                }
                 Op::Store{name,selector,array,other} => {
                     let (s, index, value) = if *array {
-                        let idx = integer(pop(&mut stack)?)?;
-                        let s = integer(pop(&mut stack)?)?;
-                        let val = pop(&mut stack)?;
+                        let idx = integer(stack.pop_value()?)?;
+                        let s = integer(stack.pop_value()?)?;
+                        let val = stack.pop_value()?;
                         (s, Some(idx), val)
                     } else if *other {
                         // Two GMS pop variants, discriminated by the value-type
@@ -277,48 +419,50 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                         //     pop dest first, then value.
                         let type1 = ((i.words_raw[0] >> 16) & 0xff) & 0x0f;
                         if type1 == 2 {
-                            let val = pop(&mut stack)?;
-                            let dest = integer(pop(&mut stack)?)?;
+                            let val = stack.pop_value()?;
+                            let dest = integer(stack.pop_value()?)?;
                             (dest, None, val)
                         } else {
-                            let dest = integer(pop(&mut stack)?)?;
-                            let val = pop(&mut stack)?;
+                            let dest = integer(stack.pop_value()?)?;
+                            let val = stack.pop_value()?;
                             (dest, None, val)
                         }
                     } else {
-                        let val = pop(&mut stack)?;
+                        let val = stack.pop_value()?;
                         (*selector, None, val)
                     };
                     host.write(current,s,name,index,value)?;
                 }
-                Op::StoreLocal{name} => { let value=pop(&mut stack)?; locals.insert(name.clone(),value); }
+                Op::StoreLocal{name} => { let slot=stack.pop()?; locals.insert(name.clone(),slot); }
                 Op::Cast{to} => {
                     // DoConv type codes: src/dst are 0..6 (real/f32/int32/int64/bool/
-                    // dynamic/string); the lowered IR only carries the dst.
-                    let v=pop(&mut stack)?;
-                    stack.push(v.cast(*to)?);
+                    // dynamic/string); the lowered IR only carries the dst. The
+                    // result occupies the destination class's width (dst 5 = 16 B).
+                    let slot=stack.pop()?;
+                    let v=slot.value.cast(*to)?;
+                    stack.push_width(v, class_width(*to));
                 }
                 Op::Add|Op::Sub|Op::Mul|Op::Div|Op::Cmp{..} => {
-                    let rhs=pop(&mut stack)?; let lhs=pop(&mut stack)?;
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
                     let v=match i.op {
                         // GMS joins strings with `+` (DoAdd mode1: either side a
                         // string -> ToString both, then concatenate). The host owns
                         // the string pool, so it resolves and stores the result.
-                        Op::Add if lhs.is_string() || rhs.is_string() => host.string_concat(bundle, lhs, rhs)?,
-                        Op::Add => lhs.add(rhs)?,
-                        Op::Sub => lhs.sub(rhs)?,
-                        Op::Mul => lhs.mul(rhs)?,
-                        Op::Div => lhs.div(rhs)?,
+                        Op::Add if lhs.value.is_string() || rhs.value.is_string() => host.string_concat(bundle, lhs.value, rhs.value)?,
+                        Op::Add => lhs.value.add(rhs.value)?,
+                        Op::Sub => lhs.value.sub(rhs.value)?,
+                        Op::Mul => lhs.value.mul(rhs.value)?,
+                        Op::Div => lhs.value.div(rhs.value)?,
                         Op::Cmp{comparison} => {
-                            if lhs.is_string() || rhs.is_string() {
+                            if lhs.value.is_string() || rhs.value.is_string() {
                                 // DoSet 0x66: strcmp, then the same K = 1..6 order.
                                 // A string against a non-string is a combination the
                                 // card leaves open; unsupported combinations yield a
                                 // value, not an error (only != is 1).
-                                match (lhs.is_string(), rhs.is_string()) {
+                                match (lhs.value.is_string(), rhs.value.is_string()) {
                                     (true, true) => {
-                                        let a = host.string_text(bundle, lhs)?;
-                                        let b = host.string_text(bundle, rhs)?;
+                                        let a = host.string_text(bundle, lhs.value)?;
+                                        let b = host.string_text(bundle, rhs.value)?;
                                         let ord = a.cmp(&b);
                                         let truth = match comparison {
                                             1 => ord.is_lt(), 2 => ord.is_le(), 3 => ord.is_eq(),
@@ -330,27 +474,200 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                                     _ => Value::int32(if comparison == 4 {1} else {0}),
                                 }
                             } else {
-                                lhs.compare(rhs, comparison)?
+                                lhs.value.compare(rhs.value, comparison)?
                             }
                         }
                         _=>unreachable!(),
-                    }; stack.push(v);
+                    };
+                    // 字符串结果是 16 字节 RValue（DoAdd 0x66 的落点就是 -16）；
+                    // 其余结果按值的 tag 定宽（int32/bool 4、real/int64 8）。
+                    if v.is_string() { stack.push_width(v, 16) } else { stack.push(v) }
+                }
+                // ── DoRem / DoMod / DoOr / DoXor / DoShl / DoShr ──
+                // The format nibbles come from the opcode word; class 5 is the
+                // 16-byte RValue slot whose real class is the value's tag.
+                Op::Rem{ty, ..} => {
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
+                    let (la,lb)=resolve_pair(&crate::value::REM, *ty, lhs.value, rhs.value)?;
+                    if !pair_ok(REM_OK, la, lb) { return Err(crate::value::REM.pair_error(la, lb)); }
+                    stack.push(lhs.value.rem(rhs.value, la, lb)?);
+                }
+                Op::Mod{mode, ty} => {
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
+                    let (la,lb)=resolve_pair(&crate::value::MOD, *ty, lhs.value, rhs.value)?;
+                    if !pair_ok(MOD_OK, la, lb) { return Err(crate::value::MOD.pair_error(la, lb)); }
+                    stack.push(lhs.value.modulo(rhs.value, la, lb, *mode == 1)?);
+                }
+                Op::Or{mode, ty} => {
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
+                    let (la,lb)=resolve_pair(&crate::value::OR, *ty, lhs.value, rhs.value)?;
+                    if !pair_ok(OR_OK, la, lb) { return Err(crate::value::OR.pair_error(la, lb)); }
+                    let (lv,rv) = if *mode != 0 {
+                        (numeric_operand(bundle, host, lhs.value)?, numeric_operand(bundle, host, rhs.value)?)
+                    } else { (lhs.value, rhs.value) };
+                    let v=lv.bitwise(rv,&crate::value::OR,BitOp::Or,la,lb,*mode)?;
+                    if *mode != 0 { stack.push_width(v, 16) } else { stack.push(v) }
+                }
+                Op::Xor{mode, ty} => {
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
+                    let (la,lb)=resolve_pair(&crate::value::XOR, *ty, lhs.value, rhs.value)?;
+                    if !pair_ok(XOR_OK, la, lb) { return Err(crate::value::XOR.pair_error(la, lb)); }
+                    let (lv,rv) = if *mode != 0 {
+                        (numeric_operand(bundle, host, lhs.value)?, numeric_operand(bundle, host, rhs.value)?)
+                    } else { (lhs.value, rhs.value) };
+                    let v=lv.bitwise(rv,&crate::value::XOR,BitOp::Xor,la,lb,*mode)?;
+                    if *mode != 0 { stack.push_width(v, 16) } else { stack.push(v) }
+                }
+                Op::Shl{mode, ty} => {
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
+                    let (la,lb)=resolve_pair(&crate::value::SHL, *ty, lhs.value, rhs.value)?;
+                    if !pair_ok(SHL_OK, la, lb) { return Err(crate::value::SHL.pair_error(la, lb)); }
+                    let (lv,rv) = if *mode != 0 {
+                        (numeric_operand(bundle, host, lhs.value)?, numeric_operand(bundle, host, rhs.value)?)
+                    } else { (lhs.value, rhs.value) };
+                    let v=lv.shift(rv,&crate::value::SHL,la,lb,*mode,true)?;
+                    if *mode != 0 { stack.push_width(v, 16) } else { stack.push(v) }
+                }
+                Op::Shr{mode, ty} => {
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
+                    let (la,lb)=resolve_pair(&crate::value::SHR, *ty, lhs.value, rhs.value)?;
+                    if !pair_ok(SHR_OK, la, lb) { return Err(crate::value::SHR.pair_error(la, lb)); }
+                    let (lv,rv) = if *mode != 0 {
+                        (numeric_operand(bundle, host, lhs.value)?, numeric_operand(bundle, host, rhs.value)?)
+                    } else { (lhs.value, rhs.value) };
+                    let v=lv.shift(rv,&crate::value::SHR,la,lb,*mode,false)?;
+                    if *mode != 0 { stack.push_width(v, 16) } else { stack.push(v) }
+                }
+                // DoNeg: mode 1/2 take the JS path before the class table (the
+                // card's entry checks mode first); 0/3..15 is the typed path,
+                // in place, where cls 6 is the string error and 7..15 have no
+                // kernel (Execution Error).
+                Op::Neg{mode, ty} => {
+                    let slot=stack.pop()?;
+                    let cls=(*ty & 0x0F) as u8;
+                    if *mode == 1 || *mode == 2 {
+                        let n=numeric_operand(bundle, host, slot.value)?;
+                        let v=n.neg(*mode)?;
+                        stack.push_width(v, 16);
+                    } else if cls > 6 {
+                        return Err("DoNeg :: Execution Error".to_string());
+                    } else if cls == 6 {
+                        return Err("DoNeg :1: Execution Engine - Cannot operate on string type".to_string());
+                    } else {
+                        // In place: the strong-typed path rewrites the payload and
+                        // returns r6, so sp does not move whatever the result tag is.
+                        stack.push_width(slot.value.neg(*mode)?, slot.width);
+                    }
+                }
+                // DoNot: mode 1 is logical `!` (4-byte result), mode 2 is the JS
+                // `~` (16-byte Real), 0/3..15 is the typed bitwise NOT, in place.
+                Op::NotMode{mode, ty} => {
+                    let slot=stack.pop()?;
+                    let cls=(*ty & 0x0F) as u8;
+                    match *mode {
+                        1 => {
+                            if cls > 6 { return Err("DoNot :: Execution Error".to_string()); }
+                            if slot.value.is_unresolved() {
+                                return Err("DoNot :: Malformed variable".to_string());
+                            }
+                            let truth = if slot.value.is_string() {
+                                !host.string_text(bundle, slot.value)?.is_empty()
+                            } else { slot.value.to_bool() };
+                            stack.push_width(Value::int32(if truth {0} else {1}), 4);
+                        }
+                        2 => {
+                            let n=numeric_operand(bundle, host, slot.value)?;
+                            let v=n.bit_not(2, cls)?;
+                            stack.push_width(v, 16);
+                        }
+                        _ => {
+                            if cls > 6 { return Err("DoNot :: Execution Error".to_string()); }
+                            if cls == 6 { return Err("DoNot :: Execution Engine - Cannot operate on string type".to_string()); }
+                            // In place (卡：就地改载荷、sp 不动).
+                            stack.push_width(slot.value.bit_not(0, cls)?, slot.width);
+                        }
+                    }
                 }
                 // DoNot mode1: JS_ToBoolean then negate, result is a 4-byte int.
-                Op::Not => { let v=pop(&mut stack)?; stack.push(v.logical_not()); }
-                Op::Dup => { let v=pop(&mut stack)?; stack.push(v); stack.push(v); }
+                Op::Not => { let v=stack.pop_value()?; stack.push(v.logical_not()); }
+                Op::Dup => { let slot=stack.pop()?; stack.push_slot(slot); stack.push_slot(slot); }
+                // DoDup swap mode: only type==5 reaches the memcpy/memmove/memcpy
+                // swap; the protocol carries n=mode but not m, so m=0 and the
+                // swap degenerates to a no-op that returns the stack top.
+                Op::DupMode{mode, ty} => {
+                    if *mode == 0 {
+                        let slot=stack.pop()?; stack.push_slot(slot); stack.push_slot(slot);
+                    } else if *ty != 5 {
+                        return Err(format!("Argument type {} currently unhandled by DoDup swap mode", ty));
+                    } else {
+                        let _ = stack.top()?;
+                    }
+                }
                 // DoAnd: bool x bool is logical (short-circuit and, tag 13);
                 // everything else is GML's ToInt64 & ToInt64, written back in the
                 // width of the widest operand.
-                Op::And => { let rhs=pop(&mut stack)?; let lhs=pop(&mut stack)?; stack.push(lhs.bit_and(rhs)?); }
-                Op::LoadLocal{name} => { let v=*locals.get(name).ok_or(format!("undefined local {name}"))?; stack.push(v); }
+                Op::And => { let rhs=stack.pop()?; let lhs=stack.pop()?; stack.push(lhs.value.bit_and(rhs.value)?); }
+                // DoSet：先按声明类解析两侧（数组/指针/undefined/表外 tag 都是
+                // 错误），再按卡片的 16 组合表决定「比较」还是「未支持组合给值」。
+                Op::CmpMode{comparison, ty} => {
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
+                    let ha=(*ty>>4)&0x0F; let hb=*ty&0x0F;
+                    let value = if ha > 6 || hb > 6 {
+                        // 表外格式码没有 dest 表项 → 给值不给错（K=4 得 1）。
+                        Value::int32(if *comparison == 4 {1} else {0})
+                    } else {
+                        let la=crate::value::resolve_class(lhs.value, ha, &crate::value::SET, 1)?;
+                        let lb=crate::value::resolve_class(rhs.value, hb, &crate::value::SET, 2)?;
+                        if la == 6 && lb == 6 {
+                            let a=host.string_text(bundle, lhs.value)?;
+                            let b=host.string_text(bundle, rhs.value)?;
+                            let ord=a.cmp(&b);
+                            let truth = match *comparison {
+                                1 => ord.is_lt(), 2 => ord.is_le(), 3 => ord.is_eq(),
+                                4 => ord.is_ne(), 5 => ord.is_ge(), 6 => ord.is_gt(),
+                                _ => return Err("unsupported comparison".into()),
+                            };
+                            Value::int32(if truth {1} else {0})
+                        } else if la == 6 || lb == 6 || !pair_ok(SET_TYPES_OK, la, lb) {
+                            // 字符串与数字混比 / 未支持组合：卡里给值（只有 != 得 1）。
+                            Value::int32(if *comparison == 4 {1} else {0})
+                        } else {
+                            // 卡片数值路径：d = 左 - 右，与全局 1e-05 容差比较
+                            // （整数对也走 double，不是精确整数比较）。
+                            let d=lhs.value.to_real()? - rhs.value.to_real()?;
+                            let truth = if d.is_nan() {
+                                *comparison == 4
+                            } else {
+                                let eps=crate::value::COMPARE_EPSILON;
+                                match *comparison {
+                                    1 => d < -eps, 2 => d <= eps, 3 => d.abs() <= eps,
+                                    4 => d.abs() > eps, 5 => d >= -eps, 6 => d > eps,
+                                    _ => return Err("unsupported comparison".into()),
+                                }
+                            };
+                            Value::int32(if truth {1} else {0})
+                        }
+                    };
+                    stack.push_width(value, 4);
+                }
+                Op::AndMode{mode, ty} => {
+                    let rhs=stack.pop()?; let lhs=stack.pop()?;
+                    let (la,lb)=resolve_pair(&crate::value::AND, *ty, lhs.value, rhs.value)?;
+                    if !pair_ok(AND_OK, la, lb) { return Err(crate::value::AND.pair_error(la, lb)); }
+                    let (lv,rv) = if *mode != 0 {
+                        (numeric_operand(bundle, host, lhs.value)?, numeric_operand(bundle, host, rhs.value)?)
+                    } else { (lhs.value, rhs.value) };
+                    let v=lv.bitwise(rv,&crate::value::AND,BitOp::And,la,lb,*mode)?;
+                    if *mode != 0 { stack.push_width(v, 16) } else { stack.push(v) }
+                }
+                Op::LoadLocal{name} => { let slot=*locals.get(name).ok_or(format!("undefined local {name}"))?; stack.push_slot(slot); }
                 Op::B{target} => pc=boundaries[target],
                 Op::Bt{target}|Op::Bf{target} => {
-                    let yes=pop(&mut stack)?.to_bool();
+                    let yes=stack.pop_value()?.to_bool();
                     if yes == matches!(i.op,Op::Bt{..}) { pc=boundaries[target]; }
                 }
                 Op::Pushenv{target} => {
-                    let selector=integer(pop(&mut stack)?)?;
+                    let selector=integer(stack.pop_value()?)?;
                     let mut selected=host.select(current,selector)?.into_iter();
                     let first=selected.next(); environments.push((current,selected));
                     if let Some(id)=first { current=id; } else { pc=boundaries[target]; }
@@ -362,17 +679,16 @@ pub fn execute<H: Host>(bundle: &Bundle, code: usize, instance: i32, host: &mut 
                 }
                 Op::Call{name,argc} => {
                     if *argc > stack.len() { return Err("call argument underflow".into()); }
-                    let args=(0..*argc).map(|_| stack.pop().unwrap()).collect::<Vec<_>>();
+                    let args=(0..*argc).map(|_| stack.pop_value().unwrap()).collect::<Vec<_>>();
                     stack.push(host.call(bundle,current,name,&args)?);
                 }
-                Op::Popz => { pop(&mut stack)?; }
+                Op::Popz => { stack.pop()?; }
                 Op::Exit => break,
             }
-            // Only a real payload can be non-finite; integers and bools always pass.
-            if stack.iter().any(|v| !v.is_finite()) { return Err("non-finite numeric value unsupported".into()); }
+            host.stack_pointer(stack.sp);
         }
         if !stack.is_empty() || !environments.is_empty() { return Err("unbalanced stack/environment at CODE exit".into()); }
-        Ok(())
+        Ok(stack.sp)
     })();
     result.map_err(|message| VmError{code,offset,message})
 }
