@@ -1,0 +1,1736 @@
+1ce594	e59fc680	ldr	r12, [pc, #0x680]
+1ce598	e59f3680	ldr	r3, [pc, #0x680]
+1ce59c	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1ce5a0	ed2d8b08	vpush	{d8, d9, d10, d11}
+1ce5a4	e08fc00c	add	r12, pc, r12
+1ce5a8	e24ddfcf	sub	sp, sp, #828
+1ce5ac	e58dc040	str	r12, [sp, #0x40]
+1ce5b0	e79c3003	ldr	r3, [r12, r3]
+1ce5b4	e58d3054	str	r3, [sp, #0x54]
+1ce5b8	e5d33000	ldrb	r3, [r3]
+1ce5bc	e3530000	cmp	r3, #0
+1ce5c0	1a000691	bne	0x1d000c <_Z11HandleOtherv+0x1a78>
+1ce5c4	e59dc040	ldr	r12, [sp, #0x40]
+1ce5c8	e3a08b07	mov	r8, #7168
+1ce5cc	e59f3650	ldr	r3, [pc, #0x650]
+1ce5d0	e59f1650	ldr	r1, [pc, #0x650]
+1ce5d4	e79c3003	ldr	r3, [r12, r3]
+1ce5d8	e58d3044	str	r3, [sp, #0x44]
+1ce5dc	e1c320d0	ldrd	r2, r3, [r3]
+1ce5e0	e59dc044	ldr	r12, [sp, #0x44]
+1ce5e4	e1cd20f8	strd	r2, r3, [sp, #8]
+1ce5e8	e2922001	adds	r2, r2, #1
+1ce5ec	e2a33000	adc	r3, r3, #0
+1ce5f0	e1cc20f0	strd	r2, r3, [r12]
+1ce5f4	e59dc040	ldr	r12, [sp, #0x40]
+1ce5f8	e79c1001	ldr	r1, [r12, r1]
+1ce5fc	e58d1048	str	r1, [sp, #0x48]
+1ce600	e7911008	ldr	r1, [r1, r8]
+1ce604	e3510000	cmp	r1, #0
+1ce608	da00068d	ble	0x1d0044 <_Z11HandleOtherv+0x1ab0>
+1ce60c	e59f3618	ldr	r3, [pc, #0x618]
+1ce610	e3a05000	mov	r5, #0
+1ce614	e59f261c	ldr	r2, [pc, #0x61c]
+1ce618	e3039804	movw	r9, #0x3804
+1ce61c	e59f1618	ldr	r1, [pc, #0x618]
+1ce620	e79c3003	ldr	r3, [r12, r3]
+1ce624	e79c6002	ldr	r6, [r12, r2]
+1ce628	e59db048	ldr	r11, [sp, #0x48]
+1ce62c	e1a0a003	mov	r10, r3
+1ce630	e79c7001	ldr	r7, [r12, r1]
+1ce634	e58d303c	str	r3, [sp, #0x3c]
+1ce638	e58d6018	str	r6, [sp, #0x18]
+1ce63c	e59dc018	ldr	r12, [sp, #0x18]
+1ce640	e5973000	ldr	r3, [r7]
+1ce644	e79c1009	ldr	r1, [r12, r9]
+1ce648	e5932004	ldr	r2, [r3, #0x4]
+1ce64c	e5933000	ldr	r3, [r3]
+1ce650	e7911105	ldr	r1, [r1, r5, lsl #2]
+1ce654	e0012002	and	r2, r1, r2
+1ce658	e7933182	ldr	r3, [r3, r2, lsl #3]
+1ce65c	e3530000	cmp	r3, #0
+1ce660	1a000003	bne	0x1ce674 <_Z11HandleOtherv+0xe0>
+1ce664	ea00003f	b	0x1ce768 <_Z11HandleOtherv+0x1d4>
+1ce668	e5933004	ldr	r3, [r3, #0x4]
+1ce66c	e3530000	cmp	r3, #0
+1ce670	0a00003c	beq	0x1ce768 <_Z11HandleOtherv+0x1d4>
+1ce674	e5932008	ldr	r2, [r3, #0x8]
+1ce678	e1510002	cmp	r1, r2
+1ce67c	1afffff9	bne	0x1ce668 <_Z11HandleOtherv+0xd4>
+1ce680	e593300c	ldr	r3, [r3, #0xc]
+1ce684	e3530000	cmp	r3, #0
+1ce688	159340c4	ldrne	r4, [r3, #0xc4]
+1ce68c	0a000035	beq	0x1ce768 <_Z11HandleOtherv+0x1d4>
+1ce690	e3540000	cmp	r4, #0
+1ce694	0a000033	beq	0x1ce768 <_Z11HandleOtherv+0x1d4>
+1ce698	e5943008	ldr	r3, [r4, #0x8]
+1ce69c	e3530000	cmp	r3, #0
+1ce6a0	0a000030	beq	0x1ce768 <_Z11HandleOtherv+0x1d4>
+1ce6a4	e5946008	ldr	r6, [r4, #0x8]
+1ce6a8	e5944000	ldr	r4, [r4]
+1ce6ac	e5d63068	ldrb	r3, [r6, #0x68]
+1ce6b0	e3530000	cmp	r3, #0
+1ce6b4	1afffff5	bne	0x1ce690 <_Z11HandleOtherv+0xfc>
+1ce6b8	e5d63069	ldrb	r3, [r6, #0x69]
+1ce6bc	e3530000	cmp	r3, #0
+1ce6c0	1afffff2	bne	0x1ce690 <_Z11HandleOtherv+0xfc>
+1ce6c4	e1c627d0	ldrd	r2, r3, [r6, #112]
+1ce6c8	e1cd00d8	ldrd	r0, r1, [sp, #8]
+1ce6cc	e1500002	cmp	r0, r2
+1ce6d0	e0d11003	sbcs	r1, r1, r3
+1ce6d4	baffffed	blt	0x1ce690 <_Z11HandleOtherv+0xfc>
+1ce6d8	e596008c	ldr	r0, [r6, #0x8c]
+1ce6dc	eb0081ed	bl	0x1eee98 <_Z13Sprite_Existsi>
+1ce6e0	e3500000	cmp	r0, #0
+1ce6e4	0a000129	beq	0x1ceb90 <_Z11HandleOtherv+0x5fc>
+1ce6e8	e5d63064	ldrb	r3, [r6, #0x64]
+1ce6ec	e3530000	cmp	r3, #0
+1ce6f0	1a00044c	bne	0x1cf828 <_Z11HandleOtherv+0x1294>
+1ce6f4	e59630f0	ldr	r3, [r6, #0xf0]
+1ce6f8	e3530000	cmp	r3, #0
+1ce6fc	ba00013a	blt	0x1cebec <_Z11HandleOtherv+0x658>
+1ce700	e5d63064	ldrb	r3, [r6, #0x64]
+1ce704	e3530000	cmp	r3, #0
+1ce708	1a0004a0	bne	0x1cf990 <_Z11HandleOtherv+0x13fc>
+1ce70c	e59a3000	ldr	r3, [r10]
+1ce710	e59620e8	ldr	r2, [r6, #0xe8]
+1ce714	e5933010	ldr	r3, [r3, #0x10]
+1ce718	e1520003	cmp	r2, r3
+1ce71c	ca000132	bgt	0x1cebec <_Z11HandleOtherv+0x658>
+1ce720	e5d63064	ldrb	r3, [r6, #0x64]
+1ce724	e3530000	cmp	r3, #0
+1ce728	1a0004cc	bne	0x1cfa60 <_Z11HandleOtherv+0x14cc>
+1ce72c	e59630f4	ldr	r3, [r6, #0xf4]
+1ce730	e3530000	cmp	r3, #0
+1ce734	ba00012c	blt	0x1cebec <_Z11HandleOtherv+0x658>
+1ce738	e5d63064	ldrb	r3, [r6, #0x64]
+1ce73c	e3530000	cmp	r3, #0
+1ce740	1a000553	bne	0x1cfc94 <_Z11HandleOtherv+0x1700>
+1ce744	e59a3000	ldr	r3, [r10]
+1ce748	e59620ec	ldr	r2, [r6, #0xec]
+1ce74c	e5933014	ldr	r3, [r3, #0x14]
+1ce750	e1520003	cmp	r2, r3
+1ce754	ca000124	bgt	0x1cebec <_Z11HandleOtherv+0x658>
+1ce758	e3a03000	mov	r3, #0
+1ce75c	e3540000	cmp	r4, #0
+1ce760	e5c6315e	strb	r3, [r6, #0x15e]
+1ce764	1affffcb	bne	0x1ce698 <_Z11HandleOtherv+0x104>
+1ce768	e79b3008	ldr	r3, [r11, r8]
+1ce76c	e2855001	add	r5, r5, #1
+1ce770	e1530005	cmp	r3, r5
+1ce774	caffffb0	bgt	0x1ce63c <_Z11HandleOtherv+0xa8>
+1ce778	e59d1044	ldr	r1, [sp, #0x44]
+1ce77c	e1c100d0	ldrd	r0, r1, [r1]
+1ce780	e1cd00f8	strd	r0, r1, [sp, #8]
+1ce784	e59dc048	ldr	r12, [sp, #0x48]
+1ce788	e3018c04	movw	r8, #0x1c04
+1ce78c	e1cd20d8	ldrd	r2, r3, [sp, #8]
+1ce790	e79c1008	ldr	r1, [r12, r8]
+1ce794	e2922001	adds	r2, r2, #1
+1ce798	e59dc044	ldr	r12, [sp, #0x44]
+1ce79c	e2a33000	adc	r3, r3, #0
+1ce7a0	e3510000	cmp	r1, #0
+1ce7a4	e1cc20f0	strd	r2, r3, [r12]
+1ce7a8	da00005b	ble	0x1ce91c <_Z11HandleOtherv+0x388>
+1ce7ac	e59dc040	ldr	r12, [sp, #0x40]
+1ce7b0	e3a05000	mov	r5, #0
+1ce7b4	e59f347c	ldr	r3, [pc, #0x47c]
+1ce7b8	e303980c	movw	r9, #0x380c
+1ce7bc	e59f2478	ldr	r2, [pc, #0x478]
+1ce7c0	e59da03c	ldr	r10, [sp, #0x3c]
+1ce7c4	e79c6003	ldr	r6, [r12, r3]
+1ce7c8	e59db048	ldr	r11, [sp, #0x48]
+1ce7cc	e79c7002	ldr	r7, [r12, r2]
+1ce7d0	e58d6018	str	r6, [sp, #0x18]
+1ce7d4	e59dc018	ldr	r12, [sp, #0x18]
+1ce7d8	e5973000	ldr	r3, [r7]
+1ce7dc	e79c1009	ldr	r1, [r12, r9]
+1ce7e0	e5932004	ldr	r2, [r3, #0x4]
+1ce7e4	e5933000	ldr	r3, [r3]
+1ce7e8	e7911105	ldr	r1, [r1, r5, lsl #2]
+1ce7ec	e0012002	and	r2, r1, r2
+1ce7f0	e7933182	ldr	r3, [r3, r2, lsl #3]
+1ce7f4	e3530000	cmp	r3, #0
+1ce7f8	1a000003	bne	0x1ce80c <_Z11HandleOtherv+0x278>
+1ce7fc	ea000042	b	0x1ce90c <_Z11HandleOtherv+0x378>
+1ce800	e5933004	ldr	r3, [r3, #0x4]
+1ce804	e3530000	cmp	r3, #0
+1ce808	0a00003f	beq	0x1ce90c <_Z11HandleOtherv+0x378>
+1ce80c	e5932008	ldr	r2, [r3, #0x8]
+1ce810	e1510002	cmp	r1, r2
+1ce814	1afffff9	bne	0x1ce800 <_Z11HandleOtherv+0x26c>
+1ce818	e593300c	ldr	r3, [r3, #0xc]
+1ce81c	e3530000	cmp	r3, #0
+1ce820	159340c4	ldrne	r4, [r3, #0xc4]
+1ce824	0a000038	beq	0x1ce90c <_Z11HandleOtherv+0x378>
+1ce828	e3540000	cmp	r4, #0
+1ce82c	0a000036	beq	0x1ce90c <_Z11HandleOtherv+0x378>
+1ce830	e5943008	ldr	r3, [r4, #0x8]
+1ce834	e3530000	cmp	r3, #0
+1ce838	0a000033	beq	0x1ce90c <_Z11HandleOtherv+0x378>
+1ce83c	e5946008	ldr	r6, [r4, #0x8]
+1ce840	e5944000	ldr	r4, [r4]
+1ce844	e5d63068	ldrb	r3, [r6, #0x68]
+1ce848	e3530000	cmp	r3, #0
+1ce84c	1afffff5	bne	0x1ce828 <_Z11HandleOtherv+0x294>
+1ce850	e5d63069	ldrb	r3, [r6, #0x69]
+1ce854	e3530000	cmp	r3, #0
+1ce858	1afffff2	bne	0x1ce828 <_Z11HandleOtherv+0x294>
+1ce85c	e1c627d0	ldrd	r2, r3, [r6, #112]
+1ce860	e1cd00d8	ldrd	r0, r1, [sp, #8]
+1ce864	e1500002	cmp	r0, r2
+1ce868	e0d11003	sbcs	r1, r1, r3
+1ce86c	baffffed	blt	0x1ce828 <_Z11HandleOtherv+0x294>
+1ce870	e596008c	ldr	r0, [r6, #0x8c]
+1ce874	eb008187	bl	0x1eee98 <_Z13Sprite_Existsi>
+1ce878	e3500000	cmp	r0, #0
+1ce87c	0a000389	beq	0x1cf6a8 <_Z11HandleOtherv+0x1114>
+1ce880	e5d63064	ldrb	r3, [r6, #0x64]
+1ce884	e3530000	cmp	r3, #0
+1ce888	1a0003ea	bne	0x1cf838 <_Z11HandleOtherv+0x12a4>
+1ce88c	e59630e8	ldr	r3, [r6, #0xe8]
+1ce890	e3530000	cmp	r3, #0
+1ce894	ba000015	blt	0x1ce8f0 <_Z11HandleOtherv+0x35c>
+1ce898	e5d63064	ldrb	r3, [r6, #0x64]
+1ce89c	e3530000	cmp	r3, #0
+1ce8a0	1a00043e	bne	0x1cf9a0 <_Z11HandleOtherv+0x140c>
+1ce8a4	e59a3000	ldr	r3, [r10]
+1ce8a8	e59620f0	ldr	r2, [r6, #0xf0]
+1ce8ac	e5933010	ldr	r3, [r3, #0x10]
+1ce8b0	e1520003	cmp	r2, r3
+1ce8b4	ca00000d	bgt	0x1ce8f0 <_Z11HandleOtherv+0x35c>
+1ce8b8	e5d63064	ldrb	r3, [r6, #0x64]
+1ce8bc	e3530000	cmp	r3, #0
+1ce8c0	1a000462	bne	0x1cfa50 <_Z11HandleOtherv+0x14bc>
+1ce8c4	e59630ec	ldr	r3, [r6, #0xec]
+1ce8c8	e3530000	cmp	r3, #0
+1ce8cc	ba000007	blt	0x1ce8f0 <_Z11HandleOtherv+0x35c>
+1ce8d0	e5d63064	ldrb	r3, [r6, #0x64]
+1ce8d4	e3530000	cmp	r3, #0
+1ce8d8	1a0004f1	bne	0x1cfca4 <_Z11HandleOtherv+0x1710>
+1ce8dc	e59a3000	ldr	r3, [r10]
+1ce8e0	e59620f4	ldr	r2, [r6, #0xf4]
+1ce8e4	e5933014	ldr	r3, [r3, #0x14]
+1ce8e8	e1520003	cmp	r2, r3
+1ce8ec	daffffcd	ble	0x1ce828 <_Z11HandleOtherv+0x294>
+1ce8f0	e1a00006	mov	r0, r6
+1ce8f4	e3a02007	mov	r2, #7
+1ce8f8	e1a01006	mov	r1, r6
+1ce8fc	e3a03001	mov	r3, #1
+1ce900	ebfc929e	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1ce904	e3540000	cmp	r4, #0
+1ce908	1affffc8	bne	0x1ce830 <_Z11HandleOtherv+0x29c>
+1ce90c	e79b3008	ldr	r3, [r11, r8]
+1ce910	e2855001	add	r5, r5, #1
+1ce914	e1530005	cmp	r3, r5
+1ce918	caffffad	bgt	0x1ce7d4 <_Z11HandleOtherv+0x240>
+1ce91c	eeb68a00	vmov.f32	s16, #5.000000e-01
+1ce920	e28d3f51	add	r3, sp, #324
+1ce924	e28dcf4f	add	r12, sp, #316
+1ce928	e28d4f8e	add	r4, sp, #568
+1ce92c	e28d9d05	add	r9, sp, #320
+1ce930	e28d5f4e	add	r5, sp, #312
+1ce934	e28d8e15	add	r8, sp, #336
+1ce938	e3a02000	mov	r2, #0
+1ce93c	e1a0b003	mov	r11, r3
+1ce940	e58dc034	str	r12, [sp, #0x34]
+1ce944	e1a06002	mov	r6, r2
+1ce948	e58d2058	str	r2, [sp, #0x58]
+1ce94c	e58d205c	str	r2, [sp, #0x5c]
+1ce950	e1a07002	mov	r7, r2
+1ce954	e58d2060	str	r2, [sp, #0x60]
+1ce958	e1a0a00c	mov	r10, r12
+1ce95c	e58d2064	str	r2, [sp, #0x64]
+1ce960	e28dc058	add	r12, sp, #88
+1ce964	e58d2068	str	r2, [sp, #0x68]
+1ce968	eddf8aa9	vldr	s17, [pc, #676]
+1ce96c	eebf9a00	vmov.f32	s18, #-1.000000e+00
+1ce970	e58d206c	str	r2, [sp, #0x6c]
+1ce974	e58d2070	str	r2, [sp, #0x70]
+1ce978	eddf9aa6	vldr	s19, [pc, #664]
+1ce97c	e58d2074	str	r2, [sp, #0x74]
+1ce980	e28d20f8	add	r2, sp, #248
+1ce984	e58dc04c	str	r12, [sp, #0x4c]
+1ce988	e58d2010	str	r2, [sp, #0x10]
+1ce98c	e59dc03c	ldr	r12, [sp, #0x3c]
+1ce990	e59c1000	ldr	r1, [r12]
+1ce994	e5d10044	ldrb	r0, [r1, #0x44]
+1ce998	e3500000	cmp	r0, #0
+1ce99c	0a0000fe	beq	0x1ced9c <_Z11HandleOtherv+0x808>
+1ce9a0	e287c012	add	r12, r7, #18
+1ce9a4	e791110c	ldr	r1, [r1, r12, lsl #2]
+1ce9a8	e5d10000	ldrb	r0, [r1]
+1ce9ac	e3500000	cmp	r0, #0
+1ce9b0	0a0000f9	beq	0x1ced9c <_Z11HandleOtherv+0x808>
+1ce9b4	e59f0274	ldr	r0, [pc, #0x274]
+1ce9b8	e59d2040	ldr	r2, [sp, #0x40]
+1ce9bc	e7920000	ldr	r0, [r2, r0]
+1ce9c0	e5d00000	ldrb	r0, [r0]
+1ce9c4	e3500000	cmp	r0, #0
+1ce9c8	0a00009c	beq	0x1cec40 <_Z11HandleOtherv+0x6ac>
+1ce9cc	e59dc040	ldr	r12, [sp, #0x40]
+1ce9d0	e59f025c	ldr	r0, [pc, #0x25c]
+1ce9d4	e5911040	ldr	r1, [r1, #0x40]
+1ce9d8	e79c0000	ldr	r0, [r12, r0]
+1ce9dc	ebfe829e	bl	0x16f45c <_ZN14CCameraManager9GetCameraEi>
+1ce9e0	e2501000	subs	r1, r0, #0
+1ce9e4	0a00050e	beq	0x1cfe24 <_Z11HandleOtherv+0x1890>
+1ce9e8	e58d1004	str	r1, [sp, #0x4]
+1ce9ec	ebfe7a61	bl	0x16d378 <_ZN7CCamera11IsViewDirtyEv>
+1ce9f0	e59d1004	ldr	r1, [sp, #0x4]
+1ce9f4	e3500000	cmp	r0, #0
+1ce9f8	0a000003	beq	0x1cea0c <_Z11HandleOtherv+0x478>
+1ce9fc	e1a00001	mov	r0, r1
+1cea00	e58d1004	str	r1, [sp, #0x4]
+1cea04	ebfe8849	bl	0x170b30 <_ZN7CCamera12CameraUpdateEv>
+1cea08	e59d1004	ldr	r1, [sp, #0x4]
+1cea0c	e28d00f8	add	r0, sp, #248
+1cea10	ebfe7a12	bl	0x16d260 <_ZN7CCamera17GetInvViewProjMatEv>
+1cea14	eddd2a3e	vldr	s5, [sp, #248]
+1cea18	ed9d3a42	vldr	s6, [sp, #264]
+1cea1c	ed9d5a3f	vldr	s10, [sp, #252]
+1cea20	ee336a62	vsub.f32	s12, s6, s5
+1cea24	eddd3a43	vldr	s7, [sp, #268]
+1cea28	ed9d4a4a	vldr	s8, [sp, #296]
+1cea2c	eddd4a4b	vldr	s9, [sp, #300]
+1cea30	ee337a22	vadd.f32	s14, s6, s5
+1cea34	eeb12a45	vneg.f32	s4, s10
+1cea38	eef15a62	vneg.f32	s11, s5
+1cea3c	ee736ac5	vsub.f32	s13, s7, s10
+1cea40	ee737a85	vadd.f32	s15, s7, s10
+1cea44	ee755ac3	vsub.f32	s11, s11, s6
+1cea48	ee355a63	vsub.f32	s10, s10, s7
+1cea4c	ee323ac3	vsub.f32	s6, s5, s6
+1cea50	ee723a63	vsub.f32	s7, s4, s7
+1cea54	ee366a04	vadd.f32	s12, s12, s8
+1cea58	ee377a04	vadd.f32	s14, s14, s8
+1cea5c	ed856a00	vstr	s12, [r5]
+1cea60	ee766aa4	vadd.f32	s13, s13, s9
+1cea64	ee777aa4	vadd.f32	s15, s15, s9
+1cea68	edca6a00	vstr	s13, [r10]
+1cea6c	ed897a00	vstr	s14, [r9]
+1cea70	ee755a84	vadd.f32	s11, s11, s8
+1cea74	edcb7a00	vstr	s15, [r11]
+1cea78	ee355a24	vadd.f32	s10, s10, s9
+1cea7c	ee334a04	vadd.f32	s8, s6, s8
+1cea80	ed855a05	vstr	s10, [r5, #20]
+1cea84	ee734aa4	vadd.f32	s9, s7, s9
+1cea88	ed854a04	vstr	s8, [r5, #16]
+1cea8c	edc85a00	vstr	s11, [r8]
+1cea90	eeb46ac7	vcmpe.f32	s12, s14
+1cea94	edc54a07	vstr	s9, [r5, #28]
+1cea98	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cea9c	5a0003d1	bpl	0x1cf9e8 <_Z11HandleOtherv+0x1454>
+1ceaa0	eeb46ae5	vcmpe.f32	s12, s11
+1ceaa4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceaa8	5a000487	bpl	0x1cfccc <_Z11HandleOtherv+0x1738>
+1ceaac	eeb46ac4	vcmpe.f32	s12, s8
+1ceab0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceab4	4a0003d8	bmi	0x1cfa1c <_Z11HandleOtherv+0x1488>
+1ceab8	eefd3ac4	vcvt.s32.f32	s7, s8
+1ceabc	ee130a90	vmov	r0, s7
+1ceac0	e28d1078	add	r1, sp, #120
+1ceac4	eef46ae7	vcmpe.f32	s13, s15
+1ceac8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceacc	e7860001	str	r0, [r6, r1]
+1cead0	5a00047f	bpl	0x1cfcd4 <_Z11HandleOtherv+0x1740>
+1cead4	eef46ae4	vcmpe.f32	s13, s9
+1cead8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceadc	5a0004ce	bpl	0x1cfe1c <_Z11HandleOtherv+0x1888>
+1ceae0	eef46ac5	vcmpe.f32	s13, s10
+1ceae4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceae8	4a000486	bmi	0x1cfd08 <_Z11HandleOtherv+0x1774>
+1ceaec	eefd3ac5	vcvt.s32.f32	s7, s10
+1ceaf0	ee132a90	vmov	r2, s7
+1ceaf4	e28d1098	add	r1, sp, #152
+1ceaf8	eeb46ac7	vcmpe.f32	s12, s14
+1ceafc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceb00	e7862001	str	r2, [r6, r1]
+1ceb04	da00048c	ble	0x1cfd3c <_Z11HandleOtherv+0x17a8>
+1ceb08	eeb46ae5	vcmpe.f32	s12, s11
+1ceb0c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceb10	da0004bd	ble	0x1cfe0c <_Z11HandleOtherv+0x1878>
+1ceb14	eeb46ac4	vcmpe.f32	s12, s8
+1ceb18	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceb1c	ca000493	bgt	0x1cfd70 <_Z11HandleOtherv+0x17dc>
+1ceb20	eebd7ac4	vcvt.s32.f32	s14, s8
+1ceb24	ee173a10	vmov	r3, s14
+1ceb28	e28d10b8	add	r1, sp, #184
+1ceb2c	eef46ae7	vcmpe.f32	s13, s15
+1ceb30	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceb34	e7863001	str	r3, [r6, r1]
+1ceb38	da000499	ble	0x1cfda4 <_Z11HandleOtherv+0x1810>
+1ceb3c	eef46ae4	vcmpe.f32	s13, s9
+1ceb40	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceb44	da0004b2	ble	0x1cfe14 <_Z11HandleOtherv+0x1880>
+1ceb48	eef46ac5	vcmpe.f32	s13, s10
+1ceb4c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ceb50	ca0004a0	bgt	0x1cfdd8 <_Z11HandleOtherv+0x1844>
+1ceb54	eefd6ac5	vcvt.s32.f32	s13, s10
+1ceb58	ee16ca90	vmov	r12, s13
+1ceb5c	e28d10d8	add	r1, sp, #216
+1ceb60	e28d0058	add	r0, sp, #88
+1ceb64	edd97a00	vldr	s15, [r9]
+1ceb68	ed957a00	vldr	s14, [r5]
+1ceb6c	eddb6a00	vldr	s13, [r11]
+1ceb70	e786c001	str	r12, [r6, r1]
+1ceb74	e0801006	add	r1, r0, r6
+1ceb78	ed819a00	vstr	s18, [r1]
+1ceb7c	ed9a6a00	vldr	s12, [r10]
+1ceb80	edd55a04	vldr	s11, [r5, #16]
+1ceb84	ed955a05	vldr	s10, [r5, #20]
+1ceb88	ed984a00	vldr	s8, [r8]
+1ceb8c	ea000072	b	0x1ced5c <_Z11HandleOtherv+0x7c8>
+1ceb90	e59600ac	ldr	r0, [r6, #0xac]
+1ceb94	eb0080bf	bl	0x1eee98 <_Z13Sprite_Existsi>
+1ceb98	e3500000	cmp	r0, #0
+1ceb9c	1afffed1	bne	0x1ce6e8 <_Z11HandleOtherv+0x154>
+1ceba0	ed967a2d	vldr	s14, [r6, #180]
+1ceba4	eeb57ac0	vcmpe.f32	s14, #0
+1ceba8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cebac	4a00000e	bmi	0x1cebec <_Z11HandleOtherv+0x658>
+1cebb0	e59a3000	ldr	r3, [r10]
+1cebb4	ed936a04	vldr	s12, [r3, #16]
+1cebb8	eef87ac6	vcvt.f32.s32	s15, s12
+1cebbc	eeb47ae7	vcmpe.f32	s14, s15
+1cebc0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cebc4	ca000008	bgt	0x1cebec <_Z11HandleOtherv+0x658>
+1cebc8	edd67a2e	vldr	s15, [r6, #184]
+1cebcc	eef57ac0	vcmpe.f32	s15, #0
+1cebd0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cebd4	4a000004	bmi	0x1cebec <_Z11HandleOtherv+0x658>
+1cebd8	ed937a05	vldr	s14, [r3, #20]
+1cebdc	eeb87ac7	vcvt.f32.s32	s14, s14
+1cebe0	eef47ac7	vcmpe.f32	s15, s14
+1cebe4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cebe8	dafffeda	ble	0x1ce758 <_Z11HandleOtherv+0x1c4>
+1cebec	e5d6315e	ldrb	r3, [r6, #0x15e]
+1cebf0	e3530000	cmp	r3, #0
+1cebf4	13a03001	movne	r3, #1
+1cebf8	1afffed7	bne	0x1ce75c <_Z11HandleOtherv+0x1c8>
+1cebfc	e1a00006	mov	r0, r6
+1cec00	e1a01006	mov	r1, r6
+1cec04	e3a02007	mov	r2, #7
+1cec08	ebfc91dc	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1cec0c	e3a03001	mov	r3, #1
+1cec10	eafffed1	b	0x1ce75c <_Z11HandleOtherv+0x1c8>
+1cec14	38d1b717	ldmlo	r1, {r0, r1, r2, r4, r8, r9, r10, r12, sp, pc} ^
+1cec18	3c8efa35	vstmialo	lr, {s30, s31}
+1cec1c	002236ac	eoreq	r3, r2, r12, lsr #13
+1cec20	ffffbf18	.word	0xffffbf18
+1cec24	ffffdeb4	.word	0xffffdeb4
+1cec28	ffffdeb8	.word	0xffffdeb8
+1cec2c	ffffbcd8	.word	0xffffbcd8
+1cec30	ffffbcd4	.word	0xffffbcd4
+1cec34	ffffc024	.word	0xffffc024
+1cec38	ffffdebc	.word	0xffffdebc
+1cec3c	ffffbfec	.word	0xffffbfec
+1cec40	edd17a09	vldr	s15, [r1, #36]
+1cec44	eef47ae8	vcmpe.f32	s15, s17
+1cec48	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cec4c	8a000387	bhi	0x1cfa70 <_Z11HandleOtherv+0x14dc>
+1cec50	edd17a01	vldr	s15, [r1, #4]
+1cec54	eeb76ae7	vcvt.f64.f32	d6, s15
+1cec58	e58dc000	str	r12, [sp]
+1cec5c	ec510b16	vmov	r0, r1, d6
+1cec60	ebfb9ea0	bl	0xb66e8 <lrint@plt>
+1cec64	e59dc000	ldr	r12, [sp]
+1cec68	ee0b0a10	vmov	s22, r0
+1cec6c	e59d003c	ldr	r0, [sp, #0x3c]
+1cec70	ee1b2a10	vmov	r2, s22
+1cec74	e5901000	ldr	r1, [r0]
+1cec78	e28d0078	add	r0, sp, #120
+1cec7c	e791110c	ldr	r1, [r1, r12, lsl #2]
+1cec80	edd17a02	vldr	s15, [r1, #8]
+1cec84	eeb76ae7	vcvt.f64.f32	d6, s15
+1cec88	e7862000	str	r2, [r6, r0]
+1cec8c	ec510b16	vmov	r0, r1, d6
+1cec90	ebfb9e94	bl	0xb66e8 <lrint@plt>
+1cec94	e59dc000	ldr	r12, [sp]
+1cec98	e28de098	add	lr, sp, #152
+1cec9c	ee0a0a90	vmov	s21, r0
+1ceca0	e59d003c	ldr	r0, [sp, #0x3c]
+1ceca4	ee1a2a90	vmov	r2, s21
+1ceca8	e5901000	ldr	r1, [r0]
+1cecac	e791110c	ldr	r1, [r1, r12, lsl #2]
+1cecb0	ed917a01	vldr	s14, [r1, #4]
+1cecb4	edd17a03	vldr	s15, [r1, #12]
+1cecb8	ee777a27	vadd.f32	s15, s14, s15
+1cecbc	eeb76ae7	vcvt.f64.f32	d6, s15
+1cecc0	e786200e	str	r2, [r6, lr]
+1cecc4	ec510b16	vmov	r0, r1, d6
+1cecc8	ebfb9e86	bl	0xb66e8 <lrint@plt>
+1ceccc	e59dc000	ldr	r12, [sp]
+1cecd0	e28de0b8	add	lr, sp, #184
+1cecd4	ee0a0a10	vmov	s20, r0
+1cecd8	e59d003c	ldr	r0, [sp, #0x3c]
+1cecdc	ee1a2a10	vmov	r2, s20
+1cece0	e5901000	ldr	r1, [r0]
+1cece4	e791110c	ldr	r1, [r1, r12, lsl #2]
+1cece8	ed917a02	vldr	s14, [r1, #8]
+1cecec	edd17a04	vldr	s15, [r1, #16]
+1cecf0	ee777a27	vadd.f32	s15, s14, s15
+1cecf4	eeb76ae7	vcvt.f64.f32	d6, s15
+1cecf8	e786200e	str	r2, [r6, lr]
+1cecfc	ec510b16	vmov	r0, r1, d6
+1ced00	ebfb9e78	bl	0xb66e8 <lrint@plt>
+1ced04	e28d10d8	add	r1, sp, #216
+1ced08	eeb8bacb	vcvt.f32.s32	s22, s22
+1ced0c	eef8aaea	vcvt.f32.s32	s21, s21
+1ced10	ed85ba00	vstr	s22, [r5]
+1ced14	eeb8aaca	vcvt.f32.s32	s20, s20
+1ced18	edcaaa00	vstr	s21, [r10]
+1ced1c	ed89aa00	vstr	s20, [r9]
+1ced20	edcbaa00	vstr	s21, [r11]
+1ced24	ed85aa04	vstr	s20, [r5, #16]
+1ced28	ee060a90	vmov	s13, r0
+1ced2c	e7860001	str	r0, [r6, r1]
+1ced30	eef84ae6	vcvt.f32.s32	s9, s13
+1ced34	edc54a05	vstr	s9, [r5, #20]
+1ced38	ed88ba00	vstr	s22, [r8]
+1ced3c	edc54a07	vstr	s9, [r5, #28]
+1ced40	ed957a00	vldr	s14, [r5]
+1ced44	edd97a00	vldr	s15, [r9]
+1ced48	eddb6a00	vldr	s13, [r11]
+1ced4c	ed9a6a00	vldr	s12, [r10]
+1ced50	edd55a04	vldr	s11, [r5, #16]
+1ced54	ed955a05	vldr	s10, [r5, #20]
+1ced58	ed984a00	vldr	s8, [r8]
+1ced5c	ee773ac7	vsub.f32	s7, s15, s14
+1ced60	ee757ae7	vsub.f32	s15, s11, s15
+1ced64	edc43a00	vstr	s7, [r4]
+1ced68	ee745a65	vsub.f32	s11, s8, s11
+1ced6c	edc47a02	vstr	s15, [r4, #8]
+1ced70	ee377a44	vsub.f32	s14, s14, s8
+1ced74	edc45a04	vstr	s11, [r4, #16]
+1ced78	ee767ac6	vsub.f32	s15, s13, s12
+1ced7c	ed847a06	vstr	s14, [r4, #24]
+1ced80	ee756a66	vsub.f32	s13, s10, s13
+1ced84	edc47a01	vstr	s15, [r4, #4]
+1ced88	ee345ac5	vsub.f32	s10, s9, s10
+1ced8c	edc46a03	vstr	s13, [r4, #12]
+1ced90	ee366a64	vsub.f32	s12, s12, s9
+1ced94	ed845a05	vstr	s10, [r4, #20]
+1ced98	ed846a07	vstr	s12, [r4, #28]
+1ced9c	e2877001	add	r7, r7, #1
+1ceda0	e2844020	add	r4, r4, #32
+1ceda4	e3570008	cmp	r7, #8
+1ceda8	e2866004	add	r6, r6, #4
+1cedac	e2899020	add	r9, r9, #32
+1cedb0	e2855020	add	r5, r5, #32
+1cedb4	e28bb020	add	r11, r11, #32
+1cedb8	e28aa020	add	r10, r10, #32
+1cedbc	e2888020	add	r8, r8, #32
+1cedc0	1afffef1	bne	0x1ce98c <_Z11HandleOtherv+0x3f8>
+1cedc4	e59d1044	ldr	r1, [sp, #0x44]
+1cedc8	e28dcf8f	add	r12, sp, #572
+1cedcc	e58dc038	str	r12, [sp, #0x38]
+1cedd0	e28dcc01	add	r12, sp, #256
+1cedd4	e58dc018	str	r12, [sp, #0x18]
+1cedd8	e28dcf8f	add	r12, sp, #572
+1ceddc	e1c100d0	ldrd	r0, r1, [r1]
+1cede0	e28d6e12	add	r6, sp, #288
+1cede4	e58dc024	str	r12, [sp, #0x24]
+1cede8	e28dc058	add	r12, sp, #88
+1cedec	e58dc030	str	r12, [sp, #0x30]
+1cedf0	e2902001	adds	r2, r0, #1
+1cedf4	e59dc044	ldr	r12, [sp, #0x44]
+1cedf8	e3a07000	mov	r7, #0
+1cedfc	e2a13000	adc	r3, r1, #0
+1cee00	e1cd01f0	strd	r0, r1, [sp, #16]
+1cee04	e58d7020	str	r7, [sp, #0x20]
+1cee08	e1cc20f0	strd	r2, r3, [r12]
+1cee0c	e28dcf4f	add	r12, sp, #316
+1cee10	e58dc028	str	r12, [sp, #0x28]
+1cee14	e59dc03c	ldr	r12, [sp, #0x3c]
+1cee18	e59c3000	ldr	r3, [r12]
+1cee1c	e5d32044	ldrb	r2, [r3, #0x44]
+1cee20	e3520000	cmp	r2, #0
+1cee24	0a0000a4	beq	0x1cf0bc <_Z11HandleOtherv+0xb28>
+1cee28	e59dc020	ldr	r12, [sp, #0x20]
+1cee2c	e28c2012	add	r2, r12, #18
+1cee30	e7933102	ldr	r3, [r3, r2, lsl #2]
+1cee34	e5d33000	ldrb	r3, [r3]
+1cee38	e3530000	cmp	r3, #0
+1cee3c	0a00009e	beq	0x1cf0bc <_Z11HandleOtherv+0xb28>
+1cee40	e59dc048	ldr	r12, [sp, #0x48]
+1cee44	e08c3007	add	r3, r12, r7
+1cee48	e59dc020	ldr	r12, [sp, #0x20]
+1cee4c	e2833d72	add	r3, r3, #7296
+1cee50	e28c8028	add	r8, r12, #40
+1cee54	e283c020	add	r12, r3, #32
+1cee58	e5930020	ldr	r0, [r3, #0x20]
+1cee5c	e58dc02c	str	r12, [sp, #0x2c]
+1cee60	e3500000	cmp	r0, #0
+1cee64	da000094	ble	0x1cf0bc <_Z11HandleOtherv+0xb28>
+1cee68	e59dc040	ldr	r12, [sp, #0x40]
+1cee6c	e3a05000	mov	r5, #0
+1cee70	e51f2240	ldr	r2, [pc, #-0x240]
+1cee74	e51f3240	ldr	r3, [pc, #-0x240]
+1cee78	e79ca002	ldr	r10, [r12, r2]
+1cee7c	e79cb003	ldr	r11, [r12, r3]
+1cee80	e59dc020	ldr	r12, [sp, #0x20]
+1cee84	e08aa18c	add	r10, r10, r12, lsl #3
+1cee88	e28aade5	add	r10, r10, #14656
+1cee8c	e28aa004	add	r10, r10, #4
+1cee90	e59b3000	ldr	r3, [r11]
+1cee94	e59a1000	ldr	r1, [r10]
+1cee98	e5932004	ldr	r2, [r3, #0x4]
+1cee9c	e7911105	ldr	r1, [r1, r5, lsl #2]
+1ceea0	e5933000	ldr	r3, [r3]
+1ceea4	e0012002	and	r2, r1, r2
+1ceea8	e7933182	ldr	r3, [r3, r2, lsl #3]
+1ceeac	e3530000	cmp	r3, #0
+1ceeb0	1a000003	bne	0x1ceec4 <_Z11HandleOtherv+0x930>
+1ceeb4	ea00007d	b	0x1cf0b0 <_Z11HandleOtherv+0xb1c>
+1ceeb8	e5933004	ldr	r3, [r3, #0x4]
+1ceebc	e3530000	cmp	r3, #0
+1ceec0	0a00007a	beq	0x1cf0b0 <_Z11HandleOtherv+0xb1c>
+1ceec4	e5932008	ldr	r2, [r3, #0x8]
+1ceec8	e1510002	cmp	r1, r2
+1ceecc	1afffff9	bne	0x1ceeb8 <_Z11HandleOtherv+0x924>
+1ceed0	e593300c	ldr	r3, [r3, #0xc]
+1ceed4	e3530000	cmp	r3, #0
+1ceed8	0a000074	beq	0x1cf0b0 <_Z11HandleOtherv+0xb1c>
+1ceedc	e59340c4	ldr	r4, [r3, #0xc4]
+1ceee0	e3540000	cmp	r4, #0
+1ceee4	0a000071	beq	0x1cf0b0 <_Z11HandleOtherv+0xb1c>
+1ceee8	e5943008	ldr	r3, [r4, #0x8]
+1ceeec	e3530000	cmp	r3, #0
+1ceef0	0a00006e	beq	0x1cf0b0 <_Z11HandleOtherv+0xb1c>
+1ceef4	e5949008	ldr	r9, [r4, #0x8]
+1ceef8	e5944000	ldr	r4, [r4]
+1ceefc	e5d93068	ldrb	r3, [r9, #0x68]
+1cef00	e3530000	cmp	r3, #0
+1cef04	1a000062	bne	0x1cf094 <_Z11HandleOtherv+0xb00>
+1cef08	e5d93069	ldrb	r3, [r9, #0x69]
+1cef0c	e3530000	cmp	r3, #0
+1cef10	1a00005f	bne	0x1cf094 <_Z11HandleOtherv+0xb00>
+1cef14	e1c927d0	ldrd	r2, r3, [r9, #112]
+1cef18	e1cd01d0	ldrd	r0, r1, [sp, #16]
+1cef1c	e1500002	cmp	r0, r2
+1cef20	e0d11003	sbcs	r1, r1, r3
+1cef24	ba00005a	blt	0x1cf094 <_Z11HandleOtherv+0xb00>
+1cef28	e599008c	ldr	r0, [r9, #0x8c]
+1cef2c	eb007fd9	bl	0x1eee98 <_Z13Sprite_Existsi>
+1cef30	e3500000	cmp	r0, #0
+1cef34	0a000138	beq	0x1cf41c <_Z11HandleOtherv+0xe88>
+1cef38	e5d93064	ldrb	r3, [r9, #0x64]
+1cef3c	e3530000	cmp	r3, #0
+1cef40	1a00017b	bne	0x1cf534 <_Z11HandleOtherv+0xfa0>
+1cef44	e28d3078	add	r3, sp, #120
+1cef48	e59920f0	ldr	r2, [r9, #0xf0]
+1cef4c	e7973003	ldr	r3, [r7, r3]
+1cef50	e1520003	cmp	r2, r3
+1cef54	ba000049	blt	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cef58	e5d93064	ldrb	r3, [r9, #0x64]
+1cef5c	e3530000	cmp	r3, #0
+1cef60	1a0001cc	bne	0x1cf698 <_Z11HandleOtherv+0x1104>
+1cef64	e28d30b8	add	r3, sp, #184
+1cef68	e59920e8	ldr	r2, [r9, #0xe8]
+1cef6c	e7973003	ldr	r3, [r7, r3]
+1cef70	e1520003	cmp	r2, r3
+1cef74	ca000041	bgt	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cef78	e5d93064	ldrb	r3, [r9, #0x64]
+1cef7c	e3530000	cmp	r3, #0
+1cef80	1a000274	bne	0x1cf958 <_Z11HandleOtherv+0x13c4>
+1cef84	e28d3098	add	r3, sp, #152
+1cef88	e59920f4	ldr	r2, [r9, #0xf4]
+1cef8c	e7973003	ldr	r3, [r7, r3]
+1cef90	e1520003	cmp	r2, r3
+1cef94	ba000039	blt	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cef98	e5d93064	ldrb	r3, [r9, #0x64]
+1cef9c	e3530000	cmp	r3, #0
+1cefa0	1a00028c	bne	0x1cf9d8 <_Z11HandleOtherv+0x1444>
+1cefa4	edd96a3b	vldr	s13, [r9, #236]
+1cefa8	ee162a90	vmov	r2, s13
+1cefac	e28d30d8	add	r3, sp, #216
+1cefb0	e7973003	ldr	r3, [r7, r3]
+1cefb4	e1520003	cmp	r2, r3
+1cefb8	ca000030	bgt	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cefbc	e59dc030	ldr	r12, [sp, #0x30]
+1cefc0	eddc7a00	vldr	s15, [r12]
+1cefc4	eef57a40	vcmp.f32	s15, #0
+1cefc8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cefcc	0a000030	beq	0x1cf094 <_Z11HandleOtherv+0xb00>
+1cefd0	e5d93064	ldrb	r3, [r9, #0x64]
+1cefd4	e3530000	cmp	r3, #0
+1cefd8	1a0001ca	bne	0x1cf708 <_Z11HandleOtherv+0x1174>
+1cefdc	ed997a3a	vldr	s14, [r9, #232]
+1cefe0	eeb88ac7	vcvt.f32.s32	s16, s14
+1cefe4	ed8d8a3e	vstr	s16, [sp, #248]
+1cefe8	eef88ae6	vcvt.f32.s32	s17, s13
+1cefec	edcd8a3f	vstr	s17, [sp, #252]
+1ceff0	edd97a3c	vldr	s15, [r9, #240]
+1ceff4	eeb86ae7	vcvt.f32.s32	s12, s15
+1ceff8	ed8d6a40	vstr	s12, [sp, #256]
+1ceffc	eef86ae6	vcvt.f32.s32	s13, s13
+1cf000	edcd6a41	vstr	s13, [sp, #260]
+1cf004	eef87ae7	vcvt.f32.s32	s15, s15
+1cf008	edcd7a42	vstr	s15, [sp, #264]
+1cf00c	edd97a3d	vldr	s15, [r9, #244]
+1cf010	eef86ae7	vcvt.f32.s32	s13, s15
+1cf014	edcd6a43	vstr	s13, [sp, #268]
+1cf018	eeb87ac7	vcvt.f32.s32	s14, s14
+1cf01c	ed8d7a44	vstr	s14, [sp, #272]
+1cf020	eef87ae7	vcvt.f32.s32	s15, s15
+1cf024	e59d1024	ldr	r1, [sp, #0x24]
+1cf028	e59d2028	ldr	r2, [sp, #0x28]
+1cf02c	e3a00004	mov	r0, #4
+1cf030	edcd7a45	vstr	s15, [sp, #276]
+1cf034	eeb07a68	vmov.f32	s14, s17
+1cf038	e28d3c01	add	r3, sp, #256
+1cf03c	ed125a01	vldr	s10, [r2, #-4]
+1cf040	edd25a00	vldr	s11, [r2]
+1cf044	ed116a01	vldr	s12, [r1, #-4]
+1cf048	edd16a00	vldr	s13, [r1]
+1cf04c	eef07a48	vmov.f32	s15, s16
+1cf050	e2833008	add	r3, r3, #8
+1cf054	ee777ac5	vsub.f32	s15, s15, s10
+1cf058	ee677aa6	vmul.f32	s15, s15, s13
+1cf05c	ee377a65	vsub.f32	s14, s14, s11
+1cf060	ee577a06	vnmls.f32	s15, s14, s12
+1cf064	eef57ac0	vcmpe.f32	s15, #0
+1cf068	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf06c	4a000180	bmi	0x1cf674 <_Z11HandleOtherv+0x10e0>
+1cf070	e1530006	cmp	r3, r6
+1cf074	1d537a02	vldrne	s15, [r3, #-8]
+1cf078	1d137a01	vldrne	s14, [r3, #-4]
+1cf07c	1afffff3	bne	0x1cf050 <_Z11HandleOtherv+0xabc>
+1cf080	e1a00009	mov	r0, r9
+1cf084	e3a02007	mov	r2, #7
+1cf088	e1a01009	mov	r1, r9
+1cf08c	e1a03008	mov	r3, r8
+1cf090	ebfc90ba	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1cf094	e3540000	cmp	r4, #0
+1cf098	0a000002	beq	0x1cf0a8 <_Z11HandleOtherv+0xb14>
+1cf09c	e5943008	ldr	r3, [r4, #0x8]
+1cf0a0	e3530000	cmp	r3, #0
+1cf0a4	1affff92	bne	0x1ceef4 <_Z11HandleOtherv+0x960>
+1cf0a8	e59dc02c	ldr	r12, [sp, #0x2c]
+1cf0ac	e59c0000	ldr	r0, [r12]
+1cf0b0	e2855001	add	r5, r5, #1
+1cf0b4	e1500005	cmp	r0, r5
+1cf0b8	caffff74	bgt	0x1cee90 <_Z11HandleOtherv+0x8fc>
+1cf0bc	e59dc020	ldr	r12, [sp, #0x20]
+1cf0c0	e2877004	add	r7, r7, #4
+1cf0c4	e28cc001	add	r12, r12, #1
+1cf0c8	e58dc020	str	r12, [sp, #0x20]
+1cf0cc	e35c0008	cmp	r12, #8
+1cf0d0	e59dc028	ldr	r12, [sp, #0x28]
+1cf0d4	e28cc020	add	r12, r12, #32
+1cf0d8	e58dc028	str	r12, [sp, #0x28]
+1cf0dc	e59dc024	ldr	r12, [sp, #0x24]
+1cf0e0	e28cc020	add	r12, r12, #32
+1cf0e4	e58dc024	str	r12, [sp, #0x24]
+1cf0e8	e59dc030	ldr	r12, [sp, #0x30]
+1cf0ec	e28cc004	add	r12, r12, #4
+1cf0f0	e58dc030	str	r12, [sp, #0x30]
+1cf0f4	1affff46	bne	0x1cee14 <_Z11HandleOtherv+0x880>
+1cf0f8	e59d1044	ldr	r1, [sp, #0x44]
+1cf0fc	e28dcc01	add	r12, sp, #256
+1cf100	e58dc028	str	r12, [sp, #0x28]
+1cf104	e28dcf8f	add	r12, sp, #572
+1cf108	e58dc038	str	r12, [sp, #0x38]
+1cf10c	e28dcf4f	add	r12, sp, #316
+1cf110	e1c100d0	ldrd	r0, r1, [r1]
+1cf114	e3a08000	mov	r8, #0
+1cf118	e58dc034	str	r12, [sp, #0x34]
+1cf11c	e28dbe12	add	r11, sp, #288
+1cf120	e59dc044	ldr	r12, [sp, #0x44]
+1cf124	e2902001	adds	r2, r0, #1
+1cf128	e1a0a008	mov	r10, r8
+1cf12c	e2a13000	adc	r3, r1, #0
+1cf130	e1cd01f8	strd	r0, r1, [sp, #24]
+1cf134	e1cc20f0	strd	r2, r3, [r12]
+1cf138	e58d802c	str	r8, [sp, #0x2c]
+1cf13c	e59dc03c	ldr	r12, [sp, #0x3c]
+1cf140	e59c3000	ldr	r3, [r12]
+1cf144	e5d32044	ldrb	r2, [r3, #0x44]
+1cf148	e3520000	cmp	r2, #0
+1cf14c	0a00009f	beq	0x1cf3d0 <_Z11HandleOtherv+0xe3c>
+1cf150	e59dc02c	ldr	r12, [sp, #0x2c]
+1cf154	e28c2012	add	r2, r12, #18
+1cf158	e7933102	ldr	r3, [r3, r2, lsl #2]
+1cf15c	e5d37000	ldrb	r7, [r3]
+1cf160	e3570000	cmp	r7, #0
+1cf164	0a000099	beq	0x1cf3d0 <_Z11HandleOtherv+0xe3c>
+1cf168	e59dc048	ldr	r12, [sp, #0x48]
+1cf16c	e08c300a	add	r3, r12, r10
+1cf170	e59dc02c	ldr	r12, [sp, #0x2c]
+1cf174	e2833d73	add	r3, r3, #7360
+1cf178	e28cc032	add	r12, r12, #50
+1cf17c	e58dc044	str	r12, [sp, #0x44]
+1cf180	e5930008	ldr	r0, [r3, #0x8]
+1cf184	e283c008	add	r12, r3, #8
+1cf188	e58dc030	str	r12, [sp, #0x30]
+1cf18c	e3500000	cmp	r0, #0
+1cf190	da00008e	ble	0x1cf3d0 <_Z11HandleOtherv+0xe3c>
+1cf194	e28dc058	add	r12, sp, #88
+1cf198	e51f3568	ldr	r3, [pc, #-0x568]
+1cf19c	e08cc00a	add	r12, r12, r10
+1cf1a0	e51f256c	ldr	r2, [pc, #-0x56c]
+1cf1a4	e58dc050	str	r12, [sp, #0x50]
+1cf1a8	e3a06000	mov	r6, #0
+1cf1ac	e59dc040	ldr	r12, [sp, #0x40]
+1cf1b0	e79c3003	ldr	r3, [r12, r3]
+1cf1b4	e79c2002	ldr	r2, [r12, r2]
+1cf1b8	e59dc02c	ldr	r12, [sp, #0x2c]
+1cf1bc	e58da008	str	r10, [sp, #0x8]
+1cf1c0	e58d2024	str	r2, [sp, #0x24]
+1cf1c4	e083318c	add	r3, r3, r12, lsl #3
+1cf1c8	e2833de6	add	r3, r3, #14720
+1cf1cc	e2833014	add	r3, r3, #20
+1cf1d0	e58d3020	str	r3, [sp, #0x20]
+1cf1d4	e59dc024	ldr	r12, [sp, #0x24]
+1cf1d8	e59c3000	ldr	r3, [r12]
+1cf1dc	e59dc020	ldr	r12, [sp, #0x20]
+1cf1e0	e5932004	ldr	r2, [r3, #0x4]
+1cf1e4	e59c1000	ldr	r1, [r12]
+1cf1e8	e5933000	ldr	r3, [r3]
+1cf1ec	e7911106	ldr	r1, [r1, r6, lsl #2]
+1cf1f0	e0012002	and	r2, r1, r2
+1cf1f4	e7933182	ldr	r3, [r3, r2, lsl #3]
+1cf1f8	e3530000	cmp	r3, #0
+1cf1fc	1a000003	bne	0x1cf210 <_Z11HandleOtherv+0xc7c>
+1cf200	ea00006e	b	0x1cf3c0 <_Z11HandleOtherv+0xe2c>
+1cf204	e5933004	ldr	r3, [r3, #0x4]
+1cf208	e3530000	cmp	r3, #0
+1cf20c	0a00006b	beq	0x1cf3c0 <_Z11HandleOtherv+0xe2c>
+1cf210	e5932008	ldr	r2, [r3, #0x8]
+1cf214	e1510002	cmp	r1, r2
+1cf218	1afffff9	bne	0x1cf204 <_Z11HandleOtherv+0xc70>
+1cf21c	e593300c	ldr	r3, [r3, #0xc]
+1cf220	e3530000	cmp	r3, #0
+1cf224	0a000065	beq	0x1cf3c0 <_Z11HandleOtherv+0xe2c>
+1cf228	e59340c4	ldr	r4, [r3, #0xc4]
+1cf22c	e3540000	cmp	r4, #0
+1cf230	0a000062	beq	0x1cf3c0 <_Z11HandleOtherv+0xe2c>
+1cf234	e5943008	ldr	r3, [r4, #0x8]
+1cf238	e3530000	cmp	r3, #0
+1cf23c	1a000003	bne	0x1cf250 <_Z11HandleOtherv+0xcbc>
+1cf240	ea00005e	b	0x1cf3c0 <_Z11HandleOtherv+0xe2c>
+1cf244	e5943008	ldr	r3, [r4, #0x8]
+1cf248	e3530000	cmp	r3, #0
+1cf24c	0a000059	beq	0x1cf3b8 <_Z11HandleOtherv+0xe24>
+1cf250	e5945008	ldr	r5, [r4, #0x8]
+1cf254	e5944000	ldr	r4, [r4]
+1cf258	e5d53068	ldrb	r3, [r5, #0x68]
+1cf25c	e3530000	cmp	r3, #0
+1cf260	1a000052	bne	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf264	e5d53069	ldrb	r3, [r5, #0x69]
+1cf268	e3530000	cmp	r3, #0
+1cf26c	1a00004f	bne	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf270	e1c527d0	ldrd	r2, r3, [r5, #112]
+1cf274	e1cd01d8	ldrd	r0, r1, [sp, #24]
+1cf278	e1500002	cmp	r0, r2
+1cf27c	e0d11003	sbcs	r1, r1, r3
+1cf280	ba00004a	blt	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf284	e595008c	ldr	r0, [r5, #0x8c]
+1cf288	eb007f02	bl	0x1eee98 <_Z13Sprite_Existsi>
+1cf28c	e3500000	cmp	r0, #0
+1cf290	0a00009c	beq	0x1cf508 <_Z11HandleOtherv+0xf74>
+1cf294	e5d53064	ldrb	r3, [r5, #0x64]
+1cf298	e3530000	cmp	r3, #0
+1cf29c	1a0000a0	bne	0x1cf524 <_Z11HandleOtherv+0xf90>
+1cf2a0	e59dc008	ldr	r12, [sp, #0x8]
+1cf2a4	e28d2078	add	r2, sp, #120
+1cf2a8	e59530f0	ldr	r3, [r5, #0xf0]
+1cf2ac	e79c8002	ldr	r8, [r12, r2]
+1cf2b0	e1530008	cmp	r3, r8
+1cf2b4	ba00003d	blt	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf2b8	e5d53064	ldrb	r3, [r5, #0x64]
+1cf2bc	e3530000	cmp	r3, #0
+1cf2c0	1a0000f0	bne	0x1cf688 <_Z11HandleOtherv+0x10f4>
+1cf2c4	e59dc008	ldr	r12, [sp, #0x8]
+1cf2c8	e28d20b8	add	r2, sp, #184
+1cf2cc	e59530e8	ldr	r3, [r5, #0xe8]
+1cf2d0	e79c9002	ldr	r9, [r12, r2]
+1cf2d4	e1530009	cmp	r3, r9
+1cf2d8	ca000034	bgt	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf2dc	e5d53064	ldrb	r3, [r5, #0x64]
+1cf2e0	e3530000	cmp	r3, #0
+1cf2e4	1a00019f	bne	0x1cf968 <_Z11HandleOtherv+0x13d4>
+1cf2e8	e59dc008	ldr	r12, [sp, #0x8]
+1cf2ec	e28d2098	add	r2, sp, #152
+1cf2f0	e59530f4	ldr	r3, [r5, #0xf4]
+1cf2f4	e79ca002	ldr	r10, [r12, r2]
+1cf2f8	e153000a	cmp	r3, r10
+1cf2fc	ba00002b	blt	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf300	e5d53064	ldrb	r3, [r5, #0x64]
+1cf304	e3530000	cmp	r3, #0
+1cf308	1a0001a8	bne	0x1cf9b0 <_Z11HandleOtherv+0x141c>
+1cf30c	edd57a3b	vldr	s15, [r5, #236]
+1cf310	ee170a90	vmov	r0, s15
+1cf314	e59dc008	ldr	r12, [sp, #0x8]
+1cf318	e28d30d8	add	r3, sp, #216
+1cf31c	e79c3003	ldr	r3, [r12, r3]
+1cf320	e1500003	cmp	r0, r3
+1cf324	ca000021	bgt	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf328	e59dc050	ldr	r12, [sp, #0x50]
+1cf32c	ed9c7a00	vldr	s14, [r12]
+1cf330	eeb57a40	vcmp.f32	s14, #0
+1cf334	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf338	1a000081	bne	0x1cf544 <_Z11HandleOtherv+0xfb0>
+1cf33c	e5d52064	ldrb	r2, [r5, #0x64]
+1cf340	e3520000	cmp	r2, #0
+1cf344	1a00018b	bne	0x1cf978 <_Z11HandleOtherv+0x13e4>
+1cf348	e59520f0	ldr	r2, [r5, #0xf0]
+1cf34c	e1590002	cmp	r9, r2
+1cf350	da000011	ble	0x1cf39c <_Z11HandleOtherv+0xe08>
+1cf354	e5d52064	ldrb	r2, [r5, #0x64]
+1cf358	e3520000	cmp	r2, #0
+1cf35c	1a000197	bne	0x1cf9c0 <_Z11HandleOtherv+0x142c>
+1cf360	e59520e8	ldr	r2, [r5, #0xe8]
+1cf364	e1580002	cmp	r8, r2
+1cf368	aa00000b	bge	0x1cf39c <_Z11HandleOtherv+0xe08>
+1cf36c	e5d52064	ldrb	r2, [r5, #0x64]
+1cf370	e3520000	cmp	r2, #0
+1cf374	1a00024e	bne	0x1cfcb4 <_Z11HandleOtherv+0x1720>
+1cf378	e59520f4	ldr	r2, [r5, #0xf4]
+1cf37c	e1530002	cmp	r3, r2
+1cf380	da000005	ble	0x1cf39c <_Z11HandleOtherv+0xe08>
+1cf384	e5d53064	ldrb	r3, [r5, #0x64]
+1cf388	e3530000	cmp	r3, #0
+1cf38c	1a000313	bne	0x1cffe0 <_Z11HandleOtherv+0x1a4c>
+1cf390	e59530ec	ldr	r3, [r5, #0xec]
+1cf394	e15a0003	cmp	r10, r3
+1cf398	ba000004	blt	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf39c	e1a00005	mov	r0, r5
+1cf3a0	e3a02007	mov	r2, #7
+1cf3a4	e1a01005	mov	r1, r5
+1cf3a8	e59d3044	ldr	r3, [sp, #0x44]
+1cf3ac	ebfc8ff3	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1cf3b0	e3540000	cmp	r4, #0
+1cf3b4	1affffa2	bne	0x1cf244 <_Z11HandleOtherv+0xcb0>
+1cf3b8	e59dc030	ldr	r12, [sp, #0x30]
+1cf3bc	e59c0000	ldr	r0, [r12]
+1cf3c0	e2866001	add	r6, r6, #1
+1cf3c4	e1500006	cmp	r0, r6
+1cf3c8	caffff81	bgt	0x1cf1d4 <_Z11HandleOtherv+0xc40>
+1cf3cc	e59da008	ldr	r10, [sp, #0x8]
+1cf3d0	e59dc02c	ldr	r12, [sp, #0x2c]
+1cf3d4	e28aa004	add	r10, r10, #4
+1cf3d8	e28cc001	add	r12, r12, #1
+1cf3dc	e58dc02c	str	r12, [sp, #0x2c]
+1cf3e0	e35c0008	cmp	r12, #8
+1cf3e4	e59dc034	ldr	r12, [sp, #0x34]
+1cf3e8	e28cc020	add	r12, r12, #32
+1cf3ec	e58dc034	str	r12, [sp, #0x34]
+1cf3f0	e59dc038	ldr	r12, [sp, #0x38]
+1cf3f4	e28cc020	add	r12, r12, #32
+1cf3f8	e58dc038	str	r12, [sp, #0x38]
+1cf3fc	1affff4e	bne	0x1cf13c <_Z11HandleOtherv+0xba8>
+1cf400	e59dc054	ldr	r12, [sp, #0x54]
+1cf404	e5dc3000	ldrb	r3, [r12]
+1cf408	e3530000	cmp	r3, #0
+1cf40c	1a0002f7	bne	0x1cfff0 <_Z11HandleOtherv+0x1a5c>
+1cf410	e28ddfcf	add	sp, sp, #828
+1cf414	ecbd8b08	vpop	{d8, d9, d10, d11}
+1cf418	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1cf41c	e59900ac	ldr	r0, [r9, #0xac]
+1cf420	eb007e9c	bl	0x1eee98 <_Z13Sprite_Existsi>
+1cf424	e3500000	cmp	r0, #0
+1cf428	1afffec2	bne	0x1cef38 <_Z11HandleOtherv+0x9a4>
+1cf42c	e28d3078	add	r3, sp, #120
+1cf430	edd95a2d	vldr	s11, [r9, #180]
+1cf434	e7973003	ldr	r3, [r7, r3]
+1cf438	ee073a90	vmov	s15, r3
+1cf43c	eef87ae7	vcvt.f32.s32	s15, s15
+1cf440	eef45ae7	vcmpe.f32	s11, s15
+1cf444	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf448	4affff0c	bmi	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cf44c	e28d30b8	add	r3, sp, #184
+1cf450	e7973003	ldr	r3, [r7, r3]
+1cf454	ee073a90	vmov	s15, r3
+1cf458	eef87ae7	vcvt.f32.s32	s15, s15
+1cf45c	eef45ae7	vcmpe.f32	s11, s15
+1cf460	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf464	caffff05	bgt	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cf468	e28d3098	add	r3, sp, #152
+1cf46c	ed995a2e	vldr	s10, [r9, #184]
+1cf470	e7973003	ldr	r3, [r7, r3]
+1cf474	ee073a90	vmov	s15, r3
+1cf478	eef87ae7	vcvt.f32.s32	s15, s15
+1cf47c	eeb45ae7	vcmpe.f32	s10, s15
+1cf480	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf484	4afffefd	bmi	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cf488	e28d30d8	add	r3, sp, #216
+1cf48c	e7973003	ldr	r3, [r7, r3]
+1cf490	ee073a90	vmov	s15, r3
+1cf494	eef87ae7	vcvt.f32.s32	s15, s15
+1cf498	eeb45ae7	vcmpe.f32	s10, s15
+1cf49c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf4a0	cafffef6	bgt	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cf4a4	e59dc030	ldr	r12, [sp, #0x30]
+1cf4a8	eddc7a00	vldr	s15, [r12]
+1cf4ac	eef57a40	vcmp.f32	s15, #0
+1cf4b0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf4b4	0afffef6	beq	0x1cf094 <_Z11HandleOtherv+0xb00>
+1cf4b8	e59d2024	ldr	r2, [sp, #0x24]
+1cf4bc	e3a01000	mov	r1, #0
+1cf4c0	e59d3028	ldr	r3, [sp, #0x28]
+1cf4c4	ed537a01	vldr	s15, [r3, #-4]
+1cf4c8	ee757ae7	vsub.f32	s15, s11, s15
+1cf4cc	ed926a00	vldr	s12, [r2]
+1cf4d0	edd36a00	vldr	s13, [r3]
+1cf4d4	ed127a01	vldr	s14, [r2, #-4]
+1cf4d8	e2811001	add	r1, r1, #1
+1cf4dc	e2833008	add	r3, r3, #8
+1cf4e0	e2822008	add	r2, r2, #8
+1cf4e4	ee677a86	vmul.f32	s15, s15, s12
+1cf4e8	ee756a66	vsub.f32	s13, s10, s13
+1cf4ec	ee567a87	vnmls.f32	s15, s13, s14
+1cf4f0	eef57ac0	vcmpe.f32	s15, #0
+1cf4f4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf4f8	4afffee0	bmi	0x1cf080 <_Z11HandleOtherv+0xaec>
+1cf4fc	e3510004	cmp	r1, #4
+1cf500	1affffef	bne	0x1cf4c4 <_Z11HandleOtherv+0xf30>
+1cf504	eafffee2	b	0x1cf094 <_Z11HandleOtherv+0xb00>
+1cf508	e59500ac	ldr	r0, [r5, #0xac]
+1cf50c	eb007e61	bl	0x1eee98 <_Z13Sprite_Existsi>
+1cf510	e3500000	cmp	r0, #0
+1cf514	0affffa5	beq	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf518	e5d53064	ldrb	r3, [r5, #0x64]
+1cf51c	e3530000	cmp	r3, #0
+1cf520	0affff5e	beq	0x1cf2a0 <_Z11HandleOtherv+0xd0c>
+1cf524	e1a00005	mov	r0, r5
+1cf528	e3a01001	mov	r1, #1
+1cf52c	ebff0b83	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf530	eaffff5a	b	0x1cf2a0 <_Z11HandleOtherv+0xd0c>
+1cf534	e1a00009	mov	r0, r9
+1cf538	e3a01001	mov	r1, #1
+1cf53c	ebff0b7f	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf540	eafffe7f	b	0x1cef44 <_Z11HandleOtherv+0x9b0>
+1cf544	e5d53064	ldrb	r3, [r5, #0x64]
+1cf548	e3530000	cmp	r3, #0
+1cf54c	1a0000bd	bne	0x1cf848 <_Z11HandleOtherv+0x12b4>
+1cf550	ed957a3a	vldr	s14, [r5, #232]
+1cf554	eeb88ac7	vcvt.f32.s32	s16, s14
+1cf558	ed8d8a3e	vstr	s16, [sp, #248]
+1cf55c	eef88ae7	vcvt.f32.s32	s17, s15
+1cf560	edcd8a3f	vstr	s17, [sp, #252]
+1cf564	edd56a3c	vldr	s13, [r5, #240]
+1cf568	eeb86ae6	vcvt.f32.s32	s12, s13
+1cf56c	ed8d6a40	vstr	s12, [sp, #256]
+1cf570	eef87ae7	vcvt.f32.s32	s15, s15
+1cf574	edcd7a41	vstr	s15, [sp, #260]
+1cf578	eef86ae6	vcvt.f32.s32	s13, s13
+1cf57c	edcd6a42	vstr	s13, [sp, #264]
+1cf580	edd57a3d	vldr	s15, [r5, #244]
+1cf584	eef86ae7	vcvt.f32.s32	s13, s15
+1cf588	edcd6a43	vstr	s13, [sp, #268]
+1cf58c	eeb87ac7	vcvt.f32.s32	s14, s14
+1cf590	ed8d7a44	vstr	s14, [sp, #272]
+1cf594	eef87ae7	vcvt.f32.s32	s15, s15
+1cf598	e59d9038	ldr	r9, [sp, #0x38]
+1cf59c	e59d8034	ldr	r8, [sp, #0x34]
+1cf5a0	e3a0a004	mov	r10, #4
+1cf5a4	e3a0c001	mov	r12, #1
+1cf5a8	edcd7a45	vstr	s15, [sp, #276]
+1cf5ac	eeb07a68	vmov.f32	s14, s17
+1cf5b0	e28d3c01	add	r3, sp, #256
+1cf5b4	e3a00001	mov	r0, #1
+1cf5b8	ed185a01	vldr	s10, [r8, #-4]
+1cf5bc	edd85a00	vldr	s11, [r8]
+1cf5c0	ed196a01	vldr	s12, [r9, #-4]
+1cf5c4	edd96a00	vldr	s13, [r9]
+1cf5c8	eef07a48	vmov.f32	s15, s16
+1cf5cc	e2201001	eor	r1, r0, #1
+1cf5d0	e1a02007	mov	r2, r7
+1cf5d4	ee777ac5	vsub.f32	s15, s15, s10
+1cf5d8	ee677aa6	vmul.f32	s15, s15, s13
+1cf5dc	ee377a65	vsub.f32	s14, s14, s11
+1cf5e0	ee577a06	vnmls.f32	s15, s14, s12
+1cf5e4	eef57ac0	vcmpe.f32	s15, #0
+1cf5e8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf5ec	c3a0c000	movgt	r12, #0
+1cf5f0	da000007	ble	0x1cf614 <_Z11HandleOtherv+0x1080>
+1cf5f4	e1110002	tst	r1, r2
+1cf5f8	e2833008	add	r3, r3, #8
+1cf5fc	1a00000b	bne	0x1cf630 <_Z11HandleOtherv+0x109c>
+1cf600	e153000b	cmp	r3, r11
+1cf604	0a000011	beq	0x1cf650 <_Z11HandleOtherv+0x10bc>
+1cf608	ed537a02	vldr	s15, [r3, #-8]
+1cf60c	ed137a01	vldr	s14, [r3, #-4]
+1cf610	eaffffed	b	0x1cf5cc <_Z11HandleOtherv+0x1038>
+1cf614	e2201001	eor	r1, r0, #1
+1cf618	e22c2001	eor	r2, r12, #1
+1cf61c	41a01007	movmi	r1, r7
+1cf620	43a00000	movmi	r0, #0
+1cf624	e1110002	tst	r1, r2
+1cf628	e2833008	add	r3, r3, #8
+1cf62c	0afffff3	beq	0x1cf600 <_Z11HandleOtherv+0x106c>
+1cf630	e25aa001	subs	r10, r10, #1
+1cf634	e3a0c000	mov	r12, #0
+1cf638	e2888008	add	r8, r8, #8
+1cf63c	e2899008	add	r9, r9, #8
+1cf640	1affffd9	bne	0x1cf5ac <_Z11HandleOtherv+0x1018>
+1cf644	e35c0000	cmp	r12, #0
+1cf648	1affff58	bne	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf64c	eaffff52	b	0x1cf39c <_Z11HandleOtherv+0xe08>
+1cf650	e3500000	cmp	r0, #0
+1cf654	1affff55	bne	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf658	e25aa001	subs	r10, r10, #1
+1cf65c	e2888008	add	r8, r8, #8
+1cf660	e2899008	add	r9, r9, #8
+1cf664	1affffd0	bne	0x1cf5ac <_Z11HandleOtherv+0x1018>
+1cf668	e35c0000	cmp	r12, #0
+1cf66c	1affff4f	bne	0x1cf3b0 <_Z11HandleOtherv+0xe1c>
+1cf670	eaffff49	b	0x1cf39c <_Z11HandleOtherv+0xe08>
+1cf674	e2500001	subs	r0, r0, #1
+1cf678	e2822008	add	r2, r2, #8
+1cf67c	e2811008	add	r1, r1, #8
+1cf680	1afffe6b	bne	0x1cf034 <_Z11HandleOtherv+0xaa0>
+1cf684	eafffe82	b	0x1cf094 <_Z11HandleOtherv+0xb00>
+1cf688	e1a00005	mov	r0, r5
+1cf68c	e3a01001	mov	r1, #1
+1cf690	ebff0b2a	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf694	eaffff0a	b	0x1cf2c4 <_Z11HandleOtherv+0xd30>
+1cf698	e1a00009	mov	r0, r9
+1cf69c	e3a01001	mov	r1, #1
+1cf6a0	ebff0b26	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf6a4	eafffe2e	b	0x1cef64 <_Z11HandleOtherv+0x9d0>
+1cf6a8	e59600ac	ldr	r0, [r6, #0xac]
+1cf6ac	eb007df9	bl	0x1eee98 <_Z13Sprite_Existsi>
+1cf6b0	e3500000	cmp	r0, #0
+1cf6b4	1afffc71	bne	0x1ce880 <_Z11HandleOtherv+0x2ec>
+1cf6b8	ed967a2d	vldr	s14, [r6, #180]
+1cf6bc	eeb57ac0	vcmpe.f32	s14, #0
+1cf6c0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf6c4	4afffc89	bmi	0x1ce8f0 <_Z11HandleOtherv+0x35c>
+1cf6c8	e59a3000	ldr	r3, [r10]
+1cf6cc	ed936a04	vldr	s12, [r3, #16]
+1cf6d0	eef87ac6	vcvt.f32.s32	s15, s12
+1cf6d4	eeb47ae7	vcmpe.f32	s14, s15
+1cf6d8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf6dc	cafffc83	bgt	0x1ce8f0 <_Z11HandleOtherv+0x35c>
+1cf6e0	edd67a2e	vldr	s15, [r6, #184]
+1cf6e4	eef57ac0	vcmpe.f32	s15, #0
+1cf6e8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf6ec	4afffc7f	bmi	0x1ce8f0 <_Z11HandleOtherv+0x35c>
+1cf6f0	ed937a05	vldr	s14, [r3, #20]
+1cf6f4	eeb87ac7	vcvt.f32.s32	s14, s14
+1cf6f8	eef47ac7	vcmpe.f32	s15, s14
+1cf6fc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf700	cafffc7a	bgt	0x1ce8f0 <_Z11HandleOtherv+0x35c>
+1cf704	eafffc47	b	0x1ce828 <_Z11HandleOtherv+0x294>
+1cf708	e1a00009	mov	r0, r9
+1cf70c	e3a01001	mov	r1, #1
+1cf710	ebff0b0a	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf714	ed997a3a	vldr	s14, [r9, #232]
+1cf718	eeb88ac7	vcvt.f32.s32	s16, s14
+1cf71c	e5d93064	ldrb	r3, [r9, #0x64]
+1cf720	e3530000	cmp	r3, #0
+1cf724	0dd96a3b	vldreq	s13, [r9, #236]
+1cf728	ed8d8a3e	vstr	s16, [sp, #248]
+1cf72c	0afffe2d	beq	0x1cefe8 <_Z11HandleOtherv+0xa54>
+1cf730	e1a00009	mov	r0, r9
+1cf734	e3a01001	mov	r1, #1
+1cf738	ebff0b00	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf73c	edd96a3b	vldr	s13, [r9, #236]
+1cf740	eef88ae6	vcvt.f32.s32	s17, s13
+1cf744	e5d93064	ldrb	r3, [r9, #0x64]
+1cf748	e3530000	cmp	r3, #0
+1cf74c	0d997a3a	vldreq	s14, [r9, #232]
+1cf750	edcd8a3f	vstr	s17, [sp, #252]
+1cf754	0afffe25	beq	0x1ceff0 <_Z11HandleOtherv+0xa5c>
+1cf758	e1a00009	mov	r0, r9
+1cf75c	e3a01001	mov	r1, #1
+1cf760	ebff0af6	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf764	edd97a3c	vldr	s15, [r9, #240]
+1cf768	eeb87ae7	vcvt.f32.s32	s14, s15
+1cf76c	e5d93064	ldrb	r3, [r9, #0x64]
+1cf770	e3530000	cmp	r3, #0
+1cf774	ed8d7a40	vstr	s14, [sp, #256]
+1cf778	0a000246	beq	0x1d0098 <_Z11HandleOtherv+0x1b04>
+1cf77c	e1a00009	mov	r0, r9
+1cf780	e3a01001	mov	r1, #1
+1cf784	ebff0aed	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf788	ed996a3b	vldr	s12, [r9, #236]
+1cf78c	eef87ac6	vcvt.f32.s32	s15, s12
+1cf790	e5d93064	ldrb	r3, [r9, #0x64]
+1cf794	e3530000	cmp	r3, #0
+1cf798	edcd7a41	vstr	s15, [sp, #260]
+1cf79c	0a00022e	beq	0x1d005c <_Z11HandleOtherv+0x1ac8>
+1cf7a0	e1a00009	mov	r0, r9
+1cf7a4	e3a01001	mov	r1, #1
+1cf7a8	ebff0ae4	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf7ac	edd96a3c	vldr	s13, [r9, #240]
+1cf7b0	eef87ae6	vcvt.f32.s32	s15, s13
+1cf7b4	e5d93064	ldrb	r3, [r9, #0x64]
+1cf7b8	e3530000	cmp	r3, #0
+1cf7bc	0d997a3a	vldreq	s14, [r9, #232]
+1cf7c0	edcd7a42	vstr	s15, [sp, #264]
+1cf7c4	0afffe10	beq	0x1cf00c <_Z11HandleOtherv+0xa78>
+1cf7c8	e1a00009	mov	r0, r9
+1cf7cc	e3a01001	mov	r1, #1
+1cf7d0	ebff0ada	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf7d4	edd97a3d	vldr	s15, [r9, #244]
+1cf7d8	eeb87ae7	vcvt.f32.s32	s14, s15
+1cf7dc	e5d93064	ldrb	r3, [r9, #0x64]
+1cf7e0	e3530000	cmp	r3, #0
+1cf7e4	ed8d7a43	vstr	s14, [sp, #268]
+1cf7e8	0d997a3a	vldreq	s14, [r9, #232]
+1cf7ec	0afffe09	beq	0x1cf018 <_Z11HandleOtherv+0xa84>
+1cf7f0	e1a00009	mov	r0, r9
+1cf7f4	e3a01001	mov	r1, #1
+1cf7f8	ebff0ad0	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf7fc	ed997a3a	vldr	s14, [r9, #232]
+1cf800	eef87ac7	vcvt.f32.s32	s15, s14
+1cf804	e5d93064	ldrb	r3, [r9, #0x64]
+1cf808	e3530000	cmp	r3, #0
+1cf80c	edcd7a44	vstr	s15, [sp, #272]
+1cf810	0a000002	beq	0x1cf820 <_Z11HandleOtherv+0x128c>
+1cf814	e1a00009	mov	r0, r9
+1cf818	e3a01001	mov	r1, #1
+1cf81c	ebff0ac7	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf820	edd97a3d	vldr	s15, [r9, #244]
+1cf824	eafffdfd	b	0x1cf020 <_Z11HandleOtherv+0xa8c>
+1cf828	e1a00006	mov	r0, r6
+1cf82c	e3a01001	mov	r1, #1
+1cf830	ebff0ac2	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf834	eafffbae	b	0x1ce6f4 <_Z11HandleOtherv+0x160>
+1cf838	e1a00006	mov	r0, r6
+1cf83c	e3a01001	mov	r1, #1
+1cf840	ebff0abe	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf844	eafffc10	b	0x1ce88c <_Z11HandleOtherv+0x2f8>
+1cf848	e1a00005	mov	r0, r5
+1cf84c	e3a01001	mov	r1, #1
+1cf850	ebff0aba	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf854	ed957a3a	vldr	s14, [r5, #232]
+1cf858	eeb88ac7	vcvt.f32.s32	s16, s14
+1cf85c	e5d53064	ldrb	r3, [r5, #0x64]
+1cf860	e3530000	cmp	r3, #0
+1cf864	ed8d8a3e	vstr	s16, [sp, #248]
+1cf868	0a000208	beq	0x1d0090 <_Z11HandleOtherv+0x1afc>
+1cf86c	e1a00005	mov	r0, r5
+1cf870	e3a01001	mov	r1, #1
+1cf874	ebff0ab1	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf878	edd57a3b	vldr	s15, [r5, #236]
+1cf87c	eef88ae7	vcvt.f32.s32	s17, s15
+1cf880	e5d53064	ldrb	r3, [r5, #0x64]
+1cf884	e3530000	cmp	r3, #0
+1cf888	edcd8a3f	vstr	s17, [sp, #252]
+1cf88c	0a000204	beq	0x1d00a4 <_Z11HandleOtherv+0x1b10>
+1cf890	e1a00005	mov	r0, r5
+1cf894	e3a01001	mov	r1, #1
+1cf898	ebff0aa8	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf89c	edd56a3c	vldr	s13, [r5, #240]
+1cf8a0	eef87ae6	vcvt.f32.s32	s15, s13
+1cf8a4	e5d53064	ldrb	r3, [r5, #0x64]
+1cf8a8	e3530000	cmp	r3, #0
+1cf8ac	edcd7a40	vstr	s15, [sp, #256]
+1cf8b0	0a0001f1	beq	0x1d007c <_Z11HandleOtherv+0x1ae8>
+1cf8b4	e1a00005	mov	r0, r5
+1cf8b8	e3a01001	mov	r1, #1
+1cf8bc	ebff0a9f	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf8c0	ed956a3b	vldr	s12, [r5, #236]
+1cf8c4	eef87ac6	vcvt.f32.s32	s15, s12
+1cf8c8	e5d53064	ldrb	r3, [r5, #0x64]
+1cf8cc	e3530000	cmp	r3, #0
+1cf8d0	edcd7a41	vstr	s15, [sp, #260]
+1cf8d4	0a0001e5	beq	0x1d0070 <_Z11HandleOtherv+0x1adc>
+1cf8d8	e1a00005	mov	r0, r5
+1cf8dc	e3a01001	mov	r1, #1
+1cf8e0	ebff0a96	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf8e4	edd56a3c	vldr	s13, [r5, #240]
+1cf8e8	eef87ae6	vcvt.f32.s32	s15, s13
+1cf8ec	e5d53064	ldrb	r3, [r5, #0x64]
+1cf8f0	e3530000	cmp	r3, #0
+1cf8f4	edcd7a42	vstr	s15, [sp, #264]
+1cf8f8	0a0001da	beq	0x1d0068 <_Z11HandleOtherv+0x1ad4>
+1cf8fc	e1a00005	mov	r0, r5
+1cf900	e3a01001	mov	r1, #1
+1cf904	ebff0a8d	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf908	edd57a3d	vldr	s15, [r5, #244]
+1cf90c	eeb87ae7	vcvt.f32.s32	s14, s15
+1cf910	e5d53064	ldrb	r3, [r5, #0x64]
+1cf914	e3530000	cmp	r3, #0
+1cf918	ed8d7a43	vstr	s14, [sp, #268]
+1cf91c	0a0001d9	beq	0x1d0088 <_Z11HandleOtherv+0x1af4>
+1cf920	e1a00005	mov	r0, r5
+1cf924	e3a01001	mov	r1, #1
+1cf928	ebff0a84	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf92c	ed957a3a	vldr	s14, [r5, #232]
+1cf930	eef87ac7	vcvt.f32.s32	s15, s14
+1cf934	e5d53064	ldrb	r3, [r5, #0x64]
+1cf938	e3530000	cmp	r3, #0
+1cf93c	edcd7a44	vstr	s15, [sp, #272]
+1cf940	0a000002	beq	0x1cf950 <_Z11HandleOtherv+0x13bc>
+1cf944	e1a00005	mov	r0, r5
+1cf948	e3a01001	mov	r1, #1
+1cf94c	ebff0a7b	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf950	edd57a3d	vldr	s15, [r5, #244]
+1cf954	eaffff0e	b	0x1cf594 <_Z11HandleOtherv+0x1000>
+1cf958	e1a00009	mov	r0, r9
+1cf95c	e3a01001	mov	r1, #1
+1cf960	ebff0a76	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf964	eafffd86	b	0x1cef84 <_Z11HandleOtherv+0x9f0>
+1cf968	e1a00005	mov	r0, r5
+1cf96c	e3a01001	mov	r1, #1
+1cf970	ebff0a72	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf974	eafffe5b	b	0x1cf2e8 <_Z11HandleOtherv+0xd54>
+1cf978	e1a00005	mov	r0, r5
+1cf97c	e3a01001	mov	r1, #1
+1cf980	e58d3004	str	r3, [sp, #0x4]
+1cf984	ebff0a6d	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf988	e59d3004	ldr	r3, [sp, #0x4]
+1cf98c	eafffe6d	b	0x1cf348 <_Z11HandleOtherv+0xdb4>
+1cf990	e1a00006	mov	r0, r6
+1cf994	e3a01001	mov	r1, #1
+1cf998	ebff0a68	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf99c	eafffb5a	b	0x1ce70c <_Z11HandleOtherv+0x178>
+1cf9a0	e1a00006	mov	r0, r6
+1cf9a4	e3a01001	mov	r1, #1
+1cf9a8	ebff0a64	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf9ac	eafffbbc	b	0x1ce8a4 <_Z11HandleOtherv+0x310>
+1cf9b0	e1a00005	mov	r0, r5
+1cf9b4	e3a01001	mov	r1, #1
+1cf9b8	ebff0a60	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf9bc	eafffe52	b	0x1cf30c <_Z11HandleOtherv+0xd78>
+1cf9c0	e1a00005	mov	r0, r5
+1cf9c4	e3a01001	mov	r1, #1
+1cf9c8	e58d3004	str	r3, [sp, #0x4]
+1cf9cc	ebff0a5b	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf9d0	e59d3004	ldr	r3, [sp, #0x4]
+1cf9d4	eafffe61	b	0x1cf360 <_Z11HandleOtherv+0xdcc>
+1cf9d8	e1a00009	mov	r0, r9
+1cf9dc	e3a01001	mov	r1, #1
+1cf9e0	ebff0a56	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cf9e4	eafffd6e	b	0x1cefa4 <_Z11HandleOtherv+0xa10>
+1cf9e8	eeb47ae5	vcmpe.f32	s14, s11
+1cf9ec	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf9f0	5a0000b5	bpl	0x1cfccc <_Z11HandleOtherv+0x1738>
+1cf9f4	eeb46ac7	vcmpe.f32	s12, s14
+1cf9f8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cf9fc	5ef03a47	vmovpl.f32	s7, s14
+1cfa00	4afffc29	bmi	0x1ceaac <_Z11HandleOtherv+0x518>
+1cfa04	eef43ac4	vcmpe.f32	s7, s8
+1cfa08	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfa0c	5afffc29	bpl	0x1ceab8 <_Z11HandleOtherv+0x524>
+1cfa10	eeb46ac7	vcmpe.f32	s12, s14
+1cfa14	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfa18	5a000004	bpl	0x1cfa30 <_Z11HandleOtherv+0x149c>
+1cfa1c	eeb46ae5	vcmpe.f32	s12, s11
+1cfa20	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfa24	4a000007	bmi	0x1cfa48 <_Z11HandleOtherv+0x14b4>
+1cfa28	eefd3ae5	vcvt.s32.f32	s7, s11
+1cfa2c	eafffc22	b	0x1ceabc <_Z11HandleOtherv+0x528>
+1cfa30	eeb47ae5	vcmpe.f32	s14, s11
+1cfa34	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfa38	5afffffa	bpl	0x1cfa28 <_Z11HandleOtherv+0x1494>
+1cfa3c	eeb46ac7	vcmpe.f32	s12, s14
+1cfa40	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfa44	5a000176	bpl	0x1d0024 <_Z11HandleOtherv+0x1a90>
+1cfa48	eefd3ac6	vcvt.s32.f32	s7, s12
+1cfa4c	eafffc1a	b	0x1ceabc <_Z11HandleOtherv+0x528>
+1cfa50	e1a00006	mov	r0, r6
+1cfa54	e3a01001	mov	r1, #1
+1cfa58	ebff0a38	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cfa5c	eafffb98	b	0x1ce8c4 <_Z11HandleOtherv+0x330>
+1cfa60	e1a00006	mov	r0, r6
+1cfa64	e3a01001	mov	r1, #1
+1cfa68	ebff0a34	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cfa6c	eafffb2e	b	0x1ce72c <_Z11HandleOtherv+0x198>
+1cfa70	ee67aae9	vnmul.f32	s21, s15, s19
+1cfa74	e58d1004	str	r1, [sp, #0x4]
+1cfa78	e58dc000	str	r12, [sp]
+1cfa7c	ee1a0a90	vmov	r0, s21
+1cfa80	ebfb9abe	bl	0xb6580 <sinf@plt>
+1cfa84	ee0a0a10	vmov	s20, r0
+1cfa88	ee1a0a90	vmov	r0, s21
+1cfa8c	ebfb9abe	bl	0xb658c <cosf@plt>
+1cfa90	e59d1004	ldr	r1, [sp, #0x4]
+1cfa94	edd16a03	vldr	s13, [r1, #12]
+1cfa98	ee666a88	vmul.f32	s13, s13, s16
+1cfa9c	edd17a04	vldr	s15, [r1, #16]
+1cfaa0	ed917a01	vldr	s14, [r1, #4]
+1cfaa4	ed915a02	vldr	s10, [r1, #8]
+1cfaa8	e59dc000	ldr	r12, [sp]
+1cfaac	ee677a88	vmul.f32	s15, s15, s16
+1cfab0	ee2a4a66	vnmul.f32	s8, s20, s13
+1cfab4	ee050a90	vmov	s11, r0
+1cfab8	ee266aa5	vmul.f32	s12, s13, s11
+1cfabc	ee766a87	vadd.f32	s13, s13, s14
+1cfac0	ee277a8a	vmul.f32	s14, s15, s20
+1cfac4	ee375a85	vadd.f32	s10, s15, s10
+1cfac8	ee677aa5	vmul.f32	s15, s15, s11
+1cfacc	ee765ac6	vsub.f32	s11, s13, s12
+1cfad0	ee754a44	vsub.f32	s9, s10, s8
+1cfad4	ee366a26	vadd.f32	s12, s12, s13
+1cfad8	ee746a05	vadd.f32	s13, s8, s10
+1cfadc	ee375a25	vadd.f32	s10, s14, s11
+1cfae0	ee755ac7	vsub.f32	s11, s11, s14
+1cfae4	ed855a00	vstr	s10, [r5]
+1cfae8	ee375a06	vadd.f32	s10, s14, s12
+1cfaec	ee367a47	vsub.f32	s14, s12, s14
+1cfaf0	ee376aa4	vadd.f32	s12, s15, s9
+1cfaf4	ee744ae7	vsub.f32	s9, s9, s15
+1cfaf8	ed8a6a00	vstr	s12, [r10]
+1cfafc	ed895a00	vstr	s10, [r9]
+1cfb00	ee376aa6	vadd.f32	s12, s15, s13
+1cfb04	ee767ae7	vsub.f32	s15, s13, s15
+1cfb08	ed8b6a00	vstr	s12, [r11]
+1cfb0c	ed857a04	vstr	s14, [r5, #16]
+1cfb10	edc57a05	vstr	s15, [r5, #20]
+1cfb14	edc85a00	vstr	s11, [r8]
+1cfb18	edc54a07	vstr	s9, [r5, #28]
+1cfb1c	ed957a00	vldr	s14, [r5]
+1cfb20	edd97a00	vldr	s15, [r9]
+1cfb24	eeb47ae7	vcmpe.f32	s14, s15
+1cfb28	edd55a04	vldr	s11, [r5, #16]
+1cfb2c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfb30	5a00003c	bpl	0x1cfc28 <_Z11HandleOtherv+0x1694>
+1cfb34	eeb47ae5	vcmpe.f32	s14, s11
+1cfb38	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfb3c	5a000117	bpl	0x1cffa0 <_Z11HandleOtherv+0x1a0c>
+1cfb40	ed984a00	vldr	s8, [r8]
+1cfb44	eeb47ac4	vcmpe.f32	s14, s8
+1cfb48	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfb4c	4a000043	bmi	0x1cfc60 <_Z11HandleOtherv+0x16cc>
+1cfb50	eebd5ac4	vcvt.s32.f32	s10, s8
+1cfb54	ee150a10	vmov	r0, s10
+1cfb58	ed9a6a00	vldr	s12, [r10]
+1cfb5c	eddb6a00	vldr	s13, [r11]
+1cfb60	e28d1078	add	r1, sp, #120
+1cfb64	ed955a05	vldr	s10, [r5, #20]
+1cfb68	eeb46ae6	vcmpe.f32	s12, s13
+1cfb6c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfb70	e7860001	str	r0, [r6, r1]
+1cfb74	5a0000bb	bpl	0x1cfe68 <_Z11HandleOtherv+0x18d4>
+1cfb78	eeb45ac6	vcmpe.f32	s10, s12
+1cfb7c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfb80	da000108	ble	0x1cffa8 <_Z11HandleOtherv+0x1a14>
+1cfb84	eef44ac6	vcmpe.f32	s9, s12
+1cfb88	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfb8c	ca0000c2	bgt	0x1cfe9c <_Z11HandleOtherv+0x1908>
+1cfb90	eefd3ae4	vcvt.s32.f32	s7, s9
+1cfb94	ee132a90	vmov	r2, s7
+1cfb98	e28d1098	add	r1, sp, #152
+1cfb9c	eeb47ae7	vcmpe.f32	s14, s15
+1cfba0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfba4	e7862001	str	r2, [r6, r1]
+1cfba8	da0000c8	ble	0x1cfed0 <_Z11HandleOtherv+0x193c>
+1cfbac	eeb47ae5	vcmpe.f32	s14, s11
+1cfbb0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfbb4	da0000fd	ble	0x1cffb0 <_Z11HandleOtherv+0x1a1c>
+1cfbb8	eeb44ac7	vcmpe.f32	s8, s14
+1cfbbc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfbc0	4a0000cf	bmi	0x1cff04 <_Z11HandleOtherv+0x1970>
+1cfbc4	eefd3ac4	vcvt.s32.f32	s7, s8
+1cfbc8	ee133a90	vmov	r3, s7
+1cfbcc	e28d10b8	add	r1, sp, #184
+1cfbd0	eeb46ae6	vcmpe.f32	s12, s13
+1cfbd4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfbd8	e7863001	str	r3, [r6, r1]
+1cfbdc	da0000d5	ble	0x1cff38 <_Z11HandleOtherv+0x19a4>
+1cfbe0	eeb46ac5	vcmpe.f32	s12, s10
+1cfbe4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfbe8	da0000f2	ble	0x1cffb8 <_Z11HandleOtherv+0x1a24>
+1cfbec	eef44ac6	vcmpe.f32	s9, s12
+1cfbf0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfbf4	4a0000dc	bmi	0x1cff6c <_Z11HandleOtherv+0x19d8>
+1cfbf8	eefd3ae4	vcvt.s32.f32	s7, s9
+1cfbfc	ee132a90	vmov	r2, s7
+1cfc00	e28d3058	add	r3, sp, #88
+1cfc04	e59d103c	ldr	r1, [sp, #0x3c]
+1cfc08	e5910000	ldr	r0, [r1]
+1cfc0c	e28d10d8	add	r1, sp, #216
+1cfc10	e790010c	ldr	r0, [r0, r12, lsl #2]
+1cfc14	e5900024	ldr	r0, [r0, #0x24]
+1cfc18	e7862001	str	r2, [r6, r1]
+1cfc1c	e0831006	add	r1, r3, r6
+1cfc20	e5810000	str	r0, [r1]
+1cfc24	eafffc4c	b	0x1ced5c <_Z11HandleOtherv+0x7c8>
+1cfc28	eef47ae5	vcmpe.f32	s15, s11
+1cfc2c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfc30	5a0000da	bpl	0x1cffa0 <_Z11HandleOtherv+0x1a0c>
+1cfc34	eeb47ae7	vcmpe.f32	s14, s15
+1cfc38	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfc3c	5ef06a67	vmovpl.f32	s13, s15
+1cfc40	4affffbe	bmi	0x1cfb40 <_Z11HandleOtherv+0x15ac>
+1cfc44	ed984a00	vldr	s8, [r8]
+1cfc48	eef46ac4	vcmpe.f32	s13, s8
+1cfc4c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfc50	5affffbe	bpl	0x1cfb50 <_Z11HandleOtherv+0x15bc>
+1cfc54	eeb47ae7	vcmpe.f32	s14, s15
+1cfc58	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfc5c	5a000004	bpl	0x1cfc74 <_Z11HandleOtherv+0x16e0>
+1cfc60	eeb47ae5	vcmpe.f32	s14, s11
+1cfc64	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfc68	5a0000da	bpl	0x1cffd8 <_Z11HandleOtherv+0x1a44>
+1cfc6c	eebd5ac7	vcvt.s32.f32	s10, s14
+1cfc70	eaffffb7	b	0x1cfb54 <_Z11HandleOtherv+0x15c0>
+1cfc74	eef47ae5	vcmpe.f32	s15, s11
+1cfc78	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfc7c	5a0000d5	bpl	0x1cffd8 <_Z11HandleOtherv+0x1a44>
+1cfc80	eeb47ae7	vcmpe.f32	s14, s15
+1cfc84	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfc88	4afffff7	bmi	0x1cfc6c <_Z11HandleOtherv+0x16d8>
+1cfc8c	eebd5ae7	vcvt.s32.f32	s10, s15
+1cfc90	eaffffaf	b	0x1cfb54 <_Z11HandleOtherv+0x15c0>
+1cfc94	e1a00006	mov	r0, r6
+1cfc98	e3a01001	mov	r1, #1
+1cfc9c	ebff09a7	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cfca0	eafffaa7	b	0x1ce744 <_Z11HandleOtherv+0x1b0>
+1cfca4	e1a00006	mov	r0, r6
+1cfca8	e3a01001	mov	r1, #1
+1cfcac	ebff09a3	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cfcb0	eafffb09	b	0x1ce8dc <_Z11HandleOtherv+0x348>
+1cfcb4	e1a00005	mov	r0, r5
+1cfcb8	e3a01001	mov	r1, #1
+1cfcbc	e58d3004	str	r3, [sp, #0x4]
+1cfcc0	ebff099e	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cfcc4	e59d3004	ldr	r3, [sp, #0x4]
+1cfcc8	eafffdaa	b	0x1cf378 <_Z11HandleOtherv+0xde4>
+1cfccc	eef03a65	vmov.f32	s7, s11
+1cfcd0	eaffff4b	b	0x1cfa04 <_Z11HandleOtherv+0x1470>
+1cfcd4	eef47ae4	vcmpe.f32	s15, s9
+1cfcd8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfcdc	5a00004e	bpl	0x1cfe1c <_Z11HandleOtherv+0x1888>
+1cfce0	eef46ae7	vcmpe.f32	s13, s15
+1cfce4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfce8	5ef03a67	vmovpl.f32	s7, s15
+1cfcec	4afffb7b	bmi	0x1ceae0 <_Z11HandleOtherv+0x54c>
+1cfcf0	eef43ac5	vcmpe.f32	s7, s10
+1cfcf4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfcf8	5afffb7b	bpl	0x1ceaec <_Z11HandleOtherv+0x558>
+1cfcfc	eef46ae7	vcmpe.f32	s13, s15
+1cfd00	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd04	5a000004	bpl	0x1cfd1c <_Z11HandleOtherv+0x1788>
+1cfd08	eef46ae4	vcmpe.f32	s13, s9
+1cfd0c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd10	4a000007	bmi	0x1cfd34 <_Z11HandleOtherv+0x17a0>
+1cfd14	eefd3ae4	vcvt.s32.f32	s7, s9
+1cfd18	eafffb74	b	0x1ceaf0 <_Z11HandleOtherv+0x55c>
+1cfd1c	eef47ae4	vcmpe.f32	s15, s9
+1cfd20	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd24	5afffffa	bpl	0x1cfd14 <_Z11HandleOtherv+0x1780>
+1cfd28	eef46ae7	vcmpe.f32	s13, s15
+1cfd2c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd30	5a0000bf	bpl	0x1d0034 <_Z11HandleOtherv+0x1aa0>
+1cfd34	eefd3ae6	vcvt.s32.f32	s7, s13
+1cfd38	eafffb6c	b	0x1ceaf0 <_Z11HandleOtherv+0x55c>
+1cfd3c	eeb47ae5	vcmpe.f32	s14, s11
+1cfd40	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd44	da000030	ble	0x1cfe0c <_Z11HandleOtherv+0x1878>
+1cfd48	eeb46ac7	vcmpe.f32	s12, s14
+1cfd4c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd50	def03a47	vmovle.f32	s7, s14
+1cfd54	cafffb6e	bgt	0x1ceb14 <_Z11HandleOtherv+0x580>
+1cfd58	eef43ac4	vcmpe.f32	s7, s8
+1cfd5c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd60	dafffb6e	ble	0x1ceb20 <_Z11HandleOtherv+0x58c>
+1cfd64	eeb46ac7	vcmpe.f32	s12, s14
+1cfd68	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd6c	da000004	ble	0x1cfd84 <_Z11HandleOtherv+0x17f0>
+1cfd70	eeb46ae5	vcmpe.f32	s12, s11
+1cfd74	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd78	ca000007	bgt	0x1cfd9c <_Z11HandleOtherv+0x1808>
+1cfd7c	eebd7ae5	vcvt.s32.f32	s14, s11
+1cfd80	eafffb67	b	0x1ceb24 <_Z11HandleOtherv+0x590>
+1cfd84	eeb47ae5	vcmpe.f32	s14, s11
+1cfd88	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd8c	dafffffa	ble	0x1cfd7c <_Z11HandleOtherv+0x17e8>
+1cfd90	eeb46ac7	vcmpe.f32	s12, s14
+1cfd94	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfd98	da0000a7	ble	0x1d003c <_Z11HandleOtherv+0x1aa8>
+1cfd9c	eebd7ac6	vcvt.s32.f32	s14, s12
+1cfda0	eafffb5f	b	0x1ceb24 <_Z11HandleOtherv+0x590>
+1cfda4	eef47ae4	vcmpe.f32	s15, s9
+1cfda8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfdac	da000018	ble	0x1cfe14 <_Z11HandleOtherv+0x1880>
+1cfdb0	eef46ae7	vcmpe.f32	s13, s15
+1cfdb4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfdb8	deb07a67	vmovle.f32	s14, s15
+1cfdbc	cafffb61	bgt	0x1ceb48 <_Z11HandleOtherv+0x5b4>
+1cfdc0	eeb47ac5	vcmpe.f32	s14, s10
+1cfdc4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfdc8	dafffb61	ble	0x1ceb54 <_Z11HandleOtherv+0x5c0>
+1cfdcc	eef46ae7	vcmpe.f32	s13, s15
+1cfdd0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfdd4	da000004	ble	0x1cfdec <_Z11HandleOtherv+0x1858>
+1cfdd8	eef46ae4	vcmpe.f32	s13, s9
+1cfddc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfde0	ca000007	bgt	0x1cfe04 <_Z11HandleOtherv+0x1870>
+1cfde4	eefd6ae4	vcvt.s32.f32	s13, s9
+1cfde8	eafffb5a	b	0x1ceb58 <_Z11HandleOtherv+0x5c4>
+1cfdec	eef47ae4	vcmpe.f32	s15, s9
+1cfdf0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfdf4	dafffffa	ble	0x1cfde4 <_Z11HandleOtherv+0x1850>
+1cfdf8	eef46ae7	vcmpe.f32	s13, s15
+1cfdfc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfe00	da000089	ble	0x1d002c <_Z11HandleOtherv+0x1a98>
+1cfe04	eefd6ae6	vcvt.s32.f32	s13, s13
+1cfe08	eafffb52	b	0x1ceb58 <_Z11HandleOtherv+0x5c4>
+1cfe0c	eef03a65	vmov.f32	s7, s11
+1cfe10	eaffffd0	b	0x1cfd58 <_Z11HandleOtherv+0x17c4>
+1cfe14	eeb07a64	vmov.f32	s14, s9
+1cfe18	eaffffe8	b	0x1cfdc0 <_Z11HandleOtherv+0x182c>
+1cfe1c	eef03a64	vmov.f32	s7, s9
+1cfe20	eaffffb2	b	0x1cfcf0 <_Z11HandleOtherv+0x175c>
+1cfe24	e28d00d8	add	r0, sp, #216
+1cfe28	edd97a00	vldr	s15, [r9]
+1cfe2c	ed957a00	vldr	s14, [r5]
+1cfe30	eddb6a00	vldr	s13, [r11]
+1cfe34	e7861000	str	r1, [r6, r0]
+1cfe38	e28d00b8	add	r0, sp, #184
+1cfe3c	ed9a6a00	vldr	s12, [r10]
+1cfe40	edd55a04	vldr	s11, [r5, #16]
+1cfe44	e7861000	str	r1, [r6, r0]
+1cfe48	e28d0098	add	r0, sp, #152
+1cfe4c	ed955a05	vldr	s10, [r5, #20]
+1cfe50	ed984a00	vldr	s8, [r8]
+1cfe54	e7861000	str	r1, [r6, r0]
+1cfe58	e28d0078	add	r0, sp, #120
+1cfe5c	edd54a07	vldr	s9, [r5, #28]
+1cfe60	e7861000	str	r1, [r6, r0]
+1cfe64	eafffbbc	b	0x1ced5c <_Z11HandleOtherv+0x7c8>
+1cfe68	eef46ac5	vcmpe.f32	s13, s10
+1cfe6c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfe70	5a00004c	bpl	0x1cffa8 <_Z11HandleOtherv+0x1a14>
+1cfe74	eeb46ae6	vcmpe.f32	s12, s13
+1cfe78	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfe7c	5ef03a66	vmovpl.f32	s7, s13
+1cfe80	4affff3f	bmi	0x1cfb84 <_Z11HandleOtherv+0x15f0>
+1cfe84	eef43ae4	vcmpe.f32	s7, s9
+1cfe88	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfe8c	5affff3f	bpl	0x1cfb90 <_Z11HandleOtherv+0x15fc>
+1cfe90	eeb46ae6	vcmpe.f32	s12, s13
+1cfe94	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfe98	5a000004	bpl	0x1cfeb0 <_Z11HandleOtherv+0x191c>
+1cfe9c	eeb46ac5	vcmpe.f32	s12, s10
+1cfea0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfea4	5a000049	bpl	0x1cffd0 <_Z11HandleOtherv+0x1a3c>
+1cfea8	eefd3ac6	vcvt.s32.f32	s7, s12
+1cfeac	eaffff38	b	0x1cfb94 <_Z11HandleOtherv+0x1600>
+1cfeb0	eef46ac5	vcmpe.f32	s13, s10
+1cfeb4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfeb8	5a000044	bpl	0x1cffd0 <_Z11HandleOtherv+0x1a3c>
+1cfebc	eeb46ae6	vcmpe.f32	s12, s13
+1cfec0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfec4	4afffff7	bmi	0x1cfea8 <_Z11HandleOtherv+0x1914>
+1cfec8	eefd3ae6	vcvt.s32.f32	s7, s13
+1cfecc	eaffff30	b	0x1cfb94 <_Z11HandleOtherv+0x1600>
+1cfed0	eef47ae5	vcmpe.f32	s15, s11
+1cfed4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfed8	da000034	ble	0x1cffb0 <_Z11HandleOtherv+0x1a1c>
+1cfedc	eeb47ae7	vcmpe.f32	s14, s15
+1cfee0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfee4	def03a67	vmovle.f32	s7, s15
+1cfee8	caffff32	bgt	0x1cfbb8 <_Z11HandleOtherv+0x1624>
+1cfeec	eef43ac4	vcmpe.f32	s7, s8
+1cfef0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cfef4	daffff32	ble	0x1cfbc4 <_Z11HandleOtherv+0x1630>
+1cfef8	eeb47ae7	vcmpe.f32	s14, s15
+1cfefc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff00	da000004	ble	0x1cff18 <_Z11HandleOtherv+0x1984>
+1cff04	eeb47ae5	vcmpe.f32	s14, s11
+1cff08	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff0c	da00002d	ble	0x1cffc8 <_Z11HandleOtherv+0x1a34>
+1cff10	eefd3ac7	vcvt.s32.f32	s7, s14
+1cff14	eaffff2b	b	0x1cfbc8 <_Z11HandleOtherv+0x1634>
+1cff18	eef47ae5	vcmpe.f32	s15, s11
+1cff1c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff20	da000028	ble	0x1cffc8 <_Z11HandleOtherv+0x1a34>
+1cff24	eeb47ae7	vcmpe.f32	s14, s15
+1cff28	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff2c	cafffff7	bgt	0x1cff10 <_Z11HandleOtherv+0x197c>
+1cff30	eefd3ae7	vcvt.s32.f32	s7, s15
+1cff34	eaffff23	b	0x1cfbc8 <_Z11HandleOtherv+0x1634>
+1cff38	eef46ac5	vcmpe.f32	s13, s10
+1cff3c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff40	da00001c	ble	0x1cffb8 <_Z11HandleOtherv+0x1a24>
+1cff44	eeb46ae6	vcmpe.f32	s12, s13
+1cff48	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff4c	def03a66	vmovle.f32	s7, s13
+1cff50	caffff25	bgt	0x1cfbec <_Z11HandleOtherv+0x1658>
+1cff54	eef43ae4	vcmpe.f32	s7, s9
+1cff58	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff5c	daffff25	ble	0x1cfbf8 <_Z11HandleOtherv+0x1664>
+1cff60	eeb46ae6	vcmpe.f32	s12, s13
+1cff64	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff68	da000004	ble	0x1cff80 <_Z11HandleOtherv+0x19ec>
+1cff6c	eeb46ac5	vcmpe.f32	s12, s10
+1cff70	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff74	da000011	ble	0x1cffc0 <_Z11HandleOtherv+0x1a2c>
+1cff78	eefd3ac6	vcvt.s32.f32	s7, s12
+1cff7c	eaffff1e	b	0x1cfbfc <_Z11HandleOtherv+0x1668>
+1cff80	eef46ac5	vcmpe.f32	s13, s10
+1cff84	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff88	da00000c	ble	0x1cffc0 <_Z11HandleOtherv+0x1a2c>
+1cff8c	eeb46ae6	vcmpe.f32	s12, s13
+1cff90	eef1fa10	vmrs	APSR_nzcv, fpscr
+1cff94	cafffff7	bgt	0x1cff78 <_Z11HandleOtherv+0x19e4>
+1cff98	eefd3ae6	vcvt.s32.f32	s7, s13
+1cff9c	eaffff16	b	0x1cfbfc <_Z11HandleOtherv+0x1668>
+1cffa0	eef06a65	vmov.f32	s13, s11
+1cffa4	eaffff26	b	0x1cfc44 <_Z11HandleOtherv+0x16b0>
+1cffa8	eef03a45	vmov.f32	s7, s10
+1cffac	eaffffb4	b	0x1cfe84 <_Z11HandleOtherv+0x18f0>
+1cffb0	eef03a65	vmov.f32	s7, s11
+1cffb4	eaffffcc	b	0x1cfeec <_Z11HandleOtherv+0x1958>
+1cffb8	eef03a45	vmov.f32	s7, s10
+1cffbc	eaffffe4	b	0x1cff54 <_Z11HandleOtherv+0x19c0>
+1cffc0	eefd3ac5	vcvt.s32.f32	s7, s10
+1cffc4	eaffff0c	b	0x1cfbfc <_Z11HandleOtherv+0x1668>
+1cffc8	eefd3ae5	vcvt.s32.f32	s7, s11
+1cffcc	eafffefd	b	0x1cfbc8 <_Z11HandleOtherv+0x1634>
+1cffd0	eefd3ac5	vcvt.s32.f32	s7, s10
+1cffd4	eafffeee	b	0x1cfb94 <_Z11HandleOtherv+0x1600>
+1cffd8	eebd5ae5	vcvt.s32.f32	s10, s11
+1cffdc	eafffedc	b	0x1cfb54 <_Z11HandleOtherv+0x15c0>
+1cffe0	e1a00005	mov	r0, r5
+1cffe4	e3a01001	mov	r1, #1
+1cffe8	ebff08d4	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1cffec	eafffce7	b	0x1cf390 <_Z11HandleOtherv+0xdfc>
+1cfff0	e59f30b4	ldr	r3, [pc, #0xb4]
+1cfff4	e59dc040	ldr	r12, [sp, #0x40]
+1cfff8	e79c0003	ldr	r0, [r12, r3]
+1cfffc	e28ddfcf	add	sp, sp, #828
+1d0000	ecbd8b08	vpop	{d8, d9, d10, d11}
+1d0004	e8bd4ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1d0008	ea034227	b	0x2a08ac <_ZN9CProfiler3PopEv>
+1d000c	e59f3098	ldr	r3, [pc, #0x98]
+1d0010	e3a01006	mov	r1, #6
+1d0014	e3a0200a	mov	r2, #10
+1d0018	e79c0003	ldr	r0, [r12, r3]
+1d001c	eb0341c5	bl	0x2a0738 <_ZN9CProfiler4PushEii>
+1d0020	eafff967	b	0x1ce5c4 <_Z11HandleOtherv+0x30>
+1d0024	eefd3ac7	vcvt.s32.f32	s7, s14
+1d0028	eafffaa3	b	0x1ceabc <_Z11HandleOtherv+0x528>
+1d002c	eefd6ae7	vcvt.s32.f32	s13, s15
+1d0030	eafffac8	b	0x1ceb58 <_Z11HandleOtherv+0x5c4>
+1d0034	eefd3ae7	vcvt.s32.f32	s7, s15
+1d0038	eafffaac	b	0x1ceaf0 <_Z11HandleOtherv+0x55c>
+1d003c	eebd7ac7	vcvt.s32.f32	s14, s14
+1d0040	eafffab7	b	0x1ceb24 <_Z11HandleOtherv+0x590>
+1d0044	e59f1064	ldr	r1, [pc, #0x64]
+1d0048	e59dc040	ldr	r12, [sp, #0x40]
+1d004c	e1cd20f8	strd	r2, r3, [sp, #8]
+1d0050	e79c3001	ldr	r3, [r12, r1]
+1d0054	e58d303c	str	r3, [sp, #0x3c]
+1d0058	eafff9c9	b	0x1ce784 <_Z11HandleOtherv+0x1f0>
+1d005c	edd97a3c	vldr	s15, [r9, #240]
+1d0060	ed997a3a	vldr	s14, [r9, #232]
+1d0064	eafffbe6	b	0x1cf004 <_Z11HandleOtherv+0xa70>
+1d0068	ed957a3a	vldr	s14, [r5, #232]
+1d006c	eafffd43	b	0x1cf580 <_Z11HandleOtherv+0xfec>
+1d0070	edd56a3c	vldr	s13, [r5, #240]
+1d0074	ed957a3a	vldr	s14, [r5, #232]
+1d0078	eafffd3e	b	0x1cf578 <_Z11HandleOtherv+0xfe4>
+1d007c	ed957a3a	vldr	s14, [r5, #232]
+1d0080	edd57a3b	vldr	s15, [r5, #236]
+1d0084	eafffd39	b	0x1cf570 <_Z11HandleOtherv+0xfdc>
+1d0088	ed957a3a	vldr	s14, [r5, #232]
+1d008c	eafffd3e	b	0x1cf58c <_Z11HandleOtherv+0xff8>
+1d0090	edd57a3b	vldr	s15, [r5, #236]
+1d0094	eafffd30	b	0x1cf55c <_Z11HandleOtherv+0xfc8>
+1d0098	ed997a3a	vldr	s14, [r9, #232]
+1d009c	edd96a3b	vldr	s13, [r9, #236]
+1d00a0	eafffbd5	b	0x1ceffc <_Z11HandleOtherv+0xa68>
+1d00a4	ed957a3a	vldr	s14, [r5, #232]
+1d00a8	eafffd2d	b	0x1cf564 <_Z11HandleOtherv+0xfd0>
+1d00ac	ffffbf1c	.word	0xffffbf1c
+1d00b0	ffffbcd8	.word	0xffffbcd8

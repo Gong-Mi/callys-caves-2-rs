@@ -1,0 +1,841 @@
+1ac33c	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1ac340	e1a06000	mov	r6, r0
+1ac344	e24dd064	sub	sp, sp, #100
+1ac348	e1a00001	mov	r0, r1
+1ac34c	e1a04001	mov	r4, r1
+1ac350	e1a0b002	mov	r11, r2
+1ac354	ebfc86c6	bl	0xcde74 <_ZN7IBuffer10ReadStringEv>
+1ac358	e5943000	ldr	r3, [r4]
+1ac35c	e284502c	add	r5, r4, #44
+1ac360	e59fcce0	ldr	r12, [pc, #0xce0]
+1ac364	e3a01006	mov	r1, #6
+1ac368	e1a09006	mov	r9, r6
+1ac36c	e08fc00c	add	r12, pc, r12
+1ac370	e1a02005	mov	r2, r5
+1ac374	e58dc01c	str	r12, [sp, #0x1c]
+1ac378	e3a08008	mov	r8, #8
+1ac37c	e5860008	str	r0, [r6, #0x8]
+1ac380	e1a00004	mov	r0, r4
+1ac384	e593300c	ldr	r3, [r3, #0xc]
+1ac388	e12fff33	blx	r3
+1ac38c	e3a01000	mov	r1, #0
+1ac390	e1a00005	mov	r0, r5
+1ac394	ebfc8935	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac398	e5943000	ldr	r3, [r4]
+1ac39c	e1a02005	mov	r2, r5
+1ac3a0	e3a01006	mov	r1, #6
+1ac3a4	e593300c	ldr	r3, [r3, #0xc]
+1ac3a8	e5860010	str	r0, [r6, #0x10]
+1ac3ac	e1a00004	mov	r0, r4
+1ac3b0	e12fff33	blx	r3
+1ac3b4	e3a01000	mov	r1, #0
+1ac3b8	e1a00005	mov	r0, r5
+1ac3bc	ebfc892b	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac3c0	e5943000	ldr	r3, [r4]
+1ac3c4	e1a02005	mov	r2, r5
+1ac3c8	e3a01006	mov	r1, #6
+1ac3cc	e593300c	ldr	r3, [r3, #0xc]
+1ac3d0	e5860014	str	r0, [r6, #0x14]
+1ac3d4	e1a00004	mov	r0, r4
+1ac3d8	e12fff33	blx	r3
+1ac3dc	e3a01000	mov	r1, #0
+1ac3e0	e1a00005	mov	r0, r5
+1ac3e4	ebfc8921	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac3e8	e5943000	ldr	r3, [r4]
+1ac3ec	e1a02005	mov	r2, r5
+1ac3f0	e3a01006	mov	r1, #6
+1ac3f4	e593300c	ldr	r3, [r3, #0xc]
+1ac3f8	e586000c	str	r0, [r6, #0xc]
+1ac3fc	e1a00004	mov	r0, r4
+1ac400	e12fff33	blx	r3
+1ac404	e3a01000	mov	r1, #0
+1ac408	e1a00005	mov	r0, r5
+1ac40c	ebfc88d5	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1ac410	e5943000	ldr	r3, [r4]
+1ac414	e1a02005	mov	r2, r5
+1ac418	e3a01005	mov	r1, #5
+1ac41c	e593300c	ldr	r3, [r3, #0xc]
+1ac420	e5c60018	strb	r0, [r6, #0x18]
+1ac424	e1a00004	mov	r0, r4
+1ac428	e12fff33	blx	r3
+1ac42c	e3a01000	mov	r1, #0
+1ac430	e1a00005	mov	r0, r5
+1ac434	ebfc8945	bl	0xce950 <_Z11YYGetUint32PK6RValuei>
+1ac438	e5943000	ldr	r3, [r4]
+1ac43c	e1a02005	mov	r2, r5
+1ac440	e3a01006	mov	r1, #6
+1ac444	e593300c	ldr	r3, [r3, #0xc]
+1ac448	e586001c	str	r0, [r6, #0x1c]
+1ac44c	e1a00004	mov	r0, r4
+1ac450	e12fff33	blx	r3
+1ac454	e3a01000	mov	r1, #0
+1ac458	e1a00005	mov	r0, r5
+1ac45c	ebfc88c1	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1ac460	e5c60020	strb	r0, [r6, #0x20]
+1ac464	e1a00004	mov	r0, r4
+1ac468	ebfc8681	bl	0xcde74 <_ZN7IBuffer10ReadStringEv>
+1ac46c	e5860068	str	r0, [r6, #0x68]
+1ac470	e5943000	ldr	r3, [r4]
+1ac474	e1a02005	mov	r2, r5
+1ac478	e3a01006	mov	r1, #6
+1ac47c	e1a00004	mov	r0, r4
+1ac480	e5997024	ldr	r7, [r9, #0x24]
+1ac484	e2899004	add	r9, r9, #4
+1ac488	e593300c	ldr	r3, [r3, #0xc]
+1ac48c	e12fff33	blx	r3
+1ac490	e3a01000	mov	r1, #0
+1ac494	e1a00005	mov	r0, r5
+1ac498	ebfc88b2	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1ac49c	e5943000	ldr	r3, [r4]
+1ac4a0	e1a02005	mov	r2, r5
+1ac4a4	e3a01006	mov	r1, #6
+1ac4a8	e593300c	ldr	r3, [r3, #0xc]
+1ac4ac	e5c70000	strb	r0, [r7]
+1ac4b0	e1a00004	mov	r0, r4
+1ac4b4	e12fff33	blx	r3
+1ac4b8	e3a01000	mov	r1, #0
+1ac4bc	e1a00005	mov	r0, r5
+1ac4c0	ebfc88a8	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1ac4c4	e5943000	ldr	r3, [r4]
+1ac4c8	e1a02005	mov	r2, r5
+1ac4cc	e3a01006	mov	r1, #6
+1ac4d0	e593300c	ldr	r3, [r3, #0xc]
+1ac4d4	e5c70001	strb	r0, [r7, #0x1]
+1ac4d8	e1a00004	mov	r0, r4
+1ac4dc	e12fff33	blx	r3
+1ac4e0	e3a01000	mov	r1, #0
+1ac4e4	e1a00005	mov	r0, r5
+1ac4e8	ebfc88e0	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac4ec	e5943000	ldr	r3, [r4]
+1ac4f0	e1a02005	mov	r2, r5
+1ac4f4	e3a01008	mov	r1, #8
+1ac4f8	e593300c	ldr	r3, [r3, #0xc]
+1ac4fc	e5870004	str	r0, [r7, #0x4]
+1ac500	e1a00004	mov	r0, r4
+1ac504	e12fff33	blx	r3
+1ac508	e3a01000	mov	r1, #0
+1ac50c	e1a00005	mov	r0, r5
+1ac510	ebfc89db	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1ac514	e5943000	ldr	r3, [r4]
+1ac518	e1a02005	mov	r2, r5
+1ac51c	e3a01008	mov	r1, #8
+1ac520	e593300c	ldr	r3, [r3, #0xc]
+1ac524	e5870008	str	r0, [r7, #0x8]
+1ac528	e1a00004	mov	r0, r4
+1ac52c	e12fff33	blx	r3
+1ac530	e3a01000	mov	r1, #0
+1ac534	e1a00005	mov	r0, r5
+1ac538	ebfc89d1	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1ac53c	e5943000	ldr	r3, [r4]
+1ac540	e1a02005	mov	r2, r5
+1ac544	e3a01006	mov	r1, #6
+1ac548	e593300c	ldr	r3, [r3, #0xc]
+1ac54c	e587000c	str	r0, [r7, #0xc]
+1ac550	e1a00004	mov	r0, r4
+1ac554	e12fff33	blx	r3
+1ac558	e3a01000	mov	r1, #0
+1ac55c	e1a00005	mov	r0, r5
+1ac560	ebfc8880	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1ac564	e5943000	ldr	r3, [r4]
+1ac568	e1a02005	mov	r2, r5
+1ac56c	e3a01006	mov	r1, #6
+1ac570	e593300c	ldr	r3, [r3, #0xc]
+1ac574	e5c70010	strb	r0, [r7, #0x10]
+1ac578	e1a00004	mov	r0, r4
+1ac57c	e12fff33	blx	r3
+1ac580	e3a01000	mov	r1, #0
+1ac584	e1a00005	mov	r0, r5
+1ac588	ebfc8876	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1ac58c	e5943000	ldr	r3, [r4]
+1ac590	e1a02005	mov	r2, r5
+1ac594	e3a01008	mov	r1, #8
+1ac598	e593300c	ldr	r3, [r3, #0xc]
+1ac59c	e5c70011	strb	r0, [r7, #0x11]
+1ac5a0	e1a00004	mov	r0, r4
+1ac5a4	e12fff33	blx	r3
+1ac5a8	e3a01000	mov	r1, #0
+1ac5ac	e1a00005	mov	r0, r5
+1ac5b0	ebfc89b3	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1ac5b4	e5943000	ldr	r3, [r4]
+1ac5b8	e1a02005	mov	r2, r5
+1ac5bc	e3a01008	mov	r1, #8
+1ac5c0	e593300c	ldr	r3, [r3, #0xc]
+1ac5c4	e5870014	str	r0, [r7, #0x14]
+1ac5c8	e1a00004	mov	r0, r4
+1ac5cc	e12fff33	blx	r3
+1ac5d0	e3a01000	mov	r1, #0
+1ac5d4	e1a00005	mov	r0, r5
+1ac5d8	ebfc89a9	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1ac5dc	e5943000	ldr	r3, [r4]
+1ac5e0	e1a02005	mov	r2, r5
+1ac5e4	e3a01008	mov	r1, #8
+1ac5e8	e593300c	ldr	r3, [r3, #0xc]
+1ac5ec	e5870018	str	r0, [r7, #0x18]
+1ac5f0	e1a00004	mov	r0, r4
+1ac5f4	e12fff33	blx	r3
+1ac5f8	e3a01000	mov	r1, #0
+1ac5fc	e1a00005	mov	r0, r5
+1ac600	ebfc899f	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1ac604	e5943000	ldr	r3, [r4]
+1ac608	e1a02005	mov	r2, r5
+1ac60c	e3a01008	mov	r1, #8
+1ac610	e593300c	ldr	r3, [r3, #0xc]
+1ac614	e587001c	str	r0, [r7, #0x1c]
+1ac618	e1a00004	mov	r0, r4
+1ac61c	e12fff33	blx	r3
+1ac620	e3a01000	mov	r1, #0
+1ac624	e1a00005	mov	r0, r5
+1ac628	ebfc8995	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1ac62c	e5943000	ldr	r3, [r4]
+1ac630	e1a02005	mov	r2, r5
+1ac634	e3a01006	mov	r1, #6
+1ac638	e593300c	ldr	r3, [r3, #0xc]
+1ac63c	e5870020	str	r0, [r7, #0x20]
+1ac640	e1a00004	mov	r0, r4
+1ac644	e12fff33	blx	r3
+1ac648	e3a01000	mov	r1, #0
+1ac64c	e1a00005	mov	r0, r5
+1ac650	ebfc8886	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac654	e5943000	ldr	r3, [r4]
+1ac658	e3a01008	mov	r1, #8
+1ac65c	e1a02005	mov	r2, r5
+1ac660	e593300c	ldr	r3, [r3, #0xc]
+1ac664	e5870024	str	r0, [r7, #0x24]
+1ac668	e1a00004	mov	r0, r4
+1ac66c	e12fff33	blx	r3
+1ac670	e1a00005	mov	r0, r5
+1ac674	e3a01000	mov	r1, #0
+1ac678	ebfc8981	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1ac67c	e2588001	subs	r8, r8, #1
+1ac680	e5870028	str	r0, [r7, #0x28]
+1ac684	1affff79	bne	0x1ac470 <_ZN5CRoom11DeSerialiseEP7IBufferb+0x134>
+1ac688	e5943000	ldr	r3, [r4]
+1ac68c	e3a01006	mov	r1, #6
+1ac690	e1a02005	mov	r2, r5
+1ac694	e1a00004	mov	r0, r4
+1ac698	e1a0a008	mov	r10, r8
+1ac69c	e1a09006	mov	r9, r6
+1ac6a0	e593300c	ldr	r3, [r3, #0xc]
+1ac6a4	e12fff33	blx	r3
+1ac6a8	e1a00005	mov	r0, r5
+1ac6ac	e1a01008	mov	r1, r8
+1ac6b0	ebfc882c	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1ac6b4	e5c60044	strb	r0, [r6, #0x44]
+1ac6b8	e5943000	ldr	r3, [r4]
+1ac6bc	e1a02005	mov	r2, r5
+1ac6c0	e3a01006	mov	r1, #6
+1ac6c4	e1a00004	mov	r0, r4
+1ac6c8	e5997048	ldr	r7, [r9, #0x48]
+1ac6cc	e28aa001	add	r10, r10, #1
+1ac6d0	e593300c	ldr	r3, [r3, #0xc]
+1ac6d4	e2899004	add	r9, r9, #4
+1ac6d8	e12fff33	blx	r3
+1ac6dc	e3a01000	mov	r1, #0
+1ac6e0	e1a00005	mov	r0, r5
+1ac6e4	ebfc881f	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1ac6e8	e5943000	ldr	r3, [r4]
+1ac6ec	e1a02005	mov	r2, r5
+1ac6f0	e3a01006	mov	r1, #6
+1ac6f4	e593300c	ldr	r3, [r3, #0xc]
+1ac6f8	e5c70000	strb	r0, [r7]
+1ac6fc	e1a00004	mov	r0, r4
+1ac700	e12fff33	blx	r3
+1ac704	e3a01000	mov	r1, #0
+1ac708	e1a00005	mov	r0, r5
+1ac70c	ebfc8857	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac710	e5943000	ldr	r3, [r4]
+1ac714	e1a02005	mov	r2, r5
+1ac718	e3a01006	mov	r1, #6
+1ac71c	e593300c	ldr	r3, [r3, #0xc]
+1ac720	ee070a10	vmov	s14, r0
+1ac724	e1a00004	mov	r0, r4
+1ac728	eef87ac7	vcvt.f32.s32	s15, s14
+1ac72c	edc77a01	vstr	s15, [r7, #4]
+1ac730	e12fff33	blx	r3
+1ac734	e3a01000	mov	r1, #0
+1ac738	e1a00005	mov	r0, r5
+1ac73c	ebfc884b	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac740	e5943000	ldr	r3, [r4]
+1ac744	e1a02005	mov	r2, r5
+1ac748	e3a01006	mov	r1, #6
+1ac74c	e593300c	ldr	r3, [r3, #0xc]
+1ac750	ee070a10	vmov	s14, r0
+1ac754	e1a00004	mov	r0, r4
+1ac758	eef87ac7	vcvt.f32.s32	s15, s14
+1ac75c	edc77a02	vstr	s15, [r7, #8]
+1ac760	e12fff33	blx	r3
+1ac764	e3a01000	mov	r1, #0
+1ac768	e1a00005	mov	r0, r5
+1ac76c	ebfc883f	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac770	e5943000	ldr	r3, [r4]
+1ac774	e1a02005	mov	r2, r5
+1ac778	e3a01006	mov	r1, #6
+1ac77c	e593300c	ldr	r3, [r3, #0xc]
+1ac780	ee070a10	vmov	s14, r0
+1ac784	e1a00004	mov	r0, r4
+1ac788	eef87ac7	vcvt.f32.s32	s15, s14
+1ac78c	edc77a03	vstr	s15, [r7, #12]
+1ac790	e12fff33	blx	r3
+1ac794	e3a01000	mov	r1, #0
+1ac798	e1a00005	mov	r0, r5
+1ac79c	ebfc8833	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac7a0	e5943000	ldr	r3, [r4]
+1ac7a4	e1a02005	mov	r2, r5
+1ac7a8	e3a01006	mov	r1, #6
+1ac7ac	e593300c	ldr	r3, [r3, #0xc]
+1ac7b0	ee070a10	vmov	s14, r0
+1ac7b4	e1a00004	mov	r0, r4
+1ac7b8	eef87ac7	vcvt.f32.s32	s15, s14
+1ac7bc	edc77a04	vstr	s15, [r7, #16]
+1ac7c0	e12fff33	blx	r3
+1ac7c4	e3a01000	mov	r1, #0
+1ac7c8	e1a00005	mov	r0, r5
+1ac7cc	ebfc8827	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac7d0	e5943000	ldr	r3, [r4]
+1ac7d4	e1a02005	mov	r2, r5
+1ac7d8	e3a01006	mov	r1, #6
+1ac7dc	e593300c	ldr	r3, [r3, #0xc]
+1ac7e0	e5870014	str	r0, [r7, #0x14]
+1ac7e4	e1a00004	mov	r0, r4
+1ac7e8	e12fff33	blx	r3
+1ac7ec	e3a01000	mov	r1, #0
+1ac7f0	e1a00005	mov	r0, r5
+1ac7f4	ebfc881d	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac7f8	e5943000	ldr	r3, [r4]
+1ac7fc	e1a02005	mov	r2, r5
+1ac800	e3a01006	mov	r1, #6
+1ac804	e593300c	ldr	r3, [r3, #0xc]
+1ac808	e5870018	str	r0, [r7, #0x18]
+1ac80c	e1a00004	mov	r0, r4
+1ac810	e12fff33	blx	r3
+1ac814	e3a01000	mov	r1, #0
+1ac818	e1a00005	mov	r0, r5
+1ac81c	ebfc8813	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac820	e5943000	ldr	r3, [r4]
+1ac824	e1a02005	mov	r2, r5
+1ac828	e3a01006	mov	r1, #6
+1ac82c	e593300c	ldr	r3, [r3, #0xc]
+1ac830	e587001c	str	r0, [r7, #0x1c]
+1ac834	e1a00004	mov	r0, r4
+1ac838	e12fff33	blx	r3
+1ac83c	e3a01000	mov	r1, #0
+1ac840	e1a00005	mov	r0, r5
+1ac844	ebfc8809	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac848	e5943000	ldr	r3, [r4]
+1ac84c	e1a02005	mov	r2, r5
+1ac850	e3a01008	mov	r1, #8
+1ac854	e593300c	ldr	r3, [r3, #0xc]
+1ac858	e5870020	str	r0, [r7, #0x20]
+1ac85c	e1a00004	mov	r0, r4
+1ac860	e12fff33	blx	r3
+1ac864	e3a01000	mov	r1, #0
+1ac868	e1a00005	mov	r0, r5
+1ac86c	ebfc8904	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1ac870	e5943000	ldr	r3, [r4]
+1ac874	e1a02005	mov	r2, r5
+1ac878	e3a01006	mov	r1, #6
+1ac87c	e593300c	ldr	r3, [r3, #0xc]
+1ac880	e5870024	str	r0, [r7, #0x24]
+1ac884	e1a00004	mov	r0, r4
+1ac888	e12fff33	blx	r3
+1ac88c	e3a01000	mov	r1, #0
+1ac890	e1a00005	mov	r0, r5
+1ac894	ebfc87f5	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac898	e5943000	ldr	r3, [r4]
+1ac89c	e1a02005	mov	r2, r5
+1ac8a0	e3a01006	mov	r1, #6
+1ac8a4	e593300c	ldr	r3, [r3, #0xc]
+1ac8a8	e5870028	str	r0, [r7, #0x28]
+1ac8ac	e1a00004	mov	r0, r4
+1ac8b0	e12fff33	blx	r3
+1ac8b4	e3a01000	mov	r1, #0
+1ac8b8	e1a00005	mov	r0, r5
+1ac8bc	ebfc87eb	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac8c0	e5943000	ldr	r3, [r4]
+1ac8c4	e1a02005	mov	r2, r5
+1ac8c8	e3a01006	mov	r1, #6
+1ac8cc	e593300c	ldr	r3, [r3, #0xc]
+1ac8d0	e587002c	str	r0, [r7, #0x2c]
+1ac8d4	e1a00004	mov	r0, r4
+1ac8d8	e12fff33	blx	r3
+1ac8dc	e3a01000	mov	r1, #0
+1ac8e0	e1a00005	mov	r0, r5
+1ac8e4	ebfc87e1	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac8e8	e5943000	ldr	r3, [r4]
+1ac8ec	e1a02005	mov	r2, r5
+1ac8f0	e3a01006	mov	r1, #6
+1ac8f4	e593300c	ldr	r3, [r3, #0xc]
+1ac8f8	e5870030	str	r0, [r7, #0x30]
+1ac8fc	e1a00004	mov	r0, r4
+1ac900	e12fff33	blx	r3
+1ac904	e3a01000	mov	r1, #0
+1ac908	e1a00005	mov	r0, r5
+1ac90c	ebfc87d7	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac910	e5943000	ldr	r3, [r4]
+1ac914	e1a02005	mov	r2, r5
+1ac918	e3a01006	mov	r1, #6
+1ac91c	e593300c	ldr	r3, [r3, #0xc]
+1ac920	e5870034	str	r0, [r7, #0x34]
+1ac924	e1a00004	mov	r0, r4
+1ac928	e12fff33	blx	r3
+1ac92c	e3a01000	mov	r1, #0
+1ac930	e1a00005	mov	r0, r5
+1ac934	ebfc87cd	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac938	e5943000	ldr	r3, [r4]
+1ac93c	e1a02005	mov	r2, r5
+1ac940	e3a01006	mov	r1, #6
+1ac944	e593300c	ldr	r3, [r3, #0xc]
+1ac948	e5870038	str	r0, [r7, #0x38]
+1ac94c	e1a00004	mov	r0, r4
+1ac950	e12fff33	blx	r3
+1ac954	e3a01000	mov	r1, #0
+1ac958	e1a00005	mov	r0, r5
+1ac95c	ebfc87c3	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac960	e5943000	ldr	r3, [r4]
+1ac964	e3a01006	mov	r1, #6
+1ac968	e1a02005	mov	r2, r5
+1ac96c	e593300c	ldr	r3, [r3, #0xc]
+1ac970	e587003c	str	r0, [r7, #0x3c]
+1ac974	e1a00004	mov	r0, r4
+1ac978	e12fff33	blx	r3
+1ac97c	e1a00005	mov	r0, r5
+1ac980	e3a01000	mov	r1, #0
+1ac984	ebfc87b9	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac988	e35a0008	cmp	r10, #8
+1ac98c	e5870040	str	r0, [r7, #0x40]
+1ac990	1affff48	bne	0x1ac6b8 <_ZN5CRoom11DeSerialiseEP7IBufferb+0x37c>
+1ac994	e5943000	ldr	r3, [r4]
+1ac998	e3a01006	mov	r1, #6
+1ac99c	e1a02005	mov	r2, r5
+1ac9a0	e1a00004	mov	r0, r4
+1ac9a4	e593300c	ldr	r3, [r3, #0xc]
+1ac9a8	e12fff33	blx	r3
+1ac9ac	e1a00005	mov	r0, r5
+1ac9b0	e3a01000	mov	r1, #0
+1ac9b4	ebfc87ad	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1ac9b8	e2508000	subs	r8, r0, #0
+1ac9bc	1a000006	bne	0x1ac9dc <_ZN5CRoom11DeSerialiseEP7IBufferb+0x6a0>
+1ac9c0	e59600c0	ldr	r0, [r6, #0xc0]
+1ac9c4	e3500000	cmp	r0, #0
+1ac9c8	0a00015c	beq	0x1acf40 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xc04>
+1ac9cc	eb033e3f	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1ac9d0	e58680c0	str	r8, [r6, #0xc0]
+1ac9d4	e58680bc	str	r8, [r6, #0xbc]
+1ac9d8	ea0000ae	b	0x1acc98 <_ZN5CRoom11DeSerialiseEP7IBufferb+0x95c>
+1ac9dc	e0683188	rsb	r3, r8, r8, lsl #3
+1ac9e0	e59600c0	ldr	r0, [r6, #0xc0]
+1ac9e4	e1b01183	lsls	r1, r3, #3
+1ac9e8	0a000154	beq	0x1acf40 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xc04>
+1ac9ec	e59f2658	ldr	r2, [pc, #0x658]
+1ac9f0	e3a03000	mov	r3, #0
+1ac9f4	e58d3000	str	r3, [sp]
+1ac9f8	e3a0306a	mov	r3, #106
+1ac9fc	e08f2002	add	r2, pc, r2
+1aca00	eb034135	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1aca04	e58600c0	str	r0, [r6, #0xc0]
+1aca08	e3580000	cmp	r8, #0
+1aca0c	e58680bc	str	r8, [r6, #0xbc]
+1aca10	da0000a0	ble	0x1acc98 <_ZN5CRoom11DeSerialiseEP7IBufferb+0x95c>
+1aca14	e59f3634	ldr	r3, [pc, #0x634]
+1aca18	e28d9028	add	r9, sp, #40
+1aca1c	e59dc01c	ldr	r12, [sp, #0x1c]
+1aca20	e3a07000	mov	r7, #0
+1aca24	e79ca003	ldr	r10, [r12, r3]
+1aca28	e58db014	str	r11, [sp, #0x14]
+1aca2c	e5943000	ldr	r3, [r4]
+1aca30	e1a02005	mov	r2, r5
+1aca34	e3a01008	mov	r1, #8
+1aca38	e1a00004	mov	r0, r4
+1aca3c	e2877001	add	r7, r7, #1
+1aca40	e593300c	ldr	r3, [r3, #0xc]
+1aca44	e12fff33	blx	r3
+1aca48	e3a01000	mov	r1, #0
+1aca4c	e1a00005	mov	r0, r5
+1aca50	ebfc888b	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1aca54	e5943000	ldr	r3, [r4]
+1aca58	e1a02005	mov	r2, r5
+1aca5c	e3a01008	mov	r1, #8
+1aca60	e593300c	ldr	r3, [r3, #0xc]
+1aca64	e58d0028	str	r0, [sp, #0x28]
+1aca68	e1a00004	mov	r0, r4
+1aca6c	e12fff33	blx	r3
+1aca70	e3a01000	mov	r1, #0
+1aca74	e1a00005	mov	r0, r5
+1aca78	ebfc8881	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1aca7c	e5943000	ldr	r3, [r4]
+1aca80	e1a02005	mov	r2, r5
+1aca84	e3a01006	mov	r1, #6
+1aca88	e593300c	ldr	r3, [r3, #0xc]
+1aca8c	e58d002c	str	r0, [sp, #0x2c]
+1aca90	e1a00004	mov	r0, r4
+1aca94	e12fff33	blx	r3
+1aca98	e3a01000	mov	r1, #0
+1aca9c	e1a00005	mov	r0, r5
+1acaa0	ebfc8772	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acaa4	e5943000	ldr	r3, [r4]
+1acaa8	e1a02005	mov	r2, r5
+1acaac	e3a01006	mov	r1, #6
+1acab0	e593300c	ldr	r3, [r3, #0xc]
+1acab4	e58d0030	str	r0, [sp, #0x30]
+1acab8	e1a00004	mov	r0, r4
+1acabc	e12fff33	blx	r3
+1acac0	e3a01000	mov	r1, #0
+1acac4	e1a00005	mov	r0, r5
+1acac8	ebfc8768	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acacc	e5943000	ldr	r3, [r4]
+1acad0	e1a02005	mov	r2, r5
+1acad4	e3a01006	mov	r1, #6
+1acad8	e593300c	ldr	r3, [r3, #0xc]
+1acadc	e58d0034	str	r0, [sp, #0x34]
+1acae0	e1a00004	mov	r0, r4
+1acae4	e12fff33	blx	r3
+1acae8	e3a01000	mov	r1, #0
+1acaec	e1a00005	mov	r0, r5
+1acaf0	ebfc875e	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acaf4	e5943000	ldr	r3, [r4]
+1acaf8	e1a02005	mov	r2, r5
+1acafc	e3a01006	mov	r1, #6
+1acb00	e593300c	ldr	r3, [r3, #0xc]
+1acb04	e58d0038	str	r0, [sp, #0x38]
+1acb08	e1a00004	mov	r0, r4
+1acb0c	e12fff33	blx	r3
+1acb10	e3a01000	mov	r1, #0
+1acb14	e1a00005	mov	r0, r5
+1acb18	ebfc8754	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acb1c	e5943000	ldr	r3, [r4]
+1acb20	e1a02005	mov	r2, r5
+1acb24	e3a01006	mov	r1, #6
+1acb28	e593300c	ldr	r3, [r3, #0xc]
+1acb2c	e58d003c	str	r0, [sp, #0x3c]
+1acb30	e1a00004	mov	r0, r4
+1acb34	e12fff33	blx	r3
+1acb38	e3a01000	mov	r1, #0
+1acb3c	e1a00005	mov	r0, r5
+1acb40	ebfc874a	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acb44	e5943000	ldr	r3, [r4]
+1acb48	e1a02005	mov	r2, r5
+1acb4c	e3a01008	mov	r1, #8
+1acb50	e593300c	ldr	r3, [r3, #0xc]
+1acb54	e58d0040	str	r0, [sp, #0x40]
+1acb58	e1a00004	mov	r0, r4
+1acb5c	e12fff33	blx	r3
+1acb60	e3a01000	mov	r1, #0
+1acb64	e1a00005	mov	r0, r5
+1acb68	ebfc8845	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1acb6c	e5943000	ldr	r3, [r4]
+1acb70	e1a02005	mov	r2, r5
+1acb74	e3a01006	mov	r1, #6
+1acb78	e593300c	ldr	r3, [r3, #0xc]
+1acb7c	e58d0044	str	r0, [sp, #0x44]
+1acb80	e1a00004	mov	r0, r4
+1acb84	e12fff33	blx	r3
+1acb88	e3a01000	mov	r1, #0
+1acb8c	e1a00005	mov	r0, r5
+1acb90	ebfc8736	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acb94	e5943000	ldr	r3, [r4]
+1acb98	e1a02005	mov	r2, r5
+1acb9c	e3a01008	mov	r1, #8
+1acba0	e593300c	ldr	r3, [r3, #0xc]
+1acba4	e58d0048	str	r0, [sp, #0x48]
+1acba8	e1a00004	mov	r0, r4
+1acbac	e12fff33	blx	r3
+1acbb0	e3a01000	mov	r1, #0
+1acbb4	e1a00005	mov	r0, r5
+1acbb8	ebfc8831	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1acbbc	e5943000	ldr	r3, [r4]
+1acbc0	e1a02005	mov	r2, r5
+1acbc4	e3a01008	mov	r1, #8
+1acbc8	e593300c	ldr	r3, [r3, #0xc]
+1acbcc	e58d004c	str	r0, [sp, #0x4c]
+1acbd0	e1a00004	mov	r0, r4
+1acbd4	e12fff33	blx	r3
+1acbd8	e3a01000	mov	r1, #0
+1acbdc	e1a00005	mov	r0, r5
+1acbe0	ebfc8827	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1acbe4	e5943000	ldr	r3, [r4]
+1acbe8	e1a02005	mov	r2, r5
+1acbec	e3a01006	mov	r1, #6
+1acbf0	e593300c	ldr	r3, [r3, #0xc]
+1acbf4	e58d0050	str	r0, [sp, #0x50]
+1acbf8	e1a00004	mov	r0, r4
+1acbfc	e12fff33	blx	r3
+1acc00	e3a01000	mov	r1, #0
+1acc04	e1a00005	mov	r0, r5
+1acc08	ebfc8718	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acc0c	e5943000	ldr	r3, [r4]
+1acc10	e1a02005	mov	r2, r5
+1acc14	e3a01008	mov	r1, #8
+1acc18	e593300c	ldr	r3, [r3, #0xc]
+1acc1c	e58d0054	str	r0, [sp, #0x54]
+1acc20	e1a00004	mov	r0, r4
+1acc24	e12fff33	blx	r3
+1acc28	e3a01000	mov	r1, #0
+1acc2c	e1a00005	mov	r0, r5
+1acc30	ebfc8813	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1acc34	e5943000	ldr	r3, [r4]
+1acc38	e1a02005	mov	r2, r5
+1acc3c	e3a01006	mov	r1, #6
+1acc40	e593300c	ldr	r3, [r3, #0xc]
+1acc44	e58d0058	str	r0, [sp, #0x58]
+1acc48	e1a00004	mov	r0, r4
+1acc4c	e12fff33	blx	r3
+1acc50	e3a01000	mov	r1, #0
+1acc54	e1a00005	mov	r0, r5
+1acc58	ebfc86c2	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+1acc5c	e1a01009	mov	r1, r9
+1acc60	e59db048	ldr	r11, [sp, #0x48]
+1acc64	e5cd005c	strb	r0, [sp, #0x5c]
+1acc68	e1a00006	mov	r0, r6
+1acc6c	ebfffd73	bl	0x1ac240 <_ZN5CRoom7AddTileEP5RTile>
+1acc70	e59620c0	ldr	r2, [r6, #0xc0]
+1acc74	e59a1000	ldr	r1, [r10]
+1acc78	e1570008	cmp	r7, r8
+1acc7c	e2411001	sub	r1, r1, #1
+1acc80	e58a1000	str	r1, [r10]
+1acc84	e0600180	rsb	r0, r0, r0, lsl #3
+1acc88	e0822180	add	r2, r2, r0, lsl #3
+1acc8c	e582b020	str	r11, [r2, #0x20]
+1acc90	1affff65	bne	0x1aca2c <_ZN5CRoom11DeSerialiseEP7IBufferb+0x6f0>
+1acc94	e59db014	ldr	r11, [sp, #0x14]
+1acc98	e5943000	ldr	r3, [r4]
+1acc9c	e3a01006	mov	r1, #6
+1acca0	e1a02005	mov	r2, r5
+1acca4	e1a00004	mov	r0, r4
+1acca8	e593300c	ldr	r3, [r3, #0xc]
+1accac	e12fff33	blx	r3
+1accb0	e1a00005	mov	r0, r5
+1accb4	e3a01000	mov	r1, #0
+1accb8	ebfc86ec	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1accbc	e2508000	subs	r8, r0, #0
+1accc0	c3a07000	movgt	r7, #0
+1accc4	da000005	ble	0x1acce0 <_ZN5CRoom11DeSerialiseEP7IBufferb+0x9a4>
+1accc8	e2877001	add	r7, r7, #1
+1acccc	e1a00006	mov	r0, r6
+1accd0	e1a01004	mov	r1, r4
+1accd4	eb0069fd	bl	0x1c74d0 <_ZN13CLayerManager16DeSerializeLayerEP5CRoomP7IBuffer>
+1accd8	e1570008	cmp	r7, r8
+1accdc	1afffff9	bne	0x1accc8 <_ZN5CRoom11DeSerialiseEP7IBufferb+0x98c>
+1acce0	e5943000	ldr	r3, [r4]
+1acce4	e3a01006	mov	r1, #6
+1acce8	e1a02005	mov	r2, r5
+1accec	e1a00004	mov	r0, r4
+1accf0	e593300c	ldr	r3, [r3, #0xc]
+1accf4	e12fff33	blx	r3
+1accf8	e1a00005	mov	r0, r5
+1accfc	e3a01000	mov	r1, #0
+1acd00	ebfc86da	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acd04	e2509000	subs	r9, r0, #0
+1acd08	da00002c	ble	0x1acdc0 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xa84>
+1acd0c	e59fc340	ldr	r12, [pc, #0x340]
+1acd10	e3a08000	mov	r8, #0
+1acd14	e1a0a008	mov	r10, r8
+1acd18	e58d5024	str	r5, [sp, #0x24]
+1acd1c	e08fc00c	add	r12, pc, r12
+1acd20	e58dc020	str	r12, [sp, #0x20]
+1acd24	e3a00e1b	mov	r0, #432
+1acd28	eb033dfd	bl	0x27c524 <_Znwj>
+1acd2c	e3a01000	mov	r1, #0
+1acd30	e3a03000	mov	r3, #0
+1acd34	e1a02001	mov	r2, r1
+1acd38	e58da000	str	r10, [sp]
+1acd3c	e58da004	str	r10, [sp, #0x4]
+1acd40	e1a05000	mov	r5, r0
+1acd44	ebffb1e4	bl	0x1994dc <_ZN9CInstanceC2Effiib>
+1acd48	e1a0200b	mov	r2, r11
+1acd4c	e1a00005	mov	r0, r5
+1acd50	e1a01004	mov	r1, r4
+1acd54	ebffaa44	bl	0x19766c <_ZN9CInstance11DeSerialiseEP7IBufferb>
+1acd58	e5963084	ldr	r3, [r6, #0x84]
+1acd5c	e5962088	ldr	r2, [r6, #0x88]
+1acd60	e3530000	cmp	r3, #0
+1acd64	1d957a60	vldrne	s14, [r5, #384]
+1acd68	e2822001	add	r2, r2, #1
+1acd6c	e5862088	str	r2, [r6, #0x88]
+1acd70	0a0000ad	beq	0x1ad02c <_ZN5CRoom11DeSerialiseEP7IBufferb+0xcf0>
+1acd74	edd37a61	vldr	s15, [r3, #388]
+1acd78	eeb47ae7	vcmpe.f32	s14, s15
+1acd7c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1acd80	aa000072	bge	0x1acf50 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xc14>
+1acd84	e593317c	ldr	r3, [r3, #0x17c]
+1acd88	e3530000	cmp	r3, #0
+1acd8c	1afffff8	bne	0x1acd74 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xa38>
+1acd90	e5962080	ldr	r2, [r6, #0x80]
+1acd94	ed857a61	vstr	s14, [r5, #388]
+1acd98	e582517c	str	r5, [r2, #0x17c]
+1acd9c	e5852178	str	r2, [r5, #0x178]
+1acda0	e5865080	str	r5, [r6, #0x80]
+1acda4	e585317c	str	r3, [r5, #0x17c]
+1acda8	e35b0000	cmp	r11, #0
+1acdac	1a000075	bne	0x1acf88 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xc4c>
+1acdb0	e2888001	add	r8, r8, #1
+1acdb4	e1580009	cmp	r8, r9
+1acdb8	1affffd9	bne	0x1acd24 <_ZN5CRoom11DeSerialiseEP7IBufferb+0x9e8>
+1acdbc	e59d5024	ldr	r5, [sp, #0x24]
+1acdc0	e5943000	ldr	r3, [r4]
+1acdc4	e3a01006	mov	r1, #6
+1acdc8	e1a02005	mov	r2, r5
+1acdcc	e1a00004	mov	r0, r4
+1acdd0	e593300c	ldr	r3, [r3, #0xc]
+1acdd4	e12fff33	blx	r3
+1acdd8	e1a00005	mov	r0, r5
+1acddc	e3a01000	mov	r1, #0
+1acde0	ebfc86a2	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1acde4	e250a000	subs	r10, r0, #0
+1acde8	da000052	ble	0x1acf38 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xbfc>
+1acdec	e59fc264	ldr	r12, [pc, #0x264]
+1acdf0	e3a08000	mov	r8, #0
+1acdf4	e1a0900a	mov	r9, r10
+1acdf8	e1a07008	mov	r7, r8
+1acdfc	e08fc00c	add	r12, pc, r12
+1ace00	e1a0a004	mov	r10, r4
+1ace04	e58dc020	str	r12, [sp, #0x20]
+1ace08	ea000002	b	0x1ace18 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xadc>
+1ace0c	e2888001	add	r8, r8, #1
+1ace10	e1580009	cmp	r8, r9
+1ace14	0a000047	beq	0x1acf38 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xbfc>
+1ace18	e3a00e1b	mov	r0, #432
+1ace1c	eb033dc0	bl	0x27c524 <_Znwj>
+1ace20	e3a01000	mov	r1, #0
+1ace24	e3a03000	mov	r3, #0
+1ace28	e1a02001	mov	r2, r1
+1ace2c	e58d7000	str	r7, [sp]
+1ace30	e58d7004	str	r7, [sp, #0x4]
+1ace34	e1a04000	mov	r4, r0
+1ace38	ebffb1a7	bl	0x1994dc <_ZN9CInstanceC2Effiib>
+1ace3c	e1a0200b	mov	r2, r11
+1ace40	e1a00004	mov	r0, r4
+1ace44	e1a0100a	mov	r1, r10
+1ace48	ebffaa07	bl	0x19766c <_ZN9CInstance11DeSerialiseEP7IBufferb>
+1ace4c	e5963090	ldr	r3, [r6, #0x90]
+1ace50	e5962094	ldr	r2, [r6, #0x94]
+1ace54	e3530000	cmp	r3, #0
+1ace58	05864090	streq	r4, [r6, #0x90]
+1ace5c	e2822001	add	r2, r2, #1
+1ace60	e5862094	str	r2, [r6, #0x94]
+1ace64	15834178	strne	r4, [r3, #0x178]
+1ace68	15963090	ldrne	r3, [r6, #0x90]
+1ace6c	0586408c	streq	r4, [r6, #0x8c]
+1ace70	0584317c	streq	r3, [r4, #0x17c]
+1ace74	1584317c	strne	r3, [r4, #0x17c]
+1ace78	05843178	streq	r3, [r4, #0x178]
+1ace7c	15864090	strne	r4, [r6, #0x90]
+1ace80	15847178	strne	r7, [r4, #0x178]
+1ace84	e35b0000	cmp	r11, #0
+1ace88	0affffdf	beq	0x1ace0c <_ZN5CRoom11DeSerialiseEP7IBufferb+0xad0>
+1ace8c	e594c078	ldr	r12, [r4, #0x78]
+1ace90	e3002132	movw	r2, #0x132
+1ace94	e59fe1c0	ldr	lr, [pc, #0x1c0]
+1ace98	e3a03001	mov	r3, #1
+1ace9c	e59d1020	ldr	r1, [sp, #0x20]
+1acea0	e3a00010	mov	r0, #16
+1acea4	e58dc018	str	r12, [sp, #0x18]
+1acea8	e2888001	add	r8, r8, #1
+1aceac	e59dc01c	ldr	r12, [sp, #0x1c]
+1aceb0	e79c500e	ldr	r5, [r12, lr]
+1aceb4	e595c000	ldr	r12, [r5]
+1aceb8	e595e004	ldr	lr, [r5, #0x4]
+1acebc	e58dc024	str	r12, [sp, #0x24]
+1acec0	e59dc018	ldr	r12, [sp, #0x18]
+1acec4	e00cc00e	and	r12, r12, lr
+1acec8	e58dc014	str	r12, [sp, #0x14]
+1acecc	eb033fe9	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1aced0	e59dc014	ldr	r12, [sp, #0x14]
+1aced4	e59de024	ldr	lr, [sp, #0x24]
+1aced8	e1a01004	mov	r1, r4
+1acedc	e08e318c	add	r3, lr, r12, lsl #3
+1acee0	e79e218c	ldr	r2, [lr, r12, lsl #3]
+1acee4	e59dc018	ldr	r12, [sp, #0x18]
+1acee8	e3520000	cmp	r2, #0
+1aceec	15932004	ldrne	r2, [r3, #0x4]
+1acef0	e580c008	str	r12, [r0, #0x8]
+1acef4	059dc014	ldreq	r12, [sp, #0x14]
+1acef8	e580400c	str	r4, [r0, #0xc]
+1acefc	15802000	strne	r2, [r0]
+1acf00	05830004	streq	r0, [r3, #0x4]
+1acf04	15820004	strne	r0, [r2, #0x4]
+1acf08	15830004	strne	r0, [r3, #0x4]
+1acf0c	e5953008	ldr	r3, [r5, #0x8]
+1acf10	078e018c	streq	r0, [lr, r12, lsl #3]
+1acf14	15807004	strne	r7, [r0, #0x4]
+1acf18	e2833001	add	r3, r3, #1
+1acf1c	05802004	streq	r2, [r0, #0x4]
+1acf20	05802000	streq	r2, [r0]
+1acf24	e1a00006	mov	r0, r6
+1acf28	e5853008	str	r3, [r5, #0x8]
+1acf2c	eb006379	bl	0x1c5d18 <_ZN13CLayerManager11AddInstanceEP5CRoomP9CInstance>
+1acf30	e1580009	cmp	r8, r9
+1acf34	1affffb7	bne	0x1ace18 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xadc>
+1acf38	e28dd064	add	sp, sp, #100
+1acf3c	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1acf40	eb033ce2	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1acf44	e3a03000	mov	r3, #0
+1acf48	e58630c0	str	r3, [r6, #0xc0]
+1acf4c	eafffead	b	0x1aca08 <_ZN5CRoom11DeSerialiseEP7IBufferb+0x6cc>
+1acf50	e5932178	ldr	r2, [r3, #0x178]
+1acf54	e3520000	cmp	r2, #0
+1acf58	0585317c	streq	r3, [r5, #0x17c]
+1acf5c	15852178	strne	r2, [r5, #0x178]
+1acf60	15932178	ldrne	r2, [r3, #0x178]
+1acf64	05835178	streq	r5, [r3, #0x178]
+1acf68	1585317c	strne	r3, [r5, #0x17c]
+1acf6c	05865084	streq	r5, [r6, #0x84]
+1acf70	1582517c	strne	r5, [r2, #0x17c]
+1acf74	05852178	streq	r2, [r5, #0x178]
+1acf78	15835178	strne	r5, [r3, #0x178]
+1acf7c	e35b0000	cmp	r11, #0
+1acf80	ed857a61	vstr	s14, [r5, #388]
+1acf84	0affff89	beq	0x1acdb0 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xa74>
+1acf88	e595c078	ldr	r12, [r5, #0x78]
+1acf8c	e3002132	movw	r2, #0x132
+1acf90	e59fe0c4	ldr	lr, [pc, #0xc4]
+1acf94	e3a03001	mov	r3, #1
+1acf98	e59d1020	ldr	r1, [sp, #0x20]
+1acf9c	e3a00010	mov	r0, #16
+1acfa0	e58dc018	str	r12, [sp, #0x18]
+1acfa4	e59dc01c	ldr	r12, [sp, #0x1c]
+1acfa8	e79c700e	ldr	r7, [r12, lr]
+1acfac	e597c000	ldr	r12, [r7]
+1acfb0	e597e004	ldr	lr, [r7, #0x4]
+1acfb4	e58dc00c	str	r12, [sp, #0xc]
+1acfb8	e59dc018	ldr	r12, [sp, #0x18]
+1acfbc	e00cc00e	and	r12, r12, lr
+1acfc0	e58dc014	str	r12, [sp, #0x14]
+1acfc4	eb033fab	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1acfc8	e59dc014	ldr	r12, [sp, #0x14]
+1acfcc	e59de00c	ldr	lr, [sp, #0xc]
+1acfd0	e1a01005	mov	r1, r5
+1acfd4	e08e318c	add	r3, lr, r12, lsl #3
+1acfd8	e79e218c	ldr	r2, [lr, r12, lsl #3]
+1acfdc	e59dc018	ldr	r12, [sp, #0x18]
+1acfe0	e3520000	cmp	r2, #0
+1acfe4	15932004	ldrne	r2, [r3, #0x4]
+1acfe8	e580c008	str	r12, [r0, #0x8]
+1acfec	059dc014	ldreq	r12, [sp, #0x14]
+1acff0	e580500c	str	r5, [r0, #0xc]
+1acff4	15802000	strne	r2, [r0]
+1acff8	05830004	streq	r0, [r3, #0x4]
+1acffc	15820004	strne	r0, [r2, #0x4]
+1ad000	15830004	strne	r0, [r3, #0x4]
+1ad004	e5973008	ldr	r3, [r7, #0x8]
+1ad008	078e018c	streq	r0, [lr, r12, lsl #3]
+1ad00c	1580a004	strne	r10, [r0, #0x4]
+1ad010	e2833001	add	r3, r3, #1
+1ad014	05802004	streq	r2, [r0, #0x4]
+1ad018	05802000	streq	r2, [r0]
+1ad01c	e1a00006	mov	r0, r6
+1ad020	e5873008	str	r3, [r7, #0x8]
+1ad024	eb00633b	bl	0x1c5d18 <_ZN13CLayerManager11AddInstanceEP5CRoomP9CInstance>
+1ad028	eaffff60	b	0x1acdb0 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xa74>
+1ad02c	e5952180	ldr	r2, [r5, #0x180]
+1ad030	e5865084	str	r5, [r6, #0x84]
+1ad034	e5865080	str	r5, [r6, #0x80]
+1ad038	e5852184	str	r2, [r5, #0x184]
+1ad03c	e585317c	str	r3, [r5, #0x17c]
+1ad040	e5853178	str	r3, [r5, #0x178]
+1ad044	eaffff57	b	0x1acda8 <_ZN5CRoom11DeSerialiseEP7IBufferb+0xa6c>
+1ad048	002458e4	eoreq	r5, r4, r4, ror #17
+1ad04c	001a0838	andseq	r0, r10, r8, lsr r8
+1ad050	ffffebc0	.word	0xffffebc0
+1ad054	0019ff90	mulseq	r9, r0, pc
+1ad058	0019feb0	ldrheq	pc, [r9], -r0
+1ad05c	ffffbff4	.word	0xffffbff4

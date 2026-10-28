@@ -1,0 +1,24 @@
+1c9b54	e92d4070	push	{r4, r5, r6, lr}
+1c9b58	e1a04000	mov	r4, r0
+1c9b5c	e5d0506a	ldrb	r5, [r0, #0x6a]
+1c9b60	e3550000	cmp	r5, #0
+1c9b64	18bd8070	popne	{r4, r5, r6, pc}
+1c9b68	e3a06001	mov	r6, #1
+1c9b6c	e1a01000	mov	r1, r0
+1c9b70	e5c0606a	strb	r6, [r0, #0x6a]
+1c9b74	e1a02006	mov	r2, r6
+1c9b78	e1a03005	mov	r3, r5
+1c9b7c	ebfca5ff	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1c9b80	e1a03005	mov	r3, r5
+1c9b84	e3a0200c	mov	r2, #12
+1c9b88	e1a00004	mov	r0, r4
+1c9b8c	e1a01004	mov	r1, r4
+1c9b90	ebfca5fa	bl	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1c9b94	e59f3014	ldr	r3, [pc, #0x14]
+1c9b98	e5c46068	strb	r6, [r4, #0x68]
+1c9b9c	e79f3003	ldr	r3, [pc, r3]
+1c9ba0	e5932000	ldr	r2, [r3]
+1c9ba4	e0822006	add	r2, r2, r6
+1c9ba8	e5832000	str	r2, [r3]
+1c9bac	e8bd8070	pop	{r4, r5, r6, pc}
+1c9bb0	00224518	eoreq	r4, r2, r8, lsl r5

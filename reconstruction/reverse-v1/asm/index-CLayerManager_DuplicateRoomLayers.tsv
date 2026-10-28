@@ -1,0 +1,1171 @@
+1c47e0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1c47e4	ed2d8b04	vpush	{d8, d9}
+1c47e8	e2504000	subs	r4, r0, #0
+1c47ec	e24dd044	sub	sp, sp, #68
+1c47f0	e59fc470	ldr	r12, [pc, #0x470]
+1c47f4	e58d400c	str	r4, [sp, #0xc]
+1c47f8	e08fc00c	add	r12, pc, r12
+1c47fc	e1a04001	mov	r4, r1
+1c4800	e58dc024	str	r12, [sp, #0x24]
+1c4804	0a0001ce	beq	0x1c4f44 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x764>
+1c4808	e3510000	cmp	r1, #0
+1c480c	0a0001cc	beq	0x1c4f44 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x764>
+1c4810	ebffd2ec	bl	0x1b93c8 <_ZN13CLayerManager15CleanRoomLayersEP5CRoom>
+1c4814	e59dc00c	ldr	r12, [sp, #0xc]
+1c4818	e59de00c	ldr	lr, [sp, #0xc]
+1c481c	e3a02046	mov	r2, #70
+1c4820	e59f1444	ldr	r1, [pc, #0x444]
+1c4824	e3a03001	mov	r3, #1
+1c4828	e59c00e4	ldr	r0, [r12, #0xe4]
+1c482c	e08f1001	add	r1, pc, r1
+1c4830	e240c001	sub	r12, r0, #1
+1c4834	e58ec0ec	str	r12, [lr, #0xec]
+1c4838	e0800080	add	r0, r0, r0, lsl #1
+1c483c	e28ec0e4	add	r12, lr, #228
+1c4840	e58dc028	str	r12, [sp, #0x28]
+1c4844	e1a05100	lsl	r5, r0, #2
+1c4848	e1a00005	mov	r0, r5
+1c484c	eb02e189	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c4850	e59dc00c	ldr	r12, [sp, #0xc]
+1c4854	e1a02005	mov	r2, r5
+1c4858	e3a01000	mov	r1, #0
+1c485c	e58c00f4	str	r0, [r12, #0xf4]
+1c4860	ebfbc752	bl	0xb65b0 <memset@plt>
+1c4864	e59dc00c	ldr	r12, [sp, #0xc]
+1c4868	eddf7afc	vldr	s15, [pc, #1008]
+1c486c	e3a01000	mov	r1, #0
+1c4870	e59c20e4	ldr	r2, [r12, #0xe4]
+1c4874	e58c10e8	str	r1, [r12, #0xe8]
+1c4878	e1520001	cmp	r2, r1
+1c487c	ee062a90	vmov	s13, r2
+1c4880	eeb87ae6	vcvt.f32.s32	s14, s13
+1c4884	ee677a27	vmul.f32	s15, s14, s15
+1c4888	eefd7ae7	vcvt.s32.f32	s15, s15
+1c488c	edcc7a3c	vstr	s15, [r12, #240]
+1c4890	da000007	ble	0x1c48b4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xd4>
+1c4894	e59dc00c	ldr	r12, [sp, #0xc]
+1c4898	e0822082	add	r2, r2, r2, lsl #1
+1c489c	e59c30f4	ldr	r3, [r12, #0xf4]
+1c48a0	e0832102	add	r2, r3, r2, lsl #2
+1c48a4	e5831008	str	r1, [r3, #0x8]
+1c48a8	e283300c	add	r3, r3, #12
+1c48ac	e1530002	cmp	r3, r2
+1c48b0	1afffffb	bne	0x1c48a4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xc4>
+1c48b4	e59dc00c	ldr	r12, [sp, #0xc]
+1c48b8	e3a02046	mov	r2, #70
+1c48bc	e59de00c	ldr	lr, [sp, #0xc]
+1c48c0	e3a03001	mov	r3, #1
+1c48c4	e59f13a4	ldr	r1, [pc, #0x3a4]
+1c48c8	e59c00f8	ldr	r0, [r12, #0xf8]
+1c48cc	e08f1001	add	r1, pc, r1
+1c48d0	e240c001	sub	r12, r0, #1
+1c48d4	e58ec100	str	r12, [lr, #0x100]
+1c48d8	e0800080	add	r0, r0, r0, lsl #1
+1c48dc	e1a05100	lsl	r5, r0, #2
+1c48e0	e1a00005	mov	r0, r5
+1c48e4	eb02e163	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c48e8	e59dc00c	ldr	r12, [sp, #0xc]
+1c48ec	e1a02005	mov	r2, r5
+1c48f0	e3a01000	mov	r1, #0
+1c48f4	e58c0108	str	r0, [r12, #0x108]
+1c48f8	ebfbc72c	bl	0xb65b0 <memset@plt>
+1c48fc	e59dc00c	ldr	r12, [sp, #0xc]
+1c4900	eddf7ad6	vldr	s15, [pc, #856]
+1c4904	e3a01000	mov	r1, #0
+1c4908	e59c20f8	ldr	r2, [r12, #0xf8]
+1c490c	e58c10fc	str	r1, [r12, #0xfc]
+1c4910	e1520001	cmp	r2, r1
+1c4914	ee062a90	vmov	s13, r2
+1c4918	eeb87ae6	vcvt.f32.s32	s14, s13
+1c491c	ee677a27	vmul.f32	s15, s14, s15
+1c4920	eefd7ae7	vcvt.s32.f32	s15, s15
+1c4924	edcc7a41	vstr	s15, [r12, #260]
+1c4928	da000007	ble	0x1c494c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x16c>
+1c492c	e59dc00c	ldr	r12, [sp, #0xc]
+1c4930	e0822082	add	r2, r2, r2, lsl #1
+1c4934	e59c3108	ldr	r3, [r12, #0x108]
+1c4938	e0832102	add	r2, r3, r2, lsl #2
+1c493c	e5831008	str	r1, [r3, #0x8]
+1c4940	e283300c	add	r3, r3, #12
+1c4944	e1530002	cmp	r3, r2
+1c4948	1afffffb	bne	0x1c493c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x15c>
+1c494c	e59dc00c	ldr	r12, [sp, #0xc]
+1c4950	e3a02046	mov	r2, #70
+1c4954	e59de00c	ldr	lr, [sp, #0xc]
+1c4958	e3a03001	mov	r3, #1
+1c495c	e59f1310	ldr	r1, [pc, #0x310]
+1c4960	e59c0110	ldr	r0, [r12, #0x110]
+1c4964	e08f1001	add	r1, pc, r1
+1c4968	e240c001	sub	r12, r0, #1
+1c496c	e58ec118	str	r12, [lr, #0x118]
+1c4970	e0800080	add	r0, r0, r0, lsl #1
+1c4974	e1a05100	lsl	r5, r0, #2
+1c4978	e1a00005	mov	r0, r5
+1c497c	eb02e13d	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c4980	e59dc00c	ldr	r12, [sp, #0xc]
+1c4984	e1a02005	mov	r2, r5
+1c4988	e3a01000	mov	r1, #0
+1c498c	e58c0120	str	r0, [r12, #0x120]
+1c4990	ebfbc706	bl	0xb65b0 <memset@plt>
+1c4994	e59dc00c	ldr	r12, [sp, #0xc]
+1c4998	eddf7ab0	vldr	s15, [pc, #704]
+1c499c	e3a01000	mov	r1, #0
+1c49a0	e59c2110	ldr	r2, [r12, #0x110]
+1c49a4	e58c1114	str	r1, [r12, #0x114]
+1c49a8	e1520001	cmp	r2, r1
+1c49ac	ee062a90	vmov	s13, r2
+1c49b0	eeb87ae6	vcvt.f32.s32	s14, s13
+1c49b4	ee677a27	vmul.f32	s15, s14, s15
+1c49b8	eefd7ae7	vcvt.s32.f32	s15, s15
+1c49bc	edcc7a47	vstr	s15, [r12, #284]
+1c49c0	da000007	ble	0x1c49e4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x204>
+1c49c4	e59dc00c	ldr	r12, [sp, #0xc]
+1c49c8	e0822082	add	r2, r2, r2, lsl #1
+1c49cc	e59c3120	ldr	r3, [r12, #0x120]
+1c49d0	e0832102	add	r2, r3, r2, lsl #2
+1c49d4	e5831008	str	r1, [r3, #0x8]
+1c49d8	e283300c	add	r3, r3, #12
+1c49dc	e1530002	cmp	r3, r2
+1c49e0	1afffffb	bne	0x1c49d4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x1f4>
+1c49e4	e59440d4	ldr	r4, [r4, #0xd4]
+1c49e8	e3540000	cmp	r4, #0
+1c49ec	e58d4008	str	r4, [sp, #0x8]
+1c49f0	0a000153	beq	0x1c4f44 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x764>
+1c49f4	e59f427c	ldr	r4, [pc, #0x27c]
+1c49f8	ed9f9a99	vldr	s18, [pc, #612]
+1c49fc	e59f3278	ldr	r3, [pc, #0x278]
+1c4a00	ed9f8b94	vldr	d8, [pc, #592]
+1c4a04	e08f4004	add	r4, pc, r4
+1c4a08	e58d4034	str	r4, [sp, #0x34]
+1c4a0c	e59d4024	ldr	r4, [sp, #0x24]
+1c4a10	e59fc268	ldr	r12, [pc, #0x268]
+1c4a14	e08fc00c	add	r12, pc, r12
+1c4a18	e58dc038	str	r12, [sp, #0x38]
+1c4a1c	e794b003	ldr	r11, [r4, r3]
+1c4a20	e59fc25c	ldr	r12, [pc, #0x25c]
+1c4a24	e59f425c	ldr	r4, [pc, #0x25c]
+1c4a28	e1a0a00b	mov	r10, r11
+1c4a2c	e08fc00c	add	r12, pc, r12
+1c4a30	e08f4004	add	r4, pc, r4
+1c4a34	e58dc02c	str	r12, [sp, #0x2c]
+1c4a38	e58d4030	str	r4, [sp, #0x30]
+1c4a3c	e59a4008	ldr	r4, [r10, #0x8]
+1c4a40	e3540000	cmp	r4, #0
+1c4a44	1a000037	bne	0x1c4b28 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x348>
+1c4a48	e59a3010	ldr	r3, [r10, #0x10]
+1c4a4c	e3530000	cmp	r3, #0
+1c4a50	da000032	ble	0x1c4b20 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x340>
+1c4a54	e59d8034	ldr	r8, [sp, #0x34]
+1c4a58	e3a05001	mov	r5, #1
+1c4a5c	e3a03001	mov	r3, #1
+1c4a60	e3a00070	mov	r0, #112
+1c4a64	e1a01008	mov	r1, r8
+1c4a68	e3a0203f	mov	r2, #63
+1c4a6c	eb02e101	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c4a70	e3a07000	mov	r7, #0
+1c4a74	e3e03000	mvn	r3, #0
+1c4a78	e2506000	subs	r6, r0, #0
+1c4a7c	e2860030	add	r0, r6, #48
+1c4a80	0a000013	beq	0x1c4ad4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x2f4>
+1c4a84	e5863000	str	r3, [r6]
+1c4a88	ed869a02	vstr	s18, [r6, #8]
+1c4a8c	e5867004	str	r7, [r6, #0x4]
+1c4a90	ed869a03	vstr	s18, [r6, #12]
+1c4a94	ed869a04	vstr	s18, [r6, #16]
+1c4a98	ed869a05	vstr	s18, [r6, #20]
+1c4a9c	e5c65018	strb	r5, [r6, #0x18]
+1c4aa0	ed868b12	vstr	d8, [r6, #72]
+1c4aa4	e5c67019	strb	r7, [r6, #0x19]
+1c4aa8	e586701c	str	r7, [r6, #0x1c]
+1c4aac	e5863020	str	r3, [r6, #0x20]
+1c4ab0	e5863024	str	r3, [r6, #0x24]
+1c4ab4	e5863028	str	r3, [r6, #0x28]
+1c4ab8	eb013f1a	bl	0x214728 <_ZN13CTimingSource5ResetEv>
+1c4abc	e586705c	str	r7, [r6, #0x5c]
+1c4ac0	e5867058	str	r7, [r6, #0x58]
+1c4ac4	e5867060	str	r7, [r6, #0x60]
+1c4ac8	e5865064	str	r5, [r6, #0x64]
+1c4acc	e5867068	str	r7, [r6, #0x68]
+1c4ad0	e586706c	str	r7, [r6, #0x6c]
+1c4ad4	e59a3000	ldr	r3, [r10]
+1c4ad8	e3a01000	mov	r1, #0
+1c4adc	e2844001	add	r4, r4, #1
+1c4ae0	e59a2008	ldr	r2, [r10, #0x8]
+1c4ae4	e1530001	cmp	r3, r1
+1c4ae8	058a6004	streq	r6, [r10, #0x4]
+1c4aec	1583606c	strne	r6, [r3, #0x6c]
+1c4af0	e2822001	add	r2, r2, #1
+1c4af4	0586306c	streq	r3, [r6, #0x6c]
+1c4af8	05863068	streq	r3, [r6, #0x68]
+1c4afc	15863068	strne	r3, [r6, #0x68]
+1c4b00	e59a3010	ldr	r3, [r10, #0x10]
+1c4b04	058a6000	streq	r6, [r10]
+1c4b08	158a6000	strne	r6, [r10]
+1c4b0c	1586106c	strne	r1, [r6, #0x6c]
+1c4b10	e1540003	cmp	r4, r3
+1c4b14	e58a2008	str	r2, [r10, #0x8]
+1c4b18	baffffcf	blt	0x1c4a5c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x27c>
+1c4b1c	e59a4008	ldr	r4, [r10, #0x8]
+1c4b20	e1a03083	lsl	r3, r3, #1
+1c4b24	e58a3010	str	r3, [r10, #0x10]
+1c4b28	e59ac000	ldr	r12, [r10]
+1c4b2c	e2444001	sub	r4, r4, #1
+1c4b30	e59c306c	ldr	r3, [r12, #0x6c]
+1c4b34	e58dc004	str	r12, [sp, #0x4]
+1c4b38	e3530000	cmp	r3, #0
+1c4b3c	159dc004	ldrne	r12, [sp, #0x4]
+1c4b40	059c2068	ldreq	r2, [r12, #0x68]
+1c4b44	159c2068	ldrne	r2, [r12, #0x68]
+1c4b48	058a2000	streq	r2, [r10]
+1c4b4c	15832068	strne	r2, [r3, #0x68]
+1c4b50	159c2068	ldrne	r2, [r12, #0x68]
+1c4b54	159c306c	ldrne	r3, [r12, #0x6c]
+1c4b58	e59dc008	ldr	r12, [sp, #0x8]
+1c4b5c	e3520000	cmp	r2, #0
+1c4b60	058a3004	streq	r3, [r10, #0x4]
+1c4b64	1582306c	strne	r3, [r2, #0x6c]
+1c4b68	e59c1008	ldr	r1, [r12, #0x8]
+1c4b6c	e59c2000	ldr	r2, [r12]
+1c4b70	e59c3004	ldr	r3, [r12, #0x4]
+1c4b74	e58a4008	str	r4, [r10, #0x8]
+1c4b78	e59d4004	ldr	r4, [sp, #0x4]
+1c4b7c	e59c001c	ldr	r0, [r12, #0x1c]
+1c4b80	e5841008	str	r1, [r4, #0x8]
+1c4b84	e1a0400c	mov	r4, r12
+1c4b88	e5941020	ldr	r1, [r4, #0x20]
+1c4b8c	e3500000	cmp	r0, #0
+1c4b90	e59d4004	ldr	r4, [sp, #0x4]
+1c4b94	e5dcc018	ldrb	r12, [r12, #0x18]
+1c4b98	e5842000	str	r2, [r4]
+1c4b9c	e59d4008	ldr	r4, [sp, #0x8]
+1c4ba0	e5942024	ldr	r2, [r4, #0x24]
+1c4ba4	e59d4004	ldr	r4, [sp, #0x4]
+1c4ba8	e5843004	str	r3, [r4, #0x4]
+1c4bac	e59d4008	ldr	r4, [sp, #0x8]
+1c4bb0	e594300c	ldr	r3, [r4, #0xc]
+1c4bb4	e59d4004	ldr	r4, [sp, #0x4]
+1c4bb8	e584300c	str	r3, [r4, #0xc]
+1c4bbc	e59d4008	ldr	r4, [sp, #0x8]
+1c4bc0	e5943028	ldr	r3, [r4, #0x28]
+1c4bc4	e594e010	ldr	lr, [r4, #0x10]
+1c4bc8	e59d4004	ldr	r4, [sp, #0x4]
+1c4bcc	e584e010	str	lr, [r4, #0x10]
+1c4bd0	e59d4008	ldr	r4, [sp, #0x8]
+1c4bd4	e594e014	ldr	lr, [r4, #0x14]
+1c4bd8	e59d4004	ldr	r4, [sp, #0x4]
+1c4bdc	e5c4c018	strb	r12, [r4, #0x18]
+1c4be0	e584e014	str	lr, [r4, #0x14]
+1c4be4	e5841020	str	r1, [r4, #0x20]
+1c4be8	e5842024	str	r2, [r4, #0x24]
+1c4bec	e5843028	str	r3, [r4, #0x28]
+1c4bf0	0a000381	beq	0x1c59fc <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x121c>
+1c4bf4	ebff9855	bl	0x1aad50 <_Z11MemoryInWadPv>
+1c4bf8	e59dc008	ldr	r12, [sp, #0x8]
+1c4bfc	e3500000	cmp	r0, #0
+1c4c00	e59c001c	ldr	r0, [r12, #0x1c]
+1c4c04	1a00037c	bne	0x1c59fc <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x121c>
+1c4c08	ebfbc64a	bl	0xb6538 <strlen@plt>
+1c4c0c	e3a03001	mov	r3, #1
+1c4c10	e59d1038	ldr	r1, [sp, #0x38]
+1c4c14	e3002249	movw	r2, #0x249
+1c4c18	e0804003	add	r4, r0, r3
+1c4c1c	e1a00004	mov	r0, r4
+1c4c20	eb02e094	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c4c24	e1a02004	mov	r2, r4
+1c4c28	e59dc008	ldr	r12, [sp, #0x8]
+1c4c2c	e59d4004	ldr	r4, [sp, #0x4]
+1c4c30	e584001c	str	r0, [r4, #0x1c]
+1c4c34	e59c101c	ldr	r1, [r12, #0x1c]
+1c4c38	ebfbc65f	bl	0xb65bc <memcpy@plt>
+1c4c3c	e59d4008	ldr	r4, [sp, #0x8]
+1c4c40	e594b058	ldr	r11, [r4, #0x58]
+1c4c44	e35b0000	cmp	r11, #0
+1c4c48	0a0000a4	beq	0x1c4ee0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x700>
+1c4c4c	e59f4038	ldr	r4, [pc, #0x38]
+1c4c50	e58da014	str	r10, [sp, #0x14]
+1c4c54	ea00001d	b	0x1c4cd0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x4f0>
+1c4c60	3f19999a	svclo	#0x19999a
+1c4c64	00000000	andeq	r0, r0, r0
+1c4c68	0022d458	eoreq	sp, r2, r8, asr r4
+1c4c6c	0016c804	andseq	r12, r6, r4, lsl #16
+1c4c70	0016c764	andseq	r12, r6, r4, ror #14
+1c4c74	0016c6cc	andseq	r12, r6, r12, asr #13
+1c4c78	00188c90	mulseq	r8, r0, r12
+1c4c7c	ffffec0c	.word	0xffffec0c
+1c4c80	00188d58	andseq	r8, r8, r8, asr sp
+1c4c84	00188c68	andseq	r8, r8, r8, ror #24
+1c4c88	00188c64	andseq	r8, r8, r4, ror #24
+1c4c8c	00188a98	mulseq	r8, r8, r10
+1c4c90	001889b0	ldrheq	r8, [r8], -r0
+1c4c94	001889a8	andseq	r8, r8, r8, lsr #19
+1c4c98	ffffec28	.word	0xffffec28
+1c4c9c	ffffec24	.word	0xffffec24
+1c4ca0	ffffec20	.word	0xffffec20
+1c4ca4	ffffec1c	.word	0xffffec1c
+1c4ca8	ffffec14	.word	0xffffec14
+1c4cac	001882c4	andseq	r8, r8, r4, asr #5
+1c4cb0	ffffec18	.word	0xffffec18
+1c4cb4	00188194	mulseq	r8, r4, r1
+1c4cb8	00188164	andseq	r8, r8, r4, ror #2
+1c4cbc	ffffec2c	.word	0xffffec2c
+1c4cc0	00187fc8	andseq	r7, r8, r8, asr #31
+1c4cc4	ffffec10	.word	0xffffec10
+1c4cc8	00187e4c	andseq	r7, r8, r12, asr #28
+1c4ccc	00187e80	andseq	r7, r8, r0, lsl #29
+1c4cd0	e59da024	ldr	r10, [sp, #0x24]
+1c4cd4	e08f4004	add	r4, pc, r4
+1c4cd8	e51fc050	ldr	r12, [pc, #-0x50]
+1c4cdc	e58d4010	str	r4, [sp, #0x10]
+1c4ce0	e51f4054	ldr	r4, [pc, #-0x54]
+1c4ce4	e08fc00c	add	r12, pc, r12
+1c4ce8	e58dc018	str	r12, [sp, #0x18]
+1c4cec	e08f4004	add	r4, pc, r4
+1c4cf0	e58d401c	str	r4, [sp, #0x1c]
+1c4cf4	e59b3000	ldr	r3, [r11]
+1c4cf8	e2433001	sub	r3, r3, #1
+1c4cfc	e3530006	cmp	r3, #6
+1c4d00	908ff103	addls	pc, pc, r3, lsl #2
+1c4d04	ea000071	b	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c4d08	ea0002bf	b	0x1c580c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x102c>
+1c4d0c	ea0001a4	b	0x1c53a4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xbc4>
+1c4d10	ea0001eb	b	0x1c54c4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xce4>
+1c4d14	ea00013c	b	0x1c520c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xa2c>
+1c4d18	ea0000d4	b	0x1c5070 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x890>
+1c4d1c	ea00008b	b	0x1c4f50 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x770>
+1c4d20	eaffffff	b	0x1c4d24 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x544>
+1c4d24	e51f3094	ldr	r3, [pc, #-0x94]
+1c4d28	e79a5003	ldr	r5, [r10, r3]
+1c4d2c	e5956008	ldr	r6, [r5, #0x8]
+1c4d30	e3560000	cmp	r6, #0
+1c4d34	1a000035	bne	0x1c4e10 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x630>
+1c4d38	e5953010	ldr	r3, [r5, #0x10]
+1c4d3c	e3530000	cmp	r3, #0
+1c4d40	da000030	ble	0x1c4e08 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x628>
+1c4d44	e59d702c	ldr	r7, [sp, #0x2c]
+1c4d48	e1a04006	mov	r4, r6
+1c4d4c	e3a0203f	mov	r2, #63
+1c4d50	e3a03001	mov	r3, #1
+1c4d54	e3a00050	mov	r0, #80
+1c4d58	e1a01007	mov	r1, r7
+1c4d5c	eb02e045	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c4d60	e5953000	ldr	r3, [r5]
+1c4d64	e3e02000	mvn	r2, #0
+1c4d68	e3a0c007	mov	r12, #7
+1c4d6c	e3500000	cmp	r0, #0
+1c4d70	0a000013	beq	0x1c4dc4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x5e4>
+1c4d74	e3a015fe	mov	r1, #1065353216
+1c4d78	e5c04008	strb	r4, [r0, #0x8]
+1c4d7c	e580400c	str	r4, [r0, #0xc]
+1c4d80	ed809a09	vstr	s18, [r0, #36]
+1c4d84	e5804010	str	r4, [r0, #0x10]
+1c4d88	ed809a0a	vstr	s18, [r0, #40]
+1c4d8c	e5804014	str	r4, [r0, #0x14]
+1c4d90	ed809a0f	vstr	s18, [r0, #60]
+1c4d94	e5804018	str	r4, [r0, #0x18]
+1c4d98	e5802004	str	r2, [r0, #0x4]
+1c4d9c	e5802020	str	r2, [r0, #0x20]
+1c4da0	e580402c	str	r4, [r0, #0x2c]
+1c4da4	e5804030	str	r4, [r0, #0x30]
+1c4da8	e5802040	str	r2, [r0, #0x40]
+1c4dac	e5804048	str	r4, [r0, #0x48]
+1c4db0	e5801034	str	r1, [r0, #0x34]
+1c4db4	e580404c	str	r4, [r0, #0x4c]
+1c4db8	e5801038	str	r1, [r0, #0x38]
+1c4dbc	e580c000	str	r12, [r0]
+1c4dc0	e5801044	str	r1, [r0, #0x44]
+1c4dc4	e3530000	cmp	r3, #0
+1c4dc8	15830018	strne	r0, [r3, #0x18]
+1c4dcc	05803018	streq	r3, [r0, #0x18]
+1c4dd0	e2866001	add	r6, r6, #1
+1c4dd4	05803014	streq	r3, [r0, #0x14]
+1c4dd8	15803014	strne	r3, [r0, #0x14]
+1c4ddc	e5953010	ldr	r3, [r5, #0x10]
+1c4de0	e5952008	ldr	r2, [r5, #0x8]
+1c4de4	05850004	streq	r0, [r5, #0x4]
+1c4de8	05850000	streq	r0, [r5]
+1c4dec	e2822001	add	r2, r2, #1
+1c4df0	15850000	strne	r0, [r5]
+1c4df4	15804018	strne	r4, [r0, #0x18]
+1c4df8	e1560003	cmp	r6, r3
+1c4dfc	e5852008	str	r2, [r5, #0x8]
+1c4e00	baffffd1	blt	0x1c4d4c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x56c>
+1c4e04	e5956008	ldr	r6, [r5, #0x8]
+1c4e08	e1a03083	lsl	r3, r3, #1
+1c4e0c	e5853010	str	r3, [r5, #0x10]
+1c4e10	e5953000	ldr	r3, [r5]
+1c4e14	e2466001	sub	r6, r6, #1
+1c4e18	e59bc004	ldr	r12, [r11, #0x4]
+1c4e1c	e59be034	ldr	lr, [r11, #0x34]
+1c4e20	e5932018	ldr	r2, [r3, #0x18]
+1c4e24	e5931014	ldr	r1, [r3, #0x14]
+1c4e28	e3520000	cmp	r2, #0
+1c4e2c	e5856008	str	r6, [r5, #0x8]
+1c4e30	e59b4030	ldr	r4, [r11, #0x30]
+1c4e34	15821014	strne	r1, [r2, #0x14]
+1c4e38	15931014	ldrne	r1, [r3, #0x14]
+1c4e3c	15932018	ldrne	r2, [r3, #0x18]
+1c4e40	05851000	streq	r1, [r5]
+1c4e44	e3510000	cmp	r1, #0
+1c4e48	05852004	streq	r2, [r5, #0x4]
+1c4e4c	15812018	strne	r2, [r1, #0x18]
+1c4e50	e59b1020	ldr	r1, [r11, #0x20]
+1c4e54	e59b000c	ldr	r0, [r11, #0xc]
+1c4e58	e59b2040	ldr	r2, [r11, #0x40]
+1c4e5c	e583e034	str	lr, [r3, #0x34]
+1c4e60	e59be048	ldr	lr, [r11, #0x48]
+1c4e64	e583c004	str	r12, [r3, #0x4]
+1c4e68	e59bc04c	ldr	r12, [r11, #0x4c]
+1c4e6c	e583000c	str	r0, [r3, #0xc]
+1c4e70	e59b002c	ldr	r0, [r11, #0x2c]
+1c4e74	e5831020	str	r1, [r3, #0x20]
+1c4e78	e59b1038	ldr	r1, [r11, #0x38]
+1c4e7c	e5831038	str	r1, [r3, #0x38]
+1c4e80	e59b103c	ldr	r1, [r11, #0x3c]
+1c4e84	e5832040	str	r2, [r3, #0x40]
+1c4e88	e59b2044	ldr	r2, [r11, #0x44]
+1c4e8c	e583103c	str	r1, [r3, #0x3c]
+1c4e90	e5db101c	ldrb	r1, [r11, #0x1c]
+1c4e94	e5832044	str	r2, [r3, #0x44]
+1c4e98	e59b2024	ldr	r2, [r11, #0x24]
+1c4e9c	e5832024	str	r2, [r3, #0x24]
+1c4ea0	e59b2028	ldr	r2, [r11, #0x28]
+1c4ea4	e583e048	str	lr, [r3, #0x48]
+1c4ea8	e583002c	str	r0, [r3, #0x2c]
+1c4eac	e5832028	str	r2, [r3, #0x28]
+1c4eb0	e1a02003	mov	r2, r3
+1c4eb4	e5c3101c	strb	r1, [r3, #0x1c]
+1c4eb8	e583c04c	str	r12, [r3, #0x4c]
+1c4ebc	e5834030	str	r4, [r3, #0x30]
+1c4ec0	e3a03000	mov	r3, #0
+1c4ec4	e59d000c	ldr	r0, [sp, #0xc]
+1c4ec8	e59d1004	ldr	r1, [sp, #0x4]
+1c4ecc	ebfffd92	bl	0x1c451c <_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb>
+1c4ed0	e59bb014	ldr	r11, [r11, #0x14]
+1c4ed4	e35b0000	cmp	r11, #0
+1c4ed8	1affff85	bne	0x1c4cf4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x514>
+1c4edc	e59da014	ldr	r10, [sp, #0x14]
+1c4ee0	e59dc00c	ldr	r12, [sp, #0xc]
+1c4ee4	e59c30d8	ldr	r3, [r12, #0xd8]
+1c4ee8	e59c20dc	ldr	r2, [r12, #0xdc]
+1c4eec	e3530000	cmp	r3, #0
+1c4ef0	e2822001	add	r2, r2, #1
+1c4ef4	e58c20dc	str	r2, [r12, #0xdc]
+1c4ef8	0a0002c6	beq	0x1c5a18 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x1238>
+1c4efc	e59d4004	ldr	r4, [sp, #0x4]
+1c4f00	e59dc00c	ldr	r12, [sp, #0xc]
+1c4f04	e5834068	str	r4, [r3, #0x68]
+1c4f08	e3a03000	mov	r3, #0
+1c4f0c	e59c20d8	ldr	r2, [r12, #0xd8]
+1c4f10	e584206c	str	r2, [r4, #0x6c]
+1c4f14	e58c40d8	str	r4, [r12, #0xd8]
+1c4f18	e5843068	str	r3, [r4, #0x68]
+1c4f1c	e59d4004	ldr	r4, [sp, #0x4]
+1c4f20	e59d0028	ldr	r0, [sp, #0x28]
+1c4f24	e5941000	ldr	r1, [r4]
+1c4f28	e1a02004	mov	r2, r4
+1c4f2c	ebfff6d7	bl	0x1c2a90 <_ZN8CHashMapIiP6CLayerLi7EE6InsertEiS1_>
+1c4f30	e59dc008	ldr	r12, [sp, #0x8]
+1c4f34	e59cc068	ldr	r12, [r12, #0x68]
+1c4f38	e35c0000	cmp	r12, #0
+1c4f3c	e58dc008	str	r12, [sp, #0x8]
+1c4f40	1afffebd	bne	0x1c4a3c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x25c>
+1c4f44	e28dd044	add	sp, sp, #68
+1c4f48	ecbd8b04	vpop	{d8, d9}
+1c4f4c	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1c4f50	e51f32bc	ldr	r3, [pc, #-0x2bc]
+1c4f54	e79a4003	ldr	r4, [r10, r3]
+1c4f58	e5947008	ldr	r7, [r4, #0x8]
+1c4f5c	e3570000	cmp	r7, #0
+1c4f60	1a000029	bne	0x1c500c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x82c>
+1c4f64	e5943010	ldr	r3, [r4, #0x10]
+1c4f68	e3530000	cmp	r3, #0
+1c4f6c	da000024	ble	0x1c5004 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x824>
+1c4f70	e59d8030	ldr	r8, [sp, #0x30]
+1c4f74	e3e06000	mvn	r6, #0
+1c4f78	e1a05007	mov	r5, r7
+1c4f7c	e3a0203f	mov	r2, #63
+1c4f80	e3a03001	mov	r3, #1
+1c4f84	e3a00020	mov	r0, #32
+1c4f88	e1a01008	mov	r1, r8
+1c4f8c	eb02dfb9	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c4f90	e5943000	ldr	r3, [r4]
+1c4f94	e3a02006	mov	r2, #6
+1c4f98	e3500000	cmp	r0, #0
+1c4f9c	0a000007	beq	0x1c4fc0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x7e0>
+1c4fa0	e5c05008	strb	r5, [r0, #0x8]
+1c4fa4	e580500c	str	r5, [r0, #0xc]
+1c4fa8	e5805010	str	r5, [r0, #0x10]
+1c4fac	e5805014	str	r5, [r0, #0x14]
+1c4fb0	e5805018	str	r5, [r0, #0x18]
+1c4fb4	e5806004	str	r6, [r0, #0x4]
+1c4fb8	e580601c	str	r6, [r0, #0x1c]
+1c4fbc	e5802000	str	r2, [r0]
+1c4fc0	e3530000	cmp	r3, #0
+1c4fc4	15830018	strne	r0, [r3, #0x18]
+1c4fc8	05803018	streq	r3, [r0, #0x18]
+1c4fcc	e2877001	add	r7, r7, #1
+1c4fd0	05803014	streq	r3, [r0, #0x14]
+1c4fd4	15803014	strne	r3, [r0, #0x14]
+1c4fd8	e5943010	ldr	r3, [r4, #0x10]
+1c4fdc	e5942008	ldr	r2, [r4, #0x8]
+1c4fe0	05840004	streq	r0, [r4, #0x4]
+1c4fe4	05840000	streq	r0, [r4]
+1c4fe8	e2822001	add	r2, r2, #1
+1c4fec	15840000	strne	r0, [r4]
+1c4ff0	15805018	strne	r5, [r0, #0x18]
+1c4ff4	e1570003	cmp	r7, r3
+1c4ff8	e5842008	str	r2, [r4, #0x8]
+1c4ffc	baffffde	blt	0x1c4f7c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x79c>
+1c5000	e5947008	ldr	r7, [r4, #0x8]
+1c5004	e1a03083	lsl	r3, r3, #1
+1c5008	e5843010	str	r3, [r4, #0x10]
+1c500c	e5943000	ldr	r3, [r4]
+1c5010	e2477001	sub	r7, r7, #1
+1c5014	e59b0004	ldr	r0, [r11, #0x4]
+1c5018	e5847008	str	r7, [r4, #0x8]
+1c501c	e5932018	ldr	r2, [r3, #0x18]
+1c5020	e5931014	ldr	r1, [r3, #0x14]
+1c5024	e3520000	cmp	r2, #0
+1c5028	15821014	strne	r1, [r2, #0x14]
+1c502c	15931014	ldrne	r1, [r3, #0x14]
+1c5030	15932018	ldrne	r2, [r3, #0x18]
+1c5034	05841000	streq	r1, [r4]
+1c5038	e3510000	cmp	r1, #0
+1c503c	05842004	streq	r2, [r4, #0x4]
+1c5040	15812018	strne	r2, [r1, #0x18]
+1c5044	e1a02003	mov	r2, r3
+1c5048	e59b101c	ldr	r1, [r11, #0x1c]
+1c504c	e59bc00c	ldr	r12, [r11, #0xc]
+1c5050	e5830004	str	r0, [r3, #0x4]
+1c5054	e583101c	str	r1, [r3, #0x1c]
+1c5058	e583c00c	str	r12, [r3, #0xc]
+1c505c	e3a03000	mov	r3, #0
+1c5060	e59d000c	ldr	r0, [sp, #0xc]
+1c5064	e59d1004	ldr	r1, [sp, #0x4]
+1c5068	ebfffd2b	bl	0x1c451c <_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb>
+1c506c	eaffff97	b	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c5070	e51f33d8	ldr	r3, [pc, #-0x3d8]
+1c5074	e79a5003	ldr	r5, [r10, r3]
+1c5078	e5956008	ldr	r6, [r5, #0x8]
+1c507c	e3560000	cmp	r6, #0
+1c5080	1a000031	bne	0x1c514c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x96c>
+1c5084	e5953010	ldr	r3, [r5, #0x10]
+1c5088	e3530000	cmp	r3, #0
+1c508c	da00002c	ble	0x1c5144 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x964>
+1c5090	e59d7018	ldr	r7, [sp, #0x18]
+1c5094	e1a04006	mov	r4, r6
+1c5098	e1a01007	mov	r1, r7
+1c509c	e3a0203f	mov	r2, #63
+1c50a0	e3a03001	mov	r3, #1
+1c50a4	e3a0003c	mov	r0, #60
+1c50a8	eb02df72	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c50ac	e5953000	ldr	r3, [r5]
+1c50b0	e3e02000	mvn	r2, #0
+1c50b4	e3e0c102	mvn	r12, #-2147483648
+1c50b8	e3a01005	mov	r1, #5
+1c50bc	e3500000	cmp	r0, #0
+1c50c0	0a00000e	beq	0x1c5100 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x920>
+1c50c4	e5c04008	strb	r4, [r0, #0x8]
+1c50c8	ed809a08	vstr	s18, [r0, #32]
+1c50cc	e580400c	str	r4, [r0, #0xc]
+1c50d0	ed809a09	vstr	s18, [r0, #36]
+1c50d4	e5804010	str	r4, [r0, #0x10]
+1c50d8	ed809a0c	vstr	s18, [r0, #48]
+1c50dc	e5804014	str	r4, [r0, #0x14]
+1c50e0	e5804018	str	r4, [r0, #0x18]
+1c50e4	e5802004	str	r2, [r0, #0x4]
+1c50e8	e580201c	str	r2, [r0, #0x1c]
+1c50ec	e5804028	str	r4, [r0, #0x28]
+1c50f0	e580402c	str	r4, [r0, #0x2c]
+1c50f4	e5804034	str	r4, [r0, #0x34]
+1c50f8	e580c038	str	r12, [r0, #0x38]
+1c50fc	e5801000	str	r1, [r0]
+1c5100	e3530000	cmp	r3, #0
+1c5104	15830018	strne	r0, [r3, #0x18]
+1c5108	05803018	streq	r3, [r0, #0x18]
+1c510c	e2866001	add	r6, r6, #1
+1c5110	05803014	streq	r3, [r0, #0x14]
+1c5114	15803014	strne	r3, [r0, #0x14]
+1c5118	e5953010	ldr	r3, [r5, #0x10]
+1c511c	e5952008	ldr	r2, [r5, #0x8]
+1c5120	05850004	streq	r0, [r5, #0x4]
+1c5124	05850000	streq	r0, [r5]
+1c5128	e2822001	add	r2, r2, #1
+1c512c	15850000	strne	r0, [r5]
+1c5130	15804018	strne	r4, [r0, #0x18]
+1c5134	e1560003	cmp	r6, r3
+1c5138	e5852008	str	r2, [r5, #0x8]
+1c513c	baffffd5	blt	0x1c5098 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x8b8>
+1c5140	e5956008	ldr	r6, [r5, #0x8]
+1c5144	e1a03083	lsl	r3, r3, #1
+1c5148	e5853010	str	r3, [r5, #0x10]
+1c514c	e5954000	ldr	r4, [r5]
+1c5150	e2466001	sub	r6, r6, #1
+1c5154	e59be020	ldr	lr, [r11, #0x20]
+1c5158	e59b101c	ldr	r1, [r11, #0x1c]
+1c515c	e5943018	ldr	r3, [r4, #0x18]
+1c5160	e5942014	ldr	r2, [r4, #0x14]
+1c5164	e3530000	cmp	r3, #0
+1c5168	e59bc004	ldr	r12, [r11, #0x4]
+1c516c	e5856008	str	r6, [r5, #0x8]
+1c5170	15832014	strne	r2, [r3, #0x14]
+1c5174	15942014	ldrne	r2, [r4, #0x14]
+1c5178	15943018	ldrne	r3, [r4, #0x18]
+1c517c	05852000	streq	r2, [r5]
+1c5180	e3520000	cmp	r2, #0
+1c5184	05853004	streq	r3, [r5, #0x4]
+1c5188	15823018	strne	r3, [r2, #0x18]
+1c518c	e59b2028	ldr	r2, [r11, #0x28]
+1c5190	e59b302c	ldr	r3, [r11, #0x2c]
+1c5194	e584e020	str	lr, [r4, #0x20]
+1c5198	e59be00c	ldr	lr, [r11, #0xc]
+1c519c	e0000293	mul	r0, r3, r2
+1c51a0	e584101c	str	r1, [r4, #0x1c]
+1c51a4	e59b1024	ldr	r1, [r11, #0x24]
+1c51a8	e584302c	str	r3, [r4, #0x2c]
+1c51ac	e59b3030	ldr	r3, [r11, #0x30]
+1c51b0	e584c004	str	r12, [r4, #0x4]
+1c51b4	e5842028	str	r2, [r4, #0x28]
+1c51b8	e1a00100	lsl	r0, r0, #2
+1c51bc	e5841024	str	r1, [r4, #0x24]
+1c51c0	e30022f1	movw	r2, #0x2f1
+1c51c4	e584e00c	str	lr, [r4, #0xc]
+1c51c8	e59d1010	ldr	r1, [sp, #0x10]
+1c51cc	e5843030	str	r3, [r4, #0x30]
+1c51d0	e3a03001	mov	r3, #1
+1c51d4	eb02df27	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c51d8	e5943028	ldr	r3, [r4, #0x28]
+1c51dc	e594202c	ldr	r2, [r4, #0x2c]
+1c51e0	e0020392	mul	r2, r2, r3
+1c51e4	e1a02102	lsl	r2, r2, #2
+1c51e8	e5840034	str	r0, [r4, #0x34]
+1c51ec	e59b1034	ldr	r1, [r11, #0x34]
+1c51f0	ebfbc4f1	bl	0xb65bc <memcpy@plt>
+1c51f4	e59d000c	ldr	r0, [sp, #0xc]
+1c51f8	e59d1004	ldr	r1, [sp, #0x4]
+1c51fc	e1a02004	mov	r2, r4
+1c5200	e3a03000	mov	r3, #0
+1c5204	ebfffcc4	bl	0x1c451c <_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb>
+1c5208	eaffff30	b	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c520c	e51f3570	ldr	r3, [pc, #-0x570]
+1c5210	e79a4003	ldr	r4, [r10, r3]
+1c5214	e5946008	ldr	r6, [r4, #0x8]
+1c5218	e3560000	cmp	r6, #0
+1c521c	1a000034	bne	0x1c52f4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xb14>
+1c5220	e5943010	ldr	r3, [r4, #0x10]
+1c5224	e3530000	cmp	r3, #0
+1c5228	da00002f	ble	0x1c52ec <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xb0c>
+1c522c	e59d701c	ldr	r7, [sp, #0x1c]
+1c5230	e1a05006	mov	r5, r6
+1c5234	e1a01007	mov	r1, r7
+1c5238	e3a0203f	mov	r2, #63
+1c523c	e3a00048	mov	r0, #72
+1c5240	e3a03001	mov	r3, #1
+1c5244	eb02df0b	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c5248	e5942000	ldr	r2, [r4]
+1c524c	e3e01000	mvn	r1, #0
+1c5250	e3a0c004	mov	r12, #4
+1c5254	e3500000	cmp	r0, #0
+1c5258	0a000012	beq	0x1c52a8 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xac8>
+1c525c	e3a035fe	mov	r3, #1065353216
+1c5260	e5c05008	strb	r5, [r0, #0x8]
+1c5264	e580500c	str	r5, [r0, #0xc]
+1c5268	ed809a08	vstr	s18, [r0, #32]
+1c526c	e5805010	str	r5, [r0, #0x10]
+1c5270	ed809a0d	vstr	s18, [r0, #52]
+1c5274	e5805014	str	r5, [r0, #0x14]
+1c5278	ed809a10	vstr	s18, [r0, #64]
+1c527c	e5805018	str	r5, [r0, #0x18]
+1c5280	ed809a11	vstr	s18, [r0, #68]
+1c5284	e5801004	str	r1, [r0, #0x4]
+1c5288	e580101c	str	r1, [r0, #0x1c]
+1c528c	e5805028	str	r5, [r0, #0x28]
+1c5290	e5801038	str	r1, [r0, #0x38]
+1c5294	e580c000	str	r12, [r0]
+1c5298	e5803024	str	r3, [r0, #0x24]
+1c529c	e580302c	str	r3, [r0, #0x2c]
+1c52a0	e5803030	str	r3, [r0, #0x30]
+1c52a4	e580303c	str	r3, [r0, #0x3c]
+1c52a8	e5943008	ldr	r3, [r4, #0x8]
+1c52ac	e2866001	add	r6, r6, #1
+1c52b0	e3520000	cmp	r2, #0
+1c52b4	15820018	strne	r0, [r2, #0x18]
+1c52b8	e2833001	add	r3, r3, #1
+1c52bc	e5843008	str	r3, [r4, #0x8]
+1c52c0	e5943010	ldr	r3, [r4, #0x10]
+1c52c4	05840004	streq	r0, [r4, #0x4]
+1c52c8	05840000	streq	r0, [r4]
+1c52cc	05802018	streq	r2, [r0, #0x18]
+1c52d0	05802014	streq	r2, [r0, #0x14]
+1c52d4	15840000	strne	r0, [r4]
+1c52d8	15802014	strne	r2, [r0, #0x14]
+1c52dc	15805018	strne	r5, [r0, #0x18]
+1c52e0	e1560003	cmp	r6, r3
+1c52e4	baffffd2	blt	0x1c5234 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xa54>
+1c52e8	e5946008	ldr	r6, [r4, #0x8]
+1c52ec	e1a03083	lsl	r3, r3, #1
+1c52f0	e5843010	str	r3, [r4, #0x10]
+1c52f4	e5942000	ldr	r2, [r4]
+1c52f8	e2466001	sub	r6, r6, #1
+1c52fc	e59b001c	ldr	r0, [r11, #0x1c]
+1c5300	e59be020	ldr	lr, [r11, #0x20]
+1c5304	e5923018	ldr	r3, [r2, #0x18]
+1c5308	e5921014	ldr	r1, [r2, #0x14]
+1c530c	e3530000	cmp	r3, #0
+1c5310	e59bc004	ldr	r12, [r11, #0x4]
+1c5314	e5846008	str	r6, [r4, #0x8]
+1c5318	15831014	strne	r1, [r3, #0x14]
+1c531c	15921014	ldrne	r1, [r2, #0x14]
+1c5320	15923018	ldrne	r3, [r2, #0x18]
+1c5324	05841000	streq	r1, [r4]
+1c5328	e3510000	cmp	r1, #0
+1c532c	05843004	streq	r3, [r4, #0x4]
+1c5330	15813018	strne	r3, [r1, #0x18]
+1c5334	e59b1028	ldr	r1, [r11, #0x28]
+1c5338	e59b3038	ldr	r3, [r11, #0x38]
+1c533c	e582e020	str	lr, [r2, #0x20]
+1c5340	e59be00c	ldr	lr, [r11, #0xc]
+1c5344	e582001c	str	r0, [r2, #0x1c]
+1c5348	e59b0024	ldr	r0, [r11, #0x24]
+1c534c	e5821028	str	r1, [r2, #0x28]
+1c5350	e59b102c	ldr	r1, [r11, #0x2c]
+1c5354	e5820024	str	r0, [r2, #0x24]
+1c5358	e582c004	str	r12, [r2, #0x4]
+1c535c	e582102c	str	r1, [r2, #0x2c]
+1c5360	e59b1030	ldr	r1, [r11, #0x30]
+1c5364	e5821030	str	r1, [r2, #0x30]
+1c5368	e59b1034	ldr	r1, [r11, #0x34]
+1c536c	e5821034	str	r1, [r2, #0x34]
+1c5370	e59b103c	ldr	r1, [r11, #0x3c]
+1c5374	e5823038	str	r3, [r2, #0x38]
+1c5378	e59b3044	ldr	r3, [r11, #0x44]
+1c537c	e582103c	str	r1, [r2, #0x3c]
+1c5380	e59b1040	ldr	r1, [r11, #0x40]
+1c5384	e5821040	str	r1, [r2, #0x40]
+1c5388	e5823044	str	r3, [r2, #0x44]
+1c538c	e3a03000	mov	r3, #0
+1c5390	e582e00c	str	lr, [r2, #0xc]
+1c5394	e59d000c	ldr	r0, [sp, #0xc]
+1c5398	e59d1004	ldr	r1, [sp, #0x4]
+1c539c	ebfffc5e	bl	0x1c451c <_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb>
+1c53a0	eafffeca	b	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c53a4	e51f3704	ldr	r3, [pc, #-0x704]
+1c53a8	e79a4003	ldr	r4, [r10, r3]
+1c53ac	e5948008	ldr	r8, [r4, #0x8]
+1c53b0	e3580000	cmp	r8, #0
+1c53b4	1a00002b	bne	0x1c5468 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xc88>
+1c53b8	e5943010	ldr	r3, [r4, #0x10]
+1c53bc	e3530000	cmp	r3, #0
+1c53c0	da000026	ble	0x1c5460 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xc80>
+1c53c4	e51f7720	ldr	r7, [pc, #-0x720]
+1c53c8	e1a05008	mov	r5, r8
+1c53cc	e3e06000	mvn	r6, #0
+1c53d0	e08f7007	add	r7, pc, r7
+1c53d4	e3a0203f	mov	r2, #63
+1c53d8	e3a03001	mov	r3, #1
+1c53dc	e3a00024	mov	r0, #36
+1c53e0	e1a01007	mov	r1, r7
+1c53e4	eb02dea3	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c53e8	e5943000	ldr	r3, [r4]
+1c53ec	e3a02002	mov	r2, #2
+1c53f0	e3500000	cmp	r0, #0
+1c53f4	0a000008	beq	0x1c541c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xc3c>
+1c53f8	e5c05008	strb	r5, [r0, #0x8]
+1c53fc	e580500c	str	r5, [r0, #0xc]
+1c5400	e5805010	str	r5, [r0, #0x10]
+1c5404	e5805014	str	r5, [r0, #0x14]
+1c5408	e5805018	str	r5, [r0, #0x18]
+1c540c	e5806004	str	r6, [r0, #0x4]
+1c5410	e580601c	str	r6, [r0, #0x1c]
+1c5414	e5805020	str	r5, [r0, #0x20]
+1c5418	e5802000	str	r2, [r0]
+1c541c	e3530000	cmp	r3, #0
+1c5420	15830018	strne	r0, [r3, #0x18]
+1c5424	05803018	streq	r3, [r0, #0x18]
+1c5428	e2888001	add	r8, r8, #1
+1c542c	05803014	streq	r3, [r0, #0x14]
+1c5430	15803014	strne	r3, [r0, #0x14]
+1c5434	e5943010	ldr	r3, [r4, #0x10]
+1c5438	e5942008	ldr	r2, [r4, #0x8]
+1c543c	05840004	streq	r0, [r4, #0x4]
+1c5440	05840000	streq	r0, [r4]
+1c5444	e2822001	add	r2, r2, #1
+1c5448	15840000	strne	r0, [r4]
+1c544c	15805018	strne	r5, [r0, #0x18]
+1c5450	e1580003	cmp	r8, r3
+1c5454	e5842008	str	r2, [r4, #0x8]
+1c5458	baffffdd	blt	0x1c53d4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xbf4>
+1c545c	e5948008	ldr	r8, [r4, #0x8]
+1c5460	e1a03083	lsl	r3, r3, #1
+1c5464	e5843010	str	r3, [r4, #0x10]
+1c5468	e5943000	ldr	r3, [r4]
+1c546c	e2488001	sub	r8, r8, #1
+1c5470	e59b0004	ldr	r0, [r11, #0x4]
+1c5474	e5848008	str	r8, [r4, #0x8]
+1c5478	e5932018	ldr	r2, [r3, #0x18]
+1c547c	e5931014	ldr	r1, [r3, #0x14]
+1c5480	e3520000	cmp	r2, #0
+1c5484	15821014	strne	r1, [r2, #0x14]
+1c5488	15931014	ldrne	r1, [r3, #0x14]
+1c548c	15932018	ldrne	r2, [r3, #0x18]
+1c5490	05841000	streq	r1, [r4]
+1c5494	e3510000	cmp	r1, #0
+1c5498	05842004	streq	r2, [r4, #0x4]
+1c549c	15812018	strne	r2, [r1, #0x18]
+1c54a0	e1a02003	mov	r2, r3
+1c54a4	e59b101c	ldr	r1, [r11, #0x1c]
+1c54a8	e5830004	str	r0, [r3, #0x4]
+1c54ac	e59d000c	ldr	r0, [sp, #0xc]
+1c54b0	e583101c	str	r1, [r3, #0x1c]
+1c54b4	e3a03000	mov	r3, #0
+1c54b8	e59d1004	ldr	r1, [sp, #0x4]
+1c54bc	ebfffc16	bl	0x1c451c <_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb>
+1c54c0	eafffe82	b	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c54c4	e59b301c	ldr	r3, [r11, #0x1c]
+1c54c8	e3530000	cmp	r3, #0
+1c54cc	0a00014d	beq	0x1c5a08 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x1228>
+1c54d0	e51f3828	ldr	r3, [pc, #-0x828]
+1c54d4	e79a5003	ldr	r5, [r10, r3]
+1c54d8	e5959008	ldr	r9, [r5, #0x8]
+1c54dc	e3590000	cmp	r9, #0
+1c54e0	1a000030	bne	0x1c55a8 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xdc8>
+1c54e4	e5953010	ldr	r3, [r5, #0x10]
+1c54e8	e3530000	cmp	r3, #0
+1c54ec	da00002b	ble	0x1c55a0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xdc0>
+1c54f0	e51f6844	ldr	r6, [pc, #-0x844]
+1c54f4	e1a04009	mov	r4, r9
+1c54f8	e3a08001	mov	r8, #1
+1c54fc	e3e07000	mvn	r7, #0
+1c5500	e08f6006	add	r6, pc, r6
+1c5504	e3a0203f	mov	r2, #63
+1c5508	e3a03001	mov	r3, #1
+1c550c	e3a00034	mov	r0, #52
+1c5510	e1a01006	mov	r1, r6
+1c5514	eb02de57	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c5518	e5953000	ldr	r3, [r5]
+1c551c	e3a02003	mov	r2, #3
+1c5520	e3500000	cmp	r0, #0
+1c5524	0a00000c	beq	0x1c555c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xd7c>
+1c5528	e5c04008	strb	r4, [r0, #0x8]
+1c552c	e580400c	str	r4, [r0, #0xc]
+1c5530	e5804010	str	r4, [r0, #0x10]
+1c5534	e5804014	str	r4, [r0, #0x14]
+1c5538	e5804018	str	r4, [r0, #0x18]
+1c553c	e5807004	str	r7, [r0, #0x4]
+1c5540	e580401c	str	r4, [r0, #0x1c]
+1c5544	e5804020	str	r4, [r0, #0x20]
+1c5548	e5804028	str	r4, [r0, #0x28]
+1c554c	e5804024	str	r4, [r0, #0x24]
+1c5550	e580402c	str	r4, [r0, #0x2c]
+1c5554	e5808030	str	r8, [r0, #0x30]
+1c5558	e5802000	str	r2, [r0]
+1c555c	e3530000	cmp	r3, #0
+1c5560	15830018	strne	r0, [r3, #0x18]
+1c5564	05803018	streq	r3, [r0, #0x18]
+1c5568	e2899001	add	r9, r9, #1
+1c556c	05803014	streq	r3, [r0, #0x14]
+1c5570	15803014	strne	r3, [r0, #0x14]
+1c5574	e5953010	ldr	r3, [r5, #0x10]
+1c5578	e5952008	ldr	r2, [r5, #0x8]
+1c557c	05850004	streq	r0, [r5, #0x4]
+1c5580	05850000	streq	r0, [r5]
+1c5584	e2822001	add	r2, r2, #1
+1c5588	15850000	strne	r0, [r5]
+1c558c	15804018	strne	r4, [r0, #0x18]
+1c5590	e1590003	cmp	r9, r3
+1c5594	e5852008	str	r2, [r5, #0x8]
+1c5598	baffffd9	blt	0x1c5504 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xd24>
+1c559c	e5959008	ldr	r9, [r5, #0x8]
+1c55a0	e1a03083	lsl	r3, r3, #1
+1c55a4	e5853010	str	r3, [r5, #0x10]
+1c55a8	e5954000	ldr	r4, [r5]
+1c55ac	e2499001	sub	r9, r9, #1
+1c55b0	e5943018	ldr	r3, [r4, #0x18]
+1c55b4	e5942014	ldr	r2, [r4, #0x14]
+1c55b8	e3530000	cmp	r3, #0
+1c55bc	15832014	strne	r2, [r3, #0x14]
+1c55c0	15942014	ldrne	r2, [r4, #0x14]
+1c55c4	15943018	ldrne	r3, [r4, #0x18]
+1c55c8	05852000	streq	r2, [r5]
+1c55cc	e3520000	cmp	r2, #0
+1c55d0	05853004	streq	r3, [r5, #0x4]
+1c55d4	15823018	strne	r3, [r2, #0x18]
+1c55d8	e59b301c	ldr	r3, [r11, #0x1c]
+1c55dc	e59b2004	ldr	r2, [r11, #0x4]
+1c55e0	e3530000	cmp	r3, #0
+1c55e4	e5859008	str	r9, [r5, #0x8]
+1c55e8	e5842004	str	r2, [r4, #0x4]
+1c55ec	0a00002c	beq	0x1c56a4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xec4>
+1c55f0	e5936000	ldr	r6, [r3]
+1c55f4	e3a00034	mov	r0, #52
+1c55f8	e51f1948	ldr	r1, [pc, #-0x948]
+1c55fc	e3002296	movw	r2, #0x296
+1c5600	e3a03001	mov	r3, #1
+1c5604	e0000690	mul	r0, r0, r6
+1c5608	e08f1001	add	r1, pc, r1
+1c560c	e2800004	add	r0, r0, #4
+1c5610	eb02de18	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c5614	e3560000	cmp	r6, #0
+1c5618	e3a01000	mov	r1, #0
+1c561c	e1a02000	mov	r2, r0
+1c5620	e5c01003	strb	r1, [r0, #0x3]
+1c5624	e58d0020	str	r0, [sp, #0x20]
+1c5628	e4826004	str	r6, [r2], #4
+1c562c	e0822106	add	r2, r2, r6, lsl #2
+1c5630	e59bc01c	ldr	r12, [r11, #0x1c]
+1c5634	da000018	ble	0x1c569c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xebc>
+1c5638	e59d0020	ldr	r0, [sp, #0x20]
+1c563c	e1a05001	mov	r5, r1
+1c5640	e58d403c	str	r4, [sp, #0x3c]
+1c5644	e1a04006	mov	r4, r6
+1c5648	e5a02004	str	r2, [r0, #0x4]!
+1c564c	e1a01002	mov	r1, r2
+1c5650	e5bc3004	ldr	r3, [r12, #0x4]!
+1c5654	e283e030	add	lr, r3, #48
+1c5658	e5939000	ldr	r9, [r3]
+1c565c	e2833010	add	r3, r3, #16
+1c5660	e513800c	ldr	r8, [r3, #-0xc]
+1c5664	e2811010	add	r1, r1, #16
+1c5668	e5137008	ldr	r7, [r3, #-0x8]
+1c566c	e5136004	ldr	r6, [r3, #-0x4]
+1c5670	e153000e	cmp	r3, lr
+1c5674	e5019010	str	r9, [r1, #-0x10]
+1c5678	e501800c	str	r8, [r1, #-0xc]
+1c567c	e5017008	str	r7, [r1, #-0x8]
+1c5680	e5016004	str	r6, [r1, #-0x4]
+1c5684	1afffff3	bne	0x1c5658 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xe78>
+1c5688	e2855001	add	r5, r5, #1
+1c568c	e2822030	add	r2, r2, #48
+1c5690	e1550004	cmp	r5, r4
+1c5694	1affffeb	bne	0x1c5648 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xe68>
+1c5698	e59d403c	ldr	r4, [sp, #0x3c]
+1c569c	e59dc020	ldr	r12, [sp, #0x20]
+1c56a0	e584c01c	str	r12, [r4, #0x1c]
+1c56a4	e59b302c	ldr	r3, [r11, #0x2c]
+1c56a8	e3530000	cmp	r3, #0
+1c56ac	da000050	ble	0x1c57f4 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x1014>
+1c56b0	e59b8024	ldr	r8, [r11, #0x24]
+1c56b4	e3580000	cmp	r8, #0
+1c56b8	0a00004b	beq	0x1c57ec <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x100c>
+1c56bc	e51f3a08	ldr	r3, [pc, #-0xa08]
+1c56c0	e3a06000	mov	r6, #0
+1c56c4	e51f7a0c	ldr	r7, [pc, #-0xa0c]
+1c56c8	e79a5003	ldr	r5, [r10, r3]
+1c56cc	e08f7007	add	r7, pc, r7
+1c56d0	e5959008	ldr	r9, [r5, #0x8]
+1c56d4	e3590000	cmp	r9, #0
+1c56d8	1a00001f	bne	0x1c575c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xf7c>
+1c56dc	e5953010	ldr	r3, [r5, #0x10]
+1c56e0	e3530000	cmp	r3, #0
+1c56e4	da00001a	ble	0x1c5754 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xf74>
+1c56e8	e3a0203f	mov	r2, #63
+1c56ec	e3a03001	mov	r3, #1
+1c56f0	e300070c	movw	r0, #0x70c
+1c56f4	e1a01007	mov	r1, r7
+1c56f8	eb02ddde	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c56fc	e5953000	ldr	r3, [r5]
+1c5700	e2899001	add	r9, r9, #1
+1c5704	e5952008	ldr	r2, [r5, #0x8]
+1c5708	e2822001	add	r2, r2, #1
+1c570c	e5852008	str	r2, [r5, #0x8]
+1c5710	e3500000	cmp	r0, #0
+1c5714	15806704	strne	r6, [r0, #0x704]
+1c5718	15806708	strne	r6, [r0, #0x708]
+1c571c	15806700	strne	r6, [r0, #0x700]
+1c5720	e3530000	cmp	r3, #0
+1c5724	15830708	strne	r0, [r3, #0x708]
+1c5728	05803708	streq	r3, [r0, #0x708]
+1c572c	05803704	streq	r3, [r0, #0x704]
+1c5730	15803704	strne	r3, [r0, #0x704]
+1c5734	e5953010	ldr	r3, [r5, #0x10]
+1c5738	05850004	streq	r0, [r5, #0x4]
+1c573c	05850000	streq	r0, [r5]
+1c5740	15850000	strne	r0, [r5]
+1c5744	15806708	strne	r6, [r0, #0x708]
+1c5748	e1590003	cmp	r9, r3
+1c574c	baffffe5	blt	0x1c56e8 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xf08>
+1c5750	e5959008	ldr	r9, [r5, #0x8]
+1c5754	e1a03083	lsl	r3, r3, #1
+1c5758	e5853010	str	r3, [r5, #0x10]
+1c575c	e5953000	ldr	r3, [r5]
+1c5760	e2499001	sub	r9, r9, #1
+1c5764	e598c700	ldr	r12, [r8, #0x700]
+1c5768	e5859008	str	r9, [r5, #0x8]
+1c576c	e5932708	ldr	r2, [r3, #0x708]
+1c5770	e1a00003	mov	r0, r3
+1c5774	e5931704	ldr	r1, [r3, #0x704]
+1c5778	e3520000	cmp	r2, #0
+1c577c	15821704	strne	r1, [r2, #0x704]
+1c5780	15931704	ldrne	r1, [r3, #0x704]
+1c5784	15932708	ldrne	r2, [r3, #0x708]
+1c5788	05851000	streq	r1, [r5]
+1c578c	e3510000	cmp	r1, #0
+1c5790	05852004	streq	r2, [r5, #0x4]
+1c5794	15812708	strne	r2, [r1, #0x708]
+1c5798	e1a01008	mov	r1, r8
+1c579c	e3a02c07	mov	r2, #1792
+1c57a0	e583c700	str	r12, [r3, #0x700]
+1c57a4	ebfbc384	bl	0xb65bc <memcpy@plt>
+1c57a8	e5942028	ldr	r2, [r4, #0x28]
+1c57ac	e594102c	ldr	r1, [r4, #0x2c]
+1c57b0	e3520000	cmp	r2, #0
+1c57b4	e2811001	add	r1, r1, #1
+1c57b8	e584102c	str	r1, [r4, #0x2c]
+1c57bc	15820704	strne	r0, [r2, #0x704]
+1c57c0	15942028	ldrne	r2, [r4, #0x28]
+1c57c4	05840028	streq	r0, [r4, #0x28]
+1c57c8	05840024	streq	r0, [r4, #0x24]
+1c57cc	15802708	strne	r2, [r0, #0x708]
+1c57d0	05802708	streq	r2, [r0, #0x708]
+1c57d4	05802704	streq	r2, [r0, #0x704]
+1c57d8	15840028	strne	r0, [r4, #0x28]
+1c57dc	15806704	strne	r6, [r0, #0x704]
+1c57e0	e5988704	ldr	r8, [r8, #0x704]
+1c57e4	e3580000	cmp	r8, #0
+1c57e8	1affffb8	bne	0x1c56d0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xef0>
+1c57ec	e3a03001	mov	r3, #1
+1c57f0	e5c43008	strb	r3, [r4, #0x8]
+1c57f4	e1a02004	mov	r2, r4
+1c57f8	e59d000c	ldr	r0, [sp, #0xc]
+1c57fc	e59d1004	ldr	r1, [sp, #0x4]
+1c5800	e3a03000	mov	r3, #0
+1c5804	ebfffb44	bl	0x1c451c <_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb>
+1c5808	eafffdb0	b	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c580c	e59b301c	ldr	r3, [r11, #0x1c]
+1c5810	e3530000	cmp	r3, #0
+1c5814	0afffdad	beq	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c5818	e51f3b5c	ldr	r3, [pc, #-0xb5c]
+1c581c	e79a4003	ldr	r4, [r10, r3]
+1c5820	e5949008	ldr	r9, [r4, #0x8]
+1c5824	e3590000	cmp	r9, #0
+1c5828	1a00002a	bne	0x1c58d8 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x10f8>
+1c582c	e5943010	ldr	r3, [r4, #0x10]
+1c5830	e3530000	cmp	r3, #0
+1c5834	da000025	ble	0x1c58d0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x10f0>
+1c5838	e51f6b78	ldr	r6, [pc, #-0xb78]
+1c583c	e1a05009	mov	r5, r9
+1c5840	e3a08001	mov	r8, #1
+1c5844	e3e07000	mvn	r7, #0
+1c5848	e08f6006	add	r6, pc, r6
+1c584c	e3a03001	mov	r3, #1
+1c5850	e3a00020	mov	r0, #32
+1c5854	e1a01006	mov	r1, r6
+1c5858	e3a0203f	mov	r2, #63
+1c585c	eb02dd85	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c5860	e5943000	ldr	r3, [r4]
+1c5864	e3500000	cmp	r0, #0
+1c5868	0a000007	beq	0x1c588c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x10ac>
+1c586c	e5c05008	strb	r5, [r0, #0x8]
+1c5870	e580500c	str	r5, [r0, #0xc]
+1c5874	e5805010	str	r5, [r0, #0x10]
+1c5878	e5805014	str	r5, [r0, #0x14]
+1c587c	e5805018	str	r5, [r0, #0x18]
+1c5880	e5807004	str	r7, [r0, #0x4]
+1c5884	e580501c	str	r5, [r0, #0x1c]
+1c5888	e5808000	str	r8, [r0]
+1c588c	e3530000	cmp	r3, #0
+1c5890	15830018	strne	r0, [r3, #0x18]
+1c5894	05803018	streq	r3, [r0, #0x18]
+1c5898	e2899001	add	r9, r9, #1
+1c589c	05803014	streq	r3, [r0, #0x14]
+1c58a0	15803014	strne	r3, [r0, #0x14]
+1c58a4	e5943010	ldr	r3, [r4, #0x10]
+1c58a8	e5942008	ldr	r2, [r4, #0x8]
+1c58ac	05840004	streq	r0, [r4, #0x4]
+1c58b0	05840000	streq	r0, [r4]
+1c58b4	e2822001	add	r2, r2, #1
+1c58b8	15840000	strne	r0, [r4]
+1c58bc	15805018	strne	r5, [r0, #0x18]
+1c58c0	e1590003	cmp	r9, r3
+1c58c4	e5842008	str	r2, [r4, #0x8]
+1c58c8	baffffdf	blt	0x1c584c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x106c>
+1c58cc	e5949008	ldr	r9, [r4, #0x8]
+1c58d0	e1a03083	lsl	r3, r3, #1
+1c58d4	e5843010	str	r3, [r4, #0x10]
+1c58d8	e5945000	ldr	r5, [r4]
+1c58dc	e2499001	sub	r9, r9, #1
+1c58e0	e51f1c1c	ldr	r1, [pc, #-0xc1c]
+1c58e4	e3a0002c	mov	r0, #44
+1c58e8	e5953018	ldr	r3, [r5, #0x18]
+1c58ec	e08f1001	add	r1, pc, r1
+1c58f0	e5952014	ldr	r2, [r5, #0x14]
+1c58f4	e3530000	cmp	r3, #0
+1c58f8	15832014	strne	r2, [r3, #0x14]
+1c58fc	15952014	ldrne	r2, [r5, #0x14]
+1c5900	15953018	ldrne	r3, [r5, #0x18]
+1c5904	05842000	streq	r2, [r4]
+1c5908	e3520000	cmp	r2, #0
+1c590c	05843004	streq	r3, [r4, #0x4]
+1c5910	15823018	strne	r3, [r2, #0x18]
+1c5914	e3a02e26	mov	r2, #608
+1c5918	e59b3004	ldr	r3, [r11, #0x4]
+1c591c	e5849008	str	r9, [r4, #0x8]
+1c5920	e5853004	str	r3, [r5, #0x4]
+1c5924	e3a03001	mov	r3, #1
+1c5928	eb02dd52	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1c592c	e2503000	subs	r3, r0, #0
+1c5930	0a00000d	beq	0x1c596c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x118c>
+1c5934	e3a02000	mov	r2, #0
+1c5938	ed839a03	vstr	s18, [r3, #12]
+1c593c	ed839a04	vstr	s18, [r3, #16]
+1c5940	ed839a07	vstr	s18, [r3, #28]
+1c5944	ed839a08	vstr	s18, [r3, #32]
+1c5948	ed839a09	vstr	s18, [r3, #36]
+1c594c	e5c32000	strb	r2, [r3]
+1c5950	e5c32001	strb	r2, [r3, #0x1]
+1c5954	e5832004	str	r2, [r3, #0x4]
+1c5958	e5c32008	strb	r2, [r3, #0x8]
+1c595c	e5c32009	strb	r2, [r3, #0x9]
+1c5960	e5c32014	strb	r2, [r3, #0x14]
+1c5964	e5832018	str	r2, [r3, #0x18]
+1c5968	e5832028	str	r2, [r3, #0x28]
+1c596c	e585301c	str	r3, [r5, #0x1c]
+1c5970	e1a02005	mov	r2, r5
+1c5974	e59b101c	ldr	r1, [r11, #0x1c]
+1c5978	e59bc00c	ldr	r12, [r11, #0xc]
+1c597c	e5d1e000	ldrb	lr, [r1]
+1c5980	e591701c	ldr	r7, [r1, #0x1c]
+1c5984	e591600c	ldr	r6, [r1, #0xc]
+1c5988	e5d10001	ldrb	r0, [r1, #0x1]
+1c598c	e5c3e000	strb	lr, [r3]
+1c5990	e591e004	ldr	lr, [r1, #0x4]
+1c5994	e5c30001	strb	r0, [r3, #0x1]
+1c5998	e5d10008	ldrb	r0, [r1, #0x8]
+1c599c	e583e004	str	lr, [r3, #0x4]
+1c59a0	e5d1e009	ldrb	lr, [r1, #0x9]
+1c59a4	e5914018	ldr	r4, [r1, #0x18]
+1c59a8	e5c30008	strb	r0, [r3, #0x8]
+1c59ac	e5d10014	ldrb	r0, [r1, #0x14]
+1c59b0	e5c3e009	strb	lr, [r3, #0x9]
+1c59b4	e591e010	ldr	lr, [r1, #0x10]
+1c59b8	e5c30014	strb	r0, [r3, #0x14]
+1c59bc	e5910020	ldr	r0, [r1, #0x20]
+1c59c0	e583e010	str	lr, [r3, #0x10]
+1c59c4	e591e028	ldr	lr, [r1, #0x28]
+1c59c8	e5911024	ldr	r1, [r1, #0x24]
+1c59cc	e583701c	str	r7, [r3, #0x1c]
+1c59d0	e583600c	str	r6, [r3, #0xc]
+1c59d4	e5834018	str	r4, [r3, #0x18]
+1c59d8	e5830020	str	r0, [r3, #0x20]
+1c59dc	e5831024	str	r1, [r3, #0x24]
+1c59e0	e583e028	str	lr, [r3, #0x28]
+1c59e4	e3a03000	mov	r3, #0
+1c59e8	e59d000c	ldr	r0, [sp, #0xc]
+1c59ec	e59d1004	ldr	r1, [sp, #0x4]
+1c59f0	e585c00c	str	r12, [r5, #0xc]
+1c59f4	ebfffac8	bl	0x1c451c <_ZN13CLayerManager17AddElementToLayerEP5CRoomP6CLayerP17CLayerElementBaseb>
+1c59f8	eafffd34	b	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c59fc	e59d4004	ldr	r4, [sp, #0x4]
+1c5a00	e584001c	str	r0, [r4, #0x1c]
+1c5a04	eafffc8c	b	0x1c4c3c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x45c>
+1c5a08	e59b302c	ldr	r3, [r11, #0x2c]
+1c5a0c	e3530000	cmp	r3, #0
+1c5a10	cafffeae	bgt	0x1c54d0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0xcf0>
+1c5a14	eafffd2d	b	0x1c4ed0 <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x6f0>
+1c5a18	e59d4004	ldr	r4, [sp, #0x4]
+1c5a1c	e59dc00c	ldr	r12, [sp, #0xc]
+1c5a20	e58c40d8	str	r4, [r12, #0xd8]
+1c5a24	e58c40d4	str	r4, [r12, #0xd4]
+1c5a28	e584306c	str	r3, [r4, #0x6c]
+1c5a2c	e5843068	str	r3, [r4, #0x68]
+1c5a30	eafffd39	b	0x1c4f1c <_ZN13CLayerManager19DuplicateRoomLayersEP5CRoomS1_+0x73c>

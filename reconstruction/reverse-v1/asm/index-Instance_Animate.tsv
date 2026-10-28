@@ -1,0 +1,81 @@
+1d317c	e59f3134	ldr	r3, [pc, #0x134]
+1d3180	e92d4010	push	{r4, lr}
+1d3184	ed2d8b02	vpush	{d8}
+1d3188	e79f3003	ldr	r3, [pc, r3]
+1d318c	e1a04000	mov	r4, r0
+1d3190	e5d33000	ldrb	r3, [r3]
+1d3194	e3530000	cmp	r3, #0
+1d3198	1a00000f	bne	0x1d31dc <_Z16Instance_AnimateP9CInstance+0x60>
+1d319c	ed948a24	vldr	s16, [r4, #144]
+1d31a0	edd47a25	vldr	s15, [r4, #148]
+1d31a4	ee388a27	vadd.f32	s16, s16, s15
+1d31a8	ed848a24	vstr	s16, [r4, #144]
+1d31ac	e1a00004	mov	r0, r4
+1d31b0	ebff00f1	bl	0x19357c <_ZN9CInstance14GetImageNumberEv>
+1d31b4	eebd8ac8	vcvt.s32.f32	s16, s16
+1d31b8	ee183a10	vmov	r3, s16
+1d31bc	e1530000	cmp	r3, r0
+1d31c0	aa00001b	bge	0x1d3234 <_Z16Instance_AnimateP9CInstance+0xb8>
+1d31c4	ed948a24	vldr	s16, [r4, #144]
+1d31c8	eeb58ac0	vcmpe.f32	s16, #0
+1d31cc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1d31d0	4a00002b	bmi	0x1d3284 <_Z16Instance_AnimateP9CInstance+0x108>
+1d31d4	ecbd8b02	vpop	{d8}
+1d31d8	e8bd8010	pop	{r4, pc}
+1d31dc	e590008c	ldr	r0, [r0, #0x8c]
+1d31e0	eb006f95	bl	0x1ef03c <_Z11Sprite_Datai>
+1d31e4	e3500000	cmp	r0, #0
+1d31e8	0affffeb	beq	0x1d319c <_Z16Instance_AnimateP9CInstance+0x20>
+1d31ec	e5903070	ldr	r3, [r0, #0x70]
+1d31f0	e3530001	cmp	r3, #1
+1d31f4	0a00001c	beq	0x1d326c <_Z16Instance_AnimateP9CInstance+0xf0>
+1d31f8	e59f30bc	ldr	r3, [pc, #0xbc]
+1d31fc	edd08a1b	vldr	s17, [r0, #108]
+1d3200	e79f0003	ldr	r0, [pc, r3]
+1d3204	eb01057f	bl	0x214808 <_ZN13CTimingSource6GetFPSEv>
+1d3208	ec410b17	vmov	d7, r0, r1
+1d320c	eeb57b40	vcmp.f64	d7, #0
+1d3210	eef1fa10	vmrs	APSR_nzcv, fpscr
+1d3214	1eb77bc7	vcvtne.f32.f64	s14, d7
+1d3218	1d948a24	vldrne	s16, [r4, #144]
+1d321c	1dd47a25	vldrne	s15, [r4, #148]
+1d3220	0d948a24	vldreq	s16, [r4, #144]
+1d3224	1ec88a87	vdivne.f32	s17, s17, s14
+1d3228	1e088aa7	vmlane.f32	s16, s17, s15
+1d322c	1d848a24	vstrne	s16, [r4, #144]
+1d3230	eaffffdd	b	0x1d31ac <_Z16Instance_AnimateP9CInstance+0x30>
+1d3234	e1a00004	mov	r0, r4
+1d3238	ed948a24	vldr	s16, [r4, #144]
+1d323c	ebff00ce	bl	0x19357c <_ZN9CInstance14GetImageNumberEv>
+1d3240	e3a02007	mov	r2, #7
+1d3244	e1a01004	mov	r1, r4
+1d3248	e1a03002	mov	r3, r2
+1d324c	ee070a10	vmov	s14, r0
+1d3250	e1a00004	mov	r0, r4
+1d3254	eef87ac7	vcvt.f32.s32	s15, s14
+1d3258	ee388a67	vsub.f32	s16, s16, s15
+1d325c	ed848a24	vstr	s16, [r4, #144]
+1d3260	ecbd8b02	vpop	{d8}
+1d3264	e8bd4010	pop	{r4, lr}
+1d3268	eafc8044	b	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1d326c	edd07a1b	vldr	s15, [r0, #108]
+1d3270	ed948a24	vldr	s16, [r4, #144]
+1d3274	ed947a25	vldr	s14, [r4, #148]
+1d3278	ee078a27	vmla.f32	s16, s14, s15
+1d327c	ed848a24	vstr	s16, [r4, #144]
+1d3280	eaffffc9	b	0x1d31ac <_Z16Instance_AnimateP9CInstance+0x30>
+1d3284	e1a00004	mov	r0, r4
+1d3288	ebff00bb	bl	0x19357c <_ZN9CInstance14GetImageNumberEv>
+1d328c	e3a02007	mov	r2, #7
+1d3290	e1a01004	mov	r1, r4
+1d3294	e1a03002	mov	r3, r2
+1d3298	ee070a10	vmov	s14, r0
+1d329c	e1a00004	mov	r0, r4
+1d32a0	eef87ac7	vcvt.f32.s32	s15, s14
+1d32a4	ee388a27	vadd.f32	s16, s16, s15
+1d32a8	ed848a24	vstr	s16, [r4, #144]
+1d32ac	ecbd8b02	vpop	{d8}
+1d32b0	e8bd4010	pop	{r4, lr}
+1d32b4	eafc8031	b	0xf3380 <_Z13Perform_EventP9CInstanceS0_ii>
+1d32b8	0021a79c	mlaeq	r1, r12, r7, r10
+1d32bc	0021a72c	eoreq	r10, r1, r12, lsr #14
