@@ -10,3 +10,7 @@
 {"id": "CALL-002", "claim": "DoCallScript(scr,argc,sp,exec,NULL,NULL) 的返回值语义与两个 NULL 实参", "status": "open", "evidence": "仅见调用点", "card": "DoCallGML.c"}
 {"id": "CONV-001", "claim": "DoConvIntToVariable 就地把栈顶 int32 转 12 字节实数 RValue，返回 sp-12", "status": "proven", "evidence": "0xd773c-0xd775c vcvt.f64.s32 + 三次写 12 字节", "card": "DoConvIntToVariable.c"}
 {"id": "CONV-002", "claim": "RValue 12 字节的字段布局（tag 位置）与 vstr s14 的来源", "status": "open", "evidence": "s14 未在本函数内赋值", "card": "DoConvIntToVariable.c"}
+{"id": "RVALUE-001", "claim": "RValue 在值栈上占 16 字节：DoPushBuiltin 显式清零 sp-4..sp-16，DoPushLocal 同样以 16 字节槽存放", "status": "proven", "evidence": "0xd4d8c-0xd4d9c 四个 str #0；0xd4a6c-0xd4a78", "card": "DoPushBuiltin.c / DoPushLocal.c"}
+{"id": "BUILTIN-001", "claim": "内置函数表步长 16 字节、函数指针在表项 +4；索引先与 0x0FFFFFFF 掩码（高 4 位另作标志）；超界走 VMError", "status": "proven", "evidence": "0xd4ddc lsl #4 / 0xd4de0 ldr r3,[r4,#4] / 0xd4da4 blt VMError", "card": "DoPushBuiltin.c"}
+{"id": "ID-001", "claim": "GameMaker 的 id 分区以 100000 为基址，脚本与局部变量共用编号空间（DoCallGML 与 DoPushLocal 都减 100000）", "status": "proven", "evidence": "0xe8b10/e8b1c 与 0xd4a60/d4a68 两组减法", "card": "DoCallGML.c / DoPushLocal.c"}
+{"id": "LOCAL-001", "claim": "局部变量表：self+4 = 个数，槽位 16 字节，索引 = id-100000；值栈顶先写 tag 0x00FFFFFF 表示『局部变量引用』", "status": "narrowed", "evidence": "头部 12 条；拷贝/越界语义未证", "card": "DoPushLocal.c"}

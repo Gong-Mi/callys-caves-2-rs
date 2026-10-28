@@ -1,0 +1,34 @@
+d4d74	e92d4038	push	{r3, r4, r5, lr}
+d4d78	e3a00000	mov	r0, #0
+d4d7c	e59fe06c	ldr	lr, [pc, #0x6c]
+d4d80	e2415010	sub	r5, r1, #16
+d4d84	e5924000	ldr	r4, [r2]
+d4d88	e79fe00e	ldr	lr, [pc, lr]
+d4d8c	e5010004	str	r0, [r1, #-0x4]
+d4d90	e5010008	str	r0, [r1, #-0x8]
+d4d94	e3c4420f	bic	r4, r4, #-268435456
+d4d98	e501000c	str	r0, [r1, #-0xc]
+d4d9c	e5010010	str	r0, [r1, #-0x10]
+d4da0	e59ee000	ldr	lr, [lr]
+d4da4	e154000e	cmp	r4, lr
+d4da8	ba000007	blt	0xd4dcc <_Z13DoPushBuiltinjPhPKhP6VMExec+0x58>
+d4dac	e59f1040	ldr	r1, [pc, #0x40]
+d4db0	e1a00003	mov	r0, r3
+d4db4	e1a02004	mov	r2, r4
+d4db8	e1a0300e	mov	r3, lr
+d4dbc	e08f1001	add	r1, pc, r1
+d4dc0	ebfffd12	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+d4dc4	e1a00005	mov	r0, r5
+d4dc8	e8bd8038	pop	{r3, r4, r5, pc}
+d4dcc	e59f3024	ldr	r3, [pc, #0x24]
+d4dd0	e3a01102	mov	r1, #-2147483648
+d4dd4	e1a02005	mov	r2, r5
+d4dd8	e79f3003	ldr	r3, [pc, r3]
+d4ddc	e0834204	add	r4, r3, r4, lsl #4
+d4de0	e5943004	ldr	r3, [r4, #0x4]
+d4de4	e12fff33	blx	r3
+d4de8	e1a00005	mov	r0, r5
+d4dec	e8bd8038	pop	{r3, r4, r5, pc}
+d4df0	00318eac	eorseq	r8, r1, r12, lsr #29
+d4df4	0025dc58	eoreq	sp, r5, r8, asr r12
+d4df8	00318e60	eorseq	r8, r1, r0, ror #28

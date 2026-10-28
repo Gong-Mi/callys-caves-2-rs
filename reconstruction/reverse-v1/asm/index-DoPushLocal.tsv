@@ -1,0 +1,105 @@
+d4a34	e5930010	ldr	r0, [r3, #0x10]
+d4a38	e3a0c000	mov	r12, #0
+d4a3c	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+d4a40	e1a04001	mov	r4, r1
+d4a44	e5927000	ldr	r7, [r2]
+d4a48	e1a08003	mov	r8, r3
+d4a4c	e5906004	ldr	r6, [r0, #0x4]
+d4a50	e3e034ff	mvn	r3, #-16777216
+d4a54	e3c7720f	bic	r7, r7, #-268435456
+d4a58	e5013004	str	r3, [r1, #-0x4]
+d4a5c	e156000c	cmp	r6, r12
+d4a60	e2475b61	sub	r5, r7, #99328
+d4a64	e24dd00c	sub	sp, sp, #12
+d4a68	e2451e2a	sub	r1, r5, #672
+d4a6c	e2449010	sub	r9, r4, #16
+d4a70	e504c008	str	r12, [r4, #-0x8]
+d4a74	e504c00c	str	r12, [r4, #-0xc]
+d4a78	e504c010	str	r12, [r4, #-0x10]
+d4a7c	0a000051	beq	0xd4bc8 <_Z11DoPushLocaljPhPKhP6VMExec+0x194>
+d4a80	e0865201	add	r5, r6, r1, lsl #4
+d4a84	e595100c	ldr	r1, [r5, #0xc]
+d4a88	e5953008	ldr	r3, [r5, #0x8]
+d4a8c	e5041004	str	r1, [r4, #-0x4]
+d4a90	e595c00c	ldr	r12, [r5, #0xc]
+d4a94	e5043008	str	r3, [r4, #-0x8]
+d4a98	e3ccc4ff	bic	r12, r12, #-16777216
+d4a9c	e35c000e	cmp	r12, #14
+d4aa0	908ff10c	addls	pc, pc, r12, lsl #2
+d4aa4	ea000010	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4aa8	ea000015	b	0xd4b04 <_Z11DoPushLocaljPhPKhP6VMExec+0xd0>
+d4aac	ea000033	b	0xd4b80 <_Z11DoPushLocaljPhPKhP6VMExec+0x14c>
+d4ab0	ea000039	b	0xd4b9c <_Z11DoPushLocaljPhPKhP6VMExec+0x168>
+d4ab4	ea00000a	b	0xd4ae4 <_Z11DoPushLocaljPhPKhP6VMExec+0xb0>
+d4ab8	ea00000b	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4abc	ea00000a	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4ac0	ea000024	b	0xd4b58 <_Z11DoPushLocaljPhPKhP6VMExec+0x124>
+d4ac4	ea000006	b	0xd4ae4 <_Z11DoPushLocaljPhPKhP6VMExec+0xb0>
+d4ac8	ea000007	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4acc	ea000006	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4ad0	ea00000b	b	0xd4b04 <_Z11DoPushLocaljPhPKhP6VMExec+0xd0>
+d4ad4	ea000004	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4ad8	ea000003	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4adc	ea000008	b	0xd4b04 <_Z11DoPushLocaljPhPKhP6VMExec+0xd0>
+d4ae0	eaffffff	b	0xd4ae4 <_Z11DoPushLocaljPhPKhP6VMExec+0xb0>
+d4ae4	e5953000	ldr	r3, [r5]
+d4ae8	e5043010	str	r3, [r4, #-0x10]
+d4aec	e3e034ff	mvn	r3, #-16777216
+d4af0	e1510003	cmp	r1, r3
+d4af4	0a000008	beq	0xd4b1c <_Z11DoPushLocaljPhPKhP6VMExec+0xe8>
+d4af8	e1a00009	mov	r0, r9
+d4afc	e28dd00c	add	sp, sp, #12
+d4b00	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+d4b04	e895000c	ldm	r5, {r2, r3}
+d4b08	e504300c	str	r3, [r4, #-0xc]
+d4b0c	e3e034ff	mvn	r3, #-16777216
+d4b10	e1510003	cmp	r1, r3
+d4b14	e5042010	str	r2, [r4, #-0x10]
+d4b18	1afffff6	bne	0xd4af8 <_Z11DoPushLocaljPhPKhP6VMExec+0xc4>
+d4b1c	e1a02007	mov	r2, r7
+d4b20	e5980034	ldr	r0, [r8, #0x34]
+d4b24	e3e01006	mvn	r1, #6
+d4b28	ebfff6b3	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+d4b2c	e59f10a0	ldr	r1, [pc, #0xa0]
+d4b30	e3a0c102	mov	r12, #-2147483648
+d4b34	e1a03007	mov	r3, r7
+d4b38	e08f1001	add	r1, pc, r1
+d4b3c	e58dc000	str	r12, [sp]
+d4b40	e1a02000	mov	r2, r0
+d4b44	e1a00008	mov	r0, r8
+d4b48	ebfffdb0	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+d4b4c	e1a00009	mov	r0, r9
+d4b50	e28dd00c	add	sp, sp, #12
+d4b54	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+d4b58	e5953000	ldr	r3, [r5]
+d4b5c	e5043010	str	r3, [r4, #-0x10]
+d4b60	e5953000	ldr	r3, [r5]
+d4b64	e3530000	cmp	r3, #0
+d4b68	0affffdf	beq	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4b6c	ebfffbb8	bl	0xd3a54 <_Z18GetContextStackTopv>
+d4b70	e5951000	ldr	r1, [r5]
+d4b74	eb02f2e5	bl	0x191710 <_Z22DeterminePotentialRootP12YYObjectBaseS0_>
+d4b78	e5141004	ldr	r1, [r4, #-0x4]
+d4b7c	eaffffda	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4b80	e5953000	ldr	r3, [r5]
+d4b84	e3530000	cmp	r3, #0
+d4b88	15932004	ldrne	r2, [r3, #0x4]
+d4b8c	12822001	addne	r2, r2, #1
+d4b90	15832004	strne	r2, [r3, #0x4]
+d4b94	15141004	ldrne	r1, [r4, #-0x4]
+d4b98	eaffffd2	b	0xd4ae8 <_Z11DoPushLocaljPhPKhP6VMExec+0xb4>
+d4b9c	e5953000	ldr	r3, [r5]
+d4ba0	e3530000	cmp	r3, #0
+d4ba4	e5043010	str	r3, [r4, #-0x10]
+d4ba8	0affffcf	beq	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4bac	e5930008	ldr	r0, [r3, #0x8]
+d4bb0	e5932000	ldr	r2, [r3]
+d4bb4	e3500000	cmp	r0, #0
+d4bb8	05839008	streq	r9, [r3, #0x8]
+d4bbc	e2822001	add	r2, r2, #1
+d4bc0	e5832000	str	r2, [r3]
+d4bc4	eaffffc8	b	0xd4aec <_Z11DoPushLocaljPhPKhP6VMExec+0xb8>
+d4bc8	eb0307a8	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+d4bcc	e1a05000	mov	r5, r0
+d4bd0	eaffffab	b	0xd4a84 <_Z11DoPushLocaljPhPKhP6VMExec+0x50>
+d4bd4	0025de64	eoreq	sp, r5, r4, ror #28
