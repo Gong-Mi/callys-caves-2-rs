@@ -53,9 +53,9 @@
 
 ## 已钉的语义
 
-    汇总：95 张卡、28,934 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          claims 679 条（proven 562 / narrowed 60 / open 55 / refuted 2）
-          可达性靶子：入口可达 1,439 个函数（≈148,276 条指令），已出卡 95，剩余 1,344
+    汇总：109 张卡、33,699 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          claims 822 条（proven 682 / narrowed 71 / open 66 / refuted 3）
+          可达性靶子：入口可达 1,439 个函数（≈148,276 条指令），已出卡 109，剩余约 1,300
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
@@ -184,6 +184,35 @@
     一处跨卡冲突已实证裁定：早期卡把 room+0x80 当链头、+0x178 当 next，是反的。
     真值：room+0x84 头 / +0x80 尾 / +0x17c next / +0x178 prev（DeSerialise 0x1acd58..0x1acda4 的尾插现场）。
     四张卡已回改（DoSlowDrawRoom、DoAStep、DoPushEnv、StartRoom），claims ROOMCHAIN-001/002/003。
+
+## 第六轮（序列化/加载/绘制选路/实例链）
+
+    CRoom::Serialise      714 条 正文  与 DeSerialise 段级严格互逆（55 写点 vs 55 读点、类型码同分布、
+                                      四条遍历方向对偶）；物理房间只打错误不阻止保存；24 个字段不入流
+    CRoom::Assign         827 条 正文  Clear + 8 段；深拷贝两条串/物理世界/层/每实例/RTile/两张表/id 数组；
+                                      8 背景与 8 视野记录不重分配只覆盖；无别名检查
+    CInstance::DeSerialise 592 条 正文 54 项覆盖 64 槽；object_index 第二实参 = bRegister && !deactivated；
+                                      +0x160/+0x164 不入流，读档后恒 0
+    CInstance::Assign     432 条 正文 只搬状态不建身份；变量哈希表与骨架深拷、CObjectGM/object_index 浅拷；
+                                      完全不碰 +0x084 物理体
+    CRoom::LoadFromChunk  544 条 正文 WAD 块启动装载（唯一调用链 Room_Load←LoadGameData←RunnerLoadWad）；
+                                      tile 只收指针表不调 AddTile；不建任何 CInstance
+    CRoom::LoadFromStream 401 条 正文 2.1.9 死代码（零调用者），magic 0x21d
+    DrawTheRoom           226 条 骨架 完整条件树：+0xdc>0 → 层绘制 + 事件 73 直接返回；否则 +0xb8(tile 数)
+                                      与 +0x88(实例数) 决定慢/快；快路径按 LargestDepth 与 -1e9 二分
+    DrawInstancesOnly     118 条 骨架 快路径仅实例；Set_Depth 被 3D 字节门控；帧号 floorf
+    DrawInstancesParticlesOnly 275 条 骨架 粒子归并（bpl 比较）、-1e8 空哨兵、11000 深度上限
+    Compute_BoundingBox   357 条 正文 bbox 是 int32 tagYYRECT；取整真值表 A/B 两字节；
+                                      right 以已取整的 left 为基准（1px 怪癖）
+    CRoom::UpdateActive   116 条 正文 两链按 +0x69 四分支搬运；两趟都从尾沿 +0x178 往头
+    CInstance::SetObjectIndex 71 条 正文 摘旧→查 g_ObjectHash→写 +0x80→可选 AddInstance→复制六字段→标记脏
+    Command_Change        53 条 正文 四门四出口；事件序 1→12→ChangeObjectIndex→14→0
+    Perform_Event_All     39 条 正文 批量版，不经过 Perform_Event；从链尾沿 +0x178；多两道门
+
+    三处旧说法被本轮推翻并回改：
+    · 「room+0x80 是链头」→ 头 +0x84 / 尾 +0x80 / next +0x17c / prev +0x178（两处尾插现场一致）
+    · 「bbox 字段是 float」→ int32 tagYYRECT
+    · 「room+0xb8/+0xc0 是层项数组」→ 是 tile 表（56 B 记录 = 14 字段）
 
 ## 结构结论
 

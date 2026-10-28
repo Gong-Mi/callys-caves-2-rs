@@ -329,9 +329,10 @@
  *     node.[0x184] <= new.depth → 插到该节点「后面」（朝链尾方向，1d3f7c）
  *     走空（r3==0）→ 新实例成为新链头：new.next = 老链头、老链头.prev = new、room->[0x80] = new、
  *                    new.prev = 0、new.[0x184] = depth（1d3b80-1d3b94）
- *   ⇒ 头 room+0x80 / 尾 room+0x84 / next +0x178 / prev +0x17c / 缓存深度 +0x184。
- *   DoSlowDrawRoom 卡把 +0x84/+0x17c 叫「绘制链」、+0x80/+0x178 叫「步进链」；本卡实测是同一张
- *   双链表的两端（计数只有 +0x88 一份、插入同时改 +0x178 与 +0x17c），命名需要统一（见 claims）。 */
+ *   ⇒ 头 room+0x84 / 尾 room+0x80 / next +0x17c / prev +0x178 / 缓存深度 +0x184。
+ *   ⚠ 修正（2026-10-28，本函数尾插现场 0x1d3b80..0x1d3b94）：tail=[+0x80]、tail[0x17c]=inst、
+ *     inst[0x178]=tail、[+0x80]=inst、inst[0x17c]=0 —— 与 CRoom::DeSerialise 0x1acd58 完全一致。
+ *     早先本卡写的「+0x80 头 / +0x178 next」是反的，已作废。 */
 /* @0x1d3b44 ldr r2, [r6] */
 /* @0x1d3b48 ldr r3, [r2, #0x84] */
 /* @0x1d3b4c ldr r1, [r2, #0x88] */

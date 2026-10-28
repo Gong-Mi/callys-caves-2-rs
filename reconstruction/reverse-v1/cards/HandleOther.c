@@ -42,7 +42,9 @@
  *   +0x64 byte 包围盒脏（非 0 先重算）           +0x68/+0x69 byte 非 0 跳过
  *   +0x70 int64 创建序（与快照比）               +0x8C int sprite_index
  *   +0xAC int mask_index                         +0xB4/+0xB8 float x/y
- *   +0xE8/+0xEC/+0xF0/+0xF4 float bbox 左/上/右/下
+ *   +0xE8/+0xEC/+0xF0/+0xF4 **int32** tagYYRECT 左/上/右/下
+ *   ⚠ 修正（batchAI，cards/CInstance_Compute_BoundingBox.c）：不是 float —— 写入是
+ *     vcvt.s32.f32 + vstr、CollisionUpdate 用 ldr 当 int* 传给 RTree；四判用整数比较是对的
  *   +0x15E byte 「已在房间外」边沿标志（本函数**唯一**的实例写）
  *
  * ── 全局（GOT → .bss/.data，实测）──────────────────────────────

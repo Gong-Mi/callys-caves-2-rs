@@ -17,7 +17,9 @@
  * ── 三股流的入口（全部来自 CRoom）───────────────────────────────
  *   实例链: room+0x84 = **头**，next 在 CInstance+0x17c、prev 在 +0x178；room+0x80 是**同一个链的尾**，
  *   ⚠ 修正（2026-10-28，CRoom::DeSerialise 0x1acd58..0x1acda4 实证）：不是『两条链』，也不是 +0x80 当头
- *   层项数组  : room+0xb8 条数，room+0xc0 基址，步长 56 字节（rsb+lsl 算出 i*56）
+ *   瓦片表    : room+0xb8 条数、room+0xbc 容量、room+0xc0 基址，记录 56 字节（=14 字段）
+ *   ⚠ 修正（batchAH，cards/DrawTheRoom.c + cards/CRoom_DeSerialise.c）：这不是「层项数组」，
+ *     是 tile 表（AddTile 0x1ac240 维护），名称早先写错了，语义（逐记录画）不变
  *   粒子      : ParticleSystem_LargestDepth()/NextDepth() 给出当前 depth 游标，-1e8 表示空
  *
  * ── 层项 56 字节记录（本函数读到的字段，偏移/类型均为实测）─────────
