@@ -1,0 +1,32 @@
+2a804c	b510	push	{r4, lr}
+2a804e	4604	mov	r4, r0
+2a8050	b1e8	cbz	r0, 0x2a808e <png_set_read_fn+0x42>
+2a8052	f8c01118	str.w	r1, [r0, #0x118]
+2a8056	b112	cbz	r2, 0x2a805e <png_set_read_fn+0x12>
+2a8058	f8c02114	str.w	r2, [r0, #0x114]
+2a805c	e004	b	0x2a8068 <png_set_read_fn+0x1c>
+2a805e	4b0c	ldr	r3, [pc, #0x30]
+2a8060	447b	add	r3, pc
+2a8062	681b	ldr	r3, [r3]
+2a8064	f8c03114	str.w	r3, [r0, #0x114]
+2a8068	f8d43110	ldr.w	r3, [r4, #0x110]
+2a806c	b163	cbz	r3, 0x2a8088 <png_set_read_fn+0x3c>
+2a806e	4909	ldr	r1, [pc, #0x24]
+2a8070	2300	movs	r3, #0x0
+2a8072	4620	mov	r0, r4
+2a8074	f8c43110	str.w	r3, [r4, #0x110]
+2a8078	4479	add	r1, pc
+2a807a	f7fef9fb	bl	0x2a6474 <png_warning>
+2a807e	4906	ldr	r1, [pc, #0x18]
+2a8080	4620	mov	r0, r4
+2a8082	4479	add	r1, pc
+2a8084	f7fef9f6	bl	0x2a6474 <png_warning>
+2a8088	2300	movs	r3, #0x0
+2a808a	f8c43210	str.w	r3, [r4, #0x210]
+2a808e	bd10	pop	{r4, pc}
+2a8090	9a40	ldr	r2, [sp, #0x100]
+2a8092	0014	movs	r4, r2
+2a8094	48a4	ldr	r0, [pc, #0x290]
+2a8096	000e	movs	r6, r1
+2a8098	48db	ldr	r0, [pc, #0x36c]
+2a809a	000e	movs	r6, r1

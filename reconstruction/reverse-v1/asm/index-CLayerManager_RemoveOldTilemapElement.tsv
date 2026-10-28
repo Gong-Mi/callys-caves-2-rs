@@ -1,0 +1,83 @@
+1b7bac	e92d4070	push	{r4, r5, r6, lr}
+1b7bb0	e1a04001	mov	r4, r1
+1b7bb4	e1a05000	mov	r5, r0
+1b7bb8	e591001c	ldr	r0, [r1, #0x1c]
+1b7bbc	eb0311c3	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b7bc0	e5943018	ldr	r3, [r4, #0x18]
+1b7bc4	e5942014	ldr	r2, [r4, #0x14]
+1b7bc8	e3530000	cmp	r3, #0
+1b7bcc	15832014	strne	r2, [r3, #0x14]
+1b7bd0	15942014	ldrne	r2, [r4, #0x14]
+1b7bd4	15943018	ldrne	r3, [r4, #0x18]
+1b7bd8	05852058	streq	r2, [r5, #0x58]
+1b7bdc	e3520000	cmp	r2, #0
+1b7be0	0585305c	streq	r3, [r5, #0x5c]
+1b7be4	15823018	strne	r3, [r2, #0x18]
+1b7be8	e5943030	ldr	r3, [r4, #0x30]
+1b7bec	e5952060	ldr	r2, [r5, #0x60]
+1b7bf0	e3530000	cmp	r3, #0
+1b7bf4	e2422001	sub	r2, r2, #1
+1b7bf8	e5852060	str	r2, [r5, #0x60]
+1b7bfc	0a00000c	beq	0x1b7c34 <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x88>
+1b7c00	e5940024	ldr	r0, [r4, #0x24]
+1b7c04	e3500000	cmp	r0, #0
+1b7c08	0a000009	beq	0x1b7c34 <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x88>
+1b7c0c	e3530002	cmp	r3, #2
+1b7c10	0a000025	beq	0x1b7cac <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x100>
+1b7c14	e3530003	cmp	r3, #3
+1b7c18	0a000029	beq	0x1b7cc4 <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x118>
+1b7c1c	e3530001	cmp	r3, #1
+1b7c20	0a00002d	beq	0x1b7cdc <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x130>
+1b7c24	e5905704	ldr	r5, [r0, #0x704]
+1b7c28	e3550000	cmp	r5, #0
+1b7c2c	e1a00005	mov	r0, r5
+1b7c30	1afffffb	bne	0x1b7c24 <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x78>
+1b7c34	e59f20b8	ldr	r2, [pc, #0xb8]
+1b7c38	e3a03000	mov	r3, #0
+1b7c3c	e3a0c001	mov	r12, #1
+1b7c40	e5c43008	strb	r3, [r4, #0x8]
+1b7c44	e79f2002	ldr	r2, [pc, r2]
+1b7c48	e5843014	str	r3, [r4, #0x14]
+1b7c4c	e5843018	str	r3, [r4, #0x18]
+1b7c50	e3e06000	mvn	r6, #0
+1b7c54	e5921000	ldr	r1, [r2]
+1b7c58	e3a05003	mov	r5, #3
+1b7c5c	e5920008	ldr	r0, [r2, #0x8]
+1b7c60	e1510003	cmp	r1, r3
+1b7c64	e8840060	stm	r4, {r5, r6}
+1b7c68	e584302c	str	r3, [r4, #0x2c]
+1b7c6c	e080000c	add	r0, r0, r12
+1b7c70	e5843028	str	r3, [r4, #0x28]
+1b7c74	e5843024	str	r3, [r4, #0x24]
+1b7c78	e584300c	str	r3, [r4, #0xc]
+1b7c7c	e5843010	str	r3, [r4, #0x10]
+1b7c80	e584301c	str	r3, [r4, #0x1c]
+1b7c84	e5843020	str	r3, [r4, #0x20]
+1b7c88	e584c030	str	r12, [r4, #0x30]
+1b7c8c	e5820008	str	r0, [r2, #0x8]
+1b7c90	15814018	strne	r4, [r1, #0x18]
+1b7c94	15824000	strne	r4, [r2]
+1b7c98	15841014	strne	r1, [r4, #0x14]
+1b7c9c	15843018	strne	r3, [r4, #0x18]
+1b7ca0	05824004	streq	r4, [r2, #0x4]
+1b7ca4	05824000	streq	r4, [r2]
+1b7ca8	e8bd8070	pop	{r4, r5, r6, pc}
+1b7cac	e5905704	ldr	r5, [r0, #0x704]
+1b7cb0	eb031186	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b7cb4	e3550000	cmp	r5, #0
+1b7cb8	e1a00005	mov	r0, r5
+1b7cbc	1afffffa	bne	0x1b7cac <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x100>
+1b7cc0	eaffffdb	b	0x1b7c34 <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x88>
+1b7cc4	e5905704	ldr	r5, [r0, #0x704]
+1b7cc8	eb031180	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1b7ccc	e3550000	cmp	r5, #0
+1b7cd0	e1a00005	mov	r0, r5
+1b7cd4	1afffffa	bne	0x1b7cc4 <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x118>
+1b7cd8	eaffffd5	b	0x1b7c34 <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x88>
+1b7cdc	e5905704	ldr	r5, [r0, #0x704]
+1b7ce0	eb03153a	bl	0x27d1d0 <_ZdlPv>
+1b7ce4	e3550000	cmp	r5, #0
+1b7ce8	e1a00005	mov	r0, r5
+1b7cec	1afffffa	bne	0x1b7cdc <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x130>
+1b7cf0	eaffffcf	b	0x1b7c34 <_ZN13CLayerManager23RemoveOldTilemapElementEP6CLayerP23CLayerOldTilemapElement+0x88>
+1b7cf4	00238c24	eoreq	r8, r3, r4, lsr #24

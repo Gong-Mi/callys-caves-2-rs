@@ -19,7 +19,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-LINE = re.compile(r"^\s*([0-9a-f]+):\s+([0-9a-f]{8})\s+(\S+)\s*(.*)$")
+# ARM prints one 8-hex word; Thumb-2 prints 4 hex, or two 4-hex halves ("e92d 4ff0")
+LINE = re.compile(r"^\s*([0-9a-f]+):\s+([0-9a-f]{4}(?:\s?[0-9a-f]{4})?)\s+(\S+)\s*(.*)$")
 
 
 def main() -> int:
@@ -29,11 +30,14 @@ def main() -> int:
     ap.add_argument("--end", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--triple", default="armv7-linux-androideabi")
+    ap.add_argument("--thumb", action="store_true",
+                    help="decode as Thumb-2 (readelf marks these with an odd st_value)")
     a = ap.parse_args()
 
     start, end = int(a.start, 16), int(a.end, 16)
+    triple = "thumbv7-linux-androideabi" if a.thumb else a.triple
     cmd = [
-        "llvm-objdump", "-d", f"--triple={a.triple}",
+        "llvm-objdump", "-d", f"--triple={triple}",
         f"--start-address={start:#x}", f"--stop-address={end:#x}",
         a.so,
     ]
@@ -48,6 +52,7 @@ def main() -> int:
         if not m:
             continue
         addr, word, mnem, ops = m.groups()
+        word = word.replace(" ", "")
         # objdump appends its own resolved-target comment ("@ imm = ...",
         # "@ 0xcfcac <sym+0x4c>"); the anchor must be the instruction only.
         ops = re.split(r"\s+@\s", ops)[0].strip()

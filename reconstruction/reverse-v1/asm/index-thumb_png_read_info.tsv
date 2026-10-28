@@ -1,0 +1,428 @@
+2a6ff0	e92d4ff0	push.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2a6ff4	460f	mov	r7, r1
+2a6ff6	b0ad	sub	sp, #0xb4
+2a6ff8	4604	mov	r4, r0
+2a6ffa	2800	cmp	r0, #0x0
+2a6ffc	f0008216	beq.w	0x2a742c <png_read_info+0x43c>
+2a7000	2900	cmp	r1, #0x0
+2a7002	f0008213	beq.w	0x2a742c <png_read_info+0x43c>
+2a7006	f8df842c	ldr.w	r8, [pc, #0x42c]
+2a700a	f004fdc3	bl	0x2abb94 <png_read_sig>
+2a700e	f10d0a08	add.w	r10, sp, #0x8
+2a7012	44f8	add	r8, pc
+2a7014	f8983004	ldrb.w	r3, [r8, #0x4]
+2a7018	f88d3007	strb.w	r3, [sp, #0x7]
+2a701c	f89d3007	ldrb.w	r3, [sp, #0x7]
+2a7020	f10d0910	add.w	r9, sp, #0x10
+2a7024	f8d80000	ldr.w	r0, [r8]
+2a7028	f50475f0	add.w	r5, r4, #0x1e0
+2a702c	f10d0b20	add.w	r11, sp, #0x20
+2a7030	f88a3004	strb.w	r3, [r10, #0x4]
+2a7034	4643	mov	r3, r8
+2a7036	f8ca0000	str.w	r0, [r10]
+2a703a	f8530f05	ldr	r0, [r3, #5]!
+2a703e	791b	ldrb	r3, [r3, #0x4]
+2a7040	9004	str	r0, [sp, #0x10]
+2a7042	f88d3014	strb.w	r3, [sp, #0x14]
+2a7046	4643	mov	r3, r8
+2a7048	f8530f0a	ldr	r0, [r3, #10]!
+2a704c	791b	ldrb	r3, [r3, #0x4]
+2a704e	9006	str	r0, [sp, #0x18]
+2a7050	f88d301c	strb.w	r3, [sp, #0x1c]
+2a7054	4643	mov	r3, r8
+2a7056	f8530f0f	ldr	r0, [r3, #15]!
+2a705a	791b	ldrb	r3, [r3, #0x4]
+2a705c	9008	str	r0, [sp, #0x20]
+2a705e	f88d3024	strb.w	r3, [sp, #0x24]
+2a7062	4643	mov	r3, r8
+2a7064	f8530f14	ldr	r0, [r3, #20]!
+2a7068	791b	ldrb	r3, [r3, #0x4]
+2a706a	900a	str	r0, [sp, #0x28]
+2a706c	f88d302c	strb.w	r3, [sp, #0x2c]
+2a7070	4643	mov	r3, r8
+2a7072	f8530f19	ldr	r0, [r3, #25]!
+2a7076	791b	ldrb	r3, [r3, #0x4]
+2a7078	900c	str	r0, [sp, #0x30]
+2a707a	f88d3034	strb.w	r3, [sp, #0x34]
+2a707e	4643	mov	r3, r8
+2a7080	f8530f1e	ldr	r0, [r3, #30]!
+2a7084	791b	ldrb	r3, [r3, #0x4]
+2a7086	900e	str	r0, [sp, #0x38]
+2a7088	f88d303c	strb.w	r3, [sp, #0x3c]
+2a708c	4643	mov	r3, r8
+2a708e	f8530f23	ldr	r0, [r3, #35]!
+2a7092	791b	ldrb	r3, [r3, #0x4]
+2a7094	9010	str	r0, [sp, #0x40]
+2a7096	f88d3044	strb.w	r3, [sp, #0x44]
+2a709a	4643	mov	r3, r8
+2a709c	f8530f28	ldr	r0, [r3, #40]!
+2a70a0	9012	str	r0, [sp, #0x48]
+2a70a2	791b	ldrb	r3, [r3, #0x4]
+2a70a4	f88d304c	strb.w	r3, [sp, #0x4c]
+2a70a8	4643	mov	r3, r8
+2a70aa	f8530f2d	ldr	r0, [r3, #45]!
+2a70ae	791b	ldrb	r3, [r3, #0x4]
+2a70b0	9014	str	r0, [sp, #0x50]
+2a70b2	f88d3054	strb.w	r3, [sp, #0x54]
+2a70b6	4643	mov	r3, r8
+2a70b8	f8530f32	ldr	r0, [r3, #50]!
+2a70bc	791b	ldrb	r3, [r3, #0x4]
+2a70be	9016	str	r0, [sp, #0x58]
+2a70c0	f88d305c	strb.w	r3, [sp, #0x5c]
+2a70c4	4643	mov	r3, r8
+2a70c6	f8530f37	ldr	r0, [r3, #55]!
+2a70ca	791b	ldrb	r3, [r3, #0x4]
+2a70cc	9018	str	r0, [sp, #0x60]
+2a70ce	f88d3064	strb.w	r3, [sp, #0x64]
+2a70d2	4643	mov	r3, r8
+2a70d4	f8530f3c	ldr	r0, [r3, #60]!
+2a70d8	791b	ldrb	r3, [r3, #0x4]
+2a70da	901a	str	r0, [sp, #0x68]
+2a70dc	f88d306c	strb.w	r3, [sp, #0x6c]
+2a70e0	4643	mov	r3, r8
+2a70e2	f8530f41	ldr	r0, [r3, #65]!
+2a70e6	791b	ldrb	r3, [r3, #0x4]
+2a70e8	901c	str	r0, [sp, #0x70]
+2a70ea	f88d3074	strb.w	r3, [sp, #0x74]
+2a70ee	4643	mov	r3, r8
+2a70f0	f8530f46	ldr	r0, [r3, #70]!
+2a70f4	791b	ldrb	r3, [r3, #0x4]
+2a70f6	901e	str	r0, [sp, #0x78]
+2a70f8	f88d307c	strb.w	r3, [sp, #0x7c]
+2a70fc	4643	mov	r3, r8
+2a70fe	f8530f4b	ldr	r0, [r3, #75]!
+2a7102	791b	ldrb	r3, [r3, #0x4]
+2a7104	9020	str	r0, [sp, #0x80]
+2a7106	f88d3084	strb.w	r3, [sp, #0x84]
+2a710a	4643	mov	r3, r8
+2a710c	f8530f50	ldr	r0, [r3, #80]!
+2a7110	791b	ldrb	r3, [r3, #0x4]
+2a7112	9022	str	r0, [sp, #0x88]
+2a7114	f88d308c	strb.w	r3, [sp, #0x8c]
+2a7118	4643	mov	r3, r8
+2a711a	f8530f55	ldr	r0, [r3, #85]!
+2a711e	791b	ldrb	r3, [r3, #0x4]
+2a7120	9024	str	r0, [sp, #0x90]
+2a7122	f88d3094	strb.w	r3, [sp, #0x94]
+2a7126	4643	mov	r3, r8
+2a7128	f8530f5a	ldr	r0, [r3, #90]!
+2a712c	791b	ldrb	r3, [r3, #0x4]
+2a712e	9026	str	r0, [sp, #0x98]
+2a7130	f88d309c	strb.w	r3, [sp, #0x9c]
+2a7134	4643	mov	r3, r8
+2a7136	f8530f5f	ldr	r0, [r3, #95]!
+2a713a	791b	ldrb	r3, [r3, #0x4]
+2a713c	9028	str	r0, [sp, #0xa0]
+2a713e	f88d30a4	strb.w	r3, [sp, #0xa4]
+2a7142	4643	mov	r3, r8
+2a7144	f8530f64	ldr	r0, [r3, #100]!
+2a7148	791b	ldrb	r3, [r3, #0x4]
+2a714a	902a	str	r0, [sp, #0xa8]
+2a714c	4620	mov	r0, r4
+2a714e	f88d30ac	strb.w	r3, [sp, #0xac]
+2a7152	f006fd37	bl	0x2adbc4 <png_read_chunk_header>
+2a7156	4649	mov	r1, r9
+2a7158	2204	movs	r2, #0x4
+2a715a	4606	mov	r6, r0
+2a715c	4628	mov	r0, r5
+2a715e	f60fed70	blx	0xb6c40 <memcmp@plt>
+2a7162	b938	cbnz	r0, 0x2a7174 <png_read_info+0x184>
+2a7164	f8d4312c	ldr.w	r3, [r4, #0x12c]
+2a7168	071a	lsls	r2, r3, #0x1c
+2a716a	bf44	itt	mi
+2a716c	f4435300	orrmi	r3, r3, #0x2000
+2a7170	f8c4312c	strmi.w	r3, [r4, #0x12c]
+2a7174	4628	mov	r0, r5
+2a7176	4651	mov	r1, r10
+2a7178	2204	movs	r2, #0x4
+2a717a	f60fed62	blx	0xb6c40 <memcmp@plt>
+2a717e	b928	cbnz	r0, 0x2a718c <png_read_info+0x19c>
+2a7180	4620	mov	r0, r4
+2a7182	4639	mov	r1, r7
+2a7184	4632	mov	r2, r6
+2a7186	f004fe63	bl	0x2abe50 <png_handle_IHDR>
+2a718a	e747	b	0x2a701c <png_read_info+0x2c>
+2a718c	4628	mov	r0, r5
+2a718e	a906	add	r1, sp, #0x18
+2a7190	2204	movs	r2, #0x4
+2a7192	f60fed56	blx	0xb6c40 <memcmp@plt>
+2a7196	b928	cbnz	r0, 0x2a71a4 <png_read_info+0x1b4>
+2a7198	4620	mov	r0, r4
+2a719a	4639	mov	r1, r7
+2a719c	4632	mov	r2, r6
+2a719e	f004ff93	bl	0x2ac0c8 <png_handle_IEND>
+2a71a2	e73b	b	0x2a701c <png_read_info+0x2c>
+2a71a4	4620	mov	r0, r4
+2a71a6	4629	mov	r1, r5
+2a71a8	f7feff1c	bl	0x2a5fe4 <png_handle_as_unknown>
+2a71ac	2800	cmp	r0, #0x0
+2a71ae	d03d	beq	0x2a722c <png_read_info+0x23c>
+2a71b0	4628	mov	r0, r5
+2a71b2	4649	mov	r1, r9
+2a71b4	2204	movs	r2, #0x4
+2a71b6	f60fed44	blx	0xb6c40 <memcmp@plt>
+2a71ba	b928	cbnz	r0, 0x2a71c8 <png_read_info+0x1d8>
+2a71bc	f8d4312c	ldr.w	r3, [r4, #0x12c]
+2a71c0	f0430304	orr	r3, r3, #0x4
+2a71c4	f8c4312c	str.w	r3, [r4, #0x12c]
+2a71c8	4620	mov	r0, r4
+2a71ca	4639	mov	r1, r7
+2a71cc	4632	mov	r2, r6
+2a71ce	f006fc31	bl	0x2ada34 <png_handle_unknown>
+2a71d2	4628	mov	r0, r5
+2a71d4	4659	mov	r1, r11
+2a71d6	2204	movs	r2, #0x4
+2a71d8	f60fed32	blx	0xb6c40 <memcmp@plt>
+2a71dc	b930	cbnz	r0, 0x2a71ec <png_read_info+0x1fc>
+2a71de	f8d4312c	ldr.w	r3, [r4, #0x12c]
+2a71e2	f0430302	orr	r3, r3, #0x2
+2a71e6	f8c4312c	str.w	r3, [r4, #0x12c]
+2a71ea	e717	b	0x2a701c <png_read_info+0x2c>
+2a71ec	4628	mov	r0, r5
+2a71ee	4649	mov	r1, r9
+2a71f0	2204	movs	r2, #0x4
+2a71f2	f60fed26	blx	0xb6c40 <memcmp@plt>
+2a71f6	2800	cmp	r0, #0x0
+2a71f8	f47faf10	bne.w	0x2a701c <png_read_info+0x2c>
+2a71fc	f8d4312c	ldr.w	r3, [r4, #0x12c]
+2a7200	07d8	lsls	r0, r3, #0x1f
+2a7202	d403	bmi	0x2a720c <png_read_info+0x21c>
+2a7204	498c	ldr	r1, [pc, #0x230]
+2a7206	4620	mov	r0, r4
+2a7208	4479	add	r1, pc
+2a720a	e00a	b	0x2a7222 <png_read_info+0x232>
+2a720c	f89421ea	ldrb.w	r2, [r4, #0x1ea]
+2a7210	2a03	cmp	r2, #0x3
+2a7212	f040810b	bne.w	0x2a742c <png_read_info+0x43c>
+2a7216	0799	lsls	r1, r3, #0x1e
+2a7218	f1008108	bmi.w	0x2a742c <png_read_info+0x43c>
+2a721c	4987	ldr	r1, [pc, #0x21c]
+2a721e	4620	mov	r0, r4
+2a7220	4479	add	r1, pc
+2a7222	b02d	add	sp, #0xb4
+2a7224	e8bd4ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2a7228	f7ffb900	b.w	0x2a642c <png_error>
+2a722c	4628	mov	r0, r5
+2a722e	4659	mov	r1, r11
+2a7230	2204	movs	r2, #0x4
+2a7232	f60fed06	blx	0xb6c40 <memcmp@plt>
+2a7236	b928	cbnz	r0, 0x2a7244 <png_read_info+0x254>
+2a7238	4620	mov	r0, r4
+2a723a	4639	mov	r1, r7
+2a723c	4632	mov	r2, r6
+2a723e	f004fe91	bl	0x2abf64 <png_handle_PLTE>
+2a7242	e6eb	b	0x2a701c <png_read_info+0x2c>
+2a7244	4628	mov	r0, r5
+2a7246	4649	mov	r1, r9
+2a7248	2204	movs	r2, #0x4
+2a724a	f60fecfa	blx	0xb6c40 <memcmp@plt>
+2a724e	b9d8	cbnz	r0, 0x2a7288 <png_read_info+0x298>
+2a7250	f8d4312c	ldr.w	r3, [r4, #0x12c]
+2a7254	07da	lsls	r2, r3, #0x1f
+2a7256	d403	bmi	0x2a7260 <png_read_info+0x270>
+2a7258	4979	ldr	r1, [pc, #0x1e4]
+2a725a	4620	mov	r0, r4
+2a725c	4479	add	r1, pc
+2a725e	e008	b	0x2a7272 <png_read_info+0x282>
+2a7260	f89421ea	ldrb.w	r2, [r4, #0x1ea]
+2a7264	2a03	cmp	r2, #0x3
+2a7266	d106	bne	0x2a7276 <png_read_info+0x286>
+2a7268	079b	lsls	r3, r3, #0x1e
+2a726a	d404	bmi	0x2a7276 <png_read_info+0x286>
+2a726c	4975	ldr	r1, [pc, #0x1d4]
+2a726e	4620	mov	r0, r4
+2a7270	4479	add	r1, pc
+2a7272	f7fff8db	bl	0x2a642c <png_error>
+2a7276	f8d4312c	ldr.w	r3, [r4, #0x12c]
+2a727a	f8c461d0	str.w	r6, [r4, #0x1d0]
+2a727e	f0430304	orr	r3, r3, #0x4
+2a7282	f8c4312c	str.w	r3, [r4, #0x12c]
+2a7286	e0d1	b	0x2a742c <png_read_info+0x43c>
+2a7288	4628	mov	r0, r5
+2a728a	a90a	add	r1, sp, #0x28
+2a728c	2204	movs	r2, #0x4
+2a728e	f60fecd8	blx	0xb6c40 <memcmp@plt>
+2a7292	b928	cbnz	r0, 0x2a72a0 <png_read_info+0x2b0>
+2a7294	4620	mov	r0, r4
+2a7296	4639	mov	r1, r7
+2a7298	4632	mov	r2, r6
+2a729a	f005fd61	bl	0x2acd60 <png_handle_bKGD>
+2a729e	e6bd	b	0x2a701c <png_read_info+0x2c>
+2a72a0	4628	mov	r0, r5
+2a72a2	a90c	add	r1, sp, #0x30
+2a72a4	2204	movs	r2, #0x4
+2a72a6	f60feccc	blx	0xb6c40 <memcmp@plt>
+2a72aa	b928	cbnz	r0, 0x2a72b8 <png_read_info+0x2c8>
+2a72ac	4620	mov	r0, r4
+2a72ae	4639	mov	r1, r7
+2a72b0	4632	mov	r2, r6
+2a72b2	f005f839	bl	0x2ac328 <png_handle_cHRM>
+2a72b6	e6b1	b	0x2a701c <png_read_info+0x2c>
+2a72b8	4628	mov	r0, r5
+2a72ba	a90e	add	r1, sp, #0x38
+2a72bc	2204	movs	r2, #0x4
+2a72be	f60fecc0	blx	0xb6c40 <memcmp@plt>
+2a72c2	b928	cbnz	r0, 0x2a72d0 <png_read_info+0x2e0>
+2a72c4	4620	mov	r0, r4
+2a72c6	4639	mov	r1, r7
+2a72c8	4632	mov	r2, r6
+2a72ca	f004ff21	bl	0x2ac110 <png_handle_gAMA>
+2a72ce	e6a5	b	0x2a701c <png_read_info+0x2c>
+2a72d0	4628	mov	r0, r5
+2a72d2	a910	add	r1, sp, #0x40
+2a72d4	2204	movs	r2, #0x4
+2a72d6	f60fecb4	blx	0xb6c40 <memcmp@plt>
+2a72da	b928	cbnz	r0, 0x2a72e8 <png_read_info+0x2f8>
+2a72dc	4620	mov	r0, r4
+2a72de	4639	mov	r1, r7
+2a72e0	4632	mov	r2, r6
+2a72e2	f005fdd9	bl	0x2ace98 <png_handle_hIST>
+2a72e6	e699	b	0x2a701c <png_read_info+0x2c>
+2a72e8	4628	mov	r0, r5
+2a72ea	a916	add	r1, sp, #0x58
+2a72ec	2204	movs	r2, #0x4
+2a72ee	f60feca8	blx	0xb6c40 <memcmp@plt>
+2a72f2	b928	cbnz	r0, 0x2a7300 <png_read_info+0x310>
+2a72f4	4620	mov	r0, r4
+2a72f6	4639	mov	r1, r7
+2a72f8	4632	mov	r2, r6
+2a72fa	f005fe99	bl	0x2ad030 <png_handle_oFFs>
+2a72fe	e68d	b	0x2a701c <png_read_info+0x2c>
+2a7300	4628	mov	r0, r5
+2a7302	a918	add	r1, sp, #0x60
+2a7304	2204	movs	r2, #0x4
+2a7306	f60fec9c	blx	0xb6c40 <memcmp@plt>
+2a730a	b928	cbnz	r0, 0x2a7318 <png_read_info+0x328>
+2a730c	4620	mov	r0, r4
+2a730e	4639	mov	r1, r7
+2a7310	4632	mov	r2, r6
+2a7312	f005ff09	bl	0x2ad128 <png_handle_pCAL>
+2a7316	e681	b	0x2a701c <png_read_info+0x2c>
+2a7318	4628	mov	r0, r5
+2a731a	a91e	add	r1, sp, #0x78
+2a731c	2204	movs	r2, #0x4
+2a731e	f60fec90	blx	0xb6c40 <memcmp@plt>
+2a7322	b928	cbnz	r0, 0x2a7330 <png_read_info+0x340>
+2a7324	4620	mov	r0, r4
+2a7326	4639	mov	r1, r7
+2a7328	4632	mov	r2, r6
+2a732a	f006f811	bl	0x2ad350 <png_handle_sCAL>
+2a732e	e675	b	0x2a701c <png_read_info+0x2c>
+2a7330	4628	mov	r0, r5
+2a7332	a91a	add	r1, sp, #0x68
+2a7334	2204	movs	r2, #0x4
+2a7336	f60fec84	blx	0xb6c40 <memcmp@plt>
+2a733a	b928	cbnz	r0, 0x2a7348 <png_read_info+0x358>
+2a733c	4620	mov	r0, r4
+2a733e	4639	mov	r1, r7
+2a7340	4632	mov	r2, r6
+2a7342	f005fe09	bl	0x2acf58 <png_handle_pHYs>
+2a7346	e669	b	0x2a701c <png_read_info+0x2c>
+2a7348	4628	mov	r0, r5
+2a734a	a91c	add	r1, sp, #0x70
+2a734c	2204	movs	r2, #0x4
+2a734e	f60fec78	blx	0xb6c40 <memcmp@plt>
+2a7352	b928	cbnz	r0, 0x2a7360 <png_read_info+0x370>
+2a7354	4620	mov	r0, r4
+2a7356	4639	mov	r1, r7
+2a7358	4632	mov	r2, r6
+2a735a	f004ff6d	bl	0x2ac238 <png_handle_sBIT>
+2a735e	e65d	b	0x2a701c <png_read_info+0x2c>
+2a7360	4628	mov	r0, r5
+2a7362	a922	add	r1, sp, #0x88
+2a7364	2204	movs	r2, #0x4
+2a7366	f60fec6c	blx	0xb6c40 <memcmp@plt>
+2a736a	b928	cbnz	r0, 0x2a7378 <png_read_info+0x388>
+2a736c	4620	mov	r0, r4
+2a736e	4639	mov	r1, r7
+2a7370	4632	mov	r2, r6
+2a7372	f005f98f	bl	0x2ac694 <png_handle_sRGB>
+2a7376	e651	b	0x2a701c <png_read_info+0x2c>
+2a7378	4628	mov	r0, r5
+2a737a	a912	add	r1, sp, #0x48
+2a737c	2204	movs	r2, #0x4
+2a737e	f60fec60	blx	0xb6c40 <memcmp@plt>
+2a7382	b928	cbnz	r0, 0x2a7390 <png_read_info+0x3a0>
+2a7384	4620	mov	r0, r4
+2a7386	4639	mov	r1, r7
+2a7388	4632	mov	r2, r6
+2a738a	f005fa43	bl	0x2ac814 <png_handle_iCCP>
+2a738e	e645	b	0x2a701c <png_read_info+0x2c>
+2a7390	4628	mov	r0, r5
+2a7392	a920	add	r1, sp, #0x80
+2a7394	2204	movs	r2, #0x4
+2a7396	f60fec54	blx	0xb6c40 <memcmp@plt>
+2a739a	b928	cbnz	r0, 0x2a73a8 <png_read_info+0x3b8>
+2a739c	4620	mov	r0, r4
+2a739e	4639	mov	r1, r7
+2a73a0	4632	mov	r2, r6
+2a73a2	f005fb23	bl	0x2ac9ec <png_handle_sPLT>
+2a73a6	e639	b	0x2a701c <png_read_info+0x2c>
+2a73a8	4628	mov	r0, r5
+2a73aa	a924	add	r1, sp, #0x90
+2a73ac	2204	movs	r2, #0x4
+2a73ae	f60fec48	blx	0xb6c40 <memcmp@plt>
+2a73b2	b928	cbnz	r0, 0x2a73c0 <png_read_info+0x3d0>
+2a73b4	4620	mov	r0, r4
+2a73b6	4639	mov	r1, r7
+2a73b8	4632	mov	r2, r6
+2a73ba	f006f8e3	bl	0x2ad584 <png_handle_tEXt>
+2a73be	e62d	b	0x2a701c <png_read_info+0x2c>
+2a73c0	4628	mov	r0, r5
+2a73c2	a926	add	r1, sp, #0x98
+2a73c4	2204	movs	r2, #0x4
+2a73c6	f60fec3c	blx	0xb6c40 <memcmp@plt>
+2a73ca	b928	cbnz	r0, 0x2a73d8 <png_read_info+0x3e8>
+2a73cc	4620	mov	r0, r4
+2a73ce	4639	mov	r1, r7
+2a73d0	4632	mov	r2, r6
+2a73d2	f006f87d	bl	0x2ad4d0 <png_handle_tIME>
+2a73d6	e621	b	0x2a701c <png_read_info+0x2c>
+2a73d8	4628	mov	r0, r5
+2a73da	a928	add	r1, sp, #0xa0
+2a73dc	2204	movs	r2, #0x4
+2a73de	f60fec30	blx	0xb6c40 <memcmp@plt>
+2a73e2	b928	cbnz	r0, 0x2a73f0 <png_read_info+0x400>
+2a73e4	4620	mov	r0, r4
+2a73e6	4639	mov	r1, r7
+2a73e8	4632	mov	r2, r6
+2a73ea	f005fbff	bl	0x2acbec <png_handle_tRNS>
+2a73ee	e615	b	0x2a701c <png_read_info+0x2c>
+2a73f0	4628	mov	r0, r5
+2a73f2	a92a	add	r1, sp, #0xa8
+2a73f4	2204	movs	r2, #0x4
+2a73f6	f60fec24	blx	0xb6c40 <memcmp@plt>
+2a73fa	b928	cbnz	r0, 0x2a7408 <png_read_info+0x418>
+2a73fc	4620	mov	r0, r4
+2a73fe	4639	mov	r1, r7
+2a7400	4632	mov	r2, r6
+2a7402	f006f963	bl	0x2ad6cc <png_handle_zTXt>
+2a7406	e609	b	0x2a701c <png_read_info+0x2c>
+2a7408	4628	mov	r0, r5
+2a740a	a914	add	r1, sp, #0x50
+2a740c	2204	movs	r2, #0x4
+2a740e	f60fec18	blx	0xb6c40 <memcmp@plt>
+2a7412	b928	cbnz	r0, 0x2a7420 <png_read_info+0x430>
+2a7414	4620	mov	r0, r4
+2a7416	4639	mov	r1, r7
+2a7418	4632	mov	r2, r6
+2a741a	f006fa19	bl	0x2ad850 <png_handle_iTXt>
+2a741e	e5fd	b	0x2a701c <png_read_info+0x2c>
+2a7420	4620	mov	r0, r4
+2a7422	4639	mov	r1, r7
+2a7424	4632	mov	r2, r6
+2a7426	f006fb05	bl	0x2ada34 <png_handle_unknown>
+2a742a	e5f7	b	0x2a701c <png_read_info+0x2c>
+2a742c	b02d	add	sp, #0xb4
+2a742e	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2a7432	bf00	nop	
+2a7434	88f6	ldrh	r6, [r6, #0x6]
+2a7436	000e	movs	r6, r1
+2a7438	55ce	strb	r6, [r1, r7]
+2a743a	000e	movs	r6, r1
+2a743c	55cf	strb	r7, [r1, r7]
+2a743e	000e	movs	r6, r1
+2a7440	557a	strb	r2, [r7, r5]
+2a7442	000e	movs	r6, r1
+2a7444	557f	strb	r7, [r7, r5]
+2a7446	000e	movs	r6, r1

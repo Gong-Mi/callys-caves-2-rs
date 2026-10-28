@@ -1,0 +1,278 @@
+2a6ff0	4ff0e92d	svcmi	#0xf0e92d
+2a6ff4	b0ad460f	adclt	r4, sp, pc, lsl #12
+2a6ff8	28004604	stmdahs	r0, {r2, r9, r10, lr}
+2a6ffc	8216f000	andshi	pc, r6, #0
+2a7000	f0002900	.word	0xf0002900
+2a7004	f8df8213	.word	0xf8df8213
+2a7008	f004842c	.word	0xf004842c
+2a700c	f10dfdc3	.word	0xf10dfdc3
+2a7010	44f80a08	ldrbtmi	r0, [r8], #2568
+2a7014	3004f898	mullo	r4, r8, r8
+2a7018	3007f88d	andlo	pc, r7, sp, lsl #17
+2a701c	3007f89d	mullo	r7, sp, r8
+2a7020	0910f10d	ldmdbeq	r0, {r0, r2, r3, r8, r12, sp, lr, pc}
+2a7024	0000f8d8	.word	0x0000f8d8
+2a7028	75f0f504	ldrbvc	pc, [r0, #0x504]!
+2a702c	0b20f10d	bleq	0xae3468 <b2_toiTime+0x389fc4>
+2a7030	3004f88a	andlo	pc, r4, r10, lsl #17
+2a7034	f8ca4643	.word	0xf8ca4643
+2a7038	f8530000	.word	0xf8530000
+2a703c	791b0f05	ldmdbvc	r11, {r0, r2, r8, r9, r10, r11}
+2a7040	f88d9004	.word	0xf88d9004
+2a7044	46433014	.word	0x46433014
+2a7048	0f0af853	svceq	#0xaf853
+2a704c	9006791b	andls	r7, r6, r11, lsl r9
+2a7050	301cf88d	andslo	pc, r12, sp, lsl #17
+2a7054	f8534643	.word	0xf8534643
+2a7058	791b0f0f	ldmdbvc	r11, {r0, r1, r2, r3, r8, r9, r10, r11}
+2a705c	f88d9008	.word	0xf88d9008
+2a7060	46433024	strbmi	r3, [r3], -r4, lsr #32
+2a7064	0f14f853	svceq	#0x14f853
+2a7068	900a791b	andls	r7, r10, r11, lsl r9
+2a706c	302cf88d	eorlo	pc, r12, sp, lsl #17
+2a7070	f8534643	.word	0xf8534643
+2a7074	791b0f19	ldmdbvc	r11, {r0, r3, r4, r8, r9, r10, r11}
+2a7078	f88d900c	.word	0xf88d900c
+2a707c	46433034	.word	0x46433034
+2a7080	0f1ef853	svceq	#0x1ef853
+2a7084	900e791b	andls	r7, lr, r11, lsl r9
+2a7088	303cf88d	eorslo	pc, r12, sp, lsl #17
+2a708c	f8534643	.word	0xf8534643
+2a7090	791b0f23	ldmdbvc	r11, {r0, r1, r5, r8, r9, r10, r11}
+2a7094	f88d9010	.word	0xf88d9010
+2a7098	46433044	strbmi	r3, [r3], -r4, asr #32
+2a709c	0f28f853	svceq	#0x28f853
+2a70a0	791b9012	ldmdbvc	r11, {r1, r4, r12, pc}
+2a70a4	304cf88d	sublo	pc, r12, sp, lsl #17
+2a70a8	f8534643	.word	0xf8534643
+2a70ac	791b0f2d	ldmdbvc	r11, {r0, r2, r3, r5, r8, r9, r10, r11}
+2a70b0	f88d9014	.word	0xf88d9014
+2a70b4	46433054	.word	0x46433054
+2a70b8	0f32f853	svceq	#0x32f853
+2a70bc	9016791b	andsls	r7, r6, r11, lsl r9
+2a70c0	305cf88d	subslo	pc, r12, sp, lsl #17
+2a70c4	f8534643	.word	0xf8534643
+2a70c8	791b0f37	ldmdbvc	r11, {r0, r1, r2, r4, r5, r8, r9, r10, r11}
+2a70cc	f88d9018	.word	0xf88d9018
+2a70d0	46433064	strbmi	r3, [r3], -r4, rrx
+2a70d4	0f3cf853	svceq	#0x3cf853
+2a70d8	901a791b	andsls	r7, r10, r11, lsl r9
+2a70dc	306cf88d	rsblo	pc, r12, sp, lsl #17
+2a70e0	f8534643	.word	0xf8534643
+2a70e4	791b0f41	ldmdbvc	r11, {r0, r6, r8, r9, r10, r11}
+2a70e8	f88d901c	.word	0xf88d901c
+2a70ec	46433074	.word	0x46433074
+2a70f0	0f46f853	svceq	#0x46f853
+2a70f4	901e791b	andsls	r7, lr, r11, lsl r9
+2a70f8	307cf88d	rsbslo	pc, r12, sp, lsl #17
+2a70fc	f8534643	.word	0xf8534643
+2a7100	791b0f4b	ldmdbvc	r11, {r0, r1, r3, r6, r8, r9, r10, r11}
+2a7104	f88d9020	.word	0xf88d9020
+2a7108	46433084	strbmi	r3, [r3], -r4, lsl #1
+2a710c	0f50f853	svceq	#0x50f853
+2a7110	9022791b	eorls	r7, r2, r11, lsl r9
+2a7114	308cf88d	addlo	pc, r12, sp, lsl #17
+2a7118	f8534643	.word	0xf8534643
+2a711c	791b0f55	ldmdbvc	r11, {r0, r2, r4, r6, r8, r9, r10, r11}
+2a7120	f88d9024	.word	0xf88d9024
+2a7124	46433094	.word	0x46433094
+2a7128	0f5af853	svceq	#0x5af853
+2a712c	9026791b	eorls	r7, r6, r11, lsl r9
+2a7130	309cf88d	addslo	pc, r12, sp, lsl #17
+2a7134	f8534643	.word	0xf8534643
+2a7138	791b0f5f	ldmdbvc	r11, {r0, r1, r2, r3, r4, r6, r8, r9, r10, r11}
+2a713c	f88d9028	.word	0xf88d9028
+2a7140	464330a4	strbmi	r3, [r3], -r4, lsr #1
+2a7144	0f64f853	svceq	#0x64f853
+2a7148	902a791b	eorls	r7, r10, r11, lsl r9
+2a714c	f88d4620	.word	0xf88d4620
+2a7150	f00630ac	.word	0xf00630ac
+2a7154	4649fd37	.word	0x4649fd37
+2a7158	46062204	strmi	r2, [r6], -r4, lsl #4
+2a715c	f60f4628	.word	0xf60f4628
+2a7160	b938ed70	ldmdblt	r8!, {r4, r5, r6, r8, r10, r11, sp, lr, pc}
+2a7164	312cf8d4	.word	0x312cf8d4
+2a7168	bf44071a	svclt	#0x44071a
+2a716c	5300f443	movwpl	pc, #0x443
+2a7170	312cf8c4	smlawtlo	r12, r4, r8, pc
+2a7174	46514628	ldrbmi	r4, [r1], -r8, lsr #12
+2a7178	f60f2204	.word	0xf60f2204
+2a717c	b928ed62	stmdblt	r8!, {r1, r5, r6, r8, r10, r11, sp, lr, pc}
+2a7180	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7184	f0044632	.word	0xf0044632
+2a7188	e747fe63	strb	pc, [r7, -r3, ror #28]
+2a718c	a9064628	stmdbge	r6, {r3, r5, r9, r10, lr}
+2a7190	f60f2204	.word	0xf60f2204
+2a7194	b928ed56	stmdblt	r8!, {r1, r2, r4, r6, r8, r10, r11, sp, lr, pc}
+2a7198	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a719c	f0044632	.word	0xf0044632
+2a71a0	e73bff93	.word	0xe73bff93
+2a71a4	46294620	strtmi	r4, [r9], -r0, lsr #12
+2a71a8	ff1cf7fe	.word	0xff1cf7fe
+2a71ac	d03d2800	eorsle	r2, sp, r0, lsl #16
+2a71b0	46494628	strbmi	r4, [r9], -r8, lsr #12
+2a71b4	f60f2204	.word	0xf60f2204
+2a71b8	b928ed44	stmdblt	r8!, {r2, r6, r8, r10, r11, sp, lr, pc}
+2a71bc	312cf8d4	.word	0x312cf8d4
+2a71c0	0304f043	movweq	pc, #0x4043
+2a71c4	312cf8c4	smlawtlo	r12, r4, r8, pc
+2a71c8	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a71cc	f0064632	.word	0xf0064632
+2a71d0	4628fc31	qasxmi	pc, r8, r1
+2a71d4	22044659	andhs	r4, r4, #93323264
+2a71d8	ed32f60f	ldc	p6, c15, [r2, #-60]!
+2a71dc	f8d4b930	.word	0xf8d4b930
+2a71e0	f043312c	.word	0xf043312c
+2a71e4	f8c40302	.word	0xf8c40302
+2a71e8	e717312c	ldr	r3, [r7, -r12, lsr #2]
+2a71ec	46494628	strbmi	r4, [r9], -r8, lsr #12
+2a71f0	f60f2204	.word	0xf60f2204
+2a71f4	2800ed26	stmdahs	r0, {r1, r2, r5, r8, r10, r11, sp, lr, pc}
+2a71f8	af10f47f	svcge	#0x10f47f
+2a71fc	312cf8d4	.word	0x312cf8d4
+2a7200	d40307d8	strle	r0, [r3], #-2008
+2a7204	4620498c	strtmi	r4, [r0], -r12, lsl #19
+2a7208	e00a4479	and	r4, r10, r9, ror r4
+2a720c	21eaf894	.word	0x21eaf894
+2a7210	f0402a03	.word	0xf0402a03
+2a7214	0799810b	ldreq	r8, [r9, r11, lsl #2]
+2a7218	8108f100	.word	0x8108f100
+2a721c	46204987	strtmi	r4, [r0], -r7, lsl #19
+2a7220	b02d4479	eorlt	r4, sp, r9, ror r4
+2a7224	4ff0e8bd	svcmi	#0xf0e8bd
+2a7228	b900f7ff	stmdblt	r0, {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r12, sp, lr, pc}
+2a722c	46594628	ldrbmi	r4, [r9], -r8, lsr #12
+2a7230	f60f2204	.word	0xf60f2204
+2a7234	b928ed06	stmdblt	r8!, {r1, r2, r8, r10, r11, sp, lr, pc}
+2a7238	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a723c	f0044632	.word	0xf0044632
+2a7240	e6ebfe91	usat	pc, #0xb, r1, lsl #29
+2a7244	46494628	strbmi	r4, [r9], -r8, lsr #12
+2a7248	f60f2204	.word	0xf60f2204
+2a724c	b9d8ecfa	ldmiblt	r8, {r1, r3, r4, r5, r6, r7, r10, r11, sp, lr, pc} ^
+2a7250	312cf8d4	.word	0x312cf8d4
+2a7254	d40307da	strle	r0, [r3], #-2010
+2a7258	46204979	qsub16mi	r4, r0, r9
+2a725c	e0084479	and	r4, r8, r9, ror r4
+2a7260	21eaf894	.word	0x21eaf894
+2a7264	d1062a03	.word	0xd1062a03
+2a7268	d404079b	strle	r0, [r4], #-1947
+2a726c	46204975	qsub16mi	r4, r0, r5
+2a7270	f7ff4479	.word	0xf7ff4479
+2a7274	f8d4f8db	.word	0xf8d4f8db
+2a7278	f8c4312c	.word	0xf8c4312c
+2a727c	f04361d0	.word	0xf04361d0
+2a7280	f8c40304	.word	0xf8c40304
+2a7284	e0d1312c	sbcs	r3, r1, r12, lsr #2
+2a7288	a90a4628	stmdbge	r10, {r3, r5, r9, r10, lr}
+2a728c	f60f2204	.word	0xf60f2204
+2a7290	b928ecd8	stmdblt	r8!, {r3, r4, r6, r7, r10, r11, sp, lr, pc}
+2a7294	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7298	f0054632	.word	0xf0054632
+2a729c	e6bdfd61	ldrt	pc, [sp], r1, ror #26
+2a72a0	a90c4628	stmdbge	r12, {r3, r5, r9, r10, lr}
+2a72a4	f60f2204	.word	0xf60f2204
+2a72a8	b928eccc	stmdblt	r8!, {r2, r3, r6, r7, r10, r11, sp, lr, pc}
+2a72ac	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a72b0	f0054632	.word	0xf0054632
+2a72b4	e6b1f839	.word	0xe6b1f839
+2a72b8	a90e4628	stmdbge	lr, {r3, r5, r9, r10, lr}
+2a72bc	f60f2204	.word	0xf60f2204
+2a72c0	b928ecc0	stmdblt	r8!, {r6, r7, r10, r11, sp, lr, pc}
+2a72c4	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a72c8	f0044632	.word	0xf0044632
+2a72cc	e6a5ff21	strt	pc, [r5], r1, lsr #30
+2a72d0	a9104628	ldmdbge	r0, {r3, r5, r9, r10, lr}
+2a72d4	f60f2204	.word	0xf60f2204
+2a72d8	b928ecb4	stmdblt	r8!, {r2, r4, r5, r7, r10, r11, sp, lr, pc}
+2a72dc	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a72e0	f0054632	.word	0xf0054632
+2a72e4	e699fdd9	.word	0xe699fdd9
+2a72e8	a9164628	ldmdbge	r6, {r3, r5, r9, r10, lr}
+2a72ec	f60f2204	.word	0xf60f2204
+2a72f0	b928eca8	stmdblt	r8!, {r3, r5, r7, r10, r11, sp, lr, pc}
+2a72f4	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a72f8	f0054632	.word	0xf0054632
+2a72fc	e68dfe99	pkhbt	pc, sp, r9, lsl #29
+2a7300	a9184628	ldmdbge	r8, {r3, r5, r9, r10, lr}
+2a7304	f60f2204	.word	0xf60f2204
+2a7308	b928ec9c	stmdblt	r8!, {r2, r3, r4, r7, r10, r11, sp, lr, pc}
+2a730c	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7310	f0054632	.word	0xf0054632
+2a7314	e681ff09	str	pc, [r1], r9, lsl #30
+2a7318	a91e4628	ldmdbge	lr, {r3, r5, r9, r10, lr}
+2a731c	f60f2204	.word	0xf60f2204
+2a7320	b928ec90	stmdblt	r8!, {r4, r7, r10, r11, sp, lr, pc}
+2a7324	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7328	f0064632	.word	0xf0064632
+2a732c	e675f811	uhadd16	pc, r5, r1
+2a7330	a91a4628	ldmdbge	r10, {r3, r5, r9, r10, lr}
+2a7334	f60f2204	.word	0xf60f2204
+2a7338	b928ec84	stmdblt	r8!, {r2, r7, r10, r11, sp, lr, pc}
+2a733c	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7340	f0054632	.word	0xf0054632
+2a7344	e669fe09	strbt	pc, [r9], -r9, lsl #28
+2a7348	a91c4628	ldmdbge	r12, {r3, r5, r9, r10, lr}
+2a734c	f60f2204	.word	0xf60f2204
+2a7350	b928ec78	stmdblt	r8!, {r3, r4, r5, r6, r10, r11, sp, lr, pc}
+2a7354	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7358	f0044632	.word	0xf0044632
+2a735c	e65dff6d	ldrb	pc, [sp], -sp, ror #30
+2a7360	a9224628	stmdbge	r2!, {r3, r5, r9, r10, lr}
+2a7364	f60f2204	.word	0xf60f2204
+2a7368	b928ec6c	stmdblt	r8!, {r2, r3, r5, r6, r10, r11, sp, lr, pc}
+2a736c	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7370	f0054632	.word	0xf0054632
+2a7374	e651f98f	ldrb	pc, [r1], -pc, lsl #19
+2a7378	a9124628	ldmdbge	r2, {r3, r5, r9, r10, lr}
+2a737c	f60f2204	.word	0xf60f2204
+2a7380	b928ec60	stmdblt	r8!, {r5, r6, r10, r11, sp, lr, pc}
+2a7384	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7388	f0054632	.word	0xf0054632
+2a738c	e645fa43	strb	pc, [r5], -r3, asr #20
+2a7390	a9204628	stmdbge	r0!, {r3, r5, r9, r10, lr}
+2a7394	f60f2204	.word	0xf60f2204
+2a7398	b928ec54	stmdblt	r8!, {r2, r4, r6, r10, r11, sp, lr, pc}
+2a739c	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a73a0	f0054632	.word	0xf0054632
+2a73a4	e639fb23	ldrt	pc, [r9], -r3, lsr #22
+2a73a8	a9244628	stmdbge	r4!, {r3, r5, r9, r10, lr}
+2a73ac	f60f2204	.word	0xf60f2204
+2a73b0	b928ec48	stmdblt	r8!, {r3, r6, r10, r11, sp, lr, pc}
+2a73b4	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a73b8	f0064632	.word	0xf0064632
+2a73bc	e62df8e3	strt	pc, [sp], -r3, ror #17
+2a73c0	a9264628	stmdbge	r6!, {r3, r5, r9, r10, lr}
+2a73c4	f60f2204	.word	0xf60f2204
+2a73c8	b928ec3c	stmdblt	r8!, {r2, r3, r4, r5, r10, r11, sp, lr, pc}
+2a73cc	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a73d0	f0064632	.word	0xf0064632
+2a73d4	e621f87d	qsub16	pc, r1, sp
+2a73d8	a9284628	stmdbge	r8!, {r3, r5, r9, r10, lr}
+2a73dc	f60f2204	.word	0xf60f2204
+2a73e0	b928ec30	stmdblt	r8!, {r4, r5, r10, r11, sp, lr, pc}
+2a73e4	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a73e8	f0054632	.word	0xf0054632
+2a73ec	e615fbff	ssub8	pc, r5, pc
+2a73f0	a92a4628	stmdbge	r10!, {r3, r5, r9, r10, lr}
+2a73f4	f60f2204	.word	0xf60f2204
+2a73f8	b928ec24	stmdblt	r8!, {r2, r5, r10, r11, sp, lr, pc}
+2a73fc	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7400	f0064632	.word	0xf0064632
+2a7404	e609f963	str	pc, [r9], -r3, ror #18
+2a7408	a9144628	ldmdbge	r4, {r3, r5, r9, r10, lr}
+2a740c	f60f2204	.word	0xf60f2204
+2a7410	b928ec18	stmdblt	r8!, {r3, r4, r10, r11, sp, lr, pc}
+2a7414	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7418	f0064632	.word	0xf0064632
+2a741c	e5fdfa19	ldrb	pc, [sp, #0xa19]!
+2a7420	46394620	ldrtmi	r4, [r9], -r0, lsr #12
+2a7424	f0064632	.word	0xf0064632
+2a7428	e5f7fb05	ldrb	pc, [r7, #0xb05]!
+2a742c	e8bdb02d	pop	{r0, r2, r3, r5, r12, sp, pc}
+2a7430	bf008ff0	svclt	#0x8ff0
+2a7434	000e88f6	strdeq	r8, r9, [lr], -r6
+2a7438	000e55ce	andeq	r5, lr, lr, asr #11
+2a743c	000e55cf	andeq	r5, lr, pc, asr #11
+2a7440	000e557a	andeq	r5, lr, r10, ror r5
+2a7444	000e557f	andeq	r5, lr, pc, ror r5

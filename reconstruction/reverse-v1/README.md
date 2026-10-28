@@ -53,9 +53,10 @@
 
 ## 已钉的语义
 
-    汇总：140 张卡、47,060 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
-          claims 1,267 条（proven 1,073 / narrowed 89 / open 97 / refuted 7 / inferred 4）
-          真实进度（按 @func 起址去重）：261 个函数，188,268 / 593,104 B = 31.7%（可达集）
+    汇总：145 张卡、53,754 条锚点全部 EXACT（verify_reverse_v1.py），跨卡共享地址 0
+          claims 1,290+ 条；真实进度（按 @func 起址去重，匿名段用切分后尺寸）：271 个函数/段，225,764 / 593,104 B = 38.1%（可达集）
+          ⚠ ISA 缺陷：563 个 Thumb-2 函数（92,532 B，几乎全为 libpng）曾被 ARM 误解码；
+            仅 1 张卡受影响（anon_2a7e2c_group），asm_index.py 已支持 --thumb
 
     入口链
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
