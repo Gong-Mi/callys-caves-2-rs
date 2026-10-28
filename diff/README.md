@@ -48,3 +48,39 @@ harness 本身是通的：4400 例、两边都跑完、逐字段比对、第一�
     2  让 Rust 侧按契约改造（新增 tagged value 类型）；这是改动库，不是适配层能绕过的
     3  重跑本 harness，目标：identical 占据绝大多数，剩余差异逐条归因
     4  静态继续推进对象模型（CInstance/CObjectGM/CRoom/CSprite），为里程碑 2 的整段轨迹差分铺路
+
+## 2026-10-28 第二次实测（C 侧按修正后的卡更新；Rust 侧只改协议字段）
+
+    C 侧     diff/c/vm_ref.c：tag 5/12 的注释与语义按 claims RVALUE-004 改写（5=undefined、12=null=0.0）；
+             编译零警告（clang -O2 -std=c11 -Wall -Wextra）
+    Rust 侧  op_eval.rs：失败行补上 "sp": 0（协议要求 ok=false 时 sp==0）；sp 保持 VM 自己的槽计数。
+             **试过 ×16 换算，反而错得更远**：push_immediate 卡里是 -4 字节，×16 得 -256。
+             结论：原版 sp 是**按操作数宽度**推进（4/8/16），不是固定 16 字节/槽，不能用比例换算。
+
+### 全量 4400 例
+
+    identical            27   0.6%
+    sp+bytes+tag       1020
+    ok 相反            1426   (C 成 / Rust 错 1306，反向 120)
+    error 串不同       1566
+    其余（单字段差）     361
+
+### 数值可比子集（1264 例：只取两边都实现的 15 个 op，且 tag 全在 0/7/10/13）
+
+    identical            15   1.2%
+    sp+bytes+tag        763  60.4%
+    ok 相反             211  16.7%
+    sp only             175  13.8%
+    sp+bytes             62   4.9%
+    bytes(+tag)          23   1.8%
+    error 其他           15   1.2%
+
+**这一栏才是真问题**：即使只看两边都支持、tag 全是数值的用例，仍有约 **67%** 的结果值不同
+（sp+bytes+tag 763 + sp+bytes 62 + bytes* 23）。原因不是"缺 tag"这一层，而是 **f64 模型本身在数值上不等价**：
+int32 回绕、int64 精度、整数除法/移位语义在 Rust 侧全是 f64 近似。
+
+### 结论（对下一步的约束）
+
+    1  只补 tag 不够：`Vec<f64>` 必须换成 {tag, 数值联合} 的值类型，否则 int32 回绕这类差异永远在
+    2  sp 不能用换算对齐：VM 的栈单位要按操作数宽度推进（DoPushImmediate 4 字节、二元按宽度和）
+    3  这两个都是 crates/core 的库内改动，适配层绕不过去

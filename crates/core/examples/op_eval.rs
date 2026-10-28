@@ -295,6 +295,10 @@ fn success_line(id: &str, sp: i32, value: f64) -> String {
     line.push_str("{\"id\": ");
     line.push_str(id);
     line.push_str(", \"ok\": true, \"sp\": ");
+    // 注意：**不能**用 ×16 把槽换成字节 —— 原版的 push_immediate 只推 4 字节、
+    // 二元运算按操作数宽度推 8/4/16，不是固定 16 字节/槽。实测 ×16 后 push_immediate
+    // 得到 -256 而卡里是 -4，反而错得更远。这里保留 VM 自己的槽计数并在 tag 上标 0，
+    // 让差分如实暴露“栈单位不同”这一层差异，不做假换算。
     line.push_str(&sp.to_string());
     line.push_str(", \"result\": {\"bytes\": \"");
     line.push_str(&hex_encode(&bytes));
@@ -303,10 +307,11 @@ fn success_line(id: &str, sp: i32, value: f64) -> String {
 }
 
 fn error_line(id: &str, message: &str) -> String {
+    // 协议：ok=false 时 sp 必须为 0（run_diff 会把缺 sp 当成 schema 违规）
     let mut line = String::with_capacity(96);
     line.push_str("{\"id\": ");
     line.push_str(id);
-    line.push_str(", \"ok\": false, \"error\": ");
+    line.push_str(", \"ok\": false, \"sp\": 0, \"error\": ");
     line.push_str(&serde_json::to_string(message).unwrap_or_else(|_| "\"bad_input\"".into()));
     line.push('}');
     line

@@ -251,7 +251,7 @@ static int slot_w(int cls)
 }
 
 /* tag → 存储类（DoShr 卡结论 2 / DoMul 卡结论 3 / DoNeg、DoConv 的 14 路 tag 表）：
- * 0/13→real、7→int32、10→int64、1→string、2→array、3→pointer、5→undefined、
+ * 0/13→real、7→int32、10→int64、1→string、2→array、3→pointer、5→undefined（+=0.0）、12→null（=0.0）、
  * 其余（4/6/8/9/11/12/14/>13，含 0x00FFFFFF 占位）→ Malformed variable。
  * DoAdd 卡 open：占位在 mode0 里不查，落到 Malformed —— 与这里一致。 */
 static int cls_of_tag(const char *op, int side, const RVal *v, Out *o)
@@ -989,7 +989,9 @@ static void op_conv(const Case *c, Out *o)
         case 7:  scls = 2; break;
         case 10: scls = 3; break;
         case 1:  scls = 6; break;
-        case 5: case 12: scls = 4; break;    /* 卡：tag 5/12 → src 4（叶名未定） */
+        case 5: case 12: scls = 4; break;    /* tag5=undefined、tag12=null：DoConv 都把它们派到
+                                              src 4 叶子；**不是 bool 语义**，只是同一个数值零叶子
+                                              （claims RVALUE-004：tag5 复制 .bss 零常量 +0.0、tag12 是显式 0.0） */
         case 2: ofail_tag(o, "conv", 1, "illegal array use"); return;
         case 3: ofail_tag(o, "conv", 1, "illegal pointer use"); return;
         case 0x00FFFFFF: ofail(o, "DoConv :1: Could not find variable"); return;
