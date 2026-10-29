@@ -3,7 +3,7 @@
  * @card  0x000cef90 .. 0x0027d1dc（非连续，12 个函数 / 27 条锚点，地址各出现一次）
  *        —— 每个函数一个 @func 小节；verify_reverse_v1 的 range 列只取文件里第一个 @func
  *           （0x000cef90..0x000cef94），本卡真实覆盖面看 @card 这一行与 12 个 @func 小节。
- * 级别:  桩（27/27 条锚定 EXACT；每条指令都解出语义：尾跳目标 + 参数处置，或「直接返回、r0 原值」）
+ * 级别: 骨架（27/27 条锚定 EXACT；每条指令都解出语义：尾跳目标 + 参数处置，或「直接返回、r0 原值」；无函数体可读）
  * 符号:  _Z6YYFreePKv                      void YYFree(void const*)
  *        _Z9YYStrFreePKc                   void YYStrFree(char const*)
  *        _Z17LOCK_RVALUE_MUTEXv            void LOCK_RVALUE_MUTEX()

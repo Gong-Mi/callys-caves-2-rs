@@ -11,7 +11,7 @@
  *          GR_Texture_Draw(YYTPageEntry*, 7×float, uint, float)   0x174ee0   808 B
  *          GR_Text_Draw(float, float, P*, int, int)               0x172df8   624 B
  *
- * 级别:  桩（接口级）
+ * 级别: 骨架（接口级：eRenderState 32 项跳表与状态语义已证，锚点只落 14 条关键指令；其余地址由别的卡主张）
  *        · 不贴逐条锚点表（六函数合计 1477 条解码），只对**载重最大的十几条**挂锚点；见文末「锚点」段
  *        · 已钉：入口/大小/帧、每个形参的落位、每一处直接 bl 的目标、每个 `ldr [pc,#imm]`→GOT 槽→
  *          .dynsym 全局名（全部查表得到，不是猜）、每个 `ldrsh/ldrh/ldrb [rX,#imm]` 的位移、
