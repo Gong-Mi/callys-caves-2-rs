@@ -5,8 +5,8 @@
 
 ## 账
 
-    cards                169 张已提交（多节卡按节算 @func 共 440 节）＋ cards/Audio.c 是上一轮被打断的半卡（8 节只写 2 节），未提交
-    anchors              126,654 条已提交（盘上含半卡 127,460），全部 RESULT EXACT
+    cards                170 张已提交（含 GateBytes.c；多节卡按 @func 算 440 节）＋ cards/Audio.c 是上一轮被打断的半卡，未提交
+    anchors              127,123 条已提交（盘上含半卡 127,929），全部 RESULT EXACT
     跨卡共享地址          0
     claims               1,719 条（proven 1,456 / narrowed 114 / open 134 / refuted 7 / inferred 7 / 新增 INIT-007 open）
     指令基线             649,229（Thumb 双遍解码）
@@ -50,9 +50,12 @@
        anon_264c00(90)/26020c(88)/262680(61)/2636d4(19)/276e68(15)/2fc4e8(5)/300004(5)/234434(4)），
        余 97 段 / 213,116 B 未出卡（最大 anon_270108 15,156 B、anon_273c3c 12,844 B、anon_303c46 12,830 B）
     3  freetype（TT_RunIns 7.8 KB）、pcre compile_branch（23.5 KB）的内部
-    4  几个反复出现的未定语义：g_isZeus(0x5428e8) 到底是什么开关、
-       option_use_fast_collision(0x542379) 的写者、0x47f295 门字节、
-       DoSet K=7..10 的四个 JS 抽象关系算子、Shl/Shr 的 bit15
+    4  几个反复出现的未定语义：g_isZeus(0x5428e8) —— **消费面已清（cards/GateBytes.c）**：52 个点全经槽
+       0x3ed92c，唯一写点 0x1dd844 在 GetResolution 内，读点覆盖 DrawTheRoom/UpdateViews/存档/StartRoom/
+       InitGame 等与 14 条 joystick_* 注册的 flag；语义（取值域、是否「Zeus/高清」开关）仍 open。
+       0x755363 —— 消费面 31 点（CheckLicense/全部 Audio_*/SoundHardware::Init/ProcessCommandLine），
+       **本普查未发现写点**；option_use_fast_collision(0x542379) 的写者、0x47f295 门字节、
+       DoSet K=7..10 的四个 JS 抽象关系算子、Shl/Shr 的 bit15 仍 open
     5  Motion_Grid_Path 的障碍编码矛盾（入口按 <0 判失败、扩展闸门按 ≤0 判入）
 
 ## 实现侧（Rust VM）
