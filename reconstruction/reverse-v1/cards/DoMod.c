@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoMod（原版 libyoyo.so，armv7）
  * @func 0xde5e8 0xdef6c  size 2436  609 条指令（含尾部 literal 池）
- * 级别: 骨架（入口/两级 kind 分派/86 路消费表/52 路算术表/9 条算术核/除零与 NaN 语义已证；
+ * 级别: 正文（入口/两级 kind 分派/86 路消费表/52 路算术表/9 条算术核/除零与 NaN 语义已证；
  *        kind 1、kind 4 的语义未证）
  * 符号: _Z5DoModjPhPKhP6VMExec → uchar* DoMod(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
@@ -37,6 +37,14 @@
  * open：kind 1 / kind 4 的语义（4 字节槽但与任何 pair 都不合法）；pair 52..85 落到 @0xde8e0
  *       后会跳回 @0xde804 重新分派（正常路径下含 5 的 pair 都会被改写，故不可达）；
  *       为什么 mode 只区分 1（2..15 与 0 同路）。
+ *
+ * ── 本批补证：取模（GML `mod` / `%`）（逐条锚在下方）──
+ *   0xde5e8 起：fmod@plt ×6（实数路径，走 libm 的 fmod，不是截断取整）
+ *   __aeabi_ldivmod ×3（整型路径：int64 除法取余，余数符号随被除数）
+ *   __floatdidf ×2（int64 → double 回装箱）
+ *   VMError ×15 —— 本函数错误面最大的一个，格式串未解（open）
+ *   open 1 实数路径用 fmod 而整型路径用 ldivmod：两条路的「负数取模」语义不同，Rust 实现要分别对
+ *   open 2 15 处 VMError 的触发条件与文案
  */
 /* ---- 入口：mode=(arg>>8)&0xF，只有 mode==1 走常量装箱 ---- */
 /* @0x00de5e8 ubfx r2, r0, #0x8, #0x4 */

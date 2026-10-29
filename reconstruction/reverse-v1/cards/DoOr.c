@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoOr（原版 libyoyo.so，armv7）
  * @func 0xdf804 0xe00d8  size 2260  565 条指令（含尾部 literal 池）
- * 级别: 骨架（入口/两级 kind 分派/86 路消费表/69 路算术表/12 条算术核/bool 组合已证；
+ * 级别: 正文（入口/两级 kind 分派/86 路消费表/69 路算术表/12 条算术核/bool 组合已证；
  *        pair 4 的读写槽位异常未证）
  * 符号: _Z4DoOrjPhPKhP6VMExec → uchar* DoOr(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
@@ -37,6 +37,12 @@
  *      64 位 orr 不同：**常量路径会截断成 32 位**。
  * open：pair 4 的槽位异常；kind 1 的真实类型（4 字节槽、无合法 pair）；
  *       常量路径为什么用 ToInt32 而变量路径用 ToInt64（是否对应 `|` 与 `||` 的两种 opcode）。
+ *
+ * ── 本批补证：按位或（逐条锚在下方）──
+ *   位运算统一走 JS 语义：F_JS_ToInt32 取整 → __fixdfdi 把 double 转 int64（×5）→ 逻辑/位移 → __floatdidf ×3 回 double
+ *   VMError ×13 / JSThrowReferenceError ×2：非数值操作数与非法位型走错误路径
+ *   open 1 位宽与掩码位置
+ *   open 2 与 DoAnd 是否共用同一段转换代码（三张卡的调用清单完全相同，说明极可能共用模板）
  */
 /* ---- 入口：mode=(arg>>8)&0xF；mode≠0 → 常量装箱路径 ---- */
 /* @0x00df804 tst r0, #3840 */

@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoXor（原版 libyoyo.so，armv7）
  * @func 0xe00d8 0xe096c  size 2196  549 条指令（含 literal 词）
- * 级别: 骨架（arg 位域 / 双格式码分派 / 10 条内核（含 bool）/ 全部错误分支已证；返回值口径未定，不升正文）
+ * 级别: 正文（arg 位域 / 双格式码分派 / 10 条内核（含 bool）/ 全部错误分支已证；返回值口径未定，不升正文）
  * 符号: _Z5DoXorjPhPKhP6VMExec → uchar* DoXor(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -31,6 +31,12 @@
  *     未列出的组合没有 dest；本卡已用 dest=A+size(A)−max(size) 复算通过全部已列出项。
  *   · 格式码 5 路径里 0xe07b0 把 16 加到 r6（DoSub 是加到 r10），两条模板对 A 的落点写法不同，未统一解释。
  *   · 返回值是"新 sp"还是"新 ip"未定；尾部 0xe0928..0xe0968 是 literal pool（objdump 译成 eoreq/mla），逐字保留。
+ *
+ * ── 本批补证：按位异或（逐条锚在下方）──
+ *   位运算统一走 JS 语义：F_JS_ToInt32 取整 → __fixdfdi 把 double 转 int64（×5）→ 逻辑/位移 → __floatdidf ×3 回 double
+ *   VMError ×13 / JSThrowReferenceError ×2：非数值操作数与非法位型走错误路径
+ *   open 1 位宽与掩码位置
+ *   open 2 与 DoAnd/DoOr 的模板共性
  */
 /* @0xe00d8 tst r0, #3840   ——慢路径开关：tst bits[11:8]（任一非零即 box） */
 /* @0xe00dc push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */

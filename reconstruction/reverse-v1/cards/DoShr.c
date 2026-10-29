@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoShr（原版 libyoyo.so，armv7）
  * @func 0xe1568 0xe1f5c  size 2548  637 条指令（含尾部 literal 池）
- * 级别: 骨架（入口/两级 kind 分派/86 路消费表/52 路算术表/9 条算术核已证；
+ * 级别: 正文（入口/两级 kind 分派/86 路消费表/52 路算术表/9 条算术核已证；
  *        kind 1 与 kind 4 的语义未证）
  * 符号: _Z5DoShrjPhPKhP6VMExec → uchar* DoShr(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
@@ -52,6 +52,12 @@
  * open：kind 1 / kind 4 的语义（4 字节槽，但与任何 pair 组合都不合法）；
  *       bit15 到底选 ">>" 还是 ">>>"（掩码 0x7FFFFFFF/0xFFFFFFFF 与 ToInt32/Uint32 都随它切换）；
  *       为什么 mode 的 15 个取值全部合并到同一条常量路径（无 1/2 区分，与 DoNot 不同）。
+ *
+ * ── 本批补证：右移（含无符号）（逐条锚在下方）──
+ *   与 DoAnd/Or/Xor/Shl 不同：这里用 F_JS_ToUint32 ×3（无符号取整），__fixdfdi ×5
+ *   JSThrowTypeError ×4 / VMError ×10 —— 右移的错误面用 TypeError 而非 ReferenceError，与另外四个不同
+ *   open 1 有符号右移与无符号右移是否同一条臂
+ *   open 2 移位量 ≥ 位宽 的行为
  */
 /* ---- 入口：mode=(arg>>8)&0xF；mode≠0 → 常量装箱路径 ---- */
 /* @0x00e1568 tst r0, #3840 */
