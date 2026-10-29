@@ -1,0 +1,7686 @@
+/* cally 逆向卡：残段 Residue_01 —— 不属于任何已出卡函数跨度的剩余指令
+ * 节: 178 个连续段｜锚点 7500 条
+ * 级别: 桩 —— 这些地址**不在** asm/functions.tsv 的任何函数跨度内，也不在 anon_splits.tsv 的分段内：
+ *       它们是大函数尾部/对齐填充/未建档的代码残段。本卡只做一件事：把「每条指令都被指到」这条账补齐，
+ *       不主张任何语义，也不假装它们是函数。
+ * 索引: asm/instructions.jsonl
+ * 段 0xba70c..0xba70c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0xc134c..0xc134c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0xce438..0xce438（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0xde5e4..0xde5e4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0xdef6c..0xdef6c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0xec104..0xec104（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0xf68c4..0xf68c4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0xfb000..0xfb000（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0xfb3bc..0xfb3bc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x108074..0x108074（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x10859c..0x10859c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x10e17c..0x10e17c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x10f6ec..0x10f6ec（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x110fec..0x110fec（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x115564..0x115564（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1156ac..0x1156ac（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x11683c..0x11683c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1168c4..0x1168c4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x116c3c..0x116c3c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x116d14..0x116d14（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x116de4..0x116de4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x116eac..0x116eac（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x116f74..0x116f74（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x11703c..0x11703c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x117104..0x117104（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x117cb4..0x117cb4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x117d94..0x117d94（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1182c4..0x1182c4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1183e4..0x1183e4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1184fc..0x1184fc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x118614..0x118614（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x11871c..0x11871c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x138ce4..0x138ce4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x139b54..0x139b54（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x139c3c..0x139c3c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x14608c..0x14608c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x14c69c..0x14c69c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1514b0..0x1514b0（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x15321c..0x15321c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x15344c..0x15344c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x153be4..0x153be4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x154bd0..0x154bd0（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x15506c..0x15506c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x155984..0x155984（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x155ae4..0x155ae4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x155e9c..0x155e9c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x159c84..0x159c84（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x166e6c..0x166e6c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x16c2f4..0x16c2f4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x175a8c..0x175a8c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x175e8c..0x175e8c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1762ac..0x1762ac（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x17a3b4..0x17a3b4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x17aadc..0x17aadc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x18418c..0x18418c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x18422c..0x18422c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x189238..0x189238（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x18a660..0x18a660（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x18b344..0x18b344（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x18b5c0..0x18b5c0（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x190870..0x190870（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1910e4..0x1910e4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1928d4..0x1928d4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x192a9c..0x192a9c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1a1ecc..0x1a1ecc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1a2194..0x1a21b4（9 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1abf9c..0x1abf9c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1b6efc..0x1b6efc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1c5a34..0x1c5a34（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1c606c..0x1c606c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1c6c74..0x1c6c74（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1c74cc..0x1c74cc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1c89a0..0x1c89a0（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1cb774..0x1cb774（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1cba54..0x1cba54（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1cbde8..0x1cbde8（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1d5064..0x1d5064（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1d50b4..0x1d50b4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1d5154..0x1d5154（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1d5244..0x1d5244（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1d555c..0x1d555c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1d55a4..0x1d55a4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1d55ec..0x1d55ec（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1d5634..0x1d5634（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1da93c..0x1da93c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1e173c..0x1e173c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1e1844..0x1e1844（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x1e1a5c..0x1e1a5c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x212b0c..0x212b0c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x215144..0x215144（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2151b4..0x2151b4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x216258..0x216258（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x218114..0x218114（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x21818c..0x21818c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x21db50..0x21db50（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x21e214..0x21e214（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x221cdc..0x221cdc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2225c8..0x2225c8（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x222984..0x222984（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x222f1c..0x222f1c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x22374c..0x22374c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x223eac..0x223eac（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x22476c..0x22476c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x225c1c..0x225c1c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2298a8..0x2298a8（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x22aa7c..0x22aa7c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x22bf78..0x22bf78（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x22e738..0x22e738（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x22eaec..0x22eaec（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x22fc68..0x22fc68（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x230ec0..0x230ec0（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x231184..0x231184（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x231c44..0x231c44（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x233804..0x233804（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x233f70..0x233f70（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x234330..0x234330（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x234774..0x234774（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x237b74..0x237b74（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x23d0ec..0x23d0ec（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x23dfcc..0x23dfcc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x244984..0x244984（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2449d4..0x2449d4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x244c64..0x244c64（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x24511c..0x24511c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2452bc..0x2452bc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x24547c..0x24547c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2454ec..0x2454ec（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x245e74..0x245e74（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x245ed4..0x245ed4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x246104..0x246104（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x246324..0x246324（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2483dc..0x2483dc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x24dc8c..0x24dc8c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x25268c..0x25268c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x25275c..0x25275c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x25516c..0x25516c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x256394..0x256394（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2566ec..0x2566ec（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x256ed4..0x256ed4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x257044..0x257044（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x25ed60..0x25ed60（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x25f420..0x25f420（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x266564..0x266564（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2679bc..0x2679bc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27938c..0x27938c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27b944..0x27b944（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27e0bc..0x27e0bc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27e7b0..0x27e7b0（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27e810..0x27e810（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27e9fc..0x27e9fc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27ebec..0x27ebec（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27ec94..0x27ec94（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x27eef8..0x27eef8（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x280994..0x280994（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x280f3c..0x280f3c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x284054..0x284054（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2872b4..0x2872b4（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x287968..0x287968（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2894c8..0x2894c8（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x28b6fc..0x28b6fc（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x299228..0x299228（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x299e84..0x299e84（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x29d76c..0x29d76c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2a00a0..0x2a00a0（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2a2e8c..0x2a2e8c（1 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2a31e8..0x2a399a（493 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2a3b4c..0x2a4a56（963 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2a4ddc..0x2a5472（422 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2a5558..0x2a6396（912 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2a6428..0x2a6fea（753 条）→ 跨度外（不属于任何函数/分段）
+ * 段 0x2a747a..0x2a7486（4 条）→ png_start_read_image
+ * 段 0x2a77e6..0x2a783a（22 条）→ png_read_rows
+ * 段 0x2a7eba..0x2a7ebe（2 条）→ png_set_read_status_fn
+ * 段 0x2a8006..0x2a804a（18 条）→ png_default_read_data
+ * 段 0x2a809e..0x2aa29c（2176 条）→ png_set_crc_action
+ * 段 0x2aa2f8..0x2ab472（1119 条）→ png_do_gamma
+ * 段 0x2ab512..0x2aba7a（347 条）→ png_init_read_transformations
+ * 段 0x2abb68..0x2ae712（2795 条）→ 跨度外（不属于任何函数/分段）
+ * ────────────────────────────────────────────────────────────────────────────
+ *   @0xba70c .word 0xffffffd4
+ *   @0xc134c andeq r0, r0, r0
+ *   @0xce438 eoreq r3, r6, r8, lsl #28
+ *   @0xde5e4 andeq r0, r0, r0
+ *   @0xdef6c nop
+ *   @0xec104 nop
+ *   @0xf68c4 bx lr
+ *   @0xfb000 eoreq r12, r3, r4, lsl r12
+ *   @0xfb3bc b 0xfb3a8 <_Z17F_DsMapSecureSaveR6RValueP9CInstanceS2_iPS_+0x1e8>
+ *   @0x108074 andeq r0, r0, r0
+ *   @0x10859c andeq r0, r0, r0
+ *   @0x10e17c andeq r0, r0, r0
+ *   @0x10f6ec andeq r0, r0, r0
+ *   @0x110fec andeq r0, r0, r0
+ *   @0x115564 andeq r0, r0, r0
+ *   @0x1156ac andeq r0, r0, r0
+ *   @0x11683c nop
+ *   @0x1168c4 nop
+ *   @0x116c3c nop
+ *   @0x116d14 nop
+ *   @0x116de4 nop
+ *   @0x116eac nop
+ *   @0x116f74 nop
+ *   @0x11703c nop
+ *   @0x117104 nop
+ *   @0x117cb4 nop
+ *   @0x117d94 nop
+ *   @0x1182c4 nop
+ *   @0x1183e4 nop
+ *   @0x1184fc nop
+ *   @0x118614 nop
+ *   @0x11871c nop
+ *   @0x138ce4 nop
+ *   @0x139b54 mlaeq r11, r0, r7, r5
+ *   @0x139c3c eoreq r5, r11, r12, lsr #13
+ *   @0x14608c nop
+ *   @0x14c69c andseq r7, pc, r0, lsr #14
+ *   @0x1514b0 b 0x1909f4 <_Z21GamepadReportFailureMv>
+ *   @0x15321c eoreq pc, r9, r12, ror #2
+ *   @0x15344c .word 0x0029c6d0
+ *   @0x153be4 andeq r0, r0, r0
+ *   @0x154bd0 bx lr
+ *   @0x15506c andeq r0, r0, r0
+ *   @0x155984 andeq r0, r0, r0
+ *   @0x155ae4 nop
+ *   @0x155e9c nop
+ *   @0x159c84 .word 0x00295ff4
+ *   @0x166e6c nop
+ *   @0x16c2f4 b 0x18e2b0 <_ZN8LoadSave6fwriteEPKvjjP7_YYFILE>
+ *   @0x175a8c andeq r0, r0, r0
+ *   @0x175e8c nop
+ *   @0x1762ac nop
+ *   @0x17a3b4 nop
+ *   @0x17aadc andeq r0, r0, r0
+ *   @0x18418c andeq r0, r0, r0
+ *   @0x18422c nop
+ *   @0x189238 pop {r4, r5, r6, pc}
+ *   @0x18a660 bx lr
+ *   @0x18b344 andeq r0, r0, r0
+ *   @0x18b5c0 pop {r4, r5, r6, pc}
+ *   @0x190870 .word 0xffffbac4
+ *   @0x1910e4 eoreq r12, r5, r4, lsr #23
+ *   @0x1928d4 andeq r0, r0, r0
+ *   @0x192a9c nop
+ *   @0x1a1ecc andeq r0, r0, r0
+ *   @0x1a2194 nop
+ *   @0x1a21b4 andeq r0, r0, r0
+ *   @0x1abf9c andeq r0, r0, r0
+ *   @0x1b6efc andeq r0, r0, r0
+ *   @0x1c5a34 nop
+ *   @0x1c606c andeq r0, r0, r0
+ *   @0x1c6c74 nop
+ *   @0x1c74cc andeq r0, r0, r0
+ *   @0x1c89a0 bx lr
+ *   @0x1cb774 andeq r0, r0, r0
+ *   @0x1cba54 nop
+ *   @0x1cbde8 b 0x1cbd80 <_Z19FINALIZE_Run_Globalv+0x314>
+ *   @0x1d5064 andeq r0, r0, r0
+ *   @0x1d50b4 nop
+ *   @0x1d5154 nop
+ *   @0x1d5244 nop
+ *   @0x1d555c andeq r0, r0, r0
+ *   @0x1d55a4 nop
+ *   @0x1d55ec nop
+ *   @0x1d5634 nop
+ *   @0x1da93c andeq r0, r0, r0
+ *   @0x1e173c andeq r0, r0, r0
+ *   @0x1e1844 nop
+ *   @0x1e1a5c nop
+ *   @0x212b0c andeq r0, r0, r0
+ *   @0x215144 andeq r0, r0, r0
+ *   @0x2151b4 nop
+ *   @0x216258 andseq sp, r3, r0, ror #18
+ *   @0x218114 andeq r0, r0, r0
+ *   @0x21818c nop
+ *   @0x21db50 pop {r3, pc}
+ *   @0x21e214 andeq r0, r0, r0
+ *   @0x221cdc pop {r4, r5, r6, pc}
+ *   @0x2225c8 .word 0xfffff808
+ *   @0x222984 pop {r3, r4, r5, r6, r7, pc}
+ *   @0x222f1c strdmi r2, r3, [r9], -r11
+ *   @0x22374c pop {r4, r5, pc}
+ *   @0x223eac ldrsheq r0, [r3], -r8
+ *   @0x22476c b 0x2244d0 <_Z13GetStreamInfoP12cAudio_Sound+0x620>
+ *   @0x225c1c nop
+ *   @0x2298a8 andseq r4, r3, r4, lsr #17
+ *   @0x22aa7c andseq r2, r12, r12, ror pc
+ *   @0x22bf78 pop {r4, r5, r6, r7, r8, r9, r10, pc}
+ *   @0x22e738 andseq pc, r11, r12, lsl #10
+ *   @0x22eaec bx lr
+ *   @0x22fc68 andseq r1, r12, r0, asr r8
+ *   @0x230ec0 b 0x230c70 <vorbis_packet_blocksize+0xff4>
+ *   @0x231184 b 0x231150 <ov_clear+0x28c>
+ *   @0x231c44 b 0x231c14 <ov_raw_seek+0x5fc>
+ *   @0x233804 pop {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x233f70 b 0x233f44 <oggpackB_get_buffer+0xe4>
+ *   @0x234330 pop {r3, r4, r5, pc}
+ *   @0x234774 andseq r0, r2, r12, lsr #23
+ *   @0x237b74 andseq sp, r1, r12, asr #13
+ *   @0x23d0ec nop
+ *   @0x23dfcc andeq r0, r0, r0
+ *   @0x244984 andeq r0, r0, r0
+ *   @0x2449d4 andeq r0, r0, r0
+ *   @0x244c64 andeq r0, r0, r0
+ *   @0x24511c andeq r0, r0, r0
+ *   @0x2452bc nop
+ *   @0x24547c andeq r0, r0, r0
+ *   @0x2454ec nop
+ *   @0x245e74 andeq r0, r0, r0
+ *   @0x245ed4 nop
+ *   @0x246104 andeq r0, r0, r0
+ *   @0x246324 nop
+ *   @0x2483dc andeq r0, r0, r0
+ *   @0x24dc8c nop
+ *   @0x25268c nop
+ *   @0x25275c nop
+ *   @0x25516c nop
+ *   @0x256394 andeq r0, r0, r0
+ *   @0x2566ec nop
+ *   @0x256ed4 andeq r0, r0, r0
+ *   @0x257044 nop
+ *   @0x25ed60 .word 0xfffffb90
+ *   @0x25f420 pop {r4, r5, r6, r7, pc}
+ *   @0x266564 andseq r11, r8, r8, ror r4
+ *   @0x2679bc ldrsbeq r10, [r8], -r12
+ *   @0x27938c b 0x271344 <pcre_dfa_exec+0x2ddc>
+ *   @0x27b944 andeq r0, sp, r12, lsr #25
+ *   @0x27e0bc pop {r4, pc}
+ *   @0x27e7b0 andeq r6, r11, r12, ror r2
+ *   @0x27e810 b 0x27e7c8 <json_object_put>
+ *   @0x27e9fc andeq r3, r11, r0, asr #22
+ *   @0x27ebec andeq r0, r0, r0
+ *   @0x27ec94 nop
+ *   @0x27eef8 pop {r3, r4, r5, pc}
+ *   @0x280994 andeq r0, r0, r0
+ *   @0x280f3c pop {r4, r5, r6, r7, r8, pc}
+ *   @0x284054 pop {r3, r4, r5, r6, r7, pc}
+ *   @0x2872b4 subeq pc, r12, r8, asr #18
+ *   @0x287968 pop {r4, pc}
+ *   @0x2894c8 pop {r3, r4, r5, r6, r7, pc}
+ *   @0x28b6fc cmnmi pc, #0
+ *   @0x299228 andeq r0, r12, r0, lsr #11
+ *   @0x299e84 andseq r7, r5, r0, ror #23
+ *   @0x29d76c andseq r0, r5, r8, asr #11
+ *   @0x2a00a0 subeq r7, r11, r8, lsr #28
+ *   @0x2a2e8c subeq r6, r11, r4, asr r2
+ *   @0x2a31e8 ldrsheq r10, [r4], -r4
+ *   @0x2a31f6 ldr r3, [r3]
+ *   @0x2a31fa mov r4, r0
+ *   @0x2a31fe str r3, [sp, #0x30]
+ *   @0x2a3202 cmp r0, #0x0
+ *   @0x2a320a adds r3, #0x1
+ *   @0x2a320e ldr r2, [r0, #0x1c]
+ *   @0x2a3212 subs r3, r2, r3
+ *   @0x2a3216 movne r3, #0x1
+ *   @0x2a321a movs r3, #0x1
+ *   @0x2a321e movs r1, #0x0
+ *   @0x2a3222 movs r6, #0x14
+ *   @0x2a3226 cmp r2, r5
+ *   @0x2a322a mul r1, r6, r2
+ *   @0x2a322e ldr r0, [r4, #0x34]
+ *   @0x2a3232 ldr r1, [r0, r1]
+ *   @0x2a3236 ldr r1, [r7, #0x10]
+ *   @0x2a323e movne r3, #0x1
+ *   @0x2a3242 cmp r1, #0x1
+ *   @0x2a3246 movs r3, #0x1
+ *   @0x2a324a adds r1, #0x1
+ *   @0x2a324e b 0x2a3252 <zip_close+0x66>
+ *   @0x2a3252 adds r2, #0x1
+ *   @0x2a3256 cbnz r3, 0x2a3262 <zip_close+0x76>
+ *   @0x2a325a movs r5, #0x0
+ *   @0x2a3262 ldr r2, [sp, #0x1c]
+ *   @0x2a3266 ldr r0, [r4]
+ *   @0x2a326a beq 0x2a3258 <zip_close+0x6c>
+ *   @0x2a326e cbnz r3, 0x2a3276 <zip_close+0x8a>
+ *   @0x2a3272 cmp r3, #0x0
+ *   @0x2a3276 blx 0xb6970 <remove@plt>
+ *   @0x2a327a cmp r0, #0x0
+ *   @0x2a327e blx 0xb6bf8 <__errno@plt>
+ *   @0x2a3282 movs r1, #0x16
+ *   @0x2a3286 add.w r0, r4, #0xc
+ *   @0x2a328a bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a328e b 0x2a38e2 <zip_close+0x6f6>
+ *   @0x2a3292 lsls r0, r3, #0x3
+ *   @0x2a329a cmp r0, #0x0
+ *   @0x2a32a6 mov r1, r6
+ *   @0x2a32ae cmp r0, #0x0
+ *   @0x2a32b6 mov.w r8, #0x3c
+ *   @0x2a32ba ldr r0, [r5]
+ *   @0x2a32c6 adds r7, #0x1
+ *   @0x2a32ca blt 0x2a32ba <zip_close+0xce>
+ *   @0x2a32ce movs r1, #0x1
+ *   @0x2a32d2 bl 0x2a48fc <zip_get_archive_flag>
+ *   @0x2a32d6 cbz r0, 0x2a32ee <zip_close+0x102>
+ *   @0x2a32de mov r2, r6
+ *   @0x2a32e2 bl 0x2a4978 <_Z11_zip_memdupPKvjP9zip_error>
+ *   @0x2a32e6 movs r3, #0x16
+ *   @0x2a32ea cbnz r0, 0x2a3330 <zip_close+0x144>
+ *   @0x2a32ee mov r0, r4
+ *   @0x2a32f2 movs r2, #0x8
+ *   @0x2a32fa ldr r1, [r4, #0x28]
+ *   @0x2a32fe beq 0x2a3314 <zip_close+0x128>
+ *   @0x2a3302 mov r2, r6
+ *   @0x2a330a cmp r0, #0x0
+ *   @0x2a3312 b 0x2a3330 <zip_close+0x144>
+ *   @0x2a3316 cbz r3, 0x2a3332 <zip_close+0x146>
+ *   @0x2a331a cbz r0, 0x2a3332 <zip_close+0x146>
+ *   @0x2a331e mov r2, r6
+ *   @0x2a3326 cmp r0, #0x0
+ *   @0x2a332e ldrh r3, [r3, #0x14]
+ *   @0x2a3332 ldr r7, [r4]
+ *   @0x2a3336 blx 0xb6538 <strlen@plt>
+ *   @0x2a333a adds r0, #0x8
+ *   @0x2a3342 cbnz r0, 0x2a3350 <zip_close+0x164>
+ *   @0x2a3346 movs r1, #0xe
+ *   @0x2a334a bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a334e b 0x2a396a <zip_close+0x77e>
+ *   @0x2a3356 add r1, pc
+ *   @0x2a335e blx 0xb6ebc <mkstemp@plt>
+ *   @0x2a3362 adds r1, r0, #0x1
+ *   @0x2a3366 blx 0xb6bf8 <__errno@plt>
+ *   @0x2a336a movs r1, #0xc
+ *   @0x2a336e mov r0, r6
+ *   @0x2a3376 ldr.w r1, [pc, #0x610]
+ *   @0x2a337a add r1, pc
+ *   @0x2a3382 cbz r0, 0x2a3390 <zip_close+0x1a4>
+ *   @0x2a338e b 0x2a33da <zip_close+0x1ee>
+ *   @0x2a3396 ldr r2, [r0]
+ *   @0x2a339a bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a339e mov r0, r11
+ *   @0x2a33a6 blx 0xb655c <free@plt>
+ *   @0x2a33aa b 0x2a396a <zip_close+0x77e>
+ *   @0x2a33b2 ldr r3, [r3, r2]
+ *   @0x2a33b6 beq 0x2a33d6 <zip_close+0x1ea>
+ *   @0x2a33ba mov r0, r4
+ *   @0x2a33be add.w r3, r2, r9, lsl #3
+ *   @0x2a33c2 str.w r8, [r2, r9, lsl #3]
+ *   @0x2a33c6 movs r2, #0x0
+ *   @0x2a33ca bl 0x2a4970 <zip_get_name>
+ *   @0x2a33ce ldr r3, [sp, #0x8]
+ *   @0x2a33d6 add.w r8, r8, #0x1
+ *   @0x2a33da ldr r3, [r4, #0x2c]
+ *   @0x2a33de blt 0x2a33ac <zip_close+0x1c0>
+ *   @0x2a33e2 movs r1, #0x1
+ *   @0x2a33e6 bl 0x2a48fc <zip_get_archive_flag>
+ *   @0x2a33ea cbz r0, 0x2a33fc <zip_close+0x210>
+ *   @0x2a33f2 ldr r0, [sp, #0x10]
+ *   @0x2a33f6 add r3, pc
+ *   @0x2a33fe mov r0, r4
+ *   @0x2a3402 bl 0x2a48fc <zip_get_archive_flag>
+ *   @0x2a3406 cmp r0, #0x1
+ *   @0x2a340a bne 0x2a3420 <zip_close+0x234>
+ *   @0x2a340e movs r2, #0x8
+ *   @0x2a341a movlo r0, #0x0
+ *   @0x2a341e b 0x2a3424 <zip_close+0x238>
+ *   @0x2a3422 str r3, [sp, #0x14]
+ *   @0x2a342a movs r1, #0x0
+ *   @0x2a342e str r1, [sp, #0x18]
+ *   @0x2a3432 add.w r1, r3, #0x14
+ *   @0x2a3436 str r2, [sp, #0x28]
+ *   @0x2a343a ldr r3, [sp, #0x18]
+ *   @0x2a3442 ldr.w r10, [r2, r3, lsl #3]
+ *   @0x2a3446 ldr r3, [r4, #0x34]
+ *   @0x2a3452 cmp r3, #0x1
+ *   @0x2a3456 ldr r1, [sp, #0x14]
+ *   @0x2a345a beq 0x2a3520 <zip_close+0x334>
+ *   @0x2a3466 bl 0x2a3c2c <_Z16_zip_dirent_initP10zip_dirent>
+ *   @0x2a346a mov r0, r4
+ *   @0x2a346e movs r2, #0x0
+ *   @0x2a347a mov r0, r12
+ *   @0x2a3486 mov.w r9, #0x3c
+ *   @0x2a348a ldr r3, [r5]
+ *   @0x2a3492 add.w r12, r12, #0x38
+ *   @0x2a3496 add r3, r9
+ *   @0x2a349a adds r3, #0x8
+ *   @0x2a34a2 str r0, [r3, #-8]
+ *   @0x2a34a6 mov r2, lr
+ *   @0x2a34ae ldr r0, [r2]
+ *   @0x2a34b2 ldr r3, [r4, #0x34]
+ *   @0x2a34ba cmp r2, #0x0
+ *   @0x2a34be ldr.w r3, [r3, r8]
+ *   @0x2a34c2 cmp r3, #0x3
+ *   @0x2a34c6 ldr r0, [sp, #0x28]
+ *   @0x2a34ce strh.w r3, [sp, #0x70]
+ *   @0x2a34d2 ldr r1, [sp, #0x28]
+ *   @0x2a34d6 ldr r2, [r5]
+ *   @0x2a34da str r1, [r2, #0x18]
+ *   @0x2a34de add r2, r9
+ *   @0x2a34e2 b 0x2a35b2 <zip_close+0x3c6>
+ *   @0x2a34e6 movs r2, #0x3c
+ *   @0x2a34ee add r2, r1
+ *   @0x2a34f2 str r1, [sp, #0xc]
+ *   @0x2a34f6 blx 0xb6640 <strdup@plt>
+ *   @0x2a34fa str r0, [sp, #0x6c]
+ *   @0x2a3502 ldr r1, [sp, #0xc]
+ *   @0x2a350a add r3, r1
+ *   @0x2a350e ldr r3, [r5]
+ *   @0x2a3512 str r2, [r3, #0x18]
+ *   @0x2a3516 ldrh.w r2, [sp, #0x70]
+ *   @0x2a351a add r3, r9
+ *   @0x2a351e b 0x2a35b2 <zip_close+0x3c6>
+ *   @0x2a3522 cmp r0, #0x0
+ *   @0x2a3526 ldr r3, [r4, #0x20]
+ *   @0x2a352a ldr r3, [r3]
+ *   @0x2a3532 ldr r1, [r3, #0x38]
+ *   @0x2a353a bne.w 0x2a377a <zip_close+0x58e>
+ *   @0x2a353e ldr r2, [sp, #0x14]
+ *   @0x2a3542 add r0, sp, #0x54
+ *   @0x2a354a mov r3, r2
+ *   @0x2a3552 bne 0x2a3616 <zip_close+0x42a>
+ *   @0x2a3556 movs r3, #0x3c
+ *   @0x2a355a mul r1, r3, r2
+ *   @0x2a355e ldr r2, [r4, #0x20]
+ *   @0x2a3566 add r0, r1
+ *   @0x2a356a add.w lr, r2, #0x3c
+ *   @0x2a356e ldr r12, [r2], #4
+ *   @0x2a3572 cmp r2, lr
+ *   @0x2a357a ldrh.w lr, [sp, #0x58]
+ *   @0x2a357e tst.w lr, #0x8
+ *   @0x2a3582 beq 0x2a35b2 <zip_close+0x3c6>
+ *   @0x2a3586 bic lr, lr, #0x8
+ *   @0x2a358a ldr r0, [r2]
+ *   @0x2a358e ldr r0, [r0, #0xc]
+ *   @0x2a3592 ldr r0, [r2]
+ *   @0x2a3596 ldr r0, [r0, #0x10]
+ *   @0x2a359a ldr r2, [r2]
+ *   @0x2a35a2 ldr r3, [r3, #0x14]
+ *   @0x2a35a6 ldr r3, [r5]
+ *   @0x2a35aa ldrh r3, [r1, #0x4]
+ *   @0x2a35b2 ldr r3, [r4, #0x34]
+ *   @0x2a35b6 ldr r3, [r3, #0x8]
+ *   @0x2a35ba bne 0x2a364a <zip_close+0x45e>
+ *   @0x2a35be movs r1, #0x1
+ *   @0x2a35c2 bl 0x2a48fc <zip_get_archive_flag>
+ *   @0x2a35c6 cmp r0, #0x0
+ *   @0x2a35ca ldr r2, [sp, #0x18]
+ *   @0x2a35ce mov r0, r7
+ *   @0x2a35d2 str r3, [sp, #0x20]
+ *   @0x2a35da add r9, r3
+ *   @0x2a35e6 add.w r2, r3, r8
+ *   @0x2a35ea ldr.w r3, [r3, r8]
+ *   @0x2a35ee subs r3, #0x2
+ *   @0x2a35f2 bls 0x2a3696 <zip_close+0x4aa>
+ *   @0x2a35f6 cmp r3, #0x0
+ *   @0x2a35fe mov.w r3, #0xffffffff
+ *   @0x2a3602 mov r0, r4
+ *   @0x2a360a mov r2, r10
+ *   @0x2a360e bl 0x2a555c <zip_source_zip>
+ *   @0x2a3612 cmp r0, #0x0
+ *   @0x2a3616 mov.w r8, #0x1
+ *   @0x2a361a b 0x2a3802 <zip_close+0x616>
+ *   @0x2a361e cmp r0, #0x0
+ *   @0x2a3622 ldr r2, [r4, #0x20]
+ *   @0x2a3626 ldr r3, [r0]
+ *   @0x2a362a ldr r3, [r3, #0x10]
+ *   @0x2a3632 ldr r2, [r2, #0x38]
+ *   @0x2a3636 ldr r2, [sp, #0x14]
+ *   @0x2a363a add r0, sp, #0x54
+ *   @0x2a3642 ldr r1, [r4, #0x8]
+ *   @0x2a364a ldr r0, [sp, #0x6c]
+ *   @0x2a3652 add.w r9, r3, r8
+ *   @0x2a3656 ldr.w r0, [r9, #0x8]
+ *   @0x2a365a blx 0xb6640 <strdup@plt>
+ *   @0x2a365e str r0, [sp, #0x6c]
+ *   @0x2a3662 beq 0x2a3616 <zip_close+0x42a>
+ *   @0x2a366a movs r3, #0x3c
+ *   @0x2a366e strh.w r0, [sp, #0x70]
+ *   @0x2a3672 ldr r2, [r5]
+ *   @0x2a367a str r1, [r2, #0x18]
+ *   @0x2a367e ldrh.w r1, [sp, #0x70]
+ *   @0x2a3682 add r3, r2
+ *   @0x2a3686 b 0x2a35bc <zip_close+0x3d0>
+ *   @0x2a368a add r2, r8
+ *   @0x2a368e adds r3, #0x1
+ *   @0x2a3696 ldr r0, [r2, #0x4]
+ *   @0x2a369e ldr.w r9, [r0]
+ *   @0x2a36a2 movs r2, #0x1c
+ *   @0x2a36a6 mov r0, r8
+ *   @0x2a36aa cmp r0, #0x1b
+ *   @0x2a36ae movs r1, #0x0
+ *   @0x2a36b2 mov r2, r1
+ *   @0x2a36b6 blx r9
+ *   @0x2a36ba blt 0x2a370e <zip_close+0x522>
+ *   @0x2a36be add.w r10, sp, #0x54
+ *   @0x2a36c2 blx 0xb6ee0 <ftello@plt>
+ *   @0x2a36c6 mov r1, r7
+ *   @0x2a36ca mov r3, r6
+ *   @0x2a36ce mov r0, r10
+ *   @0x2a36d6 blt 0x2a3616 <zip_close+0x42a>
+ *   @0x2a36de str r6, [sp]
+ *   @0x2a36e2 mov r1, r8
+ *   @0x2a36e6 mov r3, r7
+ *   @0x2a36ee str r7, [sp]
+ *   @0x2a36f2 mov r1, r9
+ *   @0x2a36f6 add r3, sp, #0x38
+ *   @0x2a36fe blt 0x2a3616 <zip_close+0x42a>
+ *   @0x2a3702 mov r0, r8
+ *   @0x2a3706 movs r3, #0x2
+ *   @0x2a370a cmp r0, #0x0
+ *   @0x2a370e mov r0, r6
+ *   @0x2a3712 mov r2, r8
+ *   @0x2a371a mov r0, r7
+ *   @0x2a3722 movs r2, #0x0
+ *   @0x2a3726 mov r0, r7
+ *   @0x2a372e blt 0x2a377a <zip_close+0x58e>
+ *   @0x2a3732 mov r0, r4
+ *   @0x2a3736 movs r2, #0x0
+ *   @0x2a373a ldrh.w r3, [sp, #0x50]
+ *   @0x2a373e strh.w r3, [sp, #0x5a]
+ *   @0x2a3742 ldr r3, [sp, #0x40]
+ *   @0x2a3746 ldr r3, [sp, #0x48]
+ *   @0x2a374a ldr r3, [sp, #0x4c]
+ *   @0x2a374e bl 0x2a48fc <zip_get_archive_flag>
+ *   @0x2a3752 cbz r0, 0x2a375a <zip_close+0x56e>
+ *   @0x2a3756 bl 0x2a3c58 <_Z29_zip_dirent_torrent_normalizeP10zip_dirent>
+ *   @0x2a375a mov r0, r10
+ *   @0x2a375e movs r2, #0x1
+ *   @0x2a3762 bl 0x2a3ce0 <_Z17_zip_dirent_writeP10zip_direntP7__sFILEiP9zip_error>
+ *   @0x2a3766 cmp r0, #0x0
+ *   @0x2a376e mov r1, r8
+ *   @0x2a3772 blx 0xb6ed4 <fseeko@plt>
+ *   @0x2a3776 cmp r0, #0x0
+ *   @0x2a377a blx 0xb6bf8 <__errno@plt>
+ *   @0x2a377e movs r1, #0x4
+ *   @0x2a3782 mov r0, r6
+ *   @0x2a378a ldr r3, [r5]
+ *   @0x2a378e ldr r1, [sp, #0x20]
+ *   @0x2a3792 ldr r3, [sp, #0x5c]
+ *   @0x2a3796 ldr r3, [r5]
+ *   @0x2a379e strh r2, [r3, #0x6]
+ *   @0x2a37a2 ldr r3, [r5]
+ *   @0x2a37a6 ldr r3, [sp, #0x64]
+ *   @0x2a37aa mov r2, r1
+ *   @0x2a37ae add r2, r3
+ *   @0x2a37b2 str r3, [r2, #0x14]
+ *   @0x2a37b6 ldr r3, [r5]
+ *   @0x2a37ba ldr r3, [sp, #0x60]
+ *   @0x2a37be b 0x2a37ea <zip_close+0x5fe>
+ *   @0x2a37c2 mov r1, r7
+ *   @0x2a37c6 mov r3, r6
+ *   @0x2a37ce blt.w 0x2a3616 <zip_close+0x42a>
+ *   @0x2a37d2 ldr r2, [sp, #0x20]
+ *   @0x2a37d6 ldr r0, [r4, #0x4]
+ *   @0x2a37da mov r2, r7
+ *   @0x2a37de mov r3, r6
+ *   @0x2a37e6 blt.w 0x2a3616 <zip_close+0x42a>
+ *   @0x2a37ea add r0, sp, #0x54
+ *   @0x2a37f2 ldr r1, [sp, #0x1c]
+ *   @0x2a37f6 str r3, [sp, #0x18]
+ *   @0x2a37fa blt.w 0x2a343a <zip_close+0x24e>
+ *   @0x2a37fe mov.w r8, #0x0
+ *   @0x2a3802 ldr r0, [sp, #0x10]
+ *   @0x2a380e mov r0, r5
+ *   @0x2a3812 mov r2, r6
+ *   @0x2a381a blt 0x2a3894 <zip_close+0x6a8>
+ *   @0x2a381e movs r1, #0x1
+ *   @0x2a3822 bl 0x2a48fc <zip_get_archive_flag>
+ *   @0x2a3826 cbnz r0, 0x2a382e <zip_close+0x642>
+ *   @0x2a382e mov r0, r7
+ *   @0x2a3836 add r3, sp, #0x38
+ *   @0x2a383a ldr r2, [r5, #0x8]
+ *   @0x2a383e mov r0, r7
+ *   @0x2a3846 blt 0x2a3894 <zip_close+0x6a8>
+ *   @0x2a384e movs r1, #0x9
+ *   @0x2a3852 add r2, pc
+ *   @0x2a3856 blx 0xb65c8 <snprintf@plt>
+ *   @0x2a385a mov r0, r7
+ *   @0x2a3862 blx 0xb6ed4 <fseeko@plt>
+ *   @0x2a3866 cmp r0, #0x0
+ *   @0x2a386a blx 0xb6bf8 <__errno@plt>
+ *   @0x2a386e movs r1, #0x4
+ *   @0x2a3872 mov r0, r6
+ *   @0x2a3876 mov r0, r10
+ *   @0x2a387a movs r2, #0x1
+ *   @0x2a387e blx 0xb68bc <fwrite@plt>
+ *   @0x2a3882 cmp r0, #0x1
+ *   @0x2a3886 blx 0xb6bf8 <__errno@plt>
+ *   @0x2a388a movs r1, #0x6
+ *   @0x2a388e mov r0, r6
+ *   @0x2a389e mov.w r8, #0x1
+ *   @0x2a38a2 movs r3, #0x0
+ *   @0x2a38a6 str r3, [r5, #0x4]
+ *   @0x2a38b2 add r0, sp, #0x54
+ *   @0x2a38ba blx 0xb6850 <fclose@plt>
+ *   @0x2a38be b 0x2a38d6 <zip_close+0x6ea>
+ *   @0x2a38c2 blx 0xb6850 <fclose@plt>
+ *   @0x2a38c6 cbz r0, 0x2a38e8 <zip_close+0x6fc>
+ *   @0x2a38ce ldr r2, [r0]
+ *   @0x2a38d2 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a38d6 mov r0, r11
+ *   @0x2a38de blx 0xb655c <free@plt>
+ *   @0x2a38e2 mov.w r5, #0xffffffff
+ *   @0x2a38e6 b 0x2a393e <zip_close+0x752>
+ *   @0x2a38ea cbz r0, 0x2a38f8 <zip_close+0x70c>
+ *   @0x2a38f2 str.w r8, [r4, #0x4]
+ *   @0x2a38f6 b 0x2a38fa <zip_close+0x70e>
+ *   @0x2a38fa mov r0, r11
+ *   @0x2a38fe blx 0xb685c <rename@plt>
+ *   @0x2a3902 mov r5, r0
+ *   @0x2a3906 blx 0xb6bf8 <__errno@plt>
+ *   @0x2a390a movs r1, #0x2
+ *   @0x2a390e mov r0, r6
+ *   @0x2a3916 blx 0xb6970 <remove@plt>
+ *   @0x2a391a mov r0, r11
+ *   @0x2a3922 beq 0x2a38e2 <zip_close+0x6f6>
+ *   @0x2a3926 ldr r0, [r4]
+ *   @0x2a392a blx 0xb6844 <fopen@plt>
+ *   @0x2a392e str r0, [r4, #0x4]
+ *   @0x2a3932 mov r0, r4
+ *   @0x2a393a blx 0xb655c <free@plt>
+ *   @0x2a393e ldr r1, [sp, #0x30]
+ *   @0x2a3942 ldr r2, [sp, #0x9c]
+ *   @0x2a3946 cmp r2, r3
+ *   @0x2a394a blx 0xb65d4 <__stack_chk_fail@plt>
+ *   @0x2a394e ldr r1, [sp, #0x18]
+ *   @0x2a3952 muls r3, r1, r3
+ *   @0x2a3956 ldr r2, [r5]
+ *   @0x2a395a str r1, [r2, #0x28]
+ *   @0x2a395e add r3, r2
+ *   @0x2a3962 add r2, r8
+ *   @0x2a3966 strh r2, [r3, #0x2c]
+ *   @0x2a396a mov r0, r5
+ *   @0x2a3972 b 0x2a38de <zip_close+0x6f2>
+ *   @0x2a3976 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2a397a nop
+ *   @0x2a397e movs r4, r2
+ *   @0x2a3982 movs r6, r1
+ *   @0x2a3986 movs r6, r1
+ *   @0x2a398a movs r6, r1
+ *   @0x2a3992 movs r6, r1
+ *   @0x2a3996 movs r6, r1
+ *   @0x2a399a movs r6, r1
+ *   @0x2a3b4c ldrblt r8, [r0, #-0x1f0]!
+ *   @0x2a3b50 mov r4, r0
+ *   @0x2a3b54 mov r5, r1
+ *   @0x2a3b58 cmp r1, r3
+ *   @0x2a3b5c mov r0, r2
+ *   @0x2a3b60 movs r2, #0x0
+ *   @0x2a3b64 movs r1, #0x3c
+ *   @0x2a3b68 muls r1, r5, r1
+ *   @0x2a3b70 cbnz r0, 0x2a3b80 <_Z14_zip_cdir_growP8zip_cdiriP9zip_error+0x32>
+ *   @0x2a3b74 movs r1, #0xe
+ *   @0x2a3b80 stm.w r4, {r2, r5}
+ *   @0x2a3b84 movs r0, #0x0
+ *   @0x2a3b8a mov r6, r0
+ *   @0x2a3b8e mov r7, r1
+ *   @0x2a3b96 cbnz r0, 0x2a3ba4 <_Z13_zip_cdir_newiP9zip_error+0x1c>
+ *   @0x2a3b9a movs r1, #0xe
+ *   @0x2a3b9e bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a3ba2 b 0x2a3bd2 <_Z13_zip_cdir_newiP9zip_error+0x4a>
+ *   @0x2a3ba6 muls r0, r6, r0
+ *   @0x2a3bae str r0, [r4]
+ *   @0x2a3bb2 mov r0, r7
+ *   @0x2a3bb6 mov r2, r5
+ *   @0x2a3bbe blx 0xb655c <free@plt>
+ *   @0x2a3bc2 mov r0, r5
+ *   @0x2a3bc6 movs r3, #0x0
+ *   @0x2a3bca str r3, [r4, #0xc]
+ *   @0x2a3bce str r3, [r4, #0x10]
+ *   @0x2a3bd2 mov r0, r4
+ *   @0x2a3bd8 mov r4, r0
+ *   @0x2a3bdc movs r5, #0x0
+ *   @0x2a3be4 str r5, [r4, #0x18]
+ *   @0x2a3bec ldr r0, [r4, #0x28]
+ *   @0x2a3bf4 pop {r3, r4, r5, pc}
+ *   @0x2a3bf8 mov r4, r0
+ *   @0x2a3bfc movs r5, #0x0
+ *   @0x2a3c00 ldr r3, [r4, #0x4]
+ *   @0x2a3c04 bge 0x2a3c14 <_Z14_zip_cdir_freeP8zip_cdir+0x1e>
+ *   @0x2a3c08 mla r0, r6, r5, r0
+ *   @0x2a3c0c bl 0x2a3bd6 <_Z20_zip_dirent_finalizeP10zip_dirent>
+ *   @0x2a3c10 adds r5, #0x1
+ *   @0x2a3c14 ldr r0, [r4, #0x10]
+ *   @0x2a3c1c blx 0xb655c <free@plt>
+ *   @0x2a3c20 mov r0, r4
+ *   @0x2a3c2e movs r2, #0x14
+ *   @0x2a3c32 strh r2, [r0, #0x2]
+ *   @0x2a3c36 strh r3, [r0, #0x6]
+ *   @0x2a3c3a str r3, [r0, #0xc]
+ *   @0x2a3c3e str r3, [r0, #0x14]
+ *   @0x2a3c42 strh r3, [r0, #0x1c]
+ *   @0x2a3c46 strh r3, [r0, #0x24]
+ *   @0x2a3c4a strh r3, [r0, #0x2c]
+ *   @0x2a3c4e strh r3, [r0, #0x30]
+ *   @0x2a3c52 str r3, [r0, #0x38]
+ *   @0x2a3c5a mov r4, r0
+ *   @0x2a3c5e add r5, pc
+ *   @0x2a3c62 cbnz r3, 0x2a3c9e <_Z29_zip_dirent_torrent_normalizeP10zip_dirent+0x46>
+ *   @0x2a3c66 str r3, [r5, #0x4]
+ *   @0x2a3c6a movs r2, #0x20
+ *   @0x2a3c6e str r3, [r5, #0x20]
+ *   @0x2a3c72 str r2, [r5, #0x8]
+ *   @0x2a3c76 str r2, [r5, #0xc]
+ *   @0x2a3c7a str r2, [r5, #0x10]
+ *   @0x2a3c7e str r2, [r5, #0x14]
+ *   @0x2a3c82 str r2, [r5, #0x18]
+ *   @0x2a3c8a blx 0xb6f04 <localtime@plt>
+ *   @0x2a3c8e ldr r3, [r0, #0x24]
+ *   @0x2a3c92 ldr r3, [r0, #0x28]
+ *   @0x2a3c96 str r3, [r5, #0x2c]
+ *   @0x2a3c9e movs r3, #0x14
+ *   @0x2a3ca2 movs r3, #0x2
+ *   @0x2a3ca6 movs r3, #0x8
+ *   @0x2a3caa ldr r3, [pc, #0x30]
+ *   @0x2a3cae ldr r0, [r4, #0x20]
+ *   @0x2a3cb2 strh r5, [r4]
+ *   @0x2a3cb6 ldr r3, [r3]
+ *   @0x2a3cba str r5, [r4, #0x34]
+ *   @0x2a3cbe str r5, [r4, #0x38]
+ *   @0x2a3cc6 strh r5, [r4, #0x24]
+ *   @0x2a3cca blx 0xb655c <free@plt>
+ *   @0x2a3cce str r5, [r4, #0x28]
+ *   @0x2a3cd2 add sp, #0x8
+ *   @0x2a3cd6 nop
+ *   @0x2a3cda lsls r3, r1, #0x1
+ *   @0x2a3cde lsls r3, r1, #0x1
+ *   @0x2a3ce6 mov r4, r1
+ *   @0x2a3cea mov r6, r2
+ *   @0x2a3cee ldr r0, [pc, #0x118]
+ *   @0x2a3cf2 b 0x2a3cf8 <_Z17_zip_dirent_writeP10zip_direntP7__sFILEiP9zip_error+0x18>
+ *   @0x2a3cf6 add r0, pc
+ *   @0x2a3cfa movs r2, #0x4
+ *   @0x2a3cfe blx 0xb68bc <fwrite@plt>
+ *   @0x2a3d02 cbnz r6, 0x2a3d0c <_Z17_zip_dirent_writeP10zip_direntP7__sFILEiP9zip_error+0x2c>
+ *   @0x2a3d06 mov r1, r4
+ *   @0x2a3d0e mov r1, r4
+ *   @0x2a3d16 mov r1, r4
+ *   @0x2a3d1e ldrh r0, [r5, #0x6]
+ *   @0x2a3d26 add r0, sp, #0x8
+ *   @0x2a3d32 ldr r2, [r0, #0x10]
+ *   @0x2a3d36 adds r2, #0x1
+ *   @0x2a3d3a lsls r2, r2, #0x5
+ *   @0x2a3d42 ldr r2, [r0, #0x8]
+ *   @0x2a3d46 uxth.w r8, r3
+ *   @0x2a3d4a ldr r3, [r0, #0x4]
+ *   @0x2a3d4e lsls r2, r2, #0xb
+ *   @0x2a3d5a bl 0x2a39c8 <zip_close+0x7dc>
+ *   @0x2a3d5e mov r0, r8
+ *   @0x2a3d62 bl 0x2a39c8 <zip_close+0x7dc>
+ *   @0x2a3d66 ldr r0, [r5, #0xc]
+ *   @0x2a3d6a bl 0x2a399c <zip_close+0x7b0>
+ *   @0x2a3d6e ldr r0, [r5, #0x10]
+ *   @0x2a3d72 bl 0x2a399c <zip_close+0x7b0>
+ *   @0x2a3d76 ldr r0, [r5, #0x14]
+ *   @0x2a3d7a bl 0x2a399c <zip_close+0x7b0>
+ *   @0x2a3d7e ldrh r0, [r5, #0x1c]
+ *   @0x2a3d82 bl 0x2a39c8 <zip_close+0x7dc>
+ *   @0x2a3d86 ldrh r0, [r5, #0x24]
+ *   @0x2a3d8a bl 0x2a39c8 <zip_close+0x7dc>
+ *   @0x2a3d8e cbnz r6, 0x2a3db8 <_Z17_zip_dirent_writeP10zip_direntP7__sFILEiP9zip_error+0xd8>
+ *   @0x2a3d92 mov r1, r4
+ *   @0x2a3d9a mov r1, r4
+ *   @0x2a3da2 mov r1, r4
+ *   @0x2a3daa mov r1, r4
+ *   @0x2a3db2 mov r1, r4
+ *   @0x2a3dba cbz r2, 0x2a3dc6 <_Z17_zip_dirent_writeP10zip_direntP7__sFILEiP9zip_error+0xe6>
+ *   @0x2a3dbe movs r1, #0x1
+ *   @0x2a3dc2 blx 0xb68bc <fwrite@plt>
+ *   @0x2a3dc6 ldrh r2, [r5, #0x24]
+ *   @0x2a3dca ldr r0, [r5, #0x20]
+ *   @0x2a3dce mov r3, r4
+ *   @0x2a3dd6 ldrh r2, [r5, #0x2c]
+ *   @0x2a3dda ldr r0, [r5, #0x28]
+ *   @0x2a3dde mov r3, r4
+ *   @0x2a3de6 and r0, r0, #0x40
+ *   @0x2a3dea uxth r0, r0
+ *   @0x2a3dee blx 0xb6bf8 <__errno@plt>
+ *   @0x2a3df2 movs r1, #0x6
+ *   @0x2a3df6 mov r0, r7
+ *   @0x2a3e02 pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2a3e06 nop
+ *   @0x2a3e0a movs r6, r1
+ *   @0x2a3e0e movs r6, r1
+ *   @0x2a3e16 mov r0, r1
+ *   @0x2a3e1a mov r7, r2
+ *   @0x2a3e22 mov.w r8, #0x3c
+ *   @0x2a3e26 str r0, [r5, #0xc]
+ *   @0x2a3e2a cmp r6, r3
+ *   @0x2a3e2e ldr r0, [r5]
+ *   @0x2a3e32 movs r2, #0x0
+ *   @0x2a3e36 mla r0, r8, r6, r0
+ *   @0x2a3e3a bl 0x2a3ce0 <_Z17_zip_dirent_writeP10zip_direntP7__sFILEiP9zip_error>
+ *   @0x2a3e3e cmp r0, #0x0
+ *   @0x2a3e42 adds r6, #0x1
+ *   @0x2a3e46 mov r0, r4
+ *   @0x2a3e4e movs r2, #0x4
+ *   @0x2a3e52 subs r0, r0, r3
+ *   @0x2a3e56 ldr r0, [pc, #0x64]
+ *   @0x2a3e5a add r0, pc
+ *   @0x2a3e62 mov r1, r4
+ *   @0x2a3e6a mov r1, r4
+ *   @0x2a3e72 mov r1, r4
+ *   @0x2a3e7a mov r1, r4
+ *   @0x2a3e82 mov r1, r4
+ *   @0x2a3e8a mov r1, r4
+ *   @0x2a3e92 movs r1, #0x1
+ *   @0x2a3e96 mov r3, r4
+ *   @0x2a3e9e and r0, r0, #0x40
+ *   @0x2a3ea2 uxth r0, r0
+ *   @0x2a3ea6 blx 0xb6bf8 <__errno@plt>
+ *   @0x2a3eaa movs r1, #0x6
+ *   @0x2a3eae mov r0, r7
+ *   @0x2a3ebe movs r6, r1
+ *   @0x2a3ec2 ldrb r1, [r3, #0x1]
+ *   @0x2a3ece uxth r0, r2
+ *   @0x2a3ed4 ldrb r1, [r3, #0x3]
+ *   @0x2a3ed8 add.w r1, r2, r1, lsl #8
+ *   @0x2a3edc ldrb r2, [r3, #0x1]
+ *   @0x2a3ee8 add.w r0, r2, r1, lsl #8
+ *   @0x2a3eec bx lr
+ *   @0x2a3eee .word 0xe92d0000
+ *   @0x2a3ef6 ldr r2, [pc, #0x204]
+ *   @0x2a3efa sub sp, #0x44
+ *   @0x2a3efe add r2, pc
+ *   @0x2a3f02 mov r7, r3
+ *   @0x2a3f06 ldr r1, [r2]
+ *   @0x2a3f0a str r1, [sp, #0x3c]
+ *   @0x2a3f0e cmp r1, #0x0
+ *   @0x2a3f12 moveq.w r11, #0x2e
+ *   @0x2a3f16 movne.w r11, #0x1e
+ *   @0x2a3f1a cbz r3, 0x2a3f2a <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x3a>
+ *   @0x2a3f1e cmp r3, r11
+ *   @0x2a3f22 mov r0, r6
+ *   @0x2a3f26 movs r2, #0x0
+ *   @0x2a3f2a cmp.w r9, #0x0
+ *   @0x2a3f2e beq 0x2a3f38 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x48>
+ *   @0x2a3f36 b 0x2a3f5e <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x6e>
+ *   @0x2a3f3a movs r1, #0x1
+ *   @0x2a3f3e mov r3, r10
+ *   @0x2a3f42 blx 0xb68c8 <fread@plt>
+ *   @0x2a3f46 cmp r0, r11
+ *   @0x2a3f4a strhs r5, [sp, #0x8]
+ *   @0x2a3f4e blx 0xb6bf8 <__errno@plt>
+ *   @0x2a3f52 movs r1, #0x5
+ *   @0x2a3f56 mov r0, r6
+ *   @0x2a3f5e ldr r2, [sp, #0x68]
+ *   @0x2a3f62 cbz r2, 0x2a3f6a <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x7a>
+ *   @0x2a3f66 add r1, pc
+ *   @0x2a3f6a ldr r1, [pc, #0x198]
+ *   @0x2a3f6e mov r0, r5
+ *   @0x2a3f72 blx 0xb6c40 <memcmp@plt>
+ *   @0x2a3f76 mov r8, r0
+ *   @0x2a3f7a bne 0x2a3f22 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x32>
+ *   @0x2a3f7e add r5, sp, #0x40
+ *   @0x2a3f86 cbnz r3, 0x2a3f92 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0xa2>
+ *   @0x2a3f8a bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a3f8e strh r0, [r4]
+ *   @0x2a3f92 strh r0, [r4]
+ *   @0x2a3f96 bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a3f9a strh r0, [r4, #0x2]
+ *   @0x2a3f9e bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a3fa2 strh r0, [r4, #0x4]
+ *   @0x2a3fa6 bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a3faa strh r0, [r4, #0x6]
+ *   @0x2a3fae bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a3fb2 mov r3, r0
+ *   @0x2a3fb6 str r3, [sp]
+ *   @0x2a3fbe mov r1, r0
+ *   @0x2a3fc2 bl 0x2a3a56 <zip_close+0x86a>
+ *   @0x2a3fc6 str r0, [r4, #0x8]
+ *   @0x2a3fca bl 0x2a3ed2 <_Z10_zip_read4PPh>
+ *   @0x2a3fce str r0, [r4, #0xc]
+ *   @0x2a3fd2 bl 0x2a3ed2 <_Z10_zip_read4PPh>
+ *   @0x2a3fd6 str r0, [r4, #0x10]
+ *   @0x2a3fda bl 0x2a3ed2 <_Z10_zip_read4PPh>
+ *   @0x2a3fde str r0, [r4, #0x14]
+ *   @0x2a3fe2 bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a3fe6 strh r0, [r4, #0x1c]
+ *   @0x2a3fea bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a3fee ldr r1, [sp, #0x68]
+ *   @0x2a3ff2 cbz r1, 0x2a4002 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x112>
+ *   @0x2a3ff6 strh r3, [r4, #0x2c]
+ *   @0x2a3ffa strh r3, [r4, #0x30]
+ *   @0x2a3ffe str r3, [r4, #0x38]
+ *   @0x2a4002 mov r0, r5
+ *   @0x2a400a mov r0, r5
+ *   @0x2a4012 mov r0, r5
+ *   @0x2a401a mov r0, r5
+ *   @0x2a4022 mov r0, r5
+ *   @0x2a402a movs r3, #0x0
+ *   @0x2a402e str r3, [r4, #0x18]
+ *   @0x2a4032 str r3, [r4, #0x28]
+ *   @0x2a4036 ldrh r2, [r4, #0x2c]
+ *   @0x2a403a add r3, r2
+ *   @0x2a403e cbz r7, 0x2a4048 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x158>
+ *   @0x2a4042 cmp r3, r11
+ *   @0x2a404e cbnz r1, 0x2a4056 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x166>
+ *   @0x2a4052 cbz r1, 0x2a407c <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x18c>
+ *   @0x2a4056 mov r0, r5
+ *   @0x2a405a mov r3, r6
+ *   @0x2a4062 cmp r0, #0x0
+ *   @0x2a4066 mov.w r8, #0xffffffff
+ *   @0x2a406a b 0x2a40dc <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x1ec>
+ *   @0x2a406e movs r2, #0x0
+ *   @0x2a4072 bl 0x2a3a98 <zip_close+0x8ac>
+ *   @0x2a4076 str r0, [r4, #0x20]
+ *   @0x2a407a beq 0x2a4066 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x176>
+ *   @0x2a407e cmp r1, #0x0
+ *   @0x2a4082 mov r0, r5
+ *   @0x2a4086 mov r3, r6
+ *   @0x2a408e cmp r0, #0x0
+ *   @0x2a4092 b 0x2a4066 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x176>
+ *   @0x2a4096 ldrh r1, [r4, #0x24]
+ *   @0x2a409a b 0x2a40ae <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x1be>
+ *   @0x2a409e movs r2, #0x1
+ *   @0x2a40a2 bl 0x2a39e0 <zip_close+0x7f4>
+ *   @0x2a40a6 str r0, [r4, #0x18]
+ *   @0x2a40aa bne 0x2a4096 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x1a6>
+ *   @0x2a40ae mov r0, r10
+ *   @0x2a40b2 mov r3, r6
+ *   @0x2a40ba cmp r0, #0x0
+ *   @0x2a40be ldrh r1, [r4, #0x2c]
+ *   @0x2a40c2 mov r0, r10
+ *   @0x2a40c6 mov r3, r6
+ *   @0x2a40ce cmp r0, #0x0
+ *   @0x2a40d2 cbz r7, 0x2a40dc <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x1ec>
+ *   @0x2a40d6 rsb r3, r11, r3
+ *   @0x2a40da str r3, [r7]
+ *   @0x2a40de mov r0, r8
+ *   @0x2a40e2 ldr r3, [r1]
+ *   @0x2a40e6 beq 0x2a40f4 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x204>
+ *   @0x2a40ee str.w r3, [r9]
+ *   @0x2a40f2 b 0x2a40d2 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error+0x1e2>
+ *   @0x2a40f6 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2a40fa nop
+ *   @0x2a40fe movs r4, r2
+ *   @0x2a4102 movs r6, r1
+ *   @0x2a4106 movs r6, r1
+ *   @0x2a410e ldr r2, [pc, #0x1f0]
+ *   @0x2a4112 sub sp, #0x44
+ *   @0x2a4116 add r2, pc
+ *   @0x2a411a mov r6, r3
+ *   @0x2a411e ldr r1, [r2]
+ *   @0x2a4122 str r1, [sp, #0x3c]
+ *   @0x2a4126 cmp r1, #0x0
+ *   @0x2a412a moveq.w r11, #0x2e
+ *   @0x2a412e movne.w r11, #0x1e
+ *   @0x2a4132 cbz r3, 0x2a4146 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x3e>
+ *   @0x2a4136 cmp r3, r11
+ *   @0x2a413a mov r0, r7
+ *   @0x2a413e movs r2, #0x0
+ *   @0x2a4146 cmp.w r9, #0x0
+ *   @0x2a414a beq 0x2a4154 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x4c>
+ *   @0x2a4152 b 0x2a4164 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x5c>
+ *   @0x2a4156 mov r0, r10
+ *   @0x2a415a mov r3, r11
+ *   @0x2a415e blx 0xcdc9c <_ZN7IBuffer4ReadEPKvjj>
+ *   @0x2a4162 str r5, [sp, #0x8]
+ *   @0x2a4166 ldr r5, [sp, #0x8]
+ *   @0x2a416a ldr r1, [pc, #0x198]
+ *   @0x2a416e b 0x2a4174 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x6c>
+ *   @0x2a4172 add r1, pc
+ *   @0x2a4176 movs r2, #0x4
+ *   @0x2a417e cmp r0, #0x0
+ *   @0x2a4182 adds r3, r5, #0x4
+ *   @0x2a4186 str r3, [r5, #-56]!
+ *   @0x2a418a ldr r3, [sp, #0x68]
+ *   @0x2a418e mov r0, r5
+ *   @0x2a4196 b 0x2a419a <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x92>
+ *   @0x2a419a mov r0, r5
+ *   @0x2a41a2 mov r0, r5
+ *   @0x2a41aa mov r0, r5
+ *   @0x2a41b2 mov r0, r5
+ *   @0x2a41ba mov r0, r5
+ *   @0x2a41be bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a41c2 ldr r3, [sp]
+ *   @0x2a41c6 mov r0, r3
+ *   @0x2a41ce mov r0, r5
+ *   @0x2a41d6 mov r0, r5
+ *   @0x2a41de mov r0, r5
+ *   @0x2a41e6 mov r0, r5
+ *   @0x2a41ee mov r0, r5
+ *   @0x2a41f6 strh r0, [r4, #0x24]
+ *   @0x2a41fa movs r3, #0x0
+ *   @0x2a41fe strh r3, [r4, #0x2e]
+ *   @0x2a4202 str r3, [r4, #0x34]
+ *   @0x2a4206 b 0x2a4230 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x128>
+ *   @0x2a420a bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a420e strh r0, [r4, #0x2c]
+ *   @0x2a4212 bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a4216 strh r0, [r4, #0x2e]
+ *   @0x2a421a bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a421e strh r0, [r4, #0x30]
+ *   @0x2a4222 bl 0x2a3ed2 <_Z10_zip_read4PPh>
+ *   @0x2a4226 str r0, [r4, #0x34]
+ *   @0x2a422a bl 0x2a3ed2 <_Z10_zip_read4PPh>
+ *   @0x2a422e str r0, [r4, #0x38]
+ *   @0x2a4232 ldrh r1, [r4, #0x1c]
+ *   @0x2a4236 str r3, [r4, #0x20]
+ *   @0x2a423a ldrh r3, [r4, #0x24]
+ *   @0x2a423e add r3, r1
+ *   @0x2a4242 add r11, r3
+ *   @0x2a4246 ldr r3, [r6]
+ *   @0x2a424a blo.w 0x2a413a <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x32>
+ *   @0x2a424e cmp.w r9, #0x0
+ *   @0x2a4252 beq 0x2a429a <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x192>
+ *   @0x2a4256 ldrh r1, [r4, #0x24]
+ *   @0x2a425a b 0x2a4272 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x16a>
+ *   @0x2a425e movs r2, #0x1
+ *   @0x2a4262 bl 0x2a3a98 <zip_close+0x8ac>
+ *   @0x2a4266 str r0, [r4, #0x18]
+ *   @0x2a426a bne 0x2a4256 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x14e>
+ *   @0x2a4272 mov r0, r5
+ *   @0x2a4276 mov r3, r7
+ *   @0x2a427e cmp r0, #0x0
+ *   @0x2a4282 ldrh r1, [r4, #0x2c]
+ *   @0x2a4286 beq 0x2a42f2 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x1ea>
+ *   @0x2a428a movs r2, #0x0
+ *   @0x2a428e bl 0x2a3a98 <zip_close+0x8ac>
+ *   @0x2a4292 str r0, [r4, #0x28]
+ *   @0x2a4296 bne 0x2a42f2 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x1ea>
+ *   @0x2a429a cbnz r1, 0x2a42a2 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x19a>
+ *   @0x2a429e cbz r1, 0x2a42c4 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x1bc>
+ *   @0x2a42a2 mov r0, r10
+ *   @0x2a42a6 mov r3, r7
+ *   @0x2a42ae cmp r0, #0x0
+ *   @0x2a42b2 b 0x2a426c <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x164>
+ *   @0x2a42b6 movs r2, #0x0
+ *   @0x2a42ba bl 0x2a3af4 <zip_close+0x908>
+ *   @0x2a42be str r0, [r4, #0x20]
+ *   @0x2a42c2 beq 0x2a426c <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x164>
+ *   @0x2a42c6 cbz r1, 0x2a42d8 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x1d0>
+ *   @0x2a42ca movs r2, #0x0
+ *   @0x2a42ce bl 0x2a3af4 <zip_close+0x908>
+ *   @0x2a42d2 str r0, [r4, #0x28]
+ *   @0x2a42d6 beq 0x2a426c <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error+0x164>
+ *   @0x2a42da ldr r3, [r6]
+ *   @0x2a42e2 ldr r1, [sp, #0x4]
+ *   @0x2a42e6 ldr r2, [sp, #0x3c]
+ *   @0x2a42ea cmp r2, r3
+ *   @0x2a42ee blx 0xb65d4 <__stack_chk_fail@plt>
+ *   @0x2a42f2 ldr r3, [sp, #0x8]
+ *   @0x2a42fa add sp, #0x44
+ *   @0x2a4302 movs r4, r2
+ *   @0x2a4306 movs r6, r1
+ *   @0x2a430a movs r6, r1
+ *   @0x2a430e str r3, [r0]
+ *   @0x2a4312 bx lr
+ *   @0x2a4316 str r3, [r0]
+ *   @0x2a431a str r3, [r0, #0x4]
+ *   @0x2a4320 mov r4, r0
+ *   @0x2a4324 blx 0xb655c <free@plt>
+ *   @0x2a4328 movs r3, #0x0
+ *   @0x2a432c pop {r4, pc}
+ *   @0x2a4330 mov r4, r0
+ *   @0x2a4334 cbz r1, 0x2a433a <_Z14_zip_error_getP9zip_errorPiS1_+0xc>
+ *   @0x2a4338 str r3, [r1]
+ *   @0x2a433c ldr r0, [r4]
+ *   @0x2a4344 ldr r3, [r4, #0x4]
+ *   @0x2a4348 pop {r3, r4, r5, pc}
+ *   @0x2a434c pop {r3, r4, r5, pc}
+ *   @0x2a4350 str r3, [r0]
+ *   @0x2a4354 str r3, [r0, #0x8]
+ *   @0x2a435a stm.w r0, {r1, r2}
+ *   @0x2a435e bx lr
+ *   @0x2a4362 blt 0x2a437c <zip_error_get_sys_type+0x1c>
+ *   @0x2a4366 add r3, pc
+ *   @0x2a436a ldr r3, [r3]
+ *   @0x2a436e bge 0x2a437c <zip_error_get_sys_type+0x1c>
+ *   @0x2a4372 add r3, pc
+ *   @0x2a4376 ldr.w r0, [r3, r0, lsl #2]
+ *   @0x2a437a bx lr
+ *   @0x2a437e bx lr
+ *   @0x2a4382 movs r4, r2
+ *   @0x2a4386 movs r4, r2
+ *   @0x2a438a mov r4, r0
+ *   @0x2a438e cbz r0, 0x2a4394 <zip_fclose+0xc>
+ *   @0x2a4396 blx 0xb655c <free@plt>
+ *   @0x2a439a ldr r0, [r4, #0x30]
+ *   @0x2a43a2 movs r3, #0x0
+ *   @0x2a43a6 cmp r3, r1
+ *   @0x2a43aa ldr r2, [r0, #0x40]
+ *   @0x2a43b6 bne 0x2a43ce <zip_fclose+0x46>
+ *   @0x2a43be ldr.w r3, [r2, r3, lsl #2]
+ *   @0x2a43c2 str r3, [r6]
+ *   @0x2a43c6 ldr r2, [r3, #0x38]
+ *   @0x2a43ca str r2, [r3, #0x38]
+ *   @0x2a43ce adds r3, #0x1
+ *   @0x2a43d2 ldr r5, [r4, #0x4]
+ *   @0x2a43d6 ldr r3, [r4, #0x10]
+ *   @0x2a43de bne 0x2a43ec <zip_fclose+0x64>
+ *   @0x2a43e2 ldr r3, [r4, #0x24]
+ *   @0x2a43e6 ite ne
+ *   @0x2a43ea moveq r5, #0x0
+ *   @0x2a43ee blx 0xb655c <free@plt>
+ *   @0x2a43f2 mov r0, r5
+ *   @0x2a4402 ldr r6, [pc, #0xb0]
+ *   @0x2a4406 add.w r2, sp, #0x2000
+ *   @0x2a440a add r6, pc
+ *   @0x2a440e adds r2, #0x30
+ *   @0x2a4412 ldr.w r9, [r2]
+ *   @0x2a4416 ldr r3, [r6]
+ *   @0x2a441e mov r8, r0
+ *   @0x2a4422 mov r5, r1
+ *   @0x2a4426 mov r1, r0
+ *   @0x2a442a mov r11, r6
+ *   @0x2a4432 movs r2, #0x0
+ *   @0x2a4436 mov r0, r8
+ *   @0x2a443e cbnz r0, 0x2a4446 <_Z18_zip_filerange_crcP7__sFILEllPmP9zip_error+0x4e>
+ *   @0x2a4446 blx 0xb6bf8 <__errno@plt>
+ *   @0x2a444a movs r1, #0x4
+ *   @0x2a444e mov r0, r9
+ *   @0x2a4452 ldr r0, [r7]
+ *   @0x2a4456 mov r2, r6
+ *   @0x2a445a blx 0xb6ea4 <crc32@plt>
+ *   @0x2a445e str r0, [r7]
+ *   @0x2a4462 ble 0x2a4492 <_Z18_zip_filerange_crcP7__sFILEllPmP9zip_error+0x9a>
+ *   @0x2a4466 movs r1, #0x1
+ *   @0x2a446e movlt r2, r4
+ *   @0x2a4476 blx 0xb68c8 <fread@plt>
+ *   @0x2a447a mov r6, r0
+ *   @0x2a447e bne 0x2a4452 <_Z18_zip_filerange_crcP7__sFILEllPmP9zip_error+0x5a>
+ *   @0x2a4486 ldr r2, [r0]
+ *   @0x2a448a bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a448e mov.w r5, #0xffffffff
+ *   @0x2a4492 add.w r3, sp, #0x2000
+ *   @0x2a4496 mov r0, r5
+ *   @0x2a449a ldr r2, [r3]
+ *   @0x2a44a2 beq 0x2a44a8 <_Z18_zip_filerange_crcP7__sFILEllPmP9zip_error+0xb0>
+ *   @0x2a44ae pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2a44b2 nop
+ *   @0x2a44b6 movs r4, r2
+ *   @0x2a44ba mov r5, r0
+ *   @0x2a44be bl 0x2a4a58 <zip_name_locate>
+ *   @0x2a44c2 subs r1, r0, #0x0
+ *   @0x2a44c6 mov r0, r5
+ *   @0x2a44ca pop.w {r3, r4, r5, lr}
+ *   @0x2a44ce b.w 0x2a4584 <zip_fopen_index>
+ *   @0x2a44d2 movs r0, #0x0
+ *   @0x2a44dc ldr r5, [r2, #0x4]
+ *   @0x2a44e0 mov r4, r2
+ *   @0x2a44e4 bne 0x2a457a <_Z17_zip_file_fillbufPvjP8zip_file+0xa4>
+ *   @0x2a44e8 lsls r3, r3, #0x1f
+ *   @0x2a44ec ldr r3, [r2, #0x20]
+ *   @0x2a44f0 beq 0x2a457e <_Z17_zip_file_fillbufPvjP8zip_file+0xa8>
+ *   @0x2a44f4 beq 0x2a457e <_Z17_zip_file_fillbufPvjP8zip_file+0xa8>
+ *   @0x2a44f8 ldr r0, [r3, #0x4]
+ *   @0x2a44fc ldr r1, [r2, #0x18]
+ *   @0x2a4500 blx 0xb6ed4 <fseeko@plt>
+ *   @0x2a4504 cmp r0, #0x0
+ *   @0x2a4508 blx 0xb6bf8 <__errno@plt>
+ *   @0x2a450c movs r1, #0x4
+ *   @0x2a4510 adds r0, r4, #0x4
+ *   @0x2a4514 ldr r0, [r3, #0x8]
+ *   @0x2a4518 ldr r3, [r0]
+ *   @0x2a451c ldr r2, [r2, #0x18]
+ *   @0x2a4520 blx r3
+ *   @0x2a4524 ldr r3, [r4, #0x20]
+ *   @0x2a4528 it hs
+ *   @0x2a452c ldr r3, [r2, #0x4]
+ *   @0x2a4530 mov r0, r7
+ *   @0x2a4534 mov r2, r8
+ *   @0x2a453c bne 0x2a455a <_Z17_zip_file_fillbufPvjP8zip_file+0x84>
+ *   @0x2a4540 movs r1, #0x11
+ *   @0x2a4544 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a4548 b 0x2a457a <_Z17_zip_file_fillbufPvjP8zip_file+0xa4>
+ *   @0x2a454c cbz r0, 0x2a457e <_Z17_zip_file_fillbufPvjP8zip_file+0xa8>
+ *   @0x2a4550 movs r2, #0x1
+ *   @0x2a4554 blx 0xcdc9c <_ZN7IBuffer4ReadEPKvjj>
+ *   @0x2a4558 b 0x2a453a <_Z17_zip_file_fillbufPvjP8zip_file+0x64>
+ *   @0x2a455c blx 0xb6bf8 <__errno@plt>
+ *   @0x2a4560 movs r1, #0x5
+ *   @0x2a4564 adds r0, r4, #0x4
+ *   @0x2a456c ldr r3, [r4, #0x18]
+ *   @0x2a4570 str r3, [r4, #0x18]
+ *   @0x2a4574 subs r3, r3, r5
+ *   @0x2a4578 b 0x2a457e <_Z17_zip_file_fillbufPvjP8zip_file+0xa8>
+ *   @0x2a4580 pop.w {r3, r4, r5, r7, r8, pc}
+ *   @0x2a458a mov r5, r0
+ *   @0x2a458e ldr r3, [r0, #0x2c]
+ *   @0x2a4592 blt 0x2a45a4 <zip_fopen_index+0x20>
+ *   @0x2a459a movs r2, #0x0
+ *   @0x2a45a2 b 0x2a4762 <zip_fopen_index+0x1de>
+ *   @0x2a45aa movs r1, #0x14
+ *   @0x2a45ae muls r1, r7, r1
+ *   @0x2a45b2 subs r3, #0x2
+ *   @0x2a45b6 bhi 0x2a45be <zip_fopen_index+0x3a>
+ *   @0x2a45ba movs r1, #0xf
+ *   @0x2a45be ldr r3, [r5, #0x20]
+ *   @0x2a45c2 cmp r7, r1
+ *   @0x2a45c6 mov.w r8, #0x3c
+ *   @0x2a45ca ldr r3, [r3]
+ *   @0x2a45d2 ldrh r3, [r3, #0x6]
+ *   @0x2a45d6 cmp r3, #0x8
+ *   @0x2a45de cmp r4, #0x0
+ *   @0x2a45e2 moveq.w r9, #0x6
+ *   @0x2a45e6 movne.w r9, #0x0
+ *   @0x2a45ea b 0x2a4604 <zip_fopen_index+0x80>
+ *   @0x2a45f2 add.w r0, r5, #0xc
+ *   @0x2a45f6 movs r1, #0x10
+ *   @0x2a45fa bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a45fe b 0x2a4762 <zip_fopen_index+0x1de>
+ *   @0x2a4606 blx 0xb6544 <malloc@plt>
+ *   @0x2a460a mov r4, r0
+ *   @0x2a460e add.w r0, r5, #0xc
+ *   @0x2a4612 movs r1, #0xe
+ *   @0x2a4616 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a461a b 0x2a468c <zip_fopen_index+0x108>
+ *   @0x2a461e ldr r2, [r5, #0x38]
+ *   @0x2a4622 cmp r2, r1
+ *   @0x2a4626 add.w r10, r3, #0xa
+ *   @0x2a462a ldr r0, [r5, #0x40]
+ *   @0x2a4636 cbnz r0, 0x2a464e <zip_fopen_index+0xca>
+ *   @0x2a463e mov r2, r6
+ *   @0x2a4646 blx 0xb655c <free@plt>
+ *   @0x2a464a mov r4, r6
+ *   @0x2a464e str.w r10, [r5, #0x3c]
+ *   @0x2a4652 str r0, [r5, #0x40]
+ *   @0x2a4656 mov r0, r4
+ *   @0x2a465a movs r6, #0x0
+ *   @0x2a465e str r1, [r5, #0x38]
+ *   @0x2a466e mov r0, r6
+ *   @0x2a4672 mov r2, r6
+ *   @0x2a467e str r3, [r4, #0x14]
+ *   @0x2a4682 str r6, [r4, #0x1c]
+ *   @0x2a4686 str r6, [r4, #0x2c]
+ *   @0x2a468a str r0, [r4, #0x24]
+ *   @0x2a4692 ldr r3, [r5, #0x20]
+ *   @0x2a4696 ldr r3, [r3]
+ *   @0x2a469a ldrh r3, [r3, #0x6]
+ *   @0x2a469e ldr r3, [r5, #0x20]
+ *   @0x2a46a2 add r3, r8
+ *   @0x2a46a6 str r3, [r4, #0x1c]
+ *   @0x2a46aa ldr r3, [r3]
+ *   @0x2a46ae ldr r3, [r3, #0x10]
+ *   @0x2a46b2 ldr r3, [r5, #0x20]
+ *   @0x2a46b6 add r3, r8
+ *   @0x2a46ba str r3, [r4, #0x28]
+ *   @0x2a46c2 cbz r0, 0x2a4728 <zip_fopen_index+0x1a4>
+ *   @0x2a46c6 lsls r3, r3, #0x1e
+ *   @0x2a46ca ldr r3, [r4, #0x20]
+ *   @0x2a46ce b 0x2a4762 <zip_fopen_index+0x1de>
+ *   @0x2a46da str r0, [r4, #0x2c]
+ *   @0x2a46de add.w r0, r5, #0xc
+ *   @0x2a46e2 movs r1, #0xe
+ *   @0x2a46e6 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a46ea mov r0, r4
+ *   @0x2a46f2 b 0x2a4762 <zip_fopen_index+0x1de>
+ *   @0x2a46fa bl 0x2a44d6 <_Z17_zip_file_fillbufPvjP8zip_file>
+ *   @0x2a46fe subs.w r8, r0, #0x0
+ *   @0x2a4702 bgt 0x2a4710 <zip_fopen_index+0x18c>
+ *   @0x2a470a bl 0x2a4314 <_Z15_zip_error_copyP9zip_errorS0_>
+ *   @0x2a470e b 0x2a4728 <zip_fopen_index+0x1a4>
+ *   @0x2a4712 blx 0xb6544 <malloc@plt>
+ *   @0x2a4716 mov r6, r0
+ *   @0x2a471a cbnz r0, 0x2a4730 <zip_fopen_index+0x1ac>
+ *   @0x2a4722 mov r2, r6
+ *   @0x2a472a bl 0x2a4388 <zip_fclose>
+ *   @0x2a472e b 0x2a45a0 <zip_fopen_index+0x1c>
+ *   @0x2a4732 movs r7, #0x0
+ *   @0x2a4736 mvn r1, #0xe
+ *   @0x2a473a str r7, [r0, #0x20]
+ *   @0x2a4742 str r7, [r0, #0x24]
+ *   @0x2a4746 str r7, [r0, #0x28]
+ *   @0x2a474e cbz r0, 0x2a4762 <zip_fopen_index+0x1de>
+ *   @0x2a4756 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a475a mov r0, r4
+ *   @0x2a4762 mov r0, r4
+ *   @0x2a476a movs r6, r1
+ *   @0x2a4772 mov r7, r2
+ *   @0x2a4776 cmp r0, #0x0
+ *   @0x2a477a ldr r3, [r0, #0x4]
+ *   @0x2a477e bne 0x2a4876 <zip_fread+0x10a>
+ *   @0x2a4782 lsls r0, r3, #0x1f
+ *   @0x2a4786 movs r0, #0x0
+ *   @0x2a478e beq 0x2a4786 <zip_fread+0x1a>
+ *   @0x2a4792 cbnz r2, 0x2a47ae <zip_fread+0x42>
+ *   @0x2a4796 orr r2, r3, #0x1
+ *   @0x2a479a str r2, [r4, #0x10]
+ *   @0x2a479e ldr r2, [r4, #0x24]
+ *   @0x2a47a2 cmp r2, r3
+ *   @0x2a47a6 adds r0, r4, #0x4
+ *   @0x2a47aa movs r2, #0x0
+ *   @0x2a47ae lsls r2, r3, #0x1e
+ *   @0x2a47b2 mov r0, r1
+ *   @0x2a47b6 mov r1, r7
+ *   @0x2a47be bgt 0x2a4822 <zip_fread+0xb6>
+ *   @0x2a47c2 ldr r3, [r4, #0x30]
+ *   @0x2a47c6 ldr r3, [r4, #0x30]
+ *   @0x2a47ca ldr r3, [r4, #0x30]
+ *   @0x2a47d2 movs r1, #0x2
+ *   @0x2a47da mov r2, r0
+ *   @0x2a47de bhi 0x2a47d0 <zip_fread+0x64>
+ *   @0x2a47e2 ldr.w r1, [r0, r3, lsl #2]
+ *   @0x2a47e6 add r0, r1
+ *   @0x2a47ea nop
+ *   @0x2a47ee movs r0, r0
+ *   @0x2a47f2 movs r0, r0
+ *   @0x2a47f6 movs r0, r0
+ *   @0x2a47fa movs r0, r0
+ *   @0x2a4802 movs r0, r0
+ *   @0x2a4806 movs r0, r0
+ *   @0x2a480a movs r0, r0
+ *   @0x2a480e ldr r3, [r3, #0x14]
+ *   @0x2a4812 beq 0x2a479e <zip_fread+0x32>
+ *   @0x2a4816 ldr r5, [r3, #0x14]
+ *   @0x2a481a rsb r5, r8, r5
+ *   @0x2a481e cmp r5, r3
+ *   @0x2a4822 ldr r3, [r4, #0x10]
+ *   @0x2a4826 bpl 0x2a483c <zip_fread+0xd0>
+ *   @0x2a482a mov r1, r6
+ *   @0x2a482e blx 0xb6ea4 <crc32@plt>
+ *   @0x2a4832 str r0, [r4, #0x24]
+ *   @0x2a4836 cmp r5, r7
+ *   @0x2a483a b 0x2a4822 <zip_fread+0xb6>
+ *   @0x2a483e subs r3, r3, r5
+ *   @0x2a4842 b 0x2a487e <zip_fread+0x112>
+ *   @0x2a4846 ldr r3, [r3, #0x4]
+ *   @0x2a484a mov r2, r4
+ *   @0x2a484e mov.w r1, #0x2000
+ *   @0x2a4852 bl 0x2a44d6 <_Z17_zip_file_fillbufPvjP8zip_file>
+ *   @0x2a4856 subs r2, r0, #0x0
+ *   @0x2a485a adds r0, r4, #0x4
+ *   @0x2a485e b 0x2a4872 <zip_fread+0x106>
+ *   @0x2a4862 ldr r3, [r4, #0x30]
+ *   @0x2a4866 str r1, [r3]
+ *   @0x2a486a str r2, [r3, #0x4]
+ *   @0x2a486e adds r0, r4, #0x4
+ *   @0x2a4872 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a4876 mov.w r0, #0xffffffff
+ *   @0x2a487a pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2a487e mov r0, r5
+ *   @0x2a4886 mov r4, r0
+ *   @0x2a488a beq 0x2a48fa <_Z9_zip_freeP3zip+0x76>
+ *   @0x2a488e cbz r0, 0x2a4894 <_Z9_zip_freeP3zip+0x10>
+ *   @0x2a4896 cbz r0, 0x2a489c <_Z9_zip_freeP3zip+0x18>
+ *   @0x2a489e bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir>
+ *   @0x2a48a2 ldr r3, [r4, #0x34]
+ *   @0x2a48a6 movs r5, #0x0
+ *   @0x2a48aa ldr r3, [r4, #0x2c]
+ *   @0x2a48ae cmp r5, r3
+ *   @0x2a48b2 mla r0, r6, r5, r0
+ *   @0x2a48b6 bl 0x2a576a <_Z15_zip_entry_freeP9zip_entry>
+ *   @0x2a48ba adds r5, #0x1
+ *   @0x2a48be blx 0xb655c <free@plt>
+ *   @0x2a48c2 movs r5, #0x0
+ *   @0x2a48c6 cmp r5, r3
+ *   @0x2a48ca ldr r3, [r4, #0x40]
+ *   @0x2a48d2 cbnz r6, 0x2a48e6 <_Z9_zip_freeP3zip+0x62>
+ *   @0x2a48d6 movs r1, #0x8
+ *   @0x2a48da bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a48de ldr r3, [r4, #0x40]
+ *   @0x2a48e6 adds r5, #0x1
+ *   @0x2a48ea ldr r0, [r4, #0x40]
+ *   @0x2a48f2 pop.w {r4, r5, r6, lr}
+ *   @0x2a48f6 b.w 0x31babc <__udivdi3+0x424>
+ *   @0x2a48fa pop {r4, r5, r6, pc}
+ *   @0x2a48fe ite mi
+ *   @0x2a4902 ldrpl r3, [r0, #0x1c]
+ *   @0x2a4906 ite eq
+ *   @0x2a490a movne r0, #0x1
+ *   @0x2a4910 ldr r0, [r0, #0x2c]
+ *   @0x2a4914 mov.w r0, #0xffffffff
+ *   @0x2a4918 bx lr
+ *   @0x2a491c push {r4, r5, r6, lr}
+ *   @0x2a4920 mov r0, r3
+ *   @0x2a4924 ldr r3, [r4, #0x2c]
+ *   @0x2a4928 blt 0x2a4936 <_Z13_zip_get_nameP3zipiiP9zip_error+0x1c>
+ *   @0x2a492c movs r2, #0x0
+ *   @0x2a4934 pop {r4, r5, r6, pc}
+ *   @0x2a493c movs r3, #0x14
+ *   @0x2a4940 muls r3, r1, r3
+ *   @0x2a4944 ldr r3, [r2, r3]
+ *   @0x2a4948 bne 0x2a4950 <_Z13_zip_get_nameP3zipiiP9zip_error+0x36>
+ *   @0x2a494c mov r2, r5
+ *   @0x2a4950 ldr r3, [r6, #0x8]
+ *   @0x2a4954 ldr r2, [r4, #0x20]
+ *   @0x2a4958 beq 0x2a492a <_Z13_zip_get_nameP3zipiiP9zip_error+0x10>
+ *   @0x2a495c cmp r1, r3
+ *   @0x2a4960 ldr r3, [r2]
+ *   @0x2a4964 mla r1, r2, r1, r3
+ *   @0x2a4968 ldr r0, [r1, #0x18]
+ *   @0x2a496c mov r0, r3
+ *   @0x2a497a mov r6, r0
+ *   @0x2a497e mov r5, r1
+ *   @0x2a4982 blx 0xb6544 <malloc@plt>
+ *   @0x2a4986 mov r4, r0
+ *   @0x2a498a mov r0, r7
+ *   @0x2a498e mov r2, r4
+ *   @0x2a4996 mov r1, r6
+ *   @0x2a499a blx 0xb65bc <memcpy@plt>
+ *   @0x2a499e mov r0, r4
+ *   @0x2a49aa sub sp, #0x14
+ *   @0x2a49ae mov r7, r3
+ *   @0x2a49b2 cbnz r1, 0x2a49bc <_Z16_zip_name_locateP3zipPKciP9zip_error+0x18>
+ *   @0x2a49b6 movs r1, #0x12
+ *   @0x2a49ba b 0x2a4a3c <_Z16_zip_name_locateP3zipPKciP9zip_error+0x98>
+ *   @0x2a49be bpl 0x2a49c8 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x24>
+ *   @0x2a49c2 add r5, pc
+ *   @0x2a49c6 b 0x2a49ce <_Z16_zip_name_locateP3zipPKciP9zip_error+0x2a>
+ *   @0x2a49ca add r5, pc
+ *   @0x2a49ce ands r2, r6, #0x8
+ *   @0x2a49d2 mov.w r4, #0x0
+ *   @0x2a49d6 mov.w r10, #0x3c
+ *   @0x2a49da str r2, [sp, #0x8]
+ *   @0x2a49de ldrne.w r3, [r11, #0x20]
+ *   @0x2a49e2 ldreq.w r9, [r11, #0x2c]
+ *   @0x2a49e6 ldrne.w r9, [r3, #0x4]
+ *   @0x2a49ea and r3, r6, #0x2
+ *   @0x2a49ee str r3, [sp, #0xc]
+ *   @0x2a49f2 bge 0x2a4a36 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x92>
+ *   @0x2a49f6 cbz r2, 0x2a4a06 <_Z16_zip_name_locateP3zipPKciP9zip_error+0x62>
+ *   @0x2a49fe mla r3, r10, r4, r3
+ *   @0x2a4a02 ldr r3, [r3, #0x18]
+ *   @0x2a4a06 mov r3, r7
+ *   @0x2a4a0a mov r1, r4
+ *   @0x2a4a0e bl 0x2a491a <_Z13_zip_get_nameP3zipiiP9zip_error>
+ *   @0x2a4a12 mov r3, r0
+ *   @0x2a4a16 ldr r2, [sp, #0xc]
+ *   @0x2a4a1a mov r0, r3
+ *   @0x2a4a1e str r3, [sp, #0x4]
+ *   @0x2a4a26 cbz r0, 0x2a4a2a <_Z16_zip_name_locateP3zipPKciP9zip_error+0x86>
+ *   @0x2a4a2a mov r0, r8
+ *   @0x2a4a2e blx r5
+ *   @0x2a4a32 adds r4, #0x1
+ *   @0x2a4a36 mov r0, r7
+ *   @0x2a4a3a movs r2, #0x0
+ *   @0x2a4a46 mov r0, r4
+ *   @0x2a4a4a pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2a4a4e nop
+ *   @0x2a4a52 movs r4, r2
+ *   @0x2a4a56 movs r4, r2
+ *   @0x2a4ddc svchi #0xf0e8bd
+ *   @0x2a4de6 mov r5, r2
+ *   @0x2a4dea str r0, [sp, #0x18]
+ *   @0x2a4dee cmp r2, #0x0
+ *   @0x2a4df2 movs r3, #0x12
+ *   @0x2a4df6 add r7, sp, #0x38
+ *   @0x2a4dfa blx 0xb69f4 <stat@plt>
+ *   @0x2a4dfe cbz r0, 0x2a4e0e <zip_open+0x2e>
+ *   @0x2a4e02 lsls r1, r2, #0x1f
+ *   @0x2a4e06 cmp r5, #0x0
+ *   @0x2a4e0a movs r3, #0xb
+ *   @0x2a4e0e ldr r3, [sp, #0x10]
+ *   @0x2a4e16 cmp r5, #0x0
+ *   @0x2a4e1a movs r3, #0xa
+ *   @0x2a4e1e b 0x2a4eca <zip_open+0xea>
+ *   @0x2a4e22 mov r1, r5
+ *   @0x2a4e2a ldr r1, [pc, #0x298]
+ *   @0x2a4e2e add r1, pc
+ *   @0x2a4e36 cbnz r0, 0x2a4e42 <zip_open+0x62>
+ *   @0x2a4e3a beq 0x2a4ece <zip_open+0xee>
+ *   @0x2a4e3e str r3, [r5]
+ *   @0x2a4e42 mov r1, r4
+ *   @0x2a4e46 blx 0xb6ed4 <fseeko@plt>
+ *   @0x2a4e4a mov r0, r6
+ *   @0x2a4e52 ldr r0, [sp, #0x18]
+ *   @0x2a4e56 bl 0x2a4cba <zip_name_locate+0x262>
+ *   @0x2a4e5a mov r4, r0
+ *   @0x2a4e5e str r6, [r0, #0x4]
+ *   @0x2a4e62 ldr r1, [pc, #0x25c]
+ *   @0x2a4e66 cmp r0, r1
+ *   @0x2a4e6a movlt r1, r0
+ *   @0x2a4e6e rsbs r1, r1, #0
+ *   @0x2a4e76 bne 0x2a4eb4 <zip_open+0xd4>
+ *   @0x2a4e7e cmp r3, #0x1b
+ *   @0x2a4e82 b 0x2a4eb4 <zip_open+0xd4>
+ *   @0x2a4e8a ldr r0, [sp, #0x18]
+ *   @0x2a4e8e bl 0x2a4cba <zip_name_locate+0x262>
+ *   @0x2a4e92 mov r4, r0
+ *   @0x2a4e96 bne.w 0x2a515a <zip_open+0x37a>
+ *   @0x2a4e9a mov r0, r8
+ *   @0x2a4ea2 blx 0xb6850 <fclose@plt>
+ *   @0x2a4ea6 b 0x2a4eb0 <zip_open+0xd0>
+ *   @0x2a4eae str r3, [r4, #0x1c]
+ *   @0x2a4eb2 b 0x2a519a <zip_open+0x3ba>
+ *   @0x2a4eb6 blx 0xb6544 <malloc@plt>
+ *   @0x2a4eba mov r11, r0
+ *   @0x2a4ebe cbz r5, 0x2a4ec4 <zip_open+0xe4>
+ *   @0x2a4ec2 str r3, [r5]
+ *   @0x2a4ec6 blx 0xb6850 <fclose@plt>
+ *   @0x2a4eca movs r0, #0x0
+ *   @0x2a4ece mov r0, r5
+ *   @0x2a4ed2 movs r3, #0x4
+ *   @0x2a4ed6 bne 0x2a4ec2 <zip_open+0xe2>
+ *   @0x2a4eda mov r0, r6
+ *   @0x2a4ee2 movs r1, #0x1
+ *   @0x2a4ee6 mov r3, r6
+ *   @0x2a4efa cbz r4, 0x2a4f0a <zip_open+0x12a>
+ *   @0x2a4efe movs r3, #0x5
+ *   @0x2a4f02 mov r0, r11
+ *   @0x2a4f0a mov r2, r4
+ *   @0x2a4f0e movs r1, #0x13
+ *   @0x2a4f12 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a4f16 mov.w r2, #0xffffffff
+ *   @0x2a4f1a ldr r3, [pc, #0x1ac]
+ *   @0x2a4f1e ldr r2, [pc, #0x1ac]
+ *   @0x2a4f22 str.w r11, [sp, #0x1c]
+ *   @0x2a4f26 str r3, [sp, #0x28]
+ *   @0x2a4f2a add r3, sp, #0x30
+ *   @0x2a4f2e str r3, [sp, #0xc]
+ *   @0x2a4f32 ldr r3, [sp, #0x20]
+ *   @0x2a4f3a mov r0, r2
+ *   @0x2a4f3e bl 0x2a4b48 <zip_name_locate+0xf0>
+ *   @0x2a4f42 mov r9, r0
+ *   @0x2a4f46 beq.w 0x2a513a <zip_open+0x35a>
+ *   @0x2a4f4a ldr r3, [sp, #0x20]
+ *   @0x2a4f52 add r3, r11
+ *   @0x2a4f5a str r3, [sp, #0x14]
+ *   @0x2a4f5e mov r0, r7
+ *   @0x2a4f62 movs r2, #0x0
+ *   @0x2a4f66 ldr r1, [sp, #0x28]
+ *   @0x2a4f6a blx 0xb6c40 <memcmp@plt>
+ *   @0x2a4f6e mov r4, r0
+ *   @0x2a4f72 bne 0x2a4f5e <zip_open+0x17e>
+ *   @0x2a4f7a movs r2, #0x4
+ *   @0x2a4f82 cbz r0, 0x2a4f90 <zip_open+0x1b0>
+ *   @0x2a4f86 movs r1, #0x1
+ *   @0x2a4f8a bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a4f8e b 0x2a512e <zip_open+0x34e>
+ *   @0x2a4f92 add.w r3, r9, #0x8
+ *   @0x2a4f96 str r3, [sp, #0x30]
+ *   @0x2a4f9e add r0, sp, #0x30
+ *   @0x2a4fa6 bl 0x2a3b88 <_Z13_zip_cdir_newiP9zip_error>
+ *   @0x2a4faa mov r4, r0
+ *   @0x2a4fae beq.w 0x2a512e <zip_open+0x34e>
+ *   @0x2a4fb2 add r0, sp, #0x30
+ *   @0x2a4fba add r0, sp, #0x30
+ *   @0x2a4fc6 add r0, sp, #0x30
+ *   @0x2a4fce cmp r3, r0
+ *   @0x2a4fd2 strh r0, [r4, #0x14]
+ *   @0x2a4fd6 ldr r3, [r4, #0x4]
+ *   @0x2a4fda cmp r3, r2
+ *   @0x2a4fde mov r0, r7
+ *   @0x2a4fe2 movs r2, #0x0
+ *   @0x2a4fe6 ldr r3, [sp, #0x10]
+ *   @0x2a4fea bpl 0x2a4ffa <zip_open+0x21a>
+ *   @0x2a4fee cmp r3, r0
+ *   @0x2a4ff2 mov r0, r7
+ *   @0x2a4ff6 mov r2, r10
+ *   @0x2a4ffa cbz r1, 0x2a500c <zip_open+0x22c>
+ *   @0x2a5002 bl 0x2a4978 <_Z11_zip_memdupPKvjP9zip_error>
+ *   @0x2a5006 str r0, [r4, #0x10]
+ *   @0x2a500a beq 0x2a5072 <zip_open+0x292>
+ *   @0x2a500e rsb r2, r11, r9
+ *   @0x2a5012 cmp r3, r2
+ *   @0x2a5016 rsb r3, r3, r9
+ *   @0x2a501a add r2, sp, #0x30
+ *   @0x2a501e str r2, [sp, #0x14]
+ *   @0x2a5022 mov r0, r6
+ *   @0x2a502a ldr r1, [r4, #0xc]
+ *   @0x2a502e blx 0xb6ed4 <fseeko@plt>
+ *   @0x2a5032 ldrh.w r10, [r6, #0xc]
+ *   @0x2a5036 and r10, r10, #0x40
+ *   @0x2a503a uxth.w r10, r10
+ *   @0x2a503e cmp.w r10, #0x0
+ *   @0x2a5042 bne 0x2a5056 <zip_open+0x276>
+ *   @0x2a5046 blx 0xb6ee0 <ftello@plt>
+ *   @0x2a504a ldr r3, [r4, #0xc]
+ *   @0x2a504e bne 0x2a5056 <zip_open+0x276>
+ *   @0x2a5056 ldrh r2, [r6, #0xc]
+ *   @0x2a505e cmp r2, #0x0
+ *   @0x2a506a ldr r2, [r0]
+ *   @0x2a506e bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a5072 mov r0, r4
+ *   @0x2a507a ldr r3, [r4, #0x8]
+ *   @0x2a508a cmp r10, r3
+ *   @0x2a508e ldr r3, [sp, #0x34]
+ *   @0x2a5092 mov r0, r4
+ *   @0x2a509a bl 0x2a3b4e <_Z14_zip_cdir_growP8zip_cdiriP9zip_error>
+ *   @0x2a509e ldr r0, [r4]
+ *   @0x2a50a2 movs r3, #0x0
+ *   @0x2a50a6 stm.w sp, {r3, r7}
+ *   @0x2a50aa mov r3, r9
+ *   @0x2a50b2 bl 0x2a3ef0 <_Z16_zip_dirent_readP10zip_direntP7__sFILEPPhPjiP9zip_error>
+ *   @0x2a50b6 cmp r0, #0x0
+ *   @0x2a50ba str.w r10, [r4, #0x4]
+ *   @0x2a50be b 0x2a5112 <zip_open+0x332>
+ *   @0x2a50c2 movs r1, r0
+ *   @0x2a50c6 movs r6, r1
+ *   @0x2a50ca movs r6, r1
+ *   @0x2a50ce movs r6, r1
+ *   @0x2a50d2 add.w r10, r10, #0x1
+ *   @0x2a50d6 cmp r10, r3
+ *   @0x2a50da cbz r4, 0x2a512e <zip_open+0x34e>
+ *   @0x2a50e2 ldr r3, [sp, #0x8]
+ *   @0x2a50e6 bgt 0x2a50f4 <zip_open+0x314>
+ *   @0x2a50ea mov r1, r8
+ *   @0x2a50ee bl 0x2a4cfe <zip_name_locate+0x2a6>
+ *   @0x2a50f2 str r0, [sp, #0x8]
+ *   @0x2a50f6 mov r0, r6
+ *   @0x2a50fa bl 0x2a4cfe <zip_name_locate+0x2a6>
+ *   @0x2a50fe ldr r2, [sp, #0x8]
+ *   @0x2a5102 mov r9, r0
+ *   @0x2a5106 mov r0, r8
+ *   @0x2a5112 mov r0, r4
+ *   @0x2a511a ldr r3, [sp, #0x10]
+ *   @0x2a511e bpl 0x2a5132 <zip_open+0x352>
+ *   @0x2a5122 mov r1, r4
+ *   @0x2a5126 bl 0x2a4cfe <zip_name_locate+0x2a6>
+ *   @0x2a512a str r0, [sp, #0x8]
+ *   @0x2a512e mov r4, r8
+ *   @0x2a5132 str.w r8, [sp, #0x8]
+ *   @0x2a5136 mov r8, r4
+ *   @0x2a513a mov r0, r11
+ *   @0x2a5142 cmp r2, #0x0
+ *   @0x2a514a mov r1, r7
+ *   @0x2a514e bl 0x2a4a60 <zip_name_locate+0x8>
+ *   @0x2a5152 mov r0, r8
+ *   @0x2a515a str.w r8, [r0, #0x20]
+ *   @0x2a515e str r6, [r0, #0x4]
+ *   @0x2a5162 ldr.w r3, [r8, #0x4]
+ *   @0x2a5166 muls r0, r3, r0
+ *   @0x2a516e cbnz r0, 0x2a517e <zip_open+0x39e>
+ *   @0x2a5172 movs r3, #0xe
+ *   @0x2a5176 mov r0, r4
+ *   @0x2a517e ldr.w r3, [r8, #0x4]
+ *   @0x2a5182 mov r0, r4
+ *   @0x2a5186 bge.w 0x2a4ea8 <zip_open+0xc8>
+ *   @0x2a518a bl 0x2a5790 <_Z14_zip_entry_newP3zip>
+ *   @0x2a518e add.w r9, r9, #0x1
+ *   @0x2a5192 b 0x2a517e <zip_open+0x39e>
+ *   @0x2a5196 movs r1, #0x13
+ *   @0x2a519a add sp, #0xa4
+ *   @0x2a51a6 mov r6, r0
+ *   @0x2a51aa ldr r2, [r0, #0x20]
+ *   @0x2a51ae cbnz r2, 0x2a51c4 <zip_open_buff+0x24>
+ *   @0x2a51b2 ldr r1, [sp, #0xc]
+ *   @0x2a51b6 bl 0x2a4cba <zip_name_locate+0x262>
+ *   @0x2a51ba cmp r0, #0x0
+ *   @0x2a51c2 b 0x2a5472 <zip_open_buff+0x2d2>
+ *   @0x2a51c6 movs r1, #0x2
+ *   @0x2a51ca ldr r3, [r3, #0x10]
+ *   @0x2a51ce it ge
+ *   @0x2a51d2 blx r3
+ *   @0x2a51d6 blx 0xb6544 <malloc@plt>
+ *   @0x2a51da mov r9, r0
+ *   @0x2a51de ldr r2, [sp, #0xc]
+ *   @0x2a51e2 beq.w 0x2a5470 <zip_open_buff+0x2d0>
+ *   @0x2a51e6 movs r3, #0xe
+ *   @0x2a51ea b 0x2a5470 <zip_open_buff+0x2d0>
+ *   @0x2a51ee mov r1, r9
+ *   @0x2a51f2 mov r0, r6
+ *   @0x2a51fa movs r2, #0x0
+ *   @0x2a51fe mov.w r8, #0xffffffff
+ *   @0x2a5202 movs r4, #0x0
+ *   @0x2a5206 mov r0, r5
+ *   @0x2a520e ldr r2, [pc, #0x24c]
+ *   @0x2a5212 str.w r9, [sp, #0x18]
+ *   @0x2a5216 str r3, [sp, #0x28]
+ *   @0x2a521a add r3, sp, #0x34
+ *   @0x2a521e str r3, [sp, #0x10]
+ *   @0x2a5222 ldr r2, [sp, #0x1c]
+ *   @0x2a522a mov r0, r3
+ *   @0x2a522e bl 0x2a4b48 <zip_name_locate+0xf0>
+ *   @0x2a5232 mov r7, r0
+ *   @0x2a5236 beq.w 0x2a53e2 <zip_open_buff+0x242>
+ *   @0x2a523a ldr r3, [sp, #0x1c]
+ *   @0x2a523e str r2, [sp, #0x18]
+ *   @0x2a5242 subs r3, r3, r7
+ *   @0x2a5246 str r3, [sp, #0x20]
+ *   @0x2a524a mov r0, r5
+ *   @0x2a524e movs r2, #0x0
+ *   @0x2a5252 ldr r1, [sp, #0x28]
+ *   @0x2a5256 blx 0xb6c40 <memcmp@plt>
+ *   @0x2a525a mov r11, r0
+ *   @0x2a525e bne 0x2a524a <zip_open_buff+0xaa>
+ *   @0x2a5262 ldr r1, [sp, #0x2c]
+ *   @0x2a5266 blx 0xb6c40 <memcmp@plt>
+ *   @0x2a526a str r0, [sp, #0x14]
+ *   @0x2a526e mov r0, r5
+ *   @0x2a5272 mov r2, r11
+ *   @0x2a527a add r0, sp, #0x34
+ *   @0x2a5282 bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a5286 mov r11, r0
+ *   @0x2a528a bl 0x2a3ec0 <_Z10_zip_read2PPh>
+ *   @0x2a528e mov r1, r5
+ *   @0x2a5296 cmp r0, #0x0
+ *   @0x2a529e bl 0x2a3ed2 <_Z10_zip_read4PPh>
+ *   @0x2a52a2 str.w r0, [r10, #0x8]
+ *   @0x2a52a6 add r0, sp, #0x34
+ *   @0x2a52ae str.w r3, [r10, #0x10]
+ *   @0x2a52b2 str.w r0, [r10, #0xc]
+ *   @0x2a52b6 add r0, sp, #0x34
+ *   @0x2a52be cmp r3, r0
+ *   @0x2a52c2 strh.w r0, [r10, #0x14]
+ *   @0x2a52c6 blt 0x2a52d0 <zip_open_buff+0x130>
+ *   @0x2a52ce beq 0x2a52d8 <zip_open_buff+0x138>
+ *   @0x2a52d2 movs r1, #0x13
+ *   @0x2a52d6 b 0x2a52ea <zip_open_buff+0x14a>
+ *   @0x2a52da lsls r2, r2, #0x1d
+ *   @0x2a52de ldr r3, [sp, #0x20]
+ *   @0x2a52e2 beq 0x2a52f0 <zip_open_buff+0x150>
+ *   @0x2a52e6 mov r0, r5
+ *   @0x2a52ea bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a52ee b 0x2a5302 <zip_open_buff+0x162>
+ *   @0x2a52f2 add.w r0, r7, #0x16
+ *   @0x2a52f6 mov r2, r5
+ *   @0x2a5302 mov r0, r10
+ *   @0x2a530a ldr.w r3, [r10, #0x8]
+ *   @0x2a530e rsb r2, r9, r7
+ *   @0x2a5312 cmp r3, r2
+ *   @0x2a5316 subs r7, r7, r3
+ *   @0x2a531a str r7, [sp, #0x34]
+ *   @0x2a531e b 0x2a5332 <zip_open_buff+0x192>
+ *   @0x2a5322 mov r0, r6
+ *   @0x2a5326 ldr.w r2, [r10, #0xc]
+ *   @0x2a532a ldr r3, [r3, #0x10]
+ *   @0x2a532e movs r3, #0x0
+ *   @0x2a5332 ldr.w r3, [r10, #0x8]
+ *   @0x2a5336 add r7, sp, #0x48
+ *   @0x2a5346 bne 0x2a5358 <zip_open_buff+0x1b8>
+ *   @0x2a534a cbz r3, 0x2a5358 <zip_open_buff+0x1b8>
+ *   @0x2a534e add.w r1, r11, #0x10000
+ *   @0x2a5352 mov r2, r5
+ *   @0x2a535e movs r2, #0x0
+ *   @0x2a5362 stm.w sp, {r2, r5}
+ *   @0x2a5366 mla r0, r3, r11, r0
+ *   @0x2a536a ldr r2, [sp, #0x14]
+ *   @0x2a536e bl 0x2a4108 <_Z21_zip_dirent_read_buffP10zip_direntP7IBufferPPhPjiP9zip_error>
+ *   @0x2a5372 cmp r0, #0x0
+ *   @0x2a5376 str.w r11, [r10, #0x4]
+ *   @0x2a537a b 0x2a53bc <zip_open_buff+0x21c>
+ *   @0x2a5386 blt 0x2a5340 <zip_open_buff+0x1a0>
+ *   @0x2a538e cbz r4, 0x2a53c4 <zip_open_buff+0x224>
+ *   @0x2a5396 mov r0, r6
+ *   @0x2a539a mov r2, r5
+ *   @0x2a53a2 mov r0, r6
+ *   @0x2a53a6 mov r2, r5
+ *   @0x2a53ae mov r7, r0
+ *   @0x2a53b2 mov r0, r4
+ *   @0x2a53b6 bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir>
+ *   @0x2a53ba b 0x2a53de <zip_open_buff+0x23e>
+ *   @0x2a53be bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir>
+ *   @0x2a53c2 b 0x2a53d8 <zip_open_buff+0x238>
+ *   @0x2a53c6 lsls r3, r2, #0x1d
+ *   @0x2a53ca mov r0, r6
+ *   @0x2a53ce mov r2, r5
+ *   @0x2a53d6 b 0x2a53de <zip_open_buff+0x23e>
+ *   @0x2a53da b 0x2a53de <zip_open_buff+0x23e>
+ *   @0x2a53de mov r4, r10
+ *   @0x2a53e2 mov r0, r9
+ *   @0x2a53ee ldr r0, [sp, #0xc]
+ *   @0x2a53f2 mov r2, r7
+ *   @0x2a53fa bl 0x2a3bf6 <_Z14_zip_cdir_freeP8zip_cdir>
+ *   @0x2a53fe b 0x2a5470 <zip_open_buff+0x2d0>
+ *   @0x2a5402 beq 0x2a5470 <zip_open_buff+0x2d0>
+ *   @0x2a5406 ldr r1, [sp, #0xc]
+ *   @0x2a540a bl 0x2a4cba <zip_name_locate+0x262>
+ *   @0x2a540e mov r5, r0
+ *   @0x2a5412 mov r0, r4
+ *   @0x2a541a str r4, [r0, #0x20]
+ *   @0x2a541e str r6, [r0, #0x8]
+ *   @0x2a5422 ldr r3, [r4, #0x4]
+ *   @0x2a5426 blx 0xb6544 <malloc@plt>
+ *   @0x2a542a str r0, [r5, #0x34]
+ *   @0x2a542e ldr r3, [sp, #0xc]
+ *   @0x2a5432 ldr r2, [sp, #0xc]
+ *   @0x2a5436 str r3, [r2]
+ *   @0x2a543a bl 0x2a4884 <_Z9_zip_freeP3zip>
+ *   @0x2a543e b 0x2a5470 <zip_open_buff+0x2d0>
+ *   @0x2a5442 mov r0, r5
+ *   @0x2a5446 bge 0x2a5464 <zip_open_buff+0x2c4>
+ *   @0x2a544e b 0x2a5440 <zip_open_buff+0x2a0>
+ *   @0x2a5452 movs r1, r0
+ *   @0x2a5456 movs r6, r1
+ *   @0x2a545a movs r6, r1
+ *   @0x2a545e movs r6, r1
+ *   @0x2a5462 movs r6, r1
+ *   @0x2a546a str r3, [r5, #0x1c]
+ *   @0x2a546e b 0x2a5472 <zip_open_buff+0x2d2>
+ *   @0x2a5472 add sp, #0x4c
+ *   @0x2a5558 andseq r8, r4, lr, asr #9
+ *   @0x2a5562 mov r7, r1
+ *   @0x2a5566 ldr r5, [sp, #0x3c]
+ *   @0x2a556a cmp r0, #0x0
+ *   @0x2a556e cbz r1, 0x2a5586 <zip_source_zip+0x2a>
+ *   @0x2a5572 cmp r2, #0x0
+ *   @0x2a5576 adds r0, r5, #0x1
+ *   @0x2a557a cmp.w r9, #0x0
+ *   @0x2a557e blt 0x2a5586 <zip_source_zip+0x2a>
+ *   @0x2a5582 cmp r9, r2
+ *   @0x2a5586 add.w r0, r6, #0xc
+ *   @0x2a558a movs r1, #0x12
+ *   @0x2a558e bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a5592 b 0x2a5664 <zip_source_zip+0x108>
+ *   @0x2a559a ldr r2, [r1, #0x34]
+ *   @0x2a559e mul r1, r1, r9
+ *   @0x2a55a2 ldr r2, [r2, r1]
+ *   @0x2a55a6 cmp r2, #0x1
+ *   @0x2a55aa add.w r0, r6, #0xc
+ *   @0x2a55ae movs r1, #0xf
+ *   @0x2a55b2 ldr r2, [sp, #0x38]
+ *   @0x2a55b6 cbnz r2, 0x2a55d2 <zip_source_zip+0x76>
+ *   @0x2a55ba bne 0x2a55d2 <zip_source_zip+0x76>
+ *   @0x2a55be bmi 0x2a55ce <zip_source_zip+0x72>
+ *   @0x2a55ca cmp r2, #0x0
+ *   @0x2a55ce mov.w r5, #0xffffffff
+ *   @0x2a55d2 bic r8, r3, #0x4
+ *   @0x2a55d6 movs r0, #0x28
+ *   @0x2a55de cbnz r0, 0x2a55f0 <zip_source_zip+0x94>
+ *   @0x2a55e6 mov r2, r4
+ *   @0x2a55ee b 0x2a5666 <zip_source_zip+0x10a>
+ *   @0x2a55fa mov r0, r11
+ *   @0x2a5602 mov r1, r9
+ *   @0x2a5606 adds r3, r4, #0x4
+ *   @0x2a560e blt 0x2a564c <zip_source_zip+0xf0>
+ *   @0x2a5612 mov r1, r9
+ *   @0x2a5616 bl 0x2a4584 <zip_fopen_index>
+ *   @0x2a561a str r0, [r4]
+ *   @0x2a561e ldr r3, [sp, #0x38]
+ *   @0x2a5622 str r3, [r4, #0x20]
+ *   @0x2a562a str r5, [r4, #0x18]
+ *   @0x2a562e strh r3, [r4, #0x1c]
+ *   @0x2a5632 ldr r1, [pc, #0x38]
+ *   @0x2a5636 mov r2, r4
+ *   @0x2a563a bl 0x2a59ca <zip_source_function>
+ *   @0x2a563e mov r6, r0
+ *   @0x2a5642 mov r0, r4
+ *   @0x2a564a b 0x2a5666 <zip_source_zip+0x10a>
+ *   @0x2a564e blx 0xb655c <free@plt>
+ *   @0x2a5652 add.w r0, r6, #0xc
+ *   @0x2a5656 mov r1, r10
+ *   @0x2a565e mov r1, r11
+ *   @0x2a5666 add sp, #0x14
+ *   @0x2a5672 mov r5, r0
+ *   @0x2a5676 mov r6, r3
+ *   @0x2a567e blt 0x2a568e <zip_stat+0x1e>
+ *   @0x2a5682 mov r2, r4
+ *   @0x2a5686 pop.w {r4, r5, r6, lr}
+ *   @0x2a568a b.w 0x2a5694 <zip_stat_index>
+ *   @0x2a568e mov.w r0, #0xffffffff
+ *   @0x2a5692 pop {r4, r5, r6, pc}
+ *   @0x2a569a mov r5, r0
+ *   @0x2a569e mov r4, r3
+ *   @0x2a56a2 add.w r0, r5, #0xc
+ *   @0x2a56a6 movs r1, #0x12
+ *   @0x2a56aa b 0x2a56ee <zip_stat_index+0x5a>
+ *   @0x2a56ae cmp r6, r3
+ *   @0x2a56b2 bl 0x2a4970 <zip_get_name>
+ *   @0x2a56b6 mov r7, r0
+ *   @0x2a56ba beq 0x2a575c <zip_stat_index+0xc8>
+ *   @0x2a56c2 movs r3, #0x14
+ *   @0x2a56c6 muls r3, r6, r3
+ *   @0x2a56ca ldr r3, [r1, r3]
+ *   @0x2a56ce cmp r3, #0x1
+ *   @0x2a56d2 ldr r3, [r2, #0x4]
+ *   @0x2a56d6 movs r2, #0x1c
+ *   @0x2a56de movs r3, #0x3
+ *   @0x2a56e2 cmp r0, #0x0
+ *   @0x2a56e6 add.w r0, r5, #0xc
+ *   @0x2a56ea movs r1, #0xf
+ *   @0x2a56ee bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a56f2 b 0x2a575c <zip_stat_index+0xc8>
+ *   @0x2a56f6 cmp r2, #0x0
+ *   @0x2a56fa ldr r3, [r2, #0x4]
+ *   @0x2a56fe bge 0x2a56a2 <zip_stat_index+0xe>
+ *   @0x2a5702 ldr r2, [r2]
+ *   @0x2a5706 add r2, r3
+ *   @0x2a570a str r2, [r4, #0x8]
+ *   @0x2a570e ldr r2, [r2]
+ *   @0x2a5712 ldr r2, [r2, #0x14]
+ *   @0x2a5716 ldr r2, [r5, #0x20]
+ *   @0x2a571a add r2, r3
+ *   @0x2a571e str r2, [r4, #0xc]
+ *   @0x2a5722 ldr r2, [r2]
+ *   @0x2a5726 ldr r2, [r2, #0x10]
+ *   @0x2a572a ldr r2, [r5, #0x20]
+ *   @0x2a572e add r2, r3
+ *   @0x2a5732 strh r2, [r4, #0x18]
+ *   @0x2a5736 ldr r2, [r2]
+ *   @0x2a573a ldrh r3, [r3, #0x4]
+ *   @0x2a5742 lsls r3, r3, #0x19
+ *   @0x2a5746 movwmi r3, #0xffff
+ *   @0x2a574a movpl r3, #0x1
+ *   @0x2a574e b 0x2a5752 <zip_stat_index+0xbe>
+ *   @0x2a5752 str r6, [r4, #0x4]
+ *   @0x2a5756 str r7, [r4]
+ *   @0x2a5766 b.w 0x2a57f8 <_Z19_zip_error_strerrorP9zip_error>
+ *   @0x2a576c mov r4, r0
+ *   @0x2a5770 movs r5, #0x0
+ *   @0x2a5778 str r5, [r4, #0x8]
+ *   @0x2a5784 mov r0, r4
+ *   @0x2a5788 pop.w {r3, r4, r5, lr}
+ *   @0x2a578c b.w 0x2a59f6 <_Z18_zip_unchange_dataP9zip_entry>
+ *   @0x2a5792 mov r4, r0
+ *   @0x2a5796 movs r0, #0x14
+ *   @0x2a579e movs r0, #0xc
+ *   @0x2a57a2 b 0x2a57c6 <_Z14_zip_entry_newP3zip+0x36>
+ *   @0x2a57a6 ldr r2, [r0, #0x2c]
+ *   @0x2a57aa cmp r2, r1
+ *   @0x2a57ae adds r3, #0x10
+ *   @0x2a57b2 str r3, [r0, #0x30]
+ *   @0x2a57b6 ldr r0, [r0, #0x34]
+ *   @0x2a57be str r0, [r4, #0x34]
+ *   @0x2a57c2 add.w r0, r4, #0xc
+ *   @0x2a57c6 movs r1, #0xe
+ *   @0x2a57ca bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a57ce b 0x2a57f2 <_Z14_zip_entry_newP3zip+0x62>
+ *   @0x2a57d2 movs r5, #0x14
+ *   @0x2a57d6 mla r5, r5, r2, r3
+ *   @0x2a57da movs r3, #0x0
+ *   @0x2a57e2 str r3, [r5, #0x8]
+ *   @0x2a57e6 str r2, [r5, #0x10]
+ *   @0x2a57ea cbz r4, 0x2a57f2 <_Z14_zip_entry_newP3zip+0x62>
+ *   @0x2a57ee adds r3, #0x1
+ *   @0x2a57f2 mov r0, r5
+ *   @0x2a57fe ldr r5, [pc, #0xc4]
+ *   @0x2a5802 ldr r3, [pc, #0xc4]
+ *   @0x2a5806 ldr r4, [r5, r3]
+ *   @0x2a580a mov r9, r4
+ *   @0x2a580e bl 0x2a431e <_Z15_zip_error_finiP9zip_error>
+ *   @0x2a5812 ldr r2, [r7]
+ *   @0x2a5816 blt 0x2a5822 <_Z19_zip_error_strerrorP9zip_error+0x2a>
+ *   @0x2a581a ldr r3, [r5, r3]
+ *   @0x2a581e cmp r2, r3
+ *   @0x2a5822 add r6, sp, #0xc
+ *   @0x2a5826 movs r4, #0x0
+ *   @0x2a582a add r1, pc
+ *   @0x2a5832 ldr r3, [pc, #0xa0]
+ *   @0x2a5836 ldr.w r4, [r3, r2, lsl #2]
+ *   @0x2a583a ldr r3, [pc, #0x9c]
+ *   @0x2a583e ldr.w r3, [r3, r2, lsl #2]
+ *   @0x2a5842 cmp r3, #0x1
+ *   @0x2a5846 cmp r3, #0x2
+ *   @0x2a584a ldr r0, [r7, #0x4]
+ *   @0x2a5852 ldr r0, [r7, #0x4]
+ *   @0x2a585a cbz r0, 0x2a58ac <_Z19_zip_error_strerrorP9zip_error+0xb4>
+ *   @0x2a585e blx 0xb6538 <strlen@plt>
+ *   @0x2a5862 mov r8, r0
+ *   @0x2a5866 mov r0, r4
+ *   @0x2a586e b 0x2a5872 <_Z19_zip_error_strerrorP9zip_error+0x7a>
+ *   @0x2a5872 add.w r0, r8, #0x1
+ *   @0x2a5876 add r0, r3
+ *   @0x2a587e cbnz r0, 0x2a5888 <_Z19_zip_error_strerrorP9zip_error+0x90>
+ *   @0x2a5882 ldr r3, [r5, r3]
+ *   @0x2a5886 b 0x2a58ae <_Z19_zip_error_strerrorP9zip_error+0xb6>
+ *   @0x2a588a ldr r2, [pc, #0x50]
+ *   @0x2a588e mov r3, r2
+ *   @0x2a5892 ldr r3, [pc, #0x4c]
+ *   @0x2a5896 add r3, pc
+ *   @0x2a589a mov r0, r8
+ *   @0x2a589e add r1, pc
+ *   @0x2a58aa b 0x2a58ae <_Z19_zip_error_strerrorP9zip_error+0xb6>
+ *   @0x2a58ae ldr r2, [sp, #0x8c]
+ *   @0x2a58b6 beq 0x2a58bc <_Z19_zip_error_strerrorP9zip_error+0xc4>
+ *   @0x2a58be pop.w {r4, r5, r6, r7, r8, r9, pc}
+ *   @0x2a58c2 nop
+ *   @0x2a58c6 movs r4, r2
+ *   @0x2a58ca vcvt.f32.u32 d31, d16, #0x1
+ *   @0x2a58ce .word 0xffff 69d8
+ *   @0x2a58d2 movs r6, r1
+ *   @0x2a58de movs r6, r1
+ *   @0x2a58e2 movs r6, r1
+ *   @0x2a58e6 movs r6, r1
+ *   @0x2a58ea b.w 0x2a432e <_Z14_zip_error_getP9zip_errorPiS1_>
+ *   @0x2a58f0 movs r2, #0x3c
+ *   @0x2a58f4 sub sp, #0x4c
+ *   @0x2a58f8 mov r4, r0
+ *   @0x2a5900 mla r1, r2, r1, r3
+ *   @0x2a5904 ldr r6, [r1, #0x38]
+ *   @0x2a5908 mov r0, r5
+ *   @0x2a590c movs r2, #0x0
+ *   @0x2a5914 cbz r0, 0x2a5928 <_Z20_zip_file_get_offsetP3zipi+0x3a>
+ *   @0x2a591c ldr r2, [r0]
+ *   @0x2a5920 bl 0x2a4358 <_Z14_zip_error_setP9zip_errorii>
+ *   @0x2a5924 movs r0, #0x0
+ *   @0x2a5928 movs r3, #0x1
+ *   @0x2a592c stm.w sp, {r3, r7}
+ *   @0x2a5930 mov r2, r5
+ *   @0x2a5934 mov r3, r5
+ *   @0x2a593c ldr r0, [r0, #0x8]
+ *   @0x2a5940 mov r2, r6
+ *   @0x2a5944 ldr r3, [r3, #0x10]
+ *   @0x2a5948 ldr r1, [r4, #0x8]
+ *   @0x2a594c ldr r2, [r1, #0xc]
+ *   @0x2a5950 add r3, r2
+ *   @0x2a5954 str r3, [sp, #0x8]
+ *   @0x2a5958 stm.w sp, {r3, r7}
+ *   @0x2a595c mov r3, r5
+ *   @0x2a5964 ldrh.w r5, [sp, #0x28]
+ *   @0x2a5968 add r0, sp, #0xc
+ *   @0x2a5970 add r5, r3
+ *   @0x2a5974 bl 0x2a3bd6 <_Z20_zip_dirent_finalizeP10zip_dirent>
+ *   @0x2a5978 mov r0, r5
+ *   @0x2a597c pop {r4, r5, r6, r7, pc}
+ *   @0x2a5980 mov r5, r0
+ *   @0x2a5984 blx 0xb6544 <malloc@plt>
+ *   @0x2a5988 mov r4, r0
+ *   @0x2a598c mov r0, r5
+ *   @0x2a5990 mov r2, r4
+ *   @0x2a5998 movs r5, #0x0
+ *   @0x2a599c str r5, [r0, #-12]
+ *   @0x2a59a0 str r5, [r0, #-8]
+ *   @0x2a59a4 str r5, [r0, #-4]
+ *   @0x2a59a8 bl 0x2a434e <_Z15_zip_error_initP9zip_error>
+ *   @0x2a59ac mov.w r3, #0xffffffff
+ *   @0x2a59b0 str r5, [r4, #0x20]
+ *   @0x2a59b4 str r3, [r4, #0x28]
+ *   @0x2a59b8 str r5, [r4, #0x2c]
+ *   @0x2a59bc str r5, [r4, #0x3c]
+ *   @0x2a59c0 str r5, [r4, #0x40]
+ *   @0x2a59c4 str r5, [r4, #0x18]
+ *   @0x2a59c8 pop {r3, r4, r5, pc}
+ *   @0x2a59cc mov r6, r1
+ *   @0x2a59d0 mov r5, r0
+ *   @0x2a59d4 movs r0, #0x8
+ *   @0x2a59dc cbnz r0, 0x2a59ec <zip_source_function+0x22>
+ *   @0x2a59e4 mov r2, r4
+ *   @0x2a59ec stm.w r0, {r6, r7}
+ *   @0x2a59f0 mov r0, r4
+ *   @0x2a59f4 pop {r3, r4, r5, r6, r7, pc}
+ *   @0x2a59f8 mov r4, r0
+ *   @0x2a59fc cbz r3, 0x2a5a14 <_Z18_zip_unchange_dataP9zip_entry+0x1e>
+ *   @0x2a5a00 ldr r5, [r3]
+ *   @0x2a5a04 mov r2, r1
+ *   @0x2a5a08 blx r5
+ *   @0x2a5a0c blx 0xb655c <free@plt>
+ *   @0x2a5a10 movs r3, #0x0
+ *   @0x2a5a14 ldr r3, [r4, #0x8]
+ *   @0x2a5a18 ite ne
+ *   @0x2a5a1c moveq r3, #0x0
+ *   @0x2a5a20 pop {r3, r4, r5, pc}
+ *   @0x2a5a22 ldrlt r0, [r8, #-0x0]!
+ *   @0x2a5a26 mov r5, r0
+ *   @0x2a5a2a cmp r1, #0x0
+ *   @0x2a5a2e cmp r1, #0x8
+ *   @0x2a5a32 bls 0x2a5a40 <png_set_sig_bytes+0x1c>
+ *   @0x2a5a36 add r1, pc
+ *   @0x2a5a3e movs r4, #0x0
+ *   @0x2a5a46 nop
+ *   @0x2a5a4a movs r6, r1
+ *   @0x2a5a4e mov r3, r1
+ *   @0x2a5a52 mov r6, r0
+ *   @0x2a5a56 cmp r2, #0x8
+ *   @0x2a5a5a ldr r4, [r4]
+ *   @0x2a5a5e str r1, [sp, #0xc]
+ *   @0x2a5a62 add r1, pc
+ *   @0x2a5a66 ldr r1, [r1, #0x4]
+ *   @0x2a5a6a bhi 0x2a5a70 <png_sig_cmp+0x24>
+ *   @0x2a5a6e b 0x2a5a8c <png_sig_cmp+0x40>
+ *   @0x2a5a72 cmp r3, #0x7
+ *   @0x2a5a76 adds r1, r2, r3
+ *   @0x2a5a7a cmp r1, #0x8
+ *   @0x2a5a7e it hi
+ *   @0x2a5a86 blx 0xb6c40 <memcmp@plt>
+ *   @0x2a5a8a b 0x2a5a90 <png_sig_cmp+0x44>
+ *   @0x2a5a92 ldr r3, [r4]
+ *   @0x2a5a96 beq 0x2a5a9c <png_sig_cmp+0x50>
+ *   @0x2a5a9e pop {r4, r5, r6, pc}
+ *   @0x2a5aa2 movs r4, r2
+ *   @0x2a5aa6 movs r6, r1
+ *   @0x2a5aaa mov r6, r1
+ *   @0x2a5aae mov r4, r0
+ *   @0x2a5ab2 ldr.w r5, [r0, #0x130]
+ *   @0x2a5ab6 mov r1, r2
+ *   @0x2a5ac2 bls 0x2a5ad2 <png_zalloc+0x2a>
+ *   @0x2a5ac6 mov r0, r4
+ *   @0x2a5aca bl 0x2a6474 <png_warning>
+ *   @0x2a5ace movs r0, #0x0
+ *   @0x2a5ad2 orr r3, r5, #0x100000
+ *   @0x2a5ad6 mov r0, r4
+ *   @0x2a5aea nop
+ *   @0x2a5aee movs r6, r1
+ *   @0x2a5af6 mov r4, r0
+ *   @0x2a5afa mov r1, r0
+ *   @0x2a5afe blx 0xb6ea4 <crc32@plt>
+ *   @0x2a5b02 str.w r0, [r4, #0x1d4]
+ *   @0x2a5b06 pop {r4, pc}
+ *   @0x2a5b0a mov r4, r0
+ *   @0x2a5b1a and r3, r3, #0x300
+ *   @0x2a5b1e cmp.w r3, #0x300
+ *   @0x2a5b22 bne 0x2a5b2a <png_calculate_crc+0x22>
+ *   @0x2a5b26 lsls r3, r3, #0x14
+ *   @0x2a5b2a ldr.w r0, [r4, #0x1d4]
+ *   @0x2a5b2e blx 0xb6ea4 <crc32@plt>
+ *   @0x2a5b32 str.w r0, [r4, #0x1d4]
+ *   @0x2a5b36 pop {r4, pc}
+ *   @0x2a5b3a mov r4, r0
+ *   @0x2a5b3e cbz r0, 0x2a5b62 <png_info_init_3+0x2a>
+ *   @0x2a5b46 bl 0x2a6c88 <png_destroy_struct>
+ *   @0x2a5b4a movs r0, #0x2
+ *   @0x2a5b52 cbz r0, 0x2a5b62 <png_info_init_3+0x2a>
+ *   @0x2a5b56 mov.w r2, #0x120
+ *   @0x2a5b5a pop.w {r4, lr}
+ *   @0x2a5b5e b.w 0x31bacc <__udivdi3+0x434>
+ *   @0x2a5b62 pop {r4, pc}
+ *   @0x2a5b66 mov r3, r0
+ *   @0x2a5b6a movs r0, #0x2
+ *   @0x2a5b7a cbz r0, 0x2a5b86 <png_create_info_struct+0x22>
+ *   @0x2a5b7e mov.w r1, #0x120
+ *   @0x2a5b82 bl 0x2a5b38 <png_info_init_3>
+ *   @0x2a5b86 ldr r0, [sp, #0x4]
+ *   @0x2a5b8a add sp, #0xc
+ *   @0x2a5b92 cbz r1, 0x2a5bba <png_data_freer+0x2a>
+ *   @0x2a5b96 bne 0x2a5ba0 <png_data_freer+0x10>
+ *   @0x2a5b9e b 0x2a5bac <png_data_freer+0x1c>
+ *   @0x2a5ba2 bne 0x2a5bb2 <png_data_freer+0x22>
+ *   @0x2a5bb2 ldr r1, [pc, #0x8]
+ *   @0x2a5bb6 b.w 0x2a6474 <png_warning>
+ *   @0x2a5bba bx lr
+ *   @0x2a5bbe movs r6, r1
+ *   @0x2a5bc6 mov r6, r2
+ *   @0x2a5bca mov r5, r0
+ *   @0x2a5bce beq.w 0x2a5eba <png_free_data+0x2fa>
+ *   @0x2a5bd2 cmp r1, #0x0
+ *   @0x2a5be2 beq 0x2a5c34 <png_free_data+0x74>
+ *   @0x2a5be6 bne 0x2a5bee <png_free_data+0x2e>
+ *   @0x2a5bee ldr r3, [r1, #0x38]
+ *   @0x2a5bf2 mov.w r8, #0x1c
+ *   @0x2a5bf6 mul r8, r8, r7
+ *   @0x2a5bfa add r3, r8
+ *   @0x2a5bfe cbz r1, 0x2a5c34 <png_free_data+0x74>
+ *   @0x2a5c06 movs r2, #0x0
+ *   @0x2a5c0a str r2, [r3, #0x4]
+ *   @0x2a5c0e ldr r3, [r4, #0x30]
+ *   @0x2a5c12 cmp r8, r3
+ *   @0x2a5c16 mov r3, r8
+ *   @0x2a5c1a mov.w r2, #0x4000
+ *   @0x2a5c1e add.w r8, r8, #0x1
+ *   @0x2a5c22 bl 0x2a5bc0 <png_free_data>
+ *   @0x2a5c26 b 0x2a5c0e <png_free_data+0x4e>
+ *   @0x2a5c2a bl 0x2a6cfc <png_free>
+ *   @0x2a5c2e movs r3, #0x0
+ *   @0x2a5c32 str r3, [r4, #0x30]
+ *   @0x2a5c3e beq 0x2a5c54 <png_free_data+0x94>
+ *   @0x2a5c42 ldr r1, [r4, #0x4c]
+ *   @0x2a5c4a str r3, [r4, #0x4c]
+ *   @0x2a5c4e bic r3, r3, #0x10
+ *   @0x2a5c52 str r3, [r4, #0x8]
+ *   @0x2a5c5a lsls r0, r3, #0x17
+ *   @0x2a5c5e ldr r2, [r4, #0x8]
+ *   @0x2a5c66 lsls r1, r3, #0x18
+ *   @0x2a5c6a mov r0, r5
+ *   @0x2a5c76 ldr.w r1, [r4, #0xac]
+ *   @0x2a5c7a bl 0x2a6cfc <png_free>
+ *   @0x2a5c7e ldr.w r2, [r4, #0xb0]
+ *   @0x2a5c82 movs r3, #0x0
+ *   @0x2a5c8e mov r8, r3
+ *   @0x2a5c92 ldrb.w r3, [r4, #0xb5]
+ *   @0x2a5c96 cmp r8, r3
+ *   @0x2a5c9a ldr.w r3, [r4, #0xb0]
+ *   @0x2a5c9e mov r0, r5
+ *   @0x2a5cb6 mov r0, r5
+ *   @0x2a5cc2 str.w r3, [r4, #0xb0]
+ *   @0x2a5cc6 ldr r3, [r4, #0x8]
+ *   @0x2a5cce ldr.w r3, [r4, #0xb8]
+ *   @0x2a5cd2 and r3, r3, #0x10
+ *   @0x2a5cd6 tst r3, r6
+ *   @0x2a5cda mov r0, r5
+ *   @0x2a5ce6 ldr.w r1, [r4, #0xc8]
+ *   @0x2a5cea bl 0x2a6cfc <png_free>
+ *   @0x2a5cee movs r3, #0x0
+ *   @0x2a5cfa bic r3, r3, #0x1000
+ *   @0x2a5cfe str r3, [r4, #0x8]
+ *   @0x2a5d0a beq 0x2a5d84 <png_free_data+0x1c4>
+ *   @0x2a5d0e beq 0x2a5d46 <png_free_data+0x186>
+ *   @0x2a5d16 lsl.w r8, r7, #0x4
+ *   @0x2a5d1a mov r0, r5
+ *   @0x2a5d2a add r3, r8
+ *   @0x2a5d2e bl 0x2a6cfc <png_free>
+ *   @0x2a5d32 ldr.w r2, [r4, #0xd4]
+ *   @0x2a5d36 movs r3, #0x0
+ *   @0x2a5d42 str r3, [r2, #0x8]
+ *   @0x2a5d46 ldr.w r3, [r4, #0xd8]
+ *   @0x2a5d4a cbz r3, 0x2a5d7c <png_free_data+0x1bc>
+ *   @0x2a5d56 cmp r8, r3
+ *   @0x2a5d5a mov r3, r8
+ *   @0x2a5d5e movs r2, #0x20
+ *   @0x2a5d6a ldr.w r1, [r4, #0xd4]
+ *   @0x2a5d6e bl 0x2a6cfc <png_free>
+ *   @0x2a5d72 movs r3, #0x0
+ *   @0x2a5d7e bic r3, r3, #0x2000
+ *   @0x2a5d82 str r3, [r4, #0x8]
+ *   @0x2a5d8a mov r0, r5
+ *   @0x2a5d92 str.w r3, [r5, #0x31c]
+ *   @0x2a5d96 ldr.w r3, [r4, #0xb8]
+ *   @0x2a5d9a and r3, r3, #0x200
+ *   @0x2a5d9e tst r3, r6
+ *   @0x2a5da2 adds r3, r7, #0x1
+ *   @0x2a5da6 ldr.w r3, [r4, #0xbc]
+ *   @0x2a5daa cbz r3, 0x2a5e02 <png_free_data+0x242>
+ *   @0x2a5db2 mul r8, r8, r7
+ *   @0x2a5db6 add r3, r8
+ *   @0x2a5dba bl 0x2a6cfc <png_free>
+ *   @0x2a5dbe ldr.w r3, [r4, #0xbc]
+ *   @0x2a5dc2 movs r2, #0x0
+ *   @0x2a5dc6 str r2, [r3, #0x8]
+ *   @0x2a5dca ldr.w r3, [r4, #0xc0]
+ *   @0x2a5dce cbz r3, 0x2a5e02 <png_free_data+0x242>
+ *   @0x2a5dda cmp r8, r3
+ *   @0x2a5dde mov r3, r8
+ *   @0x2a5de2 mov.w r2, #0x200
+ *   @0x2a5de6 add.w r8, r8, #0x1
+ *   @0x2a5dea bl 0x2a5bc0 <png_free_data>
+ *   @0x2a5dee b 0x2a5dd4 <png_free_data+0x214>
+ *   @0x2a5dfa str.w r3, [r4, #0xbc]
+ *   @0x2a5dfe str.w r3, [r4, #0xc0]
+ *   @0x2a5e02 ldr.w r3, [r4, #0xb8]
+ *   @0x2a5e06 and r3, r3, #0x8
+ *   @0x2a5e0a tst r3, r6
+ *   @0x2a5e0e mov r0, r5
+ *   @0x2a5e12 bl 0x2a6cfc <png_free>
+ *   @0x2a5e16 movs r3, #0x0
+ *   @0x2a5e1a ldr r3, [r4, #0x8]
+ *   @0x2a5e22 ldr.w r3, [r4, #0xb8]
+ *   @0x2a5e26 and r3, r3, #0x1000
+ *   @0x2a5e2a tst r3, r6
+ *   @0x2a5e2e mov r0, r5
+ *   @0x2a5e32 bl 0x2a5af0 <png_zfree>
+ *   @0x2a5e36 ldr r2, [r4, #0x8]
+ *   @0x2a5e3a str r3, [r4, #0x10]
+ *   @0x2a5e42 str r2, [r4, #0x8]
+ *   @0x2a5e4e beq 0x2a5e96 <png_free_data+0x2d6>
+ *   @0x2a5e56 mov.w r8, #0x0
+ *   @0x2a5e5a mov r9, r8
+ *   @0x2a5e5e cmp r8, r3
+ *   @0x2a5e62 ldr.w r3, [r4, #0xf8]
+ *   @0x2a5e66 mov r0, r5
+ *   @0x2a5e7e mov r0, r5
+ *   @0x2a5e8a str.w r3, [r4, #0xf8]
+ *   @0x2a5e8e ldr r3, [r4, #0x8]
+ *   @0x2a5e96 adds r7, #0x1
+ *   @0x2a5e9e bic.w r6, r3, r6
+ *   @0x2a5ea2 str.w r6, [r4, #0xb8]
+ *   @0x2a5ea6 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *   @0x2a5eaa bic r6, r6, #0x4200
+ *   @0x2a5eae bic r6, r6, #0x20
+ *   @0x2a5eb2 bic.w r3, r3, r6
+ *   @0x2a5eb6 str.w r3, [r4, #0xb8]
+ *   @0x2a5eba pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *   @0x2a5ec0 mov.w r3, #0xffffffff
+ *   @0x2a5ec4 mov r4, r0
+ *   @0x2a5ecc bl 0x2a5bc0 <png_free_data>
+ *   @0x2a5ed0 ldr.w r3, [r4, #0x2cc]
+ *   @0x2a5ed4 cbz r3, 0x2a5eea <png_info_destroy+0x2c>
+ *   @0x2a5ed8 ldr.w r1, [r4, #0x2d0]
+ *   @0x2a5edc bl 0x2a6cfc <png_free>
+ *   @0x2a5ee0 movs r3, #0x0
+ *   @0x2a5eec mov.w r1, #0x120
+ *   @0x2a5ef0 bl 0x2a5b38 <png_info_init_3>
+ *   @0x2a5ef4 add sp, #0x8
+ *   @0x2a5efa mov r4, r1
+ *   @0x2a5efe cbz r0, 0x2a5f1e <png_destroy_info_struct+0x26>
+ *   @0x2a5f02 ldr r5, [r1]
+ *   @0x2a5f06 mov r1, r5
+ *   @0x2a5f0e ldr.w r1, [r6, #0x2f0]
+ *   @0x2a5f12 ldr.w r2, [r6, #0x2e8]
+ *   @0x2a5f16 bl 0x2a6c5e <png_destroy_struct_2>
+ *   @0x2a5f1a movs r3, #0x0
+ *   @0x2a5f1e pop {r4, r5, r6, pc}
+ *   @0x2a5f22 ldr.w r0, [r0, #0x118]
+ *   @0x2a5f26 bx lr
+ *   @0x2a5f2a str.w r1, [r0, #0x118]
+ *   @0x2a5f2e bx lr
+ *   @0x2a5f32 mov r4, r1
+ *   @0x2a5f36 mov r5, r0
+ *   @0x2a5f3a beq 0x2a5fa6 <png_convert_to_rfc1123+0x76>
+ *   @0x2a5f42 movs r1, #0x1d
+ *   @0x2a5f4e movs r1, #0xc
+ *   @0x2a5f52 subs r0, #0x1
+ *   @0x2a5f5a ldrb r0, [r4, #0x4]
+ *   @0x2a5f62 adds r3, #0x8
+ *   @0x2a5f6a str r1, [sp]
+ *   @0x2a5f6e str r3, [sp, #0x4]
+ *   @0x2a5f76 uxtb r1, r1
+ *   @0x2a5f7a movs r1, #0x3c
+ *   @0x2a5f82 uxtb r1, r1
+ *   @0x2a5f86 movs r1, #0x3d
+ *   @0x2a5f8e mov r3, r6
+ *   @0x2a5f92 uxtb r1, r1
+ *   @0x2a5f96 movs r1, #0x1d
+ *   @0x2a5fa6 add sp, #0x18
+ *   @0x2a5faa nop
+ *   @0x2a5fae movs r6, r1
+ *   @0x2a5fb2 movs r6, r1
+ *   @0x2a5fb6 add r0, pc
+ *   @0x2a5fba nop
+ *   @0x2a5fbe movs r6, r1
+ *   @0x2a5fc2 add r0, pc
+ *   @0x2a5fc6 nop
+ *   @0x2a5fca movs r6, r1
+ *   @0x2a5fce add r0, pc
+ *   @0x2a5fd2 nop
+ *   @0x2a5fd6 movs r6, r1
+ *   @0x2a5fda add r0, pc
+ *   @0x2a5fde nop
+ *   @0x2a5fe2 movs r6, r1
+ *   @0x2a5fe6 mov r6, r1
+ *   @0x2a5fea cbz r1, 0x2a601c <png_handle_as_unknown+0x38>
+ *   @0x2a5ff2 ble 0x2a6020 <png_handle_as_unknown+0x3c>
+ *   @0x2a5ff6 ldr.w r3, [r0, #0x2d0]
+ *   @0x2a5ffa muls r5, r4, r5
+ *   @0x2a5ffe add r5, r3
+ *   @0x2a6002 mov r1, r5
+ *   @0x2a6006 blx 0xb6c40 <memcmp@plt>
+ *   @0x2a600a cbnz r0, 0x2a6010 <png_handle_as_unknown+0x2c>
+ *   @0x2a600e pop {r4, r5, r6, pc}
+ *   @0x2a6012 sub.w r5, r5, #0x5
+ *   @0x2a6016 bne 0x2a6000 <png_handle_as_unknown+0x1c>
+ *   @0x2a601a b 0x2a6024 <png_handle_as_unknown+0x40>
+ *   @0x2a601e pop {r4, r5, r6, pc}
+ *   @0x2a6022 pop {r4, r5, r6, pc}
+ *   @0x2a6028 add.w r0, r0, #0x138
+ *   @0x2a602c b.w 0x31badc <__udivdi3+0x444>
+ *   @0x2a6030 mvn r0, #0x1
+ *   @0x2a6034 bx lr
+ *   @0x2a603e lsrs r4, r0, #0x10
+ *   @0x2a6042 uxth r0, r0
+ *   @0x2a6046 mul r6, r1, r0
+ *   @0x2a604a muls r0, r5, r0
+ *   @0x2a6052 add.w r0, r0, r6, lsr #16
+ *   @0x2a6056 uxth r6, r6
+ *   @0x2a6062 str r6, [r3]
+ *   @0x2a606e mov r8, r1
+ *   @0x2a6072 mov r6, r3
+ *   @0x2a6076 ldr.w r11, [sp, #0x3c]
+ *   @0x2a607a mov r4, r0
+ *   @0x2a6082 beq.w 0x2a6188 <png_check_cHRM_fixed+0x120>
+ *   @0x2a6086 cmp r1, #0x0
+ *   @0x2a608a cmp r2, #0x0
+ *   @0x2a608e cmp r3, #0x0
+ *   @0x2a6092 cmp r7, #0x0
+ *   @0x2a6096 cmp.w r11, #0x0
+ *   @0x2a609a blt 0x2a60ae <png_check_cHRM_fixed+0x46>
+ *   @0x2a609e cmp r2, #0x0
+ *   @0x2a60a2 ldr r3, [sp, #0x44]
+ *   @0x2a60a6 blt 0x2a60ae <png_check_cHRM_fixed+0x46>
+ *   @0x2a60ae ldr r1, [pc, #0xe4]
+ *   @0x2a60b2 movs r5, #0x0
+ *   @0x2a60b6 bl 0x2a6474 <png_warning>
+ *   @0x2a60ba b 0x2a60be <png_check_cHRM_fixed+0x56>
+ *   @0x2a60be mvn r3, #0x80000000
+ *   @0x2a60c2 cmp r8, r3
+ *   @0x2a60c6 cmp r9, r3
+ *   @0x2a60ca cmp r6, r3
+ *   @0x2a60ce cmp r7, r3
+ *   @0x2a60d2 cmp r11, r3
+ *   @0x2a60d6 ldr r2, [sp, #0x40]
+ *   @0x2a60da beq 0x2a60e6 <png_check_cHRM_fixed+0x7e>
+ *   @0x2a60de cmp r2, r3
+ *   @0x2a60e2 cmp r10, r3
+ *   @0x2a60e6 ldr r1, [pc, #0xb0]
+ *   @0x2a60ea movs r5, #0x0
+ *   @0x2a60ee bl 0x2a6474 <png_warning>
+ *   @0x2a60f2 rsb.w r2, r9, #0x18600
+ *   @0x2a60f6 adds r2, #0xa0
+ *   @0x2a60fa bge 0x2a6108 <png_check_cHRM_fixed+0xa0>
+ *   @0x2a60fe mov r0, r4
+ *   @0x2a6102 add r1, pc
+ *   @0x2a610e cmp r3, r6
+ *   @0x2a6112 ldr r1, [pc, #0x8c]
+ *   @0x2a6116 movs r5, #0x0
+ *   @0x2a611a bl 0x2a6474 <png_warning>
+ *   @0x2a611e ldr r2, [sp, #0x40]
+ *   @0x2a6126 cmp r3, r11
+ *   @0x2a612a ldr r1, [pc, #0x78]
+ *   @0x2a612e movs r5, #0x0
+ *   @0x2a6132 bl 0x2a6474 <png_warning>
+ *   @0x2a6136 rsb.w r3, r10, #0x18600
+ *   @0x2a613a ldr r2, [sp, #0x44]
+ *   @0x2a613e cmp r3, r2
+ *   @0x2a6142 ldr r1, [pc, #0x64]
+ *   @0x2a6146 movs r5, #0x0
+ *   @0x2a614a bl 0x2a6474 <png_warning>
+ *   @0x2a614e rsb r0, r6, r11
+ *   @0x2a6152 rsb r1, r7, r10
+ *   @0x2a6156 mov r2, sp
+ *   @0x2a615a bl 0x2a603c <png_64bit_product>
+ *   @0x2a615e ldr r3, [sp, #0x40]
+ *   @0x2a6162 subs r0, r3, r7
+ *   @0x2a6166 subs r1, r2, r6
+ *   @0x2a616a bl 0x2a603c <png_64bit_product>
+ *   @0x2a616e ldr r3, [sp, #0x8]
+ *   @0x2a6172 cmp r2, r3
+ *   @0x2a6176 ldr r3, [sp, #0xc]
+ *   @0x2a617a cmp r2, r3
+ *   @0x2a617e ldr r1, [pc, #0x2c]
+ *   @0x2a6182 add r1, pc
+ *   @0x2a618a b 0x2a618e <png_check_cHRM_fixed+0x126>
+ *   @0x2a618e add sp, #0x14
+ *   @0x2a6196 movs r6, r1
+ *   @0x2a619a movs r6, r1
+ *   @0x2a619e movs r6, r1
+ *   @0x2a61a2 movs r6, r1
+ *   @0x2a61a6 movs r6, r1
+ *   @0x2a61aa movs r6, r1
+ *   @0x2a61ae movs r6, r1
+ *   @0x2a61b6 ldr r3, [sp, #0x38]
+ *   @0x2a61be mov r7, r2
+ *   @0x2a61c2 ldr.w r11, [sp, #0x34]
+ *   @0x2a61c6 str r3, [sp, #0x4]
+ *   @0x2a61ce ldr r1, [pc, #0x188]
+ *   @0x2a61d2 b 0x2a61de <png_check_IHDR+0x2e>
+ *   @0x2a61da ldr r1, [pc, #0x180]
+ *   @0x2a61de bl 0x2a6474 <png_warning>
+ *   @0x2a61e2 mov.w r10, #0x1
+ *   @0x2a61e6 add.w r1, r8, #0x7
+ *   @0x2a61ea ldr r2, [pc, #0x164]
+ *   @0x2a61f2 bls 0x2a6202 <png_check_IHDR+0x52>
+ *   @0x2a61f6 mov r0, r4
+ *   @0x2a61fe bl 0x2a6474 <png_warning>
+ *   @0x2a6202 ldr.w r2, [r4, #0x308]
+ *   @0x2a6206 cmp r8, r2
+ *   @0x2a620a ldr r2, [pc, #0x148]
+ *   @0x2a620e bls 0x2a621e <png_check_IHDR+0x6e>
+ *   @0x2a6212 mov r0, r4
+ *   @0x2a621a bl 0x2a6474 <png_warning>
+ *   @0x2a621e cmp r7, #0x0
+ *   @0x2a6222 ldr r1, [pc, #0x144]
+ *   @0x2a6226 add r1, pc
+ *   @0x2a622a bge 0x2a623a <png_check_IHDR+0x8a>
+ *   @0x2a622e mov r0, r4
+ *   @0x2a6232 bl 0x2a6474 <png_warning>
+ *   @0x2a6236 mov.w r10, #0x1
+ *   @0x2a623a ldr.w r2, [r4, #0x30c]
+ *   @0x2a623e cmp r7, r2
+ *   @0x2a6242 ldr r2, [pc, #0x110]
+ *   @0x2a6246 bls 0x2a6256 <png_check_IHDR+0xa6>
+ *   @0x2a624a mov r0, r4
+ *   @0x2a6252 bl 0x2a6474 <png_warning>
+ *   @0x2a6256 subs r2, r5, #0x1
+ *   @0x2a625a bls 0x2a6276 <png_check_IHDR+0xc6>
+ *   @0x2a625e beq 0x2a6276 <png_check_IHDR+0xc6>
+ *   @0x2a6262 beq 0x2a6276 <png_check_IHDR+0xc6>
+ *   @0x2a6266 beq 0x2a6276 <png_check_IHDR+0xc6>
+ *   @0x2a626a mov r0, r4
+ *   @0x2a6272 bl 0x2a6474 <png_warning>
+ *   @0x2a6276 bic r7, r6, #0x4
+ *   @0x2a627a cmp r7, #0x1
+ *   @0x2a627e cmp r6, #0x6
+ *   @0x2a6282 ldr r1, [pc, #0xf4]
+ *   @0x2a6286 mov.w r10, #0x1
+ *   @0x2a628a add r1, pc
+ *   @0x2a6292 bne 0x2a629a <png_check_IHDR+0xea>
+ *   @0x2a6296 bgt 0x2a62a6 <png_check_IHDR+0xf6>
+ *   @0x2a629a cmp r7, #0x2
+ *   @0x2a629e cmp r6, #0x4
+ *   @0x2a62a2 cmp r5, #0x7
+ *   @0x2a62a6 ldr r1, [pc, #0xd4]
+ *   @0x2a62aa mov.w r10, #0x1
+ *   @0x2a62ae add r1, pc
+ *   @0x2a62ba ldr r1, [pc, #0xc4]
+ *   @0x2a62be mov.w r10, #0x1
+ *   @0x2a62c2 add r1, pc
+ *   @0x2a62ca cbz r3, 0x2a62da <png_check_IHDR+0x12a>
+ *   @0x2a62ce mov r0, r4
+ *   @0x2a62d6 bl 0x2a6474 <png_warning>
+ *   @0x2a62da ldr.w r2, [r4, #0x12c]
+ *   @0x2a62de lsls r0, r2, #0x13
+ *   @0x2a62e2 ldr.w r2, [r4, #0x2dc]
+ *   @0x2a62e6 cbz r2, 0x2a62f2 <png_check_IHDR+0x142>
+ *   @0x2a62ea mov r0, r4
+ *   @0x2a62ee bl 0x2a6474 <png_warning>
+ *   @0x2a62f2 cmp.w r9, #0x0
+ *   @0x2a62f6 beq 0x2a6334 <png_check_IHDR+0x184>
+ *   @0x2a62fe bpl 0x2a6312 <png_check_IHDR+0x162>
+ *   @0x2a6306 ldr.w r2, [r4, #0x12c]
+ *   @0x2a630a lsls r2, r2, #0x13
+ *   @0x2a630e cmp r7, #0x2
+ *   @0x2a6312 ldr r1, [pc, #0x78]
+ *   @0x2a6316 mov.w r10, #0x1
+ *   @0x2a631a add r1, pc
+ *   @0x2a6326 bpl 0x2a6334 <png_check_IHDR+0x184>
+ *   @0x2a632a mov r0, r4
+ *   @0x2a632e bl 0x2a6474 <png_warning>
+ *   @0x2a6332 b 0x2a633a <png_check_IHDR+0x18a>
+ *   @0x2a633a ldr r1, [pc, #0x58]
+ *   @0x2a633e add r1, pc
+ *   @0x2a6342 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ *   @0x2a6346 b.w 0x2a642c <png_error>
+ *   @0x2a634a add sp, #0xc
+ *   @0x2a6356 movs r7, r1
+ *   @0x2a635a movs r6, r1
+ *   @0x2a635e movs r6, r1
+ *   @0x2a6362 movs r6, r1
+ *   @0x2a6366 movs r6, r1
+ *   @0x2a636a movs r6, r1
+ *   @0x2a636e movs r6, r1
+ *   @0x2a6372 movs r6, r1
+ *   @0x2a6376 movs r6, r1
+ *   @0x2a637a movs r6, r1
+ *   @0x2a637e movs r6, r1
+ *   @0x2a6382 movs r6, r1
+ *   @0x2a6386 movs r6, r1
+ *   @0x2a638a movs r6, r1
+ *   @0x2a638e movs r6, r1
+ *   @0x2a6392 movs r6, r1
+ *   @0x2a6396 movs r6, r1
+ *   @0x2a6428 andeq r9, lr, lr, asr #10
+ *   @0x2a642e mov r6, r1
+ *   @0x2a6432 cbz r0, 0x2a643c <png_error+0x10>
+ *   @0x2a643a blx r3
+ *   @0x2a643e mov r2, r6
+ *   @0x2a6442 add r0, pc
+ *   @0x2a6446 add.w r5, r0, #0xa8
+ *   @0x2a644a add r1, pc
+ *   @0x2a644e blx 0xb68a4 <fprintf@plt>
+ *   @0x2a6452 movs r0, #0xa
+ *   @0x2a6456 blx 0xb68b0 <fputc@plt>
+ *   @0x2a645a cbz r4, 0x2a6468 <png_error+0x3c>
+ *   @0x2a6462 mov r0, r4
+ *   @0x2a6466 blx r3
+ *   @0x2a646e movs r4, r2
+ *   @0x2a6472 movs r6, r1
+ *   @0x2a6476 mov r2, r1
+ *   @0x2a647a ldrb r3, [r1]
+ *   @0x2a647e bne 0x2a64b4 <png_warning+0x40>
+ *   @0x2a6482 ldrb r1, [r2, r3]
+ *   @0x2a6486 beq 0x2a64b6 <png_warning+0x42>
+ *   @0x2a648a cmp r3, #0xf
+ *   @0x2a648e b 0x2a64b6 <png_warning+0x42>
+ *   @0x2a6492 ldr r1, [pc, #0x30]
+ *   @0x2a6496 add r1, pc
+ *   @0x2a649a add.w r4, r1, #0xa8
+ *   @0x2a649e ldr r1, [pc, #0x28]
+ *   @0x2a64a2 add r1, pc
+ *   @0x2a64aa movs r0, #0xa
+ *   @0x2a64b6 ldr.w r4, [r0, #0x108]
+ *   @0x2a64ba cmp r4, #0x0
+ *   @0x2a64be adds r1, r2, r3
+ *   @0x2a64c2 pop {r4, pc}
+ *   @0x2a64c6 movs r4, r2
+ *   @0x2a64ca movs r6, r1
+ *   @0x2a64ce mov r2, r1
+ *   @0x2a64d2 add r3, pc
+ *   @0x2a64d6 sub sp, #0x58
+ *   @0x2a64da ldr r4, [r3]
+ *   @0x2a64de str r4, [sp, #0x54]
+ *   @0x2a64e2 mov r1, sp
+ *   @0x2a64ea mov r1, sp
+ *   @0x2a64f2 ldr r3, [r5]
+ *   @0x2a64f6 beq 0x2a64fc <png_chunk_error+0x30>
+ *   @0x2a64fe pop {r4, r5, r6, pc}
+ *   @0x2a6502 movs r4, r2
+ *   @0x2a6506 mov r2, r1
+ *   @0x2a650a add r3, pc
+ *   @0x2a650e sub sp, #0x58
+ *   @0x2a6512 ldr r4, [r3]
+ *   @0x2a6516 str r4, [sp, #0x54]
+ *   @0x2a651a mov r1, sp
+ *   @0x2a6522 mov r1, sp
+ *   @0x2a652a ldr r3, [r5]
+ *   @0x2a652e beq 0x2a6534 <png_chunk_warning+0x30>
+ *   @0x2a6536 pop {r4, r5, r6, pc}
+ *   @0x2a653a movs r4, r2
+ *   @0x2a653e cmp.w r2, #0x100
+ *   @0x2a6542 bne 0x2a654a <png_set_longjmp_fn+0xe>
+ *   @0x2a654a movs r0, #0x0
+ *   @0x2a6550 str.w r1, [r0, #0x10c]
+ *   @0x2a6554 str.w r2, [r0, #0x104]
+ *   @0x2a6558 str.w r3, [r0, #0x108]
+ *   @0x2a655c bx lr
+ *   @0x2a6560 ldr.w r0, [r0, #0x10c]
+ *   @0x2a6564 bx lr
+ *   @0x2a6568 cbz r1, 0x2a6570 <png_get_valid+0xa>
+ *   @0x2a656c ands r0, r2
+ *   @0x2a6570 mov r0, r1
+ *   @0x2a6576 cbz r1, 0x2a657c <png_get_rowbytes+0x8>
+ *   @0x2a657a bx lr
+ *   @0x2a657e bx lr
+ *   @0x2a6582 cbz r1, 0x2a658a <png_get_rows+0xa>
+ *   @0x2a658a mov r0, r1
+ *   @0x2a6590 cbz r1, 0x2a6596 <png_get_image_width+0x8>
+ *   @0x2a6594 bx lr
+ *   @0x2a6598 bx lr
+ *   @0x2a659c cbz r1, 0x2a65a2 <png_get_image_height+0x8>
+ *   @0x2a65a0 bx lr
+ *   @0x2a65a4 bx lr
+ *   @0x2a65a8 cbz r1, 0x2a65ae <png_get_bit_depth+0x8>
+ *   @0x2a65ac bx lr
+ *   @0x2a65b0 bx lr
+ *   @0x2a65b4 cbz r1, 0x2a65ba <png_get_color_type+0x8>
+ *   @0x2a65b8 bx lr
+ *   @0x2a65bc bx lr
+ *   @0x2a65c0 cbz r1, 0x2a65c6 <png_get_filter_type+0x8>
+ *   @0x2a65c4 bx lr
+ *   @0x2a65c8 bx lr
+ *   @0x2a65cc cbz r1, 0x2a65d2 <png_get_interlace_type+0x8>
+ *   @0x2a65d0 bx lr
+ *   @0x2a65d4 bx lr
+ *   @0x2a65d8 cbz r1, 0x2a65de <png_get_compression_type+0x8>
+ *   @0x2a65dc bx lr
+ *   @0x2a65e0 bx lr
+ *   @0x2a65e4 cbz r1, 0x2a65fa <png_get_x_pixels_per_meter+0x18>
+ *   @0x2a65e8 ands r0, r0, #0x80
+ *   @0x2a65ec beq 0x2a6600 <png_get_x_pixels_per_meter+0x1e>
+ *   @0x2a65f4 bne 0x2a65fe <png_get_x_pixels_per_meter+0x1c>
+ *   @0x2a65f8 bx lr
+ *   @0x2a65fc bx lr
+ *   @0x2a6600 bx lr
+ *   @0x2a6604 cbz r1, 0x2a661a <png_get_y_pixels_per_meter+0x18>
+ *   @0x2a6608 ands r0, r0, #0x80
+ *   @0x2a660c beq 0x2a6620 <png_get_y_pixels_per_meter+0x1e>
+ *   @0x2a6614 bne 0x2a661e <png_get_y_pixels_per_meter+0x1c>
+ *   @0x2a6618 bx lr
+ *   @0x2a661c bx lr
+ *   @0x2a6620 bx lr
+ *   @0x2a6624 cbz r1, 0x2a6642 <png_get_pixels_per_meter+0x20>
+ *   @0x2a6628 ands r0, r0, #0x80
+ *   @0x2a662c beq 0x2a6648 <png_get_pixels_per_meter+0x26>
+ *   @0x2a6634 bne 0x2a6646 <png_get_pixels_per_meter+0x24>
+ *   @0x2a6638 ldr r0, [r1, #0x74]
+ *   @0x2a663c it ne
+ *   @0x2a6640 bx lr
+ *   @0x2a6644 bx lr
+ *   @0x2a6648 bx lr
+ *   @0x2a664a orrlt r0, r0, r0
+ *   @0x2a664e cbz r1, 0x2a6670 <png_get_pixel_aspect_ratio+0x24>
+ *   @0x2a6652 lsls r3, r3, #0x18
+ *   @0x2a6656 ldr r3, [r1, #0x70]
+ *   @0x2a665a vmov s13, r3
+ *   @0x2a665e vldr s15, [r1, #116]
+ *   @0x2a6662 vcvt.f32.u32 s15, s15
+ *   @0x2a6666 vcvt.f32.u32 s14, s13
+ *   @0x2a666a vdiv.f32 s15, s15, s14
+ *   @0x2a666e b 0x2a6674 <png_get_pixel_aspect_ratio+0x28>
+ *   @0x2a667a nop
+ *   @0x2a667e movs r0, r0
+ *   @0x2a6682 cbz r1, 0x2a6698 <png_get_x_offset_microns+0x18>
+ *   @0x2a6686 ands r0, r0, #0x100
+ *   @0x2a668a beq 0x2a669e <png_get_x_offset_microns+0x1e>
+ *   @0x2a6692 bne 0x2a669c <png_get_x_offset_microns+0x1c>
+ *   @0x2a6696 bx lr
+ *   @0x2a669a bx lr
+ *   @0x2a669e bx lr
+ *   @0x2a66a2 cbz r1, 0x2a66b8 <png_get_y_offset_microns+0x18>
+ *   @0x2a66a6 ands r0, r0, #0x100
+ *   @0x2a66aa beq 0x2a66be <png_get_y_offset_microns+0x1e>
+ *   @0x2a66b2 bne 0x2a66bc <png_get_y_offset_microns+0x1c>
+ *   @0x2a66b6 bx lr
+ *   @0x2a66ba bx lr
+ *   @0x2a66be bx lr
+ *   @0x2a66c2 cbz r1, 0x2a66d6 <png_get_x_offset_pixels+0x16>
+ *   @0x2a66c6 ands r0, r0, #0x100
+ *   @0x2a66ca beq 0x2a66dc <png_get_x_offset_pixels+0x1c>
+ *   @0x2a66d2 ldr r0, [r1, #0x64]
+ *   @0x2a66d6 mov r0, r1
+ *   @0x2a66da movs r0, #0x0
+ *   @0x2a66e0 cbz r1, 0x2a66f4 <png_get_y_offset_pixels+0x16>
+ *   @0x2a66e4 ands r0, r0, #0x100
+ *   @0x2a66e8 beq 0x2a66fa <png_get_y_offset_pixels+0x1c>
+ *   @0x2a66f0 ldr r0, [r1, #0x68]
+ *   @0x2a66f4 mov r0, r1
+ *   @0x2a66f8 movs r0, #0x0
+ *   @0x2a66fe cbz r1, 0x2a6704 <png_get_channels+0x8>
+ *   @0x2a6702 bx lr
+ *   @0x2a6706 bx lr
+ *   @0x2a670a cbz r1, 0x2a6712 <png_get_signature+0xa>
+ *   @0x2a6712 mov r0, r1
+ *   @0x2a6718 cbz r1, 0x2a672c <png_get_bKGD+0x16>
+ *   @0x2a671c ands r0, r0, #0x20
+ *   @0x2a6720 beq 0x2a6732 <png_get_bKGD+0x1c>
+ *   @0x2a6724 adds r1, #0x5a
+ *   @0x2a6728 str r1, [r2]
+ *   @0x2a672c mov r0, r1
+ *   @0x2a6730 mov r0, r2
+ *   @0x2a673a ldr.w r12, [sp, #0x18]
+ *   @0x2a673e ldr r3, [sp, #0x1c]
+ *   @0x2a6742 ldr r6, [sp, #0x24]
+ *   @0x2a6746 ldr r4, [sp, #0x2c]
+ *   @0x2a674a beq 0x2a67da <png_get_cHRM+0xa6>
+ *   @0x2a674e beq 0x2a67d2 <png_get_cHRM+0x9e>
+ *   @0x2a6752 ands r0, r0, #0x4
+ *   @0x2a6756 beq 0x2a67da <png_get_cHRM+0xa6>
+ *   @0x2a675a vldr s14, [r1, #128]
+ *   @0x2a675e vcvt.f64.f32 d7, s14
+ *   @0x2a6762 vstr d7, [r2]
+ *   @0x2a6766 cmp.w r8, #0x0
+ *   @0x2a676a beq 0x2a6778 <png_get_cHRM+0x44>
+ *   @0x2a677e vldr s14, [r1, #136]
+ *   @0x2a6782 vcvt.f64.f32 d7, s14
+ *   @0x2a6786 vstr d7, [r12]
+ *   @0x2a678a cbz r3, 0x2a6798 <png_get_cHRM+0x64>
+ *   @0x2a679a vldr s14, [r1, #144]
+ *   @0x2a679e vcvt.f64.f32 d7, s14
+ *   @0x2a67a2 vstr d7, [r7]
+ *   @0x2a67a6 cbz r6, 0x2a67b4 <png_get_cHRM+0x80>
+ *   @0x2a67b6 vldr s14, [r1, #152]
+ *   @0x2a67ba vcvt.f64.f32 d7, s14
+ *   @0x2a67be vstr d7, [r5]
+ *   @0x2a67c2 cbz r4, 0x2a67d8 <png_get_cHRM+0xa4>
+ *   @0x2a67d2 mov r0, r1
+ *   @0x2a67da pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2a67e4 ldr.w r12, [sp, #0x18]
+ *   @0x2a67e8 ldr r3, [sp, #0x1c]
+ *   @0x2a67ec ldr r6, [sp, #0x24]
+ *   @0x2a67f0 ldr r4, [sp, #0x2c]
+ *   @0x2a67f4 cbz r1, 0x2a684c <png_get_cHRM_fixed+0x6e>
+ *   @0x2a67f8 ands r0, r0, #0x4
+ *   @0x2a67fc beq 0x2a6854 <png_get_cHRM_fixed+0x76>
+ *   @0x2a6800 ldr.w r0, [r1, #0x100]
+ *   @0x2a6804 str r0, [r2]
+ *   @0x2a680c ldr.w r2, [r1, #0x104]
+ *   @0x2a6810 str.w r2, [r8]
+ *   @0x2a6814 cmp.w r12, #0x0
+ *   @0x2a6818 beq 0x2a6822 <png_get_cHRM_fixed+0x44>
+ *   @0x2a6824 ldr.w r2, [r1, #0x10c]
+ *   @0x2a6828 str r2, [r3]
+ *   @0x2a682c ldr.w r3, [r1, #0x110]
+ *   @0x2a6830 str r3, [r7]
+ *   @0x2a6834 ldr.w r3, [r1, #0x114]
+ *   @0x2a6838 str r3, [r6]
+ *   @0x2a683c ldr.w r3, [r1, #0x118]
+ *   @0x2a6840 str r3, [r5]
+ *   @0x2a6844 ldr.w r3, [r1, #0x11c]
+ *   @0x2a6848 str r3, [r4]
+ *   @0x2a684c mov r0, r1
+ *   @0x2a6854 pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2a685a cbz r1, 0x2a6876 <png_get_gAMA+0x1e>
+ *   @0x2a685e ands r0, r0, #0x1
+ *   @0x2a6862 beq 0x2a687c <png_get_gAMA+0x24>
+ *   @0x2a6866 vldr s14, [r1, #40]
+ *   @0x2a686a vcvt.f64.f32 d7, s14
+ *   @0x2a686e movs r0, #0x1
+ *   @0x2a6876 mov r0, r1
+ *   @0x2a687a mov r0, r2
+ *   @0x2a6880 cbz r1, 0x2a6896 <png_get_gAMA_fixed+0x18>
+ *   @0x2a6884 ands r0, r0, #0x1
+ *   @0x2a6888 beq 0x2a689c <png_get_gAMA_fixed+0x1e>
+ *   @0x2a688c ldr.w r3, [r1, #0xfc]
+ *   @0x2a6890 movs r0, #0x1
+ *   @0x2a6894 bx lr
+ *   @0x2a6898 bx lr
+ *   @0x2a689c bx lr
+ *   @0x2a68a0 cbz r1, 0x2a68b8 <png_get_sRGB+0x1a>
+ *   @0x2a68a4 ands r0, r0, #0x800
+ *   @0x2a68a8 beq 0x2a68be <png_get_sRGB+0x20>
+ *   @0x2a68ac ldrb.w r3, [r1, #0x2c]
+ *   @0x2a68b0 mov.w r0, #0x800
+ *   @0x2a68b4 str r3, [r2]
+ *   @0x2a68b8 mov r0, r1
+ *   @0x2a68bc mov r0, r2
+ *   @0x2a68c2 ldr r5, [sp, #0xc]
+ *   @0x2a68c6 cbz r0, 0x2a6904 <png_get_iCCP+0x44>
+ *   @0x2a68ca ldr r0, [r1, #0x8]
+ *   @0x2a68d2 cbz r2, 0x2a68fa <png_get_iCCP+0x3a>
+ *   @0x2a68d6 cbz r4, 0x2a6902 <png_get_iCCP+0x42>
+ *   @0x2a68de mov.w r0, #0x1000
+ *   @0x2a68e2 ldr.w r2, [r1, #0xc8]
+ *   @0x2a68e6 str r2, [r5]
+ *   @0x2a68ee ldrb.w r2, [r1, #0xd0]
+ *   @0x2a68f2 str r2, [r3]
+ *   @0x2a68f6 mov r0, r1
+ *   @0x2a68fa mov r0, r2
+ *   @0x2a68fe mov r0, r5
+ *   @0x2a6902 mov r0, r4
+ *   @0x2a6908 cbz r1, 0x2a6918 <png_get_sPLT+0x12>
+ *   @0x2a690c ldr.w r3, [r1, #0xd4]
+ *   @0x2a6910 str r3, [r2]
+ *   @0x2a6918 mov r0, r1
+ *   @0x2a691c mov r0, r2
+ *   @0x2a6922 cbz r1, 0x2a6936 <png_get_hIST+0x16>
+ *   @0x2a6926 ands r0, r0, #0x40
+ *   @0x2a692a beq 0x2a693c <png_get_hIST+0x1c>
+ *   @0x2a692e ldr r3, [r1, #0x7c]
+ *   @0x2a6932 str r3, [r2]
+ *   @0x2a6936 mov r0, r1
+ *   @0x2a693a mov r0, r2
+ *   @0x2a6944 ldr r5, [sp, #0x28]
+ *   @0x2a6948 ldr.w r12, [sp, #0x30]
+ *   @0x2a694c ldr.w r8, [sp, #0x34]
+ *   @0x2a6950 ldr r7, [sp, #0x38]
+ *   @0x2a6954 beq 0x2a69c8 <png_get_IHDR+0x8a>
+ *   @0x2a6958 beq 0x2a69b6 <png_get_IHDR+0x78>
+ *   @0x2a695c beq 0x2a69ba <png_get_IHDR+0x7c>
+ *   @0x2a6960 beq 0x2a69be <png_get_IHDR+0x80>
+ *   @0x2a6964 beq 0x2a69c2 <png_get_IHDR+0x84>
+ *   @0x2a6968 beq 0x2a69c6 <png_get_IHDR+0x88>
+ *   @0x2a696c str r6, [r2]
+ *   @0x2a6970 str r2, [r3]
+ *   @0x2a6974 str r3, [r5]
+ *   @0x2a6978 str r3, [r1]
+ *   @0x2a6980 ldrb r3, [r4, #0x1a]
+ *   @0x2a6988 ldrb r3, [r4, #0x1b]
+ *   @0x2a698c cmp.w r12, #0x0
+ *   @0x2a6990 beq 0x2a6998 <png_get_IHDR+0x5a>
+ *   @0x2a6994 str.w r3, [r12]
+ *   @0x2a6998 ldrb r2, [r4, #0x19]
+ *   @0x2a699c str r2, [sp]
+ *   @0x2a69a0 str r2, [sp, #0x4]
+ *   @0x2a69a4 str r2, [sp, #0x8]
+ *   @0x2a69a8 str r2, [sp, #0xc]
+ *   @0x2a69b4 b 0x2a69c8 <png_get_IHDR+0x8a>
+ *   @0x2a69b8 b 0x2a69c8 <png_get_IHDR+0x8a>
+ *   @0x2a69bc b 0x2a69c8 <png_get_IHDR+0x8a>
+ *   @0x2a69c0 b 0x2a69c8 <png_get_IHDR+0x8a>
+ *   @0x2a69c4 b 0x2a69c8 <png_get_IHDR+0x8a>
+ *   @0x2a69c8 add sp, #0x10
+ *   @0x2a69d0 ldr r4, [sp, #0x8]
+ *   @0x2a69d4 cbz r1, 0x2a69f8 <png_get_oFFs+0x2a>
+ *   @0x2a69d8 ands r0, r0, #0x100
+ *   @0x2a69dc beq 0x2a6a06 <png_get_oFFs+0x38>
+ *   @0x2a69e0 cbz r3, 0x2a6a00 <png_get_oFFs+0x32>
+ *   @0x2a69e4 ldr r0, [r1, #0x64]
+ *   @0x2a69e8 mov.w r0, #0x100
+ *   @0x2a69ec ldr r2, [r1, #0x68]
+ *   @0x2a69f0 ldrb.w r3, [r1, #0x6c]
+ *   @0x2a69f4 str r3, [r4]
+ *   @0x2a69f8 mov r0, r1
+ *   @0x2a69fc mov r0, r2
+ *   @0x2a6a00 mov r0, r3
+ *   @0x2a6a04 mov r0, r4
+ *   @0x2a6a0a ldr r7, [sp, #0x14]
+ *   @0x2a6a0e ldr r5, [sp, #0x1c]
+ *   @0x2a6a12 ldr.w r12, [sp, #0x24]
+ *   @0x2a6a16 cbz r0, 0x2a6a68 <png_get_pCAL+0x60>
+ *   @0x2a6a1a ldr r0, [r1, #0x8]
+ *   @0x2a6a22 cbz r2, 0x2a6a66 <png_get_pCAL+0x5e>
+ *   @0x2a6a26 cbz r7, 0x2a6a66 <png_get_pCAL+0x5e>
+ *   @0x2a6a2a cbz r5, 0x2a6a66 <png_get_pCAL+0x5e>
+ *   @0x2a6a2e cmp.w r12, #0x0
+ *   @0x2a6a32 beq 0x2a6a66 <png_get_pCAL+0x5e>
+ *   @0x2a6a3a mov.w r0, #0x400
+ *   @0x2a6a3e ldr.w r2, [r1, #0xa4]
+ *   @0x2a6a42 str r2, [r3]
+ *   @0x2a6a4a ldrb.w r3, [r1, #0xb4]
+ *   @0x2a6a4e str r3, [r6]
+ *   @0x2a6a56 ldr.w r3, [r1, #0xac]
+ *   @0x2a6a5a str r3, [r4]
+ *   @0x2a6a66 movs r0, #0x0
+ *   @0x2a6a6c mov r4, r3
+ *   @0x2a6a70 cbz r1, 0x2a6a98 <png_get_sCAL+0x2e>
+ *   @0x2a6a74 ands r0, r0, #0x4000
+ *   @0x2a6a78 beq 0x2a6a9a <png_get_sCAL+0x30>
+ *   @0x2a6a84 ldrd r2, r3, [r1, #224]
+ *   @0x2a6a88 strd r2, r3, [r4]
+ *   @0x2a6a8c ldrd r2, r3, [r1, #232]
+ *   @0x2a6a90 ldr r1, [sp, #0x8]
+ *   @0x2a6a98 mov r0, r1
+ *   @0x2a6a9e ldr r4, [sp, #0x8]
+ *   @0x2a6aa2 cbz r1, 0x2a6acc <png_get_pHYs+0x30>
+ *   @0x2a6aa6 ands r0, r0, #0x80
+ *   @0x2a6aaa beq 0x2a6ace <png_get_pHYs+0x32>
+ *   @0x2a6aae ldr r0, [r1, #0x70]
+ *   @0x2a6ab2 movs r0, #0x80
+ *   @0x2a6ab6 mov r0, r2
+ *   @0x2a6aba ldr r2, [r1, #0x74]
+ *   @0x2a6abe str r2, [r3]
+ *   @0x2a6ac2 ldrb.w r3, [r1, #0x78]
+ *   @0x2a6ac6 movs r0, #0x80
+ *   @0x2a6aca pop {r4, pc}
+ *   @0x2a6ace pop {r4, pc}
+ *   @0x2a6ad2 cbz r1, 0x2a6aea <png_get_PLTE+0x1a>
+ *   @0x2a6ad6 ands r0, r0, #0x8
+ *   @0x2a6ada beq 0x2a6af0 <png_get_PLTE+0x20>
+ *   @0x2a6ade ldr r0, [r1, #0x10]
+ *   @0x2a6ae2 movs r0, #0x8
+ *   @0x2a6ae6 str r2, [r3]
+ *   @0x2a6aea mov r0, r1
+ *   @0x2a6aee mov r0, r2
+ *   @0x2a6af4 cbz r1, 0x2a6b08 <png_get_sBIT+0x16>
+ *   @0x2a6af8 ands r0, r0, #0x2
+ *   @0x2a6afc beq 0x2a6b0e <png_get_sBIT+0x1c>
+ *   @0x2a6b00 adds r1, #0x44
+ *   @0x2a6b04 str r1, [r2]
+ *   @0x2a6b08 mov r0, r1
+ *   @0x2a6b0c mov r0, r2
+ *   @0x2a6b12 cbz r1, 0x2a6b2a <png_get_text+0x1a>
+ *   @0x2a6b16 cmp r0, #0x0
+ *   @0x2a6b1a cbz r2, 0x2a6b20 <png_get_text+0x10>
+ *   @0x2a6b1e str r0, [r2]
+ *   @0x2a6b22 ldr r2, [r1, #0x30]
+ *   @0x2a6b26 ldr r0, [r1, #0x30]
+ *   @0x2a6b2a movs r0, #0x0
+ *   @0x2a6b2e str r0, [r3]
+ *   @0x2a6b32 mov r0, r3
+ *   @0x2a6b38 cbz r1, 0x2a6b4e <png_get_tIME+0x18>
+ *   @0x2a6b3c ands r0, r0, #0x200
+ *   @0x2a6b40 beq 0x2a6b54 <png_get_tIME+0x1e>
+ *   @0x2a6b44 adds r1, #0x3c
+ *   @0x2a6b4c bx lr
+ *   @0x2a6b50 bx lr
+ *   @0x2a6b54 bx lr
+ *   @0x2a6b58 ldr r4, [sp, #0x8]
+ *   @0x2a6b5c cbz r1, 0x2a6ba0 <png_get_tRNS+0x4a>
+ *   @0x2a6b60 ands r0, r0, #0x10
+ *   @0x2a6b64 beq 0x2a6ba2 <png_get_tRNS+0x4c>
+ *   @0x2a6b68 cmp r0, #0x3
+ *   @0x2a6b6c cbz r2, 0x2a6b76 <png_get_tRNS+0x20>
+ *   @0x2a6b70 str r0, [r2]
+ *   @0x2a6b74 b 0x2a6b78 <png_get_tRNS+0x22>
+ *   @0x2a6b78 cbz r4, 0x2a6b96 <png_get_tRNS+0x40>
+ *   @0x2a6b80 b 0x2a6b96 <png_get_tRNS+0x40>
+ *   @0x2a6b84 add.w r0, r1, #0x50
+ *   @0x2a6b88 str r0, [r4]
+ *   @0x2a6b8c b 0x2a6b90 <png_get_tRNS+0x3a>
+ *   @0x2a6b90 cbz r2, 0x2a6b96 <png_get_tRNS+0x40>
+ *   @0x2a6b94 str r4, [r2]
+ *   @0x2a6b98 ldrh r2, [r1, #0x16]
+ *   @0x2a6b9c str r2, [r3]
+ *   @0x2a6ba0 mov r0, r1
+ *   @0x2a6ba6 cbz r1, 0x2a6bb6 <png_get_unknown_chunks+0x12>
+ *   @0x2a6baa ldr.w r3, [r1, #0xbc]
+ *   @0x2a6bae str r3, [r2]
+ *   @0x2a6bb6 mov r0, r1
+ *   @0x2a6bba mov r0, r2
+ *   @0x2a6bc0 ldrb.w r0, [r0, #0x2d4]
+ *   @0x2a6bc4 bx lr
+ *   @0x2a6bc8 ldr.w r0, [r0, #0x2c4]
+ *   @0x2a6bcc bx lr
+ *   @0x2a6bd0 ldr.w r0, [r0, #0x174]
+ *   @0x2a6bd4 bx lr
+ *   @0x2a6bd8 ldr.w r0, [r0, #0x308]
+ *   @0x2a6bdc bx lr
+ *   @0x2a6be0 ldr.w r0, [r0, #0x30c]
+ *   @0x2a6be4 bx lr
+ *   @0x2a6be8 ldr.w r0, [r0, #0x310]
+ *   @0x2a6bec bx lr
+ *   @0x2a6bf0 ldr.w r0, [r0, #0x1a0]
+ *   @0x2a6bf4 bx lr
+ *   @0x2a6c04 push {r4, r5, r6, lr}
+ *   @0x2a6c08 sub.w sp, sp, #0x338
+ *   @0x2a6c0c beq 0x2a6c18 <png_create_struct_2+0x16>
+ *   @0x2a6c10 bne 0x2a6c4a <png_create_struct_2+0x48>
+ *   @0x2a6c18 mov.w r4, #0x120
+ *   @0x2a6c1c cbz r5, 0x2a6c34 <png_create_struct_2+0x32>
+ *   @0x2a6c20 mov r0, sp
+ *   @0x2a6c24 blx r5
+ *   @0x2a6c28 cbz r0, 0x2a6c4e <png_create_struct_2+0x4c>
+ *   @0x2a6c2c mov r2, r4
+ *   @0x2a6c34 mov r0, r4
+ *   @0x2a6c3c cbz r0, 0x2a6c4e <png_create_struct_2+0x4c>
+ *   @0x2a6c40 mov r2, r4
+ *   @0x2a6c48 b 0x2a6c50 <png_create_struct_2+0x4e>
+ *   @0x2a6c4c b 0x2a6c50 <png_create_struct_2+0x4e>
+ *   @0x2a6c50 add.w sp, sp, #0x338
+ *   @0x2a6c54 pop {r4, r5, r6, pc}
+ *   @0x2a6c58 mov r2, r1
+ *   @0x2a6c60 mov r3, r1
+ *   @0x2a6c68 cbz r0, 0x2a6c80 <png_destroy_struct_2+0x22>
+ *   @0x2a6c6c mov r0, sp
+ *   @0x2a6c70 blx r3
+ *   @0x2a6c74 add.w sp, sp, #0x33c
+ *   @0x2a6c78 ldr lr, [sp], #4
+ *   @0x2a6c7c b.w 0x31babc <__udivdi3+0x424>
+ *   @0x2a6c80 add.w sp, sp, #0x33c
+ *   @0x2a6c84 ldr pc, [sp], #4
+ *   @0x2a6c8a mov r2, r1
+ *   @0x2a6c92 cbz r1, 0x2a6c9a <png_malloc_default+0xa>
+ *   @0x2a6c96 b.w 0x31bafc <__udivdi3+0x464>
+ *   @0x2a6c9a movs r0, #0x0
+ *   @0x2a6ca2 mov r5, r0
+ *   @0x2a6ca6 movs r0, #0x0
+ *   @0x2a6caa cmp r1, #0x0
+ *   @0x2a6cae ldr.w r3, [r0, #0x2ec]
+ *   @0x2a6cb2 cbz r3, 0x2a6cb8 <png_malloc+0x18>
+ *   @0x2a6cb6 b 0x2a6cbc <png_malloc+0x1c>
+ *   @0x2a6cbe ldr.w r3, [r5, #0x130]
+ *   @0x2a6cc2 lsls r3, r3, #0xb
+ *   @0x2a6cc6 ldr r1, [pc, #0xc]
+ *   @0x2a6cca add r1, pc
+ *   @0x2a6cd2 pop {r3, r4, r5, pc}
+ *   @0x2a6cd6 movs r6, r1
+ *   @0x2a6cda mov r5, r1
+ *   @0x2a6ce2 cbz r0, 0x2a6cec <png_calloc+0x14>
+ *   @0x2a6ce6 mov r2, r5
+ *   @0x2a6cee pop {r3, r4, r5, pc}
+ *   @0x2a6cf2 cbz r1, 0x2a6cfa <png_free_default+0xa>
+ *   @0x2a6cf6 b.w 0x31babc <__udivdi3+0x424>
+ *   @0x2a6cfa bx lr
+ *   @0x2a6cfe cbz r0, 0x2a6d14 <png_free+0x18>
+ *   @0x2a6d02 ldr.w r3, [r0, #0x2f0]
+ *   @0x2a6d06 cbz r3, 0x2a6d0c <png_free+0x10>
+ *   @0x2a6d0a pop {r3, pc}
+ *   @0x2a6d18 mov r4, r0
+ *   @0x2a6d1c ldr.w r5, [r0, #0x130]
+ *   @0x2a6d20 orr r3, r5, #0x100000
+ *   @0x2a6d24 str.w r3, [r0, #0x130]
+ *   @0x2a6d28 bl 0x2a6ca0 <png_malloc>
+ *   @0x2a6d2c str.w r5, [r4, #0x130]
+ *   @0x2a6d30 pop {r3, r4, r5, pc}
+ *   @0x2a6d36 str.w r1, [r0, #0x2e8]
+ *   @0x2a6d3a str.w r2, [r0, #0x2ec]
+ *   @0x2a6d3e str.w r3, [r0, #0x2f0]
+ *   @0x2a6d42 bx lr
+ *   @0x2a6d46 ldr.w r0, [r0, #0x2e8]
+ *   @0x2a6d4a bx lr
+ *   @0x2a6d4e sub sp, #0x84
+ *   @0x2a6d52 str r3, [sp, #0x1c]
+ *   @0x2a6d56 ldr r3, [pc, #0x250]
+ *   @0x2a6d5a add r3, pc
+ *   @0x2a6d5e str r0, [sp, #0x8]
+ *   @0x2a6d62 ldr r0, [sp, #0x4]
+ *   @0x2a6d66 ldr r1, [sp, #0x9c]
+ *   @0x2a6d6a str r2, [sp, #0x10]
+ *   @0x2a6d6e ldr r3, [r0, r3]
+ *   @0x2a6d72 ldr r2, [sp, #0x8]
+ *   @0x2a6d76 str r3, [sp, #0x7c]
+ *   @0x2a6d7a str r3, [sp, #0x28]
+ *   @0x2a6d82 ldr r0, [sp, #0x24]
+ *   @0x2a6d86 beq.w 0x2a6f8a <png_create_read_struct_2+0x23e>
+ *   @0x2a6d8a ldr r2, [sp, #0x24]
+ *   @0x2a6d8e str.w r3, [r2, #0x308]
+ *   @0x2a6d92 ldr r2, [sp, #0x24]
+ *   @0x2a6d9e str.w r2, [r3, #0x310]
+ *   @0x2a6da2 ldr r3, [sp, #0x24]
+ *   @0x2a6da6 ldr r0, [sp, #0x24]
+ *   @0x2a6dae ldr r3, [pc, #0x200]
+ *   @0x2a6db2 mov.w r2, #0x100
+ *   @0x2a6db6 bl 0x2a653c <png_set_longjmp_fn>
+ *   @0x2a6dba blx 0xb6904 <setjmp@plt>
+ *   @0x2a6dbe mov r4, r0
+ *   @0x2a6dc2 blx 0xb6c88 <abort@plt>
+ *   @0x2a6dc6 add r1, sp, #0x8
+ *   @0x2a6dca ldm r1, {r1, r2, r3}
+ *   @0x2a6dd2 ldr r0, [sp, #0x24]
+ *   @0x2a6dd6 bl 0x2a654e <png_set_error_fn>
+ *   @0x2a6dda ldr r3, [sp]
+ *   @0x2a6dde ldr r5, [pc, #0x1d4]
+ *   @0x2a6de6 add r5, pc
+ *   @0x2a6dea adds r3, #0x1
+ *   @0x2a6dee mov r7, r3
+ *   @0x2a6df2 cmp r1, r2
+ *   @0x2a6df6 ldr r1, [sp, #0x24]
+ *   @0x2a6e06 ldrb r1, [r0, r7]
+ *   @0x2a6e0a bne 0x2a6e12 <png_create_read_struct_2+0xc6>
+ *   @0x2a6e0e mov r4, r6
+ *   @0x2a6e12 cbz r1, 0x2a6e28 <png_create_read_struct_2+0xdc>
+ *   @0x2a6e16 bne 0x2a6de8 <png_create_read_struct_2+0x9c>
+ *   @0x2a6e1a ldr r3, [sp, #0x24]
+ *   @0x2a6e2a ldr.w r3, [r3, #0x130]
+ *   @0x2a6e2e lsls r3, r3, #0xe
+ *   @0x2a6e32 ldr r1, [sp]
+ *   @0x2a6e36 movs r0, #0x0
+ *   @0x2a6e3a bl 0x2a5fcc <png_get_header_ver>
+ *   @0x2a6e3e ldrb r3, [r0]
+ *   @0x2a6e42 bne 0x2a6e70 <png_create_read_struct_2+0x124>
+ *   @0x2a6e46 ldrb r3, [r2]
+ *   @0x2a6e4a beq 0x2a6e56 <png_create_read_struct_2+0x10a>
+ *   @0x2a6e4e ldrb r3, [r0]
+ *   @0x2a6e52 bne 0x2a6eb4 <png_create_read_struct_2+0x168>
+ *   @0x2a6e56 ldr r1, [sp]
+ *   @0x2a6e5a ldrb r4, [r1, #0x2]
+ *   @0x2a6e62 cmp r3, r4
+ *   @0x2a6e66 b 0x2a6e4c <png_create_read_struct_2+0x100>
+ *   @0x2a6e6a ldrb r3, [r2, #0x2]
+ *   @0x2a6e6e bhi 0x2a6eb4 <png_create_read_struct_2+0x168>
+ *   @0x2a6e72 ldr r2, [pc, #0x144]
+ *   @0x2a6e76 ldr r3, [sp]
+ *   @0x2a6e7a add r2, pc
+ *   @0x2a6e82 mov r1, r4
+ *   @0x2a6e8a add r4, sp, #0x2c
+ *   @0x2a6e92 movs r1, #0x50
+ *   @0x2a6e96 mov r3, r0
+ *   @0x2a6e9a blx 0xb65c8 <snprintf@plt>
+ *   @0x2a6e9e ldr r0, [sp, #0x24]
+ *   @0x2a6ea2 bl 0x2a6474 <png_warning>
+ *   @0x2a6ea6 ldr r1, [pc, #0x118]
+ *   @0x2a6eaa add r1, pc
+ *   @0x2a6eb2 str r3, [sp, #0x28]
+ *   @0x2a6eb6 cbnz r3, 0x2a6ee0 <png_create_read_struct_2+0x194>
+ *   @0x2a6eba mov.w r2, #0x2000
+ *   @0x2a6ebe ldr r4, [sp, #0x24]
+ *   @0x2a6ec2 str.w r2, [r3, #0x174]
+ *   @0x2a6ec6 ldr r3, [sp, #0x24]
+ *   @0x2a6ed2 str.w r0, [r4, #0x170]
+ *   @0x2a6ed6 ldr.w r3, [r3, #0x170]
+ *   @0x2a6eda cbnz r3, 0x2a6ee0 <png_create_read_struct_2+0x194>
+ *   @0x2a6ede str r3, [sp, #0x28]
+ *   @0x2a6ee2 ldr r3, [pc, #0xe0]
+ *   @0x2a6ee6 ldr r3, [r0, r3]
+ *   @0x2a6eee ldr r2, [sp, #0x24]
+ *   @0x2a6ef2 str.w r3, [r2, #0x15c]
+ *   @0x2a6ef6 ldr r2, [sp, #0x24]
+ *   @0x2a6efa str.w r3, [r2, #0x160]
+ *   @0x2a6efe ldr r3, [sp, #0x28]
+ *   @0x2a6f02 ldr r0, [sp, #0x24]
+ *   @0x2a6f06 ldr r1, [pc, #0xc4]
+ *   @0x2a6f0e blx 0xb69d0 <inflateInit_@plt>
+ *   @0x2a6f12 adds r0, #0x6
+ *   @0x2a6f16 bhi 0x2a6f34 <png_create_read_struct_2+0x1e8>
+ *   @0x2a6f1e lsrs r4, r0, #0x10
+ *   @0x2a6f22 movs r3, r2
+ *   @0x2a6f26 ldr r0, [sp, #0x24]
+ *   @0x2a6f2a b 0x2a6f3a <png_create_read_struct_2+0x1ee>
+ *   @0x2a6f2e ldr r0, [sp, #0x24]
+ *   @0x2a6f32 b 0x2a6f3a <png_create_read_struct_2+0x1ee>
+ *   @0x2a6f36 ldr r0, [sp, #0x24]
+ *   @0x2a6f3a bl 0x2a6474 <png_warning>
+ *   @0x2a6f3e movs r3, #0x1
+ *   @0x2a6f42 ldr r1, [sp, #0x28]
+ *   @0x2a6f46 ldr r0, [sp, #0x24]
+ *   @0x2a6f4a ldr r3, [sp, #0x24]
+ *   @0x2a6f56 ldr r1, [sp, #0x10]
+ *   @0x2a6f5a str.w r4, [r3, #0x170]
+ *   @0x2a6f5e ldr r2, [sp, #0x8]
+ *   @0x2a6f66 b 0x2a6f8a <png_create_read_struct_2+0x23e>
+ *   @0x2a6f6a ldr r3, [sp, #0x24]
+ *   @0x2a6f76 ldr r3, [sp, #0x24]
+ *   @0x2a6f7a ldr.w r3, [r3, #0x174]
+ *   @0x2a6f7e str.w r3, [r2, #0x148]
+ *   @0x2a6f82 mov r2, r1
+ *   @0x2a6f8a ldr r3, [pc, #0x20]
+ *   @0x2a6f8e ldr r2, [sp, #0x7c]
+ *   @0x2a6f92 ldr r3, [r3]
+ *   @0x2a6f96 beq 0x2a6f9c <png_create_read_struct_2+0x250>
+ *   @0x2a6f9e pop {r4, r5, r6, r7, pc}
+ *   @0x2a6fa2 movs r7, r1
+ *   @0x2a6fa6 lsls r2, r7, #0x1
+ *   @0x2a6faa movs r4, r2
+ *   @0x2a6fae .word 0xffff e4ac
+ *   @0x2a6fb2 .word 0xffff 558a
+ *   @0x2a6fb6 movs r6, r1
+ *   @0x2a6fba movs r6, r1
+ *   @0x2a6fbe movs r6, r1
+ *   @0x2a6fc2 movs r6, r1
+ *   @0x2a6fce movs r6, r1
+ *   @0x2a6fd2 movs r6, r1
+ *   @0x2a6fd6 movs r6, r1
+ *   @0x2a6fda movs r6, r1
+ *   @0x2a6fde movs r4, #0x0
+ *   @0x2a6fe2 str r4, [sp, #0x4]
+ *   @0x2a6fe6 bl 0x2a6d4c <png_create_read_struct_2>
+ *   @0x2a6fea add sp, #0x10
+ *   @0x2a747a ldr.w r3, [r0, #0x130]
+ *   @0x2a747e lsls r3, r3, #0x19
+ *   @0x2a7482 b.w 0x2ae494 <png_read_start_row>
+ *   @0x2a7486 bx lr
+ *   @0x2a77e6 mov r4, r2
+ *   @0x2a77ea mov r6, r0
+ *   @0x2a77ee cbz r1, 0x2a7826 <png_read_rows+0x46>
+ *   @0x2a77f2 movs r5, #0x0
+ *   @0x2a77f6 beq 0x2a780a <png_read_rows+0x2a>
+ *   @0x2a77fe ldr.w r2, [r4, r5, lsl #2]
+ *   @0x2a7802 adds r5, #0x1
+ *   @0x2a780a pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2a780e cmp r4, r8
+ *   @0x2a7812 ldr.w r1, [r7, r4, lsl #2]
+ *   @0x2a7816 mov r0, r6
+ *   @0x2a781a adds r4, #0x1
+ *   @0x2a7822 pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2a7826 cbz r2, 0x2a783c <png_read_rows+0x5c>
+ *   @0x2a782a beq 0x2a783c <png_read_rows+0x5c>
+ *   @0x2a7832 movs r1, #0x0
+ *   @0x2a7836 bl 0x2a7488 <png_read_row>
+ *   @0x2a783a b 0x2a7828 <png_read_rows+0x48>
+ *   @0x2a7eba str.w r1, [r0, #0x25c]
+ *   @0x2a7ebe bx lr
+ *   @0x2a8006 mov r5, r2
+ *   @0x2a800a cbz r0, 0x2a802a <png_default_read_data+0x26>
+ *   @0x2a800e ldr.w r3, [r4, #0x118]
+ *   @0x2a8012 movs r1, #0x1
+ *   @0x2a801a beq 0x2a802a <png_default_read_data+0x26>
+ *   @0x2a801e mov r0, r4
+ *   @0x2a8026 b.w 0x2a642c <png_error>
+ *   @0x2a802a pop {r3, r4, r5, pc}
+ *   @0x2a802e movs r6, r1
+ *   @0x2a8032 ldr.w r3, [r0, #0x114]
+ *   @0x2a8036 cbz r3, 0x2a803c <png_read_data+0xc>
+ *   @0x2a803a pop {r3, pc}
+ *   @0x2a803e pop.w {r3, lr}
+ *   @0x2a8042 add r1, pc
+ *   @0x2a804a movs r6, r1
+ *   @0x2a809e mov r5, r2
+ *   @0x2a80a2 cmp r0, #0x0
+ *   @0x2a80a6 subs r1, #0x2
+ *   @0x2a80aa bhi 0x2a80d4 <png_set_crc_action+0x38>
+ *   @0x2a80b2 adds r1, r1, r0
+ *   @0x2a80c2 ldr.w r3, [r0, #0x130]
+ *   @0x2a80c6 orr r3, r3, #0xc00
+ *   @0x2a80ca b 0x2a80dc <png_set_crc_action+0x40>
+ *   @0x2a80ce add r1, pc
+ *   @0x2a80e2 cmp r2, #0x4
+ *   @0x2a80e6 tbb [pc, r2]
+ *   @0x2a80ea asrs r7, r1, #0x18
+ *   @0x2a80ee movs r4, r3
+ *   @0x2a80fe ldr.w r3, [r4, #0x130]
+ *   @0x2a8102 orr r3, r3, #0x300
+ *   @0x2a8106 b 0x2a811e <png_set_crc_action+0x82>
+ *   @0x2a8116 ldr.w r3, [r4, #0x130]
+ *   @0x2a811a bic r3, r3, #0x300
+ *   @0x2a811e str.w r3, [r4, #0x130]
+ *   @0x2a8122 pop {r3, r4, r5, pc}
+ *   @0x2a8126 movs r6, r1
+ *   @0x2a812a vldr d7, [sp, #12]
+ *   @0x2a812e mov r4, r0
+ *   @0x2a8132 cbnz r2, 0x2a8140 <png_set_background+0x18>
+ *   @0x2a8136 pop.w {r4, r5, lr}
+ *   @0x2a813a add r1, pc
+ *   @0x2a814a ite ne
+ *   @0x2a8152 orr r0, r0, #0x80
+ *   @0x2a8156 str.w r0, [r4, #0x134]
+ *   @0x2a815a ldr r0, [r1]
+ *   @0x2a8162 str.w r0, [r4, #0x200]
+ *   @0x2a8166 ldrh r1, [r1, #0x8]
+ *   @0x2a817a str.w r2, [r4, #0x134]
+ *   @0x2a817e pop {r4, r5, pc}
+ *   @0x2a8182 movs r6, r1
+ *   @0x2a8186 ldr.w r3, [r0, #0x134]
+ *   @0x2a818a orr r3, r3, #0x400
+ *   @0x2a818e str.w r3, [r0, #0x134]
+ *   @0x2a8192 bx lr
+ *   @0x2a8196 ldr.w r3, [r0, #0x130]
+ *   @0x2a819a orr r3, r3, #0x400000
+ *   @0x2a819e str.w r3, [r0, #0x130]
+ *   @0x2a81a2 bx lr
+ *   @0x2a81aa mov r5, r2
+ *   @0x2a81ae ldr r2, [sp, #0x5c]
+ *   @0x2a81b2 str r3, [sp, #0x14]
+ *   @0x2a81b6 str r2, [sp, #0x18]
+ *   @0x2a81ba beq.w 0x2a8730 <png_set_quantize+0x58c>
+ *   @0x2a81be ldr.w r3, [r0, #0x134]
+ *   @0x2a81c2 orr r3, r3, #0x40
+ *   @0x2a81c6 str.w r3, [r0, #0x134]
+ *   @0x2a81ca cbz r2, 0x2a81d4 <png_set_quantize+0x30>
+ *   @0x2a81ce cmp r5, r3
+ *   @0x2a81d2 b 0x2a8610 <png_set_quantize+0x46c>
+ *   @0x2a81d6 bl 0x2a6ca0 <png_malloc>
+ *   @0x2a81da ldr r3, [sp, #0x18]
+ *   @0x2a81e2 bge 0x2a81cc <png_set_quantize+0x28>
+ *   @0x2a81ea adds r3, #0x1
+ *   @0x2a81ee mov r0, r4
+ *   @0x2a81f2 cmp r7, #0x0
+ *   @0x2a81fe str.w r0, [r4, #0x2f8]
+ *   @0x2a8202 cmp r3, r5
+ *   @0x2a8206 ldr.w r2, [r4, #0x2f8]
+ *   @0x2a820a strb r3, [r2, r3]
+ *   @0x2a820e b 0x2a8202 <png_set_quantize+0x5e>
+ *   @0x2a8212 ldr.w r10, [sp, #0x14]
+ *   @0x2a8216 cmp r2, r10
+ *   @0x2a821a ldr r7, [sp, #0x18]
+ *   @0x2a821e mov r3, r6
+ *   @0x2a8222 ldr r2, [sp, #0x18]
+ *   @0x2a822a movs r3, #0x0
+ *   @0x2a8232 bge 0x2a8262 <png_set_quantize+0xbe>
+ *   @0x2a823a ldrb.w r12, [r0, r3]
+ *   @0x2a823e ldrb.w r8, [r0, r1]
+ *   @0x2a8242 ldrh.w r10, [r7, r12, lsl #1]
+ *   @0x2a8246 ldrh.w r9, [r7, r8, lsl #1]
+ *   @0x2a824a cmp r10, r9
+ *   @0x2a824e strb.w r8, [r0, r3]
+ *   @0x2a8252 mov.w lr, #0x0
+ *   @0x2a8256 ldr.w r3, [r4, #0x2f8]
+ *   @0x2a825a strb.w r12, [r3, r1]
+ *   @0x2a825e mov r3, r1
+ *   @0x2a8262 cmp.w lr, #0x0
+ *   @0x2a8266 bne 0x2a821a <png_set_quantize+0x76>
+ *   @0x2a826a b 0x2a8212 <png_set_quantize+0x6e>
+ *   @0x2a826e movs r2, #0x3
+ *   @0x2a8272 cmp r3, r7
+ *   @0x2a8276 ldr.w r1, [r4, #0x2f8]
+ *   @0x2a827a ldr.w r11, [sp, #0x14]
+ *   @0x2a827e ldrb r0, [r1, r3]
+ *   @0x2a8282 blt 0x2a82a6 <png_set_quantize+0x102>
+ *   @0x2a8286 ldr.w r12, [sp, #0x14]
+ *   @0x2a828a ldrb r0, [r1, r5]
+ *   @0x2a828e bge 0x2a8284 <png_set_quantize+0xe0>
+ *   @0x2a829e strh.w lr, [r6, r0]
+ *   @0x2a82a2 ldrb r1, [r1, #0x2]
+ *   @0x2a82a6 adds r3, #0x1
+ *   @0x2a82aa ldr.w r0, [r4, #0x2f8]
+ *   @0x2a82ae ldr.w r10, [sp, #0x14]
+ *   @0x2a82b2 ldrb r7, [r0, r2]
+ *   @0x2a82b6 bge 0x2a82dc <png_set_quantize+0x138>
+ *   @0x2a82ba adds r3, #0x3
+ *   @0x2a82c2 blt 0x2a82aa <png_set_quantize+0x106>
+ *   @0x2a82c6 cmp r3, r5
+ *   @0x2a82ca mov r0, r4
+ *   @0x2a82d6 str.w r3, [r4, #0x2f8]
+ *   @0x2a82da b 0x2a860e <png_set_quantize+0x46a>
+ *   @0x2a82de ldr.w r11, [sp, #0x14]
+ *   @0x2a82e2 ldrb r7, [r0, r1]
+ *   @0x2a82e6 bge 0x2a82dc <png_set_quantize+0x138>
+ *   @0x2a82f2 ldrb.w r9, [r6, r7]
+ *   @0x2a82f6 ldrb.w r12, [r0, #0x2]
+ *   @0x2a82fa ldrb.w r8, [r0, #0x1]
+ *   @0x2a82fe strh.w r10, [r6, r7]
+ *   @0x2a8302 ldrb r7, [r3, #0x2]
+ *   @0x2a8306 strb.w r9, [r3]
+ *   @0x2a830a strb.w r8, [r3, #0x1]
+ *   @0x2a830e strb.w r12, [r3, #0x2]
+ *   @0x2a8312 ldr.w r0, [r4, #0x2b4]
+ *   @0x2a8316 strb r2, [r0, r1]
+ *   @0x2a831e b 0x2a82b8 <png_set_quantize+0x114>
+ *   @0x2a8326 add.w r9, r2, r3
+ *   @0x2a832a ldrb r2, [r2, r3]
+ *   @0x2a832e blt 0x2a83c6 <png_set_quantize+0x222>
+ *   @0x2a8336 adds r1, r6, r2
+ *   @0x2a833a ldrb.w lr, [r6, r2]
+ *   @0x2a833e ldrb.w r12, [r1, #0x1]
+ *   @0x2a8342 ldrb r2, [r6, #0x1]
+ *   @0x2a834a it lt
+ *   @0x2a834e ldrb.w r8, [r1, #0x2]
+ *   @0x2a8352 rsb r2, r2, r12
+ *   @0x2a8356 movs r1, #0x1
+ *   @0x2a835a it lt
+ *   @0x2a835e add r0, r2
+ *   @0x2a8362 rsb r2, r2, r8
+ *   @0x2a8366 cmp r2, #0x0
+ *   @0x2a836a rsblt r2, r2, #0
+ *   @0x2a836e mov r2, r6
+ *   @0x2a8376 bge 0x2a83c2 <png_set_quantize+0x21e>
+ *   @0x2a837e ldrb.w r10, [r2, #0x1]
+ *   @0x2a8382 rsb r11, r11, lr
+ *   @0x2a8386 rsb r10, r10, r12
+ *   @0x2a838a cmp.w r11, #0x0
+ *   @0x2a838e it lt
+ *   @0x2a839a rsblt.w r10, r10, #0x0
+ *   @0x2a839e add r11, r10
+ *   @0x2a83ae rsblt.w r10, r10, #0x0
+ *   @0x2a83b2 add r10, r11
+ *   @0x2a83b6 ite ge
+ *   @0x2a83ba movlt r7, r1
+ *   @0x2a83be adds r1, #0x1
+ *   @0x2a83c2 strb.w r7, [r9]
+ *   @0x2a83c6 adds r3, #0x1
+ *   @0x2a83ca bl 0x2a6ca0 <png_malloc>
+ *   @0x2a83ce mov r1, r5
+ *   @0x2a83d6 bl 0x2a6ca0 <png_malloc>
+ *   @0x2a83da str.w r0, [r4, #0x300]
+ *   @0x2a83de cmp r7, r5
+ *   @0x2a83e2 ldr.w r2, [r4, #0x2fc]
+ *   @0x2a83e6 uxtb r3, r7
+ *   @0x2a83ea ldr.w r2, [r4, #0x300]
+ *   @0x2a83ee strb r3, [r2, r7]
+ *   @0x2a83f2 b 0x2a83de <png_set_quantize+0x23a>
+ *   @0x2a83f6 movw r1, #0xc04
+ *   @0x2a83fa bl 0x2a6cd8 <png_calloc>
+ *   @0x2a83fe mov r7, r5
+ *   @0x2a840e mov r9, r6
+ *   @0x2a8416 str r2, [sp, #0x24]
+ *   @0x2a841a cmp r10, r3
+ *   @0x2a841e add.w r10, r10, #0x1
+ *   @0x2a8422 mov r11, r9
+ *   @0x2a842a cmp r3, r7
+ *   @0x2a842e ldrb.w r2, [r11, #0x3]
+ *   @0x2a8432 ldrb.w r1, [r9]
+ *   @0x2a8436 ldrb.w r0, [r9, #0x1]
+ *   @0x2a843a subs r1, r1, r2
+ *   @0x2a8442 it lt
+ *   @0x2a8446 subs r2, r0, r2
+ *   @0x2a844e it lt
+ *   @0x2a8452 add r2, r1
+ *   @0x2a845a ldr r0, [sp, #0x20]
+ *   @0x2a845e it lt
+ *   @0x2a8462 add r2, r1
+ *   @0x2a8466 bgt 0x2a849e <png_set_quantize+0x2fa>
+ *   @0x2a846a movs r1, #0x8
+ *   @0x2a846e str r3, [sp, #0x8]
+ *   @0x2a847a ldr r3, [sp, #0x8]
+ *   @0x2a8482 cmp r0, #0x0
+ *   @0x2a848a ldr.w r1, [r0, r2, lsl #2]
+ *   @0x2a848e strb.w r12, [r8, #0x4]
+ *   @0x2a8492 strb.w r3, [r8, #0x5]
+ *   @0x2a8496 str.w r1, [r8]
+ *   @0x2a849a str.w r8, [r0, r2, lsl #2]
+ *   @0x2a849e adds r3, #0x1
+ *   @0x2a84a6 add.w r9, r9, #0x3
+ *   @0x2a84aa cmp.w r8, #0x0
+ *   @0x2a84ae bne 0x2a8418 <png_set_quantize+0x274>
+ *   @0x2a84b2 cmp.w r8, #0x0
+ *   @0x2a84b6 beq 0x2a859a <png_set_quantize+0x3f6>
+ *   @0x2a84ba ldr r2, [sp, #0x1c]
+ *   @0x2a84c2 beq 0x2a8590 <png_set_quantize+0x3ec>
+ *   @0x2a84d2 bge 0x2a8586 <png_set_quantize+0x3e2>
+ *   @0x2a84de bge 0x2a8586 <png_set_quantize+0x3e2>
+ *   @0x2a84e2 add.w r7, r7, #0xffffffff
+ *   @0x2a84e6 mov.w r10, #0x3
+ *   @0x2a84ea itet pl
+ *   @0x2a84ee movmi r3, lr
+ *   @0x2a84f2 ldrb.w lr, [r2, r3]
+ *   @0x2a84f6 mla r2, r10, r7, r6
+ *   @0x2a84fa add.w lr, lr, lr, lsl #1
+ *   @0x2a84fe add.w r12, r6, lr
+ *   @0x2a8502 ldrh.w r9, [r2]
+ *   @0x2a8506 strh.w r9, [r6, lr]
+ *   @0x2a850a ldrb r2, [r2, #0x2]
+ *   @0x2a8512 cbz r2, 0x2a8546 <png_set_quantize+0x3a2>
+ *   @0x2a8522 strb.w r12, [lr, r2]
+ *   @0x2a8526 ldr.w lr, [r4, #0x300]
+ *   @0x2a852a ldr.w r2, [r4, #0x2fc]
+ *   @0x2a852e ldrb.w r12, [lr, r7]
+ *   @0x2a8532 ldrb r2, [r2, r3]
+ *   @0x2a853e ldr.w r2, [r4, #0x300]
+ *   @0x2a8542 strb r3, [r2, r7]
+ *   @0x2a8546 ldr.w lr, [sp, #0x18]
+ *   @0x2a854a cmp lr, r5
+ *   @0x2a854e ldr.w r12, [r4, #0x2fc]
+ *   @0x2a8552 ldr.w r2, [r4, #0x2b4]
+ *   @0x2a8556 ldrb.w r9, [r12, r3]
+ *   @0x2a855a ldrb.w r10, [r2, lr]
+ *   @0x2a855e cmp r10, r9
+ *   @0x2a8562 ldrbeq.w r12, [r12, r11]
+ *   @0x2a8566 strbeq.w r12, [r2, lr]
+ *   @0x2a856a ldr.w r12, [r4, #0x2b4]
+ *   @0x2a856e ldrb.w r2, [r12, lr]
+ *   @0x2a8572 cmp r2, r7
+ *   @0x2a8576 ldr.w r2, [r4, #0x2fc]
+ *   @0x2a857a ldrb r2, [r2, r3]
+ *   @0x2a8586 ldr r3, [sp, #0x14]
+ *   @0x2a858a ble 0x2a859a <png_set_quantize+0x3f6>
+ *   @0x2a858e b 0x2a84c0 <png_set_quantize+0x31c>
+ *   @0x2a8596 cmp r0, r10
+ *   @0x2a859a mov.w r9, #0x0
+ *   @0x2a859e movw r11, #0xc04
+ *   @0x2a85a2 mov r3, r9
+ *   @0x2a85ae ldr.w r8, [r1]
+ *   @0x2a85b2 mov r0, r4
+ *   @0x2a85b6 bl 0x2a6cfc <png_free>
+ *   @0x2a85ba ldr r3, [sp, #0x8]
+ *   @0x2a85c2 mov r1, r8
+ *   @0x2a85c6 ldr r2, [sp, #0x1c]
+ *   @0x2a85d6 bne 0x2a85a4 <png_set_quantize+0x400>
+ *   @0x2a85de cmp r7, r11
+ *   @0x2a85e6 bgt.w 0x2a840e <png_set_quantize+0x26a>
+ *   @0x2a85ea mov r1, r2
+ *   @0x2a85ee bl 0x2a6cfc <png_free>
+ *   @0x2a85f2 mov r0, r4
+ *   @0x2a85fe ldr.w r1, [r4, #0x2fc]
+ *   @0x2a8602 bl 0x2a6cfc <png_free>
+ *   @0x2a8606 str.w r10, [r4, #0x300]
+ *   @0x2a860a str.w r10, [r4, #0x2fc]
+ *   @0x2a860e ldr r5, [sp, #0x14]
+ *   @0x2a8616 str.w r6, [r4, #0x1d8]
+ *   @0x2a861a ldr r2, [sp, #0x18]
+ *   @0x2a8622 beq.w 0x2a8730 <png_set_quantize+0x58c>
+ *   @0x2a8626 mov.w r1, #0x8000
+ *   @0x2a862a mov r0, r4
+ *   @0x2a863a bl 0x2a6ca0 <png_malloc>
+ *   @0x2a863e movs r1, #0xff
+ *   @0x2a8646 blx 0xb65b0 <memset@plt>
+ *   @0x2a864a mov.w r12, #0x0
+ *   @0x2a864e mov r8, r12
+ *   @0x2a8652 bge 0x2a871c <png_set_quantize+0x578>
+ *   @0x2a865a str r3, [sp, #0x14]
+ *   @0x2a8662 ldrb r3, [r3, #0x2]
+ *   @0x2a8666 str r2, [sp, #0x18]
+ *   @0x2a866a str r3, [sp, #0x1c]
+ *   @0x2a866e ldr r7, [sp, #0x14]
+ *   @0x2a8672 ble 0x2a867e <png_set_quantize+0x4da>
+ *   @0x2a867e ldr.w r11, [sp, #0x14]
+ *   @0x2a8682 rsb r11, r3, r11
+ *   @0x2a8686 str.w r11, [sp, #0x4]
+ *   @0x2a868a movs r2, #0x0
+ *   @0x2a868e str r0, [sp, #0x20]
+ *   @0x2a8692 ldr.w r10, [sp, #0x4]
+ *   @0x2a8696 cmp r2, r1
+ *   @0x2a869e rsbgt r0, r1, r2
+ *   @0x2a86a2 ldrle r7, [sp, #0x18]
+ *   @0x2a86aa add r10, r0
+ *   @0x2a86ae it ge
+ *   @0x2a86b2 ldr r0, [sp, #0x20]
+ *   @0x2a86c2 ldr.w r10, [sp, #0x1c]
+ *   @0x2a86c6 ldr r1, [sp, #0x2c]
+ *   @0x2a86ca orr.w r0, r7, r1
+ *   @0x2a86ce ldr r1, [sp, #0x28]
+ *   @0x2a86d2 ldrle.w r11, [sp, #0x1c]
+ *   @0x2a86d6 rsbgt r10, r10, r7
+ *   @0x2a86da rsble r10, r7, r11
+ *   @0x2a86de ldr.w r11, [sp, #0x24]
+ *   @0x2a86e2 cmp r10, r1
+ *   @0x2a86e6 addge r11, r10
+ *   @0x2a86ea add r10, r11
+ *   @0x2a86f2 bge 0x2a8700 <png_set_quantize+0x55c>
+ *   @0x2a8702 cmp r7, #0x20
+ *   @0x2a8706 adds r2, #0x1
+ *   @0x2a870a bne 0x2a8690 <png_set_quantize+0x4ec>
+ *   @0x2a870e cmp r3, #0x20
+ *   @0x2a8712 add.w r8, r8, #0x1
+ *   @0x2a8716 add.w r12, r12, #0x3
+ *   @0x2a871a b 0x2a8650 <png_set_quantize+0x4ac>
+ *   @0x2a871e mov r1, r9
+ *   @0x2a8722 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ *   @0x2a8726 b.w 0x2a6cfc <png_free>
+ *   @0x2a872a mov.w r8, #0x0
+ *   @0x2a872e b 0x2a859a <png_set_quantize+0x3f6>
+ *   @0x2a8732 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2a8742 vmov.f64 d7, #1.000000e+00
+ *   @0x2a8746 vldr d4, [pc, #64]
+ *   @0x2a874a vnmls.f64 d7, d6, d5
+ *   @0x2a874e vabs.f64 d7, d7
+ *   @0x2a8752 vcmpe.f64 d7, d4
+ *   @0x2a8756 vmrs APSR_nzcv, fpscr
+ *   @0x2a875a bgt 0x2a8768 <png_set_gamma+0x30>
+ *   @0x2a8762 bmi 0x2a8768 <png_set_gamma+0x30>
+ *   @0x2a8766 bne 0x2a8774 <png_set_gamma+0x3c>
+ *   @0x2a8786 nop
+ *   @0x2a878a ldr r1, [sp, #0x264]
+ *   @0x2a878e subs r7, #0xa9
+ *   @0x2a8792 ldr.w r3, [r0, #0x134]
+ *   @0x2a8796 orr r3, r3, #0x2000000
+ *   @0x2a879a orr r3, r3, #0x1000
+ *   @0x2a879e str.w r3, [r0, #0x134]
+ *   @0x2a87a2 ldr.w r3, [r0, #0x130]
+ *   @0x2a87a6 bic r3, r3, #0x40
+ *   @0x2a87aa str.w r3, [r0, #0x130]
+ *   @0x2a87ae bx lr
+ *   @0x2a87b2 ldr.w r3, [r0, #0x134]
+ *   @0x2a87b6 orr r3, r3, #0x2000000
+ *   @0x2a87ba orr r3, r3, #0x1000
+ *   @0x2a87be str.w r3, [r0, #0x134]
+ *   @0x2a87c2 ldr.w r3, [r0, #0x130]
+ *   @0x2a87c6 bic r3, r3, #0x40
+ *   @0x2a87ca str.w r3, [r0, #0x130]
+ *   @0x2a87ce bx lr
+ *   @0x2a87d2 ldr.w r3, [r0, #0x134]
+ *   @0x2a87d6 orr r3, r3, #0x1000
+ *   @0x2a87da str.w r3, [r0, #0x134]
+ *   @0x2a87de ldr.w r3, [r0, #0x130]
+ *   @0x2a87e2 bic r3, r3, #0x40
+ *   @0x2a87e6 str.w r3, [r0, #0x130]
+ *   @0x2a87ea bx lr
+ *   @0x2a8826 mov r5, r2
+ *   @0x2a882a mov r4, r0
+ *   @0x2a882e beq 0x2a88dc <png_set_rgb_to_gray_fixed+0xb8>
+ *   @0x2a8832 beq 0x2a8846 <png_set_rgb_to_gray_fixed+0x22>
+ *   @0x2a8836 beq 0x2a8854 <png_set_rgb_to_gray_fixed+0x30>
+ *   @0x2a883a bne 0x2a885e <png_set_rgb_to_gray_fixed+0x3a>
+ *   @0x2a8846 ldr.w r3, [r0, #0x134]
+ *   @0x2a884a orr r3, r3, #0x400000
+ *   @0x2a884e str.w r3, [r4, #0x134]
+ *   @0x2a8852 b 0x2a8866 <png_set_rgb_to_gray_fixed+0x42>
+ *   @0x2a885e ldr r1, [pc, #0x88]
+ *   @0x2a8862 bl 0x2a642c <png_error>
+ *   @0x2a8866 ldrb.w r3, [r4, #0x1ea]
+ *   @0x2a886a cmp r3, #0x3
+ *   @0x2a886e ldr.w r3, [r4, #0x134]
+ *   @0x2a8872 orr r3, r3, #0x1000
+ *   @0x2a8876 str.w r3, [r4, #0x134]
+ *   @0x2a887a cmp r5, #0x0
+ *   @0x2a887e cmp r7, #0x0
+ *   @0x2a8882 ldr r6, [pc, #0x5c]
+ *   @0x2a8886 cmp r3, r6
+ *   @0x2a888a lsls r0, r5, #0xf
+ *   @0x2a888e blx 0x318c48 <__udivsi3>
+ *   @0x2a8892 mov r1, r6
+ *   @0x2a8896 lsls r0, r7, #0xf
+ *   @0x2a889e strh.w r5, [r4, #0x2d6]
+ *   @0x2a88a2 uxth r0, r0
+ *   @0x2a88aa subs r3, r3, r5
+ *   @0x2a88ae ldr r1, [pc, #0x3c]
+ *   @0x2a88b2 add r1, pc
+ *   @0x2a88be ldr.w r3, [r4, #0x2d8]
+ *   @0x2a88c2 cbnz r3, 0x2a88dc <png_set_rgb_to_gray_fixed+0xb8>
+ *   @0x2a88de nop
+ *   @0x2a88e2 movs r1, r0
+ *   @0x2a88e6 .word 0xffff 4188
+ *   @0x2a88ea movs r6, r1
+ *   @0x2a88ee movs r6, r1
+ *   @0x2a88f2 vmov d6, r2, r3
+ *   @0x2a88f6 vldr d7, [sp, #16]
+ *   @0x2a88fa mov r5, r1
+ *   @0x2a88fe cmp r0, #0x0
+ *   @0x2a8902 vldr d4, [pc, #132]
+ *   @0x2a8906 vcmpe.f64 d6, d4
+ *   @0x2a890a vmrs APSR_nzcv, fpscr
+ *   @0x2a890e bgt 0x2a8932 <png_set_rgb_to_gray+0x42>
+ *   @0x2a891e vcmpe.f64 d7, d4
+ *   @0x2a8922 vmrs APSR_nzcv, fpscr
+ *   @0x2a8926 bgt 0x2a8932 <png_set_rgb_to_gray+0x42>
+ *   @0x2a8932 ldr r1, [pc, #0x6c]
+ *   @0x2a8936 add r1, pc
+ *   @0x2a8942 b 0x2a8978 <png_set_rgb_to_gray+0x88>
+ *   @0x2a897a mov r1, r5
+ *   @0x2a8986 nop
+ *   @0x2a898a ldrh r1, [r7, #0x4]
+ *   @0x2a8992 ldrh r3, [r4, #0x6]
+ *   @0x2a899a movs r0, r0
+ *   @0x2a899e lsrs r0, r7
+ *   @0x2a89a2 movs r6, r1
+ *   @0x2a89a4 andhi pc, r0, pc, lsr #7
+ *   @0x2a89aa ldr.w r3, [r0, #0x134]
+ *   @0x2a89ae str.w r1, [r0, #0x11c]
+ *   @0x2a89b2 orr r3, r3, #0x100000
+ *   @0x2a89b6 str.w r3, [r0, #0x134]
+ *   @0x2a89ba bx lr
+ *   @0x2a89be mov r2, r0
+ *   @0x2a89c6 lsls r4, r0, #0x13
+ *   @0x2a89ca ldrb r1, [r1, #0x19]
+ *   @0x2a89d2 bne 0x2a89e0 <png_read_transform_info+0x24>
+ *   @0x2a89d6 movs r1, #0x6
+ *   @0x2a89da movs r1, #0x2
+ *   @0x2a89de b 0x2a89f2 <png_read_transform_info+0x36>
+ *   @0x2a89e2 lsls r0, r0, #0x6
+ *   @0x2a89e6 orrmi r1, r1, #0x4
+ *   @0x2a89ea strbmi r1, [r3, #0x19]
+ *   @0x2a89ee cmp r1, #0x7
+ *   @0x2a89f2 movs r1, #0x8
+ *   @0x2a89f6 movs r1, #0x0
+ *   @0x2a89fa ldr.w r1, [r2, #0x134]
+ *   @0x2a89fe lsls r5, r1, #0x18
+ *   @0x2a8a02 ldrb r1, [r3, #0x19]
+ *   @0x2a8a12 movs r1, #0x0
+ *   @0x2a8a16 ldm r4!, {r0, r1}
+ *   @0x2a8a1e ldrh r1, [r4]
+ *   @0x2a8a22 ldr.w r1, [r2, #0x134]
+ *   @0x2a8a26 lsls r4, r1, #0x12
+ *   @0x2a8a2a ldr.w r1, [r2, #0x220]
+ *   @0x2a8a2e str r1, [r3, #0x28]
+ *   @0x2a8a3e bpl 0x2a8a4a <png_read_transform_info+0x8e>
+ *   @0x2a8a42 cmp r1, #0x10
+ *   @0x2a8a46 moveq r1, #0x8
+ *   @0x2a8a4a ldr.w r1, [r2, #0x134]
+ *   @0x2a8a4e lsls r1, r1, #0x11
+ *   @0x2a8a52 ldrb r1, [r3, #0x19]
+ *   @0x2a8a5a ldr.w r1, [r2, #0x134]
+ *   @0x2a8a5e tst.w r1, #0x600000
+ *   @0x2a8a62 beq 0x2a8a6c <png_read_transform_info+0xb0>
+ *   @0x2a8a66 bic r1, r1, #0x2
+ *   @0x2a8a6a strb r1, [r3, #0x19]
+ *   @0x2a8a76 beq 0x2a8a90 <png_read_transform_info+0xd4>
+ *   @0x2a8a7a and r0, r0, #0xfb
+ *   @0x2a8a7e cmp r0, #0x2
+ *   @0x2a8a82 ldr.w r0, [r2, #0x2b0]
+ *   @0x2a8a86 cbz r0, 0x2a8a90 <png_read_transform_info+0xd4>
+ *   @0x2a8a8a itt eq
+ *   @0x2a8a8e strbeq r0, [r3, #0x19]
+ *   @0x2a8a96 bpl 0x2a8aa0 <png_read_transform_info+0xe4>
+ *   @0x2a8a9a itt ls
+ *   @0x2a8a9e strbls r1, [r3, #0x18]
+ *   @0x2a8aa2 cmp r1, #0x3
+ *   @0x2a8aa6 movs r0, #0x1
+ *   @0x2a8aaa lsls r4, r1, #0x1e
+ *   @0x2a8aae movs r0, #0x3
+ *   @0x2a8ab2 ldr.w r0, [r2, #0x130]
+ *   @0x2a8ab6 lsls r0, r0, #0x9
+ *   @0x2a8aba bicmi r1, r1, #0x4
+ *   @0x2a8abe strbmi r1, [r3, #0x19]
+ *   @0x2a8ac2 lsls r5, r1, #0x1d
+ *   @0x2a8ac6 ldrb r0, [r3, #0x1d]
+ *   @0x2a8aca strb r0, [r3, #0x1d]
+ *   @0x2a8ad2 bpl 0x2a8aee <png_read_transform_info+0x132>
+ *   @0x2a8ada ldrb r0, [r3, #0x1d]
+ *   @0x2a8ade strb r0, [r3, #0x1d]
+ *   @0x2a8ae6 itt mi
+ *   @0x2a8aee ldr.w r1, [r2, #0x134]
+ *   @0x2a8af2 lsls r1, r1, #0xb
+ *   @0x2a8af6 ldrb.w r1, [r2, #0x128]
+ *   @0x2a8afa ldrb r0, [r3, #0x18]
+ *   @0x2a8afe it lo
+ *   @0x2a8b02 ldrb.w r2, [r2, #0x129]
+ *   @0x2a8b06 ldrb r1, [r3, #0x1d]
+ *   @0x2a8b0a it lo
+ *   @0x2a8b0e ldrb r1, [r3, #0x18]
+ *   @0x2a8b12 muls r2, r1, r2
+ *   @0x2a8b16 uxtb r2, r2
+ *   @0x2a8b1a cmp r2, #0x7
+ *   @0x2a8b1e lsrs r2, r2, #0x3
+ *   @0x2a8b22 b 0x2a8b2a <png_read_transform_info+0x16e>
+ *   @0x2a8b26 adds r2, #0x7
+ *   @0x2a8b2a str r2, [r3, #0xc]
+ *   @0x2a8b30 push {r4, r5, r6, lr}
+ *   @0x2a8b34 bhi 0x2a8bf0 <png_do_unpack+0xc2>
+ *   @0x2a8b38 ldr r3, [r0]
+ *   @0x2a8b3c cmp r2, #0x4
+ *   @0x2a8b40 cmp r2, #0x1
+ *   @0x2a8b44 subs r5, r3, #0x1
+ *   @0x2a8b48 add.w r4, r1, r5, lsr #3
+ *   @0x2a8b4c add r1, r5
+ *   @0x2a8b50 subs r5, r1, r3
+ *   @0x2a8b58 beq 0x2a8be2 <png_do_unpack+0xb4>
+ *   @0x2a8b5c cmp r2, #0x7
+ *   @0x2a8b60 addeq.w r4, r4, #0xffffffff
+ *   @0x2a8b64 asr.w r6, r6, r2
+ *   @0x2a8b68 it eq
+ *   @0x2a8b6c and r6, r6, #0x1
+ *   @0x2a8b70 it ne
+ *   @0x2a8b74 strb r6, [r1], #-1
+ *   @0x2a8b78 b 0x2a8b56 <png_do_unpack+0x28>
+ *   @0x2a8b7c subs r5, r3, #0x1
+ *   @0x2a8b80 and r2, r2, #0x3
+ *   @0x2a8b84 add.w r4, r1, r5, lsr #2
+ *   @0x2a8b88 add r1, r5
+ *   @0x2a8b8c subs r5, r1, r3
+ *   @0x2a8b90 beq 0x2a8be2 <png_do_unpack+0xb4>
+ *   @0x2a8b94 cmp r2, #0x6
+ *   @0x2a8b98 addeq.w r4, r4, #0xffffffff
+ *   @0x2a8b9c asr.w r6, r6, r2
+ *   @0x2a8ba0 it eq
+ *   @0x2a8ba4 and r6, r6, #0x3
+ *   @0x2a8ba8 it ne
+ *   @0x2a8bac strb r6, [r1], #-1
+ *   @0x2a8bb0 b 0x2a8b8e <png_do_unpack+0x60>
+ *   @0x2a8bb4 tst.w r3, #0x1
+ *   @0x2a8bb8 ite eq
+ *   @0x2a8bbc movne r2, #0x4
+ *   @0x2a8bc4 subs r5, r1, r3
+ *   @0x2a8bc8 beq 0x2a8be2 <png_do_unpack+0xb4>
+ *   @0x2a8bcc asrs r6, r2
+ *   @0x2a8bd8 subs r4, #0x1
+ *   @0x2a8bdc b 0x2a8bc6 <png_do_unpack+0x98>
+ *   @0x2a8be0 b 0x2a8bc6 <png_do_unpack+0x98>
+ *   @0x2a8be4 strb r2, [r0, #0x9]
+ *   @0x2a8be8 muls r3, r2, r3
+ *   @0x2a8bec strb r1, [r0, #0xb]
+ *   @0x2a8bf0 pop {r4, r5, r6, pc}
+ *   @0x2a8bf8 ldrb r1, [r0, #0x8]
+ *   @0x2a8bfc beq.w 0x2a8d22 <png_do_unshift+0x130>
+ *   @0x2a8c00 tst.w r1, #0x2
+ *   @0x2a8c04 ldr r6, [r0]
+ *   @0x2a8c08 beq 0x2a8c20 <png_do_unshift+0x2e>
+ *   @0x2a8c0c subs r5, r3, r5
+ *   @0x2a8c10 ldrb r5, [r2, #0x1]
+ *   @0x2a8c14 str r5, [sp, #0x4]
+ *   @0x2a8c18 subs r5, r3, r5
+ *   @0x2a8c1c movs r5, #0x3
+ *   @0x2a8c20 ldrb r5, [r2, #0x3]
+ *   @0x2a8c24 str r5, [sp]
+ *   @0x2a8c28 lsls r1, r1, #0x1d
+ *   @0x2a8c2c add r7, sp, #0x10
+ *   @0x2a8c30 add.w r1, r7, r5, lsl #2
+ *   @0x2a8c34 adds r5, #0x1
+ *   @0x2a8c38 str r2, [r1, #-16]
+ *   @0x2a8c3c movs r1, #0x0
+ *   @0x2a8c40 mov r8, r1
+ *   @0x2a8c44 bge 0x2a8c5c <png_do_unshift+0x6a>
+ *   @0x2a8c4c it le
+ *   @0x2a8c58 movgt r1, #0x1
+ *   @0x2a8c5c cmp r1, #0x0
+ *   @0x2a8c60 cmp r3, #0x4
+ *   @0x2a8c64 bhi 0x2a8c70 <png_do_unshift+0x7e>
+ *   @0x2a8c68 bne 0x2a8d22 <png_do_unshift+0x130>
+ *   @0x2a8c6c add r3, r4
+ *   @0x2a8c70 cmp r3, #0x8
+ *   @0x2a8c74 cmp r3, #0x10
+ *   @0x2a8c78 mul r7, r6, r5
+ *   @0x2a8c7c movs r6, #0x0
+ *   @0x2a8c80 cmp r4, r3
+ *   @0x2a8c84 ldrb r2, [r4]
+ *   @0x2a8c88 and r2, r2, #0x55
+ *   @0x2a8c8c strb r2, [r4], #1
+ *   @0x2a8c90 b 0x2a8c80 <png_do_unshift+0x8e>
+ *   @0x2a8c94 movs r1, #0xf0
+ *   @0x2a8c98 asrs r1, r3
+ *   @0x2a8c9c bic r1, r1, #0xf
+ *   @0x2a8ca0 orrs r1, r2
+ *   @0x2a8ca4 uxtb r1, r1
+ *   @0x2a8ca8 cmp r4, r2
+ *   @0x2a8cac ldrb r0, [r4]
+ *   @0x2a8cb0 ands r0, r1
+ *   @0x2a8cb8 mul r7, r6, r5
+ *   @0x2a8cbc movs r6, #0x0
+ *   @0x2a8cc0 beq 0x2a8d22 <png_do_unshift+0x130>
+ *   @0x2a8cc4 mov r1, r5
+ *   @0x2a8ccc ldrb.w r8, [r4, r6]
+ *   @0x2a8cd0 add.w r1, r3, r1, lsl #2
+ *   @0x2a8cd4 ldr r3, [r1, #-16]
+ *   @0x2a8cd8 asr.w r8, r8, r3
+ *   @0x2a8cdc strb.w r8, [r4, r6]
+ *   @0x2a8ce0 adds r6, #0x1
+ *   @0x2a8ce4 cmp r6, r7
+ *   @0x2a8cec ldrb r8, [r4, #-2]
+ *   @0x2a8cf0 mov r0, r6
+ *   @0x2a8cf8 adds r6, #0x1
+ *   @0x2a8d04 uxth.w r8, r8
+ *   @0x2a8d08 add.w r1, r3, r1, lsl #2
+ *   @0x2a8d0c ldr r3, [r1, #-16]
+ *   @0x2a8d10 asr.w r3, r8, r3
+ *   @0x2a8d14 strb r3, [r4, #-1]
+ *   @0x2a8d18 ubfx r2, r3, #0x8, #0x8
+ *   @0x2a8d1c strb r2, [r4, #-2]
+ *   @0x2a8d20 b 0x2a8ce4 <png_do_unshift+0xf2>
+ *   @0x2a8d24 pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2a8d2a push {r4, lr}
+ *   @0x2a8d2e bne 0x2a8d56 <png_do_chop+0x2e>
+ *   @0x2a8d32 ldrb r2, [r0, #0xa]
+ *   @0x2a8d36 movs r3, #0x0
+ *   @0x2a8d3a beq 0x2a8d46 <png_do_chop+0x1e>
+ *   @0x2a8d42 adds r3, #0x1
+ *   @0x2a8d46 movs r3, #0x8
+ *   @0x2a8d4a ldrb r3, [r0, #0xa]
+ *   @0x2a8d4e strb r2, [r0, #0xb]
+ *   @0x2a8d52 muls r3, r2, r3
+ *   @0x2a8d56 pop {r4, pc}
+ *   @0x2a8d5a ldrb r2, [r0, #0x8]
+ *   @0x2a8d5e cmp r2, #0x6
+ *   @0x2a8d62 ldrb r2, [r0, #0x9]
+ *   @0x2a8d66 ldr r2, [r0, #0x4]
+ *   @0x2a8d6a mov.w r2, #0x0
+ *   @0x2a8d6e bne 0x2a8d9a <png_do_read_swap_alpha+0x42>
+ *   @0x2a8d72 beq 0x2a8d98 <png_do_read_swap_alpha+0x40>
+ *   @0x2a8d7a ldrb r0, [r1, #-1]
+ *   @0x2a8d7e strb r4, [r1, #-1]
+ *   @0x2a8d82 ldrb r4, [r1, #-3]
+ *   @0x2a8d86 strb r4, [r1, #-2]
+ *   @0x2a8d8a ldrb r4, [r1, #-4]
+ *   @0x2a8d8e strb r4, [r1, #-3]
+ *   @0x2a8d92 strb r0, [r1, #-4]!
+ *   @0x2a8d96 b 0x2a8d70 <png_do_read_swap_alpha+0x18>
+ *   @0x2a8d9a cmp r2, r3
+ *   @0x2a8d9e ldrb r5, [r1, #-3]
+ *   @0x2a8da2 adds r2, #0x1
+ *   @0x2a8de2 pop {r4, r5, pc}
+ *   @0x2a8de6 bne 0x2a8e38 <png_do_read_swap_alpha+0xe0>
+ *   @0x2a8dea cmp r2, #0x8
+ *   @0x2a8dee add r1, r2
+ *   @0x2a8df6 cmp r2, r3
+ *   @0x2a8dfa ldrb r0, [r1, #-1]
+ *   @0x2a8dfe adds r2, #0x1
+ *   @0x2a8e0e pop {r4, r5, pc}
+ *   @0x2a8e12 beq 0x2a8e38 <png_do_read_swap_alpha+0xe0>
+ *   @0x2a8e1a ldrb r4, [r1, #-1]
+ *   @0x2a8e1e ldrb r0, [r1, #-2]
+ *   @0x2a8e22 strb r5, [r1, #-1]
+ *   @0x2a8e26 ldrb r5, [r1, #-4]
+ *   @0x2a8e2a strb r4, [r1, #-3]
+ *   @0x2a8e2e strb r5, [r1, #-2]
+ *   @0x2a8e32 strb r0, [r1, #-4]!
+ *   @0x2a8e36 b 0x2a8e10 <png_do_read_swap_alpha+0xb8>
+ *   @0x2a8e3c ldr r3, [r0]
+ *   @0x2a8e40 bne 0x2a8e7e <png_do_read_invert_alpha+0x44>
+ *   @0x2a8e44 cmp r2, #0x8
+ *   @0x2a8e48 add r1, r2
+ *   @0x2a8e50 cmp r2, r3
+ *   @0x2a8e54 ldrb r0, [r1, #-1]
+ *   @0x2a8e58 adds r2, #0x1
+ *   @0x2a8e5c mvns r0, r0
+ *   @0x2a8e60 b 0x2a8e50 <png_do_read_invert_alpha+0x16>
+ *   @0x2a8e64 cmp r2, r3
+ *   @0x2a8e68 ldrb r0, [r1, #-1]
+ *   @0x2a8e6c adds r2, #0x1
+ *   @0x2a8e70 mvns r0, r0
+ *   @0x2a8e74 ldrb r0, [r1, #0x6]
+ *   @0x2a8e78 strb r0, [r1, #0x6]
+ *   @0x2a8e7c bx lr
+ *   @0x2a8e80 bne 0x2a8ebc <png_do_read_invert_alpha+0x82>
+ *   @0x2a8e84 cmp r2, #0x8
+ *   @0x2a8e88 add r1, r2
+ *   @0x2a8e90 cmp r2, r3
+ *   @0x2a8e94 ldrb r0, [r1, #-1]
+ *   @0x2a8e98 adds r2, #0x1
+ *   @0x2a8e9c mvns r0, r0
+ *   @0x2a8ea0 b 0x2a8e90 <png_do_read_invert_alpha+0x56>
+ *   @0x2a8ea4 cmp r2, r3
+ *   @0x2a8ea8 ldrb r0, [r1, #-1]
+ *   @0x2a8eac adds r2, #0x1
+ *   @0x2a8eb0 mvns r0, r0
+ *   @0x2a8eb4 ldrb r0, [r1, #0x2]
+ *   @0x2a8eb8 strb r0, [r1, #0x2]
+ *   @0x2a8ebc bx lr
+ *   @0x2a8ec0 ubfx r5, r2, #0x8, #0x8
+ *   @0x2a8ec4 ldrb r6, [r0, #0x8]
+ *   @0x2a8ec8 ldr r4, [r0]
+ *   @0x2a8ecc bne 0x2a8f80 <png_do_read_filler+0xc2>
+ *   @0x2a8ed0 cmp r6, #0x8
+ *   @0x2a8ed4 tst.w r3, #0x80
+ *   @0x2a8ed8 add r1, r4
+ *   @0x2a8ee0 movs r5, #0x1
+ *   @0x2a8ee4 strb r2, [r3, #-1]
+ *   @0x2a8ee8 bhs 0x2a8f0a <png_do_read_filler+0x4c>
+ *   @0x2a8ef0 strb r6, [r3, #-2]!
+ *   @0x2a8ef4 b 0x2a8ee2 <png_do_read_filler+0x24>
+ *   @0x2a8ef8 cmp r1, r5
+ *   @0x2a8efc ldrb r6, [r1, #-1]!
+ *   @0x2a8f00 strb r6, [r3, #-1]
+ *   @0x2a8f04 strb r2, [r3, #-2]!
+ *   @0x2a8f08 b 0x2a8ef8 <png_do_read_filler+0x3a>
+ *   @0x2a8f0c lsls r4, r4, #0x1
+ *   @0x2a8f10 movs r3, #0x10
+ *   @0x2a8f14 b 0x2a905a <png_do_read_filler+0x19c>
+ *   @0x2a8f18 bne.w 0x2a90aa <png_do_read_filler+0x1ec>
+ *   @0x2a8f1c ands r3, r3, #0x80
+ *   @0x2a8f20 lsl.w r6, r4, #0x1
+ *   @0x2a8f24 add r1, r6
+ *   @0x2a8f28 adds r3, r1, r6
+ *   @0x2a8f2c cmp r6, r4
+ *   @0x2a8f38 ldrb r7, [r1, #-1]
+ *   @0x2a8f3c adds r6, #0x1
+ *   @0x2a8f4c movs r3, #0x2
+ *   @0x2a8f50 add r6, r1
+ *   @0x2a8f54 beq 0x2a8f72 <png_do_read_filler+0xb4>
+ *   @0x2a8f5c strb r7, [r6, #-1]
+ *   @0x2a8f60 ldrb r7, [r1, #-2]!
+ *   @0x2a8f64 strb r5, [r6, #-3]
+ *   @0x2a8f68 strb r7, [r6, #-2]
+ *   @0x2a8f6c strb r2, [r6, #-4]!
+ *   @0x2a8f70 b 0x2a8f52 <png_do_read_filler+0x94>
+ *   @0x2a8f74 lsls r3, r3, #0x2
+ *   @0x2a8f78 movs r2, #0x20
+ *   @0x2a8f7c strb r2, [r0, #0xb]
+ *   @0x2a8f80 cmp r6, #0x2
+ *   @0x2a8f88 cmp r6, #0x8
+ *   @0x2a8f8c tst.w r3, #0x80
+ *   @0x2a8f90 mov.w r5, #0x3
+ *   @0x2a8f94 beq 0x2a8fc2 <png_do_read_filler+0x104>
+ *   @0x2a8f9c adds r3, r1, r4
+ *   @0x2a8fa0 strb r2, [r3, #-1]
+ *   @0x2a8fa4 bhs 0x2a8fec <png_do_read_filler+0x12e>
+ *   @0x2a8fac strb r6, [r3, #-2]
+ *   @0x2a8fb0 ldrb r6, [r1, #-2]
+ *   @0x2a8fb4 strb r6, [r3, #-3]
+ *   @0x2a8fb8 ldrb r6, [r1, #-3]!
+ *   @0x2a8fbc strb r6, [r3, #-4]!
+ *   @0x2a8fc0 b 0x2a8f9e <png_do_read_filler+0xe0>
+ *   @0x2a8fc4 add r1, r5
+ *   @0x2a8fc8 subs r5, r1, r5
+ *   @0x2a8fcc beq 0x2a8fec <png_do_read_filler+0x12e>
+ *   @0x2a8fec movs r3, #0x4
+ *   @0x2a8ff0 lsls r4, r4, #0x2
+ *   @0x2a8ff4 strb r3, [r0, #0xb]
+ *   @0x2a8ff8 cmp r6, #0x10
+ *   @0x2a8ffc movs r7, #0x6
+ *   @0x2a900c beq 0x2a905e <png_do_read_filler+0x1a0>
+ *   @0x2a9010 cmp r6, r4
+ *   @0x2a901c ldrb r7, [r1, #-1]
+ *   @0x2a9020 adds r6, #0x1
+ *   @0x2a9050 lsls r4, r4, #0x3
+ *   @0x2a9054 strb r3, [r0, #0xa]
+ *   @0x2a9058 strb r3, [r0, #0xb]
+ *   @0x2a905c pop {r4, r5, r6, r7, pc}
+ *   @0x2a9060 beq 0x2a909e <png_do_read_filler+0x1e0>
+ *   @0x2a9068 strb r7, [r3, #-1]
+ *   @0x2a906c ldrb r7, [r1, #-2]
+ *   @0x2a9070 strb r7, [r3, #-2]
+ *   @0x2a9074 ldrb r7, [r1, #-3]
+ *   @0x2a9078 strb r7, [r3, #-3]
+ *   @0x2a907c ldrb r7, [r1, #-4]
+ *   @0x2a9080 strb r7, [r3, #-4]
+ *   @0x2a9084 ldrb r7, [r1, #-5]
+ *   @0x2a9088 strb r7, [r3, #-5]
+ *   @0x2a908c ldrb r7, [r1, #-6]!
+ *   @0x2a9090 strb r5, [r3, #-7]
+ *   @0x2a9094 strb r7, [r3, #-6]
+ *   @0x2a9098 strb r2, [r3, #-8]!
+ *   @0x2a909c b 0x2a905e <png_do_read_filler+0x1a0>
+ *   @0x2a90a0 lsls r6, r6, #0x3
+ *   @0x2a90a4 movs r3, #0x40
+ *   @0x2a90a8 strb r3, [r0, #0xb]
+ *   @0x2a90ae push {r4, r5, r6, lr}
+ *   @0x2a90b2 ldr r3, [r0]
+ *   @0x2a90b6 ldrb r4, [r0, #0x8]
+ *   @0x2a90c2 bne 0x2a91aa <png_do_gray_to_rgb+0xfe>
+ *   @0x2a90c6 cmp r2, #0x8
+ *   @0x2a90ce subs r4, r3, #0x1
+ *   @0x2a90d2 mvns r4, r3
+ *   @0x2a90d6 add r4, r1
+ *   @0x2a90da cmp r1, r4
+ *   @0x2a90de ldrb r5, [r1, #0x1]
+ *   @0x2a90e2 strb r5, [r2, #0x3]
+ *   @0x2a90e6 strb r5, [r2, #0x2]
+ *   @0x2a90ea strb r5, [r2, #0x1]
+ *   @0x2a90ee cmp r4, #0x4
+ *   @0x2a90f2 ldrb r2, [r0, #0xa]
+ *   @0x2a90f6 adds r2, #0x2
+ *   @0x2a90fe ldrb r1, [r0, #0x9]
+ *   @0x2a9102 strb r2, [r0, #0xa]
+ *   @0x2a9106 uxtb r2, r2
+ *   @0x2a910a cmp r2, #0x7
+ *   @0x2a910e lsrs r2, r2, #0x3
+ *   @0x2a9112 b 0x2a91a8 <png_do_gray_to_rgb+0xfc>
+ *   @0x2a9116 add r1, r2
+ *   @0x2a911e sub.w r1, r1, #0x2
+ *   @0x2a9122 beq 0x2a90f2 <png_do_gray_to_rgb+0x46>
+ *   @0x2a9126 adds r4, #0x1
+ *   @0x2a912a strb r5, [r2, #0x6]
+ *   @0x2a912e strb r5, [r2, #0x5]
+ *   @0x2a9132 strb r5, [r2, #0x4]
+ *   @0x2a9136 strb r5, [r2, #0x3]
+ *   @0x2a913a strb r5, [r2, #0x2]
+ *   @0x2a913e strb r5, [r2, #0x1]
+ *   @0x2a9142 cmp r2, #0x8
+ *   @0x2a9146 lsls r2, r3, #0x1
+ *   @0x2a914a add r1, r4
+ *   @0x2a914e add r2, r1
+ *   @0x2a9152 beq 0x2a90f2 <png_do_gray_to_rgb+0x46>
+ *   @0x2a9156 adds r4, #0x1
+ *   @0x2a915a subs r2, #0x4
+ *   @0x2a915e ldrb r5, [r1, #0x1]
+ *   @0x2a9162 ldrb r5, [r1, #0x1]
+ *   @0x2a9166 ldrb r5, [r1, #0x1]
+ *   @0x2a916a b 0x2a9150 <png_do_gray_to_rgb+0xa4>
+ *   @0x2a916e subs r4, r2, #0x1
+ *   @0x2a9172 mov r4, r5
+ *   @0x2a9176 cmp r4, r3
+ *   @0x2a917a ldrb r5, [r1]
+ *   @0x2a917e subs r1, #0x4
+ *   @0x2a9182 strb r5, [r2, #0x8]
+ *   @0x2a9186 strb r5, [r2, #0x7]
+ *   @0x2a918a strb r5, [r2, #0x6]
+ *   @0x2a918e strb r5, [r2, #0x5]
+ *   @0x2a9192 strb r5, [r2, #0x4]
+ *   @0x2a9196 strb r5, [r2, #0x3]
+ *   @0x2a919a strb r5, [r2, #0x2]
+ *   @0x2a919e strb r5, [r2, #0x1]
+ *   @0x2a91a2 muls r3, r2, r3
+ *   @0x2a91a6 lsrs r3, r3, #0x3
+ *   @0x2a91aa pop {r4, r5, r6, pc}
+ *   @0x2a91ae push.w {r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ *   @0x2a91b2 and r5, r3, #0x3
+ *   @0x2a91b6 cmp r5, #0x2
+ *   @0x2a91ba bne.w 0x2a9630 <png_do_rgb_to_gray+0x484>
+ *   @0x2a91be ldrh.w r5, [r0, #0x2d6]
+ *   @0x2a91c2 cmp r3, #0x2
+ *   @0x2a91ca str.w r9, [sp, #0x4]
+ *   @0x2a91ce ldrh.w r5, [r0, #0x2da]
+ *   @0x2a91d2 bne.w 0x2a93e4 <png_do_rgb_to_gray+0x238>
+ *   @0x2a91d6 ldrb r3, [r1, #0x9]
+ *   @0x2a91da bne 0x2a9296 <png_do_rgb_to_gray+0xea>
+ *   @0x2a91e6 mov r6, r2
+ *   @0x2a91ee movs r3, #0x0
+ *   @0x2a91f2 ldr.w r3, [r0, #0x230]
+ *   @0x2a91f6 cmp r3, #0x0
+ *   @0x2a91fa movs r3, #0x0
+ *   @0x2a91fe beq.w 0x2a93e6 <png_do_rgb_to_gray+0x23a>
+ *   @0x2a9202 ldr.w r8, [r0, #0x230]
+ *   @0x2a9206 ldrb.w r9, [r6, #0x1]
+ *   @0x2a920a ldrb.w r12, [r6]
+ *   @0x2a920e ldrb.w r11, [r8, r9]
+ *   @0x2a9212 ldrb.w r12, [r8, r12]
+ *   @0x2a9216 ldrb.w r9, [r6, #0x2]
+ *   @0x2a921a cmp r12, r11
+ *   @0x2a9222 cmp r12, r8
+ *   @0x2a9226 ldr r3, [sp]
+ *   @0x2a924a b 0x2a9250 <png_do_rgb_to_gray+0xa4>
+ *   @0x2a9252 adds r7, #0x1
+ *   @0x2a9256 ldrb.w r12, [r6]
+ *   @0x2a925a ldrb.w r9, [r6, #0x1]
+ *   @0x2a925e ldrb.w r8, [r6, #0x2]
+ *   @0x2a9262 cmp r12, r9
+ *   @0x2a9266 ldr.w r11, [sp]
+ *   @0x2a926a ldr r3, [sp, #0x4]
+ *   @0x2a9276 mla r8, r5, r8, r9
+ *   @0x2a927a lsr.w r8, r8, #0xf
+ *   @0x2a927e strb r8, [r7, #-1]
+ *   @0x2a9282 adds r6, #0x3
+ *   @0x2a9286 cmp r6, r10
+ *   @0x2a928a b 0x2a93e6 <png_do_rgb_to_gray+0x23a>
+ *   @0x2a928e bne 0x2a9266 <png_do_rgb_to_gray+0xba>
+ *   @0x2a9296 ldr.w r3, [r0, #0x23c]
+ *   @0x2a929a adds r7, r2, #0x2
+ *   @0x2a929e cbnz r3, 0x2a92a6 <png_do_rgb_to_gray+0xfa>
+ *   @0x2a92a2 mov r12, r3
+ *   @0x2a92a6 ldr.w r3, [r0, #0x238]
+ *   @0x2a92aa cmp r3, #0x0
+ *   @0x2a92ae movs r3, #0x0
+ *   @0x2a92b2 mov r8, r3
+ *   @0x2a92b6 beq.w 0x2a93e6 <png_do_rgb_to_gray+0x23a>
+ *   @0x2a92ba ldrb.w r9, [r6]
+ *   @0x2a92be ldrb r7, [r6, #0x1]
+ *   @0x2a92da orr.w r9, r9, r11, lsl #8
+ *   @0x2a92de bne 0x2a92e4 <png_do_rgb_to_gray+0x138>
+ *   @0x2a92e2 beq 0x2a9368 <png_do_rgb_to_gray+0x1bc>
+ *   @0x2a930a asr.w r11, r11, r3
+ *   @0x2a930e ldr.w r3, [r0, #0x23c]
+ *   @0x2a9312 ldr.w r11, [r3, r11, lsl #2]
+ *   @0x2a9316 ldr r3, [sp, #0x4]
+ *   @0x2a9336 ldr.w r3, [r0, #0x23c]
+ *   @0x2a933a ldr.w r7, [r3, r7, lsl #2]
+ *   @0x2a933e ldr.w r3, [r0, #0x21c]
+ *   @0x2a9342 ldrh.w r7, [r7, r9, lsl #1]
+ *   @0x2a9346 mla r10, r5, r7, r10
+ *   @0x2a934a ubfx r10, r10, #0xf, #0x10
+ *   @0x2a934e uxtb.w r7, r10
+ *   @0x2a9352 lsr.w r10, r10, #0x8
+ *   @0x2a9356 asr.w r9, r7, r3
+ *   @0x2a935a ldr.w r7, [r0, #0x238]
+ *   @0x2a935e ldr.w r3, [r7, r9, lsl #2]
+ *   @0x2a9362 ldrh.w r7, [r3, r10, lsl #1]
+ *   @0x2a9366 movs r3, #0x1
+ *   @0x2a937a add.w r12, r12, #0x2
+ *   @0x2a937e b 0x2a92b4 <png_do_rgb_to_gray+0x108>
+ *   @0x2a93a2 orr.w r10, r10, r11, lsl #8
+ *   @0x2a93a6 bne 0x2a93e0 <png_do_rgb_to_gray+0x234>
+ *   @0x2a93aa it ne
+ *   @0x2a93ae ldr.w r11, [sp]
+ *   @0x2a93b2 add.w r12, r12, #0x1
+ *   @0x2a93b6 adds r6, #0x6
+ *   @0x2a93ba mul r8, r11, r8
+ *   @0x2a93be ldr.w r11, [sp, #0x4]
+ *   @0x2a93c2 mla r8, r11, r9, r8
+ *   @0x2a93c6 mla r10, r5, r10, r8
+ *   @0x2a93ca lsr.w r10, r10, #0xf
+ *   @0x2a93ce strb r10, [r7, #-3]
+ *   @0x2a93d2 ubfx r8, r10, #0x8, #0x8
+ *   @0x2a93d6 strb r8, [r7, #-4]
+ *   @0x2a93da cmp r12, r4
+ *   @0x2a93de b 0x2a93e6 <png_do_rgb_to_gray+0x23a>
+ *   @0x2a93e2 b 0x2a93ae <png_do_rgb_to_gray+0x202>
+ *   @0x2a93e6 ldrb r6, [r1, #0x8]
+ *   @0x2a93ea bne.w 0x2a9604 <png_do_rgb_to_gray+0x458>
+ *   @0x2a93ee ldrb r6, [r1, #0x9]
+ *   @0x2a93f2 bne 0x2a94b8 <png_do_rgb_to_gray+0x30c>
+ *   @0x2a93fa cbnz r6, 0x2a9400 <png_do_rgb_to_gray+0x254>
+ *   @0x2a93fe b 0x2a94ae <png_do_rgb_to_gray+0x302>
+ *   @0x2a9406 beq 0x2a93fc <png_do_rgb_to_gray+0x250>
+ *   @0x2a940e beq.w 0x2a9604 <png_do_rgb_to_gray+0x458>
+ *   @0x2a9412 ldr.w r8, [r0, #0x230]
+ *   @0x2a9416 ldrb r6, [r2]
+ *   @0x2a942e bne 0x2a9438 <png_do_rgb_to_gray+0x28c>
+ *   @0x2a9432 it ne
+ *   @0x2a9436 b 0x2a943a <png_do_rgb_to_gray+0x28e>
+ *   @0x2a943a ldr.w r10, [sp]
+ *   @0x2a943e add.w r12, r12, #0x1
+ *   @0x2a9442 ldr.w r11, [sp, #0x4]
+ *   @0x2a9446 adds r2, #0x4
+ *   @0x2a944a mul r6, r10, r6
+ *   @0x2a944e mla r9, r11, r9, r6
+ *   @0x2a9452 ldr.w r6, [r0, #0x22c]
+ *   @0x2a9456 mla r8, r5, r8, r9
+ *   @0x2a945a lsr.w r8, r8, #0xf
+ *   @0x2a945e ldrb.w r6, [r6, r8]
+ *   @0x2a9462 strb r6, [r7, #-4]
+ *   @0x2a9466 ldrb r6, [r2, #-1]
+ *   @0x2a946a strb r6, [r7, #-3]
+ *   @0x2a946e b 0x2a940c <png_do_rgb_to_gray+0x260>
+ *   @0x2a9472 ldrb.w r8, [r2, #0x1]
+ *   @0x2a9476 ldrb.w r12, [r2, #0x2]
+ *   @0x2a947a cmp r6, r8
+ *   @0x2a947e cmp r6, r12
+ *   @0x2a9482 movne r3, #0x1
+ *   @0x2a948a ldr.w r10, [sp, #0x4]
+ *   @0x2a948e adds r2, #0x4
+ *   @0x2a9492 mul r6, r9, r6
+ *   @0x2a9496 mla r8, r10, r8, r6
+ *   @0x2a949a mla r12, r5, r12, r8
+ *   @0x2a949e lsr.w r12, r12, #0xf
+ *   @0x2a94a2 strb r12, [r7, #-4]
+ *   @0x2a94a6 ldrb r6, [r2, #-1]
+ *   @0x2a94aa strb r6, [r7, #-3]
+ *   @0x2a94ae cmp r0, r4
+ *   @0x2a94b2 b 0x2a9604 <png_do_rgb_to_gray+0x458>
+ *   @0x2a94b6 b 0x2a9484 <png_do_rgb_to_gray+0x2d8>
+ *   @0x2a94be mov r0, r2
+ *   @0x2a94c2 b 0x2a95fa <png_do_rgb_to_gray+0x44e>
+ *   @0x2a94ca beq 0x2a94be <png_do_rgb_to_gray+0x312>
+ *   @0x2a94ce mov.w r12, #0x0
+ *   @0x2a94d2 cmp r12, r4
+ *   @0x2a94de ldrb.w r9, [r2, #0x2]
+ *   @0x2a94e2 orr.w r6, r6, r8, lsl #8
+ *   @0x2a94e6 ldrb.w r8, [r2, #0x3]
+ *   @0x2a94ea ldrb.w r10, [r2, #0x4]
+ *   @0x2a94ee orr.w r9, r8, r9, lsl #8
+ *   @0x2a94f2 ldrb.w r8, [r2, #0x5]
+ *   @0x2a94f6 cmp r6, r9
+ *   @0x2a94fe cmp r6, r8
+ *   @0x2a9502 ldr.w r3, [r0, #0x21c]
+ *   @0x2a9506 uxtb.w r10, r9
+ *   @0x2a950a ldr.w r11, [r0, #0x23c]
+ *   @0x2a950e lsr.w r9, r9, #0x8
+ *   @0x2a9512 asr.w r10, r10, r3
+ *   @0x2a9516 ldr.w r10, [r11, r10, lsl #2]
+ *   @0x2a951a ldrh.w r9, [r10, r9, lsl #1]
+ *   @0x2a951e uxtb.w r10, r6
+ *   @0x2a9522 lsrs r6, r6, #0x8
+ *   @0x2a954a ldr.w r6, [r11, r6, lsl #2]
+ *   @0x2a954e ldrh.w r6, [r6, r8, lsl #1]
+ *   @0x2a9552 mla r9, r5, r6, r9
+ *   @0x2a9556 ubfx r9, r9, #0xf, #0x10
+ *   @0x2a955a uxtb.w r6, r9
+ *   @0x2a955e lsr.w r9, r9, #0x8
+ *   @0x2a9562 asr.w r3, r6, r3
+ *   @0x2a9566 ldr.w r6, [r0, #0x238]
+ *   @0x2a956a ldr.w r3, [r6, r3, lsl #2]
+ *   @0x2a956e ldrh.w r6, [r3, r9, lsl #1]
+ *   @0x2a9572 movs r3, #0x1
+ *   @0x2a9576 lsr.w r8, r6, #0x8
+ *   @0x2a957a strb.w r8, [r7]
+ *   @0x2a957e add.w r12, r12, #0x1
+ *   @0x2a9582 ldrb r6, [r2, #0x6]
+ *   @0x2a9586 adds r2, #0x8
+ *   @0x2a9596 ldrb.w r12, [r2]
+ *   @0x2a959a ldrb r7, [r2, #0x1]
+ *   @0x2a95b6 orr.w r12, r12, r9, lsl #8
+ *   @0x2a95ba bne 0x2a9600 <png_do_rgb_to_gray+0x454>
+ *   @0x2a95be it ne
+ *   @0x2a95c2 ldr.w r11, [sp]
+ *   @0x2a95c6 adds r6, #0x1
+ *   @0x2a95ce adds r0, #0x4
+ *   @0x2a95de strb r7, [r0, #-3]
+ *   @0x2a95e2 ubfx r12, r7, #0x8, #0x8
+ *   @0x2a95e6 strb r12, [r0, #-4]
+ *   @0x2a95ea ldrb r7, [r2, #-2]
+ *   @0x2a95ee strb r7, [r0, #-2]
+ *   @0x2a95f2 ldrb r7, [r2, #-1]
+ *   @0x2a95f6 strb r7, [r0, #-1]
+ *   @0x2a95fa cmp r6, r4
+ *   @0x2a95fe b 0x2a9604 <png_do_rgb_to_gray+0x458>
+ *   @0x2a9602 b 0x2a95c2 <png_do_rgb_to_gray+0x416>
+ *   @0x2a9606 ldrb r0, [r1, #0x8]
+ *   @0x2a960a bic r0, r0, #0x2
+ *   @0x2a960e strb r0, [r1, #0x8]
+ *   @0x2a9612 uxtb r2, r2
+ *   @0x2a9616 muls r2, r0, r2
+ *   @0x2a961a strb r2, [r1, #0xb]
+ *   @0x2a961e bls 0x2a9626 <png_do_rgb_to_gray+0x47a>
+ *   @0x2a9622 muls r4, r2, r4
+ *   @0x2a9626 muls r4, r2, r4
+ *   @0x2a962a lsrs r4, r4, #0x3
+ *   @0x2a962e b 0x2a9632 <png_do_rgb_to_gray+0x486>
+ *   @0x2a9632 mov r0, r3
+ *   @0x2a9636 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2a963e cbz r1, 0x2a9678 <png_build_grayscale_palette+0x3c>
+ *   @0x2a9642 cmp r0, #0x7
+ *   @0x2a9646 ldr r3, [pc, #0x34]
+ *   @0x2a964a ldrsh.w r5, [r3, r0, lsl #1]
+ *   @0x2a964e add r0, r3
+ *   @0x2a9652 b 0x2a9658 <png_build_grayscale_palette+0x1c>
+ *   @0x2a9656 mov r5, r0
+ *   @0x2a965a mov r2, r3
+ *   @0x2a965e add.w r1, r1, #0x3
+ *   @0x2a9662 bge 0x2a9678 <png_build_grayscale_palette+0x3c>
+ *   @0x2a9666 adds r2, #0x1
+ *   @0x2a966e strb r4, [r1, #-2]
+ *   @0x2a9672 strb r4, [r1, #-1]
+ *   @0x2a9676 b 0x2a965c <png_build_grayscale_palette+0x20>
+ *   @0x2a967a nop
+ *   @0x2a967e movs r6, r1
+ *   @0x2a9686 str r0, [sp, #0xc]
+ *   @0x2a968a ldr r6, [sp, #0x4c]
+ *   @0x2a969a cmp r3, #0x0
+ *   @0x2a96a2 ldrb r5, [r7, #0x8]
+ *   @0x2a96a6 bpl 0x2a96ae <png_do_background+0x2e>
+ *   @0x2a96aa beq.w 0x2aa0d0 <png_do_background+0xa50>
+ *   @0x2a96ae cmp r5, #0x6
+ *   @0x2a96ba lsls r3, r6, #0x13
+ *   @0x2a96be lsls r3, r6, #0x13
+ *   @0x2a96c2 lsls r3, r6, #0x13
+ *   @0x2a96c6 ldr r6, [sp, #0xc]
+ *   @0x2a96ca subs r5, #0x1
+ *   @0x2a96ce bhi.w 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a96d2 tbh [pc, r5, lsl #1]
+ *   @0x2a96d6 movs r0, r2
+ *   @0x2a96da lsls r4, r4, #0x13
+ *   @0x2a96de lsls r4, r4, #0x13
+ *   @0x2a96e2 lsls r4, r4, #0x13
+ *   @0x2a96e6 lsls r4, r4, #0x13
+ *   @0x2a96ea lsls r4, r4, #0x13
+ *   @0x2a96ee lsls r4, r4, #0x13
+ *   @0x2a96f2 lsls r4, r4, #0x13
+ *   @0x2a96f6 movs r4, #0x7
+ *   @0x2a96fa movw r12, #0x7f7f
+ *   @0x2a96fe cmp r5, r0
+ *   @0x2a9706 ldrh r6, [r2, #0x8]
+ *   @0x2a9712 bne 0x2a9728 <png_do_background+0xa8>
+ *   @0x2a971e strb r6, [r1]
+ *   @0x2a9722 lsls r7, r4
+ *   @0x2a9726 strb r6, [r1]
+ *   @0x2a972a adds r1, #0x1
+ *   @0x2a972e b 0x2a9732 <png_do_background+0xb2>
+ *   @0x2a9732 adds r5, #0x1
+ *   @0x2a9736 movs r5, #0x6
+ *   @0x2a973a movw r12, #0x3f3f
+ *   @0x2a973e b 0x2a97e0 <png_do_background+0x160>
+ *   @0x2a9742 movw r8, #0x3f3f
+ *   @0x2a9746 cmp r7, r0
+ *   @0x2a975e rsb.w r9, r5, #0x6
+ *   @0x2a9762 bne 0x2a977e <png_do_background+0xfe>
+ *   @0x2a977e uxtb r6, r6
+ *   @0x2a979a lsrs r6, r6, #0x6
+ *   @0x2a979e orr.w r12, r6, r12
+ *   @0x2a97a2 strb.w r12, [r1]
+ *   @0x2a97a6 cbnz r5, 0x2a97ae <png_do_background+0x12e>
+ *   @0x2a97aa movs r5, #0x6
+ *   @0x2a97ae subs r5, #0x2
+ *   @0x2a97b2 b 0x2a9746 <png_do_background+0xc6>
+ *   @0x2a97b6 ldrh r6, [r2, #0x8]
+ *   @0x2a97c2 bne 0x2a97d8 <png_do_background+0x158>
+ *   @0x2a97ce strb r6, [r1]
+ *   @0x2a97d2 lsls r7, r5
+ *   @0x2a97d6 strb r6, [r1]
+ *   @0x2a97da adds r1, #0x1
+ *   @0x2a97de adds r4, #0x1
+ *   @0x2a97e2 bne 0x2a97b4 <png_do_background+0x134>
+ *   @0x2a97ea b 0x2a97de <png_do_background+0x15e>
+ *   @0x2a97ee cbnz r4, 0x2a97f6 <png_do_background+0x176>
+ *   @0x2a97f6 movs r6, #0x0
+ *   @0x2a97fe beq.w 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a9802 ldrb r7, [r1]
+ *   @0x2a9812 rsb.w r9, r5, #0x4
+ *   @0x2a9816 bne 0x2a9830 <png_do_background+0x1b0>
+ *   @0x2a9822 ldrh.w r9, [r3, #0x8]
+ *   @0x2a9826 lsl.w r9, r9, r5
+ *   @0x2a982a orr.w r7, r7, r9
+ *   @0x2a982e b 0x2a984c <png_do_background+0x1cc>
+ *   @0x2a984e cbnz r5, 0x2a9856 <png_do_background+0x1d6>
+ *   @0x2a9852 movs r5, #0x4
+ *   @0x2a9856 subs r5, #0x4
+ *   @0x2a985a b 0x2a97fc <png_do_background+0x17c>
+ *   @0x2a985e ldrh r6, [r2, #0x8]
+ *   @0x2a986a bne 0x2a9880 <png_do_background+0x200>
+ *   @0x2a9876 strb r6, [r1]
+ *   @0x2a987a lsls r7, r5
+ *   @0x2a987e strb r6, [r1]
+ *   @0x2a9882 adds r1, #0x1
+ *   @0x2a9886 adds r4, #0x1
+ *   @0x2a988a bne 0x2a985c <png_do_background+0x1dc>
+ *   @0x2a9892 b 0x2a9886 <png_do_background+0x206>
+ *   @0x2a9896 cbz r4, 0x2a98b2 <png_do_background+0x232>
+ *   @0x2a989a beq.w 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a989e ldrb r6, [r1], #1
+ *   @0x2a98a2 ldrh r7, [r2, #0x8]
+ *   @0x2a98a6 ite eq
+ *   @0x2a98aa ldrbne r6, [r4, r6]
+ *   @0x2a98b2 cmp r1, r5
+ *   @0x2a98be cmp r6, r4
+ *   @0x2a98c2 ldrheq r4, [r3, #0x8]
+ *   @0x2a98ca ldr r4, [sp, #0x50]
+ *   @0x2a98ce cbz r4, 0x2a993e <png_do_background+0x2be>
+ *   @0x2a98d2 cmp r4, r0
+ *   @0x2a98ea cmp r12, r7
+ *   @0x2a98ee ldrh r5, [r3, #0x8]
+ *   @0x2a98f2 strb r5, [r1, #-2]
+ *   @0x2a98f6 ldrh r5, [r3, #0x8]
+ *   @0x2a98fa ldr r7, [sp, #0x50]
+ *   @0x2a990a strb r6, [r1, #-2]
+ *   @0x2a990e strb r5, [r1, #-1]
+ *   @0x2a9912 adds r4, #0x1
+ *   @0x2a9916 b 0x2a98d2 <png_do_background+0x252>
+ *   @0x2a9926 uxth r5, r5
+ *   @0x2a992a bne 0x2a993a <png_do_background+0x2ba>
+ *   @0x2a992e lsrs r5, r5, #0x8
+ *   @0x2a9936 strb r5, [r1, #-1]
+ *   @0x2a993a adds r4, #0x1
+ *   @0x2a993e cmp r4, r0
+ *   @0x2a9942 b 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a9946 ldrb r5, [r6, #0x9]
+ *   @0x2a994a bne 0x2a99da <png_do_background+0x35a>
+ *   @0x2a994e cbnz r4, 0x2a9956 <png_do_background+0x2d6>
+ *   @0x2a9956 mla r7, r6, r0, r1
+ *   @0x2a995a adds r5, r1, #0x3
+ *   @0x2a995e beq.w 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a9962 ldrb r6, [r5, #-3]
+ *   @0x2a9966 ldrh.w r12, [r2, #0x2]
+ *   @0x2a996a cmp r12, r6
+ *   @0x2a996e ldrb.w r8, [r1, #0x1]
+ *   @0x2a9972 ldrh.w r12, [r2, #0x4]
+ *   @0x2a9976 cmp r8, r12
+ *   @0x2a997a ldrb.w r8, [r1, #0x2]
+ *   @0x2a997e ldrh.w r12, [r2, #0x6]
+ *   @0x2a9982 cmp r8, r12
+ *   @0x2a9986 ldrh r6, [r3, #0x2]
+ *   @0x2a998e strb r6, [r1, #0x1]
+ *   @0x2a9992 b 0x2a99a4 <png_do_background+0x324>
+ *   @0x2a9996 strb r6, [r5, #-3]
+ *   @0x2a999a ldrb r6, [r1, #0x1]
+ *   @0x2a999e strb r6, [r1, #0x1]
+ *   @0x2a99a2 ldrb r6, [r4, r6]
+ *   @0x2a99a6 adds r5, #0x3
+ *   @0x2a99aa b 0x2a995c <png_do_background+0x2dc>
+ *   @0x2a99ae ldrh r4, [r2, #0x2]
+ *   @0x2a99b2 beq 0x2a99bc <png_do_background+0x33c>
+ *   @0x2a99b6 cmp r1, r6
+ *   @0x2a99ba b 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a99be ldrh r4, [r2, #0x4]
+ *   @0x2a99c2 bne 0x2a99b4 <png_do_background+0x334>
+ *   @0x2a99c6 ldrh r4, [r2, #0x6]
+ *   @0x2a99ca bne 0x2a99b4 <png_do_background+0x334>
+ *   @0x2a99ce strb r4, [r1]
+ *   @0x2a99d2 strb r4, [r1, #0x1]
+ *   @0x2a99d6 strb r4, [r1, #0x2]
+ *   @0x2a99da ldr r7, [sp, #0x50]
+ *   @0x2a99de mov r4, r7
+ *   @0x2a99e2 adds r4, r1, #0x6
+ *   @0x2a99e6 cmp r5, r0
+ *   @0x2a99fa add.w r7, r9, r8, lsl #8
+ *   @0x2a99fe str.w r10, [sp, #0x8]
+ *   @0x2a9a02 ldrh.w r10, [r2, #0x2]
+ *   @0x2a9a06 uxth r7, r7
+ *   @0x2a9a0a cmp r10, r7
+ *   @0x2a9a12 bne 0x2a9a60 <png_do_background+0x3e0>
+ *   @0x2a9a16 add.w r7, r12, r7, lsl #8
+ *   @0x2a9a1a str r7, [sp, #0x4]
+ *   @0x2a9a22 uxth.w r10, r10
+ *   @0x2a9a26 cmp r7, r10
+ *   @0x2a9a2a ldr.w r10, [sp, #0x10]
+ *   @0x2a9a2e ldrh r7, [r2, #0x6]
+ *   @0x2a9a3e bne 0x2a9a60 <png_do_background+0x3e0>
+ *   @0x2a9a42 lsrs r6, r6, #0x8
+ *   @0x2a9a4a strb r6, [r1, #0x1]
+ *   @0x2a9a4e lsrs r6, r6, #0x8
+ *   @0x2a9a52 ldrh r6, [r3, #0x4]
+ *   @0x2a9a56 ldrh r6, [r3, #0x6]
+ *   @0x2a9a5a strb r6, [r1, #0x4]
+ *   @0x2a9a5e b 0x2a9aaa <png_do_background+0x42a>
+ *   @0x2a9a62 asr.w r9, r9, r11
+ *   @0x2a9a66 asr.w r12, r12, r11
+ *   @0x2a9a6a asr.w r6, r6, r11
+ *   @0x2a9a6e ldr.w r9, [r7, r9, lsl #2]
+ *   @0x2a9a72 ldrh.w r8, [r9, r8, lsl #1]
+ *   @0x2a9a76 lsr.w r9, r8, #0x8
+ *   @0x2a9a7a strb r9, [r4, #-6]
+ *   @0x2a9a7e strb.w r8, [r1, #0x1]
+ *   @0x2a9a82 ldr.w r12, [r7, r12, lsl #2]
+ *   @0x2a9a86 ldr.w r8, [sp, #0x8]
+ *   @0x2a9a8a ldrh.w r7, [r12, r8, lsl #1]
+ *   @0x2a9a8e ldr.w r8, [sp, #0x10]
+ *   @0x2a9a92 strb r7, [r1, #0x3]
+ *   @0x2a9a9a strb.w r12, [r1, #0x2]
+ *   @0x2a9a9e ldr.w r6, [r7, r6, lsl #2]
+ *   @0x2a9aa2 ldrh.w r6, [r6, r8, lsl #1]
+ *   @0x2a9aa6 lsrs r7, r6, #0x8
+ *   @0x2a9aaa strb r6, [r1, #0x5]
+ *   @0x2a9aae adds r1, #0x6
+ *   @0x2a9ab2 b 0x2a99e6 <png_do_background+0x366>
+ *   @0x2a9aca uxth.w r8, r8
+ *   @0x2a9ace ldrb r6, [r1, #0x4]
+ *   @0x2a9ad2 ldrb r5, [r1, #0x5]
+ *   @0x2a9ad6 adds r4, #0x1
+ *   @0x2a9ada cmp r4, r0
+ *   @0x2a9ade b 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a9aea cmp r12, r7
+ *   @0x2a9aee add.w r5, r5, r6, lsl #8
+ *   @0x2a9af2 ldrh r6, [r2, #0x6]
+ *   @0x2a9af6 cmp r6, r5
+ *   @0x2a9afa ldrh r5, [r3, #0x2]
+ *   @0x2a9afe strb r5, [r1]
+ *   @0x2a9b02 strb r5, [r1, #0x1]
+ *   @0x2a9b06 lsrs r5, r5, #0x8
+ *   @0x2a9b0a ldrh r5, [r3, #0x4]
+ *   @0x2a9b0e ldrh r5, [r3, #0x6]
+ *   @0x2a9b12 strb r5, [r1, #0x4]
+ *   @0x2a9b16 strb r5, [r1, #0x5]
+ *   @0x2a9b1a ldr r5, [sp, #0xc]
+ *   @0x2a9b1e cmp r2, #0x8
+ *   @0x2a9b22 adds r7, r1, #0x2
+ *   @0x2a9b26 ldr r2, [sp, #0x48]
+ *   @0x2a9b2a mov r4, r7
+ *   @0x2a9b2e b 0x2a9baa <png_do_background+0x52a>
+ *   @0x2a9b32 beq 0x2a9b2a <png_do_background+0x4aa>
+ *   @0x2a9b36 cmp r2, r0
+ *   @0x2a9b46 ldrb r12, [r7, #-2]
+ *   @0x2a9b4a ldrb.w r12, [r4, r12]
+ *   @0x2a9b4e b 0x2a9b8e <png_do_background+0x50e>
+ *   @0x2a9b56 ldrh.w r12, [r3, #0x8]
+ *   @0x2a9b5a b 0x2a9b8e <png_do_background+0x50e>
+ *   @0x2a9b5e rsb.w r9, r12, #0xff
+ *   @0x2a9b62 ldrh.w r8, [r5, #0x8]
+ *   @0x2a9b66 mul r8, r9, r8
+ *   @0x2a9b6a ldrb r9, [r7, #-2]
+ *   @0x2a9b6e ldrb.w r9, [r6, r9]
+ *   @0x2a9b72 add.w r8, r8, #0x80
+ *   @0x2a9b76 mla r12, r9, r12, r8
+ *   @0x2a9b7a ldr.w r8, [sp, #0x48]
+ *   @0x2a9b7e uxth.w r12, r12
+ *   @0x2a9b82 add.w r12, r12, r12, lsr #8
+ *   @0x2a9b86 ubfx r12, r12, #0x8, #0x8
+ *   @0x2a9b8a ldrb.w r12, [r8, r12]
+ *   @0x2a9b8e strb.w r12, [r1, r2]
+ *   @0x2a9b92 adds r7, #0x2
+ *   @0x2a9b96 b 0x2a9b36 <png_do_background+0x4b6>
+ *   @0x2a9b9e bne 0x2a9bb0 <png_do_background+0x530>
+ *   @0x2a9ba6 adds r4, #0x2
+ *   @0x2a9baa cmp r2, r0
+ *   @0x2a9bae b 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a9bb2 ldrh r5, [r3, #0x8]
+ *   @0x2a9bb6 ldrb r6, [r4, #-2]
+ *   @0x2a9bba rsb.w r12, r5, #0xff
+ *   @0x2a9bbe muls r6, r5, r6
+ *   @0x2a9bc2 ldrh r7, [r5, #0x8]
+ *   @0x2a9bc6 mla r5, r12, r7, r6
+ *   @0x2a9bca uxth r5, r5
+ *   @0x2a9bd2 b 0x2a9ba4 <png_do_background+0x524>
+ *   @0x2a9bd6 cbz r6, 0x2a9bde <png_do_background+0x55e>
+ *   @0x2a9bde mov r2, r1
+ *   @0x2a9be2 movw r6, #0xffff
+ *   @0x2a9be6 b 0x2a9c9a <png_do_background+0x61a>
+ *   @0x2a9bee adds r2, r1, #0x2
+ *   @0x2a9bf2 cmp r5, r0
+ *   @0x2a9bfa ldrb r4, [r1, #0x3]
+ *   @0x2a9c06 cmp r4, r7
+ *   @0x2a9c0a ldrb r4, [r1, #0x1]
+ *   @0x2a9c0e ldrb r7, [r1]
+ *   @0x2a9c1e cbnz r4, 0x2a9c2c <png_do_background+0x5ac>
+ *   @0x2a9c22 lsrs r4, r4, #0x8
+ *   @0x2a9c2a b 0x2a9c76 <png_do_background+0x5f6>
+ *   @0x2a9c2e rsb.w r7, r4, #0xff00
+ *   @0x2a9c32 adds r7, #0xff
+ *   @0x2a9c5e uxtb.w r8, r4
+ *   @0x2a9c62 lsrs r4, r4, #0x8
+ *   @0x2a9c72 strb r7, [r2, #-2]
+ *   @0x2a9c76 strb r4, [r2, #-1]
+ *   @0x2a9c7a adds r5, #0x1
+ *   @0x2a9c7e adds r2, #0x2
+ *   @0x2a9c82 ldrb r7, [r1, #0x2]
+ *   @0x2a9c86 add.w r4, r4, r7, lsl #8
+ *   @0x2a9c8a uxth r4, r4
+ *   @0x2a9c8e bne 0x2a9ca0 <png_do_background+0x620>
+ *   @0x2a9c92 strh r4, [r2]
+ *   @0x2a9c96 adds r1, #0x4
+ *   @0x2a9c9a cmp r5, r0
+ *   @0x2a9c9e b 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a9ca2 ldrh r4, [r3, #0x8]
+ *   @0x2a9ca6 strb r4, [r2]
+ *   @0x2a9caa b 0x2a9cda <png_do_background+0x65a>
+ *   @0x2a9cb2 add.w r7, r7, r12, lsl #8
+ *   @0x2a9cb6 uxth r7, r7
+ *   @0x2a9cba rsb.w r4, r4, #0xff00
+ *   @0x2a9cbe add.w r8, r4, #0xff
+ *   @0x2a9cc2 ldr r4, [sp, #0x40]
+ *   @0x2a9cd6 lsrs r7, r4, #0x8
+ *   @0x2a9cda strb r4, [r2, #0x1]
+ *   @0x2a9cde ldr r5, [sp, #0xc]
+ *   @0x2a9ce2 cmp r2, #0x8
+ *   @0x2a9cee ldr r7, [sp, #0x48]
+ *   @0x2a9cf2 mov.w r8, #0x3
+ *   @0x2a9cf6 mov r5, r12
+ *   @0x2a9cfe b 0x2a9dfa <png_do_background+0x77a>
+ *   @0x2a9d02 beq 0x2a9cf2 <png_do_background+0x672>
+ *   @0x2a9d0a mla r9, r9, r0, r1
+ *   @0x2a9d0e cmp r2, r9
+ *   @0x2a9d16 cmp r7, #0xff
+ *   @0x2a9d1a ldrb r7, [r1]
+ *   @0x2a9d1e strb r7, [r12, #-3]
+ *   @0x2a9d22 ldrb r7, [r1, #0x1]
+ *   @0x2a9d26 strb r7, [r2, #0x1]
+ *   @0x2a9d2a ldrb r7, [r4, r7]
+ *   @0x2a9d2e cbnz r7, 0x2a9d3e <png_do_background+0x6be>
+ *   @0x2a9d32 strb r7, [r12, #-3]
+ *   @0x2a9d36 ldrh r7, [r3, #0x4]
+ *   @0x2a9d3a ldrh r7, [r3, #0x6]
+ *   @0x2a9d3e ldr r5, [sp, #0x40]
+ *   @0x2a9d56 mul r10, r10, r8
+ *   @0x2a9d5a add.w r10, r10, #0x80
+ *   @0x2a9d5e mla r10, r11, r7, r10
+ *   @0x2a9d62 uxth.w r10, r10
+ *   @0x2a9d66 add.w r10, r10, r10, lsr #8
+ *   @0x2a9d6a ubfx r10, r10, #0x8, #0x8
+ *   @0x2a9d6e ldrb.w r10, [r5, r10]
+ *   @0x2a9d72 ldr r5, [sp, #0x40]
+ *   @0x2a9d82 mul r10, r10, r8
+ *   @0x2a9d86 ldrb.w r11, [r6, r11]
+ *   @0x2a9d8a add.w r10, r10, #0x80
+ *   @0x2a9d8e mla r10, r11, r7, r10
+ *   @0x2a9d92 uxth.w r10, r10
+ *   @0x2a9d96 add.w r10, r10, r10, lsr #8
+ *   @0x2a9d9a ubfx r10, r10, #0x8, #0x8
+ *   @0x2a9d9e ldrb.w r10, [r5, r10]
+ *   @0x2a9da2 ldr r5, [sp, #0x40]
+ *   @0x2a9dd6 adds r1, #0x4
+ *   @0x2a9dda add.w r12, r12, #0x3
+ *   @0x2a9dde b 0x2a9d0e <png_do_background+0x68e>
+ *   @0x2a9de2 cmp r4, #0xff
+ *   @0x2a9de6 ldrb r4, [r1]
+ *   @0x2a9dee strb r4, [r2, #0x1]
+ *   @0x2a9df2 strb r4, [r2, #0x2]
+ *   @0x2a9df6 adds r2, #0x3
+ *   @0x2a9dfa cmp r2, r8
+ *   @0x2a9dfe b 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a9e06 strb r12, [r5, #-3]
+ *   @0x2a9e0a ldrh r4, [r3, #0x4]
+ *   @0x2a9e0e ldrh r4, [r3, #0x6]
+ *   @0x2a9e12 ldrb r7, [r1]
+ *   @0x2a9e1a muls r7, r4, r7
+ *   @0x2a9e1e mla r7, r6, r12, r7
+ *   @0x2a9e22 uxth r7, r7
+ *   @0x2a9e2a strb r7, [r5, #-3]
+ *   @0x2a9e2e ldrb r7, [r1, #0x1]
+ *   @0x2a9e36 adds r7, #0x80
+ *   @0x2a9e3e add.w r7, r7, r7, lsr #8
+ *   @0x2a9e42 asrs r7, r7, #0x8
+ *   @0x2a9e46 ldrb r7, [r1, #0x2]
+ *   @0x2a9e4a ldrh r7, [r3, #0x6]
+ *   @0x2a9e4e mla r6, r6, r7, r4
+ *   @0x2a9e52 uxth r6, r6
+ *   @0x2a9e5a strb r6, [r2, #0x2]
+ *   @0x2a9e5e ldr r2, [sp, #0x50]
+ *   @0x2a9e62 cmp.w r10, #0x0
+ *   @0x2a9e66 bne 0x2a9e72 <png_do_background+0x7f2>
+ *   @0x2a9e6a movs r5, #0x0
+ *   @0x2a9e72 cmp.w r9, #0x0
+ *   @0x2a9e76 beq 0x2a9e68 <png_do_background+0x7e8>
+ *   @0x2a9e7e movs r4, #0x0
+ *   @0x2a9e82 ldr r4, [sp, #0x14]
+ *   @0x2a9e86 beq.w 0x2aa09e <png_do_background+0xa1e>
+ *   @0x2a9e8a ldrb r5, [r1, #0x6]
+ *   @0x2a9e8e add.w r4, r4, r5, lsl #8
+ *   @0x2a9e92 movw r5, #0xffff
+ *   @0x2a9e96 uxth r4, r4
+ *   @0x2a9e9a bne 0x2a9ede <png_do_background+0x85e>
+ *   @0x2a9e9e ldr r6, [sp, #0x50]
+ *   @0x2a9ea2 asr.w r4, r4, r11
+ *   @0x2a9ea6 ldr.w r4, [r6, r4, lsl #2]
+ *   @0x2a9eaa ldrh.w r4, [r4, r5, lsl #1]
+ *   @0x2a9eae lsrs r5, r4, #0x8
+ *   @0x2a9eb6 ldrb r4, [r1, #0x3]
+ *   @0x2a9eba asr.w r4, r4, r11
+ *   @0x2a9ebe ldr.w r4, [r6, r4, lsl #2]
+ *   @0x2a9ec2 ldrh.w r4, [r4, r5, lsl #1]
+ *   @0x2a9ec6 strb r4, [r2, #0x3]
+ *   @0x2a9eca strb r5, [r2, #0x2]
+ *   @0x2a9ece ldrb r5, [r1, #0x4]
+ *   @0x2a9ede cbnz r4, 0x2a9f00 <png_do_background+0x880>
+ *   @0x2a9ee2 lsrs r4, r4, #0x8
+ *   @0x2a9eea strb r4, [r2, #0x1]
+ *   @0x2a9eee lsrs r4, r4, #0x8
+ *   @0x2a9ef2 ldrh r4, [r3, #0x4]
+ *   @0x2a9ef6 ldrh r4, [r3, #0x6]
+ *   @0x2a9efa strb r4, [r2, #0x4]
+ *   @0x2a9efe b 0x2a9fb8 <png_do_background+0x938>
+ *   @0x2a9f02 rsb.w r5, r4, #0xff00
+ *   @0x2a9f06 adds r5, #0xff
+ *   @0x2a9f0e ldrb r7, [r1, #0x1]
+ *   @0x2a9f12 asr.w r7, r7, r11
+ *   @0x2a9f16 ldr.w r7, [r9, r7, lsl #2]
+ *   @0x2a9f1a add.w r6, r6, #0x8000
+ *   @0x2a9f1e ldrh.w r7, [r7, r12, lsl #1]
+ *   @0x2a9f22 mla r6, r4, r7, r6
+ *   @0x2a9f26 add.w r6, r6, r6, lsr #16
+ *   @0x2a9f2a lsrs r6, r6, #0x10
+ *   @0x2a9f2e lsrs r6, r6, #0x8
+ *   @0x2a9f3e strb r7, [r8, #-6]
+ *   @0x2a9f42 ldr r7, [sp, #0x40]
+ *   @0x2a9f46 ldrb.w r12, [r1, #0x2]
+ *   @0x2a9f4a ldrh r6, [r7, #0x4]
+ *   @0x2a9f4e muls r6, r5, r6
+ *   @0x2a9f6a uxtb r7, r6
+ *   @0x2a9f6e asr.w r7, r7, r11
+ *   @0x2a9f72 ldr.w r7, [r10, r7, lsl #2]
+ *   @0x2a9f76 ldrh.w r6, [r7, r6, lsl #1]
+ *   @0x2a9f7a lsrs r7, r6, #0x8
+ *   @0x2a9f7e ldr r7, [sp, #0x40]
+ *   @0x2a9f82 ldrh r6, [r7, #0x6]
+ *   @0x2a9f86 muls r5, r6, r5
+ *   @0x2a9f8a asr.w r6, r6, r11
+ *   @0x2a9f8e add.w r5, r5, #0x8000
+ *   @0x2a9f92 ldr.w r6, [r9, r6, lsl #2]
+ *   @0x2a9f96 ldrh.w r6, [r6, r7, lsl #1]
+ *   @0x2a9f9a mla r4, r4, r6, r5
+ *   @0x2a9f9e add.w r4, r4, r4, lsr #16
+ *   @0x2a9fa2 lsrs r4, r4, #0x10
+ *   @0x2a9fa6 lsrs r4, r4, #0x8
+ *   @0x2a9fb6 strb r5, [r2, #0x4]
+ *   @0x2a9fbe strb r4, [r2, #0x5]
+ *   @0x2a9fca str.w r12, [sp, #0x14]
+ *   @0x2a9fce b 0x2a9e82 <png_do_background+0x802>
+ *   @0x2a9fd2 ldrb r4, [r1, #0x7]
+ *   @0x2a9fda cmp r4, r12
+ *   @0x2a9fde ldr r4, [r1]
+ *   @0x2a9fe2 ldrh r4, [r1, #0x4]
+ *   @0x2a9fe6 adds r5, #0x1
+ *   @0x2a9fea adds r2, #0x6
+ *   @0x2a9fee bne 0x2a9fd0 <png_do_background+0x950>
+ *   @0x2a9ff2 ldrh r7, [r3, #0x2]
+ *   @0x2a9ff6 lsrs r7, r7, #0x8
+ *   @0x2a9ffa ldrh r4, [r3, #0x2]
+ *   @0x2a9ffe ldrh r4, [r3, #0x4]
+ *   @0x2aa002 strb r4, [r2, #0x2]
+ *   @0x2aa006 strb r4, [r2, #0x3]
+ *   @0x2aa00a lsrs r4, r4, #0x8
+ *   @0x2aa00e ldrh r4, [r3, #0x6]
+ *   @0x2aa012 b 0x2a9fe6 <png_do_background+0x966>
+ *   @0x2aa026 ldrb.w r8, [r1, #0x4]
+ *   @0x2aa02a uxth.w r10, r10
+ *   @0x2aa02e add.w r9, r6, r9, lsl #8
+ *   @0x2aa032 ldrb r6, [r1, #0x5]
+ *   @0x2aa046 uxth.w r8, r8
+ *   @0x2aa04a add.w r10, r10, #0x8000
+ *   @0x2aa04e mul r9, r4, r9
+ *   @0x2aa052 mla r7, r7, r6, r10
+ *   @0x2aa056 add.w r9, r9, #0x8000
+ *   @0x2aa05a mul r4, r4, r8
+ *   @0x2aa05e add.w r7, r7, r7, lsr #16
+ *   @0x2aa062 add.w r4, r4, #0x8000
+ *   @0x2aa066 lsrs r7, r7, #0x10
+ *   @0x2aa06a lsr.w r10, r7, #0x8
+ *   @0x2aa06e strb.w r10, [r2]
+ *   @0x2aa072 ldrh r7, [r3, #0x4]
+ *   @0x2aa07e strb r7, [r2, #0x3]
+ *   @0x2aa096 strb r6, [r2, #0x5]
+ *   @0x2aa09a strb r4, [r2, #0x4]
+ *   @0x2aa09e ldr r5, [sp, #0xc]
+ *   @0x2aa0a2 lsls r2, r3, #0x1d
+ *   @0x2aa0a6 bic r3, r3, #0x4
+ *   @0x2aa0aa strb r3, [r5, #0x8]
+ *   @0x2aa0ae ldrb r2, [r5, #0x9]
+ *   @0x2aa0b2 uxtb r3, r3
+ *   @0x2aa0b6 muls r3, r2, r3
+ *   @0x2aa0ba strb r3, [r5, #0xb]
+ *   @0x2aa0be bls 0x2aa0c6 <png_do_background+0xa46>
+ *   @0x2aa0c2 muls r0, r3, r0
+ *   @0x2aa0c6 muls r0, r3, r0
+ *   @0x2aa0ca lsrs r0, r0, #0x3
+ *   @0x2aa0ce str r0, [r6, #0x4]
+ *   @0x2aa0d2 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2aa0dc ldr r5, [sp, #0x24]
+ *   @0x2aa0e0 ldr r4, [r0]
+ *   @0x2aa0e4 cbnz r2, 0x2aa0f6 <png_do_gamma+0x20>
+ *   @0x2aa0ec bne.w 0x2aa394 <png_do_gamma+0x2be>
+ *   @0x2aa0f0 cmp r3, #0x0
+ *   @0x2aa0f8 cmp r7, #0x6
+ *   @0x2aa104 lsls r1, r1, #0x5
+ *   @0x2aa108 lsls r1, r1, #0x5
+ *   @0x2aa10c lsls r1, r1, #0x5
+ *   @0x2aa110 cmp r6, #0x8
+ *   @0x2aa114 movs r2, #0x0
+ *   @0x2aa118 movs r3, #0x3
+ *   @0x2aa120 beq 0x2aa142 <png_do_gamma+0x6c>
+ *   @0x2aa124 adds r1, #0x3
+ *   @0x2aa128 strb r3, [r1, #-3]
+ *   @0x2aa12c ldrb r3, [r1, #-2]
+ *   @0x2aa130 ldrb r3, [r2, r3]
+ *   @0x2aa13c strb r3, [r1, #-1]
+ *   @0x2aa140 b 0x2aa11e <png_do_gamma+0x48>
+ *   @0x2aa148 beq 0x2aa1a0 <png_do_gamma+0xca>
+ *   @0x2aa14c adds r2, #0x1
+ *   @0x2aa150 adds r1, #0x6
+ *   @0x2aa154 ldr.w r0, [r3, r0, lsl #2]
+ *   @0x2aa158 ldrh.w r0, [r0, r6, lsl #1]
+ *   @0x2aa15c strb r0, [r1, #-5]
+ *   @0x2aa160 lsrs r6, r0, #0x8
+ *   @0x2aa170 ldr.w r0, [r3, r0, lsl #2]
+ *   @0x2aa174 ldrh.w r0, [r0, r6, lsl #1]
+ *   @0x2aa178 strb r0, [r1, #-3]
+ *   @0x2aa17c lsrs r6, r0, #0x8
+ *   @0x2aa18c ldr.w r0, [r3, r0, lsl #2]
+ *   @0x2aa190 ldrh.w r0, [r0, r6, lsl #1]
+ *   @0x2aa194 lsrs r6, r0, #0x8
+ *   @0x2aa1a0 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2aa1a4 cmp r6, #0x8
+ *   @0x2aa1a8 movs r2, #0x0
+ *   @0x2aa1ac movs r3, #0x0
+ *   @0x2aa1b0 beq 0x2aa1d4 <png_do_gamma+0xfe>
+ *   @0x2aa1b4 adds r3, #0x1
+ *   @0x2aa1b8 ldrb r0, [r2, r0]
+ *   @0x2aa1c4 strb r0, [r1, #-3]
+ *   @0x2aa1c8 ldrb r0, [r1, #-2]
+ *   @0x2aa1cc ldrb r0, [r2, r0]
+ *   @0x2aa1d4 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2aa1d8 cmp r2, r4
+ *   @0x2aa1dc ldrb r0, [r1, #0x1]
+ *   @0x2aa1e0 ldrb r6, [r1]
+ *   @0x2aa1e4 asrs r0, r5
+ *   @0x2aa1f4 ldrb r0, [r1, #-5]
+ *   @0x2aa1f8 strb r6, [r1, #-8]
+ *   @0x2aa1fc ldrb r6, [r1, #-6]
+ *   @0x2aa200 asrs r0, r5
+ *   @0x2aa210 ldrb r0, [r1, #-3]
+ *   @0x2aa214 strb r6, [r1, #-6]
+ *   @0x2aa218 ldrb r6, [r1, #-4]
+ *   @0x2aa21c asrs r0, r5
+ *   @0x2aa228 strb r0, [r1, #-3]
+ *   @0x2aa22c strb r6, [r1, #-4]
+ *   @0x2aa230 b 0x2aa1d8 <png_do_gamma+0x102>
+ *   @0x2aa238 beq 0x2aa23e <png_do_gamma+0x168>
+ *   @0x2aa23c b 0x2aa25a <png_do_gamma+0x184>
+ *   @0x2aa240 cmp r3, r4
+ *   @0x2aa248 ldrb r0, [r1, #-2]
+ *   @0x2aa24c adds r3, #0x1
+ *   @0x2aa250 strb r0, [r1, #-2]
+ *   @0x2aa254 b 0x2aa240 <png_do_gamma+0x16a>
+ *   @0x2aa25c add.w r1, r1, #0x4
+ *   @0x2aa260 beq 0x2aa282 <png_do_gamma+0x1ac>
+ *   @0x2aa268 ldrb r6, [r1, #-4]
+ *   @0x2aa26c asrs r0, r5
+ *   @0x2aa278 strb r0, [r1, #-3]
+ *   @0x2aa27c strb r6, [r1, #-4]
+ *   @0x2aa280 b 0x2aa25a <png_do_gamma+0x184>
+ *   @0x2aa288 beq 0x2aa294 <png_do_gamma+0x1be>
+ *   @0x2aa28c cmp r0, #0x4
+ *   @0x2aa290 movs r3, #0x0
+ *   @0x2aa294 mov r10, r1
+ *   @0x2aa29c bhs 0x2aa28a <png_do_gamma+0x1b4>
+ *   @0x2aa2f8 lsrs r7, r7, #0x2
+ *   @0x2aa304 orr.w r7, r7, r6, lsl #4
+ *   @0x2aa308 orrs r7, r6
+ *   @0x2aa310 lsrs r7, r7, #0x4
+ *   @0x2aa320 cmp r3, r4
+ *   @0x2aa324 ldrb r5, [r1]
+ *   @0x2aa328 and r0, r5, #0xf0
+ *   @0x2aa32c and r5, r5, #0xf
+ *   @0x2aa330 orr.w r0, r0, r0, lsr #4
+ *   @0x2aa334 orr.w r5, r5, r5, lsl #4
+ *   @0x2aa338 ldrb r0, [r2, r0]
+ *   @0x2aa33c bic r0, r0, #0xf
+ *   @0x2aa340 orr.w r0, r0, r5, lsr #4
+ *   @0x2aa344 strb r0, [r1], #1
+ *   @0x2aa348 b 0x2aa320 <png_do_gamma+0x24a>
+ *   @0x2aa350 bne 0x2aa366 <png_do_gamma+0x290>
+ *   @0x2aa354 cmp r1, r4
+ *   @0x2aa358 ldrb r3, [r1]
+ *   @0x2aa35c strb r3, [r1], #1
+ *   @0x2aa360 b 0x2aa354 <png_do_gamma+0x27e>
+ *   @0x2aa368 bne 0x2aa394 <png_do_gamma+0x2be>
+ *   @0x2aa36c cmp r2, r4
+ *   @0x2aa374 ldrb r0, [r1, #-1]
+ *   @0x2aa378 adds r2, #0x1
+ *   @0x2aa380 ldr.w r0, [r3, r0, lsl #2]
+ *   @0x2aa384 ldrh.w r0, [r0, r6, lsl #1]
+ *   @0x2aa388 lsrs r6, r0, #0x8
+ *   @0x2aa394 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2aa39e ldr r4, [r0]
+ *   @0x2aa3a2 bne.w 0x2aa538 <png_do_expand_palette+0x1a0>
+ *   @0x2aa3a6 ldrb.w r12, [r0, #0x9]
+ *   @0x2aa3aa cmp.w r12, #0x7
+ *   @0x2aa3ae bhi 0x2aa484 <png_do_expand_palette+0xec>
+ *   @0x2aa3b6 cmp.w r12, #0x4
+ *   @0x2aa3ba beq 0x2aa444 <png_do_expand_palette+0xac>
+ *   @0x2aa3c2 add.w r9, r4, #0xffffffff
+ *   @0x2aa3c6 adds r7, r4, #0x7
+ *   @0x2aa3d2 mvns r7, r7
+ *   @0x2aa3de cmp r5, r10
+ *   @0x2aa3e2 ldrb.w r9, [r6]
+ *   @0x2aa3e6 subs r5, #0x1
+ *   @0x2aa3f2 strbne.w r12, [r5, #0x2]
+ *   @0x2aa3f6 strbeq.w r9, [r5, #0x2]
+ *   @0x2aa3fa cmp r7, #0x7
+ *   @0x2aa3fe addeq.w r6, r6, #0xffffffff
+ *   @0x2aa402 addne r7, #0x1
+ *   @0x2aa406 b 0x2aa3de <png_do_expand_palette+0x46>
+ *   @0x2aa40a subs r7, r4, #0x1
+ *   @0x2aa40e and r5, r5, #0x3
+ *   @0x2aa412 add.w r6, r1, r7, lsr #2
+ *   @0x2aa416 add r7, r1
+ *   @0x2aa41a rsb r8, r4, r7
+ *   @0x2aa41e cmp r7, r8
+ *   @0x2aa422 ldrb.w r9, [r6]
+ *   @0x2aa426 cmp r5, #0x6
+ *   @0x2aa42a addeq.w r6, r6, #0xffffffff
+ *   @0x2aa42e asr.w r9, r9, r5
+ *   @0x2aa432 it eq
+ *   @0x2aa436 and r9, r9, #0x3
+ *   @0x2aa43a it ne
+ *   @0x2aa43e strb r9, [r7], #-1
+ *   @0x2aa442 b 0x2aa41e <png_do_expand_palette+0x86>
+ *   @0x2aa446 and r5, r4, #0x1
+ *   @0x2aa44a add.w r6, r1, r7, lsr #1
+ *   @0x2aa44e add r7, r1
+ *   @0x2aa452 rsb r8, r4, r7
+ *   @0x2aa456 cmp r7, r8
+ *   @0x2aa45a ldrb.w r9, [r6]
+ *   @0x2aa45e cmp r5, #0x4
+ *   @0x2aa462 addeq.w r6, r6, #0xffffffff
+ *   @0x2aa466 asr.w r9, r9, r5
+ *   @0x2aa46a it eq
+ *   @0x2aa46e and r9, r9, #0xf
+ *   @0x2aa472 it ne
+ *   @0x2aa476 strb r9, [r7], #-1
+ *   @0x2aa47a b 0x2aa456 <png_do_expand_palette+0xbe>
+ *   @0x2aa47e str r4, [r0, #0x4]
+ *   @0x2aa482 strb r5, [r0, #0xb]
+ *   @0x2aa486 cmp r5, #0x8
+ *   @0x2aa48a subs r7, r4, #0x1
+ *   @0x2aa48e lsls r6, r4, #0x2
+ *   @0x2aa496 add r1, r7
+ *   @0x2aa49a rsb r12, r4, r1
+ *   @0x2aa49e cmp r1, r12
+ *   @0x2aa4a2 ldrb r7, [r1], #-1
+ *   @0x2aa4a6 subs r5, #0x4
+ *   @0x2aa4aa cmp r7, r4
+ *   @0x2aa4ae strbge.w r8, [r5, #0x5]
+ *   @0x2aa4b2 ldrblt r7, [r3, r7]
+ *   @0x2aa4b6 ldrb r7, [r1, #0x1]
+ *   @0x2aa4be ldrb r7, [r7, #0x2]
+ *   @0x2aa4c2 ldrb r7, [r1, #0x1]
+ *   @0x2aa4ca ldrb r7, [r7, #0x1]
+ *   @0x2aa4ce ldrb r7, [r1, #0x1]
+ *   @0x2aa4d6 strb r7, [r5, #0x2]
+ *   @0x2aa4da movs r3, #0x8
+ *   @0x2aa4de strb r3, [r0, #0x9]
+ *   @0x2aa4e2 strb r3, [r0, #0xb]
+ *   @0x2aa4e6 strb r3, [r0, #0x8]
+ *   @0x2aa4ea b 0x2aa536 <png_do_expand_palette+0x19e>
+ *   @0x2aa4ee adds r3, r1, r7
+ *   @0x2aa4f2 mvns r4, r4
+ *   @0x2aa4f6 subs r6, r5, #0x1
+ *   @0x2aa4fa subs r3, #0x1
+ *   @0x2aa4fe beq 0x2aa526 <png_do_expand_palette+0x18e>
+ *   @0x2aa502 subs r1, #0x3
+ *   @0x2aa50a ldrb r6, [r6, #0x2]
+ *   @0x2aa50e ldrb r6, [r3, #0x1]
+ *   @0x2aa516 ldrb r6, [r6, #0x1]
+ *   @0x2aa51a ldrb r6, [r3, #0x1]
+ *   @0x2aa522 strb r6, [r1, #0x1]
+ *   @0x2aa526 movs r3, #0x8
+ *   @0x2aa52a movs r3, #0x18
+ *   @0x2aa52e movs r3, #0x2
+ *   @0x2aa532 movs r3, #0x3
+ *   @0x2aa536 strb r3, [r0, #0xa]
+ *   @0x2aa542 ldr r3, [r0]
+ *   @0x2aa546 bne.w 0x2aa6f8 <png_do_expand+0x1bc>
+ *   @0x2aa54a cbz r2, 0x2aa550 <png_do_expand+0x14>
+ *   @0x2aa54e b 0x2aa552 <png_do_expand+0x16>
+ *   @0x2aa552 ldrb r5, [r0, #0x9]
+ *   @0x2aa556 bhi.w 0x2aa65e <png_do_expand+0x122>
+ *   @0x2aa55a cmp r5, #0x2
+ *   @0x2aa55e cmp r5, #0x4
+ *   @0x2aa562 cmp r5, #0x1
+ *   @0x2aa566 and r4, r4, #0x1
+ *   @0x2aa56a mov.w r12, #0xff
+ *   @0x2aa56e add.w r8, r3, #0xffffffff
+ *   @0x2aa572 adds r6, r3, #0x7
+ *   @0x2aa57e add r8, r1
+ *   @0x2aa58e mov r9, r12
+ *   @0x2aa592 cmp r5, r8
+ *   @0x2aa596 ldrb.w r12, [r7]
+ *   @0x2aa59a subs r5, #0x1
+ *   @0x2aa5a6 strbne.w r9, [r5, #0x2]
+ *   @0x2aa5aa strbeq.w r12, [r5, #0x2]
+ *   @0x2aa5ae cmp r6, #0x7
+ *   @0x2aa5b2 addeq.w r7, r7, #0xffffffff
+ *   @0x2aa5b6 addne r6, #0x1
+ *   @0x2aa5ba b 0x2aa592 <png_do_expand+0x56>
+ *   @0x2aa5c2 subs r6, r3, #0x1
+ *   @0x2aa5c6 adds r5, r3, #0x3
+ *   @0x2aa5ce mvns r5, r5
+ *   @0x2aa5da cmp r6, r8
+ *   @0x2aa5de ldrb.w r7, [r12]
+ *   @0x2aa5e2 cmp r5, #0x6
+ *   @0x2aa5e6 addeq.w r12, r12, #0xffffffff
+ *   @0x2aa5ea asr.w r7, r7, r5
+ *   @0x2aa5ee it eq
+ *   @0x2aa5f2 and r7, r7, #0x3
+ *   @0x2aa5f6 it ne
+ *   @0x2aa5fa lsl.w r9, r7, #0x4
+ *   @0x2aa5fe orr.w r9, r9, r7, lsl #2
+ *   @0x2aa602 orr.w r9, r9, r7
+ *   @0x2aa606 orr.w r7, r9, r7, lsl #6
+ *   @0x2aa60a strb r7, [r6], #-1
+ *   @0x2aa60e b 0x2aa5da <png_do_expand+0x9e>
+ *   @0x2aa616 tst.w r3, #0x1
+ *   @0x2aa61a mul r4, r5, r4
+ *   @0x2aa61e add.w r5, r3, #0xffffffff
+ *   @0x2aa622 ite eq
+ *   @0x2aa626 movne r6, #0x4
+ *   @0x2aa62e rsb r8, r3, r5
+ *   @0x2aa632 cmp r5, r8
+ *   @0x2aa636 ldrb.w r12, [r7]
+ *   @0x2aa63a asr.w r12, r12, r6
+ *   @0x2aa63e and r12, r12, #0xf
+ *   @0x2aa642 orr.w r12, r12, r12, lsl #4
+ *   @0x2aa646 strb r12, [r5], #-1
+ *   @0x2aa64a cbz r6, 0x2aa652 <png_do_expand+0x116>
+ *   @0x2aa64e movs r6, #0x0
+ *   @0x2aa652 movs r6, #0x4
+ *   @0x2aa656 movs r5, #0x8
+ *   @0x2aa65a strb r5, [r0, #0x9]
+ *   @0x2aa65e cmp r2, #0x0
+ *   @0x2aa666 cmp r2, #0x8
+ *   @0x2aa66a subs r5, r3, #0x1
+ *   @0x2aa672 uxtb r4, r4
+ *   @0x2aa676 subs r6, r1, r3
+ *   @0x2aa67a mov.w r12, #0x0
+ *   @0x2aa67e cmp r1, r6
+ *   @0x2aa682 ldrb r5, [r1], #-1
+ *   @0x2aa686 cmp r5, r4
+ *   @0x2aa68a movne r5, r7
+ *   @0x2aa68e strb r5, [r2, #0x1]
+ *   @0x2aa692 strb r5, [r2], #-2
+ *   @0x2aa696 b 0x2aa67e <png_do_expand+0x142>
+ *   @0x2aa69a bne 0x2aa6b8 <png_do_expand+0x17c>
+ *   @0x2aa69e ubfx r12, r4, #0x8, #0x8
+ *   @0x2aa6a2 uxtb r4, r4
+ *   @0x2aa6a6 adds r2, r1, r5
+ *   @0x2aa6ae movs r5, #0x0
+ *   @0x2aa6b2 mov r7, r5
+ *   @0x2aa6b6 bne 0x2aa6c6 <png_do_expand+0x18a>
+ *   @0x2aa6ba strb r2, [r0, #0x8]
+ *   @0x2aa6be strb r2, [r0, #0xa]
+ *   @0x2aa6c2 lsls r2, r2, #0x1
+ *   @0x2aa6c6 ldrb.w r8, [r2, #0x1]
+ *   @0x2aa6ca cmp r8, r12
+ *   @0x2aa6ce ldrb.w r8, [r2, #0x2]
+ *   @0x2aa6d2 cmp r8, r4
+ *   @0x2aa6d6 strb r7, [r1, #0x2]
+ *   @0x2aa6da b 0x2aa6e0 <png_do_expand+0x1a4>
+ *   @0x2aa6de strb r6, [r1, #0x1]
+ *   @0x2aa6e6 subs r2, #0x2
+ *   @0x2aa6ea strb.w r8, [r1, #0x4]
+ *   @0x2aa6ee ldrb.w r8, [r2, #0x3]
+ *   @0x2aa6f2 strb.w r8, [r1, #0x3]
+ *   @0x2aa6f6 b 0x2aa6b4 <png_do_expand+0x178>
+ *   @0x2aa6fa bne.w 0x2aa84e <png_do_expand+0x312>
+ *   @0x2aa6fe cmp r2, #0x0
+ *   @0x2aa706 cmp r4, #0x8
+ *   @0x2aa70a ldrb r5, [r2, #0x2]
+ *   @0x2aa70e ldrb r6, [r2, #0x4]
+ *   @0x2aa716 mov.w r8, #0x0
+ *   @0x2aa71a ldr r2, [r0, #0x4]
+ *   @0x2aa71e add r2, r1
+ *   @0x2aa726 mls r4, r4, r3, r2
+ *   @0x2aa72a cmp r2, r4
+ *   @0x2aa72e ldrb r9, [r2, #-2]
+ *   @0x2aa732 cmp r9, r5
+ *   @0x2aa736 ldrb r9, [r2, #-1]
+ *   @0x2aa73a cmp r9, r6
+ *   @0x2aa73e ldrb.w r9, [r2]
+ *   @0x2aa742 cmp r9, r7
+ *   @0x2aa746 strb.w r8, [r1, #0x1]
+ *   @0x2aa74a b 0x2aa750 <png_do_expand+0x214>
+ *   @0x2aa756 subs r2, #0x3
+ *   @0x2aa76e cmp r4, #0x10
+ *   @0x2aa772 ldrh.w r8, [r2, #0x2]
+ *   @0x2aa776 movs r5, #0xff
+ *   @0x2aa782 lsr.w r4, r8, #0x8
+ *   @0x2aa786 lsr.w r7, r9, #0x8
+ *   @0x2aa78a str r4, [sp, #0x4]
+ *   @0x2aa78e lsr.w r12, r10, #0x8
+ *   @0x2aa792 add r2, r1
+ *   @0x2aa79a uxtb.w r8, r8
+ *   @0x2aa79e uxtb.w r9, r9
+ *   @0x2aa7a2 uxtb.w r10, r10
+ *   @0x2aa7a6 subs r1, #0x3
+ *   @0x2aa7aa str.w r12, [sp]
+ *   @0x2aa7ae cmp r4, r3
+ *   @0x2aa7b2 movs r2, #0x6
+ *   @0x2aa7b6 movs r2, #0x4
+ *   @0x2aa7ba ldrb r2, [r0, #0x9]
+ *   @0x2aa7be uxtb r2, r2
+ *   @0x2aa7c2 cmp r2, #0x7
+ *   @0x2aa7c6 lsrs r2, r2, #0x3
+ *   @0x2aa7ca b 0x2aa84c <png_do_expand+0x310>
+ *   @0x2aa7d6 bne 0x2aa80a <png_do_expand+0x2ce>
+ *   @0x2aa7de bne 0x2aa80a <png_do_expand+0x2ce>
+ *   @0x2aa7e6 bne 0x2aa80a <png_do_expand+0x2ce>
+ *   @0x2aa7ee bne 0x2aa80a <png_do_expand+0x2ce>
+ *   @0x2aa7fa bne 0x2aa80a <png_do_expand+0x2ce>
+ *   @0x2aa802 bne 0x2aa80a <png_do_expand+0x2ce>
+ *   @0x2aa806 strb r6, [r1, #0x1]
+ *   @0x2aa80a strb r5, [r1, #0x2]
+ *   @0x2aa80e ldrb.w r11, [r2]
+ *   @0x2aa812 adds r4, #0x1
+ *   @0x2aa816 subs r1, #0x8
+ *   @0x2aa846 muls r3, r2, r3
+ *   @0x2aa84a lsrs r3, r3, #0x3
+ *   @0x2aa84e add sp, #0xc
+ *   @0x2aa856 ldrb r5, [r0, #0x8]
+ *   @0x2aa85a cmp r5, #0x2
+ *   @0x2aa85e cmp r2, #0x0
+ *   @0x2aa862 ldrb r3, [r0, #0x9]
+ *   @0x2aa866 bne 0x2aa928 <png_do_quantize+0xd4>
+ *   @0x2aa86a mov r3, r1
+ *   @0x2aa86e beq 0x2aa892 <png_do_quantize+0x3e>
+ *   @0x2aa872 adds r3, #0x3
+ *   @0x2aa87a asrs r7, r7, #0x3
+ *   @0x2aa87e orr.w r6, r6, r7, lsl #10
+ *   @0x2aa882 ldrb r7, [r3, #-1]
+ *   @0x2aa886 orr.w r6, r6, r7, lsr #3
+ *   @0x2aa88a ldrb r6, [r2, r6]
+ *   @0x2aa892 movs r3, #0x3
+ *   @0x2aa896 movs r3, #0x1
+ *   @0x2aa89a ldrb r3, [r0, #0x9]
+ *   @0x2aa89e strb r3, [r0, #0xb]
+ *   @0x2aa8a2 lsrs r3, r3, #0x3
+ *   @0x2aa8a6 b 0x2aa8ae <png_do_quantize+0x5a>
+ *   @0x2aa8aa adds r4, #0x7
+ *   @0x2aa8ae str r4, [r0, #0x4]
+ *   @0x2aa8b2 cmp r5, #0x6
+ *   @0x2aa8b6 cmp r2, #0x0
+ *   @0x2aa8ba ldrb r3, [r0, #0x9]
+ *   @0x2aa8be bne 0x2aa928 <png_do_quantize+0xd4>
+ *   @0x2aa8c2 movs r3, #0x0
+ *   @0x2aa8c6 beq 0x2aa8ec <png_do_quantize+0x98>
+ *   @0x2aa8ca adds r5, #0x4
+ *   @0x2aa8d6 asr.w r12, r12, #0x3
+ *   @0x2aa8da lsls r6, r6, #0x5
+ *   @0x2aa8e6 strb r6, [r1, r3]
+ *   @0x2aa8ea b 0x2aa8c4 <png_do_quantize+0x70>
+ *   @0x2aa8ee strb r2, [r0, #0x8]
+ *   @0x2aa8f2 strb r2, [r0, #0xa]
+ *   @0x2aa8f6 cmp r2, #0x7
+ *   @0x2aa8fa bls 0x2aa902 <png_do_quantize+0xae>
+ *   @0x2aa8fe muls r3, r2, r3
+ *   @0x2aa902 muls r3, r2, r3
+ *   @0x2aa906 lsrs r3, r3, #0x3
+ *   @0x2aa90a pop {r4, r5, r6, r7, pc}
+ *   @0x2aa90e bne 0x2aa928 <png_do_quantize+0xd4>
+ *   @0x2aa912 ldrb r2, [r0, #0x9]
+ *   @0x2aa916 bne 0x2aa928 <png_do_quantize+0xd4>
+ *   @0x2aa91a cmp r1, r4
+ *   @0x2aa91e ldrb r2, [r1]
+ *   @0x2aa922 strb r2, [r1], #1
+ *   @0x2aa926 b 0x2aa91a <png_do_quantize+0xc6>
+ *   @0x2aa92e push {r4, r5, r6, lr}
+ *   @0x2aa932 ldr r3, [r3]
+ *   @0x2aa936 mov r4, r0
+ *   @0x2aa93a mov r6, r3
+ *   @0x2aa93e ldr.w r2, [r0, #0x1b0]
+ *   @0x2aa942 cbnz r2, 0x2aa964 <png_do_read_transformations+0x38>
+ *   @0x2aa94a ldr r2, [pc, #0x33c]
+ *   @0x2aa94e mov r0, r5
+ *   @0x2aa952 add r2, pc
+ *   @0x2aa95e mov r1, r5
+ *   @0x2aa96a bpl 0x2aa9c2 <png_do_read_transformations+0x96>
+ *   @0x2aa976 bne 0x2aa9a4 <png_do_read_transformations+0x78>
+ *   @0x2aa97e ldr r1, [pc, #0x30c]
+ *   @0x2aa982 add r1, pc
+ *   @0x2aa98e ldr.w r1, [r4, #0x1b0]
+ *   @0x2aa992 ldr.w r2, [r4, #0x1d8]
+ *   @0x2aa996 str r3, [sp]
+ *   @0x2aa99a ldr.w r3, [r4, #0x24c]
+ *   @0x2aa99e bl 0x2aa398 <png_do_expand_palette>
+ *   @0x2aa9a2 b 0x2aa9c2 <png_do_read_transformations+0x96>
+ *   @0x2aa9aa ldrh.w r2, [r4, #0x1de]
+ *   @0x2aa9ae adds r1, #0x1
+ *   @0x2aa9b2 lsls r2, r3, #0x6
+ *   @0x2aa9b6 add.w r2, r4, #0x250
+ *   @0x2aa9ba b 0x2aa9be <png_do_read_transformations+0x92>
+ *   @0x2aa9be bl 0x2aa53c <png_do_expand>
+ *   @0x2aa9c2 ldr.w r2, [r4, #0x130]
+ *   @0x2aa9c6 ands r2, r2, #0x400000
+ *   @0x2aa9ca beq 0x2aa9de <png_do_read_transformations+0xb2>
+ *   @0x2aa9da bl 0x2af930 <png_do_strip_filler>
+ *   @0x2aa9de ldr.w r3, [r4, #0x134]
+ *   @0x2aa9e2 tst.w r3, #0x600000
+ *   @0x2aa9e6 beq 0x2aaa30 <png_do_read_transformations+0x104>
+ *   @0x2aa9ee add.w r1, r4, #0x1c4
+ *   @0x2aa9f2 adds r2, #0x1
+ *   @0x2aa9fa movs r3, #0x1
+ *   @0x2aaa0e ldr r1, [pc, #0x280]
+ *   @0x2aaa12 add r1, pc
+ *   @0x2aaa26 ldr r1, [pc, #0x26c]
+ *   @0x2aaa2a add r1, pc
+ *   @0x2aaa36 bpl 0x2aaa4e <png_do_read_transformations+0x122>
+ *   @0x2aaa3e bmi 0x2aaa4e <png_do_read_transformations+0x122>
+ *   @0x2aaa4a bl 0x2a90ac <png_do_gray_to_rgb>
+ *   @0x2aaa4e ldr.w r3, [r4, #0x134]
+ *   @0x2aaa52 lsls r0, r3, #0x18
+ *   @0x2aaa56 ldrh.w r3, [r4, #0x1de]
+ *   @0x2aaa5a cbnz r3, 0x2aaa64 <png_do_read_transformations+0x138>
+ *   @0x2aaa62 bpl 0x2aaaaa <png_do_read_transformations+0x17e>
+ *   @0x2aaa6a ldr.w r3, [r4, #0x228]
+ *   @0x2aaa6e add.w r0, r4, #0x1c4
+ *   @0x2aaa72 ldr.w r1, [r4, #0x1b0]
+ *   @0x2aaa76 add.w r2, r4, #0x250
+ *   @0x2aaa7a str r3, [sp, #0x4]
+ *   @0x2aaa7e ldr.w r3, [r4, #0x22c]
+ *   @0x2aaa82 str r3, [sp, #0x8]
+ *   @0x2aaa8a ldr.w r3, [r4, #0x234]
+ *   @0x2aaa8e str r3, [sp, #0x10]
+ *   @0x2aaa96 ldr.w r3, [r4, #0x23c]
+ *   @0x2aaa9a str r3, [sp, #0x18]
+ *   @0x2aaaa2 add.w r3, r4, #0x1fc
+ *   @0x2aaaa6 bl 0x2a9680 <png_do_background>
+ *   @0x2aaaaa ldr.w r3, [r4, #0x134]
+ *   @0x2aaaae lsls r2, r3, #0x12
+ *   @0x2aaab2 lsls r3, r3, #0x18
+ *   @0x2aaab6 ldrh.w r3, [r4, #0x1de]
+ *   @0x2aaaba cbnz r3, 0x2aaae8 <png_do_read_transformations+0x1bc>
+ *   @0x2aaac2 bmi 0x2aaae8 <png_do_read_transformations+0x1bc>
+ *   @0x2aaaca beq 0x2aaae8 <png_do_read_transformations+0x1bc>
+ *   @0x2aaade adds r1, #0x1
+ *   @0x2aaaee bpl 0x2aaafe <png_do_read_transformations+0x1d2>
+ *   @0x2aaafa bl 0x2a8d28 <png_do_chop>
+ *   @0x2aaafe ldr.w r3, [r4, #0x134]
+ *   @0x2aab02 lsls r1, r3, #0x19
+ *   @0x2aab06 ldr.w r1, [r4, #0x1b0]
+ *   @0x2aab0a add.w r0, r4, #0x1c4
+ *   @0x2aab0e ldr.w r3, [r4, #0x2b4]
+ *   @0x2aab12 adds r1, #0x1
+ *   @0x2aab22 ldr r1, [pc, #0x174]
+ *   @0x2aab26 add r1, pc
+ *   @0x2aab32 bpl 0x2aab42 <png_do_read_transformations+0x216>
+ *   @0x2aab3e bl 0x2af85a <png_do_invert>
+ *   @0x2aab42 ldr.w r3, [r4, #0x134]
+ *   @0x2aab46 lsls r3, r3, #0x1c
+ *   @0x2aab4a ldr.w r1, [r4, #0x1b0]
+ *   @0x2aab4e add.w r0, r4, #0x1c4
+ *   @0x2aab52 addw r2, r4, #0x245
+ *   @0x2aab56 adds r1, #0x1
+ *   @0x2aab62 bpl 0x2aab72 <png_do_read_transformations+0x246>
+ *   @0x2aab6e bl 0x2a8b2e <png_do_unpack>
+ *   @0x2aab72 ldr.w r3, [r4, #0x134]
+ *   @0x2aab76 lsls r0, r3, #0x1f
+ *   @0x2aab7a ldr.w r1, [r4, #0x1b0]
+ *   @0x2aab7e add.w r0, r4, #0x1c4
+ *   @0x2aab82 adds r1, #0x1
+ *   @0x2aab8e bpl 0x2aab9e <png_do_read_transformations+0x272>
+ *   @0x2aab9a bl 0x2af8e4 <png_do_packswap>
+ *   @0x2aab9e ldr.w r3, [r4, #0x134]
+ *   @0x2aaba2 lsls r2, r3, #0x11
+ *   @0x2aaba6 ldr.w r3, [r4, #0x12c]
+ *   @0x2aabaa lsls r3, r3, #0x14
+ *   @0x2aabae ldr.w r1, [r4, #0x1b0]
+ *   @0x2aabb2 add.w r0, r4, #0x1c4
+ *   @0x2aabb6 adds r1, #0x1
+ *   @0x2aabc2 bpl 0x2aabda <png_do_read_transformations+0x2ae>
+ *   @0x2aabd2 ldr.w r3, [r4, #0x130]
+ *   @0x2aabd6 bl 0x2a8ebe <png_do_read_filler>
+ *   @0x2aabda ldr.w r3, [r4, #0x134]
+ *   @0x2aabde lsls r0, r3, #0xc
+ *   @0x2aabe2 ldr.w r1, [r4, #0x1b0]
+ *   @0x2aabe6 add.w r0, r4, #0x1c4
+ *   @0x2aabea adds r1, #0x1
+ *   @0x2aabf6 bpl 0x2aac06 <png_do_read_transformations+0x2da>
+ *   @0x2aac02 bl 0x2a8d58 <png_do_read_swap_alpha>
+ *   @0x2aac06 ldr.w r3, [r4, #0x134]
+ *   @0x2aac0a lsls r2, r3, #0x1b
+ *   @0x2aac0e ldr.w r1, [r4, #0x1b0]
+ *   @0x2aac12 add.w r0, r4, #0x1c4
+ *   @0x2aac16 adds r1, #0x1
+ *   @0x2aac22 bpl 0x2aac74 <png_do_read_transformations+0x348>
+ *   @0x2aac2a ldr.w r2, [r4, #0x1b0]
+ *   @0x2aac2e mov r0, r4
+ *   @0x2aac36 blx r5
+ *   @0x2aac3e strb.w r3, [r4, #0x1cd]
+ *   @0x2aac42 ldrb.w r3, [r4, #0x129]
+ *   @0x2aac46 cbz r3, 0x2aac4c <png_do_read_transformations+0x320>
+ *   @0x2aac56 ldr.w r2, [r4, #0x1c4]
+ *   @0x2aac5a uxtb r3, r3
+ *   @0x2aac62 bls 0x2aac6a <png_do_read_transformations+0x33e>
+ *   @0x2aac66 muls r2, r3, r2
+ *   @0x2aac6a muls r2, r3, r2
+ *   @0x2aac6e lsrs r2, r2, #0x3
+ *   @0x2aac76 ldr r3, [r6]
+ *   @0x2aac7a beq 0x2aac80 <png_do_read_transformations+0x354>
+ *   @0x2aac82 pop {r4, r5, r6, pc}
+ *   @0x2aac86 movs r4, r2
+ *   @0x2aac8a movs r6, r1
+ *   @0x2aac8e movs r6, r1
+ *   @0x2aac92 movs r6, r1
+ *   @0x2aac96 movs r6, r1
+ *   @0x2aac9a movs r6, r1
+ *   @0x2aac9c andeq r0, r0, r0
+ *   @0x2aaca2 push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ *   @0x2aaca6 vpush {d8, d9, d10, d11, d12, d13, d14}
+ *   @0x2aacaa mov r4, r0
+ *   @0x2aacb2 vldr d9, [pc, #676]
+ *   @0x2aacb6 vmov.f64 d8, #1.000000e+00
+ *   @0x2aacba bhi.w 0x2aae08 <png_build_gamma_table+0x168>
+ *   @0x2aacbe vcvt.f64.f32 d7, s13
+ *   @0x2aacc2 vcmpe.f64 d7, d9
+ *   @0x2aacc6 vmrs APSR_nzcv, fpscr
+ *   @0x2aacca ble 0x2aacde <png_build_gamma_table+0x3e>
+ *   @0x2aacde vmov.f64 d12, d8
+ *   @0x2aace2 mov r0, r4
+ *   @0x2aacee vmov.f64 d14, #5.000000e-01
+ *   @0x2aacf2 vldr d11, [pc, #620]
+ *   @0x2aacf6 str.w r0, [r4, #0x228]
+ *   @0x2aacfa vmov s12, r5
+ *   @0x2aacfe ldr.w r6, [r4, #0x228]
+ *   @0x2aad02 vmov r2, r3, d12
+ *   @0x2aad06 vldr d10, [pc, #600]
+ *   @0x2aad0a vcvt.f64.s32 d7, s12
+ *   @0x2aad0e vdiv.f64 d6, d7, d11
+ *   @0x2aad12 vmov r0, r1, d6
+ *   @0x2aad16 blx 0xb6784 <pow@plt>
+ *   @0x2aad1a vmov.f64 d7, d14
+ *   @0x2aad1e vmov.f64 d13, #5.000000e-01
+ *   @0x2aad22 vmov d6, r0, r1
+ *   @0x2aad26 vmla.f64 d7, d6, d11
+ *   @0x2aad2a vcvt.u32.f64 s13, d7
+ *   @0x2aad2e vmov r3, s13
+ *   @0x2aad32 strb r3, [r6, r5]
+ *   @0x2aad36 cmp.w r5, #0x100
+ *   @0x2aad3a bne 0x2aacfa <png_build_gamma_table+0x5a>
+ *   @0x2aad42 ands r3, r2
+ *   @0x2aad46 beq.w 0x2ab152 <png_build_gamma_table+0x4b2>
+ *   @0x2aad4a vldr s22, [r4, #544]
+ *   @0x2aad4e vcvt.f64.f32 d11, s22
+ *   @0x2aad52 mov r1, r5
+ *   @0x2aad56 bl 0x2a6ca0 <png_malloc>
+ *   @0x2aad5a movs r5, #0x0
+ *   @0x2aad96 adds r5, #0x1
+ *   @0x2aad9e mov r1, r5
+ *   @0x2aada2 bl 0x2a6ca0 <png_malloc>
+ *   @0x2aada6 vldr s14, [r4, #548]
+ *   @0x2aadaa vcvt.f64.f32 d7, s14
+ *   @0x2aadae movs r5, #0x0
+ *   @0x2aadba vdivgt.f64 d8, d8, d7
+ *   @0x2aadbe vldrle s16, [r4, #544]
+ *   @0x2aadc2 str.w r0, [r4, #0x22c]
+ *   @0x2aadc6 it le
+ *   @0x2aadfe adds r5, #0x1
+ *   @0x2aae06 b 0x2ab152 <png_build_gamma_table+0x4b2>
+ *   @0x2aae0e bpl 0x2aae28 <png_build_gamma_table+0x188>
+ *   @0x2aae1a it lt
+ *   @0x2aae1e ldrb.w r3, [r0, #0x242]
+ *   @0x2aae22 cmp r3, r5
+ *   @0x2aae26 b 0x2aae2c <png_build_gamma_table+0x18c>
+ *   @0x2aae2e b 0x2aae36 <png_build_gamma_table+0x196>
+ *   @0x2aae32 rsb.w r5, r5, #0x10
+ *   @0x2aae36 ldr.w r3, [r4, #0x134]
+ *   @0x2aae3a lsls r3, r3, #0x15
+ *   @0x2aae3e cmp r5, #0x4
+ *   @0x2aae42 cmp r5, #0x8
+ *   @0x2aae46 bic.w r5, r5, r5, asr #31
+ *   @0x2aae4a b 0x2aae52 <png_build_gamma_table+0x1b2>
+ *   @0x2aae4e b 0x2aae52 <png_build_gamma_table+0x1b2>
+ *   @0x2aae52 vcvt.f64.f32 d7, s13
+ *   @0x2aae56 rsb.w r9, r5, #0x8
+ *   @0x2aae5a movs r6, #0x1
+ *   @0x2aae6e vldr s20, [r4, #544]
+ *   @0x2aae72 vmul.f32 s20, s13, s20
+ *   @0x2aae76 vcvt.f64.f32 d10, s20
+ *   @0x2aae7a vdiv.f64 d10, d8, d10
+ *   @0x2aae7e b 0x2aae84 <png_build_gamma_table+0x1e4>
+ *   @0x2aae86 mov r0, r4
+ *   @0x2aae8a mov r1, r2
+ *   @0x2aae9e movs r7, #0x0
+ *   @0x2aaea2 mov.w r1, #0x200
+ *   @0x2aaea6 ldr.w r8, [r4, #0x234]
+ *   @0x2aaeaa bl 0x2a6ca0 <png_malloc>
+ *   @0x2aaeae str.w r0, [r8, r7, lsl #2]
+ *   @0x2aaeb2 adds r7, #0x1
+ *   @0x2aaeb6 blt 0x2aaea0 <png_build_gamma_table+0x200>
+ *   @0x2aaec2 lsl.w r10, r6, #0x8
+ *   @0x2aaec6 asr.w r11, r11, r5
+ *   @0x2aaeca mov r8, r7
+ *   @0x2aaefa vcvt.f64.s32 d7, s13
+ *   @0x2aaefe vmov d6, r0, r1
+ *   @0x2aaf02 vmul.f64 d7, d6, d7
+ *   @0x2aaf06 vcvt.u32.f64 s14, d7
+ *   @0x2aaf0a vmov r3, s14
+ *   @0x2aaf0e cmp r7, r3
+ *   @0x2aaf12 ldr.w r3, [r4, #0x234]
+ *   @0x2aaf16 and.w r0, r7, r11
+ *   @0x2aaf1a lsr.w r1, r7, r9
+ *   @0x2aaf1e adds r7, #0x1
+ *   @0x2aaf2a add.w r8, r8, #0x1
+ *   @0x2aaf2e cmp.w r8, #0x100
+ *   @0x2aaf32 bne 0x2aaed4 <png_build_gamma_table+0x234>
+ *   @0x2aaf3a bhs 0x2aaffa <png_build_gamma_table+0x35a>
+ *   @0x2aaf4a ldr.w r3, [r3, r0, lsl #2]
+ *   @0x2aaf4e strh.w r2, [r3, r1, lsl #1]
+ *   @0x2aaf52 b 0x2aaf38 <png_build_gamma_table+0x298>
+ *   @0x2aaf5e subs r6, #0xb0
+ *   @0x2aaf62 movs r0, r0
+ *   @0x2aaf66 eors r7, r5
+ *   @0x2aaf6a movs r0, r0
+ *   @0x2aaf6e subs r7, #0x70
+ *   @0x2aaf72 lsls r0, r4, #0x1
+ *   @0x2aaf82 add.w r9, r9, r5, lsl #2
+ *   @0x2aaf86 mov r0, r4
+ *   @0x2aaf9e lsr.w r10, r3, #0x4
+ *   @0x2aafa2 str.w r0, [r8, r7, lsl #2]
+ *   @0x2aafa6 mov.w r8, #0x0
+ *   @0x2aafaa add.w r2, r10, r8, lsl #8
+ *   @0x2aafae ldr.w r3, [r4, #0x234]
+ *   @0x2aafb2 vmov s14, r2
+ *   @0x2aafb6 ldr.w r3, [r3, r11]
+ *   @0x2aafba vcvt.f64.s32 d7, s14
+ *   @0x2aafbe str r3, [sp, #0x4]
+ *   @0x2aafd2 vmov.f64 d7, d12
+ *   @0x2aafd6 vmov d6, r0, r1
+ *   @0x2aafda vmla.f64 d7, d6, d11
+ *   @0x2aafde vcvt.u32.f64 s13, d7
+ *   @0x2aafe2 vmov r3, s13
+ *   @0x2aafe6 strh.w r3, [r2, r8, lsl #1]
+ *   @0x2aafea add.w r8, r8, #0x1
+ *   @0x2aafee cmp.w r8, #0x100
+ *   @0x2aaff2 bne 0x2aafaa <png_build_gamma_table+0x30a>
+ *   @0x2aaff6 cmp r7, r6
+ *   @0x2aaffa ldr.w r2, [r4, #0x134]
+ *   @0x2aaffe ldr r3, [pc, #0x168]
+ *   @0x2ab002 cmp r3, #0x0
+ *   @0x2ab012 ldr r1, [sp]
+ *   @0x2ab01e vldr d11, [pc, #320]
+ *   @0x2ab022 add r9, pc
+ *   @0x2ab036 mov.w r1, #0x200
+ *   @0x2ab03a ldr.w r5, [r4, #0x23c]
+ *   @0x2ab03e bl 0x2a6ca0 <png_malloc>
+ *   @0x2ab042 lsl.w r11, r7, #0x2
+ *   @0x2ab046 mov.w r8, #0x0
+ *   @0x2ab04a str.w r0, [r5, r7, lsl #2]
+ *   @0x2ab04e ldr.w r5, [r9, #0x18]
+ *   @0x2ab052 mul r12, r5, r7
+ *   @0x2ab056 lsr.w r10, r12, #0x4
+ *   @0x2ab05a ldr.w r3, [r4, #0x23c]
+ *   @0x2ab05e vmov.f64 d14, #5.000000e-01
+ *   @0x2ab062 vldr d10, [pc, #252]
+ *   @0x2ab066 ldr.w r3, [r3, r11]
+ *   @0x2ab06a str r3, [sp, #0x4]
+ *   @0x2ab08a vmov.f64 d7, d12
+ *   @0x2ab08e vmov d6, r0, r1
+ *   @0x2ab092 vmla.f64 d7, d6, d11
+ *   @0x2ab096 vcvt.u32.f64 s13, d7
+ *   @0x2ab09a vmov r3, s13
+ *   @0x2ab09e strh.w r3, [r2, r8, lsl #1]
+ *   @0x2ab0a2 add.w r8, r8, #0x1
+ *   @0x2ab0a6 cmp.w r8, #0x100
+ *   @0x2ab0aa bne 0x2ab05a <png_build_gamma_table+0x3ba>
+ *   @0x2ab0ae cmp r7, r6
+ *   @0x2ab0b2 vldr s14, [r4, #548]
+ *   @0x2ab0b6 vcvt.f64.f32 d7, s14
+ *   @0x2ab0ba mov r0, r4
+ *   @0x2ab0be mov.w r9, #0x0
+ *   @0x2ab0c2 mov r7, r9
+ *   @0x2ab0ce vldrle s16, [r4, #544]
+ *   @0x2ab0d2 vdivgt.f64 d8, d8, d7
+ *   @0x2ab0d6 vcvtle.f64.f32 d8, s16
+ *   @0x2ab0da bl 0x2a6cd8 <png_calloc>
+ *   @0x2ab0de str.w r0, [r4, #0x238]
+ *   @0x2ab0e2 mov r0, r4
+ *   @0x2ab10a add.w r3, r10, r8, lsl #8
+ *   @0x2ab10e vmov s14, r3
+ *   @0x2ab112 vmov r2, r3, d8
+ *   @0x2ab116 vcvt.f64.s32 d7, s14
+ *   @0x2ab11a vdiv.f64 d6, d7, d10
+ *   @0x2ab11e vmov r0, r1, d6
+ *   @0x2ab122 blx 0xb6784 <pow@plt>
+ *   @0x2ab126 ldr r2, [sp]
+ *   @0x2ab14a adds r7, #0x1
+ *   @0x2ab14e cmp r7, r6
+ *   @0x2ab152 add sp, #0xc
+ *   @0x2ab162 movs r0, r0
+ *   @0x2ab16a lsls r0, r4, #0x1
+ *   @0x2ab16e movs r6, r1
+ *   @0x2ab172 movs r6, r1
+ *   @0x2ab174 andhi pc, r0, pc, lsr #7
+ *   @0x2ab182 ldr.w r3, [r0, #0x134]
+ *   @0x2ab186 sub sp, #0xc
+ *   @0x2ab18e bpl 0x2ab1a4 <png_init_read_transformations+0x2c>
+ *   @0x2ab196 ldr.w r2, [r0, #0x12c]
+ *   @0x2ab19a orr r2, r2, #0x800
+ *   @0x2ab19e str.w r2, [r0, #0x12c]
+ *   @0x2ab1a2 b 0x2ab1d2 <png_init_read_transformations+0x5a>
+ *   @0x2ab1ae ldrh.w r2, [r4, #0x1fe]
+ *   @0x2ab1b2 ldrh.w r1, [r4, #0x200]
+ *   @0x2ab1b6 cmp r1, r2
+ *   @0x2ab1ba ldrh.w r2, [r4, #0x202]
+ *   @0x2ab1be cmp r2, r1
+ *   @0x2ab1c2 ldr.w r1, [r4, #0x12c]
+ *   @0x2ab1c6 strh.w r2, [r4, #0x204]
+ *   @0x2ab1ca orr r1, r1, #0x800
+ *   @0x2ab1ce str.w r1, [r4, #0x12c]
+ *   @0x2ab1d2 and r2, r3, #0x1100
+ *   @0x2ab1d6 cmp.w r2, #0x1100
+ *   @0x2ab1da bne 0x2ab292 <png_init_read_transformations+0x11a>
+ *   @0x2ab1e2 ldrb.w r2, [r4, #0x1eb]
+ *   @0x2ab1e6 cmp r2, #0x2
+ *   @0x2ab1ea cmp r2, #0x4
+ *   @0x2ab1ee cmp r2, #0x1
+ *   @0x2ab1f2 ldrh.w r2, [r4, #0x204]
+ *   @0x2ab1f6 movs r1, #0xff
+ *   @0x2ab1fa ldrh.w r2, [r4, #0x204]
+ *   @0x2ab1fe movs r1, #0x55
+ *   @0x2ab202 ldrh.w r2, [r4, #0x204]
+ *   @0x2ab206 movs r1, #0x11
+ *   @0x2ab20a lsls r0, r3, #0x6
+ *   @0x2ab20e strh.w r2, [r4, #0x204]
+ *   @0x2ab212 strh.w r2, [r4, #0x202]
+ *   @0x2ab216 strh.w r2, [r4, #0x200]
+ *   @0x2ab21a strh.w r2, [r4, #0x1fe]
+ *   @0x2ab21e bmi 0x2ab292 <png_init_read_transformations+0x11a>
+ *   @0x2ab226 uxth r3, r3
+ *   @0x2ab23a ldrh.w r3, [r4, #0x204]
+ *   @0x2ab23e strh.w r3, [r4, #0x202]
+ *   @0x2ab242 strh.w r3, [r4, #0x200]
+ *   @0x2ab246 strh.w r3, [r4, #0x1fe]
+ *   @0x2ab24a b 0x2ab292 <png_init_read_transformations+0x11a>
+ *   @0x2ab252 ldrb.w r1, [r4, #0x1fc]
+ *   @0x2ab256 ldr.w r0, [r4, #0x1d8]
+ *   @0x2ab25a add.w r1, r1, r1, lsl #1
+ *   @0x2ab25e adds r2, r0, r1
+ *   @0x2ab262 strh.w r1, [r4, #0x1fe]
+ *   @0x2ab266 ldrb r1, [r2, #0x1]
+ *   @0x2ab26e strh.w r2, [r4, #0x202]
+ *   @0x2ab272 lsls r2, r3, #0xc
+ *   @0x2ab276 ands r3, r3, #0x2000000
+ *   @0x2ab27a bne 0x2ab292 <png_init_read_transformations+0x11a>
+ *   @0x2ab282 bge 0x2ab292 <png_init_read_transformations+0x11a>
+ *   @0x2ab28a mvns r0, r0
+ *   @0x2ab28e adds r3, #0x1
+ *   @0x2ab292 add.w r3, r4, #0x1fc
+ *   @0x2ab296 cmp.w r10, #0x3
+ *   @0x2ab29a ldm r3!, {r0, r1}
+ *   @0x2ab2a6 strh.w r3, [r4, #0x20e]
+ *   @0x2ab2aa bne 0x2ab300 <png_init_read_transformations+0x188>
+ *   @0x2ab2b2 vldr s15, [r4, #544]
+ *   @0x2ab2b6 vldr s12, [r4, #548]
+ *   @0x2ab2ba vmul.f32 s12, s12, s15
+ *   @0x2ab2be vmov.f64 d7, #1.000000e+00
+ *   @0x2ab2c2 vcvt.f64.f32 d6, s12
+ *   @0x2ab2c6 vsub.f64 d6, d6, d7
+ *   @0x2ab2ca vldr d7, [pc, #900]
+ *   @0x2ab2ce vabs.f64 d6, d6
+ *   @0x2ab2d2 vcmpe.f64 d6, d7
+ *   @0x2ab2d6 vmrs APSR_nzcv, fpscr
+ *   @0x2ab2da bpl 0x2ab300 <png_init_read_transformations+0x188>
+ *   @0x2ab2de cmp r3, r2
+ *   @0x2ab2e2 ldr.w r1, [r4, #0x24c]
+ *   @0x2ab2e6 ldrb r1, [r1, r3]
+ *   @0x2ab2ea uxtb r1, r1
+ *   @0x2ab2ee bls 0x2ab300 <png_init_read_transformations+0x188>
+ *   @0x2ab2f2 b 0x2ab2de <png_init_read_transformations+0x166>
+ *   @0x2ab306 ands r3, r2
+ *   @0x2ab30a beq.w 0x2ab89a <png_init_read_transformations+0x722>
+ *   @0x2ab30e vldr s15, [r4, #544]
+ *   @0x2ab312 vcmp.f32 s15, #0
+ *   @0x2ab316 vmrs APSR_nzcv, fpscr
+ *   @0x2ab31a beq.w 0x2ab89a <png_init_read_transformations+0x722>
+ *   @0x2ab31e mov r0, r4
+ *   @0x2ab346 ldr.w r11, [r4, #0x1d8]
+ *   @0x2ab34a ldrh.w r2, [r4, #0x1fe]
+ *   @0x2ab34e str r1, [sp, #0x4]
+ *   @0x2ab352 ldr.w r3, [r4, #0x228]
+ *   @0x2ab356 ldrh.w r0, [r4, #0x200]
+ *   @0x2ab35a ldrh.w r1, [r4, #0x202]
+ *   @0x2ab35e ldrb r7, [r3, r2]
+ *   @0x2ab362 ldrb r5, [r3, r1]
+ *   @0x2ab376 cmp r3, #0x1
+ *   @0x2ab37e cmp r3, #0x3
+ *   @0x2ab382 vldr s13, [r4, #504]
+ *   @0x2ab386 vldr s20, [r4, #548]
+ *   @0x2ab38a vmul.f32 s20, s13, s20
+ *   @0x2ab38e vcvt.f64.f32 d11, s13
+ *   @0x2ab392 vcvt.f64.f32 d10, s20
+ *   @0x2ab396 vdiv.f64 d11, d7, d11
+ *   @0x2ab39a vdiv.f64 d10, d7, d10
+ *   @0x2ab39e b 0x2ab3b6 <png_init_read_transformations+0x23e>
+ *   @0x2ab3ae vmov.f64 d10, d7
+ *   @0x2ab3b2 vmov.f64 d11, d7
+ *   @0x2ab3b6 vldr d6, [pc, #664]
+ *   @0x2ab3ba vldr d8, [pc, #668]
+ *   @0x2ab3be vsub.f64 d7, d10, d7
+ *   @0x2ab3c2 vabs.f64 d7, d7
+ *   @0x2ab3c6 vcmpe.f64 d7, d6
+ *   @0x2ab3ca vmov.f64 d9, #5.000000e-01
+ *   @0x2ab3ce vmrs APSR_nzcv, fpscr
+ *   @0x2ab3d2 bpl 0x2ab3e2 <png_init_read_transformations+0x26a>
+ *   @0x2ab3e2 vmov s12, r2
+ *   @0x2ab3e6 vmov r2, r3, d10
+ *   @0x2ab3ea vcvt.f64.u32 d7, s12
+ *   @0x2ab3ee vdiv.f64 d6, d7, d8
+ *   @0x2ab3f2 vmov r0, r1, d6
+ *   @0x2ab3f6 blx 0xb6784 <pow@plt>
+ *   @0x2ab3fa vmov.f64 d7, d9
+ *   @0x2ab3fe vmov r2, r3, d10
+ *   @0x2ab402 vmov d6, r0, r1
+ *   @0x2ab406 ldrh.w r1, [r4, #0x200]
+ *   @0x2ab40a vmla.f64 d7, d6, d8
+ *   @0x2ab40e vcvt.u32.f64 s13, d7
+ *   @0x2ab412 vmov s14, r1
+ *   @0x2ab416 vcvt.f64.u32 d7, s14
+ *   @0x2ab41a vmov r7, s13
+ *   @0x2ab41e vdiv.f64 d6, d7, d8
+ *   @0x2ab422 uxtb r7, r7
+ *   @0x2ab456 vmov r0, r1, d6
+ *   @0x2ab45a blx 0xb6784 <pow@plt>
+ *   @0x2ab45e vmov.f64 d7, d9
+ *   @0x2ab462 vmov d6, r0, r1
+ *   @0x2ab466 vmla.f64 d7, d6, d8
+ *   @0x2ab46a vcvt.u32.f64 s13, d7
+ *   @0x2ab46e vmov r5, s13
+ *   @0x2ab472 uxtb r5, r5
+ *   @0x2ab512 ldr r1, [sp, #0x4]
+ *   @0x2ab516 bge 0x2ab5ee <png_init_read_transformations+0x476>
+ *   @0x2ab51e bge 0x2ab5c6 <png_init_read_transformations+0x44e>
+ *   @0x2ab526 cmp r1, #0xff
+ *   @0x2ab52a cbnz r1, 0x2ab536 <png_init_read_transformations+0x3be>
+ *   @0x2ab532 strb r5, [r3, #0x1]
+ *   @0x2ab536 ldr.w r0, [r4, #0x230]
+ *   @0x2ab53a ldrb r11, [r3, #-1]
+ *   @0x2ab53e ldrb.w r11, [r0, r11]
+ *   @0x2ab542 rsb.w r0, r1, #0xff
+ *   @0x2ab546 mul r0, r0, r9
+ *   @0x2ab54a mla r1, r11, r1, r0
+ *   @0x2ab54e ldr.w r0, [r4, #0x22c]
+ *   @0x2ab552 ldrb.w r11, [r3]
+ *   @0x2ab556 adds r1, #0x80
+ *   @0x2ab55a add.w r1, r1, r1, lsr #8
+ *   @0x2ab55e ubfx r1, r1, #0x8, #0x8
+ *   @0x2ab562 ldrb r1, [r0, r1]
+ *   @0x2ab56e ldr.w r1, [r4, #0x230]
+ *   @0x2ab572 ldrb.w r11, [r1, r11]
+ *   @0x2ab576 rsb.w r1, r0, #0xff
+ *   @0x2ab57a mul r1, r1, r8
+ *   @0x2ab57e mla r1, r11, r0, r1
+ *   @0x2ab582 ldr.w r0, [r4, #0x22c]
+ *   @0x2ab586 ldrb.w r11, [r3, #0x1]
+ *   @0x2ab58a adds r1, #0x80
+ *   @0x2ab58e add.w r1, r1, r1, lsr #8
+ *   @0x2ab592 ubfx r1, r1, #0x8, #0x8
+ *   @0x2ab596 ldrb r1, [r0, r1]
+ *   @0x2ab59a ldr.w r1, [r4, #0x24c]
+ *   @0x2ab59e ldrb r0, [r1, r2]
+ *   @0x2ab5ba uxth r1, r1
+ *   @0x2ab5c6 ldrb r0, [r3, #-1]
+ *   @0x2ab5ca ldr.w r1, [r4, #0x228]
+ *   @0x2ab5ce ldrb r1, [r1, r0]
+ *   @0x2ab5d2 strb r1, [r3, #-1]
+ *   @0x2ab5d6 ldr.w r1, [r4, #0x228]
+ *   @0x2ab5da ldrb r1, [r1, r0]
+ *   @0x2ab5de strb r1, [r3]
+ *   @0x2ab5e6 strb r1, [r3, #0x1]
+ *   @0x2ab5ea adds r3, #0x3
+ *   @0x2ab5ee ldr.w r3, [r4, #0x134]
+ *   @0x2ab5f2 bic r3, r3, #0x2080
+ *   @0x2ab5f6 b 0x2ab948 <png_init_read_transformations+0x7d0>
+ *   @0x2ab5fe cmp r3, #0x2
+ *   @0x2ab616 cmp r3, #0x3
+ *   @0x2ab61a cmp r3, r1
+ *   @0x2ab61e vldr s20, [r4, #548]
+ *   @0x2ab622 vcvt.f64.f32 d10, s20
+ *   @0x2ab626 b 0x2ab672 <png_init_read_transformations+0x4fa>
+ *   @0x2ab62e vldr s15, [r4, #504]
+ *   @0x2ab632 vldr s14, [r4, #548]
+ *   @0x2ab636 vmul.f32 s14, s15, s14
+ *   @0x2ab63a vcvt.f64.f32 d10, s15
+ *   @0x2ab63e vcvt.f64.f32 d7, s14
+ *   @0x2ab642 vdiv.f64 d10, d9, d10
+ *   @0x2ab646 vdiv.f64 d9, d9, d7
+ *   @0x2ab64a b 0x2ab672 <png_init_read_transformations+0x4fa>
+ *   @0x2ab652 ldr r1, [sp, #0x264]
+ *   @0x2ab656 subs r7, #0xa9
+ *   @0x2ab65a movs r0, r0
+ *   @0x2ab65e eors r7, r5
+ *   @0x2ab662 lsls r0, r4, #0x1
+ *   @0x2ab666 mov r0, r4
+ *   @0x2ab66e bl 0x2a642c <png_error>
+ *   @0x2ab672 ldrh.w r1, [r4, #0x204]
+ *   @0x2ab676 vmov.f64 d11, #5.000000e-01
+ *   @0x2ab67a vmov r2, r3, d10
+ *   @0x2ab67e vmov s14, r1
+ *   @0x2ab682 vcvt.f64.u32 d7, s14
+ *   @0x2ab686 vdiv.f64 d6, d7, d8
+ *   @0x2ab68a vmov r0, r1, d6
+ *   @0x2ab68e blx 0xb6784 <pow@plt>
+ *   @0x2ab692 vmov.f64 d7, d11
+ *   @0x2ab696 vmov d6, r0, r1
+ *   @0x2ab69a ldrh.w r1, [r4, #0x204]
+ *   @0x2ab69e vmla.f64 d7, d6, d8
+ *   @0x2ab6a2 vcvt.u32.f64 s13, d7
+ *   @0x2ab6a6 vmov s14, r1
+ *   @0x2ab6aa vcvt.f64.u32 d7, s14
+ *   @0x2ab6ae vmov r3, s13
+ *   @0x2ab6b2 vdiv.f64 d6, d7, d8
+ *   @0x2ab6b6 strh.w r3, [r4, #0x20e]
+ *   @0x2ab6ba vmov r2, r3, d9
+ *   @0x2ab6be vmov r0, r1, d6
+ *   @0x2ab6c2 blx 0xb6784 <pow@plt>
+ *   @0x2ab6c6 vmov.f64 d7, d11
+ *   @0x2ab6ca vmov d6, r0, r1
+ *   @0x2ab6ce ldrh.w r0, [r4, #0x1fe]
+ *   @0x2ab6d2 ldrh.w r1, [r4, #0x200]
+ *   @0x2ab6d6 vmla.f64 d7, d6, d8
+ *   @0x2ab6da cmp r1, r0
+ *   @0x2ab6e6 strh.w r2, [r4, #0x204]
+ *   @0x2ab6ea bne 0x2ab6fa <png_init_read_transformations+0x582>
+ *   @0x2ab6f2 bne 0x2ab6fa <png_init_read_transformations+0x582>
+ *   @0x2ab6f6 beq.w 0x2ab82c <png_init_read_transformations+0x6b4>
+ *   @0x2ab6fa vmov s12, r0
+ *   @0x2ab6fe vmov r2, r3, d10
+ *   @0x2ab702 vcvt.f64.u32 d7, s12
+ *   @0x2ab706 vdiv.f64 d6, d7, d8
+ *   @0x2ab70a vmov r0, r1, d6
+ *   @0x2ab70e blx 0xb6784 <pow@plt>
+ *   @0x2ab712 vmov.f64 d7, d11
+ *   @0x2ab716 vmov d6, r0, r1
+ *   @0x2ab71a ldrh.w r1, [r4, #0x200]
+ *   @0x2ab71e vmla.f64 d7, d6, d8
+ *   @0x2ab722 vcvt.u32.f64 s13, d7
+ *   @0x2ab726 vmov s14, r1
+ *   @0x2ab72a vcvt.f64.u32 d7, s14
+ *   @0x2ab72e vmov r3, s13
+ *   @0x2ab732 vdiv.f64 d6, d7, d8
+ *   @0x2ab736 strh.w r3, [r4, #0x208]
+ *   @0x2ab73a vmov r2, r3, d10
+ *   @0x2ab73e vmov r0, r1, d6
+ *   @0x2ab742 blx 0xb6784 <pow@plt>
+ *   @0x2ab746 vmov.f64 d7, d11
+ *   @0x2ab74a vmov d6, r0, r1
+ *   @0x2ab74e ldrh.w r1, [r4, #0x202]
+ *   @0x2ab752 vmla.f64 d7, d6, d8
+ *   @0x2ab756 vcvt.u32.f64 s13, d7
+ *   @0x2ab75a vmov s14, r1
+ *   @0x2ab75e vcvt.f64.u32 d7, s14
+ *   @0x2ab762 vmov r3, s13
+ *   @0x2ab766 vdiv.f64 d6, d7, d8
+ *   @0x2ab76a strh.w r3, [r4, #0x20a]
+ *   @0x2ab76e vmov r2, r3, d10
+ *   @0x2ab772 vmov r0, r1, d6
+ *   @0x2ab776 blx 0xb6784 <pow@plt>
+ *   @0x2ab77a vmov.f64 d7, d11
+ *   @0x2ab77e vmov d6, r0, r1
+ *   @0x2ab782 ldrh.w r1, [r4, #0x1fe]
+ *   @0x2ab786 vmla.f64 d7, d6, d8
+ *   @0x2ab78a vcvt.u32.f64 s13, d7
+ *   @0x2ab78e vmov s14, r1
+ *   @0x2ab792 vcvt.f64.u32 d7, s14
+ *   @0x2ab796 vmov r3, s13
+ *   @0x2ab79a vdiv.f64 d6, d7, d8
+ *   @0x2ab79e strh.w r3, [r4, #0x20c]
+ *   @0x2ab7a2 vmov r2, r3, d9
+ *   @0x2ab7a6 vmov r0, r1, d6
+ *   @0x2ab7aa blx 0xb6784 <pow@plt>
+ *   @0x2ab7ae vmov.f64 d7, d11
+ *   @0x2ab7b2 vmov d6, r0, r1
+ *   @0x2ab7b6 ldrh.w r1, [r4, #0x200]
+ *   @0x2ab7ba vmla.f64 d7, d6, d8
+ *   @0x2ab7be vcvt.u32.f64 s13, d7
+ *   @0x2ab7c2 vmov s14, r1
+ *   @0x2ab7c6 vcvt.f64.u32 d7, s14
+ *   @0x2ab7ca vmov r3, s13
+ *   @0x2ab7ce vdiv.f64 d6, d7, d8
+ *   @0x2ab7d2 strh.w r3, [r4, #0x1fe]
+ *   @0x2ab7d6 vmov r2, r3, d9
+ *   @0x2ab7da vmov r0, r1, d6
+ *   @0x2ab7de blx 0xb6784 <pow@plt>
+ *   @0x2ab7e2 vmov.f64 d7, d11
+ *   @0x2ab7e6 vmov d6, r0, r1
+ *   @0x2ab7ea ldrh.w r1, [r4, #0x202]
+ *   @0x2ab7ee vmla.f64 d7, d6, d8
+ *   @0x2ab7f2 vcvt.u32.f64 s13, d7
+ *   @0x2ab7f6 vmov s14, r1
+ *   @0x2ab7fa vcvt.f64.u32 d7, s14
+ *   @0x2ab7fe vmov r3, s13
+ *   @0x2ab802 vdiv.f64 d6, d7, d8
+ *   @0x2ab806 strh.w r3, [r4, #0x200]
+ *   @0x2ab80a vmov r2, r3, d9
+ *   @0x2ab80e vmov r0, r1, d6
+ *   @0x2ab812 blx 0xb6784 <pow@plt>
+ *   @0x2ab816 vmov d7, r0, r1
+ *   @0x2ab81a vmla.f64 d11, d7, d8
+ *   @0x2ab81e vcvt.u32.f64 s15, d11
+ *   @0x2ab822 vmov r3, s15
+ *   @0x2ab826 strh.w r3, [r4, #0x202]
+ *   @0x2ab82a b 0x2ab958 <png_init_read_transformations+0x7e0>
+ *   @0x2ab846 cmp.w r10, #0x3
+ *   @0x2ab84a bne.w 0x2ab958 <png_init_read_transformations+0x7e0>
+ *   @0x2ab84e ldrh.w r0, [r4, #0x1dc]
+ *   @0x2ab852 ldr.w r3, [r4, #0x1d8]
+ *   @0x2ab856 cmp r2, r0
+ *   @0x2ab85e ldr.w r1, [r4, #0x228]
+ *   @0x2ab862 adds r2, #0x1
+ *   @0x2ab86a ldrb r5, [r3, #-2]
+ *   @0x2ab86e strb r1, [r3, #-3]
+ *   @0x2ab872 ldr.w r1, [r4, #0x228]
+ *   @0x2ab876 ldrb r1, [r1, r5]
+ *   @0x2ab886 strb r1, [r3, #-1]
+ *   @0x2ab88a b 0x2ab856 <png_init_read_transformations+0x6de>
+ *   @0x2ab89a lsls r3, r2, #0x18
+ *   @0x2ab89e cmp.w r10, #0x3
+ *   @0x2ab8a2 bne 0x2ab958 <png_init_read_transformations+0x7e0>
+ *   @0x2ab8aa ldrb.w r0, [r4, #0x200]
+ *   @0x2ab8ae ldrb.w r5, [r4, #0x202]
+ *   @0x2ab8b2 ldrh.w r7, [r4, #0x1de]
+ *   @0x2ab8b6 mov r12, r1
+ *   @0x2ab8be mov r9, r5
+ *   @0x2ab8c2 bge 0x2ab940 <png_init_read_transformations+0x7c8>
+ *   @0x2ab8ca cbnz r6, 0x2ab8d4 <png_init_read_transformations+0x75c>
+ *   @0x2ab8ce strb r0, [r3, #0x1]
+ *   @0x2ab8d2 b 0x2ab93a <png_init_read_transformations+0x7c2>
+ *   @0x2ab8d6 beq 0x2ab93a <png_init_read_transformations+0x7c2>
+ *   @0x2ab8ee add.w r6, r6, r6, lsr #8
+ *   @0x2ab8f2 asrs r6, r6, #0x8
+ *   @0x2ab8f6 ldr.w r6, [r4, #0x24c]
+ *   @0x2ab8fa ldrb.w r11, [r6, r2]
+ *   @0x2ab8fe ldrb r6, [r3, #0x1]
+ *   @0x2ab90a mla r6, r11, r8, r6
+ *   @0x2ab90e uxth r6, r6
+ *   @0x2ab916 strb r6, [r3, #0x1]
+ *   @0x2ab922 mul r6, r6, r11
+ *   @0x2ab926 rsb.w r11, r11, #0xff
+ *   @0x2ab92a adds r6, #0x80
+ *   @0x2ab932 add.w r6, r6, r6, lsr #8
+ *   @0x2ab936 asrs r6, r6, #0x8
+ *   @0x2ab93a adds r2, #0x1
+ *   @0x2ab93e b 0x2ab8c0 <png_init_read_transformations+0x748>
+ *   @0x2ab962 cmp r3, #0x8
+ *   @0x2ab966 cmp.w r10, #0x3
+ *   @0x2ab96a bne 0x2ab9e4 <png_init_read_transformations+0x86c>
+ *   @0x2ab972 ldrb.w r1, [r4, #0x241]
+ *   @0x2ab976 ldrb.w r0, [r4, #0x242]
+ *   @0x2ab97a rsb.w r2, r2, #0x8
+ *   @0x2ab97e rsb.w r1, r1, #0x8
+ *   @0x2ab982 ldrh.w r7, [r4, #0x1dc]
+ *   @0x2ab986 rsb.w r0, r0, #0x8
+ *   @0x2ab98a cmp r2, #0x8
+ *   @0x2ab98e movhi r2, #0x0
+ *   @0x2ab992 it hi
+ *   @0x2ab996 cmp r0, #0x8
+ *   @0x2ab99a movhi r0, #0x0
+ *   @0x2ab99e cmp r5, r7
+ *   @0x2ab9a2 mul r5, r10, r3
+ *   @0x2ab9a6 ldr.w r6, [r4, #0x1d8]
+ *   @0x2ab9aa adds r3, #0x1
+ *   @0x2ab9be ldrb.w r12, [r6, #0x1]
+ *   @0x2ab9c2 asr.w r12, r12, r1
+ *   @0x2ab9c6 strb.w r12, [r6, #0x1]
+ *   @0x2ab9ca ldr.w r6, [r4, #0x1d8]
+ *   @0x2ab9ce add r5, r6
+ *   @0x2ab9d2 asrs r6, r0
+ *   @0x2ab9d6 b 0x2ab99c <png_init_read_transformations+0x824>
+ *   @0x2ab9e6 vpop {d8, d9, d10, d11}
+ *   @0x2ab9ea pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2ab9ee nop
+ *   @0x2ab9f2 movs r6, r1
+ *   @0x2ab9f4 andhi pc, r0, pc, lsr #7
+ *   @0x2ab9fa ldrb r3, [r0, #0x8]
+ *   @0x2ab9fe bpl 0x2aba7c <png_do_read_intrapixel+0x84>
+ *   @0x2aba02 ldrb r0, [r0, #0x9]
+ *   @0x2aba06 bne 0x2aba32 <png_do_read_intrapixel+0x3a>
+ *   @0x2aba0a beq 0x2aba14 <png_do_read_intrapixel+0x1c>
+ *   @0x2aba0e bne 0x2aba7c <png_do_read_intrapixel+0x84>
+ *   @0x2aba12 b 0x2aba16 <png_do_read_intrapixel+0x1e>
+ *   @0x2aba16 movs r3, #0x0
+ *   @0x2aba1a beq 0x2aba30 <png_do_read_intrapixel+0x38>
+ *   @0x2aba1e adds r3, #0x1
+ *   @0x2aba22 add r5, r4
+ *   @0x2aba26 ldrb r5, [r1, #0x2]
+ *   @0x2aba2a strb r4, [r1, #0x2]
+ *   @0x2aba2e b 0x2aba18 <png_do_read_intrapixel+0x20>
+ *   @0x2aba32 cmp r0, #0x10
+ *   @0x2aba36 cmp r3, #0x2
+ *   @0x2aba3a cmp r3, #0x6
+ *   @0x2aba3e movs r0, #0x8
+ *   @0x2aba42 movs r0, #0x6
+ *   @0x2aba46 cmp r3, r2
+ *   @0x2aba4a ldrb r6, [r1, #0x2]
+ *   @0x2aba4e ldrb r4, [r1, #0x3]
+ *   @0x2aba52 orr.w r6, r4, r6, lsl #8
+ *   @0x2aba56 ldrb r4, [r1, #0x1]
+ *   @0x2aba5a orr.w r5, r4, r5, lsl #8
+ *   @0x2aba5e ldrb r4, [r1, #0x5]
+ *   @0x2aba62 orr.w r4, r4, r7, lsl #8
+ *   @0x2aba66 add r4, r6
+ *   @0x2aba6a strb r5, [r1, #0x1]
+ *   @0x2aba6e lsrs r6, r5, #0x8
+ *   @0x2aba72 strb r6, [r1]
+ *   @0x2aba76 strb r5, [r1, #0x4]
+ *   @0x2aba7a b 0x2aba46 <png_do_read_intrapixel+0x4e>
+ *   @0x2abb68 strdeq r0, r1, [lr], -r12
+ *   @0x2abb6e ldrb r3, [r1, #0x1]
+ *   @0x2abb72 lsls r3, r3, #0x10
+ *   @0x2abb7a add r3, r2
+ *   @0x2abb7e adds.w r4, r3, r2, lsl #8
+ *   @0x2abb82 bpl 0x2abb8c <png_get_uint_31+0x20>
+ *   @0x2abb86 add r1, pc
+ *   @0x2abb8e pop {r4, pc}
+ *   @0x2abb92 movs r6, r1
+ *   @0x2abb96 mov r5, r0
+ *   @0x2abb9e cmp r4, #0x7
+ *   @0x2abba2 rsb.w r7, r4, #0x8
+ *   @0x2abba6 add.w r1, r4, #0x20
+ *   @0x2abbaa add r1, r6
+ *   @0x2abbae movs r3, #0x11
+ *   @0x2abbb2 str.w r3, [r0, #0x334]
+ *   @0x2abbb6 bl 0x2a8030 <png_read_data>
+ *   @0x2abbba movs r3, #0x8
+ *   @0x2abbbe strb.w r3, [r5, #0x1f0]
+ *   @0x2abbc2 mov r1, r4
+ *   @0x2abbc6 bl 0x2a5a4c <png_sig_cmp>
+ *   @0x2abbca cbz r0, 0x2abbf0 <png_read_sig+0x5c>
+ *   @0x2abbce bhi 0x2abbe6 <png_read_sig+0x52>
+ *   @0x2abbd2 mov r1, r4
+ *   @0x2abbde ldr r1, [pc, #0x24]
+ *   @0x2abbe2 add r1, pc
+ *   @0x2abbe6 ldr r1, [pc, #0x20]
+ *   @0x2abbea add r1, pc
+ *   @0x2abbf2 bhi 0x2abc00 <png_read_sig+0x6c>
+ *   @0x2abc02 nop
+ *   @0x2abc06 movs r6, r1
+ *   @0x2abc0a movs r6, r1
+ *   @0x2abc0e mov r5, r1
+ *   @0x2abc12 mov r6, r0
+ *   @0x2abc16 bl 0x2a8030 <png_read_data>
+ *   @0x2abc1a mov r0, r6
+ *   @0x2abc1e mov r2, r4
+ *   @0x2abc2c mov r4, r0
+ *   @0x2abc3c and r5, r5, #0x300
+ *   @0x2abc40 subs.w r5, r5, #0x300
+ *   @0x2abc44 it ne
+ *   @0x2abc48 b 0x2abc52 <png_crc_error+0x28>
+ *   @0x2abc54 mov r0, r4
+ *   @0x2abc5c movs r2, #0x4
+ *   @0x2abc64 ldrb.w r0, [sp, #0x5]
+ *   @0x2abc68 ldrb.w r3, [sp, #0x4]
+ *   @0x2abc6c ldrb.w r5, [sp, #0x6]
+ *   @0x2abc70 lsls r0, r0, #0x10
+ *   @0x2abc7c ldr.w r3, [r4, #0x1d4]
+ *   @0x2abc80 add.w r0, r0, r5, lsl #8
+ *   @0x2abc84 subs r0, r0, r3
+ *   @0x2abc88 movne r0, #0x1
+ *   @0x2abc8c mov r0, r5
+ *   @0x2abc90 pop {r4, r5, pc}
+ *   @0x2abc92 ldrblt r0, [r0, #-0x0]!
+ *   @0x2abc96 mov r4, r0
+ *   @0x2abc9e cmp r5, r6
+ *   @0x2abca2 mov r0, r4
+ *   @0x2abcae bl 0x2abc0c <png_crc_read>
+ *   @0x2abcb2 b 0x2abc9e <png_crc_finish+0xa>
+ *   @0x2abcb6 mov r0, r4
+ *   @0x2abcbe bl 0x2abc0c <png_crc_read>
+ *   @0x2abcc2 mov r0, r4
+ *   @0x2abcca ldrb.w r3, [r4, #0x1e0]
+ *   @0x2abcce tst.w r3, #0x20
+ *   @0x2abcd2 ldr.w r3, [r4, #0x130]
+ *   @0x2abcd6 beq 0x2abcde <png_crc_finish+0x4a>
+ *   @0x2abcda bmi 0x2abcf0 <png_crc_finish+0x5c>
+ *   @0x2abcde lsls r3, r3, #0x15
+ *   @0x2abce2 ldr r1, [pc, #0x1c]
+ *   @0x2abce6 add r1, pc
+ *   @0x2abcee pop {r4, r5, r6, pc}
+ *   @0x2abcf2 mov r0, r4
+ *   @0x2abcf6 bl 0x2a64cc <png_chunk_error>
+ *   @0x2abcfa movs r0, #0x0
+ *   @0x2abcfe nop
+ *   @0x2abd02 movs r6, r1
+ *   @0x2abd06 movs r6, r1
+ *   @0x2abd0e ldr r3, [pc, #0x128]
+ *   @0x2abd12 sub sp, #0x44
+ *   @0x2abd16 add r3, pc
+ *   @0x2abd1a mov r4, r0
+ *   @0x2abd22 mov r10, r3
+ *   @0x2abd26 bls 0x2abd34 <png_decompress_chunk+0x2c>
+ *   @0x2abd2a movs r5, #0x0
+ *   @0x2abd2e bl 0x2a6474 <png_warning>
+ *   @0x2abd32 b 0x2abdf4 <png_decompress_chunk+0xec>
+ *   @0x2abd36 bne 0x2abddc <png_decompress_chunk+0xd4>
+ *   @0x2abd42 str r6, [sp]
+ *   @0x2abd46 mov r2, r9
+ *   @0x2abd4e mov r6, r0
+ *   @0x2abd52 mvn r3, #0x1
+ *   @0x2abd56 subs r3, r3, r5
+ *   @0x2abd5a bhs 0x2abd6a <png_decompress_chunk+0x62>
+ *   @0x2abd62 adds r2, r0, r5
+ *   @0x2abd66 cmp r2, r3
+ *   @0x2abd6a ldr r1, [pc, #0xd4]
+ *   @0x2abd6e add r1, pc
+ *   @0x2abd72 cmp r6, #0x0
+ *   @0x2abd76 add.w r11, r6, r5
+ *   @0x2abd7a mov r0, r4
+ *   @0x2abd86 cbz r0, 0x2abdd4 <png_decompress_chunk+0xcc>
+ *   @0x2abd8e blx 0xb65bc <memcpy@plt>
+ *   @0x2abd92 ldr.w r1, [r4, #0x330]
+ *   @0x2abd96 adds r3, r7, r5
+ *   @0x2abd9a mov r0, r4
+ *   @0x2abd9e mov r2, r9
+ *   @0x2abda6 strb.w r3, [r7, r11]
+ *   @0x2abdaa cmp r0, r6
+ *   @0x2abdae bne 0x2abdc2 <png_decompress_chunk+0xba>
+ *   @0x2abdc2 ldr r1, [pc, #0x80]
+ *   @0x2abdc6 bl 0x2a6474 <png_warning>
+ *   @0x2abdca mov r0, r4
+ *   @0x2abdce bl 0x2a6cfc <png_free>
+ *   @0x2abdd2 b 0x2abdf4 <png_decompress_chunk+0xec>
+ *   @0x2abdd6 mov r0, r4
+ *   @0x2abdda b 0x2abdf0 <png_decompress_chunk+0xe8>
+ *   @0x2abdde ldr r2, [pc, #0x6c]
+ *   @0x2abde2 mov r3, r6
+ *   @0x2abde6 add r2, pc
+ *   @0x2abdee mov r1, r7
+ *   @0x2abdf6 adds r1, r5, #0x1
+ *   @0x2abdfe cbz r0, 0x2abe1e <png_decompress_chunk+0x116>
+ *   @0x2abe02 ldr.w r1, [r4, #0x330]
+ *   @0x2abe06 mov r2, r5
+ *   @0x2abe0e ldr.w r1, [r4, #0x330]
+ *   @0x2abe12 bl 0x2a6cfc <png_free>
+ *   @0x2abe16 str.w r6, [r4, #0x330]
+ *   @0x2abe1a movs r3, #0x0
+ *   @0x2abe1e str.w r5, [r8]
+ *   @0x2abe22 ldr r2, [sp, #0x3c]
+ *   @0x2abe2a beq 0x2abe30 <png_decompress_chunk+0x128>
+ *   @0x2abe32 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2abe36 nop
+ *   @0x2abe3a movs r4, r2
+ *   @0x2abe3e movs r6, r1
+ *   @0x2abe42 movs r6, r1
+ *   @0x2abe46 movs r6, r1
+ *   @0x2abe4a movs r6, r1
+ *   @0x2abe4e movs r6, r1
+ *   @0x2abe52 push.w {r4, r5, r6, r7, r8, r9, lr}
+ *   @0x2abe56 add r3, pc
+ *   @0x2abe5a mov r8, r1
+ *   @0x2abe62 ldr r2, [r3]
+ *   @0x2abe66 tst.w r1, #0x1
+ *   @0x2abe6a mov r4, r0
+ *   @0x2abe6e str r2, [sp, #0x2c]
+ *   @0x2abe72 ldr r1, [pc, #0xe8]
+ *   @0x2abe76 bl 0x2a642c <png_error>
+ *   @0x2abe7a cmp r5, #0xd
+ *   @0x2abe7e ldr r1, [pc, #0xe0]
+ *   @0x2abe82 add r1, pc
+ *   @0x2abe8e movs r2, #0xd
+ *   @0x2abe92 orr r3, r3, #0x1
+ *   @0x2abe96 mov r1, r6
+ *   @0x2abea2 mov r0, r4
+ *   @0x2abeaa mov r0, r4
+ *   @0x2abeb2 mov r5, r0
+ *   @0x2abeb6 bl 0x2abb6c <png_get_uint_31>
+ *   @0x2abeba ldrb.w r7, [sp, #0x24]
+ *   @0x2abebe ldrb.w r2, [sp, #0x25]
+ *   @0x2abec2 ldrb.w r1, [sp, #0x27]
+ *   @0x2abec6 ldrb.w lr, [sp, #0x28]
+ *   @0x2abeca str.w r5, [r4, #0x18c]
+ *   @0x2abece strb.w r7, [r4, #0x1eb]
+ *   @0x2abed2 strb.w lr, [r4, #0x1e7]
+ *   @0x2abed6 strb.w r2, [r4, #0x1ea]
+ *   @0x2abeda strb.w r1, [r4, #0x2e4]
+ *   @0x2abede mov r3, r0
+ *   @0x2abeee bhi 0x2abf0e <png_handle_IHDR+0xbe>
+ *   @0x2abef6 lsls r6, r0, #0x10
+ *   @0x2abefa movs r2, r1
+ *   @0x2abefe b 0x2abf0a <png_handle_IHDR+0xba>
+ *   @0x2abf02 b 0x2abf0a <png_handle_IHDR+0xba>
+ *   @0x2abf06 b 0x2abf0a <png_handle_IHDR+0xba>
+ *   @0x2abf0a strb.w r6, [r4, #0x1ee]
+ *   @0x2abf0e ldrb.w r6, [r4, #0x1ee]
+ *   @0x2abf12 muls r6, r7, r6
+ *   @0x2abf16 strb.w r6, [r4, #0x1ed]
+ *   @0x2abf1a cmp r6, #0x7
+ *   @0x2abf1e lsrs r6, r6, #0x3
+ *   @0x2abf22 b 0x2abf2a <png_handle_IHDR+0xda>
+ *   @0x2abf26 adds r6, #0x7
+ *   @0x2abf2a str r2, [sp, #0x4]
+ *   @0x2abf2e str r0, [sp, #0xc]
+ *   @0x2abf32 str r1, [sp, #0x10]
+ *   @0x2abf36 str.w r6, [r4, #0x19c]
+ *   @0x2abf3a str r7, [sp]
+ *   @0x2abf46 ldr.w r3, [r9]
+ *   @0x2abf4a cmp r2, r3
+ *   @0x2abf4e blx 0xb65d4 <__stack_chk_fail@plt>
+ *   @0x2abf52 add sp, #0x34
+ *   @0x2abf5a movs r4, r2
+ *   @0x2abf5e movs r6, r1
+ *   @0x2abf62 movs r6, r1
+ *   @0x2abf6a ldr.w r3, [r0, #0x12c]
+ *   @0x2abf6e sub.w sp, sp, #0x30c
+ *   @0x2abf72 mov r4, r0
+ *   @0x2abf76 lsls r2, r3, #0x1f
+ *   @0x2abf7a ldr r1, [pc, #0x12c]
+ *   @0x2abf7e b 0x2abf92 <png_handle_PLTE+0x2e>
+ *   @0x2abf82 bpl 0x2abf8a <png_handle_PLTE+0x26>
+ *   @0x2abf86 add r1, pc
+ *   @0x2abf8a lsls r1, r3, #0x1e
+ *   @0x2abf8e ldr r1, [pc, #0x120]
+ *   @0x2abf92 bl 0x2a642c <png_error>
+ *   @0x2abf96 ldrb.w r7, [r4, #0x1ea]
+ *   @0x2abf9a ldr.w r3, [r4, #0x12c]
+ *   @0x2abf9e lsls r2, r7, #0x1e
+ *   @0x2abfaa ldr r1, [pc, #0x108]
+ *   @0x2abfae add r1, pc
+ *   @0x2abfb6 mov r1, r5
+ *   @0x2abfbe cmp.w r5, #0x300
+ *   @0x2abfc2 bhi 0x2abfce <png_handle_PLTE+0x6a>
+ *   @0x2abfc6 movs r1, #0x3
+ *   @0x2abfce cmp r7, #0x3
+ *   @0x2abfd2 beq 0x2abfda <png_handle_PLTE+0x76>
+ *   @0x2abfd6 add r1, pc
+ *   @0x2abfda ldr r1, [pc, #0xe0]
+ *   @0x2abfde bl 0x2a642c <png_error>
+ *   @0x2abfe2 mov r0, r5
+ *   @0x2abfe6 blx 0x318d10 <__divsi3>
+ *   @0x2abfea ldrb.w r3, [r4, #0x1ea]
+ *   @0x2abfee add.w r11, sp, #0x8
+ *   @0x2abff2 add.w r9, sp, #0x4
+ *   @0x2abff6 cmp r3, #0x3
+ *   @0x2ac002 ldrbeq.w r3, [r4, #0x1eb]
+ *   @0x2ac006 moveq.w r8, #0x1
+ *   @0x2ac00a movne.w r8, #0x100
+ *   @0x2ac00e lsleq.w r8, r8, r3
+ *   @0x2ac012 cmp r8, r0
+ *   @0x2ac016 movge r8, r0
+ *   @0x2ac01a add.w r7, r7, #0x3
+ *   @0x2ac01e mov r0, r4
+ *   @0x2ac022 mov r1, r9
+ *   @0x2ac026 bl 0x2abc0c <png_crc_read>
+ *   @0x2ac02a ldrb.w r3, [r9]
+ *   @0x2ac02e add.w r10, r10, #0x1
+ *   @0x2ac032 strb r3, [r7, #-6]
+ *   @0x2ac036 ldrb.w r3, [r9, #0x1]
+ *   @0x2ac03a strb r3, [r7, #-5]
+ *   @0x2ac03e ldrb.w r3, [r9, #0x2]
+ *   @0x2ac042 strb r3, [r7, #-4]
+ *   @0x2ac046 b 0x2ac018 <png_handle_PLTE+0xb4>
+ *   @0x2ac056 mov r0, r4
+ *   @0x2ac05a mov r2, r11
+ *   @0x2ac066 bne 0x2ac09e <png_handle_PLTE+0x13a>
+ *   @0x2ac06a ldr r3, [r6, #0x8]
+ *   @0x2ac06e bpl 0x2ac09e <png_handle_PLTE+0x13a>
+ *   @0x2ac07a bls 0x2ac08a <png_handle_PLTE+0x126>
+ *   @0x2ac07e mov r0, r4
+ *   @0x2ac082 bl 0x2a6474 <png_warning>
+ *   @0x2ac086 strh.w r8, [r4, #0x1de]
+ *   @0x2ac08a ldrh r3, [r6, #0x16]
+ *   @0x2ac08e bls 0x2ac09e <png_handle_PLTE+0x13a>
+ *   @0x2ac092 mov r0, r4
+ *   @0x2ac096 bl 0x2a6474 <png_warning>
+ *   @0x2ac09a strh.w r8, [r6, #0x16]
+ *   @0x2ac09e add.w sp, sp, #0x30c
+ *   @0x2ac0a2 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2ac0a6 nop
+ *   @0x2ac0aa movs r6, r1
+ *   @0x2ac0ae movs r6, r1
+ *   @0x2ac0b2 movs r6, r1
+ *   @0x2ac0b6 movs r6, r1
+ *   @0x2ac0ba movs r6, r1
+ *   @0x2ac0be movs r6, r1
+ *   @0x2ac0c2 movs r6, r1
+ *   @0x2ac0c6 movs r6, r1
+ *   @0x2ac0ca mov r4, r0
+ *   @0x2ac0d2 and r3, r3, #0x5
+ *   @0x2ac0d6 cmp r3, #0x5
+ *   @0x2ac0da ldr r1, [pc, #0x2c]
+ *   @0x2ac0de bl 0x2a642c <png_error>
+ *   @0x2ac0e2 ldr.w r3, [r4, #0x12c]
+ *   @0x2ac0e6 orr r3, r3, #0x18
+ *   @0x2ac0ea str.w r3, [r4, #0x12c]
+ *   @0x2ac0ee cbz r5, 0x2ac0fa <png_handle_IEND+0x32>
+ *   @0x2ac0f2 mov r0, r4
+ *   @0x2ac0f6 bl 0x2a6474 <png_warning>
+ *   @0x2ac0fa mov r0, r4
+ *   @0x2ac0fe pop.w {r3, r4, r5, lr}
+ *   @0x2ac102 b.w 0x2abc94 <png_crc_finish>
+ *   @0x2ac106 nop
+ *   @0x2ac10a movs r6, r1
+ *   @0x2ac10e movs r6, r1
+ *   @0x2ac112 mov r6, r2
+ *   @0x2ac11a mov r5, r1
+ *   @0x2ac11e bmi 0x2ac12a <png_handle_gAMA+0x1a>
+ *   @0x2ac122 add r1, pc
+ *   @0x2ac12a lsls r1, r3, #0x1d
+ *   @0x2ac12e ldr r1, [pc, #0xe8]
+ *   @0x2ac132 b 0x2ac154 <png_handle_gAMA+0x44>
+ *   @0x2ac136 bpl 0x2ac140 <png_handle_gAMA+0x30>
+ *   @0x2ac13a add r1, pc
+ *   @0x2ac142 cbz r5, 0x2ac162 <png_handle_gAMA+0x52>
+ *   @0x2ac146 movw r3, #0x801
+ *   @0x2ac14a ands r3, r2
+ *   @0x2ac14e bne 0x2ac162 <png_handle_gAMA+0x52>
+ *   @0x2ac152 add r1, pc
+ *   @0x2ac15a mov r1, r6
+ *   @0x2ac162 cmp r6, #0x4
+ *   @0x2ac166 ldr r1, [pc, #0xbc]
+ *   @0x2ac16a b 0x2ac154 <png_handle_gAMA+0x44>
+ *   @0x2ac16e mov r2, r6
+ *   @0x2ac176 movs r1, #0x0
+ *   @0x2ac17e bne 0x2ac20a <png_handle_gAMA+0xfa>
+ *   @0x2ac18a add.w r6, r6, r3, lsl #24
+ *   @0x2ac18e ldrb.w r3, [sp, #0x7]
+ *   @0x2ac192 add r6, r3
+ *   @0x2ac19e ldr r1, [pc, #0x88]
+ *   @0x2ac1a2 add r1, pc
+ *   @0x2ac1aa cbz r5, 0x2ac1dc <png_handle_gAMA+0xcc>
+ *   @0x2ac1ae lsls r3, r3, #0x14
+ *   @0x2ac1b2 sub.w r3, r6, #0xaf00
+ *   @0x2ac1b6 subs r3, #0xc8
+ *   @0x2ac1be ldr r1, [pc, #0x6c]
+ *   @0x2ac1c2 add r1, pc
+ *   @0x2ac1ca ldr r1, [pc, #0x68]
+ *   @0x2ac1ce add r0, pc
+ *   @0x2ac1d2 add r1, pc
+ *   @0x2ac1d6 blx 0xb68a4 <fprintf@plt>
+ *   @0x2ac1da b 0x2ac20a <png_handle_gAMA+0xfa>
+ *   @0x2ac1e6 mov r1, r5
+ *   @0x2ac202 mov r1, r5
+ *   @0x2ac206 bl 0x2ae988 <png_set_gAMA_fixed>
+ *   @0x2ac20a add sp, #0x8
+ *   @0x2ac20e nop
+ *   @0x2ac212 .word 0x47c3
+ *   @0x2ac216 movs r6, r1
+ *   @0x2ac21a movs r6, r1
+ *   @0x2ac21e movs r6, r1
+ *   @0x2ac222 movs r6, r1
+ *   @0x2ac226 movs r6, r1
+ *   @0x2ac22a movs r6, r1
+ *   @0x2ac22e movs r6, r1
+ *   @0x2ac232 movs r4, r2
+ *   @0x2ac236 movs r6, r1
+ *   @0x2ac23a movs r3, #0x0
+ *   @0x2ac242 strb.w r3, [sp, #0x6]
+ *   @0x2ac246 mov r4, r0
+ *   @0x2ac24e strb.w r3, [sp, #0x4]
+ *   @0x2ac252 ldr.w r3, [r0, #0x12c]
+ *   @0x2ac256 lsls r2, r3, #0x1f
+ *   @0x2ac25a ldr r1, [pc, #0xb8]
+ *   @0x2ac25e bl 0x2a642c <png_error>
+ *   @0x2ac262 b 0x2ac27a <png_handle_sBIT+0x42>
+ *   @0x2ac266 bpl 0x2ac26e <png_handle_sBIT+0x36>
+ *   @0x2ac26a add r1, pc
+ *   @0x2ac26e lsls r2, r3, #0x1e
+ *   @0x2ac272 ldr r1, [pc, #0xa8]
+ *   @0x2ac276 bl 0x2a6474 <png_warning>
+ *   @0x2ac27a cbz r6, 0x2ac296 <png_handle_sBIT+0x5e>
+ *   @0x2ac27e lsls r3, r3, #0x1e
+ *   @0x2ac282 ldr r1, [pc, #0x9c]
+ *   @0x2ac286 add r1, pc
+ *   @0x2ac28e mov r1, r5
+ *   @0x2ac296 ldrb.w r3, [r4, #0x1ea]
+ *   @0x2ac29a mov r0, r4
+ *   @0x2ac29e it ne
+ *   @0x2ac2a6 bne 0x2ac2ac <png_handle_sBIT+0x74>
+ *   @0x2ac2aa bls 0x2ac2b2 <png_handle_sBIT+0x7a>
+ *   @0x2ac2ae add r1, pc
+ *   @0x2ac2b2 add r1, sp, #0x4
+ *   @0x2ac2b6 bl 0x2abc0c <png_crc_read>
+ *   @0x2ac2ba mov r0, r4
+ *   @0x2ac2be bl 0x2abc94 <png_crc_finish>
+ *   @0x2ac2c2 cbnz r0, 0x2ac310 <png_handle_sBIT+0xd8>
+ *   @0x2ac2d6 strb.w r3, [r4, #0x240]
+ *   @0x2ac2da ldrb.w r3, [sp, #0x6]
+ *   @0x2ac2de strb.w r2, [r4, #0x241]
+ *   @0x2ac2e2 strb.w r3, [r4, #0x242]
+ *   @0x2ac2e6 ldrb.w r3, [sp, #0x7]
+ *   @0x2ac2ea strb.w r3, [r4, #0x244]
+ *   @0x2ac2ee b 0x2ac304 <png_handle_sBIT+0xcc>
+ *   @0x2ac306 mov r1, r6
+ *   @0x2ac312 pop {r4, r5, r6, pc}
+ *   @0x2ac316 movs r6, r1
+ *   @0x2ac31a movs r6, r1
+ *   @0x2ac31e movs r6, r1
+ *   @0x2ac322 movs r6, r1
+ *   @0x2ac326 movs r6, r1
+ *   @0x2ac32a push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ *   @0x2ac32e vpush {d8, d9, d10, d11}
+ *   @0x2ac332 add r3, pc
+ *   @0x2ac336 mov r6, r2
+ *   @0x2ac33a ldr r2, [r3]
+ *   @0x2ac33e mov r5, r1
+ *   @0x2ac342 str r2, [sp, #0x6c]
+ *   @0x2ac34e ldr r1, [pc, #0x320]
+ *   @0x2ac352 bl 0x2a642c <png_error>
+ *   @0x2ac356 b 0x2ac36e <png_handle_cHRM+0x46>
+ *   @0x2ac35a bpl 0x2ac362 <png_handle_cHRM+0x3a>
+ *   @0x2ac35e add r1, pc
+ *   @0x2ac362 lsls r2, r2, #0x1e
+ *   @0x2ac366 ldr r1, [pc, #0x310]
+ *   @0x2ac36a bl 0x2a6474 <png_warning>
+ *   @0x2ac36e mov r0, r4
+ *   @0x2ac372 ldr r2, [r5, #0x8]
+ *   @0x2ac37a cmp r3, #0x4
+ *   @0x2ac37e ldr r1, [pc, #0x2fc]
+ *   @0x2ac382 b 0x2ac38c <png_handle_cHRM+0x64>
+ *   @0x2ac386 beq 0x2ac39a <png_handle_cHRM+0x72>
+ *   @0x2ac38a add r1, pc
+ *   @0x2ac392 mov r1, r6
+ *   @0x2ac39a add r1, sp, #0x4c
+ *   @0x2ac39e bl 0x2abc0c <png_crc_read>
+ *   @0x2ac3a2 mov r0, r4
+ *   @0x2ac3a6 bl 0x2abc94 <png_crc_finish>
+ *   @0x2ac3aa cmp r0, #0x0
+ *   @0x2ac3c2 ldrb.w r12, [sp, #0x55]
+ *   @0x2ac3c6 add.w r7, r7, r3, lsl #24
+ *   @0x2ac3ca ldrb.w r3, [sp, #0x4f]
+ *   @0x2ac3ce lsls r6, r6, #0x10
+ *   @0x2ac3d6 ldrb.w r3, [sp, #0x4e]
+ *   @0x2ac3da lsl.w r12, r12, #0x10
+ *   @0x2ac3de ldrb.w r10, [sp, #0x5d]
+ *   @0x2ac3e2 lsl.w r11, r11, #0x10
+ *   @0x2ac3e6 ldrb.w r9, [sp, #0x61]
+ *   @0x2ac3ea add.w r7, r7, r3, lsl #8
+ *   @0x2ac3ee ldrb.w r3, [sp, #0x50]
+ *   @0x2ac3f2 lsl.w r10, r10, #0x10
+ *   @0x2ac3f6 ldrb.w r8, [sp, #0x65]
+ *   @0x2ac3fa lsl.w r9, r9, #0x10
+ *   @0x2ac3fe vmov s14, r7
+ *   @0x2ac402 add.w r6, r6, r3, lsl #24
+ *   @0x2ac406 ldrb.w r3, [sp, #0x53]
+ *   @0x2ac40a lsl.w r8, r8, #0x10
+ *   @0x2ac40e vcvt.f32.s32 s17, s14
+ *   @0x2ac412 add r6, r3
+ *   @0x2ac436 ldrb.w r3, [sp, #0x56]
+ *   @0x2ac43a add.w r12, r12, r3, lsl #8
+ *   @0x2ac43e ldrb.w r3, [sp, #0x58]
+ *   @0x2ac442 vmov s14, r12
+ *   @0x2ac446 add.w r11, r11, r3, lsl #24
+ *   @0x2ac44a ldrb.w r3, [sp, #0x5b]
+ *   @0x2ac44e vcvt.f32.s32 s22, s14
+ *   @0x2ac452 add r11, r3
+ *   @0x2ac472 ldrb.w r3, [sp, #0x5e]
+ *   @0x2ac476 add.w r10, r10, r3, lsl #8
+ *   @0x2ac47a ldrb.w r3, [sp, #0x60]
+ *   @0x2ac47e vmov s14, r10
+ *   @0x2ac482 add.w r9, r9, r3, lsl #24
+ *   @0x2ac486 ldrb.w r3, [sp, #0x63]
+ *   @0x2ac48a vcvt.f32.s32 s19, s14
+ *   @0x2ac48e add r9, r3
+ *   @0x2ac4ae ldrb.w r3, [sp, #0x66]
+ *   @0x2ac4b2 add.w r8, r8, r3, lsl #8
+ *   @0x2ac4b6 ldrb.w r3, [sp, #0x69]
+ *   @0x2ac4ba vmov s14, r8
+ *   @0x2ac4be lsls r3, r3, #0x10
+ *   @0x2ac4ce ldrb.w r2, [sp, #0x6a]
+ *   @0x2ac4d2 add.w r2, r3, r2, lsl #8
+ *   @0x2ac4d6 str r2, [sp, #0x40]
+ *   @0x2ac502 beq 0x2ac5da <png_handle_cHRM+0x2b2>
+ *   @0x2ac506 lsls r3, r3, #0x14
+ *   @0x2ac50a sub.w r7, r7, #0x7600
+ *   @0x2ac50e subs r7, #0x3e
+ *   @0x2ac516 sub.w r6, r6, #0x7c80
+ *   @0x2ac51a subs r6, #0x1c
+ *   @0x2ac522 sub.w r12, r12, #0xf600
+ *   @0x2ac526 sub.w r12, r12, #0x18
+ *   @0x2ac52a cmp.w r12, #0x7d0
+ *   @0x2ac52e bhi 0x2ac570 <png_handle_cHRM+0x248>
+ *   @0x2ac53a sub.w r10, r10, #0x7100
+ *   @0x2ac53e sub.w r10, r10, #0x48
+ *   @0x2ac542 cmp.w r10, #0x7d0
+ *   @0x2ac546 bhi 0x2ac570 <png_handle_cHRM+0x248>
+ *   @0x2ac556 sub.w r8, r8, #0x3680
+ *   @0x2ac55a sub.w r8, r8, #0x30
+ *   @0x2ac55e cmp.w r8, #0x7d0
+ *   @0x2ac562 bhi 0x2ac570 <png_handle_cHRM+0x248>
+ *   @0x2ac56a cmp.w r3, #0x7d0
+ *   @0x2ac56e bls 0x2ac64e <png_handle_cHRM+0x326>
+ *   @0x2ac572 mov r0, r4
+ *   @0x2ac576 bl 0x2a6474 <png_warning>
+ *   @0x2ac57a vcvt.f64.f32 d7, s17
+ *   @0x2ac57e ldr r0, [pc, #0x108]
+ *   @0x2ac582 add r0, pc
+ *   @0x2ac586 add.w r4, r0, #0xa8
+ *   @0x2ac58a add r1, pc
+ *   @0x2ac58e vcvt.f64.f32 d1, s23
+ *   @0x2ac592 vmov r2, r3, d7
+ *   @0x2ac596 vcvt.f64.f32 d2, s22
+ *   @0x2ac59a vstr d1, [sp]
+ *   @0x2ac59e vcvt.f64.f32 d3, s21
+ *   @0x2ac5a2 vstr d2, [sp, #8]
+ *   @0x2ac5a6 vstr d3, [sp, #16]
+ *   @0x2ac5aa blx 0xb68a4 <fprintf@plt>
+ *   @0x2ac5ae vcvt.f64.f32 d7, s16
+ *   @0x2ac5b2 ldr r1, [pc, #0xdc]
+ *   @0x2ac5b6 add r1, pc
+ *   @0x2ac5da vcvt.f64.f32 d7, s16
+ *   @0x2ac5de mov r0, r4
+ *   @0x2ac5e2 str.w r12, [sp, #0x3c]
+ *   @0x2ac5e6 vcvt.f64.f32 d1, s23
+ *   @0x2ac5ea vstr d7, [sp, #48]
+ *   @0x2ac5ee vcvt.f64.f32 d2, s22
+ *   @0x2ac5f2 vstr d1, [sp]
+ *   @0x2ac5f6 vcvt.f64.f32 d3, s21
+ *   @0x2ac5fa vstr d2, [sp, #8]
+ *   @0x2ac5fe vcvt.f64.f32 d4, s19
+ *   @0x2ac602 vstr d3, [sp, #16]
+ *   @0x2ac606 vcvt.f64.f32 d5, s20
+ *   @0x2ac60a vstr d4, [sp, #24]
+ *   @0x2ac60e vcvt.f64.f32 d6, s18
+ *   @0x2ac612 vstr d5, [sp, #32]
+ *   @0x2ac616 vcvt.f64.f32 d7, s17
+ *   @0x2ac61a vstr d6, [sp, #40]
+ *   @0x2ac61e vmov r2, r3, d7
+ *   @0x2ac622 bl 0x2ae6d8 <png_set_cHRM>
+ *   @0x2ac626 ldr r1, [sp, #0x40]
+ *   @0x2ac62e str.w r11, [sp, #0x4]
+ *   @0x2ac632 mov r2, r7
+ *   @0x2ac636 mov r3, r6
+ *   @0x2ac63e str.w r10, [sp, #0x8]
+ *   @0x2ac642 str.w r9, [sp, #0xc]
+ *   @0x2ac646 str.w r8, [sp, #0x10]
+ *   @0x2ac64a bl 0x2ae7e0 <png_set_cHRM_fixed>
+ *   @0x2ac64e ldr r1, [sp, #0x44]
+ *   @0x2ac652 ldr r3, [r1]
+ *   @0x2ac656 beq 0x2ac65c <png_handle_cHRM+0x334>
+ *   @0x2ac65e vpop {d8, d9, d10, d11}
+ *   @0x2ac662 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2ac666 nop
+ *   @0x2ac66a .word 0x47c3
+ *   @0x2ac66e movs r4, r2
+ *   @0x2ac672 movs r6, r1
+ *   @0x2ac676 movs r6, r1
+ *   @0x2ac67a movs r6, r1
+ *   @0x2ac67e movs r6, r1
+ *   @0x2ac682 movs r6, r1
+ *   @0x2ac686 movs r6, r1
+ *   @0x2ac68a movs r4, r2
+ *   @0x2ac68e movs r6, r1
+ *   @0x2ac692 movs r6, r1
+ *   @0x2ac696 mov r4, r1
+ *   @0x2ac69e mov r6, r2
+ *   @0x2ac6a2 bmi 0x2ac6ae <png_handle_sRGB+0x1a>
+ *   @0x2ac6a6 add r1, pc
+ *   @0x2ac6ae lsls r2, r3, #0x1d
+ *   @0x2ac6b2 ldr r1, [pc, #0x13c]
+ *   @0x2ac6b6 b 0x2ac6dc <png_handle_sRGB+0x48>
+ *   @0x2ac6ba bpl 0x2ac6c4 <png_handle_sRGB+0x30>
+ *   @0x2ac6be add r1, pc
+ *   @0x2ac6c6 cbz r4, 0x2ac6d4 <png_handle_sRGB+0x40>
+ *   @0x2ac6ca lsls r1, r3, #0x14
+ *   @0x2ac6ce ldr r1, [pc, #0x128]
+ *   @0x2ac6d2 b 0x2ac6dc <png_handle_sRGB+0x48>
+ *   @0x2ac6d6 beq 0x2ac6ea <png_handle_sRGB+0x56>
+ *   @0x2ac6da add r1, pc
+ *   @0x2ac6e2 mov r1, r6
+ *   @0x2ac6ea add r1, sp, #0x4
+ *   @0x2ac6ee bl 0x2abc0c <png_crc_read>
+ *   @0x2ac6f2 mov r0, r5
+ *   @0x2ac6f6 bl 0x2abc94 <png_crc_finish>
+ *   @0x2ac6fa cmp r0, #0x0
+ *   @0x2ac6fe ldrb.w r6, [sp, #0x4]
+ *   @0x2ac702 cmp r6, #0x3
+ *   @0x2ac706 ldr r1, [pc, #0xf8]
+ *   @0x2ac70a add r1, pc
+ *   @0x2ac712 cmp r4, #0x0
+ *   @0x2ac716 ldr r3, [r4, #0x8]
+ *   @0x2ac71a bpl 0x2ac74a <png_handle_sRGB+0xb6>
+ *   @0x2ac726 cmp.w r3, #0x3e8
+ *   @0x2ac72a bls 0x2ac74a <png_handle_sRGB+0xb6>
+ *   @0x2ac72e mov r0, r5
+ *   @0x2ac732 bl 0x2a6474 <png_warning>
+ *   @0x2ac736 ldr r0, [pc, #0xd0]
+ *   @0x2ac73a add r0, pc
+ *   @0x2ac73e ldr.w r2, [r5, #0x2e0]
+ *   @0x2ac742 adds r0, #0xa8
+ *   @0x2ac746 blx 0xb68a4 <fprintf@plt>
+ *   @0x2ac74a ldr r3, [r4, #0x8]
+ *   @0x2ac74e bpl 0x2ac7ce <png_handle_sRGB+0x13a>
+ *   @0x2ac75a cmp.w r3, #0x7d0
+ *   @0x2ac75e bhi 0x2ac7da <png_handle_sRGB+0x146>
+ *   @0x2ac76a cmp.w r3, #0x7d0
+ *   @0x2ac76e bhi 0x2ac7da <png_handle_sRGB+0x146>
+ *   @0x2ac77a cmp.w r3, #0x7d0
+ *   @0x2ac77e bhi 0x2ac7da <png_handle_sRGB+0x146>
+ *   @0x2ac78e ldr.w r3, [r4, #0x110]
+ *   @0x2ac792 sub.w r3, r3, #0x7100
+ *   @0x2ac796 subs r3, #0x48
+ *   @0x2ac79e ldr.w r3, [r4, #0x114]
+ *   @0x2ac7a2 sub.w r3, r3, #0xe600
+ *   @0x2ac7a6 subs r3, #0x78
+ *   @0x2ac7ae ldr.w r3, [r4, #0x118]
+ *   @0x2ac7b2 sub.w r3, r3, #0x3680
+ *   @0x2ac7b6 subs r3, #0x30
+ *   @0x2ac7be ldr.w r3, [r4, #0x11c]
+ *   @0x2ac7c2 sub.w r3, r3, #0x1380
+ *   @0x2ac7c6 subs r3, #0x8
+ *   @0x2ac7ce mov r0, r5
+ *   @0x2ac7d2 mov r2, r6
+ *   @0x2ac7da ldr r1, [pc, #0x34]
+ *   @0x2ac7de add r1, pc
+ *   @0x2ac7e6 add sp, #0x8
+ *   @0x2ac7ea nop
+ *   @0x2ac7ee movs r6, r1
+ *   @0x2ac7f2 movs r6, r1
+ *   @0x2ac7f6 movs r6, r1
+ *   @0x2ac7fa movs r6, r1
+ *   @0x2ac7fe movs r6, r1
+ *   @0x2ac802 movs r6, r1
+ *   @0x2ac806 movs r6, r1
+ *   @0x2ac80a movs r4, r2
+ *   @0x2ac80e movs r6, r1
+ *   @0x2ac812 movs r6, r1
+ *   @0x2ac816 push.w {r4, r5, r6, r7, r8, r9, lr}
+ *   @0x2ac81a add r3, pc
+ *   @0x2ac81e mov r5, r2
+ *   @0x2ac822 ldr r2, [r3]
+ *   @0x2ac826 mov r7, r1
+ *   @0x2ac82a str r2, [sp, #0x44]
+ *   @0x2ac836 ldr r1, [pc, #0x18c]
+ *   @0x2ac83a bl 0x2a642c <png_error>
+ *   @0x2ac83e b 0x2ac856 <png_handle_iCCP+0x42>
+ *   @0x2ac842 bpl 0x2ac84a <png_handle_iCCP+0x36>
+ *   @0x2ac846 add r1, pc
+ *   @0x2ac84a lsls r2, r2, #0x1e
+ *   @0x2ac84e ldr r1, [pc, #0x17c]
+ *   @0x2ac852 bl 0x2a6474 <png_warning>
+ *   @0x2ac856 mov r0, r4
+ *   @0x2ac85a ldr r3, [r7, #0x8]
+ *   @0x2ac85e bpl 0x2ac872 <png_handle_iCCP+0x5e>
+ *   @0x2ac862 add r1, pc
+ *   @0x2ac86a mov r1, r5
+ *   @0x2ac872 ldr.w r1, [r4, #0x330]
+ *   @0x2ac876 bl 0x2a6cfc <png_free>
+ *   @0x2ac87a adds r1, r5, #0x1
+ *   @0x2ac87e bl 0x2a6ca0 <png_malloc>
+ *   @0x2ac882 mov r2, r5
+ *   @0x2ac886 str.w r0, [r4, #0x330]
+ *   @0x2ac88a mov r0, r4
+ *   @0x2ac892 movs r1, #0x0
+ *   @0x2ac89a bne 0x2ac99a <png_handle_iCCP+0x186>
+ *   @0x2ac8a2 ldr.w r1, [r4, #0x330]
+ *   @0x2ac8a6 mov r2, r1
+ *   @0x2ac8aa adds r2, #0x1
+ *   @0x2ac8ae cmp r0, #0x0
+ *   @0x2ac8b2 cbz r5, 0x2ac8be <png_handle_iCCP+0xaa>
+ *   @0x2ac8b6 subs r2, r5, #0x1
+ *   @0x2ac8ba cmp r0, r2
+ *   @0x2ac8be mov r0, r4
+ *   @0x2ac8c6 movs r3, #0x0
+ *   @0x2ac8ca str.w r3, [r4, #0x330]
+ *   @0x2ac8ce add r1, pc
+ *   @0x2ac8d2 adds r6, r3, #0x2
+ *   @0x2ac8d6 cbz r3, 0x2ac8e2 <png_handle_iCCP+0xce>
+ *   @0x2ac8da mov r0, r4
+ *   @0x2ac8de bl 0x2a6474 <png_warning>
+ *   @0x2ac8e2 ldr.w r3, [r4, #0x330]
+ *   @0x2ac8e6 mov r2, r5
+ *   @0x2ac8ea movs r1, #0x0
+ *   @0x2ac8ee add r3, sp, #0xc
+ *   @0x2ac8f2 mov r3, r6
+ *   @0x2ac8fa cmp r6, r5
+ *   @0x2ac8fe subs r5, r5, r6
+ *   @0x2ac902 bhi 0x2ac91c <png_handle_iCCP+0x108>
+ *   @0x2ac906 ldr.w r1, [r4, #0x330]
+ *   @0x2ac90a bl 0x2a6cfc <png_free>
+ *   @0x2ac90e ldr r1, [pc, #0xcc]
+ *   @0x2ac912 mov r0, r4
+ *   @0x2ac91a b 0x2ac984 <png_handle_iCCP+0x170>
+ *   @0x2ac922 ldrb r3, [r2, r6]
+ *   @0x2ac932 orr.w r9, r9, r3
+ *   @0x2ac936 ldrb r3, [r1, #0x2]
+ *   @0x2ac93e blo 0x2ac98a <png_handle_iCCP+0x176>
+ *   @0x2ac942 mov r1, r2
+ *   @0x2ac946 bl 0x2a6cfc <png_free>
+ *   @0x2ac94a ldr r1, [pc, #0x94]
+ *   @0x2ac94e mov r0, r4
+ *   @0x2ac956 bl 0x2a6474 <png_warning>
+ *   @0x2ac95a add r6, sp, #0x10
+ *   @0x2ac95e mov r3, r9
+ *   @0x2ac962 mov r0, r6
+ *   @0x2ac966 blx 0xb65c8 <snprintf@plt>
+ *   @0x2ac96a mov r0, r4
+ *   @0x2ac96e bl 0x2a6474 <png_warning>
+ *   @0x2ac972 ldr r2, [pc, #0x74]
+ *   @0x2ac976 mov r0, r6
+ *   @0x2ac97a mov r3, r5
+ *   @0x2ac982 mov r1, r6
+ *   @0x2ac98a mov r5, r9
+ *   @0x2ac992 mov r1, r7
+ *   @0x2ac996 bl 0x2aee48 <png_set_iCCP>
+ *   @0x2ac99a mov r0, r4
+ *   @0x2ac9a6 str.w r3, [r4, #0x330]
+ *   @0x2ac9aa ldr r2, [sp, #0x44]
+ *   @0x2ac9b2 beq 0x2ac9b8 <png_handle_iCCP+0x1a4>
+ *   @0x2ac9ba pop.w {r4, r5, r6, r7, r8, r9, pc}
+ *   @0x2ac9be nop
+ *   @0x2ac9c2 movs r4, r2
+ *   @0x2ac9c6 movs r6, r1
+ *   @0x2ac9ca movs r6, r1
+ *   @0x2ac9ce movs r6, r1
+ *   @0x2ac9d2 movs r6, r1
+ *   @0x2ac9d6 movs r6, r1
+ *   @0x2ac9da movs r6, r1
+ *   @0x2ac9de movs r6, r1
+ *   @0x2ac9e2 movs r6, r1
+ *   @0x2ac9e6 movs r6, r1
+ *   @0x2ac9ea movs r6, r1
+ *   @0x2ac9f2 ldr.w r3, [r0, #0x310]
+ *   @0x2ac9f6 sub sp, #0x14
+ *   @0x2ac9fa mov r6, r2
+ *   @0x2ac9fe cmp r3, #0x1
+ *   @0x2aca02 subs r3, #0x1
+ *   @0x2aca0a bne 0x2aca1e <png_handle_sPLT+0x32>
+ *   @0x2aca0e add r1, pc
+ *   @0x2aca16 mov r1, r6
+ *   @0x2aca1e ldr.w r3, [r4, #0x12c]
+ *   @0x2aca22 lsls r2, r3, #0x1f
+ *   @0x2aca26 ldr r1, [pc, #0x1ac]
+ *   @0x2aca2a add r1, pc
+ *   @0x2aca32 lsls r3, r3, #0x1d
+ *   @0x2aca36 ldr r1, [pc, #0x1a0]
+ *   @0x2aca3a add r1, pc
+ *   @0x2aca3e mov r0, r4
+ *   @0x2aca4a mov r0, r4
+ *   @0x2aca52 mov r1, r0
+ *   @0x2aca5a bl 0x2abc0c <png_crc_read>
+ *   @0x2aca5e mov r0, r4
+ *   @0x2aca62 bl 0x2abc94 <png_crc_finish>
+ *   @0x2aca66 cbz r0, 0x2aca7a <png_handle_sPLT+0x8e>
+ *   @0x2aca6a ldr.w r1, [r4, #0x330]
+ *   @0x2aca6e bl 0x2a6cfc <png_free>
+ *   @0x2aca72 movs r3, #0x0
+ *   @0x2aca7a ldr.w r3, [r4, #0x330]
+ *   @0x2aca7e strb r0, [r3, r6]
+ *   @0x2aca86 mov r3, r2
+ *   @0x2aca8a ldrb.w r9, [r3]
+ *   @0x2aca8e cmp.w r9, #0x0
+ *   @0x2aca92 bne 0x2aca86 <png_handle_sPLT+0x9a>
+ *   @0x2aca96 mov r1, r2
+ *   @0x2aca9a subs r2, r6, #0x2
+ *   @0x2aca9e cmp r1, r2
+ *   @0x2acaa2 mov r0, r4
+ *   @0x2acaa6 bl 0x2a6cfc <png_free>
+ *   @0x2acaaa ldr r1, [pc, #0x130]
+ *   @0x2acaae mov r0, r4
+ *   @0x2acab6 b 0x2acb28 <png_handle_sPLT+0x13c>
+ *   @0x2acabe rsb r11, r5, r7
+ *   @0x2acac2 add r11, r6
+ *   @0x2acace movne.w r10, #0xa
+ *   @0x2acad2 moveq.w r10, #0x6
+ *   @0x2acad6 mov r0, r11
+ *   @0x2acada blx 0x318dec <__aeabi_idivmod>
+ *   @0x2acade mov r6, r1
+ *   @0x2acae2 mov r0, r4
+ *   @0x2acae6 bl 0x2a6cfc <png_free>
+ *   @0x2acaea ldr r1, [pc, #0xf4]
+ *   @0x2acaf2 add r1, pc
+ *   @0x2acaf6 mov r1, r10
+ *   @0x2acafa blx 0x318d10 <__divsi3>
+ *   @0x2acafe ldr r2, [pc, #0xcc]
+ *   @0x2acb02 mov r1, r0
+ *   @0x2acb06 bls 0x2acb10 <png_handle_sPLT+0x124>
+ *   @0x2acb0a mov r0, r4
+ *   @0x2acb0e b 0x2acb28 <png_handle_sPLT+0x13c>
+ *   @0x2acb12 mov r0, r4
+ *   @0x2acb16 bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2acb1a str r0, [sp, #0x8]
+ *   @0x2acb1e mov r2, r6
+ *   @0x2acb22 ldr r1, [pc, #0xc4]
+ *   @0x2acb26 add r1, pc
+ *   @0x2acb2e ldrb.w r6, [sp, #0x4]
+ *   @0x2acb32 mul r1, r7, r2
+ *   @0x2acb36 ldr r0, [sp, #0x8]
+ *   @0x2acb3a ldrb r6, [r5]
+ *   @0x2acb42 strh r6, [r0, r1]
+ *   @0x2acb46 ldrb r1, [r5, #0x1]
+ *   @0x2acb4a ldrb r1, [r5, #0x2]
+ *   @0x2acb4e ldrb r1, [r5, #0x3]
+ *   @0x2acb52 ldrb r5, [r0]
+ *   @0x2acb56 ldrb r1, [r0, #0x1]
+ *   @0x2acb5e strh r1, [r3, #0x8]
+ *   @0x2acb62 cmp r2, r3
+ *   @0x2acb66 b 0x2acb96 <png_handle_sPLT+0x1aa>
+ *   @0x2acb72 ldrb r0, [r5, #0x2]
+ *   @0x2acb76 add.w r1, r1, r0, lsl #8
+ *   @0x2acb7a strh r1, [r3, #0x2]
+ *   @0x2acb7e ldrb r1, [r5, #0x5]
+ *   @0x2acb86 ldrb r0, [r5, #0x6]
+ *   @0x2acb8a add.w r1, r1, r0, lsl #8
+ *   @0x2acb8e add.w r0, r5, #0x8
+ *   @0x2acb92 strh r1, [r3, #0x6]
+ *   @0x2acb96 ldr.w r3, [r4, #0x330]
+ *   @0x2acb9a add r2, sp, #0x10
+ *   @0x2acb9e mov r1, r8
+ *   @0x2acba6 mov r2, sp
+ *   @0x2acbae ldr.w r1, [r4, #0x330]
+ *   @0x2acbb2 bl 0x2a6cfc <png_free>
+ *   @0x2acbb6 movs r3, #0x0
+ *   @0x2acbba str.w r3, [r4, #0x330]
+ *   @0x2acbbe ldr r1, [sp, #0x8]
+ *   @0x2acbc6 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2acbca nop
+ *   @0x2acbce adds r1, r3, r6
+ *   @0x2acbd2 movs r6, r1
+ *   @0x2acbd6 movs r6, r1
+ *   @0x2acbda movs r6, r1
+ *   @0x2acbde movs r6, r1
+ *   @0x2acbe2 movs r6, r1
+ *   @0x2acbe6 movs r6, r1
+ *   @0x2acbea movs r6, r1
+ *   @0x2acbee push.w {r4, r5, r6, r7, r8, lr}
+ *   @0x2acbf2 add r3, pc
+ *   @0x2acbf6 mov r5, r2
+ *   @0x2acbfa ldr r2, [r3]
+ *   @0x2acbfe mov r7, r1
+ *   @0x2acc02 str r2, [sp, #0x114]
+ *   @0x2acc0e ldr r1, [pc, #0x12c]
+ *   @0x2acc12 bl 0x2a642c <png_error>
+ *   @0x2acc16 b 0x2acc30 <png_handle_tRNS+0x44>
+ *   @0x2acc1a bpl 0x2acc22 <png_handle_tRNS+0x36>
+ *   @0x2acc1e add r1, pc
+ *   @0x2acc22 cbz r7, 0x2acc30 <png_handle_tRNS+0x44>
+ *   @0x2acc26 lsls r2, r3, #0x1b
+ *   @0x2acc2a ldr r1, [pc, #0x118]
+ *   @0x2acc2e b 0x2accee <png_handle_tRNS+0x102>
+ *   @0x2acc36 cmp r5, #0x2
+ *   @0x2acc3a beq 0x2acc42 <png_handle_tRNS+0x56>
+ *   @0x2acc3e add r1, pc
+ *   @0x2acc42 add r6, sp, #0xc
+ *   @0x2acc46 mov r1, r6
+ *   @0x2acc4e movs r3, #0x1
+ *   @0x2acc56 add.w r3, r3, r2, lsl #8
+ *   @0x2acc5a strh.w r3, [r4, #0x258]
+ *   @0x2acc5e b 0x2accfc <png_handle_tRNS+0x110>
+ *   @0x2acc62 bne 0x2acca6 <png_handle_tRNS+0xba>
+ *   @0x2acc66 mov r0, r4
+ *   @0x2acc6a ldr r1, [pc, #0xe0]
+ *   @0x2acc6e b 0x2accee <png_handle_tRNS+0x102>
+ *   @0x2acc72 mov r2, r5
+ *   @0x2acc76 bl 0x2abc0c <png_crc_read>
+ *   @0x2acc7a ldrb r2, [r6]
+ *   @0x2acc7e strh.w r3, [r4, #0x1de]
+ *   @0x2acc82 ldrb r3, [r6, #0x1]
+ *   @0x2acc8a strh.w r3, [r4, #0x252]
+ *   @0x2acc8e ldrb r3, [r6, #0x3]
+ *   @0x2acc96 strh.w r3, [r4, #0x254]
+ *   @0x2acc9a ldrb r3, [r6, #0x5]
+ *   @0x2acca6 cmp r2, #0x3
+ *   @0x2accaa ldr.w r3, [r4, #0x12c]
+ *   @0x2accae lsls r3, r3, #0x1e
+ *   @0x2accb2 ldr r1, [pc, #0x9c]
+ *   @0x2accb6 add r1, pc
+ *   @0x2accc2 cmp r5, r3
+ *   @0x2accc6 cmp.w r5, #0x100
+ *   @0x2accca bls 0x2accd2 <png_handle_tRNS+0xe6>
+ *   @0x2accce add r1, pc
+ *   @0x2accd2 cbnz r5, 0x2accda <png_handle_tRNS+0xee>
+ *   @0x2accd6 add r1, pc
+ *   @0x2accda add r1, sp, #0x14
+ *   @0x2accde bl 0x2abc0c <png_crc_read>
+ *   @0x2acce2 strh.w r5, [r4, #0x1de]
+ *   @0x2acce6 b 0x2accfc <png_handle_tRNS+0x110>
+ *   @0x2accea mov r0, r4
+ *   @0x2accee bl 0x2a6474 <png_warning>
+ *   @0x2accf2 mov r0, r4
+ *   @0x2accf6 bl 0x2abc94 <png_crc_finish>
+ *   @0x2accfa b 0x2acd22 <png_handle_tRNS+0x136>
+ *   @0x2accfe movs r1, #0x0
+ *   @0x2acd06 movs r3, #0x0
+ *   @0x2acd0e add.w r2, r4, #0x250
+ *   @0x2acd12 ldrh.w r3, [r4, #0x1de]
+ *   @0x2acd16 str r2, [sp]
+ *   @0x2acd1a mov r1, r7
+ *   @0x2acd1e bl 0x2af14c <png_set_tRNS>
+ *   @0x2acd22 ldr r2, [sp, #0x114]
+ *   @0x2acd2a beq 0x2acd30 <png_handle_tRNS+0x144>
+ *   @0x2acd32 pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2acd36 nop
+ *   @0x2acd3a movs r4, r2
+ *   @0x2acd3e movs r6, r1
+ *   @0x2acd42 movs r6, r1
+ *   @0x2acd46 movs r6, r1
+ *   @0x2acd4a movs r6, r1
+ *   @0x2acd4e movs r6, r1
+ *   @0x2acd52 movs r6, r1
+ *   @0x2acd56 movs r6, r1
+ *   @0x2acd5a movs r6, r1
+ *   @0x2acd5e movs r6, r1
+ *   @0x2acd62 mov r5, r2
+ *   @0x2acd6a mov r6, r1
+ *   @0x2acd6e bmi 0x2acd7a <png_handle_bKGD+0x1a>
+ *   @0x2acd72 add r1, pc
+ *   @0x2acd7a lsls r1, r3, #0x1d
+ *   @0x2acd7e ldr r1, [pc, #0x104]
+ *   @0x2acd82 b 0x2acdc6 <png_handle_bKGD+0x66>
+ *   @0x2acd8a bne 0x2acd96 <png_handle_bKGD+0x36>
+ *   @0x2acd8e bmi 0x2acd96 <png_handle_bKGD+0x36>
+ *   @0x2acd92 add r1, pc
+ *   @0x2acd96 cbz r6, 0x2acda6 <png_handle_bKGD+0x46>
+ *   @0x2acd9a lsls r3, r3, #0x1a
+ *   @0x2acd9e ldr r1, [pc, #0xec]
+ *   @0x2acda2 add r1, pc
+ *   @0x2acda6 ldrb.w r3, [r4, #0x1ea]
+ *   @0x2acdaa cmp r3, #0x3
+ *   @0x2acdae tst.w r3, #0x2
+ *   @0x2acdb2 ite eq
+ *   @0x2acdb6 movne r3, #0x6
+ *   @0x2acdba movs r3, #0x1
+ *   @0x2acdbe mov r0, r4
+ *   @0x2acdc2 ldr r1, [pc, #0xcc]
+ *   @0x2acdc6 bl 0x2a6474 <png_warning>
+ *   @0x2acdca mov r0, r4
+ *   @0x2acdce bl 0x2abc94 <png_crc_finish>
+ *   @0x2acdd2 b 0x2ace7c <png_handle_bKGD+0x11c>
+ *   @0x2acdd6 mov r2, r5
+ *   @0x2acdde movs r1, #0x0
+ *   @0x2acde6 bne 0x2ace7c <png_handle_bKGD+0x11c>
+ *   @0x2acdf2 bne 0x2ace2a <png_handle_bKGD+0xca>
+ *   @0x2acdfa beq 0x2ace70 <png_handle_bKGD+0x110>
+ *   @0x2acdfe cbz r2, 0x2ace70 <png_handle_bKGD+0x110>
+ *   @0x2ace02 blo 0x2ace10 <png_handle_bKGD+0xb0>
+ *   @0x2ace06 mov r0, r4
+ *   @0x2ace0a bl 0x2a6474 <png_warning>
+ *   @0x2ace0e b 0x2ace7c <png_handle_bKGD+0x11c>
+ *   @0x2ace1a ldrb r3, [r1, r3]
+ *   @0x2ace22 strh.w r3, [r4, #0x200]
+ *   @0x2ace26 ldrb r3, [r2, #0x2]
+ *   @0x2ace2a tst.w r2, #0x2
+ *   @0x2ace2e ldrb.w r2, [sp, #0x1]
+ *   @0x2ace32 add.w r3, r2, r3, lsl #8
+ *   @0x2ace36 bne 0x2ace4c <png_handle_bKGD+0xec>
+ *   @0x2ace3a strh.w r3, [r4, #0x204]
+ *   @0x2ace3e strh.w r3, [r4, #0x202]
+ *   @0x2ace42 strh.w r3, [r4, #0x200]
+ *   @0x2ace46 strh.w r3, [r4, #0x1fe]
+ *   @0x2ace4a b 0x2ace70 <png_handle_bKGD+0x110>
+ *   @0x2ace72 mov r1, r6
+ *   @0x2ace7e pop {r4, r5, r6, pc}
+ *   @0x2ace82 movs r6, r1
+ *   @0x2ace86 movs r6, r1
+ *   @0x2ace8a movs r6, r1
+ *   @0x2ace8e movs r6, r1
+ *   @0x2ace92 movs r6, r1
+ *   @0x2ace96 movs r6, r1
+ *   @0x2ace9e ldr.w r3, [r0, #0x12c]
+ *   @0x2acea2 sub.w sp, sp, #0x20c
+ *   @0x2acea6 mov r7, r1
+ *   @0x2aceaa lsls r6, r3, #0x1f
+ *   @0x2aceae ldr r1, [pc, #0x94]
+ *   @0x2aceb2 bl 0x2a642c <png_error>
+ *   @0x2aceb6 b 0x2acee6 <png_handle_hIST+0x4e>
+ *   @0x2aceba bpl 0x2acec2 <png_handle_hIST+0x2a>
+ *   @0x2acebe add r1, pc
+ *   @0x2acec2 lsls r2, r3, #0x1e
+ *   @0x2acec6 ldr r1, [pc, #0x84]
+ *   @0x2aceca bl 0x2a6474 <png_warning>
+ *   @0x2acece mov r0, r4
+ *   @0x2aced2 bl 0x2abc94 <png_crc_finish>
+ *   @0x2aced6 b 0x2acf3a <png_handle_hIST+0xa2>
+ *   @0x2aceda ldr r3, [r7, #0x8]
+ *   @0x2acede bpl 0x2acee6 <png_handle_hIST+0x4e>
+ *   @0x2acee2 add r1, pc
+ *   @0x2acee6 cmp.w r5, #0x200
+ *   @0x2aceea bhi 0x2acef6 <png_handle_hIST+0x5e>
+ *   @0x2acef6 ldr r1, [pc, #0x5c]
+ *   @0x2acefa add r1, pc
+ *   @0x2acefe lsr.w r9, r5, #0x1
+ *   @0x2acf02 add.w r8, sp, #0x8
+ *   @0x2acf06 add r5, sp, #0x4
+ *   @0x2acf0a cmp r6, r9
+ *   @0x2acf0e beq 0x2acf28 <png_handle_hIST+0x90>
+ *   @0x2acf12 mov r1, r5
+ *   @0x2acf1a ldrb r3, [r5, #0x1]
+ *   @0x2acf26 b 0x2acf0a <png_handle_hIST+0x72>
+ *   @0x2acf2a bl 0x2abc94 <png_crc_finish>
+ *   @0x2acf2e cbnz r0, 0x2acf3a <png_handle_hIST+0xa2>
+ *   @0x2acf32 mov r1, r7
+ *   @0x2acf36 bl 0x2aea08 <png_set_hIST>
+ *   @0x2acf3a add.w sp, sp, #0x20c
+ *   @0x2acf3e pop.w {r4, r5, r6, r7, r8, r9, pc}
+ *   @0x2acf42 nop
+ *   @0x2acf46 movs r6, r1
+ *   @0x2acf4a movs r6, r1
+ *   @0x2acf4e movs r6, r1
+ *   @0x2acf52 movs r6, r1
+ *   @0x2acf56 movs r6, r1
+ *   @0x2acf5a push {r4, r5, r6, r7, lr}
+ *   @0x2acf5e ldr r3, [r3]
+ *   @0x2acf62 sub sp, #0x1c
+ *   @0x2acf66 mov r4, r0
+ *   @0x2acf6a mov r7, r3
+ *   @0x2acf6e ldr.w r2, [r0, #0x12c]
+ *   @0x2acf72 tst.w r2, #0x1
+ *   @0x2acf76 bne 0x2acf82 <png_handle_pHYs+0x2a>
+ *   @0x2acf7a add r1, pc
+ *   @0x2acf82 lsls r2, r2, #0x1d
+ *   @0x2acf86 ldr r1, [pc, #0x9c]
+ *   @0x2acf8a b 0x2acf98 <png_handle_pHYs+0x40>
+ *   @0x2acf8e ldr r2, [r1, #0x8]
+ *   @0x2acf92 bpl 0x2acfa6 <png_handle_pHYs+0x4e>
+ *   @0x2acf96 add r1, pc
+ *   @0x2acf9e mov r1, r5
+ *   @0x2acfa6 cmp r5, #0x9
+ *   @0x2acfaa beq 0x2acfb2 <png_handle_pHYs+0x5a>
+ *   @0x2acfae add r1, pc
+ *   @0x2acfb2 add r1, sp, #0x8
+ *   @0x2acfb6 bl 0x2abc0c <png_crc_read>
+ *   @0x2acfba mov r0, r4
+ *   @0x2acfbe bl 0x2abc94 <png_crc_finish>
+ *   @0x2acfc2 cbnz r0, 0x2ad00a <png_handle_pHYs+0xb2>
+ *   @0x2acfca ldrb.w r3, [sp, #0x8]
+ *   @0x2acfce ldrb.w r1, [sp, #0xc]
+ *   @0x2acfd2 lsls r2, r2, #0x10
+ *   @0x2acfe6 ldrb.w r3, [sp, #0xd]
+ *   @0x2acfea add.w r2, r2, lr, lsl #8
+ *   @0x2acfee lsls r3, r3, #0x10
+ *   @0x2acffa ldrb.w r1, [sp, #0x10]
+ *   @0x2acffe add.w r3, r3, r5, lsl #8
+ *   @0x2ad002 str r1, [sp]
+ *   @0x2ad006 bl 0x2aec6a <png_set_pHYs>
+ *   @0x2ad00a ldr r2, [sp, #0x14]
+ *   @0x2ad00e cmp r2, r3
+ *   @0x2ad012 blx 0xb65d4 <__stack_chk_fail@plt>
+ *   @0x2ad016 add sp, #0x1c
+ *   @0x2ad01a nop
+ *   @0x2ad01e movs r4, r2
+ *   @0x2ad022 movs r6, r1
+ *   @0x2ad026 movs r6, r1
+ *   @0x2ad02a movs r6, r1
+ *   @0x2ad02e movs r6, r1
+ *   @0x2ad032 push {r4, r5, r6, r7, lr}
+ *   @0x2ad036 ldr r3, [r3]
+ *   @0x2ad03a sub sp, #0x1c
+ *   @0x2ad03e mov r4, r0
+ *   @0x2ad042 mov r7, r3
+ *   @0x2ad046 ldr.w r2, [r0, #0x12c]
+ *   @0x2ad04a tst.w r2, #0x1
+ *   @0x2ad04e bne 0x2ad05a <png_handle_oFFs+0x2a>
+ *   @0x2ad052 add r1, pc
+ *   @0x2ad05a lsls r2, r2, #0x1d
+ *   @0x2ad05e ldr r1, [pc, #0xbc]
+ *   @0x2ad062 b 0x2ad070 <png_handle_oFFs+0x40>
+ *   @0x2ad066 ldr r3, [r1, #0x8]
+ *   @0x2ad06a bpl 0x2ad07e <png_handle_oFFs+0x4e>
+ *   @0x2ad06e add r1, pc
+ *   @0x2ad076 mov r1, r5
+ *   @0x2ad07e cmp r5, #0x9
+ *   @0x2ad082 beq 0x2ad08a <png_handle_oFFs+0x5a>
+ *   @0x2ad086 add r1, pc
+ *   @0x2ad08a add r1, sp, #0x8
+ *   @0x2ad08e bl 0x2abc0c <png_crc_read>
+ *   @0x2ad092 mov r0, r4
+ *   @0x2ad096 bl 0x2abc94 <png_crc_finish>
+ *   @0x2ad09a cbnz r0, 0x2ad102 <png_handle_oFFs+0xd2>
+ *   @0x2ad0ba add.w r2, r2, r3, lsl #8
+ *   @0x2ad0be beq 0x2ad0c8 <png_handle_oFFs+0x98>
+ *   @0x2ad0c2 bic r2, r2, #0x80000000
+ *   @0x2ad0c6 rsbs r2, r2, #0
+ *   @0x2ad0e6 add.w r3, r3, r1, lsl #8
+ *   @0x2ad0ea beq 0x2ad0f4 <png_handle_oFFs+0xc4>
+ *   @0x2ad0ee bic r3, r3, #0x80000000
+ *   @0x2ad0f2 rsbs r3, r3, #0
+ *   @0x2ad0fa str r1, [sp]
+ *   @0x2ad0fe bl 0x2aeb0a <png_set_oFFs>
+ *   @0x2ad102 ldr r2, [sp, #0x14]
+ *   @0x2ad106 cmp r2, r3
+ *   @0x2ad10a blx 0xb65d4 <__stack_chk_fail@plt>
+ *   @0x2ad10e add sp, #0x1c
+ *   @0x2ad112 nop
+ *   @0x2ad116 movs r4, r2
+ *   @0x2ad11a movs r6, r1
+ *   @0x2ad11e movs r6, r1
+ *   @0x2ad122 movs r6, r1
+ *   @0x2ad126 movs r6, r1
+ *   @0x2ad12e ldr.w r3, [r0, #0x12c]
+ *   @0x2ad132 sub sp, #0x2c
+ *   @0x2ad136 mov r6, r2
+ *   @0x2ad13a bmi 0x2ad146 <png_handle_pCAL+0x1e>
+ *   @0x2ad13e add r1, pc
+ *   @0x2ad146 lsls r2, r3, #0x1d
+ *   @0x2ad14a ldr r1, [pc, #0x1e4]
+ *   @0x2ad14e b 0x2ad162 <png_handle_pCAL+0x3a>
+ *   @0x2ad156 ldr.w r3, [r8, #0x8]
+ *   @0x2ad15a lsls r3, r3, #0x15
+ *   @0x2ad15e ldr r1, [pc, #0x1d4]
+ *   @0x2ad162 bl 0x2a6474 <png_warning>
+ *   @0x2ad166 mov r0, r4
+ *   @0x2ad16a add sp, #0x2c
+ *   @0x2ad176 ldr.w r1, [r4, #0x330]
+ *   @0x2ad17a bl 0x2a6cfc <png_free>
+ *   @0x2ad17e adds r1, r6, #0x1
+ *   @0x2ad182 bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2ad186 mov r1, r0
+ *   @0x2ad18e cbnz r1, 0x2ad196 <png_handle_pCAL+0x6e>
+ *   @0x2ad192 add r1, pc
+ *   @0x2ad196 mov r2, r6
+ *   @0x2ad19e movs r1, #0x0
+ *   @0x2ad1a6 bne 0x2ad268 <png_handle_pCAL+0x140>
+ *   @0x2ad1ae ldr.w r3, [r4, #0x330]
+ *   @0x2ad1b2 mov r2, r3
+ *   @0x2ad1b6 adds r2, #0x1
+ *   @0x2ad1ba cmp r1, #0x0
+ *   @0x2ad1be cmp r6, #0xb
+ *   @0x2ad1c6 rsb r3, r5, r10
+ *   @0x2ad1ca cmp r3, #0xc
+ *   @0x2ad1ce ldr r1, [pc, #0x16c]
+ *   @0x2ad1d2 add r1, pc
+ *   @0x2ad1d6 ldrb r1, [r5, #0x1]
+ *   @0x2ad1e2 lsl.w r1, r1, #0x18
+ *   @0x2ad1e6 ldrb r3, [r5, #0x3]
+ *   @0x2ad1ee add.w r9, r9, r3, lsl #8
+ *   @0x2ad1f2 beq 0x2ad200 <png_handle_pCAL+0xd8>
+ *   @0x2ad202 ldrb.w r11, [r5, #0x6]
+ *   @0x2ad206 tst.w r1, #0x80
+ *   @0x2ad20a ldrb r2, [r5, #0x8]
+ *   @0x2ad212 add.w r11, r1, r11, lsl #16
+ *   @0x2ad216 add r11, r2
+ *   @0x2ad21a add.w r11, r11, r3, lsl #8
+ *   @0x2ad21e rsb.w r11, r11, #0x0
+ *   @0x2ad222 bic r11, r11, #0x80000000
+ *   @0x2ad226 rsb.w r2, r11, #0x0
+ *   @0x2ad22a str r2, [sp, #0x24]
+ *   @0x2ad22e add.w r3, r11, r3, lsl #8
+ *   @0x2ad232 str r3, [sp, #0x24]
+ *   @0x2ad23a cmp.w r11, #0x0
+ *   @0x2ad23e bne 0x2ad244 <png_handle_pCAL+0x11c>
+ *   @0x2ad242 b 0x2ad25c <png_handle_pCAL+0x134>
+ *   @0x2ad24a cmp.w r11, #0x2
+ *   @0x2ad24e bne 0x2ad254 <png_handle_pCAL+0x12c>
+ *   @0x2ad252 b 0x2ad25c <png_handle_pCAL+0x134>
+ *   @0x2ad25a cmp r6, #0x4
+ *   @0x2ad25e ldr r1, [pc, #0xe0]
+ *   @0x2ad262 add r1, pc
+ *   @0x2ad26a ldr.w r1, [r4, #0x330]
+ *   @0x2ad26e bl 0x2a6cfc <png_free>
+ *   @0x2ad272 movs r3, #0x0
+ *   @0x2ad27a pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2ad27e bls 0x2ad28a <png_handle_pCAL+0x162>
+ *   @0x2ad282 mov r0, r4
+ *   @0x2ad286 bl 0x2a6474 <png_warning>
+ *   @0x2ad28a add.w r3, r5, #0xb
+ *   @0x2ad28e mov r1, r3
+ *   @0x2ad292 adds r1, #0x1
+ *   @0x2ad296 cmp r2, #0x0
+ *   @0x2ad29a mov r0, r4
+ *   @0x2ad29e str r2, [sp, #0x1c]
+ *   @0x2ad2a2 bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2ad2a6 ldr r2, [sp, #0x1c]
+ *   @0x2ad2aa mov r7, r0
+ *   @0x2ad2ae mov r0, r4
+ *   @0x2ad2ba mov r0, r4
+ *   @0x2ad2c2 add sp, #0x2c
+ *   @0x2ad2ce mov r5, r1
+ *   @0x2ad2d2 ldrb r0, [r5]
+ *   @0x2ad2d6 cmp r0, #0x0
+ *   @0x2ad2da adds r2, #0x1
+ *   @0x2ad2de bge 0x2ad2e8 <png_handle_pCAL+0x1c0>
+ *   @0x2ad2e2 str.w r1, [r7, r2, lsl #2]
+ *   @0x2ad2e6 b 0x2ad2cc <png_handle_pCAL+0x1a4>
+ *   @0x2ad2ea mov r0, r4
+ *   @0x2ad2ee mov r1, r8
+ *   @0x2ad2f2 mov r3, r9
+ *   @0x2ad2fa ldr.w r2, [r4, #0x330]
+ *   @0x2ad2fe bl 0x2aeb24 <png_set_pCAL>
+ *   @0x2ad302 b 0x2ad30e <png_handle_pCAL+0x1e6>
+ *   @0x2ad306 mov r0, r4
+ *   @0x2ad30a bl 0x2a6474 <png_warning>
+ *   @0x2ad30e mov r0, r4
+ *   @0x2ad31a mov r0, r4
+ *   @0x2ad322 add sp, #0x2c
+ *   @0x2ad32e movs r6, r1
+ *   @0x2ad332 movs r6, r1
+ *   @0x2ad336 movs r6, r1
+ *   @0x2ad33a movs r6, r1
+ *   @0x2ad33e movs r6, r1
+ *   @0x2ad342 movs r6, r1
+ *   @0x2ad346 movs r6, r1
+ *   @0x2ad34a movs r6, r1
+ *   @0x2ad34e movs r6, r1
+ *   @0x2ad35a ldr.w r3, [r0, #0x12c]
+ *   @0x2ad35e sub sp, #0x1c
+ *   @0x2ad362 mov r5, r2
+ *   @0x2ad366 bmi 0x2ad372 <png_handle_sCAL+0x22>
+ *   @0x2ad36a add r1, pc
+ *   @0x2ad372 lsls r2, r3, #0x1d
+ *   @0x2ad376 ldr r1, [pc, #0x138]
+ *   @0x2ad37a b 0x2ad388 <png_handle_sCAL+0x38>
+ *   @0x2ad37e ldr r3, [r6, #0x8]
+ *   @0x2ad382 bpl 0x2ad396 <png_handle_sCAL+0x46>
+ *   @0x2ad386 add r1, pc
+ *   @0x2ad38e mov r1, r5
+ *   @0x2ad396 cmp r5, #0x3
+ *   @0x2ad39a ldr r1, [pc, #0x11c]
+ *   @0x2ad39e add r1, pc
+ *   @0x2ad3a2 adds r1, r5, #0x1
+ *   @0x2ad3a6 bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2ad3aa mov r1, r0
+ *   @0x2ad3b2 cbnz r1, 0x2ad3ba <png_handle_sCAL+0x6a>
+ *   @0x2ad3b6 add r1, pc
+ *   @0x2ad3ba mov r2, r5
+ *   @0x2ad3c2 movs r1, #0x0
+ *   @0x2ad3ca cmp r0, #0x0
+ *   @0x2ad3ce ldr.w r3, [r4, #0x330]
+ *   @0x2ad3d2 add.w r9, sp, #0x14
+ *   @0x2ad3d6 mov r1, r9
+ *   @0x2ad3da ldr.w r0, [r4, #0x330]
+ *   @0x2ad3de adds r0, #0x1
+ *   @0x2ad3e6 ldrb r3, [r3]
+ *   @0x2ad3ee ldr r1, [pc, #0xd0]
+ *   @0x2ad3f2 add r1, pc
+ *   @0x2ad3f6 ldr.w r2, [r4, #0x330]
+ *   @0x2ad3fa adds r3, r2, #0x1
+ *   @0x2ad3fe adds r3, #0x1
+ *   @0x2ad402 cmp r7, #0x0
+ *   @0x2ad406 add r2, r5
+ *   @0x2ad40a cmp r3, r2
+ *   @0x2ad40e ldr r1, [pc, #0xb4]
+ *   @0x2ad412 add r1, pc
+ *   @0x2ad416 mov r0, r3
+ *   @0x2ad41a blx 0xb6658 <strtod@plt>
+ *   @0x2ad41e ldr r3, [sp, #0x14]
+ *   @0x2ad42e ldr r1, [pc, #0x98]
+ *   @0x2ad432 add r1, pc
+ *   @0x2ad43a ldr.w r1, [r4, #0x330]
+ *   @0x2ad43e bl 0x2a6cfc <png_free>
+ *   @0x2ad442 str.w r7, [r4, #0x330]
+ *   @0x2ad446 b 0x2ad4a2 <png_handle_sCAL+0x152>
+ *   @0x2ad44e cmp r8, r5
+ *   @0x2ad452 vcmpe.f64 d8, #0
+ *   @0x2ad456 vmrs APSR_nzcv, fpscr
+ *   @0x2ad45a bls 0x2ad466 <png_handle_sCAL+0x116>
+ *   @0x2ad466 ldr r1, [pc, #0x64]
+ *   @0x2ad46a add r1, pc
+ *   @0x2ad472 ldr.w r1, [r4, #0x330]
+ *   @0x2ad476 bl 0x2a6cfc <png_free>
+ *   @0x2ad47a movs r3, #0x0
+ *   @0x2ad482 ldrb r2, [r3]
+ *   @0x2ad48e mov r1, r6
+ *   @0x2ad496 ldr.w r1, [r4, #0x330]
+ *   @0x2ad49a bl 0x2a6cfc <png_free>
+ *   @0x2ad49e str.w r9, [r4, #0x330]
+ *   @0x2ad4a2 add sp, #0x1c
+ *   @0x2ad4ae movs r6, r1
+ *   @0x2ad4b2 movs r6, r1
+ *   @0x2ad4b6 movs r6, r1
+ *   @0x2ad4ba movs r6, r1
+ *   @0x2ad4be movs r6, r1
+ *   @0x2ad4c2 movs r6, r1
+ *   @0x2ad4c6 movs r6, r1
+ *   @0x2ad4ca movs r6, r1
+ *   @0x2ad4ce movs r6, r1
+ *   @0x2ad4d2 mov r4, r0
+ *   @0x2ad4da mov r5, r2
+ *   @0x2ad4de bmi 0x2ad4ea <png_handle_tIME+0x1a>
+ *   @0x2ad4e2 add r1, pc
+ *   @0x2ad4ea cbz r1, 0x2ad4f8 <png_handle_tIME+0x28>
+ *   @0x2ad4ee lsls r1, r3, #0x16
+ *   @0x2ad4f2 ldr r1, [pc, #0x88]
+ *   @0x2ad4f6 b 0x2ad512 <png_handle_tIME+0x42>
+ *   @0x2ad4fe lsls r2, r3, #0x1d
+ *   @0x2ad502 orrmi r3, r3, #0x8
+ *   @0x2ad506 strmi.w r3, [r4, #0x12c]
+ *   @0x2ad50a cmp r5, #0x7
+ *   @0x2ad50e ldr r1, [pc, #0x70]
+ *   @0x2ad512 bl 0x2a6474 <png_warning>
+ *   @0x2ad516 mov r0, r4
+ *   @0x2ad51a bl 0x2abc94 <png_crc_finish>
+ *   @0x2ad51e b 0x2ad574 <png_handle_tIME+0xa4>
+ *   @0x2ad522 mov r2, r5
+ *   @0x2ad52a movs r1, #0x0
+ *   @0x2ad532 ldrb.w r3, [sp, #0x6]
+ *   @0x2ad536 mov r0, r4
+ *   @0x2ad53e strb.w r3, [sp, #0xe]
+ *   @0x2ad542 ldrb.w r3, [sp, #0x5]
+ *   @0x2ad546 strb.w r3, [sp, #0xd]
+ *   @0x2ad54a ldrb.w r3, [sp, #0x4]
+ *   @0x2ad54e strb.w r3, [sp, #0xc]
+ *   @0x2ad552 ldrb.w r3, [sp, #0x3]
+ *   @0x2ad556 strb.w r3, [sp, #0xb]
+ *   @0x2ad55a ldrb.w r3, [sp, #0x2]
+ *   @0x2ad55e strb.w r3, [sp, #0xa]
+ *   @0x2ad562 ldrb.w r3, [sp, #0x1]
+ *   @0x2ad566 add.w r3, r3, r2, lsl #8
+ *   @0x2ad56a add r2, sp, #0x10
+ *   @0x2ad576 pop {r4, r5, r6, pc}
+ *   @0x2ad57a movs r6, r1
+ *   @0x2ad57e movs r6, r1
+ *   @0x2ad582 movs r6, r1
+ *   @0x2ad58a ldr.w r3, [r0, #0x310]
+ *   @0x2ad58e mov r9, r1
+ *   @0x2ad592 cbz r3, 0x2ad5b6 <png_handle_tEXt+0x32>
+ *   @0x2ad596 beq 0x2ad5ac <png_handle_tEXt+0x28>
+ *   @0x2ad59a str.w r3, [r0, #0x310]
+ *   @0x2ad59e cmp r3, #0x1
+ *   @0x2ad5a2 ldr r1, [pc, #0x114]
+ *   @0x2ad5a6 bl 0x2a6474 <png_warning>
+ *   @0x2ad5aa mov r0, r4
+ *   @0x2ad5ae pop.w {r3, r4, r5, r6, r7, r8, r9, lr}
+ *   @0x2ad5b2 b.w 0x2abc94 <png_crc_finish>
+ *   @0x2ad5b6 ldr.w r3, [r4, #0x12c]
+ *   @0x2ad5ba lsls r1, r3, #0x1f
+ *   @0x2ad5be ldr r1, [pc, #0xfc]
+ *   @0x2ad5c2 add r1, pc
+ *   @0x2ad5ce ldr.w r1, [r4, #0x330]
+ *   @0x2ad5d2 lsls r2, r3, #0x1d
+ *   @0x2ad5d6 orrmi r3, r3, #0x8
+ *   @0x2ad5da strmi.w r3, [r4, #0x12c]
+ *   @0x2ad5de bl 0x2a6cfc <png_free>
+ *   @0x2ad5e2 adds r1, r5, #0x1
+ *   @0x2ad5e6 bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2ad5ea mov r1, r0
+ *   @0x2ad5f2 cbnz r1, 0x2ad5fa <png_handle_tEXt+0x76>
+ *   @0x2ad5f6 add r1, pc
+ *   @0x2ad5fa mov r2, r5
+ *   @0x2ad602 movs r1, #0x0
+ *   @0x2ad60a mov r0, r4
+ *   @0x2ad616 str.w r3, [r4, #0x330]
+ *   @0x2ad61a pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *   @0x2ad61e ldr.w r8, [r4, #0x330]
+ *   @0x2ad622 add.w r2, r8, r5
+ *   @0x2ad626 mov r3, r8
+ *   @0x2ad62e adds r3, #0x1
+ *   @0x2ad632 cmp r6, #0x0
+ *   @0x2ad636 mov r0, r4
+ *   @0x2ad63a cmp r7, r2
+ *   @0x2ad63e moveq r7, r2
+ *   @0x2ad642 bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2ad646 mov r5, r0
+ *   @0x2ad64a ldr r1, [pc, #0x78]
+ *   @0x2ad64e add r1, pc
+ *   @0x2ad656 ldr.w r1, [r4, #0x330]
+ *   @0x2ad65a bl 0x2a6cfc <png_free>
+ *   @0x2ad65e str.w r5, [r4, #0x330]
+ *   @0x2ad662 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *   @0x2ad666 mov.w r3, #0xffffffff
+ *   @0x2ad66a str r7, [r0, #0x8]
+ *   @0x2ad672 str r6, [r0, #0x18]
+ *   @0x2ad676 mov r0, r7
+ *   @0x2ad67e mov r2, r5
+ *   @0x2ad682 str r0, [r5, #0xc]
+ *   @0x2ad686 bl 0x2aeef8 <png_set_text_2>
+ *   @0x2ad68a ldr.w r1, [r4, #0x330]
+ *   @0x2ad68e mov r7, r0
+ *   @0x2ad692 bl 0x2a6cfc <png_free>
+ *   @0x2ad696 str.w r6, [r4, #0x330]
+ *   @0x2ad69a mov r0, r4
+ *   @0x2ad69e bl 0x2a6cfc <png_free>
+ *   @0x2ad6a2 cbz r7, 0x2ad6b2 <png_handle_tEXt+0x12e>
+ *   @0x2ad6a6 mov r0, r4
+ *   @0x2ad6aa pop.w {r3, r4, r5, r6, r7, r8, r9, lr}
+ *   @0x2ad6ae b.w 0x2a6474 <png_warning>
+ *   @0x2ad6b2 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *   @0x2ad6b6 nop
+ *   @0x2ad6ba movs r6, r1
+ *   @0x2ad6be movs r6, r1
+ *   @0x2ad6c2 movs r6, r1
+ *   @0x2ad6c6 movs r6, r1
+ *   @0x2ad6ca movs r6, r1
+ *   @0x2ad6d2 ldr.w r3, [r0, #0x310]
+ *   @0x2ad6d6 mov r7, r1
+ *   @0x2ad6da cbz r3, 0x2ad6fc <png_handle_zTXt+0x30>
+ *   @0x2ad6de beq 0x2ad6f4 <png_handle_zTXt+0x28>
+ *   @0x2ad6e2 str.w r3, [r0, #0x310]
+ *   @0x2ad6e6 cmp r3, #0x1
+ *   @0x2ad6ea ldr r1, [pc, #0x148]
+ *   @0x2ad6ee bl 0x2a6474 <png_warning>
+ *   @0x2ad6f2 mov r0, r4
+ *   @0x2ad6f6 bl 0x2abc94 <png_crc_finish>
+ *   @0x2ad6fa b 0x2ad82c <png_handle_zTXt+0x160>
+ *   @0x2ad702 bmi 0x2ad70e <png_handle_zTXt+0x42>
+ *   @0x2ad706 mov r0, r4
+ *   @0x2ad70a bl 0x2a642c <png_error>
+ *   @0x2ad70e ldr.w r3, [r4, #0x12c]
+ *   @0x2ad712 mov r0, r4
+ *   @0x2ad71a itt mi
+ *   @0x2ad72a mov r0, r4
+ *   @0x2ad732 str.w r0, [r4, #0x330]
+ *   @0x2ad736 mov r0, r4
+ *   @0x2ad73a ldr r1, [pc, #0x100]
+ *   @0x2ad73e bl 0x2a6474 <png_warning>
+ *   @0x2ad742 b 0x2ad82c <png_handle_zTXt+0x160>
+ *   @0x2ad746 bl 0x2abc0c <png_crc_read>
+ *   @0x2ad74a mov r0, r4
+ *   @0x2ad74e bl 0x2abc94 <png_crc_finish>
+ *   @0x2ad752 cbnz r0, 0x2ad780 <png_handle_zTXt+0xb4>
+ *   @0x2ad75a ldr.w r3, [r4, #0x330]
+ *   @0x2ad75e mov r2, r3
+ *   @0x2ad762 adds r2, #0x1
+ *   @0x2ad766 cmp r1, #0x0
+ *   @0x2ad76a cmp r5, #0x1
+ *   @0x2ad76e subs r2, r5, #0x2
+ *   @0x2ad772 cmp r6, r3
+ *   @0x2ad776 ldr r1, [pc, #0xc8]
+ *   @0x2ad77a add r1, pc
+ *   @0x2ad782 ldr.w r1, [r4, #0x330]
+ *   @0x2ad786 bl 0x2a6cfc <png_free>
+ *   @0x2ad78a movs r3, #0x0
+ *   @0x2ad792 ldrb r3, [r6, #0x1]
+ *   @0x2ad796 ldr r1, [pc, #0xac]
+ *   @0x2ad79a add r1, pc
+ *   @0x2ad7a6 mov r2, r5
+ *   @0x2ad7aa rsb r8, r3, r6
+ *   @0x2ad7ae movs r1, #0x0
+ *   @0x2ad7b2 str r3, [sp]
+ *   @0x2ad7b6 bl 0x2abd08 <png_decompress_chunk>
+ *   @0x2ad7ba mov r0, r4
+ *   @0x2ad7be bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2ad7c2 mov r5, r0
+ *   @0x2ad7c6 ldr r1, [pc, #0x80]
+ *   @0x2ad7ca add r1, pc
+ *   @0x2ad7d2 ldr.w r1, [r4, #0x330]
+ *   @0x2ad7d6 bl 0x2a6cfc <png_free>
+ *   @0x2ad7da str.w r5, [r4, #0x330]
+ *   @0x2ad7de b 0x2ad82c <png_handle_zTXt+0x160>
+ *   @0x2ad7e2 str r6, [r0]
+ *   @0x2ad7ea str r6, [r0, #0x14]
+ *   @0x2ad7ee str r6, [r0, #0x18]
+ *   @0x2ad7f2 str r6, [r0, #0x10]
+ *   @0x2ad7fa str r3, [r0, #0x8]
+ *   @0x2ad7fe str r3, [r0, #0xc]
+ *   @0x2ad802 mov r0, r4
+ *   @0x2ad80a mov r7, r0
+ *   @0x2ad80e bl 0x2a6cfc <png_free>
+ *   @0x2ad812 mov r0, r4
+ *   @0x2ad822 ldr r1, [pc, #0x28]
+ *   @0x2ad826 add r1, pc
+ *   @0x2ad82e pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2ad832 nop
+ *   @0x2ad836 movs r6, r1
+ *   @0x2ad83a movs r6, r1
+ *   @0x2ad83e movs r6, r1
+ *   @0x2ad842 movs r6, r1
+ *   @0x2ad846 movs r6, r1
+ *   @0x2ad84a movs r6, r1
+ *   @0x2ad84e movs r6, r1
+ *   @0x2ad856 ldr.w r3, [r0, #0x310]
+ *   @0x2ad85a sub sp, #0x14
+ *   @0x2ad85e mov r5, r2
+ *   @0x2ad862 cmp r3, #0x1
+ *   @0x2ad866 subs r3, #0x1
+ *   @0x2ad86e bne 0x2ad882 <png_handle_iTXt+0x32>
+ *   @0x2ad872 add r1, pc
+ *   @0x2ad87a mov r1, r5
+ *   @0x2ad882 ldr.w r3, [r4, #0x12c]
+ *   @0x2ad886 lsls r1, r3, #0x1f
+ *   @0x2ad88a ldr r1, [pc, #0x190]
+ *   @0x2ad88e add r1, pc
+ *   @0x2ad89a ldr.w r1, [r4, #0x330]
+ *   @0x2ad89e lsls r2, r3, #0x1d
+ *   @0x2ad8a2 orrmi r3, r3, #0x8
+ *   @0x2ad8a6 strmi.w r3, [r4, #0x12c]
+ *   @0x2ad8aa bl 0x2a6cfc <png_free>
+ *   @0x2ad8ae adds r1, r5, #0x1
+ *   @0x2ad8b2 bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2ad8b6 mov r1, r0
+ *   @0x2ad8be cbnz r1, 0x2ad8ca <png_handle_iTXt+0x7a>
+ *   @0x2ad8c2 add r1, pc
+ *   @0x2ad8ca mov r2, r5
+ *   @0x2ad8d2 movs r1, #0x0
+ *   @0x2ad8da ldr.w r3, [r4, #0x330]
+ *   @0x2ad8de strb r0, [r3, r5]
+ *   @0x2ad8e6 mov r3, r2
+ *   @0x2ad8ea ldrb r1, [r3]
+ *   @0x2ad8ee bne 0x2ad8e6 <png_handle_iTXt+0x96>
+ *   @0x2ad8f2 bls 0x2ad8fe <png_handle_iTXt+0xae>
+ *   @0x2ad8f6 subs r2, r5, #0x3
+ *   @0x2ad8fa cmp r1, r2
+ *   @0x2ad8fe ldr r1, [pc, #0x124]
+ *   @0x2ad902 add r1, pc
+ *   @0x2ad90a ldr.w r1, [r4, #0x330]
+ *   @0x2ad90e bl 0x2a6cfc <png_free>
+ *   @0x2ad912 movs r3, #0x0
+ *   @0x2ad91a add.w r8, r3, #0x3
+ *   @0x2ad91e ldrb.w r9, [r3, #0x1]
+ *   @0x2ad922 ldrb r1, [r3, #0x2]
+ *   @0x2ad926 mov r7, r3
+ *   @0x2ad92a ldrb r2, [r7]
+ *   @0x2ad92e bne 0x2ad926 <png_handle_iTXt+0xd6>
+ *   @0x2ad936 cmp r3, r2
+ *   @0x2ad93a mov r0, r3
+ *   @0x2ad93e ldrb r6, [r0]
+ *   @0x2ad942 bne 0x2ad93a <png_handle_iTXt+0xea>
+ *   @0x2ad946 blo 0x2ad962 <png_handle_iTXt+0x112>
+ *   @0x2ad94a mov r0, r4
+ *   @0x2ad94e bl 0x2a6474 <png_warning>
+ *   @0x2ad952 mov r0, r4
+ *   @0x2ad962 rsb r6, r11, r3
+ *   @0x2ad966 cmp.w r9, #0x0
+ *   @0x2ad96a beq 0x2ad97c <png_handle_iTXt+0x12c>
+ *   @0x2ad96e mov r0, r4
+ *   @0x2ad972 mov r2, r5
+ *   @0x2ad976 bl 0x2abd08 <png_decompress_chunk>
+ *   @0x2ad97a b 0x2ad986 <png_handle_iTXt+0x136>
+ *   @0x2ad986 mov r0, r4
+ *   @0x2ad98a bl 0x2a6d16 <png_malloc_warn>
+ *   @0x2ad98e mov r5, r0
+ *   @0x2ad992 ldr r1, [pc, #0x98]
+ *   @0x2ad996 add r1, pc
+ *   @0x2ad99e ldr.w r1, [r4, #0x330]
+ *   @0x2ad9a2 bl 0x2a6cfc <png_free>
+ *   @0x2ad9a6 str.w r5, [r4, #0x330]
+ *   @0x2ad9aa b 0x2ada10 <png_handle_iTXt+0x1c0>
+ *   @0x2ad9b2 ldr.w r3, [r4, #0x330]
+ *   @0x2ad9b6 rsb r7, r11, r7
+ *   @0x2ad9ba rsb r8, r11, r8
+ *   @0x2ad9be mov r2, r5
+ *   @0x2ad9c2 str r3, [r0, #0x18]
+ *   @0x2ad9ca str r7, [r0, #0xc]
+ *   @0x2ad9ce add r3, r8
+ *   @0x2ad9d2 ldr r3, [sp, #0xc]
+ *   @0x2ad9d6 ldr.w r3, [r4, #0x330]
+ *   @0x2ad9da str r3, [r0, #0x4]
+ *   @0x2ad9e2 movs r3, #0x1
+ *   @0x2ad9e6 mov r0, r4
+ *   @0x2ad9ee mov r6, r0
+ *   @0x2ad9f2 bl 0x2a6cfc <png_free>
+ *   @0x2ad9f6 mov r0, r4
+ *   @0x2ada06 ldr r1, [pc, #0x28]
+ *   @0x2ada0a add r1, pc
+ *   @0x2ada12 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2ada16 nop
+ *   @0x2ada1a movs r6, r1
+ *   @0x2ada1e movs r6, r1
+ *   @0x2ada22 movs r6, r1
+ *   @0x2ada26 movs r6, r1
+ *   @0x2ada3a ldr.w r3, [r0, #0x310]
+ *   @0x2ada3e mov r7, r1
+ *   @0x2ada42 cbz r3, 0x2ada5e <png_handle_unknown+0x2a>
+ *   @0x2ada46 beq.w 0x2adb52 <png_handle_unknown+0x11e>
+ *   @0x2ada4a subs r3, #0x1
+ *   @0x2ada52 bne 0x2ada5e <png_handle_unknown+0x2a>
+ *   @0x2ada56 add r1, pc
+ *   @0x2ada5e ldr.w r6, [r4, #0x12c]
+ *   @0x2ada62 lsls r0, r6, #0x1d
+ *   @0x2ada66 ldr r3, [pc, #0xfc]
+ *   @0x2ada6a movs r2, #0x4
+ *   @0x2ada6e ldr r0, [r3]
+ *   @0x2ada72 str r0, [sp]
+ *   @0x2ada82 orr r6, r6, #0x8
+ *   @0x2ada86 str.w r6, [r4, #0x12c]
+ *   @0x2ada8a ldrb.w r3, [r4, #0x1e0]
+ *   @0x2ada8e lsls r1, r3, #0x1a
+ *   @0x2ada92 mov r0, r4
+ *   @0x2ada9e beq 0x2adab0 <png_handle_unknown+0x7c>
+ *   @0x2adaa6 ldr r1, [pc, #0xc0]
+ *   @0x2adaaa add r1, pc
+ *   @0x2adab6 bmi 0x2adac0 <png_handle_unknown+0x8c>
+ *   @0x2adabe beq 0x2adb50 <png_handle_unknown+0x11c>
+ *   @0x2adad6 strb.w r3, [r4, #0x318]
+ *   @0x2adada cbnz r5, 0x2adae2 <png_handle_unknown+0xae>
+ *   @0x2adae2 mov r1, r5
+ *   @0x2adae6 bl 0x2a6ca0 <png_malloc>
+ *   @0x2adaea mov r2, r5
+ *   @0x2adaee str.w r0, [r4, #0x31c]
+ *   @0x2adaf2 mov r0, r4
+ *   @0x2adafe cbz r3, 0x2adb36 <png_handle_unknown+0x102>
+ *   @0x2adb02 blx r3
+ *   @0x2adb06 bge 0x2adb14 <png_handle_unknown+0xe0>
+ *   @0x2adb0a mov r0, r4
+ *   @0x2adb0e bl 0x2a64cc <png_chunk_error>
+ *   @0x2adb12 b 0x2adb40 <png_handle_unknown+0x10c>
+ *   @0x2adb16 ldrb.w r3, [r4, #0x1e0]
+ *   @0x2adb1a lsls r3, r3, #0x1a
+ *   @0x2adb1e mov r0, r4
+ *   @0x2adb22 bl 0x2a5fe4 <png_handle_as_unknown>
+ *   @0x2adb26 cmp r0, #0x3
+ *   @0x2adb2a ldr r1, [pc, #0x44]
+ *   @0x2adb2e add r1, pc
+ *   @0x2adb36 mov r1, r7
+ *   @0x2adb3a movs r3, #0x1
+ *   @0x2adb42 ldr.w r1, [r4, #0x31c]
+ *   @0x2adb46 bl 0x2a6cfc <png_free>
+ *   @0x2adb4a movs r5, #0x0
+ *   @0x2adb52 mov r1, r5
+ *   @0x2adb56 pop.w {r4, r5, r6, r7, r8, lr}
+ *   @0x2adb5a b.w 0x2abc94 <png_crc_finish>
+ *   @0x2adb5e nop
+ *   @0x2adb66 movs r6, r1
+ *   @0x2adb76 sub.w r2, r3, #0x41
+ *   @0x2adb7a cmp r2, #0x39
+ *   @0x2adb7e subs r3, #0x5b
+ *   @0x2adb82 bls 0x2adbb4 <png_check_chunk_name+0x40>
+ *   @0x2adb86 sub.w r2, r3, #0x41
+ *   @0x2adb8a cmp r2, #0x39
+ *   @0x2adb8e subs r3, #0x5b
+ *   @0x2adb92 bls 0x2adbb4 <png_check_chunk_name+0x40>
+ *   @0x2adb96 sub.w r2, r3, #0x41
+ *   @0x2adb9a cmp r2, #0x39
+ *   @0x2adb9e subs r3, #0x5b
+ *   @0x2adba2 bls 0x2adbb4 <png_check_chunk_name+0x40>
+ *   @0x2adba6 sub.w r2, r3, #0x41
+ *   @0x2adbaa cmp r2, #0x39
+ *   @0x2adbae subs r3, #0x5b
+ *   @0x2adbb2 bhi 0x2adbbc <png_check_chunk_name+0x48>
+ *   @0x2adbb6 add r1, pc
+ *   @0x2adbbe nop
+ *   @0x2adbca ldr r5, [pc, #0x60]
+ *   @0x2adbce movs r2, #0x8
+ *   @0x2adbd2 add r5, pc
+ *   @0x2adbd6 add.w r7, r4, #0x1e0
+ *   @0x2adbda ldr r3, [r5]
+ *   @0x2adbde movs r3, #0x21
+ *   @0x2adbea mov r0, r4
+ *   @0x2adbf2 ldr r0, [r6, #0x4]
+ *   @0x2adbfa bl 0x2a5af4 <png_reset_crc>
+ *   @0x2adbfe movs r2, #0x4
+ *   @0x2adc02 mov r1, r7
+ *   @0x2adc0a mov r1, r7
+ *   @0x2adc12 ldr r2, [sp, #0xc]
+ *   @0x2adc16 str.w r3, [r4, #0x334]
+ *   @0x2adc1a ldr r3, [r5]
+ *   @0x2adc1e beq 0x2adc24 <png_read_chunk_header+0x60>
+ *   @0x2adc26 pop.w {r4, r5, r6, r7, r8, pc}
+ *   @0x2adc2a nop
+ *   @0x2adc32 mov r3, r1
+ *   @0x2adc3a ldr.w r1, [r0, #0x1b0]
+ *   @0x2adc3e ldrb.w r2, [r0, #0x1cf]
+ *   @0x2adc42 ldr.w r4, [r0, #0x18c]
+ *   @0x2adc46 bne 0x2adc68 <png_combine_row+0x38>
+ *   @0x2adc4a add.w r1, r1, #0x1
+ *   @0x2adc4e bls 0x2adc56 <png_combine_row+0x26>
+ *   @0x2adc52 muls r2, r4, r2
+ *   @0x2adc56 muls r2, r4, r2
+ *   @0x2adc5a lsrs r2, r2, #0x3
+ *   @0x2adc5e add sp, #0xc
+ *   @0x2adc6a beq 0x2adcfa <png_combine_row+0xca>
+ *   @0x2adc6e beq.w 0x2add7a <png_combine_row+0x14a>
+ *   @0x2adc72 cmp r2, #0x1
+ *   @0x2adc7e movs r6, #0x0
+ *   @0x2adc8a ite eq
+ *   @0x2adc8e movne r7, #0x0
+ *   @0x2adc92 moveq.w r12, #0x0
+ *   @0x2adc96 movne.w r12, #0x7
+ *   @0x2adc9a ite eq
+ *   @0x2adca2 str r2, [sp, #0x4]
+ *   @0x2adca6 movs r2, #0x80
+ *   @0x2adcaa beq.w 0x2ade14 <png_combine_row+0x1e4>
+ *   @0x2adcae tst r2, r5
+ *   @0x2adcb2 ldrb.w r9, [r1]
+ *   @0x2adcb6 rsb.w r11, r0, #0x7
+ *   @0x2adcba ldrb.w r10, [r3]
+ *   @0x2adcbe asr.w r11, r8, r11
+ *   @0x2adcc2 asr.w r9, r9, r0
+ *   @0x2adcc6 and.w r10, r11, r10
+ *   @0x2adcca and r9, r9, #0x1
+ *   @0x2adcce lsl.w r9, r9, r0
+ *   @0x2adcd2 orr.w r9, r9, r10
+ *   @0x2adcd6 strb.w r9, [r3]
+ *   @0x2adcda cmp r0, r12
+ *   @0x2adcde adds r1, #0x1
+ *   @0x2adce2 mov r0, r7
+ *   @0x2adce6 ldr.w r9, [sp, #0x4]
+ *   @0x2adcea add r0, r9
+ *   @0x2adcee add.w r6, r6, #0x1
+ *   @0x2adcf2 ite ne
+ *   @0x2adcf6 moveq r2, #0x80
+ *   @0x2adcfa ldr.w r2, [r0, #0x134]
+ *   @0x2adcfe adds r1, #0x1
+ *   @0x2add02 movs r0, #0x80
+ *   @0x2add0e ite eq
+ *   @0x2add12 movne r7, #0x0
+ *   @0x2add16 mvneq r12, #0x1
+ *   @0x2add1a movne.w r12, #0x2
+ *   @0x2add1e ite eq
+ *   @0x2add2e cmp r6, r4
+ *   @0x2add32 tst r0, r5
+ *   @0x2add36 ldrb.w r9, [r1]
+ *   @0x2add3a rsb.w r11, r2, #0x6
+ *   @0x2add3e ldrb.w r10, [r3]
+ *   @0x2add42 asr.w r11, r8, r11
+ *   @0x2add46 asr.w r9, r9, r2
+ *   @0x2add4a and.w r10, r11, r10
+ *   @0x2add4e and r9, r9, #0x3
+ *   @0x2add52 lsl.w r9, r9, r2
+ *   @0x2add56 orr.w r9, r9, r10
+ *   @0x2add5a strb.w r9, [r3]
+ *   @0x2add5e ldr.w r9, [sp, #0x4]
+ *   @0x2add62 adds r6, #0x1
+ *   @0x2add66 ittte eq
+ *   @0x2add6a addeq r3, #0x1
+ *   @0x2add6e addne r2, r12
+ *   @0x2add72 ite ne
+ *   @0x2add76 moveq r0, #0x80
+ *   @0x2add7a ldr.w r0, [r0, #0x134]
+ *   @0x2add7e adds r1, #0x1
+ *   @0x2add82 movs r6, #0x80
+ *   @0x2add8a movne r12, r2
+ *   @0x2add8e movne r8, r12
+ *   @0x2add96 cmp r7, r4
+ *   @0x2add9a tst r6, r5
+ *   @0x2add9e ldrb.w r9, [r1]
+ *   @0x2adda2 movw r10, #0xf0f
+ *   @0x2adda6 rsb.w r11, r0, #0x4
+ *   @0x2addaa asr.w r11, r10, r11
+ *   @0x2addae ldrb.w r10, [r3]
+ *   @0x2addb2 asr.w r9, r9, r0
+ *   @0x2addb6 and r9, r9, #0xf
+ *   @0x2addba and.w r10, r11, r10
+ *   @0x2addbe lsl.w r9, r9, r0
+ *   @0x2addc2 orr.w r9, r9, r10
+ *   @0x2addc6 strb.w r9, [r3]
+ *   @0x2addca cmp r0, r8
+ *   @0x2addd2 addeq r1, #0x1
+ *   @0x2addd6 moveq r0, r2
+ *   @0x2addda cmp r6, #0x1
+ *   @0x2addde asrne r6, r6, #0x1
+ *   @0x2adde2 b 0x2add96 <png_combine_row+0x166>
+ *   @0x2addee movs r7, #0x0
+ *   @0x2addf2 beq 0x2ade14 <png_combine_row+0x1e4>
+ *   @0x2addf6 beq 0x2ade04 <png_combine_row+0x1d4>
+ *   @0x2addfa mov r1, r8
+ *   @0x2addfe blx 0xb65bc <memcpy@plt>
+ *   @0x2ade02 mov r3, r0
+ *   @0x2ade06 add r8, r9
+ *   @0x2ade0a ite ne
+ *   @0x2ade0e moveq r6, #0x80
+ *   @0x2ade12 b 0x2addf0 <png_combine_row+0x1c0>
+ *   @0x2ade16 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *   @0x2ade22 ldr.w r10, [pc, #0x31c]
+ *   @0x2ade26 mov r4, r0
+ *   @0x2ade32 ldr.w r10, [r10]
+ *   @0x2ade36 ldr.w r6, [r0, #0x1b0]
+ *   @0x2ade3a add r12, pc
+ *   @0x2ade4e adds r6, #0x1
+ *   @0x2ade56 ldm.w r12!, {r0, r1, r2, r3}
+ *   @0x2ade5a stm r5!, {r0, r1, r2, r3}
+ *   @0x2ade72 ldr.w r2, [r4, #0x1c4]
+ *   @0x2ade76 add.w r3, r1, r8, lsl #2
+ *   @0x2ade7a ldrb.w r8, [r4, #0x1cf]
+ *   @0x2ade7e subs r1, r2, #0x1
+ *   @0x2ade8e add.w r0, r5, #0xffffffff
+ *   @0x2ade92 beq 0x2adf68 <png_do_read_interlace+0x14c>
+ *   @0x2adeba movs r2, #0x0
+ *   @0x2adeca mov.w r12, #0x7
+ *   @0x2adece b 0x2adee4 <png_do_read_interlace+0xc8>
+ *   @0x2aded2 mvns r3, r3
+ *   @0x2adee6 ldr.w r2, [r4, #0x1c4]
+ *   @0x2adeea cmp r7, r2
+ *   @0x2adeee ldrb.w r9, [r1]
+ *   @0x2adef2 asr.w r9, r9, r6
+ *   @0x2adef6 and r9, r9, #0x1
+ *   @0x2adefa str.w r9, [sp, #0x4]
+ *   @0x2adefe mov.w r9, #0x0
+ *   @0x2adf02 ldr r2, [sp, #0x8]
+ *   @0x2adf06 bge 0x2adf40 <png_do_read_interlace+0x124>
+ *   @0x2adf2e strb.w r10, [r0]
+ *   @0x2adf32 cmp r3, r2
+ *   @0x2adf36 addeq.w r0, r0, #0xffffffff
+ *   @0x2adf3a addne r3, r8
+ *   @0x2adf3e b 0x2adf02 <png_do_read_interlace+0xe6>
+ *   @0x2adf46 cmp r6, r10
+ *   @0x2adf4a addeq.w r1, r1, #0xffffffff
+ *   @0x2adf4e addne r6, r8
+ *   @0x2adf52 b 0x2adee6 <png_do_read_interlace+0xca>
+ *   @0x2adf5e bls.w 0x2ae122 <png_do_read_interlace+0x306>
+ *   @0x2adf62 lsrs r3, r3, #0x3
+ *   @0x2adf66 b 0x2ae128 <png_do_read_interlace+0x30c>
+ *   @0x2adf76 add.w r2, r2, #0x3
+ *   @0x2adf7a add.w r3, r5, #0x3
+ *   @0x2adf7e beq 0x2adf9a <png_do_read_interlace+0x17e>
+ *   @0x2adf92 lsls r3, r3, #0x1
+ *   @0x2adf9a mvns r2, r2
+ *   @0x2adf9e and r6, r2, #0x3
+ *   @0x2adfa2 and r3, r3, #0x3
+ *   @0x2adfa6 mov.w r9, #0x6
+ *   @0x2adfaa lsls r6, r6, #0x1
+ *   @0x2adfae movs r7, #0x0
+ *   @0x2adfb6 bhs 0x2adf54 <png_do_read_interlace+0x138>
+ *   @0x2adfba ldrb r2, [r1]
+ *   @0x2adfbe and r2, r2, #0x3
+ *   @0x2adfc2 str r2, [sp, #0x4]
+ *   @0x2adfc6 ldr r1, [sp, #0x8]
+ *   @0x2adfca bge 0x2ae006 <png_do_read_interlace+0x1ea>
+ *   @0x2adfde add.w r2, r2, #0x1
+ *   @0x2adfe2 and.w r1, r11, r10
+ *   @0x2adfe6 ldr.w r11, [sp, #0x4]
+ *   @0x2adfea lsl.w r10, r11, r3
+ *   @0x2adfee it eq
+ *   @0x2adff2 orr.w r10, r1, r10
+ *   @0x2adff6 it ne
+ *   @0x2adffa strb.w r10, [r0]
+ *   @0x2adffe it eq
+ *   @0x2ae006 cmp r6, r9
+ *   @0x2ae00a ldr r2, [sp]
+ *   @0x2ae00e subs r2, #0x1
+ *   @0x2ae012 b 0x2ae016 <png_do_read_interlace+0x1fa>
+ *   @0x2ae016 adds r7, #0x1
+ *   @0x2ae01a ands r7, r7, #0x10000
+ *   @0x2ae01e add.w r1, r6, r1, lsr #1
+ *   @0x2ae022 add.w r0, r6, r0, lsr #1
+ *   @0x2ae026 str r1, [sp]
+ *   @0x2ae032 and r2, r2, #0x1
+ *   @0x2ae036 and r3, r3, #0x1
+ *   @0x2ae03a mov.w r9, #0x0
+ *   @0x2ae03e lsls r6, r2, #0x2
+ *   @0x2ae042 mvn r2, #0x3
+ *   @0x2ae046 b 0x2ae064 <png_do_read_interlace+0x248>
+ *   @0x2ae04e ite ne
+ *   @0x2ae052 moveq r6, #0x4
+ *   @0x2ae05a itete ne
+ */
