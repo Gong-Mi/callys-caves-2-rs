@@ -1,83 +1,32 @@
-/* cally 逆向卡：DoAdd（原版 libyoyo.so，armv7）
- * @func 0xdc524 0xdd500  size 4060  1015 条指令（含尾部 literal 词）
- * 级别: 骨架（mode 三档、10 种裸类型组合的算术、两条字符串拼接、三条强制转换链已证；
- *           class 1/4/5 的用途与 boxType 的字节流细节未展开）
- * 符号: _Z5DoAddjPhPKhP6VMExec → uchar* DoAdd(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
+/* cally 逆向卡：DoAdd —— GML 加法/字符串拼接（原版 libyoyo.so，armv7）
+ * @func 0xdc524 0xdd500  size 4060  1015 条
+ * 级别: 正文（三条路径的调用目标、字符串分配/释放、'锁'的真伪逐条落锚；算子级判定细节 open）
+ * 符号 _Z5DoAddjPhPKhP6VMExec
  *
- * 已证（指令级）：
- *   mode = (arg>>8)&0xF，type = (arg>>16)&0xFF；arg 的 bit7..0 与 bit31..24 本函数一次也没读
- *       dc524 ubfx r2,r0,#0x8,#0x4     dc528 lsr r0,r0,#16     dc53c uxtb r9,r0
- *   switch(mode)：0→dc554；1→dc9f8；2→dcb30；3..15 落到 dc554（同 mode0 路径）   dc540/dc548/dc550
- *   帧 124 B，六个 16 B 临时 RValue：sp+24 / +40 / +56 / +72 / +88 / +104                dc538
- *   type 拆两半：[3:0] = 栈顶（右）操作数存储类，[7:4] = 次栈顶（左）操作数存储类
- *       T1 dc55c 按 type&15 选 r7（右操作数之后的位置）：0/3→sp+8，1/2/4/6→sp+4，
- *           5→读 [sp+0xc] 的 tag 走 T5 再定，>6→r7=sp（dd4a0）
- *       T2 dc590 按 type>>4 选 r8=r7+左宽度：0/3→+8，1/2/4/6→+4，5→+16（先走 T4 归一化），>6→r8=r7（dd4ac）
- *       非对称互证：0x23 走 dcccc（[r7]=int32、[r10]=int64）；0x32 走 dcd20（[r7]=int64、[r10]=int32）
- *   存储类→宽度：0=8B double、2=4B int32、3=8B int64、6=4B string(YYString*)、5=16B RValue、
- *       1/4=4B（本函数只在 T1 里给宽度，算术分派一律报错）
- *       跨函数互证：DoDup 的 dup 尺寸表（0/3→lsl#3、1/2/4→lsl#2、5→16B、6→lsl#2）
- *       与 DoPopNull 的 sp+8 / sp+4 / sp+16 是同一张表
- *   结果落点（全函数统一）：off = sp + 右宽度 + 左宽度（= r8）；结果宽 w 由 T3 定；结果写 [off-w, off)；
- *       返回 sp_new = off - w，即结果恰好成为新的栈顶（栈向下长，sp 是顶，活跃值在 [sp,...)）。
- *       该规则在 mode0 与 mode1/2 的成功路径上都成立（mode1/2 返回的是 r8-16，见 dccb8/dccc8/dd374/dd384）；
- *       出错路径（dcb1c/dcb2c/dd3bc 等）只释放临时 RValue 并返回 r8，不写结果
- *       T3 dc5bc 按 type 全字节选 w：0x00/0x02/0x03/0x20/0x23/0x30/0x32/0x33 → dc8a0(w=8)；
- *           0x22/0x66 → dc760(w=4)；0x05/0x25/0x35/0x50/0x52/0x53/0x55/0x56/0x65 → dc890(w=16)；
- *           其余 → dc9cc（r5=r4=0）后必落 VMError
- *   算术体：
- *       0x22 int32+int32（dcd3c）32 位 add，结果 tag 7（dcd40 mov r12,#7）
- *       0x33/0x32/0x23（dcd04/dcd20/dcccc）adds+adc 64 位，tag 10；0x32/0x23 里 32 位那侧按 asr #31 符号扩展
- *       含 double 的组合（dc9d8=0x00、dcce8=0x02、dcd6c=0x03、dc8cc=0x20、dc9ac=0x30）
- *           走 vcvt.f64.s32 / __floatdidf / vadd.f64，tag 0
- *       0x66 string+string → YYString 结果，tag 1（dc7f8 mov r12,#1）
- *   只有 w=16 的那一路 r4≠0，才在 dc8e4 把 tag 写回结果 +0xc；裸 4/8 B 槽不写 tag（槽里是裸类型数据，不是 RValue）
- *   tag = +12 字的低 24 位（每次比较前 bic #0xFF000000，高 8 位是标志）；0x00FFFFFF = 未解析变量占位
- *       释放判定 (tag-1)&0x00FFFFFC==0（dcab4..dcac0）→ 只有 tag 1..4 带引用计数，才调 FREE_RValue__Pre（dcb24 等）
+ * ── 数值路径：全是 vadd.f64，没有整型加法指令 ────────────────────────────
+ *   0xdc8dc / 0xdc9c0 / 0xdc9e8 / 0xdcc0c / 0xdccf8 / 0xdcd80 vadd.f64
+ *   ⇒ 与 DoSub 同族（整数先提升成 double），与 DoDiv 不同族（DoDiv 有 __divsi3 / __aeabi_ldivmod）
  *
- * 已证（语义级，靠 .rodata 消息字符串定名）：
- *   0x66 拼接：YYString = {+0 buf, +4 refcount, +8 len}，12 B：operator new(12) dc7e4、stm {buf,1} dc808、len 写 +8 dc7fc；
- *       buf = YYAlloc(lenL+lenR+1) dc7f0；先 strcpy 左串（dc810，源 [sp+4]）再 strcpy 右串（dc82c，目的 buf+左长）；
- *       末尾 NUL dc830；随后对两个源串各做一次 "YYFree(buf)→清 +0/+8→LOCK→--[+4]→归零则
- *       YYFree+_RefThing<const char*>::dec+operator delete"：右串（r9=[sp]）从 dc844 起、销毁体 dcea0..dcef4；
- *       左串（r6=[r7]）从 dc86c 起、销毁体 dcef8..dcf4c
- *   mode1（dc9f8）：boxType(&sp+40, type&15, sp) → boxType(&sp+24, type>>4, 上次返回值)，先解右后解左
- *       （dca38/dca48，r8 = 第二次 boxType 的返回 = 操作数区末尾）；
- *       tag&0x00FFFFFF==0x00FFFFFF → JSThrowReferenceError "could not find variable before '+'"（dd064）
- *       或 "…after '+'"（dcf50）；F_JS_ToPrimitive 左（dca9c，失败 dd15c TypeError "…to a primitive"）、
- *       右（dcfc4，失败 dd0a4）；两边 tag 都不是 1(string) → F_JS_ToNumber 两次（dd02c / dd424）+ vadd.f64，结果 tag 0；
- *       任一是 string → F_JS_ToString 两次（dd1c0/dd1cc）+ 拼接（dd21c..dd294），结果 tag 1（dd1e0）
- *   mode2（dcb30）：同样 boxType（dcb6c/dcb7c）+ 同样的未解析检查（dd090/dcf64），但直接 F_JS_ToNumber
- *       （dcbc8/dcbe8）+ vadd.f64，结果 tag 0；失败消息带 "# 2"（dd16c/dd480/dd490）
- *       → mode1 与 mode2 是两条不同的强制链（先 ToPrimitive 再分派 / 直接 ToNumber）
- *   非法操作数按 tag 报不同 VMError（T5 走左、T4 走右）：tag2 数组 → "illegal array use"（dcddc/dce70）；
- *       tag3 指针 → "illegal pointer use"（dcdbc/dce54）；tag5 undefined → "undefined value"（dcd9c/dce38）；
- *       其余（4/6/8/9/11/12 及 >13）→ "Malformed variable"（dcf94/dcf78）
- *       → 0..13 里只有 0/13(double)、1(string)、7(int32)、10(int64) 能进加法
- *   类型组合落空 → VMError "DoAdd :: Execution Error"（dcd54，由 dc76c 的 bne 到达）
+ * ── 字符串路径：'+' 在本引擎里是拼接，不是数值加 ─────────────────────────
+ *   0xdca9c / 0xdcfc4 bl F_JS_ToPrimitive(RValue&, RValue&, int)   ← 先转原始值
+ *   0xdd1c0 bl F_JS_ToString(RValue&, RValue*)                    ← 任一侧非数值时转字符串
+ *   0xdc810 / 0xdc82c（及另 2 处）bl strcpy@plt                    ← 拼接落缓冲区
+ *   0xdcbc8 / 0xdcbe8 / 0xdd02c（共 4 处）bl F_JS_ToNumber        ← 混合操作数的数值通道
  *
- * 结论（新增四条硬事实）：
- *   1. DoAdd 把**两个操作数的存储类**塞进 opcode 参数的一个字节：高 nibble 左、低 nibble 右；
- *      这与 DoDup/DoPopNull 的"一个 nibble 一个存储类"是同一张表（0/2/3/6 与 5/1/4）。
- *   2. 栈向下长：右操作数在 [sp]，左操作数在 [sp+右宽度]；算子把结果写在操作数区的**高端**，
- *      返回 off-w —— 于是"结果即新栈顶"，三种 mode 完全一致。
- *   3. 字符串加法只在"两边都是 string"（静态 0x66 或运行时 tag1）时发生，绝不把数字隐式转成字符串再拼；
- *      混合类型一定走 ToPrimitive→ToNumber，结果必然是 double（tag 0）。
- *   4. YYString（+0 buf / +4 count / +8 len，12 B）与 _RefThing<const char*>（+0 count / +8 回指）是两种对象，
- *      DoAdd 只在前者上做拼接，销毁体里却能见到后者 —— 两种串容器的分工仍待钉。
+ * ── 内存与引用计数（本函数的重活在这里）────────────────────────────────
+ *   FREE_RValue__Pre ×18（临时 RValue 释放）、YYFree ×4、operator delete ×4
+ *   ⚠ LOCK_RVALUE_MUTEX ×4 与 UNLOCK_RVALUE_MUTEX ×4 是**空桩**：两个符号在 0x190f2c/0x190f30 都是单条 `bx lr`
+ *     （原始字节 0xe12fff1e），所以这段代码没有真正的锁保护 —— 卡里不写「有锁保护」。
  *
- * 尾部 dd4b4..dd4fc 是 literal pool（objdump 译成 eoreq/mla 之类），非指令；锚点按 objdump 原样保留。
+ * ── 错误面 ─────────────────────────────────────────────────────────
+ *   9 处 bl VMError(VMExec*, char const*, ...)、6 处 bl JSThrowTypeError(char const*)
+ *   字符串表里 DoAdd 专属文案确实存在（"...left-hand-side of add operator to a number" 一族，0x332cfc..0x332e8c），
+ *   但具体哪条对应哪个站点未解，列 open。
  *
- * open：
- *   · 存储类 1 / 4 的含义（只在 T1 给宽度，算术分派一律 VMError）；
- *   · 存储类 5（boxed RValue）为何在 T3 里被拆成 9 个条目、且统一产出 16 B RValue 结果；
- *   · boxType（0xd7784）按 eVM_Type 从 sp 读值的字节数与返回指针推进量（本卡只见 4 个调用点）；
- *   · mode1 里 ToPrimitive 的 hint 实参（两处都传 [sp+4]=0）与"hint 非 0"的分支；
- *   · mode ≥3 是否真被 VM 发出（当前与 mode0 合流）；
- *   · tag 13 的类型名（T4/T5 都把它归进 double 类）；
- *   · 0x00FFFFFF 占位在 mode0 里不查（落到 "Malformed variable"），只有 mode1/2 显式查 —— 占位是否只出现在 boxed 操作数里；
- *   · 空串/null 串（[sp+8]=0 或 [sp+0xc]=0）跳过 strcpy 的所有权约定；
- *   · 拼接后两个源串的释放顺序（先右串 r9 后左串 r6）与所有权转移。
+ * ── open ──────────────────────────────────────────────────────────
+ *   1 数值 vs 字符串的分流判据（哪个 tag 组合走 ToPrimitive/ToString）
+ *   2 拼接缓冲的分配点与长度算式（strcpy 前的那几条 add/mov 尚未逐条读过）
+ *   3 9 处 VMError 的触发条件与格式串
  */
 /* @0xdc524 ubfx r2, r0, #0x8, #0x4 */
 /* @0xdc528 lsr r0, r0, #16 */
