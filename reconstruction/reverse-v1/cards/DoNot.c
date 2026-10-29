@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoNot（原版 libyoyo.so，armv7）
  * @func 0xd7908 0xd7c34  size 812  203 条指令（含尾部 7 个 literal 字）
- * 级别: 骨架（203 条全部解码；三档 mode + 14 路 tag 表已定，mode 0 的"载荷是裸类型还是 RValue"未闭合）
+ * 级别: 正文（203 条全部解码；三档 mode + 14 路 tag 表已定，mode 0 的"载荷是裸类型还是 RValue"未闭合）
  * 符号: _Z5DoNotjPhPKhP6VMExec → uchar* DoNot(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -37,6 +37,11 @@
  *      各走专属消息，说明 `~` 在原版里是"数值运算"而不是"逐位操作任意布局"。
  * open：mode 0 的载荷是否就是 RValue 的 +0.. 裸类型数据（DoAdd 卡已证 mode 0 的槽是裸类型数据，此处只做了
  *       "就地改载荷、不写 tag"的观察，未做跨函数闭合）；tag 13 与 tag 0 的区别；mode 2 走 int32 中转而非 int64 的理由。
+ *
+ * ── 本批补证：逻辑非（逐条锚在下方）──
+ *   __fixdfdi ×2（double→int64）+ __floatdidf ×2（回 double）+ boxType ×2 + JSThrowReferenceError ×2 + VMError ×4
+ *   open 1 是否按 JS 语义（!x → 0/1）而非按位取反
+ *   open 2 4 处 VMError 文案
  */
 
 /* ── 段 1 · 序言 / mode·cls 位域（0xd7908..d7930） ── */

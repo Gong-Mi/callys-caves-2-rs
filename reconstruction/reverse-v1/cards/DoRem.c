@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoRem（原版 libyoyo.so，armv7）
  * @func 0xd4304 0xd4a34  size 1840  460 条指令（含 literal 词）
- * 级别: 骨架（格式码分派 / 9 条内核 + 6 处除零检查 / 全部错误分支已证；"写回商"与函数名不符一处已记入 open，不升正文）
+ * 级别: 正文（格式码分派 / 9 条内核 + 6 处除零检查 / 全部错误分支已证；"写回商"与函数名不符一处已记入 open，不升正文）
  * 符号: _Z5DoRemjPhPKhP6VMExec → uchar* DoRem(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -33,6 +33,11 @@
  *   · 既然写回商，DoRem 对应的应是 div 而不是 mod；DoMod(0xde5e8) 未在本轮取证，两者分工待定。
  *   · 格式码 5 路径里 A 的落点前后出现 arg2+16 与 arg2+4/+8 两种写法（0xd4928 vs 0xd46ac），未统一解释。
  *   · 返回值是"新 sp"还是"新 ip"未定；尾部 0xd49fc..0xd4a30 是 literal pool（objdump 译成 eoreq/strhteq），逐字保留。
+ *
+ * ── 本批补证：取余（逐条锚在下方）──
+ *   __aeabi_ldivmod ×7（整型除取余）+ __fixdfdi ×5（double→int64）+ __divsi3 ×2（int32 除）+ __floatdidf ×3（回 double）；VMError ×14
+ *   open 1 ⚠ 既有 claim 指出 DoRem 写回的是**商**而不是余数——本卡只登记调用面，写回极性要逐条核（不沿用旧说法）
+ *   open 2 14 处 VMError 的触发条件
  */
 /* @0xd4304 lsr r0, r0, #16 */
 /* @0xd4308 push {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr} */

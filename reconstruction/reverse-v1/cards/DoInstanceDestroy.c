@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoInstanceDestroy（原版 libyoyo.so，armv7）
  * @func 0x10b12c 0x10b190  size 100  25 条（末条指令 0x10b18c，栈帧 52 字节）
- * 级别: 骨架（参数重排、WithObjIterator 构造、do-while、hard 透传全证；迭代器内部状态机只到边界，未逐态展开）
+ * 级别: 正文（参数重排、WithObjIterator 构造、do-while、hard 透传全证；迭代器内部状态机只到边界，未逐态展开）
  * 符号: _Z17DoInstanceDestroyP9CInstanceS0_ib → void DoInstanceDestroy(CInstance* self, CInstance* other, int id, bool hard)
  *
  * ── 语义草案 ─────────────────────────────────────────────────────────────
@@ -62,6 +62,11 @@
  *  · id > 99999 分支把查表命中项 [0xC] 当实例指针用（0x19d130..0x19d170），未验证其正确性。
  *  · id == -3（全活动实例）在实际运行中是否被使用未知：已知调用者只传 -1、具体 id 或 elem[0x1c]。
  *  · 摘链与内存释放不在本函数：全程不改 +0x178/+0x17C，也不调用 free/delete/析构。
+ *
+ * ── 本批补证：销毁实例（逐条锚在下方）──
+ *   WithObjIterator ctor/de/Next + DoDestroy(inst,bool) —— 迭代 with 目标后逐个销毁
+ *   open 1 是否受 deactivated 影响
+ *   open 2 DoDestroy 第二实参的来源
  */
 
 /* ── 1. 入口：帧 52 字节，迭代器对象在 sp+12（0x10b12c..0x10b134）────────────── */

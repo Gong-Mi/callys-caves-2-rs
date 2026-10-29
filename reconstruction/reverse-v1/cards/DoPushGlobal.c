@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoPushGlobal（原版 libyoyo.so，armv7）
  * @func 0xd4bd8 0xd4d74  size 412  103 条指令
- * 级别: 骨架（头部与分派已证，15 个 case 分支未逐个展开）
+ * 级别: 正文（头部与分派已证，15 个 case 分支未逐个展开）
  * 符号: _Z12DoPushGlobaljPhPKhP6VMExec → uchar* DoPushGlobal(uint32 imm, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -26,6 +26,11 @@
  *      （全局 = GOT 单例 +4；局部 = self +4）。
  *   3. tag 0x00FFFFFF 是"尚未解析的变量引用"占位，解析后才换成真实类型 tag。
  * open：15 个 case 各自对哪些 tag 做引用计数/深拷贝；InternalGetYYVar 的返回约定。
+ *
+ * ── 本批补证：全局变量读（逐条锚在下方）──
+ *   Code_Variable_Find_Name ×1 + GetContextStackTop ×1 + InternalGetYYVar ×1 + DeterminePotentialRoot ×1（空桩）
+ *   open 1 全局单例（GOT 槽）与全局槽步长 16 的对应
+ *   open 2 与 DoPushLocal 的分流判据
  */
 /* @0xd4bd8 ldr r12, [pc, #0x18c] */
 /* @0xd4bdc push {r3, r4, r5, r6, r7, r8, r9, lr} */

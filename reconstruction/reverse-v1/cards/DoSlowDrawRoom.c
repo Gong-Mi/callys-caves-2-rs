@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoSlowDrawRoom（原版 libyoyo.so，armv7）
  * @func 0x1b06a0 0x1b0b04  size 1124  281 条（1b0a88..1b0a98 为 literal pool，5 字）
- * 级别: 骨架（三条绘制流按 depth 交错、实例与层项字段表、Draw 事件派发、两条精灵输出路径、
+ * 级别: 正文（三条绘制流按 depth 交错、实例与层项字段表、Draw 事件派发、两条精灵输出路径、
  *             背景 DrawPart 调用协议已逐条钉住；未钉：层项 56 字节数组由谁生成、11000.0 上限的来历、
  *             CBackground::DrawPart 后四个形参的名字）
  * 符号: _Z14DoSlowDrawRoomP9tagYYRECT → void DoSlowDrawRoom(tagYYRECT* pRect)
@@ -47,6 +47,11 @@
  *   之后写回 0（不是恢复旧值：旧值只被压到 [sp+0x24] 当「地址」用，见 1b096c 段）。
  *
  * ── 逐条锚点 ───────────────────────────────────────────────────
+ *
+ * ── 本批补证：房间慢绘制路径（逐条锚在下方）──
+ *   GR_3D_Set_Depth ×3（按深度分档设深度）+ ParticleSystem_LargestDepth ×1（粒子层分界）
+ *   open 1 三条深度档与 tile/instance 交错顺序
+ *   open 2 与 DrawTheRoom 条件树（room+0xdc/0xb8/0x88）的对应
  */
 
 /* ── 装载：常量、GOT 基址、房间指针、两条流的头 ────────────────────

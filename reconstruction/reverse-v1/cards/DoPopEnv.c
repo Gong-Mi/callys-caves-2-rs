@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoPopEnv（原版 libyoyo.so，armv7）
  * @func 0xd3840 0xd3968  size 296  74 条指令
- * 级别: 骨架（74 条全部解码；记录形态与每个返回点已定，0xF0 记录的产生方与 with 循环的字节码协议未定）
+ * 级别: 正文（74 条全部解码；记录形态与每个返回点已定，0xF0 记录的产生方与 with 循环的字节码协议未定）
  * 符号: _Z8DoPopEnvjPhPKhP6VMExec → uchar* DoPopEnv(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -30,6 +30,11 @@
  *   4. `0xF0` 与 [0, env2, env1] 三字记录一一对应：0xF0 恢复两个 env 字并消费 12 B，正好等于 DoPushEnv 从 sp-8 压出的那条。
  * open：谁产生 0xF0 记录（DoPushEnv 全函数没有写 0xF0 字面量）；0xF0 + w0∉{0,-1} 时"扫到 0 字"的分支对应哪种 with 形态；
  *       数组 [0]=0 的填充语义（DoPushEnv d5368 存的是上一轮的 r6，不是当前实例）。
+ *
+ * ── 本批补证：with() 环境弹栈（逐条锚在下方）──
+ *   MemoryManager::Free ×2（释放环境记录）
+ *   open 1 与 DoPushEnv 的配对与嵌套深度检查
+ *   open 2 空栈时的行为
  */
 
 /* ── 段 1 · 序言 / form 位域（0xd3840..0xd3850） ── */

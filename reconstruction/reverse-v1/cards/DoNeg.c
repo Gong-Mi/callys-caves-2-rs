@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoNeg（原版 libyoyo.so，armv7）
  * @func 0xe096c 0xe0cec  size 896  224 条指令（含尾部 10 个 literal 字）
- * 级别: 骨架（224 条全部解码；三档 mode 与 14 路 tag 表已定，mode 2 的编译器用途与 cls 4 的类型名未定）
+ * 级别: 正文（224 条全部解码；三档 mode 与 14 路 tag 表已定，mode 2 的编译器用途与 cls 4 的类型名未定）
  * 符号: _Z5DoNegjPhPKhP6VMExec → uchar* DoNeg(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -35,6 +35,11 @@
  *      （0/10/13 → 8B；3/7/14 → 4B；4/5/8/9/11/12 → 无载荷）逐条对齐。
  * open：mode 2 的编译器用途（是否专给一元 + / 隐式数值化）；tag 13 的类型名（与 tag 0 同为 8B，但在 DoPop 里被当成实例标签用）；
  *       cls 4 在强类型路按 32 位整数取负，而 boxType 的 cls 4 分支（0xd788c）产出 tag 13 + double —— 两处的类型名需统一。
+ *
+ * ── 本批补证：取负（逐条锚在下方）──
+ *   F_JS_ToNumber ×2（操作数转数）+ boxType ×2（装箱）+ JSThrowReferenceError ×2 / JSThrowTypeError ×2 + VMError ×6
+ *   open 1 负数/零的符号处理
+ *   open 2 6 处 VMError 文案
  */
 
 /* ── 段 1 · 序言 / mode·cls 位域（0xe096c..0xe0994） ── */

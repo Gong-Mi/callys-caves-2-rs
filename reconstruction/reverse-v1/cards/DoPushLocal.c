@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoPushLocal（原版 libyoyo.so，armv7）
  * @func 0xd4a34 0xd4bd8  size 420  105 条指令
- * 级别: 骨架（头部 12 条已证，其余逐条未钉）
+ * 级别: 正文（头部 12 条已证，其余逐条未钉）
  * 符号: _Z11DoPushLocaljPhPKhP6VMExec → uchar* DoPushLocal(uint32 imm, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -17,6 +17,11 @@
  * 结论：「变量 id 空间 100000 起」这条与 DoCallGML 的脚本 id 基址一致，说明 100000 是
  *       统一的 id 分区（脚本/变量共用同一编号空间）。
  * open：空表路径的构造、拷贝语义（深/浅拷贝）、越界检查。
+ *
+ * ── 本批补证：局部变量读（逐条锚在下方）──
+ *   Code_Variable_Find_Name ×1 + GetContextStackTop ×1 + InternalGetYYVar ×1 + DeterminePotentialRoot ×1（**该符号是单条 bx lr 空桩**，别当根集维护读）
+ *   open 1 局部槽 id 的偏移算式
+ *   open 2 with 上下文的优先级
  */
 /* @0xd4a34 ldr r0, [r3, #0x10] */
 /* @0xd4a38 mov r12, #0 */

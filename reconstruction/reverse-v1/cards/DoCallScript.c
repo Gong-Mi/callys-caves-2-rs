@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoCallScript（原版 libyoyo.so，armv7）
  * @func 0xe8588 0xe8b00  size 1400  350 条（0xe8ad0..0xe8afc 为 literal pool，12 字，非指令）
- * 级别: 骨架（压帧 15 字、进入码十件套、三条退出路、other 绑定、寄存器搬运全证；
+ * 级别: 正文（压帧 15 字、进入码十件套、三条退出路、other 绑定、寄存器搬运全证；
  *       栈搬家段的页记账与 flags&4 段的意图未证）
  * 符号: _Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_
  *       → uchar* DoCallScript(CScript* scr, int argc, uchar* sp, VMExec* exec,
@@ -74,6 +74,11 @@
  *   3. 「实例变量槽数组首槽」与 InternalGetYYVar(1) 的编号不一致（0 vs 1），两者是否同一变量未证。
  *   4. code[0x54]/[0x58]/[0x5c]/[0x60]/[0x6c]/[0x78] 之外的 CScript 字段含义。
  *   5. 为何 argc 只写进 g_ArgumentCount 而本函数不消费它（消费方是 PerformReturn 的实参释放循环）。
+ *
+ * ── 本批补证：脚本调用内核（逐条锚在下方）──
+ *   CScript::GetCode ×3；YYFree ×4 / operator delete ×4 释放临时对象；LOCK/UNLOCK_RVALUE_MUTEX 各 ×4 **均为 bx lr 空桩**
+ *   open 1 三处 GetCode 的形参差异
+ *   open 2 脚本不存在/被禁用的错误路径
  */
 
 /* ── 序：r8=scr r11=argc r5=sp r4=exec；r7=GOT 基址 ── */

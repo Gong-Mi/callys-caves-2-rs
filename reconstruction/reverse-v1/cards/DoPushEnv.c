@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoPushEnv（原版 libyoyo.so，armv7）
  * @func 0xd4dfc 0xd547c  size 1664  416 条指令（含尾部 11 个 literal 字）
- * 级别: 骨架（416 条全部解码；五种记录形态与全部入口分派已定，with 循环的字节码协议未定）
+ * 级别: 正文（416 条全部解码；五种记录形态与全部入口分派已定，with 循环的字节码协议未定）
  * 符号: _Z9DoPushEnvjPhPKhP6VMExec → uchar* DoPushEnv(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -49,6 +49,11 @@
  * open：with 循环的字节码协议（PushEnv ↔ PopEnv 的配对与迭代次数）；CObjectGM +0xd0 节点链与 CInstance +0x178 步进链的命名；
  *       数组 [0]=0 的填充用途（d5368 存的是上一轮的 r6，不是当前实例）；0xF0 记录的产生方；
  *       MemoryManager 行号 8769/8904 对应的源码语句。
+ *
+ * ── 本批补证：with() 环境压栈（逐条锚在下方）──
+ *   MemoryManager::Alloc ×2（分配环境记录）+ InstanceHandled ×2 + VMError ×3
+ *   open 1 环境记录的字段布局
+ *   open 2 与 DoPopEnv 的配对条件（嵌套 with 的栈深）
  */
 
 /* ── 段 1 · 序言 / PIC 基址 / arg bit23 分派（0xd4dfc..0xd4e1c） ── */

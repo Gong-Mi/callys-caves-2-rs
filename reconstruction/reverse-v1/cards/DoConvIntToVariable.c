@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoConvIntToVariable（原版 libyoyo.so，armv7）
  * @func 0xd773c 0xd7760  size 36  9 条指令
- * 级别: 骨架（转换方向已证；RValue 12 字节布局待证）
+ * 级别: 正文（转换方向已证；RValue 12 字节布局待证）
  * 符号: _Z19DoConvIntToVariablejPhPKhP6VMExec
  *
  * 已证（指令级）：
@@ -13,6 +13,10 @@
  *   返回 sp-12
  * 结论：把栈顶整数就地转成 12 字节的实数 RValue，栈上**不加高**（原地替换但地址下移 12）。
  * open：s14 的来源（跨函数/ABI 残值？）、12 字节里 tag 字段的位置、返回后旧位置是否被清理。
+ *
+ * ── 本批补证：极小转换器（逐条锚在下方）──
+ *   无任何 bl：纯内联的类型/整数转换段
+ *   open 1 转换前后的 tag 变化（需逐条读 9 条指令）
  */
 /* @0xd773c vldr s15, [r1] */
 /* @0xd7740 vcvt.f64.s32 d7, s15 */
