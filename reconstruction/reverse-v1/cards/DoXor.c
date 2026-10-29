@@ -37,6 +37,8 @@
  *   VMError ×13 / JSThrowReferenceError ×2：非数值操作数与非法位型走错误路径
  *   open 1 位宽与掩码位置
  *   open 2 与 DoAnd/DoOr 的模板共性
+ * ── alu_path_scan 复核（2026-10-29）：逻辑指令就地确认 —— eor×14（内联），配合 ToInt32/fixdfdi/floatdidf 的转换面
+ *   仍 open：位宽（32 还是 64）与掩码位置
  */
 /* @0xe00d8 tst r0, #3840   ——慢路径开关：tst bits[11:8]（任一非零即 box） */
 /* @0xe00dc push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */

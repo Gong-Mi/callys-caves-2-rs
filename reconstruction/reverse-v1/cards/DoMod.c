@@ -45,6 +45,9 @@
  *   VMError ×15 —— 本函数错误面最大的一个，格式串未解（open）
  *   open 1 实数路径用 fmod 而整型路径用 ldivmod：两条路的「负数取模」语义不同，Rust 实现要分别对
  *   open 2 15 处 VMError 的触发条件与文案
+ * ── alu_path_scan 复核（2026-10-29）──
+ *   实数路有符号/绝对值处理：`vabs.f64`×3、`vcmpe.f64`×3、`vcmp.f64`×2 ⇒ fmod 之后按其符号修正余数符号；
+ *   整数路 `__aeabi_ldivmod`×3。先前只写了 fmod/ldivmod，补上这组比较/取绝对值证据。
  */
 /* ---- 入口：mode=(arg>>8)&0xF，只有 mode==1 走常量装箱 ---- */
 /* @0x00de5e8 ubfx r2, r0, #0x8, #0x4 */

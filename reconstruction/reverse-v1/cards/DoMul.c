@@ -17,6 +17,10 @@
  *   1 各臂（0xe585c / 0xe5b94 / 0xe5bdc / 0xe5dd0 / 0xe6168 / 0xe6174）的数值语义未逐条读
  *   2 乘法是否保留整型：DoDiv 有 __divsi3/__aeabi_ldivmod，DoSub/DoAdd 只有 v*；DoMul 属哪族待读本体
  *   3 functions.tsv 对 DoMul 的 size 截断要不要回写（会影响 reachability/call_graph 的按名统计）
+ * ── alu_path_scan 复核（2026-10-29）：整数乘法路径存在 ──
+ *   内联 `mul`×4 / `mla`×2 / `umull`×2 ⇒ 整数乘法不是走助手，而是内联 32 位与 64 位无符号乘；
+ *   同时 `vmul.f64`×6 处理实数路。先前把「乘法是否保留整型」列为 open，现可收口：保留，且 64 位走 umull。
+ *   仍 open：各臂的 tag 选择（结果 tag 7 还是 10）与溢出回绕点。
  */
 /* @0xe5810 ubfx r2, r0, #0x8, #0x4 */
 /* @0xe5814 push {r4, r5, r6, r7, r8, r9, r10, lr} */

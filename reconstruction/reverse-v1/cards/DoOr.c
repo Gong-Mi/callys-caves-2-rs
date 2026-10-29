@@ -43,6 +43,8 @@
  *   VMError ×13 / JSThrowReferenceError ×2：非数值操作数与非法位型走错误路径
  *   open 1 位宽与掩码位置
  *   open 2 与 DoAnd 是否共用同一段转换代码（三张卡的调用清单完全相同，说明极可能共用模板）
+ * ── alu_path_scan 复核（2026-10-29）：逻辑指令就地确认 —— orr×18（内联），配合 ToInt32/fixdfdi/floatdidf 的转换面
+ *   仍 open：位宽（32 还是 64）与掩码位置
  */
 /* ---- 入口：mode=(arg>>8)&0xF；mode≠0 → 常量装箱路径 ---- */
 /* @0x00df804 tst r0, #3840 */
