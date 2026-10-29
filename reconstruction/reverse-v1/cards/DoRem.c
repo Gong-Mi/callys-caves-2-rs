@@ -36,7 +36,15 @@
  *
  * ── 本批补证：取余（逐条锚在下方）──
  *   __aeabi_ldivmod ×7（整型除取余）+ __fixdfdi ×5（double→int64）+ __divsi3 ×2（int32 除）+ __floatdidf ×3（回 double）；VMError ×14
- *   open 1 ⚠ 既有 claim 指出 DoRem 写回的是**商**而不是余数——本卡只登记调用面，写回极性要逐条核（不沿用旧说法）
+ * ── 写回极性已证（2026-10-29，指令级）：DoRem 写回的是**商**，不是余数 ──
+ *   ARM EABI 的 __aeabi_ldivmod 返回 r0:r1 = 商、r2:r3 = 余数；本函数 9 个除法站点全部落 r0：
+ *     0xd46e0 ldivmod → 0xd46e8 strd r0,r1 [r9] + mov r3,#10   （int64 商，tag 10）
+ *     0xd4714 ldivmod → 0xd471c str r0 [r9] + mov r3,#7         （int32 商，tag 7）
+ *     0xd4750 ldivmod → 0xd4754 floatdidf → 0xd475c strd + tag 0（实数侧商回 double）
+ *     0xd4778 / 0xd4800 / 0xd482c / 0xd4880 同型（ldivmod → 商）
+ *     0xd4798 __divsi3 → 0xd47a0 str r0 + tag 7；0xd47cc __divsi3 → 0xd47d0..0xd47dc vcvt.f64.s32 → 商
+ *   ⇒ 与 diff/c/vm_ref.c 的 op_rem 一致（它写 n/d），也与既有 claim 一致。名字骗人：Rem 实际是「除」。
+ *   open 只剩：14 处 VMError 的触发条件与文案。
  *   open 2 14 处 VMError 的触发条件
  */
 /* @0xd4304 lsr r0, r0, #16 */
