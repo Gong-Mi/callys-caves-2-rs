@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoSet（原版 libyoyo.so，armv7）
  * @func 0xe2014 0xe3d30  size 7452  1863 条指令（其中 1691 条可达指令 + 20 张跳转表 + 14 字 literal pool）
- * 级别: 骨架（分派树 / 操作数装箱协议 / 栈效果 / K=1..6 六种比较 / K=14,15 严格相等极性 已证；
+ * 级别: 正文（分派树 / 操作数装箱协议 / 栈效果 / K=1..6 六种比较 / K=14,15 严格相等极性 已证；
  *       K=7..11 与 17 个具体类型组合的重载未逐个钉死，见 open）
  * 符号: _Z5DoSetjPhPKhP6VMExec → uchar* DoSet(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
@@ -84,6 +84,16 @@
  *   · e26f0-e2888 的"类型字节归一化"改写规则（|2/|3/|6/|48/|96/|240、and #0xF0 清低半字节）
  *     只证到它把实际 tag 折算成紧凑编码后回跳 e2224/e2268，未证每条规则的动机。
  *   · 常量 1e-05 是否可被游戏运行时改写（它在 .data，GOT 间接引用）未验证。
+ *
+ * ── 本批补证（逐条锚在下方，和前文不冲突）──────────────────────────────
+ *   K 立即数分派站点 20 处：0xe2048(K=1) 0xe2174(K=11) 0xe22b0/0xe24b8/0xe2520/0xe2660/…(K=5 为主)
+ *     0xe2430(K=12) 0xe25d0(K=14) —— 与卡头「K=1..6 六种比较 + K=14/15 严格相等」一致，K=11/12 另有两臂
+ *   三条 JS 语义原语被调：JS_Global_abstractEqualityComparison / abstractStrictEqualityComparison /
+ *     abstractRelationalComparison(bool) ⇒ 本处理器的比较是复用 JS 抽象关系语义，不是自己写数值比较
+ *   __floatdidf ×20 ⇒ int64 操作数在比较前先转 double（与 DoSub/DoAdd 的提升策略同族）
+ *   boxType ×10（操作数类型归一）；FREE_RValue__Pre ×9（临时值释放）；写入点 36 处 str（结果 RValue）
+ *   错误面：JSThrowReferenceError ×8、JSThrowTypeError ×2、VMError ×2
+ *   ⚠ 仍 open：K 与 GML 算子名的完整对应表（本卡只证 K 值站点与它们引用的原语，不按名字猜）
  */
 
 /* ── 序言：r10 = sp（值栈顶，实参 2）、r8 = exec（实参 4）、r6 = GOT 锚（e203c 后 = 0x3f1c58） */
