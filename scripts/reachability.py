@@ -44,6 +44,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default="reconstruction/reverse-v1")
     ap.add_argument("--top", type=int, default=25)
+    ap.add_argument("--dump", default=None,
+                    help="write the reachable set as TSV (start<TAB>size<TAB>demangled)")
     a = ap.parse_args()
 
     root = Path(a.root)
@@ -126,6 +128,14 @@ def main() -> int:
     print(f"\n未出卡里最大的 {a.top} 个：")
     for _start, size, dem, _mangled in todo[:a.top]:
         print(f"  {size:7d} B  0x{_start:x}  {dem}")
+    if a.dump:
+        out = Path(a.dump)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        with out.open("w", encoding="utf-8") as fh:
+            fh.write("start\tsize\tname\n")
+            for s, size, dem, _m in sorted(reach):
+                fh.write(f"0x{s:x}\t{size}\t{dem}\n")
+        print(f"\nreachable set dumped: {out} ({len(reach)} rows)")
     return 0
 
 
