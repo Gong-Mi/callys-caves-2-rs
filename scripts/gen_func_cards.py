@@ -119,12 +119,11 @@ def main() -> int:
         if size < a.min_size:
             continue
         hi = lo + size
-        addrs = [x for x in sorted(ins) if lo <= x < hi] if False else [x for x in range(lo, hi, 4) if x in ins]
-        if any(x in owner for x in addrs):
-            continue
+        full = [x for x in range(lo, hi, 4) if x in ins]
+        addrs = [x for x in full if x not in owner]
         if not addrs or anchors + len(addrs) > a.budget:
             continue
-        picked.append((lo, hi, size, name, addrs))
+        picked.append((lo, hi, size, name, addrs, len(full) - len(addrs)))
         anchors += len(addrs)
 
     if not picked:
@@ -139,7 +138,7 @@ def main() -> int:
         " * 选择规则: 只取可达集里「一个地址都还没被别的卡主张」的函数，按字节降序填到预算为止。",
         " * 索引: asm/instructions.jsonl；符号: asm/functions.tsv；槽→目标: .rel.dyn",
     ]
-    for n, (lo, hi, size, name, addrs) in enumerate(picked, 1):
+    for n, (lo, hi, size, name, addrs, taken) in enumerate(picked, 1):
         base, gates, calls, offs, vfp = facts(lo, hi)
         gates_txt = ", ".join(f"0x{x:x}→0x{t:x}" for x, t in gates[:8]) or "无"
         cal = collections.Counter(resolve(t) for t in calls)
@@ -147,7 +146,8 @@ def main() -> int:
         off_txt = " / ".join(f"0x{k:x}×{v}" for k, v in offs.most_common(8)) or "无"
         lines += [
             " *",
-            f" * ══ §{n}/{len(picked)} {name}  0x{lo:x}  size {size}  {len(addrs)} 条（0x{lo:x}..0x{hi:x}）",
+            f" * ══ §{n}/{len(picked)} {name}  0x{lo:x}  size {size}  {len(addrs)} 条（0x{lo:x}..0x{hi:x}）"
+            + (f"｜其中 {taken} 条已由别的卡落锚，本节不再重复" if taken else ""),
             f" * @func 0x{lo:x} 0x{hi:x}  size {size}  {len(addrs)} 条",
             " * 级别: 骨架（结构 + 锚点；语义未展开）",
             f" * GOT 基址: {hex(base) if base else '无标准序言'}",
@@ -166,8 +166,8 @@ def main() -> int:
     path.write_text("\n".join(lines) + "\n */\n", encoding="utf-8")
     print(f"{path}: {len(picked)} functions, {anchors} anchors, "
           f"{sum(p[2] for p in picked):,} B covered")
-    for lo, hi, size, name, addrs in picked:
-        print(f"   §{name[:48]:48} 0x{lo:x} {size:6d} B {len(addrs):5d} 条")
+    for lo, hi, size, name, addrs, taken in picked:
+        print(f"   §{name[:48]:48} 0x{lo:x} {size:6d} B {len(addrs):5d} 条" + (f" (+{taken} 已属别卡)" if taken else ""))
     return 0
 
 
