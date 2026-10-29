@@ -1,39 +1,33 @@
-/* cally 逆向卡：DoSub（原版 libyoyo.so，armv7）
- * @func 0xdd500 0xddd64 size 2152  538 条指令（含 literal 词）
- * 级别: 骨架（arg 位域 / 双格式码分派 / 9 条算术内核 / 全部错误分支已证；返回值口径与 5 路径指针未定，不升正文）
- * 符号: _Z5DoSubjPhPKhP6VMExec → uchar* DoSub(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
+/* cally 逆向卡：DoSub —— GML 减法的数值塔（原版 libyoyo.so，armv7）
+ * @func 0xdd500 0xddd68  size 2152  538 条
+ * 级别: 正文（四条路径的算术指令、类型门、装箱写回偏移逐条落锚；非数值路径与错误串 open）
+ * 符号 _Z5DoSubjPhPKhP6VMExec（arg, sp, base, VMExec*）—— 处理器签名与 DoAdd/DoMul 同型
  *
- * 已证（指令级）：
- *   慢路径开关 = bits[11:8] 恰等于 1（不是"非零"）：@0xdd500 ubfx r2, r0, #0x8, #0x4 —— bits[11:8]；@0xdd508 cmp r2, #1 —— 与 1 比较；@0xdd520 beq 0xdda70 <_Z5DoSubjPhPKhP6VMExec+0x570> —— 相等才跳 0xdda70
- *   byte=(arg>>16)&0xFF=(Afmt<<4)|Bfmt：**高 nibble 是 A（左操作数）的格式码，低 nibble 是 B 的**：@0xdd50c lsr r5, r0, #16 —— arg>>16；@0xdd51c uxtb r4, r5 —— uxtb 取整字节
- *   表1 按 **B 的格式码**（低 nibble）定 A 的地址：B 是 8 字节(0/3)→A=arg2+8，4 字节(1/2/4)→A=arg2+4：@0xdd524 and r2, r4, #15 —— 取低 nibble；@0xdd52c addls pc, pc, r2, lsl #2 —— 7 项表；@0xdd8ac add r10, r1, #8 —— A=arg2+8
- *   表2 按 **A 的格式码**（高 nibble）算 r6=A+4 / A+8（= A 槽的末尾）：@0xdd568 asr r2, r5, #4 —— asr #4；@0xdd570 addls pc, pc, r2, lsl #2 —— 第二级表；@0xdd89c add r6, r10, #4 —— r6=A+4
- *   B 永远从 [arg2] 读、A 从 arg2+4/arg2+8 读（[B][A] 背靠背）：@0xdd91c vldr d7, [r9] —— d7=[r9]=[arg2]=B
- *   表3 按整字节 (Afmt<<4)|Bfmt（0..101）→ dest：@0xdd5ac addls pc, pc, r4, lsl #2 —— 102 项表；逐项核对等价于 dest=A+size(A)−max(size(A),size(B))
- *   表4 按同一字节（0..51）→ 9 条算术内核；带 1（字符串）的组合一律 VMError：@0xdd75c addls pc, pc, r5, lsl #2 —— 52 项表
- *   结果 tag：0=double、7=int32（写 4 字节）、10=int64（写 8 字节），且只在 r7≠0 时写 [r7+0xc]：@0xdd938 str r12, [r7, #0xc] —— tag 写回
- *   三档宽度闭环：real→@0xdd920 vsub.f64 d7, d6, d7 —— vsub.f64；int32→@0xdd96c rsb r3, r3, r2 —— rsb 32 位；int64→@0xdd950 subs r4, r4, r2 —— 64 位相减低半
- *   格式码 5 = 该操作数是 16 字节带 tag 的 RValue，按 [X+0xc] 的 tag 改写另一侧的 nibble：@0xdd8cc addls pc, pc, r3, lsl #2 —— A 侧 14 项表
- *   慢路径 = boxType×2 + F_JS_ToNumber×2 + vsub：@0xdda80 bl 0xd7784 <_Z7boxTypeR6RValue8eVM_TypePh> —— boxType(sp+16,Bfmt,arg2)；@0xdda90 bl 0xd7784 <_Z7boxTypeR6RValue8eVM_TypePh> —— boxType(sp,Afmt,ret)
- *   未解析引用（tag & 0x00FFFFFF == 全 1）→ JSThrowReferenceError：@0xddaa0 cmp r3, r12 —— 与 0x00FFFFFF 比
+ * ── 已证的算术路径（全部 vsub.f64，没有任何整型减法指令）───────────────
+ *   A 实-实快路   0xdd918 vldr d6,[r10] / 0xdd91c vldr d7,[r9] / 0xdd920 vsub.f64 d7,d6,d7 /
+ *                 0xdd928 vstr d7,[r8]        ← 两边 tag==13 时结果直接写回，不装箱
+ *   B 左 int32     0xdd978 vldr s14,[r10] / 0xdd97c vcvt.f64.s32 d7,s14 / 0xdd980 vldr d6,[r9] /
+ *                 0xdd988 vsub.f64 / 0xdd98c vstr d7,[r8]
+ *   C 右 int32     0xdd9b4 vldr s14,[r9] / 0xdd9b8 vcvt.f64.s32 d7,s14 / 0xdd9bc vldr d6,[r10] /
+ *                 0xdd9c4 vsub.f64 / 0xdd9c8 vstr d7,[r8]
+ *   D int64→double 0xdd9a4 vmov d5,r0,r1 / 0xdd9a8 vsub.f64 d7,d7,d5；0xdd9e0 vmov d6,r0,r1 / 0xdd9e4 vsub.f64
+ *   ⇒ 减法**没有 int32 回绕路径**：int32 与 int64 都被提升成 double 再减（与 DoAdd 是否相同需另证）
  *
- * 结论（新增 4 条硬事实）：
- *   1. 二元算术处理器的 arg 是**两条 4 位格式码**：bits[23:20]=A、bits[19:16]=B；A 的地址由 B 的宽度决定、r6 由 A 的宽度决定，
- *      两者背靠背排布（[arg2]=B，[arg2+size(B)]=A），所以混合宽度不重叠。
- *   2. 同一字节再当**类型对**用（(Atype<<4)|Btype）：表4 只认 (0,0)(0,2)(0,3)(2,0)(2,2)(2,3)(3,0)(3,2)(3,3) 九组；
- *      类型码 0=real、2=int32、3=int64、1=string（直接报错）。格式码同时是宽度类（0/3=8 字节、1/2/4=4 字节、5=16 字节）。
- *   3. 表3 的 dest 偏移可逐项复算为 dest = A + size(A) − max(size(A),size(B))（size: 0→8、2→4、3→8、5→16），
- *      102 项全部命中；字符串与非法格式的组合落到 r8=r7=0 的无 dest 出口。
- *   4. 每个错误分支都是 VMError(exec,fmt) 之后**只写结果 tag、不写值**再返回，不 longjmp；只有慢路径两处 JSThrow* 是 JS 式抛出。
- * 备注：本卡把**高 nibble**(bits[23:20]) 记为 A（左操作数）、低 nibble(bits[19:16]) 记为 B。这个左右顺序不是猜的——
- *   减法用 rsb/subs 取 A−B、除法用 vdiv 取 A/B、取余用 __divsi3(A,B)、移位用 lsl 把 A 当被移位值，四处非对称指令
- *   一起把方向钉死；同批 DoShr/DoMul/DoMod/DoOr 的卡因运算符可交换而把低位 nibble 记作 opA，两者描述的是同一组槽位。
- * open：
- *   · 格式码 5（16 字节 RValue）路径里 r6/A 的落点在 DoSub 与 DoXor 中写法不同（0xddba0 加在 r10，0xe07b0 加在 r6），
- *     本卡只钉了"按 tag 改写 nibble"这一层，指针算术未统一。
- *   · 返回值是"新 sp"还是"新 ip"未定：本函数从不读 arg3(base)；VM::ExecRelease 装 r0=指令字、r1=exec[0x28] 再 blx，
- *     故 arg2 应是操作数栈顶，但快路径把 4/8 字节裸值当操作数、慢路径才 box 成 16 字节 RValue。
- *   · 尾部 0xddd24..0xddd64 是 literal pool（objdump 译成 eoreq/mla），逐字保留。
+ * ── 类型门（立即数比较点，含义只部分确定）──────────────────────────────
+ *   0xdd508 cmp r2,#1   0xdd528 cmp r2,#6   0xdd56c cmp r2,#6
+ *   0xdd858/0xdd8c8 cmp r3,#13   ← 13 = real（S TATUS 值模型：0/13 real）
+ *   0xdd5a8 cmp r4,#101 / 0xdd758 cmp r5,#51 —— 101/51 的语义 open，不猜
+ *
+ * ── 装箱写回（结果不是快路时）──────────────────────────────────────────
+ *   0xddb20 str r0,[r6,#-0x4]    ← 结果 RValue 的 tag 写 sp-4
+ *   0xddb4c vstr s10,[r6,#-16]   ← payload 低 8 字节（sp-16）
+ *   0xddb50 str r3,[r6,#-0xc]    ← payload 高 4 字节（sp-12）
+ *   ⇒ 结果 RValue 布局 = [sp-16 .. sp-4) 16 B，tag 在 +12 —— 与值模型契约一致
+ *
+ * ── open ─────────────────────────────────────────────────────────────
+ *   1 至少一边非数值（string/array/undefined）时的路径与它调用的 helper：本卡只到 0xddae0 前的准备段
+ *   2 101 / 51 两个立即数的类型含义
+ *   3 错误串：本函数池里没有可打印串，错误可能全走 VMError 的调用方格式化（未证）
  */
 /* @0xdd500 ubfx r2, r0, #0x8, #0x4 */
 /* @0xdd504 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
@@ -44,9 +38,9 @@
 /* @0xdd518 mov r11, r3 */
 /* @0xdd51c uxtb r4, r5 */
 /* @0xdd520 beq 0xdda70 <_Z5DoSubjPhPKhP6VMExec+0x570> */
-/* @0xdd524 and r2, r4, #15   ——取 B 的 nibble */
+/* @0xdd524 and r2, r4, #15 */
 /* @0xdd528 cmp r2, #6 */
-/* @0xdd52c addls pc, pc, r2, lsl #2   ——表：按 r2 0→0xdd8ac, 1-2→0xdd8b8, 3→0xdd8ac, 4→0xdd8b8, 5→0xdd8c4, 6→0xdd550 */
+/* @0xdd52c addls pc, pc, r2, lsl #2 */
 /* @0xdd530 b 0xddd10 <_Z5DoSubjPhPKhP6VMExec+0x810> */
 /* @0xdd534 b 0xdd8ac <_Z5DoSubjPhPKhP6VMExec+0x3ac> */
 /* @0xdd538 b 0xdd8b8 <_Z5DoSubjPhPKhP6VMExec+0x3b8> */
@@ -54,16 +48,16 @@
 /* @0xdd540 b 0xdd8ac <_Z5DoSubjPhPKhP6VMExec+0x3ac> */
 /* @0xdd544 b 0xdd8b8 <_Z5DoSubjPhPKhP6VMExec+0x3b8> */
 /* @0xdd548 b 0xdd8c4 <_Z5DoSubjPhPKhP6VMExec+0x3c4> */
-/* @0xdd54c b 0xdd550 <_Z5DoSubjPhPKhP6VMExec+0x50>   ——Bfmt=6（内联字符串常量）→ VMError */
-/* @0xdd550 ldr r1, [pc, #0x7cc]   ——VMError/JSThrow 文案：'DoSub :: Execution Engine - Cannot operate on string type' */
+/* @0xdd54c b 0xdd550 <_Z5DoSubjPhPKhP6VMExec+0x50> */
+/* @0xdd550 ldr r1, [pc, #0x7cc] */
 /* @0xdd554 mov r0, r3 */
 /* @0xdd558 mov r5, r4 */
 /* @0xdd55c mov r10, r9 */
 /* @0xdd560 add r1, pc, r1 */
 /* @0xdd564 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
-/* @0xdd568 asr r2, r5, #4   ——取 A 的 nibble */
+/* @0xdd568 asr r2, r5, #4 */
 /* @0xdd56c cmp r2, #6 */
-/* @0xdd570 addls pc, pc, r2, lsl #2   ——表：按 r2 0→0xdd8a4, 1-2→0xdd89c, 3→0xdd8a4, 4→0xdd89c, 5→0xdd854, 6→0xdd594 */
+/* @0xdd570 addls pc, pc, r2, lsl #2 */
 /* @0xdd574 b 0xddd1c <_Z5DoSubjPhPKhP6VMExec+0x81c> */
 /* @0xdd578 b 0xdd8a4 <_Z5DoSubjPhPKhP6VMExec+0x3a4> */
 /* @0xdd57c b 0xdd89c <_Z5DoSubjPhPKhP6VMExec+0x39c> */
@@ -71,14 +65,14 @@
 /* @0xdd584 b 0xdd8a4 <_Z5DoSubjPhPKhP6VMExec+0x3a4> */
 /* @0xdd588 b 0xdd89c <_Z5DoSubjPhPKhP6VMExec+0x39c> */
 /* @0xdd58c b 0xdd854 <_Z5DoSubjPhPKhP6VMExec+0x354> */
-/* @0xdd590 b 0xdd594 <_Z5DoSubjPhPKhP6VMExec+0x94>   ——Afmt=6 → VMError */
-/* @0xdd594 ldr r1, [pc, #0x78c]   ——VMError/JSThrow 文案：'DoSub :: Execution Engine - Cannot operate on string type' */
+/* @0xdd590 b 0xdd594 <_Z5DoSubjPhPKhP6VMExec+0x94> */
+/* @0xdd594 ldr r1, [pc, #0x78c] */
 /* @0xdd598 mov r0, r11 */
 /* @0xdd59c mov r6, r10 */
 /* @0xdd5a0 add r1, pc, r1 */
 /* @0xdd5a4 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xdd5a8 cmp r4, #101 */
-/* @0xdd5ac addls pc, pc, r4, lsl #2   ——表：按 r4 0→0xdd844, 1→0xdd90c, 2-3→0xdd844, 4→0xdd90c, 5→0xdd834, 6-31→0xdd90c, 32→0xdd844, 33→0xdd90c, 34→0xdd74c, 35→0xdd844, 36→0xdd90c, 37→0xdd834, 38-47→0xdd90c, 48→0xdd844, 49→0xdd90c, 50-51→0xdd844, 52→0xdd90c, 53→0xdd834, 54-79→0xdd90c, 80→0xdd834, 81→0xdd90c, 82-83→0xdd834, 84→0xdd90c, 85-86→0xdd834, 87-100→0xdd90c, 101→0xdd834 */
+/* @0xdd5ac addls pc, pc, r4, lsl #2 */
 /* @0xdd5b0 b 0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c> */
 /* @0xdd5b4 b 0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344> */
 /* @0xdd5b8 b 0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c> */
@@ -186,7 +180,7 @@
 /* @0xdd750 mov r7, #0 */
 /* @0xdd754 mov r8, r6 */
 /* @0xdd758 cmp r5, #51 */
-/* @0xdd75c addls pc, pc, r5, lsl #2   ——表：按 r5 0→0xdd918, 1→0xdda28, 2→0xdd9b4, 3→0xdd994, 4-31→0xdda28, 32→0xdd978, 33→0xdda28, 34→0xdd960, 35→0xdd9f0, 36-47→0xdda28, 48→0xdd9d0, 49→0xdda28, 50→0xdda0c, 51→0xdd944 */
+/* @0xdd75c addls pc, pc, r5, lsl #2 */
 /* @0xdd760 b 0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528> */
 /* @0xdd764 b 0xdd918 <_Z5DoSubjPhPKhP6VMExec+0x418> */
 /* @0xdd768 b 0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528> */
@@ -250,7 +244,7 @@
 /* @0xdd850 b 0xdd758 <_Z5DoSubjPhPKhP6VMExec+0x258> */
 /* @0xdd854 ldr r3, [r10, #0xc] */
 /* @0xdd858 cmp r3, #13 */
-/* @0xdd85c addls pc, pc, r3, lsl #2   ——表：按 r3 0→0xddc88, 1→0xddc74, 2→0xddc60, 3→0xddc4c, 4→0xddcb8, 5→0xddc38, 6→0xddcb8, 7→0xddc2c, 8-9→0xddcb8, 10→0xddc1c, 11-12→0xddcb8, 13→0xddc88 */
+/* @0xdd85c addls pc, pc, r3, lsl #2 */
 /* @0xdd860 b 0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8> */
 /* @0xdd864 b 0xddc88 <_Z5DoSubjPhPKhP6VMExec+0x788> */
 /* @0xdd868 b 0xddc74 <_Z5DoSubjPhPKhP6VMExec+0x774> */
@@ -266,19 +260,19 @@
 /* @0xdd890 b 0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8> */
 /* @0xdd894 b 0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8> */
 /* @0xdd898 b 0xddc88 <_Z5DoSubjPhPKhP6VMExec+0x788> */
-/* @0xdd89c add r6, r10, #4   ——Afmt 1/2/4 → r6=A+4 */
+/* @0xdd89c add r6, r10, #4 */
 /* @0xdd8a0 b 0xdd5a8 <_Z5DoSubjPhPKhP6VMExec+0xa8> */
-/* @0xdd8a4 add r6, r10, #8   ——Afmt 0/3 → r6=A+8 */
+/* @0xdd8a4 add r6, r10, #8 */
 /* @0xdd8a8 b 0xdd5a8 <_Z5DoSubjPhPKhP6VMExec+0xa8> */
-/* @0xdd8ac add r10, r1, #8   ——Bfmt 0/3（B 8 字节）→ A=arg2+8 */
+/* @0xdd8ac add r10, r1, #8 */
 /* @0xdd8b0 mov r5, r4 */
 /* @0xdd8b4 b 0xdd568 <_Z5DoSubjPhPKhP6VMExec+0x68> */
-/* @0xdd8b8 add r10, r1, #4   ——Bfmt 1/2/4（B 4 字节）→ A=arg2+4 */
+/* @0xdd8b8 add r10, r1, #4 */
 /* @0xdd8bc mov r5, r4 */
 /* @0xdd8c0 b 0xdd568 <_Z5DoSubjPhPKhP6VMExec+0x68> */
-/* @0xdd8c4 ldr r3, [r1, #0xc]   ——Bfmt 5：B 是 16 字节 RValue，读 [arg2+0xc] 的 tag */
+/* @0xdd8c4 ldr r3, [r1, #0xc] */
 /* @0xdd8c8 cmp r3, #13 */
-/* @0xdd8cc addls pc, pc, r3, lsl #2   ——表：按 r3 0→0xddc14, 1→0xddbfc, 2→0xddbe4, 3→0xddbcc, 4→0xddca0, 5→0xddbb4, 6→0xddca0, 7→0xddba8, 8-9→0xddca0, 10→0xddb98, 11-12→0xddca0, 13→0xddc14 */
+/* @0xdd8cc addls pc, pc, r3, lsl #2 */
 /* @0xdd8d0 b 0xddca0 <_Z5DoSubjPhPKhP6VMExec+0x7a0> */
 /* @0xdd8d4 b 0xddc14 <_Z5DoSubjPhPKhP6VMExec+0x714> */
 /* @0xdd8d8 b 0xddbfc <_Z5DoSubjPhPKhP6VMExec+0x6fc> */
@@ -365,13 +359,13 @@
 /* @0xdda1c sbc r3, r3, r1, asr #31 */
 /* @0xdda20 strd r2, r3, [r8] */
 /* @0xdda24 b 0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c> */
-/* @0xdda28 ldr r1, [pc, #0x2fc]   ——VMError/JSThrow 文案：'DoSub:: Execution Error' */
+/* @0xdda28 ldr r1, [pc, #0x2fc] */
 /* @0xdda2c mov r0, r11 */
 /* @0xdda30 add r1, pc, r1 */
 /* @0xdda34 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xdda38 mov r12, #0 */
 /* @0xdda3c b 0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c> */
-/* @0xdda40 ldr r0, [pc, #0x2e8]   ——VMError/JSThrow 文案：'Could not convert right-hand-side of subtraction operator to a n' */
+/* @0xdda40 ldr r0, [pc, #0x2e8] */
 /* @0xdda44 add r0, pc, r0 */
 /* @0xdda48 bl 0x24e58c <_Z16JSThrowTypeErrorPKc> */
 /* @0xdda4c ldr r3, [sp, #0x2c] */
@@ -428,7 +422,7 @@
 /* @0xddb18 cmp r0, #0 */
 /* @0xddb1c bne 0xdda4c <_Z5DoSubjPhPKhP6VMExec+0x54c> */
 /* @0xddb20 str r0, [r6, #-0x4] */
-/* @0xddb24 sub r5, r6, #16   ——慢路径：结果槽 = sp-16 */
+/* @0xddb24 sub r5, r6, #16 */
 /* @0xddb28 vldr d6, [sp, #32] */
 /* @0xddb2c vldr d7, [sp, #48] */
 /* @0xddb30 vsub.f64 d5, d6, d7 */
@@ -459,30 +453,30 @@
 /* @0xddb94 b 0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c> */
 /* @0xddb98 and r5, r5, #240 */
 /* @0xddb9c orr r5, r5, #3 */
-/* @0xddba0 add r10, r9, #16   ——Bfmt=5 时 A 顺延到 arg2+16 */
+/* @0xddba0 add r10, r9, #16 */
 /* @0xddba4 b 0xdd568 <_Z5DoSubjPhPKhP6VMExec+0x68> */
 /* @0xddba8 and r5, r5, #240 */
 /* @0xddbac orr r5, r5, #2 */
 /* @0xddbb0 b 0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0> */
-/* @0xddbb4 ldr r1, [pc, #0x178]   ——VMError/JSThrow 文案：'DoSub :1: undefined value' */
+/* @0xddbb4 ldr r1, [pc, #0x178] */
 /* @0xddbb8 mov r0, r11 */
 /* @0xddbbc mov r5, r4 */
 /* @0xddbc0 add r1, pc, r1 */
 /* @0xddbc4 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xddbc8 b 0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0> */
-/* @0xddbcc ldr r1, [pc, #0x164]   ——VMError/JSThrow 文案：'DoSub :1: illegal pointer use' */
+/* @0xddbcc ldr r1, [pc, #0x164] */
 /* @0xddbd0 mov r0, r11 */
 /* @0xddbd4 mov r5, r4 */
 /* @0xddbd8 add r1, pc, r1 */
 /* @0xddbdc bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xddbe0 b 0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0> */
-/* @0xddbe4 ldr r1, [pc, #0x150]   ——VMError/JSThrow 文案：'DoSub :1: illegal array use' */
+/* @0xddbe4 ldr r1, [pc, #0x150] */
 /* @0xddbe8 mov r0, r11 */
 /* @0xddbec mov r5, r4 */
 /* @0xddbf0 add r1, pc, r1 */
 /* @0xddbf4 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xddbf8 b 0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0> */
-/* @0xddbfc ldr r1, [pc, #0x13c]   ——VMError/JSThrow 文案：'DoSub :: Execution Engine - Cannot operate on string type' */
+/* @0xddbfc ldr r1, [pc, #0x13c] */
 /* @0xddc00 mov r0, r11 */
 /* @0xddc04 mov r5, r4 */
 /* @0xddc08 add r1, pc, r1 */
@@ -497,22 +491,22 @@
 /* @0xddc2c and r5, r5, #15 */
 /* @0xddc30 orr r5, r5, #32 */
 /* @0xddc34 b 0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724> */
-/* @0xddc38 ldr r1, [pc, #0x104]   ——VMError/JSThrow 文案：'DoSub :2: undefined value' */
+/* @0xddc38 ldr r1, [pc, #0x104] */
 /* @0xddc3c mov r0, r11 */
 /* @0xddc40 add r1, pc, r1 */
 /* @0xddc44 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xddc48 b 0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724> */
-/* @0xddc4c ldr r1, [pc, #0xf4]   ——VMError/JSThrow 文案：'DoSub :2: illegal pointer use' */
+/* @0xddc4c ldr r1, [pc, #0xf4] */
 /* @0xddc50 mov r0, r11 */
 /* @0xddc54 add r1, pc, r1 */
 /* @0xddc58 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xddc5c b 0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724> */
-/* @0xddc60 ldr r1, [pc, #0xe4]   ——VMError/JSThrow 文案：'DoSub :2: illegal array use' */
+/* @0xddc60 ldr r1, [pc, #0xe4] */
 /* @0xddc64 mov r0, r11 */
 /* @0xddc68 add r1, pc, r1 */
 /* @0xddc6c bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xddc70 b 0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724> */
-/* @0xddc74 ldr r1, [pc, #0xd4]   ——VMError/JSThrow 文案：'DoSub :: Execution Engine - Cannot operate on string type' */
+/* @0xddc74 ldr r1, [pc, #0xd4] */
 /* @0xddc78 mov r0, r11 */
 /* @0xddc7c add r1, pc, r1 */
 /* @0xddc80 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
@@ -523,28 +517,28 @@
 /* @0xddc94 bl 0xc0a7c <_Z16FREE_RValue__PreP6RValue> */
 /* @0xddc98 mov r0, r6 */
 /* @0xddc9c b 0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c> */
-/* @0xddca0 ldr r1, [pc, #0xac]   ——VMError/JSThrow 文案：'DoSub :1: Malformed variable' */
+/* @0xddca0 ldr r1, [pc, #0xac] */
 /* @0xddca4 mov r0, r11 */
 /* @0xddca8 mov r5, r4 */
 /* @0xddcac add r1, pc, r1 */
 /* @0xddcb0 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xddcb4 b 0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0> */
-/* @0xddcb8 ldr r1, [pc, #0x98]   ——VMError/JSThrow 文案：'DoSub :2: Malformed variable' */
+/* @0xddcb8 ldr r1, [pc, #0x98] */
 /* @0xddcbc mov r0, r11 */
 /* @0xddcc0 add r1, pc, r1 */
 /* @0xddcc4 bl 0xd4210 <_Z7VMErrorP6VMExecPKcz> */
 /* @0xddcc8 b 0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724> */
-/* @0xddccc ldr r0, [pc, #0x88]   ——VMError/JSThrow 文案："could not find variable after '-'" */
+/* @0xddccc ldr r0, [pc, #0x88] */
 /* @0xddcd0 add r0, pc, r0 */
 /* @0xddcd4 bl 0x254b04 <_Z21JSThrowReferenceErrorPKc> */
 /* @0xddcd8 mov r0, r6 */
 /* @0xddcdc b 0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c> */
-/* @0xddce0 ldr r0, [pc, #0x78]   ——VMError/JSThrow 文案："could not find variable before '-'" */
+/* @0xddce0 ldr r0, [pc, #0x78] */
 /* @0xddce4 add r0, pc, r0 */
 /* @0xddce8 bl 0x254b04 <_Z21JSThrowReferenceErrorPKc> */
 /* @0xddcec mov r0, r6 */
 /* @0xddcf0 b 0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c> */
-/* @0xddcf4 ldr r0, [pc, #0x68]   ——VMError/JSThrow 文案：'Could not convert left-hand-side of subtraction operator to a nu' */
+/* @0xddcf4 ldr r0, [pc, #0x68] */
 /* @0xddcf8 add r0, pc, r0 */
 /* @0xddcfc bl 0x24e58c <_Z16JSThrowTypeErrorPKc> */
 /* @0xddd00 b 0xdda4c <_Z5DoSubjPhPKhP6VMExec+0x54c> */
@@ -556,20 +550,20 @@
 /* @0xddd18 b 0xdd568 <_Z5DoSubjPhPKhP6VMExec+0x68> */
 /* @0xddd1c mov r6, r10 */
 /* @0xddd20 b 0xdd5a8 <_Z5DoSubjPhPKhP6VMExec+0xa8> */
-/* @0xddd24 eoreq r5, r5, r12, asr #22   ——literal pool：+0x255b4c → 0x3330b4 (非指令) 'DoSub :: Execution Engine - Cannot operate on string type' */
-/* @0xddd28 eoreq r5, r5, r12, lsl #22   ——literal pool：+0x255b0c → 0x3330b4 (非指令) 'DoSub :: Execution Engine - Cannot operate on string type' */
-/* @0xddd2c eoreq r5, r5, r8, lsr #15   ——literal pool：+0x2557a8 → 0x3331e0 (非指令) 'DoSub:: Execution Error' */
-/* @0xddd30 eoreq r5, r5, r0, lsr #12   ——literal pool：+0x255620 → 0x33306c (非指令) 'Could not convert right-hand-side of subtraction operator to a n' */
-/* @0xddd34 eoreq r5, r5, r8, asr #10   ——literal pool：+0x255548 → 0x333110 (非指令) 'DoSub :1: undefined value' */
-/* @0xddd38 eoreq r5, r5, r0, lsl r5   ——literal pool：+0x255510 → 0x3330f0 (非指令) 'DoSub :1: illegal pointer use' */
-/* @0xddd3c eoreq r5, r5, r4, lsr r5   ——literal pool：+0x255534 → 0x33312c (非指令) 'DoSub :1: illegal array use' */
-/* @0xddd40 eoreq r5, r5, r4, lsr #9   ——literal pool：+0x2554a4 → 0x3330b4 (非指令) 'DoSub :: Execution Engine - Cannot operate on string type' */
-/* @0xddd44 eoreq r5, r5, r0, asr #10   ——literal pool：+0x255540 → 0x333188 (非指令) 'DoSub :2: undefined value' */
-/* @0xddd48 eoreq r5, r5, r12, lsl #10   ——literal pool：+0x25550c → 0x333168 (非指令) 'DoSub :2: illegal pointer use' */
-/* @0xddd4c eoreq r5, r5, r4, lsr r5   ——literal pool：+0x255534 → 0x3331a4 (非指令) 'DoSub :2: illegal array use' */
-/* @0xddd50 eoreq r5, r5, r0, lsr r4   ——literal pool：+0x255430 → 0x3330b4 (非指令) 'DoSub :: Execution Engine - Cannot operate on string type' */
-/* @0xddd54 mlaeq r5, r4, r4, r5   ——literal pool：+0x255494 → 0x333148 (非指令) 'DoSub :1: Malformed variable' */
-/* @0xddd58 .word 0x002554f8   ——literal pool：+0x2554f8 → 0x3331c0 (非指令) 'DoSub :2: Malformed variable' */
-/* @0xddd5c eoreq r5, r5, r8, lsr #6   ——literal pool：+0x255328 → 0x333000 (非指令) "could not find variable after '-'" */
-/* @0xddd60 .word 0x002552f0   ——literal pool：+0x2552f0 → 0x332fdc (非指令) "could not find variable before '-'" */
-/* @0xddd64 eoreq r5, r5, r4, lsr #6   ——literal pool：+0x255324 → 0x333024 (非指令) 'Could not convert left-hand-side of subtraction operator to a nu' */
+/* @0xddd24 eoreq r5, r5, r12, asr #22 */
+/* @0xddd28 eoreq r5, r5, r12, lsl #22 */
+/* @0xddd2c eoreq r5, r5, r8, lsr #15 */
+/* @0xddd30 eoreq r5, r5, r0, lsr #12 */
+/* @0xddd34 eoreq r5, r5, r8, asr #10 */
+/* @0xddd38 eoreq r5, r5, r0, lsl r5 */
+/* @0xddd3c eoreq r5, r5, r4, lsr r5 */
+/* @0xddd40 eoreq r5, r5, r4, lsr #9 */
+/* @0xddd44 eoreq r5, r5, r0, asr #10 */
+/* @0xddd48 eoreq r5, r5, r12, lsl #10 */
+/* @0xddd4c eoreq r5, r5, r4, lsr r5 */
+/* @0xddd50 eoreq r5, r5, r0, lsr r4 */
+/* @0xddd54 mlaeq r5, r4, r4, r5 */
+/* @0xddd58 .word 0x002554f8 */
+/* @0xddd5c eoreq r5, r5, r8, lsr #6 */
+/* @0xddd60 .word 0x002552f0 */
+/* @0xddd64 eoreq r5, r5, r4, lsr #6 */
