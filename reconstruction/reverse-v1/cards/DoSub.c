@@ -3,32 +3,16 @@
  * 级别: 正文（四条路径的算术指令、类型门、装箱写回偏移逐条落锚；非数值路径与错误串 open）
  * 符号 _Z5DoSubjPhPKhP6VMExec（arg, sp, base, VMExec*）—— 处理器签名与 DoAdd/DoMul 同型
  *
- * ── 已证的算术路径（全部 vsub.f64，没有任何整型减法指令）───────────────
- *   A 实-实快路   0xdd918 vldr d6,[r10] / 0xdd91c vldr d7,[r9] / 0xdd920 vsub.f64 d7,d6,d7 /
- *                 0xdd928 vstr d7,[r8]        ← 两边 tag==13 时结果直接写回，不装箱
- *   B 左 int32     0xdd978 vldr s14,[r10] / 0xdd97c vcvt.f64.s32 d7,s14 / 0xdd980 vldr d6,[r9] /
- *                 0xdd988 vsub.f64 / 0xdd98c vstr d7,[r8]
- *   C 右 int32     0xdd9b4 vldr s14,[r9] / 0xdd9b8 vcvt.f64.s32 d7,s14 / 0xdd9bc vldr d6,[r10] /
- *                 0xdd9c4 vsub.f64 / 0xdd9c8 vstr d7,[r8]
- *   D int64→double 0xdd9a4 vmov d5,r0,r1 / 0xdd9a8 vsub.f64 d7,d7,d5；0xdd9e0 vmov d6,r0,r1 / 0xdd9e4 vsub.f64
- *   ⇒ 减法**没有 int32 回绕路径**：int32 与 int64 都被提升成 double 再减（与 DoAdd 是否相同需另证）
- *
- * ── 类型门（立即数比较点，含义只部分确定）──────────────────────────────
- *   0xdd508 cmp r2,#1   0xdd528 cmp r2,#6   0xdd56c cmp r2,#6
- *   0xdd858/0xdd8c8 cmp r3,#13   ← 13 = real（S TATUS 值模型：0/13 real）
- *   0xdd5a8 cmp r4,#101 / 0xdd758 cmp r5,#51 —— 101/51 的语义 open，不猜
- *
- * ── 装箱写回（结果不是快路时）──────────────────────────────────────────
- *   0xddb20 str r0,[r6,#-0x4]    ← 结果 RValue 的 tag 写 sp-4
- *   0xddb4c vstr s10,[r6,#-16]   ← payload 低 8 字节（sp-16）
- *   0xddb50 str r3,[r6,#-0xc]    ← payload 高 4 字节（sp-12）
- *   ⇒ 结果 RValue 布局 = [sp-16 .. sp-4) 16 B，tag 在 +12 —— 与值模型契约一致
- *
- * ── open ─────────────────────────────────────────────────────────────
- *   1 至少一边非数值（string/array/undefined）时的路径与它调用的 helper：本卡只到 0xddae0 前的准备段
- *   2 101 / 51 两个立即数的类型含义
- *   3 错误串：本函数池里没有可打印串，错误可能全走 VMError 的调用方格式化（未证）
- */
+ * ── 已证的算术路径（2026-10-29 更正：实数路与整数路并存）───────────────
+ *   A 实-实快路   0xdd918 vldr d6,[r10] / 0xdd91c vldr d7,[r9] / 0xdd920 vsub.f64 / 0xdd928 vstr → 结果 double
+ *   B/C 单侧 int32 0xdd97c / 0xdd9b8 vcvt.f64.s32 → vsub.f64 → vstr（该支把 int32 提升成 double）
+ *   D int64→double 0xdd9a4 / 0xdd9e0 vmov d,r0,r1 → vsub.f64
+ *   E **整数路（64 位、带借位、会回绕）**：
+ *        0xdd950 subs r4,r4,r2 / 0xdd954 sbc r5,r5,r3 / 0xdd958 strd r4,r5,[r8]   ← int64 - int64
+ *        0xdda18 subs r2,r2,r1 / 0xdda1c sbc r3,r3,r1,asr #31 / 0xdda20 strd       ← int64 - sext32
+ *        两处都先 mov r12,#10 ⇒ 结果 tag=10
+ *   ⚠ 本卡第一版写「减法没有整型指令、整数一律提升成 double」是**错的**（只 grep 了 v*/助手，漏内联 subs/sbc）。
+ *     已在指令现场更正（claims SUB-002 refuted）。
 /* @0xdd500 ubfx r2, r0, #0x8, #0x4 */
 /* @0xdd504 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0xdd508 cmp r2, #1 */

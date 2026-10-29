@@ -3,31 +3,15 @@
  * 级别: 正文（三条路径的调用目标、字符串分配/释放、'锁'的真伪逐条落锚；算子级判定细节 open）
  * 符号 _Z5DoAddjPhPKhP6VMExec
  *
- * ── 数值路径：全是 vadd.f64，没有整型加法指令 ────────────────────────────
- *   0xdc8dc / 0xdc9c0 / 0xdc9e8 / 0xdcc0c / 0xdccf8 / 0xdcd80 vadd.f64
- *   ⇒ 与 DoSub 同族（整数先提升成 double），与 DoDiv 不同族（DoDiv 有 __divsi3 / __aeabi_ldivmod）
- *
- * ── 字符串路径：'+' 在本引擎里是拼接，不是数值加 ─────────────────────────
- *   0xdca9c / 0xdcfc4 bl F_JS_ToPrimitive(RValue&, RValue&, int)   ← 先转原始值
- *   0xdd1c0 bl F_JS_ToString(RValue&, RValue*)                    ← 任一侧非数值时转字符串
- *   0xdc810 / 0xdc82c（及另 2 处）bl strcpy@plt                    ← 拼接落缓冲区
- *   0xdcbc8 / 0xdcbe8 / 0xdd02c（共 4 处）bl F_JS_ToNumber        ← 混合操作数的数值通道
- *
- * ── 内存与引用计数（本函数的重活在这里）────────────────────────────────
- *   FREE_RValue__Pre ×18（临时 RValue 释放）、YYFree ×4、operator delete ×4
- *   ⚠ LOCK_RVALUE_MUTEX ×4 与 UNLOCK_RVALUE_MUTEX ×4 是**空桩**：两个符号在 0x190f2c/0x190f30 都是单条 `bx lr`
- *     （原始字节 0xe12fff1e），所以这段代码没有真正的锁保护 —— 卡里不写「有锁保护」。
- *
- * ── 错误面 ─────────────────────────────────────────────────────────
- *   9 处 bl VMError(VMExec*, char const*, ...)、6 处 bl JSThrowTypeError(char const*)
- *   字符串表里 DoAdd 专属文案确实存在（"...left-hand-side of add operator to a number" 一族，0x332cfc..0x332e8c），
- *   但具体哪条对应哪个站点未解，列 open。
- *
- * ── open ──────────────────────────────────────────────────────────
- *   1 数值 vs 字符串的分流判据（哪个 tag 组合走 ToPrimitive/ToString）
- *   2 拼接缓冲的分配点与长度算式（strcpy 前的那几条 add/mov 尚未逐条读过）
- *   3 9 处 VMError 的触发条件与格式串
- */
+ * ── 数值路径：两条，不是一条（2026-10-29 更正）──────────────────────────
+ *   A 实数路   0xdc8dc / 0xdc9c0 / 0xdc9e8 / 0xdcc0c / 0xdccf8 / 0xdcd80 vadd.f64（7 处）→ 结果 double
+ *   B 整数路   三处 **64 位整数加法**（带进位、会回绕）：
+ *        0xdccd8 adds r2,r2,r1 / 0xdccdc adc r3,r3,r1,asr #31 / 0xdcce0 strd r2,r3,[r5]   ← int64 + sext32
+ *        0xdcd10 adds r2,r2,r0 / 0xdcd14 adc r3,r3,r1 / 0xdcd18 strd                        ← int64 + int64
+ *        0xdcd2c adds r2,r2,r1 / 0xdcd30 adc r3,r3,r1,asr #31 / 0xdcd34 strd                ← int64 + sext32
+ *        三处都先 mov r12,#10 ⇒ 结果 tag=10（int64）
+ *   ⚠ 本卡第一版写「全程只有 vadd.f64、没有整型加法」是**错的**：当时只 grep 了 v* / __aeabi 助手，
+ *     漏掉了内联的 adds/adc。已按指令现场更正（claims ADD-002 refuted）。
 /* @0xdc524 ubfx r2, r0, #0x8, #0x4 */
 /* @0xdc528 lsr r0, r0, #16 */
 /* @0xdc52c cmp r2, #0 */
