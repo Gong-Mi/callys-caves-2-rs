@@ -1,0 +1,24 @@
+idx	call_addr	name	fn_addr	fn_symbol	argc	flag
+0	0xca9c4	vertex_create_buffer	0xc8b1c	F_Vertex_Create_Buffer_debug(RValue&, CInstance*, CInstance*, int, RValue*)	0	0
+1	0xca9e0	vertex_create_buffer_ext	0xc8b80	F_Vertex_Create_Buffer_Ext_debug(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+2	0xca9fc	vertex_delete_buffer	0xc8f80	F_Vertex_Delete_Buffer_debug(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+3	0xcaa18	vertex_begin	0xc90d4	F_Vertex_Begin_debug(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+4	0xcaa34	vertex_end	0xc9170	F_Vertex_End_debug(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+5	0xcaa50	vertex_position	0xc92a0	F_Vertex_Position_debug(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+6	0xcaa6c	vertex_position_3d	0xc92f8	F_Vertex_Position_3d_debug(RValue&, CInstance*, CInstance*, int, RValue*)	4	0
+7	0xcaa8c	vertex_colour	0xc9360	F_Vertex_Colour_debug(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+8	0xcaaa4	vertex_color	0xc9360	F_Vertex_Colour_debug(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+9	0xcaac0	vertex_argb	0xc93f4	F_Vertex_ARGB_debug(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+10	0xcaadc	vertex_texcoord	0xc9454	F_Vertex_TexCoord_debug(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+11	0xcaaf8	vertex_normal	0xc94ac	F_Vertex_Normal_debug(RValue&, CInstance*, CInstance*, int, RValue*)	4	0
+12	0xcab14	vertex_float1	0xc9514	F_Vertex_Float1_debug(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+13	0xcab30	vertex_float2	0xc9558	F_Vertex_Float2_debug(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+14	0xcab4c	vertex_float3	0xc95ac	F_Vertex_Float3_debug(RValue&, CInstance*, CInstance*, int, RValue*)	4	0
+15	0xcab68	vertex_float4	0xc9610	F_Vertex_Float4_debug(RValue&, CInstance*, CInstance*, int, RValue*)	5	0
+16	0xcab84	vertex_ubyte4	0xc9684	F_Vertex_ubyte4_debug(RValue&, CInstance*, CInstance*, int, RValue*)	5	0
+17	0xcaba0	vertex_submit	0xca4ac	F_Vertex_Submit_debug(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+18	0xcabbc	vertex_freeze	0xca5d8	F_Vertex_Freeze_debug(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+19	0xcabd8	vertex_get_number	0xc8894	F_Vertex_Get_Number_debug(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+20	0xcabf4	vertex_get_buffer_size	0xc8914	F_Vertex_Get_Buffer_Size(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+21	0xcac10	vertex_create_buffer_from_buffer	0xc8bc4	F_Vertex_Create_Buffer_From_Buffer(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+22	0xcac30	vertex_create_buffer_from_buffer_ext	0xc8d3c	F_Vertex_Create_Buffer_From_Buffer_Ext(RValue&, CInstance*, CInstance*, int, RValue*)	4	0

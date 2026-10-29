@@ -5,13 +5,13 @@
 
 ## 账
 
-    cards                163 张（多节卡按节算 @func 共 406 节）
-    anchors              101,006 条，全部 RESULT EXACT
+    cards                168 张已提交（多节卡按节算 @func 共 432 节）＋ cards/Audio.c 是上一轮被打断的半卡（8 节只写 2 节），未提交
+    anchors              119,722 条已提交（盘上含半卡 120,528），全部 RESULT EXACT
     跨卡共享地址          0
-    claims               1,712 条（proven 1,453 / narrowed 112 / open 133 / refuted 7 / inferred 7）
+    claims               1,719 条（proven 1,456 / narrowed 114 / open 134 / refuted 7 / inferred 7 / 新增 INIT-007 open）
     指令基线             649,229（Thumb 双遍解码）
     函数                 9,538 具名 + 272 匿名块 → 636 段
-    语义覆盖（上限估计）   381 个函数/段 = 377,320 / 593,104 B = 63.6%
+    语义覆盖（上限估计）   405 个函数/段 = 452,184 / 593,104 B = 76.2%（不含 Audio.c 半卡；整段计入，是上限不是交付）
 
 ## 已定性（有卡、有锚点、能指名到函数）
 
@@ -41,8 +41,11 @@
 
 ## 未定性（按重要性）
 
-    1  12 个 Init*Functions 表（Graphic/Resource/3D/Action/Interaction/Game/Sound/Particles/File/
-       Physics/Steam/Misc）—— 游戏实际调用的 87 个 builtin 就散在这些表里
+    1  ~~12 个 Init*Functions 表~~ **已收（2026-10-28 后一批）**：26 个 Init* 函数全部出卡
+       （cards/InitTables_{Core,Draw3D,Resource,InputAction,System}.c），2,434 条注册逐条解出四实参，
+       游戏调用的 99 个内建里 97 个已指到注册点，另 2 个（AdColony_*）本构建无实现。
+       残留 open：29 条运行期实参（14 条 joystick_* 的 flag = *(u8)0x5428e8、Init3D 13 条、InitGame 1 条、
+       InitResource 1 条）与「同名双注册的查找语义」
     2  ~600 个匿名段（其中 ≥512 B 的约 105 段）
     3  freetype（TT_RunIns 7.8 KB）、pcre compile_branch（23.5 KB）的内部
     4  几个反复出现的未定语义：g_isZeus(0x5428e8) 到底是什么开关、
