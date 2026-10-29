@@ -100,7 +100,7 @@
  */
 
 /* ══ 1/9  F_IRandomRange  0x110dec  size 148  37 条
- * @func 0x110dec 0x110e7c  size 148  37 条
+ * @func 0x110dec 0x110e80  size 148  37 条
  * 符号 _Z14F_IRandomRangeR6RValueP9CInstanceS2_iPS_   GML: irandom_range(n1,n2) → real（值必为整数）
  * 参数: args = [sp+0x18]（push 6 字后）；argc(r3) 不读
  *
@@ -162,7 +162,7 @@
 /* @0x110e7c b 0x110e3c <_Z14F_IRandomRangeR6RValueP9CInstanceS2_iPS_+0x50>  —— 换位段落地后跳回公共尾（0x110e3c） */
 
 /* ══ 2/9  F_Random  0x10dddc  size 88  22 条
- * @func 0x10dddc 0x10de30  size 88  22 条
+ * @func 0x10dddc 0x10de34  size 88  22 条
  * 符号 _Z8F_RandomR6RValueP9CInstanceS2_iPS_   GML: random(n) → real
  * 参数: args = [sp+0x18]（push 4 寄存器 + vpush {d8} = 24 字节）；argc 不读
  *
@@ -201,7 +201,7 @@
 /* @0x10de30 pop {r4, r5, r6, pc} */
 
 /* ══ 3/9  F_Randomize  0x10e284  size 84  21 条  (池 0x10e2d4 一字)
- * @func 0x10e284 0x10e2d4  size 84  21 条（20 条指令 + 1 个池字）
+ * @func 0x10e284 0x10e2d8  size 84  21 条（20 条指令 + 1 个池字）
  * 符号 _Z11F_RandomizeR6RValueP9CInstanceS2_iPS_   GML: randomize() → real（本次种子）
  * 参数: 不读 args、不读 argc —— 9 个里唯一真正无参的
  *
@@ -244,7 +244,7 @@
 /* @0x10e2d4 .word 0x002dffb0  —— 字面池 0x002dffb0，非指令（objdump 渲染成 .word） */
 
 /* ══ 4/9  F_RandomRange  0x110efc  size 76  19 条
- * @func 0x110efc 0x110f44  size 76  19 条
+ * @func 0x110efc 0x110f48  size 76  19 条
  * 符号 _Z14F_RandomRangeR6RValueP9CInstanceS2_iPS_   GML: random_range(n1,n2) → real
  * 参数: args = [sp+0x18]；argc 不读
  *
@@ -282,7 +282,7 @@
 /* @0x110f44 pop {r3, r4, r5, r6, r7, pc} */
 
 /* ══ 5/9  F_FileDelete  0x138474  size 148  37 条  (池 0x138504 一字)
- * @func 0x138474 0x138504  size 148  37 条（36 条指令 + 1 个池字；含 2048 字节栈缓冲）
+ * @func 0x138474 0x138508  size 148  37 条（36 条指令 + 1 个池字；含 2048 字节栈缓冲）
  * 符号 _Z12F_FileDeleteR6RValueP9CInstanceS2_iPS_   GML: file_delete(fname) → real
  * 参数: args = [sp,#0x818]（16 + 2048 + 8 帧）；argc 不读
  *
@@ -341,7 +341,7 @@
 /* @0x138504 eoreq r5, r11, r4, asr #9  —— 字面池 0x002b54c4，非指令（objdump 按指令渲染） */
 
 /* ══ 6/9  F_FileExists  0x137acc  size 96  24 条
- * @func 0x137acc 0x137b28  size 96  24 条
+ * @func 0x137acc 0x137b2c  size 96  24 条
  * 符号 _Z12F_FileExistsR6RValueP9CInstanceS2_iPS_   GML: file_exists(fname) → real(0/1)
  * 参数: args = [sp,#0x18]（push 6 字）；argc 不读
  *
@@ -387,7 +387,7 @@
 /* @0x137b28 pop {r3, r4, r5, r6, r7, pc} */
 
 /* ══ 7/9  F_IniReadReal  0x13bba4  size 92  23 条
- * @func 0x13bba4 0x13bbfc  size 92  23 条
+ * @func 0x13bba4 0x13bc00  size 92  23 条
  * 符号 _Z14F_IniReadRealR6RValueP9CInstanceS2_iPS_   GML: ini_read_real(section,key,def) → real
  * 参数: args = [sp,#0x18]（push 6 字）；argc 不读
  *
@@ -432,7 +432,7 @@
 /* @0x13bbfc pop {r3, r4, r5, r6, r7, pc} */
 
 /* ══ 8/9  F_IniWriteReal  0x13bca0  size 76  19 条
- * @func 0x13bca0 0x13bce8  size 76  19 条
+ * @func 0x13bca0 0x13bcec  size 76  19 条
  * 符号 _Z15F_IniWriteRealR6RValueP9CInstanceS2_iPS_   GML: ini_write_real(section,key,value)
  * 参数: args = [sp,#0x10]（push 4 字）；argc 不读
  *
@@ -474,7 +474,7 @@
 /* @0x13bce8 b 0x13bc00 <_Z20YYGML_ini_write_realPKcS0_d>  —— 尾跳 YYGML_ini_write_real(section,key,value)：本函数不写 ret */
 
 /* ══ 9/9  F_MouseClear  0x127618  size 84  21 条
- * @func 0x127618 0x127668  size 84  21 条
+ * @func 0x127618 0x12766c  size 84  21 条
  * 符号 _Z12F_MouseClearR6RValueP9CInstanceS2_iPS_   GML: mouse_clear(button)
  * 参数: args = [sp,#8]（push 2 字）；argc 不读
  *

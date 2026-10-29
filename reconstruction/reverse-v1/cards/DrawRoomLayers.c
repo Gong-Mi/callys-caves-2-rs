@@ -1,5 +1,5 @@
 /* cally 逆向卡：DrawRoomLayers（原版 libyoyo.so，armv7）
- * @func 0x1b3938 0x1b3b0c size 472  118 条（115 条指令 + 1b3b04..1b3b0c 三个字面量池字，前两个被 objdump 译成指令）
+ * @func 0x1b3938 0x1b3b10  size 472  118 条（115 条指令 + 1b3b04..1b3b0c 三个字面量池字，前两个被 objdump 译成指令）
  * 级别: 骨架（118/118 锚定。层链**从尾到头**的遍历方向、层链按 +0x04 升序的外部证据、两套深度来源与
  *             写它们的 GML 内建、SetLayerShader/ResetLayerShader 与前后两个层脚本的夹心结构、7 路元素分派表、
  *             type 2 的「实例已停用就跳掉本层剩余元素」这道门、尾调 Graphics::Flush 全部逐条钉住。

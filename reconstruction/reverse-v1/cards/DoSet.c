@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoSet（原版 libyoyo.so，armv7）
- * @func 0xe2014 0xe3d2c  size 7452  1863 条指令（其中 1691 条可达指令 + 20 张跳转表 + 14 字 literal pool）
+ * @func 0xe2014 0xe3d30  size 7452  1863 条指令（其中 1691 条可达指令 + 20 张跳转表 + 14 字 literal pool）
  * 级别: 骨架（分派树 / 操作数装箱协议 / 栈效果 / K=1..6 六种比较 / K=14,15 严格相等极性 已证；
  *       K=7..11 与 17 个具体类型组合的重载未逐个钉死，见 open）
  * 符号: _Z5DoSetjPhPKhP6VMExec → uchar* DoSet(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)

@@ -1,5 +1,5 @@
 /* cally 逆向卡：CLayerManager::AddInstanceToLayer（原版 libyoyo.so，armv7）
- * @func 0x1c5a38 0x1c5d14 size 736  184 条（179 条指令 + 1c5d04..1c5d14 五个字面量池字）
+ * @func 0x1c5a38 0x1c5d18  size 736  184 条（179 条指令 + 1c5d04..1c5d14 五个字面量池字）
  * 级别: 骨架（184/184 锚定。三道门、第三张哈希表的内联查找（哈希/桶/命中三态）、36 B 专用池的扩容与弹出、
  *             新元素的八个初值、实例三字段回写、两条入层路径（建新 vs 复用）、尾调 AddElementToLayer /
  *             UpdateInstanceActivation 全部逐条钉住。未钉：哈希表探测/换位的逐位规则（只证到「比较 31 位哈希 +

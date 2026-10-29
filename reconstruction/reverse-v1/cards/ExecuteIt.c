@@ -1,6 +1,6 @@
 /* cally 逆向卡：ExecuteIt（原版 libyoyo.so，armv7）
  *
- * @func  0x000cf914 0x000cfc60   size 844   211 条指令（含 3 个 literal 词）
+ * @func 0xcf914 0xcfc60  size 844  211 条指令（含 3 个 literal 词）
  * 级别:  骨架（锚点全挂；仅顶部已证，其余逐条标未钉）
  * 符号:  _Z9ExecuteItP9CInstanceS0_P5CCodeP6RValuei
  *        → int ExecuteIt(CInstance* self, CInstance* other, CCode* code, RValue* result, int arg)

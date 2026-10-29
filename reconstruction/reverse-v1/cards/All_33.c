@@ -731,7 +731,7 @@
  *   @0x1ed764 .word 0xfffff190
  *
  * ══ §4/36 JS_String_prototype_indexOf(RValue&, CInstance*, CInstance*, int, RValue*)  0x257ae4  size 920  230 条（0x257ae4..0x257e7c）
- * @func 0x257ae4 0x257e7c  size 920  230 条
+ * @func 0x257ae4 0x257e8c  size 936  234 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2650,6 +2650,7 @@
  *
  * ══ §12/36 GR_Window_Views_Convert(int, int, int&, int&)  0x17a6a0  size 908  220 条（0x17a6a0..0x17aa2c）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x17a6a0 0x17aa2c  size 908  220 条
+ * 部分覆盖: 本节 220/227 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x17a6d0→0x54298c, 0x17a6e8→0x498cd8, 0x17a7d4→0x5428e8, 0x17a848→0x3f50a8, 0x17a850→0x3f50a4, 0x17a8e8→0x3f50a8, 0x17a8f4→0x3f510c, 0x17a910→0x3f50d8
@@ -5230,7 +5231,7 @@
  *   @0x31aab4 pop {r4, r5, r6, r7, r8, r9, r10, pc}
  *
  * ══ §23/36 F_JS_Object_getOwnPropertyNames(RValue&, CInstance*, CInstance*, int, RValue*)  0x250b30  size 888  222 条（0x250b30..0x250ea8）
- * @func 0x250b30 0x250ea8  size 888  222 条
+ * @func 0x250b30 0x250eb8  size 904  226 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5927,7 +5928,7 @@
  *   @0x2581e8 muleq pc, r0, sp
  *
  * ══ §26/36 yySocket::Connect(char*, int)  0x295858  size 880  220 条（0x295858..0x295bc8）
- * @func 0x295858 0x295bc8  size 880  220 条
+ * @func 0x295858 0x295bd8  size 896  224 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6159,6 +6160,7 @@
  *
  * ══ §27/36 png_do_read_transformations  0x2aa92c  size 880  220 条（0x2aa92c..0x2aac9c）
  * @func 0x2aa92c 0x2aac9c  size 880  220 条
+ * 部分覆盖: 本节 220/360 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7080,6 +7082,7 @@
  *
  * ══ §31/36 png_handle_cHRM  0x2ac328  size 876  219 条（0x2ac328..0x2ac694）
  * @func 0x2ac328 0x2ac694  size 876  219 条
+ * 部分覆盖: 本节 219/373 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7765,7 +7768,8 @@
  *   @0x295f24 andeq r3, r12, r4, ror r4
  *
  * ══ §34/36 png_read_destroy  0x2a7c64  size 456  51 条（0x2a7c64..0x2a7e2c）｜其中 63 条已由别的卡落锚，本节不再重复
- * @func 0x2a7c64 0x2a7e2c  size 456  51 条
+ * @func 0x2a7c7c 0x2a7e28  size 428  51 条
+ * 部分覆盖: 本节 51/186 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7828,6 +7832,7 @@
  *
  * ══ §35/36 Eff_Check_Systems()  0x1a24f4  size 220  41 条（0x1a24f4..0x1a25d0）｜其中 14 条已由别的卡落锚，本节不再重复
  * @func 0x1a24f4 0x1a25d0  size 220  41 条
+ * 部分覆盖: 本节 41/55 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1a24fc→0x3f5088, 0x1a2518→0x3f5084, 0x1a2530→0x542458, 0x1a2558→0x5428e8, 0x1a2590→0x5428e8

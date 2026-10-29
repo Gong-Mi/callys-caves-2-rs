@@ -1,5 +1,5 @@
 /* cally 逆向卡：CRoom::LoadFromChunk（原版 libyoyo.so，armv7）
- * @func 0x1aea3c 0x1af2b8  size 2176  544 条（0x1aed98..0x1aedd8 为内联 literal pool，17 字）
+ * @func 0x1aea3c 0x1af2bc  size 2176  544 条（0x1aed98..0x1aedd8 为内联 literal pool，17 字）
  * 级别: 正文（装载次序、字段落位、各可选块、代码入口/相机/物理/层/三张哈希表的重建全部逐条钉住，
  *             并与 CRoom::CRoom 0x1ad2cc、CRoom::Clear 0x1ad0a4、CRoom::AddTile 0x1ac240、
  *             CRoom::AddTileToStorage 0x1aaf78、CRoom::DeSerialise 0x1ac33c、CRoom::LoadFromStream

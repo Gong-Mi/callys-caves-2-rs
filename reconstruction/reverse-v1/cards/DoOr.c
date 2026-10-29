@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoOr（原版 libyoyo.so，armv7）
- * @func 0xdf804 0xe00d4  size 2260  565 条指令（含尾部 literal 池）
+ * @func 0xdf804 0xe00d8  size 2260  565 条指令（含尾部 literal 池）
  * 级别: 骨架（入口/两级 kind 分派/86 路消费表/69 路算术表/12 条算术核/bool 组合已证；
  *        pair 4 的读写槽位异常未证）
  * 符号: _Z4DoOrjPhPKhP6VMExec → uchar* DoOr(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)

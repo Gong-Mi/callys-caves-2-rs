@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoCallScript（原版 libyoyo.so，armv7）
- * @func 0xe8588 0xe8afc  size 1400  350 条（0xe8ad0..0xe8afc 为 literal pool，12 字，非指令）
+ * @func 0xe8588 0xe8b00  size 1400  350 条（0xe8ad0..0xe8afc 为 literal pool，12 字，非指令）
  * 级别: 骨架（压帧 15 字、进入码十件套、三条退出路、other 绑定、寄存器搬运全证；
  *       栈搬家段的页记账与 flags&4 段的意图未证）
  * 符号: _Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_

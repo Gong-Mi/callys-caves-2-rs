@@ -708,6 +708,7 @@
  *
  * ══ §6/60 _zip_dirent_read_buff(zip_dirent*, IBuffer*, unsigned char**, unsigned int*, int, zip_error*)  0x2a4108  size 516  129 条（0x2a4108..0x2a430c）
  * @func 0x2a4108 0x2a430c  size 516  129 条
+ * 部分覆盖: 本节 129/237 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1544,6 +1545,7 @@
  *
  * ══ §12/60 png_handle_sPLT  0x2ac9ec  size 512  128 条（0x2ac9ec..0x2acbec）
  * @func 0x2ac9ec 0x2acbec  size 512  128 条
+ * 部分覆盖: 本节 128/231 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1822,6 +1824,7 @@
  *
  * ══ §14/60 FT_Outline_EmboldenXY  0x2e6670  size 512  128 条（0x2e6670..0x2e6870）
  * @func 0x2e6670 0x2e6870  size 512  128 条
+ * 部分覆盖: 本节 128/241 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2374,7 +2377,7 @@
  *   @0x1646f0 andseq r6, lr, r0, lsr #32
  *
  * ══ §18/60 GV_Undefined(CInstance*, int, RValue*)  0x200890  size 508  127 条（0x200890..0x200a8c）
- * @func 0x200890 0x200a8c  size 508  127 条
+ * @func 0x200890 0x200a9c  size 524  131 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3752,7 +3755,7 @@
  *   @0x18ffac .word 0xffffea14
  *
  * ══ §28/60 GV_PointerNull(CInstance*, int, RValue*)  0x200698  size 504  126 条（0x200698..0x200890）
- * @func 0x200698 0x200890  size 504  126 条
+ * @func 0x200698 0x2008a0  size 520  130 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4026,7 +4029,7 @@
  *   @0x223ea8 andseq r0, r3, r8, lsr pc
  *
  * ══ §30/60 JS_String_prototype_slice(RValue&, CInstance*, CInstance*, int, RValue*)  0x255638  size 504  126 条（0x255638..0x255830）
- * @func 0x255638 0x255830  size 504  126 条
+ * @func 0x255638 0x255840  size 520  130 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6333,7 +6336,8 @@
  *   @0x293170 andeq sp, r9, r8, ror pc
  *
  * ══ §47/60 png_do_read_filler  0x2a8ebe  size 494  124 条（0x2a8ebe..0x2a90ac）
- * @func 0x2a8ebe 0x2a90ac  size 494  124 条
+ * @func 0x2a8ebe 0x2a90ae  size 496  124 条
+ * 部分覆盖: 本节 124/213 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7004,7 +7008,8 @@
  *   @0x28aa9c andeq sp, r12, r0, lsr #32
  *
  * ══ §52/60 png_combine_row  0x2adc30  size 490  123 条（0x2adc30..0x2ade1a）
- * @func 0x2adc30 0x2ade1a  size 490  123 条
+ * @func 0x2adc30 0x2ade1c  size 492  123 条
+ * 部分覆盖: 本节 123/227 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7404,7 +7409,7 @@
  *   @0x16c2bc submi r0, r8, #0
  *
  * ══ §55/60 F_TilemapGetCellXAtPixel(RValue&, CInstance*, CInstance*, int, RValue*)  0x1beaa0  size 488  122 条（0x1beaa0..0x1bec88）
- * @func 0x1beaa0 0x1bec88  size 488  122 条
+ * @func 0x1beaa0 0x1bec98  size 504  126 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7671,6 +7676,7 @@
  *
  * ══ §57/60 zip_fopen_index  0x2a4584  size 488  122 条（0x2a4584..0x2a476c）
  * @func 0x2a4584 0x2a476c  size 488  122 条
+ * 部分覆盖: 本节 122/213 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7804,6 +7810,7 @@
  *
  * ══ §58/60 png_check_IHDR  0x2a61b0  size 488  122 条（0x2a61b0..0x2a6398）
  * @func 0x2a61b0 0x2a6398  size 488  122 条
+ * 部分覆盖: 本节 122/223 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7937,6 +7944,7 @@
  *
  * ══ §59/60 png_set_text_2  0x2aeef8  size 488  122 条（0x2aeef8..0x2af0e0）
  * @func 0x2aeef8 0x2af0e0  size 488  122 条
+ * 部分覆盖: 本节 122/224 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8070,6 +8078,7 @@
  *
  * ══ §60/60 Audio_SoundGain(int, float, int)  0x2178f0  size 400  86 条（0x2178f0..0x217a80）｜其中 14 条已由别的卡落锚，本节不再重复
  * @func 0x2178f0 0x217a80  size 400  86 条
+ * 部分覆盖: 本节 86/100 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x217904→0x755363, 0x217920→0x755314, 0x217934→0x5428e8, 0x217948→0x54298c, 0x217980→0x3f52d0, 0x217a44→0x5428c0

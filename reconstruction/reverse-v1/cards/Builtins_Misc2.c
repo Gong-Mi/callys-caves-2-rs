@@ -70,7 +70,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 1 · F_MoveBounceSolid（move_bounce_solid）
- * @func 0x10837c 0x1083a0  size 40  10 条（无池字）
+ * @func 0x10837c 0x1083b0  size 52  13 条（无池字）
  * 符号: _Z17F_MoveBounceSolidR6RValueP9CInstanceS2_iPS_
  * 一句话: adv=YYGetBool(args,0) → 尾跳 Command_Bounce(self, adv, **0**)；第三实参恒 0 = 用
  *         Command_IsFree 谓词。result 不写。
@@ -106,7 +106,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 2 · F_MoveBounceAll（move_bounce_all）
- * @func 0x1083a4 0x1083c8  size 40  10 条（无池字）
+ * @func 0x1083a4 0x1083cc  size 40  10 条（无池字）
  * 符号: _Z15F_MoveBounceAllR6RValueP9CInstanceS2_iPS_
  * 一句话: adv=YYGetBool(args,0) → 尾跳 Command_Bounce(self, adv, **1**)；第三实参恒 1 = 用
  *         Command_IsEmpty 谓词。result 不写。
@@ -135,7 +135,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 3 · F_RoomGoto（room_goto）
- * @func 0x109ab8 0x109adc  size 40  10 条（9 条指令 + 1 个池字 0x109adc）
+ * @func 0x109ab8 0x109ae0  size 40  10 条（9 条指令 + 1 个池字 0x109adc）
  * 符号: _Z10F_RoomGotoR6RValueP9CInstanceS2_iPS_
  * 一句话: room=YYGetInt32(args,0)、kind=*Transition_Kind → 尾跳 Command_GotoRoom(room,kind)；
  *         kind 在命令层是死参（被强制清 0）。result 不写。
@@ -170,7 +170,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 4 · F_RoomRestart（room_restart）
- * @func 0x109be8 0x109bf8  size 20  5 条（4 条指令 + 1 个池字 0x109bf8）
+ * @func 0x109be8 0x109bfc  size 20  5 条（4 条指令 + 1 个池字 0x109bf8）
  * 符号: _Z13F_RoomRestartR6RValueP9CInstanceS2_iPS_
  * 一句话: 读 *Transition_Kind 当实参 → 尾跳 Command_CurrentRoom(kind)；后者取 *Current_Room 再进 Command_GotoRoom。
  *         **不取任何 GML 实参、不写 result、没有栈帧**。
@@ -201,7 +201,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 5 · F_AudioPauseAll（audio_pause_all）
- * @func 0x133628 0x133640  size 28  7 条（6 条指令 + 1 个池字 0x133640）
+ * @func 0x133628 0x133650  size 40  10 条（6 条指令 + 1 个池字 0x133640）
  * 符号: _Z15F_AudioPauseAllR6RValueP9CInstanceS2_iPS_
  * 一句话: g_fNoAudio 门（非 0 直接返回）→ 尾跳 Audio_PauseAll()。无实参、无栈帧、不写 result。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -232,7 +232,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 6 · F_AudioResumeAll（audio_resume_all）
- * @func 0x133644 0x13365c  size 28  7 条（6 条指令 + 1 个池字 0x13365c）
+ * @func 0x133644 0x13366c  size 40  10 条（6 条指令 + 1 个池字 0x13365c）
  * 符号: _Z16F_AudioResumeAllR6RValueP9CInstanceS2_iPS_
  * 一句话: 与 audio_pause_all 逐指令同构，只把尾跳目标换成 Audio_ResumeAll()。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -260,7 +260,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 7 · F_AudioStopAll（audio_stop_all）
- * @func 0x133660 0x133678  size 28  7 条（6 条指令 + 1 个池字 0x133678）
+ * @func 0x133660 0x13367c  size 28  7 条（6 条指令 + 1 个池字 0x133678）
  * 符号: _Z14F_AudioStopAllR6RValueP9CInstanceS2_iPS_
  * 一句话: g_fNoAudio 门 → 尾跳 Audio_StopAll(**门字节**)。注意 r0 没有显式置参，它是 0x133668 的 ldrb 结果。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -290,7 +290,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 8 · F_DrawSetAlpha（draw_set_alpha）
- * @func 0x11a9dc 0x11a9f0  size 24  6 条（无池字）
+ * @func 0x11a9dc 0x11a9f4  size 24  6 条（无池字）
  * 符号: _Z14F_DrawSetAlphaR6RValueP9CInstanceS2_iPS_
  * 一句话: a=YYGetFloat(args,0) → 尾跳 YYGML_draw_set_alpha(a)；后者把 0..1 映射成 0..255 并同时更新
  *         Draw_Alpha 与 Draw_Color 两个全局。result 不写。
@@ -318,7 +318,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 9 · F_DrawSetColor（draw_set_color）
- * @func 0x11a9c4 0x11a9d8  size 24  6 条（无池字）
+ * @func 0x11a9c4 0x11a9e8  size 36  9 条（无池字）
  * 符号: _Z14F_DrawSetColorR6RValueP9CInstanceS2_iPS_
  * 一句话: c=YYGetInt32(args,0) → 尾跳 YYGML_draw_set_colour(c)；后者把 c 的低 24 位与 Draw_Alpha 拼成 ARGB
  *         写进 Draw_Color。result 不写。
@@ -345,7 +345,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 10 · F_DrawSetFont（draw_set_font）
- * @func 0x11bd58 0x11bd6c  size 24  6 条（无池字）
+ * @func 0x11bd58 0x11bd70  size 24  6 条（无池字）
  * 符号: _Z13F_DrawSetFontR6RValueP9CInstanceS2_iPS_
  * 一句话: f=YYGetInt32(args,0) → 尾跳 GR_Text_Set_Font(f)；合法则 fontid=f，否则 fontid=-1（必要时先建默认字体）。
  *         result 不写。
@@ -371,7 +371,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 11 · F_ActionCurrentRoom（action_current_room）
- * @func 0x13e6d0 0x13e6d4  size 8  2 条（无池字、无栈帧）
+ * @func 0x13e6d0 0x13e6d8  size 8  2 条（无池字、无栈帧）
  * 符号: _Z19F_ActionCurrentRoomR6RValueP9CInstanceS2_iPS_
  * 一句话: mov r0,#0 → 尾跳 Command_CurrentRoom(0) → Command_GotoRoom(*Current_Room, 0)。
  *         ⇒ 与 room_restart 同义（重开当前房），只是少了「先读 *Transition_Kind」那一步。
@@ -388,7 +388,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 12 · F_ActionKillObject（action_kill_object）
- * @func 0x141af8 0x141afc  size 8  2 条（无池字、无栈帧）
+ * @func 0x141af8 0x141b00  size 8  2 条（无池字、无栈帧）
  * 符号: _Z18F_ActionKillObjectR6RValueP9CInstanceS2_iPS_
  * 一句话: mov r0,r1（self）→ 尾跳 YYGML_action_kill_object(self)：跑事件 1、12，置 +0x68，
  *         ++CInstance::ms_markedCount。result 不写。
@@ -418,7 +418,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 13 · F_DrawSelf（draw_self）
- * @func 0x123134 0x123138  size 8  2 条（无池字、无栈帧）
+ * @func 0x123134 0x12313c  size 8  2 条（无池字、无栈帧）
  * 符号: _Z10F_DrawSelfR6RValueP9CInstanceS2_iPS_
  * 一句话: mov r0,r1（self）→ 尾跳 YYGML_draw_self(self)：按实例自身的 sprite/变换/混合画一次；
  *         没有 sprite 就报 "Trying to draw non-existing sprite."。result 不写。
@@ -446,7 +446,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 14 · F_GameRestart（game_restart）
- * @func 0x109c00 0x109c00  size 4  1 条（无池字、无栈帧）
+ * @func 0x109c00 0x109c04  size 4  1 条（无池字、无栈帧）
  * 符号: _Z13F_GameRestartR6RValueP9CInstanceS2_iPS_
  * 一句话: 一条 `b Command_RestartGame`。命令层只做两件事：*New_Room = **-200**、必要时打一条
  *         "Game restarted" 日志；真正的重启由 SingleStep 看到 -200 后执行。

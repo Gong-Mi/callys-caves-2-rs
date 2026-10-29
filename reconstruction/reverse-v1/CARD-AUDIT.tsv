@@ -1,246 +1,246 @@
-card	level	anchors	sections	isa	conv	status	problems	mode
-All_15.c	骨架	7500	8	ARM	excl	FAIL	count:0x25fe2c declared=294 excl=6606 incl=6607; partial:0x25fe2c 294/6606; count:0x221ff4 declared=19 excl=373 incl=374; partial:0x221ff4 19/373; count:0x2bec94 declared=1 excl=321 incl=322; partial:0x2bec94 1/321	@func
-All_16.c	骨架	7500	7	ARM	excl	FAIL	count:0x2b3f58 declared=700 excl=1937 incl=1938; partial:0x2b3f58 700/1937; count:0x2b7148 declared=105 excl=932 incl=933; partial:0x2b7148 105/932; count:0x2a7488 declared=45 excl=360 incl=361; partial:0x2a7488 45/360	@func
-All_17.c	骨架	7500	7	ARM	excl	FAIL	count:0xb6fd0 declared=3533 excl=3535 incl=3536; partial:0xb6fd0 3533/3535; count:0x2fec70 declared=286 excl=2118 incl=2119; partial:0x2fec70 286/2118; count:0x2fb894 declared=201 excl=1412 incl=1413; partial:0x2fb894 201/1412	@func
-All_18.c	骨架	7500	5	ARM	excl	FAIL	count:0x2b6a38 declared=70 excl=344 incl=345; partial:0x2b6a38 70/344	@func
-All_19.c	骨架	7500	8	ARM	excl	FAIL	count:0x2fcdf4 declared=1951 excl=3369 incl=3370; partial:0x2fcdf4 1951/3369; count:0x2bb0f8 declared=738 excl=1366 incl=1367; partial:0x2bb0f8 738/1366; count:0x2b389c declared=196 excl=400 incl=401; partial:0x2b389c 196/400	@func
-All_20.c	骨架	7500	13	ARM	excl	FAIL	count:0x2b84e8 declared=94 excl=377 incl=378; partial:0x2b84e8 94/377; count:0x2e8c38 declared=58 excl=541 incl=542; partial:0x2e8c38 58/541; count:0x2f0444 declared=56 excl=501 incl=502; partial:0x2f0444 56/501	@func
-All_21.c	骨架	6624	4	ARM	excl	FAIL	count:0x300274 declared=6141 excl=9763 incl=9764; partial:0x300274 6141/9763	@func
-All_22.c	骨架	7500	13	ARM	excl	FAIL	count:0x225230 declared=160 excl=635 incl=636; partial:0x225230 160/635; count:0x2a787c declared=72 excl=459 incl=460; partial:0x2a787c 72/459; count:0x28b34c declared=75 excl=236 incl=237; partial:0x28b34c 75/236	@func
-All_23.c	骨架	7500	2	ARM	excl	FAIL	count:0x30a7b2 declared=7205 excl=10370 incl=10371; partial:0x30a7b2 7205/10370	@func
-All_24.c	骨架	7500	12	ARM	excl	FAIL	count:0x2a1cf0 declared=700 excl=707 incl=708; partial:0x2a1cf0 700/707; count:0x2a9680 declared=662 excl=1129 incl=1130; partial:0x2a9680 662/1129; count:0x2f1400 declared=634 excl=1154 incl=1154; partial:0x2f1400 634/1154	@func
-All_25.c	骨架	7500	16	ARM	excl	FAIL	count:0x2ab178 declared=543 excl=922 incl=923; partial:0x2ab178 543/922; count:0x2a31ec declared=492 excl=877 incl=878; partial:0x2a31ec 492/877	@func
-All_26.c	骨架	7500	20	ARM	excl	FAIL	count:0x1d4778 declared=401 excl=408 incl=409; partial:0x1d4778 401/408; count:0x29f4e4 declared=396 excl=403 incl=404; partial:0x29f4e4 396/403; count:0x317798 declared=27 excl=308 incl=309; partial:0x317798 27/308	@func
-All_27.c	骨架	7500	21	ARM	excl	FAIL	count:0x1dd46c declared=360 excl=367 incl=368; partial:0x1dd46c 360/367; count:0x2a81a4 declared=357 excl=628 incl=628; partial:0x2a81a4 357/628	@func
-All_28.c	骨架	7500	23	ARM	excl	FAIL	count:0x1dcf94 declared=303 excl=310 incl=311; partial:0x1dcf94 303/310	@func
-All_29.c	骨架	7500	29	ARM	excl	FAIL	count:0x2aaca0 declared=309 excl=494 incl=495; partial:0x2aaca0 309/494; count:0x2a91ac declared=292 excl=496 incl=496; partial:0x2a91ac 292/496; count:0x2de0f4 declared=72 excl=219 incl=220; partial:0x2de0f4 72/219	@func
-All_30.c	骨架	7228	28	ARM	excl	OK		@func
-All_31.c	骨架	7500	31	ARM	excl	FAIL	count:0x2b29d8 declared=265 excl=464 incl=465; partial:0x2b29d8 265/464; count:0x2a180c declared=249 excl=256 incl=257; partial:0x2a180c 249/256; count:0x21f17c declared=30 excl=37 incl=38; partial:0x21f17c 30/37	@func
-All_32.c	骨架	7264	33	ARM	excl	FAIL	count:0x2a4de0 declared=240 excl=431 incl=432; partial:0x2a4de0 240/431; count:0x2209fc declared=49 excl=56 incl=57; partial:0x2209fc 49/56	@func
-All_33.c	骨架	7500	36	ARM	excl	FAIL	count:0x17a6a0 declared=220 excl=227 incl=228; partial:0x17a6a0 220/227; count:0x2aa92c declared=220 excl=360 incl=361; partial:0x2aa92c 220/360; count:0x2ac328 declared=219 excl=373 incl=374; partial:0x2ac328 219/373	@func
-All_34.c	骨架	7500	36	ARM	excl	FAIL	count:0x1e5fa8 declared=206 excl=213 incl=214; partial:0x1e5fa8 206/213; count:0x314e46 declared=210 excl=372 incl=372; partial:0x314e46 210/372; count:0x2ade1c declared=203 excl=323 incl=324; partial:0x2ade1c 203/323	@func
-All_35.c	骨架	7500	39	ARM	excl	FAIL	count:0x2e7564 declared=202 excl=369 incl=370; partial:0x2e7564 202/369; count:0x2aa53c declared=198 excl=345 incl=346; partial:0x2aa53c 198/345; count:0x2a5bc0 declared=192 excl=321 incl=322; partial:0x2a5bc0 192/321	@func
-All_36.c	骨架	7316	42	ARM	excl	FAIL	count:0x314ad0 declared=188 excl=334 incl=335; partial:0x314ad0 188/334; count:0x2b12e4 declared=187 excl=332 incl=333; partial:0x2b12e4 187/332; count:0x17a3b8 declared=179 excl=186 incl=187; partial:0x17a3b8 179/186	@func
-All_37.c	骨架	7500	43	ARM	excl	FAIL	count:0x2a51a0 declared=182 excl=330 incl=331; partial:0x2a51a0 182/330; count:0x2aa0d6 declared=177 excl=283 incl=284; partial:0x2aa0d6 177/283; count:0x220be0 declared=94 excl=108 incl=109; partial:0x220be0 94/108	@func
-All_38.c	骨架	7500	46	ARM	excl	FAIL	count:0x2e6078 declared=170 excl=302 incl=303; partial:0x2e6078 170/302; count:0x2a6d4c declared=164 excl=297 incl=298; partial:0x2a6d4c 164/297	@func
-All_39.c	骨架	7500	50	ARM	excl	FAIL	count:0x172df8 declared=155 excl=156 incl=157; partial:0x172df8 155/156; count:0x1a42dc declared=149 excl=156 incl=157; partial:0x1a42dc 149/156; count:0x316fb4 declared=151 excl=274 incl=274; partial:0x316fb4 151/274	@func
-All_40.c	骨架	7355	54	ARM	excl	FAIL	count:0x1dda28 declared=138 excl=145 incl=146; partial:0x1dda28 138/145; count:0x221134 declared=137 excl=144 incl=145; partial:0x221134 137/144; count:0x2ae25c declared=142 excl=242 incl=243; partial:0x2ae25c 142/242	@func
-All_41.c	骨架	7500	57	ARM	excl	FAIL	count:0x2ad128 declared=138 excl=243 incl=244; partial:0x2ad128 138/243; count:0xe7dac declared=129 excl=137 incl=138; partial:0xe7dac 129/137; count:0x2ae494 declared=136 excl=243 incl=244; partial:0x2ae494 136/243	@func
-All_42.c	骨架	7500	60	ARM	excl	FAIL	count:0x2a4108 declared=129 excl=237 incl=238; partial:0x2a4108 129/237; count:0x2ac9ec declared=128 excl=231 incl=232; partial:0x2ac9ec 128/231; count:0x2e6670 declared=128 excl=241 incl=242; partial:0x2e6670 128/241	@func
-All_43.c	骨架	7500	66	ARM	excl	FAIL	count:0x2ad850 declared=121 excl=211 incl=212; partial:0x2ad850 121/211; count:0x2b0184 declared=120 excl=222 incl=223; partial:0x2b0184 120/222; count:0x2ac814 declared=118 excl=213 incl=214; partial:0x2ac814 118/213	@func
-All_44.c	骨架	7500	70	ARM	excl	FAIL	count:0x114bf4 declared=104 excl=111 incl=112; partial:0x114bf4 104/111; count:0x2af930 declared=110 excl=181 incl=182; partial:0x2af930 110/181; count:0x217460 declared=101 excl=108 incl=109; partial:0x217460 101/108	@func
-All_45.c	骨架	7299	76	ARM	excl	FAIL	count:0x2afc70 declared=105 excl=172 incl=173; partial:0x2afc70 105/172; count:0x2b279c declared=104 excl=184 incl=185; partial:0x2b279c 104/184; count:0x316ac0 declared=102 excl=183 incl=184; partial:0x316ac0 102/183	@func
-All_46.c	骨架	7407	81	ARM	excl	FAIL	count:0x2ac694 declared=96 excl=169 incl=170; partial:0x2ac694 96/169; count:0x2ad350 declared=96 excl=168 incl=169; partial:0x2ad350 96/168; count:0x11e770 declared=88 excl=95 incl=96; partial:0x11e770 88/95	@func
-All_47.c	骨架	7500	87	ARM	excl	FAIL	count:0x2abf64 declared=89 excl=163 incl=164; partial:0x2abf64 89/163	@func
-All_48.c	骨架	7500	94	ARM	excl	FAIL	count:0x2a6068 declared=82 excl=156 incl=157; partial:0x2a6068 82/156; count:0x2abd08 declared=82 excl=144 incl=145; partial:0x2abd08 82/144; count:0x2ad584 declared=82 excl=152 incl=153; partial:0x2ad584 82/152	@func
-All_49.c	骨架	7500	102	ARM	excl	FAIL	count:0x2af20c declared=77 excl=133 incl=134; partial:0x2af20c 77/133; count:0x2b2250 declared=77 excl=135 incl=136; partial:0x2b2250 77/135; count:0x2a3ce0 declared=76 excl=133 incl=134; partial:0x2a3ce0 76/133	@func
-All_50.c	骨架	7500	110	ARM	excl	FAIL	count:0x2b002c declared=71 excl=125 incl=126; partial:0x2b002c 71/125; count:0x2a476c declared=70 excl=133 incl=134; partial:0x2a476c 70/133; count:0x2ae7e0 declared=70 excl=131 incl=132; partial:0x2ae7e0 70/131	@func
-All_51.c	骨架	7500	119	ARM	excl	FAIL	count:0x220ee0 declared=59 excl=66 incl=67; partial:0x220ee0 59/66; count:0x2ae6d8 declared=66 excl=73 incl=74; partial:0x2ae6d8 66/73; count:0x220adc declared=58 excl=65 incl=66; partial:0x220adc 58/65	@func
-All_52.c	骨架	7500	127	ARM	excl	FAIL	count:0x2ad030 declared=62 excl=106 incl=107; partial:0x2ad030 62/106; count:0x2e8106 declared=62 excl=110 incl=111; partial:0x2e8106 62/110; count:0x3149d8 declared=62 excl=116 incl=117; partial:0x3149d8 62/116	@func
-All_53.c	骨架	7500	137	ARM	excl	FAIL	count:0x2a8d58 declared=57 excl=92 incl=93; partial:0x2a8d58 57/92; count:0x2b0c58 declared=55 excl=88 incl=89; partial:0x2b0c58 55/88; count:0x220324 declared=47 excl=54 incl=55; partial:0x220324 47/54	@func
-All_54.c	骨架	7500	146	ARM	excl	FAIL	count:0x220d90 declared=47 excl=54 incl=55; partial:0x220d90 47/54; count:0x2acf58 declared=54 excl=98 incl=99; partial:0x2acf58 54/98; count:0x2aa854 declared=54 excl=101 incl=101; partial:0x2aa854 54/101	@func
-All_55.c	骨架	7500	156	ARM	excl	FAIL	count:0x19ff6c declared=42 excl=49 incl=50; partial:0x19ff6c 42/49; count:0x2a8b2e declared=49 excl=94 incl=95; partial:0x2a8b2e 49/94; count:0x2e788c declared=49 excl=87 incl=88; partial:0x2e788c 49/87	@func
-All_56.c	骨架	7500	168	ARM	excl	FAIL	count:0x2e5424 declared=47 excl=87 incl=88; partial:0x2e5424 47/87; count:0x30a6da declared=46 excl=83 incl=84; partial:0x30a6da 46/83; count:0x2afae8 declared=46 excl=84 incl=85; partial:0x2afae8 46/84	@func
-All_57.c	骨架	7500	181	ARM	excl	FAIL	count:0x2a6734 declared=43 excl=70 incl=71; partial:0x2a6734 43/70; count:0x2b05e8 declared=43 excl=71 incl=72; partial:0x2b05e8 43/71; count:0x2e7a70 declared=43 excl=81 incl=82; partial:0x2e7a70 43/81	@func
-All_58.c	骨架	7500	197	ARM	excl	FAIL	count:0x2b1aac declared=40 excl=72 incl=73; partial:0x2b1aac 40/72; count:0x2b293c declared=39 excl=70 incl=71; partial:0x2b293c 39/70; count:0x2e840a declared=39 excl=68 incl=69; partial:0x2e840a 39/68	@func
-All_59.c	骨架	7500	212	ARM	excl	FAIL	count:0x2b0554 declared=37 excl=62 incl=63; partial:0x2b0554 37/62; count:0x2b2384 declared=37 excl=63 incl=64; partial:0x2b2384 37/63; count:0x2e8376 declared=37 excl=66 incl=67; partial:0x2e8376 37/66	@func
-All_60.c	骨架	7467	230	ARM	excl	FAIL	count:0x2a3c58 declared=34 excl=65 incl=66; partial:0x2a3c58 34/65; count:0x2ab9f8 declared=34 excl=67 incl=67; partial:0x2ab9f8 34/67; count:0x2aea84 declared=34 excl=66 incl=67; partial:0x2aea84 34/66	@func
-All_61.c	骨架	7500	251	ARM	excl	FAIL	count:0x2ae988 declared=31 excl=50 incl=51; partial:0x2ae988 31/50; count:0x2aea08 declared=31 excl=55 incl=56; partial:0x2aea08 31/55; count:0x2a67de declared=31 excl=56 incl=57; partial:0x2a67de 31/56	@func
-All_62.c	骨架	7500	281	ARM	excl	FAIL	count:0x2b1f94 declared=28 excl=51 incl=52; partial:0x2b1f94 28/51; count:0x2e9bd4 declared=28 excl=51 incl=52; partial:0x2e9bd4 28/51; count:0x2a4388 declared=28 excl=49 incl=49; partial:0x2a4388 28/49	@func
-All_63.c	骨架	7500	321	ARM	excl	FAIL	count:0x2b11a0 declared=25 excl=44 incl=45; partial:0x2b11a0 25/44; count:0x2e5524 declared=25 excl=48 incl=49; partial:0x2e5524 25/48; count:0x2e68cc declared=25 excl=48 incl=49; partial:0x2e68cc 25/48	@func
-All_64.c	骨架	7500	373	ARM	excl	FAIL	count:0x2a6474 declared=22 excl=41 incl=42; partial:0x2a6474 22/41; count:0x2a8738 declared=22 excl=34 incl=35; partial:0x2a8738 22/34; count:0x2afc18 declared=22 excl=43 incl=44; partial:0x2afc18 22/43	@func
-All_65.c	骨架	7500	438	ARM	excl	FAIL	count:0x2a597e declared=19 excl=37 incl=38; partial:0x2a597e 19/37; count:0x2af100 declared=19 excl=35 incl=36; partial:0x2af100 19/35; count:0x2af8e4 declared=19 excl=35 incl=36; partial:0x2af8e4 19/35	@func
-All_66.c	骨架	7500	561	ARM	excl	FAIL	count:0x2e5c84 declared=15 excl=30 incl=31; partial:0x2e5c84 16/30; count:0x2e5cc0 declared=15 excl=30 incl=31; partial:0x2e5cc0 16/30; count:0x2e5cfc declared=15 excl=29 incl=30; partial:0x2e5cfc 15/29	@func
-All_67.c	骨架	7482	828	ARM	excl	FAIL	count:0x2a5b08 declared=12 excl=21 incl=22; partial:0x2a5b08 13/21; count:0x2a5b90 declared=12 excl=20 incl=21; partial:0x2a5b90 12/20; count:0x2a8d28 declared=12 excl=23 incl=24; partial:0x2a8d28 12/23	@func
-All_68.c	骨架	3832	1245	ARM	excl	FAIL	count:0x2a6cd8 declared=6 excl=10 incl=11; partial:0x2a6cd8 7/10; count:0x2aeb0a declared=6 excl=11 incl=12; partial:0x2aeb0a 6/11; count:0x2aec6a declared=6 excl=11 incl=12; partial:0x2aec6a 6/11	@func
-Anon_26f1e8.c	骨架	9161	1	ARM	-	FAIL	count:0x26f1e8 declared=9161 excl=10345 incl=10346; partial:0x26f1e8 9161/10345	@func
-Audio.c	骨架	2331	8	ARM	excl,incl	OK		@func
-Builtins_AudioPart.c	正文	278	11	ARM	incl	FAIL	count:0x134b5c declared=35 excl=33 incl=34; count:0x1351b8 declared=23 excl=21 incl=22; count:0x134e84 declared=19 excl=17 incl=18; undeclared-range:3	@func
-Builtins_Draw.c	正文	331	5	ARM	incl	FAIL	count:0x11db10 declared=49 excl=46 incl=47; count:0x11dbd4 declared=103 excl=100 incl=101; undeclared-range:4	@func
-Builtins_Draw2.c	正文	208	5	ARM	incl	FAIL	count:0x155070 declared=94 excl=84 incl=85; count:0x153450 declared=33 excl=30 incl=31; undeclared-range:11	@func
-Builtins_DsString.c	正文	1230	11	ARM	incl	FAIL	count:0x1000f4 declared=45 excl=42 incl=43; count:0xfec90 declared=44 excl=40 incl=41; count:0x106bcc declared=198 excl=194 incl=195; count:0xff49c declared=50 excl=46 incl=47; count:0xfb1c0 declared=99 excl=96 incl=97; count:0x10ec98 declared=42 excl=39 incl=40	@func
-Builtins_IO.c	正文	223	9	ARM	incl	OK		@func
-Builtins_Instance.c	正文	721	9	ARM	incl	OK		@func
-Builtins_Misc1.c	正文	174	14	ARM	incl	OK		@func
-Builtins_Misc2.c	正文	81	14	ARM	incl	OK		@func
-Builtins_Motion.c	正文	249	9	ARM	incl	OK		@func
-CInstance_Assign.c	正文	432	1	ARM	excl	OK		@func
-CInstance_Compute_BoundingBox.c	正文	357	1	ARM	excl	OK		@func
-CInstance_DeSerialise.c	正文	592	1	ARM	excl	OK		@func
-CInstance_More.c	正文	1367	15	ARM	excl	OK		@func
-CInstance_Serialise.c	正文	670	0	ARM	-	OK		runs-derived(1)
-CInstance_SetObjectIndex.c	正文	71	1	ARM	excl	OK		@func
-CInstance_Setters.c	正文	177	6	ARM	excl	OK		@func
-CInstance_ctor.c	正文	257	1	ARM	excl	OK		@func
-CLayerManager_AddInstance.c	骨架	41	1	ARM	incl	OK		@func
-CLayerManager_AddInstanceToLayer.c	骨架	184	1	ARM	incl	OK		@func
-CLayerManager_Build.c	骨架	2130	2	ARM	incl	OK		@func
-CLayerManager_DeSerializeLayer.c	骨架	937	1	ARM	excl	OK		@func
-CLayerManager_DuplicateRoomLayers.c	骨架	1171	1	ARM	excl	OK		@func
-CLayerManager_More.c	正文	1172	12	ARM	excl	OK		@func
-CObjectGM_ctor.c	正文	25	1	ARM	excl	OK		@func
-CRoom_AddInstance.c	正文	520	5	ARM	incl	OK		@func
-CRoom_AddTile.c	正文	162	2	ARM	incl	OK		@func
-CRoom_Assign.c	正文	827	1	ARM	incl	OK		@func
-CRoom_DeSerialise.c	正文	841	1	ARM	incl	OK		@func
-CRoom_LoadFromChunk.c	正文	544	1	ARM	incl	OK		@func
-CRoom_LoadFromStream.c	正文	401	1	ARM	incl	OK		@func
-CRoom_Serialise.c	正文	714	1	ARM	incl	OK		@func
-CRoom_UpdateActive.c	正文	116	1	ARM	excl	OK		@func
-CRoom_ctor.c	正文	272	1	ARM	excl	OK		@func
-CSprite_Draw.c	正文	550	3	ARM	incl	OK		@func
-CSprite_DrawDictionaryItem.c	正文	1952	0	ARM	-	OK		runs-derived(1)
-CSprite_DrawShape.c	正文	1542	2	ARM	incl	OK		@func
-CSprite_More.c	正文	1146	11	ARM	incl	OK		@func
-CSprite_SWF.c	骨架	1542	0	ARM	-	OK		runs-derived(2)
-Call_Normal.c	正文	729	1	ARM	incl	OK		@func
-Call_Normal_std.c	正文	729	1	ARM	incl	OK		@func
-Call_RValue.c	正文	14	1	ARM	incl	OK		@func
-CodeConstants.c	正文	4993	2	ARM	excl	OK		@func
-Code_Execute.c	正文	21	1	ARM	excl	OK		@func
-Code_Variable_Find_Name.c	正文	7	1	ARM	excl	OK		@func
-Code_Variable_Find_Slot_From_Name.c	正文	15	1	ARM	excl	OK		@func
-CollisionUpdate_Room.c	正文	237	0	ARM	-	OK		runs-derived(2)
-Command_Change.c	正文	53	1	ARM	excl	OK		@func
-Command_Collision.c	正文	675	0	ARM	-	OK		runs-derived(2)
-Command_Destroy.c	正文	24	1	ARM	excl	OK		@func
-Command_More.c	正文	1878	34	ARM	excl	OK		@func
-Command_SaveUnzip.c	正文	749	0	ARM	-	OK		runs-derived(3)
-DLL_Call.c	正文	128	1	ARM	incl	OK		@func
-DoAStep.c	正文	230	1	ARM	incl	OK		@func
-DoAdd.c	骨架	1015	1	ARM	excl	OK		@func
-DoAnd.c	骨架	549	1	ARM	incl	OK		@func
-DoBranch.c	正文	14	1	ARM	excl	OK		@func
-DoBranchFalse.c	正文	17	1	ARM	excl	OK		@func
-DoBranchTrue.c	正文	17	1	ARM	excl	OK		@func
-DoBreak.c	骨架	140	1	ARM	incl	OK		@func
-DoCall.c	骨架	786	1	ARM	excl	OK		@func
-DoCallGML.c	正文	18	1	ARM	excl	OK		@func
-DoCallLibrary.c	正文	100	1	ARM	excl	OK		@func
-DoCallScript.c	骨架	350	1	ARM	incl	OK		@func
-DoConv.c	正文	832	1	ARM	excl	OK		@func
-DoConvIntToVariable.c	骨架	9	1	ARM	excl	OK		@func
-DoDestroy.c	正文	26	1	ARM	excl	OK		@func
-DoDiv.c	骨架	543	1	ARM	incl	OK		@func
-DoDup.c	正文	182	1	ARM	excl	OK		@func
-DoExit.c	正文	27	1	ARM	excl	OK		@func
-DoFrameTiming.c	正文	135	1	ARM	incl	OK		@func
-DoGenerationalGC.c	正文	151	1	ARM	incl	OK		@func
-DoInstanceDestroy.c	骨架	25	1	ARM	excl	OK		@func
-DoMod.c	骨架	609	1	ARM	incl	OK		@func
-DoMul.c	骨架	617	1	ARM	incl	OK		@func
-DoNeg.c	骨架	224	1	ARM	excl	OK		@func
-DoNot.c	骨架	203	1	ARM	excl	OK		@func
-DoOperation.c	正文	196	1	ARM	incl	OK		@func
-DoOr.c	骨架	565	1	ARM	incl	OK		@func
-DoPop.c	骨架	1530	1	ARM	incl	OK		@func
-DoPopEnv.c	骨架	74	1	ARM	excl	OK		@func
-DoPopLocalVariable.c	正文	46	1	ARM	excl	OK		@func
-DoPopNull.c	骨架	108	1	ARM	excl	OK		@func
-DoPush.c	骨架	1372	1	ARM	excl	OK		@func
-DoPushBuiltin.c	正文	34	1	ARM	excl	OK		@func
-DoPushEnv.c	骨架	416	1	ARM	excl	OK		@func
-DoPushGlobal.c	骨架	103	1	ARM	excl	OK		@func
-DoPushImmediate.c	正文	4	1	ARM	excl	OK		@func
-DoPushLocal.c	骨架	105	1	ARM	excl	OK		@func
-DoRegExpExec.c	正文	130	1	ARM	excl	OK		@func
-DoRem.c	骨架	460	1	ARM	incl	OK		@func
-DoReplace.c	正文	998	1	ARM	excl	OK		@func
-DoRet.c	正文	188	1	ARM	excl	OK		@func
-DoSet.c	骨架	1863	1	ARM	incl	OK		@func
-DoShl.c	骨架	543	1	ARM	incl	OK		@func
-DoShr.c	骨架	637	1	ARM	incl	OK		@func
-DoSlowDrawRoom.c	骨架	281	1	ARM	incl	OK		@func
-DoSub.c	正文	538	1	ARM	excl	OK		@func
-DoTheWork.c	正文	46	1	ARM	incl	OK		@func
-DoVariableInstanceExists.c	正文	33	1	ARM	incl	OK		@func
-DoXor.c	骨架	549	1	ARM	incl	OK		@func
-DrawInstancesOnly.c	骨架	118	1	ARM	incl	OK		@func
-DrawInstancesParticlesOnly.c	骨架	275	1	ARM	incl	OK		@func
-DrawRoomLayers.c	骨架	118	1	ARM	incl	OK		@func
-DrawTheRoom.c	骨架	226	1	ARM	incl	OK		@func
-Draw_Room.c	骨架	740	1	ARM	incl	OK		@func
-ExecuteIt.c	骨架	211	1	ARM	excl	OK		@func
-FREE_RValue__Pre.c	正文	564	1	ARM	incl	OK		@func
-F_JS_ToInt32.c	正文	90	1	ARM	excl	OK		@func
-F_JS_ToNumber.c	正文	338	1	ARM	excl	OK		@func
-GC_MarkAndSweepGen.c	正文	718	1	ARM	excl	OK		@func
-GateBytes.c	正文	446	0	ARM	-	OK		runs-derived(61)
-GetContextStackTop.c	正文	15	1	ARM	incl	OK		@func
-Graphics_Interface.c	骨架	14	0	ARM	-	OK		runs-derived(11)
-HandleOther.c	骨架	1736	0	ARM	-	OK		runs-derived(1)
-InitTables_Core.c	正文	3276	4	ARM	excl	OK		@func
-InitTables_Draw3D.c	正文	5177	5	ARM	excl	OK		@func
-InitTables_InputAction.c	正文	2903	6	ARM	excl	OK		@func
-InitTables_Resource.c	正文	3253	3	ARM	excl	OK		@func
-InitTables_System.c	正文	4107	6	ARM	excl	OK		@func
-InitYoYoFunctions.c	正文	3082	1	ARM	excl	OK		@func
-Instance_Animate.c	正文	81	1	ARM	excl	OK		@func
-InternalGetYYVar.c	正文	69	1	ARM	excl	OK		@func
-JSThrowReferenceError.c	正文	71	1	ARM	excl	OK		@func
-JSThrowTypeError.c	正文	71	1	ARM	excl	OK		@func
-LayerElements.c	正文	585	0	ARM	-	OK		runs-derived(3)
-LayerHelpers.c	正文	329	7	ARM	excl,incl	FAIL	count:0x1cc494 declared=27 excl=25 incl=26; count:0x1cd9f0 declared=75 excl=70 incl=71; count:0x19230c declared=13 excl=11 incl=12; undeclared-range:6	@func
-LayerRemove.c	正文	796	1	ARM	excl	FAIL	undeclared-range:545	@func
-LibInterfaces.c	骨架	0	0	ARM	-	OK		doc-only
-LoadGameData.c	正文	667	1	ARM	incl	OK		@func
-MemoryManager_Alloc.c	正文	25	1	ARM	excl	OK		@func
-Motion3D.c	骨架	3055	2	ARM	excl	OK		@func
-ObjectOps.c	正文	299	4	ARM	incl	OK		@func
-Object_Name.c	正文	40	1	ARM	excl	OK		@func
-PerformReturn.c	骨架	127	1	ARM	excl	OK		@func
-Perform_Event.c	正文	12	1	ARM	excl	OK		@func
-Perform_Event_All.c	正文	39	1	ARM	excl	OK		@func
-Perform_Event_Object.c	正文	39	1	ARM	excl	OK		@func
-PopContextStack.c	正文	8	1	ARM	incl	OK		@func
-PushContextStack.c	正文	51	1	ARM	incl	OK		@func
-Reach_01.c	骨架	7000	7	ARM	excl	OK		@func
-Reach_02.c	骨架	6281	13	ARM	excl	FAIL	partial:0xd5ba8 0/718	@func
-Reach_03.c	骨架	7496	19	ARM	excl	OK		@func
-Reach_04.c	骨架	7495	25	ARM	excl	OK		@func
-Reach_05.c	骨架	7440	31	ARM	excl	OK		@func
-Reach_06.c	骨架	7499	42	ARM	excl	OK		@func
-Reach_07.c	骨架	7482	54	ARM	excl	OK		@func
-Reach_08.c	骨架	7492	69	ARM	excl	OK		@func
-Reach_09.c	骨架	7441	91	ARM	excl	OK		@func
-Reach_10.c	骨架	2063	31	ARM	excl	OK		@func
-Reach_10b.c	骨架	7500	56	ARM	excl	FAIL	count:0x25b524 declared=585 excl=2714 incl=2715; partial:0x25b524 585/2714; count:0x22fd0c declared=249 excl=1133 incl=1134; partial:0x22fd0c 249/1133; count:0x1d23a0 declared=697 excl=704 incl=705; partial:0x1d23a0 697/704	@func
-Reach_11.c	骨架	7500	159	ARM	excl	FAIL	count:0x1631dc declared=34 excl=41 incl=42; partial:0x1631dc 34/41	@func
-Reach_12.c	骨架	7500	289	ARM	excl	OK		@func
-Reach_13.c	骨架	2840	350	ARM	excl	OK		@func
-Reach_14.c	骨架	35	35	ARM	excl	OK		@func
-RefThing_assign.c	正文	5	1	ARM	incl	OK		@func
-Residue_Attributed_01.c	骨架	7418	383	ARM	incl	FAIL	count:0xb6fd0 declared=1 excl=3535 incl=3536; partial:0xb6fd0 1/3535; count:0xce388 declared=1 excl=44 incl=45; partial:0xce388 1/44; count:0xf6898 declared=1 excl=11 incl=12; partial:0xf6898 1/11	@func
-Residue_Attributed_02.c	骨架	7143	374	ARM	excl,incl	FAIL	count:0x2ade1c declared=120 excl=323 incl=324; partial:0x2ade1c 120/323; count:0x2ae148 declared=58 excl=127 incl=128; partial:0x2ae148 58/127; count:0x2ae25c declared=100 excl=242 incl=243; partial:0x2ae25c 100/242	@func
-Residue_Attributed_03.c	骨架	3020	55	ARM	excl,incl	FAIL	count:0x2f1400 declared=520 excl=1154 incl=1154; partial:0x2f1400 520/1154; count:0x2f1de8 declared=1 excl=7176 incl=7177; partial:0x2f1de8 1/7176; count:0x2f8e0a declared=54 excl=509 incl=510; partial:0x2f8e0a 54/509	@func
-RoomDestruct.c	正文	1443	22	ARM	incl	OK		@func
-RoomOps.c	正文	617	3	ARM	incl	OK		@func
-Room_Load.c	正文	219	1	ARM	excl	OK		@func
-Room_LoadOrder.c	正文	90	1	ARM	excl	OK		@func
-RunnerLoadWad.c	正文	21	1	ARM	incl	OK		@func
-RunnerStartup.c	正文	2671	2	ARM	incl	OK		@func
-Sprite_Data.c	正文	16	1	ARM	excl	OK		@func
-StartRoom.c	骨架	732	1	ARM	excl	OK		@func
-Stubs_TailJumps.c	骨架	27	12	ARM	excl	OK		@func
-UpdateActiveLists.c	正文	48	1	ARM	excl	OK		@func
-VMError.c	正文	61	1	ARM	-	FAIL	count:0xd4210 declared=56 excl=61 incl=62	@func
-VM_Exec.c	骨架	366	1	ARM	excl	OK		@func
-VM_ExecRelease.c	骨架	162	1	ARM	excl	OK		@func
-Variable_GetObjectName.c	正文	80	1	ARM	excl	OK		@func
-Variable_GetValue.c	正文	171	1	ARM	excl	OK		@func
-Variable_Global_Init.c	正文	26	1	ARM	incl	OK		@func
-Variable_Misc.c	正文	341	2	ARM	incl	OK		@func
-Variable_SetValue.c	正文	265	1	ARM	excl	OK		@func
-YYAlloc.c	正文	6	1	ARM	excl	OK		@func
-_RefThing_dec.c	正文	33	1	ARM	excl	OK		@func
-anon_268fb4.c	骨架	5485	1	ARM	incl	OK		@func
-anon_26f1e8.c	骨架	881	1	ARM	excl	OK		@func
-anon_319414.c	正文	17	1	ARM	incl	OK		@func
-anon_batch2.c	骨架	2997	0	ARM	-	OK		runs-derived(10)
-anon_batch3.c	骨架	1694	0	ARM	-	OK		runs-derived(4)
-anon_batch4.c	骨架	2882	0	ARM	-	OK		runs-derived(7)
-anon_batch5.c	骨架	4065	0	ARM	-	OK		runs-derived(10)
-anon_batch6.c	骨架	6932	8	ARM	excl	OK		@func
-anon_thumb_batch.c	骨架	7971	0	Thumb	-	OK		runs-derived(11)
-boxType.c	正文	97	1	ARM	excl	OK		@func
-libpng_read.c	骨架	1529	0	ARM	-	OK		runs-derived(3)
+card	level	anchors	sections	isa	conv	status	problems	partial_declared	mode
+All_15.c	骨架	7500	8	ARM	excl,partial	OK		2	@func
+All_16.c	骨架	7500	7	ARM	excl,partial	OK		5	@func
+All_17.c	骨架	7500	7	ARM	excl,partial	OK		6	@func
+All_18.c	骨架	7500	5	ARM	excl,partial	OK		1	@func
+All_19.c	骨架	7500	8	ARM	excl,partial	OK		3	@func
+All_20.c	骨架	7500	13	ARM	excl,partial	OK		5	@func
+All_21.c	骨架	6624	4	ARM	excl,partial	OK		2	@func
+All_22.c	骨架	7500	13	ARM	excl,partial	OK		2	@func
+All_23.c	骨架	7500	2	ARM	excl,partial	OK		1	@func
+All_24.c	骨架	7500	12	ARM	excl,partial	OK		3	@func
+All_25.c	骨架	7500	16	ARM	excl,partial	OK		2	@func
+All_26.c	骨架	7500	20	ARM	excl,partial	OK		3	@func
+All_27.c	骨架	7500	21	ARM	excl,partial	OK		2	@func
+All_28.c	骨架	7500	23	ARM	excl,partial	OK		1	@func
+All_29.c	骨架	7500	29	ARM	excl,partial	OK		7	@func
+All_30.c	骨架	7228	28	ARM	excl	OK		2	@func
+All_31.c	骨架	7500	31	ARM	excl,partial	OK		5	@func
+All_32.c	骨架	7264	33	ARM	excl,partial	OK		5	@func
+All_33.c	骨架	7500	36	ARM	excl,partial	OK		8	@func
+All_34.c	骨架	7500	36	ARM	excl,partial	OK		5	@func
+All_35.c	骨架	7500	39	ARM	excl,partial	OK		7	@func
+All_36.c	骨架	7316	42	ARM	excl,partial	OK		6	@func
+All_37.c	骨架	7500	43	ARM	excl,partial	OK		10	@func
+All_38.c	骨架	7500	46	ARM	excl,partial	OK		3	@func
+All_39.c	骨架	7500	50	ARM	excl,partial	OK		6	@func
+All_40.c	骨架	7355	54	ARM	excl,partial	OK		5	@func
+All_41.c	骨架	7500	57	ARM	excl,partial	OK		11	@func
+All_42.c	骨架	7500	60	ARM	excl,partial	OK		13	@func
+All_43.c	骨架	7500	66	ARM	excl,partial	OK		7	@func
+All_44.c	骨架	7500	70	ARM	excl,partial	OK		9	@func
+All_45.c	骨架	7299	76	ARM	excl,partial	FAIL	count:0x2b260c declared=104 anchored=100 excl=179 incl=180	15	@func
+All_46.c	骨架	7407	81	ARM	excl,partial	OK		16	@func
+All_47.c	骨架	7500	87	ARM	excl,partial	OK		12	@func
+All_48.c	骨架	7500	94	ARM	excl,partial	OK		9	@func
+All_49.c	骨架	7500	102	ARM	excl,partial	OK		13	@func
+All_50.c	骨架	7500	110	ARM	excl,partial	OK		15	@func
+All_51.c	骨架	7500	119	ARM	excl,partial	OK		24	@func
+All_52.c	骨架	7500	127	ARM	excl,partial	OK		25	@func
+All_53.c	骨架	7500	137	ARM	excl,partial	OK		33	@func
+All_54.c	骨架	7500	146	ARM	excl,partial	FAIL	count:0x2b1d80 declared=57 anchored=58 excl=102 incl=103; count:0x2b1e54 declared=53 anchored=48 excl=97 incl=98; count:0x21ecf4 declared=46 anchored=44 excl=53 incl=54	31	@func
+All_55.c	骨架	7500	156	ARM	excl,partial	OK		25	@func
+All_56.c	骨架	7500	168	ARM	excl,partial	OK		29	@func
+All_57.c	骨架	7500	181	ARM	excl,partial	OK		35	@func
+All_58.c	骨架	7500	197	ARM	excl,partial	OK		51	@func
+All_59.c	骨架	7500	212	ARM	excl,partial	OK		62	@func
+All_60.c	骨架	7467	230	ARM	excl,partial	OK		78	@func
+All_61.c	骨架	7500	251	ARM	excl,partial	OK		73	@func
+All_62.c	骨架	7500	281	ARM	excl,partial	FAIL	count:0x2b1f28 declared=31 anchored=27 excl=56 incl=57	62	@func
+All_63.c	骨架	7500	321	ARM	excl,partial	FAIL	count:0x2b1140 declared=28 anchored=24 excl=48 incl=49	88	@func
+All_64.c	骨架	7500	373	ARM	excl,partial	FAIL	count:0x2e6d70 declared=25 anchored=21 excl=49 incl=50	124	@func
+All_65.c	骨架	7500	438	ARM	excl,partial	FAIL	count:0x2e6aba declared=23 anchored=19 excl=42 incl=43; count:0x2e58ac declared=22 anchored=23 excl=41 incl=42; count:0x2e5bf4 declared=22 anchored=23 excl=41 incl=42; count:0x2e5c3c declared=18 anchored=13 excl=34 incl=35; count:0x2e578c declared=22 anchored=18 excl=43 incl=44; count:0x2e58f4 declared=17 anchored=12 excl=32 incl=33	150	@func
+All_66.c	骨架	7500	561	ARM	excl,partial	FAIL	count:0x2e5c84 declared=19 anchored=20 excl=38 incl=39; count:0x2e5cc0 declared=19 anchored=15 excl=38 incl=39; count:0x2e5cfc declared=15 anchored=10 excl=29 incl=30; count:0x2a64cc declared=18 anchored=19 excl=33 incl=34; count:0x2a6504 declared=14 anchored=9 excl=25 incl=26; count:0x2a6a6a declared=17 anchored=13 excl=30 incl=31	210	@func
+All_67.c	骨架	7482	828	ARM	excl,partial	FAIL	count:0x2a5b08 declared=16 anchored=17 excl=28 incl=29; count:0x2e6a5a declared=16 anchored=17 excl=29 incl=30; count:0x2e6a8a declared=12 anchored=7 excl=21 incl=22; count:0x2a59ca declared=15 anchored=16 excl=27 incl=28; count:0x2a59f6 declared=11 anchored=6 excl=22 incl=23; count:0x2a5b38 declared=15 anchored=11 excl=26 incl=27	345	@func
+All_68.c	骨架	3832	1245	ARM	excl,partial	FAIL	count:0x2aed1c declared=10 anchored=11 excl=19 incl=20; count:0x2af812 declared=10 anchored=11 excl=20 incl=21; count:0x2b0886 declared=9 anchored=10 excl=18 incl=19; count:0x2b089a declared=9 anchored=5 excl=18 incl=19; count:0x2b08ae declared=5 anchored=0 excl=10 incl=11; count:0x2e5378 declared=9 anchored=10 excl=12 incl=13	686	@func
+Anon_26f1e8.c	骨架	9161	1	ARM	partial	OK		1	@func
+Audio.c	骨架	2331	8	ARM	excl	OK		2	@func
+Builtins_AudioPart.c	正文	278	11	ARM	excl	OK		3	@func
+Builtins_Draw.c	正文	331	5	ARM	excl	OK		1	@func
+Builtins_Draw2.c	正文	208	5	ARM	excl	OK		0	@func
+Builtins_DsString.c	正文	1230	11	ARM	excl	OK		0	@func
+Builtins_IO.c	正文	223	9	ARM	excl	OK		0	@func
+Builtins_Instance.c	正文	721	9	ARM	excl	OK		1	@func
+Builtins_Misc1.c	正文	174	14	ARM	excl	OK		2	@func
+Builtins_Misc2.c	正文	81	14	ARM	excl	OK		4	@func
+Builtins_Motion.c	正文	249	9	ARM	excl	OK		0	@func
+CInstance_Assign.c	正文	432	1	ARM	excl	OK		0	@func
+CInstance_Compute_BoundingBox.c	正文	357	1	ARM	excl	OK		0	@func
+CInstance_DeSerialise.c	正文	592	1	ARM	excl	OK		0	@func
+CInstance_More.c	正文	1367	15	ARM	excl	OK		6	@func
+CInstance_Serialise.c	正文	670	0	ARM	-	OK		0	runs-derived(1)
+CInstance_SetObjectIndex.c	正文	71	1	ARM	excl	OK		0	@func
+CInstance_Setters.c	正文	177	6	ARM	excl	OK		0	@func
+CInstance_ctor.c	正文	257	1	ARM	excl	OK		0	@func
+CLayerManager_AddInstance.c	骨架	41	1	ARM	excl	OK		0	@func
+CLayerManager_AddInstanceToLayer.c	骨架	184	1	ARM	excl	OK		0	@func
+CLayerManager_Build.c	骨架	2130	2	ARM	excl	OK		0	@func
+CLayerManager_DeSerializeLayer.c	骨架	937	1	ARM	excl	OK		0	@func
+CLayerManager_DuplicateRoomLayers.c	骨架	1171	1	ARM	excl	OK		0	@func
+CLayerManager_More.c	正文	1172	12	ARM	excl	OK		6	@func
+CObjectGM_ctor.c	正文	25	1	ARM	excl	OK		0	@func
+CRoom_AddInstance.c	正文	520	5	ARM	excl	OK		3	@func
+CRoom_AddTile.c	正文	162	2	ARM	excl	OK		0	@func
+CRoom_Assign.c	正文	827	1	ARM	excl	OK		0	@func
+CRoom_DeSerialise.c	正文	841	1	ARM	excl	OK		0	@func
+CRoom_LoadFromChunk.c	正文	544	1	ARM	excl	OK		0	@func
+CRoom_LoadFromStream.c	正文	401	1	ARM	excl	OK		0	@func
+CRoom_Serialise.c	正文	714	1	ARM	excl	OK		0	@func
+CRoom_UpdateActive.c	正文	116	1	ARM	excl	OK		0	@func
+CRoom_ctor.c	正文	272	1	ARM	excl	OK		0	@func
+CSprite_Draw.c	正文	550	3	ARM	excl	OK		1	@func
+CSprite_DrawDictionaryItem.c	正文	1952	0	ARM	-	OK		0	runs-derived(1)
+CSprite_DrawShape.c	正文	1542	2	ARM	excl	OK		0	@func
+CSprite_More.c	正文	1146	11	ARM	excl	OK		8	@func
+CSprite_SWF.c	骨架	1542	0	ARM	-	OK		0	runs-derived(2)
+Call_Normal.c	正文	729	1	ARM	excl	OK		0	@func
+Call_Normal_std.c	正文	729	1	ARM	excl	OK		0	@func
+Call_RValue.c	正文	14	1	ARM	excl	OK		0	@func
+CodeConstants.c	正文	4993	2	ARM	excl	OK		0	@func
+Code_Execute.c	正文	21	1	ARM	excl	OK		0	@func
+Code_Variable_Find_Name.c	正文	7	1	ARM	excl	OK		0	@func
+Code_Variable_Find_Slot_From_Name.c	正文	15	1	ARM	excl	OK		0	@func
+CollisionUpdate_Room.c	正文	237	0	ARM	-	OK		0	runs-derived(2)
+Command_Change.c	正文	53	1	ARM	excl	OK		0	@func
+Command_Collision.c	正文	675	0	ARM	-	OK		0	runs-derived(2)
+Command_Destroy.c	正文	24	1	ARM	excl	OK		0	@func
+Command_More.c	正文	1878	34	ARM	excl	OK		27	@func
+Command_SaveUnzip.c	正文	749	0	ARM	-	OK		0	runs-derived(3)
+DLL_Call.c	正文	128	1	ARM	excl	OK		0	@func
+DoAStep.c	正文	230	1	ARM	excl	OK		0	@func
+DoAdd.c	骨架	1015	1	ARM	excl	OK		0	@func
+DoAnd.c	骨架	549	1	ARM	excl	OK		0	@func
+DoBranch.c	正文	14	1	ARM	excl	OK		0	@func
+DoBranchFalse.c	正文	17	1	ARM	excl	OK		0	@func
+DoBranchTrue.c	正文	17	1	ARM	excl	OK		0	@func
+DoBreak.c	骨架	140	1	ARM	excl	OK		0	@func
+DoCall.c	骨架	786	1	ARM	excl	OK		0	@func
+DoCallGML.c	正文	18	1	ARM	excl	OK		0	@func
+DoCallLibrary.c	正文	100	1	ARM	excl	OK		0	@func
+DoCallScript.c	骨架	350	1	ARM	excl	OK		0	@func
+DoConv.c	正文	832	1	ARM	excl	OK		0	@func
+DoConvIntToVariable.c	骨架	9	1	ARM	excl	OK		0	@func
+DoDestroy.c	正文	26	1	ARM	excl	OK		0	@func
+DoDiv.c	骨架	543	1	ARM	excl	OK		0	@func
+DoDup.c	正文	182	1	ARM	excl	OK		0	@func
+DoExit.c	正文	27	1	ARM	excl	OK		0	@func
+DoFrameTiming.c	正文	135	1	ARM	excl	OK		0	@func
+DoGenerationalGC.c	正文	151	1	ARM	excl	OK		0	@func
+DoInstanceDestroy.c	骨架	25	1	ARM	excl	OK		0	@func
+DoMod.c	骨架	609	1	ARM	excl	OK		0	@func
+DoMul.c	骨架	617	1	ARM	excl	OK		0	@func
+DoNeg.c	骨架	224	1	ARM	excl	OK		0	@func
+DoNot.c	骨架	203	1	ARM	excl	OK		0	@func
+DoOperation.c	正文	196	1	ARM	excl	OK		0	@func
+DoOr.c	骨架	565	1	ARM	excl	OK		0	@func
+DoPop.c	骨架	1530	1	ARM	excl	OK		0	@func
+DoPopEnv.c	骨架	74	1	ARM	excl	OK		0	@func
+DoPopLocalVariable.c	正文	46	1	ARM	excl	OK		0	@func
+DoPopNull.c	骨架	108	1	ARM	excl	OK		0	@func
+DoPush.c	骨架	1372	1	ARM	excl	OK		0	@func
+DoPushBuiltin.c	正文	34	1	ARM	excl	OK		0	@func
+DoPushEnv.c	骨架	416	1	ARM	excl	OK		0	@func
+DoPushGlobal.c	骨架	103	1	ARM	excl	OK		0	@func
+DoPushImmediate.c	正文	4	1	ARM	excl	OK		0	@func
+DoPushLocal.c	骨架	105	1	ARM	excl	OK		0	@func
+DoRegExpExec.c	正文	130	1	ARM	excl	OK		0	@func
+DoRem.c	骨架	460	1	ARM	excl	OK		0	@func
+DoReplace.c	正文	998	1	ARM	excl	OK		0	@func
+DoRet.c	正文	188	1	ARM	excl	OK		0	@func
+DoSet.c	骨架	1863	1	ARM	excl	OK		0	@func
+DoShl.c	骨架	543	1	ARM	excl	OK		0	@func
+DoShr.c	骨架	637	1	ARM	excl	OK		0	@func
+DoSlowDrawRoom.c	骨架	281	1	ARM	excl	OK		0	@func
+DoSub.c	正文	538	1	ARM	excl	OK		0	@func
+DoTheWork.c	正文	46	1	ARM	excl	OK		0	@func
+DoVariableInstanceExists.c	正文	33	1	ARM	excl	OK		0	@func
+DoXor.c	骨架	549	1	ARM	excl	OK		0	@func
+DrawInstancesOnly.c	骨架	118	1	ARM	excl	OK		0	@func
+DrawInstancesParticlesOnly.c	骨架	275	1	ARM	excl	OK		0	@func
+DrawRoomLayers.c	骨架	118	1	ARM	excl	OK		0	@func
+DrawTheRoom.c	骨架	226	1	ARM	excl	OK		0	@func
+Draw_Room.c	骨架	740	1	ARM	excl	OK		0	@func
+ExecuteIt.c	骨架	211	1	ARM	excl	OK		0	@func
+FREE_RValue__Pre.c	正文	564	1	ARM	excl	OK		0	@func
+F_JS_ToInt32.c	正文	90	1	ARM	excl	OK		0	@func
+F_JS_ToNumber.c	正文	338	1	ARM	excl	OK		0	@func
+GC_MarkAndSweepGen.c	正文	718	1	ARM	excl	OK		0	@func
+GateBytes.c	正文	446	0	ARM	-	OK		0	runs-derived(61)
+GetContextStackTop.c	正文	15	1	ARM	excl	OK		0	@func
+Graphics_Interface.c	骨架	14	0	ARM	-	OK		0	runs-derived(11)
+HandleOther.c	骨架	1736	0	ARM	-	OK		0	runs-derived(1)
+InitTables_Core.c	正文	3276	4	ARM	excl	OK		0	@func
+InitTables_Draw3D.c	正文	5177	5	ARM	excl	OK		0	@func
+InitTables_InputAction.c	正文	2903	6	ARM	excl	OK		0	@func
+InitTables_Resource.c	正文	3253	3	ARM	excl	OK		0	@func
+InitTables_System.c	正文	4107	6	ARM	excl	OK		0	@func
+InitYoYoFunctions.c	正文	3082	1	ARM	excl	OK		0	@func
+Instance_Animate.c	正文	81	1	ARM	excl	OK		0	@func
+InternalGetYYVar.c	正文	69	1	ARM	excl	OK		0	@func
+JSThrowReferenceError.c	正文	71	1	ARM	excl	OK		0	@func
+JSThrowTypeError.c	正文	71	1	ARM	excl	OK		0	@func
+LayerElements.c	正文	585	0	ARM	-	OK		0	runs-derived(3)
+LayerHelpers.c	正文	329	7	ARM	excl	OK		0	@func
+LayerRemove.c	正文	796	1	ARM	partial	OK		1	@func
+LibInterfaces.c	骨架	0	0	ARM	-	OK		0	doc-only
+LoadGameData.c	正文	667	1	ARM	excl	OK		0	@func
+MemoryManager_Alloc.c	正文	25	1	ARM	excl	OK		0	@func
+Motion3D.c	骨架	3055	2	ARM	excl	OK		0	@func
+ObjectOps.c	正文	299	4	ARM	excl	OK		1	@func
+Object_Name.c	正文	40	1	ARM	excl	OK		0	@func
+PerformReturn.c	骨架	127	1	ARM	excl	OK		0	@func
+Perform_Event.c	正文	12	1	ARM	excl	OK		0	@func
+Perform_Event_All.c	正文	39	1	ARM	excl	OK		0	@func
+Perform_Event_Object.c	正文	39	1	ARM	excl	OK		0	@func
+PopContextStack.c	正文	8	1	ARM	excl	OK		0	@func
+PushContextStack.c	正文	51	1	ARM	excl	OK		0	@func
+Reach_01.c	骨架	7000	7	ARM	excl	OK		1	@func
+Reach_02.c	骨架	6281	12	ARM	excl	OK		0	@func
+Reach_03.c	骨架	7496	19	ARM	excl	OK		0	@func
+Reach_04.c	骨架	7495	25	ARM	excl	OK		3	@func
+Reach_05.c	骨架	7440	31	ARM	excl	OK		1	@func
+Reach_06.c	骨架	7499	42	ARM	excl	OK		0	@func
+Reach_07.c	骨架	7482	54	ARM	excl	OK		4	@func
+Reach_08.c	骨架	7492	69	ARM	excl	OK		5	@func
+Reach_09.c	骨架	7441	91	ARM	excl	OK		9	@func
+Reach_10.c	骨架	2063	31	ARM	excl	OK		0	@func
+Reach_10b.c	骨架	7500	56	ARM	excl,partial	FAIL	count:0x171574 declared=162 anchored=163 excl=169 incl=170; count:0x171808 declared=155 anchored=150 excl=162 incl=163; count:0x17ec90 declared=143 anchored=139 excl=145 incl=146	25	@func
+Reach_11.c	骨架	7500	159	ARM	excl	OK		22	@func
+Reach_12.c	骨架	7500	289	ARM	excl	OK		44	@func
+Reach_13.c	骨架	2840	350	ARM	excl	OK		94	@func
+Reach_14.c	骨架	35	35	ARM	excl	OK		5	@func
+RefThing_assign.c	正文	5	1	ARM	excl	OK		0	@func
+Residue_Attributed_01.c	骨架	7418	383	ARM	excl,partial	FAIL	count:0x2a3b4c declared=4 anchored=5 excl=8 incl=9; count:0x2a3b50 declared=11 anchored=7 excl=25 incl=26; count:0x2a3bd8 declared=8 anchored=9 excl=19 incl=20; count:0x2a3bf8 declared=10 anchored=6 excl=21 incl=21; count:0x2a3ec2 declared=2 anchored=1 excl=6 incl=7; count:0x2a3eee declared=1 anchored=0 excl=2 incl=2	212	@func
+Residue_Attributed_02.c	骨架	7143	374	ARM	excl,partial	FAIL	count:0x2ae8fa declared=18 anchored=16 excl=52 incl=52; count:0x2aeb22 declared=1 anchored=0 excl=2 incl=2; count:0x2aec6c declared=9 anchored=10 excl=18 incl=19; count:0x2aec82 declared=4 anchored=0 excl=8 incl=9; count:0x2aec86 declared=27 anchored=23 excl=63 incl=63; count:0x2aed1e declared=8 anchored=9 excl=17 incl=18	336	@func
+Residue_Attributed_03.c	骨架	3020	55	ARM	excl,partial	FAIL	count:0x2f8e0c declared=54 anchored=51 excl=454 incl=455; count:0x2f9ab8 declared=77 anchored=76 excl=500 incl=501; count:0x3149be declared=2 anchored=0 excl=4 incl=4; count:0x314dc2 declared=21 anchored=22 excl=47 incl=48; count:0x314e1e declared=10 anchored=6 excl=20 incl=21; count:0x316e40 declared=4 anchored=5 excl=8 incl=9	34	@func
+RoomDestruct.c	正文	1443	22	ARM	excl	OK		14	@func
+RoomOps.c	正文	617	3	ARM	excl	OK		1	@func
+Room_Load.c	正文	219	1	ARM	excl	OK		0	@func
+Room_LoadOrder.c	正文	90	1	ARM	excl	OK		0	@func
+RunnerLoadWad.c	正文	21	1	ARM	excl	OK		0	@func
+RunnerStartup.c	正文	2671	2	ARM	excl	OK		0	@func
+Sprite_Data.c	正文	16	1	ARM	excl	OK		0	@func
+StartRoom.c	骨架	732	1	ARM	excl	OK		0	@func
+Stubs_TailJumps.c	骨架	27	12	ARM	excl	OK		3	@func
+UpdateActiveLists.c	正文	48	1	ARM	excl	OK		0	@func
+VMError.c	正文	61	1	ARM	excl	OK		0	@func
+VM_Exec.c	骨架	366	1	ARM	excl	OK		0	@func
+VM_ExecRelease.c	骨架	162	1	ARM	excl	OK		0	@func
+Variable_GetObjectName.c	正文	80	1	ARM	excl	OK		0	@func
+Variable_GetValue.c	正文	171	1	ARM	excl	OK		0	@func
+Variable_Global_Init.c	正文	26	1	ARM	excl	OK		0	@func
+Variable_Misc.c	正文	341	2	ARM	excl	OK		0	@func
+Variable_SetValue.c	正文	265	1	ARM	excl	OK		0	@func
+YYAlloc.c	正文	6	1	ARM	excl	OK		0	@func
+_RefThing_dec.c	正文	33	1	ARM	excl	OK		0	@func
+anon_268fb4.c	骨架	5485	1	ARM	excl	OK		0	@func
+anon_26f1e8.c	骨架	881	1	ARM	excl	OK		0	@func
+anon_319414.c	正文	17	1	ARM	excl	OK		0	@func
+anon_batch2.c	骨架	2997	0	ARM	-	OK		0	runs-derived(10)
+anon_batch3.c	骨架	1694	0	ARM	-	OK		0	runs-derived(4)
+anon_batch4.c	骨架	2882	0	ARM	-	OK		0	runs-derived(7)
+anon_batch5.c	骨架	4065	0	ARM	-	OK		0	runs-derived(10)
+anon_batch6.c	骨架	6932	8	ARM	excl	OK		3	@func
+anon_thumb_batch.c	骨架	7971	0	Thumb	-	OK		0	runs-derived(11)
+boxType.c	正文	97	1	ARM	excl	OK		0	@func
+libpng_read.c	骨架	1529	0	ARM	-	OK		0	runs-derived(3)

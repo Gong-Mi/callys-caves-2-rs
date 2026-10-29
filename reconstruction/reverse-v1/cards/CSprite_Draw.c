@@ -1,7 +1,7 @@
 /* cally 逆向卡：CSprite::Draw / DrawSimple / DrawTiled（原版 libyoyo.so，armv7）
- * @func 0x1ec720 0x1ecab0  size 916  229 条（literal pool 0x1eca7c..0x1ecab0 共 14 字；真指令 215）
- * @func 0x1ecab4 0x1ecdc0  size 784  196 条（literal pool 0x1ecd98..0x1ecdc0 共 11 字；真指令 185）
- * @func 0x1ed1dc 0x1ed3cc  size 500  125 条（literal pool 0x1ed3c0..0x1ed3cc 共 4 字；真指令 121）
+ * @func 0x1ec720 0x1ecac0  size 928  232 条（literal pool 0x1eca7c..0x1ecab0 共 14 字；真指令 215）
+ * @func 0x1ecab4 0x1ecdc4  size 784  196 条（literal pool 0x1ecd98..0x1ecdc0 共 11 字；真指令 185）
+ * @func 0x1ed1dc 0x1ed3d0  size 500  125 条（literal pool 0x1ed3c0..0x1ed3cc 共 4 字；真指令 121）
  * 级别: 正文（550/550 逐条落锚；三函数形参落位、三条后端分派、剔除判据、错误串出口、
  *             九个全局的 .dynsym 定名与「零全局写」全部证到指令；
  *             未钉：CSprite 字段的官方名（+0x2c/+0x50/+0x54/+0x58/+0x74）、GR_*_Tiled 末四参的名字）

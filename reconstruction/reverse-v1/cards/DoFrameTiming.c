@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoFrameTiming（原版 libyoyo.so，armv7）
- * @func 0x2903f8 0x290610  size 540  135 条（2905e8..0x290610 为 literal pool，11 字）
+ * @func 0x2903f8 0x290614  size 540  135 条（2905e8..0x290610 为 literal pool，11 字）
  * 级别: 正文（限速公式、四个 int64/float/int 全局、JNI 静态回调、±1 帧债务夹紧、返回值语义
  *             全部逐条锚定；未钉：被回调的那个 Java 静态方法的身份（jmethodID 只在 0x756C0C
  *             这个 .bss 槽里），以及 g_debt 在别处怎么累积）

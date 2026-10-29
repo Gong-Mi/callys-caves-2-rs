@@ -1,5 +1,5 @@
 /* cally 逆向卡：Draw_Room（原版 libyoyo.so，armv7）
- * @func 0x1b3e98 0x1b4a24  size 2960  740 条（1b4988..1b4a24 为 literal pool，40 字，被 objdump 译成指令的也是池词）
+ * @func 0x1b3e98 0x1b4a28  size 2960  740 条（1b4988..1b4a24 为 literal pool，40 字，被 objdump 译成指令的也是池词）
  * 级别: 骨架（740/740 锚定；外层流程、8 视图环、事件常量、房间表面四道开关的读写点、
  *             GUI 段、profiler 进出、表面栈检错全部逐条钉住。未钉：0x3f50f0/f1/fc/b0 四个字节的正式名、
  *             0x3f5108 与 0x3f510c 孰宽孰高、0x3f5104/0x3f5100 的写入者、GUI 那颗精灵的用途、

@@ -1,5 +1,5 @@
 /* cally 逆向卡：DLL_Call（原版 libyoyo.so，armv7）
- * @func 0x212b10 0x212d14  size 520  128 条（126 条真指令 + 2 个池字 @0x212d10/@0x212d14；
+ * @func 0x212b10 0x212d18  size 520  128 条（126 条真指令 + 2 个池字 @0x212d10/@0x212d14；
  *       0x212d08..0x212d0c 是 vldr d8 的 8 字节常量 0.0，索引未覆盖）
  * 级别: 正文（128/128 逐条落锚；RValue→C 拆包、两条转换循环、可转实数 tag 掩码、四路叶子分派、全部早退点的副作用全证）
  * 符号: _Z8DLL_CalliiP6RValueS0_ → DLL_Call(int id, int argc, RValue* args, RValue* result)

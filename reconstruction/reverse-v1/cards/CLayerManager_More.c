@@ -1,10 +1,10 @@
 /* cally 逆向卡：CLayer 管理六件（原版 libyoyo.so，armv7）—— 一卡六节
- * @func 0x1b6f00 0x1b7700 size 2048  510 条  _ZN13CLayerManager4InitEv
- * @func 0x1c30f8 0x1c33e4 size 748   187 条  _ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer
- * @func 0x1b8868 0x1b8930 size 200    50 条  _ZN13CLayerManager14GetLayerFromIDEP5CRoomi
- * @func 0x1b8200 0x1b87f4 size 1524  381 条  _ZN13CLayerManager16ChangeLayerDepthEP5CRoomP6CLayerib
- * @func 0x1b8948 0x1b897c size 52     13 条  _ZN13CLayerManager16ChangeLayerDepthEP5CRoomiib
- * @func 0x1c5ff0 0x1c606c size 124    31 条  _ZN13CLayerManager13AddNewElementEP5CRoomP6CLayerP17CLayerElementBaseb
+ * @func 0x1b6f00 0x1b7700  size 2048  510 条  _ZN13CLayerManager4InitEv
+ * @func 0x1c30f8 0x1c33e4  size 748  187 条  _ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer
+ * @func 0x1b8868 0x1b8930  size 200  50 条  _ZN13CLayerManager14GetLayerFromIDEP5CRoomi
+ * @func 0x1b8200 0x1b87f4  size 1524  381 条  _ZN13CLayerManager16ChangeLayerDepthEP5CRoomP6CLayerib
+ * @func 0x1b8948 0x1b897c  size 52  13 条  _ZN13CLayerManager16ChangeLayerDepthEP5CRoomiib
+ * @func 0x1c5ff0 0x1c606c  size 124  31 条  _ZN13CLayerManager13AddNewElementEP5CRoomP6CLayerP17CLayerElementBaseb
  * 总账: 1172 锚点 = 1172 字，与 asm/index-CLayerManager_More_all.tsv 逐字一致
  *       （scripts/check_card_anchors.py → index=1172 card=1172 missing=0 extra=0 mismatch=0 RESULT EXACT）。
  *       ⚠ 唯一不对应字节的是 §1 的 1b7378/1b737c：d9 的 8 字节零字，objdump 按零字省略，索引里本来就没有这两行，
@@ -67,7 +67,7 @@
  */
 
 /* ══ §1 CLayerManager::Init 0x1b6f00 ═══════════════════════════════════════
- * @func 0x1b6f00 0x1b7700 size 2048  510 条（512 字 - 1b7378/1b737c 两个零字）
+ * @func 0x1b6f00 0x1b7700  size 2048  510 条（512 字 - 1b7378/1b737c 两个零字）
  * 级别: 正文（510/510。九个池的「头清零 → 预分配 → 写初值 → 头插自由链 → 写容量」五段全部逐条落锚；
  *       收尾三件事与「已初始化」早退也全部解出。未钉：+0x0c 恒写 3 的语义与读方、g_TileFlagsMask 的正式名、
  *       为什么 tile 池只预分配 32 个而 tile 元素池要 1024 个）
@@ -709,7 +709,7 @@
 /* @0x1b76fc b 0x1b6f2c <_ZN13CLayerManager4InitEv+0x2c> */
 
 /* ══ §2 CLayerManager::InsertLayerIntoActiveList 0x1c30f8 ══════════════════
- * @func 0x1c30f8 0x1c33e4 size 748  187 条（185 指令 + 1c33dc/1c33e0 两字：0.6f 与 0x0016dd68）
+ * @func 0x1c30f8 0x1c33e4  size 748  187 条（185 指令 + 1c33dc/1c33e0 两字：0.6f 与 0x0016dd68）
  * 级别: 正文（187/187。链定位/四种落点/表 1 的 Robin-Hood 插入/同键覆盖/翻倍重建 + 0.6 阈值全部解出。
  *       未钉：桶项三个字段的正式名、为什么阈值判「>」而不是「>=」的取舍）
  * 符号: _ZN13CLayerManager25InsertLayerIntoActiveListEP5CRoomP6CLayer
@@ -966,7 +966,7 @@
 /* @0x1c33e0 andseq sp, r6, r8, ror #26 */
 
 /* ══ §3 CLayerManager::GetLayerFromID 0x1b8868 ═════════════════════════════
- * @func 0x1b8868 0x1b8930 size 200  50 条（50 指令，无字面量池：末尾即下一个符号 GetLayerDepth）
+ * @func 0x1b8868 0x1b8930  size 200  50 条（50 指令，无字面量池：末尾即下一个符号 GetLayerDepth）
  * 级别: 正文（50/50。哈希、首桶判空、命中判据、探测环、两处出口全解；无分配、无写）
  * 符号: _ZN13CLayerManager14GetLayerFromIDEP5CRoomi → CLayer* GetLayerFromID(CRoom* room, int id)
  * 调用者（全库 57 处 bl，本卡逐个列过）：layer_* 系列内建占大头（layer_get_depth 0x1bab40、layer_x 0x1bb090、
@@ -1063,7 +1063,7 @@
 /* @0x1b892c pop {r4, r5, r6, r7, r8, pc} */
 
 /* ══ §4 CLayerManager::ChangeLayerDepth(CRoom*, CLayer*, int, bool) 0x1b8200 ══
- * @func 0x1b8200 0x1b87f4 size 1524  381 条（381 指令 + 1b87f0 一个字面量池字 0x002381d8 → 槽 0x3f0864 = m_LayerPool）
+ * @func 0x1b8200 0x1b87f4  size 1524  381 条（381 指令 + 1b87f0 一个字面量池字 0x002381d8 → 槽 0x3f0864 = m_LayerPool）
  * 级别: 正文（381/381。两条主路径 + 合流分支 + 表 1 的后移填补删除 + 回收/回池全部逐条落锚）。
  *       ⚠ 两处需要读者自己判轻重：① 合流分支要求第 4 实参 != 0，而三个调用点分别是「常量 0」（F_LayerDepth）、
  *         「r3 残值 1」（ChangeInstanceDepth）、「原样转发」（ID 重载，但它自己无调用者）；
@@ -1554,7 +1554,7 @@
 /* @0x1b87f0 .word 0x002381d8 */
 
 /* ══ §5 CLayerManager::ChangeLayerDepth(CRoom*, int, int, bool) 0x1b8948 ════
- * @func 0x1b8948 0x1b897c size 52  13 条（13 指令，无字面量池）
+ * @func 0x1b8948 0x1b897c  size 52  13 条（13 指令，无字面量池）
  * 级别: 正文（13/13。整函数是一条直线：两道门 + 一次查表 + 尾跳）
  * 符号: _ZN13CLayerManager16ChangeLayerDepthEP5CRoomiib
  *       → void CLayerManager::ChangeLayerDepth(CRoom* room, int id, int depth, bool bMergeDynamic)
@@ -1589,7 +1589,7 @@
 /* @0x1b8978 b 0x1b8200 <_ZN13CLayerManager16ChangeLayerDepthEP5CRoomP6CLayerib> */
 
 /* ══ §6 CLayerManager::AddNewElement 0x1c5ff0 ══════════════════════════════
- * @func 0x1c5ff0 0x1c606c size 124  31 条（30 指令 + 1c6068 一个字面量池字 0x0022aac0）
+ * @func 0x1c5ff0 0x1c606c  size 124  31 条（30 指令 + 1c6068 一个字面量池字 0x0022aac0）
  * 级别: 正文（31/31。门、发号、挂链顺序、运行期数据开关、返回值全解。未钉：第 4 实参在各调用点的业务含义）
  * 符号: _ZN13CLayerManager13AddNewElementEP5CRoomP6CLayerP17CLayerElementBaseb
  *       → int CLayerManager::AddNewElement(CRoom* room, CLayer* layer, CLayerElementBase* elem, bool bBuildRuntimeData)

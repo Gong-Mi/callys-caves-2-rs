@@ -1,5 +1,5 @@
 /* cally 逆向卡：RunnerLoadWad（原版 libyoyo.so，armv7）
- * @func 0x1df59c 0x1df5ec  size 84  21 条（17 条指令 + 0x1df5e0..0x1df5ec 4 个池字，池字被 objdump 译成
+ * @func 0x1df59c 0x1df5f0  size 84  21 条（17 条指令 + 0x1df5e0..0x1df5ec 4 个池字，池字被 objdump 译成
  *       eoreq/andseq，不是指令）
  * 级别: 正文（17 条指令全部落地：一次 trace、两处全局取参、一次尾跳；无分支、无循环、无错误处理，
  *             所以「全部指令都钉住」= 「全部语义都钉住」。open 只剩「那两个全局谁写」）

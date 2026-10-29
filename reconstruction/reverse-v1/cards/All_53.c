@@ -822,7 +822,7 @@
  *   @0x1c06f0 andseq pc, r8, r4, ror r2
  *
  * ══ §13/137 GV_PhysicsSpeedX(CInstance*, int, RValue*)  0x1f9d58  size 228  57 条（0x1f9d58..0x1f9e3c）
- * @func 0x1f9d58 0x1f9e3c  size 228  57 条
+ * @func 0x1f9d58 0x1f9e4c  size 244  61 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -958,7 +958,7 @@
  *   @0x1f9f1c andseq r3, pc, r0, asr r10
  *
  * ══ §15/137 Audio_SoundIsPaused(int)  0x217098  size 228  57 条（0x217098..0x21717c）
- * @func 0x217098 0x21717c  size 228  57 条
+ * @func 0x217098 0x21718c  size 244  61 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1434,7 +1434,8 @@
  *   @0x2b33a0 b 0x2b3370 <jpeg_finish_decompress+0xb0>
  *
  * ══ §22/137 png_do_read_swap_alpha  0x2a8d58  size 226  57 条（0x2a8d58..0x2a8e3a）
- * @func 0x2a8d58 0x2a8e3a  size 226  57 条
+ * @func 0x2a8d58 0x2a8e3c  size 228  57 条
+ * 部分覆盖: 本节 57/93 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1703,7 +1704,7 @@
  *   @0xf965c .word 0x002f48b8
  *
  * ══ §26/137 F_CollisionRectangle(RValue&, CInstance*, CInstance*, int, RValue*)  0x109030  size 224  56 条（0x109030..0x109110）
- * @func 0x109030 0x109110  size 224  56 条
+ * @func 0x109030 0x109120  size 240  60 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1770,7 +1771,7 @@
  *   @0x10910c pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §27/137 F_CollisionEllipse(RValue&, CInstance*, CInstance*, int, RValue*)  0x109110  size 224  56 条（0x109110..0x1091f0）
- * @func 0x109110 0x1091f0  size 224  56 条
+ * @func 0x109110 0x109200  size 240  60 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1904,7 +1905,7 @@
  *   @0x1092cc pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §29/137 F_MpLinearPath(RValue&, CInstance*, CInstance*, int, RValue*)  0x109c88  size 224  56 条（0x109c88..0x109d68）
- * @func 0x109c88 0x109d68  size 224  56 条
+ * @func 0x109c88 0x109d78  size 240  60 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2105,7 +2106,7 @@
  *   @0x11eb08 eoreq r11, r1, r0, ror r7
  *
  * ══ §32/137 F_GPUSetTexFilterExt(RValue&, CInstance*, CInstance*, int, RValue*)  0x1474ac  size 224  56 条（0x1474ac..0x14758c）
- * @func 0x1474ac 0x14758c  size 224  56 条
+ * @func 0x1474ac 0x14759c  size 240  60 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2373,7 +2374,7 @@
  *   @0x15f1b8 andseq r10, lr, r4, asr r6
  *
  * ══ §36/137 F_CheckMouseButton_Common(RValue&, CInstance*, CInstance*, int, int)  0x160b2c  size 224  56 条（0x160b2c..0x160c0c）
- * @func 0x160b2c 0x160c0c  size 224  56 条
+ * @func 0x160b2c 0x160c1c  size 240  60 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2440,7 +2441,7 @@
  *   @0x160c08 pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §37/137 F_CheckMouseButtonPressed_Common(RValue&, CInstance*, CInstance*, int, int)  0x160c0c  size 224  56 条（0x160c0c..0x160cec）
- * @func 0x160c0c 0x160cec  size 224  56 条
+ * @func 0x160c0c 0x160cfc  size 240  60 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3778,7 +3779,7 @@
  *   @0xf4b90 pop {r3, r4, r5, r6, r7, pc}
  *
  * ══ §57/137 F_DsGridValueExists(RValue&, CInstance*, CInstance*, int, RValue*)  0xfe370  size 220  55 条（0xfe370..0xfe44c）
- * @func 0xfe370 0xfe44c  size 220  55 条
+ * @func 0xfe370 0xfe45c  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3844,7 +3845,7 @@
  *   @0xfe448 eoreq r9, r3, r12, asr #15
  *
  * ══ §58/137 F_DsGridValueX(RValue&, CInstance*, CInstance*, int, RValue*)  0xfe44c  size 220  55 条（0xfe44c..0xfe528）
- * @func 0xfe44c 0xfe528  size 220  55 条
+ * @func 0xfe44c 0xfe538  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3910,7 +3911,7 @@
  *   @0xfe524 .word 0x002396f0
  *
  * ══ §59/137 F_DsGridValueY(RValue&, CInstance*, CInstance*, int, RValue*)  0xfe528  size 220  55 条（0xfe528..0xfe604）
- * @func 0xfe528 0xfe604  size 220  55 条
+ * @func 0xfe528 0xfe614  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3976,7 +3977,7 @@
  *   @0xfe600 eoreq r9, r3, r4, lsl r6
  *
  * ══ §60/137 F_DsGridValueDiskExists(RValue&, CInstance*, CInstance*, int, RValue*)  0xfe604  size 220  55 条（0xfe604..0xfe6e0）
- * @func 0xfe604 0xfe6e0  size 220  55 条
+ * @func 0xfe604 0xfe6f0  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4042,7 +4043,7 @@
  *   @0xfe6dc eoreq r9, r3, r8, lsr r5
  *
  * ══ §61/137 F_DsGridValueDiskX(RValue&, CInstance*, CInstance*, int, RValue*)  0xfe6e0  size 220  55 条（0xfe6e0..0xfe7bc）
- * @func 0xfe6e0 0xfe7bc  size 220  55 条
+ * @func 0xfe6e0 0xfe7cc  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4438,7 +4439,7 @@
  *   @0x10fae0 eoreq r9, r2, r12, lsl r6
  *
  * ══ §67/137 F_ExternalDefine6(RValue&, CInstance*, CInstance*, int, RValue*)  0x116474  size 220  55 条（0x116474..0x116550）
- * @func 0x116474 0x116550  size 220  55 条
+ * @func 0x116474 0x116560  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4504,7 +4505,7 @@
  *   @0x11654c eoreq r3, r2, r4, ror #2
  *
  * ══ §68/137 F_ExternalDefine7(RValue&, CInstance*, CInstance*, int, RValue*)  0x116550  size 220  55 条（0x116550..0x11662c）
- * @func 0x116550 0x11662c  size 220  55 条
+ * @func 0x116550 0x11663c  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5164,7 +5165,7 @@
  *   @0x13c34c pop {r3, r4, r5, pc}
  *
  * ══ §78/137 F_ActionReplaceSprite(RValue&, CInstance*, CInstance*, int, RValue*)  0x1411dc  size 220  55 条（0x1411dc..0x1412b8）
- * @func 0x1411dc 0x1412b8  size 220  55 条
+ * @func 0x1411dc 0x1412c8  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5296,7 +5297,7 @@
  *   @0x141390 .word 0xffffc160
  *
  * ══ §80/137 F_PhysicsSetMass(RValue&, CInstance*, CInstance*, int, RValue*)  0x14c794  size 220  55 条（0x14c794..0x14c870）
- * @func 0x14c794 0x14c870  size 220  55 条
+ * @func 0x14c794 0x14c880  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5362,7 +5363,7 @@
  *   @0x14c86c andseq r7, pc, r12, lsl #11
  *
  * ══ §81/137 F_PhysicsApplyForce(RValue&, CInstance*, CInstance*, int, RValue*)  0x14c870  size 220  55 条（0x14c870..0x14c94c）
- * @func 0x14c870 0x14c94c  size 220  55 条
+ * @func 0x14c870 0x14c95c  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5494,7 +5495,7 @@
  *   @0x14ca24 ldrsbeq r7, [pc], -r4
  *
  * ══ §83/137 F_PhysicsApplyLocalForce(RValue&, CInstance*, CInstance*, int, RValue*)  0x14caa8  size 220  55 条（0x14caa8..0x14cb84）
- * @func 0x14caa8 0x14cb84  size 220  55 条
+ * @func 0x14caa8 0x14cb94  size 236  59 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6748,7 +6749,8 @@
  *   @0x31a5f4 stc2 p1, c11, [r0], #4
  *
  * ══ §102/137 png_do_write_swap_alpha  0x2b0c58  size 218  55 条（0x2b0c58..0x2b0d32）
- * @func 0x2b0c58 0x2b0d32  size 218  55 条
+ * @func 0x2b0c58 0x2b0d34  size 220  55 条
+ * 部分覆盖: 本节 55/89 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6944,7 +6946,7 @@
  *   @0xcbff0 eoreq r6, r6, r12, lsr #4
  *
  * ══ §105/137 F_DsGridSetRegion(RValue&, CInstance*, CInstance*, int, RValue*)  0xfd438  size 216  54 条（0xfd438..0xfd510）
- * @func 0xfd438 0xfd510  size 216  54 条
+ * @func 0xfd438 0xfd520  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7009,7 +7011,7 @@
  *   @0xfd50c eoreq r10, r3, r8, lsl #14
  *
  * ══ §106/137 F_DsGridAddRegion(RValue&, CInstance*, CInstance*, int, RValue*)  0xfd510  size 216  54 条（0xfd510..0xfd5e8）
- * @func 0xfd510 0xfd5e8  size 216  54 条
+ * @func 0xfd510 0xfd5f8  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7074,7 +7076,7 @@
  *   @0xfd5e4 eoreq r10, r3, r0, lsr r6
  *
  * ══ §107/137 F_DsGridMultiplyRegion(RValue&, CInstance*, CInstance*, int, RValue*)  0xfd5e8  size 216  54 条（0xfd5e8..0xfd6c0）
- * @func 0xfd5e8 0xfd6c0  size 216  54 条
+ * @func 0xfd5e8 0xfd6d0  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7139,7 +7141,7 @@
  *   @0xfd6bc eoreq r10, r3, r8, asr r5
  *
  * ══ §108/137 F_DsGridSetDisk(RValue&, CInstance*, CInstance*, int, RValue*)  0xfd6c0  size 216  54 条（0xfd6c0..0xfd798）
- * @func 0xfd6c0 0xfd798  size 216  54 条
+ * @func 0xfd6c0 0xfd7a8  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7204,7 +7206,7 @@
  *   @0xfd794 eoreq r10, r3, r0, lsl #9
  *
  * ══ §109/137 F_DsGridAddDisk(RValue&, CInstance*, CInstance*, int, RValue*)  0xfd798  size 216  54 条（0xfd798..0xfd870）
- * @func 0xfd798 0xfd870  size 216  54 条
+ * @func 0xfd798 0xfd880  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7334,7 +7336,7 @@
  *   @0xfd944 .word 0x0023a2d0
  *
  * ══ §111/137 F_DsGridGetSum(RValue&, CInstance*, CInstance*, int, RValue*)  0xfdcc0  size 216  54 条（0xfdcc0..0xfdd98）
- * @func 0xfdcc0 0xfdd98  size 216  54 条
+ * @func 0xfdcc0 0xfdda8  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7399,7 +7401,7 @@
  *   @0xfdd94 eoreq r9, r3, r0, lsl #29
  *
  * ══ §112/137 F_DsGridGetMax(RValue&, CInstance*, CInstance*, int, RValue*)  0xfdd98  size 216  54 条（0xfdd98..0xfde70）
- * @func 0xfdd98 0xfde70  size 216  54 条
+ * @func 0xfdd98 0xfde80  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7464,7 +7466,7 @@
  *   @0xfde6c eoreq r9, r3, r8, lsr #27
  *
  * ══ §113/137 F_DsGridGetMin(RValue&, CInstance*, CInstance*, int, RValue*)  0xfde70  size 216  54 条（0xfde70..0xfdf48）
- * @func 0xfde70 0xfdf48  size 216  54 条
+ * @func 0xfde70 0xfdf58  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7659,7 +7661,7 @@
  *   @0x11c79c eoreq sp, r1, r8, asr #17
  *
  * ══ §116/137 F_DrawSurfaceExt(RValue&, CInstance*, CInstance*, int, RValue*)  0x11e954  size 216  54 条（0x11e954..0x11ea2c）
- * @func 0x11e954 0x11ea2c  size 216  54 条
+ * @func 0x11e954 0x11ea3c  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8049,7 +8051,7 @@
  *   @0x13e32c mlaeq r10, r0, r8, pc
  *
  * ══ §122/137 F_GPUSetTexFilter(RValue&, CInstance*, CInstance*, int, RValue*)  0x1473d4  size 216  54 条（0x1473d4..0x1474ac）
- * @func 0x1473d4 0x1474ac  size 216  54 条
+ * @func 0x1473d4 0x1474bc  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8114,7 +8116,7 @@
  *   @0x1474a8 mlaeq r10, r4, r8, r6
  *
  * ══ §123/137 F_GPUSetTexRepeat(RValue&, CInstance*, CInstance*, int, RValue*)  0x14758c  size 216  54 条（0x14758c..0x147664）
- * @func 0x14758c 0x147664  size 216  54 条
+ * @func 0x14758c 0x147674  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8569,7 +8571,7 @@
  *   @0x1b8038 eoreq r8, r3, r8, asr #17
  *
  * ══ §130/137 F_LayerSetVisible(RValue&, CInstance*, CInstance*, int, RValue*)  0x1badd4  size 216  54 条（0x1badd4..0x1baeac）
- * @func 0x1badd4 0x1baeac  size 216  54 条
+ * @func 0x1badd4 0x1baebc  size 232  58 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8895,6 +8897,7 @@
  *
  * ══ §135/137 SoundHardware::Quit()  0x220324  size 216  47 条（0x220324..0x2203fc）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x220324 0x2203fc  size 216  47 条
+ * 部分覆盖: 本节 47/54 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x22032c→0x755361, 0x220344→0x755363, 0x220358→0x755360, 0x220384→0x755362, 0x2203a0→0x3eb70c
@@ -8952,7 +8955,7 @@
  *   @0x2203f8 andseq r4, r3, r8, lsl #9
  *
  * ══ §136/137 SND_PlatformPause()  0x21ef20  size 168  35 条（0x21ef20..0x21efc8）｜其中 7 条已由别的卡落锚，本节不再重复
- * @func 0x21ef20 0x21efc8  size 168  35 条
+ * @func 0x21ef3c 0x21efc8  size 140  35 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x21ef28→0x755363, 0x21ef40→0x755314, 0x21ef54→0x755334, 0x21ef68→0x755338

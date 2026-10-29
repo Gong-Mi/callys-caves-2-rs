@@ -393,6 +393,7 @@
  *
  * ══ §3/43 zip_open_buff  0x2a51a0  size 728  182 条（0x2a51a0..0x2a5478）
  * @func 0x2a51a0 0x2a5478  size 728  182 条
+ * 部分覆盖: 本节 182/330 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -778,7 +779,7 @@
  *   @0x2cab38 andeq r0, r0, r0
  *
  * ══ §5/43 F_DsListMarkAsList(RValue&, CInstance*, CInstance*, int, RValue*)  0x102300  size 720  180 条（0x102300..0x1025d0）
- * @func 0x102300 0x1025d0  size 720  180 条
+ * @func 0x102300 0x1025e0  size 736  184 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1160,7 +1161,7 @@
  *   @0x10289c eoreq r5, r3, r8, lsl #10
  *
  * ══ §7/43 F_PhysicsCreatePulleyJoint(RValue&, CInstance*, CInstance*, int, RValue*)  0x14f790  size 720  180 条（0x14f790..0x14fa60）
- * @func 0x14f790 0x14fa60  size 720  180 条
+ * @func 0x14f790 0x14fa70  size 736  184 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x14f830→0x54298c, 0x14f970→0x54298c
@@ -3057,7 +3058,8 @@
  *   @0x1a2190 eoreq r11, r4, r12, lsl #19
  *
  * ══ §17/43 png_do_gamma  0x2aa0d6  size 706  177 条（0x2aa0d6..0x2aa398）
- * @func 0x2aa0d6 0x2aa398  size 706  177 条
+ * @func 0x2aa0d6 0x2aa39a  size 708  177 条
+ * 部分覆盖: 本节 177/284 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3245,7 +3247,7 @@
  *   @0x2aa396 push {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §18/43 F_DsPriorityFindPriority(RValue&, CInstance*, CInstance*, int, RValue*)  0x10296c  size 704  176 条（0x10296c..0x102c2c）
- * @func 0x10296c 0x102c2c  size 704  176 条
+ * @func 0x10296c 0x102c3c  size 720  180 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3806,7 +3808,7 @@
  *   @0x252a1c ldrsbeq r3, [r0], -r0
  *
  * ══ §21/43 F_DsListSetPre(RValue&, CInstance*, CInstance*, int, RValue*)  0x102044  size 700  175 条（0x102044..0x102300）
- * @func 0x102044 0x102300  size 700  175 条
+ * @func 0x102044 0x102310  size 716  179 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5664,7 +5666,7 @@
  *   @0x102ee0 .word 0x00234ebc
  *
  * ══ §31/43 F_DsQueueTail(RValue&, CInstance*, CInstance*, int, RValue*)  0x105b54  size 696  174 条（0x105b54..0x105e0c）
- * @func 0x105b54 0x105e0c  size 696  174 条
+ * @func 0x105b54 0x105e1c  size 712  178 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5849,7 +5851,7 @@
  *   @0x105e08 mlaeq r3, r4, pc, r1
  *
  * ══ §32/43 F_DsQueueHead(RValue&, CInstance*, CInstance*, int, RValue*)  0x105e0c  size 696  174 条（0x105e0c..0x1060c4）
- * @func 0x105e0c 0x1060c4  size 696  174 条
+ * @func 0x105e0c 0x1060d4  size 712  178 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6034,7 +6036,7 @@
  *   @0x1060c0 .word 0x00231cdc
  *
  * ══ §33/43 F_DsPriorityFindMin(RValue&, CInstance*, CInstance*, int, RValue*)  0x1060c4  size 696  174 条（0x1060c4..0x10637c）
- * @func 0x1060c4 0x10637c  size 696  174 条
+ * @func 0x1060c4 0x10638c  size 712  178 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7875,6 +7877,7 @@
  *
  * ══ §43/43 SoundHardware::SetVolume(void*, float, int)  0x220be0  size 432  94 条（0x220be0..0x220d90）｜其中 14 条已由别的卡落锚，本节不再重复
  * @func 0x220be0 0x220d90  size 432  94 条
+ * 部分覆盖: 本节 94/108 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x220bf4→0x755361, 0x220c10→0x755363, 0x220c24→0x755362, 0x220c40→0x5428e8, 0x220c54→0x54298c, 0x220c9c→0x755360, 0x220cd4→0x3eb70c, 0x220d04→0x5428c0

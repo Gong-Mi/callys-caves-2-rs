@@ -67,7 +67,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 1 · F_MotionSet（motion_set）
- * @func 0x108520 0x10855c  size 64  16 条（无池字）
+ * @func 0x108520 0x108560  size 64  16 条（无池字）
  * 符号: _Z11F_MotionSetR6RValueP9CInstanceS2_iPS_
  * 一句话: dir=YYGetFloat(args,0) → CInstance::SetDirection(self,dir)；spd=YYGetFloat(args,1)
  *         → 尾跳 CInstance::SetSpeed(self,spd)。result 一个字都不写，连它的地址都在第 2 条指令被丢弃。
@@ -116,7 +116,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 2 · F_ObjectExists（object_exists）
- * @func 0x12e0cc 0x12e108  size 64  16 条（无池字）
+ * @func 0x12e0cc 0x12e10c  size 64  16 条（无池字）
  * 符号: _Z14F_ObjectExistsR6RValueP9CInstanceS2_iPS_
  * 一句话: obj=YYGetInt32(args,0) → Object_Exists(obj)；非 0 ⇒ result=1.0，否则 0.0（tag 0）。
  *         不读 self / other / argc。
@@ -164,7 +164,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 3 · F_ActionBounce（action_bounce）
- * @func 0x13dfec 0x13e024  size 60  15 条（无池字）
+ * @func 0x13dfec 0x13e028  size 60  15 条（无池字）
  * 符号: _Z14F_ActionBounceR6RValueP9CInstanceS2_iPS_
  * 一句话: 两个 bool 实参原样转发 → 尾跳 Command_Bounce(self, args[0], args[1])；
  *         args[0] = advanced（角度扫描开关），args[1] = 碰撞谓词（0=IsFree / 1=IsEmpty）。result 不写。
@@ -209,7 +209,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 4 · F_PartTypeCreate（part_type_create）
- * @func 0x128f40 0x128f6c  size 48  12 条（无池字）
+ * @func 0x128f40 0x128f70  size 48  12 条（无池字）
  * 符号: _Z16F_PartTypeCreateR6RValueP9CInstanceS2_iPS_
  * 一句话: 无实参；ParticleType_Create() 返回新槽号（int）→ result = (double)(int)。tag 先清 0。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -245,7 +245,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 5 · F_PartTypeShape（part_type_shape）
- * @func 0x128fdc 0x12900c  size 52  13 条（无池字）
+ * @func 0x128fdc 0x129010  size 52  13 条（无池字）
  * 符号: _Z15F_PartTypeShapeR6RValueP9CInstanceS2_iPS_
  * 一句话: ind=YYGetInt32(args,0)、shape=YYGetInt32(args,1) → 尾跳 ParticleType_Shape(ind,shape)。result 不写。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -280,7 +280,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 6 · F_PartTypeAlpha1（part_type_alpha1）
- * @func 0x129624 0x129654  size 52  13 条（无池字）
+ * @func 0x129624 0x129658  size 52  13 条（无池字）
  * 符号: _Z16F_PartTypeAlpha1R6RValueP9CInstanceS2_iPS_
  * 一句话: ind=YYGetInt32(args,0)、a=YYGetFloat(args,1) → 尾跳 ParticleType_Alpha1(ind,a)。result 不写。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -316,7 +316,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 7 · F_PartSystemCreate（part_system_create）
- * @func 0x129730 0x129764  size 56  14 条（无池字）
+ * @func 0x129730 0x129768  size 56  14 条（无池字）
  * 符号: _Z18F_PartSystemCreateR6RValueP9CInstanceS2_iPS_
  * 一句话: 常量调用 ParticleSystem_Create(**-1**, **true**) → result = (double)(int) 系统槽号（失败 -1）。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -357,7 +357,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 8 · F_DisplayGetWidth（display_get_width）
- * @func 0x119bc4 0x119bf0  size 48  12 条（无池字）
+ * @func 0x119bc4 0x119c00  size 60  15 条（无池字）
  * 符号: _Z17F_DisplayGetWidthR6RValueP9CInstanceS2_iPS_
  * 一句话: 无实参；Graphics_DisplayWidth() → g_DeviceWidth（int）→ result = (double)(int)。tag 先清 0。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -394,7 +394,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 9 · F_DisplayGetHeight（display_get_height）
- * @func 0x119bf4 0x119c20  size 48  12 条（无池字）
+ * @func 0x119bf4 0x119c24  size 48  12 条（无池字）
  * 符号: _Z18F_DisplayGetHeightR6RValueP9CInstanceS2_iPS_
  * 一句话: 无实参；Graphics_DisplayHeight() → g_DeviceHeight（int）→ result = (double)(int)。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -422,7 +422,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 10 · F_WindowGetWidth（window_get_width）
- * @func 0x11a59c 0x11a5c8  size 48  12 条（无池字）
+ * @func 0x11a59c 0x11a5d8  size 60  15 条（无池字）
  * 符号: _Z16F_WindowGetWidthR6RValueP9CInstanceS2_iPS_
  * 一句话: 无实参；GR_Window_Get_Width() → g_DeviceWidth（与 display_get_width 同一个全局）。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -453,7 +453,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 11 · F_WindowGetHeight（window_get_height）
- * @func 0x11a5cc 0x11a5f8  size 48  12 条（无池字）
+ * @func 0x11a5cc 0x11a5fc  size 48  12 条（无池字）
  * 符号: _Z17F_WindowGetHeightR6RValueP9CInstanceS2_iPS_
  * 一句话: 无实参；GR_Window_Get_Height() → g_DeviceHeight（与 display_get_height 同一个全局）。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -483,7 +483,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 12 · F_AudioStopSound（audio_stop_sound）
- * @func 0x134dd8 0x134e00  size 44  11 条（10 条指令 + 1 个池字 0x134e00）
+ * @func 0x134dd8 0x134e04  size 44  11 条（10 条指令 + 1 个池字 0x134e00）
  * 符号: _Z16F_AudioStopSoundR6RValueP9CInstanceS2_iPS_
  * 一句话: id=YYGetInt32(args,0) → 尾跳 Audio_StopSound(id)；但先过 g_fNoAudio 门，门非 0 时连实参都不取。
  *         result 不写。
@@ -530,7 +530,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 13 · F_IniClose（ini_close）
- * @func 0x13b9e0 0x13ba04  size 40  10 条（无池字）
+ * @func 0x13b9e0 0x13ba08  size 40  10 条（无池字）
  * 符号: _Z10F_IniCloseR6RValueP9CInstanceS2_iPS_
  * 一句话: 无实参；buf=YYGML_ini_close() → YYCreateString(result,buf) → 尾跳 MemoryManager::Free(buf)。
  *         ⇒ result 是 **INI 全文的字符串**（tag 1），不是 undefined。
@@ -567,7 +567,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 14 · F_IniOpen（ini_open）
- * @func 0x13bb1c 0x13bb30  size 24  6 条（无池字）
+ * @func 0x13bb1c 0x13bb34  size 24  6 条（无池字）
  * 符号: _Z9F_IniOpenR6RValueP9CInstanceS2_iPS_
  * 一句话: name=YYGetString(args,0) → 尾跳 YYGML_ini_open(name)。result 不写（GML 侧 undefined）。
  * ═══════════════════════════════════════════════════════════════════════════

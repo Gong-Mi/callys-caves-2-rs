@@ -30,7 +30,7 @@
 
 
 /* ══ §1 Motion_Grid_Path(int gridId, CPath* path, int x1, int y1, int x2, int y2, bool allowDiag) 0x19a8f8 ══
- * @func 0x19a8f8 0x19c1ac size 6324  1581 条（末条 0x19c1a8；0x19b734..0x19b778 的 18 个字是 literal pool，
+ * @func 0x19a8f8 0x19c1ac  size 6324  1581 条（末条 0x19c1a8；0x19b734..0x19b778 的 18 个字是 literal pool，
  *       objdump 把它们解成「像指令」的样子，锚点保留原写法）
  * 级别: 骨架（入口闸门、坐标→格子换算、环形队列 BFS 主循环、八邻域派发、路径写出五段逐条钉住；
  *       八方向各自的展开体只做结构核对；坑位编码与对角兜底分支未钉，见本节 open）
@@ -1785,7 +1785,7 @@
 
 
 /* ══ §2 GR_3D_Draw_Block(float, float, float, float, float, float, int, float, float) 0x17763c ══
- * @func 0x17763c 0x178d44 size 5896  1474 条（0x177aa0..0x177ac0 的 9 个字是 literal pool，中间用 b 跳过）
+ * @func 0x17763c 0x178d44  size 5896  1474 条（0x177aa0..0x177ac0 的 9 个字是 literal pool，中间用 b 跳过）
  * 级别: 骨架（实参落位、顶点缓冲协议、首顶点 9 字段、36 顶点计数、Primitive 起止、纹理重复存档/恢复逐条钉住；
  *       36 个顶点各自的 UV 系数表与「无精灵」分支的退化 UV 只给结构，未逐顶点列名）
  * 符号: _Z16GR_3D_Draw_Blockffffffiff → void GR_3D_Draw_Block(float, float, float, float, float, float, int, float, float)

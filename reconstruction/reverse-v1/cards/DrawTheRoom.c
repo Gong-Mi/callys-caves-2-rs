@@ -1,5 +1,5 @@
 /* cally 逆向卡：DrawTheRoom（原版 libyoyo.so，armv7）
- * @func 0x1b3b10 0x1b3e94 size 904  226 条（1b3e78..1b3e94 为 literal pool，8 字；前两字被 objdump 译成指令）
+ * @func 0x1b3b10 0x1b3e98  size 904  226 条（1b3e78..1b3e94 为 literal pool，8 字；前两字被 objdump 译成指令）
  * 级别: 骨架（226/226 锚定；profiler 进出、绘制矩形回写、三条清屏判据、8 槽背景的前后两轮、
  *             快/慢选路的完整条件树、四处 GR_3D_Set_Depth 常量、事件 72/73 全部逐条钉住。
  *             未钉：0x5428e8 与 0x4859b0 两个字节各自的清屏语义（名字借 Draw_Room 卡）、

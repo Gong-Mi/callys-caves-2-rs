@@ -1,6 +1,6 @@
 /* cally 逆向卡：Variable_Global_Init（原版 libyoyo.so，armv7）
  *
- * @func 0x1f3354 0x1f33b8  size 104  26 条（24 条指令 + 尾 2 池字；无栈实参、无返回值）
+ * @func 0x1f3354 0x1f33bc  size 104  26 条（24 条指令 + 尾 2 池字；无栈实参、无返回值）
  * 级别: 正文（26/26 条逐条解出：resize 目标、字节数、文件/行、cap 与 data 的写序、10000 次逐字节
  *             清零全部钉住。未钉：globdecl 这张表**装什么**（1 B/项 的单位与用途）、为什么是 10000）
  * 符号: _Z20Variable_Global_Initv → void Variable_Global_Init()

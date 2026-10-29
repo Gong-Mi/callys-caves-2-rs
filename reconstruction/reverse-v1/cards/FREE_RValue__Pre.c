@@ -1,5 +1,5 @@
 /* cally 逆向卡：FREE_RValue__Pre（原版 libyoyo.so，armv7）
- * @func 0xc0a7c 0xc1348  size 2256  564 条（函数体内无 literal pool、无栈 canary）
+ * @func 0xc0a7c 0xc134c  size 2256  564 条（函数体内无 literal pool、无栈 canary）
  * 级别: 正文（tag 1/2/3 三条释放链、数组容器布局、4 层内联 + 第 5 层真递归、
  *            与 _RefThing<char const*>::dec 的内联/调用关系全部解出；
  *            61 条静态死代码已定位；open 3 条见文末）

@@ -430,7 +430,7 @@
  *   @0x2c6bf8 andeq r0, r0, r0
  *
  * ══ §5/91 CSkeletonSprite::Draw  0xc0244  size 376  94 条（0xc0244..0xc03bc）
- * @func 0xc0244 0xc03bc  size 376  94 条
+ * @func 0xc0244 0xc03cc  size 392  98 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -953,7 +953,7 @@
  *   @0x17ec8c .word 0xffffe82c
  *
  * ══ §10/91 MyRandom  0x1a27ac  size 372  93 条（0x1a27ac..0x1a2920）
- * @func 0x1a27ac 0x1a2920  size 372  93 条
+ * @func 0x1a27ac 0x1a2930  size 388  97 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1471,7 +1471,7 @@
  *   @0x17bb0c .word 0xffffe774
  *
  * ══ §15/91 HandleKey  0x1d5804  size 368  92 条（0x1d5804..0x1d5974）
- * @func 0x1d5804 0x1d5974  size 368  92 条
+ * @func 0x1d5804 0x1d5984  size 384  96 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1d5808→0x536f20, 0x1d5810→0x536f70, 0x1d584c→0x53ab70, 0x1d5854→0x542374
@@ -1574,7 +1574,7 @@
  *   @0x1d5970 .word 0xffffbfec
  *
  * ══ §16/91 HandleMouseGlobal  0x1d5d00  size 368  92 条（0x1d5d00..0x1d5e70）
- * @func 0x1d5d00 0x1d5e70  size 368  92 条
+ * @func 0x1d5d00 0x1d5e80  size 384  96 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1d5d04→0x536f20, 0x1d5d0c→0x536f70, 0x1d5d48→0x53ab70, 0x1d5d50→0x542374
@@ -2083,7 +2083,7 @@
  *   @0x18131c .word 0xffffbb70
  *
  * ══ §21/91 HandleKeyPress  0x1d5974  size 356  89 条（0x1d5974..0x1d5ad8）
- * @func 0x1d5974 0x1d5ad8  size 356  89 条
+ * @func 0x1d5974 0x1d5ae8  size 372  93 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1d5978→0x536f20, 0x1d5980→0x536f70, 0x1d59bc→0x53ab70, 0x1d59c4→0x542374
@@ -2978,7 +2978,7 @@
  *   @0x233024 b 0x23300c <ov_read+0x144>
  *
  * ══ §30/91 ARRAY_LVAL_RValue  0xd0d38  size 348  87 条（0xd0d38..0xd0e94）
- * @func 0xd0d38 0xd0e94  size 348  87 条
+ * @func 0xd0d38 0xd0ea4  size 364  91 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5574,7 +5574,7 @@
  *   @0xf1b40 mlaeq r4, r0, r4, r5
  *
  * ══ §58/91 CLayerManager::GetNewSpriteElement  0x1c0f00  size 308  77 条（0x1c0f00..0x1c1034）
- * @func 0x1c0f00 0x1c1034  size 308  77 条
+ * @func 0x1c0f00 0x1c1044  size 324  81 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5662,7 +5662,7 @@
  *   @0x1c1030 andseq r12, r8, r4, ror #14
  *
  * ══ §59/91 spRegionAttachment_updateOffset  0x289040  size 308  77 条（0x289040..0x289174）
- * @func 0x289040 0x289174  size 308  77 条
+ * @func 0x289040 0x289184  size 324  81 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7456,7 +7456,7 @@
  *   @0x29a2c4 andseq r7, r5, r0, asr r8
  *
  * ══ §80/91 b2ParticleSystem::UpdateBodyContacts  0x2d5b9c  size 292  73 条（0x2d5b9c..0x2d5cc0）
- * @func 0x2d5b9c 0x2d5cc0  size 292  73 条
+ * @func 0x2d5b9c 0x2d5cd0  size 308  77 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

@@ -496,6 +496,7 @@
  *
  * ══ §5/70 F_DebugEvent(RValue&, CInstance*, CInstance*, int, RValue*)  0x114bf4  size 444  104 条（0x114bf4..0x114db0）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x114bf4 0x114db0  size 444  104 条
+ * 部分覆盖: 本节 104/111 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x114c4c→0x47b23b, 0x114c5c→0x5428e8, 0x114c70→0x544c38, 0x114ccc→0x47f294, 0x114ce8→0x47b23b, 0x114d30→0x3f20a8, 0x114d44→0x47f294, 0x114d6c→0x3f20a8
@@ -1702,6 +1703,7 @@
  *
  * ══ §15/70 png_do_strip_filler  0x2af930  size 440  110 条（0x2af930..0x2afae8）
  * @func 0x2af930 0x2afae8  size 440  110 条
+ * 部分覆盖: 本节 110/181 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3021,7 +3023,7 @@
  *   @0x12f66c b 0x12f5b8 <_Z11F_SpriteAddR6RValueP9CInstanceS2_iPS_+0xf8>
  *
  * ══ §26/70 F_ActionDrawScore(RValue&, CInstance*, CInstance*, int, RValue*)  0x13f1bc  size 432  108 条（0x13f1bc..0x13f36c）
- * @func 0x13f1bc 0x13f36c  size 432  108 条
+ * @func 0x13f1bc 0x13f37c  size 448  112 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3378,7 +3380,7 @@
  *   @0x1698e8 .word 0xffffe250
  *
  * ══ §29/70 F_LayerAddInstance(RValue&, CInstance*, CInstance*, int, RValue*)  0x1c6cf4  size 432  108 条（0x1c6cf4..0x1c6ea4）
- * @func 0x1c6cf4 0x1c6ea4  size 432  108 条
+ * @func 0x1c6cf4 0x1c6eb4  size 448  112 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3617,6 +3619,7 @@
  *
  * ══ §31/70 Audio_SoundPitch(int, float)  0x217460  size 432  101 条（0x217460..0x217610）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x217460 0x217610  size 432  101 条
+ * 部分覆盖: 本节 101/108 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x217474→0x755363, 0x21748c→0x755314, 0x2174b4→0x3f52d0, 0x217554→0x75531c, 0x2175b0→0x75531c
@@ -4204,7 +4207,7 @@
  *   @0x2cf358 andeq r12, r8, r8, lsr #25
  *
  * ══ §36/70 VM::PokeDSStack(int, int, RValue&)  0xe4d6c  size 428  107 条（0xe4d6c..0xe4f18）
- * @func 0xe4d6c 0xe4f18  size 428  107 条
+ * @func 0xe4d6c 0xe4f28  size 444  111 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5382,6 +5385,7 @@
  *
  * ══ §46/70 F_DrawBackgroundTiled(RValue&, CInstance*, CInstance*, int, RValue*)  0x11f498  size 424  99 条（0x11f498..0x11f640）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x11f498 0x11f640  size 424  99 条
+ * 部分覆盖: 本节 99/106 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x11f4a8→0x5428e8, 0x11f4f8→0x54298c, 0x11f5a0→0x54298c
@@ -6073,7 +6077,7 @@
  *   @0x24607c addsmi r11, sp, r0
  *
  * ══ §52/70 JS_Array_prototype_every(RValue&, CInstance*, CInstance*, int, RValue*)  0x2513e4  size 424  106 条（0x2513e4..0x25158c）
- * @func 0x2513e4 0x25158c  size 424  106 条
+ * @func 0x2513e4 0x25159c  size 440  110 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8047,6 +8051,7 @@
  *
  * ══ §69/70 png_do_expand_palette  0x2aa398  size 420  105 条（0x2aa398..0x2aa53c）
  * @func 0x2aa398 0x2aa53c  size 420  105 条
+ * 部分覆盖: 本节 105/193 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8162,7 +8167,7 @@
  *   @0x2aa538 pop.w {r4, r5, r6, r7, r8, r9, r10, pc}
  *
  * ══ §70/70 VM::PokeDSQueue(int, int, RValue&)  0xe4f18  size 412  103 条（0xe4f18..0xe50b4）
- * @func 0xe4f18 0xe50b4  size 412  103 条
+ * @func 0xe4f18 0xe50c4  size 428  107 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

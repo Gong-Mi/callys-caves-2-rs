@@ -1,6 +1,6 @@
 /* cally 逆向卡：INITIALIZE_Code_Constant（命名常量表装填）+ VM::WriteInstanceBuiltInVariables（实例内建变量写盘）
  * @func 0xee01c 0xf1748  size 14124  3531 条（513 bl AddRealConstant / 6 b / 5 条件 / 348 字名字偏移池）
- * @func 0xd96f0 0xdadc8  size 5848   1462 条（110 blx Write / 25 bl / 12 b）
+ * @func 0xd96f0 0xdadc8  size 5848  1462 条（110 blx Write / 25 bl / 12 b）
  * 级别: 正文 · bytecode_anchored（两节都逐条落锚：3531/3531 与 1462/1462）
  *       节 1 钉住：表身份（命名常量表，不是 CCode）、物理结构（names[4B] / values[16B] 双平行数组 + 名字哈希）、
  *                  条数（513 调用点 / 501 个不同名字 / 7 段 475 条 + 5 门 38 条）、

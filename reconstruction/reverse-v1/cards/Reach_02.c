@@ -763,7 +763,7 @@
  *
  * ══ §2/13 MarkAndSweepGen  0xd5ba8  size 2872  0 条（0xd5ba8..0xd66e0）
  * ⚠ 本节 718 条锚点与语义已升格为正文卡 cards/GC_MarkAndSweepGen.c；这里只保留结构事实
- * @func 0xd5ba8 0xd66e0  size 2872  718 条
+ * （本节已移交 cards/GC_MarkAndSweepGen.c：锚点与语义都在那张卡，本节不再声明 @func）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0xd5bac→0x47f295, 0xd5bf4→0x536f08, 0xd5bfc→0x536da8, 0xd5c24→0x536f0c, 0xd5c28→0x536d9c, 0xd5c64→0x536da0, 0xd5ca4→0x536da0, 0xd5cd8→0x54298c

@@ -68,7 +68,7 @@
  */
 
 /* ══ 1/11  F_DsMapCreate  0x1000f4  size 180  45 条  (池 0x1001a0, 0x1001a4 两字)
- * @func 0x1000f4 0x10019c  size 180  45 条（43 条指令 + 2 个池字 0x1001a0/0x1001a4）
+ * @func 0x1000f4 0x1001a8  size 180  45 条（43 条指令 + 2 个池字 0x1001a0/0x1001a4）
  * 符号 _Z13F_DsMapCreateR6RValueP9CInstanceS2_iPS_    GML: ds_map_create() → real id
  * 参数: args = [sp+0x20]（0x10016c 只在 1 参路用）；argc 在 r3（0x100104 mov r7,r3）
  *       —— **本族唯一读 argc 的函数**
@@ -146,7 +146,7 @@
 /* @0x1001a0 eoreq sp, lr, r8, lsl #16 */
 /* @0x1001a4 eoreq sp, lr, r12, lsr #15 */
 /* ══ 2/11  F_DsMapDestroy  0x0fec90  size 176  44 条  (池 0x0fed34..0x0fed3c 三字)
- * @func 0x0fec90 0x0fed30  size 176  44 条（41 条指令 + 3 个池字 0x0fed34..0x0fed3c）
+ * @func 0xfec90 0xfed40  size 176  44 条（41 条指令 + 3 个池字 0x0fed34..0x0fed3c）
  * 符号 _Z14F_DsMapDestroyR6RValueP9CInstanceS2_iPS_    GML: ds_map_destroy(id)
  * 参数: args = [sp+0x20]（0xfec9c）
  *
@@ -218,7 +218,7 @@
 /* @0xfed38 eoreq lr, lr, r8, ror #24 */
 /* @0xfed3c eoreq r8, r3, r0, ror #29 */
 /* ══ 3/11  F_DsMapFindValue  0x106bcc  size 792  198 条  (池 0x106ed8..0x106ee0 三字)
- * @func 0x106bcc 0x106ed4  size 792  198 条（195 条指令 + 3 个池字 0x106ed8..0x106ee0）
+ * @func 0x106bcc 0x106ee4  size 792  198 条（195 条指令 + 3 个池字 0x106ed8..0x106ee0）
  * 符号 _Z16F_DsMapFindValueR6RValueP9CInstanceS2_iPS_   GML: ds_map_find_value(id, key)
  * 参数: args = [sp+0x30]（0x106bdc：push 20 + sub 28）
  *
@@ -465,7 +465,7 @@
 /* @0x106edc eoreq r6, lr, r8, lsr #26 */
 /* @0x106ee0 eoreq r0, r3, r8, lsl #30 */
 /* ══ 4/11  F_DsMapReplace  0x0ff49c  size 200  50 条  (池 0x0ff558..0x0ff560 三字)
- * @func 0x0ff49c 0x0ff554  size 200  50 条（47 条指令 + 3 个池字 0x0ff558..0x0ff560）
+ * @func 0xff49c 0xff564  size 200  50 条（47 条指令 + 3 个池字 0x0ff558..0x0ff560）
  * 符号 _Z14F_DsMapReplaceR6RValueP9CInstanceS2_iPS_    GML: ds_map_replace(id, key, value) → 0/1
  * 参数: args = [sp+0x20]（0xff4ac）
  *
@@ -543,7 +543,7 @@
 /* @0xff55c eoreq lr, lr, r8, asr #8 */
 /* @0xff560 .word 0x002386bc */
 /* ══ 5/11  F_DsMapSecureSave  0x0fb1c0  size 396  99 条  (池 0x0fb344, 0x0fb348 两字)
- * @func 0x0fb1c0 0x0fb340  size 396  99 条（97 条指令 + 2 个池字 0x0fb344/0x0fb348）
+ * @func 0xfb1c0 0xfb34c  size 396  99 条（97 条指令 + 2 个池字 0x0fb344/0x0fb348）
  * 符号 _Z17F_DsMapSecureSaveR6RValueP9CInstanceS2_iPS_  GML: ds_map_secure_save(id, filename)
  * 参数: args = [sp+0x28]（0xfb1d0：push 32 + sub 8）
  *
@@ -680,7 +680,7 @@
 /* @0xfb344 eoreq r12, r3, r4, asr #18 */
 /* @0xfb348 .word 0x0023c8bc */
 /* ══ 6/11  F_String  0x10ec98  size 168  42 条  (池 0x10ed38, 0x10ed3c 两字)
- * @func 0x10ec98 0x10ed34  size 168  42 条（40 条指令 + 2 个池字 0x10ed38/0x10ed3c）
+ * @func 0x10ec98 0x10ed40  size 168  42 条（40 条指令 + 2 个池字 0x10ed38/0x10ed3c）
  * 符号 _Z8F_StringR6RValueP9CInstanceS2_iPS_           GML: string(val) → string
  * 参数: args = [sp+0x28]（0x10ecc4：push 12 + sub 28）
  *
@@ -745,7 +745,7 @@
 /* @0x10ed38 mlaeq r2, r4, r1, r10 */
 /* @0x10ed3c eoreq r2, r2, r4, lsr #6 */
 /* ══ 7/11  F_StringFormat  0x10f7e4  size 212  53 条  (池 0x10f8b0, 0x10f8b4 两字)
- * @func 0x10f7e4 0x10f8ac  size 212  53 条（51 条指令 + 2 个池字 0x10f8b0/0x10f8b4）
+ * @func 0x10f7e4 0x10f8b8  size 212  53 条（51 条指令 + 2 个池字 0x10f8b0/0x10f8b4）
  * 符号 _Z14F_StringFormatR6RValueP9CInstanceS2_iPS_    GML: string_format(val, total, dec) → string
  * 参数: args = [sp+0x1a8]（0x10f7f4：push 28 + sub 396）
  * 栈保护: canary 从 GOT 取（0x10f7ec/0x10f7fc/0x10f80c → [sp+0x184]），尾校验 0x10f884..0x10f88c
@@ -827,7 +827,7 @@
 /* @0x10f8b0 eoreq lr, sp, r4, asr r1 */
 /* @0x10f8b4 eoreq r9, r2, r8, asr r7 */
 /* ══ 8/11  F_StringDigits  0x10ff6c  size 184  46 条  (池 0x110020 一字)
- * @func 0x10ff6c 0x11001c  size 184  46 条（45 条指令 + 1 个池字 0x110020）
+ * @func 0x10ff6c 0x110024  size 184  46 条（45 条指令 + 1 个池字 0x110020）
  * 符号 _Z14F_StringDigitsR6RValueP9CInstanceS2_iPS_    GML: string_digits(str) → string
  * 参数: args = [sp+0x20]（0x10ff7c：push 20 + sub 12）
  *
@@ -902,7 +902,7 @@
 /* ---- pool：1 字（Alloc 的 file 串偏移） ---- */
 /* @0x110020 mlaeq r2, r12, lr, r8 */
 /* ══ 9/11  F_Max  0x1135a8  size 972  243 条（无 literal pool；两张 15 路 tag 表都在代码流里）
- * @func 0x1135a8 0x113970  size 972  243 条（243 条指令，无池）
+ * @func 0x1135a8 0x113974  size 972  243 条（243 条指令，无池）
  * 符号 _Z5F_MaxR6RValueP9CInstanceS2_iPS_             GML: max(v0, v1, ...) → 夺得最大者的原 RValue
  * 参数: args = [sp+0x40]（0x1135f8：push 36 + vpush 16 + sub 12）；argc 在 r3（0x1135b0 subs r9,r3,#0）
  *
@@ -1176,7 +1176,7 @@
 /* @0x11396c bl 0x27d1d0 <_ZdlPv> */
 /* @0x113970 b 0x113894 <_Z5F_MaxR6RValueP9CInstanceS2_iPS_+0x2ec> */
 /* ══ 10/11  F_Min  0x1131d8  size 972  243 条（无 literal pool）
- * @func 0x1131d8 0x1135a0  size 972  243 条（243 条指令，无池）
+ * @func 0x1131d8 0x1135a4  size 972  243 条（243 条指令，无池）
  * 符号 _Z5F_MinR6RValueP9CInstanceS2_iPS_             GML: min(v0, v1, ...) → 夺得最小者的原 RValue
  * 参数: args = [sp+0x40]（0x1131f4：push 36 + vpush {d8,d9} 16 + sub 12）；argc 在 r3（0x1131e0 subs r9,r3,#0）
  *
@@ -1462,7 +1462,7 @@
 /* @0x11359c bl 0x27d1d0 <_ZdlPv> */
 /* @0x1135a0 b 0x1134c4 <_Z5F_MinR6RValueP9CInstanceS2_iPS_+0x2ec> */
 /* ══ 11/11  F_Choose  0x113978  size 668  167 条  (池 0x113c10 一字 = 0x00000000)
- * @func 0x113978 0x113c0c  size 668  167 条（166 条指令 + 1 个池字 0x113c10）
+ * @func 0x113978 0x113c14  size 668  167 条（166 条指令 + 1 个池字 0x113c10）
  * 符号 _Z8F_ChooseR6RValueP9CInstanceS2_iPS_          GML: choose(v0, v1, ...) → 随机取一个实参
  * 参数: args = [sp+0x20]（0x113988：push 32）；argc 在 r3（0x11397c subs r5,r3,#0）
  *

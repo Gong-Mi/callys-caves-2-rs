@@ -5490,6 +5490,7 @@
  *
  * ══ §15/21 GetResolution(unsigned char*, int)  0x1dd46c  size 1468  360 条（0x1dd46c..0x1dda28）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x1dd46c 0x1dda28  size 1468  360 条
+ * 部分覆盖: 本节 360/367 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1dd47c→0x544c44, 0x1dd488→0x544c3c, 0x1dd538→0x3eb6b8, 0x1dd560→0x544b6c, 0x1dd564→0x544b68, 0x1dd5c8→0x3eb6b8, 0x1dd5f4→0x544bcc, 0x1dd5f8→0x544c34
@@ -6608,7 +6609,8 @@
  *   @0x1f16f0 ldrsheq pc, [r3], -r12
  *
  * ══ §18/21 png_set_quantize  0x2a81a4  size 1426  357 条（0x2a81a4..0x2a8736）
- * @func 0x2a81a4 0x2a8736  size 1426  357 条
+ * @func 0x2a81a4 0x2a8738  size 1428  357 条
+ * 部分覆盖: 本节 357/628 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

@@ -732,7 +732,8 @@
  *   @0x1e35c4 b 0x1e33c8 <_ZN7CSprite18ComputeBoundingBoxEv+0xa8>
  *
  * ══ §5/46 FT_Outline_Decompose  0x2e6078  size 678  170 条（0x2e6078..0x2e631e）
- * @func 0x2e6078 0x2e631e  size 678  170 条
+ * @func 0x2e6078 0x2e6320  size 680  170 条
+ * 部分覆盖: 本节 170/303 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2879,7 +2880,7 @@
  *   @0x2403c8 andeq r2, pc, r0, lsl r2
  *
  * ══ §17/46 F_DsMapAdd_Internal(int, double, double)  0x105638  size 660  165 条（0x105638..0x1058cc）
- * @func 0x105638 0x1058cc  size 660  165 条
+ * @func 0x105638 0x1058dc  size 676  169 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3584,6 +3585,7 @@
  *
  * ══ §21/46 png_create_read_struct_2  0x2a6d4c  size 656  164 条（0x2a6d4c..0x2a6fdc）
  * @func 0x2a6d4c 0x2a6fdc  size 656  164 条
+ * 部分覆盖: 本节 164/297 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

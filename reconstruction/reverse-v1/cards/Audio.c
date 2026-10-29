@@ -46,7 +46,7 @@
  */
 
 /* ══ 1/8  Audio_Quit  0x21a664  size 1704  426 条（0x21a664..0x21ad08；末 25 字是池）
- * @func 0x21a664 0x21ad08  size 1704  426 条
+ * @func 0x21a664 0x21ad0c  size 1704  426 条
  * 符号 _Z10Audio_Quitv   无参无返回（r0 在 0x21a66c 即被 ldr 覆写）
  *
  * 骨架（按地址序 5 步）:
@@ -530,7 +530,7 @@
 /* @0x21ad08 .word 0xfffff788 */
 
 /* ══ 2/8  Audio_Tick  0x21bc30  size 1520  380 条（0x21bc30..0x21c21c；末 23 字是池）
- * @func 0x21bc30 0x21c21c  size 1520  380 条
+ * @func 0x21bc30 0x21c220  size 1520  380 条
  * 符号 _Z10Audio_Tickv  无参无返回
  *
  * 两道门（本卡唯一同时读两道门的 Audio_* 函数，且两道门方向相反）:
@@ -1315,7 +1315,7 @@
 /* @0x219d68 ldrsheq r11, [r3], #-88 */
 /* @0x219d6c andseq r10, r3, r0, asr #5 */
 /* ══ 4/8  Audio_GetSoundSourceToPlay  0x21addc  size 1216  304 条（0x21addc..0x21b29c）
- * @func 0x21addc 0x21b29c  size 1216  304 条
+ * @func 0x21addc 0x21b2ac  size 1232  308 条
  * 符号 _Z26Audio_GetSoundSourceToPlayif (int sound, float)
  * 级别: 骨架 —— 门字节 / 调用序列 / 字段偏移 / VFP 用量逐条落锚；每条语义未展开，见节尾 open
  * GOT 基址: 0x3f1c58
@@ -2136,7 +2136,7 @@
 /* @0x2193cc mulseq r3, r0, pc */
 /* @0x2193d0 subseq r11, r3, r4, lsr #30 */
 /* ══ 7/8  Audio_PlaySoundOn  0x21b8c0  size 880  220 条（0x21b8c0..0x21bc30）
- * @func 0x21b8c0 0x21bc30  size 880  220 条
+ * @func 0x21b8c0 0x21bc40  size 896  224 条
  * 符号 _Z17Audio_PlaySoundOnifff (int sound, float, float, float)
  * 级别: 骨架 —— 门字节 / 调用序列 / 字段偏移 / VFP 用量逐条落锚；每条语义未展开，见节尾 open
  * GOT 基址: 0x3f1c58
@@ -2368,7 +2368,7 @@
 /* @0x21bc28 andseq r8, r3, r0, lsl #11 */
 /* @0x21bc2c andseq r8, r3, r0, asr r4 */
 /* ══ 8/8  Audio_PlaySoundAt  0x21b29c  size 828  212 条（0x21b29c..0x21b5ec）
- * @func 0x21b29c 0x21b5ec  size 828  212 条
+ * @func 0x21b29c 0x21b5ec  size 848  212 条
  * 符号 _Z19Audio_PlaySoundAtiffff (int sound, float, float, float, float)
  * 级别: 骨架 —— 门字节 / 调用序列 / 字段偏移 / VFP 用量逐条落锚；每条语义未展开，见节尾 open
  * GOT 基址: 0x3f1c58

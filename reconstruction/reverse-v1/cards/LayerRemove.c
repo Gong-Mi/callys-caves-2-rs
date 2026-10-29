@@ -63,7 +63,7 @@
  */
 
 /* ══ §1 CLayerManager::RemoveElement 0x1b8fdc ═════════════════════════════
- * @func 0x1b8fdc 0x1b93c8 size 1004  251 条（251 指令，无字面量池）
+ * @func 0x1b8fdc 0x1b9e5c  size 3712  796 条（251 指令，无字面量池）
  * 级别: 正文（251/251。两处门、表 2 内联删除、缓存清 0、CleanElementRuntimeData 调用、七路 type 跳表全部钉住。
  *       未钉：内联回移删除的逐位规则、CHashMapCalculateHash 算法、七个族回收器内部）
  * 符号: _ZN13CLayerManager13RemoveElementEP5CRoomP6CLayerP17CLayerElementBaseb

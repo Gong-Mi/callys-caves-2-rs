@@ -150,7 +150,7 @@
  *   @0x147ef8 andseq r10, pc, r4, lsr #1
  *
  * ══ §5/321 F_GPUGetBlendModeSrc(RValue&, CInstance*, CInstance*, int, RValue*)  0x148180  size 100  25 条（0x148180..0x1481e4）
- * @func 0x148180 0x1481e4  size 100  25 条
+ * @func 0x148180 0x1481f4  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -186,7 +186,7 @@
  *   @0x1481e0 mulseq pc, r12, lr
  *
  * ══ §6/321 F_GPUGetBlendModeDest(RValue&, CInstance*, CInstance*, int, RValue*)  0x1481e4  size 100  25 条（0x1481e4..0x148248）
- * @func 0x1481e4 0x148248  size 100  25 条
+ * @func 0x1481e4 0x148258  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -222,7 +222,7 @@
  *   @0x148244 andseq r9, pc, r0, ror lr
  *
  * ══ §7/321 F_GPUGetBlendModeSrcAlpha(RValue&, CInstance*, CInstance*, int, RValue*)  0x148248  size 100  25 条（0x148248..0x1482ac）
- * @func 0x148248 0x1482ac  size 100  25 条
+ * @func 0x148248 0x1482bc  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -294,7 +294,7 @@
  *   @0x14830c andseq r9, pc, r12, lsl lr
  *
  * ══ §9/321 F_GPUGetAlphaTestRef(RValue&, CInstance*, CInstance*, int, RValue*)  0x14842c  size 100  25 条（0x14842c..0x148490）
- * @func 0x14842c 0x148490  size 100  25 条
+ * @func 0x14842c 0x1484a0  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -654,7 +654,7 @@
  *   @0x189234 str r5, [r4, #0x4]
  *
  * ══ §19/321 LoadSave::ReadBundleFile(char const*, int*)  0x18f848  size 100  25 条（0x18f848..0x18f8ac）
- * @func 0x18f848 0x18f8ac  size 100  25 条
+ * @func 0x18f848 0x18f8bc  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -834,7 +834,7 @@
  *   @0x1a3598 eoreq sp, r4, r12, asr #4
  *
  * ══ §24/321 Room_Previous(int)  0x1b5d40  size 100  25 条（0x1b5d40..0x1b5da4）
- * @func 0x1b5d40 0x1b5da4  size 100  25 条
+ * @func 0x1b5d40 0x1b5db4  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -906,7 +906,7 @@
  *   @0x1b68c4 eoreq r9, r3, r4, lsl #31
  *
  * ══ §26/321 GV_PhysicsPositionX(CInstance*, int, RValue*)  0x1f95bc  size 100  25 条（0x1f95bc..0x1f9620）
- * @func 0x1f95bc 0x1f9620  size 100  25 条
+ * @func 0x1f95bc 0x1f9630  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -942,7 +942,7 @@
  *   @0x1f961c andseq r4, pc, r4, ror #6
  *
  * ══ §27/321 GV_PhysicsPositionY(CInstance*, int, RValue*)  0x1f9620  size 100  25 条（0x1f9620..0x1f9684）
- * @func 0x1f9620 0x1f9684  size 100  25 条
+ * @func 0x1f9620 0x1f9694  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -978,7 +978,7 @@
  *   @0x1f9680 andseq r4, pc, r0, lsl #6
  *
  * ══ §28/321 GV_PhysicsLinearVelocityX(CInstance*, int, RValue*)  0x1f9684  size 100  25 条（0x1f9684..0x1f96e8）
- * @func 0x1f9684 0x1f96e8  size 100  25 条
+ * @func 0x1f9684 0x1f96f8  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1050,7 +1050,7 @@
  *   @0x1f9748 andseq r4, pc, r8, lsr r2
  *
  * ══ §30/321 GV_PhysicsCOM_X(CInstance*, int, RValue*)  0x1f97cc  size 100  25 条（0x1f97cc..0x1f9830）
- * @func 0x1f97cc 0x1f9830  size 100  25 条
+ * @func 0x1f97cc 0x1f9840  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1230,7 +1230,7 @@
  *   @0x2178ec andseq r9, sp, r12, lsr r11
  *
  * ══ §35/321 CAudioGroupMan::CreateGroups(int)  0x21de4c  size 100  25 条（0x21de4c..0x21deb0）
- * @func 0x21de4c 0x21deb0  size 100  25 条
+ * @func 0x21de4c 0x21dec0  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1518,7 +1518,7 @@
  *   @0x23c630 b 0x16a21c <_Z12GR_Draw_Lineffff>
  *
  * ══ §43/321 JS_Math_acos(RValue&, CInstance*, CInstance*, int, RValue*)  0x2521dc  size 100  25 条（0x2521dc..0x252240）
- * @func 0x2521dc 0x252240  size 100  25 条
+ * @func 0x2521dc 0x252250  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1554,7 +1554,7 @@
  *   @0x25223c andseq r3, r0, r4, lsl sp
  *
  * ══ §44/321 JS_Math_asin(RValue&, CInstance*, CInstance*, int, RValue*)  0x252240  size 100  25 条（0x252240..0x2522a4）
- * @func 0x252240 0x2522a4  size 100  25 条
+ * @func 0x252240 0x2522b4  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1626,7 +1626,7 @@
  *   @0x252304 andseq r3, r0, r12, asr #24
  *
  * ══ §46/321 JS_Math_ceil(RValue&, CInstance*, CInstance*, int, RValue*)  0x2523cc  size 100  25 条（0x2523cc..0x252430）
- * @func 0x2523cc 0x252430  size 100  25 条
+ * @func 0x2523cc 0x252440  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1662,7 +1662,7 @@
  *   @0x25242c andseq r3, r0, r4, lsr #22
  *
  * ══ §47/321 JS_Math_cos(RValue&, CInstance*, CInstance*, int, RValue*)  0x252430  size 100  25 条（0x252430..0x252494）
- * @func 0x252430 0x252494  size 100  25 条
+ * @func 0x252430 0x2524a4  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1698,7 +1698,7 @@
  *   @0x252490 andseq r3, r0, r0, asr #21
  *
  * ══ §48/321 JS_Math_exp(RValue&, CInstance*, CInstance*, int, RValue*)  0x252494  size 100  25 条（0x252494..0x2524f8）
- * @func 0x252494 0x2524f8  size 100  25 条
+ * @func 0x252494 0x252508  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1734,7 +1734,7 @@
  *   @0x2524f4 andseq r3, r0, r12, asr r10
  *
  * ══ §49/321 JS_Math_floor(RValue&, CInstance*, CInstance*, int, RValue*)  0x2524f8  size 100  25 条（0x2524f8..0x25255c）
- * @func 0x2524f8 0x25255c  size 100  25 条
+ * @func 0x2524f8 0x25256c  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1950,7 +1950,7 @@
  *   @0x287424 pop {r4, r5, r6, pc}
  *
  * ══ §55/321 spRegionAttachment_create  0x288f78  size 100  25 条（0x288f78..0x288fdc）
- * @func 0x288f78 0x288fdc  size 100  25 条
+ * @func 0x288f78 0x288fec  size 116  29 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2095,6 +2095,7 @@
  *
  * ══ §59/321 png_write_chunk_start  0x2b11a0  size 100  25 条（0x2b11a0..0x2b1204）
  * @func 0x2b11a0 0x2b1204  size 100  25 条
+ * 部分覆盖: 本节 25/44 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2239,6 +2240,7 @@
  *
  * ══ §63/321 FT_Select_Metrics  0x2e5524  size 100  25 条（0x2e5524..0x2e5588）
  * @func 0x2e5524 0x2e5588  size 100  25 条
+ * 部分覆盖: 本节 25/48 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2275,6 +2277,7 @@
  *
  * ══ §64/321 FT_Raccess_Guess  0x2e68cc  size 100  25 条（0x2e68cc..0x2e6930）
  * @func 0x2e68cc 0x2e6930  size 100  25 条
+ * 部分覆盖: 本节 25/48 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2311,6 +2314,7 @@
  *
  * ══ §65/321 FT_Vector_Rotate  0x2e6fc4  size 100  25 条（0x2e6fc4..0x2e7028）
  * @func 0x2e6fc4 0x2e7028  size 100  25 条
+ * 部分覆盖: 本节 25/46 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2346,7 +2350,8 @@
  *   @0x2e7024 add sp, #0xc
  *
  * ══ §66/321 png_get_pCAL  0x2a6a08  size 98  25 条（0x2a6a08..0x2a6a6a）
- * @func 0x2a6a08 0x2a6a6a  size 98  25 条
+ * @func 0x2a6a08 0x2a6a6c  size 100  25 条
+ * 部分覆盖: 本节 25/44 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2417,7 +2422,7 @@
  *   @0xc35d4 eorseq r6, r11, r0, lsl r7
  *
  * ══ §68/321 strlwr(char*)  0xc4a14  size 96  24 条（0xc4a14..0xc4a74）
- * @func 0xc4a14 0xc4a74  size 96  24 条
+ * @func 0xc4a14 0xc4a84  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2522,7 +2527,7 @@
  *   @0xc70c0 eoreq r9, r6, r8, lsl #22
  *
  * ══ §71/321 F_Vertex_ARGB_debug(RValue&, CInstance*, CInstance*, int, RValue*)  0xc93f4  size 96  24 条（0xc93f4..0xc9454）
- * @func 0xc93f4 0xc9454  size 96  24 条
+ * @func 0xc93f4 0xc9464  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3117,7 +3122,7 @@
  *   @0x14d1a4 andseq r6, pc, r12, lsl #25
  *
  * ══ §88/321 F_YoYo_GetAdsWidth(RValue&, CInstance*, CInstance*, int, RValue*)  0x1593a4  size 96  24 条（0x1593a4..0x159404）
- * @func 0x1593a4 0x159404  size 96  24 条
+ * @func 0x1593a4 0x159414  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3712,7 +3717,7 @@
  *   @0x1e5850 pop {r3, r4, r5, pc}
  *
  * ══ §105/321 GV_PhysicsPositionXPrevious(CInstance*, int, RValue*)  0x1f99c8  size 96  24 条（0x1f99c8..0x1f9a28）
- * @func 0x1f99c8 0x1f9a28  size 96  24 条
+ * @func 0x1f99c8 0x1f9a38  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3782,7 +3787,7 @@
  *   @0x1f9a84 ldrsheq r3, [pc], -r8
  *
  * ══ §107/321 GV_SpriteWidth(CInstance*, int, RValue*)  0x1faf28  size 96  24 条（0x1faf28..0x1faf88）
- * @func 0x1faf28 0x1faf88  size 96  24 条
+ * @func 0x1faf28 0x1faf98  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3817,7 +3822,7 @@
  *   @0x1faf84 pop {r3, r4, r5, pc}
  *
  * ══ §108/321 GV_SpriteHeight(CInstance*, int, RValue*)  0x1faf88  size 96  24 条（0x1faf88..0x1fafe8）
- * @func 0x1faf88 0x1fafe8  size 96  24 条
+ * @func 0x1faf88 0x1faff8  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3852,7 +3857,7 @@
  *   @0x1fafe4 pop {r3, r4, r5, pc}
  *
  * ══ §109/321 GV_SpriteXOffset(CInstance*, int, RValue*)  0x1fafe8  size 96  24 条（0x1fafe8..0x1fb048）
- * @func 0x1fafe8 0x1fb048  size 96  24 条
+ * @func 0x1fafe8 0x1fb058  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4062,7 +4067,7 @@
  *   @0x2165bc subseq lr, r3, r12, lsr #26
  *
  * ══ §115/321 alutLoadWAVFile  0x222798  size 96  24 条（0x222798..0x2227f8）
- * @func 0x222798 0x2227f8  size 96  24 条
+ * @func 0x222798 0x222808  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4342,7 +4347,7 @@
  *   @0x256ed0 andeq pc, pc, r8, lsl #1
  *
  * ══ §123/321 _spMeshAttachment_dispose  0x28747c  size 96  24 条（0x28747c..0x2874dc）
- * @func 0x28747c 0x2874dc  size 96  24 条
+ * @func 0x28747c 0x2874ec  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4377,7 +4382,7 @@
  *   @0x2874d8 b 0x285c80 <_free>
  *
  * ══ §124/321 spSkeleton_findIkConstraint  0x28a438  size 96  24 条（0x28a438..0x28a498）
- * @func 0x28a438 0x28a498  size 96  24 条
+ * @func 0x28a438 0x28a4a8  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4412,7 +4417,7 @@
  *   @0x28a494 pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §125/321 spSkeleton_findTransformConstraint  0x28a498  size 96  24 条（0x28a498..0x28a4f8）
- * @func 0x28a498 0x28a4f8  size 96  24 条
+ * @func 0x28a498 0x28a508  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4623,6 +4628,7 @@
  *
  * ══ §131/321 png_read_rows  0x2a77e0  size 96  24 条（0x2a77e0..0x2a7840）
  * @func 0x2a77e0 0x2a7840  size 96  24 条
+ * 部分覆盖: 本节 24/42 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4657,7 +4663,11 @@
  *   @0x2a783c pop.w {r4, r5, r6, r7, r8, pc}
  *
  * ══ §132/321 png_write_sig  0x2b1140  size 96  24 条（0x2b1140..0x2b11a0）
- * @func 0x2b1140 0x2b11a0  size 96  24 条
+ * @func 0x2b1140 0x2b11b0  size 112  28 条
+ * 部分覆盖: 本节 28/48 条（其余由其它卡的同一 @func 主张）
+ * 部分覆盖: 本节 27/46 条（其余由其它卡的同一 @func 主张）
+ * 部分覆盖: 本节 26/44 条（其余由其它卡的同一 @func 主张）
+ * 部分覆盖: 本节 25/42 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4762,7 +4772,7 @@
  *   @0x2cbea8 mulseq r2, r12, r12
  *
  * ══ §135/321 b2DynamicTree::ValidateStructure(int) const  0x2df8a0  size 96  24 条（0x2df8a0..0x2df900）
- * @func 0x2df8a0 0x2df900  size 96  24 条
+ * @func 0x2df8a0 0x2df910  size 112  28 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4833,6 +4843,7 @@
  *
  * ══ §137/321 FT_MulDiv_No_Round  0x2e4dec  size 96  24 条（0x2e4dec..0x2e4e4c）
  * @func 0x2e4dec 0x2e4e4c  size 96  24 条
+ * 部分覆盖: 本节 24/46 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4868,6 +4879,7 @@
  *
  * ══ §138/321 FT_Request_Size  0x2e572c  size 96  24 条（0x2e572c..0x2e578c）
  * @func 0x2e572c 0x2e578c  size 96  24 条
+ * 部分覆盖: 本节 24/47 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4903,6 +4915,7 @@
  *
  * ══ §139/321 FT_Outline_Copy  0x2e636c  size 96  24 条（0x2e636c..0x2e63cc）
  * @func 0x2e636c 0x2e63cc  size 96  24 条
+ * 部分覆盖: 本节 24/48 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5073,7 +5086,7 @@
  *   @0xf4f8c pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §144/321 dsListAddInt  0x101c18  size 92  23 条（0x101c18..0x101c74）
- * @func 0x101c18 0x101c74  size 92  23 条
+ * @func 0x101c18 0x101c84  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5141,7 +5154,7 @@
  *   @0x108bc0 b 0x19cb18 <_Z25Motion_Potential_Settingsfffb>
  *
  * ══ §146/321 F_PositionChange(RValue&, CInstance*, CInstance*, int, RValue*)  0x1099fc  size 92  23 条（0x1099fc..0x109a58）
- * @func 0x1099fc 0x109a58  size 92  23 条
+ * @func 0x1099fc 0x109a68  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5379,7 +5392,7 @@
  *   @0x11b190 b 0x16b198 <_Z14GR_Draw_Circlefffb>
  *
  * ══ §153/321 F_DrawVertexColor(RValue&, CInstance*, CInstance*, int, RValue*)  0x11ba60  size 92  23 条（0x11ba60..0x11babc）
- * @func 0x11ba60 0x11babc  size 92  23 条
+ * @func 0x11ba60 0x11bacc  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5549,7 +5562,7 @@
  *   @0x11cc70 pop {r4, r5, r6, pc}
  *
  * ══ §158/321 F_SkeletonAnimationGetFrame(RValue&, CInstance*, CInstance*, int, RValue*)  0x11ccbc  size 92  23 条（0x11ccbc..0x11cd18）
- * @func 0x11ccbc 0x11cd18  size 92  23 条
+ * @func 0x11ccbc 0x11cd28  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5719,7 +5732,7 @@
  *   @0x1296f8 b 0x1a36f8 <_Z19ParticleType_Alpha3ifff>
  *
  * ══ §163/321 F_PartEmitterBurst(RValue&, CInstance*, CInstance*, int, RValue*)  0x129dc0  size 92  23 条（0x129dc0..0x129e1c）
- * @func 0x129dc0 0x129e1c  size 92  23 条
+ * @func 0x129dc0 0x129e2c  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5821,7 +5834,7 @@
  *   @0x12e058 b 0x12e03c <_Z19F_TimeLineMaxMomentR6RValueP9CInstanceS2_iPS_+0x3c>
  *
  * ══ §166/321 F_AudioGetEmitterPositionX(RValue&, CInstance*, CInstance*, int, RValue*)  0x135340  size 92  23 条（0x135340..0x13539c）
- * @func 0x135340 0x13539c  size 92  23 条
+ * @func 0x135340 0x1353ac  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5855,7 +5868,7 @@
  *   @0x135398 eoreq r9, r11, r4, lsl #26
  *
  * ══ §167/321 F_AudioGetEmitterPositionY(RValue&, CInstance*, CInstance*, int, RValue*)  0x13539c  size 92  23 条（0x13539c..0x1353f8）
- * @func 0x13539c 0x1353f8  size 92  23 条
+ * @func 0x13539c 0x135408  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5889,7 +5902,7 @@
  *   @0x1353f4 eoreq r9, r11, r8, lsr #25
  *
  * ══ §168/321 F_AudioGetEmitterPositionZ(RValue&, CInstance*, CInstance*, int, RValue*)  0x1353f8  size 92  23 条（0x1353f8..0x135454）
- * @func 0x1353f8 0x135454  size 92  23 条
+ * @func 0x1353f8 0x135464  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5923,7 +5936,7 @@
  *   @0x135450 eoreq r9, r11, r12, asr #24
  *
  * ══ §169/321 F_AudioGetEmitterVelocityX(RValue&, CInstance*, CInstance*, int, RValue*)  0x135454  size 92  23 条（0x135454..0x1354b0）
- * @func 0x135454 0x1354b0  size 92  23 条
+ * @func 0x135454 0x1354c0  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5957,7 +5970,7 @@
  *   @0x1354ac .word 0x002b9bf0
  *
  * ══ §170/321 F_AudioGetEmitterVelocityY(RValue&, CInstance*, CInstance*, int, RValue*)  0x1354b0  size 92  23 条（0x1354b0..0x13550c）
- * @func 0x1354b0 0x13550c  size 92  23 条
+ * @func 0x1354b0 0x13551c  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6229,7 +6242,7 @@
  *   @0x145554 b 0x165444 <_Z13GR_3DM_Vertexifff>
  *
  * ══ §178/321 F_GPUSetZTestEnable(RValue&, CInstance*, CInstance*, int, RValue*)  0x1465f0  size 92  23 条（0x1465f0..0x14664c）
- * @func 0x1465f0 0x14664c  size 92  23 条
+ * @func 0x1465f0 0x14665c  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6297,7 +6310,7 @@
  *   @0x149d1c pop {r4, r5, r6, pc}
  *
  * ══ §180/321 F_PhysicsDebugRender(RValue&, CInstance*, CInstance*, int, RValue*)  0x14d0ec  size 92  23 条（0x14d0ec..0x14d148）
- * @func 0x14d0ec 0x14d148  size 92  23 条
+ * @func 0x14d0ec 0x14d158  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6467,7 +6480,7 @@
  *   @0x14e9f0 andseq r6, pc, r12, lsr r2
  *
  * ══ §185/321 F_PhysicsParticleSetDensity(RValue&, CInstance*, CInstance*, int, RValue*)  0x14ea5c  size 92  23 条（0x14ea5c..0x14eab8）
- * @func 0x14ea5c 0x14eab8  size 92  23 条
+ * @func 0x14ea5c 0x14eac8  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6501,7 +6514,7 @@
  *   @0x14eab4 ldrsbeq r6, [pc], -r8
  *
  * ══ §186/321 F_PhysicsParticleSetDamping(RValue&, CInstance*, CInstance*, int, RValue*)  0x14eab8  size 92  23 条（0x14eab8..0x14eb14）
- * @func 0x14eab8 0x14eb14  size 92  23 条
+ * @func 0x14eab8 0x14eb24  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6603,7 +6616,7 @@
  *   @0x156ef8 b 0x15e538 <_Z11LeaveRatingPcPKcS1_S1_>
  *
  * ══ §189/321 FacebookInitM()  0x15e7ec  size 92  23 条（0x15e7ec..0x15e848）
- * @func 0x15e7ec 0x15e848  size 92  23 条
+ * @func 0x15e7ec 0x15e858  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6875,7 +6888,7 @@
  *   @0x18df84 pop {r3, r4, r5, pc}
  *
  * ══ §197/321 LoadSave::BundleFileExists(char const*)  0x18f8ac  size 92  23 条（0x18f8ac..0x18f908）
- * @func 0x18f8ac 0x18f908  size 92  23 条
+ * @func 0x18f8ac 0x18f918  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7079,7 +7092,7 @@
  *   @0x1b63b0 andseq r7, r9, r8, lsl r0
  *
  * ══ §203/321 CLayerManager::GetElementFromName(CLayer*, char const*)  0x1c048c  size 92  23 条（0x1c048c..0x1c04e8）
- * @func 0x1c048c 0x1c04e8  size 92  23 条
+ * @func 0x1c048c 0x1c04f8  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7793,7 +7806,7 @@
  *   @0x28b0c8 pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §224/321 spSkeletonData_findEvent  0x28b180  size 92  23 条（0x28b180..0x28b1dc）
- * @func 0x28b180 0x28b1dc  size 92  23 条
+ * @func 0x28b180 0x28b1ec  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7827,7 +7840,7 @@
  *   @0x28b1d8 pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §225/321 spSkeletonData_findAnimation  0x28b1dc  size 92  23 条（0x28b1dc..0x28b238）
- * @func 0x28b1dc 0x28b238  size 92  23 条
+ * @func 0x28b1dc 0x28b248  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7861,7 +7874,7 @@
  *   @0x28b234 pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §226/321 spSkeletonData_findIkConstraint  0x28b238  size 92  23 条（0x28b238..0x28b294）
- * @func 0x28b238 0x28b294  size 92  23 条
+ * @func 0x28b238 0x28b2a4  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7895,7 +7908,7 @@
  *   @0x28b290 pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §227/321 spSkeletonData_findTransformConstraint  0x28b294  size 92  23 条（0x28b294..0x28b2f0）
- * @func 0x28b294 0x28b2f0  size 92  23 条
+ * @func 0x28b294 0x28b300  size 108  27 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7998,6 +8011,7 @@
  *
  * ══ §230/321 png_sig_cmp  0x2a5a4c  size 92  23 条（0x2a5a4c..0x2a5aa8）
  * @func 0x2a5a4c 0x2a5aa8  size 92  23 条
+ * 部分覆盖: 本节 23/43 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8032,6 +8046,7 @@
  *
  * ══ §231/321 png_set_background  0x2a8128  size 92  23 条（0x2a8128..0x2a8184）
  * @func 0x2a8128 0x2a8184  size 92  23 条
+ * 部分覆盖: 本节 23/37 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8066,6 +8081,7 @@
  *
  * ══ §232/321 png_do_invert  0x2af85a  size 92  23 条（0x2af85a..0x2af8b6）
  * @func 0x2af85a 0x2af8b6  size 92  23 条
+ * 部分覆盖: 本节 23/44 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8202,6 +8218,7 @@
  *
  * ══ §236/321 FT_Done_Face  0x2e8bdc  size 92  23 条（0x2e8bdc..0x2e8c38）
  * @func 0x2e8bdc 0x2e8c38  size 92  23 条
+ * 部分覆盖: 本节 23/39 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8236,6 +8253,7 @@
  *
  * ══ §237/321 FT_GlyphSlot_Own_Bitmap  0x314dc0  size 92  23 条（0x314dc0..0x314e1c）
  * @func 0x314dc0 0x314e1c  size 92  23 条
+ * 部分覆盖: 本节 23/41 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8634,7 +8652,7 @@
  *   @0x114770 pop {r3, r4, r5, r6, r7, pc}
  *
  * ══ §249/321 F_DateCurrentDateTime(RValue&, CInstance*, CInstance*, int, RValue*)  0x114ed8  size 88  22 条（0x114ed8..0x114f30）
- * @func 0x114ed8 0x114f30  size 88  22 条
+ * @func 0x114ed8 0x114f40  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8667,7 +8685,7 @@
  *   @0x114f2c sbcsmi pc, r8, r0, asr #16
  *
  * ══ §250/321 F_DateCurrentDate(RValue&, CInstance*, CInstance*, int, RValue*)  0x114f30  size 88  22 条（0x114f30..0x114f88）
- * @func 0x114f30 0x114f88  size 88  22 条
+ * @func 0x114f30 0x114f98  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8931,7 +8949,7 @@
  *   @0x12cca4 b 0x12cc8c <_Z17F_SoundGetPreloadR6RValueP9CInstanceS2_iPS_+0x3c>
  *
  * ══ §258/321 F_FontGetBold(RValue&, CInstance*, CInstance*, int, RValue*)  0x12cdd8  size 88  22 条（0x12cdd8..0x12ce30）
- * @func 0x12cdd8 0x12ce30  size 88  22 条
+ * @func 0x12cdd8 0x12ce40  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9162,7 +9180,7 @@
  *   @0x1392d0 eoreq r5, r11, r4, ror #31
  *
  * ══ §265/321 F_FileReadReal(RValue&, CInstance*, CInstance*, int, RValue*)  0x139c70  size 88  22 条（0x139c70..0x139cc8）
- * @func 0x139c70 0x139cc8  size 88  22 条
+ * @func 0x139c70 0x139cd8  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9294,7 +9312,7 @@
  *   @0x13dae4 mlaeq r11, r4, r0, r0
  *
  * ══ §269/321 F_ActionPathPosition(RValue&, CInstance*, CInstance*, int, RValue*)  0x13e0dc  size 88  22 条（0x13e0dc..0x13e134）
- * @func 0x13e0dc 0x13e134  size 88  22 条
+ * @func 0x13e0dc 0x13e144  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9393,7 +9411,7 @@
  *   @0x145388 andseq r12, pc, r8, lsl #5
  *
  * ══ §272/321 F_GPUSetBlendEnable(RValue&, CInstance*, CInstance*, int, RValue*)  0x146598  size 88  22 条（0x146598..0x1465f0）
- * @func 0x146598 0x1465f0  size 88  22 条
+ * @func 0x146598 0x146600  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9426,7 +9444,7 @@
  *   @0x1465ec eoreq r7, r10, r12, lsl r7
  *
  * ══ §273/321 F_GPUSetZFunc(RValue&, CInstance*, CInstance*, int, RValue*)  0x14664c  size 88  22 条（0x14664c..0x1466a4）
- * @func 0x14664c 0x1466a4  size 88  22 条
+ * @func 0x14664c 0x1466b4  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9459,7 +9477,7 @@
  *   @0x1466a0 eoreq r7, r10, r8, ror #12
  *
  * ══ §274/321 F_GPUSetZWriteEnable(RValue&, CInstance*, CInstance*, int, RValue*)  0x1466a4  size 88  22 条（0x1466a4..0x1466fc）
- * @func 0x1466a4 0x1466fc  size 88  22 条
+ * @func 0x1466a4 0x14670c  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9525,7 +9543,7 @@
  *   @0x146750 .word 0x002a75b8
  *
  * ══ §276/321 F_GPUSetAlphaTestEnable(RValue&, CInstance*, CInstance*, int, RValue*)  0x1468d4  size 88  22 条（0x1468d4..0x14692c）
- * @func 0x1468d4 0x14692c  size 88  22 条
+ * @func 0x1468d4 0x14693c  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9558,7 +9576,7 @@
  *   @0x146928 eoreq r7, r10, r0, ror #7
  *
  * ══ §277/321 F_GPUSetAlphaTestRef(RValue&, CInstance*, CInstance*, int, RValue*)  0x14692c  size 88  22 条（0x14692c..0x146984）
- * @func 0x14692c 0x146984  size 88  22 条
+ * @func 0x14692c 0x146994  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10053,7 +10071,7 @@
  *   @0x18f788 ldrheq r8, [r10], -r12
  *
  * ══ §292/321 CGesturePinch::IsUsingTouch(int)  0x1d7644  size 88  22 条（0x1d7644..0x1d769c）
- * @func 0x1d7644 0x1d769c  size 88  22 条
+ * @func 0x1d7644 0x1d76ac  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10152,7 +10170,7 @@
  *   @0x1e1bc4 eoreq pc, r0, r8, asr #3
  *
  * ══ §295/321 GV_PhysicsInertia(CInstance*, int, RValue*)  0x1f94b4  size 88  22 条（0x1f94b4..0x1f950c）
- * @func 0x1f94b4 0x1f950c  size 88  22 条
+ * @func 0x1f94b4 0x1f951c  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10185,7 +10203,7 @@
  *   @0x1f9508 bx lr
  *
  * ══ §296/321 GV_PhysicsAngularVelocity(CInstance*, int, RValue*)  0x1f950c  size 88  22 条（0x1f950c..0x1f9564）
- * @func 0x1f950c 0x1f9564  size 88  22 条
+ * @func 0x1f950c 0x1f9574  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10218,7 +10236,7 @@
  *   @0x1f9560 ldrdmi r0, r1, [r9], #-251
  *
  * ══ §297/321 GV_PhysicsAngle(CInstance*, int, RValue*)  0x1f9564  size 88  22 条（0x1f9564..0x1f95bc）
- * @func 0x1f9564 0x1f95bc  size 88  22 条
+ * @func 0x1f9564 0x1f95cc  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10284,7 +10302,7 @@
  *   @0x1faeac ldrheq r2, [pc], -r12
  *
  * ══ §299/321 SV_ViewXview(CInstance*, int, RValue*)  0x1fc278  size 88  22 条（0x1fc278..0x1fc2d0）
- * @func 0x1fc278 0x1fc2d0  size 88  22 条
+ * @func 0x1fc278 0x1fc2e0  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10317,7 +10335,7 @@
  *   @0x1fc2cc andseq r1, pc, r4, lsr #13
  *
  * ══ §300/321 SV_ViewYview(CInstance*, int, RValue*)  0x1fc2d0  size 88  22 条（0x1fc2d0..0x1fc328）
- * @func 0x1fc2d0 0x1fc328  size 88  22 条
+ * @func 0x1fc2d0 0x1fc338  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10350,7 +10368,7 @@
  *   @0x1fc324 andseq r1, pc, r12, asr #12
  *
  * ══ §301/321 SV_ViewWview(CInstance*, int, RValue*)  0x1fc328  size 88  22 条（0x1fc328..0x1fc380）
- * @func 0x1fc328 0x1fc380  size 88  22 条
+ * @func 0x1fc328 0x1fc390  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10449,7 +10467,7 @@
  *   @0x1fc5cc andseq r1, pc, r4, lsr #7
  *
  * ══ §304/321 SV_BackgroundX(CInstance*, int, RValue*)  0x1fca18  size 88  22 条（0x1fca18..0x1fca70）
- * @func 0x1fca18 0x1fca70  size 88  22 条
+ * @func 0x1fca18 0x1fca80  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10515,7 +10533,7 @@
  *   @0x1fcac4 andseq r0, pc, r12, lsr #29
  *
  * ══ §306/321 SV_BackgroundXScale(CInstance*, int, RValue*)  0x1fcbd0  size 88  22 条（0x1fcbd0..0x1fcc28）
- * @func 0x1fcbd0 0x1fcc28  size 88  22 条
+ * @func 0x1fcbd0 0x1fcc38  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10548,7 +10566,7 @@
  *   @0x1fcc24 andseq r0, pc, r12, asr #26
  *
  * ══ §307/321 SV_BackgroundYScale(CInstance*, int, RValue*)  0x1fcc28  size 88  22 条（0x1fcc28..0x1fcc80）
- * @func 0x1fcc28 0x1fcc80  size 88  22 条
+ * @func 0x1fcc28 0x1fcc90  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10581,7 +10599,7 @@
  *   @0x1fcc7c ldrsheq r0, [pc], -r4
  *
  * ══ §308/321 SV_BackgroundHSpeed(CInstance*, int, RValue*)  0x1fcc80  size 88  22 条（0x1fcc80..0x1fccd8）
- * @func 0x1fcc80 0x1fccd8  size 88  22 条
+ * @func 0x1fcc80 0x1fcce8  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10647,7 +10665,7 @@
  *   @0x1fcd2c andseq r0, pc, r4, asr #24
  *
  * ══ §310/321 SV_BackgroundAlpha(CInstance*, int, RValue*)  0x1fcdcc  size 88  22 条（0x1fcdcc..0x1fce24）
- * @func 0x1fcdcc 0x1fce24  size 88  22 条
+ * @func 0x1fcdcc 0x1fce34  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -10680,7 +10698,7 @@
  *   @0x1fce20 andseq r0, pc, r0, asr r11
  *
  * ══ §311/321 SV_RoomHeight(CInstance*, int, RValue*)  0x1fce24  size 88  22 条（0x1fce24..0x1fce7c）
- * @func 0x1fce24 0x1fce7c  size 88  22 条
+ * @func 0x1fce24 0x1fce8c  size 104  26 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

@@ -7,6 +7,7 @@
  *
  * ══ §1/76 png_write_info_before_PLTE  0x2afc70  size 420  105 条（0x2afc70..0x2afe14）
  * @func 0x2afc70 0x2afe14  size 420  105 条
+ * 部分覆盖: 本节 105/172 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -122,7 +123,7 @@
  *   @0x2afe10 b 0x2b0078 <png_write_end+0x4c>
  *
  * ══ §2/76 F_D3DMatrixStackPush(RValue&, CInstance*, CInstance*, int, RValue*)  0x148e70  size 416  104 条（0x148e70..0x149010）
- * @func 0x148e70 0x149010  size 416  104 条
+ * @func 0x148e70 0x149020  size 432  108 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x148e7c→0x48481c, 0x148eec→0x483b5c, 0x148fac→0x483b5c
@@ -813,6 +814,7 @@
  *
  * ══ §8/76 png_do_write_interlace  0x2b279c  size 416  104 条（0x2b279c..0x2b293c）
  * @func 0x2b279c 0x2b293c  size 416  104 条
+ * 部分覆盖: 本节 104/184 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2858,6 +2860,7 @@
  *
  * ══ §26/76 FT_Stream_OpenGzip  0x316ac0  size 408  102 条（0x316ac0..0x316c58）
  * @func 0x316ac0 0x316c58  size 408  102 条
+ * 部分覆盖: 本节 102/183 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3194,7 +3197,7 @@
  *   @0x12edf0 pop {r4, r5, r6, pc}
  *
  * ══ §29/76 F_D3DLightGet(RValue&, CInstance*, CInstance*, int, RValue*)  0x146b00  size 404  101 条（0x146b00..0x146c94）
- * @func 0x146b00 0x146c94  size 404  101 条
+ * @func 0x146b00 0x146ca4  size 420  105 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x146b4c→0x484884, 0x146b60→0x484944, 0x146b74→0x4848a4, 0x146b78→0x4848c4, 0x146c50→0x4849c4
@@ -4420,7 +4423,11 @@
  *   @0x21c46c andseq r0, r3, r0, asr #29
  *
  * ══ §40/76 png_write_finish_row  0x2b260c  size 400  100 条（0x2b260c..0x2b279c）
- * @func 0x2b260c 0x2b279c  size 400  100 条
+ * @func 0x2b260c 0x2b27ac  size 416  104 条
+ * 部分覆盖: 本节 104/179 条（其余由其它卡的同一 @func 主张）
+ * 部分覆盖: 本节 103/177 条（其余由其它卡的同一 @func 主张）
+ * 部分覆盖: 本节 102/175 条（其余由其它卡的同一 @func 主张）
+ * 部分覆盖: 本节 101/173 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5192,7 +5199,7 @@
  *   @0x1dc1d0 eoreq r4, r1, r8, lsr r10
  *
  * ══ §47/76 CDS_Grid::Value_Disk_X(RValue&, double, double, double, RValue*)  0x204c54  size 396  99 条（0x204c54..0x204de0）
- * @func 0x204c54 0x204de0  size 396  99 条
+ * @func 0x204c54 0x204df0  size 412  103 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5743,6 +5750,7 @@
  *
  * ══ §52/76 FT_Raccess_Get_DataOffsets  0x2e85b8  size 396  99 条（0x2e85b8..0x2e8744）
  * @func 0x2e85b8 0x2e8744  size 396  99 条
+ * 部分覆盖: 本节 99/175 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6286,7 +6294,7 @@
  *   @0x1b81cc eoreq r8, r3, r0, lsl r7
  *
  * ══ §57/76 CDS_Grid::Value_Disk_Exists(RValue&, double, double, double, RValue*)  0x204acc  size 392  98 条（0x204acc..0x204c54）
- * @func 0x204acc 0x204c54  size 392  98 条
+ * @func 0x204acc 0x204c64  size 408  102 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6614,6 +6622,7 @@
  *
  * ══ §60/76 png_check_keyword  0x2af5b0  size 392  98 条（0x2af5b0..0x2af738）
  * @func 0x2af5b0 0x2af738  size 392  98 条
+ * 部分覆盖: 本节 98/185 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6940,7 +6949,7 @@
  *   @0x2e3a28 bx lr
  *
  * ══ §63/76 F_D3DBuildMatrixProjPersp(RValue&, CInstance*, CInstance*, int, RValue*)  0x146c94  size 388  97 条（0x146c94..0x146e18）
- * @func 0x146c94 0x146e18  size 388  97 条
+ * @func 0x146c94 0x146e28  size 404  101 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7913,6 +7922,7 @@
  *
  * ══ §72/76 png_handle_zTXt  0x2ad6cc  size 388  97 条（0x2ad6cc..0x2ad850）
  * @func 0x2ad6cc 0x2ad850  size 388  97 条
+ * 部分覆盖: 本节 97/174 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8021,6 +8031,7 @@
  *
  * ══ §73/76 png_do_shift  0x2b0ad4  size 388  97 条（0x2b0ad4..0x2b0c58）
  * @func 0x2b0ad4 0x2b0c58  size 388  97 条
+ * 部分覆盖: 本节 97/174 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8237,6 +8248,7 @@
  *
  * ══ §75/76 Audio_StopSoundNoise(CNoise*, bool)  0x21a0b0  size 352  81 条（0x21a0b0..0x21a210）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x21a0b0 0x21a210  size 352  81 条
+ * 部分覆盖: 本节 81/88 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x21a0bc→0x755363, 0x21a0fc→0x75531c, 0x21a1a0→0x75531c, 0x21a1d0→0x3eb70c

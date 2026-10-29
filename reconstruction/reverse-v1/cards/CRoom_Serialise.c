@@ -1,5 +1,5 @@
 /* cally 逆向卡：CRoom::Serialise（原版 libyoyo.so，armv7）
- * @func 0x1aa228 0x1aad4c  size 2856  714 条（0x1aa228..0x1aad48 共 713 条指令；0x1aad4c 是 1 个池字，
+ * @func 0x1aa228 0x1aad50  size 2856  714 条（0x1aa228..0x1aad48 共 713 条指令；0x1aad4c 是 1 个池字，
  *       objdump 按 ldrheq 译码，实际是 0x001a24bc 的加数）
  * 级别: 正文（12 段流序、段内 55 个写点与 2 个 Write(const char*)、三个类型码、四条链/表的遍历方向、
  *             物理房间的错误出口 全部逐条落锚，并与 CRoom::DeSerialise 0x1ac33c 按「段—字段—类型码」

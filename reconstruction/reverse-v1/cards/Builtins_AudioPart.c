@@ -129,7 +129,7 @@
  */
 
 /* ══ 1/11  F_AudioPlaySound  0x134b5c  size 140  35 条  (池 0x134be4 一字)
- * @func 0x134b5c 0x134be0  size 140  35 条（34 条指令 + 1 个池字 0x134be4）
+ * @func 0x134b5c 0x134be8  size 140  35 条（34 条指令 + 1 个池字 0x134be4）
  * 符号 _Z16F_AudioPlaySoundR6RValueP9CInstanceS2_iPS_   GML 名 = .rodata 0x33f82c "audio_play_sound"
  * 参数: args = [sp+0x20]（0x134b74）
  *
@@ -213,7 +213,7 @@
 /* @0x134be4 eoreq r10, r11, r8, ror #9 */
 
 /* ══ 2/11  F_AudioSoundGain  0x1351b8  size 92  23 条  (池 0x135210 一字)
- * @func 0x1351b8 0x13520c  size 92  23 条（22 条指令 + 1 个池字 0x135210）
+ * @func 0x1351b8 0x135214  size 92  23 条（22 条指令 + 1 个池字 0x135210）
  * 符号 _Z16F_AudioSoundGainR6RValueP9CInstanceS2_iPS_   GML 名 = 0x33fa20 "audio_sound_gain"
  * 参数: args = [sp+0x10]（0x1351c4，push 16 后第一层）
  *
@@ -278,7 +278,7 @@
 /* @0x135210 eoreq r9, r11, r12, lsl #29 */
 
 /* ══ 3/11  F_AudioIsPlaying  0x134e84  size 76  19 条  (池 0x134ecc 一字)
- * @func 0x134e84 0x134ec8  size 76  19 条（18 条指令 + 1 个池字 0x134ecc）
+ * @func 0x134e84 0x134ed0  size 76  19 条（18 条指令 + 1 个池字 0x134ecc）
  * 符号 _Z16F_AudioIsPlayingR6RValueP9CInstanceS2_iPS_   GML 名 = .rodata 0x33f8e0 "audio_is_playing"
  * 参数: args = [sp+0x8]（0x134ea4 用，push 8 后第一层）
  *
@@ -325,7 +325,7 @@
 /* @0x134ecc eoreq r10, r11, r0, asr #3 */
 
 /* ══ 4/11  F_PartTypeOrientation  0x1292f0  size 140  35 条  (无池)
- * @func 0x1292f0 0x129378  size 140  35 条（全是指令，池在别处：本函数没用池）
+ * @func 0x1292f0 0x129388  size 152  38 条（全是指令，池在别处：本函数没用池）
  * 符号 _Z21F_PartTypeOrientationR6RValueP9CInstanceS2_iPS_   GML: part_type_orientation(ind,omin,omax,oincr,owiggle,rel)   名串 .rodata 0x33cfe8
  * 参数: args = [sp+0x28]（0x1292fc：push 28 + sub 12）
  *
@@ -389,7 +389,7 @@
 /* @0x129378 pop {r4, r5, r6, r7, r8, r9, pc} */
 
 /* ══ 5/11  F_PartTypeDirection  0x129280  size 112  28 条  (无池)
- * @func 0x129280 0x1292ec  size 112  28 条
+ * @func 0x129280 0x1292fc  size 124  31 条
  * 符号 _Z19F_PartTypeDirectionR6RValueP9CInstanceS2_iPS_   GML: part_type_direction(ind,dmin,dmax,dincr,dwiggle)   名串 .rodata 0x33cfd4
  * 参数: args = [sp+0x18]（0x129288）
  *
@@ -439,7 +439,7 @@
 /* @0x1292ec b 0x1a33b4 <_Z22ParticleType_Directioniffff> */
 
 /* ══ 6/11  F_PartTypeSize  0x129080  size 112  28 条  (无池)
- * @func 0x129080 0x1290ec  size 112  28 条
+ * @func 0x129080 0x1290f0  size 112  28 条
  * 符号 _Z14F_PartTypeSizeR6RValueP9CInstanceS2_iPS_        GML: part_type_size(ind,smin,smax,sincr,swiggle)   名串 .rodata 0x33cf74
  * 参数: args = [sp+0x18]（0x129088）
  *
@@ -489,7 +489,7 @@
 /* @0x1290ec b 0x1a322c <_Z17ParticleType_Sizeiffff> */
 
 /* ══ 7/11  F_PartTypeSpeed  0x129210  size 112  28 条  (无池)
- * @func 0x129210 0x12927c  size 112  28 条
+ * @func 0x129210 0x12928c  size 124  31 条
  * 符号 _Z15F_PartTypeSpeedR6RValueP9CInstanceS2_iPS_       GML: part_type_speed(ind,smin,smax,sincr,swiggle)   名串 .rodata 0x33cfc4
  * 参数: args = [sp+0x18]（0x129218）
  *
@@ -539,7 +539,7 @@
 /* @0x12927c b 0x1a3368 <_Z18ParticleType_Speediffff> */
 
 /* ══ 8/11  F_PartTypeColor2  0x129580  size 72  18 条  (无池)
- * @func 0x129580 0x1295c4  size 72  18 条
+ * @func 0x129580 0x1295c8  size 72  18 条
  * 符号 _Z16F_PartTypeColor2R6RValueP9CInstanceS2_iPS_      GML: part_type_color2(ind,c1,c2)   名串 .rodata 0x33d064（colour 别名 0x33d0f8）
  * 参数: args = [sp+0x10]（0x129588：push 16）
  *
@@ -578,7 +578,7 @@
 /* @0x1295c4 b 0x1a35d8 <_Z19ParticleType_Color2ijj> */
 
 /* ══ 9/11  F_PartTypeGravity  0x12937c  size 72  18 条  (无池)
- * @func 0x12937c 0x1293c0  size 72  18 条
+ * @func 0x12937c 0x1293c4  size 72  18 条
  * 符号 _Z17F_PartTypeGravityR6RValueP9CInstanceS2_iPS_     GML: part_type_gravity(ind,gx,gy)   名串 .rodata 0x33d000
  * 参数: args = [sp+0x10]（0x129384）
  *
@@ -615,7 +615,7 @@
 /* @0x1293c0 b 0x1a3454 <_Z20ParticleType_Gravityiff> */
 
 /* ══ 10/11  F_PartTypeLife  0x129138  size 72  18 条  (无池)
- * @func 0x129138 0x12917c  size 72  18 条
+ * @func 0x129138 0x129180  size 72  18 条
  * 符号 _Z14F_PartTypeLifeR6RValueP9CInstanceS2_iPS_        GML: part_type_life(ind,life_min,life_max)   名串 .rodata 0x33cf94
  * 参数: args = [sp+0x10]（0x129140）
  *
@@ -652,7 +652,7 @@
 /* @0x12917c b 0x1a32b4 <_Z17ParticleType_Lifeiii> */
 
 /* ══ 11/11  F_PartParticlesCreate  0x129aac  size 112  28 条  (无池)
- * @func 0x129aac 0x129b18  size 112  28 条
+ * @func 0x129aac 0x129b1c  size 112  28 条
  * 符号 _Z21F_PartParticlesCreateR6RValueP9CInstanceS2_iPS_  GML: part_particles_create(ind,x,y,parttype,number)   名串 .rodata 0x33d2d0
  * 参数: args = [sp+0x18]（0x129ab4）
  *

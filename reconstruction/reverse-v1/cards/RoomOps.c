@@ -1,7 +1,7 @@
 /* cally 逆向卡：Room_Add / Room_Duplicate / Room_Free（原版 libyoyo.so，armv7）—— 一卡三节
- * @func 0x1b5044 0x1b5238  size 504   126 条   §1 Room_Free()          （115 指令 + 11 池字）
- * @func 0x1b5348 0x1b56dc  size 920   230 条   §2 Room_Add()           （211 指令 + 19 池字）
- * @func 0x1b56e0 0x1b5af0  size 1044  261 条   §3 Room_Duplicate(int)  （240 指令 + 21 池字）
+ * @func 0x1b5044 0x1b523c  size 504  126 条   §1 Room_Free()          （115 指令 + 11 池字）
+ * @func 0x1b5348 0x1b56ec  size 932  233 条   §2 Room_Add()           （211 指令 + 19 池字）
+ * @func 0x1b56e0 0x1b5af4  size 1044  261 条   §3 Room_Duplicate(int)  （240 指令 + 21 池字）
  * 总账: 617 锚点 = 566 条指令 + 51 个池字，与 asm/index-RoomOps_all.tsv 逐字一致
  *       （scripts/check_card_anchors.py --index asm/index-RoomOps_all.tsv →
  *        index=617 card=617 missing=0 extra=0 mismatch=0 RESULT EXACT）；

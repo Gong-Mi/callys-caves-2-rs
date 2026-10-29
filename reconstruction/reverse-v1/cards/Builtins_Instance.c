@@ -80,7 +80,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 1 · F_InstanceActivateAll（instance_activate_all）
- * @func 0x10bde4 0x10beac  size 204  51 条（49 条指令 + 2 个池字 0x10bea8/0x10beac）
+ * @func 0x10bde4 0x10bebc  size 216  54 条（49 条指令 + 2 个池字 0x10bea8/0x10beac）
  * 符号: _Z21F_InstanceActivateAllR6RValueP9CInstanceS2_iPS_
  * 一句话: 把 GetDeactiveList(0) 里「+0x68 == 0 且 +0x69 != 0」的实例逐个 SetDeactivated(inst,false)，
  *         并把指针追加进 g_InstanceActivateDeactive；self/other/args 一个都不用，result 不写。
@@ -162,7 +162,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 2 · F_InstanceActivateObject（instance_activate_object）
- * @func 0x10beb0 0x10c248  size 924  231 条（223 条指令 + 8 个池字 0x10c22c..0x10c248）
+ * @func 0x10beb0 0x10c24c  size 924  231 条（223 条指令 + 8 个池字 0x10c22c..0x10c248）
  * 符号: _Z24F_InstanceActivateObjectR6RValueP9CInstanceS2_iPS_
  * 一句话: 按 objint 五路分派（-1 self / -2 other / -3 整表 / >0x1869F 实例 id / 对象索引+继承），
  *         把命中实例追加进 g_InstanceActivateDeactive 并 SetDeactivated(inst,false)；result 不写。
@@ -448,7 +448,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 3 · F_InstanceDeactivateAll（instance_deactivate_all）
- * @func 0x10b480 0x10b5f0  size 372  93 条（89 条指令 + 4 个池字 0x10b5e4..0x10b5f0）
+ * @func 0x10b480 0x10b5f4  size 372  93 条（89 条指令 + 4 个池字 0x10b5e4..0x10b5f0）
  * 符号: _Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_
  * 一句话: 遍历 GetActiveList(0) 的快照，把「+0x68==0 且 +0x69==0」的实例逐个 SetDeactivated(inst,true)；
  *         若 self != 0 且 args[0]（notme）为真，最后再把 self 追加进表并 SetDeactivated(self,**false**)。
@@ -572,7 +572,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 4 · F_InstanceDeactivateObject（instance_deactivate_object）
- * @func 0x10a580 0x10a704  size 392  98 条（94 条指令 + 4 个池字 0x10a6f8..0x10a704）
+ * @func 0x10a580 0x10a708  size 392  98 条（94 条指令 + 4 个池字 0x10a6f8..0x10a704）
  * 符号: _Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_
  * 一句话: 用 WithObjIterator(objint, self, other, false) 枚举目标实例，把「+0x68==0 且 +0x69==0」的
  *         收集进一个临时 List 并**立刻** SetDeactivated(inst,true)，循环结束后再整表追加到待办表。
@@ -704,7 +704,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 5 · F_InstanceCreate（instance_create）
- * @func 0x109598 0x109630  size 156  39 条（38 条指令 + 1 个池字 0x109630）
+ * @func 0x109598 0x109634  size 156  39 条（38 条指令 + 1 个池字 0x109630）
  * 符号: _Z16F_InstanceCreateR6RValueP9CInstanceS2_iPS_
  * 一句话: 读 args[2]=obj、args[0]=x、args[1]=y 调 Command_Create，把结果按
  *         g_fJSGarbageCollection 分成「(double)inst->[0x78]」与「裸指针 + tag 6」两种编码返回。
@@ -768,7 +768,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 6 · F_DistanceToObject（distance_to_object）
- * @func 0x10ad88 0x10ae78  size 244  61 条（61 条指令，无池、无栈帧外扩）
+ * @func 0x10ad88 0x10ae7c  size 244  61 条（61 条指令，无池、无栈帧外扩）
  * 符号: _Z18F_DistanceToObjectR6RValueP9CInstanceS2_iPS_
  * 一句话: result 先写 1e6，再用 WithObjIterator(obj,self,other,false) 枚举实例，取 FindDist(inst,self)
  *         的最小值写回 result；跳过 +0x68/+0x69 非 0 的实例。
@@ -859,7 +859,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 7 · F_PlaceMeeting（place_meeting）
- * @func 0x107fb4 0x108070  size 192  48 条（48 条指令，无池）
+ * @func 0x107fb4 0x108074  size 192  48 条（48 条指令，无池）
  * 符号: _Z14F_PlaceMeetingR6RValueP9CInstanceS2_iPS_
  * 一句话: obj=args[2]；-1/-2 先翻译成 self/other 的实例 id（+0x78），-4 直接 false；
  *         否则 Command_IsMeeting(self,obj,x,y)→bool，结果写 double 0.0/1.0。
@@ -933,7 +933,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 8 · F_CollisionLine（collision_line）
- * @func 0x1092d0 0x1093ac  size 224  56 条（56 条指令，无池）
+ * @func 0x1092d0 0x1093b0  size 224  56 条（56 条指令，无池）
  * 符号: _Z15F_CollisionLineR6RValueP9CInstanceS2_iPS_
  * 一句话: 读 7 个参数（x1,y1,x2,y2,obj,precise,notme）调 Command_CollisionLine，
  *         命中返回 (double)inst->[0x78]，否则 -4.0（noone）。
@@ -1007,7 +1007,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 9 · F_CollisionPoint（collision_point）
- * @func 0x108f80 0x10902c  size 176  44 条（44 条指令，无池）
+ * @func 0x108f80 0x109030  size 176  44 条（44 条指令，无池）
  * 符号: _Z16F_CollisionPointR6RValueP9CInstanceS2_iPS_
  * 一句话: 读 5 个参数（x,y,obj,precise,notme）调 Command_CollisionPoint，
  *         命中返回 (double)inst->[0x78]，否则 -4.0；**这条链不进 RTree**。

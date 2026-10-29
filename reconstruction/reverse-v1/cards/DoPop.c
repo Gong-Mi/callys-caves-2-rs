@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoPop（原版 libyoyo.so，armv7）
- * @func 0xe65e4 0xe7dc8  size 6088  1530 条指令（含 literal 词）
+ * @func 0xe65e4 0xe7dcc  size 6120  1530 条指令（含 literal 词）
  * 级别: 骨架（opcode 位域与三条主路径已证；15 类型 × refcount 细节未展开）
  * 符号: _Z5DoPopjPhPKhP6VMExec → uchar* DoPop(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *

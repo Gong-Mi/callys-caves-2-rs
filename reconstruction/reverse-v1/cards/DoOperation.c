@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoOperation（原版 libyoyo.so，armv7）
- * @func 0x207a0c 0x207d18  size 784  196 条（0x207d14..0x207d18 是 literal pool，objdump 译成 andseq）
+ * @func 0x207a0c 0x207d1c  size 784  196 条（0x207d14..0x207d18 是 literal pool，objdump 译成 andseq）
  * 级别: 正文（op 1/2/3 三条语义、15 路 tag 拷贝表、字符串拼接、double 加/乘的存储体、canary 收尾逐条落地；
  *            残留 open 都在函数之外：tag 2/3 的宿主类型名、YYGetReal 的非 0 tag 转换细节、调用者如何消费返回值）
  * 符号: _Z11DoOperationiP6RValueS0_ → void DoOperation(int op, RValue* dst  [r1], RValue* src  [r2])

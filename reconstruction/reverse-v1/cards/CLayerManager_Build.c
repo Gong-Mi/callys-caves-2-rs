@@ -1,6 +1,6 @@
 /* cally 逆向卡：BuildRoomLayers + InitLayerFunctions（原版 libyoyo.so，armv7）
- * @func 0x1c6070 0x1c6c70  size 3076   766 条  _ZN13CLayerManager15BuildRoomLayersEP5CRoomP12YYRoomLayers
- * @func 0x1c1540 0x1c2a8c  size 5456  1364 条  _ZN13CLayerManager18InitLayerFunctionsEv
+ * @func 0x1c6070 0x1c6c74  size 3076  766 条  _ZN13CLayerManager15BuildRoomLayersEP5CRoomP12YYRoomLayers
+ * @func 0x1c1540 0x1c2a90  size 5456  1364 条  _ZN13CLayerManager18InitLayerFunctionsEv
  * 级别: 骨架 —— 两节共 2130 条指令逐条落锚；第 2 节「名字 → handler → 形参个数」151 条三元组
  *       是完整的（可直接当注册表查），第 1 节的 层记录 → CLayer 字段映射被 7 个 GML handler
  *       反读坐实（depth/x/y/hspeed/vspeed/visible/name 全部对上）。

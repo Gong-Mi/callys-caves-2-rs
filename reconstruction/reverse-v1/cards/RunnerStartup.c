@@ -410,7 +410,7 @@
 
 
 /* ══ §1 Java_com_yoyogames_runner_RunnerJNILib_Startup 0x29062c ═══════════
- * @func 0x29062c 0x291c68 size 5696  1424 条（1199 指令 + 225 池字：0x290880..0x290bfc 224 个、
+ * @func 0x29062c 0x291c6c  size 5696  1424 条（1199 指令 + 225 池字：0x290880..0x290bfc 224 个、
  *       0x291c68 1 个；池字不是指令，逐条注明取用点）
  * 级别: 正文（A..G 七段全钉，含首次调用门的两条路、79 个方法 ID 的落点、APK 装载的每一条释放路径、
  *       两处 byte 门与四处全局写入；未钉的是两个控制台实例的具体子类与 0x7577b8 的字段语义，见 open）
@@ -2007,7 +2007,7 @@
  */
 /* @0x291c68 strheq r6, [r12], -r8 —— pc 相对串偏移 → "Error loading APK"（0x291c54 取用） */
 /* ══ §2 InitGlobalVariables 0x1fd184 ═════════════════════════════════
- * @func 0x1fd184 0x1fe4fc size 4988  1247 条（930 指令 + 317 池字：0x1fe00c..0x1fe4fc，
+ * @func 0x1fd184 0x1fe500  size 4988  1247 条（930 指令 + 317 池字：0x1fe00c..0x1fe4fc，
  *       代码段 0x1fd184..0x1fe008 全是直线，一条分支都没有）
  * 级别: 正文（120 条 Variable_BuiltIn_Add 的「名字/ getter / setter / 第 4 实参」全表逐条落地，
  *       首条快照写入、尾跳目标、表容量与追加语义全部钉住；未读的是 getter/setter 内部与哈希插入细节）

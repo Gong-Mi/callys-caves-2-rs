@@ -7193,7 +7193,8 @@
  *   @0x2f8e04 andhs r6, r0, r0, lsr #32
  *
  * ══ §2/8 anon_25fe2c  0x25fe2c  size 26424  294 条（0x25fe2c..0x266564）｜其中 6312 条已由别的卡落锚，本节不再重复
- * @func 0x25fe2c 0x266564  size 26424  294 条
+ * @func 0x25fe2c 0x265c10  size 24036  294 条
+ * 部分覆盖: 本节 294/6009 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7498,7 +7499,7 @@
  *   @0x265c0c pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §3/8 anon_221ff4  0x221ff4  size 1492  19 条（0x221ff4..0x2225c8）｜其中 354 条已由别的卡落锚，本节不再重复
- * @func 0x221ff4 0x2225c8  size 1492  19 条
+ * @func 0x221ff4 0x222040  size 76  19 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7528,7 +7529,7 @@
  *   @0x22203c andseq r11, r12, r0, ror #18
  *
  * ══ §4/8 anon_2bec94  0x2bec94  size 1284  1 条（0x2bec94..0x2bf198）｜其中 320 条已由别的卡落锚，本节不再重复
- * @func 0x2bec94 0x2bf198  size 1284  1 条
+ * @func 0x2bec94 0x2bec98  size 4  1 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7540,7 +7541,7 @@
  *   @0x2bec94 ldr r3, [r0, #0xfc]
  *
  * ══ §5/8 Command_LoadGame(char const*)  0x1d14fc  size 404  1 条（0x1d14fc..0x1d1690）｜其中 100 条已由别的卡落锚，本节不再重复
- * @func 0x1d14fc 0x1d1690  size 404  1 条
+ * @func 0x1d168c 0x1d1690  size 4  1 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1d160c→0x3eb70c, 0x1d164c→0x3eb70c
@@ -7552,7 +7553,7 @@
  *   @0x1d168c andseq pc, r7, r0, lsl #16
  *
  * ══ §6/8 Command_LoadGame(int)  0x1d0dd8  size 252  1 条（0x1d0dd8..0x1d0ed4）｜其中 62 条已由别的卡落锚，本节不再重复
- * @func 0x1d0dd8 0x1d0ed4  size 252  1 条
+ * @func 0x1d0ed0 0x1d0ed4  size 4  1 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1d0dfc→0x3eb70c, 0x1d0e34→0x5428e8, 0x1d0e50→0x544c38, 0x1d0e84→0x3eb70c
@@ -7564,7 +7565,8 @@
  *   @0x1d0ed0 mulseq r7, r0, pc
  *
  * ══ §7/8 png_destroy_read_struct  0x2a7e2c  size 140  6 条（0x2a7e2c..0x2a7eb8）｜其中 29 条已由别的卡落锚，本节不再重复
- * @func 0x2a7e2c 0x2a7eb8  size 140  6 条
+ * @func 0x2a7e60 0x2a7eb0  size 80  6 条
+ * 部分覆盖: 本节 6/35 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

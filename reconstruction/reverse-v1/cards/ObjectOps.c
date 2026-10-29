@@ -58,7 +58,7 @@
  */
 
 /* ══ §1 Object_Add 0x19eebc ═════════════════════════════════════════════════
- * @func 0x19eebc 0x19f010 size 344  86 条（80 指令 + 6 池字；末指令 0x19eff8，函数尾 0x19f014）
+ * @func 0x19eebc 0x19f014  size 344  86 条（80 指令 + 6 池字；末指令 0x19eff8，函数尾 0x19f014）
  * 级别: 正文（86/86 逐条落锚。名字块的三字常量、Alloc 长度、所有权转移、尾插两种分支、两个计数器全部钉死）
  * 符号: _Z10Object_Addv → void Object_Add()（**符号是 void，但 r0 事实上带回新对象号**，见已证 2）
  * 位置: 0x19eebc；其后 0x19f014 Object_Delete(int)。§1 自己的 Alloc 就指 Object_Main.cpp 第 226 行；
@@ -227,7 +227,7 @@
 /* @0x19f010 andseq sp, r10, r0, asr #26 —— 非指令：→ 0x34ccb4 */
 
 /* ══ §2 Object_Prepare 0x19ebb4 ═════════════════════════════════════════════
- * @func 0x19ebb4 0x19ecf4 size 324  81 条（74 指令 + 7 池字；末指令 0x19ecd8，函数尾 0x19ecf8 = Object_Exists）
+ * @func 0x19ebb4 0x19ecf8  size 324  81 条（74 指令 + 7 池字；末指令 0x19ecd8，函数尾 0x19ecf8 = Object_Exists）
  * 级别: 正文（81/81。控制流是「一遍表遍历 + 两个虚调用 + 一次 Compile + 一次 PatchParents」，两个提前出口都已钉）
  * 符号: _Z14Object_Preparev → int Object_Prepare()（返回 0/1，调用方只判 0）
  * 位置: 0x19ebb4；前接 §3 Object_Load(0x19ea7c..0x19ebb0)，后接 Object_Exists 0x19ecf8
@@ -393,7 +393,7 @@
 /* @0x19ecf4 andseq lr, r10, r4, ror r2 —— 非指令：→ 0x34ceb8 */
 
 /* ══ §3 Object_Load 0x19ea7c ════════════════════════════════════════════════
- * @func 0x19ea7c 0x19ebb0 size 312  78 条（74 指令 + 4 池字；末指令 0x19eba0，函数尾 0x19ebb4 = §2 的入口）
+ * @func 0x19ea7c 0x19ebc0  size 324  81 条（74 指令 + 4 池字；末指令 0x19eba0，函数尾 0x19ebb4 = §2 的入口）
  * 级别: 正文（78/78。OBJT 块的记录布局、偏移基址、跳过条件、名字所有权、插表、父链回填时机全部钉死；
  *       没钉的只有第二实参的用途与 LoadFromChunk 内部）
  * 符号: _Z11Object_LoadPhjS_ → Object_Load(unsigned char* pTable, unsigned int unused, unsigned char* pBase)
@@ -572,7 +572,7 @@
 /* @0x19ebb0 eoreq pc, r4, r12, lsl r1 —— 非指令：→ 0x3edc44 */
 
 /* ══ §4 Object_GetInstance 0x14ec2c ═════════════════════════════════════════
- * @func 0x14ec2c 0x14ed00 size 216  54 条（52 指令 + 2 池字；末指令 0x14ecf8，函数尾 0x14ed04 = F_PhysicsCreateDistanceJoint）
+ * @func 0x14ec2c 0x14ed04  size 216  54 条（52 指令 + 2 池字；末指令 0x14ecf8，函数尾 0x14ed04 = F_PhysicsCreateDistanceJoint）
  * 级别: 正文（54/54。四种 id 的分派、两张表的解引用层数、两条出口的返回类型差异、5 个返回点全部钉死）
  * 符号: _Z18Object_GetInstanceiP9CInstanceS0_ → CInstance* Object_GetInstance(int id, CInstance* self, CInstance* other)
  * 位置: 0x14ec2c；其后 0x14ed04 F_PhysicsCreateDistanceJoint（600 B）

@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoRem（原版 libyoyo.so，armv7）
- * @func 0xd4304 0xd4a30 size 1840  460 条指令（含 literal 词）
+ * @func 0xd4304 0xd4a34  size 1840  460 条指令（含 literal 词）
  * 级别: 骨架（格式码分派 / 9 条内核 + 6 处除零检查 / 全部错误分支已证；"写回商"与函数名不符一处已记入 open，不升正文）
  * 符号: _Z5DoRemjPhPKhP6VMExec → uchar* DoRem(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *

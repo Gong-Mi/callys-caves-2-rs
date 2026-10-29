@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoVariableInstanceExists（原版 libyoyo.so，armv7）
- * @func 0x1178b8 0x117938  size 132  33 条（无 literal pool，尾部直接是下一条函数）
+ * @func 0x1178b8 0x11793c  size 132  33 条（无 literal pool，尾部直接是下一条函数）
  * 级别: 正文（逐条锚定，控制流与判据全部落地，可直译）
  * 符号: _Z24DoVariableInstanceExistsP9CInstancePKc → int DoVariableInstanceExists(CInstance* inst, const char* name)
  * 实参: r0=inst(r5) r1=name(r4)；返回 0/1

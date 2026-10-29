@@ -1,5 +1,5 @@
 /* cally 逆向卡：Call_Normal_std（原版 libyoyo.so，armv7）
- * @func 0x210ab8 0x211618  size 2916  729 条（727 条真指令 + 尾部 2 个字面池字）
+ * @func 0x210ab8 0x21161c  size 2916  729 条（727 条真指令 + 尾部 2 个字面池字）
  * 级别: 正文（729/729 逐条落锚；与 Call_Normal 的逐字同构已按机器码证明：729 个字里只有 3 个不同，且 3 个都是重定位）
  * 符号: _Z15Call_Normal_stdiPdPPKcP6RValue → Call_Normal_std(int id, double* args, const char** strs, RValue* result)
  *       形参与返回口径与 Call_Normal 完全相同（返回类型未定：调用方 DLL_Call 不读 r0）。

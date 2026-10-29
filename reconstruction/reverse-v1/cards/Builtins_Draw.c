@@ -54,7 +54,7 @@
  */
 
 /* ══ 1/5  F_DrawBackground  0x11db10  size 196  49 条  (0x11dbcc, 0x11dbd0 = 2 字 literal pool)
- * @func 0x11db10 0x11dbc8  size 196  49 条（47 条指令 + 2 个池字 0x11dbcc/0x11dbd0）
+ * @func 0x11db10 0x11dbdc  size 204  51 条（47 条指令 + 2 个池字 0x11dbcc/0x11dbd0）
  * 符号 _Z16F_DrawBackgroundR6RValueP9CInstanceS2_iPS_   GML: draw_background(ind, x, y)
  * 参数: args = [sp+0x10]（0x11db1c）；mode = *(u8*)0x5428e8（0x11db10 取 GOT 偏移、0x11db18 取槽，0x11db20 ldrb）
  *
@@ -128,7 +128,7 @@
 /* @0x11dbcc eoreq pc, r12, r12, lsl #28 */
 /* @0x11dbd0 eoreq r12, r1, r0, lsl r6 */
 /* ══ 2/5  F_DrawBackgroundExt  0x11dbd4  size 412  103 条  (0x11dd68, 0x11dd6c = 2 字 literal pool)
- * @func 0x11dbd4 0x11dd64  size 412  103 条（101 条指令 + 2 个池字 0x11dd68/0x11dd6c）
+ * @func 0x11dbd0 0x11dd70  size 416  104 条（101 条指令 + 2 个池字 0x11dd68/0x11dd6c）
  * 符号 _Z19F_DrawBackgroundExtR6RValueP9CInstanceS2_iPS_
  * GML: draw_background_ext(ind, x, y, xs, ys, rot, colour, alpha)    —— 8 个位置参数
  * 参数: args = [sp+0x40]（0x11dbe8）；mode 仍是 *(u8*)0x5428e8（0x11dbd4/0x11dbdc/0x11dbe4 三次一条龙）
@@ -268,7 +268,7 @@
 /* @0x11dd68 eoreq pc, r12, r8, asr #26 */
 /* @0x11dd6c eoreq r12, r1, r12, ror r4 */
 /* ══ 3/5  F_DrawHealthbar  0x11b2e4  size 276  69 条（无 literal pool、无全局、无错误路）
- * @func 0x11b2e4 0x11b3f4  size 276  69 条（69 条指令，无池）
+ * @func 0x11b2e4 0x11b3f8  size 276  69 条（69 条指令，无池）
  * 符号 _Z15F_DrawHealthbarR6RValueP9CInstanceS2_iPS_
  * GML: draw_healthbar(x1, y1, x2, y2, amount, backcol, col1, col2, direction, showback, showborder)
  * 参数: args = [sp+0x58]（0x11b2f0）。11 个位置参数全读，顺序 0→10，一个都不跳：
@@ -371,7 +371,7 @@
 /* @0x11b3f0 add sp, sp, #52 */
 /* @0x11b3f4 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
 /* ══ 4/5  F_DrawSpriteExt  0x1227c0  size 228  57 条（无 literal pool）
- * @func 0x1227c0 0x1228a0  size 228  57 条（57 条指令，无池）
+ * @func 0x1227c0 0x1228a4  size 228  57 条（57 条指令，无池）
  * 符号 _Z15F_DrawSpriteExtR6RValueP9CInstanceS2_iPS_
  * GML: draw_sprite_ext(sprite, subimg, x, y, xs, ys, rot, colour, alpha)   —— 9 个位置参数
  * 参数: args = [sp+0x50]（0x1227d0：push 36 + sub 44）
@@ -455,7 +455,7 @@
 /* @0x12289c add sp, sp, #44 */
 /* @0x1228a0 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc} */
 /* ══ 5/5  F_DrawTextColor  0x121fd8  size 212  53 条（无 literal pool）
- * @func 0x121fd8 0x1220a8  size 212  53 条（53 条指令，无池）
+ * @func 0x121fd8 0x1220ac  size 212  53 条（53 条指令，无池）
  * 符号 _Z15F_DrawTextColorR6RValueP9CInstanceS2_iPS_
  * GML: draw_text_colour(x, y, string, col1, col2, col3, col4, alpha)   —— 8 个位置参数
  * 参数: args = [sp+0x48]（0x121fe8：push 36 + sub 36）；局部槽 [sp+0x1c] = 文本指针，先清 0

@@ -2067,7 +2067,7 @@
  *   @0x1a1560 eoreq r0, r5, r0, lsl #21
  *
  * ══ §9/33 YYGML_min(YYRValue&, int, YYRValue**)  0x113c14  size 972  243 条（0x113c14..0x113fe0）
- * @func 0x113c14 0x113fe0  size 972  243 条
+ * @func 0x113c14 0x113ff0  size 988  247 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4094,7 +4094,7 @@
  *   @0x1f59fc ldrsheq r12, [r5], -r8
  *
  * ══ §17/33 b2RevoluteJoint::SolveVelocityConstraints(b2SolverData const&)  0x2d1508  size 964  241 条（0x2d1508..0x2d18cc）
- * @func 0x2d1508 0x2d18cc  size 964  241 条
+ * @func 0x2d1508 0x2d18dc  size 980  245 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4347,6 +4347,7 @@
  *
  * ══ §18/33 zip_open  0x2a4de0  size 960  240 条（0x2a4de0..0x2a51a0）
  * @func 0x2a4de0 0x2a51a0  size 960  240 条
+ * 部分覆盖: 本节 240/431 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7798,6 +7799,7 @@
  *
  * ══ §32/33 SoundHardware::PlayMP3(char const*, bool)  0x2209fc  size 224  49 条（0x2209fc..0x220adc）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x2209fc 0x220adc  size 224  49 条
+ * 部分覆盖: 本节 49/56 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x220a0c→0x755361, 0x220a28→0x755363, 0x220a3c→0x755362, 0x220a50→0x75536c, 0x220a80→0x3eb70c

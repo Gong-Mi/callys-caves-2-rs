@@ -1,5 +1,5 @@
 /* cally 逆向卡：anon_319414（原版 libyoyo.so，armv7）
- * @func 0x319414 0x319454  size 68  17 条（无字面量池、无栈帧；除零快路 0 条栈操作）
+ * @func 0x319414 0x319458  size 68  17 条（无字面量池、无栈帧；除零快路 0 条栈操作）
  * 级别: 正文（除数为 0 的夹逼、SIGFPE、余数经栈槽回填的三段协议、单次除法的算法全部落锚；open 2 条）
  * 符号: 本仓库 functions.tsv 记作 anon_319414；.dynsym 里同址是 T __aeabi_ldivmod（st_value 0x319414，
  *       llvm-nm -D 可复核）——即 ARM EABI 的 64 位有符号除法运行库入口。命名差异只是清点口径，地址同一。

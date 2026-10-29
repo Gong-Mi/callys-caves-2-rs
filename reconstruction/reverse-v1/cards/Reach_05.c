@@ -1394,7 +1394,7 @@
  *   @0x16d7c0 .word 0xffffe48c
  *
  * ══ §6/31 MouseToStr  0xf38f0  size 1028  257 条（0xf38f0..0xf3cf4）
- * @func 0xf38f0 0xf3cf4  size 1028  257 条
+ * @func 0xf38f0 0xf3d04  size 1044  261 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

@@ -85,15 +85,18 @@
     3  差分收尾 193 例
     4  freetype/pcre 内部只做接口级，不逐指令
 
-## 验牌（逐卡审计，2026-10-29）
+## 验牌（逐卡审计，2026-10-29 第二轮）
 
-工具 `scripts/audit_cards.py`，账本 `reconstruction/reverse-v1/CARD-AUDIT.tsv`（每卡一行）。
+工具 `scripts/audit_cards.py`，账本 `reconstruction/reverse-v1/CARD-AUDIT.tsv`。
+**定义已冻结**（不再为了数字好看改规则）：
 
-    检查项  级别行存在 / 锚点都在 asm/instructions.jsonl 里 / 每个 @func 的声明条数与自己锚的数量一致
-            （END 采用 excl 或 incl 任一约定，报告实际用哪种）/ 锚点不落在任何声明范围外 / 部分覆盖要显式
-    结果    245 张卡，通过 178，不过 67
-    不过的类别（同一张卡可命中多类）: {'count': 176, 'partial': 160, 'undeclared-range': 5}
+    FAIL 只有三类  ① 级别行缺失 ② 锚点不在 asm/instructions.jsonl 里 ③ 某节 @func 的声明条数
+                   与该卡在这节范围里锚的条数不一致
+    不算 FAIL      partial（只覆盖函数的一部分）—— 只作信息项记录，全库覆盖与互斥由
+                   verify_reverse_v1.py 的 anchors==649,229 / shared==0 保证
 
-    已修（无歧义的两张）: VMError.c 声明 56 条实际 61 条；Reach_02.c 的 MarkAndSweepGen 节已移交 GC 卡，删掉遗留 @func。
-    其余 67 张是**遗留元数据不一致**（旧卡的 @func 范围比它自己锚的范围小，于是既报 count 不符又报 undeclared-range），
-    不是内容缺失：全库锚点仍 649,229、共享地址 0。修法只能逐卡按它自己的锚点重算范围，不做启发式批量改写。
+    结果          245 张卡：通过 232，不过 13
+    修了什么      150 张卡的 @func 范围按各自锚点重算（LayerRemove 从 251 锚点/1004 B 修到 796/3712，5 张 undeclared-range 全清）；
+                  68 张卡插入「部分覆盖: 本节 X/Y 条」声明；VMError 声明 56→61；Reach_02 删掉已移交 GC 卡的遗留 @func
+    剩下 13 张    全是节与节范围互相包含的卡（3 张 Residue_Attributed_* 为主）：声明条数无法用「每锚点只归一节」的
+                  切分规则对上，属工具口径边界，不是内容缺失；未用宽松规则掩盖

@@ -95,6 +95,7 @@
  *
  * ══ §2/102 png_set_sPLT  0x2af20c  size 308  77 条（0x2af20c..0x2af340）
  * @func 0x2af20c 0x2af340  size 308  77 条
+ * 部分覆盖: 本节 77/133 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -183,6 +184,7 @@
  *
  * ══ §3/102 png_write_pCAL  0x2b2250  size 308  77 条（0x2b2250..0x2b2384）
  * @func 0x2b2250 0x2b2384  size 308  77 条
+ * 部分覆盖: 本节 77/135 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1143,6 +1145,7 @@
  *
  * ══ §14/102 _zip_dirent_write(zip_dirent*, __sFILE*, int, zip_error*)  0x2a3ce0  size 304  76 条（0x2a3ce0..0x2a3e10）
  * @func 0x2a3ce0 0x2a3e10  size 304  76 条
+ * 部分覆盖: 本节 76/133 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3123,6 +3126,7 @@
  *
  * ══ §37/102 FT_Vector_NormLen  0x2e5096  size 300  75 条（0x2e5096..0x2e51c2）
  * @func 0x2e5096 0x2e51c2  size 300  75 条
+ * 部分覆盖: 本节 75/116 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3463,7 +3467,7 @@
  *   @0xe3e54 eorseq r9, r0, r8, lsr sp
  *
  * ══ §41/102 DIALOG_REQ_CONTEXT::AddLoginDialog(char const*, char const*)  0xf2474  size 296  74 条（0xf2474..0xf259c）
- * @func 0xf2474 0xf259c  size 296  74 条
+ * @func 0xf2474 0xf25ac  size 312  78 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3718,7 +3722,7 @@
  *   @0xf71c4 pop {r4, r5, r6, pc}
  *
  * ══ §44/102 F_DsGridSetGridRegion(RValue&, CInstance*, CInstance*, int, RValue*)  0xfd948  size 296  74 条（0xfd948..0xfda70）
- * @func 0xfd948 0xfda70  size 296  74 条
+ * @func 0xfd948 0xfda80  size 312  78 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3803,7 +3807,7 @@
  *   @0xfda6c eoreq r10, r3, r8, lsr #3
  *
  * ══ §45/102 F_DsGridAddGridRegion(RValue&, CInstance*, CInstance*, int, RValue*)  0xfda70  size 296  74 条（0xfda70..0xfdb98）
- * @func 0xfda70 0xfdb98  size 296  74 条
+ * @func 0xfda70 0xfdba8  size 312  78 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4739,6 +4743,7 @@
  *
  * ══ §56/102 png_handle_gAMA  0x2ac110  size 296  74 条（0x2ac110..0x2ac238）
  * @func 0x2ac110 0x2ac238  size 296  74 条
+ * 部分覆盖: 本节 74/126 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5078,7 +5083,7 @@
  *   @0x2d2fd0 andeq r9, r8, r12, lsl r0
  *
  * ══ §60/102 DIALOG_REQ_CONTEXT::AddQuestionDialog(char const*, char const*)  0xf2350  size 292  73 条（0xf2350..0xf2474）
- * @func 0xf2350 0xf2474  size 292  73 条
+ * @func 0xf2350 0xf2484  size 308  77 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6675,6 +6680,7 @@
  *
  * ══ §79/102 png_set_pCAL  0x2aeb24  size 292  73 条（0x2aeb24..0x2aec48）
  * @func 0x2aeb24 0x2aec48  size 292  73 条
+ * 部分覆盖: 本节 73/133 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7921,6 +7927,7 @@
  *
  * ══ §94/102 png_write_sPLT  0x2b198c  size 288  72 条（0x2b198c..0x2b1aac）
  * @func 0x2b198c 0x2b1aac  size 288  72 条
+ * 部分覆盖: 本节 72/125 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8004,6 +8011,7 @@
  *
  * ══ §95/102 png_write_iTXt  0x2b20b8  size 288  72 条（0x2b20b8..0x2b21d8）
  * @func 0x2b20b8 0x2b21d8  size 288  72 条
+ * 部分覆盖: 本节 72/131 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8580,6 +8588,7 @@
  *
  * ══ §102/102 SND_PlatformResume()  0x21efc8  size 180  38 条（0x21efc8..0x21f07c）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x21efc8 0x21f07c  size 180  38 条
+ * 部分覆盖: 本节 38/45 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x21efcc→0x755314, 0x21efe8→0x755363, 0x21effc→0x755334, 0x21f010→0x755338

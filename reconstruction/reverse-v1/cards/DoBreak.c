@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoBreak（原版 libyoyo.so，armv7）
- * @func 0xd8434 0xd8660  size 560  140 条（0xd8638..0xd8660 为 literal pool，11 字，非指令）
+ * @func 0xd8434 0xd8664  size 560  140 条（0xd8638..0xd8660 为 literal pool，11 字，非指令）
  * 级别: 骨架（三态分派、断点记录布局、内存补丁、单步派发全证；条件求值链与 DebuggerMessageLoop 内部未展开）
  * 符号: _Z7DoBreakjhPhPKhP6VMExecb
  *       → uchar* DoBreak(uint32 arg, uchar unused, uchar* sp, const uchar* base, VMExec* exec, bool rewind)

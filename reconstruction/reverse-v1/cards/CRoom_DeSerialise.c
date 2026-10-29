@@ -1,5 +1,5 @@
 /* cally 逆向卡：CRoom::DeSerialise（原版 libyoyo.so，armv7）
- * @func 0x1ac33c 0x1ad05c  size 3364  841 条（1ad048..1ad05c 为 literal pool，5 字）
+ * @func 0x1ac33c 0x1ad060  size 3364  841 条（1ad048..1ad05c 为 literal pool，5 字）
  * 级别: 正文（房间头 / 8 背景 / 8 视野 / tile 表 / layer 表 / 两段实例表的流序与落位全部逐条钉住，
  *             并与 CRoom::Serialise 0x1aa228、CRoom::AddTile 0x1ac240、CRoom::AddInstance 0x1ab654、
  *             CRoom::UpdateActive 0x1abd9c、Draw_Room 0x1b3e98 五处交叉印证；

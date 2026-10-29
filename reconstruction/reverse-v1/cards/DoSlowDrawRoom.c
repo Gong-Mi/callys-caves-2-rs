@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoSlowDrawRoom（原版 libyoyo.so，armv7）
- * @func 0x1b06a0 0x1b0b00  size 1124  281 条（1b0a88..1b0a98 为 literal pool，5 字）
+ * @func 0x1b06a0 0x1b0b04  size 1124  281 条（1b0a88..1b0a98 为 literal pool，5 字）
  * 级别: 骨架（三条绘制流按 depth 交错、实例与层项字段表、Draw 事件派发、两条精灵输出路径、
  *             背景 DrawPart 调用协议已逐条钉住；未钉：层项 56 字节数组由谁生成、11000.0 上限的来历、
  *             CBackground::DrawPart 后四个形参的名字）

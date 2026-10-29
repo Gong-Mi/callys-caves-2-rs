@@ -1,5 +1,5 @@
 /* cally 逆向卡：Call_RValue（原版 libyoyo.so，armv7）
- * @func 0x249860 0x249894  size 56  14 条（无池字、无帧）
+ * @func 0x249860 0x249898  size 56  14 条（无池字、无帧）
  * 级别: 正文（14/14 逐条落锚；两级类型闸、返回值口径、尾调用点与被调端契约全部定死）
  * 符号: _Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_ → Call_RValue(YYObjectBase*, RValue*, RValue*, int, RValue*)
  *       返回类型未定：拒绝路显式 r0 = 1；接受路不设 r0，直接透传 Call_ScriptRef 的返回值（尾调用）。

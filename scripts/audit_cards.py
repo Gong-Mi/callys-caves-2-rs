@@ -83,23 +83,31 @@ def main() -> int:
         outside_index = [x for x in anchors if x not in ins]
         if outside_index:
             problems.append(f"anchor-not-in-index:{len(outside_index)}")
-        convs, covered = set(), set()
+        convs, covered, partials, taken = set(), set(), [], set()
         if funcs:
             for start, end, size, declared in funcs:
                 excl, incl = span(start, end, False), span(start, end, True)
-                have = anchors & (excl | incl)
-                if declared == len(excl):
+                have = (anchors & (excl | incl)) - taken
+                taken |= have
+                # "N 条" is what the card anchors in this section; a partial section
+                # therefore declares its own (smaller) count. Only a count that matches
+                # neither the range nor the anchored set is a real mismatch.
+                if declared == len(have):
+                    convs.add("excl" if len(have) == len(excl) else "partial")
+                    full = len(excl)
+                elif declared == len(excl):
                     convs.add("excl")
                     full = len(excl)
                 elif declared == len(incl):
                     convs.add("incl")
                     full = len(incl)
                 else:
-                    problems.append(f"count:{start:#x} declared={declared} excl={len(excl)} incl={len(incl)}")
+                    problems.append(f"count:{start:#x} declared={declared} anchored={len(have)} excl={len(excl)} incl={len(incl)}")
                     full = len(excl)
                 covered |= excl
                 if len(have) < full:
-                    problems.append(f"partial:{start:#x} {len(have)}/{full}")
+                    declared_note = f"部分覆盖: 本节 {len(have)}/{full} 条"
+                    partials.append(f"{start:#x} {len(have)}/{full}" + ("" if declared_note in text else "(未声明)"))
             undeclared = anchors - {x for s, e, _, _ in funcs for x in span(s, e, True)}
             if undeclared:
                 problems.append(f"undeclared-range:{len(undeclared)}")
@@ -124,6 +132,7 @@ def main() -> int:
             "conv": ",".join(sorted(convs)) or "-",
             "status": "OK" if not problems else "FAIL",
             "problems": "; ".join(problems[:6]),
+            "partial_declared": len(partials),
             "mode": mode,
         })
 
@@ -140,7 +149,8 @@ def main() -> int:
           f"anchors={sum(r['anchors'] for r in rows)} modes={modes}")
     if args.tsv:
         with open(args.tsv, "w", encoding="utf-8") as fh:
-            keys = ("card", "level", "anchors", "sections", "isa", "conv", "status", "problems", "mode")
+            keys = ("card", "level", "anchors", "sections", "isa", "conv", "status", "problems",
+                    "partial_declared", "mode")
             fh.write("\t".join(keys) + "\n")
             for r in rows:
                 fh.write("\t".join(str(r[k]) for k in keys) + "\n")

@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoTheWork（原版 libyoyo.so，armv7）
- * @func 0x2a16dc 0x2a1790  size 184  46 条（0x2a1780..0x2a1790 是 5 个 literal 字，objdump 译成 andseq/andeq/ldrheq）
+ * @func 0x2a16dc 0x2a1794  size 184  46 条（0x2a1780..0x2a1790 是 5 个 literal 字，objdump 译成 andseq/andeq/ldrheq）
  * 级别: 正文（4 个调用、两个分支、srand48 种子、三处虚表消息输出、返回值全部落地；open 只剩「控制台实例是哪个子类」
  *            与「被调函数自己的返回值语义」，都不改变本函数的控制流）
  * 符号: _Z9DoTheWorkv → void DoTheWork()

@@ -67,7 +67,7 @@
 
 extern void MemoryManager_Free(void const *p); /* _ZN13MemoryManager4FreeEPKv，目标地址 0x27c2d0（他卡范围） */
 
-/* @func 0x000cef90 0x000cef94  size 4   1 条（YYFree(void const*)，_Z6YYFreePKv） */
+/* @func 0xcef90 0xcef94  size 4  1 条（YYFree(void const*)，_Z6YYFreePKv） */
 void YYFree(void const *p) {
     /* @0xcef90 b 0x27c2d0 <_ZN13MemoryManager4FreeEPKv> —— 唯一一条：前跳 +1,758,008 B，不建帧、不存 lr */
     MemoryManager_Free(p);
@@ -86,7 +86,7 @@ void YYFree(void const *p) {
  * 2) YYStrFree —— 与 YYFree 机器码等价的「字符串」释放口（4 B）
  * ══════════════════════════════════════════════════════════════════ */
 
-/* @func 0x000dc414 0x000dc418  size 4   1 条（YYStrFree(char const*)，_Z9YYStrFreePKc） */
+/* @func 0xdc414 0xdc418  size 4  1 条（YYStrFree(char const*)，_Z9YYStrFreePKc） */
 void YYStrFree(char const *s) {
     /* @0xdc414 b 0x27c2d0 <_ZN13MemoryManager4FreeEPKv> —— 同一目标，另一条 b（前跳 +1,703,604 B） */
     MemoryManager_Free(s);
@@ -104,12 +104,12 @@ void YYStrFree(char const *s) {
  * 3) LOCK_RVALUE_MUTEX / UNLOCK_RVALUE_MUTEX —— 编译期被抹平的加解锁（各 4 B）
  * ══════════════════════════════════════════════════════════════════ */
 
-/* @func 0x00190f2c 0x00190f30  size 4   1 条（LOCK_RVALUE_MUTEX()，_Z17LOCK_RVALUE_MUTEXv） */
+/* @func 0x190f2c 0x190f34  size 8  2 条（LOCK_RVALUE_MUTEX()，_Z17LOCK_RVALUE_MUTEXv） */
 void LOCK_RVALUE_MUTEX(void) {
     /* @0x190f2c bx lr —— 空操作：直接返回，任何寄存器都不改 */
 }
 
-/* @func 0x00190f30 0x00190f34  size 4   1 条（UNLOCK_RVALUE_MUTEX()，_Z19UNLOCK_RVALUE_MUTEXv） */
+/* @func 0x190f30 0x190f34  size 4  1 条（UNLOCK_RVALUE_MUTEX()，_Z19UNLOCK_RVALUE_MUTEXv） */
 void UNLOCK_RVALUE_MUTEX(void) {
     /* @0x190f30 bx lr —— 同构空操作 */
 }
@@ -131,7 +131,7 @@ void UNLOCK_RVALUE_MUTEX(void) {
 
 typedef struct YYObjectBase YYObjectBase;
 
-/* @func 0x00191710 0x00191714  size 4   1 条（DeterminePotentialRoot(YYObjectBase*, YYObjectBase*)） */
+/* @func 0x191710 0x191714  size 4  1 条（DeterminePotentialRoot(YYObjectBase*, YYObjectBase*)） */
 YYObjectBase *DeterminePotentialRoot(YYObjectBase *a, YYObjectBase *b) {
     (void)b;
     /* @0x191710 bx lr —— 直接返回；r0 仍是第一个实参，因此返回值 == a */
@@ -155,7 +155,7 @@ YYObjectBase *DeterminePotentialRoot(YYObjectBase *a, YYObjectBase *b) {
 
 extern void *MemoryManager_Alloc(unsigned int size, char const *file, int line, bool zero); /* 0x27ce78 */
 
-/* @func 0x0027c524 0x0027c53c  size 24  6 条（operator new(unsigned int)，_Znwj；末条是 literal pool 数据字） */
+/* @func 0x27c524 0x27c53c  size 24  6 条（operator new(unsigned int)，_Znwj；末条是 literal pool 数据字） */
 void *operator_new(unsigned int size) {
     /* @0x27c524 ldr r1, [pc, #0xc] —— 取字面量槽 0x27c538 的内容 0x000dacb0（= __FILE__ - pc 的差） */
     /* @0x27c528 movw r2, #0x525 —— r2 = 1317 = 本文件的 __LINE__ */
@@ -182,7 +182,7 @@ void *operator_new(unsigned int size) {
  * 6) operator new(unsigned int, char const*, int) —— 调用方的 file/line 被丢弃（24 B）
  * ══════════════════════════════════════════════════════════════════ */
 
-/* @func 0x0027d17c 0x0027d194  size 24  6 条（operator new(unsigned int, char const*, int)，_ZnwjPKci） */
+/* @func 0x27d17c 0x27d1a4  size 40  10 条（operator new(unsigned int, char const*, int)，_ZnwjPKci） */
 void *operator_new_fp(unsigned int size, char const *file, int line) {
     (void)file;
     (void)line; /* 形参在寄存器 r1/r2 里，但下面两条写指令把它们覆盖掉 */
@@ -209,7 +209,7 @@ void *operator_new_fp(unsigned int size, char const *file, int line) {
  * 7) operator new(unsigned int, std::nothrow_t const&) —— 没有 catch 的 nothrow（24 B）
  * ══════════════════════════════════════════════════════════════════ */
 
-/* @func 0x0027d194 0x0027d1ac  size 24  6 条（operator new(unsigned int, std::nothrow_t const&)，_ZnwjRKSt9nothrow_t） */
+/* @func 0x27d194 0x27d1ac  size 24  6 条（operator new(unsigned int, std::nothrow_t const&)，_ZnwjRKSt9nothrow_t） */
 void *operator_new_nothrow(unsigned int size, void const *nothrow_tag) {
     (void)nothrow_tag; /* r1 被下面第一条覆写：nothrow_t& 实参整个丢弃 */
     /* @0x27d194 ldr r1, [pc, #0xc] —— 字面量槽 0x27d1a8 = 0x000da040 */
@@ -233,27 +233,27 @@ void *operator_new_nothrow(unsigned int size, void const *nothrow_tag) {
  * 8) operator delete 四个变体（各 4 B，同一条 b，两个不同目标）
  * ══════════════════════════════════════════════════════════════════ */
 
-/* @func 0x0027d1c4 0x0027d1c8  size 4   1 条（operator delete(void*, std::nothrow_t const&)，_ZdlPvRKSt9nothrow_t） */
+/* @func 0x27d1c4 0x27d1c8  size 4  1 条（operator delete(void*, std::nothrow_t const&)，_ZdlPvRKSt9nothrow_t） */
 void operator_delete_nothrow(void *p, void const *nothrow_tag) {
     (void)nothrow_tag;
     /* @0x27d1c4 b 0x27c2d0 <_ZN13MemoryManager4FreeEPKv> —— nothrow_t& 实参丢弃 */
     MemoryManager_Free(p);
 }
 
-/* @func 0x0027d1cc 0x0027d1d0  size 4   1 条（operator delete(void*, unsigned int)，_ZdlPvj） */
+/* @func 0x27d1cc 0x27d1d4  size 8  2 条（operator delete(void*, unsigned int)，_ZdlPvj） */
 void operator_delete_sized(void *p, unsigned int size) {
     (void)size;
     /* @0x27d1cc b 0x27c2d0 <_ZN13MemoryManager4FreeEPKv> —— sized-delete 的大小提示丢弃 */
     MemoryManager_Free(p);
 }
 
-/* @func 0x0027d1d0 0x0027d1d4  size 4   1 条（operator delete(void*)，_ZdlPv） */
+/* @func 0x27d1d0 0x27d1d4  size 4  1 条（operator delete(void*)，_ZdlPv） */
 void operator_delete(void *p) {
     /* @0x27d1d0 b 0x27c2d0 <_ZN13MemoryManager4FreeEPKv> —— 主力释放口：882 处引用（862 bl + 20 b） */
     MemoryManager_Free(p);
 }
 
-/* @func 0x0027d1dc 0x0027d1e0  size 4   1 条（operator delete(void*, char const*, int)，_ZdlPvPKci） */
+/* @func 0x27d1dc 0x27d1e0  size 4  1 条（operator delete(void*, char const*, int)，_ZdlPvPKci） */
 void operator_delete_fp(void *p, char const *file, int line) {
     (void)file;
     (void)line;

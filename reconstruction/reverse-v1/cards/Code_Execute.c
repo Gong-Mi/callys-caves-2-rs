@@ -1,6 +1,6 @@
 /* cally 逆向卡：Code_Execute（原版 libyoyo.so，armv7）
  *
- * @func  0x000cfc60 0x000cfcb4   size 84   21 条指令
+ * @func 0xcfc60 0xcfcb4  size 84  21 条指令
  * 级别:  正文
  * 符号:  _Z12Code_ExecuteP9CInstanceS0_P5CCodeP6RValuei
  *        → int Code_Execute(CInstance* self, CInstance* other, CCode* code, RValue* result, int arg)

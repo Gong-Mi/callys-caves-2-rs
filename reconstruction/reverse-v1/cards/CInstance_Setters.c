@@ -82,7 +82,7 @@
  */
 
 /* ══ §1 CInstance::SetSpriteIndex(int) 0x1931c0 ══════════════════════════════
- * @func 0x1931c0 0x19324c size 140  35 条（35 指令，无池字；下一个符号 SetObjectIndex 0x19324c）
+ * @func 0x1931c0 0x19324c  size 140  35 条（35 指令，无池字；下一个符号 SetObjectIndex 0x19324c）
  * 级别: 正文（35/35。两条路径、三处外部调用、一个共用尾巴，全部解出）
  * 符号: _ZN9CInstance14SetSpriteIndexEi → void CInstance::SetSpriteIndex(int sprite)
  * 位置: CInstance::SkeletonAnimation 0x193158 之后、CInstance::SetObjectIndex 0x19324c 之前
@@ -182,7 +182,7 @@
 /* @0x193244 bl 0x193158 <_ZN9CInstance17SkeletonAnimationEv> —— SkeletonAnimation(this) 0x193158：仅 type==2 且 +0x88==0 时 new 0x34 */
 /* @0x193248 b 0x1931e4 <_ZN9CInstance14SetSpriteIndexEi+0x24> —— 回到 0x1931e4 的回绕尾巴（上界 r5 已换成帧数） */
 /* ══ §2 CInstance::SetID(int, bool) 0x1958cc ═════════════════════════════════
- * @func 0x1958cc 0x1959f4 size 296  74 条（72 指令 + 末两字 1959ec/1959f0 为 literal pool；
+ * @func 0x1958cc 0x1959f4  size 296  74 条（72 指令 + 末两字 1959ec/1959f0 为 literal pool；
  *       下一个符号 FINALIZE_Instance_Class 0x1959f4）
  * 级别: 正文（74/74。两条路径、哈希摘/插的每个分支、Alloc/Free 契约、池字双解全钉；
  *       未钉的只是运行期可达性 —— 本函数在本二进制里没有任何调用者）
@@ -355,7 +355,7 @@
 /* @0x1959ec eoreq r8, r5, r8, asr r3 —— 非指令：0x00258358 = GOT 0x3edc4c 的 pc 相对偏移 */
 /* @0x1959f0 andseq r7, r11, r0, ror #6 —— 非指令：0x001b7360 = 源文件名字符串的 pc 相对偏移 */
 /* ══ §3 CInstance::SetDirection(float) 0x193064 ══════════════════════════════
- * @func 0x193064 0x1930d4 size 112  28 条（27 指令 + 末字 1930d0 为池字 0x43B40000；
+ * @func 0x193064 0x1930d4  size 112  28 条（27 指令 + 末字 1930d0 为池字 0x43B40000；
  *       下一个符号 CInstance::SetSpeed 0x1930d4，前一符号 CInstance::SetImageAngle 0x19303c）
  * 级别: 正文（28/28。两条归一化循环 + 一次 fmodf + 一次尾跳，算式与常量全解）
  * 符号: _ZN9CInstance12SetDirectionEf → void CInstance::SetDirection(float dir)
@@ -433,7 +433,7 @@
 /* @0x1930cc b 0x192aa0 <_ZN9CInstance14Compute_Speed2Ev> —— 尾跳 Compute_Speed2 0x192aa0：+0xcc/+0xd0 → +0xe0/+0xe4 */
 /* @0x1930d0 .word 0x43b40000 —— 非指令：0x43B40000 = 360.0f */
 /* ══ §4 CInstance::SetPosition(float x, float y) 0x193e7c ═════════════════════
- * @func 0x193e7c 0x193ec0 size 68  17 条（17 指令，无池字；下一个符号 CInstance::AddTo_Speed 0x193ec0）
+ * @func 0x193e7c 0x193ec0  size 68  17 条（17 指令，无池字；下一个符号 CInstance::AddTo_Speed 0x193ec0）
  * 级别: 正文（17/17。早退判据、两个写点、脏标记与尾调全钉；「不写哪些字段」也逐条对齐了 ctor/DoAStep 卡）
  * 符号: _ZN9CInstance11SetPositionEff → void CInstance::SetPosition(float x, float y)
  * 位置: CInstance::Dump 0x19363c 之后、CInstance::AddTo_Speed 0x193ec0 之前
@@ -498,7 +498,7 @@
 /* @0x193eb8 strb r2, [r3, #0x64] —— +0x64 = 1 */
 /* @0x193ebc b 0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance> —— 尾调 CollisionMarkDirty 0x1cc1d0（与 §1 同构） */
 /* ══ §5 CInstance::GetImageNumber() 0x19357c ═════════════════════════════════
- * @func 0x19357c 0x1935c4 size 72  18 条（18 指令，无池字；下一个符号 CInstance::SetPathPosition 0x1935c4）
+ * @func 0x19357c 0x1935c4  size 72  18 条（18 指令，无池字；下一个符号 CInstance::SetPathPosition 0x1935c4）
  * 级别: 正文（18/18。三条出口（非法精灵 / 非骨架 / 骨架）与尾跳全钉）
  * 符号: _ZN9CInstance14GetImageNumberEv → int CInstance::GetImageNumber()
  * 位置: CInstance::ChangeObjectIndex 0x193368 之后、CInstance::SetPathPosition 0x1935c4 之前
@@ -560,7 +560,7 @@
 /* @0x1935bc pop {r4, lr} */
 /* @0x1935c0 b 0xbe220 <_ZN17CSkeletonInstance10FrameCountEi> —— 尾跳 CSkeletonInstance::FrameCount 0xbe220 */
 /* ══ §6 CInstance::GetTimer(int) 0x193134 ════════════════════════════════════
- * @func 0x193134 0x193148 size 20  5 条（5 指令，无池字；下一个符号 CInstance::SetTimer 0x193148，
+ * @func 0x193134 0x193148  size 20  5 条（5 指令，无池字；下一个符号 CInstance::SetTimer 0x193148，
  *       前一符号 CInstance::SetVspeed 0x193114）
  * 级别: 正文（5/5。界判、地址算式、越界返回值全部钉死 —— 这是全卡最短、也是唯一无调用的一节）
  * 符号: _ZN9CInstance8GetTimerEi → int CInstance::GetTimer(int i)

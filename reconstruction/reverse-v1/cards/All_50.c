@@ -252,7 +252,7 @@
  *   @0x19d4f0 pop {r4, r5, r6, r7, r8, pc}
  *
  * ══ §4/110 F_TilemapClear(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bee70  size 284  71 条（0x1bee70..0x1bef8c）
- * @func 0x1bee70 0x1bef8c  size 284  71 条
+ * @func 0x1bee70 0x1bef9c  size 300  75 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -580,7 +580,7 @@
  *   @0x21e380 andseq r6, r3, r12, asr #8
  *
  * ══ §8/110 JSThrowSyntaxError(char const*)  0x253d88  size 284  71 条（0x253d88..0x253ea4）
- * @func 0x253d88 0x253ea4  size 284  71 条
+ * @func 0x253d88 0x253eb4  size 300  75 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -909,6 +909,7 @@
  *
  * ══ §12/110 png_write_end  0x2b002c  size 284  71 条（0x2b002c..0x2b0148）
  * @func 0x2b002c 0x2b0148  size 284  71 条
+ * 部分覆盖: 本节 71/125 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1963,7 +1964,7 @@
  *   @0x1c02c8 ldrsbeq pc, [r8], -r0
  *
  * ══ §25/110 CDS_Grid::Value_X(RValue&, int, int, int, int, RValue*)  0x20489c  size 280  70 条（0x20489c..0x2049b4）
- * @func 0x20489c 0x2049b4  size 280  70 条
+ * @func 0x20489c 0x2049c4  size 296  74 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2450,6 +2451,7 @@
  *
  * ══ §31/110 zip_fread  0x2a476c  size 280  70 条（0x2a476c..0x2a4884）
  * @func 0x2a476c 0x2a4884  size 280  70 条
+ * 部分覆盖: 本节 70/133 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2531,6 +2533,7 @@
  *
  * ══ §32/110 png_set_cHRM_fixed  0x2ae7e0  size 280  70 条（0x2ae7e0..0x2ae8f8）
  * @func 0x2ae7e0 0x2ae8f8  size 280  70 条
+ * 部分覆盖: 本节 70/131 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4214,6 +4217,7 @@
  *
  * ══ §53/110 zip_source_zip  0x2a555c  size 276  69 条（0x2a555c..0x2a5670）
  * @func 0x2a555c 0x2a5670  size 276  69 条
+ * 部分覆盖: 本节 69/121 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4294,6 +4298,7 @@
  *
  * ══ §54/110 png_handle_IHDR  0x2abe50  size 276  69 条（0x2abe50..0x2abf64）
  * @func 0x2abe50 0x2abf64  size 276  69 条
+ * 部分覆盖: 本节 69/124 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4374,6 +4379,7 @@
  *
  * ══ §55/110 png_read_filter_row  0x2ae148  size 276  69 条（0x2ae148..0x2ae25c）
  * @func 0x2ae148 0x2ae25c  size 276  69 条
+ * 部分覆盖: 本节 69/127 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5558,7 +5564,7 @@
  *   @0x1f67a8 ldrheq r6, [pc], -r12
  *
  * ══ §70/110 SV_PhysicsSpeedX(CInstance*, int, RValue*)  0x1fe8dc  size 272  68 条（0x1fe8dc..0x1fe9ec）
- * @func 0x1fe8dc 0x1fe9ec  size 272  68 条
+ * @func 0x1fe8dc 0x1fe9fc  size 288  72 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5795,7 +5801,7 @@
  *   @0x203a54 b 0x2039b0 <_ZN7CDS_Map13WriteToStringERPKc+0x68>
  *
  * ══ §73/110 CDS_Grid::Value_Exists(RValue&, int, int, int, int, RValue*)  0x20478c  size 272  68 条（0x20478c..0x20489c）
- * @func 0x20478c 0x20489c  size 272  68 条
+ * @func 0x20478c 0x2048ac  size 288  72 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6503,7 +6509,7 @@
  *   @0x1277f4 .word 0xffffce40
  *
  * ══ §82/110 F_ActionDrawGradientHor(RValue&, CInstance*, CInstance*, int, RValue*)  0x14045c  size 268  67 条（0x14045c..0x140568）
- * @func 0x14045c 0x140568  size 268  67 条
+ * @func 0x14045c 0x140578  size 284  71 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7906,7 +7912,7 @@
  *   @0xc7cb0 mlaeq r6, r12, r3, r9
  *
  * ══ §100/110 F_Vertex_ubyte4_release(RValue&, CInstance*, CInstance*, int, RValue*)  0xc8540  size 264  66 条（0xc8540..0xc8648）
- * @func 0xc8540 0xc8648  size 264  66 条
+ * @func 0xc8540 0xc8658  size 280  70 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8291,7 +8297,7 @@
  *   @0x10a23c ldrsbteq r9, [r7], -r0
  *
  * ══ §105/110 F_SpriteAddFromScreen(RValue&, CInstance*, CInstance*, int, RValue*)  0x12f2a0  size 264  66 条（0x12f2a0..0x12f3a8）
- * @func 0x12f2a0 0x12f3a8  size 264  66 条
+ * @func 0x12f2a0 0x12f3b8  size 280  70 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8522,7 +8528,7 @@
  *   @0x13fba4 .word 0x002af8bc
  *
  * ══ §108/110 F_D3DDrawCylinder(RValue&, CInstance*, CInstance*, int, RValue*)  0x144204  size 264  66 条（0x144204..0x14430c）
- * @func 0x144204 0x14430c  size 264  66 条
+ * @func 0x144204 0x14431c  size 280  70 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

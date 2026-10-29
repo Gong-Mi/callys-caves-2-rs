@@ -903,6 +903,7 @@
  *
  * ══ §7/57 png_handle_pCAL  0x2ad128  size 552  138 条（0x2ad128..0x2ad350）
  * @func 0x2ad128 0x2ad350  size 552  138 条
+ * 部分覆盖: 本节 138/243 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1051,7 +1052,7 @@
  *   @0x2ad34c lsls r2, r4, #0x9
  *
  * ══ §8/57 YYCreateString(RValue*, _RefThing<char const*>*)  0xe7dac  size 548  129 条（0xe7dac..0xe7fd0）｜其中 8 条已由别的卡落锚，本节不再重复
- * @func 0xe7dac 0xe7fd0  size 548  129 条
+ * @func 0xe7dcc 0xe7fd0  size 516  129 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2816,6 +2817,7 @@
  *
  * ══ §20/57 png_read_start_row  0x2ae494  size 544  136 条（0x2ae494..0x2ae6b4）
  * @func 0x2ae494 0x2ae6b4  size 544  136 条
+ * 部分覆盖: 本节 136/243 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3694,7 +3696,7 @@
  *   @0x1f1f98 andseq r0, r6, r8, lsr r7
  *
  * ══ §26/57 GV_ArgumentCount(CInstance*, int, RValue*)  0x200c88  size 540  135 条（0x200c88..0x200ea4）
- * @func 0x200c88 0x200ea4  size 540  135 条
+ * @func 0x200c88 0x200eb4  size 556  139 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4420,6 +4422,7 @@
  *
  * ══ §31/57 SoundHardware::Load(void*, int, int)  0x22054c  size 536  127 条（0x22054c..0x220764）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x22054c 0x220764  size 536  127 条
+ * 部分覆盖: 本节 127/134 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x22055c→0x755361, 0x220578→0x755363, 0x22058c→0x755362, 0x2205a0→0x755360, 0x2205d0→0x3eb70c, 0x2206a4→0x3eb70c, 0x2206d4→0x3eb70c, 0x220708→0x3eb70c
@@ -4703,6 +4706,7 @@
  *
  * ══ §33/57 _zip_dirent_read(zip_dirent*, __sFILE*, unsigned char**, unsigned int*, int, zip_error*)  0x2a3ef0  size 536  134 条（0x2a3ef0..0x2a4108）
  * @func 0x2a3ef0 0x2a4108  size 536  134 条
+ * 部分覆盖: 本节 134/251 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4848,6 +4852,7 @@
  *
  * ══ §34/57 png_write_info  0x2afe14  size 536  134 条（0x2afe14..0x2b002c）
  * @func 0x2afe14 0x2b002c  size 536  134 条
+ * 部分覆盖: 本节 134/233 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5425,6 +5430,7 @@
  *
  * ══ §38/57 CInstance::ChangeObjectIndex(int)  0x193368  size 532  126 条（0x193368..0x19357c）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x193368 0x19357c  size 532  126 条
+ * 部分覆盖: 本节 126/133 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x193378→0x542a64, 0x1933b4→0x542374, 0x19340c→0x5428e8, 0x19345c→0x54298c, 0x193498→0x542a58
@@ -6708,6 +6714,7 @@
  *
  * ══ §47/57 F_DrawBackgroundTiledExt(RValue&, CInstance*, CInstance*, int, RValue*)  0x11f640  size 524  124 条（0x11f640..0x11f84c）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x11f640 0x11f84c  size 524  124 条
+ * 部分覆盖: 本节 124/131 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x11f650→0x5428e8, 0x11f6c0→0x54298c, 0x11f798→0x54298c
@@ -6842,7 +6849,7 @@
  *   @0x11f848 eoreq r10, r1, r12, lsr #19
  *
  * ══ §48/57 F_SpritePrefetchMulti(RValue&, CInstance*, CInstance*, int, RValue*)  0x1303d4  size 524  131 条（0x1303d4..0x1305e0）
- * @func 0x1303d4 0x1305e0  size 524  131 条
+ * @func 0x1303d4 0x1305f0  size 540  135 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7552,6 +7559,7 @@
  *
  * ══ §53/57 YYGML_show_debug_message(YYRValue const&)  0x1176a8  size 520  123 条（0x1176a8..0x1178b0）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x1176a8 0x1178b0  size 520  123 条
+ * 部分覆盖: 本节 123/130 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x117758→0x3eb708, 0x1177ec→0x5428e8, 0x117800→0x544c38, 0x11784c→0x3eb708
@@ -7826,7 +7834,7 @@
  *   @0x1a0818 .word 0xffffeb24
  *
  * ══ §55/57 JS_String_prototype_toLowerCase(RValue&, CInstance*, CInstance*, int, RValue*)  0x255a24  size 520  130 条（0x255a24..0x255c2c）
- * @func 0x255a24 0x255c2c  size 520  130 条
+ * @func 0x255a24 0x255c3c  size 536  134 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8108,7 +8116,7 @@
  *   @0x255e30 andseq r0, r0, r12, lsr #2
  *
  * ══ §57/57 YYGML_sins(double)  0x110ff0  size 64  14 条（0x110ff0..0x111030）
- * @func 0x110ff0 0x111030  size 64  14 条
+ * @func 0x110ff0 0x111028  size 56  14 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

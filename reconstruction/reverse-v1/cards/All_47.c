@@ -306,7 +306,7 @@
  *   @0x18c49c .word 0xffffe97c
  *
  * ══ §4/87 Part_SetupEmbeddedImages()  0x1a58d8  size 356  89 条（0x1a58d8..0x1a5a3c）
- * @func 0x1a58d8 0x1a5a3c  size 356  89 条
+ * @func 0x1a58d8 0x1a5a4c  size 372  93 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -506,7 +506,7 @@
  *   @0x1e5c8c andseq r12, r6, r12, lsr #16
  *
  * ══ §6/87 CSprite::Clear()  0x1e6b4c  size 356  89 条（0x1e6b4c..0x1e6cb0）
- * @func 0x1e6b4c 0x1e6cb0  size 356  89 条
+ * @func 0x1e6b4c 0x1e6cc0  size 372  93 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -907,6 +907,7 @@
  *
  * ══ §10/87 png_handle_PLTE  0x2abf64  size 356  89 条（0x2abf64..0x2ac0c8）
  * @func 0x2abf64 0x2ac0c8  size 356  89 条
+ * 部分覆盖: 本节 89/163 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1206,7 +1207,7 @@
  *   @0x316e3c .word 0xf85db003
  *
  * ══ §13/87 F_BUFFER_Save_Async(RValue&, CInstance*, CInstance*, int, RValue*)  0xc7294  size 352  88 条（0xc7294..0xc73f4）
- * @func 0xc7294 0xc73f4  size 352  88 条
+ * @func 0xc7294 0xc7404  size 368  92 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1998,7 +1999,7 @@
  *   @0x14d998 mulseq pc, r4, r8
  *
  * ══ §21/87 GR_3D_Projection_Ortho(float, float, float, float, float)  0x1633e8  size 352  88 条（0x1633e8..0x163548）
- * @func 0x1633e8 0x163548  size 352  88 条
+ * @func 0x1633e8 0x163558  size 368  92 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2295,7 +2296,7 @@
  *   @0x1a5b98 eoreq r10, r4, r8, asr #24
  *
  * ══ §24/87 F_LayerActivate(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bb998  size 352  88 条（0x1bb998..0x1bbaf8）
- * @func 0x1bb998 0x1bbaf8  size 352  88 条
+ * @func 0x1bb998 0x1bbb08  size 368  92 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4357,7 +4358,7 @@
  *   @0x254b00 andseq r1, r0, r4, ror #8
  *
  * ══ §45/87 _spTranslateTimeline_apply  0x281c18  size 348  87 条（0x281c18..0x281d74）
- * @func 0x281c18 0x281d74  size 348  87 条
+ * @func 0x281c18 0x281d84  size 364  91 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4455,7 +4456,7 @@
  *   @0x281d70 pop {r3, r4, r5, r6, r7, pc}
  *
  * ══ §46/87 _spScaleTimeline_apply  0x281d74  size 348  87 条（0x281d74..0x281ed0）
- * @func 0x281d74 0x281ed0  size 348  87 条
+ * @func 0x281d74 0x281ee0  size 364  91 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5040,7 +5041,7 @@
  *   @0x16fab0 .word 0x0027e2d4
  *
  * ══ §52/87 GR_3D_Vertex_N_Texture(float, float, float, float, float, float, float, float)  0x17738c  size 344  86 条（0x17738c..0x1774e4）
- * @func 0x17738c 0x1774e4  size 344  86 条
+ * @func 0x17738c 0x1774f4  size 360  90 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5524,7 +5525,7 @@
  *   @0xc4144 eoreq r12, r6, r12, lsr #20
  *
  * ══ §57/87 VM::GetObjectBaseVariables(Buffer_Standard*, YYObjectBase*, bool)  0xd8df4  size 340  85 条（0xd8df4..0xd8f48）
- * @func 0xd8df4 0xd8f48  size 340  85 条
+ * @func 0xd8df4 0xd8f58  size 356  89 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5908,7 +5909,7 @@
  *   @0x163698 .word 0xffffe490
  *
  * ══ §61/87 GR_3D_Draw_Wall(float, float, float, float, float, float, int, float, float)  0x1796e0  size 340  85 条（0x1796e0..0x179834）
- * @func 0x1796e0 0x179834  size 340  85 条
+ * @func 0x1796e0 0x179844  size 356  89 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7716,7 +7717,7 @@
  *   @0xff6ac eoreq r8, r3, r12, ror #11
  *
  * ══ §80/87 F_StringLower(RValue&, CInstance*, CInstance*, int, RValue*)  0x1103b0  size 332  83 条（0x1103b0..0x1104fc）
- * @func 0x1103b0 0x1104fc  size 332  83 条
+ * @func 0x1103b0 0x11050c  size 348  87 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

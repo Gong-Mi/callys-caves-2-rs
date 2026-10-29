@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoAStep（原版 libyoyo.so，armv7）
- * @func 0x1d32c0 0x1d3654  size 920  230 条（1d3614..1d3654 为 literal pool，17 字）
+ * @func 0x1d32c0 0x1d3658  size 920  230 条（1d3614..1d3654 为 literal pool，17 字）
  * 级别: 正文（整条 step 管线、五段 GraphicsPerf 段名与其色值、时间基准两个 int64 全局、
  *             实例动画推进前后字段、13 处「退出码闸门」全部逐条锚定；未钉：
  *             CInstance +0x15c / +0x128 两个字段的语义名、Perform_Event_All(8,65) 的 65 是什么子事件、

@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoAnd（原版 libyoyo.so，armv7）
- * @func 0xdef70 0xdf800 size 2196  549 条指令（含 literal 词）
+ * @func 0xdef70 0xdf804  size 2196  549 条指令（含 literal 词）
  * 级别: 骨架（arg 位域 / 双格式码分派 / 10 条内核（含 bool）/ 全部错误分支已证；返回值口径未定，不升正文）
  * 符号: _Z5DoAndjPhPKhP6VMExec → uchar* DoAnd(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *

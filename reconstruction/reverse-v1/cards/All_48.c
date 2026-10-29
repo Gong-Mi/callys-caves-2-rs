@@ -1501,7 +1501,7 @@
  *   @0x1e7c88 b 0x1e7bf4 <_ZN7CSprite14SampleGradientEP25SWF_GradientFillStyleDatai+0xb0>
  *
  * ══ §17/94 ov_time_seek  0x232a44  size 328  82 条（0x232a44..0x232b8c）
- * @func 0x232a44 0x232b8c  size 328  82 条
+ * @func 0x232a44 0x232b9c  size 344  86 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1967,6 +1967,7 @@
  *
  * ══ §22/94 png_check_cHRM_fixed  0x2a6068  size 328  82 条（0x2a6068..0x2a61b0）
  * @func 0x2a6068 0x2a61b0  size 328  82 条
+ * 部分覆盖: 本节 82/156 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2060,6 +2061,7 @@
  *
  * ══ §23/94 png_decompress_chunk  0x2abd08  size 328  82 条（0x2abd08..0x2abe50）
  * @func 0x2abd08 0x2abe50  size 328  82 条
+ * 部分覆盖: 本节 82/144 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2153,6 +2155,7 @@
  *
  * ══ §24/94 png_handle_tEXt  0x2ad584  size 328  82 条（0x2ad584..0x2ad6cc）
  * @func 0x2ad584 0x2ad6cc  size 328  82 条
+ * 部分覆盖: 本节 82/152 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2887,7 +2890,7 @@
  *   @0x1568e4 andseq r10, sp, r0, asr #3
  *
  * ══ §32/94 F_CameraGetViewMat(RValue&, CInstance*, CInstance*, int, RValue*)  0x16fd84  size 324  81 条（0x16fd84..0x16fec8）
- * @func 0x16fd84 0x16fec8  size 324  81 条
+ * @func 0x16fd84 0x16fed8  size 340  85 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4626,6 +4629,7 @@
  *
  * ══ §51/94 png_handle_unknown  0x2ada34  size 320  80 条（0x2ada34..0x2adb74）
  * @func 0x2ada34 0x2adb74  size 320  80 条
+ * 部分覆盖: 本节 80/133 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6067,6 +6071,7 @@
  *
  * ══ §67/94 FT_Stream_ReadFields  0x2e7ed4  size 316  79 条（0x2e7ed4..0x2e8010）
  * @func 0x2e7ed4 0x2e8010  size 316  79 条
+ * 部分覆盖: 本节 79/142 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7225,6 +7230,7 @@
  *
  * ══ §80/94 png_handle_bKGD  0x2acd60  size 312  78 条（0x2acd60..0x2ace98）
  * @func 0x2acd60 0x2ace98  size 312  78 条
+ * 部分覆盖: 本节 78/134 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7313,7 +7319,8 @@
  *   @0x2ace94 lsls r1, r4, #0x16
  *
  * ══ §81/94 png_do_unshift  0x2a8bf2  size 310  78 条（0x2a8bf2..0x2a8d28）
- * @func 0x2a8bf2 0x2a8d28  size 310  78 条
+ * @func 0x2a8bf2 0x2a8d2a  size 312  78 条
+ * 部分覆盖: 本节 78/146 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

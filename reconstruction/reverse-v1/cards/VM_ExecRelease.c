@@ -1,6 +1,6 @@
 /* cally 逆向卡：VM::ExecRelease（原版 libyoyo.so，armv7）
  *
- * @func  0x000e4540 0x000e47c8   size 648   162 条指令
+ * @func 0xe4540 0xe47c8  size 648  162 条指令
  * 级别:  骨架（循环骨架已证，逐条语义未钉）
  * 符号:  _ZN2VM11ExecReleaseER6VMExecP6RValue → VM::ExecRelease(VMExec&, RValue*)
  * 锚表:  reconstruction/reverse-v1/asm/index-VM_ExecRelease.tsv

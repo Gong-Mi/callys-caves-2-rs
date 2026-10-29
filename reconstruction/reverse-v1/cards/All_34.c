@@ -1813,6 +1813,7 @@
  *
  * ══ §9/36 CSprite::DrawGeneral(int, float, float, float, float, float, float, float, float, float, unsigned int, unsigned int, unsigned int, unsigned int, float)  0x1e5fa8  size 852  206 条（0x1e5fa8..0x1e62fc）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x1e5fa8 0x1e62fc  size 852  206 条
+ * 部分覆盖: 本节 206/213 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1e6004→0x3f50dc, 0x1e6070→0x7530c9, 0x1e608c→0x5425b0, 0x1e61bc→0x5428e8, 0x1e61d0→0x48f78c, 0x1e6204→0x3eb70c, 0x1e62b0→0x3eb70c
@@ -4033,7 +4034,7 @@
  *   @0x20f85c andseq r4, r4, r4, lsr #5
  *
  * ══ §19/36 b2WeldJoint::SolvePositionConstraints(b2SolverData const&)  0x2d2ffc  size 844  211 条（0x2d2ffc..0x2d3348）
- * @func 0x2d2ffc 0x2d3348  size 844  211 条
+ * @func 0x2d2ffc 0x2d3358  size 860  215 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4917,7 +4918,8 @@
  *   @0x222f18 strbpl r2, [r4], #-3352
  *
  * ══ §23/36 FT_Bitmap_Embolden  0x314e46  size 838  210 条（0x314e46..0x31518c）
- * @func 0x314e46 0x31518c  size 838  210 条
+ * @func 0x314e46 0x31518e  size 840  210 条
+ * 部分覆盖: 本节 210/372 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6225,7 +6227,7 @@
  *   @0x23a578 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §29/36 CDS_Priority::DeleteMin(RValue*)  0x20a99c  size 816  204 条（0x20a99c..0x20accc）
- * @func 0x20a99c 0x20accc  size 816  204 条
+ * @func 0x20a99c 0x20acdc  size 832  208 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7084,6 +7086,7 @@
  *
  * ══ §33/36 png_do_read_interlace  0x2ade1c  size 812  203 条（0x2ade1c..0x2ae148）
  * @func 0x2ade1c 0x2ae148  size 812  203 条
+ * 部分覆盖: 本节 203/323 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

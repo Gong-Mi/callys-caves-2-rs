@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoShr（原版 libyoyo.so，armv7）
- * @func 0xe1568 0xe1f58  size 2548  637 条指令（含尾部 literal 池）
+ * @func 0xe1568 0xe1f5c  size 2548  637 条指令（含尾部 literal 池）
  * 级别: 骨架（入口/两级 kind 分派/86 路消费表/52 路算术表/9 条算术核已证；
  *        kind 1 与 kind 4 的语义未证）
  * 符号: _Z5DoShrjPhPKhP6VMExec → uchar* DoShr(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)

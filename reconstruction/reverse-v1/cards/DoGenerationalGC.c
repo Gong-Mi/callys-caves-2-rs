@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoGenerationalGC（原版 libyoyo.so，armv7）
- * @func 0xd6850 0xd6aa8  size 604  151 条（0xd6a80..0xd6aa8 是 literal pool：1 个 GOT 增量 + 10 个负偏移字）
+ * @func 0xd6850 0xd6aac  size 604  151 条（0xd6a80..0xd6aa8 是 literal pool：1 个 GOT 增量 + 10 个负偏移字）
  * 级别: 正文（控制流、全部存储副作用、两个整型门限与四个浮点常量、代数迁移规则逐条落地；
  *            记录字段的「语义名」只到「MarkAndSweepGen 写入的统计量」这一档，具体含义列入 open）
  * 符号: _Z16DoGenerationalGCv → void DoGenerationalGC()

@@ -1405,7 +1405,7 @@
  *   @0xd6fe8 .word 0xffffc080
  *
  * ══ §5/25 b2DynamicTree::Balance  0x2deae4  size 1260  315 条（0x2deae4..0x2defd0）
- * @func 0x2deae4 0x2defd0  size 1260  315 条
+ * @func 0x2deae4 0x2defe0  size 1276  319 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1731,7 +1731,7 @@
  *   @0x2defcc b 0x2dec8c <_ZN13b2DynamicTree7BalanceEi+0x1a8>
  *
  * ══ §6/25 b2SeparationFunction::Initialize  0x2dfcf4  size 1236  309 条（0x2dfcf4..0x2e01c8）
- * @func 0x2dfcf4 0x2e01c8  size 1236  309 条
+ * @func 0x2dfcf4 0x2e01d8  size 1252  313 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5167,7 +5167,7 @@
  *   @0x24a164 andeq r10, lr, r8, lsl #24
  *
  * ══ §17/25 b2ContactSolver::SolvePositionConstraints  0x2e2f4c  size 1164  291 条（0x2e2f4c..0x2e33d8）
- * @func 0x2e2f4c 0x2e33d8  size 1164  291 条
+ * @func 0x2e2f4c 0x2e33e8  size 1180  295 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

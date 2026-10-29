@@ -283,6 +283,7 @@
  *
  * ══ §2/31 png_write_find_filter  0x2b29d8  size 1060  265 条（0x2b29d8..0x2b2dfc）
  * @func 0x2b29d8 0x2b2dfc  size 1060  265 条
+ * 部分覆盖: 本节 265/464 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2204,7 +2205,7 @@
  *   @0x1986e8 andseq r8, r9, r12, ror r12
  *
  * ══ §9/31 CDS_Priority::Add(RValue*, RValue*)  0x206510  size 1044  261 条（0x206510..0x206924）
- * @func 0x206510 0x206924  size 1044  261 条
+ * @func 0x206510 0x206934  size 1060  265 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4901,6 +4902,7 @@
  *
  * ══ §19/31 BeginToEnd()  0x2a180c  size 1024  249 条（0x2a180c..0x2a1c0c）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x2a180c 0x2a1c0c  size 1024  249 条
+ * 部分覆盖: 本节 249/256 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x2a181c→0x3eb6b8, 0x2a1850→0x47f3c8, 0x2a1860→0x75669a, 0x2a18a0→0x544b88, 0x2a18cc→0x544b78, 0x2a18d0→0x544b74, 0x2a1900→0x3f5228, 0x2a1904→0x3f5224
@@ -6220,7 +6222,7 @@
  *   @0x15fe98 mulseq r12, r10, lr
  *
  * ══ §24/31 CDS_Grid::Get_Max(RValue&, int, int, int, int)  0x206924  size 1008  252 条（0x206924..0x206d14）
- * @func 0x206924 0x206d14  size 1008  252 条
+ * @func 0x206924 0x206d24  size 1024  256 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7271,7 +7273,7 @@
  *   @0x31a19c pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §28/31 Sprite_Add_BIN(void*, int, int, int, bool, bool, int, int)  0x1efbd8  size 996  249 条（0x1efbd8..0x1effbc）
- * @func 0x1efbd8 0x1effbc  size 996  249 条
+ * @func 0x1efbd8 0x1effcc  size 1012  253 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1efc04→0x7530d8, 0x1efc08→0x7530d0, 0x1efc64→0x7530dc, 0x1efcb8→0x7530e0
@@ -7791,7 +7793,7 @@
  *   @0x31ba78 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §30/31 Sound_Tick()  0x21f17c  size 148  30 条（0x21f17c..0x21f210）｜其中 7 条已由别的卡落锚，本节不再重复
- * @func 0x21f17c 0x21f210  size 148  30 条
+ * @func 0x21f198 0x21f210  size 120  30 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x21f184→0x755363, 0x21f19c→0x757e7c, 0x21f1d4→0x757e80, 0x21f1e4→0x757e80

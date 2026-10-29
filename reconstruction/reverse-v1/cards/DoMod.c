@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoMod（原版 libyoyo.so，armv7）
- * @func 0xde5e8 0xdef68  size 2436  609 条指令（含尾部 literal 池）
+ * @func 0xde5e8 0xdef6c  size 2436  609 条指令（含尾部 literal 池）
  * 级别: 骨架（入口/两级 kind 分派/86 路消费表/52 路算术表/9 条算术核/除零与 NaN 语义已证；
  *        kind 1、kind 4 的语义未证）
  * 符号: _Z5DoModjPhPKhP6VMExec → uchar* DoMod(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)

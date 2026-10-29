@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoMul（原版 libyoyo.so，armv7）
- * @func 0xe5810 0xe61b0  size 2468  617 条指令（含尾部 literal 池）
+ * @func 0xe5810 0xe61b4  size 2468  617 条指令（含尾部 literal 池）
  * 级别: 骨架（入口/两级 kind 分派/103 路消费表/52 路算术表/10 条算术核/字符串重复路径已证；
  *        kind 1、kind 4 的语义未证）
  * 符号: _Z5DoMuljPhPKhP6VMExec → uchar* DoMul(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)

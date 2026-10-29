@@ -1,5 +1,5 @@
 /* cally 逆向卡：LoadGameData（原版 libyoyo.so，armv7）
- * @func 0x1ddce4 0x1de74c  size 2668  667 条（646 条指令 + 0x1de6fc..0x1de74c 内联 literal pool 21 字，
+ * @func 0x1ddce4 0x1de750  size 2668  667 条（646 条指令 + 0x1de6fc..0x1de74c 内联 literal pool 21 字，
  *       池字被 objdump 译成 andseq/eoreq/… 不是指令，卡内按 objdump 原文保留并标注）
  * 级别: 正文（顶层六段的控制流、31 个 tag 的分发表、5 条失败路径、尾部的「名字→id」解析、返回值语义
  *             全部逐条钉住；未钉的是初始化段里三个全局对象的**身份**与 GEN7/GENL 写 700 的用途，

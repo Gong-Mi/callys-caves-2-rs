@@ -85,7 +85,7 @@
  */
 
 /* ══ §1 CLayerManager::RemoveInstanceElement 0x1b7ac4 ═════════════════════
- * @func 0x1b7ac4 0x1b7ba8 size 232  58 条（57 指令 + 1b7ba8 一个字面量池字）
+ * @func 0x1b7ac4 0x1b7bac  size 232  58 条（57 指令 + 1b7ba8 一个字面量池字）
  * 级别: 正文（58/58。控制流是一条直线 + 两处条件写 + 一处条件调用；无循环、无分配）
  * 符号: _ZN13CLayerManager21RemoveInstanceElementEP6CLayerP21CLayerInstanceElementb
  *       → void RemoveInstanceElement(CLayer* layer, CLayerInstanceElement* elem, bool bDestroy)
@@ -204,7 +204,7 @@
 /* @0x1b7ba8 eoreq r8, r3, r4, lsl sp */
 
 /* ══ §2 CLayerManager::GetLayerWithDepth 0x1b87f4 ═════════════════════════
- * @func 0x1b87f4 0x1b8868 size 116  29 条（29 指令，无字面量池：末尾即下一个符号 GetLayerFromID）
+ * @func 0x1b87f4 0x1b8868  size 116  29 条（29 指令，无字面量池：末尾即下一个符号 GetLayerFromID）
  * 级别: 正文（29/29。叶子函数：不 push、不用 r4 以上，只有两个线性循环）
  * 符号: _ZN13CLayerManager17GetLayerWithDepthEP5CRoomib
  *       → CLayer* GetLayerWithDepth(CRoom* room, int depth, bool dynamicOnly)
@@ -285,7 +285,7 @@
 /* @0x1b8864 bx lr */
 
 /* ══ §3 CLayerManager::AddDynamicLayer 0x1c33e4 ═══════════════════════════
- * @func 0x1c33e4 0x1c3598 size 436  109 条（104 指令 + 1c3584..1c3594 五个字面量池字）
+ * @func 0x1c33e4 0x1c3598  size 436  109 条（104 指令 + 1c3584..1c3594 五个字面量池字）
  * 级别: 正文（109/109。扩容/初值/弹出/id/入链五段全解；两处外部前提记 open）
  * 符号: _ZN13CLayerManager15AddDynamicLayerEP5CRoomi
  *       → CLayer* AddDynamicLayer(CRoom* room, int depth)
@@ -465,7 +465,7 @@
 /* @0x1c3594 mlaeq r2, r4, r5, sp */
 
 /* ══ §4 CollisionInsert 0x1cc494 ═════════════════════════════════════════
- * @func 0x1cc494 0x1cc4f8 size 108  27 条（25 指令 + 1cc4f8/1cc4fc 两个池字）
+ * @func 0x1cc494 0x1cc500  size 108  27 条（25 指令 + 1cc4f8/1cc4fc 两个池字）
  * 级别: 正文（27/27。三段：门 → 懒建树 → 重算 bbox + 挂测试链）
  * 符号: _Z15CollisionInsertP9CInstance → void CollisionInsert(CInstance*)（自由函数，非成员）
  * 同层: CollisionMarkTest 0x1cbfc0（尾调）、CollisionUpdate 0x1cdc1c（Compute_BoundingBox 内部真正插树的地方）、
@@ -539,7 +539,7 @@
 /* @0x1cc4fc mlaeq r2, r0, sp, r1 */
 
 /* ══ §5 CollisionRemove 0x1cd9f0 ═════════════════════════════════════════
- * @func 0x1cd9f0 0x1cdb08 size 300  75 条（70 指令 + 1cdb08..1cdb18 五个池字）
+ * @func 0x1cd9f0 0x1cdb1c  size 300  75 条（70 指令 + 1cdb08..1cdb18 五个池字）
  * 级别: 正文（75/75。门 → 矩形构造 → RTree::Remove → 两条侵入链摘除，全部逐条解出）
  * 符号: _Z15CollisionRemoveP9CInstance → void CollisionRemove(CInstance*)
  * 同层: RTree::Remove(const int*,const int*,CInstance* const&,bool) 0x1cd978、
@@ -670,7 +670,7 @@
 /* @0x1cdb18 .word 0xffffeee4 */
 
 /* ══ §6 CInstance::SetDeactivated 0x19230c ════════════════════════════════
- * @func 0x19230c 0x192338 size 52  13 条（11 指令 + 192338/19233c 两个池字）
+ * @func 0x19230c 0x192340  size 52  13 条（11 指令 + 192338/19233c 两个池字）
  * 级别: 正文（13/13。两条路只有一个分叉点：ldrb g_isZeus + cmp + bxeq）
  * 符号: _ZN9CInstance14SetDeactivatedEb → void CInstance::SetDeactivated(bool)
  * 同层: CLayerManager::UpdateInstanceActivation 0x1b8a28（路 2 的尾调）、CLayerManager::GetLayerFromID 0x1b8868、
@@ -738,7 +738,7 @@
 /* @0x19233c .word 0x0025b5fc */
 
 /* ══ §7 CInstance::RebuildPhysicsBody 0x192fa4 ════════════════════════════
- * @func 0x192fa4 0x192fec size 72  18 条（18 指令，无字面量池）
+ * @func 0x192fa4 0x192fec  size 72  18 条（18 指令，无字面量池）
  * 级别: 正文（18/18。拆旧 → 门 → 建新 三段，无循环）
  * 符号: _ZN9CInstance18RebuildPhysicsBodyEP5CRoom → void CInstance::RebuildPhysicsBody(CRoom*)
  * 同层: CPhysicsWorld::DestroyBody 0x238c08、CInstance::CreatePhysicsBody 0x192cd4、

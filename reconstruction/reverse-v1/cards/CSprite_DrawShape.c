@@ -1,6 +1,6 @@
 /* cally 逆向卡：CSprite::DrawSWF / CSprite::DrawShape（原版 libyoyo.so，armv7）
- * @func 0x1ebf08 0x1ec71c  size 2072  518 条（literal pool 0x1ec2bc..0x1ec2d0 共 6 字；真指令 512）
- * @func 0x1ed768 0x1ee764  size 4096  1024 条（literal pool 0x1edbe4..0x1edc24 共 17 字 +
+ * @func 0x1ebf08 0x1ec720  size 2072  518 条（literal pool 0x1ec2bc..0x1ec2d0 共 6 字；真指令 512）
+ * @func 0x1ed768 0x1ee768  size 4096  1024 条（literal pool 0x1edbe4..0x1edc24 共 17 字 +
  *                                    0x1ee668..0x1ee688 共 9 字；真指令 998）
  * 级别: 正文（1542/1542 逐条落锚；形参落位、两道守卫、颜色合成、矩阵链、状态存取、帧取模、
  *       228 B 记录步长、图形通道三矩阵合成与透视除法、sqrtf 回退全部证到指令。

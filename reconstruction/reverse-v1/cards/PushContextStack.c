@@ -1,5 +1,5 @@
 /* cally 逆向卡：PushContextStack（原版 libyoyo.so，armv7）
- * @func 0xd3968 0xd3a30  size 204  51 条（45 条代码 + 6 个字面量池字）
+ * @func 0xd3968 0xd3a34  size 204  51 条（45 条代码 + 6 个字面量池字）
  * 级别: 正文（门控字节、三个静态槽、容量翻倍、ReAlloc 实参、写入序、深度上限与失败行为全部逐条落锚；
  *            open 3 条见文末）
  * 符号: _Z16PushContextStackP12YYObjectBase → void PushContextStack(YYObjectBase* inst)

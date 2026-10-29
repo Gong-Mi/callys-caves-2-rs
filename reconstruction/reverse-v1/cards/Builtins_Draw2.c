@@ -70,7 +70,7 @@
  */
 
 /* ══ 1/5  F_DrawSprite  0x122748  size 120  30 条（全是指令，无 literal pool）
- * @func 0x122748 0x1227bc  size 120  30 条
+ * @func 0x122748 0x1227c0  size 120  30 条
  * 符号 _Z12F_DrawSpriteR6RValueP9CInstanceS2_iPS_   GML: draw_sprite(sprite, subimg, x, y)
  * 参数: args = [sp+0x20]（0x122758，push 20 + sub 12）。argc(r3) 在 0x122754 被 `add r3, sp, #4` 覆盖。
  *
@@ -144,7 +144,7 @@
 
 
 /* ══ 2/5  F_DrawText  0x121d70  size 108  27 条（全是指令，无 literal pool）
- * @func 0x121d70 0x121dd8  size 108  27 条
+ * @func 0x121d70 0x121ddc  size 108  27 条
  * 符号 _Z10F_DrawTextR6RValueP9CInstanceS2_iPS_   GML: draw_text(x, y, string)
  * 参数: args = [sp+0x20]（0x121d80，push 12 + sub 20）。argc(r3) 在 0x121db8 被 `mov r3, r12` 覆盖。
  *
@@ -208,7 +208,7 @@
 
 
 /* ══ 3/5  F_D3DSetFog  0x143ba8  size 96  24 条（全是指令，无 literal pool）
- * @func 0x143ba8 0x143c04  size 96  24 条
+ * @func 0x143ba8 0x143c08  size 96  24 条
  * 符号 _Z11F_D3DSetFogR6RValueP9CInstanceS2_iPS_   GML: d3d_set_fog(enable, colour, start, end)
  * 参数: args = [sp+0x18]（0x143bb0，push 24，无 sub）。argc(r3) 在 0x143bf8 被 `sxth r3, r0` 覆盖。
  *
@@ -262,7 +262,7 @@
 
 
 /* ══ 4/5  F_IAP_Acquire  0x155070  size 384  94 条（86 条指令 + 8 个池字 0x1551d0..0x1551ec）
- * @func 0x155070 0x1551c0  size 384  94 条（86 条指令 + 8 个池字 0x1551d0/0x1551d4/0x1551d8/
+ * @func 0x155070 0x1551f0  size 384  94 条（86 条指令 + 8 个池字 0x1551d0/0x1551d4/0x1551d8/
  *       0x1551dc/0x1551e0/0x1551e4/0x1551e8/0x1551ec）
  * 符号 _Z13F_IAP_AcquireR6RValueP9CInstanceS2_iPS_   GML: iap_acquire(...)
  * 参数: args = [sp+0x60]（0x155080，push 36 + sub 60）。argc(r3) 在 0x155084 被 `mov r3, r2` 覆盖。
@@ -439,7 +439,7 @@
 
 
 /* ══ 5/5  F_IAP_PurchaseDetails  0x153450  size 132  33 条（31 条指令 + 2 个池字 0x1534cc/0x1534d0）
- * @func 0x153450 0x1534c8  size 132  33 条（31 条指令 + 2 个池字 0x1534cc/0x1534d0）
+ * @func 0x153450 0x1534d4  size 132  33 条（31 条指令 + 2 个池字 0x1534cc/0x1534d0）
  * 符号 _Z21F_IAP_PurchaseDetailsR6RValueP9CInstanceS2_iPS_   GML: iap_purchase_details(...)
  * 参数: args = [sp+0x10]（0x153458，push 16，无 sub）。argc(r3) 在 0x15347c 被 `ldr r3, [pc, #0x48]` 覆盖。
  *

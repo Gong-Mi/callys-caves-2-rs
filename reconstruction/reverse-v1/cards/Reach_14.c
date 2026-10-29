@@ -150,7 +150,7 @@
  *   @0x1b8d98 bx lr
  *
  * ══ §13/35 CLayerManager::CleanSpriteElementRuntimeData  0x1b8ec0  size 4  1 条（0x1b8ec0..0x1b8ec4）
- * @func 0x1b8ec0 0x1b8ec4  size 4  1 条
+ * @func 0x1b8ec0 0x1b8ed0  size 16  4 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -162,7 +162,7 @@
  *   @0x1b8ec0 bx lr
  *
  * ══ §14/35 CLayerManager::CleanTilemapElementRuntimeData  0x1b8ec4  size 4  1 条（0x1b8ec4..0x1b8ec8）
- * @func 0x1b8ec4 0x1b8ec8  size 4  1 条
+ * @func 0x1b8ec4 0x1b8ed0  size 12  3 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -174,7 +174,7 @@
  *   @0x1b8ec4 bx lr
  *
  * ══ §15/35 CLayerManager::CleanParticleElementRuntimeData  0x1b8ec8  size 4  1 条（0x1b8ec8..0x1b8ecc）
- * @func 0x1b8ec8 0x1b8ecc  size 4  1 条
+ * @func 0x1b8ec8 0x1b8ed0  size 8  2 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -270,7 +270,7 @@
  *   @0x237f90 b 0x23b3c4 <_ZN20CPhysicsJointFactory12DestroyJointEP13CPhysicsWorldj>
  *
  * ══ §23/35 memLogPushContext  0x27b948  size 4  1 条（0x27b948..0x27b94c）
- * @func 0x27b948 0x27b94c  size 4  1 条
+ * @func 0x27b948 0x27b950  size 8  2 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -378,7 +378,7 @@
  *   @0x28fe64 bx lr
  *
  * ══ §32/35 b2Alloc  0x2c6a6c  size 4  1 条（0x2c6a6c..0x2c6a70）
- * @func 0x2c6a6c 0x2c6a70  size 4  1 条
+ * @func 0x2c6a6c 0x2c6a74  size 8  2 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

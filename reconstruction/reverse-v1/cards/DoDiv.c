@@ -1,5 +1,5 @@
 /* cally 逆向卡：DoDiv（原版 libyoyo.so，armv7）
- * @func 0xddd68 0xde5e0 size 2172  543 条指令（含 literal 词）
+ * @func 0xddd68 0xde5e4  size 2172  543 条指令（含 literal 词）
  * 级别: 骨架（arg 位域 / 双格式码分派 / 9 条内核 + 整数除零检查 / 全部错误分支已证；返回值口径未定，不升正文）
  * 符号: _Z5DoDivjPhPKhP6VMExec → uchar* DoDiv(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *

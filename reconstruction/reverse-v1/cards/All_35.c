@@ -433,6 +433,7 @@
  *
  * ══ §3/39 FT_Load_Glyph  0x2e7564  size 808  202 条（0x2e7564..0x2e788c）
  * @func 0x2e7564 0x2e788c  size 808  202 条
+ * 部分覆盖: 本节 202/369 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1488,6 +1489,7 @@
  *
  * ══ §8/39 png_do_expand  0x2aa53c  size 792  198 条（0x2aa53c..0x2aa854）
  * @func 0x2aa53c 0x2aa854  size 792  198 条
+ * 部分覆盖: 本节 198/345 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1904,7 +1906,7 @@
  *   @0xf799c eoreq r9, r3, r8, ror #15
  *
  * ══ §10/39 F_DsMapFindNext(RValue&, CInstance*, CInstance*, int, RValue*)  0x104080  size 788  197 条（0x104080..0x104394）
- * @func 0x104080 0x104394  size 788  197 条
+ * @func 0x104080 0x1043a4  size 804  201 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2320,7 +2322,7 @@
  *   @0x1074cc eoreq r0, r3, r12, lsl r9
  *
  * ══ §12/39 F_DsMapFindFirst(RValue&, CInstance*, CInstance*, int, RValue*)  0x104394  size 784  196 条（0x104394..0x1046a4）
- * @func 0x104394 0x1046a4  size 784  196 条
+ * @func 0x104394 0x1046b4  size 800  200 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5801,7 +5803,8 @@
  *   @0x2a31e4 svchi #0xf0e8bd
  *
  * ══ §29/39 png_free_data  0x2a5bc0  size 766  192 条（0x2a5bc0..0x2a5ebe）
- * @func 0x2a5bc0 0x2a5ebe  size 766  192 条
+ * @func 0x2a5bc0 0x2a5ec0  size 768  192 条
+ * 部分覆盖: 本节 192/322 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6809,7 +6812,7 @@
  *   @0x2e487c ldrdeq r9, r10, [r7], -r12
  *
  * ══ §34/39 C3D_Model::LoadFromFile(char const*)  0x163efc  size 756  189 条（0x163efc..0x1641f0）
- * @func 0x163efc 0x1641f0  size 756  189 条
+ * @func 0x163efc 0x164200  size 772  193 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7609,7 +7612,7 @@
  *   @0x2dd1a0 strlo r0, [r0], #-0
  *
  * ══ §38/39 F_DsGridGet_debug(RValue&, CInstance*, CInstance*, int, RValue*)  0x103d90  size 752  188 条（0x103d90..0x104080）
- * @func 0x103d90 0x104080  size 752  188 条
+ * @func 0x103d90 0x104090  size 768  192 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

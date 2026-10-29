@@ -510,7 +510,7 @@
  *   @0x14f1cc andseq r5, pc, r0, lsl r12
  *
  * ══ §4/50 F_PhysicsCreateWeldJoint(RValue&, CInstance*, CInstance*, int, RValue*)  0x14ff68  size 628  157 条（0x14ff68..0x1501dc）
- * @func 0x14ff68 0x1501dc  size 628  157 条
+ * @func 0x14ff68 0x1501ec  size 644  161 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x150008→0x54298c, 0x1500ec→0x54298c
@@ -1183,6 +1183,7 @@
  *
  * ══ §8/50 GR_Text_Draw(float, float, char const*, int, int)  0x172df8  size 624  155 条（0x172df8..0x173068）｜其中 1 条已由别的卡落锚，本节不再重复
  * @func 0x172df8 0x173068  size 624  155 条
+ * 部分覆盖: 本节 155/156 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1516,6 +1517,7 @@
  *
  * ══ §10/50 ParticleSystem_Create(int, bool)  0x1a42dc  size 624  149 条（0x1a42dc..0x1a454c）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x1a42dc 0x1a454c  size 624  149 条
+ * 部分覆盖: 本节 149/156 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1a42ec→0x5428e8, 0x1a4330→0x54298c, 0x1a4364→0x54245c, 0x1a436c→0x542460, 0x1a4498→0x54298c
@@ -3161,7 +3163,7 @@
  *   @0x2b6640 b 0x2b6444 <jpeg_calc_output_dimensions+0x68>
  *
  * ══ §20/50 CSkeletonSprite::GetSkinList(CDS_List*)  0xc1974  size 612  153 条（0xc1974..0xc1bd8）
- * @func 0xc1974 0xc1bd8  size 612  153 条
+ * @func 0xc1974 0xc1be8  size 628  157 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5605,7 +5607,8 @@
  *   @0x2cd994 b 0x2cd91c <_ZN15b2FrictionJoint23InitVelocityConstraintsERK12b2SolverData+0x1e0>
  *
  * ══ §35/50 ft_lzwstate_io  0x316fb4  size 602  151 条（0x316fb4..0x31720e）
- * @func 0x316fb4 0x31720e  size 602  151 条
+ * @func 0x316fb4 0x317210  size 604  151 条
+ * 部分覆盖: 本节 151/274 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5928,7 +5931,7 @@
  *   @0xdb708 eorseq r2, r1, r12, lsl #1
  *
  * ══ §37/50 F_PhysicsCreateDistanceJoint(RValue&, CInstance*, CInstance*, int, RValue*)  0x14ed04  size 600  150 条（0x14ed04..0x14ef5c）
- * @func 0x14ed04 0x14ef5c  size 600  150 条
+ * @func 0x14ed04 0x14ef6c  size 616  154 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x14eda4→0x54298c, 0x14ee6c→0x54298c

@@ -64,7 +64,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 1 · F_InstanceActivateRegion（instance_activate_region）
- * @func 0x10c24c 0x10c2e0  size 152  38 条（36 条指令 + 2 个池字 0x10c2dc/0x10c2e0）
+ * @func 0x10c24c 0x10c2e4  size 152  38 条（36 条指令 + 2 个池字 0x10c2dc/0x10c2e0）
  * 符号: _Z24F_InstanceActivateRegionR6RValueP9CInstanceS2_iPS_
  * 一句话: 把 (left,top,w,h,inside) 写进 .bss 静态区 0x4836e0（right=left+w、bottom=top+h），再以
  * InstanceRegionActivate(0x10a390) 为回调尾跳 GetDeactiveList；真正搬状态全在回调里 ——
@@ -145,7 +145,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 2 · F_InstancePlace（instance_place）
- * @func 0x109518 0x109594  size 128  32 条（无池字）
+ * @func 0x109518 0x109598  size 128  32 条（无池字）
  * 符号: _Z15F_InstancePlaceR6RValueP9CInstanceS2_iPS_
  * 一句话: x=YYGetFloat(args,0)、y=YYGetFloat(args,1)、obj=YYGetInt32(args,2) → Command_InstancePlace(self,x,y,obj)；
  * 返回指针非 0 → result = (double)inst->[0x78]（tag 0）；为 0 → result = -4.0（noone，tag 0）。
@@ -207,7 +207,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 3 · F_InstanceDestroy（instance_destroy）
- * @func 0x10b190 0x10b1ec  size 96  24 条（无池字）
+ * @func 0x10b190 0x10b1f0  size 96  24 条（无池字）
  * 符号: _Z17F_InstanceDestroyR6RValueP9CInstanceS2_iPS_
  * 一句话: 按 argc 三档摊成 DoInstanceDestroy(self,other,id,hard)：argc≥2 → (args[0], args[1])；
  * argc==1 → (args[0], true)；argc≤0 → (-1, true)。result 一个字都不写。
@@ -268,7 +268,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 4 · F_InstanceExists（instance_exists）
- * @func 0x10af94 0x10afe0  size 80  20 条（无池字）
+ * @func 0x10af94 0x10afe4  size 80  20 条（无池字）
  * 符号: _Z16F_InstanceExistsR6RValueP9CInstanceS2_iPS_
  * 一句话: obj=YYGetInt32(args,0) → YYGML_instance_exists(self,other,obj)；返回 0/1 再按 **u32** 转 double。
  * ⇒ result 恒为 0.0 或 1.0（tag 0），是布尔 double，不是 id。
@@ -315,7 +315,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 5 · F_InstanceNumber（instance_number）
- * @func 0x10b04c 0x10b098  size 80  20 条（无池字）
+ * @func 0x10b04c 0x10b09c  size 80  20 条（无池字）
  * 符号: _Z16F_InstanceNumberR6RValueP9CInstanceS2_iPS_
  * 一句话: obj=YYGetInt32(args,0) → YYGML_instance_number(self,other,obj)；返回 int 按 **s32** 转 double。
  * ⇒ result = (double)计数，tag 0。
@@ -369,7 +369,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 6 · F_MpPotentialStep（mp_potential_step）
- * @func 0x108a34 0x108acc  size 156  39 条（无池字）
+ * @func 0x108a34 0x108ad0  size 156  39 条（无池字）
  * 符号: _Z17F_MpPotentialStepR6RValueP9CInstanceS2_iPS_
  * 一句话: x=YYGetFloat(0)、y=YYGetFloat(1)、step=YYGetFloat(2)、checkall=YYGetBool(3) →
  * Motion_Potential_Step(self,x,y,step,**-3**,checkall)（第 5 实参硬编码 -3）；
@@ -446,7 +446,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 7 · F_MoveTowardsPoint（move_towards_point）
- * @func 0x10819c 0x1081e8  size 80  20 条（无池字）
+ * @func 0x10819c 0x1081ec  size 80  20 条（无池字）
  * 符号: _Z18F_MoveTowardsPointR6RValueP9CInstanceS2_iPS_
  * 一句话: x=YYGetFloat(0)、y=YYGetFloat(1)、spd=YYGetFloat(2) → 尾跳 Command_MoveTowards(self,x,y,spd)；
  * result **不写**（全函数 0 条 str 到 [result]）。
@@ -488,7 +488,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 8 · F_PointDirection（point_direction）
- * @func 0x111a50 0x111ac8  size 124  31 条（无池字）
+ * @func 0x111a50 0x111acc  size 124  31 条（无池字）
  * 符号: _Z16F_PointDirectionR6RValueP9CInstanceS2_iPS_
  * 一句话: 四个 float 实参 → YYGML_point_direction(x1,y1,x2,y2) 返回 **float**，再 vcvt.f64.f32 扩宽成 double。
  * ⇒ result = (double)(float 角度)，单位度、量程 [0,360)（见 8.3）。
@@ -555,7 +555,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 9 · F_Sign（sign）
- * @func 0x10de6c 0x10decc  size 100  25 条（无池字）
+ * @func 0x10de6c 0x10ded0  size 100  25 条（无池字）
  * 符号: _Z6F_SignR6RValueP9CInstanceS2_iPS_
  * 一句话: v = YYGetReal(args,0)（**双精度**，本批唯一用 YYGetReal 的）→ v<0 → -1.0；v==0 → 0.0；否则 1.0。
  * 三种都 tag 0。result 恒为 {-1.0, 0.0, +1.0}。

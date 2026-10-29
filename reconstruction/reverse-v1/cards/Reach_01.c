@@ -5779,7 +5779,7 @@
  *   @0x154a6c bl 0xb65d4 <__stack_chk_fail@plt>
  *
  * ══ §6/7 spPathConstraint_computeWorldPositions  0x287ad4  size 3252  813 条（0x287ad4..0x288788）
- * @func 0x287ad4 0x288788  size 3252  813 条
+ * @func 0x287ad4 0x288798  size 3268  817 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

@@ -1,6 +1,6 @@
 /* cally 逆向卡：Variable_Misc（Variable_GetName_Scope + Variable_BuiltIn_Add）（原版 libyoyo.so，armv7）
- * @func 0xd2228 0xd24d0  size 684  171 条（158 条指令 + 13 个字面量池字 0xd24a0..0xd24d0）
- * @func 0x1f4da8 0x1f504c  size 680  170 条（164 条指令 + 6 个字面量池字 0x1f5038..0x1f504c）
+ * @func 0xd2228 0xd24d4  size 684  171 条（158 条指令 + 13 个字面量池字 0xd24a0..0xd24d0）
+ * @func 0x1f4da8 0x1f5050  size 680  170 条（164 条指令 + 6 个字面量池字 0x1f5038..0x1f504c）
  * 级别: 正文（341/341 逐条锚定；两节各钉死一件事：
  *             ① 变量 id → 名字 的四张表与两道门（含表布局、边界行为、每个全局的 dynsym 名）；
  *             ② 内建变量 → 名字 的 16 B 表项四字段、固定 500 项的表、以及 name→id 的 hash map 与扩容。

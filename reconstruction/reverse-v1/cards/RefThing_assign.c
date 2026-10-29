@@ -1,5 +1,5 @@
 /* cally 逆向卡：_RefThing<char const*>::assign（原版 libyoyo.so，armv7）
- * @func 0xdc418 0xdc428  size 20  5 条（无字面量池、无栈帧、无调用）
+ * @func 0xdc418 0xdc42c  size 20  5 条（无字面量池、无栈帧、无调用）
  * 级别: 正文（唯一动作、返回约定、8 个调用点的 RValue 载荷形态、与 tag2 内联 retain 的并排关系全部落锚；
  *            open 2 条见文末）
  * 符号: _ZN9_RefThingIPKcE6assignEPS2_

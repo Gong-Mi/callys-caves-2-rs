@@ -6874,6 +6874,7 @@
  *
  * ══ §21/23 Header_Load(unsigned char*, unsigned int, unsigned char*)  0x1dcf94  size 1240  303 条（0x1dcf94..0x1dd46c）｜其中 7 条已由别的卡落锚，本节不再重复
  * @func 0x1dcf94 0x1dd46c  size 1240  303 条
+ * 部分覆盖: 本节 303/310 条（其余由其它卡的同一 @func 主张）
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1dcfa4→0x544bcc, 0x1dcfac→0x544bd0, 0x1dcfb8→0x542974, 0x1dcfc8→0x542964, 0x1dd01c→0x3f5228, 0x1dd024→0x3f5224, 0x1dd030→0x3f5220, 0x1dd03c→0x757f10

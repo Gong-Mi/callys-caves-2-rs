@@ -1,5 +1,5 @@
 /* cally 逆向卡：CRoom::LoadFromStream（原版 libyoyo.so，armv7）
- * @func 0x1ae3f8 0x1aea38  size 1604  401 条（0x1aea38 为 literal pool，1 字）
+ * @func 0x1ae3f8 0x1aea3c  size 1604  401 条（0x1aea38 为 literal pool，1 字）
  * 级别: 正文（整条流序、字段落位、唯一失败出口全部逐条钉住，并与 CRoom::LoadFromChunk 0x1aea3c、
  *             CRoom::DeSerialise 0x1ac33c、CRoom::Serialise 0x1aa228、CRoom::Clear 0x1ad0a4、
  *             CRoom::AddTile 0x1ac240、CInstance::C2 0x1994dc、CStream::ReadInteger 0x201730 /

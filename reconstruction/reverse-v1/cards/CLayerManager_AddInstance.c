@@ -1,5 +1,5 @@
 /* cally 逆向卡：CLayerManager::AddInstance（原版 libyoyo.so，armv7）
- * @func 0x1c5d18 0x1c5db8 size 164  41 条（40 条指令 + 1c5db8 一个字面量池字）
+ * @func 0x1c5d18 0x1c5dbc  size 164  41 条（40 条指令 + 1c5db8 一个字面量池字）
  * 级别: 骨架（41/41 锚定，全函数逐条解码：四道门、三级归层、两条尾调路径、float→int 的截断方式、
  *             每一级用哪张表/哪个 bool 都钉住了。未钉：0x5428e8 字节的正式名（借 DrawTheRoom 卡的 Zeus）、
  *             instance+0x170 的全部写入方（本卡只证它与 GetLayerFromID 的消费关系）、
