@@ -1,13 +1,13 @@
 /* cally 逆向卡：两个门字节的消费面（0x5428e8 / 0x755363）—— 原版 libyoyo.so，armv7
  * 方法: scripts/gate_census.py —— 按每个函数序言的 GOT 基址把 `ldr rX,[pc,#imm]` 的池字还原成槽地址，
  *       再用 .rel.dyn 的 RELATIVE/GLOB_DAT 目标判定「这个槽指向哪个全局」，最后按加载后紧跟的
- *       ldr/str 形式分读写。不按变量名或用途猜。
+ *       ldr/str 形式分读写。不按变量名或用途猜。本文件由 scripts/gen_gate_card.py 生成。
  * 级别: 正文（每个消费点落在具体指令上）；变量语义仍 open —— 本卡只说「谁碰它、怎么碰」，不给它编名字。
- * 锚点: 只为本卡新主张的地址落锚；已有卡主张过的站点这里只给地址与归属（全库共享地址保持 0）。
+ * 锚点: 一个地址只由一张卡主张；已由别的卡落锚的站点这里只给地址与归属。
  * 合计 83 个消费点。
  *
  * ══ §1 0x5428e8  消费点 52 个（read 37 / write 1 / 未分类 14）══
- * 涉及函数 50 个；槽 ['0x3ed92c']
+ * 涉及函数 52 个；槽 ['0x3ed92c']
  * 写点: 0x1dd844 in GetResolution(unsigned char*, int)+0x3d8
  * 读点函数: AddFunctionNames(Buffer_Standard*)+0x9c、Audio_SetGainForNoise(CNoise*, float, int)+0x84、Audio_SoundGain(int, float, int)+0x44、BeginToEnd()+0x2fc、CInstance::ChangeObjectIndex(int)+0xa4、CProfiler::Init(char const*, int)+0x24、CRoom::LoadFromChunk(YYRoom*, unsigned char*)+0x4ac、CRoom::LoadFromChunk(YYRoom*, unsigned char*)+0x768、CSkeletonInstance::GetFrames(char*) const+0x20、CSprite::Draw(int, float, float, float, float, float, unsigned int, float)+0x1f4、CSprite::DrawGeneral(int, float, float, float, float, float, float, float, float, float, unsigned int, unsigned int, unsigned int, unsigned int, float)+0x214、CSprite::DrawSimple(int, float, float)+0x164、Command_SaveGame(int)+0x53c、DoBreak(unsigned int, unsigned char, unsigned char*, unsigned char const*, VMExec*, bool)+0x54…
  * 未分类（加载后 0x20 字节内未见解引用/写回，可能只作指针传递）: 0x11e80c, 0x11f4a8, 0x11f650, 0x1281f0, 0x131508, 0x149f54, 0x19340c, 0x1a42ec, 0x1aeee8, 0x1af1a4, 0x1b3fd8, 0x1db838, 0x1dda68, 0x2a00d4
@@ -265,7 +265,7 @@
  *   @0x2a1b10 ldr r2, [r7, r2]
  *   @0x2a1b14 ldr r3, [r7, r3]
  *   @0x2a1b18 ldrb r2, [r2]
- * 已有卡主张的站点（本卡不重复落锚）: 0xd8488(read,DoBreak(unsigned int, unsigned char, unsigned char*, unsigned char const*, VMExec*, bool)+0x54), 0x10cde8(read,InitGameFunctions()+0x610), 0x1281f0(?,InitInteractionFunctions()+0x92c), 0x12a464(read,InitParticlesFunctions()+0x4f0), 0x131508(?,InitResourceFunctions()+0x50c), 0x149f54(?,Init3DFunctions()+0x8), 0x1aeee8(?,CRoom::LoadFromChunk(YYRoom*, unsigned char*)+0x4ac), 0x1af1a4(?,CRoom::LoadFromChunk(YYRoom*, unsigned char*)+0x768), 0x1b3bec(read,DrawTheRoom(tagYYRECT*)+0xdc), 0x1b3fd8(?,Draw_Room()+0x140), 0x1ce9b4(read,HandleOther()+0x420), 0x1d0d04(read,Command_SaveGame(int)+0x53c), 0x1d3a18(read,StartRoom(int, bool)+0x138), 0x1ddd4c(read,LoadGameData(void*, unsigned int)+0x68), 0x1ec914(read,CSprite::Draw(int, float, float, float, float, float, unsigned int, float)+0x1f4), 0x1ecc18(read,CSprite::DrawSimple(int, float, float)+0x164)
+ * 已有卡主张的站点（本卡不重复落锚）: 0xd8488(read,DoBreak), 0x10cde8(read,InitTables_System), 0x1281f0(?,InitTables_InputAction), 0x12a464(read,InitTables_Resource), 0x131508(?,InitTables_Resource), 0x149f54(?,InitTables_Draw3D), 0x1aeee8(?,CRoom_LoadFromChunk), 0x1af1a4(?,CRoom_LoadFromChunk), 0x1b3bec(read,DrawTheRoom), 0x1b3fd8(?,Draw_Room), 0x1ce9b4(read,HandleOther), 0x1d0d04(read,Command_SaveUnzip), 0x1d3a18(read,StartRoom), 0x1ddd4c(read,LoadGameData), 0x1ec914(read,CSprite_Draw), 0x1ecc18(read,CSprite_Draw)
  *
  * ══ §2 0x755363  消费点 31 个（read 22 / write 0 / 未分类 9）══
  * 涉及函数 31 个；槽 ['0x3ef054']
@@ -316,34 +316,11 @@
  *   @0x21a0c4 ldr r3, [r5, r3]
  *   @0x21a0c8 ldrb r3, [r3]
  *   @0x21a0cc cmp r3, #0
- *   @0x21ade8 ldr r11, [pc, #0x46c]
- *   @0x21adec sub sp, sp, #36
- *   @0x21adf0 ldr r3, [pc, #0x468]   —— read 0x755363（槽 0x3ef054，在 Audio_GetSoundSourceToPlay(int, float)+0x14）
- *   @0x21adf4 vmov s16, r1
- *   @0x21adf8 add r11, pc, r11
- *   @0x21adfc ldr r3, [r11, r3]
- *   @0x21ae00 ldrb r3, [r3]
- *   @0x21b2a8 ldr r4, [pc, #0x2f4]
- *   @0x21b2ac sub sp, sp, #8
- *   @0x21b2b0 ldr r1, [pc, #0x2f0]   —— ? 0x755363（槽 0x3ef054，在 Audio_PlaySoundAt(int, double, double, double, double, double, double, int, double)+0x14）
- *   @0x21b2b4 mov r9, r0
- *   @0x21b2b8 add r4, pc, r4
- *   @0x21b2bc ldr r3, [r4, r1]
- *   @0x21b2c0 ldrb r7, [r3]
- *   @0x21b5e4 ldr r5, [pc, #0x2a0]
- *   @0x21b5e8 sub sp, sp, #20
  *   @0x21b5ec ldr r1, [pc, #0x29c]   —— ? 0x755363（槽 0x3ef054，在 Audio_PlaySound(int, double, int)+0x14）
  *   @0x21b5f0 mov r7, r0
  *   @0x21b5f4 add r5, pc, r5
  *   @0x21b5f8 ldr r3, [r5, r1]
  *   @0x21b5fc ldrb r3, [r3]
- *   @0x21b8cc ldr r5, [pc, #0x324]
- *   @0x21b8d0 sub sp, sp, #8
- *   @0x21b8d4 ldr r3, [pc, #0x320]   —— read 0x755363（槽 0x3ef054，在 Audio_PlaySoundOn(int, int, int, double)+0x14）
- *   @0x21b8d8 mov r7, r1
- *   @0x21b8dc add r5, pc, r5
- *   @0x21b8e0 mov r10, r2
- *   @0x21b8e4 ldr r3, [r5, r3]
  *   @0x21d0e8 ldr r4, [pc, #0x2a0]
  *   @0x21d0ec sub sp, sp, #20
  *   @0x21d0f0 ldr r12, [pc, #0x29c]   —— ? 0x755363（槽 0x3ef054，在 Audio_QueueBufferSound(int, int, int, int)+0x10）
@@ -491,4 +468,5 @@
  *   @0x2a1d38 str r1, [sp, #0x8]
  *   @0x2a1d3c strb r3, [r1]
  *   @0x2a1d40 ldr r1, [r5, r8]
+ * 已有卡主张的站点（本卡不重复落锚）: 0x21adf0(read,Audio), 0x21b2b0(?,Audio), 0x21b8d4(read,Audio)
  */
