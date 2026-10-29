@@ -1,5 +1,5 @@
 /* cally 逆向卡：VMError（原版 libyoyo.so，armv7）
- * @func 0xd4210 0xd4304  size 244  56 条指令 + 5 字 literal pool（0xd42f0..0xd4300，索引共 61 行）
+ * @func 0xd4210 0xd4304  size 244  61 条指令 + 5 字 literal pool（0xd42f0..0xd4300，索引共 61 行）
  * 级别: 正文（61/61 逐条落锚；变参栈布局、4 个全局槽、3 条出口全解；被调函数内部语义只用
  *       符号名 + 重定位 + 调用约定判定，不外推）
  * 符号: _Z7VMErrorP6VMExecPKcz → void VMError(VMExec* exec, const char* fmt, ...)

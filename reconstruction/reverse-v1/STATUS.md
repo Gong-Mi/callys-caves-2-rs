@@ -84,3 +84,16 @@
     2  匿名段按 in-degree 吃（≥512 B 的优先）；新遇到 Thumb 用调用点编码判
     3  差分收尾 193 例
     4  freetype/pcre 内部只做接口级，不逐指令
+
+## 验牌（逐卡审计，2026-10-29）
+
+工具 `scripts/audit_cards.py`，账本 `reconstruction/reverse-v1/CARD-AUDIT.tsv`（每卡一行）。
+
+    检查项  级别行存在 / 锚点都在 asm/instructions.jsonl 里 / 每个 @func 的声明条数与自己锚的数量一致
+            （END 采用 excl 或 incl 任一约定，报告实际用哪种）/ 锚点不落在任何声明范围外 / 部分覆盖要显式
+    结果    245 张卡，通过 178，不过 67
+    不过的类别（同一张卡可命中多类）: {'count': 176, 'partial': 160, 'undeclared-range': 5}
+
+    已修（无歧义的两张）: VMError.c 声明 56 条实际 61 条；Reach_02.c 的 MarkAndSweepGen 节已移交 GC 卡，删掉遗留 @func。
+    其余 67 张是**遗留元数据不一致**（旧卡的 @func 范围比它自己锚的范围小，于是既报 count 不符又报 undeclared-range），
+    不是内容缺失：全库锚点仍 649,229、共享地址 0。修法只能逐卡按它自己的锚点重算范围，不做启发式批量改写。
