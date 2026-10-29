@@ -731,7 +731,7 @@
  *   @0x1ed764 .word 0xfffff190
  *
  * ══ §4/36 JS_String_prototype_indexOf(RValue&, CInstance*, CInstance*, int, RValue*)  0x257ae4  size 920  230 条（0x257ae4..0x257e7c）
- * @func 0x257ae4 0x257e8c  size 936  234 条
+ * @func 0x257ae4 0x257e90  size 940  235 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5231,7 +5231,7 @@
  *   @0x31aab4 pop {r4, r5, r6, r7, r8, r9, r10, pc}
  *
  * ══ §23/36 F_JS_Object_getOwnPropertyNames(RValue&, CInstance*, CInstance*, int, RValue*)  0x250b30  size 888  222 条（0x250b30..0x250ea8）
- * @func 0x250b30 0x250eb8  size 904  226 条
+ * @func 0x250b30 0x250ebc  size 908  227 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5928,7 +5928,7 @@
  *   @0x2581e8 muleq pc, r0, sp
  *
  * ══ §26/36 yySocket::Connect(char*, int)  0x295858  size 880  220 条（0x295858..0x295bc8）
- * @func 0x295858 0x295bd8  size 896  224 条
+ * @func 0x295858 0x295bdc  size 900  225 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

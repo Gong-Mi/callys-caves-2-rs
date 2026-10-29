@@ -1712,7 +1712,7 @@
 /* @0x192bbc strb r2, [r0, #0x64] */
 /* @0x192bc0 b 0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance> */
 /* ══ §7 CInstance::SetImageScaleX(float) 0x192fec ════════════════════════════
- * @func 0x192fec 0x193024  size 56  14 条
+ * @func 0x192fec 0x193028  size 60  15 条
  * 级别: 正文（10/10）
  * 符号: _ZN9CInstance14SetImageScaleXEf → void CInstance::SetImageScaleX(float)
  * 位置: RebuildPhysicsBody 0x192fa4 之后、SetImageScaleY 0x193014 之前（三个 setter 连排）
@@ -1731,7 +1731,7 @@
 /* @0x19300c strb r2, [r0, #0x64] */
 /* @0x193010 b 0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance> */
 /* ══ §8 CInstance::SetImageScaleY(float) 0x193014 ════════════════════════════
- * @func 0x193014 0x19304c  size 56  14 条
+ * @func 0x193014 0x193050  size 60  15 条
  * 级别: 正文（10/10）
  * 符号: _ZN9CInstance14SetImageScaleYEf → void CInstance::SetImageScaleY(float)
  * 位置: SetImageScaleX 0x192fec 之后、SetImageAngle 0x19303c 之前
@@ -1768,7 +1768,7 @@
 /* @0x19305c strb r2, [r0, #0x64] */
 /* @0x193060 b 0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance> */
 /* ══ §10 CInstance::SetSpeed(float) 0x1930d4 ═════════════════════════════════
- * @func 0x1930d4 0x193104  size 48  12 条
+ * @func 0x1930d4 0x193108  size 52  13 条
  * 级别: 正文（8/8）
  * 符号: _ZN9CInstance8SetSpeedEf → void CInstance::SetSpeed(float)
  * 位置: SetDirection 0x193064 之后、SetHspeed 0x1930f4 之前
@@ -1787,7 +1787,7 @@
 /* @0x1930ec str r1, [r3, #0xd0] */
 /* @0x1930f0 b 0x192aa0 <_ZN9CInstance14Compute_Speed2Ev> */
 /* ══ §11 CInstance::SetHspeed(float) 0x1930f4 ════════════════════════════════
- * @func 0x1930f4 0x193124  size 48  12 条
+ * @func 0x1930f4 0x193128  size 52  13 条
  * 级别: 正文（8/8）
  * 符号: _ZN9CInstance9SetHspeedEf → void CInstance::SetHspeed(float)
  * 位置: SetSpeed 0x1930d4 之后、SetVspeed 0x193114 之前
@@ -1834,7 +1834,7 @@
 /* @0x193150 strls r2, [r0, r1, lsl #2] */
 /* @0x193154 bx lr */
 /* ══ §14 CInstance::SetPathPosition(float) 0x1935c4 ══════════════════════════
- * @func 0x1935c4 0x19360c  size 72  18 条（13 指令 + 末 1 字 0x1935f8 = 0.0f 为 literal pool）
+ * @func 0x1935c4 0x193610  size 76  19 条（13 指令 + 末 1 字 0x1935f8 = 0.0f 为 literal pool）
  * 级别: 正文（14/14）
  * 符号: _ZN9CInstance15SetPathPositionEf → void CInstance::SetPathPosition(float)
  * 位置: GetImageNumber 0x19357c 之后、SetPathPositionPrevious 0x1935fc 之前
@@ -1859,7 +1859,7 @@
 /* @0x1935f4 bx lr */
 /* @0x1935f8 andeq r0, r0, r0 */
 /* ══ §15 CInstance::SetPathPositionPrevious(float) 0x1935fc ═══════════════════
- * @func 0x1935fc 0x193644  size 72  18 条（13 指令 + 末 1 字 0x193630 = 0.0f 为 literal pool）
+ * @func 0x1935fc 0x193648  size 76  19 条（13 指令 + 末 1 字 0x193630 = 0.0f 为 literal pool）
  * 级别: 正文（14/14）
  * 符号: _ZN9CInstance23SetPathPositionPreviousEf → void CInstance::SetPathPositionPrevious(float)
  * 位置: SetPathPosition 0x1935c4 之后、SetPathSpeed 0x193634 之前
@@ -1881,7 +1881,7 @@
 /* @0x19362c bx lr */
 /* @0x193630 andeq r0, r0, r0 */
 /* ══ §16 CInstance::SetPathSpeed(float) 0x193634 ═════════════════════════════
- * @func 0x193634 0x19364c  size 24  6 条
+ * @func 0x193634 0x193650  size 28  7 条
  * 级别: 正文（2/2）
  * 符号: _ZN9CInstance12SetPathSpeedEf → void CInstance::SetPathSpeed(float)
  * 位置: SetPathPositionPrevious 0x1935fc 之后、CInstance::Dump 0x19363c 之前

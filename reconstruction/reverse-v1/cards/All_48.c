@@ -1501,7 +1501,7 @@
  *   @0x1e7c88 b 0x1e7bf4 <_ZN7CSprite14SampleGradientEP25SWF_GradientFillStyleDatai+0xb0>
  *
  * ══ §17/94 ov_time_seek  0x232a44  size 328  82 条（0x232a44..0x232b8c）
- * @func 0x232a44 0x232b9c  size 344  86 条
+ * @func 0x232a44 0x232ba0  size 348  87 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2890,7 +2890,7 @@
  *   @0x1568e4 andseq r10, sp, r0, asr #3
  *
  * ══ §32/94 F_CameraGetViewMat(RValue&, CInstance*, CInstance*, int, RValue*)  0x16fd84  size 324  81 条（0x16fd84..0x16fec8）
- * @func 0x16fd84 0x16fed8  size 340  85 条
+ * @func 0x16fd84 0x16fedc  size 344  86 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

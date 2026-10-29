@@ -930,7 +930,7 @@
  *   @0x1648d0 andseq r5, lr, r0, lsr lr
  *
  * ══ §8/66 HalfTextureRGBA(int, int, unsigned int*, int, int, unsigned int*)  0x18923c  size 480  120 条（0x18923c..0x18941c）
- * @func 0x18923c 0x18942c  size 496  124 条
+ * @func 0x18923c 0x189430  size 500  125 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4784,7 +4784,7 @@
  *   @0x17e2a4 eoreq pc, r6, r4, lsr r5
  *
  * ══ §38/66 Motion_Potential_Step(CInstance*, float, float, float, int, bool)  0x19ccc8  size 460  115 条（0x19ccc8..0x19ce94）
- * @func 0x19ccc8 0x19cea4  size 476  119 条
+ * @func 0x19ccc8 0x19cea8  size 480  120 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

@@ -357,7 +357,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 8 · F_DisplayGetWidth（display_get_width）
- * @func 0x119bc4 0x119c00  size 60  15 条（无池字）
+ * @func 0x119bc4 0x119c04  size 64  16 条（无池字）
  * 符号: _Z17F_DisplayGetWidthR6RValueP9CInstanceS2_iPS_
  * 一句话: 无实参；Graphics_DisplayWidth() → g_DeviceWidth（int）→ result = (double)(int)。tag 先清 0。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -422,7 +422,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 10 · F_WindowGetWidth（window_get_width）
- * @func 0x11a59c 0x11a5d8  size 60  15 条（无池字）
+ * @func 0x11a59c 0x11a5dc  size 64  16 条（无池字）
  * 符号: _Z16F_WindowGetWidthR6RValueP9CInstanceS2_iPS_
  * 一句话: 无实参；GR_Window_Get_Width() → g_DeviceWidth（与 display_get_width 同一个全局）。
  * ═══════════════════════════════════════════════════════════════════════════

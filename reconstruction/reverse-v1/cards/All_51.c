@@ -83,7 +83,7 @@
  *   @0x145a68 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §2/119 F_D3DModelCylinder(RValue&, CInstance*, CInstance*, int, RValue*)  0x145b3c  size 264  66 条（0x145b3c..0x145c44）
- * @func 0x145b3c 0x145c54  size 280  70 条
+ * @func 0x145b3c 0x145c58  size 284  71 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -237,7 +237,7 @@
  *   @0x145d48 pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §4/119 CBitmap32::SmoothEdges()  0x1661fc  size 264  66 条（0x1661fc..0x166304）
- * @func 0x1661fc 0x166314  size 280  70 条
+ * @func 0x1661fc 0x166318  size 284  71 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2896,7 +2896,7 @@
  *   @0x239670 ldrdmi r0, r1, [r9], #-251
  *
  * ══ §39/119 F_JS_Object_freeze(RValue&, CInstance*, CInstance*, int, RValue*)  0x2508c8  size 260  65 条（0x2508c8..0x2509cc）
- * @func 0x2508c8 0x2509dc  size 276  69 条
+ * @func 0x2508c8 0x2509e0  size 280  70 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3048,7 +3048,7 @@
  *   @0x250acc andseq r5, r0, r12, lsl #9
  *
  * ══ §41/119 Java_com_yoyogames_runner_RunnerJNILib_HttpResultString  0x293174  size 260  65 条（0x293174..0x293278）
- * @func 0x293174 0x293288  size 276  69 条
+ * @func 0x293174 0x29328c  size 280  70 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3954,7 +3954,7 @@
  *   @0x1222cc pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §53/119 F_FontReplaceSprite(RValue&, CInstance*, CInstance*, int, RValue*)  0x12d11c  size 256  64 条（0x12d11c..0x12d21c）
- * @func 0x12d11c 0x12d22c  size 272  68 条
+ * @func 0x12d11c 0x12d230  size 276  69 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5079,7 +5079,7 @@
  *   @0x23db20 pop {r4, r5, r6, r7, r8, r9, pc}
  *
  * ══ §68/119 JS_Array_prototype_indexOf(RValue&, CInstance*, CInstance*, int, RValue*)  0x240b24  size 256  64 条（0x240b24..0x240c24）
- * @func 0x240b24 0x240c34  size 272  68 条
+ * @func 0x240b24 0x240c38  size 276  69 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5455,7 +5455,7 @@
  *   @0xc9afc eorseq r0, r11, r8, asr r6
  *
  * ══ §73/119 YYGML_vertex_float4(int, float, float, float, float)  0xc9fa4  size 252  63 条（0xc9fa4..0xca0a0）
- * @func 0xc9fa4 0xca0b0  size 268  67 条
+ * @func 0xc9fa4 0xca0b4  size 272  68 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5677,7 +5677,7 @@
  *   @0xcda14 mlaeq r6, r0, r1, r3
  *
  * ══ §76/119 InputDialogASync(HTTP_REQ_CONTEXT*, void*, int*)  0xf1e7c  size 252  63 条（0xf1e7c..0xf1f78）
- * @func 0xf1e7c 0xf1f88  size 268  67 条
+ * @func 0xf1e7c 0xf1f8c  size 272  68 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5825,7 +5825,7 @@
  *   @0xf2070 eoreq lr, r3, r12, lsl #20
  *
  * ══ §78/119 F_MpPotentialPath(RValue&, CInstance*, CInstance*, int, RValue*)  0x109e44  size 252  63 条（0x109e44..0x109f40）
- * @func 0x109e44 0x109f50  size 268  67 条
+ * @func 0x109e44 0x109f54  size 272  68 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5899,7 +5899,7 @@
  *   @0x109f3c eoreq lr, r2, r0, lsr #15
  *
  * ══ §79/119 F_MpPotentialPathObject(RValue&, CInstance*, CInstance*, int, RValue*)  0x109f40  size 252  63 条（0x109f40..0x10a03c）
- * @func 0x109f40 0x10a04c  size 268  67 条
+ * @func 0x109f40 0x10a050  size 272  68 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6269,7 +6269,7 @@
  *   @0x145330 ldrheq r12, [pc], -r0
  *
  * ══ §84/119 F_CameraSetViewMat(RValue&, CInstance*, CInstance*, int, RValue*)  0x16f584  size 252  63 条（0x16f584..0x16f680）
- * @func 0x16f584 0x16f690  size 268  67 条
+ * @func 0x16f584 0x16f694  size 272  68 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6713,7 +6713,7 @@
  *   @0x240d1c b 0x240c58 <_Z30JS_Array_prototype_lastIndexOfR6RValueP9CInstanceS2_iPS_+0x34>
  *
  * ══ §90/119 F_JS_Object_isFrozen(RValue&, CInstance*, CInstance*, int, RValue*)  0x2507cc  size 252  63 条（0x2507cc..0x2508c8）
- * @func 0x2507cc 0x2508d8  size 268  67 条
+ * @func 0x2507cc 0x2508dc  size 272  68 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7234,7 +7234,7 @@
  *   @0x2b0eb4 pop {r4, pc}
  *
  * ══ §97/119 F_Vertex_Float3_release(RValue&, CInstance*, CInstance*, int, RValue*)  0xc8250  size 248  62 条（0xc8250..0xc8348）
- * @func 0xc8250 0xc8358  size 264  66 条
+ * @func 0xc8250 0xc835c  size 268  67 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7307,7 +7307,7 @@
  *   @0xc8344 eoreq r8, r6, r8, lsl #26
  *
  * ══ §98/119 F_Vertex_Position_3d_release(RValue&, CInstance*, CInstance*, int, RValue*)  0xc8348  size 248  62 条（0xc8348..0xc8440）
- * @func 0xc8348 0xc8450  size 264  66 条
+ * @func 0xc8348 0xc8454  size 268  67 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8619,7 +8619,7 @@
  *   @0x226400 andseq lr, r2, r8, lsl #22
  *
  * ══ §116/119 _spPathConstraintPositionTimeline_apply  0x2826ec  size 248  62 条（0x2826ec..0x2827e4）
- * @func 0x2826ec 0x2827f4  size 264  66 条
+ * @func 0x2826ec 0x2827f8  size 268  67 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

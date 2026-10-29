@@ -3467,7 +3467,7 @@
  *   @0xe3e54 eorseq r9, r0, r8, lsr sp
  *
  * ══ §41/102 DIALOG_REQ_CONTEXT::AddLoginDialog(char const*, char const*)  0xf2474  size 296  74 条（0xf2474..0xf259c）
- * @func 0xf2474 0xf25ac  size 312  78 条
+ * @func 0xf2474 0xf25b0  size 316  79 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3722,7 +3722,7 @@
  *   @0xf71c4 pop {r4, r5, r6, pc}
  *
  * ══ §44/102 F_DsGridSetGridRegion(RValue&, CInstance*, CInstance*, int, RValue*)  0xfd948  size 296  74 条（0xfd948..0xfda70）
- * @func 0xfd948 0xfda80  size 312  78 条
+ * @func 0xfd948 0xfda84  size 316  79 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3807,7 +3807,7 @@
  *   @0xfda6c eoreq r10, r3, r8, lsr #3
  *
  * ══ §45/102 F_DsGridAddGridRegion(RValue&, CInstance*, CInstance*, int, RValue*)  0xfda70  size 296  74 条（0xfda70..0xfdb98）
- * @func 0xfda70 0xfdba8  size 312  78 条
+ * @func 0xfda70 0xfdbac  size 316  79 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5083,7 +5083,7 @@
  *   @0x2d2fd0 andeq r9, r8, r12, lsl r0
  *
  * ══ §60/102 DIALOG_REQ_CONTEXT::AddQuestionDialog(char const*, char const*)  0xf2350  size 292  73 条（0xf2350..0xf2474）
- * @func 0xf2350 0xf2484  size 308  77 条
+ * @func 0xf2350 0xf2488  size 312  78 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

@@ -1315,7 +1315,7 @@
 /* @0x219d68 ldrsheq r11, [r3], #-88 */
 /* @0x219d6c andseq r10, r3, r0, asr #5 */
 /* ══ 4/8  Audio_GetSoundSourceToPlay  0x21addc  size 1216  304 条（0x21addc..0x21b29c）
- * @func 0x21addc 0x21b2ac  size 1232  308 条
+ * @func 0x21addc 0x21b2b0  size 1236  309 条
  * 符号 _Z26Audio_GetSoundSourceToPlayif (int sound, float)
  * 级别: 骨架 —— 门字节 / 调用序列 / 字段偏移 / VFP 用量逐条落锚；每条语义未展开，见节尾 open
  * GOT 基址: 0x3f1c58
@@ -2136,7 +2136,7 @@
 /* @0x2193cc mulseq r3, r0, pc */
 /* @0x2193d0 subseq r11, r3, r4, lsr #30 */
 /* ══ 7/8  Audio_PlaySoundOn  0x21b8c0  size 880  220 条（0x21b8c0..0x21bc30）
- * @func 0x21b8c0 0x21bc40  size 896  224 条
+ * @func 0x21b8c0 0x21bc44  size 900  225 条
  * 符号 _Z17Audio_PlaySoundOnifff (int sound, float, float, float)
  * 级别: 骨架 —— 门字节 / 调用序列 / 字段偏移 / VFP 用量逐条落锚；每条语义未展开，见节尾 open
  * GOT 基址: 0x3f1c58

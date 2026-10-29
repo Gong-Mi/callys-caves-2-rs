@@ -54,7 +54,7 @@
  */
 
 /* ══ 1/5  F_DrawBackground  0x11db10  size 196  49 条  (0x11dbcc, 0x11dbd0 = 2 字 literal pool)
- * @func 0x11db10 0x11dbdc  size 204  51 条（47 条指令 + 2 个池字 0x11dbcc/0x11dbd0）
+ * @func 0x11db10 0x11dbe0  size 208  52 条（47 条指令 + 2 个池字 0x11dbcc/0x11dbd0）
  * 符号 _Z16F_DrawBackgroundR6RValueP9CInstanceS2_iPS_   GML: draw_background(ind, x, y)
  * 参数: args = [sp+0x10]（0x11db1c）；mode = *(u8*)0x5428e8（0x11db10 取 GOT 偏移、0x11db18 取槽，0x11db20 ldrb）
  *

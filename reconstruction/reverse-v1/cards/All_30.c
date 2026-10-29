@@ -6,7 +6,7 @@
  * 索引: asm/instructions.jsonl；符号: asm/functions.tsv；槽→目标: .rel.dyn
  *
  * ══ §1/28 JS_String_prototype_replace(RValue&, CInstance*, CInstance*, int, RValue*)  0x25924c  size 1136  284 条（0x25924c..0x2596bc）
- * @func 0x25924c 0x2596cc  size 1152  288 条
+ * @func 0x25924c 0x2596d0  size 1156  289 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

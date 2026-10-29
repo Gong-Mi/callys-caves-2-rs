@@ -1191,7 +1191,7 @@
  *   @0x191db4 .word 0xffffc034
  *
  * ══ §10/69 YYObjectBase::FreeVars  0x198dac  size 476  119 条（0x198dac..0x198f88）
- * @func 0x198dac 0x198f98  size 492  123 条
+ * @func 0x198dac 0x198f9c  size 496  124 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2857,7 +2857,7 @@
  *   @0x10d71c b 0x10d614 <_ZN5RTreeIP9CInstanceifLi6ELi2EE6SearchEPNS2_4NodeEPNS2_4RectERiPFbS1_PvES8_+0xbc>
  *
  * ══ §23/69 HandleStep  0x1cdf6c  size 456  114 条（0x1cdf6c..0x1ce134）
- * @func 0x1cdf6c 0x1ce144  size 472  118 条
+ * @func 0x1cdf6c 0x1ce148  size 476  119 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1cdf7c→0x757e7c, 0x1cdf9c→0x536f20, 0x1cdfa8→0x536f70, 0x1cdfe0→0x53ab70, 0x1cdfe4→0x542374, 0x1ce0e8→0x757e80, 0x1ce100→0x757e80
@@ -3603,7 +3603,7 @@
  *   @0x243fa0 ldrheq r9, [r10], -r4
  *
  * ══ §29/69 _pcre_is_newline  0x25f9fc  size 452  113 条（0x25f9fc..0x25fbc0）
- * @func 0x25f9fc 0x25fbd0  size 468  117 条
+ * @func 0x25f9fc 0x25fbd4  size 472  118 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7613,7 +7613,7 @@
  *   @0x18d9b4 .word 0xffffbcec
  *
  * ══ §64/69 DrawLayerInstanceElement  0x1b1600  size 388  97 条（0x1b1600..0x1b1784）
- * @func 0x1b1600 0x1b1794  size 404  101 条
+ * @func 0x1b1600 0x1b1798  size 408  102 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8150,7 +8150,7 @@
  *   @0x231c40 mvn r0, #130
  *
  * ══ §69/69 CPhysicsWorld::FindBaseObjectForCollisions  0x238598  size 384  96 条（0x238598..0x238718）
- * @func 0x238598 0x238728  size 400  100 条
+ * @func 0x238598 0x23872c  size 404  101 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

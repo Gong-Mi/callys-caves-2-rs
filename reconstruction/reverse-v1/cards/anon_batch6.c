@@ -222,7 +222,7 @@
  *   @0x234770 b 0x234700 <ogg_page_checksum_set+0x3ac>
  *
  * ══ §2/8 anon_26020c  0x26020c..0x262680  size 9332  2333 条｜ISA ARM｜入口证据 data-ptr｜父块 anon_25fe2c
- * @func 0x26020c 0x262690  size 9348  2337 条
+ * @func 0x26020c 0x262694  size 9352  2338 条
  * ⚠ 父块 anon_25fe2c 是 26,424 B 的未闭合大状态机（METHOD §4）：段长不一定等于函数长，本段可能只是其中的一段
  * 入度 88｜调用者: 0x2626c4(anon_25fe2c+0x2898), 0x2626f4(anon_25fe2c+0x28c8), 0x2627fc(anon_25fe2c+0x29d0), 0x262818(anon_25fe2c+0x29ec), 0x262860(anon_25fe2c+0x2a34), 0x26289c(anon_25fe2c+0x2a70), 0x262a7c(anon_25fe2c+0x2c50), 0x262ac4(anon_25fe2c+0x2c98)…
  * 出调用 28 处 → 0xb6694×5, 0xb65e0×4, _pcre_is_newline×3, anon_25b524+0xdd4×3, anon_25b524+0x1988×2, 0xb65bc×2
@@ -2563,7 +2563,7 @@
  *   @0x26267c ldrb r2, [r1, #0x3]
  *
  * ══ §3/8 anon_262680  0x262680..0x2636d4  size 4180  1045 条｜ISA ARM｜入口证据 data-ptr｜父块 anon_25fe2c
- * @func 0x262680 0x2636e4  size 4196  1049 条
+ * @func 0x262680 0x2636e8  size 4200  1050 条
  * ⚠ 父块 anon_25fe2c 是 26,424 B 的未闭合大状态机（METHOD §4）：段长不一定等于函数长，本段可能只是其中的一段
  * 入度 61｜调用者: 0x260448(anon_25fe2c+0x61c), 0x260498(anon_25fe2c+0x66c), 0x2636f8(anon_25fe2c+0x38cc), 0x263720(anon_25fe2c+0x38f4), 0x263750(anon_25fe2c+0x3924), 0x263780(anon_25fe2c+0x3954), 0x2637c8(anon_25fe2c+0x399c), 0x2637ec(anon_25fe2c+0x39c0)…
  * 出调用 21 处 → anon_25b524+0xd48×3, 0xb65e0×2, anon_25fe2c×1, anon_25fe2c+0x4438×1, anon_25fe2c+0x4414×1, anon_25fe2c+0x17bc×1
@@ -3616,7 +3616,7 @@
  *   @0x2636d0 mov r2, #0
  *
  * ══ §4/8 anon_2636d4  0x2636d4..0x264c00  size 5420  1355 条｜ISA ARM｜入口证据 data-ptr｜父块 anon_25fe2c
- * @func 0x2636d4 0x264c10  size 5436  1359 条
+ * @func 0x2636d4 0x264c14  size 5440  1360 条
  * ⚠ 父块 anon_25fe2c 是 26,424 B 的未闭合大状态机（METHOD §4）：段长不一定等于函数长，本段可能只是其中的一段
  * 入度 19｜调用者: 0x261ee0(anon_25fe2c+0x20b4), 0x261ee4(anon_25fe2c+0x20b8), 0x261ee8(anon_25fe2c+0x20bc), 0x261eec(anon_25fe2c+0x20c0), 0x261ef0(anon_25fe2c+0x20c4), 0x261ef4(anon_25fe2c+0x20c8), 0x261ef8(anon_25fe2c+0x20cc), 0x26206c(anon_25fe2c+0x2240)…
  * 出调用 22 处 → 0xb65bc×4, 0xb65e0×3, 0xb6694×2, _pcre_ord2utf×2, anon_25b524+0x1840×2, anon_25fe2c+0x3568×1

@@ -123,7 +123,7 @@
  *   @0x2afe10 b 0x2b0078 <png_write_end+0x4c>
  *
  * ══ §2/76 F_D3DMatrixStackPush(RValue&, CInstance*, CInstance*, int, RValue*)  0x148e70  size 416  104 条（0x148e70..0x149010）
- * @func 0x148e70 0x149020  size 432  108 条
+ * @func 0x148e70 0x149024  size 436  109 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x148e7c→0x48481c, 0x148eec→0x483b5c, 0x148fac→0x483b5c
@@ -3197,7 +3197,7 @@
  *   @0x12edf0 pop {r4, r5, r6, pc}
  *
  * ══ §29/76 F_D3DLightGet(RValue&, CInstance*, CInstance*, int, RValue*)  0x146b00  size 404  101 条（0x146b00..0x146c94）
- * @func 0x146b00 0x146ca4  size 420  105 条
+ * @func 0x146b00 0x146ca8  size 424  106 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x146b4c→0x484884, 0x146b60→0x484944, 0x146b74→0x4848a4, 0x146b78→0x4848c4, 0x146c50→0x4849c4
@@ -4423,7 +4423,8 @@
  *   @0x21c46c andseq r0, r3, r0, asr #29
  *
  * ══ §40/76 png_write_finish_row  0x2b260c  size 400  100 条（0x2b260c..0x2b279c）
- * @func 0x2b260c 0x2b27ac  size 416  104 条
+ * @func 0x2b260c 0x2b27b0  size 420  105 条
+ * 部分覆盖: 本节 105/180 条（其余由其它卡的同一 @func 主张）
  * 部分覆盖: 本节 104/179 条（其余由其它卡的同一 @func 主张）
  * 部分覆盖: 本节 103/177 条（其余由其它卡的同一 @func 主张）
  * 部分覆盖: 本节 102/175 条（其余由其它卡的同一 @func 主张）
@@ -5199,7 +5200,7 @@
  *   @0x1dc1d0 eoreq r4, r1, r8, lsr r10
  *
  * ══ §47/76 CDS_Grid::Value_Disk_X(RValue&, double, double, double, RValue*)  0x204c54  size 396  99 条（0x204c54..0x204de0）
- * @func 0x204c54 0x204df0  size 412  103 条
+ * @func 0x204c54 0x204df4  size 416  104 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6294,7 +6295,7 @@
  *   @0x1b81cc eoreq r8, r3, r0, lsl r7
  *
  * ══ §57/76 CDS_Grid::Value_Disk_Exists(RValue&, double, double, double, RValue*)  0x204acc  size 392  98 条（0x204acc..0x204c54）
- * @func 0x204acc 0x204c64  size 408  102 条
+ * @func 0x204acc 0x204c68  size 412  103 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6949,7 +6950,7 @@
  *   @0x2e3a28 bx lr
  *
  * ══ §63/76 F_D3DBuildMatrixProjPersp(RValue&, CInstance*, CInstance*, int, RValue*)  0x146c94  size 388  97 条（0x146c94..0x146e18）
- * @func 0x146c94 0x146e28  size 404  101 条
+ * @func 0x146c94 0x146e2c  size 408  102 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

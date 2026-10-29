@@ -2377,7 +2377,7 @@
  *   @0x1646f0 andseq r6, lr, r0, lsr #32
  *
  * ══ §18/60 GV_Undefined(CInstance*, int, RValue*)  0x200890  size 508  127 条（0x200890..0x200a8c）
- * @func 0x200890 0x200a9c  size 524  131 条
+ * @func 0x200890 0x200aa0  size 528  132 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3755,7 +3755,7 @@
  *   @0x18ffac .word 0xffffea14
  *
  * ══ §28/60 GV_PointerNull(CInstance*, int, RValue*)  0x200698  size 504  126 条（0x200698..0x200890）
- * @func 0x200698 0x2008a0  size 520  130 条
+ * @func 0x200698 0x2008a4  size 524  131 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4029,7 +4029,7 @@
  *   @0x223ea8 andseq r0, r3, r8, lsr pc
  *
  * ══ §30/60 JS_String_prototype_slice(RValue&, CInstance*, CInstance*, int, RValue*)  0x255638  size 504  126 条（0x255638..0x255830）
- * @func 0x255638 0x255840  size 520  130 条
+ * @func 0x255638 0x255844  size 524  131 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7409,7 +7409,7 @@
  *   @0x16c2bc submi r0, r8, #0
  *
  * ══ §55/60 F_TilemapGetCellXAtPixel(RValue&, CInstance*, CInstance*, int, RValue*)  0x1beaa0  size 488  122 条（0x1beaa0..0x1bec88）
- * @func 0x1beaa0 0x1bec98  size 504  126 条
+ * @func 0x1beaa0 0x1bec9c  size 508  127 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

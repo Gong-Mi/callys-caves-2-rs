@@ -7,24 +7,24 @@
  * @func 0x1afa00 0x1afef0  size 1264  316 条  §1  CRoom::~CRoom()                 （314 指令 + 2 池字）
  * @func 0x1abb24 0x1abd9c  size 632  158 条  §2  CRoom::RemoveMarked()           （152 + 6）
  * @func 0x1ad0a4 0x1ad2cc  size 552  138 条  §3  CRoom::Clear()                  （134 + 4）
- * @func 0x1ab798 0x1ab9d4  size 572  143 条  §4  CRoom::ClearInstances()          （135 + 5）
- * @func 0x1ab9c8 0x1abae0  size 280  70 条  §5  CRoom::ClearDeactiveInstances()  （66 + 1）
- * @func 0x1ad060 0x1ad0b0  size 80  20 条  §6  CRoom::ClearTiles()
+ * @func 0x1ab798 0x1ab9d8  size 576  144 条  §4  CRoom::ClearInstances()          （135 + 5）
+ * @func 0x1ab9c8 0x1abae4  size 284  71 条  §5  CRoom::ClearDeactiveInstances()  （66 + 1）
+ * @func 0x1ad060 0x1ad0b4  size 84  21 条  §6  CRoom::ClearTiles()
  * @func 0x1ab104 0x1ab144  size 64  16 条  §7  CRoom::ClearStorageTiles()       （14 + 1）
  * @func 0x1ab140 0x1ab144  size 4  1 条  §8  CRoom::ClearStorageInstances()   （bx lr）
- * @func 0x1abad4 0x1abb30  size 92  23 条  §9  CRoom::CleanPersistent()
+ * @func 0x1abad4 0x1abb34  size 96  24 条  §9  CRoom::CleanPersistent()
  * @func 0x1ac200 0x1ac240  size 64  16 条  §10 CRoom::ScrollBackground()
- * @func 0x1af2bc 0x1af368  size 172  43 条  §11 CRoom::FindTile(int)
- * @func 0x1af35c 0x1af400  size 164  41 条  §12 CRoom::DeleteTile(int)
- * @func 0x1af3f4 0x1af590  size 412  103 条  §13 CRoom::SortTiles()
- * @func 0x1af584 0x1af5d0  size 76  19 条  §14 CRoom::HideTilesDepth(float)
- * @func 0x1af5c4 0x1af610  size 76  19 条  §15 CRoom::ShowTilesDepth(float)
- * @func 0x1af604 0x1af6d4  size 208  52 条  §16 CRoom::DeleteTilesDepth(float)
- * @func 0x1af6c8 0x1af738  size 112  28 条  §17 CRoom::ShiftTilesDepth(float,float,float)
- * @func 0x1af72c 0x1af86c  size 320  80 条  §18 CRoom::FindTileAtDepth(float,float,float)（76 + 1）
- * @func 0x1af860 0x1af9c8  size 360  90 条  §19 CRoom::DeleteTilesAtDepth(float,float,float)
- * @func 0x1af9bc 0x1afa0c  size 80  20 条  §20 CRoom::ChangeTilesDepth(float,float)
- * @func 0x1a92c0 0x1a9394  size 212  53 条  §21 CRoom::CreateWADStorage()        （49 + 1）
+ * @func 0x1af2bc 0x1af36c  size 176  44 条  §11 CRoom::FindTile(int)
+ * @func 0x1af35c 0x1af404  size 168  42 条  §12 CRoom::DeleteTile(int)
+ * @func 0x1af3f4 0x1af594  size 416  104 条  §13 CRoom::SortTiles()
+ * @func 0x1af584 0x1af5d4  size 80  20 条  §14 CRoom::HideTilesDepth(float)
+ * @func 0x1af5c4 0x1af614  size 80  20 条  §15 CRoom::ShowTilesDepth(float)
+ * @func 0x1af604 0x1af6d8  size 212  53 条  §16 CRoom::DeleteTilesDepth(float)
+ * @func 0x1af6c8 0x1af73c  size 116  29 条  §17 CRoom::ShiftTilesDepth(float,float,float)
+ * @func 0x1af72c 0x1af870  size 324  81 条  §18 CRoom::FindTileAtDepth(float,float,float)（76 + 1）
+ * @func 0x1af860 0x1af9cc  size 364  91 条  §19 CRoom::DeleteTilesAtDepth(float,float,float)
+ * @func 0x1af9bc 0x1afa10  size 84  21 条  §20 CRoom::ChangeTilesDepth(float,float)
+ * @func 0x1a92c0 0x1a9398  size 216  54 条  §21 CRoom::CreateWADStorage()        （49 + 1）
  * @func 0x1a9388 0x1a9428  size 160  40 条  §22 CRoom::Debug()                   （37 + 3）
  * 级别: 正文（22 节 1443/1443 逐条落锚。析构的十段顺序与全部落空分支、RemoveMarked 的五全局/三闸门/
  *       两链摘除、Clear 的 8 背景 + 8 视野 + 三桶数组、两条实例清扫、七条 tile 表操作全部逐条钉死；

@@ -70,7 +70,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 1 · F_MoveBounceSolid（move_bounce_solid）
- * @func 0x10837c 0x1083b0  size 52  13 条（无池字）
+ * @func 0x10837c 0x1083b4  size 56  14 条（无池字）
  * 符号: _Z17F_MoveBounceSolidR6RValueP9CInstanceS2_iPS_
  * 一句话: adv=YYGetBool(args,0) → 尾跳 Command_Bounce(self, adv, **0**)；第三实参恒 0 = 用
  *         Command_IsFree 谓词。result 不写。
@@ -201,7 +201,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 5 · F_AudioPauseAll（audio_pause_all）
- * @func 0x133628 0x133650  size 40  10 条（6 条指令 + 1 个池字 0x133640）
+ * @func 0x133628 0x133654  size 44  11 条（6 条指令 + 1 个池字 0x133640）
  * 符号: _Z15F_AudioPauseAllR6RValueP9CInstanceS2_iPS_
  * 一句话: g_fNoAudio 门（非 0 直接返回）→ 尾跳 Audio_PauseAll()。无实参、无栈帧、不写 result。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -232,7 +232,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 6 · F_AudioResumeAll（audio_resume_all）
- * @func 0x133644 0x13366c  size 40  10 条（6 条指令 + 1 个池字 0x13365c）
+ * @func 0x133644 0x133670  size 44  11 条（6 条指令 + 1 个池字 0x13365c）
  * 符号: _Z16F_AudioResumeAllR6RValueP9CInstanceS2_iPS_
  * 一句话: 与 audio_pause_all 逐指令同构，只把尾跳目标换成 Audio_ResumeAll()。
  * ═══════════════════════════════════════════════════════════════════════════
@@ -318,7 +318,7 @@
 /*
  * ═══════════════════════════════════════════════════════════════════════════
  * 节 9 · F_DrawSetColor（draw_set_color）
- * @func 0x11a9c4 0x11a9e8  size 36  9 条（无池字）
+ * @func 0x11a9c4 0x11a9ec  size 40  10 条（无池字）
  * 符号: _Z14F_DrawSetColorR6RValueP9CInstanceS2_iPS_
  * 一句话: c=YYGetInt32(args,0) → 尾跳 YYGML_draw_set_colour(c)；后者把 c 的低 24 位与 Draw_Alpha 拼成 ARGB
  *         写进 Draw_Color。result 不写。

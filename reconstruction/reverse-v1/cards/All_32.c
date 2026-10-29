@@ -2067,7 +2067,7 @@
  *   @0x1a1560 eoreq r0, r5, r0, lsl #21
  *
  * ══ §9/33 YYGML_min(YYRValue&, int, YYRValue**)  0x113c14  size 972  243 条（0x113c14..0x113fe0）
- * @func 0x113c14 0x113ff0  size 988  247 条
+ * @func 0x113c14 0x113ff4  size 992  248 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4094,7 +4094,7 @@
  *   @0x1f59fc ldrsheq r12, [r5], -r8
  *
  * ══ §17/33 b2RevoluteJoint::SolveVelocityConstraints(b2SolverData const&)  0x2d1508  size 964  241 条（0x2d1508..0x2d18cc）
- * @func 0x2d1508 0x2d18dc  size 980  245 条
+ * @func 0x2d1508 0x2d18e0  size 984  246 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

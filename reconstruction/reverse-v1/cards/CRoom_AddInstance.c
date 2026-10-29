@@ -5,9 +5,9 @@
  *           verify_reverse_v1 的 range 列只取文件里第一个 @func（0x001aadac..0x001aaf74），
  *           本卡真实覆盖面看上面 @card 这一行与 5 个 @func 小节。
  * @func 0x1aadac 0x1aaf78  size 460  115 条（AddInstanceToStorage：只登记 40 B 蓝图，不造对象）
- * @func 0x1ab144 0x1ab2f0  size 428  107 条（AddInstance(f,f,int)：第 3 参是 objindex）
- * @func 0x1ab2e4 0x1ab4a0  size 444  111 条（AddInstance(f,f,int,int)：第 3 参是 depth、第 4 参才是 objindex）
- * @func 0x1ab494 0x1ab660  size 460  115 条（AddInstance(f,f,CLayer*,int)：depth 抄自 layer+0x04，层内注册）
+ * @func 0x1ab144 0x1ab2f4  size 432  108 条（AddInstance(f,f,int)：第 3 参是 objindex）
+ * @func 0x1ab2e4 0x1ab4a4  size 448  112 条（AddInstance(f,f,int,int)：第 3 参是 depth、第 4 参才是 objindex）
+ * @func 0x1ab494 0x1ab664  size 464  116 条（AddInstance(f,f,CLayer*,int)：depth 抄自 layer+0x04，层内注册）
  * @func 0x1ab654 0x1ab798  size 324  81 条（AddInstance(CInstance*)：不分配、不建物理体、只挂链+登记）
  * 级别: 正文（520/520 条逐条解出；两条链的四个分支、id 哈希表的桶/节点形状、5 个入口的
  *            上半身差异、以及 ToStorage 记录的 12 个字段全部钉住。未钉：字段的「官方名字」

@@ -1906,7 +1906,7 @@
  *   @0xf799c eoreq r9, r3, r8, ror #15
  *
  * ══ §10/39 F_DsMapFindNext(RValue&, CInstance*, CInstance*, int, RValue*)  0x104080  size 788  197 条（0x104080..0x104394）
- * @func 0x104080 0x1043a4  size 804  201 条
+ * @func 0x104080 0x1043a8  size 808  202 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2322,7 +2322,7 @@
  *   @0x1074cc eoreq r0, r3, r12, lsl r9
  *
  * ══ §12/39 F_DsMapFindFirst(RValue&, CInstance*, CInstance*, int, RValue*)  0x104394  size 784  196 条（0x104394..0x1046a4）
- * @func 0x104394 0x1046b4  size 800  200 条
+ * @func 0x104394 0x1046b8  size 804  201 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6812,7 +6812,7 @@
  *   @0x2e487c ldrdeq r9, r10, [r7], -r12
  *
  * ══ §34/39 C3D_Model::LoadFromFile(char const*)  0x163efc  size 756  189 条（0x163efc..0x1641f0）
- * @func 0x163efc 0x164200  size 772  193 条
+ * @func 0x163efc 0x164204  size 776  194 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7612,7 +7612,7 @@
  *   @0x2dd1a0 strlo r0, [r0], #-0
  *
  * ══ §38/39 F_DsGridGet_debug(RValue&, CInstance*, CInstance*, int, RValue*)  0x103d90  size 752  188 条（0x103d90..0x104080）
- * @func 0x103d90 0x104090  size 768  192 条
+ * @func 0x103d90 0x104094  size 772  193 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

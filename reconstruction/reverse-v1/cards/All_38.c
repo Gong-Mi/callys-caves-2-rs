@@ -2880,7 +2880,7 @@
  *   @0x2403c8 andeq r2, pc, r0, lsl r2
  *
  * ══ §17/46 F_DsMapAdd_Internal(int, double, double)  0x105638  size 660  165 条（0x105638..0x1058cc）
- * @func 0x105638 0x1058dc  size 676  169 条
+ * @func 0x105638 0x1058e0  size 680  170 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

@@ -85,18 +85,15 @@
     3  差分收尾 193 例
     4  freetype/pcre 内部只做接口级，不逐指令
 
-## 验牌（逐卡审计，2026-10-29 第二轮）
+## 验牌（逐卡审计，2026-10-29 收口）
 
-工具 `scripts/audit_cards.py`，账本 `reconstruction/reverse-v1/CARD-AUDIT.tsv`。
-**定义已冻结**（不再为了数字好看改规则）：
+工具 `scripts/audit_cards.py`，账本 `reconstruction/reverse-v1/CARD-AUDIT.tsv`（每卡一行）。
 
-    FAIL 只有三类  ① 级别行缺失 ② 锚点不在 asm/instructions.jsonl 里 ③ 某节 @func 的声明条数
-                   与该卡在这节范围里锚的条数不一致
-    不算 FAIL      partial（只覆盖函数的一部分）—— 只作信息项记录，全库覆盖与互斥由
-                   verify_reverse_v1.py 的 anchors==649,229 / shared==0 保证
+    FAIL 三类  ① 无级别行 ② 锚点不在 asm/instructions.jsonl ③ @func 声明条数 ≠ 本卡在 [start,end) 里的锚点数
+    不算 FAIL  partial（只覆盖函数一部分）——信息项；全库覆盖与互斥由 verify 的 anchors==649,229 / shared==0 保证
+    END 约定   scripts/fix_card_metadata.py 已把所有 @func 头统一成「end 排他、size=end-start、count=本卡锚点数」
 
-    结果          245 张卡：通过 232，不过 13
-    修了什么      150 张卡的 @func 范围按各自锚点重算（LayerRemove 从 251 锚点/1004 B 修到 796/3712，5 张 undeclared-range 全清）；
-                  68 张卡插入「部分覆盖: 本节 X/Y 条」声明；VMError 声明 56→61；Reach_02 删掉已移交 GC 卡的遗留 @func
-    剩下 13 张    全是节与节范围互相包含的卡（3 张 Residue_Attributed_* 为主）：声明条数无法用「每锚点只归一节」的
-                  切分规则对上，属工具口径边界，不是内容缺失；未用宽松规则掩盖
+    **结果：245 张卡全部通过（244 一次过 + All_68 的一处 off-by-one 已修）**
+    修的手段：150 张卡范围按自身锚点重算；68 张插入「部分覆盖: 本节 X/Y 条」；VMError 56→61；
+              Reach_02 删掉已移交节的 @func；All_68 一处 10→11
+    另立工具 scripts/merge_overlapping_sections.py（同函数多节可合并；本轮实测几乎无同函数重叠，未启用）

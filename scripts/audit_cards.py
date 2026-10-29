@@ -83,20 +83,19 @@ def main() -> int:
         outside_index = [x for x in anchors if x not in ins]
         if outside_index:
             problems.append(f"anchor-not-in-index:{len(outside_index)}")
-        convs, covered, partials, taken = set(), set(), [], set()
+        convs, covered, partials = set(), set(), []
         if funcs:
             for start, end, size, declared in funcs:
-                excl, incl = span(start, end, False), span(start, end, True)
-                have = (anchors & (excl | incl)) - taken
-                taken |= have
+                # END is exclusive everywhere after scripts/fix_card_metadata.py normalized
+                # the headers: count what falls in [start, end)
+                excl = span(start, end, False)
+                incl = span(start, end, True)
+                have = anchors & excl
                 # "N 条" is what the card anchors in this section; a partial section
                 # therefore declares its own (smaller) count. Only a count that matches
                 # neither the range nor the anchored set is a real mismatch.
                 if declared == len(have):
                     convs.add("excl" if len(have) == len(excl) else "partial")
-                    full = len(excl)
-                elif declared == len(excl):
-                    convs.add("excl")
                     full = len(excl)
                 elif declared == len(incl):
                     convs.add("incl")

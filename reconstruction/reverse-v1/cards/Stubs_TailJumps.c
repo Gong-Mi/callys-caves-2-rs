@@ -182,7 +182,7 @@ void *operator_new(unsigned int size) {
  * 6) operator new(unsigned int, char const*, int) —— 调用方的 file/line 被丢弃（24 B）
  * ══════════════════════════════════════════════════════════════════ */
 
-/* @func 0x27d17c 0x27d1a4  size 40  10 条（operator new(unsigned int, char const*, int)，_ZnwjPKci） */
+/* @func 0x27d17c 0x27d1a8  size 44  11 条（operator new(unsigned int, char const*, int)，_ZnwjPKci） */
 void *operator_new_fp(unsigned int size, char const *file, int line) {
     (void)file;
     (void)line; /* 形参在寄存器 r1/r2 里，但下面两条写指令把它们覆盖掉 */

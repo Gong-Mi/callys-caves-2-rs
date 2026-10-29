@@ -3023,7 +3023,7 @@
  *   @0x12f66c b 0x12f5b8 <_Z11F_SpriteAddR6RValueP9CInstanceS2_iPS_+0xf8>
  *
  * ══ §26/70 F_ActionDrawScore(RValue&, CInstance*, CInstance*, int, RValue*)  0x13f1bc  size 432  108 条（0x13f1bc..0x13f36c）
- * @func 0x13f1bc 0x13f37c  size 448  112 条
+ * @func 0x13f1bc 0x13f380  size 452  113 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3380,7 +3380,7 @@
  *   @0x1698e8 .word 0xffffe250
  *
  * ══ §29/70 F_LayerAddInstance(RValue&, CInstance*, CInstance*, int, RValue*)  0x1c6cf4  size 432  108 条（0x1c6cf4..0x1c6ea4）
- * @func 0x1c6cf4 0x1c6eb4  size 448  112 条
+ * @func 0x1c6cf4 0x1c6eb8  size 452  113 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4207,7 +4207,7 @@
  *   @0x2cf358 andeq r12, r8, r8, lsr #25
  *
  * ══ §36/70 VM::PokeDSStack(int, int, RValue&)  0xe4d6c  size 428  107 条（0xe4d6c..0xe4f18）
- * @func 0xe4d6c 0xe4f28  size 444  111 条
+ * @func 0xe4d6c 0xe4f2c  size 448  112 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6077,7 +6077,7 @@
  *   @0x24607c addsmi r11, sp, r0
  *
  * ══ §52/70 JS_Array_prototype_every(RValue&, CInstance*, CInstance*, int, RValue*)  0x2513e4  size 424  106 条（0x2513e4..0x25158c）
- * @func 0x2513e4 0x25159c  size 440  110 条
+ * @func 0x2513e4 0x2515a0  size 444  111 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8167,7 +8167,7 @@
  *   @0x2aa538 pop.w {r4, r5, r6, r7, r8, r9, r10, pc}
  *
  * ══ §70/70 VM::PokeDSQueue(int, int, RValue&)  0xe4f18  size 412  103 条（0xe4f18..0xe50b4）
- * @func 0xe4f18 0xe50c4  size 428  107 条
+ * @func 0xe4f18 0xe50c8  size 432  108 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

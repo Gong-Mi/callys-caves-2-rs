@@ -673,7 +673,7 @@
  *   @0xf30e8 eoreq r10, pc, r4, lsr #27
  *
  * ══ §5/54 HandleLife  0x1a4938  size 620  155 条（0x1a4938..0x1a4ba4）
- * @func 0x1a4938 0x1a4bb4  size 636  159 条
+ * @func 0x1a4938 0x1a4bb8  size 640  160 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2294,7 +2294,7 @@
  *   @0x2d6208 .word 0x3eaaaaab
  *
  * ══ §15/54 ShowForm  0xecb34  size 584  146 条（0xecb34..0xecd7c）
- * @func 0xecb34 0xecd8c  size 600  150 条
+ * @func 0xecb34 0xecd90  size 604  151 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5729,7 +5729,7 @@
  *   @0x22193c andseq r3, r3, r8, asr r1
  *
  * ══ §38/54 b2ParticleSystem::SolveViscous  0x2d8c88  size 528  132 条（0x2d8c88..0x2d8e98）
- * @func 0x2d8c88 0x2d8ea8  size 544  136 条
+ * @func 0x2d8c88 0x2d8eac  size 548  137 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7947,7 +7947,7 @@
  *   @0xbe9f8 pop {r4, r5, r6, r7, r8, r9, r10, pc}
  *
  * ══ §54/54 ThrowNonBlockingConnectSocketNetworkEvent  0x2989ac  size 496  124 条（0x2989ac..0x298b9c）
- * @func 0x2989ac 0x298bac  size 512  128 条
+ * @func 0x2989ac 0x298bb0  size 516  129 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x2989c4→0x3f7814, 0x298a40→0x75790c, 0x298a90→0x3f5254, 0x298a94→0x536f70, 0x298ab4→0x542374, 0x298abc→0x53ab70

@@ -222,7 +222,7 @@
  *   @0x126fec .word 0x002c7ad4
  *
  * ══ §5/181 F_FontAdd(RValue&, CInstance*, CInstance*, int, RValue*)  0x12cf28  size 172  43 条（0x12cf28..0x12cfd4）
- * @func 0x12cf28 0x12cfe4  size 188  47 条
+ * @func 0x12cf28 0x12cfe8  size 192  48 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -978,7 +978,7 @@
  *   @0x1b5b9c eorseq r12, r8, r12, ror #20
  *
  * ══ §19/181 F_LayerBackgroundGetXscale(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bcd5c  size 172  43 条（0x1bcd5c..0x1bce08）
- * @func 0x1bcd5c 0x1bce18  size 188  47 条
+ * @func 0x1bcd5c 0x1bce1c  size 192  48 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1032,7 +1032,7 @@
  *   @0x1bce04 andseq r1, r9, r4, asr r4
  *
  * ══ §20/181 F_LayerBackgroundGetYscale(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bce08  size 172  43 条（0x1bce08..0x1bceb4）
- * @func 0x1bce08 0x1bcec4  size 188  47 条
+ * @func 0x1bce08 0x1bcec8  size 192  48 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1789,7 +1789,7 @@
  *   @0xc41ec eorseq r5, r11, r0, ror #21
  *
  * ══ §34/181 F_BUFFER_Save_Ext(RValue&, CInstance*, CInstance*, int, RValue*)  0xc5b74  size 168  42 条（0xc5b74..0xc5c1c）
- * @func 0xc5b74 0xc5c2c  size 184  46 条
+ * @func 0xc5b74 0xc5c30  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2001,7 +2001,7 @@
  *   @0xf726c eoreq r6, pc, r4, ror r12
  *
  * ══ §38/181 F_DsStackPush(RValue&, CInstance*, CInstance*, int, RValue*)  0xfbc18  size 168  42 条（0xfbc18..0xfbcc0）
- * @func 0xfbc18 0xfbcd0  size 184  46 条
+ * @func 0xfbc18 0xfbcd4  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2531,7 +2531,7 @@
  *   @0x130d50 eoreq r12, r11, r0, ror r12
  *
  * ══ §48/181 F_SoundVolume(RValue&, CInstance*, CInstance*, int, RValue*)  0x133b48  size 168  42 条（0x133b48..0x133bf0）
- * @func 0x133b48 0x133c00  size 184  46 条
+ * @func 0x133b48 0x133c04  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2690,7 +2690,7 @@
  *   @0x13e634 b 0x13e60c <_Z23F_ActionSpriteTransformR6RValueP9CInstanceS2_iPS_+0x7c>
  *
  * ══ §51/181 F_ActionIfQuestion(RValue&, CInstance*, CInstance*, int, RValue*)  0x13ef84  size 168  42 条（0x13ef84..0x13f02c）
- * @func 0x13ef84 0x13f03c  size 184  46 条
+ * @func 0x13ef84 0x13f040  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -2796,7 +2796,7 @@
  *   @0x13f958 eoreq pc, r10, r8, asr #21
  *
  * ══ §53/181 F_Push_GetFirstLocalNotification(RValue&, CInstance*, CInstance*, int, RValue*)  0x155834  size 168  42 条（0x155834..0x1558dc）
- * @func 0x155834 0x1558ec  size 184  46 条
+ * @func 0x155834 0x1558f0  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3008,7 +3008,7 @@
  *   @0x16d9e0 pop {r4, pc}
  *
  * ══ §57/181 GR_3D_Vertex(float, float, float)  0x176e2c  size 168  42 条（0x176e2c..0x176ed4）
- * @func 0x176e2c 0x176ee4  size 184  46 条
+ * @func 0x176e2c 0x176ee8  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3273,7 +3273,7 @@
  *   @0x194a8c bx lr
  *
  * ══ §62/181 ObjectPool<CLayerBackgroundElement>::~ObjectPool()  0x1b5f44  size 168  42 条（0x1b5f44..0x1b5fec）
- * @func 0x1b5f44 0x1b5ffc  size 184  46 条
+ * @func 0x1b5f44 0x1b6000  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3326,7 +3326,7 @@
  *   @0x1b5fe8 b 0x1b5f8c <_ZN10ObjectPoolI23CLayerBackgroundElementED2Ev+0x48>
  *
  * ══ §63/181 ObjectPool<CLayerInstanceElement>::~ObjectPool()  0x1b5fec  size 168  42 条（0x1b5fec..0x1b6094）
- * @func 0x1b5fec 0x1b60a4  size 184  46 条
+ * @func 0x1b5fec 0x1b60a8  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3379,7 +3379,7 @@
  *   @0x1b6090 b 0x1b6034 <_ZN10ObjectPoolI21CLayerInstanceElementED2Ev+0x48>
  *
  * ══ §64/181 ObjectPool<CLayerSpriteElement>::~ObjectPool()  0x1b6094  size 168  42 条（0x1b6094..0x1b613c）
- * @func 0x1b6094 0x1b614c  size 184  46 条
+ * @func 0x1b6094 0x1b6150  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3432,7 +3432,7 @@
  *   @0x1b6138 b 0x1b60dc <_ZN10ObjectPoolI19CLayerSpriteElementED2Ev+0x48>
  *
  * ══ §65/181 ObjectPool<CLayerTilemapElement>::~ObjectPool()  0x1b613c  size 168  42 条（0x1b613c..0x1b61e4）
- * @func 0x1b613c 0x1b61f4  size 184  46 条
+ * @func 0x1b613c 0x1b61f8  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3485,7 +3485,7 @@
  *   @0x1b61e0 b 0x1b6184 <_ZN10ObjectPoolI20CLayerTilemapElementED2Ev+0x48>
  *
  * ══ §66/181 ObjectPool<CLayerParticleElement>::~ObjectPool()  0x1b61e4  size 168  42 条（0x1b61e4..0x1b628c）
- * @func 0x1b61e4 0x1b629c  size 184  46 条
+ * @func 0x1b61e4 0x1b62a0  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3644,7 +3644,7 @@
  *   @0x1b6a98 b 0x1b6a3c <_ZN10ObjectPoolI9CTileSlabED2Ev+0x48>
  *
  * ══ §69/181 F_LayerBackgroundGetHtiled(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bcb64  size 168  42 条（0x1bcb64..0x1bcc0c）
- * @func 0x1bcb64 0x1bcc1c  size 184  46 条
+ * @func 0x1bcb64 0x1bcc20  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3697,7 +3697,7 @@
  *   @0x1bcc08 mulseq r9, r8, r5
  *
  * ══ §70/181 F_LayerBackgroundGetVtiled(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bcc0c  size 168  42 条（0x1bcc0c..0x1bccb4）
- * @func 0x1bcc0c 0x1bccc4  size 184  46 条
+ * @func 0x1bcc0c 0x1bccc8  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3750,7 +3750,7 @@
  *   @0x1bccb0 andseq r1, r9, r12, lsr #10
  *
  * ══ §71/181 F_LayerBackgroundGetStretch(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bccb4  size 168  42 条（0x1bccb4..0x1bcd5c）
- * @func 0x1bccb4 0x1bcd6c  size 184  46 条
+ * @func 0x1bccb4 0x1bcd70  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3803,7 +3803,7 @@
  *   @0x1bcd58 andseq r1, r9, r0, asr #9
  *
  * ══ §72/181 F_LayerBackgroundGetBlend(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bceb4  size 168  42 条（0x1bceb4..0x1bcf5c）
- * @func 0x1bceb4 0x1bcf6c  size 184  46 条
+ * @func 0x1bceb4 0x1bcf70  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3962,7 +3962,7 @@
  *   @0x1d9908 b 0x1d98b4 <_Z13ConvertRawPosffiRfS_S_S_+0x50>
  *
  * ══ §75/181 F_Shader_Get_Uniform(RValue&, CInstance*, CInstance*, int, RValue*)  0x1e1058  size 168  42 条（0x1e1058..0x1e1100）
- * @func 0x1e1058 0x1e1110  size 184  46 条
+ * @func 0x1e1058 0x1e1114  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -4015,7 +4015,7 @@
  *   @0x1e10fc eoreq pc, r0, r12, lsl #25
  *
  * ══ §76/181 F_Shader_Get_Sampler_Index(RValue&, CInstance*, CInstance*, int, RValue*)  0x1e1100  size 168  42 条（0x1e1100..0x1e11a8）
- * @func 0x1e1100 0x1e11b8  size 184  46 条
+ * @func 0x1e1100 0x1e11bc  size 188  47 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5706,7 +5706,7 @@
  *   @0xfcbbc eoreq r11, r3, r0, asr r0
  *
  * ══ §108/181 F_DsMapSet(RValue&, CInstance*, CInstance*, int, RValue*)  0xff0dc  size 164  41 条（0xff0dc..0xff180）
- * @func 0xff0dc 0xff190  size 180  45 条
+ * @func 0xff0dc 0xff194  size 184  46 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5862,7 +5862,7 @@
  *   @0x110850 pop {r4, r5, r6, r7, pc}
  *
  * ══ §111/181 F_FontAddSprite(RValue&, CInstance*, CInstance*, int, RValue*)  0x12cfd4  size 164  41 条（0x12cfd4..0x12d078）
- * @func 0x12cfd4 0x12d088  size 180  45 条
+ * @func 0x12cfd4 0x12d08c  size 184  46 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6226,7 +6226,7 @@
  *   @0x13fed8 eoreq pc, r10, r8, asr r5
  *
  * ══ §118/181 F_GamepadSetButtonThreshold(RValue&, CInstance*, CInstance*, int, RValue*)  0x151974  size 164  41 条（0x151974..0x151a18）
- * @func 0x151974 0x151a28  size 180  45 条
+ * @func 0x151974 0x151a2c  size 184  46 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6694,7 +6694,7 @@
  *   @0x1b7f60 eoreq r8, r3, r4, ror r9
  *
  * ══ §127/181 F_LayerGetX(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bb188  size 164  41 条（0x1bb188..0x1bb22c）
- * @func 0x1bb188 0x1bb23c  size 180  45 条
+ * @func 0x1bb188 0x1bb240  size 184  46 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6798,7 +6798,7 @@
  *   @0x1bb2cc andseq r2, r9, r12, lsr #16
  *
  * ══ §129/181 F_LayerGetHspeed(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bb430  size 164  41 条（0x1bb430..0x1bb4d4）
- * @func 0x1bb430 0x1bb4e4  size 180  45 条
+ * @func 0x1bb430 0x1bb4e8  size 184  46 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7006,7 +7006,7 @@
  *   @0x1bd13c andseq r1, r9, r0, asr #4
  *
  * ══ §133/181 push_back(SCollision)  0x1cbe74  size 164  41 条（0x1cbe74..0x1cbf18）
- * @func 0x1cbe74 0x1cbf28  size 180  45 条
+ * @func 0x1cbe74 0x1cbf2c  size 184  46 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -8396,7 +8396,7 @@
  *   @0x126638 eoreq r5, r1, r0, lsl #24
  *
  * ══ §160/181 F_PartTypeColorRGB(RValue&, CInstance*, CInstance*, int, RValue*)  0x12940c  size 160  40 条（0x12940c..0x1294ac）
- * @func 0x12940c 0x1294bc  size 176  44 条
+ * @func 0x12940c 0x1294c0  size 180  45 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9110,7 +9110,7 @@
  *   @0x1bb024 andseq r2, r9, r8, lsr #20
  *
  * ══ §174/181 F_LayerBackgroundGetSprite(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bcac4  size 160  40 条（0x1bcac4..0x1bcb64）
- * @func 0x1bcac4 0x1bcb74  size 176  44 条
+ * @func 0x1bcac4 0x1bcb78  size 180  45 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9161,7 +9161,7 @@
  *   @0x1bcb60 ldrsheq r1, [r9], -r12
  *
  * ══ §175/181 F_LayerSpriteGetXScale(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bd874  size 160  40 条（0x1bd874..0x1bd914）
- * @func 0x1bd874 0x1bd924  size 176  44 条
+ * @func 0x1bd874 0x1bd928  size 180  45 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -9314,7 +9314,7 @@
  *   @0x1bf930 andseq pc, r8, r8, lsr r11
  *
  * ══ §178/181 F_LayerTileGetXScale(RValue&, CInstance*, CInstance*, int, RValue*)  0x1bf9c8  size 160  40 条（0x1bf9c8..0x1bfa68）
- * @func 0x1bf9c8 0x1bfa78  size 176  44 条
+ * @func 0x1bf9c8 0x1bfa7c  size 180  45 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

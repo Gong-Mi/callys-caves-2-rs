@@ -2205,7 +2205,7 @@
  *   @0x1986e8 andseq r8, r9, r12, ror r12
  *
  * ══ §9/31 CDS_Priority::Add(RValue*, RValue*)  0x206510  size 1044  261 条（0x206510..0x206924）
- * @func 0x206510 0x206934  size 1060  265 条
+ * @func 0x206510 0x206938  size 1064  266 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6222,7 +6222,7 @@
  *   @0x15fe98 mulseq r12, r10, lr
  *
  * ══ §24/31 CDS_Grid::Get_Max(RValue&, int, int, int, int)  0x206924  size 1008  252 条（0x206924..0x206d14）
- * @func 0x206924 0x206d24  size 1024  256 条
+ * @func 0x206924 0x206d28  size 1028  257 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7273,7 +7273,7 @@
  *   @0x31a19c pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §28/31 Sprite_Add_BIN(void*, int, int, int, bool, bool, int, int)  0x1efbd8  size 996  249 条（0x1efbd8..0x1effbc）
- * @func 0x1efbd8 0x1effcc  size 1012  253 条
+ * @func 0x1efbd8 0x1effd0  size 1016  254 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x1efc04→0x7530d8, 0x1efc08→0x7530d0, 0x1efc64→0x7530dc, 0x1efcb8→0x7530e0

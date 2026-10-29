@@ -393,7 +393,7 @@
 /* @0x19ecf4 andseq lr, r10, r4, ror r2 —— 非指令：→ 0x34ceb8 */
 
 /* ══ §3 Object_Load 0x19ea7c ════════════════════════════════════════════════
- * @func 0x19ea7c 0x19ebc0  size 324  81 条（74 指令 + 4 池字；末指令 0x19eba0，函数尾 0x19ebb4 = §2 的入口）
+ * @func 0x19ea7c 0x19ebc4  size 328  82 条（74 指令 + 4 池字；末指令 0x19eba0，函数尾 0x19ebb4 = §2 的入口）
  * 级别: 正文（78/78。OBJT 块的记录布局、偏移基址、跳过条件、名字所有权、插表、父链回填时机全部钉死；
  *       没钉的只有第二实参的用途与 LoadFromChunk 内部）
  * 符号: _Z11Object_LoadPhjS_ → Object_Load(unsigned char* pTable, unsigned int unused, unsigned char* pBase)

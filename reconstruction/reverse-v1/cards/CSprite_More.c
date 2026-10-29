@@ -1,13 +1,13 @@
 /* cally 逆向卡：CSprite 碰撞掩码 + 精灵表管理（原版 libyoyo.so，armv7）
- * @func 0x1e3d88 0x1e42a4  size 1308  327 条  CSprite::ComputeMask
+ * @func 0x1e3d88 0x1e42a8  size 1312  328 条  CSprite::ComputeMask
  * @func 0x1e4298 0x1e4a30  size 1944  486 条  CSprite::PreciseCollision
- * @func 0x1eebbc 0x1eed48  size 396  99 条  Sprite_Init
- * @func 0x1eed3c 0x1eeddc  size 160  40 条  Sprite_Free
- * @func 0x1eedd0 0x1eee3c  size 108  27 条  Sprite_InitTextures
- * @func 0x1eee30 0x1eee90  size 96  24 条  Sprite_FreeTextures
- * @func 0x1eee84 0x1eeea4  size 32  8 条  Sprite_Number
- * @func 0x1eee98 0x1eeeec  size 84  21 条  Sprite_Exists
- * @func 0x1eeee0 0x1eef70  size 144  36 条  Sprite_Name
+ * @func 0x1eebbc 0x1eed4c  size 400  100 条  Sprite_Init
+ * @func 0x1eed3c 0x1eede0  size 164  41 条  Sprite_Free
+ * @func 0x1eedd0 0x1eee40  size 112  28 条  Sprite_InitTextures
+ * @func 0x1eee30 0x1eee94  size 100  25 条  Sprite_FreeTextures
+ * @func 0x1eee84 0x1eeea8  size 36  9 条  Sprite_Number
+ * @func 0x1eee98 0x1eeef0  size 88  22 条  Sprite_Exists
+ * @func 0x1eeee0 0x1eef74  size 148  37 条  Sprite_Name
  * @func 0x1eef64 0x1ef03c  size 216  54 条  Sprite_Find
  * @func 0x1ef454 0x1ef514  size 192  48 条  Sprite_Assign
  * 级别: 正文（1146/1146 逐条落锚，check_card_anchors.py 合并索引口径 EXACT；

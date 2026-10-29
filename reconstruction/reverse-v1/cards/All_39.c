@@ -510,7 +510,7 @@
  *   @0x14f1cc andseq r5, pc, r0, lsl r12
  *
  * ══ §4/50 F_PhysicsCreateWeldJoint(RValue&, CInstance*, CInstance*, int, RValue*)  0x14ff68  size 628  157 条（0x14ff68..0x1501dc）
- * @func 0x14ff68 0x1501ec  size 644  161 条
+ * @func 0x14ff68 0x1501f0  size 648  162 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x150008→0x54298c, 0x1500ec→0x54298c
@@ -3163,7 +3163,7 @@
  *   @0x2b6640 b 0x2b6444 <jpeg_calc_output_dimensions+0x68>
  *
  * ══ §20/50 CSkeletonSprite::GetSkinList(CDS_List*)  0xc1974  size 612  153 条（0xc1974..0xc1bd8）
- * @func 0xc1974 0xc1be8  size 628  157 条
+ * @func 0xc1974 0xc1bec  size 632  158 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5931,7 +5931,7 @@
  *   @0xdb708 eorseq r2, r1, r12, lsl #1
  *
  * ══ §37/50 F_PhysicsCreateDistanceJoint(RValue&, CInstance*, CInstance*, int, RValue*)  0x14ed04  size 600  150 条（0x14ed04..0x14ef5c）
- * @func 0x14ed04 0x14ef6c  size 616  154 条
+ * @func 0x14ed04 0x14ef70  size 620  155 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x14eda4→0x54298c, 0x14ee6c→0x54298c

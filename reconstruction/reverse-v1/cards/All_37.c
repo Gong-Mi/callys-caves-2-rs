@@ -779,7 +779,7 @@
  *   @0x2cab38 andeq r0, r0, r0
  *
  * ══ §5/43 F_DsListMarkAsList(RValue&, CInstance*, CInstance*, int, RValue*)  0x102300  size 720  180 条（0x102300..0x1025d0）
- * @func 0x102300 0x1025e0  size 736  184 条
+ * @func 0x102300 0x1025e4  size 740  185 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -1161,7 +1161,7 @@
  *   @0x10289c eoreq r5, r3, r8, lsl #10
  *
  * ══ §7/43 F_PhysicsCreatePulleyJoint(RValue&, CInstance*, CInstance*, int, RValue*)  0x14f790  size 720  180 条（0x14f790..0x14fa60）
- * @func 0x14f790 0x14fa70  size 736  184 条
+ * @func 0x14f790 0x14fa74  size 740  185 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 0x3f1c58
  * 门字节（加载点→目标全局）: 0x14f830→0x54298c, 0x14f970→0x54298c
@@ -3247,7 +3247,7 @@
  *   @0x2aa396 push {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *
  * ══ §18/43 F_DsPriorityFindPriority(RValue&, CInstance*, CInstance*, int, RValue*)  0x10296c  size 704  176 条（0x10296c..0x102c2c）
- * @func 0x10296c 0x102c3c  size 720  180 条
+ * @func 0x10296c 0x102c40  size 724  181 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -3808,7 +3808,7 @@
  *   @0x252a1c ldrsbeq r3, [r0], -r0
  *
  * ══ §21/43 F_DsListSetPre(RValue&, CInstance*, CInstance*, int, RValue*)  0x102044  size 700  175 条（0x102044..0x102300）
- * @func 0x102044 0x102310  size 716  179 条
+ * @func 0x102044 0x102314  size 720  180 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5666,7 +5666,7 @@
  *   @0x102ee0 .word 0x00234ebc
  *
  * ══ §31/43 F_DsQueueTail(RValue&, CInstance*, CInstance*, int, RValue*)  0x105b54  size 696  174 条（0x105b54..0x105e0c）
- * @func 0x105b54 0x105e1c  size 712  178 条
+ * @func 0x105b54 0x105e20  size 716  179 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -5851,7 +5851,7 @@
  *   @0x105e08 mlaeq r3, r4, pc, r1
  *
  * ══ §32/43 F_DsQueueHead(RValue&, CInstance*, CInstance*, int, RValue*)  0x105e0c  size 696  174 条（0x105e0c..0x1060c4）
- * @func 0x105e0c 0x1060d4  size 712  178 条
+ * @func 0x105e0c 0x1060d8  size 716  179 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6036,7 +6036,7 @@
  *   @0x1060c0 .word 0x00231cdc
  *
  * ══ §33/43 F_DsPriorityFindMin(RValue&, CInstance*, CInstance*, int, RValue*)  0x1060c4  size 696  174 条（0x1060c4..0x10637c）
- * @func 0x1060c4 0x10638c  size 712  178 条
+ * @func 0x1060c4 0x106390  size 716  179 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无

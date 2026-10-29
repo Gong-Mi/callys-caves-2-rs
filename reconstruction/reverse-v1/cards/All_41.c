@@ -3696,7 +3696,7 @@
  *   @0x1f1f98 andseq r0, r6, r8, lsr r7
  *
  * ══ §26/57 GV_ArgumentCount(CInstance*, int, RValue*)  0x200c88  size 540  135 条（0x200c88..0x200ea4）
- * @func 0x200c88 0x200eb4  size 556  139 条
+ * @func 0x200c88 0x200eb8  size 560  140 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -6849,7 +6849,7 @@
  *   @0x11f848 eoreq r10, r1, r12, lsr #19
  *
  * ══ §48/57 F_SpritePrefetchMulti(RValue&, CInstance*, CInstance*, int, RValue*)  0x1303d4  size 524  131 条（0x1303d4..0x1305e0）
- * @func 0x1303d4 0x1305f0  size 540  135 条
+ * @func 0x1303d4 0x1305f4  size 544  136 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
@@ -7834,7 +7834,7 @@
  *   @0x1a0818 .word 0xffffeb24
  *
  * ══ §55/57 JS_String_prototype_toLowerCase(RValue&, CInstance*, CInstance*, int, RValue*)  0x255a24  size 520  130 条（0x255a24..0x255c2c）
- * @func 0x255a24 0x255c3c  size 536  134 条
+ * @func 0x255a24 0x255c40  size 540  135 条
  * 级别: 骨架（结构 + 锚点；语义未展开）
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
