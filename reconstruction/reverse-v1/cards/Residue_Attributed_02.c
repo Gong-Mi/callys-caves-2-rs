@@ -1,57 +1,97 @@
-/* cally 逆向卡：残段 Residue_02 —— 不属于任何已出卡函数跨度的剩余指令
- * 节: 47 个连续段｜锚点 7500 条
- * 级别: 骨架（地址级）—— 这些地址**不在** asm/functions.tsv 的任何函数跨度内，也不在 anon_splits.tsv 的分段内：
- *       它们是大函数尾部/对齐填充/未建档的代码残段。本卡只做一件事：把「每条指令都被指到」这条账补齐，
- *       不主张任何语义，也不假装它们是函数。
- * 索引: asm/instructions.jsonl
- * 段 0x2abb68..0x2ae712（2795 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2ae7d6..0x2afd36（1369 条）→ png_set_cHRM
- * 段 0x2afd96..0x2b0f38（1129 条）→ png_write_info_before_PLTE
- * 段 0x2b1122..0x2b121a（63 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b1294..0x2b2df2（1752 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b34a4..0x2b34a4（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b3edc..0x2b3edc（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b5d9c..0x2b5d9c（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b63d8..0x2b63d8（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b6f98..0x2b6f98（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b7fd8..0x2b7fd8（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b8408..0x2b8408（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b8acc..0x2b8acc（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2b8fbc..0x2b8fbc（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2ba0b0..0x2ba0b0（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2bad2c..0x2bad2c（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2bc650..0x2bc650（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2bd99c..0x2bd99c（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2be478..0x2be478（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2bea28..0x2bea28（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2bf198..0x2bf198（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2bf810..0x2bf810（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2c1378..0x2c1378（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2c1a2c..0x2c1a2c（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2c7fdc..0x2c7fdc（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2c82fc..0x2c82fc（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2d498c..0x2d498c（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2d5238..0x2d5238（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2d8a1c..0x2d8a1c（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2d9860..0x2d9860（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2de460..0x2de460（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e4d18..0x2e4e66（84 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e4eb4..0x2e6e1a（2010 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e6ee4..0x2e7166（161 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e72f4..0x2e7470（96 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e74ba..0x2e7a26（348 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e7a6c..0x2e7b58（60 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e7db6..0x2e84ee（463 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e85a4..0x2e8b56（365 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e8bd8..0x2e8c32（23 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e90d4..0x2e90f6（9 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e96ec..0x2e9b78（292 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2e9bd2..0x2e9c66（38 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2f0440..0x2f0440（1 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2f08d4..0x2f0d14（273 条）→ anonT_2f08c6
- * 段 0x2f1140..0x2f130c（116 条）→ 跨度外（不属于任何函数/分段）
- * 段 0x2f135c..0x2f1de2（674 条）→ anonT_2f1142
- * ────────────────────────────────────────────────────────────────────────────
+/* cally 逆向卡：残段归属修正批 2 —— 按 census 的函数归属重新归组
+ * ⚠ 更正：原来的 Residue_01-03 说这些地址「不属于任何函数跨度」是**错的**。
+ *   真实原因：生成器用 range(start,end,4) 取指令，而这些函数是 **Thumb-2**，指令落在 2 字节栅格上，
+ *   半字地址被漏掉，于是被误标成跨度外残段。census 的 f 字段给出了它们真正的函数归属。
+ * 本卡：每节 = 一个真实函数（名字取自 asm/functions.tsv），只收它落在 4 字节栅格之外的那部分指令。
+ * 级别: 骨架（地址 + 归属 + 入度；这些函数的其余部分在 All_*/Reach_* 卡里，语义仍 open）
+ * 节: 374 个函数｜锚点 7143 条
+ *
+ * ══ png_do_read_interlace  0x2ade1c  size 812  本节 120 条（Thumb-2 半字段）｜入度 13
+ * @func 0x2ade1c 0x2ae148  size 812  120 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
+ *   @0x2ade22 ldr.w r10, [pc, #0x31c]
+ *   @0x2ade26 mov r4, r0
+ *   @0x2ade32 ldr.w r10, [r10]
+ *   @0x2ade36 ldr.w r6, [r0, #0x1b0]
+ *   @0x2ade3a add r12, pc
+ *   @0x2ade4e adds r6, #0x1
+ *   @0x2ade56 ldm.w r12!, {r0, r1, r2, r3}
+ *   @0x2ade5a stm r5!, {r0, r1, r2, r3}
+ *   @0x2ade72 ldr.w r2, [r4, #0x1c4]
+ *   @0x2ade76 add.w r3, r1, r8, lsl #2
+ *   @0x2ade7a ldrb.w r8, [r4, #0x1cf]
+ *   @0x2ade7e subs r1, r2, #0x1
+ *   @0x2ade8e add.w r0, r5, #0xffffffff
+ *   @0x2ade92 beq 0x2adf68 <png_do_read_interlace+0x14c>
+ *   @0x2adeba movs r2, #0x0
+ *   @0x2adeca mov.w r12, #0x7
+ *   @0x2adece b 0x2adee4 <png_do_read_interlace+0xc8>
+ *   @0x2aded2 mvns r3, r3
+ *   @0x2adee6 ldr.w r2, [r4, #0x1c4]
+ *   @0x2adeea cmp r7, r2
+ *   @0x2adeee ldrb.w r9, [r1]
+ *   @0x2adef2 asr.w r9, r9, r6
+ *   @0x2adef6 and r9, r9, #0x1
+ *   @0x2adefa str.w r9, [sp, #0x4]
+ *   @0x2adefe mov.w r9, #0x0
+ *   @0x2adf02 ldr r2, [sp, #0x8]
+ *   @0x2adf06 bge 0x2adf40 <png_do_read_interlace+0x124>
+ *   @0x2adf2e strb.w r10, [r0]
+ *   @0x2adf32 cmp r3, r2
+ *   @0x2adf36 addeq.w r0, r0, #0xffffffff
+ *   @0x2adf3a addne r3, r8
+ *   @0x2adf3e b 0x2adf02 <png_do_read_interlace+0xe6>
+ *   @0x2adf46 cmp r6, r10
+ *   @0x2adf4a addeq.w r1, r1, #0xffffffff
+ *   @0x2adf4e addne r6, r8
+ *   @0x2adf52 b 0x2adee6 <png_do_read_interlace+0xca>
+ *   @0x2adf5e bls.w 0x2ae122 <png_do_read_interlace+0x306>
+ *   @0x2adf62 lsrs r3, r3, #0x3
+ *   @0x2adf66 b 0x2ae128 <png_do_read_interlace+0x30c>
+ *   @0x2adf76 add.w r2, r2, #0x3
+ *   @0x2adf7a add.w r3, r5, #0x3
+ *   @0x2adf7e beq 0x2adf9a <png_do_read_interlace+0x17e>
+ *   @0x2adf92 lsls r3, r3, #0x1
+ *   @0x2adf9a mvns r2, r2
+ *   @0x2adf9e and r6, r2, #0x3
+ *   @0x2adfa2 and r3, r3, #0x3
+ *   @0x2adfa6 mov.w r9, #0x6
+ *   @0x2adfaa lsls r6, r6, #0x1
+ *   @0x2adfae movs r7, #0x0
+ *   @0x2adfb6 bhs 0x2adf54 <png_do_read_interlace+0x138>
+ *   @0x2adfba ldrb r2, [r1]
+ *   @0x2adfbe and r2, r2, #0x3
+ *   @0x2adfc2 str r2, [sp, #0x4]
+ *   @0x2adfc6 ldr r1, [sp, #0x8]
+ *   @0x2adfca bge 0x2ae006 <png_do_read_interlace+0x1ea>
+ *   @0x2adfde add.w r2, r2, #0x1
+ *   @0x2adfe2 and.w r1, r11, r10
+ *   @0x2adfe6 ldr.w r11, [sp, #0x4]
+ *   @0x2adfea lsl.w r10, r11, r3
+ *   @0x2adfee it eq
+ *   @0x2adff2 orr.w r10, r1, r10
+ *   @0x2adff6 it ne
+ *   @0x2adffa strb.w r10, [r0]
+ *   @0x2adffe it eq
+ *   @0x2ae006 cmp r6, r9
+ *   @0x2ae00a ldr r2, [sp]
+ *   @0x2ae00e subs r2, #0x1
+ *   @0x2ae012 b 0x2ae016 <png_do_read_interlace+0x1fa>
+ *   @0x2ae016 adds r7, #0x1
+ *   @0x2ae01a ands r7, r7, #0x10000
+ *   @0x2ae01e add.w r1, r6, r1, lsr #1
+ *   @0x2ae022 add.w r0, r6, r0, lsr #1
+ *   @0x2ae026 str r1, [sp]
+ *   @0x2ae032 and r2, r2, #0x1
+ *   @0x2ae036 and r3, r3, #0x1
+ *   @0x2ae03a mov.w r9, #0x0
+ *   @0x2ae03e lsls r6, r2, #0x2
+ *   @0x2ae042 mvn r2, #0x3
+ *   @0x2ae046 b 0x2ae064 <png_do_read_interlace+0x248>
+ *   @0x2ae04e ite ne
+ *   @0x2ae052 moveq r6, #0x4
+ *   @0x2ae05a itete ne
  *   @0x2ae05e moveq r8, r3
  *   @0x2ae062 moveq r3, r2
  *   @0x2ae06e bhs.w 0x2adf54 <png_do_read_interlace+0x138>
@@ -90,6 +130,11 @@
  *   @0x2ae136 blx 0xb65d4 <__stack_chk_fail@plt>
  *   @0x2ae13a add sp, #0x3c
  *   @0x2ae146 movs r6, r1
+ *
+ * ══ png_read_filter_row  0x2ae148  size 276  本节 58 条（Thumb-2 半字段）｜入度 11
+ * @func 0x2ae148 0x2ae25c  size 276  58 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae14e ldr r2, [sp, #0x28]
  *   @0x2ae152 bhi 0x2ae246 <png_read_filter_row+0xfe>
  *   @0x2ae15a movs r1, #0x15
@@ -148,6 +193,11 @@
  *   @0x2ae24e movs r3, #0x0
  *   @0x2ae252 pop.w {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *   @0x2ae256 nop
+ *
+ * ══ png_read_finish_row  0x2ae25c  size 568  本节 100 条（Thumb-2 半字段）｜入度 8
+ * @func 0x2ae25c 0x2ae494  size 568  100 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae25e mov r4, r0
  *   @0x2ae262 sub sp, #0x84
  *   @0x2ae266 add r6, pc
@@ -248,6 +298,11 @@
  *   @0x2ae482 movs r5, r1
  *   @0x2ae486 movs r5, r1
  *   @0x2ae48e movs r5, r1
+ *
+ * ══ png_read_start_row  0x2ae494  size 544  本节 107 条（Thumb-2 半字段）｜入度 13
+ * @func 0x2ae494 0x2ae6b4  size 544  107 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae496 mov r4, r0
  *   @0x2ae49a sub sp, #0x3c
  *   @0x2ae49e mov r5, sp
@@ -355,13 +410,28 @@
  *   @0x2ae696 adds r2, #0x1
  *   @0x2ae6aa pop {r4, r5, r6, r7, pc}
  *   @0x2ae6ae movs r6, r1
+ *
+ * ══ png_set_bKGD  0x2ae6b4  size 32  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2ae6b4 0x2ae6d4  size 32  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae6b6 cbz r1, 0x2ae6d2 <png_set_bKGD+0x1e>
  *   @0x2ae6ba str.w r3, [r1, #0x5a]
  *   @0x2ae6be ldr r3, [r2, #0x4]
  *   @0x2ae6c6 strh.w r3, [r1, #0x62]
  *   @0x2ae6ca ldr r3, [r1, #0x8]
  *   @0x2ae6d2 bx lr
+ *
+ * ══ anon_2ae6d4  0x2ae6d4  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2ae6d4 0x2ae6d4  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae6d4 andeq r0, r0, r0
+ *
+ * ══ png_set_cHRM  0x2ae6d8  size 264  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2ae6d8 0x2ae7e0  size 264  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae6fe beq 0x2ae7d0 <png_set_cHRM+0xf8>
  *   @0x2ae702 beq 0x2ae7d0 <png_set_cHRM+0xf8>
  *   @0x2ae70e orr r3, r3, #0x4
@@ -369,6 +439,11 @@
  *   @0x2ae7d6 nop
  *   @0x2ae7da movs r0, r0
  *   @0x2ae7de lsrs r0, r7
+ *
+ * ══ png_set_cHRM_fixed  0x2ae7e0  size 280  本节 61 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2ae7e0 0x2ae8f8  size 280  61 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae7e6 mov r4, r1
  *   @0x2ae7ea mov r10, r3
  *   @0x2ae7f2 ldr r6, [sp, #0x40]
@@ -430,6 +505,11 @@
  *   @0x2ae8ea add sp, #0x18
  *   @0x2ae8f2 movs r0, r0
  *   @0x2ae8f6 lsrs r0, r7
+ *
+ * ══ png_set_gAMA  0x2ae8f8  size 144  本节 18 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2ae8f8 0x2ae988  size 144  18 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae8fa vpush {d8}
  *   @0x2ae8fe mov r4, r1
  *   @0x2ae906 cbz r0, 0x2ae964 <png_set_gAMA+0x6c>
@@ -448,6 +528,11 @@
  *   @0x2ae972 subs r0, r7, #0x2
  *   @0x2ae97a movs r0, r0
  *   @0x2ae97e lsrs r0, r7
+ *
+ * ══ png_set_gAMA_fixed  0x2ae988  size 124  本节 19 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2ae988 0x2aea04  size 124  19 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ae98a mov r5, r1
  *   @0x2ae98e mov r6, r0
  *   @0x2ae992 cbz r1, 0x2ae9e8 <png_set_gAMA_fixed+0x60>
@@ -467,7 +552,17 @@
  *   @0x2ae9ea nop
  *   @0x2ae9f2 movs r0, r0
  *   @0x2ae9f6 lsrs r0, r7
+ *
+ * ══ anon_2aea04  0x2aea04  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aea04 0x2aea04  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aea04 andhi pc, r0, pc, lsr #7
+ *
+ * ══ png_set_hIST  0x2aea08  size 124  本节 24 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2aea08 0x2aea84  size 124  24 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aea0a mov r4, r1
  *   @0x2aea0e mov r5, r0
  *   @0x2aea12 cbz r1, 0x2aea7a <png_set_hIST+0x72>
@@ -492,6 +587,11 @@
  *   @0x2aea72 orr r3, r3, #0x8
  *   @0x2aea76 str.w r3, [r4, #0xb8]
  *   @0x2aea7a pop {r4, r5, r6, pc}
+ *
+ * ══ png_set_IHDR  0x2aea84  size 134  本节 32 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2aea84 0x2aeb0a  size 134  32 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aea86 sub sp, #0x14
  *   @0x2aea8a mov r5, r2
  *   @0x2aea8e ldr.w r12, [sp, #0x2c]
@@ -524,12 +624,27 @@
  *   @0x2aeafe muls r5, r3, r5
  *   @0x2aeb02 lsrs r5, r5, #0x3
  *   @0x2aeb06 add sp, #0x14
+ *
+ * ══ png_set_oFFs  0x2aeb0a  size 24  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aeb0a 0x2aeb22  size 24  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aeb0c cbz r1, 0x2aeb20 <png_set_oFFs+0x16>
  *   @0x2aeb10 ldr r3, [sp]
  *   @0x2aeb14 strb.w r3, [r1, #0x6c]
  *   @0x2aeb18 ldr r3, [r1, #0x8]
  *   @0x2aeb20 bx lr
+ *
+ * ══ anon_2aeb22  0x2aeb22  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aeb22 0x2aeb22  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aeb22 .word 0xe92d0000
+ *
+ * ══ png_set_pCAL  0x2aeb24  size 292  本节 60 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2aeb24 0x2aec48  size 292  60 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aeb2a ldr r3, [sp, #0x30]
  *   @0x2aeb2e ldr.w r9, [sp, #0x34]
  *   @0x2aeb32 mov r5, r0
@@ -590,15 +705,35 @@
  *   @0x2aec2a orr r3, r3, #0x80
  *   @0x2aec2e str.w r3, [r4, #0xb8]
  *   @0x2aec32 add sp, #0xc
+ *
+ * ══ png_set_sCAL  0x2aec48  size 34  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aec48 0x2aec6a  size 34  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aec4a cbz r1, 0x2aec68 <png_set_sCAL+0x20>
  *   @0x2aec62 orr r3, r3, #0x4000
  *   @0x2aec66 str r3, [r1, #0x8]
+ *
+ * ══ png_set_pHYs  0x2aec6a  size 24  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aec6a 0x2aec82  size 24  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aec6c cbz r1, 0x2aec80 <png_set_pHYs+0x16>
  *   @0x2aec70 ldr r3, [sp]
  *   @0x2aec74 strb.w r3, [r1, #0x78]
  *   @0x2aec78 ldr r3, [r1, #0x8]
  *   @0x2aec80 bx lr
+ *
+ * ══ anon_2aec82  0x2aec82  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aec82 0x2aec82  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aec82 ldrblt r0, [r8, #0x0]!
+ *
+ * ══ png_set_PLTE  0x2aec84  size 152  本节 27 条（Thumb-2 半字段）｜入度 6
+ * @func 0x2aec84 0x2aed1c  size 152  27 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aec86 mov r4, r1
  *   @0x2aec8a mov r6, r3
  *   @0x2aec8e cmp r0, #0x0
@@ -626,15 +761,30 @@
  *   @0x2aed06 str.w r3, [r4, #0xb8]
  *   @0x2aed0a ldr r3, [r4, #0x8]
  *   @0x2aed12 pop {r3, r4, r5, r6, r7, pc}
+ *
+ * ══ png_set_sBIT  0x2aed1c  size 24  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aed1c 0x2aed34  size 24  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aed1e cbz r1, 0x2aed32 <png_set_sBIT+0x16>
  *   @0x2aed22 str r3, [r1, #0x44]
  *   @0x2aed26 strb.w r3, [r1, #0x48]
  *   @0x2aed2a ldr r3, [r1, #0x8]
  *   @0x2aed32 bx lr
+ *
+ * ══ png_set_sRGB  0x2aed34  size 18  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aed34 0x2aed46  size 18  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aed36 cbz r1, 0x2aed44 <png_set_sRGB+0x10>
  *   @0x2aed3a strb.w r2, [r1, #0x2c]
  *   @0x2aed3e orr r3, r3, #0x800
  *   @0x2aed42 str r3, [r1, #0x8]
+ *
+ * ══ png_set_sRGB_gAMA_and_cHRM  0x2aed48  size 256  本节 53 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2aed48 0x2aee48  size 256  53 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aed4a mov r4, r1
  *   @0x2aed4e mov r5, r0
  *   @0x2aed52 beq 0x2aedfa <png_set_sRGB_gAMA_and_cHRM+0xb2>
@@ -688,6 +838,11 @@
  *   @0x2aee3e subs r7, #0xae
  *   @0x2aee42 b 0x2aee46 <png_set_sRGB_gAMA_and_cHRM+0xfe>
  *   @0x2aee46 subs r7, #0xd4
+ *
+ * ══ png_set_iCCP  0x2aee48  size 176  本节 32 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2aee48 0x2aeef8  size 176  32 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aee4e mov r7, r2
  *   @0x2aee52 ldr.w r9, [sp, #0x28]
  *   @0x2aee56 mov r5, r0
@@ -720,6 +875,11 @@
  *   @0x2aeee2 str.w r7, [r4, #0xc8]
  *   @0x2aeee6 strb.w r11, [r4, #0xd0]
  *   @0x2aeeea str r3, [r4, #0x8]
+ *
+ * ══ png_set_text_2  0x2aeef8  size 488  本节 102 条（Thumb-2 半字段）｜入度 13
+ * @func 0x2aeef8 0x2af0e0  size 488  102 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2aeefe mov r4, r1
  *   @0x2aef02 str r3, [sp, #0xc]
  *   @0x2aef06 cbnz r0, 0x2aef0c <png_set_text_2+0x14>
@@ -822,11 +982,21 @@
  *   @0x2af0d2 movs r0, #0x1
  *   @0x2af0d6 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *   @0x2af0da nop
+ *
+ * ══ png_set_text  0x2af0e0  size 32  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af0e0 0x2af100  size 32  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af0e2 mov r4, r0
  *   @0x2af0ea ldr r1, [pc, #0x10]
  *   @0x2af0ee pop.w {r4, lr}
  *   @0x2af0f2 add r1, pc
  *   @0x2af0fa nop
+ *
+ * ══ png_set_tIME  0x2af100  size 76  本节 16 条（Thumb-2 半字段）｜入度 6
+ * @func 0x2af100 0x2af14c  size 76  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af102 cbz r1, 0x2af146 <png_set_tIME+0x46>
  *   @0x2af10a bmi 0x2af146 <png_set_tIME+0x46>
  *   @0x2af10e subs r3, #0x1
@@ -843,6 +1013,11 @@
  *   @0x2af13a ldr r3, [r2, #0x4]
  *   @0x2af13e ldr r3, [r1, #0x8]
  *   @0x2af146 bx lr
+ *
+ * ══ png_set_tRNS  0x2af14c  size 192  本节 39 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2af14c 0x2af20c  size 192  39 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af152 mov r8, r2
  *   @0x2af156 ldr r6, [sp, #0x18]
  *   @0x2af15a cmp r0, #0x0
@@ -882,6 +1057,11 @@
  *   @0x2af1fa str.w r3, [r4, #0xb8]
  *   @0x2af1fe pop.w {r4, r5, r6, r7, r8, pc}
  *   @0x2af202 nop
+ *
+ * ══ png_set_sPLT  0x2af20c  size 308  本节 56 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2af20c 0x2af340  size 308  56 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af212 sub sp, #0x14
  *   @0x2af216 mov r9, r3
  *   @0x2af21a cmp r0, #0x0
@@ -938,6 +1118,11 @@
  *   @0x2af31a str r3, [r4, #0x8]
  *   @0x2af32e pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *   @0x2af332 nop
+ *
+ * ══ png_set_unknown_chunks  0x2af340  size 244  本节 45 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2af340 0x2af434  size 244  45 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af346 mov r5, r2
  *   @0x2af34a mov r6, r0
  *   @0x2af34e beq 0x2af426 <png_set_unknown_chunks+0xe6>
@@ -983,14 +1168,29 @@
  *   @0x2af41e str.w r7, [r4, #0xc0]
  *   @0x2af422 str.w r3, [r4, #0xb8]
  *   @0x2af426 add sp, #0xc
+ *
+ * ══ png_set_unknown_chunk_location  0x2af434  size 30  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af434 0x2af452  size 30  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af436 cbz r1, 0x2af450 <png_set_unknown_chunk_location+0x1c>
  *   @0x2af43a blt 0x2af450 <png_set_unknown_chunk_location+0x1c>
  *   @0x2af442 bge 0x2af450 <png_set_unknown_chunk_location+0x1c>
  *   @0x2af44a mla r2, r0, r2, r1
  *   @0x2af44e strb r3, [r2, #0x10]
+ *
+ * ══ png_permit_mng_features  0x2af452  size 14  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af452 0x2af460  size 14  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af454 and r1, r1, #0x5
  *   @0x2af458 str.w r1, [r0, #0x2dc]
  *   @0x2af45c mov r0, r1
+ *
+ * ══ png_set_keep_unknown_chunks  0x2af460  size 192  本节 27 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af460 0x2af520  size 192  27 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af466 mov r11, r2
  *   @0x2af46a mov r4, r0
  *   @0x2af46e beq 0x2af51c <png_set_keep_unknown_chunks+0xbc>
@@ -1018,9 +1218,19 @@
  *   @0x2af4fa bge 0x2af508 <png_set_keep_unknown_chunks+0xa8>
  *   @0x2af502 strb.w r6, [r8, r2]
  *   @0x2af506 b 0x2af4f8 <png_set_keep_unknown_chunks+0x98>
+ *
+ * ══ png_set_read_user_chunk_fn  0x2af520  size 12  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af520 0x2af52c  size 12  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af522 str.w r2, [r0, #0x2c8]
  *   @0x2af526 str.w r1, [r0, #0x2c4]
  *   @0x2af52a bx lr
+ *
+ * ══ png_set_rows  0x2af52c  size 44  本节 8 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af52c 0x2af558  size 44  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af52e mov r4, r1
  *   @0x2af532 cbz r0, 0x2af556 <png_set_rows+0x2a>
  *   @0x2af536 ldr.w r3, [r1, #0xf8]
@@ -1029,19 +1239,49 @@
  *   @0x2af542 movs r3, #0x0
  *   @0x2af54e ldr r3, [r4, #0x8]
  *   @0x2af556 pop {r3, r4, r5, pc}
+ *
+ * ══ png_set_compression_buffer_size  0x2af558  size 46  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af558 0x2af586  size 46  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af55a mov r5, r1
  *   @0x2af55e cbz r0, 0x2af584 <png_set_compression_buffer_size+0x2c>
  *   @0x2af56e mov r1, r5
+ *
+ * ══ png_set_invalid  0x2af586  size 14  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af586 0x2af594  size 14  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af588 cbz r1, 0x2af592 <png_set_invalid+0xc>
  *   @0x2af58c bic.w r3, r3, r2
  *   @0x2af590 str r3, [r1, #0x8]
+ *
+ * ══ png_set_user_limits  0x2af594  size 12  本节 3 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2af594 0x2af5a0  size 12  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af596 str.w r1, [r0, #0x308]
  *   @0x2af59a str.w r2, [r0, #0x30c]
  *   @0x2af59e bx lr
+ *
+ * ══ png_set_chunk_cache_max  0x2af5a0  size 8  本节 2 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2af5a0 0x2af5a8  size 8  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af5a2 str.w r1, [r0, #0x310]
  *   @0x2af5a6 bx lr
+ *
+ * ══ png_set_chunk_malloc_max  0x2af5a8  size 8  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af5a8 0x2af5b0  size 8  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af5aa str.w r1, [r0, #0x1a0]
  *   @0x2af5ae bx lr
+ *
+ * ══ png_check_keyword  0x2af5b0  size 392  本节 87 条（Thumb-2 半字段）｜入度 11
+ * @func 0x2af5b0 0x2af738  size 392  87 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af5b2 push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr}
  *   @0x2af5b6 add r3, pc
  *   @0x2af5ba mov r6, r2
@@ -1129,38 +1369,73 @@
  *   @0x2af72e movs r5, r1
  *   @0x2af732 movs r5, r1
  *   @0x2af736 movs r5, r1
+ *
+ * ══ png_set_bgr  0x2af738  size 16  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af738 0x2af748  size 16  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af73a ldr.w r3, [r0, #0x134]
  *   @0x2af73e orr r3, r3, #0x1
  *   @0x2af742 str.w r3, [r0, #0x134]
  *   @0x2af746 bx lr
+ *
+ * ══ png_set_swap  0x2af748  size 24  本节 6 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2af748 0x2af760  size 24  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af74a ldrb.w r3, [r0, #0x1eb]
  *   @0x2af74e cmp r3, #0x10
  *   @0x2af752 ldr.w r3, [r0, #0x134]
  *   @0x2af756 orr r3, r3, #0x10
  *   @0x2af75a str.w r3, [r0, #0x134]
  *   @0x2af75e bx lr
+ *
+ * ══ png_set_packing  0x2af760  size 30  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af760 0x2af77e  size 30  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af762 ldrb.w r3, [r0, #0x1eb]
  *   @0x2af766 cmp r3, #0x7
  *   @0x2af76a ldr.w r3, [r0, #0x134]
  *   @0x2af76e orr r3, r3, #0x4
  *   @0x2af772 str.w r3, [r0, #0x134]
  *   @0x2af776 movs r3, #0x8
+ *
+ * ══ png_set_packswap  0x2af77e  size 24  本节 6 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2af77e 0x2af796  size 24  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af780 ldrb.w r3, [r0, #0x1eb]
  *   @0x2af784 cmp r3, #0x7
  *   @0x2af788 ldr.w r3, [r0, #0x134]
  *   @0x2af78c orr r3, r3, #0x10000
  *   @0x2af790 str.w r3, [r0, #0x134]
  *   @0x2af794 bx lr
+ *
+ * ══ png_set_shift  0x2af796  size 28  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af796 0x2af7b2  size 28  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af798 ldr.w r3, [r0, #0x134]
  *   @0x2af79c orr r3, r3, #0x8
  *   @0x2af7a0 str.w r3, [r0, #0x134]
  *   @0x2af7a4 ldr r3, [r1]
  *   @0x2af7ac strb.w r3, [r0, #0x249]
  *   @0x2af7b0 bx lr
+ *
+ * ══ png_set_interlace_handling  0x2af7b2  size 28  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af7b2 0x2af7ce  size 28  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af7b4 ldrb.w r3, [r0, #0x1e7]
  *   @0x2af7b8 cbz r3, 0x2af7ca <png_set_interlace_handling+0x18>
  *   @0x2af7c8 bx lr
  *   @0x2af7cc bx lr
+ *
+ * ══ png_set_filler  0x2af7ce  size 68  本节 12 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2af7ce 0x2af812  size 68  12 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af7d0 ldr.w r3, [r0, #0x134]
  *   @0x2af7d4 cmp r2, #0x1
  *   @0x2af7e8 orreq r3, r3, #0x80
@@ -1173,24 +1448,49 @@
  *   @0x2af808 bls 0x2af810 <png_set_filler+0x42>
  *   @0x2af80c strb.w r3, [r0, #0x1ef]
  *   @0x2af810 bx lr
+ *
+ * ══ png_set_add_alpha  0x2af812  size 24  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af812 0x2af82a  size 24  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af814 mov r4, r0
  *   @0x2af818 bl 0x2af7ce <png_set_filler>
  *   @0x2af81c ldr.w r3, [r4, #0x134]
  *   @0x2af820 orr r3, r3, #0x1000000
  *   @0x2af824 str.w r3, [r4, #0x134]
  *   @0x2af828 pop {r4, pc}
+ *
+ * ══ png_set_swap_alpha  0x2af82a  size 16  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af82a 0x2af83a  size 16  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af82c ldr.w r3, [r0, #0x134]
  *   @0x2af830 orr r3, r3, #0x20000
  *   @0x2af834 str.w r3, [r0, #0x134]
  *   @0x2af838 bx lr
+ *
+ * ══ png_set_invert_alpha  0x2af83a  size 16  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af83a 0x2af84a  size 16  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af83c ldr.w r3, [r0, #0x134]
  *   @0x2af840 orr r3, r3, #0x80000
  *   @0x2af844 str.w r3, [r0, #0x134]
  *   @0x2af848 bx lr
+ *
+ * ══ png_set_invert_mono  0x2af84a  size 16  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af84a 0x2af85a  size 16  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af84c ldr.w r3, [r0, #0x134]
  *   @0x2af850 orr r3, r3, #0x20
  *   @0x2af854 str.w r3, [r0, #0x134]
  *   @0x2af858 bx lr
+ *
+ * ══ png_do_invert  0x2af85a  size 92  本节 21 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2af85a 0x2af8b6  size 92  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af85c ldrb r3, [r0, #0x8]
  *   @0x2af860 ldr r3, [r0, #0x4]
  *   @0x2af864 cmp r1, r3
@@ -1212,6 +1512,11 @@
  *   @0x2af8ac ldrb r4, [r2, #0x1]
  *   @0x2af8b0 strb r4, [r2, #0x1]
  *   @0x2af8b4 pop {r4, pc}
+ *
+ * ══ png_do_swap  0x2af8b6  size 46  本节 10 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2af8b6 0x2af8e4  size 46  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af8b8 ldrb r3, [r0, #0x9]
  *   @0x2af8bc bne 0x2af8e2 <png_do_swap+0x2c>
  *   @0x2af8c0 ldr r2, [r0]
@@ -1222,6 +1527,11 @@
  *   @0x2af8d8 strb r0, [r1, #-1]
  *   @0x2af8dc strb r4, [r1, #-2]
  *   @0x2af8e0 b 0x2af8c6 <png_do_swap+0x10>
+ *
+ * ══ png_do_packswap  0x2af8e4  size 76  本节 16 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2af8e4 0x2af930  size 76  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af8e6 cmp r3, #0x7
  *   @0x2af8ea cmp r3, #0x1
  *   @0x2af8ee beq 0x2af902 <png_do_packswap+0x1e>
@@ -1238,6 +1548,11 @@
  *   @0x2af926 movs r6, r1
  *   @0x2af92a movs r6, r1
  *   @0x2af92e movs r6, r1
+ *
+ * ══ png_do_strip_filler  0x2af930  size 440  本节 71 条（Thumb-2 半字段）｜入度 18
+ * @func 0x2af930 0x2afae8  size 440  71 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2af932 ldrb r4, [r0, #0x8]
  *   @0x2af936 cmp r4, #0x2
  *   @0x2af93a cmp r4, #0x6
@@ -1309,6 +1624,11 @@
  *   @0x2afada lsls r3, r2, #0x9
  *   @0x2afade ldrb r3, [r0, #0x8]
  *   @0x2afae6 pop {r4, r5, r6, pc}
+ *
+ * ══ png_do_bgr  0x2afae8  size 182  本节 38 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2afae8 0x2afb9e  size 182  38 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afaea ldrb r3, [r0, #0x8]
  *   @0x2afaee bpl 0x2afb9c <png_do_bgr+0xb4>
  *   @0x2afaf2 ldrb r0, [r0, #0x9]
@@ -1347,13 +1667,33 @@
  *   @0x2afb92 strb r0, [r1, #-3]
  *   @0x2afb96 strb r4, [r1, #-7]
  *   @0x2afb9a b 0x2afb76 <png_do_bgr+0x8e>
+ *
+ * ══ png_set_user_transform_info  0x2afb9e  size 16  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2afb9e 0x2afbae  size 16  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afba0 str.w r1, [r0, #0x124]
  *   @0x2afba4 strb.w r2, [r0, #0x128]
  *   @0x2afba8 strb.w r3, [r0, #0x129]
  *   @0x2afbac bx lr
+ *
+ * ══ png_get_user_transform_ptr  0x2afbae  size 8  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2afbae 0x2afbb6  size 8  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afbb0 ldr.w r0, [r0, #0x124]
  *   @0x2afbb4 bx lr
+ *
+ * ══ anon_2afbb6  0x2afbb6  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2afbb6 0x2afbb6  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afbb6 ldrlt r0, [r8, #-0x0]!
+ *
+ * ══ png_default_write_data  0x2afbb8  size 44  本节 9 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2afbb8 0x2afbe4  size 44  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afbba mov r5, r2
  *   @0x2afbbe cbz r0, 0x2afbde <png_default_write_data+0x26>
  *   @0x2afbc2 ldr.w r3, [r4, #0x118]
@@ -1363,18 +1703,38 @@
  *   @0x2afbda b.w 0x2a642c <png_error>
  *   @0x2afbde pop {r3, r4, r5, pc}
  *   @0x2afbe2 movs r5, r1
+ *
+ * ══ png_default_flush  0x2afbe4  size 12  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2afbe4 0x2afbf0  size 12  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afbe6 ldr.w r0, [r0, #0x118]
  *   @0x2afbea b.w 0x31bb1c <__udivdi3+0x484>
  *   @0x2afbee bx lr
+ *
+ * ══ png_write_data  0x2afbf0  size 28  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2afbf0 0x2afc0c  size 28  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afbf2 ldr.w r3, [r0, #0x110]
  *   @0x2afbf6 cbz r3, 0x2afbfc <png_write_data+0xc>
  *   @0x2afbfa pop {r3, pc}
  *   @0x2afbfe pop.w {r3, lr}
  *   @0x2afc02 add r1, pc
  *   @0x2afc0a movs r5, r1
+ *
+ * ══ png_flush  0x2afc0c  size 12  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2afc0c 0x2afc18  size 12  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afc0e ldr.w r3, [r0, #0x210]
  *   @0x2afc12 cbz r3, 0x2afc16 <png_flush+0xa>
  *   @0x2afc16 pop {r3, pc}
+ *
+ * ══ png_set_write_fn  0x2afc18  size 88  本节 21 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2afc18 0x2afc70  size 88  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afc1a mov r4, r0
  *   @0x2afc1e str.w r1, [r0, #0x118]
  *   @0x2afc22 cbnz r2, 0x2afc2a <png_set_write_fn+0x12>
@@ -1396,6 +1756,11 @@
  *   @0x2afc66 movs r4, r2
  *   @0x2afc6a movs r5, r1
  *   @0x2afc6e movs r5, r1
+ *
+ * ══ png_write_info_before_PLTE  0x2afc70  size 420  本节 67 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2afc70 0x2afe14  size 420  67 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afc76 sub sp, #0x38
  *   @0x2afc7a cmp r0, #0x0
  *   @0x2afc82 beq.w 0x2afe04 <png_write_info_before_PLTE+0x194>
@@ -1463,6 +1828,11 @@
  *   @0x2afe0a nop
  *   @0x2afe0e movs r5, r1
  *   @0x2afe12 movs r5, r1
+ *
+ * ══ png_write_info  0x2afe14  size 536  本节 99 条（Thumb-2 半字段）｜入度 22
+ * @func 0x2afe14 0x2b002c  size 536  99 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2afe1a sub sp, #0x14
  *   @0x2afe1e cmp r0, #0x0
  *   @0x2afe26 beq.w 0x2b0022 <png_write_info+0x20e>
@@ -1562,6 +1932,11 @@
  *   @0x2b001e adds r4, #0x14
  *   @0x2b0022 add sp, #0x14
  *   @0x2b002a movs r5, r1
+ *
+ * ══ png_write_end  0x2b002c  size 284  本节 54 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2b002c 0x2b0148  size 284  54 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0032 mov r4, r0
  *   @0x2b0036 beq.w 0x2b013c <png_write_end+0x110>
  *   @0x2b003a ldr.w r3, [r0, #0x12c]
@@ -1616,6 +1991,11 @@
  *   @0x2b013e pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *   @0x2b0142 nop
  *   @0x2b0146 movs r5, r1
+ *
+ * ══ png_convert_from_struct_tm  0x2b0148  size 32  本节 8 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0148 0x2b0168  size 32  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b014a addw r3, r3, #0x76c
  *   @0x2b014e strh r3, [r0]
  *   @0x2b0152 adds r3, #0x1
@@ -1624,12 +2004,22 @@
  *   @0x2b015e ldr r3, [r1, #0x4]
  *   @0x2b0162 ldr r3, [r1]
  *   @0x2b0166 bx lr
+ *
+ * ══ png_convert_from_time_t  0x2b0168  size 26  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0168 0x2b0182  size 26  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b016a mov r4, r0
  *   @0x2b016e str r1, [r0, #-4]!
  *   @0x2b0172 blx 0xb6f4c <gmtime@plt>
  *   @0x2b0176 mov r1, r0
  *   @0x2b017a bl 0x2b0148 <png_convert_from_struct_tm>
  *   @0x2b017e add sp, #0x8
+ *
+ * ══ png_create_write_struct_2  0x2b0184  size 480  本节 102 条（Thumb-2 半字段）｜入度 13
+ * @func 0x2b0184 0x2b0364  size 480  102 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0186 sub sp, #0x84
  *   @0x2b018a ldr r0, [sp, #0x98]
  *   @0x2b018e ldr r3, [sp, #0xa0]
@@ -1732,10 +2122,20 @@
  *   @0x2b035a movs r5, r1
  *   @0x2b035e movs r5, r1
  *   @0x2b0362 movs r5, r1
+ *
+ * ══ png_create_write_struct  0x2b0364  size 18  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0364 0x2b0376  size 18  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0366 movs r4, #0x0
  *   @0x2b036a str r4, [sp, #0x4]
  *   @0x2b036e bl 0x2b0184 <png_create_write_struct_2>
  *   @0x2b0372 add sp, #0x10
+ *
+ * ══ png_write_row  0x2b0378  size 376  本节 67 条（Thumb-2 半字段）｜入度 13
+ * @func 0x2b0378 0x2b04f0  size 376  67 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b037a mov r5, r1
  *   @0x2b037e cmp r0, #0x0
  *   @0x2b038a ldrb.w r3, [r0, #0x1e8]
@@ -1803,6 +2203,11 @@
  *   @0x2b04e6 blx r3
  *   @0x2b04ea nop
  *   @0x2b04ee movs r5, r1
+ *
+ * ══ png_write_rows  0x2b04f0  size 32  本节 7 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b04f0 0x2b0510  size 32  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b04f2 mov r6, r1
  *   @0x2b04f6 mov r5, r0
  *   @0x2b04fa movs r4, #0x0
@@ -1810,6 +2215,11 @@
  *   @0x2b0506 bl 0x2b0378 <png_write_row>
  *   @0x2b050a adds r4, #0x1
  *   @0x2b050e pop {r3, r4, r5, r6, r7, pc}
+ *
+ * ══ png_write_image  0x2b0510  size 54  本节 10 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2b0510 0x2b0546  size 54  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0516 mov r6, r0
  *   @0x2b051a bl 0x2af7b2 <png_set_interlace_handling>
  *   @0x2b051e movs r5, #0x0
@@ -1820,10 +2230,25 @@
  *   @0x2b053a adds r4, #0x1
  *   @0x2b053e adds r5, #0x1
  *   @0x2b0542 pop.w {r4, r5, r6, r7, r8, pc}
+ *
+ * ══ png_set_flush  0x2b0546  size 12  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0546 0x2b0552  size 12  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0548 bic.w r1, r1, r1, asr #31
  *   @0x2b054c str.w r1, [r0, #0x214]
  *   @0x2b0550 bx lr
+ *
+ * ══ anon_2b0552  0x2b0552  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0552 0x2b0552  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0552 ldrblt r0, [r0, #-0x0]!
+ *
+ * ══ png_write_flush  0x2b0554  size 148  本节 25 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2b0554 0x2b05e8  size 148  25 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0556 mov r4, r0
  *   @0x2b055a beq 0x2b05e2 <png_write_flush+0x8e>
  *   @0x2b0566 bhs 0x2b05e2 <png_write_flush+0x8e>
@@ -1849,6 +2274,11 @@
  *   @0x2b05de b.w 0x2afc0c <png_flush>
  *   @0x2b05e2 pop {r4, r5, r6, pc}
  *   @0x2b05e6 movs r5, r1
+ *
+ * ══ png_write_destroy  0x2b05e8  size 170  本节 28 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b05e8 0x2b0692  size 170  28 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b05ee sub sp, #0x100
  *   @0x2b05fa ldr.w r1, [r4, #0x170]
  *   @0x2b05fe mov.w r5, #0x100
@@ -1877,6 +2307,11 @@
  *   @0x2b0682 str.w r7, [r4, #0x2f0]
  *   @0x2b0686 mov r2, r5
  *   @0x2b068e pop.w {r4, r5, r6, r7, r8, r9, r10, pc}
+ *
+ * ══ png_destroy_write_struct  0x2b0692  size 126  本节 24 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0692 0x2b0710  size 126  24 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0698 mov r5, r0
  *   @0x2b069c ldr r4, [r0]
  *   @0x2b06a8 mov r4, r0
@@ -1901,6 +2336,11 @@
  *   @0x2b0704 bl 0x2a6c5e <png_destroy_struct_2>
  *   @0x2b0708 movs r3, #0x0
  *   @0x2b070c pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *
+ * ══ png_set_filter  0x2b0710  size 372  本节 73 条（Thumb-2 半字段）｜入度 10
+ * @func 0x2b0710 0x2b0884  size 372  73 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0712 mov r4, r0
  *   @0x2b0716 beq.w 0x2b086c <png_set_filter+0x15c>
  *   @0x2b071a ldr.w r3, [r0, #0x2dc]
@@ -1974,23 +2414,53 @@
  *   @0x2b087a movs r5, r1
  *   @0x2b087e movs r5, r1
  *   @0x2b0882 movs r5, r1
+ *
+ * ══ png_set_filter_heuristics  0x2b0884  size 2  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0884 0x2b0886  size 2  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0884 bx lr
+ *
+ * ══ png_set_compression_level  0x2b0886  size 20  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0886 0x2b089a  size 20  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0888 ldr.w r3, [r0, #0x130]
  *   @0x2b088c str.w r1, [r0, #0x178]
  *   @0x2b0890 orr r3, r3, #0x2
  *   @0x2b0894 str.w r3, [r0, #0x130]
  *   @0x2b0898 bx lr
+ *
+ * ══ png_set_compression_mem_level  0x2b089a  size 20  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b089a 0x2b08ae  size 20  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b089c ldr.w r3, [r0, #0x130]
  *   @0x2b08a0 str.w r1, [r0, #0x184]
  *   @0x2b08a4 orr r3, r3, #0x4
  *   @0x2b08a8 str.w r3, [r0, #0x130]
  *   @0x2b08ac bx lr
+ *
+ * ══ png_set_compression_strategy  0x2b08ae  size 20  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b08ae 0x2b08c2  size 20  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b08b0 ldr.w r3, [r0, #0x130]
  *   @0x2b08b4 str.w r1, [r0, #0x188]
  *   @0x2b08b8 orr r3, r3, #0x1
  *   @0x2b08bc str.w r3, [r0, #0x130]
  *   @0x2b08c0 bx lr
+ *
+ * ══ anon_2b08c2  0x2b08c2  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b08c2 0x2b08c2  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b08c2 ldrlt r0, [r8, #-0x0]!
+ *
+ * ══ png_set_compression_window_bits  0x2b08c4  size 76  本节 19 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2b08c4 0x2b0910  size 76  19 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b08c6 mov r4, r1
  *   @0x2b08ca cbz r0, 0x2b0902 <png_set_compression_window_bits+0x3e>
  *   @0x2b08ce ble 0x2b08d6 <png_set_compression_window_bits+0x12>
@@ -2010,19 +2480,39 @@
  *   @0x2b0906 movs r5, r1
  *   @0x2b090a movs r5, r1
  *   @0x2b090e movs r5, r1
+ *
+ * ══ png_set_compression_method  0x2b0910  size 44  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0910 0x2b093c  size 44  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0912 mov r5, r1
  *   @0x2b0916 cbz r0, 0x2b0934 <png_set_compression_method+0x24>
  *   @0x2b091a beq 0x2b0924 <png_set_compression_method+0x14>
  *   @0x2b091e add r1, pc
  *   @0x2b0936 nop
  *   @0x2b093a movs r5, r1
+ *
+ * ══ png_set_write_status_fn  0x2b093c  size 8  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b093c 0x2b0944  size 8  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b093e str.w r1, [r0, #0x260]
  *   @0x2b0942 bx lr
+ *
+ * ══ png_set_write_user_transform_fn  0x2b0944  size 20  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0944 0x2b0958  size 20  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0946 ldr.w r3, [r0, #0x134]
  *   @0x2b094a str.w r1, [r0, #0x120]
  *   @0x2b094e orr r3, r3, #0x100000
  *   @0x2b0952 str.w r3, [r0, #0x134]
  *   @0x2b0956 bx lr
+ *
+ * ══ png_write_png  0x2b0958  size 166  本节 32 条（Thumb-2 半字段）｜入度 6
+ * @func 0x2b0958 0x2b09fe  size 166  32 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b095a mov r6, r1
  *   @0x2b095e mov r4, r0
  *   @0x2b0962 beq 0x2b09fc <png_write_png+0xa4>
@@ -2055,6 +2545,11 @@
  *   @0x2b09e2 lsls r3, r3, #0x10
  *   @0x2b09e6 mov r0, r4
  *   @0x2b09f2 mov r1, r6
+ *
+ * ══ png_do_pack  0x2b09fe  size 214  本节 42 条（Thumb-2 半字段）｜入度 8
+ * @func 0x2b09fe 0x2b0ad4  size 214  42 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0a00 push {r4, r5, r6, r7, lr}
  *   @0x2b0a10 cmp r2, #0x2
  *   @0x2b0a14 beq 0x2b0a4e <png_do_pack+0x50>
@@ -2097,6 +2592,11 @@
  *   @0x2b0ac8 b 0x2b0ad0 <png_do_pack+0xd2>
  *   @0x2b0acc adds r2, #0x7
  *   @0x2b0ad0 str r2, [r0, #0x4]
+ *
+ * ══ png_do_shift  0x2b0ad4  size 388  本节 77 条（Thumb-2 半字段）｜入度 16
+ * @func 0x2b0ad4 0x2b0c58  size 388  77 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0ada ldrb r5, [r0, #0x8]
  *   @0x2b0ade beq.w 0x2b0c52 <png_do_shift+0x17e>
  *   @0x2b0ae2 tst.w r5, #0x2
@@ -2174,6 +2674,11 @@
  *   @0x2b0c42 lsrs r2, r3, #0x8
  *   @0x2b0c4e adds r5, #0x2
  *   @0x2b0c52 add sp, #0x24
+ *
+ * ══ png_do_write_swap_alpha  0x2b0c58  size 218  本节 33 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2b0c58 0x2b0d32  size 218  33 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0c5a ldrb r3, [r0, #0x8]
  *   @0x2b0c5e bne 0x2b0cdc <png_do_write_swap_alpha+0x84>
  *   @0x2b0c62 ldr r2, [r0]
@@ -2207,6 +2712,11 @@
  *   @0x2b0d26 strb r0, [r1, #-1]
  *   @0x2b0d2a strb r5, [r1, #-3]
  *   @0x2b0d2e b 0x2b0d0a <png_do_write_swap_alpha+0xb2>
+ *
+ * ══ png_do_write_invert_alpha  0x2b0d32  size 138  本节 28 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2b0d32 0x2b0dbc  size 138  28 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0d34 cmp r3, #0x6
  *   @0x2b0d38 ldrb r3, [r0, #0x9]
  *   @0x2b0d3c cmp r3, #0x8
@@ -2235,6 +2745,11 @@
  *   @0x2b0da8 mvns r0, r0
  *   @0x2b0db4 strb r0, [r1, #-1]
  *   @0x2b0db8 b 0x2b0d9e <png_do_write_invert_alpha+0x6c>
+ *
+ * ══ png_do_write_transformations  0x2b0dbc  size 250  本节 43 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2b0dbc 0x2b0eb6  size 250  43 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0dbe mov r4, r0
  *   @0x2b0dc2 beq 0x2b0eb4 <png_do_write_transformations+0xf8>
  *   @0x2b0dca bpl 0x2b0dde <png_do_write_transformations+0x22>
@@ -2278,6 +2793,11 @@
  *   @0x2b0ea6 add.w r0, r4, #0x1c4
  *   @0x2b0eaa pop.w {r4, lr}
  *   @0x2b0eae adds r1, #0x1
+ *
+ * ══ png_do_write_intrapixel  0x2b0eb6  size 134  本节 33 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2b0eb6 0x2b0f3c  size 134  33 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b0eb8 ldrb r3, [r0, #0x8]
  *   @0x2b0ebc bpl 0x2b0f3a <png_do_write_intrapixel+0x84>
  *   @0x2b0ec0 ldrb r0, [r0, #0x9]
@@ -2311,13 +2831,33 @@
  *   @0x2b0f30 strb r6, [r1]
  *   @0x2b0f34 strb r5, [r1, #0x4]
  *   @0x2b0f38 b 0x2b0f04 <png_do_write_intrapixel+0x4e>
+ *
+ * ══ anon_2b0f3e  0x2b0f3e  size 484  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b0f3e 0x2b1122  size 484  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1122 cdpeq p0, #0x0, c0, c11, c13, #0x0
+ *
+ * ══ png_save_uint_32  0x2b1124  size 16  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1124 0x2b1134  size 16  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1126 strb r1, [r0, #0x3]
  *   @0x2b112a lsrs r3, r1, #0x10
  *   @0x2b112e lsrs r3, r1, #0x8
  *   @0x2b1132 bx lr
+ *
+ * ══ png_save_uint_16  0x2b1138  size 8  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1138 0x2b1140  size 8  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b113a strb r1, [r0, #0x1]
  *   @0x2b113e bx lr
+ *
+ * ══ png_write_sig  0x2b1140  size 96  本节 16 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1140 0x2b11a0  size 96  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1142 sub sp, #0x14
  *   @0x2b1146 mov r4, r0
  *   @0x2b114a add r5, pc
@@ -2334,6 +2874,11 @@
  *   @0x2b118e beq 0x2b1194 <png_write_sig+0x54>
  *   @0x2b1196 pop {r4, r5, pc}
  *   @0x2b119a movs r3, r2
+ *
+ * ══ png_write_chunk_start  0x2b11a0  size 100  本节 19 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b11a0 0x2b1204  size 100  19 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b11a2 push {r4, r5, r6, r7, lr}
  *   @0x2b11a6 ldr r3, [r3]
  *   @0x2b11aa sub sp, #0x14
@@ -2353,13 +2898,28 @@
  *   @0x2b11f6 beq 0x2b11fc <png_write_chunk_start+0x5c>
  *   @0x2b11fe pop {r4, r5, r6, r7, pc}
  *   @0x2b1202 movs r3, r2
+ *
+ * ══ png_write_chunk_data  0x2b1204  size 34  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1204 0x2b1226  size 34  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1206 mov r5, r1
  *   @0x2b120a mov r6, r0
  *   @0x2b120e cbz r1, 0x2b1224 <png_write_chunk_data+0x20>
  *   @0x2b1212 bl 0x2afbf0 <png_write_data>
  *   @0x2b1216 mov r0, r6
  *   @0x2b121a mov r2, r4
+ *
+ * ══ anon_2b1228  0x2b1228  size 108  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1228 0x2b1294  size 108  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1294 ldrlt r11, [r7, #-0xfb7]!
+ *
+ * ══ png_write_chunk_end  0x2b1296  size 38  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1296 0x2b12bc  size 38  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1298 mov r4, r0
  *   @0x2b129c add r5, sp, #0x4
  *   @0x2b12a0 str.w r3, [r0, #0x334]
@@ -2367,12 +2927,22 @@
  *   @0x2b12b0 mov r1, r5
  *   @0x2b12b4 bl 0x2afbf0 <png_write_data>
  *   @0x2b12b8 add sp, #0xc
+ *
+ * ══ png_write_chunk  0x2b12bc  size 38  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b12bc 0x2b12e2  size 38  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b12be mov r6, r2
  *   @0x2b12c2 mov r4, r0
  *   @0x2b12c6 mov r2, r3
  *   @0x2b12ce mov r1, r6
  *   @0x2b12d2 bl 0x2b1204 <png_write_chunk_data>
  *   @0x2b12d6 mov r0, r4
+ *
+ * ══ png_write_IHDR  0x2b12e4  size 748  本节 145 条（Thumb-2 半字段）｜入度 17
+ * @func 0x2b12e4 0x2b15d0  size 748  145 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b12ea ldr r3, [pc, #0x29c]
  *   @0x2b12ee sub sp, #0x3c
  *   @0x2b12f2 add r3, pc
@@ -2518,6 +3088,11 @@
  *   @0x2b15c6 movs r5, r1
  *   @0x2b15ca movs r5, r1
  *   @0x2b15ce movs r5, r1
+ *
+ * ══ png_write_PLTE  0x2b15d0  size 208  本节 35 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2b15d0 0x2b16a0  size 208  35 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b15d2 push {r4, r5, r6, r7, lr}
  *   @0x2b15d6 mov r4, r0
  *   @0x2b15da ldr r0, [r3, #13]!
@@ -2553,6 +3128,11 @@
  *   @0x2b1696 movs r5, r1
  *   @0x2b169a movs r5, r1
  *   @0x2b169e movs r5, r1
+ *
+ * ══ png_write_IDAT  0x2b16a0  size 236  本节 44 条（Thumb-2 半字段）｜入度 10
+ * @func 0x2b16a0 0x2b178c  size 236  44 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b16a6 ldr r1, [pc, #0xdc]
  *   @0x2b16aa mov r8, r2
  *   @0x2b16ae ldr r0, [r1, #18]!
@@ -2597,6 +3177,11 @@
  *   @0x2b177e add sp, #0x8
  *   @0x2b1786 movs r5, r1
  *   @0x2b178a movs r5, r1
+ *
+ * ══ png_write_IEND  0x2b178c  size 52  本节 8 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b178c 0x2b17c0  size 52  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b178e movs r2, #0x0
  *   @0x2b1792 add r3, pc
  *   @0x2b1796 mov r1, sp
@@ -2605,6 +3190,11 @@
  *   @0x2b17a6 mov r3, r2
  *   @0x2b17ba pop {r4, pc}
  *   @0x2b17be movs r5, r1
+ *
+ * ══ png_write_gAMA  0x2b17c0  size 84  本节 18 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b17c0 0x2b1814  size 84  18 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b17ce push {r4, r5, lr}
  *   @0x2b17d2 mov r5, r0
  *   @0x2b17d6 ldr r0, [r1, #28]!
@@ -2623,7 +3213,17 @@
  *   @0x2b180a movs r0, r0
  *   @0x2b180e lsrs r0, r7
  *   @0x2b1812 movs r5, r1
+ *
+ * ══ anon_2b1814  0x2b1814  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1814 0x2b1814  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1814 andhi pc, r0, pc, lsr #7
+ *
+ * ══ png_write_gAMA_fixed  0x2b1818  size 52  本节 13 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1818 0x2b184c  size 52  13 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b181a push {r4, r5, lr}
  *   @0x2b181e mov r5, r0
  *   @0x2b1822 ldr r0, [r3, #28]!
@@ -2637,6 +3237,11 @@
  *   @0x2b1842 add sp, #0x14
  *   @0x2b1846 nop
  *   @0x2b184a movs r5, r1
+ *
+ * ══ png_write_sRGB  0x2b184c  size 68  本节 16 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b184c 0x2b1890  size 68  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b184e cmp r1, #0x3
  *   @0x2b1852 add r3, pc
  *   @0x2b1856 sub sp, #0x14
@@ -2653,6 +3258,11 @@
  *   @0x2b1886 nop
  *   @0x2b188a movs r5, r1
  *   @0x2b188e movs r5, r1
+ *
+ * ══ png_write_iCCP  0x2b1890  size 252  本节 51 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2b1890 0x2b198c  size 252  51 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1896 ldr r3, [pc, #0xe0]
  *   @0x2b189a sub sp, #0x28
  *   @0x2b189e add r3, pc
@@ -2704,6 +3314,11 @@
  *   @0x2b1982 movs r5, r1
  *   @0x2b1986 movs r5, r1
  *   @0x2b198a movs r5, r1
+ *
+ * ══ png_write_sPLT  0x2b198c  size 288  本节 53 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2b198c 0x2b1aac  size 288  53 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b198e push.w {r4, r5, r6, r7, r8, r9, r10, r11, lr}
  *   @0x2b1992 add r3, pc
  *   @0x2b1996 sub sp, #0x24
@@ -2757,6 +3372,11 @@
  *   @0x2b1a9e add sp, #0x24
  *   @0x2b1aa6 movs r3, r2
  *   @0x2b1aaa movs r5, r1
+ *
+ * ══ png_write_sBIT  0x2b1aac  size 160  本节 32 条（Thumb-2 半字段）｜入度 12
+ * @func 0x2b1aac 0x2b1b4c  size 160  32 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1aae mov r4, r0
  *   @0x2b1ab2 add r3, pc
  *   @0x2b1aba str r0, [sp, #0x8]
@@ -2789,7 +3409,17 @@
  *   @0x2b1b42 pop {r4, r5, r6, pc}
  *   @0x2b1b46 movs r5, r1
  *   @0x2b1b4a movs r5, r1
+ *
+ * ══ anon_2b1b4c  0x2b1b4c  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b1b4c 0x2b1b4c  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1b4c andeq r0, r0, r0
+ *
+ * ══ png_write_cHRM  0x2b1b50  size 368  本节 55 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b1b50 0x2b1cc0  size 368  55 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1b66 ldr.w r8, [pc, #0x150]
  *   @0x2b1b6a mov r9, r0
  *   @0x2b1b6e ldr.w r8, [r8]
@@ -2845,6 +3475,11 @@
  *   @0x2b1cb6 lsrs r0, r7
  *   @0x2b1cba movs r3, r2
  *   @0x2b1cbe movs r5, r1
+ *
+ * ══ png_write_cHRM_fixed  0x2b1cc0  size 192  本节 34 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b1cc0 0x2b1d80  size 192  34 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1cc6 ldr r4, [pc, #0xb0]
  *   @0x2b1cca ldr.w lr, [pc, #0xb0]
  *   @0x2b1cce mov r8, r1
@@ -2879,6 +3514,11 @@
  *   @0x2b1d72 add sp, #0x4c
  *   @0x2b1d7a movs r3, r2
  *   @0x2b1d7e movs r5, r1
+ *
+ * ══ png_write_tRNS  0x2b1d80  size 212  本节 42 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2b1d80 0x2b1e54  size 212  42 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1d82 mov r6, r2
  *   @0x2b1d86 sub sp, #0x14
  *   @0x2b1d8a mov r12, r1
@@ -2921,6 +3561,11 @@
  *   @0x2b1e4a movs r5, r1
  *   @0x2b1e4e movs r5, r1
  *   @0x2b1e52 movs r5, r1
+ *
+ * ══ png_write_bKGD  0x2b1e54  size 212  本节 44 条（Thumb-2 半字段）｜入度 8
+ * @func 0x2b1e54 0x2b1f28  size 212  44 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1e56 cmp r2, #0x3
  *   @0x2b1e5a add r3, pc
  *   @0x2b1e5e sub sp, #0x14
@@ -2965,6 +3610,11 @@
  *   @0x2b1f1e movs r5, r1
  *   @0x2b1f22 movs r5, r1
  *   @0x2b1f26 movs r5, r1
+ *
+ * ══ png_write_hIST  0x2b1f28  size 108  本节 21 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2b1f28 0x2b1f94  size 108  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1f2e ldr r3, [pc, #0x5c]
  *   @0x2b1f32 mov r6, r2
  *   @0x2b1f36 ldr r0, [r3, #68]!
@@ -2986,6 +3636,11 @@
  *   @0x2b1f8a nop
  *   @0x2b1f8e movs r5, r1
  *   @0x2b1f92 movs r5, r1
+ *
+ * ══ png_write_tEXt  0x2b1f94  size 112  本节 23 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b1f94 0x2b2004  size 112  23 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b1f96 push {r4, r5, r6, r7, lr}
  *   @0x2b1f9a mov r4, r0
  *   @0x2b1f9e ldr r0, [r3, #73]!
@@ -3009,6 +3664,11 @@
  *   @0x2b1ffa add sp, #0x14
  *   @0x2b1ffe nop
  *   @0x2b2002 movs r5, r1
+ *
+ * ══ png_write_zTXt  0x2b2004  size 180  本节 39 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b2004 0x2b20b8  size 180  39 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b2006 push.w {r4, r5, r6, r7, r8, lr}
  *   @0x2b200a add r3, pc
  *   @0x2b200e sub sp, #0x30
@@ -3048,6 +3708,11 @@
  *   @0x2b20ae pop.w {r4, r5, r6, r7, r8, pc}
  *   @0x2b20b2 nop
  *   @0x2b20b6 movs r5, r1
+ *
+ * ══ png_write_iTXt  0x2b20b8  size 288  本节 59 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2b20b8 0x2b21d8  size 288  59 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b20be ldr r6, [pc, #0x110]
  *   @0x2b20c2 mov r8, r3
  *   @0x2b20c6 add r6, pc
@@ -3107,6 +3772,11 @@
  *   @0x2b21ca add sp, #0x34
  *   @0x2b21d2 movs r5, r1
  *   @0x2b21d6 movs r5, r1
+ *
+ * ══ png_write_oFFs  0x2b21d8  size 120  本节 23 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b21d8 0x2b2250  size 120  23 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b21de ldr r4, [pc, #0x64]
  *   @0x2b21e2 ldr r5, [pc, #0x64]
  *   @0x2b21e6 add r4, pc
@@ -3130,6 +3800,11 @@
  *   @0x2b2246 movs r3, r2
  *   @0x2b224a movs r5, r1
  *   @0x2b224e movs r5, r1
+ *
+ * ══ png_write_pCAL  0x2b2250  size 308  本节 58 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2b2250 0x2b2384  size 308  58 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b2256 mov r4, r0
  *   @0x2b225a str r3, [sp, #0x10]
  *   @0x2b225e str r2, [sp, #0xc]
@@ -3188,6 +3863,11 @@
  *   @0x2b237a movs r3, r2
  *   @0x2b237e movs r5, r1
  *   @0x2b2382 movs r5, r1
+ *
+ * ══ png_write_sCAL  0x2b2384  size 148  本节 26 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b2384 0x2b2418  size 148  26 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b238a ldr r7, [pc, #0x80]
  *   @0x2b238e ldr r4, [pc, #0x80]
  *   @0x2b2392 add r7, pc
@@ -3214,6 +3894,11 @@
  *   @0x2b240e movs r3, r2
  *   @0x2b2412 movs r5, r1
  *   @0x2b2416 movs r5, r1
+ *
+ * ══ png_write_pHYs  0x2b2418  size 120  本节 23 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b2418 0x2b2490  size 120  23 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b241e ldr r4, [pc, #0x64]
  *   @0x2b2422 ldr r5, [pc, #0x64]
  *   @0x2b2426 add r4, pc
@@ -3237,6 +3922,11 @@
  *   @0x2b2486 movs r3, r2
  *   @0x2b248a movs r5, r1
  *   @0x2b248e movs r5, r1
+ *
+ * ══ png_write_tIME  0x2b2490  size 128  本节 27 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2b2490 0x2b2510  size 128  27 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b2492 mov r6, r0
  *   @0x2b2496 mov r4, r1
  *   @0x2b249a ldr r0, [r3, #108]!
@@ -3264,6 +3954,11 @@
  *   @0x2b2506 nop
  *   @0x2b250a movs r5, r1
  *   @0x2b250e movs r5, r1
+ *
+ * ══ png_write_start_row  0x2b2510  size 252  本节 47 条（Thumb-2 半字段）｜入度 8
+ * @func 0x2b2510 0x2b260c  size 252  47 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b2512 mov r4, r0
  *   @0x2b2526 ble 0x2b252e <png_write_start_row+0x1e>
  *   @0x2b252a muls r5, r2, r5
@@ -3311,6 +4006,11 @@
  *   @0x2b2602 ldr.w r3, [r4, #0x170]
  *   @0x2b2606 str.w r3, [r4, #0x144]
  *   @0x2b260a pop {r3, r4, r5, pc}
+ *
+ * ══ png_write_finish_row  0x2b260c  size 400  本节 72 条（Thumb-2 半字段）｜入度 8
+ * @func 0x2b260c 0x2b279c  size 400  72 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b260e mov r4, r0
  *   @0x2b2612 sub sp, #0x74
  *   @0x2b2616 mov r5, sp
@@ -3383,6 +4083,11 @@
  *   @0x2b2792 pop {r4, r5, r6, r7, pc}
  *   @0x2b2796 movs r5, r1
  *   @0x2b279a movs r5, r1
+ *
+ * ══ png_do_write_interlace  0x2b279c  size 416  本节 80 条（Thumb-2 半字段）｜入度 15
+ * @func 0x2b279c 0x2b293c  size 416  80 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b27a2 ldr r5, [pc, #0x194]
  *   @0x2b27a6 mov r7, r1
  *   @0x2b27aa add r5, pc
@@ -3463,6 +4168,11 @@
  *   @0x2b2932 pop.w {r4, r5, r6, r7, r8, r9, r10, pc}
  *   @0x2b2936 nop
  *   @0x2b293a movs r5, r1
+ *
+ * ══ png_write_filtered_row  0x2b293c  size 156  本节 31 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2b293c 0x2b29d8  size 156  31 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b293e add.w r5, r0, #0x138
  *   @0x2b2942 ldr r6, [pc, #0x90]
  *   @0x2b2946 ldr.w r3, [r0, #0x1c8]
@@ -3494,6 +4204,11 @@
  *   @0x2b29c6 mov r0, r4
  *   @0x2b29d2 nop
  *   @0x2b29d6 movs r5, r1
+ *
+ * ══ png_write_find_filter  0x2b29d8  size 1060  本节 199 条（Thumb-2 半字段）｜入度 29
+ * @func 0x2b29d8 0x2b2dfc  size 1060  199 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b29de ldrb r3, [r1, #0xb]
  *   @0x2b29e2 ldrb.w r0, [r0, #0x1e9]
  *   @0x2b29e6 ldr r2, [r1, #0x4]
@@ -3693,37 +4408,192 @@
  *   @0x2b2de6 itt lo
  *   @0x2b2dee mov r0, r11
  *   @0x2b2df2 add sp, #0x1c
+ *
+ * ══ anon_2b33a4  0x2b33a4  size 256  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b33a4 0x2b34a4  size 256  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b34a4 pop {r3, r4, r5, r6, r7, pc}
+ *
+ * ══ anon_2b389c  0x2b389c  size 1600  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b389c 0x2b3edc  size 1600  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b3edc b 0x2b3e30 <jpeg_finish_output+0x640>
+ *
+ * ══ anon_2b3f58  0x2b3f58  size 7748  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b3f58 0x2b5d9c  size 7748  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b5d9c b 0x2b5d08 <jinit_input_controller+0x1e28>
+ *
+ * ══ anon_2b60ec  0x2b60ec  size 748  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b60ec 0x2b63d8  size 748  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b63d8 bx lr
+ *
+ * ══ anon_2b6a38  0x2b6a38  size 1376  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b6a38 0x2b6f98  size 1376  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b6f98 b 0x2b6f48 <jinit_master_decompress+0x870>
+ *
+ * ══ anon_2b7148  0x2b7148  size 3728  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b7148 0x2b7fd8  size 3728  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b7fd8 andeq r8, sp, r8, lsr r0
+ *
+ * ══ anon_2b8084  0x2b8084  size 900  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b8084 0x2b8408  size 900  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b8408 b 0x2b8354 <jinit_phuff_decoder+0x378>
+ *
+ * ══ anon_2b84e8  0x2b84e8  size 1508  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b84e8 0x2b8acc  size 1508  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b8acc pop {r4, r5, r6, r7, r8, r9, pc}
+ *
+ * ══ anon_2b8dc0  0x2b8dc0  size 508  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b8dc0 0x2b8fbc  size 508  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2b8fbc bl 0xb6688 <exit@plt>
+ *
+ * ══ anon_2b9054  0x2b9054  size 4188  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2b9054 0x2ba0b0  size 4188  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2ba0b0 b 0x2b9f1c <jpeg_std_error+0xf5c>
+ *
+ * ══ anon_2ba268  0x2ba268  size 2756  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2ba268 0x2bad2c  size 2756  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2bad2c .word 0xfffff874
+ *
+ * ══ anon_2bb0f8  0x2bb0f8  size 5464  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2bb0f8 0x2bc650  size 5464  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2bc650 b 0x2bc360 <jinit_1pass_quantizer+0x1630>
+ *
+ * ══ anon_2bc92c  0x2bc92c  size 4208  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2bc92c 0x2bd99c  size 4208  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2bd99c pop {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *
+ * ══ anon_2be194  0x2be194  size 740  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2be194 0x2be478  size 740  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2be478 .word 0xfffffe74
+ *
+ * ══ anon_2be8b0  0x2be8b0  size 376  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2be8b0 0x2bea28  size 376  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2bea28 b 0x2be8d4 <jpeg_make_d_derived_tbl+0x3c4>
+ *
+ * ══ anon_2bec94  0x2bec94  size 1284  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2bec94 0x2bf198  size 1284  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2bf198 andseq r2, r3, r12, asr r12
+ *
+ * ══ anon_2bf200  0x2bf200  size 1552  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2bf200 0x2bf810  size 1552  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2bf810 .word 0xfffffb9c
+ *
+ * ══ anon_2c1274  0x2c1274  size 260  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2c1274 0x2c1378  size 260  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2c1378 b 0x2c1328 <jpeg_idct_1x1+0xe8>
+ *
+ * ══ anon_2c143c  0x2c143c  size 1520  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2c143c 0x2c1a2c  size 1520  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2c1a2c b 0x2c1820 <jpeg_mem_term+0x3e8>
+ *
+ * ══ anon_2c7f2c  0x2c7f2c  size 176  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2c7f2c 0x2c7fdc  size 176  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2c7fdc b 0x2c7fb4 <_ZNSt4priv25__unguarded_linear_insertIP6b2PairS1_PFbRKS1_S4_EEEvT_T0_T1_+0xe4>
+ *
+ * ══ anon_2c811c  0x2c811c  size 480  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2c811c 0x2c82fc  size 480  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2c82fc pop {r4, r5, r6, r7, r8, r9, r10, pc}
+ *
+ * ══ anon_2d48c0  0x2d48c0  size 204  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2d48c0 0x2d498c  size 204  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2d498c andseq sp, r1, r4, lsl #4
+ *
+ * ══ anon_2d51e4  0x2d51e4  size 84  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2d51e4 0x2d5238  size 84  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2d5238 pop {r3, r4, r5, pc}
+ *
+ * ══ anon_2d85e0  0x2d85e0  size 1084  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2d85e0 0x2d8a1c  size 1084  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2d8a1c andeq r0, r0, r0
+ *
+ * ══ anon_2d941c  0x2d941c  size 1092  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2d941c 0x2d9860  size 1092  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2d9860 strmi r0, [r0, #-0x0]
+ *
+ * ══ anon_2de0f4  0x2de0f4  size 876  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2de0f4 0x2de460  size 876  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2de460 .word 0xff7fffff
+ *
+ * ══ anon_2e490c  0x2e490c  size 1036  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e490c 0x2e4d18  size 1036  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4d18 andeq r9, r10, r9, lsl #20
+ *
+ * ══ FT_RoundFix  0x2e4d1c  size 14  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e4d1c 0x2e4d2a  size 14  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4d26 lsls r0, r0, #0x10
+ *
+ * ══ FT_CeilFix  0x2e4d2a  size 12  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e4d2a 0x2e4d36  size 12  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4d30 lsrs r0, r0, #0x10
  *   @0x2e4d34 bx lr
+ *
+ * ══ FT_FloorFix  0x2e4d36  size 6  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e4d36 0x2e4d3c  size 6  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4d38 lsls r0, r0, #0x10
+ *
+ * ══ FT_MulDiv  0x2e4d3c  size 118  本节 26 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e4d3c 0x2e4db2  size 118  26 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4d3e cmp r0, #0x0
  *   @0x2e4d42 rsblt r0, r0, #0
  *   @0x2e4d46 ite lt
@@ -3750,7 +4620,17 @@
  *   @0x2e4da2 b 0x2e4da8 <FT_MulDiv+0x6c>
  *   @0x2e4daa it eq
  *   @0x2e4dae add sp, #0x8
+ *
+ * ══ anon_2e4db4  0x2e4db4  size 52  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e4db4 0x2e4de8  size 52  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4de8 ldcllt p0, c2, [r8, #0]!
+ *
+ * ══ FT_MulDiv_No_Round  0x2e4dec  size 96  本节 22 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e4dec 0x2e4e4c  size 96  22 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4dee cmp r0, #0x0
  *   @0x2e4df2 rsblt r0, r0, #0
  *   @0x2e4df6 ite lt
@@ -3773,11 +4653,26 @@
  *   @0x2e4e42 adds r5, #0x1
  *   @0x2e4e46 rsbeq r0, r0, #0
  *   @0x2e4e4a pop {r4, r5, pc}
+ *
+ * ══ FT_MulFix  0x2e4e4c  size 28  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e4e4c 0x2e4e68  size 28  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4e5a adc r2, r2, #0x0
  *   @0x2e4e5e lsr.w r0, r3, #0x10
  *   @0x2e4e62 orr.w r0, r0, r2, lsl #16
  *   @0x2e4e66 bx lr
+ *
+ * ══ anon_2e4e68  0x2e4e68  size 76  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e4e68 0x2e4eb4  size 76  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4eb4 mcrne p13, #0x0, r11, c3, c8, #0x1
+ *
+ * ══ FT_DivFix  0x2e4eb6  size 88  本节 20 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e4eb6 0x2e4f0e  size 88  20 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4eb8 mov r2, r1
  *   @0x2e4ebc itte lt
  *   @0x2e4ec0 movlt.w r4, #0xffffffff
@@ -3798,6 +4693,11 @@
  *   @0x2e4f00 b 0x2e4f06 <FT_DivFix+0x50>
  *   @0x2e4f08 it eq
  *   @0x2e4f0c pop {r4, pc}
+ *
+ * ══ FT_Matrix_Multiply  0x2e4f0e  size 110  本节 22 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e4f0e 0x2e4f7c  size 110  22 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4f14 mov r5, r0
  *   @0x2e4f18 beq 0x2e4f78 <FT_Matrix_Multiply+0x6a>
  *   @0x2e4f1c beq 0x2e4f78 <FT_Matrix_Multiply+0x6a>
@@ -3820,6 +4720,11 @@
  *   @0x2e4f70 str r7, [r4, #0x4]
  *   @0x2e4f74 add r0, r9
  *   @0x2e4f78 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *
+ * ══ FT_Matrix_Invert  0x2e4f7c  size 82  本节 16 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e4f7c 0x2e4fce  size 82  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4f7e mov r4, r0
  *   @0x2e4f82 movs r0, #0x6
  *   @0x2e4f86 ldr r1, [r4, #0xc]
@@ -3836,6 +4741,11 @@
  *   @0x2e4fbe mov r1, r5
  *   @0x2e4fc2 mov r0, r6
  *   @0x2e4fca movs r0, #0x0
+ *
+ * ══ FT_Matrix_Multiply_Scaled  0x2e4fce  size 130  本节 21 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e4fce 0x2e5050  size 130  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e4fd4 mov r5, r0
  *   @0x2e4fd8 beq 0x2e504c <FT_Matrix_Multiply_Scaled+0x7e>
  *   @0x2e4fdc beq 0x2e504c <FT_Matrix_Multiply_Scaled+0x7e>
@@ -3857,6 +4767,11 @@
  *   @0x2e5038 ldr r0, [r5, #0xc]
  *   @0x2e5048 add r0, r10
  *   @0x2e504c pop.w {r4, r5, r6, r7, r8, r9, r10, pc}
+ *
+ * ══ FT_Vector_Transform_Scaled  0x2e5050  size 70  本节 12 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5050 0x2e5096  size 70  12 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5056 mov r4, r0
  *   @0x2e505a cbz r1, 0x2e5092 <FT_Vector_Transform_Scaled+0x42>
  *   @0x2e505e ldr r1, [r1]
@@ -3869,6 +4784,11 @@
  *   @0x2e5086 ldr r0, [r4, #0x4]
  *   @0x2e508e add r0, r8
  *   @0x2e5092 pop.w {r4, r5, r6, r7, r8, pc}
+ *
+ * ══ FT_Vector_NormLen  0x2e5096  size 300  本节 41 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e5096 0x2e51c2  size 300  41 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e50a0 itte lt
  *   @0x2e50a4 movlt.w r8, #0xffffffff
  *   @0x2e50a8 movge.w r8, #0x1
@@ -3910,7 +4830,17 @@
  *   @0x2e51b4 lsl.w r0, r3, r1
  *   @0x2e51b8 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *   @0x2e51bc mov r0, r3
+ *
+ * ══ anon_2e51c2  0x2e51c2  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e51c2 0x2e51c2  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e51c2 ldrblt r0, [pc, #-0x0]!
+ *
+ * ══ ft_corner_orientation  0x2e51c4  size 132  本节 29 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2e51c4 0x2e5248  size 132  29 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e51c6 mov r5, r1
  *   @0x2e51ca eor.w r1, r0, r0, asr #31
  *   @0x2e51ce sub.w r1, r1, r0, asr #31
@@ -3940,6 +4870,11 @@
  *   @0x2e5236 b 0x2e5240 <ft_corner_orientation+0x7c>
  *   @0x2e523e movs r0, #0x1
  *   @0x2e5242 pop {r4, r5, r6, pc}
+ *
+ * ══ ft_corner_is_flat  0x2e5248  size 116  本节 25 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5248 0x2e52bc  size 116  25 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e524a adds r6, r0, r2
  *   @0x2e524e cmp r0, #0x0
  *   @0x2e5252 rsblt r0, r0, #0
@@ -3965,6 +4900,11 @@
  *   @0x2e52ae subs r3, r3, r4
  *   @0x2e52b6 movge r0, #0x0
  *   @0x2e52ba pop {r4, r5, r6, pc}
+ *
+ * ══ FT_GlyphLoader_Rewind  0x2e52bc  size 32  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e52bc 0x2e52dc  size 32  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e52be add.w r5, r0, #0x14
  *   @0x2e52c2 movs r3, #0x0
  *   @0x2e52ca strh r3, [r0, #0x14]
@@ -3972,11 +4912,21 @@
  *   @0x2e52d2 ldm r5!, {r0, r1, r2, r3}
  *   @0x2e52d6 ldr r3, [r5]
  *   @0x2e52da pop {r4, r5, pc}
+ *
+ * ══ FT_GlyphLoader_Prepare  0x2e52dc  size 28  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e52dc 0x2e52f8  size 28  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e52de strh r3, [r0, #0x3a]
  *   @0x2e52e2 mov r4, r0
  *   @0x2e52e6 str r3, [r0, #0x54]
  *   @0x2e52ee ldr r3, [r4, #0x34]
  *   @0x2e52f6 pop {r4, pc}
+ *
+ * ══ FT_GlyphLoader_Add  0x2e52f8  size 62  本节 12 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e52f8 0x2e5336  size 62  12 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e52fa cbz r0, 0x2e5334 <FT_GlyphLoader_Add+0x3c>
  *   @0x2e52fe ldrh r1, [r0, #0x3a]
  *   @0x2e5302 add r1, r2
@@ -3989,12 +4939,27 @@
  *   @0x2e531e ldrh.w r5, [r1, r3, lsl #1]
  *   @0x2e5322 add r5, r2
  *   @0x2e532a b 0x2e5318 <FT_GlyphLoader_Add+0x20>
+ *
+ * ══ ft_hash_str_lookup  0x2e5336  size 14  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5336 0x2e5344  size 14  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5338 bl 0x2e49b8 <_ZNK11b2GearJoint8GetRatioEv+0xb4>
  *   @0x2e533c ldr r0, [r0]
  *   @0x2e5340 adds r0, #0x4
+ *
+ * ══ ft_hash_num_lookup  0x2e5344  size 14  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5344 0x2e5352  size 14  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5346 bl 0x2e49b8 <_ZNK11b2GearJoint8GetRatioEv+0xb4>
  *   @0x2e534a ldr r0, [r0]
  *   @0x2e534e adds r0, #0x4
+ *
+ * ══ ft_service_list_lookup  0x2e5352  size 38  本节 8 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e5352 0x2e5378  size 38  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5354 mov r5, r1
  *   @0x2e5358 cbz r0, 0x2e5372 <ft_service_list_lookup+0x20>
  *   @0x2e535c ldr r0, [r4]
@@ -4003,9 +4968,24 @@
  *   @0x2e536c adds r4, #0x8
  *   @0x2e5370 pop {r3, r4, r5, pc}
  *   @0x2e5374 mov r0, r1
+ *
+ * ══ ft_validator_init  0x2e5378  size 20  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5378 0x2e538c  size 20  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5386 str.w r3, [r0, #0x10c]
  *   @0x2e538a bx lr
+ *
+ * ══ ft_validator_error  0x2e5392  size 12  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5392 0x2e539e  size 12  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5398 push {r3, lr}
+ *
+ * ══ FT_Set_Transform  0x2e539e  size 114  本节 22 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2e539e 0x2e5410  size 114  22 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e53a0 mov r5, r1
  *   @0x2e53a4 cmp r0, #0x0
  *   @0x2e53a8 ldr.w r4, [r0, #0x80]
@@ -4028,11 +5008,21 @@
  *   @0x2e5404 beq 0x2e540e <FT_Set_Transform+0x70>
  *   @0x2e5408 orr r3, r3, #0x2
  *   @0x2e540c str r3, [r4, #0x18]
+ *
+ * ══ FT_Reference_Face  0x2e5410  size 20  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5410 0x2e5424  size 20  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5412 ldr.w r3, [r0, #0x80]
  *   @0x2e5416 movs r0, #0x0
  *   @0x2e541a adds r2, #0x1
  *   @0x2e541e bx lr
  *   @0x2e5422 bx lr
+ *
+ * ══ FT_Match_Size  0x2e5424  size 188  本节 40 条（Thumb-2 半字段）｜入度 10
+ * @func 0x2e5424 0x2e54e0  size 188  40 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e542a ldr r3, [r0, #0x8]
  *   @0x2e542e mov r4, r1
  *   @0x2e5432 lsls r3, r3, #0x1e
@@ -4073,6 +5063,11 @@
  *   @0x2e54ce movs r0, #0x23
  *   @0x2e54d6 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
  *   @0x2e54da movs r0, #0x17
+ *
+ * ══ ft_synthesize_vertical_metrics  0x2e54e0  size 68  本节 15 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e54e0 0x2e5524  size 68  15 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e54e2 mov r4, r0
  *   @0x2e54e6 ldr r5, [r0, #0x4]
  *   @0x2e54ea bge 0x2e54f4 <ft_synthesize_vertical_metrics+0x14>
@@ -4088,6 +5083,11 @@
  *   @0x2e5512 str r1, [r4, #0x1c]
  *   @0x2e551a str r5, [r4, #0x18]
  *   @0x2e5522 pop {r3, r4, r5, pc}
+ *
+ * ══ FT_Select_Metrics  0x2e5524  size 100  本节 23 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e5524 0x2e5588  size 100  23 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5526 lsls r1, r1, #0x4
  *   @0x2e552a mov r6, r0
  *   @0x2e552e adds r5, r2, r1
@@ -4111,6 +5111,11 @@
  *   @0x2e557e lsls r3, r3, #0x6
  *   @0x2e5582 ldr r3, [r5, #0x8]
  *   @0x2e5586 pop {r4, r5, r6, pc}
+ *
+ * ══ FT_Request_Metrics  0x2e5588  size 370  本节 71 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2e5588 0x2e56fa  size 370  71 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e558e ldr r1, [r0, #0x8]
  *   @0x2e5592 ldr r4, [r0, #0x58]
  *   @0x2e55a6 bhi.w 0x2e56f2 <FT_Request_Metrics+0x16a>
@@ -4182,6 +5187,11 @@
  *   @0x2e56ee pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *   @0x2e56f2 mov.w r9, #0x0
  *   @0x2e56f6 mov r10, r9
+ *
+ * ══ FT_Select_Size  0x2e56fa  size 50  本节 12 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e56fa 0x2e572c  size 50  12 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e56fc cbz r0, 0x2e5724 <FT_Select_Size+0x2a>
  *   @0x2e5700 lsls r4, r4, #0x1e
  *   @0x2e5704 cmp r1, #0x0
@@ -4194,6 +5204,11 @@
  *   @0x2e5720 mov r0, r4
  *   @0x2e5724 movs r0, #0x23
  *   @0x2e5728 movs r0, #0x6
+ *
+ * ══ FT_Request_Size  0x2e572c  size 96  本节 23 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2e572c 0x2e578c  size 96  23 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e572e mov r4, r0
  *   @0x2e5732 cbz r1, 0x2e5786 <FT_Request_Size+0x5a>
  *   @0x2e5736 cmp r2, #0x0
@@ -4217,6 +5232,11 @@
  *   @0x2e5782 movs r0, #0x23
  *   @0x2e5786 movs r0, #0x6
  *   @0x2e578a pop {r4, r5, pc}
+ *
+ * ══ FT_Set_Char_Size  0x2e578c  size 70  本节 17 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e578c 0x2e57d2  size 70  17 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e578e sub sp, #0x1c
  *   @0x2e5792 cbz r1, 0x2e579c <FT_Set_Char_Size+0x10>
  *   @0x2e5796 it eq
@@ -4234,6 +5254,11 @@
  *   @0x2e57c6 str r3, [sp, #0x10]
  *   @0x2e57ca bl 0x2e572c <FT_Request_Size>
  *   @0x2e57ce add sp, #0x1c
+ *
+ * ══ FT_Set_Pixel_Sizes  0x2e57d2  size 74  本节 18 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e57d2 0x2e581c  size 74  18 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e57d4 movw r3, #0xfffe
  *   @0x2e57d8 sub sp, #0x18
  *   @0x2e57dc cmp r2, #0x0
@@ -4252,6 +5277,11 @@
  *   @0x2e5810 str r3, [sp, #0x10]
  *   @0x2e5814 bl 0x2e572c <FT_Request_Size>
  *   @0x2e5818 add sp, #0x18
+ *
+ * ══ FT_Get_Kerning  0x2e581c  size 142  本节 33 条（Thumb-2 半字段）｜入度 6
+ * @func 0x2e581c 0x2e58aa  size 142  33 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e581e mov r6, r3
  *   @0x2e5822 mov r5, r0
  *   @0x2e5826 beq 0x2e58a2 <FT_Get_Kerning+0x86>
@@ -4285,6 +5315,11 @@
  *   @0x2e589e movs r0, #0x0
  *   @0x2e58a2 movs r0, #0x23
  *   @0x2e58a6 movs r0, #0x6
+ *
+ * ══ FT_Get_Track_Kerning  0x2e58ac  size 72  本节 15 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e58ac 0x2e58f4  size 72  15 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e58b2 mov r8, r2
  *   @0x2e58b6 mov r4, r0
  *   @0x2e58ba cbz r3, 0x2e58ea <FT_Get_Track_Kerning+0x3e>
@@ -4300,6 +5335,11 @@
  *   @0x2e58e6 pop.w {r4, r5, r6, r7, r8, pc}
  *   @0x2e58ea movs r0, #0x6
  *   @0x2e58f2 movs r2, r1
+ *
+ * ══ FT_Select_Charmap  0x2e58f4  size 68  本节 15 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e58f4 0x2e5938  size 68  15 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e58f6 mov r3, r0
  *   @0x2e58fa cbz r1, 0x2e592c <FT_Select_Charmap+0x38>
  *   @0x2e58fe cmp r1, r2
@@ -4315,6 +5355,11 @@
  *   @0x2e592e pop {r4, r5, pc}
  *   @0x2e5932 pop {r4, r5, pc}
  *   @0x2e5936 strb r6, [r5, #0x15]
+ *
+ * ══ FT_Get_Charmap_Index  0x2e5938  size 40  本节 10 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5938 0x2e5960  size 40  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e593a cbz r0, 0x2e5956 <FT_Get_Charmap_Index+0x1e>
  *   @0x2e593e cbz r2, 0x2e5956 <FT_Get_Charmap_Index+0x1e>
  *   @0x2e5942 movs r3, #0x0
@@ -4325,6 +5370,11 @@
  *   @0x2e5956 mov.w r0, #0xffffffff
  *   @0x2e595a pop {r4, pc}
  *   @0x2e595e pop {r4, pc}
+ *
+ * ══ FT_Get_Char_Index  0x2e5960  size 30  本节 7 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e5960 0x2e597e  size 30  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5962 mov r4, r0
  *   @0x2e5966 movs r0, #0x0
  *   @0x2e596a ldr r0, [r0, #0x5c]
@@ -4332,6 +5382,11 @@
  *   @0x2e5972 ldr r3, [r3, #0xc]
  *   @0x2e5976 ldr r3, [r4, #0x10]
  *   @0x2e597a bhs 0x2e5966 <FT_Get_Char_Index+0x6>
+ *
+ * ══ FT_Get_Next_Char  0x2e597e  size 62  本节 15 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e597e 0x2e59bc  size 62  15 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5980 mov r7, r2
  *   @0x2e5984 cbz r0, 0x2e59ac <FT_Get_Next_Char+0x2e>
  *   @0x2e5988 cbz r5, 0x2e59b0 <FT_Get_Next_Char+0x32>
@@ -4347,6 +5402,11 @@
  *   @0x2e59b0 mov r3, r5
  *   @0x2e59b4 cbz r7, 0x2e59b8 <FT_Get_Next_Char+0x3a>
  *   @0x2e59b8 add sp, #0xc
+ *
+ * ══ FT_Get_First_Char  0x2e59bc  size 58  本节 12 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e59bc 0x2e59f6  size 58  12 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e59be mov r5, r1
  *   @0x2e59c2 movs r1, #0x0
  *   @0x2e59c6 cbnz r0, 0x2e59cc <FT_Get_First_Char+0x10>
@@ -4359,6 +5419,11 @@
  *   @0x2e59e6 add r2, sp, #0x4
  *   @0x2e59ee ldr r3, [sp, #0x4]
  *   @0x2e59f2 add sp, #0xc
+ *
+ * ══ FT_Face_Properties  0x2e59f8  size 168  本节 35 条（Thumb-2 半字段）｜入度 9
+ * @func 0x2e59f8 0x2e5aa0  size 168  35 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e59fe adds r2, #0x8
  *   @0x2e5a06 mov.w r12, #0xffffffff
  *   @0x2e5a0a ldr r7, [pc, #0x8c]
@@ -4394,6 +5459,11 @@
  *   @0x2e5a96 ldr r3, [r4, #0x44]
  *   @0x2e5a9a strb r5, [r4, #0xd]
  *   @0x2e5a9e str r1, [r4, #0x44]
+ *
+ * ══ FT_Get_Name_Index  0x2e5aa0  size 88  本节 21 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5aa0 0x2e5af8  size 88  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5aa2 mov r5, r1
  *   @0x2e5aa6 cbnz r0, 0x2e5aac <FT_Get_Name_Index+0xc>
  *   @0x2e5aaa pop {r3, r4, r5, pc}
@@ -4415,6 +5485,11 @@
  *   @0x2e5aee blx r3
  *   @0x2e5af2 nop
  *   @0x2e5af6 movs r2, r1
+ *
+ * ══ FT_Get_Glyph_Name  0x2e5af8  size 128  本节 27 条（Thumb-2 半字段）｜入度 6
+ * @func 0x2e5af8 0x2e5b78  size 128  27 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5afe mov r5, r2
  *   @0x2e5b02 mov r4, r0
  *   @0x2e5b06 beq 0x2e5b66 <FT_Get_Glyph_Name+0x6e>
@@ -4442,6 +5517,11 @@
  *   @0x2e5b6e pop.w {r4, r5, r6, r7, r8, pc}
  *   @0x2e5b72 nop
  *   @0x2e5b76 movs r2, r1
+ *
+ * ══ FT_Get_Postscript_Name  0x2e5b78  size 72  本节 17 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e5b78 0x2e5bc0  size 72  17 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5b7a mov r4, r0
  *   @0x2e5b7e movs r0, #0x0
  *   @0x2e5b82 ldr.w r3, [r0, #0x80]
@@ -4459,6 +5539,11 @@
  *   @0x2e5bb6 mov r0, r4
  *   @0x2e5bba pop {r4, pc}
  *   @0x2e5bbe movs r2, r1
+ *
+ * ══ FT_Get_Sfnt_Table  0x2e5bc0  size 52  本节 13 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5bc0 0x2e5bf4  size 52  13 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5bc2 mov r5, r1
  *   @0x2e5bc6 cbnz r0, 0x2e5bcc <FT_Get_Sfnt_Table+0xc>
  *   @0x2e5bca pop {r3, r4, r5, pc}
@@ -4472,6 +5557,11 @@
  *   @0x2e5bea mov r0, r4
  *   @0x2e5bee pop {r3, r4, r5, pc}
  *   @0x2e5bf2 movs r2, r1
+ *
+ * ══ FT_Load_Sfnt_Table  0x2e5bf4  size 72  本节 16 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e5bf4 0x2e5c3c  size 72  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5bfa mov r8, r2
  *   @0x2e5bfe mov r4, r0
  *   @0x2e5c02 ldr r0, [r0, #0x8]
@@ -4488,6 +5578,11 @@
  *   @0x2e5c2e b 0x2e5c32 <FT_Load_Sfnt_Table+0x3e>
  *   @0x2e5c32 add sp, #0x8
  *   @0x2e5c3a movs r2, r1
+ *
+ * ══ FT_Sfnt_Table_Info  0x2e5c3c  size 72  本节 16 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e5c3c 0x2e5c84  size 72  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5c42 mov r7, r2
  *   @0x2e5c46 mov r4, r0
  *   @0x2e5c4a ldr r0, [r0, #0x8]
@@ -4504,6 +5599,11 @@
  *   @0x2e5c76 b 0x2e5c7a <FT_Sfnt_Table_Info+0x3e>
  *   @0x2e5c7a add sp, #0x10
  *   @0x2e5c82 movs r2, r1
+ *
+ * ══ FT_Get_CMap_Language_ID  0x2e5c84  size 60  本节 15 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2e5c84 0x2e5cc0  size 60  15 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5c86 mov r4, r0
  *   @0x2e5c8a movs r0, #0x0
  *   @0x2e5c8e ldr r3, [r0]
@@ -4519,6 +5619,11 @@
  *   @0x2e5cb6 add sp, #0x8
  *   @0x2e5cba nop
  *   @0x2e5cbe movs r2, r1
+ *
+ * ══ FT_Get_CMap_Format  0x2e5cc0  size 60  本节 15 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2e5cc0 0x2e5cfc  size 60  15 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5cc2 mov r4, r0
  *   @0x2e5cc6 mov.w r0, #0xffffffff
  *   @0x2e5cca b 0x2e5cf4 <FT_Get_CMap_Format+0x34>
@@ -4534,6 +5639,11 @@
  *   @0x2e5cf2 ldr r0, [sp, #0x4]
  *   @0x2e5cf6 pop {r4, pc}
  *   @0x2e5cfa movs r2, r1
+ *
+ * ══ FT_Set_Charmap  0x2e5cfc  size 60  本节 14 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e5cfc 0x2e5d38  size 60  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5cfe mov r5, r1
  *   @0x2e5d02 cbz r0, 0x2e5d2c <FT_Set_Charmap+0x30>
  *   @0x2e5d06 cbz r6, 0x2e5d30 <FT_Set_Charmap+0x34>
@@ -4548,7 +5658,17 @@
  *   @0x2e5d2e pop {r4, r5, r6, pc}
  *   @0x2e5d32 pop {r4, r5, r6, pc}
  *   @0x2e5d36 pop {r4, r5, r6, pc}
+ *
+ * ══ anon_2e5d38  0x2e5d38  size 44  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5d38 0x2e5d64  size 44  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5d64 andeq r11, r0, r0, ror sp
+ *
+ * ══ FT_Face_GetCharVariantIndex  0x2e5d68  size 56  本节 13 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e5d68 0x2e5da0  size 56  13 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5d6a mov r7, r1
  *   @0x2e5d6e mov r4, r0
  *   @0x2e5d72 movs r0, #0x0
@@ -4562,6 +5682,11 @@
  *   @0x2e5d96 blx r4
  *   @0x2e5d9a nop
  *   @0x2e5d9e strb r6, [r5, #0x15]
+ *
+ * ══ FT_Face_GetCharVariantIsDefault  0x2e5da0  size 34  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5da0 0x2e5dc2  size 34  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5da2 mov r5, r1
  *   @0x2e5da6 cbnz r0, 0x2e5dae <FT_Face_GetCharVariantIsDefault+0xe>
  *   @0x2e5dae bl 0x2e5d38 <FT_Set_Charmap+0x3c>
@@ -4569,6 +5694,11 @@
  *   @0x2e5db6 ldr r3, [r0, #0xc]
  *   @0x2e5dba mov r2, r4
  *   @0x2e5dbe blx r3
+ *
+ * ══ FT_Face_GetVariantSelectors  0x2e5dc2  size 28  本节 7 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e5dc2 0x2e5dde  size 28  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5dc4 mov r4, r0
  *   @0x2e5dc8 movs r0, #0x0
  *   @0x2e5dcc bl 0x2e5d38 <FT_Set_Charmap+0x3c>
@@ -4576,6 +5706,11 @@
  *   @0x2e5dd4 ldr r3, [r0, #0xc]
  *   @0x2e5dd8 ldr r3, [r3, #0x1c]
  *   @0x2e5ddc pop {r4, pc}
+ *
+ * ══ FT_Face_GetVariantsOfChar  0x2e5dde  size 32  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5dde 0x2e5dfe  size 32  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5de0 mov r4, r1
  *   @0x2e5de4 cbnz r0, 0x2e5dea <FT_Face_GetVariantsOfChar+0xc>
  *   @0x2e5de8 pop {r3, r4, r5, pc}
@@ -4583,6 +5718,11 @@
  *   @0x2e5df4 mov r2, r4
  *   @0x2e5df8 ldr r3, [r3, #0x20]
  *   @0x2e5dfc pop {r3, r4, r5, pc}
+ *
+ * ══ FT_Face_GetCharsOfVariant  0x2e5dfe  size 32  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5dfe 0x2e5e1e  size 32  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5e00 mov r4, r1
  *   @0x2e5e04 cbnz r0, 0x2e5e0a <FT_Face_GetCharsOfVariant+0xc>
  *   @0x2e5e08 pop {r3, r4, r5, pc}
@@ -4590,12 +5730,22 @@
  *   @0x2e5e14 mov r2, r4
  *   @0x2e5e18 ldr r3, [r3, #0x24]
  *   @0x2e5e1c pop {r3, r4, r5, pc}
+ *
+ * ══ FT_Activate_Size  0x2e5e1e  size 24  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5e1e 0x2e5e36  size 24  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5e20 ldr r3, [r0]
  *   @0x2e5e24 ldr r2, [r3, #0x60]
  *   @0x2e5e28 str r0, [r3, #0x58]
  *   @0x2e5e2c bx lr
  *   @0x2e5e30 bx lr
  *   @0x2e5e34 bx lr
+ *
+ * ══ FT_Lookup_Renderer  0x2e5e36  size 50  本节 11 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e5e36 0x2e5e68  size 50  11 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5e38 cbnz r0, 0x2e5e3e <FT_Lookup_Renderer+0x8>
  *   @0x2e5e3c pop {r4, pc}
  *   @0x2e5e44 ldr r0, [r2]
@@ -4607,7 +5757,17 @@
  *   @0x2e5e5c bne 0x2e5e50 <FT_Lookup_Renderer+0x1a>
  *   @0x2e5e60 cbz r2, 0x2e5e66 <FT_Lookup_Renderer+0x30>
  *   @0x2e5e64 pop {r4, pc}
+ *
+ * ══ FT_Get_Renderer  0x2e5e68  size 6  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5e68 0x2e5e6e  size 6  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5e6a b.w 0x2e5e36 <FT_Lookup_Renderer>
+ *
+ * ══ FT_Render_Glyph_Internal  0x2e5e70  size 104  本节 22 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e5e70 0x2e5ed8  size 104  22 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5e76 ldr r3, [pc, #0x58]
  *   @0x2e5e7a ldr r1, [r1, #0x48]
  *   @0x2e5e7e movs r4, #0x0
@@ -4630,11 +5790,21 @@
  *   @0x2e5ece nop
  *   @0x2e5ed2 str r1, [r5, #0x24]
  *   @0x2e5ed6 ldr r5, [r6, #0x74]
+ *
+ * ══ FT_Render_Glyph  0x2e5ed8  size 24  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5ed8 0x2e5ef0  size 24  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5eda mov r3, r0
  *   @0x2e5ede ldr r0, [r0, #0x4]
  *   @0x2e5ee2 ldr r1, [r0, #0x60]
  *   @0x2e5ee6 mov r1, r3
  *   @0x2e5eee bx lr
+ *
+ * ══ FT_Get_Module  0x2e5ef0  size 56  本节 13 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e5ef0 0x2e5f28  size 56  13 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5ef2 mov r5, r1
  *   @0x2e5ef6 cbz r1, 0x2e5f22 <FT_Get_Module+0x32>
  *   @0x2e5efa add.w r6, r0, #0x14
@@ -4648,9 +5818,19 @@
  *   @0x2e5f1e mov r4, r0
  *   @0x2e5f22 mov r4, r1
  *   @0x2e5f26 pop {r3, r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Get_Module_Interface  0x2e5f28  size 14  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5f28 0x2e5f36  size 14  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5f2a bl 0x2e5ef0 <FT_Get_Module>
  *   @0x2e5f2e cbz r0, 0x2e5f34 <FT_Get_Module_Interface+0xc>
  *   @0x2e5f32 ldr r0, [r3, #0x14]
+ *
+ * ══ ft_module_get_service  0x2e5f36  size 76  本节 18 条（Thumb-2 半字段）｜入度 7
+ * @func 0x2e5f36 0x2e5f82  size 76  18 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5f38 mov r6, r1
  *   @0x2e5f3c mov r4, r0
  *   @0x2e5f40 movs r0, #0x0
@@ -4669,19 +5849,44 @@
  *   @0x2e5f78 b 0x2e5f80 <ft_module_get_service+0x4a>
  *   @0x2e5f7c bne 0x2e5f50 <ft_module_get_service+0x1a>
  *   @0x2e5f80 pop {r3, r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Property_Set  0x2e5f82  size 20  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5f82 0x2e5f96  size 20  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5f84 mov.w lr, #0x0
  *   @0x2e5f88 movs r4, #0x1
  *   @0x2e5f94 pop {r4, pc}
+ *
+ * ══ FT_Property_Get  0x2e5f96  size 16  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5f96 0x2e5fa6  size 16  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5f98 movs r4, #0x0
  *   @0x2e5f9c str r4, [sp, #0x4]
  *   @0x2e5fa4 pop {r4, pc}
+ *
+ * ══ ft_property_string_set  0x2e5fa6  size 16  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5fa6 0x2e5fb6  size 16  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5fa8 movs r4, #0x1
  *   @0x2e5fac str r4, [sp, #0x4]
  *   @0x2e5fb4 pop {r4, pc}
+ *
+ * ══ FT_Reference_Library  0x2e5fb6  size 20  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5fb6 0x2e5fca  size 20  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5fb8 ldr.w r3, [r0, #0xbc]
  *   @0x2e5fbc adds r3, #0x1
  *   @0x2e5fc4 bx lr
  *   @0x2e5fc8 bx lr
+ *
+ * ══ FT_Library_Version  0x2e5fca  size 30  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5fca 0x2e5fe8  size 30  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5fcc cbz r0, 0x2e5fd6 <FT_Library_Version+0xc>
  *   @0x2e5fd0 ldr r4, [r0, #0x8]
  *   @0x2e5fd4 b 0x2e5fda <FT_Library_Version+0x10>
@@ -4689,8 +5894,18 @@
  *   @0x2e5fdc str r5, [r1]
  *   @0x2e5fe0 str r4, [r2]
  *   @0x2e5fe4 str r0, [r3]
+ *
+ * ══ FT_Set_Debug_Hook  0x2e5fe8  size 18  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5fe8 0x2e5ffa  size 18  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5fea cbz r2, 0x2e5ff8 <FT_Set_Debug_Hook+0x10>
  *   @0x2e5fee itt ls
+ *
+ * ══ FT_Get_TrueType_Engine_Type  0x2e5ffc  size 48  本节 11 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e5ffc 0x2e602c  size 48  11 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e5ffe cbnz r0, 0x2e6004 <FT_Get_TrueType_Engine_Type+0x8>
  *   @0x2e6002 pop {r3, pc}
  *   @0x2e6006 add r1, pc
@@ -4702,6 +5917,11 @@
  *   @0x2e6022 nop
  *   @0x2e6026 movs r2, r1
  *   @0x2e602a movs r2, r1
+ *
+ * ══ FT_Get_SubGlyph_Info  0x2e602c  size 76  本节 17 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e602c 0x2e6078  size 76  17 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e602e ldr r4, [sp, #0x1c]
  *   @0x2e6032 ldr.w r5, [r0, #0x84]
  *   @0x2e6036 cbz r5, 0x2e606e <FT_Get_SubGlyph_Info+0x42>
@@ -4719,6 +5939,11 @@
  *   @0x2e606e movs r0, #0x6
  *   @0x2e6072 nop
  *   @0x2e6076 str r7, [r5, #0x34]
+ *
+ * ══ FT_Outline_Decompose  0x2e6078  size 678  本节 132 条（Thumb-2 半字段）｜入度 16
+ * @func 0x2e6078 0x2e631e  size 678  132 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e607e mov r7, r1
  *   @0x2e6082 str r0, [sp, #0xc]
  *   @0x2e6086 beq.w 0x2e619a <FT_Outline_Decompose+0x122>
@@ -4851,6 +6076,11 @@
  *   @0x2e6312 movs r0, #0x0
  *   @0x2e6316 movs r0, #0x6
  *   @0x2e631a pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *
+ * ══ FT_Outline_Check  0x2e631e  size 78  本节 15 条（Thumb-2 半字段）｜入度 6
+ * @func 0x2e631e 0x2e636c  size 78  15 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6320 cbz r0, 0x2e6368 <FT_Outline_Check+0x4a>
  *   @0x2e632c bne 0x2e6338 <FT_Outline_Check+0x1a>
  *   @0x2e6330 ite ne
@@ -4866,6 +6096,11 @@
  *   @0x2e6360 ite ne
  *   @0x2e6364 moveq r0, #0x0
  *   @0x2e6368 movs r0, #0x6
+ *
+ * ══ FT_Outline_Copy  0x2e636c  size 96  本节 24 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e636c 0x2e63cc  size 96  24 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e636e mov r5, r1
  *   @0x2e6372 cbz r0, 0x2e63c0 <FT_Outline_Copy+0x54>
  *   @0x2e6376 ldr r2, [r0]
@@ -4890,6 +6125,11 @@
  *   @0x2e63c2 pop {r3, r4, r5, pc}
  *   @0x2e63c6 pop {r3, r4, r5, pc}
  *   @0x2e63ca pop {r3, r4, r5, pc}
+ *
+ * ══ FT_Outline_Get_CBox  0x2e63cc  size 88  本节 20 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e63cc 0x2e6424  size 88  20 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e63ce cbz r0, 0x2e6422 <FT_Outline_Get_CBox+0x56>
  *   @0x2e63d2 ldrh r3, [r0, #0x2]
  *   @0x2e63d6 ldr r4, [r0, #0x4]
@@ -4910,6 +6150,11 @@
  *   @0x2e6416 mov r4, r3
  *   @0x2e641a mov r0, r3
  *   @0x2e6422 pop {r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Outline_Translate  0x2e6424  size 46  本节 10 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6424 0x2e6452  size 46  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6426 cbz r0, 0x2e6450 <FT_Outline_Translate+0x2c>
  *   @0x2e642a movs r4, #0x0
  *   @0x2e6432 cmp r4, r5
@@ -4920,6 +6165,11 @@
  *   @0x2e6446 uxth r4, r4
  *   @0x2e644a str r5, [r3, #-4]
  *   @0x2e644e b 0x2e642c <FT_Outline_Translate+0x8>
+ *
+ * ══ FT_Outline_Reverse  0x2e6452  size 116  本节 21 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e6452 0x2e64c6  size 116  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6458 cbz r0, 0x2e64c2 <FT_Outline_Reverse+0x70>
  *   @0x2e645c mov r5, r6
  *   @0x2e6464 bge 0x2e64ba <FT_Outline_Reverse+0x68>
@@ -4941,7 +6191,17 @@
  *   @0x2e64b8 b 0x2e645e <FT_Outline_Reverse+0xc>
  *   @0x2e64bc eor r2, r2, #0x4
  *   @0x2e64c0 str r2, [r3, #0x10]
+ *
+ * ══ anon_2e64c6  0x2e64c6  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e64c6 0x2e64c6  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e64c6 ldrblt r0, [r7, #0x0]!
+ *
+ * ══ FT_Outline_Render  0x2e64c8  size 84  本节 18 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e64c8 0x2e651c  size 84  18 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e64ca mov r6, r2
  *   @0x2e64ce cbz r0, 0x2e6506 <FT_Outline_Render+0x3e>
  *   @0x2e64d2 cbz r2, 0x2e650e <FT_Outline_Render+0x46>
@@ -4960,6 +6220,11 @@
  *   @0x2e6512 mov r0, r4
  *   @0x2e6516 pop {r4, r5, r6, r7, pc}
  *   @0x2e651a ldr r5, [r6, #0x74]
+ *
+ * ══ FT_Outline_Get_Bitmap  0x2e651c  size 44  本节 10 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e651c 0x2e6548  size 44  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e651e sub sp, #0x34
  *   @0x2e6522 movs r3, #0x0
  *   @0x2e6526 ldrb r3, [r2, #0x12]
@@ -4970,6 +6235,11 @@
  *   @0x2e653a bl 0x2e64c8 <FT_Outline_Render>
  *   @0x2e653e b 0x2e6542 <FT_Outline_Get_Bitmap+0x26>
  *   @0x2e6542 add sp, #0x34
+ *
+ * ══ FT_Vector_Transform  0x2e6548  size 56  本节 12 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6548 0x2e6580  size 56  12 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e654a mov r5, r1
  *   @0x2e654e cbz r0, 0x2e657e <FT_Vector_Transform+0x36>
  *   @0x2e6552 ldr r1, [r1]
@@ -4982,6 +6252,11 @@
  *   @0x2e6572 ldr r0, [r4, #0x4]
  *   @0x2e657a add r0, r7
  *   @0x2e657e pop {r3, r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Outline_Transform  0x2e6580  size 36  本节 8 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e6580 0x2e65a4  size 36  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6582 mov r5, r1
  *   @0x2e6586 cbz r1, 0x2e65a2 <FT_Outline_Transform+0x22>
  *   @0x2e658e add.w r6, r4, r6, lsl #3
@@ -4990,6 +6265,11 @@
  *   @0x2e659a bl 0x2e6548 <FT_Vector_Transform>
  *   @0x2e659e adds r4, #0x8
  *   @0x2e65a2 pop {r4, r5, r6, pc}
+ *
+ * ══ FT_Outline_Get_Orientation  0x2e65a4  size 204  本节 39 条（Thumb-2 半字段）｜入度 6
+ * @func 0x2e65a4 0x2e6670  size 204  39 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e65aa sub sp, #0x1c
  *   @0x2e65ae movs r0, #0x0
  *   @0x2e65b2 ldrsh.w r3, [r0, #0x2]
@@ -5029,6 +6309,11 @@
  *   @0x2e6662 bne 0x2e65ae <FT_Outline_Get_Orientation+0xa>
  *   @0x2e6666 b 0x2e666a <FT_Outline_Get_Orientation+0xc6>
  *   @0x2e666a add sp, #0x1c
+ *
+ * ══ FT_Outline_EmboldenXY  0x2e6670  size 512  本节 113 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2e6670 0x2e6870  size 512  113 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6676 str r0, [sp, #0x4]
  *   @0x2e667a beq.w 0x2e6862 <FT_Outline_EmboldenXY+0x1f2>
  *   @0x2e667e add.w r1, r1, r1, lsr #31
@@ -5142,18 +6427,43 @@
  *   @0x2e6866 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *   @0x2e686a nop
  *   @0x2e686e .word 0xffff 460a
+ *
+ * ══ FT_Outline_Embolden  0x2e6870  size 6  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6870 0x2e6876  size 6  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6872 b.w 0x2e6670 <FT_Outline_EmboldenXY>
+ *
+ * ══ FT_Get_Sfnt_Name_Count  0x2e6876  size 20  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6876 0x2e688a  size 20  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6878 ldr r3, [r0, #0x8]
  *   @0x2e6880 ldrh.w r0, [r0, #0x154]
  *   @0x2e6884 bx lr
  *   @0x2e6888 bx lr
+ *
+ * ══ FT_Stream_OpenMemory  0x2e688a  size 16  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e688a 0x2e689a  size 16  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e688c stm.w r0, {r1, r2}
  *   @0x2e6890 str r3, [r0, #0x8]
  *   @0x2e6894 str r3, [r0, #0x14]
  *   @0x2e6898 bx lr
+ *
+ * ══ FT_Stream_Close  0x2e689a  size 12  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e689a 0x2e68a6  size 12  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e689c cbz r0, 0x2e68a4 <FT_Stream_Close+0xa>
  *   @0x2e68a0 cbz r3, 0x2e68a4 <FT_Stream_Close+0xa>
  *   @0x2e68a4 pop {r3, pc}
+ *
+ * ══ FT_Stream_Seek  0x2e68a6  size 36  本节 9 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e68a6 0x2e68ca  size 36  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e68a8 mov r4, r0
  *   @0x2e68ac mov r5, r1
  *   @0x2e68b0 movs r2, #0x0
@@ -5163,7 +6473,17 @@
  *   @0x2e68c0 str r5, [r4, #0x8]
  *   @0x2e68c4 pop {r4, r5, r6, pc}
  *   @0x2e68c8 pop {r4, r5, r6, pc}
+ *
+ * ══ anon_2e68ca  0x2e68ca  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e68ca 0x2e68ca  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e68ca .word 0xe92d0000
+ *
+ * ══ FT_Raccess_Guess  0x2e68cc  size 100  本节 23 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e68cc 0x2e6930  size 100  23 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e68d2 ldr.w r11, [pc, #0x58]
  *   @0x2e68d6 sub sp, #0x14
  *   @0x2e68da mov r7, r1
@@ -5187,10 +6507,25 @@
  *   @0x2e6926 pop.w {r4, r5, r6, r7, r8, r9, r10, r11, pc}
  *   @0x2e692a nop
  *   @0x2e692e movs r0, r2
+ *
+ * ══ FT_Stream_Skip  0x2e6930  size 16  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6930 0x2e6940  size 16  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6932 blt 0x2e693c <FT_Stream_Skip+0xc>
  *   @0x2e6936 add r1, r3
  *   @0x2e693e bx lr
+ *
+ * ══ FT_Stream_Pos  0x2e6940  size 4  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6940 0x2e6944  size 4  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6942 bx lr
+ *
+ * ══ FT_Stream_ReadAt  0x2e6944  size 74  本节 13 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6944 0x2e698e  size 74  13 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e694a ldr r6, [r0, #0x4]
  *   @0x2e694e mov r7, r3
  *   @0x2e6952 bhs 0x2e6988 <FT_Stream_ReadAt+0x44>
@@ -5204,10 +6539,20 @@
  *   @0x2e697e movlo r0, #0x55
  *   @0x2e6982 str r5, [r4, #0x8]
  *   @0x2e698a pop.w {r4, r5, r6, r7, r8, pc}
+ *
+ * ══ FT_Stream_Read  0x2e698e  size 18  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e698e 0x2e69a0  size 18  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6990 mov r4, r1
  *   @0x2e6994 ldr r1, [r0, #0x8]
  *   @0x2e6998 pop.w {r4, lr}
  *   @0x2e699c b.w 0x2e6944 <FT_Stream_ReadAt>
+ *
+ * ══ FT_Stream_TryRead  0x2e69a0  size 62  本节 14 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e69a0 0x2e69de  size 62  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e69a2 mov r7, r1
  *   @0x2e69a6 mov r4, r0
  *   @0x2e69aa mov r3, r2
@@ -5222,23 +6567,43 @@
  *   @0x2e69d2 add r3, r5
  *   @0x2e69d6 b 0x2e69da <FT_Stream_TryRead+0x3a>
  *   @0x2e69da mov r0, r5
+ *
+ * ══ FT_Stream_GetChar  0x2e69de  size 20  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e69de 0x2e69f2  size 20  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e69e0 ldr r2, [r0, #0x24]
  *   @0x2e69e4 ittte lo
  *   @0x2e69e8 strlo r2, [r0, #0x20]
  *   @0x2e69ec movhs r0, #0x0
  *   @0x2e69f0 bx lr
+ *
+ * ══ FT_Stream_GetUShort  0x2e69f2  size 32  本节 6 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e69f2 0x2e6a12  size 32  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e69f4 ldr r3, [r0, #0x20]
  *   @0x2e69f8 adds r0, r3, #0x1
  *   @0x2e69fc bls 0x2e6a0c <FT_Stream_GetUShort+0x1a>
  *   @0x2e6a00 adds r3, #0x2
  *   @0x2e6a0c movs r0, #0x0
  *   @0x2e6a10 bx lr
+ *
+ * ══ FT_Stream_GetUShortLE  0x2e6a12  size 32  本节 6 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e6a12 0x2e6a32  size 32  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6a14 ldr r3, [r0, #0x20]
  *   @0x2e6a18 adds r0, r3, #0x1
  *   @0x2e6a1c bls 0x2e6a2c <FT_Stream_GetUShortLE+0x1a>
  *   @0x2e6a20 adds r3, #0x2
  *   @0x2e6a2c movs r0, #0x0
  *   @0x2e6a30 bx lr
+ *
+ * ══ FT_Stream_GetUOffset  0x2e6a32  size 40  本节 9 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e6a32 0x2e6a5a  size 40  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6a34 ldr r3, [r0, #0x20]
  *   @0x2e6a38 adds r0, r3, #0x2
  *   @0x2e6a3c bls 0x2e6a54 <FT_Stream_GetUOffset+0x22>
@@ -5248,6 +6613,11 @@
  *   @0x2e6a50 orrs r0, r1
  *   @0x2e6a54 movs r0, #0x0
  *   @0x2e6a58 bx lr
+ *
+ * ══ FT_Stream_GetULong  0x2e6a5a  size 48  本节 9 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e6a5a 0x2e6a8a  size 48  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6a5c ldr r3, [r0, #0x20]
  *   @0x2e6a60 adds r0, r3, #0x3
  *   @0x2e6a64 bls 0x2e6a84 <FT_Stream_GetULong+0x2a>
@@ -5257,6 +6627,11 @@
  *   @0x2e6a78 orrs r0, r1
  *   @0x2e6a84 movs r0, #0x0
  *   @0x2e6a88 bx lr
+ *
+ * ══ FT_Stream_GetULongLE  0x2e6a8a  size 48  本节 9 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e6a8a 0x2e6aba  size 48  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6a8c ldr r3, [r0, #0x20]
  *   @0x2e6a90 adds r0, r3, #0x3
  *   @0x2e6a94 bls 0x2e6ab4 <FT_Stream_GetULongLE+0x2a>
@@ -5266,6 +6641,11 @@
  *   @0x2e6aa8 orrs r0, r1
  *   @0x2e6ab4 movs r0, #0x0
  *   @0x2e6ab8 bx lr
+ *
+ * ══ FT_Stream_ReadChar  0x2e6aba  size 74  本节 15 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e6aba 0x2e6b04  size 74  15 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6abc movs r3, #0x0
  *   @0x2e6ac0 mov r4, r0
  *   @0x2e6ac4 mov r5, r1
@@ -5281,6 +6661,11 @@
  *   @0x2e6af8 movs r0, #0x0
  *   @0x2e6afc str r3, [r5]
  *   @0x2e6b00 add sp, #0x8
+ *
+ * ══ FT_Stream_ReadUShort  0x2e6b04  size 76  本节 18 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e6b04 0x2e6b50  size 76  18 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6b06 movs r3, #0x0
  *   @0x2e6b0a mov r5, r1
  *   @0x2e6b0e mov r4, r0
@@ -5299,6 +6684,11 @@
  *   @0x2e6b46 movs r0, #0x0
  *   @0x2e6b4a str r3, [r5]
  *   @0x2e6b4e pop {r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Raccess_Get_HeaderInfo  0x2e6b50  size 468  本节 90 条（Thumb-2 半字段）｜入度 16
+ * @func 0x2e6b50 0x2e6d24  size 468  90 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6b56 ldr r6, [pc, #0x1c8]
  *   @0x2e6b5a str r3, [sp, #0x8]
  *   @0x2e6b5e add r6, pc
@@ -5389,6 +6779,11 @@
  *   @0x2e6d16 blx 0xb65d4 <__stack_chk_fail@plt>
  *   @0x2e6d1a add sp, #0x3c
  *   @0x2e6d22 movs r0, r2
+ *
+ * ══ FT_Stream_ReadUShortLE  0x2e6d24  size 76  本节 18 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e6d24 0x2e6d70  size 76  18 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6d26 movs r3, #0x0
  *   @0x2e6d2a mov r5, r1
  *   @0x2e6d2e mov r4, r0
@@ -5407,6 +6802,11 @@
  *   @0x2e6d66 movs r0, #0x0
  *   @0x2e6d6a str r3, [r5]
  *   @0x2e6d6e pop {r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Stream_ReadUOffset  0x2e6d70  size 84  本节 20 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e6d70 0x2e6dc4  size 84  20 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6d72 movs r3, #0x0
  *   @0x2e6d76 mov r5, r1
  *   @0x2e6d7a mov r4, r0
@@ -5427,6 +6827,11 @@
  *   @0x2e6dba movs r0, #0x0
  *   @0x2e6dbe str r3, [r5]
  *   @0x2e6dc2 pop {r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Stream_ReadULong  0x2e6dc4  size 88  本节 21 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e6dc4 0x2e6e1c  size 88  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6dc6 movs r3, #0x0
  *   @0x2e6dca mov r5, r1
  *   @0x2e6dce mov r4, r0
@@ -5448,7 +6853,17 @@
  *   @0x2e6e12 movs r0, #0x0
  *   @0x2e6e16 str r3, [r5]
  *   @0x2e6e1a pop {r4, r5, r6, r7, pc}
+ *
+ * ══ anon_2e6e1c  0x2e6e1c  size 200  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6e1c 0x2e6ee4  size 200  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6ee4 andeq r1, r5, r7, lsl #12
+ *
+ * ══ FT_Stream_ReadULongLE  0x2e6ee8  size 88  本节 21 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e6ee8 0x2e6f40  size 88  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6eea movs r3, #0x0
  *   @0x2e6eee mov r5, r1
  *   @0x2e6ef2 mov r4, r0
@@ -5470,6 +6885,11 @@
  *   @0x2e6f36 movs r0, #0x0
  *   @0x2e6f3a str r3, [r5]
  *   @0x2e6f3e pop {r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Atan2  0x2e6f40  size 32  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6f40 0x2e6f60  size 32  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6f42 cbnz r0, 0x2e6f46 <FT_Atan2+0x6>
  *   @0x2e6f46 stm.w sp, {r0, r1}
  *   @0x2e6f4a mov r0, sp
@@ -5477,6 +6897,11 @@
  *   @0x2e6f56 ldr r0, [sp, #0x4]
  *   @0x2e6f5a mov r0, r1
  *   @0x2e6f5e pop {r4, pc}
+ *
+ * ══ FT_Vector_Unit  0x2e6f60  size 40  本节 10 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6f60 0x2e6f88  size 40  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6f62 mov r4, r0
  *   @0x2e6f66 ldr r2, [pc, #0x1c]
  *   @0x2e6f6a stm.w r0, {r2, r3}
@@ -5487,19 +6912,39 @@
  *   @0x2e6f7e asrs r3, r3, #0x8
  *   @0x2e6f82 pop {r4, pc}
  *   @0x2e6f86 lsls r3, r3, #0x3
+ *
+ * ══ FT_Cos  0x2e6f88  size 18  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6f88 0x2e6f9a  size 18  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6f8a mov r1, r0
  *   @0x2e6f8e bl 0x2e6f60 <FT_Vector_Unit>
  *   @0x2e6f92 ldr r0, [sp]
  *   @0x2e6f96 ldr pc, [sp], #4
+ *
+ * ══ FT_Sin  0x2e6f9a  size 18  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6f9a 0x2e6fac  size 18  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6f9c mov r1, r0
  *   @0x2e6fa0 bl 0x2e6f60 <FT_Vector_Unit>
  *   @0x2e6fa4 ldr r0, [sp, #0x4]
  *   @0x2e6fa8 ldr pc, [sp], #4
+ *
+ * ══ FT_Tan  0x2e6fac  size 24  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e6fac 0x2e6fc4  size 24  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6fae mov r1, r0
  *   @0x2e6fb2 bl 0x2e6f60 <FT_Vector_Unit>
  *   @0x2e6fb6 ldr r0, [sp, #0x4]
  *   @0x2e6fba bl 0x2e4eb6 <FT_DivFix>
  *   @0x2e6fbe add sp, #0xc
+ *
+ * ══ FT_Vector_Rotate  0x2e6fc4  size 100  本节 21 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e6fc4 0x2e7028  size 100  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e6fc6 mov r7, r1
  *   @0x2e6fca cbz r0, 0x2e7024 <FT_Vector_Rotate+0x60>
  *   @0x2e6fce ldm r0, {r0, r1}
@@ -5521,6 +6966,11 @@
  *   @0x2e701a lsls r6, r5
  *   @0x2e7022 str r5, [r4, #0x4]
  *   @0x2e7026 pop {r4, r5, r6, r7, pc}
+ *
+ * ══ FT_Vector_Length  0x2e7028  size 82  本节 18 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2e7028 0x2e707a  size 82  18 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e702a cbz r0, 0x2e7076 <FT_Vector_Length+0x4e>
  *   @0x2e702e stm.w sp, {r0, r1}
  *   @0x2e7032 mov r3, r0
@@ -5539,9 +6989,19 @@
  *   @0x2e706e asrs r0, r5
  *   @0x2e7072 rsbs r5, r5, #0
  *   @0x2e7076 add sp, #0xc
+ *
+ * ══ FT_Hypot  0x2e707a  size 18  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e707a 0x2e708c  size 18  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e707c stm.w sp, {r0, r1}
  *   @0x2e7080 mov r0, sp
  *   @0x2e7088 ldr pc, [sp], #4
+ *
+ * ══ FT_Vector_Polarize  0x2e708c  size 66  本节 14 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e708c 0x2e70ce  size 66  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e708e mov r6, r1
  *   @0x2e7092 cbz r0, 0x2e70ca <FT_Vector_Polarize+0x3e>
  *   @0x2e7096 cbz r2, 0x2e70ca <FT_Vector_Polarize+0x3e>
@@ -5556,17 +7016,37 @@
  *   @0x2e70c2 lsllt.w r5, r0, r5
  *   @0x2e70c6 str r5, [r6]
  *   @0x2e70ca add sp, #0xc
+ *
+ * ══ FT_Vector_From_Polar  0x2e70ce  size 16  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e70ce 0x2e70de  size 16  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e70d0 str r1, [r0]
  *   @0x2e70d4 str r1, [r0, #0x4]
  *   @0x2e70d8 b.w 0x2e6fc4 <FT_Vector_Rotate>
  *   @0x2e70dc bx lr
+ *
+ * ══ anon_2e70de  0x2e70de  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e70de 0x2e70de  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e70de blmi 0x4670e6 <g_RomDisk+0x6f8c6>
+ *
+ * ══ FT_Angle_Diff  0x2e70e0  size 32  本节 6 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e70e0 0x2e7100  size 32  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e70e2 subs r0, r1, r0
  *   @0x2e70e6 bge 0x2e70ee <FT_Angle_Diff+0xe>
  *   @0x2e70ee cmp.w r0, #0xb40000
  *   @0x2e70f2 ble 0x2e70fa <FT_Angle_Diff+0x1a>
  *   @0x2e70fa bx lr
  *   @0x2e70fe vqrshl.u8 d27, d0, d12
+ *
+ * ══ ft_mem_qalloc  0x2e7100  size 38  本节 9 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e7100 0x2e7126  size 38  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7102 mov r4, r2
  *   @0x2e7106 mov r3, r0
  *   @0x2e710a ldr r3, [r0, #0x4]
@@ -5576,6 +7056,11 @@
  *   @0x2e711a moveq r0, r2
  *   @0x2e711e moveq r3, r0
  *   @0x2e7122 str r3, [r4]
+ *
+ * ══ ft_mem_alloc  0x2e7126  size 38  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7126 0x2e714c  size 38  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7128 mov r5, r2
  *   @0x2e712c mov r4, r1
  *   @0x2e7134 mov r6, r0
@@ -5583,6 +7068,11 @@
  *   @0x2e713c mov r2, r4
  *   @0x2e7144 mov r0, r6
  *   @0x2e7148 add sp, #0x8
+ *
+ * ══ FT_GlyphLoader_New  0x2e714c  size 28  本节 7 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e714c 0x2e7168  size 28  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e714e mov r4, r1
  *   @0x2e7152 movs r1, #0x60
  *   @0x2e7156 bl 0x2e7126 <ft_mem_alloc>
@@ -5590,7 +7080,17 @@
  *   @0x2e715e str r5, [r0]
  *   @0x2e7162 ldr r0, [sp, #0x4]
  *   @0x2e7166 pop {r4, r5, pc}
+ *
+ * ══ anon_2e7168  0x2e7168  size 396  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7168 0x2e72f4  size 396  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e72f4 muleq r10, r4, r4
+ *
+ * ══ FT_New_Library  0x2e72f8  size 62  本节 14 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e72f8 0x2e7336  size 62  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e72fa mov r4, r1
  *   @0x2e72fe cbz r0, 0x2e732c <FT_New_Library+0x34>
  *   @0x2e7302 movs r1, #0xc0
@@ -5605,8 +7105,18 @@
  *   @0x2e732a b 0x2e7330 <FT_New_Library+0x38>
  *   @0x2e732e b 0x2e7332 <FT_New_Library+0x3a>
  *   @0x2e7332 add sp, #0xc
+ *
+ * ══ ft_mem_free  0x2e7336  size 10  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7336 0x2e7340  size 10  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7338 cbz r1, 0x2e733e <ft_mem_free+0x8>
  *   @0x2e733c blx r3
+ *
+ * ══ FT_GlyphLoader_Reset  0x2e7340  size 76  本节 14 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7340 0x2e738c  size 76  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7342 mov r4, r0
  *   @0x2e7346 movs r5, #0x0
  *   @0x2e734a mov r0, r6
@@ -5621,9 +7131,19 @@
  *   @0x2e737a str r5, [r4, #0x2c]
  *   @0x2e737e str r5, [r4, #0x4]
  *   @0x2e7382 str r5, [r4, #0xc]
+ *
+ * ══ FT_GlyphLoader_Done  0x2e738c  size 26  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e738c 0x2e73a6  size 26  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e738e mov r4, r0
  *   @0x2e7392 ldr r5, [r0]
  *   @0x2e739a mov r0, r5
+ *
+ * ══ ft_hash_str_free  0x2e73a6  size 54  本节 12 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e73a6 0x2e73dc  size 54  12 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e73ac mov r4, r0
  *   @0x2e73b0 ldr.w r8, [r0, #0x4]
  *   @0x2e73b4 movs r5, #0x0
@@ -5636,6 +7156,11 @@
  *   @0x2e73d0 bl 0x2e7336 <ft_mem_free>
  *   @0x2e73d4 movs r3, #0x0
  *   @0x2e73d8 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *
+ * ══ FT_Stream_New  0x2e73dc  size 130  本节 28 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2e73dc 0x2e745e  size 130  28 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e73de movs r3, #0x0
  *   @0x2e73e2 mov r7, r2
  *   @0x2e73e6 cmp r0, #0x0
@@ -5664,12 +7189,27 @@
  *   @0x2e7452 b 0x2e745a <FT_Stream_New+0x7e>
  *   @0x2e7456 b 0x2e745a <FT_Stream_New+0x7e>
  *   @0x2e745a add sp, #0xc
+ *
+ * ══ FT_Stream_Free  0x2e745e  size 30  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e745e 0x2e747c  size 30  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7460 mov r6, r1
  *   @0x2e7464 cbz r0, 0x2e747a <FT_Stream_Free+0x1c>
  *   @0x2e7468 bl 0x2e689a <FT_Stream_Close>
  *   @0x2e746c cbnz r6, 0x2e747a <FT_Stream_Free+0x1c>
  *   @0x2e7470 mov r1, r4
+ *
+ * ══ anon_2e747e  0x2e747e  size 60  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e747e 0x2e74ba  size 60  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e74ba ldrblt r0, [r3, #-0x5]!
+ *
+ * ══ FT_Attach_Stream  0x2e74bc  size 70  本节 14 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e74bc 0x2e7502  size 70  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e74be mov r6, r1
  *   @0x2e74c2 cbz r0, 0x2e74f8 <FT_Attach_Stream+0x3c>
  *   @0x2e74c6 cbz r5, 0x2e74fc <FT_Attach_Stream+0x40>
@@ -5684,6 +7224,11 @@
  *   @0x2e74f6 b 0x2e74fe <FT_Attach_Stream+0x42>
  *   @0x2e74fa b 0x2e74fe <FT_Attach_Stream+0x42>
  *   @0x2e74fe add sp, #0x8
+ *
+ * ══ FT_Attach_File  0x2e7502  size 32  本节 7 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e7502 0x2e7522  size 32  7 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7504 sub sp, #0x24
  *   @0x2e7508 str r1, [sp, #0xc]
  *   @0x2e750c movs r3, #0x0
@@ -5691,6 +7236,11 @@
  *   @0x2e7514 bl 0x2e74bc <FT_Attach_Stream>
  *   @0x2e7518 b 0x2e751c <FT_Attach_File+0x1a>
  *   @0x2e751c add sp, #0x24
+ *
+ * ══ ft_glyphslot_free_bitmap  0x2e7522  size 50  本节 10 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7522 0x2e7554  size 50  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7524 mov r4, r0
  *   @0x2e752c ldr r3, [r3, #0x4]
  *   @0x2e7530 bpl 0x2e754e <ft_glyphslot_free_bitmap+0x2c>
@@ -5701,9 +7251,19 @@
  *   @0x2e7544 ldr r2, [r3, #0x4]
  *   @0x2e754c pop {r4, pc}
  *   @0x2e7550 str r3, [r4, #0x58]
+ *
+ * ══ ft_glyphslot_set_bitmap  0x2e7554  size 14  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7554 0x2e7562  size 14  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7556 mov r4, r0
  *   @0x2e755a bl 0x2e7522 <ft_glyphslot_free_bitmap>
  *   @0x2e755e str r5, [r4, #0x58]
+ *
+ * ══ FT_Load_Glyph  0x2e7564  size 808  本节 167 条（Thumb-2 半字段）｜入度 24
+ * @func 0x2e7564 0x2e788c  size 808  167 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e756a sub sp, #0x14
  *   @0x2e756e mov r6, r0
  *   @0x2e7572 beq 0x2e7672 <FT_Load_Glyph+0x10e>
@@ -5871,6 +7431,11 @@
  *   @0x2e7882 ldr r5, [r6, #0x74]
  *   @0x2e7886 str r1, [r5, #0x24]
  *   @0x2e788a str r7, [r5, #0x34]
+ *
+ * ══ FT_Get_Advances  0x2e788c  size 196  本节 38 条（Thumb-2 半字段）｜入度 9
+ * @func 0x2e788c 0x2e7950  size 196  38 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7892 mov r7, r2
  *   @0x2e7896 ldr.w r8, [sp, #0x28]
  *   @0x2e789a mov r4, r0
@@ -5909,6 +7474,11 @@
  *   @0x2e7942 b 0x2e794a <FT_Get_Advances+0xbe>
  *   @0x2e7946 b 0x2e794a <FT_Get_Advances+0xbe>
  *   @0x2e794a add sp, #0xc
+ *
+ * ══ FT_Get_Advance  0x2e7950  size 122  本节 24 条（Thumb-2 半字段）｜入度 8
+ * @func 0x2e7950 0x2e79ca  size 122  24 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7952 mov r7, r1
  *   @0x2e7956 mov r6, r3
  *   @0x2e795a cmp r0, #0x0
@@ -5933,6 +7503,11 @@
  *   @0x2e79be b 0x2e79c6 <FT_Get_Advance+0x76>
  *   @0x2e79c2 b 0x2e79c6 <FT_Get_Advance+0x76>
  *   @0x2e79c6 add sp, #0xc
+ *
+ * ══ FT_Load_Char  0x2e79ca  size 38  本节 9 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e79ca 0x2e79f0  size 38  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e79cc mov r3, r1
  *   @0x2e79d0 mov r4, r0
  *   @0x2e79d4 ldr r5, [r0, #0x5c]
@@ -5942,6 +7517,11 @@
  *   @0x2e79e4 pop.w {r4, r5, r6, lr}
  *   @0x2e79e8 b.w 0x2e7564 <FT_Load_Glyph>
  *   @0x2e79ec movs r0, #0x23
+ *
+ * ══ ft_glyphslot_alloc_bitmap  0x2e79f0  size 58  本节 13 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e79f0 0x2e7a2a  size 58  13 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e79f2 mov r6, r1
  *   @0x2e79f6 mov r4, r0
  *   @0x2e79fa ldr.w r3, [r0, #0x9c]
@@ -5955,7 +7535,17 @@
  *   @0x2e7a1e bl 0x2e7126 <ft_mem_alloc>
  *   @0x2e7a22 str r0, [r4, #0x58]
  *   @0x2e7a26 add sp, #0x8
+ *
+ * ══ anon_2e7a2c  0x2e7a2c  size 64  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7a2c 0x2e7a6c  size 64  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7a6c ldcllt p0, c3, [r0, #-624]!
+ *
+ * ══ FT_New_GlyphSlot  0x2e7a70  size 170  本节 38 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2e7a70 0x2e7b1a  size 170  38 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7a76 mov r5, r0
  *   @0x2e7a7a beq 0x2e7b0e <FT_New_GlyphSlot+0x9e>
  *   @0x2e7a7e cmp r3, #0x0
@@ -5994,6 +7584,11 @@
  *   @0x2e7b0e movs r0, #0x23
  *   @0x2e7b12 movs r0, #0x6
  *   @0x2e7b16 pop.w {r4, r5, r6, r7, r8, r9, r10, pc}
+ *
+ * ══ FT_Done_GlyphSlot  0x2e7b1a  size 66  本节 16 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e7b1a 0x2e7b5c  size 66  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7b1c mov r4, r0
  *   @0x2e7b20 ldr r2, [r0, #0x4]
  *   @0x2e7b24 ldr r3, [r2, #0x60]
@@ -6010,7 +7605,17 @@
  *   @0x2e7b50 b.w 0x2e7336 <ft_mem_free>
  *   @0x2e7b54 mov r1, r3
  *   @0x2e7b58 b 0x2e7b2a <FT_Done_GlyphSlot+0x10>
+ *
+ * ══ anon_2e7b5e  0x2e7b5e  size 600  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7b5e 0x2e7db6  size 600  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7db6 blt 0xff2a5dba <b2_toiTime+0xfffffffffeb4c916>
+ *
+ * ══ FT_Outline_Done_Internal  0x2e7dba  size 68  本节 14 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e7dba 0x2e7dfe  size 68  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7dbc mov r6, r0
  *   @0x2e7dc0 cbz r1, 0x2e7df6 <FT_Outline_Done_Internal+0x3c>
  *   @0x2e7dc4 ldr r3, [r1, #0x10]
@@ -6025,14 +7630,29 @@
  *   @0x2e7df4 pop {r4, r5, r6, pc}
  *   @0x2e7df8 pop {r4, r5, r6, pc}
  *   @0x2e7dfc pop {r4, r5, r6, pc}
+ *
+ * ══ FT_Outline_Done  0x2e7dfe  size 12  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7dfe 0x2e7e0a  size 12  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7e00 ldr r0, [r0]
  *   @0x2e7e08 bx lr
+ *
+ * ══ FT_Stream_ReleaseFrame  0x2e7e0a  size 24  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7e0a 0x2e7e22  size 24  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7e0c mov r4, r1
  *   @0x2e7e10 ldr r3, [r0, #0x14]
  *   @0x2e7e14 ldr r0, [r0, #0x1c]
  *   @0x2e7e18 bl 0x2e7336 <ft_mem_free>
  *   @0x2e7e1c movs r3, #0x0
  *   @0x2e7e20 pop {r4, pc}
+ *
+ * ══ FT_Stream_EnterFrame  0x2e7e22  size 128  本节 27 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e7e22 0x2e7ea2  size 128  27 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7e28 str r3, [sp, #0x4]
  *   @0x2e7e2c ldr r3, [r0, #0x14]
  *   @0x2e7e30 ldr r2, [r0, #0x4]
@@ -6060,17 +7680,32 @@
  *   @0x2e7e94 str r2, [r0, #0x20]
  *   @0x2e7e98 str r2, [r0, #0x24]
  *   @0x2e7e9c add sp, #0x8
+ *
+ * ══ FT_Stream_ExtractFrame  0x2e7ea2  size 22  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7ea2 0x2e7eb8  size 22  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7ea4 mov r4, r0
  *   @0x2e7ea8 bl 0x2e7e22 <FT_Stream_EnterFrame>
  *   @0x2e7eac cbnz r0, 0x2e7eb6 <FT_Stream_ExtractFrame+0x14>
  *   @0x2e7eb0 str r3, [r5]
  *   @0x2e7eb4 str r0, [r4, #0x24]
+ *
+ * ══ FT_Stream_ExitFrame  0x2e7eb8  size 28  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e7eb8 0x2e7ed4  size 28  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7eba mov r4, r0
  *   @0x2e7ebe cbz r3, 0x2e7ecc <FT_Stream_ExitFrame+0x14>
  *   @0x2e7ec2 ldr r1, [r4]
  *   @0x2e7eca str r3, [r4]
  *   @0x2e7ece str r3, [r4, #0x20]
  *   @0x2e7ed2 pop {r4, pc}
+ *
+ * ══ FT_Stream_ReadFields  0x2e7ed4  size 316  本节 63 条（Thumb-2 半字段）｜入度 17
+ * @func 0x2e7ed4 0x2e8010  size 316  63 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e7eda mov r7, r2
  *   @0x2e7ede beq.w 0x2e7ffe <FT_Stream_ReadFields+0x12a>
  *   @0x2e7ee2 cmp r0, #0x0
@@ -6134,6 +7769,11 @@
  *   @0x2e7ffe movs r0, #0x6
  *   @0x2e8006 pop.w {r4, r5, r6, r7, r8, pc}
  *   @0x2e800a mov r0, r4
+ *
+ * ══ ft_mem_qrealloc  0x2e8010  size 126  本节 22 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2e8010 0x2e808e  size 126  22 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e801a mov r6, r0
  *   @0x2e8022 ldr r4, [sp, #0x20]
  *   @0x2e8026 blt 0x2e8030 <ft_mem_qrealloc+0x20>
@@ -6156,6 +7796,11 @@
  *   @0x2e8082 mov r0, r4
  *   @0x2e8086 str r2, [r3]
  *   @0x2e808a pop.w {r4, r5, r6, r7, r8, pc}
+ *
+ * ══ ft_mem_realloc  0x2e808e  size 66  本节 13 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e808e 0x2e80d0  size 66  13 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8094 movs r7, #0x0
  *   @0x2e8098 str r7, [r5, #-4]!
  *   @0x2e809c mov r4, r2
@@ -6169,6 +7814,11 @@
  *   @0x2e80c4 mov r0, r5
  *   @0x2e80c8 str r2, [r3]
  *   @0x2e80cc pop.w {r4, r5, r6, r7, r8, pc}
+ *
+ * ══ FT_GlyphLoader_CreateExtra  0x2e80d0  size 54  本节 10 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e80d0 0x2e8106  size 54  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e80d2 mov r4, r0
  *   @0x2e80d6 movs r2, #0x0
  *   @0x2e80da str r2, [sp]
@@ -6179,6 +7829,11 @@
  *   @0x2e80f2 ldr r3, [r4, #0x4]
  *   @0x2e80fa mov r0, r4
  *   @0x2e8102 add sp, #0x10
+ *
+ * ══ FT_GlyphLoader_CheckPoints  0x2e8106  size 248  本节 48 条（Thumb-2 半字段）｜入度 7
+ * @func 0x2e8106 0x2e81fe  size 248  48 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e810c ldrsh.w r5, [r0, #0x3a]
  *   @0x2e8110 sub sp, #0x14
  *   @0x2e8118 ldr r6, [r0, #0x4]
@@ -6227,6 +7882,11 @@
  *   @0x2e81ec ldr r3, [sp, #0xc]
  *   @0x2e81f0 mov r0, r4
  *   @0x2e81f8 add sp, #0x14
+ *
+ * ══ FT_GlyphLoader_CopyPoints  0x2e81fe  size 118  本节 20 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e81fe 0x2e8274  size 118  20 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8204 ldrh.w r10, [r1, #0x16]
  *   @0x2e8208 mov r4, r0
  *   @0x2e8218 mov r2, r11
@@ -6247,6 +7907,11 @@
  *   @0x2e8260 strh.w r10, [r4, #0x16]
  *   @0x2e8264 mov r0, r4
  *   @0x2e8270 pop.w {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *
+ * ══ FT_GlyphLoader_CheckSubGlyphs  0x2e8274  size 70  本节 16 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e8274 0x2e82ba  size 70  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8276 sub sp, #0x14
  *   @0x2e827a movs r3, #0x0
  *   @0x2e827e str r3, [sp, #0xc]
@@ -6263,6 +7928,11 @@
  *   @0x2e82ae add.w r0, r0, r3, lsl #5
  *   @0x2e82b2 str r0, [r4, #0x58]
  *   @0x2e82b6 add sp, #0x14
+ *
+ * ══ ft_hash_str_init  0x2e82bc  size 60  本节 14 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e82bc 0x2e82f8  size 60  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e82be mov r4, r0
  *   @0x2e82c2 movs r2, #0x50
  *   @0x2e82ca str r2, [r0, #0x8]
@@ -6277,6 +7947,11 @@
  *   @0x2e82ee nop
  *   @0x2e82f2 vtbx.8 d28, {d15, d16}, d5
  *   @0x2e82f6 .word 0xffff b5f0
+ *
+ * ══ FT_CMap_Done  0x2e82f8  size 126  本节 26 条（Thumb-2 半字段）｜入度 7
+ * @func 0x2e82f8 0x2e8376  size 126  26 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e82fa mov r6, r0
  *   @0x2e82fe cmp r0, #0x0
  *   @0x2e8302 ldr r4, [r0]
@@ -6303,6 +7978,11 @@
  *   @0x2e8366 streq r3, [r4, #0x5c]
  *   @0x2e836e adds r5, #0x1
  *   @0x2e8372 add sp, #0x14
+ *
+ * ══ FT_CMap_New  0x2e8376  size 148  本节 29 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e8376 0x2e840a  size 148  29 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e837c mov r8, r3
  *   @0x2e8380 movs r3, #0x0
  *   @0x2e8384 str r3, [sp, #0xc]
@@ -6332,6 +8012,11 @@
  *   @0x2e83f8 beq 0x2e83fe <FT_CMap_New+0x88>
  *   @0x2e8400 b 0x2e8404 <FT_CMap_New+0x8e>
  *   @0x2e8404 add sp, #0x14
+ *
+ * ══ FT_Outline_New_Internal  0x2e840a  size 156  本节 29 条（Thumb-2 半字段）｜入度 6
+ * @func 0x2e840a 0x2e84a6  size 156  29 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8410 mov r6, r1
  *   @0x2e8414 mov r4, r3
  *   @0x2e8418 movs r0, #0x6
@@ -6361,9 +8046,24 @@
  *   @0x2e8494 str r3, [r4, #0x10]
  *   @0x2e849c b 0x2e84a0 <FT_Outline_New_Internal+0x96>
  *   @0x2e84a0 add sp, #0x10
+ *
+ * ══ FT_Outline_New  0x2e84a6  size 12  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e84a6 0x2e84b2  size 12  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e84a8 ldr r0, [r0]
  *   @0x2e84b0 bx lr
+ *
+ * ══ anon_2e84b2  0x2e84b2  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e84b2 0x2e84b2  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e84b2 ldrlt r0, [pc, #-0x0]
+ *
+ * ══ ft_hash_num_init  0x2e84b4  size 60  本节 14 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e84b4 0x2e84f0  size 60  14 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e84b6 mov r4, r0
  *   @0x2e84ba movs r2, #0x50
  *   @0x2e84c2 str r2, [r0, #0x8]
@@ -6378,11 +8078,31 @@
  *   @0x2e84e6 nop
  *   @0x2e84ea .word 0xffff c4db
  *   @0x2e84ee vtbl.8 d30, {d15, d16}, d29
+ *
+ * ══ anon_2e84f0  0x2e84f0  size 180  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e84f0 0x2e85a4  size 180  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e85a4 .word 0x87f0e8bd
+ *
+ * ══ ft_hash_str_insert  0x2e85a8  size 8  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e85a8 0x2e85b0  size 8  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e85aa bl 0x2e84f0 <ft_hash_num_init+0x3c>
  *   @0x2e85ae pop {r3, pc}
+ *
+ * ══ ft_hash_num_insert  0x2e85b0  size 8  本节 2 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e85b0 0x2e85b8  size 8  2 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e85b2 bl 0x2e84f0 <ft_hash_num_init+0x3c>
  *   @0x2e85b6 pop {r3, pc}
+ *
+ * ══ FT_Raccess_Get_DataOffsets  0x2e85b8  size 396  本节 76 条（Thumb-2 半字段）｜入度 12
+ * @func 0x2e85b8 0x2e8744  size 396  76 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e85be ldr.w r8, [r0]
  *   @0x2e85c2 mov r4, r1
  *   @0x2e85c6 mov r1, r2
@@ -6459,6 +8179,11 @@
  *   @0x2e8736 b 0x2e873a <FT_Raccess_Get_DataOffsets+0x182>
  *   @0x2e873a add sp, #0x1c
  *   @0x2e8742 vtbl.8 d30, {d15, d16}, d29
+ *
+ * ══ FT_Get_Sfnt_Name  0x2e8744  size 164  本节 35 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e8744 0x2e87e8  size 164  35 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e874a movs r3, #0x6
  *   @0x2e874e str r3, [sp, #0xc]
  *   @0x2e8752 beq 0x2e87e0 <FT_Get_Sfnt_Name+0x9c>
@@ -6494,6 +8219,11 @@
  *   @0x2e87da str r3, [r5, #0xc]
  *   @0x2e87de str r3, [sp, #0xc]
  *   @0x2e87e2 add sp, #0x14
+ *
+ * ══ FT_Get_Sfnt_LangTag  0x2e87e8  size 176  本节 37 条（Thumb-2 半字段）｜入度 4
+ * @func 0x2e87e8 0x2e8898  size 176  37 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e87ee mov r3, r1
  *   @0x2e87f2 movs r1, #0x6
  *   @0x2e87f6 str r1, [sp, #0xc]
@@ -6531,6 +8261,11 @@
  *   @0x2e888a str r3, [sp, #0xc]
  *   @0x2e888e b 0x2e8892 <FT_Get_Sfnt_LangTag+0xaa>
  *   @0x2e8892 add sp, #0x14
+ *
+ * ══ ft_mem_dup  0x2e8898  size 42  本节 8 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e8898 0x2e88c2  size 42  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e889a mov r5, r1
  *   @0x2e889e mov r1, r2
  *   @0x2e88a2 mov r6, r3
@@ -6539,12 +8274,22 @@
  *   @0x2e88b2 mov r2, r4
  *   @0x2e88ba mov r0, r7
  *   @0x2e88be add sp, #0xc
+ *
+ * ══ ft_mem_strdup  0x2e88c2  size 36  本节 6 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e88c2 0x2e88e6  size 36  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e88c4 mov r6, r0
  *   @0x2e88c8 mov r4, r1
  *   @0x2e88cc mov r0, r1
  *   @0x2e88d4 b 0x2e88d8 <ft_mem_strdup+0x16>
  *   @0x2e88d8 mov r0, r6
  *   @0x2e88dc mov r3, r5
+ *
+ * ══ ft_mem_strcpyn  0x2e88e6  size 40  本节 10 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e88e6 0x2e890e  size 40  10 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e88e8 push {r4, lr}
  *   @0x2e88ec mov r4, r1
  *   @0x2e88f0 bhi 0x2e8900 <ft_mem_strcpyn+0x1a>
@@ -6555,16 +8300,31 @@
  *   @0x2e8904 cmp r3, #0x0
  *   @0x2e8908 strb r3, [r0], #1
  *   @0x2e890c b 0x2e88ea <ft_mem_strcpyn+0x4>
+ *
+ * ══ FT_List_Find  0x2e890e  size 18  本节 4 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e890e 0x2e8920  size 18  4 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8910 ldr r0, [r0]
  *   @0x2e8914 ldr r3, [r0, #0x8]
  *   @0x2e8918 beq 0x2e891e <FT_List_Find+0x10>
  *   @0x2e891c b 0x2e8912 <FT_List_Find+0x4>
+ *
+ * ══ FT_List_Add  0x2e8920  size 24  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e8920 0x2e8938  size 24  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8922 cbz r1, 0x2e8936 <FT_List_Add+0x16>
  *   @0x2e8926 movs r2, #0x0
  *   @0x2e892a str r3, [r1]
  *   @0x2e892e str r1, [r3, #0x4]
  *   @0x2e8932 str r1, [r0]
  *   @0x2e8936 bx lr
+ *
+ * ══ FT_New_Size  0x2e8938  size 162  本节 36 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e8938 0x2e89da  size 162  36 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e893e mov r5, r0
  *   @0x2e8942 beq 0x2e89ca <FT_New_Size+0x92>
  *   @0x2e8946 beq 0x2e89ce <FT_New_Size+0x96>
@@ -6601,18 +8361,33 @@
  *   @0x2e89ce movs r0, #0x6
  *   @0x2e89d2 movs r0, #0x22
  *   @0x2e89d6 pop.w {r4, r5, r6, r7, r8, r9, r10, pc}
+ *
+ * ══ FT_List_Insert  0x2e89da  size 24  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e89da 0x2e89f2  size 24  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e89dc cbz r1, 0x2e89f0 <FT_List_Insert+0x16>
  *   @0x2e89e0 movs r2, #0x0
  *   @0x2e89e4 str r3, [r1, #0x4]
  *   @0x2e89e8 str r1, [r0, #0x4]
  *   @0x2e89ec str r1, [r3]
  *   @0x2e89f0 bx lr
+ *
+ * ══ FT_List_Remove  0x2e89f2  size 26  本节 6 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e89f2 0x2e8a0c  size 26  6 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e89f4 cbz r1, 0x2e8a0a <FT_List_Remove+0x18>
  *   @0x2e89f8 ldr r2, [r1, #0x4]
  *   @0x2e89fc str r2, [r3, #0x4]
  *   @0x2e8a00 str r2, [r0]
  *   @0x2e8a04 str r3, [r2]
  *   @0x2e8a08 str r3, [r0, #0x4]
+ *
+ * ══ FT_Done_Size  0x2e8a0c  size 106  本节 20 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e8a0c 0x2e8a76  size 106  20 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8a12 cbnz r0, 0x2e8a1a <FT_Done_Size+0xe>
  *   @0x2e8a16 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
  *   @0x2e8a1a ldr r4, [r0]
@@ -6633,6 +8408,11 @@
  *   @0x2e8a66 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
  *   @0x2e8a6a movs r0, #0x23
  *   @0x2e8a72 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *
+ * ══ FT_List_Up  0x2e8a76  size 36  本节 9 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e8a76 0x2e8a9a  size 36  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8a78 cbz r1, 0x2e8a98 <FT_List_Up+0x22>
  *   @0x2e8a7c ldr r2, [r1, #0x4]
  *   @0x2e8a80 str r2, [r3, #0x4]
@@ -6642,7 +8422,17 @@
  *   @0x2e8a90 str r3, [r1, #0x4]
  *   @0x2e8a94 str r1, [r3]
  *   @0x2e8a98 bx lr
+ *
+ * ══ anon_2e8a9a  0x2e8a9a  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e8a9a 0x2e8a9a  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8a9a .word 0xe92d0000
+ *
+ * ══ FT_Set_Renderer  0x2e8a9c  size 104  本节 21 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e8a9c 0x2e8b04  size 104  21 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8aa2 mov r5, r2
  *   @0x2e8aa6 mov r7, r0
  *   @0x2e8aaa cbnz r1, 0x2e8ab2 <FT_Set_Renderer+0x16>
@@ -6664,6 +8454,11 @@
  *   @0x2e8af6 pop.w {r4, r5, r6, r7, r8, pc}
  *   @0x2e8afa movs r0, #0x21
  *   @0x2e8b02 ldr r5, [r6, #0x74]
+ *
+ * ══ FT_List_Iterate  0x2e8b04  size 32  本节 8 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e8b04 0x2e8b24  size 32  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8b06 mov r4, r1
  *   @0x2e8b0a cbz r0, 0x2e8b20 <FT_List_Iterate+0x1c>
  *   @0x2e8b0e ldr r0, [r0]
@@ -6672,6 +8467,11 @@
  *   @0x2e8b1a mov r0, r5
  *   @0x2e8b1e pop {r4, r5, r6, pc}
  *   @0x2e8b22 pop {r4, r5, r6, pc}
+ *
+ * ══ FT_List_Finalize  0x2e8b24  size 54  本节 11 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e8b24 0x2e8b5a  size 54  11 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8b2a mov r6, r2
  *   @0x2e8b2e mov r5, r0
  *   @0x2e8b32 cbz r2, 0x2e8b56 <FT_List_Finalize+0x32>
@@ -6683,7 +8483,17 @@
  *   @0x2e8b4e mov r4, r9
  *   @0x2e8b52 str r4, [r5]
  *   @0x2e8b56 pop.w {r3, r4, r5, r6, r7, r8, r9, pc}
+ *
+ * ══ anon_2e8b5c  0x2e8b5c  size 124  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e8b5c 0x2e8bd8  size 124  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8bd8 .word 0xfffff1fd
+ *
+ * ══ FT_Done_Face  0x2e8bdc  size 92  本节 16 条（Thumb-2 半字段）｜入度 2
+ * @func 0x2e8bdc 0x2e8c38  size 92  16 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e8be2 cbz r0, 0x2e8c2c <FT_Done_Face+0x50>
  *   @0x2e8be6 cbz r3, 0x2e8c2c <FT_Done_Face+0x50>
  *   @0x2e8bee subs r2, #0x1
@@ -6700,7 +8510,17 @@
  *   @0x2e8c2a b 0x2e8c32 <FT_Done_Face+0x56>
  *   @0x2e8c2e pop.w {r4, r5, r6, r7, r8, pc}
  *   @0x2e8c32 movs r0, #0x0
+ *
+ * ══ anon_2e90d4  0x2e90d4  size 0  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e90d4 0x2e90d4  size 0  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e90d4 andeq pc, pc, r6, lsr #21
+ *
+ * ══ FT_New_Face  0x2e90d8  size 34  本节 8 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e90d8 0x2e90fa  size 34  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e90da sub sp, #0x28
  *   @0x2e90de str r1, [sp, #0x14]
  *   @0x2e90e2 str r1, [sp, #0x18]
@@ -6709,7 +8529,17 @@
  *   @0x2e90ee bl 0x2e8c38 <FT_Done_Face+0x5c>
  *   @0x2e90f2 b 0x2e90f6 <FT_New_Face+0x1e>
  *   @0x2e90f6 add sp, #0x28
+ *
+ * ══ anon_2e9398  0x2e9398  size 852  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e9398 0x2e96ec  size 852  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e96ec andeq r5, r10, r11, ror #1
+ *
+ * ══ FT_New_Memory_Face  0x2e96f0  size 38  本节 9 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e96f0 0x2e9716  size 38  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e96f2 sub sp, #0x28
  *   @0x2e96f6 movs r4, #0x1
  *   @0x2e96fa str r2, [sp, #0x10]
@@ -6719,9 +8549,19 @@
  *   @0x2e970a bl 0x2e8c38 <FT_Done_Face+0x5c>
  *   @0x2e970e b 0x2e9712 <FT_New_Memory_Face+0x22>
  *   @0x2e9712 add sp, #0x28
+ *
+ * ══ FT_Open_Face  0x2e9716  size 14  本节 3 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e9716 0x2e9724  size 14  3 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9718 movs r4, #0x1
  *   @0x2e971c bl 0x2e8c38 <FT_Done_Face+0x5c>
  *   @0x2e9720 add sp, #0x8
+ *
+ * ══ FT_Remove_Module  0x2e9724  size 236  本节 47 条（Thumb-2 半字段）｜入度 3
+ * @func 0x2e9724 0x2e9810  size 236  47 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e972a cmp r0, #0x0
  *   @0x2e972e cmp r1, #0x0
  *   @0x2e9732 ldr r5, [r0, #0x10]
@@ -6769,6 +8609,11 @@
  *   @0x2e9802 pop.w {r4, r5, r6, r7, r8, r9, r10, pc}
  *   @0x2e9806 nop
  *   @0x2e980a ldr r5, [r6, #0x74]
+ *
+ * ══ FT_Add_Module  0x2e9810  size 380  本节 81 条（Thumb-2 半字段）｜入度 8
+ * @func 0x2e9810 0x2e998c  size 380  81 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9816 mov r5, r0
  *   @0x2e981a beq.w 0x2e9970 <FT_Add_Module+0x160>
  *   @0x2e981e cmp r1, #0x0
@@ -6850,6 +8695,11 @@
  *   @0x2e997e add sp, #0x8
  *   @0x2e9986 movs r2, r0
  *   @0x2e998a ldr r5, [r6, #0x74]
+ *
+ * ══ FT_Done_Library  0x2e998c  size 148  本节 32 条（Thumb-2 半字段）｜入度 5
+ * @func 0x2e998c 0x2e9a20  size 148  32 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9992 cmp r0, #0x0
  *   @0x2e9996 ldr.w r3, [r0, #0xbc]
  *   @0x2e999a movs r6, #0x0
@@ -6882,6 +8732,11 @@
  *   @0x2e9a16 pop.w {r4, r5, r6, r7, r8, r9, pc}
  *   @0x2e9a1a nop
  *   @0x2e9a1e movs r2, r1
+ *
+ * ══ FT_Add_Default_Modules  0x2e9a20  size 32  本节 8 条（Thumb-2 半字段）｜入度 1
+ * @func 0x2e9a20 0x2e9a40  size 32  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9a22 mov r5, r0
  *   @0x2e9a26 add r4, pc
  *   @0x2e9a2a ldr r1, [r4, #4]!
@@ -6890,6 +8745,11 @@
  *   @0x2e9a36 b 0x2e9a2a <FT_Add_Default_Modules+0xa>
  *   @0x2e9a3a nop
  *   @0x2e9a3e movs r0, r2
+ *
+ * ══ FT_Set_Default_Properties  0x2e9a40  size 240  本节 51 条（Thumb-2 半字段）｜入度 15
+ * @func 0x2e9a40 0x2e9b30  size 240  51 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9a46 ldr r5, [pc, #0xe0]
  *   @0x2e9a4a ldr r0, [pc, #0xe0]
  *   @0x2e9a4e ldr r5, [r5]
@@ -6941,6 +8801,11 @@
  *   @0x2e9b26 nop
  *   @0x2e9b2a movs r0, r2
  *   @0x2e9b2e movs r2, r1
+ *
+ * ══ FT_Init_FreeType  0x2e9b30  size 50  本节 9 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e9b30 0x2e9b62  size 50  9 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9b32 mov r4, r0
  *   @0x2e9b3a cbz r0, 0x2e9b5e <FT_Init_FreeType+0x2e>
  *   @0x2e9b3e bl 0x2e72f8 <FT_New_Library>
@@ -6950,12 +8815,27 @@
  *   @0x2e9b56 bl 0x2e9a40 <FT_Set_Default_Properties>
  *   @0x2e9b5a mov r0, r5
  *   @0x2e9b5e movs r0, #0x7
+ *
+ * ══ FT_Done_FreeType  0x2e9b62  size 24  本节 5 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e9b62 0x2e9b7a  size 24  5 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9b64 cbz r0, 0x2e9b76 <FT_Done_FreeType+0x14>
  *   @0x2e9b68 bl 0x2e998c <FT_Done_Library>
  *   @0x2e9b6c mov r0, r4
  *   @0x2e9b74 pop {r4, pc}
  *   @0x2e9b78 pop {r4, pc}
+ *
+ * ══ anon_2e9b7a  0x2e9b7a  size 88  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e9b7a 0x2e9bd2  size 88  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9bd2 ldrblt r11, [r0, #-0xfb4]!
+ *
+ * ══ FT_Stream_Open  0x2e9bd4  size 112  本节 23 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e9bd4 0x2e9c44  size 112  23 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9bd6 mov r4, r0
  *   @0x2e9bda beq 0x2e9c30 <FT_Stream_Open+0x5c>
  *   @0x2e9bde str r1, [r0, #0x10]
@@ -6979,6 +8859,11 @@
  *   @0x2e9c32 pop {r4, r5, r6, pc}
  *   @0x2e9c36 pop {r4, r5, r6, pc}
  *   @0x2e9c3a movs r2, r1
+ *
+ * ══ FT_New_Memory  0x2e9c44  size 48  本节 8 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e9c44 0x2e9c74  size 48  8 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2e9c46 movs r0, #0x10
  *   @0x2e9c4e movs r3, #0x0
  *   @0x2e9c52 ldr r3, [pc, #0x14]
@@ -6987,7 +8872,17 @@
  *   @0x2e9c5e ldr r3, [pc, #0x10]
  *   @0x2e9c62 str r3, [r0, #0x8]
  *   @0x2e9c66 nop
+ *
+ * ══ anon_2e9c78  0x2e9c78  size 26568  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2e9c78 0x2f0440  size 26568  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2f0440 ldclt p6, c4, [r0, #-64]!
+ *
+ * ══ anonT_2f08c6  0x2f08c6  size 1110  本节 80 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2f08c6 0x2f0d1c  size 1110  80 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2f08d4 shasxmi pc, r0, r0
  *   @0x2f08ec adcvs pc, r5, r4, lsr #26
  *   @0x2f0914 .word 0xf844fd10
@@ -7068,7 +8963,17 @@
  *   @0x2f0cdc svcvs #0x6339b0
  *   @0x2f0d0c ldclpl p1, c0, [r0], {7}
  *   @0x2f0d14 andmi pc, r8, r1, lsl #2
+ *
+ * ══ anon_2f0d1c  0x2f0d1c  size 1060  本节 1 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2f0d1c 0x2f1140  size 1060  1 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2f1140 push {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ *
+ * ══ anonT_2f1142  0x2f1142  size 700  本节 44 条（Thumb-2 半字段）｜入度 0
+ * @func 0x2f1142 0x2f13fe  size 700  44 条
+ * 说明: 本节只补「4 字节栅格漏掉」的指令；该函数的主体与结构事实见其它卡的同一 @func
+ * 未主张: 语义（本卡只为把归属与逐条锚点补正，不新增语义）
  *   @0x2f1144 .word 0x469a4ff0
  *   @0x2f115c .word 0xf8d310c4
  *   @0x2f1160 stmdbvs r3, {r3, r6, r7, sp, lr}
@@ -7113,443 +9018,4 @@
  *   @0x2f13d4 rscvs r0, r3, r0, asr #30
  *   @0x2f13f4 .word 0x61230308
  *   @0x2f13fc strdeq r8, r9, [r0], -r0
- *   @0x2f1406 ldrh r4, [r1, #0x2]
- *   @0x2f140a str r0, [sp, #0x2c]
- *   @0x2f140e str r3, [sp, #0x28]
- *   @0x2f1412 beq.w 0x2f1dd8 <ps_hints_apply+0x9d8>
- *   @0x2f1416 ldrsh.w r3, [r1]
- *   @0x2f141a cmp r3, #0x0
- *   @0x2f1422 movs r1, #0x0
- *   @0x2f1426 str r7, [sp, #0x30]
- *   @0x2f142a blx 0xb65b0 <memset@plt>
- *   @0x2f142e ldr r7, [sp, #0x24]
- *   @0x2f1432 movs r1, #0x28
- *   @0x2f1436 ldr r7, [r7]
- *   @0x2f143a str r7, [sp, #0x20]
- *   @0x2f143e add r7, sp, #0x50
- *   @0x2f1442 str r7, [sp, #0x4]
- *   @0x2f1446 bl 0x2e808e <ft_mem_realloc>
- *   @0x2f144a ldr r2, [sp, #0x50]
- *   @0x2f144e cmp r2, #0x0
- *   @0x2f145a str r2, [sp]
- *   @0x2f145e str r0, [sp, #0x4]
- *   @0x2f1462 bl 0x2e808e <ft_mem_realloc>
- *   @0x2f1466 ldr r2, [sp, #0x50]
- *   @0x2f146a cmp r2, #0x0
- *   @0x2f1476 ldr r6, [sp, #0x98]
- *   @0x2f147a movs r7, #0x28
- *   @0x2f147e ldrsh.w r3, [r5]
- *   @0x2f1482 str r3, [sp, #0x94]
- *   @0x2f1486 sub.w r9, r0, #0x8
- *   @0x2f148a cmp r2, r3
- *   @0x2f148e ldr r3, [r5, #0xc]
- *   @0x2f149e adds r3, r6, r1
- *   @0x2f14a6 mla r12, r7, lr, r6
- *   @0x2f14aa add.w r10, r3, #0x28
- *   @0x2f14ae mov r8, r3
- *   @0x2f14ba str.w r9, [r3, #0x8]
- *   @0x2f14be cmp.w r12, #0x1
- *   @0x2f14c2 beq 0x2f14e2 <ps_hints_apply+0xe2>
- *   @0x2f14d2 str r1, [r1, #-36]
- *   @0x2f14d6 str r8, [r11, #-40]
- *   @0x2f14da mov r8, r1
- *   @0x2f14e2 mla r4, r7, r4, r3
- *   @0x2f14e6 str r3, [r4, #-36]
- *   @0x2f14ea adds r2, #0x1
- *   @0x2f14ee mov r1, lr
- *   @0x2f14f2 ldr.w r9, [sp, #0x98]
- *   @0x2f14f6 mov.w r8, #0x0
- *   @0x2f14fa ldr r7, [r5, #0x4]
- *   @0x2f1502 ldr r3, [sp, #0x90]
- *   @0x2f1506 bhs 0x2f15d2 <ps_hints_apply+0x1d2>
- *   @0x2f1516 rsb r11, r9, r2
- *   @0x2f151a ldr r2, [r5, #0x8]
- *   @0x2f151e asr.w r11, r11, #0x3
- *   @0x2f1522 muls r3, r1, r3
- *   @0x2f152e itt pl
- *   @0x2f1532 strpl r2, [r4, #-28]
- *   @0x2f1536 add.w r2, r7, r3, lsl #3
- *   @0x2f153a ldr r1, [r6]
- *   @0x2f1542 rsb r12, r3, r1
- *   @0x2f1546 ldr r3, [r6, #0x4]
- *   @0x2f154e mov r0, r12
- *   @0x2f1552 mov r1, r3
- *   @0x2f156a subs r2, r0, r2
- *   @0x2f156e ldr r1, [r6, #0x4]
- *   @0x2f1572 rsb r11, r1, r0
- *   @0x2f1576 mov r0, r2
- *   @0x2f157a bl 0x2f01f0 <FT_Done_Memory+0x657c>
- *   @0x2f157e ldr r1, [r4, #-28]
- *   @0x2f1582 tst.w r1, #0x1
- *   @0x2f1586 uxtb r0, r0
- *   @0x2f158e ldr r3, [sp, #0x1c]
- *   @0x2f1596 orr r1, r1, #0x2
- *   @0x2f159a str r1, [r4, #-28]
- *   @0x2f159e b 0x2f15c8 <ps_hints_apply+0x1c8>
- *   @0x2f15a2 sxtb.w r1, r10
- *   @0x2f15a6 bne 0x2f15c8 <ps_hints_apply+0x1c8>
- *   @0x2f15aa beq 0x2f15ba <ps_hints_apply+0x1ba>
- *   @0x2f15ba mov r1, r3
- *   @0x2f15be mov r3, r11
- *   @0x2f15c6 bne 0x2f15ac <ps_hints_apply+0x1ac>
- *   @0x2f15ce adds r6, #0x8
- *   @0x2f15d2 ldr r7, [sp, #0x24]
- *   @0x2f15d6 movs r1, #0x0
- *   @0x2f15da str r7, [sp, #0xa8]
- *   @0x2f15e2 ldr r3, [sp, #0x94]
- *   @0x2f15e6 bhs 0x2f16da <ps_hints_apply+0x2da>
- *   @0x2f15ea add.w r2, r3, r7, lsl #3
- *   @0x2f15ee ldr r2, [r2, #0x4]
- *   @0x2f15f2 bls 0x2f16d6 <ps_hints_apply+0x2d6>
- *   @0x2f15fa ldr r4, [r4, #0x4]
- *   @0x2f15fe beq 0x2f16d6 <ps_hints_apply+0x2d6>
- *   @0x2f1602 ldr r3, [r6, #0x1c]
- *   @0x2f1606 ldr r1, [r6, #0x20]
- *   @0x2f1612 mov r5, r6
- *   @0x2f1616 cmp.w r11, #0x0
- *   @0x2f161a beq 0x2f15fa <ps_hints_apply+0x1fa>
- *   @0x2f161e ldr r2, [r5, #0x1c]
- *   @0x2f1626 ldr.w r1, [r9, #0x20]
- *   @0x2f162a subs.w r10, r2, r3
- *   @0x2f162e rsb r8, r1, r0
- *   @0x2f1632 bne 0x2f1646 <ps_hints_apply+0x246>
- *   @0x2f163a mov r5, r9
- *   @0x2f1642 bne 0x2f161e <ps_hints_apply+0x21e>
- *   @0x2f1646 mov r0, r12
- *   @0x2f164a mov r2, r10
- *   @0x2f164e str.w r12, [sp, #0x18]
- *   @0x2f1652 bl 0x2e51c4 <ft_corner_orientation>
- *   @0x2f1656 ldr.w r12, [sp, #0x18]
- *   @0x2f165a str r0, [sp, #0x34]
- *   @0x2f165e beq 0x2f163a <ps_hints_apply+0x23a>
- *   @0x2f1662 mov r6, r4
- *   @0x2f166a ldr r0, [sp, #0x3c]
- *   @0x2f166e ldr r2, [r4, #0x1c]
- *   @0x2f1672 it eq
- *   @0x2f167a ldr r0, [r4, #0x20]
- *   @0x2f1686 cmp.w r9, #0x0
- *   @0x2f168a bne 0x2f1690 <ps_hints_apply+0x290>
- *   @0x2f168e b 0x2f1668 <ps_hints_apply+0x268>
- *   @0x2f1692 mov r1, r8
- *   @0x2f1696 mov r3, r9
- *   @0x2f16a6 beq 0x2f168c <ps_hints_apply+0x28c>
- *   @0x2f16aa teq.w r0, r1
- *   @0x2f16ae bpl 0x2f16c6 <ps_hints_apply+0x2c6>
- *   @0x2f16b2 orr r3, r3, #0x4
- *   @0x2f16b6 str r3, [r5, #0xc]
- *   @0x2f16ba cmp r5, r6
- *   @0x2f16be ldr r3, [r6, #0xc]
- *   @0x2f16c6 cmp.w r12, #0x0
- *   @0x2f16ca bne 0x2f16d6 <ps_hints_apply+0x2d6>
- *   @0x2f16ce mov r8, r9
- *   @0x2f16d2 mov r5, r6
- *   @0x2f16d6 adds r7, #0x1
- *   @0x2f16da ldr r7, [sp, #0x2c]
- *   @0x2f16de ldr r3, [sp, #0x20]
- *   @0x2f16ee cbnz r0, 0x2f1702 <ps_hints_apply+0x302>
- *   @0x2f16f2 add.w r1, r7, #0x34
- *   @0x2f16f6 add.w r2, r7, #0x40
- *   @0x2f16fa ldr r3, [sp, #0x20]
- *   @0x2f1702 ldr r7, [sp, #0x50]
- *   @0x2f1706 cbz r7, 0x2f1730 <ps_hints_apply+0x330>
- *   @0x2f170a add r0, sp, #0xd4
- *   @0x2f170e bl 0x2f08c6 <FT_Done_Memory+0x6c52>
- *   @0x2f1712 add r0, sp, #0xac
- *   @0x2f1716 bl 0x2f08c6 <FT_Done_Memory+0x6c52>
- *   @0x2f171a mov r0, r4
- *   @0x2f171e bl 0x2e7336 <ft_mem_free>
- *   @0x2f1722 mov r0, r4
- *   @0x2f1726 movs r3, #0x0
- *   @0x2f172a bl 0x2e7336 <ft_mem_free>
- *   @0x2f172e b 0x2f1dde <ps_hints_apply+0x9de>
- *   @0x2f1732 ldr.w r7, [r3, #0xc8]
- *   @0x2f1736 ldr.w r3, [r3, #0x194]
- *   @0x2f173a str r7, [sp, #0x34]
- *   @0x2f173e mov r1, r3
- *   @0x2f1742 ldr.w r0, [r7, #0x1a0]
- *   @0x2f1746 bl 0x2f00dc <FT_Done_Memory+0x6468>
- *   @0x2f174a add.w r5, r0, #0x20
- *   @0x2f174e mov r4, r0
- *   @0x2f1756 cmp r0, r5
- *   @0x2f175a ldr r0, [sp, #0x3c]
- *   @0x2f175e mov r2, r4
- *   @0x2f1766 mov r6, r0
- *   @0x2f176a mvn r1, #0x31
- *   @0x2f176e ldr r0, [sp, #0x34]
- *   @0x2f1776 add r1, r0
- *   @0x2f177a ldr r1, [sp, #0x34]
- *   @0x2f177e ldr r0, [sp, #0xa8]
- *   @0x2f1782 mov r2, r6
- *   @0x2f178a b 0x2f1792 <ps_hints_apply+0x392>
- *   @0x2f178e ldm r4!, {r2, r3, r6, r7}
- *   @0x2f1792 str r7, [sp, #0x44]
- *   @0x2f1796 ldr r7, [sp, #0x28]
- *   @0x2f179e strb.w r3, [sp, #0x109]
- *   @0x2f17a2 cmp r2, r3
- *   @0x2f17a6 movhi r2, #0x0
- *   @0x2f17aa cmp r7, #0x2
- *   @0x2f17b2 subs r0, r7, #0x4
- *   @0x2f17b6 adcs r3, r0
- *   @0x2f17ba mov.w r10, #0x0
- *   @0x2f17be strb.w r3, [sp, #0x10b]
- *   @0x2f17c2 adds.w r3, r7, #0xffffffff
- *   @0x2f17c6 add r7, sp, #0xac
- *   @0x2f17ca it ne
- *   @0x2f17ce strb.w r3, [sp, #0x10c]
- *   @0x2f17d2 add r0, sp, #0x90
- *   @0x2f17d6 bl 0x2f022e <FT_Done_Memory+0x65ba>
- *   @0x2f17da ldr r5, [sp, #0x94]
- *   @0x2f17de movs r3, #0x0
- *   @0x2f17e2 beq 0x2f183e <ps_hints_apply+0x43e>
- *   @0x2f17ee cbz r2, 0x2f183a <ps_hints_apply+0x43a>
- *   @0x2f17f2 ldr r0, [r0]
- *   @0x2f17f6 beq 0x2f185c <ps_hints_apply+0x45c>
- *   @0x2f17fa ldr r2, [r6, #0x1c]
- *   @0x2f17fe beq 0x2f17f2 <ps_hints_apply+0x3f2>
- *   @0x2f1802 mov r2, r7
- *   @0x2f1806 ldr r1, [r1, #0x4]
- *   @0x2f180a beq 0x2f183a <ps_hints_apply+0x43a>
- *   @0x2f1812 cmp lr, r6
- *   @0x2f1816 ldr r0, [r0, #0x1c]
- *   @0x2f181a bge 0x2f1822 <ps_hints_apply+0x422>
- *   @0x2f181e blt 0x2f1826 <ps_hints_apply+0x426>
- *   @0x2f1822 cmp lr, r6
- *   @0x2f1826 ldr r0, [r2, #0x10]
- *   @0x2f182e ldr r2, [r2, #0x4]
- *   @0x2f1832 bne 0x2f1826 <ps_hints_apply+0x426>
- *   @0x2f1836 mov r2, r1
- *   @0x2f183a adds r3, #0x1
- *   @0x2f183e movs r3, #0x0
- *   @0x2f1842 cmp r3, r2
- *   @0x2f1846 ldr r2, [sp, #0x98]
- *   @0x2f184a mla r2, r1, r3, r2
- *   @0x2f184e ldr r4, [r2, #0x10]
- *   @0x2f1852 bpl 0x2f1878 <ps_hints_apply+0x478>
- *   @0x2f1856 ldr r1, [r1]
- *   @0x2f185a bne 0x2f1860 <ps_hints_apply+0x460>
- *   @0x2f185e b 0x2f1840 <ps_hints_apply+0x440>
- *   @0x2f1862 ldr r0, [r1, #0x20]
- *   @0x2f1866 beq 0x2f1856 <ps_hints_apply+0x456>
- *   @0x2f186a ldr r6, [r6, #0x4]
- *   @0x2f186e beq 0x2f185c <ps_hints_apply+0x45c>
- *   @0x2f1872 cmp r0, r5
- *   @0x2f1876 b 0x2f187c <ps_hints_apply+0x47c>
- *   @0x2f187a mov r1, r2
- *   @0x2f187e ldr r1, [r2, #0x20]
- *   @0x2f1882 bge 0x2f1890 <ps_hints_apply+0x490>
- *   @0x2f1886 cmp r0, r1
- *   @0x2f188a orr r4, r4, #0x80
- *   @0x2f188e b 0x2f189c <ps_hints_apply+0x49c>
- *   @0x2f1892 ldr r0, [r6, #0x20]
- *   @0x2f1896 bge 0x2f185c <ps_hints_apply+0x45c>
- *   @0x2f189e b 0x2f185c <ps_hints_apply+0x45c>
- *   @0x2f18a2 ldr r5, [sp, #0xa8]
- *   @0x2f18a6 ldr r4, [r7]
- *   @0x2f18aa mov r0, r6
- *   @0x2f18ae mov r2, r10
- *   @0x2f18b2 bl 0x2f1142 <FT_Done_Memory+0x74ce>
- *   @0x2f18b6 subs r4, #0x1
- *   @0x2f18ba b 0x2f18a8 <ps_hints_apply+0x4a8>
- *   @0x2f18be movs r2, #0xcc
- *   @0x2f18c2 cmp.w r10, #0x0
- *   @0x2f18c6 ite ne
- *   @0x2f18d2 ldr r4, [r3]
- *   @0x2f18d6 ldr r3, [sp, #0xa8]
- *   @0x2f18e6 ite lt
- *   @0x2f18ea movge r7, #0x1e
- *   @0x2f18ee bls 0x2f1960 <ps_hints_apply+0x560>
- *   @0x2f18f2 cmp r3, #0x0
- *   @0x2f18f6 ldr r2, [r5, #0xc]
- *   @0x2f18fa mov.w r9, #0x28
- *   @0x2f18fe cmp r3, r2
- *   @0x2f1902 movhs r3, r2
- *   @0x2f1906 ldr r2, [sp, #0x90]
- *   @0x2f190a it hs
- *   @0x2f190e cmp r6, r3
- *   @0x2f1912 ldr r1, [sp, #0x98]
- *   @0x2f1916 ldr r0, [sp, #0x20]
- *   @0x2f191a mla r11, r9, r3, r1
- *   @0x2f191e mov r1, r5
- *   @0x2f192a mov r3, r7
- *   @0x2f192e mov r1, r11
- *   @0x2f1936 adds r5, #0x10
- *   @0x2f193a bne 0x2f195c <ps_hints_apply+0x55c>
- *   @0x2f193e ldr r4, [sp, #0x90]
- *   @0x2f1942 ldr r3, [r0, #0x20]
- *   @0x2f1946 bl 0x2f0154 <FT_Done_Memory+0x64e0>
- *   @0x2f194a str.w r8, [sp]
- *   @0x2f194e ldr r0, [sp, #0x20]
- *   @0x2f1952 mov r2, r4
- *   @0x2f1956 bl 0x2f0266 <FT_Done_Memory+0x65f2>
- *   @0x2f195a b 0x2f1962 <ps_hints_apply+0x562>
- *   @0x2f195e b 0x2f1904 <ps_hints_apply+0x504>
- *   @0x2f1962 ldr r5, [sp, #0x90]
- *   @0x2f1966 mov r2, r5
- *   @0x2f196a cbz r2, 0x2f1982 <ps_hints_apply+0x582>
- *   @0x2f196e cbz r1, 0x2f197c <ps_hints_apply+0x57c>
- *   @0x2f1972 lsls r7, r1, #0x1b
- *   @0x2f1976 orrpl r1, r1, #0x10
- *   @0x2f197a strpl r1, [r3, #0x10]
- *   @0x2f197e adds r3, #0x28
- *   @0x2f1982 cmp.w r10, #0x1
- *   @0x2f1986 beq 0x2f1996 <ps_hints_apply+0x596>
- *   @0x2f198a movs r2, #0xcc
- *   @0x2f1996 ldr r7, [sp, #0x24]
- *   @0x2f199a mov r1, r5
- *   @0x2f19a2 beq 0x2f1988 <ps_hints_apply+0x588>
- *   @0x2f19aa beq 0x2f19bc <ps_hints_apply+0x5bc>
- *   @0x2f19ae beq 0x2f19bc <ps_hints_apply+0x5bc>
- *   @0x2f19b6 beq 0x2f19bc <ps_hints_apply+0x5bc>
- *   @0x2f19ba bne 0x2f1a64 <ps_hints_apply+0x664>
- *   @0x2f19be lsls r6, r3, #0x1b
- *   @0x2f19c2 ldr r0, [sp, #0x24]
- *   @0x2f19c6 add.w r6, r0, #0x1a0
- *   @0x2f19ca ldr.w r7, [r0, #0x19c]
- *   @0x2f19ce cbz r7, 0x2f1a12 <ps_hints_apply+0x612>
- *   @0x2f19d2 rsb r12, r0, r3
- *   @0x2f19d6 ldr r0, [sp, #0x24]
- *   @0x2f19e2 blt 0x2f1a12 <ps_hints_apply+0x612>
- *   @0x2f19e6 add r0, r8
- *   @0x2f19ea bgt 0x2f1a0c <ps_hints_apply+0x60c>
- *   @0x2f19ee ldrb.w r8, [r0, #0x9bc]
- *   @0x2f19f2 cmp.w r8, #0x0
- *   @0x2f19f6 bne 0x2f1a00 <ps_hints_apply+0x600>
- *   @0x2f19fe bgt 0x2f1a0c <ps_hints_apply+0x60c>
- *   @0x2f1a02 str r0, [r2, #0x24]
- *   @0x2f1a06 orr r0, r0, #0x30
- *   @0x2f1a0a str r0, [r2, #0x10]
- *   @0x2f1a0e adds r6, #0x20
- *   @0x2f1a12 ldr r0, [sp, #0x24]
- *   @0x2f1a1e cbz r7, 0x2f1a64 <ps_hints_apply+0x664>
- *   @0x2f1a22 rsb r12, r3, r0
- *   @0x2f1a26 ldr r0, [sp, #0x24]
- *   @0x2f1a32 blt 0x2f1a64 <ps_hints_apply+0x664>
- *   @0x2f1a36 rsb r0, r8, r0
- *   @0x2f1a3a cmp r3, r0
- *   @0x2f1a3e ldr r0, [sp, #0x24]
- *   @0x2f1a4a ldr.w r0, [r0, #0x9b4]
- *   @0x2f1a4e cmp r12, r0
- *   @0x2f1a52 ldr r0, [r6, #0x1c]
- *   @0x2f1a56 ldr r0, [r2, #0x10]
- *   @0x2f1a5e subs r7, #0x1
- *   @0x2f1a62 b 0x2f1a1e <ps_hints_apply+0x61e>
- *   @0x2f1a66 adds r2, #0x28
- *   @0x2f1a6a ldr r3, [r4, #0x18]
- *   @0x2f1a6e subs r5, #0x1
- *   @0x2f1a72 cmp r5, #0x0
- *   @0x2f1a76 b 0x2f1ac0 <ps_hints_apply+0x6c0>
- *   @0x2f1a7a ldr r7, [r3, #0x8]
- *   @0x2f1a82 lsls r0, r2, #0x15
- *   @0x2f1a86 ldr r3, [r3, #0xc]
- *   @0x2f1a8a str r7, [r4, #0x24]
- *   @0x2f1a8e ldr r0, [r4, #0x1c]
- *   @0x2f1a92 subs r0, r0, r2
- *   @0x2f1a96 ble 0x2f1aa4 <ps_hints_apply+0x6a4>
- *   @0x2f1a9a cmp r0, r2
- *   @0x2f1a9e ldr r3, [r3, #0xc]
- *   @0x2f1aa2 add r7, r3
- *   @0x2f1aa6 bl 0x2f00dc <FT_Done_Memory+0x6468>
- *   @0x2f1aaa b 0x2f1ab2 <ps_hints_apply+0x6b2>
- *   @0x2f1aae bl 0x2e4d3c <FT_MulDiv>
- *   @0x2f1ab2 add r0, r7
- *   @0x2f1ab6 ldr r3, [r4, #0x10]
- *   @0x2f1abe b 0x2f1a6e <ps_hints_apply+0x66e>
- *   @0x2f1ac2 movs r2, #0xcc
- *   @0x2f1ac6 movs r6, #0x28
- *   @0x2f1aca mla r3, r2, r10, r3
- *   @0x2f1ace mov r2, r4
- *   @0x2f1ad2 ldr.w r8, [r3, #0xc8]
- *   @0x2f1ad6 ldr r3, [sp, #0x90]
- *   @0x2f1ade cmp r2, r6
- *   @0x2f1ae2 ldr r1, [r2, #0x10]
- *   @0x2f1ae6 lsls r1, r1, #0x1b
- *   @0x2f1aea addmi r3, #0x1
- *   @0x2f1aee cmp r3, #0x0
- *   @0x2f1af6 bls 0x2f1b16 <ps_hints_apply+0x716>
- *   @0x2f1afa add r1, sp, #0x50
- *   @0x2f1afe movs r2, #0x0
- *   @0x2f1b02 movs r1, #0x4
- *   @0x2f1b06 bl 0x2e808e <ft_mem_realloc>
- *   @0x2f1b0a ldr r3, [sp, #0x50]
- *   @0x2f1b0e cmp r3, #0x0
- *   @0x2f1b16 add r5, sp, #0x50
- *   @0x2f1b1a mov.w r9, #0x0
- *   @0x2f1b1e cmp r3, r6
- *   @0x2f1b22 ldr r2, [r3, #0x10]
- *   @0x2f1b26 bpl 0x2f1b4a <ps_hints_apply+0x74a>
- *   @0x2f1b2e bls 0x2f1b3c <ps_hints_apply+0x73c>
- *   @0x2f1b36 ldr r7, [r2, #0x1c]
- *   @0x2f1b3a bgt 0x2f1b44 <ps_hints_apply+0x744>
- *   @0x2f1b3e add.w r9, r9, #0x1
- *   @0x2f1b42 b 0x2f1b4a <ps_hints_apply+0x74a>
- *   @0x2f1b4a adds r3, #0x28
- *   @0x2f1b4e add.w r11, r9, #0x40000000
- *   @0x2f1b52 add.w r11, r11, #0xffffffff
- *   @0x2f1b56 lsl.w r11, r11, #0x2
- *   @0x2f1b5a add.w r3, r5, r11
- *   @0x2f1b5e add.w r11, r11, #0x4
- *   @0x2f1b62 add r11, r5
- *   @0x2f1b66 cmp r4, r6
- *   @0x2f1b6a ldr r2, [r4, #0x10]
- *   @0x2f1b6e bmi 0x2f1c42 <ps_hints_apply+0x842>
- *   @0x2f1b72 lsls r1, r3, #0x1e
- *   @0x2f1b76 ldrsb.w r1, [r4, #0x14]
- *   @0x2f1b7a cmp r1, #0x4
- *   @0x2f1b7e ldrsb.w r0, [r4, #0x15]
- *   @0x2f1b82 cmp r0, r1
- *   @0x2f1b86 lsls r2, r2, #0x19
- *   @0x2f1b8a lsls r7, r3, #0x1d
- *   @0x2f1b8e bic r3, r3, #0x2
- *   @0x2f1b92 str r3, [r4, #0xc]
- *   @0x2f1b96 cmp r3, r9
- *   @0x2f1b9a ldr.w r2, [r5, r3, lsl #2]
- *   @0x2f1b9e ldr r1, [r2, #0x1c]
- *   @0x2f1ba2 cmp r1, r2
- *   @0x2f1ba6 cbnz r3, 0x2f1bc0 <ps_hints_apply+0x7c0>
- *   @0x2f1baa mov r1, r8
- *   @0x2f1bae ldr r0, [r3, #0x1c]
- *   @0x2f1bb2 subs r0, r2, r0
- *   @0x2f1bba b 0x2f1c38 <ps_hints_apply+0x838>
- *   @0x2f1bbe b 0x2f1b96 <ps_hints_apply+0x796>
- *   @0x2f1bc6 subs r3, #0x1
- *   @0x2f1bce cbz r3, 0x2f1be0 <ps_hints_apply+0x7e0>
- *   @0x2f1bd6 ldr r2, [r4, #0x1c]
- *   @0x2f1bda blt 0x2f1be0 <ps_hints_apply+0x7e0>
- *   @0x2f1bde b 0x2f1bce <ps_hints_apply+0x7ce>
- *   @0x2f1be2 ldr r0, [r4, #0x1c]
- *   @0x2f1be6 ldr r7, [sp, #0x40]
- *   @0x2f1bea ldr r3, [r7]
- *   @0x2f1bee ldr r3, [r3, #0x1c]
- *   @0x2f1bf2 str r2, [sp, #0x14]
- *   @0x2f1bfa add r0, r2
- *   @0x2f1bfe ldr.w r1, [r5, r3, lsl #2]
- *   @0x2f1c02 ldr.w r3, [lr, #0x1c]
- *   @0x2f1c06 cmp r0, r3
- *   @0x2f1c0a ldr.w r3, [lr, #0x24]
- *   @0x2f1c0e str r3, [r4, #0x24]
- *   @0x2f1c12 ldr r2, [r1, #0x1c]
- *   @0x2f1c16 cmp r0, r2
- *   @0x2f1c1a str r1, [r4, #0x24]
- *   @0x2f1c1e ldr.w r12, [lr, #0x24]
- *   @0x2f1c22 subs r0, r0, r3
- *   @0x2f1c26 rsb r1, r12, r1
- *   @0x2f1c2a str.w r12, [sp, #0x18]
- *   @0x2f1c2e bl 0x2e4d3c <FT_MulDiv>
- *   @0x2f1c32 ldr.w r12, [sp, #0x18]
- *   @0x2f1c36 add r0, r12
- *   @0x2f1c3a ldr r3, [r4, #0x10]
- *   @0x2f1c42 adds r4, #0x28
- *   @0x2f1c46 ldr r7, [sp, #0x38]
- *   @0x2f1c4a beq 0x2f1c54 <ps_hints_apply+0x854>
- *   @0x2f1c4e mov r1, r5
- *   @0x2f1c56 movs r2, #0xcc
- *   @0x2f1c5e adds r3, #0x4
- *   @0x2f1c62 ldr.w r8, [r3, #0xc4]
- *   @0x2f1c66 ldr.w r3, [r3, #0xc8]
- *   @0x2f1c6a str r3, [sp, #0x48]
- *   @0x2f1c6e add.w r9, r3, #0x8
- *   @0x2f1c72 ldr r7, [sp, #0x28]
- *   @0x2f1c76 beq 0x2f1d70 <ps_hints_apply+0x970>
- *   @0x2f1c7e ldr r4, [r9, #-4]
- *   @0x2f1c82 movs r0, #0x0
  */

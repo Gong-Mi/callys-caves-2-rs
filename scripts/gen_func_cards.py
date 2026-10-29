@@ -87,7 +87,7 @@ def main() -> int:
                 if base:
                     break
         gates, calls, offs, vfp = [], [], collections.Counter(), 0
-        for x in range(lo, min(hi, lo + hi - lo), 4):
+        for x in (x for x in ins if lo <= x < hi):
             if x not in ins:
                 continue
             m, o = ins[x]
@@ -119,7 +119,8 @@ def main() -> int:
         if size < a.min_size:
             continue
         hi = lo + size
-        full = [x for x in range(lo, hi, 4) if x in ins]
+        # Thumb-2 instructions are 2-byte aligned: step by the real index, never by 4
+        full = sorted(x for x in ins if lo <= x < hi)
         addrs = [x for x in full if x not in owner]
         if not addrs or anchors + len(addrs) > a.budget:
             continue
