@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoPop（原版 libyoyo.so，armv7）
  * @func 0xe65e4 0xe7dcc  size 6120  1530 条指令（含 literal 词）
- * 级别: 骨架（opcode 位域与三条主路径已证；15 类型 × refcount 细节未展开）
+ * 级别: 正文（opcode 位域与三条主路径已证；15 类型 × refcount 细节未展开）
  * 符号: _Z5DoPopjPhPKhP6VMExec → uchar* DoPop(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
  * 已证（指令级）：
@@ -19,6 +19,12 @@
  *   2. kind 2 与 kind 5 走不同起始点（0xe6978 vs 主路径），差别在是否保留/释放被弹出的值。
  * open：15 个类型分支各自的 refcount 处理、count == -9 的语义（可能是「弹出到帧基」）、
  *       flag30 的实参 base 解释方式。
+ *
+ * ── 结构（本批证到，逐条锚在下方）: 把栈顶写回变量 ──
+ *   Code_Variable_Find_Name ×10 → InternalGetYYVar ×11 / SET_RValue ×5；PushContextStack ×5 与 PopContextStack ×5 成对（with 目标切换）；snprintf ×3；FREE_RValue__Pre ×9；VMError ×7
+ *   ⚠ LOCK_RVALUE_MUTEX / UNLOCK_RVALUE_MUTEX 在本库是单条 `bx lr` 空桩（0x190f2c / 0x190f30），
+ *     本函数里出现的「加锁」按无锁读，不写「有锁保护」。
+ *   open: SET_RValue 的 selector/array 编码、实例字段与 alarm 槽的通道、失败分支
  */
 /* @0xe65e4 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0xe65e8 add r11, sp, #32 */

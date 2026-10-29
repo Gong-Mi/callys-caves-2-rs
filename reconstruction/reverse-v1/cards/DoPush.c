@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoPush（原版 libyoyo.so，armv7）
  * @func 0xe9e88 0xeb3f8  size 5488  1372 条指令
- * 级别: 骨架（顶层 7 类、负 id 14 项分派、4 张 tag 表已逐条定位；
+ * 级别: 正文（顶层 7 类、负 id 14 项分派、4 张 tag 表已逐条定位；
  *       -9/-10 的键/容器语义与各报错分支未逐条闭环）
  * 符号: _Z6DoPushjPhPKhP6VMExec → uchar* DoPush(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  *
@@ -75,6 +75,12 @@
  *       JSArrayGet/F_JS_Object_Get，两条路径各自适用条件未定）；kind 6 表项偏移为 0 时 0xea200
  *       把 r7 置 4 的意图（随后 strlen/YYStrDup 会拿 4 当指针）；kind 8..14 是否真为无操作；
  *       -4/-14 两条只报错的 id 在 GML 层的用途；exec+0x14/+0x18/+0x34 三个参数域与变量索引的对应。
+ *
+ * ── 结构（本批证到，逐条锚在下方）: 从变量读值入栈 ──
+ *   Code_Variable_Find_Name ×6 → YYObjectBase::InternalGetYYVar ×6 → GET_RValue ×6；Variable_GetObjectName ×5 与 GetContextStackTop ×4 处理 with() 上下文；snprintf ×4（数值/字符串化）；FREE_RValue__Pre ×8 释放临时值
+ *   ⚠ LOCK_RVALUE_MUTEX / UNLOCK_RVALUE_MUTEX 在本库是单条 `bx lr` 空桩（0x190f2c / 0x190f30），
+ *     本函数里出现的「加锁」按无锁读，不写「有锁保护」。
+ *   open: 变量名解析优先级（局部/实例/全局）、with 栈查表顺序、boxing 后 tag 归属
  */
 
 /* 序言：r7=exec(r3) r8=arg(r0) r4=sp(r1) r9=base(r2)；r5=GOT 基址；开 2192+4 字节栈帧；全局哨兵值存入 sp+0x88c */

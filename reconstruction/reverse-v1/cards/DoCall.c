@@ -1,6 +1,6 @@
 /* cally 逆向卡：DoCall（原版 libyoyo.so，armv7）
  * @func 0xe8b48 0xe9790  size 3144  786 条（0xe9744..0xe978c 为 literal pool）
- * 级别: 骨架（kind 分流、id 区间、五条调用路径、实参释放与结果回填已证；kind5 的 JS 对象内部与 profiling 实参未展开）
+ * 级别: 正文（kind 分流、id 区间、五条调用路径、实参释放与结果回填已证；kind5 的 JS 对象内部与 profiling 实参未展开）
  * 符号: _Z6DoCalljPhPKhP6VMExec → uchar* DoCall(uint32 arg, uchar* sp, const uchar* base, VMExec* exec)
  * 位置: 紧接 DoCallGML(0xe8b00..0xe8b48)，两者共用下游 DoCallScript(0xe8588..0xe8afc，350 条)
  *
@@ -92,6 +92,12 @@
  *   2. 内建表项 80 字节的其余字段（+0 起）、CProfiler::Push/Pop 的两个 int 实参来源。
  *   3. kind5 里 [obj+0x48]==3 的类型枚举、[obj+0x78]/[obj+0x88] 的取值域（只证到 ==6 分支）。
  *   4. 两个全局字节（A=profiling、B=跳过释放）的符号名。
+ *
+ * ── 结构（本批证到，逐条锚在下方）: 调用 GML 脚本 ──
+ *   CScript::GetCode ×3 + DoCallScript ×3（三个调用入口，形参顺序待逐条确认）；FREE_RValue__Pre ×7 释放实参；YYFree ×4 / operator delete ×4；VMError ×3
+ *   ⚠ LOCK_RVALUE_MUTEX / UNLOCK_RVALUE_MUTEX 在本库是单条 `bx lr` 空桩（0x190f2c / 0x190f30），
+ *     本函数里出现的「加锁」按无锁读，不写「有锁保护」。
+ *   open: 三个 DoCallScript 调用点的形参与栈布局、脚本缺失时的错误路径
  */
 /* @0xe8b48 ubfx r12, r0, #0x10, #0x4 */
 /* @0xe8b4c push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
