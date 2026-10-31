@@ -8,19 +8,19 @@
 
 | 项 | 数 |
 | --- | --- |
-| 原始行（全部 claims*.jsonl，含根部的聚合文件） | 1769 |
-| **去重后 claims（权威总数）** | **1749** |
-| 文件数 | 92 |
+| 原始行（全部 claims*.jsonl，含根部的聚合文件） | 1780 |
+| **去重后 claims（权威总数）** | **1760** |
+| 文件数 | 94 |
 | 重复 id（一条在多文件里出现） | 20 |
-| 正文分类：device / behavior / static / naked | 94 / 694 / 898 / 63 |
+| 正文分类：device / behavior / static / naked | 103 / 695 / 899 / 63 |
 
 ## 按 status × 正文分类
 
 | status | device | behavior | static | naked |
 | --- | --- | --- | --- | --- |
-| `proven` | 85 | 591 | 759 | 42 |
-| `narrowed` | 4 | 51 | 57 | 7 |
-| `refuted` | 2 | 3 | 6 | 1 |
+| `proven` | 93 | 591 | 759 | 42 |
+| `narrowed` | 4 | 52 | 58 | 7 |
+| `refuted` | 3 | 3 | 6 | 1 |
 | `inferred` | 0 | 3 | 4 | 0 |
 | `open` | 3 | 46 | 72 | 13 |
 
@@ -29,12 +29,12 @@
 - proven 属静态事实（可复查地址，非运行结果）：**759**
 - proven 待降 narrowed（正文断言行为、证据只有地址）：**591**
 - open 占位（符合）：**134**
-- narrowed 仅地址/无装置（标准要求写明证到哪面）：**115**
-- proven 合格（有装置）：**85**
+- narrowed 仅地址/无装置（标准要求写明证到哪面）：**117**
+- proven 合格（有装置）：**93**
 - proven 无判据 → 按 open：**42**
 - refuted 仅地址（缺反例判据）：**10**
 - narrowed 有装置：**4**
-- refuted 有反例装置：**2**
+- refuted 有反例装置：**3**
 
 ## 样本（每桶最多 3 条，用来挑战分类）
 
@@ -133,6 +133,7 @@
 
 - `NEG-ORA-007`（DoNeg.c）cls 6 的错误串逐字为 "DoNeg :: Execution Engine - Cannot operate on string type"（双冒号、**没有** ":1:"
 - `DNOT-ORA-004`（DoNot.c）本 handler 只有三条错误文案：cls 6 与 tag 1 共用 "DoNot :: Execution Engine - Cannot operate on string 
+- `DNOT-ORA-010`（DoNot.c）DoNot mode 1 的结果是**一个 32 位字**写在 boxed−4，不是原卡写的「写 1 B（uxtb）」。写成单字节时，cls 0 的 0.5（作为 double 判
 
 ### refuted × naked
 
