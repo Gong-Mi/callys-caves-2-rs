@@ -1,0 +1,233 @@
+{
+  "harness": "do_not_diff.py",
+  "target": {
+    "symbol": "_Z5DoNotjPhPKhP6VMExec",
+    "func": "DoNot",
+    "addr": "0xd7908",
+    "so": "libyoyo_armv7.so"
+  },
+  "scope": {
+    "covered": [
+      "mode 0 (strong-typed, cls 0..15)",
+      "mode 3..15 fall-through"
+    ],
+    "not_covered": [
+      "mode 1 (JS ! via JS_ToBoolean)",
+      "mode 2 (~ via boxType + F_JS_ToInt32)"
+    ]
+  },
+  "seed": "0xca11",
+  "cases": 404,
+  "inputs_sha256": "2c6d7e5ab426a8367ddf9f0037500ef8362c18256417d2408c7610ba8a2023fd",
+  "c_sha256": "b16806df71c054bada648bc75317464f93a40f87e31da8c1be11f6a3e935d10c",
+  "result": {
+    "mismatches": 7,
+    "first": [
+      {
+        "arg": 256,
+        "label": "mode1 cls0",
+        "input": "000000000000e03f0000000000000000",
+        "c": [
+          4,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee000000000000e03f0000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ],
+        "orig": [
+          4,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee00000000000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ]
+      },
+      {
+        "arg": 327936,
+        "label": "mode1 tag7 real0.5",
+        "input": "000000000000e03f0000000007000000",
+        "c": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee000000000000e03f0000000001000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ],
+        "orig": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee000000000000e03f0000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ]
+      },
+      {
+        "arg": 327936,
+        "label": "mode1 tag7 realnan",
+        "input": "010000000000f87f0000000007000000",
+        "c": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee010000000000f87f0000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ],
+        "orig": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee010000000000f87f0000000001000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ]
+      },
+      {
+        "arg": 327936,
+        "label": "mode1 tag7 realinf",
+        "input": "000000000000f07f0000000007000000",
+        "c": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee000000000000f07f0000000001000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ],
+        "orig": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee000000000000f07f0000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ]
+      },
+      {
+        "arg": 327936,
+        "label": "mode1 tag10 real-0",
+        "input": "0000000000000080000000000a000000",
+        "c": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee00000000000000800000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ],
+        "orig": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee00000000000000800000000001000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ]
+      },
+      {
+        "arg": 327936,
+        "label": "mode1 tag10 realnan",
+        "input": "010000000000f87f000000000a000000",
+        "c": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee010000000000f87f0000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ],
+        "orig": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee010000000000f87f0000000001000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ]
+      },
+      {
+        "arg": 327936,
+        "label": "mode1 tag13 realnan",
+        "input": "010000000000f87f000000000d000000",
+        "c": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee010000000000f87f0000000001000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ],
+        "orig": [
+          12,
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee010000000000f87f0000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          ""
+        ]
+      }
+    ]
+  },
+  "gates": {
+    "identity": {
+      "pass": false,
+      "mismatches": 7
+    },
+    "coverage_cls_0_15": {
+      "pass": true,
+      "seen": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "coverage_tag_0_15": {
+      "pass": true,
+      "seen": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16777216,
+        33554432,
+        50331648,
+        67108864,
+        83886080,
+        100663296,
+        117440512,
+        134217728,
+        150994944,
+        167772160,
+        184549376,
+        201326592,
+        218103808,
+        234881024,
+        251658240
+      ]
+    },
+    "non_degenerate": {
+      "pass": true,
+      "slots_changed_by_original": 241,
+      "total_cases": 404
+    },
+    "teeth": {
+      "pass": true,
+      "mutants": {
+        "1": {
+          "caught_cases": 36,
+          "pass": true
+        },
+        "2": {
+          "caught_cases": 24,
+          "pass": true
+        },
+        "3": {
+          "caught_cases": 28,
+          "pass": true
+        },
+        "4": {
+          "caught_cases": 80,
+          "pass": true
+        },
+        "5": {
+          "caught_cases": 21,
+          "pass": true
+        }
+      }
+    }
+  },
+  "errors_seen": [
+    "DoNot :: Execution Engine - Cannot operate on string type",
+    "DoNot :: Malformed variable",
+    "DoNot :: illegal array use"
+  ],
+  "wall_s": 1.8,
+  "when": "2026-11-01T00:55:57"
+}

@@ -97,6 +97,31 @@ def build_cases():
             add(mode, cls, slot_from(struct.pack('<Q', 0xbfe0000000000000)),
                 'mode%d cls%d fallthrough' % (mode, cls))
 
+    # mode 1 (`!`): boxType then JS_ToBoolean; the result is ONE byte at
+    # boxed-4 and the return pointer is boxed-4, so the delta is (consumed-4).
+    # array(tag2)/pointer(tag3) hit an unwired callee inside the original's
+    # JS_ToBoolean and stay out of the domain (claims DNOT-ORA-009).
+    bool_payloads = [
+        ('real0', struct.pack('<d', 0.0)),
+        ('real-0', struct.pack('<Q', 0x8000000000000000)),
+        ('real0.5', struct.pack('<d', 0.5)),
+        ('realnan', struct.pack('<Q', 0x7ff8000000000001)),
+        ('realinf', struct.pack('<Q', 0x7ff0000000000000)),
+        ('int32_0', struct.pack('<i', 0)),
+        ('int32_7', struct.pack('<i', 7)),
+        ('int64_0', struct.pack('<q', 0)),
+        ('int64_5', struct.pack('<q', 5)),
+        ('undef', b'\0' * 8),
+        ('null', b'\0' * 8),
+    ]
+    for cls, payload in [(0, struct.pack('<d', 0.5)), (1, struct.pack('<f', 0.0)),
+                         (2, struct.pack('<i', 3)), (3, struct.pack('<q', 0)),
+                         (4, struct.pack('<i', 2))]:
+        add(1, cls, slot_from(payload), 'mode1 cls%d' % cls)
+    for tag in (0, 5, 7, 10, 12, 13):
+        for name, payload in bool_payloads:
+            add(1, 5, slot_from(payload, tag=tag), 'mode1 tag%d %s' % (tag, name))
+
     for _ in range(N_RANDOM):
         cls = rng.choice([0, 1, 2, 3, 4, 5, 6, 7, 15])
         payload = bytes(rng.randrange(256) for _ in range(8))
@@ -108,6 +133,7 @@ def build_cases():
 def build_c(binary: pathlib.Path, mutant: int = 0):
     cmd = ['clang', '-std=c11', '-O1', '-Wall', '-Werror', '-ffp-contract=off',
            '-fno-strict-aliasing', str(RV1 / 'c/do_not.c'),
+           str(RV1 / 'c/box_type.c'),
            str(RV1 / 'c/do_not_driver.c'), '-o', str(binary)]
     if mutant:
         cmd.insert(1, '-DMUTANT=%d' % mutant)
@@ -115,29 +141,39 @@ def build_c(binary: pathlib.Path, mutant: int = 0):
     return binary
 
 
+ARENA = 64
+SLOT = 32
+
+
+def arena_of(slot):
+    return b'\xEE' * SLOT + slot + b'\xEE' * (ARENA - SLOT - len(slot))
+
+
 def run_c(binary, cases):
-    blob = b''.join(struct.pack('<I', arg) + slot for arg, slot, _ in cases)
+    blob = b''.join(struct.pack('<I', arg) + arena_of(slot) for arg, slot, _ in cases)
     out = subprocess.run([str(binary)], input=blob, stdout=subprocess.PIPE, check=True).stdout
-    if len(out) != 148 * len(cases):
-        raise RuntimeError('short C output')
-    return [(struct.unpack('<I', out[i * 148:i * 148 + 4])[0],
-             out[i * 148 + 4:i * 148 + 20],
-             out[i * 148 + 20:(i + 1) * 148].split(b'\0')[0].decode('utf-8', 'replace'))
+    rec_len = 4 + ARENA + 128
+    if len(out) != rec_len * len(cases):
+        raise RuntimeError('short C output: %d for %d cases' % (len(out), len(cases)))
+    return [(struct.unpack('<i', out[i * rec_len:i * rec_len + 4])[0],
+             out[i * rec_len + 4:i * rec_len + 4 + ARENA],
+             out[i * rec_len + 4 + ARENA:(i + 1) * rec_len].split(b'\0')[0].decode('utf-8', 'replace'))
             for i in range(len(cases))]
 
 
 def run_oracle(o, cases):
     res = []
     for arg, slot, _ in cases:
-        buf = o.alloc(16)
-        o.write(buf, slot)
-        ret = o.call(DO_NOT, r0=arg, r1=buf, r2=0, r3=0)
+        arena = o.alloc(ARENA)
+        o.write(arena, arena_of(slot))
+        slotp = arena + SLOT
+        ret = o.call(DO_NOT, r0=arg, r1=slotp, r2=0, r3=0)
         err = ''
         for c in o.calls:
             if c['name'] in ('VMError', 'JSThrowReferenceError', 'JSThrowTypeError'):
                 err = o.read_cstr(c['args'][1])
                 break
-        res.append((0 if ret == buf else 1, bytes(o.read(buf, 16)), err))
+        res.append((ret - slotp, bytes(o.read(arena, ARENA)), err))
     return res
 
 
@@ -171,7 +207,8 @@ def main():
         cls_seen.add((arg >> 16) & 0xF)
         if ((arg >> 16) & 0xF) == 5:
             tag_seen.add(struct.unpack('<I', slot[12:16])[0])
-    changed = sum(1 for (arg, slot, _), w in zip(cases, a_ref) if w[1] != slot)
+    changed = sum(1 for (arg, slot, _), w in zip(cases, a_ref)
+                  if w[1][SLOT:SLOT + 16] != slot)
 
     teeth = {}
     for m in (1, 2, 3, 4, 5):

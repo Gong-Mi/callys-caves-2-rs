@@ -20,8 +20,11 @@
  *       1 → "DoNot :: Execution Engine - Cannot operate on string type" d7b6c（原卡写短式，已由 oracle 纠正）；2 → "DoNot :: illegal array use" d7ba4
  *       3/4/5/6/8/9/11/12 → "DoNot :: Malformed variable" d7be4 ；>13 → malformed（落空到 d79c8）
  *   mode 1（逻辑非 !）：boxType(sp+16, cls, sp) → [sp+0x1c] 若 == 0x00FFFFFF → JSThrowReferenceError
- *       ("could not find lhs variable in logical not") ；JS_ToBoolean(sp+16) → r0^1 → uxtb →
- *       写 1 B 到 boxed_sp-4，返回 boxed_sp-4（4 B 结果）                        ; d7a78..d7abc
+ *       ("could not find lhs variable in logical not") ；JS_ToBoolean(sp+16) → r0^1 →
+ *       **32 位字**写到 boxed_sp-4，返回 boxed_sp-4（原卡写「1 B + uxtb」，oracle 实测是整字，
+ *       见 claims DNOT-ORA-010）                                                  ; d7a78..d7abc
+ *       JS_ToBoolean 按 tag 分档（claims DNOT-ORA-011）：tag 0/7/10 读 8 字节 double（NaN 假）、
+ *       tag 13 读 double 但**无 NaN 检查**（NaN 真）、tag 5/12 假、tag 6 真、tag 1 只看 NULL。
  *   mode 2（按位取反 ~）：boxType(sp, cls, sp) → 同一未解析检查（"could not find lhs variable in binary not"）
  *       ；F_JS_ToInt32(sp+16, sp) → 返回 1 → JSThrowTypeError("Unary ~ could not convert expr to a number")
  *       ；返回非 0 → 直接返回 boxed_sp；返回 0 → vcvt.s32.f64 → mvn → vcvt.f64.s32 → tag 0 压 16 B，返回 boxed_sp-16
@@ -40,7 +43,7 @@
  *
  * ── oracle 臂（2026-11-01，本卡的运行期证据）────────────────────────────
  *   装置：harness/do_not_diff.py（同 do_neg_diff 的三面判据：返回指针 / 16 字节槽 / 错误串），
- *   回执 harness/receipts/do_not_diff-20261101T003428.json：333 例（seed 0xCA11）全 identical，
+ *   回执 harness/receipts/do_not_diff-20261101T005710.json：**404 例**（seed 0xCA11，含 mode 1）全 identical，
  *   identity/coverage(cls 0..15)/coverage(tag 0..15)/non_degenerate/teeth 全 PASS，
  *   5 个 -DMUTANT 变异体分别被 29/17/21/13/14 例抓住。
  *   本轮由 oracle 改写/钉住的语义：
@@ -61,7 +64,9 @@
  *       `vcvt.s32.f32` 结果完全相同（都按截断）。真机 VFP 用 FPSCR.RMode（默认 RN），
  *       所以 cls 1 的 0.6f 类输入在真机可能是 1 而不是 0。这条**未证**，记 narrowed
  *       （claims DNOT-ORA-005），要设备证据才能收口。
- *   未接线：mode 1（! 走 JS_ToBoolean）与 mode 2（~ 走 boxType + F_JS_ToInt32）。
+ *   未接线：mode 2（~ 走 boxType + F_JS_ToInt32）。F_JS_ToInt32 的数值路在 Unicorn 里
+ *   UC_ERR_INSN_INVALID（PC=0x134，未重定位跳板），数组/指针 tag 在 JS_ToBoolean 里同样 fault，
+ *   两条都记 DNOT-ORA-009 的能力边界，不是原版缺陷。
  *
  * ── 本批补证：逻辑非（逐条锚在下方）──
  *   __fixdfdi ×2（double→int64）+ __floatdidf ×2（回 double）+ boxType ×2 + JSThrowReferenceError ×2 + VMError ×4

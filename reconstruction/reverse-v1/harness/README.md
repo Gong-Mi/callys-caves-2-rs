@@ -34,7 +34,7 @@ python3 do_neg_diff.py --no-run # 只重读最近一份回执的门结果
 | 处理器 | 地址 | 覆盖的臂 | 未覆盖的臂 |
 | --- | --- | --- | --- |
 | DoNeg | 0xe096c | mode 0（cls 0..15）+ mode 3..15 落空；282 例 identical | mode 1 / mode 2（需 boxType + F_JS_ToNumber 的真实执行） |
-| DoNot | 0xd7908 | mode 0（cls 0..15）+ mode 3..15 落空；333 例 identical | mode 1（`!`）/ mode 2（`~`，需 boxType + JS_ToBoolean + F_JS_ToInt32） |
+| DoNot | 0xd7908 | mode 0（cls 0..15）+ mode 3..15 落空 + mode 1（`!` 经 boxType + JS_ToBoolean）；404 例 identical | mode 2（`~`）：F_JS_ToInt32 数值路在 Unicorn 里 UC_ERR_INSN_INVALID（PC=0x134），不可测 |
 | boxType | 0xd7784 | 类型 0..9 与越界；97 例 identical | 调用方怎么选类型；k6 对真实字符串对象（只验了指针拷贝） |
 | DoNeg | 0xe096c | 另加 mode 1 / mode 2（经 boxType + F_JS_ToNumber 的 C 模型）；合计 378 例 identical | tag 1 字符串、tag 6 对象、tag 字 0x00FFFFFF 的未解析分支 |
 
@@ -51,6 +51,12 @@ k9「只清 [0]/[4]」、k4「bool 不归一化」三处都是"看起来该写�
 - 原版对 `~`/取负这类运算并不使用「看起来合理」的饱和转换：它调用的是本构建自带的
   `__fixdfdi`/`__fixunsdfdi`（0x3194a0 / 0x319550），其越界行为是 ±Inf → ∓1、DBL_MAX → -1。
   需要时直接把 helper 当被测函数单独 probe，再回到 handler 差分。
+
+- **有的 callee 在这个模拟器里根本跑不起来**：F_JS_ToInt32(0x24d5c8) 的数值路、以及 JS_ToBoolean
+  的 tag 2/3 分支，都会因未重定位的跳板落到 PC=0x134 报 UC_ERR_INSN_INVALID。这不是原版缺陷，
+  是本装置的能力边界：这类处理器只能记 `narrowed` 并点名缺哪个 callee，不许把「没测」写成「一致」。
+- **别按声明宽度猜真值语义**：JS_ToBoolean 对 tag 7/10 的载荷按 8 字节 double 判真，对 tag 13
+  却少了 NaN 检查（NaN 判真）。这种"同一个引擎两套真值规则"只能靠 oracle 逐 tag 打出来。
 
 ## 接下一个处理器时要做什么
 

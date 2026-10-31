@@ -24,13 +24,54 @@
  * "string" text serves both cls 6 and tag 1, array has its own, and every
  * other bad tag (3/4/5/6/8/9/11/12/>13) lands on "Malformed variable".
  * The card's short form "Cannot operate on string type" is not the real text. */
-enum { ERR_STRING, ERR_ARRAY, ERR_MALFORMED };
+enum { ERR_STRING, ERR_ARRAY, ERR_MALFORMED,
+       ERR_REF_BOOL, ERR_REF_BITNOT, ERR_TYPE_BITNOT };
 
 static const char *const k_errors[] = {
     "DoNot :: Execution Engine - Cannot operate on string type",
     "DoNot :: illegal array use",
     "DoNot :: Malformed variable",
+    "could not find lhs variable in logical not",
+    "could not find lhs variable in binary not",
+    "Unary ~ could not convert expr to a number",
 };
+
+/* ── mode 1 (`!`) 的 JS_ToBoolean 模型 ─────────────────────────────────────
+ * 实测（原件 JS_ToBoolean @0x2404bc）：real 的 0/-0/NaN → 0，其余含 ±Inf → 1；
+ * int32/int64 的 0 → 0、非 0 → 1；undefined/null → 0；object(tag 6) → 1；
+ * string 走指针判空（NULL → 0）。array(2) 与 pointer(3) 在原件里会走到未接线的
+ * callee（pc=0x134，UC_ERR_INSN_INVALID），与 F_JS_ToInt32 数值路同因，
+ * 因此**不在本臂输入域**，见 claims DNOT-ORA-009。 */
+extern unsigned char *boxType(unsigned char *dst, unsigned type, const unsigned char *src);
+
+static int js_to_boolean(const unsigned char *src)
+{
+    uint32_t tag;
+    memcpy(&tag, src + 12, 4);
+    switch (tag) {
+    case 0:              /* real：NaN 为假 */
+    case 7:              /* 实测：tag 7/10 也按 8 字节 double 判真，不看整型宽度 ——  */
+    case 10: {           /* tag7 + payload 0.5（低字为 0）原件仍判真，按 int32 读会判假 */
+        double d;
+        memcpy(&d, src, 8);
+        return (d != 0.0 && d == d) ? 1 : 0;
+    }
+    case 13: {           /* tag 13：同样按 double 比较，**但没有 NaN 检查** ——  */
+        double d;        /* NaN != 0.0 成立 ⇒ 原件把 NaN 判成真（与 tag 0 相反） */
+        memcpy(&d, src, 8);
+        return d != 0.0;
+    }
+    case 1: {
+        uint32_t p;
+        memcpy(&p, src, 4);
+        return p != 0;                 /* only the NULL string case was measured */
+    }
+    case 6:
+        return 1;                      /* object */
+    default:
+        return 0;                      /* undefined, null, ... */
+    }
+}
 
 /* TEETH: each mutant must make the differential go RED (-DMUTANT=n only). */
 #ifdef MUTANT
@@ -126,8 +167,28 @@ unsigned char *DoNot(uint32_t arg, unsigned char *sp,
     unsigned mode = (arg >> 8) & 0xFu;
     unsigned cls = (arg >> 16) & 0xFu;
 
-    if (mode != 0 && mode <= 2)
-        return sp;
+    if (mode == 1) {
+        /* `!`: box the operand at a local frame, reject the unresolved-variable
+         * tag, then write ONE byte (the boolean negation) at boxed-4 and return
+         * that address. The stack effect differs from mode 2's 16-byte Real. */
+        unsigned char frame[36];
+        memset(frame, 0, sizeof frame);
+        unsigned char *boxed = boxType(frame, cls, sp);
+        uint32_t tagw;
+        memcpy(&tagw, frame + 12, 4);
+        if ((tagw & 0x00FFFFFFu) == 0x00FFFFFFu) {
+            set_err(ERR_REF_BOOL);
+            return sp;
+        }
+        /* The store is a WORD, not a byte: the oracle shows all four bytes at
+         * boxed-4 cleared/replaced (card said "写 1 B"，实测是 32 位){
+         * — see the mode1 mismatches that forced this. */
+        uint32_t b = (uint32_t)(js_to_boolean(frame) ^ 1);
+        memcpy(boxed - 4, &b, 4);
+        return boxed - 4;
+    }
+    if (mode == 2)
+        return sp;                     /* `~` needs F_JS_ToInt32: not wired, see DNOT-ORA-009 */
 
     switch (cls) {
     case 0: {

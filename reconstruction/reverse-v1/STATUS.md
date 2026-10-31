@@ -11,7 +11,7 @@
     claims               1,742 条（proven 1,469 / narrowed 117 / open 138 / refuted 11 / inferred 7；
                          权威数以 verify_reverse_v1.py 为准，claims.jsonl 是含 20 条重复的局部聚合）
     运行期证据（新）      **3 条 oracle 臂**：DoNeg 378/378（mode 0 + 3..15 + mode 1/2，后者经
-                         boxType + F_JS_ToNumber 的 C 模型）、DoNot 333/333（mode 0 + 3..15）、
+                         boxType + F_JS_ToNumber 的 C 模型）、DoNot 404/404（mode 0 + 3..15 + mode 1）、
                          boxType 97/97（类型 0..9 与越界）。三臂各 5 个变异体有牙。
                          剩余 46 个 Do* 与绝大多数其它函数仍只有静态字节证据
     指令基线             649,229（Thumb 双遍解码）
