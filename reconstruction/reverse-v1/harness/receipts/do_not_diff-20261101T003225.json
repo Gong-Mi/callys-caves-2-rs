@@ -1,0 +1,248 @@
+{
+  "harness": "do_not_diff.py",
+  "target": {
+    "symbol": "_Z5DoNotjPhPKhP6VMExec",
+    "func": "DoNot",
+    "addr": "0xd7908",
+    "so": "libyoyo_armv7.so"
+  },
+  "scope": {
+    "covered": [
+      "mode 0 (strong-typed, cls 0..15)",
+      "mode 3..15 fall-through"
+    ],
+    "not_covered": [
+      "mode 1 (JS ! via JS_ToBoolean)",
+      "mode 2 (~ via boxType + F_JS_ToInt32)"
+    ]
+  },
+  "seed": "0xca11",
+  "cases": 328,
+  "inputs_sha256": "04550c4109921f0d4b0a2b7c826ac26f18c5be82596a6de76f16461b84b5d87e",
+  "c_sha256": "873f291671377ae55a7a2cd80311bdbda89a94186be9cc80c14f827f7b9de7c3",
+  "result": {
+    "mismatches": 35,
+    "first": [
+      {
+        "arg": 0,
+        "label": "cls0 dbl 0x7ff0000000000000",
+        "input": "000000000000f07f0000000000000000",
+        "c": [
+          0,
+          "000000000000e0c30000000000000000",
+          ""
+        ],
+        "orig": [
+          0,
+          "00000000000000000000000000000000",
+          ""
+        ]
+      },
+      {
+        "arg": 0,
+        "label": "cls0 dbl 0xfff0000000000000",
+        "input": "000000000000f0ff0000000000000000",
+        "c": [
+          0,
+          "000000000000e0430000000000000000",
+          ""
+        ],
+        "orig": [
+          0,
+          "00000000000000c00000000000000000",
+          ""
+        ]
+      },
+      {
+        "arg": 0,
+        "label": "cls0 dbl 0x43e0000000000000",
+        "input": "000000000000e0430000000000000000",
+        "c": [
+          0,
+          "000000000000e0c30000000000000000",
+          ""
+        ],
+        "orig": [
+          0,
+          "000000000000e0430000000000000000",
+          ""
+        ]
+      },
+      {
+        "arg": 0,
+        "label": "cls0 dbl 0x7fefffffffffffff",
+        "input": "ffffffffffffef7f0000000000000000",
+        "c": [
+          0,
+          "000000000000e0c30000000000000000",
+          ""
+        ],
+        "orig": [
+          0,
+          "00000000000000000000000000000000",
+          ""
+        ]
+      },
+      {
+        "arg": 327680,
+        "label": "cls5 tag0 dbl2p63",
+        "input": "000000000000e0430000000000000000",
+        "c": [
+          0,
+          "000000000000e0c30000000000000000",
+          ""
+        ],
+        "orig": [
+          0,
+          "000000000000e0430000000000000000",
+          ""
+        ]
+      },
+      {
+        "arg": 327680,
+        "label": "cls5 tag1 dbl0.5",
+        "input": "000000000000e03f0000000001000000",
+        "c": [
+          0,
+          "000000000000e03f0000000001000000",
+          "DoNot :: Cannot operate on string type"
+        ],
+        "orig": [
+          0,
+          "000000000000e03f0000000001000000",
+          "DoNot :: Execution Engine - Cannot operate on string type"
+        ]
+      },
+      {
+        "arg": 327680,
+        "label": "cls5 tag1 dbl-0.5",
+        "input": "000000000000e0bf0000000001000000",
+        "c": [
+          0,
+          "000000000000e0bf0000000001000000",
+          "DoNot :: Cannot operate on string type"
+        ],
+        "orig": [
+          0,
+          "000000000000e0bf0000000001000000",
+          "DoNot :: Execution Engine - Cannot operate on string type"
+        ]
+      },
+      {
+        "arg": 327680,
+        "label": "cls5 tag1 dbl2p63",
+        "input": "000000000000e0430000000001000000",
+        "c": [
+          0,
+          "000000000000e0430000000001000000",
+          "DoNot :: Cannot operate on string type"
+        ],
+        "orig": [
+          0,
+          "000000000000e0430000000001000000",
+          "DoNot :: Execution Engine - Cannot operate on string type"
+        ]
+      }
+    ]
+  },
+  "gates": {
+    "identity": {
+      "pass": false,
+      "mismatches": 35
+    },
+    "coverage_cls_0_15": {
+      "pass": true,
+      "seen": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "coverage_tag_0_15": {
+      "pass": true,
+      "seen": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16777216,
+        33554432,
+        50331648,
+        67108864,
+        83886080,
+        100663296,
+        117440512,
+        134217728,
+        150994944,
+        167772160,
+        184549376,
+        201326592,
+        218103808,
+        234881024,
+        251658240
+      ]
+    },
+    "non_degenerate": {
+      "pass": true,
+      "slots_changed_by_original": 169,
+      "total_cases": 328
+    },
+    "teeth": {
+      "pass": true,
+      "mutants": {
+        "1": {
+          "caught_cases": 57,
+          "pass": true
+        },
+        "2": {
+          "caught_cases": 52,
+          "pass": true
+        },
+        "3": {
+          "caught_cases": 53,
+          "pass": true
+        },
+        "4": {
+          "caught_cases": 48,
+          "pass": true
+        },
+        "5": {
+          "caught_cases": 49,
+          "pass": true
+        }
+      }
+    }
+  },
+  "errors_seen": [
+    "DoNot :: Execution Engine - Cannot operate on string type",
+    "DoNot :: Malformed variable",
+    "DoNot :: illegal array use"
+  ],
+  "wall_s": 2.0,
+  "when": "2026-11-01T00:32:25"
+}

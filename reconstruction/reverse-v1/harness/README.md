@@ -33,7 +33,18 @@ python3 do_neg_diff.py --no-run # 只重读最近一份回执的门结果
 
 | 处理器 | 地址 | 覆盖的臂 | 未覆盖的臂 |
 | --- | --- | --- | --- |
-| DoNeg | 0xe096c | mode 0（cls 0..15）+ mode 3..15 落空 | mode 1 / mode 2（需 boxType + F_JS_ToNumber 的真实执行） |
+| DoNeg | 0xe096c | mode 0（cls 0..15）+ mode 3..15 落空；282 例 identical | mode 1 / mode 2（需 boxType + F_JS_ToNumber 的真实执行） |
+| DoNot | 0xd7908 | mode 0（cls 0..15）+ mode 3..15 落空；333 例 identical | mode 1（`!`）/ mode 2（`~`，需 boxType + JS_ToBoolean + F_JS_ToInt32） |
+
+## 装置自身的边界（读到 identical 之前先读这一节）
+
+- **Unicorn 不建模 FPSCR 的舍入模式。** 把 RMode 设成 RN/RP/RM/RZ 四种，`vcvt.s32.f32`
+  的结果完全相同（都按截断）。真机 VFP 按 FPSCR.RMode（默认 RN）舍入，所以凡是走
+  「浮点→整型」的臂（DoNot cls 1 就是），**本装置不能判**：它只能证明「C 与 Unicorn 一致」，
+  不能证明「与真机一致」。这类项一律记 `narrowed`，并在卡头写明要设备证据。
+- 原版对 `~`/取负这类运算并不使用「看起来合理」的饱和转换：它调用的是本构建自带的
+  `__fixdfdi`/`__fixunsdfdi`（0x3194a0 / 0x319550），其越界行为是 ±Inf → ∓1、DBL_MAX → -1。
+  需要时直接把 helper 当被测函数单独 probe，再回到 handler 差分。
 
 ## 接下一个处理器时要做什么
 

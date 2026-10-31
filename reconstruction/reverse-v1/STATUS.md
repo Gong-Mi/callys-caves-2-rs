@@ -10,9 +10,9 @@
     跨卡共享地址          0
     claims               1,742 条（proven 1,469 / narrowed 117 / open 138 / refuted 11 / inferred 7；
                          权威数以 verify_reverse_v1.py 为准，claims.jsonl 是含 20 条重复的局部聚合）
-    运行期证据（新）      **1 个处理器臂**：DoNeg mode 0 + 3..15，原版 Unicorn vs C 重建 282/282 identical，
-                         5 个变异体有牙（2/17/20/31/14 例）。这是本线第一批 oracle_anchored 的处理器证据，
-                         其余 47 个 Do* 仍只有静态字节（见下方「运行期证据」节）
+    运行期证据（新）      **2 个处理器臂**：DoNeg mode 0 + 3..15 = 282/282 identical；DoNot mode 0 + 3..15
+                         = 333/333 identical（含首轮抓出 35 条真实分歧后修正）。两臂各 5 个变异体有牙。
+                         这是本线第一批 oracle_anchored 的处理器证据，其余 46 个 Do* 仍只有静态字节
     指令基线             649,229（Thumb 双遍解码）
     函数                 9,538 具名 + 272 匿名块 → 636 段
     覆盖口径（机械账，已闭合） asm/instructions.jsonl 的 649,229 条指令 **全部落锚**；跨卡共享地址 0。
@@ -31,16 +31,22 @@
 
 本线此前全部是 `bytecode_anchored`。现在有了第一个**原版二进制 vs C 重建**的差分臂：
 
-    装置      reconstruction/reverse-v1/harness/{handler_oracle.py,do_neg_diff.py}
+    装置      reconstruction/reverse-v1/harness/{handler_oracle.py,do_neg_diff.py,do_not_diff.py}
     C 重建    reconstruction/reverse-v1/c/do_neg.c（tier: bytecode_anchored 的直译）
     判据      返回栈指针 / 16 字节槽 / VMError 文案，三面逐例全等
     输入域    seed 0xCA11，282 例；cls 0..15、tag 0..15 全覆盖 + 随机尾 120
-    回执      harness/receipts/do_neg_diff-20261101T002634.json（含输入 sha256 与 C 源 sha256）
+    回执      receipts/do_neg_diff-20261101T002634.json、receipts/do_not_diff-20261101T003428.json
+              （各含输入 sha256 与 C 源 sha256，重跑同结果）
     门        identity / coverage×2 / non_degenerate / teeth 全 PASS
     判别性反例 5 个 -DMUTANT 变异体分别被 2/17/20/31/14 例抓住
 
-    由它纠正的原卡错误  DoNeg.c 段 2 把 cls 6 的文案写成 "DoNeg :1: …"，
-                        实际是 "DoNeg :: …"（带 :1: 的是 cls 5 tag1）→ claims NEG-ORA-007 记 refuted
+    由它纠正的原卡错误  DoNeg.c 段 2 把 cls 6 的文案写成 "DoNeg :1: …"，实际是 "DoNeg :: …"
+                        （带 :1: 的是 cls 5 tag1）→ NEG-ORA-007 refuted；DoNot.c tag1 文案写成短式
+                        "Cannot operate on string type"，实际是 "DoNot :: Execution Engine - …" → DNOT-ORA-004
+    由它推翻的"合理模型" DoNot cls 0 的 ~ 不是符号翻转、也不是饱和转换：原版走
+                        __fixdfdi(0x3194a0, 非饱和) → NOT → __floatdidf，实测 +Inf→-1.0、-Inf→+1.0、
+                        2^63→2^63、DBL_MAX→-1.0 → DNOT-ORA-002（首轮 35 条 mismatch 抓出来的）
+    装置边界            Unicorn 不建模 FPSCR.RMode，浮点→整型的舍入本装置判不了 → DNOT-ORA-005 narrowed
     由它新增的语义      tag 字是**整字比较**（无掩码），高字节非零一律 Malformed；NEG-ORA-006
     仍未覆盖            mode 1 / mode 2（需 boxType + F_JS_ToNumber 真实执行）→ NEG-ORA-010 narrowed
 

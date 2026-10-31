@@ -17,7 +17,7 @@
  *   cls 5 的 tag 跳表（cmp r2,#13；表基 d79cc）：
  *       0 → double 取反（__fixdfdi/mvn/mvn/__floatdidf）d7b84 ；13 → 同上
  *       7 → int32 mvn d7960 ；10 → int64 mvn pair d7b50
- *       1 → "Cannot operate on string type" d7b6c ；2 → "DoNot :: illegal array use" d7ba4
+ *       1 → "DoNot :: Execution Engine - Cannot operate on string type" d7b6c（原卡写短式，已由 oracle 纠正）；2 → "DoNot :: illegal array use" d7ba4
  *       3/4/5/6/8/9/11/12 → "DoNot :: Malformed variable" d7be4 ；>13 → malformed（落空到 d79c8）
  *   mode 1（逻辑非 !）：boxType(sp+16, cls, sp) → [sp+0x1c] 若 == 0x00FFFFFF → JSThrowReferenceError
  *       ("could not find lhs variable in logical not") ；JS_ToBoolean(sp+16) → r0^1 → uxtb →
@@ -37,6 +37,31 @@
  *      各走专属消息，说明 `~` 在原版里是"数值运算"而不是"逐位操作任意布局"。
  * open：mode 0 的载荷是否就是 RValue 的 +0.. 裸类型数据（DoAdd 卡已证 mode 0 的槽是裸类型数据，此处只做了
  *       "就地改载荷、不写 tag"的观察，未做跨函数闭合）；tag 13 与 tag 0 的区别；mode 2 走 int32 中转而非 int64 的理由。
+ *
+ * ── oracle 臂（2026-11-01，本卡的运行期证据）────────────────────────────
+ *   装置：harness/do_not_diff.py（同 do_neg_diff 的三面判据：返回指针 / 16 字节槽 / 错误串），
+ *   回执 harness/receipts/do_not_diff-20261101T003428.json：333 例（seed 0xCA11）全 identical，
+ *   identity/coverage(cls 0..15)/coverage(tag 0..15)/non_degenerate/teeth 全 PASS，
+ *   5 个 -DMUTANT 变异体分别被 29/17/21/13/14 例抓住。
+ *   本轮由 oracle 改写/钉住的语义：
+ *     · **cls 0 的取反不是符号翻转，也不是"饱和"转换**。原版链是 double → __fixdfdi(0x3194a0)
+ *       → mvn/mvn(按位取反) → __floatdidf(0x319164) → strd，而 __fixdfdi 是本构建自己的
+ *       包装：`x<0 ? -(__fixunsdfdi(x 高字 +0x80000000)) : (int64)__fixunsdfdi(x)`，
+ *       __fixunsdfdi 在 x<0 或 NaN 返 0、x≥2^64 返 UINT64_MAX。实测后果：
+ *       +Inf → 0xFFFFFFFFFFFFFFFF → -1.0；-Inf → 转成 +Inf → 取负 → **+1.0**；
+ *       2^63 → INT64_MIN → ~ → INT64_MAX → 2^63；DBL_MAX → -1.0；NaN → 0 → ~ → -1.0。
+ *       写成"翻符号位"的实现被 mutant 1 抓住 29 例——这条是本卡原来没有的运行期事实。
+ *     · cls 4 = (x≤1) ? 1-x : 0，比较是**无符号**（rsbs 带借位判 movlo）；写成有符号比较
+ *       被 mutant 2 抓住 17 例。
+ *     · tag 1 的文案是 "DoNot :: Execution Engine - Cannot operate on string type"（与 cls 6
+ *       同一条池串），tag 3/4/5/6/8/9/11/12/>13 全部落 "DoNot :: Malformed variable"；
+ *       本 handler 只有 3 条不同文案。
+ *   装置边界（本轮新发现，读这条卡的 identical 之前先读它）：
+ *     · **Unicorn 不建模 FPSCR 的舍入模式**：把 RMode 设成 RN/RP/RM/RZ 四种，cls 1 的
+ *       `vcvt.s32.f32` 结果完全相同（都按截断）。真机 VFP 用 FPSCR.RMode（默认 RN），
+ *       所以 cls 1 的 0.6f 类输入在真机可能是 1 而不是 0。这条**未证**，记 narrowed
+ *       （claims DNOT-ORA-005），要设备证据才能收口。
+ *   未接线：mode 1（! 走 JS_ToBoolean）与 mode 2（~ 走 boxType + F_JS_ToInt32）。
  *
  * ── 本批补证：逻辑非（逐条锚在下方）──
  *   __fixdfdi ×2（double→int64）+ __floatdidf ×2（回 double）+ boxType ×2 + JSThrowReferenceError ×2 + VMError ×4
