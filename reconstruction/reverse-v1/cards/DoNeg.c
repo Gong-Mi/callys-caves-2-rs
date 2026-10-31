@@ -13,7 +13,7 @@
  *       cls 3 int64 (8B) ：ldrd / rsbs r4,r4,#0 / rsc r5,r5,#0 / strd           ; e09b4 → e09dc
  *       cls 4 bool  (4B) ：与 int32 同一条 rsb 路径                            ; e09b8 → e09c4
  *       cls 5 RValue(16B)：读 +0xc 的 tag 走 14 路跳表                          ; e09bc → e09f8
- *       cls 6 string(4B) ：VMError "DoNeg :1: Execution Engine - Cannot operate on string type" ; e09c0 → e0a40
+ *       cls 6 string(4B) ：VMError "DoNeg :: Execution Engine - Cannot operate on string type" ; e09c0 → e0a40
  *       cls >6           ：原样返回 r6（不动栈）                                ; e09a4 → e0cbc
  *   cls 5 的 tag 跳表（cmp r2,#13；表基 e0a08）：
  *       0 → 翻符号位（ldr r4/r5 / eor r5,#0x80000000 / stm）e0c28 ；13 → 同上
@@ -26,6 +26,25 @@
  *       ；结果 tag 0（Real）压在 boxType 返回值 -16；NaN（vcmp 无序）显式落 0x7FFFFFFF_FFFFFFFF      ; e0a8c..e0b18
  *   mode 2（纯数值化）：与 mode 1 逐指令同构，唯一差别是不做 vneg，直接把转好的 double 原样压回       ; e0b1c..e0b94
  *   失败清理：读 [sp+0x1c] 的 out-tag，(tag-1)&0x00FFFFFC != 0 → 直接返回；== 0 → FREE_RValue__Pre 后返回 ; e0c80..e0ca8
+ *
+ * ── oracle 臂（2026-11-01，本卡唯一的运行期证据）────────────────────────────
+ *   装置：reconstruction/reverse-v1/harness/do_neg_diff.py —— 原版 DoNeg @0xe096c 在
+ *   Unicorn 里执行（libyoyo_armv7.so sha 3bbedd09…），C 重建 c/do_neg.c 编译成宿主
+ *   二进制，两侧吃同一批 282 例（seed 0xCA11），逐例比 **返回栈指针 / 16 字节槽 /
+ *   VMError 文案**三面。回执 harness/receipts/do_neg_diff-20261101T002634.json。
+ *   结论：282/282 identical，gates identity / coverage(cls 0..15) / coverage(tag 0..15) /
+ *   non_degenerate 全 PASS；五个 -DMUTANT 变异体分别被 2/17/20/31/14 例抓住（装置有牙）。
+ *   本轮由 oracle 钉住/纠正的语义：
+ *     · cls 0/1 的取负是**符号位翻转**：NaN 载荷与静默位保留、±Inf 互换、-0.0→+0.0；
+ *     · cls 2/4 按 32 位回绕（0x80000000 → 0x80000000），cls 3 按 64 位回绕；
+ *     · cls 5 tag∈{0,13} 只翻载荷**高 32 位字**（低字不动），不是翻转整个 double；
+ *     · **tag 判定是整字比较**（无掩码）：tag 字带非零高字节（0x07000000…）一律落
+ *       "Malformed variable"，不会按低字节退化成 tag 7/13 的数字路径。原卡只写了
+ *       "读 +0xc 的 tag"，未写这句话，已由本轮补上；
+ *     · cls 6 文案是 **"DoNeg ::"**（双冒号）。原卡写成 ":1:" 是错的，带 :1: 的那条
+ *       属于 cls 5 的 tag 1 分支——本条以 refuted 记在 claims-batchND.jsonl NEG-ORA-007。
+ *   未覆盖（narrowed，claims NEG-ORA-010）：mode 1 / mode 2 要真跑 boxType(0xd7784) 与
+ *   F_JS_ToNumber(0x24cfac)，本 harness 尚未给这两个 callee 接线，仍只有静态字节证据。
  *
  * 结论：
  *   1. 一个 DoNeg 承载三种 opcode 形态：强类型取负（mode 0）、通用取负（mode 1）、纯数值化（mode 2，等价 JS 一元 +）。

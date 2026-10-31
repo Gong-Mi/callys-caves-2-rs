@@ -5,10 +5,14 @@
 
 ## 账
 
-    cards                244 张全部已提交；多节卡按 @func 算 9,083 节 + 3 张残段卡
+    cards                245 张全部已提交；多节卡按 @func 算 9,083 节 + 3 张残段卡
     anchors              **649,229 条 = census 指令基线 100%**（每条指令恰好一张卡主张），全部 RESULT EXACT
     跨卡共享地址          0
-    claims               1,723 条（proven 1,456 / narrowed 116 / open 137 / refuted 7 / inferred 7）
+    claims               1,742 条（proven 1,469 / narrowed 117 / open 138 / refuted 11 / inferred 7；
+                         权威数以 verify_reverse_v1.py 为准，claims.jsonl 是含 20 条重复的局部聚合）
+    运行期证据（新）      **1 个处理器臂**：DoNeg mode 0 + 3..15，原版 Unicorn vs C 重建 282/282 identical，
+                         5 个变异体有牙（2/17/20/31/14 例）。这是本线第一批 oracle_anchored 的处理器证据，
+                         其余 47 个 Do* 仍只有静态字节（见下方「运行期证据」节）
     指令基线             649,229（Thumb 双遍解码）
     函数                 9,538 具名 + 272 匿名块 → 636 段
     覆盖口径（机械账，已闭合） asm/instructions.jsonl 的 649,229 条指令 **全部落锚**；跨卡共享地址 0。
@@ -22,6 +26,33 @@
                          ⚠ 生成器缺陷已修（RESIDUE-001）：gen_func_cards.py 原用 4 字节步进取指令，
                          Thumb-2 函数会被漏掉一半字指令；现已改为按 instructions.jsonl 的真实地址遍历。
                          ⚠ 旧口径（63.6% → 78.4% → 87.6%）作废：分子取全库 @func（含不可达库函数）、分母只算可达字节。
+
+## 运行期证据（oracle 臂，2026-11-01 起）
+
+本线此前全部是 `bytecode_anchored`。现在有了第一个**原版二进制 vs C 重建**的差分臂：
+
+    装置      reconstruction/reverse-v1/harness/{handler_oracle.py,do_neg_diff.py}
+    C 重建    reconstruction/reverse-v1/c/do_neg.c（tier: bytecode_anchored 的直译）
+    判据      返回栈指针 / 16 字节槽 / VMError 文案，三面逐例全等
+    输入域    seed 0xCA11，282 例；cls 0..15、tag 0..15 全覆盖 + 随机尾 120
+    回执      harness/receipts/do_neg_diff-20261101T002634.json（含输入 sha256 与 C 源 sha256）
+    门        identity / coverage×2 / non_degenerate / teeth 全 PASS
+    判别性反例 5 个 -DMUTANT 变异体分别被 2/17/20/31/14 例抓住
+
+    由它纠正的原卡错误  DoNeg.c 段 2 把 cls 6 的文案写成 "DoNeg :1: …"，
+                        实际是 "DoNeg :: …"（带 :1: 的是 cls 5 tag1）→ claims NEG-ORA-007 记 refuted
+    由它新增的语义      tag 字是**整字比较**（无掩码），高字节非零一律 Malformed；NEG-ORA-006
+    仍未覆盖            mode 1 / mode 2（需 boxType + F_JS_ToNumber 真实执行）→ NEG-ORA-010 narrowed
+
+**怎么读这条账**：这是 1 个处理器的 1 个臂，不是 48 个处理器。其余 47 个 Do* 与全部房间/实例/
+变量函数仍然只有静态字节证据。接下一个处理器的流程与门定义写在 `harness/README.md`，
+新臂一律先写变异体再谈 identical。
+
+**账本对新标准的合规性**（只读审计，不改 status）：
+`reconstruction/contracts/claims-standard-audit.md`，由 `scripts/claim_standard_audit.py` 生成。
+1,742 条去重 claims 里，正文带装置（oracle/harness/seed/回执）的 87 条，纯静态地址的 898 条，
+**正文断言运行期行为但证据只有地址的 694 条**（这批按新标准只能当 `bytecode_anchored` 引用，
+不得作行为门）。审计只给分类与样本，降级动作留给账本所有者，改完须重跑 `verify_reverse_v1.py`。
 
 ## 已定性（有卡、有锚点、能指名到函数）
 

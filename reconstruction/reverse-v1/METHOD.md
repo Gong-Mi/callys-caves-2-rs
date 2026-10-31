@@ -5,7 +5,8 @@
 ## 1. 证据分层（不许混报）
 
     bytecode_anchored  每条指令都锚到二进制里的同一条指令，语义从 asm 推出
-    oracle_anchored    与原版运行时/活体的数据对过（本仓库只用于少数实例表/房间表）
+    oracle_anchored    与原版运行时/活体的数据对过（实例表/房间表 → 活体读内存；处理器语义 → 原版函数在
+                       Unicorn 里执行后与 C 重建逐例对拍，见 reconstruction/reverse-v1/harness/）
     test_anchored      只证明"两个自研实现互相一致"（C↔VM 差分属于这一层）
     host_authored      手写实现，没有原版对应（c-recon/src/*.c 属于这一层）
 
