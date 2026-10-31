@@ -10,9 +10,10 @@
     跨卡共享地址          0
     claims               1,742 条（proven 1,469 / narrowed 117 / open 138 / refuted 11 / inferred 7；
                          权威数以 verify_reverse_v1.py 为准，claims.jsonl 是含 20 条重复的局部聚合）
-    运行期证据（新）      **2 个处理器臂**：DoNeg mode 0 + 3..15 = 282/282 identical；DoNot mode 0 + 3..15
-                         = 333/333 identical（含首轮抓出 35 条真实分歧后修正）。两臂各 5 个变异体有牙。
-                         这是本线第一批 oracle_anchored 的处理器证据，其余 46 个 Do* 仍只有静态字节
+    运行期证据（新）      **3 条 oracle 臂**：DoNeg 378/378（mode 0 + 3..15 + mode 1/2，后者经
+                         boxType + F_JS_ToNumber 的 C 模型）、DoNot 333/333（mode 0 + 3..15）、
+                         boxType 97/97（类型 0..9 与越界）。三臂各 5 个变异体有牙。
+                         剩余 46 个 Do* 与绝大多数其它函数仍只有静态字节证据
     指令基线             649,229（Thumb 双遍解码）
     函数                 9,538 具名 + 272 匿名块 → 636 段
     覆盖口径（机械账，已闭合） asm/instructions.jsonl 的 649,229 条指令 **全部落锚**；跨卡共享地址 0。

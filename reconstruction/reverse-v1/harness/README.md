@@ -35,6 +35,12 @@ python3 do_neg_diff.py --no-run # 只重读最近一份回执的门结果
 | --- | --- | --- | --- |
 | DoNeg | 0xe096c | mode 0（cls 0..15）+ mode 3..15 落空；282 例 identical | mode 1 / mode 2（需 boxType + F_JS_ToNumber 的真实执行） |
 | DoNot | 0xd7908 | mode 0（cls 0..15）+ mode 3..15 落空；333 例 identical | mode 1（`!`）/ mode 2（`~`，需 boxType + JS_ToBoolean + F_JS_ToInt32） |
+| boxType | 0xd7784 | 类型 0..9 与越界；97 例 identical | 调用方怎么选类型；k6 对真实字符串对象（只验了指针拷贝） |
+| DoNeg | 0xe096c | 另加 mode 1 / mode 2（经 boxType + F_JS_ToNumber 的 C 模型）；合计 378 例 identical | tag 1 字符串、tag 6 对象、tag 字 0x00FFFFFF 的未解析分支 |
+
+第三条臂（boxType）格外值得先做：所有通用路径都要过它，而它的 k7/8/>9「一个字节都不写」、
+k9「只清 [0]/[4]」、k4「bool 不归一化」三处都是"看起来该写点什么"的陷阱。装置做法是把目标槽
+预填 0xEE 毒值，于是「没写」变成可观测量。
 
 ## 装置自身的边界（读到 identical 之前先读这一节）
 

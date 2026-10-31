@@ -119,6 +119,29 @@ def build_cases():
             add(mode, cls, slot_from(struct.pack('<Q', 0x3ff0000000000000)),
                 'mode%d cls%d fallthrough' % (mode, cls))
 
+    # mode 1 (generic negate) and mode 2 (plain numeric coercion): boxType then
+    # F_JS_ToNumber. Strings (tag 1) and objects (tag 6) are out of the domain -
+    # see the C header; everything numeric or no-op is in.
+    m12_payloads = [
+        ('real2.75', struct.pack('<d', 2.75)),
+        ('real-0.0', struct.pack('<Q', 0x8000000000000000)),
+        ('real_nan', struct.pack('<Q', 0x7ff8000000000001)),
+        ('real_inf', struct.pack('<Q', 0x7ff0000000000000)),
+        ('int32_5', struct.pack('<i', 5)),
+        ('int64_big', struct.pack('<q', -9007199254740993)),
+        ('zero', b'\0' * 8),
+    ]
+    for mode in (1, 2):
+        for cls, payload in [(0, struct.pack('<d', 1.5)), (1, struct.pack('<f', -3.25)),
+                             (2, struct.pack('<i', -9)), (3, struct.pack('<q', 1 << 40)),
+                             (4, struct.pack('<i', 1))]:
+            add(mode, cls, slot_from(payload), 'mode%d cls%d' % (mode, cls))
+        for tag in (0, 5, 7, 10, 12, 13, 2, 3, 4, 11):
+            for name, payload in m12_payloads[:4]:
+                add(mode, 5, slot_from(payload, tag=tag), 'mode%d tag%d %s' % (mode, tag, name))
+        for name, payload in m12_payloads[4:]:
+            add(mode, 5, slot_from(payload, tag=7), 'mode%d tag7 %s' % (mode, name))
+
     # random tail: keeps the domain from being a hand-picked happy path.
     for _ in range(N_RANDOM):
         cls = rng.choice([0, 1, 2, 3, 4, 5, 6, 7, 15])
@@ -133,6 +156,7 @@ def build_cases():
 def build_c(binary: pathlib.Path, mutant: int = 0):
     cmd = ['clang', '-std=c11', '-O1', '-Wall', '-Werror', '-ffp-contract=off',
            '-fno-strict-aliasing', str(RV1 / 'c/do_neg.c'),
+           str(RV1 / 'c/box_type.c'),
            str(RV1 / 'c/do_neg_driver.c'), '-o', str(binary)]
     if mutant:
         cmd.insert(1, '-DMUTANT=%d' % mutant)
@@ -140,32 +164,43 @@ def build_c(binary: pathlib.Path, mutant: int = 0):
     return binary
 
 
+ARENA = 64
+SLOT = 32
+
+
+def arena_of(slot):
+    """32 bytes of poisoned slack below the operand slot, 16 above."""
+    return b'\xEE' * SLOT + slot + b'\xEE' * (ARENA - SLOT - len(slot))
+
+
 def run_c(binary: pathlib.Path, cases):
-    blob = b''.join(struct.pack('<I', arg) + slot for arg, slot, _ in cases)
+    blob = b''.join(struct.pack('<I', arg) + arena_of(slot) for arg, slot, _ in cases)
     proc = subprocess.run([str(binary)], input=blob, stdout=subprocess.PIPE, check=True)
-    if len(proc.stdout) != 148 * len(cases):
+    rec_len = 4 + ARENA + 128
+    if len(proc.stdout) != rec_len * len(cases):
         raise RuntimeError('short C output: %d bytes for %d cases'
                            % (len(proc.stdout), len(cases)))
     out = []
     for i in range(len(cases)):
-        rec = proc.stdout[i * 148:(i + 1) * 148]
-        out.append((struct.unpack('<I', rec[:4])[0], rec[4:20],
-                    rec[20:].split(b'\0')[0].decode('utf-8', 'replace')))
+        rec = proc.stdout[i * rec_len:(i + 1) * rec_len]
+        out.append((struct.unpack('<i', rec[:4])[0], rec[4:4 + ARENA],
+                    rec[4 + ARENA:].split(b'\0')[0].decode('utf-8', 'replace')))
     return out
 
 
 def run_oracle(o: Oracle, cases):
     out = []
     for arg, slot, _label in cases:
-        buf = o.alloc(16)
-        o.write(buf, slot)
-        ret = o.call(DO_NEG, r0=arg, r1=buf, r2=0, r3=0)
+        arena = o.alloc(ARENA)
+        o.write(arena, arena_of(slot))
+        slotp = arena + SLOT
+        ret = o.call(DO_NEG, r0=arg, r1=slotp, r2=0, r3=0)
         err = ''
         for c in o.calls:
             if c['name'] in ('VMError', 'JSThrowReferenceError', 'JSThrowTypeError'):
                 err = o.read_cstr(c['args'][1])
                 break
-        out.append((0 if ret == buf else 1, bytes(o.read(buf, 16)), err))
+        out.append((ret - slotp, bytes(o.read(arena, ARENA)), err))
     return out
 
 
@@ -207,7 +242,8 @@ def main():
                                'orig': [want[0], want[1].hex(), want[2]]})
 
     # non-degenerate: the strong-typed arm must actually transform the slot
-    changed = sum(1 for (arg, slot, _), want in zip(cases, a_ref) if want[1] != slot)
+    changed = sum(1 for (arg, slot, _), want in zip(cases, a_ref)
+                  if want[1][SLOT:SLOT + 16] != slot)
     cls_seen, tag_seen = gate_coverage(cases)
 
     teeth = {}

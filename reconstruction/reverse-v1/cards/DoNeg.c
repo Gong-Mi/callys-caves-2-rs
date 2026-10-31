@@ -43,8 +43,14 @@
  *       "读 +0xc 的 tag"，未写这句话，已由本轮补上；
  *     · cls 6 文案是 **"DoNeg ::"**（双冒号）。原卡写成 ":1:" 是错的，带 :1: 的那条
  *       属于 cls 5 的 tag 1 分支——本条以 refuted 记在 claims-batchND.jsonl NEG-ORA-007。
- *   未覆盖（narrowed，claims NEG-ORA-010）：mode 1 / mode 2 要真跑 boxType(0xd7784) 与
- *   F_JS_ToNumber(0x24cfac)，本 harness 尚未给这两个 callee 接线，仍只有静态字节证据。
+ *   mode 1 / mode 2（2026-11-01 同日补）—— 给 boxType(0xd7784) 与 F_JS_ToNumber(0x24cfac)
+ *   接线后一并进了差分：378 例全 identical（原 282 + 96）。由这一臂钉住的两条运行期事实：
+ *     · mode 1 的 NaN 规范化是显式分支：NaN → 0x7FFFFFFF_FFFFFFFF（清符号位），非 NaN 才 vneg；
+ *     · 返回位移随 cls 的装箱宽度变：boxType 消费 n 字节 ⇒ 结果写 boxed−16、tag 写 boxed−4 ⇒
+ *       返回 sp 的位移 = n − 16（cls 0/3/5 → −8/−8/0，cls 1/2/4 → −12）。「所有 mode1/2 都写
+ *       sp−16」只在 cls 5 成立，是本轮纠正的直觉。
+ *   仍未进输入域（claims NEG-ORA-012 写明）：tag 1 字符串（需 strtod 解析）、tag 6 对象
+ *   （原件自身在转换路径上 fault）；tag 字为 0x00FFFFFF 的未解析变量分支也没有消费者能造出来。
  *
  * 结论：
  *   1. 一个 DoNeg 承载三种 opcode 形态：强类型取负（mode 0）、通用取负（mode 1）、纯数值化（mode 2，等价 JS 一元 +）。

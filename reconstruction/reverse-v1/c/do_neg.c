@@ -32,7 +32,8 @@
 
 /* Error text, byte-for-byte from .rodata (see harness receipt `errors_seen`).
  * Kept in one table so no build (mutant or not) trips -Wunused-const-variable. */
-enum { ERR_CLS6, ERR_POINTER, ERR_UNDEFINED, ERR_STRING, ERR_ARRAY, ERR_MALFORMED };
+enum { ERR_CLS6, ERR_POINTER, ERR_UNDEFINED, ERR_STRING, ERR_ARRAY, ERR_MALFORMED,
+       ERR_REF_UNARY, ERR_TYPE_UNARY };
 
 static const char *const k_errors[] = {
     "DoNeg :: Execution Engine - Cannot operate on string type",
@@ -41,6 +42,8 @@ static const char *const k_errors[] = {
     "DoNeg :1: Execution Engine - Cannot operate on string type",
     "DoNeg :1: illegal array use",
     "DoNeg :1: Malformed variable",
+    "could not find lhs variable in unary-",
+    "Unary - could not convert expr to a number",
 };
 
 /* The oracle records the emitted text; the C side reports it the same way so a
@@ -74,6 +77,51 @@ static void set_err(int idx) { g_error = k_errors[idx]; }
 static int32_t neg_i32(uint32_t v) { return (int32_t)(0u - v); }
 static int64_t neg_i64(uint64_t v) { return (int64_t)(0ull - v); }
 
+/* ── mode 1 / mode 2 ────────────────────────────────────────────────────────
+ * Both call boxType() then F_JS_ToNumber(); mode 1 negates, mode 2 does not.
+ * F_JS_ToNumber's C side below is the part measured against the original, not
+ * assumed: real/int32/int64 convert, undefined and null give 0.0, and the
+ * non-numeric tags (array/pointer/bool/undefined-8/9/11/14) are a silent no-op
+ * that leaves the caller's zeroed slot alone. Strings (tag 1) need strtod and
+ * are OUT of the domain; tag 6 (object) faults on the convert path in the
+ * original itself, so it cannot be exercised here either. */
+extern unsigned char *boxType(unsigned char *dst, unsigned type, const unsigned char *src);
+
+static int js_to_number(unsigned char *dst, const unsigned char *src)
+{
+    uint32_t tag;
+    memcpy(&tag, src + 12, 4);
+    switch (tag) {
+    case 0:
+    case 13: {
+        memcpy(dst, src, 8);
+        return 0;
+    }
+    case 7: {
+        int32_t v;
+        memcpy(&v, src, 4);
+        double d = (double)v;
+        memcpy(dst, &d, 8);
+        return 0;
+    }
+    case 10: {
+        int64_t v;
+        memcpy(&v, src, 8);
+        double d = (double)v;
+        memcpy(dst, &d, 8);
+        return 0;
+    }
+    case 5:
+    case 12: {
+        double d = 0.0;
+        memcpy(dst, &d, 8);
+        return 0;
+    }
+    default:
+        return 0;                       /* silent no-op, dst stays as caller left it */
+    }
+}
+
 unsigned char *DoNeg(uint32_t arg, unsigned char *sp,
                      const unsigned char *base, void *exec)
 {
@@ -83,8 +131,43 @@ unsigned char *DoNeg(uint32_t arg, unsigned char *sp,
     unsigned mode = (arg >> 8) & 0xFu;
     unsigned cls = (arg >> 16) & 0xFu;
 
-    if (mode != 0 && mode <= 2)
-        return sp;                      /* mode 1/2: out of this arm's scope */
+    if (mode == 1 || mode == 2) {
+        /* 36-byte frame: [0..15] boxed operand, [16..31] converted value,
+         * [0x1c] is the converted slot's tag (the handler pre-sets it). */
+        unsigned char frame[36];
+        memset(frame, 0, sizeof frame);
+        unsigned char *boxed = boxType(frame, cls, sp);
+        uint32_t tagw;
+        memcpy(&tagw, frame + 12, 4);
+        if ((tagw & 0x00FFFFFFu) == 0x00FFFFFFu) {
+            set_err(ERR_REF_UNARY);     /* JSThrowReferenceError */
+            return boxed;
+        }
+        memcpy(frame + 28, "\xff\xff\xff\x00", 4);   /* out tag = 0x00FFFFFF */
+        double out = 0.0;
+        memcpy(frame + 16, &out, 8);
+        int rc = js_to_number(frame + 16, frame);
+        if (rc == 1) {
+            set_err(ERR_TYPE_UNARY);    /* JSThrowTypeError */
+            return boxed;               /* cleanup path: no write */
+        }
+        if (rc != 0)
+            return boxed;
+        uint64_t bits;
+        memcpy(&bits, frame + 16, 8);
+        if (mode == 1) {
+            double d;
+            memcpy(&d, &bits, 8);
+            if (d != d)                 /* unordered: 0x7FFFFFFF_FFFFFFFF */
+                bits = 0x7FFFFFFFffffffffull;
+            else
+                bits ^= 0x8000000000000000ull;
+        }
+        memcpy(boxed - 16, &bits, 8);
+        uint32_t zero = 0;
+        memcpy(boxed - 4, &zero, 4);
+        return boxed - 16;
+    }
 
     switch (cls) {
     case 0: {                           /* double: vneg.f64 = sign flip */
