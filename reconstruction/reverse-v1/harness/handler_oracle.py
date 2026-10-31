@@ -53,8 +53,19 @@ STUBS = {
 
 
 class Oracle:
-    def __init__(self, so=SO):
+    def __init__(self, so=SO, extra_stubs=None):
+        """extra_stubs: {addr: name} answered in Python (no-op + recorded).
+
+        Loader parsers often start by calling their own Clear()/Init(), which
+        walks buffers or vtables an unrelocated image cannot provide. Stubbing
+        those is legitimate as long as (a) the call is recorded, (b) both arms
+        start from the same destination state, and (c) the receipt says which
+        callees were stubbed.
+        """
         self.so = so
+        self.stubbed = dict(STUBS)
+        if extra_stubs:
+            self.stubbed.update(extra_stubs)
         self.uc = Uc(UC_ARCH_ARM, UC_MODE_ARM)
         with open(so, 'rb') as f:
             elf = ELFFile(f)
@@ -76,7 +87,7 @@ class Oracle:
         self.uc.reg_write(UC_ARM_REG_FPEXC, 0x40000000)
         self.heap = HEAP
         self.calls = []
-        for addr, name in STUBS.items():
+        for addr, name in self.stubbed.items():
             self.uc.hook_add(UC_HOOK_CODE, self._stub(addr, name), begin=addr, end=addr)
 
     def _stub(self, addr, name):
