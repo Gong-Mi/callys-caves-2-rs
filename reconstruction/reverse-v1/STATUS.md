@@ -10,10 +10,12 @@
     跨卡共享地址          0
     claims               1,742 条（proven 1,469 / narrowed 117 / open 138 / refuted 11 / inferred 7；
                          权威数以 verify_reverse_v1.py 为准，claims.jsonl 是含 20 条重复的局部聚合）
-    运行期证据（新）      **3 条 oracle 臂**：DoNeg 378/378（mode 0 + 3..15 + mode 1/2，后者经
-                         boxType + F_JS_ToNumber 的 C 模型）、DoNot 404/404（mode 0 + 3..15 + mode 1）、
-                         boxType 97/97（类型 0..9 与越界）。三臂各 5 个变异体有牙。
-                         剩余 46 个 Do* 与绝大多数其它函数仍只有静态字节证据
+    运行期证据（新）      **4 条 oracle 臂**：DoNeg 378/378（mode 0+3..15+mode 1/2）、DoNot 404/404
+                         （mode 0+3..15+mode 1）、boxType 97/97（类型 0..9 与越界）、
+                         **CObjectGM::LoadFromChunk 104/104（OBJT 记录头 src+0x00..0x1f）**。
+                         四臂各 5 个变异体有牙。最后一条是资源加载链上的第一个臂：字段映射是从
+                         原件行为单字节扫描出来的，不是从资产文档抄的。剩余 46 个 Do* 与绝大多数
+                         其它函数仍只有静态字节证据
     指令基线             649,229（Thumb 双遍解码）
     函数                 9,538 具名 + 272 匿名块 → 636 段
     覆盖口径（机械账，已闭合） asm/instructions.jsonl 的 649,229 条指令 **全部落锚**；跨卡共享地址 0。

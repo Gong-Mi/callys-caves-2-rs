@@ -10,7 +10,7 @@ set -e
 cd "$(dirname "$0")"
 
 status=0
-for harness in box_type_diff.py do_neg_diff.py do_not_diff.py; do
+for harness in box_type_diff.py do_neg_diff.py do_not_diff.py object_load_diff.py; do
     printf '== %s\n' "$harness"
     if python3 "$harness" 2>&1 | grep -v 'LLVM Profile'; then :; else
         status=1
