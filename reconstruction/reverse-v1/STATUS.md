@@ -56,7 +56,7 @@
 
 **账本对新标准的合规性**（只读审计，不改 status）：
 `reconstruction/contracts/claims-standard-audit.md`，由 `scripts/claim_standard_audit.py` 生成。
-1,742 条去重 claims 里，正文带装置（oracle/harness/seed/回执）的 87 条，纯静态地址的 898 条，
+1,749 条去重 claims 里，正文带装置（oracle/harness/seed/回执）的 94 条，纯静态地址的 898 条，
 **正文断言运行期行为但证据只有地址的 694 条**（这批按新标准只能当 `bytecode_anchored` 引用，
 不得作行为门）。审计只给分类与样本，降级动作留给账本所有者，改完须重跑 `verify_reverse_v1.py`。
 

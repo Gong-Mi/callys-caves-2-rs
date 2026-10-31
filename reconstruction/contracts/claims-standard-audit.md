@@ -8,19 +8,19 @@
 
 | 项 | 数 |
 | --- | --- |
-| 原始行（全部 claims*.jsonl，含根部的聚合文件） | 1762 |
-| **去重后 claims（权威总数）** | **1742** |
-| 文件数 | 91 |
+| 原始行（全部 claims*.jsonl，含根部的聚合文件） | 1769 |
+| **去重后 claims（权威总数）** | **1749** |
+| 文件数 | 92 |
 | 重复 id（一条在多文件里出现） | 20 |
-| 正文分类：device / behavior / static / naked | 87 / 694 / 898 / 63 |
+| 正文分类：device / behavior / static / naked | 94 / 694 / 898 / 63 |
 
 ## 按 status × 正文分类
 
 | status | device | behavior | static | naked |
 | --- | --- | --- | --- | --- |
-| `proven` | 81 | 591 | 759 | 42 |
-| `narrowed` | 2 | 51 | 57 | 7 |
-| `refuted` | 1 | 3 | 6 | 1 |
+| `proven` | 85 | 591 | 759 | 42 |
+| `narrowed` | 4 | 51 | 57 | 7 |
+| `refuted` | 2 | 3 | 6 | 1 |
 | `inferred` | 0 | 3 | 4 | 0 |
 | `open` | 3 | 46 | 72 | 13 |
 
@@ -30,11 +30,11 @@
 - proven 待降 narrowed（正文断言行为、证据只有地址）：**591**
 - open 占位（符合）：**134**
 - narrowed 仅地址/无装置（标准要求写明证到哪面）：**115**
-- proven 合格（有装置）：**81**
+- proven 合格（有装置）：**85**
 - proven 无判据 → 按 open：**42**
 - refuted 仅地址（缺反例判据）：**10**
-- narrowed 有装置：**2**
-- refuted 有反例装置：**1**
+- narrowed 有装置：**4**
+- refuted 有反例装置：**2**
 
 ## 样本（每桶最多 3 条，用来挑战分类）
 
@@ -61,6 +61,7 @@
 
 - `AUD-001`（Audio.c）Audio.c 现在 8 节齐全、2,326 条锚点（8 段互不连续区间，无一条缺失指令）。§1 Audio_Quit 与 §2 Audio_Tick 是前一批写成的正文级语义；§
 - `NEG-ORA-010`（DoNeg.c）DoNeg 的 mode 1（通用取负：boxType → F_JS_ToNumber → 取负，NaN 规范成 0x7FFFFFFF_FFFFFFFF）与 mode 2（纯数值化
+- `DNOT-ORA-005`（DoNot.c）cls 1（float）的 `vcvt.s32.f32` 舍入方式**本装置判不了**：Unicorn 不建模 FPSCR.RMode（RN/RP/RM/RZ 四种设置给出完全相同
 
 ### narrowed × naked
 
@@ -131,6 +132,7 @@
 ### refuted × device
 
 - `NEG-ORA-007`（DoNeg.c）cls 6 的错误串逐字为 "DoNeg :: Execution Engine - Cannot operate on string type"（双冒号、**没有** ":1:"
+- `DNOT-ORA-004`（DoNot.c）本 handler 只有三条错误文案：cls 6 与 tag 1 共用 "DoNot :: Execution Engine - Cannot operate on string 
 
 ### refuted × naked
 
