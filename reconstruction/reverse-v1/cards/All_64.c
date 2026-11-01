@@ -11387,7 +11387,8 @@
  *
  * ══ §365/373 CSprite::FreeTexture()  0x1e56fc  size 76  19 条（0x1e56fc..0x1e5748）
  * @func 0x1e56fc 0x1e5748  size 76  19 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
+ * 级别: 骨架（静态语义/C译文已补；真实依赖与原版等价未验收）
+ * 静态译文: c/csprite_resources/src/free_resources.c；0x1e570c 是 pople，count<=0 早退；正数循环跳过负 id，调用后重读 +0x50/+0x4c，再写槽 -1。
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
  * 调用序列: CSprite::FreeTexture()+0x3c / GR_Texture_Free(int)

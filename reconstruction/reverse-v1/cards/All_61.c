@@ -8869,7 +8869,8 @@
  *
  * ══ §216/251 CSprite::FreeMask()  0x1e3b58  size 116  29 条（0x1e3b58..0x1e3bcc）
  * @func 0x1e3b58 0x1e3bcc  size 116  29 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
+ * 级别: 骨架（静态语义/C译文已补；真实依赖与原版等价未验收）
+ * 静态译文: c/csprite_resources/src/free_resources.c；has_mask==0 原样返回；count>0 才逐行 Free，外调后重读表/计数并清行两字，最后 Free 表并清 +0x40/+0x3c/+0x31。
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
  * 调用序列: MemoryManager::Free(void const*)×2 / CSprite::FreeMask()+0x5c / CSprite::FreeMask()+0x2c

@@ -1994,7 +1994,8 @@
  *
  * ══ §12/46 CSprite::ClearSWFData()  0x1e68b0  size 668  167 条（0x1e68b0..0x1e6b4c）
  * @func 0x1e68b0 0x1e6b4c  size 668  167 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
+ * 级别: 骨架（静态语义/C译文已补；真实依赖与原版等价未验收）
+ * 静态译文: c/csprite_resources/src/clear_swf.c；对象/容器/记录/元素/dictionary 按偏移编排释放；0x1e693c beq 仅跳过零容器计数；0x1e6958 跳到 0x1e69f4 Free，不跳过释放。
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
  * 调用序列: MemoryManager::Free(void const*)×18 / CSprite::ClearSWFData()+0x1f0×2 / GR_Texture_Free(int)×2 / CSprite::ClearSWFData()+0x1bc / CSprite::ClearSWFData()+0x268
