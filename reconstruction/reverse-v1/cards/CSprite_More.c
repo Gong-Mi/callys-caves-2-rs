@@ -63,7 +63,9 @@
  *         [0]=0(offset-to-top) [4]=typeinfo 0x3ebe58 [8]=D1 0x1e76a4 [0xc]=D0 0x1e76cc
  *         ⇒ 对象 vptr 指向 0x3ebe68，vptr[0]=D1、vptr[1]=D0（删除析构））
  *   0x04  int    ?（Assign 直接搬）
- *   0x08..0x14  4×int 包围盒 minX/minY/maxX/maxY（ComputeMask 唯一写它；mode 0 空时全 0）
+ *   0x08..0x14  4×int 包围盒 minX/minY/maxX/maxY（ComputeMask 会写；
+ *         LoadFromChunk 0x1e978c/0x1e97b8/0x1e97c0/0x1e97c4 也会从资源记录写入；
+ *         ComputeMask 的 mode 0 全未命中时写全 0，不再主张 ComputeMask 是唯一写者）
  *   0x18  int    image_number（子图数；<=0 ⇒ 不画、不建掩码、不碰）
  *   0x1c  int    width（掩码行长，也是碰撞列上界）
  *   0x20  int    height
@@ -79,12 +81,15 @@
  *   0x48  CBitmap32** 每子图/每帧的位图数组（掩码与本地 TPE 都从它算）
  *   0x4c  int    纹理数（InitTexture 写 = image_number）
  *   0x50  GR 纹理句柄数组（int*，GR_Texture_Create_Direct 的返回值）
- *   0x54  void** 本地 TPE 数组（元素 22 B，InitLocalTPE malloc(22)；ComputeMask 会就地改页内矩形）
+ *   0x54  void** 指针表，角色取决于阶段：LoadFromChunk 0x1e9838 写入 WAD
+ *         资源页条目指针表；InitLocalTPE 构建本地条目时再写表指针（0x1e58d4），
+ *         每项指向单独分配的 22 B 本地 TPE（0x1e58fc..0x1e5904）。
+ *         +0x36 区分本地 TPE；不能把加载期的资源页指针直接当本地 TPE 所有权。
  *   0x58  CSkeletonSprite*（kind==2 时当 this）
  *   0x5c  char*  精灵名字符串（Draw 错误串的 %s；Sprite_Assign 写入）
  *   0x60  int    自己的精灵号（Sprite_Assign 1e4bc 写入）
  *   0x64  int    WAD 掩码条数；0x68 void* WAD 掩码数据（UnpackWADMask 用它懒解包）
- *   0x6c  float  30.0f（ctor 1e7660 写入的唯一非零初值）
+ *   0x6c  float  30.0f（ctor 0x1e765c 写入；0x1e7660 清零的是 +0x50）
  *   0x74  int    后端档位 0=纹理 1=SWF 2=骨骼（ComputeMask 第一闸、InitTexture/GetTexture 同判据）
  *   0x78/0x7c/0x80/0x84 各 1 字段（ctor 清 0）
  *   sizeof(CSprite) = 0x88 = 136（Sprite_Assign 的 _Znwj 实参 136 直接证）
