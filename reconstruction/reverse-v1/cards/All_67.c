@@ -807,7 +807,8 @@
  *
  * ══ §35/828 CSkeletonSprite::SimpleDecode(unsigned char*, int)  0xbd840  size 44  11 条（0xbd840..0xbd86c）
  * @func 0xbd840 0xbd86c  size 44  11 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
+ * 级别: 骨架（已补静态语义/可编译译文；真实spine依赖与原版等价未验收）
+ * 静态 C: c/cskeleton_lifetime/src/simple_decode.c；len<=0返回；逐字节减key，key初值42、递推key*key+key按32位回绕，每次调用重置。
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
  * 调用序列: 无

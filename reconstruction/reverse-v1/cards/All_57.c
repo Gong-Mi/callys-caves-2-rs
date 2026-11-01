@@ -5343,7 +5343,8 @@
  *
  * ══ §101/181 CSkeletonSprite::CSkeletonSprite(char*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)  0xbd86c  size 164  41 条（0xbd86c..0xbd910）
  * @func 0xbd86c 0xbd910  size 164  41 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
+ * 级别: 骨架（已补静态语义/可编译译文；真实spine依赖与原版等价未验收）
+ * 静态 C: c/cskeleton_lifetime/src/skeleton_lifetime.c；清三槽、写匿名16B上下文、两段SimpleDecode，再atlas→json→readData(name基址)；正常返回this；C1/C2同址。
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
  * 调用序列: CSkeletonSprite::SimpleDecode(unsigned char*, int)×2 / spAtlas_create / spSkeletonJson_create / spSkeletonJson_readSkeletonData

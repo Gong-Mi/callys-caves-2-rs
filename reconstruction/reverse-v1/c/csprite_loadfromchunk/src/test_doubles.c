@@ -143,7 +143,8 @@ int CSprite_BuildSWFData(CSprite *self, char *data, int w, int h)
 }
 
 /* ── 替身：CSkeletonSprite::CSkeletonSprite(char*, u32×5) 0xbd86c（只记实参）*/
-void CSkeletonSprite_ctor(void *self, char *name,
+#if !defined(CSPRITE_CHAIN_WITH_REAL_SKELETON)
+void *CSkeletonSprite_ctor(void *self, char *name,
                           unsigned a, unsigned b, unsigned c,
                           unsigned d, unsigned e)
 {
@@ -151,7 +152,9 @@ void CSkeletonSprite_ctor(void *self, char *name,
     td.skel_self = self;
     td.skel_name = name;
     td.skel_a = a; td.skel_b = b; td.skel_c = c; td.skel_d = d; td.skel_e = e;
+    return self;
 }
+#endif /* !CSPRITE_CHAIN_WITH_REAL_SKELETON */
 
 /* ── 分配器替身：MemoryManager::Alloc 的静态合同 ─────────────────────── */
 static void *td_alloc_contract(uint32_t size)

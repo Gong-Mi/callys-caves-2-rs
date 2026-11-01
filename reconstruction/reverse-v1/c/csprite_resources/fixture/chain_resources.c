@@ -17,7 +17,7 @@ static void event(unsigned char kind, uint32_t value)
 void MemoryManager_Free(const void *p) { event('F', (uint32_t)(uintptr_t)p); }
 void GR_Texture_Free(int id) __asm__("_Z15GR_Texture_Freei");
 void GR_Texture_Free(int id) { event('T', (uint32_t)id); }
-void CSkeletonSprite_D2(void *p) { (void)p; fx_puts("FAIL unexpected skeleton\n"); fx_exit(91); }
+void *CSkeletonSprite_D2(void *p) { (void)p; fx_puts("FAIL unexpected skeleton\n"); fx_exit(91); }
 void Sprite_operator_delete(void *p) { (void)p; fx_puts("FAIL unexpected delete\n"); fx_exit(92); }
 
 #define CHECK(c, label) do { if (!(c)) { fx_puts("FAIL " label "\n"); fx_exit(20); } } while (0)

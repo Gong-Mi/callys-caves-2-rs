@@ -130,8 +130,8 @@ int   CSprite_BuildSWFData(CSprite *self, char *data, int w, int h)
           YY_DEP("_ZN7CSprite12BuildSWFDataEPcii");
 
 /* _ZN15CSkeletonSpriteC2EPcjjjjj  0xbd86c  size 164（C1/C2 同址）
- * 6 个实参：this, name(char*), 5×u32；第 4..6 个按 AAPCS 走栈。 */
-void  CSkeletonSprite_ctor(void *self, char *name,
+ * 7 个 AAPCS 实参槽（含 this）：this/name/a/b 占 r0..r3，c/d/e 走栈。 */
+void *CSkeletonSprite_ctor(void *self, char *name,
                            unsigned a, unsigned b, unsigned c,
                            unsigned d, unsigned e)
           YY_DEP("_ZN15CSkeletonSpriteC2EPcjjjjj");

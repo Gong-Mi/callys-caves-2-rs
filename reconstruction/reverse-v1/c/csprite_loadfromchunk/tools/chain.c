@@ -93,8 +93,8 @@ void mm_free_stub(const void *p)
 void dlpv_stub(void *p) __asm__("_ZdlPv");
 void dlpv_stub(void *p) { (void)p; ++g_del_calls; }
 
-void d2_stub(void *p) __asm__("_ZN15CSkeletonSpriteD2Ev");
-void d2_stub(void *p) { (void)p; ++g_d2_calls; }
+void *d2_stub(void *p) __asm__("_ZN15CSkeletonSpriteD2Ev");
+void *d2_stub(void *p) { ++g_d2_calls; return p; }
 
 void swf_stub(CSprite *s) __asm__("_ZN7CSprite12ClearSWFDataEv");
 void swf_stub(CSprite *s) { (void)s; ++g_swf_calls; }

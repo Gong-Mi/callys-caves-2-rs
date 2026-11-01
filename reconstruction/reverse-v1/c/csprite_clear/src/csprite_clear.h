@@ -111,7 +111,7 @@ CSPRITE_STATIC_ASSERT(sizeof(CSprite)                    == 0x88, "sizeof CSprit
 /* ---- 外部依赖：只声明，不实现；用原始 mangled 名做链接级 ABI 绑定 ---- */
 
 /* _ZN15CSkeletonSpriteD2Ev @0xbd910：基对象析构（不是 D0）。Clear 之后立即 operator delete。 */
-extern void CSkeletonSprite_D2(void *self) __asm__("_ZN15CSkeletonSpriteD2Ev");
+extern void *CSkeletonSprite_D2(void *self) __asm__("_ZN15CSkeletonSpriteD2Ev");
 
 /* _ZdlPv @0x27d1d0：一条 b 到 MemoryManager::Free。 */
 extern void Sprite_operator_delete(void *p) __asm__("_ZdlPv");

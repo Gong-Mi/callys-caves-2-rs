@@ -196,8 +196,8 @@ void ftex_stub(CSprite *s) { (void)s; ev(EV_FTEX, 0); }
 void fmask_stub(CSprite *s) __asm__("_ZN7CSprite8FreeMaskEv");
 void fmask_stub(CSprite *s) { (void)s; ev(EV_FMASK, 0); }
 
-void skel_d2_stub(void *p) __asm__("_ZN15CSkeletonSpriteD2Ev");
-void skel_d2_stub(void *p) { ev(EV_D2, (uint32_t)(uintptr_t)p); }
+void *skel_d2_stub(void *p) __asm__("_ZN15CSkeletonSpriteD2Ev");
+void *skel_d2_stub(void *p) { ev(EV_D2, (uint32_t)(uintptr_t)p); return p; }
 
 /* 真实 _ZdlPv 是 `b MemoryManager::Free`；这里按同一语义转发。 */
 void del_stub(void *p) __asm__("_ZdlPv");

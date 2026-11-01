@@ -4952,7 +4952,8 @@
  *
  * ══ §140/321 CSkeletonSprite::~CSkeletonSprite()  0xbd910  size 92  23 条（0xbd910..0xbd96c）
  * @func 0xbd910 0xbd96c  size 92  23 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
+ * 级别: 骨架（已补静态语义/可编译译文；真实spine依赖与原版等价未验收）
+ * 静态 C: c/cskeleton_lifetime/src/skeleton_lifetime.c；data→json→flag=1→atlas→flag=0；NULL atlas仍强制清flag；不清三槽、不delete；正常返回this；D1/D2同址。
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
  * 调用序列: spSkeletonData_dispose / spSkeletonJson_dispose / spAtlas_dispose
