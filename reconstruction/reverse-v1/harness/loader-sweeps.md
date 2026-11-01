@@ -22,13 +22,31 @@
 | `CPath::LoadFromChunk`（0x10 之后） | 0x1a7120 | src+0x10 起同样走指针（UC_ERR_INSN_INVALID / WRITE_UNMAPPED） |
 | `CEvent::LoadFromChunk` | 0xf2d84 | 零记录下返回 1 但一个字节都不写目的结构 —— 需要真实事件记录才知道它写到哪（也可能只写动作表） |
 
+## 2026-11-01 第二次尝试：把 allocator 接上之后
+
+给 `handler_oracle` 加了 `libc=True`：按 `.rel.plt` 解出的 PLT 入口（malloc 0xb6558 / free 0xb6578 /
+memset 0xb65e8 / memcpy 0xb65f8 / memmove 0xb6718 / realloc 0xb6e88）在 Python 里应答，
+分配走确定性 bump 分配器并把分配列表记进 `Oracle.allocs`（后面做指针归一化要按它来键）。
+
+结果：`CSprite::LoadFromChunk` **仍然跑不起来**，但卡点变了，而且这次是实测定位的：
+
+    0x1e98c4 之后 → 0xb6994（PLT 入口）→ 0xb64e8（PLT0 头）→ pc=0 崩
+
+`0xb6994` 正是 All_30 卡里记的「调用序列 0xb6994×4」那四处的其中一个，`strrchr`/`feof` 一类
+字符串与文件层函数。也就是说精灵解析不是缺分配器，是缺**文件/字符串层**：
+它要从记录里的偏移取到 WAD 里的字符串（纹理页名、帧名），而我们的 harness 里
+既没有映射 `game.droid`、也没设 WAD 基址全局，所以字符串指针全是野的。
+
+⇒ 「把 allocator 接上就能测 CSprite」这个判断被自己的实测推翻了。下一步的前置变成：
+把 `game.droid` 原样映射到引擎期望的基址（STATUS 里记的 WAD 地址 0x544c44）并设好基址全局，
+让记录里的偏移能真的解出字符串 —— 之后再谈 sprites/mask 的指针归一化。
+
 ## 下一步的三条路（按代价排）
 
 1. **给 CBackground / CPath 做差分臂**：切片小（15 B / 12 B）但干净，模型短，能立刻把
    「背景记录头 / 路径记录头」钉死。代价低，收益是加载链上多两块地基。
-2. **给 PLT 接线**：`malloc/free/operator new[]` 用 harness 堆实现并把调用记录下来，
-   再把 dst 里的堆指针按「分配序号」归一化后比较。这样 CSprite（精灵/纹理页）才可能进差分。
-   代价中等，收益最大——精灵解析是 asset→纹理页这条链的中心。
+2. ~~**给 PLT 接线**~~（已做，见上）：allocator 不是卡点；真正的卡点是文件/字符串层 +
+   WAD 基址。这条要改写为「映射 game.droid 到引擎期望基址 + 设基址全局」。
 3. **拿真实记录喂原件**：从 `assets/game.droid` 切出 OBJT/BGND/PTH 的真实记录，让原件解析并
    dump 字段，与 Rust `callys-asset` 的结果逐对象对账。这是「在原件上解析资源」的直接形态，
    但需要先解决记录定位与变长切分。
