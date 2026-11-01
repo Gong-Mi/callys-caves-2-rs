@@ -44,17 +44,25 @@ HEAP_SIZE = 0x80000
 # Callees a strong-typed handler arm reaches. Each is answered in Python so the
 # unrelocated GOT never has to resolve: the call is RECORDED (that is evidence),
 # then returned to the caller.
-# libc/allocator entries in .plt (derived from .rel.plt; .plt base 0xb64e8,
-# 16 bytes/entry, entry i at base+16*(i+1)). A loader parser cannot run without
-# these: it allocates its frame/mask arrays.
-PLT_LIBC = {
-    0xb6558: 'malloc',
-    0xb6578: 'free',
-    0xb65e8: 'memset',
-    0xb65f8: 'memcpy',
-    0xb6718: 'memmove',
-    0xb6e88: 'realloc',
-}
+def plt_symbols(so):
+    """name -> PLT entry address, derived from the section headers.
+
+    ARM PLT layout in this library: a 16-byte PLT0 (str lr / ldr lr / add lr /
+    ldr pc) followed by 12-byte entries (`add ip,pc,#..; add ip,ip,#..;
+    ldr pc,[ip,#..]!`), one per .rel.plt relocation in file order. Getting this
+    stride wrong silently hooks the *neighbouring* function - which is exactly
+    how an earlier version of this file "stubbed strlen" by accident.
+    """
+    out = {}
+    with open(so, 'rb') as f:
+        elf = ELFFile(f)
+        base = elf.get_section_by_name('.plt')['sh_addr']
+        rel = elf.get_section_by_name('.rel.plt')
+        sym = elf.get_section_by_name('.dynsym')
+        for i, r in enumerate(rel.iter_relocations()):
+            name = sym.get_symbol(r['r_info_sym']).name
+            out.setdefault(name, base + 16 + 12 * i)
+    return out
 
 STUBS = {
     0xd4210: 'VMError',                 # void VMError(VMExec*, const char*, ...)
@@ -161,10 +169,148 @@ class Oracle:
             uc.reg_write(UC_ARM_REG_R0, addr)
             uc.reg_write(UC_ARM_REG_PC, uc.reg_read(UC_ARM_REG_LR))
 
-        for addr, fn in ((0xb6558, hook_malloc), (0xb6578, hook_free),
-                         (0xb65e8, hook_memset), (0xb65f8, hook_memcpy),
-                         (0xb6718, hook_memcpy), (0xb6e88, hook_realloc)):
+        plt = plt_symbols(self.so)
+        self.plt = plt
+        self.libc_hooked = []
+        for name, fn in (('malloc', hook_malloc), ('free', hook_free),
+                         ('memset', hook_memset), ('memcpy', hook_memcpy),
+                         ('memmove', hook_memcpy), ('realloc', hook_realloc)):
+            addr = plt.get(name)
+            if addr is None:
+                continue
             u.hook_add(UC_HOOK_CODE, fn, begin=addr, end=addr)
+            self.libc_hooked.append((name, addr))
+        self._install_strings()
+        self._install_math()
+
+    def _install_math(self):
+        """float math the loaders use for animation curves / geometry (softfp)."""
+        import math
+        u = self.uc
+        plt = plt_symbols(self.so)
+
+        def f32(v):
+            return struct.unpack('<f', struct.pack('<f', v))[0]
+
+        def hook(name, fn, arity=1):
+            addr = plt.get(name)
+            if addr is None:
+                return
+
+            def h(uc, _a, _s, _d):
+                args = [f32(struct.unpack('<f', struct.pack('<I', uc.reg_read(r)))[0])
+                        for r in (UC_ARM_REG_R0, UC_ARM_REG_R1)]
+                try:
+                    r = f32(fn(*args[:arity]))
+                except (ValueError, OverflowError):
+                    r = float('nan')
+                self.calls.append({'name': name, 'args': args})
+                uc.reg_write(UC_ARM_REG_R0,
+                             struct.unpack('<I', struct.pack('<f', r))[0])
+                uc.reg_write(UC_ARM_REG_PC, uc.reg_read(UC_ARM_REG_LR))
+            u.hook_add(UC_HOOK_CODE, h, begin=addr, end=addr)
+            self.libc_hooked.append((name, addr))
+
+        for name, fn, ar in (('expf', math.exp, 1), ('ceilf', math.ceil, 1),
+                             ('floorf', math.floor, 1), ('sqrtf', math.sqrt, 1),
+                             ('sinf', math.sin, 1), ('cosf', math.cos, 1),
+                             ('tanf', math.tan, 1), ('fabsf', abs, 1),
+                             ('fmodf', math.fmod, 2), ('powf', math.pow, 2),
+                             ('atan2f', math.atan2, 2), ('logf', math.log, 1)):
+            hook(name, fn, ar)
+
+    def _install_strings(self):
+        """String functions a loader parser calls on WAD-resident names.
+
+        They are answered against emulator memory, so the result depends only on
+        the bytes in the mapped data file - no host state leaks into the run.
+        """
+        u = self.uc
+
+        def rd_cstr(addr, limit=4096):
+            out = bytearray()
+            while limit:
+                b = u.mem_read(addr + len(out), 1)[0]
+                if b == 0:
+                    break
+                out.append(b)
+                limit -= 1
+            return bytes(out)
+
+        def simple(name, fn):
+            def hook(uc, _a, _s, _d):
+                args = [uc.reg_read(r) & 0xffffffff for r in
+                        (UC_ARM_REG_R0, UC_ARM_REG_R1, UC_ARM_REG_R2, UC_ARM_REG_R3)]
+                ret = fn(*args)
+                self.calls.append({'name': name, 'args': args, 'ret': ret})
+                uc.reg_write(UC_ARM_REG_R0, ret & 0xffffffff)
+                uc.reg_write(UC_ARM_REG_PC, uc.reg_read(UC_ARM_REG_LR))
+            return hook
+
+        def f_strlen(dst, _b, _c, _d):
+            return len(rd_cstr(dst))
+
+        def f_strcmp(a, b, _c, _d):
+            x, y = rd_cstr(a), rd_cstr(b)
+            return 0 if x == y else (1 if x > y else -1) & 0xffffffff
+
+        def f_strncmp(a, b, n, _d):
+            x, y = rd_cstr(a)[:n], rd_cstr(b)[:n]
+            return 0 if x == y else (1 if x > y else -1) & 0xffffffff
+
+        def f_strcpy(dst, src, _c, _d):
+            blob = rd_cstr(src)
+            u.mem_write(dst, blob + b'\0')
+            return dst
+
+        def f_strncpy(dst, src, n, _d):
+            blob = rd_cstr(src)[:n]
+            u.mem_write(dst, blob + b'\0' * (n - len(blob)))
+            return dst
+
+        def f_strchr(s, ch, _c, _d):
+            blob = rd_cstr(s)
+            i = blob.find(bytes([ch & 0xff]))
+            return 0 if i < 0 else s + i
+
+        def f_strrchr(s, ch, _c, _d):
+            blob = rd_cstr(s)
+            i = blob.rfind(bytes([ch & 0xff]))
+            return 0 if i < 0 else s + i
+
+        def f_strstr(h, n, _c, _d):
+            hay, needle = rd_cstr(h), rd_cstr(n)
+            i = hay.find(needle)
+            return 0 if i < 0 else h + i
+
+        def f_atoi(s, _b, _c, _d):
+            blob = rd_cstr(s).strip()
+            try:
+                return int(blob.split(b'\0')[0] or b'0')
+            except ValueError:
+                return 0
+
+        def f_strtol(s, endp, _base, _d):
+            blob = rd_cstr(s).strip()
+            try:
+                v = int(blob)
+            except ValueError:
+                v = 0
+            if endp:
+                u.mem_write(endp, struct.pack('<I', s))
+            return v & 0xffffffff
+
+        plt = plt_symbols(self.so)
+        for name, fn in (('strlen', f_strlen), ('strcmp', f_strcmp),
+                         ('strncmp', f_strncmp), ('strcpy', f_strcpy),
+                         ('strncpy', f_strncpy), ('strchr', f_strchr),
+                         ('strrchr', f_strrchr), ('strstr', f_strstr),
+                         ('atoi', f_atoi), ('strtol', f_strtol)):
+            addr = plt.get(name)
+            if addr is None:
+                continue
+            u.hook_add(UC_HOOK_CODE, simple(name, fn), begin=addr, end=addr)
+            self.libc_hooked.append((name, addr))
 
     def _stub(self, addr, name):
         def hook(uc, _addr, _size, _data):

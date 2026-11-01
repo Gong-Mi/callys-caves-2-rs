@@ -41,6 +41,28 @@ memset 0xb65e8 / memcpy 0xb65f8 / memmove 0xb6718 / realloc 0xb6e88）在 Python
 把 `game.droid` 原样映射到引擎期望的基址（STATUS 里记的 WAD 地址 0x544c44）并设好基址全局，
 让记录里的偏移能真的解出字符串 —— 之后再谈 sprites/mask 的指针归一化。
 
+## 2026-11-01 第三次：PLT 地址表搞错了一次，已更正
+
+真相先说：**上一节把 `0xb6994` 说成 `strrchr`/`feof` 一类是错的**。错因是 PLT 步长。
+这个库的 `.plt` 是「16 字节 PLT0 + 12 字节/项」，不是 16 字节/项；按 16 字节算出来的
+「入口地址」会整体错位，于是 hook 到的其实是**邻居函数**——上一轮那句「把 strlen 接上就好了」
+其实是把不知名的第 5 项当成 strlen 接了，所以下一跳照样崩。
+
+更正后的地址表（`plt_symbols()` 从 .rel.plt 按 12 字节步长推，231 项全对）：
+`0xb6994` 落在第 98 项的 +4 处（`add ip,ip,#..` 那条），该项符号是 **expf**，不是字符串函数。
+`CSprite::LoadFromChunk` 在开局 `Clear` 之后第一个外部调用是 expf（动画曲线求值一类的浮点）。
+
+更正后又试了一轮：把 WAD 原样映射到 0x80000000、把基址全局 0x544c44 写成 0x80000000、
+并接上 malloc/free/mem*/str*/atoi/expf/ceilf/floorf/sqrtf/sinf/cosf/fmodf/powf/atan2f，
+`CSprite::LoadFromChunk` **仍然在 Clear 之后立刻 pc=0 崩，且一个外部调用都没发生**。
+所以卡点既不是分配器也不是那批 libc 导入，而是**目的对象自己的间接调用**：
+dst 是被清零的，若解析器在入口后立刻走 `ldr r3,[dst]; blx r3`（vtable 槽）或某个函数指针表，
+拿到的是 0。下一步得先构造/调用 CSprite 的构造器，或给该槽装壳。
+
+装置层面这一轮也留了两条教训：
+1. **PLT/导入表的地址必须从段头推，不能手抄**——手抄错了会静默 hook 邻居，行为看着"改了"其实没生效；
+2. 接线要打印「实际 hook 了哪些符号、地址是多少」（现在 `Oracle.libc_hooked` 会列出来）。
+
 ## 下一步的三条路（按代价排）
 
 1. **给 CBackground / CPath 做差分臂**：切片小（15 B / 12 B）但干净，模型短，能立刻把
