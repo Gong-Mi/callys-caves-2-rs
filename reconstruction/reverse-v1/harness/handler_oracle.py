@@ -44,24 +44,74 @@ HEAP_SIZE = 0x80000
 # Callees a strong-typed handler arm reaches. Each is answered in Python so the
 # unrelocated GOT never has to resolve: the call is RECORDED (that is evidence),
 # then returned to the caller.
-def plt_symbols(so):
-    """name -> PLT entry address, derived from the section headers.
+PLT_LEAD = 20     # PLT0 is 4 instructions (16B) + the offset word it loads (4B)
+PLT_STRIDE = 12   # add ip,pc,#.. ; add ip,ip,#.. ; ldr pc,[ip,#..]!
 
-    ARM PLT layout in this library: a 16-byte PLT0 (str lr / ldr lr / add lr /
-    ldr pc) followed by 12-byte entries (`add ip,pc,#..; add ip,ip,#..;
-    ldr pc,[ip,#..]!`), one per .rel.plt relocation in file order. Getting this
-    stride wrong silently hooks the *neighbouring* function - which is exactly
-    how an earlier version of this file "stubbed strlen" by accident.
+
+def _ror(v, n):
+    n &= 31
+    return ((v >> n) | (v << (32 - n))) & 0xffffffff
+
+
+def _plt_slot(entry, w0, w1, w2):
+    """GOT slot a PLT entry loads from (absolute value is biased, offsets are not)."""
+    ip = (entry + 8) + _ror(w0 & 0xfff, ((w0 >> 8) & 0xf) * 2)
+    ip += _ror(w1 & 0xfff, ((w1 >> 8) & 0xf) * 2)
+    return (ip + (w2 & 0xfff)) & 0xffffffff
+
+
+def plt_symbols(so):
+    """name -> PLT entry address (the first instruction, `add ip, pc, #..`).
+
+    Two layout facts are *derived*, not assumed, because both have already
+    bitten this file:
+
+    * PLT0 here is 20 bytes, not 16 - it is `str lr,[sp,#-4]!; ldr lr,[pc,#4];
+      add lr,pc,lr; ldr pc,[lr,#8]!` followed by the .word it loads. Starting
+      the entries at base+16 lands inside that word, and since entries are
+      12 bytes the whole table shifts by one: every hook then intercepts the
+      *previous* relocation's call while still being labelled with its own
+      name (this file shipped that off-by-one - receipts said "sprintf" for
+      what was really malloc).
+    * the stride is 12 bytes, one entry per .rel.plt relocation in file order.
+
+    Both are checked by decoding each entry's three instructions and requiring
+    the resulting GOT-slot addresses to be in the same order (same deltas) as
+    the .rel.plt r_offset list, and requiring the table to end exactly at
+    sh_addr + sh_size. A layout mismatch raises instead of silently hooking
+    the neighbouring function.
     """
     out = {}
     with open(so, 'rb') as f:
         elf = ELFFile(f)
-        base = elf.get_section_by_name('.plt')['sh_addr']
+        plt = elf.get_section_by_name('.plt')
+        base, size = plt['sh_addr'], plt['sh_size']
         rel = elf.get_section_by_name('.rel.plt')
         sym = elf.get_section_by_name('.dynsym')
-        for i, r in enumerate(rel.iter_relocations()):
-            name = sym.get_symbol(r['r_info_sym']).name
-            out.setdefault(name, base + 16 + 12 * i)
+        names, offsets = [], []
+        for r in rel.iter_relocations():
+            names.append(sym.get_symbol(r['r_info_sym']).name)
+            offsets.append(r['r_offset'])
+        end = base + PLT_LEAD + PLT_STRIDE * len(names)
+        if end != base + size:
+            raise RuntimeError(
+                'PLT layout mismatch: %d relocations need %#x bytes, .plt is %#x'
+                % (len(names), end - base, size))
+        f.seek(0)
+        blob = f.read()
+        d0 = None
+        for i in range(len(names)):
+            entry = base + PLT_LEAD + PLT_STRIDE * i
+            w0, w1, w2 = (struct.unpack('<I', blob[entry + 4 * k:entry + 4 * k + 4])[0]
+                          for k in range(3))
+            slot = _plt_slot(entry, w0, w1, w2)
+            if d0 is None:
+                d0 = slot - offsets[i]
+            elif slot - offsets[i] != d0:
+                raise RuntimeError(
+                    'PLT entry %d (%s) does not load GOT slot %#x (got %#x): '
+                    'stride/lead wrong' % (i, names[i], offsets[i], slot))
+            out.setdefault(names[i], entry)
     return out
 
 STUBS = {
@@ -72,8 +122,24 @@ STUBS = {
 }
 
 
+class UnhookedImport(RuntimeError):
+    """Raised when execution reaches a PLT entry nothing answers.
+
+    Without the guard the call falls into PLT0, which loads GOT[1] (zero in an
+    unrelocated image) and jumps to pc=0 -> uc reports UC_ERR_INSN_INVALID with
+    no idea which import it was. The guard names it.
+    """
+
+    def __init__(self, name, addr, arg_words):
+        # NB: Exception.__init__ owns `.args`, so the register words live in
+        # `.arg_words` - assigning self.args would be silently replaced.
+        self.name, self.addr, self.arg_words = name, addr, list(arg_words)
+        super().__init__('unhooked PLT import %s at %#x args=%s'
+                         % (name, addr, ['%#x' % a for a in arg_words]))
+
+
 class Oracle:
-    def __init__(self, so=SO, extra_stubs=None, libc=False):
+    def __init__(self, so=SO, extra_stubs=None, libc=False, guard_plt=False):
         """extra_stubs: {addr: name} answered in Python (no-op + recorded).
 
         Loader parsers often start by calling their own Clear()/Init(), which
@@ -81,14 +147,20 @@ class Oracle:
         those is legitimate as long as (a) the call is recorded, (b) both arms
         start from the same destination state, and (c) the receipt says which
         callees were stubbed.
+
+        guard_plt: answer every PLT entry nothing else hooked with a stop that
+        reports the import's name (see UnhookedImport) instead of letting the
+        call run into PLT0 and die at pc=0.
         """
         self.so = so
         self.stubbed = dict(STUBS)
         if extra_stubs:
             self.stubbed.update(extra_stubs)
         self.libc = libc
+        self.plt = plt_symbols(so)
         self.allocs = []        # [(addr, size)] in allocation order
         self._alloc_size = {}
+        self.blocked = None
         self.uc = Uc(UC_ARCH_ARM, UC_MODE_ARM)
         with open(so, 'rb') as f:
             elf = ELFFile(f)
@@ -110,10 +182,35 @@ class Oracle:
         self.uc.reg_write(UC_ARM_REG_FPEXC, 0x40000000)
         self.heap = HEAP
         self.calls = []
+        self.libc_hooked = []
         for addr, name in self.stubbed.items():
             self.uc.hook_add(UC_HOOK_CODE, self._stub(addr, name), begin=addr, end=addr)
         if libc:
             self._install_libc()
+        if guard_plt:
+            self._install_guard()
+
+    def _install_guard(self):
+        """Everything in .plt that nothing answered: stop and say which one.
+
+        Answering is a decision, not a side effect - so the guard does not
+        return a fake value. It records the import and its live argument
+        registers, stops the CPU, and lets call() raise UnhookedImport.
+        """
+        done = {a for _, a in self.libc_hooked} | set(self.stubbed)
+        for name, addr in sorted(self.plt.items(), key=lambda kv: kv[1]):
+            if addr in done:
+                continue
+            self.uc.hook_add(UC_HOOK_CODE, self._guard(name, addr), begin=addr, end=addr)
+
+    def _guard(self, name, addr):
+        def hook(uc, _a, _s, _d):
+            args = [uc.reg_read(r) & 0xffffffff for r in
+                    (UC_ARM_REG_R0, UC_ARM_REG_R1, UC_ARM_REG_R2, UC_ARM_REG_R3)]
+            self.calls.append({'name': name, 'args': args, 'blocked': True})
+            self.blocked = UnhookedImport(name, addr, args)
+            uc.emu_stop()
+        return hook
 
     def _install_libc(self):
         """Answer malloc/free/mem* in Python so a parser that builds arrays can run.
@@ -169,9 +266,7 @@ class Oracle:
             uc.reg_write(UC_ARM_REG_R0, addr)
             uc.reg_write(UC_ARM_REG_PC, uc.reg_read(UC_ARM_REG_LR))
 
-        plt = plt_symbols(self.so)
-        self.plt = plt
-        self.libc_hooked = []
+        plt = self.plt
         for name, fn in (('malloc', hook_malloc), ('free', hook_free),
                          ('memset', hook_memset), ('memcpy', hook_memcpy),
                          ('memmove', hook_memcpy), ('realloc', hook_realloc)):
@@ -194,7 +289,7 @@ class Oracle:
         instead of silently doing nothing.
         """
         u = self.uc
-        plt = plt_symbols(self.so)
+        plt = self.plt
         zero = ('pthread_mutexattr_init', 'pthread_mutexattr_settype',
                 'pthread_mutexattr_destroy', 'pthread_mutex_init',
                 'pthread_mutex_lock', 'pthread_mutex_unlock',
@@ -236,7 +331,7 @@ class Oracle:
         """
         import re
         u = self.uc
-        plt = plt_symbols(self.so)
+        plt = self.plt
 
         def rd_cstr(addr, limit=4096):
             out = bytearray()
@@ -336,7 +431,7 @@ class Oracle:
         """float math the loaders use for animation curves / geometry (softfp)."""
         import math
         u = self.uc
-        plt = plt_symbols(self.so)
+        plt = self.plt
 
         def f32(v):
             return struct.unpack('<f', struct.pack('<f', v))[0]
@@ -449,7 +544,7 @@ class Oracle:
                 u.mem_write(endp, struct.pack('<I', s))
             return v & 0xffffffff
 
-        plt = plt_symbols(self.so)
+        plt = self.plt
         for name, fn in (('strlen', f_strlen), ('strcmp', f_strcmp),
                          ('strncmp', f_strncmp), ('strcpy', f_strcpy),
                          ('strncpy', f_strncpy), ('strchr', f_strchr),
@@ -497,6 +592,7 @@ class Oracle:
     def call(self, entry, r0=0, r1=0, r2=0, r3=0, stack_words=(), timeout_us=5_000_000):
         u = self.uc
         self.calls = []
+        self.blocked = None
         sp = STACK + STACK_SIZE - 0x100
         u.reg_write(UC_ARM_REG_SP, sp)
         u.reg_write(UC_ARM_REG_LR, SENTINEL)
@@ -507,6 +603,8 @@ class Oracle:
         if stack_words:
             u.mem_write(sp, b''.join(struct.pack('<I', w & 0xffffffff) for w in stack_words))
         u.emu_start(entry, SENTINEL, timeout=timeout_us)
+        if self.blocked is not None:
+            raise self.blocked
         if u.reg_read(UC_ARM_REG_PC) != SENTINEL:
             raise RuntimeError('did not return to sentinel: pc=%#x' % u.reg_read(UC_ARM_REG_PC))
         return u.reg_read(UC_ARM_REG_R0) & 0xffffffff
