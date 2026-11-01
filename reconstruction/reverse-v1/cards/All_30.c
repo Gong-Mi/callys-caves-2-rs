@@ -4889,13 +4889,15 @@
  *
  * ══ §18/28 CSprite::LoadFromChunk(YYSprite*, unsigned char*)  0x1e972c  size 1084  271 条（0x1e972c..0x1e9b68）
  * @func 0x1e972c 0x1e9b68  size 1084  271 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
- * GOT 基址: 无标准序言
- * 门字节（加载点→目标全局）: 无
- * 调用序列: 0xb6994×4 / 0xb6700×4 / operator new[](unsigned int)×2 / CSprite::Clear() / CSprite::LoadFromChunk(YYSprite*, unsigned char*)+0x32c / operator new(unsigned int) / CSkeletonSprite::CSkeletonSprite(char*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int) / CSprite::LoadFromChunk(YYSprite*, unsigned char*)+0x3bc
- * 字段偏移 top8: 0x18×6 / 0x4×6 / 0x54×6 / 0x24×4 / 0x8×4 / 0x28×4 / 0x1c×3 / 0x20×3
- * VFP 指令 51 条
- * 未主张: 形参/返回值、分支语义、字段含义 —— open
+ * 级别: 骨架（已补静态语义与可编译 C 候选；原件行为、异常及全输入域仍未验收）
+ * 译文: c/csprite_loadfromchunk/src/csprite_loadfromchunk.c；合同/复跑: 同目录 README.md
+ * GOT 基址: 0x3f1c58；槽 0x3ed92c → g_isZeus(0x5428e8)，0x3ed94c → g_pWADBaseAddress(0x544c44)
+ * 调用序列: CSprite::Clear / new[]×2 / new / CSkeletonSprite::C2 / BuildSWFData / ceilf×4 / sqrtf×4（直调目标静态核对）
+ * 静态语义: 先 Clear，拷贝头字段；普通纹理或特殊 type=0/1/2/其它分流；正常出口恒 1。
+ * 指针表以 ARM32 4B 槽回填 WAD 指针；分配后重读 +0x18；mask_count>0 才写 +0x35=(mask_count==count)。
+ * 半径: 每平方低32位有符号解释 → float32和 → sqrt/ceil → int32截断 → 四角max；不是 hypot。
+ * 索引含 268 条指令和末尾 3 字 literal pool；VFP 指令 51 条。
+ * 未主张: 真实依赖、异常展开、无效内存、并发、跨32位地址空间与FPSCR极值行为等价。
  * ────────────────────────────────────────────────────────────────────────────
  *   @0x1e972c push {r4, r5, r6, r7, r8, r9, r10, r11, lr}
  *   @0x1e9730 vpush {d8, d9, d10}

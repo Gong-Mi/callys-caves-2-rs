@@ -5,7 +5,7 @@
 - `asm/functions.tsv` 现有 9,538 行、9,199 个去重入口；其中 272 行是 `anon_` 区间，别名、匿名切分和真实函数之间不能直接画等号。
 - 当前 246 张顶层卡覆盖索引 649,229/649,229 个去重地址；跨卡重复、索引外地址及助记符不匹配均为 0。索引含 literal pool 的反汇编条目，这只说明索引和锚点对应，不等于全部是真指令，更不等于理解或翻译完成。
 - 旧「正文 347 函数」与「68.7%」都不是经逐函数验收的语义完成率；全文多数 `All_*` 是明确不主张语义的结构骨架。部分卡多函数共用卡头等级，不能按首个等级机械认定每个函数已完成。
-- 当前 `c/` 仅有 boxType、DoNeg、DoNot、CObjectGM::LoadFromChunk（记录头局部）、Sprite_Data、Sprite_Number、Sprite_Exists 和 CSprite::Clear 的有限译文候选；其中部分本身未覆盖所有分支，不能将 8 个条目当完整等价函数。
+- 当前 `c/` 仅有 boxType、DoNeg、DoNot、CObjectGM::LoadFromChunk（记录头局部）、Sprite_Data、Sprite_Number、Sprite_Exists、CSprite::Clear 和 CSprite::LoadFromChunk 的有限译文候选；其中部分本身未覆盖所有分支，不能将 9 个条目当完整等价函数。
 - 历史原件侧 Unicorn 回执针对 boxType、DoNeg、DoNot、CObjectGM::LoadFromChunk 的有限输入域；它们不是本轮实验，也不代表完整函数、设备或整个库已对拍。回执中 DoNeg/DoNot mode 1、2 和 OBJT 尾部明确未覆盖；须按各回执作用域引用。
 - 本轮按用户阶段门只做静态推导和自建译文夹具，不执行原件、ART 或 Unicorn。全库逐函数语义闭合、可编译译文覆盖、跨单元 ABI 与真实原版差分均无可信全量完成率。
 
