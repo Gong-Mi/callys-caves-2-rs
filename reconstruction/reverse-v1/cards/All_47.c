@@ -506,8 +506,11 @@
  *   @0x1e5c8c andseq r12, r6, r12, lsr #16
  *
  * ══ §6/87 CSprite::Clear()  0x1e6b4c  size 356  89 条（0x1e6b4c..0x1e6cb0）
- * @func 0x1e6b4c 0x1e6cc4  size 376  94 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
+ * @func 0x1e6b4c 0x1e6cb0  size 356  89 条
+ * 级别: 骨架（逐指令锚点；下方 C 译文尚待原版差分）
+ * 边界校正：.dynsym size=356、.ARM.exidx 下一函数及下一个 .dynsym 入口均为 0x1e6cb0；
+ * 旧 @func 的 0x1e6cc4/376/94 多包了 LoadFromAnimation 的前 5 条，锚点本身未移动。
+ * 静态译文：reconstruction/reverse-v1/c/csprite_clear/src/csprite_clear.c；未声称等价。
  * GOT 基址: 无标准序言
  * 门字节（加载点→目标全局）: 无
  * 调用序列: MemoryManager::Free(void const*)×4 / CSkeletonSprite::~CSkeletonSprite() / operator delete(void*) / CSprite::Clear()+0x9c / CSprite::FreeTexture() / 0xb65b0 / CSprite::FreeMask() / CSprite::Clear()+0x14c
