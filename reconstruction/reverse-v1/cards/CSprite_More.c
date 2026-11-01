@@ -5,8 +5,8 @@
  * @func 0x1eed3c 0x1eede0  size 164  41 条  Sprite_Free
  * @func 0x1eedd0 0x1eee40  size 112  28 条  Sprite_InitTextures
  * @func 0x1eee30 0x1eee94  size 100  25 条  Sprite_FreeTextures
- * @func 0x1eee84 0x1eeea8  size 36  9 条  Sprite_Number
- * @func 0x1eee98 0x1eeef0  size 88  22 条  Sprite_Exists
+ * @func 0x1eee84 0x1eee98  size 20  5 条  Sprite_Number（末尾 1 字为 literal pool）
+ * @func 0x1eee98 0x1eeee0  size 72  18 条  Sprite_Exists（末尾 2 字为 literal pool）
  * @func 0x1eeee0 0x1eef74  size 148  37 条  Sprite_Name
  * @func 0x1eef64 0x1ef03c  size 216  54 条  Sprite_Find
  * @func 0x1ef454 0x1ef514  size 192  48 条  Sprite_Assign

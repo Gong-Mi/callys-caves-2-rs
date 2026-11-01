@@ -18,4 +18,6 @@ _Static_assert(sizeof(SpriteItems) == 8, "ARM32 g_SpriteItems size");
 extern SpriteItems g_SpriteItems;
 extern int32_t g_NumberOfSprites;
 CSprite *Sprite_Data(int32_t index) __asm__("_Z11Sprite_Datai");
+int32_t Sprite_Number(void) __asm__("_Z13Sprite_Numberv");
+int32_t Sprite_Exists(int32_t index) __asm__("_Z13Sprite_Existsi");
 #endif
