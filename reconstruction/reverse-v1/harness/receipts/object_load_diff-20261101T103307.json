@@ -1,0 +1,96 @@
+{
+  "harness": "object_load_diff.py",
+  "target": {
+    "symbol": "_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh",
+    "func": "CObjectGM::LoadFromChunk",
+    "addr": "0x19d688",
+    "so": "libyoyo_armv7.so"
+  },
+  "scope": {
+    "covered": [
+      "OBJT record header src+0x00..src+0x1f",
+      "flags assembly and the sprite bit31 accumulator"
+    ],
+    "not_covered": [
+      "src+0x20.. tail (data-version gated; the version word comes through an unrelocated pc-relative table and the >8 path faults with UC_ERR_WRITE_UNMAPPED)"
+    ]
+  },
+  "seed": "0xca11",
+  "cases": 104,
+  "inputs_sha256": "37308bc49d3b13cc27e93fca92a6718afb8d2d82d2a4b2880afbc8b3bf03ce7d",
+  "c_sha256": "10f752325d6dbbf86e55afcc4c7c5cccd5697c7deb475a83c5b3b076482974de",
+  "result": {
+    "mismatches": 0,
+    "first": []
+  },
+  "gates": {
+    "identity": {
+      "pass": true,
+      "mismatches": 0
+    },
+    "coverage_header_bytes": {
+      "pass": true,
+      "influencing": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    "non_degenerate": {
+      "pass": true,
+      "note": "flags and fields must move the destination"
+    },
+    "teeth": {
+      "pass": true,
+      "mutants": {
+        "1": {
+          "caught_cases": 11,
+          "pass": true
+        },
+        "2": {
+          "caught_cases": 7,
+          "pass": true
+        },
+        "3": {
+          "caught_cases": 74,
+          "pass": true
+        },
+        "4": {
+          "caught_cases": 12,
+          "pass": true
+        },
+        "5": {
+          "caught_cases": 104,
+          "pass": true
+        }
+      }
+    }
+  },
+  "wall_s": 1.2,
+  "when": "2026-11-01T10:33:07"
+}
