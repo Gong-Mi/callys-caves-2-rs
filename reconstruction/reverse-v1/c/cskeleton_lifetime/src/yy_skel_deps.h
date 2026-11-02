@@ -113,4 +113,18 @@ _Static_assert(sizeof(yy_glob_479c98) == 16, "0x479c98..0x479ca7 十六字节");
 
 extern yy_glob_479c98 g_yy_479c98;
 
+/* Recovered spine lifetime interfaces. Layouts remain private to their owning
+ * translation units; all address-bearing native slots are 32-bit. */
+typedef struct spAtlasPage spAtlasPage;
+typedef struct spAtlasRegion spAtlasRegion;
+void *_calloc(uint32_t nmemb, uint32_t size, const char *tag, uint32_t line);
+void _free(void *p);
+void *spAtlasAttachmentLoader_create(spAtlas *atlas);
+void spAttachmentLoader_dispose(void *loader);
+spSkeletonJson *spSkeletonJson_createWithLoader(void *loader);
+void spAtlasPage_dispose(spAtlasPage *page);
+void spAtlasRegion_dispose(spAtlasRegion *region);
+void _spAtlasPage_disposeTexture(spAtlasPage *page);
+void GR_Texture_Free(int id) YY_SYM("_Z15GR_Texture_Freei");
+
 #endif /* YY_SKEL_DEPS_H */
