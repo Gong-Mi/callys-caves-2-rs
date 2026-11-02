@@ -160,7 +160,7 @@ def main():
                  LOADER/'src/csprite_loadfromchunk.c',LOADER/'src/test_doubles.c']
         variants=[('base',None,None,None),
             ('json-misses-loader-release',SRC/'spine_json_lifetime.c',
-             '        spAttachmentLoader_dispose((void *)(uintptr_t)j->loader);', '        (void)j->loader;'),
+             '        spAttachmentLoader_dispose((spAttachmentLoader *)(uintptr_t)j->loader);', '        (void)j->loader;'),
             ('texture-not-consumed',tex,'GR_Texture_Free(id);','(void)id;'),
             ('page-name-cached',SRC/'atlas_dispose.c',
              '    _spAtlasPage_disposeTexture(page);\n    _free(yy_at(yy_ld32(page, SPATPAGE_NAME)));',

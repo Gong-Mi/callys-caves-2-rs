@@ -1,0 +1,214 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "entry": "0x285ac4",
+      "isa": "arm",
+      "symbol": "spBoneData_dispose",
+      "aliases": [
+        "spBoneData_dispose"
+      ],
+      "size": 28,
+      "original_body_sha256": "d4fcb66640a31eda2b4dfbf12429d84dc44866098194ee966f9fddda6377939a",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x28efa8",
+      "isa": "arm",
+      "symbol": "spSlotData_dispose",
+      "aliases": [
+        "spSlotData_dispose"
+      ],
+      "size": 36,
+      "original_body_sha256": "d8b740e9e0c089577f26a29dc96188be0b544b152bd58db2424fbabc6780f2b8",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x28ec9c",
+      "isa": "arm",
+      "symbol": "spSkin_dispose",
+      "aliases": [
+        "spSkin_dispose"
+      ],
+      "size": 60,
+      "original_body_sha256": "913b630236e4be0f1fe3460aff26a4fcf4a59bfa8cdf18c19231c22e766ef5c3",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x285bec",
+      "isa": "arm",
+      "symbol": "spEventData_dispose",
+      "aliases": [
+        "spEventData_dispose"
+      ],
+      "size": 36,
+      "original_body_sha256": "4ff2d60f745273287a88ea7a89c74aa2cb7846643e27c776ea76c9dd08b24309",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x28147c",
+      "isa": "arm",
+      "symbol": "spAnimation_dispose",
+      "aliases": [
+        "spAnimation_dispose"
+      ],
+      "size": 80,
+      "original_body_sha256": "76d93c058e13ea31d7f2dd509408aef44f57d6c4bc83da9f0e4486f2eb25df34",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x286758",
+      "isa": "arm",
+      "symbol": "spIkConstraintData_dispose",
+      "aliases": [
+        "spIkConstraintData_dispose"
+      ],
+      "size": 36,
+      "original_body_sha256": "4b2f892cf690cacae1959293cf106bf9b533831ff2eec80c243cddb409df4380",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x28f608",
+      "isa": "arm",
+      "symbol": "spTransformConstraintData_dispose",
+      "aliases": [
+        "spTransformConstraintData_dispose"
+      ],
+      "size": 36,
+      "original_body_sha256": "0a6ef0b5e94417d1227b021a30b982e80ecc6a08df31b4707320100b14c97d8e",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x288f34",
+      "isa": "arm",
+      "symbol": "spPathConstraintData_dispose",
+      "aliases": [
+        "spPathConstraintData_dispose"
+      ],
+      "size": 36,
+      "original_body_sha256": "cc3da86b1f8365ea5f03c8dccb0a33afc49301043a3426029a6f34be19646353",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x281468",
+      "isa": "arm",
+      "symbol": "spTimeline_dispose",
+      "aliases": [
+        "spTimeline_dispose"
+      ],
+      "size": 20,
+      "original_body_sha256": "eeb30517f6634ba9193331c04a41f58cabcd104c42a8c5f917719ea48eccba5d",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x284cb4",
+      "isa": "arm",
+      "symbol": "spAttachment_dispose",
+      "aliases": [
+        "spAttachment_dispose"
+      ],
+      "size": 20,
+      "original_body_sha256": "2caa9d31e01fa2eccb817c2045d0e82efbe8daca1189fc6cf6aa2aec8d78711b",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x28addc",
+      "isa": "arm",
+      "symbol": "spSkeletonData_create",
+      "aliases": [
+        "spSkeletonData_create"
+      ],
+      "size": 28,
+      "original_body_sha256": "8eddeace84acbad78aa726adcb0e17809e4686c4572e0e5a9df43266cc9190a1",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x28adf8",
+      "isa": "arm",
+      "symbol": "spSkeletonData_dispose",
+      "aliases": [
+        "spSkeletonData_dispose"
+      ],
+      "size": 452,
+      "original_body_sha256": "85ab0046d4a05fcc04ad76b9bc5a15e2009490167693215f827ce452014863e2",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x28ec20",
+      "isa": "arm",
+      "symbol": "_Entry_dispose",
+      "aliases": [
+        "_Entry_dispose"
+      ],
+      "size": 36,
+      "original_body_sha256": "47f758f2fbdeea95897538516e0a162207705625404091b4b578ea70993b9c58",
+      "translation_source": "src/spine_skeleton_data.c",
+      "translation_source_sha256": "0338f4ab0563ef1b7e92793e8a94819a2bd34e7a6ae81a7facf3f0cd437aa8dc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "whole-library allocator/registered concrete virtual-callback closure and original comparison are separate; see SEMANTICS.md"
+    }
+  ]
+}

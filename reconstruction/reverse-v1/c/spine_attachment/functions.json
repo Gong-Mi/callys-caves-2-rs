@@ -1,0 +1,58 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "entry": "0x284bb4",
+      "isa": "arm",
+      "symbol": "spAtlasAttachmentLoader_create",
+      "size": 100,
+      "original_body_sha256": "e014d8b70435c2eeaa98a0bd96e3f2de764d43a9ce024f1206001723db38cbcc",
+      "translation_source": "src/spine_attachment.c",
+      "translation_source_sha256": "7a2f015c1ec292aab2f756d2f8370c0eecbed850a236d11b34696c134fcb21c4",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x284d38",
+      "isa": "arm",
+      "symbol": "spAttachmentLoader_dispose",
+      "size": 32,
+      "original_body_sha256": "59689c3ccd399d32a09d7be5c408f6f91c85649ec520ecd68009b3ffb3302ae0",
+      "translation_source": "src/spine_attachment.c",
+      "translation_source_sha256": "7a2f015c1ec292aab2f756d2f8370c0eecbed850a236d11b34696c134fcb21c4",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x284cc8",
+      "isa": "arm",
+      "symbol": "_spAttachmentLoader_init",
+      "size": 76,
+      "original_body_sha256": "c6fe63cef5bbd5108ffe9d7f11bf34feaeab508e228890caa3b254535335ea96",
+      "translation_source": "src/spine_attachment.c",
+      "translation_source_sha256": "7a2f015c1ec292aab2f756d2f8370c0eecbed850a236d11b34696c134fcb21c4",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x284d14",
+      "isa": "arm",
+      "symbol": "_spAttachmentLoader_deinit",
+      "size": 36,
+      "original_body_sha256": "8ce25cf1a9f103438210942111d03f101ec9274cf54dbf1d49dfc2a3cc0a19dd",
+      "translation_source": "src/spine_attachment.c",
+      "translation_source_sha256": "7a2f015c1ec292aab2f756d2f8370c0eecbed850a236d11b34696c134fcb21c4",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    }
+  ]
+}

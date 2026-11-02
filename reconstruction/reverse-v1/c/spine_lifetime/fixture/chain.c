@@ -79,13 +79,13 @@ void _free(void *p)
     for (unsigned i=0;i<block_count;++i)
         if (a==blocks[i]) memset(p,0,sizes[i]);
 }
-void *spAtlasAttachmentLoader_create(spAtlas *a)
+spAttachmentLoader *spAtlasAttachmentLoader_create(spAtlas *a)
 {
     CHECK((uint32_t)(uintptr_t)a==g.atlas, "chain_loader_gets_created_atlas");
     g.loader=alloc(16);
-    return (void *)(uintptr_t)g.loader;
+    return (spAttachmentLoader *)(uintptr_t)g.loader;
 }
-void spAttachmentLoader_dispose(void *p)
+void spAttachmentLoader_dispose(spAttachmentLoader *p)
 {
     CHECK((uint32_t)(uintptr_t)p==g.loader, "chain_attachment_loader_dispose_abi");
     event('L',g.loader);

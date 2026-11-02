@@ -13,11 +13,12 @@
 
 typedef struct spAtlas spAtlas;
 typedef struct spSkeletonJson spSkeletonJson;
+typedef struct spAttachmentLoader spAttachmentLoader;
 
 spSkeletonJson *spSkeletonJson_create(spAtlas *atlas);
 void            spSkeletonJson_dispose(spSkeletonJson *j);
-void           *spAtlasAttachmentLoader_create(spAtlas *atlas);
-void            spAttachmentLoader_dispose(void *loader);
+spAttachmentLoader *spAtlasAttachmentLoader_create(spAtlas *atlas);
+void spAttachmentLoader_dispose(spAttachmentLoader *loader);
 void           *_calloc(uint32_t nmemb, uint32_t size, const char *tag, uint32_t line);
 void            _free(void *p);
 
@@ -38,15 +39,15 @@ static struct {
     uint32_t free_log[8];
 } tr;
 
-void *spAtlasAttachmentLoader_create(spAtlas *atlas)
+spAttachmentLoader *spAtlasAttachmentLoader_create(spAtlas *atlas)
 {
     tr.lc_calls++;
     tr.lc_atlas = (uint32_t)(uintptr_t)atlas;
     tr.loader = fx_alloc(16);
-    return (void *)(uintptr_t)tr.loader;
+    return (spAttachmentLoader *)(uintptr_t)tr.loader;
 }
 
-void spAttachmentLoader_dispose(void *loader)
+void spAttachmentLoader_dispose(spAttachmentLoader *loader)
 {
     tr.ld_calls++;
     tr.ld_arg = (uint32_t)(uintptr_t)loader;

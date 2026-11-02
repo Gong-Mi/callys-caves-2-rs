@@ -6,8 +6,12 @@
 原件执行、ART/Unicorn、画面和整机验证后置；不以可达子集、索引满锚或自测通过替换完成。
 原版 ELF 现量 9,267 条已定义可执行函数符号、8,926 个唯一地址+ISA 入口；
 既有匿名切分表为 646 个候选段，边界尚未全部定案，不能直接拿来当函数分母。
-当前推进先收已接入链的共享内部依赖：spine 分配派发/清零与 attachment-loader 生命周期，
-不是继续扩展渲染、性能或验收框架。
+当前优先收已接入链的共享内部依赖。新增 allocation 六入口、attachment-loader 四入口、
+skeletonData 创建/完整释放及直接依赖十三入口的 C 本体候选；逐函数身份/源哈希/缺口分别在
+`c/{spine_alloc,spine_attachment,spine_skeleton_data}/functions.json`，全库退出条件未满足。
+累计重建消费者已直接链接 allocator→attachment→JSON→骨骼与data/atlas清理，
+初始malloc槽和Debug两路径分开验；仍未恢复实际atlas/JSON解析、具体attachment创建和
+虚类型回调本体。不是继续扩展渲染、性能或验收框架。
 
 ## 2026-11-01 校准：下方为历史记录，不是当前完成率
 

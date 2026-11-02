@@ -72,8 +72,8 @@ _Static_assert(offsetof(struct spSkeletonJson, unk_18)      == 0x18, "28b768 ldr
  */
 void *_calloc(uint32_t nmemb, uint32_t size, const char *tag, uint32_t line);
 void  _free(void *p);
-void *spAtlasAttachmentLoader_create(spAtlas *atlas);
-void  spAttachmentLoader_dispose(void *loader);
+spAttachmentLoader *spAtlasAttachmentLoader_create(spAtlas *atlas);
+void spAttachmentLoader_dispose(spAttachmentLoader *loader);
 
 spSkeletonJson *spSkeletonJson_createWithLoader(void *loader);
 
@@ -95,7 +95,7 @@ spSkeletonJson *spSkeletonJson_createWithLoader(void *loader)
 
 spSkeletonJson *spSkeletonJson_create(spAtlas *atlas)
 {
-    void *loader = spAtlasAttachmentLoader_create(atlas);        /* 28b738 */
+    spAttachmentLoader *loader = spAtlasAttachmentLoader_create(atlas);        /* 28b738 */
     spSkeletonJson *j = spSkeletonJson_createWithLoader(loader); /* 28b73c */
     j->owns_loader = 1u;                                         /* 28b744 str r3,[r0,#0xc] */
     return j;                                                    /* 28b748 pop {r3,pc} */
@@ -104,7 +104,7 @@ spSkeletonJson *spSkeletonJson_create(spAtlas *atlas)
 void spSkeletonJson_dispose(spSkeletonJson *j)
 {
     if (j->owns_loader) {   /* 28b74c ldr r3,[r0,#0xc] / 28b754 cmp / 28b75c beq */
-        spAttachmentLoader_dispose((void *)(uintptr_t)j->loader); /* 28b760 / 28b764 */
+        spAttachmentLoader_dispose((spAttachmentLoader *)(uintptr_t)j->loader); /* 28b760 / 28b764 */
     }
     _free((void *)(uintptr_t)j->unk_18);   /* 28b768 ldr r0,[r4,#0x18]; 28b76c bl _free */
     _free((void *)(uintptr_t)j->unk_08);   /* 28b770 ldr r0,[r4,#8];    28b774 bl _free */
