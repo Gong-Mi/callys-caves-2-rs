@@ -52,9 +52,10 @@ _Static_assert(SPATREGION_NEXT + 4u == SPATREGION_SIZE, "region next 是 80 字�
 _Static_assert(SPATLAS_RENDERER + 4u == SPATLAS_SIZE, "atlas 12 字节：renderer 是尾字");
 
 /* 32 位槽读写：宽度固定 4 字节，绝不用 host 的 void*（8 字节）。 */
+typedef uint32_t yy_alias_u32 __attribute__((may_alias));
 static inline uint32_t yy_ld32(const void *base, size_t off)
 {
-    return *(const volatile uint32_t *)((const uint8_t *)base + off);
+    return *(const volatile yy_alias_u32 *)((const uint8_t *)base + off);
 }
 
 /* 槽里的值是 ARM32 地址（原件里就是指针宽度 4）；host 上靠夹具把图放在 4GiB 以下。 */

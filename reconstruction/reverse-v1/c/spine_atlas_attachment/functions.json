@@ -1,0 +1,338 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "compile_domain": {
+    "compiler": "Clang ARM32",
+    "target": "armv7a-none-eabi",
+    "float_abi": "soft",
+    "required_factory_options": [
+      "-fstack-protector-strong",
+      "-mstack-protector-guard=global"
+    ],
+    "forbidden": "spoofing __SOFTFP__ or 64-bit host layout substitution"
+  },
+  "functions": [
+    {
+      "entry": "0x284a08",
+      "isa": "arm",
+      "symbol": "_spAtlasAttachmentLoader_createAttachment",
+      "aliases": [
+        "_spAtlasAttachmentLoader_createAttachment"
+      ],
+      "size": 428,
+      "original_body_sha256": "9b460564815716a2f0fd94dd098eb84c6c4b40b5dcf1187399e253039d3194df",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x284df0",
+      "isa": "arm",
+      "symbol": "_spAttachmentLoader_setError",
+      "aliases": [
+        "_spAttachmentLoader_setError"
+      ],
+      "size": 120,
+      "original_body_sha256": "232bf230a9590b47657f4f4d7138630a91a276e34cc57cebb9dad3210cdb34c3",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x284e68",
+      "isa": "arm",
+      "symbol": "_spAttachmentLoader_setUnknownTypeError",
+      "aliases": [
+        "_spAttachmentLoader_setUnknownTypeError"
+      ],
+      "size": 112,
+      "original_body_sha256": "3dfbbebb1f2a319ab3633d15fc041388897b0b8f1d8f64ae5534b4fd09c8b9c2",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x284c84",
+      "isa": "arm",
+      "symbol": "_spAttachment_deinit",
+      "aliases": [
+        "_spAttachment_deinit"
+      ],
+      "size": 48,
+      "original_body_sha256": "7f1fb6e4e35c3d8e139e0717fc4c455b495e5e5eadcd64f27d1c1c87b17c3c45",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x284c18",
+      "isa": "arm",
+      "symbol": "_spAttachment_init",
+      "aliases": [
+        "_spAttachment_init"
+      ],
+      "size": 108,
+      "original_body_sha256": "3695ebc9c77453a93d1ff381df6d1fe38146ea686450441e580764e30efe9622",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x285ae0",
+      "isa": "arm",
+      "symbol": "_spBoundingBoxAttachment_dispose",
+      "aliases": [
+        "_spBoundingBoxAttachment_dispose"
+      ],
+      "size": 24,
+      "original_body_sha256": "60c6370d7a4f540cca8c2b1097503525d9ba68049f03696dc5c672455a41cf0a",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x28747c",
+      "isa": "arm",
+      "symbol": "_spMeshAttachment_dispose",
+      "aliases": [
+        "_spMeshAttachment_dispose"
+      ],
+      "size": 96,
+      "original_body_sha256": "5ca10763be1971b3c1271c6f8681c2e3ace37528874bf866f8e782d9a7ff8a26",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x2876d4",
+      "isa": "arm",
+      "symbol": "_spPathAttachment_dispose",
+      "aliases": [
+        "_spPathAttachment_dispose"
+      ],
+      "size": 32,
+      "original_body_sha256": "10b8f2e527a753f8e389da656b5878e3ea0549ee03c0b2733054cbf06fcb53e9",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x288f58",
+      "isa": "arm",
+      "symbol": "_spRegionAttachment_dispose",
+      "aliases": [
+        "_spRegionAttachment_dispose"
+      ],
+      "size": 32,
+      "original_body_sha256": "4ada4c8efb68e2527eff98066b2a03511832cddd05507078894dbfc5675fa0a9",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x28f62c",
+      "isa": "arm",
+      "symbol": "_spVertexAttachment_deinit",
+      "aliases": [
+        "_spVertexAttachment_deinit"
+      ],
+      "size": 32,
+      "original_body_sha256": "58873ea392fa812d8c82e1b3917115e6e34eb6f42336c8ccedc77d9770f78011",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x284958",
+      "isa": "arm",
+      "symbol": "spAtlas_findRegion",
+      "aliases": [
+        "spAtlas_findRegion"
+      ],
+      "size": 176,
+      "original_body_sha256": "56717a8c2cca9c258cb264b7c82c2c38f36385c49dae7ba6165b8debb46f65df",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x284db8",
+      "isa": "arm",
+      "symbol": "spAttachmentLoader_configureAttachment",
+      "aliases": [
+        "spAttachmentLoader_configureAttachment"
+      ],
+      "size": 28,
+      "original_body_sha256": "6729a15445e9da24cd3c84e2ed4ace12f755da36230d5fdd0c6730065cfec8ac",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x284d58",
+      "isa": "arm",
+      "symbol": "spAttachmentLoader_createAttachment",
+      "aliases": [
+        "spAttachmentLoader_createAttachment"
+      ],
+      "size": 96,
+      "original_body_sha256": "0663c51af5884d4eee3a4ca1af42c192907bb59211b419744e1baaf881a6d561",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x284dd4",
+      "isa": "arm",
+      "symbol": "spAttachmentLoader_disposeAttachment",
+      "aliases": [
+        "spAttachmentLoader_disposeAttachment"
+      ],
+      "size": 28,
+      "original_body_sha256": "de9cb17348ac9e9524e550ae92b2334f58352b4131c600e68d9c0c46a595c8da",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x285af8",
+      "isa": "arm",
+      "symbol": "spBoundingBoxAttachment_create",
+      "aliases": [
+        "spBoundingBoxAttachment_create"
+      ],
+      "size": 72,
+      "original_body_sha256": "4761e5ad6bac07160c2866333c919b87b63d100ab7d5c2ff94e2ca200927ec69",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x2874dc",
+      "isa": "arm",
+      "symbol": "spMeshAttachment_create",
+      "aliases": [
+        "spMeshAttachment_create"
+      ],
+      "size": 92,
+      "original_body_sha256": "592fb771128658dc0a4873ecc6d574874817fe5e11469136911667f68e0e44e3",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x2876f4",
+      "isa": "arm",
+      "symbol": "spPathAttachment_create",
+      "aliases": [
+        "spPathAttachment_create"
+      ],
+      "size": 72,
+      "original_body_sha256": "e3c89ee5bb55ffcf71e243c55a742d7858479e2bcc9965aec64793c797ecf907",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x288f78",
+      "isa": "arm",
+      "symbol": "spRegionAttachment_create",
+      "aliases": [
+        "spRegionAttachment_create"
+      ],
+      "size": 100,
+      "original_body_sha256": "9d425dbc4436db692765e24279d6d5a20fe8108ce030a61e86ca1be919982e7e",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    },
+    {
+      "entry": "0x288fdc",
+      "isa": "arm",
+      "symbol": "spRegionAttachment_setUVs",
+      "aliases": [
+        "spRegionAttachment_setUVs"
+      ],
+      "size": 100,
+      "original_body_sha256": "1e6db1e29d2c434a8e36db50bd3216f950be25ece64ab4c5192a1818df5cbe06",
+      "translation_source": "src/spine_atlas_attachment.c",
+      "translation_source_sha256": "1842f7b002e2be474fb2a1d5c59ee9c99a650e1ff1e81683ce0a13c66df49a69",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "owner-writer and field-role consumers outside this cohort; original runtime comparison and whole-library closure not performed"
+    }
+  ],
+  "translation_headers_sha256": {
+    "spine_atlas_attachment/src/spine_atlas_attachment.h": "c7ae0343c009c54e16c7676b77caea6c743777d65956543e1706835f8d0dd1cf",
+    "spine_atlas_layout.h": "2faac0ad0cb10496bb61f6d2e62b8c1c1f62467dccde97fd06fc450c658cd679",
+    "spine_alloc/src/spine_alloc.h": "23124b746590c8ce44588ec7c79a0003fc2f737099cf173ae77e6c55246509b4",
+    "spine_attachment/src/spine_attachment.h": "e7412422e40fbaaad248795d0ca2e58730d79def1a062a85de2d6b578394e67c",
+    "spine_skeleton_data/src/spine_skeleton_data.h": "503a2978024a88e9df63ba7373bb8cb88e77b87ac5348ad71813850ac37fbda6"
+  },
+  "static_review": {
+    "original_report": "/data/data/com.termux/files/home/.hermes/reports/cally-native-atlas-20261102/factory-static-review.json",
+    "original_report_sha256": "d3278fd1b241557bf78b00ecc137f39ada1e1a7089d88ddf6d7e009a30f4b1c7",
+    "repair_review": "/data/data/com.termux/files/home/.hermes/reports/cally-native-atlas-20261102/factory-f1-repair-review.json",
+    "repair_review_sha256": "5f3b41fc1bd84dd71a168281aa7555ff18fbec2c130ba71bcec237705db3cf8c",
+    "resolved_findings": [
+      "F1"
+    ],
+    "passed": true,
+    "scope": "all 19 control/data/ABI candidates plus narrow declaration/call-frame repair; not whole-library equivalence"
+  }
+}

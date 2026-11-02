@@ -5,8 +5,9 @@
  * Library-internal virtual callback implementations remain explicit dependencies. */
 #include "spine_skeleton_data.h"
 
+typedef uint32_t yy_alias_u32 __attribute__((may_alias));
 static uint32_t rd(const void *p, uint32_t off)
-{ return *(const volatile uint32_t *)((const unsigned char *)p+off); }
+{ return *(const volatile yy_alias_u32 *)((const unsigned char *)p+off); }
 static void *at(uint32_t p) { return (void *)(uintptr_t)p; }
 static uint32_t element(const void *p, uint32_t off, uint32_t i)
 {
