@@ -15,8 +15,8 @@ skeletonData 创建/完整释放及直接依赖十三入口的 C 本体候选；
 新atlas_parse_chain实际跑text→Atlas解析→五路attachment→真实销毁，区别于旧native_chain
 仍有合成atlas/JSON接口；全套入口当前构建运行八个ARM32重建程序。原件未运行，两个新模块
 已完成独立字节审查与F1调用帧修缮复审；不将其自测或本体数量说成全库/原版等价。
-当前明确缺口为库内_spAtlasPage_createTexture@0xbd6e4/304B、真实JSON解析、owner字段写者、
-其它虚类型/渲染消费者及全库匿名边界；不是继续扩展游戏、性能或通用验收平台。
+当前明确缺口为库内真实JSON解析、owner字段写者、
+其它虚类型/渲染消费者及全库匿名边界；_spAtlasPage_createTexture 已于 2026-11-06 恢复为 ARM32 C 候选（78569a4）。
 
 ## 2026-11-01 校准：下方为历史记录，不是当前完成率
 
