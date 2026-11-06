@@ -26,6 +26,7 @@ typedef struct Json Json;
 
 /* libc (bare-metal). */
 extern int strcmp(const char* a, const char* b);
+extern int strcasecmp(const char* a, const char* b);
 
 /* Public API (matches dynsym). */
 Json*        Json_getItem(Json* json, const char* name);

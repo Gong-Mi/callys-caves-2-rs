@@ -545,7 +545,16 @@ class Oracle:
             return v & 0xffffffff
 
         plt = self.plt
+        def f_strcasecmp(a, b, _c, _d):
+            sa = u.mem_read(a, 256)
+            na = sa.find(b'\0')
+            sb = u.mem_read(b, 256)
+            nb = sb.find(b'\0')
+            x = sa[:na if na >= 0 else 256].lower()
+            y = sb[:nb if nb >= 0 else 256].lower()
+            return 0 if x == y else (1 if x > y else -1)
         for name, fn in (('strlen', f_strlen), ('strcmp', f_strcmp),
+                         ('strcasecmp', f_strcasecmp),
                          ('strncmp', f_strncmp), ('strcpy', f_strcpy),
                          ('strncpy', f_strncpy), ('strchr', f_strchr),
                          ('strrchr', f_strrchr), ('strstr', f_strstr),

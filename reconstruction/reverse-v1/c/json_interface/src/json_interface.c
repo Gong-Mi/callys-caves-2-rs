@@ -62,8 +62,8 @@ Json_getItem(Json* json, const char* name)
 
         /* 0x287408 cmp r3, #0; 0x28740c beq skip_compare */
         if (compare) {
-            /* 0x287410 mov r1, r5; 0x287414 bl strcmp */
-            if (strcmp(item_name, name) == 0) {
+            /* 0x287410 mov r1, r5; 0x287414 bl strcasecmp (case-insensitive) */
+            if (strcasecmp(item_name, name) == 0) {
                 /* 0x287420 implicit: return r4 (item) */
                 return item;
             }
