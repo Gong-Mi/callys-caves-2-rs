@@ -1,0 +1,72 @@
+{
+  "schema": "cally-simpledecode-diff/1",
+  "function": "CSkeletonSprite::SimpleDecode",
+  "entry": "0xbd840",
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "c_source": "inline (deterministic data formula i*7+13)",
+  "seed": 98484446,
+  "n_cases": 30,
+  "lengths": [
+    1,
+    0,
+    46,
+    43,
+    48,
+    43,
+    11,
+    23,
+    36,
+    10,
+    17,
+    24,
+    64,
+    37,
+    1,
+    27,
+    8,
+    20,
+    39,
+    56,
+    42,
+    47,
+    49,
+    8,
+    43,
+    6,
+    16,
+    20,
+    58,
+    46
+  ],
+  "gates": {
+    "identity": {
+      "pass": true,
+      "mismatches": []
+    },
+    "non_degenerate": {
+      "pass": true,
+      "detail": "decoded bytes differ from input"
+    },
+    "teeth": [
+      {
+        "mutant": "key_43",
+        "caught": 29,
+        "status": "PASS"
+      },
+      {
+        "mutant": "xor_not_sub",
+        "caught": 29,
+        "status": "PASS"
+      },
+      {
+        "mutant": "no_key_evolution",
+        "caught": 27,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "PASS",
+  "stubbed_imports": "none (pure function)",
+  "scope": "pure XOR-like decode; rsb (reverse subtract) with key 42; 1..64 bytes; deterministic input",
+  "timestamp": "20261107T070044"
+}
