@@ -45,13 +45,14 @@ spSkeletonData_findBone(spSkeletonData* self, const char* name)
     if (count <= 0)
         return NULL;
 
-    /* 0x28afd0 ldr r6, [r0, #0x14] — bones array; walk from end */
-    spBoneData** arr = self->bones;
-    spBoneData** p = arr + count; /* sub r6, r6, #4 → last slot */
+    /* 0x28afd0 ldr r6, [r0, #0x14]; 0x28afd8 sub r6, r6, #4
+     * Then 0x28afe8 ldr r5, [r6, #0x4]! — pre-indexed: r6 += 4 then load.
+     * r6 starts at arr - 4; first iteration reads arr[0]; walks FORWARD. */
+    spBoneData** p = self->bones - 1; /* arr - 1 (in pointer units) */
 
     for (int i = 0; i < count; i++) {
-        /* 0x28afe8 ldr r5, [r6, #0x4]! — pre-indexed: p++ then read */
-        spBoneData* bone = *(--p);
+        /* 0x28afe8 ldr r5, [r6, #0x4]! — advance then read */
+        spBoneData* bone = *(++p);
 
         /* 0x28aff4 ldr r0, [r5, #0x4] — bone->name */
         /* 0x28aff8 bl strcmp */
@@ -75,13 +76,13 @@ spSkeletonData_findSlotIndex(spSkeletonData* self, const char* name)
     if (count <= 0)
         return -1;
 
-    /* 0x28b0e0 ldr r5, [r0, #0x1c] — slots array */
-    spSlotData** arr = self->slots;
-    spSlotData** p = arr + count;
+    /* 0x28b0e0 ldr r5, [r0, #0x1c]; 0x28b0e8 sub r5, r5, #4
+     * Then 0x28b0fc ldr r3, [r5, #0x4]! — pre-indexed: walks FORWARD. */
+    spSlotData** p = self->slots - 1;
 
     for (int i = 0; i < count; i++) {
-        /* 0x28b0fc ldr r3, [r5, #0x4]! — pre-indexed */
-        spSlotData* slot = *(--p);
+        /* 0x28b0fc ldr r3, [r5, #0x4]! — advance then read */
+        spSlotData* slot = *(++p);
 
         /* 0x28b104 ldr r0, [r3, #0x4] — slot->name */
         /* 0x28b108 bl strcmp */
@@ -105,13 +106,13 @@ spSkeletonData_findSkin(spSkeletonData* self, const char* name)
     if (count <= 0)
         return NULL;
 
-    /* 0x28b138 ldr r6, [r0, #0x24] — skins array */
-    spSkin** arr = self->skins;
-    spSkin** p = arr + count;
+    /* 0x28b138 ldr r6, [r0, #0x24]; 0x28b140 sub r6, r6, #4
+     * Then 0x28b150 ldr r5, [r6, #0x4]! — pre-indexed: walks FORWARD. */
+    spSkin** p = self->skins - 1;
 
     for (int i = 0; i < count; i++) {
-        /* 0x28b150 ldr r5, [r6, #0x4]! — pre-indexed */
-        spSkin* skin = *(--p);
+        /* 0x28b150 ldr r5, [r6, #0x4]! — advance then read */
+        spSkin* skin = *(++p);
 
         /* 0x28b15c ldr r0, [r5] — skin->name at +0x00 */
         /* 0x28b160 bl strcmp */
