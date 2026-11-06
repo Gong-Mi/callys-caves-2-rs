@@ -1,0 +1,37 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "compile_domain": "Clang ARM32 base AAPCS32, -mfloat-abi=soft; libc string functions declared as bare-metal externs",
+  "functions": [
+    {
+      "entry": "0x28b784",
+      "isa": "arm",
+      "symbol": "_spSkeletonJson_setError",
+      "role_label": "error formatting with json dispose and ReportSpineError",
+      "aliases": [],
+      "size": 200,
+      "original_body_sha256": null,
+      "translation_source": "src/spine_json_error.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "stack canary not modeled; _malloc tag string not pinned to original literal; ReportSpineError and Json_dispose are named boundaries"
+    },
+    {
+      "entry": "0x28eb40",
+      "isa": "arm",
+      "symbol": "spSkeletonJson_readSkeletonDataFile",
+      "role_label": "file wrapper: _readFile → readSkeletonData → _free",
+      "aliases": [],
+      "size": 120,
+      "original_body_sha256": null,
+      "translation_source": "src/spine_json_error.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "spSkeletonJson_readSkeletonData (13044 B) is the named gap, not recovered here; _readFile body is in spine_alloc"
+    }
+  ]
+}
