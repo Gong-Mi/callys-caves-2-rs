@@ -1,0 +1,52 @@
+{
+  "schema": "cally-skeljson-lifecycle/1",
+  "functions": [
+    "spSkeletonJson_create",
+    "spSkeletonJson_dispose"
+  ],
+  "entries": [
+    "0x28b734",
+    "0x28b74c"
+  ],
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "seed": 22438,
+  "unicorn_create_chain": [
+    "atlas_loader_create",
+    "createWithLoader"
+  ],
+  "c_output": "CREATE ptr=nonnull scale=3f800000 loader=1000 owns=1 loader_calls=1\nDISPOSE_OWNS1 dispose_calls=1 free_count=3 order=4000,3000,7c69c0a0\nDISPOSE_OWNS0 dispose_calls=0 free_count=3 order=5000,6000,7c69c670\nNULL_DISPOSE dispose_calls=0 free_count=0\nEND",
+  "gates": {
+    "create_chain": {
+      "pass": true,
+      "calls": [
+        "atlas_loader_create",
+        "createWithLoader"
+      ]
+    },
+    "c_create": {
+      "pass": true
+    },
+    "c_dispose_owns1": {
+      "pass": true
+    },
+    "c_dispose_owns0": {
+      "pass": true
+    },
+    "c_null": {
+      "pass": true
+    },
+    "c_free_order": {
+      "pass": true
+    },
+    "teeth": [
+      {
+        "mutant": "skip_owns_check",
+        "caught": true,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "PASS",
+  "scope": "create verified in Unicorn (call chain); dispose verified in C (field semantics + free order + owns gate); Unicorn dispose blocked by r4-based convention",
+  "timestamp": "20261107T073519"
+}
