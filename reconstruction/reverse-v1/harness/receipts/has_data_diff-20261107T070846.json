@@ -1,0 +1,43 @@
+{
+  "schema": "cally-hasdata-diff/1",
+  "function": "CSkeletonSprite::HasData",
+  "entry": "0xbd96c",
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "c_source": "inline (3-field non-zero check)",
+  "seed": 55930,
+  "n_cases": 84,
+  "gates": {
+    "identity": {
+      "pass": true,
+      "mismatches": []
+    },
+    "coverage": {
+      "pass": true,
+      "detail": "8/8 combos"
+    },
+    "non_degenerate": {
+      "pass": true
+    },
+    "teeth": [
+      {
+        "mutant": "skip_f4_check",
+        "caught": 9,
+        "status": "PASS"
+      },
+      {
+        "mutant": "always_zero",
+        "caught": 47,
+        "status": "PASS"
+      },
+      {
+        "mutant": "f0_zero_returns_1",
+        "caught": 16,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "PASS",
+  "stubbed_imports": "none (pure function)",
+  "scope": "pure 3-field boolean; 12 insns; no external calls",
+  "timestamp": "20261107T070846"
+}
