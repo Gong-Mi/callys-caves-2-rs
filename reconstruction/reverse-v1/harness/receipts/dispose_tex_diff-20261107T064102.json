@@ -1,0 +1,226 @@
+{
+  "schema": "cally-disposetex-diff/1",
+  "function": "_spAtlasPage_disposeTexture",
+  "entry": "0xbd814",
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "c_source": "c/spine_atlas_texture/src/spine_atlas_texture.c",
+  "seed": 53591,
+  "n_cases": 23,
+  "cases": [
+    {
+      "tex_id": 0,
+      "flag": 1
+    },
+    {
+      "tex_id": 0,
+      "flag": 0
+    },
+    {
+      "tex_id": 5,
+      "flag": 1
+    },
+    {
+      "tex_id": 5,
+      "flag": 0
+    },
+    {
+      "tex_id": 100,
+      "flag": 1
+    },
+    {
+      "tex_id": 100,
+      "flag": 0
+    },
+    {
+      "tex_id": 1,
+      "flag": 1
+    },
+    {
+      "tex_id": 2147483647,
+      "flag": 1
+    },
+    {
+      "tex_id": -1,
+      "flag": 1
+    },
+    {
+      "tex_id": -2147483648,
+      "flag": 1
+    },
+    {
+      "tex_id": 42,
+      "flag": 1
+    },
+    {
+      "tex_id": 42,
+      "flag": 0
+    },
+    {
+      "tex_id": 999,
+      "flag": 1
+    },
+    {
+      "tex_id": 809,
+      "flag": 0
+    },
+    {
+      "tex_id": 480,
+      "flag": 0
+    },
+    {
+      "tex_id": 56,
+      "flag": 1
+    },
+    {
+      "tex_id": 354,
+      "flag": 1
+    },
+    {
+      "tex_id": 571,
+      "flag": 1
+    },
+    {
+      "tex_id": 768,
+      "flag": 0
+    },
+    {
+      "tex_id": 201,
+      "flag": 0
+    },
+    {
+      "tex_id": 0,
+      "flag": 1
+    },
+    {
+      "tex_id": 784,
+      "flag": 0
+    },
+    {
+      "tex_id": 0,
+      "flag": 1
+    }
+  ],
+  "c_results": [
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 1,
+      "freed": 5
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 1,
+      "freed": 100
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 1,
+      "freed": 1
+    },
+    {
+      "calls": 1,
+      "freed": 2147483647
+    },
+    {
+      "calls": 1,
+      "freed": -1
+    },
+    {
+      "calls": 1,
+      "freed": -2147483648
+    },
+    {
+      "calls": 1,
+      "freed": 42
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 1,
+      "freed": 999
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 1,
+      "freed": 56
+    },
+    {
+      "calls": 1,
+      "freed": 354
+    },
+    {
+      "calls": 1,
+      "freed": 571
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    },
+    {
+      "calls": 0,
+      "freed": -999
+    }
+  ],
+  "orig_early_returns": 23,
+  "expected_early_returns": 12,
+  "gates": {
+    "early_returns": {
+      "pass": true
+    },
+    "c_no_call_correct": {
+      "pass": true
+    },
+    "c_calls_correct": {
+      "pass": true,
+      "detail": "11/11"
+    },
+    "teeth": [
+      {
+        "mutant": "no_zero_check",
+        "caught": 3,
+        "status": "PASS"
+      },
+      {
+        "mutant": "no_flag_check",
+        "caught": 8,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "PASS",
+  "scope": "early-return paths verified in Unicorn; flag=1 path requires GOT setup (known limitation); C-side full differential with mutation testing",
+  "timestamp": "20261107T064102"
+}
