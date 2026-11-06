@@ -1,0 +1,52 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "compile_domain": "Clang ARM32 base AAPCS32, -mfloat-abi=soft; strcmp declared as bare-metal extern",
+  "functions": [
+    {
+      "entry": "0x28afbc",
+      "isa": "arm",
+      "symbol": "spSkeletonData_findBone",
+      "role_label": "linear search in bones array by name; returns bone* or NULL",
+      "aliases": [],
+      "size": 92,
+      "original_body_sha256": null,
+      "translation_source": "src/skeleton_find.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "spBoneData layout beyond name at +0x04 not pinned by this batch"
+    },
+    {
+      "entry": "0x28b0cc",
+      "isa": "arm",
+      "symbol": "spSkeletonData_findSlotIndex",
+      "role_label": "linear search in slots array by name; returns index or -1",
+      "aliases": [],
+      "size": 88,
+      "original_body_sha256": null,
+      "translation_source": "src/skeleton_find.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "spSlotData layout beyond name at +0x04 not pinned by this batch"
+    },
+    {
+      "entry": "0x28b124",
+      "isa": "arm",
+      "symbol": "spSkeletonData_findSkin",
+      "role_label": "linear search in skins array by name; returns skin* or NULL",
+      "aliases": [],
+      "size": 92,
+      "original_body_sha256": null,
+      "translation_source": "src/skeleton_find.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "spSkin layout beyond name at +0x00 not pinned by this batch; note name offset differs from bone/slot (+0x04)"
+    }
+  ]
+}
