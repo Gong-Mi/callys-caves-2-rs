@@ -1,0 +1,37 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "compile_domain": "Clang ARM32 base AAPCS32, -mfloat-abi=soft; explicit ARM byte/word access preserves original loads, stores and operation order",
+  "functions": [
+    {
+      "entry": "0xbd6e4",
+      "isa": "arm",
+      "symbol": "_spAtlasPage_createTexture",
+      "role_label": "atlas page texture creation: preloaded global → save file → bundle",
+      "aliases": ["_spAtlasPage_createTexture"],
+      "size": 304,
+      "original_body_sha256": null,
+      "translation_source": "src/spine_atlas_texture.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "ReadPNGFile/GR_Texture_Create_And_Fill/LoadSave/MemoryManager bodies are named boundaries, not recovered here; GOT slot addresses not resolved to .data offsets; no original runtime comparison"
+    },
+    {
+      "entry": "0xbd814",
+      "isa": "arm",
+      "symbol": "_spAtlasPage_disposeTexture",
+      "role_label": "atlas page texture free: gated by global byte flag",
+      "aliases": ["_spAtlasPage_disposeTexture"],
+      "size": 40,
+      "original_body_sha256": null,
+      "translation_source": "src/spine_atlas_texture.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "GR_Texture_Free body is a named boundary; GOT-resolved flag address not pinned to .data offset"
+    }
+  ]
+}
