@@ -1,0 +1,121 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_json_support",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "compile_domain": "Clang ARM32 AAPCS32, -marm -mfpu=vfpv3 -mfloat-abi=softfp; _free is the real spine_alloc entry; the reporter object/vtable is a typed platform input boundary.",
+  "functions": [
+    {
+      "name": "Json_dispose",
+      "symbol": "Json_dispose",
+      "entry": "0x2872c8",
+      "isa": "arm",
+      "size": 88,
+      "role_label": "recursive child disposal + iterative sibling disposal of the 32-byte Json tree",
+      "aliases": [],
+      "original_body_sha256": "40ecddf85dcff977a945a6c73fd69350d176f0f8c561a2ead9b4723aca4920e8",
+      "original_body_range": [
+        "0x2872c8",
+        "0x287320"
+      ],
+      "original_pool_words": [],
+      "translation_source": "src/spine_json_support.c",
+      "translation_source_sha256": "2b1c0f1d6776b619b4f04196dacdb8d119877ee77993eafe3afe1d8fe9f3f945",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "interface": "void Json_dispose(Json *json); NULL returns immediately",
+      "paths": [
+        "per node: read child +0x04, then cache next +0x00",
+        "if child != NULL recurse before touching the current node's owned strings",
+        "re-read string_value +0x10 after the recursive call; free if non-NULL via real _free",
+        "re-read name +0x1c after the string free; free if non-NULL via real _free",
+        "_free(node), then continue with the cached next"
+      ],
+      "original_gap": [
+        "arbitrary alias/cycle domains are not modelled; the recovered shape is the original tree order"
+      ],
+      "translation_header_sha256": "a63b574dc634526ebca9b9a673f5002dfd9773b7690833a634e8f3c662a11f76"
+    },
+    {
+      "name": "ReportSpineError",
+      "symbol": "ReportSpineError",
+      "entry": "0xc4404",
+      "isa": "arm",
+      "size": 52,
+      "role_label": "load dbg_csol object, vtable address-point +0xc Output, pass this/format/message",
+      "aliases": [],
+      "original_body_sha256": "e506121b6ae88da8dde29821bcc2c2601ec75f261db44bfeb832d697a4689e0d",
+      "original_body_range": [
+        "0xc4404",
+        "0xc4438"
+      ],
+      "original_pool_words": [
+        "0xc4430=0x00329300 (PC+0xc441c = 0x3ed71c GOT entry)",
+        "0xc4434=0x0026c6dc (PC+0xc4420 = 0x330afc format)"
+      ],
+      "translation_source": "src/spine_json_support.c",
+      "translation_source_sha256": "2b1c0f1d6776b619b4f04196dacdb8d119877ee77993eafe3afe1d8fe9f3f945",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "interface": "void ReportSpineError(const char *message); vcall Output(this,const char *format,...) with one const char *message vararg in r2; mangled OutputEPKcz",
+      "paths": [
+        "GOT 0x3ed71c R_ARM_RELATIVE holds 0x3eb70c (&dbg_csol)",
+        "dbg_csol symbol 0x3eb70c is a 4-byte .data pointer initialized to 0x47a118 (&_dbg_csol), R_ARM_RELATIVE",
+        "_dbg_csol symbol 0x47a118 is a 4-byte .bss object",
+        "object vptr is the Itanium address point; address-point +0x0c resolves to _ZTV12DummyConsole+0x14 = 0xc4390 DummyConsole::Output",
+        "format literal 0x330afc is exactly Spine Error:%s\\n"
+      ],
+      "original_gap": [
+        "platform/global constructor producing initial _dbg_csol.vptr not recovered; fixture supplies typed reporter input",
+        "exact uninitialized reporter fault behavior not certified"
+      ],
+      "translation_header_sha256": "a63b574dc634526ebca9b9a673f5002dfd9773b7690833a634e8f3c662a11f76"
+    }
+  ],
+  "global_reporter_boundary": {
+    "object_symbol": "_dbg_csol",
+    "object_va": "0x47a118",
+    "object_size": 4,
+    "pointer_symbol": "dbg_csol",
+    "pointer_va": "0x3eb70c",
+    "pointer_value": "0x47a118",
+    "pointer_relocation": "R_ARM_RELATIVE",
+    "got_entry_va": "0x3ed71c",
+    "got_entry_value": "0x3eb70c",
+    "vtable_symbol": "_ZTV12DummyConsole",
+    "vtable_va": "0x3eb6a0",
+    "address_point": "0x3eb6a8",
+    "output_slot": "0x3eb6b4 (=_ZTV+0x14, DummyConsole::Output 0xc4390)",
+    "format": "Spine Error:%s\n",
+    "format_va": "0x330afc",
+    "typed_header": "src/spine_json_support.h: struct SpineErrorConsole, struct SpineErrorConsoleVTable, extern _dbg_csol/dbg_csol",
+    "fixture_install": "assign dbg_csol to a fixture object whose vptr points at a fixture SpineErrorConsoleVTable with output at offset 0x0c"
+  },
+  "depends_on": [
+    "spine_alloc _free 0x285c80",
+    "json_interface Json 32-byte record"
+  ],
+  "acceptance": {
+    "status": "verified_reconstructed_scope_only",
+    "original_executed": false,
+    "linked_consumer_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/run-03/receipt.json",
+    "linked_consumer_receipt_sha256": "600109e9ce9ada4d802affed12b7b9c250503109bc7e581daf76ed96544d316f",
+    "linked_contracts_per_variant": 15,
+    "linked_variants": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "linked_runtime_mutants": 17,
+    "guard_contract": "O0/O2/O3 global canary rejects after optional Json_dispose; disabling guard distinguished by named assertion",
+    "static_review": "parent independently reread original instructions, relocations and variadic OutputEPKcz signature",
+    "error_suite_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/error-final/receipt.json",
+    "error_suite_receipt_sha256": "bc9121fe63ca89a0c77f085d55f08e5ab442828f052050e2e9cae11fe99e140a",
+    "error_contracts_per_variant": 25,
+    "error_runtime_mutants": 10
+  }
+}
