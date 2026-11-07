@@ -1,0 +1,24 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_region",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_regionFields",
+      "address_range": "0x28cdac-0x28ce9c",
+      "semantics": "region attachment: path MALLOC_STR(line 891) + x/y×scale + scaleX/scaleY(def 1) + rotation + width/height(def 32.0f!)×scale",
+      "malloc_anchors": [{"site": "0x28cdcc", "line": 891, "stores_to": "+0x10"}],
+      "keys": ["x", "y", "scaleX", "scaleY", "rotation", "width", "height"],
+      "default_divergence": "width/height default 32.0f (0x42000000); stock spine-c 3.8 has 0. GameMaker texture-size assumption.",
+      "jump_table": "case 0 (region) of the attachment type dispatch at 0x28c7c8"
+    }
+  ],
+  "spRegionAttachment_layout": {
+    "+0x10": "path (char*)", "+0x14": "x (×scale)", "+0x18": "y (×scale)",
+    "+0x1c": "scaleX (def 1)", "+0x20": "scaleY (def 1)", "+0x24": "rotation",
+    "+0x28": "width (def 32.0f, ×scale)", "+0x2c": "height (def 32.0f, ×scale)"
+  },
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}
