@@ -3,7 +3,7 @@
 
 #include "json_interface.h"
 
-int readSkeletonData_pathSection(Json* tree, void* data_raw,
+int readSkeletonData_pathSection(Json* tree, void* data_raw, float json_scale,
                                   int* error_which, const char** error_name);
 
 #endif

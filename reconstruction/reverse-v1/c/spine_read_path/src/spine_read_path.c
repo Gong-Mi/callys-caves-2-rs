@@ -61,7 +61,7 @@ static const char* TAG = "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJso
 #define SP_ROTATE_CHAIN     1
 #define SP_ROTATE_CHAINSCALE 2
 
-int readSkeletonData_pathSection(Json* tree, void* data_raw,
+int readSkeletonData_pathSection(Json* tree, void* data_raw, float json_scale,
                                   int* error_which, const char** error_name) {
     Json* path;
     Json* map;
@@ -164,13 +164,42 @@ int readSkeletonData_pathSection(Json* tree, void* data_raw,
             *(int*)((char*)constraint + PC_ROTATEMODE_OFF) = SP_ROTATE_CHAINSCALE;
         }
 
-        /* Remaining float fields (position/spacing/mixes) at 0x28c52c+
-         * — position, spacing, rotateMix, translateMix, scaleMix, shearMix
-         * follow the same getFloat pattern. This batch covers the mode
-         * parsing; floats deferred to the next batch when the full store
-         * offsets are pinned. */
+        /* Float tail (0x28c52c–0x28c5d4):
+         * rotation → +0x1c (offsetRotation, unscaled)
+         * position → +0x20 (×scale if positionMode==FIXED(0))
+         * spacing → +0x24 (×scale if spacingMode<=FIXED(1), i.e. LENGTH|FIXED)
+         * rotateMix → +0x28 (default 1.0f)
+         * translateMix → +0x2c (default 1.0f)
+         * Path constraints have only 2 mixes (3.8 layout); the 4-mix
+         * set is transform-only. */
+        *(float*)((char*)constraint + 0x1c) =
+            Json_getFloat(map, "rotation", 0);
 
-        /* 0x28c5?? : data->path[i] = constraint */
+        {
+            float pos = Json_getFloat(map, "position", 0);
+            *(float*)((char*)constraint + 0x20) = pos;
+            if (*(int*)((char*)constraint + PC_POSMODE_OFF) == SP_POSITION_FIXED) {
+                *(float*)((char*)constraint + 0x20) = pos * json_scale;
+            }
+        }
+
+        {
+            float sp = Json_getFloat(map, "spacing", 0);
+            *(float*)((char*)constraint + 0x24) = sp;
+            {
+                int sm = *(int*)((char*)constraint + PC_SPACINGMODE_OFF);
+                if (sm == SP_SPACING_LENGTH || sm == SP_SPACING_FIXED) {
+                    *(float*)((char*)constraint + 0x24) = sp * json_scale;
+                }
+            }
+        }
+
+        *(float*)((char*)constraint + 0x28) =
+            Json_getFloat(map, "rotateMix", 1.0f);
+        *(float*)((char*)constraint + 0x2c) =
+            Json_getFloat(map, "translateMix", 1.0f);
+
+        /* 0x28c5d8: data->path[i] = constraint */
         (*(void***)((char*)data_raw + SD_PATH_OFF))[i] = constraint;
     }
 
