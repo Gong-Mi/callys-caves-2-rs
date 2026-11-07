@@ -1,0 +1,31 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_bbox_path",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_boundingBoxFields",
+      "address_range": "0x28cd6c-0x28cda8 (jump table case 1)",
+      "semantics": "vertexCount → _readVertices(count<<1) → +0x18 = vlen → configureAttachment",
+      "keys": ["vertexCount"]
+    },
+    {
+      "name": "readSkeletonData_pathAttachmentFields",
+      "address_range": "0x28ca5c-0x28cb1c (jump table case 4)",
+      "semantics": "closed/constantSpeed ints, vertexCount → _readVertices, lengthsLength = vertexCount/3 (smull magic, signed, NO +1), lengths malloc(985), lengths curves: raw float_value × scale sequential store",
+      "malloc_anchors": [{"site": "0x28cad8", "line": 985, "stores_to": "+0x28"}],
+      "keys": ["closed", "constantSpeed", "vertexCount", "lengths"]
+    }
+  ],
+  "shared_helper": {
+    "name": "_readVertices",
+    "address": "0x28b3fc",
+    "size": "644B (~160 insn)",
+    "mislabeled": "findPathConstraint+0x10c in cards",
+    "signature": "(json, attachmentMap, attachment, verticesCount)",
+    "status": "NOT YET RECOVERED — next batch target"
+  },
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}
