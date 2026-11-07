@@ -2202,26 +2202,26 @@
 /* @0x230670 b 0x230500 <vorbis_packet_blocksize+0x884> */
 
 /* ════════════════════════════════════════════════════════════════════
- * §7  anon_28b3fc   0x28b3fc .. 0x28b680   644 B / 161 条   in-degree 3，调用点 3
- * JSON 浮点数组 → 两条 int/float 数组的转换器（Json_getItem + 3 次 malloc + 尾调 free）
+ * §7  anon_28b3fc / _readVertices  0x28b3fc .. 0x28b680  644 B / 161 索引项
+ * 其中代码628B/157 ARM词；0x28b670..0x28b680为16B池字，不计作机器指令。
  * ────────────────────────────────────────────────────────────────────
- * 边界：本段是**完整函数**（0x28b3fc 序言，两个返回点：0x28b5cc 拆帧后尾调 free、0x28b638 pop 返回），0 条外跳。
- * 入口：r0 = 缩放系数指针（0x28b54c 起 ldr [r5] 当乘数），r1 = JSON 项名（0x28b404 mov r0,r1 后调 Json_getItem），
- *   r2 = 输出结构（r9），r3 = 某个整数（0x28b414 `str r3,[r9,#0x20]` 直接写进输出）。
- * 输出字段：+0x10 = 一维项数、+0x14 = 数组 A（malloc(sizeof(int)*n)）、+0x18 = 二维项数、
- *   +0x1c = 数组 B（malloc 4×项数）、+0x20 = 入参 r3。
- * 流程：0x28b420 Json_getItem(父, 名) → 0x28b430 取 [项+0xc] 当长度 r8 → 0x28b43c malloc(4*r8, tag 0x201) →
- *   0x28b454 把 [项+4] 链表（next 在 +0）逐个搬到临时数组（每项取 +0x18）→ 0x28b490 第一遍遍历：
- *   vcvt.s32 取整后累加三个量（r2 += 1+4*v、lr += v+1、r12 += 3*v）→ 0x28b4dc/0x28b4f4 两次 malloc（tag 0x219/0x21a）
- *   → 0x28b50c 第二遍：按 4 float/顶点读，写 3 个 float（其中两个乘 [r5] 缩放）＋1 个 int。
- *   0x28b5e0 特例：当 v8 == 1.0 且项数 > 0 时，只把数组逐项乘 [r5]；否则走 0x28b63c 的第三组 malloc。
- * 调用面 6 条 bl：malloc ×5（0x285c10，3 个不同行号 tag 0x201/0x219/0x21a）、Json_getItem ×1（0x2873c4）；
- *   尾部 `b 0x285c80` = 尾调 free(r10)。
- * 谁调它：3 处，全部在 spSkeletonJson_readSkeletonData 体内（0x28cab4 / 0x28cd94 / 0x28d0c0）。
- * open：
- *   1. 输出结构的类型身份（哪一族 spine 数据）未钉：只证 5 个偏移与 3 张 malloc 数组。
- *   2. 第一遍里的 `+0xc` 到底是数组长度还是别的计数，只按后续 malloc 规模反推。
- *   3. 3 个 malloc tag（0x201/0x219/0x21a）对应源码行号，未与上游源码核对。
+ * 边界：前驱返回、.ARM.exidx入口和下一helper序言三源相合；0x28b638返回，0x28b5d0尾跳_free。
+ * 入口：r0=parser（+0为float scale），r1=attachmentMap（不是项名），r2=spVertexAttachment，
+ *   r3=worldVerticesLength；0x28b414先写输出+0x20，随后Json_getItem(map,"vertices")。
+ * 字段：+0x10骨流int32词数，+0x14骨流，+0x18顶点/权重float流长度，+0x1c浮点流，+0x20入参r3。
+ * 复制：0x28b430快照Json+0xc元素数，行513 malloc；返回后读取child，按next链搬float原字，不按size截断。
+ * 非加权：0x28b468比较arg==size，成立才到0x28b5e0；总是比较scale，scale==1不算术；
+ *   scale!=1且arg>0逐元素缩放，每轮重读scale；转移临时数组所有权，清骨流，不_free。
+ * 加权：两遍VCVT.s32.f32，骨流词数sum(1+n)、浮点流词数sum(3*n)；先按行537分配浮点流，
+ *   回调后重读骨流计数，再按行538分配骨流。每组先写n，每骨写索引及x*scale/y*scale/原weight；
+ *   零组只消费一个计数词，保留32位回绕、signed比较和post-loop unsigned LSR公式。
+ * size<=0且不等于arg：0x28b63c仍分配两数组，再到共同出口_free临时数组；不是scale比较的else。
+ * 静态调用站点：_malloc×5、Json_getItem×1，另1条尾跳_free；5个分配站点来自互斥路径，
+ *   正常非加权一次malloc、正常加权三次malloc，不能把站点数当每次执行调用数。
+ * 调用方：path 0x28cab4、bbox 0x28cd94（均vertexCount<<1）、mesh 0x28d0c0（uvs数组元素数）。
+ * 本体与消费者：c/spine_read_vertices/functions.json；此批次混合卡仍按骨架报，未抬整卡等级。
+ * open：全原件同输入对照、畸形内存/分配别名的确切fault形状、完整FPSCR/硬件矩阵；
+ *   spine精确小版本与父级loader总装仍未闭合。
  * ════════════════════════════════════════════════════════════════════ */
 /* @func 0x28b3fc 0x28b680 anon_28b3fc */
 /* @0x28b3fc push {r4, r5, r6, r7, r8, r9, r10, r11, lr} —— 序言（保存 9 个寄存器） */

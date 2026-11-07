@@ -88,28 +88,29 @@ struct spAttachment {
 };
 
 /*
- * Base of bounding-box/mesh/path attachments.  _spVertexAttachment_deinit
- * frees +0x14 then +0x1c (after _spAttachment_deinit).  The roles of those
- * two owned pointers are not pinned by this closure.
+ * Shared base of bounding-box/mesh/path attachments. _readVertices
+ * (0x28b3fc) also writes +0x20, so this base is 0x24, not the former
+ * lifetime-only 0x20 prefix. The concrete records keep their original sizes.
+ * +0x10/+0x14 = encoded bone count/indices, +0x18/+0x1c = float count/data;
+ * _spVertexAttachment_deinit frees +0x14 then +0x1c after the base deinit.
  */
 struct spVertexAttachment {
 	/* +0x00 */ spAttachment super;
-	/* +0x10 */ uint32_t opaque_10;
-	/* +0x14 */ void *owned_14;          /* freed by _spVertexAttachment_deinit */
-	/* +0x18 */ uint32_t opaque_18;
-	/* +0x1c */ void *owned_1c;          /* freed by _spVertexAttachment_deinit */
+	/* +0x10 */ uint32_t opaque_10;       /* bone stream length, _readVertices */
+	/* +0x14 */ void *owned_14;          /* int32_t bone stream, owned */
+	/* +0x18 */ uint32_t opaque_18;       /* vertex/weight float count */
+	/* +0x1c */ void *owned_1c;          /* float vertex/weight stream, owned */
+	/* +0x20 */ uint32_t worldVerticesLength; /* helper entry, before getItem */
 };
 
 /* calloc(1,0x24,".../BoundingBoxAttachment.c",44). */
 struct spBoundingBoxAttachment {
 	/* +0x00 */ spVertexAttachment super;
-	/* +0x20 */ uint32_t opaque_20;
 };
 
 /* calloc(1,0x34,".../PathAttachment.c",45). */
 struct spPathAttachment {
 	/* +0x00 */ spVertexAttachment super;
-	/* +0x20 */ uint32_t opaque_20;
 	/* +0x24 */ uint32_t opaque_24;
 	/* +0x28 */ void *owned_28;          /* freed by _spPathAttachment_dispose */
 	/* +0x2c */ uint32_t opaque_2c;
@@ -125,8 +126,7 @@ struct spPathAttachment {
  * by the dispose body.
  */
 struct spMeshAttachment {
-	/* +0x00 */ spVertexAttachment super; /* actual common base subobject */
-	/* +0x20 */ uint32_t opaque_20;
+	/* +0x00 */ spVertexAttachment super; /* complete common base subobject */
 	/* +0x24 */ spAtlasRegion *region;
 	/* +0x28 */ int32_t regionOffsetX;
 	/* +0x2c */ int32_t regionOffsetY;
@@ -244,7 +244,8 @@ _Static_assert (offsetof (spAttachment, type) == 0x04, "attachment+0x04 type");
 _Static_assert (offsetof (spAttachment, vtable) == 0x08, "attachment+0x08 vtable");
 _Static_assert (offsetof (spAttachment, loader) == 0x0c, "attachment+0x0c loader");
 _Static_assert (sizeof (spAttachmentVtable) == 4, "attachment vtable is 4 B");
-_Static_assert (sizeof (spVertexAttachment) == 0x20, "spVertexAttachment is 0x20");
+_Static_assert (sizeof (spVertexAttachment) == 0x24, "complete vertex base is 0x24");
+_Static_assert (offsetof (spVertexAttachment, worldVerticesLength) == 0x20, "vertex+0x20");
 _Static_assert (offsetof (spVertexAttachment, owned_14) == 0x14, "vertex+0x14");
 _Static_assert (offsetof (spVertexAttachment, owned_1c) == 0x1c, "vertex+0x1c");
 _Static_assert (sizeof (spBoundingBoxAttachment) == 0x24, "bbox is 0x24");

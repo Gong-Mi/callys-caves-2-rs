@@ -1,12 +1,29 @@
 # 状态与定性（2026-11-07 更新）
 
+## 当前断点：顶点 helper 已有 C 本体，下一步 mesh/link
+
+`c/spine_read_vertices/` 新增 **一个原版静态入口** `_readVertices@0x28b3fc` 的完整可编译候选：
+范围到 `0x28b680`，其中 `0x28b670..0x28b680` 是 16B literal pool，代码为 628B/157 ARM words。
+weighted/unweighted、零组、非正 size、VFP 转换、scale==1 的位保留、分配回调后的 count/child
+重读均已写入 C；`spVertexAttachment` 统一为含 `+0x20 worldVerticesLength` 的 0x24B 完整基类，
+三种具体附件尺寸及后续偏移不变。boundingbox/path 的两段原有包装改为真实接入这个 helper，
+同时修正 path count 写入在 malloc 之前、scale 实时重读及原件不存在的 lengths NULL 防护。
+
+验收入口 `c/spine_read_vertices/tools/check_read_vertices.py`：重建 ARM32 的 O0/O2/O3/UBSan 各
+11 项具名合同通过，9 个变异全由具名断言抓住；既有 `c/check-native-spine.sh` 8 个重建程序仍通过。
+只读原件 bytes，**本轮没有原件执行或 L5 升档**，未认证全函数/全库与原版等价。
+详见 `reconstruction/contracts/native-read-vertices.md` 和本模块 `functions.json`。
+下一步从 mesh/linkedmesh `0x28cb20` 的完整字段/直接依赖开始，然后回补 linkedmesh 后处理、
+region color 尾部和 animations；不能把原有 caller 分段数再加到原版函数分母。
+
 ## 决定性发现：spine-c 源码行号锚（2026-11-07）
 
 readSkeletonData 的全部 25 个 `_malloc(size, tag, line)` 调用点中，tag 均为
 `jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c`，line 覆盖 442–1043。
 整个 13,044B / 3,261 insn 函数来自单一源文件。JSON key 集合
 （shearX/shearY/inheritRotation/inheritScale/rotateMix/translateMix/scaleMix/shearMix/
-chain/chainScale/path/multiply/screen）锁定 **spine-c 3.8.x**。
+chain/chainScale/path/multiply/screen）只说明有相应特性，**不能唯一锁定 spine-c 版本**；
+现有 bendPositive、五类 attachment 与 region 默认 32 等证据呈版本混合/定制分歧，不照抄 stock。
 
 按 malloc 行号分段（每段可独立恢复+差分）：
 

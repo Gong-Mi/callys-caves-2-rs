@@ -1,11 +1,9 @@
 #ifndef SPINE_READ_BBOX_PATH_H
 #define SPINE_READ_BBOX_PATH_H
-
-#include "json_interface.h"
-
-void readSkeletonData_boundingBoxFields(Json* attachmentMap, void* attachment,
-                                         void* json_raw, void* loader);
-void readSkeletonData_pathAttachmentFields(Json* attachmentMap, void* attachment,
-                                            void* json_raw, float json_scale);
-
+#include "spine_read_vertices.h"
+/* Recovered caller BLOCK APIs, not additional original function entries. */
+void readSkeletonData_boundingBoxFields(Json *map, spBoundingBoxAttachment *a,
+                                       const void *json, spAttachmentLoader *loader);
+void readSkeletonData_pathAttachmentFields(Json *map, spPathAttachment *a,
+                                          const void *json);
 #endif

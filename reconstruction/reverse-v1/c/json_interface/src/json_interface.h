@@ -9,8 +9,9 @@
 
 /*
  * Json: 32 B, layout pinned by the four accessors below.
- * Fields +0x08/+0x0c have no reader/writer in these functions;
- * their identity is unknown and left unnamed.
+ * Fields +0x08/+0x0c are not read by the four accessors. The recovered
+ * _readVertices helper separately pins +0x0c as the array element count.
+ * Keep the existing member name for source compatibility; +0x08 stays opaque.
  */
 struct Json {
     struct Json* next;           /* +0x00  sibling in linked list */
@@ -23,6 +24,19 @@ struct Json {
     const char*  name;           /* +0x1c  key, from Json_getItem */
 };
 typedef struct Json Json;
+
+/* Pin the ABI actually consumed by the ARM32 reader, without imposing that
+ * layout on the existing LP64 diagnostic drivers. */
+#if defined(__arm__) && !defined(__aarch64__)
+_Static_assert(sizeof(Json) == 0x20, "original Json is 32 bytes");
+_Static_assert(offsetof(Json, next) == 0x00, "Json next");
+_Static_assert(offsetof(Json, child) == 0x04, "Json child");
+_Static_assert(offsetof(Json, unk_0c) == 0x0c, "Json array count");
+_Static_assert(offsetof(Json, string_value) == 0x10, "Json string value");
+_Static_assert(offsetof(Json, int_value) == 0x14, "Json int value");
+_Static_assert(offsetof(Json, float_value) == 0x18, "Json float value");
+_Static_assert(offsetof(Json, name) == 0x1c, "Json key name");
+#endif
 
 /* libc (bare-metal). */
 extern int strcmp(const char* a, const char* b);

@@ -7,25 +7,57 @@
     {
       "name": "readSkeletonData_boundingBoxFields",
       "address_range": "0x28cd6c-0x28cda8 (jump table case 1)",
-      "semantics": "vertexCount → _readVertices(count<<1) → +0x18 = vlen → configureAttachment",
-      "keys": ["vertexCount"]
+      "semantics": "vertexCount<<1 wraps unsigned32; shared helper; actual posthelper overwrite +0x18=vlen retained; configureAttachment; typed common base",
+      "keys": [
+        "vertexCount"
+      ],
+      "original_function_entry": false
     },
     {
       "name": "readSkeletonData_pathAttachmentFields",
       "address_range": "0x28ca5c-0x28cb1c (jump table case 4)",
-      "semantics": "closed/constantSpeed ints, vertexCount → _readVertices, lengthsLength = vertexCount/3 (smull magic, signed, NO +1), lengths malloc(985), lengths curves: raw float_value × scale sequential store",
-      "malloc_anchors": [{"site": "0x28cad8", "line": 985, "stores_to": "+0x28"}],
-      "keys": ["closed", "constantSpeed", "vertexCount", "lengths"]
+      "semantics": "closed/constantSpeed; real _readVertices; signed vertexCount/3; +0x24 count store BEFORE line985 allocation; missing lengths key has no original guard; per-child parser scale reload and next-before-store",
+      "malloc_anchors": [
+        {
+          "site": "0x28cad8",
+          "line": 985,
+          "stores_to": "+0x28"
+        }
+      ],
+      "keys": [
+        "closed",
+        "constantSpeed",
+        "vertexCount",
+        "lengths"
+      ],
+      "original_function_entry": false
     }
   ],
   "shared_helper": {
     "name": "_readVertices",
     "address": "0x28b3fc",
-    "size": "644B (~160 insn)",
+    "size": "644B total = 628B ARM code + 16B literal pool",
     "mislabeled": "findPathConstraint+0x10c in cards",
     "signature": "(json, attachmentMap, attachment, verticesCount)",
-    "status": "NOT YET RECOVERED — next batch target"
+    "status": "RECOVERED C candidate in ../spine_read_vertices; original not executed",
+    "header": "../spine_read_vertices/src/spine_read_vertices.h"
   },
-  "depends_on": ["json_interface"],
-  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+  "depends_on": [
+    "json_interface",
+    "spine_read_vertices",
+    "spine_atlas_attachment",
+    "spine_alloc"
+  ],
+  "compile": {
+    "target": "armv7-none-eabi",
+    "float_abi": "softfp (real VFP, core-register AAPCS)",
+    "std": "c11",
+    "warnings": "-Wall -Wextra -Werror",
+    "status": "ARM32_OK"
+  },
+  "scope": "Two caller BLOCK APIs inside readSkeletonData, not two new recovered original functions. Real constructor/read/configure/dispose consumer tested; full readSkeletonData still open.",
+  "acceptance": {
+    "checker": "../spine_read_vertices/tools/check_read_vertices.py",
+    "original_executed": false
+  }
 }

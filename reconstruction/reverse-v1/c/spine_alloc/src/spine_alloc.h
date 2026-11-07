@@ -37,8 +37,11 @@
 #error "spine allocator reconstruction requires disable_tail_calls"
 #endif
 #endif
-#if !defined(__SOFTFP__)
-#error "spine allocator reconstruction supports ARM32 soft-float only"
+/* All allocator arguments/results are core-register integers or pointers.
+ * soft and softfp therefore share this ABI; hard-float remains unsupported.
+ * check-read-vertices.py exercises the softfp consumer without forged macros. */
+#if defined(__ARM_PCS_VFP)
+#error "spine allocator reconstruction requires the core-register ARM32 ABI"
 #endif
 
 _Static_assert(sizeof(void *) == 4, "ARM32 pointer width required");

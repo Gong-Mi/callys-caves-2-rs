@@ -1,116 +1,49 @@
 /*
- * readSkeletonData boundingbox + path attachment parses
- *   boundingbox: 0x28cd6c–0x28cda8 (jump table case 1)
- *   path:        0x28ca5c–0x28cb1c (jump table case 4)
- *
- * Recovery source: libyoyo_armv7.so @ 0x28b84c (bank_0240.c)
- *
- * Shared helper: _readVertices @ 0x28b3fc (mislabeled
- * findPathConstraint+0x10c in cards) — 644B/~160 insn, parses the
- * "vertices" JSON array with weighted/unweighted branches.
- *
- * boundingbox:
- *   vertexCount = getInt(map, "vertexCount", 0)
- *   vlen = vertexCount << 1
- *   _readVertices(json, map, attachment, vlen)
- *   attachment+0x18 = vlen (verticesLength)
- *   configureAttachment(loader, attachment)
- *
- * path:
- *   +0x2c = getInt(map, "closed", 0)
- *   +0x30 = getInt(map, "constantSpeed", 1)
- *   vertexCount = getInt(map, "vertexCount", 0)
- *   _readVertices(json, map, attachment, vertexCount << 1)
- *   +0x24 = vertexCount / 3   (smull 0x55555556 magic division, signed,
- *                              NO +1 — spine-c 3.8 reference may differ)
- *   +0x28 = malloc((vertexCount/3) * 4, TAG, 985)
- *   lengths = getItem(map, "lengths") → each child's float_value
- *   [+0x18 direct read] × scale → sequential store (vstmia r2!)
+ * readSkeletonData caller blocks, not standalone original functions.
+ * Original SHA 3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a.
+ * tier: bytecode_anchored. Full loader assembly/animation paths remain open.
+ * boundingbox 0x28cd6c..0x28cdac; path 0x28ca5c..0x28cb20 (exclusive ends).
  */
-
 #include "spine_read_bbox_path.h"
-
-extern void* _malloc(int size, const char* tag, int line);
-
-extern Json* Json_getItem(Json* json, const char* key);
-extern int Json_getInt(Json* json, const char* key, int fallback);
-
-extern void _readVertices(void* json, Json* attachmentMap,
-                          void* attachment, int verticesCount);
-extern void spAttachmentLoader_configureAttachment(void* loader, void* attachment);
-
-static const char* TAG = "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c";
-
-/*
- * Boundingbox attachment (jump table case 1).
- * json_raw = spSkeletonJson*, loader = json->attachmentLoader.
- */
-void readSkeletonData_boundingBoxFields(Json* attachmentMap, void* attachment,
-                                         void* json_raw, void* loader) {
-    int vertexCount;
-    int vlen;
-
-    /* 0x28cd7c: vertexCount = getInt(map, "vertexCount", 0) */
-    vertexCount = Json_getInt(attachmentMap, "vertexCount", 0);
-
-    /* 0x28cd88: vlen = vertexCount << 1 */
-    vlen = vertexCount << 1;
-
-    /* 0x28cd94: _readVertices(json, map, attachment, vlen) */
-    _readVertices(json_raw, attachmentMap, attachment, vlen);
-
-    /* 0x28cd98: attachment+0x18 = vlen */
-    *(int*)((char*)attachment + 0x18) = vlen;
-
-    /* 0x28cda4: configureAttachment(loader, attachment) */
-    spAttachmentLoader_configureAttachment(loader, attachment);
+static const char tag[] =
+    "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c";
+static float load_scale(const void *json) {
+    float f;
+    __asm__ volatile("vldr %0, [%1]" : "=t"(f) : "r"(json) : "memory");
+    return f;
 }
-
-/*
- * Path attachment (jump table case 4).
- * json_scale = spSkeletonJson->scale.
- */
-void readSkeletonData_pathAttachmentFields(Json* attachmentMap, void* attachment,
-                                            void* json_raw, float json_scale) {
-    int vertexCount;
-    int lengthsLength;
-    Json* lengths;
-    Json* child;
-    float* out;
-
-    /* 0x28ca6c: +0x2c = getInt(map, "closed", 0) */
-    *(int*)((char*)attachment + 0x2c) =
-        Json_getInt(attachmentMap, "closed", 0);
-
-    /* 0x28ca84: +0x30 = getInt(map, "constantSpeed", 1) */
-    *(int*)((char*)attachment + 0x30) =
-        Json_getInt(attachmentMap, "constantSpeed", 1);
-
-    /* 0x28ca9c: vertexCount = getInt(map, "vertexCount", 0) */
-    vertexCount = Json_getInt(attachmentMap, "vertexCount", 0);
-
-    /* 0x28cab4: _readVertices(json, map, attachment, vertexCount << 1) */
-    _readVertices(json_raw, attachmentMap, attachment, vertexCount << 1);
-
-    /* 0x28cab8–0x28cad0: lengthsLength = vertexCount / 3
-     * (smull with 0x55555556 magic + sign correction — signed division,
-     * NO +1 adjustment) */
-    lengthsLength = vertexCount / 3;
-
-    /* 0x28cad4–0x28cad8: malloc(lengthsLength*4, TAG, 985) → +0x28 */
-    *(void**)((char*)attachment + 0x28) =
-        _malloc(lengthsLength * 4, TAG, 985);
-    *(int*)((char*)attachment + 0x24) = lengthsLength;
-
-    /* 0x28caec: lengths = getItem(map, "lengths") */
-    lengths = Json_getItem(attachmentMap, "lengths");
-    if (lengths == 0) return;
-    if (lengths->child == 0) return;  /* 0x28caf4 cmp r3,#0 */
-
-    /* 0x28cb00–0x28cb18: for each child: float_value [+0x18] × scale
-     * → sequential store into lengths array (vstmia r2!, {s15}) */
-    out = (float*)*(void**)((char*)attachment + 0x28);
-    for (child = lengths->child; child != 0; child = child->next) {
-        *out++ = *(float*)((char*)child + 0x18) * json_scale;
-    }
+void readSkeletonData_boundingBoxFields(Json *map, spBoundingBoxAttachment *a,
+                                       const void *json, spAttachmentLoader *loader) {
+    uint32_t count = (uint32_t)Json_getInt(map, "vertexCount", 0); /* 0x28cd7c */
+    uint32_t vlen = count << 1; /* 0x28cd88; unsigned ARM32 wrap, no C UB. */
+    _readVertices(json, map, &a->super, vlen); /* 0x28cd94 */
+    /* 0x28cd98 REALLY writes +0x18, not +0x20. In weighted inputs this
+     * overwrites the helper's float count; do not 'repair' the original. */
+    a->super.opaque_18 = vlen;
+    spAttachmentLoader_configureAttachment(loader, &a->super.super); /* 0x28cda4 */
+}
+void readSkeletonData_pathAttachmentFields(Json *map, spPathAttachment *a,
+                                          const void *json) {
+    a->opaque_2c = (uint32_t)Json_getInt(map, "closed", 0); /* 0x28ca6c/7c */
+    a->opaque_30 = (uint32_t)Json_getInt(map, "constantSpeed", 1); /* 0x28ca84/94 */
+    int32_t count = Json_getInt(map, "vertexCount", 0); /* 0x28ca9c */
+    _readVertices(json, map, &a->super, (uint32_t)count << 1); /* 0x28cab4 */
+    /* 0x28cac0..d0 signed magic divide, truncates toward zero. Count store
+     * PRECEDES allocation, so debug allocator can observe/modify it. */
+    uint32_t lengthCount = (uint32_t)(count / 3);
+    a->opaque_24 = lengthCount;
+    a->owned_28 = _malloc(lengthCount << 2, tag, 985u); /* 0x28cad8/cae4 */
+    Json *lengths = Json_getItem(map, "lengths"); /* 0x28caec */
+    Json *child = lengths->child; /* 0x28caf0: no missing-key NULL guard. */
+    if (!child) return; /* 0x28caf4..f8 */
+    float *out = a->owned_28;
+    do {
+        float x = child->float_value; /* 0x28cb00 */
+        float scale = load_scale(json); /* 0x28cb04; not a caller snapshot. */
+        float value;
+        __asm__ volatile("vmul.f32 %0, %1, %2" : "=t"(value) : "t"(x), "t"(scale) : "memory");
+        Json *next = child->next; /* 0x28cb0c before store. */
+        *out++ = value; /* 0x28cb14; loop follows chain, not lengthCount. */
+        child = next;
+    } while (child);
 }
