@@ -45,16 +45,9 @@
 #endif
 #include YY_SKEL_DEPS_HDR
 
-/* ── spSkeletonJson：28 字节 / 7 槽。共享头里是不完整类型，这里补全定义 ── */
-struct spSkeletonJson {
-    uint32_t scale;        /* +0x00 float 1.0f（28b720/28b728 写 0x3f800000）*/
-    uint32_t loader;       /* +0x04 spAttachmentLoader*（28b724）*/
-    uint32_t unk_08;       /* +0x08 dispose 28b770 free；用途 unknown */
-    uint32_t owns_loader;  /* +0x0c create 28b744 置 1；dispose 28b74c 读门 */
-    uint32_t unk_10;       /* +0x10 本批未见读写 */
-    uint32_t unk_14;       /* +0x14 本批未见读写 */
-    uint32_t unk_18;       /* +0x18 dispose 28b768 free；用途 unknown */
-};
+/* Shared complete record: the loader queue now identifies +0x10/+0x14/+0x18.
+ * Keep creation/disposal on exactly the same type as its real consumers. */
+/* Complete parser record is included by the canonical dependency header. */
 
 _Static_assert(sizeof(struct spSkeletonJson) == 28, "28b704 mov r1,#28 + 28b718 mov r0,#1");
 _Static_assert(offsetof(struct spSkeletonJson, scale)       == 0x00, "28b728 str r2,[r0]");

@@ -49,7 +49,7 @@ _spSkeletonJson_setError(spSkeletonJson* self, void* json,
     char buffer[256];
 
     /* 0x28b7a4 ldr r0, [r0, #8]; 0x28b7b4 bl _free */
-    _free(self->error);
+    _free((void *)(uintptr_t)self->error);
 
     /* 0x28b7b8 mov r1,r7; 0x28b7bc mov r0,r4; 0x28b7c0 bl strcpy */
     strcpy(buffer, message);
@@ -63,10 +63,10 @@ _spSkeletonJson_setError(spSkeletonJson* self, void* json,
 
     /* 0x28b7e8 strlen(buffer); 0x28b7fc add r0,r0,#1; 0x28b800 bl _malloc */
     /* 0x28b808 str r0,[r6,#8]  self->error = new string */
-    self->error = _malloc(strlen(buffer) + 1, "spine_json_err", 90);
+    self->error = (uint32_t)(uintptr_t)_malloc(strlen(buffer) + 1, "spine_json_err", 90);
 
     /* 0x28b80c bl strcpy  copy buffer to self->error */
-    strcpy(self->error, buffer);
+    strcpy((char *)(uintptr_t)self->error, buffer);
 
     /* 0x28b814 bl ReportSpineError(buffer) */
     ReportSpineError(buffer);

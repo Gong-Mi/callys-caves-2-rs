@@ -1,0 +1,373 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_mesh",
+  "source": "libyoyo_armv7.so",
+  "source_path": "/data/data/com.termux/files/home/cally-oracle/libyoyo.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "canonical_layout": {
+    "header": "../spine_atlas_attachment/src/spine_atlas_attachment.h",
+    "vertex_base_size": "0x24",
+    "mesh_size": "0x94",
+    "fields_added_or_renamed_here": "none; only _Static_assert additions in src/spine_mesh.h",
+    "suggested_renames_for_parent": {
+      "+0x20": "regionUVCount (currently worldVerticesLength; same word, written by _readVertices and by the mesh reader from the JSON uvs count)",
+      "+0x50": "regionRotate",
+      "+0x58": "regionUVs (source float array)",
+      "+0x5c": "uvs (derived output float array)",
+      "+0x60": "trianglesCount",
+      "+0x64": "triangles",
+      "+0x78": "hullLength",
+      "+0x84": "edgesCount",
+      "+0x88": "edges",
+      "+0x54": "path copy from caller 0x28cb20..0x28cb44; existing member name retained",
+      "+0x8c/+0x90": "width/height float bits, caller 0x28cbb0..0x28cbf0, default 32.0f scaled"
+    }
+  },
+  "functions": [
+    {
+      "name": "spMeshAttachment_updateUVs",
+      "address": "0x287538",
+      "isa": "ARM",
+      "thumb_bit": 0,
+      "dynsym_size": 280,
+      "range_end_exclusive": "0x287650",
+      "code_end_exclusive": "0x28764c",
+      "code_bytes": 276,
+      "code_words": 69,
+      "literal_bytes": 4,
+      "literal_pool": {
+        "0x28764c": "0x000d038c",
+        "pc_base": "0x28757c",
+        "resolved_va": "0x357908",
+        "resolved_section": ".rodata",
+        "string": "jni/../jni/yoyo/../../../spine-c/src/spine/MeshAttachment.c",
+        "malloc_line": 64
+      },
+      "code_sha256": "ede322ba7cdb26f6c85d99dde4e800097779e67528f9bc233a730109d355d4d8",
+      "body_sha256_280": "ef93e5c25c8a74774304115e40e7290eac577bbda9683eb3438ae2884fab2696",
+      "signature": "void (spMeshAttachment *self)",
+      "abi": {
+        "self": "r0; only input",
+        "return": "void; original r0 on return is a body-dependent leftover (malloc result, or output cursor advanced by 8 per iteration), not a contract",
+        "float_abi": "core-register AAPCS32 / softfp; no float parameters or return",
+        "callee_saved_fp": "original vpush {d8} (s16,s17); translation lets the compiler save what it uses"
+      },
+      "boundary_evidence": [
+        "0x287538 push {r3,r4,r5,lr}; 0x287544 vpush {d8}; return blocks 0x2875e4/0x2875e8 and 0x287644/0x287648",
+        "0x2875ec is the rotate!=0 branch entry; 0x287640 bne 0x287610 is the second loop back-edge",
+        "280-byte range 0x287538..0x287650 ends with the 4-byte literal 0x000d038c; next entry 0x287650 is the 4-byte computeWorldVertices thunk (b 0x28fa08)",
+        "direct original callers: 0x28ccf0 (r0=[r4,#0xc]) and 0x28d0c8 (r0=r6, right after _readVertices at 0x28d0c0)"
+      ],
+      "semantics_state": "all static branches translated; two-layer snapshot, per-iteration reloads, VFP instruction kinds and operand order preserved; FPSCR matrix and original execution remain explicit gaps",
+      "translation_state": "complete compiled ARM32 candidate exercised by linked reconstructed consumers; not original equivalence",
+      "paths": [
+        {
+          "anchors": [
+            "0x28753c",
+            "0x287548",
+            "0x28754c",
+            "0x287550",
+            "0x287554",
+            "0x287558",
+            "0x28755c",
+            "0x287560",
+            "0x287564"
+          ],
+          "claim": "pre-free snapshot: u, worldVerticesLength, u2, old +0x5c pointer, v2; width=u2-u, v, height=v2-v; then call _free(old +0x5c)"
+        },
+        {
+          "anchors": [
+            "0x287568",
+            "0x28756c",
+            "0x287570",
+            "0x287574",
+            "0x287578"
+          ],
+          "claim": "tag is PC-relative .rodata 0x357908, line 64; size is r5<<2 (32-bit wrap); _malloc after _free"
+        },
+        {
+          "anchors": [
+            "0x28757c",
+            "0x287580",
+            "0x287584",
+            "0x287588"
+          ],
+          "claim": "rotate is read AFTER _malloc; the new +0x5c pointer is stored unconditionally before the rotate branch"
+        },
+        {
+          "anchors": [
+            "0x28758c",
+            "0x287590",
+            "0x287594",
+            "0x287598",
+            "0x28759c",
+            "0x2875a0",
+            "0x2875a4",
+            "0x2875a8",
+            "0x2875ac"
+          ],
+          "claim": "count>0 signed gate; +0x58 read after malloc; pairs=(count-1)>>1; byte-pointer endpoint comparison wraps at ARM32 width; ceil(count/2) pairs only within nonwrapping address domains; 0x58 never read when count<=0"
+        },
+        {
+          "anchors": [
+            "0x2875b0",
+            "0x2875b4",
+            "0x2875b8",
+            "0x2875c8",
+            "0x2875cc",
+            "0x2875d0",
+            "0x2875d4",
+            "0x2875d8",
+            "0x2875dc",
+            "0x2875e0"
+          ],
+          "claim": "unrotated: load src x, reload self u, VMLA u+width*x, store output-u, THEN load src y, reload self v, VMLA v+height*y, vmov+str output-v"
+        },
+        {
+          "anchors": [
+            "0x2875ec",
+            "0x2875f0",
+            "0x2875f4",
+            "0x2875f8",
+            "0x2875fc",
+            "0x287600",
+            "0x287604",
+            "0x287608",
+            "0x28760c"
+          ],
+          "claim": "rotated path setup: same signed gate, +0x58 read after malloc, same modulo-32 byte-pointer endpoint comparison"
+        },
+        {
+          "anchors": [
+            "0x287610",
+            "0x287614",
+            "0x287618",
+            "0x287620",
+            "0x287624",
+            "0x287628",
+            "0x28762c",
+            "0x287630",
+            "0x287634",
+            "0x287638",
+            "0x28763c",
+            "0x287640"
+          ],
+          "claim": "rotated: load src[2i+1], reload u, VMLA, store output-u, reload base v, VADD(height,base_v), load src[2i] AFTER the store, VMLS(out-height*src_u), store output-v"
+        },
+        {
+          "anchors": [
+            "0x2875e4",
+            "0x2875e8",
+            "0x287644",
+            "0x287648"
+          ],
+          "claim": "two return blocks, one per rotate branch; vpop {d8} then pop {r3,r4,r5,pc}"
+        }
+      ],
+      "numeric_and_alias_traps": [
+        "VFPv3 VMLA/VMLS are NOT fused VFMA/VFMS: product rounds before add/subtract; retain original instructions and operand order",
+        "VADD operand order is height+base_v (s16+s15), not base_v+height",
+        "VSUB operand order is u2-u and v2-v",
+        "VLDR/VSTR/VMOV are bit-preserving moves with no FPSCR effect",
+        "worldVerticesLength is a raw 32-bit word: size=(word<<2) mod 2^32, gate is signed >0, pairs uses logical >>1",
+        "odd count reads src[count] and writes uvs[count], 4 bytes past the count*4 allocation; not repaired",
+        "malloc result is stored even when NULL and used by the loops",
+        "no restrict; provider may return memory overlapping self or +0x58, so source pair loads are split around the first output store and self u/v are reloaded per iteration",
+        "rotate and +0x58 are post-malloc reads; u/v/u2/v2/count are pre-free snapshots"
+      ],
+      "original_gap": [
+        "Original not executed this round; no oracle or equivalence claim.",
+        "FPSCR rounding/flush/default-NaN/trap matrix not measured; instruction kind and order only.",
+        "Tag string bytes are exact but the tag pointer value differs after relinking.",
+        "Synthetic fixtures cover odd-count write footprint using oversized backing and overlapping source/output, not real allocator fault-PC or arbitrary alias equivalence."
+      ],
+      "translation_source": "src/spine_mesh.c",
+      "translation_source_sha256": "c610bbc35649d7665b25a0dd968ed3954db44aafd587dd51aee202d0d32f7c7b",
+      "translation_headers_sha256": {
+        "src/spine_mesh.h": "da68173b522dcf61a88c8acfea5feb4fc3af352a5df490b424dbb9a4fb217f85",
+        "../spine_atlas_attachment/src/spine_atlas_attachment.h": "ed560c6e02de288fa756bc13df8bd022c3f4160d557f0c67dc23ea0f097f0d98"
+      },
+      "phase_complete": false
+    },
+    {
+      "name": "spMeshAttachment_setParentMesh",
+      "address": "0x287654",
+      "isa": "ARM",
+      "thumb_bit": 0,
+      "dynsym_size": 128,
+      "range_end_exclusive": "0x2876d4",
+      "code_end_exclusive": "0x2876d4",
+      "code_bytes": 128,
+      "code_words": 32,
+      "literal_bytes": 0,
+      "code_sha256": "d7233033a5457e501dc029c1844ed477108b322d44e8afbd7ffcaf3c35f89557",
+      "body_sha256_128": "d7233033a5457e501dc029c1844ed477108b322d44e8afbd7ffcaf3c35f89557",
+      "signature": "void (spMeshAttachment *self, spMeshAttachment *parentMesh)",
+      "abi": {
+        "self": "r0",
+        "parentMesh": "r1",
+        "return": "void; original never rewrites r0, so r0==self on return only as a by-product",
+        "float_abi": "core-register AAPCS32 / softfp; no float parameters or return"
+      },
+      "boundary_evidence": [
+        "0x287654 cmp r1,#0; 0x287658 str r1,[r0,#0x7c] (store before the NULL test); 0x28765c push {r4..r11}; 0x287660 beq 0x2876cc; 0x2876d0 bx lr",
+        "next symbol _spPathAttachment_dispose starts at 0x2876d4; .dynsym size 128",
+        "direct original caller: 0x28cce8 (r0=[r4,#0xc], r1=result of 0x28ed00), immediately followed by updateUVs at 0x28ccf0"
+      ],
+      "semantics_state": "both static paths translated: unconditional +0x7c store, NULL early return, thirteen loads before thirteen stores in the original order",
+      "translation_state": "complete compiled ARM32 candidate exercised by linked reconstructed consumers; not original equivalence",
+      "paths": [
+        {
+          "anchors": [
+            "0x287654",
+            "0x287658",
+            "0x28765c",
+            "0x287660",
+            "0x2876cc",
+            "0x2876d0"
+          ],
+          "claim": "parentMesh is stored to +0x7c before the test; parent==NULL returns after only that store"
+        },
+        {
+          "anchors": [
+            "0x287664",
+            "0x287668",
+            "0x28766c",
+            "0x287670",
+            "0x287674",
+            "0x287678",
+            "0x28767c",
+            "0x287680",
+            "0x287684",
+            "0x287688",
+            "0x28768c",
+            "0x287690",
+            "0x287694"
+          ],
+          "claim": "13 parent loads happen before any store into self: +0x20, +0x8c(vldr), +0x14, +0x90(vldr), +0x10, +0x1c, +0x18, +0x58, +0x64, +0x60, +0x78, +0x88, +0x84"
+        },
+        {
+          "anchors": [
+            "0x287698",
+            "0x28769c",
+            "0x2876a0",
+            "0x2876a4",
+            "0x2876a8",
+            "0x2876ac",
+            "0x2876b0",
+            "0x2876b4",
+            "0x2876b8",
+            "0x2876bc",
+            "0x2876c0",
+            "0x2876c4",
+            "0x2876c8"
+          ],
+          "claim": "13 stores in original order: +0x8c(vstr), +0x20, +0x90(vstr), +0x14, +0x10, +0x1c, +0x18, +0x58, +0x64, +0x60, +0x78, +0x88, +0x84; shared pointers copied, nothing freed"
+        }
+      ],
+      "numeric_and_alias_traps": [
+        "self and parent may alias: all loads precede all stores, so self==parent is idempotent",
+        "+0x8c/+0x90 are moved with VLDR/VSTR; bits are preserved and FPSCR is untouched",
+        "if parent is invalid, +0x7c has already been written before the faulting loads",
+        "not copied: +0x24..+0x54, +0x5c, +0x68..+0x74, +0x80; +0x7c holds parent"
+      ],
+      "original_gap": [
+        "Original not executed this round; no oracle or equivalence claim.",
+        "Partially overlapping (not identical) self/parent objects have no synthetic fixture."
+      ],
+      "translation_source": "src/spine_mesh.c",
+      "translation_source_sha256": "c610bbc35649d7665b25a0dd968ed3954db44aafd587dd51aee202d0d32f7c7b",
+      "translation_headers_sha256": {
+        "src/spine_mesh.h": "da68173b522dcf61a88c8acfea5feb4fc3af352a5df490b424dbb9a4fb217f85",
+        "../spine_atlas_attachment/src/spine_atlas_attachment.h": "ed560c6e02de288fa756bc13df8bd022c3f4160d557f0c67dc23ea0f097f0d98"
+      },
+      "phase_complete": false
+    }
+  ],
+  "field_roles_from_this_closure": {
+    "+0x20": "region-UV float count / worldVerticesLength; read as malloc size and loop gate",
+    "+0x40/+0x44/+0x48/+0x4c": "region u/v/u2/v2 snapshot",
+    "+0x50": "rotate; read after _malloc",
+    "+0x58": "source region-UV float array; read only",
+    "+0x5c": "derived output UV float array; freed and reallocated",
+    "+0x54": "owned path string (caller strlen+malloc+strcpy at 0x28cb20..0x28cb44)",
+    "+0x60/+0x64": "trianglesCount / triangles (reader evidence 0x28d020..0x28d058)",
+    "+0x78": "hullLength (reader 0x28d0e8)",
+    "+0x84/+0x88": "edgesCount / edges (reader 0x28d108/0x28d120)",
+    "+0x8c/+0x90": "width/height float bits, default 32.0f then multiply current parser scale; parent setter bitcopies"
+  },
+  "depends_on": [
+    "spine_alloc/_malloc (0x285c10): (size r0, tag r1, line r2) -> ptr",
+    "spine_alloc/_free (0x285c80): (ptr r0), NULL forwarded",
+    "spine_atlas_attachment canonical struct layout (ARM32 ILP32)"
+  ],
+  "support_not_new_original_functions": [
+    "sp_src_at",
+    "sp_dst_at",
+    "sp_s32",
+    "sp_vldr",
+    "sp_vstr",
+    "sp_vsub",
+    "sp_vmla",
+    "sp_vadd",
+    "sp_vmls",
+    "sp_vmov_bits",
+    "sp_str_u32"
+  ],
+  "compile": {
+    "target": "armv7a-none-eabi",
+    "march": "armv7-a",
+    "marm": true,
+    "mfpu": "vfpv3",
+    "float_abi": "softfp (core-register AAPCS)",
+    "std": "c11",
+    "warnings": "-Wall -Wextra -Werror",
+    "ffp_contract": "off (VFP operations are inline asm, unaffected)",
+    "includes": [
+      "c/spine_alloc/src",
+      "c/spine_attachment/src",
+      "c/spine_skeleton_data/src",
+      "c/spine_atlas_attachment/src"
+    ],
+    "syntax_only_runs": {
+      "O0": 0,
+      "O2": 0,
+      "O3": 0
+    },
+    "object_check": "clang -O2 -c; llvm-objdump shows vmla.f32 x2 in the unrotated loop, vmla.f32 + vadd.f32 + vmls.f32 in the rotated loop, bl _free before bl _malloc, and ldr [r4,#0x50] after the allocator",
+    "compile_guards": [
+      {
+        "name": "hard-float ABI",
+        "refused": true,
+        "diagnostic": "core-register ARM32 ABI"
+      },
+      {
+        "name": "no VFP",
+        "refused": true,
+        "diagnostic": "spine_mesh requires real ARM32 VFP instructions with the core-register ABI"
+      }
+    ]
+  },
+  "acceptance": {
+    "kind": "reconstructed ARM32 under qemu-arm; synthetic allocator/import providers; not original equivalence",
+    "original_executed": false,
+    "optimizations": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "named_contracts_per_run": 16,
+    "runtime_mutants_killed": 16,
+    "missing_body_link_refusal": true,
+    "receipt_path": "/data/data/com.termux/files/home/.hermes/reports/cally-mesh-20261108/run-04/receipt.json",
+    "receipt_sha256": "7cd2811e22a6384fd20c5ac965daebe445bda2be29ff3479970080e8a306fee5",
+    "command": "python -B reconstruction/reverse-v1/c/spine_read_mesh/tools/check_mesh.py --so /path/to/libyoyo.so --out /new/exclusive/output"
+  },
+  "remaining_scope": [
+    "readSkeletonData common skin insertion/outer loops, linked parent name/skin resolution postpass and whole loader assembly",
+    "spVertexAttachment_computeWorldVertices (0x28fa08) and renderer consumer of +0x5c",
+    "full FPSCR/hardware/trap and exact invalid-pointer/allocator-failure fault behavior; original execution deferred"
+  ]
+}

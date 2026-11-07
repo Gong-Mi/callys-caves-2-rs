@@ -8,7 +8,7 @@
  * toColor was previously mislabeled "findPathConstraint+0x390" —
  * it is the static color parser, called 16× (4 comps × slots/skins/attachments).
  */
-float toColor(const char* value, int index);
+#include "../../spine_color/src/spine_color.h"
 Json* readSkeletonData_slotsArray(Json* tree, void* data_raw, int* out_count);
 void* readSkeletonData_oneSlot(Json* slotMap, void* data_raw,
                                void* bone, int index);

@@ -51,6 +51,7 @@
 /* ── spine 侧不透明类型（本 TU 不展开，不递归恢复）─────────────────────── */
 typedef struct spAtlas         spAtlas;
 typedef struct spSkeletonJson  spSkeletonJson;
+#include "../../spine_json_layout.h"
 typedef struct spSkeletonData  spSkeletonData;
 
 /* ── 骨骼对象：12 字节、三个 32 位槽 ─────────────────────────────────── */

@@ -46,59 +46,14 @@ extern const char* Json_getString(Json* json, const char* key, const char* fallb
 extern void* spSlotData_create(int index, const char* name, void* bone);
 extern void spSlotData_setAttachmentName(void* slotData, const char* name);
 extern void* spSkeletonData_findBone(void* data, const char* name);
-extern float toColor(const char* value, int index);
+#include "../../spine_color/src/spine_color.h"
 
 static const char* TAG = "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c";
 
 #define SD_SLOTSCOUNT_OFF 0x18
 #define SD_SLOTS_OFF      0x1c
 
-/*
- * toColor — 0x28b680, pure function.
- * SEMANTIC DIVERGENCE FROM STOCK SPINE-C:
- *   stock: if ((size_t)index >= strlen(value)/2) return -1;
- *   binary: if (strlen(value) != 8) return -1;   ← EXACTLY 8 hex digits
- * The binary requires full RGBA strings (8 chars), no per-index bounds check.
- * Converts 2 hex digits at position index*2 to [0,1] float via strtoul+255 div.
- * Returns -1 if strlen != 8 or the digits are not hex.
- */
-float toColor(const char* value, int index) {
-    char digits[3];
-    unsigned int color;
-    unsigned int vlen;
-    unsigned int i;
-
-    if (value == 0) return -1.0f;
-
-    vlen = _strlen(value);
-    if (vlen != 8) return -1.0f;   /* 0x28b694: cmp r0, #8 (binary check) */
-
-    /* 0x28b6a8–0x28b6cc: extract 2 digits at index*2 */
-    digits[0] = value[index * 2];
-    digits[1] = value[index * 2 + 1];
-    digits[2] = '\0';
-
-    /* 0x28b6d0: strtoul(digits, &endp, 16) — endptr checked at 0x28b6dc:
-     * *endptr != 0 → parse stopped early → return -1. With exactly 2
-     * valid hex digits the parse consumes both; an invalid digit stops
-     * at that position, modeled by the per-digit check below. */
-    color = 0;
-    for (i = 0; i < 2; i++) {
-        char c = digits[i];
-        unsigned int d;
-        if (c >= '0' && c <= '9') d = (unsigned int)(c - '0');
-        else if (c >= 'a' && c <= 'f') d = (unsigned int)(c - 'a' + 10);
-        else if (c >= 'A' && c <= 'F') d = (unsigned int)(c - 'A' + 10);
-        else {
-            /* 0x28b6dc: *endptr != 0 → return -1 */
-            return -1.0f;
-        }
-        color = color * 16 + d;
-    }
-
-    /* 0x28b6e4–0x28b6f0: (float)color / 255.0f */
-    return (float)color / 255.0f;
-}
+/* toColor is now the shared byte-anchored ARM32 helper in c/spine_color/. */
 
 /*
  * Slots array allocation (0x28bbcc–0x28bc0c).

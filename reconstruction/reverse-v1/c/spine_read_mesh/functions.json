@@ -1,0 +1,73 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_mesh",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "name": "readSkeletonData_meshFields",
+      "kind": "caller_blocks_not_original_function",
+      "parent_original_entry": "0x28b84c",
+      "address_ranges": [
+        "0x28cb20..0x28cc68",
+        "0x28cfa8..0x28d008",
+        "0x28d008..0x28d144",
+        "0x28cd9c..0x28cda8"
+      ],
+      "semantics_state": "listed block control/data paths translated; parent loader not assembled",
+      "translation_state": "compiled and linked to actual recovered JSON/allocator/vertex/UV/configure/destructor consumers",
+      "phase_complete": false,
+      "translation_source": "src/spine_read_mesh.c",
+      "translation_source_sha256": "5fecd652fcd0e755766134e96599d92378bff1480b9f94447d5aff6bb8950f50",
+      "interface": "int scaffolding result: 0=ordinary ready; 1=deferred linked mesh. Original common skin insertion at0x28cc68 excluded.",
+      "fields": {
+        "+0x54": "path owned copy, malloc line917",
+        "+0x68..+0x74": "optional color via actual toColor x4",
+        "+0x8c/+0x90": "width/height default32 then current parser scale multiply",
+        "+0x60/+0x64": "triangle count/uint16 stream; chain copy after malloc935",
+        "+0x58": "raw binary32 UV source stream, malloc941, cached size passed to _readVertices",
+        "+0x78": "hull getInt unchanged, NOT doubled",
+        "+0x80": "deform getInt default1 when parent Json exists",
+        "+0x84/+0x88": "optional edges int32 stream, malloc954"
+      },
+      "linked_queue": "16-byte borrowed parent/skin strings + slotIndex + mesh; signed capacity doubling/min8; count/base reread after malloc/memcpy/free; append address wraps32",
+      "original_gap": [
+        "spSkin_addAttachment and outer skin/slot loops not assembled",
+        "postpass name resolution, missing parent/skin error paths and animations not restored",
+        "exact invalid-memory/fault/FPSCR hardware domains and original equivalence not certified"
+      ]
+    }
+  ],
+  "canonical_parser_record": "../spine_json_layout.h:28 bytes; queue record16 bytes; shared by creation/disposal/error/caller",
+  "depends_on": [
+    "spine_alloc",
+    "json_interface",
+    "spine_read_vertices",
+    "spine_mesh",
+    "spine_color",
+    "spine_atlas_attachment/configure and disposal"
+  ],
+  "support_not_new_original_functions": [
+    "scale_load",
+    "scaled_bits",
+    "s32",
+    "enqueue"
+  ],
+  "acceptance": {
+    "kind": "reconstructed ARM32 under qemu-arm; synthetic allocator/import providers; not original equivalence",
+    "original_executed": false,
+    "optimizations": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "named_contracts_per_run": 16,
+    "runtime_mutants_killed": 16,
+    "missing_body_link_refusal": true,
+    "receipt_path": "/data/data/com.termux/files/home/.hermes/reports/cally-mesh-20261108/run-04/receipt.json",
+    "receipt_sha256": "7cd2811e22a6384fd20c5ac965daebe445bda2be29ff3479970080e8a306fee5",
+    "command": "python -B reconstruction/reverse-v1/c/spine_read_mesh/tools/check_mesh.py --so /path/to/libyoyo.so --out /new/exclusive/output"
+  }
+}

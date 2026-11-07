@@ -13,17 +13,8 @@ struct spSkeletonData;
 
 typedef struct spSkeletonData spSkeletonData;
 
-/* spSkeletonJson: 28 B / 7 slots (from spine_json_lifetime.c static evidence). */
-struct spSkeletonJson {
-    uint32_t scale;        /* +0x00 float 1.0f */
-    uint32_t loader;       /* +0x04 spAttachmentLoader* */
-    char*   error;         /* +0x08 dispose free; setError writes */
-    uint32_t owns_loader;  /* +0x0c create sets 1 */
-    uint32_t unk_10;       /* +0x10 */
-    uint32_t unk_14;       /* +0x14 */
-    uint32_t unk_18;       /* +0x18 dispose free */
-};
-typedef struct spSkeletonJson spSkeletonJson;
+/* One complete parser record for creation, error handling and mesh queues. */
+#include "../../spine_json_layout.h"
 
 /* libc string functions (bare-metal declarations). */
 extern size_t strlen(const char* s);
