@@ -1,25 +1,23 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：mesh/link 字段与直接依赖已接通，下一步 linked 后处理
+## 当前断点：linked父项查找与失败清理已接通，下一步region尾部/外循环
 
-`c/spine_mesh/` 新增原版 `spMeshAttachment_updateUVs@0x287538`、
-`spMeshAttachment_setParentMesh@0x287654` 两个完整可编译候选；真实消费链已运行
-JSON→mesh数组→`_readVertices`→UV→configure→原恢复析构。`toColor@0x28b680`
-修正为唯一共享本体，保留原件strtoul、signed VCVT和s0返回，不再沿用slots内近似实现。
+`c/spine_skin/` 恢复Entry创建、skin创建、头插和attachment查找四入口；
+`c/spine_linked_postpass/` 接通默认/具名skin→父项→共享几何→UV→configure，以及
+缺skin/父项时的真实data释放→错误格式化→console虚调用。后处理是caller BLOCK，不计新原函数。
 
-`c/spine_read_mesh/` 交付mesh/linkedmesh字段与延后队列caller BLOCK，不计新增原版函数。
-width/height默认32.0f，hull原值、triangle uint16、child/计数重读、父数组共享所有权已按
-原字节落地；parser creation/disposal/error/queue共用一份完整28字节记录。
+`c/spine_json_support/` 新增Json_dispose与ReportSpineError本体；旧setError/filewrapper
+修正tag/前缀、无条件strlen及strncat起点、Output变参ABI和Json释放后的实际canary检查。
+find三方法统一完整data；旧Bone/Slot的name+0假结构改为原件+4读取。
 
-验收 `c/spine_read_mesh/tools/check_mesh.py`：O0/O2/O3/UBSan各16项、16变异具名捕获；
-既有native-spine八程序、vertices四档11项+9变异及parser生命周期host/ARM32门均重过。
-原件只读、没有原件执行或L5升档；详见 `reconstruction/contracts/native-read-mesh.md`。
-独立审查已接收：新三方法/caller未发现已证缺陷；另有slots/error四项继承偏差
-已回原件及8fdbe61确认、仍未修，见本批合同裁决。自测与审查均不等于原版等价。
+主链O0/O2/O3/UBSan各15项，17个语义变异具名拒绝；canary三档与关闭guard负控通过。
+独立错误套件四档各25项/10变异、上一批mesh四档16项/16变异与native-spine八程序重过。
+父级生产源独立静态复核13项无阻塞发现；完整回执和边界见
+`reconstruction/contracts/native-linked-postpass.md`。无原件执行，不称全库静态闭合或原版等价。
 
-下一入口是linked父项/skin名称解析与失败清理（0x28ccb8..0x28cd6c，含0x28e880出口），
-先恢复 `spSkin_getAttachment@0x28ed00` 及直接依赖，再装配该后处理。
-随后仍有公共skin插入/外循环、region尾部、events/animations和完整loader总装。
+上一批继承F2/F3已修；slots blend枚举F1、多余NULL返回F4仍未修。真实_readFile、
+console构造与完整loader仍是缺口，不用fixture替身算恢复。下一步region color/updateOffset尾部，
+然后公共skin/slot外循环与events/animations；caller成功仅到events后继，未完成loader总装。
 
 ## 决定性发现：spine-c 源码行号锚（2026-11-07）
 

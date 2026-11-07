@@ -1,127 +1,47 @@
-/*
- * skeleton_find.c — name-based lookup in spSkeletonData arrays.
- *
- * Original image:
- *   libyoyo_armv7.so SHA256 3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a
- *
- * Evidence tier: bytecode_anchored.  Every branch, load, store and literal
- * below is tied to the original instruction address.  The original was not
- * executed.
- *
- * Symbols:
- *   0x28afbc  spSkeletonData_findBone      92 B  23 insns  → bone* or NULL
- *   0x28b0cc  spSkeletonData_findSlotIndex 88 B  22 insns  → index or -1
- *   0x28b124  spSkeletonData_findSkin      92 B  23 insns  → skin* or NULL
- *
- * spSkeletonData layout (from these accessors):
- *   +0x10  bone_count (int)
- *   +0x14  bones      (spBoneData**)
- *   +0x18  slot_count (int)
- *   +0x1c  slots      (spSlotData**)
- *   +0x20  skin_count (int)
- *   +0x24  skins      (spSkin**)
- *
- * Name field offsets:
- *   spBoneData: name at +0x04 (findBone: ldr r0, [r5, #0x4])
- *   spSlotData: name at +0x04 (findSlotIndex: ldr r0, [r3, #0x4])
- *   spSkin:     name at +0x00 (findSkin: ldr r0, [r5])
- *
- * findSlotIndex returns the array index (counter r4), not the pointer;
- * on not-found it returns -1 (0x28b11c mvn r0,#0).
- * findBone and findSkin return the object pointer or NULL.
- *
- * Named boundary: strcmp@plt.
- */
-
+/* Canonical ARM32 lookup translations, original SHA256
+ * 3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a.
+ * Bone@0x28afbc/92B; SlotIndex@0x28b0cc/88B; Skin@0x28b124/92B.
+ * All three snapshot count/table; object pointer cached across strcmp, while
+ * each next table entry is read fresh. No before-array C pointer arithmetic. */
 #include "skeleton_find.h"
-
-spBoneData*
-spSkeletonData_findBone(spSkeletonData* self, const char* name)
-{
-    /* 0x28afc4 ldr r7, [r0, #0x10] — bone count */
-    int count = self->bone_count;
-
-    /* 0x28afc8 cmp r7, #0; 0x28afcc ble return_null */
-    if (count <= 0)
-        return NULL;
-
-    /* 0x28afd0 ldr r6, [r0, #0x14]; 0x28afd8 sub r6, r6, #4
-     * Then 0x28afe8 ldr r5, [r6, #0x4]! — pre-indexed: r6 += 4 then load.
-     * r6 starts at arr - 4; first iteration reads arr[0]; walks FORWARD. */
-    spBoneData** p = self->bones - 1; /* arr - 1 (in pointer units) */
-
-    for (int i = 0; i < count; i++) {
-        /* 0x28afe8 ldr r5, [r6, #0x4]! — advance then read */
-        spBoneData* bone = *(++p);
-
-        /* 0x28aff4 ldr r0, [r5, #0x4] — bone->name */
-        /* 0x28aff8 bl strcmp */
-        if (strcmp(bone->name, name) == 0) {
-            /* 0x28b004 mov r0, r5 */
-            return bone;
-        }
-    }
-
-    /* 0x28b00c mov r5, #0; 0x28b010 mov r0, r5 */
-    return NULL;
+extern int strcmp(const char *,const char *);
+static uint32_t rd(const void *p,uint32_t off) {
+    uint32_t x,address=(uint32_t)(uintptr_t)p+off;
+    __asm__ volatile("ldr %0,[%1]":"=r"(x):"r"(address):"memory");
+    return x;
 }
-
-int
-spSkeletonData_findSlotIndex(spSkeletonData* self, const char* name)
-{
-    /* 0x28b0d4 ldr r6, [r0, #0x18] — slot count */
-    int count = self->slot_count;
-
-    /* 0x28b0d8 cmp r6, #0; 0x28b0dc ble return_not_found */
-    if (count <= 0)
-        return -1;
-
-    /* 0x28b0e0 ldr r5, [r0, #0x1c]; 0x28b0e8 sub r5, r5, #4
-     * Then 0x28b0fc ldr r3, [r5, #0x4]! — pre-indexed: walks FORWARD. */
-    spSlotData** p = self->slots - 1;
-
-    for (int i = 0; i < count; i++) {
-        /* 0x28b0fc ldr r3, [r5, #0x4]! — advance then read */
-        spSlotData* slot = *(++p);
-
-        /* 0x28b104 ldr r0, [r3, #0x4] — slot->name */
-        /* 0x28b108 bl strcmp */
-        if (strcmp(slot->name, name) == 0) {
-            /* 0x28b114 mov r0, r4 — return index */
-            return i;
-        }
-    }
-
-    /* 0x28b11c mvn r0, #0 — return -1 */
+static void *ptr(uint32_t x) { return (void *)(uintptr_t)x; }
+static int32_t signed32(uint32_t x) { int32_t y;__builtin_memcpy(&y,&x,4);return y; }
+spBoneData *spSkeletonData_findBone(spSkeletonData *s,const char *name) {
+    uint32_t count=rd(s,0x10); /*0x28afc4*/
+    if(signed32(count)<=0)return 0;
+    uint32_t table=rd(s,0x14),i=0; /*0x28afd0 snapshot*/
+    do {
+        spBoneData *bone=ptr(rd(ptr(table),i<<2)); /*0x28afe8*/
+        ++i; /*0x28aff0*/
+        if(strcmp(ptr(rd(bone,4)),name)==0)return bone; /*0x28aff4/aff8*/
+    } while(i!=count); /*0x28afe0/afe4*/
+    return 0;
+}
+int spSkeletonData_findSlotIndex(spSkeletonData *s,const char *name) {
+    uint32_t count=rd(s,0x18); /*0x28b0d4*/
+    if(signed32(count)<=0)return -1;
+    uint32_t table=rd(s,0x1c),i=0; /*0x28b0e0 snapshot*/
+    do {
+        spSlotData *slot=ptr(rd(ptr(table),i<<2));
+        if(strcmp(ptr(rd(slot,4)),name)==0)return (int)i; /*0x28b104/b108*/
+        ++i; /*0x28b0f0*/
+    } while(i!=count);
     return -1;
 }
-
-spSkin*
-spSkeletonData_findSkin(spSkeletonData* self, const char* name)
-{
-    /* 0x28b12c ldr r7, [r0, #0x20] — skin count */
-    int count = self->skin_count;
-
-    /* 0x28b130 cmp r7, #0; 0x28b134 ble return_null */
-    if (count <= 0)
-        return NULL;
-
-    /* 0x28b138 ldr r6, [r0, #0x24]; 0x28b140 sub r6, r6, #4
-     * Then 0x28b150 ldr r5, [r6, #0x4]! — pre-indexed: walks FORWARD. */
-    spSkin** p = self->skins - 1;
-
-    for (int i = 0; i < count; i++) {
-        /* 0x28b150 ldr r5, [r6, #0x4]! — advance then read */
-        spSkin* skin = *(++p);
-
-        /* 0x28b15c ldr r0, [r5] — skin->name at +0x00 */
-        /* 0x28b160 bl strcmp */
-        if (strcmp(skin->name, name) == 0) {
-            /* 0x28b16c mov r0, r5 */
-            return skin;
-        }
-    }
-
-    /* 0x28b174 mov r5, #0; 0x28b178 mov r0, r5 */
-    return NULL;
+spSkin *spSkeletonData_findSkin(spSkeletonData *s,const char *name) {
+    uint32_t count=rd(s,0x20); /*0x28b12c*/
+    if(signed32(count)<=0)return 0;
+    uint32_t table=rd(s,0x24),i=0; /*0x28b138 snapshot*/
+    do {
+        spSkin *skin=ptr(rd(ptr(table),i<<2));
+        ++i; /*0x28b158*/
+        if(strcmp(ptr(rd(skin,0)),name)==0)return skin; /*0x28b15c/b160*/
+    } while(i!=count);
+    return 0;
 }

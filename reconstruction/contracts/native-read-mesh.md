@@ -100,6 +100,9 @@ SHA256 `3f28ae8e9b6ee685a94f6038387eed08128fdb53cc5a85843e01a19d3ba38d01`。
 不能因对应文件编译或O2文本保持就声称这些旧路径已还原。父级裁决另存同目录parent-adjudication.json。
 后续应按slots/error两个独立失败域恢复及验收，不混进mesh提交冒充本批闭合。
 
+续批状态：F2/F3已在linked后处理的直接错误依赖恢复中修正并重验；F1/F4仍未修。
+见 `native-linked-postpass.md`，不要继续把这四项合报为全部未修。
+
 ## 尚未恢复与下一入口
 
 本批只接到原0x28cc68后继前；`spSkin_addAttachment`公共插入与skin/slot外循环未总装。
