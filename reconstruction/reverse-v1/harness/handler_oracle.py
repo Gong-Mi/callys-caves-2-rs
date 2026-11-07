@@ -544,6 +544,35 @@ class Oracle:
                 u.mem_write(endp, struct.pack('<I', s))
             return v & 0xffffffff
 
+        def f_strtoul(s, endp, base, _d):
+            blob = rd_cstr(s).split(b'\x00')[0]
+            if base == 16 or base == 0:
+                txt = blob.lstrip(b' \t')
+                if txt[:2] in (b'0x', b'0X'):
+                    txt = txt[2:]
+                try:
+                    v = int(txt, 16)
+                except ValueError:
+                    txt2 = txt.lstrip(b'0123456789abcdefABCDEF')
+                    consumed = len(txt) - len(txt2)
+                    if consumed == 0:
+                        v = 0
+                        if endp:
+                            u.mem_write(endp, struct.pack('<I', s))
+                        return 0
+                    v = int(txt[:consumed], 16)
+                    if endp:
+                        u.mem_write(endp, struct.pack('<I', s + consumed))
+                    return v & 0xffffffff
+            else:
+                try:
+                    v = int(blob, base)
+                except ValueError:
+                    v = 0
+            if endp:
+                u.mem_write(endp, struct.pack('<I', s + len(blob)))
+            return v & 0xffffffff
+
         plt = self.plt
         def f_strcasecmp(a, b, _c, _d):
             sa = u.mem_read(a, 256)
@@ -555,6 +584,7 @@ class Oracle:
             return 0 if x == y else (1 if x > y else -1)
         for name, fn in (('strlen', f_strlen), ('strcmp', f_strcmp),
                          ('strcasecmp', f_strcasecmp),
+                         ('strtoul', f_strtoul),
                          ('strncmp', f_strncmp), ('strcpy', f_strcpy),
                          ('strncpy', f_strncpy), ('strchr', f_strchr),
                          ('strrchr', f_strrchr), ('strstr', f_strstr),

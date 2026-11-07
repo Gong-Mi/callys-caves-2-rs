@@ -1,0 +1,48 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_slots",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "toColor",
+      "address": "0x28b680",
+      "size": 128,
+      "insns": 28,
+      "semantics": "hex RGBA color component parser: strlen==8 guard, 2-digit strtoul at index*2, /255.0f",
+      "calls": ["strlen@plt", "strtoul@plt"],
+      "semantic_divergence": "binary requires strlen(value)==8 (exactly RGBA); stock spine-c checks index>=strlen/2. NO index bounds check in binary (index>=4 reads OOB, memory-dependent).",
+      "l5": "arm #18: 33 cases identity PASS, 5 gates, 2 mutants caught (stock_len_check, div_256)"
+    },
+    {
+      "name": "readSkeletonData_slotsArray",
+      "address_range": "0x28bbcc-0x28bc0c",
+      "semantics": "slots->size → data+0x18; malloc(size*4, TAG, 651) → data+0x1c; return child",
+      "malloc_anchors": [{"site": "0x28bbfc", "line": 651}]
+    },
+    {
+      "name": "readSkeletonData_oneSlot",
+      "address_range": "0x28bc5c-0x28bdd8 (inlined)",
+      "semantics": "getString name → spSlotData_create(index,name,bone) → toColor×4 at +16/20/24/28 → attachment getItem→setAttachmentName → blend getItem→strcmp(multiply/screen/additive)→+0x20",
+      "keys": ["name", "bone", "color", "attachment", "blend"],
+      "notes": "bone lookup in loop CONDITION (0x28bd7c), not body; error path disposes skeletonData + setError('Slot bone not found')"
+    }
+  ],
+  "spSkeletonData_layout_additions": {
+    "+0x18": "slotsCount (int)",
+    "+0x1c": "slots (spSlotData**)",
+    "+0x3c": "ikCount (int) — next segment",
+    "+0x40": "ik array — next segment"
+  },
+  "spSlotData_layout_partial": {
+    "+0x00": "index", "+0x04": "name", "+0x08": "boneData",
+    "+0x10 (16)": "color.r (float)", "+0x14 (20)": "color.g", "+0x18 (24)": "color.b", "+0x1c (28)": "color.a",
+    "+0x20": "blendMode (int: 0=normal, 1=multiply, 2=screen, 3=additive)"
+  },
+  "l5_evidence": {
+    "arm": "toColor (0x28b680) — previously mislabeled findPathConstraint+0x390",
+    "receipt": "harness/receipts/tocolor_diff-*.json"
+  },
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}
