@@ -1,0 +1,34 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_meta",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_metadata",
+      "address_range": "0x28b8f4-0x28b9cc",
+      "semantics": "hash/version MALLOC_STR + width/height floats from 'skeleton' JSON object",
+      "malloc_anchors": [
+        {"site": "0x28b92c", "line": 607, "stores_to": "+0x04", "key": "hash"},
+        {"site": "0x28b974", "line": null, "stores_to": "+0x00", "key": "spine"}
+      ],
+      "rodata": {"hash": "0x357b68", "spine": "0x357b70", "width": "0x357b78", "height": "0x357b80"},
+      "notes": "hash/version at SWAPPED offsets vs stock spine-c 3.8 (binary authoritative). MALLOC_STR calls Json_getString twice (strlen pass + strcpy pass). No 3.8.75 version guard (string absent from binary)."
+    },
+    {
+      "name": "readSkeletonData_bonesArray",
+      "address_range": "0x28b9cc-0x28ba40",
+      "semantics": "Json_getItem('bones') → size from Json+0x0c → malloc(size*4, TAG, 615) → store +0x14 → return child list",
+      "malloc_anchors": [
+        {"site": "0x28b9f4", "line": 615, "stores_to": "+0x14", "key": "bones"}
+      ],
+      "rodata": {"bones": "0x357b88"}
+    }
+  ],
+  "spSkeletonData_layout": {
+    "size": 84,
+    "fields": {"+0x00": "version (char*)", "+0x04": "hash (char*)", "+0x08": "width (float)", "+0x0c": "height (float)", "+0x14": "bones (spBoneData**)"}
+  },
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}
