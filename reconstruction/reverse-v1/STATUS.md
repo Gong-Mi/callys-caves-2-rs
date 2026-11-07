@@ -1,4 +1,29 @@
-# 状态与定性（2026-10-28 收手点）
+# 状态与定性（2026-11-07 更新）
+
+## 决定性发现：spine-c 源码行号锚（2026-11-07）
+
+readSkeletonData 的全部 25 个 `_malloc(size, tag, line)` 调用点中，tag 均为
+`jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c`，line 覆盖 442–1043。
+整个 13,044B / 3,261 insn 函数来自单一源文件。JSON key 集合
+（shearX/shearY/inheritRotation/inheritScale/rotateMix/translateMix/scaleMix/shearMix/
+chain/chainScale/path/multiply/screen）锁定 **spine-c 3.8.x**。
+
+按 malloc 行号分段（每段可独立恢复+差分）：
+
+| 段 | 行号 | JSON keys | 内容 |
+|---|---|---|---|
+| 入口+meta | 607–612 | hash/spine/version/width/height | locale 保护+骨架元数据 |
+| bones | 615–660 | name/parent/x/y/rotation/scaleX/scaleY/shearX/shearY/inheritRotation/inheritScale | 骨数组+逐骨 |
+| slots | 697–712 | bone/color/attachment | 槽数组 |
+| ik | 735–760 | bones/bendDirection/mix | IK 约束 |
+| transform | 782–800 | rotateMix/translateMix/scaleMix/shearMix/target/offset | 变换约束 |
+| path | 810–830 | path/position/spacing/rotateMix | 路径约束 |
+| skins | 839–890 | skins 递归 | 皮肤+附件 |
+| attachments | 891–1000 | region/mesh/linkedmesh/boundingbox/type | 附件四类 |
+| animations | 1000–1043+ | time/offsets/events/curves | 动画+事件 |
+
+入口段（locale guard + Json_create + "skeleton" getItem）已恢复为 ARM32 C 候选
+（`c/spine_read_entry/`，0bb501a）。"C" 锚 0x3390a8、"skeleton" 锚 0x357b5c 已解析。
 
 ## 当前问题与优先级
 
