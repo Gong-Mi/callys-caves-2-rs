@@ -1,0 +1,42 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_bones",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_oneBone",
+      "address_range": "0x28ba44-0x28bbcc (inlined in readSkeletonData)",
+      "semantics": "parent lookup via findBone + spBoneData_create(index,name,parent) + 12 field parses (length/x/y ×scale; rotation/scaleX/scaleY/shearX/shearY default; inheritRotation/inheritScale getInt)",
+      "keys": ["parent", "name", "length", "x", "y", "rotation", "scaleX", "scaleY", "shearX", "shearY", "inheritRotation", "inheritScale"],
+      "defaults": {"scaleX": "1.0f (0x3f800000)", "scaleY": "1.0f", "inheritRotation": 1, "inheritScale": 1},
+      "scale_rule": "length/x/y multiplied by json->scale; rotation+ NOT scaled"
+    },
+    {
+      "name": "readSkeletonData_boneLoop",
+      "address_range": "0x28ba40-0x28bbcc",
+      "semantics": "for (boneMap = bones->child; boneMap; boneMap = boneMap->next) — linked list iteration with bonesCount++ per bone",
+      "notes": "data+0x10 = bonesCount (running counter, also passed as index to create)"
+    }
+  ],
+  "spBoneData_layout": {
+    "size": 52,
+    "create_address": "0x285a44",
+    "create_signature": "(int index, const char* name, spBoneData* parent)",
+    "fields": {
+      "+0x00": "index (int)", "+0x04": "name (char*)", "+0x08": "parent (ptr)",
+      "+0x0c": "length (float ×scale)", "+0x10": "x (×scale)", "+0x14": "y (×scale)",
+      "+0x18": "rotation", "+0x1c": "scaleX (def 1.0f)", "+0x20": "scaleY (def 1.0f)",
+      "+0x24": "shearX", "+0x28": "shearY", "+0x2c": "inheritRotation (def 1)",
+      "+0x30": "inheritScale (def 1)"
+    },
+    "create_mallocs": [{"calloc": "52B @ line 36"}, {"MALLOC_STR(name)": "@ line 38"}]
+  },
+  "l5_evidence": {
+    "arm": "spBoneData_create (0x285a44) — 7 cases, identity PASS, 2 mutants caught",
+    "got_wiring": {"0x3f7790": "malloc@plt 0xb6544", "0x3f7794": "free@plt 0xb655c", "0x756bc4": "override slot (BSS, zero→fallback)"},
+    "receipt": "harness/receipts/bd_create_diff-*.json"
+  },
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}
