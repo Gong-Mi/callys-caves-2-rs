@@ -1,0 +1,30 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_entry",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_entry",
+      "address": "0x28b84c",
+      "end": "0x28b8f0",
+      "size": 52,
+      "insns": 13,
+      "semantics": "locale guard + Json_create + spSkeletonData_create + getItem('skeleton')",
+      "rodata_anchors": {
+        "locale_C": "0x3390a8",
+        "key_skeleton": "0x357b5c"
+      },
+      "calls": ["_free", "setlocale", "strdup", "Json_create", "spSkeletonData_create", "Json_getItem"],
+      "notes": "Entry segment only. Full readSkeletonData is 3261 insns (0x28b84c-0x28eb40). LC_NUMERIC=1 in bionic. Locale guard: save → force 'C' → parse → restore."
+    }
+  ],
+  "depends_on": ["spine_json_error", "json_interface", "spine_skeleton_data"],
+  "compile": {
+    "target": "armv7-none-eabi",
+    "float_abi": "soft",
+    "std": "c11",
+    "warnings": "-Wall -Wextra -Werror",
+    "status": "ARM32_OK"
+  }
+}
