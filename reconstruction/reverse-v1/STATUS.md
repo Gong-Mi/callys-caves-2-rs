@@ -1,6 +1,27 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：deform/drawOrder 已恢复（open #4/#5/#8 全关），下一步 B16/B17/B18
+## 当前断点：animations 段 31 分块全部落 C，下一步动画级总装
+
+`c/spine_read_tl_event/`（子代理 M，父代理复跑 RESULT PASS）：B16 event
+时间线（findEvent→spEvent_create→494 深拷贝→setFrame）；**open #7 关闭**
+（event+0x10=stringValue，拷贝无条件永不别名，无双释放；存在理由=B18 返回前
+Json_dispose 根树）；**open #10 关闭**（count 先写/元素用旧游标，0x28e784/78c）；
+E5 json 实参 NULL（父代理核对）。4 配置×13 测试、14 变异。
+
+`c/spine_read_tl_path_mix/`（子代理 N，父代理复跑 RESULT PASS）：**谜题定因
+——name=="mix" 没有任何 handler，静默跳过**（beq 目标是节点前移，父代理核对
+0x28e048=ldr r4,[r4]）；除 "mix" 外任何名字都建成 mix 时间线；B17 无扫描、
+索引 +0x14 在帧判空前无条件写、帧距 3。4 配置×13 测试、13 变异。
+回执 `tl_event_check-20261108T125309.json` / `tl_path_mix_check-20261108T124846.json`。
+见 `reconstruction/contracts/native-animations.md` 第七批节。原件未执行。
+
+**父代理两处修复**：①path 模块 rotateMix 键 pin 的 add 站点错（0x28e93c 是
+str 非加法；正确 0x28e938→rotateMix；旧 pin 绿但错，'teMix' 是后缀巧合）——
+已改并复跑全绿；②spEventData+0x00 措辞 borrowed→owned（create 会 strdup）。
+
+**animations 段 31 分块全部恢复为 C**（B1..B18+E1..E7，1579 可达指令分块
+全覆盖）。下一步：动画级总装（B3 键缓存→B4 create→按原序调九个时间线
+家族→发布→B18）与顶层段链总装。
 
 `c/spine_read_tl_deform/`（子代理 K，父代理复跑 RESULT PASS）：三层循环
 skin→slot→attachment→frames；weighted 门=attachment+0x14；**魔数消费钉死**

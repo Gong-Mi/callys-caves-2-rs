@@ -267,6 +267,52 @@ path-position、0x28e2a8 deform、0x28e9b0 path-mix）。
 
 回执：`tl_deform_check-20261108T122759.json` / `tl_draworder_check-20261108T122831.json`。
 
+## 第七批：event 时间线 + path-mix（open #7/#10 关闭）——animations 段 31 分块全部落 C
+
+**event 家族**（`c/spine_read_tl_event/`，子代理施工、父代理复跑 `RESULT PASS`，
+4 配置×13 测试、14 变异、5 拒绝门）：
+
+- B16：`spEventTimeline_create(声明帧数)`；帧循环 `findEvent(data,
+  getString("name",NULL))` 未中→E5；`time` 默认 0.0f→`spEvent_create(time,
+  data)`；int/float/string **默认取 EventData +4/+8/+0xc**；string 非空即
+  `strlen+1→malloc(494)→strcpy→event+0x10`；setFrame(t,i,event)。
+- **open #7 关闭**：`[event+0x10]` 就是 `spEvent.stringValue`——create 只
+  calloc(1,20) 写 +0/+4，帧体填 +8/+0xc/+0x10 无第六字段；dispose 链
+  （spEvent_dispose 先 free +0x10 再 free 自身；_spEventTimeline_dispose
+  逐帧调）**无双释放**（拷贝无条件、永不别名 JSON/EventData 指针）。494
+  深拷贝必须存在的理由：**B18 在返回前 Json_dispose 根树**。
+- **open #10 关闭**：计数与元素只在 0x28e778..0x28e78c 写——
+  `animationsCount=old+1` 先写（0x28e784）、元素 `[array+old*4]`（0x28e78c，
+  旧游标）；timeline 层同构（0x28e750/0x28e754）。E5 在发布前整包 dispose，
+  无回滚。
+- E5：json 实参 **NULL**（父代理核对 `mov r4,r8`+`mov r1,r4`）、文案
+  "Event not found: "；已建 timeline 不发布不释放（原样泄漏）。
+- B18（0x28e7a4..0x28e7b4）：`Json_dispose(root)`（[sp,#0x24]=Json_create
+  根树）→ `return data`（r9）→ b 0x28bdcc 公共收尾。
+
+**path-mix**（`c/spine_read_tl_path_mix/`，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×13 测试、13 变异、5 拒绝门）——**谜题定因**：
+
+- `0x28e8fc beq 0x28e048` 的目标是**内层循环的节点前移**（父代理核对
+  0x28e048=`ldr r4,[r4]`）——**name=="mix" 没有任何 handler**，静默跳过
+  （无 create/setFrame/readCurve/发布/报错）；**除 "mix" 外任何名字都落穿
+  建成 mix 时间线**。源码缺 `== 0` 只是意图假设（登记为非字节码结论）。
+- B17 无扫描（只消费 B13 的 [sp+0x2c] cell）；索引写 `+0x14` 在帧链判空
+  **之前**无条件执行；键 time(0.0f)/rotateMix(1.0f)/translateMix(1.0f)；
+  setFrame 5 参（translateMix 走栈）；帧距 3；无错误路径。
+- **父代理修复（已提交代码缺陷）**：path 模块把 B17 的 rotateMix 键 pin
+  成 `0x357cc4 "teMix"`——**错在 add 站点**（0x28e93c 是 `str r1,[sp,#0x30]`
+  非加法指令；正确 add 0x28e938→0x357cc0 "rotateMix"）。旧 pin **绿但错**
+  （'teMix' 是 rotateMix 的后缀巧合）。已改 `check_tl_path.py` 的
+  KEY_PINS/报告文案与 functions.json，修复后驱动复跑全绿。
+- **父代理修复（文档）**：`spine_read_animations` 把 spEventData+0x00 写成
+  "borrowed Json member key"——实测 spEventData_create 会 strdup（owned
+  copy，dispose 释放 +0x00）。已改 .h/functions.json 措辞。
+
+至此 animations 段 **31 分块全部恢复为 C 模块**（B1..B18 + E1..E7，1579
+可达指令分块全覆盖；各块模块见上列；无 switch 跳表、错误块按入边归属）。
+回执：`tl_event_check-20261108T125309.json` / `tl_path_mix_check-20261108T124846.json`。
+
 ## 合成边界与欠账（累计）
 
 - 合成边界：`spEventData_create@0x285b94`（本体未恢复）、

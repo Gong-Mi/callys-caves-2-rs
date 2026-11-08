@@ -234,7 +234,7 @@
       "its own loop head 0x28e948 and its own readCurve call site 0x28e9b0 (both pinned: the checker proves 0x28dff4 and 0x28e9b0 both target the anonymous 0x28b34c, i.e. two distinct sites)",
       "its own create/setFrame pair: spPathConstraintMixTimeline_create 0x283068 at 0x28e904 and spPathConstraintMixTimeline_setFrame 0x283080 at 0x28e9a0",
       "a THREE-float frame stride: 0x28e9dc sub r2,r2,#1 ; 0x28e9e8 add r2,r2,r2,lsl#1 ; 0x28e9f4 lsl#2 -> frames[(declared-1)*3], versus B13's lsl#3 / [r3,#-8] elsewhere",
-      "its own key literals at pools 0x28eb10/0x28eb14/0x28eb18 -> 0x34c1d4 \"time\", 0x357cc4 \"teMix\" (a +4 SUFFIX pointer into the \"rotateMix\" literal at 0x357cc0), 0x357ccc \"translateMix\", with defaults 0.0f / 1.0f / 1.0f",
+      "its own key literals at pools 0x28eb10/0x28eb14/0x28eb18 -> 0x34c1d4 \"time\", 0x357cc0 \"rotateMix\" (ADD site 0x28e938; the earlier \"teMix\" +4-suffix reading was a wrong-add-site artifact - 0x28e93c is str r1,[sp,#0x30]), 0x357ccc \"translateMix\", with defaults 0.0f / 1.0f / 1.0f",
       "its own publish/duration tail 0x28e9cc..0x28ea0c before returning to the shared node advance 0x28e048"
     ],
     "observed_oddity_open": "B17's first two instructions are 0x28e8ec mov r0,r6 ; 0x28e8f0 ldr r1,[sp,#0x48] (\"mix\") ; 0x28e8f4 strcmp ; 0x28e8fc beq 0x28e048. That is: a sub-key named EXACTLY \"mix\" skips the block (branch to the node advance), while any OTHER unresolvable name falls through and creates a mix timeline. Stated as bytes only; B17's recovery must decide whether that is a source-level `continue` or a compiler artefact."

@@ -1,0 +1,120 @@
+28e614	e59d204c	ldr	r2, [sp, #0x4c]
+28e618	e3520000	cmp	r2, #0
+28e61c	0a000054	beq	0x28e774 <spSkeletonJson_readSkeletonData+0x2f28>
+28e620	e592000c	ldr	r0, [r2, #0xc]
+28e624	ebffd198	bl	0x282c8c <spEventTimeline_create>
+28e628	e59d304c	ldr	r3, [sp, #0x4c]
+28e62c	e593a004	ldr	r10, [r3, #0x4]
+28e630	e35a0000	cmp	r10, #0
+28e634	e1a06000	mov	r6, r0
+28e638	0a00003e	beq	0x28e738 <spSkeletonJson_readSkeletonData+0x2eec>
+28e63c	e59f34a4	ldr	r3, [pc, #0x4a4]
+28e640	e3a05000	mov	r5, #0
+28e644	e59f74a0	ldr	r7, [pc, #0x4a0]
+28e648	e08f3003	add	r3, pc, r3
+28e64c	e59f949c	ldr	r9, [pc, #0x49c]
+28e650	e58d3028	str	r3, [sp, #0x28]
+28e654	e08f7007	add	r7, pc, r7
+28e658	e59f3494	ldr	r3, [pc, #0x494]
+28e65c	e08f9009	add	r9, pc, r9
+28e660	e08f3003	add	r3, pc, r3
+28e664	e58d302c	str	r3, [sp, #0x2c]
+28e668	e59f3488	ldr	r3, [pc, #0x488]
+28e66c	e08f3003	add	r3, pc, r3
+28e670	e58d3030	str	r3, [sp, #0x30]
+28e674	e3a02000	mov	r2, #0
+28e678	e1a01007	mov	r1, r7
+28e67c	e1a0000a	mov	r0, r10
+28e680	ebffe368	bl	0x287428 <Json_getString>
+28e684	e1a01000	mov	r1, r0
+28e688	e59d0018	ldr	r0, [sp, #0x18]
+28e68c	ebfff2bb	bl	0x28b180 <spSkeletonData_findEvent>
+28e690	e3a02000	mov	r2, #0
+28e694	e59d1028	ldr	r1, [sp, #0x28]
+28e698	e2508000	subs	r8, r0, #0
+28e69c	e1a0000a	mov	r0, r10
+28e6a0	0a000043	beq	0x28e7b4 <spSkeletonJson_readSkeletonData+0x2f68>
+28e6a4	ebffe366	bl	0x287444 <Json_getFloat>
+28e6a8	e1a01008	mov	r1, r8
+28e6ac	ebffdd24	bl	0x285b44 <spEvent_create>
+28e6b0	e5982004	ldr	r2, [r8, #0x4]
+28e6b4	e1a01009	mov	r1, r9
+28e6b8	e1a04000	mov	r4, r0
+28e6bc	e1a0000a	mov	r0, r10
+28e6c0	ebffe366	bl	0x287460 <Json_getInt>
+28e6c4	e5982008	ldr	r2, [r8, #0x8]
+28e6c8	e59d102c	ldr	r1, [sp, #0x2c]
+28e6cc	e5840008	str	r0, [r4, #0x8]
+28e6d0	e1a0000a	mov	r0, r10
+28e6d4	ebffe35a	bl	0x287444 <Json_getFloat>
+28e6d8	e598200c	ldr	r2, [r8, #0xc]
+28e6dc	e59d1030	ldr	r1, [sp, #0x30]
+28e6e0	e584000c	str	r0, [r4, #0xc]
+28e6e4	e1a0000a	mov	r0, r10
+28e6e8	ebffe34e	bl	0x287428 <Json_getString>
+28e6ec	e2508000	subs	r8, r0, #0
+28e6f0	0a000008	beq	0x28e718 <spSkeletonJson_readSkeletonData+0x2ecc>
+28e6f4	ebf89f8f	bl	0xb6538 <strlen@plt>
+28e6f8	e59f13fc	ldr	r1, [pc, #0x3fc]
+28e6fc	e30021ee	movw	r2, #0x1ee
+28e700	e08f1001	add	r1, pc, r1
+28e704	e2800001	add	r0, r0, #1
+28e708	ebffdd40	bl	0x285c10 <_malloc>
+28e70c	e1a01008	mov	r1, r8
+28e710	e5840010	str	r0, [r4, #0x10]
+28e714	ebf89fa2	bl	0xb65a4 <strcpy@plt>
+28e718	e1a01005	mov	r1, r5
+28e71c	e1a02004	mov	r2, r4
+28e720	e1a00006	mov	r0, r6
+28e724	e2855001	add	r5, r5, #1
+28e728	ebffd179	bl	0x282d14 <spEventTimeline_setFrame>
+28e72c	e59aa000	ldr	r10, [r10]
+28e730	e35a0000	cmp	r10, #0
+28e734	1affffce	bne	0x28e674 <spSkeletonJson_readSkeletonData+0x2e28>
+28e738	e59d004c	ldr	r0, [sp, #0x4c]
+28e73c	ed9b7a01	vldr	s14, [r11, #4]
+28e740	e59b3008	ldr	r3, [r11, #0x8]
+28e744	e59b100c	ldr	r1, [r11, #0xc]
+28e748	e590200c	ldr	r2, [r0, #0xc]
+28e74c	e2830001	add	r0, r3, #1
+28e750	e58b0008	str	r0, [r11, #0x8]
+28e754	e7816103	str	r6, [r1, r3, lsl #2]
+28e758	e596300c	ldr	r3, [r6, #0xc]
+28e75c	e0833102	add	r3, r3, r2, lsl #2
+28e760	ed537a01	vldr	s15, [r3, #-4]
+28e764	eeb47ae7	vcmpe.f32	s14, s15
+28e768	eef1fa10	vmrs	APSR_nzcv, fpscr
+28e76c	cef07a47	vmovgt.f32	s15, s14
+28e770	edcb7a01	vstr	s15, [r11, #4]
+28e774	e59d0018	ldr	r0, [sp, #0x18]
+28e778	e5903034	ldr	r3, [r0, #0x34]
+28e77c	e5902038	ldr	r2, [r0, #0x38]
+28e780	e2831001	add	r1, r3, #1
+28e784	e5801034	str	r1, [r0, #0x34]
+28e788	e59d101c	ldr	r1, [sp, #0x1c]
+28e78c	e782b103	str	r11, [r2, r3, lsl #2]
+28e790	e5911000	ldr	r1, [r1]
+28e794	e3510000	cmp	r1, #0
+28e798	e58d101c	str	r1, [sp, #0x1c]
+28e79c	1afffadd	bne	0x28d318 <spSkeletonJson_readSkeletonData+0x1acc>
+28e7a0	e1a09000	mov	r9, r0
+28e7a4	e59d0024	ldr	r0, [sp, #0x24]
+28e7a8	ebffe2c6	bl	0x2872c8 <Json_dispose>
+28e7ac	e1a00009	mov	r0, r9
+28e7b0	eafff585	b	0x28bdcc <spSkeletonJson_readSkeletonData+0x580>
+28e7b4	e1a04008	mov	r4, r8
+28e7b8	e1a0000b	mov	r0, r11
+28e7bc	e59d8020	ldr	r8, [sp, #0x20]
+28e7c0	e59d9018	ldr	r9, [sp, #0x18]
+28e7c4	ebffcb2c	bl	0x28147c <spAnimation_dispose>
+28e7c8	e1a01007	mov	r1, r7
+28e7cc	e1a02004	mov	r2, r4
+28e7d0	e1a0000a	mov	r0, r10
+28e7d4	ebffe313	bl	0x287428 <Json_getString>
+28e7d8	e59f2320	ldr	r2, [pc, #0x320]
+28e7dc	e1a01004	mov	r1, r4
+28e7e0	e08f2002	add	r2, pc, r2
+28e7e4	e1a03000	mov	r3, r0
+28e7e8	e1a00008	mov	r0, r8
+28e7ec	ebfff3e4	bl	0x28b784 <_spSkeletonJson_setError>
+28e7f0	eafffc93	b	0x28da44 <spSkeletonJson_readSkeletonData+0x21f8>

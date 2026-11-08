@@ -28,7 +28,7 @@
  * Offsets are pinned by 0x28d230 (+0x04), 0x28d244 (+0x08), 0x28d270 (+0x0c);
  * +0x00 is written by the creator itself (0x285bd8 str r0,[r4]). */
 typedef struct spEventData {
-    const char* name;        /* +0x00 borrowed Json member key */
+    const char* name;        /* +0x00 owned copy (spEventData_create strdups, dispose frees) */
     int32_t     intValue;    /* +0x04 Json_getInt "int" */
     float       floatValue;  /* +0x08 Json_getFloat "float" */
     const char* stringValue; /* +0x0c owned copy, malloc line 1034 */

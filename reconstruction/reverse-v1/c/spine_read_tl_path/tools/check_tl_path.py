@@ -179,7 +179,7 @@ KEY_PINS = (
     (0x28eabc, 0x28dec4, 'mix'),           # [sp+0x48] — B17's key
     # B17 boundary material: its own three keys, read at its own loop head.
     (0x28eb10, 0x28e934, 'time'),
-    (0x28eb14, 0x28e93c, 'teMix'),         # +4 into the "rotateMix" literal
+    (0x28eb14, 0x28e938, 'rotateMix'),   # correct ADD site (0x28e93c is str r1,[sp,#0x30], not an add)
     (0x28eb18, 0x28e940, 'translateMix'),
     # E7 message literal (0x28ea58 ldr r2,[pc,#0xc0] -> pool 0x28eb20).
     (0x28eb20, 0x28ea68, 'Path constraint not found: '),
@@ -445,7 +445,7 @@ def main():
                   'handoff_site': '0x28e538 bne 0x28e8ec',
                   'b17_evidence': ('own loop head 0x28e948, own readCurve call site 0x28e9b0, '
                                    'three-float frame stride 0x28e9e8 add r2,r2,r2,lsl#1, own '
-                                   'keys "time"/"rotateMix"(as the +4 suffix "teMix")/'
+                                   'keys "time"/"rotateMix"/'
                                    '"translateMix" at pools 0x28eb10/0x28eb14/0x28eb18, and its '
                                    'own publish tail 0x28e9cc..0x28ea0c')},
               'subject': {'body': str(BODY), 'header': str(HEADER), 'fixture': str(FIX)},

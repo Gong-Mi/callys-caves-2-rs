@@ -132,7 +132,7 @@
     "+0x38": "animations (spAnimation**; malloc line 1043, per-item publish at 0x28e78c)"
   },
   "spEventData_layout": {
-    "+0x00": "name (const char*, borrowed Json member key; written by the synthetic creator)",
+    "+0x00": "name (const char*, owned copy - spEventData_create strdups at 0x285bd4..0x285bdc, dispose frees it; written by the synthetic creator)",
     "+0x04": "intValue (int32; Json_getInt \"int\")",
     "+0x08": "floatValue (float bits; Json_getFloat \"float\")",
     "+0x0c": "stringValue (const char*; owned _malloc line 1034 copy of Json_getString \"string\")",
