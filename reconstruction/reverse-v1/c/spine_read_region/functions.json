@@ -1,24 +1,160 @@
 {
   "schema": "cally-c-module/1",
   "module": "spine_read_region",
-  "source": "libyoyo_armv7.so",
   "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
   "functions": [
     {
       "name": "readSkeletonData_regionFields",
-      "address_range": "0x28cdac-0x28ce9c",
-      "semantics": "region attachment: path MALLOC_STR(line 891) + x/y×scale + scaleX/scaleY(def 1) + rotation + width/height(def 32.0f!)×scale",
-      "malloc_anchors": [{"site": "0x28cdcc", "line": 891, "stores_to": "+0x10"}],
-      "keys": ["x", "y", "scaleX", "scaleY", "rotation", "width", "height"],
-      "default_divergence": "width/height default 32.0f (0x42000000); stock spine-c 3.8 has 0. GameMaker texture-size assumption.",
-      "jump_table": "case 0 (region) of the attachment type dispatch at 0x28c7c8"
+      "address": "0x28cdac",
+      "isa": "ARM",
+      "kind": "caller_BLOCK_not_an_original_function",
+      "range_end_exclusive": "0x28cf24",
+      "code_end_exclusive": "0x28cf24",
+      "body_sha256": "7101003a2e3dea32b5fdc93926a9fc18274a05fa81d1f0dc9afbb16eded0f56b",
+      "literal_bytes": 0,
+      "code_words": 94,
+      "translation_source": "src/spine_read_region.c",
+      "translation_source_sha256": "e88900aa812bc9cb8e66211f613c52f2b951147d74cdd8c7141f1efaacc2ee40",
+      "translation_header_sha256": "47874c78aaafe90490b468be06c1f78622cb4fdbeeeee572a82adf46a1f48e3d",
+      "semantics_state": "local static control/data flow translated; no original execution/equivalence claim",
+      "translation_state": "compiled/exercised in O0/O2/O3/UBSan reconstructed consumers; synthetic import boundary explicit",
+      "phase_complete": false
     }
   ],
-  "spRegionAttachment_layout": {
-    "+0x10": "path (char*)", "+0x14": "x (×scale)", "+0x18": "y (×scale)",
-    "+0x1c": "scaleX (def 1)", "+0x20": "scaleY (def 1)", "+0x24": "rotation",
-    "+0x28": "width (def 32.0f, ×scale)", "+0x2c": "height (def 32.0f, ×scale)"
+  "acceptance": {
+    "status": "verified_reconstructed_scope_only",
+    "original_executed": false,
+    "receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-region-20261108/run-03/receipt.json",
+    "receipt_sha256": "293f6c1f47fc1a1640f5ab57879cae565754fd7ebd7d2f17fc459646d3da964c",
+    "variants": [
+      "O0",
+      "O2",
+      "O3",
+      "ubsan"
+    ],
+    "contracts_per_variant": 14,
+    "named_runtime_mutants": 19,
+    "compile_refusal_guards": [
+      "missing-region-body",
+      "missing-math-imports",
+      "reject-software-float",
+      "reject-hardfloat-pcs"
+    ],
+    "source_binding_count": 32,
+    "scope": "Reconstructed C only; libm prescribed synthetic results, not libm reconstruction or original oracle",
+    "numeric_operation_counts": {
+      "vcvt.f32.s32": 6,
+      "vdiv.f32": 2,
+      "vmul.f32": 9,
+      "vnmul.f32": 2,
+      "vmla.f32": 8,
+      "vcvt.f64.f32": 1,
+      "vcvt.f32.f64": 2,
+      "vsub.f32": 4,
+      "vadd.f32": 4
+    },
+    "static_review": "/data/data/com.termux/files/home/.hermes/reports/cally-region-20261108/static-review.json",
+    "static_review_sha256": "36887b2163c60bbb975dd6525d3cf70ad80726252642ae426f546ac430aab402"
   },
-  "depends_on": ["json_interface"],
-  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+  "compile": {
+    "target": "armv7a-none-eabi",
+    "march": "armv7-a",
+    "mfpu": "vfpv3",
+    "float_abi": "softfp",
+    "fp_contract": "off",
+    "warnings": "-Wall -Wextra -Werror",
+    "status": "compiled_and_executed_reconstructed_consumer"
+  },
+  "original_gap": [
+    "original not executed or used as runtime oracle",
+    "libm providers are prescribed synthetic results, not recovered math implementations or verified real libm output",
+    "full FPSCR modes/traps, asynchronous observation and malformed-memory fault-PC domains not certified",
+    "whole readSkeletonData skin/slot outer loops and events/animations remain unassembled"
+  ],
+  "layout": {
+    "canonical_header": "../spine_atlas_attachment/src/spine_atlas_attachment.h",
+    "parser_header": "../spine_json_layout.h",
+    "path": "+0x10",
+    "x": "+0x14",
+    "y": "+0x18",
+    "scaleX": "+0x1c",
+    "scaleY": "+0x20",
+    "rotation": "+0x24",
+    "width": "+0x28",
+    "height": "+0x2c",
+    "rgba": "+0x30..+0x3c"
+  },
+  "semantics": {
+    "path": "if nonNULL malloc(strlen+1,full SkeletonJson.c tag,line891); publish before strcpy; no free old path; NULL keeps old path",
+    "fields": "x/y/width/height multiply scale freshly loaded after each Json_getFloat; scaleX/Y defaults1; rotation0; width/height fallback32.0f",
+    "color": "optional Json_getString color followed by actual toColor0/1/2/3 with s0-return PCS, store RGBA in order",
+    "tail": "actual updateOffset then freshly loaded parser.loader to actual configureAttachment; common skin insertion remains outside this BLOCK",
+    "api_change": "replace old float scale snapshot/void recipient with full canonical parser pointer/typed region; obsolete _strlen/_strcpy extern aliases removed"
+  },
+  "depends_on": [
+    "json_interface",
+    "spine_alloc/_malloc",
+    "spine_color/toColor",
+    "spine_region_geometry/spRegionAttachment_updateOffset",
+    "spine_atlas_attachment/spAttachmentLoader_configureAttachment",
+    "external strlen/strcpy"
+  ],
+  "caller_keys": [
+    {
+      "pool": "0x28c988",
+      "add": "0x28cdc4",
+      "va": "0x357b08",
+      "value": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+    },
+    {
+      "pool": "0x28c98c",
+      "add": "0x28cde8",
+      "va": "0x33087c",
+      "value": "x"
+    },
+    {
+      "pool": "0x28c990",
+      "add": "0x28cdfc",
+      "va": "0x330880",
+      "value": "y"
+    },
+    {
+      "pool": "0x28c994",
+      "add": "0x28ce20",
+      "va": "0x357bbc",
+      "value": "scaleX"
+    },
+    {
+      "pool": "0x28c998",
+      "add": "0x28ce40",
+      "va": "0x357bc4",
+      "value": "scaleY"
+    },
+    {
+      "pool": "0x28c99c",
+      "add": "0x28ce58",
+      "va": "0x357bb0",
+      "value": "rotation"
+    },
+    {
+      "pool": "0x28c9a0",
+      "add": "0x28ce70",
+      "va": "0x357b78",
+      "value": "width"
+    },
+    {
+      "pool": "0x28c9a4",
+      "add": "0x28ce8c",
+      "va": "0x357b80",
+      "value": "height"
+    },
+    {
+      "pool": "0x28c9a8",
+      "add": "0x28ceb0",
+      "va": "0x357c18",
+      "value": "color"
+    }
+  ]
 }

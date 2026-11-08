@@ -1,23 +1,23 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：linked父项查找与失败清理已接通，下一步region尾部/外循环
+## 当前断点：region完整字段/颜色/局部四角已接通，下一步公共外循环
 
-`c/spine_skin/` 恢复Entry创建、skin创建、头插和attachment查找四入口；
-`c/spine_linked_postpass/` 接通默认/具名skin→父项→共享几何→UV→configure，以及
-缺skin/父项时的真实data释放→错误格式化→console虚调用。后处理是caller BLOCK，不计新原函数。
+`c/spine_region_geometry/` 新增updateOffset原方法候选（304B代码+4B池）。
+`c/spine_read_region/` caller扩至0x28cdac..0x28cf24，补齐color→updateOffset→当前loader configure；
+canonical parser替代旧scale快照和源内重复声明，不改width/height原默认32.0f。
 
-`c/spine_json_support/` 新增Json_dispose与ReportSpineError本体；旧setError/filewrapper
-修正tag/前缀、无条件strlen及strncat起点、Output变参ABI和Json释放后的实际canary检查。
-find三方法统一完整data；旧Bone/Slot的name+0假结构改为原件+4读取。
+实际public create wrapper→atlas工厂→Json字段→toColor→局部offset→configure→析构已实跑。
+原libm是double cos/sin：先float32角乘再widen；cos先narrow再sin，sin后读x/y；
+几何快照和真实VFP非融合指令保留。libm provider是明确预置值，不是原件oracle或数学库恢复。
 
-主链O0/O2/O3/UBSan各15项，17个语义变异具名拒绝；canary三档与关闭guard负控通过。
-独立错误套件四档各25项/10变异、上一批mesh四档16项/16变异与native-spine八程序重过。
-父级生产源独立静态复核13项无阻塞发现；完整回执和边界见
-`reconstruction/contracts/native-linked-postpass.md`。无原件执行，不称全库静态闭合或原版等价。
+O0/O2/O3/UBSan各14项，19个语义变异由登记用例拒绝；缺本体/缺math/软浮点/hardfloat四拒绝门通过。
+32项执行源/头/夹具/checker绑定；独立静态复核无阻塞发现，父级重解PLT/GOT；
+linked四档15项/17变异、mesh四档16项/16变异与旧native-spine链重过。
+见 `reconstruction/contracts/native-region.md` 与模块functions.json。原件未执行，不称原版等价或已显示sprite。
 
-上一批继承F2/F3已修；slots blend枚举F1、多余NULL返回F4仍未修。真实_readFile、
-console构造与完整loader仍是缺口，不用fixture替身算恢复。下一步region color/updateOffset尾部，
-然后公共skin/slot外循环与events/animations；caller成功仅到events后继，未完成loader总装。
+前批linked/skin与真实错误清理仍可消费；公共skin/slot外循环及events/animations尚未总装。
+下一入口先核销slots blend枚举F1、多余NULL返回F4，再补公共外循环；真实_readFile、console构造、
+完整loader继续保留缺口，不将合成provider算恢复。全游戏玩法与原版差距本批未测量。
 
 ## 决定性发现：spine-c 源码行号锚（2026-11-07）
 

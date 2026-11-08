@@ -70,6 +70,6 @@ SHA256 `bc9121fe63ca89a0c77f085d55f08e5ab442828f052050e2e9cae11fe99e140a`。
 仍未修，未因新链绿灯升级旧slots。真实_readFile、完整readSkeletonData、平台console构造仍未恢复。
 文件包装器测试中的_readFile/loader是合成provider，不是新增恢复方法。
 
-后续仍需region color/updateOffset尾部、公共skin/slot外循环、events/animations与全loader总装。
+后续仍需公共skin/slot外循环、events/animations与全loader总装。region color/updateOffset尾部已由续批接通，见native-region.md。
 原件同输入对照、任意别名/畸形指针故障PC、硬件FPSCR和真实平台初始化均未认证。
 这份提交交付静态候选和可重跑的重建消费者，不声明全库/全游戏完成。

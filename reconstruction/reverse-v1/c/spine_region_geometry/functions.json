@@ -1,0 +1,96 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_region_geometry",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "name": "spRegionAttachment_updateOffset",
+      "address": "0x289040",
+      "isa": "ARM",
+      "kind": "whole_original_function_candidate",
+      "range_end_exclusive": "0x289174",
+      "code_end_exclusive": "0x289170",
+      "body_sha256": "7249ae07ef34dd4f9252bb8164c9d66770c28b725779211037bc5a58e99b8573",
+      "literal_bytes": 4,
+      "code_words": 76,
+      "translation_source": "src/spine_region_geometry.c",
+      "translation_source_sha256": "b7cb798e5d382073b1c747a92a15d61ce4c7f25e2f2da8d9b574a1bbed60da18",
+      "translation_header_sha256": "d106bbfa2a1d5fe30ab27ec78f317dfb1f5e61e14fb0155c93c62dd8de67c4a2",
+      "semantics_state": "local static control/data flow translated; no original execution/equivalence claim",
+      "translation_state": "compiled/exercised in O0/O2/O3/UBSan reconstructed consumers; synthetic import boundary explicit",
+      "phase_complete": false
+    }
+  ],
+  "acceptance": {
+    "status": "verified_reconstructed_scope_only",
+    "original_executed": false,
+    "receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-region-20261108/run-03/receipt.json",
+    "receipt_sha256": "293f6c1f47fc1a1640f5ab57879cae565754fd7ebd7d2f17fc459646d3da964c",
+    "variants": [
+      "O0",
+      "O2",
+      "O3",
+      "ubsan"
+    ],
+    "contracts_per_variant": 14,
+    "named_runtime_mutants": 19,
+    "compile_refusal_guards": [
+      "missing-region-body",
+      "missing-math-imports",
+      "reject-software-float",
+      "reject-hardfloat-pcs"
+    ],
+    "source_binding_count": 32,
+    "scope": "Reconstructed C only; libm prescribed synthetic results, not libm reconstruction or original oracle",
+    "numeric_operation_counts": {
+      "vcvt.f32.s32": 6,
+      "vdiv.f32": 2,
+      "vmul.f32": 9,
+      "vnmul.f32": 2,
+      "vmla.f32": 8,
+      "vcvt.f64.f32": 1,
+      "vcvt.f32.f64": 2,
+      "vsub.f32": 4,
+      "vadd.f32": 4
+    },
+    "static_review": "/data/data/com.termux/files/home/.hermes/reports/cally-region-20261108/static-review.json",
+    "static_review_sha256": "36887b2163c60bbb975dd6525d3cf70ad80726252642ae426f546ac430aab402"
+  },
+  "compile": {
+    "target": "armv7a-none-eabi",
+    "march": "armv7-a",
+    "mfpu": "vfpv3",
+    "float_abi": "softfp",
+    "fp_contract": "off",
+    "warnings": "-Wall -Wextra -Werror",
+    "status": "compiled_and_executed_reconstructed_consumer"
+  },
+  "original_gap": [
+    "original not executed or used as runtime oracle",
+    "libm providers are prescribed synthetic results, not recovered math implementations or verified real libm output",
+    "full FPSCR modes/traps, asynchronous observation and malformed-memory fault-PC domains not certified",
+    "whole readSkeletonData skin/slot outer loops and events/animations remain unassembled"
+  ],
+  "layout": {
+    "canonical_header": "../spine_atlas_attachment/src/spine_atlas_attachment.h",
+    "region_bytes": 156,
+    "offset_byte_offset": "0x5c",
+    "offset_float_count": 8,
+    "uv_byte_offset": "0x7c",
+    "integer_dimensions": "signed32"
+  },
+  "semantics": {
+    "angle": "VMUL.F32(rotation,0x3c8efa35), then VCVT.F64.F32; identical snapshot passed to both double imports",
+    "imports": "cos@PLT0xb67e4 then narrow cos to F32 before sin@PLT0xb67d8; both core-register DOUBLE AAPCS",
+    "arithmetic": "literal VDIV/VMUL/VNMUL/nonfused VMLA/VCVT/VADD/VSUB with original operands and operation order",
+    "reloads": "dimensions/trim/scale/rotation snapshotted before imports; x/y loaded after sin; two x VMLA precede narrowing sin",
+    "writes": "only offset[8], x columns0/2/4/6 then y columns1/3/5/7 with original interleaving",
+    "stack_protection": "native method has no canary; no_stack_protector first declaration overrides suite default strong/global, not a global disabling flag"
+  },
+  "depends_on": [
+    "canonical spRegionAttachment",
+    "external libm.so cos(double), sin(double)"
+  ]
+}
