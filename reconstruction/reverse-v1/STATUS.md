@@ -1,6 +1,21 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：animations 段 31 分块全部落 C，下一步动画级总装
+## 当前断点：动画级循环已总装（九家族真实链接），下一步 skins 胶水块+全链总装
+
+`c/spine_animations_loop/`（子代理 O，父代理复跑 RESULT PASS）：**家族调用
+顺序定案**（父代理逐分支核对 8/8）：slots→bones→ik→transform→paths(B13/B17
+交错)→deform→drawOrder→events→发布（0x28e784 count 先写/0x28e78c 元素旧
+游标/0x28e79c 回 B3）；**0x28ea10 块（slot index -1 错误）本批恢复**；
+4 配置×17 测试、12 变异、5 链接门（去任一家族源→undefined symbol）。
+回执 `animations_loop_check-20261108T134040.json`。
+见 `reconstruction/contracts/native-animations.md` 第八批节。原件未执行。
+
+顶层段链普查已落盘（`asm/segment_chain_map.md`，父代理核验三处并修复：
+attach_type_e 枚举序、entry 的 setError 声明、STATUS 分段表错位）：
+**总装缺口=物理 8 块/368B/92 insn**（createAttachment 五参调用+类型跳转表
+0x28c7a0、addAttachment+三层循环推进 0x28cc68、四条离位错误尾）+ 语义缺口
+6 块/260B。下一步：恢复 skins 胶水块 → 全链总装（entry→…→animations_loop
+→B18）。
 
 `c/spine_read_tl_event/`（子代理 M，父代理复跑 RESULT PASS）：B16 event
 时间线（findEvent→spEvent_create→494 深拷贝→setFrame）；**open #7 关闭**

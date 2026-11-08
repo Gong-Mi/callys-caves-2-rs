@@ -313,6 +313,31 @@ path-position、0x28e2a8 deform、0x28e9b0 path-mix）。
 可达指令分块全覆盖；各块模块见上列；无 switch 跳表、错误块按入边归属）。
 回执：`tl_event_check-20261108T125309.json` / `tl_path_mix_check-20261108T124846.json`。
 
+## 第八批：动画级循环总装（九家族真实链接）
+
+`c/spine_animations_loop/`（子代理施工、父代理复跑 `RESULT PASS`，4 配置×17
+测试、12 变异、**5 链接门**：缺本体/去 tl_slots/去 tl_bones/去 tl_event/
+去 readCurve 源全部 undefined symbol 拒绝）：
+
+- **家族调用顺序（父代理逐分支核对 8/8）**：slots → bones → ik → transform
+  → paths（B13/B17 交错，"mix" 静默跳过）→ deform → drawOrder → events →
+  发布。证据链：0x28d4e8 beq→B6 头（ldr [sp,#0x30] bones）→0x28d648 beq→
+  B7 头（[sp,#0x34] ik）→…→0x28e61c beq→0x28e774 发布；发布四件
+  0x28e784 count 先写/0x28e78c 元素旧游标/0x28e798 存回游标/0x28e79c
+  `bne 0x28d318` 回 B3 下一动画。
+- **0x28ea10 块（B5 slot index -1，13 insn）本批恢复**：此前无模块拥有——
+  dispose 动画→setError(parser, **当前动画节点**, "Slot not found: ",
+  当前 slot 键)→dispose data→NULL。
+- 适配层：slots rc==0 歧义（E1 已报错 vs 静默 -1）用 `parser->error` 区分；
+  paths 续接从 0x28e048 的 next 兄弟重跑（findPathConstraint 成功⇒scan 必
+  命中，跨约束 stale 不可达）；deform→E4/drawOrder→E6 按 JSON 重走定位；
+  B4 只在 slots 节点+child 存在时写 slotsChild，防迭代残留。
+- **记录的家族模块接口债**（未改它们）：tl_slots.h/tl_bones.h 重复 typedef
+  `spAnimationShape`（include 期改名绕过）；path/slots/deform/drawOrder 的
+  handoff 只回码不回首节点；slots 两种错误共用 0 返回值。
+
+回执：`animations_loop_check-20261108T134040.json`。
+
 ## 合成边界与欠账（累计）
 
 - 合成边界：`spEventData_create@0x285b94`（本体未恢复）、
