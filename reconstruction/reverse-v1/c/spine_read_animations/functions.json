@@ -47,16 +47,81 @@
       "kind": "caller_block_not_original_function",
       "address_range": "0x28d290-0x28d2d4 (B2, 68 B / 17 insns)",
       "translation_source": "src/spine_read_animations.c",
-      "semantics": "animations = Json_getItem(tree, \"animations\"); NULL -> return NULL (parent goes to 0x28e7a4 Json_dispose + return data). count = animations->unk_0c; array = _malloc(count<<2, tag, 1043); child = animations->child (loaded after _malloc); data+0x38 = array (published even when child==NULL); return child. data+0x34 (animationsCount) is NOT written here.",
+      "semantics": "animations = Json_getItem(tree, \"animations\"); NULL -> return NULL (parent goes to 0x28e7a4 Json_dispose + return data). count = animations->unk_0c; array = _malloc(count<<2, tag, 1043); child = animations->child (loaded after _malloc); data+0x38 = array (published even when child==NULL); str child -> [sp,#0x1c]; return child. data+0x34 (animationsCount) is NOT written here.",
       "keys": ["animations"],
       "malloc_anchors": [
         {"site": "0x28d2bc", "line": 1043, "size": "animationsCount << 2"}
       ],
       "quirks": [
         "0x28d2a4 beq 0x28e7a4: absent key ends the segment with no writes",
-        "0x28d2c8 str r4,[sp,#0x1c] spills the first animation for the B3/B4 outer loop",
+        "0x28d2c8 str r4,[sp,#0x1c] spills the first animation node into the frame slot B3/B4 read; the loop tail advances the same slot at 0x28e798",
         "0x28d2cc str r0,[r9,#0x38]: array published before the 0x28d2d0 child==NULL branch",
+        "0x28d2d0 beq-not-taken falls straight through into B3's preamble (the only entry to 0x28d2d4)",
         "animationsCount (+0x34) is incremented per animation at 0x28e784, not initialised here"
+      ]
+    },
+    {
+      "name": "readSkeletonData_animationFrameInit",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d2d4-0x28d314 (B3 preamble, 17 of B3's 56 insns; the block ends at 0x28d3b4)",
+      "translation_source": "src/spine_read_animations.c",
+      "semantics": "Executed ONCE per animations array, on B2's fall-through, and never re-entered: the outer loop's back edge is 0x28e79c bne 0x28d318, i.e. it re-enters at the lookup half. Caches four key literals into the frame: +0x4c \"bones\" (pool 0x28c9f8 / add 0x28d2e4 -> 0x357b88), +0x50 \"slots\" (0x28c9fc / 0x28d2f0 -> 0x357b90), +0x54 \"ik\" (0x28ca00 / 0x28d2f8 -> 0x357bfc), +0x58 \"transform\" (0x28ca04 / 0x28d300 -> 0x357c48). Writes 0x55555556 into +0x48 ([sp,#0x60]) from movw 0x5556 (0x28d2d8) + movt 0x5555 (0x28d2e0). Spills data (r9) into +0x00 ([sp,#0x18]) and the spSkeletonJson pointer (r8) into +0x08 ([sp,#0x20]). No allocation, no Json access, no branch.",
+      "keys": ["bones", "slots", "ik", "transform"],
+      "malloc_anchors": [],
+      "quirks": [
+        "0x28d304 str r1,[sp,#0x60] is the ONLY write of 0x55555556 in the whole 13044-byte function",
+        "0x28d310 str r9,[sp,#0x18] / 0x28d314 str r8,[sp,#0x20] are register spills for later blocks (0x28e774, 0x28ea48/0x28ea50); not data products of this block",
+        "the frame slice's +0x24/+0x28/+0x30/+0x3c/+0x40/+0x44/+0x5c slots belong to later blocks (B5+ and the deform error path) and are never touched here",
+        "no malloc: B3/B3b/B4 request no memory, so no tag/line assertion applies to them"
+      ]
+    },
+    {
+      "name": "readSkeletonData_animationKeys",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d318-0x28d3b0 (B3 lookup half; loop head 0x28d318, back edge 0x28e79c, 39 insns)",
+      "translation_source": "src/spine_read_animations.c",
+      "semantics": "Per animation: eight Json_getItem(animation_node, key) calls in address order with results stored to bones [sp,#0x30] (0x28d328), slots -> r4 (0x28d338), ik [sp,#0x34] (0x28d348), transform [sp,#0x38] (0x28d35c), paths [sp,#0x44] (0x28d370), deform [sp,#0x50] (0x28d384), drawOrder [sp,#0x28] (0x28d398), events [sp,#0x4c] (0x28d3ac). The first four use the cached literals from +0x4c..+0x58; the last four rebuild the literal from the pool each iteration (0x28d354/58 paths->0x357e5c, 0x28d368/6c deform->0x357de4, 0x28d37c/80 drawOrder->0x357e64, 0x28d390/94 events->0x357d94). Ends with 0x28d3a4 ldr r1,[sp,#0x28]; 0x28d3a8 cmp; 0x28d3b0 beq 0x28eb28. The slots node stays in r4 and is returned here because B4 re-reads r4 at 0x28d3e4 and 0x28d4c8.",
+      "keys": ["bones", "slots", "ik", "transform", "paths", "deform", "drawOrder", "events"],
+      "malloc_anchors": [],
+      "quirks": [
+        "loop head is inside this block (0x28d318), the preamble above is loop-invariant",
+        "eight stores, eight distinct slots: two land in registers/memory in a non-monotonic address order (drawOrder +0x28 before bones +0x30 in the source, but at a lower address)",
+        "the lookup node is [sp,#0x1c], the animation node — NOT the root tree (root is [sp,#0x24])",
+        "no NULL guard on the animation node; a NULL node would fault exactly as the original does",
+        "no allocation and no error path"
+      ]
+    },
+    {
+      "name": "readSkeletonData_animationLegacyDrawOrder",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28eb28-0x28eb40 (B3b, 24 B / 6 insns, out of line at the function tail)",
+      "translation_source": "src/spine_read_animations.c",
+      "semantics": "Reached only from 0x28d3b0 beq 0x28eb28 when the \"drawOrder\" lookup returned NULL. Re-runs Json_getItem(animation_node, \"draworder\") (pool 0x28eb24 / add 0x28eb30 -> 0x357e70, lowercase legacy key), stores the result UNCONDITIONALLY into [sp,#0x28] (0x28eb38), then b 0x28d3b4 (B4). No NULL test follows the store.",
+      "keys": ["draworder"],
+      "malloc_anchors": [],
+      "quirks": [
+        "store is unconditional: on a second miss it overwrites the slot with the NULL it already held",
+        "Json_getItem compares case-insensitively (0x287414 bl strcasecmp@plt), so \"drawOrder\" and \"draworder\" are the same query and this retry can never find a node the first lookup missed",
+        "with both spellings present, getItem returns the FIRST matching child in list order — not a priority for the camelCase key",
+        "whole block is 6 insns with one bl and one b; nothing else is touched"
+      ]
+    },
+    {
+      "name": "readSkeletonData_animationTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d3b4-0x28d4ec (B4, 312 B / 78 insns)",
+      "translation_source": "src/spine_read_animations.c",
+      "semantics": "Sums a timeline count per animation group and calls spAnimation_create(animation_node->name, total), then zeroes the created record's +0x08 and publishes slots->child. Sum shape per instruction: bones = sum of child->unk_0c over bones->child chain (0x28d3d0..0x28d3e0, zero-fast paths 0x28ea80 when bones==NULL and 0x28ea40 when bones->child==NULL); slots = same over slots->child (0x28d3f8..0x28d408, skipped when r4==NULL); ik = ik->unk_0c once (0x28d418, no child loop); transform = transform->unk_0c once (0x28d42c); paths = sum over paths->child (0x28d44c..0x28d45c); deform = double loop over deform->child (skins) then skin->child (slots), summing slot->unk_0c (0x28d478..0x28d4a0); drawOrder and events each +1 when the node is non-NULL (0x28d4b4/0x28d4bc). Then 0x28d4c0 ldr r0,[r2,#0x1c] with r2=[sp,#0x1c] -> the animation member key; 0x28d4c4 bl spAnimation_create; 0x28d4d4 str r3(=0),[r0,#0x8]; if r4 != 0 then [sp,#0x2c] = r4->child (0x28d4dc/0x28d4e4) and the B5 loop is entered when that child is non-NULL.",
+      "keys": ["bones", "slots", "ik", "transform", "paths", "deform", "drawOrder", "events"],
+      "malloc_anchors": [],
+      "quirks": [
+        "0x28d3bc beq 0x28ea80 and 0x28d3c8 beq 0x28ea40 are out-of-line zero-total paths: 0x28ea80 ldr r3,[sp,#0x30] (bones==NULL -> 0), 0x28ea40 mov r3,r2 (child==NULL -> 0); both b 0x28d3e4",
+        "the accumulator starts in r3 (bones+slots+ik) and moves to r1 at 0x28d438 add r1,r3,r2; paths/deform/drawOrder/events add into r1",
+        "ik and transform are counted from the NODE's own +0x0c with no child loop, while bones/slots/paths sum per-child +0x0c — an asymmetry taken from the instruction stream, not from a stock spine-c source",
+        "0x28d418 ldrne / 0x28d41c ldreq r2,[sp,#0x34]: the NULL branch reloads the (zero) node word itself",
+        "create arguments: r0 = Json member key of the animation node (no Json_getString(\"name\")), r1 = the summed count",
+        "0x28d4c8/0x28d4d8 beq 0x28d640: slots absent skips the sp+0x2c spill entirely, so a stale frame slot survives",
+        "spAnimation_create's own body is a synthetic boundary here; +0x08 is written twice (creator: arg1 at 0x281304, then 0 at 0x28d4d4)"
       ]
     }
   ],
@@ -74,6 +139,43 @@
     "size": 16,
     "anchor": "0x285ba4 _calloc(1,16,...) and 0x285bf4/0x285bfc dispose frees +0xc then +0x00"
   },
+  "spAnimation_layout": {
+    "note": "Synthetic boundary. Layout facts cited statically from spAnimation_create 0x2812b4..0x281324 (116 B), which this batch does NOT recover.",
+    "+0x00": "name (const char*; str r0,[r4] at 0x2812fc after strcpy of arg0)",
+    "+0x04": "not written by the creator; _calloc(1,16,tag,38) leaves it zero",
+    "+0x08": "arg1 (int32 timelineCount) written at 0x281304; B4 then overwrites it with 0 at 0x28d4d4",
+    "+0x0c": "timelines (created by the creator: lsl r0,r7,#2 then _malloc(...,41) at 0x281314, stored 0x281318); B4 never touches it",
+    "size": 16,
+    "anchor": "0x2812d8 bl _calloc(1,16,tag,38)"
+  },
+  "spAnimationFrame_layout": {
+    "note": "Stack-frame slice of the parent loader, base = original sp+0x18, pinned member by member so the fixture can assert the original slot offsets (sizeof 0x60).",
+    "+0x00": "[sp,#0x18] data (r9) spill at 0x28d310; re-read 0x28e774",
+    "+0x04": "[sp,#0x1c] animation node; written by B2 0x28d2c8, advanced by the tail 0x28e798, read 8x by B3 and at 0x28d4ac",
+    "+0x08": "[sp,#0x20] spSkeletonJson (r8) spill at 0x28d314; restored 0x28ea48",
+    "+0x0c": "[sp,#0x24] root Json tree (parent, 0x28b8ac); untouched by B1..B4",
+    "+0x10": "[sp,#0x28] drawOrder 0x28d398 / B3b 0x28eb38; read 0x28d4a4",
+    "+0x14": "[sp,#0x2c] slots->child 0x28d4e4; B5 loop head 0x28d62c",
+    "+0x18": "[sp,#0x30] bones 0x28d328; read 0x28d3b4",
+    "+0x1c": "[sp,#0x34] ik 0x28d348; read 0x28d40c",
+    "+0x20": "[sp,#0x38] transform 0x28d35c; read 0x28d410",
+    "+0x24": "[sp,#0x3c] scratch (deform block reads it at 0x28e100)",
+    "+0x28": "[sp,#0x40] scratch (B5 caches \"color\" at 0x28d510)",
+    "+0x2c": "[sp,#0x44] paths 0x28d370; read 0x28d424",
+    "+0x30": "[sp,#0x48] scratch (B5 caches \"attachment\" at 0x28d518)",
+    "+0x34": "[sp,#0x4c] events 0x28d3ac; read 0x28d4a8",
+    "+0x38": "[sp,#0x50] deform 0x28d384; read 0x28d460",
+    "+0x3c": "[sp,#0x54] scratch (B5 caches \"name\" at 0x28d51c)",
+    "+0x40": "[sp,#0x58] scratch (bone reader 0x28d6b8/0x28d830)",
+    "+0x44": "[sp,#0x5c] scratch (color reader 0x28d91c/0x28d9cc)",
+    "+0x48": "[sp,#0x60] 0x55555556, written once at 0x28d304; read once at 0x28e128 (deform)",
+    "+0x4c": "[sp,#0x64] cached \"bones\" key 0x28d2ec; read 0x28d318",
+    "+0x50": "[sp,#0x68] cached \"slots\" key 0x28d2fc; read 0x28d324",
+    "+0x54": "[sp,#0x6c] cached \"ik\" key 0x28d308; read 0x28d334",
+    "+0x58": "[sp,#0x70] cached \"transform\" key 0x28d30c; read 0x28d344",
+    "+0x5c": "[sp,#0x74] scratch (color block 0x28d900/0x28d9d0)",
+    "size": 96
+  },
   "synthetic_boundaries": [
     {
       "name": "spEventData_create",
@@ -81,32 +183,52 @@
       "reason": "EventData.c creator is not recovered in this batch; the fixture probe records the single name argument and provides the 16-byte record. The module writes only the three fields observed at 0x28d230/0x28d244/0x28d270."
     },
     {
+      "name": "spAnimation_create",
+      "address": "0x2812b4",
+      "reason": "Animation.c creator (116 B) is not recovered in this batch. The fixture probe records (name, timelineCount) and returns a zeroed 16-byte record with +0x0c still NULL so the block's own +0x08 reset stays observable; layout facts are cited statically from 0x2812d8/0x2812fc/0x281304/0x281318."
+    },
+    {
       "name": "fixture heap / allocator roster / libc strlen+strcpy / hand-built Json nodes",
       "reason": "test scaffolding only; qemu executes the reconstructed C, never original bytes"
+    },
+    {
+      "name": "outer animation loop tail 0x28e774..0x28e79c",
+      "reason": "not in this batch: the fixture advances the frame's animation slot to ->next itself (mirroring 0x28e790/0x28e798) and marks that step as fixture-side in the test bodies"
     }
   ],
   "open": [
-    "Event name source is the Json member key (0x28d20c ldr r0,[r4,#0x1c]), not a \"name\" key: B1's key set (events/int/float/string, census §2.1) has no \"name\". Whether the game's skeleton JSON encodes events as an object keyed by name or as an array of unnamed objects is NOT confirmed — no skeleton JSON asset exists in this tree; the translation follows the instruction literally.",
-    "Json +0x0c semantics for non-array nodes: B1/B2 use it as the allocation count while the event loop ignores it. A declared-count/child-count mismatch is only observable under the fixture's oversized reserve(); this is a control-flow observation, not a malloc-capacity or parser claim.",
-    "B2 leaves animationsCount (+0x34) untouched; correctness relies on the parent's spSkeletonData_create calloc(1,84,tag,37) at 0x28ade4. Calling B2 on a non-zeroed record leaves a stale count — faithful to the binary, not repaired.",
-    "No error path exists in B1/B2 (no setError/dispose between 0x28d19c and 0x28d2d0); spEventData_create return is never checked, matching 0x28d210.",
-    "Parent loader assembly (B3 key caching, B4 timeline count + spAnimation_create, per-animation loop tail 0x28e774..0x28e79c) is out of scope.",
-    "The float field is stored as raw bits by 0x28d244 str r0,[r5,#0x8] (softfp ABI); this module preserves a float field at +0x08 and asserts bit equality, not FPSCR/NaN behavior."
+    "0x55555556 read point: the only writer is 0x28d304 and the only reader is 0x28e128 ldrne r1,[sp,#0x60] in the deform block, which feeds 0x28e134 smull r1,r2,r1,r3 and 0x28e13c subne r3,r2,r3,asr#31 (signed truncating /3). That block is NOT recovered here, so the slot is written/documented only; the tests pin the constant by its /3 arithmetic identity over int32 boundaries, not by executing a consumer. Whether B13/B17 reuse the slot is still open (census §7 item 8).",
+    "Frame slots +0x24/+0x28/+0x30/+0x3c/+0x40/+0x44/+0x5c are shared scratch: B5 writes +0x28/+0x30/+0x3c (0x28d510/0x28d518/0x28d51c), the bone reader +0x28/+0x30/+0x3c/+0x40, the color reader +0x44, the deform path +0x24. B1..B4 never write them; a future block must re-derive each write before naming them.",
+    "Json_getItem is case-insensitive (0x287414 bl strcasecmp@plt), so the drawOrder/draworder double key is one query and B3b can never find what the first lookup missed; with both spellings present the FIRST child in list order wins. The byte stream is recovered exactly (including the unconditional store), but whether the original author intended a case-sensitive key set cannot be decided from this build. This corrects the census §2.9 wording that the fallback makes the camelCase key 'preferred'.",
+    "B3's two halves have different loop scopes: the preamble (0x28d2d4..0x28d314) runs once per animations array while the 8-key lookup runs per animation. The census lists 0x28d318 as an outer-loop head (§5.3) and also puts 0x28d2d4..0x28d3b4 in one block (§6); both are true, and the C keeps the split explicit (frameInit vs keys) rather than hiding the preamble in a loop.",
+    "timelineCount grouping is asymmetric per instruction: ik and transform contribute node->unk_0c once (0x28d418/0x28d42c, no child loop) while bones/slots/paths sum each child's +0x0c and deform walks skins×slots. Whether this equals the number of timelines the later blocks actually create for ik/transform needs B7/B12 to confirm; nothing here was 'repaired' to match a stock spine-c layout.",
+    "animation+0x08 is written twice: arg1 inside the creator (0x281304) and 0 then by 0x28d4d4. Which later instruction increments it (the fill cursor counterpart of data+0x34 at 0x28e784) is outside this batch — open.",
+    "0x28ea80 and 0x28ea40 are out-of-line zero-total paths reached from 0x28d3bc/0x28d3c8. They are modelled as 'total = 0' on the two early-exit branches; their bytes are recorded in the receipt as pins but their addresses belong to the tail region the census assigns to the deform/error blocks.",
+    "B4 publishes slots->child into [sp,#0x2c] only when the slots node exists (0x28d4d8 beq skips the store), so a frame reused across animations keeps a stale slotsChild when an animation has no slots node. Reproduced as written; no defensive clear was added.",
+    "No error path exists in B1..B4/B3b (no setError, no dispose, no NULL check on either creator's return); a NULL spAnimation_create result would be dereferenced at 0x28d4d4 exactly as in the original."
   ],
   "census_cross_check": {
     "B1": "0x28d19c..0x28d290 = 244 B / 61 insns — matches animations_segment_map.md §6",
     "B2": "0x28d290..0x28d2d4 = 68 B / 17 insns — matches §6",
-    "malloc_lines": "1028 at 0x28d1cc, 1034 at 0x28d268, 1043 at 0x28d2bc — matches §3.1",
-    "note": "No semantic contradiction found. One wording imprecision in §7 open item 10: the animations ARRAY base is written at 0x28d2cc (B2), not only at the 0x28e778 loop tail; only the count and element stores happen at the loop tail. §3.1 already states the 0x28d2bc->+0x38 mapping correctly."
+    "B3": "0x28d2d4..0x28d3b4 = 224 B / 56 insns — matches §6 (re-disassembled here: 56 insns, 0x28d2d4..0x28d3b0)",
+    "B3b": "0x28eb28..0x28eb40 = 24 B / 6 insns — matches §6 (re-disassembled: 6 insns, 0x28eb28..0x28eb3c)",
+    "B4": "0x28d3b4..0x28d4ec = 312 B / 78 insns — matches §6 (re-disassembled: 78 insns, 0x28d3b4..0x28d4e8)",
+    "keys": "B3's eight key literals match §2.2 exactly (bones 0x357b88, slots 0x357b90, ik 0x357bfc, transform 0x357c48, paths 0x357e5c, deform 0x357de4, drawOrder 0x357e64, events 0x357d94) and B3b's legacy draworder 0x357e70 matches §2.2 last row",
+    "malloc": "B3/B3b/B4 contain no _malloc and no _free, as §3.1 implies (the segment's seven anchors are at 0x28d1cc, 0x28d268, 0x28d2bc, 0x28e154, 0x28e3e0, 0x28e3f8, 0x28e708)",
+    "magic": "§7 item 8 verified byte-exactly: 0x28d2d8 movw 0x5556 + 0x28d2e0 movt 0x5555 -> 0x28d304 str r1,[sp,#0x60]; the single read is 0x28e128 ldrne",
+    "contradiction_1": "§2.9 says the two drawOrder keys make the camelCase spelling preferred and that the fallback must be preserved. It IS preserved, but because Json_getItem uses strcasecmp the retry is behaviorally void and child order decides. Not a byte-level contradiction — a semantic consequence the census did not state.",
+    "contradiction_2": "§5.3 table lists 0x28d318 as an outer-loop head while §6 assigns the surrounding addresses to B3; the resolution is that B3 contains both a one-shot preamble and the loop head (see open item 4). No address is orphaned: 0x28d2d4..0x28d314 runs once, 0x28d318..0x28d3b0 runs per animation.",
+    "note": "No instruction-span disagreement found. The earlier wording imprecision about the animations ARRAY base (written at 0x28d2cc, not only at the 0x28e778 loop tail) still stands from the B1/B2 batch."
   },
   "check": {
-    "driver": "tools/check_animations.py",
+    "driver": "tools/check_animations.py (extended in place for B3/B3b/B4; one driver, one receipt)",
     "fixture": "fixture/check.c",
-    "cases": "9 (events absent / empty children / zero count / multiple full fields / count-is-allocation-only; animations absent / empty children / children; B1->B2 chain order)",
-    "configs": "O0/O2/O3/ubsan (float-cast-overflow, trap=all)",
-    "teeth": "9 named mutants (count not published, array wrong slot, creator name not member key, loop polarity, int/float field swap, line-1034 drift, line-1043 drift, array offset +0x34, returns node not child)",
-    "compile_guard": "missing module body refused: undefined symbol readSkeletonData_eventsSegment",
-    "receipt": "harness/receipts/animations_entry_check-*.json"
+    "cases": "20 (B1 events absent / empty children / zero count / multiple full fields / count-is-allocation-only; B2 animations absent / empty children / children; B1->B2 chain order; B3 frame init, eight-key lookup, missing keys, signed/3 magic identity; B4 empty, full sum, partial, nested deform; B3b both spellings, legacy hit/miss; two-animation chain)",
+    "configs": "O0/O2/O3/ubsan (float-cast-overflow, trap=all) x 20 tests",
+    "teeth": "13 named mutants: magic 0x55555555, key-cache order swap, paths literal typo, deform->paths store swap, zero-total on the bones==NULL path, zero-total on the bones-loop init, create count truncation, create name dropped, +0x08 reset removed, sp+0x2c spill removed, legacy draworder typo, legacy store into the wrong slot, legacy NULL guard added",
+    "compile_guard": "1) module body omitted -> all six recovered entry points undefined; 2) header shadowed with one frame pad removed -> _Static_assert on sizeof/offsetof refuses the shifted frame",
+    "receipt_schema": "cally-animations-b3b4-check/1",
+    "receipt": "harness/receipts/animations_b3b4_check-*.json"
   },
   "depends_on": ["json_interface", "spine_alloc"]
 }

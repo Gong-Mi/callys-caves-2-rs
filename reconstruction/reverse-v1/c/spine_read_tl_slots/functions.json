@@ -1,0 +1,206 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_slots",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_slotTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d4ec-0x28d640 (B5, 340 B / 85 insns)",
+      "translation_source": "src/spine_read_tl_slots.c",
+      "abi": {
+        "signature": "int readSkeletonData_slotTimelines(Json* slotMap, void* data_raw, void* animation_raw, void* parser_raw)",
+        "slotMap": "first node of the \"slots\" JSON child list; parent spill [sp+0x2c], loaded 0x28d520, advanced 0x28d62c..0x28d638",
+        "data_raw": "spSkeletonData* (parent [sp+0x18], stored at 0x28d310)",
+        "animation_raw": "spAnimation* (parent r11, 0x28d4d0)",
+        "parser_raw": "spSkeletonJson* (parent [sp+0x20], stored at 0x28d314)",
+        "return": "1 = fall through to the bones block at 0x28d640; 0 = left through an out-of-block error path (see quirks)"
+      },
+      "semantics": "Per slot node: slotIndex = real spSkeletonData_findSlotIndex(data, slotMap->name@+0x1c) (0x28d524..0x28d52c). slotIndex == -1 (cmn r0,#1 @0x28d530) branches to 0x28ea10 (\"Slot not found: \", outside this module). Otherwise timelineJson = slotMap->child (+0x4, 0x28d540); per timeline node the type text is timelineJson->name (+0x1c, 0x28d54c) and the dispatch is a two-step strcmp chain: \"color\" -> B8 (beq 0x28d560), else \"attachment\" -> B5 attachment branch, else bne 0x28da18 (E1). Back edges: 0x28d620 timelineJson = timelineJson->next / 0x28d62c slotMap = slotMap->next.",
+      "keys": ["color", "attachment"],
+      "key_literals": {
+        "color": {"va": "0x357c18", "pool_word": "0x28ca20", "add_site": "0x28d508", "also_cached_at": "0x28ca28/0x28d514 -> [sp+0x54]"},
+        "attachment": {"va": "0x330944", "pool_word": "0x28ca24", "add_site": "0x28d50c"},
+        "name": {"va": "0x330810", "pool_word": "0x28ca18", "add_site": "0x28d4f8", "role": "kept in r7 for the attachment frame read"},
+        "time": {"va": "0x34c1d4", "pool_word": "0x28ca1c", "add_site": "0x28d500", "role": "kept in r6 for the attachment frame read"}
+      },
+      "frame_index_source": {
+        "finding": "B5/B8 contain no `mov r5,#0`; the dispatch reuses r5 for the strcmp result (0x28d55c and 0x28d570 `subs r5,r0,#0`) and each branch is entered only on the matching (== 0) comparison, so every frame loop starts at index 0 by construction.",
+        "consequence": "the frame index never carries across timelines or slots; after the slots block r5 is dead (B6b re-clears it at 0x28d754)",
+        "census_relation": "not covered by animations_segment_map.md; consistent with §5.3's loop table"
+      },
+      "quirks": [
+        "0x28d538 beq 0x28ea10: the -1 slot index leaves this module. That block (\"Slot not found: \") is deliberately not reconstructed here; the function only reports the branch through its return value.",
+        "the slot name is read from the JSON member key (+0x1c), never from a \"name\" key: there is no Json_getString in the lookup path",
+        "no allocation of any kind happens in B5 outside the timeline creators",
+        "a slot node with no children skips to the next slot (0x28d544/0x28d548)"
+      ]
+    },
+    {
+      "name": "readSkeletonData_attachmentTimeline",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d578-0x28d61c (attachment branch of B5, 42 insns; entry reached from 0x28d574 bne fall-through)",
+      "translation_source": "src/spine_read_tl_slots.c",
+      "abi": {
+        "signature": "void readSkeletonData_attachmentTimeline(Json* timelineJson, void* animation_raw, int slotIndex)",
+        "calls": [
+          "spAttachmentTimeline_create(timelineJson->unk_0c) -> 0x282b94 (synthetic boundary)",
+          "Json_getItem(frame,\"name\") -> 0x2873c4 (real)",
+          "Json_getFloat(frame,\"time\",0) -> 0x287444 (real)",
+          "spAttachmentTimeline_setFrame(timeline, index, time, name) -> 0x282c1c (synthetic boundary; r0..r3)"
+        ]
+      },
+      "semantics": "timeline = spAttachmentTimeline_create(declared frame count from Json+0x0c) (0x28d578/0x28d57c); timeline->slotIndex (+0x10) = slotIndex (0x28d590); frame = timelineJson->child (0x28d580). Per frame: name_node = Json_getItem(frame,\"name\") (0x28d598..0x28d5a0), time = Json_getFloat(frame,\"time\",0) (0x28d5a4..0x28d5b4), kind = name_node->unk_08 (0x28d5b8), argument name = (kind == 2) ? NULL : name_node->string_value (0x28d5c4..0x28d5cc), spAttachmentTimeline_setFrame(timeline, frameIndex, time, name) (0x28d5d0..0x28d5d8), frame = frame->next (0x28d5dc). Loop condition is the frame child list (0x28d5e0/0x28d5e4), never the declared count.",
+      "tail": "0x28d5e8..0x28d61c: count = animation->timelineCount(+0x08); duration = animation->duration(+0x04); timelines = animation->timelines(+0x0c); animation->timelineCount = count + 1; timelines[count] = timeline; last = frames[declared-1] with a ONE-float frame stride (frames at timeline+0x0c, 0x28d604 `add r3,r3,r2,lsl#2` then `vldr s15,[r3,#-4]`); animation->duration = (duration > last) ? duration : last (vcmpe.f32 + vmovgt.f32 at 0x28d610/0x28d618).",
+      "keys": ["name", "time"],
+      "field_offsets": {
+        "spAttachmentTimeline+0x08": "frameCount (create argument; real creator 0x282bd8)",
+        "spAttachmentTimeline+0x0c": "float* frames, one time float per frame (real creator 0x282bf8)",
+        "spAttachmentTimeline+0x10": "slotIndex (written only by B5, 0x28d590)",
+        "spAttachmentTimeline+0x14": "char** attachmentNames (real creator 0x282c04)",
+        "spAnimation+0x04": "duration",
+        "spAnimation+0x08": "timelineCount",
+        "spAnimation+0x0c": "timeline pointer table"
+      },
+      "quirks": [
+        "the attachment-name discriminator is the Json node's +0x08 word compared with 2: the value 2 (the parser's 'false' kind) yields a NULL name, every other kind forwards +0x10 verbatim. This is not the stock `name ? name->valueString : 0` shape and its intent cannot be derived from this block.",
+        "there is no NULL guard on the Json_getItem(frame,\"name\") result before 0x28d5b8 `ldr r3,[r10,#0x8]`: a frame without a \"name\" member faults in the original",
+        "the frame loop is driven by the child list while the tail indexes frames[declared-1]; a declared count larger than the child count reads never-written slots, a declared count of 0 indexes frames[-1]"
+      ]
+    },
+    {
+      "name": "readSkeletonData_colorTimeline",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d8dc-0x28d9d4 (B8, 248 B / 62 insns) + 0x28d9d4-0x28da18 (B8b, 68 B / 17 insns)",
+      "translation_source": "src/spine_read_tl_slots.c",
+      "abi": {
+        "signature": "void readSkeletonData_colorTimeline(Json* timelineJson, void* animation_raw, int slotIndex)",
+        "calls": [
+          "spColorTimeline_create(timelineJson->unk_0c) -> 0x282b3c (synthetic boundary)",
+          "Json_getString(frame,\"color\",0) -> 0x287428 (real)",
+          "Json_getFloat(frame,\"time\",0) -> 0x287444 (real)",
+          "toColor(color,0..3) x4 -> 0x28b680 (real, anonymous in .dynsym)",
+          "spColorTimeline_setFrame(timeline, i, time, r, g, b, a) -> 0x282b54 (synthetic boundary; r0,r1,r2,r3,[sp],[sp+4],[sp+8])",
+          "readCurve(frame, timeline, i) -> 0x28b34c (real, anonymous in .dynsym)"
+        ]
+      },
+      "semantics": "timeline = spColorTimeline_create(declared count) (0x28d8dc/0x28d8e0); timeline->slotIndex (+0x14, NOT +0x10) = slotIndex (0x28d8f4); frame = timelineJson->child. Per frame: color = Json_getString(frame,\"color\",0) (0x28d920..0x28d92c); time = Json_getFloat(frame,\"time\",0) (0x28d930..0x28d940); r = toColor(color,0), g = toColor(color,1), b = toColor(color,2), a = toColor(color,3) in that order (0x28d944..0x28d980); spColorTimeline_setFrame(timeline, frameIndex, time, r, g, b, a) (0x28d984..0x28d9a0); readCurve(frame, timeline, frameIndex) with the same index (0x28d9a4..0x28d9b0); frame = frame->next (0x28d9b4); frameIndex++ (0x28d9b8).",
+      "tail": "0x28d9d4..0x28da10: declared = Json+0x0c; duration = animation->duration; count = animation->timelineCount; timelines = animation->timelines; wordIndex = (declared-1)*5 (0x28d9e4 sub, 0x28d9f0 `add r2,r2,r2,lsl#2`); animation->timelineCount = count+1; timelines[count] = timeline; last = frames[wordIndex] (frames at +0x10, 0x28d9f8/0x28d9fc); animation->duration = (duration > last) ? duration : last (0x28da04..0x28da10). Then b 0x28d620 (0x28da14) returns to the timeline loop.",
+      "keys": ["color", "time"],
+      "hex_color_channel": {
+        "shape": "the JSON \"color\" value is an EIGHT-character hex STRING read with Json_getString; there is no rgba array read anywhere in this family",
+        "component_order": "toColor(value,0)=r, 1=g, 2=b, 3=a; the original calls them in that order and spills r first (vstr s0,[sp,#0x10]) then keeps g in s17 and b in s16",
+        "validation_in_b8": "none. A missing key reaches toColor(NULL,.) and a malformed string reaches all four components unmodified; malformed input is only rejected inside toColor (length != 8 -> -1.0f, strtoul end != 0 -> -1.0f)",
+        "stock_divergence": "confirmed: this build does not accept the stock `\"color\":[r,g,b,a]` array form (census §2.9 / §7 item 3, now closed)"
+      },
+      "field_offsets": {
+        "spColorTimeline+0x08": "float* curves, (frameCount-1)*19 floats (_spCurveTimeline_init 0x281700/0x281708/0x281710); this is readCurve's setStepped index stride, NOT a frame count",
+        "spColorTimeline+0x0c": "int frameFloatCount = frameCount * 5 (_spBaseTimeline_create 0x282a60/0x282a70)",
+        "spColorTimeline+0x10": "float* frames, FIVE floats per frame time,r,g,b,a (_spBaseTimeline_create 0x282a78; real setFrame 0x282b58)",
+        "spColorTimeline+0x14": "slotIndex (written only by B8, 0x28d8f4)"
+      },
+      "quirks": [
+        "the color and attachment timelines keep slotIndex at DIFFERENT offsets (+0x14 vs +0x10) because only the attachment record has the names table at +0x14",
+        "readCurve is called with the same 0-based frame index and the same timeline pointer that setFrame received, after setFrame returns",
+        "no allocation in B8/B8b outside the creator"
+      ]
+    },
+    {
+      "name": "readSkeletonData_invalidTimelineTypeForSlot",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28da18-0x28da54 (E1, 60 B / 15 insns)",
+      "translation_source": "src/spine_read_tl_slots.c",
+      "abi": {
+        "signature": "int readSkeletonData_invalidTimelineTypeForSlot(void* animation_raw, Json* timelineJson, void* data_raw, void* parser_raw)",
+        "calls": [
+          "spAnimation_dispose(animation) -> 0x28147c (real)",
+          "_spSkeletonJson_setError(parser, NULL, \"Invalid timeline type for a slot: \", type) -> 0x28b784 (real; console vcall + line-90 copy)",
+          "spSkeletonData_dispose(data) -> 0x28adf8 (real)"
+        ]
+      },
+      "semantics": "type = timelineJson->name (+0x1c, 0x28da34) is captured first, then spAnimation_dispose(animation) (0x28da28), then _spSkeletonJson_setError(parser, 0, \"Invalid timeline type for a slot: \", type) (0x28da30..0x28da40), then spSkeletonData_dispose(data) (0x28da44..0x28da48), then return 0 (0x28da4c) which the parent turns into a NULL return at 0x28bdcc.",
+      "error_text": {
+        "va": "0x357e90",
+        "literal": "Invalid timeline type for a slot: ",
+        "pool_word": "0x28ca58",
+        "add_site": "0x28da3c",
+        "formatted_example": "Invalid timeline type for a slot: rotate"
+      },
+      "quirks": [
+        "the setError json argument is r1 = 0 (0x28da38 mov r1,#0), so unlike the slots-bone error at 0x28bdc4 the root Json tree is NOT disposed here",
+        "the offending text is the timeline node's JSON member key, not a string value",
+        "the animation is disposed BEFORE the error is formatted, and the half-built skeleton data AFTER it: the order is observable through the free roster",
+        "spAnimation_dispose walks the already-published timelines through spTimeline_dispose ([[self+4]+4]) before freeing the table and the record"
+      ]
+    }
+  ],
+  "layout_additions": {
+    "spAttachmentTimeline": "24 B: +0x00 type, +0x04 vtable, +0x08 frameCount, +0x0c float* frames, +0x10 slotIndex, +0x14 char** names (0x282b94 create, 0x282c1c setFrame)",
+    "spColorTimeline": "+0x08 float* curves ((frameCount-1)*19 floats), +0x0c frameFloatCount, +0x10 float* frames (5 floats per frame), +0x14 slotIndex (_spBaseTimeline_create 0x282a10 with propertyCount 4 / frameStep 5 from 0x282b40/0x282b44, plus _spCurveTimeline_init 0x2816d8)",
+    "spAnimation": "+0x04 float duration, +0x08 timelineCount, +0x0c void** timelines (spAnimation_dispose DISPOSE_VECTOR(self,8,0xc))"
+  },
+  "synthetic_boundaries": [
+    {
+      "name": "spAttachmentTimeline_create / spAttachmentTimeline_setFrame",
+      "address": "0x282b94 / 0x282c1c",
+      "reason": "bodies not recovered in this batch; the fixture creator allocates a zeroed record with the real layout and the setter double models the disassembled stores (frames[i]=time, names[i]=name) and records every argument word"
+    },
+    {
+      "name": "spColorTimeline_create / spColorTimeline_setFrame",
+      "address": "0x282b3c / 0x282b54",
+      "reason": "same; the setter double stores frames[i*5 + {0..4}] = time,r,g,b,a exactly as 0x282b78..0x282b88 and records the argument words"
+    },
+    {
+      "name": "spCurveTimeline_setStepped / spCurveTimeline_setCurve",
+      "address": "0x2817c0 / 0x2817d8",
+      "reason": "readCurve's dependency, not this family's; the doubles record (kind, frame, timeline, curve words) so the B8 wiring is observable"
+    },
+    {
+      "name": "fixture heap / allocator roster / libc providers / hand-built Json nodes",
+      "reason": "test scaffolding only; qemu executes the reconstructed C"
+    }
+  ],
+  "depends_on": [
+    "json_interface", "skeleton_find", "spine_color", "spine_read_curve",
+    "spine_json_error", "spine_json_support", "spine_skeleton_data", "spine_alloc"
+  ],
+  "open": [
+    "Why the attachment frame treats a node whose +0x08 word is 2 (the parser's 'false' kind) as 'no attachment name' is not derivable from B5; the branch is reconstructed literally.",
+    "declared frame count == 0 with no children still reaches the publish tail and indexes frames[-1] (attachment) / frames[-5] (color). The fixture never drives that combination; the original's behaviour there is not asserted.",
+    "A frame without a \"name\" key (attachment) or without a \"color\" key (color) faults in the original (no NULL guard at 0x28d5b8 / at the toColor call). Not reproducible in the fixture without a fault probe.",
+    "toColor's own contract (8-character length check, strtoul, signed VCVT) belongs to c/spine_color; B8 adds no validation of its own.",
+    "The bodies of the four timeline entry points remain unrecovered: only their argument record and the store shape the tails depend on are modelled.",
+    "What the parent does with the -1 slot index (0x28ea10 \"Slot not found: \" block) is outside these four blocks.",
+    "No skeleton JSON asset exists in this tree, so how many slot timelines the shipped data actually uses is unknown."
+  ],
+  "census_cross_check": {
+    "B5": "0x28d4ec..0x28d640 = 340 B / 85 insns — matches animations_segment_map.md §6",
+    "B8": "0x28d8dc..0x28d9d4 = 248 B / 62 insns — matches §6",
+    "B8b": "0x28d9d4..0x28da18 = 68 B / 17 insns — matches §6",
+    "E1": "0x28da18..0x28da54 = 60 B / 15 insns — matches §6",
+    "hex_color": "§2.9's claim (Json_getString + 0x28b680 x4, no rgba array) confirmed instruction by instruction",
+    "correction_1": "§6 calls B8b the 'color/attachment common tail'. It is not shared code: B5 carries its own inline copy at 0x28d5e8 that reads frames at +0x0c with a one-float stride, while B8b reads +0x10 with a five-float stride. Only the shape (publish + max-duration) is common.",
+    "correction_2": "§6's B8b note 'readCurve 调用点 0x28d9b0 一带' places that call inside B8's address range (0x28d9b0 < 0x28d9d4); B8b itself contains no readCurve call.",
+    "addition_1": "the slot family's frame index comes from the dispatch strcmp result in r5 (0x28d55c/0x28d570), which is why no zero-initialisation appears in B5/B8 (§9's stack-slot open item does not cover it).",
+    "addition_2": "color stores slotIndex at +0x14 and attachment at +0x10; §6/§7 do not record either offset.",
+    "addition_3": "E1 passes json = NULL to setError (0x28da38), so the root tree is not disposed on this path; §5.4 only lists the call order.",
+    "addition_4": "the two slot timeline records disagree at +0x08: spAttachmentTimeline stores frameCount there (0x282bd8), spColorTimeline stores the (frameCount-1)*19 curves array (_spCurveTimeline_init 0x281710). The tails consequently read frames from +0x0c and +0x10 respectively."
+  },
+  "check": {
+    "driver": "tools/check_tl_slots.py",
+    "fixture": "fixture/check.c",
+    "cases": "11 (no timeline children / slot lookup miss / attachment frames / name-kind discriminator / color hex / malformed hex / readCurve stepped+array / duration+cursor / E1 / two slots / declared-vs-child count)",
+    "configs": "O0/O2/O3/ubsan (float-cast-overflow, trap=all)",
+    "teeth": "10 named mutants (attachment slot offset, color slot offset, color tail stride, attachment tail stride, error text, setError json argument, frame index, name-kind test, color component order, duration polarity)",
+    "compile_guard_1": "missing module body refused: undefined symbol: readSkeletonData_slotTimelines",
+    "compile_guard_2": "spine_read_curve.c removed refused: undefined symbol: readCurve (proves the real link, not a stub)",
+    "compile_guard_3": "spine_color.c removed refused: undefined symbol: toColor (the hex channel links the real helper, not a fixture stub)",
+    "static": "SHA + 13 symbol pins + 48 word pins + 7 pc-relative literals + toColor/readCurve anonymity proven by call sites (0x28d950/60/70/80 and 0x28d9b0) and absence of any covering .dynsym range",
+    "receipt": "harness/receipts/tl_slots_check-<timestamp>.json"
+  }
+}

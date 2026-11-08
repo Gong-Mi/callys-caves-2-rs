@@ -1,6 +1,27 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：animations 入口（B1/B2）与 readCurve 已恢复，下一步 B3/B4/B5
+## 当前断点：B3/B4/B3b 与 slots 时间线家族已恢复，下一步 bones/ik 时间线
+
+`c/spine_read_animations/` 扩展（子代理 E，父代理复跑 RESULT PASS）：B3 拆
+`animationFrameInit`（4 键入槽 + 0x55555556 魔数→[sp,#0x60]）与
+`animationKeys`（8 键getItem按地址序落槽）；B4 求和分组**不对称**
+（bones/slots/paths 逐子累加，ik/transform 只加节点 +0x0c 一次，deform 双层，
+drawOrder/events 各 +1），name=动画节点 Json 成员键，spAnimation_create 合成边界；
+B3b 'draworder' 兜底无条件写。4 配置×20 测试、13 变异、2 拒绝门。
+**普查更正**：Json_getItem 内部是 strcasecmp（0x287414→0xb66d0，父代理核对
+.rel.plt）——drawOrder/draworder 是同一查询，双键 fallback 行为上无效。
+
+`c/spine_read_tl_slots/`（子代理 F，父代理复跑 RESULT PASS）：B5 attachment
+（findSlotIndex 真实链、timeline+0x10=slotIndex、kind 判别位 +0x08==2）、
+B8 color hex 通道（timeline+0x14、真实 toColor×4 + 真实 readCurve、
+color+0x08=(frameCount-1)*19 curves 数组）、B8b 尾（+0x10 帧距5）、
+E1 错误（setError json 实参 NULL、spAnimation_dispose+dispose data）。
+4 配置×11 测试、10 变异、3 拒绝门（含去 readCurve/toColor 源的**真实链接门**）。
+回执 `animations_b3b4_check-20261108T110203.json` / `tl_slots_check-20261108T110414.json`。
+见 `reconstruction/contracts/native-animations.md` 第三批节。原件未执行。
+
+普查更正（累计三条）：①§7 #10 数组基址在 B2 写入；②Json_getItem=strcasecmp
+（§2.9 双键优先级作废）；③B8b 非"公共尾"、readCurve 调用点在 B8 区间。
 
 `c/spine_read_animations/`（子代理施工、父代理复跑 RESULT PASS）：B1 events 数组
 + EventData 循环（malloc 1028/1034，**事件名取 Json+0x1c 成员键**、循环不信 count、

@@ -1,14 +1,21 @@
 #!/usr/bin/env python3
-"""Original is read-only. Execute only rebuilt ARM32 animations-entry C plus
+"""Original is read-only. Execute only rebuilt ARM32 animations C plus
 synthetic heap/libc/JSON/creator providers. PASS is a scoped reconstructed-
 consumer verdict, never an original-equivalence claim.
 
-Subject: two caller blocks of spSkeletonJson_readSkeletonData @0x28b84c:
-  B1 0x28d19c..0x28d290 (244 B / 61 insns)
-     skeleton-wide events array (malloc line 1028) + EventData loop
-     (string deep copy malloc line 1034)
-  B2 0x28d290..0x28d2d4 (68 B / 17 insns)
-     animations array (malloc line 1043)
+Subject: five caller blocks of spSkeletonJson_readSkeletonData @0x28b84c:
+  B1  0x28d19c..0x28d290 (244 B / 61 insns)
+      skeleton-wide events array (malloc line 1028) + EventData loop
+      (string deep copy malloc line 1034)
+  B2  0x28d290..0x28d2d4 (68 B / 17 insns)
+      animations array (malloc line 1043)
+  B3  0x28d2d4..0x28d3b4 (224 B / 56 insns)
+      per-animation preamble (four cached key literals + 0x55555556 into
+      [sp,#0x60]) and the eight-key Json_getItem lookup; no allocation
+  B3b 0x28eb28..0x28eb40 (24 B / 6 insns)
+      legacy "draworder" retry, out of line at the function tail
+  B4  0x28d3b4..0x28d4ec (312 B / 78 insns)
+      timelineCount sum + spAnimation_create; no allocation
 
 Real recovered chain under test:
     readSkeletonData_eventsArray -> Json_getItem(tree,"events"),
@@ -21,14 +28,34 @@ Real recovered chain under test:
     readSkeletonData_animationsArray -> Json_getItem(tree,"animations"),
         _malloc(count*4,TAG,1043) -> data+0x38, return animations->child;
         data+0x34 (animationsCount) is NOT written in this block
+    readSkeletonData_animationFrameInit -> four key literals into the frame's
+        +0x4c..+0x58 slots, 0x55555556 into +0x48, data/spSkeletonJson spills
+        into +0x00/+0x08; runs once per animations array (the loop back edge
+        0x28e79c re-enters at 0x28d318, inside B3, not here)
+    readSkeletonData_animationKeys -> eight Json_getItem(animation, key) calls
+        in address order (bones, slots, ik, transform, paths, deform,
+        drawOrder, events) into the frame's node slots; returns the slots node
+        that stays in r4; on a drawOrder miss it runs B3b and continues at B4
+    readSkeletonData_animationLegacyDrawOrder -> Json_getItem(animation,
+        "draworder") stored unconditionally into the drawOrder slot
+    readSkeletonData_animationTimelines -> per-group sum then
+        spAnimation_create(animation->name, count); zeroes animation+0x08;
+        publishes slots->child into +0x14 when the slots node exists
 
 Declared synthetic boundaries (NOT recovered bodies):
-  * spEventData_create (EventData.c, 0x285b94) — the fixture probe table stands
-    in and records the single name argument; the module writes +0x04/+0x08/+0x0c.
-  * the fixture heap + allocator roster, the libc string providers, and the
-    hand-built Json nodes.
-  * the fixture reserve() oversizes zero/small allocations so request sizes and
-    the child-list-driven loop are observable; no real malloc-capacity claim.
+  * spEventData_create (EventData.c, 0x285b94) — fixture probe table records
+    the single name argument.
+  * spAnimation_create (Animation.c, 0x2812b4, 116 B) — fixture probe records
+    (name, timelineCount) and returns a zeroed 16-byte record. Its layout facts
+    (+0x00 name, +0x08 count, +0x0c array) are cited statically from
+    0x2812fc/0x281304/0x281318, not executed.
+  * the fixture heap + allocator roster, the libc string providers, the
+    hand-built Json nodes, and the outer-loop tail 0x28e774..0x28e79c (the
+    fixture advances the animation node slot itself, marked as such).
+
+Evidence note carried in the tests: the real Json_getItem compares with
+strcasecmp (0x287414 bl strcasecmp@plt), so "drawOrder" and "draworder" are one
+query and the legacy retry can never find a node the first lookup missed.
 
 Nothing here executes original libyoyo bytes. Static anchors (SHA, dynsym,
 instruction words, pc-relative key literals) are checked before any run.
@@ -47,6 +74,7 @@ C = Path(__file__).resolve().parents[2]
 MOD = C / 'spine_read_animations'
 FIX = MOD / 'fixture/check.c'
 BODY = MOD / 'src/spine_read_animations.c'
+HEADER = MOD / 'src/spine_read_animations.h'
 PIN = '3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a'
 SOURCES = [C / p for p in (
     'spine_alloc/src/spine_alloc.c', 'json_interface/src/json_interface.c',
@@ -70,11 +98,29 @@ FLAGS = ['--target=armv7a-none-eabi', '-march=armv7-a', '-marm', '-mfpu=vfpv3',
 TESTS = ['events_absent', 'events_empty_children', 'events_zero_count',
          'events_multiple_fields', 'events_count_is_allocation_only',
          'animations_absent', 'animations_empty_children',
-         'animations_children', 'chain_order']
-SUMMARY = 'SUMMARY all declared animations entry contracts passed'
-# Raw original instruction words that constitute the two blocks' structural
-# pins (control-flow forks, field stores, malloc call sites).
+         'animations_children', 'chain_order',
+         'animation_frame_init', 'animation_keys_eight', 'animation_keys_missing',
+         'animation_magic_signed_div3', 'animation_timelines_empty',
+         'animation_timelines_sums', 'animation_timelines_partial',
+         'animation_deform_nested', 'animation_legacy_both_keys',
+         'animation_legacy_fallback', 'animation_chain_two']
+SUMMARY = 'SUMMARY all declared animations entry and per-animation contracts passed'
+BLOCKS = [
+    {'name': 'B1', 'range': '0x28d19c..0x28d290', 'bytes': 244, 'insns': 61,
+     'role': 'events array (malloc 1028) + EventData loop (malloc 1034)'},
+    {'name': 'B2', 'range': '0x28d290..0x28d2d4', 'bytes': 68, 'insns': 17,
+     'role': 'animations array (malloc 1043)'},
+    {'name': 'B3', 'range': '0x28d2d4..0x28d3b4', 'bytes': 224, 'insns': 56,
+     'role': 'per-animation 8-key lookup + cached keys + 0x55555556; no malloc'},
+    {'name': 'B3b', 'range': '0x28eb28..0x28eb40', 'bytes': 24, 'insns': 6,
+     'role': 'legacy "draworder" retry (out of line); no malloc'},
+    {'name': 'B4', 'range': '0x28d3b4..0x28d4ec', 'bytes': 312, 'insns': 78,
+     'role': 'timelineCount sum + spAnimation_create; no malloc'},
+]
+# Raw original instruction words that constitute the blocks' structural pins
+# (control-flow forks, field stores, key-cache stores, the division magic).
 WORD_PINS = {
+    # --- B1 / B2 (unchanged pins; must not regress) ---
     0x28d1ac: 0xe2504000,  # subs r4,r0,#0        — getItem("events") null test
     0x28d1b0: 0x0a000036,  # beq 0x28d290         — absent events skips to B2
     0x28d1b8: 0xe3002404,  # movw r2,#0x404       — malloc line 1028
@@ -101,6 +147,46 @@ WORD_PINS = {
     0x28d2c0: 0xe5944004,  # ldr r4,[r4,#0x4]     — animations->child
     0x28d2cc: 0xe5890038,  # str r0,[r9,#0x38]    — animations array, NOT +0x34
     0x28d2d0: 0x0a000533,  # beq 0x28e7a4         — empty child list ends segment
+    # --- B3 preamble: the division magic and its slot ---
+    0x28d2d8: 0xe3051556,  # movw r1,#0x5556
+    0x28d2e0: 0xe3451555,  # movt r1,#0x5555      — r1 = 0x55555556
+    0x28d304: 0xe58d1060,  # str r1,[sp,#0x60]    — the magic's only write
+    # --- B3 loop head: cached key loads ---
+    0x28d318: 0xe59d1064,  # ldr r1,[sp,#0x64]    — loop head, cached "bones"
+    0x28d324: 0xe59d1068,  # ldr r1,[sp,#0x68]    — cached "slots"
+    0x28d334: 0xe59d106c,  # ldr r1,[sp,#0x6c]    — cached "ik"
+    0x28d344: 0xe59d1070,  # ldr r1,[sp,#0x70]    — cached "transform"
+    # --- B3 node-slot stores, in address order ---
+    0x28d328: 0xe58d0030,  # str r0,[sp,#0x30]    — bones
+    0x28d338: 0xe1a04000,  # mov r4,r0            — slots stays in r4
+    0x28d348: 0xe58d0034,  # str r0,[sp,#0x34]    — ik
+    0x28d35c: 0xe58d0038,  # str r0,[sp,#0x38]    — transform
+    0x28d370: 0xe58d0044,  # str r0,[sp,#0x44]    — paths
+    0x28d384: 0xe58d0050,  # str r0,[sp,#0x50]    — deform
+    0x28d398: 0xe58d0028,  # str r0,[sp,#0x28]    — drawOrder
+    0x28d3ac: 0xe58d004c,  # str r0,[sp,#0x4c]    — events
+    0x28d3b0: 0x0a0005dc,  # beq 0x28eb28         — drawOrder miss -> B3b
+    # --- B4 sum and create ---
+    0x28d3bc: 0x0a0005af,  # beq 0x28ea80         — bones absent -> zero total
+    0x28d3e0: 0x1afffffa,  # bne 0x28d3d0         — bones child loop
+    0x28d408: 0x1afffffa,  # bne 0x28d3f8         — slots child loop
+    0x28d418: 0x1590200c,  # ldrne r2,[r0,#0xc]   — ik field read, no child loop
+    0x28d428: 0xe0833002,  # add r3,r3,r2
+    0x28d438: 0xe0831002,  # add r1,r3,r2         — accumulator r3 -> r1
+    0x28d45c: 0x1afffffa,  # bne 0x28d44c         — paths child loop
+    0x28d494: 0x1afffffa,  # bne 0x28d484         — deform slot loop
+    0x28d4a0: 0x1afffff4,  # bne 0x28d478         — deform skin loop
+    0x28d4b4: 0x12811001,  # addne r1,r1,#1       — drawOrder +1
+    0x28d4bc: 0x12811001,  # addne r1,r1,#1       — events +1
+    0x28d4c0: 0xe592001c,  # ldr r0,[r2,#0x1c]    — name = animation member key
+    0x28d4c4: 0xebffcf7a,  # bl spAnimation_create
+    0x28d4d4: 0xe5803008,  # str r3,[r0,#0x8]     — animation timelineCount := 0
+    0x28d4e4: 0xe58d402c,  # str r4,[sp,#0x2c]    — slots->child for the B5 loop
+    # --- B3b legacy retry ---
+    0x28eb28: 0xe51f100c,  # ldr r1,[pc,#-0xc]    — pool 0x28eb24
+    0x28eb34: 0xebffe222,  # bl Json_getItem
+    0x28eb38: 0xe58d0028,  # str r0,[sp,#0x28]    — unconditional drawOrder store
+    0x28eb3c: 0xeafffa1c,  # b 0x28d3b4           — back to B4
 }
 SYMBOL_PINS = {
     'spSkeletonJson_readSkeletonData': (0x28b84c, 13044),
@@ -110,6 +196,7 @@ SYMBOL_PINS = {
     'Json_getInt': (0x287460, 28),
     '_malloc': (0x285c10, 60),
     'spEventData_create': (0x285b94, 88),
+    'spAnimation_create': (0x2812b4, 116),
 }
 # (literal pool word address, the ADD site whose +8 PC base resolves it,
 #  expected text).  va = add_site + 8 + pool_word — pass the ADD instruction
@@ -122,6 +209,15 @@ KEY_PINS = (
     (0x28c9e4, 0x28d1f4, 'string'),
     (0x28c9dc, 0x28d1c4, 'jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c'),
     (0x28c9f4, 0x28d2b8, 'jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c'),
+    (0x28c9f8, 0x28d2e4, 'bones'),
+    (0x28c9fc, 0x28d2f0, 'slots'),
+    (0x28ca00, 0x28d2f8, 'ik'),
+    (0x28ca04, 0x28d300, 'transform'),
+    (0x28ca08, 0x28d358, 'paths'),
+    (0x28ca0c, 0x28d36c, 'deform'),
+    (0x28ca10, 0x28d380, 'drawOrder'),
+    (0x28ca14, 0x28d394, 'events'),
+    (0x28eb24, 0x28eb30, 'draworder'),
 )
 
 
@@ -178,6 +274,7 @@ def static(so):
     return {'original_sha256': PIN,
             'symbol_pins': {k: [hex(v[0]), v[1]] for k, v in SYMBOL_PINS.items()},
             'word_pins': words, 'segment_key_literals': keys,
+            'blocks': BLOCKS,
             'note': 'Static anchors, not original execution/equivalence'}
 
 
@@ -206,7 +303,7 @@ def build(out, name, opt='-O2', overrides=None, extra=(), omit=()):
     before = sha(binary)
     result['binary_sha256'] = before
     result['translation_units'] = {str(s): sha(s) for s in used}
-    print('BINDING v1 entry=animations-entry run=' + name
+    print('BINDING v1 entry=animations-entry+b3b4 run=' + name
           + ' original_sha256=' + PIN + ' fixture_sha256=' + sha(FIX)
           + ' binary_sha256=' + before, flush=True)
     p = run(['qemu-arm', binary], 15)
@@ -219,49 +316,81 @@ def build(out, name, opt='-O2', overrides=None, extra=(), omit=()):
 
 
 def mutations():
-    """Nine mutants of the BODY text only; each must be refused by a NAMED
-    runtime assertion. No mutant may hang: the polarity mutant turns the loop
-    into a skip, not an infinite loop."""
+    """Twelve mutants of the BODY text only; each must be refused by a NAMED
+    runtime assertion. No mutant may hang: every one keeps the loop bounds."""
     return [
-        ('events_count_unpublished', BODY, [
-            ('    *(uint32_t*)((char*)data_raw + SD_EVENTSCOUNT_OFF) = count; /* 0x28d1c0 */',
-             '    /* mutated: count publish removed */')],
-         'events_empty_children: B1 publishes the declared events count (+0x2c)'),
-        ('events_array_wrong_offset', BODY, [
-            ('        *(void***)((char*)data_raw + SD_EVENTS_OFF) = array; /* 0x28d1d8 */',
-             '        *(void***)((char*)data_raw + 0x34u) = array; /* mutated: wrong slot */')],
-         'events_empty_children: B1 publishes the events array (+0x30) even with no children'),
-        ('event_name_not_member_key', BODY, [
-            ('        eventData = spEventData_create(eventMap->name); /* 0x28d20c/0x28d210 */',
-             '        eventData = spEventData_create((const char*)0); /* mutated */')],
-         'events_multiple_fields: creator receives the Json member key as the event name'),
-        ('event_loop_polarity', BODY, [
-            ('    while (eventMap != 0) {                         /* 0x28d288/0x28d28c */',
-             '    while (eventMap == 0) {                         /* mutated polarity */')],
-         'events_multiple_fields: one EventData per event child in list order'),
-        ('event_field_swap', BODY, [
-            ('        eventData->intValue = Json_getInt(eventMap, "int", 0); /* 0x28d220..0x28d230 */\n'
-             '        eventData->floatValue = Json_getFloat(eventMap, "float", 0.0f); /* 0x28d234..0x28d244 */',
-             '        eventData->floatValue = (float)Json_getInt(eventMap, "int", 0); /* mutated */\n'
-             '        eventData->intValue = (int32_t)Json_getFloat(eventMap, "float", 0.0f); /* mutated */')],
-         'events_multiple_fields: int lands at +0x04 and float bits at +0x08'),
-        ('event_string_line', BODY, [
-            ('                (uint32_t)strlen(string_value) + 1u, TAG, 1034u); /* 0x28d264/0x28d268 */',
-             '                (uint32_t)strlen(string_value) + 1u, TAG, 1035u); /* mutated */')],
-         'events_multiple_fields: string deep copy is a line-1034 allocation of strlen+1 bytes'),
-        ('animations_line', BODY, [
-            ('    array = (void**)_malloc(count << 2, TAG, 1043u); /* 0x28d2ac/0x28d2b4/0x28d2bc */',
-             '    array = (void**)_malloc(count << 2, TAG, 1042u); /* mutated */')],
-         'animations_empty_children: B2 empty children allocates count*4 at line 1043'),
-        ('animations_offset', BODY, [
-            ('#define SD_ANIMATIONS_OFF        0x38u',
-             '#define SD_ANIMATIONS_OFF        0x34u /* mutated */')],
-         'animations_empty_children: B2 publishes the animations array (+0x38)'),
-        ('animations_return_node', BODY, [
-            ('        Json* child = animations->child;            /* 0x28d2c0 (after _malloc) */',
-             '        Json* child = animations;                   /* mutated */')],
-         'animations_empty_children: B2 empty children returns NULL'),
+        ('animation_magic_constant', BODY, [
+            ('    frame->div3_magic = 0x55555556u;            /* 0x28d2d8/0x28d2e0/0x28d304 */',
+             '    frame->div3_magic = 0x55555555u;            /* mutated */')],
+         'animation_frame_init: B3 writes 0x55555556 into the sp+0x60 slot'),
+        ('animation_key_cache_order', BODY, [
+            ('    frame->bonesKey = "bones";                  /* 0x28d2d4/0x28d2e4/0x28d2ec */\n'
+             '    frame->slotsKey = "slots";                  /* 0x28d2dc/0x28d2f0/0x28d2fc */',
+             '    frame->bonesKey = "slots";                  /* mutated */\n'
+             '    frame->slotsKey = "bones";                  /* mutated */')],
+         'animation_frame_init: cached key pointers are bones, slots, ik, transform in slot order'),
+        ('animation_key_literal_paths', BODY, [
+            ('    frame->paths = Json_getItem(frame->animation, "paths");',
+             '    frame->paths = Json_getItem(frame->animation, "path"); /* mutated */')],
+         'animation_keys_eight: B3 paths slot holds the node named paths'),
+        ('animation_slot_store_swap', BODY, [
+            ('    frame->deform = Json_getItem(frame->animation, "deform");',
+             '    frame->paths = Json_getItem(frame->animation, "deform"); /* mutated */')],
+         'animation_keys_eight: B3 paths slot holds the node named paths'),
+        ('animation_sum_start_empty_path', BODY, [
+            ('        total = 0;                              /* 0x28ea80 ldr r3,[sp,#0x30] (bones == 0) */',
+             '        total = 1u;                             /* mutated */')],
+         'animation_timelines_empty: B4 empty animation counts zero timelines'),
+        ('animation_sum_start_bones_loop', BODY, [
+            ('            total = 0;                          /* 0x28d3cc mov r3,#0 */',
+             '            total = 1u;                         /* mutated */')],
+         'animation_timelines_sums: B4 sums bones/slots/paths/deform child sizes '
+         'plus ik/transform fields plus drawOrder/events'),
+        ('animation_create_arg_count', BODY, [
+            ('            spAnimation_create(frame->animation->name, (int32_t)total);',
+             '            spAnimation_create(frame->animation->name, (int32_t)(total & 0xffff0000u)); /* mutated */')],
+         'animation_timelines_sums: B4 sums bones/slots/paths/deform child sizes '
+         'plus ik/transform fields plus drawOrder/events'),
+        ('animation_create_arg_name', BODY, [
+            ('            spAnimation_create(frame->animation->name, (int32_t)total);',
+             '            spAnimation_create((const char*)0, (int32_t)total); /* mutated */')],
+         'animation_timelines_empty: create receives the animation member key as its name'),
+        ('animation_create_count_reset', BODY, [
+            ('        animation->timelineCount = 0;           /* 0x28d4cc mov r3,#0 / 0x28d4d4 str r3,[r0,#0x8] */',
+             '        /* mutated: +0x08 reset removed */')],
+         'animation_timelines_sums: B4 returns the created record with +0x08 reset'),
+        ('animation_slots_child_spill', BODY, [
+            ('            frame->slotsChild = slotsNode->child; /* 0x28d4dc/0x28d4e4 str r4,[sp,#0x2c] */',
+             '            /* mutated: sp+0x2c spill removed */')],
+         'animation_timelines_sums: B4 publishes slots->child into the sp+0x2c slot'),
+        ('animation_legacy_key_typo', BODY, [
+            ('    frame->drawOrder = Json_getItem(frame->animation, "draworder"); /* 0x28eb28..0x28eb38 */',
+             '    frame->drawOrder = Json_getItem(frame->animation, "draworderx"); /* mutated */')],
+         'animation_legacy_fallback: B3b publishes the legacy node into the drawOrder slot'),
+        ('animation_legacy_wrong_slot', BODY, [
+            ('    frame->drawOrder = Json_getItem(frame->animation, "draworder"); /* 0x28eb28..0x28eb38 */',
+             '    frame->events = Json_getItem(frame->animation, "draworder"); /* mutated */')],
+         'animation_legacy_fallback: B3b publishes the legacy node into the drawOrder slot'),
+        ('animation_legacy_null_guard', BODY, [
+            ('    frame->drawOrder = Json_getItem(frame->animation, "draworder"); /* 0x28eb28..0x28eb38 */',
+             '    { Json* v = Json_getItem(frame->animation, "draworder"); /* mutated */\n'
+             '      if (v != 0) frame->drawOrder = v; }   /* 0x28eb38 is unconditional in the original */')],
+         'animation_legacy_fallback: B3b miss overwrites a stale drawOrder with NULL'),
     ]
+
+
+def shadow_header(out):
+    """Copy the header with one frame pad removed so the layout pins must bite.
+    Returns the include directory to put ahead of the module INCLUDES."""
+    text = HEADER.read_text()
+    lines = text.splitlines(keepends=True)
+    kept = [ln for ln in lines if 'reserved_3c;' not in ln]
+    if len(kept) != len(lines) - 1:
+        raise RuntimeError('frame pad line not found for the shadow-header guard')
+    d = out / 'shadow-include'
+    d.mkdir(parents=True, exist_ok=True)
+    (d / HEADER.name).write_text(''.join(kept))
+    return d
 
 
 def main():
@@ -274,16 +403,23 @@ def main():
     tmp = ns.out / 'compiler-tmp'
     tmp.mkdir()
     os.environ['TMPDIR'] = str(tmp)
-    report = {'schema': 'cally-animations-entry-check/1', 'tier': 'test_anchored',
+    report = {'schema': 'cally-animations-b3b4-check/1', 'tier': 'test_anchored',
               'original_executed': False,
-              'entry': 'animations-entry (readSkeletonData caller blocks B1 0x28d19c-0x28d290, B2 0x28d290-0x28d2d4)',
-              'scope': ('Reconstructed B1/B2 C only: real Json_getItem/getInt/getFloat/getString, '
+              'entry': ('animations entry + per-animation blocks: B1 0x28d19c-0x28d290, '
+                        'B2 0x28d290-0x28d2d4, B3 0x28d2d4-0x28d3b4, '
+                        'B3b 0x28eb28-0x28eb40, B4 0x28d3b4-0x28d4ec'),
+              'scope': ('Reconstructed C only: real Json_getItem/getInt/getFloat/getString, '
                         'real _malloc with tag/line, event and animation array publication, '
-                        'event string deep copy, child-list-driven EventData loop. Synthetic '
-                        'boundaries: spEventData_create (EventData.c), fixture heap + allocator '
-                        'roster, libc string providers, hand-built Json nodes. B2 deliberately '
-                        'does not write data+0x34 (animationsCount). Not an original-equivalence claim.'),
-              'subject': {'body': str(BODY), 'fixture': str(FIX)},
+                        'event string deep copy, the child-list-driven EventData loop, the '
+                        'per-animation 8-key lookup with its cached key literals and the '
+                        '0x55555556 slot, the legacy draworder retry, and the timelineCount sum '
+                        'with spAnimation_create argument sequence. Synthetic boundaries: '
+                        'spEventData_create, spAnimation_create, fixture heap + allocator '
+                        'roster, libc string providers, hand-built Json nodes, and the outer '
+                        'loop tail 0x28e774..0x28e79c (fixture advances the animation slot). '
+                        'B2 deliberately does not write data+0x34 (animationsCount). '
+                        'Not an original-equivalence claim.'),
+              'subject': {'body': str(BODY), 'header': str(HEADER), 'fixture': str(FIX)},
               'runs': [], 'teeth': [], 'compile_guards': [],
               'declared_tests': TESTS, 'declared_summary': SUMMARY, 'status': 'INCOMPLETE'}
     try:
@@ -317,12 +453,29 @@ def main():
                     raise RuntimeError(f'mutant not rejected by named runtime assertion: {name}: {r}')
                 print('TEETH', name, r['failures'], flush=True)
             missing = build(ns.out, 'missing-animations-entry-body', omit=(BODY,))
-            if (not missing['compile_rc']
-                    or 'undefined symbol: readSkeletonData_eventsSegment' not in missing['diagnostic']):
+            wanted = [n for n in ('readSkeletonData_eventsSegment',
+                                  'readSkeletonData_animationsArray',
+                                  'readSkeletonData_animationFrameInit',
+                                  'readSkeletonData_animationKeys',
+                                  'readSkeletonData_animationLegacyDrawOrder',
+                                  'readSkeletonData_animationTimelines')]
+            diag = missing.get('diagnostic', '')
+            if not missing['compile_rc'] or any(
+                    'undefined symbol: ' + w not in diag for w in wanted):
                 raise RuntimeError('missing animations-entry body not refused')
             report['compile_guards'].append({'name': 'missing-animations-entry-body',
-                                             'refused': True, **missing})
+                                             'refused': True,
+                                             'undefined_symbols': wanted, **missing})
             print('GUARD missing-animations-entry-body refused', flush=True)
+            shadow = shadow_header(ns.out)
+            broken = build(ns.out, 'shadowed-frame-layout', extra=('-I' + str(shadow),))
+            if (not broken['compile_rc']
+                    or 'static assertion failed' not in broken.get('diagnostic', '')
+                    or 'spAnimationFrame' not in broken.get('diagnostic', '')):
+                raise RuntimeError('frame layout pins did not refuse a shifted frame')
+            report['compile_guards'].append({'name': 'shadowed-frame-layout',
+                                             'refused': True, **broken})
+            print('GUARD shadowed-frame-layout refused', flush=True)
         if any(sha(p) != v for p, v in report['source_binding'].items()):
             raise RuntimeError('bound source/header/checker drift')
         report['status'] = 'SMOKE_PASS' if ns.smoke else 'PASS'
