@@ -211,6 +211,62 @@ path-position、0x28e2a8 deform、0x28e9b0 path-mix）。
 
 回执：`tl_transform_check-20261108T114620.json` / `tl_path_check-20261108T120113.json`。
 
+## 第六批：deform 时间线家族（open #5/#8 关闭）+ drawOrder（open #4 关闭）
+
+**deform**（`c/spine_read_tl_deform/`，子代理施工、父代理复跑 `RESULT PASS`，
+4 配置×21 测试、19 变异、5 拒绝门）：
+
+- B14（0x28e060..0x28e338，182 insn）：三层循环 skin→slot→attachment 名→
+  frames；`findSkin/findSlotIndex` **都不判空**（-1 也直接传 getAttachment）。
+  **weighted 门 = attachment+0x14（bones 指针）非 NULL**；魔数
+  `[sp,#0x60]` 在 0x28e128 `ldrne`（父代理核对：全函数恰好两处 [sp,#0x60]
+  ——0x28d304 写、0x28e128 读，B13/B17 不碰）。**open #8 关闭**：
+  `smull+asr#31+lsl#1` = 有符号 /3 截零再 ×2（25 例恒等式链含 INT_MIN）。
+- **open #5 关闭**：`2*(vc/3)` 是每帧**浮点个数**——写 `timeline+0x14`，
+  setFrame 用 `+0x14*4` 做 malloc+memcpy（0x282f3c/4c/60）；同一 r11 也是
+  malloc 尺寸与 base 加法循环边界。
+- 帧内顶点分支：'vertices' 缺失走 B14b（weighted→memset 全 floatCount；
+  非 weighted→src=attachment+0x1c 不初始化）；'vertices' 存在从
+  `buf+offset*4` 拷贝、`scale==1.0f` 原样否则逐元素 vmul，再 memset 尾段；
+  非 weighted 且 floatCount>0 对整个缓冲加 base 顶点。**B14b 两半都属它**
+  （缺键分支+scale 拷贝）。**_readVertices@0x28b3fc 未被调用**（父代理扫
+  BL 目标核实：13 个目标无 0x28b3fc；帧内 vertices 是 getItem+child 链
+  内联读，值在 Json+0x18）。
+- **E6 归属修正**：实测唯一前驱是 **drawOrder offsets 循环**（0x28e464），
+  B14 从不判 slotIndex==-1——普查 §6 标题"deform 路径"作废（§2.7 本就写
+  drawOrder 内）。E6 的 setError json 实参 **NULL**。
+- 错误块交叉：E4（drawOrder 地址区间）唯一入边来自 **deform 块的
+  spSkin_getAttachment 返回 NULL**（0x28e10c/0x28e110）；E6（deform 地址
+  区间）唯一入边来自 drawOrder——**错误块与触发块跨族交叉**，按入边
+  归属不按地址归属。
+
+**drawOrder**（`c/spine_read_tl_draworder/`，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×15 测试、15 变异、4 拒绝门）——**open #4 关闭**：
+
+- 两次 malloc 所有权链（逐指令钉死）：**A(行442, (slotsCount-
+  jsonOffsetsSize)*4) 从不交给 setFrame**——builder 内 0x28e524 调用前
+  就 free（父代理核对 bl→_free）；**B(行445, slotsCount*4 填 -1) 交给
+  setFrame（0x28e5b8）后立刻 0x28e5c0 free**；setFrame 也不留——先 free
+  该槽上一份，再 malloc(690)+memcpy 存**私有副本**。free 序列
+  A→NULL 槽→B 被 fixture 断言、四个 free 类变异反向验。
+- B 填充/合并算法：条目 `getString("slot")→findSlotIndex`（==-1 → E6，
+  **A/B 双泄漏照实复现不修**）；slotIndex≠original 时顺写 A；`offset=
+  getInt("offset",0)`；**B[slotIndex+offset]=slotIndex**；尾填+从 B 末倒扫
+  用 A[--unmoved] 补 -1（保升序）。`data->slotsCount` 被读 5 次，译文逐点
+  重读（fixture 用 line-442 回调改写该字证明）。
+- B15b：`setFrame(t,i,time,order)`→`_free(order)`（无 offsets 帧 free(NULL)
+  照发）→发布尾 `times[declared-1]`（**4 字节步长**，与 path 8 字节不同）。
+- create/setFrame 按真实体建模（合成边界）：type=7、calloc(1,24,tag,672)、
+  +0x08/+0x0c/+0x10/+0x14；setFrame 先 free 旧再 malloc(690)+memcpy。
+- E4：json 实参 NULL（`mov r1,r5`，r8 必 0）、文案 "Attachment not found: "
+  @0x357f2c、extra=timelineNode->name。
+- **普查勘误**：drawOrder 循环回边是 **0x28e5cc**（0x1affff78），§5.3 写的
+  0x28e594 实为后半段入口。
+- 32 位回绕如实：`jsonOffsetsSize>slotsCount` 时 442 请求值 0xfffffffc
+  （不夹紧）。
+
+回执：`tl_deform_check-20261108T122759.json` / `tl_draworder_check-20261108T122831.json`。
+
 ## 合成边界与欠账（累计）
 
 - 合成边界：`spEventData_create@0x285b94`（本体未恢复）、

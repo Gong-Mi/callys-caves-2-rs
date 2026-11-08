@@ -1,6 +1,22 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：transform/path 时间线已恢复，下一步 deform/drawOrder
+## 当前断点：deform/drawOrder 已恢复（open #4/#5/#8 全关），下一步 B16/B17/B18
+
+`c/spine_read_tl_deform/`（子代理 K，父代理复跑 RESULT PASS）：三层循环
+skin→slot→attachment→frames；weighted 门=attachment+0x14；**魔数消费钉死**
+（全函数恰好两处 [sp,#0x60]：0x28d304 写/0x28e128 ldrne 读；有符号 /3 截零
+×2，含 INT_MIN 25 例）；**2*(vc/3)=每帧浮点数**→timeline+0x14→setFrame 的
+malloc+memcpy 边界；**_readVertices 未被调用**（父代理扫 BL 核实）；**E6
+实为 drawOrder 触发**（错误块与触发块跨族交叉，按入边归属）。4 配置×21
+测试、19 变异、5 拒绝门。
+
+`c/spine_read_tl_draworder/`（子代理 L，父代理复跑 RESULT PASS）：**两次
+malloc 所有权钉死**——A(442) builder 内 0x28e524 先 free 不进 setFrame；
+B(445 填-1) 交给 setFrame 后立即 free；setFrame 存私有副本（malloc690+memcpy）；
+miss 路径 A/B 双泄漏照实复现；`slotsCount` 被读 5 次逐点重读；回边实为
+0x28e5cc（普查勘误）。4 配置×15 测试、15 变异、4 拒绝门。
+回执 `tl_deform_check-20261108T122759.json` / `tl_draworder_check-20261108T122831.json`。
+见 `reconstruction/contracts/native-animations.md` 第六批节。原件未执行。
 
 `c/spine_read_tl_transform/`（子代理 I，父代理复跑 RESULT PASS）：5 个 mix 键
 每帧无条件全读（缺键默认 time 0.0f/mix 1.0f）；扫描与 ik 同构但命中岛行内；
