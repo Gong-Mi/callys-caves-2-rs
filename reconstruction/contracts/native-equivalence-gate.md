@@ -14,8 +14,14 @@
 约束、B18 收尾。它**不证明**与原版等价。收口后 ④轴状态=「未有测量」，
 直至本合同 Level A 工具跑出第一份差异报告。
 
-汇报纪律：所有 receipt 维持 `tier: test_anchored`、`original_executed: false`；
-④轴未测期间禁止把任何夹具绿表述为"接近原版/已还原"。
+汇报纪律（两类收据，不得混用）：
+- **重建链收据**（分块/总装层）：`tier: test_anchored`、`original_executed: false`
+  不变；④轴未测期间禁止把任何夹具绿表述为"接近原版/已还原"。
+- **Level A oracle 收据**（对拍层）：`tier: oracle_anchored`、`original_executed:
+  true`——执行的是**原字节**，环境是 Unicorn 合成内存 oracle（staged 树 +
+  bump 堆 + hook 的 libc/libm/console/setlocale/分配器）；scope 字段必须
+  照抄 evidence_layer 全文。把两类收据的字段互换（比如 oracle 收据写
+  test_anchored、或重建链收据写 original_executed:true）即账目错误。
 
 ## Level A：readSkeletonData 函数级对拍（可立即施工）
 
@@ -65,6 +71,13 @@ timeline 计数/每条 timeline 的帧数与帧值位型（time/mix/angle/x/y/cu
   钉死。通过后 ④轴状态升级为「合成内存 oracle 层已测，差异 0（输入域：
   本合同输入集）」——仍不是全输入域等价，也不是设备等价。
 - Level A 出现非零差异 → 按字段归属表定位段→回该段模块修→复跑。
+- **首份报告（2026-11-08 16:02，oracle_anchored）**：main（scale 2.0/1.0）、
+  err_parent（双侧 NULL+同文案 "Parent bone not found: forearm"）、
+  perturb 四轮 **267 字段 diff=0**；三负控全过（打坏 blend/scaleX/angle
+  键各自命中归属段；输入扰动双侧 25 字段同步变化集合相等；原版臂单跑
+  存档 3879 字节重放一致）。回执 `harness/receipts/
+  level_a_diff-20261108T160156.json`，逐字段报告
+  `c/spine_level_a/build/level_a_field_report_20261108T160156.json`。
 
 ### 施工档位
 本合同即判据（贵模型层已定）；工具实现（oracle 驱动+diff 器+负控）为

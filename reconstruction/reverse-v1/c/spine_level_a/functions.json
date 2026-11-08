@@ -1,0 +1,131 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_level_a",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "test_anchored",
+  "original_executed": true,
+  "original_executed_scope": "original ARM bytes executed only inside the Unicorn synthetic-memory oracle; not on a device and not in the game runtime",
+  "not_whole_library_completion": true,
+  "role": "Level A function-level differential for spSkeletonJson_readSkeletonData @0x28b84c: original function under a Unicorn memory oracle vs the reconstructed c/spine_read_skeleton chain under qemu-arm, on the same synthetic 32-byte-node Json tree; full spSkeletonData terminal-state diff plus three negative controls",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (size 13044, ends 0x28eb40)",
+  "contract": "reconstruction/contracts/native-equivalence-gate.md Level A",
+  "arms": {
+    "original": {
+      "engine": "unicorn 2.1.4, ARM mode, VFP enabled, full PT_LOAD/BSS",
+      "tool": "tools/level_a_oracle.py",
+      "hooks": [
+        "Json_create 0x287320 -> staged 32-byte-node tree",
+        "_malloc/_free .data ABS32 slots 0x3f7790/0x3f7794 -> bump heap",
+        "malloc/free PLT (loader calls free@plt directly at 0x28b8c4)",
+        "strlen/strcmp/strcasecmp/strcpy/strncpy/strncat/memset/memcpy/strdup/strtoul in Python",
+        "setlocale -> stable \"C\"",
+        "double cos/sin prescribed 1.0/0.0 (same values on the rebuild arm)",
+        "ReportSpineError console vcall dbg_csol 0x3eb70c -> 0x47a118 -> vtable+0xc -> inert stub",
+        "unhooked PLT entries stop and are named (no silent jump through unrelocated GOT)"
+      ]
+    },
+    "rebuild": {
+      "engine": "qemu-arm executing only reconstructed C",
+      "tool": "fixture/level_a_dump.c",
+      "chain": "c/spine_read_skeleton/ plus all sixteen segment/glue modules and the nine timeline families, same SOURCES recipe as c/spine_read_skeleton/tools/check_skeleton.py",
+      "synthetic_boundaries": [
+        "Json_create/Json_getError", "spBoneData_create/spSlotData_create/spIkConstraintData_create/spTransformConstraintData_create/spPathConstraintData_create",
+        "spSkeletonData_findSlot and the four find* scans", "all timeline create/setFrame",
+        "spCurveTimeline_setStepped/setCurve (original arithmetic transcribed)",
+        "spAnimation_create/spEventData_create/spEvent_create", "attachment loader record/vtable/createAttachment",
+        "fixture heap/libc and prescribed cos/sin"
+      ]
+    }
+  },
+  "input_domain": {
+    "trees": {
+      "main": "skeleton meta + 3 bones + slot(blend/color/attachment) + ik + transform + path + skin(region+mesh) + event + animation(rotate 3 frames with array curve and stepped, translate 2 frames, event frame)",
+      "err_parent": "main with bone arm parent=forearm -> Parent bone not found",
+      "perturb": "main with the last translate frame removed and the animation renamed walk2"
+    },
+    "scales": [2.0, 1.0],
+    "node_count": 150,
+    "note": "This is the contract input set only; not the full input domain and not device equivalence."
+  },
+  "comparable_fields": {
+    "spSkeletonData": "all 21 words; strings/counts/floats exact, pointer words as non-null presence plus their per-element records",
+    "per_element": [
+      "bone name/parent index/index/scalars/inherit flags",
+      "slot name/bone index/attachment name/blend/color bits",
+      "ik/transform/path names, bone lists, targets, scalars",
+      "skin name and entries; attachment type/name/path plus region or mesh payload",
+      "event name/int/float/string",
+      "animation name/duration/timelineCount; per timeline type/frameCount/frameFloatCount/index/frame bits/curve bits/event frames"
+    ],
+    "not_comparable": [
+      "intermediate malloc/free sequence",
+      "creator internal layout beyond the listed fields",
+      "console output text (parser->error is compared)",
+      "pointer values (heap addresses differ by construction)"
+    ]
+  },
+  "field_to_segment": {
+    "meta.spine/hash/width/height": ["spine_read_meta"],
+    "meta.defaultSkinIndex": ["spine_read_skins"],
+    "bones[]": ["spine_read_bones"],
+    "slots[]": ["spine_read_slots"],
+    "ik[]": ["spine_read_ik"],
+    "transform[]": ["spine_read_transform"],
+    "path[]": ["spine_read_path"],
+    "skins[]": ["spine_read_skins", "spine_read_attach_dispatch", "spine_skins_glue", "spine_read_region", "spine_read_mesh", "spine_read_bbox_path", "spine_read_vertices"],
+    "events[]": ["spine_read_animations"],
+    "animations[].name": ["spine_animations_loop"],
+    "animations[].duration": ["spine_read_tl_slots", "spine_read_tl_bones", "spine_read_tl_ik", "spine_read_tl_transform", "spine_read_tl_path", "spine_read_tl_path_mix", "spine_read_tl_deform", "spine_read_tl_draworder", "spine_read_tl_event"],
+    "animations[].timelineCount": ["spine_read_animations", "spine_animations_loop"],
+    "animations[].timelines[].curves": ["spine_read_curve"],
+    "animations[].timelines[].frames": ["spine_read_tl_bones", "spine_read_tl_event"],
+    "error": ["spine_read_entry", "spine_read_skeleton", "spine_json_error"],
+    "shared_fields": "duration is written by every timeline family (multi-segment attribution); count words may be pre-written by their own segment then filled by the loop"
+  },
+  "negative_controls": {
+    "broken_segment": {
+      "mutants": [
+        "spine_read_slots additive blend 1 -> 3",
+        "spine_read_bones BD_SCALEX_OFF 0x1c -> 0x20",
+        "spine_read_tl_bones rotate key \"angle\" -> \"angel\""
+      ],
+      "requirement": "diff non-zero and the difference group hits the mutated segment",
+      "result": "PASS; fields slots[0].blend / bones[0].scaleX / rotate frames[1,3,5]"
+    },
+    "input_perturbation": {
+      "change": "delete the last translate frame and rename the animation",
+      "requirement": "both arms change on the same field set",
+      "result": "PASS; 25 changed fields on each arm, sets equal"
+    },
+    "oracle_archive_replay": {
+      "method": "oracle arm runs once per subprocess, archive written, second run byte-compared",
+      "result": "PASS; identical sha256"
+    }
+  },
+  "acceptance": {
+    "status": "PASS",
+    "original_executed": true,
+    "equivalence_axis_4": "合成内存 oracle 层已测，差异 0（输入域：本合同输入集）；不是全输入域等价，不是设备等价",
+    "checker": "tools/level_a_diff.py",
+    "receipt_schema": "cally-level-a-diff/1",
+    "receipt_tier": "test_anchored",
+    "first_receipt": "reconstruction/reverse-v1/harness/receipts/level_a_diff-20261108T154757.json",
+    "first_result": {
+      "main_scale_2.0_diff_fields": 0,
+      "main_scale_1.0_diff_fields": 0,
+      "err_parent_diff_fields": 0,
+      "perturb_diff_fields": 0,
+      "fields_compared_per_main_run": 267,
+      "tree_nodes": 150,
+      "tree_sha_match_both_arms": true
+    }
+  },
+  "open": [
+    "Synthetic-memory layer only: one Json tree family and two scales. Not full-input-domain equivalence; not device equivalence.",
+    "The attachment loader (atlas region dims/UVs) and all timeline creators are declared synthetic boundaries on both arms; they are aligned by construction, not recovered equivalence.",
+    "The 21-word pointer values cannot be compared across arms; they are normalized to non-null presence and per-element records.",
+    "The original arm's bump heap is zero-filled and deterministic; the original's behavior on real malloc garbage is not measured.",
+    "The error tree covers the Parent-bone tail only; the other nine dispose-bearing tails are not in this input set."
+  ]
+}

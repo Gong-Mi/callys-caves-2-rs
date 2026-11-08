@@ -1,6 +1,23 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：readSkeletonData 全链总装收口（接线级），下一步 Level A 对拍
+## 当前断点：Level A 首份对拍报告落定（④轴已测：267 字段 diff=0）
+
+`c/spine_level_a/`（子代理 S，父代理两次独立复跑 RESULT PASS）：**④轴从
+「未有测量」变为「已测量」**——Unicorn oracle 跑原版 readSkeletonData
+（hook Json_create 返回同一棵 150 节点合成树、分配器/libc/libm/console/
+setlocale 全套 hook、两侧 cos/sin 同 prescribed 值）vs 重建链（qemu-arm
+调总装模块）：main（scale 2.0/1.0）+err_parent（双侧 NULL+同文案）+perturb
+四轮 **267 字段 diff=0**；三负控全过（打坏段命中归属/扰动双侧 25 字段
+同步/存档 3879 字节重放一致）。**收据 tier=oracle_anchored、
+original_executed=true**（scope=合成内存 oracle，非设备）。回执
+`level_a_diff-20261108T160156.json` + 逐字段报告。合同已裁定两类收据
+纪律（test_anchored vs oracle_anchored 不得混用）。见
+`contracts/native-equivalence-gate.md`。
+
+**口径**：①可反汇编/②自比/③夹具执行 全绿；④与原版等价=合成内存 oracle
+层已测，差异 0（输入域：本合同输入集）——**不是全输入域等价，不是设备
+等价**。harness 自坑清单（PLT0 逐项 guard/QEMU CPACR/setEvent 3 参 ABI/
+free roster 溢出/解码流错位）已记入交接与 README。
 
 `c/spine_read_skeleton/`（子代理 R，父代理复跑 RESULT PASS）：**完整
 spSkeletonJson_readSkeletonData 重建链落成**——entry→bones→slots→ik→
