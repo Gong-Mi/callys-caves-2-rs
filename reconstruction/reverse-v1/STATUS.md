@@ -1,14 +1,22 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：slots 段外循环已接通，animations 段已普查，下一步按分块表恢复
+## 当前断点：animations 入口（B1/B2）与 readCurve 已恢复，下一步 B3/B4/B5
 
-`c/spine_read_slots/` 新增 `readSkeletonData_slotsSegment`（caller BLOCK
-0x28bbe4–0x28bdd8）：真实链 slotsArray→findBone 条件先行→oneSlot body→
-真实 dispose→真实 setError（console vcall + Json_dispose 根树）→返 0。
-检查台 `tools/check_slots_segment.py`：O0/O2/O3/UBSan 各 4 例全绿（父代理
-独立复跑 RESULT PASS）、6 具名变异全拒、缺本体编译拒绝门；回执
-`harness/receipts/slots_segment_check-20261108T100512.json`。
-见 `reconstruction/contracts/native-slots.md` 第二批节。原件未执行。
+`c/spine_read_animations/`（子代理施工、父代理复跑 RESULT PASS）：B1 events 数组
++ EventData 循环（malloc 1028/1034，**事件名取 Json+0x1c 成员键**、循环不信 count、
+无错误路径）；B2 animations 数组（malloc 1043，**不写 animationsCount**——计数在
+循环尾 0x28e784）。9 测试×4 配置、9 变异全拒。
+`c/spine_read_curve/`（同上验收）：`readCurve@0x28b34c..0x28b3fc` ABI 三参
+（帧 Json/时间线指针/0 基帧号），**curve 数组无视声明计数无条件取 4 元素**，
+少于 4 = 原件空指针解引用（SIGSEGV probe 钉住），"stepped" 精确 strcmp 尾调
+setStepped；普查 open #2（曲线数据形状）已钉死。8 变异+probe。
+回执 `animations_entry_check-20261108T103440.json` / `curve_check-20261108T103809.json`。
+见 `reconstruction/contracts/native-animations.md`。原件未执行。
+
+普查更正两条（实测）：①§7 open #10 的数组基址其实在 B2 0x28d2cc 就写入，
+循环尾只写 count 与元素；②`asm/functions.tsv` 的 `anon_28b34c`（944B/237 insns）
+把 readCurve/_readVertices/toColor 三个匿名函数并成一条——引用时以
+0x28b3fc=0xe92d4ff0 字钉为界，索引口径缺陷登记不动表。
 
 animations/events 段静态普查已落盘（2026-11-08，子代理施工、父代理抽验）：
 段界 **0x28d19c..0x28eb40**（三证：唯一前驱 0x28ccc8/0x28cd08 都在 linked-mesh

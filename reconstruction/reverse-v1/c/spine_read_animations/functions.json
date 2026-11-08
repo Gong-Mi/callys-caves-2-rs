@@ -1,0 +1,112 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_animations",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_eventsArray",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d19c-0x28d1dc (B1 allocation half, 244 B block starts here)",
+      "translation_source": "src/spine_read_animations.c",
+      "semantics": "events = Json_getItem(tree, \"events\"); NULL -> return NULL with no writes. count = events->unk_0c (Json size); data+0x2c = count BEFORE _malloc(count<<2, SkeletonJson.c tag, 1028); child = events->child (loaded after _malloc); data+0x30 = array (published even when child==NULL); return child.",
+      "keys": ["events"],
+      "malloc_anchors": [
+        {"site": "0x28d1cc", "line": 1028, "size": "count << 2 (32-bit wrap)"}
+      ],
+      "quirks": [
+        "0x28d1b0 beq 0x28d290: absent key skips to B2 with neither count nor array written",
+        "0x28d1c0 str r0,[r9,#0x2c] executes before 0x28d1cc _malloc",
+        "0x28d1d8 str r0,[r9,#0x30] executes before the 0x28d1dc child==NULL branch, so an empty child list still publishes count+array"
+      ]
+    },
+    {
+      "name": "readSkeletonData_eventsSegment",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d19c-0x28d290 (B1 whole block, 244 B / 61 insns)",
+      "translation_source": "src/spine_read_animations.c",
+      "semantics": "eventsArray first (malloc 1028). Then one spEventData per child of the events node: name argument is child->name (+0x1c, the Json member key — there is NO Json_getString(\"name\") in this build); intValue = Json_getInt(child,\"int\",0) -> +0x04; floatValue = Json_getFloat(child,\"float\",0.0f) -> +0x08 (softfp bits); stringValue = Json_getString(child,\"string\",0), and when non-NULL a _malloc(strlen+1, tag, 1034)+strcpy copy -> +0x0c. Each record is published into the reloaded data->events array at a byte cursor (+=4), then child = child->next.",
+      "keys": ["events", "int", "float", "string"],
+      "malloc_anchors": [
+        {"site": "0x28d1cc", "line": 1028, "size": "eventsCount << 2"},
+        {"site": "0x28d268", "line": 1034, "size": "strlen(string_value) + 1"}
+      ],
+      "quirks": [
+        "loop head 0x28d20c; back edge 0x28d28c bne 0x28d20c",
+        "loop is driven by the child linked list (0x28d284 ldr r4,[r4]; 0x28d288 cmp; 0x28d28c bne), never by the declared count",
+        "data->events base is re-read after every creator/JSON/strlen/strcpy call (0x28d278)",
+        "no error path in this block: no setError, no dispose, no NULL check on spEventData_create"
+      ]
+    },
+    {
+      "name": "readSkeletonData_animationsArray",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d290-0x28d2d4 (B2, 68 B / 17 insns)",
+      "translation_source": "src/spine_read_animations.c",
+      "semantics": "animations = Json_getItem(tree, \"animations\"); NULL -> return NULL (parent goes to 0x28e7a4 Json_dispose + return data). count = animations->unk_0c; array = _malloc(count<<2, tag, 1043); child = animations->child (loaded after _malloc); data+0x38 = array (published even when child==NULL); return child. data+0x34 (animationsCount) is NOT written here.",
+      "keys": ["animations"],
+      "malloc_anchors": [
+        {"site": "0x28d2bc", "line": 1043, "size": "animationsCount << 2"}
+      ],
+      "quirks": [
+        "0x28d2a4 beq 0x28e7a4: absent key ends the segment with no writes",
+        "0x28d2c8 str r4,[sp,#0x1c] spills the first animation for the B3/B4 outer loop",
+        "0x28d2cc str r0,[r9,#0x38]: array published before the 0x28d2d0 child==NULL branch",
+        "animationsCount (+0x34) is incremented per animation at 0x28e784, not initialised here"
+      ]
+    }
+  ],
+  "spSkeletonData_layout_additions": {
+    "+0x2c": "eventsCount (uint32; Json events->unk_0c, dispose vector 0x28ae9c)",
+    "+0x30": "events (spEventData**; malloc line 1028, dispose vector 0x28ae9c)",
+    "+0x34": "animationsCount (uint32; NOT written by B2 — per-item ++ at 0x28e784, dispose vector 0x28aed0)",
+    "+0x38": "animations (spAnimation**; malloc line 1043, per-item publish at 0x28e78c)"
+  },
+  "spEventData_layout": {
+    "+0x00": "name (const char*, borrowed Json member key; written by the synthetic creator)",
+    "+0x04": "intValue (int32; Json_getInt \"int\")",
+    "+0x08": "floatValue (float bits; Json_getFloat \"float\")",
+    "+0x0c": "stringValue (const char*; owned _malloc line 1034 copy of Json_getString \"string\")",
+    "size": 16,
+    "anchor": "0x285ba4 _calloc(1,16,...) and 0x285bf4/0x285bfc dispose frees +0xc then +0x00"
+  },
+  "synthetic_boundaries": [
+    {
+      "name": "spEventData_create",
+      "address": "0x285b94",
+      "reason": "EventData.c creator is not recovered in this batch; the fixture probe records the single name argument and provides the 16-byte record. The module writes only the three fields observed at 0x28d230/0x28d244/0x28d270."
+    },
+    {
+      "name": "fixture heap / allocator roster / libc strlen+strcpy / hand-built Json nodes",
+      "reason": "test scaffolding only; qemu executes the reconstructed C, never original bytes"
+    }
+  ],
+  "open": [
+    "Event name source is the Json member key (0x28d20c ldr r0,[r4,#0x1c]), not a \"name\" key: B1's key set (events/int/float/string, census §2.1) has no \"name\". Whether the game's skeleton JSON encodes events as an object keyed by name or as an array of unnamed objects is NOT confirmed — no skeleton JSON asset exists in this tree; the translation follows the instruction literally.",
+    "Json +0x0c semantics for non-array nodes: B1/B2 use it as the allocation count while the event loop ignores it. A declared-count/child-count mismatch is only observable under the fixture's oversized reserve(); this is a control-flow observation, not a malloc-capacity or parser claim.",
+    "B2 leaves animationsCount (+0x34) untouched; correctness relies on the parent's spSkeletonData_create calloc(1,84,tag,37) at 0x28ade4. Calling B2 on a non-zeroed record leaves a stale count — faithful to the binary, not repaired.",
+    "No error path exists in B1/B2 (no setError/dispose between 0x28d19c and 0x28d2d0); spEventData_create return is never checked, matching 0x28d210.",
+    "Parent loader assembly (B3 key caching, B4 timeline count + spAnimation_create, per-animation loop tail 0x28e774..0x28e79c) is out of scope.",
+    "The float field is stored as raw bits by 0x28d244 str r0,[r5,#0x8] (softfp ABI); this module preserves a float field at +0x08 and asserts bit equality, not FPSCR/NaN behavior."
+  ],
+  "census_cross_check": {
+    "B1": "0x28d19c..0x28d290 = 244 B / 61 insns — matches animations_segment_map.md §6",
+    "B2": "0x28d290..0x28d2d4 = 68 B / 17 insns — matches §6",
+    "malloc_lines": "1028 at 0x28d1cc, 1034 at 0x28d268, 1043 at 0x28d2bc — matches §3.1",
+    "note": "No semantic contradiction found. One wording imprecision in §7 open item 10: the animations ARRAY base is written at 0x28d2cc (B2), not only at the 0x28e778 loop tail; only the count and element stores happen at the loop tail. §3.1 already states the 0x28d2bc->+0x38 mapping correctly."
+  },
+  "check": {
+    "driver": "tools/check_animations.py",
+    "fixture": "fixture/check.c",
+    "cases": "9 (events absent / empty children / zero count / multiple full fields / count-is-allocation-only; animations absent / empty children / children; B1->B2 chain order)",
+    "configs": "O0/O2/O3/ubsan (float-cast-overflow, trap=all)",
+    "teeth": "9 named mutants (count not published, array wrong slot, creator name not member key, loop polarity, int/float field swap, line-1034 drift, line-1043 drift, array offset +0x34, returns node not child)",
+    "compile_guard": "missing module body refused: undefined symbol readSkeletonData_eventsSegment",
+    "receipt": "harness/receipts/animations_entry_check-*.json"
+  },
+  "depends_on": ["json_interface", "spine_alloc"]
+}
