@@ -121,6 +121,58 @@ path-position、0x28e2a8 deform、0x28e9b0 path-mix）。
 回执：`animations_b3b4_check-20261108T110203.json` /
 `tl_slots_check-20261108T110414.json`。
 
+## 第四批：bones 时间线全家族 + ik 时间线家族（open #6 关闭）
+
+**bones 家族**（`c/spine_read_tl_bones/` 新模块，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×18 测试、12 变异、3 拒绝门含去 readCurve/json 门）：
+
+- B6 分派：每骨时间线 `findBoneIndex` → `cmn r0,#1` 未命中→E2；strcmp 链
+  rotate→translate→scale→shear，全不中→E3。5 键缓存；'time' 键覆盖 bones
+  溢出槽（0x28d694）——循环只用寄存器游标。
+- **骨索引来自独立符号 `spSkeletonData_findBoneIndex@0x28b018`（88B）**：
+  count=[data+0x10]（有符号 ≤0→-1）、strcmp([table[i]+4],name) **首个匹配**
+  返回 i、未命中 `mvn r0,#0`；与 findBone(0x28afbc/92B) 相邻不可混用。
+  该函数体本批在模块内恢复为真链（暂驻副本：若 skeleton_find 后续收编
+  需删副本——已记 open）。
+- B6b（translate/scale/shear 共用帧循环）：`timeline+0x14=boneIndex`（先于
+  空帧判断）；键 time/x/y；`s17=x*s16`、`s15=s16*y`——**translate 的乘数是
+  parser->scale（spSkeletonJson+0x00 binary32），scale/shear 强制 s16=1.0**；
+  setFrame(t,i,time,x*s16,y*s16)；readCurve@0x28d7d0；尾 (declared-1)*3
+  字索引、frames +0x10、duration=max。
+- B10 rotate：键 time/**angle**；setFrame(t,i,time,angle)；帧距 **2**
+  （`frames[declared*2-2]`）；readCurve@0x28daf0。
+- **`spScaleTimeline_setFrame@0x282b1c` 与 `spShearTimeline_setFrame@0x282b38`
+  都是 4 字节 `b` thunk，同指 0x282ad4**（translate 的 setFrame；父代理
+  逐字核对）——全族只有一个真实 setFrame 调用点。
+- E2（Bone not found）：`spAnimation_dispose` → **setError(parser,
+  [sp,#0x1c]=当前 animation JSON 节点, "Bone not found: ", bone->name)**
+  ——json 实参是**动画节点**（连带其兄弟被 Json_dispose），非 NULL 非根
+  （父代理核对 0x28db70 `ldr r1,[sp,#0x1c]`）；E3：json 实参 NULL。
+  三种错误路径的 json 实参三种形态（根树/NULL/动画节点），逐块验证不默认。
+
+**ik 家族**（`c/spine_read_tl_ik/` 新模块，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×13 测试、11 变异、3 拒绝门）——**普查 open #6 关闭**：
+
+- B7 指针扫描（逐指令钉死）：count=[data+0x3c] **只读一次快照** →
+  `ble` 有符号 ≤0 **直接跳（连 +0x40 都不读）** → array=[data+0x40] →
+  e=array[0] → 命中→`mov r3,#0`(0x28dbc8，r3 是元素指针必须清)+
+  `str r3,[r6,#0x14]`(0x28dbcc)；未中→`ldr r0,[r2,#0x4]!`（**前索引写回，
+  逐元素重读**）、index++、`bne` 只判等；未命中**不写 +0x14**。
+  create 后 +0x14 = calloc 零填 = **0 不是 -1**（静态推断：_spBaseTimeline_
+  create 尾调 calloc(1,24,tag,233)，init 链不写 +0x14；推断待 create 本体
+  恢复后升证明）。
+- B7b 帧循环：键 time/**mix（默认 1.0f=0x3f800000）**/bendPositive
+  （getInt 默认 1；**0→-1、非 0→+1** 枚举压栈）；setFrame ABI r0..r3+[sp]
+  （bend int32）；体内帧步长 **3 浮点**（与 bone 1/2、color 5 都不同）；
+  readCurve 在 setFrame 后；尾 next 载入夹在 frames 读与 duration 比较之间，
+  `vstr duration` 无条件（末轮也写）。
+- 普查更正：0x28dbc8 是 `mov r3,#0` 而非命中写点（唯一 store 是 0x28dbcc）；
+  B11b 行把 0x28dbc8/0x28dbcc 误并入 shear 块地址跨度（语义属 B7 的离位
+  命中岛，shear 5 条真指令以 `b 0x28d740` 收尾）；transform 命中 store
+  0x28dd64 与 0x28dbcc **指令字同为 0xe5863014**（同一源句编译两次）。
+
+回执：`tl_bones_check-20261108T113000.json` / `tl_ik_check-20261108T112242.json`。
+
 ## 合成边界与欠账（累计）
 
 - 合成边界：`spEventData_create@0x285b94`（本体未恢复）、

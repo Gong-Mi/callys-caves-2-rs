@@ -1,6 +1,22 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：B3/B4/B3b 与 slots 时间线家族已恢复，下一步 bones/ik 时间线
+## 当前断点：bones/ik 时间线家族已恢复，下一步 transform/path
+
+`c/spine_read_tl_bones/`（子代理 G，父代理复跑 RESULT PASS）：B6 分派链
+rotate→translate→scale→shear；**骨索引来自独立符号 findBoneIndex@0x28b018**
+（首个匹配、≤0→-1；模块内暂驻真链副本，skeleton_find 收编时删）；
+translate 乘 parser->scale 而 scale/shear 强制 1.0；rotate 键 time/angle 帧距 2；
+**scale/shear 的 setFrame 是同指 0x282ad4 的 4 字节 thunk**（父代理逐字核对）；
+E2 的 setError json 实参=**动画节点**（连带兄弟被 dispose），E3=NULL——错误
+路径 json 实参三种形态（根树/NULL/动画节点）逐块验证。4 配置×18 测试、12 变异。
+
+`c/spine_read_tl_ik/`（子代理 H，父代理复跑 RESULT PASS）：**普查 open #6
+关闭**——指针扫描：count 快照一次、`ble` 有符号、前索引写回逐元素重读、
+首个命中写 +0x14、未命中不写；create 后 +0x14=calloc 零=0 非 -1（静态推断）；
+帧键 time/mix(默认1.0f)/bendPositive(0→-1,非0→+1)；帧距 **3 浮点**；
+setFrame ABI r0..r3+[sp]。4 配置×13 测试、11 变异、3 拒绝门。
+回执 `tl_bones_check-20261108T113000.json` / `tl_ik_check-20261108T112242.json`。
+见 `reconstruction/contracts/native-animations.md` 第四批节。原件未执行。
 
 `c/spine_read_animations/` 扩展（子代理 E，父代理复跑 RESULT PASS）：B3 拆
 `animationFrameInit`（4 键入槽 + 0x55555556 魔数→[sp,#0x60]）与

@@ -1,0 +1,244 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_bones",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_boneTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d640-0x28d740 (B6, 256 B / 64 insns) + shared loops 0x28d824-0x28d83c",
+      "translation_source": "src/spine_read_tl_bones.c",
+      "abi": {
+        "signature": "int readSkeletonData_boneTimelines(Json* bonesJson, Json* animationJson, void* data_raw, void* animation_raw, void* parser_raw)",
+        "bonesJson": "the Json value of the animation's \"bones\" key (parent spill [sp+0x30] written at 0x28d328); the block reads it at 0x28d640 and then OVERWRITES that slot with the \"time\" literal at 0x28d694, so the C keeps it in a parameter",
+        "animationJson": "the CURRENT animation node, parent spill [sp+0x1c] (written at 0x28d2c8, advanced at 0x28e790..0x28e798). E2 passes it to setError; E3 passes 0",
+        "data_raw": "spSkeletonData* (parent [sp+0x18], 0x28d310)",
+        "animation_raw": "spAnimation* (parent r11)",
+        "parser_raw": "spSkeletonJson* (parent [sp+0x20], 0x28d314)",
+        "return": "1 = fall through to the ik block at 0x28d840; 0 = left through E2/E3, the parent then returns NULL at 0x28bdcc"
+      },
+      "semantics": "if bonesJson == NULL (0x28d640..0x28d648) or bonesJson->child == NULL (0x28d64c..0x28d658) return 1. Five key pointers are materialised once (0x28d65c..0x28d694): \"rotate\" -> [sp+0x3c], \"scale\" -> [sp+0x40], \"translate\" -> [sp+0x48], \"shear\" -> [sp+0x54], \"time\" -> [sp+0x30]. Loop over bone nodes: boneIndex = spSkeletonData_findBoneIndex(data, boneNode->name) (0x28d698..0x28d6a0); -1 (0x28d6a4 cmn r0,#1) -> E2; timelineNode = boneNode->child, NULL -> next bone. Per timeline node: type = timelineNode->name (+0x1c) and a strcmp chain rotate (0x28d6cc) / scale (0x28d6e0) / translate (0x28d6f4) / shear (0x28d708); no match -> E3 (0x28d71c). Branch priority rotate -> translate -> scale -> shear. Back edges: 0x28d824 timelineNode = timelineNode->next, 0x28d834 boneNode = boneNode->next (r6 restored from [sp+0x58] because B10 clobbers it).",
+      "key_literals": {
+        "rotate": {"va": "0x357ec8", "pool_word": "0x28ca2c", "add_site": "0x28d664"},
+        "scale": {"va": "0x357ed0", "pool_word": "0x28ca30", "add_site": "0x28d670"},
+        "translate": {"va": "0x357ed8", "pool_word": "0x28ca34", "add_site": "0x28d678"},
+        "shear": {"va": "0x357ee4", "pool_word": "0x28ca38", "add_site": "0x28d680"},
+        "time": {"va": "0x34c1d4", "pool_word": "0x28ca3c", "add_site": "0x28d688", "note": "stored to [sp+0x30], overwriting the bones-node spill"}
+      },
+      "bone_index_source": {
+        "finding": "NOT a pointer scan and NOT spSkeletonData_findBone (0x28afbc, returns a pointer). The block calls the distinct .dynsym symbol spSkeletonData_findBoneIndex at 0x28b018 (bl at 0x28d6a0, word 0xebfff65c) and compares the result with -1 (0x28d6a4 cmn r0,#1).",
+        "callee_shape": "0x28b018..0x28b06c, 88 B / 21 insns: count = [data+0x10]; signed <= 0 -> -1; table = [data+0x14]; strcmp([table[i]+4], name) == 0 -> return i (FIRST match); loop while i != count; miss -> -1 (0x28b068 mvn r0,#0)",
+        "symbol_boundary": "spSkeletonData_findBone (0x28afbc, 92 B) ends exactly at 0x28b018; the two symbols are adjacent, never interchangeable",
+        "recovered_here": "the callee body is translated in this module because no existing module owns it (c/skeleton_find covers findBone/findSlotIndex/findSkin only)",
+        "divergence_from_census": "census §7 item 6 describes the IK family's in-block pointer scan (data->ikConstraints at +0x3c/+0x40). The bones family does NOT do that: it calls findBoneIndex. B7's pattern must not be copied here."
+      },
+      "quirks": [
+        "the spill slot [sp+0x30] is reused: it holds the bones node on entry and the \"time\" literal afterwards (0x28d694), so the loop cannot re-read the parent object",
+        "the bone node spill at [sp+0x58] is written only when the bone has timeline children (0x28d6b8 strne): B10 uses r6 as a scratch key register",
+        "the 0x28d730..0x28d73c fall-through into B6b (s16 = 1.0, r4 = 0) is unreachable in the original: every matching type has already branched",
+        "the original performs all four strcmps before branching; the C if-chain is equivalent because the four literals are distinct"
+      ]
+    },
+    {
+      "name": "readSkeletonData_boneXYTimeline",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d740-0x28d840 (B6b, 256 B / 64 insns; the loop occupies 0x28d740..0x28d820)",
+      "translation_source": "src/spine_read_tl_bones.c",
+      "abi": {
+        "signature": "void readSkeletonData_boneXYTimeline(Json* timelineJson, void* animation_raw, int boneIndex, float coordScale, void* timeline_raw)",
+        "coordScale": "s16. translate: parser->scale read with `ldr r2,[sp,#0x20]; vldr s16,[r2]` at 0x28da58/0x28da5c (spSkeletonJson+0x00 is the uint32 binary32 scale word). scale: 1.0 forced at 0x28db48. shear: 1.0 forced at 0x28dbb8.",
+        "calls": [
+          "Json_getFloat(frame,\"time\",0) -> 0x287444 (real) 0x28d774",
+          "Json_getFloat(frame,\"x\",0) -> 0x287444 (real) 0x28d788",
+          "Json_getFloat(frame,\"y\",0) -> 0x287444 (real) 0x28d7a0",
+          "spTranslateTimeline_setFrame(t, i, time, x*s16, s16*y) -> 0x282ad4 (synthetic boundary) 0x28d7c0",
+          "readCurve(frame, t, i) -> 0x28b34c (real, anonymous) 0x28d7d0"
+        ]
+      },
+      "semantics": "frame = timelineJson->child (0x28d740); timeline->boneIndex (+0x14) = boneIndex (0x28d744); no frames -> tail (0x28d74c). Frame loop head 0x28d768 with frameIndex = 0 set at 0x28d754: time, x, y through Json_getFloat; s17 = x*s16 (0x28d79c), s15 = s16*y (0x28d7b8); setFrame(timeline, frameIndex, time, x*s16, y*s16) with x in r3 and y at [sp]; then readCurve(frame, timeline, frameIndex); frame = frame->next; ++frameIndex.",
+      "tail": "0x28d7e4..0x28d820: declared = Json+0x0c; wordIndex = (declared-1)*3 (`sub r2,r2,#1` then `add r2,r2,r2,lsl#1`); animation->timelineCount = count+1; timelines[count] = timeline; last = frames[wordIndex] (frames at +0x10, `add r3,r3,r2,lsl#2`); animation->duration = (duration > last) ? duration : last.",
+      "keys": ["time", "x", "y"],
+      "key_literals": {
+        "time": {"va": "0x34c1d4", "slot": "[sp+0x30]"},
+        "x": {"va": "0x33087c", "pool_word": "0x28ca40", "add_site": "0x28d75c", "register": "r10"},
+        "y": {"va": "0x330880", "pool_word": "0x28ca44", "add_site": "0x28d760", "slot": "[sp+0x2c]"}
+      },
+      "setframe_abi": "spTranslateTimeline_setFrame(timeline, frameIndex, time, x, y): r0=timeline, r1=frameIndex, r2=time, r3=x, [sp]=y (softfp; the original vmov r3,s17 and vstr s15,[sp]). One call site (0x28d7c0) serves translate, scale AND shear: spScaleTimeline_setFrame (0x282b1c) and spShearTimeline_setFrame (0x282b38) are 4-byte `b spTranslateTimeline_setFrame` thunks.",
+      "frame_stride": "3 floats per frame: frames[i*3+0]=time, [+1]=x, [+2]=y (real setter 0x282ad4: 0x282ae8 `add r1,r0,r1,lsl#2` after 0x282ad4 `add r1,r1,r1,lsl#1`). The tail reads frames[3*(declared-1)].",
+      "quirks": [
+        "the frame loop is driven by the child list, while the tail indexes frames[3*(declared-1)]; a short child list leaves never-written slots, declared == 0 reads frames[0xFFFFFFFD]",
+        "x is evaluated before y and multiplied as x*s16, y as s16*y (operand order preserved because VFP NaN quieting depends on it)",
+        "the timeline record's +0x14 is written before the frame==NULL test (0x28d744 precedes 0x28d748)"
+      ]
+    },
+    {
+      "name": "readSkeletonData_boneRotateTimeline",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28da74-0x28db48 (B10, 212 B / 53 insns) + rejoin 0x28db44 b 0x28d824",
+      "translation_source": "src/spine_read_tl_bones.c",
+      "abi": {
+        "signature": "void readSkeletonData_boneRotateTimeline(Json* timelineJson, void* animation_raw, int boneIndex)",
+        "calls": [
+          "spRotateTimeline_create(declared) -> 0x282a90 (synthetic boundary) 0x28da78",
+          "Json_getFloat(frame,\"time\",0) -> 0x287444 (real) 0x28dab8",
+          "Json_getFloat(frame,\"angle\",0) -> 0x287444 (real) 0x28dacc",
+          "spRotateTimeline_setFrame(t, i, time, angle) -> 0x282aa8 (synthetic boundary) 0x28dae0",
+          "readCurve(frame, t, i) -> 0x28b34c (real, anonymous) 0x28daf0"
+        ]
+      },
+      "semantics": "timeline = spRotateTimeline_create(timelineJson->unk_0c) (0x28da74/0x28da78); frame = timelineJson->child (0x28da7c); timeline->boneIndex (+0x14) = boneIndex (0x28da88); no frames -> tail. Frame loop head 0x28daa8 with the index in r9: time = Json_getFloat(frame,\"time\",0), angle = Json_getFloat(frame,\"angle\",0); spRotateTimeline_setFrame(timeline, frameIndex, time, angle); readCurve(frame, timeline, frameIndex); frame = frame->next; ++frameIndex.",
+      "frame_index_source": "r9 arrives as 0 from the dispatch: 0x28d6d0 `subs r9,r0,#0` writes the rotate strcmp result into r9 and the branch at 0x28d6d4 is taken only when it is 0. B10 has no explicit clear.",
+      "tail": "0x28db0c..0x28db40: count = animation->timelineCount; duration; timelines = animation->timelines; declared = Json+0x0c; timelineCount = count+1; timelines[count] = timeline; last = frames[declared*2-2] (`add r3,r3,r2,lsl#3` then `vldr s15,[r3,#-8]`); duration = (duration > last) ? duration : last; b 0x28d824.",
+      "keys": ["time", "angle"],
+      "key_literals": {
+        "time": {"va": "0x34c1d4", "pool_word": "0x28ea88", "add_site": "0x28da9c", "register": "r6/r7"},
+        "angle": {"va": "0x330884", "pool_word": "0x28ea8c", "add_site": "0x28daa0", "register": "r10"}
+      },
+      "setframe_abi": "spRotateTimeline_setFrame(timeline, frameIndex, time, angle): r0=timeline, r1=frameIndex, r2=time, r3=angle.",
+      "frame_stride": "2 floats per frame: frames[i*2+0]=time, [+1]=angle (real setter 0x282aac `add r1,r0,r1,lsl#3`, stores at [r1] and [r1,#4]). The tail reads frames[2*(declared-1)] via frames[declared*2] with a -8 byte displacement."
+    },
+    {
+      "name": "readSkeletonData_boneNotFound",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28db5c-0x28db88 (E2, 44 B / 11 insns) + shared tail 0x28da44-0x28da50",
+      "translation_source": "src/spine_read_tl_bones.c",
+      "abi": {
+        "signature": "int readSkeletonData_boneNotFound(Json* boneNode, Json* animationJson, void* data_raw, void* animation_raw, void* parser_raw)",
+        "calls": [
+          "spAnimation_dispose(animation) -> 0x28147c (real) 0x28db68",
+          "_spSkeletonJson_setError(parser, animationJson, \"Bone not found: \", boneNode->name) -> 0x28b784 (real; console vcall + line-90 copy) 0x28db80",
+          "spSkeletonData_dispose(data) -> 0x28adf8 (real) 0x28da48"
+        ]
+      },
+      "semantics": "type text = boneNode->name (+0x1c, 0x28db78). spAnimation_dispose(animation) FIRST (0x28db68), then setError (0x28db6c..0x28db80), then the shared error tail at 0x28da44: spSkeletonData_dispose(data) and return 0 (parent b 0x28bdcc).",
+      "set_error_arguments": {
+        "parser": "r0 = [sp+0x20]",
+        "json": "r1 = [sp+0x1c] (0x28db74) = the CURRENT ANIMATION JSON NODE, NOT NULL and NOT the root. setError therefore Json_disposes that node and its siblings; the root tree survives.",
+        "message": "\"Bone not found: \" @0x357eb4 (pool 0x28ea90, add 0x28db7c)",
+        "extra": "r3 = boneNode->name (+0x1c)"
+      },
+      "formatted_example": "Bone not found: arm",
+      "quirks": [
+        "the json argument is the animation node, so this error path disposes part of the JSON tree — unlike E1 (r1 = 0, 0x28da38) and E3 (r4 = 0)",
+        "the animation is disposed BEFORE the error text is formatted; the half-built skeleton data AFTER it",
+        "the message copy is a line-90 SkeletonJson.c allocation through _malloc"
+      ]
+    },
+    {
+      "name": "readSkeletonData_invalidTimelineTypeForBone",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28db88-0x28dbb4 (E3, 44 B / 11 insns) + shared tail 0x28da44-0x28da50",
+      "translation_source": "src/spine_read_tl_bones.c",
+      "abi": {
+        "signature": "int readSkeletonData_invalidTimelineTypeForBone(Json* timelineJson, void* data_raw, void* animation_raw, void* parser_raw)",
+        "calls": [
+          "spAnimation_dispose(animation) -> 0x28147c (real) 0x28db94",
+          "_spSkeletonJson_setError(parser, NULL, \"Invalid timeline type for a bone: \", timelineJson->name) -> 0x28b784 (real) 0x28dbac",
+          "spSkeletonData_dispose(data) -> 0x28adf8 (real) 0x28da48"
+        ]
+      },
+      "semantics": "type text = timelineJson->name (+0x1c, 0x28dba4). spAnimation_dispose first, then setError, then spSkeletonData_dispose and return 0.",
+      "set_error_arguments": {
+        "parser": "r0 = [sp+0x20]",
+        "json": "r1 = r4 (0x28db9c `mov r1,r4`). r4 is the OR of the four strcmp match flags (`orr r4,r9,r5` 0x28d70c, `orrs r4,r0,r4` 0x28d718) and the E3 branch is taken only when that OR is zero, so the argument is exactly NULL: the tree is NOT disposed.",
+        "message": "\"Invalid timeline type for a bone: \" @0x357eec (pool 0x28ea94, add 0x28dba8)",
+        "extra": "r3 = timelineJson->name (+0x1c)"
+      },
+      "formatted_example": "Invalid timeline type for a bone: paths",
+      "quirks": [
+        "the json argument is 0 even though the register is not cleared — a register-allocation artifact of the four-way strcmp fold, verified from the instruction stream",
+        "the offending text is the timeline node's JSON member key, not a string value"
+      ]
+    },
+    {
+      "name": "spSkeletonData_findBoneIndex",
+      "kind": "original_function_recovered_here",
+      "address_range": "0x28b018-0x28b06c (88 B / 21 insns; .dynsym size 88)",
+      "translation_source": "src/spine_read_tl_bones.c",
+      "abi": {
+        "signature": "int spSkeletonData_findBoneIndex(spSkeletonData* data, const char* name)",
+        "count": "data+0x10 (words[4]); signed <= 0 -> -1",
+        "table": "data+0x14 (words[5])",
+        "name_field": "bone+0x04",
+        "return": "0-based index of the FIRST bone whose name matches with strcmp; -1 on miss"
+      },
+      "semantics": "0x28b020 ldr r6,[r0,#0x10]; 0x28b024/0x28b028 cmp/ble -> miss; 0x28b02c ldr r5,[r0,#0x14]; 0x28b030 mov r4,#0; 0x28b034 sub r5,r5,#4; loop 0x28b048 ldr r3,[r5,#4]!; 0x28b050 ldr r0,[r3,#4]; 0x28b054 bl strcmp; 0x28b058/0x28b05c; 0x28b060 mov r0,r4; 0x28b03c add r4,r4,#1; 0x28b040/0x28b044 cmp/beq; miss 0x28b068 mvn r0,#0.",
+      "ownership_note": "No existing module defines this symbol (c/skeleton_find covers findBone 0x28afbc, findSlotIndex 0x28b0cc, findSkin 0x28b124). If c/skeleton_find later recovers it, delete this copy to avoid a duplicate definition; the call site and dynsym pins stay valid.",
+      "quirks": [
+        "the count is signed; a negative stored word behaves like an empty table",
+        "the loop condition is i != count, not i < count (guarded by the count > 0 test)",
+        "duplicate bone names resolve to the first index"
+      ]
+    }
+  ],
+  "caller_blocks": [
+    {"block": "B6", "range": "0x28d640-0x28d740", "size": 256, "insns": 64, "role": "bones loop head + findBoneIndex + strcmp dispatch", "function": "readSkeletonData_boneTimelines"},
+    {"block": "B6b", "range": "0x28d740-0x28d840", "size": 256, "insns": 64, "role": "translate/scale/shear frame loop + publish tail + shared back edges", "function": "readSkeletonData_boneXYTimeline"},
+    {"block": "B9", "range": "0x28da54-0x28da74", "size": 32, "insns": 8, "role": "translate select: s16 = parser->scale; spTranslateTimeline_create; b 0x28d740", "function": "inlined in readSkeletonData_boneTimelines"},
+    {"block": "B10", "range": "0x28da74-0x28db48", "size": 212, "insns": 53, "role": "rotate timeline (time + angle) + publish tail", "function": "readSkeletonData_boneRotateTimeline"},
+    {"block": "B11", "range": "0x28db48-0x28db5c", "size": 20, "insns": 5, "role": "scale select: vmov.f32 s16,#1.0; spScaleTimeline_create; b 0x28d740", "function": "inlined in readSkeletonData_boneTimelines"},
+    {"block": "B11b", "range": "0x28dbb4-0x28dbc4", "size": 16, "insns": 4, "role": "shear select: spShearTimeline_create; vmov.f32 s16,#1.0; b 0x28d740", "function": "inlined in readSkeletonData_boneTimelines"},
+    {"block": "E2", "range": "0x28db5c-0x28db88", "size": 44, "insns": 11, "role": "\"Bone not found: \"", "function": "readSkeletonData_boneNotFound"},
+    {"block": "E3", "range": "0x28db88-0x28dbb4", "size": 44, "insns": 11, "role": "\"Invalid timeline type for a bone: \"", "function": "readSkeletonData_invalidTimelineTypeForBone"}
+  ],
+  "layout_additions": {
+    "bone_timeline_record": "+0x00 uint32 type, +0x04 void* vtable, +0x08 float* curves ((frameCount-1)*19, _spCurveTimeline_init 0x2816d8), +0x0c int32 frameFloatCount (= frameCount*frameStep, 0x282a60/0x282a70), +0x10 float* frames (0x282a74/0x282a78), +0x14 int32 boneIndex (written ONLY by this family: 0x28d744 / 0x28da88)",
+    "frame_steps": "rotate 2 (0x282a90 r1=1/r2=2), translate 3 (0x282abc r1=2/r2=3), scale 3 (0x282b04 r1=0/r2=3), shear 3 (0x282b20 r1=3/r2=3); _spBaseTimeline_create 0x282a10 multiplies frameStep by frameCount at 0x282a60",
+    "setters": "spRotateTimeline_setFrame 0x282aa8 (frames[i*2], frames[i*2+1]); spTranslateTimeline_setFrame 0x282ad4 (frames[i*3], [+1], [+2]); spScaleTimeline_setFrame 0x282b1c and spShearTimeline_setFrame 0x282b38 are 4-byte `b spTranslateTimeline_setFrame` thunks",
+    "spSkeletonJson": "+0x00 uint32 scale (binary32 bits), read as float with vldr at 0x28da5c",
+    "spSkeletonData": "+0x10 bonesCount, +0x14 bones array (spSkeletonData_findBoneIndex 0x28b020/0x28b02c)",
+    "spAnimation": "+0x04 float duration, +0x08 timelineCount, +0x0c void** timelines (unchanged from the slots module)"
+  },
+  "synthetic_boundaries": [
+    {"name": "spTranslateTimeline_create / spRotateTimeline_create / spScaleTimeline_create / spShearTimeline_create", "address": "0x282abc / 0x282a90 / 0x282b04 / 0x282b20", "reason": "bodies not recovered in this batch; the fixture creators allocate a zeroed record with the real layout (curves NULL, frameFloatCount = count*frameStep, frames = count*frameStep floats) and record the declared count and the kind"},
+    {"name": "spTranslateTimeline_setFrame / spRotateTimeline_setFrame", "address": "0x282ad4 / 0x282aa8", "reason": "argument recorders that also model the disassembled stores so the publish tails read the same shape the real setters produce"},
+    {"name": "spScaleTimeline_setFrame / spShearTimeline_setFrame", "address": "0x282b1c / 0x282b38", "reason": "deliberately NOT provided: they are 4-byte branches onto the translate setter and the caller has a single call site at 0x28d7c0, so any call from the reconstruction fails the link"},
+    {"name": "spCurveTimeline_setStepped / spCurveTimeline_setCurve", "address": "0x2817c0 / 0x2817d8", "reason": "readCurve's dependency, not this family's; the doubles record (kind, frame, timeline, curve words)"},
+    {"name": "fixture heap / allocator roster / libc providers / hand-built Json nodes", "reason": "test scaffolding only; qemu executes the reconstructed C"}
+  ],
+  "depends_on": ["json_interface", "spine_read_curve", "spine_json_error", "spine_json_support", "spine_skeleton_data", "spine_alloc"],
+  "open": [
+    "The declared frame count is the word at Json+0x0c; the loop follows the child list. declared == 0 makes the tails read frames[-1] (xy) / frames[-2] (rotate) and the creators receive 0; the fixture never drives a zero declared count, so the original's behaviour there is not asserted.",
+    "A frame without an \"x\"/\"y\"/\"angle\"/\"time\" key silently receives 0.0f from Json_getFloat; that is real accessor behaviour, not a guard of this family.",
+    "A bone node whose name is NULL (or a missing \"bones\" member on a bone) reaches spSkeletonData_findBoneIndex and strcmp(NULL); the original has no guard.",
+    "Why the original reuses spTranslateTimeline_setFrame for scale/shear instead of calling their own 4-byte thunks cannot be derived from the instruction stream; the module mirrors the observed call target and the checker pins both thunks.",
+    "The exact semantics of the four timeline-type constants passed to _spCurveTimeline_init (0x282a48/0x282a4c: r1 = 1/2/0/3 and r2 = frameStep) belong to the unrecovered creators; the fixture's +0x00 type word is a tag, not the original enum value.",
+    "E2 disposes the animation JSON node (r1 = [sp+0x1c]); Json_dispose also walks that node's siblings, so on this error path the remaining animation members are freed as well. That follows from the real Json_dispose body, but the original's observable behaviour after the returning NULL is not exercised.",
+    "spSkeletonData_findBoneIndex is recovered in this module as a stand-in; if c/skeleton_find later owns it, this copy must be removed.",
+    "No skeleton JSON asset exists in this tree, so how many bone timelines the shipped data actually uses is unknown."
+  ],
+  "census_cross_check": {
+    "B6": "0x28d640..0x28d740 = 256 B / 64 insns, loop head 0x28d698 — matches §6 and §5.3",
+    "B6b": "0x28d740..0x28d840 = 256 B / 64 insns, loop head 0x28d768, readCurve at 0x28d7d0 — matches §6; the back edge is 0x28d83c (bne 0x28d698), §5.3's 0x28d834 is the ldr that precedes it",
+    "B9": "0x28da54..0x28da74 = 32 B / 8 insns, create at 0x28da68 — matches §6",
+    "B10": "0x28da74..0x28db48 = 212 B / 53 insns, frame loop 0x28daa8, readCurve 0x28daf0 — matches §6",
+    "B11": "0x28db48..0x28db5c = 20 B / 5 insns, vmov.f32 s16,#1.0 at 0x28db48 — matches §6",
+    "B11b": "0x28dbb4..0x28dbc4 = 16 B / 4 insns for the shear block; §6's 0x28dbb4..0x28dbd0 (7 insns) also contains 0x28dbc8/0x28dbcc, which are the IK pointer-scan index-0 store reached only from 0x28d8bc (census correction)",
+    "E2": "0x28db5c..0x28db88 = 44 B / 11 insns — matches §6",
+    "E3": "0x28db88..0x28dbb4 = 44 B / 11 insns — matches §6",
+    "error_tail": "§5.4's common tail 0x28da44 (spSkeletonData_dispose + b 0x28bdcc) is shared by E2/E3 exactly as the census says",
+    "correction_1": "§7 item 6 (pointer scan for the ik/transform index) does NOT extend to bones: the bones family calls spSkeletonData_findBoneIndex 0x28b018 and tests -1",
+    "correction_2": "§4's bl table lists spTranslateTimeline_setFrame once (0x28d7c0) and no spScale/spShearTimeline_setFrame: confirmed, the two symbols are 4-byte branches onto the translate setter, which is why one call site suffices",
+    "addition_1": "the translate multiplier is parser->scale read with vldr from spSkeletonJson+0x00; scale and shear force 1.0 instead — §6/§7 do not record the multiplier",
+    "addition_2": "E2 passes the current animation JSON node as setError's json argument while E3 passes 0; §5.4 only lists the call order",
+    "addition_3": "the publish tails sit inside B6b (0x28d7e4) and B10 (0x28db0c); B6b's tail is reached by fall-through, B10's rejoins 0x28d824 from 0x28db44",
+    "addition_4": "frame strides: rotate 2, translate/scale/shear 3, frames at +0x10 for all four; the rotate tail addresses frames[declared*2] with a -8 displacement"
+  },
+  "check": {
+    "driver": "tools/check_tl_bones.py",
+    "fixture": "fixture/check.c",
+    "cases": "18 (bones key absent / bones without children / bone without timelines then next / duplicate name first index / second bone index / empty bone table E2 / translate scaled frames / scale unscaled / shear unscaled / rotate angle frames / readCurve stepped+array / declared-vs-child xy / declared-vs-child rotate / all four kinds / E3 / E2 / duration keeps animation / two bones)",
+    "configs": "O0/O2/O3/ubsan (float-cast-overflow, trap=all)",
+    "teeth": "12 named mutants (bone index offset, xy tail stride, rotate tail stride, scale multiplier, translate scale dropped, angle key, E2 json argument, E3 json argument, E2 message text, frame index, shear dispatch, duration polarity)",
+    "compile_guard_1": "missing module body refused: undefined symbol: readSkeletonData_boneTimelines",
+    "compile_guard_2": "spine_read_curve.c removed refused: undefined symbol: readCurve (proves the real link, not a stub)",
+    "compile_guard_3": "json_interface.c removed refused: undefined symbol: Json_getFloat",
+    "static": "SHA + 16 symbol pins (incl. findBone 0x28afbc/92 adjacent to findBoneIndex 0x28b018/88) + 80 word pins + 23 BL targets + 18 branch targets + 11 pc-relative literals + readCurve anonymity by call site (0x28d7d0/0x28daf0) + the scale/shear setFrame thunk proofs",
+    "receipt": "harness/receipts/tl_bones_check-<timestamp>.json"
+  }
+}
