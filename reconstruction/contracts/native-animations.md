@@ -338,6 +338,40 @@ path-position、0x28e2a8 deform、0x28e9b0 path-mix）。
 
 回执：`animations_loop_check-20261108T134040.json`。
 
+## 第九批：skins 胶水 8 块（段链物理缺口清零）
+
+`c/spine_skins_glue/`（子代理施工、父代理复跑 `RESULT PASS`，4 配置×15
+测试、15 变异、5 拒绝门含去 spine_skin/atlas_attachment 源；**98 word pin
+对 8 窗口 92 条指令逐条全覆盖且校验器强制无漏**）：
+
+- **五参 ABI**：`r0=json->loader(+0x04)`、r1=skin、r2=请求 type、r3=name、
+  **path 走栈 [sp]**（父代理核对 0x28c7a4/0x28c7ac）；接**真实**
+  `spAttachmentLoader_createAttachment@0x284d58`（先 free+清零 error1/2
+  再 vcall）。
+- **跳表**（父代理逐字核 5 落点）：`addls pc,pc,r3,lsl#2@0x28c7c8`（base=
+  0x28c7d0）→ region 0x28cdac / bbox 0x28cd6c / mesh 0x28cb20 / **linked 也
+  0x28cb20** / path 0x28ca5c；r3>4 无符号落汇聚点只 add 不解析。
+  **分派依据是 loader 存进返回对象的 +0x04，不是请求 type**（父代理核对
+  0x28c7c0 `ldr r3,[r6,#4]`——loader 可把 linkedmesh 请求答成 type 2）。
+- **add**：`spSkin_addAttachment(skin, slotIndex, attachmentMap->name(+0x1c)
+  即 JSON 成员键, att)`——**entry 名是 map 键，createAttachment 收到的是
+  "name" 属性，两者可不同**（总装必须分开传）；真实 c/spine_skin 深拷贝。
+- 三层推进（attachment→slot→skin）回边 0x28c6e8/0x28c6c4/0x28c664；
+  §5.3 的链级块未重复发射；**0x28cc68 是五条跳表路径的汇聚点**——add
+  归"每个 attachment 的 body"（夹具断言"恰好 2 条 entry"锁死无双插）。
+- **loader 错误对**：先 `spSkeletonData_dispose(data)`，`ldm r3,{r2,r3}` 取
+  error1/+0x04 error2 作 fmt/arg（非静态串），setError(json, root, ...)；
+  error1==0 静默跳过（wrapper 已清陈旧值，夹具证明）。
+- 四个错误尾 dispose 序列一律 **dispose(data)→setError(json,root,msg,arg)
+  →返回 r4**；ik 与 transform 共用 "Target bone not found: "
+  @0x357c70、path "Target slot not found: " @0x357d14。
+- **原版怪癖（逐字保留）**：三个 Target 尾唯一入口 r0==0，故
+  `ldr r3,[r4,#0x1c]` 在原版读 VA 0x1c——错误路径上的潜在空页读取。
+
+回执：`skins_glue_check-20261108T140923.json`。段链**物理缺口清零**
+（368B/92 insn 全落 C；语义缺口 6 块留给全链总装层按 animations_loop
+适配器先例闭合）。
+
 ## 合成边界与欠账（累计）
 
 - 合成边界：`spEventData_create@0x285b94`（本体未恢复）、

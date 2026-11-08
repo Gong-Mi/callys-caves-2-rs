@@ -1,6 +1,22 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：动画级循环已总装（九家族真实链接），下一步 skins 胶水块+全链总装
+## 当前断点：段链物理缺口清零，下一步全链总装（收口批）
+
+`c/spine_skins_glue/`（子代理 Q，父代理复跑 RESULT PASS）：**8 个物理胶水块
+全部恢复**（98 word pin 对 92 条指令逐条全覆盖）；**分派依据是 loader 存进
+返回对象的 +0x04 而非请求 type**（父代理核对 0x28c7c0）；跳表 5 落点父代理
+逐字核（linked 也落 mesh 0x28cb20）；**add 用 attachmentMap->name（JSON
+成员键）而 createAttachment 收 "name" 属性——两者必须分开传**；loader 错误
+对 ldm 透传；四错误尾 dispose(data)→setError(json,root)→返 r4。
+4 配置×15 测试、15 变异、5 拒绝门。回执 `skins_glue_check-20261108T140923.json`。
+见 `reconstruction/contracts/native-animations.md` 第九批节。原件未执行。
+
+**readSkeletonData 全部构件已齐**：段链物理缺口清零；语义缺口 6 块（各段
+模块只回错误码不发射 dispose/setError 尾）按 animations_loop 适配器先例在
+总装层闭合。剩最后一件事：**全链总装**（entry→bones→slots→ik→transform→
+path→skins+glue→linkedmesh 后处理→animations_loop→B18，含 §5.3 的
+"只发射一次"约束与 root 生命周期），交付完整 spSkeletonJson_readSkeletonData
+重建链。
 
 `c/spine_animations_loop/`（子代理 O，父代理复跑 RESULT PASS）：**家族调用
 顺序定案**（父代理逐分支核对 8/8）：slots→bones→ik→transform→paths(B13/B17
