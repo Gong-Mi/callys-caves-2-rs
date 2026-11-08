@@ -1,6 +1,23 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：段链物理缺口清零，全链总装在跑（已注入组合层负控），④轴门已立
+## 当前断点：readSkeletonData 全链总装收口（接线级），下一步 Level A 对拍
+
+`c/spine_read_skeleton/`（子代理 R，父代理复跑 RESULT PASS）：**完整
+spSkeletonJson_readSkeletonData 重建链落成**——entry→bones→slots→ik→
+transform→path→skins+glue→linkedmesh 后处理→animations_loop→B18，全部
+真实链接既有模块；语义缺口 6+1 块在适配层闭合（含窗外第 9 块 0x28e7f4，
+父代理核对入边属实）；**两处 root 泄漏照原样**（Skin+Parent mesh）；
+4 配置×20 测试、16 具名变异（含注入的**组合层三类负控**：段序错乱/
+交接错配/打坏单段点名定位）、6 链接门；**receipt 显式 equivalence_axis_4:
+not_measured**。回执 `skeleton_chain_check-20261108T145754.json`。
+见 `reconstruction/contracts/native-animations.md` 第十批节。原件未执行。
+
+**readSkeletonData（13,044B/3,261 insn）纯重建 C 模块链收口：31+8+1 块、
+九时间线家族、全部胶水与错误尾。验收口径=test_anchored（接线正确）；
+④轴（与原版等价）= 未有测量。** 下一步按
+`contracts/native-equivalence-gate.md` 施工 Level A 函数级对拍工具
+（Unicorn oracle 跑原函数 vs 重建链、同一棵合成树 hook Json_create、
+spSkeletonData 全字段 diff+三负控）——判据已冻结，整件可下沉次模型。
 
 `c/spine_skins_glue/`（子代理 Q，父代理复跑 RESULT PASS）：**8 个物理胶水块
 全部恢复**（98 word pin 对 92 条指令逐条全覆盖）；**分派依据是 loader 存进

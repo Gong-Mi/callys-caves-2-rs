@@ -372,6 +372,42 @@ path-position、0x28e2a8 deform、0x28e9b0 path-mix）。
 （368B/92 insn 全落 C；语义缺口 6 块留给全链总装层按 animations_loop
 适配器先例闭合）。
 
+## 第十批（收口）：全链总装——readSkeletonData 完整重建链落成
+
+`c/spine_read_skeleton/`（子代理施工、父代理复跑 `RESULT PASS`）：完整
+`spSkeletonJson_readSkeletonData(self, data)`——entry（locale 探针+兜底+
+Json_create+meta）→ bones → slots（模块自带错误链）→ ik → transform →
+path → skins+attachments（dispatch 四类解析+glue）→ linkedmesh 后处理 →
+events/animations 入口 → animationsLoop（九家族）→ B18（Json_dispose root
++ return data）。段序用**可观测副作用**断言（各段数组 malloc 行序
+607→615→651→697→735→782→839→1028→1043 + 合成 creator 调用序）。
+
+- 4 配置×20 测试；**16 具名变异**=组合层三类负控（段序错乱×2 / 段间交接
+  错配×2 / 打坏单段定位×3——失败行直接点名段）+ 装配层×9（错误尾漏发射/
+  root 双释放/释放漏/B18 漏调/掉段/文案错/状态残留/未知类型静默/重复发射）；
+  6 链接门（缺任一关键段源→undefined symbol）。
+- **语义缺口闭合（§5.2 六块 + 窗外第 9 块）**：ik bone / parent bone /
+  locale 兜底 / transform bone / path bone / Json_create 失败尾，加
+  **0x28e7f4**（dispatch `bne` 落点 0x28c79c 的 "Unknown attachment type:"
+  错误尾——普查窗口止于 0x28d19c 未列，父代理核对入边属实）。顺序恒
+  dispose(data)→setError→NULL；**两处 root 泄漏**（Skin/Parent mesh not
+  found 传 root=0——普查只点了 Skin，实测两处）照原样。
+- root 生命周期与只发射一次全部夹具点名（成功 free(root)==1；十处错误尾
+  data×1+root×1；`json->scale` 每缩放点重读）。
+- **receipt 显式落 `equivalence_axis_4: not_measured`**——④轴纪律生效。
+- open：`readSkeletonData_rootSlot`（entry 不回传 tree，Json_create
+  provider 发布）；`spSkeletonData_findSlot@0x28b070` 未恢复（夹具同形）；
+  三条 Target 尾的原版潜伏 fault 不复现（记录器代观测）。
+
+回执：`skeleton_chain_check-20261108T145754.json`。
+
+至此 **spSkeletonJson_readSkeletonData（13,044B/3,261 insn）以纯重建 C 模块
+链收口**：31+8+1 块、九时间线家族、全部胶水与错误尾均落 C；验收口径
+test_anchored（接线正确），**与原版等价（④轴）= 未有测量**——按
+`contracts/native-equivalence-gate.md`，下一步是 Level A 函数级对拍工具
+（Unicorn oracle 原函数 vs 重建链、同一棵合成树、spSkeletonData 全字段
+diff+三负控）。
+
 ## 合成边界与欠账（累计）
 
 - 合成边界：`spEventData_create@0x285b94`（本体未恢复）、
