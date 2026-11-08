@@ -84,6 +84,9 @@ class Oracle:
         self.calls = []
         self.attachments = []
         self.tree = 0
+        self.root_disposes = 0     # Json_dispose(ROOT) calls (root release)
+        self.json_fail = False     # Json_create answers NULL (parser failure)
+        self.json_error = 'parse failed at 1'
         self.C_ptr = self.scratch_alloc(2, 2)
         self.uc.mem_write(self.C_ptr, b'C\0')
         self._install()
@@ -192,12 +195,34 @@ class Oracle:
                 self.hooked_names.add(name)
 
         def h_json_create(uc_):
+            ret = 0 if self.json_fail else self.tree
             self.calls.append(('Json_create',
-                               [uc_.reg_read(UC_ARM_REG_R0)], self.tree))
-            uc_.reg_write(UC_ARM_REG_R0, self.tree)
+                               [uc_.reg_read(UC_ARM_REG_R0)], ret))
+            uc_.reg_write(UC_ARM_REG_R0, ret)
             uc_.reg_write(UC_ARM_REG_PC, uc_.reg_read(UC_ARM_REG_LR))
         self._hook_code(0x287320, h_json_create)
         self.hooked_names.add('Json_create')
+
+        # Json_getError @0x2872b8: answered with the staged text so the
+        # "Invalid skeleton JSON: " tail is comparable on both arms.
+        def h_json_error(uc_):
+            ptr = self.strz(self.json_error)
+            self.calls.append(('Json_getError', [], ptr))
+            uc_.reg_write(UC_ARM_REG_R0, ptr)
+            uc_.reg_write(UC_ARM_REG_PC, uc_.reg_read(UC_ARM_REG_LR))
+        self._hook_code(0x2872b8, h_json_error)
+        self.hooked_names.add('Json_getError')
+
+        # Json_dispose @0x2872c8: observe the argument, then let the original
+        # body run (the hook does not touch PC).  Root release vs leak is the
+        # disposition this counts on the original arm.
+        def h_json_dispose(uc_):
+            arg = uc_.reg_read(UC_ARM_REG_R0) & 0xffffffff
+            if self.tree and arg == self.tree:
+                self.root_disposes += 1
+            self.calls.append(('Json_dispose', [arg], 0))
+        self._hook_code(0x2872c8, h_json_dispose)
+        self.hooked_names.add('Json_dispose')
 
         self._hook_retfn('setlocale', lambda cat, loc, *_: self.C_ptr)
 
@@ -322,8 +347,14 @@ class Oracle:
         name = self.read_cstr(name_ptr)
         name_copy = self.alloc(len(name) + 1)
         uc.mem_write(name_copy, name.encode() + b'\0')
+        # The stored type word (+0x04) must model the REAL atlas loader's
+        # answers: identity for region/bbox/mesh/path; a linkedmesh request
+        # answered as mesh (2) — the glue's jump table then routes it to the
+        # shared mesh parser either way. The earlier '0 for (0,1,4)' made the
+        # oracle's bbox/path attachments get parsed by the REGION parser.
+        stored_type = {0: 0, 1: 1, 2: 2, 3: 2, 4: 4}[typ]
         uc.mem_write(addr, struct.pack('<IIII', name_copy,
-                                       0 if typ in (0, 1, 4) else 2,
+                                       stored_type,
                                        self.avtable, 0))
         if typ == 0:
             for off in (0x1c, 0x20):
@@ -433,7 +464,10 @@ class Oracle:
             raise RuntimeError('did not return: pc=%#x' % uc.reg_read(UC_ARM_REG_PC))
         return uc.reg_read(UC_ARM_REG_R0) & 0xffffffff
 
-    def run(self, tree_nodes, scale=2.0):
+    def run(self, tree_nodes, scale=2.0, json_fail=False, json_error=None):
+        self.json_fail = json_fail
+        if json_error is not None:
+            self.json_error = json_error
         self.build_tree(tree_nodes)
         self.setup(scale=scale, loader=True)
         ret = self.call()

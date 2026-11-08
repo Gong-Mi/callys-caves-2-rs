@@ -33,6 +33,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(C / 'spine_read_skeleton' / 'tools'))
 
 import level_a_model as model          # noqa: E402
+import level_a_trees as trees          # noqa: E402
 import level_a_dump as dump            # noqa: E402
 import check_skeleton as chain_check   # noqa: E402  (build recipe + FLAGS)
 
@@ -65,6 +66,16 @@ SHARED_DURATION = ['spine_read_tl_slots', 'spine_read_tl_bones',
                    'spine_read_tl_path', 'spine_read_tl_path_mix',
                    'spine_read_tl_deform', 'spine_read_tl_draworder',
                    'spine_read_tl_event']
+
+# Timeline type word -> the family module that builds it (see
+# c/spine_read_*_tl_*/src for the type constants each creator writes).
+TL_SEG = {0: 'spine_read_tl_bones', 1: 'spine_read_tl_bones',
+          2: 'spine_read_tl_bones', 3: 'spine_read_tl_bones',
+          4: 'spine_read_tl_slots', 5: 'spine_read_tl_slots',
+          6: 'spine_read_tl_event', 7: 'spine_read_tl_draworder',
+          8: 'spine_read_tl_deform', 9: 'spine_read_tl_ik',
+          10: 'spine_read_tl_transform', 11: 'spine_read_tl_path',
+          12: 'spine_read_tl_path', 13: 'spine_read_tl_path_mix'}
 
 ATTRIBUTION = [
     ('meta.spine', ['spine_read_meta']),
@@ -135,152 +146,242 @@ def _float_keys_in(prefix):
 
 
 def flatten(d):
-    """Return {field: value}. Floats stay binary32 bit words (ints)."""
-    out = {}
+    """Flatten one arm's dump into {field: value}; ATTR[field] gets segments.
 
-    def put(key, val):
+    Attribution is assigned where the field is emitted, so a timeline's frames
+    are attributed to the family that OWNS that timeline type instead of to the
+    generic "frames" prefix.  Module-scoped lists are the ones the field name
+    alone cannot disambiguate (multi-segment co-write, contract §负控 1).
+    """
+    out = {}
+    attrs = {}
+
+    def put(key, val, segs):
         out[key] = val
+        attrs[key] = list(segs)
+
+    meta_segs = ['spine_read_meta', 'spine_read_entry']
+    skin_segs = ['spine_read_skins', 'spine_read_attach_dispatch',
+                 'spine_skins_glue', 'spine_read_region', 'spine_read_mesh',
+                 'spine_read_bbox_path', 'spine_read_vertices',
+                 'spine_linked_postpass']
+    color_segs = skin_segs + ['spine_color']
 
     if d.get('meta'):
         m = d['meta']
-        put('meta.spine', m['spine'])
-        put('meta.hash', m['hash'])
-        put('meta.width', m['words'][2])
-        put('meta.height', m['words'][3])
-        names = {4: 'bonesCount', 6: 'slotsCount', 8: 'skinsCount',
-                 11: 'eventsCount', 13: 'animationsCount', 15: 'ikCount',
-                 17: 'transformCount', 19: 'pathCount'}
-        for idx, name in names.items():
-            put('meta.' + name, m['words'][idx])
+        put('meta.spine', m['spine'], meta_segs)
+        put('meta.hash', m['hash'], meta_segs)
+        put('meta.width', m['words'][2], meta_segs)
+        put('meta.height', m['words'][3], meta_segs)
+        names = {4: ('bonesCount', 'spine_read_bones'),
+                 6: ('slotsCount', 'spine_read_slots'),
+                 8: ('skinsCount', 'spine_read_skins'),
+                 11: ('eventsCount', 'spine_read_animations'),
+                 13: ('animationsCount', 'spine_animations_loop'),
+                 15: ('ikCount', 'spine_read_ik'),
+                 17: ('transformCount', 'spine_read_transform'),
+                 19: ('pathCount', 'spine_read_path')}
+        for idx, (name, seg) in names.items():
+            put('meta.' + name, m['words'][idx], [seg, 'spine_read_entry'])
         for idx, name in META_POINTER_WORDS.items():
+            seg = {5: 'spine_read_bones', 7: 'spine_read_slots',
+                   9: 'spine_read_skins', 10: 'spine_read_skins',
+                   12: 'spine_read_animations', 14: 'spine_animations_loop',
+                   16: 'spine_read_ik', 18: 'spine_read_transform',
+                   20: 'spine_read_path'}[idx]
             put('meta.word%02d_%s_nonnull' % (idx, name),
-                1 if m['words'][idx] else 0)
-        put('meta.defaultSkinIndex', d.get('defaultSkinIndex', -1))
-    for i, b in enumerate(d.get('bones', [])):
-        p = 'bones[%d].' % i
-        put(p + 'name', b['name'])
-        put(p + 'parent', b['parent'])
-        put(p + 'index', b['index'])
+                1 if m['words'][idx] else 0, [seg, 'spine_read_entry'])
+        put('meta.defaultSkinIndex', d.get('defaultSkinIndex', -1),
+            ['spine_read_skins', 'spine_read_entry'])
+    for n, b in enumerate(d.get('bones', [])):
+        p = 'bones[%d].' % n
+        seg = ['spine_read_bones']
+        put(p + 'name', b['name'], seg)
+        put(p + 'parent', b['parent'], seg)
+        put(p + 'index', b['index'], seg)
         for k in ('length', 'x', 'y', 'rotation', 'scaleX', 'scaleY',
                   'shearX', 'shearY'):
-            put(p + k, b[k])
-        put(p + 'inheritRotation', b['inheritRotation'])
-        put(p + 'inheritScale', b['inheritScale'])
-    for i, s in enumerate(d.get('slots', [])):
-        p = 'slots[%d].' % i
-        put(p + 'name', s['name'])
-        put(p + 'bone', s['bone'])
-        put(p + 'attachment', s['attachment'])
+            put(p + k, b[k], seg)
+        put(p + 'inheritRotation', b['inheritRotation'], seg)
+        put(p + 'inheritScale', b['inheritScale'], seg)
+    for n, sl in enumerate(d.get('slots', [])):
+        p = 'slots[%d].' % n
+        put(p + 'name', sl['name'], ['spine_read_slots'])
+        put(p + 'bone', sl['bone'], ['spine_read_slots'])
+        put(p + 'attachment', sl['attachment'], ['spine_read_slots'])
         for k in ('r', 'g', 'b', 'a'):
-            put(p + k, s[k])
-        put(p + 'blend', s['blend'])
-    for i, c in enumerate(d.get('ik', [])):
-        p = 'ik[%d].' % i
-        put(p + 'name', c['name'])
-        put(p + 'boneCount', c['boneCount'])
+            put(p + k, sl[k], ['spine_read_slots', 'spine_color'])
+        put(p + 'blend', sl['blend'], ['spine_read_slots'])
+    for n, c in enumerate(d.get('ik', [])):
+        p = 'ik[%d].' % n
+        seg = ['spine_read_ik']
+        put(p + 'name', c['name'], seg)
+        put(p + 'boneCount', c['boneCount'], seg)
         for j, v in enumerate(c['bones']):
-            put(p + 'bones[%d]' % j, v)
-        put(p + 'target', c['target'])
-        put(p + 'bendDirection', c['bendDirection'])
-        put(p + 'mix', c['mix'])
-    for i, c in enumerate(d.get('transform', [])):
-        p = 'transform[%d].' % i
-        put(p + 'name', c['name'])
-        put(p + 'boneCount', c['boneCount'])
+            put(p + 'bones[%d]' % j, v, seg)
+        put(p + 'target', c['target'], seg)
+        put(p + 'bendDirection', c['bendDirection'], seg)
+        put(p + 'mix', c['mix'], seg)
+    for n, c in enumerate(d.get('transform', [])):
+        p = 'transform[%d].' % n
+        seg = ['spine_read_transform']
+        put(p + 'name', c['name'], seg)
+        put(p + 'boneCount', c['boneCount'], seg)
         for j, v in enumerate(c['bones']):
-            put(p + 'bones[%d]' % j, v)
-        put(p + 'target', c['target'])
+            put(p + 'bones[%d]' % j, v, seg)
+        put(p + 'target', c['target'], seg)
         for k in ('rotateMix', 'translateMix', 'scaleMix', 'shearMix',
                   'rotation', 'x', 'y', 'scaleX', 'scaleY', 'shearY'):
-            put(p + k, c[k])
-    for i, c in enumerate(d.get('path', [])):
-        p = 'path[%d].' % i
-        put(p + 'name', c['name'])
-        put(p + 'boneCount', c['boneCount'])
+            put(p + k, c[k], seg)
+    for n, c in enumerate(d.get('path', [])):
+        p = 'path[%d].' % n
+        seg = ['spine_read_path']
+        put(p + 'name', c['name'], seg)
+        put(p + 'boneCount', c['boneCount'], seg)
         for j, v in enumerate(c['bones']):
-            put(p + 'bones[%d]' % j, v)
-        put(p + 'target', c['target'])
+            put(p + 'bones[%d]' % j, v, seg)
+        put(p + 'target', c['target'], seg)
         for k in ('positionMode', 'spacingMode', 'rotateMode', 'rotation',
                   'position', 'spacing', 'rotateMix', 'translateMix'):
-            put(p + k, c[k])
-    for i, sk in enumerate(d.get('skins', [])):
-        p = 'skins[%d].' % i
-        put(p + 'name', sk['name'])
-        put(p + 'entryCount', len(sk['entries']))
+            put(p + k, c[k], seg)
+    for n, sk in enumerate(d.get('skins', [])):
+        p = 'skins[%d].' % n
+        put(p + 'name', sk['name'], ['spine_read_skins'])
+        put(p + 'entryCount', len(sk['entries']),
+            ['spine_read_skins', 'spine_skins_glue'])
         for j, e in enumerate(sk['entries']):
             q = p + 'entries[%d].' % j
-            put(q + 'slot', e['slot'])
-            put(q + 'name', e['name'])
+            put(q + 'slot', e['slot'],
+                ['spine_read_skins', 'spine_skins_glue'])
+            put(q + 'name', e['name'],
+                ['spine_read_skins', 'spine_read_attach_dispatch',
+                 'spine_skins_glue'])
             a = e['attachment']
-            put(q + 'attachment.type', a['type'])
-            put(q + 'attachment.name', a['name'])
-            put(q + 'attachment.path', a['path'])
+            put(q + 'attachment.type', a['type'],
+                ['spine_read_attach_dispatch', 'spine_skins_glue'])
+            put(q + 'attachment.name', a['name'],
+                ['spine_read_attach_dispatch', 'spine_skins_glue'])
+            put(q + 'attachment.path', a['path'],
+                ['spine_read_attach_dispatch', 'spine_skins_glue'])
             if a['type'] == 0:
                 for k in ('x', 'y', 'scaleX', 'scaleY', 'rotation', 'width',
-                          'height', 'r', 'g', 'b', 'a'):
-                    put(q + 'attachment.' + k, a[k])
+                          'height'):
+                    put(q + 'attachment.' + k, a[k],
+                        ['spine_read_region', 'spine_skins_glue'])
+                for k in ('r', 'g', 'b', 'a'):
+                    put(q + 'attachment.' + k, a[k],
+                        ['spine_read_region', 'spine_color'])
                 for k, v in enumerate(a['region']):
-                    put(q + 'attachment.region[%d]' % k, v)
+                    put(q + 'attachment.region[%d]' % k, v, skin_segs)
                 for k, v in enumerate(a['offset']):
-                    put(q + 'attachment.offset[%d]' % k, v)
+                    put(q + 'attachment.offset[%d]' % k, v,
+                        ['spine_read_region'])
                 for k, v in enumerate(a['uvs']):
-                    put(q + 'attachment.uvs[%d]' % k, v)
+                    put(q + 'attachment.uvs[%d]' % k, v,
+                        ['spine_read_region'])
             elif a['type'] in (2, 3):
                 for k in ('boneCount', 'vertexFloatCount',
-                          'worldVerticesLength', 'triangleCount', 'hull',
-                          'u', 'v', 'u2', 'v2', 'r', 'g', 'b', 'a'):
-                    put(q + 'attachment.' + k, a[k])
+                          'worldVerticesLength', 'triangleCount', 'hull'):
+                    put(q + 'attachment.' + k, a[k],
+                        ['spine_read_mesh', 'spine_read_vertices',
+                         'spine_skins_glue'])
+                for k in ('u', 'v', 'u2', 'v2'):
+                    put(q + 'attachment.' + k, a[k], ['spine_read_mesh'])
+                for k in ('r', 'g', 'b', 'a'):
+                    put(q + 'attachment.' + k, a[k],
+                        ['spine_read_mesh', 'spine_color'])
                 for k, v in enumerate(a['vertices']):
-                    put(q + 'attachment.vertices[%d]' % k, v)
+                    put(q + 'attachment.vertices[%d]' % k, v,
+                        ['spine_read_vertices', 'spine_read_mesh'])
                 for k, v in enumerate(a['region']):
-                    put(q + 'attachment.region[%d]' % k, v)
+                    put(q + 'attachment.region[%d]' % k, v, skin_segs)
                 for k, v in enumerate(a['triangles']):
-                    put(q + 'attachment.triangles[%d]' % k, v)
+                    put(q + 'attachment.triangles[%d]' % k, v,
+                        ['spine_read_mesh'])
+                put(q + 'attachment.parentMesh', a.get('parentMesh', ''),
+                    ['spine_linked_postpass'])
             else:
                 for k in ('boneCount', 'vertexFloatCount',
                           'worldVerticesLength'):
-                    put(q + 'attachment.' + k, a[k])
+                    put(q + 'attachment.' + k, a[k],
+                        ['spine_read_vertices', 'spine_read_bbox_path',
+                         'spine_skins_glue'])
                 for k, v in enumerate(a['vertices']):
-                    put(q + 'attachment.vertices[%d]' % k, v)
+                    put(q + 'attachment.vertices[%d]' % k, v,
+                        ['spine_read_vertices', 'spine_read_bbox_path'])
                 for k, v in enumerate(a.get('flags', [])):
-                    put(q + 'attachment.flags[%d]' % k, v)
-    for i, e in enumerate(d.get('events', [])):
-        p = 'events[%d].' % i
-        put(p + 'name', e['name'])
-        put(p + 'intValue', e['intValue'])
-        put(p + 'floatValue', e['floatValue'])
-        put(p + 'stringValue', e['stringValue'])
-    for i, a in enumerate(d.get('animations', [])):
-        p = 'animations[%d].' % i
-        put(p + 'name', a['name'])
-        put(p + 'duration', a['duration'])
-        put(p + 'timelineCount', a['timelineCount'])
-        for j, t in enumerate(a['timelines']):
+                    put(q + 'attachment.flags[%d]' % k, v, skin_segs)
+    for n, e in enumerate(d.get('events', [])):
+        p = 'events[%d].' % n
+        seg = ['spine_read_animations']
+        put(p + 'name', e['name'], seg)
+        put(p + 'intValue', e['intValue'], seg)
+        put(p + 'floatValue', e['floatValue'], seg)
+        put(p + 'stringValue', e['stringValue'], seg)
+    for n, an in enumerate(d.get('animations', [])):
+        p = 'animations[%d].' % n
+        put(p + 'name', an['name'], ['spine_animations_loop',
+                                     'spine_read_animations'])
+        put(p + 'duration', an['duration'], SHARED_DURATION)
+        put(p + 'timelineCount', an['timelineCount'],
+            ['spine_read_animations', 'spine_animations_loop'])
+        for j, t in enumerate(an['timelines']):
             q = p + 'timelines[%d].' % j
-            put(q + 'type', t['type'])
-            put(q + 'frameCount', t['frameCount'])
-            put(q + 'frameFloatCount', t['frameFloatCount'])
-            put(q + 'index', t['index'])
-            if t['type'] == 6:
-                for k, fr in enumerate(t['frames']):
-                    put(q + 'frames[%d].time' % k, fr['time'])
-                    put(q + 'frames[%d].intValue' % k, fr['intValue'])
-                    put(q + 'frames[%d].floatValue' % k, fr['floatValue'])
-                    put(q + 'frames[%d].stringValue' % k, fr['stringValue'])
-            elif t['type'] == 5:
+            fam = TL_SEG.get(t['type'], 'spine_animations_loop')
+            put(q + 'type', t['type'],
+                ['spine_animations_loop', 'spine_read_tl_slots'])
+            put(q + 'frameCount', t['frameCount'], [fam, 'spine_animations_loop'])
+            put(q + 'frameFloatCount', t['frameFloatCount'], [fam])
+            put(q + 'index', t['index'], [fam])
+            if t['type'] == 5:
+                put(q + 'slotIndex', t.get('slotIndex', 0),
+                    ['spine_read_tl_slots'])
                 for k, v in enumerate(t.get('frames', [])):
-                    put(q + 'frames[%d]' % k, v)
+                    put(q + 'frames[%d]' % k, v, ['spine_read_tl_slots'])
                 for k, v in enumerate(t.get('names', [])):
-                    put(q + 'names[%d]' % k, v)
+                    put(q + 'names[%d]' % k, v, ['spine_read_tl_slots'])
+            elif t['type'] == 6:
+                for k, fr in enumerate(t['frames']):
+                    put(q + 'frames[%d].time' % k, fr['time'],
+                        ['spine_read_tl_event'])
+                    put(q + 'frames[%d].intValue' % k, fr['intValue'],
+                        ['spine_read_tl_event'])
+                    put(q + 'frames[%d].floatValue' % k, fr['floatValue'],
+                        ['spine_read_tl_event'])
+                    put(q + 'frames[%d].stringValue' % k, fr['stringValue'],
+                        ['spine_read_tl_event'])
+            elif t['type'] == 7:
+                put(q + 'slotsCount', t.get('slotsCount', 0),
+                    ['spine_read_tl_draworder'])
+                for k, fr in enumerate(t['frames']):
+                    put(q + 'frames[%d].time' % k, fr['time'],
+                        ['spine_read_tl_draworder'])
+                    for m, v in enumerate(fr['order']):
+                        put(q + 'frames[%d].order[%d]' % (k, m), v,
+                            ['spine_read_tl_draworder'])
+            elif t['type'] == 8:
+                put(q + 'vertexFloatCount', t.get('vertexFloatCount', 0),
+                    ['spine_read_tl_deform'])
+                for k, fr in enumerate(t['frames']):
+                    put(q + 'frames[%d].time' % k, fr['time'],
+                        ['spine_read_tl_deform'])
+                    for m, v in enumerate(fr['vertices']):
+                        put(q + 'frames[%d].vertices[%d]' % (k, m), v,
+                            ['spine_read_tl_deform'])
             else:
                 for k, v in enumerate(t.get('frames', [])):
-                    put(q + 'frames[%d]' % k, v)
+                    put(q + 'frames[%d]' % k, v, [fam])
                 for k, v in enumerate(t.get('curves', [])):
-                    put(q + 'curves[%d]' % k, v)
+                    put(q + 'curves[%d]' % k, v,
+                        ['spine_read_curve', fam])
     if d.get('error'):
-        put('error.is_null', d['error']['is_null'])
-        put('error.error', d['error']['error'])
-    return out
+        put('error.is_null', d['error']['is_null'],
+            ['spine_read_entry', 'spine_read_skeleton'])
+        put('error.error', d['error']['error'],
+            ['spine_read_entry', 'spine_read_skeleton', 'spine_json_error'])
+        put('error.root_dispose', d['error'].get('root_dispose', 0),
+            ['spine_read_entry', 'spine_read_skeleton'])
+    return out, attrs
 
 
 def field_float(field):
@@ -300,7 +401,8 @@ def describe(field, value):
     return value
 
 
-def diff_dicts(a, b):
+def diff_dicts(fa, a, fb, b):
+    """Diff two flattened arms; attribution comes from the emitting side."""
     fields = sorted(set(a) | set(b))
     diffs = []
     for f in fields:
@@ -311,7 +413,7 @@ def diff_dicts(a, b):
                 'original': describe(f, va) if va != '<absent>' else '<absent>',
                 'rebuild': describe(f, vb) if vb != '<absent>' else '<absent>',
                 'original_raw': va, 'rebuild_raw': vb,
-                'attribution': attribution(f),
+                'attribution': fb.get(f) or fa.get(f) or attribution(f),
             })
     return diffs
 
@@ -324,7 +426,7 @@ def build_c(variant, scale_bits, name, overrides=None):
     tmp = BUILD / 'tmp'
     tmp.mkdir(exist_ok=True)
     os.environ['TMPDIR'] = str(tmp)
-    (BUILD / 'level_a_tree.inc').write_text(model.emit_all())
+    (BUILD / 'level_a_tree.inc').write_text(trees.emit_all())
     sources = [p for p in chain_check.SOURCES if p.name != 'check.c']
     sources.append(MOD / 'fixture' / 'level_a_dump.c')
     if overrides:
@@ -332,11 +434,14 @@ def build_c(variant, scale_bits, name, overrides=None):
     includes = list(chain_check.INCLUDES) + [MOD / 'fixture', BUILD]
     flags = [f if f != '-Wl,-e,chain_start' else '-Wl,-e,level_a_start'
              for f in chain_check.FLAGS]
-    variant_id = list(model.VARIANTS).index(variant) + 1
+    variant_id = list(trees.VARIANTS).index(variant) + 1
     binary = BUILD / (name + '.arm')
-    argv = ['clang', *flags, '-O2',
-            '-DLEVEL_A_VARIANT=%d' % variant_id,
-            '-DLEVEL_A_SCALE_BITS=%du' % scale_bits,
+    defines = ['-DLEVEL_A_VARIANT=%d' % variant_id,
+               '-DLEVEL_A_SCALE_BITS=%du' % scale_bits]
+    if variant in trees.JSON_FAIL:
+        defines.append('-DLEVEL_A_JSON_FAIL=1')
+        defines.append('-DLEVEL_A_JSON_ERROR=%s' % json.dumps(trees.JSON_ERROR))
+    argv = ['clang', *flags, '-O2', *defines,
             *['-I' + str(i) for i in includes],
             *[str(s) for s in sources], '-o', str(binary)]
     p = subprocess.run(argv, capture_output=True, text=True)
@@ -358,10 +463,11 @@ def run_c(binary):
 # ----------------------------------------------------------------------
 # original arm
 # ----------------------------------------------------------------------
-def run_oracle(tree, scale):
+def run_oracle(tree, scale, json_fail=False, json_error=None):
     import level_a_oracle as oracle_mod
     o = oracle_mod.Oracle()
-    ret, error = o.run(model.flatten(tree), scale=scale)
+    ret, error = o.run(model.flatten(tree), scale=scale,
+                       json_fail=json_fail, json_error=json_error)
     d = dump.read_oracle(o, ret)
     if not ret:
         d['error']['error'] = error
@@ -370,7 +476,7 @@ def run_oracle(tree, scale):
 
 
 def oracle_dump_bytes(variant, scale):
-    tree = model.VARIANTS[variant]()
+    tree = trees.VARIANTS[variant]()
     d, _ = run_oracle(tree, scale)
     d['tree'] = d['tree'].hex()
     payload = json.dumps(d, sort_keys=True, ensure_ascii=False).encode()
@@ -381,8 +487,10 @@ def oracle_dump_bytes(variant, scale):
 # one variant run
 # ----------------------------------------------------------------------
 def run_variant(variant, scale, tag):
-    tree = model.VARIANTS[variant]()
-    orig, oracle = run_oracle(tree, scale)
+    tree = trees.VARIANTS[variant]()
+    jf = variant in trees.JSON_FAIL
+    orig, oracle = run_oracle(tree, scale, json_fail=jf,
+                              json_error=trees.JSON_ERROR if jf else None)
     sfx = '%s_s%s' % (variant, str(scale).replace('.', 'p'))
     binary = build_c(variant, struct.unpack('<I', struct.pack('<f', scale))[0],
                      sfx)
@@ -395,8 +503,9 @@ def run_variant(variant, scale, tag):
     py_tree_sha = hashlib.sha256(py_blob).hexdigest()
     c_tree_sha = hashlib.sha256(reb['tree']).hexdigest()
     node_join = hashlib.sha256('\n'.join(py_hashes).encode()).hexdigest()
-    fo, fr = flatten(orig), flatten(reb)
-    diffs = diff_dicts(fo, fr)
+    fo, fo_attr = flatten(orig)
+    fr, fr_attr = flatten(reb)
+    diffs = diff_dicts(fo_attr, fo, fr_attr, fr)
     return {
         'variant': variant, 'scale': scale, 'tag': tag,
         'binary_sha256': sha_file(binary),
@@ -455,12 +564,14 @@ def negative_broken_segment(scale):
     for name, rel, old, new, segment in specs:
         src, mutated = mutation_source(rel, old, new)
         try:
-            variant = model.VARIANTS['main']()
+            variant = trees.VARIANTS['main']()
             orig, _ = run_oracle(variant, scale)
             binary = build_c('main', struct.unpack('<I', struct.pack('<f', scale))[0],
                              name, overrides={src: mutated})
             reb = dump.parse_binary(run_c(binary))
-            diffs = diff_dicts(flatten(orig), flatten(reb))
+            of_, oa = flatten(orig)
+            rf, ra = flatten(reb)
+            diffs = diff_dicts(oa, of_, ra, rf)
             hit = [d for d in diffs if segment in d['attribution']]
             ok = bool(diffs) and bool(hit)
             results.append({'name': name, 'segment': segment,
@@ -474,14 +585,16 @@ def negative_broken_segment(scale):
 
 
 def negative_input_perturbation(scale):
-    base_o, _ = run_oracle(model.VARIANTS['main'](), scale)
+    base_o, _ = run_oracle(trees.VARIANTS['main'](), scale)
     base_r = dump.parse_binary(run_c(build_c(
         'main', struct.unpack('<I', struct.pack('<f', scale))[0], 'pert_base')))
-    pert_o, _ = run_oracle(model.VARIANTS['perturb'](), scale)
+    pert_o, _ = run_oracle(trees.VARIANTS['perturb'](), scale)
     pert_r = dump.parse_binary(run_c(build_c(
         'perturb', struct.unpack('<I', struct.pack('<f', scale))[0], 'pert_new')))
-    fo, fr = flatten(base_o), flatten(base_r)
-    po, pr = flatten(pert_o), flatten(pert_r)
+    fo, _ = flatten(base_o)
+    fr, _ = flatten(base_r)
+    po, _ = flatten(pert_o)
+    pr, _ = flatten(pert_r)
     changed_o = sorted(set(fo) | set(po))
     changed_o = [f for f in changed_o if fo.get(f, '<absent>') != po.get(f, '<absent>')]
     changed_r = sorted(set(fr) | set(pr))
@@ -515,7 +628,7 @@ def main():
     ap.add_argument('--run', action='store_true')
     ap.add_argument('--oracle-dump', action='store_true')
     ap.add_argument('--oracle-archive')
-    ap.add_argument('--variant', default='main', choices=list(model.VARIANTS))
+    ap.add_argument('--variant', default='main', choices=list(trees.VARIANTS))
     ap.add_argument('--scale', type=float, default=2.0)
     ap.add_argument('--out', type=pathlib.Path)
     ns = ap.parse_args()

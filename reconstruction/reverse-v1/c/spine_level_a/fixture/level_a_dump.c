@@ -28,8 +28,13 @@
 #undef _start
 
 /* The chain's dispose path frees far more than the mesh fixture's 256-entry
- * observation roster allows; the Level A fixture does not observe frees. */
-void free(void* p) { (void)p; }
+ * observation roster allows, so this fixture keeps only the one free the
+ * Level A contract needs to see: whether Json_dispose(ROOT) ran.  free() is the
+ * default slot of c/spine_alloc's _free, so Json_dispose's _free(node) lands
+ * here. */
+static void* la_root_pointer;
+static uint32_t la_root_frees;
+void free(void* p) { if (p && p == la_root_pointer) ++la_root_frees; }
 
 #include "spine_read_skeleton.h"
 #include "spine_read_entry.h"
@@ -534,8 +539,9 @@ typedef struct la_att_tl {
     uint32_t type;
     uint32_t vtable;
     int32_t frameCount;
-    float* times;
-    char** names;
+    float* times;       /* +0x0c one time float per frame */
+    int32_t slotIndex;  /* +0x10 written by B5 (spAttachmentTimelineShape) */
+    char** names;       /* +0x14 attachment-name table */
 } la_att_tl;
 
 void* spAttachmentTimeline_create(int frameCount)
@@ -588,15 +594,22 @@ void spEventTimeline_setFrame(void* timeline, int frameIndex, void* event)
     _free(old);                     /* 0x282d34..0x282d3c frees the old slot */
 }
 
-/* Draw-order and deform records are declared boundaries, not driven here. */
-void* spDrawOrderTimeline_create(int frameCount)
+/*
+ * DrawOrder record, 24 B, layout taken from 0x282d4c (see
+ * c/spine_read_tl_draworder/src/spine_read_tl_draworder.h):
+ *   +0x00 type 7, +0x04 vtable, +0x08 frameCount, +0x0c times,
+ *   +0x10 drawOrders (one owned int* per frame), +0x14 slotsCount.
+ * setFrame keeps a COPY of the caller's array (0x282ddc: free old, malloc
+ * slotsCount*4, memcpy), which is why the reader frees its own array.
+ */
+void* spDrawOrderTimeline_create(int frameCount, int slotsCount)
 {
     uint32_t* t = (uint32_t*)la_zero(24);
     t[0] = 7u; t[1] = (uint32_t)(uintptr_t)la_tl_vtable;
     t[2] = (uint32_t)frameCount;
     t[3] = (uint32_t)(uintptr_t)la_zero((uint32_t)frameCount * 4u);
     t[4] = (uint32_t)(uintptr_t)la_zero((uint32_t)frameCount * 4u);
-    t[5] = (uint32_t)(uintptr_t)la_zero((uint32_t)frameCount * 4u);
+    t[5] = (uint32_t)slotsCount;
     return t;
 }
 void spDrawOrderTimeline_setFrame(void* timeline, int frameIndex, float time,
@@ -604,18 +617,33 @@ void spDrawOrderTimeline_setFrame(void* timeline, int frameIndex, float time,
 {
     uint32_t* t = (uint32_t*)timeline;
     float* times = (float*)t[3];
+    int32_t** orders = (int32_t**)t[4];
+    uint32_t slots = t[5];
     times[frameIndex] = time;
-    (void)drawOrder;
+    _free(orders[frameIndex]);            /* 0x282df8 frees the old slot */
+    if (!drawOrder) { orders[frameIndex] = 0; return; }
+    int32_t* copy = (int32_t*)_malloc(slots * 4u, LEVEL_A_TAG, 690u);
+    for (uint32_t k = 0; k < slots; ++k) copy[k] = drawOrder[k];
+    orders[frameIndex] = copy;
 }
+
+/*
+ * Deform record, 36 B, layout taken from 0x282e58 (see
+ * c/spine_read_tl_deform/src/spine_read_tl_deform.h): +0x00 type 8,
+ * +0x04 vtable, +0x08 curves ((frameCount-1)*19), +0x0c frameCount,
+ * +0x10 times, +0x14 vertexFloatCount (create's 2nd argument),
+ * +0x18 vertices (one owned float* per frame).
+ */
 void* spDeformTimeline_create(int frameCount, int vertexCount)
 {
-    uint32_t* t = (uint32_t*)la_zero(28);
+    uint32_t* t = (uint32_t*)la_zero(36);
+    uint32_t curve_floats = (uint32_t)((frameCount - 1) * 19);
     t[0] = 8u; t[1] = (uint32_t)(uintptr_t)la_tl_vtable;
-    t[2] = (uint32_t)frameCount;
+    t[2] = (uint32_t)(uintptr_t)la_zero(curve_floats * 4u);
     t[3] = (uint32_t)frameCount;
     t[4] = (uint32_t)(uintptr_t)la_zero((uint32_t)frameCount * 4u);
     t[5] = (uint32_t)vertexCount;
-    t[6] = (uint32_t)(uintptr_t)la_zero((uint32_t)frameCount * 16u);
+    t[6] = (uint32_t)(uintptr_t)la_zero((uint32_t)frameCount * 4u);
     return t;
 }
 void spDeformTimeline_setFrame(void* timeline, int frameIndex, float time,
@@ -623,8 +651,14 @@ void spDeformTimeline_setFrame(void* timeline, int frameIndex, float time,
 {
     uint32_t* t = (uint32_t*)timeline;
     float* times = (float*)t[4];
+    float** table = (float**)t[6];
+    uint32_t count = t[5];
     times[frameIndex] = time;
-    (void)vertices;
+    _free(table[frameIndex]);             /* 0x282f14/1c frees the old slot */
+    if (!vertices) { table[frameIndex] = 0; return; }
+    float* copy = (float*)_malloc(count * 4u, LEVEL_A_TAG, 799u);
+    for (uint32_t k = 0; k < count; ++k) copy[k] = vertices[k];
+    table[frameIndex] = copy;
 }
 
 typedef struct la_event_data {
@@ -680,11 +714,18 @@ Json* Json_create(const char* text)
 {
     (void)text;
     ++la_json_create_calls;
+#if LEVEL_A_JSON_FAIL
+    return 0;                     /* the parser failed: entry reports and bails */
+#else
     readSkeletonData_rootSlot = la_tree;
     return la_tree;
+#endif
 }
 
-const char* Json_getError(void) { return "parse failed at 1"; }
+#ifndef LEVEL_A_JSON_ERROR
+#define LEVEL_A_JSON_ERROR "parse failed at 1"
+#endif
+const char* Json_getError(void) { return LEVEL_A_JSON_ERROR; }
 
 char* _setlocale(int category, const char* locale)
 {
@@ -952,6 +993,10 @@ static void la_dump_attachment(const void* a)
         const uint16_t* tri = (const uint16_t*)vp(a, 0x64);
         for (uint32_t k = 0; k < tri_count && k < 12u; ++k) la_u16(tri[k]);
         la_u32(lw(a, 0x78));
+        /* +0x7c parentMesh (set only by the linkedmesh postpass); dumped as the
+         * parent's name so the link survives the heap-address gap. */
+        const void* parent_mesh = vp(a, 0x7c);
+        la_str(parent_mesh ? *(const char* const*)parent_mesh : 0);
     } else {
         uint32_t float_count = lw(a, 0x18);
         la_u32(lw(a, 0x10));
@@ -1035,14 +1080,41 @@ static void la_dump_animations(const spSkeletonData* d)
             int step = la_timeline_step(type);
             int32_t frame_count;
             if (type == 5u) frame_count = li(t, 0x08);
-            else if (type == 6u || type == 7u || type == 8u) frame_count = li(t, 0x08);
+            else if (type == 6u || type == 7u) frame_count = li(t, 0x08);
+            else if (type == 8u) frame_count = li(t, 0x0c);   /* deform +0x0c */
             else frame_count = step ? (int32_t)((uint32_t)ffc / (uint32_t)step) : 0;
             la_u32(type);
             la_u32((uint32_t)frame_count);
-            la_u32((type == 5u || type == 6u) ? 0u : (uint32_t)ffc);
+            la_u32((type >= 5u && type <= 8u) ? 0u : (uint32_t)ffc);  /* only attachment/event/drawOrder/deform lack the curve-timeline ffc; 9..13 DO have it */
             la_i32((type == 5u || type == 6u || type == 7u || type == 8u)
                    ? 0 : li(t, 0x14));
-            if (step) {
+            if (type == 7u) {
+                /* drawOrder: +0x14 slotsCount, +0x0c times, +0x10 one int* per
+                 * frame (setFrame keeps its own copy). */
+                int32_t slots = li(t, 0x14);
+                la_i32(slots);
+                const float* dtimes = (const float*)vp(t, 0x0c);
+                void** orders = (void**)(uintptr_t)lw(t, 0x10);
+                for (int32_t q = 0; q < frame_count; ++q) {
+                    const int32_t* order = orders ? (const int32_t*)orders[q] : 0;
+                    la_u32(lw(dtimes, (unsigned)q * 4));
+                    for (int32_t k = 0; k < slots; ++k)
+                        la_i32(order ? order[k] : 0x7fffffff);
+                }
+            } else if (type == 8u) {
+                /* deform: +0x14 vertexFloatCount, +0x10 times, +0x18 one
+                 * float* per frame. */
+                int32_t vcount = li(t, 0x14);
+                la_i32(vcount);
+                const float* vtimes = (const float*)vp(t, 0x10);
+                void** table = (void**)(uintptr_t)lw(t, 0x18);
+                for (int32_t q = 0; q < frame_count; ++q) {
+                    const float* verts = table ? (const float*)table[q] : 0;
+                    la_u32(lw(vtimes, (unsigned)q * 4));
+                    for (int32_t k = 0; k < vcount; ++k)
+                        la_u32(verts ? lw(verts, (unsigned)k * 4) : 0x7fffffff);
+                }
+            } else if (step) {
                 const float* frames = (const float*)vp(t, 0x10);
                 for (int32_t q = 0; q < ffc; ++q) la_u32(lw(frames, (unsigned)q * 4));
                 const float* curves = (const float*)vp(t, 0x08);
@@ -1052,6 +1124,7 @@ static void la_dump_animations(const spSkeletonData* d)
             } else if (type == 5u) {
                 const float* times = (const float*)vp(t, 0x0c);
                 char** names = (char**)vp(t, 0x14);
+                la_i32(li(t, 0x10));            /* slotIndex written by B5 */
                 for (int32_t q = 0; q < frame_count; ++q) {
                     la_u32(lw(times, (unsigned)q * 4));
                     la_str(names[q]);
@@ -1083,15 +1156,25 @@ static void la_dump_animations(const spSkeletonData* d)
 /* ================================================================== */
 /* entry                                                               */
 /* ================================================================== */
+static void la_mark(const char* s)
+{
+    size_t n = 0; while (s[n]) ++n;
+    sys3(4, 2, (long)(uintptr_t)s, (long)n);
+}
+
 void level_a_start(void)
 {
     test = "level_a";
     init_heap();
     fixture_install_error_reporter();
+    la_mark("m0 init\n");
     la_tl_vtable[0] = 0u;
     la_tl_vtable[1] = (uint32_t)(uintptr_t)la_tl_dispose;
 
+    la_mark("m1 pre-build\n");
     la_tree = build_level_a_tree();
+    la_root_pointer = la_tree;      /* free() counts only this pointer */
+    la_mark("m2 tree-built\n");
     la_u8(T_TREE);
     la_dump_tree_node(la_tree);
 
@@ -1104,24 +1187,36 @@ void level_a_start(void)
     la_loader_vtable.createAttachment = la_loader_create;
     la_loader_vtable.configureAttachment = la_loader_configure;
 
+    la_mark("m3 pre-chain\n");
     la_data = spSkeletonJson_readSkeletonData(&la_self, "{}");
+    la_mark("m4 chain-done\n");
     if (la_data) {
         la_dump_meta(la_data);
+        la_mark("m5 meta\n");
         la_dump_bones(la_data);
+        la_mark("m6 bones\n");
         la_dump_slots(la_data);
+        la_mark("m7 slots\n");
         la_dump_ik(la_data);
+        la_mark("m8 ik\n");
         la_dump_transform(la_data);
+        la_mark("m9 transform\n");
         la_dump_path(la_data);
+        la_mark("m10 path\n");
         la_dump_skins(la_data);
+        la_mark("m11 skins\n");
         la_dump_events(la_data);
+        la_mark("m12 events\n");
         la_dump_animations(la_data);
+        la_mark("m13 anims\n");
     }
     la_u8(T_ERROR);
     la_u32(la_data ? 0u : 1u);
     la_str((const char*)(uintptr_t)la_self.error);
     la_str(la_reported);
     la_u32((uint32_t)la_json_create_calls);
-    la_u32(la_report_count);
+    la_u32((uint32_t)la_report_count);
+    la_u32(la_root_frees);          /* Json_dispose(ROOT) count: 1 released, 0 leak */
     la_u8(T_END);
 
     sys3(4, 1, (long)(uintptr_t)la_obuf, (long)la_on);

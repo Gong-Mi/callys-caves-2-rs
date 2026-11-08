@@ -37,7 +37,12 @@ class N:
 
 
 def obj(key, *nodes):
-    n = N(key, kind=1)
+    # The REAL Json parser sets unk_0c = member count on OBJECT nodes too
+    # (the B4 timelineCount sums depend on it: they read per-bone/per-slot/
+    # per-constraint OBJECT children's +0xc as the per-entry timeline count;
+    # the original library would overflow its own arrays on every real
+    # skeleton otherwise). Staged trees must reproduce that invariant.
+    n = N(key, kind=1, declared=len(nodes))
     n.kids = list(nodes)
     return n
 
@@ -70,91 +75,6 @@ def jcurve(vals=(0.125, 0.25, 0.375, 0.5)):
 
 def jstepped():
     return N('curve', s='stepped', kind=4)
-
-
-def main_tree(parent='root', drop_last_translate=False, anim_name='walk'):
-    root = N(None)
-    sk = obj('skeleton', s('hash', 'abc123'), s('spine', '3.8.99'),
-             f('width', 100.0), f('height', 200.0))
-    b0 = obj('b0', s('name', 'root'), f('length', 10.0), f('x', 1.0), f('y', 2.0),
-             f('rotation', 30.0), f('scaleX', 2.0), f('scaleY', 3.0),
-             f('shearX', 4.0), f('shearY', 5.0),
-             i('inheritRotation', 0), i('inheritScale', 0))
-    b1 = obj('b1', s('name', 'arm'), s('parent', parent), f('length', 5.0))
-    b2 = obj('b2', s('name', 'hand'), s('parent', 'arm'))
-    bones = arr('bones', [b0, b1, b2])
-    slot = obj('slotA', s('bone', 'root'), s('name', 'slotA'),
-               s('color', 'ff000080'), s('attachment', 'reg'), s('blend', 'additive'))
-    slots = arr('slots', [slot])
-    ik = arr('ik', [obj('ik0', s('name', 'ikCon'),
-                        arr('bones', [s(None, 'root'), s(None, 'arm')]),
-                        s('target', 'arm'), i('bendPositive', 0), f('mix', 0.5))])
-    tr = arr('transform', [obj('t0', s('name', 'tCon'),
-                               arr('bones', [s(None, 'hand')]),
-                               s('target', 'arm'), f('rotation', 5.0),
-                               f('x', 1.0), f('y', 2.0), f('scaleX', 2.0),
-                               f('scaleY', 3.0), f('shearY', 4.0),
-                               f('rotateMix', 0.25), f('translateMix', 0.5),
-                               f('scaleMix', 0.75), f('shearMix', 0.125))])
-    path = arr('path', [obj('p0', s('name', 'pCon'),
-                            arr('bones', [s(None, 'root')]),
-                            s('target', 'slotA'), s('positionMode', 'fixed'),
-                            s('spacingMode', 'fixed'), s('rotateMode', 'chain'),
-                            f('rotation', 0.0), f('position', 3.0),
-                            f('spacing', 4.0), f('rotateMix', 0.5),
-                            f('translateMix', 0.25))])
-    reg = obj('reg', s('name', 'reg'), s('path', 'asset'), s('type', 'region'),
-              f('x', 1.0), f('y', 2.0), f('scaleX', 1.0), f('scaleY', 1.0),
-              f('rotation', 0.0), f('width', 10.0), f('height', 20.0),
-              s('color', 'ffffffff'))
-    mesh = obj('meshA', s('name', 'meshA'), s('type', 'mesh'),
-               s('color', '80ff00ff'), f('width', 8.0), f('height', 8.0),
-               arr('triangles', [N(None, i=0, kind=3), N(None, i=1, kind=3),
-                                 N(None, i=2, kind=3)], 3),
-               arr('uvs', [N(None, f=f32bits(v), kind=2)
-                           for v in (0.0, 0.0, 1.0, 0.0, 0.0, 1.0)], 6),
-               arr('vertices', [N(None, f=f32bits(v), kind=2)
-                                for v in (0.0, 0.0, 1.0, 1.0, 2.0, 2.0)], 6),
-               i('hull', 3))
-    skin_slot = obj('slotA', reg, mesh)
-    skins = arr('skins', [obj('default', skin_slot)])
-    ev = arr('events', [obj('step', i('int', 3), f('float', 1.5),
-                            s('string', 'snd'))])
-    # rotate: frame 0 array curve, frame 1 stepped (index 1 is inside the
-    # (frameCount-1)*19 array for three frames), frame 2 plain.
-    rot = arr('rotate', [
-        frame(f('time', 0.25), f('angle', 30.0), jcurve()),
-        frame(f('time', 0.5), f('angle', 60.0), jstepped()),
-        frame(f('time', 0.75), f('angle', 90.0))])
-    trn_frames = [frame(f('time', 0.375), f('x', 1.0), f('y', 2.0)),
-                  frame(f('time', 0.625), f('x', 3.0), f('y', 4.0))]
-    if drop_last_translate:
-        trn_frames = trn_frames[:1]
-    trn = arr('translate', trn_frames)
-    arm = arr('arm', [rot, trn])
-    anim_bones = arr('bones', [arm])
-    anim_ev = arr('events', [frame(s('name', 'step'), f('time', 0.8))])
-    anim = obj(anim_name, anim_bones, anim_ev)
-    anims = arr('animations', [anim])
-    root.kids = [sk, bones, slots, ik, tr, path, skins, ev, anims]
-    return root
-
-
-def error_tree():
-    """Same shape, one parent key names a bone that does not exist."""
-    return main_tree(parent='forearm')
-
-
-def perturb_tree():
-    """Input perturbation: one timeline frame removed, animation renamed."""
-    return main_tree(drop_last_translate=True, anim_name='walk2')
-
-
-VARIANTS = {
-    'main': main_tree,
-    'err_parent': error_tree,
-    'perturb': perturb_tree,
-}
 
 
 def flatten(root):
@@ -236,12 +156,3 @@ def emit_c(root, func='build_level_a_tree'):
     lines.append('    return n0;')
     lines.append('}')
     return '\n'.join(lines) + '\n'
-
-
-def emit_all():
-    out = []
-    for name, fn in VARIANTS.items():
-        out.append('#if LEVEL_A_VARIANT == %d' % (list(VARIANTS).index(name) + 1))
-        out.append(emit_c(fn()))
-        out.append('#endif')
-    return '\n'.join(out) + '\n'

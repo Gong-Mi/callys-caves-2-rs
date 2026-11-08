@@ -202,16 +202,35 @@ def parse_binary(blob, trace=None):
                     t = {'type': r.u32(), 'frameCount': r.u32(),
                          'frameFloatCount': r.u32(), 'index': r.i32()}
                     if t['type'] == 5:
-                        t['frames'] = [r.u32() for _ in range(t['frameCount'])]
-                        t['names'] = [r.s() for _ in range(t['frameCount'])]
+                        # fixture emits per frame: time(u32) + name(str),
+                        # interleaved (la_dump_animations type-5 branch)
+                        t['slotIndex'] = r.i32()
+                        t['frames'] = []
+                        t['names'] = []
+                        for _ in range(t['frameCount']):
+                            t['frames'].append(r.u32())
+                            t['names'].append(r.s())
+                    elif t['type'] == 7:
+                        t['slotsCount'] = r.i32()
+                        t['frames'] = []
+                        for _ in range(t['frameCount']):
+                            t['frames'].append({
+                                'time': r.u32(),
+                                'order': [r.i32() for _ in range(t['slotsCount'])]})
+                    elif t['type'] == 8:
+                        t['vertexFloatCount'] = r.i32()
+                        t['frames'] = []
+                        for _ in range(t['frameCount']):
+                            t['frames'].append({
+                                'time': r.u32(),
+                                'vertices': [r.u32() for _ in
+                                             range(t['vertexFloatCount'])]})
                     elif t['type'] == 6:
                         t['frames'] = []
                         for _ in range(t['frameCount']):
                             t['frames'].append({
                                 'time': r.u32(), 'intValue': r.i32(),
                                 'floatValue': r.u32(), 'stringValue': r.s()})
-                    elif t['type'] in (7, 8):
-                        t['frames'] = []
                     else:
                         t['frames'] = [r.u32() for _ in range(t['frameFloatCount'])]
                         cn = max(0, (t['frameCount'] - 1) * 19)
@@ -220,7 +239,8 @@ def parse_binary(blob, trace=None):
                 out['animations'].append(a)
         elif tag == T_ERROR:
             out['error'] = {'is_null': r.u32(), 'error': r.s(), 'reported': r.s(),
-                            'json_create_calls': r.u32(), 'report_calls': r.u32()}
+                            'json_create_calls': r.u32(), 'report_calls': r.u32(),
+                            'root_dispose': r.u32()}
         else:
             raise ValueError('unknown tag %#x at %d' % (tag, r.p))
     return out
@@ -249,6 +269,7 @@ def _read_attachment(r):
         a['triangleCount'] = r.u32()
         a['triangles'] = [r.u16() for _ in range(min(a['triangleCount'], 12))]
         a['hull'] = r.u32()
+        a['parentMesh'] = r.s()
     else:
         a['boneCount'] = r.u32()
         a['vertexFloatCount'] = r.u32()
@@ -283,7 +304,8 @@ def read_oracle(oracle, ret):
     if not ret:
         errp = u32(oracle.selfptr + 8)
         out['error'] = {'is_null': 1, 'error': cstr(errp), 'reported': '',
-                        'json_create_calls': 0, 'report_calls': 0}
+                        'json_create_calls': 0, 'report_calls': 0,
+                        'root_dispose': oracle.root_disposes}
         return out
     words = [u32(ret + 4 * k) for k in range(21)]
     out['meta'] = {'words': words, 'spine': cstr(words[0]),
@@ -379,17 +401,16 @@ def read_oracle(oracle, ret):
         for j in range(anim['timelineCount']):
             t = ptr(tl + 4 * j)
             typ = u32(t)
-            ffc = i32(t + 0xc)
             step = _STEP.get(typ, 0)
-            if typ == 5:
+            ffc = 0 if 5 <= typ <= 8 else i32(t + 0xc)
+            if typ == 5 or typ == 6 or typ == 7:
                 fc = i32(t + 8)
-            elif typ in (6, 7, 8):
-                fc = i32(t + 8)
+            elif typ == 8:
+                fc = i32(t + 0xc)          # deform: +0x0c frameCount, not ffc
             else:
                 fc = ffc // step if step else 0
-            item = {'type': typ, 'frameCount': fc,
-                    'frameFloatCount': 0 if typ in (5, 6) else ffc,
-                    'index': 0 if typ in (5, 6, 7, 8) else i32(t + 0x14)}
+            item = {'type': typ, 'frameCount': fc, 'frameFloatCount': ffc,
+                    'index': 0 if 5 <= typ <= 8 else i32(t + 0x14)}
             if step:
                 frames = ptr(t + 0x10)
                 item['frames'] = [u32(frames + 4 * q) for q in range(ffc)]
@@ -399,8 +420,33 @@ def read_oracle(oracle, ret):
             elif typ == 5:
                 times = ptr(t + 0xc)
                 names = ptr(t + 0x14)
+                item['slotIndex'] = i32(t + 0x10)
                 item['frames'] = [u32(times + 4 * q) for q in range(fc)]
                 item['names'] = [cstr(u32(names + 4 * q)) for q in range(fc)]
+            elif typ == 7:
+                slots = i32(t + 0x14)
+                dtimes = ptr(t + 0xc)
+                orders = ptr(t + 0x10)
+                item['slotsCount'] = slots
+                item['frames'] = []
+                for q in range(fc):
+                    o = ptr(orders + 4 * q) if orders else 0
+                    item['frames'].append({
+                        'time': u32(dtimes + 4 * q),
+                        'order': [i32(o + 4 * k) if o else 0x7fffffff
+                                  for k in range(slots)]})
+            elif typ == 8:
+                vcount = i32(t + 0x14)
+                vtimes = ptr(t + 0x10)
+                table = ptr(t + 0x18)
+                item['vertexFloatCount'] = vcount
+                item['frames'] = []
+                for q in range(fc):
+                    vp = ptr(table + 4 * q) if table else 0
+                    item['frames'].append({
+                        'time': u32(vtimes + 4 * q),
+                        'vertices': [u32(vp + 4 * k) if vp else 0x7fffffff
+                                     for k in range(vcount)]})
             elif typ == 6:
                 times = ptr(t + 0xc)
                 events = ptr(t + 0x10)
@@ -422,7 +468,8 @@ def read_oracle(oracle, ret):
         out['animations'].append(anim)
     errp = u32(oracle.selfptr + 8)
     out['error'] = {'is_null': 0, 'error': cstr(errp), 'reported': '',
-                    'json_create_calls': 0, 'report_calls': 0}
+                    'json_create_calls': 0, 'report_calls': 0,
+                    'root_dispose': oracle.root_disposes}
     return out
 
 
@@ -466,6 +513,8 @@ def _read_attachment_mem(uc, a, u32, i32, cstr):
         out['triangles'] = [struct.unpack('<H', bytes(uc.mem_read(tp + 2 * k, 2)))[0]
                             for k in range(min(out['triangleCount'], 12))]
         out['hull'] = u32(a + 0x78)
+        pm = u32(a + 0x7c)
+        out['parentMesh'] = cstr(u32(pm)) if pm else ''
     else:
         out['boneCount'] = u32(a + 0x10)
         out['vertexFloatCount'] = u32(a + 0x18)
