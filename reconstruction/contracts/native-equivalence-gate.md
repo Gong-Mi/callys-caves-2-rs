@@ -29,10 +29,12 @@
   合成 Json 树输入。
 
 ### 输入合同
-- 同一份合成 skeleton JSON（覆盖 bones 父子/slots+blend+color/ik/transform/
-  path/skins+region+mesh 附件/animation 全家族时间线+curve 数组与 stepped+
-  event）；**BINDING v1**：输入树逐节点 sha、两端二进制 sha、原件 sha
-  （3bbedd09…）钉进回执。
+- **输入形态钉死**：同一棵**合成 Json 树**（32B 节点，先例 mesh 夹具的
+  node/add/string 形状）。原版臂 **hook `Json_create` 返回内存里铺好的同一棵
+  树**（precise_oracle 的 hook 风格——不依赖原版 Json 解析器，也不引入
+  字符串序列化往返差）；重建臂的 entry 边界直接拿同一棵树。**"同输入"=
+  两侧字面上同一棵树**，BINDING v1 记逐节点 sha、两侧二进制 sha、原件 sha
+  （3bbedd09…）。
 - 合成 creator（spBoneData_create 等）在重建臂按已证 ABI 建真结构；原版臂
   用原件自己的 creator——**两侧对拍的是 spSkeletonData 的终态**，不是中间
   creator 调用序列。
@@ -50,7 +52,9 @@ timeline 计数/每条 timeline 的帧数与帧值位型（time/mix/angle/x/y/cu
 ### 负控（证明门被消费）
 1. 打坏重建臂任一段的语义常量（如 blend 映射/帧步长/duration 极性）→
    diff 必须**非零且能定位到该段**（差异报告按 spSkeletonData 字段分组，
-   字段→段的归属表写进工具）。
+   字段→段的归属表写进工具）。**多段共写字段（duration、错误路径下的
+   count 等）允许"多段并列归属"**——定位要求放宽为"差异组命中至少一个
+   归属段"；单段独占字段（如 slots 数组、blendMode）必须唯一定位。
 2. 输入扰动（改一个键/删一条时间线）→ 两侧 diff 必须同步变化（证明两侧
    真在读同一输入，不是各自空转）。
 3. 原版臂只跑一次并落存档（内存 oracle 不可重入的先例：`CENSUS_UNNAMED_THUMB`
