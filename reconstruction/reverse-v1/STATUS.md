@@ -1,6 +1,20 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：bones/ik 时间线家族已恢复，下一步 transform/path
+## 当前断点：transform/path 时间线已恢复，下一步 deform/drawOrder
+
+`c/spine_read_tl_transform/`（子代理 I，父代理复跑 RESULT PASS）：5 个 mix 键
+每帧无条件全读（缺键默认 time 0.0f/mix 1.0f）；扫描与 ik 同构但命中岛行内；
+setFrame **7 实参（3 走栈）**、帧距 5；**B12 无任何错误路径**（父代理扫 bl
+目标核实）。4 配置×14 测试、14 变异。
+
+`c/spine_read_tl_path/`（子代理 J，父代理复跑 RESULT PASS）：**B13 只做
+position/spacing**（mix 归 B17，普查标题修正）；**值键=timelineNode->name
+非字面量**；**path 有判空+错误路径**（"Path constraint not found: "，open #6
+不能外推）；扫描结果进共享栈槽、timeline+0x14 **无条件写→miss 带 stale
+index**（与 ik/transform 最大差异）；scale 选择不对称（spacing bls 无符号，
+mode=-1 不缩放）；B13 两岛落在 B15/B17 地址区间。4 配置×18 测试、15 变异。
+回执 `tl_transform_check-20261108T114620.json` / `tl_path_check-20261108T120113.json`。
+见 `reconstruction/contracts/native-animations.md` 第五批节。原件未执行。
 
 `c/spine_read_tl_bones/`（子代理 G，父代理复跑 RESULT PASS）：B6 分派链
 rotate→translate→scale→shear；**骨索引来自独立符号 findBoneIndex@0x28b018**

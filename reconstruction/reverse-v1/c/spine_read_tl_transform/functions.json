@@ -1,0 +1,124 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_transform",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_transformTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28dca8-0x28de74 (B12, 460 B / 115 insns; the whole transform family, including the scan and the frame loop, is one contiguous block)",
+      "translation_source": "src/spine_read_tl_transform.c",
+      "abi": {
+        "signature": "int readSkeletonData_transformTimelines(Json* transformMap, void* data_raw, void* animation_raw)",
+        "transformMap": "the \"transform\" JSON child. Parent B3 caches the eight root members and stores this one at [sp+0x38] (0x28d35c); B12 loads it at 0x28dca8 and reloads it at 0x28dcb4.",
+        "data_raw": "spSkeletonData* (parent spill [sp+0x18], reloaded at 0x28dd04 and 0x28dd1c)",
+        "animation_raw": "spAnimation* (parent r11; the tail reads +0x04 duration, +0x08 timelineCount, +0x0c timelines)",
+        "return": "always 1: every exit (0x28dcb0, 0x28dcc0 and the 0x28de70 fall-through) lands on the path block B13 at 0x28de74. There is no error path in this family."
+      },
+      "semantics": "transformMap == NULL -> 0x28de74 (0x28dca8 ldr / 0x28dcb0 beq). Otherwise constraintNode = transformMap->child (0x28dcb8); NULL -> 0x28de74 (0x28dcc0 beq). Then the five key literals are materialised once outside the loop (0x28dcc4..0x28dcfc: [sp+0x2c] = \"time\", [sp+0x30] = \"rotateMix\", [sp+0x34] = \"translateMix\", [sp+0x38] = \"scaleMix\", [sp+0x3c] = \"shearMix\"; the last store overwrites the transformMap slot after its final read). Per constraint node (head 0x28dd00, back edge 0x28de70): name = node->name@+0x1c (0x28dd00), transform = spSkeletonData_findTransformConstraint(data, name) (0x28dd08, result moved to r4 at 0x28dd0c and NEVER null-tested), timeline = spTransformConstraintTimeline_create(node->unk_0c) (0x28dd10/0x28dd14), then the index scan (readSkeletonData_transformConstraintIndex, 0x28dd1c..0x28dd68) and the frame loop (readSkeletonData_transformTimelineFrames, 0x28dd68..0x28de24), then the tail: animation->timelineCount++ with timelines[count] = timeline (0x28de3c..0x28de48), next = node->next (0x28de50), last = frames[(declared-1)*5] (0x28de38/0x28de44/0x28de58), animation->duration = max(duration, last) (0x28de5c..0x28de6c), loop while next != NULL (0x28de68/0x28de70).",
+      "keys": ["time", "rotateMix", "translateMix", "scaleMix", "shearMix"],
+      "key_literals": {
+        "time": {"va": "0x34c1d4", "pool_word": "0x28ea98", "add_site": "0x28dccc", "spill": "[sp+0x2c] at 0x28dcd4", "consumed": "0x28dd80 -> Json_getFloat at 0x28dd8c, default 0.0f (0x28dd84 mov r2,#0)"},
+        "rotateMix": {"va": "0x357cc0", "pool_word": "0x28ea9c", "add_site": "0x28dcd8", "spill": "[sp+0x30] at 0x28dcec", "consumed": "0x28dd90 -> Json_getFloat at 0x28dda0, default 1.0f (0x28dd94 mov r2,#1065353216)"},
+        "translateMix": {"va": "0x357ccc", "pool_word": "0x28eaa0", "add_site": "0x28dce0", "spill": "[sp+0x34] at 0x28dcf4", "consumed": "0x28dda4 -> Json_getFloat at 0x28ddb4, default 1.0f (0x28dda8)"},
+        "scaleMix": {"va": "0x357cdc", "pool_word": "0x28eaa4", "add_site": "0x28dce8", "spill": "[sp+0x38] at 0x28dcf8", "consumed": "0x28ddb8 -> Json_getFloat at 0x28ddc8, default 1.0f (0x28ddbc)"},
+        "shearMix": {"va": "0x357ce8", "pool_word": "0x28eaa8", "add_site": "0x28dcf0", "spill": "[sp+0x3c] at 0x28dcfc", "consumed": "0x28ddcc -> Json_getFloat at 0x28dddc, default 1.0f (0x28ddd0)"}
+      },
+      "field_offsets": {
+        "spSkeletonData.transformConstraintsCount": "+0x44 (0x28dd20; findTransformConstraint 0x28b29c; signed guard 0x28b2a0/0x28b2a4)",
+        "spSkeletonData.transformConstraints": "+0x48 (0x28dd2c; findTransformConstraint 0x28b2a8)",
+        "spTransformConstraintTimeline.curves": "+0x08 (readCurve target; _spCurveTimeline_init 0x281710)",
+        "spTransformConstraintTimeline.frameFloatCount": "+0x0c = frameCount*5 (0x282a60 mul r0,r7,r5 with r7=5; 0x282a70 str)",
+        "spTransformConstraintTimeline.frames": "+0x10, five floats per frame (0x28de4c; setFrame body 0x282fd4)",
+        "spTransformConstraintTimeline.constraintIndex": "+0x14; the only writer in this family is 0x28dd64 (word 0xe5863014, identical to the ik family's 0x28dbcc)",
+        "spAnimation.duration": "+0x04 (0x28de2c vldr s14,[r11,#4]; 0x28de6c vstr s15,[r11,#4])",
+        "spAnimation.timelineCount": "+0x08 (0x28de30 / 0x28de40)",
+        "spAnimation.timelines": "+0x0c (0x28de34 / 0x28de48 str r6,[r1,r3,lsl#2])"
+      },
+      "setframe_abi": {
+        "signature": "void spTransformConstraintTimeline_setFrame(void* timeline, int frameIndex, float time, float rotateMix, float translateMix, float scaleMix, float shearMix)",
+        "call_site_arg_order": "0x28dde0 r1=frameIndex, 0x28dde4 r2=time, 0x28dde8 r3=rotateMix, 0x28ddec [sp]=translateMix, 0x28ddf0 [sp+4]=scaleMix, 0x28ddf4 [sp+8]=shearMix, 0x28ddf8 r0=timeline",
+        "store_order": "0x282fd0 add r1,r1,r1,lsl#2 (i*5); 0x282fd4 ldr r0,[r0,#0x10] (frames); 0x282fd8 add r12,r1,#1; 0x282fe0 add r1,r0,r1,lsl#2 (&frames[i*5]); 0x282ff4 str r2,[r1] (time); 0x283000 str r3,[r0] (rotateMix); 0x282ff8 str r5,[r0,#4] (translateMix); 0x282ffc str r4,[r0,#8] (scaleMix); 0x283004 str r12,[r0,#0xc] (shearMix)"
+      },
+      "tail": {
+        "frame_stride": "5 floats: create 0x282fc0 mov r2,#5; setFrame 0x282fd0 add r1,r1,r1,lsl#2; tail 0x28de38 sub r2,r2,#1 + 0x28de44 add r2,r2,r2,lsl#2 + 0x28de54 add r3,r3,r2,lsl#2",
+        "order": "the next-pointer load (0x28de50) sits between the frames load (0x28de4c) and the duration compare (0x28de5c); the next-pointer test (0x28de68) comes AFTER the duration store (0x28de6c), so the store is unconditional on the last iteration",
+        "declared_wrap": "(declared-1) is computed in 32-bit unsigned arithmetic, so declared == 0 wraps to 0xffffffff*5; the original would index far outside the frames array"
+      },
+      "quirks": [
+        "No NULL test on the findTransformConstraint result: 0x28dd0c mov r4,r0 is followed directly by 0x28dd10 ldr r0,[r5,#0xc] and the create call.",
+        "No error branch exists anywhere in B12 - no _spSkeletonJson_setError call site and no spAnimation_dispose/spSkeletonData_dispose call site, which is why the whole family is 460 bytes with a single exit to 0x28de74.",
+        "The frame loop follows the child list (0x28dd7c head, 0x28de20 back edge on r4 != NULL), not the declared count from Json+0x0c; only the create call and the duration index use the declared count.",
+        "The transform node loop follows transform->child / node->next, so a \"transform\" object with a single child runs the whole scan+frames+tail exactly once.",
+        "r5 is reused as the translateMix scratch register inside the frame loop (0x28ddc0 mov r5,r0), so the constraint node survives in r12 ([sp+0x14] spill at 0x28dd88, reload 0x28de18, restore 0x28de24). A no-frames node never executes movne r12,r5 and reaches the tail with r5 still the node.",
+        "All five key reads happen every frame (no key-presence test): an absent key yields the Json_getFloat default, which is 0.0f for time and 1.0f for the four mix keys."
+      ]
+    },
+    {
+      "name": "readSkeletonData_transformConstraintIndex",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28dd1c-0x28dd68 (scan; the hit store 0x28dd64 is in-line, unlike the ik family's out-of-line island 0x28dbc8/0x28dbcc)",
+      "translation_source": "src/spine_read_tl_transform.c",
+      "abi": {
+        "signature": "int readSkeletonData_transformConstraintIndex(void* data_raw, void* transform_raw, void* timeline_raw)",
+        "data_raw": "spSkeletonData* (reloaded at 0x28dd1c)",
+        "transform_raw": "the findTransformConstraint result (r4), possibly NULL",
+        "timeline_raw": "the timeline just created (r6)",
+        "return": "reconstruction artefact only: 1 = wrote +0x14, 0 = fell through without writing. Both original exits go to 0x28dd68 and the driver ignores it."
+      },
+      "instruction_walk": [
+        "0x28dd20 ldr r1,[r0,#0x44]  count snapshot (read once, never re-read)",
+        "0x28dd24 cmp r1,#0 ; 0x28dd28 ble 0x28dd68  SIGNED count <= 0 skips the scan and never reads +0x48",
+        "0x28dd2c ldr r2,[r0,#0x48]  array base",
+        "0x28dd30 ldr r3,[r2]        element 0 (r3 is reused as the element register)",
+        "0x28dd34 cmp r4,r3 ; 0x28dd38 movne r3,#0 ; 0x28dd3c bne 0x28dd50",
+        "0x28dd40 b 0x28dd60         element-0 hit -> clear r3 -> store",
+        "0x28dd60 mov r3,#0 ; 0x28dd64 str r3,[r6,#0x14]",
+        "0x28dd44 ldr r0,[r2,#0x4]!  pre-index writeback: r2 += 4, element re-read from memory",
+        "0x28dd48 cmp r4,r0 ; 0x28dd4c beq 0x28dd64  hit at index r3",
+        "0x28dd50 add r3,r3,#1 ; 0x28dd54 cmp r3,r1 ; 0x28dd58 bne 0x28dd44  equality against the snapshot, not blt",
+        "0x28dd5c b 0x28dd68         miss -> frame load, +0x14 untouched"
+      ],
+      "consequences": [
+        "A hit at element 0 stores 0; a hit at element i stores i.",
+        "A miss stores nothing: +0x14 keeps the create-time value (calloc zero in the original; SENTINEL in the fixture).",
+        "count <= 0 (including negative) skips the scan; the +0x48 array word is never read, so it may be NULL.",
+        "A NULL lookup result compares equal to a NULL vector slot; otherwise it simply misses."
+      ]
+    },
+    {
+      "name": "readSkeletonData_transformTimelineFrames",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28dd68-0x28de24 (frame list walk; head 0x28dd7c, back edge 0x28de20)",
+      "translation_source": "src/spine_read_tl_transform.c",
+      "abi": {
+        "signature": "void readSkeletonData_transformTimelineFrames(Json* constraintNode, void* timeline_raw)",
+        "constraintNode": "the per-constraint JSON node whose +0x1c is the member key and whose +0x0c is the declared frame count; its child list holds the frame objects",
+        "timeline_raw": "the spTransformConstraintTimeline* just created",
+        "return": "void"
+      },
+      "argument_registers": {
+        "time": "r9 (0x28dd98 mov r9,r0)",
+        "rotateMix": "r8 (0x28ddac mov r8,r0)",
+        "translateMix": "r5 (0x28ddc0 mov r5,r0; r5 was the constraint node, preserved in r12)",
+        "scaleMix": "r10 (0x28ddd4 mov r10,r0)",
+        "shearMix": "r0 passed straight to the stack slot at 0x28ddf4"
+      },
+      "frame_index": "r7 starts at 0 only when the child list is non-empty (0x28dd70 movne r7,#0) and is incremented after readCurve (0x28de14 add r7,r7,#1)",
+      "readcurve_call": "0x28de00 mov r0,r4 (frame) ; 0x28de04 mov r2,r7 (frameIndex) ; 0x28de08 mov r1,r6 (timeline) ; 0x28de0c bl 0x28b34c"
+    }
+  ],
+  "differences_vs_ik_precedent": [
+    "Frame stride is 5 floats per frame (time + four mix keys), not 3: create 0x282fc0 mov r2,#5 and tail 0x28de44 add r2,r2,r2,lsl#2.",
+    "The +0x14 hit store is in-line at 0x28dd64 and shares its word (0xe5863014) with the ik store 0x28dbcc, but transform's index-0 clear sits at 0x28dd60 immediately before the store instead of in a separate out-of-line island.",
+    "The scan reads count from +0x44 and the array from +0x48 (ik: +0x3c/+0x40).",
+    "setFrame takes seven arguments (three on the stack: translateMix, scaleMix, shearMix); ik's takes five (one stack word).",
+    "The frame loop needs r12/[sp+0x14] to preserve the constraint node because r5 is reused as the translateMix scratch register; ik's frame loop used r5 for its frame pointer and r4 for the node.",
+    "No error path: B12 contains no setError/dispose call site, matching the census statement that the segment has no \"Transform constraint not found\" literal."
+  ]
+}

@@ -173,6 +173,44 @@ path-position、0x28e2a8 deform、0x28e9b0 path-mix）。
 
 回执：`tl_bones_check-20261108T113000.json` / `tl_ik_check-20261108T112242.json`。
 
+## 第五批：transform 时间线（B12）+ path 时间线（B13，与 B17 分界实测）
+
+**transform**（`c/spine_read_tl_transform/`，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×14 测试、14 变异、3 拒绝门）：
+
+- B12（0x28dca8..0x28de74）：5 键（time/rotateMix/translateMix/scaleMix/
+  shearMix）**每帧无条件全读**，缺键用默认（time→0.0f、四个 mix→1.0f）。
+- 指针扫描与 ik 同构（count 快照 +0x44、ble 有符号、前索引写回、首命中
+  行内 store `0x28dd64=0xe5863014`、未命中不写），但**命中岛在行内**非离岛。
+- **setFrame 7 实参**：r1=idx/r2=time/r3=rotateMix，translate/scale/shear
+  三参走栈（父代理核对 0x28ddec/0x28ddf0/0x28ddf4 三条 str）；体内
+  `frames[i*5+0..4]`；**帧距 5 浮点**；create type=10。
+- **B12 无任何错误路径**（父代理扫全区间 bl 目标：create/setFrame/
+  getFloat/findTransformConstraint/readCurve 五类，无 setError）——bones 的
+  json 实参三形态先例在此不适用。
+
+**path**（`c/spine_read_tl_path/`，子代理施工、父代理复跑 `RESULT PASS`，
+4 配置×18 测试、15 变异、4 拒绝门含"spacing setFrame 非调用点"负控门）：
+
+- **B13 只做 position/spacing 两路分派**——`0x28e538 bne 0x28e8ec` 把其余
+  子键整个交给 B17；**普查 §6 标题的 mix 不在 B13**（mix 字面量唯一读者
+  是 B17 的 0x28e8f0）。**值键不是字面量**：`timelineNode->name(+0x1c)`
+  直接当值键（同一循环体服务 position 与 spacing）。
+- **path 有判空与错误路径**（0x28dee0 `subs` + "Path constraint not found: "
+  @0x357f10）——**普查 open #6（不判空）不能外推到 path**。
+- 扫描结果写**共享栈槽 [sp,#0x2c]**（0x28df2c），不是 timeline；timeline
+  的 `+0x14` 在 0x28df94 **无条件写**（连无帧分支也写）→ **miss 会把上一
+  约束的索引带进来（stale-index）**——与 ik/transform 最大差异。
+- scale 选择不对称：position `mode!=0→1.0f / ==0→parser->scale`；spacing
+  `(uint)mode<=1→scale`（**bls 无符号，mode=-1 不缩放**）/否则 1.0f。
+- setFrame 4 参、`frames[i*2]`、帧距 2、create type 11/12。
+- **B13 两个岛落在别块地址区间**（0x28e52c..0x28e558 在 B15 区间、
+  0x28ea74..0x28ea7c 在 B17 区间）——按岛翻译不重复计数。
+- B17 首两条反直觉（`strcmp(name,"mix")` 后 **beq 跳过**——名字恰是
+  "mix" 反而不建 mix 时间线）：只记字节，留 B17 批定因。
+
+回执：`tl_transform_check-20261108T114620.json` / `tl_path_check-20261108T120113.json`。
+
 ## 合成边界与欠账（累计）
 
 - 合成边界：`spEventData_create@0x285b94`（本体未恢复）、

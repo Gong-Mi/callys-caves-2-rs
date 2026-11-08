@@ -1,0 +1,277 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_path",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_pathTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28de74-0x28e060 (B13, 492 B / 123 insns) + islands 0x28e52c-0x28e558 (spacing dispatch/create/mode select) and 0x28ea74-0x28ea7c (spacing scale)",
+      "translation_source": "src/spine_read_tl_path.c",
+      "abi": {
+        "signature": "int readSkeletonData_pathTimelines(Json* paths_map, Json* animation_json, void* data_raw, void* animation_raw, void* parser_raw)",
+        "paths_map": "the \"paths\" JSON child. Parent B3 caches the eight root members and stores this one at [sp+0x44] (0x28d370); B13 loads it at 0x28de74 and 0x28de80, then REUSES that slot for the second \"spacing\" literal (0x28decc).",
+        "animation_json": "the current animation JSON object (parent [sp+0x1c], set at 0x28d2c8 to animations->child). Only the E7 error path consumes it, as the setError json argument (0x28ea60 ldr r1,[sp,#0x1c]).",
+        "data_raw": "spSkeletonData* (parent [sp+0x18], reloaded at 0x28ded4 / 0x28dee8)",
+        "animation_raw": "spAnimation* (parent r11; the tail reads +0x04 duration, +0x08 timelineCount, +0x0c timelines)",
+        "parser_raw": "spSkeletonJson* (parent [sp+0x20], stored at 0x28d314; +0x00 scale loaded by 0x28df84 and 0x28ea78)",
+        "return": "PATH_TL_REACHED_DEFORM 1 (0x28de7c / 0x28de8c / 0x28e05c fall-through to the deform block), PATH_TL_ERROR 0 (0x28e4/0x28ea48 -> 0x28da44 -> the loader returns NULL), PATH_TL_HANDOFF_MIX 2 (0x28e538 bne 0x28e8ec, which B17 owns)."
+      },
+      "semantics": "paths_map == NULL -> deform (0x28de74..0x28de7c); pathNode = paths_map->child, NULL -> deform (0x28de84..0x28de8c). The five key literals are materialised ONCE outside the loop (0x28de90..0x28ded0) and the index cell [sp+0x2c] is cleared ONCE (0x28de94 mov r0,#0 ; 0x28dea0 str r0,[sp,#0x2c]). Per path node (head 0x28ded4, back edge 0x28e05c): pc = spSkeletonData_findPathConstraint(data, pathNode->name) (0x28dedc), NULL -> E7 (0x28dee0 subs r9,r0,#0 ; 0x28dee4 beq 0x28ea48); the pointer scan (readSkeletonData_pathConstraintIndex) updates the cell; timelineNode = pathNode->child (0x28df30). Per timeline node (head 0x28df3c, back edge 0x28e050): strcmp(name,\"position\") (0x28df48) -> position branch, else strcmp(name,\"spacing\") at 0x28e530 (reached through 0x28df54 bne 0x28e52c) -> spacing branch, else B17 handoff (0x28e538 bne 0x28e8ec). Both branches create their timeline and resolve a scale multiplier, then share the prologue 0x28df88 (frames = node->child, index cell loaded, +0x14 stored UNCONDITIONALLY at 0x28df94), the frame loop 0x28dfa4..0x28e00c and the tail 0x28e010..0x28e050: animation->timelineCount++ with timelines[count] = timeline (0x28e01c..0x28e028), last = frames[(declared-1)*2] (0x28e024/0x28e030/0x28e034), duration = max(duration,last) (0x28e038..0x28e044), timelineNode = timelineNode->next (0x28e048). After the inner loop pathNode = pathNode->next (0x28e054).",
+      "keys": [
+        "position",
+        "spacing",
+        "time"
+      ],
+      "key_literals": {
+        "position": {
+          "va": "0x357d80",
+          "pool_word": "0x28eaac",
+          "add_site": "0x28de9c",
+          "role": "spilled to [sp+0x38] at 0x28dea4, consumed by strcmp at 0x28df48"
+        },
+        "time": {
+          "va": "0x34c1d4",
+          "pool_word": "0x28eab0",
+          "add_site": "0x28dea8",
+          "role": "spilled to [sp+0x3c] at 0x28dec0, consumed by Json_getFloat at 0x28dfb4"
+        },
+        "spacing": {
+          "va": "0x357d8c",
+          "pool_word": "0x28eab4",
+          "add_site": "0x28deb8",
+          "role": "copy 1, spilled to [sp+0x40] at 0x28dec8, consumed by strcmp at 0x28df5c"
+        },
+        "spacing_2": {
+          "va": "0x357d8c",
+          "pool_word": "0x28eab8",
+          "add_site": "0x28debc",
+          "role": "copy 2, spilled to [sp+0x44] at 0x28decc, consumed by strcmp at 0x28e530 — the compiler duplicated the compare for the two dispatch entry points"
+        },
+        "mix": {
+          "va": "0x357c98",
+          "pool_word": "0x28eabc",
+          "add_site": "0x28dec4",
+          "role": "spilled to [sp+0x48] at 0x28ded0; read ONLY by B17 at 0x28e8f0 — B13 never compares against it"
+        },
+        "value_key": {
+          "note": "the per-frame value key is NOT a literal: 0x28dfb8 mov r1,r6 passes timelineNode->name (+0x1c) to Json_getFloat, so a position timeline reads \"position\" and a spacing timeline reads \"spacing\" through the same code (0x28dfb8..0x28dfc8)"
+        }
+      },
+      "field_offsets": {
+        "spSkeletonData.pathConstraintsCount": "+0x4c (0x28deec; spSkeletonData_findPathConstraint 0x28b2f8; the record is calloc(1,84,tag,37) at 0x28ade4, so these are its last two words)",
+        "spSkeletonData.pathConstraints": "+0x50 (0x28def8; findPathConstraint 0x28b304)",
+        "spPathConstraintData.positionMode": "+0x10 (0x28df70; cross-checked against c/spine_read_path's parse at 0x28c414: fixed=0, percent=1, JSON default \"percent\")",
+        "spPathConstraintData.spacingMode": "+0x14 (0x28e544; c/spine_read_path 0x28c464: length=0, fixed=1, percent=2, default \"length\")",
+        "spSkeletonJson.scale": "+0x00 binary32 (0x28df84 and 0x28ea78 vldr s16,[parser]; spSkeletonJson_createWithLoader writes 0x3f800000 at 0x28b728)",
+        "spPathConstraintTimeline.frames": "+0x10, TWO floats per frame (0x28e02c, 0x28302c)",
+        "spPathConstraintTimeline.frameFloatCount": "+0x0c = frameCount*2 (0x282a70)",
+        "spPathConstraintTimeline.pathConstraintIndex": "+0x14 (0x28df94 — the only writer; unconditional)",
+        "spAnimation.duration": "+0x04 (0x28e014 vldr s14,[r11,#4]; 0x28e044 vstr s15,[r11,#4])",
+        "spAnimation.timelineCount": "+0x08 (0x28e010 / 0x28e020)",
+        "spAnimation.timelines": "+0x0c (0x28e018 / 0x28e028 str r8,[r1,r3,lsl#2])"
+      },
+      "pointer_scan_structure": {
+        "count_snapshot": "0x28deec ldr r1,[r2,#0x4c] — read once per path node, compared every iteration at 0x28df20",
+        "array_reload": "0x28def8 ldr r2,[r2,#0x50] once for the base; elements re-loaded with 0x28df10 ldr r0,[r2,#0x4]! (pre-index writeback)",
+        "compare": "pointer equality only (0x28df00 / 0x28df14 cmp r9,·); the lookup result IS null-tested first (0x28dee0) — unlike ik/transform",
+        "signedness": "0x28def4 ble, so count < 0 takes the skip path exactly like count == 0; the +0x50 word is not loaded on that path",
+        "hit_store": "0x28df2c str r3,[sp,#0x2c] — writes the SHARED STACK CELL, not the timeline; r3 is 0 for an element-0 hit (0x28df04 mov r3,#0) and the loop index otherwise",
+        "miss_exit": "0x28df28 b 0x28df30 — no store, so the cell keeps whatever the previous path node left there",
+        "timeline_store": "0x28df8c ldr r2,[sp,#0x2c] ; 0x28df94 str r2,[r8,#0x14] — executed for EVERY created path timeline, before the frame-count test (0x28df90 cmp / 0x28dfa0 beq), so no path from this block leaves +0x14 at its create-time value",
+        "carry_over": "the cell is initialised ONCE (0x28dea0) outside the path loop: constraint k's miss stores constraint k-1's index (0 for the first). This is the sharpest difference from ik (0x28dbcc, hit-only) and transform (0x28dd64, hit-only)."
+      },
+      "frame_loop": {
+        "head": "0x28dfa4, back edge 0x28e008 bne (follows frame->next, not the declared count)",
+        "reads": [
+          "time = Json_getFloat(frame,\"time\",0.0f) 0x28dfb4",
+          "value = Json_getFloat(frame, timelineNode->name, 0.0f) 0x28dfc8"
+        ],
+        "multiplier": "0x28dfdc vmul.f32 s15,s14,s16 — value * scale, executed even when the scale is exactly 1.0f",
+        "call": "spPathConstraintPositionTimeline_setFrame(timeline, frameIndex, time, value*scale) 0x28dfe4; readCurve(frame, timeline, frameIndex) 0x28dff4",
+        "node_spill": "r4 is reused for the time bits at 0x28dfc0, so the timeline node is spilled to [sp+0x14] at 0x28dfb0 and reloaded at 0x28e000 / restored to r4 at 0x28e00c — the tail's [r4,#0xc] and [r4] therefore still see the node"
+      },
+      "setframe_abi": {
+        "signature": "spPathConstraintPositionTimeline_setFrame(void* timeline, int frameIndex, float time, float value)",
+        "registers": "r0 = timeline, r1 = frameIndex, r2 = time bits, r3 = value bits",
+        "store_shape": "0x283028 ldr r0,[r0,#0x10] ; 0x28302c add r12,r0,r1,lsl#3 ; 0x283030 str r2,[r12] -> frames[i*2+0] = time ; 0x283034 str r3,[r12,#0x4] -> frames[i*2+1] = value",
+        "call_target": "0x28dfe4 bl 0x283028 is the family's ONLY setFrame call, taken by the position AND the spacing branch. spPathConstraintSpacingTimeline_setFrame (0x283054, 20 B) has a byte-identical body (e5900010 e080c181 e58c2000 e58c3004 e12fff1e) but is never called; the fixture does not define it and the checker's fourth compile guard proves a reconstruction that calls it cannot link."
+      },
+      "create_abi": {
+        "position": "0x283010: mov r1,#11 (type word) / mov r2,#2 (frame step) / b _spBaseTimeline_create(count,11,2,tag)",
+        "spacing": "0x28303c: mov r1,#12 / mov r2,#2 / b _spBaseTimeline_create(count,12,2,tag)",
+        "base": "_spBaseTimeline_create 0x282a10: _calloc(1,24,tag,233), _spCurveTimeline_init(t,type,count,tag), +0x0c = count*step, +0x10 = _calloc(count*step,4); no store to +0x14"
+      },
+      "tail": {
+        "frame_stride": "2 floats: 0x28e024 ldr r2,[r4,#0xc] ; 0x28e030 add r3,r3,r2,lsl#3 (declared*8 bytes) ; 0x28e034 vldr s15,[r3,#-8] -> frames[(declared-1)*2]",
+        "declared_vs_child": "the loop follows the child list; the create call and the duration index both use the declared count from Json+0x0c, so declared=3 with one child reads frames[4] (never written, = 0)",
+        "max_semantics": "vcmpe/vmrs + vmovgt.f32: duration is replaced only when strictly greater, so a NaN last frame keeps the old duration",
+        "order": "timelines[count] is stored (0x28e028) before the frames load (0x28e02c) and the node advance (0x28e048) sits between the frames load and the duration compare"
+      },
+      "quirks": [
+        "The index scan writes a STACK CELL ([sp+0x2c]) and the timeline store happens later and unconditionally (0x28df94). A scan miss therefore stores the previous constraint's index into the new timeline — for the first constraint that is 0, which is also the create-time value, so only the 2nd..nth constraint reveals the difference. The fixture pins this with scan_index_carries.",
+        "The scan's element-0 hit needs no store island (unlike ik's 0x28dbc8): 0x28df04 mov r3,#0 is shared by the miss path, so 0x28df0c can branch straight to 0x28df2c.",
+        "The dispatch contains THREE strcmp calls but only TWO names: 0x28df48 (\"position\"), 0x28df5c (\"spacing\", only reachable on the position fall-through) and 0x28e530 (\"spacing\" again, reachable when the first compare failed). Two separate \"spacing\" literals are materialised at 0x28deb8 and 0x28debc because of that duplication.",
+        "The value key is the timeline node's own name (0x28dfb8 mov r1,r6), so there is no second key literal for the value: the same instruction sequence serves \"position\" and \"spacing\".",
+        "0x28dfe4 calls the POSITION setFrame for the spacing family too; the spacing twin 0x283054 is dead code in this build.",
+        "B13 has a real NULL test (0x28dee0) and a real error block (E7, \"Path constraint not found: \"), unlike ik (0x28d888) and transform, neither of which tests the lookup result and neither of which has a message in §5.4's table.",
+        "The scale multiply is unconditional: even the 1.0f arm (0x28e554) feeds a vmul at 0x28dfdc, so a value of -0.0 stays -0.0 through the multiply (0xbf800000*1.0 = 0xbf800000) but a signalling NaN payload could be quieted — the fixture only asserts the arithmetic cases.",
+        "declared == 0 makes the tail index frames[(0-1)*2] = frames[-2] in 32-bit wrap arithmetic; the fixture never drives that (same restriction as the ik module)."
+      ]
+    },
+    {
+      "name": "readSkeletonData_pathConstraintIndex",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28dee8-0x28df30 (scan; the hit store 0x28df2c is inline, no out-of-line island)",
+      "translation_source": "src/spine_read_tl_path.c",
+      "abi": {
+        "signature": "int readSkeletonData_pathConstraintIndex(void* data_raw, void* pc_raw, int32_t* index_cell)",
+        "index_cell": "models [sp+0x2c]; IN/OUT. The driver initialises it once before the path loop, exactly like 0x28dea0.",
+        "return": "reconstruction artefact only: 1 = cell updated, 0 = fell through. Both original exits go to 0x28df30 and the driver ignores the value."
+      },
+      "semantics": "count = data->pathConstraintsCount (0x28deec, snapshot). count <= 0 (signed ble at 0x28def4) -> return without touching the cell or reading +0x50. Otherwise array = data->pathConstraints (0x28def8); element 0 is compared first (0x28df00) and a hit stores 0 (0x28df04 clears r3, 0x28df0c -> 0x28df2c). The walk increments index first (0x28df1c), compares it against the count snapshot (0x28df20 bne = equality only) and only then re-loads array[index] with the pre-increment write-back (0x28df10); a hit stores that index (0x28df18 -> 0x28df2c). Running out of count returns without a store.",
+      "quirks": [
+        "A hit on the LAST element is still stored because the increment/compare happens after the successful compare.",
+        "count > 0 with a NULL array dereferences NULL at 0x28df00 (original behaviour, not driven by the fixture)."
+      ]
+    },
+    {
+      "name": "readSkeletonData_pathPositionScale / readSkeletonData_pathSpacingScale",
+      "kind": "caller_block_not_original_function",
+      "address_range": "position 0x28df70-0x28df84 (+0x28e554); spacing 0x28e544-0x28e550 (+0x28ea74-0x28ea7c and 0x28e554)",
+      "translation_source": "src/spine_read_tl_path.c",
+      "abi": {
+        "signature": "float readSkeletonData_pathPositionScale(const void* parser_raw, const void* pc_raw); float readSkeletonData_pathSpacingScale(const void* parser_raw, const void* pc_raw)",
+        "return": "the s16 multiplier consumed at 0x28dfdc"
+      },
+      "semantics": "position: positionMode != 0 (0x28df74 / 0x28df7c bne) -> 1.0f (0x28e554); == 0 -> parser->scale (0x28df80/0x28df84). spacing: (uint32_t)spacingMode <= 1 (0x28e548 cmp / 0x28e550 bls, UNSIGNED) -> parser->scale (0x28ea74/0x28ea78); otherwise 1.0f (0x28e554).",
+      "quirks": [
+        "The spacing test only needs one comparison because the two arms are only 0x24 apart; the fall-through at 0x28e554 is the 1.0f arm and 0x28e558 branches back to the shared prologue at 0x28df88.",
+        "Because `bls` is unsigned, a negative spacingMode (e.g. -1) is > 1 and takes the 1.0f arm; a signed `ble` would have scaled it. The fixture's spacing_mode_matrix pins mode -1."
+      ]
+    },
+    {
+      "name": "readSkeletonData_pathTimelineFrames",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28dfa4-0x28e00c (54 insns of B13's 123)",
+      "translation_source": "src/spine_read_tl_path.c",
+      "abi": {
+        "signature": "void readSkeletonData_pathTimelineFrames(Json* timelineNode, void* timeline_raw, float scale)",
+        "timelineNode": "the sub-timeline JSON object (r4); its +0x04 child is the first frame and its +0x1c name is the per-frame value key",
+        "timeline_raw": "the timeline created for this node (r8), handed to setFrame and readCurve",
+        "calls": [
+          "Json_getFloat(frame,\"time\",0.0f)                0x287444 (real) 0x28dfb4",
+          "Json_getFloat(frame,timelineNode->name,0.0f)       0x287444 (real) 0x28dfc8",
+          "spPathConstraintPositionTimeline_setFrame(t,i,time,value*scale) 0x283028 (synthetic) 0x28dfe4",
+          "readCurve(frame,t,i)                              0x28b34c (real, anonymous) 0x28dff4"
+        ]
+      },
+      "semantics": "frame = timelineNode->child; NULL skips the whole loop (0x28dfa0 beq 0x28e010 on the caller side). Per frame: time (0x28dfb4), value via the node name (0x28dfc8), scaled at 0x28dfdc, setFrame (0x28dfe4), readCurve (0x28dff4), frame = frame->next (0x28dff8), frameIndex++ (0x28dffc), loop while frame != NULL (0x28e008)."
+    },
+    {
+      "name": "readSkeletonData_pathConstraintNotFound",
+      "kind": "error_block_not_original_function",
+      "address_range": "0x28ea48-0x28ea70 + shared tail 0x28da44-0x28da50",
+      "translation_source": "src/spine_read_tl_path.c",
+      "abi": {
+        "signature": "int readSkeletonData_pathConstraintNotFound(Json* pathNode, Json* animationJson, void* data_raw, void* animation_raw, void* parser_raw)",
+        "return": "PATH_TL_ERROR (0): 0x28da4c mov r0,#0 ; 0x28da50 b 0x28bdcc"
+      },
+      "semantics": "spAnimation_dispose(animation) (0x28ea54) -> _spSkeletonJson_setError(parser, animationJson, \"Path constraint not found: \", pathNode->name) (0x28ea58..0x28ea6c) -> spSkeletonData_dispose(data) (0x28da48) -> return NULL.",
+      "json_argument": "0x28ea60 ldr r1,[sp+0x1c] = the CURRENT ANIMATION NODE (0x28d2c8 stored animations->child there). Read from this block, not assumed: the bones family uses the same shape, the slot family uses the root/NULL forms."
+    }
+  ],
+  "layout_additions": {
+    "spSkeletonData": "+0x4c int32 pathConstraintsCount, +0x50 void** pathConstraints (84 B record from calloc(1,84,tag,37) at 0x28ade4; corroborated by spSkeletonData_findPathConstraint 0x28b2f8/0x28b304; ik uses +0x3c/+0x40 and transform +0x44/+0x48, so the path pair are the record's last two words)",
+    "spPathConstraintData": "+0x10 int32 positionMode, +0x14 int32 spacingMode (88 B record from spPathConstraintData_create 0x288edc; the two offsets and enum spellings are corroborated by c/spine_read_path's recovered parse at 0x28c414/0x28c464)",
+    "spPathConstraintTimeline": "24 B: +0x00 type, +0x04 vtable object, +0x08 float* curves ((frameCount-1)*19), +0x0c frameFloatCount (frameCount*2), +0x10 float* frames (2 floats per frame), +0x14 int32 pathConstraintIndex",
+    "spAnimation": "+0x04 float duration, +0x08 int32 timelineCount, +0x0c void** timelines",
+    "spSkeletonJson": "+0x00 binary32 scale (already in c/spine_json_layout.h; B13 is a third independent consumer after the bones and transform families)"
+  },
+  "synthetic_boundaries": [
+    {
+      "name": "spSkeletonData_findPathConstraint",
+      "address": "0x28b2f0, 92 B",
+      "reason": "body not recovered in this batch; the fixture returns a scripted per-call pointer (NULL allowed) and records the name. Its NULL contract is read statically: 0x28b2f8 ldr r7,[r0,#0x4c] ; 0x28b300 ble -> 0x28b340 mov r5,#0, and a name miss also exits through r5 = 0."
+    },
+    {
+      "name": "spPathConstraintPositionTimeline_create / spPathConstraintSpacingTimeline_create",
+      "address": "0x283010 / 0x28303c, 24 B each",
+      "reason": "bodies not recovered; the fixture allocates a zeroed 24-byte record with the real layout (frameFloatCount = count*2, frames = count*2 floats, type word 11/12), sets +0x14 to a SENTINEL and records the declared count. The disassembled bodies are tail calls to _spBaseTimeline_create(count, type, 2, tag)."
+    },
+    {
+      "name": "spPathConstraintPositionTimeline_setFrame",
+      "address": "0x283028, 20 B",
+      "reason": "body not recovered; the fixture stores frames[i*2] = time and frames[i*2+1] = value exactly as 0x283030/0x283034 do and records every argument word. spPathConstraintSpacingTimeline_setFrame (0x283054) is deliberately left undefined so a call to it cannot link."
+    },
+    {
+      "name": "spCurveTimeline_setStepped / spCurveTimeline_setCurve",
+      "address": "0x2817c0 / 0x2817d8",
+      "reason": "readCurve's dependency, not this family's; the doubles record (kind, frame, timeline, curve words) so the 0x28dff4 wiring is observable."
+    },
+    {
+      "name": "fixture heap / allocator roster / libc providers / hand-built Json nodes",
+      "reason": "test scaffolding only; qemu executes the reconstructed C"
+    }
+  ],
+  "depends_on": [
+    "json_interface",
+    "spine_read_curve",
+    "spine_json_error",
+    "spine_skeleton_data",
+    "spine_json_support",
+    "spine_alloc"
+  ],
+  "boundary_B17": {
+    "range": "0x28e8ec-0x28ea88 (census §6 B17), NOT recovered here",
+    "why_not_here": "0x28e538 bne 0x28e8ec leaves B13 for every sub-key that is neither \"position\" nor \"spacing\"; the driver reports PATH_TL_HANDOFF_MIX and the fixture pins that B13 creates nothing for that key.",
+    "independent_evidence": [
+      "its own loop head 0x28e948 and its own readCurve call site 0x28e9b0 (both pinned: the checker proves 0x28dff4 and 0x28e9b0 both target the anonymous 0x28b34c, i.e. two distinct sites)",
+      "its own create/setFrame pair: spPathConstraintMixTimeline_create 0x283068 at 0x28e904 and spPathConstraintMixTimeline_setFrame 0x283080 at 0x28e9a0",
+      "a THREE-float frame stride: 0x28e9dc sub r2,r2,#1 ; 0x28e9e8 add r2,r2,r2,lsl#1 ; 0x28e9f4 lsl#2 -> frames[(declared-1)*3], versus B13's lsl#3 / [r3,#-8] elsewhere",
+      "its own key literals at pools 0x28eb10/0x28eb14/0x28eb18 -> 0x34c1d4 \"time\", 0x357cc4 \"teMix\" (a +4 SUFFIX pointer into the \"rotateMix\" literal at 0x357cc0), 0x357ccc \"translateMix\", with defaults 0.0f / 1.0f / 1.0f",
+      "its own publish/duration tail 0x28e9cc..0x28ea0c before returning to the shared node advance 0x28e048"
+    ],
+    "observed_oddity_open": "B17's first two instructions are 0x28e8ec mov r0,r6 ; 0x28e8f0 ldr r1,[sp,#0x48] (\"mix\") ; 0x28e8f4 strcmp ; 0x28e8fc beq 0x28e048. That is: a sub-key named EXACTLY \"mix\" skips the block (branch to the node advance), while any OTHER unresolvable name falls through and creates a mix timeline. Stated as bytes only; B17's recovery must decide whether that is a source-level `continue` or a compiler artefact."
+  },
+  "census_cross_check": {
+    "B13": "0x28de74..0x28e060 = 492 B / 123 insns — exact match: the disassembly of that range is 123 instructions and the last one is 0x28e05c bne 0x28ded4",
+    "census_title_correction": "§6 titles B13 'position/spacing/mix' and §2.6 records the \"mix\" literal among its keys. Measured: B13 only COMPARES \"position\" and \"spacing\"; the \"mix\" literal is materialised at 0x28deb0/0x28debc into [sp+0x48] and read exclusively by B17 at 0x28e8f0, and every non-position/non-spacing name leaves through 0x28e538 bne 0x28e8ec. So B13's dispatch is 2-way with a handoff, not 3-way.",
+    "census_island_attribution": "two B13 islands sit outside its address range, so §6 currently attributes them elsewhere: 0x28e52c..0x28e558 (spacing strcmp + create + mode select) is inside B15's span 0x28e338..0x28e55c, and 0x28ea74..0x28ea7c (spacing scale) is inside B17's span 0x28e8ec..0x28ea88. No instruction is double-counted by this module (it translates them as islands, and the checker pins their words).",
+    "census_loops": "§5.3's path row lists heads 0x28ded4 / 0x28df10 / 0x28df3c / 0x28dfa4 with back edges 0x28e05c / 0x28df24 / 0x28e050 / 0x28e008 — all four confirmed (path-node loop, index scan, timeline-node loop, frame loop).",
+    "census_open_6": "§7 open #6 (ik/transform never null-test the lookup) does NOT generalise to path: 0x28dee0 subs r9,r0,#0 ; 0x28dee4 beq 0x28ea48 is a real test and §5.4's \"Path constraint not found: \" block is its target.",
+    "census_keys": "§2.6's five pool words 0x28eaac/0x28eab0/0x28eab4/0x28eab8/0x28eabc resolve to position/time/spacing/spacing/mix at the ADD sites 0x28de9c/0x28dea8/0x28deb8/0x28debc/0x28dec4 — confirmed word for word by the checker's KEY_PINS.",
+    "census_missing_keys": "§2.6 does not list B17's three pooled loads (0x28e920/0x28e928/0x28e930, pools 0x28eb10/0x28eb14/0x28eb18). They are recorded here because they are the cleanest proof that the mix block owns its own key set.",
+    "ik_precedent_diff": "ik writes timeline+0x14 only inside the hit island (0x28dbcc); path writes a stack cell in the scan (0x28df2c) and the timeline unconditionally at 0x28df94. transform mirrors ik (0x28dd64). The three scans share the count-snapshot / pre-increment-writeback / equality-only-loop shape but differ in where the result lands.",
+    "transform_precedent": "offsets run ik +0x3c/+0x40 -> transform +0x44/+0x48 -> path +0x4c/+0x50, i.e. three consecutive constraint vectors at the tail of the 84-byte spSkeletonData record; path is the last.",
+    "sibling_module": "c/spine_read_path independently recovered spPathConstraintData +0x10/+0x14 as positionMode/spacingMode with exactly the enum spellings this module's two branches imply (fixed/percent, length/fixed/percent) — no contradiction, and this module's scale decisions match its comment 'position x scale if positionMode==FIXED; spacing x scale if spacingMode<=FIXED'."
+  },
+  "open": [
+    "B17 (path mix, 0x28e8ec-0x28ea88) is not recovered; this module only reports the handoff. Its 0x28e8fc `beq 0x28e048` (skip when the name IS \"mix\") is recorded but unexplained.",
+    "The meaning of spPathConstraintTimeline+0x14 at run time (spPathConstraintPositionTimeline_apply 0x2826ec) is not recovered, so the consequence of storing a stale index on a scan miss is stated from the write side only.",
+    "declared frame count == 0 still reaches the tail and indexes frames[-2] in 32-bit wrap arithmetic; not driven by the fixture (same restriction as the ik module).",
+    "count > 0 together with a NULL data->pathConstraints faults at 0x28df00; the fixture only exercises count <= 0 with a NULL array.",
+    "Whether any shipped skeleton has a path constraint whose name is absent from data->pathConstraints (i.e. whether E7 runs in practice) needs an asset; no spine JSON exists in this tree.",
+    "The two \"spacing\" literals (0x28deb8 / 0x28debc) both resolve to 0x357d8c; why the compiler materialised the second into [sp+0x44] instead of reusing [sp+0x40] is a codegen artefact (the value is duplicated for the two dispatch entry points), recorded as bytes, not as source intent.",
+    "0x28dfdc's vmul is executed for the 1.0f arm as well; the only observable difference from skipping it would be on a signalling NaN operand, which the fixture does not drive.",
+    "The frames array is indexed with the DECLARED count in the tail even when the child list is shorter (ik has the same shape), so a malformed file can make duration read an unwritten slot — the fixture pins the read, not the file's validity."
+  ],
+  "check": {
+    "driver": "tools/check_tl_path.py",
+    "fixture": "fixture/check.c",
+    "cases": "18 (paths absent / empty / E7 not-found with the animation node as json arg / scan hit at 0, 2, last / scan miss leaves the cell / the cell carries over between constraints / count 0 and count -1 skip the scan / position frames scaled + store shape + duration / positionMode != 0 unscaled / spacingMode matrix 0,1 scaled vs 2,3,-1 unscaled / the value key is the node name / frame defaults / readCurve stepped+array / mix handoff / two constraints cursor+duration / declared-vs-child count)",
+    "configs": "O0/O2/O3/ubsan (undefined,float-cast-overflow, trap=all)",
+    "teeth": "15 named mutants (scan off-by-one, miss clears the cell, ble -> beq, first probe at the far end, index store dropped, positionMode polarity, unsigned spacing compare, value key literal, \"time\" literal, readCurve dropped, frameIndex stuck, tail stride 3, \"spacing\" literal, mix handoff swallowed, E7 json argument) — each refused by exactly one named runtime assertion",
+    "compile_guard_1": "missing module body refused: undefined symbol: readSkeletonData_pathTimelines",
+    "compile_guard_2": "spine_read_curve.c removed refused: undefined symbol: readCurve (proves the real link at 0x28dff4, not a stub)",
+    "compile_guard_3": "json_interface.c removed refused: undefined symbol: Json_getFloat",
+    "compile_guard_4": "a body that calls spPathConstraintSpacingTimeline_setFrame refused: undefined symbol: spPathConstraintSpacingTimeline_setFrame (proves 0x28dfe4's call target is the POSITION symbol 0x283028)",
+    "static": "SHA + 15 symbol pins + 46 word pins + 9 pc-relative literals + readCurve anonymity proven by the 0x28dff4 and 0x28e9b0 call sites with no covering .dynsym range",
+    "receipt": "harness/receipts/tl_path_check-<timestamp>.json"
+  }
+}
