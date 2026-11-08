@@ -65,8 +65,12 @@ extern void _free(void* p);
 extern Json* Json_create(const char* path);
 extern Json* Json_getItem(Json* json, const char* key);
 extern spSkeletonData* spSkeletonData_create(void);
-extern void spSkeletonJson_setError(spSkeletonJson* json, const char* fmt,
-                                     const char* a, const char* b, int c);
+/* Real recovered signature (c/spine_json_error): 4 params, root disposed
+ * inside when non-NULL. The earlier 5-param spSkeletonJson_setError
+ * declaration here was never called and never linked - corrected
+ * 2026-11-08 against the segment-chain census. */
+extern void _spSkeletonJson_setError(spSkeletonJson* self, void* json,
+                                     const char* message, const char* extra);
 
 /*
  * Entry segment of spSkeletonJson_readSkeletonData.

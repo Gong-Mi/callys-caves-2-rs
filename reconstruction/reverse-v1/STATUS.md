@@ -146,17 +146,22 @@ chain/chainScale/path/multiply/screen）只说明有相应特性，**不能唯�
 
 按 malloc 行号分段（每段可独立恢复+差分）：
 
-| 段 | 行号 | JSON keys | 内容 |
+| 段 | 行号（malloc 锚实证，2026-11-08 段链普查校正） | JSON keys | 内容 |
 |---|---|---|---|
-| 入口+meta | 607–612 | hash/spine/version/width/height | locale 保护+骨架元数据 |
-| bones | 615–660 | name/parent/x/y/rotation/scaleX/scaleY/shearX/shearY/inheritRotation/inheritScale | 骨数组+逐骨 |
-| slots | 697–712 | bone/color/attachment | 槽数组 |
-| ik | 735–760 | bones/bendDirection/mix | IK 约束 |
-| transform | 782–800 | rotateMix/translateMix/scaleMix/shearMix/target/offset | 变换约束 |
-| path | 810–830 | path/position/spacing/rotateMix | 路径约束 |
-| skins | 839–890 | skins 递归 | 皮肤+附件 |
-| attachments | 891–1000 | region/mesh/linkedmesh/boundingbox/type | 附件四类 |
-| animations | 1000–1043+ | time/offsets/events/curves | 动画+事件 |
+| 入口+meta | 607(+608) | hash/spine/version/width/height | locale 保护+骨架元数据 |
+| bones | 615 | name/parent/x/y/rotation/scaleX/scaleY/shearX/shearY/inheritRotation/inheritScale | 骨数组+逐骨 |
+| slots | 651 | bone/color/attachment | 槽数组 |
+| ik | 697(+705) | bones/bendDirection/mix | IK 约束 |
+| transform | 735(+743) | rotateMix/translateMix/scaleMix/shearMix/target/offset | 变换约束 |
+| path | 782(+791) | path/position/spacing/rotateMix | 路径约束 |
+| skins | 839 | skins 递归 | 皮肤+附件 |
+| attachments | 891 | region/mesh/linkedmesh/boundingbox/type | 附件四类 |
+| animations | 1028/1034/1043(+388/442/445/494) | time/offsets/events/curves | 动画+事件 |
+
+（旧行号列 697–712/735–760/782–800/810–830 自 697 起四行各错位一段；校准证据：
+各段 malloc 目标偏移与 findIkConstraint +0x3c/+0x40、findTransformConstraint
++0x44/+0x48、findPathConstraint +0x4c/+0x50、findSkin +0x20/+0x24 一一对应，
+见 `asm/segment_chain_map.md` §7。）
 
 入口段（locale guard + Json_create + "skeleton" getItem）已恢复为 ARM32 C 候选
 （`c/spine_read_entry/`，0bb501a）。"C" 锚 0x3390a8、"skeleton" 锚 0x357b5c 已解析。
