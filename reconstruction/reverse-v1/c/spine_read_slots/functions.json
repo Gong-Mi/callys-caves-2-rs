@@ -27,6 +27,18 @@
         "blend"
       ],
       "notes": "bone lookup in loop CONDITION (0x28bd7c), not body; error path disposes skeletonData + setError('Slot bone not found'). 2026-11-08: two legacy deviations corrected against the binary — blend mapping was reversed (additive→3/multiply→1/screen→2) with an unconditional default-0 store, and a creator-NULL early return; both refuted by word pins at 0x28bd1c/20, 0x28bd3c/40, 0x28bd5c/60 and the post-create flow 0x28bc7c-0x28bc8c. Pinned by c/spine_read_slots/tools/check_slots.py (5 cases, 5 teeth)."
+    },
+    {
+      "name": "readSkeletonData_slotsSegment",
+      "address_range": "0x28bbe4-0x28bdd8 (inlined caller BLOCK)",
+      "semantics": "slotsArray (malloc 651) → while(slotMap): getString bone → REAL findBone; miss → REAL spSkeletonData_dispose + REAL _spSkeletonJson_setError(parser, tree, 'Slot bone not found: ', boneName) → return 0; hit → oneSlot body (publish, index++, next) → return 1",
+      "quirks": [
+        "slots key absent (0x28bbe0 beq): count/array NOT written, no malloc",
+        "child==0 (0x28bc0c beq): count+array published, loop skipped",
+        "condition evaluated FIRST via 0x28bc58 b 0x28bd7c",
+        "error path order: dispose → setError(vcall report + Json_dispose root) → return findBone result (0)"
+      ],
+      "check": "tools/check_slots_segment.py + fixture/segment_check.c — 4 configs x 4 tests green (parent re-run verified), 6 named teeth, missing-body compile refusal; receipt harness/receipts/slots_segment_check-20261108T100512.json"
     }
   ],
   "spSkeletonData_layout_additions": {

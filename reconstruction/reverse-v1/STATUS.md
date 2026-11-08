@@ -1,16 +1,25 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：slots F1/F4 两处旧偏差已核销，下一步公共外循环
+## 当前断点：slots 段外循环已接通，animations 段已普查，下一步按分块表恢复
 
-`c/spine_read_slots/` 按原字纠正F1/F4：blend映射 additive→1/multiply→2/screen→3
-（各命中才写，`moveq/streq` 成对，串不认识或键缺失不写`+0x20`）；
-`spSlotData_create` 返回值无早退检查——NULL 结果照常流过 color/attachment/blend 并
-无条件发布进 `data->slots[index]`（`0x28bd68` 无守卫存储）。
-检查台 `tools/check_slots.py`：O0/O2/O3/UBSan 各 5 例全绿、5 个语义变异全被具名断言拒绝、
-缺本体编译拒绝门；静态钉 13 个原字 word pin（含 post-create 五字流，证明无测试指令插入）、
-7 个符号 value/size、4 个 blend 键字面量。回执
-`harness/receipts/slots_legacy_check-20261108T093601.json`。
-见 `reconstruction/contracts/native-slots.md`。原件未执行，不称原版等价。
+`c/spine_read_slots/` 新增 `readSkeletonData_slotsSegment`（caller BLOCK
+0x28bbe4–0x28bdd8）：真实链 slotsArray→findBone 条件先行→oneSlot body→
+真实 dispose→真实 setError（console vcall + Json_dispose 根树）→返 0。
+检查台 `tools/check_slots_segment.py`：O0/O2/O3/UBSan 各 4 例全绿（父代理
+独立复跑 RESULT PASS）、6 具名变异全拒、缺本体编译拒绝门；回执
+`harness/receipts/slots_segment_check-20261108T100512.json`。
+见 `reconstruction/contracts/native-slots.md` 第二批节。原件未执行。
+
+animations/events 段静态普查已落盘（2026-11-08，子代理施工、父代理抽验）：
+段界 **0x28d19c..0x28eb40**（三证：唯一前驱 0x28ccc8/0x28cd08 都在 linked-mesh
+后处理出口；0x28d198 无条件跳走；符号 size 定尾）；1641 条（1601 指令位+40 池字）、
+46 唯一键、段内 7 malloc 锚（**行号补正三处**：0x28b974→608、0x28cfd4→136、
+0x28e154→388，均为 `mov r2` 旋转立即数，非 movw）、52 唯一被调、**无 switch 跳表**
+（类型分派全 strcmp 链 ×10）、**31 分块表**（1579 可达指令逐块对上）。
+`asm/animations_census.tsv` + `asm/animations_segment_map.md`。
+**注意**：段内 22 条属附件段离位块（0x28e7f4..0x28e820、0x28e880..0x28e8ac），
+恢复时必须排除；drawOrder/draworder 双键、hex color 通道、IK/transform 指针扫描
+求索引（不判空）等 12 条 open 已列 §7。
 
 `c/spine_region_geometry/` 新增updateOffset原方法候选（304B代码+4B池）。
 `c/spine_read_region/` caller扩至0x28cdac..0x28cf24，补齐color→updateOffset→当前loader configure；

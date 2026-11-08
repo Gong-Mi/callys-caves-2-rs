@@ -37,7 +37,11 @@
 
 #include "spine_read_slots.h"
 
-extern void* _malloc(int size, const char* tag, int line);
+/* Shared real providers for the segment outer loop (caller BLOCK). */
+#include "../../skeleton_find/src/skeleton_find.h"          /* findBone */
+#include "../../spine_skeleton_data/src/spine_skeleton_data.h" /* dispose */
+#include "../../spine_json_error/src/spine_json_error.h"    /* setError */
+
 extern unsigned int _strlen(const char* s);
 extern int _strcmp(const char* a, const char* b);
 
@@ -46,7 +50,6 @@ extern const char* Json_getString(Json* json, const char* key, const char* fallb
 
 extern void* spSlotData_create(int index, const char* name, void* bone);
 extern void spSlotData_setAttachmentName(void* slotData, const char* name);
-extern void* spSkeletonData_findBone(void* data, const char* name);
 #include "../../spine_color/src/spine_color.h"
 
 static const char* TAG = "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c";
@@ -146,3 +149,70 @@ void* readSkeletonData_oneSlot(Json* slotMap, void* data_raw,
 
     return slotData;
 }
+
+/*
+ * Segment outer loop — the caller BLOCK of readSkeletonData
+ * (0x28bbe4–0x28bdd8). Chain, exactly as the original lays it out:
+ *
+ *   0x28bbcc  slots = Json_getItem(tree, "slots")
+ *   0x28bbe0  beq 0x28bddc        — key absent: skip whole segment,
+ *                                     count/array NOT written
+ *   0x28bbf0  data->slotsCount = slots->size          (inside slotsArray)
+ *   0x28bbfc  data->slots = _malloc(size*4, TAG, 651) (inside slotsArray)
+ *   0x28bc00  slotMap = slots->child
+ *   0x28bc0c  beq 0x28bddc        — child==0: count+array already published,
+ *                                     loop skipped
+ *   0x28bc58  b 0x28bd7c          — condition evaluated FIRST (before body)
+ *   condition 0x28bd7c: boneName = getString(slotMap, "bone", 0)
+ *                       bone = spSkeletonData_findBone(data, boneName)
+ *                       bone==0 → 0x28bda4 error path, else → body
+ *   body     0x28bc5c: readSkeletonData_oneSlot(...); index++
+ *   0x28bd70  slotMap = slotMap->next; 0x28bd78 beq exit → next segment
+ *
+ * Error path (0x28bda4–0x28bdcc), in this order:
+ *   spSkeletonData_dispose(data)                          @0x28bdac
+ *   _spSkeletonJson_setError(parser, tree,
+ *       "Slot bone not found: ", boneName)                 @0x28bdc4
+ *     — real setError formats the message, reports it via the console
+ *       vcall, then Json_dispose(tree); r1 is [sp,#0x24] = the ROOT tree
+ *   return 0                                               @0x28bdc8 (mov r0,r7)
+ *
+ * Returns 1 when the segment is absent/empty/complete, 0 only on the
+ * bone-not-found error (the caller then returns 0 for the whole loader).
+ */
+int readSkeletonData_slotsSegment(Json* tree, void* data_raw, void* parser_raw)
+{
+    Json* slotMap;
+    int count = 0;
+    int index = 0;              /* 0x28bc14: mov r6,#0 before first check */
+
+    slotMap = readSkeletonData_slotsArray(tree, data_raw, &count);
+    if (slotMap == 0) return 1; /* 0x28bbe0 / 0x28bc0c both skip to 0x28bddc */
+
+    while (slotMap != 0) {
+        const char* bone_name;
+        spBoneData* bone;
+
+        /* 0x28bd88: boneName = getString(slotMap, "bone", 0) */
+        bone_name = Json_getString(slotMap, "bone", 0);
+        /* 0x28bd98: bone = spSkeletonData_findBone(data, boneName) */
+        bone = spSkeletonData_findBone((spSkeletonData*)data_raw, bone_name);
+        if (bone == 0) {
+            /* 0x28bdac: dispose the half-built skeletonData first */
+            spSkeletonData_dispose((spSkeletonData*)data_raw);
+            /* 0x28bdc4: setError(parser, tree, "Slot bone not found: ",
+             * boneName) — message literal @0x357c00, extra = r5 boneName,
+             * r1 = [sp,#0x24] root tree (setError disposes it). */
+            _spSkeletonJson_setError((spSkeletonJson*)parser_raw, tree,
+                                     "Slot bone not found: ", bone_name);
+            return 0;           /* 0x28bdc8: mov r0,r7 (r7 = findBone = 0) */
+        }
+
+        /* 0x28bc5c body: create + fields + unconditional publish */
+        readSkeletonData_oneSlot(slotMap, data_raw, bone, index);
+        index++;                /* 0x28bd6c */
+        slotMap = slotMap->next; /* 0x28bd70: ldr r4,[r4] */
+    }
+    return 1;
+}
+
