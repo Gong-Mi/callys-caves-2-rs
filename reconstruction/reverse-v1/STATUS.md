@@ -1,6 +1,6 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：段链物理缺口清零，下一步全链总装（收口批）
+## 当前断点：段链物理缺口清零，全链总装在跑（已注入组合层负控），④轴门已立
 
 `c/spine_skins_glue/`（子代理 Q，父代理复跑 RESULT PASS）：**8 个物理胶水块
 全部恢复**（98 word pin 对 92 条指令逐条全覆盖）；**分派依据是 loader 存进
@@ -10,6 +10,14 @@
 对 ldm 透传；四错误尾 dispose(data)→setError(json,root)→返 r4。
 4 配置×15 测试、15 变异、5 拒绝门。回执 `skins_glue_check-20261108T140923.json`。
 见 `reconstruction/contracts/native-animations.md` 第九批节。原件未执行。
+
+**④轴等价门已立（2026-11-08，总装收口前）**：`contracts/native-equivalence-
+gate.md`——总装 PASS 只证接线；④轴在 Level A 工具（Unicorn oracle 跑原函数
+vs 重建链，同输入→spSkeletonData 全字段 diff+三负控）跑出报告前一律报
+「未有测量」；玩法级四条件为 Level B 另行立项。**总装批（R）已注入组合层
+三类负控**（段序错乱/段间交接错配/打坏单段定位）——分块 PASS 不证明整链。
+汇报口径：所有 receipt 维持 test_anchored/original_executed=false，④轴未测
+期间禁称"接近原版"。
 
 **readSkeletonData 全部构件已齐**：段链物理缺口清零；语义缺口 6 块（各段
 模块只回错误码不发射 dispose/setError 尾）按 animations_loop 适配器先例在
