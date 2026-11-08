@@ -1,6 +1,16 @@
 # 状态与定性（2026-11-08 更新）
 
-## 当前断点：region完整字段/颜色/局部四角已接通，下一步公共外循环
+## 当前断点：slots F1/F4 两处旧偏差已核销，下一步公共外循环
+
+`c/spine_read_slots/` 按原字纠正F1/F4：blend映射 additive→1/multiply→2/screen→3
+（各命中才写，`moveq/streq` 成对，串不认识或键缺失不写`+0x20`）；
+`spSlotData_create` 返回值无早退检查——NULL 结果照常流过 color/attachment/blend 并
+无条件发布进 `data->slots[index]`（`0x28bd68` 无守卫存储）。
+检查台 `tools/check_slots.py`：O0/O2/O3/UBSan 各 5 例全绿、5 个语义变异全被具名断言拒绝、
+缺本体编译拒绝门；静态钉 13 个原字 word pin（含 post-create 五字流，证明无测试指令插入）、
+7 个符号 value/size、4 个 blend 键字面量。回执
+`harness/receipts/slots_legacy_check-20261108T093601.json`。
+见 `reconstruction/contracts/native-slots.md`。原件未执行，不称原版等价。
 
 `c/spine_region_geometry/` 新增updateOffset原方法候选（304B代码+4B池）。
 `c/spine_read_region/` caller扩至0x28cdac..0x28cf24，补齐color→updateOffset→当前loader configure；
@@ -16,7 +26,8 @@ linked四档15项/17变异、mesh四档16项/16变异与旧native-spine链重过
 见 `reconstruction/contracts/native-region.md` 与模块functions.json。原件未执行，不称原版等价或已显示sprite。
 
 前批linked/skin与真实错误清理仍可消费；公共skin/slot外循环及events/animations尚未总装。
-下一入口先核销slots blend枚举F1、多余NULL返回F4，再补公共外循环；真实_readFile、console构造、
+下一入口补公共外循环（slots 循环条件 0x28bd7c 与 "Slot bone not found" 错误路径的
+dispose/setError 链在此批接入）；真实_readFile、console构造、
 完整loader继续保留缺口，不将合成provider算恢复。全游戏玩法与原版差距本批未测量。
 
 ## 决定性发现：spine-c 源码行号锚（2026-11-07）

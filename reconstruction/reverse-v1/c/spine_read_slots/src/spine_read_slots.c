@@ -22,14 +22,15 @@
  *     if (!bone) → dispose + setError("Slot bone not found") → return 0
  *   BODY (0x28bc5c):
  *     name = getString(slotMap, "name");
- *     slotData = spSlotData_create(index, name, bone);
+ *     slotData = spSlotData_create(index, name, bone);   // NO NULL check
  *     color = getString(slotMap, "color");
  *     if (color) { +16/+20/+24/+28 = toColor(color, 0..3); }
  *     attachment = getItem(slotMap, "attachment");
  *     if (attachment) setAttachmentName(slotData, attachment->string_value);
  *     blend = getItem(slotMap, "blend");
- *     if (blend) { strcmp "multiply"/"screen"/"additive" → blendMode; }
- *     data->slots[index] = slotData; index++;
+ *     if (blend) { strcmp "additive"→1 / "multiply"→2 / "screen"→3,
+ *                  each store CONDITIONAL (moveq/streq) — no default write }
+ *     data->slots[index] = slotData; index++;   // unconditional publish
  *
  * rodata: slots=0x357b90 color(→str@) bone attachment name blend additive
  */
@@ -79,7 +80,8 @@ Json* readSkeletonData_slotsArray(Json* tree, void* data_raw, int* out_count) {
 /*
  * One slot from the JSON slot map (0x28bc5c body).
  * bone must be pre-resolved by the caller (from the loop condition).
- * Returns slotData or 0 on create failure.
+ * Returns the spSlotData_create result verbatim; a NULL creator result is
+ * still published into data->slots[index] — the original has no check.
  */
 void* readSkeletonData_oneSlot(Json* slotMap, void* data_raw,
                                void* bone, int index) {
@@ -92,9 +94,11 @@ void* readSkeletonData_oneSlot(Json* slotMap, void* data_raw,
     /* 0x28bc68: name = getString(slotMap, "name", 0) */
     name = Json_getString(slotMap, "name", 0);
 
-    /* 0x28bc78: slotData = spSlotData_create(index, name, bone) */
+    /* 0x28bc78: slotData = spSlotData_create(index, name, bone).
+     * The original never tests this return value: a NULL result flows on
+     * through color/attachment/blend (color writes would fault through NULL,
+     * faithfully) and is still published into data->slots[index] below. */
     slotData = spSlotData_create(index, name, bone);
-    if (slotData == 0) return 0;
 
     /* 0x28bc8c: color = getString(slotMap, "color", 0) */
     color = Json_getString(slotMap, "color", 0);
@@ -115,21 +119,26 @@ void* readSkeletonData_oneSlot(Json* slotMap, void* data_raw,
         spSlotData_setAttachmentName(slotData, att_name);
     }
 
-    /* 0x28bcf8: blend = getItem(slotMap, "blend") */
+    /* 0x28bcf8–0x28bd64: blend = getItem(slotMap, "blend").
+     * Original strcmp chain: "additive"(first, spilled at 0x28bc40→[sp,#0x20])
+     * → store 1, "multiply" → 2, "screen" → 3. Every store is conditional
+     * (moveq r3,#N; streq r3,[r5,#0x20]) — an unrecognized blend string leaves
+     * the field at whatever spSlotData_create left there; there is NO default
+     * write and no write at all when the key is absent. */
     blend = Json_getItem(slotMap, "blend");
     if (blend != 0) {
         /* 0x28bd08: blend string from [blend+0x10] */
         const char* blend_str = (const char*)*(void**)((char*)blend + 0x10);
-        int blend_mode = 0;  /* default normal */
-        /* strcmp against "multiply"(1) / "screen"(2) / "additive"(3) */
-        if (_strcmp(blend_str, "additive") == 0) blend_mode = 3;
-        else if (_strcmp(blend_str, "multiply") == 0) blend_mode = 1;
-        else if (_strcmp(blend_str, "screen") == 0) blend_mode = 2;
-        /* blend_mode store is at slotData+0x20 (inferred from card layout) */
-        *(int*)((char*)slotData + 0x20) = blend_mode;
+        if (_strcmp(blend_str, "additive") == 0)
+            *(int*)((char*)slotData + 0x20) = 1;   /* 0x28bd1c/20 */
+        else if (_strcmp(blend_str, "multiply") == 0)
+            *(int*)((char*)slotData + 0x20) = 2;   /* 0x28bd3c/40 */
+        else if (_strcmp(blend_str, "screen") == 0)
+            *(int*)((char*)slotData + 0x20) = 3;   /* 0x28bd5c/60 */
     }
 
-    /* 0x28bd68: data->slots[index] = slotData */
+    /* 0x28bd64–0x28bd68: data->slots[index] = slotData — unconditional
+     * (str r5,[r3,r6,lsl#2]; no test guards this store). */
     {
         void** slots_arr = *(void***)((char*)data_raw + SD_SLOTS_OFF);
         slots_arr[index] = slotData;

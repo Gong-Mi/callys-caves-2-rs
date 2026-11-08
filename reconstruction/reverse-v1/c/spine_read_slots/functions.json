@@ -18,7 +18,7 @@
     {
       "name": "readSkeletonData_oneSlot",
       "address_range": "0x28bc5c-0x28bdd8 (inlined)",
-      "semantics": "getString name → spSlotData_create(index,name,bone) → toColor×4 at +16/20/24/28 → attachment getItem→setAttachmentName → blend getItem→strcmp(multiply/screen/additive)→+0x20",
+      "semantics": "getString name → spSlotData_create(index,name,bone) — return NEVER tested, NULL flows on and is published → toColor×4 at +16/20/24/28 → attachment getItem→setAttachmentName → blend getItem→strcmp(additive→1, multiply→2, screen→3), each store CONDITIONAL (moveq/streq, no default write; key absent or unrecognized ⇒ field untouched) → unconditional slots[index] publish (str r5,[r3,r6,lsl#2])",
       "keys": [
         "name",
         "bone",
@@ -26,7 +26,7 @@
         "attachment",
         "blend"
       ],
-      "notes": "bone lookup in loop CONDITION (0x28bd7c), not body; error path disposes skeletonData + setError('Slot bone not found')"
+      "notes": "bone lookup in loop CONDITION (0x28bd7c), not body; error path disposes skeletonData + setError('Slot bone not found'). 2026-11-08: two legacy deviations corrected against the binary — blend mapping was reversed (additive→3/multiply→1/screen→2) with an unconditional default-0 store, and a creator-NULL early return; both refuted by word pins at 0x28bd1c/20, 0x28bd3c/40, 0x28bd5c/60 and the post-create flow 0x28bc7c-0x28bc8c. Pinned by c/spine_read_slots/tools/check_slots.py (5 cases, 5 teeth)."
     }
   ],
   "spSkeletonData_layout_additions": {
@@ -43,7 +43,14 @@
     "+0x14 (20)": "color.g",
     "+0x18 (24)": "color.b",
     "+0x1c (28)": "color.a",
-    "+0x20": "blendMode (int: 0=normal, 1=multiply, 2=screen, 3=additive)"
+    "+0x20": "blendMode (int: 0=normal, 1=additive, 2=multiply, 3=screen — binary order, confirmed 2026-11-08)"
+  },
+  "check": {
+    "driver": "tools/check_slots.py",
+    "cases": "5 (additive→1, multiply→2, screen→3, unrecognized no-overwrite, creator-NULL publish+consume)",
+    "configs": "O0/O2/O3/ubsan",
+    "teeth": "5 mutants all caught by named assertions",
+    "receipt": "harness/receipts/slots-legacy-check-*.json"
   },
   "l5_evidence": {
     "arm": "toColor (0x28b680) — previously mislabeled findPathConstraint+0x390",
