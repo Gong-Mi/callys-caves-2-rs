@@ -1,5 +1,39 @@
 # 状态与定性（2026-11-16 更新）
 
+## 2026-11-16（续四）：语义核心第四批——变量家族与指令侧收口（父代理复跑）
+
+**A. `c/variable_misc/` + `harness/var_misc_diff.py`** —— 四件：`Variable_Global_Init`(24 指令+2 池字)、
+`DoVariableInstanceExists`(33)、`Variable_GetName_Scope`(158+13)、`Variable_BuiltIn_Add`(164+6)。
+父代理复跑：`RESULT PASS cases=74 identical=74 binding=ok census=379/379 selftest=ok`，
+覆盖 84 项全 yes，变异体 30 项全 PASS 且**零崩溃型**。回执 `var_misc_diff-20261116T180011`。
+(`Variable_GetName_Scope` / `Variable_BuiltIn_Add` 是我没点名的两件，工人按调用链一并做了，
+回执里已把它们与被点名的三件分账。)
+`Variable_GetValue_Direct` 与 `Code_Variable_Find_Slot_From_Name` 走**真实链接**，其余被调方同桩并列明。
+
+**B. `c/variable_ops/` + `harness/var_ops_diff.py`** —— 三件：`Code_Variable_Find_Name`(7 条/28 B)、
+`DoConvIntToVariable`(9/36 B)、`DoPopLocalVariable`(46/184 B)，三者 GOT-free、pool-free。
+父代理复跑：`RESULT PASS cases=53 identical=53 binding=ok census=62/62 census-self=ok`，
+覆盖 41 项全 yes，变异体 29 项全 PASS 且零崩溃型。回执 `var_ops_diff-20261116T175942`。
+
+**这一批对卡的更正与新事实（都以字节/对拍为准）**：
+1. `DoConvIntToVariable`：卡正文的 `vldr s15,[sp] / vstr s14,[sp,#-12]` 与它自己的注释块矛盾，字节是 `[r1]`；
+   且 `s14` 不是残值——`0xd7740 vcvt.f64.s32 d7,s15` 写出的 d7 低半字就是 s14（预置 0x3f800000 实测被覆盖），
+   `r1-12` 的 8 字节恒等于 `struct.pack("<d", v)`；对象是 **16 B 槽**（+0 低字、+4 高字、**+8 从不写**、+0xc tag=0），
+   返回值 `r1-12` 来自 `str r12,[r0],#-12` 的后索引写回。
+2. `Code_Variable_Find_Name`：`bgt` 是**有符号**，一切负 id（含 INT_MIN）都走丢弃 name 的内置分支。
+3. `DoPopLocalVariable`：卡"sp 净下移 0"不准确——body 只动自己的 frame，返回相对入参 r1 的增量恒为
+   `16 + 4*[bit31 clear] + 4*[bit29 clear]`（16/20/24 三档都有案例）。
+4. `FREE_RValue__Pre` 的闸不是 `tag != 0`：原件是 `0xc0a84 bic r3,r3,#0xff000000` 后分别 `cmp #2 / #3 / #1`
+   （已由本人反汇编复核），所以 tag 0x40000001 / 0x80000001 会被释放，tag 5 / 0x105 不会。
+5. 新事实（卡上没有）：`Variable_GetName_Scope` 的实例 map 反查内层**没有边界**（0xd236c 只按 `i` 与 `hash>0`
+   推进游标），若 `map->count` 大于实际占用项数会走过 entries 读野内存；fixture 因此恒令 count==占用项数。
+6. `Variable_BuiltIn_Add` 的 500 上限是 `beq`（相等），count>500 会越界追加（staging 到不了该状态，记 not_applicable）。
+
+**统计口径**：本线现在有 12 个已恢复且带差分臂的函数体（GetValue/Direct、SetValue 家族、
+Find_Slot_From_Name、GetObjectName、Global_Init、VariableInstanceExists、GetName_Scope、
+BuiltIn_Add、Find_Name、ConvIntToVariable、PopLocalVariable）。**语义核心 ★ 仍有 CRoom/CLayer 的
+Add*/Remove*、事件/命令（VM_Exec 仍是骨架卡）、builtin F_ 直系未动。**
+
 ## 2026-11-16（续三）：语义核心第三批——GetValue 解析器 + 名称侧两件（父代理复跑）
 
 **A. `Variable_GetValue` 解析器（`c/variable_resolve/`，`harness/var_resolve_diff.py`）**
