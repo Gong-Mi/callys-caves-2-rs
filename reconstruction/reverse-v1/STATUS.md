@@ -1,5 +1,36 @@
 # 状态与定性（2026-11-16 更新）
 
+## 2026-11-16（续二）：语义核心第二批——SetValue 家族 + Get 臂补边界，两臂都复跑过
+
+**A. Variable_SetValue 家族译文与差分臂（新模块 `c/variable_set/`，`harness/var_set_diff.py`）**
+
+父代理复跑：`RESULT PASS cases=40 identical=40`，覆盖 54 项全 yes，19 个变异体全被抓
+（18 个字段级 mismatch + 1 个 `c1_extra_indirection` 只能靠崩溃抓到，已标 `mode=driver-abort`）。
+回执 `var_set_diff-20261116T170027`。另有三道非字段门：census 255/255（每条指令注释与
+llvm-objdump 逐字机检）、repeat（新建 Oracle 与第二个 qemu 进程重跑，记录流逐字相同）、
+binding（镜像 SHA + 三处 .rodata 消息串逐字节比对）。
+
+对静态卡 `cards/Variable_SetValue.c` 的更正（都已用反汇编独立复核）：
+1. **被调 Direct 是 0x1f3c28**，不是 0x1f3e70（后者是 GetValue 里的 `strb r3,[r7]`）。
+2. **S2 比 S5 多一层解引用**：S2 是 .bss 0x542374 里存指针→指向 {+0 buckets,+4 mask}；
+   S5 的 0x536f28 本身就是那个结构。卡说两者"哈希形状完全相同"只对字段布局成立。
+3. **C1/C2 是指向 .bss 的对象**（`ldr r11,[r9,r3]` = &0x542a64），不是指针变量本身。
+4. **E3 恒返回 0**：0x1f4674 `bl YYError` 后直接落到 0x1f4684 `mov r0,#0`。
+   卡的 open 4"返回未初始化寄存器值"不成立；r10 在 S5 路上确实是死的，但没被返回。
+5. 循环内累加器是 **r0**（0x1f4468 进 / 0x1f4510 出），r10 在循环中装的是 value 指针。
+
+**B. Variable_GetValue_Direct 臂扩展（父代理复跑 `var_direct_diff.py`：19 例 identical，
+9 个覆盖项全 yes，6 个变异体全抓，`get_rvalue_args_swapped` 已从"只靠崩溃"升级为
+字段级 mismatch，11 例命中 / 4 例仍崩已单列 aborted_cases）**
+
+- **一条我自己造成的缺陷（记录在案）**：上一批的用例标签写错了——标成 "slot 0/7/50" 的
+  三条，varid 是 10000/10007/10050，真实槽号是 **-90000/-89993/-89950**。也就是说旧 case
+  集从未命中表内 16 B 槽，这正是 swap 变异体只能靠崩溃抓到的原因。标签已改，输入与算术一字未动。
+- 空档区间实测：flag≠0 + table≠NULL + varid 50000/99998 → 原版把 `table−800000` / `table−32`
+  直接交给 GET_RValue，不校验也不拒绝，已用 delta 钉死（对应卡 open 2）。
+- `bvar_entry_stride_16_to_4` 做不到字段级：10000 个 entry 装同一桩，落错 entry 仍是可调用的
+  fn 指针，只有砸到 name 字段（varid 9999 → base+39996）才崩；回执 `why_not_field_level` 记了原因。
+
 ## 2026-11-16（续）：语义核心第一件——Variable_GetValue_Direct 的 C 译文 + 差分臂
 
 从动画族转到 ROADMAP 的语义核心，先做最小自洽的一件：`Variable_GetValue_Direct`

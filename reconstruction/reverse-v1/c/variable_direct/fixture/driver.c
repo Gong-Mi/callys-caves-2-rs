@@ -11,9 +11,9 @@
  * translated body once per case and prints a record stream that
  * harness/var_direct_diff.py reproduces on the original arm.
  *
- * Case line (stdin):  <varid> <arrindex> <flag24> <table_mode> <intget_slot>
+ * Case line (stdin):  <varid> <arrindex> <flag24> <table_mode> <intget_slot> <slot_tag>
  * Record stream (stdout):
- *     CASE <varid> <arrindex> <flag24> <table_mode> <intget_slot>
+ *     CASE <varid> <arrindex> <flag24> <table_mode> <intget_slot> <slot_tag>
  *     RET <i32>
  *     OUT <32 hex chars>
  *     CALLS <n>
@@ -21,6 +21,12 @@
  *     G <table_offset|L|NULL> <arrindex> <ret>
  *     I <slot>
  * Addresses are never printed: offsets are relative to the staged slot table.
+ *
+ * slot_tag is a word staged at +0 of the resolved slot when that slot lands
+ * inside the staged table (tag 2 = array value).  Neither stub reads it, so it
+ * is inert decor; it exists to keep the arrindex cases an honest array-slot
+ * shape and to be in place the day GET_RValue stops being a stub.  It is staged
+ * on the original arm too, so the fixture stays symmetric.
  */
 #include <stdint.h>
 #include <stddef.h>
@@ -176,8 +182,9 @@ int main(void)
         int flag24 = read_int(&p);
         int table_mode = read_int(&p);
         int intget_slot = read_int(&p);
+        int slot_tag = read_int(&p);
         if (*p == 0 && varid == 0 && arrindex == 0 && flag24 == 0 &&
-            table_mode == 0 && intget_slot == 0)
+            table_mode == 0 && intget_slot == 0 && slot_tag == 0)
             break;
 
         for (unsigned i = 0; i < sizeof obj_buf; i++) obj_buf[i] = 0;
@@ -187,6 +194,15 @@ int main(void)
 
         wr32(obj_buf + YYB_VAR_FLAG, (uint32_t)flag24);
         wr32(obj_buf + YYB_VAR_TABLE, table_mode ? (uint32_t)(uintptr_t)slot_table : 0u);
+
+        /* inert tag staging: only inside the staged table, exactly like the
+         * original arm's OracleStage.run */
+        if (slot_tag && table_mode) {
+            /* varid - VARID_SLOT_BASE, computed without signed overflow */
+            long slot = (long)varid - (long)VARID_SLOT_BASE;
+            if (slot >= 0 && slot < (long)NSLOTS)
+                wr32(slot_table + slot * RV_SLOT_STRIDE, (uint32_t)slot_tag);
+        }
 
         for (int i = 0; i < NBVAR; i++) {
             wr32(bvar_storage + i * RV_SLOT_STRIDE, 0u);
@@ -198,7 +214,7 @@ int main(void)
         out("CASE ", 5);
         print_i(varid); out(" ", 1); print_i(arrindex); out(" ", 1);
         print_i(flag24); out(" ", 1); print_i(table_mode); out(" ", 1);
-        print_i(intget_slot); out("\n", 1);
+        print_i(intget_slot); out(" ", 1); print_i(slot_tag); out("\n", 1);
 
         int ret = Variable_GetValue_Direct(obj_buf, varid, arrindex, out_buf);
 

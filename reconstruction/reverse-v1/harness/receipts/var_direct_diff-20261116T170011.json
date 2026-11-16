@@ -1,0 +1,1208 @@
+{
+ "schema": "cally-var-direct-diff/2",
+ "schema_changes_from_v1": [
+  "rows[].case is now an object keyed by field name (was a positional array with the label last)",
+  "new top-level keys: repeat, findings, case_label_corrections; scope.inert_staging",
+  "teeth[]: aborted_cases, field_level, mode 'mismatch+driver-abort', why_not_field_level"
+ ],
+ "generated_utc": "2026-11-16T09:00:11Z",
+ "tier": "oracle_anchored",
+ "original_executed": true,
+ "evidence_layer": "synthetic memory oracle: the original ARM bytes at 0x1f3b8c executed over a staged object/slot table with identical stubs on both arms; NOT device execution",
+ "BINDING": {
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "entry": "0x1f3b8c",
+  "function": "_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue",
+  "body_sha256": "6fc631391e9234dee9d1a0782188f926131d55aaa44f81eb545a132ed0da4c39",
+  "driver_sha256": "e27cd1e54c8fee631f8493bba10da49b7a3841f0049b25ce8ecc749b60949432",
+  "stub_callees": [
+   "GET_RValue@0xd13bc",
+   "YYObjectBase::InternalGetYYVar@0x196a70",
+   "builtin var table entry fn"
+  ]
+ },
+ "scope": {
+  "covered": [
+   "varid<=9999 builtin table dispatch",
+   "flag[+0x24]==0 early exit, out untouched",
+   "slot address = table + (varid-100000)*16",
+   "table==NULL lazy path through InternalGetYYVar",
+   "arrindex passthrough to both callees (INT_MIN, 0, 1, 0x7fffffff)",
+   "unguarded varid gap [10001,99999] -> negative slot delta (-800000 at varid 50000, -32 at 99998)",
+   "in-table cells: slot 0 (100000) and slot 255 (100255, last cell, +4080)",
+   "flag[+0x24]!=0 with table==NULL at varid 100000 -> lazy slot 0",
+   "second-run reproducibility of both arms"
+  ],
+  "not_covered": [
+   "GET_RValue semantics (stubbed on both arms)",
+   "InternalGetYYVar semantics (stubbed)",
+   "builtin getter semantics (stubbed)",
+   "device behaviour"
+  ],
+  "inert_staging": [
+   "slot_tag word at +0 of the resolved slot (tag 2 for the arrindex cases): staged identically on both arms, read by neither GET_RValue stub, so it cannot move the verdict"
+  ]
+ },
+ "findings": [
+  "three case labels were wrong about the slot base: varid 10000 / 10007 / 10050 are slots -90000 / -89993 / -89950, not 0 / 7 / 50 (VARID_SLOT_BASE is 100000).  Labels corrected, arithmetic and inputs untouched.",
+  "consequence: before this change no case addressed a table cell of the slot table at all (every slot-path case was at slot -9xxxx or below), which is why get_rvalue_args_swapped could only be caught by a segfault.",
+  "the gap [10001,99999] is confirmed unguarded on the original bytes: valid flag + non-NULL table + varid 50000 reaches GET_RValue with a slot address 800000 B BELOW the table."
+ ],
+ "case_label_corrections": [
+  {
+   "was": "slot 0, scalar",
+   "now": "varid 10000 -> slot -90000, delta -1440000",
+   "why": "varid 10000 is not slot 0: slot = varid - 100000 = -90000, so the slot address is 1440000 B BELOW the staged table"
+  },
+  {
+   "was": "slot 7, array index 3",
+   "now": "varid 10007 -> slot -89993, delta -1439888, array index 3",
+   "why": "same base error; varid 10007 is slot -89993, not slot 7"
+  },
+  {
+   "was": "table NULL, slot 50, array index 7",
+   "now": "table NULL, slot -89950, array index 7",
+   "why": "same base error; InternalGetYYVar received -89950, not 50"
+  }
+ ],
+ "repeat": {
+  "runs_per_arm": 2,
+  "rerun_kind": {
+   "original": "second Unicorn instance, same case order",
+   "rebuild": "second qemu-arm process, same stdin blob"
+  },
+  "original_identical": true,
+  "rebuild_identical": true,
+  "original_log_sha256": [
+   "1f20db4e03a3b238f8535d13913f34be82041b37323228edd625c024df04a7e7",
+   "1f20db4e03a3b238f8535d13913f34be82041b37323228edd625c024df04a7e7"
+  ],
+  "rebuild_log_sha256": [
+   "1f20db4e03a3b238f8535d13913f34be82041b37323228edd625c024df04a7e7",
+   "1f20db4e03a3b238f8535d13913f34be82041b37323228edd625c024df04a7e7"
+  ],
+  "note": "identical digests inside an arm are the repeatability evidence; the two arms agreeing with each other is the identity gate"
+ },
+ "cases": 19,
+ "rows": [
+  {
+   "case": {
+    "varid": 0,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "builtin #0"
+   },
+   "original": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      -2147483648,
+      4369
+     ]
+    ],
+    "case": {
+     "varid": 0,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "builtin #0"
+    }
+   },
+   "rebuild": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      -2147483648,
+      4369
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 9999,
+    "arrindex": 0,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "builtin #9999 (<= boundary)"
+   },
+   "original": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      0,
+      4369
+     ]
+    ],
+    "case": {
+     "varid": 9999,
+     "arrindex": 0,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "builtin #9999 (<= boundary)"
+    }
+   },
+   "rebuild": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      0,
+      4369
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 5000,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "builtin #5000, array index INT_MIN"
+   },
+   "original": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      -2147483648,
+      4369
+     ]
+    ],
+    "case": {
+     "varid": 5000,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "builtin #5000, array index INT_MIN"
+    }
+   },
+   "rebuild": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      -2147483648,
+      4369
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 10000,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "varid 10000 -> slot -90000, delta -1440000 (label was \"slot 0\")"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      -1440000,
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 10000,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "varid 10000 -> slot -90000, delta -1440000 (label was \"slot 0\")"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      -1440000,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 10007,
+    "arrindex": 3,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "varid 10007 -> slot -89993, delta -1439888, array index 3 (label was \"slot 7\")"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -1439888,
+      3,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 10007,
+     "arrindex": 3,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "varid 10007 -> slot -89993, delta -1439888, array index 3 (label was \"slot 7\")"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -1439888,
+      3,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 10000,
+    "arrindex": -2147483648,
+    "flag24": 0,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "flag 0 -> return 0, out untouched"
+   },
+   "original": {
+    "ret": 0,
+    "out": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "calls": [],
+    "case": {
+     "varid": 10000,
+     "arrindex": -2147483648,
+     "flag24": 0,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "flag 0 -> return 0, out untouched"
+    }
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 10000,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 0,
+    "intget_slot": 5,
+    "slot_tag": 0,
+    "label": "table NULL -> InternalGetYYVar"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      -90000
+     ],
+     [
+      "G",
+      "L",
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 10000,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 0,
+     "intget_slot": 5,
+     "slot_tag": 0,
+     "label": "table NULL -> InternalGetYYVar"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      -90000
+     ],
+     [
+      "G",
+      "L",
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 10050,
+    "arrindex": 7,
+    "flag24": 1,
+    "table_mode": 0,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "table NULL, slot -89950, array index 7"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      -89950
+     ],
+     [
+      "G",
+      "L",
+      7,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 10050,
+     "arrindex": 7,
+     "flag24": 1,
+     "table_mode": 0,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "table NULL, slot -89950, array index 7"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      -89950
+     ],
+     [
+      "G",
+      "L",
+      7,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 99999,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "slot -1 -> address BELOW the table"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -16,
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 99999,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "slot -1 -> address BELOW the table"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -16,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": -1,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "negative varid -> slot path (unsigned bls)"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -1600016,
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": -1,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "negative varid -> slot path (unsigned bls)"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -1600016,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 100000,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "exactly 100000 -> slot 0"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 100000,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "exactly 100000 -> slot 0"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 50000,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "gap varid 50000 -> slot -50000, delta -800000"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      -800000,
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 50000,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "gap varid 50000 -> slot -50000, delta -800000"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      -800000,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 99998,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "gap varid 99998 -> slot -2, delta -32"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      -32,
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 99998,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "gap varid 99998 -> slot -2, delta -32"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      -32,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 100255,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "slot 255, last 16 B cell of the table (+4080)"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      4080,
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 100255,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "slot 255, last 16 B cell of the table (+4080)"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      4080,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 100000,
+    "arrindex": -2147483648,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 2,
+    "label": "slot 0 (tag 2 array), arrindex INT_MIN (scalar sentinel)"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 100000,
+     "arrindex": -2147483648,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 2,
+     "label": "slot 0 (tag 2 array), arrindex INT_MIN (scalar sentinel)"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 100000,
+    "arrindex": 0,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 2,
+    "label": "slot 0 (tag 2 array), arrindex 0"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      0,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 100000,
+     "arrindex": 0,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 2,
+     "label": "slot 0 (tag 2 array), arrindex 0"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      0,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 100000,
+    "arrindex": 1,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 2,
+    "label": "slot 0 (tag 2 array), arrindex 1"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      1,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 100000,
+     "arrindex": 1,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 2,
+     "label": "slot 0 (tag 2 array), arrindex 1"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      1,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 100000,
+    "arrindex": 2147483647,
+    "flag24": 1,
+    "table_mode": 1,
+    "intget_slot": 0,
+    "slot_tag": 2,
+    "label": "slot 0 (tag 2 array), arrindex 0x7fffffff"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      2147483647,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 100000,
+     "arrindex": 2147483647,
+     "flag24": 1,
+     "table_mode": 1,
+     "intget_slot": 0,
+     "slot_tag": 2,
+     "label": "slot 0 (tag 2 array), arrindex 0x7fffffff"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      2147483647,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "varid": 100000,
+    "arrindex": -2147483648,
+    "flag24": 4,
+    "table_mode": 0,
+    "intget_slot": 0,
+    "slot_tag": 0,
+    "label": "flag 4, table NULL, varid 100000 -> lazy slot 0"
+   },
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      0
+     ],
+     [
+      "G",
+      "L",
+      -2147483648,
+      8738
+     ]
+    ],
+    "case": {
+     "varid": 100000,
+     "arrindex": -2147483648,
+     "flag24": 4,
+     "table_mode": 0,
+     "intget_slot": 0,
+     "slot_tag": 0,
+     "label": "flag 4, table NULL, varid 100000 -> lazy slot 0"
+    }
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      0
+     ],
+     [
+      "G",
+      "L",
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  }
+ ],
+ "coverage": {
+  "builtin_path": true,
+  "slot_path_arg": true,
+  "flag_zero_exit": true,
+  "lazy_path": true,
+  "below_table": true,
+  "array_index_passthrough": true,
+  "gap_negative_slot": true,
+  "last_slot": true,
+  "arrindex_extremes": true
+ },
+ "teeth": [
+  {
+   "mutant": "builtin_boundary_lt",
+   "caught_by": [
+    "builtin #9999 (<= boundary)"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "builtin #9999 (<= boundary)",
+    "ret": {
+     "original": 4369,
+     "mutant": 8738
+    },
+    "out": {
+     "original": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+     "mutant": "505152535455565758595a5b5c5d5e5f"
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       0,
+       4369
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       -1440016,
+       0,
+       8738
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "drop_flag_zero_exit",
+   "caught_by": [
+    "flag 0 -> return 0, out untouched"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "flag 0 -> return 0, out untouched",
+    "ret": {
+     "original": 0,
+     "mutant": 8738
+    },
+    "out": {
+     "original": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+     "mutant": "404142434445464748494a4b4c4d4e4f"
+    },
+    "calls": {
+     "original": [],
+     "mutant": [
+      [
+       "G",
+       -1440000,
+       -2147483648,
+       8738
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "slot_stride_16_to_8",
+   "caught_by": [
+    "varid 10000 -> slot -90000, delta -1440000 (label was \"slot 0\")",
+    "varid 10007 -> slot -89993, delta -1439888, array index 3 (label was \"slot 7\")",
+    "slot -1 -> address BELOW the table",
+    "negative varid -> slot path (unsigned bls)",
+    "gap varid 50000 -> slot -50000, delta -800000",
+    "gap varid 99998 -> slot -2, delta -32",
+    "slot 255, last 16 B cell of the table (+4080)"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "varid 10000 -> slot -90000, delta -1440000 (label was \"slot 0\")",
+    "ret": {
+     "original": 8738,
+     "mutant": 8738
+    },
+    "out": {
+     "original": "404142434445464748494a4b4c4d4e4f",
+     "mutant": "404142434445464748494a4b4c4d4e4f"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -1440000,
+       -2147483648,
+       8738
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       -720000,
+       -2147483648,
+       8738
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "get_rvalue_args_swapped",
+   "caught_by": [
+    "table NULL -> InternalGetYYVar",
+    "table NULL, slot -89950, array index 7",
+    "slot -1 -> address BELOW the table",
+    "exactly 100000 -> slot 0",
+    "gap varid 99998 -> slot -2, delta -32",
+    "slot 255, last 16 B cell of the table (+4080)",
+    "slot 0 (tag 2 array), arrindex INT_MIN (scalar sentinel)",
+    "slot 0 (tag 2 array), arrindex 0",
+    "slot 0 (tag 2 array), arrindex 1",
+    "slot 0 (tag 2 array), arrindex 0x7fffffff",
+    "flag 4, table NULL, varid 100000 -> lazy slot 0"
+   ],
+   "aborted_cases": [
+    "varid 10000 -> slot -90000, delta -1440000 (label was \"slot 0\")",
+    "varid 10007 -> slot -89993, delta -1439888, array index 3 (label was \"slot 7\")",
+    "negative varid -> slot path (unsigned bls)",
+    "gap varid 50000 -> slot -50000, delta -800000"
+   ],
+   "mode": "mismatch+driver-abort",
+   "field_level": true,
+   "passed": true,
+   "batch_detail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+   "abort_detail": {
+    "varid 10000 -> slot -90000, delta -1440000 (label was \"slot 0\")": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "varid 10007 -> slot -89993, delta -1439888, array index 3 (label was \"slot 7\")": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "negative varid -> slot path (unsigned bls)": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "gap varid 50000 -> slot -50000, delta -800000": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped"
+   },
+   "sample_mismatch": {
+    "case": "table NULL -> InternalGetYYVar",
+    "ret": {
+     "original": 8738,
+     "mutant": 8738
+    },
+    "out": {
+     "original": "404142434445464748494a4b4c4d4e4f",
+     "mutant": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "I",
+       -90000
+      ],
+      [
+       "G",
+       "L",
+       -2147483648,
+       8738
+      ]
+     ],
+     "mutant": [
+      [
+       "I",
+       -90000
+      ],
+      [
+       "G",
+       12352,
+       -2147483648,
+       8738
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "lazy_path_uses_table_math",
+   "caught_by": [
+    "table NULL -> InternalGetYYVar",
+    "table NULL, slot -89950, array index 7",
+    "flag 4, table NULL, varid 100000 -> lazy slot 0"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "table NULL -> InternalGetYYVar",
+    "ret": {
+     "original": 8738,
+     "mutant": 8738
+    },
+    "out": {
+     "original": "404142434445464748494a4b4c4d4e4f",
+     "mutant": "4b4c4d4e4f505152535455565758595a"
+    },
+    "calls": {
+     "original": [
+      [
+       "I",
+       -90000
+      ],
+      [
+       "G",
+       "L",
+       -2147483648,
+       8738
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       -1800757,
+       -2147483648,
+       8738
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "bvar_entry_stride_16_to_4",
+   "caught_by": [],
+   "aborted_cases": [
+    "builtin #9999 (<= boundary)"
+   ],
+   "mode": "driver-abort",
+   "field_level": false,
+   "passed": true,
+   "batch_detail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+   "abort_detail": {
+    "builtin #9999 (<= boundary)": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped"
+   },
+   "sample_mismatch": null,
+   "note": "discrimination is by abort, not by a field mismatch - weaker than a mismatch tooth; the case set cannot say WHICH field moved",
+   "why_not_field_level": "not reachable as a field mismatch in this fixture: all 10000 builtin entries carry the SAME stub, so landing on entry varid*4 instead of varid*16 still yields a callable fn pointer whenever varid*4+4 is a +4 word - only varid 9999 (word at base+39996 is a name field, value 0) faults on the indirect call, and that abort is what discriminates the mutant.  A field-level catch needs distinct per-entry getters, and a stub cannot report which entry it was reached through without them."
+  }
+ ],
+ "status": "PASS"
+}

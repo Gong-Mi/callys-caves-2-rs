@@ -1,0 +1,2039 @@
+{
+ "schema": "cally-var-set-diff/1",
+ "generated_utc": "2026-11-16T09:00:27Z",
+ "tier": "oracle_anchored",
+ "original_executed": true,
+ "evidence_layer": "synthetic memory oracle: the original ARM bytes at 0x1f4348 executed over staged .bss cells, hash tables, containers and instance chains, with identical Direct/YYError stubs on both arms; NOT device execution",
+ "BINDING": {
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_sha256_pinned": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "entry": "0x1f4348",
+  "function": "_Z17Variable_SetValueiiiP6RValue",
+  "body_sha256": "79f1dc1abaeec91de76e29723d0baad0c8acb307e45452f9bf03214480bdec15",
+  "header_sha256": "2b405f0b843ea70e6bb01f56dd1bbb832ed3a8fdfac92e3def30aa8cb4b5bda0",
+  "driver_sha256": "47d518301453ae0e5f908e46dc2cd76731c42de63770475ab1d0ca9ceff08561",
+  "rodata_strings": {
+   "0x334928": "Unable to find any instance for object index '%d' name '%s'",
+   "0x352800": "Unable to find any instance for object index '%d'",
+   "0x3527f8": "(null)"
+  },
+  "rodata_match": true,
+  "stub_callees": [
+   "Variable_SetValue_Direct@0x1f3c28",
+   "YYError@0xd547c"
+  ],
+  "build": "clang --target=armv7a-none-eabi (freestanding) + qemu-arm"
+ },
+ "scope": {
+  "covered": [
+   "entry dispatch: sel == -3 / sel < 0 / sel > 99999 / else",
+   "S2 object table: bucket index = sel & mask, 8-byte buckets, node {+4 next, +8 key, +0xc CObjectGM}",
+   "S2: CObjectGM+0xd0 instance chain, +0x68/+0x69 gates, loop advance-before-callback",
+   "S3/S4 containers (0x542a64 / 0x542a4c): {+0 items, +8 signed count}, element +0x80 chain {+0x18 key, +0x48 next}, gates, item stride 4",
+   "S5 (0x536f28): table IS the cell, {+0 buckets, +4 mask}, only +0x68 is checked, tail call",
+   "S1: active list *(*(0x54298c)+0x80), next at +0x178, both gates",
+   "return contract: last Direct return, 0 on the error exits",
+   "error messages: name variant, plain variant, \"(null)\" name",
+   "var/index/value passthrough (incl. negative and INT_MAX)"
+  ],
+  "not_covered": [
+   "Variable_SetValue_Direct semantics (stubbed identically on both arms) - not recovered",
+   "YYError semantics (stubbed identically; the real one may exit the process) - not recovered",
+   "GET_RValue@0xd13bc and InternalGetYYVar@0x196a70: two levels below Direct, never reached by this differential",
+   "the identity of the two fallback containers C1/C2 and what their elements are",
+   "whether one instance can be written twice (S2 + C1/C2)",
+   "device behaviour: this is a synthetic-memory oracle over the original bytes, not execution on a phone"
+  ]
+ },
+ "instruction_census": {
+  "instructions": 255,
+  "documented": 255,
+  "wrong": [],
+  "pool_words": 10,
+  "pool_missing": [],
+  "ok": true
+ },
+ "cases": 40,
+ "repeat": {
+  "original": true,
+  "rebuild": true
+ },
+ "rows": [
+  {
+   "case": [
+    0,
+    100,
+    -2147483648,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S2 empty bucket -> E5 \"(null)\"",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      0,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      0,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    9999,
+    0,
+    5,
+    5,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S2 hit, 3 chain nodes: ok/dead/off",
+   "original": {
+    "ret": 4352,
+    "calls": [
+     [
+      "D",
+      0,
+      0,
+      5,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4352,
+    "calls": [
+     [
+      "D",
+      0,
+      0,
+      5,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10000,
+    7,
+    9,
+    6,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S2 hit, dead node then node without inst",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10000,
+      "OBJNAME"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10000,
+      "OBJNAME"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10007,
+    3,
+    3,
+    1,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S2 chain, key never matches",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10007,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10007,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10050,
+    4,
+    4,
+    2,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S2 key hit, value NULL",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10050,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10050,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10001,
+    5,
+    5,
+    3,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S2 key hit, CObjectGM without chain",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10001,
+      "OBJNAME"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10001,
+      "OBJNAME"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10002,
+    6,
+    6,
+    4,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S2 chain head without an instance",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10002,
+      "OBJNAME"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10002,
+      "OBJNAME"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10003,
+    8,
+    8,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "label": "C1 hit only",
+   "original": {
+    "ret": 4355,
+    "calls": [
+     [
+      "D",
+      3,
+      8,
+      8,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4355,
+    "calls": [
+     [
+      "D",
+      3,
+      8,
+      8,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10004,
+    9,
+    9,
+    0,
+    1,
+    0,
+    0,
+    0
+   ],
+   "label": "C1 element without chain, then a miss",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10004,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10004,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10005,
+    10,
+    10,
+    0,
+    3,
+    0,
+    0,
+    0
+   ],
+   "label": "C1 match but destroyed",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10005,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10005,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10006,
+    11,
+    11,
+    0,
+    4,
+    0,
+    0,
+    0
+   ],
+   "label": "C1 match but deactivated",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10006,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10006,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10008,
+    12,
+    12,
+    0,
+    5,
+    0,
+    0,
+    0
+   ],
+   "label": "C1 two elements, first gated",
+   "original": {
+    "ret": 4356,
+    "calls": [
+     [
+      "D",
+      4,
+      12,
+      12,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4356,
+    "calls": [
+     [
+      "D",
+      4,
+      12,
+      12,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10009,
+    13,
+    13,
+    0,
+    6,
+    0,
+    0,
+    0
+   ],
+   "label": "C1 two-node key chain: miss then hit",
+   "original": {
+    "ret": 4355,
+    "calls": [
+     [
+      "D",
+      3,
+      13,
+      13,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4355,
+    "calls": [
+     [
+      "D",
+      3,
+      13,
+      13,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10010,
+    14,
+    14,
+    0,
+    7,
+    0,
+    0,
+    0
+   ],
+   "label": "C1 signed count <= 0",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10010,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10010,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10011,
+    15,
+    15,
+    0,
+    0,
+    2,
+    0,
+    0
+   ],
+   "label": "C2 hit only",
+   "original": {
+    "ret": 4357,
+    "calls": [
+     [
+      "D",
+      5,
+      15,
+      15,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4357,
+    "calls": [
+     [
+      "D",
+      5,
+      15,
+      15,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10012,
+    16,
+    16,
+    0,
+    0,
+    1,
+    0,
+    0
+   ],
+   "label": "C2 element without chain, then a miss",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10012,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10012,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10013,
+    17,
+    17,
+    0,
+    0,
+    3,
+    0,
+    0
+   ],
+   "label": "C2 match but destroyed",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10013,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10013,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10014,
+    18,
+    18,
+    0,
+    0,
+    4,
+    0,
+    0
+   ],
+   "label": "C2 match but deactivated",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10014,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10014,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10015,
+    19,
+    19,
+    0,
+    0,
+    5,
+    0,
+    0
+   ],
+   "label": "C2 two elements, first gated",
+   "original": {
+    "ret": 4358,
+    "calls": [
+     [
+      "D",
+      6,
+      19,
+      19,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4358,
+    "calls": [
+     [
+      "D",
+      6,
+      19,
+      19,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10016,
+    20,
+    20,
+    0,
+    0,
+    6,
+    0,
+    0
+   ],
+   "label": "C2 two-node key chain: miss then hit",
+   "original": {
+    "ret": 4357,
+    "calls": [
+     [
+      "D",
+      5,
+      20,
+      20,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4357,
+    "calls": [
+     [
+      "D",
+      5,
+      20,
+      20,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10017,
+    21,
+    21,
+    0,
+    0,
+    7,
+    0,
+    0
+   ],
+   "label": "C2 signed count <= 0",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10017,
+      "(null)"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "NAME",
+      10017,
+      "(null)"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10018,
+    22,
+    22,
+    5,
+    2,
+    2,
+    0,
+    0
+   ],
+   "label": "S2 + C1 + C2 all hit: 3 Directs",
+   "original": {
+    "ret": 4869,
+    "calls": [
+     [
+      "D",
+      0,
+      22,
+      22,
+      0
+     ],
+     [
+      "D",
+      3,
+      22,
+      22,
+      0
+     ],
+     [
+      "D",
+      5,
+      22,
+      22,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4869,
+    "calls": [
+     [
+      "D",
+      0,
+      22,
+      22,
+      0
+     ],
+     [
+      "D",
+      3,
+      22,
+      22,
+      0
+     ],
+     [
+      "D",
+      5,
+      22,
+      22,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    99999,
+    23,
+    23,
+    5,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "boundary 99999 stays on S2",
+   "original": {
+    "ret": 4352,
+    "calls": [
+     [
+      "D",
+      0,
+      23,
+      23,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4352,
+    "calls": [
+     [
+      "D",
+      0,
+      23,
+      23,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100001,
+    24,
+    24,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S5 empty bucket",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      100001,
+      "-"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      100001,
+      "-"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100002,
+    25,
+    25,
+    0,
+    0,
+    0,
+    1,
+    0
+   ],
+   "label": "S5 chain, key never matches",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      100002,
+      "-"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      100002,
+      "-"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100003,
+    26,
+    26,
+    0,
+    0,
+    0,
+    2,
+    0
+   ],
+   "label": "S5 key hit, value NULL",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      100003,
+      "-"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      100003,
+      "-"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100004,
+    27,
+    27,
+    0,
+    0,
+    0,
+    3,
+    0
+   ],
+   "label": "S5 key hit, instance destroyed",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      100004,
+      "-"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      100004,
+      "-"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100005,
+    28,
+    28,
+    0,
+    0,
+    0,
+    4,
+    0
+   ],
+   "label": "S5 tail call",
+   "original": {
+    "ret": 4359,
+    "calls": [
+     [
+      "D",
+      7,
+      28,
+      28,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4359,
+    "calls": [
+     [
+      "D",
+      7,
+      28,
+      28,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100006,
+    29,
+    29,
+    0,
+    0,
+    0,
+    5,
+    0
+   ],
+   "label": "S5 miss then hit",
+   "original": {
+    "ret": 4359,
+    "calls": [
+     [
+      "D",
+      7,
+      29,
+      29,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4359,
+    "calls": [
+     [
+      "D",
+      7,
+      29,
+      29,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100007,
+    30,
+    30,
+    0,
+    0,
+    0,
+    6,
+    0
+   ],
+   "label": "S5 ignores +0x69 (still dispatches)",
+   "original": {
+    "ret": 4359,
+    "calls": [
+     [
+      "D",
+      7,
+      30,
+      30,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4359,
+    "calls": [
+     [
+      "D",
+      7,
+      30,
+      30,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    32,
+    32,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "S1 empty active list",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      -3,
+      "-"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      -3,
+      "-"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    33,
+    33,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "label": "S1 every instance gated",
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      -3,
+      "-"
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "E",
+      "INDEX",
+      -3,
+      "-"
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    34,
+    34,
+    0,
+    0,
+    0,
+    0,
+    2
+   ],
+   "label": "S1 ok / dead / ok",
+   "original": {
+    "ret": 4610,
+    "calls": [
+     [
+      "D",
+      0,
+      34,
+      34,
+      0
+     ],
+     [
+      "D",
+      2,
+      34,
+      34,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4610,
+    "calls": [
+     [
+      "D",
+      0,
+      34,
+      34,
+      0
+     ],
+     [
+      "D",
+      2,
+      34,
+      34,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    35,
+    35,
+    0,
+    0,
+    0,
+    0,
+    3
+   ],
+   "label": "S1 single instance",
+   "original": {
+    "ret": 4352,
+    "calls": [
+     [
+      "D",
+      0,
+      35,
+      35,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4352,
+    "calls": [
+     [
+      "D",
+      0,
+      35,
+      35,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -1,
+    36,
+    36,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "sel < 0 -> return 0, silent",
+   "original": {
+    "ret": 0,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -2,
+    0,
+    0,
+    0,
+    2,
+    2,
+    4,
+    2
+   ],
+   "label": "sel < 0 but every structure is live",
+   "original": {
+    "ret": 0,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    0,
+    -7,
+    -8,
+    0,
+    2,
+    2,
+    0,
+    0
+   ],
+   "label": "negative var/index passthrough",
+   "original": {
+    "ret": 4613,
+    "calls": [
+     [
+      "D",
+      3,
+      -7,
+      -8,
+      0
+     ],
+     [
+      "D",
+      5,
+      -7,
+      -8,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4613,
+    "calls": [
+     [
+      "D",
+      3,
+      -7,
+      -8,
+      0
+     ],
+     [
+      "D",
+      5,
+      -7,
+      -8,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10019,
+    39,
+    2147483647,
+    5,
+    0,
+    0,
+    0,
+    0
+   ],
+   "label": "INT_MAX index passthrough",
+   "original": {
+    "ret": 4352,
+    "calls": [
+     [
+      "D",
+      0,
+      39,
+      2147483647,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4352,
+    "calls": [
+     [
+      "D",
+      0,
+      39,
+      2147483647,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10020,
+    40,
+    -1,
+    0,
+    6,
+    6,
+    0,
+    0
+   ],
+   "label": "both containers, index -1",
+   "original": {
+    "ret": 4613,
+    "calls": [
+     [
+      "D",
+      3,
+      40,
+      -1,
+      0
+     ],
+     [
+      "D",
+      5,
+      40,
+      -1,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4613,
+    "calls": [
+     [
+      "D",
+      3,
+      40,
+      -1,
+      0
+     ],
+     [
+      "D",
+      5,
+      40,
+      -1,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10021,
+    41,
+    41,
+    0,
+    2,
+    1,
+    0,
+    0
+   ],
+   "label": "C1 hits, C2 has a count but no match: return survives C2",
+   "original": {
+    "ret": 4355,
+    "calls": [
+     [
+      "D",
+      3,
+      41,
+      41,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4355,
+    "calls": [
+     [
+      "D",
+      3,
+      41,
+      41,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  }
+ ],
+ "coverage": {
+  "entry_sel_m3": true,
+  "entry_sel_negative": true,
+  "entry_sel_gt_99999": true,
+  "s2_bucket_empty": true,
+  "s2_chain_exhausted": true,
+  "s2_key_mismatch_next": true,
+  "s2_value_null": true,
+  "s2_no_instance_chain": true,
+  "s2_first_inst_null": true,
+  "s2_skip_destroyed": true,
+  "s2_skip_deactivated": true,
+  "s2_direct": true,
+  "s2_loop_resume": true,
+  "s2_loop_exit_inst_null": true,
+  "c1_skipped_count": true,
+  "c1_element_no_chain": true,
+  "c1_key_chain_walk": true,
+  "c1_key_miss": true,
+  "c1_skip_destroyed": true,
+  "c1_skip_deactivated": true,
+  "c1_direct": true,
+  "c1_loop_next_element": true,
+  "c2_skipped_count": true,
+  "c2_element_no_chain": true,
+  "c2_key_chain_walk": true,
+  "c2_key_miss": true,
+  "c2_skip_destroyed": true,
+  "c2_skip_deactivated": true,
+  "c2_direct": true,
+  "c2_loop_next_element": true,
+  "hit_suppresses_error": true,
+  "error_name_arg": true,
+  "error_null_name": true,
+  "s1_head_null": true,
+  "s1_skip_destroyed": true,
+  "s1_skip_deactivated": true,
+  "s1_direct": true,
+  "s1_loop_next": true,
+  "s1_no_hit_error": true,
+  "s1_return_accumulator": true,
+  "s5_bucket_empty": true,
+  "s5_chain_end": true,
+  "s5_key_mismatch_next": true,
+  "s5_value_null": true,
+  "s5_skip_destroyed": true,
+  "s5_tail_direct": true,
+  "e3_message": true,
+  "e4_message": true,
+  "e5_message": true,
+  "ret_zero_exit": true,
+  "return_is_last_direct": true,
+  "s5_ignores_0x69": true,
+  "index_passthrough": true,
+  "negative_var_passthrough": true
+ },
+ "coverage_witness": {
+  "entry_sel_m3": [
+   "S1 empty active list",
+   "S1 every instance gated"
+  ],
+  "entry_sel_negative": [
+   "sel < 0 -> return 0, silent",
+   "sel < 0 but every structure is live"
+  ],
+  "entry_sel_gt_99999": [
+   "S5 empty bucket",
+   "S5 chain, key never matches"
+  ],
+  "s2_bucket_empty": [
+   "S2 empty bucket -> E5 \"(null)\"",
+   "C1 hit only"
+  ],
+  "s2_chain_exhausted": [
+   "S2 chain, key never matches"
+  ],
+  "s2_key_mismatch_next": [
+   "S2 chain, key never matches",
+   "S2 key hit, value NULL"
+  ],
+  "s2_value_null": [
+   "S2 key hit, value NULL"
+  ],
+  "s2_no_instance_chain": [
+   "S2 key hit, CObjectGM without chain"
+  ],
+  "s2_first_inst_null": [
+   "S2 chain head without an instance"
+  ],
+  "s2_skip_destroyed": [
+   "S2 hit, 3 chain nodes: ok/dead/off",
+   "S2 hit, dead node then node without inst"
+  ],
+  "s2_skip_deactivated": [
+   "S2 hit, 3 chain nodes: ok/dead/off",
+   "S2 + C1 + C2 all hit: 3 Directs"
+  ],
+  "s2_direct": [
+   "S2 hit, 3 chain nodes: ok/dead/off",
+   "S2 + C1 + C2 all hit: 3 Directs"
+  ],
+  "s2_loop_resume": [
+   "S2 hit, 3 chain nodes: ok/dead/off",
+   "S2 hit, dead node then node without inst"
+  ],
+  "s2_loop_exit_inst_null": [
+   "S2 hit, dead node then node without inst"
+  ],
+  "c1_skipped_count": [
+   "S2 empty bucket -> E5 \"(null)\"",
+   "S2 hit, 3 chain nodes: ok/dead/off"
+  ],
+  "c1_element_no_chain": [
+   "C1 element without chain, then a miss"
+  ],
+  "c1_key_chain_walk": [
+   "C1 two-node key chain: miss then hit",
+   "both containers, index -1"
+  ],
+  "c1_key_miss": [
+   "C1 element without chain, then a miss"
+  ],
+  "c1_skip_destroyed": [
+   "C1 match but destroyed",
+   "C1 two elements, first gated"
+  ],
+  "c1_skip_deactivated": [
+   "C1 match but deactivated"
+  ],
+  "c1_direct": [
+   "C1 hit only",
+   "C1 two elements, first gated"
+  ],
+  "c1_loop_next_element": [
+   "C1 element without chain, then a miss",
+   "C1 two elements, first gated"
+  ],
+  "c2_skipped_count": [
+   "S2 empty bucket -> E5 \"(null)\"",
+   "S2 hit, 3 chain nodes: ok/dead/off"
+  ],
+  "c2_element_no_chain": [
+   "C2 element without chain, then a miss",
+   "C1 hits, C2 has a count but no match: return survives C2"
+  ],
+  "c2_key_chain_walk": [
+   "C2 two-node key chain: miss then hit",
+   "both containers, index -1"
+  ],
+  "c2_key_miss": [
+   "C2 element without chain, then a miss",
+   "C1 hits, C2 has a count but no match: return survives C2"
+  ],
+  "c2_skip_destroyed": [
+   "C2 match but destroyed",
+   "C2 two elements, first gated"
+  ],
+  "c2_skip_deactivated": [
+   "C2 match but deactivated"
+  ],
+  "c2_direct": [
+   "C2 hit only",
+   "C2 two elements, first gated"
+  ],
+  "c2_loop_next_element": [
+   "C2 element without chain, then a miss",
+   "C2 two elements, first gated"
+  ],
+  "hit_suppresses_error": [
+   "S2 hit, 3 chain nodes: ok/dead/off",
+   "C1 hit only"
+  ],
+  "error_name_arg": [
+   "S2 hit, dead node then node without inst",
+   "S2 key hit, CObjectGM without chain"
+  ],
+  "error_null_name": [
+   "S2 empty bucket -> E5 \"(null)\"",
+   "S2 chain, key never matches"
+  ],
+  "s1_head_null": [
+   "S1 empty active list"
+  ],
+  "s1_skip_destroyed": [
+   "S1 every instance gated",
+   "S1 ok / dead / ok"
+  ],
+  "s1_skip_deactivated": [
+   "S1 every instance gated"
+  ],
+  "s1_direct": [
+   "S1 ok / dead / ok",
+   "S1 single instance"
+  ],
+  "s1_loop_next": [
+   "S1 every instance gated",
+   "S1 ok / dead / ok"
+  ],
+  "s1_no_hit_error": [
+   "S1 every instance gated"
+  ],
+  "s1_return_accumulator": [
+   "S1 ok / dead / ok",
+   "S1 single instance"
+  ],
+  "s5_bucket_empty": [
+   "S5 empty bucket"
+  ],
+  "s5_chain_end": [
+   "S5 chain, key never matches"
+  ],
+  "s5_key_mismatch_next": [
+   "S5 chain, key never matches",
+   "S5 miss then hit"
+  ],
+  "s5_value_null": [
+   "S5 key hit, value NULL"
+  ],
+  "s5_skip_destroyed": [
+   "S5 key hit, instance destroyed"
+  ],
+  "s5_tail_direct": [
+   "S5 tail call",
+   "S5 miss then hit"
+  ],
+  "e3_message": [
+   "S5 empty bucket",
+   "S5 chain, key never matches"
+  ],
+  "e4_message": [
+   "S1 empty active list",
+   "S1 every instance gated"
+  ],
+  "e5_message": [
+   "S2 empty bucket -> E5 \"(null)\"",
+   "S2 hit, dead node then node without inst"
+  ],
+  "ret_zero_exit": [
+   "S5 empty bucket",
+   "S5 chain, key never matches"
+  ],
+  "return_is_last_direct": [
+   "S2 hit, 3 chain nodes: ok/dead/off",
+   "C1 hit only"
+  ],
+  "s5_ignores_0x69": [
+   "S5 ignores +0x69 (still dispatches)"
+  ],
+  "index_passthrough": [
+   "S2 hit, 3 chain nodes: ok/dead/off",
+   "C1 hit only"
+  ],
+  "negative_var_passthrough": [
+   "negative var/index passthrough"
+  ]
+ },
+ "teeth": [
+  {
+   "mutant": "sel_boundary_ge",
+   "caught_by": [
+    "boundary 99999 stays on S2"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "sel_m3_wrong_constant",
+   "caught_by": [
+    "S1 empty active list",
+    "S1 every instance gated",
+    "S1 ok / dead / ok",
+    "S1 single instance"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "negative_gate_dropped",
+   "caught_by": [
+    "sel < 0 -> return 0, silent",
+    "sel < 0 but every structure is live"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "s2_bucket_stride_4",
+   "caught_by": [
+    "S2 hit, 3 chain nodes: ok/dead/off",
+    "S2 key hit, CObjectGM without chain",
+    "S2 chain head without an instance",
+    "S2 + C1 + C2 all hit: 3 Directs",
+    "boundary 99999 stays on S2",
+    "INT_MAX index passthrough"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "s5_bucket_stride_4",
+   "caught_by": [
+    "S5 tail call",
+    "S5 miss then hit",
+    "S5 ignores +0x69 (still dispatches)"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "s5_key_compare_uses_var",
+   "caught_by": [
+    "S5 tail call",
+    "S5 miss then hit",
+    "S5 ignores +0x69 (still dispatches)"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "s5_destroyed_gate_dropped",
+   "caught_by": [
+    "S5 key hit, instance destroyed"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "s5_gate_0x69_added",
+   "caught_by": [
+    "S5 ignores +0x69 (still dispatches)"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "s2_gate_0x69_dropped",
+   "caught_by": [
+    "S2 hit, 3 chain nodes: ok/dead/off",
+    "S2 + C1 + C2 all hit: 3 Directs",
+    "boundary 99999 stays on S2",
+    "INT_MAX index passthrough"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "s2_gate_0x68_dropped",
+   "caught_by": [
+    "S2 hit, 3 chain nodes: ok/dead/off",
+    "S2 hit, dead node then node without inst",
+    "S2 + C1 + C2 all hit: 3 Directs",
+    "boundary 99999 stays on S2",
+    "INT_MAX index passthrough"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "c1_extra_indirection",
+   "caught_by": [],
+   "passed": true,
+   "mode": "driver-abort",
+   "detail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped\n",
+   "note": "discrimination is by abort, not by a field mismatch; the case set cannot say WHICH field moved"
+  },
+  {
+   "mutant": "s2_hit_flag_not_set",
+   "caught_by": [
+    "S2 hit, 3 chain nodes: ok/dead/off",
+    "boundary 99999 stays on S2",
+    "INT_MAX index passthrough"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "c1_item_stride_8",
+   "caught_by": [
+    "C1 element without chain, then a miss",
+    "C1 two elements, first gated"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "c1_direct_args_swapped",
+   "caught_by": [
+    "negative var/index passthrough",
+    "both containers, index -1"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "c1_count_ge_zero",
+   "caught_by": [
+    "S2 empty bucket -> E5 \"(null)\"",
+    "S2 hit, 3 chain nodes: ok/dead/off",
+    "S2 hit, dead node then node without inst",
+    "S2 chain, key never matches",
+    "S2 key hit, value NULL",
+    "S2 key hit, CObjectGM without chain",
+    "S2 chain head without an instance",
+    "C2 hit only",
+    "C2 element without chain, then a miss",
+    "C2 match but destroyed",
+    "C2 match but deactivated",
+    "C2 two elements, first gated",
+    "C2 two-node key chain: miss then hit",
+    "C2 signed count <= 0",
+    "boundary 99999 stays on S2",
+    "INT_MAX index passthrough"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "c1_count_offset_plus4",
+   "caught_by": [
+    "C1 hit only",
+    "C1 two elements, first gated",
+    "C1 two-node key chain: miss then hit",
+    "S2 + C1 + C2 all hit: 3 Directs",
+    "negative var/index passthrough",
+    "both containers, index -1",
+    "C1 hits, C2 has a count but no match: return survives C2"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "c2_accumulator_reset",
+   "caught_by": [
+    "C1 hits, C2 has a count but no match: return survives C2"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "error_name_offset",
+   "caught_by": [
+    "S2 hit, dead node then node without inst",
+    "S2 key hit, CObjectGM without chain",
+    "S2 chain head without an instance"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "s1_next_offset",
+   "caught_by": [
+    "S1 ok / dead / ok"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  }
+ ],
+ "status": "PASS"
+}
