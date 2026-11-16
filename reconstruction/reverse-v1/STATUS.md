@@ -1,5 +1,31 @@
 # 状态与定性（2026-11-16 更新）
 
+## 2026-11-16（续三）：语义核心第三批——GetValue 解析器 + 名称侧两件（父代理复跑）
+
+**A. `Variable_GetValue` 解析器（`c/variable_resolve/`，`harness/var_resolve_diff.py`）**
+父代理复跑：`RESULT PASS cases=54 identical=54`，覆盖 48 项全 yes，变异体 21 项全 PASS
+（无纯崩溃型；两个 `mismatch+driver-abort` 是"字段级已抓到 + 另有用例崩"）。
+回执 `var_resolve_diff-20261116T172029`。判据每例比 `RET` / `OUT` 16 B / 失败标志
+`0x75505c` / 有序调用流（slot delta 以 region 为基准，负槽号也成立）；
+`Variable_GetValue_Direct` 已有译文 → **真实链接**（body sha 与 var_direct 回执同值），
+`GET_RValue` / `InternalGetYYVar` / builtin getter 仍同桩并在 scope 写明。
+两条值得一提的过程事实：
+- 工人初版给房间路径多插了一层解引用，差分立刻红出 5 个房间用例（原件 ret=0/flag=1，译文本可解析）。
+  卡是对的、译文是错的 —— **staging 双侧对称也救不了译文错**。
+- 卡里"段 3 与段 4 的 r5 语义相反"这句文字错：两段都是 `(sel==索引)?1:0`，
+  段 3 用 `movne/moveq`、段 4 用 `subs/rsbs/adcs`（`C2=(d==0)`），行为一致。
+
+**B. 名称侧两件（`c/variable_names/`，`harness/var_names_diff.py`）**
+父代理复跑：`RESULT PASS cases=42（Find_Slot_From_Name 16 + GetObjectName 26）identical=42`，
+覆盖 31 项全 yes，变异体 17 项全 PASS，census 84/84。回执 `var_names_diff-20261116T172045`。
+与静态卡**无偏差**（行号、指令数 13+2 / 71+9、池大小、三处 GOT→.bss、节点/桶偏移、六个失败出口同址全部逐字对上）。
+`Object_Name` / `Local_Name` / `Global_Name` 三个被调方仍是同桩：绿的只是这两个函数体的
+分派、字段偏移与返回管线，**不是设备等价**。
+
+**本线剩余（语义核心 145 函数里尚未动的）**：CRoom/CLayer 的 Add*/Remove* 一族、
+事件/命令（VM_Exec 仍只有 366 锚点的骨架卡）、builtin F_ 直系，
+以及 `Code_Variable_Find_Name` 与 `DoConvIntToVariable`/`DoPopLocalVariable` 等待接。
+
 ## 2026-11-16（续二）：语义核心第二批——SetValue 家族 + Get 臂补边界，两臂都复跑过
 
 **A. Variable_SetValue 家族译文与差分臂（新模块 `c/variable_set/`，`harness/var_set_diff.py`）**
