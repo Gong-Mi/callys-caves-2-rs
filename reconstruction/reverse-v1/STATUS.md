@@ -1,5 +1,37 @@
 # 状态与定性（2026-11-16 更新）
 
+## 2026-11-16（续六）：VM 算术处理器 + 房间激活链，并修掉一处我自己模块里的 NaN 误译
+
+**A. `c/do_add/` + `harness/do_add_diff.py`**：`DoAdd`(0xdc524) 523 例 identical、census 996/996、
+pair 表 103/103 项真被执行、15 个牙齿全 PASS（全部 `mode=compare`，无崩溃型）。
+**`c/do_sub/` + `harness/do_sub_diff.py`**：`DoSub` 481 例 identical、census 521/521、14 个牙齿全 PASS。
+两臂都用 armv7a-none-eabi + qemu-arm（DoAdd 的 string 路径把 `char*` 存进 4 字节 RValue 槽，
+宿主 64 位会整体挪位）。`boxType` 真实链接；`F_JS_ToNumber` / `F_JS_ToPrimitive` 是**具名模型**并由差分判死。
+回执 `do_add_diff-20261116T193217` / `do_sub_diff-20261116T193224`。
+对卡的更正：
+1. `cards/DoAdd.c` 的 "1015 条指令" 错——实际 **996 指令 + 19 池字**（把池当指令读了）。DoSub 的 538 = 521+17 是对的。
+2. **表 3 用调用方给的 cls 原始字节索引**，不是解析后的 pair：装箱操作数解出类型后算术按解析 pair 走，
+   但结果槽位仍按原始 cls 选。卡里没有这条，是这函数最容易译错的结构。
+3. DoAdd 的 string+string(pair 0x66) 真的工作：结果 = 「第二操作数 + 第一操作数」，并递减两个输入的 refcount。
+4. **DoSub 只有 mode 1**（入口只 `cmp r2,#1`），mode 0 与 2..15 全走强类型臂；且**第二操作数是被减数**
+   （`vsub d7,d6,d7`、d6=[r10]），U==6 桩里还有一条 `mov r6,r10`，漏了返回栈指针整排错。
+
+**B. `c/room_update/` + `harness/room_update_diff.py`**：`CRoom_UpdateActive`(116)、`UpdateActiveLists`(42+6)、
+`ProcessActivateDeactveLists`(10+2，补齐它是为了让"队列计数→链重写"两臂都真实)。
+38 例 identical、census 168/168、60 项覆盖全 yes、21 个牙齿全 PASS。回执 `room_update_diff-20261116T193237`。
+新事实：计数测试是**非零**不是正数（−1 与 0x80000000 都会 flush）；`UpdateActiveLists` 出口**重读** profile 字节；
+深度变化**不**重排激活链（排序键是只在插入时刷新的快照 +0x184）；两个计数器只是无条件 ±1，不追踪链长；
+0x542a4c=激活队列、0x542a64=对象类型队列、0x542a58=depth（与变量卡 narrowed 命名一致）。
+
+**C. 修掉一处已提交模块里的真误译（我自己复核并补了门）**
+`c/room_add/src/CRoom_AddInstance.c` 把 `vcmpe.f32 + bls` 写成 `!(a > b)`（注释还写着"<= 或 unordered"）。
+VFP 在这条指令对上的实测标志：equal `0110`、greater `0010`、less `1000`、**unordered `0011`**；
+`bls` 是 `C==0 || Z==1`，因此它**只在有序的 `a <= b` 时成立**，NaN 时不跳——NaN 深度会沉到链尾。
+`!(a > b)` 在 NaN 时为真，是错的。已改为 `a <= b`、注释重写并撤回旧说法；
+`room_add_diff.py` 新增用例 `F1-m`（snapshot = 0x7fc00000）+ 变异体 `f1_nan_ordered_compare`，
+实测该变异体**只被这 1 例抓到**——也就是说修之前这条路径没有任何用例覆盖，绿是假的。
+room_add 现在 49 例 identical、24 个牙齿全 PASS（回执 `room_add_diff-20261116T193427`）。
+
 ## 2026-11-16（续五）：实例登记链与实例身份链（父代理复跑）
 
 **A. `c/room_add/` + `harness/room_add_diff.py`** —— `CRoom_AddInstance`(79 指令+2 池字)、

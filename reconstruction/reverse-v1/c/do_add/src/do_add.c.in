@@ -1,0 +1,933 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+ * do_add.c — C translation of _Z5DoAddjPhPKhP6VMExec (DoAdd), libyoyo ARMv7.
+ *
+ *   image  reconstruction/live-mem/libyoyo_armv7.so
+ *          SHA256 3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a
+ *   body   0xdc524..0xdd4b4 = 996 instructions, then 19 literal-pool words
+ *          (0xdd4b4..0xdd500); total 4060 B.  cards/DoAdd.c counts 1015
+ *          "instructions" because it read the pool as instructions too.
+ *
+ * EVERY instruction of the body appears below as an `@0xADDR <operands>` anchor,
+ * exactly once, with the operand text llvm-objdump prints for the pinned image.
+ * The anchors are generated from the image by tools/gen_ledger.py, never typed
+ * from memory, and harness/do_add_diff.py re-derives them from the bytes: a
+ * missing line, a duplicated address or a single changed digit turns the census
+ * gate red.
+ *
+ * ── What the handler is ────────────────────────────────────────────────────
+ * `arg` = (cls << 16) | (mode << 8) | flags.  Two operands sit packed back to
+ * back on the value stack starting at `sp`; the handler computes
+ *
+ *   r10 = sp                     (the value-stack pointer)
+ *   r7  = sp + size(T)           (where the second operand starts)
+ *   r8  = r7 + size(U)           (one past the second operand)
+ *
+ * where T = cls & 15, U = cls >> 4 are type nibbles, size 8 for real/int64,
+ * 16 for a boxed RValue, else 4.  Then a three-level dispatch on the pair byte:
+ *
+ *   table 1 (0xdc564, 7 entries, index T) -> where the second operand starts
+ *   table 5 (0xdc964, 14 entries, index the TAG of a boxed first operand)
+ *   table 2 (0xdc598, 7 entries, index U) -> where the second operand ends
+ *   table 4 (0xdc908, 14 entries, index the TAG of a boxed second operand)
+ *   table 3 (0xdc5c4, 103 entries, index the ORIGINAL cls byte 0..102)
+ *       0xdc8a0  r8 -= 8   (8-byte result, no tag store)
+ *       0xdc890  r8 -= 16  (16-byte boxed result, tag stored at +0xC)
+ *       0xdc760  r8 -= 4   (4-byte result, no tag store)
+ *       0xdc9cc  r5 = 0    (not a legal pair; no pair that lands here is one
+ *                           the tail accepts, so r5 is never dereferenced)
+ *
+ * Table 3 is indexed by the cls byte the CALLER passed, not by the pair byte
+ * the tag tables produced.  That is the one structural trap in this body: the
+ * boxed-operand resolution rewrites the type nibble for the arithmetic but the
+ * result SLOT still comes from the original byte.
+ *
+ * r4 is the boxed-result pointer; only the 16-byte routing sets it, and only
+ * then does the epilogue (`cmp r4,#0 ; strne r12,[r4,#0xc]`) store a tag word.
+ * The handler returns r8, so the caller sees the stack shrink by
+ * size(T)+size(U)-result size.
+ *
+ * ── The type tower ─────────────────────────────────────────────────────────
+ * Type nibbles: 0 real (8 B), 1 float (4 B), 2 int32 (4 B), 3 int64 (8 B),
+ * 4 bool (4 B), 5 boxed RValue (16 B), 6 string (4 B).  1 and 7..15 have no
+ * legal arithmetic pair; they reach `DoAdd :: Execution Error`.
+ * Boxed operands resolve by tag: 0/13 -> real, 1 -> string, 7 -> int32,
+ * 10 -> int64; 2 (array), 3 (pointer), 5 (undefined) and everything else report
+ * a :1:/:2: message and leave the pair byte alone, so the tail refuses the pair
+ * a second time with `DoAdd :: Execution Error`.
+ *
+ * The card's correction is reproduced here: DoAdd has BOTH the vadd.f64 limbs
+ * (0xdc8dc, 0xdc9c0, 0xdc9e8, 0xdcc0c, 0xdccf8, 0xdcd80) and the wrapping
+ * 64-bit integer limbs (0xdccd8, 0xdcd10, 0xdcd2c: adds/adc; 0xdcd48: a 32-bit
+ * add for int32+int32 that keeps tag 7; 0xdcd3c likewise).  The 32-bit side of
+ * an int32+int64 pair is sign-extended into the 64-bit add (`adc r3,r3,r1,asr
+ * #31`), which is what makes INT64 wraparound reachable from a 4-byte operand.
+ *
+ * ── Scope, stated up front ─────────────────────────────────────────────────
+ * covered     mode 0 and the mode 3..15 fall-through: the whole arm, every pair
+ *             byte 0..102, every RValue tag 0..15 in both operand positions.
+ *             mode 1 / mode 2: the numeric limb (types 0/2/3/4, and type 9 in
+ *             the second slot) plus the ReferenceError limb (types 7/8/>9, the
+ *             ones boxType leaves untagged).
+ *             string + string (pair 0x66): concat order, length arithmetic, the
+ *             result object and the input refcount decrement.
+ * NOT claimed mode 1's string limb (0xdd180..0xdd2ac: F_JS_ToString twice, then
+ *             the same concat) — F_JS_ToString is not recovered.
+ *             the free branch of the string path (0xdcea0 / 0xdcef8: YYFree +
+ *             _RefThing<const char*>::dec + operator delete) — not recovered;
+ *             the differential stages refcount >= 2 so it never runs.
+ *             modes 1/2 with a string / array / pointer / object operand: that
+ *             needs strtod and the JS object hooks, neither recovered.
+ * ── Callees ───────────────────────────────────────────────────────────────
+ * REAL, linked from its own C body: boxType @0xd7784 (c/box_type.c).
+ * MODELLED here and named as such: F_JS_ToNumber @0x24cfac and
+ * F_JS_ToPrimitive @0x24cd64, both only over the tags boxType can emit for the
+ * staged types (0, 13, 5).  The differential judges the model against the
+ * original's own bytes; a wrong model goes red, it does not pass quietly.
+ * ─────────────────────────────────────────────────────────────────────────── */
+#include "do_add.h"
+
+#include <string.h>
+
+/* ── every string the handler can hand to VMError / JSThrow* ──────────────── */
+enum {
+    E_GENERIC = 0,   /* 0x332fc0  DoAdd :: Execution Error                   */
+    E1_POINTER,      /* 0x332ed0  DoAdd :1: illegal pointer use              */
+    E1_UNDEF,        /* 0x332ef0  DoAdd :1: undefined value                  */
+    E1_ARRAY,        /* 0x332f0c  DoAdd :1: illegal array use                */
+    E1_MALFORMED,    /* 0x332f28  DoAdd :1: Malformed variable               */
+    E2_POINTER,      /* 0x332f48  DoAdd :2: illegal pointer use              */
+    E2_UNDEF,        /* 0x332f68  DoAdd :2: undefined value                  */
+    E2_ARRAY,        /* 0x332f84  DoAdd :2: illegal array use                */
+    E2_MALFORMED,    /* 0x332fa0  DoAdd :2: Malformed variable               */
+    E_REF_BEFORE1,   /* 0x332ca4  could not find variable before '+' operator */
+    E_REF_AFTER1,    /* 0x332cd0  could not find variable after '+' operator  */
+    E_REF_BEFORE2,   /* 0x332e00  could not find variable before '+'          */
+    E_REF_AFTER2,    /* 0x332e24  could not find variable after '+'           */
+    E_PRIM_LEFT,     /* 0x332cfc  left-hand-side  ... to a primitive          */
+    E_PRIM_RIGHT,    /* 0x332d3c  right-hand-side ... to a primitive          */
+    E_NUM_LEFT1,     /* 0x332d80  left-hand-side  ... to a number             */
+    E_NUM_RIGHT1,    /* 0x332dc0  right-hand-side ... to a number             */
+    E_NUM_LEFT2,     /* 0x332e48  left-hand-side  ... to a number # 2         */
+    E_NUM_RIGHT2,    /* 0x332e8c  right-hand-side ... to a number # 2         */
+    E_MODE1_STRING   /* not an original string: declared gap, see the header  */
+};
+
+static const char *const k_err[] = {
+    "DoAdd :: Execution Error",
+    "DoAdd :1: illegal pointer use",
+    "DoAdd :1: undefined value",
+    "DoAdd :1: illegal array use",
+    "DoAdd :1: Malformed variable",
+    "DoAdd :2: illegal pointer use",
+    "DoAdd :2: undefined value",
+    "DoAdd :2: illegal array use",
+    "DoAdd :2: Malformed variable",
+    "could not find variable before '+' operator",
+    "could not find variable after '+' operator",
+    "could not find variable before '+'",
+    "could not find variable after '+'",
+    "Could not convert left-hand-side of add operator to a primitive",
+    "Could not convert right-hand-side of add operator to a primitive",
+    "Could not convert left-hand-side of add operator to a number",
+    "Could not convert right-hand-side of add operator to a number",
+    "Could not convert left-hand-side of add operator to a number # 2",
+    "Could not convert right-hand-side of add operator to a number # 2",
+    "MODE1 STRING LIMB NOT TRANSLATED"
+};
+
+static const char *g_error;
+
+const char *do_add_last_error(void) { return g_error; }
+
+/* The original can report twice on one call: a boxed operand whose tag is not
+ * arithmetic emits a :1:/:2: message and then the tail refuses the pair and
+ * emits `DoAdd :: Execution Error`.  The differential (and any reader of the
+ * first VMError frame) sees the FIRST one, so this keeps the first. */
+#ifdef MUTANT
+#  error "do_add.c no longer uses -DMUTANT: use -DDO_ADD_MUTANT (box_type.c owns MUTANT)"
+#endif
+
+static void set_err(int idx)
+{
+    if (!g_error)
+        g_error = k_err[idx];
+}
+
+/* ── 判别性反例（TEETH）────────────────────────────────────────────────────
+ * Each mutant must turn the differential RED on at least one named case.  A
+ * green mutant means the case set never exercises that decision, i.e. the
+ * "identical" result was toothless.  Only -DMUTANT=n builds contain them. */
+#ifdef DO_ADD_MUTANT
+#if DO_ADD_MUTANT == 1
+#  define M_SEXT_NONE 1            /* int32 -> int64 without sign extension */
+#elif DO_ADD_MUTANT == 2
+#  define M_I32_AS_U32 1           /* int32 promoted to double as unsigned */
+#elif DO_ADD_MUTANT == 3
+#  define M_SIZES_SWAPPED 1        /* first/second operand sizes swapped */
+#elif DO_ADD_MUTANT == 4
+#  define M_TAIL_SIZES_FROM_PAIR 1 /* result slot from the pair, not from cls */
+#elif DO_ADD_MUTANT == 5
+#  define M_NO_TAG_STORE 1         /* the r4 tag store dropped */
+#elif DO_ADD_MUTANT == 6
+#  define M_TAG_ALWAYS 1           /* tag stored even when r4 == 0 */
+#elif DO_ADD_MUTANT == 7
+#  define M_TAG14_REAL 1           /* RValue tag 14 treated as real */
+#elif DO_ADD_MUTANT == 8
+#  define M_REAL_SUB 1             /* real limb subtracts */
+#elif DO_ADD_MUTANT == 9
+#  define M_FLOATDIDF_TRUNC 1      /* int64 -> double through int32 */
+#elif DO_ADD_MUTANT == 10
+#  define M_ERR12_SWAP 1           /* the :1: and :2: strings swapped */
+#elif DO_ADD_MUTANT == 11
+#  define M_CONCAT_ORDER 1         /* concat lhs then rhs */
+#elif DO_ADD_MUTANT == 12
+#  define M_MODE2_AT_R8 1          /* mode 2 result at r8, not r8-16 */
+#elif DO_ADD_MUTANT == 13
+#  define M_VARIANT_NO_ADVANCE 1   /* boxed first operand consumes 0 bytes */
+#elif DO_ADD_MUTANT == 14
+#  define M_NO_REFCOUNT 1          /* input string refcounts left alone */
+#elif DO_ADD_MUTANT == 15
+#  define M_I64_AS_I32 1           /* int64 pairs done in 32 bits */
+#else
+#  error "unknown DO_ADD_MUTANT"
+#endif
+#endif
+
+/* ── byte-level accessors (the handler is pure byte surgery) ─────────────── */
+static uint32_t rd32(const unsigned char *p)
+{
+    uint32_t v;
+    memcpy(&v, p, 4);
+    return v;
+}
+
+static void wr32(unsigned char *p, uint32_t v) { memcpy(p, &v, 4); }
+
+static uint64_t rd64(const unsigned char *p)
+{
+    uint64_t v;
+    memcpy(&v, p, 8);
+    return v;
+}
+
+static void wr64(unsigned char *p, uint64_t v) { memcpy(p, &v, 8); }
+
+static double rd_d(const unsigned char *p)
+{
+    double d;
+    memcpy(&d, p, 8);
+    return d;
+}
+
+static void wr_d(unsigned char *p, double d) { memcpy(p, &d, 8); }
+
+/* `vstr s10,[r8,#-16]` + `str r3,[r8,#-0xc]`: a double leaves the VFP as two
+ * separate 32-bit stores, and a poisoned destination can see the difference
+ * between that and one 8-byte store. */
+static void st_d_words(unsigned char *dst, double d)
+{
+    uint64_t bits;
+    memcpy(&bits, &d, 8);
+    wr32(dst, (uint32_t)bits);
+    wr32(dst + 4, (uint32_t)(bits >> 32));
+}
+
+/* boxType @0xd7784 — recovered separately (c/box_type.c), linked for real */
+extern unsigned char *boxType(unsigned char *dst, unsigned type,
+                              const unsigned char *src);
+
+/* ── the string objects the concat path allocates ──────────────────────────
+ * `operator new(12)` for the header, `YYAlloc(total+1)` for the characters.  A
+ * bump pool stands in for both; the differential normalises the resulting
+ * pointer, so only the header's three fields and the characters are compared. */
+#define STRPOOL_BYTES 0x4000u
+static unsigned char g_strpool[STRPOOL_BYTES] __attribute__((aligned(16)));
+static unsigned g_strpool_used;
+
+static void *strpool_alloc(unsigned n)
+{
+    void *p;
+    n = (n + 15u) & ~15u;
+    if (g_strpool_used + n > STRPOOL_BYTES)
+        return 0;
+    p = g_strpool + g_strpool_used;
+    g_strpool_used += n;
+    return p;
+}
+
+/* ── F_JS_ToNumber @0x24cfac, modelled over the tags that can reach it ─────
+ * JS_OK when the conversion happened, JS_THREW when the original would throw
+ * JSThrowTypeError (an unparseable string - out of the staged domain), JS_NOOP
+ * for the "nothing written" tags the original answers with 0.  The real
+ * function is NOT recovered; the differential judges this model. */
+enum { JS_OK = 0, JS_THREW = 1, JS_NOOP = 2 };
+
+static int js_to_number(unsigned char *dst, const unsigned char *src)
+{
+    uint32_t tag = rd32(src + 12);
+    switch (tag) {
+    case 0:                     /* already a real */
+    case 13: {                  /* bool: boxType stored the double itself */
+        double d = rd_d(src);
+        wr_d(dst, d);
+        wr32(dst + 12, 0);
+        return JS_OK;
+    }
+    case 7: {
+        double d = (double)(int32_t)rd32(src);
+        wr_d(dst, d);
+        wr32(dst + 12, 0);
+        return JS_OK;
+    }
+    case 10: {
+        double d = (double)(int64_t)rd64(src);
+        wr_d(dst, d);
+        wr32(dst + 12, 0);
+        return JS_OK;
+    }
+    case 5:                     /* undefined */
+    case 12: {                  /* null */
+        double d = 0.0;
+        wr_d(dst, d);
+        wr32(dst + 12, 0);
+        return JS_OK;
+    }
+    default:
+        return JS_NOOP;
+    }
+}
+
+/* ── F_JS_ToPrimitive @0x24cd64, modelled over the same tags ───────────────
+ * For a real or a bool the primitive IS the value: a 16-byte copy.  Strings and
+ * objects are out of the staged domain and return JS_NOOP. */
+static int js_to_primitive(unsigned char *dst, const unsigned char *src)
+{
+    uint32_t tag = rd32(src + 12);
+    switch (tag) {
+    case 0:                     /* real   */
+    case 13:                    /* bool   */
+    case 5:                     /* undefined: already a primitive */
+    case 12:                    /* null      already a primitive */
+        memcpy(dst, src, 16);
+        return JS_OK;
+    case 7: {
+        double d = (double)(int32_t)rd32(src);
+        wr_d(dst, d);
+        wr32(dst + 12, 0);
+        return JS_OK;
+    }
+    case 10: {
+        double d = (double)(int64_t)rd64(src);
+        wr_d(dst, d);
+        wr32(dst + 12, 0);
+        return JS_OK;
+    }
+    default:
+        return JS_NOOP;
+    }
+}
+
+/* mode 1 and mode 2 share the numeric tail's result placement. */
+static unsigned char *numeric_out(unsigned char *fr, unsigned char *r8)
+{
+    double d = rd_d(fr + 88) + rd_d(fr + 104);
+    wr32(r8 - 4, 0);
+#ifdef M_MODE2_AT_R8
+    st_d_words(r8, d);
+    return r8;
+#else
+    st_d_words(r8 - 16, d);
+    return r8 - 16;
+#endif
+}
+
+/* ═══ mode 0 — the strong-typed arm (also reached by mode 3..15) ════════════
+ * Block order below follows EXECUTION order, which is not address order: a
+ * boxed first operand is resolved at 0xdc954 before control jumps back to the
+ * second-operand dispatch at 0xdc580.  Each block header carries its address. */
+static unsigned char *mode0(unsigned cls, unsigned char *sp)
+{
+    unsigned char *const r10 = sp;
+    unsigned char *r7 = sp;
+    unsigned char *r8 = sp;
+    unsigned char *r4 = 0;
+    unsigned char *r5 = 0;
+    unsigned pair = cls;
+    unsigned T = cls & 15u;
+    unsigned U;
+    uint32_t tagv = 0;
+
+    /* ── 表 1 @0xdc564..0xdc57c：首操作数尺寸 ────────────────────────────
+     * 0/3 -> sp+8, 1/2/4/6 -> sp+4, 5 -> 装箱（由 0xdc954 那个标签派发决定
+     * 类型后把 r7 定在 sp+16），>6 没有入口，落到 0xdd4a0（下面是 U 块）。 */
+//@@BLOCK 0xdc554 0xdc580
+    if (T <= 6u) {
+#ifdef M_SIZES_SWAPPED
+        r7 = (T == 0u || T == 3u) ? r10 + 4 : r10 + 8;
+#else
+        if (T == 0u || T == 3u)
+            r7 = r10 + 8;
+        else if (T == 5u)
+            r7 = r10 + 16;      /* 0xdcd94 / 0xdcd8c: add r7, r10, #16 */
+        else
+            r7 = r10 + 4;
+#endif
+    } else {
+        r7 = r10;               /* 0xdd4a0: mov r7, r10 */
+    }
+
+    /* ── 0xdd4a0 / 0xdd4ac：两个 "超范围类型" 的桩 ────────────────────────
+     * 首操作数类型 > 6 时 0xdd4a0 只把 r6 = cls、r7 = sp 就回到第二个操作数
+     * 的派发；第二操作数类型 > 6 时 0xdd4ac 只把 r8 = r7，表 3 照旧按 cls 选
+     * 槽位，算术尾巴随后以 `DoAdd :: Execution Error` 收场。 */
+//@@BLOCK 0xdd4a0 0xdd4b4
+
+    /* ── 表 5 @0xdc964..0xdc998 + 它的处理体：首操作数是装箱 RValue ───────
+     * 只改 pair 的**低**四位（处理体用 r0 = 原始 cls 的高半字节），错误体
+     * (0xdcd9c/0xdcdbc/0xdcddc/0xdcf94) 用 `mov r6, r9` 把 pair 还原成原始
+     * 字节，于是尾部会再拒一次。所有体都以 0xdcd94 的 `add r7,r10,#16` 结束，
+     * 然后回到 0xdc588 重新派发第二操作数。 */
+//@@BLOCK 0xdcd8c 0xdce1c
+    if (T == 5u) {
+        uint32_t tag = rd32(r10 + 12);
+        pair = cls;
+        switch (tag) {
+        case 0:
+        case 13:
+            pair = cls & 0xF0u;                     /* 0xdce14 */
+            break;
+        case 1:
+            pair = (cls & 0xF0u) | 6u;              /* 0xdcdfc */
+            break;
+        case 7:
+            pair = (cls & 0xF0u) | 2u;              /* 0xdce08 */
+            break;
+        case 10:
+            pair = (cls & 0xF0u) | 3u;              /* 0xdcd8c */
+            break;
+#ifdef M_TAG14_REAL
+        case 14:
+            pair = cls & 0xF0u;                     /* MUTANT: 14 is not real */
+            break;
+#endif
+        case 2:
+#ifdef M_ERR12_SWAP
+            set_err(E2_ARRAY);
+#else
+            set_err(E1_ARRAY);                      /* 0xdcddc */
+#endif
+            break;
+        case 3:
+#ifdef M_ERR12_SWAP
+            set_err(E2_POINTER);
+#else
+            set_err(E1_POINTER);                    /* 0xdcdbc */
+#endif
+            break;
+        case 5:
+#ifdef M_ERR12_SWAP
+            set_err(E2_UNDEF);
+#else
+            set_err(E1_UNDEF);                      /* 0xdcd9c */
+#endif
+            break;
+        default:
+#ifdef M_ERR12_SWAP
+            set_err(E2_MALFORMED);
+#else
+            set_err(E1_MALFORMED);                  /* 0xdcf94 */
+#endif
+            break;
+        }
+#ifdef M_VARIANT_NO_ADVANCE
+        r7 = r10;                                   /* MUTANT: no advance */
+#else
+        r7 = r10 + 16;                              /* 0xdcd94 */
+#endif
+    }
+
+    U = (pair >> 4) & 15u;
+
+    /* ── 表 2 @0xdc598..0xdc5b0：第二操作数尺寸 ──────────────────────────
+     * 索引是 pair 的**高**四位：0/3 -> +8（0xdc940），1/2/4/6 -> +4（0xdc5b4），
+     * 5 -> 表 4 定类型后 +16（0xdce24），>6 -> 0xdd4ac 的 `mov r8, r7`。 */
+//@@BLOCK 0xdc580 0xdc5b8
+    if (U == 5u) {
+        /* ── 表 4 @0xdc908..0xdc93c + 处理体 0xdce1c..0xdce94 ──────────────
+         * 改的是 pair 的**高**四位；0xdce24 的 `add r8,r7,#16` 是共同出口。 */
+//@@BLOCK 0xdce1c 0xdce9c
+        uint32_t tag = rd32(r7 + 12);
+        switch (tag) {
+        case 0:
+        case 13:
+            pair &= 15u;                            /* 0xdce98 */
+            break;
+        case 1:
+            pair = (pair & 15u) | 0x60u;            /* 0xdce8c */
+            break;
+        case 7:
+            pair = (pair & 15u) | 0x20u;            /* 0xdce2c */
+            break;
+        case 10:
+            pair = (pair & 15u) | 0x30u;            /* 0xdce1c */
+            break;
+#ifdef M_TAG14_REAL
+        case 14:
+            pair &= 15u;
+            break;
+#endif
+        case 2:
+            set_err(E2_ARRAY);                      /* 0xdce70 */
+            break;
+        case 3:
+            set_err(E2_POINTER);                    /* 0xdce54 */
+            break;
+        case 5:
+            set_err(E2_UNDEF);                      /* 0xdce38 */
+            break;
+        default:
+            set_err(E2_MALFORMED);                  /* 0xdcf78 */
+            break;
+        }
+        r8 = r7 + 16;                               /* 0xdce24 */
+    } else if (U <= 6u) {
+        r8 = r7 + ((U == 0u || U == 3u) ? 8 : 4);
+    } else {
+        r8 = r7;                                    /* 0xdd4ac */
+    }
+
+    /* ── 表 3 @0xdc5c4..0xdc75c：103 个入口，索引是**原始** cls 字节 ──────
+     *   0  2  3 32 35 48 50 51       -> 0xdc8a0  r8 -= 8   (r4 = 0)
+     *   5 37 53 80 82 83 85 86 101  -> 0xdc890  r8 -= 16  (r4 = r8)
+     *   34 102                      -> 0xdc760  r8 -= 4   (r4 = 0)
+     *   其余（含 >102）               -> 0xdc9cc  r5 = r4 = 0
+     * 合法 pair 恰好都落在前三组，所以 r5 = 0 永远不会被当作目的地。 */
+//@@BLOCK 0xdc5b8 0xdc760
+    {
+        int placed = 0;
+#ifdef M_TAIL_SIZES_FROM_PAIR
+        unsigned key = pair;
+#else
+        unsigned key = cls;
+#endif
+        if (key <= 102u) {
+            switch (key) {
+            case 0:
+            case 2:
+            case 3:
+            case 32:
+            case 35:
+            case 48:
+            case 50:
+            case 51:
+                r8 -= 8;
+                placed = 1;
+                break;
+            case 5:
+            case 37:
+            case 53:
+            case 80:
+            case 82:
+            case 83:
+            case 85:
+            case 86:
+            case 101:
+                r8 -= 16;
+                r4 = r8;
+                placed = 1;
+                break;
+            case 34:
+            case 102:
+                r8 -= 4;
+                placed = 1;
+                break;
+            default:
+                break;
+            }
+        }
+        r5 = placed ? r8 : 0;
+    }
+
+    /* ── 0xdc890 / 0xdc8a0：表 3 的两个尺寸桩 ────────────────────────────
+     * 只做 `sub r8,r8,#16 ; mov r4,r5,r8` 与 `sub r8,r8,#8 ; mov r4,#0 ;
+     * mov r5,r8`，效果已在上面表 3 的 switch 里落地。 */
+//@@BLOCK 0xdc890 0xdc8b0
+
+    /* ── 尾部头 @0xdc760..0xdc790：按**解析后**的 pair 选算术 ────────────
+     * 0xdc760 是表 3 里 cls 34/102 的目标（`sub r8,r8,#4`，已在表 3 落地）；
+     * 0xdc764..0xdc790 是 r6 与 34/50/51/102 的四次比较 —— 下面 switch 的
+     * 标签顺序与机器里的比较顺序一致。 */
+//@@BLOCK 0xdc760 0xdc794
+    switch (pair) {
+    case 0x66:                      /* 0xdc794：string + string */
+        goto string_pair;
+
+    /* ── 0xdc8b0..0xdc8cc：pair < 0x22 的分派头 + 0xdc8e4 收尾 ──────────
+     * `cmp r6,#2 / beq 0xdcce8`、`cmp r6,#3 / beq 0xdcd6c`、`cmp r6,#0x20 /
+     * bne 0xdcd54`，以及尾巴共同经过的 0xdc8e4..0xdc8f4（tag 写回、返回 r8）。 */
+//@@BLOCK 0xdc8b0 0xdc948
+    case 0x00: {                    /* 0xdc9d8: vldr/vldr/vadd.f64/vstr */
+        double d = rd_d(r10);
+#ifdef M_REAL_SUB
+        d = d - rd_d(r7);
+#else
+        d = d + rd_d(r7);
+#endif
+        st_d_words(r5, d);
+        tagv = 0;                   /* 0xdc9ec: mov r12, r6 (r6 == 0) */
+        break;
+    }
+    case 0x02: {                    /* 0xdcce8: vcvt.f64.s32 + vadd.f64 */
+        double a;
+#if M_I32_AS_U32
+        a = (double)rd32(r10);
+#else
+        a = (double)(int32_t)rd32(r10);
+#endif
+        st_d_words(r5, a + rd_d(r7));
+        tagv = 0;
+        break;
+    }
+
+    /* ── 0xdcd6c：int64 + real（0xdc948 那组的 0xdc99c 分支）────────────── */
+//@@BLOCK 0xdcd6c 0xdcd8c
+    case 0x03: {                    /* __floatdidf(int64) + real */
+        double a = (double)(int64_t)rd64(r10);
+        st_d_words(r5, a + rd_d(r7));
+        tagv = 0;
+        break;
+    }
+
+    /* ── 0xdc8cc：real + int32（0xdc8b0 链的 cmp #0x20 分支）─────────────── */
+    case 0x20: {
+        double b;
+#if M_I32_AS_U32
+        b = (double)rd32(r7);
+#else
+        b = (double)(int32_t)rd32(r7);
+#endif
+        st_d_words(r5, rd_d(r10) + b);
+        tagv = 0;
+        break;
+    }
+
+    /* ── 0xdc948..0xdc9f8：表 5 的表头、0xdc99c 的 pair 0x30、0xdc9cc 的
+     * "非法 pair" 出口、0xdc9d8 的 pair 0x00 实数路 ─────────────────────── */
+//@@BLOCK 0xdc948 0xdc9f8
+
+    /* ── 0xdccc0..0xdcd50：四个整数尾巴 ─────────────────────────────────
+     * 0xdcccc  int64 + sext(int32)   (pair 0x23)
+     * 0xdcd04  int64 + int64         (pair 0x33)
+     * 0xdcd20  sext(int32) + int64   (pair 0x32)
+     * 0xdcd3c  int32 + int32         (pair 0x22)  —— tag 7，不含进位 */
+//@@BLOCK 0xdccc0 0xdcd54
+    case 0x23: {
+        int64_t a = (int64_t)rd64(r10);
+#if M_SEXT_NONE
+        int64_t b = (int64_t)(uint64_t)rd32(r7);
+#else
+        int64_t b = (int64_t)(int32_t)rd32(r7);
+#endif
+#ifdef M_I64_AS_I32
+        wr64(r5, (uint64_t)(int64_t)(int32_t)((int32_t)a + (int32_t)b));
+#else
+        wr64(r5, (uint64_t)(a + b));
+#endif
+        tagv = 10;
+        break;
+    }
+    case 0x30: {                    /* 0xdc9ac: __floatdidf(int64) + real */
+        double b;
+#ifdef M_FLOATDIDF_TRUNC
+        b = (double)(int32_t)rd64(r7);
+#else
+        b = (double)(int64_t)rd64(r7);
+#endif
+        st_d_words(r5, rd_d(r10) + b);
+        tagv = 0;
+        break;
+    }
+    case 0x32: {
+        int64_t b = (int64_t)rd64(r7);
+#if M_SEXT_NONE
+        int64_t a = (int64_t)(uint64_t)rd32(r10);
+#else
+        int64_t a = (int64_t)(int32_t)rd32(r10);
+#endif
+#ifdef M_I64_AS_I32
+        wr64(r5, (uint64_t)(int64_t)(int32_t)((int32_t)a + (int32_t)b));
+#else
+        wr64(r5, (uint64_t)(a + b));
+#endif
+        tagv = 10;
+        break;
+    }
+    case 0x33: {
+#ifdef M_I64_AS_I32
+        wr64(r5, (uint64_t)(int64_t)(int32_t)((int32_t)rd32(r10) +
+                                             (int32_t)rd32(r7)));
+#else
+        wr64(r5, rd64(r10) + rd64(r7));
+#endif
+        tagv = 10;
+        break;
+    }
+    case 0x22: {                    /* 0xdcd3c: 32 位加法，回绕，tag 7 */
+        uint32_t v = rd32(r7) + rd32(r10);
+        wr32(r5, v);
+        tagv = 7;
+        break;
+    }
+
+    /* ── 0xdcd54：其余一切 pair 的出口 ──────────────────────────────────
+     * `VMError(exec, "DoAdd :: Execution Error")` 之后仍然走 0xdc8e4 的收尾，
+     * 所以 16 字节装箱路由下这个 tag 0 会被写进结果槽。 */
+//@@BLOCK 0xdcd54 0xdcd6c
+    default:
+        set_err(E_GENERIC);
+        tagv = 0;                   /* 0xdcd64: mov r12, #0 */
+        break;
+    }
+    goto epilogue;
+
+    /* ── 字符串 + 字符串（pair 0x66，0xdc794..0xdc88c）────────────────────
+     * 结果 object = {char*, refcount = 1, len}；字符缓冲先放**第二**个操作数
+     * （r7 指的那个）再放第一个 —— 表达式里先压栈的一侧在结果的**后面**。
+     * 两个输入 object 的 refcount 各减一；减到 0 的释放链没恢复（见头注）。 */
+string_pair:
+    {
+        /* 0xdc538 的 124 字节帧属于被调方自己的栈，不属于调用方的值栈：
+         * 原版的 sp 在 STACK 区，这里用一块同样大小的局部帧代替。帧里每个字节
+         * 在用之前都被写过（零 + tag 0x00FFFFFF），所以两臂不必共享帧内容。 */
+        unsigned char frame[124] __attribute__((aligned(8)));
+        unsigned char *const fr = frame;
+        unsigned char *lhs;
+        unsigned char *rhs;
+        unsigned char *obj;
+        char *buf;
+        char *rhs_txt;
+        uint32_t len1;
+        uint32_t total;
+//@@BLOCK 0xdc794 0xdc890
+        lhs = (unsigned char *)(uintptr_t)rd32(r10);
+        rhs = (unsigned char *)(uintptr_t)rd32(r7);
+        if (lhs)
+            wr32(fr + 8, rd32(lhs));
+        else
+            wr32(fr + 8, 0);                        /* streq r9,[sp,#8] */
+        rhs_txt = rhs ? (char *)(uintptr_t)rd32(rhs) : (char *)rhs;
+        len1 = lhs ? rd32(lhs + 8) : 0;             /* ldrne r7,[r9,#8] */
+        if (rhs)
+            wr32(fr + 12, rd32(rhs + 8));
+        else
+            wr32(fr + 12, 0);                       /* streq r6,[sp,#0xc] */
+        wr32(fr + 4, (uint32_t)(uintptr_t)rhs_txt);
+        total = rd32(fr + 12) + len1;               /* add r7, r2, r7 */
+
+        obj = (unsigned char *)strpool_alloc(12);
+        buf = (char *)strpool_alloc(total + 1u);
+        wr32(obj + 8, total);                       /* str r7,[r10,#8] */
+        wr32(obj, (uint32_t)(uintptr_t)buf);        /* stm r10,{r11,r12} */
+        wr32(obj + 4, 1u);
+#if M_CONCAT_ORDER
+        if (rd32(fr + 8))
+            strcpy(buf, (char *)(uintptr_t)rd32(fr + 8));
+        if (rhs_txt)
+            strcpy(buf + len1, rhs_txt);
+#else
+        if (rhs_txt)
+            strcpy(buf, rhs_txt);
+        if (rd32(fr + 8))
+            strcpy(buf + rd32(fr + 12), (char *)(uintptr_t)rd32(fr + 8));
+#endif
+        buf[total] = 0;                             /* strb r1,[r11,r7] */
+        wr32(r5, (uint32_t)(uintptr_t)obj);         /* str r10,[r5] */
+#ifndef M_NO_REFCOUNT
+        if (lhs)
+            wr32(lhs + 4, rd32(lhs + 4) - 1u);
+        if (rhs)
+            wr32(rhs + 4, rd32(rhs + 4) - 1u);
+#endif
+        tagv = 1;                                   /* mov r12, #1 */
+    }
+
+epilogue:
+    /* 0xdc8e4: `cmp r4,#0 ; strne r12,[r4,#0xc]` —— 只有 16 字节装箱结果带
+     * tag 写回；4/8 字节结果的 tag 由调用方的 cls 隐含。 */
+#if defined(M_TAG_ALWAYS)
+    wr32((r4 ? r4 : r8) + 12, tagv);        /* MUTANT: unconditional tag store */
+#elif defined(M_NO_TAG_STORE)
+    (void)r4;                               /* MUTANT: the tag store is gone */
+    (void)tagv;
+#else
+    if (r4)
+        wr32(r4 + 12, tagv);
+#endif
+    return r8;
+}
+
+/* ═══ mode 1 — generic `+`: boxType, ToPrimitive, then number or string ════
+ * The 124-byte frame the entry reserves; six 16-byte slots at sp+24, +40, +56,
+ * +72, +88 and +104 (the CALLEE's sp, so strictly below the caller's stack).
+ * The first boxType takes the caller's sp and the second takes its return, so
+ * the pair's size nibbles decide where the boxes read from. */
+static unsigned char *mode1(unsigned cls, unsigned char *sp)
+{
+    unsigned char frame[124] __attribute__((aligned(8)));
+    unsigned char *const fr = frame;
+    unsigned char *r8;
+    unsigned T = cls & 15u;
+    unsigned U = (cls >> 4) & 15u;
+    int rc;
+
+//@@BLOCK 0xdc9f8 0xdcb30
+    wr32(fr + 0x20, 0);
+    wr32(fr + 0x30, 0);
+    wr32(fr + 0x04, 0);
+    wr64(fr + 24, 0);
+    wr64(fr + 40, 0);
+    wr32(fr + 36, 0x00FFFFFFu);          /* 0xdca30 */
+    wr32(fr + 52, 0x00FFFFFFu);          /* 0xdca34 */
+
+    r8 = boxType(fr + 40, T, sp);        /* 0xdca38 */
+    r8 = boxType(fr + 24, U, r8);        /* 0xdca48 */
+
+    if ((rd32(fr + 36) & 0x00FFFFFFu) == 0x00FFFFFFu) {
+        set_err(E_REF_BEFORE1);          /* 0xdd064 */
+        return r8;
+    }
+    if ((rd32(fr + 52) & 0x00FFFFFFu) == 0x00FFFFFFu) {
+        set_err(E_REF_AFTER1);           /* 0xdcf50 */
+        return r8;
+    }
+
+    wr64(fr + 56, 0);
+    wr64(fr + 72, 0);
+    wr32(fr + 64, 0);
+    wr32(fr + 80, 0);
+    wr32(fr + 68, 0x00FFFFFFu);
+    wr32(fr + 84, 0x00FFFFFFu);
+
+    rc = js_to_primitive(fr + 56, fr + 24);
+    if (rc != JS_OK) {
+        if (rc == JS_THREW)
+            set_err(E_PRIM_LEFT);        /* 0xdd15c */
+        return r8;                       /* 0xdcab0 释放临时量后返回 */
+    }
+    rc = js_to_primitive(fr + 72, fr + 40);
+    if (rc != JS_OK) {
+        if (rc == JS_THREW)
+            set_err(E_PRIM_RIGHT);       /* 0xdd0a4 */
+        return r8;
+    }
+    if ((rd32(fr + 68) & 0x00FFFFFFu) == 1u ||
+        (rd32(fr + 84) & 0x00FFFFFFu) == 1u) {
+        /* 0xdd180..0xdd2ac: F_JS_ToString + 同一个拼接。F_JS_ToString 未恢复，
+         * 不做翻译；回执把这个缺口列出来，用例集也不生成这个分支。 */
+        set_err(E_MODE1_STRING);
+        return r8;
+    }
+
+    wr64(fr + 88, 0);
+    wr64(fr + 104, 0);
+    wr32(fr + 96, 0);
+    wr32(fr + 112, 0);
+    wr32(fr + 100, 0x00FFFFFFu);
+    wr32(fr + 116, 0x00FFFFFFu);
+
+    if (js_to_number(fr + 88, fr + 56) == JS_THREW) {
+        set_err(E_NUM_LEFT1);            /* 0xdd480 */
+        return r8;
+    }
+    if (js_to_number(fr + 104, fr + 72) == JS_THREW) {
+        set_err(E_NUM_RIGHT1);           /* 0xdd490 */
+        return r8;
+    }
+    /* 0xdd438: `str r0,[r8,#-4]` 先落 tag 0，然后两半 4 字节存 double 到
+     * r8-16；返回 r8-16。 */
+    return numeric_out(fr, r8);
+}
+
+/* ═══ mode 2 — plain numeric coercion: boxType then F_JS_ToNumber twice ════ */
+static unsigned char *mode2(unsigned cls, unsigned char *sp)
+{
+    unsigned char frame[124] __attribute__((aligned(8)));
+    unsigned char *const fr = frame;
+    unsigned char *r8;
+    unsigned T = cls & 15u;
+    unsigned U = (cls >> 4) & 15u;
+
+//@@BLOCK 0xdcb30 0xdccc0
+    wr64(fr + 56, 0);
+    wr64(fr + 72, 0);
+    wr32(fr + 64, 0);
+    wr32(fr + 80, 0);
+    wr32(fr + 68, 0x00FFFFFFu);          /* 0xdcb64 */
+    wr32(fr + 84, 0x00FFFFFFu);          /* 0xdcb68 */
+
+    r8 = boxType(fr + 72, T, sp);        /* 0xdcb6c */
+    r8 = boxType(fr + 56, U, r8);        /* 0xdcb7c */
+
+    if ((rd32(fr + 68) & 0x00FFFFFFu) == 0x00FFFFFFu) {
+        set_err(E_REF_BEFORE2);          /* 0xdd090 */
+        return r8;
+    }
+    if ((rd32(fr + 84) & 0x00FFFFFFu) == 0x00FFFFFFu) {
+        set_err(E_REF_AFTER2);           /* 0xdcf64 */
+        return r8;
+    }
+
+    wr64(fr + 88, 0);
+    wr64(fr + 104, 0);
+    wr32(fr + 96, 0);
+    wr32(fr + 112, 0);
+    wr32(fr + 100, 0x00FFFFFFu);
+    wr32(fr + 116, 0x00FFFFFFu);
+
+    if (js_to_number(fr + 88, fr + 56) == JS_THREW) {
+        set_err(E_NUM_LEFT2);            /* 0xdd16c */
+        return r8;
+    }
+    if (js_to_number(fr + 104, fr + 72) == JS_THREW) {
+        set_err(E_NUM_RIGHT2);           /* 0xdd3b0 */
+        return r8;
+    }
+    /* 0xdcbfc: tag 0 at r8-4, then the double at r8-16; return r8-16. */
+    return numeric_out(fr, r8);
+}
+
+/* ═══ entry ════════════════════════════════════════════════════════════════
+ * 0xdc524: mode = (arg >> 8) & 15 ; r9 = uxtb(arg >> 16) = the pair byte.
+ * 0xdc540: mode 0 -> 0xdc554; 0xdc544/0xdc548: mode 1 -> 0xdc9f8;
+ * 0xdc54c/0xdc550: mode 2 -> 0xdcb30; EVERYTHING ELSE FALLS THROUGH to 0xdc554,
+ * i.e. modes 3..15 run the strong-typed arm. */
+//@@BLOCK 0xdc524 0xdc554
+unsigned char *DoAdd(uint32_t arg, unsigned char *sp, const unsigned char *base,
+                     void *exec)
+{
+    unsigned mode = (arg >> 8) & 0xFu;
+    unsigned cls = (arg >> 16) & 0xFFu;
+
+    (void)base;
+    (void)exec;
+    g_error = 0;
+    g_strpool_used = 0;
+    if (mode == 1u)
+        return mode1(cls, sp);
+    if (mode == 2u)
+        return mode2(cls, sp);
+    return mode0(cls, sp);
+}
+
+/* ═══ 共享错误桩 ═══════════════════════════════════════════════════════════
+ * These four stubs live in DoAdd's tail (0xdcf50..0xdd0b0) but belong to the
+ * mode-1/mode-2 reference and conversion gates: each one calls VMError or
+ * JSThrow* and then returns the SAME r8 the gate already had.  They are
+ * annotated here because the C above reaches them from three different
+ * functions, an arrangement the addresses cannot express. */
+//@@BLOCK 0xdcf50 0xdcf78
+//@@BLOCK 0xdcf78 0xdcfa0
+//@@BLOCK 0xdd064 0xdd0b0
+//@@BLOCK 0xdd15c 0xdd180
+//@@BLOCK 0xdd3b0 0xdd3c4
+//@@BLOCK 0xdd480 0xdd4a0

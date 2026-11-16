@@ -1,0 +1,437 @@
+{
+  "harness": "do_add_diff.py",
+  "target": {
+    "symbol": "_Z5DoAddjPhPKhP6VMExec",
+    "func": "DoAdd",
+    "addr": "0xdc524",
+    "size": 4060,
+    "so": "/data/data/com.termux/files/home/callys-caves-2-rs/reconstruction/live-mem/libyoyo_armv7.so",
+    "sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a"
+  },
+  "build": "clang --target=armv7a-none-eabi (freestanding) + qemu-arm",
+  "scope": {
+    "covered": [
+      "mode 0 / modes 3..15: every pair byte 0..102, every RValue tag 0..15 in both operand positions, the int32/int64/real tower, the 4/8/16-byte result placement, the :1:/:2: errors",
+      "mode 1 / mode 2: numeric limb over types 0/2/3/4 and the ReferenceError limb over the untagged types 7/8/>9",
+      "string + string (pair 0x66): order, lengths, result object, input refcount decrement"
+    ],
+    "not_covered": [
+      "mode 1 string limb 0xdd180..0xdd2ac (needs F_JS_ToString, unrecovered)",
+      "the string free branch 0xdcea0/0xdcef8 (YYFree + _RefThing::dec + operator delete, unrecovered); inputs use refcount >= 2",
+      "modes 1/2 with string/array/pointer/object operands (strtod + JS object hooks, unrecovered)"
+    ],
+    "modelled_callees": [
+      "F_JS_ToNumber @0x24cfac",
+      "F_JS_ToPrimitive @0x24cd64"
+    ],
+    "real_linked_callees": [
+      "boxType @0xd7784 (c/box_type.c)"
+    ],
+    "stubbed_in_the_judge": [
+      "VMError @0xd4210",
+      "JSThrowReferenceError @0x254b04",
+      "JSThrowTypeError @0x24e58c",
+      "FREE_RValue__Pre @0xc0a7c",
+      "libc: malloc/free/mem*/str*/pthread_*"
+    ]
+  },
+  "seed": "0xadd1",
+  "cases": 523,
+  "inputs_sha256": "44646a7c88fabbd7d5aa40264f4e8f83efb81695cf5462de07bbe16c16cc968a",
+  "c_sha256": "5e3f58be10d6c70366ca9aa2519e6272b723f0a3e6756c00c81069738c816c47",
+  "result": {
+    "mismatches": 0,
+    "first": [],
+    "verdict": "PASS",
+    "labels": []
+  },
+  "gates": {
+    "binding": {
+      "ok": true,
+      "so": "/data/data/com.termux/files/home/callys-caves-2-rs/reconstruction/live-mem/libyoyo_armv7.so",
+      "sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+      "symbol": {
+        "name": "_Z5DoAddjPhPKhP6VMExec",
+        "addr": "0xdc524",
+        "size": 4060,
+        "declared": {
+          "addr": "0xdc524",
+          "size": 4060
+        }
+      },
+      "pool_words": 19,
+      "error_strings": {
+        "0xdcd54": "DoAdd :: Execution Error",
+        "0xdcd9c": "DoAdd :1: undefined value",
+        "0xdcdbc": "DoAdd :1: illegal pointer use",
+        "0xdcddc": "DoAdd :1: illegal array use",
+        "0xdce38": "DoAdd :2: undefined value",
+        "0xdce54": "DoAdd :2: illegal pointer use",
+        "0xdce70": "DoAdd :2: illegal array use",
+        "0xdcf50": "could not find variable after '+' operator",
+        "0xdcf64": "could not find variable after '+'",
+        "0xdcf78": "DoAdd :2: Malformed variable",
+        "0xdcf94": "DoAdd :1: Malformed variable",
+        "0xdd064": "could not find variable before '+' operator",
+        "0xdd090": "could not find variable before '+'",
+        "0xdd0a4": "Could not convert right-hand-side of add operator to a primitive",
+        "0xdd15c": "Could not convert left-hand-side of add operator to a primitive",
+        "0xdd16c": "Could not convert left-hand-side of add operator to a number # 2",
+        "0xdd3b0": "Could not convert right-hand-side of add operator to a number # 2",
+        "0xdd480": "Could not convert left-hand-side of add operator to a number",
+        "0xdd490": "Could not convert right-hand-side of add operator to a number"
+      },
+      "strings_not_in_c": [],
+      "strings_in_c_not_derived": []
+    },
+    "census": {
+      "ok": true,
+      "instructions": 996,
+      "documented": 996,
+      "pool_words": 19,
+      "wrong": [],
+      "duplicate_addresses": [],
+      "unknown_addresses": [],
+      "pool_missing": []
+    },
+    "census_selftest": {
+      "operand_digit_changed": {
+        "ok": true,
+        "wrong": 1,
+        "missing": 0,
+        "undocumented": 1
+      },
+      "comment_line_deleted": {
+        "ok": true,
+        "wrong": 1,
+        "missing": 0,
+        "undocumented": 1
+      },
+      "pool_word_changed": {
+        "ok": true,
+        "wrong": 0,
+        "missing": 1,
+        "undocumented": 0
+      },
+      "ok": true
+    },
+    "identity": {
+      "pass": true,
+      "mismatches": 0
+    },
+    "coverage": {
+      "pair_table_entries": {
+        "pass": true,
+        "walked": 103,
+        "total": 103,
+        "missing": []
+      },
+      "first_operand_entries": {
+        "pass": true,
+        "missing": []
+      },
+      "second_operand_entries": {
+        "pass": true,
+        "missing": []
+      },
+      "rhs_tag_entries": {
+        "pass": true,
+        "missing": []
+      },
+      "lhs_tag_entries": {
+        "pass": true,
+        "missing": []
+      },
+      "cls_nibbles_0_15": {
+        "pass": true,
+        "seen": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "rvalue_tags_0_15": {
+        "pass": true,
+        "seen": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "modes_0_1_2": {
+        "pass": true,
+        "seen": [
+          0,
+          1,
+          2,
+          3,
+          7,
+          11,
+          15
+        ]
+      },
+      "pair_bytes_0_102": {
+        "pass": true,
+        "seen": 103
+      },
+      "ok": true
+    },
+    "non_degenerate": {
+      "pass": true,
+      "cases_that_moved_the_slots": 337,
+      "distinct_results": 287,
+      "total_cases": 523
+    },
+    "repeat": {
+      "pass": true
+    },
+    "teeth": {
+      "pass": true,
+      "mutants": {
+        "1": {
+          "caught_cases": 15,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x23 payload1",
+            "cls=0x23 payload3",
+            "cls=0x23 payload5",
+            "cls=0x23 rhs1"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "2": {
+          "caught_cases": 14,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x02 payload1",
+            "cls=0x02 payload3",
+            "cls=0x02 payload5",
+            "cls=0x02 rhs1"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "3": {
+          "caught_cases": 228,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x00",
+            "cls=0x01",
+            "cls=0x02",
+            "cls=0x03"
+          ],
+          "aborted_by": [
+            "str b'abc'+b'de' rc=2",
+            "str b''+b'' rc=2",
+            "str b'xx'+b'' rc=2",
+            "str b''+b'yy' rc=3"
+          ],
+          "crashed_records": 167
+        },
+        "4": {
+          "caught_cases": 68,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x05",
+            "cls=0x25",
+            "cls=0x35",
+            "cls=0x50"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "5": {
+          "caught_cases": 104,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x05",
+            "cls=0x25",
+            "cls=0x50",
+            "cls=0x52"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "6": {
+          "caught_cases": 317,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x00",
+            "cls=0x01",
+            "cls=0x02",
+            "cls=0x03"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "7": {
+          "caught_cases": 5,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "lhsvar tag14",
+            "rhsvar tag14",
+            "bothvar tag14",
+            "lhsvar+i32 tag14"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "8": {
+          "caught_cases": 38,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x00",
+            "cls=0x05",
+            "cls=0x50",
+            "cls=0x55"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "9": {
+          "caught_cases": 9,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x30 payload0",
+            "cls=0x30 payload2",
+            "cls=0x30 payload3",
+            "cls=0x30 payload9"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "10": {
+          "caught_cases": 33,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "lhsvar tag2",
+            "bothvar tag2",
+            "lhsvar+i32 tag2",
+            "lhsvar tag3"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "11": {
+          "caught_cases": 4,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "str b'abc'+b'de' rc=2",
+            "str b'aaaaaa'+b'b' rc=2",
+            "str via cls=0x56",
+            "str via cls=0x55"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "12": {
+          "caught_cases": 66,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "m1 T0 U0",
+            "m1 T0 U2",
+            "m1 T0 U3",
+            "m1 T0 U4"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "13": {
+          "caught_cases": 79,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x05",
+            "cls=0x15",
+            "cls=0x25",
+            "cls=0x35"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "14": {
+          "caught_cases": 9,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "str b'abc'+b'de' rc=2",
+            "str b''+b'' rc=2",
+            "str b'xx'+b'' rc=2",
+            "str b''+b'yy' rc=3"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        },
+        "15": {
+          "caught_cases": 28,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x23",
+            "cls=0x33",
+            "cls=0x23 payload0",
+            "cls=0x23 payload2"
+          ],
+          "aborted_by": [],
+          "crashed_records": 0
+        }
+      }
+    }
+  },
+  "errors_seen": [
+    "DoAdd :1: Malformed variable",
+    "DoAdd :1: illegal array use",
+    "DoAdd :1: illegal pointer use",
+    "DoAdd :1: undefined value",
+    "DoAdd :2: Malformed variable",
+    "DoAdd :2: illegal array use",
+    "DoAdd :2: illegal pointer use",
+    "DoAdd :2: undefined value",
+    "DoAdd :: Execution Error",
+    "could not find variable after '+'",
+    "could not find variable after '+' operator",
+    "could not find variable before '+'",
+    "could not find variable before '+' operator"
+  ],
+  "wall_s": 7.7,
+  "when": "2026-11-16T19:32:17"
+}

@@ -82,15 +82,20 @@ u32 CRoom_AddInstance(void *room, void *inst)
     if (cur == 0) goto EMPTY;
 
     /* ── the ordered walk ────────────────────────────────────────────────
-     * `vcmpe.f32 s15, s14` (cur snapshot vs new depth) then `bls`: taken
-     * when cur <= new OR unordered.  Unconditional-clear (no `e`) keeps the
-     * unordered case on the bls side, which is what !(a > b) says in C. */
+     * `vcmpe.f32 s15, s14` then `vmrs APSR_nzcv` then `bls`.
+     * VFP sets C=1 for greater, equal AND unordered (Z=1 only for equal;
+     * N=1 for less).  `bls` is C==0 || Z==1, so it is taken exactly for the
+     * ORDERED `cur <= new` and NOT taken when either side is NaN - a NaN
+     * depth sinks to the tail.  Measured in Unicorn on this instruction pair:
+     * equal 0b0110, greater 0b0010, less 0b1000, unordered 0b0011.
+     * `!(a > b)` is therefore WRONG here (it is true for NaN); the earlier
+     * gloss in this comment was inherited from room_update and is retracted. */
     /* @0x1ab67c vldr s15, [r3, #388] */
     /* @0x1ab680 vcmpe.f32 s15, s14 */
     /* @0x1ab684 vmrs APSR_nzcv, fpscr */
     /* @0x1ab688 bls 0x1ab740 */
     for (;;) {
-        if (!(f32(rd32(cur + INST_DEPTH_SNAP)) > f32(s14))) goto BEFORE;
+        if (f32(rd32(cur + INST_DEPTH_SNAP)) <= f32(s14)) goto BEFORE;
         /* @0x1ab68c ldr r3, [r3, #0x17c] */
         cur = (u8 *)(uintptr_t)rd32(cur + INST_NEXT);
         /* @0x1ab690 cmp r3, #0 */

@@ -462,6 +462,11 @@ def cases():
              '(Zeus live, no layer at the depth -> dynamic layer)')
         .inst(0, id=100, depth=3.0, layer_id=-1)
         .layer(1, id_=77, depth=3).answer(1, layer=1))
+    add(Case(1, 0, 0, 0, 'F1-m NaN snapshot: bls is an ORDERED <=, so the walk '
+             'does NOT stop and the new node goes to the TAIL')
+        .zeus(0).inst(1, id=101, depth=5.0, snap_bits=0x7fc00000)
+        .inst(0, id=100, depth=5.0)
+        .room(head=1, tail=1, count=1))
     # NOTE: there is no "F1 with room == NULL" case on purpose.  F1 does not
     # check r0: 0x1ab65c dereferences it, so such a case aborts inside the first
     # body on both arms and grades nothing.  See scope.not_covered.
@@ -1178,11 +1183,14 @@ def census_selftest():
 MUTANTS = [
     # ── F1 ────────────────────────────────────────────────────────────────
     {'name': 'f1_depth_compare_bls_to_bcc', 'file': 'CRoom_AddInstance.c',
-     'edits': [("if (!(f32(rd32(cur + INST_DEPTH_SNAP)) > f32(s14))) goto BEFORE;",
-                "if (!(f32(rd32(cur + INST_DEPTH_SNAP)) >= f32(s14))) goto BEFORE;")]},
+     'edits': [("if (f32(rd32(cur + INST_DEPTH_SNAP)) <= f32(s14)) goto BEFORE;",
+                "if (f32(rd32(cur + INST_DEPTH_SNAP)) < f32(s14)) goto BEFORE;")]},
+    {'name': 'f1_nan_ordered_compare', 'file': 'CRoom_AddInstance.c',
+     'edits': [("if (f32(rd32(cur + INST_DEPTH_SNAP)) <= f32(s14)) goto BEFORE;",
+                "if (!(f32(rd32(cur + INST_DEPTH_SNAP)) > f32(s14))) goto BEFORE;")]},
     {'name': 'f1_sort_key_live_depth', 'file': 'CRoom_AddInstance.c',
-     'edits': [("if (!(f32(rd32(cur + INST_DEPTH_SNAP)) > f32(s14))) goto BEFORE;",
-                "if (!(f32(rd32(cur + INST_DEPTH)) > f32(s14))) goto BEFORE;")]},
+     'edits': [("if (f32(rd32(cur + INST_DEPTH_SNAP)) <= f32(s14)) goto BEFORE;",
+                "if (f32(rd32(cur + INST_DEPTH)) <= f32(s14)) goto BEFORE;")]},
     {'name': 'f1_count_increment_dropped', 'file': 'CRoom_AddInstance.c',
      'edits': [('/* @0x1ab670 add r2, r2, #1 */\n    cnt += 1;',
                 '/* @0x1ab670 add r2, r2, #1 */\n    cnt += 0;')]},
