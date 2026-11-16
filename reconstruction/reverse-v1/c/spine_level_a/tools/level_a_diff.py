@@ -100,6 +100,11 @@ B_LEAK_TREES = {'err_link_skin', 'err_link_parent'}
 # timeline families, curve and color).  Each mutation is a source-copy
 # override, never an edit of the module source.  The first three are the
 # contract's original broken-segment control and keep their names.
+# Mutants whose module body is only reachable through a tree other than `main`.
+# tl_path_mix lives behind B17, and B17 skips the sub-key named exactly "mix";
+# the contract therefore needs the `path_mix_alt` tree for it to be testable.
+A_MUTANT_VARIANT = {'tl_path_mix_rotate_key': 'path_mix_alt'}
+
 A_MODULE_MUTANTS = [
     # --- NC1 continuity: the three contract mutants -------------------
     ('spine_read_slots', 'spine_read_slots/src/spine_read_slots.c',
@@ -699,16 +704,30 @@ def mutation_source(relpath, old, new):
 
 def gate_a_modules(scale, subset=None):
     """Break one module at a time (source-copy override) and require the diff
-    to be non-zero with at least one difference attributed to that module."""
+    to be non-zero with at least one difference attributed to that module.
+
+    A mutant may pin its own tree (A_MUTANT_VARIANT): a module whose arm is
+    unreachable from `main` would otherwise produce a vacuous diff=0 - the
+    mutant is only discriminating if the entry actually executes that module.
+    Baselines are taken per tree, so the comparison stays same-input."""
     scale_bits = struct.unpack('<I', struct.pack('<f', scale))[0]
-    orig, _ = run_oracle(trees.VARIANTS['main'](), scale)
-    of_, oa = flatten(orig)
+    base = {}
+
+    def baseline(variant):
+        if variant not in base:
+            inst = trees.VARIANTS[variant]()
+            orig, _ = run_oracle(inst, scale)
+            base[variant] = flatten(orig)
+        return base[variant]
+
     gates = []
     for module, rel, old, new, name in A_MODULE_MUTANTS:
         if subset is not None and name not in subset:
             continue
+        variant = A_MUTANT_VARIANT.get(name, 'main')
+        of_, oa = baseline(variant)
         src, mutated = mutation_source(rel, old, new)
-        binary = build_c('main', scale_bits, 'gateA_' + name,
+        binary = build_c(variant, scale_bits, 'gateA_' + name,
                          overrides={src: mutated})
         reb = dump.parse_binary(run_c(binary))
         rf, ra = flatten(reb)
@@ -717,6 +736,7 @@ def gate_a_modules(scale, subset=None):
         passed = bool(diffs) and bool(hits)
         gates.append({
             'name': name, 'class': 'A_module', 'module': module,
+            'variant': A_MUTANT_VARIANT.get(name, 'main'),
             'PASS': passed,
             'diff_count': len(diffs),
             'unique_to_module': len(hits) == len(diffs) and bool(hits),

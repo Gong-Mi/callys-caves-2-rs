@@ -292,6 +292,23 @@ def d_path_bone():
     return build_main(path_bone0='ghost')
 
 
+def d_path_mix_alt():
+    """Path constraint carrying a sub-key that is neither position, spacing nor
+    mix.  B17 only skips a sub-key named exactly "mix" (0x28e8fc), so this is
+    the only way the contract reaches B17's own body: the original creates a
+    path-mix timeline from this unknown sub-key too."""
+    root = build_main()
+    anim = sub(root, 'animations').kids[0]
+    con = sub(anim, 'paths').kids[0]
+    extra = arr('mixAlt', [frame(f('time', 0.25), f('rotateMix', 0.4),
+                                 f('translateMix', 0.2)),
+                           frame(f('time', 0.75), f('rotateMix', 0.9),
+                                 f('translateMix', 0.6))])
+    con.kids = list(con.kids) + [extra]
+    con.declared = len(con.kids)
+    return root
+
+
 def d_ik_target():
     return build_main(ik_target='ghost')
 
@@ -417,6 +434,7 @@ VARIANTS = {
     'err_link_parent': d_link_parent,
     'err_att_unknown': d_att_unknown,
     'err_json': d_json_fail,
+    'path_mix_alt': d_path_mix_alt,
 }
 
 

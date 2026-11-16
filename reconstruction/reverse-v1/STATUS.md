@@ -11,7 +11,13 @@
    0x28e8ec..0x28e8fc 在子键名恰好等于 `"mix"` 时直接跳回 0x28e048（模块头已把
    "没人处理 mix" 从指令流定死），所以契约那棵树根本走不到 B17 的主体。
    要让它可测，得新增一棵"path 约束下带非 position/spacing/mix 子键"的树变体，
-   不是改模块、更不是把门改成绿。
+   不是改模块、更不是把门改成绿。**本批已补齐**：树变体 `path_mix_alt`
+   （`level_a_trees.py`，path 约束下带 `mixAlt` 子键），`gate_a_modules` 改成
+   变异体可各自钉一棵树、基线按树取（`A_MUTANT_VARIANT`）。重跑 A 门
+   **27/27**（`level_a_stage_a_20261116T155155.json`），该门 diff=2 命中
+   `animations[0].timelines[10].frames[1]/[4]` 并归因到 `spine_read_tl_path_mix`。
+   这同时是原件侧的一条语义事实：**原版对"非 position/spacing/mix"的未知子键
+   也会建 path-mix 时间线**（两臂同帧比对通过）。
 
 2. **两个变异体是设计错，已修（`level_a_diff.py`）。**
    `ik_bend_positive_key` / `path_position_mode_key` 原来只改大小写
