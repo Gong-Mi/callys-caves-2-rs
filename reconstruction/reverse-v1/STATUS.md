@@ -1,5 +1,41 @@
 # 状态与定性（2026-11-16 更新）
 
+## 2026-11-16（续五）：实例登记链与实例身份链（父代理复跑）
+
+**A. `c/room_add/` + `harness/room_add_diff.py`** —— `CRoom_AddInstance`(79 指令+2 池字)、
+`CLayerManager_AddInstance`(40+1)、`CLayerManager_AddInstanceToLayer`(179+5)。
+父代理复跑：`RESULT PASS cases=48 identical=48 binding=ok repeat=ok census=298/298 selftest=ok`，
+覆盖 61 项全 yes，变异体 23 项全 PASS、**零崩溃型**。回执 `room_add_diff-20261116T183544`。
+binding 不硬编码：五个 GOT 槽与三条 rodata 串都由 `ldr/add pc` 算术从字节重新推导。
+
+对卡的更正（两处都会让原件直接跑飞）：
+1. F3 报错宿主槽是 **0x3ed71c**（`0x1c5ca4 + 0x00227a78`），不是卡写的 0x3ed718；
+   两者指向不同 .bss，差 4 字节。照卡 staging 原件会在 0x1c5cb4 `blx` 进垃圾。
+2. F3 的报错串是 `0x350864 "Attempting to add instance %d multiple times to a layer"`，
+   不是卡写的 " ERROR: Adding too many variables"（后者是另一条 `INTERNAL ERROR:` 的尾巴）。
+   这也是修正前唯一的 identity diff。
+3. 卡说"幂等"只对 F2/F3 的 `+0x174` 门成立；**F1 完全不看 `+0x174`** —— 重复登记会让
+   `inst->next = inst` 自环、`room+0x88` 1→2、id 表插第二个同键节点（case F1-i 实跑确认）。
+
+**B. `c/instance_ctor/` + `harness/instance_ctor_diff.py`** —— `CInstance::SetObjectIndex`(70+1)、
+`CInstance` 构造函数(249+8)。父代理复跑：`RESULT PASS cases=38 identical=38 binding=ok
+census=319/319 census-self=ok got=ok tail=ok`，覆盖 44 项全 yes，变异体 34 项全 PASS
+（两条 `mismatch+driver-abort`，都另有字段级命中，回执写明"无 teeth 仅靠 abort"）。
+回执 `instance_ctor_diff-20261116T183617`。两臂堆模型一致并写进回执：bump @IC_HEAP、16 对齐、填充 0x5B、块尾守卫 0xDEADBEEF。
+
+新事实（卡上无）：
+- `SetObjectIndex` 在 `RemoveInstance` 之后**从内存重读 +0x7c**（0x193278）、在 `AddInstance` 之后
+  重读 +0x80（0x19335c）——所以 RemoveInstance 若写了 +0x7c，`-1` 归一会被跳过。
+- ctor 在 0x19964c 预清 +0x80，使 RemoveInstance 分支**从构造路径不可达**（即使块是回收的）。
+- `cap==0` 不是"什么都不做"：`count>=cap` 成立 ⇒ 走一次 grow，`YYRealloc(base,0)` 与 `memset(p,0,0)`
+  都被调用，cap 仍 0，最后给 slot=-1。实例表扫描是**钳位**不是取模。
+- `+0x64..+0x67` 共处同一个字（bbox 脏位/visible/solid/persistent），按字读会一次读到四个。
+- ctor 卡 open 项加深：`cap<0` 时是**无限循环**（count>=cap 恒真、newcap<=cap、0x1998bc 跳过测试），
+  不是"失败退出"；未当 case 跑，只记 card_deltas。
+
+**累计**：本线现有 **17 个已恢复且带差分臂的函数体**；语义核心 ★ 尚未动的仍是
+VM_Exec（骨架卡）/ 事件命令族 / builtin F_ 直系，以及 CRoom_UpdateActive、collision 一系。
+
 ## 2026-11-16（续四）：语义核心第四批——变量家族与指令侧收口（父代理复跑）
 
 **A. `c/variable_misc/` + `harness/var_misc_diff.py`** —— 四件：`Variable_Global_Init`(24 指令+2 池字)、
