@@ -77,6 +77,159 @@ TL_SEG = {0: 'spine_read_tl_bones', 1: 'spine_read_tl_bones',
           10: 'spine_read_tl_transform', 11: 'spine_read_tl_path',
           12: 'spine_read_tl_path', 13: 'spine_read_tl_path_mix'}
 
+# ----------------------------------------------------------------------
+# Gate matrix definitions
+# ----------------------------------------------------------------------
+# B class: every error tree in level_a_trees.VARIANTS.  Each gate requires the
+# two arms to return NULL, to report the same parser->error text, to agree on
+# every compared field (which includes error.root_dispose) and to stage the
+# same tree on both arms.
+B_ERROR_TREES = [
+    'err_slot_bone', 'err_ik_bone', 'err_parent', 'err_tr_bone',
+    'err_path_constraint', 'err_path_bone', 'err_ik_target', 'err_tr_target',
+    'err_path_target', 'err_draworder_slot', 'err_bone_tl',
+    'err_tl_slot_invalid', 'err_tl_bone_invalid', 'err_event',
+    'err_deform_att', 'err_link_skin', 'err_link_parent', 'err_att_unknown',
+    'err_json',
+]
+# The two linked-mesh tails dispose spSkeletonData but not the Json root: the
+# original leaks the root, so both arms must report root_dispose == 0.
+B_LEAK_TREES = {'err_link_skin', 'err_link_parent'}
+
+# A class: one breakage site per chain module (16 segment/glue modules, the 9
+# timeline families, curve and color).  Each mutation is a source-copy
+# override, never an edit of the module source.  The first three are the
+# contract's original broken-segment control and keep their names.
+A_MODULE_MUTANTS = [
+    # --- NC1 continuity: the three contract mutants -------------------
+    ('spine_read_slots', 'spine_read_slots/src/spine_read_slots.c',
+     '*(int*)((char*)slotData + 0x20) = 1;',
+     '*(int*)((char*)slotData + 0x20) = 3;',
+     'slots_blend_additive_1_to_3'),
+    ('spine_read_bones', 'spine_read_bones/src/spine_read_bones.c',
+     '#define BD_SCALEX_OFF        0x1c',
+     '#define BD_SCALEX_OFF        0x20',
+     'bones_scaleX_offset_0x1c_to_0x20'),
+    ('spine_read_tl_bones', 'spine_read_tl_bones/src/spine_read_tl_bones.c',
+     'Json_getFloat(frame, "angle", 0.0f)',
+     'Json_getFloat(frame, "angel", 0.0f)',
+     'tl_bones_rotate_angle_key'),
+    # --- the other 24 modules ---------------------------------------
+    ('spine_read_meta', 'spine_read_meta/src/spine_read_meta.c',
+     '#define SD_WIDTH_OFF   0x08', '#define SD_WIDTH_OFF   0x0c',
+     'meta_sd_width_off_0x08_to_0x0c'),
+    ('spine_read_ik', 'spine_read_ik/src/spine_read_ik.c',
+     'Json_getInt(map, "bendPositive", 1)',
+     'Json_getInt(map, "bendPositiveZ", 1)',
+     'ik_bend_positive_key'),
+    ('spine_read_transform', 'spine_read_transform/src/spine_read_transform.c',
+     'Json_getFloat(map, "rotateMix", 1.0f)',
+     'Json_getFloat(map, "rotateMixX", 1.0f)',
+     'transform_rotate_mix_key'),
+    ('spine_read_path', 'spine_read_path/src/spine_read_path.c',
+     'Json_getString(map, "positionMode", "percent")',
+     'Json_getString(map, "positionModeZ", "percent")',
+     'path_position_mode_key'),
+    ('spine_read_skins', 'spine_read_skins/src/spine_read_skins.c',
+     '_strcmp(name, "default")', '_strcmp(name, "defaultX")',
+     'skins_default_skin_compare'),
+    ('spine_read_attach_dispatch',
+     'spine_read_attach_dispatch/src/spine_read_attach_dispatch.c',
+     'Json_getString(attachmentMap, "path", name)',
+     'Json_getString(attachmentMap, "pathX", name)',
+     'attach_dispatch_path_key'),
+    ('spine_read_region', 'spine_read_region/src/spine_read_region.c',
+     'Json_getFloat(map,"width",32.0f)',
+     'Json_getFloat(map,"widht",32.0f)',
+     'region_width_key'),
+    ('spine_read_bbox_path', 'spine_read_bbox_path/src/spine_read_bbox_path.c',
+     'Json_getInt(map, "closed", 0)',
+     'Json_getInt(map, "closedX", 0)',
+     'bbox_path_closed_key'),
+    ('spine_read_mesh', 'spine_read_mesh/src/spine_read_mesh.c',
+     'Json_getInt(map,"hull",0)', 'Json_getInt(map,"hul",0)',
+     'mesh_hull_key'),
+    ('spine_read_vertices', 'spine_read_vertices/src/spine_read_vertices.c',
+     'a->worldVerticesLength = verticesCount;',
+     'a->worldVerticesLength = verticesCount >> 1;',
+     'vertices_world_length_halved'),
+    ('spine_skins_glue', 'spine_skins_glue/src/spine_skins_glue.c',
+     'case SKINS_GLUE_TYPE_REGION:',
+     'case SKINS_GLUE_TYPE_REGION + 100:',
+     'skins_glue_region_type_stub'),
+    ('spine_linked_postpass', 'spine_linked_postpass/src/spine_linked_postpass.c',
+     'if(signed32(j->unk_10)<=0)return 1;',
+     'if(1)return 1;',
+     'linked_postpass_early_out'),
+    ('spine_read_animations', 'spine_read_animations/src/spine_read_animations.c',
+     'Json_getInt(eventMap, "int", 0)',
+     'Json_getInt(eventMap, "intValue", 0)',
+     'animations_event_int_key'),
+    ('spine_animations_loop',
+     'spine_animations_loop/src/spine_animations_loop.c',
+     '    if (readSkeletonData_boneTimelines(frame->bones, frame->animation, data_raw,\n'
+     '                                       animation, parser_raw) == 0)\n'
+     '        return 0;\n'
+     '\n'
+     '    /* B7 ik, 0x28d840..0x28dca8 (no error path in the family). */\n'
+     '    if (readSkeletonData_ikTimelines(frame->ik, data_raw, animation) == 0)\n'
+     '        return 0;',
+     '    /* B7 ik, 0x28d840..0x28dca8 (no error path in the family). */\n'
+     '    if (readSkeletonData_ikTimelines(frame->ik, data_raw, animation) == 0)\n'
+     '        return 0;\n'
+     '\n'
+     '    if (readSkeletonData_boneTimelines(frame->bones, frame->animation, data_raw,\n'
+     '                                       animation, parser_raw) == 0)\n'
+     '        return 0;',
+     'animations_loop_stage_order_ik_before_bones'),
+    ('spine_read_tl_slots', 'spine_read_tl_slots/src/spine_read_tl_slots.c',
+     'uint32_t word_index = (declared - 1u) * 5u;',
+     'uint32_t word_index = (declared - 1u) * 4u;',
+     'tl_slots_color_word_stride'),
+    ('spine_read_tl_ik', 'spine_read_tl_ik/src/spine_read_tl_ik.c',
+     'int bend_enum = (bend == 0) ? -1 : 1;',
+     'int bend_enum = (bend == 0) ? 1 : -1;',
+     'tl_ik_bend_enum_flip'),
+    ('spine_read_tl_transform',
+     'spine_read_tl_transform/src/spine_read_tl_transform.c',
+     '                                                   time, rotateMix,\n'
+     '                                                   translateMix, scaleMix,',
+     '                                                   time, translateMix,\n'
+     '                                                   rotateMix, scaleMix,',
+     'tl_transform_mix_argument_order'),
+    ('spine_read_tl_path', 'spine_read_tl_path/src/spine_read_tl_path.c',
+     'float value = Json_getFloat(frame, timelineNode->name, 0.0f);',
+     'float value = Json_getFloat(frame, "spacing", 0.0f);',
+     'tl_path_value_key_fixed_spacing'),
+    ('spine_read_tl_path_mix', 'spine_read_tl_path_mix/src/spine_read_tl_path_mix.c',
+     'float rotateMix = Json_getFloat(frame, "rotateMix", 1.0f);',
+     'float rotateMix = Json_getFloat(frame, "rotateMixX", 1.0f);',
+     'tl_path_mix_rotate_key'),
+    ('spine_read_tl_deform', 'spine_read_tl_deform/src/spine_read_tl_deform.c',
+     'float time = Json_getFloat(frame, "time", 0.0f);',
+     'float time = Json_getFloat(frame, "tim", 0.0f);',
+     'tl_deform_frame_time_key'),
+    ('spine_read_tl_draworder', 'spine_read_tl_draworder/src/spine_read_tl_draworder.c',
+     'order[k] = -1;', 'order[k] = -2;',
+     'tl_draworder_fill_value'),
+    ('spine_read_tl_event', 'spine_read_tl_event/src/spine_read_tl_event.c',
+     'event->intValue = Json_getInt(frame, "int", event_data->intValue);',
+     'event->intValue = Json_getInt(frame, "int", 0);',
+     'tl_event_int_default'),
+    ('spine_read_curve', 'spine_read_curve/src/spine_read_curve.c',
+     'Json* curve = Json_getItem(frame, "curve");',
+     'Json* curve = Json_getItem(frame, "curves");',
+     'curve_key'),
+    ('spine_color', 'spine_color/src/spine_color.c',
+     '"t"(converted), "t"(255.0f)',
+     '"t"(converted), "t"(256.0f)',
+     'color_hex_divisor_255_to_256'),
+]
+
+# C class: perturbation trees compared against the main baseline.
+C_PERTURBATIONS = ['perturb', 'perturb_slot', 'perturb_curve']
+
+
 ATTRIBUTION = [
     ('meta.spine', ['spine_read_meta']),
     ('meta.hash', ['spine_read_meta']),
@@ -544,66 +697,134 @@ def mutation_source(relpath, old, new):
     return src, out
 
 
-def negative_broken_segment(scale):
-    base = run_variant('main', scale, 'baseline')
-    if base['diff_count']:
-        return {'passed': False, 'reason': 'baseline not clean; fix that first',
-                'baseline_diff': base['diff_count']}
-    results = []
-    specs = [
-        ('slots_blend_additive_1_to_3', 'spine_read_slots/src/spine_read_slots.c',
-         '*(int*)((char*)slotData + 0x20) = 1;',
-         '*(int*)((char*)slotData + 0x20) = 3;', 'spine_read_slots'),
-        ('bones_scaleX_offset_0x1c_to_0x20', 'spine_read_bones/src/spine_read_bones.c',
-         '#define BD_SCALEX_OFF        0x1c',
-         '#define BD_SCALEX_OFF        0x20', 'spine_read_bones'),
-        ('tl_bones_rotate_angle_key', 'spine_read_tl_bones/src/spine_read_tl_bones.c',
-         'Json_getFloat(frame, "angle", 0.0f)',
-         'Json_getFloat(frame, "angel", 0.0f)', 'spine_read_tl_bones'),
-    ]
-    for name, rel, old, new, segment in specs:
+def gate_a_modules(scale, subset=None):
+    """Break one module at a time (source-copy override) and require the diff
+    to be non-zero with at least one difference attributed to that module."""
+    scale_bits = struct.unpack('<I', struct.pack('<f', scale))[0]
+    orig, _ = run_oracle(trees.VARIANTS['main'](), scale)
+    of_, oa = flatten(orig)
+    gates = []
+    for module, rel, old, new, name in A_MODULE_MUTANTS:
+        if subset is not None and name not in subset:
+            continue
         src, mutated = mutation_source(rel, old, new)
-        try:
-            variant = trees.VARIANTS['main']()
-            orig, _ = run_oracle(variant, scale)
-            binary = build_c('main', struct.unpack('<I', struct.pack('<f', scale))[0],
-                             name, overrides={src: mutated})
-            reb = dump.parse_binary(run_c(binary))
-            of_, oa = flatten(orig)
-            rf, ra = flatten(reb)
-            diffs = diff_dicts(oa, of_, ra, rf)
-            hit = [d for d in diffs if segment in d['attribution']]
-            ok = bool(diffs) and bool(hit)
-            results.append({'name': name, 'segment': segment,
-                            'diff_count': len(diffs),
-                            'fields': [d['field'] for d in diffs][:12],
-                            'attributed_hit': bool(hit),
-                            'passed': ok})
-        finally:
-            pass
-    return {'passed': all(r['passed'] for r in results), 'mutants': results}
+        binary = build_c('main', scale_bits, 'gateA_' + name,
+                         overrides={src: mutated})
+        reb = dump.parse_binary(run_c(binary))
+        rf, ra = flatten(reb)
+        diffs = diff_dicts(oa, of_, ra, rf)
+        hits = [d['field'] for d in diffs if module in d['attribution']]
+        passed = bool(diffs) and bool(hits)
+        gates.append({
+            'name': name, 'class': 'A_module', 'module': module,
+            'PASS': passed,
+            'diff_count': len(diffs),
+            'unique_to_module': len(hits) == len(diffs) and bool(hits),
+            'attribution_hit': bool(hits),
+            'diff_fields': [d['field'] for d in diffs][:12],
+            'attributed_fields': hits[:12],
+            'mutation': {'file': rel, 'old': old, 'new': new},
+        })
+    return gates
 
 
-def negative_input_perturbation(scale):
-    base_o, _ = run_oracle(trees.VARIANTS['main'](), scale)
-    base_r = dump.parse_binary(run_c(build_c(
-        'main', struct.unpack('<I', struct.pack('<f', scale))[0], 'pert_base')))
-    pert_o, _ = run_oracle(trees.VARIANTS['perturb'](), scale)
-    pert_r = dump.parse_binary(run_c(build_c(
-        'perturb', struct.unpack('<I', struct.pack('<f', scale))[0], 'pert_new')))
-    fo, _ = flatten(base_o)
-    fr, _ = flatten(base_r)
-    po, _ = flatten(pert_o)
-    pr, _ = flatten(pert_r)
-    changed_o = sorted(set(fo) | set(po))
-    changed_o = [f for f in changed_o if fo.get(f, '<absent>') != po.get(f, '<absent>')]
-    changed_r = sorted(set(fr) | set(pr))
-    changed_r = [f for f in changed_r if fr.get(f, '<absent>') != pr.get(f, '<absent>')]
-    same = changed_o == changed_r
-    return {'passed': bool(changed_o) and same,
-            'original_changed_fields': changed_o,
-            'rebuild_changed_fields': changed_r,
-            'sets_equal': same}
+def legacy_broken_segment(gate_a):
+    """Contract NC1 view over the first three A gates (same names/shape)."""
+    muts = [{'name': g['name'], 'segment': g['module'],
+             'diff_count': g['diff_count'],
+             'fields': g['diff_fields'],
+             'attributed_hit': g['attribution_hit'],
+             'passed': g['PASS']} for g in gate_a]
+    return {'passed': bool(muts) and all(m['passed'] for m in muts),
+            'mutants': muts,
+            'source': 'gate_matrix.A_module (first three entries)'}
+
+
+def gate_b_error_trees(scale):
+    """Every error tree: both arms NULL, same parser->error text, identical
+    compared fields (error.root_dispose included), identical staged tree."""
+    gates = []
+    for variant in B_ERROR_TREES:
+        res = run_variant(variant, scale, variant)
+        fo = res['_fields_original']
+        fr = res['_fields_rebuild']
+        rd_o = fo.get('error.root_dispose')
+        rd_r = fr.get('error.root_dispose')
+        leak = variant in B_LEAK_TREES
+        both_null = bool(res['original']['returned_null'] and
+                         res['rebuild']['returned_null'])
+        same_text = (res['original']['error'] == res['rebuild']['error'] and
+                     bool(res['original']['error']))
+        if leak:
+            dispose_ok = (rd_o == 0 and rd_r == 0)
+        else:
+            dispose_ok = (isinstance(rd_o, int) and rd_o == rd_r and rd_o >= 1)
+        trees_ok = bool(res['tree']['match'] and res['tree']['node_hashes_match'])
+        passed = bool(both_null and same_text and res['diff_count'] == 0 and
+                      dispose_ok and trees_ok)
+        gates.append({
+            'name': variant, 'class': 'B_error_tree', 'PASS': passed,
+            'original_null': res['original']['returned_null'],
+            'rebuild_null': res['rebuild']['returned_null'],
+            'error_text_original': res['original']['error'],
+            'error_text_rebuild': res['rebuild']['error'],
+            'error_text_equal': same_text,
+            'root_dispose_original': rd_o, 'root_dispose_rebuild': rd_r,
+            'leak_expected': leak, 'root_dispose_ok': dispose_ok,
+            'diff_count': res['diff_count'],
+            'diff_fields': [d['field'] for d in res['diff']][:12],
+            'tree_match': trees_ok,
+            'tree_sha256': res['tree']['node_hashes_sha256'],
+            'fields_compared': min(len(fo), len(fr)),
+            'binary_sha256': res['binary_sha256'],
+        })
+    return gates
+
+
+def gate_c_perturbations(scale, base_o, base_r):
+    """Perturbation trees: both arms must change on the same field set."""
+    scale_bits = struct.unpack('<I', struct.pack('<f', scale))[0]
+    gates = []
+    for variant in C_PERTURBATIONS:
+        po_raw, _ = run_oracle(trees.VARIANTS[variant](), scale)
+        pr_raw = dump.parse_binary(run_c(build_c(
+            variant, scale_bits, 'gateC_' + variant)))
+        po, _ = flatten(po_raw)
+        pr, _ = flatten(pr_raw)
+
+        def changed(a, b):
+            return [f for f in sorted(set(a) | set(b))
+                    if a.get(f, '<absent>') != b.get(f, '<absent>')]
+
+        co = changed(base_o, po)
+        cr = changed(base_r, pr)
+        same = co == cr
+        gates.append({
+            'name': variant, 'class': 'C_input_perturbation', 'PASS':
+                bool(co) and same,
+            'sets_equal': same,
+            'changed_count_original': len(co),
+            'changed_count_rebuild': len(cr),
+            'changed_fields_original': co,
+            'changed_fields_rebuild': cr,
+        })
+    return gates
+
+
+def negative_input_perturbation(scale, base_o=None, base_r=None):
+    """NC2 view: the 'perturb' C gate in its original shape."""
+    if base_o is None:
+        base_o, _ = run_oracle(trees.VARIANTS['main'](), scale)
+    if base_r is None:
+        base_r = dump.parse_binary(run_c(build_c(
+            'main', struct.unpack('<I', struct.pack('<f', scale))[0],
+            'pert_base')))
+    gate = gate_c_perturbations(scale, flatten(base_o)[0],
+                                flatten(base_r)[0])[0]
+    return {'passed': gate['PASS'],
+            'original_changed_fields': gate['changed_fields_original'],
+            'rebuild_changed_fields': gate['changed_fields_rebuild'],
+            'sets_equal': gate['sets_equal']}
 
 
 def negative_oracle_archive():
@@ -631,6 +852,11 @@ def main():
     ap.add_argument('--variant', default='main', choices=list(trees.VARIANTS))
     ap.add_argument('--scale', type=float, default=2.0)
     ap.add_argument('--out', type=pathlib.Path)
+    ap.add_argument('--stage', default='all',
+                    choices=['all', 'base', 'b', 'a', 'c'],
+                    help='all = 4 contract rounds + B/A/C gate matrix; '
+                         'base = the 4 rounds + NC1/NC2/NC3 only; '
+                         'b/a/c = one gate class only (writes under build/)')
     ns = ap.parse_args()
 
     if ns.oracle_archive:
@@ -647,16 +873,43 @@ def main():
     stamp = time.strftime('%Y%m%dT%H%M%S')
     out_dir = ns.out or BUILD
     out_dir.mkdir(parents=True, exist_ok=True)
+    stage = ns.stage
     results = {}
-    for scale in (2.0, 1.0):
-        results['main_s%s' % str(scale).replace('.', 'p')] = run_variant(
-            'main', scale, 'main')
-    results['err_parent_s2p0'] = run_variant('err_parent', 2.0, 'err_parent')
-    results['perturb_s2p0'] = run_variant('perturb', 2.0, 'perturb')
+    if stage in ('all', 'base'):
+        for scale in (2.0, 1.0):
+            results['main_s%s' % str(scale).replace('.', 'p')] = run_variant(
+                'main', scale, 'main')
+        results['err_parent_s2p0'] = run_variant('err_parent', 2.0, 'err_parent')
+        results['perturb_s2p0'] = run_variant('perturb', 2.0, 'perturb')
 
-    nc1 = negative_broken_segment(2.0)
-    nc2 = negative_input_perturbation(2.0)
-    nc3 = negative_oracle_archive()
+    gates_b = gate_b_error_trees(2.0) if stage in ('all', 'b') else []
+    gates_a = gate_a_modules(2.0) if stage in ('all', 'a') else []
+    if stage in ('all', 'c'):
+        if 'main_s2p0' not in results:
+            results['main_s2p0'] = run_variant('main', 2.0, 'main')
+        gates_c = gate_c_perturbations(
+            2.0, results['main_s2p0']['_fields_original'],
+            results['main_s2p0']['_fields_rebuild'])
+    else:
+        gates_c = []
+
+    # Contract NC1/NC2/NC3 stay in their original shape; in a full run they are
+    # derived from the matrix entries instead of re-running the same builds.
+    if gates_a:
+        nc1 = legacy_broken_segment(gates_a[:3])
+    else:
+        nc1 = legacy_broken_segment(gate_a_modules(
+            2.0, subset={m[4] for m in A_MODULE_MUTANTS[:3]}))
+    if gates_c:
+        _g = next(g for g in gates_c if g['name'] == 'perturb')
+        nc2 = {'passed': _g['PASS'],
+               'original_changed_fields': _g['changed_fields_original'],
+               'rebuild_changed_fields': _g['changed_fields_rebuild'],
+               'sets_equal': _g['sets_equal']}
+    else:
+        nc2 = negative_input_perturbation(2.0)
+    nc3 = (negative_oracle_archive() if stage in ('all', 'base')
+           else {'passed': None, 'skipped': 'stage %s' % stage})
 
     # Per-field report: every compared field with both values, equality and
     # segment attribution.  Kept beside the receipt so the receipt stays
@@ -685,15 +938,57 @@ def main():
         field_report[key] = rows
         group_summary[key] = groups
 
-    main_ok = (results['main_s2p0']['diff_count'] == 0 and
-               results['main_s1p0']['diff_count'] == 0)
-    err = results['err_parent_s2p0']
-    err_ok = (err['original']['returned_null'] and err['rebuild']['returned_null']
-              and err['diff_count'] == 0)
+    main_ok = (('main_s2p0' not in results or
+                results['main_s2p0']['diff_count'] == 0) and
+               ('main_s1p0' not in results or
+                results['main_s1p0']['diff_count'] == 0))
+    err = results.get('err_parent_s2p0')
+    err_ok = True if err is None else bool(
+        err['original']['returned_null'] and err['rebuild']['returned_null']
+        and err['diff_count'] == 0)
     bind_ok = all(r['tree']['match'] and r['tree']['node_hashes_match']
                   for r in results.values())
-    all_controls = nc1['passed'] and nc2['passed'] and nc3['passed']
-    status = 'PASS' if (main_ok and err_ok and bind_ok and all_controls) else 'FAIL'
+    controls_ok = bool(nc1['passed'] and nc2['passed'] and
+                       nc3['passed'] is not False)
+
+    all_gates = gates_b + gates_a + gates_c
+    if stage == 'all':
+        gates_ok = (bool(gates_b) and bool(gates_a) and bool(gates_c) and
+                    all(g['PASS'] for g in all_gates))
+    elif stage == 'base':
+        gates_ok = True
+    else:
+        gates_ok = bool(all_gates) and all(g['PASS'] for g in all_gates)
+
+    gate_counts = {
+        'total': len(all_gates),
+        'passed': sum(1 for g in all_gates if g['PASS']),
+        'failed': sum(1 for g in all_gates if not g['PASS']),
+        'B_error_trees': {'total': len(gates_b),
+                          'passed': sum(1 for g in gates_b if g['PASS'])},
+        'A_module_break': {'total': len(gates_a),
+                           'passed': sum(1 for g in gates_a if g['PASS'])},
+        'C_input_perturbation': {'total': len(gates_c),
+                                 'passed': sum(1 for g in gates_c if g['PASS'])},
+    }
+    gate_matrix = {
+        'schema': 'cally-level-a-gate-matrix/1',
+        'note': ('B: every error tree must return NULL on both arms with the '
+                 'same parser->error text and the same error.root_dispose. '
+                 'A: breaking one chain module in a source copy must move a '
+                 'compared field attributed to that module. C: a perturbed tree '
+                 'must change the same field set on both arms.'),
+        'counts': gate_counts,
+        'B_error_trees': gates_b,
+        'A_module_break': gates_a,
+        'C_input_perturbation': gates_c,
+    }
+    if stage == 'all':
+        status = 'PASS' if (main_ok and err_ok and bind_ok and controls_ok
+                            and gates_ok) else 'FAIL'
+    else:
+        status = 'PASS' if (main_ok and err_ok and controls_ok and gates_ok) \
+            else 'FAIL'
 
     protocol = [{'tag': 'T_TREE', 'id': 1,
                  'payload': 'canonical tree (level_a_model.canonical grammar)'},
@@ -704,16 +999,19 @@ def main():
                 {'tag': 'T_EVENTS', 'id': 9}, {'tag': 'T_ANIMS', 'id': 10},
                 {'tag': 'T_ERROR', 'id': 11}, {'tag': 'T_END', 'id': 255}]
 
-    field_path = out_dir / ('level_a_field_report_%s.json' % stamp)
-    field_path.write_text(json.dumps(
-        {'schema': 'cally-level-a-field-report/1',
-         'note': ('every compared field on both arms: original/rebuild values, '
-                  'equality, segment attribution; main_s2p0 is the contract run'),
-         'runs': field_report}, ensure_ascii=False, indent=1) + '\n')
+    field_path = None
+    if field_report:
+        field_path = out_dir / ('level_a_field_report_%s.json' % stamp)
+        field_path.write_text(json.dumps(
+            {'schema': 'cally-level-a-field-report/1',
+             'note': ('every compared field on both arms: original/rebuild values, '
+                      'equality, segment attribution; main_s2p0 is the contract run'),
+             'runs': field_report}, ensure_ascii=False, indent=1) + '\n')
 
     report = {
-        'schema': 'cally-level-a-diff/1',
+        'schema': 'cally-level-a-diff/2',
         'generated_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+        'stage': stage,
         'tier': 'oracle_anchored',
         'original_executed': True,
         'evidence_layer': ('synthetic memory oracle: original ARM bytes executed in '
@@ -751,8 +1049,11 @@ def main():
                 'err_parent': 'main with bone arm parent=forearm (Parent bone not found)',
                 'perturb': 'main with the last translate frame removed and the '
                            'animation renamed walk2',
+                'err_trees': ('all 19 error trees of level_a_trees.VARIANTS '
+                              '(gate matrix class B)'),
+                'perturbations': C_PERTURBATIONS,
             },
-            'scales': [2.0, 1.0],
+            'scales': [2.0, 1.0] if 'main_s1p0' in results else [2.0],
             'note': ('This is the contract input set only; it is not the full input '
                      'domain and not device equivalence.'),
         },
@@ -776,10 +1077,11 @@ def main():
         },
         'field_to_segment': {prefix: segs for prefix, segs in ATTRIBUTION},
         'dump_protocol': protocol,
+        'gate_matrix': gate_matrix,
         'results': results,
         'field_table': {
             'schema': 'cally-level-a-field-report/1',
-            'path': str(field_path),
+            'path': str(field_path) if field_path else None,
             'groups': group_summary,
             'note': ('Every field row carries original/rebuild values, equal flag '
                      'and segment attribution; main_s2p0 is the contract run.'),
@@ -788,6 +1090,7 @@ def main():
             'broken_segment': nc1,
             'input_perturbation': nc2,
             'oracle_archive_replay': nc3,
+            'perturbations': gates_c,
         },
         'equivalence_axis_4': {
             'status': ('合成内存 oracle 层已测，差异 0（输入域：本合同输入集）'
@@ -805,10 +1108,14 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / ('level_a_report_%s.json' % stamp)).write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + '\n')
-    RECEIPTS.mkdir(parents=True, exist_ok=True)
-    receipt = RECEIPTS / ('level_a_diff-%s.json' % stamp)
+    if stage == 'all':
+        RECEIPTS.mkdir(parents=True, exist_ok=True)
+        receipt = RECEIPTS / ('level_a_diff-%s.json' % stamp)
+    else:
+        receipt = out_dir / ('level_a_stage_%s_%s.json' % (stage, stamp))
     receipt.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
-    print('RESULT %s' % status)
+
+    print('RESULT %s (stage=%s)' % (status, stage))
     for k, v in results.items():
         print('  %-16s diff=%d tree_match=%s orig_null=%s reb_null=%s' % (
             k, v['diff_count'], v['tree']['match'],
@@ -816,10 +1123,32 @@ def main():
         for d in v['diff'][:10]:
             print('    DIFF', d['field'], 'orig=', d['original'],
                   'reb=', d['rebuild'], 'seg=', d['attribution'])
+    for g in gates_b:
+        print('  GATE-B %-22s %s null=%s/%s text=%r dispose=%s/%s diff=%d' % (
+            g['name'], 'PASS' if g['PASS'] else 'FAIL',
+            g['original_null'], g['rebuild_null'], g['error_text_original'],
+            g['root_dispose_original'], g['root_dispose_rebuild'],
+            g['diff_count']))
+    for g in gates_a:
+        print('  GATE-A %-38s %s module=%-26s diff=%d hit=%d %s' % (
+            g['name'], 'PASS' if g['PASS'] else 'FAIL', g['module'],
+            g['diff_count'], len(g['attributed_fields']),
+            g['attributed_fields'][:3]))
+    for g in gates_c:
+        print('  GATE-C %-22s %s changed=%d/%d sets_equal=%s' % (
+            g['name'], 'PASS' if g['PASS'] else 'FAIL',
+            g['changed_count_original'], g['changed_count_rebuild'],
+            g['sets_equal']))
     print('  NC1 broken_segment passed=%s' % nc1['passed'])
     print('  NC2 input_perturbation passed=%s (sets_equal=%s, fields=%d)' % (
         nc2['passed'], nc2.get('sets_equal'), len(nc2.get('original_changed_fields', []))))
     print('  NC3 oracle_archive passed=%s' % nc3['passed'])
+    print('  GATE-MATRIX total=%d passed=%d failed=%d (B=%d/%d A=%d/%d C=%d/%d)' % (
+        gate_counts['total'], gate_counts['passed'], gate_counts['failed'],
+        gate_counts['B_error_trees']['passed'], gate_counts['B_error_trees']['total'],
+        gate_counts['A_module_break']['passed'], gate_counts['A_module_break']['total'],
+        gate_counts['C_input_perturbation']['passed'],
+        gate_counts['C_input_perturbation']['total']))
     print('  receipt=%s' % receipt)
 
 

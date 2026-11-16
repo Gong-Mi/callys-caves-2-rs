@@ -1,4 +1,37 @@
-# 状态与定性（2026-11-08 更新）
+# 状态与定性（2026-11-16 更新）
+
+## 2026-11-16：Level A 门矩阵改造的复跑结论（A 门 26/27，B 门被分配器约定挡住）
+
+11-08 会话末尾未提交的 415 行改造（`gate_a_modules` / `gate_b_error_trees` /
+`gate_c_perturbations`）在本日被独立复跑，结论分三条，按证据分层记：
+
+1. **A 门（点名单模块 → 改坏它 → 必须动到归因字段）实测 26/27。**
+   `level_a_stage_a_20261116T154432.json`，回执 `status` 只覆盖 stage a。
+   唯一失败 `tl_path_mix_rotate_key`：**不是链错，是输入域缺口**——B17 的
+   0x28e8ec..0x28e8fc 在子键名恰好等于 `"mix"` 时直接跳回 0x28e048（模块头已把
+   "没人处理 mix" 从指令流定死），所以契约那棵树根本走不到 B17 的主体。
+   要让它可测，得新增一棵"path 约束下带非 position/spacing/mix 子键"的树变体，
+   不是改模块、更不是把门改成绿。
+
+2. **两个变异体是设计错，已修（`level_a_diff.py`）。**
+   `ik_bend_positive_key` / `path_position_mode_key` 原来只改大小写
+   （`bendPositive`→`bendpositive`、`positionMode`→`positionmode`），而原件
+   `Json_getItem` 在 0x287414 调的就是 `strcasecmp`——大小写不敏感的查找下这种
+   "错键"照样命中，变异体天生咬不到任何字段。改成 `bendPositiveZ` /
+   `positionModeZ` 后两门实测 PASS。**规则：键类变异体必须过 strcasecmp 这一关，
+   只改大小写的变异体不算判别性反例。**
+
+3. **B 门（19 棵错误树：两臂都必须 NULL + 同 error 文本 + 同 root_dispose）
+   卡在分配器约定，不是语义。** `err_slot_bone` / `err_ik_bone` / `err_tr_bone`
+   三棵在 `m3 pre-chain` 后 SIGSEGV；`qemu-arm -d in_asm` 最后落点是
+   `spSkeletonData_dispose`。根因：错误路径的 dispose 会遍历 `slotsCount` 条
+   **尚未填过的** slots 指针表，而两臂的分配器填充不同——
+   重建臂夹具 `reserve()` 每个分配都 `memset(0xee)`（`c/spine_read_mesh/fixture/check.c`），
+   原件臂 Unicorn `alloc()` 每块都零填（`tools/level_a_oracle.py`）。
+   于是 0xEEEEEEEE 被当指针解引用。`err_parent` 不崩，因为它在发布 slots 计数前就失败了。
+   结论：**在分配器约定统一并写进契约之前，B 门的任何"绿"都无效**；两个方向
+   （两侧都毒填 / 两侧都零填）会给不同答案，且原件在这条路径上依赖 malloc 数组为 0
+   这一前提本身就是待定性的语义事实，不能只挑一个让门变绿。
 
 ## 当前断点：Level A 首份对拍报告落定（④轴已测：267 字段 diff=0）
 

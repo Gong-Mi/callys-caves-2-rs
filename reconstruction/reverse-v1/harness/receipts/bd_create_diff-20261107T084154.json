@@ -1,0 +1,33 @@
+{
+  "schema": "cally-bonedata-create-diff/1",
+  "function": "spBoneData_create",
+  "entry": "0x285a44",
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "seed": 45274,
+  "n_cases": 7,
+  "gates": {
+    "identity": {
+      "pass": true,
+      "mismatches": []
+    },
+    "non_degenerate": {
+      "pass": true,
+      "detail": "scaleX default = 0x3f800000"
+    },
+    "teeth": [
+      {
+        "mutant": "no_scaleX_default",
+        "caught": true,
+        "status": "PASS"
+      },
+      {
+        "mutant": "no_index_store",
+        "caught": true,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "PASS",
+  "scope": "spBoneData_create: calloc 52B + MALLOC_STR(name) + defaults; 7 cases",
+  "timestamp": "20261107T084154"
+}
