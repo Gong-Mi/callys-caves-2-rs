@@ -1029,8 +1029,13 @@ def main():
 
     all_gates = gates_b + gates_a + gates_c
     if stage == 'all':
+        # Same rule as the single-stage branch: None means 'not measurable',
+        # so it is excluded from both pass and fail counts (see
+        # B_UB_ADDRESS0_TREES).  A stage that produced no gate at all still
+        # fails here, so the all-stage run cannot pass vacuously.
         gates_ok = (bool(gates_b) and bool(gates_a) and bool(gates_c) and
-                    all(g['PASS'] for g in all_gates))
+                    any(g['PASS'] for g in all_gates) and
+                    not any(g['PASS'] is False for g in all_gates))
     elif stage == 'base':
         gates_ok = True
     else:
