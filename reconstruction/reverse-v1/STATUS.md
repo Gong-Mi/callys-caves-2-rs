@@ -1,5 +1,23 @@
 # 状态与定性（2026-11-16 更新）
 
+## 2026-11-16（续）：语义核心第一件——Variable_GetValue_Direct 的 C 译文 + 差分臂
+
+从动画族转到 ROADMAP 的语义核心，先做最小自洽的一件：`Variable_GetValue_Direct`
+（0x1f3b8c，156 B / 39 指令）。它与 resolver `Variable_GetValue`(0x1f3ce0) 分工明确：
+resolver 只解析「读哪个实例」，Direct 才是取值 —— 内建变量号走 16 B 表项 +4 的 fn，
+变量 id 走 `table + (varid-100000)*16`，`[obj+0x24]==0` 时直接返回 0 且不碰 out，
+`table==0` 时改由 `InternalGetYYVar` 返回槽地址（**不做** base+index*16 的算术）。
+
+- 译文：`c/variable_direct/src/variable_direct.c`，逐条锚点写在注释里（含 `bls` 是
+  **无符号**比较这条：负 varid 不进内建表，而是走槽路径并按负数下标算出表下方的地址）。
+- 差分臂：`harness/var_direct_diff.py`，原件在 Unicorn 跑 0x1f3b8c、译文在 qemu-arm 跑
+  （armv7 自由站立编译，指针 4 B，表项 fn 才真的落在 +4；host 编译会把它挪到 +8）。
+  2026-11-16 实测 **11/11 例 identical**，6 个覆盖项全命中，6 个变异体全被抓
+  （其中 2 个是 driver 崩溃型，回执里显式标 `mode=driver-abort` 并注明这比字段级不等弱）。
+- **范围声明（不许外推）**：`GET_RValue`(0xd13bc)、`InternalGetYYVar`(0x196a70) 与内建表
+  fn **都未恢复**，两臂跑的是同一份桩。所以这次只钉住 Direct 自己的分派、调用序与槽算术；
+  它不证明那三个被调方，也不是设备等价。回执 `var_direct_diff-20261116T163442`。
+
 ## 2026-11-16：Level A 门矩阵改造的复跑结论（A 门 26/27，B 门被分配器约定挡住）
 
 11-08 会话末尾未提交的 415 行改造（`gate_a_modules` / `gate_b_error_trees` /
