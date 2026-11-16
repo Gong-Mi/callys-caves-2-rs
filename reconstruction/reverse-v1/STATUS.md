@@ -39,6 +39,22 @@
    （两侧都毒填 / 两侧都零填）会给不同答案，且原件在这条路径上依赖 malloc 数组为 0
    这一前提本身就是待定性的语义事实，不能只挑一个让门变绿。
 
+   **本批已定性并落地**（`level_a_stage_b_20261116T160246.json`：12 通过、0 失败、7 不可测）：
+   - 用一份临时 0xEE 填充的 oracle 副本实测：毒填下**原件自己**也 UC_ERR_READ_UNMAPPED
+     （同一批 slot/ik/transform/path 的 bone/target 找不到）。零填下原件能返回错误文案，
+     只因为合成镜像把 ELF 的 vaddr 0 那页也映射了，NULL 解引用被读成功而不是 fault。
+     设备上地址 0 不可映射 → 这条路径是**原件自带的 latent crash**，不是重建链的错。
+   - 原件字节佐证：`0x28ae48 ldr r0,[r3,r5,lsl#2]` / `0x28ae50 bl spSlotData_dispose`
+     **没有判空**，即拿未填表的元素直接 dispose。
+   - 因此 B 门把 7 棵（err_slot_bone / err_ik_bone / err_tr_bone / err_path_bone /
+     err_ik_target / err_tr_target / err_path_target）记为 `UB_ADDRESS0_LD` /
+     PASS=None（不可测），不记 FAIL 也不记 PASS；分配器约定统一为**两臂都零填**
+     （`build_c(..., zero_fill=True)` 走 `level_a_dump_zero.c`），模块门仍用 0xEE 毒填
+     以保持"没写"可观测。
+   - **契约假设被实测推翻**：B 门原来要求非 leak 树 `root_dispose>=1`（setError 释放根树）。
+     实测 8 条路径两臂都是 rd=0——setError 收到的是子节点，根树不释放。判据已改成
+     "两臂必须一致"，`rd==0` 另记 note；一致性要求不放水（不一致仍 FAIL）。
+
 ## 当前断点：Level A 首份对拍报告落定（④轴已测：267 字段 diff=0）
 
 `c/spine_level_a/`（子代理 S，父代理两次独立复跑 RESULT PASS）：**④轴从
