@@ -5,23 +5,24 @@
  * 符号:  _ZN2VM11ExecReleaseER6VMExecP6RValue → VM::ExecRelease(VMExec&, RValue*)
  * 锚表:  reconstruction/reverse-v1/asm/index-VM_ExecRelease.tsv
  *
- * 已证（asm 直读，地址见下方锚点）：
- *   1. **线程化派发（threaded dispatch）**，不是 switch/跳转表：
- *        r2 = [VMExec+0x58]            ; 处理器指针表基址
- *        r3 = [VMExec+0x48]            ; 当前 pc（索引）
- *        r6 = [r2 + r3*4]              ; 取该 pc 对应的处理器指针
- *        pc+1 → [VMExec+0x48]          ; 先自增再调用（e45c4/e45c8）
- *        blx r6                        ; e4620 —— 调用处理器，参数为 VMExec*
- *      处理器返回后 e4624 起重新取指，形成循环。
- *   2. 循环带出口条件：e45d0 的 `bge 0xe46a0` 在前置比较满足时跳到函数尾部；
- *      该比较的输入尚未回溯（open）。
- *   3. 本函数引用 `PerformReturn(uchar*, VMExec*)`（e473c），即正常退栈路径也在这里。
- *   4. 其它被调：MemoryManager::Free、YYObjectBase::Free（各一次），无 RValue 锁相关调用。
+ * tier: bytecode_anchored（此处指固定 ARMv7 ELF 的静态证据）
+ * 已证（完整取证链见 reconstruction/contracts/vm-buffer-dispatch.md）：
+ *   1. 入循环或退帧重入时，e4598..e45cc 用字节 PC (+0x44) 有符号除 4，
+ *      先经 [+0x5c][PC/4] 得密集槽位，然后由 [+0x58][槽位] 取处理器；
+ *      +0x48 在 e45c8 写「槽位+1」，不是字节 PC。e45d0 的有符号 PC >= [+0x50]
+ *      发生在两次读表及槽位写回之后。两表出自 VMBuffer::convertBuffer (0xec750)，
+ *      不是 .data 的 32 项 g_instructions 本身。
+ *   2. e45dc..e4620 用 [+0x24]+PC 读指令字；向处理器传 (指令字、当前值栈顶、
+ *      指令地址+4、VMExec*)。e45e4/e4618 先分别写旧 PC (+0x54) 和下一字节 PC (+0x44)：
+ *      步长通常 4；位 30 置位则加 g_paramSize[bits19:16]。e4628..e4644 重读下一槽位和表、
+ *      预取下一处理器，把本次 r0 作为值栈顶；处理器可在自身调用期间改写 VMExec。
+ *   3. e46a0..e4750 在 +0x4c > 0 时调用 PerformReturn，再填三个零字并重走入口取槽；
+ *      否则到顶层退出。e46ac..e46c4/e477c..e4798 的四字结果写回要求 out 非空且
+ *      执行到出口时重读的 +0x28 栈边界高于当前值栈顶（无符号比较）。
+ *   4. 另外直接调用 MemoryManager::Free、YYObjectBase::Free（各一个站点）。
  *
- * 未钉：VMExec 的完整布局（已证被读写：+0x24、+0x44、+0x48、+0x54、+0x58、+0x5c）；
- *       出口条件的判据；64 个字节码如何映射到 48 个 Do* 处理器。
- * 结论：原版用的是**预解析处理器表 + blx**，所以每个 opcode 的语义都在 Do* 处理器里，
- *       这解释了为什么 VM::Exec/ExecRelease 里看不到 opcode 比较链。
+ * gap: 仅为上述控制流定性；本卡仍无 C 本体。下一批须逐条译异常路（e4624..e4688）、
+ *      顶层退栈/分配池归还和全局副作用，再单列 ExecDebug 与各被调方的闭合状态。
  */
 /* @0xe4540 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} —— 未钉 */
 /* @0xe4544 mov r9, r1 —— 未钉 */

@@ -2186,15 +2186,15 @@
  *   @0x2c640c andeq r6, r9, r8, asr #31
  *   @0x2c6410 andeq r6, r9, r4, ror #26
  *
- * ══ §9/31 VMBuffer::convertBuffer  0xec750  size 996  249 条（0xec750..0xecb34）
- * @func 0xec750 0xecb34  size 996  249 条
- * 级别: 骨架（结构 + 锚点；语义未展开）
- * GOT 基址: 0x3f1c58
- * 门字节（加载点→目标全局）: 0xec844→0x3f2018, 0xec8fc→0x3f20b4, 0xec940→0x3f2018, 0xec9f0→0x3f20b4, 0xeca54→0x3f20b4, 0xecaa8→0x3f20b4
- * 调用序列: MemoryManager::Alloc(unsigned int, char const*, int, bool)×4 / unsigned int CHashMapCalculateHash<unsigned char*>(unsigned char*) / VMBuffer::convertBuffer()+0xcc / VMBuffer::convertBuffer()+0x370 / VMBuffer::convertBuffer()+0x20
- * 字段偏移 top8: 0x14×13 / 0x10×4 / 0x8×4 / 0x4×4 / 0x18×3 / 0x2×3 / 0xc×2 / 0x3a4×1
- * VFP 指令 0 条
- * 未主张: 形参/返回值、分支语义、字段含义 —— open
+ * ══ §9/31 VMBuffer::convertBuffer  0xec750  size 996（239 条指令 + 10 池字）
+ * @func 0xec750 0xecb34  size 996  249 索引项
+ * 级别: 骨架（本节保留原始锚点；语义和缺口见 reconstruction/contracts/vm-buffer-dispatch.md）
+ * tier: bytecode_anchored（ARMv7 ELF 静态）
+ * GOT 基址: 0x3f1c58。两遍扫描：先计操作数跨度及指令数，再按实际指令边界填两张表。
+ * ec8b0/ec8e4 发布 VMBuffer+0x14 处理器表、+0x18 字偏移→密集槽表；ec96c 写后者。
+ * ec908/ec90c 从 g_instructions 取默认处理器并写密集槽；opcode 5/7/25 有专用选择。
+ * 依赖: CHashMapCalculateHash<unsigned char*> (ec77c)；MemoryManager::Alloc 四个调用点。
+ * gap: 0x47f3a0 缓存的写入/生命周期未闭合；命中支路 ec9c4..ec9cc 只写 +0x14。
  * ────────────────────────────────────────────────────────────────────────────
  *   @0xec750 push {r4, r5, r6, r7, r8, r9, r10, r11, lr}
  *   @0xec754 mov r4, r0

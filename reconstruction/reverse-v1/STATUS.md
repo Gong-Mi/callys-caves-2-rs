@@ -1,4 +1,13 @@
-# 状态与定性（2026-11-16 更新）
+# 状态与定性
+
+## 当前 VM 断点：两张逐 CODE 派发表的来路已定
+
+按 [静态派发合同](../contracts/vm-buffer-dispatch.md)，`VMBuffer::convertBuffer`（`0xec750`）先数出指令边界，
+再用 `g_instructions` 与 opcode 5/7/25 的专用分支填处理器表（`VMBuffer+0x14 → VMExec+0x58`），
+同时填字偏移到密集槽的映射（`VMBuffer+0x18 → VMExec+0x5c`）。`VM::Exec`、子脚本进入和退帧三个安装站点已核；
+`ExecRelease` 的首次取槽、字节 PC 推进、回边和顶层结果写回条件已据原件更正。
+这是静态语义进展，不计作 `ExecRelease` 的完整 C 本体，不计入原件差分或玩法等价。
+缓存命中只写处理器表字段；缓存写入与归属仍待追。优先译 `ExecRelease` 异常与退栈/释放路径，随后补齐整函数和直接依赖登记。
 
 ## 2026-11-16（续六）：VM 算术处理器 + 房间激活链，并修掉一处我自己模块里的 NaN 误译
 
@@ -566,7 +575,7 @@ JSON 访问接口（Json_getItem/getString/getFloat/getInt）与 setError/readSk
 
 ## 已定性（有卡、有锚点、能指名到函数）
 
-    VM 骨架        opcode 表（.data 0x3f20b4，32 项）｜线程化派发（VMExec+0x58 → blx）
+    VM 骨架        基础 opcode 表（.data 0x3f20b4，32 项）｜逐 CODE 线程化派发（VMExec+0x5c → +0x58 → blx）
                    48 个 Do* 处理器｜Code_Execute / ExecuteIt / VM::Exec / ExecRelease / PerformReturn
     值模型        RValue 16 B、tag 在 +12、0..14（0/13 real、1 string、2 array、3 pointer、5 undefined、
                    7 int32、10 int64、12 null、0x00FFFFFF = 未解析变量）
