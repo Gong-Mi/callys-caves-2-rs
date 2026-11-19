@@ -29,6 +29,12 @@
 | 5 | 两个类型半字节都为 5、低 16 位为 `0xfff9`、且 bit30 置位 → `DoPopLocalVariable` | `0xec9d0..0xeca04`、`0xeca6c..0xeca84`；GOT `0x3edd84` → `0xe1f5c` |
 | 25 | `[19:16]==2` 才读紧接的四字节 id。`((uint32_t)id - 100000u) <= 400000u && id != 499999` → `DoCallGML`；否则有符号 id `<=99999` → `DoCallLibrary`。余下走 `g_instructions[25]` | `0xeca08..0xeca50`、`0xeca88..0xecabc`；GOT `0x3edd80/0x3edd88` → `0xe8b00/0xe3e58` |
 
+### 转换缓存的构造与退出边
+
+`.init_array[VA 0x3eb5f0]` 的 `R_ARM_RELATIVE` 槽指向 ARM 入口 `0xb95dc`（`cards/All_17.c`）。它不是从转换函数名猜出的写方：`0xb95e4` 读池 `0xb9694`，`0xb95f4 + 8 + word = 0x47f3a0`，正是转换读端 `0xec784` 算出的对象。`0xb9608..0xb966c` 设容量 8、掩码 7，先清桶指针再分配并发布 96 字节（8×12 字节），清零桶/计数；阈值为 `(int)(capacity * 0.6f)`，初始正常值为 4。
+
+`0xb9670..0xb968c` 向 `__aeabi_atexit` 交 `object=0x47f3a0`、`dtor=0xec47c`（GOT `0x3edd8c`）、`dso=0x3f2000`。目标的动态符号是 `CHashMap<unsigned char*, void**, 3>::~CHashMap`；`0xec484..0xec498` 非空才 `Free(+0x10)` 并清该字段（`cards/All_67.c`）。这是桶数组的析构，不是逐桶释放处理器表。独立的 `VMBuffer::~VMBuffer` 在 `0xce444..0xce480` 分别释放自身非空的 `+0x14/+0x18` 并清零（`cards/All_60.c`）。缓存的插入、运行期失效、缓存命中后的索引表来源和处理器表所有权仍待证；已找到构造/析构不能代替这几条边。
+
 ## `VM_ExecRelease` C 译文与证据边界
 
 本体候选在 `../reverse-v1/c/vm_exec_release/`，登记按 `0xe4540 + ARM-state + image_sha256`。

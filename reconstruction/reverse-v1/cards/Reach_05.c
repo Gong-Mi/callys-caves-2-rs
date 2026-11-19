@@ -2194,7 +2194,8 @@
  * ec8b0/ec8e4 发布 VMBuffer+0x14 处理器表、+0x18 字偏移→密集槽表；ec96c 写后者。
  * ec908/ec90c 从 g_instructions 取默认处理器并写密集槽；opcode 5/7/25 有专用选择。
  * 依赖: CHashMapCalculateHash<unsigned char*> (ec77c)；MemoryManager::Alloc 四个调用点。
- * gap: 0x47f3a0 缓存的写入/生命周期未闭合；命中支路 ec9c4..ec9cc 只写 +0x14。
+ * 缓存 0x47f3a0 的启动构造/析构注册见 0xb95dc / 0xec47c；命中支路 ec9c4..ec9cc 只写 +0x14。
+ * gap: 常态插入、失效、命中时索引表来源及处理器表所有权未闭合。
  * ────────────────────────────────────────────────────────────────────────────
  *   @0xec750 push {r4, r5, r6, r7, r8, r9, r10, r11, lr}
  *   @0xec754 mov r4, r0
