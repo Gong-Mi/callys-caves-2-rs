@@ -2187,7 +2187,7 @@
  *   @0x2c6410 andeq r6, r9, r4, ror #26
  *
  * ══ §9/31 VMBuffer::convertBuffer  0xec750  size 996（239 条指令 + 10 池字）
- * @func 0xec750 0xecb34  size 996  249 索引项
+ * @func 0xec750 0xecb34  size 996  249 条索引记录（239 指令 + 10 池字）
  * 级别: 骨架（本节保留原始锚点；语义和缺口见 reconstruction/contracts/vm-buffer-dispatch.md）
  * tier: bytecode_anchored（ARMv7 ELF 静态）
  * GOT 基址: 0x3f1c58。两遍扫描：先计操作数跨度及指令数，再按实际指令边界填两张表。

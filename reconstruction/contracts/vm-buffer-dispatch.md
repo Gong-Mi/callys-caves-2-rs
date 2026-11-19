@@ -49,7 +49,15 @@
 python3 -B reconstruction/reverse-v1/c/vm_exec_release/tools/check.py --so /path/to/libyoyo_armv7.so
 ```
 
-门绑定 162 个索引字（含 10 池字），在 O0/O2 各跑入口、正常派发、捕获异常、异常外传、退帧、页池六组；
-负控覆盖参数宽度、异常对象身份、退帧保留字、页池右开界及重叠结果写回。
-`PerformReturn`、`MemoryManager::Free`、`YYObjectBase::Free` 仅由具名合成模型满足本地链接；
-真实被调方、全局对象生产者及间接处理器仍要各自闭合。下一批从 `PerformReturn` 调用链恢复开始，不扩 Debug/ART，也不计入原件差分。
+门绑定 Release 162 个索引字（含 10 池字）和 PerformReturn 127 个（含 6 池字）。
+O0/O2 各跑 Release 六组与直接退帧三组；9 个语义负控均命中，删除退帧 TU 会出现具名未定义符号。
+两类 Free 等具名提供者仍是夹具模型。不上升为原件差分、整 VM 运行或游戏等价。
+
+## `PerformReturn` 的退帧合同
+
+- `0xe42f4..0xe4310` 增加 `g_retCount`，`g_bProfile` 非零则先 `CProfiler::Pop(&g_Profiler)`，随后才读帧与深度；输入 SP 不消费。空 `frame+0x18` 路减深度后直接返回 `frame+60`，不改实参状态（`0xe4314..0xe4330/0xe4490`）。
+- `frame[+0x0c]` 非负时旧帧指针为 `exec[+0x08] + exec[+0x40] - distance`，负时是 NULL；写侧 `DoCallScript` `0xe8634..0xe8668` 逆向互证。`+0x08` 是保存的 `g_ArgumentCount`，`+0x38` 是旧 `Argument` 相对分配基址的偏移；不是两个旧栈顶。
+- `0xe44ac..0xe44b8` 必要时释放当前 locals 后重读 `exec+0x2c`。之后调用转换；`0xe43c4..0xe43f4` 处理器表仍取转换实参 `buffer+0x14`，索引表取重读对象 `exec[+0x2c][+0x18]`，不能合成一个固定接收者。
+- `0xe43f8` 通过 `operator delete`（`0x27d1d0` 仅尾跳 `0x27c2d0`）释放帧中 `+0x28`。遍历最初实参数；位型谓词 `((tag-1) & 0x00fffffc)==0` 才调用 `FREE_RValue__Pre`。所有遍历到的槽保留 `+4`，清 `+0/+8`、写 `+0xc=5`；遍历结束后重读实时实参数算返回 SP，再恢复旧 `Argument` 与参数个数（`0xe4410..0xe4498`）。
+
+`src/perform_return.c` 已被 `VM_ExecRelease` 在同一个 ARM32 合成可执行件实际调用；门用不同的转换对象、索引对象、实参数以及重入 handler 复验交接。尚未用真实译文链接 `VMBuffer::convertBuffer`、`CProfiler::Pop`、`FREE_RValue__Pre` 与两类 Free；下一处优先拆掉转换模型。

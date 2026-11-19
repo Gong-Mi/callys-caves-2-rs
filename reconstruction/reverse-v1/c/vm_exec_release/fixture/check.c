@@ -7,7 +7,11 @@
 
 struct YYObjectBase { uint32_t opaque; };
 volatile uint32_t g_execCount;
+volatile uint32_t g_retCount;
 volatile uint32_t g_ArgumentCount;
+uint8_t *volatile Argument;
+volatile uint8_t g_bProfile;
+_Alignas(4) uint8_t g_profiler[128];
 VMExec *volatile g_pCurrentExec;
 volatile uint8_t g_fDoExceptionUnwind;
 const volatile uint32_t g_paramSize[16] = {8, 4, 4, 8, 4, 4, 4, 4};
@@ -48,22 +52,34 @@ __attribute__((noreturn)) static void fail(const char *why)
 
 static VMExec vm, other;
 static struct YYObjectBase locals;
-static uint32_t allocation, result[4], values[16], thrown[16];
+static uint32_t allocation, return_delete, result[4], values[16], thrown[16];
 static const uint32_t ordinary_code[] = {0x12000000u, 0x4d330057u, 0xa0, 0xa1, 0xa2};
 static const uint32_t target_code[] = {0x13, 0x14, 0x08000001u, 0x15};
 static const uint32_t entry_map[] = {0, 2, 1, 0, 0};
 static const uint32_t caller_map[] = {0, 0, 3, 1};
+static const uint32_t reload_map[] = {0, 4, 2, 1};
 static VMExecHandler slots_a[8], slots_b[8];
+static VMBuffer caller, convert_target, reload_buffer;
+static struct {
+    struct VMCallFrame frame;
+    uint32_t args[16];
+} return_storage, profile_dummy;
 static unsigned dispatch_count, return_calls, free_calls, free_locals_calls;
+static unsigned profile_calls, delete_calls, rvalue_calls;
+static unsigned check_provider_order, simulate_provider_reloads;
 static unsigned rewrite_mode_on_free;
 static void *freed;
 static struct YYObjectBase *freed_locals;
-static uint8_t *expected_return_sp;
 static uint8_t *volatile seen_sp;
 
 /* YYObjectBase::Free and MemoryManager::Free are observation-only models. */
 void MemoryManager_Free(const void *p)
 {
+    if (p == &return_delete) {
+        CHECK(return_calls == 1, "return-delete-after-convert");
+        ++delete_calls;
+        return;
+    }
     CHECK(g_ArgumentCount == 29, "cleanup-restore-before-free");
     ++free_calls;
     freed = (void *)p;
@@ -76,23 +92,46 @@ void YYObjectBase_Free(struct YYObjectBase *p)
     ++free_locals_calls;
     freed_locals = p;
     vm.locals = p;
+    if (simulate_provider_reloads) {
+        CHECK(vm.buffer == &caller && vm.code == CODE(target_code), "return-locals-after-state-restore");
+        vm.buffer = &convert_target;
+    }
 }
 
-/* Synthetic return boundary: restores a distinct CODE, map and cursor.
- * Caller contract only, not claimed as the original callee's full body. */
-uint8_t *PerformReturn(uint8_t *sp, VMExec *exec)
+/* Remaining callees are intentionally synthetic. PerformReturn is now
+ * provided by its own C translation unit, not by this fixture. */
+void VMBuffer_convertBuffer(VMBuffer *buffer)
 {
-    CHECK(exec == &vm && sp == expected_return_sp, "frame-return-args");
+    CHECK(buffer == (simulate_provider_reloads ? &convert_target : &caller), "return-converter-boundary");
+    CHECK(vm.locals_mode == return_storage.frame.caller_locals_mode, "return-convert-after-locals");
     ++return_calls;
-    vm.code = CODE(target_code);
-    vm.byte_pc = 8;
-    vm.byte_limit = 12;
-    vm.frame_depth = 0;
-    vm.offset_to_slot = caller_map;
-    vm.handlers = slots_b;
-    vm.next_slot = 6;
-    g_ArgumentCount = 73;
-    return BYTES(values + 12);
+    if (simulate_provider_reloads) {
+        buffer->handlers = slots_a;
+        vm.buffer = &reload_buffer;
+        vm.byte_pc = 4;
+    } else {
+        buffer->handlers = slots_b;
+        buffer->offset_to_slot = caller_map;
+    }
+}
+
+uint32_t CProfiler_Pop(void *profiler)
+{
+    CHECK(profiler == g_profiler && g_retCount == 0, "return-profile-order");
+    ++profile_calls;
+    vm.frame_base = BYTES(&return_storage.frame);
+    vm.frame_depth = 2;
+    return 0;
+}
+
+void FREE_RValue__Pre(void *value)
+{
+    CHECK(delete_calls == 1, "return-rvalue-after-delete");
+    if (check_provider_order) {
+        CHECK(value == return_storage.args + 4, "return-rvalue-tag-filter");
+        g_ArgumentCount = 3; /* affects returned SP, not traversal count */
+    }
+    ++rvalue_calls;
 }
 
 static uint8_t *unexpected(uint32_t word, uint8_t *sp, const uint8_t *payload, VMExec *exec)
@@ -136,15 +175,19 @@ static void init(void)
     g_fDoExceptionUnwind = 0;
     g_ArgumentCount = 29;
     g_execCount = UINT32_MAX;
+    g_retCount = UINT32_MAX;
+    Argument = NULL;
+    g_bProfile = 0;
     stackPages.page_head = NULL;
     stackPages.free_head = NULL;
     stackPages.count_0c = 0;
     stackPages.count_10 = 0;
     free_calls = free_locals_calls = return_calls = dispatch_count = 0;
+    profile_calls = delete_calls = rvalue_calls = 0;
+    check_provider_order = simulate_provider_reloads = 0;
     rewrite_mode_on_free = 0;
     freed = NULL;
     freed_locals = NULL;
-    expected_return_sp = NULL;
     seen_sp = NULL;
 }
 
@@ -247,18 +290,114 @@ static uint8_t *resumed(uint32_t word, uint8_t *sp, const uint8_t *payload, VMEx
     return sp;
 }
 
+static void init_return(void)
+{
+    /* Exercise the original offset formula, but keep all final pointers
+     * in live fixture objects. For this static ARM ELF allocation is low. */
+    vm.frame_top = BYTES(return_storage.args + 12);
+    return_storage.frame.caller_frame_distance = (int32_t)(uintptr_t)&allocation;
+    CHECK(return_storage.frame.caller_frame_distance >= 0, "fixture-frame-distance");
+    return_storage.frame.caller_pc = 8;
+    return_storage.frame.caller_state_30 = 30;
+    return_storage.frame.caller_state_34 = 34;
+    return_storage.frame.caller_state_38 = 38;
+    return_storage.frame.caller_state_3c = 0x3c;
+    return_storage.frame.caller_argc = 29;
+    return_storage.frame.caller_self = &locals;
+    return_storage.frame.caller_other = NULL;
+    return_storage.frame.caller_buffer = &caller;
+    return_storage.frame.delete_on_return = &return_delete;
+    return_storage.frame.caller_locals_mode = 7;
+    return_storage.frame.caller_locals = NULL;
+    return_storage.frame.caller_argument_offset = 0;
+    caller.byte_limit = 12;
+    caller.code = CODE(target_code);
+    caller.handlers = slots_a;
+    caller.offset_to_slot = entry_map;
+    convert_target.handlers = slots_b;
+    convert_target.offset_to_slot = caller_map;
+    reload_buffer.offset_to_slot = reload_map;
+    vm.frame_base = BYTES(&return_storage.frame);
+    vm.frame_depth = 1;
+    vm.locals_mode = 9;
+    for (unsigned i = 0; i < 16; ++i)
+        return_storage.args[i] = 0x900u + i;
+    Argument = BYTES(return_storage.args);
+}
+
+static uint8_t *fall_off_inner_frame(uint32_t word, uint8_t *sp, const uint8_t *payload, VMExec *exec)
+{
+    CHECK(word == 0x12000000u && sp == BYTES(&return_storage.frame)
+          && payload == CODE(ordinary_code + 1) && exec == &vm, "inner-frame-handler-abi");
+    g_ArgumentCount = 2;
+    return sp;
+}
+
 static void frame_return(void)
 {
     init();
-    vm.byte_pc = 4;
-    vm.frame_depth = 1;
-    expected_return_sp = vm.frame_base;
+    init_return();
+    return_storage.args[3] = 0;
+    return_storage.args[7] = 0xab000004u;
+    check_provider_order = 1;
+    slots_a[0] = fall_off_inner_frame;
     slots_b[3] = resumed;
     VM_ExecRelease(&vm, result);
-    CHECK(return_calls == 1 && dispatch_count == 1 && seen_sp == BYTES(values + 8), "frame-return-does-not-exit");
+    CHECK(return_calls == 1 && dispatch_count == 1 && seen_sp == BYTES(return_storage.args + 8), "frame-return-does-not-exit");
     CHECK(vm.next_slot == 5 && vm.frame_depth == 0, "frame-return-sentinel-prefetch");
-    CHECK(result[0] == 0 && result[1] == 0 && result[2] == 0x50au && result[3] == 0, "frame-three-zeros");
-    CHECK(g_ArgumentCount == 29 && g_execCount == 0, "frame-save-only-on-function-entry");
+    CHECK(result[0] == 0 && result[1] == 0 && result[2] == 0x90au && result[3] == 0, "frame-three-zeros");
+    CHECK(g_ArgumentCount == 29 && g_execCount == 0 && g_retCount == 0, "frame-save-only-on-function-entry");
+}
+
+static void perform_return_null(void)
+{
+    init();
+    init_return();
+    return_storage.frame.caller_buffer = NULL;
+    g_bProfile = 2;
+    vm.frame_base = BYTES(&profile_dummy.frame);
+    uint8_t *sp = PerformReturn(BYTES(values), &vm);
+    CHECK(sp == BYTES(return_storage.args), "return-null-frame-end");
+    CHECK(profile_calls == 1 && vm.frame_depth == 1 && g_retCount == 0, "return-entry-profile-count");
+    CHECK(!return_calls && !delete_calls && Argument == BYTES(return_storage.args) && g_ArgumentCount == 29, "return-null-skips-release");
+}
+
+static void perform_return_reloads(void)
+{
+    init();
+    init_return();
+    simulate_provider_reloads = 1;
+    check_provider_order = 1;
+    vm.locals = &locals;
+    vm.locals_mode = 0;
+    return_storage.frame.caller_frame_distance = -1;
+    return_storage.args[3] = 0;           /* not a ref */
+    return_storage.args[7] = 0xab000004u; /* lower 24-bit tag=4 */
+    return_storage.args[11] = 3;          /* outside original two slots */
+    g_ArgumentCount = 2;
+    uint8_t *sp = PerformReturn(BYTES(values + 4), &vm);
+    CHECK(sp == BYTES(return_storage.args + 12), "return-uses-live-argc-after-release");
+    CHECK(vm.frame_base == NULL && vm.frame_depth == 0, "return-negative-distance");
+    CHECK(vm.handlers == slots_a && vm.offset_to_slot == reload_map && vm.next_slot == 4, "return-split-table-reload");
+    CHECK(vm.state_30 == 30 && vm.state_34 == 34 && vm.state_38 == 38 && vm.state_3c == 0x3c && vm.self == &locals, "return-state-snapshot");
+    CHECK(free_locals_calls == 1 && delete_calls == 1 && rvalue_calls == 1, "return-cleanup-counts");
+    CHECK(return_storage.args[0] == 0 && return_storage.args[1] == 0x901u && return_storage.args[2] == 0 && return_storage.args[3] == 5, "return-three-word-arg-clear");
+    CHECK(return_storage.args[4] == 0 && return_storage.args[5] == 0x905u && return_storage.args[6] == 0 && return_storage.args[7] == 5, "return-ref-slot-clear");
+    CHECK(return_storage.args[8] == 0x908u && return_storage.args[11] == 3 && g_ArgumentCount == 29 && Argument == BYTES(&allocation), "return-restores-argument-state");
+}
+
+static void perform_return_empty_args(void)
+{
+    init();
+    init_return();
+    vm.stack_allocation = values;
+    return_storage.frame.caller_frame_distance = -1;
+    return_storage.frame.caller_argument_offset = 8;
+    g_ArgumentCount = 0;
+    Argument = NULL;
+    uint8_t *sp = PerformReturn(BYTES(thrown), &vm);
+    CHECK(sp == BYTES(return_storage.args) && !rvalue_calls && delete_calls == 1, "return-empty-args");
+    CHECK(g_ArgumentCount == 29 && Argument == BYTES(values + 2), "return-relative-argument-offset");
 }
 
 static struct {
@@ -303,7 +442,10 @@ __attribute__((noreturn)) void _start(void)
     catch_live_exec();
     uncaught_exits_before_pc_limit();
     frame_return();
+    perform_return_null();
+    perform_return_reloads();
+    perform_return_empty_args();
     pool_boundary_and_cleanup();
-    write_msg("PASS exec-release: entry dispatch catch unwind return pool\n");
+    write_msg("PASS exec-release: entry dispatch catch unwind return pool; perform-return: null reloads empty-args\n");
     stop(0);
 }

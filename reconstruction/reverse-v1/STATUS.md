@@ -1,15 +1,16 @@
 # 状态与定性
 
-## 当前 VM 断点：ExecRelease 本体候选落地，直接依赖未接线
+## 当前 VM 断点：ExecRelease 已链接退帧译文
 
 按 [静态派发合同](../contracts/vm-buffer-dispatch.md)，`VMBuffer::convertBuffer`（`0xec750`）先数出指令边界，
 再用 `g_instructions` 与 opcode 5/7/25 的专用分支填处理器表（`VMBuffer+0x14 → VMExec+0x58`），
 同时填字偏移到密集槽的映射（`VMBuffer+0x18 → VMExec+0x5c`）。`VM::Exec`、子脚本进入和退帧三个安装站点已核；
 `ExecRelease` 的首次取槽、字节 PC 推进、回边和顶层结果写回条件已据原件更正。
-`c/vm_exec_release/` 已交 0xe4540 的 C 本体候选，含异常捕获、退帧重入、结果写回及栈页归还；
-ARMv7 合成夹具 O0/O2 通过。`PerformReturn`、两类 `Free` 尚未链接真实译文，原件未执行，未验玩法。
-下一个直接缺口是 `PerformReturn`（0xe42d8）向调用者恢复字节 PC、两张表与值栈的全路径；
-转换缓存只写处理器表字段的命中路径已定，写入/归属仍待追。
+`c/vm_exec_release/` 中 `ExecRelease`（0xe4540）与 `PerformReturn`（0xe42d8）均有 C 本体候选。
+ARMv7 合成夹具真实链接二者：读旧帧、释放实参、恢复字节 PC/两张表/值栈后调用调用者处理器。
+O0/O2 各九组通过，九个语义负控和去 `perform_return.c` 的真链接负控均命中。原件未执行，未验玩法。
+下一处缺口是 `VMBuffer::convertBuffer`（0xec750）仍用具名模型提供派发表；两类 Free、
+RValue 释放和可选 profiling 也未接真实译文。缓存命中后的索引表来源与缓存写入/失效仍待追。
 
 ## 2026-11-16（续六）：VM 算术处理器 + 房间激活链，并修掉一处我自己模块里的 NaN 误译
 

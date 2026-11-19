@@ -1,28 +1,22 @@
 /* cally 逆向卡：PerformReturn（原版 libyoyo.so，armv7）
- * @func 0xe42d8 0xe44d4  size 508  127 条指令
- * 级别: 骨架（帧弹出骨架已证，值搬运与 refcount 细节未展开）
+ * @func 0xe42d8 0xe44d4  size 508  127 条索引记录（121 指令 + 6 池字）
+ * 级别: 骨架（C 本体候选在 c/vm_exec_release/src/perform_return.c）
  * 符号: _Z13PerformReturnPhP6VMExec → uchar* PerformReturn(uchar* sp, VMExec* exec)
+ * tier: bytecode_anchored（固定原件 ARM-state）
  *
- * 已证（指令级，前 15 条）：
- *   ++<global counter>                          ; e42f4-e4300 取 GOT 三跳后 +1 写回（疑似调用计数/深度）
- *   if (<global byte flag>) goto 0xe449c        ; e4308/e4310 —— 调试/慢路径开关
- *   frame = exec->[0x28]                        ; e4314 —— 当前调用帧指针
- *   --exec->[0x4c]                              ; e4318-e4328 —— 帧深度自减（返回即出栈）
- *   resume = frame + 60                         ; e431c —— 帧内 +0x3c 保存恢复点
- *   if (*(void**)(frame+0x18) == 0) goto 0xe4490 ; e4320/e432c —— 空帧/末尾帧的特例
- *   随后从帧内 +0x0c / +0x24 / +0x04 / +0x20 取字段                    ; e4334-e4344
- *
- * 结论：
- *   1. exec->[0x28] 是**当前调用帧指针**，exec->[0x4c] 是**帧深度**（返回时自减）。
- *   2. 帧内至少五个字段：+0x04、+0x0c、+0x18、+0x20、+0x24，以及 +0x3c（恢复点）。
- *   3. PerformReturn 是 VM::ExecRelease 的唯二出口之一（另一处是循环出口 bge）。
- *
- * 帧格式已由 DoCallScript（cards/DoCallScript.c）闭合，本卡的 open 收窄为：
- *   frame+0x00 = **返回地址 / pc**（DoCallScript e8608/e8624 写入 exec[0x44]，
- *                本卡 e4354/e4390 用 str lr,[r6,#0x44] 还回去）——不是旧 sp
- *   frame+0x08 = 旧全局 Argument 绝对值；frame+0x38 = 旧 sp 相对栈基址的偏移
- *   ⇒ 早先 CALL-007「旧 sp 存 frame+0」的说法已 refuted（claims XFRAME-002）
- * open：self/other 落在帧内哪两个槽、refcount 的 4 段处理、全局计数器与调试标志的符号名。
+ * e42f4..e4310/e449c..e44a8：增加 g_retCount，g_bProfile 非零时 Pop(&g_Profiler)，
+ * 再读取 exec 的当前帧和深度；输入 r0 值未消费。frame+0x18 无 buffer 时，仅减深度，
+ * 返回 frame+60，跳过恢复/清理。池字 e44c0/e44c4/e44d0 经 GOT 绑定三个名字。
+ * e4334..e43a8：恢复旧 PC/self/other 等；frame+0xc 是有符号帧距离，非负时
+ * frame_base = exec[0x40] - distance + exec[0x08]，负时清零。DoCallScript e8634..e8668 是写端。
+ * e44ac..e44b8：旧 mode 为零则释放当前 locals，之后从 exec+0x2c 重读转换目标。
+ * e43c0..e43f4：转换后 handlers 来自原调用参数的 +0x14，offset_to_slot 来自
+ * 重读的 exec+0x2c 指向对象的 +0x18；字节 PC 也重读，再除 4 查密集槽。
+ * e43f8..e446c：先 delete(frame+0x28)；按初始实参数遍历，低 24 位 tag 1..4
+ * 调用 FREE_RValue__Pre；每个实参清 +0/+8、写 +0xc=5，+4 不写。
+ * e4470..e4498：用重读的实参数算返回 SP = frame+60+16*argc；随后发布恢复值
+ * g_ArgumentCount=frame[+8]、Argument=exec[+8]+frame[+0x38]。被调释放和 VMBuffer
+ * 转换实现另记，原件未执行。
  */
 /* @0xe42d8 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} */
 /* @0xe42dc mov r6, r1 */

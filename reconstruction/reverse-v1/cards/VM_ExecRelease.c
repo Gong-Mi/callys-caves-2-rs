@@ -1,6 +1,6 @@
 /* cally 逆向卡：VM::ExecRelease（原版 libyoyo.so，armv7）
  *
- * @func 0xe4540 0xe47c8  size 648  152 条指令 + 10 池字
+ * @func 0xe4540 0xe47c8  size 648  162 条索引记录（152 指令 + 10 池字）
  * 级别:  骨架（本卡保留原始指令；完整 C 本体候选在 c/vm_exec_release/）
  * 符号:  _ZN2VM11ExecReleaseER6VMExecP6RValue → VM::ExecRelease(VMExec&, RValue*)
  * 锚表:  reconstruction/reverse-v1/asm/index-VM_ExecRelease.tsv
@@ -25,7 +25,8 @@
  *   6. e46c8..e4778：遍历页链按 [page+8,page+0x100008) 回收，否则调用通用 Free。
  *      回收后重读 +0x0c；为零且 +0x10 非空时调对象 Free，再清 +0x10。
  *
- * gap: 直接被调方/全局提供者和上游尚未与译文接线；合成运行不证明原件等价。
+ * gap: PerformReturn 已真实链接进合成夹具；两类 Free、全局提供者和上游仍未接。
+ *      合成运行不证明原件等价。
  */
 /* @0xe4540 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} —— 未钉 */
 /* @0xe4544 mov r9, r1 —— 未钉 */
