@@ -29,6 +29,27 @@
 | 5 | 两个类型半字节都为 5、低 16 位为 `0xfff9`、且 bit30 置位 → `DoPopLocalVariable` | `0xec9d0..0xeca04`、`0xeca6c..0xeca84`；GOT `0x3edd84` → `0xe1f5c` |
 | 25 | `[19:16]==2` 才读紧接的四字节 id。`((uint32_t)id - 100000u) <= 400000u && id != 499999` → `DoCallGML`；否则有符号 id `<=99999` → `DoCallLibrary`。余下走 `g_instructions[25]` | `0xeca08..0xeca50`、`0xeca88..0xecabc`；GOT `0x3edd80/0x3edd88` → `0xe8b00/0xe3e58` |
 
-## 下一步
+## `VM_ExecRelease` C 译文与证据边界
 
-静态采信上面的生产/安装/消费边，不宣称闭合整个 VM。`ExecRelease` 先在入循环处查表，再判断有符号字节 PC 是否到达 `+0x50`（`0xe45b8..0xe45d0`）；续迭代先预取，再判异常/PC。下一批把该函数的异常分支、`PerformReturn` 重入写回、顶层结果及内存释放译成可编译 C，并逐项登记直接依赖。缓存写入/失效以及 Debug 循环单列，不用推定生命周期去填 C 译文。
+本体候选在 `../reverse-v1/c/vm_exec_release/`，登记按 `0xe4540 + ARM-state + image_sha256`。
+`VM::Exec` 的 `0xe8324` 调用以 `r0=exec/r1=out` 进入（`0xe81b0/0xe81b4`），共同返回尾不消费 r0。
+本体开头增加 `g_execCount`、发布 `g_pCurrentExec` 后才保存 `g_ArgumentCount`（`0xe4560..0xe4594`）；
+顶层退出恢复的是实参数，不在这里恢复 `g_pCurrentExec`（`0xe46ac..0xe46c4`）。
+
+| 阶段 | 本体可见副作用 | 原件锚点 |
+|---|---|---|
+| 帧入口/回边 | 入口先查表并写下一槽，再判断有符号字节 PC 是否到 `+0x50`；回边重读游标、表、字节 PC 与上限 | `0xe4598..0xe45d0`, `0xe4624..0xe469c` |
+| 异常 | 按实时 `g_pCurrentExec == g_caughtExec` 决定是否搬 `g_exceptionVar` 四字到 `g_pExceptionSP-16`、清 `g_fDoExceptionUnwind`；不匹配则离开当前帧且不清标志 | `0xe4624..0xe4688`; 池 `0xe47ac/0xe47b0/0xe47b8..0xe47c0` |
+| 退帧/结果 | `+0x4c > 0` 调 `PerformReturn`；在返回值栈地址减 16 后清 +0/+4/+12，**保留 +8**，从恢复的字节 PC 查表重入。顶层只在 out 非空且重读的 `+0x28` 无符号高于 SP 时复制四字，全部读完才写 | `0xe4734..0xe4750`, `0xe46a0..0xe46c4`, `0xe477c..0xe479c` |
+| 清理 | `stackPages+4` 链扫半开区间 `[page+8,page+0x100008)`；命中则头插到 `+8`，`+0x10` 加一、`+0xc` 减一。未命中走 `MemoryManager::Free`；清理后重读 locals 模式 | `0xe46c8..0xe4730`, `0xe4754..0xe4778` |
+
+复跑（只静态读取原件，qemu-arm 只跑由新 C 编译出的 ARM32 夹具）：
+
+```sh
+python3 -B reconstruction/reverse-v1/c/vm_exec_release/tools/check.py --so /path/to/libyoyo_armv7.so
+```
+
+门绑定 162 个索引字（含 10 池字），在 O0/O2 各跑入口、正常派发、捕获异常、异常外传、退帧、页池六组；
+负控覆盖参数宽度、异常对象身份、退帧保留字、页池右开界及重叠结果写回。
+`PerformReturn`、`MemoryManager::Free`、`YYObjectBase::Free` 仅由具名合成模型满足本地链接；
+真实被调方、全局对象生产者及间接处理器仍要各自闭合。下一批从 `PerformReturn` 调用链恢复开始，不扩 Debug/ART，也不计入原件差分。

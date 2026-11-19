@@ -62,7 +62,7 @@
       Code_Execute    0x0cfc60   21 条  正文   纯转发 ExecuteIt；返回 0 → Error_Show_Action + 全局字节 0
       ExecuteIt       0x0cf914  211 条  骨架   code->type([+8])：<1/>3 返回 1；1..2 调 [code+0x64]+4；==3 才执行
       VM::Exec        0x0e7fd0  366 条  骨架   按 debug 全局二选一 → ExecDebug(992 B) / ExecRelease(648 B)
-      VM::ExecRelease 0x0e4540  162 索引项  骨架   +0x5c[byte_pc/4] → 密集槽；+0x58[槽] → blx；+0x48 是下一槽
+      VM::ExecRelease 0x0e4540  162 索引项  C 本体候选见 c/vm_exec_release/；直接依赖未接线
       PerformReturn   0xe42d8   127 条  骨架   exec+0x28 帧指针、exec+0x4c 帧深度（返回自减）
 
     栈与变量

@@ -1,0 +1,31 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "entry": "0xe4540",
+      "isa": "arm",
+      "symbol": "_ZN2VM11ExecReleaseER6VMExecP6RValue",
+      "size": 648,
+      "instruction_words": 152,
+      "literal_pool_words": 10,
+      "original_body_sha256": "22fac962e3446a179b903bf166c6fd6d14286514a9b98a5ec06954c30151251a",
+      "translation_source": "src/vm_exec_release.c",
+      "translation_source_sha256": "6efa532f92f1b2733d31d34fdb402f0c1f7103801472f79c5e5bfb8d0a2095a4",
+      "translation_header_sha256": "23d17a20616697790d23b80ce50aeb2c212b9af6df60a1305ac52c41006b6ce0",
+      "fixture_sha256": "7c02d29521319f902fa1e22448d96256acc1d12540c945451b414ba40c514a51",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_validation": "tools/check.py; ARMv7 O0/O2 synthetic fixture and semantic negative controls",
+      "remaining_scope": "The original handler roster, global producers, and three internal callees are not linked to the candidate. No original execution, no product integration, no VM/whole-library equivalence.",
+      "direct_dependencies": [
+        {"entry": "0xe42d8", "symbol": "_Z13PerformReturnPhP6VMExec", "call_site": "0xe473c", "fixture": "models frame restoration and returns a synthetic stack pointer"},
+        {"entry": "0x27c2d0", "symbol": "_ZN13MemoryManager4FreeEPKv", "call_site": "0xe4708", "fixture": "observes fallback free; does not implement the original allocator"},
+        {"entry": "0x198f88", "symbol": "_ZN12YYObjectBase4FreeEPS_", "call_site": "0xe4724", "fixture": "observes free and provokes the caller's subsequent clear; does not implement object destruction"}
+      ]
+    }
+  ]
+}

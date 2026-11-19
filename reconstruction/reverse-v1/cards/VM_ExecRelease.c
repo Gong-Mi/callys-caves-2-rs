@@ -1,7 +1,7 @@
 /* cally 逆向卡：VM::ExecRelease（原版 libyoyo.so，armv7）
  *
- * @func 0xe4540 0xe47c8  size 648  162 条指令
- * 级别:  骨架（循环骨架已证，逐条语义未钉）
+ * @func 0xe4540 0xe47c8  size 648  152 条指令 + 10 池字
+ * 级别:  骨架（本卡保留原始指令；完整 C 本体候选在 c/vm_exec_release/）
  * 符号:  _ZN2VM11ExecReleaseER6VMExecP6RValue → VM::ExecRelease(VMExec&, RValue*)
  * 锚表:  reconstruction/reverse-v1/asm/index-VM_ExecRelease.tsv
  *
@@ -20,9 +20,12 @@
  *      否则到顶层退出。e46ac..e46c4/e477c..e4798 的四字结果写回要求 out 非空且
  *      执行到出口时重读的 +0x28 栈边界高于当前值栈顶（无符号比较）。
  *   4. 另外直接调用 MemoryManager::Free、YYObjectBase::Free（各一个站点）。
+ *   5. e4624..e4688：先采样异常字节再预取；命中条件比较两个实时全局，不比较入参。
+ *      同值路复制异常四字到 g_pExceptionSP-16 后清标志；不同值先结束当前帧。
+ *   6. e46c8..e4778：遍历页链按 [page+8,page+0x100008) 回收，否则调用通用 Free。
+ *      回收后重读 +0x0c；为零且 +0x10 非空时调对象 Free，再清 +0x10。
  *
- * gap: 仅为上述控制流定性；本卡仍无 C 本体。下一批须逐条译异常路（e4624..e4688）、
- *      顶层退栈/分配池归还和全局副作用，再单列 ExecDebug 与各被调方的闭合状态。
+ * gap: 直接被调方/全局提供者和上游尚未与译文接线；合成运行不证明原件等价。
  */
 /* @0xe4540 push {r4, r5, r6, r7, r8, r9, r10, r11, lr} —— 未钉 */
 /* @0xe4544 mov r9, r1 —— 未钉 */
