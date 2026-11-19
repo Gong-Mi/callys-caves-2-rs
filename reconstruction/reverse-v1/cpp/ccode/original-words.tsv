@@ -1,0 +1,270 @@
+entry	address	word	mnemonic	operands
+ce2b8	ce2b8	e5d02068	ldrb	r2, [r0, #0x68]
+ce2b8	ce2bc	e59f309c	ldr	r3, [pc, #0x9c]
+ce2b8	ce2c0	e59f109c	ldr	r1, [pc, #0x9c]
+ce2b8	ce2c4	e3520000	cmp	r2, #0
+ce2b8	ce2c8	e79f3003	ldr	r3, [pc, r3]
+ce2b8	ce2cc	e79f1001	ldr	r1, [pc, r1]
+ce2b8	ce2d0	e92d4010	push	{r4, lr}
+ce2b8	ce2d4	e2811008	add	r1, r1, #8
+ce2b8	ce2d8	e5932000	ldr	r2, [r3]
+ce2b8	ce2dc	e1a04000	mov	r4, r0
+ce2b8	ce2e0	e5801000	str	r1, [r0]
+ce2b8	ce2e4	1a00000f	bne	0xce328 <_ZN5CCodeD2Ev+0x70>
+ce2b8	ce2e8	e3520000	cmp	r2, #0
+ce2b8	ce2ec	0a000008	beq	0xce314 <_ZN5CCodeD2Ev+0x5c>
+ce2b8	ce2f0	e1500002	cmp	r0, r2
+ce2b8	ce2f4	1a000003	bne	0xce308 <_ZN5CCodeD2Ev+0x50>
+ce2b8	ce2f8	ea000015	b	0xce354 <_ZN5CCodeD2Ev+0x9c>
+ce2b8	ce2fc	e1540003	cmp	r4, r3
+ce2b8	ce300	0a000010	beq	0xce348 <_ZN5CCodeD2Ev+0x90>
+ce2b8	ce304	e1a02003	mov	r2, r3
+ce2b8	ce308	e5923004	ldr	r3, [r2, #0x4]
+ce2b8	ce30c	e3530000	cmp	r3, #0
+ce2b8	ce310	1afffff9	bne	0xce2fc <_ZN5CCodeD2Ev+0x44>
+ce2b8	ce314	e59f304c	ldr	r3, [pc, #0x4c]
+ce2b8	ce318	e79f3003	ldr	r3, [pc, r3]
+ce2b8	ce31c	e5932000	ldr	r2, [r3]
+ce2b8	ce320	e2422001	sub	r2, r2, #1
+ce2b8	ce324	e5832000	str	r2, [r3]
+ce2b8	ce328	e5940050	ldr	r0, [r4, #0x50]
+ce2b8	ce32c	e3500000	cmp	r0, #0
+ce2b8	ce330	0a000002	beq	0xce340 <_ZN5CCodeD2Ev+0x88>
+ce2b8	ce334	e5903000	ldr	r3, [r0]
+ce2b8	ce338	e5933004	ldr	r3, [r3, #0x4]
+ce2b8	ce33c	e12fff33	blx	r3
+ce2b8	ce340	e1a00004	mov	r0, r4
+ce2b8	ce344	e8bd8010	pop	{r4, pc}
+ce2b8	ce348	e5943004	ldr	r3, [r4, #0x4]
+ce2b8	ce34c	e5823004	str	r3, [r2, #0x4]
+ce2b8	ce350	eaffffef	b	0xce314 <_ZN5CCodeD2Ev+0x5c>
+ce2b8	ce354	e5902004	ldr	r2, [r0, #0x4]
+ce2b8	ce358	e5832000	str	r2, [r3]
+ce2b8	ce35c	eaffffec	b	0xce314 <_ZN5CCodeD2Ev+0x5c>
+ce2b8	ce360	0031f858	eorseq	pc, r1, r8, asr r8
+ce2b8	ce364	0031f858	eorseq	pc, r1, r8, asr r8
+ce2b8	ce368	0031f810	eorseq	pc, r1, r0, lsl r8
+ce36c	ce36c	e92d4010	push	{r4, lr}
+ce36c	ce370	e1a04000	mov	r4, r0
+ce36c	ce374	ebffffcf	bl	0xce2b8 <_ZN5CCodeD2Ev>
+ce36c	ce378	e1a00004	mov	r0, r4
+ce36c	ce37c	eb06bb93	bl	0x27d1d0 <_ZdlPv>
+ce36c	ce380	e1a00004	mov	r0, r4
+ce36c	ce384	e8bd8010	pop	{r4, pc}
+cefc8	cefc8	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+cefc8	cefcc	e1a04000	mov	r4, r0
+cefc8	cefd0	e59f530c	ldr	r5, [pc, #0x30c]
+cefc8	cefd4	e3a03000	mov	r3, #0
+cefc8	cefd8	e59f0308	ldr	r0, [pc, #0x308]
+cefc8	cefdc	e24dd008	sub	sp, sp, #8
+cefc8	cefe0	e08f5005	add	r5, pc, r5
+cefc8	cefe4	e59fc300	ldr	r12, [pc, #0x300]
+cefc8	cefe8	e7950000	ldr	r0, [r5, r0]
+cefc8	cefec	e5841060	str	r1, [r4, #0x60]
+cefc8	ceff0	e2800008	add	r0, r0, #8
+cefc8	ceff4	e5c43068	strb	r3, [r4, #0x68]
+cefc8	ceff8	e5840000	str	r0, [r4]
+cefc8	ceffc	e5843050	str	r3, [r4, #0x50]
+cefc8	cf000	e5843054	str	r3, [r4, #0x54]
+cefc8	cf004	e5843064	str	r3, [r4, #0x64]
+cefc8	cf008	e584306c	str	r3, [r4, #0x6c]
+cefc8	cf00c	e5843070	str	r3, [r4, #0x70]
+cefc8	cf010	e795300c	ldr	r3, [r5, r12]
+cefc8	cf014	e5d36000	ldrb	r6, [r3]
+cefc8	cf018	e3560000	cmp	r6, #0
+cefc8	cf01c	0a00002c	beq	0xcf0d4 <_ZN5CCodeC2Eib+0x10c>
+cefc8	cf020	e59f32c8	ldr	r3, [pc, #0x2c8]
+cefc8	cf024	e59f02c8	ldr	r0, [pc, #0x2c8]
+cefc8	cf028	e795c003	ldr	r12, [r5, r3]
+cefc8	cf02c	e08f0000	add	r0, pc, r0
+cefc8	cf030	e1a03000	mov	r3, r0
+cefc8	cf034	e59cc000	ldr	r12, [r12]
+cefc8	cf038	e59cc01c	ldr	r12, [r12, #0x1c]
+cefc8	cf03c	e08ce181	add	lr, r12, r1, lsl #3
+cefc8	cf040	e79c1181	ldr	r1, [r12, r1, lsl #3]
+cefc8	cf044	e584e064	str	lr, [r4, #0x64]
+cefc8	cf048	e5840010	str	r0, [r4, #0x10]
+cefc8	cf04c	e584105c	str	r1, [r4, #0x5c]
+cefc8	cf050	e3520000	cmp	r2, #0
+cefc8	cf054	e5843058	str	r3, [r4, #0x58]
+cefc8	cf058	e3a01000	mov	r1, #0
+cefc8	cf05c	e3a03001	mov	r3, #1
+cefc8	cf060	e3a0202c	mov	r2, #44
+cefc8	cf064	e5c4300c	strb	r3, [r4, #0xc]
+cefc8	cf068	e2840014	add	r0, r4, #20
+cefc8	cf06c	13a03002	movne	r3, #2
+cefc8	cf070	e5843008	str	r3, [r4, #0x8]
+cefc8	cf074	ebff9d4d	bl	0xb65b0 <memset@plt>
+cefc8	cf078	e2840040	add	r0, r4, #64
+cefc8	cf07c	e3a01000	mov	r1, #0
+cefc8	cf080	e3a02010	mov	r2, #16
+cefc8	cf084	ebff9d49	bl	0xb65b0 <memset@plt>
+cefc8	cf088	e5943060	ldr	r3, [r4, #0x60]
+cefc8	cf08c	e3530000	cmp	r3, #0
+cefc8	cf090	ba00000c	blt	0xcf0c8 <_ZN5CCodeC2Eib+0x100>
+cefc8	cf094	e59f325c	ldr	r3, [pc, #0x25c]
+cefc8	cf098	e7953003	ldr	r3, [r5, r3]
+cefc8	cf09c	e5932000	ldr	r2, [r3]
+cefc8	cf0a0	e3520000	cmp	r2, #0
+cefc8	cf0a4	05834000	streq	r4, [r3]
+cefc8	cf0a8	15834000	strne	r4, [r3]
+cefc8	cf0ac	e59f3248	ldr	r3, [pc, #0x248]
+cefc8	cf0b0	05842004	streq	r2, [r4, #0x4]
+cefc8	cf0b4	15842004	strne	r2, [r4, #0x4]
+cefc8	cf0b8	e7953003	ldr	r3, [r5, r3]
+cefc8	cf0bc	e5932000	ldr	r2, [r3]
+cefc8	cf0c0	e2822001	add	r2, r2, #1
+cefc8	cf0c4	e5832000	str	r2, [r3]
+cefc8	cf0c8	e1a00004	mov	r0, r4
+cefc8	cf0cc	e28dd008	add	sp, sp, #8
+cefc8	cf0d0	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+cefc8	cf0d4	e3510000	cmp	r1, #0
+cefc8	cf0d8	ba000004	blt	0xcf0f0 <_ZN5CCodeC2Eib+0x128>
+cefc8	cf0dc	e59f321c	ldr	r3, [pc, #0x21c]
+cefc8	cf0e0	e7953003	ldr	r3, [r5, r3]
+cefc8	cf0e4	e5933000	ldr	r3, [r3]
+cefc8	cf0e8	e1510003	cmp	r1, r3
+cefc8	cf0ec	ba000006	blt	0xcf10c <_ZN5CCodeC2Eib+0x144>
+cefc8	cf0f0	e59f120c	ldr	r1, [pc, #0x20c]
+cefc8	cf0f4	e3a03000	mov	r3, #0
+cefc8	cf0f8	e584305c	str	r3, [r4, #0x5c]
+cefc8	cf0fc	e08f1001	add	r1, pc, r1
+cefc8	cf100	e5841010	str	r1, [r4, #0x10]
+cefc8	cf104	e1a03001	mov	r3, r1
+cefc8	cf108	eaffffd0	b	0xcf050 <_ZN5CCodeC2Eib+0x88>
+cefc8	cf10c	e3a0001c	mov	r0, #28
+cefc8	cf110	e58d1004	str	r1, [sp, #0x4]
+cefc8	cf114	e58d2000	str	r2, [sp]
+cefc8	cf118	eb06b501	bl	0x27c524 <_Znwj>
+cefc8	cf11c	e59fc1e4	ldr	r12, [pc, #0x1e4]
+cefc8	cf120	e59f31e4	ldr	r3, [pc, #0x1e4]
+cefc8	cf124	e59d1004	ldr	r1, [sp, #0x4]
+cefc8	cf128	e795700c	ldr	r7, [r5, r12]
+cefc8	cf12c	e59d2000	ldr	r2, [sp]
+cefc8	cf130	e287c008	add	r12, r7, #8
+cefc8	cf134	e5806010	str	r6, [r0, #0x10]
+cefc8	cf138	e5806014	str	r6, [r0, #0x14]
+cefc8	cf13c	e5806018	str	r6, [r0, #0x18]
+cefc8	cf140	e580c000	str	r12, [r0]
+cefc8	cf144	e5840050	str	r0, [r4, #0x50]
+cefc8	cf148	e7953003	ldr	r3, [r5, r3]
+cefc8	cf14c	e5933000	ldr	r3, [r3]
+cefc8	cf150	e7933101	ldr	r3, [r3, r1, lsl #2]
+cefc8	cf154	e3530000	cmp	r3, #0
+cefc8	cf158	159fc1b0	ldrne	r12, [pc, #0x1b0]
+cefc8	cf15c	1795c00c	ldrne	r12, [r5, r12]
+cefc8	cf160	159cc000	ldrne	r12, [r12]
+cefc8	cf164	108c3003	addne	r3, r12, r3
+cefc8	cf168	e593c000	ldr	r12, [r3]
+cefc8	cf16c	e35c0000	cmp	r12, #0
+cefc8	cf170	01a0600c	moveq	r6, r12
+cefc8	cf174	159fe194	ldrne	lr, [pc, #0x194]
+cefc8	cf178	1795e00e	ldrne	lr, [r5, lr]
+cefc8	cf17c	159e6000	ldrne	r6, [lr]
+cefc8	cf180	1086600c	addne	r6, r6, r12
+cefc8	cf184	e59fc188	ldr	r12, [pc, #0x188]
+cefc8	cf188	e3a0e000	mov	lr, #0
+cefc8	cf18c	e584605c	str	r6, [r4, #0x5c]
+cefc8	cf190	e584e010	str	lr, [r4, #0x10]
+cefc8	cf194	e795c00c	ldr	r12, [r5, r12]
+cefc8	cf198	e59cc000	ldr	r12, [r12]
+cefc8	cf19c	e15c000e	cmp	r12, lr
+cefc8	cf1a0	0a000009	beq	0xcf1cc <_ZN5CCodeC2Eib+0x204>
+cefc8	cf1a4	e79cc101	ldr	r12, [r12, r1, lsl #2]
+cefc8	cf1a8	e15c000e	cmp	r12, lr
+cefc8	cf1ac	159fe164	ldrne	lr, [pc, #0x164]
+cefc8	cf1b0	1795e00e	ldrne	lr, [r5, lr]
+cefc8	cf1b4	159ee000	ldrne	lr, [lr]
+cefc8	cf1b8	108ec00c	addne	r12, lr, r12
+cefc8	cf1bc	e59cc000	ldr	r12, [r12]
+cefc8	cf1c0	e35c0000	cmp	r12, #0
+cefc8	cf1c4	1a000041	bne	0xcf2d0 <_ZN5CCodeC2Eib+0x308>
+cefc8	cf1c8	e584c010	str	r12, [r4, #0x10]
+cefc8	cf1cc	e59fc148	ldr	r12, [pc, #0x148]
+cefc8	cf1d0	e593a004	ldr	r10, [r3, #0x4]
+cefc8	cf1d4	e795c00c	ldr	r12, [r5, r12]
+cefc8	cf1d8	e5dcc000	ldrb	r12, [r12]
+cefc8	cf1dc	e35c0000	cmp	r12, #0
+cefc8	cf1e0	0a00002f	beq	0xcf2a4 <_ZN5CCodeC2Eib+0x2dc>
+cefc8	cf1e4	e1d3e0ba	ldrh	lr, [r3, #10]
+cefc8	cf1e8	e283900c	add	r9, r3, #12
+cefc8	cf1ec	e1d3c0b8	ldrh	r12, [r3, #8]
+cefc8	cf1f0	e5938010	ldr	r8, [r3, #0x10]
+cefc8	cf1f4	e7ec605e	ubfx	r6, lr, #0x0, #0xd
+cefc8	cf1f8	e593300c	ldr	r3, [r3, #0xc]
+cefc8	cf1fc	e580a004	str	r10, [r0, #0x4]
+cefc8	cf200	e580c008	str	r12, [r0, #0x8]
+cefc8	cf204	e0833009	add	r3, r3, r9
+cefc8	cf208	e580e00c	str	lr, [r0, #0xc]
+cefc8	cf20c	e5803010	str	r3, [r0, #0x10]
+cefc8	cf210	e584c070	str	r12, [r4, #0x70]
+cefc8	cf214	e584806c	str	r8, [r4, #0x6c]
+cefc8	cf218	e59f3100	ldr	r3, [pc, #0x100]
+cefc8	cf21c	e1a0e6ae	lsr	lr, lr, #13
+cefc8	cf220	e5846074	str	r6, [r4, #0x74]
+cefc8	cf224	e584e078	str	lr, [r4, #0x78]
+cefc8	cf228	e7953003	ldr	r3, [r5, r3]
+cefc8	cf22c	e5933000	ldr	r3, [r3]
+cefc8	cf230	e3530000	cmp	r3, #0
+cefc8	cf234	05943010	ldreq	r3, [r4, #0x10]
+cefc8	cf238	0affff84	beq	0xcf050 <_ZN5CCodeC2Eib+0x88>
+cefc8	cf23c	e7933101	ldr	r3, [r3, r1, lsl #2]
+cefc8	cf240	e3530000	cmp	r3, #0
+cefc8	cf244	01a06003	moveq	r6, r3
+cefc8	cf248	03a08004	moveq	r8, #4
+cefc8	cf24c	0a000004	beq	0xcf264 <_ZN5CCodeC2Eib+0x29c>
+cefc8	cf250	e59f10c0	ldr	r1, [pc, #0xc0]
+cefc8	cf254	e7951001	ldr	r1, [r5, r1]
+cefc8	cf258	e5916000	ldr	r6, [r1]
+cefc8	cf25c	e0866003	add	r6, r6, r3
+cefc8	cf260	e2868004	add	r8, r6, #4
+cefc8	cf264	e3a0001c	mov	r0, #28
+cefc8	cf268	e58d2000	str	r2, [sp]
+cefc8	cf26c	eb06b4ac	bl	0x27c524 <_Znwj>
+cefc8	cf270	e5961000	ldr	r1, [r6]
+cefc8	cf274	e3a03000	mov	r3, #0
+cefc8	cf278	e2877008	add	r7, r7, #8
+cefc8	cf27c	e59d2000	ldr	r2, [sp]
+cefc8	cf280	e1a01101	lsl	r1, r1, #2
+cefc8	cf284	e5803014	str	r3, [r0, #0x14]
+cefc8	cf288	e5803018	str	r3, [r0, #0x18]
+cefc8	cf28c	e5807000	str	r7, [r0]
+cefc8	cf290	e5943010	ldr	r3, [r4, #0x10]
+cefc8	cf294	e5840054	str	r0, [r4, #0x54]
+cefc8	cf298	e5801004	str	r1, [r0, #0x4]
+cefc8	cf29c	e5808010	str	r8, [r0, #0x10]
+cefc8	cf2a0	eaffff6a	b	0xcf050 <_ZN5CCodeC2Eib+0x88>
+cefc8	cf2a4	e1d390b8	ldrh	r9, [r3, #8]
+cefc8	cf2a8	e2838008	add	r8, r3, #8
+cefc8	cf2ac	e1d3e0ba	ldrh	lr, [r3, #10]
+cefc8	cf2b0	e1a0600c	mov	r6, r12
+cefc8	cf2b4	e580a004	str	r10, [r0, #0x4]
+cefc8	cf2b8	e5809008	str	r9, [r0, #0x8]
+cefc8	cf2bc	e580e00c	str	lr, [r0, #0xc]
+cefc8	cf2c0	e5808010	str	r8, [r0, #0x10]
+cefc8	cf2c4	e584c070	str	r12, [r4, #0x70]
+cefc8	cf2c8	e584c06c	str	r12, [r4, #0x6c]
+cefc8	cf2cc	eaffffd1	b	0xcf218 <_ZN5CCodeC2Eib+0x250>
+cefc8	cf2d0	e59fe040	ldr	lr, [pc, #0x40]
+cefc8	cf2d4	e795e00e	ldr	lr, [r5, lr]
+cefc8	cf2d8	e59ee000	ldr	lr, [lr]
+cefc8	cf2dc	e08ec00c	add	r12, lr, r12
+cefc8	cf2e0	eaffffb8	b	0xcf1c8 <_ZN5CCodeC2Eib+0x200>
+cefc8	cf2e4	00322c70	eorseq	r2, r2, r0, ror r12
+cefc8	cf2e8	ffffbed4	.word	0xffffbed4
+cefc8	cf2ec	ffffbecc	.word	0xffffbecc
+cefc8	cf2f0	ffffbef0	.word	0xffffbef0
+cefc8	cf2f4	0025fb0a	eoreq	pc, r5, r10, lsl #22
+cefc8	cf2f8	ffffbed0	.word	0xffffbed0
+cefc8	cf2fc	ffffbed8	.word	0xffffbed8
+cefc8	cf300	ffffbef4	.word	0xffffbef4
+cefc8	cf304	0025fa3a	eoreq	pc, r5, r10, lsr r10
+cefc8	cf308	ffffbedc	.word	0xffffbedc
+cefc8	cf30c	ffffbef8	.word	0xffffbef8
+cefc8	cf310	ffffbcf4	.word	0xffffbcf4
+cefc8	cf314	ffffbefc	.word	0xffffbefc
+cefc8	cf318	ffffbf00	.word	0xffffbf00
+cefc8	cf31c	ffffbf04	.word	0xffffbf04
+cefc8	cf320	ffffbf08	.word	0xffffbf08
+cf470	cf470	e5900010	ldr	r0, [r0, #0x10]
+cf470	cf474	e12fff1e	bx	lr

@@ -1,4 +1,4 @@
-# ARMv7 VMBuffer → ExecRelease 派发表合同
+# ARMv7 CCode / VMBuffer → ExecRelease 装载与派发表合同
 
 输入：Cally's Caves 2 2.1.9 `lib/armeabi-v7a/libyoyo.so`，SHA256
 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`。
@@ -96,3 +96,26 @@ Free 仍未在该门接原件本体。C 清册的头/夹具哈希更新尚未收
 本批仅作 ARM32 O0/O2 目标对象编译、类布局/原符号/vtable 尺寸核对及静态源审查，不运行
 原件或重建件。编译参数与输入哈希见该目录 `validation.json`；C++ 重编译不承接 C 合成门的
 行为结论。匿名缓存绑定、分配/释放器和处理器正文仍有内部依赖欠账，异常展开与产品接入未验。
+
+## CCode 的同语言构造与生命周期
+
+源码在 `../reverse-v1/cpp/ccode/`：`ccode_construct.cpp` 恢复构造（0xcefc8，C1/C2 同址），
+`ccode_lifetime.cpp` 恢复虚析构（0xce2b8 的 D1/D2、0xce36c 的 deleting 变体）与
+GetText（0xcf470，读 +0x10 而非 +0x58）。观察字段与原字绑定见该目录头和 functions.json。
+
+- `g_fYYC` 分支从 `g_pLLVMVars[+0x1c]` 的 8 字节表取 name/entry，不分配 VMBuffer，也不新增
+  index 检查。非 YYC 的无效 index 仍走空文本/null name 与共同尾，不伪装成构造失败。
+- 有效 CODE 路径先 new/发布主 VMBuffer，再作 WAD-relative name/record 与 DEBUG-relative
+  text/info 解析。新布局保留 record+12+relative 字节码关系；旧布局 code=record+8，仍复制
+  两个半字但 locals/recordOffset/argumentCount 写零，不能拿新格式去“修复”该支路。
+- text 捕获在原装载边界；初始状态按 +0x58、+0x0c、+0x08 顺序发布，再作 44 字节和
+  16 字节两次独立 memset。登记读取 memset 后的 index 字段，而非预缓存构造参数。
+- 析构 skip 字节只跳过 unlink/计数，仍虚删除主 buffer。不论 head 空、匹配或未找到，
+  skip==0 的计数均减一；不加“找到才减”或环检测。debugBuffer 和文本不在此析构释放，
+  不从这一条方法推断其他所有权生产者。空/无效 offset 保留无守卫源码读，但不认证 fault 等价。
+
+静态回指原件的链为 CODE/YYC/DEBUG → CCode → VMBuffer → convertBuffer → VMExec；
+此图不是重建游戏已接通的证明。本批构建把三个 CCode TU 与已提交的四个 buffer TU 组合，
+核到 6 个新增 CCode 符号及 24 个组合原符号；不把 ABI 别名或 deleting 变体重复算方法。
+在盘 CODE 范围交叉核对与已有 Rust 解析器对应记录关系，不能替代运行时分支观测。
+全局表生产者、opaque 字段、异常展开、完整 VMExec 和游戏装配仍未闭合。

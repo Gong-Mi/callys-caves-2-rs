@@ -1,0 +1,98 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_abi": "ARM32 little-endian softfp",
+  "not_whole_library_completion": true,
+  "not_additive_with_c_registry": true,
+  "source_names_not_original_spelling": true,
+  "header_sha256": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642",
+  "functions": [
+    {
+      "entry": "0xce2b8",
+      "isa": "arm",
+      "size": 180,
+      "symbols": [
+        "_ZN5CCodeD2Ev",
+        "_ZN5CCodeD1Ev"
+      ],
+      "original_body_sha256": "9b5cde18a5e9c2573012f2e55bccc39aa4c4b7edd364b4303bba9c473d8ab72a",
+      "source_method": "CCode::~CCode()",
+      "abi_kind": "member_or_alias_group",
+      "translation_source": "ccode_lifetime.cpp",
+      "translation_source_sha256": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
+      "language": "C++",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xce36c",
+      "isa": "arm",
+      "size": 28,
+      "symbols": [
+        "_ZN5CCodeD0Ev"
+      ],
+      "original_body_sha256": "91af4c3691414f50a61924f115b3be2554024e86102b814457c03ad68836028c",
+      "source_method": "CCode::~CCode()",
+      "abi_kind": "deleting_destructor",
+      "translation_source": "ccode_lifetime.cpp",
+      "translation_source_sha256": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
+      "language": "C++",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xcefc8",
+      "isa": "arm",
+      "size": 860,
+      "symbols": [
+        "_ZN5CCodeC2Eib",
+        "_ZN5CCodeC1Eib"
+      ],
+      "original_body_sha256": "bcac2a36a14b92d0aafb7dad8c29ea8248efd00b5d600f9d2ee05c3ecb5aa653",
+      "source_method": "CCode::CCode(int,bool)",
+      "abi_kind": "member_or_alias_group",
+      "translation_source": "ccode_construct.cpp",
+      "translation_source_sha256": "999390fe3da464f2296fccd43390a3327a04597db92da182a8c0584e21cf90c8",
+      "language": "C++",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xcf470",
+      "isa": "arm",
+      "size": 8,
+      "symbols": [
+        "_ZN5CCode7GetTextEv"
+      ],
+      "original_body_sha256": "5937f5681703fda310710f789fa565735c616704195eedd8c407e1391812db5f",
+      "source_method": "CCode::GetText()",
+      "abi_kind": "member_or_alias_group",
+      "translation_source": "ccode_lifetime.cpp",
+      "translation_source_sha256": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
+      "language": "C++",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "direct_source_dependency": "../vm_buffer/vm_buffer.hpp and its real C++ destructor implementation",
+  "remaining_scope": [
+    "Opaque state14/state40 and option/kind meanings are not completely recovered.",
+    "YYC/WAD/DEBUG global producers, table validity and lifetimes remain external runner state, not fake defaults.",
+    "Zero/invalid offsets retain unguarded source reads; fault-domain and exception/unwind equivalence are not certified.",
+    "Observed CCode prefix is 0x7c, not a whole-class allocation proof.",
+    "VM::Exec and other callers are not converted to C++ or integrated into a game by this batch."
+  ],
+  "validation_scope": "ARM32 O0/O2 target objects, real VMBuffer-class linkage in a combined relocatable/archive, original mangled symbols and observed layouts; no original or rebuilt execution."
+}

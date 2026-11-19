@@ -1,21 +1,27 @@
 # 状态与定性
 
-## 当前断点：按原语言恢复 VMBuffer / VMWriteBuffer C++ 类
+## 当前断点：CCode 构造、装载与生命周期的 C++ 源码
 
-依据本轮“同一语言、实现可读”的目标，`cpp/vm_buffer/` 已落类接口、虚析构、转换、构造、
-扩容、变参写入及五个重载，并恢复直接依赖 `MemoryInWad`。不是旧 C 文件换后缀；旧 C 保留。
-原件 15 个唯一 ABI 入口、18 个含别名符号，对应 13 个 C++ 方法/自由函数；同址 C/C++ 不叠加。
-ARM32 O0/O2 各四个 TU 编译通过，类字段偏移、两个 16 字节 vtable 与原函数符号均已核。
-详见 [派发与 C++ 类合同](../contracts/vm-buffer-dispatch.md) 和 `cpp/vm_buffer/functions.json`。
-仅静态检查与目标编译，没有运行原件/重建件，不代表原件等价、64 位替换或游戏接入。
+`cpp/ccode/` 已落构造、虚析构和 GetText：包括 YYC、无效 index、旧/新 CODE、DEBUG script/info
+分支，以及共同状态初始化、链表登记与卸载；真实引用已提交的 VMBuffer 类，不造 buffer 桩。
+本批对应 4 个原 ABI 入口、6 个含别名符号、3 个 C++ 方法。观察布局到 +0x78（0x7c 字节前缀），
+不声称全部字段意义或整个类大小已经闭合。原件 269 个索引字全部核字节，含各自 literal pool。
+ARM32 O0/O2 各编译 7 个 TU（本批 3 个＋先前 VMBuffer 4 个），24 个组合原符号无缺失，
+三个 16 字节 vtable 均已核。GetText 的 +0x10 读与构造的两次 memset 也核到目标代码。
+WAD 的 1,354 个在盘 CODE 记录另做范围交叉核对，不表示运行过 YYC/DEBUG/旧格式分支。
+
+前一批 `cpp/vm_buffer/` 的两个类与 MemoryInWad 已在 2e66337 提交，原样保留。本批不是把 C
+改后缀；同址多语言译文不叠加。详见 [装载与派发合同](../contracts/vm-buffer-dispatch.md) 和
+两目录的 functions.json/validation.json。仅静态与目标编译，没有运行原件/重建件、做 64 位替换或游戏接入。
 
 工作树中尚未提交的 `c/vm_exec_release/` 候选已将 ExecRelease、PerformReturn、convertBuffer
 与指针哈希真实链接合成门；此前 O0/O2、18 项语义负控和 2 项链接负控通过，本轮未重跑。
 这些 C 候选改动不随本次 C++ 源码批次提交，清册头/夹具哈希仍待收口；不以其合成绿灯
 认证已提交 C 版本或新 C++ 行为。
 
-下一处源码断口是调用者 `CCode` 与完整 `VMExec` 字段/方法的同语言恢复，以及内部分配/释放、
-RValue/profiling 依赖。缓存插入、失效、命中时第二张表来源与所有权仍未闭合；不猜未知字段。
+下一处源码断口是完整 `VMExec` 与 VM::Exec/Debug/Release 的同语言恢复，以及内部分配/释放、
+RValue/profiling 与全局表生产者。缓存插入、失效、命中时第二张表来源与所有权仍未闭合；
+CCode 的 opaque 状态块、无效表项 fault 域和异常展开也仍未认证，不猜未知字段。
 
 ## 2026-11-16（续六）：VM 算术处理器 + 房间激活链，并修掉一处我自己模块里的 NaN 误译
 
