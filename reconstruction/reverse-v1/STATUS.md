@@ -1,27 +1,32 @@
 # 状态与定性
 
-## 当前断点：CCode 构造、装载与生命周期的 C++ 源码
+## 当前断点：VMExec 执行、退帧与 profiler 的 C++ 源码
 
-`cpp/ccode/` 已落构造、虚析构和 GetText：包括 YYC、无效 index、旧/新 CODE、DEBUG script/info
-分支，以及共同状态初始化、链表登记与卸载；真实引用已提交的 VMBuffer 类，不造 buffer 桩。
-本批对应 4 个原 ABI 入口、6 个含别名符号、3 个 C++ 方法。观察布局到 +0x78（0x7c 字节前缀），
-不声称全部字段意义或整个类大小已经闭合。原件 269 个索引字全部核字节，含各自 literal pool。
-ARM32 O0/O2 各编译 7 个 TU（本批 3 个＋先前 VMBuffer 4 个），24 个组合原符号无缺失，
-三个 16 字节 vtable 均已核。GetText 的 +0x10 读与构造的两次 memset 也核到目标代码。
-WAD 的 1,354 个在盘 CODE 记录另做范围交叉核对，不表示运行过 YYC/DEBUG/旧格式分支。
+`cpp/vm_exec/` 已落 `VM::ExecRelease(VMExec&,RValue*)`、C++ 自由函数 `PerformReturn` 与
+直接依赖 `CProfiler::Pop()`。不是旧 C 换后缀：保留类静态/成员调用、RValue 不完整类型指针，
+真实组合已有 VMBuffer 转换方法、退帧与 profiler 正文；没有默认全局或被调桩。
+本批 3 个原 ABI 入口、334 个原索引字（含 16 池字）。旧 C 的同址方法不重复计新增原函数。
 
-前一批 `cpp/vm_buffer/` 的两个类与 MemoryInWad 已在 2e66337 提交，原样保留。本批不是把 C
-改后缀；同址多语言译文不叠加。详见 [装载与派发合同](../contracts/vm-buffer-dispatch.md) 和
-两目录的 functions.json/validation.json。仅静态与目标编译，没有运行原件/重建件、做 64 位替换或游戏接入。
+VMExec 已把调用者可观测字段恢复到 +0x5c（0x60 前缀），控制帧步长 60 字节。+0x40 从
+VM::Exec 的立即数写入和退帧算术互证为 0x4000 字节跨度，不是旧 C 的 frame_top 指针语义。
+state30、全类范围和原对象 API 仍未闭合；RValue 保持不完整类型，不编造构造/赋值/持有规则。
+父级修正了 buffer/locals 读写序，以及 profiler 使用“减前 count 的 GT 标志”选帧的错译；
+原 count=1 必须选择第零帧。时间累计只加入差值的低 32 位，未按常识扩大到完整 64 位。
+
+ARM32 O0/O2 各编译 11 个 TU（本批 4 个、既有 buffer 4 个、CCode 3 个），27 个组合原符号
+无缺失，三个 16 字节 vtable 保持。`cpp/vm_buffer/`（2e66337）、`cpp/ccode/`（3651a7b）
+和旧 C 原样保留。详见 [装载与派发合同](../contracts/vm-buffer-dispatch.md) 和各 functions.json/
+validation.json。仅静态与目标编译，未运行原件或重建件、做 64 位替换或游戏接入。
 
 工作树中尚未提交的 `c/vm_exec_release/` 候选已将 ExecRelease、PerformReturn、convertBuffer
 与指针哈希真实链接合成门；此前 O0/O2、18 项语义负控和 2 项链接负控通过，本轮未重跑。
 这些 C 候选改动不随本次 C++ 源码批次提交，清册头/夹具哈希仍待收口；不以其合成绿灯
 认证已提交 C 版本或新 C++ 行为。
 
-下一处源码断口是完整 `VMExec` 与 VM::Exec/Debug/Release 的同语言恢复，以及内部分配/释放、
-RValue/profiling 与全局表生产者。缓存插入、失效、命中时第二张表来源与所有权仍未闭合；
-CCode 的 opaque 状态块、无效表项 fault 域和异常展开也仍未认证，不猜未知字段。
+下一处源码断口是 VM::Exec/ExecDebug/DoCallScript 的同语言调用者，以及 MemoryManager::Free、
+YYObjectBase::Free、FREE_RValue__Pre/RValue、Timing_Time 与全局生产者。缓存插入/失效/命中
+第二张表来源与所有权仍未闭合；CCode opaque 状态、无效表项/空 profile 栈 fault、原双字
+传输的并发原子性和异常展开也仍未认证，不猜未知字段。
 
 ## 2026-11-16（续六）：VM 算术处理器 + 房间激活链，并修掉一处我自己模块里的 NaN 误译
 

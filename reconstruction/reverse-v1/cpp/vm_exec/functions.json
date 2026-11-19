@@ -1,0 +1,89 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_abi": "ARM32 little-endian softfp",
+  "not_whole_library_completion": true,
+  "not_additive_with_c_registry": true,
+  "header_sha256": "5ad8caaacb0707d6b50a0cc0aa3eeb46aea670e56d0d6c8858f87ad36c015833",
+  "functions": [
+    {
+      "entry": "0xe4540",
+      "isa": "arm",
+      "size": 648,
+      "symbols": [
+        "_ZN2VM11ExecReleaseER6VMExecP6RValue"
+      ],
+      "original_body_sha256": "22fac962e3446a179b903bf166c6fd6d14286514a9b98a5ec06954c30151251a",
+      "source_method": "VM::ExecRelease(VMExec&, RValue*)",
+      "abi_kind": "static_member",
+      "translation_source": "vm_exec_release.cpp",
+      "translation_source_sha256": "66096a71d592bb83074df31aaf7def73829c26327e2f5066e0a2ec23455243ac",
+      "language": "C++",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xe42d8",
+      "isa": "arm",
+      "size": 508,
+      "symbols": [
+        "_Z13PerformReturnPhP6VMExec"
+      ],
+      "original_body_sha256": "180a5e265e403414040e05e73ce52628629ead97c8ce70cd91a6855b08a3394f",
+      "source_method": "PerformReturn(unsigned char*, VMExec*)",
+      "abi_kind": "free_function",
+      "translation_source": "perform_return.cpp",
+      "translation_source_sha256": "3dd332e394c2a7c1a117288d36bc9454592737cfb5dbdf4a14670f5fd466b06f",
+      "language": "C++",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x2a08ac",
+      "isa": "arm",
+      "size": 180,
+      "symbols": [
+        "_ZN9CProfiler3PopEv"
+      ],
+      "original_body_sha256": "ab1628ead7ffe91de24c016cae9265fd2c3f17f561c8fdf63d5dfd296b4a489c",
+      "source_method": "CProfiler::Pop()",
+      "abi_kind": "member",
+      "translation_source": "profiler_pop.cpp",
+      "translation_source_sha256": "7c02d8dc3e1eb6991916cfef170a1f282834a6332dc145c79352f425b1860936",
+      "language": "C++",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "layout_evidence": "layout-evidence.json",
+  "direct_source_dependencies": [
+    "../vm_buffer/vm_buffer.hpp",
+    "../vm_buffer/vm_buffer.cpp",
+    "profiler_pop.cpp",
+    "perform_return.cpp"
+  ],
+  "remaining_internal_dependencies": [
+    "MemoryManager::Free and the raw operator delete entry",
+    "YYObjectBase::Free",
+    "FREE_RValue__Pre and the complete RValue class",
+    "Timing_Time",
+    "instruction-handler bodies and runner global initialization",
+    "VM::Exec/ExecDebug/DoCallScript same-language caller bodies"
+  ],
+  "remaining_scope": [
+    "VMExec is an observed 0x60 prefix, not a full-class extent proof; state30 remains unnamed.",
+    "YYObjectBase is a static-method call surface only; no object layout/instantiation is claimed.",
+    "CProfiler opaque storage matches inline g_Profiler size 128, but its full field/API/alignment and original ignored return spelling remain unresolved.",
+    "Invalid pointers/offsets, empty-profile faults, paired-transfer concurrent atomicity and exception unwinding are not certified."
+  ],
+  "validation_scope": "ARM32 O0/O2 objects and observed layouts, real C++ conversion/return/profiler definitions in a combined relocatable/archive, original ABI symbols; no target execution."
+}

@@ -119,3 +119,38 @@ GetText（0xcf470，读 +0x10 而非 +0x58）。观察字段与原字绑定见�
 核到 6 个新增 CCode 符号及 24 个组合原符号；不把 ABI 别名或 deleting 变体重复算方法。
 在盘 CODE 范围交叉核对与已有 Rust 解析器对应记录关系，不能替代运行时分支观测。
 全局表生产者、opaque 字段、异常展开、完整 VMExec 和游戏装配仍未闭合。
+
+## VMExec 的执行与退帧 C++ 接线
+
+源码入口 `../reverse-v1/cpp/vm_exec/vm_exec.hpp`，正文为 `vm_exec_release.cpp`、
+`perform_return.cpp`、`profiler_pop.cpp`。分别保持原静态成员、C++ 自由函数、普通成员形状；
+同址旧 C 仅作语义参照，不混入组合对象或重复计新增原函数。字段与 GOT 重定位见
+`layout-evidence.json`；本批三个原入口合计 334 个索引字，含 16 个 literal-pool 字。
+
+- VMExec 的 parent/child、实参数组、name/debugBuffer/sourceText 从 `VM::Exec`
+  `0xe804c..0xe8194` 和 `DoCallScript 0xe8614..0xe8714` 的生产端恢复。+0x40 是
+  字节跨度：`0xe8048` mov 0x4000 → `0xe8058` str 到 exec+0x40；退帧 `0xe4360/0xe436c/
+  0xe4378` 按 allocation + span − distance 重建指针。不能按旧 C 字段名把它扩大成 64 位指针。
+- Release 保留初次和每轮 handler 预取早于 PC/异常判断、live current/caught 比较、
+  异常/可选结果四字全读后才写，以及退帧清三字但保留 +8。不代替外层调用者恢复 current。
+- Return 的 locals 双字段先快照再发布；convert 后 handlers 取 held buffer，map 取另行
+  重读的 exec.buffer，顺序不合并；无条件调用原 operator delete 符号。实参循环测试是
+  wrapped(argc−1) 的符号，0 与 0x80000001..0xffffffff 跳过，而 0x80000000 进入；
+  Argument 仍在测试前读取，只有循环走过才重读实参数。不把它“修成”signed argc>0。
+- Pop `0x2a08ac..0x2a0960` 先 Timing_Time 再读 receiver。`0x2a08d4` 的 SUBGT 不置旗标，
+  后续取帧地址沿用减前 count 的 CMP；count=1 应取 data[0]，不是 null。这是父级回原字
+  推翻 worker 的具体错译，目标编译绿不能发现它。`0x2a0900` 覆盖差值高字，
+  `0x2a0918/0x2a091c` 累计的是零扩展 LOW32，仍保留 base/excluded 两个高字的读取。
+
+原件调用关系（不表示重建游戏已经接通）：
+
+    CCode → VMBuffer::convertBuffer → VMExec 两张表
+                                       ↓
+                                VM::ExecRelease
+                                       ↕
+                                 PerformReturn → CProfiler::Pop → Timing_Time〔本体未恢复〕
+
+本批 O0/O2 各 11 TU 组合，27 个已恢复原符号齐全；实际包含转换、退帧和 Pop 的定义，
+不是把三者都留成声明/桩。MemoryManager/YYObjectBase/RValue 释放、Timing_Time、完整
+调用者、全局生产者与异常展开仍是内部欠账；未认证空栈 fault 或原 paired transfer 并发原子性。
+所有结果是静态源码和目标编译，不承接旧 C 合成门，不升级为原件运行或游戏等价。

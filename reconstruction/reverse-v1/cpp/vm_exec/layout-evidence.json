@@ -1,0 +1,325 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "VMExec_prefix_bytes": 96,
+  "VMCallFrame_bytes": 60,
+  "stackSpan": {
+    "offset": 64,
+    "kind": "uint32 byte count, not a pointer",
+    "VM_Exec_initial_value": 16384,
+    "producer_anchors": [
+      {
+        "va": "0xe8048",
+        "word": "0xe3a02901"
+      },
+      {
+        "va": "0xe8058",
+        "word": "0xe58d2058"
+      }
+    ],
+    "return_expression": "stackAllocation + (stackSpan - callerFrameDistance), ARM32 wrapping; negative distance gives null",
+    "consumer_anchors": [
+      {
+        "va": "0xe4360",
+        "word": "0xa5961040"
+      },
+      {
+        "va": "0xe436c",
+        "word": "0xa0633001"
+      },
+      {
+        "va": "0xe4378",
+        "word": "0xa0823003"
+      }
+    ]
+  },
+  "caller_derived_fields": {
+    "childExec": {
+      "offset": 0,
+      "anchors": [
+        "0xe814c",
+        "0xe815c",
+        "0xe81dc"
+      ]
+    },
+    "parentExec": {
+      "offset": 4,
+      "anchors": [
+        "0xe8150"
+      ]
+    },
+    "argumentValues": {
+      "offset": 28,
+      "anchors": [
+        "0xe80c8",
+        "0xe8108"
+      ]
+    },
+    "argumentCount": {
+      "offset": 32,
+      "anchors": [
+        "0xe80e8"
+      ]
+    },
+    "name": {
+      "offset": 52,
+      "anchors": [
+        "0xe8020",
+        "0xe80c4",
+        "0xe86c8"
+      ]
+    },
+    "debugBuffer": {
+      "offset": 56,
+      "anchors": [
+        "0xe8034",
+        "0xe808c",
+        "0xe86c0"
+      ]
+    },
+    "sourceText": {
+      "offset": 60,
+      "anchors": [
+        "0xe8014",
+        "0xe80c0",
+        "0xe86c4"
+      ]
+    }
+  },
+  "unknown": [
+    "state30 meaning",
+    "VMExec full allocation extent",
+    "RValue C++ class/ownership API",
+    "YYObjectBase layout and implementation",
+    "CProfiler fields/alignment and original ignored return spelling"
+  ],
+  "original_executed": false,
+  "rebuilt_executed": false,
+  "global_bindings": [
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44c0",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edd28",
+      "relocation_type": 23,
+      "target": "0x47a1d8",
+      "symbols": [
+        "g_retCount"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44c4",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edb70",
+      "relocation_type": 23,
+      "target": "0x757e7c",
+      "symbols": [
+        "g_bProfile"
+      ],
+      "object_sizes": [
+        1
+      ]
+    },
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44c8",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edd14",
+      "relocation_type": 23,
+      "target": "0x47b234",
+      "symbols": [
+        "g_ArgumentCount"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44cc",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edd18",
+      "relocation_type": 23,
+      "target": "0x47a170",
+      "symbols": [
+        "Argument"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44d0",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edb74",
+      "relocation_type": 23,
+      "target": "0x757e80",
+      "symbols": [
+        "g_Profiler"
+      ],
+      "object_sizes": [
+        128
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47a4",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd2c",
+      "relocation_type": 23,
+      "target": "0x47a1d4",
+      "symbols": [
+        "g_execCount"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47a8",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd14",
+      "relocation_type": 23,
+      "target": "0x47b234",
+      "symbols": [
+        "g_ArgumentCount"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47ac",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edbb0",
+      "relocation_type": 23,
+      "target": "0x47f298",
+      "symbols": [
+        "g_pCurrentExec"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47b0",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd24",
+      "relocation_type": 23,
+      "target": "0x756470",
+      "symbols": [
+        "g_fDoExceptionUnwind"
+      ],
+      "object_sizes": [
+        1
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47b4",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edcf4",
+      "relocation_type": 23,
+      "target": "0x3f2018",
+      "symbols": [
+        "g_paramSize"
+      ],
+      "object_sizes": [
+        64
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47b8",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd30",
+      "relocation_type": 23,
+      "target": "0x75645c",
+      "symbols": [
+        "g_exceptionVar"
+      ],
+      "object_sizes": [
+        16
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47bc",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd34",
+      "relocation_type": 23,
+      "target": "0x756458",
+      "symbols": [
+        "g_caughtExec"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47c0",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd38",
+      "relocation_type": 23,
+      "target": "0x75646c",
+      "symbols": [
+        "g_pExceptionSP"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47c4",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd3c",
+      "relocation_type": 23,
+      "target": "0x47a1e0",
+      "symbols": [
+        "stackPages"
+      ],
+      "object_sizes": [
+        20
+      ]
+    }
+  ],
+  "profiler_direct_dependency": {
+    "entry": "0x2a08ac",
+    "size": 180,
+    "source_method": "CProfiler::Pop()",
+    "timing_provider": "internal C-linked Timing_Time at 0x215148; not implemented by this batch",
+    "adjusted_ticks": "Only LOW32 contributes to the 64-bit aggregate; the computed high half is overwritten before that addition.",
+    "anchors": [
+      {
+        "va": "0x2a08fc",
+        "word": "0xe0c33005"
+      },
+      {
+        "va": "0x2a0900",
+        "word": "0xe0803181"
+      },
+      {
+        "va": "0x2a0918",
+        "word": "0xe0944002"
+      },
+      {
+        "va": "0x2a091c",
+        "word": "0xe2a55000"
+      }
+    ],
+    "unverified": [
+      "original Pop return spelling",
+      "empty/nonpositive stack fault equivalence",
+      "concurrent atomicity of original paired word transfers"
+    ]
+  }
+}
