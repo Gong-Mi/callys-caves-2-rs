@@ -1,16 +1,21 @@
 # 状态与定性
 
-## 当前 VM 断点：ExecRelease 已链接退帧译文
+## 当前断点：按原语言恢复 VMBuffer / VMWriteBuffer C++ 类
 
-按 [静态派发合同](../contracts/vm-buffer-dispatch.md)，`VMBuffer::convertBuffer`（`0xec750`）先数出指令边界，
-再用 `g_instructions` 与 opcode 5/7/25 的专用分支填处理器表（`VMBuffer+0x14 → VMExec+0x58`），
-同时填字偏移到密集槽的映射（`VMBuffer+0x18 → VMExec+0x5c`）。`VM::Exec`、子脚本进入和退帧三个安装站点已核；
-`ExecRelease` 的首次取槽、字节 PC 推进、回边和顶层结果写回条件已据原件更正。
-`c/vm_exec_release/` 中 `ExecRelease`（0xe4540）与 `PerformReturn`（0xe42d8）均有 C 本体候选。
-ARMv7 合成夹具真实链接二者：读旧帧、释放实参、恢复字节 PC/两张表/值栈后调用调用者处理器。
-O0/O2 各九组通过，九个语义负控和去 `perform_return.c` 的真链接负控均命中。原件未执行，未验玩法。
-下一处缺口是 `VMBuffer::convertBuffer`（0xec750）仍用具名模型提供派发表；两类 Free、
-RValue 释放和可选 profiling 也未接真实译文。缓存命中后的索引表来源与缓存写入/失效仍待追。
+依据本轮“同一语言、实现可读”的目标，`cpp/vm_buffer/` 已落类接口、虚析构、转换、构造、
+扩容、变参写入及五个重载，并恢复直接依赖 `MemoryInWad`。不是旧 C 文件换后缀；旧 C 保留。
+原件 15 个唯一 ABI 入口、18 个含别名符号，对应 13 个 C++ 方法/自由函数；同址 C/C++ 不叠加。
+ARM32 O0/O2 各四个 TU 编译通过，类字段偏移、两个 16 字节 vtable 与原函数符号均已核。
+详见 [派发与 C++ 类合同](../contracts/vm-buffer-dispatch.md) 和 `cpp/vm_buffer/functions.json`。
+仅静态检查与目标编译，没有运行原件/重建件，不代表原件等价、64 位替换或游戏接入。
+
+工作树中尚未提交的 `c/vm_exec_release/` 候选已将 ExecRelease、PerformReturn、convertBuffer
+与指针哈希真实链接合成门；此前 O0/O2、18 项语义负控和 2 项链接负控通过，本轮未重跑。
+这些 C 候选改动不随本次 C++ 源码批次提交，清册头/夹具哈希仍待收口；不以其合成绿灯
+认证已提交 C 版本或新 C++ 行为。
+
+下一处源码断口是调用者 `CCode` 与完整 `VMExec` 字段/方法的同语言恢复，以及内部分配/释放、
+RValue/profiling 依赖。缓存插入、失效、命中时第二张表来源与所有权仍未闭合；不猜未知字段。
 
 ## 2026-11-16（续六）：VM 算术处理器 + 房间激活链，并修掉一处我自己模块里的 NaN 误译
 

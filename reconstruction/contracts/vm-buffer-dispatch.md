@@ -55,9 +55,10 @@
 python3 -B reconstruction/reverse-v1/c/vm_exec_release/tools/check.py --so /path/to/libyoyo_armv7.so
 ```
 
-门绑定 Release 162 个索引字（含 10 池字）和 PerformReturn 127 个（含 6 池字）。
-O0/O2 各跑 Release 六组与直接退帧三组；9 个语义负控均命中，删除退帧 TU 会出现具名未定义符号。
-两类 Free 等具名提供者仍是夹具模型。不上升为原件差分、整 VM 运行或游戏等价。
+工作树内尚未提交的 C 候选，其最后一次合成门绑定四个入口：Release 162 个索引字、PerformReturn 127 个、
+convertBuffer 249 个和指针哈希 2 个（均包含各自池字）。O0/O2 通过，18 个具名语义负控、
+2 个真实调用者缺 TU 链接负控命中；这是本会话先前的执行回执，本轮 C++ 恢复未重跑它。
+两类 Free 等具名提供者仍是夹具模型。不升级为 C++ 行为验收、原件差分或游戏等价。
 
 ## `PerformReturn` 的退帧合同
 
@@ -66,4 +67,32 @@ O0/O2 各跑 Release 六组与直接退帧三组；9 个语义负控均命中，
 - `0xe44ac..0xe44b8` 必要时释放当前 locals 后重读 `exec+0x2c`。之后调用转换；`0xe43c4..0xe43f4` 处理器表仍取转换实参 `buffer+0x14`，索引表取重读对象 `exec[+0x2c][+0x18]`，不能合成一个固定接收者。
 - `0xe43f8` 通过 `operator delete`（`0x27d1d0` 仅尾跳 `0x27c2d0`）释放帧中 `+0x28`。遍历最初实参数；位型谓词 `((tag-1) & 0x00fffffc)==0` 才调用 `FREE_RValue__Pre`。所有遍历到的槽保留 `+4`，清 `+0/+8`、写 `+0xc=5`；遍历结束后重读实时实参数算返回 SP，再恢复旧 `Argument` 与参数个数（`0xe4410..0xe4498`）。
 
-`src/perform_return.c` 已被 `VM_ExecRelease` 在同一个 ARM32 合成可执行件实际调用；门用不同的转换对象、索引对象、实参数以及重入 handler 复验交接。尚未用真实译文链接 `VMBuffer::convertBuffer`、`CProfiler::Pop`、`FREE_RValue__Pre` 与两类 Free；下一处优先拆掉转换模型。
+上述未提交 C 候选中的 `src/perform_return.c` 与 `src/vm_buffer.c` 已被同一 ARM32 C 合成门
+真实链接，转换不再是桩；这些改动不随本次 C++ 源码批次提交。
+提供者仍可改变消费者的对象/PC 以检查重读合同。`CProfiler::Pop`、`FREE_RValue__Pre` 与两类
+Free 仍未在该门接原件本体。C 清册的头/夹具哈希更新尚未收口，不把门绿等同于登记完成。
+
+## 同语言 C++ 源码恢复
+
+源码入口为 `../reverse-v1/cpp/vm_buffer/vm_buffer.hpp`：恢复 `VMBuffer` 的虚析构、转换方法，
+以及真实继承它的 `VMWriteBuffer` 构造/析构、Reserve、Add 和五个 AddVal 重载；
+`wad_memory.cpp` 恢复直接依赖 `MemoryInWad`，不是只把旧 `.c` 改后缀。
+
+- 布局：原 vtable `0x3eb8a8` 与派生 RTTI `0x3eb948`；CCode 的 `0xcf10c` 确认 base 分配
+  28 字节，`0xcf1fc..0xcf20c` 填 +4/+8/+c/+10；派生构造 `0xec5b4` 使用 +0x1c 游标。
+  `metadata08/metadata0c` 的用途及未观测派生尾部仍不猜名。字段/访问级别不是原源码逐字还原。
+- 析构：`0xce43c/0xce4c0`、`0xec4a4/0xec528` 的虚析构与 deleting 变体由 C++ ABI 表达。
+  表先 Free 再清；借用 WAD 的 code 不 delete[]、也不清。`MemoryInWad` `0x1aad50` 对 base/end
+  两端都是包含比较，读取 end 后读 base，不能凭惯例改成半开区间。
+- 写入：`Reserve` `0xec604` 保留扩容后容量重读、先发布 cursor 再发布 code 的顺序；
+  原方法没有释放旧块，不据此臆测分配器全局回收策略。`Add` 逐个 STR 四字节字，不增加每字
+  libc 调用。`AddVal(float)` `0xec6fc` 保留先转 double、只写低四字节的原件行为。
+- CALL2 排除值由原字 `0xec8c4=e30a211f` 与 `0xec8cc=e3402007` 确定为 `0x7a11f=499999`。
+  子代理将它误读成 500000 的改判已拒绝；旧 C 在此处原本正确，不改旧 C 迎合误判。
+- 静态边界：`functions.json` 按原件入口+ISA登记 15 个唯一 ABI 入口、18 个含别名符号，
+  对应 13 个 C++ 方法/自由函数。与既有 C 同址的译文不重复计新增原函数。
+  `original-words.tsv` 的每个原字均从固定 ELF 重新提取并核字节；不是新增卡片锚点所有权。
+
+本批仅作 ARM32 O0/O2 目标对象编译、类布局/原符号/vtable 尺寸核对及静态源审查，不运行
+原件或重建件。编译参数与输入哈希见该目录 `validation.json`；C++ 重编译不承接 C 合成门的
+行为结论。匿名缓存绑定、分配/释放器和处理器正文仍有内部依赖欠账，异常展开与产品接入未验。
