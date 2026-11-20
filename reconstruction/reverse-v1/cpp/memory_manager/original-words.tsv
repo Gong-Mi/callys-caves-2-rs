@@ -994,3 +994,367 @@ entry	va	word	mnemonic	operands
 27d14c	27d160	000da088	.word	0x000da088
 27d1d0	27d1d0	eafffc3e	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
 27d1d4	27d1d4	eafffc3d	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+27b7e0	e1a03000	mov	r3, r0
+27b7e4	e52d4004	str	r4, [sp, #-0x4]!
+27b7e8	e5904008	ldr	r4, [r0, #0x8]
+27b7ec	e3a00001	mov	r0, #1
+27b7f0	e593c010	ldr	r12, [r3, #0x10]
+27b7f4	e593200c	ldr	r2, [r3, #0xc]
+27b7f8	e08cc000	add	r12, r12, r0
+27b7fc	e5814000	str	r4, [r1]
+27b800	e2422001	sub	r2, r2, #1
+27b804	e5831008	str	r1, [r3, #0x8]
+27b808	e583c010	str	r12, [r3, #0x10]
+27b80c	e583200c	str	r2, [r3, #0xc]
+27b810	e49d4004	ldr	r4, [sp], #4
+27b814	e12fff1e	bx	lr
+27b6a0	e3a03000	mov	r3, #0
+27b6a4	e5803004	str	r3, [r0, #0x4]
+27b6a8	e5803008	str	r3, [r0, #0x8]
+27b6ac	e580300c	str	r3, [r0, #0xc]
+27b6b0	e12fff1e	bx	lr
+27b558	e590c008	ldr	r12, [r0, #0x8]
+27b55c	e92d0070	push	{r4, r5, r6}
+27b560	e35c0000	cmp	r12, #0
+27b564	0a000017	beq	0x27b5c8 <_ZN7CBucketILj128ELj524288ELb1EE5CheckEv+0x70>
+27b568	e59f4060	ldr	r4, [pc, #0x60]
+27b56c	e3a06000	mov	r6, #0
+27b570	e3a0502a	mov	r5, #42
+27b574	e79f4004	ldr	r4, [pc, r4]
+27b578	e5903004	ldr	r3, [r0, #0x4]
+27b57c	e3530000	cmp	r3, #0
+27b580	0a000009	beq	0x27b5ac <_ZN7CBucketILj128ELj524288ELb1EE5CheckEv+0x54>
+27b584	e2831008	add	r1, r3, #8
+27b588	e2832702	add	r2, r3, #524288
+27b58c	e15c0001	cmp	r12, r1
+27b590	e2822008	add	r2, r2, #8
+27b594	3a000001	blo	0x27b5a0 <_ZN7CBucketILj128ELj524288ELb1EE5CheckEv+0x48>
+27b598	e152000c	cmp	r2, r12
+27b59c	8a000003	bhi	0x27b5b0 <_ZN7CBucketILj128ELj524288ELb1EE5CheckEv+0x58>
+27b5a0	e5933000	ldr	r3, [r3]
+27b5a4	e3530000	cmp	r3, #0
+27b5a8	1afffff5	bne	0x27b584 <_ZN7CBucketILj128ELj524288ELb1EE5CheckEv+0x2c>
+27b5ac	e5865000	str	r5, [r6]
+27b5b0	e59cc000	ldr	r12, [r12]
+27b5b4	e5943000	ldr	r3, [r4]
+27b5b8	e35c0000	cmp	r12, #0
+27b5bc	e2833001	add	r3, r3, #1
+27b5c0	e5843000	str	r3, [r4]
+27b5c4	1affffeb	bne	0x27b578 <_ZN7CBucketILj128ELj524288ELb1EE5CheckEv+0x20>
+27b5c8	e8bd0070	pop	{r4, r5, r6}
+27b5cc	e12fff1e	bx	lr
+27b5d0	00172650	.word	0x00172650
+27b7d8	e3a00080	mov	r0, #128
+27b7dc	e12fff1e	bx	lr
+27b760	e1a03000	mov	r3, r0
+27b764	e52d4004	str	r4, [sp, #-0x4]!
+27b768	e5904008	ldr	r4, [r0, #0x8]
+27b76c	e3a00001	mov	r0, #1
+27b770	e593c010	ldr	r12, [r3, #0x10]
+27b774	e593200c	ldr	r2, [r3, #0xc]
+27b778	e08cc000	add	r12, r12, r0
+27b77c	e5814000	str	r4, [r1]
+27b780	e2422001	sub	r2, r2, #1
+27b784	e5831008	str	r1, [r3, #0x8]
+27b788	e583c010	str	r12, [r3, #0x10]
+27b78c	e583200c	str	r2, [r3, #0xc]
+27b790	e49d4004	ldr	r4, [sp], #4
+27b794	e12fff1e	bx	lr
+27b6c8	e3a03000	mov	r3, #0
+27b6cc	e5803004	str	r3, [r0, #0x4]
+27b6d0	e5803008	str	r3, [r0, #0x8]
+27b6d4	e580300c	str	r3, [r0, #0xc]
+27b6d8	e12fff1e	bx	lr
+27b6dc	e590c008	ldr	r12, [r0, #0x8]
+27b6e0	e92d0070	push	{r4, r5, r6}
+27b6e4	e35c0000	cmp	r12, #0
+27b6e8	0a000017	beq	0x27b74c <_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv+0x70>
+27b6ec	e59f4060	ldr	r4, [pc, #0x60]
+27b6f0	e3a06000	mov	r6, #0
+27b6f4	e3a0502a	mov	r5, #42
+27b6f8	e79f4004	ldr	r4, [pc, r4]
+27b6fc	e5903004	ldr	r3, [r0, #0x4]
+27b700	e3530000	cmp	r3, #0
+27b704	0a000009	beq	0x27b730 <_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv+0x54>
+27b708	e2831008	add	r1, r3, #8
+27b70c	e2832701	add	r2, r3, #262144
+27b710	e15c0001	cmp	r12, r1
+27b714	e2822008	add	r2, r2, #8
+27b718	3a000001	blo	0x27b724 <_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv+0x48>
+27b71c	e152000c	cmp	r2, r12
+27b720	8a000003	bhi	0x27b734 <_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv+0x58>
+27b724	e5933000	ldr	r3, [r3]
+27b728	e3530000	cmp	r3, #0
+27b72c	1afffff5	bne	0x27b708 <_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv+0x2c>
+27b730	e5865000	str	r5, [r6]
+27b734	e59cc000	ldr	r12, [r12]
+27b738	e5943000	ldr	r3, [r4]
+27b73c	e35c0000	cmp	r12, #0
+27b740	e2833001	add	r3, r3, #1
+27b744	e5843000	str	r3, [r4]
+27b748	1affffeb	bne	0x27b6fc <_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv+0x20>
+27b74c	e8bd0070	pop	{r4, r5, r6}
+27b750	e12fff1e	bx	lr
+27b754	001724cc	.word	0x001724cc
+27b758	e3a00901	mov	r0, #16384
+27b75c	e12fff1e	bx	lr
+27b8a0	e1a03000	mov	r3, r0
+27b8a4	e52d4004	str	r4, [sp, #-0x4]!
+27b8a8	e5904008	ldr	r4, [r0, #0x8]
+27b8ac	e3a00001	mov	r0, #1
+27b8b0	e593c010	ldr	r12, [r3, #0x10]
+27b8b4	e593200c	ldr	r2, [r3, #0xc]
+27b8b8	e08cc000	add	r12, r12, r0
+27b8bc	e5814000	str	r4, [r1]
+27b8c0	e2422001	sub	r2, r2, #1
+27b8c4	e5831008	str	r1, [r3, #0x8]
+27b8c8	e583c010	str	r12, [r3, #0x10]
+27b8cc	e583200c	str	r2, [r3, #0xc]
+27b8d0	e49d4004	ldr	r4, [sp], #4
+27b8d4	e12fff1e	bx	lr
+27b664	e3a03000	mov	r3, #0
+27b668	e5803004	str	r3, [r0, #0x4]
+27b66c	e5803008	str	r3, [r0, #0x8]
+27b670	e580300c	str	r3, [r0, #0xc]
+27b674	e12fff1e	bx	lr
+27b3e4	e590c008	ldr	r12, [r0, #0x8]
+27b3e8	e92d0070	push	{r4, r5, r6}
+27b3ec	e35c0000	cmp	r12, #0
+27b3f0	0a000017	beq	0x27b454 <_ZN7CBucketILj16ELj262144ELb1EE5CheckEv+0x70>
+27b3f4	e59f4060	ldr	r4, [pc, #0x60]
+27b3f8	e3a06000	mov	r6, #0
+27b3fc	e3a0502a	mov	r5, #42
+27b400	e79f4004	ldr	r4, [pc, r4]
+27b404	e5903004	ldr	r3, [r0, #0x4]
+27b408	e3530000	cmp	r3, #0
+27b40c	0a000009	beq	0x27b438 <_ZN7CBucketILj16ELj262144ELb1EE5CheckEv+0x54>
+27b410	e2831008	add	r1, r3, #8
+27b414	e2832701	add	r2, r3, #262144
+27b418	e15c0001	cmp	r12, r1
+27b41c	e2822008	add	r2, r2, #8
+27b420	3a000001	blo	0x27b42c <_ZN7CBucketILj16ELj262144ELb1EE5CheckEv+0x48>
+27b424	e152000c	cmp	r2, r12
+27b428	8a000003	bhi	0x27b43c <_ZN7CBucketILj16ELj262144ELb1EE5CheckEv+0x58>
+27b42c	e5933000	ldr	r3, [r3]
+27b430	e3530000	cmp	r3, #0
+27b434	1afffff5	bne	0x27b410 <_ZN7CBucketILj16ELj262144ELb1EE5CheckEv+0x2c>
+27b438	e5865000	str	r5, [r6]
+27b43c	e59cc000	ldr	r12, [r12]
+27b440	e5943000	ldr	r3, [r4]
+27b444	e35c0000	cmp	r12, #0
+27b448	e2833001	add	r3, r3, #1
+27b44c	e5843000	str	r3, [r4]
+27b450	1affffeb	bne	0x27b404 <_ZN7CBucketILj16ELj262144ELb1EE5CheckEv+0x20>
+27b454	e8bd0070	pop	{r4, r5, r6}
+27b458	e12fff1e	bx	lr
+27b45c	001727c4	.word	0x001727c4
+27b898	e3a00010	mov	r0, #16
+27b89c	e12fff1e	bx	lr
+27b7a0	e1a03000	mov	r3, r0
+27b7a4	e52d4004	str	r4, [sp, #-0x4]!
+27b7a8	e5904008	ldr	r4, [r0, #0x8]
+27b7ac	e3a00001	mov	r0, #1
+27b7b0	e593c010	ldr	r12, [r3, #0x10]
+27b7b4	e593200c	ldr	r2, [r3, #0xc]
+27b7b8	e08cc000	add	r12, r12, r0
+27b7bc	e5814000	str	r4, [r1]
+27b7c0	e2422001	sub	r2, r2, #1
+27b7c4	e5831008	str	r1, [r3, #0x8]
+27b7c8	e583c010	str	r12, [r3, #0x10]
+27b7cc	e583200c	str	r2, [r3, #0xc]
+27b7d0	e49d4004	ldr	r4, [sp], #4
+27b7d4	e12fff1e	bx	lr
+27b6b4	e3a03000	mov	r3, #0
+27b6b8	e5803004	str	r3, [r0, #0x4]
+27b6bc	e5803008	str	r3, [r0, #0x8]
+27b6c0	e580300c	str	r3, [r0, #0xc]
+27b6c4	e12fff1e	bx	lr
+27b5d4	e590c008	ldr	r12, [r0, #0x8]
+27b5d8	e92d0070	push	{r4, r5, r6}
+27b5dc	e35c0000	cmp	r12, #0
+27b5e0	0a000017	beq	0x27b644 <_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv+0x70>
+27b5e4	e59f4060	ldr	r4, [pc, #0x60]
+27b5e8	e3a06000	mov	r6, #0
+27b5ec	e3a0502a	mov	r5, #42
+27b5f0	e79f4004	ldr	r4, [pc, r4]
+27b5f4	e5903004	ldr	r3, [r0, #0x4]
+27b5f8	e3530000	cmp	r3, #0
+27b5fc	0a000009	beq	0x27b628 <_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv+0x54>
+27b600	e2831008	add	r1, r3, #8
+27b604	e2832601	add	r2, r3, #1048576
+27b608	e15c0001	cmp	r12, r1
+27b60c	e2822008	add	r2, r2, #8
+27b610	3a000001	blo	0x27b61c <_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv+0x48>
+27b614	e152000c	cmp	r2, r12
+27b618	8a000003	bhi	0x27b62c <_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv+0x58>
+27b61c	e5933000	ldr	r3, [r3]
+27b620	e3530000	cmp	r3, #0
+27b624	1afffff5	bne	0x27b600 <_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv+0x2c>
+27b628	e5865000	str	r5, [r6]
+27b62c	e59cc000	ldr	r12, [r12]
+27b630	e5943000	ldr	r3, [r4]
+27b634	e35c0000	cmp	r12, #0
+27b638	e2833001	add	r3, r3, #1
+27b63c	e5843000	str	r3, [r4]
+27b640	1affffeb	bne	0x27b5f4 <_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv+0x20>
+27b644	e8bd0070	pop	{r4, r5, r6}
+27b648	e12fff1e	bx	lr
+27b64c	001725d4	.word	0x001725d4
+27b798	e3a00c01	mov	r0, #256
+27b79c	e12fff1e	bx	lr
+27b860	e1a03000	mov	r3, r0
+27b864	e52d4004	str	r4, [sp, #-0x4]!
+27b868	e5904008	ldr	r4, [r0, #0x8]
+27b86c	e3a00001	mov	r0, #1
+27b870	e593c010	ldr	r12, [r3, #0x10]
+27b874	e593200c	ldr	r2, [r3, #0xc]
+27b878	e08cc000	add	r12, r12, r0
+27b87c	e5814000	str	r4, [r1]
+27b880	e2422001	sub	r2, r2, #1
+27b884	e5831008	str	r1, [r3, #0x8]
+27b888	e583c010	str	r12, [r3, #0x10]
+27b88c	e583200c	str	r2, [r3, #0xc]
+27b890	e49d4004	ldr	r4, [sp], #4
+27b894	e12fff1e	bx	lr
+27b678	e3a03000	mov	r3, #0
+27b67c	e5803004	str	r3, [r0, #0x4]
+27b680	e5803008	str	r3, [r0, #0x8]
+27b684	e580300c	str	r3, [r0, #0xc]
+27b688	e12fff1e	bx	lr
+27b460	e590c008	ldr	r12, [r0, #0x8]
+27b464	e92d0070	push	{r4, r5, r6}
+27b468	e35c0000	cmp	r12, #0
+27b46c	0a000017	beq	0x27b4d0 <_ZN7CBucketILj32ELj262144ELb1EE5CheckEv+0x70>
+27b470	e59f4060	ldr	r4, [pc, #0x60]
+27b474	e3a06000	mov	r6, #0
+27b478	e3a0502a	mov	r5, #42
+27b47c	e79f4004	ldr	r4, [pc, r4]
+27b480	e5903004	ldr	r3, [r0, #0x4]
+27b484	e3530000	cmp	r3, #0
+27b488	0a000009	beq	0x27b4b4 <_ZN7CBucketILj32ELj262144ELb1EE5CheckEv+0x54>
+27b48c	e2831008	add	r1, r3, #8
+27b490	e2832701	add	r2, r3, #262144
+27b494	e15c0001	cmp	r12, r1
+27b498	e2822008	add	r2, r2, #8
+27b49c	3a000001	blo	0x27b4a8 <_ZN7CBucketILj32ELj262144ELb1EE5CheckEv+0x48>
+27b4a0	e152000c	cmp	r2, r12
+27b4a4	8a000003	bhi	0x27b4b8 <_ZN7CBucketILj32ELj262144ELb1EE5CheckEv+0x58>
+27b4a8	e5933000	ldr	r3, [r3]
+27b4ac	e3530000	cmp	r3, #0
+27b4b0	1afffff5	bne	0x27b48c <_ZN7CBucketILj32ELj262144ELb1EE5CheckEv+0x2c>
+27b4b4	e5865000	str	r5, [r6]
+27b4b8	e59cc000	ldr	r12, [r12]
+27b4bc	e5943000	ldr	r3, [r4]
+27b4c0	e35c0000	cmp	r12, #0
+27b4c4	e2833001	add	r3, r3, #1
+27b4c8	e5843000	str	r3, [r4]
+27b4cc	1affffeb	bne	0x27b480 <_ZN7CBucketILj32ELj262144ELb1EE5CheckEv+0x20>
+27b4d0	e8bd0070	pop	{r4, r5, r6}
+27b4d4	e12fff1e	bx	lr
+27b4d8	00172748	.word	0x00172748
+27b858	e3a00020	mov	r0, #32
+27b85c	e12fff1e	bx	lr
+27b820	e1a03000	mov	r3, r0
+27b824	e52d4004	str	r4, [sp, #-0x4]!
+27b828	e5904008	ldr	r4, [r0, #0x8]
+27b82c	e3a00001	mov	r0, #1
+27b830	e593c010	ldr	r12, [r3, #0x10]
+27b834	e593200c	ldr	r2, [r3, #0xc]
+27b838	e08cc000	add	r12, r12, r0
+27b83c	e5814000	str	r4, [r1]
+27b840	e2422001	sub	r2, r2, #1
+27b844	e5831008	str	r1, [r3, #0x8]
+27b848	e583c010	str	r12, [r3, #0x10]
+27b84c	e583200c	str	r2, [r3, #0xc]
+27b850	e49d4004	ldr	r4, [sp], #4
+27b854	e12fff1e	bx	lr
+27b68c	e3a03000	mov	r3, #0
+27b690	e5803004	str	r3, [r0, #0x4]
+27b694	e5803008	str	r3, [r0, #0x8]
+27b698	e580300c	str	r3, [r0, #0xc]
+27b69c	e12fff1e	bx	lr
+27b4dc	e590c008	ldr	r12, [r0, #0x8]
+27b4e0	e92d0070	push	{r4, r5, r6}
+27b4e4	e35c0000	cmp	r12, #0
+27b4e8	0a000017	beq	0x27b54c <_ZN7CBucketILj64ELj524288ELb1EE5CheckEv+0x70>
+27b4ec	e59f4060	ldr	r4, [pc, #0x60]
+27b4f0	e3a06000	mov	r6, #0
+27b4f4	e3a0502a	mov	r5, #42
+27b4f8	e79f4004	ldr	r4, [pc, r4]
+27b4fc	e5903004	ldr	r3, [r0, #0x4]
+27b500	e3530000	cmp	r3, #0
+27b504	0a000009	beq	0x27b530 <_ZN7CBucketILj64ELj524288ELb1EE5CheckEv+0x54>
+27b508	e2831008	add	r1, r3, #8
+27b50c	e2832702	add	r2, r3, #524288
+27b510	e15c0001	cmp	r12, r1
+27b514	e2822008	add	r2, r2, #8
+27b518	3a000001	blo	0x27b524 <_ZN7CBucketILj64ELj524288ELb1EE5CheckEv+0x48>
+27b51c	e152000c	cmp	r2, r12
+27b520	8a000003	bhi	0x27b534 <_ZN7CBucketILj64ELj524288ELb1EE5CheckEv+0x58>
+27b524	e5933000	ldr	r3, [r3]
+27b528	e3530000	cmp	r3, #0
+27b52c	1afffff5	bne	0x27b508 <_ZN7CBucketILj64ELj524288ELb1EE5CheckEv+0x2c>
+27b530	e5865000	str	r5, [r6]
+27b534	e59cc000	ldr	r12, [r12]
+27b538	e5943000	ldr	r3, [r4]
+27b53c	e35c0000	cmp	r12, #0
+27b540	e2833001	add	r3, r3, #1
+27b544	e5843000	str	r3, [r4]
+27b548	1affffeb	bne	0x27b4fc <_ZN7CBucketILj64ELj524288ELb1EE5CheckEv+0x20>
+27b54c	e8bd0070	pop	{r4, r5, r6}
+27b550	e12fff1e	bx	lr
+27b554	001726cc	.word	0x001726cc
+27b818	e3a00040	mov	r0, #64
+27b81c	e12fff1e	bx	lr
+27b8e0	e1a03000	mov	r3, r0
+27b8e4	e52d4004	str	r4, [sp, #-0x4]!
+27b8e8	e5904008	ldr	r4, [r0, #0x8]
+27b8ec	e3a00001	mov	r0, #1
+27b8f0	e593c010	ldr	r12, [r3, #0x10]
+27b8f4	e593200c	ldr	r2, [r3, #0xc]
+27b8f8	e08cc000	add	r12, r12, r0
+27b8fc	e5814000	str	r4, [r1]
+27b900	e2422001	sub	r2, r2, #1
+27b904	e5831008	str	r1, [r3, #0x8]
+27b908	e583c010	str	r12, [r3, #0x10]
+27b90c	e583200c	str	r2, [r3, #0xc]
+27b910	e49d4004	ldr	r4, [sp], #4
+27b914	e12fff1e	bx	lr
+27b650	e3a03000	mov	r3, #0
+27b654	e5803004	str	r3, [r0, #0x4]
+27b658	e5803008	str	r3, [r0, #0x8]
+27b65c	e580300c	str	r3, [r0, #0xc]
+27b660	e12fff1e	bx	lr
+27b368	e590c008	ldr	r12, [r0, #0x8]
+27b36c	e92d0070	push	{r4, r5, r6}
+27b370	e35c0000	cmp	r12, #0
+27b374	0a000017	beq	0x27b3d8 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x70>
+27b378	e59f4060	ldr	r4, [pc, #0x60]
+27b37c	e3a06000	mov	r6, #0
+27b380	e3a0502a	mov	r5, #42
+27b384	e79f4004	ldr	r4, [pc, r4]
+27b388	e5903004	ldr	r3, [r0, #0x4]
+27b38c	e3530000	cmp	r3, #0
+27b390	0a000009	beq	0x27b3bc <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x54>
+27b394	e2831008	add	r1, r3, #8
+27b398	e2832802	add	r2, r3, #131072
+27b39c	e15c0001	cmp	r12, r1
+27b3a0	e2822008	add	r2, r2, #8
+27b3a4	3a000001	blo	0x27b3b0 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x48>
+27b3a8	e152000c	cmp	r2, r12
+27b3ac	8a000003	bhi	0x27b3c0 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x58>
+27b3b0	e5933000	ldr	r3, [r3]
+27b3b4	e3530000	cmp	r3, #0
+27b3b8	1afffff5	bne	0x27b394 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x2c>
+27b3bc	e5865000	str	r5, [r6]
+27b3c0	e59cc000	ldr	r12, [r12]
+27b3c4	e5943000	ldr	r3, [r4]
+27b3c8	e35c0000	cmp	r12, #0
+27b3cc	e2833001	add	r3, r3, #1
+27b3d0	e5843000	str	r3, [r4]
+27b3d4	1affffeb	bne	0x27b388 <_ZN7CBucketILj8ELj131072ELb1EE5CheckEv+0x20>
+27b3d8	e8bd0070	pop	{r4, r5, r6}
+27b3dc	e12fff1e	bx	lr
+27b3e0	00172840	.word	0x00172840
+27b8d8	e3a00008	mov	r0, #8
+27b8dc	e12fff1e	bx	lr

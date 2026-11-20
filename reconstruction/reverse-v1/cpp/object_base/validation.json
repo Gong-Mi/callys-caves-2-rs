@@ -1,7 +1,7 @@
 {
   "scope": "Object static/member and JS/value/pool allocation candidate bodies; raw C1/AllocVars/GetRValue/Insert remain named internal dependencies, no full class/lifetime certification",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "6dff40f004b9527f31e6398c5c44dc481890294719f6b59d5627a2d7d014c0ff",
+  "shared_receipt_sha256": "5be04f8a042f2b0b1e0cf294428e6a0c7dda091a09c7332e655e5a959dfd454e",
   "header_sha256": "ff3e3d1d4c126aa377ea0d2caca45793e2f03102aa34c681be6f1cf37bc93ea1",
   "sources_sha256": {
     "object_free.cpp": "500508b69cb09af9e7d89969f2c760c4b5f09e395a8474d1607dedcb7233f758",

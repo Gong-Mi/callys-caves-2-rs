@@ -564,5 +564,115 @@
     ],
     "compile_scope": "Only memory_operators.cpp has -fno-exceptions; preserves two Alloc + two Free O2 tail relocations without marking shared Free noexcept. O0 regular CALL. No whole-engine unwind certification.",
     "original_executed": false
+  },
+  "cbucket_true_family": {
+    "instantiations": {
+      "8/131072": "7CBucketILj8ELj131072ELb1EE",
+      "16/262144": "7CBucketILj16ELj262144ELb1EE",
+      "32/262144": "7CBucketILj32ELj262144ELb1EE",
+      "64/524288": "7CBucketILj64ELj524288ELb1EE",
+      "128/524288": "7CBucketILj128ELj524288ELb1EE",
+      "256/1048576": "7CBucketILj256ELj1048576ELb1EE",
+      "16384/262144": "7CBucketILj16384ELj262144ELb1EE"
+    },
+    "vtables": {
+      "7CBucketILj8ELj131072ELb1EE": {
+        "vtable": "0x3ec0f8",
+        "address_point": "0x3ec100",
+        "entries": {
+          "offset-to-top": "0x0",
+          "RTTI": "0x3ec050",
+          "Init": "0x27b650",
+          "Check": "0x27b368",
+          "GetSize": "0x27b8d8",
+          "Free": "0x27b8e0"
+        }
+      },
+      "7CBucketILj16ELj262144ELb1EE": {
+        "vtable": "0x3ec110",
+        "address_point": "0x3ec118",
+        "entries": {
+          "offset-to-top": "0x0",
+          "RTTI": "0x3ec068",
+          "Init": "0x27b664",
+          "Check": "0x27b3e4",
+          "GetSize": "0x27b898",
+          "Free": "0x27b8a0"
+        }
+      },
+      "7CBucketILj32ELj262144ELb1EE": {
+        "vtable": "0x3ec128",
+        "address_point": "0x3ec130",
+        "entries": {
+          "offset-to-top": "0x0",
+          "RTTI": "0x3ec080",
+          "Init": "0x27b678",
+          "Check": "0x27b460",
+          "GetSize": "0x27b858",
+          "Free": "0x27b860"
+        }
+      },
+      "7CBucketILj64ELj524288ELb1EE": {
+        "vtable": "0x3ec140",
+        "address_point": "0x3ec148",
+        "entries": {
+          "offset-to-top": "0x0",
+          "RTTI": "0x3ec098",
+          "Init": "0x27b68c",
+          "Check": "0x27b4dc",
+          "GetSize": "0x27b818",
+          "Free": "0x27b820"
+        }
+      },
+      "7CBucketILj128ELj524288ELb1EE": {
+        "vtable": "0x3ec158",
+        "address_point": "0x3ec160",
+        "entries": {
+          "offset-to-top": "0x0",
+          "RTTI": "0x3ec0b0",
+          "Init": "0x27b6a0",
+          "Check": "0x27b558",
+          "GetSize": "0x27b7d8",
+          "Free": "0x27b7e0"
+        }
+      },
+      "7CBucketILj256ELj1048576ELb1EE": {
+        "vtable": "0x3ec170",
+        "address_point": "0x3ec178",
+        "entries": {
+          "offset-to-top": "0x0",
+          "RTTI": "0x3ec0c8",
+          "Init": "0x27b6b4",
+          "Check": "0x27b5d4",
+          "GetSize": "0x27b798",
+          "Free": "0x27b7a0"
+        }
+      },
+      "7CBucketILj16384ELj262144ELb1EE": {
+        "vtable": "0x3ec188",
+        "address_point": "0x3ec190",
+        "entries": {
+          "offset-to-top": "0x0",
+          "RTTI": "0x3ec0e0",
+          "Init": "0x27b6c8",
+          "Check": "0x27b6dc",
+          "GetSize": "0x27b758",
+          "Free": "0x27b760"
+        }
+      }
+    },
+    "vmi_rtti_pattern": "[_ZTVN10__cxxabiv121__vmi_class_type_infoE, _ZTS<inst>, 0, 1, _ZTI11CBucketBase, 0]",
+    "base": "CBucketBase",
+    "base_vtable": "0x3eb8f0",
+    "base_pure_slots": "4 x Thumb 0x3174c1 (shared pure-virtual helper)",
+    "derived_footprint": 20,
+    "checkCounter": {
+      "symbol": "checkCounter",
+      "va": "0x7566ac",
+      "got_slot": "0x3edbcc",
+      "rel": "R_ARM_RELATIVE",
+      "rel_addend_file_word": "0x7566ac",
+      "probe": "Check literal 0x172840@0x27b3e0 with base 0x27b384+8 resolves 0x3edbcc; R_ARM_RELATIVE sym=0, file word 0x7566ac == checkCounter st_value"
+    }
   }
 }

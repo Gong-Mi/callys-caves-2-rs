@@ -2,7 +2,7 @@
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "original_abi": "ARM32 little-endian softfp",
-  "header_sha256": "4349c4056315c22b851ec0442407d6373ff5a4eae2271c54ace60a582b04251c",
+  "header_sha256": "d3d8d39e4449e3a63621ae494760d147cb196685247fe9ee1df8954e4a4436d3",
   "not_whole_library_completion": true,
   "not_additive_with_prior_language_candidates": true,
   "functions": [
@@ -314,6 +314,510 @@
       "language": "C++",
       "translation_source": "memory_operators.cpp",
       "translation_source_sha256": "d44193135d6f4ac4c133090567f218eb61e45cbf3900d9daf9d5ae49ae8b6e27",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b7e0",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj128ELj524288ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b6a0",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj128ELj524288ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b558",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj128ELj524288ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "5a44e48a941e0ef96d6a48ca335c14b8c56e9dd5404f0501cecfe8bbd16987a2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b7d8",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj128ELj524288ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "3d8d834f95bebf9ac16614974b87413a1e36f40dc044c2ba9a8ebb2f8c306032",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b760",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj16384ELj262144ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b6c8",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj16384ELj262144ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b6dc",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "f540f6912cb0ff0e752f33408424a6810c2449c1461ed2e5e103f45b36fbd55c",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b758",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj16384ELj262144ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "26963d94f8f4ef655af88a989bbecd5abf54e6f62fa82809200f9156415c0419",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b8a0",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj16ELj262144ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b664",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj16ELj262144ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b3e4",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj16ELj262144ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "4a315c791412ff25b754498ffee15dafa99f53da2d5764ab2c21ae7aa2897a0d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b898",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj16ELj262144ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "705b7734f4666818e8402c1879d90d2874d87ebbefa22943a419b7b4f2eb86b5",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b7a0",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj256ELj1048576ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b6b4",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj256ELj1048576ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b5d4",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "25fc3726fd88a41226a639dcf7e4e70a881d9ee9de7f8ed615698bc1fe3fb9dd",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b798",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj256ELj1048576ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "426655ff4d20b63d964326f256b0bfa78a8b3b2c14cb8e3843188d8611354e78",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b860",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj32ELj262144ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b678",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj32ELj262144ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b460",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj32ELj262144ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "c875cb350fced6c64b6759213088180714c97668fd49a23237b9cf8ca2e414da",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b858",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj32ELj262144ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "7fa5844877c37380471ca89b98c34388d544b5af181fe3262e315e9df7b7c46a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b820",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj64ELj524288ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b68c",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj64ELj524288ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b4dc",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj64ELj524288ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "ce6123bf8114bb887f1236aa3b817d5c59cc963f1719148981be1959091236b0",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b818",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj64ELj524288ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "4fe40444ba4fa963fbe4230783e64a772a93d31a1ee99e83adc54d696880082b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b8e0",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj8ELj131072ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b650",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj8ELj131072ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b368",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj8ELj131072ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "7a3ca07eaa2db3a70853dfb2568e5ccd0f4a7e0d164505d349b7d8baa6eb7d6d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b8d8",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj8ELj131072ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "3fc49adc7394262080e1e06db1aa4d983864b2d9b150c07306faf456deb4732e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",

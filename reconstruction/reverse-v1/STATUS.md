@@ -1,5 +1,21 @@
 # 状态与定性
 
+## 当前断点：七种 true-mode CBucket 虚方法（28 体）
+
+`cpp/memory_manager/cbucket_classes.hpp` + `cbucket_init_check.ipp` + `cbucket_size_free.ipp` +
+`memory_bucket_members.cpp` 恢复 7 个 `CBucket<chunk,area,true>` 实例的 Init/Check/GetSize/Free
+共 28 个 WEAK 模板方法体（364 原字、7 池字）。Init 只写 +4/+8/+0c；Check 单 live freeHead 读、
+每节点重载 pageHead、无符号页域判定、耗尽落原 raw STR 42、尾序先读 node->next 再 RMW
+checkCounter（GOT 0x3edbcc R_ARM_RELATIVE，addend 文件字 0x7566ac==符号值）；GetSize 逐字节
+`mov r0,#ChunkBytes; bx lr`（O2 与原件 7/7 相同）；Free 七体同字（三 live 快照→写旧头→
+发布 +8/+10/+0c，u32 回绕，恒返 1）。7 张 24B 虚表（地址点 +8）与 VMI RTTI
+[0,1,base,0] 由真实对象绑定核验；CBucketBase 0x3eb8f0 四纯虚槽（Thumb 0x3174c1 共享助手）。
+
+O0/O2 各 41 TU、111 个原符号名齐全，294 项 ARM32 ABI 核对通过；独立复核 deleg_964749c3
+无正文缺陷（两条元数据注记经父级复 ELF 重算为探针 +0x10 偏移误报，裁决留 validation.json）。
+`phase_complete=false`；未运行原件/重建件、未安装、未推送。下一断点：两种 false-mode
+CBucket（16/1048576、32768/1048576，Free 120B 走页链归属查找）与桶构造/初始状态接线。
+
 ## 当前断点：页边界表生产者与普通分配/释放运算符
 
 `cpp/memory_manager/page_registry.cpp` 恢复 `addPageToGlobalPageList@0x27bcf8`，与

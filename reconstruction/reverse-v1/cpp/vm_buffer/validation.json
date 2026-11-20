@@ -355,7 +355,7 @@
   "registration_sha256": "5274651cf922f78d588ba0598c0be84cc9e4d240d7fa04ba5db3b41fe13918ec",
   "artifact_retention": "Object/archive paths are temporary scratch outputs. Sources, flags, input hashes and original-entry bindings are retained here; no runtime execution was performed.",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "6dff40f004b9527f31e6398c5c44dc481890294719f6b59d5627a2d7d014c0ff",
+  "shared_receipt_sha256": "5be04f8a042f2b0b1e0cf294428e6a0c7dda091a09c7332e655e5a959dfd454e",
   "header_sha256": "a8bb31c597423cce38d5dcd985b335773b7d5faf52d4ee961d8ce8d04f0ec2bb",
   "local_builds_are_prior_scope": true,
   "current_build_authority": "shared_receipt (latest full combined build); local builds/input hashes retain their historical base",

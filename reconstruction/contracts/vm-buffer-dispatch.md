@@ -400,3 +400,14 @@ Free 声明改作 `noexcept`。O2 四个 JUMP24；O0 四个 CALL；这是静态�
 
 五入口、93原字（6池字）。O0/O2各40TU/83原名字齐全，原件与对象15项ABI核对通过；
 去掉指定的真实 TU 即缺少绑定过的原名。原件、重建件均未运行，完整分配器状态/类和坏域未证。
+
+## 循环批次：具体 CBucket(true) 虚方法
+
+7 个 true-mode 实例（8/131072、16/262144、32/262144、64/524288、128/524288、256/1048576、
+16384/262144）各恢复 Init/Check/GetSize/Free 四方法，28 体 364 原字（7 池字）。虚表 24B
+四槽（Init/Check/GetSize/Free@+8/+c/+10/+14），VMI RTTI 六字 [ZTVvmi, ZTS, 0, 1, ZTI11CBucketBase, 0]；
+CBucketBase 为纯虚接口（0x3eb8f0，四 Thumb 纯虚槽）。派生类 20B：vptr+pageHead(+4)+freeHead(+8)+
+activeCount(+c)+freeCount(+10)。Check 的 checkCounter 经 GOT 0x3edbcc（R_ARM_RELATIVE，
+文件字 0x7566ac==符号值）；Free 是纯 freelist 头推入（三快照→写旧头→发布），false 模式的
+120B 归属查找版本属下一批。单独实例化 TU `memory_bucket_members.cpp` 只实例化真实方法，
+不伪造全局或运行期对象。
