@@ -130,14 +130,34 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x27be34",
+      "size": 172,
+      "symbols": [
+        "_Z22globalPageListFindAddrPKv"
+      ],
+      "body_sha256": "cd047950a7362e5a7ba149de2311bec59db7505374644d07b5ea49cda9e5da99",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "page_lookup.cpp",
+      "translation_source_sha256": "986220ae583c22a829ebce198a95900449abbe0de4f47439acf0a53ed13beae1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "validation_scope": "Static source, original word/GOT/ABI checks, O0/O2 target objects and combined relocatable/archive; no target execution.",
   "remaining_internal_dependencies": [
-    "globalPageListFindAddr/bucket implementations"
+    "page-list producers and concrete bucket implementations"
   ],
   "remaining_scope": [
     "original source field/return spellings not completely known",
     "bad-header/clock-failure, FP trap, concurrency and exception domains uncertified"
-  ]
+  ],
+  "supplementary_headers_sha256": {
+    "page_lookup.hpp": "db3b0281f4c325429f8f7d8c4412a636d5e8fe46d13bf376d0a1814ae410e521"
+  }
 }

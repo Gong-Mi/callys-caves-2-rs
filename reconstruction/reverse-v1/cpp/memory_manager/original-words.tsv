@@ -133,3 +133,46 @@ entry	va	word	mnemonic	operands
 27b918	27b93c	ea0009bd	b	0x27e038 <_ZN5Mutex4InitEPKc>
 27b918	27b940	00175ef0	.word	0x00175ef0
 27b918	27b944	000d0cac	.word	0x000d0cac
+27be34	27be34	e59f309c	ldr	r3, [pc, #0x9c]
+27be34	27be38	e59f209c	ldr	r2, [pc, #0x9c]
+27be34	27be3c	e79f3003	ldr	r3, [pc, r3]
+27be34	27be40	e79f2002	ldr	r2, [pc, r2]
+27be34	27be44	e92d0030	push	{r4, r5}
+27be34	27be48	e5921000	ldr	r1, [r2]
+27be34	27be4c	e5935000	ldr	r5, [r3]
+27be34	27be50	e1a01081	lsl	r1, r1, #1
+27be34	27be54	e1a02005	mov	r2, r5
+27be34	27be58	ea000002	b	0x27be68 <_Z22globalPageListFindAddrPKv+0x34>
+27be34	27be5c	e1e03003	mvn	r3, r3
+27be34	27be60	e28c2004	add	r2, r12, #4
+27be34	27be64	e0811003	add	r1, r1, r3
+27be34	27be68	e3510000	cmp	r1, #0
+27be34	27be6c	da00000e	ble	0x27beac <_Z22globalPageListFindAddrPKv+0x78>
+27be34	27be70	e1a030c1	asr	r3, r1, #1
+27be34	27be74	e7924103	ldr	r4, [r2, r3, lsl #2]
+27be34	27be78	e082c103	add	r12, r2, r3, lsl #2
+27be34	27be7c	e1500004	cmp	r0, r4
+27be34	27be80	8afffff5	bhi	0x27be5c <_Z22globalPageListFindAddrPKv+0x28>
+27be34	27be84	e2531000	subs	r1, r3, #0
+27be34	27be88	e1a030c3	asr	r3, r3, #1
+27be34	27be8c	0a000006	beq	0x27beac <_Z22globalPageListFindAddrPKv+0x78>
+27be34	27be90	e7924103	ldr	r4, [r2, r3, lsl #2]
+27be34	27be94	e082c103	add	r12, r2, r3, lsl #2
+27be34	27be98	e1540000	cmp	r4, r0
+27be34	27be9c	3affffee	blo	0x27be5c <_Z22globalPageListFindAddrPKv+0x28>
+27be34	27bea0	e2531000	subs	r1, r3, #0
+27be34	27bea4	e1a030c3	asr	r3, r3, #1
+27be34	27bea8	1afffff8	bne	0x27be90 <_Z22globalPageListFindAddrPKv+0x5c>
+27be34	27beac	e0651002	rsb	r1, r5, r2
+27be34	27beb0	e8bd0030	pop	{r4, r5}
+27be34	27beb4	e1a03fa1	lsr	r3, r1, #31
+27be34	27beb8	e0831141	add	r1, r3, r1, asr #2
+27be34	27bebc	e2011001	and	r1, r1, #1
+27be34	27bec0	e0633001	rsb	r3, r3, r1
+27be34	27bec4	e3530001	cmp	r3, #1
+27be34	27bec8	05123004	ldreq	r3, [r2, #-0x4]
+27be34	27becc	13a00000	movne	r0, #0
+27be34	27bed0	05930004	ldreq	r0, [r3, #0x4]
+27be34	27bed4	e12fff1e	bx	lr
+27be34	27bed8	001759f4	.word	0x001759f4
+27be34	27bedc	001759e8	.word	0x001759e8

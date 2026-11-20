@@ -1,0 +1,54 @@
+{
+  "schema": "cally-readable-native/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_abi": "ARM32 little-endian base AAPCS, softfp core-register doubles",
+  "header_sha256": "409d04837736713cfa09c0770529a33c437b0a39a633033dd54cd0ee94755ff6",
+  "functions": [
+    {
+      "entry": "0x3194a0",
+      "size": 68,
+      "symbols": [
+        "__fixdfdi",
+        "__aeabi_d2lz"
+      ],
+      "body_sha256": "c8e20785a16d822f5e12597d9328a06bdd2fbbc9363820a51f5fbf9fe94e3830",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "src/conversions.c",
+      "translation_source_sha256": "ba80acdd9b3ee0d9edd90a01f9ff9b06bbe70515994362105bd03fed032b7eb1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x319550",
+      "size": 104,
+      "symbols": [
+        "__fixunsdfdi",
+        "__aeabi_d2ulz"
+      ],
+      "body_sha256": "937b2936465c5b02c600d1bdfafe9b3b84a7c2f56bb1d5fc1937ca3e21aa4f71",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "src/conversions.c",
+      "translation_source_sha256": "ba80acdd9b3ee0d9edd90a01f9ff9b06bbe70515994362105bd03fed032b7eb1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "not_whole_library_completion": true,
+  "aliases_not_extra_entries": true,
+  "remaining_internal_dependencies": [
+    "__aeabi_dcmplt",
+    "__muldf3",
+    "__fixunsdfsi",
+    "__floatunsidf",
+    "__subdf3"
+  ],
+  "scope": "C recovery of the software conversion call chain, not a replacement native cast. C ABI alone does not prove original source-file language. Alias/runtime ABI and local source contract only; exception/callee arithmetic domain and stack-frame visibility remain uncertified."
+}

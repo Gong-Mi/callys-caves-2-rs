@@ -178,3 +178,24 @@ VMLA(ns, sec, 1e9) 后 VDIV 1000，再调用原 __fixdfdi；不换 C++ 越界 ca
 本批 O0/O2 各 16 TU，35 个已恢复原导出符号；另列匿名候选，不自动抬阶段。
 globalPageListFindAddr、__fixdfdi、桶的完整 API、pthread/clock 失败域及异常/并发仍未认证。
 循环控制状态在用户私有 worklines 目录，验收后直接补下一批；不会把源码批次交付变成原件执行或推送授权。
+
+## 循环批次：页边界查找与 soft conversion 包装
+
+`memory_manager/page_lookup.cpp` 恢复 `0x27be34..0x27bee0`，先读 count 后读数组指针，
+按 unsigned 地址做 lower-bound。入口 count×2 仍为 ARM32 回绕后 signed 长度；结束时保留
+cursor−base 的带符号奇偶表达式，只有正奇数结果才读前一边界及其 +4 owner，不补判空。
+正常有序表上的相等边界向左，不能按惯例重写成 [begin,end) 范围。
+
+父级回原字纠正内环旗标：`0x27bea0=e2531000` SUBS，随后 `0x27bea4=e1a030c3` ASR
+没有 S，BNE 用旧 step 非零而非移位后的 step。边界 [0x1000,0x2000,0x3000,0x4000]、
+查询 0x1800 的静态反例，worker 错体停在 index0，正确控制流进入 index1；未执行目标。
+
+`c/compiler_conversions/src/conversions.c` 恢复 signed/unsigned 两个 double→64 包装。
+__fixdfdi 先调用 __aeabi_dcmplt；负支翻高字 sign bit，调用 unsigned helper 后 u64 取负；
+非负支保留原输入。__fixunsdfdi 仍按 __muldf3(2^-32)→fixunsdfsi→floatunsidf→muldf3(2^32)
+→subdf3→fixunsdfsi 的链组合 upper:lower，不擅自改 NaN/越界为饱和 cast。
+__aeabi_d2lz / __aeabi_d2ulz 分别为同址 GLOBAL alias，而非转发函数；原两入口不重复计数。
+父级实测候选 alias 的 size 非零，拒绝 worker 的“常态为零”口述。
+
+18 TU 在 O0/O2 中组合、40 个原导出齐全，转换对象无 native FP 算术；保留五类软件 helper
+作为内部欠账。源级 ABI/调用链候选不认证原 LR/尾调用栈可见性、完整浮点行为或游戏等价。
