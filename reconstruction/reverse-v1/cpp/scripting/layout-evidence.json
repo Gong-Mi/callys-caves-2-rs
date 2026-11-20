@@ -90,5 +90,84 @@
     "single captured volatile length_slot read instead of two on hit",
     "shared reused1c volatile, image low raw word access, YYAllocLocalStackNew noinline first declaration"
   ],
-  "original_executed": false
+  "original_executed": false,
+  "context_stack": {
+    "functions": [
+      "0xd3968",
+      "0xd3a34",
+      "0xd3a54"
+    ],
+    "global_got_anchors": {
+      "0xd3a20": {
+        "slot": "0x3edbc0",
+        "raw_addend": "0x47f295",
+        "defined_symbols": [
+          {
+            "name": "g_fJSGarbageCollection",
+            "size": 1,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0xd3a24": {
+        "slot": "0x3edc08",
+        "raw_addend": "0x47f280",
+        "defined_symbols": [
+          {
+            "name": "g_ContextStackTop",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0xd3a28": {
+        "slot": "0x3edc0c",
+        "raw_addend": "0x47f27c",
+        "defined_symbols": [
+          {
+            "name": "g_ContextStackMax",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0xd3a2c": {
+        "slot": "0x3edc10",
+        "raw_addend": "0x47f284",
+        "defined_symbols": [
+          {
+            "name": "g_ContextStack",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      }
+    },
+    "realloc_tag": {
+      "address": "0x331038",
+      "content": "jni/../jni/yoyo/../../../Platform/MemoryManager.h",
+      "line": 74,
+      "realloc_final_bool": false
+    },
+    "realloc_line": 74,
+    "realloc_bool": false,
+    "gap": "ReAlloc result and g_ContextStack publish are unconditional; initial array/pointer/max ownership, fault/LR/unwind/concurrency are not certified.",
+    "original_executed": false
+  }
 }

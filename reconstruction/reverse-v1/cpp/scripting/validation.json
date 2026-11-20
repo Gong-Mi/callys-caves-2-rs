@@ -1,17 +1,26 @@
 {
-  "scope": "Three scripting C++ candidate entries and observed raw/ABI views; no original/target execution or complete-class/equivalence proof",
-  "base": "ff753cebe45075c2aa1f3696ff9611f9e195b532",
+  "scope": "ScriptRef/GetCode/local stack and actual GC Context Stack static C++ candidates; no execution or full object/initial-state proof.",
+  "base": "4cd8354d5d912b14ad566fd292ad1e26adb4e4b4",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "ab2c38381c8a06def56d59741562866a7a0d80e8c20f484b1a5e60e8f570d79a",
+  "shared_receipt_sha256": "e3ea1a83438b4eb21e5bfcb82b0455f4fedf97b77d3029f2feeffa0de08aad43",
   "header_sha256": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
   "canonical_api_header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
   "sources_sha256": {
-    "script_runtime.cpp": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2"
+    "script_runtime.cpp": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
+    "context_stack.cpp": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3"
   },
-  "original_entries": 3,
-  "original_index_words": 193,
-  "literal_words": 9,
+  "original_entries": 6,
+  "original_index_words": 267,
+  "literal_words": 18,
   "phase_complete": false,
   "original_executed": false,
-  "rebuilt_executed": false
+  "rebuilt_executed": false,
+  "new_context_batch": {
+    "entries": 3,
+    "words": 74,
+    "literal_words": 9
+  },
+  "additional_headers_sha256": {
+    "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61"
+  }
 }

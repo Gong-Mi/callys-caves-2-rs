@@ -55,6 +55,57 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0xd3968",
+      "size": 204,
+      "symbols": [
+        "_Z16PushContextStackP12YYObjectBase"
+      ],
+      "body_sha256": "ce0ade712787260241c4d1e74038ff44680760c608a9601b681168fc23062068",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "context_stack.cpp",
+      "translation_source_sha256": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd3a34",
+      "size": 32,
+      "symbols": [
+        "_Z15PopContextStackv"
+      ],
+      "body_sha256": "c6513e6fb8fdb07b104a4bd826b6d06363704951ba6ad1ff2ad8bb90a369f11e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "context_stack.cpp",
+      "translation_source_sha256": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd3a54",
+      "size": 60,
+      "symbols": [
+        "_Z18GetContextStackTopv"
+      ],
+      "body_sha256": "6054429e1413c05b30ee45ad295b637ced2fad07fe39a9b656ae3970c4e05937",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "context_stack.cpp",
+      "translation_source_sha256": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "not_whole_library_completion": true,
@@ -62,7 +113,10 @@
   "remaining_internal_dependencies": [
     "CreateArgumentsObject",
     "Code_Variable_Find_Slot_From_Name",
-    "PushContextStack/PopContextStack"
+    "initial Context Stack array, Top/Max/GC-state ownership and runtime provider bindings"
   ],
-  "scope": "Three complete C++ candidate bodies with observed CScript prefix and raw ScriptCallScratch. No full script-ref/class/unwind/behavior equivalence claim."
+  "scope": "Local ScriptRef/GetCode/local stack and the three actual GC Context Stack helpers; no execution, full class or initial-state closure.",
+  "additional_headers_sha256": {
+    "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61"
+  }
 }

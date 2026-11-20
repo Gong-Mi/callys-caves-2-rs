@@ -361,3 +361,24 @@ helper更新槽，#line +_ctype_实际pointer-cell分类；文件名malloc→发
 live*out→NUL。原稿额外NULL早退和非volatile省读已父修，O2反汇编证实code读未再被跳过。
 四完整方法236原字、O0/O2各36TU/74原名，未执行任何目标；未知bucket/UTF生产者与原LR/
 故障unwind/并发不认证，静态整合不升游戏等价。
+
+## 七桶分配与 GC Context Stack
+
+`bucketAlloc@0x27c53c` 先读匿名 BYTE `0x756699`，为零才查实际 `bucketsShouldInit`；启用时
+`pagedata_size=16`、真实 `malloc(128)` 发布 `g_pages`，只清桶 +4/+8/+c，原 +0/+10 保留；
+先置 initialized，后清最后一个 16K 桶。unsigned 准入是 `size<=256 || size==16384`。
+每案 fresh 页以 `base+8` 开始填 `0x78`；原页头 next 早于池头发布，回调收到原
+`[base,base+newBytes-1]` 实参，随后重读 +8/+10 才写页 owner。回边 predecessor
+保持旧寄存器角色，fresh 合流不补非空路径的 node[0] 读取，activeCount 在合流后才读。
+8B 清零为逐 byte 八写；其余保留真实 memset，参数是桶 stride，O2 六入口共用尾块非省调用。
+无可达的默认诊断块仍保留源码，未承诺其故障行为或目标编译保留块。
+
+`PushContextStack@0xd3968` 的 GC BYTE 零门在读取任何 Top/Max 前，Top==Max 才增长；
+双倍回绕后为零（含原 Top=0x80000000）时发 Max=1/bytes=4，否则发布 doubled 并取
+Top<<3 字节。实际 ReAlloc 的 tag@0x331038、line=74、第五位 false 与原调用点相同。
+回调后原 d3a0c 先读 live Top，d3a14 再发布返回指针；随后发布 Top+1，最后写元素。
+Pop/Get 无 GC 门，对原 Top 作 signed 判断，不补清槽/判空/对齐校验。
+
+四入口/592原字含23池字；当前源码和累计目标 O0/O2 各38TU，78个原符号名核齐，未执行
+原件/重建。继续沿 `addPageToGlobalPageList@0x27bcf8` 与实际普通分配/释放包装补生产者；
+完整 CBucket 虚表、初始全局提供者、原LR/unwind、坏域及并发未证。

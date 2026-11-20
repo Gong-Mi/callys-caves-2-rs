@@ -1,6 +1,24 @@
 # 状态与定性
 
-## 当前断点：MemoryManager分配与调试记录/源码行解析
+## 当前断点：分桶分配与 GC Context Stack
+
+`cpp/memory_manager/memory_buckets.cpp` 恢复 `bucketAlloc@0x27c53c` 的七个尺寸分支；
+`cpp/scripting/context_stack.cpp` 恢复 `PushContextStack@0xd3968`、`PopContextStack@0xd3a34`
+与 `GetContextStackTop@0xd3a54`。四原入口、592 个原索引字（23 池字）；分别登记 ABI 名字、
+完整方法与已观察的20B桶/8B页头前缀，不推断完整虚表、类或匿名状态提供者。
+
+原稿 O2 七条路径在 `page.next` 写入前发布桶头，并提前写 owner；父级改原宽度有序写，
+在 O2 对账中七条均为写 next→发 head→回调→读 +8/+10→写 owner。8B 原8个 STRB 独立，
+其余按原 stride 调 memset，O2 不再内联掉五条调用，六种尺寸合法共享一个尾块。
+Context 的 grow 只在 Top==Max；双倍经 u32 回绕，两路各发布一次 Max；ReAlloc 后
+先读 live Top，再依次发数组、Top、元素。Pop/Get 保留有符号门。
+
+O0/O2 各38 TU，78 个原符号名齐全；新 ARM32 ABI 工具实跑12项原件/目标对象符号检查。
+独立源审无正文缺陷。`addPageToGlobalPageList`、普通 new/delete 已有隔离候选，
+尚未纳入本次累计构建；具体 CBucket 方法、原始初始化、异常/LR/坏域/并发仍欠。
+`phase_complete=false`；本批没有运行原件或重建件、没有安装或推送。
+
+## 已提交基础：MemoryManager分配与调试记录/源码行解析（4cd8354）
 
 `memory_manager/memory_alloc.cpp` 恢复_Alloc/Alloc，`vm_exec/vm_debug_info.cpp`恢复
 DebugInfo/DebugLineNumber，四完整原入口/236原字（8池字），闭合上一批的真实直接调用。
@@ -11,7 +29,7 @@ _Alloc保留bucket→标准分配、64位size+16门、头词/计数写序和live
 父级修掉原稿自造memcpy返回NULL早退，恢复无条件终结符写；补volatile raw-word读取，
 O2原稿count0会跳过code字段读而修后无条件保留；同一cursor生命周期、ctype字节地址与
 普通换行读序已复核。O0/O2各36TU/74原名字组合通过；独立复核的别名错报经冻结头与全量重编反证核销，源码无变更；本地收口仍
-phase_complete=false。bucketAlloc、UTF helper本体/原语言、记录生产者、Ctor/继承链、
+phase_complete=false。当时仍欠 bucketAlloc、UTF helper本体/原语言、记录生产者、Ctor/继承链、
 map Insert/FreePre及所有LR/坏域/unwind/并发等价仍欠。仍不执行目标、不安装、不推送。
 
 ## 已提交基础：值池/map生产者与调试执行（8bb884b）

@@ -217,12 +217,31 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x27c53c",
+      "size": 2072,
+      "symbols": [
+        "_Z11bucketAllocjb"
+      ],
+      "body_sha256": "60fb08c7f8e70c5e4cd2e2f9ccec6db85f134d444901d11bd234d69516ab129e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_buckets.cpp",
+      "translation_source_sha256": "928a258cc35615c7fa30532dbb0519eec2674fd00c29a856bac161a04ce45b9f",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
-  "validation_scope": "Static source, original word/GOT/ABI checks, O0/O2 target objects and combined relocatable/archive; no target execution.",
+  "validation_scope": "Whole local memory allocation/free, page-lookup and typed bucket allocator bodies with observed raw layouts; unresolved providers and runtime equivalence are not certified.",
   "remaining_internal_dependencies": [
-    "bucketAlloc(unsigned int,bool)@0x27c53c",
-    "concrete bucket virtual methods and complete bucket/global producers"
+    "concrete bucket virtual methods and complete bucket/global producers",
+    "addPageToGlobalPageList(void*,void*)@0x27bcf8 (only declaration in this accepted batch)",
+    "operator new(size_t)@0x27c524 (only declaration in this accepted batch)",
+    "concrete CBucket virtual API and initial/global providers"
   ],
   "remaining_scope": [
     "original source field/return spellings not completely known",
@@ -233,6 +252,7 @@
   },
   "additional_headers_sha256": {
     "memory_realloc_internal.hpp": "708816f6445c68ecbacbbb067c16fcc5a245625d5869ce4acb289e61d30f4e4f",
-    "memory_alloc.hpp": "f85668fca7fdc12b726538dab7ad3a12e9aa3992d87b16dc1f235cd968d1d6bd"
+    "memory_alloc.hpp": "f85668fca7fdc12b726538dab7ad3a12e9aa3992d87b16dc1f235cd968d1d6bd",
+    "memory_buckets.hpp": "28bb9d017f9dfbc480ceeba6bec5d14e8d0618f917e58d4a8109fbe35ddde616"
   }
 }

@@ -383,3 +383,521 @@ entry	va	word	mnemonic	operands
 27cd54	27ce6c	ffffe794	.word	0xffffe794
 27cd54	27ce70	fffffc04	.word	0xfffffc04
 27cd54	27ce74	ffffe790	.word	0xffffe790
+27c53c	27c53c	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+27c53c	27c540	e1a05000	mov	r5, r0
+27c53c	27c544	e59f77d0	ldr	r7, [pc, #0x7d0]
+27c53c	27c548	e24dd00c	sub	sp, sp, #12
+27c53c	27c54c	e59f67cc	ldr	r6, [pc, #0x7cc]
+27c53c	27c550	e1a08001	mov	r8, r1
+27c53c	27c554	e08f7007	add	r7, pc, r7
+27c53c	27c558	e08f6006	add	r6, pc, r6
+27c53c	27c55c	e5d74201	ldrb	r4, [r7, #0x201]
+27c53c	27c560	e3540000	cmp	r4, #0
+27c53c	27c564	1a000036	bne	0x27c644 <_Z11bucketAllocjb+0x108>
+27c53c	27c568	e59f37b4	ldr	r3, [pc, #0x7b4]
+27c53c	27c56c	e7963003	ldr	r3, [r6, r3]
+27c53c	27c570	e5d33000	ldrb	r3, [r3]
+27c53c	27c574	e3530000	cmp	r3, #0
+27c53c	27c578	0a00005a	beq	0x27c6e8 <_Z11bucketAllocjb+0x1ac>
+27c53c	27c57c	e59f37a4	ldr	r3, [pc, #0x7a4]
+27c53c	27c580	e3a00080	mov	r0, #128
+27c53c	27c584	e3a02010	mov	r2, #16
+27c53c	27c588	e59fa79c	ldr	r10, [pc, #0x79c]
+27c53c	27c58c	e59f979c	ldr	r9, [pc, #0x79c]
+27c53c	27c590	e3a0b001	mov	r11, #1
+27c53c	27c594	e7963003	ldr	r3, [r6, r3]
+27c53c	27c598	e5832000	str	r2, [r3]
+27c53c	27c59c	ebf8e7e8	bl	0xb6544 <malloc@plt>
+27c53c	27c5a0	e59f378c	ldr	r3, [pc, #0x78c]
+27c53c	27c5a4	e59f278c	ldr	r2, [pc, #0x78c]
+27c53c	27c5a8	e59fc78c	ldr	r12, [pc, #0x78c]
+27c53c	27c5ac	e7963003	ldr	r3, [r6, r3]
+27c53c	27c5b0	e58d2000	str	r2, [sp]
+27c53c	27c5b4	e59f1784	ldr	r1, [pc, #0x784]
+27c53c	27c5b8	e58d3004	str	r3, [sp, #0x4]
+27c53c	27c5bc	e59d2004	ldr	r2, [sp, #0x4]
+27c53c	27c5c0	e59f377c	ldr	r3, [pc, #0x77c]
+27c53c	27c5c4	e5820000	str	r0, [r2]
+27c53c	27c5c8	e796000a	ldr	r0, [r6, r10]
+27c53c	27c5cc	e59d2000	ldr	r2, [sp]
+27c53c	27c5d0	e5804004	str	r4, [r0, #0x4]
+27c53c	27c5d4	e5804008	str	r4, [r0, #0x8]
+27c53c	27c5d8	e580400c	str	r4, [r0, #0xc]
+27c53c	27c5dc	e7960009	ldr	r0, [r6, r9]
+27c53c	27c5e0	e5804004	str	r4, [r0, #0x4]
+27c53c	27c5e4	e5804008	str	r4, [r0, #0x8]
+27c53c	27c5e8	e580400c	str	r4, [r0, #0xc]
+27c53c	27c5ec	e796000c	ldr	r0, [r6, r12]
+27c53c	27c5f0	e5804004	str	r4, [r0, #0x4]
+27c53c	27c5f4	e5804008	str	r4, [r0, #0x8]
+27c53c	27c5f8	e580400c	str	r4, [r0, #0xc]
+27c53c	27c5fc	e7961001	ldr	r1, [r6, r1]
+27c53c	27c600	e5814004	str	r4, [r1, #0x4]
+27c53c	27c604	e5814008	str	r4, [r1, #0x8]
+27c53c	27c608	e581400c	str	r4, [r1, #0xc]
+27c53c	27c60c	e7962002	ldr	r2, [r6, r2]
+27c53c	27c610	e5824004	str	r4, [r2, #0x4]
+27c53c	27c614	e5824008	str	r4, [r2, #0x8]
+27c53c	27c618	e582400c	str	r4, [r2, #0xc]
+27c53c	27c61c	e59f2724	ldr	r2, [pc, #0x724]
+27c53c	27c620	e7962002	ldr	r2, [r6, r2]
+27c53c	27c624	e5824004	str	r4, [r2, #0x4]
+27c53c	27c628	e5824008	str	r4, [r2, #0x8]
+27c53c	27c62c	e582400c	str	r4, [r2, #0xc]
+27c53c	27c630	e7963003	ldr	r3, [r6, r3]
+27c53c	27c634	e5c7b201	strb	r11, [r7, #0x201]
+27c53c	27c638	e5834004	str	r4, [r3, #0x4]
+27c53c	27c63c	e5834008	str	r4, [r3, #0x8]
+27c53c	27c640	e583400c	str	r4, [r3, #0xc]
+27c53c	27c644	e3550901	cmp	r5, #16384
+27c53c	27c648	13550c01	cmpne	r5, #256
+27c53c	27c64c	93a04000	movls	r4, #0
+27c53c	27c650	83a04001	movhi	r4, #1
+27c53c	27c654	8a000023	bhi	0x27c6e8 <_Z11bucketAllocjb+0x1ac>
+27c53c	27c658	e3550008	cmp	r5, #8
+27c53c	27c65c	9a00004c	bls	0x27c794 <_Z11bucketAllocjb+0x258>
+27c53c	27c660	e3550010	cmp	r5, #16
+27c53c	27c664	9a000065	bls	0x27c800 <_Z11bucketAllocjb+0x2c4>
+27c53c	27c668	e3550020	cmp	r5, #32
+27c53c	27c66c	9a000020	bls	0x27c6f4 <_Z11bucketAllocjb+0x1b8>
+27c53c	27c670	e3550040	cmp	r5, #64
+27c53c	27c674	9a000075	bls	0x27c850 <_Z11bucketAllocjb+0x314>
+27c53c	27c678	e3550080	cmp	r5, #128
+27c53c	27c67c	9a000087	bls	0x27c8a0 <_Z11bucketAllocjb+0x364>
+27c53c	27c680	e3550c01	cmp	r5, #256
+27c53c	27c684	9a00002e	bls	0x27c744 <_Z11bucketAllocjb+0x208>
+27c53c	27c688	e3550901	cmp	r5, #16384
+27c53c	27c68c	1a0000bc	bne	0x27c984 <_Z11bucketAllocjb+0x448>
+27c53c	27c690	e59f36ac	ldr	r3, [pc, #0x6ac]
+27c53c	27c694	e7964003	ldr	r4, [r6, r3]
+27c53c	27c698	e5945008	ldr	r5, [r4, #0x8]
+27c53c	27c69c	e3550000	cmp	r5, #0
+27c53c	27c6a0	0a0000e9	beq	0x27ca4c <_Z11bucketAllocjb+0x510>
+27c53c	27c6a4	e5941010	ldr	r1, [r4, #0x10]
+27c53c	27c6a8	e5952000	ldr	r2, [r5]
+27c53c	27c6ac	e594300c	ldr	r3, [r4, #0xc]
+27c53c	27c6b0	e3580000	cmp	r8, #0
+27c53c	27c6b4	e2411001	sub	r1, r1, #1
+27c53c	27c6b8	e5842008	str	r2, [r4, #0x8]
+27c53c	27c6bc	e2833001	add	r3, r3, #1
+27c53c	27c6c0	e5841010	str	r1, [r4, #0x10]
+27c53c	27c6c4	e584300c	str	r3, [r4, #0xc]
+27c53c	27c6c8	0a000003	beq	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c6cc	e1a00005	mov	r0, r5
+27c53c	27c6d0	e3a01000	mov	r1, #0
+27c53c	27c6d4	e3a02901	mov	r2, #16384
+27c53c	27c6d8	ebf8e7b4	bl	0xb65b0 <memset@plt>
+27c53c	27c6dc	e1a00005	mov	r0, r5
+27c53c	27c6e0	e28dd00c	add	sp, sp, #12
+27c53c	27c6e4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+27c53c	27c6e8	e3a00000	mov	r0, #0
+27c53c	27c6ec	e28dd00c	add	sp, sp, #12
+27c53c	27c6f0	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+27c53c	27c6f4	e59f3640	ldr	r3, [pc, #0x640]
+27c53c	27c6f8	e7964003	ldr	r4, [r6, r3]
+27c53c	27c6fc	e5945008	ldr	r5, [r4, #0x8]
+27c53c	27c700	e3550000	cmp	r5, #0
+27c53c	27c704	0a000118	beq	0x27cb6c <_Z11bucketAllocjb+0x630>
+27c53c	27c708	e5943010	ldr	r3, [r4, #0x10]
+27c53c	27c70c	e5952000	ldr	r2, [r5]
+27c53c	27c710	e594100c	ldr	r1, [r4, #0xc]
+27c53c	27c714	e3580000	cmp	r8, #0
+27c53c	27c718	e2433001	sub	r3, r3, #1
+27c53c	27c71c	e5842008	str	r2, [r4, #0x8]
+27c53c	27c720	e5843010	str	r3, [r4, #0x10]
+27c53c	27c724	e2813001	add	r3, r1, #1
+27c53c	27c728	e584300c	str	r3, [r4, #0xc]
+27c53c	27c72c	0affffea	beq	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c730	e1a00005	mov	r0, r5
+27c53c	27c734	e3a01000	mov	r1, #0
+27c53c	27c738	e3a02020	mov	r2, #32
+27c53c	27c73c	ebf8e79b	bl	0xb65b0 <memset@plt>
+27c53c	27c740	eaffffe5	b	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c744	e59f35fc	ldr	r3, [pc, #0x5fc]
+27c53c	27c748	e7964003	ldr	r4, [r6, r3]
+27c53c	27c74c	e5945008	ldr	r5, [r4, #0x8]
+27c53c	27c750	e3550000	cmp	r5, #0
+27c53c	27c754	0a000065	beq	0x27c8f0 <_Z11bucketAllocjb+0x3b4>
+27c53c	27c758	e5943010	ldr	r3, [r4, #0x10]
+27c53c	27c75c	e5952000	ldr	r2, [r5]
+27c53c	27c760	e594100c	ldr	r1, [r4, #0xc]
+27c53c	27c764	e3580000	cmp	r8, #0
+27c53c	27c768	e2433001	sub	r3, r3, #1
+27c53c	27c76c	e5842008	str	r2, [r4, #0x8]
+27c53c	27c770	e5843010	str	r3, [r4, #0x10]
+27c53c	27c774	e2813001	add	r3, r1, #1
+27c53c	27c778	e584300c	str	r3, [r4, #0xc]
+27c53c	27c77c	0affffd6	beq	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c780	e1a00005	mov	r0, r5
+27c53c	27c784	e3a01000	mov	r1, #0
+27c53c	27c788	e3a02c01	mov	r2, #256
+27c53c	27c78c	ebf8e787	bl	0xb65b0 <memset@plt>
+27c53c	27c790	eaffffd1	b	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c794	e59f3590	ldr	r3, [pc, #0x590]
+27c53c	27c798	e7964003	ldr	r4, [r6, r3]
+27c53c	27c79c	e5940008	ldr	r0, [r4, #0x8]
+27c53c	27c7a0	e3500000	cmp	r0, #0
+27c53c	27c7a4	0a000084	beq	0x27c9bc <_Z11bucketAllocjb+0x480>
+27c53c	27c7a8	e5943010	ldr	r3, [r4, #0x10]
+27c53c	27c7ac	e5902000	ldr	r2, [r0]
+27c53c	27c7b0	e594100c	ldr	r1, [r4, #0xc]
+27c53c	27c7b4	e3580000	cmp	r8, #0
+27c53c	27c7b8	e2433001	sub	r3, r3, #1
+27c53c	27c7bc	e5842008	str	r2, [r4, #0x8]
+27c53c	27c7c0	e5843010	str	r3, [r4, #0x10]
+27c53c	27c7c4	e2813001	add	r3, r1, #1
+27c53c	27c7c8	e584300c	str	r3, [r4, #0xc]
+27c53c	27c7cc	0affffc3	beq	0x27c6e0 <_Z11bucketAllocjb+0x1a4>
+27c53c	27c7d0	e1a03000	mov	r3, r0
+27c53c	27c7d4	e3a02000	mov	r2, #0
+27c53c	27c7d8	e4c32001	strb	r2, [r3], #1
+27c53c	27c7dc	e2833001	add	r3, r3, #1
+27c53c	27c7e0	e5c02001	strb	r2, [r0, #0x1]
+27c53c	27c7e4	e4c32001	strb	r2, [r3], #1
+27c53c	27c7e8	e4c32001	strb	r2, [r3], #1
+27c53c	27c7ec	e4c32001	strb	r2, [r3], #1
+27c53c	27c7f0	e4c32001	strb	r2, [r3], #1
+27c53c	27c7f4	e4c32001	strb	r2, [r3], #1
+27c53c	27c7f8	e5c32000	strb	r2, [r3]
+27c53c	27c7fc	eaffffb7	b	0x27c6e0 <_Z11bucketAllocjb+0x1a4>
+27c53c	27c800	e59f3528	ldr	r3, [pc, #0x528]
+27c53c	27c804	e7964003	ldr	r4, [r6, r3]
+27c53c	27c808	e5945008	ldr	r5, [r4, #0x8]
+27c53c	27c80c	e3550000	cmp	r5, #0
+27c53c	27c810	0a0000b1	beq	0x27cadc <_Z11bucketAllocjb+0x5a0>
+27c53c	27c814	e5943010	ldr	r3, [r4, #0x10]
+27c53c	27c818	e5952000	ldr	r2, [r5]
+27c53c	27c81c	e594100c	ldr	r1, [r4, #0xc]
+27c53c	27c820	e3580000	cmp	r8, #0
+27c53c	27c824	e2433001	sub	r3, r3, #1
+27c53c	27c828	e5842008	str	r2, [r4, #0x8]
+27c53c	27c82c	e5843010	str	r3, [r4, #0x10]
+27c53c	27c830	e2813001	add	r3, r1, #1
+27c53c	27c834	e584300c	str	r3, [r4, #0xc]
+27c53c	27c838	0affffa7	beq	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c83c	e1a00005	mov	r0, r5
+27c53c	27c840	e3a01000	mov	r1, #0
+27c53c	27c844	e3a02010	mov	r2, #16
+27c53c	27c848	ebf8e758	bl	0xb65b0 <memset@plt>
+27c53c	27c84c	eaffffa2	b	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c850	e59f34e8	ldr	r3, [pc, #0x4e8]
+27c53c	27c854	e7964003	ldr	r4, [r6, r3]
+27c53c	27c858	e5945008	ldr	r5, [r4, #0x8]
+27c53c	27c85c	e3550000	cmp	r5, #0
+27c53c	27c860	0a0000e5	beq	0x27cbfc <_Z11bucketAllocjb+0x6c0>
+27c53c	27c864	e5943010	ldr	r3, [r4, #0x10]
+27c53c	27c868	e5952000	ldr	r2, [r5]
+27c53c	27c86c	e594100c	ldr	r1, [r4, #0xc]
+27c53c	27c870	e3580000	cmp	r8, #0
+27c53c	27c874	e2433001	sub	r3, r3, #1
+27c53c	27c878	e5842008	str	r2, [r4, #0x8]
+27c53c	27c87c	e5843010	str	r3, [r4, #0x10]
+27c53c	27c880	e2813001	add	r3, r1, #1
+27c53c	27c884	e584300c	str	r3, [r4, #0xc]
+27c53c	27c888	0affff93	beq	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c88c	e1a00005	mov	r0, r5
+27c53c	27c890	e3a01000	mov	r1, #0
+27c53c	27c894	e3a02040	mov	r2, #64
+27c53c	27c898	ebf8e744	bl	0xb65b0 <memset@plt>
+27c53c	27c89c	eaffff8e	b	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c8a0	e59f3490	ldr	r3, [pc, #0x490]
+27c53c	27c8a4	e7964003	ldr	r4, [r6, r3]
+27c53c	27c8a8	e5945008	ldr	r5, [r4, #0x8]
+27c53c	27c8ac	e3550000	cmp	r5, #0
+27c53c	27c8b0	0a0000f5	beq	0x27cc8c <_Z11bucketAllocjb+0x750>
+27c53c	27c8b4	e5943010	ldr	r3, [r4, #0x10]
+27c53c	27c8b8	e5952000	ldr	r2, [r5]
+27c53c	27c8bc	e594100c	ldr	r1, [r4, #0xc]
+27c53c	27c8c0	e3580000	cmp	r8, #0
+27c53c	27c8c4	e2433001	sub	r3, r3, #1
+27c53c	27c8c8	e5842008	str	r2, [r4, #0x8]
+27c53c	27c8cc	e5843010	str	r3, [r4, #0x10]
+27c53c	27c8d0	e2813001	add	r3, r1, #1
+27c53c	27c8d4	e584300c	str	r3, [r4, #0xc]
+27c53c	27c8d8	0affff7f	beq	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c8dc	e1a00005	mov	r0, r5
+27c53c	27c8e0	e3a01000	mov	r1, #0
+27c53c	27c8e4	e3a02080	mov	r2, #128
+27c53c	27c8e8	ebf8e730	bl	0xb65b0 <memset@plt>
+27c53c	27c8ec	eaffff7a	b	0x27c6dc <_Z11bucketAllocjb+0x1a0>
+27c53c	27c8f0	e3a00f42	mov	r0, #264
+27c53c	27c8f4	e3400010	movt	r0, #0x10
+27c53c	27c8f8	ebffff09	bl	0x27c524 <_Znwj>
+27c53c	27c8fc	e3a01078	mov	r1, #120
+27c53c	27c900	e3a02c01	mov	r2, #256
+27c53c	27c904	e3402010	movt	r2, #0x10
+27c53c	27c908	e1a06000	mov	r6, r0
+27c53c	27c90c	e2800008	add	r0, r0, #8
+27c53c	27c910	ebf8e726	bl	0xb65b0 <memset@plt>
+27c53c	27c914	e5943004	ldr	r3, [r4, #0x4]
+27c53c	27c918	e3001107	movw	r1, #0x107
+27c53c	27c91c	e3401010	movt	r1, #0x10
+27c53c	27c920	e1a00006	mov	r0, r6
+27c53c	27c924	e0861001	add	r1, r6, r1
+27c53c	27c928	e5863000	str	r3, [r6]
+27c53c	27c92c	e2867f42	add	r7, r6, #264
+27c53c	27c930	e3c770ff	bic	r7, r7, #255
+27c53c	27c934	e5846004	str	r6, [r4, #0x4]
+27c53c	27c938	ebfffcee	bl	0x27bcf8 <_Z23addPageToGlobalPageListPvS_>
+27c53c	27c93c	e5941008	ldr	r1, [r4, #0x8]
+27c53c	27c940	e2875aff	add	r5, r7, #1044480
+27c53c	27c944	e1a03007	mov	r3, r7
+27c53c	27c948	e5940010	ldr	r0, [r4, #0x10]
+27c53c	27c94c	e285cc0f	add	r12, r5, #3840
+27c53c	27c950	e5864004	str	r4, [r6, #0x4]
+27c53c	27c954	e1a02007	mov	r2, r7
+27c53c	27c958	e4831100	str	r1, [r3], #256
+27c53c	27c95c	ea000000	b	0x27c964 <_Z11bucketAllocjb+0x428>
+27c53c	27c960	e1a02001	mov	r2, r1
+27c53c	27c964	e1a01003	mov	r1, r3
+27c53c	27c968	e4832100	str	r2, [r3], #256
+27c53c	27c96c	e153000c	cmp	r3, r12
+27c53c	27c970	1afffffa	bne	0x27c960 <_Z11bucketAllocjb+0x424>
+27c53c	27c974	e2803eff	add	r3, r0, #4080
+27c53c	27c978	e2855c0e	add	r5, r5, #3584
+27c53c	27c97c	e283300f	add	r3, r3, #15
+27c53c	27c980	eaffff76	b	0x27c760 <_Z11bucketAllocjb+0x224>
+27c53c	27c984	e59f03c0	ldr	r0, [pc, #0x3c0]
+27c53c	27c988	e1a03005	mov	r3, r5
+27c53c	27c98c	e59f13bc	ldr	r1, [pc, #0x3bc]
+27c53c	27c990	e1a02005	mov	r2, r5
+27c53c	27c994	e7960000	ldr	r0, [r6, r0]
+27c53c	27c998	e08f1001	add	r1, pc, r1
+27c53c	27c99c	e5900000	ldr	r0, [r0]
+27c53c	27c9a0	e590c000	ldr	r12, [r0]
+27c53c	27c9a4	e59cc00c	ldr	r12, [r12, #0xc]
+27c53c	27c9a8	e12fff3c	blx	r12
+27c53c	27c9ac	e3a0302a	mov	r3, #42
+27c53c	27c9b0	e1a00004	mov	r0, r4
+27c53c	27c9b4	e5843000	str	r3, [r4]
+27c53c	27c9b8	eaffff48	b	0x27c6e0 <_Z11bucketAllocjb+0x1a4>
+27c53c	27c9bc	e3a00010	mov	r0, #16
+27c53c	27c9c0	e3400002	movt	r0, #0x2
+27c53c	27c9c4	ebfffed6	bl	0x27c524 <_Znwj>
+27c53c	27c9c8	e3a02008	mov	r2, #8
+27c53c	27c9cc	e3a01078	mov	r1, #120
+27c53c	27c9d0	e1a05000	mov	r5, r0
+27c53c	27c9d4	e0800002	add	r0, r0, r2
+27c53c	27c9d8	e3402002	movt	r2, #0x2
+27c53c	27c9dc	e2856010	add	r6, r5, #16
+27c53c	27c9e0	ebf8e6f2	bl	0xb65b0 <memset@plt>
+27c53c	27c9e4	e5943004	ldr	r3, [r4, #0x4]
+27c53c	27c9e8	e2851802	add	r1, r5, #131072
+27c53c	27c9ec	e1a00005	mov	r0, r5
+27c53c	27c9f0	e281100f	add	r1, r1, #15
+27c53c	27c9f4	e3c66007	bic	r6, r6, #7
+27c53c	27c9f8	e5853000	str	r3, [r5]
+27c53c	27c9fc	e5845004	str	r5, [r4, #0x4]
+27c53c	27ca00	ebfffcbc	bl	0x27bcf8 <_Z23addPageToGlobalPageListPvS_>
+27c53c	27ca04	e5941008	ldr	r1, [r4, #0x8]
+27c53c	27ca08	e2860b7f	add	r0, r6, #130048
+27c53c	27ca0c	e1a03006	mov	r3, r6
+27c53c	27ca10	e5947010	ldr	r7, [r4, #0x10]
+27c53c	27ca14	e280cffe	add	r12, r0, #1016
+27c53c	27ca18	e5854004	str	r4, [r5, #0x4]
+27c53c	27ca1c	e1a02006	mov	r2, r6
+27c53c	27ca20	e4831008	str	r1, [r3], #8
+27c53c	27ca24	ea000000	b	0x27ca2c <_Z11bucketAllocjb+0x4f0>
+27c53c	27ca28	e1a02001	mov	r2, r1
+27c53c	27ca2c	e1a01003	mov	r1, r3
+27c53c	27ca30	e4832008	str	r2, [r3], #8
+27c53c	27ca34	e153000c	cmp	r3, r12
+27c53c	27ca38	1afffffa	bne	0x27ca28 <_Z11bucketAllocjb+0x4ec>
+27c53c	27ca3c	e2873dff	add	r3, r7, #16320
+27c53c	27ca40	e2800e3f	add	r0, r0, #1008
+27c53c	27ca44	e283303f	add	r3, r3, #63
+27c53c	27ca48	eaffff58	b	0x27c7b0 <_Z11bucketAllocjb+0x274>
+27c53c	27ca4c	e3040008	movw	r0, #0x4008
+27c53c	27ca50	e3400004	movt	r0, #0x4
+27c53c	27ca54	ebfffeb2	bl	0x27c524 <_Znwj>
+27c53c	27ca58	e3a01078	mov	r1, #120
+27c53c	27ca5c	e3a02911	mov	r2, #278528
+27c53c	27ca60	e1a06000	mov	r6, r0
+27c53c	27ca64	e2800008	add	r0, r0, #8
+27c53c	27ca68	ebf8e6d0	bl	0xb65b0 <memset@plt>
+27c53c	27ca6c	e5942004	ldr	r2, [r4, #0x4]
+27c53c	27ca70	e2863901	add	r3, r6, #16384
+27c53c	27ca74	e2861911	add	r1, r6, #278528
+27c53c	27ca78	e2833008	add	r3, r3, #8
+27c53c	27ca7c	e2811007	add	r1, r1, #7
+27c53c	27ca80	e5862000	str	r2, [r6]
+27c53c	27ca84	e3c33dff	bic	r3, r3, #16320
+27c53c	27ca88	e1a00006	mov	r0, r6
+27c53c	27ca8c	e3c3503f	bic	r5, r3, #63
+27c53c	27ca90	e5846004	str	r6, [r4, #0x4]
+27c53c	27ca94	ebfffc97	bl	0x27bcf8 <_Z23addPageToGlobalPageListPvS_>
+27c53c	27ca98	e5940008	ldr	r0, [r4, #0x8]
+27c53c	27ca9c	e2853901	add	r3, r5, #16384
+27c53c	27caa0	e5941010	ldr	r1, [r4, #0x10]
+27c53c	27caa4	e285c90f	add	r12, r5, #245760
+27c53c	27caa8	e5864004	str	r4, [r6, #0x4]
+27c53c	27caac	e1a02005	mov	r2, r5
+27c53c	27cab0	e5850000	str	r0, [r5]
+27c53c	27cab4	ea000000	b	0x27cabc <_Z11bucketAllocjb+0x580>
+27c53c	27cab8	e1a02000	mov	r2, r0
+27c53c	27cabc	e5832000	str	r2, [r3]
+27c53c	27cac0	e1a00003	mov	r0, r3
+27c53c	27cac4	e2833901	add	r3, r3, #16384
+27c53c	27cac8	e153000c	cmp	r3, r12
+27c53c	27cacc	1afffff9	bne	0x27cab8 <_Z11bucketAllocjb+0x57c>
+27c53c	27cad0	e281100f	add	r1, r1, #15
+27c53c	27cad4	e285590e	add	r5, r5, #229376
+27c53c	27cad8	eafffef3	b	0x27c6ac <_Z11bucketAllocjb+0x170>
+27c53c	27cadc	e3a00018	mov	r0, #24
+27c53c	27cae0	e3400004	movt	r0, #0x4
+27c53c	27cae4	ebfffe8e	bl	0x27c524 <_Znwj>
+27c53c	27cae8	e3a01078	mov	r1, #120
+27c53c	27caec	e3a02010	mov	r2, #16
+27c53c	27caf0	e3402004	movt	r2, #0x4
+27c53c	27caf4	e1a06000	mov	r6, r0
+27c53c	27caf8	e2800008	add	r0, r0, #8
+27c53c	27cafc	ebf8e6ab	bl	0xb65b0 <memset@plt>
+27c53c	27cb00	e5943004	ldr	r3, [r4, #0x4]
+27c53c	27cb04	e2861701	add	r1, r6, #262144
+27c53c	27cb08	e1a00006	mov	r0, r6
+27c53c	27cb0c	e2811017	add	r1, r1, #23
+27c53c	27cb10	e2867018	add	r7, r6, #24
+27c53c	27cb14	e5863000	str	r3, [r6]
+27c53c	27cb18	e3c7700f	bic	r7, r7, #15
+27c53c	27cb1c	e5846004	str	r6, [r4, #0x4]
+27c53c	27cb20	ebfffc74	bl	0x27bcf8 <_Z23addPageToGlobalPageListPvS_>
+27c53c	27cb24	e5941008	ldr	r1, [r4, #0x8]
+27c53c	27cb28	e2875bff	add	r5, r7, #261120
+27c53c	27cb2c	e1a03007	mov	r3, r7
+27c53c	27cb30	e5940010	ldr	r0, [r4, #0x10]
+27c53c	27cb34	e285ce3f	add	r12, r5, #1008
+27c53c	27cb38	e5864004	str	r4, [r6, #0x4]
+27c53c	27cb3c	e1a02007	mov	r2, r7
+27c53c	27cb40	e4831010	str	r1, [r3], #16
+27c53c	27cb44	ea000000	b	0x27cb4c <_Z11bucketAllocjb+0x610>
+27c53c	27cb48	e1a02001	mov	r2, r1
+27c53c	27cb4c	e1a01003	mov	r1, r3
+27c53c	27cb50	e4832010	str	r2, [r3], #16
+27c53c	27cb54	e153000c	cmp	r3, r12
+27c53c	27cb58	1afffffa	bne	0x27cb48 <_Z11bucketAllocjb+0x60c>
+27c53c	27cb5c	e2803dff	add	r3, r0, #16320
+27c53c	27cb60	e2855e3e	add	r5, r5, #992
+27c53c	27cb64	e283303f	add	r3, r3, #63
+27c53c	27cb68	eaffff2b	b	0x27c81c <_Z11bucketAllocjb+0x2e0>
+27c53c	27cb6c	e3a00028	mov	r0, #40
+27c53c	27cb70	e3400004	movt	r0, #0x4
+27c53c	27cb74	ebfffe6a	bl	0x27c524 <_Znwj>
+27c53c	27cb78	e3a01078	mov	r1, #120
+27c53c	27cb7c	e3a02020	mov	r2, #32
+27c53c	27cb80	e3402004	movt	r2, #0x4
+27c53c	27cb84	e1a06000	mov	r6, r0
+27c53c	27cb88	e2800008	add	r0, r0, #8
+27c53c	27cb8c	ebf8e687	bl	0xb65b0 <memset@plt>
+27c53c	27cb90	e5943004	ldr	r3, [r4, #0x4]
+27c53c	27cb94	e2861701	add	r1, r6, #262144
+27c53c	27cb98	e1a00006	mov	r0, r6
+27c53c	27cb9c	e2811027	add	r1, r1, #39
+27c53c	27cba0	e2867028	add	r7, r6, #40
+27c53c	27cba4	e5863000	str	r3, [r6]
+27c53c	27cba8	e3c7701f	bic	r7, r7, #31
+27c53c	27cbac	e5846004	str	r6, [r4, #0x4]
+27c53c	27cbb0	ebfffc50	bl	0x27bcf8 <_Z23addPageToGlobalPageListPvS_>
+27c53c	27cbb4	e5941008	ldr	r1, [r4, #0x8]
+27c53c	27cbb8	e2875bff	add	r5, r7, #261120
+27c53c	27cbbc	e1a03007	mov	r3, r7
+27c53c	27cbc0	e5940010	ldr	r0, [r4, #0x10]
+27c53c	27cbc4	e285ce3e	add	r12, r5, #992
+27c53c	27cbc8	e5864004	str	r4, [r6, #0x4]
+27c53c	27cbcc	e1a02007	mov	r2, r7
+27c53c	27cbd0	e4831020	str	r1, [r3], #32
+27c53c	27cbd4	ea000000	b	0x27cbdc <_Z11bucketAllocjb+0x6a0>
+27c53c	27cbd8	e1a02001	mov	r2, r1
+27c53c	27cbdc	e1a01003	mov	r1, r3
+27c53c	27cbe0	e4832020	str	r2, [r3], #32
+27c53c	27cbe4	e153000c	cmp	r3, r12
+27c53c	27cbe8	1afffffa	bne	0x27cbd8 <_Z11bucketAllocjb+0x69c>
+27c53c	27cbec	e2803d7f	add	r3, r0, #8128
+27c53c	27cbf0	e2855d0f	add	r5, r5, #960
+27c53c	27cbf4	e283303f	add	r3, r3, #63
+27c53c	27cbf8	eafffec4	b	0x27c710 <_Z11bucketAllocjb+0x1d4>
+27c53c	27cbfc	e3a00048	mov	r0, #72
+27c53c	27cc00	e3400008	movt	r0, #0x8
+27c53c	27cc04	ebfffe46	bl	0x27c524 <_Znwj>
+27c53c	27cc08	e3a01078	mov	r1, #120
+27c53c	27cc0c	e3a02040	mov	r2, #64
+27c53c	27cc10	e3402008	movt	r2, #0x8
+27c53c	27cc14	e1a06000	mov	r6, r0
+27c53c	27cc18	e2800008	add	r0, r0, #8
+27c53c	27cc1c	ebf8e663	bl	0xb65b0 <memset@plt>
+27c53c	27cc20	e5943004	ldr	r3, [r4, #0x4]
+27c53c	27cc24	e2861702	add	r1, r6, #524288
+27c53c	27cc28	e1a00006	mov	r0, r6
+27c53c	27cc2c	e2811047	add	r1, r1, #71
+27c53c	27cc30	e2867048	add	r7, r6, #72
+27c53c	27cc34	e5863000	str	r3, [r6]
+27c53c	27cc38	e3c7703f	bic	r7, r7, #63
+27c53c	27cc3c	e5846004	str	r6, [r4, #0x4]
+27c53c	27cc40	ebfffc2c	bl	0x27bcf8 <_Z23addPageToGlobalPageListPvS_>
+27c53c	27cc44	e5941008	ldr	r1, [r4, #0x8]
+27c53c	27cc48	e2875a7f	add	r5, r7, #520192
+27c53c	27cc4c	e1a03007	mov	r3, r7
+27c53c	27cc50	e5940010	ldr	r0, [r4, #0x10]
+27c53c	27cc54	e285cd3f	add	r12, r5, #4032
+27c53c	27cc58	e5864004	str	r4, [r6, #0x4]
+27c53c	27cc5c	e1a02007	mov	r2, r7
+27c53c	27cc60	e4831040	str	r1, [r3], #64
+27c53c	27cc64	ea000000	b	0x27cc6c <_Z11bucketAllocjb+0x730>
+27c53c	27cc68	e1a02001	mov	r2, r1
+27c53c	27cc6c	e1a01003	mov	r1, r3
+27c53c	27cc70	e4832040	str	r2, [r3], #64
+27c53c	27cc74	e153000c	cmp	r3, r12
+27c53c	27cc78	1afffffa	bne	0x27cc68 <_Z11bucketAllocjb+0x72c>
+27c53c	27cc7c	e2803d7f	add	r3, r0, #8128
+27c53c	27cc80	e2855d3e	add	r5, r5, #3968
+27c53c	27cc84	e283303f	add	r3, r3, #63
+27c53c	27cc88	eafffef7	b	0x27c86c <_Z11bucketAllocjb+0x330>
+27c53c	27cc8c	e3a00088	mov	r0, #136
+27c53c	27cc90	e3400008	movt	r0, #0x8
+27c53c	27cc94	ebfffe22	bl	0x27c524 <_Znwj>
+27c53c	27cc98	e3a01078	mov	r1, #120
+27c53c	27cc9c	e3a02080	mov	r2, #128
+27c53c	27cca0	e3402008	movt	r2, #0x8
+27c53c	27cca4	e1a06000	mov	r6, r0
+27c53c	27cca8	e2800008	add	r0, r0, #8
+27c53c	27ccac	ebf8e63f	bl	0xb65b0 <memset@plt>
+27c53c	27ccb0	e5943004	ldr	r3, [r4, #0x4]
+27c53c	27ccb4	e2861702	add	r1, r6, #524288
+27c53c	27ccb8	e1a00006	mov	r0, r6
+27c53c	27ccbc	e2811087	add	r1, r1, #135
+27c53c	27ccc0	e2867088	add	r7, r6, #136
+27c53c	27ccc4	e5863000	str	r3, [r6]
+27c53c	27ccc8	e3c7707f	bic	r7, r7, #127
+27c53c	27cccc	e5846004	str	r6, [r4, #0x4]
+27c53c	27ccd0	ebfffc08	bl	0x27bcf8 <_Z23addPageToGlobalPageListPvS_>
+27c53c	27ccd4	e5941008	ldr	r1, [r4, #0x8]
+27c53c	27ccd8	e2875a7f	add	r5, r7, #520192
+27c53c	27ccdc	e1a03007	mov	r3, r7
+27c53c	27cce0	e5940010	ldr	r0, [r4, #0x10]
+27c53c	27cce4	e285cd3e	add	r12, r5, #3968
+27c53c	27cce8	e5864004	str	r4, [r6, #0x4]
+27c53c	27ccec	e1a02007	mov	r2, r7
+27c53c	27ccf0	e4831080	str	r1, [r3], #128
+27c53c	27ccf4	ea000000	b	0x27ccfc <_Z11bucketAllocjb+0x7c0>
+27c53c	27ccf8	e1a02001	mov	r2, r1
+27c53c	27ccfc	e1a01003	mov	r1, r3
+27c53c	27cd00	e4832080	str	r2, [r3], #128
+27c53c	27cd04	e153000c	cmp	r3, r12
+27c53c	27cd08	1afffffa	bne	0x27ccf8 <_Z11bucketAllocjb+0x7bc>
+27c53c	27cd0c	e2803eff	add	r3, r0, #4080
+27c53c	27cd10	e2855c0f	add	r5, r5, #3840
+27c53c	27cd14	e283300f	add	r3, r3, #15
+27c53c	27cd18	eafffee7	b	0x27c8bc <_Z11bucketAllocjb+0x380>
+27c53c	27cd1c	004d9f3c	.word	0x004d9f3c
+27c53c	27cd20	001756f8	.word	0x001756f8
+27c53c	27cd24	fffffc00	.word	0xfffffc00
+27c53c	27cd28	fffffbdc	.word	0xfffffbdc
+27c53c	27cd2c	fffffbe8	.word	0xfffffbe8
+27c53c	27cd30	fffffbec	.word	0xfffffbec
+27c53c	27cd34	fffffbe0	.word	0xfffffbe0
+27c53c	27cd38	fffffbf8	.word	0xfffffbf8
+27c53c	27cd3c	fffffbf0	.word	0xfffffbf0
+27c53c	27cd40	fffffbf4	.word	0xfffffbf4
+27c53c	27cd44	fffffc08	.word	0xfffffc08
+27c53c	27cd48	fffffbfc	.word	0xfffffbfc
+27c53c	27cd4c	ffffbac4	.word	0xffffbac4
+27c53c	27cd50	000da87c	.word	0x000da87c

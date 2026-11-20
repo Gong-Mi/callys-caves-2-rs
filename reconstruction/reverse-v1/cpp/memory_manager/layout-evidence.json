@@ -158,5 +158,363 @@
     "file_line": "ABI retained, _Alloc does not consume; wrapper forwards",
     "wrapper": "size0 skips all; normal bool0/1 conditional memset, then true logLocation and held pointer return",
     "bucketAlloc_body": "declaration debt only"
+  },
+  "bucket_allocator": {
+    "functions": [
+      "0x27c53c"
+    ],
+    "bucket_object_bytes": 20,
+    "bucket_observed_offsets": {
+      "vptr": 0,
+      "page_head": 4,
+      "free_head": 8,
+      "active_count": 12,
+      "free_count": 16
+    },
+    "page_prefix_bytes": 8,
+    "page_observed_offsets": {
+      "next": 0,
+      "owner": 4
+    },
+    "anonymous_flag": {
+      "base": "0x756498",
+      "byte_offset": "0x201",
+      "address": "0x756699",
+      "defined_symbols": []
+    },
+    "named_got_anchors": {
+      "0x27cd24": {
+        "slot": "0x3f1858",
+        "raw_addend": "0x75669a",
+        "defined_symbols": [
+          {
+            "name": "bucketsShouldInit",
+            "size": 1,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd28": {
+        "slot": "0x3f1834",
+        "raw_addend": "0x75669c",
+        "defined_symbols": [
+          {
+            "name": "pagedata_size",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd2c": {
+        "slot": "0x3f1840",
+        "raw_addend": "0x756728",
+        "defined_symbols": [
+          {
+            "name": "_8byte",
+            "size": 20,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd30": {
+        "slot": "0x3f1844",
+        "raw_addend": "0x756714",
+        "defined_symbols": [
+          {
+            "name": "_16byte",
+            "size": 20,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd34": {
+        "slot": "0x3f1838",
+        "raw_addend": "0x7566a0",
+        "defined_symbols": [
+          {
+            "name": "g_pages",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd38": {
+        "slot": "0x3f1850",
+        "raw_addend": "0x7566d8",
+        "defined_symbols": [
+          {
+            "name": "_128byte",
+            "size": 20,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd3c": {
+        "slot": "0x3f1848",
+        "raw_addend": "0x756700",
+        "defined_symbols": [
+          {
+            "name": "_32byte",
+            "size": 20,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd40": {
+        "slot": "0x3f184c",
+        "raw_addend": "0x7566ec",
+        "defined_symbols": [
+          {
+            "name": "_64byte",
+            "size": 20,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd44": {
+        "slot": "0x3f1860",
+        "raw_addend": "0x7566b0",
+        "defined_symbols": [
+          {
+            "name": "_16Kbyte",
+            "size": 20,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd48": {
+        "slot": "0x3f1854",
+        "raw_addend": "0x7566c4",
+        "defined_symbols": [
+          {
+            "name": "_256byte",
+            "size": 20,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0x27cd4c": {
+        "slot": "0x3ed71c",
+        "raw_addend": "0x3eb70c",
+        "defined_symbols": [
+          {
+            "name": "dbg_csol",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      }
+    },
+    "case_constants": [
+      {
+        "stride": 8,
+        "case": "0x27c794",
+        "new_bytes": "0x20010",
+        "fill_bytes": "0x20008",
+        "fill_byte": "0x78",
+        "first_expression": "(base+0x10)&~0x7",
+        "page_registry_high": "base+0x2000f",
+        "span_offset": "0x1fc00",
+        "loop_end_offset": "0x1fff8",
+        "return_node_offset": "0x1fff0",
+        "free_count_add_before_common_minus1": "0x3fff",
+        "common_tail_entry": "0x27c7b0",
+        "source_words": {
+          "0x27c9bc": "0xe3a00010",
+          "0x27c9c0": "0xe3400002",
+          "0x27c9c8": "0xe3a02008",
+          "0x27c9d8": "0xe3402002",
+          "0x27ca08": "0xe2860b7f",
+          "0x27ca14": "0xe280cffe",
+          "0x27ca40": "0xe2800e3f",
+          "0x27ca3c": "0xe2873dff",
+          "0x27ca44": "0xe283303f"
+        }
+      },
+      {
+        "stride": 16,
+        "case": "0x27c800",
+        "new_bytes": "0x40018",
+        "fill_bytes": "0x40010",
+        "fill_byte": "0x78",
+        "first_expression": "(base+0x18)&~0xf",
+        "page_registry_high": "base+0x40017",
+        "span_offset": "0x3fc00",
+        "loop_end_offset": "0x3fff0",
+        "return_node_offset": "0x3ffe0",
+        "free_count_add_before_common_minus1": "0x3fff",
+        "common_tail_entry": "0x27c81c",
+        "source_words": {
+          "0x27cadc": "0xe3a00018",
+          "0x27cae0": "0xe3400004",
+          "0x27caec": "0xe3a02010",
+          "0x27caf0": "0xe3402004",
+          "0x27cb28": "0xe2875bff",
+          "0x27cb34": "0xe285ce3f",
+          "0x27cb60": "0xe2855e3e",
+          "0x27cb5c": "0xe2803dff",
+          "0x27cb64": "0xe283303f"
+        }
+      },
+      {
+        "stride": 32,
+        "case": "0x27c6f4",
+        "new_bytes": "0x40028",
+        "fill_bytes": "0x40020",
+        "fill_byte": "0x78",
+        "first_expression": "(base+0x28)&~0x1f",
+        "page_registry_high": "base+0x40027",
+        "span_offset": "0x3fc00",
+        "loop_end_offset": "0x3ffe0",
+        "return_node_offset": "0x3ffc0",
+        "free_count_add_before_common_minus1": "0x1fff",
+        "common_tail_entry": "0x27c710",
+        "source_words": {
+          "0x27cb6c": "0xe3a00028",
+          "0x27cb70": "0xe3400004",
+          "0x27cb7c": "0xe3a02020",
+          "0x27cb80": "0xe3402004",
+          "0x27cbb8": "0xe2875bff",
+          "0x27cbc4": "0xe285ce3e",
+          "0x27cbf0": "0xe2855d0f",
+          "0x27cbec": "0xe2803d7f",
+          "0x27cbf4": "0xe283303f"
+        }
+      },
+      {
+        "stride": 64,
+        "case": "0x27c850",
+        "new_bytes": "0x80048",
+        "fill_bytes": "0x80040",
+        "fill_byte": "0x78",
+        "first_expression": "(base+0x48)&~0x3f",
+        "page_registry_high": "base+0x80047",
+        "span_offset": "0x7f000",
+        "loop_end_offset": "0x7ffc0",
+        "return_node_offset": "0x7ff80",
+        "free_count_add_before_common_minus1": "0x1fff",
+        "common_tail_entry": "0x27c86c",
+        "source_words": {
+          "0x27cbfc": "0xe3a00048",
+          "0x27cc00": "0xe3400008",
+          "0x27cc0c": "0xe3a02040",
+          "0x27cc10": "0xe3402008",
+          "0x27cc48": "0xe2875a7f",
+          "0x27cc54": "0xe285cd3f",
+          "0x27cc80": "0xe2855d3e",
+          "0x27cc7c": "0xe2803d7f",
+          "0x27cc84": "0xe283303f"
+        }
+      },
+      {
+        "stride": 128,
+        "case": "0x27c8a0",
+        "new_bytes": "0x80088",
+        "fill_bytes": "0x80080",
+        "fill_byte": "0x78",
+        "first_expression": "(base+0x88)&~0x7f",
+        "page_registry_high": "base+0x80087",
+        "span_offset": "0x7f000",
+        "loop_end_offset": "0x7ff80",
+        "return_node_offset": "0x7ff00",
+        "free_count_add_before_common_minus1": "0xfff",
+        "common_tail_entry": "0x27c8bc",
+        "source_words": {
+          "0x27cc8c": "0xe3a00088",
+          "0x27cc90": "0xe3400008",
+          "0x27cc9c": "0xe3a02080",
+          "0x27cca0": "0xe3402008",
+          "0x27ccd8": "0xe2875a7f",
+          "0x27cce4": "0xe285cd3e",
+          "0x27cd10": "0xe2855c0f",
+          "0x27cd0c": "0xe2803eff",
+          "0x27cd14": "0xe283300f"
+        }
+      },
+      {
+        "stride": 256,
+        "case": "0x27c744",
+        "new_bytes": "0x100108",
+        "fill_bytes": "0x100100",
+        "fill_byte": "0x78",
+        "first_expression": "(base+0x108)&~0xff",
+        "page_registry_high": "base+0x100107",
+        "span_offset": "0xff000",
+        "loop_end_offset": "0xfff00",
+        "return_node_offset": "0xffe00",
+        "free_count_add_before_common_minus1": "0xfff",
+        "common_tail_entry": "0x27c760",
+        "source_words": {
+          "0x27c8f0": "0xe3a00f42",
+          "0x27c8f4": "0xe3400010",
+          "0x27c900": "0xe3a02c01",
+          "0x27c904": "0xe3402010",
+          "0x27c940": "0xe2875aff",
+          "0x27c94c": "0xe285cc0f",
+          "0x27c978": "0xe2855c0e",
+          "0x27c974": "0xe2803eff",
+          "0x27c97c": "0xe283300f"
+        }
+      },
+      {
+        "stride": 16384,
+        "case": "0x27c690",
+        "new_bytes": "0x44008",
+        "fill_bytes": "0x44000",
+        "fill_byte": "0x78",
+        "first_expression": "((base+0x4000+8)&~0x3fc0)&~0x3f",
+        "page_registry_high": "base+0x44007",
+        "loop_end_offset": "0x3c000",
+        "return_node_offset": "0x38000",
+        "free_count_add_before_common_minus1": "0xf",
+        "common_tail_entry": "0x27c6ac"
+      }
+    ],
+    "original_executed": false,
+    "limitations": "Observed raw words and globals only; no complete C++ bucket class, anonymous-state provider, unwinding/invalid-address/concurrency proof."
   }
 }
