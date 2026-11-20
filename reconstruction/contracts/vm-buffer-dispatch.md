@@ -199,3 +199,29 @@ __aeabi_d2lz / __aeabi_d2ulz 分别为同址 GLOBAL alias，而非转发函数�
 
 18 TU 在 O0/O2 中组合、40 个原导出齐全，转换对象无 native FP 算术；保留五类软件 helper
 作为内部欠账。源级 ABI/调用链候选不认证原 LR/尾调用栈可见性、完整浮点行为或游戏等价。
+
+## 循环批次：YYObjectBase 回收与 unsigned32 叶
+
+`object_base/object_free.cpp` 与 `object_free_vars.cpp` 恢复 0x198f88/0x198dac 的静态成员，
+不是空 YYObjectBase 上的 delete 表达式。kind3 从实际 vptr+4 调 deleting entry；普通分支
+移除 slot、按 signed min 更新 firstFree、清字段后才可选执行 "dispose" 属性。探针使用
+同一 16B 原位图，sentinel 00ffffff，无新增 RValue ctor/dtor。FreeVars 后先发 pool head，
+再写 object+8 的旧 head；没有把原发布顺序“修正”为常见链表做法。
+
+FreeVars 的 dense 非空才读 count，count<=0 与正数遍历结束的释放指针来源不同；tag 窗
+仍清 +8/+c/+0 并留 +4。hash 走原 index/scan/counter CFG，callback 后既保留 captured
+RValue 的清零，也重读 bucket.value 作 FreeRValue 实参，再重取 live map/capacity/table；
+不使用标准 foreach 覆盖原重入/读取点。map 的 raw operator delete 无条件保留。
+两处 regex 数据各自读 live pcre_free（同 slot 0x3f0690 → 0x3f76dc），callback 后才清字段。
+
+原 g_slotObjects 是 16B inline registry，类 freeList 是四字节指针变量，g_ShouldDispose
+是 0x3f5050 的 byte，不混成 VM 的 JSGC。属性字面量 "dispose" 在 0x3327b4。字段与
+源 API 仍仅观测前缀；不能把 wire view 或 raw local image 当完整原 C++ 类型。
+
+`__fixunsdfsi` / `__aeabi_d2uiz` 在 0x31b0d0 共用 84B 叶。源码保留 LSLS 的 sign carry、
+ADDS 的 exponent carry、BPL/BMI 与 ARM register-LSR 规则；负数/NaN 为零，+inf 与
+正溢出为全一，非一个标准 C cast 的定义域。candidate 无 native FP 算术和任何外调，
+两个名称同址同 GLOBAL、尺寸按对象核验，不因此声称全位图执行差分已做。
+
+本批 238 原字，22 TU 的 O0/O2 组合含 44 个原导出。JS/value helpers、实际析构目标、
+delete trampoline 及 fault/concurrency/unwind 等仍是内部欠账；未执行原件或重建件。

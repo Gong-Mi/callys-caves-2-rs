@@ -1,0 +1,59 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "header_sha256": "42da1b2ab5c78a0b8ba8ebbe8952baa7cd48c912317f0caab8e3ac9db96601de",
+  "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
+  "canonical_api_header_sha256": "3e0a6b6284a1741566b8053df40e09a5786a86284506372918757e19454ed731",
+  "functions": [
+    {
+      "entry": "0x198f88",
+      "size": 392,
+      "symbols": [
+        "_ZN12YYObjectBase4FreeEPS_"
+      ],
+      "body_sha256": "f90fdf371b03f348fb21d0361b0687a564fbddd72470cbf5d165efd585f721fa",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_free.cpp",
+      "translation_source_sha256": "500508b69cb09af9e7d89969f2c760c4b5f09e395a8474d1607dedcb7233f758",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x198dac",
+      "size": 476,
+      "symbols": [
+        "_ZN12YYObjectBase8FreeVarsEPS_PP6RValueS3_PP9RVariableS6_"
+      ],
+      "body_sha256": "3fc0ad1ad247d8d394d3463624427e5fb0549fac280f9ce5a4fb51fdcb05c2c7",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_free_vars.cpp",
+      "translation_source_sha256": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "not_whole_library_completion": true,
+  "scope": "YYObjectBase static Free/FreeVars surface and observed wire storage only; no full YYObjectBase/RValue instantiation or layout proof.",
+  "remaining_internal_dependencies": [
+    "FREE_RValue__Pre",
+    "FreeRValue",
+    "JS_GetProperty",
+    "JS_IsCallable",
+    "Call_RValue",
+    "raw operator delete entry and dynamic deleteSelf targets"
+  ],
+  "remaining_scope": [
+    "original source field/API spellings",
+    "object lifetime/fault/concurrency/unwind domains",
+    "slot-table and variable-map producers"
+  ],
+  "original_executed": false
+}

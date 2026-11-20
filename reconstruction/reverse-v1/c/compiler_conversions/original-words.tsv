@@ -42,3 +42,24 @@ entry	va	word	mnemonic	operands
 319550	3195ac	e8bd8070	pop	{r4, r5, r6, pc}
 319550	3195b0	3df00000	.word	0x3df00000
 319550	3195b4	41f00000	.word	0x41f00000
+31b0d0	31b0d0	e1b02081	lsls	r2, r1, #1
+31b0d0	31b0d4	2a00000a	bhs	0x31b104 <__fixunsdfsi+0x34>
+31b0d0	31b0d8	e2922602	adds	r2, r2, #2097152
+31b0d0	31b0dc	2a00000a	bhs	0x31b10c <__fixunsdfsi+0x3c>
+31b0d0	31b0e0	5a000007	bpl	0x31b104 <__fixunsdfsi+0x34>
+31b0d0	31b0e4	e3e03e3e	mvn	r3, #992
+31b0d0	31b0e8	e0532ac2	subs	r2, r3, r2, asr #21
+31b0d0	31b0ec	4a000008	bmi	0x31b114 <__fixunsdfsi+0x44>
+31b0d0	31b0f0	e1a03581	lsl	r3, r1, #11
+31b0d0	31b0f4	e3833102	orr	r3, r3, #-2147483648
+31b0d0	31b0f8	e1833aa0	orr	r3, r3, r0, lsr #21
+31b0d0	31b0fc	e1a00233	lsr	r0, r3, r2
+31b0d0	31b100	e12fff1e	bx	lr
+31b0d0	31b104	e3a00000	mov	r0, #0
+31b0d0	31b108	e12fff1e	bx	lr
+31b0d0	31b10c	e1900601	orrs	r0, r0, r1, lsl #12
+31b0d0	31b110	1a000001	bne	0x31b11c <__fixunsdfsi+0x4c>
+31b0d0	31b114	e3e00000	mvn	r0, #0
+31b0d0	31b118	e12fff1e	bx	lr
+31b0d0	31b11c	e3a00000	mov	r0, #0
+31b0d0	31b120	e12fff1e	bx	lr

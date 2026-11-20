@@ -4,7 +4,7 @@
   "original_abi": "ARM32 little-endian softfp",
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
-  "header_sha256": "5ad8caaacb0707d6b50a0cc0aa3eeb46aea670e56d0d6c8858f87ad36c015833",
+  "header_sha256": "3e0a6b6284a1741566b8053df40e09a5786a86284506372918757e19454ed731",
   "functions": [
     {
       "entry": "0xe4540",
@@ -85,5 +85,6 @@
     "CProfiler opaque storage matches inline g_Profiler size 128, but its full field/API/alignment and original ignored return spelling remain unresolved.",
     "Invalid pointers/offsets, empty-profile faults, paired-transfer concurrent atomicity and exception unwinding are not certified."
   ],
-  "validation_scope": "ARM32 O0/O2 objects and observed layouts, real C++ conversion/return/profiler definitions in a combined relocatable/archive, original ABI symbols; no target execution."
+  "validation_scope": "ARM32 O0/O2 objects and observed layouts, real C++ conversion/return/profiler definitions in a combined relocatable/archive, original ABI symbols; no target execution.",
+  "static_API_extension": "YYObjectBase::FreeVars added as declaration only; all old method bodies unchanged"
 }

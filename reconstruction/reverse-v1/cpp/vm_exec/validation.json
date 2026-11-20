@@ -14,13 +14,13 @@
     "reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp": "2018d46a54babc29252195de8831dad4c2871b88f81e70a891a4a2f46d90518f",
     "reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp": "999390fe3da464f2296fccd43390a3327a04597db92da182a8c0584e21cf90c8",
     "reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
-    "reconstruction/reverse-v1/cpp/vm_exec/vm_exec.hpp": "5ad8caaacb0707d6b50a0cc0aa3eeb46aea670e56d0d6c8858f87ad36c015833",
+    "reconstruction/reverse-v1/cpp/vm_exec/vm_exec.hpp": "3e0a6b6284a1741566b8053df40e09a5786a86284506372918757e19454ed731",
     "reconstruction/reverse-v1/cpp/vm_exec/original-words.tsv": "6951b7c39f0b42a28d2fcb306295efb47907fe0e8192bb8e585e604a08fd68f1",
     "reconstruction/reverse-v1/cpp/vm_exec/layout-evidence.json": "d76d4b0211dbffc304317975656b9662f2fe10d4e92297554c40cc1a9311ecd5",
     "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.hpp": "c601b9cf5eee566bdde9be168452fe5ec043e5092f1d6f4e8ebabbe892985cbe",
     "reconstruction/reverse-v1/cpp/ccode/ccode.hpp": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642"
   },
-  "registry_sha256": "5cb722a6706d37ef8d59d04538120e967bd483bbe04d674692c6c3aaf90ebabd",
+  "registry_sha256": "6d8c6d947a3293a0b5d11555a3fcc7c0fd3b0d67d7b56575388e77b7c3681c6b",
   "original_word_count": 334,
   "literal_pool_words": 16,
   "original_abi_entries": 3,
@@ -885,5 +885,6 @@
   "prior_C_and_CPP_inputs_unchanged": true,
   "archive_retention": "Scratch outputs are temporary; recorded commands rebuild the static artifacts.",
   "original_executed": false,
-  "rebuilt_executed": false
+  "rebuilt_executed": false,
+  "declaration_only_extension": "YYObjectBase::FreeVars/RVariable forward declaration; latest target combination recorded by object_base validation."
 }

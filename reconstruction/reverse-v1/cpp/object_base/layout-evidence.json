@@ -1,0 +1,70 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "global_registry_bindings": [
+    {
+      "pool": "0x199100",
+      "slot": "0x3edc6c",
+      "target": "0x536f0c",
+      "symbol": "g_slotObjects",
+      "size": 16
+    },
+    {
+      "pool": "0x199104",
+      "slot": "0x3edc18",
+      "target": "0x536f1c",
+      "symbol": "_ZN12YYObjectBase12ms_pFreeListE",
+      "size": 4
+    },
+    {
+      "pool": "0x199108",
+      "slot": "0x3edca4",
+      "target": "0x3f5050",
+      "symbol": "g_ShouldDispose",
+      "size": 1
+    }
+  ],
+  "regex_hook_bindings": [
+    {
+      "read_site": "0x198ed0",
+      "pool": "0x198f80",
+      "slot": "0x3f0690",
+      "target": "0x3f76dc",
+      "symbol": "pcre_free",
+      "independent_reload": true
+    },
+    {
+      "read_site": "0x198ef4",
+      "pool": "0x198f84",
+      "slot": "0x3f0690",
+      "target": "0x3f76dc",
+      "symbol": "pcre_free",
+      "independent_reload": true
+    }
+  ],
+  "dispose_property": {
+    "address": "0x3327b4",
+    "text": "dispose"
+  },
+  "observed_object_offsets": [
+    "0x00 vptr",
+    "0x04 dense table",
+    "0x08 pool next",
+    "0x0c reset word",
+    "0x18 clear word",
+    "0x1c/0x20 regex data",
+    "0x24 signed dense count",
+    "0x2c clear word",
+    "0x38/0x40 clear words",
+    "0x44 slot ID",
+    "0x48 kind",
+    "0x60 variable map"
+  ],
+  "no_complete_object_layout_claim": true,
+  "RValue_stack_image": {
+    "bytes": 16,
+    "kind_sentinel": "0x00ffffff",
+    "aux_then_low_high_then_kind": true,
+    "no_ctor_dtor_invented": true
+  },
+  "original_executed": false
+}

@@ -26,6 +26,7 @@ uint64_t __aeabi_d2ulz(double);
 int32_t __aeabi_dcmplt(double, double);
 double __muldf3(double, double);
 uint32_t __fixunsdfsi(double);
+uint32_t __aeabi_d2uiz(double);
 double __floatunsidf(uint32_t);
 double __subdf3(double, double);
 #ifdef __cplusplus

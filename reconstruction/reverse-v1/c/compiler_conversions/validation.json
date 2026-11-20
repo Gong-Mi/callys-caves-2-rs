@@ -1,11 +1,14 @@
 {
   "scope": "C soft wrapper definitions and same-address EABI aliases, not native cast equivalence or full software FP recovery",
   "shared_receipt": "../../cpp/memory_manager/validation.json",
-  "shared_receipt_sha256": "46fd46ad5c48a8dd0eaf41c2be26798188a704a80cff2c9c96f79aca15b79bc7",
+  "shared_receipt_sha256": "9bbd7c86dba87e2b0d27f4c023d88974c2a3a4e5a1e5286217ce04eaa2c3e59c",
   "source_sha256": "ba80acdd9b3ee0d9edd90a01f9ff9b06bbe70515994362105bd03fed032b7eb1",
-  "header_sha256": "409d04837736713cfa09c0770529a33c437b0a39a633033dd54cd0ee94755ff6",
-  "original_index_words": 43,
-  "original_entries": 2,
-  "export_names": 4,
-  "no_target_execution": true
+  "header_sha256": "5295867f65ebbbbd7f7c459e74bd304ce7f55767afd52a3e4aeaf531f96de07e",
+  "original_index_words": 64,
+  "original_entries": 3,
+  "export_names": 6,
+  "no_target_execution": true,
+  "additional_sources_sha256": {
+    "src/fixunsdfsi.c": "ecb280b2173806da1c8700d8329484a76b74f4d636c57fb5685bd015030a86d5"
+  }
 }

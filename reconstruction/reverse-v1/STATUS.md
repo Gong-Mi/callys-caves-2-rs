@@ -1,6 +1,23 @@
 # 状态与定性
 
-## 当前断点：页边界查找与软件整数转换包装
+## 当前断点：对象回收、变量清理与 unsigned32 转换叶
+
+`cpp/object_base/` 已落 YYObjectBase::Free / FreeVars 两个静态成员正文，canonical 接口
+在 vm_exec.hpp 追加声明，不新增另一个 YYObjectBase 类型。slot registry、dispose 探针、
+dense/hash RValue 清理、pool push、两处 live pcre_free 调用按原字表达；RValue 保持原位图
+视图，不新增构造/析构，也不声称恢复完整对象布局。
+
+`fixunsdfsi.c` 补回 unsigned32 叶与同址 __aeabi_d2uiz：负位图和 NaN 回零，正无穷/溢出
+回全一，原 carry/sign/LSR 路径分开，不换通用 cast。O0/O2 均零外调/零 undefined，alias
+同节同址且 size 实测。本批三原入口、四导出名字、238 原字（对象217＋叶21）。
+
+父级修正 kind3 registry 读取序，slot/map 算术显式 ARM32 回绕，并校正两处 regex hook
+都落同一个 GOT slot 的说明。O0/O2 各 22 TU、44 原导出名字组合通过；Free/FreeVars 和
+fixunsdfsi 已真正补进既有消费者。只作源码/目标编译，不含执行等价或对象寿命/异常认证。
+下一断口为 JS/FreeRValue/FREE_RValue__Pre、动态析构目标、原 operator delete trampoline，
+以及剩余软件比较/乘减/归一化与页表生产者。循环仍启用，不安装、不运行目标、不推送。
+
+## 已提交基础：页边界查找与软件整数转换包装（8b59819）
 
 已落 `globalPageListFindAddr` C++ 正文，以及 `c/compiler_conversions/` 中 __fixdfdi /
 __fixunsdfdi 的 C 正文和各自同址 EABI 别名。三原入口、五导出名字、86 原索引字，别名不加入口。

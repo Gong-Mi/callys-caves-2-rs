@@ -15,12 +15,15 @@
  * nor supplies a game runtime.
  */
 struct RValue; // 16-byte transferred image; no invented constructors/ownership
+struct RVariable;
 
 /* Original static call surface only. No YYObjectBase layout, allocation or
  * lifetime implementation is claimed, and no such object is created here. */
 class YYObjectBase {
 public:
-    static void Free(YYObjectBase *);                  // 0x198f88, original internal body still owed
+    static void Free(YYObjectBase *);                  // 0x198f88
+    static void FreeVars(YYObjectBase *, RValue **, RValue **,
+                         RVariable **, RVariable **); // 0x198dac, last two parameters not consumed
 };
 
 /* g_Profiler is an INLINE 128-byte object, not a pointer variable.

@@ -2,7 +2,7 @@
   "schema": "cally-readable-native/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "original_abi": "ARM32 little-endian base AAPCS, softfp core-register doubles",
-  "header_sha256": "409d04837736713cfa09c0770529a33c437b0a39a633033dd54cd0ee94755ff6",
+  "header_sha256": "5295867f65ebbbbd7f7c459e74bd304ce7f55767afd52a3e4aeaf531f96de07e",
   "functions": [
     {
       "entry": "0x3194a0",
@@ -39,6 +39,24 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x31b0d0",
+      "size": 84,
+      "symbols": [
+        "__aeabi_d2uiz",
+        "__fixunsdfsi"
+      ],
+      "body_sha256": "ea88ee603a88b5fa2df3d09c7f876e7912d00bac3e65084b1c8cb6201f579b69",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "src/fixunsdfsi.c",
+      "translation_source_sha256": "ecb280b2173806da1c8700d8329484a76b74f4d636c57fb5685bd015030a86d5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "not_whole_library_completion": true,
@@ -46,7 +64,6 @@
   "remaining_internal_dependencies": [
     "__aeabi_dcmplt",
     "__muldf3",
-    "__fixunsdfsi",
     "__floatunsidf",
     "__subdf3"
   ],
