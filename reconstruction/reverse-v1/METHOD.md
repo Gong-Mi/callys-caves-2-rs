@@ -59,9 +59,10 @@
 ## 2. 锚点
 
     索引来源      scripts/asm_index.py 从 .so 生成（addr/word/mnem/operands），不接受手抄
-    卡片格式      每条指令一行 `/* @0x<addr> <mnem> <operands> */`，操作数与索引逐字一致
-    单卡校验      scripts/check_card_anchors.py → 必须 RESULT EXACT（缺/多/错操作数都算失败）
-    全库校验      scripts/verify_reverse_v1.py → 对全局 instructions.jsonl(.xz) 逐地址比
+    卡片格式      每条指令一行 `/* @0x<addr> <mnem> <operands> */`，操作数与索引保持同值
+    单卡校验      scripts/check_card_anchors.py → 必须 RESULT EXACT（缺/多/操作数错或输入为空均不通过）
+    全库校验      scripts/verify_reverse_v1.py --strict → 全局索引地址无漏、无跨卡重领，助记符一致；不代替操作数/正文门
+                  仅声明 `@func` 但整卡零锚点不通过；无 `@func` 的接口说明卡可以保留
     锚点写法      `/* @0x…` 与块注释内的 `* @0x…` 都接受（verify 的正则会两种都认）
 
 ## 3. ISA（ARM vs Thumb-2）

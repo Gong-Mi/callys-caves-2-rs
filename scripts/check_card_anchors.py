@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Check a reverse-engineering card's anchors against the binary-derived index.
 
-Shamiko-style rule: every `@0xADDR mnem operands` in a card must appear verbatim
-in the index produced from the .so, and every instruction in the function range
-must be anchored by the card. Anything else fails.
+Every `/* @0xADDR mnem operands */` (or `* @0x…` in a block comment) must match the index from the .so
+(ignoring whitespace and equivalent decimal/hex integer immediates), and
+every instruction in that nonempty index must be anchored by the card.
 
     python3 scripts/check_card_anchors.py \
         --card reconstruction/reverse-v1/cards/Code_Execute.c \
         --index reconstruction/reverse-v1/asm/index-Code_Execute.tsv
 
-Exit: 0 = exact, 1 = missing/extra/mismatch.
+Exit: 0 = exact, 1 = missing/extra/mismatch, 2 = invalid input.
 """
 from __future__ import annotations
 
@@ -18,35 +18,53 @@ import re
 import sys
 from pathlib import Path
 
-ANCHOR = re.compile(r"@0x([0-9a-fA-F]+)\s+([A-Za-z.][A-Za-z0-9_.]*)\s*(.*)")
+# Address mentions in prose are references, not instruction assertions.
+ANCHOR = re.compile(r"(?:/\*|\*)[ \t]+@0x([0-9a-fA-F]+)[ \t]+([A-Za-z.][A-Za-z0-9_.]*)"
+                    r"(?=[ \t]|\*/|$)[ \t]*(.*?)(?=\*/|(?:/\*|\*)[ \t]+@0x[0-9a-fA-F]+[ \t]+[A-Za-z.]|$)")
+IMMEDIATE = re.compile(r"#([+-]?)(0[xX][0-9a-fA-F]+|[0-9]+)(?![\w.])")
 
 
 def load_index(path: Path) -> dict[int, tuple[str, str]]:
     rows: dict[int, tuple[str, str]] = {}
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         if not line.strip():
             continue
-        addr, _word, mnem, ops = line.split("\t")
-        rows[int(addr, 16)] = (mnem, ops.strip())
+        try:
+            value, _word, mnem, ops = line.split("\t")
+            addr = int(value, 16)
+        except ValueError as exc:
+            raise ValueError(f"{path}:{lineno}: malformed index row") from exc
+        if addr in rows:
+            raise ValueError(f"{path}:{lineno}: duplicate index address {addr:#x}")
+        rows[addr] = (mnem, ops.strip())
+    if not rows:
+        raise ValueError(f"{path}: empty instruction index")
     return rows
 
 
 def load_card(path: Path) -> dict[int, tuple[str, str]]:
     rows: dict[int, tuple[str, str]] = {}
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         for m in ANCHOR.finditer(line):
             addr = int(m.group(1), 16)
             mnem = m.group(2)
             ops = m.group(3)
-            # the text after the operands is prose introduced by an em dash or CJK
-            ops = re.split(r"\s*——|\s*[\u4e00-\u9fff]", ops)[0].strip()
-            ops = re.sub(r"\s*\*/\s*$", "", ops).strip()
+            # Explicit commentary delimiters in historical card annotations.
+            ops = re.split(r"\s*(?:——|→|[\u4e00-\u9fff])", ops, maxsplit=1)[0].strip()
+            prev = rows.get(addr)
+            if prev is not None and (prev[0] != mnem or norm_ops(prev[1]) != norm_ops(ops)):
+                raise ValueError(f"{path}:{lineno}: conflicting anchors at {addr:#x}")
             rows[addr] = (mnem, ops)
     return rows
 
 
 def norm_ops(ops: str) -> str:
-    return re.sub(r"\s+", "", ops.replace("0x", ""))
+    def integer(match: re.Match[str]) -> str:
+        sign, digits = match.groups()
+        base = 16 if digits[:2].lower() == "0x" else 10
+        return f"#{int(sign + digits, base)}"
+
+    return IMMEDIATE.sub(integer, re.sub(r"\s+", "", ops))
 
 
 def main() -> int:
@@ -56,8 +74,12 @@ def main() -> int:
     ap.add_argument("--quiet", action="store_true")
     a = ap.parse_args()
 
-    index = load_index(Path(a.index))
-    card = load_card(Path(a.card))
+    try:
+        index = load_index(Path(a.index))
+        card = load_card(Path(a.card))
+    except (OSError, ValueError) as exc:
+        print(f"RESULT INVALID: {exc}", file=sys.stderr)
+        return 2
 
     missing = sorted(set(index) - set(card))
     extra = sorted(set(card) - set(index))
