@@ -248,3 +248,32 @@ out/refObj/argc/argv并返回Call_ScriptRef的word。现有Free忽略返回值�
 本增量六入口/114原字（两池字）；O0/O2各24TU/50个原导出，OwnProperty/CallableObject/
 YYError/Call_ScriptRef四条实际调用或尾跳均核过。目标对象生成与调用形状检查不认证原LR、
 异常展开、callback真实实现或游戏接入；Call_ScriptRef、FREE_RValue__Pre及getter目标仍欠正文。
+
+
+## ScriptRef 完整调用与 profiler 压帧
+
+`cpp/scripting/script_runtime.cpp` 恢复 Call_ScriptRef@0x249590、CScript::GetCode@0x1dfba8
+和YYAllocLocalStackNew@0xd41e4。ScriptRef首读+88完整tag→+64 script，再可选读+7c替换
+receiver；另一+78完整tag==6时，局部对象+0xc取+6c。length_slot只读一次，-1才查名字并
+发布；随后LIVE读dense+4，不存在才InternalGetYYVar。length值不经tag/ToNumber，直接
+按原VCMPE.F64及条件VCVT.S32.F64分流；共享VFP原语保留原操作，不用越界C浮转cast。
+
+参数补齐的尺寸和指针按uint32回绕，memcpy返回r0作为新base，填尾do/while至少一次。
+shared+1c临时存expected后恢复argc；padding跳到249634仍经过+20低字与+1c清零，因此
+CreateArgumentsObject第五bool为false。这里父级早期的非规范bool假设已被原分支推翻，
+不能把临时sp槽的上一个生命周期当作消费时定义。同一+20 image随后供VM第九参数读取。
+三次GetCode保留，profile与VM各自LIVE取script+8；VM前后独立读g_bProfile，padding才
+释放参数，GetCode bit1与下一次bit0分别守卫局部对象释放。native callback走原Push/
+callback/Pop，不改成RAII；共同返回g_fDoExceptionUnwind非零为2、否则0。
+
+`vm_exec/profiler_push.cpp` 恢复Push@0x2a0738。FindOrCreateNode返回的是NODE INDEX，
+由Pop的index*40消费证明，不从名字猜成对象指针。count==cap才扩容，Alloc后读live cap/
+data，Free前再读data、之后再读count，先发cap后data；插入用held allocation。24B帧仅
+kind/id/index前三word初始化，raw LDM4/STR2/LDM2/STR4搬运保留尾部未初始化字。随后先
+捕获live header再发held count，选中frame后才第二次Timing_Time，base在该调用后读取：
+delta=base_afterSecond-firstTime，this.base=secondTime+delta，frame+16=0-delta，u64回绕。
+
+四新入口/271原字，O0/O2各27TU/54导出；GetCode在两档保持三次实际调用，其O2八字节
+恰与原件相同。Call_RValue、Profiler Push/Pop与既有释放/时钟正文真实组合，但VM::Exec、
+arguments创建、对象Alloc/getter/context及FindNode仍欠库内正文。fault、原始栈垃圾数值、
+完整FP trap/unwind与paired atomicity均未认证，目标均未执行。

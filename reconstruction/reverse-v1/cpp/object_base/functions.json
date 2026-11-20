@@ -3,7 +3,7 @@
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "header_sha256": "99abcc725d78c6eb9880ba510e2d02062a180182aa6613f32ad313a1bb8688d3",
   "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
-  "canonical_api_header_sha256": "3e0a6b6284a1741566b8053df40e09a5786a86284506372918757e19454ed731",
+  "canonical_api_header_sha256": "30519f597427ac82ce60916e37630d67b3f18c26313c8e56f43e95843b701b10",
   "functions": [
     {
       "entry": "0x198f88",
@@ -146,7 +146,6 @@
   "scope": "YYObjectBase static Free/FreeVars, RValue page-pool recycle, JS property/callability and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
   "remaining_internal_dependencies": [
     "FREE_RValue__Pre",
-    "Call_ScriptRef",
     "YYError",
     "property getter targets",
     "raw operator delete entry and dynamic deleteSelf targets"
@@ -160,5 +159,8 @@
   "additional_headers_sha256": {
     "object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45"
   },
-  "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it."
+  "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it.",
+  "real_internal_provider_added": {
+    "Call_ScriptRef": "../scripting/script_runtime.cpp"
+  }
 }

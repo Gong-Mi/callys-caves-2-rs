@@ -1,19 +1,30 @@
 # 状态与定性
 
-## 当前断点：RValue 页池与 JS 属性/可调用性助手
+## 当前断点：ScriptRef 调用、局部对象与 profiler 压帧
 
-`cpp/object_base/` 已新增 `value_pool.cpp` 和 `js_helpers.cpp`，六个原入口、114 原索引字
-（含两池字）。FreeRValue 仅在实际 _rvalue 页池命中后头插回收，后两参数不消费；没有
-把页外地址改成通用 free。JS_GetOwnProperty/JS_GetProperty 保留原 receiver、逐轮 getter
-调用和 callback 后 prototype 重读；可调用性按低24位 tag 分流，YYError 的 %d 实参保留。
-Call_RValue 不可调用时返回原 word 1，成功路转交 Call_ScriptRef；不是 void 包装器。
+`cpp/scripting/` 新落 Call_ScriptRef、CScript::GetCode、YYAllocLocalStackNew 三正文；
+`cpp/vm_exec/profiler_push.cpp` 新落 CProfiler::Push。四原入口、271原索引字（含10池字），
+保留真实原类成员/静态接口，CScript仅声明观测到的+8读取前缀，不实例化未知对象。
+Call_ScriptRef 依原完整tag选择receiver，保留length槽/局部对象/参数补齐、同一arguments
+image、三次GetCode、九参VM::Exec与profile前后独立重读；结果为原异常字节选择的0/2。
 
-父级将页链 next 改为实际 volatile 读取，vararg 明确为 int，补 _rvalue 的20B静态布局；
-O0/O2 各24TU、50个原导出组合通过，四个JS助手的真实直接调用/尾跳均存在。最终独立
-静态复核未发现具体正文缺陷；本地收口仍只认证这一源码/编译范围，phase_complete=false，
-不运行原件或重建件、不安装、不推送。
-下一内部断口为 Call_ScriptRef、FREE_RValue__Pre、getter 生产者、错误与动态删除目标；
-软件FP和页表生产者仍欠账。循环按外置工作线记录和最新用户指令继续，不把 enabled 当进程存活。
+父级修正初读顺序为+88→+64→可选+7c，length_slot改一次快照而非命中时多读；共享栈字
+保留volatile及image低字真实读写。先前count→bool假设已回原CFG推翻：padding跳249634，
+两路都在249640清+1c，第五bool在本调用中为false。Profiler Push保留两次计时、扩容回调
+后的字段重读，24B帧只初始化前12B，其余字由raw搬运保留，不编造零值。
+
+O0/O2各27TU/54原导出组合通过；GetCode三调用和局部对象助手真实调用均在，GetCode的O2
+八字节与原件一致。独立静态复核未发现具体正文缺陷；本地收口只认证该源码/编译范围，
+phase_complete=false，不运行任何目标。
+下一内部断口为VM::Exec、CreateArgumentsObject、YYObjectBase::Alloc/InternalGetYYVar、
+CProfiler::FindOrCreateNode和FREE_RValue__Pre。原始栈垃圾值、paired atomicity、fault/unwind
+以及完整类/生产者仍不认证。按工作线记录持续施工，不安装、不推送。
+
+## 已提交基础：页池与 JS 助手（ff753ce）
+
+FreeRValue页池和五个JS属性/可调用性/Call_RValue助手已收口；六入口/114原字，两池字。
+父级O0/O2各24TU/50导出，四个JS调用边核过；独立静态复核未发现正文缺陷，提交15路径/
+48输入逐blob对齐。只证这批源码、ABI和编译范围，不升级原件执行或全库语义完成。
 
 ## 已提交基础：对象回收与 unsigned32 叶（46ce675）
 

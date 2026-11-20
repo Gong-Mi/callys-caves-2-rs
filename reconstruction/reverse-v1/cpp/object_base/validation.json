@@ -1,7 +1,7 @@
 {
   "scope": "YYObjectBase Free/FreeVars plus page-pool recycling and JS properties/callability/forwarder static C++ recovery, not full ownership/unwind or original equivalence",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "fc81b07daa39e414570c5dc82cce0e23e6cb03e0759e6ce77d3c520b22e6bf09",
+  "shared_receipt_sha256": "30e6ca17deded392d17150e56dc43ffdb857d4d7771a6e513553ba64c031dc82",
   "header_sha256": "99abcc725d78c6eb9880ba510e2d02062a180182aa6613f32ad313a1bb8688d3",
   "sources_sha256": {
     "object_free.cpp": "500508b69cb09af9e7d89969f2c760c4b5f09e395a8474d1607dedcb7233f758",
@@ -17,5 +17,6 @@
     "object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45"
   },
   "new_batch_entries": 6,
-  "new_batch_words": 114
+  "new_batch_words": 114,
+  "canonical_api_header_sha256": "30519f597427ac82ce60916e37630d67b3f18c26313c8e56f43e95843b701b10"
 }

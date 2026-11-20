@@ -1,0 +1,94 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "script_ref_observed_offsets": {
+    "dense_values": 4,
+    "script_pointer": "0x64",
+    "native_callback": "0x68",
+    "captured_local_word": "0x6c",
+    "captured_local_tag": "0x78",
+    "receiver_pointer": "0x7c",
+    "receiver_full_tag": "0x88"
+  },
+  "CScript_read_prefix": {
+    "code_offset": 8,
+    "no_full_class_extent_claim": true
+  },
+  "local_object_alloc": {
+    "source_sentinel": "0x00ffffff",
+    "constructor_bool": false,
+    "post_call_stores": [
+      "+0x0c=0",
+      "+0x40=Locals@0x332800"
+    ]
+  },
+  "global_bindings": [
+    {
+      "pool": "0x249844",
+      "slot": "0x3edd5c",
+      "target": "0x544b50",
+      "symbol": "g_nLocalVariables",
+      "size": 4
+    },
+    {
+      "pool": "0x249848",
+      "slot": "0x3edcb4",
+      "target": "0x3f7420",
+      "symbol": "length_slot",
+      "size": 4
+    },
+    {
+      "pool": "0x24984c",
+      "slot": "0x3edb70",
+      "target": "0x757e7c",
+      "symbol": "g_bProfile",
+      "size": 1
+    },
+    {
+      "pool": "0x249850",
+      "slot": "0x3edd24",
+      "target": "0x756470",
+      "symbol": "g_fDoExceptionUnwind",
+      "size": 1
+    },
+    {
+      "pool": "0x249858",
+      "slot": "0x3edb74",
+      "target": "0x757e80",
+      "symbol": "g_Profiler",
+      "size": 128
+    }
+  ],
+  "strings": {
+    "0x332800": {
+      "pool": "0xd420c",
+      "add_site": "0xd41fc",
+      "text": "Locals"
+    },
+    "0x35520c": {
+      "pool": "0x2a086c",
+      "add_site": "0x2a082c",
+      "text": "jni/../jni/yoyo/../../../Files/Physics/PhysicsContactStack.h"
+    },
+    "0x331038": {
+      "pool": "0x249854",
+      "add_site": "0x249708",
+      "text": "jni/../jni/yoyo/../../../Platform/MemoryManager.h"
+    },
+    "0x330874": {
+      "pool": "0x24985c",
+      "add_site": "0x249820",
+      "text": "length"
+    }
+  },
+  "shared_private_slots": {
+    "reused1c": "expected int temporarily before Alloc; both branches reset to zero at249640",
+    "image20": "low zeroed before GetCode, same 16B image to CreateArgumentsObject; low later VM arg9",
+    "bool_fifth_argument": "zero reaching definition on both paths, earlier raw-count hypothesis refuted by branch249768->249634"
+  },
+  "parent_source_repairs": [
+    "ref read order +88 then+64 then optional+7c",
+    "single captured volatile length_slot read instead of two on hit",
+    "shared reused1c volatile, image low raw word access, YYAllocLocalStackNew noinline first declaration"
+  ],
+  "original_executed": false
+}

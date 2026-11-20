@@ -333,3 +333,81 @@ e42d8	e44d0	ffffbf1c	.word	0xffffbf1c
 2a08ac	2a0954	e3a03000	mov	r3, #0
 2a08ac	2a0958	e5883070	str	r3, [r8, #0x70]
 2a08ac	2a095c	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+2a0738	2a0738	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+2a0738	2a073c	e24dd018	sub	sp, sp, #24
+2a0738	2a0740	e1a06000	mov	r6, r0
+2a0738	2a0744	e1a09001	mov	r9, r1
+2a0738	2a0748	e1a08002	mov	r8, r2
+2a0738	2a074c	ebfdd27d	bl	0x215148 <Timing_Time>
+2a0738	2a0750	e1a02008	mov	r2, r8
+2a0738	2a0754	e1a04000	mov	r4, r0
+2a0738	2a0758	e1a05001	mov	r5, r1
+2a0738	2a075c	e1a00006	mov	r0, r6
+2a0738	2a0760	e1a01009	mov	r1, r9
+2a0738	2a0764	ebffff62	bl	0x2a04f4 <CProfiler::FindOrCreateNode(int, int)>
+2a0738	2a0768	e5967008	ldr	r7, [r6, #0x8]
+2a0738	2a076c	e58d9000	str	r9, [sp]
+2a0738	2a0770	e58d8004	str	r8, [sp, #0x4]
+2a0738	2a0774	e5973004	ldr	r3, [r7, #0x4]
+2a0738	2a0778	e5972008	ldr	r2, [r7, #0x8]
+2a0738	2a077c	e1530002	cmp	r3, r2
+2a0738	2a0780	e5860070	str	r0, [r6, #0x70]
+2a0738	2a0784	e58d0008	str	r0, [sp, #0x8]
+2a0738	2a0788	0a000022	beq	0x2a0818 <CProfiler::Push(int, int)+0xe0>
+2a0738	2a078c	e5979000	ldr	r9, [r7]
+2a0738	2a0790	e1a0c00d	mov	r12, sp
+2a0738	2a0794	e0838083	add	r8, r3, r3, lsl #1
+2a0738	2a0798	e8bc000f	ldm	r12!, {r0, r1, r2, r3}
+2a0738	2a079c	e1a08188	lsl	r8, r8, #3
+2a0738	2a07a0	e089e008	add	lr, r9, r8
+2a0738	2a07a4	e7890008	str	r0, [r9, r8]
+2a0738	2a07a8	e58e1004	str	r1, [lr, #0x4]
+2a0738	2a07ac	e8bc0003	ldm	r12!, {r0, r1}
+2a0738	2a07b0	e58e2008	str	r2, [lr, #0x8]
+2a0738	2a07b4	e58e300c	str	r3, [lr, #0xc]
+2a0738	2a07b8	e58e0010	str	r0, [lr, #0x10]
+2a0738	2a07bc	e58e1014	str	r1, [lr, #0x14]
+2a0738	2a07c0	e5962008	ldr	r2, [r6, #0x8]
+2a0738	2a07c4	e5973004	ldr	r3, [r7, #0x4]
+2a0738	2a07c8	e2833001	add	r3, r3, #1
+2a0738	2a07cc	e5873004	str	r3, [r7, #0x4]
+2a0738	2a07d0	e892000c	ldm	r2, {r2, r3}
+2a0738	2a07d4	e3530000	cmp	r3, #0
+2a0738	2a07d8	c0833083	addgt	r3, r3, r3, lsl #1
+2a0738	2a07dc	d3a07000	movle	r7, #0
+2a0738	2a07e0	c0827183	addgt	r7, r2, r3, lsl #3
+2a0738	2a07e4	c2477018	subgt	r7, r7, #24
+2a0738	2a07e8	ebfdd256	bl	0x215148 <Timing_Time>
+2a0738	2a07ec	e1c620d0	ldrd	r2, r3, [r6]
+2a0738	2a07f0	e0522004	subs	r2, r2, r4
+2a0738	2a07f4	e0c33005	sbc	r3, r3, r5
+2a0738	2a07f8	e2724000	rsbs	r4, r2, #0
+2a0738	2a07fc	e2e35000	rsc	r5, r3, #0
+2a0738	2a0800	e0900002	adds	r0, r0, r2
+2a0738	2a0804	e0a11003	adc	r1, r1, r3
+2a0738	2a0808	e1c600f0	strd	r0, r1, [r6]
+2a0738	2a080c	e1c741f0	strd	r4, r5, [r7, #16]
+2a0738	2a0810	e28dd018	add	sp, sp, #24
+2a0738	2a0814	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+2a0738	2a0818	e283800a	add	r8, r3, #10
+2a0738	2a081c	e59f1048	ldr	r1, [pc, #0x48]
+2a0738	2a0820	e3a03001	mov	r3, #1
+2a0738	2a0824	e3a02028	mov	r2, #40
+2a0738	2a0828	e0880088	add	r0, r8, r8, lsl #1
+2a0738	2a082c	e08f1001	add	r1, pc, r1
+2a0738	2a0830	e1a00180	lsl	r0, r0, #3
+2a0738	2a0834	ebff718f	bl	0x27ce78 <MemoryManager::Alloc(unsigned int, char const*, int, bool)>
+2a0738	2a0838	e5972008	ldr	r2, [r7, #0x8]
+2a0738	2a083c	e5971000	ldr	r1, [r7]
+2a0738	2a0840	e0822082	add	r2, r2, r2, lsl #1
+2a0738	2a0844	e1a02182	lsl	r2, r2, #3
+2a0738	2a0848	e1a0a000	mov	r10, r0
+2a0738	2a084c	ebf8575a	bl	0xb65bc <memcpy@plt>
+2a0738	2a0850	e5970000	ldr	r0, [r7]
+2a0738	2a0854	e1a0900a	mov	r9, r10
+2a0738	2a0858	ebff6e9c	bl	0x27c2d0 <MemoryManager::Free(void const*)>
+2a0738	2a085c	e5973004	ldr	r3, [r7, #0x4]
+2a0738	2a0860	e5878008	str	r8, [r7, #0x8]
+2a0738	2a0864	e587a000	str	r10, [r7]
+2a0738	2a0868	eaffffc8	b	0x2a0790 <CProfiler::Push(int, int)+0x58>
+2a0738	2a086c	000b49d8	.word	0x000b49d8

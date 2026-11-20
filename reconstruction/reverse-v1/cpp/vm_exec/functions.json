@@ -4,7 +4,7 @@
   "original_abi": "ARM32 little-endian softfp",
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
-  "header_sha256": "3e0a6b6284a1741566b8053df40e09a5786a86284506372918757e19454ed731",
+  "header_sha256": "30519f597427ac82ce60916e37630d67b3f18c26313c8e56f43e95843b701b10",
   "functions": [
     {
       "entry": "0xe4540",
@@ -62,6 +62,23 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x2a0738",
+      "size": 312,
+      "symbols": [
+        "_ZN9CProfiler4PushEii"
+      ],
+      "body_sha256": "d574daffd03cb4ec8051b450ae13a548fcd2bb27a52ef2671cf80ae90234a8f9",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "profiler_push.cpp",
+      "translation_source_sha256": "5283f27b19b5c4567f3f7be0c024fe5fe8e81dd5cb3fc2b3e79f3e30112de228",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "layout_evidence": "layout-evidence.json",
@@ -69,15 +86,16 @@
     "../vm_buffer/vm_buffer.hpp",
     "../vm_buffer/vm_buffer.cpp",
     "profiler_pop.cpp",
-    "perform_return.cpp"
+    "perform_return.cpp",
+    "profiler_push.cpp",
+    "profiler_push_wire.hpp"
   ],
   "remaining_internal_dependencies": [
-    "MemoryManager::Free and the raw operator delete entry",
-    "YYObjectBase::Free",
-    "FREE_RValue__Pre and the complete RValue class",
-    "Timing_Time",
-    "instruction-handler bodies and runner global initialization",
-    "VM::Exec/ExecDebug/DoCallScript same-language caller bodies"
+    "raw operator delete entry",
+    "FREE_RValue__Pre and complete RValue class",
+    "CProfiler::FindOrCreateNode",
+    "instruction handler bodies and global producers",
+    "VM::Exec/ExecDebug/DoCallScript caller bodies"
   ],
   "remaining_scope": [
     "VMExec is an observed 0x60 prefix, not a full-class extent proof; state30 remains unnamed.",
@@ -86,5 +104,8 @@
     "Invalid pointers/offsets, empty-profile faults, paired-transfer concurrent atomicity and exception unwinding are not certified."
   ],
   "validation_scope": "ARM32 O0/O2 objects and observed layouts, real C++ conversion/return/profiler definitions in a combined relocatable/archive, original ABI symbols; no target execution.",
-  "static_API_extension": "YYObjectBase::FreeVars added as declaration only; all old method bodies unchanged"
+  "static_API_extension": "Canonical Alloc/InternalGetYYVar, VM::Exec and Profiler Push/FindOrCreateNode declarations; old method bodies unchanged. Push newly defined, FindOrCreateNode returns an index.",
+  "additional_headers_sha256": {
+    "profiler_push_wire.hpp": "bde75c178acb738e6a3b46325c71b77d71d1e5abeae3002023be0de29e93303c"
+  }
 }

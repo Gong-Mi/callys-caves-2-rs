@@ -1,0 +1,71 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "header_sha256": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
+  "canonical_api_header": "../vm_exec/vm_exec.hpp",
+  "canonical_api_header_sha256": "30519f597427ac82ce60916e37630d67b3f18c26313c8e56f43e95843b701b10",
+  "functions": [
+    {
+      "entry": "0x249590",
+      "size": 720,
+      "symbols": [
+        "_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_"
+      ],
+      "body_sha256": "55d75296f604e1ff8e39d56166626e82a89aa31bcf039278632a7681daf77f5d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "script_runtime.cpp",
+      "translation_source_sha256": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x1dfba8",
+      "size": 8,
+      "symbols": [
+        "_ZN7CScript7GetCodeEv"
+      ],
+      "body_sha256": "fdc1710f100ccf2b13937a27e7f23ccda5a1973826c8d8f3b7db09e6988fe8a4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "script_runtime.cpp",
+      "translation_source_sha256": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd41e4",
+      "size": 44,
+      "symbols": [
+        "_Z20YYAllocLocalStackNewi"
+      ],
+      "body_sha256": "373f7b9fb573b919f6c815fdb7eff8834ebfdf7f5307d64686127f6be3208e08",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "script_runtime.cpp",
+      "translation_source_sha256": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "not_whole_library_completion": true,
+  "not_additive_with_c_registry": true,
+  "remaining_internal_dependencies": [
+    "VM::Exec",
+    "CreateArgumentsObject",
+    "YYObjectBase::Alloc/InternalGetYYVar",
+    "Code_Variable_Find_Slot_From_Name",
+    "PushContextStack/PopContextStack",
+    "CProfiler::FindOrCreateNode"
+  ],
+  "scope": "Three complete C++ candidate bodies with observed CScript prefix and raw ScriptCallScratch. No full script-ref/class/unwind/behavior equivalence claim."
+}

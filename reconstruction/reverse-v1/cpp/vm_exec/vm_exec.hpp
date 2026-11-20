@@ -16,11 +16,14 @@
  */
 struct RValue; // 16-byte transferred image; no invented constructors/ownership
 struct RVariable;
+class CCode;
 
 /* Original static call surface only. No YYObjectBase layout, allocation or
  * lifetime implementation is claimed, and no such object is created here. */
 class YYObjectBase {
 public:
+    static YYObjectBase *Alloc(unsigned int, int, bool); // 0x19198c, first call's raw r0/r1/r2
+    RValue *InternalGetYYVar(int);                    // 0x196a70, returned storage address
     static void Free(YYObjectBase *);                  // 0x198f88
     static void FreeVars(YYObjectBase *, RValue **, RValue **,
                          RVariable **, RVariable **); // 0x198dac, last two parameters not consumed
@@ -31,6 +34,8 @@ public:
  * ignored source-level return spelling remain unknown. No instance is made. */
 class CProfiler {
 public:
+    void Push(int, int);                              // 0x2a0738; caller ignores source return spelling
+    uint32_t FindOrCreateNode(int, int);               // 0x2a04f4, node INDEX used by Pop, not a pointer
     void Pop();                                      // 0x2a08ac; result unused by PerformReturn
 private:
     uint8_t unknownStorage[128];
@@ -97,6 +102,8 @@ struct VMStackPages {
 
 class VM {
 public:
+    static void Exec(CCode *, YYObjectBase *, YYObjectBase *, RValue *,
+                     YYObjectBase *, int, RValue *, int, YYObjectBase *); // 0xe7fd0, current caller ignores r0
     static void ExecRelease(VMExec &, RValue *result); // 0xe4540..0xe47c8, no implicit this
 };
 uint8_t *PerformReturn(uint8_t *stack, VMExec *exec);  // 0xe42d8..0xe44d4, ordinary C++ function

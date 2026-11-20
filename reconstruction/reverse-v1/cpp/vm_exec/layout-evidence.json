@@ -321,5 +321,35 @@
       "empty/nonpositive stack fault equivalence",
       "concurrent atomicity of original paired word transfers"
     ]
+  },
+  "profiler_push": {
+    "entry": "0x2a0738",
+    "frame_stride": 24,
+    "grow_only_if_count_equals_capacity": true,
+    "grow_capacity_delta": 10,
+    "alloc_tag_address": "0x35520c",
+    "alloc_tag_line": 40,
+    "frame_initial_words": [
+      "kind@0",
+      "id@4",
+      "nodeIndex@8"
+    ],
+    "uninitialized_tail_words": [
+      "+0xc",
+      "+0x10",
+      "+0x14"
+    ],
+    "full_24B_copy": "raw LDM4/STR2/LDM2/STR4 primitive, no invented initialization",
+    "post_call_reload_contract": [
+      "capacity/data after Alloc",
+      "data again before Free",
+      "count after Free",
+      "this+8 before held count publication",
+      "selected frame captured before second clock",
+      "base loaded after second clock"
+    ],
+    "node_return_is_index_not_pointer": true,
+    "tail_math": "delta=base_afterSecond-first; this.base=second+delta; selected.frame+16=0-delta (uint64 wrap)",
+    "no_fault_or_atomicity_certification": true
   }
 }
