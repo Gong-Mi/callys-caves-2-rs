@@ -50,21 +50,56 @@
     "0x04 dense table",
     "0x08 pool next",
     "0x0c reset word",
-    "0x18 clear word",
+    "0x18 live prototype link / clear word",
     "0x1c/0x20 regex data",
     "0x24 signed dense count",
     "0x2c clear word",
     "0x38/0x40 clear words",
     "0x44 slot ID",
     "0x48 kind",
-    "0x60 variable map"
+    "0x60 variable map",
+    "0x4c inherited getter callback word"
   ],
   "no_complete_object_layout_claim": true,
   "RValue_stack_image": {
     "bytes": 16,
     "kind_sentinel": "0x00ffffff",
     "aux_then_low_high_then_kind": true,
-    "no_ctor_dtor_invented": true
+    "no_ctor_dtor_invented": true,
+    "store_order": [
+      "aux@+8",
+      "low@+0",
+      "high@+4",
+      "kind@+12"
+    ]
   },
-  "original_executed": false
+  "original_executed": false,
+  "rvalue_page_pool": {
+    "symbol": "_rvalue",
+    "inline_object": "0x536d88",
+    "size": 20,
+    "slot": "0x3f0678",
+    "literal": "0x190eec",
+    "got_add_site": "0x190e88",
+    "fields": {
+      "pageHead": 4,
+      "freeHead": 8,
+      "count0c": 12,
+      "count10": 16
+    },
+    "page_data_range": "uint32 wrap bounds [page+8,page+0x100008), separate unsigned comparisons",
+    "not_a_pointer_variable": true
+  },
+  "js_helper_contracts": {
+    "inherited_getter_receiver": "original object, not getter-provider ancestor",
+    "property_probe_reloads_prototype_after_getter": true,
+    "kind_classification_mask": "0x00ffffff",
+    "YYError_format": {
+      "address": "0x355538",
+      "text": "unhandled type for JS_IsCallable %d",
+      "vararg": "masked kind in r1, explicit int representation"
+    },
+    "Call_RValue_rejection_word": 1,
+    "no_extra_null_guards": true
+  }
 }

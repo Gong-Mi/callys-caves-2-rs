@@ -43,8 +43,8 @@ struct ObjectDeleteTablePrefix {
 
 void JS_GetProperty(YYObjectBase *, RValue *, const char *); // 0x2418dc, result ignored
 uint32_t JS_IsCallable(RValue &);                      // 0x24076c, caller tests full r0 != 0
-void Call_RValue(YYObjectBase *, RValue *, RValue *, int, RValue *); // 0x249860
-void FreeRValue(RValue *, RValue **, RValue **);        // 0x190e84, internal body still owed
+uint32_t Call_RValue(YYObjectBase *, RValue *, RValue *, int, RValue *); // 0x249860, explicit r0=1 rejection path
+void FreeRValue(RValue *, RValue **, RValue **);        // 0x190e84, page-pool body in value_pool.cpp
 using PcreFreeEntry = void (*)(void *);
 extern "C" PcreFreeEntry volatile pcre_free;           // function-pointer variable at 0x3f76dc
 

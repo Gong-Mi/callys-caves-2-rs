@@ -1,47 +1,50 @@
 {
-  "scope": "Latest object/u32 integration. Prior method bodies retained; canonical static method/alias declarations expanded. No target execution.",
-  "base": "8b598193af9bd9d0b1d28423a340eaa4e10d40aa",
+  "scope": "Latest value page-pool and JS helper integration, including real property/callability/Call_RValue bodies. No target execution.",
+  "base": "46ce675619d67317debda7f80fc271eba80e852f",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "input_sha256": {
+    "reconstruction/reverse-v1/c/compiler_conversions/original-words.tsv": "27feba6aa489689aa65a665a82f4f705693eb8fb018617234dfdd6934c71f2c0",
+    "reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c": "ba80acdd9b3ee0d9edd90a01f9ff9b06bbe70515994362105bd03fed032b7eb1",
+    "reconstruction/reverse-v1/c/compiler_conversions/src/conversions.h": "5295867f65ebbbbd7f7c459e74bd304ce7f55767afd52a3e4aeaf531f96de07e",
+    "reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c": "ecb280b2173806da1c8700d8329484a76b74f4d636c57fb5685bd015030a86d5",
+    "reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp": "2018d46a54babc29252195de8831dad4c2871b88f81e70a891a4a2f46d90518f",
+    "reconstruction/reverse-v1/cpp/ccode/ccode.hpp": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642",
+    "reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp": "999390fe3da464f2296fccd43390a3327a04597db92da182a8c0584e21cf90c8",
+    "reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
     "reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp": "c19cc4c658d0f335e7fd11546fdbdfc21112fd41845e08b324b2d4df570eb02c",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp": "8e1e8f49498670a1cd4467bf488df09f1eb56fd19d712b3b22148fcabb34ef3e",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp": "f740def988755bfa153c8948b18a70a791e94e0d1b601c0a49801fa77cd496a3",
-    "reconstruction/reverse-v1/cpp/timing/abi_layout.cpp": "ef93cb2020b08071f62660b17ed2cbc40bef6b613fd08f99fe864f76c738b8c2",
-    "reconstruction/reverse-v1/cpp/timing/timing.cpp": "18cbcf1486629a940319fdc2f0c4860a4639bf3259819ed809c0ef324926db55",
-    "reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp": "cc4a2f0ab27727252c48510a67f891d3abb5ef27a9ac459c2f1c9fb9eb31eae7",
-    "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp": "66096a71d592bb83074df31aaf7def73829c26327e2f5066e0a2ec23455243ac",
-    "reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp": "3dd332e394c2a7c1a117288d36bc9454592737cfb5dbdf4a14670f5fd466b06f",
-    "reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp": "7c02d8dc3e1eb6991916cfef170a1f282834a6332dc145c79352f425b1860936",
-    "reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp": "a39ca99256746fda9e0e62a6adadb78657f57a39fc73e8d7c95abb91d713f416",
-    "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c",
-    "reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
-    "reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp": "4bab16563eb25ed220f1d710d1e82b28ddd6cf3ac603747d3966c3053d0a1dac",
-    "reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp": "2018d46a54babc29252195de8831dad4c2871b88f81e70a891a4a2f46d90518f",
-    "reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp": "999390fe3da464f2296fccd43390a3327a04597db92da182a8c0584e21cf90c8",
-    "reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
+    "reconstruction/reverse-v1/cpp/memory_manager/memory_internal.hpp": "eb903be4c95bd150006f5b48a7371c1420b1a4f1c6a35f689d4c479c24af13d6",
     "reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp": "986220ae583c22a829ebce198a95900449abbe0de4f47439acf0a53ed13beae1",
-    "reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c": "ba80acdd9b3ee0d9edd90a01f9ff9b06bbe70515994362105bd03fed032b7eb1",
-    "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "dc5e2c6efb9f6c99299ec6f6a35b452ddc2d2550833b612fc60886265c75543d",
+    "reconstruction/reverse-v1/cpp/memory_manager/page_lookup.hpp": "db3b0281f4c325429f8f7d8c4412a636d5e8fe46d13bf376d0a1814ae410e521",
+    "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "38f406d8e24196e5a03b40563fc9ef36d0537a9504f085715b3d5aa5687c6880",
+    "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "19483dbc268f6662f996207e81ebe43fdbcf87aa03965714201a4faeb2015862",
     "reconstruction/reverse-v1/cpp/object_base/object_free.cpp": "500508b69cb09af9e7d89969f2c760c4b5f09e395a8474d1607dedcb7233f758",
     "reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
-    "reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c": "ecb280b2173806da1c8700d8329484a76b74f4d636c57fb5685bd015030a86d5",
-    "reconstruction/reverse-v1/cpp/object_base/object_internal.hpp": "42da1b2ab5c78a0b8ba8ebbe8952baa7cd48c912317f0caab8e3ac9db96601de",
-    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "261ff441ca2fa50be47d0cc349b03f4a5fdc5311c2a94a43ca0d2b536c802ca2",
-    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "67956125de5c2ba4c01d072043f1e2fe161e1d24b5f6966d2ab8f59fa7c0665f",
-    "reconstruction/reverse-v1/c/compiler_conversions/src/conversions.h": "5295867f65ebbbbd7f7c459e74bd304ce7f55767afd52a3e4aeaf531f96de07e",
-    "reconstruction/reverse-v1/c/compiler_conversions/original-words.tsv": "27feba6aa489689aa65a665a82f4f705693eb8fb018617234dfdd6934c71f2c0",
-    "reconstruction/reverse-v1/cpp/vm_exec/vm_exec.hpp": "3e0a6b6284a1741566b8053df40e09a5786a86284506372918757e19454ed731",
-    "reconstruction/reverse-v1/cpp/memory_manager/memory_internal.hpp": "eb903be4c95bd150006f5b48a7371c1420b1a4f1c6a35f689d4c479c24af13d6",
-    "reconstruction/reverse-v1/cpp/memory_manager/page_lookup.hpp": "db3b0281f4c325429f8f7d8c4412a636d5e8fe46d13bf376d0a1814ae410e521",
+    "reconstruction/reverse-v1/cpp/object_base/object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45",
+    "reconstruction/reverse-v1/cpp/object_base/object_internal.hpp": "99abcc725d78c6eb9880ba510e2d02062a180182aa6613f32ad313a1bb8688d3",
+    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "56b68e6597d69a11cbc47ae04c78300cdecb8a6ae6b5637eeafb98bbcacaf104",
+    "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp": "73739c0c2d5e8cfd7c585ec6b944dee79abf30237674bd1937198896f4fc1b73",
+    "reconstruction/reverse-v1/cpp/timing/abi_layout.cpp": "ef93cb2020b08071f62660b17ed2cbc40bef6b613fd08f99fe864f76c738b8c2",
+    "reconstruction/reverse-v1/cpp/timing/timing.cpp": "18cbcf1486629a940319fdc2f0c4860a4639bf3259819ed809c0ef324926db55",
     "reconstruction/reverse-v1/cpp/timing/timing.hpp": "78bd35b19dc968c91bb90c7f96e6c3bac3cd6c17e64891347d3ceedbc2f27bfa",
+    "reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp": "a39ca99256746fda9e0e62a6adadb78657f57a39fc73e8d7c95abb91d713f416",
+    "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c",
     "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.hpp": "c601b9cf5eee566bdde9be168452fe5ec043e5092f1d6f4e8ebabbe892985cbe",
-    "reconstruction/reverse-v1/cpp/ccode/ccode.hpp": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642"
+    "reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+    "reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp": "4bab16563eb25ed220f1d710d1e82b28ddd6cf3ac603747d3966c3053d0a1dac",
+    "reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp": "cc4a2f0ab27727252c48510a67f891d3abb5ef27a9ac459c2f1c9fb9eb31eae7",
+    "reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp": "3dd332e394c2a7c1a117288d36bc9454592737cfb5dbdf4a14670f5fd466b06f",
+    "reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp": "7c02d8dc3e1eb6991916cfef170a1f282834a6332dc145c79352f425b1860936",
+    "reconstruction/reverse-v1/cpp/vm_exec/vm_exec.hpp": "3e0a6b6284a1741566b8053df40e09a5786a86284506372918757e19454ed731",
+    "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp": "66096a71d592bb83074df31aaf7def73829c26327e2f5066e0a2ec23455243ac"
   },
   "registry_sha256": {
     "reconstruction/reverse-v1/cpp/vm_exec/functions.json": "6d8c6d947a3293a0b5d11555a3fcc7c0fd3b0d67d7b56575388e77b7c3681c6b",
     "reconstruction/reverse-v1/cpp/memory_manager/functions.json": "52f67580d1f30d6b338fb7c23d9bcb14eb39097fb22c9ce719ffbeecea81f8f8",
     "reconstruction/reverse-v1/cpp/timing/functions.json": "735645c2aa3a7243cf49a21c39e8106a51357b1789d157c8ca68043e8681158c",
-    "reconstruction/reverse-v1/cpp/object_base/functions.json": "7eba3a0bedc4df1d022dbc3eef536434a1195507b232b03816a026467d8e9f5d",
+    "reconstruction/reverse-v1/cpp/object_base/functions.json": "90821e54dce1c3a8bb57b04c91d2ab4df8eeca25179e1e43dec74a46d6e67971",
     "reconstruction/reverse-v1/c/compiler_conversions/functions.json": "22b0d1b79c937bf1eb40f8ef471d23c1f23518ddd238f24ee3b2962ac1eee63e"
   },
   "builds": [
@@ -71,10 +74,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/memory_manager_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/memory_manager_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/memory_manager_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/memory_manager_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -100,10 +103,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/memory_manager_memory_free.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/memory_manager_memory_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/memory_manager_memory_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/memory_manager_memory_free.o",
           "object_sha256": "91c68ca1008be8a4b52d062ace26123f5608695f032ffb60face7601710aa547"
         },
         {
@@ -129,10 +132,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/memory_manager_memory_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/memory_manager_memory_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/memory_manager_memory_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/memory_manager_memory_helpers.o",
           "object_sha256": "6a1321de61becf7e8d08f4e693e5f435711c00611d13be79d152d2af9ee72cad"
         },
         {
@@ -158,10 +161,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/timing/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/timing_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/timing_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/timing_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/timing_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -187,10 +190,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/timing/timing.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/timing_timing.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/timing_timing.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/timing_timing.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/timing_timing.o",
           "object_sha256": "ef14b9bdcb6dd5f3d29f17212825d3240b510d8469df284f49fc4c790dad531a"
         },
         {
@@ -216,10 +219,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_exec_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_exec_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_exec_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_exec_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -245,10 +248,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_exec_vm_exec_release.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_exec_vm_exec_release.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_exec_vm_exec_release.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_exec_vm_exec_release.o",
           "object_sha256": "6dca6b78c3106eb35f80ab9c0f1279a5ec6c3f788900b53d44a9560ea4f60216"
         },
         {
@@ -274,10 +277,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_exec_perform_return.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_exec_perform_return.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_exec_perform_return.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_exec_perform_return.o",
           "object_sha256": "2a978cb74ede1601aff77796e00e25ee3afc4f9eed6f225442d8f17f60b2d426"
         },
         {
@@ -303,10 +306,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_exec_profiler_pop.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_exec_profiler_pop.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_exec_profiler_pop.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_exec_profiler_pop.o",
           "object_sha256": "fa2b8aa6aaadf1b6600b502f184099c5e84148f7198fb1a6d22f1c34fe97dd80"
         },
         {
@@ -332,10 +335,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_buffer_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_buffer_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_buffer_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_buffer_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -361,10 +364,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_buffer_vm_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_buffer_vm_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_buffer_vm_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_buffer_vm_buffer.o",
           "object_sha256": "fe994b3981effdafaad96deed3477c02253832dc3c2a4f64857596e8ef1ddb33"
         },
         {
@@ -390,10 +393,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_buffer_vm_write_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_buffer_vm_write_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_buffer_vm_write_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_buffer_vm_write_buffer.o",
           "object_sha256": "510e3c8295ee548b089c289f0f89033d25539ea5532198aac62a0b8bd24eed93"
         },
         {
@@ -419,10 +422,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_buffer_wad_memory.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_buffer_wad_memory.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/vm_buffer_wad_memory.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/vm_buffer_wad_memory.o",
           "object_sha256": "be7960c07ca877c93fdc23bcd9a579497dca6e1c6ddc6072b986df69e98dd53f"
         },
         {
@@ -448,10 +451,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/ccode_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/ccode_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/ccode_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/ccode_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -477,10 +480,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/ccode_ccode_construct.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/ccode_ccode_construct.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/ccode_ccode_construct.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/ccode_ccode_construct.o",
           "object_sha256": "de95d2b34fc5df7885704455f31539087af532e9dae588a1504ee4e7a4f57994"
         },
         {
@@ -506,10 +509,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/ccode_ccode_lifetime.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/ccode_ccode_lifetime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/ccode_ccode_lifetime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/ccode_ccode_lifetime.o",
           "object_sha256": "a67b8dc9fe07d4d2709f2089e997cf3e2c1fb6f9ac7a0c5de968c5c56fe99aab"
         },
         {
@@ -535,10 +538,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/memory_manager_page_lookup.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/memory_manager_page_lookup.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/memory_manager_page_lookup.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/memory_manager_page_lookup.o",
           "object_sha256": "831247991baeafe65d777769f8bd5d81fca0f9cf05f9d25679583cb1dda829b6"
         },
         {
@@ -562,15 +565,15 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/src_conversions.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/src_conversions.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/src_conversions.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/src_conversions.o",
           "object_sha256": "adc9e489764f1ccdcc366383304516580f573634289e74966e534f089345043c"
         },
         {
           "source": "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
-          "source_sha256": "dc5e2c6efb9f6c99299ec6f6a35b452ddc2d2550833b612fc60886265c75543d",
+          "source_sha256": "38f406d8e24196e5a03b40563fc9ef36d0537a9504f085715b3d5aa5687c6880",
           "argv": [
             "clang++",
             "-nostdinc++",
@@ -591,10 +594,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/object_base_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/object_base_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -620,10 +623,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/object_base_object_free.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_object_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/object_base_object_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_object_free.o",
           "object_sha256": "790ce150a8ab5f919855c5ad769d232874d678e6adc1ca9f61591bd0ddac4879"
         },
         {
@@ -649,10 +652,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/object_base_object_free_vars.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_object_free_vars.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/object_base_object_free_vars.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_object_free_vars.o",
           "object_sha256": "9f8fb0b24c46ebcd3370f841e39592bd1af293c0a706e937278403a691881b14"
         },
         {
@@ -676,20 +679,84 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/src_fixunsdfsi.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/src_fixunsdfsi.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/src_fixunsdfsi.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/src_fixunsdfsi.o",
           "object_sha256": "566f7c9792c8b5bdd599a3438f6ced75ca26726091628855a6b47c55ed1f3a0f"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
+          "source_sha256": "73739c0c2d5e8cfd7c585ec6b944dee79abf30237674bd1937198896f4fc1b73",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O0",
+            "-c",
+            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_value_pool.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_value_pool.o",
+          "object_sha256": "81d69c7cd81173b081696f25ea4ccf13935a2aaae8f08fa7737e44e7cccfec3e"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
+          "source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O0",
+            "-c",
+            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_js_helpers.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/object_base_js_helpers.o",
+          "object_sha256": "5f4b019afcc55951e311d3d736748912b0e35138610839960f60185f0f1d07f7"
         }
       ],
       "original_symbols_expected": [
         "Timing_Init",
         "Timing_Time",
+        "_Z10FreeRValueP6RValuePS0_S1_",
         "_Z10bucketFreePKv",
+        "_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_",
         "_Z11MemoryInWadPv",
         "_Z11logLocation8ELogTypePKvS1_j",
+        "_Z13JS_IsCallableR6RValue",
         "_Z13PerformReturnPhP6VMExec",
+        "_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc",
+        "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc",
+        "_Z20JS_IsCallable_ObjectP12YYObjectBase",
         "_Z21CHashMapCalculateHashIPhEjT_",
         "_Z22globalPageListFindAddrPKv",
         "_ZN12YYObjectBase4FreeEPS_",
@@ -732,14 +799,12 @@
       "original_symbols_missing": [],
       "undefined_providers": [
         "Argument",
-        "_Z10FreeRValueP6RValuePS0_S1_",
-        "_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_",
         "_Z13DoCallLibraryjPhPKhP6VMExec",
-        "_Z13JS_IsCallableR6RValue",
-        "_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc",
+        "_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_",
         "_Z16FREE_RValue__PreP6RValue",
         "_Z18DoPopLocalVariablejPhPKhP6VMExec",
         "_Z19DoConvIntToVariablejPhPKhP6VMExec",
+        "_Z7YYErrorPKcz",
         "_Z9DoCallGMLjPhPKhP6VMExec",
         "_ZN12YYObjectBase12ms_pFreeListE",
         "_ZN13MemoryManager14m_StandardSizeE",
@@ -763,6 +828,7 @@
         "__gxx_personality_v0",
         "__muldf3",
         "__subdf3",
+        "_rvalue",
         "clock_gettime",
         "free",
         "g_ArgumentCount",
@@ -808,19 +874,16 @@
         "pthread_mutexattr_settype",
         "stackPages"
       ],
-      "u32_alias": {
-        "same_value": 13588,
-        "target_size": 368,
-        "alias_size": 368,
-        "bind": "STB_GLOBAL"
+      "js_helper_direct_calls": {
+        "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc": 1,
+        "_Z20JS_IsCallable_ObjectP12YYObjectBase": 1,
+        "_Z7YYErrorPKcz": 1,
+        "_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_": 1
       },
-      "u32_leaf_undefined": [],
-      "u32_leaf_calls": 0,
-      "u32_native_FP_arithmetic": false,
-      "archive": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/libcally_runner_objects.a",
-      "archive_sha256": "a3e1e65ebec507b0efcabfad9656fe7e2921e2dfdf6ad7f23fa266265943bc26",
-      "combined": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O0/runner_objects_u32.o",
-      "combined_sha256": "ec278b057e9ba56b26342c2b5689f8ea870bd0e1df97be42b46558ef168978ad"
+      "archive": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/libcally_runner_js_pool.a",
+      "archive_sha256": "a9685617b3cdfdd905ffd17a57a0e920ba65b8f984d947d4a0a354d172f56111",
+      "combined": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O0/runner_js_pool.o",
+      "combined_sha256": "d70ef20534ec1b97a0fc00dbe759b120227a71c245b9eba382f4476e573ca9d3"
     },
     {
       "configuration": "O2",
@@ -848,10 +911,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/memory_manager_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/memory_manager_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/memory_manager_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/memory_manager_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -877,10 +940,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/memory_manager_memory_free.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/memory_manager_memory_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/memory_manager_memory_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/memory_manager_memory_free.o",
           "object_sha256": "60ddf9e10f524c3d0466d75d419a8a10d32a5f4402b26dd2d2d864b7b9655f24"
         },
         {
@@ -906,10 +969,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/memory_manager_memory_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/memory_manager_memory_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/memory_manager_memory_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/memory_manager_memory_helpers.o",
           "object_sha256": "51585e731c583381520dc56788cb9f1bf0ebe07add4335f1401ada878d8840ef"
         },
         {
@@ -935,10 +998,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/timing/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/timing_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/timing_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/timing_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/timing_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -964,10 +1027,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/timing/timing.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/timing_timing.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/timing_timing.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/timing_timing.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/timing_timing.o",
           "object_sha256": "b4d1b354ab7e62fbbf1a96e827a2f2270c070824d1771090fddb15a249a5a817"
         },
         {
@@ -993,10 +1056,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_exec_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_exec_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_exec_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_exec_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1022,10 +1085,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_exec_vm_exec_release.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_exec_vm_exec_release.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_exec_vm_exec_release.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_exec_vm_exec_release.o",
           "object_sha256": "f508b695ea490741fedb85ebef958b5e4c42d342fb8aabcb32cb25341f4639b2"
         },
         {
@@ -1051,10 +1114,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_exec_perform_return.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_exec_perform_return.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_exec_perform_return.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_exec_perform_return.o",
           "object_sha256": "8a7c7c72d6513fc9ee19433eb98ff648c21b15e022cf105214f6be2107b962d7"
         },
         {
@@ -1080,10 +1143,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_exec_profiler_pop.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_exec_profiler_pop.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_exec_profiler_pop.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_exec_profiler_pop.o",
           "object_sha256": "561c68e6964fa95c1b171ca99624a1a2b95e52feb3e139c4dd98058c35fed16a"
         },
         {
@@ -1109,10 +1172,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_buffer_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_buffer_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_buffer_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_buffer_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1138,10 +1201,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_buffer_vm_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_buffer_vm_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_buffer_vm_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_buffer_vm_buffer.o",
           "object_sha256": "ccc3b03fe9666d92153c593203e9042ac7e4828efd3f550ff1274e0853497dca"
         },
         {
@@ -1167,10 +1230,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_buffer_vm_write_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_buffer_vm_write_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_buffer_vm_write_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_buffer_vm_write_buffer.o",
           "object_sha256": "a68f7f2ca7c0c69ef0a029aa8375ac97ae347035bb69f898e85b50682bbacab9"
         },
         {
@@ -1196,10 +1259,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_buffer_wad_memory.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_buffer_wad_memory.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/vm_buffer_wad_memory.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/vm_buffer_wad_memory.o",
           "object_sha256": "680f8baff18d84fb8a227204dac1ad1c51ae6bb804895648030a3aa9496ca470"
         },
         {
@@ -1225,10 +1288,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/ccode_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/ccode_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/ccode_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/ccode_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1254,10 +1317,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/ccode_ccode_construct.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/ccode_ccode_construct.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/ccode_ccode_construct.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/ccode_ccode_construct.o",
           "object_sha256": "93e076d1e61725774b15a7ce07a72cc2190ed7270392a79ccc753c64bee4fdc6"
         },
         {
@@ -1283,10 +1346,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/ccode_ccode_lifetime.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/ccode_ccode_lifetime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/ccode_ccode_lifetime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/ccode_ccode_lifetime.o",
           "object_sha256": "fe341be1c4913a2fd6e0d7a67f7bfbec0d90816a1b888f48df4e1c4f17ab2f02"
         },
         {
@@ -1312,10 +1375,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/memory_manager_page_lookup.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/memory_manager_page_lookup.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/memory_manager_page_lookup.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/memory_manager_page_lookup.o",
           "object_sha256": "19482712d1ac2bda99168c75b7b112295ccf174c0e79836fb58d6b39d819c90d"
         },
         {
@@ -1339,15 +1402,15 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/src_conversions.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/src_conversions.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/src_conversions.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/src_conversions.o",
           "object_sha256": "c1e2ae7f60bcda5e607420b1a6e800dee6985a7ddf1dc2b43b8db5247219975f"
         },
         {
           "source": "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
-          "source_sha256": "dc5e2c6efb9f6c99299ec6f6a35b452ddc2d2550833b612fc60886265c75543d",
+          "source_sha256": "38f406d8e24196e5a03b40563fc9ef36d0537a9504f085715b3d5aa5687c6880",
           "argv": [
             "clang++",
             "-nostdinc++",
@@ -1368,10 +1431,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/object_base_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/object_base_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1397,10 +1460,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/object_base_object_free.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_object_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/object_base_object_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_object_free.o",
           "object_sha256": "478455b2ca78bff2463df521f13c70023382eb995f20ad37e09198045247f39d"
         },
         {
@@ -1426,10 +1489,10 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/object_base_object_free_vars.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_object_free_vars.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/object_base_object_free_vars.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_object_free_vars.o",
           "object_sha256": "05976a43854022f89d78660dbbc30f6299707fb0048d152d57958aca33c11ef2"
         },
         {
@@ -1453,20 +1516,84 @@
             "-c",
             "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/src_fixunsdfsi.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/src_fixunsdfsi.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/src_fixunsdfsi.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/src_fixunsdfsi.o",
           "object_sha256": "475cf8cf0bcbf24729369c6c9b55bb5aa4b8b9cd504df963c73b7440ebe89596"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
+          "source_sha256": "73739c0c2d5e8cfd7c585ec6b944dee79abf30237674bd1937198896f4fc1b73",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            "-c",
+            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_value_pool.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_value_pool.o",
+          "object_sha256": "0a0c2894bc81513edabec3a8b3e486f5bfe7b6943cbed4c1a7bbfeb4af4cdf43"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
+          "source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            "-c",
+            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_js_helpers.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/object_base_js_helpers.o",
+          "object_sha256": "4cc29edac42e8dad1963b3210090e9f02ba8338aaa83f1e6bcd2d55bc280d4ca"
         }
       ],
       "original_symbols_expected": [
         "Timing_Init",
         "Timing_Time",
+        "_Z10FreeRValueP6RValuePS0_S1_",
         "_Z10bucketFreePKv",
+        "_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_",
         "_Z11MemoryInWadPv",
         "_Z11logLocation8ELogTypePKvS1_j",
+        "_Z13JS_IsCallableR6RValue",
         "_Z13PerformReturnPhP6VMExec",
+        "_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc",
+        "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc",
+        "_Z20JS_IsCallable_ObjectP12YYObjectBase",
         "_Z21CHashMapCalculateHashIPhEjT_",
         "_Z22globalPageListFindAddrPKv",
         "_ZN12YYObjectBase4FreeEPS_",
@@ -1509,14 +1636,12 @@
       "original_symbols_missing": [],
       "undefined_providers": [
         "Argument",
-        "_Z10FreeRValueP6RValuePS0_S1_",
-        "_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_",
         "_Z13DoCallLibraryjPhPKhP6VMExec",
-        "_Z13JS_IsCallableR6RValue",
-        "_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc",
+        "_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_",
         "_Z16FREE_RValue__PreP6RValue",
         "_Z18DoPopLocalVariablejPhPKhP6VMExec",
         "_Z19DoConvIntToVariablejPhPKhP6VMExec",
+        "_Z7YYErrorPKcz",
         "_Z9DoCallGMLjPhPKhP6VMExec",
         "_ZN12YYObjectBase12ms_pFreeListE",
         "_ZN13MemoryManager14m_StandardSizeE",
@@ -1540,6 +1665,7 @@
         "__gxx_personality_v0",
         "__muldf3",
         "__subdf3",
+        "_rvalue",
         "clock_gettime",
         "free",
         "g_ArgumentCount",
@@ -1585,19 +1711,16 @@
         "pthread_mutexattr_settype",
         "stackPages"
       ],
-      "u32_alias": {
-        "same_value": 5712,
-        "target_size": 104,
-        "alias_size": 104,
-        "bind": "STB_GLOBAL"
+      "js_helper_direct_calls": {
+        "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc": 1,
+        "_Z20JS_IsCallable_ObjectP12YYObjectBase": 1,
+        "_Z7YYErrorPKcz": 1,
+        "_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_": 1
       },
-      "u32_leaf_undefined": [],
-      "u32_leaf_calls": 0,
-      "u32_native_FP_arithmetic": false,
-      "archive": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/libcally_runner_objects.a",
-      "archive_sha256": "7cc775fddf5578c83f201d30ff8deefae40cb7343a1afcdcc87ad0c4d4801057",
-      "combined": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-object-u32-fmv_pr30/parent-build/O2/runner_objects_u32.o",
-      "combined_sha256": "1d76dd84be737e6e357f6ca12d945c250321c2a0520fea5ab7b6491e694fc6fe"
+      "archive": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/libcally_runner_js_pool.a",
+      "archive_sha256": "f71acc14ce0c2b680e1ee85947477b8514716af2d6bc1cf96f1cd617c89db049",
+      "combined": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-js-pool-2jd5kujf/final-build/O2/runner_js_pool.o",
+      "combined_sha256": "d198c74a82683bcbe5e7314ca7cc20dec3b8dd0ec950c61be941cb38b0566b0e"
     }
   ],
   "new_original_entries": 3,
@@ -1620,5 +1743,15 @@
     "software comparison/multiply/subtract/normalization and list producers"
   ],
   "original_executed": false,
-  "rebuilt_executed": false
+  "rebuilt_executed": false,
+  "new_source_scope": {
+    "entries": 6,
+    "exported_names": 6,
+    "words": 114,
+    "literal_words": 2,
+    "phase_complete": false,
+    "original_executed": false,
+    "rebuilt_executed": false,
+    "four_direct_js_call_edges_present_O0_O2": true
+  }
 }

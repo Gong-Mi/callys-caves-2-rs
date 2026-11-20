@@ -1,7 +1,7 @@
 {
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
-  "header_sha256": "42da1b2ab5c78a0b8ba8ebbe8952baa7cd48c912317f0caab8e3ac9db96601de",
+  "header_sha256": "99abcc725d78c6eb9880ba510e2d02062a180182aa6613f32ad313a1bb8688d3",
   "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
   "canonical_api_header_sha256": "3e0a6b6284a1741566b8053df40e09a5786a86284506372918757e19454ed731",
   "functions": [
@@ -38,16 +38,117 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x190e84",
+      "size": 108,
+      "symbols": [
+        "_Z10FreeRValueP6RValuePS0_S1_"
+      ],
+      "body_sha256": "abb73b9cd8a0f30ca84ea248a9ec400507596988edd8b9af5a05d8ec08d299ef",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "value_pool.cpp",
+      "translation_source_sha256": "73739c0c2d5e8cfd7c585ec6b944dee79abf30237674bd1937198896f4fc1b73",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x241890",
+      "size": 76,
+      "symbols": [
+        "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc"
+      ],
+      "body_sha256": "0dcd07dd5eab4b0c323144a0893f48f6849da7a48d4cedfe295663f815096e3b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x2418dc",
+      "size": 72,
+      "symbols": [
+        "_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc"
+      ],
+      "body_sha256": "fa0baa95d41be7f069e1c21d1e327851fd354419bb9f2419611d90701f8fc755",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x240758",
+      "size": 20,
+      "symbols": [
+        "_Z20JS_IsCallable_ObjectP12YYObjectBase"
+      ],
+      "body_sha256": "8b2762da28303373c3e72655050f5d5ad42396bd5dbc01672e249e55cae44831",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x24076c",
+      "size": 124,
+      "symbols": [
+        "_Z13JS_IsCallableR6RValue"
+      ],
+      "body_sha256": "bb211d1f1826aad7466fcffcef797ec71a7beaf2afd065ee691357004ed17d43",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x249860",
+      "size": 56,
+      "symbols": [
+        "_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_"
+      ],
+      "body_sha256": "ed57d901115499ca5ec0771e78a342874f193efb71811956ce4ceb14df3422e0",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "not_whole_library_completion": true,
-  "scope": "YYObjectBase static Free/FreeVars surface and observed wire storage only; no full YYObjectBase/RValue instantiation or layout proof.",
+  "scope": "YYObjectBase static Free/FreeVars, RValue page-pool recycle, JS property/callability and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
   "remaining_internal_dependencies": [
     "FREE_RValue__Pre",
-    "FreeRValue",
-    "JS_GetProperty",
-    "JS_IsCallable",
-    "Call_RValue",
+    "Call_ScriptRef",
+    "YYError",
+    "property getter targets",
     "raw operator delete entry and dynamic deleteSelf targets"
   ],
   "remaining_scope": [
@@ -55,5 +156,9 @@
     "object lifetime/fault/concurrency/unwind domains",
     "slot-table and variable-map producers"
   ],
-  "original_executed": false
+  "original_executed": false,
+  "additional_headers_sha256": {
+    "object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45"
+  },
+  "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it."
 }

@@ -886,5 +886,6 @@
   "archive_retention": "Scratch outputs are temporary; recorded commands rebuild the static artifacts.",
   "original_executed": false,
   "rebuilt_executed": false,
-  "declaration_only_extension": "YYObjectBase::FreeVars/RVariable forward declaration; latest target combination recorded by object_base validation."
+  "declaration_only_extension": "YYObjectBase::FreeVars/RVariable forward declaration; latest target combination recorded by object_base validation.",
+  "shared_receipt_sha256": "fc81b07daa39e414570c5dc82cce0e23e6cb03e0759e6ce77d3c520b22e6bf09"
 }

@@ -1,14 +1,21 @@
 {
-  "scope": "YYObjectBase Free/FreeVars static C++ method recovery with wire views, not full class/JS/value ownership certification",
+  "scope": "YYObjectBase Free/FreeVars plus page-pool recycling and JS properties/callability/forwarder static C++ recovery, not full ownership/unwind or original equivalence",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "9bbd7c86dba87e2b0d27f4c023d88974c2a3a4e5a1e5286217ce04eaa2c3e59c",
-  "header_sha256": "42da1b2ab5c78a0b8ba8ebbe8952baa7cd48c912317f0caab8e3ac9db96601de",
+  "shared_receipt_sha256": "fc81b07daa39e414570c5dc82cce0e23e6cb03e0759e6ce77d3c520b22e6bf09",
+  "header_sha256": "99abcc725d78c6eb9880ba510e2d02062a180182aa6613f32ad313a1bb8688d3",
   "sources_sha256": {
     "object_free.cpp": "500508b69cb09af9e7d89969f2c760c4b5f09e395a8474d1607dedcb7233f758",
-    "object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2"
+    "object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
+    "value_pool.cpp": "73739c0c2d5e8cfd7c585ec6b944dee79abf30237674bd1937198896f4fc1b73",
+    "js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589"
   },
-  "original_index_words": 217,
-  "original_entries": 2,
+  "original_index_words": 331,
+  "original_entries": 8,
   "original_executed": false,
-  "rebuilt_executed": false
+  "rebuilt_executed": false,
+  "additional_headers_sha256": {
+    "object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45"
+  },
+  "new_batch_entries": 6,
+  "new_batch_words": 114
 }

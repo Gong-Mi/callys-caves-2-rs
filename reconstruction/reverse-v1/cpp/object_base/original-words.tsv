@@ -216,3 +216,117 @@ entry	va	word	mnemonic	operands
 198dac	198f7c	eaffffc4	b	0x198e94 <_ZN12YYObjectBase8FreeVarsEPS_PP6RValueS3_PP9RVariableS6_+0xe8>
 198dac	198f80	002577b8	.word	0x002577b8
 198dac	198f84	00257794	.word	0x00257794
+190e84	190e84	e59fc060	ldr	r12, [pc, #0x60]
+190e84	190e88	e79fc00c	ldr	r12, [pc, r12]
+190e84	190e8c	e59c3004	ldr	r3, [r12, #0x4]
+190e84	190e90	e3530000	cmp	r3, #0
+190e84	190e94	012fff1e	bxeq	lr
+190e84	190e98	e2831008	add	r1, r3, #8
+190e84	190e9c	e2832601	add	r2, r3, #1048576
+190e84	190ea0	e1500001	cmp	r0, r1
+190e84	190ea4	e2822008	add	r2, r2, #8
+190e84	190ea8	3a000001	blo	0x190eb4 <_Z10FreeRValueP6RValuePS0_S1_+0x30>
+190e84	190eac	e1520000	cmp	r2, r0
+190e84	190eb0	8a000003	bhi	0x190ec4 <_Z10FreeRValueP6RValuePS0_S1_+0x40>
+190e84	190eb4	e5933000	ldr	r3, [r3]
+190e84	190eb8	e3530000	cmp	r3, #0
+190e84	190ebc	1afffff5	bne	0x190e98 <_Z10FreeRValueP6RValuePS0_S1_+0x14>
+190e84	190ec0	e12fff1e	bx	lr
+190e84	190ec4	e59c1008	ldr	r1, [r12, #0x8]
+190e84	190ec8	e59c2010	ldr	r2, [r12, #0x10]
+190e84	190ecc	e59c300c	ldr	r3, [r12, #0xc]
+190e84	190ed0	e2822001	add	r2, r2, #1
+190e84	190ed4	e5801000	str	r1, [r0]
+190e84	190ed8	e2433001	sub	r3, r3, #1
+190e84	190edc	e58c0008	str	r0, [r12, #0x8]
+190e84	190ee0	e58c2010	str	r2, [r12, #0x10]
+190e84	190ee4	e58c300c	str	r3, [r12, #0xc]
+190e84	190ee8	e12fff1e	bx	lr
+190e84	190eec	0025f7e8	.word	0x0025f7e8
+241890	241890	e590c04c	ldr	r12, [r0, #0x4c]
+241890	241894	e92d4008	push	{r3, lr}
+241890	241898	e35c0000	cmp	r12, #0
+241890	24189c	1a000009	bne	0x2418c8 <_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc+0x38>
+241890	2418a0	e5903018	ldr	r3, [r0, #0x18]
+241890	2418a4	e3530000	cmp	r3, #0
+241890	2418a8	1a000003	bne	0x2418bc <_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc+0x2c>
+241890	2418ac	ea000007	b	0x2418d0 <_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc+0x40>
+241890	2418b0	e5933018	ldr	r3, [r3, #0x18]
+241890	2418b4	e3530000	cmp	r3, #0
+241890	2418b8	0a000004	beq	0x2418d0 <_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc+0x40>
+241890	2418bc	e593c04c	ldr	r12, [r3, #0x4c]
+241890	2418c0	e35c0000	cmp	r12, #0
+241890	2418c4	0afffff9	beq	0x2418b0 <_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc+0x20>
+241890	2418c8	e12fff3c	blx	r12
+241890	2418cc	e8bd8008	pop	{r3, pc}
+241890	2418d0	e3e034ff	mvn	r3, #-16777216
+241890	2418d4	e581300c	str	r3, [r1, #0xc]
+241890	2418d8	e8bd8008	pop	{r3, pc}
+2418dc	2418dc	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+2418dc	2418e0	e1a04000	mov	r4, r0
+2418dc	2418e4	e1a05001	mov	r5, r1
+2418dc	2418e8	e1a07002	mov	r7, r2
+2418dc	2418ec	e3e064ff	mvn	r6, #-16777216
+2418dc	2418f0	e1a00004	mov	r0, r4
+2418dc	2418f4	e1a01005	mov	r1, r5
+2418dc	2418f8	e1a02007	mov	r2, r7
+2418dc	2418fc	ebffffe3	bl	0x241890 <_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc>
+2418dc	241900	e595300c	ldr	r3, [r5, #0xc]
+2418dc	241904	e3c334ff	bic	r3, r3, #-16777216
+2418dc	241908	e1530006	cmp	r3, r6
+2418dc	24190c	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+2418dc	241910	e5944018	ldr	r4, [r4, #0x18]
+2418dc	241914	e3540000	cmp	r4, #0
+2418dc	241918	1afffff4	bne	0x2418f0 <_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc+0x14>
+2418dc	24191c	e585600c	str	r6, [r5, #0xc]
+2418dc	241920	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+240758	240758	e5900048	ldr	r0, [r0, #0x48]
+240758	24075c	e2503003	subs	r3, r0, #3
+240758	240760	e2730000	rsbs	r0, r3, #0
+240758	240764	e0b00003	adcs	r0, r0, r3
+240758	240768	e12fff1e	bx	lr
+24076c	24076c	e590100c	ldr	r1, [r0, #0xc]
+24076c	240770	e92d4008	push	{r3, lr}
+24076c	240774	e3c114ff	bic	r1, r1, #-16777216
+24076c	240778	e3510007	cmp	r1, #7
+24076c	24077c	0a00000b	beq	0x2407b0 <_Z13JS_IsCallableR6RValue+0x44>
+24076c	240780	ca00000c	bgt	0x2407b8 <_Z13JS_IsCallableR6RValue+0x4c>
+24076c	240784	e3510005	cmp	r1, #5
+24076c	240788	0a000008	beq	0x2407b0 <_Z13JS_IsCallableR6RValue+0x44>
+24076c	24078c	da000002	ble	0x24079c <_Z13JS_IsCallableR6RValue+0x30>
+24076c	240790	e5900000	ldr	r0, [r0]
+24076c	240794	e8bd4008	pop	{r3, lr}
+24076c	240798	eaffffee	b	0x240758 <_Z20JS_IsCallable_ObjectP12YYObjectBase>
+24076c	24079c	e3510001	cmp	r1, #1
+24076c	2407a0	9a000002	bls	0x2407b0 <_Z13JS_IsCallableR6RValue+0x44>
+24076c	2407a4	e59f0038	ldr	r0, [pc, #0x38]
+24076c	2407a8	e08f0000	add	r0, pc, r0
+24076c	2407ac	ebfa5332	bl	0xd547c <_Z7YYErrorPKcz>
+24076c	2407b0	e3a00000	mov	r0, #0
+24076c	2407b4	e8bd8008	pop	{r3, pc}
+24076c	2407b8	e351000d	cmp	r1, #13
+24076c	2407bc	ca000004	bgt	0x2407d4 <_Z13JS_IsCallableR6RValue+0x68>
+24076c	2407c0	e351000c	cmp	r1, #12
+24076c	2407c4	aafffff9	bge	0x2407b0 <_Z13JS_IsCallableR6RValue+0x44>
+24076c	2407c8	e351000a	cmp	r1, #10
+24076c	2407cc	1afffff4	bne	0x2407a4 <_Z13JS_IsCallableR6RValue+0x38>
+24076c	2407d0	eafffff6	b	0x2407b0 <_Z13JS_IsCallableR6RValue+0x44>
+24076c	2407d4	e3e034ff	mvn	r3, #-16777216
+24076c	2407d8	e1510003	cmp	r1, r3
+24076c	2407dc	1afffff0	bne	0x2407a4 <_Z13JS_IsCallableR6RValue+0x38>
+24076c	2407e0	eafffff2	b	0x2407b0 <_Z13JS_IsCallableR6RValue+0x44>
+24076c	2407e4	00114d88	.word	0x00114d88
+249860	249860	e592c00c	ldr	r12, [r2, #0xc]
+249860	249864	e52d4004	str	r4, [sp, #-0x4]!
+249860	249868	e3ccc4ff	bic	r12, r12, #-16777216
+249860	24986c	e35c0006	cmp	r12, #6
+249860	249870	0a000002	beq	0x249880 <_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_+0x20>
+249860	249874	e3a00001	mov	r0, #1
+249860	249878	e49d4004	ldr	r4, [sp], #4
+249860	24987c	e12fff1e	bx	lr
+249860	249880	e5922000	ldr	r2, [r2]
+249860	249884	e592c048	ldr	r12, [r2, #0x48]
+249860	249888	e35c0003	cmp	r12, #3
+249860	24988c	1afffff8	bne	0x249874 <_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_+0x14>
+249860	249890	e49d4004	ldr	r4, [sp], #4
+249860	249894	eaffff3d	b	0x249590 <_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_>

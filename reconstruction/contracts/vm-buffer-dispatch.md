@@ -225,3 +225,26 @@ ADDS 的 exponent carry、BPL/BMI 与 ARM register-LSR 规则；负数/NaN 为�
 
 本批 238 原字，22 TU 的 O0/O2 组合含 44 个原导出。JS/value helpers、实际析构目标、
 delete trampoline 及 fault/concurrency/unwind 等仍是内部欠账；未执行原件或重建件。
+
+
+## 页池回收与 JS dispose 助手的真实正文
+
+`object_base/value_pool.cpp` 恢复 FreeRValue@0x190e84：_rvalue 是 0x536d88 的20B inline对象，
+不是指针变量；pageHead/freeHead/count0c/count10 偏移4/8/12/16。逐页使用两次uint32边界
+比较，不用减基址折叠跨界范围；未命中仅继续查页，命中先快照freeHead/count10/count0c，
+再写 value 首字→发布freeHead→增加count10→减少count0c。后两RValue**参数未消费。
+
+`js_helpers.cpp` 恢复 JS_GetOwnProperty@0x241890、JS_GetProperty@0x2418dc、
+JS_IsCallable_Object@0x240758、JS_IsCallable@0x24076c 与 Call_RValue@0x249860。
+OwnProperty沿+0x18查+0x4c getter，但传给getter的仍是输入object，不是提供getter的祖先；
+无getter只写 out.kind=00ffffff。GetProperty在每次真实getter返回后读out.kind低24位，
+仍为哨兵才从当前object重读prototype，保留两层搜索，不做合并/环检测/额外空值guard。
+
+Callable的object路只比较+0x48==3；RValue路低24位tag=6才读low pointer，其余八类直接0，
+未处理类调用原变参YYError。格式串在0x355538，%d参数是0x240770/774产生并一直保留的r1，
+不是因调用前没有MOV而省掉。Call_RValue拒绝路明确返回word 1；合法路原样转交receiver/
+out/refObj/argc/argv并返回Call_ScriptRef的word。现有Free忽略返回值不构成void返回证据。
+
+本增量六入口/114原字（两池字）；O0/O2各24TU/50个原导出，OwnProperty/CallableObject/
+YYError/Call_ScriptRef四条实际调用或尾跳均核过。目标对象生成与调用形状检查不认证原LR、
+异常展开、callback真实实现或游戏接入；Call_ScriptRef、FREE_RValue__Pre及getter目标仍欠正文。

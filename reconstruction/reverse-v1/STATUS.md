@@ -1,21 +1,27 @@
 # 状态与定性
 
-## 当前断点：对象回收、变量清理与 unsigned32 转换叶
+## 当前断点：RValue 页池与 JS 属性/可调用性助手
 
-`cpp/object_base/` 已落 YYObjectBase::Free / FreeVars 两个静态成员正文，canonical 接口
-在 vm_exec.hpp 追加声明，不新增另一个 YYObjectBase 类型。slot registry、dispose 探针、
-dense/hash RValue 清理、pool push、两处 live pcre_free 调用按原字表达；RValue 保持原位图
-视图，不新增构造/析构，也不声称恢复完整对象布局。
+`cpp/object_base/` 已新增 `value_pool.cpp` 和 `js_helpers.cpp`，六个原入口、114 原索引字
+（含两池字）。FreeRValue 仅在实际 _rvalue 页池命中后头插回收，后两参数不消费；没有
+把页外地址改成通用 free。JS_GetOwnProperty/JS_GetProperty 保留原 receiver、逐轮 getter
+调用和 callback 后 prototype 重读；可调用性按低24位 tag 分流，YYError 的 %d 实参保留。
+Call_RValue 不可调用时返回原 word 1，成功路转交 Call_ScriptRef；不是 void 包装器。
 
-`fixunsdfsi.c` 补回 unsigned32 叶与同址 __aeabi_d2uiz：负位图和 NaN 回零，正无穷/溢出
-回全一，原 carry/sign/LSR 路径分开，不换通用 cast。O0/O2 均零外调/零 undefined，alias
-同节同址且 size 实测。本批三原入口、四导出名字、238 原字（对象217＋叶21）。
+父级将页链 next 改为实际 volatile 读取，vararg 明确为 int，补 _rvalue 的20B静态布局；
+O0/O2 各24TU、50个原导出组合通过，四个JS助手的真实直接调用/尾跳均存在。最终独立
+静态复核未发现具体正文缺陷；本地收口仍只认证这一源码/编译范围，phase_complete=false，
+不运行原件或重建件、不安装、不推送。
+下一内部断口为 Call_ScriptRef、FREE_RValue__Pre、getter 生产者、错误与动态删除目标；
+软件FP和页表生产者仍欠账。循环按外置工作线记录和最新用户指令继续，不把 enabled 当进程存活。
 
-父级修正 kind3 registry 读取序，slot/map 算术显式 ARM32 回绕，并校正两处 regex hook
-都落同一个 GOT slot 的说明。O0/O2 各 22 TU、44 原导出名字组合通过；Free/FreeVars 和
-fixunsdfsi 已真正补进既有消费者。只作源码/目标编译，不含执行等价或对象寿命/异常认证。
-下一断口为 JS/FreeRValue/FREE_RValue__Pre、动态析构目标、原 operator delete trampoline，
-以及剩余软件比较/乘减/归一化与页表生产者。循环仍启用，不安装、不运行目标、不推送。
+## 已提交基础：对象回收与 unsigned32 叶（46ce675）
+
+YYObjectBase::Free/FreeVars 的 slot registry、dispose 探针、dense/hash 清理、pool push 和
+两处 live pcre_free 调用均有完整静态成员正文；不实例化名义 YYObjectBase/RValue 类型。
+fixunsdfsi.c 保留 carry/sign/register-LSR 的位图分域以及同址 __aeabi_d2uiz 别名，不用 cast。
+本批三原入口、四名字、238原字；O0/O2 各22TU/44导出，独立源审后本地提交并逐blob核对。
+这是源码/目标编译证据，不含原件执行、对象寿命/异常认证或整游戏等价。
 
 ## 已提交基础：页边界查找与软件整数转换包装（8b59819）
 
