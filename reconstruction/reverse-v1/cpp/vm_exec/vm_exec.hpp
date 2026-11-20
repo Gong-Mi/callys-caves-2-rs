@@ -17,6 +17,7 @@
 struct RValue; // 16-byte transferred image; no invented constructors/ownership
 struct RVariable;
 class CCode;
+struct VMDebugInfo;
 
 /* Original static call surface only. No YYObjectBase layout, allocation or
  * lifetime implementation is claimed, and no such object is created here. */
@@ -107,6 +108,8 @@ public:
                      YYObjectBase *, int, RValue *, int, YYObjectBase *); // 0xe7fd0, current caller ignores r0
     static void ExecRelease(VMExec &, RValue *result); // 0xe4540..0xe47c8, no implicit this
     static void ExecDebug(VMExec &, RValue *, bool);   // 0xe47c8, current caller ignores r0
+    static VMDebugInfo *DebugInfo(VMBuffer *, int);    // 0xec144, opaque returned debug record
+    static int DebugLineNumber(VMDebugInfo *, const char *, char **); // 0xec2b8
 };
 uint8_t *PerformReturn(uint8_t *stack, VMExec *exec);  // 0xe42d8..0xe44d4, ordinary C++ function
 void FREE_RValue__Pre(RValue *);                      // 0xc0a7c, original internal dependency

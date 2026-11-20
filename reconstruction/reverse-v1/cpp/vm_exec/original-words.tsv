@@ -933,3 +933,251 @@ cef90	cef90	ea06b4ce	b	0x27c2d0 <MemoryManager::Free(void const*)>
 190f2c	190f2c	e12fff1e	bx	lr
 190f30	190f30	e12fff1e	bx	lr
 191710	191710	e12fff1e	bx	lr
+e47c8	e47c8	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e47c8	e47cc	e24dd014	sub	sp, sp, #20
+e47c8	e47d0	e59f538c	ldr	r5, [pc, #0x38c]
+e47c8	e47d4	e1a0a001	mov	r10, r1
+e47c8	e47d8	e59f3388	ldr	r3, [pc, #0x388]
+e47c8	e47dc	e1a04000	mov	r4, r0
+e47c8	e47e0	e08f5005	add	r5, pc, r5
+e47c8	e47e4	e58d200c	str	r2, [sp, #0xc]
+e47c8	e47e8	e59f137c	ldr	r1, [pc, #0x37c]
+e47c8	e47ec	e3a09000	mov	r9, #0
+e47c8	e47f0	e7953003	ldr	r3, [r5, r3]
+e47c8	e47f4	e5908028	ldr	r8, [r0, #0x28]
+e47c8	e47f8	e5932000	ldr	r2, [r3]
+e47c8	e47fc	e2822001	add	r2, r2, #1
+e47c8	e4800	e5832000	str	r2, [r3]
+e47c8	e4804	e7951001	ldr	r1, [r5, r1]
+e47c8	e4808	e5912000	ldr	r2, [r1]
+e47c8	e480c	e58d1004	str	r1, [sp, #0x4]
+e47c8	e4810	e58d2008	str	r2, [sp, #0x8]
+e47c8	e4814	e5941044	ldr	r1, [r4, #0x44]
+e47c8	e4818	e5943050	ldr	r3, [r4, #0x50]
+e47c8	e481c	e1510003	cmp	r1, r3
+e47c8	e4820	aa00002e	bge	0xe48e0 <VM::ExecDebug(VMExec&, RValue*, bool)+0x118>
+e47c8	e4824	e5943024	ldr	r3, [r4, #0x24]
+e47c8	e4828	e2812004	add	r2, r1, #4
+e47c8	e482c	e59f033c	ldr	r0, [pc, #0x33c]
+e47c8	e4830	e5841054	str	r1, [r4, #0x54]
+e47c8	e4834	e7936001	ldr	r6, [r3, r1]
+e47c8	e4838	e0833002	add	r3, r3, r2
+e47c8	e483c	e5842044	str	r2, [r4, #0x44]
+e47c8	e4840	e7952000	ldr	r2, [r5, r0]
+e47c8	e4844	e5922000	ldr	r2, [r2]
+e47c8	e4848	e3520000	cmp	r2, #0
+e47c8	e484c	0a00008b	beq	0xe4a80 <VM::ExecDebug(VMExec&, RValue*, bool)+0x2b8>
+e47c8	e4850	e59f231c	ldr	r2, [pc, #0x31c]
+e47c8	e4854	e795b002	ldr	r11, [r5, r2]
+e47c8	e4858	e59b2000	ldr	r2, [r11]
+e47c8	e485c	e3520000	cmp	r2, #0
+e47c8	e4860	aa000048	bge	0xe4988 <VM::ExecDebug(VMExec&, RValue*, bool)+0x1c0>
+e47c8	e4864	e59f230c	ldr	r2, [pc, #0x30c]
+e47c8	e4868	e7957002	ldr	r7, [r5, r2]
+e47c8	e486c	e59f2308	ldr	r2, [pc, #0x308]
+e47c8	e4870	e7952002	ldr	r2, [r5, r2]
+e47c8	e4874	e5d21000	ldrb	r1, [r2]
+e47c8	e4878	e3510000	cmp	r1, #0
+e47c8	e487c	1a000068	bne	0xe4a24 <VM::ExecDebug(VMExec&, RValue*, bool)+0x25c>
+e47c8	e4880	e3160101	tst	r6, #1073741824
+e47c8	e4884	e5874000	str	r4, [r7]
+e47c8	e4888	07e4ec56	ubfxeq	lr, r6, #0x18, #0x5
+e47c8	e488c	1a000081	bne	0xe4a98 <VM::ExecDebug(VMExec&, RValue*, bool)+0x2d0>
+e47c8	e4890	e59fc2e8	ldr	r12, [pc, #0x2e8]
+e47c8	e4894	e1a01008	mov	r1, r8
+e47c8	e4898	e1a02003	mov	r2, r3
+e47c8	e489c	e1a00006	mov	r0, r6
+e47c8	e48a0	e1a03004	mov	r3, r4
+e47c8	e48a4	e795c00c	ldr	r12, [r5, r12]
+e47c8	e48a8	e79cc10e	ldr	r12, [r12, lr, lsl #2]
+e47c8	e48ac	e12fff3c	blx	r12
+e47c8	e48b0	e59f32cc	ldr	r3, [pc, #0x2cc]
+e47c8	e48b4	e5874000	str	r4, [r7]
+e47c8	e48b8	e795c003	ldr	r12, [r5, r3]
+e47c8	e48bc	e5dc3000	ldrb	r3, [r12]
+e47c8	e48c0	e3530000	cmp	r3, #0
+e47c8	e48c4	e1a08000	mov	r8, r0
+e47c8	e48c8	0affffd1	beq	0xe4814 <VM::ExecDebug(VMExec&, RValue*, bool)+0x4c>
+e47c8	e48cc	e59f32b4	ldr	r3, [pc, #0x2b4]
+e47c8	e48d0	e7953003	ldr	r3, [r5, r3]
+e47c8	e48d4	e5933000	ldr	r3, [r3]
+e47c8	e48d8	e1540003	cmp	r4, r3
+e47c8	e48dc	0a00008a	beq	0xe4b0c <VM::ExecDebug(VMExec&, RValue*, bool)+0x344>
+e47c8	e48e0	e594304c	ldr	r3, [r4, #0x4c]
+e47c8	e48e4	e3530000	cmp	r3, #0
+e47c8	e48e8	ca00005c	bgt	0xe4a60 <VM::ExecDebug(VMExec&, RValue*, bool)+0x298>
+e47c8	e48ec	e59d2008	ldr	r2, [sp, #0x8]
+e47c8	e48f0	e35a0000	cmp	r10, #0
+e47c8	e48f4	e59d3004	ldr	r3, [sp, #0x4]
+e47c8	e48f8	e5832000	str	r2, [r3]
+e47c8	e48fc	0a000002	beq	0xe490c <VM::ExecDebug(VMExec&, RValue*, bool)+0x144>
+e47c8	e4900	e5943028	ldr	r3, [r4, #0x28]
+e47c8	e4904	e1530008	cmp	r3, r8
+e47c8	e4908	8a00008c	bhi	0xe4b40 <VM::ExecDebug(VMExec&, RValue*, bool)+0x378>
+e47c8	e490c	e59f3278	ldr	r3, [pc, #0x278]
+e47c8	e4910	e5940008	ldr	r0, [r4, #0x8]
+e47c8	e4914	e795c003	ldr	r12, [r5, r3]
+e47c8	e4918	e59c3004	ldr	r3, [r12, #0x4]
+e47c8	e491c	e3530000	cmp	r3, #0
+e47c8	e4920	0a000009	beq	0xe494c <VM::ExecDebug(VMExec&, RValue*, bool)+0x184>
+e47c8	e4924	e2831008	add	r1, r3, #8
+e47c8	e4928	e2832601	add	r2, r3, #1048576
+e47c8	e492c	e1500001	cmp	r0, r1
+e47c8	e4930	e2822008	add	r2, r2, #8
+e47c8	e4934	3a000001	blo	0xe4940 <VM::ExecDebug(VMExec&, RValue*, bool)+0x178>
+e47c8	e4938	e1520000	cmp	r2, r0
+e47c8	e493c	8a000066	bhi	0xe4adc <VM::ExecDebug(VMExec&, RValue*, bool)+0x314>
+e47c8	e4940	e5933000	ldr	r3, [r3]
+e47c8	e4944	e3530000	cmp	r3, #0
+e47c8	e4948	1afffff5	bne	0xe4924 <VM::ExecDebug(VMExec&, RValue*, bool)+0x15c>
+e47c8	e494c	eb065e5f	bl	0x27c2d0 <MemoryManager::Free(void const*)>
+e47c8	e4950	e59d300c	ldr	r3, [sp, #0xc]
+e47c8	e4954	e3530000	cmp	r3, #0
+e47c8	e4958	0a000008	beq	0xe4980 <VM::ExecDebug(VMExec&, RValue*, bool)+0x1b8>
+e47c8	e495c	e594300c	ldr	r3, [r4, #0xc]
+e47c8	e4960	e3530000	cmp	r3, #0
+e47c8	e4964	da000005	ble	0xe4980 <VM::ExecDebug(VMExec&, RValue*, bool)+0x1b8>
+e47c8	e4968	e5940010	ldr	r0, [r4, #0x10]
+e47c8	e496c	e3500000	cmp	r0, #0
+e47c8	e4970	0a000002	beq	0xe4980 <VM::ExecDebug(VMExec&, RValue*, bool)+0x1b8>
+e47c8	e4974	eb02d183	bl	0x198f88 <YYObjectBase::Free(YYObjectBase*)>
+e47c8	e4978	e3a03000	mov	r3, #0
+e47c8	e497c	e5843010	str	r3, [r4, #0x10]
+e47c8	e4980	e28dd014	add	sp, sp, #20
+e47c8	e4984	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e47c8	e4988	e5940038	ldr	r0, [r4, #0x38]
+e47c8	e498c	e58d3000	str	r3, [sp]
+e47c8	e4990	eb001deb	bl	0xec144 <VM::DebugInfo(VMBuffer*, int)>
+e47c8	e4994	e3a02000	mov	r2, #0
+e47c8	e4998	e594103c	ldr	r1, [r4, #0x3c]
+e47c8	e499c	eb001e45	bl	0xec2b8 <VM::DebugLineNumber(VMDebugInfo*, char const*, char**)>
+e47c8	e49a0	e59f21d0	ldr	r2, [pc, #0x1d0]
+e47c8	e49a4	e59d3000	ldr	r3, [sp]
+e47c8	e49a8	e7957002	ldr	r7, [r5, r2]
+e47c8	e49ac	e597c000	ldr	r12, [r7]
+e47c8	e49b0	e35c0000	cmp	r12, #0
+e47c8	e49b4	0a000052	beq	0xe4b04 <VM::ExecDebug(VMExec&, RValue*, bool)+0x33c>
+e47c8	e49b8	e3a02000	mov	r2, #0
+e47c8	e49bc	e59c104c	ldr	r1, [r12, #0x4c]
+e47c8	e49c0	e2822001	add	r2, r2, #1
+e47c8	e49c4	e59cc004	ldr	r12, [r12, #0x4]
+e47c8	e49c8	e0822001	add	r2, r2, r1
+e47c8	e49cc	e35c0000	cmp	r12, #0
+e47c8	e49d0	1afffff9	bne	0xe49bc <VM::ExecDebug(VMExec&, RValue*, bool)+0x1f4>
+e47c8	e49d4	e594103c	ldr	r1, [r4, #0x3c]
+e47c8	e49d8	e3510000	cmp	r1, #0
+e47c8	e49dc	0affffa2	beq	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e49e0	e59fc1a8	ldr	r12, [pc, #0x1a8]
+e47c8	e49e4	e795c00c	ldr	r12, [r5, r12]
+e47c8	e49e8	e59cc000	ldr	r12, [r12]
+e47c8	e49ec	e151000c	cmp	r1, r12
+e47c8	e49f0	0a00002b	beq	0xe4aa4 <VM::ExecDebug(VMExec&, RValue*, bool)+0x2dc>
+e47c8	e49f4	e59b0000	ldr	r0, [r11]
+e47c8	e49f8	e3500000	cmp	r0, #0
+e47c8	e49fc	0a000006	beq	0xe4a1c <VM::ExecDebug(VMExec&, RValue*, bool)+0x254>
+e47c8	e4a00	e3500002	cmp	r0, #2
+e47c8	e4a04	0a00002c	beq	0xe4abc <VM::ExecDebug(VMExec&, RValue*, bool)+0x2f4>
+e47c8	e4a08	e59f1184	ldr	r1, [pc, #0x184]
+e47c8	e4a0c	e7951001	ldr	r1, [r5, r1]
+e47c8	e4a10	e5911000	ldr	r1, [r1]
+e47c8	e4a14	e1510002	cmp	r1, r2
+e47c8	e4a18	baffff93	blt	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e4a1c	e59f2158	ldr	r2, [pc, #0x158]
+e47c8	e4a20	e7952002	ldr	r2, [r5, r2]
+e47c8	e4a24	e3a06000	mov	r6, #0
+e47c8	e4a28	e34f6f0f	movt	r6, #0xff0f
+e47c8	e4a2c	e3a0e01f	mov	lr, #31
+e47c8	e4a30	e3a0000f	mov	r0, #15
+e47c8	e4a34	e5c29000	strb	r9, [r2]
+e47c8	e4a38	e3e02000	mvn	r2, #0
+e47c8	e4a3c	e5874000	str	r4, [r7]
+e47c8	e4a40	e58b2000	str	r2, [r11]
+e47c8	e4a44	e59f214c	ldr	r2, [pc, #0x14c]
+e47c8	e4a48	e5941044	ldr	r1, [r4, #0x44]
+e47c8	e4a4c	e7952002	ldr	r2, [r5, r2]
+e47c8	e4a50	e7922100	ldr	r2, [r2, r0, lsl #2]
+e47c8	e4a54	e0812002	add	r2, r1, r2
+e47c8	e4a58	e5842044	str	r2, [r4, #0x44]
+e47c8	e4a5c	eaffff8b	b	0xe4890 <VM::ExecDebug(VMExec&, RValue*, bool)+0xc8>
+e47c8	e4a60	e1a00008	mov	r0, r8
+e47c8	e4a64	e1a01004	mov	r1, r4
+e47c8	e4a68	ebfffe1a	bl	0xe42d8 <PerformReturn(unsigned char*, VMExec*)>
+e47c8	e4a6c	e5009004	str	r9, [r0, #-0x4]
+e47c8	e4a70	e2408010	sub	r8, r0, #16
+e47c8	e4a74	e5009010	str	r9, [r0, #-0x10]
+e47c8	e4a78	e500900c	str	r9, [r0, #-0xc]
+e47c8	e4a7c	eaffff64	b	0xe4814 <VM::ExecDebug(VMExec&, RValue*, bool)+0x4c>
+e47c8	e4a80	e59f20f0	ldr	r2, [pc, #0xf0]
+e47c8	e4a84	e3160101	tst	r6, #1073741824
+e47c8	e4a88	07e4ec56	ubfxeq	lr, r6, #0x18, #0x5
+e47c8	e4a8c	e7957002	ldr	r7, [r5, r2]
+e47c8	e4a90	e5874000	str	r4, [r7]
+e47c8	e4a94	0affff7d	beq	0xe4890 <VM::ExecDebug(VMExec&, RValue*, bool)+0xc8>
+e47c8	e4a98	e7e30856	ubfx	r0, r6, #0x10, #0x4
+e47c8	e4a9c	e7e4ec56	ubfx	lr, r6, #0x18, #0x5
+e47c8	e4aa0	eaffffe7	b	0xe4a44 <VM::ExecDebug(VMExec&, RValue*, bool)+0x27c>
+e47c8	e4aa4	e59fe0f0	ldr	lr, [pc, #0xf0]
+e47c8	e4aa8	e795e00e	ldr	lr, [r5, lr]
+e47c8	e4aac	e59ee000	ldr	lr, [lr]
+e47c8	e4ab0	e150000e	cmp	r0, lr
+e47c8	e4ab4	1affffce	bne	0xe49f4 <VM::ExecDebug(VMExec&, RValue*, bool)+0x22c>
+e47c8	e4ab8	eaffff6b	b	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e4abc	e59f00d0	ldr	r0, [pc, #0xd0]
+e47c8	e4ac0	e7950000	ldr	r0, [r5, r0]
+e47c8	e4ac4	e5900000	ldr	r0, [r0]
+e47c8	e4ac8	e1500002	cmp	r0, r2
+e47c8	e4acc	baffff66	blt	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e4ad0	e151000c	cmp	r1, r12
+e47c8	e4ad4	1affffd0	bne	0xe4a1c <VM::ExecDebug(VMExec&, RValue*, bool)+0x254>
+e47c8	e4ad8	eaffff63	b	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e4adc	e59c1008	ldr	r1, [r12, #0x8]
+e47c8	e4ae0	e59c2010	ldr	r2, [r12, #0x10]
+e47c8	e4ae4	e59c300c	ldr	r3, [r12, #0xc]
+e47c8	e4ae8	e2822001	add	r2, r2, #1
+e47c8	e4aec	e5801000	str	r1, [r0]
+e47c8	e4af0	e2433001	sub	r3, r3, #1
+e47c8	e4af4	e58c0008	str	r0, [r12, #0x8]
+e47c8	e4af8	e58c2010	str	r2, [r12, #0x10]
+e47c8	e4afc	e58c300c	str	r3, [r12, #0xc]
+e47c8	e4b00	eaffff92	b	0xe4950 <VM::ExecDebug(VMExec&, RValue*, bool)+0x188>
+e47c8	e4b04	e1a0200c	mov	r2, r12
+e47c8	e4b08	eaffffb1	b	0xe49d4 <VM::ExecDebug(VMExec&, RValue*, bool)+0x20c>
+e47c8	e4b0c	e59f208c	ldr	r2, [pc, #0x8c]
+e47c8	e4b10	e59f308c	ldr	r3, [pc, #0x8c]
+e47c8	e4b14	e7956002	ldr	r6, [r5, r2]
+e47c8	e4b18	e7957003	ldr	r7, [r5, r3]
+e47c8	e4b1c	e8b6000f	ldm	r6!, {r0, r1, r2, r3}
+e47c8	e4b20	e5976000	ldr	r6, [r7]
+e47c8	e4b24	e2468010	sub	r8, r6, #16
+e47c8	e4b28	e5060010	str	r0, [r6, #-0x10]
+e47c8	e4b2c	e5881004	str	r1, [r8, #0x4]
+e47c8	e4b30	e5882008	str	r2, [r8, #0x8]
+e47c8	e4b34	e588300c	str	r3, [r8, #0xc]
+e47c8	e4b38	e5cc9000	strb	r9, [r12]
+e47c8	e4b3c	eaffff34	b	0xe4814 <VM::ExecDebug(VMExec&, RValue*, bool)+0x4c>
+e47c8	e4b40	e5980000	ldr	r0, [r8]
+e47c8	e4b44	e5981004	ldr	r1, [r8, #0x4]
+e47c8	e4b48	e5982008	ldr	r2, [r8, #0x8]
+e47c8	e4b4c	e598300c	ldr	r3, [r8, #0xc]
+e47c8	e4b50	e58a0000	str	r0, [r10]
+e47c8	e4b54	e58a1004	str	r1, [r10, #0x4]
+e47c8	e4b58	e58a2008	str	r2, [r10, #0x8]
+e47c8	e4b5c	e58a300c	str	r3, [r10, #0xc]
+e47c8	e4b60	eaffff69	b	0xe490c <VM::ExecDebug(VMExec&, RValue*, bool)+0x144>
+e47c8	e4b64	0030d470	.word	0x0030d470
+e47c8	e4b68	ffffc0d4	.word	0xffffc0d4
+e47c8	e4b6c	ffffc0bc	.word	0xffffc0bc
+e47c8	e4b70	ffffc0a4	.word	0xffffc0a4
+e47c8	e4b74	ffffc0e8	.word	0xffffc0e8
+e47c8	e4b78	ffffbf58	.word	0xffffbf58
+e47c8	e4b7c	ffffc0ec	.word	0xffffc0ec
+e47c8	e4b80	ffffc0a0	.word	0xffffc0a0
+e47c8	e4b84	ffffc0cc	.word	0xffffc0cc
+e47c8	e4b88	ffffc0dc	.word	0xffffc0dc
+e47c8	e4b8c	ffffc0e4	.word	0xffffc0e4
+e47c8	e4b90	ffffc0f0	.word	0xffffc0f0
+e47c8	e4b94	ffffc0f4	.word	0xffffc0f4
+e47c8	e4b98	ffffc09c	.word	0xffffc09c
+e47c8	e4b9c	ffffc0f8	.word	0xffffc0f8
+e47c8	e4ba0	ffffc0d8	.word	0xffffc0d8
+e47c8	e4ba4	ffffc0e0	.word	0xffffc0e0

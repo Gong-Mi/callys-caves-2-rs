@@ -548,3 +548,96 @@ cef64	cef80	eb06b7d5	bl	0x27cedc <MemoryManager::ReAlloc(void*, unsigned int, ch
 cef64	cef84	e28dd00c	add	sp, sp, #12
 cef64	cef88	e49df004	ldr	pc, [sp], #4
 cef64	cef8c	00263280	.word	0x00263280
+190dc0	190dc0	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+190dc0	190dc4	e59f40b4	ldr	r4, [pc, #0xb4]
+190dc0	190dc8	e79f4004	ldr	r4, [pc, r4]
+190dc0	190dcc	e5940008	ldr	r0, [r4, #0x8]
+190dc0	190dd0	e3500000	cmp	r0, #0
+190dc0	190dd4	0a000008	beq	0x190dfc <GetRValue()+0x3c>
+190dc0	190dd8	e5943010	ldr	r3, [r4, #0x10]
+190dc0	190ddc	e5902000	ldr	r2, [r0]
+190dc0	190de0	e594100c	ldr	r1, [r4, #0xc]
+190dc0	190de4	e2433001	sub	r3, r3, #1
+190dc0	190de8	e5842008	str	r2, [r4, #0x8]
+190dc0	190dec	e5843010	str	r3, [r4, #0x10]
+190dc0	190df0	e2813001	add	r3, r1, #1
+190dc0	190df4	e584300c	str	r3, [r4, #0xc]
+190dc0	190df8	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+190dc0	190dfc	e3a00018	mov	r0, #24
+190dc0	190e00	e3400010	movt	r0, #0x10
+190dc0	190e04	eb03adc6	bl	0x27c524 <operator new(unsigned int)>
+190dc0	190e08	e3a01078	mov	r1, #120
+190dc0	190e0c	e3a02010	mov	r2, #16
+190dc0	190e10	e3402010	movt	r2, #0x10
+190dc0	190e14	e1a05000	mov	r5, r0
+190dc0	190e18	e2800008	add	r0, r0, #8
+190dc0	190e1c	ebfc95e3	bl	0xb65b0 <memset@plt>
+190dc0	190e20	e9940180	ldmib	r4, {r7, r8}
+190dc0	190e24	e2851018	add	r1, r5, #24
+190dc0	190e28	e5946010	ldr	r6, [r4, #0x10]
+190dc0	190e2c	e3c1100f	bic	r1, r1, #15
+190dc0	190e30	e2810aff	add	r0, r1, #1044480
+190dc0	190e34	e5857000	str	r7, [r5]
+190dc0	190e38	e280ceff	add	r12, r0, #4080
+190dc0	190e3c	e2867001	add	r7, r6, #1
+190dc0	190e40	e5845004	str	r5, [r4, #0x4]
+190dc0	190e44	e2813010	add	r3, r1, #16
+190dc0	190e48	e5818000	str	r8, [r1]
+190dc0	190e4c	e1a02001	mov	r2, r1
+190dc0	190e50	e5841008	str	r1, [r4, #0x8]
+190dc0	190e54	e5847010	str	r7, [r4, #0x10]
+190dc0	190e58	ea000000	b	0x190e60 <GetRValue()+0xa0>
+190dc0	190e5c	e1a02001	mov	r2, r1
+190dc0	190e60	e1a01003	mov	r1, r3
+190dc0	190e64	e4832010	str	r2, [r3], #16
+190dc0	190e68	e153000c	cmp	r3, r12
+190dc0	190e6c	1afffffa	bne	0x190e5c <GetRValue()+0x9c>
+190dc0	190e70	e2863cff	add	r3, r6, #65280
+190dc0	190e74	e2800efe	add	r0, r0, #4064
+190dc0	190e78	e28330ff	add	r3, r3, #255
+190dc0	190e7c	eaffffd7	b	0x190de0 <GetRValue()+0x20>
+190dc0	190e80	0025f8a8	.word	0x0025f8a8
+1917dc	1917dc	e92d4070	push	{r4, r5, r6, lr}
+1917dc	1917e0	e1a06000	mov	r6, r0
+1917dc	1917e4	e3a05000	mov	r5, #0
+1917dc	1917e8	e3a00014	mov	r0, #20
+1917dc	1917ec	e586505c	str	r5, [r6, #0x5c]
+1917dc	1917f0	eb03ab4b	bl	0x27c524 <operator new(unsigned int)>
+1917dc	1917f4	e59f108c	ldr	r1, [pc, #0x8c]
+1917dc	1917f8	e3a02008	mov	r2, #8
+1917dc	1917fc	e3a03007	mov	r3, #7
+1917dc	191800	e08f1001	add	r1, pc, r1
+1917dc	191804	e1a04000	mov	r4, r0
+1917dc	191808	e5802000	str	r2, [r0]
+1917dc	19180c	e5803008	str	r3, [r0, #0x8]
+1917dc	191810	e3a02046	mov	r2, #70
+1917dc	191814	e5805010	str	r5, [r0, #0x10]
+1917dc	191818	e3a03001	mov	r3, #1
+1917dc	19181c	e3a00060	mov	r0, #96
+1917dc	191820	eb03ad94	bl	0x27ce78 <MemoryManager::Alloc(unsigned int, char const*, int, bool)>
+1917dc	191824	e3a02060	mov	r2, #96
+1917dc	191828	e1a01005	mov	r1, r5
+1917dc	19182c	e5840010	str	r0, [r4, #0x10]
+1917dc	191830	ebfc935e	bl	0xb65b0 <memset@plt>
+1917dc	191834	e5942000	ldr	r2, [r4]
+1917dc	191838	eddf7a11	vldr	s15, [pc, #68]
+1917dc	19183c	e5845004	str	r5, [r4, #0x4]
+1917dc	191840	e1520005	cmp	r2, r5
+1917dc	191844	ee062a90	vmov	s13, r2
+1917dc	191848	eeb87ae6	vcvt.f32.s32	s14, s13
+1917dc	19184c	ee677a27	vmul.f32	s15, s14, s15
+1917dc	191850	eefd7ae7	vcvt.s32.f32	s15, s15
+1917dc	191854	edc47a03	vstr	s15, [r4, #12]
+1917dc	191858	da000007	ble	0x19187c <YYObjectBase::AllocVars()+0xa0>
+1917dc	19185c	e0822082	add	r2, r2, r2, lsl #1
+1917dc	191860	e5943010	ldr	r3, [r4, #0x10]
+1917dc	191864	e1a01005	mov	r1, r5
+1917dc	191868	e0832102	add	r2, r3, r2, lsl #2
+1917dc	19186c	e5831008	str	r1, [r3, #0x8]
+1917dc	191870	e283300c	add	r3, r3, #12
+1917dc	191874	e1530002	cmp	r3, r2
+1917dc	191878	1afffffb	bne	0x19186c <YYObjectBase::AllocVars()+0x90>
+1917dc	19187c	e5864060	str	r4, [r6, #0x60]
+1917dc	191880	e8bd8070	pop	{r4, r5, r6, pc}
+1917dc	191884	3f19999a	.word	0x3f19999a
+1917dc	191888	0019f830	.word	0x0019f830

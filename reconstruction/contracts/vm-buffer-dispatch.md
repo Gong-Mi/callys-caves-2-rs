@@ -329,3 +329,21 @@ GetVar仅按bucket hash/state命中，不添加key比较；mask/data在hash调�
 新RValue由GetRValue取回，live默认kind先读、low/high写零、kind写回，+8保持；Insert receiver
 由live对象+60读取。Ctor/AllocVars/GetRValue/Insert仍是真实内部欠账，不被raw声明隐藏。
 六入口/327原字，O0/O2各32TU/67导出，当前是源码与静态编译证据，目标未执行。
+
+
+## 值池/map生产者与调试执行入口
+
+GetRValue@0x190dc0保留new0x100018、payload+8填0x78/0x100010，first=(base+24)&~15，
+首偏移ADD为0xff000而不是0xfff00；loop end=first+0xffff0，返回first+0xfffe0。空池join
+使用末次寄存器next值，不补头读取，正常freeCount净加0xfffe；原node未清理/无RValue构造。
+AllocVars@0x1917dc先清object+5c，new20 raw header，cap8/mask7/null buckets，Alloc96后
+先发buckets再清96B；live capacity经真实VCVT.F32/VMUL.F32/VCVT.S32计算growThreshold，
+factor3f19999a；signed cap>0才live取buckets逐12B只清hash，最后发object.map。
+
+ExecDebug@0xe47c8不在entry发currentExec，保持私有20B payload/argc/bool槽；解码使用原
+inline opcode表而非Release密集表。单步用ff0f0000/op31/type15同表分发，clear byte0→
+current→stepType=-1，PC与paramSize读取顺序分立；DebugInfo/LineNumber后live全局决策和
+parent-depth求和不缓存。异常四字先读再取异常SP/写回，退帧保留aux；顶层restore argc再
+处理out/页回收；locals只在第三bool且signed mode>0时Free并置空。不同于Release规则。
+三入口/341原字，O0/O2各34TU/70导出，F32原语有实际目标指令；DebugInfo/LineNumber及
+handler内部仍欠，未认证原LR/完整FP trap/unwind或游戏等价，所有目标均未运行。

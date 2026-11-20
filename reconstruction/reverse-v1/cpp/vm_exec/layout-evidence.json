@@ -518,5 +518,199 @@
     ],
     "full_class_unproved": true,
     "static_strong_override_probe": "parent scratch weak-override-receipt.json, not executed"
+  },
+  "ExecDebug": {
+    "entry": "0xe47c8",
+    "global_bindings": [
+      {
+        "pool": "0xe4b68",
+        "slot": "0x3edd2c",
+        "target": "0x47a1d4",
+        "symbols": [
+          [
+            "g_execCount",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b6c",
+        "slot": "0x3edd14",
+        "target": "0x47b234",
+        "symbols": [
+          [
+            "g_ArgumentCount",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b70",
+        "slot": "0x3edcfc",
+        "target": "0x757e4c",
+        "symbols": [
+          [
+            "g_pServer",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b74",
+        "slot": "0x3edd40",
+        "target": "0x3f2094",
+        "symbols": [
+          [
+            "g_DebugStepType",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b78",
+        "slot": "0x3edbb0",
+        "target": "0x47f298",
+        "symbols": [
+          [
+            "g_pCurrentExec",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b7c",
+        "slot": "0x3edd44",
+        "target": "0x47f297",
+        "symbols": [
+          [
+            "g_DoSingleStep",
+            1
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b80",
+        "slot": "0x3edcf8",
+        "target": "0x3f20b4",
+        "symbols": [
+          [
+            "g_instructions",
+            128
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b84",
+        "slot": "0x3edd24",
+        "target": "0x756470",
+        "symbols": [
+          [
+            "g_fDoExceptionUnwind",
+            1
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b88",
+        "slot": "0x3edd34",
+        "target": "0x756458",
+        "symbols": [
+          [
+            "g_caughtExec",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b8c",
+        "slot": "0x3edd3c",
+        "target": "0x47a1e0",
+        "symbols": [
+          [
+            "stackPages",
+            20
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b90",
+        "slot": "0x3edd48",
+        "target": "0x47f290",
+        "symbols": [
+          [
+            "g_SingleStepCurrentScript",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b94",
+        "slot": "0x3edd4c",
+        "target": "0x47f28c",
+        "symbols": [
+          [
+            "g_SingleStepRetCount",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b98",
+        "slot": "0x3edcf4",
+        "target": "0x3f2018",
+        "symbols": [
+          [
+            "g_paramSize",
+            64
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b9c",
+        "slot": "0x3edd50",
+        "target": "0x3f2098",
+        "symbols": [
+          [
+            "g_SingleStepCurrentLine",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4ba0",
+        "slot": "0x3edd30",
+        "target": "0x75645c",
+        "symbols": [
+          [
+            "g_exceptionVar",
+            16
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4ba4",
+        "slot": "0x3edd38",
+        "target": "0x75646c",
+        "symbols": [
+          [
+            "g_pExceptionSP",
+            4
+          ]
+        ]
+      }
+    ],
+    "private_bytes": 20,
+    "entry_does_not_publish_currentExec": true,
+    "instruction_source": "g_instructions inline32 slots, opcode-indexed; not converted dense exec table",
+    "step_injection": {
+      "word": "0xff0f0000",
+      "opcode": 31,
+      "size_index": 15,
+      "clear_order": "DoSingleStep byte0, publishCurrent, DebugStepType=-1, then live PC+paramSize"
+    },
+    "volatile_read_order": "PC before paramSize; debug helper before source/global step-state refresh",
+    "exit_cleanup": "third bool && signed localsMode>0 && live locals!=NULL; after Free clear locals",
+    "snapshot_four_words_before_copy": true,
+    "no_original_execution_equivalence": true
   }
 }

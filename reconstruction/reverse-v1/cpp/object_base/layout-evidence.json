@@ -121,5 +121,28 @@
     "capacity_growth": "wrap3x + sign carry, ASR1 bit pattern",
     "hash_int_is_ordinary_overload": true,
     "new_RValue_initialization": "low/high zero, live default kind, aux+8 untouched; map receiver refreshed before Insert"
+  },
+  "value_map_producers": {
+    "GetRValue_entry": "0x190dc0",
+    "pool": "_rvalue inline20B",
+    "new_bytes": "0x100018",
+    "payload_fill": 120,
+    "payload_bytes": "0x100010",
+    "first": "(base+24)&~15",
+    "span_ADD_190e30": "0xff000 (not worker0xfff00)",
+    "loop_end_offset": "0xffff0",
+    "return_node_offset": "0xfffe0",
+    "normal_free_count_net_delta": "0xfffe",
+    "tail_join_skips_head_and_count_reads": true,
+    "AllocVars_entry": "0x1917dc",
+    "map_bytes": 20,
+    "initial_capacity": 8,
+    "initial_mask": 7,
+    "buckets_bytes": 96,
+    "tag_line": 70,
+    "threshold_factor_bits": "0x3f19999a",
+    "threshold_uses_live_signed_capacity_and_true_f32_ops": true,
+    "map_publish_after_hash_word_loop": true,
+    "no_full_HashMap_or_RValue_class_claim": true
   }
 }

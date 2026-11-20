@@ -617,7 +617,7 @@
   "original_executed": false,
   "rebuilt_executed": false,
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "45851c875bb7055723f768db63cf805864810174e84cfb15f4e2caab5ef4b0c4",
+  "shared_receipt_sha256": "5e5e9816bae6c4f891b6f02a3d23d6a290fe20f7f3924a971192d59336075df6",
   "local_builds_are_prior_scope": true,
   "current_build_authority": "shared_receipt (latest full combined build); local builds/input hashes retain their historical base",
   "current_header_sha256": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642"

@@ -1,18 +1,24 @@
 # 状态与定性
 
-## 当前断点：重分配、对象池与动态变量存储
+## 当前断点：值池/map生产者与VM::ExecDebug
 
-`memory_manager/memory_realloc.cpp` 新落ReAlloc/bucketSize，`object_base/object_allocation.cpp`
-新落YYObjectBase::Alloc/InternalGetYYVar、普通int哈希与YYRealloc。六入口/327原字（9池字）；
-对象新建仍明确100B raw allocation→真实C1 ABI欠账，不用C++new实例化名义空类。
-ReAlloc保留头验证/原负backref word当oldSize、强制Alloc true、live mutex解锁；bucketSize
-仅一receiver。对象池容量/slot-registry增长与Robin-Hood探测按原字，value aux+8不预清。
+`object_base/value_map_producers.cpp` 新落GetRValue与YYObjectBase::AllocVars，
+`vm_exec/vm_exec_debug.cpp` 新落完整调试执行入口。三原入口/341原字（20池字），不造
+RValue/HashMap类构造或调试器替身。生产者与既有FreeRValue/GetVar构成真实源码调用链。
+GetRValue保留0x78页填充、16B链、共享尾寄存器链接值；AllocVars保留live capacity与真F32
+阈值。ExecDebug独立处理单步注入、原opcode表、异常退帧和bool/mode>0的特殊locals清理。
 
-父级修正头word读序为ptr-12→ptr-16再比较；增长地址/索引加法显式uint32回绕，ASR容量
-用定义良好的bit图表达。O0/O2各32TU/67原名字组合通过，普通int哈希O2八字节与原件一致。
-独立静态复核未发现正文缺陷，注释转录小错已纠正；本地收口仍phase_complete=false。下一断口为C1/C2 ctor、AllocVars、
-GetRValue、map Insert、ExecDebug/FreePre及MMAlloc。完整类/坏域/生命周期/并发异常未证；
-不运行目标、不安装、不推送。
+父级修正GetRValue旋转立即数0xff000（原稿误fff00），以及Debug私有存储/volatile读序和
+uint32地址运算；未把指针UB当原故障等价。O0/O2各34TU/70个原名字组合通过，F32阈值
+真指令存在。独立复核无当前正文反例，模糊注释已修并fresh重编；本地收口仍phase_complete=false。DebugInfo/LineNumber、
+MMAlloc、Ctor/继承链、map Insert/FreePre等仍欠；完整类/坏域/原LR/unwind/并发未证。
+仍不运行原件或重建、不安装、不推送。
+
+## 已提交基础：重分配与对象变量（92fe8dc）
+
+ReAlloc/bucketSize、ObjectAlloc/InternalGetYYVar、普通int hash/YYRealloc六入口/327原字
+已收口；32TU/67名字，25路径/73输入逐blob对齐，hash O2八字节等于原件。独立复核未有
+正文缺陷；LDMIB注释已修。ReAlloc mutex槽经父级复算为3f1824，复核报告3f1828口误未采用。
 
 ## 已提交基础：VM入口与profiler节点（3ec96e4）
 

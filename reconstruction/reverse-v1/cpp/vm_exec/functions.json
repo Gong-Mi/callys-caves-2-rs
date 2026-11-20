@@ -4,7 +4,7 @@
   "original_abi": "ARM32 little-endian softfp",
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
-  "header_sha256": "5f3c1a41759e681ea23ca7e7ce2398538db4f4091613cc4a2a276333411b90ab",
+  "header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
   "functions": [
     {
       "entry": "0xe4540",
@@ -208,6 +208,23 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0xe47c8",
+      "size": 992,
+      "symbols": [
+        "_ZN2VM9ExecDebugER6VMExecP6RValueb"
+      ],
+      "body_sha256": "b9cf8bace168384275ef2f780f8a49135947dce950adc00b836a896af2cd94b5",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_exec_debug.cpp",
+      "translation_source_sha256": "c64e3e270fcea5ed3ad854f4857834c8783655136402ac1e40f6105505392f77",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "layout_evidence": "layout-evidence.json",
@@ -220,11 +237,12 @@
     "profiler_push_wire.hpp"
   ],
   "remaining_internal_dependencies": [
-    "VM::ExecDebug and DoCallScript",
     "FREE_RValue__Pre",
     "YYObjectBase::Alloc/InternalGetYYVar",
     "GetContextStackTop/PushContextStack/PopContextStack",
-    "instruction-handler and global/pool producers"
+    "instruction-handler and global/pool producers",
+    "VM::DebugInfo/DebugLineNumber",
+    "DoCallScript"
   ],
   "remaining_scope": [
     "VMExec is an observed 0x60 prefix, not a full-class extent proof; state30 remains unnamed.",
@@ -237,6 +255,7 @@
   "additional_headers_sha256": {
     "profiler_push_wire.hpp": "bde75c178acb738e6a3b46325c71b77d71d1e5abeae3002023be0de29e93303c",
     "vm_entry_runtime.hpp": "20be56294f4fb04da32122501f1aa9f0291494946ce4ddb848ce5875dfb1d3f3",
-    "profiler_node_wire.hpp": "b1f86a5b1b5120b476a64b55c0e9d520c82a2ad093ff569300a290e23e9b9f43"
+    "profiler_node_wire.hpp": "b1f86a5b1b5120b476a64b55c0e9d520c82a2ad093ff569300a290e23e9b9f43",
+    "vm_debug_runtime.hpp": "440573d8455ee782fb4ff878a3a874166db1f49a34af6d5362f9e69e8f8c8d88"
   }
 }
