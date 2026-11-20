@@ -5,7 +5,7 @@
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
   "source_names_not_original_spelling": true,
-  "header_sha256": "485b6a3059c3831a25cc78466cdf4beffeabbb35cb163cf8f02f97c9ea9a3de0",
+  "header_sha256": "a8bb31c597423cce38d5dcd985b335773b7d5faf52d4ee961d8ce8d04f0ec2bb",
   "functions": [
     {
       "entry": "0xce43c",

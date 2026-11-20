@@ -352,12 +352,21 @@
   "old_c_inputs_preserved": true,
   "original_executed": false,
   "rebuilt_executed": false,
-  "registration_sha256": "fbc3776b9199be7e63448c57e5b0e940493f5e8f0eeaa0a386d9d2417f75a6ae",
+  "registration_sha256": "5274651cf922f78d588ba0598c0be84cc9e4d240d7fa04ba5db3b41fe13918ec",
   "artifact_retention": "Object/archive paths are temporary scratch outputs. Sources, flags, input hashes and original-entry bindings are retained here; no runtime execution was performed.",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "5e5e9816bae6c4f891b6f02a3d23d6a290fe20f7f3924a971192d59336075df6",
-  "header_sha256": "485b6a3059c3831a25cc78466cdf4beffeabbb35cb163cf8f02f97c9ea9a3de0",
+  "shared_receipt_sha256": "ab2c38381c8a06def56d59741562866a7a0d80e8c20f484b1a5e60e8f570d79a",
+  "header_sha256": "a8bb31c597423cce38d5dcd985b335773b7d5faf52d4ee961d8ce8d04f0ec2bb",
   "local_builds_are_prior_scope": true,
   "current_build_authority": "shared_receipt (latest full combined build); local builds/input hashes retain their historical base",
-  "current_header_sha256": "485b6a3059c3831a25cc78466cdf4beffeabbb35cb163cf8f02f97c9ea9a3de0"
+  "current_header_sha256": "a8bb31c597423cce38d5dcd985b335773b7d5faf52d4ee961d8ce8d04f0ec2bb",
+  "source_sha256_scope": "Historical module-local receipt; use current_source_sha256/current_header_sha256 plus shared_receipt for latest integrated36TU build",
+  "current_source_sha256": {
+    "vm_buffer.hpp": "a8bb31c597423cce38d5dcd985b335773b7d5faf52d4ee961d8ce8d04f0ec2bb",
+    "abi_layout.cpp": "a39ca99256746fda9e0e62a6adadb78657f57a39fc73e8d7c95abb91d713f416",
+    "wad_memory.cpp": "4bab16563eb25ed220f1d710d1e82b28ddd6cf3ac603747d3966c3053d0a1dac",
+    "original-words.tsv": "308e7d814625ebabd54d6ac3b2cb09a5b12dc555f6241d858b1d796d58b173d6",
+    "vm_write_buffer.cpp": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+    "vm_buffer.cpp": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c"
+  }
 }

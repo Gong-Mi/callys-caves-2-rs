@@ -8,7 +8,7 @@
     "reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp": "999390fe3da464f2296fccd43390a3327a04597db92da182a8c0584e21cf90c8",
     "reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
     "reconstruction/reverse-v1/cpp/ccode/original-words.tsv": "43e9c8a0d81f3f933b775b882780a9ad393efd978fbfa9102a99a883b57a965a",
-    "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.hpp": "c601b9cf5eee566bdde9be168452fe5ec043e5092f1d6f4e8ebabbe892985cbe",
+    "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.hpp": "a8bb31c597423cce38d5dcd985b335773b7d5faf52d4ee961d8ce8d04f0ec2bb",
     "reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp": "a39ca99256746fda9e0e62a6adadb78657f57a39fc73e8d7c95abb91d713f416",
     "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c",
     "reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
@@ -617,7 +617,7 @@
   "original_executed": false,
   "rebuilt_executed": false,
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "5e5e9816bae6c4f891b6f02a3d23d6a290fe20f7f3924a971192d59336075df6",
+  "shared_receipt_sha256": "ab2c38381c8a06def56d59741562866a7a0d80e8c20f484b1a5e60e8f570d79a",
   "local_builds_are_prior_scope": true,
   "current_build_authority": "shared_receipt (latest full combined build); local builds/input hashes retain their historical base",
   "current_header_sha256": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642"

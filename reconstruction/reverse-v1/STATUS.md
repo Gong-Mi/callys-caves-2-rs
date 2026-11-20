@@ -1,18 +1,25 @@
 # 状态与定性
 
-## 当前断点：值池/map生产者与VM::ExecDebug
+## 当前断点：MemoryManager分配与调试记录/源码行解析
 
-`object_base/value_map_producers.cpp` 新落GetRValue与YYObjectBase::AllocVars，
-`vm_exec/vm_exec_debug.cpp` 新落完整调试执行入口。三原入口/341原字（20池字），不造
-RValue/HashMap类构造或调试器替身。生产者与既有FreeRValue/GetVar构成真实源码调用链。
-GetRValue保留0x78页填充、16B链、共享尾寄存器链接值；AllocVars保留live capacity与真F32
-阈值。ExecDebug独立处理单步注入、原opcode表、异常退帧和bool/mode>0的特殊locals清理。
+`memory_manager/memory_alloc.cpp` 恢复_Alloc/Alloc，`vm_exec/vm_debug_info.cpp`恢复
+DebugInfo/DebugLineNumber，四完整原入口/236原字（8池字），闭合上一批的真实直接调用。
+_Alloc保留bucket→标准分配、64位size+16门、头词/计数写序和live mutex解锁；Alloc保留
+原bool清零、logLocation和held指针。调试记录按8B扫有符号PC，源码行按原逆UTF扫描、
+#line字面量与真实_ctype_指针表分类，文件名分配先发out、copy后live回读out再写NUL。
 
-父级修正GetRValue旋转立即数0xff000（原稿误fff00），以及Debug私有存储/volatile读序和
-uint32地址运算；未把指针UB当原故障等价。O0/O2各34TU/70个原名字组合通过，F32阈值
-真指令存在。独立复核无当前正文反例，模糊注释已修并fresh重编；本地收口仍phase_complete=false。DebugInfo/LineNumber、
-MMAlloc、Ctor/继承链、map Insert/FreePre等仍欠；完整类/坏域/原LR/unwind/并发未证。
-仍不运行原件或重建、不安装、不推送。
+父级修掉原稿自造memcpy返回NULL早退，恢复无条件终结符写；补volatile raw-word读取，
+O2原稿count0会跳过code字段读而修后无条件保留；同一cursor生命周期、ctype字节地址与
+普通换行读序已复核。O0/O2各36TU/74原名字组合通过；独立复核的别名错报经冻结头与全量重编反证核销，源码无变更；本地收口仍
+phase_complete=false。bucketAlloc、UTF helper本体/原语言、记录生产者、Ctor/继承链、
+map Insert/FreePre及所有LR/坏域/unwind/并发等价仍欠。仍不执行目标、不安装、不推送。
+
+## 已提交基础：值池/map生产者与调试执行（8bb884b）
+
+GetRValue/AllocVars/ExecDebug三入口/341原字已收口，34TU/70原名字，22路径/75输入
+逐提交blob一致。0x78池链/真F32阈值、调试单步伪指令及独有locals清理均保留。父修
+GetRValue立即数fff00→ff000；复核报告“缺VFP”“70产物数”“错误GOT值”经原件/头/ELF
+独立核销未采用。两个配置全部fresh通过；只有server分支注释修订，不是运行等价证明。
 
 ## 已提交基础：重分配与对象变量（92fe8dc）
 

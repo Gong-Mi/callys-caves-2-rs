@@ -347,3 +347,17 @@ parent-depth求和不缓存。异常四字先读再取异常SP/写回，退帧�
 处理out/页回收；locals只在第三bool且signed mode>0时Free并置空。不同于Release规则。
 三入口/341原字，O0/O2各34TU/70导出，F32原语有实际目标指令；DebugInfo/LineNumber及
 handler内部仍欠，未认证原LR/完整FP trap/unwind或游戏等价，所有目标均未运行。
+
+
+## 分配器生产者与调试记录消费
+
+MemoryManager::_Alloc@27cd54保留原bool给bucketAlloc，初始化后/解锁前均live取mutex；
+桶失败后uint64(size)+16<=fffffffe才malloc，标准头按0/c/4/8写原词，total→inUse→
+standardCount→standardSize独立更新。Alloc@27ce78的size0跳过所有调用；非空才按原bool
+清零并调用真实logLocation(0,NULL,held,size)，返回held，不消费memset返回。
+DebugInfo@ec144先size4后无条件code10读，logical>>3计记录，signed PC比较返回held
+最后record；DebugLineNumber@ec2b8真strlen后读record4、signed缩短，逆向UTF游标独立于
+helper更新槽，#line +_ctype_实际pointer-cell分类；文件名malloc→发out→无条件memcpy→
+live*out→NUL。原稿额外NULL早退和非volatile省读已父修，O2反汇编证实code读未再被跳过。
+四完整方法236原字、O0/O2各36TU/74原名，未执行任何目标；未知bucket/UTF生产者与原LR/
+故障unwind/并发不认证，静态整合不升游戏等价。

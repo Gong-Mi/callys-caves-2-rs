@@ -9,12 +9,12 @@
     "reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
     "reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp": "a39ca99256746fda9e0e62a6adadb78657f57a39fc73e8d7c95abb91d713f416",
     "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c",
-    "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.hpp": "485b6a3059c3831a25cc78466cdf4beffeabbb35cb163cf8f02f97c9ea9a3de0",
+    "reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.hpp": "a8bb31c597423cce38d5dcd985b335773b7d5faf52d4ee961d8ce8d04f0ec2bb",
     "reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
     "reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp": "4bab16563eb25ed220f1d710d1e82b28ddd6cf3ac603747d3966c3053d0a1dac",
     "reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp": "cc4a2f0ab27727252c48510a67f891d3abb5ef27a9ac459c2f1c9fb9eb31eae7",
-    "reconstruction/reverse-v1/cpp/vm_exec/layout-evidence.json": "6c4a1b9c07c3ae4591bb3a3734c3eaa151c061e93faaa147b029e0e5e5536dd8",
-    "reconstruction/reverse-v1/cpp/vm_exec/original-words.tsv": "511aac429c2acd8ed08af7d6f1c3d1f90385704f847c19923b6ef173f14eb257",
+    "reconstruction/reverse-v1/cpp/vm_exec/layout-evidence.json": "2fa329071279927e0c1a82b66a8486f8b37fa2690e276fb3062b6253cbf3d584",
+    "reconstruction/reverse-v1/cpp/vm_exec/original-words.tsv": "4f304af10448e3a60d2f9aa67ab9daf0fb9ffc0d57d75afd4e84614a8b18d8eb",
     "reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp": "3dd332e394c2a7c1a117288d36bc9454592737cfb5dbdf4a14670f5fd466b06f",
     "reconstruction/reverse-v1/cpp/vm_exec/profiler_node.cpp": "6ac3abdbc685dc02107b52ae01e1cd4d3d6b2e02c22148ae213bba600f2c2429",
     "reconstruction/reverse-v1/cpp/vm_exec/profiler_node_wire.hpp": "b1f86a5b1b5120b476a64b55c0e9d520c82a2ad093ff569300a290e23e9b9f43",
@@ -27,12 +27,14 @@
     "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp": "66096a71d592bb83074df31aaf7def73829c26327e2f5066e0a2ec23455243ac",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp": "c64e3e270fcea5ed3ad854f4857834c8783655136402ac1e40f6105505392f77",
-    "reconstruction/reverse-v1/cpp/vm_exec/vm_debug_runtime.hpp": "440573d8455ee782fb4ff878a3a874166db1f49a34af6d5362f9e69e8f8c8d88"
+    "reconstruction/reverse-v1/cpp/vm_exec/vm_debug_runtime.hpp": "440573d8455ee782fb4ff878a3a874166db1f49a34af6d5362f9e69e8f8c8d88",
+    "reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.cpp": "5ead26e1925f1a8518a6ea0959513c7a5879df105eac426ee7d3b1fb59c96017",
+    "reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.hpp": "3eb7879c7693bf0ccd6eb5b459b82ea48ad8202a3a8133f67dd7b5e726528060"
   },
-  "registry_sha256": "26b2eb61cbb94b7ebc0aca524a8caa1b6c984e84020cf866a35c6f89a0d631b5",
-  "original_word_count": 1182,
-  "literal_pool_words": 45,
-  "original_abi_entries": 12,
+  "registry_sha256": "7971f874d70c406b44040c9f82a678caf991096e7359417cf4e4fab9d7a42228",
+  "original_word_count": 1320,
+  "literal_pool_words": 47,
+  "original_abi_entries": 14,
   "builds": [
     {
       "configuration": "O0",
@@ -58,12 +60,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -87,12 +89,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_memory_free.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_memory_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_memory_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_memory_free.o",
           "object_sha256": "91c68ca1008be8a4b52d062ace26123f5608695f032ffb60face7601710aa547"
         },
         {
@@ -116,12 +118,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_memory_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_memory_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_memory_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_memory_helpers.o",
           "object_sha256": "6a1321de61becf7e8d08f4e693e5f435711c00611d13be79d152d2af9ee72cad"
         },
         {
@@ -145,12 +147,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/timing/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/timing/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/timing_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/timing_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/timing_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/timing_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -174,12 +176,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/timing/timing.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/timing/timing.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/timing_timing.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/timing_timing.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/timing_timing.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/timing_timing.o",
           "object_sha256": "ef14b9bdcb6dd5f3d29f17212825d3240b510d8469df284f49fc4c790dad531a"
         },
         {
@@ -203,12 +205,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -232,12 +234,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_vm_exec_release.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_exec_release.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_vm_exec_release.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_exec_release.o",
           "object_sha256": "6dca6b78c3106eb35f80ab9c0f1279a5ec6c3f788900b53d44a9560ea4f60216"
         },
         {
@@ -261,12 +263,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_perform_return.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_perform_return.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_perform_return.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_perform_return.o",
           "object_sha256": "2a978cb74ede1601aff77796e00e25ee3afc4f9eed6f225442d8f17f60b2d426"
         },
         {
@@ -290,12 +292,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_profiler_pop.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_profiler_pop.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_profiler_pop.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_profiler_pop.o",
           "object_sha256": "fa2b8aa6aaadf1b6600b502f184099c5e84148f7198fb1a6d22f1c34fe97dd80"
         },
         {
@@ -319,12 +321,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_buffer_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_buffer_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_buffer_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_buffer_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -348,12 +350,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_buffer_vm_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_buffer_vm_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_buffer_vm_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_buffer_vm_buffer.o",
           "object_sha256": "fe994b3981effdafaad96deed3477c02253832dc3c2a4f64857596e8ef1ddb33"
         },
         {
@@ -377,12 +379,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_buffer_vm_write_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_buffer_vm_write_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_buffer_vm_write_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_buffer_vm_write_buffer.o",
           "object_sha256": "510e3c8295ee548b089c289f0f89033d25539ea5532198aac62a0b8bd24eed93"
         },
         {
@@ -406,12 +408,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_buffer_wad_memory.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_buffer_wad_memory.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_buffer_wad_memory.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_buffer_wad_memory.o",
           "object_sha256": "be7960c07ca877c93fdc23bcd9a579497dca6e1c6ddc6072b986df69e98dd53f"
         },
         {
@@ -435,12 +437,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/ccode_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/ccode_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/ccode_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/ccode_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -464,12 +466,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/ccode_ccode_construct.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/ccode_ccode_construct.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/ccode_ccode_construct.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/ccode_ccode_construct.o",
           "object_sha256": "de95d2b34fc5df7885704455f31539087af532e9dae588a1504ee4e7a4f57994"
         },
         {
@@ -493,12 +495,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/ccode_ccode_lifetime.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/ccode_ccode_lifetime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/ccode_ccode_lifetime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/ccode_ccode_lifetime.o",
           "object_sha256": "a67b8dc9fe07d4d2709f2089e997cf3e2c1fb6f9ac7a0c5de968c5c56fe99aab"
         },
         {
@@ -522,12 +524,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_page_lookup.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_page_lookup.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_page_lookup.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_page_lookup.o",
           "object_sha256": "831247991baeafe65d777769f8bd5d81fca0f9cf05f9d25679583cb1dda829b6"
         },
         {
@@ -549,12 +551,12 @@
             "-std=c11",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/src_conversions.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/src_conversions.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/src_conversions.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/src_conversions.o",
           "object_sha256": "adc9e489764f1ccdcc366383304516580f573634289e74966e534f089345043c"
         },
         {
@@ -578,12 +580,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -607,12 +609,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_free.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/object_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_object_free.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_object_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_object_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_object_free.o",
           "object_sha256": "790ce150a8ab5f919855c5ad769d232874d678e6adc1ca9f61591bd0ddac4879"
         },
         {
@@ -636,12 +638,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_object_free_vars.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_object_free_vars.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_object_free_vars.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_object_free_vars.o",
           "object_sha256": "9f8fb0b24c46ebcd3370f841e39592bd1af293c0a706e937278403a691881b14"
         },
         {
@@ -663,12 +665,12 @@
             "-std=c11",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/src_fixunsdfsi.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/src_fixunsdfsi.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/src_fixunsdfsi.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/src_fixunsdfsi.o",
           "object_sha256": "566f7c9792c8b5bdd599a3438f6ced75ca26726091628855a6b47c55ed1f3a0f"
         },
         {
@@ -692,12 +694,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_value_pool.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_value_pool.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_value_pool.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_value_pool.o",
           "object_sha256": "81d69c7cd81173b081696f25ea4ccf13935a2aaae8f08fa7737e44e7cccfec3e"
         },
         {
@@ -721,12 +723,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_js_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_js_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_js_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_js_helpers.o",
           "object_sha256": "5f4b019afcc55951e311d3d736748912b0e35138610839960f60185f0f1d07f7"
         },
         {
@@ -750,12 +752,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/scripting/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/scripting/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/scripting_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/scripting_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/scripting_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/scripting_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -779,12 +781,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/scripting/script_runtime.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/scripting/script_runtime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/scripting_script_runtime.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/scripting_script_runtime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/scripting_script_runtime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/scripting_script_runtime.o",
           "object_sha256": "7f87dfe9eab7d1a77fa6a4d123028c8eb7ba86b8e9a4cfba6c9f3ee280584d8c"
         },
         {
@@ -808,12 +810,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/profiler_push.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_push.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_profiler_push.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_profiler_push.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_profiler_push.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_profiler_push.o",
           "object_sha256": "3788a2be30cfc07d2dbd4673c04a47d052a3162d12a3a0b0447d33c2be44871c"
         },
         {
@@ -837,12 +839,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_entry.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_entry.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_vm_exec_entry.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_exec_entry.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_vm_exec_entry.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_exec_entry.o",
           "object_sha256": "e4685fa248052f42b8f04fb430349497f04aab213e3b108447c9830024e2821d"
         },
         {
@@ -866,12 +868,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_vm_value_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_value_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_vm_value_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_value_helpers.o",
           "object_sha256": "72916ee0424e59da5fc015c717ea817b12eeb90bf6f1748a2078c2f6a0c1b383"
         },
         {
@@ -895,12 +897,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/profiler_node.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_node.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_profiler_node.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_profiler_node.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_profiler_node.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_profiler_node.o",
           "object_sha256": "fa38b86afb405757c19ed475a2562d1e5e65f737f75bf5db4e26b0574bf52c0b"
         },
         {
@@ -924,12 +926,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_realloc.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_realloc.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_memory_realloc.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_memory_realloc.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/memory_manager_memory_realloc.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_memory_realloc.o",
           "object_sha256": "0b2b96873694895fc6b7d75d1e56a1fa2680389eedf169071db99f2ee0b712f3"
         },
         {
@@ -953,12 +955,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_object_allocation.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_object_allocation.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_object_allocation.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_object_allocation.o",
           "object_sha256": "0a512b0349b23853dd5885e8e109f8dad7da0f146ce295dcb78f7e01466092c5"
         },
         {
@@ -982,12 +984,12 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_value_map_producers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_value_map_producers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/object_base_value_map_producers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/object_base_value_map_producers.o",
           "object_sha256": "558334706ed9832024158a5b1f4bb0fc60cddda15938e407372251dea5c2c926"
         },
         {
@@ -1011,13 +1013,71 @@
             "-Werror",
             "-O0",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_vm_exec_debug.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_exec_debug.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/vm_exec_vm_exec_debug.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_exec_debug.o",
           "object_sha256": "9a656a5fd85c251f77d09529eef9bc9fa31d11e9c20dab161c0acf8b2a1a2aa7"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/memory_manager/memory_alloc.cpp",
+          "source_sha256": "829099f6b84b3940fb5fbe80b60d0419ca6a2fc887d412dd4650fa255fe8fade",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O0",
+            "-c",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_alloc.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_memory_alloc.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/memory_manager_memory_alloc.o",
+          "object_sha256": "58003a8fc1367b28de994d2f76154dd70c5c9593e78482ff4fd8ffe3be1c1f4a"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.cpp",
+          "source_sha256": "5ead26e1925f1a8518a6ea0959513c7a5879df105eac426ee7d3b1fb59c96017",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O0",
+            "-c",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_debug_info.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/vm_exec_vm_debug_info.o",
+          "object_sha256": "c7f8fd0d52442a1e268170ee5a89fd1593bdd9e9d702236a5abed5529998cee1"
         }
       ],
       "original_symbols_expected": [
@@ -1051,6 +1111,8 @@
         "_ZN12YYObjectBase8FreeVarsEPS_PP6RValueS3_PP9RVariableS6_",
         "_ZN12YYObjectBase9AllocVarsEv",
         "_ZN13MemoryManager4FreeEPKv",
+        "_ZN13MemoryManager5AllocEjPKcib",
+        "_ZN13MemoryManager6_AllocEjPKcib",
         "_ZN13MemoryManager7ReAllocEPvjPKcib",
         "_ZN13VMWriteBuffer3AddEiz",
         "_ZN13VMWriteBuffer6AddValEb",
@@ -1065,7 +1127,9 @@
         "_ZN13VMWriteBufferD1Ev",
         "_ZN13VMWriteBufferD2Ev",
         "_ZN2VM11ExecReleaseER6VMExecP6RValue",
+        "_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc",
         "_ZN2VM4ExecEP5CCodeP12YYObjectBaseS3_P6RValueS3_iS5_iS3_",
+        "_ZN2VM9DebugInfoEP8VMBufferi",
         "_ZN2VM9ExecDebugER6VMExecP6RValueb",
         "_ZN5CCode7GetTextEv",
         "_ZN5CCodeC1Eib",
@@ -1095,6 +1159,7 @@
       "original_symbols_missing": [],
       "undefined_providers": [
         "Argument",
+        "_Z11bucketAllocjb",
         "_Z13DoCallLibraryjPhPKhP6VMExec",
         "_Z15PopContextStackv",
         "_Z16FREE_RValue__PreP6RValue",
@@ -1111,12 +1176,9 @@
         "_ZN12YYObjectBaseC1Eii",
         "_ZN13MemoryManager14m_StandardSizeE",
         "_ZN13MemoryManager15m_StandardCountE",
-        "_ZN13MemoryManager5AllocEjPKcib",
         "_ZN13MemoryManager7m_InUseE",
         "_ZN13MemoryManager7m_TotalE",
         "_ZN14vm_entry_state20stackPoolInitializedE",
-        "_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc",
-        "_ZN2VM9DebugInfoEP8VMBufferi",
         "_ZN8CHashMapIiP6RValueLi3EE6InsertEiS1_",
         "_ZSt9terminatev",
         "_ZTVN10__cxxabiv117__class_type_infoE",
@@ -1134,8 +1196,10 @@
         "__gxx_personality_v0",
         "__muldf3",
         "__subdf3",
+        "_ctype_",
         "_rvalue",
         "abort",
+        "atoi",
         "clock_gettime",
         "dbg_csol",
         "free",
@@ -1190,13 +1254,17 @@
         "pthread_mutex_unlock",
         "pthread_mutexattr_init",
         "pthread_mutexattr_settype",
-        "stackPages"
+        "stackPages",
+        "strlen",
+        "strncmp",
+        "utf8_extract_char"
       ],
-      "real_f32_threshold_opcodes_present": true,
-      "archive": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/libcally_runner_value_debug.a",
-      "archive_sha256": "29f374569018b61b3536d0b66169c14e5a4d2f7726dc7c2abeae47a9b6b83854",
-      "combined": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O0/runner_value_debug.o",
-      "combined_sha256": "c57e387ea9d6d2a6e6c59b6c22fd5a0c460cd63197efcb8c0af58982039ae1b7"
+      "combined": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/runner_alloc_debug_info.o",
+      "combined_sha256": "35ce4deb3575e0a1b7736979f72255ff398e809ac89dc99d36acb92af439733c",
+      "archive": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O0/libcally_runner_alloc_debug_info.a",
+      "archive_sha256": "c549ea88cf157928e8418f16f323dcd224f19a3a89042bcdea5944790d94e24e",
+      "fresh_build_from_frozen_snapshot": true,
+      "all_objects_and_library_byte_equal_prior_build": true
     },
     {
       "configuration": "O2",
@@ -1222,12 +1290,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1251,12 +1319,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_memory_free.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_memory_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_memory_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_memory_free.o",
           "object_sha256": "60ddf9e10f524c3d0466d75d419a8a10d32a5f4402b26dd2d2d864b7b9655f24"
         },
         {
@@ -1280,12 +1348,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_memory_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_memory_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_memory_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_memory_helpers.o",
           "object_sha256": "51585e731c583381520dc56788cb9f1bf0ebe07add4335f1401ada878d8840ef"
         },
         {
@@ -1309,12 +1377,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/timing/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/timing/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/timing_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/timing_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/timing_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/timing_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1338,12 +1406,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/timing/timing.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/timing/timing.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/timing_timing.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/timing_timing.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/timing_timing.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/timing_timing.o",
           "object_sha256": "b4d1b354ab7e62fbbf1a96e827a2f2270c070824d1771090fddb15a249a5a817"
         },
         {
@@ -1367,12 +1435,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1396,12 +1464,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_vm_exec_release.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_exec_release.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_vm_exec_release.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_exec_release.o",
           "object_sha256": "f508b695ea490741fedb85ebef958b5e4c42d342fb8aabcb32cb25341f4639b2"
         },
         {
@@ -1425,12 +1493,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_perform_return.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_perform_return.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_perform_return.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_perform_return.o",
           "object_sha256": "8a7c7c72d6513fc9ee19433eb98ff648c21b15e022cf105214f6be2107b962d7"
         },
         {
@@ -1454,12 +1522,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_profiler_pop.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_profiler_pop.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_profiler_pop.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_profiler_pop.o",
           "object_sha256": "561c68e6964fa95c1b171ca99624a1a2b95e52feb3e139c4dd98058c35fed16a"
         },
         {
@@ -1483,12 +1551,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_buffer_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_buffer_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_buffer_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_buffer_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1512,12 +1580,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_buffer_vm_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_buffer_vm_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_buffer_vm_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_buffer_vm_buffer.o",
           "object_sha256": "ccc3b03fe9666d92153c593203e9042ac7e4828efd3f550ff1274e0853497dca"
         },
         {
@@ -1541,12 +1609,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_buffer_vm_write_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_buffer_vm_write_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_buffer_vm_write_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_buffer_vm_write_buffer.o",
           "object_sha256": "a68f7f2ca7c0c69ef0a029aa8375ac97ae347035bb69f898e85b50682bbacab9"
         },
         {
@@ -1570,12 +1638,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_buffer_wad_memory.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_buffer_wad_memory.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_buffer_wad_memory.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_buffer_wad_memory.o",
           "object_sha256": "680f8baff18d84fb8a227204dac1ad1c51ae6bb804895648030a3aa9496ca470"
         },
         {
@@ -1599,12 +1667,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/ccode_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/ccode_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/ccode_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/ccode_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1628,12 +1696,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/ccode_ccode_construct.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/ccode_ccode_construct.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/ccode_ccode_construct.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/ccode_ccode_construct.o",
           "object_sha256": "93e076d1e61725774b15a7ce07a72cc2190ed7270392a79ccc753c64bee4fdc6"
         },
         {
@@ -1657,12 +1725,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/ccode_ccode_lifetime.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/ccode_ccode_lifetime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/ccode_ccode_lifetime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/ccode_ccode_lifetime.o",
           "object_sha256": "fe341be1c4913a2fd6e0d7a67f7bfbec0d90816a1b888f48df4e1c4f17ab2f02"
         },
         {
@@ -1686,12 +1754,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_page_lookup.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_page_lookup.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_page_lookup.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_page_lookup.o",
           "object_sha256": "19482712d1ac2bda99168c75b7b112295ccf174c0e79836fb58d6b39d819c90d"
         },
         {
@@ -1713,12 +1781,12 @@
             "-std=c11",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/src_conversions.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/src_conversions.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/src_conversions.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/src_conversions.o",
           "object_sha256": "c1e2ae7f60bcda5e607420b1a6e800dee6985a7ddf1dc2b43b8db5247219975f"
         },
         {
@@ -1742,12 +1810,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1771,12 +1839,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_free.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/object_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_object_free.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_object_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_object_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_object_free.o",
           "object_sha256": "478455b2ca78bff2463df521f13c70023382eb995f20ad37e09198045247f39d"
         },
         {
@@ -1800,12 +1868,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_object_free_vars.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_object_free_vars.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_object_free_vars.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_object_free_vars.o",
           "object_sha256": "05976a43854022f89d78660dbbc30f6299707fb0048d152d57958aca33c11ef2"
         },
         {
@@ -1827,12 +1895,12 @@
             "-std=c11",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/src_fixunsdfsi.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/src_fixunsdfsi.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/src_fixunsdfsi.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/src_fixunsdfsi.o",
           "object_sha256": "475cf8cf0bcbf24729369c6c9b55bb5aa4b8b9cd504df963c73b7440ebe89596"
         },
         {
@@ -1856,12 +1924,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_value_pool.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_value_pool.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_value_pool.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_value_pool.o",
           "object_sha256": "0a0c2894bc81513edabec3a8b3e486f5bfe7b6943cbed4c1a7bbfeb4af4cdf43"
         },
         {
@@ -1885,12 +1953,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_js_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_js_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_js_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_js_helpers.o",
           "object_sha256": "4cc29edac42e8dad1963b3210090e9f02ba8338aaa83f1e6bcd2d55bc280d4ca"
         },
         {
@@ -1914,12 +1982,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/scripting/abi_layout.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/scripting/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/scripting_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/scripting_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/scripting_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/scripting_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1943,12 +2011,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/scripting/script_runtime.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/scripting/script_runtime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/scripting_script_runtime.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/scripting_script_runtime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/scripting_script_runtime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/scripting_script_runtime.o",
           "object_sha256": "b4651dd4c8872645ad742e7e1682dd9efac0bc571374571aeb1e145a518c5533"
         },
         {
@@ -1972,12 +2040,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/profiler_push.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_push.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_profiler_push.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_profiler_push.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_profiler_push.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_profiler_push.o",
           "object_sha256": "211b0dce1fb60f3a152da86cd386b2d9748a4702ab6c4d52bb063547bbbada33"
         },
         {
@@ -2001,12 +2069,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_entry.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_entry.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_vm_exec_entry.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_exec_entry.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_vm_exec_entry.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_exec_entry.o",
           "object_sha256": "a11813f0ba5f75df72ec7a03dd9aeb03abf8f7c5b99c758936f816158ebad2cb"
         },
         {
@@ -2030,12 +2098,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_vm_value_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_value_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_vm_value_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_value_helpers.o",
           "object_sha256": "20eb7aeee8e6bbc63519569d3dd50d1da504adaf94adeb91346b052b52ed220d"
         },
         {
@@ -2059,12 +2127,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/profiler_node.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_node.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_profiler_node.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_profiler_node.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_profiler_node.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_profiler_node.o",
           "object_sha256": "da12969f2ce0b6b7ccaf1efc539fcc557356f2b8e82e2beded8b90c8f5d1d286"
         },
         {
@@ -2088,12 +2156,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/memory_realloc.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_realloc.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_memory_realloc.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_memory_realloc.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/memory_manager_memory_realloc.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_memory_realloc.o",
           "object_sha256": "5469c8cd2069ab0af045dfb91884144cc2ca60131355a6585e93e2f897e05211"
         },
         {
@@ -2117,12 +2185,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_object_allocation.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_object_allocation.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_object_allocation.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_object_allocation.o",
           "object_sha256": "a1b4741b220b1e0b3abd860fd2ae1a712035205104d83850be8daef8ba2f00bf"
         },
         {
@@ -2146,12 +2214,12 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_value_map_producers.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_value_map_producers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/object_base_value_map_producers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/object_base_value_map_producers.o",
           "object_sha256": "5a15389b4312e7af16b03d9ba77cc518bb8a6bb987f754eea520ff34ddf14acc"
         },
         {
@@ -2175,13 +2243,71 @@
             "-Werror",
             "-O2",
             "-c",
-            "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_vm_exec_debug.o"
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_exec_debug.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/vm_exec_vm_exec_debug.o",
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_exec_debug.o",
           "object_sha256": "1f3bd8500b61d4b1b60c6e6f7f3ed40cadfcc21318a57430ef6644a5bf7e198c"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/memory_manager/memory_alloc.cpp",
+          "source_sha256": "829099f6b84b3940fb5fbe80b60d0419ca6a2fc887d412dd4650fa255fe8fade",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            "-c",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_alloc.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_memory_alloc.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/memory_manager_memory_alloc.o",
+          "object_sha256": "3f29772d1ec5921195c1d1ae37d01d86b67e7805e67ef212bd88b59398d2682b"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.cpp",
+          "source_sha256": "5ead26e1925f1a8518a6ea0959513c7a5879df105eac426ee7d3b1fb59c96017",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            "-c",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_debug_info.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/vm_exec_vm_debug_info.o",
+          "object_sha256": "5423c4020087170cda973c41492fee3488471fd346ba8c209999f2132d65e660"
         }
       ],
       "original_symbols_expected": [
@@ -2215,6 +2341,8 @@
         "_ZN12YYObjectBase8FreeVarsEPS_PP6RValueS3_PP9RVariableS6_",
         "_ZN12YYObjectBase9AllocVarsEv",
         "_ZN13MemoryManager4FreeEPKv",
+        "_ZN13MemoryManager5AllocEjPKcib",
+        "_ZN13MemoryManager6_AllocEjPKcib",
         "_ZN13MemoryManager7ReAllocEPvjPKcib",
         "_ZN13VMWriteBuffer3AddEiz",
         "_ZN13VMWriteBuffer6AddValEb",
@@ -2229,7 +2357,9 @@
         "_ZN13VMWriteBufferD1Ev",
         "_ZN13VMWriteBufferD2Ev",
         "_ZN2VM11ExecReleaseER6VMExecP6RValue",
+        "_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc",
         "_ZN2VM4ExecEP5CCodeP12YYObjectBaseS3_P6RValueS3_iS5_iS3_",
+        "_ZN2VM9DebugInfoEP8VMBufferi",
         "_ZN2VM9ExecDebugER6VMExecP6RValueb",
         "_ZN5CCode7GetTextEv",
         "_ZN5CCodeC1Eib",
@@ -2259,6 +2389,7 @@
       "original_symbols_missing": [],
       "undefined_providers": [
         "Argument",
+        "_Z11bucketAllocjb",
         "_Z13DoCallLibraryjPhPKhP6VMExec",
         "_Z15PopContextStackv",
         "_Z16FREE_RValue__PreP6RValue",
@@ -2275,12 +2406,9 @@
         "_ZN12YYObjectBaseC1Eii",
         "_ZN13MemoryManager14m_StandardSizeE",
         "_ZN13MemoryManager15m_StandardCountE",
-        "_ZN13MemoryManager5AllocEjPKcib",
         "_ZN13MemoryManager7m_InUseE",
         "_ZN13MemoryManager7m_TotalE",
         "_ZN14vm_entry_state20stackPoolInitializedE",
-        "_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc",
-        "_ZN2VM9DebugInfoEP8VMBufferi",
         "_ZN8CHashMapIiP6RValueLi3EE6InsertEiS1_",
         "_ZSt9terminatev",
         "_ZTVN10__cxxabiv117__class_type_infoE",
@@ -2298,8 +2426,10 @@
         "__gxx_personality_v0",
         "__muldf3",
         "__subdf3",
+        "_ctype_",
         "_rvalue",
         "abort",
+        "atoi",
         "clock_gettime",
         "dbg_csol",
         "free",
@@ -2354,13 +2484,17 @@
         "pthread_mutex_unlock",
         "pthread_mutexattr_init",
         "pthread_mutexattr_settype",
-        "stackPages"
+        "stackPages",
+        "strlen",
+        "strncmp",
+        "utf8_extract_char"
       ],
-      "real_f32_threshold_opcodes_present": true,
-      "archive": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/libcally_runner_value_debug.a",
-      "archive_sha256": "2731f397c62ed1855a437d829b8aeeb56d9115d24e22ca117636ffe7f55fce8e",
-      "combined": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-value-map-debug-48ciklkb/final-build/O2/runner_value_debug.o",
-      "combined_sha256": "819340297ac8280460b586c8f07bab423ef241ff554c12bb94736cc602c4abb2"
+      "combined": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/runner_alloc_debug_info.o",
+      "combined_sha256": "76860e66eaec0bfcf472fd3df30c3bce2562d74516dbcd64f6774ef80752686c",
+      "archive": "/data/data/com.termux/files/home/.hermes/cache/scratch/cally-loop-debug-info-alloc-x7ni7u5v/final-build/O2/libcally_runner_alloc_debug_info.a",
+      "archive_sha256": "4bb865d624c20031a4cafd9c7ba54b6b312a7a0e764e6f36bc9efd6681e70176",
+      "fresh_build_from_frozen_snapshot": true,
+      "all_objects_and_library_byte_equal_prior_build": true
     }
   ],
   "parent_integration_repairs": [
@@ -2384,7 +2518,7 @@
   "original_executed": false,
   "rebuilt_executed": false,
   "declaration_only_extension": "YYObjectBase::FreeVars/RVariable forward declaration; latest target combination recorded by object_base validation.",
-  "shared_receipt_sha256": "5e5e9816bae6c4f891b6f02a3d23d6a290fe20f7f3924a971192d59336075df6",
+  "shared_receipt_sha256": "ab2c38381c8a06def56d59741562866a7a0d80e8c20f484b1a5e60e8f570d79a",
   "header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
   "literal_count_correction": "Previous30 overstated prior pool count by2. Entry-wise raw tail pools: Release9+Return5+Pop0+Push1+Exec12+FindNode1+refdec0+noops0=28; new ExecDebug17 gives45. Original word total1182 unchanged; not new code/behavior evidence."
 }

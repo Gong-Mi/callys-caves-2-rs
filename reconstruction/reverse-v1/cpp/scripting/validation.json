@@ -2,7 +2,7 @@
   "scope": "Three scripting C++ candidate entries and observed raw/ABI views; no original/target execution or complete-class/equivalence proof",
   "base": "ff753cebe45075c2aa1f3696ff9611f9e195b532",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "5e5e9816bae6c4f891b6f02a3d23d6a290fe20f7f3924a971192d59336075df6",
+  "shared_receipt_sha256": "ab2c38381c8a06def56d59741562866a7a0d80e8c20f484b1a5e60e8f570d79a",
   "header_sha256": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
   "canonical_api_header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
   "sources_sha256": {

@@ -1181,3 +1181,141 @@ e47c8	e4b98	ffffc09c	.word	0xffffc09c
 e47c8	e4b9c	ffffc0f8	.word	0xffffc0f8
 e47c8	e4ba0	ffffc0d8	.word	0xffffc0d8
 e47c8	e4ba4	ffffc0e0	.word	0xffffc0e0
+ec144	ec144	e3500000	cmp	r0, #0
+ec144	ec148	e52d4004	str	r4, [sp, #-0x4]!
+ec144	ec14c	0a00000f	beq	0xec190 <_ZN2VM9DebugInfoEP8VMBufferi+0x4c>
+ec144	ec150	e5904004	ldr	r4, [r0, #0x4]
+ec144	ec154	e5902010	ldr	r2, [r0, #0x10]
+ec144	ec158	e1b041a4	lsrs	r4, r4, #3
+ec144	ec15c	0a00000d	beq	0xec198 <_ZN2VM9DebugInfoEP8VMBufferi+0x54>
+ec144	ec160	e5923000	ldr	r3, [r2]
+ec144	ec164	e1510003	cmp	r1, r3
+ec144	ec168	ba00000c	blt	0xec1a0 <_ZN2VM9DebugInfoEP8VMBufferi+0x5c>
+ec144	ec16c	e3a03000	mov	r3, #0
+ec144	ec170	ea000002	b	0xec180 <_ZN2VM9DebugInfoEP8VMBufferi+0x3c>
+ec144	ec174	e5b2c008	ldr	r12, [r2, #0x8]!
+ec144	ec178	e15c0001	cmp	r12, r1
+ec144	ec17c	ca000003	bgt	0xec190 <_ZN2VM9DebugInfoEP8VMBufferi+0x4c>
+ec144	ec180	e2833001	add	r3, r3, #1
+ec144	ec184	e1a00002	mov	r0, r2
+ec144	ec188	e1540003	cmp	r4, r3
+ec144	ec18c	1afffff8	bne	0xec174 <_ZN2VM9DebugInfoEP8VMBufferi+0x30>
+ec144	ec190	e49d4004	ldr	r4, [sp], #4
+ec144	ec194	e12fff1e	bx	lr
+ec144	ec198	e1a00004	mov	r0, r4
+ec144	ec19c	eafffffb	b	0xec190 <_ZN2VM9DebugInfoEP8VMBufferi+0x4c>
+ec144	ec1a0	e3a00000	mov	r0, #0
+ec144	ec1a4	eafffff9	b	0xec190 <_ZN2VM9DebugInfoEP8VMBufferi+0x4c>
+ec2b8	ec2b8	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ec2b8	ec2bc	e2504000	subs	r4, r0, #0
+ec2b8	ec2c0	e24dd008	sub	sp, sp, #8
+ec2b8	ec2c4	e1a05001	mov	r5, r1
+ec2b8	ec2c8	e1a09002	mov	r9, r2
+ec2b8	ec2cc	0a000066	beq	0xec46c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x1b4>
+ec2b8	ec2d0	e1a00001	mov	r0, r1
+ec2b8	ec2d4	ebff2897	bl	0xb6538 <strlen@plt>
+ec2b8	ec2d8	e594a004	ldr	r10, [r4, #0x4]
+ec2b8	ec2dc	e150000a	cmp	r0, r10
+ec2b8	ec2e0	b240a001	sublt	r10, r0, #1
+ec2b8	ec2e4	e35a0000	cmp	r10, #0
+ec2b8	ec2e8	ba00005f	blt	0xec46c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x1b4>
+ec2b8	ec2ec	e085a00a	add	r10, r5, r10
+ec2b8	ec2f0	e155000a	cmp	r5, r10
+ec2b8	ec2f4	0a000058	beq	0xec45c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x1a4>
+ec2b8	ec2f8	e59f8174	ldr	r8, [pc, #0x174]
+ec2b8	ec2fc	e28d6004	add	r6, sp, #4
+ec2b8	ec300	e3a07000	mov	r7, #0
+ec2b8	ec304	e08f8008	add	r8, pc, r8
+ec2b8	ec308	e1a00006	mov	r0, r6
+ec2b8	ec30c	e58da004	str	r10, [sp, #0x4]
+ec2b8	ec310	eb008e08	bl	0x10fb38 <utf8_extract_char>
+ec2b8	ec314	e350000a	cmp	r0, #10
+ec2b8	ec318	0a000015	beq	0xec374 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xbc>
+ec2b8	ec31c	e55a3001	ldrb	r3, [r10, #-0x1]
+ec2b8	ec320	e24a2001	sub	r2, r10, #1
+ec2b8	ec324	e3130080	tst	r3, #128
+ec2b8	ec328	0a00001c	beq	0xec3a0 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xe8>
+ec2b8	ec32c	e20330c0	and	r3, r3, #192
+ec2b8	ec330	e35300c0	cmp	r3, #192
+ec2b8	ec334	0a000019	beq	0xec3a0 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xe8>
+ec2b8	ec338	e24a3002	sub	r3, r10, #2
+ec2b8	ec33c	ea000001	b	0xec348 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x90>
+ec2b8	ec340	e35400c0	cmp	r4, #192
+ec2b8	ec344	0a000004	beq	0xec35c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xa4>
+ec2b8	ec348	e1a0a003	mov	r10, r3
+ec2b8	ec34c	e453c001	ldrb	r12, [r3], #-1
+ec2b8	ec350	e31c0080	tst	r12, #128
+ec2b8	ec354	e20c40c0	and	r4, r12, #192
+ec2b8	ec358	1afffff8	bne	0xec340 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x88>
+ec2b8	ec35c	e155000a	cmp	r5, r10
+ec2b8	ec360	1affffe8	bne	0xec308 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x50>
+ec2b8	ec364	e2877001	add	r7, r7, #1
+ec2b8	ec368	e1a00007	mov	r0, r7
+ec2b8	ec36c	e28dd008	add	sp, sp, #8
+ec2b8	ec370	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ec2b8	ec374	e28a0001	add	r0, r10, #1
+ec2b8	ec378	e1a01008	mov	r1, r8
+ec2b8	ec37c	e3a02006	mov	r2, #6
+ec2b8	ec380	ebff2896	bl	0xb65e0 <strncmp@plt>
+ec2b8	ec384	e3500000	cmp	r0, #0
+ec2b8	ec388	0a000008	beq	0xec3b0 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xf8>
+ec2b8	ec38c	e55a3001	ldrb	r3, [r10, #-0x1]
+ec2b8	ec390	e2877001	add	r7, r7, #1
+ec2b8	ec394	e24a2001	sub	r2, r10, #1
+ec2b8	ec398	e3130080	tst	r3, #128
+ec2b8	ec39c	1affffe2	bne	0xec32c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x74>
+ec2b8	ec3a0	e1a0a002	mov	r10, r2
+ec2b8	ec3a4	e155000a	cmp	r5, r10
+ec2b8	ec3a8	1affffd6	bne	0xec308 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x50>
+ec2b8	ec3ac	eaffffec	b	0xec364 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xac>
+ec2b8	ec3b0	e59f30c0	ldr	r3, [pc, #0xc0]
+ec2b8	ec3b4	e28a5007	add	r5, r10, #7
+ec2b8	ec3b8	e5da2007	ldrb	r2, [r10, #0x7]
+ec2b8	ec3bc	e79f3003	ldr	r3, [pc, r3]
+ec2b8	ec3c0	e593c000	ldr	r12, [r3]
+ec2b8	ec3c4	e08c3002	add	r3, r12, r2
+ec2b8	ec3c8	e5d33001	ldrb	r3, [r3, #0x1]
+ec2b8	ec3cc	e3130008	tst	r3, #8
+ec2b8	ec3d0	1a000023	bne	0xec464 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x1ac>
+ec2b8	ec3d4	e28aa008	add	r10, r10, #8
+ec2b8	ec3d8	e1a0400a	mov	r4, r10
+ec2b8	ec3dc	e28aa001	add	r10, r10, #1
+ec2b8	ec3e0	e5d43000	ldrb	r3, [r4]
+ec2b8	ec3e4	e08c3003	add	r3, r12, r3
+ec2b8	ec3e8	e5d33001	ldrb	r3, [r3, #0x1]
+ec2b8	ec3ec	e3130008	tst	r3, #8
+ec2b8	ec3f0	0afffff8	beq	0xec3d8 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x120>
+ec2b8	ec3f4	e2843001	add	r3, r4, #1
+ec2b8	ec3f8	e1a00003	mov	r0, r3
+ec2b8	ec3fc	e2833001	add	r3, r3, #1
+ec2b8	ec400	e5d02000	ldrb	r2, [r0]
+ec2b8	ec404	e08c2002	add	r2, r12, r2
+ec2b8	ec408	e5d22001	ldrb	r2, [r2, #0x1]
+ec2b8	ec40c	e2022008	and	r2, r2, #8
+ec2b8	ec410	e21260ff	ands	r6, r2, #255
+ec2b8	ec414	1afffff7	bne	0xec3f8 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x140>
+ec2b8	ec418	ebff28a6	bl	0xb66b8 <atoi@plt>
+ec2b8	ec41c	e3590000	cmp	r9, #0
+ec2b8	ec420	e0800007	add	r0, r0, r7
+ec2b8	ec424	e2407001	sub	r7, r0, #1
+ec2b8	ec428	0affffce	beq	0xec368 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xb0>
+ec2b8	ec42c	e0654004	rsb	r4, r5, r4
+ec2b8	ec430	e2840001	add	r0, r4, #1
+ec2b8	ec434	ebff2842	bl	0xb6544 <malloc@plt>
+ec2b8	ec438	e1a01005	mov	r1, r5
+ec2b8	ec43c	e1a02004	mov	r2, r4
+ec2b8	ec440	e5890000	str	r0, [r9]
+ec2b8	ec444	ebff285c	bl	0xb65bc <memcpy@plt>
+ec2b8	ec448	e5993000	ldr	r3, [r9]
+ec2b8	ec44c	e1a00007	mov	r0, r7
+ec2b8	ec450	e7c36004	strb	r6, [r3, r4]
+ec2b8	ec454	e28dd008	add	sp, sp, #8
+ec2b8	ec458	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ec2b8	ec45c	e3a07001	mov	r7, #1
+ec2b8	ec460	eaffffc0	b	0xec368 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xb0>
+ec2b8	ec464	e1a04005	mov	r4, r5
+ec2b8	ec468	eaffffe1	b	0xec3f4 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x13c>
+ec2b8	ec46c	e3e07000	mvn	r7, #0
+ec2b8	ec470	eaffffbc	b	0xec368 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xb0>
+ec2b8	ec474	00248844	.word	0x00248844
+ec2b8	ec478	003015c4	.word	0x003015c4

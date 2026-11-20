@@ -285,3 +285,101 @@ entry	va	word	mnemonic	operands
 27c1e4	27c200	e8bd8008	pop	{r3, pc}
 27c1e4	27c204	e1a00003	mov	r0, r3
 27c1e4	27c208	e8bd8008	pop	{r3, pc}
+27ce78	27ce78	e92d4070	push	{r4, r5, r6, lr}
+27ce78	27ce7c	e2506000	subs	r6, r0, #0
+27ce78	27ce80	e1a05003	mov	r5, r3
+27ce78	27ce84	0a00000e	beq	0x27cec4 <_ZN13MemoryManager5AllocEjPKcib+0x4c>
+27ce78	27ce88	ebffffb1	bl	0x27cd54 <_ZN13MemoryManager6_AllocEjPKcib>
+27ce78	27ce8c	e2901000	adds	r1, r0, #0
+27ce78	27ce90	e1a04000	mov	r4, r0
+27ce78	27ce94	13a01001	movne	r1, #1
+27ce78	27ce98	e1110005	tst	r1, r5
+27ce78	27ce9c	1a00000a	bne	0x27cecc <_ZN13MemoryManager5AllocEjPKcib+0x54>
+27ce78	27cea0	e3510000	cmp	r1, #0
+27ce78	27cea4	0a000006	beq	0x27cec4 <_ZN13MemoryManager5AllocEjPKcib+0x4c>
+27ce78	27cea8	e3a00000	mov	r0, #0
+27ce78	27ceac	e1a03006	mov	r3, r6
+27ce78	27ceb0	e1a01000	mov	r1, r0
+27ce78	27ceb4	e1a02004	mov	r2, r4
+27ce78	27ceb8	ebfffb8d	bl	0x27bcf4 <_Z11logLocation8ELogTypePKvS1_j>
+27ce78	27cebc	e1a00004	mov	r0, r4
+27ce78	27cec0	e8bd8070	pop	{r4, r5, r6, pc}
+27ce78	27cec4	e3a00000	mov	r0, #0
+27ce78	27cec8	e8bd8070	pop	{r4, r5, r6, pc}
+27ce78	27cecc	e3a01000	mov	r1, #0
+27ce78	27ced0	e1a02006	mov	r2, r6
+27ce78	27ced4	ebf8e5b5	bl	0xb65b0 <memset@plt>
+27ce78	27ced8	eafffff2	b	0x27cea8 <_ZN13MemoryManager5AllocEjPKcib+0x30>
+27cd54	27cd54	e92d43f8	push	{r3, r4, r5, r6, r7, r8, r9, lr}
+27cd54	27cd58	e1a07000	mov	r7, r0
+27cd54	27cd5c	e59f80fc	ldr	r8, [pc, #0xfc]
+27cd54	27cd60	e1a04003	mov	r4, r3
+27cd54	27cd64	e59f20f8	ldr	r2, [pc, #0xf8]
+27cd54	27cd68	e08f8008	add	r8, pc, r8
+27cd54	27cd6c	e7986002	ldr	r6, [r8, r2]
+27cd54	27cd70	e5960000	ldr	r0, [r6]
+27cd54	27cd74	e3500000	cmp	r0, #0
+27cd54	27cd78	0a000035	beq	0x27ce54 <_ZN13MemoryManager6_AllocEjPKcib+0x100>
+27cd54	27cd7c	eb0004c0	bl	0x27e084 <_ZN5Mutex4LockEv>
+27cd54	27cd80	e1a01004	mov	r1, r4
+27cd54	27cd84	e1a00007	mov	r0, r7
+27cd54	27cd88	ebfffdeb	bl	0x27c53c <_Z11bucketAllocjb>
+27cd54	27cd8c	e2509000	subs	r9, r0, #0
+27cd54	27cd90	11a04009	movne	r4, r9
+27cd54	27cd94	0a000003	beq	0x27cda8 <_ZN13MemoryManager6_AllocEjPKcib+0x54>
+27cd54	27cd98	e5960000	ldr	r0, [r6]
+27cd54	27cd9c	eb0004be	bl	0x27e09c <_ZN5Mutex6UnlockEv>
+27cd54	27cda0	e1a00004	mov	r0, r4
+27cd54	27cda4	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+27cd54	27cda8	e2970010	adds	r0, r7, #16
+27cd54	27cdac	e3a03000	mov	r3, #0
+27cd54	27cdb0	e2a31000	adc	r1, r3, #0
+27cd54	27cdb4	e3e04001	mvn	r4, #1
+27cd54	27cdb8	e3a05000	mov	r5, #0
+27cd54	27cdbc	e1540000	cmp	r4, r0
+27cd54	27cdc0	e0d53001	sbcs	r3, r5, r1
+27cd54	27cdc4	aa000001	bge	0x27cdd0 <_ZN13MemoryManager6_AllocEjPKcib+0x7c>
+27cd54	27cdc8	e3a04000	mov	r4, #0
+27cd54	27cdcc	eafffff1	b	0x27cd98 <_ZN13MemoryManager6_AllocEjPKcib+0x44>
+27cd54	27cdd0	ebf8e5db	bl	0xb6544 <malloc@plt>
+27cd54	27cdd4	e3500000	cmp	r0, #0
+27cd54	27cdd8	0afffffa	beq	0x27cdc8 <_ZN13MemoryManager6_AllocEjPKcib+0x74>
+27cd54	27cddc	e59f1084	ldr	r1, [pc, #0x84]
+27cd54	27cde0	e30c20de	movw	r2, #0xc0de
+27cd54	27cde4	e5807000	str	r7, [r0]
+27cd54	27cde8	e34d2ead	movt	r2, #0xdead
+27cd54	27cdec	e580900c	str	r9, [r0, #0xc]
+27cd54	27cdf0	e30b300b	movw	r3, #0xb00b
+27cd54	27cdf4	e5802004	str	r2, [r0, #0x4]
+27cd54	27cdf8	e34b3aad	movt	r3, #0xbaad
+27cd54	27cdfc	e5803008	str	r3, [r0, #0x8]
+27cd54	27ce00	e2804010	add	r4, r0, #16
+27cd54	27ce04	e7983001	ldr	r3, [r8, r1]
+27cd54	27ce08	e59f005c	ldr	r0, [pc, #0x5c]
+27cd54	27ce0c	e59f105c	ldr	r1, [pc, #0x5c]
+27cd54	27ce10	e593c000	ldr	r12, [r3]
+27cd54	27ce14	e59f2058	ldr	r2, [pc, #0x58]
+27cd54	27ce18	e087c00c	add	r12, r7, r12
+27cd54	27ce1c	e583c000	str	r12, [r3]
+27cd54	27ce20	e7983000	ldr	r3, [r8, r0]
+27cd54	27ce24	e5930000	ldr	r0, [r3]
+27cd54	27ce28	e0870000	add	r0, r7, r0
+27cd54	27ce2c	e5830000	str	r0, [r3]
+27cd54	27ce30	e7983001	ldr	r3, [r8, r1]
+27cd54	27ce34	e5931000	ldr	r1, [r3]
+27cd54	27ce38	e2811001	add	r1, r1, #1
+27cd54	27ce3c	e5831000	str	r1, [r3]
+27cd54	27ce40	e7983002	ldr	r3, [r8, r2]
+27cd54	27ce44	e5932000	ldr	r2, [r3]
+27cd54	27ce48	e0877002	add	r7, r7, r2
+27cd54	27ce4c	e5837000	str	r7, [r3]
+27cd54	27ce50	eaffffd0	b	0x27cd98 <_ZN13MemoryManager6_AllocEjPKcib+0x44>
+27cd54	27ce54	ebfffaaf	bl	0x27b918 <_ZN7CBucketILj8ELj131072ELb1EE4FreeEPKv+0x38>
+27cd54	27ce58	e5960000	ldr	r0, [r6]
+27cd54	27ce5c	eaffffc6	b	0x27cd7c <_ZN13MemoryManager6_AllocEjPKcib+0x28>
+27cd54	27ce60	00174ee8	.word	0x00174ee8
+27cd54	27ce64	fffffbcc	.word	0xfffffbcc
+27cd54	27ce68	ffffe788	.word	0xffffe788
+27cd54	27ce6c	ffffe794	.word	0xffffe794
+27cd54	27ce70	fffffc04	.word	0xfffffc04
+27cd54	27ce74	ffffe790	.word	0xffffe790

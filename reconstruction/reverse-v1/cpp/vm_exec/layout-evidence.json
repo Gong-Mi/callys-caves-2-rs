@@ -712,5 +712,46 @@
     "exit_cleanup": "third bool && signed localsMode>0 && live locals!=NULL; after Free clear locals",
     "snapshot_four_words_before_copy": true,
     "no_original_execution_equivalence": true
+  },
+  "debug_record_helpers": {
+    "entries": [
+      "0xec144",
+      "0xec2b8"
+    ],
+    "record_size": 8,
+    "fields": {
+      "signedInstructionPc": 0,
+      "signedSourceByteOffset": 4
+    },
+    "DebugInfo": "bufferSize4 then unconditional code10 read; logical >>3 count; signed key comparisons; held last qualifying record",
+    "line_scan": "strlen before live record+4; signed shortening only; inverse UTF lead hunt with no extra bound",
+    "private_cursor": "one cell each iteration reloaded with held scan; helper advanced pointer discarded",
+    "marker": {
+      "literal_pool": "0xec474",
+      "pc_add_site": "0xec304",
+      "address": "0x334b50",
+      "bytes_hex": "236c696e6520",
+      "content": "#line "
+    },
+    "ctype": {
+      "literal_pool": "0xec478",
+      "pc_load_site": "0xec3bc",
+      "slot": "0x3ed988",
+      "raw_unresolved_word": 0,
+      "relocations": [
+        {
+          "type": 21,
+          "symbol": "_ctype_"
+        }
+      ],
+      "shape": "GOT -> address of imported _ctype_ pointer cell -> held byte-table pointer; mask8 on table[unsignedByte+1]"
+    },
+    "filename_out": "malloc -> publish*out -> unconditional memcpy return ignored -> live*out -> NUL; no synthetic failure guard",
+    "unproved": [
+      "debug record writer/ownership",
+      "utf8_extract_char original source language/body",
+      "ctype runtime provider",
+      "LR/fault/unwind/concurrency"
+    ]
   }
 }

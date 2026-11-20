@@ -225,6 +225,40 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0xec144",
+      "size": 100,
+      "symbols": [
+        "_ZN2VM9DebugInfoEP8VMBufferi"
+      ],
+      "body_sha256": "87439890927b6584c0e8cd7c393a17df8942afd36668bc4d72418c04cda92ed6",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_debug_info.cpp",
+      "translation_source_sha256": "5ead26e1925f1a8518a6ea0959513c7a5879df105eac426ee7d3b1fb59c96017",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec2b8",
+      "size": 452,
+      "symbols": [
+        "_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc"
+      ],
+      "body_sha256": "174c952b48f63442226baacd2a94b11508ee336d17f3a2f574f12f859be5f46a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_debug_info.cpp",
+      "translation_source_sha256": "5ead26e1925f1a8518a6ea0959513c7a5879df105eac426ee7d3b1fb59c96017",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "layout_evidence": "layout-evidence.json",
@@ -238,11 +272,11 @@
   ],
   "remaining_internal_dependencies": [
     "FREE_RValue__Pre",
-    "YYObjectBase::Alloc/InternalGetYYVar",
     "GetContextStackTop/PushContextStack/PopContextStack",
     "instruction-handler and global/pool producers",
-    "VM::DebugInfo/DebugLineNumber",
-    "DoCallScript"
+    "DoCallScript",
+    "utf8_extract_char (C-linkage; source-language identity pending)",
+    "debug record writer and ctype table import producer"
   ],
   "remaining_scope": [
     "VMExec is an observed 0x60 prefix, not a full-class extent proof; state30 remains unnamed.",
@@ -256,6 +290,7 @@
     "profiler_push_wire.hpp": "bde75c178acb738e6a3b46325c71b77d71d1e5abeae3002023be0de29e93303c",
     "vm_entry_runtime.hpp": "20be56294f4fb04da32122501f1aa9f0291494946ce4ddb848ce5875dfb1d3f3",
     "profiler_node_wire.hpp": "b1f86a5b1b5120b476a64b55c0e9d520c82a2ad093ff569300a290e23e9b9f43",
-    "vm_debug_runtime.hpp": "440573d8455ee782fb4ff878a3a874166db1f49a34af6d5362f9e69e8f8c8d88"
+    "vm_debug_runtime.hpp": "440573d8455ee782fb4ff878a3a874166db1f49a34af6d5362f9e69e8f8c8d88",
+    "vm_debug_info.hpp": "3eb7879c7693bf0ccd6eb5b459b82ea48ad8202a3a8133f67dd7b5e726528060"
   }
 }

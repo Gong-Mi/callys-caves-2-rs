@@ -93,5 +93,70 @@
     "mutex_GOT_slot": "0x3f1824",
     "mutex_GOT_target": "0x756780",
     "reviewer_wrong_slot_not_adopted": "0x3f1828; independent ADD-PC=27cef8+8+174924 gives3f1824"
+  },
+  "Alloc_producers": {
+    "entries": [
+      "0x27cd54",
+      "0x27ce78"
+    ],
+    "global_bindings": [
+      {
+        "pool": "0x27ce64",
+        "slot": "0x3f1824",
+        "target": "0x756780",
+        "symbols": [
+          "g_MemoryMutex"
+        ]
+      },
+      {
+        "pool": "0x27ce68",
+        "slot": "0x3f03e0",
+        "target": "0x756758",
+        "symbols": [
+          "_ZN13MemoryManager7m_TotalE"
+        ]
+      },
+      {
+        "pool": "0x27ce6c",
+        "slot": "0x3f03ec",
+        "target": "0x756754",
+        "symbols": [
+          "_ZN13MemoryManager7m_InUseE"
+        ]
+      },
+      {
+        "pool": "0x27ce70",
+        "slot": "0x3f185c",
+        "target": "0x75674c",
+        "symbols": [
+          "_ZN13MemoryManager15m_StandardCountE"
+        ]
+      },
+      {
+        "pool": "0x27ce74",
+        "slot": "0x3f03e8",
+        "target": "0x756748",
+        "symbols": [
+          "_ZN13MemoryManager14m_StandardSizeE"
+        ]
+      }
+    ],
+    "width_gate": "uint64(size)+16 <=0xfffffffe; no u32 wrap before gate",
+    "header16_write_order": [
+      "requestedSize+0",
+      "held failed bucket result0+c",
+      "deadc0de+4",
+      "baadb00b+8"
+    ],
+    "counter_order": [
+      "m_Total",
+      "m_InUse",
+      "m_StandardCount+1",
+      "m_StandardSize"
+    ],
+    "mutex": "initial live read; after lazy init reread; after allocation live Unlock receiver",
+    "file_line": "ABI retained, _Alloc does not consume; wrapper forwards",
+    "wrapper": "size0 skips all; normal bool0/1 conditional memset, then true logLocation and held pointer return",
+    "bucketAlloc_body": "declaration debt only"
   }
 }
