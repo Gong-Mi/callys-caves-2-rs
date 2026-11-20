@@ -2,7 +2,7 @@
   "scope": "ScriptRef/GetCode/local stack and actual GC Context Stack static C++ candidates; no execution or full object/initial-state proof.",
   "base": "4cd8354d5d912b14ad566fd292ad1e26adb4e4b4",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "e3ea1a83438b4eb21e5bfcb82b0455f4fedf97b77d3029f2feeffa0de08aad43",
+  "shared_receipt_sha256": "6dff40f004b9527f31e6398c5c44dc481890294719f6b59d5627a2d7d014c0ff",
   "header_sha256": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
   "canonical_api_header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
   "sources_sha256": {

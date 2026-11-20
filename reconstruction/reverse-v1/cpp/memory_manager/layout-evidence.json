@@ -516,5 +516,53 @@
     ],
     "original_executed": false,
     "limitations": "Observed raw words and globals only; no complete C++ bucket class, anonymous-state provider, unwinding/invalid-address/concurrency proof."
+  },
+  "page_boundary_producer": {
+    "entry": "0x27bcf8",
+    "word_pair_bytes": 8,
+    "begin_offset": 0,
+    "last_offset": 4,
+    "state_got": {
+      "g_bucketNumPages": {
+        "got_slot": "0x3f1830",
+        "global": "0x7566a4",
+        "pool": "0x27be28",
+        "type": "R_ARM_RELATIVE"
+      },
+      "pagedata_size": {
+        "got_slot": "0x3f1834",
+        "global": "0x75669c",
+        "pool": "0x27be2c",
+        "type": "R_ARM_RELATIVE"
+      },
+      "g_pages": {
+        "got_slot": "0x3f1838",
+        "global": "0x7566a0",
+        "pool": "0x27be30",
+        "type": "R_ARM_RELATIVE"
+      }
+    },
+    "scope": "paired boundary producer with signed capacity/count gate, held realloc return, memmove live reload and final count publication; other providers and invalid domains not certified",
+    "original_executed": false
+  },
+  "plain_operator_wrappers": {
+    "new_line_scalar": 1317,
+    "new_line_array": 1323,
+    "tag": {
+      "address": "0x3571e8",
+      "text": "jni/../jni/yoyo/../../../Platform/MemoryManager.cpp",
+      "scalars": 1317,
+      "arrays": 1323
+    },
+    "allocator_callers": [
+      "0x27c524",
+      "0x27d14c"
+    ],
+    "deallocator_callers": [
+      "0x27d1d0",
+      "0x27d1d4"
+    ],
+    "compile_scope": "Only memory_operators.cpp has -fno-exceptions; preserves two Alloc + two Free O2 tail relocations without marking shared Free noexcept. O0 regular CALL. No whole-engine unwind certification.",
+    "original_executed": false
   }
 }

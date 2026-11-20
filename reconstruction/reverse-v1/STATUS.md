@@ -1,6 +1,22 @@
 # 状态与定性
 
-## 当前断点：分桶分配与 GC Context Stack
+## 当前断点：页边界表生产者与普通分配/释放运算符
+
+`cpp/memory_manager/page_registry.cpp` 恢复 `addPageToGlobalPageList@0x27bcf8`，与
+`globalPageListFindAddr` 消费同一个两词边界数组。保留有符号容量门、32位扩容算术及原 libc
+调用；realloc 后先取 live count，再发布并沿用返回数组，不从已发布的 cell 多读一次。
+memmove 后则确实先读 live array 再读 live count，最后依次写 begin、end、count。
+
+`memory_operators.cpp` 恢复普通标量/数组 new、delete 四体（不含其他重载）；真实 Alloc/Free
+绑定，原 tag 与 1317/1323、true 实参不变。仅此 TU 使用 `-fno-exceptions`，不改共享 Free
+的声明；O2 四条为真实尾跳，两个 delete 正文各4B，O0 的真实调用另记。未认证原件全局 unwind。
+
+本批五原入口、93原索引字（6池字）。O0/O2 各40TU、83个原符号名与15项ABI核对通过；
+逐档在移走页表/运算符 TU 时，分别检出对应1/4个真实未解析名。独立静态复核无正文缺陷。
+下一断口为具体 `CBucket` 类型的虚表和方法；仍有初始状态/其他生产者及异常、坏域、并发缺口。
+`phase_complete=false`，未运行任何目标、未安装、未推送。
+
+## 已提交基础：分桶分配与 GC Context Stack（9daf807）
 
 `cpp/memory_manager/memory_buckets.cpp` 恢复 `bucketAlloc@0x27c53c` 的七个尺寸分支；
 `cpp/scripting/context_stack.cpp` 恢复 `PushContextStack@0xd3968`、`PopContextStack@0xd3a34`
@@ -14,8 +30,8 @@ Context 的 grow 只在 Top==Max；双倍经 u32 回绕，两路各发布一次 
 先读 live Top，再依次发数组、Top、元素。Pop/Get 保留有符号门。
 
 O0/O2 各38 TU，78 个原符号名齐全；新 ARM32 ABI 工具实跑12项原件/目标对象符号检查。
-独立源审无正文缺陷。`addPageToGlobalPageList`、普通 new/delete 已有隔离候选，
-尚未纳入本次累计构建；具体 CBucket 方法、原始初始化、异常/LR/坏域/并发仍欠。
+独立源审无正文缺陷。该批构建尚未纳入随后接收的 `addPageToGlobalPageList`、普通 new/delete；
+具体 CBucket 方法、原始初始化、异常/LR/坏域/并发仍欠。
 `phase_complete=false`；本批没有运行原件或重建件、没有安装或推送。
 
 ## 已提交基础：MemoryManager分配与调试记录/源码行解析（4cd8354）

@@ -382,3 +382,21 @@ Pop/Get 无 GC 门，对原 Top 作 signed 判断，不补清槽/判空/对齐�
 四入口/592原字含23池字；当前源码和累计目标 O0/O2 各38TU，78个原符号名核齐，未执行
 原件/重建。继续沿 `addPageToGlobalPageList@0x27bcf8` 与实际普通分配/释放包装补生产者；
 完整 CBucket 虚表、初始全局提供者、原LR/unwind、坏域及并发未证。
+
+## 页边界表生产者与普通分配/释放运算符
+
+原 `addPageToGlobalPageList@0x27bcf8` 从相同 `g_pages` / `g_bucketNumPages` / `pagedata_size`
+三槽工作。signed `(count+1)>=cap` 走扩容，先按原 wrap32 tripling/偏置/ASR1 发布 cap，后取
+旧指针传 libc realloc；返回先读 live count，再发返回地址，继续用 held 返回值，不回读 cell。
+扫描使用8B stride、unsigned 地址比较、零哨兵和原索引终点。需要插入搬移时实际 memmove
+使用 held array/index/count；回后按 0x27bdc4/0x27bdc8 先读 live array，再读 live count，
+按 held index 定位，先写起止两个原字再发布 count+1。不另添清零/失败guard或容器语义。
+
+`_Znwj@0x27c524` 与 `_Znaj@0x27d14c` 原 r0 字宽透传给 MemoryManager::Alloc；共享
+`MemoryManager.cpp` 字面量从 PC 的实际 add 站点各自解到 0x3571e8，标量行1317、数组
+行1323、第四 bool true。`_ZdlPv@0x27d1d0`/`_ZdaPv@0x27d1d4` 都直接调用已恢复 Free，
+不经 delete 表达式或额外判空。只在此 TU 的目标编译禁 exceptions，保留原尾边而不把共享
+Free 声明改作 `noexcept`。O2 四个 JUMP24；O0 四个 CALL；这是静态对象形状，不证异常展开。
+
+五入口、93原字（6池字）。O0/O2各40TU/83原名字齐全，原件与对象15项ABI核对通过；
+去掉指定的真实 TU 即缺少绑定过的原名。原件、重建件均未运行，完整分配器状态/类和坏域未证。

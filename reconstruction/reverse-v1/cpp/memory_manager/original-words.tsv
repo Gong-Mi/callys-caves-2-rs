@@ -901,3 +901,96 @@ entry	va	word	mnemonic	operands
 27c53c	27cd48	fffffbfc	.word	0xfffffbfc
 27c53c	27cd4c	ffffbac4	.word	0xffffbac4
 27c53c	27cd50	000da87c	.word	0x000da87c
+27bcf8	27bcf8	e59f2124	ldr	r2, [pc, #0x124]
+27bcf8	27bcfc	e59f3124	ldr	r3, [pc, #0x124]
+27bcf8	27bd00	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+27bcf8	27bd04	e08f2002	add	r2, pc, r2
+27bcf8	27bd08	e1a09001	mov	r9, r1
+27bcf8	27bd0c	e59f1118	ldr	r1, [pc, #0x118]
+27bcf8	27bd10	e7928003	ldr	r8, [r2, r3]
+27bcf8	27bd14	e1a06000	mov	r6, r0
+27bcf8	27bd18	e7920001	ldr	r0, [r2, r1]
+27bcf8	27bd1c	e5984000	ldr	r4, [r8]
+27bcf8	27bd20	e5903000	ldr	r3, [r0]
+27bcf8	27bd24	e2841001	add	r1, r4, #1
+27bcf8	27bd28	e1510003	cmp	r1, r3
+27bcf8	27bd2c	aa000028	bge	0x27bdd4 <_Z23addPageToGlobalPageListPvS_+0xdc>
+27bcf8	27bd30	e59f30f8	ldr	r3, [pc, #0xf8]
+27bcf8	27bd34	e792a003	ldr	r10, [r2, r3]
+27bcf8	27bd38	e59a1000	ldr	r1, [r10]
+27bcf8	27bd3c	e3540000	cmp	r4, #0
+27bcf8	27bd40	da000030	ble	0x27be08 <_Z23addPageToGlobalPageListPvS_+0x110>
+27bcf8	27bd44	e5913000	ldr	r3, [r1]
+27bcf8	27bd48	e1560003	cmp	r6, r3
+27bcf8	27bd4c	3a00002f	blo	0x27be10 <_Z23addPageToGlobalPageListPvS_+0x118>
+27bcf8	27bd50	e3530000	cmp	r3, #0
+27bcf8	27bd54	0a00002b	beq	0x27be08 <_Z23addPageToGlobalPageListPvS_+0x110>
+27bcf8	27bd58	e2812008	add	r2, r1, #8
+27bcf8	27bd5c	e3a03000	mov	r3, #0
+27bcf8	27bd60	ea000005	b	0x27bd7c <_Z23addPageToGlobalPageListPvS_+0x84>
+27bcf8	27bd64	e592c000	ldr	r12, [r2]
+27bcf8	27bd68	e2822008	add	r2, r2, #8
+27bcf8	27bd6c	e15c0006	cmp	r12, r6
+27bcf8	27bd70	8a00000c	bhi	0x27bda8 <_Z23addPageToGlobalPageListPvS_+0xb0>
+27bcf8	27bd74	e35c0000	cmp	r12, #0
+27bcf8	27bd78	0a000005	beq	0x27bd94 <_Z23addPageToGlobalPageListPvS_+0x9c>
+27bcf8	27bd7c	e2833001	add	r3, r3, #1
+27bcf8	27bd80	e1a05002	mov	r5, r2
+27bcf8	27bd84	e1530004	cmp	r3, r4
+27bcf8	27bd88	e1a07183	lsl	r7, r3, #3
+27bcf8	27bd8c	1afffff4	bne	0x27bd64 <_Z23addPageToGlobalPageListPvS_+0x6c>
+27bcf8	27bd90	e0815184	add	r5, r1, r4, lsl #3
+27bcf8	27bd94	e5856000	str	r6, [r5]
+27bcf8	27bd98	e2844001	add	r4, r4, #1
+27bcf8	27bd9c	e5859004	str	r9, [r5, #0x4]
+27bcf8	27bda0	e5884000	str	r4, [r8]
+27bcf8	27bda4	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+27bcf8	27bda8	e2830001	add	r0, r3, #1
+27bcf8	27bdac	e1a00180	lsl	r0, r0, #3
+27bcf8	27bdb0	e0632004	rsb	r2, r3, r4
+27bcf8	27bdb4	e0810000	add	r0, r1, r0
+27bcf8	27bdb8	e1a01005	mov	r1, r5
+27bcf8	27bdbc	e1a02182	lsl	r2, r2, #3
+27bcf8	27bdc0	ebf8ea33	bl	0xb6694 <memmove@plt>
+27bcf8	27bdc4	e59a5000	ldr	r5, [r10]
+27bcf8	27bdc8	e5984000	ldr	r4, [r8]
+27bcf8	27bdcc	e0855007	add	r5, r5, r7
+27bcf8	27bdd0	eaffffef	b	0x27bd94 <_Z23addPageToGlobalPageListPvS_+0x9c>
+27bcf8	27bdd4	e0833083	add	r3, r3, r3, lsl #1
+27bcf8	27bdd8	e59fc050	ldr	r12, [pc, #0x50]
+27bcf8	27bddc	e0833fa3	add	r3, r3, r3, lsr #31
+27bcf8	27bde0	e1a010c3	asr	r1, r3, #1
+27bcf8	27bde4	e5801000	str	r1, [r0]
+27bcf8	27bde8	e792a00c	ldr	r10, [r2, r12]
+27bcf8	27bdec	e1a01181	lsl	r1, r1, #3
+27bcf8	27bdf0	e59a0000	ldr	r0, [r10]
+27bcf8	27bdf4	ebf8eb8b	bl	0xb6c28 <realloc@plt>
+27bcf8	27bdf8	e5984000	ldr	r4, [r8]
+27bcf8	27bdfc	e1a01000	mov	r1, r0
+27bcf8	27be00	e58a0000	str	r0, [r10]
+27bcf8	27be04	eaffffcc	b	0x27bd3c <_Z23addPageToGlobalPageListPvS_+0x44>
+27bcf8	27be08	e1a05001	mov	r5, r1
+27bcf8	27be0c	eaffffe0	b	0x27bd94 <_Z23addPageToGlobalPageListPvS_+0x9c>
+27bcf8	27be10	e3a07000	mov	r7, #0
+27bcf8	27be14	e1a05001	mov	r5, r1
+27bcf8	27be18	e1a03007	mov	r3, r7
+27bcf8	27be1c	e3a00008	mov	r0, #8
+27bcf8	27be20	eaffffe2	b	0x27bdb0 <_Z23addPageToGlobalPageListPvS_+0xb8>
+27bcf8	27be24	00175f4c	.word	0x00175f4c
+27bcf8	27be28	fffffbd8	.word	0xfffffbd8
+27bcf8	27be2c	fffffbdc	.word	0xfffffbdc
+27bcf8	27be30	fffffbe0	.word	0xfffffbe0
+27c524	27c524	e59f100c	ldr	r1, [pc, #0xc]
+27c524	27c528	e3002525	movw	r2, #0x525
+27c524	27c52c	e3a03001	mov	r3, #1
+27c524	27c530	e08f1001	add	r1, pc, r1
+27c524	27c534	ea00024f	b	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+27c524	27c538	000dacb0	.word	0x000dacb0
+27d14c	27d14c	e59f100c	ldr	r1, [pc, #0xc]
+27d14c	27d150	e300252b	movw	r2, #0x52b
+27d14c	27d154	e3a03001	mov	r3, #1
+27d14c	27d158	e08f1001	add	r1, pc, r1
+27d14c	27d15c	eaffff45	b	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+27d14c	27d160	000da088	.word	0x000da088
+27d1d0	27d1d0	eafffc3e	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+27d1d4	27d1d4	eafffc3d	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
