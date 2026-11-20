@@ -2518,7 +2518,7 @@
   "original_executed": false,
   "rebuilt_executed": false,
   "declaration_only_extension": "YYObjectBase::FreeVars/RVariable forward declaration; latest target combination recorded by object_base validation.",
-  "shared_receipt_sha256": "5be04f8a042f2b0b1e0cf294428e6a0c7dda091a09c7332e655e5a959dfd454e",
+  "shared_receipt_sha256": "0b068b9edae9fc3efd05695fc86511e63534c8365c30702fb4f996c2c2ffa5ed",
   "header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
   "literal_count_correction": "Previous30 overstated prior pool count by2. Entry-wise raw tail pools: Release9+Return5+Pop0+Push1+Exec12+FindNode1+refdec0+noops0=28; new ExecDebug17 gives45. Original word total1182 unchanged; not new code/behavior evidence."
 }

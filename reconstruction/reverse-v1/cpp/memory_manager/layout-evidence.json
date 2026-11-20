@@ -674,5 +674,45 @@
       "rel_addend_file_word": "0x7566ac",
       "probe": "Check literal 0x172840@0x27b3e0 with base 0x27b384+8 resolves 0x3edbcc; R_ARM_RELATIVE sym=0, file word 0x7566ac == checkCounter st_value"
     }
+  },
+  "cbucket_false_family": {
+    "instantiations": [
+      "7CBucketILj16ELj1048576ELb0EE",
+      "7CBucketILj32768ELj1048576ELb0EE"
+    ],
+    "vtables": {
+      "7CBucketILj16ELj1048576ELb0EE": {
+        "vtable": "0x3ebaa8",
+        "address_point": "0x3ebab0",
+        "entries": {
+          "offset_to_top": "0x0",
+          "RTTI": "0x3eba5c",
+          "Init": "0x190c40",
+          "Check": "0x190c54",
+          "GetSize": "0x190cd0",
+          "Free": "0x190bc8"
+        }
+      },
+      "7CBucketILj32768ELj1048576ELb0EE": {
+        "vtable": "0x3eb908",
+        "address_point": "0x3eb910",
+        "entries": {
+          "offset_to_top": "0x0",
+          "RTTI": "0x3eb8d8",
+          "Init": "0xd338c",
+          "Check": "0xd33a0",
+          "GetSize": "0xd341c",
+          "Free": "0xd3314"
+        }
+      }
+    },
+    "vmi_rtti_pattern": "[_ZTVN10__cxxabiv121__vmi_class_type_infoE, _ZTS<inst>, 0, 1, _ZTI11CBucketBase, 0]",
+    "checkCounter": {
+      "two_stage_pc_chain": "inst16: 0x190c64 ldr r4,[pc,#0x60] -> pool 0x190ccc 0x0025cf54 -> 0x190c70+8+0x25cf54 = 0x3edbcc; inst32768: 0xd33b0+8+0x60=0xd3418 pool 0x0031a808 -> 0xd33bc+8+0x31a808 = 0x3edbcc; same cell as the seven true-mode bodies",
+      "slot": "0x3edbcc",
+      "rel": "R_ARM_RELATIVE",
+      "file_word": "0x7566ac"
+    },
+    "free_semantics": "page-chain ownership search: empty pageHead or exhausted chain returns 0 with zero writes; [page+8,page+1048576+8) hit jumps to the shared three-snapshot/publish tail and returns 1; differs from true-mode unconditional freelist push"
   }
 }

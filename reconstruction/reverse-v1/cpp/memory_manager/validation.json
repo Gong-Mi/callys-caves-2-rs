@@ -1,9 +1,8 @@
 {
-  "scope": "C++ memory/page-boundary/allocation operators and seven true-mode CBucket template virtual methods; cumulative static ARMv7 build; no application or ELF execution.",
+  "scope": "C++ memory/page-boundary/allocation operators and both CBucket template families (seven true-mode + two false-mode instances), all 36 virtual methods; cumulative static ARMv7 build; no application or ELF execution.",
   "base": "9daf807d4482c87543f1b8f4df7f6af1544d9d3e",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "input_sha256": {
-    "reconstruction/reverse-v1/c/compiler_conversions/original-words.tsv": "27feba6aa489689aa65a665a82f4f705693eb8fb018617234dfdd6934c71f2c0",
     "reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c": "ba80acdd9b3ee0d9edd90a01f9ff9b06bbe70515994362105bd03fed032b7eb1",
     "reconstruction/reverse-v1/c/compiler_conversions/src/conversions.h": "5295867f65ebbbbd7f7c459e74bd304ce7f55767afd52a3e4aeaf531f96de07e",
     "reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c": "ecb280b2173806da1c8700d8329484a76b74f4d636c57fb5685bd015030a86d5",
@@ -12,9 +11,12 @@
     "reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp": "999390fe3da464f2296fccd43390a3327a04597db92da182a8c0584e21cf90c8",
     "reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp": "a518b76e3a5af891dce784e37483c14c96c5bea587e850bbb2813e650eb0545a",
     "reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp": "c19cc4c658d0f335e7fd11546fdbdfc21112fd41845e08b324b2d4df570eb02c",
-    "reconstruction/reverse-v1/cpp/memory_manager/layout-evidence.json": "f4c8ef3c974b594cc2ec708324f6260bb58e9ddd00a73665037a0a0bd0343c9b",
+    "reconstruction/reverse-v1/cpp/memory_manager/cbucket_classes.hpp": "d3d8d39e4449e3a63621ae494760d147cb196685247fe9ee1df8954e4a4436d3",
+    "reconstruction/reverse-v1/cpp/memory_manager/cbucket_init_check.ipp": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+    "reconstruction/reverse-v1/cpp/memory_manager/cbucket_size_free.ipp": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_alloc.cpp": "829099f6b84b3940fb5fbe80b60d0419ca6a2fc887d412dd4650fa255fe8fade",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_alloc.hpp": "f85668fca7fdc12b726538dab7ad3a12e9aa3992d87b16dc1f235cd968d1d6bd",
+    "reconstruction/reverse-v1/cpp/memory_manager/memory_bucket_members.cpp": "ebe9a944d6af1cac4c4f00d158bb970dbce24f7af30db771d016f485ba927bfe",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_buckets.cpp": "928a258cc35615c7fa30532dbb0519eec2674fd00c29a856bac161a04ce45b9f",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_buckets.hpp": "28bb9d017f9dfbc480ceeba6bec5d14e8d0618f917e58d4a8109fbe35ddde616",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp": "8e1e8f49498670a1cd4467bf488df09f1eb56fd19d712b3b22148fcabb34ef3e",
@@ -23,29 +25,24 @@
     "reconstruction/reverse-v1/cpp/memory_manager/memory_operators.cpp": "d44193135d6f4ac4c133090567f218eb61e45cbf3900d9daf9d5ae49ae8b6e27",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_realloc.cpp": "d807ddc727b9514cd57447d2251f6609f2261ce442d903b83ee7facf3296ef87",
     "reconstruction/reverse-v1/cpp/memory_manager/memory_realloc_internal.hpp": "708816f6445c68ecbacbbb067c16fcc5a245625d5869ce4acb289e61d30f4e4f",
-    "reconstruction/reverse-v1/cpp/memory_manager/original-words.tsv": "bf649dc50a2dd291ffe4b4677b1656230d961a6ccc75a5fdb8ddd7416aa937df",
     "reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp": "986220ae583c22a829ebce198a95900449abbe0de4f47439acf0a53ed13beae1",
     "reconstruction/reverse-v1/cpp/memory_manager/page_lookup.hpp": "db3b0281f4c325429f8f7d8c4412a636d5e8fe46d13bf376d0a1814ae410e521",
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.cpp": "75e4e6748433fc405bd24ea61bf8ce81a761125b3fd03c46139e95e6f29bfe0b",
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
     "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "38f406d8e24196e5a03b40563fc9ef36d0537a9504f085715b3d5aa5687c6880",
     "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
-    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "6cce4075de32f6615b2a1acc2062654e73c1c57aa8ab9dec566d4ca89c5fd094",
     "reconstruction/reverse-v1/cpp/object_base/object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp": "9d54c61fa1b7ba35ff07d05f8e4aa84592aa5a1f12f7dd195f01bc34f90f222e",
     "reconstruction/reverse-v1/cpp/object_base/object_free.cpp": "500508b69cb09af9e7d89969f2c760c4b5f09e395a8474d1607dedcb7233f758",
     "reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
     "reconstruction/reverse-v1/cpp/object_base/object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45",
     "reconstruction/reverse-v1/cpp/object_base/object_internal.hpp": "ff3e3d1d4c126aa377ea0d2caca45793e2f03102aa34c681be6f1cf37bc93ea1",
-    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "edaf0ec66014c91b5137e4d7d378a4ca008a29a907e192b488697f72090b9bee",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp": "519a06c4fe88466b673f21342a5b8d0d0f5b231d0e8a8af784bede46a904d638",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp": "73739c0c2d5e8cfd7c585ec6b944dee79abf30237674bd1937198896f4fc1b73",
     "reconstruction/reverse-v1/cpp/scripting/abi_layout.cpp": "8f8cbb223a9c114417b5159c265a4202de6bc4e156c955d89447e11a178a9ad7",
     "reconstruction/reverse-v1/cpp/scripting/context_stack.cpp": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3",
     "reconstruction/reverse-v1/cpp/scripting/context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61",
-    "reconstruction/reverse-v1/cpp/scripting/layout-evidence.json": "71cce603929f41056eec5ca38aa81aff128b6e7388fae2f9de6bc3ff2a5ffc23",
-    "reconstruction/reverse-v1/cpp/scripting/original-words.tsv": "beba8d3d1f2a1bdbbc805c64db29cb06d87a81af49eed29c6f76b8cc91435ccf",
     "reconstruction/reverse-v1/cpp/scripting/script_runtime.cpp": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
     "reconstruction/reverse-v1/cpp/scripting/script_runtime.hpp": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
     "reconstruction/reverse-v1/cpp/timing/abi_layout.cpp": "ef93cb2020b08071f62660b17ed2cbc40bef6b613fd08f99fe864f76c738b8c2",
@@ -57,8 +54,6 @@
     "reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
     "reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp": "4bab16563eb25ed220f1d710d1e82b28ddd6cf3ac603747d3966c3053d0a1dac",
     "reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp": "cc4a2f0ab27727252c48510a67f891d3abb5ef27a9ac459c2f1c9fb9eb31eae7",
-    "reconstruction/reverse-v1/cpp/vm_exec/layout-evidence.json": "2fa329071279927e0c1a82b66a8486f8b37fa2690e276fb3062b6253cbf3d584",
-    "reconstruction/reverse-v1/cpp/vm_exec/original-words.tsv": "4f304af10448e3a60d2f9aa67ab9daf0fb9ffc0d57d75afd4e84614a8b18d8eb",
     "reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp": "3dd332e394c2a7c1a117288d36bc9454592737cfb5dbdf4a14670f5fd466b06f",
     "reconstruction/reverse-v1/cpp/vm_exec/profiler_node.cpp": "6ac3abdbc685dc02107b52ae01e1cd4d3d6b2e02c22148ae213bba600f2c2429",
     "reconstruction/reverse-v1/cpp/vm_exec/profiler_node_wire.hpp": "b1f86a5b1b5120b476a64b55c0e9d520c82a2ad093ff569300a290e23e9b9f43",
@@ -73,7 +68,19 @@
     "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp": "c64e3e270fcea5ed3ad854f4857834c8783655136402ac1e40f6105505392f77",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_entry.cpp": "f2e6d9868a88db8d8d18b218b11bcb621072a7bf84cfa35a6ffcd4ffd631b735",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp": "66096a71d592bb83074df31aaf7def73829c26327e2f5066e0a2ec23455243ac",
-    "reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171"
+    "reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171",
+    "reconstruction/reverse-v1/c/compiler_conversions/original-words.tsv": "27feba6aa489689aa65a665a82f4f705693eb8fb018617234dfdd6934c71f2c0",
+    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "6cce4075de32f6615b2a1acc2062654e73c1c57aa8ab9dec566d4ca89c5fd094",
+    "reconstruction/reverse-v1/cpp/scripting/original-words.tsv": "beba8d3d1f2a1bdbbc805c64db29cb06d87a81af49eed29c6f76b8cc91435ccf",
+    "reconstruction/reverse-v1/cpp/scripting/layout-evidence.json": "71cce603929f41056eec5ca38aa81aff128b6e7388fae2f9de6bc3ff2a5ffc23",
+    "reconstruction/reverse-v1/cpp/memory_manager/layout-evidence.json": "a964b399852e7287a78b1b4ab7f34584dab7d5e1d0e7faf1b61a68f37b2eaf49",
+    "reconstruction/reverse-v1/cpp/vm_exec/original-words.tsv": "4f304af10448e3a60d2f9aa67ab9daf0fb9ffc0d57d75afd4e84614a8b18d8eb",
+    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "edaf0ec66014c91b5137e4d7d378a4ca008a29a907e192b488697f72090b9bee",
+    "reconstruction/reverse-v1/cpp/memory_manager/original-words.tsv": "1cbe81ad74d05bf804a0feed87d6a308bda0470c3f423eba57a4ff464a26c29a",
+    "reconstruction/reverse-v1/cpp/vm_exec/layout-evidence.json": "2fa329071279927e0c1a82b66a8486f8b37fa2690e276fb3062b6253cbf3d584",
+    "reconstruction/reverse-v1/cpp/memory_manager/cbucket_false_check.ipp": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+    "reconstruction/reverse-v1/cpp/memory_manager/cbucket_false_free.ipp": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+    "reconstruction/reverse-v1/cpp/memory_manager/memory_bucket_false_members.cpp": "4e64ed3f18ba1bcd5204010c0c52b74865ff22bad907740c164c8d3dadbf4b71"
   },
   "registry_sha256": {
     "reconstruction/reverse-v1/cpp/vm_exec/functions.json": "7971f874d70c406b44040c9f82a678caf991096e7359417cf4e4fab9d7a42228",
@@ -115,10 +122,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -144,10 +151,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_free.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_free.o",
           "object_sha256": "91c68ca1008be8a4b52d062ace26123f5608695f032ffb60face7601710aa547"
         },
         {
@@ -173,10 +180,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_helpers.o",
           "object_sha256": "6a1321de61becf7e8d08f4e693e5f435711c00611d13be79d152d2af9ee72cad"
         },
         {
@@ -202,10 +209,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/timing/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/timing_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/timing_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/timing_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/timing_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -231,10 +238,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/timing/timing.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/timing_timing.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/timing_timing.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/timing_timing.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/timing_timing.o",
           "object_sha256": "ef14b9bdcb6dd5f3d29f17212825d3240b510d8469df284f49fc4c790dad531a"
         },
         {
@@ -260,10 +267,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -289,10 +296,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_release.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_exec_release.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_release.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_exec_release.o",
           "object_sha256": "6dca6b78c3106eb35f80ab9c0f1279a5ec6c3f788900b53d44a9560ea4f60216"
         },
         {
@@ -318,10 +325,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_perform_return.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_perform_return.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_perform_return.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_perform_return.o",
           "object_sha256": "2a978cb74ede1601aff77796e00e25ee3afc4f9eed6f225442d8f17f60b2d426"
         },
         {
@@ -347,10 +354,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_pop.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_profiler_pop.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_pop.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_profiler_pop.o",
           "object_sha256": "fa2b8aa6aaadf1b6600b502f184099c5e84148f7198fb1a6d22f1c34fe97dd80"
         },
         {
@@ -376,10 +383,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_buffer_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_buffer_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -405,10 +412,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_vm_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_buffer_vm_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_vm_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_buffer_vm_buffer.o",
           "object_sha256": "fe994b3981effdafaad96deed3477c02253832dc3c2a4f64857596e8ef1ddb33"
         },
         {
@@ -434,10 +441,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_vm_write_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_buffer_vm_write_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_vm_write_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_buffer_vm_write_buffer.o",
           "object_sha256": "510e3c8295ee548b089c289f0f89033d25539ea5532198aac62a0b8bd24eed93"
         },
         {
@@ -463,10 +470,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_wad_memory.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_buffer_wad_memory.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_wad_memory.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_buffer_wad_memory.o",
           "object_sha256": "be7960c07ca877c93fdc23bcd9a579497dca6e1c6ddc6072b986df69e98dd53f"
         },
         {
@@ -492,10 +499,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/ccode_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/ccode_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -521,10 +528,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_ccode_construct.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/ccode_ccode_construct.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_ccode_construct.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/ccode_ccode_construct.o",
           "object_sha256": "de95d2b34fc5df7885704455f31539087af532e9dae588a1504ee4e7a4f57994"
         },
         {
@@ -550,10 +557,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_ccode_lifetime.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/ccode_ccode_lifetime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_ccode_lifetime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/ccode_ccode_lifetime.o",
           "object_sha256": "a67b8dc9fe07d4d2709f2089e997cf3e2c1fb6f9ac7a0c5de968c5c56fe99aab"
         },
         {
@@ -579,10 +586,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_page_lookup.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_page_lookup.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_page_lookup.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_page_lookup.o",
           "object_sha256": "831247991baeafe65d777769f8bd5d81fca0f9cf05f9d25679583cb1dda829b6"
         },
         {
@@ -606,10 +613,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/src_conversions.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/compiler_conversions_conversions.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/src_conversions.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/compiler_conversions_conversions.o",
           "object_sha256": "adc9e489764f1ccdcc366383304516580f573634289e74966e534f089345043c"
         },
         {
@@ -635,10 +642,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -664,10 +671,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/object_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_free.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_object_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_object_free.o",
           "object_sha256": "790ce150a8ab5f919855c5ad769d232874d678e6adc1ca9f61591bd0ddac4879"
         },
         {
@@ -693,10 +700,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_free_vars.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_object_free_vars.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_free_vars.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_object_free_vars.o",
           "object_sha256": "9f8fb0b24c46ebcd3370f841e39592bd1af293c0a706e937278403a691881b14"
         },
         {
@@ -720,10 +727,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/src_fixunsdfsi.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/compiler_conversions_fixunsdfsi.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/src_fixunsdfsi.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/compiler_conversions_fixunsdfsi.o",
           "object_sha256": "566f7c9792c8b5bdd599a3438f6ced75ca26726091628855a6b47c55ed1f3a0f"
         },
         {
@@ -749,10 +756,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_value_pool.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_value_pool.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_value_pool.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_value_pool.o",
           "object_sha256": "81d69c7cd81173b081696f25ea4ccf13935a2aaae8f08fa7737e44e7cccfec3e"
         },
         {
@@ -778,10 +785,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_js_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_js_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_js_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_js_helpers.o",
           "object_sha256": "5f4b019afcc55951e311d3d736748912b0e35138610839960f60185f0f1d07f7"
         },
         {
@@ -807,10 +814,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/scripting/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/scripting_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/scripting_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/scripting_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/scripting_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -836,10 +843,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/scripting/script_runtime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/scripting_script_runtime.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/scripting_script_runtime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/scripting_script_runtime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/scripting_script_runtime.o",
           "object_sha256": "7f87dfe9eab7d1a77fa6a4d123028c8eb7ba86b8e9a4cfba6c9f3ee280584d8c"
         },
         {
@@ -865,10 +872,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_push.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_push.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_profiler_push.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_push.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_profiler_push.o",
           "object_sha256": "3788a2be30cfc07d2dbd4673c04a47d052a3162d12a3a0b0447d33c2be44871c"
         },
         {
@@ -894,10 +901,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_entry.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_entry.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_exec_entry.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_entry.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_exec_entry.o",
           "object_sha256": "e4685fa248052f42b8f04fb430349497f04aab213e3b108447c9830024e2821d"
         },
         {
@@ -923,10 +930,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_value_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_value_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_value_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_value_helpers.o",
           "object_sha256": "72916ee0424e59da5fc015c717ea817b12eeb90bf6f1748a2078c2f6a0c1b383"
         },
         {
@@ -952,10 +959,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_node.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_node.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_profiler_node.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_node.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_profiler_node.o",
           "object_sha256": "fa38b86afb405757c19ed475a2562d1e5e65f737f75bf5db4e26b0574bf52c0b"
         },
         {
@@ -981,10 +988,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_realloc.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_realloc.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_realloc.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_realloc.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_realloc.o",
           "object_sha256": "0b2b96873694895fc6b7d75d1e56a1fa2680389eedf169071db99f2ee0b712f3"
         },
         {
@@ -1010,10 +1017,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_allocation.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_object_allocation.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_allocation.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_object_allocation.o",
           "object_sha256": "0a512b0349b23853dd5885e8e109f8dad7da0f146ce295dcb78f7e01466092c5"
         },
         {
@@ -1039,10 +1046,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_value_map_producers.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_value_map_producers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_value_map_producers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/object_base_value_map_producers.o",
           "object_sha256": "558334706ed9832024158a5b1f4bb0fc60cddda15938e407372251dea5c2c926"
         },
         {
@@ -1068,10 +1075,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_debug.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_exec_debug.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_debug.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_exec_debug.o",
           "object_sha256": "9a656a5fd85c251f77d09529eef9bc9fa31d11e9c20dab161c0acf8b2a1a2aa7"
         },
         {
@@ -1097,10 +1104,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_alloc.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_alloc.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_alloc.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_alloc.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_alloc.o",
           "object_sha256": "58003a8fc1367b28de994d2f76154dd70c5c9593e78482ff4fd8ffe3be1c1f4a"
         },
         {
@@ -1126,10 +1133,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_debug_info.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_debug_info.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_debug_info.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/vm_exec_vm_debug_info.o",
           "object_sha256": "c7f8fd0d52442a1e268170ee5a89fd1593bdd9e9d702236a5abed5529998cee1"
         },
         {
@@ -1155,10 +1162,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_buckets.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_buckets.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_buckets.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_buckets.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_buckets.o",
           "object_sha256": "341279fd67f43936b841f103105a99aa0ced77fe9e53ec507f06f502796150a5"
         },
         {
@@ -1184,10 +1191,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/scripting/context_stack.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/context_stack.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/scripting_context_stack.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/context_stack.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/scripting_context_stack.o",
           "object_sha256": "5037ba7ad399935bd301409053e431024ea39ebcf103b27132b0e030fb32e23f"
         },
         {
@@ -1213,10 +1220,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/page_registry.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/page_registry.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_page_registry.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/page_registry.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_page_registry.o",
           "object_sha256": "d886a6309ec41ad64c53ee3fb04cc01364b59633a1128fed283d7018d5634de9"
         },
         {
@@ -1243,10 +1250,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_operators.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_operators.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_operators.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_operators.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_operators.o",
           "object_sha256": "aaa86bf4353b34199e2174b3373bc7feffc9b4962f91d636f572fafa2c6b1015"
         },
         {
@@ -1272,110 +1279,44 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_bucket_members.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_bucket_members.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_bucket_members.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_bucket_members.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_bucket_members.o",
           "object_sha256": "bc3adbbee3577c4fb70d69baf79704a29450a8fcf6909e1e43abe7b701962d72"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/memory_manager/memory_bucket_false_members.cpp",
+          "source_sha256": "4e64ed3f18ba1bcd5204010c0c52b74865ff22bad907740c164c8d3dadbf4b71",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O0",
+            "-c",
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_bucket_false_members.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_bucket_false_members.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/memory_manager_memory_bucket_false_members.o",
+          "object_sha256": "5110c6da98d89a42c9547ffc327ad49e3cdafb28543e3aa37a6059a3f3b3a94e"
         }
       ],
-      "combined": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/cally-abi.o",
-      "combined_sha256": "48f0612eb36f6e18a0acb67968b9d0c530b5f8360e504b2dd440e10ec8271f53",
-      "archive": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/libcally-abi.a",
-      "archive_sha256": "d30e1af340f87174a3608b709628b924afdf2f0afdaa316377556cf2a7c8299f",
-      "combined_argv": [
-        "ld.lld",
-        "-r",
-        "-o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/cally-abi.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_free.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/timing_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/timing_timing.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_release.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_perform_return.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_pop.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_vm_buffer.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_vm_write_buffer.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_wad_memory.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_ccode_construct.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_ccode_lifetime.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_page_lookup.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/src_conversions.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_free.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_free_vars.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/src_fixunsdfsi.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_value_pool.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_js_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/scripting_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/scripting_script_runtime.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_push.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_entry.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_value_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_node.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_realloc.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_allocation.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_value_map_producers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_debug.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_alloc.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_debug_info.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_buckets.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/context_stack.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/page_registry.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_operators.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_bucket_members.o"
-      ],
-      "archive_argv": [
-        "llvm-ar",
-        "rcs",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/libcally-abi.a",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_free.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/timing_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/timing_timing.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_release.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_perform_return.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_pop.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_vm_buffer.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_vm_write_buffer.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_buffer_wad_memory.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_ccode_construct.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/ccode_ccode_lifetime.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_page_lookup.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/src_conversions.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_free.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_free_vars.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/src_fixunsdfsi.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_value_pool.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_js_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/scripting_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/scripting_script_runtime.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_push.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_entry.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_value_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_profiler_node.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_realloc.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_object_allocation.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/object_base_value_map_producers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_exec_debug.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_manager_memory_alloc.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/vm_exec_vm_debug_info.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_buckets.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/context_stack.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/page_registry.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_operators.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_bucket_members.o"
-      ],
+      "combined": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O0/cally-abi.o",
+      "combined_sha256": "bfeb981ca5b94b9552518d70612f205c3d38cde1c2d27f24a301a5d3f9045d5f",
       "original_symbols_expected": [
         "Timing_Init",
         "Timing_Time",
@@ -1449,6 +1390,10 @@
         "_ZN7CBucketILj16384ELj262144ELb1EE4InitEv",
         "_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv",
         "_ZN7CBucketILj16384ELj262144ELb1EE7GetSizeEv",
+        "_ZN7CBucketILj16ELj1048576ELb0EE4FreeEPKv",
+        "_ZN7CBucketILj16ELj1048576ELb0EE4InitEv",
+        "_ZN7CBucketILj16ELj1048576ELb0EE5CheckEv",
+        "_ZN7CBucketILj16ELj1048576ELb0EE7GetSizeEv",
         "_ZN7CBucketILj16ELj262144ELb1EE4FreeEPKv",
         "_ZN7CBucketILj16ELj262144ELb1EE4InitEv",
         "_ZN7CBucketILj16ELj262144ELb1EE5CheckEv",
@@ -1457,6 +1402,10 @@
         "_ZN7CBucketILj256ELj1048576ELb1EE4InitEv",
         "_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv",
         "_ZN7CBucketILj256ELj1048576ELb1EE7GetSizeEv",
+        "_ZN7CBucketILj32768ELj1048576ELb0EE4FreeEPKv",
+        "_ZN7CBucketILj32768ELj1048576ELb0EE4InitEv",
+        "_ZN7CBucketILj32768ELj1048576ELb0EE5CheckEv",
+        "_ZN7CBucketILj32768ELj1048576ELb0EE7GetSizeEv",
         "_ZN7CBucketILj32ELj262144ELb1EE4FreeEPKv",
         "_ZN7CBucketILj32ELj262144ELb1EE4InitEv",
         "_ZN7CBucketILj32ELj262144ELb1EE5CheckEv",
@@ -1600,11 +1549,7 @@
         "strlen",
         "strncmp",
         "utf8_extract_char"
-      ],
-      "frozen_member_object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_bucket_members.o",
-      "member_disassembly": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O0/memory_bucket_members.asm.txt",
-      "members_byte_exact_measured": false,
-      "members_byte_exact": []
+      ]
     },
     {
       "configuration": "O2",
@@ -1632,10 +1577,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1661,10 +1606,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_free.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_free.o",
           "object_sha256": "60ddf9e10f524c3d0466d75d419a8a10d32a5f4402b26dd2d2d864b7b9655f24"
         },
         {
@@ -1690,10 +1635,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_helpers.o",
           "object_sha256": "51585e731c583381520dc56788cb9f1bf0ebe07add4335f1401ada878d8840ef"
         },
         {
@@ -1719,10 +1664,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/timing/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/timing_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/timing_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/timing_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/timing_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1748,10 +1693,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/timing/timing.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/timing_timing.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/timing_timing.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/timing_timing.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/timing_timing.o",
           "object_sha256": "b4d1b354ab7e62fbbf1a96e827a2f2270c070824d1771090fddb15a249a5a817"
         },
         {
@@ -1777,10 +1722,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1806,10 +1751,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_release.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_exec_release.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_release.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_exec_release.o",
           "object_sha256": "f508b695ea490741fedb85ebef958b5e4c42d342fb8aabcb32cb25341f4639b2"
         },
         {
@@ -1835,10 +1780,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/perform_return.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_perform_return.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_perform_return.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_perform_return.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_perform_return.o",
           "object_sha256": "8a7c7c72d6513fc9ee19433eb98ff648c21b15e022cf105214f6be2107b962d7"
         },
         {
@@ -1864,10 +1809,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_pop.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_pop.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_profiler_pop.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_pop.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_profiler_pop.o",
           "object_sha256": "561c68e6964fa95c1b171ca99624a1a2b95e52feb3e139c4dd98058c35fed16a"
         },
         {
@@ -1893,10 +1838,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_buffer/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_buffer_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_buffer_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -1922,10 +1867,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_buffer/vm_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_vm_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_buffer_vm_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_vm_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_buffer_vm_buffer.o",
           "object_sha256": "ccc3b03fe9666d92153c593203e9042ac7e4828efd3f550ff1274e0853497dca"
         },
         {
@@ -1951,10 +1896,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_buffer/vm_write_buffer.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_vm_write_buffer.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_buffer_vm_write_buffer.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_vm_write_buffer.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_buffer_vm_write_buffer.o",
           "object_sha256": "a68f7f2ca7c0c69ef0a029aa8375ac97ae347035bb69f898e85b50682bbacab9"
         },
         {
@@ -1980,10 +1925,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_buffer/wad_memory.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_wad_memory.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_buffer_wad_memory.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_wad_memory.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_buffer_wad_memory.o",
           "object_sha256": "680f8baff18d84fb8a227204dac1ad1c51ae6bb804895648030a3aa9496ca470"
         },
         {
@@ -2009,10 +1954,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/ccode/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/ccode_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/ccode_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -2038,10 +1983,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/ccode/ccode_construct.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_ccode_construct.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/ccode_ccode_construct.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_ccode_construct.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/ccode_ccode_construct.o",
           "object_sha256": "93e076d1e61725774b15a7ce07a72cc2190ed7270392a79ccc753c64bee4fdc6"
         },
         {
@@ -2067,10 +2012,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/ccode/ccode_lifetime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_ccode_lifetime.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/ccode_ccode_lifetime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_ccode_lifetime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/ccode_ccode_lifetime.o",
           "object_sha256": "fe341be1c4913a2fd6e0d7a67f7bfbec0d90816a1b888f48df4e1c4f17ab2f02"
         },
         {
@@ -2096,10 +2041,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/page_lookup.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_page_lookup.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_page_lookup.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_page_lookup.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_page_lookup.o",
           "object_sha256": "19482712d1ac2bda99168c75b7b112295ccf174c0e79836fb58d6b39d819c90d"
         },
         {
@@ -2123,10 +2068,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/c/compiler_conversions/src/conversions.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/src_conversions.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/compiler_conversions_conversions.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/src_conversions.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/compiler_conversions_conversions.o",
           "object_sha256": "c1e2ae7f60bcda5e607420b1a6e800dee6985a7ddf1dc2b43b8db5247219975f"
         },
         {
@@ -2152,10 +2097,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -2181,10 +2126,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/object_free.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_free.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_object_free.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_free.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_object_free.o",
           "object_sha256": "478455b2ca78bff2463df521f13c70023382eb995f20ad37e09198045247f39d"
         },
         {
@@ -2210,10 +2155,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_free_vars.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_object_free_vars.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_free_vars.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_object_free_vars.o",
           "object_sha256": "05976a43854022f89d78660dbbc30f6299707fb0048d152d57958aca33c11ef2"
         },
         {
@@ -2237,10 +2182,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/c/compiler_conversions/src/fixunsdfsi.c",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/src_fixunsdfsi.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/compiler_conversions_fixunsdfsi.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/src_fixunsdfsi.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/compiler_conversions_fixunsdfsi.o",
           "object_sha256": "475cf8cf0bcbf24729369c6c9b55bb5aa4b8b9cd504df963c73b7440ebe89596"
         },
         {
@@ -2266,10 +2211,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/value_pool.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_value_pool.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_value_pool.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_value_pool.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_value_pool.o",
           "object_sha256": "0a0c2894bc81513edabec3a8b3e486f5bfe7b6943cbed4c1a7bbfeb4af4cdf43"
         },
         {
@@ -2295,10 +2240,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_js_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_js_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_js_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_js_helpers.o",
           "object_sha256": "4cc29edac42e8dad1963b3210090e9f02ba8338aaa83f1e6bcd2d55bc280d4ca"
         },
         {
@@ -2324,10 +2269,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/scripting/abi_layout.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/scripting_abi_layout.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/scripting_abi_layout.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/scripting_abi_layout.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/scripting_abi_layout.o",
           "object_sha256": "030ddc603054cce204115582fdbc2c58466367f3a5848d21a8204e454b496585"
         },
         {
@@ -2353,10 +2298,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/scripting/script_runtime.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/scripting_script_runtime.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/scripting_script_runtime.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/scripting_script_runtime.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/scripting_script_runtime.o",
           "object_sha256": "b4651dd4c8872645ad742e7e1682dd9efac0bc571374571aeb1e145a518c5533"
         },
         {
@@ -2382,10 +2327,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_push.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_push.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_profiler_push.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_push.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_profiler_push.o",
           "object_sha256": "211b0dce1fb60f3a152da86cd386b2d9748a4702ab6c4d52bb063547bbbada33"
         },
         {
@@ -2411,10 +2356,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_entry.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_entry.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_exec_entry.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_entry.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_exec_entry.o",
           "object_sha256": "a11813f0ba5f75df72ec7a03dd9aeb03abf8f7c5b99c758936f816158ebad2cb"
         },
         {
@@ -2440,10 +2385,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_value_helpers.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_value_helpers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_value_helpers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_value_helpers.o",
           "object_sha256": "20eb7aeee8e6bbc63519569d3dd50d1da504adaf94adeb91346b052b52ed220d"
         },
         {
@@ -2469,10 +2414,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/profiler_node.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_node.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_profiler_node.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_node.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_profiler_node.o",
           "object_sha256": "da12969f2ce0b6b7ccaf1efc539fcc557356f2b8e82e2beded8b90c8f5d1d286"
         },
         {
@@ -2498,10 +2443,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_realloc.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_realloc.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_realloc.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_realloc.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_realloc.o",
           "object_sha256": "5469c8cd2069ab0af045dfb91884144cc2ca60131355a6585e93e2f897e05211"
         },
         {
@@ -2527,10 +2472,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_allocation.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_object_allocation.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_allocation.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_object_allocation.o",
           "object_sha256": "a1b4741b220b1e0b3abd860fd2ae1a712035205104d83850be8daef8ba2f00bf"
         },
         {
@@ -2556,10 +2501,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_value_map_producers.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_value_map_producers.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_value_map_producers.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/object_base_value_map_producers.o",
           "object_sha256": "5a15389b4312e7af16b03d9ba77cc518bb8a6bb987f754eea520ff34ddf14acc"
         },
         {
@@ -2585,10 +2530,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_debug.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_exec_debug.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_debug.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_exec_debug.o",
           "object_sha256": "1f3bd8500b61d4b1b60c6e6f7f3ed40cadfcc21318a57430ef6644a5bf7e198c"
         },
         {
@@ -2614,10 +2559,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_alloc.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_alloc.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_alloc.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_alloc.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_alloc.o",
           "object_sha256": "3f29772d1ec5921195c1d1ae37d01d86b67e7805e67ef212bd88b59398d2682b"
         },
         {
@@ -2643,10 +2588,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_debug_info.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_debug_info.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_debug_info.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/vm_exec_vm_debug_info.o",
           "object_sha256": "5423c4020087170cda973c41492fee3488471fd346ba8c209999f2132d65e660"
         },
         {
@@ -2672,10 +2617,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_buckets.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_buckets.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_buckets.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_buckets.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_buckets.o",
           "object_sha256": "ce9e4781b4290ebb20ce48e023725ce042ef76d7d89e77e0ca68b9bf9ba1af55"
         },
         {
@@ -2701,10 +2646,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/scripting/context_stack.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/context_stack.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/scripting_context_stack.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/context_stack.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/scripting_context_stack.o",
           "object_sha256": "d38cf6cefd0af9597b03348599ab8a1b53609079bc589f6328796f1be941099b"
         },
         {
@@ -2730,10 +2675,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/page_registry.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/page_registry.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_page_registry.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/page_registry.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_page_registry.o",
           "object_sha256": "961039a7a4abb9e5431e55287a56e6773b57e1b70f71594c33ff0480c889e852"
         },
         {
@@ -2760,10 +2705,10 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_operators.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_operators.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_operators.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_operators.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_operators.o",
           "object_sha256": "1e3ee113ca5151d5458a80e004da132d67514a21883006019f829cfb688e2624"
         },
         {
@@ -2789,110 +2734,44 @@
             "-c",
             "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_bucket_members.cpp",
             "-o",
-            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_bucket_members.o"
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_bucket_members.o"
           ],
           "returncode": 0,
-          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_bucket_members.o",
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_bucket_members.o",
           "object_sha256": "ca20e7b4fef8c58841054597f0cfc2ac05f63ea4e9d6424b645e5c470ac2cd45"
+        },
+        {
+          "source": "reconstruction/reverse-v1/cpp/memory_manager/memory_bucket_false_members.cpp",
+          "source_sha256": "4e64ed3f18ba1bcd5204010c0c52b74865ff22bad907740c164c8d3dadbf4b71",
+          "argv": [
+            "clang++",
+            "-nostdinc++",
+            "--target=armv7a-none-eabi",
+            "-march=armv7-a",
+            "-marm",
+            "-mfpu=vfpv3",
+            "-mfloat-abi=softfp",
+            "-std=c++17",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-ffp-contract=off",
+            "-fno-sized-deallocation",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            "-c",
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/source/reconstruction/reverse-v1/cpp/memory_manager/memory_bucket_false_members.cpp",
+            "-o",
+            "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_bucket_false_members.o"
+          ],
+          "returncode": 0,
+          "object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/memory_manager_memory_bucket_false_members.o",
+          "object_sha256": "5a5dc7da5704e25f3cbf8acf5fa7b883389031a70825dbf091cf418ba5121426"
         }
       ],
-      "combined": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/cally-abi.o",
-      "combined_sha256": "9dc6c3dddb1ce3369e65c30c6322a3d816ddc23014bd09026e111cf2be3db429",
-      "archive": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/libcally-abi.a",
-      "archive_sha256": "537526ae667ec389291e9db162d0c1ddc30a96afed8d95b760b745959021da5a",
-      "combined_argv": [
-        "ld.lld",
-        "-r",
-        "-o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/cally-abi.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_free.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/timing_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/timing_timing.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_release.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_perform_return.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_pop.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_vm_buffer.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_vm_write_buffer.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_wad_memory.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_ccode_construct.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_ccode_lifetime.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_page_lookup.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/src_conversions.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_free.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_free_vars.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/src_fixunsdfsi.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_value_pool.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_js_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/scripting_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/scripting_script_runtime.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_push.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_entry.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_value_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_node.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_realloc.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_allocation.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_value_map_producers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_debug.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_alloc.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_debug_info.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_buckets.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/context_stack.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/page_registry.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_operators.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_bucket_members.o"
-      ],
-      "archive_argv": [
-        "llvm-ar",
-        "rcs",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/libcally-abi.a",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_free.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/timing_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/timing_timing.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_release.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_perform_return.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_pop.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_vm_buffer.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_vm_write_buffer.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_buffer_wad_memory.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_ccode_construct.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/ccode_ccode_lifetime.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_page_lookup.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/src_conversions.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_free.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_free_vars.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/src_fixunsdfsi.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_value_pool.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_js_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/scripting_abi_layout.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/scripting_script_runtime.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_push.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_entry.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_value_helpers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_profiler_node.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_realloc.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_object_allocation.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/object_base_value_map_producers.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_exec_debug.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_manager_memory_alloc.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/vm_exec_vm_debug_info.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_buckets.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/context_stack.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/page_registry.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_operators.o",
-        "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_bucket_members.o"
-      ],
+      "combined": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/build/O2/cally-abi.o",
+      "combined_sha256": "b5c187dcbfe04c9e5fa14c1f55f89a8fb0eed36c7f9c97458f27dd6e493e9e4f",
       "original_symbols_expected": [
         "Timing_Init",
         "Timing_Time",
@@ -2966,6 +2845,10 @@
         "_ZN7CBucketILj16384ELj262144ELb1EE4InitEv",
         "_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv",
         "_ZN7CBucketILj16384ELj262144ELb1EE7GetSizeEv",
+        "_ZN7CBucketILj16ELj1048576ELb0EE4FreeEPKv",
+        "_ZN7CBucketILj16ELj1048576ELb0EE4InitEv",
+        "_ZN7CBucketILj16ELj1048576ELb0EE5CheckEv",
+        "_ZN7CBucketILj16ELj1048576ELb0EE7GetSizeEv",
         "_ZN7CBucketILj16ELj262144ELb1EE4FreeEPKv",
         "_ZN7CBucketILj16ELj262144ELb1EE4InitEv",
         "_ZN7CBucketILj16ELj262144ELb1EE5CheckEv",
@@ -2974,6 +2857,10 @@
         "_ZN7CBucketILj256ELj1048576ELb1EE4InitEv",
         "_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv",
         "_ZN7CBucketILj256ELj1048576ELb1EE7GetSizeEv",
+        "_ZN7CBucketILj32768ELj1048576ELb0EE4FreeEPKv",
+        "_ZN7CBucketILj32768ELj1048576ELb0EE4InitEv",
+        "_ZN7CBucketILj32768ELj1048576ELb0EE5CheckEv",
+        "_ZN7CBucketILj32768ELj1048576ELb0EE7GetSizeEv",
         "_ZN7CBucketILj32ELj262144ELb1EE4FreeEPKv",
         "_ZN7CBucketILj32ELj262144ELb1EE4InitEv",
         "_ZN7CBucketILj32ELj262144ELb1EE5CheckEv",
@@ -3117,22 +3004,10 @@
         "strlen",
         "strncmp",
         "utf8_extract_char"
-      ],
-      "frozen_member_object": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_bucket_members.o",
-      "member_disassembly": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/build/O2/memory_bucket_members.asm.txt",
-      "members_byte_exact_measured": true,
-      "members_byte_exact": [
-        "_ZN7CBucketILj16384ELj262144ELb1EE7GetSizeEv",
-        "_ZN7CBucketILj256ELj1048576ELb1EE7GetSizeEv",
-        "_ZN7CBucketILj128ELj524288ELb1EE7GetSizeEv",
-        "_ZN7CBucketILj64ELj524288ELb1EE7GetSizeEv",
-        "_ZN7CBucketILj32ELj262144ELb1EE7GetSizeEv",
-        "_ZN7CBucketILj16ELj262144ELb1EE7GetSizeEv",
-        "_ZN7CBucketILj8ELj131072ELb1EE7GetSizeEv"
       ]
     }
   ],
-  "new_original_entries": 33,
+  "new_original_entries": 41,
   "new_export_names_including_aliases": 5,
   "new_original_index_words": 93,
   "parent_integration_repairs": [
@@ -3140,14 +3015,14 @@
     "Perform page pointer offsets and capacity math as wrapping u32, preserve memmove live array/count reloads.",
     "Apply -fno-exceptions only to memory_operators.cpp to reproduce the four O2 tail edges without changing canonical Free declaration."
   ],
-  "remaining_internal_dependencies": "Two false-mode CBucket families (16/1048576, 32768/1048576), concrete bucket construction/initial-state providers, legacy UTF and object hierarchy dependencies remain separate.",
+  "remaining_internal_dependencies": "Concrete bucket construction/initial-state providers (who instantiates the CBucket objects and fills the vtables), legacy UTF and object hierarchy dependencies remain separate.",
   "original_executed": false,
   "rebuilt_executed": false,
   "new_source_scope": {
-    "entries": 33,
-    "exported_names": 33,
-    "words": 457,
-    "literal_words": 13,
+    "entries": 41,
+    "exported_names": 41,
+    "words": 593,
+    "literal_words": 15,
     "phase_complete": false,
     "original_executed": false,
     "rebuilt_executed": false
@@ -3166,8 +3041,8 @@
   },
   "counter_scope": "Five selected original bodies only. Distinct source, method and ABI counts; not whole native or game completion.",
   "post_review_frozen_rebuild": "Both cumulative configurations were compiled from a fresh isolated snapshot on the accepted preceding commit. The two reviewed bodies are byte-identical. inputs_sha256 additionally binds the merged static index/metadata, which are not compiler inputs.",
-  "frozen_review_manifest": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/frozen-review/manifest.json",
-  "frozen_review_manifest_sha256": "313284b662be1d038ae5a337fb845e7bb957bb551eee50ec82aa3bf84bcf5c26",
+  "frozen_review_manifest": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/frozen-review/manifest.json",
+  "frozen_review_manifest_sha256": "5170123166ee4f43cfd4790b9c657a0029ca67fbbb6bad3c9a2edaa8ad96a8f0",
   "review_disposition": "/data/data/com.termux/files/home/.hermes/reports/cally-bucket-context-yid3e44j/next-page-operators/review-next/findings.json",
   "review_disposition_sha256": "5c7e7162992d0607e00aa870c81a9420e5e242d4607d12216299ae577ce75ce2",
   "abi_toolkit": {
@@ -3259,11 +3134,17 @@
   "integration_manifest": "/data/data/com.termux/files/home/.hermes/reports/cally-bucket-context-yid3e44j/next-page-operators/integration-9daf807/integration-manifest.json",
   "integration_manifest_sha256": "556f989072bbefed6e235a9ec4cd3c29ee10368eb24b5ca753089c70f2392d18",
   "independent_review": {
-    "delegation": "deleg_964749c3",
-    "findings": "/data/data/com.termux/files/home/.hermes/reports/cally-cbucket-true-c4sxotx4/review-cbucket/findings.json",
-    "findings_sha256": "3c8970952bd361f1b1e76c1b424fb01b3de8848babdeb73132d33b86c82da480",
-    "passed": true,
-    "logic_errors": [],
-    "parent_disposition": "Review passed with no logic errors. Its two metadata notes (vtable base +0x10; checkCounter GOT addend 0x47f26c) were re-derived by the parent from the original ELF and rejected as probe offset errors: _ZTV st_value matches intake exactly (delta 0, six words [0,_ZTI,Init,Check,GetSize,Free] read at the claimed base), and slot 0x3edbcc carries R_ARM_RELATIVE sym=0 with file word 0x7566ac == checkCounter st_value; 0x47f26c is the word at 0x3edbdc (0x3edbcc+0x10). Both review notes and this disposition are retained verbatim."
-  }
+    "semantic": "deleg_0764ac4d: findings /data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/review-false/findings.json sha256 0370087de08226a152e7be2c4da1662de5793dbce2d243cbcb154f9ed518662c \u2014 semantics all verified (8 bodies, GOT two-stage chains both to 0x3edbcc, Free ownership search, vtables/RTTI); passed=false only on three build-judgement defects",
+    "repair": "parent rebuilt the freeze: explicit -O<lvl> on the new TU, module-prefixed object names (42 distinct per config); O0 core TU 5110c6da... vs O2 5a5dc7da...",
+    "repair_review": "deleg_6b2b4fe2: findings /data/data/com.termux/files/home/.hermes/reports/cally-cbucket-false-1gv7xk9/re-review-false/findings.json sha256 ce1abb8ea23a20e611db5521d01b7dd0bf793675d5cac019329c3b4d7c172a44 \u2014 all three repaired criteria verified passed=true (42 commands/42 distinct objects/-O in argv; O2 GetSize two instructions byte-level different from O0; O0!=O2 object hashes)"
+  },
+  "additional_sources_sha256": {
+    "cbucket_false_check.ipp": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+    "cbucket_false_free.ipp": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+    "memory_bucket_false_members.cpp": "4e64ed3f18ba1bcd5204010c0c52b74865ff22bad907740c164c8d3dadbf4b71",
+    "memory_bucket_members.cpp": "ebe9a944d6af1cac4c4f00d158bb970dbce24f7af30db771d016f485ba927bfe",
+    "cbucket_init_check.ipp": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+    "cbucket_size_free.ipp": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d"
+  },
+  "input_sha256_drift_note": "pre-false-batch validation carried page-batch hashes for layout-evidence/original-words and lacked the true-batch files; this commit re-pins input_sha256 to the actual blob hashes of the cumulative tree (78 entries per frozen manifest)"
 }

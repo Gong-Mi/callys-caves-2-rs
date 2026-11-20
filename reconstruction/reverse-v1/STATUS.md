@@ -1,5 +1,22 @@
 # 状态与定性
 
+## 当前断点：两种 false-mode CBucket 虚方法（8 体）
+
+`cbucket_false_check.ipp` + `cbucket_false_free.ipp` + `memory_bucket_false_members.cpp`
+恢复 `CBucket<16,1048576,false>` 与 `<32768,1048576,false>` 的 8 个 WEAK 方法体
+（136 原字、2 池字）。Init/GetSize 与 true 同形；Check 的 checkCounter 经两级
+PC 链（两实例池字 0x25cf54/0x31a808 均解到 GOT 0x3edbcc，与七个 true 体同一槽）；
+Free 120B 为页链归属查找：空链头或链耗尽返回 0 且零写入，[page+8,page+1048576+8)
+命中跳共享三快照/发布尾返 1——与 true 批恒返 1 的纯 freelist 推入是不同的原版行为。
+
+O0/O2 各 42 TU（模块前缀对象名、每档 42 个互异输出）、119 个原符号名齐全、58 项
+ABI 核对通过。独立复核 deleg_0764ac4d 语义全过但推翻首次冻结的三条构建判据
+（新 TU 无 -O、对象命名碰撞致 42→36 输出）；父级重建后 deleg_6b2b4fe2 逐条实证
+修复（O2 核心 TU 5a5dc7da… ≠ O0 5110c6da…，O2 GetSize 与原字同形 8B）。
+本批同时修正 validation.json 的 input_sha256 漂移（页表批旧哈希→78 文件实际值）。
+`phase_complete=false`；未运行原件/重建件、未安装、未推送。九实例 36 方法已齐；
+下一断点：桶对象的具体构造/初始状态提供者与 allocation 接线。
+
 ## 当前断点：七种 true-mode CBucket 虚方法（28 体）
 
 `cpp/memory_manager/cbucket_classes.hpp` + `cbucket_init_check.ipp` + `cbucket_size_free.ipp` +

@@ -411,3 +411,12 @@ activeCount(+c)+freeCount(+10)。Check 的 checkCounter 经 GOT 0x3edbcc（R_ARM
 文件字 0x7566ac==符号值）；Free 是纯 freelist 头推入（三快照→写旧头→发布），false 模式的
 120B 归属查找版本属下一批。单独实例化 TU `memory_bucket_members.cpp` 只实例化真实方法，
 不伪造全局或运行期对象。
+
+## 循环批次：false-mode CBucket 虚方法
+
+两个 false 实例（16/1048576、32768/1048576）各恢复四方法，8 体 136 原字（2 池字），
+单独 TU `memory_bucket_false_members.cpp` 实例化。Check 的两级 PC 链两实例均解到
+GOT 0x3edbcc（与 true 批同一计数器）；Free 是页链归属查找——空链头/链耗尽返回 0
+且零写入，命中 [page+8,page+1048576+8) 才走共享三快照/发布尾返 1。独立复核推翻
+首次冻结的构建判据（新 TU 无 -O、对象命名碰撞）后重建，复审逐条实证。至此九个
+CBucket 实例 36 个虚方法全部恢复；真实构造/初始化提供者仍是欠账。

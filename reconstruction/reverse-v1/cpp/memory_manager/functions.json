@@ -823,6 +823,150 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x190bc8",
+      "size": 120,
+      "symbols": [
+        "_ZN7CBucketILj16ELj1048576ELb0EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "d27d699d7f16721d3ad702850c1a861cea921510b85d53d95107bc85d7e3f7a4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_free.ipp",
+      "translation_source_sha256": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190c40",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj16ELj1048576ELb0EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_check.ipp",
+      "translation_source_sha256": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190c54",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj16ELj1048576ELb0EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "b4d05b95fc5f2613e889d1be5532951ec2e1430dc54676af121fe40b6236c2c7",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_check.ipp",
+      "translation_source_sha256": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190cd0",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj16ELj1048576ELb0EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "705b7734f4666818e8402c1879d90d2874d87ebbefa22943a419b7b4f2eb86b5",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_free.ipp",
+      "translation_source_sha256": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd3314",
+      "size": 120,
+      "symbols": [
+        "_ZN7CBucketILj32768ELj1048576ELb0EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "d27d699d7f16721d3ad702850c1a861cea921510b85d53d95107bc85d7e3f7a4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_free.ipp",
+      "translation_source_sha256": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd338c",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj32768ELj1048576ELb0EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_check.ipp",
+      "translation_source_sha256": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd33a0",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj32768ELj1048576ELb0EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "12be95b0a0055bddfee5a74ebc0f8a947af871d24338adf0850d8c3345887064",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_check.ipp",
+      "translation_source_sha256": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd341c",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj32768ELj1048576ELb0EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "a6a9411a6d9b36b980653de0168f453dc9a0302dbc87bd8056a4845a3081d5aa",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_free.ipp",
+      "translation_source_sha256": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "validation_scope": "Whole local memory allocation/free, page-lookup and typed bucket allocator bodies with observed raw layouts; unresolved providers and runtime equivalence are not certified.",
