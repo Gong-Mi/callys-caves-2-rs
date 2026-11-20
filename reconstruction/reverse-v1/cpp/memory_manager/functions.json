@@ -1,0 +1,143 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_abi": "ARM32 little-endian softfp",
+  "header_sha256": "eb903be4c95bd150006f5b48a7371c1420b1a4f1c6a35f689d4c479c24af13d6",
+  "not_whole_library_completion": true,
+  "not_additive_with_prior_language_candidates": true,
+  "functions": [
+    {
+      "entry": "0x27c2d0",
+      "size": 348,
+      "symbols": [
+        "_ZN13MemoryManager4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "3108c7444b8c538cbbb58fbfce9219287ad025521eeaad690cd8927d990dba5a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_free.cpp",
+      "translation_source_sha256": "8e1e8f49498670a1cd4467bf488df09f1eb56fd19d712b3b22148fcabb34ef3e",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27e038",
+      "size": 56,
+      "symbols": [
+        "_ZN5Mutex4InitEPKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "02e8d671284d01a4653b850ca98bac4117387702b92b5df7bdc6480d8dd3e8be",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "f740def988755bfa153c8948b18a70a791e94e0d1b601c0a49801fa77cd496a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27e084",
+      "size": 24,
+      "symbols": [
+        "_ZN5Mutex4LockEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "203306801e024481f3494e06b82ee056ca0f372670f3f6607eb47da2583e46da",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "f740def988755bfa153c8948b18a70a791e94e0d1b601c0a49801fa77cd496a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27e09c",
+      "size": 8,
+      "symbols": [
+        "_ZN5Mutex6UnlockEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "21105603092e25f550c3d113b0d6fb2d2d3c44122633af1453bbcd5f9de5a2f3",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "f740def988755bfa153c8948b18a70a791e94e0d1b601c0a49801fa77cd496a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27c20c",
+      "size": 48,
+      "symbols": [
+        "_Z10bucketFreePKv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "832af64d76ee6b600ed134e3fce6c4eadaaee08700fe24914ecec264d7641b6d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "f740def988755bfa153c8948b18a70a791e94e0d1b601c0a49801fa77cd496a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27bcf4",
+      "size": 4,
+      "symbols": [
+        "_Z11logLocation8ELogTypePKvS1_j"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "f740def988755bfa153c8948b18a70a791e94e0d1b601c0a49801fa77cd496a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b918",
+      "size": 48,
+      "symbols": [],
+      "recovered_name": "initializeMemoryMutex",
+      "boundary": "anonymous_candidate: direct BL at 0x27c408, prologue and next defined symbol at 0x27b948",
+      "body_sha256": "0f9e57e1e32c926f8792b9b5d95e395cf9f43d9aa4e449aaa7ae9a1db7c39f1a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "f740def988755bfa153c8948b18a70a791e94e0d1b601c0a49801fa77cd496a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "validation_scope": "Static source, original word/GOT/ABI checks, O0/O2 target objects and combined relocatable/archive; no target execution.",
+  "remaining_internal_dependencies": [
+    "globalPageListFindAddr/bucket implementations"
+  ],
+  "remaining_scope": [
+    "original source field/return spellings not completely known",
+    "bad-header/clock-failure, FP trap, concurrency and exception domains uncertified"
+  ]
+}

@@ -1,6 +1,24 @@
 # 状态与定性
 
-## 当前断点：VMExec 执行、退帧与 profiler 的 C++ 源码
+## 当前断点：循环恢复内存释放与单调时钟依赖
+
+用户已要求“循环工作”：本批源审/目标编译/本地提交后直接接下一批，不再等待重复“继续”。
+外置控制状态在 `~/.hermes/worklines/cally-native-loop.json`；是会话内回调驱动，不是脱离会话的守护进程。
+
+`cpp/memory_manager/` 已落 MemoryManager::Free、Mutex::Init/Lock/Unlock、桶 Free 派发、
+真实 no-op logLocation，以及匿名 lazy-init 调用目标；`cpp/timing/` 落 Timing_Time/Init。
+本批分账为 8 个有定义符号的原入口＋1 个匿名直接调用候选，175 个原索引字；不把匿名候选
+和原 no-op 混成新增业务函数。字段与 global/GOT/字符串位置均绑定原件，未定义默认运行状态。
+父级保留 lazy init 的 malloc 返回接收者（发布后不多读全局），头偏移按 ARM32 整数回绕，
+计数器/短路/解锁重读顺序不改。时钟保留 VMLA、VDIV 和原 __fixdfdi 调用，非整数近似替换。
+
+O0/O2 各 16 TU 组合，35 个原导出符号齐全；真实 MemoryManager::Free/Timing_Time 已填入
+既有 VMBuffer、VMExec、Profiler 的调用边。globalPageListFindAddr 和 __fixdfdi 仍仅声明，
+尚未闭合；下一批先接这两处，再推进对象/值释放与上层 VM 调用者。
+仍只做静态可读源码与目标对象，原件/重建件均未运行、不安装、不推送；失败/FP trap、
+并发双字传输、坏头和异常展开不认证。旧 C 与已提交 C++ 候选未改。
+
+## 已提交基础：VMExec 执行、退帧与 profiler（30a83ed）
 
 `cpp/vm_exec/` 已落 `VM::ExecRelease(VMExec&,RValue*)`、C++ 自由函数 `PerformReturn` 与
 直接依赖 `CProfiler::Pop()`。不是旧 C 换后缀：保留类静态/成员调用、RValue 不完整类型指针，

@@ -154,3 +154,27 @@ GetText（0xcf470，读 +0x10 而非 +0x58）。观察字段与原字绑定见�
 不是把三者都留成声明/桩。MemoryManager/YYObjectBase/RValue 释放、Timing_Time、完整
 调用者、全局生产者与异常展开仍是内部欠账；未认证空栈 fault 或原 paired transfer 并发原子性。
 所有结果是静态源码和目标编译，不承接旧 C 合成门，不升级为原件运行或游戏等价。
+
+## 循环批次：MemoryManager::Free 与 Timing 的直接依赖
+
+`cpp/memory_manager/` 保留已恢复的 MemoryManager 类声明，以真实 mangled 数据别名连接
+m_InUse/m_Total/m_StandardCount/m_StandardSize。Free 的分支顺序从 `0x27c2d0..0x27c42c`
+恢复：先锁、log、桶派发；标准双魔数命中才减四计数器并 free(p−16)；负 back-reference
+偏移小于 8192 且双魔数命中时原件反而仅跳过 free，不为“修内存泄漏”改行为。
+头/偏移全部按 ARM32 地址回绕；尾部 Unlock 仍重读 live g_MemoryMutex，不用 RAII 代换。
+
+匿名 `0x27b918..0x27b948` 由直接 BL、序言与下一定义符号定界，保留为匿名候选；不采用
+objdump 最近的 CBucket 标签作为名字。malloc(8)→发布→用 held malloc 结果 Init；原字符串
+在 `0x34c5e4`，ADD 站点 `0x27b930`，不是 worker 摘要里的 `0x34c5dc`。
+Mutex 嵌入 pthread 字的偏移为 +4，不补 attr_destroy 或失败 guard。logLocation 原件只有
+BX LR，所以空正文是原 no-op；独立 TU/无 LTO 编译保留 Free 的显式调用，不声称全程序优化不删除。
+
+`cpp/timing/` 的 C 链接表面恢复 `Timing_Time 0x215148..0x2151b4` 与 `Timing_Init
+0x2151b8..0x2151f0`。clock_gettime(1) 的两个 signed32 字经 VFP 转 double，原非融合
+VMLA(ns, sec, 1e9) 后 VDIV 1000，再调用原 __fixdfdi；不换 C++ 越界 cast 或整数公式。
+转换后才读匿名 epoch 的两字并模 2^64 相减。匿名基址 `0x755290` 与真正 g_TimingStart
+`0x755280` 分开绑定。Init 清 epoch→调用 Time→同一快照先写 epoch、后写 TimingStart。
+
+本批 O0/O2 各 16 TU，35 个已恢复原导出符号；另列匿名候选，不自动抬阶段。
+globalPageListFindAddr、__fixdfdi、桶的完整 API、pthread/clock 失败域及异常/并发仍未认证。
+循环控制状态在用户私有 worklines 目录，验收后直接补下一批；不会把源码批次交付变成原件执行或推送授权。

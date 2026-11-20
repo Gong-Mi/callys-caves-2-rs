@@ -1,0 +1,55 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_abi": "ARM32 little-endian softfp",
+  "header_sha256": "78bd35b19dc968c91bb90c7f96e6c3bac3cd6c17e64891347d3ceedbc2f27bfa",
+  "not_whole_library_completion": true,
+  "not_additive_with_prior_language_candidates": true,
+  "functions": [
+    {
+      "entry": "0x215148",
+      "size": 108,
+      "symbols": [
+        "Timing_Time"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "4e563255a3f93edce1aded33b58230da415ec6efb3ada4741f67d6bacbac2520",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "timing.cpp",
+      "translation_source_sha256": "18cbcf1486629a940319fdc2f0c4860a4639bf3259819ed809c0ef324926db55",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x2151b8",
+      "size": 56,
+      "symbols": [
+        "Timing_Init"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "5819ec68031e9291dfebefaf01eb22318082fc5864284b2cb9d1e7169250b8c9",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "timing.cpp",
+      "translation_source_sha256": "18cbcf1486629a940319fdc2f0c4860a4639bf3259819ed809c0ef324926db55",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "validation_scope": "Static source, original word/GOT/ABI checks, O0/O2 target objects and combined relocatable/archive; no target execution.",
+  "remaining_internal_dependencies": [
+    "__fixdfdi",
+    "anonymous epoch storage provider"
+  ],
+  "remaining_scope": [
+    "original source field/return spellings not completely known",
+    "bad-header/clock-failure, FP trap, concurrency and exception domains uncertified"
+  ]
+}

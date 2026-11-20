@@ -1,0 +1,69 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "mutex_observed_prefix_bytes": 8,
+  "native_mutex_offset": 4,
+  "bucket_free_vptr_offset": 12,
+  "allocator_state": [
+    {
+      "pool": "0x27c418",
+      "slot": "0x3f1824",
+      "target": "0x756780",
+      "symbol": "g_MemoryMutex",
+      "size": 4
+    },
+    {
+      "pool": "0x27c41c",
+      "slot": "0x3f03ec",
+      "target": "0x756754",
+      "symbol": "_ZN13MemoryManager7m_InUseE",
+      "size": 4
+    },
+    {
+      "pool": "0x27c420",
+      "slot": "0x3f03e0",
+      "target": "0x756758",
+      "symbol": "_ZN13MemoryManager7m_TotalE",
+      "size": 4
+    },
+    {
+      "pool": "0x27c424",
+      "slot": "0x3f185c",
+      "target": "0x75674c",
+      "symbol": "_ZN13MemoryManager15m_StandardCountE",
+      "size": 4
+    },
+    {
+      "pool": "0x27c428",
+      "slot": "0x3f03e8",
+      "target": "0x756748",
+      "symbol": "_ZN13MemoryManager14m_StandardSizeE",
+      "size": 4
+    }
+  ],
+  "anonymous_init": {
+    "entry": "0x27b918",
+    "next_defined_symbol": "0x27b948",
+    "caller": "0x27c408",
+    "string_pool": "0x27b944",
+    "add_site": "0x27b930",
+    "string": "MemoryManagerMutex",
+    "string_address": "0x34c5e4"
+  },
+  "epoch": {
+    "anonymous_base": "0x755290",
+    "real_g_TimingStart": "0x755280",
+    "time_add": "0x215188",
+    "init_add": "0x2151c8",
+    "word_count": 2
+  },
+  "timing_constants": {
+    "0x2151a0": 1000000000.0,
+    "0x2151a8": 1000.0
+  },
+  "known_original_noop": {
+    "symbol": "_Z11logLocation8ELogTypePKvS1_j",
+    "word": "0xe12fff1e",
+    "placeholder": false
+  },
+  "original_executed": false
+}
