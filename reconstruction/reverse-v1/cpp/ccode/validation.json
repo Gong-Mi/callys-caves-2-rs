@@ -615,5 +615,10 @@
   "old_modules_preserved": true,
   "artifact_retention": "Archive/object paths are temporary scratch outputs; rebuild with recorded commands.",
   "original_executed": false,
-  "rebuilt_executed": false
+  "rebuilt_executed": false,
+  "shared_receipt": "../memory_manager/validation.json",
+  "shared_receipt_sha256": "c99e9ca98547b060bd2ba712bb65b015baf904eca9bb68ec2685e9e8c5ae854b",
+  "local_builds_are_prior_scope": true,
+  "current_build_authority": "shared_receipt (latest full combined build); local builds/input hashes retain their historical base",
+  "current_header_sha256": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642"
 }

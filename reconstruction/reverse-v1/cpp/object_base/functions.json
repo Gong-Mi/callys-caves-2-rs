@@ -3,7 +3,7 @@
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "header_sha256": "99abcc725d78c6eb9880ba510e2d02062a180182aa6613f32ad313a1bb8688d3",
   "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
-  "canonical_api_header_sha256": "30519f597427ac82ce60916e37630d67b3f18c26313c8e56f43e95843b701b10",
+  "canonical_api_header_sha256": "2a8ed0b9a2e534ee03aa6191d465078bf40c503f30644560acc27ac0cbf2d515",
   "functions": [
     {
       "entry": "0x198f88",

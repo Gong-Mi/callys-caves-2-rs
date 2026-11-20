@@ -93,6 +93,7 @@ bool MemoryInWad(void *address);
 class MemoryManager {
 public:
     static void *Alloc(unsigned int, const char *, int, bool); // 0x27ce78
+    static void *ReAlloc(void *, unsigned int, const char *, int, bool); // 0x27cedc
     static void Free(const void *);                           // 0x27c2d0
 };
 uint8_t *DoConvIntToVariable(uint32_t, uint8_t *, const uint8_t *, VMExec *);

@@ -3,7 +3,7 @@
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "header_sha256": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
   "canonical_api_header": "../vm_exec/vm_exec.hpp",
-  "canonical_api_header_sha256": "30519f597427ac82ce60916e37630d67b3f18c26313c8e56f43e95843b701b10",
+  "canonical_api_header_sha256": "2a8ed0b9a2e534ee03aa6191d465078bf40c503f30644560acc27ac0cbf2d515",
   "functions": [
     {
       "entry": "0x249590",
@@ -60,12 +60,10 @@
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
   "remaining_internal_dependencies": [
-    "VM::Exec",
     "CreateArgumentsObject",
     "YYObjectBase::Alloc/InternalGetYYVar",
     "Code_Variable_Find_Slot_From_Name",
-    "PushContextStack/PopContextStack",
-    "CProfiler::FindOrCreateNode"
+    "PushContextStack/PopContextStack"
   ],
   "scope": "Three complete C++ candidate bodies with observed CScript prefix and raw ScriptCallScratch. No full script-ref/class/unwind/behavior equivalence claim."
 }

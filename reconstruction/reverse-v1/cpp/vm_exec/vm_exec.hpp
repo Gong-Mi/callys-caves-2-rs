@@ -105,6 +105,7 @@ public:
     static void Exec(CCode *, YYObjectBase *, YYObjectBase *, RValue *,
                      YYObjectBase *, int, RValue *, int, YYObjectBase *); // 0xe7fd0, current caller ignores r0
     static void ExecRelease(VMExec &, RValue *result); // 0xe4540..0xe47c8, no implicit this
+    static void ExecDebug(VMExec &, RValue *, bool);   // 0xe47c8, current caller ignores r0
 };
 uint8_t *PerformReturn(uint8_t *stack, VMExec *exec);  // 0xe42d8..0xe44d4, ordinary C++ function
 void FREE_RValue__Pre(RValue *);                      // 0xc0a7c, original internal dependency

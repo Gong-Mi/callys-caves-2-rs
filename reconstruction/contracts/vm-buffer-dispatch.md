@@ -277,3 +277,35 @@ delta=base_afterSecond-firstTime，this.base=secondTime+delta，frame+16=0-delta
 恰与原件相同。Call_RValue、Profiler Push/Pop与既有释放/时钟正文真实组合，但VM::Exec、
 arguments创建、对象Alloc/getter/context及FindNode仍欠库内正文。fault、原始栈垃圾数值、
 完整FP trap/unwind与paired atomicity均未认证，目标均未执行。
+
+
+## VM::Exec 入口与 profiler 节点恢复
+
+`vm_exec_entry.cpp` 恢复0xe7fd0九参静态方法，第八int不消费，第九对象供GC槽写回。
+匿名guard字节0x47a1d0与20B stackPages分开，只置guard/清pool+4,+8,+c。空池new大小
+0x108008，payload从base+8填0x78/0x108000字节；首节点对齐按base+0x8008清低15位，
+0x8000步长do/while链，选最后+0xf0000块。空池join跳过非空路的head读取，用寄存器
+留存链接值；不能把worker的+0x40000或清零填充当成原件，也不补失败guard。
+
+VMEntryPrivateImage的exec从+0x18发布，前缀00/04/08仍是converter/ref-release的同一
+spill存储。memcpy返回地址决定argumentValues/frameBase；先发Argument再argc，清60B
+控制帧后LIVE重读frameBase。转换后map与handler分别从exec.buffer和prefix.word00指针
+读，两接收者不能合并。GC的PushContextStack后再读live locals；字符串路径每层YYFree
+前spill、返回后reload，最深WEAK refdec及重复delete/unlock尾链保留，不替成一次释放。
+退出按live parent清child→读localsMode→恢复current→held argc/Argument→必要locals Free。
+独立审查VMEXEC-01纠正e8138的零写：sp+64减exec基址18等于4c（frameDepth），不是48
+（nextSlot）。源码与ABI断言已修，旧nextSlot对位的编译负控拒绝，修后两档30TU重编通过。
+
+`vm_value_helpers.cpp` 还原YYFree的真实MMFree尾包装及三个原BX LR函数，不把LOCK名字
+解释为真实锁。_RefThing<const char*>::dec保持原WEAK DEFAULT和双递减/递归/删除路径；
+默认弱符号与独立强provider的静态链接选择已核，未执行覆盖调用，不称动态验证。
+
+`profiler_node.cpp` 恢复0x2a04f4/476B。查找比较原始kind/id，创建才mask4/28位；id不匹配
+跳过byte3读取，BFI必须替换旧高nibble。stats header为capacity0/count4/data8，和Push
+header不同；grow前发cap、ReAlloc后live this.currentIndex/this.stats与held count/data
+发布分立。新count先发布，再逐byte初始化记录，仅原写点，+4..7/+0x24..27不填；+A的
+零写在packed+3之前。最后signed parent.firstChild决定首链或held last-sibling链接。
+
+七新增入口/522原字，O0/O2各30TU/61导出，所有原三no-op O2为4B BX LR。编译/静态修缮
+不证明坏域、原私有栈/LR、异常或并发；匿名guard、Debug/FreePre、ReAlloc及对象/context
+生产者仍未闭合，目标均未执行。

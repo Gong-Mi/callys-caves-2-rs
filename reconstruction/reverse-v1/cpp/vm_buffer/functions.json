@@ -5,7 +5,7 @@
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
   "source_names_not_original_spelling": true,
-  "header_sha256": "c601b9cf5eee566bdde9be168452fe5ec043e5092f1d6f4e8ebabbe892985cbe",
+  "header_sha256": "485b6a3059c3831a25cc78466cdf4beffeabbb35cb163cf8f02f97c9ea9a3de0",
   "functions": [
     {
       "entry": "0xce43c",
@@ -324,5 +324,6 @@
     "Internal MemoryManager/new/delete and selected Do* bodies are declarations, not recovered here.",
     "C++ runtime exception/unwind behavior and production integration have not been certified.",
     "Existing C execution/return modules have not been converted to C++ by this batch."
-  ]
+  ],
+  "static_API_extension": "MemoryManager::ReAlloc declaration only, original 0x27cedc; prior VMBuffer/VMWriteBuffer method bodies unchanged"
 }

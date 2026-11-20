@@ -4,7 +4,7 @@
   "original_abi": "ARM32 little-endian softfp",
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
-  "header_sha256": "30519f597427ac82ce60916e37630d67b3f18c26313c8e56f43e95843b701b10",
+  "header_sha256": "2a8ed0b9a2e534ee03aa6191d465078bf40c503f30644560acc27ac0cbf2d515",
   "functions": [
     {
       "entry": "0xe4540",
@@ -79,6 +79,135 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0xe7fd0",
+      "size": 1464,
+      "symbols": [
+        "_ZN2VM4ExecEP5CCodeP12YYObjectBaseS3_P6RValueS3_iS5_iS3_"
+      ],
+      "body_sha256": "4c730a33556187912eb05d4781811147bd638660836cc2cb1f8e8b1d4635e3a7",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_exec_entry.cpp",
+      "translation_source_sha256": "f2e6d9868a88db8d8d18b218b11bcb621072a7bf84cfa35a6ffcd4ffd631b735",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x2a04f4",
+      "size": 476,
+      "symbols": [
+        "_ZN9CProfiler16FindOrCreateNodeEii"
+      ],
+      "body_sha256": "19fd09c7e98853862525ab2a39b94b27ea16383a8ac802bd83057dd205a7278b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "profiler_node.cpp",
+      "translation_source_sha256": "6ac3abdbc685dc02107b52ae01e1cd4d3d6b2e02c22148ae213bba600f2c2429",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xc09f8",
+      "size": 132,
+      "symbols": [
+        "_ZN9_RefThingIPKcE3decEv"
+      ],
+      "body_sha256": "f863dfb5d093cff592b096c340136b5539bd27f6422e5ca6dcdc6ebd5acfc208",
+      "binding": "STB_WEAK",
+      "visibility": "STV_DEFAULT",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_value_helpers.cpp",
+      "translation_source_sha256": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xcef90",
+      "size": 4,
+      "symbols": [
+        "_Z6YYFreePKv"
+      ],
+      "body_sha256": "14be638f19a8adf4125aaef9aad96b973dcb5dfd2de808efa6a2a8649ddfd9c6",
+      "binding": "STB_GLOBAL",
+      "visibility": "STV_DEFAULT",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_value_helpers.cpp",
+      "translation_source_sha256": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190f2c",
+      "size": 4,
+      "symbols": [
+        "_Z17LOCK_RVALUE_MUTEXv"
+      ],
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "binding": "STB_GLOBAL",
+      "visibility": "STV_DEFAULT",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_value_helpers.cpp",
+      "translation_source_sha256": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190f30",
+      "size": 4,
+      "symbols": [
+        "_Z19UNLOCK_RVALUE_MUTEXv"
+      ],
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "binding": "STB_GLOBAL",
+      "visibility": "STV_DEFAULT",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_value_helpers.cpp",
+      "translation_source_sha256": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x191710",
+      "size": 4,
+      "symbols": [
+        "_Z22DeterminePotentialRootP12YYObjectBaseS0_"
+      ],
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "binding": "STB_GLOBAL",
+      "visibility": "STV_DEFAULT",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_value_helpers.cpp",
+      "translation_source_sha256": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "layout_evidence": "layout-evidence.json",
@@ -91,11 +220,12 @@
     "profiler_push_wire.hpp"
   ],
   "remaining_internal_dependencies": [
-    "raw operator delete entry",
-    "FREE_RValue__Pre and complete RValue class",
-    "CProfiler::FindOrCreateNode",
-    "instruction handler bodies and global producers",
-    "VM::Exec/ExecDebug/DoCallScript caller bodies"
+    "VM::ExecDebug and DoCallScript",
+    "FREE_RValue__Pre",
+    "YYObjectBase::Alloc/InternalGetYYVar",
+    "GetContextStackTop/PushContextStack/PopContextStack",
+    "MemoryManager::ReAlloc",
+    "instruction-handler and global/pool producers"
   ],
   "remaining_scope": [
     "VMExec is an observed 0x60 prefix, not a full-class extent proof; state30 remains unnamed.",
@@ -104,8 +234,10 @@
     "Invalid pointers/offsets, empty-profile faults, paired-transfer concurrent atomicity and exception unwinding are not certified."
   ],
   "validation_scope": "ARM32 O0/O2 objects and observed layouts, real C++ conversion/return/profiler definitions in a combined relocatable/archive, original ABI symbols; no target execution.",
-  "static_API_extension": "Canonical Alloc/InternalGetYYVar, VM::Exec and Profiler Push/FindOrCreateNode declarations; old method bodies unchanged. Push newly defined, FindOrCreateNode returns an index.",
+  "static_API_extension": "VM::Exec and FindOrCreateNode now have full candidate bodies; canonical ExecDebug/ReAlloc declarations expanded. Weak refdec and original no-op entry bodies preserve ELF binding/code; no old method bodies replaced.",
   "additional_headers_sha256": {
-    "profiler_push_wire.hpp": "bde75c178acb738e6a3b46325c71b77d71d1e5abeae3002023be0de29e93303c"
+    "profiler_push_wire.hpp": "bde75c178acb738e6a3b46325c71b77d71d1e5abeae3002023be0de29e93303c",
+    "vm_entry_runtime.hpp": "20be56294f4fb04da32122501f1aa9f0291494946ce4ddb848ce5875dfb1d3f3",
+    "profiler_node_wire.hpp": "b1f86a5b1b5120b476a64b55c0e9d520c82a2ad093ff569300a290e23e9b9f43"
   }
 }

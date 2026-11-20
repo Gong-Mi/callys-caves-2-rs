@@ -1,24 +1,30 @@
 # 状态与定性
 
-## 当前断点：ScriptRef 调用、局部对象与 profiler 压帧
+## 当前断点：VM::Exec、引用清理与 profiler 节点
 
-`cpp/scripting/` 新落 Call_ScriptRef、CScript::GetCode、YYAllocLocalStackNew 三正文；
-`cpp/vm_exec/profiler_push.cpp` 新落 CProfiler::Push。四原入口、271原索引字（含10池字），
-保留真实原类成员/静态接口，CScript仅声明观测到的+8读取前缀，不实例化未知对象。
-Call_ScriptRef 依原完整tag选择receiver，保留length槽/局部对象/参数补齐、同一arguments
-image、三次GetCode、九参VM::Exec与profile前后独立重读；结果为原异常字节选择的0/2。
+`cpp/vm_exec/vm_exec_entry.cpp` 新落VM::Exec九参静态方法；`vm_value_helpers.cpp` 新落
+WEAK DEFAULT _RefThing<const char*>::dec、YYFree及三条原件BX LR空操作；
+`profiler_node.cpp` 新落FindOrCreateNode。七原入口、522原字（13池字），不是新引擎或stub。
+VM同一私有image容纳前缀spill和发布的VMExec，匿名池guard独立声明，不定义默认状态。
 
-父级修正初读顺序为+88→+64→可选+7c，length_slot改一次快照而非命中时多读；共享栈字
-保留volatile及image低字真实读写。先前count→bool假设已回原CFG推翻：padding跳249634，
-两路都在249640清+1c，第五bool在本调用中为false。Profiler Push保留两次计时、扩容回调
-后的字段重读，24B帧只初始化前12B，其余字由raw搬运保留，不编造零值。
+父级发现并修正worker的池fill零值（原0x78）、对齐加数（原+0x8008）、空池join多读、
+PushContextStack后locals重读，以及YYFree前spill/回调后reload。FindNode已修BFI高nibble
+替换（不是OR）及id不匹配时跳过kind byte读取；保留逐byte发布和held/live header区分。
+这些有原字/静态反例，不冒称目标执行对拍。O0/O2各30TU/61导出组合通过，原三空操作O2
+均为4B BX LR；refdec为WEAK DEFAULT，另做静态strong provider覆盖链接，未执行。
 
-O0/O2各27TU/54原导出组合通过；GetCode三调用和局部对象助手真实调用均在，GetCode的O2
-八字节与原件一致。独立静态复核未发现具体正文缺陷；本地收口只认证该源码/编译范围，
-phase_complete=false，不运行任何目标。
-下一内部断口为VM::Exec、CreateArgumentsObject、YYObjectBase::Alloc/InternalGetYYVar、
-CProfiler::FindOrCreateNode和FREE_RValue__Pre。原始栈垃圾值、paired atomicity、fault/unwind
-以及完整类/生产者仍不认证。按工作线记录持续施工，不安装、不推送。
+独立复核定位e8138的一处字段错位：sp+64应为exec+4c的frameDepth，已修并重编，旧48偏移
+负控断言必拒；其余范围未发现正文反例。本地收口仍phase_complete=false。VM::ExecDebug、FREE_RValue__Pre、
+对象Alloc/getter/context、ReAlloc和生产者仍欠本体；完整类、坏域、原LR/unwind/并发未证。
+已接通的Release/Return、对象释放、脚本/时钟/Profiler Push/Pop源码不因这些欠账被抹除。
+按工作线持续施工到本次约定检查点，不运行任何目标、不安装、不推送。
+
+## 已提交基础：ScriptRef 与 profiler 压帧（e60233c）
+
+Call_ScriptRef、GetCode、YYAllocLocalStackNew、Profiler Push四入口/271原字已静态复核后
+收口，21路径/59输入逐blob对齐，O0/O2各27TU/54导出；GetCode O2八字节与原件一致。
+参数共享+1c两路清零后第五bool恒false，先前count→bool假设已否证；24B profile frame
+只初始化前三word，尾部按raw搬运。保留未认证栈垃圾值、完整类/FP trap/unwind等边界。
 
 ## 已提交基础：页池与 JS 助手（ff753ce）
 

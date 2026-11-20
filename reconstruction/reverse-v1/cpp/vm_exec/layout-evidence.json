@@ -351,5 +351,172 @@
     "node_return_is_index_not_pointer": true,
     "tail_math": "delta=base_afterSecond-first; this.base=second+delta; selected.frame+16=0-delta (uint64 wrap)",
     "no_fault_or_atomicity_certification": true
+  },
+  "VM_entry": {
+    "entry": "0xe7fd0",
+    "pool_init_guard": {
+      "pc_base": "0x47a1bc",
+      "byte_address": "0x47a1d0",
+      "symbols": []
+    },
+    "global_bindings": [
+      {
+        "pool": "0xe8560",
+        "slot": "0x3edd3c",
+        "target": "0x47a1e0",
+        "symbols": [
+          [
+            "stackPages",
+            20
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8564",
+        "slot": "0x3edd58",
+        "target": "0x47b239",
+        "symbols": [
+          [
+            "g_fVMTrace",
+            1
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8568",
+        "slot": "0x3edd5c",
+        "target": "0x544b50",
+        "symbols": [
+          [
+            "g_nLocalVariables",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe856c",
+        "slot": "0x3edd14",
+        "target": "0x47b234",
+        "symbols": [
+          [
+            "g_ArgumentCount",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8570",
+        "slot": "0x3edd18",
+        "target": "0x47a170",
+        "symbols": [
+          [
+            "Argument",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8574",
+        "slot": "0x3edbb0",
+        "target": "0x47f298",
+        "symbols": [
+          [
+            "g_pCurrentExec",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8578",
+        "slot": "0x3edbc0",
+        "target": "0x47f295",
+        "symbols": [
+          [
+            "g_fJSGarbageCollection",
+            1
+          ]
+        ]
+      },
+      {
+        "pool": "0xe857c",
+        "slot": "0x3edcfc",
+        "target": "0x757e4c",
+        "symbols": [
+          [
+            "g_pServer",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8580",
+        "slot": "0x3ed71c",
+        "target": "0x3eb70c",
+        "symbols": [
+          [
+            "dbg_csol",
+            4
+          ]
+        ]
+      }
+    ],
+    "trace_string": {
+      "pool": "0xe8584",
+      "add_site": "0xe82b8",
+      "text": "script = %s\n"
+    },
+    "private_image_bytes": 124,
+    "published_exec_offset": 24,
+    "empty_pool": {
+      "new_size": "0x108008",
+      "payload_fill": 120,
+      "payload_length": "0x108000",
+      "first_aligned": "(uint32(base+0x8008)&~0x7fff)",
+      "node_stride": "0x8000",
+      "selected_last_offset": "0xf0000",
+      "loop_end_offset": "0xf8000",
+      "new_free_count_net_delta": 30,
+      "join_skips_nonempty_head_read": true
+    },
+    "parent_repairs": "See parent-static-repairs.json: fill/alignment, conditional kind-byte and BFI replacement, real spill-before-call/reloads, post-context live locals, ARM32 addresses. Only static arithmetic counterexamples, not executed target cases.",
+    "frameDepth_initialization": {
+      "store_pc": "0xe8138",
+      "word": "0xe58d2064",
+      "sp_offset": "0x64",
+      "exec_base": "0x18",
+      "member_offset": "0x4c",
+      "member": "frameDepth",
+      "not_nextSlot": "0x48/sp0x60 remains uninitialized by this entry",
+      "parent_recheck": "fresh O0/O2 builds and negative old-nextSlot static_assert rejected"
+    }
+  },
+  "profiler_node": {
+    "entry": "0x2a04f4",
+    "stats_header": {
+      "capacity": 0,
+      "count": 4,
+      "data": 8
+    },
+    "record_stride": 40,
+    "search_full_requested_fields_before_creation_mask": true,
+    "grow_gate": "signed count >= signed wrap(capacity-1)",
+    "byte3_BFI_replaces_high_nibble": true,
+    "record_unknown_bytes": [
+      "0x04..0x07",
+      "0x24..0x27"
+    ],
+    "post_ReAlloc_receivers": "parent index/live stats from this, count and newData publication to held old header",
+    "candidate_receiver_offset_asserted_zero": true
+  },
+  "weak_refcount_dec": {
+    "entry": "0xc09f8",
+    "binding": "STB_WEAK/STV_DEFAULT",
+    "observed_prefix_offsets": [
+      0,
+      4,
+      8
+    ],
+    "full_class_unproved": true,
+    "static_strong_override_probe": "parent scratch weak-override-receipt.json, not executed"
   }
 }
