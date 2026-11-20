@@ -2,7 +2,7 @@
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "original_abi": "ARM32 little-endian softfp",
-  "header_sha256": "eb903be4c95bd150006f5b48a7371c1420b1a4f1c6a35f689d4c479c24af13d6",
+  "header_sha256": "4349c4056315c22b851ec0442407d6373ff5a4eae2271c54ace60a582b04251c",
   "not_whole_library_completion": true,
   "not_additive_with_prior_language_candidates": true,
   "functions": [
@@ -147,11 +147,49 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x27cedc",
+      "size": 396,
+      "symbols": [
+        "_ZN13MemoryManager7ReAllocEPvjPKcib"
+      ],
+      "body_sha256": "fe36c23ff74b0ea2c178adc471000eb87ba01e140bbb771f7dbdee719b1a65d1",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_realloc.cpp",
+      "translation_source_sha256": "d807ddc727b9514cd57447d2251f6609f2261ce442d903b83ee7facf3296ef87",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27c1e4",
+      "size": 40,
+      "symbols": [
+        "_Z10bucketSizePKv"
+      ],
+      "body_sha256": "dc5d4fe6352a6dadb785b4f6c0095c5d5421845fbc8080251e9ae32ee4fef962",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_realloc.cpp",
+      "translation_source_sha256": "d807ddc727b9514cd57447d2251f6609f2261ce442d903b83ee7facf3296ef87",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "validation_scope": "Static source, original word/GOT/ABI checks, O0/O2 target objects and combined relocatable/archive; no target execution.",
   "remaining_internal_dependencies": [
-    "page-list producers and concrete bucket implementations"
+    "MemoryManager::Alloc",
+    "concrete bucket virtual methods",
+    "initialization/logging and malloc-side providers"
   ],
   "remaining_scope": [
     "original source field/return spellings not completely known",
@@ -159,5 +197,8 @@
   ],
   "supplementary_headers_sha256": {
     "page_lookup.hpp": "db3b0281f4c325429f8f7d8c4412a636d5e8fe46d13bf376d0a1814ae410e521"
+  },
+  "additional_headers_sha256": {
+    "memory_realloc_internal.hpp": "708816f6445c68ecbacbbb067c16fcc5a245625d5869ce4acb289e61d30f4e4f"
   }
 }

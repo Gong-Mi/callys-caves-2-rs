@@ -42,12 +42,15 @@ void logLocation(ELogType, const void *, const void *, unsigned int); // origina
  * remain opaque; no fake implementations or guessed C++ virtual API. */
 struct BucketPrefix;
 using BucketFreeEntry = uint32_t (*)(BucketPrefix *, const void *);
+using BucketSizeEntry = uint32_t (*)(BucketPrefix *); // original size callback has NO pointer argument
 struct BucketVtablePrefix {
-    uint32_t unknownSlots[3];
+    uint32_t unknownSlots[2];
+    BucketSizeEntry sizeEntry;                       // +0x08, no extra argument
     BucketFreeEntry freeEntry;
 };
 struct BucketPrefix { const volatile BucketVtablePrefix *vptr; };
-BucketPrefix *globalPageListFindAddr(const void *);     // 0x27be34, internal body still owed
+BucketPrefix *globalPageListFindAddr(const void *);     // 0x27be34, body in page_lookup.cpp
+uint32_t bucketSize(const void *) __attribute__((noinline)); // 0x27c1e4, preserve ReAlloc's helper boundary
 uint32_t bucketFree(const void *);                    // 0x27c20c
 
 extern "C" {

@@ -65,5 +65,33 @@
     "word": "0xe12fff1e",
     "placeholder": false
   },
-  "original_executed": false
+  "original_executed": false,
+  "ReAlloc_contract": {
+    "entry": "0x27cedc",
+    "fifth_bool_unused_Alloc_forced_true": true,
+    "header_read_order": [
+      "ptr-12 magic",
+      "ptr-16 size before compare",
+      "ptr-8 guard if standard magic",
+      "ptr-4 raw backref if direct header fails"
+    ],
+    "magics": [
+      "0xdeadc0de",
+      "0xbaadb00b"
+    ],
+    "validated_backref_oldSize": "raw ptr-4 NEGATIVE bit image, not decoded capacity",
+    "bucket_size_virtual_slot": 8,
+    "bucket_size_parameters": "receiver only",
+    "bad_header_string": "0x357244",
+    "bad_header_action": "single console snapshot vararg print then real abort, no unlock",
+    "zero_size": "unsigned oldSize>=0 returns old ptr before dead Free branch",
+    "unlock_receiver": "live g_MemoryMutex reloaded after callbacks",
+    "parent_repairs": [
+      "header magic read before size; both before compare",
+      "grown+oldSize is explicit uint32 address arithmetic"
+    ],
+    "mutex_GOT_slot": "0x3f1824",
+    "mutex_GOT_target": "0x756780",
+    "reviewer_wrong_slot_not_adopted": "0x3f1828; independent ADD-PC=27cef8+8+174924 gives3f1824"
+  }
 }

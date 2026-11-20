@@ -101,5 +101,25 @@
     },
     "Call_RValue_rejection_word": 1,
     "no_extra_null_guards": true
+  },
+  "allocator_consumer_layout": {
+    "object_raw_allocation": 100,
+    "constructor_boundary": "C1Eii raw 3-GP provider, not instantiated nominal class",
+    "object_fields": {
+      "dense": 4,
+      "poolNext": 8,
+      "variableCount": "0x24",
+      "denseCapacity": "0x2c",
+      "registryId": "0x44",
+      "objectKind": "0x48",
+      "defaultValueKind": "0x58",
+      "map": "0x60"
+    },
+    "slot_registry_capacity_offset": 4,
+    "currentCounter_symbol": "_ZN12YYObjectBase17ms_currentCounterE",
+    "currentCounter_address": "0x536f08",
+    "capacity_growth": "wrap3x + sign carry, ASR1 bit pattern",
+    "hash_int_is_ordinary_overload": true,
+    "new_RValue_initialization": "low/high zero, live default kind, aux+8 untouched; map receiver refreshed before Insert"
   }
 }

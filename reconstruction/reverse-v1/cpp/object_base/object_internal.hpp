@@ -12,7 +12,7 @@
  */
 struct ObjectSlotRegistry {
     YYObjectBase *volatile *slots;                    // +0x00, read before writing selected slot
-    uint32_t unknown04;
+    uint32_t capacity;                               // +0x04, Alloc compares as signed and grows with wrap
     uint32_t count;                                  // +0x08, wrapping decrement
     int32_t firstFree;                               // +0x0c, signed minimum with object+0x44
 };
@@ -20,6 +20,7 @@ extern volatile ObjectSlotRegistry g_slotObjects;    // original inline 16B obje
 extern volatile uint8_t g_ShouldDispose;             // actual 1B flag at 0x3f5050
 namespace object_state {
 extern YYObjectBase *volatile freeList __asm__("_ZN12YYObjectBase12ms_pFreeListE");
+extern volatile uint32_t currentCounter __asm__("_ZN12YYObjectBase17ms_currentCounterE");
 }
 
 struct alignas(8) ObjectValueImage {

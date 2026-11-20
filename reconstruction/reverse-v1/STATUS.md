@@ -1,23 +1,25 @@
 # 状态与定性
 
-## 当前断点：VM::Exec、引用清理与 profiler 节点
+## 当前断点：重分配、对象池与动态变量存储
 
-`cpp/vm_exec/vm_exec_entry.cpp` 新落VM::Exec九参静态方法；`vm_value_helpers.cpp` 新落
-WEAK DEFAULT _RefThing<const char*>::dec、YYFree及三条原件BX LR空操作；
-`profiler_node.cpp` 新落FindOrCreateNode。七原入口、522原字（13池字），不是新引擎或stub。
-VM同一私有image容纳前缀spill和发布的VMExec，匿名池guard独立声明，不定义默认状态。
+`memory_manager/memory_realloc.cpp` 新落ReAlloc/bucketSize，`object_base/object_allocation.cpp`
+新落YYObjectBase::Alloc/InternalGetYYVar、普通int哈希与YYRealloc。六入口/327原字（9池字）；
+对象新建仍明确100B raw allocation→真实C1 ABI欠账，不用C++new实例化名义空类。
+ReAlloc保留头验证/原负backref word当oldSize、强制Alloc true、live mutex解锁；bucketSize
+仅一receiver。对象池容量/slot-registry增长与Robin-Hood探测按原字，value aux+8不预清。
 
-父级发现并修正worker的池fill零值（原0x78）、对齐加数（原+0x8008）、空池join多读、
-PushContextStack后locals重读，以及YYFree前spill/回调后reload。FindNode已修BFI高nibble
-替换（不是OR）及id不匹配时跳过kind byte读取；保留逐byte发布和held/live header区分。
-这些有原字/静态反例，不冒称目标执行对拍。O0/O2各30TU/61导出组合通过，原三空操作O2
-均为4B BX LR；refdec为WEAK DEFAULT，另做静态strong provider覆盖链接，未执行。
+父级修正头word读序为ptr-12→ptr-16再比较；增长地址/索引加法显式uint32回绕，ASR容量
+用定义良好的bit图表达。O0/O2各32TU/67原名字组合通过，普通int哈希O2八字节与原件一致。
+独立静态复核未发现正文缺陷，注释转录小错已纠正；本地收口仍phase_complete=false。下一断口为C1/C2 ctor、AllocVars、
+GetRValue、map Insert、ExecDebug/FreePre及MMAlloc。完整类/坏域/生命周期/并发异常未证；
+不运行目标、不安装、不推送。
 
-独立复核定位e8138的一处字段错位：sp+64应为exec+4c的frameDepth，已修并重编，旧48偏移
-负控断言必拒；其余范围未发现正文反例。本地收口仍phase_complete=false。VM::ExecDebug、FREE_RValue__Pre、
-对象Alloc/getter/context、ReAlloc和生产者仍欠本体；完整类、坏域、原LR/unwind/并发未证。
-已接通的Release/Return、对象释放、脚本/时钟/Profiler Push/Pop源码不因这些欠账被抹除。
-按工作线持续施工到本次约定检查点，不运行任何目标、不安装、不推送。
+## 已提交基础：VM入口与profiler节点（3ec96e4）
+
+VM::Exec、FindNode、WEAK refdec、YYFree和三个原no-op七入口/522原字已收口；30TU/61名字。
+父级修原稿池fill/对齐、spill前后与回调重读、BFI等；独立复核定位VMEXEC-01，sp+64对应
+frameDepth+4c而非nextSlot+48，已按原字修复、fresh两档重编和旧偏移ABI负控拒绝。23路径/
+67输入逐commit blob一致。原no-op O2各BX LR，弱覆盖只核静态链接选择，未执行目标。
 
 ## 已提交基础：ScriptRef 与 profiler 压帧（e60233c）
 

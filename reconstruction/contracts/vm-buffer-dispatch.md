@@ -309,3 +309,23 @@ header不同；grow前发cap、ReAlloc后live this.currentIndex/this.stats与hel
 七新增入口/522原字，O0/O2各30TU/61导出，所有原三no-op O2为4B BX LR。编译/静态修缮
 不证明坏域、原私有栈/LR、异常或并发；匿名guard、Debug/FreePre、ReAlloc及对象/context
 生产者仍未闭合，目标均未执行。
+
+
+## ReAlloc 与对象/变量存储的实际正文
+
+`memory_realloc.cpp` 还原0x27cedc与bucketSize@0x27c1e4。bucketSize仅以bucket receiver
+调用vptr+8，不把查找指针再传一次。ReAlloc第五bool未消费，NULL和grow两路Alloc固定true；
+持锁头读顺序为ptr-12 magic→ptr-16 size→比较，第二cookie失败再查负backref。验证过的
+backref路径oldSize仍取原ptr-4负位图，不替为合理容量；unsigned oldSize>=newSize先返回
+原指针，所以requested0不按标准realloc释放。grow清尾→copy→Free后LIVE读mutex再Unlock。
+
+`object_allocation.cpp` 还原Alloc@0x19198c、InternalGetYYVar@0x196a70、int hash@0x1b6e44
+及YYRealloc@0xcef64。hash是普通重载add1，不是template；YYRealloc传Code_Main.cpp/1298/
+false。回收对象先快照capacity/next再发freeList；fresh分支new100→真实C1 raw ABI，直接
+ensure-dense，不重复回收reset。capacity/slot扫描使用signed门、unsigned回绕及原朝零ASR
+增长；零capacity不补最小值。registry先发布指针再按live旧cap清新尾，memset后读count。
+
+GetVar仅按bucket hash/state命中，不添加key比较；mask/data在hash调用后从held map读。
+新RValue由GetRValue取回，live默认kind先读、low/high写零、kind写回，+8保持；Insert receiver
+由live对象+60读取。Ctor/AllocVars/GetRValue/Insert仍是真实内部欠账，不被raw声明隐藏。
+六入口/327原字，O0/O2各32TU/67导出，当前是源码与静态编译证据，目标未执行。

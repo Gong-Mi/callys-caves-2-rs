@@ -3,7 +3,7 @@
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "header_sha256": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
   "canonical_api_header": "../vm_exec/vm_exec.hpp",
-  "canonical_api_header_sha256": "2a8ed0b9a2e534ee03aa6191d465078bf40c503f30644560acc27ac0cbf2d515",
+  "canonical_api_header_sha256": "5f3c1a41759e681ea23ca7e7ce2398538db4f4091613cc4a2a276333411b90ab",
   "functions": [
     {
       "entry": "0x249590",
@@ -61,7 +61,6 @@
   "not_additive_with_c_registry": true,
   "remaining_internal_dependencies": [
     "CreateArgumentsObject",
-    "YYObjectBase::Alloc/InternalGetYYVar",
     "Code_Variable_Find_Slot_From_Name",
     "PushContextStack/PopContextStack"
   ],

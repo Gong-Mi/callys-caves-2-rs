@@ -1,9 +1,9 @@
 {
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
-  "header_sha256": "99abcc725d78c6eb9880ba510e2d02062a180182aa6613f32ad313a1bb8688d3",
+  "header_sha256": "ff3e3d1d4c126aa377ea0d2caca45793e2f03102aa34c681be6f1cf37bc93ea1",
   "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
-  "canonical_api_header_sha256": "2a8ed0b9a2e534ee03aa6191d465078bf40c503f30644560acc27ac0cbf2d515",
+  "canonical_api_header_sha256": "5f3c1a41759e681ea23ca7e7ce2398538db4f4091613cc4a2a276333411b90ab",
   "functions": [
     {
       "entry": "0x198f88",
@@ -140,15 +140,89 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x19198c",
+      "size": 544,
+      "symbols": [
+        "_ZN12YYObjectBase5AllocEjib"
+      ],
+      "body_sha256": "51a61e17529ad2526da116dbee78b23548a0cf65424d49f1528dd734a442c180",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_allocation.cpp",
+      "translation_source_sha256": "9d54c61fa1b7ba35ff07d05f8e4aa84592aa5a1f12f7dd195f01bc34f90f222e",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x196a70",
+      "size": 276,
+      "symbols": [
+        "_ZN12YYObjectBase16InternalGetYYVarEi"
+      ],
+      "body_sha256": "742f0d4db58f440c85ed17aab74cfe425532af1e59447ba42c97233c63d9d7f8",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_allocation.cpp",
+      "translation_source_sha256": "9d54c61fa1b7ba35ff07d05f8e4aa84592aa5a1f12f7dd195f01bc34f90f222e",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x1b6e44",
+      "size": 8,
+      "symbols": [
+        "_Z21CHashMapCalculateHashi"
+      ],
+      "body_sha256": "7b2a4131000c79c4d67c6650b361f5fbc7eb2ad79344c81426cc3a68849704d2",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_allocation.cpp",
+      "translation_source_sha256": "9d54c61fa1b7ba35ff07d05f8e4aa84592aa5a1f12f7dd195f01bc34f90f222e",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xcef64",
+      "size": 44,
+      "symbols": [
+        "_Z9YYReallocPvi"
+      ],
+      "body_sha256": "ab501b8f45456b9535d28bad879e201c320b43220709e1bae1812b4fbbc5c1d1",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_allocation.cpp",
+      "translation_source_sha256": "9d54c61fa1b7ba35ff07d05f8e4aa84592aa5a1f12f7dd195f01bc34f90f222e",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
     }
   ],
   "not_whole_library_completion": true,
   "scope": "YYObjectBase static Free/FreeVars, RValue page-pool recycle, JS property/callability and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
   "remaining_internal_dependencies": [
+    "YYObjectBase constructor C1/C2",
+    "YYObjectBase::AllocVars",
+    "GetRValue",
+    "CHashMap<int,RValue*,3>::Insert",
     "FREE_RValue__Pre",
-    "YYError",
-    "property getter targets",
-    "raw operator delete entry and dynamic deleteSelf targets"
+    "YYError and getter targets"
   ],
   "remaining_scope": [
     "original source field/API spellings",
@@ -157,7 +231,8 @@
   ],
   "original_executed": false,
   "additional_headers_sha256": {
-    "object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45"
+    "object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45",
+    "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8"
   },
   "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it.",
   "real_internal_provider_added": {

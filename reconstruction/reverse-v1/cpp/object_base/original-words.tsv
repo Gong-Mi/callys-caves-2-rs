@@ -330,3 +330,221 @@ entry	va	word	mnemonic	operands
 249860	24988c	1afffff8	bne	0x249874 <_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_+0x14>
 249860	249890	e49d4004	ldr	r4, [sp], #4
 249860	249894	eaffff3d	b	0x249590 <_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_>
+19198c	19198c	e59f3204	ldr	r3, [pc, #0x204]
+19198c	191990	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+19198c	191994	e79f3003	ldr	r3, [pc, r3]
+19198c	191998	e24dd008	sub	sp, sp, #8
+19198c	19199c	e1a06000	mov	r6, r0
+19198c	1919a0	e5935000	ldr	r5, [r3]
+19198c	1919a4	e1a04001	mov	r4, r1
+19198c	1919a8	e1a07002	mov	r7, r2
+19198c	1919ac	e3550000	cmp	r5, #0
+19198c	1919b0	0a00005d	beq	0x191b2c <YYObjectBase::Alloc(unsigned int, int, bool)+0x1a0>
+19198c	1919b4	e595102c	ldr	r1, [r5, #0x2c]
+19198c	1919b8	e5952008	ldr	r2, [r5, #0x8]
+19198c	1919bc	e1510000	cmp	r1, r0
+19198c	1919c0	e5832000	str	r2, [r3]
+19198c	1919c4	3a00003a	blo	0x191ab4 <YYObjectBase::Alloc(unsigned int, int, bool)+0x128>
+19198c	1919c8	e3540005	cmp	r4, #5
+19198c	1919cc	e3a03000	mov	r3, #0
+19198c	1919d0	e5856024	str	r6, [r5, #0x24]
+19198c	1919d4	e5854058	str	r4, [r5, #0x58]
+19198c	1919d8	e5853048	str	r3, [r5, #0x48]
+19198c	1919dc	0a000009	beq	0x191a08 <YYObjectBase::Alloc(unsigned int, int, bool)+0x7c>
+19198c	1919e0	e5953004	ldr	r3, [r5, #0x4]
+19198c	1919e4	e3530000	cmp	r3, #0
+19198c	1919e8	0a000006	beq	0x191a08 <YYObjectBase::Alloc(unsigned int, int, bool)+0x7c>
+19198c	1919ec	e3560000	cmp	r6, #0
+19198c	1919f0	e1a0c006	mov	r12, r6
+19198c	1919f4	da000003	ble	0x191a08 <YYObjectBase::Alloc(unsigned int, int, bool)+0x7c>
+19198c	1919f8	e25cc001	subs	r12, r12, #1
+19198c	1919fc	e583400c	str	r4, [r3, #0xc]
+19198c	191a00	e2833010	add	r3, r3, #16
+19198c	191a04	1afffffb	bne	0x1919f8 <YYObjectBase::Alloc(unsigned int, int, bool)+0x6c>
+19198c	191a08	e3570000	cmp	r7, #0
+19198c	191a0c	0a000002	beq	0x191a1c <YYObjectBase::Alloc(unsigned int, int, bool)+0x90>
+19198c	191a10	e5950004	ldr	r0, [r5, #0x4]
+19198c	191a14	e3500000	cmp	r0, #0
+19198c	191a18	0a00004a	beq	0x191b48 <YYObjectBase::Alloc(unsigned int, int, bool)+0x1bc>
+19198c	191a1c	e59f6178	ldr	r6, [pc, #0x178]
+19198c	191a20	e79f6006	ldr	r6, [pc, r6]
+19198c	191a24	e9960090	ldmib	r6, {r4, r7}
+19198c	191a28	e1570004	cmp	r7, r4
+19198c	191a2c	aa00002d	bge	0x191ae8 <YYObjectBase::Alloc(unsigned int, int, bool)+0x15c>
+19198c	191a30	e3540000	cmp	r4, #0
+19198c	191a34	e596300c	ldr	r3, [r6, #0xc]
+19198c	191a38	da000010	ble	0x191a80 <YYObjectBase::Alloc(unsigned int, int, bool)+0xf4>
+19198c	191a3c	e596c000	ldr	r12, [r6]
+19198c	191a40	e1a01004	mov	r1, r4
+19198c	191a44	ea000002	b	0x191a54 <YYObjectBase::Alloc(unsigned int, int, bool)+0xc8>
+19198c	191a48	e2511001	subs	r1, r1, #1
+19198c	191a4c	e2833001	add	r3, r3, #1
+19198c	191a50	0a00000a	beq	0x191a80 <YYObjectBase::Alloc(unsigned int, int, bool)+0xf4>
+19198c	191a54	e1540003	cmp	r4, r3
+19198c	191a58	e1a02103	lsl	r2, r3, #2
+19198c	191a5c	d3a03000	movle	r3, #0
+19198c	191a60	d1a02003	movle	r2, r3
+19198c	191a64	e08c0002	add	r0, r12, r2
+19198c	191a68	e79c2002	ldr	r2, [r12, r2]
+19198c	191a6c	e3520000	cmp	r2, #0
+19198c	191a70	1afffff4	bne	0x191a48 <YYObjectBase::Alloc(unsigned int, int, bool)+0xbc>
+19198c	191a74	e5805000	str	r5, [r0]
+19198c	191a78	e586300c	str	r3, [r6, #0xc]
+19198c	191a7c	ea000000	b	0x191a84 <YYObjectBase::Alloc(unsigned int, int, bool)+0xf8>
+19198c	191a80	e3e03000	mvn	r3, #0
+19198c	191a84	e59f2114	ldr	r2, [pc, #0x114]
+19198c	191a88	e2877001	add	r7, r7, #1
+19198c	191a8c	e5853044	str	r3, [r5, #0x44]
+19198c	191a90	e3a03000	mov	r3, #0
+19198c	191a94	e79f2002	ldr	r2, [pc, r2]
+19198c	191a98	e5853038	str	r3, [r5, #0x38]
+19198c	191a9c	e1a00005	mov	r0, r5
+19198c	191aa0	e5867008	str	r7, [r6, #0x8]
+19198c	191aa4	e5923000	ldr	r3, [r2]
+19198c	191aa8	e585303c	str	r3, [r5, #0x3c]
+19198c	191aac	e28dd008	add	sp, sp, #8
+19198c	191ab0	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+19198c	191ab4	e3570000	cmp	r7, #0
+19198c	191ab8	e585002c	str	r0, [r5, #0x2c]
+19198c	191abc	0affffc1	beq	0x1919c8 <YYObjectBase::Alloc(unsigned int, int, bool)+0x3c>
+19198c	191ac0	e59f20dc	ldr	r2, [pc, #0xdc]
+19198c	191ac4	e3a03000	mov	r3, #0
+19198c	191ac8	e5950004	ldr	r0, [r5, #0x4]
+19198c	191acc	e1a01206	lsl	r1, r6, #4
+19198c	191ad0	e58d3000	str	r3, [sp]
+19198c	191ad4	e08f2002	add	r2, pc, r2
+19198c	191ad8	e3a0304a	mov	r3, #74
+19198c	191adc	eb03acfe	bl	0x27cedc <MemoryManager::ReAlloc(void*, unsigned int, char const*, int, bool)>
+19198c	191ae0	e5850004	str	r0, [r5, #0x4]
+19198c	191ae4	eaffffb7	b	0x1919c8 <YYObjectBase::Alloc(unsigned int, int, bool)+0x3c>
+19198c	191ae8	e0844084	add	r4, r4, r4, lsl #1
+19198c	191aec	e5960000	ldr	r0, [r6]
+19198c	191af0	e0844fa4	add	r4, r4, r4, lsr #31
+19198c	191af4	e1a080c4	asr	r8, r4, #1
+19198c	191af8	e1a01108	lsl	r1, r8, #2
+19198c	191afc	e1a04008	mov	r4, r8
+19198c	191b00	ebfcf517	bl	0xcef64 <YYRealloc(void*, int)>
+19198c	191b04	e5963004	ldr	r3, [r6, #0x4]
+19198c	191b08	e3a01000	mov	r1, #0
+19198c	191b0c	e0632008	rsb	r2, r3, r8
+19198c	191b10	e1a02102	lsl	r2, r2, #2
+19198c	191b14	e5860000	str	r0, [r6]
+19198c	191b18	e0800103	add	r0, r0, r3, lsl #2
+19198c	191b1c	ebfc92a3	bl	0xb65b0 <memset@plt>
+19198c	191b20	e5967008	ldr	r7, [r6, #0x8]
+19198c	191b24	e5868004	str	r8, [r6, #0x4]
+19198c	191b28	eaffffc0	b	0x191a30 <YYObjectBase::Alloc(unsigned int, int, bool)+0xa4>
+19198c	191b2c	e3a00064	mov	r0, #100
+19198c	191b30	eb03aa7b	bl	0x27c524 <operator new(unsigned int)>
+19198c	191b34	e1a01006	mov	r1, r6
+19198c	191b38	e1a02004	mov	r2, r4
+19198c	191b3c	e1a05000	mov	r5, r0
+19198c	191b40	ebffff51	bl	0x19188c <YYObjectBase::YYObjectBase(int, int)>
+19198c	191b44	eaffffaf	b	0x191a08 <YYObjectBase::Alloc(unsigned int, int, bool)+0x7c>
+19198c	191b48	e59f2058	ldr	r2, [pc, #0x58]
+19198c	191b4c	e1a01206	lsl	r1, r6, #4
+19198c	191b50	e58d0000	str	r0, [sp]
+19198c	191b54	e3a0304a	mov	r3, #74
+19198c	191b58	e08f2002	add	r2, pc, r2
+19198c	191b5c	eb03acde	bl	0x27cedc <MemoryManager::ReAlloc(void*, unsigned int, char const*, int, bool)>
+19198c	191b60	e3540005	cmp	r4, #5
+19198c	191b64	e585602c	str	r6, [r5, #0x2c]
+19198c	191b68	e5850004	str	r0, [r5, #0x4]
+19198c	191b6c	0affffaa	beq	0x191a1c <YYObjectBase::Alloc(unsigned int, int, bool)+0x90>
+19198c	191b70	e3500000	cmp	r0, #0
+19198c	191b74	0affffa8	beq	0x191a1c <YYObjectBase::Alloc(unsigned int, int, bool)+0x90>
+19198c	191b78	e5953024	ldr	r3, [r5, #0x24]
+19198c	191b7c	e3530000	cmp	r3, #0
+19198c	191b80	daffffa5	ble	0x191a1c <YYObjectBase::Alloc(unsigned int, int, bool)+0x90>
+19198c	191b84	e2533001	subs	r3, r3, #1
+19198c	191b88	e580400c	str	r4, [r0, #0xc]
+19198c	191b8c	e2800010	add	r0, r0, #16
+19198c	191b90	1afffffb	bne	0x191b84 <YYObjectBase::Alloc(unsigned int, int, bool)+0x1f8>
+19198c	191b94	eaffffa0	b	0x191a1c <YYObjectBase::Alloc(unsigned int, int, bool)+0x90>
+19198c	191b98	0025c27c	.word	0x0025c27c
+19198c	191b9c	0025c244	.word	0x0025c244
+19198c	191ba0	0025c1b8	.word	0x0025c1b8
+19198c	191ba4	0019f55c	.word	0x0019f55c
+19198c	191ba8	0019f4d8	.word	0x0019f4d8
+196a70	196a70	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+196a70	196a74	e1a07000	mov	r7, r0
+196a70	196a78	e5904060	ldr	r4, [r0, #0x60]
+196a70	196a7c	e1a08001	mov	r8, r1
+196a70	196a80	e3540000	cmp	r4, #0
+196a70	196a84	0a00003b	beq	0x196b78 <YYObjectBase::InternalGetYYVar(int)+0x108>
+196a70	196a88	e1a00008	mov	r0, r8
+196a70	196a8c	eb0080ec	bl	0x1b6e44 <CHashMapCalculateHash(int)>
+196a70	196a90	e594c008	ldr	r12, [r4, #0x8]
+196a70	196a94	e5949010	ldr	r9, [r4, #0x10]
+196a70	196a98	e3c00102	bic	r0, r0, #-2147483648
+196a70	196a9c	e00c3000	and	r3, r12, r0
+196a70	196aa0	e1a05083	lsl	r5, r3, #1
+196a70	196aa4	e0852003	add	r2, r5, r3
+196a70	196aa8	e0892102	add	r2, r9, r2, lsl #2
+196a70	196aac	e5922008	ldr	r2, [r2, #0x8]
+196a70	196ab0	e3520000	cmp	r2, #0
+196a70	196ab4	0a00001a	beq	0x196b24 <YYObjectBase::InternalGetYYVar(int)+0xb4>
+196a70	196ab8	e1500002	cmp	r0, r2
+196a70	196abc	0a000026	beq	0x196b5c <YYObjectBase::InternalGetYYVar(int)+0xec>
+196a70	196ac0	e594a000	ldr	r10, [r4]
+196a70	196ac4	e00c2002	and	r2, r12, r2
+196a70	196ac8	e083100a	add	r1, r3, r10
+196a70	196acc	e0622001	rsb	r2, r2, r1
+196a70	196ad0	e112000c	tst	r2, r12
+196a70	196ad4	4a000012	bmi	0x196b24 <YYObjectBase::InternalGetYYVar(int)+0xb4>
+196a70	196ad8	e3a04000	mov	r4, #0
+196a70	196adc	ea000003	b	0x196af0 <YYObjectBase::InternalGetYYVar(int)+0x80>
+196a70	196ae0	e1500002	cmp	r0, r2
+196a70	196ae4	0a00001a	beq	0x196b54 <YYObjectBase::InternalGetYYVar(int)+0xe4>
+196a70	196ae8	e1560004	cmp	r6, r4
+196a70	196aec	ba00000c	blt	0x196b24 <YYObjectBase::InternalGetYYVar(int)+0xb4>
+196a70	196af0	e2833001	add	r3, r3, #1
+196a70	196af4	e2844001	add	r4, r4, #1
+196a70	196af8	e00c3003	and	r3, r12, r3
+196a70	196afc	e083100a	add	r1, r3, r10
+196a70	196b00	e1a05083	lsl	r5, r3, #1
+196a70	196b04	e0852003	add	r2, r5, r3
+196a70	196b08	e0892102	add	r2, r9, r2, lsl #2
+196a70	196b0c	e5922008	ldr	r2, [r2, #0x8]
+196a70	196b10	e00c6002	and	r6, r12, r2
+196a70	196b14	e3520000	cmp	r2, #0
+196a70	196b18	e0666001	rsb	r6, r6, r1
+196a70	196b1c	e006600c	and	r6, r6, r12
+196a70	196b20	1affffee	bne	0x196ae0 <YYObjectBase::InternalGetYYVar(int)+0x70>
+196a70	196b24	ebffe8a5	bl	0x190dc0 <GetRValue()>
+196a70	196b28	e3a03000	mov	r3, #0
+196a70	196b2c	e1a01008	mov	r1, r8
+196a70	196b30	e1a04000	mov	r4, r0
+196a70	196b34	e5970058	ldr	r0, [r7, #0x58]
+196a70	196b38	e1a02004	mov	r2, r4
+196a70	196b3c	e5843000	str	r3, [r4]
+196a70	196b40	e5843004	str	r3, [r4, #0x4]
+196a70	196b44	e584000c	str	r0, [r4, #0xc]
+196a70	196b48	e5970060	ldr	r0, [r7, #0x60]
+196a70	196b4c	ebfffe2d	bl	0x196408 <CHashMap<int, RValue*, 3>::Insert(int, RValue*)>
+196a70	196b50	ea000006	b	0x196b70 <YYObjectBase::InternalGetYYVar(int)+0x100>
+196a70	196b54	e3730001	cmn	r3, #1
+196a70	196b58	0afffff1	beq	0x196b24 <YYObjectBase::InternalGetYYVar(int)+0xb4>
+196a70	196b5c	e0853003	add	r3, r5, r3
+196a70	196b60	e0899103	add	r9, r9, r3, lsl #2
+196a70	196b64	e3790004	cmn	r9, #4
+196a70	196b68	15994004	ldrne	r4, [r9, #0x4]
+196a70	196b6c	0affffec	beq	0x196b24 <YYObjectBase::InternalGetYYVar(int)+0xb4>
+196a70	196b70	e1a00004	mov	r0, r4
+196a70	196b74	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+196a70	196b78	ebffeb17	bl	0x1917dc <YYObjectBase::AllocVars()>
+196a70	196b7c	e5974060	ldr	r4, [r7, #0x60]
+196a70	196b80	eaffffc0	b	0x196a88 <YYObjectBase::InternalGetYYVar(int)+0x18>
+1b6e44	1b6e44	e2800001	add	r0, r0, #1
+1b6e44	1b6e48	e12fff1e	bx	lr
+cef64	cef64	e52de004	str	lr, [sp, #-0x4]!
+cef64	cef68	e24dd00c	sub	sp, sp, #12
+cef64	cef6c	e59f2018	ldr	r2, [pc, #0x18]
+cef64	cef70	e3a03000	mov	r3, #0
+cef64	cef74	e58d3000	str	r3, [sp]
+cef64	cef78	e3003512	movw	r3, #0x512
+cef64	cef7c	e08f2002	add	r2, pc, r2
+cef64	cef80	eb06b7d5	bl	0x27cedc <MemoryManager::ReAlloc(void*, unsigned int, char const*, int, bool)>
+cef64	cef84	e28dd00c	add	sp, sp, #12
+cef64	cef88	e49df004	ldr	pc, [sp], #4
+cef64	cef8c	00263280	.word	0x00263280

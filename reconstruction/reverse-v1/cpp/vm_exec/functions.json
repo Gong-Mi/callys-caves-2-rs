@@ -4,7 +4,7 @@
   "original_abi": "ARM32 little-endian softfp",
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
-  "header_sha256": "2a8ed0b9a2e534ee03aa6191d465078bf40c503f30644560acc27ac0cbf2d515",
+  "header_sha256": "5f3c1a41759e681ea23ca7e7ce2398538db4f4091613cc4a2a276333411b90ab",
   "functions": [
     {
       "entry": "0xe4540",
@@ -224,7 +224,6 @@
     "FREE_RValue__Pre",
     "YYObjectBase::Alloc/InternalGetYYVar",
     "GetContextStackTop/PushContextStack/PopContextStack",
-    "MemoryManager::ReAlloc",
     "instruction-handler and global/pool producers"
   ],
   "remaining_scope": [

@@ -1,22 +1,24 @@
 {
-  "scope": "YYObjectBase Free/FreeVars plus page-pool recycling and JS properties/callability/forwarder static C++ recovery, not full ownership/unwind or original equivalence",
+  "scope": "Object static/member and JS/value/pool allocation candidate bodies; raw C1/AllocVars/GetRValue/Insert remain named internal dependencies, no full class/lifetime certification",
   "shared_receipt": "../memory_manager/validation.json",
-  "shared_receipt_sha256": "c99e9ca98547b060bd2ba712bb65b015baf904eca9bb68ec2685e9e8c5ae854b",
-  "header_sha256": "99abcc725d78c6eb9880ba510e2d02062a180182aa6613f32ad313a1bb8688d3",
+  "shared_receipt_sha256": "45851c875bb7055723f768db63cf805864810174e84cfb15f4e2caab5ef4b0c4",
+  "header_sha256": "ff3e3d1d4c126aa377ea0d2caca45793e2f03102aa34c681be6f1cf37bc93ea1",
   "sources_sha256": {
     "object_free.cpp": "500508b69cb09af9e7d89969f2c760c4b5f09e395a8474d1607dedcb7233f758",
     "object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
     "value_pool.cpp": "73739c0c2d5e8cfd7c585ec6b944dee79abf30237674bd1937198896f4fc1b73",
-    "js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589"
+    "js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+    "object_allocation.cpp": "9d54c61fa1b7ba35ff07d05f8e4aa84592aa5a1f12f7dd195f01bc34f90f222e"
   },
-  "original_index_words": 331,
-  "original_entries": 8,
+  "original_index_words": 549,
+  "original_entries": 12,
   "original_executed": false,
   "rebuilt_executed": false,
   "additional_headers_sha256": {
-    "object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45"
+    "object_helpers.hpp": "1e290609ae5af454a49ce2952c54343fcb48ff732d526d5cebcb2151480b8f45",
+    "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8"
   },
-  "new_batch_entries": 6,
-  "new_batch_words": 114,
-  "canonical_api_header_sha256": "2a8ed0b9a2e534ee03aa6191d465078bf40c503f30644560acc27ac0cbf2d515"
+  "new_batch_entries": 4,
+  "new_batch_words": 218,
+  "canonical_api_header_sha256": "5f3c1a41759e681ea23ca7e7ce2398538db4f4091613cc4a2a276333411b90ab"
 }
