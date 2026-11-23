@@ -185,5 +185,14 @@
       "full GC map value type and later writers of initial efficiency",
       "original/rebuilt exception, fault, concurrency and final image lifecycle equivalence"
     ]
+  },
+  "gc_root_consumers": {
+    "tier": "bytecode_anchored",
+    "root_pointer_hash": "0x190f34, ASR then add 1",
+    "probe": "0x1910e8 hashes and value-address only; not key equality; pre-probe top-bit check separate from signed distance check",
+    "dynamic_slots": "+4 pointer to 4B object pointers; +8 count/+0xc capacity",
+    "publish_sequence": "After ReAlloc: live count, publish array, publish new count, publish pointer to old-index slot",
+    "class_stats": "Free each entry +0 payload, not the table; 8B entries, +0x4c live unsigned count in loop",
+    "gap": "AddRoot/RemoveRoot probe/update paths, other root table users and game/runtime equivalence not certified"
   }
 }

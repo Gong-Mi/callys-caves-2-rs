@@ -1,5 +1,15 @@
 # 状态与定性
 
+## 当前断点：GC 根表查询与动态根状态
+
+恢复 `IsRoot` 和真实指针 hash，及 `AddDynamicRoot`、`ResetDynamicRoots`、`UpdateRange`、
+`ResetClassStats`。查询只读槽中的 hash，命中测 value 地址而非读取 value，也不做 key 比较。
+动态根扩容后按原件先重读 count、再发布新表，最后先写 count、再写根指针；以原稿优化件
+确实把两次写反序为静态反控。类统计清理只释放各项 payload、清 count，保留表本身。
+
+本批六原入口、130 原字（1 池字），ARMv7 O0/O2 各51 TU、139 个原函数符号名，18 项本批
+ABI 检查。未运行原件或重建件。下一断点是根表 `AddRoot`/`RemoveRoot` 实际修改链。
+
 ## 当前断点：GC / `_rvalue` 镜像启动链
 
 `0xb9814` 完整恢复：依次分配、发布、清理并登记 ID hash 与对象槽；构造四个 88B 的

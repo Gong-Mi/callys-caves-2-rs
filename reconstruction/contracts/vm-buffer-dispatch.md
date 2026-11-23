@@ -470,3 +470,14 @@ GC C1 用 `new(20)`、Alloc(192)、memset、live 容量与 entries，保持有�
 在写 +0xc 与 +8 之间读 g_GCinitialcollectionefficiency，一次原字复制到 +0x2c。其出厂 .data
 字为 0x45800000。析构按原 held map、live +4、Free 边及清零顺序恢复。readelf 复核 C1、D1 与
 数组回调均有 compact inline EHABI，不能从无 landing pad 推断没有 unwind 记录。
+
+## GC 根查找与动态根消费者
+
+0x1910e8 在真实 hash 外调前持有 map；回后分序读 +8/+0x10。只有槽 hash +8 被读，
+首槽命中不走碰撞后的 index=-1 门；0x191144 TST 后是 BMI，不能改作任意非零；
+命中按 value 地址而非 value 内容返回。0x190f34 的指针 hash 为 ASR #8 后加 1。
+
+0x19135c 保留 NULL/强制/代际门、32 位回绕容量与 signed 扩容判定、ReAlloc 后重读旧 count，
+两路都先写新 count 再按旧 index 发布 pointer。O2 实际指令次序过门，原稿优化件反序被拒。
+`UpdateRange` 两读在两写之前，`ResetClassStats` 按每次外调后的 live unsigned count 循环，
+释放的是 entry+0 payload，不是表。`ResetDynamicRoots` 仅清 +8。当前仍无运行及 GC 全流程等价。

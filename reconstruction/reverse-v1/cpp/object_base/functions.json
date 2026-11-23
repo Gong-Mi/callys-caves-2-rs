@@ -379,6 +379,120 @@
       "phase_complete": false,
       "original_executed": false,
       "local_contract": "Tail forward the size word to Alloc with Code_Main.cpp, line 1293, false."
+    },
+    {
+      "entry": "0x190f34",
+      "size": 12,
+      "symbols": [
+        "_Z21CHashMapCalculateHashIP12YYObjectBaseEjT_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "34217d1f761e353a182d0c67740985eb8d5b85f5b64b22e733c084b0c3663716",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_root_lookup.cpp",
+      "translation_source_sha256": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "ASR pointer bits by 8, then add 1."
+    },
+    {
+      "entry": "0x1910e8",
+      "size": 224,
+      "symbols": [
+        "_ZN13CGCGeneration6IsRootEP12YYObjectBase"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "c5097d76d81af2e52b4f2be8f704cdce60432f80217ec2a508ecfc07f187eae9",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_root_lookup.cpp",
+      "translation_source_sha256": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Hash-only membership probe. Slot+4 is tested as an address, no value/key load."
+    },
+    {
+      "entry": "0x19135c",
+      "size": 164,
+      "symbols": [
+        "_ZN13CGCGeneration14AddDynamicRootEP12YYObjectBaseb"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "0ace31eac93853230f3c0298de82ee752b0d2e97fca74fed30e4bd360d9111b2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_mutable_roots.cpp",
+      "translation_source_sha256": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Object/generation gate, signed capacity comparison with wraparound resize, live count then publish returned pointer, count before slot store."
+    },
+    {
+      "entry": "0x191400",
+      "size": 12,
+      "symbols": [
+        "_ZN13CGCGeneration17ResetDynamicRootsEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a46dbb7ce1a0953ec2b112e0deca422dc0c41b430f72b66bad715237cd90b79b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_mutable_roots.cpp",
+      "translation_source_sha256": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Clear only the dynamic root count."
+    },
+    {
+      "entry": "0x19150c",
+      "size": 36,
+      "symbols": [
+        "_ZN13CGCGeneration11UpdateRangeEi"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "60aca76c819fa3d84103711bd5b19e9cca88271f9900f820dae85bf4fe91c700",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_mutable_roots.cpp",
+      "translation_source_sha256": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Read both signed range endpoints before one write each, including unchanged values."
+    },
+    {
+      "entry": "0x191530",
+      "size": 72,
+      "symbols": [
+        "_ZN13CGCGeneration15ResetClassStatsEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "30b236ac4c41517298db12180c644552cdc693809abc7d21dfa09a1f9e341f87",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_mutable_roots.cpp",
+      "translation_source_sha256": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Free each entry payload from the live table; re-read unsigned count after Free; clear count, retain table."
     }
   ],
   "not_whole_library_completion": true,
@@ -399,7 +513,7 @@
     "object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
     "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
-    "gc_generation.hpp": "838ccdbd08f83b99bec14d9b5c8193f4bf39261c6c954449a2eb02a520e89e76",
+    "gc_generation.hpp": "d5a93c8c18d98355fd71047ac96a363433c4d85bd9fad3f32ce92758587da7be",
     "gc_instance_hash.hpp": "0040536acf0b4381376a54c7980e1e3f6cda494de08158c2295ddea2a5750b4d",
     "object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74"
   },
@@ -407,5 +521,6 @@
   "real_internal_provider_added": {
     "Call_ScriptRef": "../scripting/script_runtime.cpp"
   },
-  "gc_startup_scope": ".init_array @0xb9814 with its real allocation wrappers and destructor/constructor dependencies; no whole-image equivalence."
+  "gc_startup_scope": ".init_array @0xb9814 with its real allocation wrappers and destructor/constructor dependencies; no whole-image equivalence.",
+  "gc_consumer_scope": "Root membership, pointer hash, dynamic-root writer/reset, signed range and class-stat cleanup; AddRoot/RemoveRoot and next GC lifecycle still incomplete."
 }

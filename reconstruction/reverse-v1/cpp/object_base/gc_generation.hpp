@@ -3,6 +3,8 @@
 
 #include "../memory_manager/memory_alloc.hpp"
 
+class YYObjectBase;
+
 /* Recovered C++ interface, not the original source spelling.
  * tier: bytecode_anchored; ARMv7 image libyoyo_armv7.so SHA256
  * 3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a.
@@ -59,8 +61,14 @@ public:
      * records. Matching unwind metadata/propagation is outside this gate. */
     ~CGCGeneration() noexcept(false); // D1/D2 @0x191064, 80B, same GLOBAL entry
 
+    bool IsRoot(YYObjectBase *);                      // 0x1910e8
+    void AddDynamicRoot(YYObjectBase *, bool force); // 0x19135c
+    void ResetDynamicRoots();                       // 0x191400
+    void UpdateRange(int);                          // 0x19150c
+    void ResetClassStats();                          // 0x191530
+
     GCGenRootMapHeader *rootMap; // +0x00: the new(20) block, freed by D1
-    void *dynamicRoots;          // +0x04: MM block ReAlloc'd by AddDynamicRoot
+    YYObjectBase **dynamicRoots; // +0x04: four-byte pointer slots, AddDynamicRoot 0x1913ac
                                  // (line 74); D1 frees it unconditionally
     int32_t dynamicRootCount;    // +0x08: AddDynamicRoot ++, ResetDynamicRoots =0
     int32_t dynamicRootCapacity; // +0x0c: doubles (min 1) at AddDynamicRoot
@@ -81,8 +89,8 @@ public:
     uint32_t unknownWord3c;      // +0x3c: untouched by C1/D1/Reset (no write proven)
     uint32_t unknownWord40;      // +0x40: untouched by C1/D1/Reset (no write proven)
     uint32_t unknownWord44;      // +0x44: untouched by C1/D1/Reset (no write proven)
-    void *classStatsArray48;     // +0x48: 8B-stride node array; ResetClassStats
-                                 // frees it via MemoryManager::Free
+    void *classStatsArray48;     // +0x48: 8B-stride entries. ResetClassStats frees
+                                 // entry +0 payloads, retaining the array itself.
     int32_t classStatsCount4c;   // +0x4c: ResetClassStats loop bound + clear
     int32_t word50;              // +0x50: 0 in C1; AddClassStat consumer not recovered
     uint32_t unknownWord54;      // +0x54: untouched by C1/D1/Reset (no write proven)
