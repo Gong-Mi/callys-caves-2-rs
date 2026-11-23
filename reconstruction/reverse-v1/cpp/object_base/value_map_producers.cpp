@@ -48,11 +48,11 @@ const char memoryManagerHeaderSourcePath[] =
     "jni/../jni/yoyo/../../../Platform/MemoryManager.h";
 } // namespace
 
-static_assert(sizeof(RValuePagePoolPrefix) == 20, "inline _rvalue pool is 20B");
+static_assert(sizeof(rvalue_state::RValuePagePool) == 20, "inline _rvalue pool is 20B");
 
 RValue *GetRValue()
 {
-    volatile RValuePagePoolPrefix &pool = rvalue_state::pages;
+    volatile rvalue_state::RValuePagePool &pool = rvalue_state::livePages();
 
     /* 0x190dc4..0x190dcc: two literal/GOT words resolve r4 to the pool; the
      * model binds the same object through the _rvalue alias. freeHead read. */
@@ -60,16 +60,16 @@ RValue *GetRValue()
     if (held != 0u) {
         /* Non-empty path, 0x190dd8..0x190ddc: freeCount and the held node's
          * first word are read BEFORE the shared publish entry at 0x190de0. */
-        const uint32_t freeCount = pool.count10;               // 0x190dd8 +0x10
+        const uint32_t freeCount = pool.freeCount;               // 0x190dd8 +0x10
         const uint32_t next = object_wire::read(held, 0u);     // 0x190ddc node.firstWord
         /* Shared tail 0x190de0..0x190df8: activeCount read live, freeCount-1,
          * publish freeHead=next, then freeCount, then activeCount+1. Only
          * pool words are written: no other node word is touched and no
          * RValue construction happens; the held node address returns raw. */
-        const uint32_t activeCount = pool.count0c;             // 0x190de0 +0x0c
+        const uint32_t activeCount = pool.activeCount;             // 0x190de0 +0x0c
         pool.freeHead = asBytePointer(next);                   // 0x190de8 (wraps as raw ARM32 address)
-        pool.count10 = freeCount - 1u;                         // 0x190de4/0x190dec u32 wrap
-        pool.count0c = activeCount + 1u;                       // 0x190df0/0x190df4 u32 wrap
+        pool.freeCount = freeCount - 1u;                         // 0x190de4/0x190dec u32 wrap
+        pool.activeCount = activeCount + 1u;                       // 0x190df0/0x190df4 u32 wrap
         return asRValue(held);                                 // 0x190df8 pop {pc}, r0 held
     }
 
@@ -83,7 +83,7 @@ RValue *GetRValue()
      * into r7 and freeHead(+0x08) into r8; 0x190e28 re-reads count10 live. */
     const uint32_t oldPage = object_wire::address(pool.pageHead); // 0x190e20 r7
     const uint32_t oldFree = object_wire::address(pool.freeHead); // 0x190e20 r8
-    const uint32_t oldCount = pool.count10;                       // 0x190e28
+    const uint32_t oldCount = pool.freeCount;                       // 0x190e28
     const uint32_t first = (base + 24u) & ~15u;                   // 0x190e24/0x190e2c bic #15
     /* The original keeps two separate wrapping adds on r0: 0x190e30 +0xFF000
      * then 0x190e38 +0xFF0 for the loop end and 0x190e74 +0xFE0 for the
@@ -97,7 +97,7 @@ RValue *GetRValue()
     object_wire::write(first, 0u, oldFree);                       // 0x190e48 first.next=oldFree
     uint32_t previous = first;                                    // 0x190e4c r2
     pool.freeHead = asBytePointer(first);                         // 0x190e50 [r4,#8]
-    pool.count10 = oldCount + 1u;                                 // 0x190e54 [r4,#0x10]
+    pool.freeCount = oldCount + 1u;                                 // 0x190e54 [r4,#0x10]
 
     /* 0x190e58 b jumps over the first mov r2,r1: do/while over 16B links,
      * store previous at cursor, cursor+=16, stop when cursor == loopEnd.
@@ -119,10 +119,10 @@ RValue *GetRValue()
      * still read live at the shared entry and published in original order. */
     const uint32_t countBase = (oldCount + 0x0000FF00u) + 0x000000FFu; // 0x190e70/0x190e78
     const uint32_t heldNode = spanBase + 0x00000FE0u;             // 0x190e74 r0 = first+0xFFFE0
-    const uint32_t activeCount = pool.count0c;                    // 0x190de0 live +0x0c
+    const uint32_t activeCount = pool.activeCount;                    // 0x190de0 live +0x0c
     pool.freeHead = asBytePointer(previous);                      // 0x190de8 retained r2 = prev block
-    pool.count10 = countBase - 1u;                                // 0x190de4/0x190dec net +0xFFFE u32
-    pool.count0c = activeCount + 1u;                              // 0x190df0/0x190df4
+    pool.freeCount = countBase - 1u;                                // 0x190de4/0x190dec net +0xFFFE u32
+    pool.activeCount = activeCount + 1u;                              // 0x190df0/0x190df4
     return asRValue(heldNode);                                    // 0x190df8
 }
 

@@ -1,5 +1,17 @@
 # 状态与定性
 
+## 当前断点：GC / `_rvalue` 镜像启动链
+
+`0xb9814` 完整恢复：依次分配、发布、清理并登记 ID hash 与对象槽；构造四个 88B 的
+CGCGeneration，登记逆序析构，最后给 `_rvalue` 安装真实 false-mode 虚表，不写四个 payload 字。
+`GetRValue/FreeRValue` 与启动方现共用 `CBucket<16,1048576,false>`，与 `stackPages` 的
+32768 实例保持独立。这一批还恢复 YYAlloc、Hash/YYSlot 析构、GC C1/D1 及数组清理入口。
+
+七个原入口、230 原字（17 池字）；O0/O2 各49 TU、133 个原函数符号名，69 项本批 ABI。
+移除各真实提供 TU 会缺对应符号；把 `_rvalue` 装表提前到最后一次注册之前的变体能编译但被拒。
+C1/D1/数组回调原件均有 compact inline EHABI；未验证运行态展开、退出或游戏等价，未跑原件。
+下一步沿这条链恢复 CGCGeneration 的实际根表消费者；初始化不等于 GC 运转已经还原。
+
 ## 当前断点：VM 栈桶的 false 模式启动对象
 
 恢复 .init_array 0x3eb5ec 指向的完整 ARM 入口 `0xb959c`（16 字，其中 3 池字）。部署到

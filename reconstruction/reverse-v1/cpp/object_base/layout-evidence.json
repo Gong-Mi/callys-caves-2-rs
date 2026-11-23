@@ -144,5 +144,46 @@
     "threshold_uses_live_signed_capacity_and_true_f32_ops": true,
     "map_publish_after_hash_word_loop": true,
     "no_full_HashMap_or_RValue_class_claim": true
+  },
+  "gc_startup": {
+    "tier": "bytecode_anchored",
+    "slot": "0x3eb60c",
+    "entry": "0xb9814",
+    "end_exclusive": "0xb9944",
+    "got_object_table": {
+      "0x3edc4c": "0x536f28",
+      "0x3f0698": "0x190d2c",
+      "0x3edc6c": "0x536f0c",
+      "0x3f069c": "0x190d00",
+      "0x3edc68": "0x536da8",
+      "0x3f0678": "0x536d88",
+      "0x3f06a0": "0x3ebaa8",
+      "0x3edc98": "0x3f504c"
+    },
+    "array_stride_bytes": 88,
+    "array_instances": 4,
+    "atexit_callbacks": [
+      "Hash<CInstance>::D1",
+      "YYSlot<YYObjectBase>::D1",
+      "anon_0x1910b4"
+    ],
+    "third_object_arg": null,
+    "original_dso_handle_va": "0x3f2000",
+    "efficiency_initial_word": "0x45800000",
+    "rvalue_install": "0xb990c stores 0x3ebab0 into _rvalue+0 after 0xb98f4; four payload words untouched",
+    "rvalue_consumers": [
+      "GetRValue@0x190dc0",
+      "FreeRValue@0x190e84"
+    ],
+    "original_compact_inline_ehabi": [
+      "0x190f58",
+      "0x191064",
+      "0x1910b4"
+    ],
+    "gaps": [
+      "CInstance-value dynamic receiver type at the Hash destructor virtual slot +4",
+      "full GC map value type and later writers of initial efficiency",
+      "original/rebuilt exception, fault, concurrency and final image lifecycle equivalence"
+    ]
   }
 }

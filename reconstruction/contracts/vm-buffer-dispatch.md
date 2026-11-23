@@ -456,3 +456,17 @@ Hash/YYSlot/CGCGeneration 之后才写具名 `_rvalue`。这两条都不是七�
 对应旧 +0xc、`freeCount` 对应旧 +0x10。O2 核对四存储列和三个 VM 对象的反汇编/重定位
 不变（其中 Exec 的对象符号表顺序可异），O0/O2 各45 TU、20 项本批 ABI；无原件/重建件
 执行。`_rvalue` 的 0xb9814 仍独立未恢复。
+
+## GC 启动与 `_rvalue` 的真实对象（0xb9814）
+
+原槽 0x3eb60c 的 REL 加数是 0xb9814；下一槽 0xb9944。前两次 __aeabi_atexit 的 receiver 分别
+是 CInstance::ms_ID2Instance 和 g_slotObjects。二者都在真实分配返回后先发布指针再 memset；
+对象槽另经 YYAlloc(512) 间接调用 Alloc，Code_Main.cpp / 1293 / false，并按 +8/+c/+4 写 0/0/128。
+随后 0xb98cc..dc 按 +88 构造四项；第三次登记为 (NULL,0x1910b4,0x3f2000)，回调按 3→2→1→0
+销毁。最后 0xb990c 只向 `_rvalue` 写 0x3ebab0（虚表 +8）。这些是真实的静态 C++ 类型与直接
+调用接线；最终程序的跨 TU 退出次序没有跑过。
+
+GC C1 用 `new(20)`、Alloc(192)、memset、live 容量与 entries，保持有符号门和 F32 向零；
+在写 +0xc 与 +8 之间读 g_GCinitialcollectionefficiency，一次原字复制到 +0x2c。其出厂 .data
+字为 0x45800000。析构按原 held map、live +4、Free 边及清零顺序恢复。readelf 复核 C1、D1 与
+数组回调均有 compact inline EHABI，不能从无 landing pad 推断没有 unwind 记录。

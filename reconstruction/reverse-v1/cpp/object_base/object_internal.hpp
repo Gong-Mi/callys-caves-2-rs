@@ -10,13 +10,24 @@
  * gap: full APIs, JS/value helper bodies, faults, object lifetime and unwind
  * domains remain unproved. No default globals or callback bodies are supplied.
  */
-struct ObjectSlotRegistry {
+/* 0xb987c..0xb98bc constructs this inline record; D1/D2 are weak aliases
+ * @0x190d00. Existing users and the destructor must see one type. */
+template<typename T> class YYSlot;
+template<> class YYSlot<YYObjectBase> {
+public:
+    ~YYSlot() noexcept(false) __attribute__((weak));
     YYObjectBase *volatile *slots;                    // +0x00, read before writing selected slot
     uint32_t capacity;                               // +0x04, Alloc compares as signed and grows with wrap
     uint32_t count;                                  // +0x08, wrapping decrement
     int32_t firstFree;                               // +0x0c, signed minimum with object+0x44
 };
-extern volatile ObjectSlotRegistry g_slotObjects;    // original inline 16B object, 0x536f0c
+using ObjectSlotRegistry = YYSlot<YYObjectBase>;
+/* The image initializer starts this registry's lifetime and registers its
+ * destructor. BSS storage alone must not add a second CRT registration. */
+alignas(ObjectSlotRegistry) extern unsigned char g_slotObjects[sizeof(ObjectSlotRegistry)]; // 0x536f0c
+inline __attribute__((always_inline)) volatile ObjectSlotRegistry &liveObjectSlots() noexcept {
+    return *__builtin_launder(reinterpret_cast<volatile ObjectSlotRegistry *>(g_slotObjects));
+}
 extern volatile uint8_t g_ShouldDispose;             // actual 1B flag at 0x3f5050
 namespace object_state {
 extern YYObjectBase *volatile freeList __asm__("_ZN12YYObjectBase12ms_pFreeListE");

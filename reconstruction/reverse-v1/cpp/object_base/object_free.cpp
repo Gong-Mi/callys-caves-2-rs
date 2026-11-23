@@ -29,15 +29,15 @@ void YYObjectBase::Free(YYObjectBase *object)
          * (vptr+0x04, loaded at 0x1990d4 AFTER the slot null store). No
          * +0x38/+0x40/+0x18 clear, no FreeVars call, no pool push. */
         const int32_t slotId = static_cast<int32_t>(object_wire::read(self, 0x44u));
-        YYObjectBase *volatile *const slots = g_slotObjects.slots;
-        const int32_t heldFirstFree = g_slotObjects.firstFree;
-        const uint32_t heldCount = g_slotObjects.count;
+        YYObjectBase *volatile *const slots = liveObjectSlots().slots;
+        const int32_t heldFirstFree = liveObjectSlots().firstFree;
+        const uint32_t heldCount = liveObjectSlots().count;
         const uint32_t slotBase = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(slots));
         object_wire::write(slotBase, static_cast<uint32_t>(slotId) << 2, 0u); /* 0x1990d0 */
         const uint32_t vptr = object_wire::read(self, 0x00u);  /* 0x1990d4 */
-        g_slotObjects.firstFree =                                  /* strle/strgt 0x1990e0 */
+        liveObjectSlots().firstFree =                                  /* strle/strgt 0x1990e0 */
             (heldFirstFree <= slotId) ? heldFirstFree : slotId;
-        g_slotObjects.count = heldCount - 1u;                      /* 0x1990e8 sub #1 */
+        liveObjectSlots().count = heldCount - 1u;                      /* 0x1990e8 sub #1 */
         const volatile ObjectDeleteTablePrefix *deleteTable =
             reinterpret_cast<const volatile ObjectDeleteTablePrefix *>(
                 static_cast<uintptr_t>(vptr));
@@ -50,17 +50,17 @@ void YYObjectBase::Free(YYObjectBase *object)
      * write; then slot null store, signed minimum firstFree, +0x38 clear,
      * +0x44 = -1 (mvn lr), wrapping count writeback (add r4, lr). */
     const int32_t slotId = static_cast<int32_t>(object_wire::read(self, 0x44u));
-    const int32_t heldFirstFree = g_slotObjects.firstFree;
-    YYObjectBase *volatile *const slots = g_slotObjects.slots;
-    const uint32_t heldCount = g_slotObjects.count;
+    const int32_t heldFirstFree = liveObjectSlots().firstFree;
+    YYObjectBase *volatile *const slots = liveObjectSlots().slots;
+    const uint32_t heldCount = liveObjectSlots().count;
     const uint32_t minusOne = 0xFFFFFFFFu;  /* 0x198fb8 mvn lr, #0 */
     const uint32_t slotBase = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(slots));
     object_wire::write(slotBase, static_cast<uint32_t>(slotId) << 2, 0u); /* 0x198fc8 */
-    g_slotObjects.firstFree =                   /* strle/strgt 0x198fd0/0x198fd4 */
+    liveObjectSlots().firstFree =                   /* strle/strgt 0x198fd0/0x198fd4 */
         (heldFirstFree <= slotId) ? heldFirstFree : slotId;
     object_wire::write(self, 0x38u, 0u);    /* 0x198fdc */
     object_wire::write(self, 0x44u, minusOne); /* 0x198fe4 */
-    g_slotObjects.count = heldCount + minusOne; /* 0x198fe8 wrapping decrement */
+    liveObjectSlots().count = heldCount + minusOne; /* 0x198fe8 wrapping decrement */
 
     if (kind == 0u) {
         /* 0x199034: the dispose probe requires the OLD kind==0 (flags from

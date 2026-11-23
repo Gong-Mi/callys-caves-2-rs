@@ -17,7 +17,7 @@
  */
 void FreeRValue(RValue *value, RValue **, RValue **) {
     // 0x190e8c..0x190e94: load pageHead (+0x04); null pageHead returns untouched.
-    for (VMStackPagePrefix *page = rvalue_state::pages.pageHead;
+    for (VMStackPagePrefix *page = rvalue_state::livePages().pageHead;
          page != nullptr;
          page = static_cast<volatile VMStackPagePrefix *>(page)->next) { // live +0x00 after a miss
         const uint32_t pageAddr = object_wire::address(page);
@@ -33,14 +33,14 @@ void FreeRValue(RValue *value, RValue **, RValue **) {
             continue;
         }
         // Hit: only value inside [page+0x08, page+0x100008) is reclaimed.
-        volatile RValuePagePoolPrefix &pool = rvalue_state::pages;
+        volatile rvalue_state::RValuePagePool &pool = rvalue_state::livePages();
         const uint32_t oldFree = object_wire::address(pool.freeHead); // 0x190ec4 +0x08
-        const uint32_t newCount10 = pool.count10 + 1u; // 0x190ec8 +0x10, 0x190ed0 add
-        const uint32_t newCount0c = pool.count0c - 1u; // 0x190ecc +0x0c, 0x190ed8 sub
+        const uint32_t newCount10 = pool.freeCount + 1u; // 0x190ec8 +0x10, 0x190ed0 add
+        const uint32_t newCount0c = pool.activeCount - 1u; // 0x190ecc +0x0c, 0x190ed8 sub
         object_wire::write(v, 0x0u, oldFree); // 0x190ed4: first word = old freeHead
         pool.freeHead = reinterpret_cast<uint8_t *>(static_cast<uintptr_t>(v)); // 0x190edc
-        pool.count10 = newCount10; // 0x190ee0
-        pool.count0c = newCount0c; // 0x190ee4
+        pool.freeCount = newCount10; // 0x190ee0
+        pool.activeCount = newCount0c; // 0x190ee4
         return;                    // 0x190ee8
     }
     // Chain exhausted: original bx lr with every pool field and the value

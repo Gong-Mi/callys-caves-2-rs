@@ -134,8 +134,8 @@ YYObjectBase *YYObjectBase::Alloc(unsigned int requested, int tag,
      * The occupancy test is a SIGNED compare (bge), grow happens at most
      * once, and after the grow the scan is entered directly — the
      * count>=capacity test is never re-run. */
-    uint32_t capacity = g_slotObjects.capacity;                       /* 0x191a24 LDMIB r6,{r4,r7}: +4 */
-    uint32_t heldCount = g_slotObjects.count;                         /* same LDMIB snapshot: +8 */
+    uint32_t capacity = liveObjectSlots().capacity;                       /* 0x191a24 LDMIB r6,{r4,r7}: +4 */
+    uint32_t heldCount = liveObjectSlots().count;                         /* same LDMIB snapshot: +8 */
     if (static_cast<int32_t>(heldCount) >= static_cast<int32_t>(capacity)) {
         /* 0x191ae8..0x191af4: newcap = arshift1(wrap(3*cap) + (wrap(3*cap) lsr
          * 31)) — division by 2 of the wrapped 3x toward zero. NOT a signed
@@ -143,21 +143,21 @@ YYObjectBase *YYObjectBase::Alloc(unsigned int requested, int tag,
         uint32_t three = capacity * 3u;                               /* add r4,r4,r4,lsl#1 wraps */
         three = three + (three >> 31);                                /* add r4,r4,r4,lsr#31 */
         const uint32_t newCap = (three >> 1) | (three & 0x80000000u); /* defined ASR #1 bit image */
-        YYObjectBase *volatile *const liveSlots = g_slotObjects.slots; /* ldr r0,[r6] 0x191aec */
+        YYObjectBase *volatile *const liveSlots = liveObjectSlots().slots; /* ldr r0,[r6] 0x191aec */
         void *grownSlots = YYRealloc(                                 /* bl 0xcef64 */
             reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(liveSlots)),
             static_cast<int>(static_cast<uint32_t>(newCap) << 2));    /* lsl r1 0x191af8 */
         /* 0x191b04: OLD capacity is re-read LIVE after the call; slots publish
          * before memset; tail address and length are the wrapping word adds;
          * count is re-read LIVE after memset returns, then capacity=newCap. */
-        const uint32_t oldCapLive = g_slotObjects.capacity;
-        g_slotObjects.slots =
+        const uint32_t oldCapLive = liveObjectSlots().capacity;
+        liveObjectSlots().slots =
             reinterpret_cast<YYObjectBase *volatile *>(grownSlots);   /* 0x191b14 */
         const uint32_t grownBase = object_wire::address(grownSlots);
         memset(reinterpret_cast<void *>(static_cast<uintptr_t>(grownBase + (oldCapLive << 2))),
                0, static_cast<size_t>((static_cast<uint32_t>(newCap) - oldCapLive) << 2));
-        heldCount = g_slotObjects.count;                              /* 0x191b20 LIVE */
-        g_slotObjects.capacity = static_cast<uint32_t>(newCap);       /* 0x191b24 */
+        heldCount = liveObjectSlots().count;                              /* 0x191b20 LIVE */
+        liveObjectSlots().capacity = static_cast<uint32_t>(newCap);       /* 0x191b24 */
         capacity = static_cast<uint32_t>(newCap);                     /* mov r4,r8 */
     }
 
@@ -168,12 +168,12 @@ YYObjectBase *YYObjectBase::Alloc(unsigned int requested, int tag,
      * capacity <= index clamps the current index to 0 for this probe, and the
      * slot address is wrapping u32 arithmetic (0xFFFFFFFC etc. stay live),
      * never C++ negative-pointer arithmetic or a modulo fixup. */
-    int32_t index = g_slotObjects.firstFree;                          /* 0x191a34 */
+    int32_t index = liveObjectSlots().firstFree;                          /* 0x191a34 */
     if (static_cast<int32_t>(capacity) <= 0) {                         /* ble → 0x191a80 */
         index = -1;
     } else {
         const uint32_t slotBase = static_cast<uint32_t>(              /* 0x191a3c */
-            reinterpret_cast<uintptr_t>(g_slotObjects.slots));
+            reinterpret_cast<uintptr_t>(liveObjectSlots().slots));
         uint32_t remaining = capacity;                                /* mov r1,r4 0x191a40 */
         for (;;) {
             if (static_cast<int32_t>(capacity) <= index) {            /* movle 0x191a5c */
@@ -183,7 +183,7 @@ YYObjectBase *YYObjectBase::Alloc(unsigned int requested, int tag,
             const uint32_t occupant = object_wire::read(slotBase, slotOff);
             if (occupant == 0u) {                                     /* free hit 0x191a74 */
                 object_wire::write(slotBase, slotOff, object_wire::address(object));
-                g_slotObjects.firstFree = index;                      /* 0x191a78 */
+                liveObjectSlots().firstFree = index;                      /* 0x191a78 */
                 break;
             }
             remaining -= 1u;                                          /* subs 0x191a48 */
@@ -202,7 +202,7 @@ YYObjectBase *YYObjectBase::Alloc(unsigned int requested, int tag,
     const uint32_t publishCount = heldCount + 1u;                     /* 0x191a88 */
     object_wire::write(self, 0x44u, static_cast<uint32_t>(index));
     object_wire::write(self, 0x38u, 0u);                              /* 0x191a98 */
-    g_slotObjects.count = publishCount;                               /* 0x191aa0 */
+    liveObjectSlots().count = publishCount;                               /* 0x191aa0 */
     const uint32_t counter = object_state::currentCounter;            /* 0x191aa4 */
     object_wire::write(self, 0x3cu, counter);                         /* 0x191aa8 */
     return object;

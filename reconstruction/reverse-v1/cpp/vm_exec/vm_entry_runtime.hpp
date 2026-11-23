@@ -38,6 +38,7 @@ public:
     volatile uint32_t word08;
 };
 template <> void _RefThing<const char *>::dec() __attribute__((weak, noinline)); // original WEAK DEFAULT 0xc09f8
+void *YYAlloc(int) __attribute__((noinline)); // 0xcef4c, original wrapper
 void YYFree(const void *) __attribute__((noinline)); // 0xcef90, real tail MemoryManager::Free
 void LOCK_RVALUE_MUTEX() __attribute__((noinline));   // original BX LR @0x190f2c, not a real lock
 void UNLOCK_RVALUE_MUTEX() __attribute__((noinline)); // original BX LR @0x190f30

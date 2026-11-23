@@ -14,14 +14,11 @@ uint32_t JS_IsCallable_Object(YYObjectBase *) __attribute__((noinline)); // 0x24
 uint32_t Call_ScriptRef(YYObjectBase *, RValue *, CScriptRef *, int, RValue *); // 0x249590
 void YYError(const char *, ...);                             // original variadic C++ entry 0xd547c
 
-struct RValuePagePoolPrefix {
-    uint32_t unknown00;
-    VMStackPagePrefix *pageHead;
-    uint8_t *freeHead;
-    uint32_t count0c;
-    uint32_t count10;
-};
 namespace rvalue_state {
-extern volatile RValuePagePoolPrefix pages __asm__("_rvalue"); // actual inline 20B object at 0x536d88
+using RValuePagePool = CBucket<16, 1048576, false>;
+extern BucketStaticStorage<RValuePagePool> pages __asm__("_rvalue"); // 0x536d88
+inline __attribute__((always_inline)) volatile RValuePagePool &livePages() noexcept {
+    return pages.object;
+}
 }
 #endif

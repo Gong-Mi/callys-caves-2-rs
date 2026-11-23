@@ -306,7 +306,7 @@
   "static_API_extension": "VM stack consumers share CBucket<32768,1048576,false> with .init_array @0xb959c; offsets +0xc/+0x10 are active/free counts.",
   "additional_headers_sha256": {
     "profiler_push_wire.hpp": "bde75c178acb738e6a3b46325c71b77d71d1e5abeae3002023be0de29e93303c",
-    "vm_entry_runtime.hpp": "20be56294f4fb04da32122501f1aa9f0291494946ce4ddb848ce5875dfb1d3f3",
+    "vm_entry_runtime.hpp": "c1bcb06562ee96f51542853dea50dc775a52bf96f9121ba4c861a1dc85fbb7ee",
     "profiler_node_wire.hpp": "b1f86a5b1b5120b476a64b55c0e9d520c82a2ad093ff569300a290e23e9b9f43",
     "vm_debug_runtime.hpp": "440573d8455ee782fb4ff878a3a874166db1f49a34af6d5362f9e69e8f8c8d88",
     "vm_debug_info.hpp": "3eb7879c7693bf0ccd6eb5b459b82ea48ad8202a3a8133f67dd7b5e726528060"
