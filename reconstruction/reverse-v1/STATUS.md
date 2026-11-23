@@ -1,5 +1,17 @@
 # 状态与定性
 
+## 当前断点：VM 栈桶的 false 模式启动对象
+
+恢复 .init_array 0x3eb5ec 指向的完整 ARM 入口 `0xb959c`（16 字，其中 3 池字）。部署到
+`stackPages` 的是 `CBucket<32768,1048576,false>` 的真实 vptr，并非单独的匿名桶。写序是
+匿名头 0x47a1bc 的 +0 自链 → 栈桶 vptr → 匿名头 +4 自链 → 匿名头 +8=420；不清桶字段、
+不调用 Init、未注册析构，0x47a1d0 仍由 `VM::Exec` 的原懒初始化消费。三个 VM 消费者改用
+同一个具型对象；O2 的指令与重定位读数保持，换序静态反例被拒。O0/O2 各45 TU，20项本批
+ABI 检查，移除启动 TU 会失去真实 `stackPages` 和懒 guard 定义。未执行原件或恢复件。
+
+下一个不同的 false 桶入口 `0xb9814` 在 Hash/YYSlot/四个 CGCGeneration 实例之后才安装
+具名 `_rvalue` vptr；这些实际依赖仍要收口，本批不视为已完成。
+
 ## 当前断点：MemoryManager 生命周期与七个 true 桶的静态启动
 
 恢复 `MemoryManager::Init/Quit/DumpMemory`、`.init_array` 的 `0xba3e4` 完整入口和

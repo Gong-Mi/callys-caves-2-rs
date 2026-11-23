@@ -4,7 +4,7 @@
   "original_abi": "ARM32 little-endian softfp",
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
-  "header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
+  "header_sha256": "16c0d3bb645559c3fe32b4ddb68887abcf3f96ad25c988c9abe3417476d4c43e",
   "functions": [
     {
       "entry": "0xe4540",
@@ -17,7 +17,7 @@
       "source_method": "VM::ExecRelease(VMExec&, RValue*)",
       "abi_kind": "static_member",
       "translation_source": "vm_exec_release.cpp",
-      "translation_source_sha256": "66096a71d592bb83074df31aaf7def73829c26327e2f5066e0a2ec23455243ac",
+      "translation_source_sha256": "88ef2382d002907c755b7ebd56c3236287f20b6bbd5a08e314e699cf8ccbc871",
       "language": "C++",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
@@ -90,7 +90,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "vm_exec_entry.cpp",
-      "translation_source_sha256": "f2e6d9868a88db8d8d18b218b11bcb621072a7bf84cfa35a6ffcd4ffd631b735",
+      "translation_source_sha256": "758938b12bfc81ee7d47e0e75560554e139f58ebbb7aa811ff429e2d3a3732d0",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -219,7 +219,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "vm_exec_debug.cpp",
-      "translation_source_sha256": "c64e3e270fcea5ed3ad854f4857834c8783655136402ac1e40f6105505392f77",
+      "translation_source_sha256": "ccb32bcd3f96a9f4811f04323ec2bcf0f59697fbd58374e8a71c005504be9ffe",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -259,6 +259,23 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0xb959c",
+      "size": 64,
+      "symbols": [],
+      "boundary": "init_array_0x3eb5ec_relative_next_entry_0xb95dc",
+      "body_sha256": "a4d8ae7609c35090cb01f2e231e994dfd8f30704db8ea5046dbf7f4502c240f9",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "vm_stack_startup.cpp",
+      "translation_source_sha256": "5dad23f9a961286ce80c75d68a431d38f5ae8f5ec5e1ff1a29a8b2512aa258f1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Anonymous header +0=self, typed stackPages +0=vtable+8, header +4=self, header +8=420. Guard 0x47a1d0 starts zero but is untouched here."
     }
   ],
   "layout_evidence": "layout-evidence.json",
@@ -276,7 +293,8 @@
     "instruction-handler and global/pool producers",
     "DoCallScript",
     "utf8_extract_char (C-linkage; source-language identity pending)",
-    "debug record writer and ctype table import producer"
+    "debug record writer and ctype table import producer",
+    "The different GC/RValue startup 0xb9814 is not part of the stackPages binding."
   ],
   "remaining_scope": [
     "VMExec is an observed 0x60 prefix, not a full-class extent proof; state30 remains unnamed.",
@@ -285,7 +303,7 @@
     "Invalid pointers/offsets, empty-profile faults, paired-transfer concurrent atomicity and exception unwinding are not certified."
   ],
   "validation_scope": "ARM32 O0/O2 objects and observed layouts, real C++ conversion/return/profiler definitions in a combined relocatable/archive, original ABI symbols; no target execution.",
-  "static_API_extension": "VM::Exec and FindOrCreateNode now have full candidate bodies; canonical ExecDebug/ReAlloc declarations expanded. Weak refdec and original no-op entry bodies preserve ELF binding/code; no old method bodies replaced.",
+  "static_API_extension": "VM stack consumers share CBucket<32768,1048576,false> with .init_array @0xb959c; offsets +0xc/+0x10 are active/free counts.",
   "additional_headers_sha256": {
     "profiler_push_wire.hpp": "bde75c178acb738e6a3b46325c71b77d71d1e5abeae3002023be0de29e93303c",
     "vm_entry_runtime.hpp": "20be56294f4fb04da32122501f1aa9f0291494946ce4ddb848ce5875dfb1d3f3",

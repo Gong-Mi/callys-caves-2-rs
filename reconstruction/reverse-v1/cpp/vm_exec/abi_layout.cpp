@@ -42,10 +42,7 @@ FIELD(VMCallFrame, callerLocals, 0x30);
 FIELD(VMCallFrame, reserved34, 0x34);
 FIELD(VMCallFrame, callerArgumentOffset, 0x38);
 FIELD(VMStackPagePrefix, next, 0x00);
-FIELD(VMStackPages, pageHead, 0x04);
-FIELD(VMStackPages, freeHead, 0x08);
-FIELD(VMStackPages, count0c, 0x0c);
-FIELD(VMStackPages, count10, 0x10);
+static_assert(observedCBucketLayout<VMStackPages>(), "original ARM32 VM stack bucket layout");
 #undef FIELD
 static_assert(sizeof(VMExec) == 0x60, "observed execution prefix");
 static_assert(sizeof(VMCallFrame) == 0x3c, "producer control-frame stride");

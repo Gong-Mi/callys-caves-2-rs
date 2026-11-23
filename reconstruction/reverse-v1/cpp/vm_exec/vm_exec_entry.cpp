@@ -22,11 +22,12 @@ void VM::Exec(CCode *code, YYObjectBase *selfIn, YYObjectBase *otherIn,
     const uint32_t otherWord = object_wire::address(otherIn);
 
     // e7fe4 / e8210..e822c: separate anonymous guard, ONLY these pool fields.
+    volatile VMStackPages &stackPool = stackPages.object;
     if (vm_entry_state::stackPoolInitialized == 0u) {
         vm_entry_state::stackPoolInitialized = 1u;
-        stackPages.pageHead = nullptr;
-        stackPages.freeHead = nullptr;
-        stackPages.count0c = 0u;
+        stackPool.pageHead = nullptr;
+        stackPool.freeHead = nullptr;
+        stackPool.activeCount = 0u;
     }
     // e8014/e8020/e8024/e8028/e8030/e8034: preserve actual read order.
     const uint32_t heldText = object_wire::read(cc, 0x58);
@@ -49,7 +50,7 @@ void VM::Exec(CCode *code, YYObjectBase *selfIn, YYObjectBase *otherIn,
         debugWord = image.word04; // e82d0, not another CCode read
     }
 
-    const uint32_t freeHead = object_wire::address(stackPages.freeHead); // e8044
+    const uint32_t freeHead = object_wire::address(stackPool.freeHead); // e8044
     object_wire::write(ex, 0x14, selfWord);                             // e804c
     object_wire::write(ex, 0x18, otherWord);                            // e8054
     object_wire::write(ex, 0x40, 0x4000u);                             // e8058
@@ -62,19 +63,19 @@ void VM::Exec(CCode *code, YYObjectBase *selfIn, YYObjectBase *otherIn,
         const uint32_t base = object_wire::address(operator new(0x108008u));
         memset(reinterpret_cast<void *>(static_cast<uintptr_t>(base + 8u)),
                0x78, 0x108000u); // e833c MOV r1,#120; e8340 length 0x108000
-        const uint32_t oldFree = object_wire::address(stackPages.freeHead); // e8350
-        const uint32_t oldPage = object_wire::address(stackPages.pageHead); // e8354
+        const uint32_t oldFree = object_wire::address(stackPool.freeHead); // e8350
+        const uint32_t oldPage = object_wire::address(stackPool.pageHead); // e8354
         const uint32_t aligned = ((base + 0x8000u + 8u) & ~0x7f00u) & ~0xffu;
-        const uint32_t oldCount = stackPages.count10; // e8360
+        const uint32_t oldCount = stackPool.freeCount; // e8360
         image.word14 = oldFree;                      // e8364
         object_wire::write(base, 0u, oldPage);        // e836c
-        stackPages.pageHead = reinterpret_cast<VMStackPagePrefix *>(
+        stackPool.pageHead = reinterpret_cast<VMStackPagePrefix *>(
             static_cast<uintptr_t>(base));           // e8374
         debugWord = image.word04;                    // e838c
         object_wire::write(aligned, 0u, image.word14);// e837c/e8390
-        stackPages.freeHead = reinterpret_cast<uint8_t *>(
+        stackPool.freeHead = reinterpret_cast<uint8_t *>(
             static_cast<uintptr_t>(aligned));        // e8394
-        stackPages.count10 = oldCount + 1u;          // e8398
+        stackPool.freeCount = oldCount + 1u;          // e8398
         uint32_t previous = aligned;
         uint32_t node = aligned + 0x8000u;
         const uint32_t end = aligned + 0xf8000u;
@@ -91,13 +92,13 @@ void VM::Exec(CCode *code, YYObjectBase *selfIn, YYObjectBase *otherIn,
         // e83c8 joins e806c, BYPASSING e8068's memory read. nextFree is r0.
     } else {
         chunk = freeHead;
-        count10 = stackPages.count10;               // e8060
+        count10 = stackPool.freeCount;               // e8060
         nextFree = object_wire::read(chunk, 0u);     // e8068, nonempty path only
         cursorOffset = 0x3ff0u;                      // e8064
     }
     const uint32_t argc = static_cast<uint32_t>(argcIn); // e806c
     const uint32_t cursor = chunk + cursorOffset;        // e8070
-    stackPages.freeHead = reinterpret_cast<uint8_t *>(
+    stackPool.freeHead = reinterpret_cast<uint8_t *>(
         static_cast<uintptr_t>(nextFree));               // e8074
     count10 -= 1u;                                      // e8078
     const uint32_t byteLimit = object_wire::read(heldBuffer, 4u); // e807c
@@ -107,11 +108,11 @@ void VM::Exec(CCode *code, YYObjectBase *selfIn, YYObjectBase *otherIn,
     object_wire::write(ex, 0x38, debugWord);              // e808c
     const uint32_t sourceText = image.text0c;             // e8090
     object_wire::write(ex, 8u, chunk);                    // e8094
-    const uint32_t activeCount = stackPages.count0c;      // e8098
+    const uint32_t activeCount = stackPool.activeCount;      // e8098
     object_wire::write(ex, 0x50, byteLimit);              // e80a0
-    stackPages.count10 = count10;                        // e80a8
+    stackPool.freeCount = count10;                        // e80a8
     object_wire::write(ex, 0x24, codeBytes);              // e80b0
-    stackPages.count0c = activeCount + 1u;               // e80b8
+    stackPool.activeCount = activeCount + 1u;               // e80b8
     object_wire::write(ex, 0x2c, heldBuffer);              // e80bc
     object_wire::write(ex, 0x3c, sourceText);              // e80c0
     object_wire::write(ex, 0x34, heldName);                // e80c4

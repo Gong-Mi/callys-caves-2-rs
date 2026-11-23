@@ -753,5 +753,46 @@
       "ctype runtime provider",
       "LR/fault/unwind/concurrency"
     ]
+  },
+  "stack_startup": {
+    "tier": "bytecode_anchored",
+    "entry": "0xb959c",
+    "range_end_exclusive": "0xb95dc",
+    "init_array_slot": "0x3eb5ec",
+    "body_sha256": "a4d8ae7609c35090cb01f2e231e994dfd8f30704db8ea5046dbf7f4502c240f9",
+    "original_link_header": "0x47a1bc",
+    "anonymous_header_size": 12,
+    "object_symbol": "stackPages",
+    "object_va": "0x47a1e0",
+    "object_got": "0x3edd3c",
+    "bucket_type": "CBucket<32768,1048576,false>",
+    "object_size": 20,
+    "vtable_got": "0x3edd74",
+    "vtable_va": "0x3eb908",
+    "address_point": "0x3eb910",
+    "state_writes": [
+      {
+        "va": "0xb95bc",
+        "destination": "anonymous header+0",
+        "value": "address of header"
+      },
+      {
+        "va": "0xb95c0",
+        "destination": "stackPages+0",
+        "value": "CBucket vtable address point"
+      },
+      {
+        "va": "0xb95c4",
+        "destination": "anonymous header+4",
+        "value": "address of header"
+      },
+      {
+        "va": "0xb95c8",
+        "destination": "anonymous header+8",
+        "value": 420
+      }
+    ],
+    "guard": "0x47a1d0 zeroed BSS, only lazy VM::Exec path changes it (not this .init_array entry)",
+    "gap": "The anonymous header readers and eventual link/load order are not established. Dynamic original/rebuilt equivalence not measured."
   }
 }

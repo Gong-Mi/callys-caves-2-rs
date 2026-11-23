@@ -189,7 +189,8 @@ void VM::ExecRelease(VMExec &exec, RValue *out)
     uint8_t *const allocation = s.stackAllocation;                // e46cc
     const uintptr_t address =
         reinterpret_cast<uintptr_t>(allocation);
-    VMStackPagePrefix *page = stackPages.pageHead;                // e46d4
+    volatile VMStackPages &stackPool = stackPages.object;
+    VMStackPagePrefix *page = stackPool.pageHead;                // e46d4
     while (page != nullptr) {
         const uintptr_t base =
             reinterpret_cast<uintptr_t>(page);
@@ -203,15 +204,15 @@ void VM::ExecRelease(VMExec &exec, RValue *out)
         /* e4754..e4774: three reads, then link-store into the released
          * chunk, free-head publish, count10++ and count0c-- with 32-bit
          * wrap, in this exact order. */
-        uint8_t *const freeHead = stackPages.freeHead;            // e4754
-        const uint32_t count10 = stackPages.count10;         // e4758
-        const uint32_t count0c = stackPages.count0c;         // e475c
+        uint8_t *const freeHead = stackPool.freeHead;            // e4754
+        const uint32_t count10 = stackPool.freeCount;         // e4758
+        const uint32_t count0c = stackPool.activeCount;         // e475c
         storeWord(allocation,
                   static_cast<uint32_t>(
                       reinterpret_cast<uintptr_t>(freeHead)));// e4764
-        stackPages.freeHead = allocation;                         // e476c
-        stackPages.count10 = count10 + 1u;                        // e4770
-        stackPages.count0c = count0c - 1u;                        // e4774
+        stackPool.freeHead = allocation;                         // e476c
+        stackPool.freeCount = count10 + 1u;                        // e4770
+        stackPool.activeCount = count0c - 1u;                        // e4774
     }
 
     /* e470c..e4728: re-read localsMode/locals only after the stack release.

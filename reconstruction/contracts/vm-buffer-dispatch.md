@@ -442,3 +442,17 @@ entries 非空时调用真实 Free，返回后清 entries。原种子将桶与�
 完整启动/退出等价；O0 允许编译器物化基类构造中的中间 vptr，O2 查实七个最终写入。
 两个 false 模式启动入口仍欠：`0xb959c` 是具名 stackPages 与旁边的三字头，`0xb9814` 在
 Hash/YYSlot/CGCGeneration 之后才写具名 `_rvalue`。这两条都不是七个 true 桶的替身。
+
+## VM 栈桶镜像初始化（0xb959c）
+
+原槽 `0x3eb5ec` 的 R_ARM_RELATIVE 加数是 `0xb959c`，下一个入口为 `0xb95dc`。两级 PC 链
+`0xb95ac → GOT 0x3edd3c → stackPages @0x47a1e0` 与
+`0xb95b4 → GOT 0x3edd74 → _ZTV7CBucketILj32768ELj1048576ELb0EE @0x3eb908`，
+`0xb95b8 ADD #8` 才是装入对象的地址点。对匿名头 0x47a1bc，顺序钉在 `0xb95bc..0xb95c8`：
++0 写本地址、栈桶写 vptr、+4 写本地址、+8 写 420。相邻不证明头就是堆页或栈桶字段，
+不命名链表用途。栈桶 payload 未触碰，独立 guard 0x47a1d0 的置位仍归 VM::Exec。
+
+恢复件统一 VM Stack 进入/释放/调试三个真实消费者与 false-mode CBucket；`activeCount`
+对应旧 +0xc、`freeCount` 对应旧 +0x10。O2 核对四存储列和三个 VM 对象的反汇编/重定位
+不变（其中 Exec 的对象符号表顺序可异），O0/O2 各45 TU、20 项本批 ABI；无原件/重建件
+执行。`_rvalue` 的 0xb9814 仍独立未恢复。

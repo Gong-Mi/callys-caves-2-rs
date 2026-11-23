@@ -2,6 +2,7 @@
 #define CALLY_RECOVERED_VM_EXEC_HPP
 
 #include "../vm_buffer/vm_buffer.hpp"
+#include "../memory_manager/cbucket_classes.hpp"
 
 /* Recovered C++ execution/return interface, not original source spelling.
  * tier: bytecode_anchored; original ARMv7 ELF SHA256
@@ -90,17 +91,11 @@ struct VMCallFrame {
     uint32_t callerArgumentOffset;                    // +0x38: relative to live stackAllocation
 };
 
-struct VMStackPagePrefix {
-    VMStackPagePrefix *next;                          // original reads only +0x00
-    uint32_t unknown04;                               // data range begins at page+8
-};
-struct VMStackPages {
-    uint32_t unknown00;
-    VMStackPagePrefix *pageHead;                      // +0x04
-    uint8_t *freeHead;                                // +0x08
-    uint32_t count0c;                                 // +0x0c: returned chunk decrements
-    uint32_t count10;                                 // +0x10: returned chunk increments
-};
+/* 0xb95c0 sets the actual false-mode vptr on the very object used by VM::Exec.
+ * For stack pages only next at +0x00 is consumed by the VM; the allocator
+ * layout's +0x04 owner interpretation is not asserted for this producer. */
+using VMStackPagePrefix = BucketPagePrefix;
+using VMStackPages = CBucket<32768, 1048576, false>;
 
 class VM {
 public:
@@ -125,6 +120,6 @@ extern volatile uint8_t g_fDoExceptionUnwind;
 extern RValue g_exceptionVar;                         // original object size 16; keep type opaque
 extern VMExec *volatile g_caughtExec;
 extern uint8_t *volatile g_pExceptionSP;
-extern volatile VMStackPages stackPages;             // inline 20-byte object at 0x47a1e0
+extern BucketStaticStorage<VMStackPages> stackPages;  // inline 20-byte .bss object at 0x47a1e0
 
 #endif

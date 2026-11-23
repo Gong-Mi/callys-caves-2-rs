@@ -265,7 +265,8 @@ frame_exit:                                                     // e48e0
     {
         uint8_t *const allocation = s.stackAllocation;          // e4910
         const uintptr_t address = reinterpret_cast<uintptr_t>(allocation);
-        VMStackPagePrefix *page = stackPages.pageHead;          // e4918
+        volatile VMStackPages &stackPool = stackPages.object;
+        VMStackPagePrefix *page = stackPool.pageHead;          // e4918
         while (page != nullptr) {
             const uintptr_t base = reinterpret_cast<uintptr_t>(page);
             if (address >= base + 8u && address < base + 0x100008u) // e492c..
@@ -278,14 +279,14 @@ frame_exit:                                                     // e48e0
             /* e4adc..e4afc: freeHead/count10/count0c reads, then link-store
              * into the released chunk, free-head publish, count10++ and
              * count0c-- with 32-bit wrap, in this exact order. */
-            uint8_t *const freeHead = stackPages.freeHead;      // e4adc
-            const uint32_t count10 = stackPages.count10;        // e4ae0
-            const uint32_t count0c = stackPages.count0c;        // e4ae4
+            uint8_t *const freeHead = stackPool.freeHead;      // e4adc
+            const uint32_t count10 = stackPool.freeCount;        // e4ae0
+            const uint32_t count0c = stackPool.activeCount;        // e4ae4
             storeWord(allocation, static_cast<uint32_t>(        // e4aec
                 reinterpret_cast<uintptr_t>(freeHead)));
-            stackPages.freeHead = allocation;                   // e4af4
-            stackPages.count10 = count10 + 1u;                  // e4af8
-            stackPages.count0c = count0c - 1u;                  // e4afc
+            stackPool.freeHead = allocation;                   // e4af4
+            stackPool.freeCount = count10 + 1u;                  // e4af8
+            stackPool.activeCount = count0c - 1u;                  // e4afc
         }
     }
 
