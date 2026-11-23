@@ -487,8 +487,21 @@ GC C1 用 `new(20)`、Alloc(192)、memset、live 容量与 entries，保持有�
 `AddRoot@0x196210` 按 signed count>threshold 选择扩容；真实重插调用 0x1963c8 确认根 map 是
 `CHashMap<YYObjectBase*,YYObjectBase*,4>`，12B 槽的 +0/+4 是 key/value，+8 为 hash。
 Free 旧表后 0x1963e0 先读 live capacity、0x1963ec 后读 live count，再写 F32 向零阈值，
-并持 count 回 fast path。原稿反序在编译件被拒。0x195ba8 仍是真实未定义调用，非桩。
+并持 count 回 fast path。原稿反序在编译件被拒。0x195ba8 是真实调用；下节的源码补上其提供者。
 
 `RemoveRoot@0x1911c8` 与 `IsRoot` 不同：hash 命中须经原 `CompareKeys@0x190f48`，只在
 该调用返回 false 时走 0x191274 的 mask 重读，再继续探测。回填按 hash/key/value 写序；
 尾端 live count 先取，清槽 hash 后写回 count-1。不推断运行等价或完整 GC 寿命周期。
+
+## GC 根表真重插提供者和代际重置
+
+`Insert@0x195ba8`（弱定义）由 `gc_root_map_insert.cpp` 提供。三处增长的 call sites 是
+0x195d1c/0x195f6c/0x196158；末级扫描 0x1961dc 才回调同一个弱符号。0x195cc0/0x195f1c
+的空槽先写 hash；0x19610c 先写键值对再写 hash。置换将被替出的 key/value/hash 继续推进，
+替换回读 count 后写 key/value/hash、再撤回预增。组合对象删去提供者即恢复 UND，未采用桩。
+
+`Reset@0x19140c` 先清动态根计数，非空才 Free，0x191430 清 held map.entries，0x191434
+重新取 map。发布新 allocation 后才 memset；0x191474/0x19149c 在后续路径各自重读
+capacity 和 entries。最后按原字拷贝 0x3f504c 的效率词并写范围等状态，不重置类统计表。
+真实上层 `ResetGC@0xd66e0` 对同一 `g_GCGens` 的四个 88B 元素有三条 BL、一条尾 B；
+本批只取证该调用链，尚未恢复上层正文。静态目标对象不认证原版执行、动态链接或并发语义。

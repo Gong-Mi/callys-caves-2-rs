@@ -1,6 +1,6 @@
 {
-  "scope": "Cumulative static GC AddRoot/RemoveRoot with actual Insert provider still undefined; no full runtime linkage claim. Prior verification remains in Git parent.",
-  "base": "d9daa4d3e1f5bffc56f880ff12a6e3b8ab055f34",
+  "scope": "Cumulative static root-map Insert and CGCGeneration::Reset; AddRoot reinsert resolved to a WEAK definition in the scoped ET_REL, not a complete runtime link. Earlier validation remains in Git history.",
+  "base": "cc0d3162a3b43e5fe4c84ddee290e1ecc1ac3875",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "input_sha256": {
     "reconstruction/reverse-v1/c/compiler_conversions/functions.json": "22b0d1b79c937bf1eb40f8ef471d23c1f23518ddd238f24ee3b2962ac1eee63e",
@@ -42,16 +42,18 @@
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
     "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "75c2d72fb19f02f8828ef942ea2572c71e88c041fced7eca70cc56c02fc436ba",
     "reconstruction/reverse-v1/cpp/object_base/functions.json": "83a2cf6b0e868d2aff41048a3c0697ecb46247aa73e94fbafe2b343e0d0bb621",
-    "reconstruction/reverse-v1/cpp/object_base/gc_add_root.cpp": "4f5ed787989e9955ef6fc1315861b6e877437ea4dd318d0eef3a15131aefe878",
+    "reconstruction/reverse-v1/cpp/object_base/gc_add_root.cpp": "ecaa95b8067576f32198c574ade5917c0d4addb7cbdcbd7062b96639f7ade8bc",
     "reconstruction/reverse-v1/cpp/object_base/gc_generation.cpp": "31246c67f55818c85ea6d2857ffd870378232eb0d8d7650869bd36d471126fd4",
-    "reconstruction/reverse-v1/cpp/object_base/gc_generation.hpp": "5ba38f863b5ebd99a58ce75579392438d09965ce9c52289cf4d654af26db7d01",
+    "reconstruction/reverse-v1/cpp/object_base/gc_generation.hpp": "9b811af9b2c93f9c93013a7f2b0884f251082b8c938dce876b3875bae2b91898",
     "reconstruction/reverse-v1/cpp/object_base/gc_gens_array_dtor.cpp": "f106c3e5b1b6d8a03767d727949a99d480f2f406c66fd490cd2bc62682c2a387",
     "reconstruction/reverse-v1/cpp/object_base/gc_image_startup.cpp": "3afa9ce0c8b5e7fd7b99087dd0bf9365a61333699d299d2965b8ddd169db8337",
     "reconstruction/reverse-v1/cpp/object_base/gc_instance_hash.hpp": "0040536acf0b4381376a54c7980e1e3f6cda494de08158c2295ddea2a5750b4d",
     "reconstruction/reverse-v1/cpp/object_base/gc_mutable_roots.cpp": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
     "reconstruction/reverse-v1/cpp/object_base/gc_registry_destructors.cpp": "0b43dcacdb1cd6ea2d4217c2c38071fc98b40fb49e4bb0bb18ea97c977155d99",
     "reconstruction/reverse-v1/cpp/object_base/gc_remove_root.cpp": "d51912661f878d9bece061b24473cb0a7fb39df81350691647faae286aeb00ca",
+    "reconstruction/reverse-v1/cpp/object_base/gc_reset.cpp": "f6d60681159c775ebee03059432511314a2bc9b363c42d00752f1a537a647613",
     "reconstruction/reverse-v1/cpp/object_base/gc_root_lookup.cpp": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
+    "reconstruction/reverse-v1/cpp/object_base/gc_root_map_insert.cpp": "8b0dfb47a037597d02e6727e2dfa49240cb2ae70a99b03fa0c47e53488a5ad7b",
     "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
     "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "5c85c48e035b27cab073a297d4aaa8daf8655827a1f93e0b2107a582bcd711be",
     "reconstruction/reverse-v1/cpp/object_base/object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
@@ -103,36 +105,42 @@
     "reconstruction/reverse-v1/cpp/vm_exec/vm_stack_startup.cpp": "5dad23f9a961286ce80c75d68a431d38f5ae8f5ec5e1ff1a29a8b2512aa258f1",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171"
   },
-  "frozen_review_manifest": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-writer-r1-manifest.json",
-  "frozen_review_manifest_sha256": "c95578eaa6f3cccc79a84312abb6701c514520ba56d39ba0140c13d79e5eb698",
+  "frozen_review_manifest": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-provider-accept-r2/accepted-manifest.json",
+  "frozen_review_manifest_sha256": "c1b10ff55b94d1a944217e51938fd0a6db7a4e05bd9960a0fa53a96e608a7dfb",
   "builds": [
     {
       "configuration": "O0",
-      "compiled_tus": 53,
-      "original_function_names": 142,
-      "combined_sha256": "12e92f1f89f933a8c7dc7dc33050a24b1baae235cfbbbe14d80c9335075bc34d"
+      "compiled_tus": 55,
+      "original_function_names": 144,
+      "combined_sha256": "60c22aba67a95c1b374cf2ef06881805b8f0ea3f8ffab93380eb15961a181d17"
     },
     {
       "configuration": "O2",
-      "compiled_tus": 53,
-      "original_function_names": 142,
-      "combined_sha256": "73b338c29ce6ca09e18984d504109c12d463ecb2d39c5db01f7c5bf51a5cbf77"
+      "compiled_tus": 55,
+      "original_function_names": 144,
+      "combined_sha256": "65d76c4f03f8b3fb8e6c575b83bf81d61628a50a8d47d0b0954e44dae1e00f97"
     }
   ],
   "ABI": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-writer-gate-r1/abi/cally-gc-root-writers.armv7a-le-eabi5-aapcs-base.json",
-    "sha256": "23383ee41d93f69b412ffbd234fb1e2d467af0eb62a0cb1ec26cc4d2e50f3624",
-    "checks": 9
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-provider-gate-r2/abi/cally-gc-root-provider-reset.armv7a-le-eabi5-aapcs-base.json",
+    "sha256": "488aee8d37575d839d89f35061b5f0bf8746e2f788a41aaf4155c9b88ce11a05",
+    "checks": 10
   },
   "shape": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-writer-gate-r1/shape.json",
-    "sha256": "1fa46312c35edd39ab1de8fff274d68248804f024810f48e33c0a4a095a321d1"
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-provider-gate-r2/load-store-shape.json",
+    "sha256": "bb9d3b87e6b3d370a4afea9f7001bad054be8af6573955c09f7bbfdf7ceef81a"
   },
-  "original_entries": 3,
-  "original_index_words": 231,
-  "original_pool_words": 2,
-  "unresolved_direct_provider": "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_",
+  "original_entries": 2,
+  "original_index_words": 474,
+  "original_pool_words": 7,
+  "resolved_direct_provider": "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_",
+  "unresolved_direct_provider": null,
   "phase_complete": false,
   "original_executed": false,
-  "rebuilt_executed": false
+  "rebuilt_executed": false,
+  "independent_review": {
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-provider-review-r2/findings.json",
+    "sha256": "5e5d9e11c85799543fe20248ee328964c4c652d3b7cab812b8bb27aa5eaf7d6e",
+    "passed": true
+  }
 }

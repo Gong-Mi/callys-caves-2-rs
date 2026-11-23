@@ -1,11 +1,24 @@
 # 状态与定性
 
-## 当前断点：GC 根表插入与删除
+## 当前断点：GC 根表扩容重插与代际重置
+
+恢复弱定义 `CHashMap<YYObjectBase*,YYObjectBase*,4>::Insert@0x195ba8`，实际接住
+`AddRoot@0x1963c8` 的重插调用。保留两个原内联重插层各自的读序、空槽发布顺序及
+`0x1961dc` 的真递归，不把三层都改成外调。`CGCGeneration::Reset@0x19140c` 恢复
+旧表释放、清 held map、重载 map 与 `memset` 后重读容量/表指针，最后写回代际字段。
+
+ARMv7 O0/O2 每档交叉编译 55 个 TU；可重定位组合中 144 个已登记原版函数符号名均有定义。
+两窗共核对 474 个原字（含 7 个池字），10 项本批 ABI 检查通过；去掉 Insert 正文后，真实重插
+边恢复为 UND。原稿的合并层／陈旧表指针优化件被具名静态检查拒绝。未运行、装载或模拟
+目标，不宣称整库链接、运行等价、原故障/展开、FPSCR 或并发等价。下一批从四次调用
+Reset 的 `ResetGC@0xd66e0` 和类统计表生产者 `AddClassStat@0x191578` 接着恢复。
+
+## 上一批：GC 根表插入与删除
 
 恢复 `AddRoot`、`RemoveRoot` 和真实指针 `CompareKeys` 三个原入口。首次插入、置换、替换、
 删除后回填和计数按原字恢复；扩容后 Free 返回先重读容量、再重读计数，反序的原稿优化件被拒。
 实际根表定型为 `CHashMap<YYObjectBase*,YYObjectBase*,4>`，key/value/hash 槽为 12B。
-明确未闭合：`AddRoot` 扩容重插的 `Insert@0x195ba8` 在累计可重定位件仍为 UND，无桩。
+该批提交时，`AddRoot` 扩容重插的 `Insert@0x195ba8` 仍为 UND（无桩）；现已由上节接入。
 本批 231 原字（2 池字），ARMv7 两档各53 TU、142 原函数符号名、9 项本批 ABI，未执行目标。
 
 ## 当前断点：GC 根表查询与动态根状态

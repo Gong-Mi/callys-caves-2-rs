@@ -19,8 +19,8 @@ class YYObjectBase;
  * Field roles marked "proven via" below are read from sibling CGCGeneration
  * methods (IsRoot 0x1910e8, RemoveRoot 0x1911c8, AddDynamicRoot 0x19135c,
  * ResetDynamicRoots 0x191400, Reset 0x19140c, UpdateRange 0x19150c,
- * ResetClassStats 0x191530, AddRoot 0x196210, all dynsym GLOBAL); those
- * bodies are NOT recovered in this seam.
+ * ResetClassStats 0x191530, AddRoot 0x196210, all dynsym GLOBAL). Definitions
+ * are in their respective GC translation units.
  * gap: names/access levels are reconstructed; +0x10/+0x3c/+0x40/+0x44/+0x54
  * are never written by C1/D1/Reset and their producers/consumers are not
  * pinned here; faults, unwind, exceptions and concurrency remain unproved.
@@ -43,7 +43,7 @@ static_assert(sizeof(GCRootMapEntry) == 12 && offsetof(GCRootMapEntry,value) == 
 template <typename Key, typename Value, int N> class CHashMap;
 template<> class CHashMap<YYObjectBase *, YYObjectBase *, 4> {
 public:
-    void Insert(YYObjectBase *, YYObjectBase *) __attribute__((noinline)); // 0x195ba8, body still owed
+    void Insert(YYObjectBase *, YYObjectBase *) __attribute__((noinline)); // 0x195ba8, weak definition in gc_root_map_insert.cpp
 
     uint32_t capacity;     // +0x00: interpreted as signed where the original uses signed condition codes
     uint32_t count;        // +0x04: wrapping arithmetic
@@ -76,6 +76,7 @@ public:
     void AddRoot(YYObjectBase *);                    // 0x196210
     void RemoveRoot(YYObjectBase *);                 // 0x1911c8
     void AddDynamicRoot(YYObjectBase *, bool force); // 0x19135c
+    void Reset();                                  // 0x19140c
     void ResetDynamicRoots();                       // 0x191400
     void UpdateRange(int);                          // 0x19150c
     void ResetClassStats();                          // 0x191530

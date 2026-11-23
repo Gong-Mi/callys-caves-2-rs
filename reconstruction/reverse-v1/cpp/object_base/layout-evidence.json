@@ -208,9 +208,127 @@
       "caller": "0x1963c8",
       "callee": "0x195ba8",
       "symbol": "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_",
-      "compiled_status": "undefined in cumulative relocatable, intentionally no stub"
+      "compiled_status": "actual WEAK definition in O0/O2 cumulative relocatable; dropping its TU restores the undefined edge"
     },
     "post_free_order": "0x1963e0 reads capacity before 0x1963ec reads count; r1 compiler output audited",
     "remove_tail": "count read @0x191334, hash clear @0x191344 then count decrement @0x191348"
+  },
+  "gc_root_provider_reset": {
+    "tier": "bytecode_anchored",
+    "map_insert": {
+      "entry": "0x195ba8",
+      "size": 1640,
+      "binding": "STB_WEAK",
+      "original_growth_allocations": [
+        "0x195d1c",
+        "0x195f6c",
+        "0x196158"
+      ],
+      "original_weak_self_call": "0x1961dc",
+      "rehash_scan_reads": [
+        {
+          "anchor": "0x195db4",
+          "words": [
+            "old hash",
+            "old key",
+            "map count",
+            "map threshold",
+            "old value"
+          ]
+        },
+        {
+          "anchor": "0x195fe0",
+          "words": [
+            "old hash",
+            "map count",
+            "map threshold",
+            "old key",
+            "old value"
+          ]
+        },
+        {
+          "anchor": "0x1961c4",
+          "words": [
+            "old hash",
+            "old key/value pair"
+          ]
+        }
+      ],
+      "empty_slot_store_order": [
+        {
+          "anchor": "0x195cc0",
+          "fields": [
+            "hash",
+            "key",
+            "value"
+          ]
+        },
+        {
+          "anchor": "0x195f1c",
+          "fields": [
+            "hash",
+            "key",
+            "value"
+          ]
+        },
+        {
+          "anchor": "0x19610c",
+          "fields": [
+            "key",
+            "value",
+            "hash"
+          ]
+        }
+      ],
+      "after_free_live_reload_pairs": [
+        [
+          "0x195ef0",
+          "0x195efc"
+        ],
+        [
+          "0x1960f0",
+          "0x1960f8"
+        ],
+        [
+          "0x1961f4",
+          "0x1961fc"
+        ]
+      ]
+    },
+    "reset": {
+      "entry": "0x19140c",
+      "size": 256,
+      "clear_old_held_entries": "0x191430",
+      "reload_map": "0x191434",
+      "publish_before_memset": "0x19146c -> 0x191470",
+      "reload_capacity_entries": [
+        "0x191474",
+        "0x19149c"
+      ],
+      "efficiency": {
+        "got_slot": "0x3edc98",
+        "original_word_address": "0x3f504c",
+        "width": 4,
+        "copy_sites": [
+          "0x1914d8",
+          "0x1914dc"
+        ]
+      },
+      "direct_caller": {
+        "name": "_Z7ResetGCv",
+        "entry": "0xd66e0",
+        "call_sites": [
+          "0xd6728",
+          "0xd6730",
+          "0xd6738",
+          "0xd6744"
+        ],
+        "only_evidence_no_body_in_this_batch": true
+      }
+    },
+    "gaps": [
+      "ET_REL code shapes are not original execution, original unwind/fault behavior, final GOT placement, FP environment or concurrent ordering",
+      "ResetGC body and GC worker lifecycle outside this batch"
+    ]
   }
 }

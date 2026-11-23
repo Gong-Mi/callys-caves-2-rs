@@ -21,8 +21,8 @@
  * memset, count cleared at 0x196368, the growThreshold stored
  * UNCONDITIONALLY at 0x19637c before the signed capacity test drives the
  * hash-word clear loop, the per-slot rehash through the CANONICAL
- * map->Insert(key,value) real dependency at 0x1963c8 (body 0x195ba8 stays
- * with its own line; this TU keeps the undefined reference), the
+ * map->Insert(key,value) real dependency at 0x1963c8 (body 0x195ba8 is
+ * defined separately in gc_root_map_insert.cpp), the
  * unconditional MemoryManager::Free of the OLD entries at 0x1963dc, the
  * second growThreshold recompute at 0x1963f8 from the live capacity word
  * with the live count (0x1963ec) held across it, and the fall-back into
@@ -134,9 +134,8 @@ void CGCGeneration::AddRoot(YYObjectBase *obj) {
                  * zero flag marks an empty slot) re-enters the map. */
                 if (static_cast<int32_t>(heldHash) > 0) {
                     /* 0x1963c4 ldm r4,{r1,r2}: key/value raw words; 0x1963c8
-                     * the CANONICAL map->Insert dependency (0x195ba8, body
-                     * owed to its own line — real undefined reference, no
-                     * stub here). */
+                     * the canonical map->Insert definition at 0x195ba8,
+                     * supplied by gc_root_map_insert.cpp, not a stub. */
                     YYObjectBase *const key = reinterpret_cast<YYObjectBase *>(
                         static_cast<uintptr_t>(readRawWord(cursor)));
                     YYObjectBase *const value = reinterpret_cast<YYObjectBase *>(
