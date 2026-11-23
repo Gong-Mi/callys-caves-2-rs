@@ -316,7 +316,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "gc_generation.cpp",
-      "translation_source_sha256": "a101f3d17cd744e33cb163c5b788b4223dcd8b83acf80b1259d339535a9d5bb4",
+      "translation_source_sha256": "31246c67f55818c85ea6d2857ffd870378232eb0d8d7650869bd36d471126fd4",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -336,7 +336,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "gc_generation.cpp",
-      "translation_source_sha256": "a101f3d17cd744e33cb163c5b788b4223dcd8b83acf80b1259d339535a9d5bb4",
+      "translation_source_sha256": "31246c67f55818c85ea6d2857ffd870378232eb0d8d7650869bd36d471126fd4",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -493,6 +493,70 @@
       "phase_complete": false,
       "original_executed": false,
       "local_contract": "Free each entry payload from the live table; re-read unsigned count after Free; clear count, retain table."
+    },
+    {
+      "entry": "0x196210",
+      "size": 504,
+      "symbols": [
+        "_ZN13CGCGeneration7AddRootEP12YYObjectBase"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "51bdeb3e3d6392c9aea8754f7918407a983b5fbd4c1c21342e1188a456a6a5f3",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_add_root.cpp",
+      "translation_source_sha256": "4f5ed787989e9955ef6fc1315861b6e877437ea4dd318d0eef3a15131aefe878",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "NULL gate, signed grow threshold, original pointer hash and displacement/replace/publish, real reinsert dependency and post-Free live capacity then count.",
+      "unresolved_original_body_dependencies": [
+        {
+          "name": "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_",
+          "va": "0x195ba8",
+          "state": "extern_only_no_stub"
+        }
+      ]
+    },
+    {
+      "entry": "0x1911c8",
+      "size": 404,
+      "symbols": [
+        "_ZN13CGCGeneration10RemoveRootEP12YYObjectBase"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "63e47ce65457fee361b0fba15cb46ae5e1d5a4edffd2e1891505a68115f1a057",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_remove_root.cpp",
+      "translation_source_sha256": "d51912661f878d9bece061b24473cb0a7fb39df81350691647faae286aeb00ca",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Hash then compare true keys; preserve live reads, deletion backfill and hash clear before count decrement."
+    },
+    {
+      "entry": "0x190f48",
+      "size": 16,
+      "symbols": [
+        "_Z19CHashMapCompareKeysIP12YYObjectBaseEbT_S2_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "558b854ab79aee3d7bfaf52ad7e840b7d3205d8cca7a444c1fa44696b1186f0f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_remove_root.cpp",
+      "translation_source_sha256": "d51912661f878d9bece061b24473cb0a7fb39df81350691647faae286aeb00ca",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Equality of two 32-bit pointer words."
     }
   ],
   "not_whole_library_completion": true,
@@ -513,7 +577,7 @@
     "object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
     "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
-    "gc_generation.hpp": "d5a93c8c18d98355fd71047ac96a363433c4d85bd9fad3f32ce92758587da7be",
+    "gc_generation.hpp": "5ba38f863b5ebd99a58ce75579392438d09965ce9c52289cf4d654af26db7d01",
     "gc_instance_hash.hpp": "0040536acf0b4381376a54c7980e1e3f6cda494de08158c2295ddea2a5750b4d",
     "object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74"
   },
@@ -522,5 +586,6 @@
     "Call_ScriptRef": "../scripting/script_runtime.cpp"
   },
   "gc_startup_scope": ".init_array @0xb9814 with its real allocation wrappers and destructor/constructor dependencies; no whole-image equivalence.",
-  "gc_consumer_scope": "Root membership, pointer hash, dynamic-root writer/reset, signed range and class-stat cleanup; AddRoot/RemoveRoot and next GC lifecycle still incomplete."
+  "gc_consumer_scope": "Root membership, pointer hash, dynamic-root writer/reset, signed range and class-stat cleanup; AddRoot/RemoveRoot and next GC lifecycle still incomplete.",
+  "gc_writer_scope": "AddRoot and RemoveRoot plus real pointer CompareKeys; AddRoot resize still calls the unrecovered root map Insert provider at 0x195ba8."
 }

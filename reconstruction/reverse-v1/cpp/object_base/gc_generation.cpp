@@ -72,7 +72,7 @@ CGCGeneration::CGCGeneration() {
 
     /* 0x190fa4: publish the held pointer at +0x10 BEFORE the real
      * memset(held, 0, 192) at 0x190fa8 (r0 still carries held). */
-    live.entries = held;
+    live.entries = static_cast<GCRootMapEntry *>(held);
     memset(held, 0, kMapBytes);
 
     /* 0x190fac-0x190fcc: LIVE signed capacity re-read after the calls,

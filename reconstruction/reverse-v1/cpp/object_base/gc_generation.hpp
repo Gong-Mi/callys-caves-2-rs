@@ -30,23 +30,34 @@ class YYObjectBase;
 #error "This recovered layout targets little-endian ARM32, not arm64"
 #endif
 
-/* The 20B header that C1 materializes over a raw operator new(20) block.
- * Only these five words are evidenced (C1 0x190f80..0x190fcc, D1
- * 0x191078..0x19108c, Reset 0x19141c..0x19146c, AddRoot/IsRoot probing
- * +0x00 capacity/+0x04 count/+0x08 mask/+0x0c threshold/+0x10 entries).
- * The template symbol spellings _Z21CHashMapCalculateHashIP12YYObjectBaseEjT_
- * (0x190f34) and _Z19CHashMapCompareKeysIP12YYObjectBaseEbT_S2_ (0x190f48)
- * fix the entry key type as YYObjectBase*; the 12B entry carries its hash
- * at +0x08 (the only word C1 clears per entry) and the +0x04 value word is
- * moved but never typed by the probe sites. The full map class type is
- * deliberately NOT asserted here. */
-struct GCGenRootMapHeader {
-    uint32_t capacity;      // +0x00: C1 writes 16, Reset re-derives halved mask
-    uint32_t count;         // +0x04: C1 writes 0
-    uint32_t mask;          // +0x08: C1 writes 15
-    int32_t growThreshold;  // +0x0c: trunc(capacity * 0.6f) via the VFP chain
-    void *entries;          // +0x10: 12B-stride blocks, MM-owned
+/* The real rehash call at 0x1963c8 proves this specialization; its Insert
+ * receives slot+0 and slot+4 as pointer key/value words (0x1963c4). */
+struct GCRootMapEntry {
+    YYObjectBase *key;
+    YYObjectBase *value;
+    uint32_t hash;
 };
+static_assert(sizeof(GCRootMapEntry) == 12 && offsetof(GCRootMapEntry,value) == 4 &&
+              offsetof(GCRootMapEntry,hash) == 8, "original 12-byte entry");
+
+template <typename Key, typename Value, int N> class CHashMap;
+template<> class CHashMap<YYObjectBase *, YYObjectBase *, 4> {
+public:
+    void Insert(YYObjectBase *, YYObjectBase *) __attribute__((noinline)); // 0x195ba8, body still owed
+
+    uint32_t capacity;     // +0x00: interpreted as signed where the original uses signed condition codes
+    uint32_t count;        // +0x04: wrapping arithmetic
+    uint32_t mask;         // +0x08
+    int32_t growThreshold; // +0x0c
+    GCRootMapEntry *entries; // +0x10: the original separately allocated table
+};
+using GCGenRootMapHeader = CHashMap<YYObjectBase *, YYObjectBase *, 4>;
+
+template <typename Key> uint32_t CHashMapCalculateHash(Key);
+template<> uint32_t CHashMapCalculateHash<YYObjectBase *>(YYObjectBase *) __attribute__((noinline));
+template <typename Key> bool CHashMapCompareKeys(Key, Key);
+template<> bool CHashMapCompareKeys<YYObjectBase *>(YYObjectBase *, YYObjectBase *) __attribute__((noinline));
+
 static_assert(sizeof(GCGenRootMapHeader) == 20 && alignof(GCGenRootMapHeader) == 4,
               "GC root-map header is the 20B new(20) block");
 static_assert(offsetof(GCGenRootMapHeader, count) == 4 &&
@@ -62,6 +73,8 @@ public:
     ~CGCGeneration() noexcept(false); // D1/D2 @0x191064, 80B, same GLOBAL entry
 
     bool IsRoot(YYObjectBase *);                      // 0x1910e8
+    void AddRoot(YYObjectBase *);                    // 0x196210
+    void RemoveRoot(YYObjectBase *);                 // 0x1911c8
     void AddDynamicRoot(YYObjectBase *, bool force); // 0x19135c
     void ResetDynamicRoots();                       // 0x191400
     void UpdateRange(int);                          // 0x19150c

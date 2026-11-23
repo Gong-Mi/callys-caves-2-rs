@@ -1,5 +1,13 @@
 # 状态与定性
 
+## 当前断点：GC 根表插入与删除
+
+恢复 `AddRoot`、`RemoveRoot` 和真实指针 `CompareKeys` 三个原入口。首次插入、置换、替换、
+删除后回填和计数按原字恢复；扩容后 Free 返回先重读容量、再重读计数，反序的原稿优化件被拒。
+实际根表定型为 `CHashMap<YYObjectBase*,YYObjectBase*,4>`，key/value/hash 槽为 12B。
+明确未闭合：`AddRoot` 扩容重插的 `Insert@0x195ba8` 在累计可重定位件仍为 UND，无桩。
+本批 231 原字（2 池字），ARMv7 两档各53 TU、142 原函数符号名、9 项本批 ABI，未执行目标。
+
 ## 当前断点：GC 根表查询与动态根状态
 
 恢复 `IsRoot` 和真实指针 hash，及 `AddDynamicRoot`、`ResetDynamicRoots`、`UpdateRange`、

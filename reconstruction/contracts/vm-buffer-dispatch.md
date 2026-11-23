@@ -481,3 +481,14 @@ GC C1 用 `new(20)`、Alloc(192)、memset、live 容量与 entries，保持有�
 两路都先写新 count 再按旧 index 发布 pointer。O2 实际指令次序过门，原稿优化件反序被拒。
 `UpdateRange` 两读在两写之前，`ResetClassStats` 按每次外调后的 live unsigned count 循环，
 释放的是 entry+0 payload，不是表。`ResetDynamicRoots` 仅清 +8。当前仍无运行及 GC 全流程等价。
+
+## GC 根表写入与回填
+
+`AddRoot@0x196210` 按 signed count>threshold 选择扩容；真实重插调用 0x1963c8 确认根 map 是
+`CHashMap<YYObjectBase*,YYObjectBase*,4>`，12B 槽的 +0/+4 是 key/value，+8 为 hash。
+Free 旧表后 0x1963e0 先读 live capacity、0x1963ec 后读 live count，再写 F32 向零阈值，
+并持 count 回 fast path。原稿反序在编译件被拒。0x195ba8 仍是真实未定义调用，非桩。
+
+`RemoveRoot@0x1911c8` 与 `IsRoot` 不同：hash 命中须经原 `CompareKeys@0x190f48`，只在
+该调用返回 false 时走 0x191274 的 mask 重读，再继续探测。回填按 hash/key/value 写序；
+尾端 live count 先取，清槽 hash 后写回 count-1。不推断运行等价或完整 GC 寿命周期。
