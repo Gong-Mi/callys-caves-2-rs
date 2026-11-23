@@ -714,5 +714,183 @@
       "file_word": "0x7566ac"
     },
     "free_semantics": "page-chain ownership search: empty pageHead or exhausted chain returns 0 with zero writes; [page+8,page+1048576+8) hit jumps to the shared three-snapshot/publish tail and returns 1; differs from true-mode unconditional freelist push"
+  },
+  "allocator_startup": {
+    "tier": "bytecode_anchored",
+    "manager_guard": "0x756698 (zero-initialized BYTE, different slot from bucket guard 0x756699)",
+    "original_lifecycle": [
+      {
+        "entry": "0x27c23c",
+        "contract": "Old 0x756698 byte; publish 0x75669a on both paths; set guard before reading live mutex and tail-calling the existing initializer."
+      },
+      {
+        "entry": "0x27c288",
+        "contract": "Original BX LR; all inputs unconsumed."
+      },
+      {
+        "entry": "0x27c28c",
+        "contract": "FILE* unconsumed; dbg_csol then m_Total snapshots; slot +0xc gets signed int and unsigned long views of the same word."
+      }
+    ],
+    "init_array_slot": "0x3eb654",
+    "init_array_binding": "R_ARM_RELATIVE, inline addend 0xba3e4; next slot starts 0xba594",
+    "got_base": "0x3f1c58",
+    "memory_strings_map": {
+      "symbol": "g_memStringsMap",
+      "got_slot": "0x3f1828",
+      "va": "0x756798",
+      "size": 20,
+      "entry_stride": 12,
+      "fields": {
+        "capacity": 0,
+        "count": 4,
+        "mask": 8,
+        "growThreshold": 12,
+        "entries": 16
+      },
+      "entry_fields": {
+        "key": 0,
+        "value": 4,
+        "hash": 8
+      },
+      "destructor_got_slot": "0x3f186c",
+      "destructor_names": [
+        "_ZN8CHashMapIPKciLi3EED1Ev",
+        "_ZN8CHashMapIPKciLi3EED2Ev"
+      ],
+      "destructor_entry": "0x27c42c",
+      "grow_f32_word": "0x3f19999a",
+      "alloc_string_va": "0x331038"
+    },
+    "true_bucket_vptr_install": [
+      {
+        "name": "_8byte",
+        "type": "CBucket<8,131072,true>",
+        "symbol_va": 7694120,
+        "object_got_va": 4134976,
+        "object_pool_va": 763228,
+        "vtable_symbol": "_ZTV7CBucketILj8ELj131072ELb1EE",
+        "vtable_got_va": 4135024,
+        "vtable_symbol_va": 4112632,
+        "vtable_pool_va": 763232,
+        "address_point_va": 4112640,
+        "vptr_store_va": 763064,
+        "vptr_store_word": 3850420224
+      },
+      {
+        "name": "_16byte",
+        "type": "CBucket<16,262144,true>",
+        "symbol_va": 7694100,
+        "object_got_va": 4134980,
+        "object_pool_va": 763236,
+        "vtable_symbol": "_ZTV7CBucketILj16ELj262144ELb1EE",
+        "vtable_got_va": 4135028,
+        "vtable_symbol_va": 4112656,
+        "vtable_pool_va": 763240,
+        "address_point_va": 4112664,
+        "vptr_store_va": 763088,
+        "vptr_store_word": 3850420224
+      },
+      {
+        "name": "_32byte",
+        "type": "CBucket<32,262144,true>",
+        "symbol_va": 7694080,
+        "object_got_va": 4134984,
+        "object_pool_va": 763244,
+        "vtable_symbol": "_ZTV7CBucketILj32ELj262144ELb1EE",
+        "vtable_got_va": 4135032,
+        "vtable_symbol_va": 4112680,
+        "vtable_pool_va": 763248,
+        "address_point_va": 4112688,
+        "vptr_store_va": 763112,
+        "vptr_store_word": 3850420224
+      },
+      {
+        "name": "_64byte",
+        "type": "CBucket<64,524288,true>",
+        "symbol_va": 7694060,
+        "object_got_va": 4134988,
+        "object_pool_va": 763252,
+        "vtable_symbol": "_ZTV7CBucketILj64ELj524288ELb1EE",
+        "vtable_got_va": 4135036,
+        "vtable_symbol_va": 4112704,
+        "vtable_pool_va": 763256,
+        "address_point_va": 4112712,
+        "vptr_store_va": 763136,
+        "vptr_store_word": 3850420224
+      },
+      {
+        "name": "_128byte",
+        "type": "CBucket<128,524288,true>",
+        "symbol_va": 7694040,
+        "object_got_va": 4134992,
+        "object_pool_va": 763260,
+        "vtable_symbol": "_ZTV7CBucketILj128ELj524288ELb1EE",
+        "vtable_got_va": 4135040,
+        "vtable_symbol_va": 4112728,
+        "vtable_pool_va": 763264,
+        "address_point_va": 4112736,
+        "vptr_store_va": 763160,
+        "vptr_store_word": 3850420224
+      },
+      {
+        "name": "_256byte",
+        "type": "CBucket<256,1048576,true>",
+        "symbol_va": 7694020,
+        "object_got_va": 4134996,
+        "object_pool_va": 763268,
+        "vtable_symbol": "_ZTV7CBucketILj256ELj1048576ELb1EE",
+        "vtable_got_va": 4135044,
+        "vtable_symbol_va": 4112752,
+        "vtable_pool_va": 763272,
+        "address_point_va": 4112760,
+        "vptr_store_va": 763180,
+        "vptr_store_word": 3850436608
+      },
+      {
+        "name": "_16Kbyte",
+        "type": "CBucket<16384,262144,true>",
+        "symbol_va": 7694000,
+        "object_got_va": 4135008,
+        "object_pool_va": 763276,
+        "vtable_symbol": "_ZTV7CBucketILj16384ELj262144ELb1EE",
+        "vtable_got_va": 4135048,
+        "vtable_symbol_va": 4112776,
+        "vtable_pool_va": 763280,
+        "address_point_va": 4112784,
+        "vptr_store_va": 763196,
+        "vptr_store_word": 3850575872
+      }
+    ],
+    "distinct_false_init_pending": {
+      "stack": {
+        "entry": 759196,
+        "end": 759260,
+        "slot": 4109804,
+        "object_got": 4119868,
+        "object": "stackPages",
+        "sentinel_va": 4694460,
+        "write_sequence": [
+          759228,
+          759232,
+          759236,
+          759240
+        ]
+      },
+      "rvalue": {
+        "entry": 759828,
+        "end": 760132,
+        "slot": 4109836,
+        "object_got": 4130424,
+        "object": "_rvalue",
+        "vptr_store": 760076,
+        "prior_atexit_sites": [
+          759928,
+          759996,
+          760052
+        ]
+      }
+    },
+    "gap": "The local initializer/callback graph is statically linked; ordering against other image initializers, CRT behavior and faults/concurrency have not been exercised. O0 placement may materialize an intermediate base vptr, O2 final address-point stores are measured."
   }
 }

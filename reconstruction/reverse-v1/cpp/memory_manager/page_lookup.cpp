@@ -11,7 +11,7 @@
  * first (0x27be48) and the array pointer second (0x27be4c); both are the real
  * original variables bound in page_lookup.hpp, not defaults defined here.
  * g_pages is a POINTER to a boundary-address WORD array, not an inline array.
- * gap: the full page/list producers and complete BucketPrefix shape are still
+ * gap: the full page/list producers and complete bucket lifetime are still
  * unrecovered; corrupt-table, negative-cursor and overflow input domains and
  * concurrency are unproved. ARM32 32-bit wrapping of every address/count
  * operation below is preserved, not sanitised. No target execution, so
@@ -35,7 +35,7 @@ uint32_t readBoundaryWord(uint32_t address) {
 
 } // namespace
 
-BucketPrefix *globalPageListFindAddr(const void *target) {
+CBucketBase *globalPageListFindAddr(const void *target) {
     /* 0x27be48 first: the live count. 0x27be4c second: the live array
      * pointer. lsl r1,r1,#1 at 0x27be50 is a wrapping uint32 shift, then
      * consumed as a SIGNED length (cmp #0 / ble at 0x27be68-0x27be6c). */
@@ -122,5 +122,5 @@ BucketPrefix *globalPageListFindAddr(const void *target) {
      * behaviour; it is not normalised to a [begin,end) convention here. */
     const uint32_t boundary = readBoundaryWord(cursor - 4u); /* 0x27bec8 ldreq [r2,#-4] */
     const uint32_t owner = readBoundaryWord(boundary + 4u);  /* 0x27bed0 ldreq [r3,#4] */
-    return reinterpret_cast<BucketPrefix *>(static_cast<uintptr_t>(owner));
+    return reinterpret_cast<CBucketBase *>(static_cast<uintptr_t>(owner));
 }

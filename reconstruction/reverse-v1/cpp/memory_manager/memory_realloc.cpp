@@ -36,6 +36,7 @@
  */
 
 #include "memory_realloc_internal.hpp"
+#include "cbucket_classes.hpp"
 
 /* memset@plt 0xb65b0 (call 0x27cff4) and memcpy@plt 0xb65bc (call
  * 0x27d00c) are the real libc imports, declared once by the canonical
@@ -78,17 +79,14 @@ uint32_t bucketSize(const void *p) {
     /* 0x27c1e8: real declared globalPageListFindAddr (0x27be34), body in
      * page_lookup.cpp. 0x27c1ec-0x27c1f0: a null lookup returns 0 via
      * mov r0,r3 with r3==0. */
-    BucketPrefix *bucket = globalPageListFindAddr(p);
+    CBucketBase *const bucket = globalPageListFindAddr(p);
     if (bucket == nullptr) {
         return 0u;
     }
     /* 0x27c1f4-0x27c1fc: r3=[[r0]], r3=[[r3,#8]], blx r3 with r0 still
      * holding the bucket. Receiver only: the original pointer argument
      * p is NOT forwarded as a second GP parameter. */
-    const volatile BucketPrefix *const state = bucket;
-    const volatile BucketVtablePrefix *const table = state->vptr;
-    const BucketSizeEntry invoke = table->sizeEntry; /* +0x08 */
-    return invoke(bucket);
+    return bucket->GetSize();
 }
 
 void *MemoryManager::ReAlloc(void *p, unsigned int newsize, const char *file,

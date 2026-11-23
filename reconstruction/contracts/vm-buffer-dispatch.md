@@ -420,3 +420,25 @@ GOT 0x3edbcc（与 true 批同一计数器）；Free 是页链归属查找——
 且零写入，命中 [page+8,page+1048576+8) 才走共享三快照/发布尾返 1。独立复核推翻
 首次冻结的构建判据（新 TU 无 -O、对象命名碰撞）后重建，复审逐条实证。至此九个
 CBucket 实例 36 个虚方法全部恢复；真实构造/初始化提供者仍是欠账。
+
+## 内存管理器冷启动与真实桶对象接线
+
+`Init@0x27c23c` 先取匿名 `0x756698` 旧 BYTE、发 `bucketsShouldInit=1`，旧值非零即返回。
+冷路径先发 guard，后重读 `g_MemoryMutex`，空才尾转真实 `0x27b918`。桶 lazy guard 是
+独立的 `0x756699`。`Quit` 是真实 `bx lr`；`DumpMemory` 不消费 FILE*，从 `dbg_csol`/`m_Total`
+取两个活快照，`blx` 虚槽 +0xc 收到 console、原格式串和两次同一寄存器字。
+
+`.init_array[29]`（0x3eb654）经 R_ARM_RELATIVE 到 `0xba3e4`。到 `0xba494` 为止 map 先后做：
+capacity/mask/entries 三写 → `Alloc(96, MemoryManager.h, 70, true)` → 发 held entries →
+`memset(held, 0, 96)` → LIVE capacity → count=0 → f32 阈值 → signed gate 后 LIVE entries
+及 12B 步长清 hash → `__aeabi_atexit(map, D1, __dso_handle)`。D1/D2 是一个原入口；只在
+entries 非空时调用真实 Free，返回后清 entries。原种子将桶与消费者拆成了两个对象群；实际
+0xba3fc 与 0x27c558 都复算出 0x3f1c58，随后两边解析到完全相同的七个对象槽
+0x3f1840..54/0x3f1860。安装地址点为各真实虚表 +8，按 8/16/32/64/128/256/16K 排列，
+这段不调用 Init，不清 payload，不注册桶析构。页头的 owner 指向偏移零的实际 CBucketBase，
+查页结果经 GetSize/Free 的 +8/+c 虚槽使用同一个类型，不再把类型不同的布局视图互转。
+
+五入口 155 原字（26 池字），O0/O2 各 44 TU，171 项原件与目标 ABI 检查。静态候选不声称
+完整启动/退出等价；O0 允许编译器物化基类构造中的中间 vptr，O2 查实七个最终写入。
+两个 false 模式启动入口仍欠：`0xb959c` 是具名 stackPages 与旁边的三字头，`0xb9814` 在
+Hash/YYSlot/CGCGeneration 之后才写具名 `_rvalue`。这两条都不是七个 true 桶的替身。

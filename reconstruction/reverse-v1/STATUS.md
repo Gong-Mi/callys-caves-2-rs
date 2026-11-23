@@ -1,5 +1,22 @@
 # 状态与定性
 
+## 当前断点：MemoryManager 生命周期与七个 true 桶的静态启动
+
+恢复 `MemoryManager::Init/Quit/DumpMemory`、`.init_array` 的 `0xba3e4` 完整入口和
+`CHashMap<const char *, int, 3>` D1/D2 共 5 个原入口、155 原字（26 池字）。
+Init 在旧 0x756698 guard 判断前发布 `bucketsShouldInit`，不与桶的 0x756699 混用；
+DumpMemory 先读 console 后读一次 total，由虚槽 +0xc 收到同一字的两个变参形态。
+
+`0xba3e4` 先构造内存字符串 map、接真实 Alloc/memset/析构注册，再按原顺序给七个桶装虚表。
+原启动体和 bucketAlloc 解析到同一组 GOT 槽和具名 BSS 对象；不存在先前推测的独立匿名池。
+恢复件不再把桶类和消费者前缀当不同 C++ 对象：同一份具型四槽 API 和池存储由分配、查页、
+GetSize/Free 虚调用实际消费。O2 七次只写 vptr，不清四个 payload 字，也不调用桶 Init。
+
+O0/O2 各 44 个互异 TU、124 个原函数符号名，171 条 ARM32 ABI 检查。交换 _32byte/_64byte
+构造顺序的编译负控被判拒；改 Free 虚槽及逐个移走构造/生命周期/方法 TU 也被对应检查检出。
+未执行原件或恢复件。下一断点为两个不同装载入口：stackPages@0xb959c 和 _rvalue@0xb9814；
+后者先构造和登记 GC/句柄相关对象。未认证整库或最终装载次序。
+
 ## 当前断点：两种 false-mode CBucket 虚方法（8 体）
 
 `cbucket_false_check.ipp` + `cbucket_false_free.ipp` + `memory_bucket_false_members.cpp`

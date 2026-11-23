@@ -25,6 +25,7 @@ public:
  * declaration is deliberately unchanged; these aliases bind its observed
  * static data without fabricating an instance or a second MemoryManager. */
 namespace memory_state {
+extern volatile uint8_t managerInitialized; // anonymous BSS 0x756698, distinct from bucket_state::initialized
 extern volatile uint32_t inUse __asm__("_ZN13MemoryManager7m_InUseE");
 extern volatile uint32_t total __asm__("_ZN13MemoryManager7m_TotalE");
 extern volatile uint32_t standardCount __asm__("_ZN13MemoryManager15m_StandardCountE");
@@ -38,20 +39,12 @@ void initializeMemoryMutex();
 enum ELogType : int;
 void logLocation(ELogType, const void *, const void *, unsigned int); // original 0x27bcf4 is BX LR
 
-/* Virtual Free is at vptr+0x0c. Other slots and the complete bucket object
- * remain opaque; no fake implementations or guessed C++ virtual API. */
-struct BucketPrefix;
-using BucketFreeEntry = uint32_t (*)(BucketPrefix *, const void *);
-using BucketSizeEntry = uint32_t (*)(BucketPrefix *); // original size callback has NO pointer argument
-struct BucketVtablePrefix {
-    uint32_t unknownSlots[2];
-    BucketSizeEntry sizeEntry;                       // +0x08, no extra argument
-    BucketFreeEntry freeEntry;
-};
-struct BucketPrefix { const volatile BucketVtablePrefix *vptr; };
-BucketPrefix *globalPageListFindAddr(const void *);     // 0x27be34, body in page_lookup.cpp
-uint32_t bucketSize(const void *) __attribute__((noinline)); // 0x27c1e4, preserve ReAlloc's helper boundary
-uint32_t bucketFree(const void *);                    // 0x27c20c
+/* The page lookup returns the offset-zero CBucketBase subobject. Its real
+ * C++ GetSize / Free declarations are in cbucket_classes.hpp. */
+class CBucketBase;
+CBucketBase *globalPageListFindAddr(const void *); // 0x27be34, body in page_lookup.cpp
+uint32_t bucketSize(const void *) __attribute__((noinline, disable_tail_calls)); // 0x27c1e4
+uint32_t bucketFree(const void *) __attribute__((disable_tail_calls)); // 0x27c20c
 
 extern "C" {
 void *malloc(size_t);

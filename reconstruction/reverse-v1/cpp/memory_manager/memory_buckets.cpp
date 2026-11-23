@@ -8,8 +8,8 @@
  * guard), the real operator new 0x27c524 (_Znwj, seven fresh-page sizes,
  * NO null guard and NO provider), memset@plt 0xb65b0 (the 0x78 fresh-page
  * fill plus the six non-8B zero requests), addPageToGlobalPageList 0x27bcf8
- * (316B body still owed by another batch; declared only, called with base
- * and base+newBytes-1 verbatim) and the console vptr slot +0xc variadic
+ * (316B body in page_registry.cpp, called with base and base+newBytes-1
+ * verbatim) and the console vptr slot +0xc variadic
  * print of "shouldn't get here - size %d - %08x\n" @0x35721c
  * (0x27c984-0x27c9b8).
  * Entry state (0x27c55c-0x27c578): the anonymous byte at 0x756699 is read
@@ -35,8 +35,7 @@
  * STRIDE) - the stride, never the requested size - and its return value is
  * dropped, exactly like the original. The outer duplicate zero-fill in
  * _Alloc/Alloc belongs to other TUs and is not reproduced here.
- * gap: addPageToGlobalPageList's 316B producer body, the complete CBucket
- * virtual API/construction, the private frame, LR, fault and unwind
+ * gap: the private frame, LR, fault and unwind
  * behaviour, cross-thread concurrency, the raw noncanonical bool entry
  * domain and any original-execution/rebuilt-execution equivalence remain
  * unproved. The default diagnostic block is provably unreachable under the
@@ -114,36 +113,21 @@ void *bucketAlloc(unsigned int size, bool zero) {
          * +8 freeHead, +c activeCount) using the just-read state byte,
          * which is 0 on this path. +0 vptr and +10 freeCount are NOT
          * touched; the six buckets are cleared in this exact order. */
-        volatile BucketPoolPrefix *pool = &_8byte;
-        pool->pageHead = nullptr;
-        pool->freeHead = nullptr;
-        pool->activeCount = 0u;
-        pool = &_16byte;
-        pool->pageHead = nullptr;
-        pool->freeHead = nullptr;
-        pool->activeCount = 0u;
-        pool = &_32byte;
-        pool->pageHead = nullptr;
-        pool->freeHead = nullptr;
-        pool->activeCount = 0u;
-        pool = &_64byte;
-        pool->pageHead = nullptr;
-        pool->freeHead = nullptr;
-        pool->activeCount = 0u;
-        pool = &_128byte;
-        pool->pageHead = nullptr;
-        pool->freeHead = nullptr;
-        pool->activeCount = 0u;
-        pool = &_256byte;
-        pool->pageHead = nullptr;
-        pool->freeHead = nullptr;
-        pool->activeCount = 0u;
+        const auto clearActiveState = [](auto &object) {
+            volatile auto &live = object;
+            live.pageHead = nullptr;
+            live.freeHead = nullptr;
+            live.activeCount = 0u;
+        };
+        clearActiveState(_8byte.object);
+        clearActiveState(_16byte.object);
+        clearActiveState(_32byte.object);
+        clearActiveState(_64byte.object);
+        clearActiveState(_128byte.object);
+        clearActiveState(_256byte.object);
         /* 0x27c634: initialized = 1 lands BEFORE the last bucket's words. */
         bucket_state::initialized = 1u;
-        pool = &_16Kbyte; /* 0x27c630 re-reads the slot, 0x27c638-0x27c640 */
-        pool->pageHead = nullptr;
-        pool->freeHead = nullptr;
-        pool->activeCount = 0u;
+        clearActiveState(_16Kbyte.object);
     }
 
     /* 0x27c644-0x27c654: CMP #16384 / CMPNE #256 -> r4 = 0 for the
@@ -157,7 +141,7 @@ void *bucketAlloc(unsigned int size, bool zero) {
     /* ---- size <= 8: _8byte (0x27c658/0x27c65c, pop 0x27c794, fresh
      *      0x27c9bc) ---- */
     if (size <= 8u) {
-        volatile BucketPoolPrefix *const pool = &_8byte; /* 0x27c794-0x27c798 */
+        volatile auto *const pool = &_8byte.object; /* 0x27c794-0x27c798 */
         uintptr_t node = reinterpret_cast<uintptr_t>(pool->freeHead); /* 0x27c79c */
         uintptr_t next;
         uint32_t freeCount;
@@ -215,7 +199,7 @@ void *bucketAlloc(unsigned int size, bool zero) {
         return reinterpret_cast<void *>(node); /* 0x27c6e0 (r0 already node) */
     } else if (size <= 16u) {
         /* ---- _16byte (0x27c660/0x27c664, pop 0x27c800, fresh 0x27cadc) ---- */
-        volatile BucketPoolPrefix *const pool = &_16byte;
+        volatile auto *const pool = &_16byte.object;
         uintptr_t node = reinterpret_cast<uintptr_t>(pool->freeHead); /* 0x27c808 */
         uintptr_t next;
         uint32_t freeCount;
@@ -265,7 +249,7 @@ void *bucketAlloc(unsigned int size, bool zero) {
         return reinterpret_cast<void *>(node); /* 0x27c6dc */
     } else if (size <= 32u) {
         /* ---- _32byte (0x27c668/0x27c66c, pop 0x27c6f4, fresh 0x27cb6c) ---- */
-        volatile BucketPoolPrefix *const pool = &_32byte;
+        volatile auto *const pool = &_32byte.object;
         uintptr_t node = reinterpret_cast<uintptr_t>(pool->freeHead); /* 0x27c6fc */
         uintptr_t next;
         uint32_t freeCount;
@@ -315,7 +299,7 @@ void *bucketAlloc(unsigned int size, bool zero) {
         return reinterpret_cast<void *>(node);
     } else if (size <= 64u) {
         /* ---- _64byte (0x27c670/0x27c674, pop 0x27c850, fresh 0x27cbfc) ---- */
-        volatile BucketPoolPrefix *const pool = &_64byte;
+        volatile auto *const pool = &_64byte.object;
         uintptr_t node = reinterpret_cast<uintptr_t>(pool->freeHead); /* 0x27c858 */
         uintptr_t next;
         uint32_t freeCount;
@@ -365,7 +349,7 @@ void *bucketAlloc(unsigned int size, bool zero) {
         return reinterpret_cast<void *>(node);
     } else if (size <= 128u) {
         /* ---- _128byte (0x27c678/0x27c67c, pop 0x27c8a0, fresh 0x27cc8c) ---- */
-        volatile BucketPoolPrefix *const pool = &_128byte;
+        volatile auto *const pool = &_128byte.object;
         uintptr_t node = reinterpret_cast<uintptr_t>(pool->freeHead); /* 0x27c8a8 */
         uintptr_t next;
         uint32_t freeCount;
@@ -415,7 +399,7 @@ void *bucketAlloc(unsigned int size, bool zero) {
         return reinterpret_cast<void *>(node);
     } else if (size <= 256u) {
         /* ---- _256byte (0x27c680/0x27c684, pop 0x27c744, fresh 0x27c8f0) ---- */
-        volatile BucketPoolPrefix *const pool = &_256byte;
+        volatile auto *const pool = &_256byte.object;
         uintptr_t node = reinterpret_cast<uintptr_t>(pool->freeHead); /* 0x27c74c */
         uintptr_t next;
         uint32_t freeCount;
@@ -467,7 +451,7 @@ void *bucketAlloc(unsigned int size, bool zero) {
         return reinterpret_cast<void *>(node);
     } else if (size == 16384u) {
         /* ---- _16Kbyte (0x27c688/0x27c690, pop 0x27c6ac, fresh 0x27ca4c) ---- */
-        volatile BucketPoolPrefix *const pool = &_16Kbyte; /* 0x27c690-0x27c694 */
+        volatile auto *const pool = &_16Kbyte.object; /* 0x27c690-0x27c694 */
         uintptr_t node = reinterpret_cast<uintptr_t>(pool->freeHead); /* 0x27c698 */
         uintptr_t next;
         uint32_t freeCount;

@@ -13,14 +13,14 @@
  * MemoryManager::Free, so separate compilation without LTO retains the
  * original explicit call; this is not a whole-program guarantee. The empty
  * body restores a genuine original no-op, not a placeholder.
- * gap: globalPageListFindAddr (0x27be34) is declared, its body is still
- * owed by another batch and nothing here stubs it. pthread attr_init /
+ * gap: page_lookup.cpp provides the real globalPageListFindAddr. pthread attr_init /
  * settype failures are ignored exactly as the original does (no
  * attr_destroy, no error guards); non-0 lock return codes other than the
  * normalisation shown are unproved domains.
  */
 
 #include "memory_internal.hpp"
+#include "cbucket_classes.hpp"
 
 int32_t Mutex::Init(const char *) {
     /* 0x27e03c-0x27e064: attr lives in the 12-byte scratch frame; the
@@ -46,16 +46,13 @@ int32_t Mutex::Unlock() {
 uint32_t bucketFree(const void *p) {
     /* 0x27c214 calls the real declared globalPageListFindAddr; a null
      * lookup returns 0 (0x27c234 mov r0,r3 with r3==0). */
-    BucketPrefix *bucket = globalPageListFindAddr(p);
+    CBucketBase *const bucket = globalPageListFindAddr(p);
     if (bucket == nullptr) {
         return 0u;
     }
     /* 0x27c220-0x27c22c: self = bucket (r0), p (r4->r1) through the real
      * vptr slot +0xc; its 32-bit result is the pop{r4,pc} return value. */
-    const volatile BucketPrefix *const state = bucket;
-    const volatile BucketVtablePrefix *const table = state->vptr;
-    const BucketFreeEntry invoke = table->freeEntry;
-    return invoke(bucket, p);
+    return bucket->Free(p);
 }
 
 void logLocation(ELogType, const void *, const void *, unsigned int) {

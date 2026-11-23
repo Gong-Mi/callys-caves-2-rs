@@ -90,12 +90,16 @@ bool MemoryInWad(void *address);
 /* Original internal providers still outside this batch; declarations are not
  * implementations. In particular the four Do* bodies are not synthetic here.
  */
+struct __sFILE; // the opaque FILE parameter in the original mangled DumpMemory
 class MemoryManager {
 public:
     static void *Alloc(unsigned int, const char *, int, bool); // 0x27ce78
     static void *_Alloc(unsigned int, const char *, int, bool) __attribute__((noinline)); // 0x27cd54, retain helper edge
     static void *ReAlloc(void *, unsigned int, const char *, int, bool); // 0x27cedc
     static void Free(const void *);                           // 0x27c2d0
+    static void Init();                                       // 0x27c23c
+    static void Quit();                                       // 0x27c288
+    static void DumpMemory(__sFILE *) __attribute__((disable_tail_calls)); // 0x27c28c, blx/return
 };
 uint8_t *DoConvIntToVariable(uint32_t, uint8_t *, const uint8_t *, VMExec *);
 uint8_t *DoPopLocalVariable(uint32_t, uint8_t *, const uint8_t *, VMExec *);

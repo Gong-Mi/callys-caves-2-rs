@@ -11,6 +11,5 @@
  * recursive locking/thread/fault/unwind remain unproved. No default globals.
  */
 extern "C" __attribute__((noreturn)) void abort(); // imported real abort@plt
-static_assert(offsetof(BucketVtablePrefix, sizeEntry) == 8, "size() virtual slot");
-static_assert(offsetof(BucketVtablePrefix, freeEntry) == 12, "existing Free slot unchanged");
+// Actual size/free slots are checked against the compiled CBucket vtable.
 #endif
