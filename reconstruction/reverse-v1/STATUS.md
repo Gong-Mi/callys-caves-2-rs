@@ -1,6 +1,21 @@
 # 状态与定性
 
-## 当前断点：FINALIZE 核心切片
+## 当前断点：Quit 支撑切片
+
+恢复 `QuitYoYoFunctions@0x15a0c0`（FlushAchievementCache 后尾支未恢复的
+`QuitYoYoFunctionsM`）、`QuitNetworkingFunctions@0x2998b8`（FreeSocket 恰 64 次、实参 0..63、
+census 的 add 前置序已记）与 `FINALIZE_Background@0xc42f4`：names 非零才进入释放循环，逐项
+Free + 置空且每次迭代 live 重读 names/number（0xc4330/0xc4334/0xc4344，符号 bgt），数组本体
+无条件 Free，两个静态成员两条路径都清零，尾接 Background_FreeTextures 与 `Background_Free`。
+两个 GOT 槽（0x3ed954/0x3ed950）经 R_ARM_RELATIVE 核实为具名 dynsym 静态成员
+`Background_Main::names/::number`（.bss 各 4B），以未定义类静态引用表示并记录落位。ARMv7
+O0/O2 在 FINALIZE 组合基线上追加 1 个 TU，与 worker 产物字节一致；外部链接无桩门、extern
+覆盖门、正/负控全过。核对原件 43 字（含 2 池字）。目标从未运行；五个 extern callee、两个
+静态成员的生产者、EHABI 覆盖及最终镜像链接未证。下一批沿拆除链继续 FINALIZE 族成员
+（Score 580B、Room_Main、Instance_Class、Object 族等），随后按依赖闭包回到
+IsAllocated/bucketCheck 消费者。
+
+## 上一批：FINALIZE 核心切片
 
 恢复 `FINALIZE_All@0xc47f8` 与 `FINALIZE_Code_Main@0xcf478`（原件均为单条 `bx lr` 空体，如实
 记录不造工作量）与 `FINALIZE_Code_Function@0xce274`：经 GOT 0x3edb20 取 0x47a14c 的指针形值

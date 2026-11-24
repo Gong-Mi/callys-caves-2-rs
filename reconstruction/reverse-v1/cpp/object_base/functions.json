@@ -1204,6 +1204,123 @@
         }
       ],
       "gap": "Producers of the three anonymous words and their content semantics are outside the window; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x15a0c0",
+      "size": 16,
+      "symbols": [
+        "_Z17QuitYoYoFunctionsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "afb422ee391d41e96fb08db41216321a3ff7a56d18efd29eecb0c4263484b720",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/quit_supports.cpp",
+      "translation_source_sha256": "2a587fa22041da8e7d2fe645197cf547884f447374741d2fd5f210689ac70b41",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Call FlushAchievementCache, then tail-call QuitYoYoFunctionsM after the epilogue (the C++ source records the tail as a final statement; the O0 build lowers it to bl+epilogue, recorded as a deviation).",
+      "direct_dependencies": [
+        {
+          "name": "_Z21FlushAchievementCachev",
+          "va": "0x159640",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z18QuitYoYoFunctionsMv",
+          "va": "0x15e2a0",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Both callees and their producers are outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x2998b8",
+      "size": 32,
+      "symbols": [
+        "_Z23QuitNetworkingFunctionsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "c29b3dcdcab7e650e89217960afdebcf47286e0e1f18af43e9f2c1be44501f8c",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/quit_supports.cpp",
+      "translation_source_sha256": "2a587fa22041da8e7d2fe645197cf547884f447374741d2fd5f210689ac70b41",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Call FreeSocket(slot) exactly 64 times with slot = 0..63 (original register order: arg moved, index incremented pre-call, cmp #64/bne).",
+      "direct_dependencies": [
+        {
+          "name": "_Z10FreeSocketi",
+          "va": "0x299244",
+          "state": "extern_only_no_stub",
+          "note": "return value discarded by the original caller; void declared without claim"
+        }
+      ],
+      "gap": "FreeSocket body/semantics outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xc42f4",
+      "size": 124,
+      "symbols": [
+        "_Z19FINALIZE_Backgroundv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "9a4ca2c163958142c346bf6a06efba8b5b9b84eb74cc656e79f94c8ab0e1eefc",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/quit_supports.cpp",
+      "translation_source_sha256": "2a587fa22041da8e7d2fe645197cf547884f447374741d2fd5f210689ac70b41",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xc4368",
+        "0xc436c"
+      ],
+      "local_contract": "Guard on Background_Main::names: non-null -> if number > 0 free entries[i] and null-store names[i] with live reloads of names/number per iteration (signed bgt), then free the entries array itself; names and number are zeroed on both paths; finally Background_FreeTextures and tail-call Background_Free.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN15Background_Main5namesE",
+          "va": "0x479cbc",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3ed954, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "_ZN15Background_Main6numberE",
+          "va": "0x479cb8",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3ed950, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "_Z23Background_FreeTexturesv",
+          "va": "0xc35d8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z15Background_Freev",
+          "va": "0xc34d0",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Producers of Background_Main::names/::number and the element pointee types are outside the recovered set; EHABI and final linked addresses remain open. Background_Main class declaration is TU-local until a second consumer exists."
     }
   ],
   "not_whole_library_completion": true,

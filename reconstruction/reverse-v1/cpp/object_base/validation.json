@@ -1,6 +1,6 @@
 {
-  "scope": "Integrate the FINALIZE core slice (FINALIZE_All 4B, FINALIZE_Code_Main 4B, FINALIZE_Code_Function 68B) onto the teardown cumulative ARMv7 relocatable boundary; anonymous BSS words represented as undefined extern arrays with final-link placement obligations; no original/rebuilt execution or full image claim.",
-  "base": "2b5f3d11226e4ec77a097605bf9cdf3eb6b76b4e",
+  "scope": "Integrate the quit-supports slice (QuitYoYoFunctions 16B, QuitNetworkingFunctions 32B, FINALIZE_Background 124B) onto the teardown cumulative ARMv7 relocatable boundary; Background_Main statics represented as undefined class-static references with placement records; no original/rebuilt execution or full image claim.",
+  "base": "dbbf77eaa4eea65fe6c15776e23e873e8b251a97",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "input_sha256": {
     "reconstruction/reverse-v1/c/compiler_conversions/functions.json": "22b0d1b79c937bf1eb40f8ef471d23c1f23518ddd238f24ee3b2962ac1eee63e",
@@ -41,7 +41,7 @@
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.cpp": "75e4e6748433fc405bd24ea61bf8ce81a761125b3fd03c46139e95e6f29bfe0b",
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
     "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "75c2d72fb19f02f8828ef942ea2572c71e88c041fced7eca70cc56c02fc436ba",
-    "reconstruction/reverse-v1/cpp/object_base/functions.json": "00cd0abf601f9fee9bb074883a82e018bafab55605cb195c0e562a9d6c146e52",
+    "reconstruction/reverse-v1/cpp/object_base/functions.json": "18ebc853f9963cf89672cb5f59b131f67ea565e3d5cfe314011c1c059d324e71",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_class_stat.cpp": "df4661626df5609258fd08ae4a643d19f78de52550cdbb3c23df4cdc2f2ab246",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_root.cpp": "ecaa95b8067576f32198c574ade5917c0d4addb7cbdcbd7062b96639f7ade8bc",
     "reconstruction/reverse-v1/cpp/object_base/gc_generation.cpp": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
@@ -58,14 +58,14 @@
     "reconstruction/reverse-v1/cpp/object_base/gc_root_lookup.cpp": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
     "reconstruction/reverse-v1/cpp/object_base/gc_root_map_insert.cpp": "8b0dfb47a037597d02e6727e2dfa49240cb2ae70a99b03fa0c47e53488a5ad7b",
     "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
-    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "af9f370e734a8b23f6c39bb250645f3914de56dc482494796b585d06ba31f5f9",
+    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "925a7e7674c9cbc90dc792816c6b92e8314d6c49117947199426e2fb74fb4695",
     "reconstruction/reverse-v1/cpp/object_base/object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
     "reconstruction/reverse-v1/cpp/object_base/object_free.cpp": "f7ad3ef41cdb6fd5c75d3cfc25b7917bcc9a9911cf8e2a2deb4985c0eb6b7bb9",
     "reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
     "reconstruction/reverse-v1/cpp/object_base/object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
     "reconstruction/reverse-v1/cpp/object_base/object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
-    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "1c3e9b36573c416bc4b8edb25fd38274a93235e4fe838514817424cdf926ed74",
+    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "9ccb2c162c394d6bbeba23800e2f39662c52f4456b4e8176c1e2de76cb678ade",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp": "9ff28ad70522232c139583f9a53797bf45a06f16399efd7fa922fcdc7f04e630",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp": "0d34ab030440e8686106bdbc72a8418cd5d50d70409571d56221b483dca9f32f",
@@ -112,52 +112,55 @@
     "reconstruction/reverse-v1/cpp/object_base/gc_remove_root_caller.cpp": "e5d4623f69210d12a25b495baef777cb39dd899c1199c8eab750479918e92a54",
     "reconstruction/reverse-v1/cpp/host_lifecycle/quit.cpp": "212dadb77d63ba64e4ee8c1dd818708c94f5d7681cd474e0a5213208205bd167",
     "reconstruction/reverse-v1/cpp/host_lifecycle/quit_runtime.hpp": "27c9a57345aecbdfc12e1018d24674ae1fdb1150d6bdb8417899e704af59446f",
-    "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_code.cpp": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09"
+    "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_code.cpp": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09",
+    "reconstruction/reverse-v1/cpp/host_lifecycle/quit_supports.cpp": "2a587fa22041da8e7d2fe645197cf547884f447374741d2fd5f210689ac70b41"
   },
   "builds": [
     {
       "configuration": "O0",
-      "base_combined_sha256": "ae5d6d40353eb21baa19f930dddbf4884697c0e6fb81e72772890dcba0a8d9e0",
-      "new_tu_finalize_sha256": "651a33c45bbd2055170f8f60b785e12c53e9d626610f0c6307f64186d42c68c4",
+      "base_combined_sha256": "4f4eaefdb78ee5135c03b3008e5f46ef290cf9dcf937ab35a1c087341fee57e8",
+      "new_tu_sha256": "bedc5da4188e143eaed97dee1edc6a4799e7b682e6694e8cdf618a4e2779931f",
       "byte_identical_to_worker_product": true,
-      "integrated_combined_sha256": "4f4eaefdb78ee5135c03b3008e5f46ef290cf9dcf937ab35a1c087341fee57e8"
+      "integrated_combined_sha256": "747ae7c3e17f227fc2be86a7a8d6588218c084d094fe0581891b84577e274554"
     },
     {
       "configuration": "O2",
-      "base_combined_sha256": "f30c6eb51c404a4087319859faee3d32202146e6a5462919f4058eb8295df325",
-      "new_tu_finalize_sha256": "10ce05bb22a1bf2dd0a164035cda436644e4e3b209732994401853538d189a01",
+      "base_combined_sha256": "cbab1fb14a21f86c2039f93298971e2089c288a3ac629d42c0bfcbba4a8a4544",
+      "new_tu_sha256": "7e47d345d1011872859256a03b7c8726045d102a4e38926faf879f549f4848b8",
       "byte_identical_to_worker_product": true,
-      "integrated_combined_sha256": "cbab1fb14a21f86c2039f93298971e2089c288a3ac629d42c0bfcbba4a8a4544"
+      "integrated_combined_sha256": "1795071d86ffeefd5363872707f62eabb4defda03c260b7310fa8c69c5aac524"
     }
   ],
   "ABI": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-finalize-integration-r1/gate-receipt.json",
-    "sha256": "a22674e3aabdf80ebfde86ebd2019ac9d5dc9b2b79fc2d784548ea4664838a90",
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-quitsupports-integration-r1/gate-receipt.json",
+    "sha256": "0b174981f748a4de83cab88892ed78cf60dd185a6881f42f2707e2e245fd4d6a",
     "checks": 5,
-    "note": "per-config: no-stub define gate, real-link UND gate for MemoryManager::Free, positive link, all-three defined after link, all-three absent in base-negative"
+    "note": "per-config: external-linkage no-stub gate, extern-callee UND coverage gate (7 names), positive link, all-three defined after link, all-three absent in base-negative"
   },
   "shape": {
     "negatives_rejected": [
-      "NEG_NO_FINALIZE_TU_symbols_absent"
+      "NEG_NO_SUPPORTS_TU_symbols_absent"
     ],
-    "finalize_o0_o2_byte_identical_to_worker_products": true,
-    "empty_bodies_literal_bx_lr": true,
-    "final_link_obligations": [
-      "anon_0x47a14c",
-      "anon_0x47a148",
-      "anon_0x48a148",
-      "__aeabi_unwind_cpp_pr0"
+    "quitsupports_o0_o2_byte_identical_to_worker_products": true,
+    "known_deviations": [
+      "YoYo tail-b lowered to bl+epilogue at O0 (worker deviation note)",
+      "O2 FreeSocket loop increments after the bl (argument order 0..63 unchanged)",
+      "Background_Main class declaration TU-local until a second consumer"
     ],
     "target_executed": false
   },
   "original_entries": 3,
-  "original_index_words": 19,
-  "original_pool_words": 3,
+  "original_index_words": 43,
+  "original_pool_words": 2,
   "unresolved_direct_provider": [
-    "producers/writers of 0x47a14c, 0x47a148, 0x48a148",
-    "content semantics of 0x47a148/0x48a148",
-    "EHABI/.ARM.exidx encoding of the originals",
-    "__aeabi_unwind_cpp_pr0 (compiler EHABI; final-link obligation)"
+    "FlushAchievementCache",
+    "QuitYoYoFunctionsM",
+    "FreeSocket",
+    "Background_FreeTextures",
+    "Background_Free",
+    "producers of Background_Main::names/::number",
+    "element pointee types",
+    "EHABI/.ARM.exidx encoding of the originals"
   ],
   "phase_complete": false,
   "original_executed": false

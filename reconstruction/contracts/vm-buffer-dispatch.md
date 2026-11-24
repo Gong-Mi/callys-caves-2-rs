@@ -555,3 +555,17 @@ QuitNetworkingFunctions、26 个 FINALIZE_*、`g_Profiler.Clean()`（0x2a2894/0x
 （0xce2a0，GOT 0x3edb1c）、0x48a148（0xce2a4，add 直达 0xce2a8+8+0x003abea0，无 GOT），pop
 返回。三个匿名目标按未定义 extern 数组表示，终链须落位到记名地址；不造符号名、不给存储。
 组合对象去 TU 即三个 `_Z*FINALIZE*` 缺失。
+
+## Quit 支撑切片
+
+`QuitYoYoFunctions@0x15a0c0`：调 `FlushAchievementCache`（0x159640）后 pop，尾支
+`QuitYoYoFunctionsM`（0x15e2a0）——源码按尾语句记录，O0 降为 bl+epilogue 已记偏差。
+`QuitNetworkingFunctions@0x2998b8`：`FreeSocket` 恰 64 次、实参 0..63；原件寄存器序是取参、
+自增、再调用（0x2998c0/0xc4/0xc8），语义上与 for 循环等价，已记偏差注释。
+`FINALIZE_Background@0xc42f4`：经 GOT 0x3ed954/0x3ed950 取具名静态成员
+`Background_Main::names`（0x479cbc）与 `::number`（0x479cb8，各 4B .bss，R_ARM_RELATIVE 已核）；
+names 非零才进入循环：逐项 `MemoryManager::Free` + 置空，0xc4330/0xc4334/0xc4344 每次 live
+重读，0xc4340/0xc4348 符号 bgt；循环外无条件 Free 数组本体（0xc434c，number<=0 的 ble 也落
+此），0xc4354/0xc4358 两条路径都清零；尾接 `Background_FreeTextures`（0xc435c）与
+`Background_Free`（0xc4364 尾支）。两个静态成员以未定义类静态引用表示并记录落位义务；
+五个 extern callee 无桩，组合对象去 TU 即三符号缺失。

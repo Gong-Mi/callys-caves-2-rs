@@ -586,5 +586,46 @@
     ],
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "quit_supports": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3ed954",
+        "slot_word": "0x00479cbc",
+        "target": "_ZN15Background_Main5namesE",
+        "va": "0x479cbc",
+        "width": 4,
+        "pool_word_site": "0xc4368",
+        "consumer": "0xc42fc"
+      },
+      {
+        "slot": "0x3ed950",
+        "slot_word": "0x00479cb8",
+        "target": "_ZN15Background_Main6numberE",
+        "va": "0x479cb8",
+        "width": 4,
+        "pool_word_site": "0xc436c",
+        "consumer": "0xc4310"
+      }
+    ],
+    "reloc_type": "R_ARM_RELATIVE (23) on both slots, verified in-image",
+    "signed_compare_sites": [
+      "0xc431c ble",
+      "0xc4340 cmp r3,r4",
+      "0xc4348 bgt"
+    ],
+    "per_iteration_live_reloads": [
+      "0xc4330 names",
+      "0xc4334 number",
+      "0xc4344 names"
+    ],
+    "tail_edges": [
+      "0xc435c bl Background_FreeTextures",
+      "0xc4364 tail b Background_Free",
+      "0x15a0cc tail b QuitYoYoFunctionsM"
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }

@@ -1997,3 +1997,46 @@ ce274	ce2a8	e8bd8010	pop	{r4, pc}
 ce274	ce2ac	0031f89c	.word	0x0031f89c
 ce274	ce2b0	0031f880	.word	0x0031f880
 ce274	ce2b4	003abea0	.word	0x003abea0
+15a0c0	15a0c0	e92d4008	push	{r3, lr}
+15a0c0	15a0c4	ebfffd5d	bl	#0x159640
+15a0c0	15a0c8	e8bd4008	pop	{r3, lr}
+15a0c0	15a0cc	ea001073	b	#0x15e2a0
+2998b8	2998b8	e92d4010	push	{r4, lr}
+2998b8	2998bc	e3a04000	mov	r4, #0
+2998b8	2998c0	e1a00004	mov	r0, r4
+2998b8	2998c4	e2844001	add	r4, r4, #1
+2998b8	2998c8	ebfffe5d	bl	#0x299244
+2998b8	2998cc	e3540040	cmp	r4, #0x40
+2998b8	2998d0	1afffffa	bne	#0x2998c0
+2998b8	2998d4	e8bd8010	pop	{r4, pc}
+c42f4	c42f4	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+c42f4	c42f8	e59f5068	ldr	r5, [pc, #0x68]
+c42f4	c42fc	e79f5005	ldr	r5, [pc, r5]
+c42f4	c4300	e5950000	ldr	r0, [r5]
+c42f4	c4304	e3500000	cmp	r0, #0
+c42f4	c4308	0a000013	beq	#0xc435c
+c42f4	c430c	e59f6058	ldr	r6, [pc, #0x58]
+c42f4	c4310	e79f6006	ldr	r6, [pc, r6]
+c42f4	c4314	e5963000	ldr	r3, [r6]
+c42f4	c4318	e3530000	cmp	r3, #0
+c42f4	c431c	da00000a	ble	#0xc434c
+c42f4	c4320	e3a04000	mov	r4, #0
+c42f4	c4324	e1a07004	mov	r7, r4
+c42f4	c4328	e7900104	ldr	r0, [r0, r4, lsl #2]
+c42f4	c432c	eb06dfe7	bl	#0x27c2d0
+c42f4	c4330	e5952000	ldr	r2, [r5]
+c42f4	c4334	e5963000	ldr	r3, [r6]
+c42f4	c4338	e7827104	str	r7, [r2, r4, lsl #2]
+c42f4	c433c	e2844001	add	r4, r4, #1
+c42f4	c4340	e1530004	cmp	r3, r4
+c42f4	c4344	e5950000	ldr	r0, [r5]
+c42f4	c4348	cafffff6	bgt	#0xc4328
+c42f4	c434c	eb06dfdf	bl	#0x27c2d0
+c42f4	c4350	e3a03000	mov	r3, #0
+c42f4	c4354	e5853000	str	r3, [r5]
+c42f4	c4358	e5863000	str	r3, [r6]
+c42f4	c435c	ebfffc9d	bl	#0xc35d8
+c42f4	c4360	e8bd40f8	pop	{r3, r4, r5, r6, r7, lr}
+c42f4	c4364	eafffc59	b	#0xc34d0
+c42f4	c4368	00329650	.word	0x00329650
+c42f4	c436c	00329638	.word	0x00329638
