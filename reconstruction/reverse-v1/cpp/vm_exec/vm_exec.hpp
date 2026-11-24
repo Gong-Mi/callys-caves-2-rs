@@ -40,6 +40,7 @@ public:
     void Push(int, int);                              // 0x2a0738; caller ignores source return spelling
     uint32_t FindOrCreateNode(int, int);               // 0x2a04f4, node INDEX used by Pop, not a pointer
     void Pop();                                      // 0x2a08ac; result unused by PerformReturn
+    void Clean();                                     // 0x2a289c; teardown slice, producer outside recovered set
 private:
     uint8_t unknownStorage[128];
 };
@@ -105,6 +106,7 @@ public:
     static void ExecDebug(VMExec &, RValue *, bool);   // 0xe47c8, current caller ignores r0
     static VMDebugInfo *DebugInfo(VMBuffer *, int);    // 0xec144, opaque returned debug record
     static int DebugLineNumber(VMDebugInfo *, const char *, char **); // 0xec2b8
+    static void Quit();                               // 0xd826c; teardown slice, producer outside recovered set
 };
 uint8_t *PerformReturn(uint8_t *stack, VMExec *exec);  // 0xe42d8..0xe44d4, ordinary C++ function
 void FREE_RValue__Pre(RValue *);                      // 0xc0a7c, original internal dependency

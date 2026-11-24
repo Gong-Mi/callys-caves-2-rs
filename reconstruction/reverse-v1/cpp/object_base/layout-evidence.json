@@ -501,5 +501,51 @@
     ],
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "quit_caller": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3f07fc",
+        "slot_word": "0x00542554",
+        "target": "g_pMainWindow",
+        "va": "0x542554",
+        "width": 4,
+        "pool_delta_site": "0x2a2808",
+        "consumers": [
+          "0x2a28a4"
+        ]
+      },
+      {
+        "slot": "0x3edb74",
+        "slot_word": "0x00757e80",
+        "target": "g_Profiler",
+        "va": "0x757e80",
+        "width": 128,
+        "pool_delta_site": "0x2a2894",
+        "consumers": [
+          "0x2a2898"
+        ],
+        "use": "this-call receiver for CProfiler::Clean at 0x2a289c"
+      },
+      {
+        "slot": "0x3f1a80",
+        "slot_word": "0x00479a2f",
+        "target": "g_fDoFirstShow",
+        "va": "0x479a2f",
+        "width": 1,
+        "pool_delta_site": "0x2a28b8",
+        "consumers": [
+          "0x2a28c4"
+        ]
+      }
+    ],
+    "reloc_type": "R_ARM_RELATIVE (23) on all three slots, verified in-image",
+    "conditional_window": "0x2a28a8 load, 0x2a28ac cmp, 0x2a28b0 beq 0x2a28d0 (NULL skips destroy/stores); word store 0x2a28c8 precedes byte store 0x2a28cc",
+    "tail": "pop 0x2a28d8 then b FreeAllBuffers 0x2a28dc",
+    "branch_sites": 42,
+    "branch_site_bindings": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-quit-seam/quit-bindings.json",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }

@@ -533,3 +533,16 @@ signed 负值即返回，原件无 NULL 门（不补造）；入口一次双装�
 cursor 代际调真实 `RemoveRoot@0x1911c8`，再回读 object+0x38、index+1、cursor+88，live 回读
 >= index 继续；无四实例钳制，bound>=4 走出 352B 数组的后效未证。组合对象去掉对应 TU 即恢复
 UND，未采用桩。
+
+## Quit 拆除编排器
+
+`Quit@0x2a27fc` 由 `host_lifecycle/quit.cpp` 提供，顺序为：CleanGestures、真实
+`FreeAllObjects@0xd675c`、FreeAllDataStructures、真实 `ResetGC@0xd66e0`、QuitYoYoFunctions、
+QuitNetworkingFunctions、26 个 FINALIZE_*、`g_Profiler.Clean()`（0x2a2894/0x2a2898 经 GOT
+0x3edb74 取 128B 内联对象地址作 this）、GR_D3D_End；0x2a28a4 经 GOT 0x3f07fc 取
+`g_pMainWindow`，0x2a28a8 读、0x2a28ac 测、0x2a28b0 beq 0x2a28d0——NULL 跳过销毁与两次存储；
+非零则 `yyDestroyWindow` 后按序字存清 `g_pMainWindow`（0x2a28c8）、字节存置
+`g_fDoFirstShow=1`（0x2a28cc，GOT 0x3f1a80）。`FINALIZE_PlatformSpecific`（0x2a28d0）与静态
+`VM::Quit`（0x2a28d4）无条件执行；0x2a28d8 pop 后 0x2a28dc 尾支 `FreeAllBuffers`。vm_exec.hpp
+补 `CProfiler::Clean`/`VM::Quit` 两处声明；38 个被调方保持 extern_only 无桩，组合对象去 TU 即
+恢复 `_Z4Quitv` 缺失。

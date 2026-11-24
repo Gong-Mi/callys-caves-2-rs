@@ -1918,3 +1918,63 @@ d5b60	d5b98	e1530005	cmp	r3, r5
 d5b60	d5b9c	aafffff7	bge	#0xd5b80
 d5b60	d5ba0	e8bd8070	pop	{r4, r5, r6, pc}
 d5b60	d5ba4	003180e4	.word	0x003180e4
+2a27fc	2a27fc	e92d4010	push	{r4, lr}
+2a27fc	2a2800	ebfce49a	bl	#0x1dba70
+2a27fc	2a2804	ebf8cfd4	bl	#0xd675c
+2a27fc	2a2808	e59f40d0	ldr	r4, [pc, #0xd0]
+2a27fc	2a280c	ebfda29a	bl	#0x20b27c
+2a27fc	2a2810	ebf8cfb2	bl	#0xd66e0
+2a27fc	2a2814	ebfade29	bl	#0x15a0c0
+2a27fc	2a2818	ebffdc26	bl	#0x2998b8
+2a27fc	2a281c	ebfce6e6	bl	#0x1dc3bc
+2a27fc	2a2820	ebf93ce2	bl	#0xf1bb0
+2a27fc	2a2824	ebf8ae92	bl	#0xce274
+2a27fc	2a2828	ebf8b312	bl	#0xcf478
+2a27fc	2a282c	ebf8bf79	bl	#0xd2618
+2a27fc	2a2830	ebfbe6a5	bl	#0x19c2cc
+2a27fc	2a2834	ebfc4d86	bl	#0x1b5e54
+2a27fc	2a2838	ebfbcc6d	bl	#0x1959f4
+2a27fc	2a283c	ebfcc3e2	bl	#0x1d37cc
+2a27fc	2a2840	ebfbf00f	bl	#0x19e884
+2a27fc	2a2844	ebfbf21d	bl	#0x19f0c0
+2a27fc	2a2848	ebfbee5e	bl	#0x19e1c8
+2a27fc	2a284c	ebfc0d65	bl	#0x1a5de8
+2a27fc	2a2850	ebfd2fc5	bl	#0x1ee76c
+2a27fc	2a2854	ebfd332e	bl	#0x1ef514
+2a27fc	2a2858	ebfdc96d	bl	#0x214e14
+2a27fc	2a285c	ebfd0247	bl	#0x1e3180
+2a27fc	2a2860	ebfb6cd4	bl	#0x17dbb8
+2a27fc	2a2864	ebf886a2	bl	#0xc42f4
+2a27fc	2a2868	ebfb4fd7	bl	#0x1767cc
+2a27fc	2a286c	ebfcf7bf	bl	#0x1e0770
+2a27fc	2a2870	ebfd4926	bl	#0x1f4d10
+2a27fc	2a2874	ebf9611b	bl	#0xface8
+2a27fc	2a2878	ebfb441f	bl	#0x1738fc
+2a27fc	2a287c	ebf94106	bl	#0xf2c9c
+2a27fc	2a2880	ebfa699f	bl	#0x13cf04
+2a27fc	2a2884	ebfd423a	bl	#0x1f3174
+2a27fc	2a2888	ebfcf41f	bl	#0x1df90c
+2a27fc	2a288c	ebfdf302	bl	#0x21f49c
+2a27fc	2a2890	ebf887d8	bl	#0xc47f8
+2a27fc	2a2894	e59f0048	ldr	r0, [pc, #0x48]
+2a27fc	2a2898	e79f0000	ldr	r0, [pc, r0]
+2a27fc	2a289c	ebfff6b0	bl	#0x2a0364
+2a27fc	2a28a0	ebfb18fa	bl	#0x168c90
+2a27fc	2a28a4	e79f4004	ldr	r4, [pc, r4]
+2a27fc	2a28a8	e5940000	ldr	r0, [r4]
+2a27fc	2a28ac	e3500000	cmp	r0, #0
+2a27fc	2a28b0	0a000006	beq	#0x2a28d0
+2a27fc	2a28b4	ebfc1801	bl	#0x1a88c0
+2a27fc	2a28b8	e59f3028	ldr	r3, [pc, #0x28]
+2a27fc	2a28bc	e3a02001	mov	r2, #1
+2a27fc	2a28c0	e3a01000	mov	r1, #0
+2a27fc	2a28c4	e79f3003	ldr	r3, [pc, r3]
+2a27fc	2a28c8	e5841000	str	r1, [r4]
+2a27fc	2a28cc	e5c32000	strb	r2, [r3]
+2a27fc	2a28d0	ebffb564	bl	#0x28fe68
+2a27fc	2a28d4	ebf8d664	bl	#0xd826c
+2a27fc	2a28d8	e8bd4010	pop	{r4, lr}
+2a27fc	2a28dc	eaf89498	b	#0xc7b44
+2a27fc	2a28e0	0014df50	.word	0x0014df50
+2a27fc	2a28e4	0014b2d4	.word	0x0014b2d4
+2a27fc	2a28e8	0014f1b4	.word	0x0014f1b4

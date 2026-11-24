@@ -1,7 +1,7 @@
 {
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
-  "header_sha256": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
+  "header_sha256": "4dca1636138838082baecee8d024f82b5281f8355fb85f36040ee07b0516473d",
   "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
   "canonical_api_header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
   "functions": [
@@ -850,6 +850,263 @@
         }
       ],
       "gap": "The live +0x38 re-read assumes object stays dereferenceable across calls; the producer of that word, bound>=4 walk-out behavior, EHABI/unwind, concurrency and final linked addresses remain open."
+    },
+    {
+      "entry": "0x2a27fc",
+      "size": 240,
+      "symbols": [
+        "_Z4Quitv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "73bd86660af2d6a9956fd0ffdb5ad648a88ec2eac5961688b3b62098198b3fb4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/quit.cpp",
+      "translation_source_sha256": "212dadb77d63ba64e4ee8c1dd818708c94f5d7681cd474e0a5213208205bd167",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x2a28e0",
+        "0x2a28e4",
+        "0x2a28e8"
+      ],
+      "local_contract": "Teardown orchestrator: CleanGestures, real FreeAllObjects, FreeAllDataStructures, real ResetGC, QuitYoYo/Networking, the 26 FINALIZE passes, this-call g_Profiler.Clean(), GR_D3D_End; then if g_pMainWindow != NULL destroy the window, zero g_pMainWindow (word store) and set g_fDoFirstShow=1 (byte store) in census order; FINALIZE_PlatformSpecific and static VM::Quit run unconditionally; pop, then tail branch to FreeAllBuffers.",
+      "direct_dependencies": [
+        {
+          "name": "_Z14FreeAllObjectsv",
+          "va": "0xd675c",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_Z7ResetGCv",
+          "va": "0xd66e0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_pMainWindow",
+          "va": "0x542554",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_fDoFirstShow",
+          "va": "0x479a2f",
+          "width": 1,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_Profiler",
+          "va": "0x757e80",
+          "width": 128,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_ZN9CProfiler5CleanEv",
+          "va": "0x2a0364",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_ZN2VM4QuitEv",
+          "va": "0xd826c",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "extern_callees": [
+        {
+          "name": "CleanGestures",
+          "va": "0x1dba70",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FreeAllDataStructures",
+          "va": "0x20b27c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "QuitYoYoFunctions",
+          "va": "0x15a0c0",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "QuitNetworkingFunctions",
+          "va": "0x2998b8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Score",
+          "va": "0x1dc3bc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Code_Constant",
+          "va": "0xf1bb0",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Code_Function",
+          "va": "0xce274",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Code_Main",
+          "va": "0xcf478",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Code_Variable",
+          "va": "0xd2618",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Motion_Grid",
+          "va": "0x19c2cc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Room_Main",
+          "va": "0x1b5e54",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Instance_Class",
+          "va": "0x1959f4",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Run_Main",
+          "va": "0x1d37cc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Object_Lists",
+          "va": "0x19e884",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Object_Main",
+          "va": "0x19f0c0",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Object_Class",
+          "va": "0x19e1c8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Particle_Main",
+          "va": "0x1a5de8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Sprite_Class",
+          "va": "0x1ee76c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Sprite_Main",
+          "va": "0x1ef514",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Support_File",
+          "va": "0x214e14",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_VertexFormats",
+          "va": "0x1e3180",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Graphics_Display",
+          "va": "0x17dbb8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Background",
+          "va": "0xc42f4",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Graphics_Texture",
+          "va": "0x1767cc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Script_Main",
+          "va": "0x1e0770",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Variable_Main",
+          "va": "0x1f4d10",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Font_Main",
+          "va": "0xface8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Graphics_Text",
+          "va": "0x1738fc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Event_Action",
+          "va": "0xf2c9c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Function_File",
+          "va": "0x13cf04",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Timeline_Main",
+          "va": "0x1f3174",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Runner_Form",
+          "va": "0x1df90c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Sound",
+          "va": "0x21f49c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_All",
+          "va": "0xc47f8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "GR_D3D_End",
+          "va": "0x168c90",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "yyDestroyWindow",
+          "va": "0x1a88c0",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_PlatformSpecific",
+          "va": "0x28fe68",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FreeAllBuffers",
+          "va": "0xc7b44",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Producers of the three globals, all 38 extern callee bodies, EHABI/unwind coverage, fault/concurrency behavior and final linked addresses remain open; nothing was executed."
     }
   ],
   "not_whole_library_completion": true,
@@ -874,7 +1131,8 @@
     "gc_instance_hash.hpp": "0040536acf0b4381376a54c7980e1e3f6cda494de08158c2295ddea2a5750b4d",
     "object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
     "gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66",
-    "gc_object_lifecycle.hpp": "5b1eb736fa5e224db0caafd66211e9a53c6ddf88e799cbfc9b9be800e54220f8"
+    "gc_object_lifecycle.hpp": "5b1eb736fa5e224db0caafd66211e9a53c6ddf88e799cbfc9b9be800e54220f8",
+    "../host_lifecycle/quit_runtime.hpp": "27c9a57345aecbdfc12e1018d24674ae1fdb1150d6bdb8417899e704af59446f"
   },
   "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it.",
   "real_internal_provider_added": {

@@ -1,6 +1,19 @@
 # 状态与定性
 
-## 当前断点：对象清扫与根移除调用者
+## 当前断点：Quit 拆除编排器
+
+恢复 `Quit@0x2a27fc`（240B 含池）：CleanGestures→真实 `FreeAllObjects`→FreeAllDataStructures→
+真实 `ResetGC`→QuitYoYo/Networking→26 个 FINALIZE→`g_Profiler.Clean()`（this-call，GOT
+0x3edb74）→GR_D3D_End；`g_pMainWindow` 非零才销毁窗口并按 census 序清 `g_pMainWindow`（字存）
+置 `g_fDoFirstShow=1`（字节存）；`FINALIZE_PlatformSpecific` 与静态 `VM::Quit` 无条件；pop 后
+尾支 `FreeAllBuffers`。vm_exec.hpp 接缝补 `CProfiler::Clean` 与 `VM::Quit` 两处成员声明；三个
+裸全局（GOT 0x3f07fc/0x3edb74/0x3f1a80，R_ARM_RELATIVE 已核）extern_only 无桩。ARMv7 O0/O2
+在对象生命周期组合基线上追加 1 个 TU，与 worker 产物字节一致；无桩门、真实链接门、正/负控
+全过。核对原件 60 字（含 3 池字）。目标从未运行；38 个 extern 被调方、三个全局的生产者、
+EHABI 覆盖及最终镜像链接未证。下一批沿拆除链继续：FINALIZE_All 与 FINALIZE_Code_Main/
+Code_Function 等小体量 FINALIZE 族，随后按依赖闭包回到 IsAllocated/bucketCheck 消费者。
+
+## 上一批：对象清扫与根移除调用者
 
 恢复 `FreeAllObjects@0xd675c` 的真实对象槽清扫与四个裸字清理、两个 .data 初值对象，以及
 `RemoveGCRoot@0xd5b60` 对真实 `CGCGeneration::RemoveRoot` 的代际游标分派。ARMv7 O0/O2 在

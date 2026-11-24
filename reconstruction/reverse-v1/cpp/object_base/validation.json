@@ -1,6 +1,6 @@
 {
-  "scope": "Integrate the FreeAllObjects@0xd675c and RemoveGCRoot@0xd5b60 worker deliverables onto the reverified cumulative ARMv7 relocatable boundary; no original/rebuilt execution or full image claim.",
-  "base": "4bbfe52f6fe2e7b94c7b794b2ccdc382bcfe7193",
+  "scope": "Integrate the Quit@0x2a27fc worker deliverable onto the object-lifecycle cumulative ARMv7 relocatable boundary; vm_exec.hpp seam gains CProfiler::Clean and static VM::Quit declarations; no original/rebuilt execution or full image claim.",
+  "base": "8c469e3d15a08dbed3ff57d13b3808f2beac0a97",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "input_sha256": {
     "reconstruction/reverse-v1/c/compiler_conversions/functions.json": "22b0d1b79c937bf1eb40f8ef471d23c1f23518ddd238f24ee3b2962ac1eee63e",
@@ -41,7 +41,7 @@
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.cpp": "75e4e6748433fc405bd24ea61bf8ce81a761125b3fd03c46139e95e6f29bfe0b",
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
     "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "75c2d72fb19f02f8828ef942ea2572c71e88c041fced7eca70cc56c02fc436ba",
-    "reconstruction/reverse-v1/cpp/object_base/functions.json": "7dd1b08207c97fd2845d9f78f8849f43137cc4c2b60fe7ac4f63d5d021acae61",
+    "reconstruction/reverse-v1/cpp/object_base/functions.json": "0451bee232300983fba1bb9ea2b114be0d54437293030f70b999e7ad2c5c39a8",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_class_stat.cpp": "df4661626df5609258fd08ae4a643d19f78de52550cdbb3c23df4cdc2f2ab246",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_root.cpp": "ecaa95b8067576f32198c574ade5917c0d4addb7cbdcbd7062b96639f7ade8bc",
     "reconstruction/reverse-v1/cpp/object_base/gc_generation.cpp": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
@@ -58,14 +58,14 @@
     "reconstruction/reverse-v1/cpp/object_base/gc_root_lookup.cpp": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
     "reconstruction/reverse-v1/cpp/object_base/gc_root_map_insert.cpp": "8b0dfb47a037597d02e6727e2dfa49240cb2ae70a99b03fa0c47e53488a5ad7b",
     "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
-    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "1d000929e1f931d972f463d2c8cf76b6d1a5e88d3d53998081e928b3ad2944f5",
+    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "d4df4ef808d22093d62c8a89c27a1b4475c576e580aa505928837b0f7139d255",
     "reconstruction/reverse-v1/cpp/object_base/object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
     "reconstruction/reverse-v1/cpp/object_base/object_free.cpp": "f7ad3ef41cdb6fd5c75d3cfc25b7917bcc9a9911cf8e2a2deb4985c0eb6b7bb9",
     "reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
     "reconstruction/reverse-v1/cpp/object_base/object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
     "reconstruction/reverse-v1/cpp/object_base/object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
-    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "90f0de9378e9a0f422c76a641da3e32263b4d2a5e42f00bc89d5feb6fb8ca148",
+    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "2094870ced5b7093a265447cae1204432d34fd11199b23a9390113dc69da4b01",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp": "9ff28ad70522232c139583f9a53797bf45a06f16399efd7fa922fcdc7f04e630",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp": "0d34ab030440e8686106bdbc72a8418cd5d50d70409571d56221b483dca9f32f",
@@ -101,7 +101,7 @@
     "reconstruction/reverse-v1/cpp/vm_exec/vm_debug_info.hpp": "3eb7879c7693bf0ccd6eb5b459b82ea48ad8202a3a8133f67dd7b5e726528060",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_debug_runtime.hpp": "440573d8455ee782fb4ff878a3a874166db1f49a34af6d5362f9e69e8f8c8d88",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_entry_runtime.hpp": "c1bcb06562ee96f51542853dea50dc775a52bf96f9121ba4c861a1dc85fbb7ee",
-    "reconstruction/reverse-v1/cpp/vm_exec/vm_exec.hpp": "16c0d3bb645559c3fe32b4ddb68887abcf3f96ad25c988c9abe3417476d4c43e",
+    "reconstruction/reverse-v1/cpp/vm_exec/vm_exec.hpp": "4dca1636138838082baecee8d024f82b5281f8355fb85f36040ee07b0516473d",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_debug.cpp": "ccb32bcd3f96a9f4811f04323ec2bcf0f59697fbd58374e8a71c005504be9ffe",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_entry.cpp": "758938b12bfc81ee7d47e0e75560554e139f58ebbb7aa811ff429e2d3a3732d0",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_exec_release.cpp": "88ef2382d002907c755b7ebd56c3236287f20b6bbd5a08e314e699cf8ccbc871",
@@ -109,54 +109,49 @@
     "reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171",
     "reconstruction/reverse-v1/cpp/object_base/gc_object_lifecycle.hpp": "5b1eb736fa5e224db0caafd66211e9a53c6ddf88e799cbfc9b9be800e54220f8",
     "reconstruction/reverse-v1/cpp/object_base/gc_free_all_objects.cpp": "087da676534d3a649ed4e4880123b96befba409454c7611b04c4ce96d94771bd",
-    "reconstruction/reverse-v1/cpp/object_base/gc_remove_root_caller.cpp": "e5d4623f69210d12a25b495baef777cb39dd899c1199c8eab750479918e92a54"
+    "reconstruction/reverse-v1/cpp/object_base/gc_remove_root_caller.cpp": "e5d4623f69210d12a25b495baef777cb39dd899c1199c8eab750479918e92a54",
+    "reconstruction/reverse-v1/cpp/host_lifecycle/quit.cpp": "212dadb77d63ba64e4ee8c1dd818708c94f5d7681cd474e0a5213208205bd167",
+    "reconstruction/reverse-v1/cpp/host_lifecycle/quit_runtime.hpp": "27c9a57345aecbdfc12e1018d24674ae1fdb1150d6bdb8417899e704af59446f"
   },
   "builds": [
     {
       "configuration": "O0",
-      "base_combined_sha256": "260fc210dbab381df31b61e5d125252571aa8a7d5e1a5587b97e78e78f563c74",
-      "base_combined_reverified_frozen": true,
-      "new_tus": {
-        "gc_free_all_objects": "f7dc6c24286b16ee96d5ba165a49134c277b98cdcbc7ec2a0f3fd4eeb4e3d7c2",
-        "gc_remove_root_caller": "069de3d8da7ff6a564e1021133bc2554c12af69500f8148c4ecd52c955b5aed6"
-      },
-      "integrated_combined_sha256": "97f1a867db4b382c8e5d43681e8be0295313783a64003f9e51ab844d4e4b8265"
+      "base_combined_sha256": "97f1a867db4b382c8e5d43681e8be0295313783a64003f9e51ab844d4e4b8265",
+      "new_tu_quit_sha256": "b1c9dde8801ba66b3cffefce8859cbb01b86585d0348942ce6edffea905a7e9d",
+      "byte_identical_to_worker_product": true,
+      "integrated_combined_sha256": "ae5d6d40353eb21baa19f930dddbf4884697c0e6fb81e72772890dcba0a8d9e0"
     },
     {
       "configuration": "O2",
-      "base_combined_sha256": "d1d478833ddcacb756029359dcd21a31e4909258faddf542196be60fdcb02ec4",
-      "base_combined_reverified_frozen": true,
-      "new_tus": {
-        "gc_free_all_objects": "abcd9fd0a7da8e93e1ecaf84d6e49c48f37defe1550255d63e5456017faa3af2",
-        "gc_remove_root_caller": "9534605e085232ca38e225dff803e6ab214af016d65da364dd5080921335566a"
-      },
-      "integrated_combined_sha256": "c487793911bdb8c03e44abb58bc7343cc50dd4999ac13541c0e4c60a069edfa9"
+      "base_combined_sha256": "c487793911bdb8c03e44abb58bc7343cc50dd4999ac13541c0e4c60a069edfa9",
+      "new_tu_quit_sha256": "324fcfbe54e7686ddbd04f083f4f27824951f8ee40d0801a8be4f4d10cd1d132",
+      "byte_identical_to_worker_product": true,
+      "integrated_combined_sha256": "f30c6eb51c404a4087319859faee3d32202146e6a5462919f4058eb8295df325"
     }
   ],
   "ABI": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-object-lifecycle-integration-r1/gate-receipt.json",
-    "sha256": "5e6368cd2e601f720da2a8157567971463744a689f0866e43e0cb39650f2bd17",
-    "checks": 13,
-    "note": "per-config: 4 defined-symbol gates, 2 previously-UND data gates, 1 new-UND delta, 3 negative-A gates, 3 negative-B gates"
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-quit-integration-r1/gate-receipt.json",
+    "sha256": "bebd0d6442c1ff53682bb1e4ee5a40493214fb7decf170b12a103eab0ae5c4c8",
+    "checks": 5,
+    "note": "per-config: no-stub define gate, real-link UND gate for FreeAllObjects/ResetGC, positive link, _Z4Quitv defined after link, _Z4Quitv absent in base-negative"
   },
   "shape": {
     "negatives_rejected": [
-      "NEG_NO_FREEALL_TU_freeall_symbol_absent",
-      "NEG_NO_CALLER_TU_removegcroot_symbol_absent"
+      "NEG_NO_QUIT_TU_symbol_absent"
     ],
-    "freeall_o0_o2_byte_identical_to_worker_products": true,
+    "quit_o0_o2_byte_identical_to_worker_products": true,
+    "quit_source_externs_hoisted_to_shared_header": true,
     "target_executed": false
   },
-  "original_entries": 2,
-  "original_index_words": 79,
-  "original_pool_words": 10,
+  "original_entries": 1,
+  "original_index_words": 60,
+  "original_pool_words": 3,
   "unresolved_direct_provider": [
-    "g_fJSGarbageCollection",
-    "g_pGlobal",
-    "g_YYJSStandardBuiltInObjectPrototype",
-    "JS_Standard_Builtin_Function_Prototype",
-    "g_pScopeHead",
-    "Quit@0x2a2804 caller wiring"
+    "g_pMainWindow",
+    "g_fDoFirstShow",
+    "g_Profiler state",
+    "38 extern callee bodies (see functions.json extern_callees)",
+    "EHABI/.ARM.exidx encoding for the window"
   ],
   "phase_complete": false,
   "original_executed": false
