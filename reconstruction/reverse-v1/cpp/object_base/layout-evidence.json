@@ -384,5 +384,122 @@
       "name_free_consumer": "0x191554 / 0x191558"
     },
     "gap": "Static recovery, no image execution, final linking, scheduling or source-level type claims beyond the proved fields."
+  },
+  "gc_object_lifecycle": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "free_all_got_base": "0x3f1c58",
+    "free_all_bindings": [
+      {
+        "symbol": "g_fJSGarbageCollection",
+        "pool": "0xd6830",
+        "slot": "0x3edbc0",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x47f295",
+        "size": 1,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "g_ShouldDispose",
+        "pool": "0xd6834",
+        "slot": "0x3edca4",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x3f5050",
+        "size": 1,
+        "section": ".data",
+        "image_bytes": "01"
+      },
+      {
+        "symbol": "g_slotObjects",
+        "pool": "0xd6838",
+        "slot": "0x3edc6c",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x536f0c",
+        "size": 16,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "g_pGlobal",
+        "pool": "0xd683c",
+        "slot": "0x3edbbc",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x544be0",
+        "size": 4,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "g_YYJSStandardBuiltInObjectPrototype",
+        "pool": "0xd6840",
+        "slot": "0x3edca8",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x756450",
+        "size": 4,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "JS_Standard_Builtin_Function_Prototype",
+        "pool": "0xd6844",
+        "slot": "0x3edcac",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x756454",
+        "size": 4,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "g_pScopeHead",
+        "pool": "0xd6848",
+        "slot": "0x3edcb0",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x544bdc",
+        "size": 4,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "length_slot",
+        "pool": "0xd684c",
+        "slot": "0x3edcb4",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x3f7420",
+        "size": 4,
+        "section": ".data",
+        "image_bytes": "ffffffff"
+      }
+    ],
+    "remove_gc_root": {
+      "pool": "0xd5ba4",
+      "second_ldr": "0xd5b7c",
+      "slot": "0x3edc68",
+      "symbol": "g_GCGens",
+      "target": "0x536da8",
+      "call": "0xd5b88 -> 0x1911c8"
+    },
+    "calls": [
+      "Quit 0x2a2804 -> FreeAllObjects",
+      "Quit 0x2a2810 -> ResetGC",
+      "FreeAllObjects 0xd67c4 -> YYObjectBase::Free"
+    ],
+    "data_initial_objects": [
+      {
+        "symbol": "g_ShouldDispose",
+        "va": "0x3f5050",
+        "size": 1,
+        "image_bytes": "01",
+        "defined_by": "gc_free_all_objects.cpp"
+      },
+      {
+        "symbol": "length_slot",
+        "va": "0x3f7420",
+        "size": 4,
+        "image_bytes": "ffffffff",
+        "defined_by": "gc_free_all_objects.cpp"
+      }
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }

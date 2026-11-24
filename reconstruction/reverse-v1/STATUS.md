@@ -1,6 +1,16 @@
 # 状态与定性
 
-## 当前断点：GC 重置调用者与类统计表生产者
+## 当前断点：对象清扫与根移除调用者
+
+恢复 `FreeAllObjects@0xd675c` 的真实对象槽清扫与四个裸字清理、两个 .data 初值对象，以及
+`RemoveGCRoot@0xd5b60` 对真实 `CGCGeneration::RemoveRoot` 的代际游标分派。ARMv7 O0/O2 在
+复验基线（57 TU 组合对象与冻结回执逐字节一致）上追加 2 个 TU；正门符号集与两个去 TU 负控
+全部通过，`g_ShouldDispose`/`length_slot` 由 UND 转为本批定义。核对原件 79 字（含 10 池字）。
+目标从未运行；四个裸字与 `g_fJSGarbageCollection` 的生产者、`Quit@0x2a2804` 调用者接线、
+EHABI/并发及最终镜像链接未证。下一批沿依赖闭包继续：MemoryManager::IsAllocated 与
+bucketCheck 直接消费者、utf8_extract_char、YYObjectBase 构造/赋值/清理 helper。
+
+## 上一批：GC 重置调用者与类统计表生产者
 
 恢复 `ResetGC@0xd66e0` 对既有 `g_GCGens` 四个实例的调用：读取开关字节，非零才依次清
 `g_GenToCollect` 和 `g_GCframe`，再调真实 `CGCGeneration::Reset`。`AddClassStat@0x191578`

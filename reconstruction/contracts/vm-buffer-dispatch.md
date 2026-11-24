@@ -517,3 +517,19 @@ capacity 和 entries。最后按原字拷贝 0x3f504c 的效率词并写范围�
 到 held 槽，再按 0x191620 的 live 表/索引取 `strcpy` 目的指针；追加尾按 0x19163c/0x191640
 先写槽计数，再写总数。候选 O2 的编译反序未通过该有序写入判据。未认证异常、并发、最终
 动态装载或原版执行；ResetGC 的 guard 仍无恢复的写方。
+
+## 对象清扫与根移除调用者
+
+`FreeAllObjects@0xd675c` 由 `gc_free_all_objects.cpp` 提供：开关字节一次读、零即返回；先清
+`g_ShouldDispose`，再按 held count 扫 `g_slotObjects` 活槽、每轮取 live capacity、对非空槽调真实
+`YYObjectBase::Free@0x198f88`，整轮扫完才 live 重读 count（cap<=0 边只重测 held count，不重读）。
+随后按指令序清 `g_pGlobal`、`g_YYJSStandardBuiltInObjectPrototype`、
+`JS_Standard_Builtin_Function_Prototype`、`g_pScopeHead` 四个裸字，写 `g_ShouldDispose=1`、
+`length_slot=-1`。本 TU 补上两个此前 UND 的 .data 初值对象（`g_ShouldDispose` 01 @0x3f5050、
+`length_slot` ffffffff @0x3f7420）。原件真实调用者 `Quit@0x2a2804` 在本切片之外，不在此接线。
+
+`RemoveGCRoot@0xd5b60` 由 `gc_remove_root_caller.cpp` 提供：push 前先裸读 object+0x38，
+signed 负值即返回，原件无 NULL 门（不补造）；入口一次双装载定 `&g_GCGens[0]`，do-while 先对
+cursor 代际调真实 `RemoveRoot@0x1911c8`，再回读 object+0x38、index+1、cursor+88，live 回读
+>= index 继续；无四实例钳制，bound>=4 走出 352B 数组的后效未证。组合对象去掉对应 TU 即恢复
+UND，未采用桩。

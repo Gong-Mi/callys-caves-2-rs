@@ -740,6 +740,116 @@
         }
       ],
       "gap": "Fault/unwind/aliasing at invalid states, concurrency, and full execution are not certified."
+    },
+    {
+      "entry": "0xd675c",
+      "size": 244,
+      "symbols": [
+        "_Z14FreeAllObjectsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "5cb1e4545bc0213aa0ffb3132542d3f7b414073174a6e2a4fe1ee1a98480b75f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_free_all_objects.cpp",
+      "translation_source_sha256": "087da676534d3a649ed4e4880123b96befba409454c7611b04c4ce96d94771bd",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd682c",
+        "0xd6830",
+        "0xd6834",
+        "0xd6838",
+        "0xd683c",
+        "0xd6840",
+        "0xd6844",
+        "0xd6848",
+        "0xd684c"
+      ],
+      "local_contract": "Read g_fJSGarbageCollection once as a byte and return if zero; else clear g_ShouldDispose, sweep live g_slotObjects slots with a held count and live per-round capacity calling the real YYObjectBase::Free on non-null slots (count re-read live only after a full scan; the cap<=0 edge re-tests the held count without re-reading), clear the four raw globals in instruction order, then set g_ShouldDispose=1 and length_slot=-1.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN12YYObjectBase4FreeEPS_",
+          "va": "0x198f88",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "width": 1,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_pGlobal",
+          "va": "0x544be0",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_YYJSStandardBuiltInObjectPrototype",
+          "va": "0x756450",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "JS_Standard_Builtin_Function_Prototype",
+          "va": "0x756454",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_pScopeHead",
+          "va": "0x544bdc",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_slotObjects",
+          "va": "0x536f0c",
+          "width": 16,
+          "state": "defined_in_scoped_relocatable"
+        }
+      ],
+      "gap": "Quit-caller wiring, raw-word producers, EHABI/unwind, fault/concurrency behavior and final linked addresses remain open."
+    },
+    {
+      "entry": "0xd5b60",
+      "size": 72,
+      "symbols": [
+        "_Z12RemoveGCRootP12YYObjectBase"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "2d3cce83e52c29259cddc94c288073f15d7ebe4bf8882e664e18000c39068373",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_remove_root_caller.cpp",
+      "translation_source_sha256": "e5d4623f69210d12a25b495baef777cb39dd899c1199c8eab750479918e92a54",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd5ba4"
+      ],
+      "local_contract": "Read object+0x38 once as a signed word before the push and return if negative (no NULL gate exists in the original); resolve &g_GCGens[0] once at entry, then do-while: call the real CGCGeneration::RemoveRoot on the cursor generation, re-read object+0x38 live, index+1, cursor+88 (32-bit wrapping), repeat while the live re-read >= index; no clamp to the four-instance array.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13CGCGeneration10RemoveRootEP12YYObjectBase",
+          "va": "0x1911c8",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_GCGens",
+          "va": "0x536da8",
+          "width": 352,
+          "state": "defined_in_scoped_relocatable"
+        }
+      ],
+      "gap": "The live +0x38 re-read assumes object stays dereferenceable across calls; the producer of that word, bound>=4 walk-out behavior, EHABI/unwind, concurrency and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,
@@ -763,7 +873,8 @@
     "gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
     "gc_instance_hash.hpp": "0040536acf0b4381376a54c7980e1e3f6cda494de08158c2295ddea2a5750b4d",
     "object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
-    "gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66"
+    "gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66",
+    "gc_object_lifecycle.hpp": "5b1eb736fa5e224db0caafd66211e9a53c6ddf88e799cbfc9b9be800e54220f8"
   },
   "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it.",
   "real_internal_provider_added": {
