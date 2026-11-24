@@ -1,6 +1,24 @@
 # 状态与定性
 
-## 当前断点：Room/Run 拆除切片
+## 当前断点：精灵/字体 FINALIZE 切片
+
+恢复 `FINALIZE_Sprite_Class@0x1ee76c`（4B 空体）、`FINALIZE_Sprite_Main@0x1ef514`（148B：
+GOT 基址配对 0x3f1c58-0xe40/-0xe44 取 g_NumberOfSprites/g_SpriteNames，逐项 Free+置空、
+数组 Free、指针清零，Sprite_FreeTextures 后尾支 Sprite_Free）、`FINALIZE_Font_Main@0xface8`
+（16B：Font_FreeTextures 后**尾支 Font_Init**——拆除命名的函数以重入初始化器复位字体态，
+映像如此如实记录）、`FINALIZE_VertexFormats@0x1e3180`（296B：Graphics::Flush 后走
+g_vertexformats[3] 三槽链表，FreeVertexFormat 逐链 + operator delete 裸字（census 无空测，
+原样保留）+ Free 节点 + live--，终清 g_lastVF；0x1e3298 是 beq 落点指令非池字）。四个 GOT
+槽（0x3f0e18/0x3f0e14/0x3f0da4/0x3f0da0）经 R_ARM_RELATIVE 核实为具名 dynsym 全局——worker
+注释误标 R_ARM_COPY，父级更正入档。worker 死于 HTTP 429 配额（源码+对象+自验证已交付，
+receipt 由父级按增量协议重建并独立复验：worktree 重编译与 worker 对象字节一致）。116 原字
+（5 池字）。O0/O2 无桩门、UND 覆盖门（12 名）、正/负控全过。目标从未运行；六个 extern
+callee、四个具名全局的生产者、VertexFormat 载荷布局、EHABI 及最终镜像链接未证。下一批沿
+拆除链继续（Graphics_Display/Texture、Score、Support_File、Script/Variable_Main、
+Event_Action、Function_File、Timeline_Main、Runner_Form、Sound、PlatformSpecific、
+CleanGestures、FreeAllDataStructures）。
+
+## 上一批：Room/Run 拆除切片
 
 恢复 `FINALIZE_Room_Main@0x1b5e54`（Room_Free 后**清零 guard 字节
 `g_fJSGarbageCollection`**——该 guard 的第一个已证写者，批三时的 open 项部分闭合；pop 返回，

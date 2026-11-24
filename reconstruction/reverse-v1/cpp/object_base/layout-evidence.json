@@ -739,5 +739,39 @@
     ],
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "spritefont_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3f0e18",
+        "word": "0x007530d8",
+        "target": "g_NumberOfSprites",
+        "reloc": "R_ARM_RELATIVE (23) verified; worker labeled COPY, corrected by parent"
+      },
+      {
+        "slot": "0x3f0e14",
+        "word": "0x007530dc",
+        "target": "g_SpriteNames",
+        "reloc": "R_ARM_RELATIVE (23) verified; corrected"
+      },
+      {
+        "slot": "0x3f0da4",
+        "word": "0x00544ca0",
+        "target": "g_vertexformats",
+        "reloc": "R_ARM_RELATIVE (23) verified; corrected"
+      },
+      {
+        "slot": "0x3f0da0",
+        "word": "0x00544c9c",
+        "target": "g_lastVF",
+        "reloc": "R_ARM_RELATIVE (23) verified; corrected"
+      }
+    ],
+    "got_base_pair": "Sprite_Main stages add r3,pc,r3 @0x1ef520 -> GOT base 0x3f1c58, then indexed loads -0xe40/-0xe44 reach 0x3f0e18/0x3f0e14",
+    "non_pool_word_note": "0x1e3298 is the beq landing instruction, not pool data; pool is 0x1e32a0..0x1e32a4 (2 words)",
+    "worker_incident": "worker died (HTTP 429 provider quota) after source+objects+own verify files, before receipts; parent reconstructed receipts after independent verification; worker verify-*.txt kept in its domain",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }

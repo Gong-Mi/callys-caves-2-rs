@@ -596,3 +596,15 @@ names 非零才进入循环：逐项 `MemoryManager::Free` + 置空，0xc4330/0x
 @0x19c2cc`：gridstruct（0x3f06b8）/gridcount（0x3f06b4）逐网格 Free + blx 析构（0x19c318）。
 `FINALIZE_Code_Variable@0xd2618` 单条 bx lr 空体。组合对象去 TU 即四符号缺失；六个具名全局
 按落位记录以 extern 引用。
+
+## 精灵/字体 FINALIZE 切片
+
+`FINALIZE_Sprite_Class@0x1ee76c` 单条 bx lr 空体。`FINALIZE_Sprite_Main@0x1ef514`：add r3,pc
+得 GOT 基 0x3f1c58，索引 -0xe40/-0xe44 取 `g_NumberOfSprites`（0x3f0e18）与 `g_SpriteNames`
+（0x3f0e14）；count 符号门内逐项 Free+置空（live 重载），数组本体 Free 后指针清零；
+`Sprite_FreeTextures` 后尾支 `Sprite_Free`。`FINALIZE_Font_Main@0xface8`：`Font_FreeTextures`
+后尾支 `Font_Init`（拆除名下重入初始化器，映像如实记录）。`FINALIZE_VertexFormats@0x1e3180`：
+`Graphics::Flush` 后走 `g_vertexformats`（0x3f0da4，12B 三槽）链表：`FreeVertexFormat` 逐链、
+节点按 census 无空测直接 `operator delete` 裸字（0x1e3250）+ `Free` 节点 + live--、链槽置空；
+终经 0x3f0da0 清 `g_lastVF`；0x1e3298 为 beq 落点指令非池字。四槽均 R_ARM_RELATIVE（worker
+COPY 误标已更正入档）；extern callee 无桩，组合对象去 TU 即四符号缺失。

@@ -1640,6 +1640,177 @@
       "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
       "direct_dependencies": [],
       "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1ee76c",
+      "size": 4,
+      "symbols": [
+        "_Z21FINALIZE_Sprite_Classv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_spritefont.cpp",
+      "translation_source_sha256": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1ef514",
+      "size": 148,
+      "symbols": [
+        "_Z20FINALIZE_Sprite_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "2ac036fe00ca02328fc697481d4957dad6e3ca251962de74d3f92d47a0057284",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_spritefont.cpp",
+      "translation_source_sha256": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1ef59c",
+        "0x1ef5a0",
+        "0x1ef5a4"
+      ],
+      "local_contract": "Sprite registry teardown through the GOT-base pair (add pc = 0x3f1c58): free g_SpriteNames array entries per count (signed bgt), null-store each slot, free the array, zero the pointer, then Sprite_FreeTextures; pop; tail-b Sprite_Free.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_NumberOfSprites",
+          "va": "0x7530d8",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0e18, R_ARM_RELATIVE verified (worker comment said COPY; corrected)"
+        },
+        {
+          "name": "g_SpriteNames",
+          "va": "0x7530dc",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0e14, R_ARM_RELATIVE verified (corrected)"
+        },
+        {
+          "name": "_Z19Sprite_FreeTexturesv",
+          "va": "0x1eee30",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z11Sprite_Freev",
+          "va": "0x1eed3c",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Producers of g_NumberOfSprites/g_SpriteNames; element pointee types; Sprite_FreeTextures/Sprite_Free bodies; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xface8",
+      "size": 16,
+      "symbols": [
+        "_Z18FINALIZE_Font_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "84d45dbfce730785764540fae6ffe1e86d05fabce0fc850da69c2bd191665d8b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_spritefont.cpp",
+      "translation_source_sha256": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Call Font_FreeTextures, pop, then tail-b Font_Init -- the teardown-named function resets font state by re-entering the initializer; recorded exactly as the image does.",
+      "direct_dependencies": [
+        {
+          "name": "_Z17Font_FreeTexturesv",
+          "va": "0xfac94",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z9Font_Initv",
+          "va": "0xf9fb4",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Both callees outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1e3180",
+      "size": 296,
+      "symbols": [
+        "_Z22FINALIZE_VertexFormatsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "381ad26c2f2c9f3a4bd7d7180b5e39c325a1fececb008a44af5f3c6af490d209",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_spritefont.cpp",
+      "translation_source_sha256": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1e32a0",
+        "0x1e32a4"
+      ],
+      "local_contract": "Graphics::Flush first; walk g_vertexformats[3] (array, count, live at +0/+4/+8) freeing every VertexFormat chain via FreeVertexFormat, then per chain node: operator delete(raw [+0xc] word, NO null test before the call per census shape), Free(node), live--, null-store the chain slots; finally zero g_lastVF through its GOT slot. The word at 0x1e3298 is the beq landing instruction, NOT pool data.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN8Graphics5FlushEv",
+          "va": "0x1852ec",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z16FreeVertexFormatP12VertexFormat",
+          "va": "0x185640",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_vertexformats",
+          "va": "0x544ca0",
+          "width": 12,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0da4, R_ARM_RELATIVE verified (corrected)"
+        },
+        {
+          "name": "g_lastVF",
+          "va": "0x544c9c",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0da0, R_ARM_RELATIVE verified (corrected)"
+        }
+      ],
+      "gap": "VertexFormat payload layout beyond {+4 next, +0xc ptr}; Graphics::Flush/FreeVertexFormat bodies; producers of the four named globals; EHABI and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,

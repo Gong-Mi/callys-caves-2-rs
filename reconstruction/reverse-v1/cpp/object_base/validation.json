@@ -1,6 +1,6 @@
 {
-  "scope": "Integrate the roomrun FINALIZE slice (Room_Main 32B, Run_Main 276B, Motion_Grid 140B, Code_Variable 4B) onto the teardown cumulative ARMv7 relocatable boundary; six named dynsym globals bound via extern declarations with GOT placement records; two indirect blx sites kept unresolved; no original/rebuilt execution or full image claim.",
-  "base": "461a0b60915674d4824ca62e0f3cfc61f0080e63",
+  "scope": "Integrate the sprite/font FINALIZE slice (Sprite_Class 4B, Sprite_Main 148B, Font_Main 16B, VertexFormats 296B) onto the teardown cumulative ARMv7 relocatable boundary; four named dynsym globals bound via extern declarations with R_ARM_RELATIVE placement records (worker COPY labels corrected); no original/rebuilt execution or full image claim.",
+  "base": "7ab2dc5c54bcb9a802654ec3dfda224eea947302",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "input_sha256": {
     "reconstruction/reverse-v1/c/compiler_conversions/functions.json": "22b0d1b79c937bf1eb40f8ef471d23c1f23518ddd238f24ee3b2962ac1eee63e",
@@ -41,7 +41,7 @@
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.cpp": "75e4e6748433fc405bd24ea61bf8ce81a761125b3fd03c46139e95e6f29bfe0b",
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
     "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "75c2d72fb19f02f8828ef942ea2572c71e88c041fced7eca70cc56c02fc436ba",
-    "reconstruction/reverse-v1/cpp/object_base/functions.json": "03e38a3bc1542a8f01cecbb31cd9dd2845ace5bc9baeee8e66406a8fb22a1503",
+    "reconstruction/reverse-v1/cpp/object_base/functions.json": "c39ccb056fda7b88fdb70eb99837e5de2d6933fa2f8e17ea8a00e42af220e3e9",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_class_stat.cpp": "df4661626df5609258fd08ae4a643d19f78de52550cdbb3c23df4cdc2f2ab246",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_root.cpp": "ecaa95b8067576f32198c574ade5917c0d4addb7cbdcbd7062b96639f7ade8bc",
     "reconstruction/reverse-v1/cpp/object_base/gc_generation.cpp": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
@@ -58,14 +58,14 @@
     "reconstruction/reverse-v1/cpp/object_base/gc_root_lookup.cpp": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
     "reconstruction/reverse-v1/cpp/object_base/gc_root_map_insert.cpp": "8b0dfb47a037597d02e6727e2dfa49240cb2ae70a99b03fa0c47e53488a5ad7b",
     "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
-    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "0f39e922d613b95ac44dec2c192d52386551581e02120feef869a90bdfb95b21",
+    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "9ef05aa5a1f707b1de3be7d350120e639caacd5dea12a51ed926a6eacdf56303",
     "reconstruction/reverse-v1/cpp/object_base/object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
     "reconstruction/reverse-v1/cpp/object_base/object_free.cpp": "f7ad3ef41cdb6fd5c75d3cfc25b7917bcc9a9911cf8e2a2deb4985c0eb6b7bb9",
     "reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
     "reconstruction/reverse-v1/cpp/object_base/object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
     "reconstruction/reverse-v1/cpp/object_base/object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
-    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "9d97af52ddb7d8835296edc27bdb6e914bb76ec0e1e2bbd86067293e84298991",
+    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "d61d34502c467ce5e759d0f8698b34510d9d06d4de1691c4f93c3241f1935e27",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp": "9ff28ad70522232c139583f9a53797bf45a06f16399efd7fa922fcdc7f04e630",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp": "0d34ab030440e8686106bdbc72a8418cd5d50d70409571d56221b483dca9f32f",
@@ -115,52 +115,55 @@
     "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_code.cpp": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09",
     "reconstruction/reverse-v1/cpp/host_lifecycle/quit_supports.cpp": "2a587fa22041da8e7d2fe645197cf547884f447374741d2fd5f210689ac70b41",
     "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_objects.cpp": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
-    "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_roomrun.cpp": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131"
+    "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_roomrun.cpp": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+    "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_spritefont.cpp": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88"
   },
   "builds": [
     {
       "configuration": "O0",
-      "base_combined_sha256": "5f22319d560bffcd7ba2549926b14de28e5ec3949925bdfad03ad09c0261feb1",
-      "new_tu_sha256": "3943969861c88c31624cc9b9c5fd52ecf235476e3cb593ca0e2ca343a0b5ad1a",
+      "base_combined_sha256": "0fe6305dd270c998465995a955bf683c60fca99c1c46a848ef90126924f6a1bf",
+      "new_tu_sha256": "4130c32ee702081eb153f5900be2c3246373b50327960222c7873fbe8c9d6a3c",
       "byte_identical_to_worker_product": true,
-      "integrated_combined_sha256": "0fe6305dd270c998465995a955bf683c60fca99c1c46a848ef90126924f6a1bf"
+      "integrated_combined_sha256": "b7453ace83e22e8ae9e6dc24023f68a50e9080484470fc2841ffa22ef9c7f38d"
     },
     {
       "configuration": "O2",
-      "base_combined_sha256": "44f5de9bf557465b344aa945e9c1bb94794017100d639f6681627d2850272248",
-      "new_tu_sha256": "d16225bd331ce9990903e1b3d28bbcad9ab62d3a91101f61cbf0d4a8afac75af",
+      "base_combined_sha256": "c797e053b5574c233ae66bd467e237d8930c03eadbdcc9d7cfdbc14ec04e9038",
+      "new_tu_sha256": "bc34274a6d0f8d8c8c7b4419d00e01fb9a41ba98f6beeb7de53e1dd9359ed669",
       "byte_identical_to_worker_product": true,
-      "integrated_combined_sha256": "c797e053b5574c233ae66bd467e237d8930c03eadbdcc9d7cfdbc14ec04e9038"
+      "integrated_combined_sha256": "1c834d85519604a25bbf9089df578ad32073d93c6d93e7eae4a4ead9b09811c6"
     }
   ],
   "ABI": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-roomrun-integration-r1/gate-receipt.json",
-    "sha256": "85b011e0b6dd032e81aba87edf7143d269e776a361fa2b3e6d961d5b25509e1d",
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-spritefont-integration-r1/gate-receipt.json",
+    "sha256": "d6abfac5658dc4f8dd2ab34e43a835c6e3de3e1362a3153b577bfdf5a975dd1d",
     "checks": 5,
-    "note": "per-config: external-linkage no-stub gate (4 names), UND coverage gate (6 named globals + Room_Free), positive link, all-four defined after link, all-four absent in base-negative"
+    "note": "per-config: external-linkage no-stub gate (4 names), UND coverage gate (12 names), positive link, all-four defined after link, all-four absent in base-negative"
   },
   "shape": {
     "negatives_rejected": [
-      "NEG_NO_ROOMRUN_TU_symbols_absent"
+      "NEG_NO_SPRITEFONT_TU_symbols_absent"
     ],
-    "roomrun_o0_o2_byte_identical_to_worker_products": true,
-    "dispatch_context_refutations_recorded": true,
-    "final_link_obligations": [
-      "_Z9Room_Freev",
-      "__aeabi_unwind_cpp_pr0"
+    "spritefont_o0_o2_byte_identical_to_worker_products": true,
+    "worker_incident": "HTTP 429 quota death before receipts; artifacts harvested per incremental-delivery protocol; parent recompiled and reproduced byte-identical objects",
+    "parent_corrections": [
+      "relocation type labels COPY->RELATIVE (4 comment sites)"
     ],
     "target_executed": false
   },
   "original_entries": 4,
-  "original_index_words": 113,
-  "original_pool_words": 6,
+  "original_index_words": 116,
+  "original_pool_words": 5,
   "unresolved_direct_provider": [
-    "g_fJSGarbageCollection setter (zero-writer now proven: Room_Main)",
-    "Room_Free body",
-    "persinst/persnumb/gridstruct/gridcount producers",
-    "blx targets 0x1d384c/0x19c318",
-    "EHABI/.ARM.exidx encoding",
-    "__aeabi_unwind_cpp_pr0 (compiler EHABI; final-link obligation)"
+    "Sprite_FreeTextures",
+    "Sprite_Free",
+    "Font_FreeTextures",
+    "Font_Init",
+    "Graphics::Flush",
+    "FreeVertexFormat",
+    "producers of g_NumberOfSprites/g_SpriteNames/g_vertexformats/g_lastVF",
+    "VertexFormat payload layout beyond {+4,+0xc}",
+    "EHABI/.ARM.exidx encoding; __aeabi_unwind_cpp_pr0 final-link obligation"
   ],
   "phase_complete": false,
   "original_executed": false
