@@ -569,3 +569,19 @@ names 非零才进入循环：逐项 `MemoryManager::Free` + 置空，0xc4330/0x
 此），0xc4354/0xc4358 两条路径都清零；尾接 `Background_FreeTextures`（0xc435c）与
 `Background_Free`（0xc4364 尾支）。两个静态成员以未定义类静态引用表示并记录落位义务；
 五个 extern callee 无桩，组合对象去 TU 即三符号缺失。
+
+## 对象族 FINALIZE
+
+`FINALIZE_Object_Lists@0x19e884`：0x53ab70 块表（GOT 0x3efb14）15 块 x 2048B，每块 256x8B
+描述符 {+0 signed count, +4 ptr}，count>0 才释放 ptr（signed ble 0x19e8b4）；随后 0x536f68
+（GOT 0x3f06e8）仅 +4 释放并清零，+0 不动。`FINALIZE_Object_Main@0x19f0c0`：0x542374
+（GOT 0x3edc44）容器 C={桶数组,signed count,live}，两遍结构相同的排水（第二遍重读通常空；
+负数 blt 直入排水），逐节点 `CObjectGM` 析构（0x19f128/0x19f1b4，精确 D2 重整名 extern "C"
+边——原件 D1/D2 折叠于 0x19d558）、`::operator delete(obj)`、`Free(N)`、--C[+8]；尾程
+`Free(桶数组)`、`delete 容器`、经 0x542374 写零；0x542370（GOT 0x3f06ec）旗标字在函数头清零。
+`FINALIZE_Instance_Class@0x1959f4`：表指针在 0x3f3c4c——.data 字、无重定位、文件内容是打包
+字符串，指针由未识别生产者运行时写入（GOT-delta 配对 0x1959fc/0x195a00：0x195a08+0x00258244
+== 0x3f3c4c，父级复算一致）；哈希表 T={buckets,mask,live} 以不摊平的四边/两边/r8=-1 哨兵与
+前向槽重入遍历，逐节点 blx [vtable+4]（0x195ac4/0x195b64，目标不解析）、Free、live--。
+`FINALIZE_Object_Class@0x19e1c8` 单条 bx lr 空体。组合对象去 TU 即四符号缺失；终链须按登记
+落位五个匿名字。

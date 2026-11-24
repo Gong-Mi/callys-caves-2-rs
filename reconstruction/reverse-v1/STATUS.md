@@ -1,6 +1,21 @@
 # 状态与定性
 
-## 当前断点：Quit 支撑切片
+## 当前断点：对象族 FINALIZE
+
+恢复 `FINALIZE_Instance_Class@0x1959f4`（436B：0x3f3c4c 运行时写指针引导的哈希表遍历，四进
+0x195a28/两进 0x195a4c/r8=-1 哨兵与前向槽重入不摊平；逐节点 blx [vtable+4] 间接调用不解析、
+Free(node)、live--）、`FINALIZE_Object_Lists@0x19e884`（132B：0x53ab70 的 15x2048B 块表按
+signed count 门释放，0x536f68 仅动 +4）、`FINALIZE_Object_Main@0x19f0c0`（348B：0x542374
+容器两遍排水，逐节点 CObjectGM 析构（精确 D2 重整名 extern "C" 边）+ operator delete +
+Free + live--，尾程 Free 数组、delete 容器、清字）、`FINALIZE_Object_Class@0x19e1c8`（4B 空体
+如实记录）。五条槽位绑定父级逐一独立复核（4 条 R_ARM_RELATIVE GOT + 1 条无重定位运行时写
+.data 字 0x3f3c4c，含 GOT-delta 配对算术复算）；230 原字（5 池字）。ARMv7 O0/O2 在支撑切片
+基线上追加 1 个 TU，与 worker 产物字节一致；无桩门、UND 覆盖门、正/负控全过。目标从未运行；
+0x3f3c4c 的生产者、blx 目标、payload 类、四匿名字生产者、EHABI 及最终镜像链接未证。下一批
+沿拆除链继续 FINALIZE 族（Room_Main 0x1b5e54、Run_Main 0x1d37cc、Motion_Grid 0x19c2cc、
+Code_Variable 0xd2618 等），随后按依赖闭包回到 IsAllocated/bucketCheck 消费者。
+
+## 上一批：Quit 支撑切片
 
 恢复 `QuitYoYoFunctions@0x15a0c0`（FlushAchievementCache 后尾支未恢复的
 `QuitYoYoFunctionsM`）、`QuitNetworkingFunctions@0x2998b8`（FreeSocket 恰 64 次、实参 0..63、

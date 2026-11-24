@@ -1321,6 +1321,166 @@
         }
       ],
       "gap": "Producers of Background_Main::names/::number and the element pointee types are outside the recovered set; EHABI and final linked addresses remain open. Background_Main class declaration is TU-local until a second consumer exists."
+    },
+    {
+      "entry": "0x1959f4",
+      "size": 436,
+      "symbols": [
+        "_Z23FINALIZE_Instance_Classv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "ed26e5c6e0fb96e09f2188a06cd39d58679a33270901f8d760dbea8383ae5bb2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_objects.cpp",
+      "translation_source_sha256": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x195ba4"
+      ],
+      "local_contract": "Walk the runtime-written table pointer at 0x3f3c4c (hash table T={buckets,mask,live}): four distinct edges into 0x195a28, two into 0x195a4c, r8=-1 sentinel sites 0x195b14/0x195b9c, forward-slot re-entry when a chain ends; per node: payload [vtable+4] indirect call (blx at 0x195ac4/0x195b64, target unresolved), MemoryManager::Free(node), live-count decrement.",
+      "direct_dependencies": [
+        {
+          "name": "anon_0x3f3c4c",
+          "va": "0x3f3c4c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": ".data word, NO relocation; file bytes are packed string content; pointer written at runtime by an unidentified producer; consumed via GOT-delta ldr pair 0x1959fc/0x195a00 (0x195a08+0x00258244)"
+        },
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        }
+      ],
+      "gap": "Producer of the runtime-written 0x3f3c4c pointer, payload class behind the +0x78 key field, both blx [vtable+4] targets, EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19e884",
+      "size": 132,
+      "symbols": [
+        "_Z21FINALIZE_Object_Listsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "ab2d3377edb30b8581ce1a57d672518db774eff2ca11b01d39468b083535bb72",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_objects.cpp",
+      "translation_source_sha256": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x19e900",
+        "0x19e904"
+      ],
+      "local_contract": "Free the 15x2048B block table at 0x53ab70 (256x8B descriptors {+0 signed count, +4 ptr}; ptr freed only when count > 0, signed ble at 0x19e8b4), then free/zero word +4 of 0x536f68 (+0 never touched).",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "anon_0x53ab70",
+          "va": "0x53ab70",
+          "width": 30720,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3efb14, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "anon_0x536f68",
+          "va": "0x536f68",
+          "width": 8,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3f06e8, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Producers of the block table and 0x536f68; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19f0c0",
+      "size": 348,
+      "symbols": [
+        "_Z20FINALIZE_Object_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "fca5d8235aff027a69b10baed5c0da0d9e0af4733e4d3e9854d20adf8c35d5f2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_objects.cpp",
+      "translation_source_sha256": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x19f214",
+        "0x19f218"
+      ],
+      "local_contract": "Container C at 0x542374 = {+0 bucket array of 8B {head,tail} pairs, +4 signed count, +8 live}: two structurally identical drain passes (0x19f0f8.., 0x19f188..; pass two reloads and normally finds it drained; negative count branches straight to the drain); per chain node N {+4 next, +0xc obj}: CObjectGM dtor (extern edge, exact D2 mangled name), ::operator delete(obj), Free(N), --C[+8]; tail: Free(array base), ::operator delete(container), store 0 through the 0x542374 word.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN9CObjectGMD2Ev",
+          "va": "0x19d558",
+          "state": "extern_only_no_stub",
+          "note": "dynsym D1/D2 folded aliases at 0x19d558; call sites 0x19f128/0x19f1b4 bind the exact D2 mangled name via extern \"C\""
+        },
+        {
+          "name": "anon_0x542374",
+          "va": "0x542374",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3edc44, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "anon_0x542370",
+          "va": "0x542370",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3f06ec, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Why the container drains twice; node allocation sites; CObjectGM payload semantics; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19e1c8",
+      "size": 4,
+      "symbols": [
+        "_Z21FINALIZE_Object_Classv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_objects.cpp",
+      "translation_source_sha256": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,

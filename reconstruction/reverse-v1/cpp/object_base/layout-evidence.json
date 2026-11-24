@@ -627,5 +627,59 @@
     ],
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "object_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3efb14",
+        "word": "0x0053ab70",
+        "target": "anon_0x53ab70",
+        "width": 30720,
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f06e8",
+        "word": "0x00536f68",
+        "target": "anon_0x536f68",
+        "width": 8,
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3edc44",
+        "word": "0x00542374",
+        "target": "anon_0x542374",
+        "width": 4,
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f06ec",
+        "word": "0x00542370",
+        "target": "anon_0x542370",
+        "width": 4,
+        "reloc": "R_ARM_RELATIVE verified"
+      }
+    ],
+    "non_resolving_slot": {
+      "slot": "0x3f3c4c",
+      "reloc": "NONE",
+      "file_bytes": "packed string content",
+      "resolution": "GOT-delta pair 0x1959fc (literal 0x00258244 @0x195ba4) / 0x195a00: 0x195a08+0x00258244 == 0x3f3c4c",
+      "interpretation": "pointer written at runtime by an unidentified producer; represented as anon_0x3f3c4c[4], indirection kept"
+    },
+    "indirect_call_sites": [
+      {
+        "site": "0x195ac4",
+        "form": "ldr [r0]; ldr [r3,#4]; blx r3"
+      },
+      {
+        "site": "0x195b64",
+        "form": "ldr [r3]; ldr [r3,#4]; blx r3"
+      }
+    ],
+    "cobjectgm_note": "dynsym D1/D2 folded aliases at 0x19d558; TU binds the exact D2 mangled name via extern \"C\"; canonical CObjectGM class declaration absent from the recovered set (grep-checked)",
+    "adjacency_observation": "0x53ab70 + 30720 == 0x542370 (observation, not placement proof)",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }
