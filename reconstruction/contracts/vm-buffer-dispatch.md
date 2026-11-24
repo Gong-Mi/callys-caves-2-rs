@@ -546,3 +546,12 @@ QuitNetworkingFunctions、26 个 FINALIZE_*、`g_Profiler.Clean()`（0x2a2894/0x
 `VM::Quit`（0x2a28d4）无条件执行；0x2a28d8 pop 后 0x2a28dc 尾支 `FreeAllBuffers`。vm_exec.hpp
 补 `CProfiler::Clean`/`VM::Quit` 两处声明；38 个被调方保持 extern_only 无桩，组合对象去 TU 即
 恢复 `_Z4Quitv` 缺失。
+
+## FINALIZE 核心切片
+
+`FINALIZE_All@0xc47f8` 与 `FINALIZE_Code_Main@0xcf478` 原件各为单条 `bx lr`，空体如实记录。
+`FINALIZE_Code_Function@0xce274`：0xce278/0xce27c 经 GOT 0x3edb20 取 0x47a14c 字值作
+`MemoryManager::Free` 实参（0xce284 真实调用边），随后按序清 0x47a14c（0xce298）、0x47a148
+（0xce2a0，GOT 0x3edb1c）、0x48a148（0xce2a4，add 直达 0xce2a8+8+0x003abea0，无 GOT），pop
+返回。三个匿名目标按未定义 extern 数组表示，终链须落位到记名地址；不造符号名、不给存储。
+组合对象去 TU 即三个 `_Z*FINALIZE*` 缺失。

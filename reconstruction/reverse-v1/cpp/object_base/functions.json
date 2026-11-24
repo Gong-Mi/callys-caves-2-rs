@@ -1107,6 +1107,103 @@
         }
       ],
       "gap": "Producers of the three globals, all 38 extern callee bodies, EHABI/unwind coverage, fault/concurrency behavior and final linked addresses remain open; nothing was executed."
+    },
+    {
+      "entry": "0xc47f8",
+      "size": 4,
+      "symbols": [
+        "_Z12FINALIZE_Allv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_code.cpp",
+      "translation_source_sha256": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xcf478",
+      "size": 4,
+      "symbols": [
+        "_Z18FINALIZE_Code_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_code.cpp",
+      "translation_source_sha256": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xce274",
+      "size": 68,
+      "symbols": [
+        "_Z22FINALIZE_Code_Functionv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "99eabd9b1c8920cd4ae4ee38190acd55b0055e39d2038e9b1d03d0e93a553842",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_code.cpp",
+      "translation_source_sha256": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xce2ac",
+        "0xce2b0",
+        "0xce2b4"
+      ],
+      "local_contract": "Load the pointer-shaped word at 0x47a14c and pass it to the real MemoryManager::Free, then zero 0x47a14c, 0x47a148 and 0x48a148 in census order and return.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "anon_0x47a14c",
+          "va": "0x47a14c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3edb20, R_ARM_RELATIVE"
+        },
+        {
+          "name": "anon_0x47a148",
+          "va": "0x47a148",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3edb1c, R_ARM_RELATIVE"
+        },
+        {
+          "name": "anon_0x48a148",
+          "va": "0x48a148",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "direct pc-relative 0xce2a8+8+0x003abea0"
+        }
+      ],
+      "gap": "Producers of the three anonymous words and their content semantics are outside the window; EHABI and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,

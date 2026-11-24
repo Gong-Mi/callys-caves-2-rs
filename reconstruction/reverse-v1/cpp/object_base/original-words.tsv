@@ -1978,3 +1978,22 @@ d5b60	d5ba4	003180e4	.word	0x003180e4
 2a27fc	2a28e0	0014df50	.word	0x0014df50
 2a27fc	2a28e4	0014b2d4	.word	0x0014b2d4
 2a27fc	2a28e8	0014f1b4	.word	0x0014f1b4
+c47f8	c47f8	e12fff1e	bx	lr
+cf478	cf478	e12fff1e	bx	lr
+ce274	ce274	e92d4010	push	{r4, lr}
+ce274	ce278	e59f402c	ldr	r4, [pc, #0x2c]
+ce274	ce27c	e79f4004	ldr	r4, [pc, r4]
+ce274	ce280	e5940000	ldr	r0, [r4]
+ce274	ce284	eb06b811	bl	#0x27c2d0
+ce274	ce288	e59f2020	ldr	r2, [pc, #0x20]
+ce274	ce28c	e59f1020	ldr	r1, [pc, #0x20]
+ce274	ce290	e3a03000	mov	r3, #0
+ce274	ce294	e79f2002	ldr	r2, [pc, r2]
+ce274	ce298	e5843000	str	r3, [r4]
+ce274	ce29c	e08f1001	add	r1, pc, r1
+ce274	ce2a0	e5823000	str	r3, [r2]
+ce274	ce2a4	e5813000	str	r3, [r1]
+ce274	ce2a8	e8bd8010	pop	{r4, pc}
+ce274	ce2ac	0031f89c	.word	0x0031f89c
+ce274	ce2b0	0031f880	.word	0x0031f880
+ce274	ce2b4	003abea0	.word	0x003abea0

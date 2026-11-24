@@ -1,6 +1,17 @@
 # 状态与定性
 
-## 当前断点：Quit 拆除编排器
+## 当前断点：FINALIZE 核心切片
+
+恢复 `FINALIZE_All@0xc47f8` 与 `FINALIZE_Code_Main@0xcf478`（原件均为单条 `bx lr` 空体，如实
+记录不造工作量）与 `FINALIZE_Code_Function@0xce274`：经 GOT 0x3edb20 取 0x47a14c 的指针形值
+传给真实 `MemoryManager::Free`，再按 census 序清 0x47a14c/0x47a148/0x48a148 三个匿名 BSS 字
+（前两个经 R_ARM_RELATIVE 已核 GOT 槽，第三个 add 直达无 GOT）。匿名目标按规定以未定义 extern
+数组表示并记录落位义务，不造符号名。ARMv7 O0/O2 在 Quit 组合基线上追加 1 个 TU，与 worker
+产物字节一致；无桩门、真实链接门、正/负控全过，新增终链义务 __aeabi_unwind_cpp_pr0。核对原件
+19 字（含 3 池字）。目标从未运行；三个匿名字的生产者、EHABI 覆盖及最终镜像链接未证。下一批
+沿拆除链继续 FINALIZE 族小体量成员，随后按依赖闭包回到 IsAllocated/bucketCheck 消费者。
+
+## 上一批：Quit 拆除编排器
 
 恢复 `Quit@0x2a27fc`（240B 含池）：CleanGestures→真实 `FreeAllObjects`→FreeAllDataStructures→
 真实 `ResetGC`→QuitYoYo/Networking→26 个 FINALIZE→`g_Profiler.Clean()`（this-call，GOT

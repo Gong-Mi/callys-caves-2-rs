@@ -547,5 +547,44 @@
     "branch_site_bindings": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-quit-seam/quit-bindings.json",
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "finalize_core": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "final_link_placement": [
+      {
+        "symbol": "anon_0x47a14c",
+        "va": "0x47a14c",
+        "width": 4,
+        "access": "GOT 0x3edb20 (R_ARM_RELATIVE verified in-image)"
+      },
+      {
+        "symbol": "anon_0x47a148",
+        "va": "0x47a148",
+        "width": 4,
+        "access": "GOT 0x3edb1c (R_ARM_RELATIVE verified in-image)"
+      },
+      {
+        "symbol": "anon_0x48a148",
+        "va": "0x48a148",
+        "width": 4,
+        "access": "direct: 0xce2a8+8+0x003abea0, no GOT"
+      }
+    ],
+    "store_order_in_census": [
+      "0xce298 -> 0x47a14c",
+      "0xce2a0 -> 0x47a148",
+      "0xce2a4 -> 0x48a148"
+    ],
+    "free_edge": {
+      "site": "0xce284",
+      "target": "_ZN13MemoryManager4FreeEPKv",
+      "state": "defined_in_scoped_relocatable"
+    },
+    "empty_bodies": [
+      "_Z12FINALIZE_Allv (bx lr)",
+      "_Z18FINALIZE_Code_Mainv (bx lr)"
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }
