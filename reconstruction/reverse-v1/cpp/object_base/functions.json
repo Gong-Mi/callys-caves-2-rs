@@ -316,7 +316,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "gc_generation.cpp",
-      "translation_source_sha256": "31246c67f55818c85ea6d2857ffd870378232eb0d8d7650869bd36d471126fd4",
+      "translation_source_sha256": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -336,7 +336,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "gc_generation.cpp",
-      "translation_source_sha256": "31246c67f55818c85ea6d2857ffd870378232eb0d8d7650869bd36d471126fd4",
+      "translation_source_sha256": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -654,6 +654,92 @@
         }
       ],
       "gap": "Real lane scheduling, final GOT/absolute placement, unusual provider faults, unwind, FPSCR and concurrency are not proven."
+    },
+    {
+      "entry": "0xd66e0",
+      "size": 124,
+      "symbols": [
+        "_Z7ResetGCv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "96bef0ca5b33436c4ad0652f7dee719a2c59da2a3edc25b951707fcc1d3c05bb",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_reset_runtime.cpp",
+      "translation_source_sha256": "e04038c6a75ff888bd40bf10f8e18ff8f54fffd22a466c1769c42aa5884f63fe",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd6748",
+        "0xd674c",
+        "0xd6750",
+        "0xd6754",
+        "0xd6758"
+      ],
+      "local_contract": "Read g_fJSGarbageCollection once as a byte, return if zero; otherwise clear g_GenToCollect and g_GCframe in order and invoke the real CGCGeneration::Reset on the four g_GCGens instances.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13CGCGeneration5ResetEv",
+          "va": "0x19140c",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "width": 1,
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Guard producer, full shutdown/runtime, EHABI, fault/concurrency behavior and final linked addresses remain open."
+    },
+    {
+      "entry": "0x191578",
+      "size": 408,
+      "symbols": [
+        "_ZN13CGCGeneration12AddClassStatEPKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "3d05b5418efb896f29214cd9a64bcf9dbd86fcea5d65f68abcc998223aefcfff",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_add_class_stat.cpp",
+      "translation_source_sha256": "df4661626df5609258fd08ae4a643d19f78de52550cdbb3c23df4cdc2f2ab246",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x191708",
+        "0x19170c"
+      ],
+      "local_contract": "Scan exact 8-byte class-stat slots with distinct NULL-name and strcmp paths; grow on held count == capacity, preserve post-provider live/held loads and copy into the live destination; publish slot count before generation count.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager5AllocEjPKcib",
+          "va": "0x27ce78"
+        },
+        {
+          "name": "_ZN13MemoryManager7ReAllocEPvjPKcib",
+          "va": "0x27cedc"
+        },
+        {
+          "name": "strcmp@plt",
+          "va": "0xb6574"
+        },
+        {
+          "name": "strlen@plt",
+          "va": "0xb6538"
+        },
+        {
+          "name": "strcpy@plt",
+          "va": "0xb65a4"
+        }
+      ],
+      "gap": "Fault/unwind/aliasing at invalid states, concurrency, and full execution are not certified."
     }
   ],
   "not_whole_library_completion": true,
@@ -674,9 +760,10 @@
     "object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
     "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
-    "gc_generation.hpp": "9b811af9b2c93f9c93013a7f2b0884f251082b8c938dce876b3875bae2b91898",
+    "gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
     "gc_instance_hash.hpp": "0040536acf0b4381376a54c7980e1e3f6cda494de08158c2295ddea2a5750b4d",
-    "object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74"
+    "object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
+    "gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66"
   },
   "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it.",
   "real_internal_provider_added": {
@@ -685,5 +772,6 @@
   "gc_startup_scope": ".init_array @0xb9814 with its real allocation wrappers and destructor/constructor dependencies; no whole-image equivalence.",
   "gc_consumer_scope": "Root membership, pointer hash, dynamic-root writer/reset, signed range and class-stat cleanup; AddRoot/RemoveRoot and next GC lifecycle still incomplete.",
   "gc_writer_scope": "AddRoot, RemoveRoot and pointer CompareKeys; AddRoot reinsert uses the real weak root-map Insert provider (not an unresolved or stub dependency in the scoped relocatable).",
-  "gc_root_provider_reset_scope": "Complete bodies for the root-map Insert and CGCGeneration::Reset on the pinned ARMv7 source-recovery lane; not complete GC lifecycle."
+  "gc_root_provider_reset_scope": "Complete bodies for the root-map Insert and CGCGeneration::Reset on the pinned ARMv7 source-recovery lane; not complete GC lifecycle.",
+  "gc_reset_caller_and_class_stats_scope": "Local bodies and two original BSS words; original Reset and gen array providers retained; class-stat producer uses the same name slot later freed by the original cleanup consumer."
 }

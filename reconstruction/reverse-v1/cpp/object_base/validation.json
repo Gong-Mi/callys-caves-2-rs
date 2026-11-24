@@ -1,6 +1,6 @@
 {
-  "scope": "Cumulative static root-map Insert and CGCGeneration::Reset; AddRoot reinsert resolved to a WEAK definition in the scoped ET_REL, not a complete runtime link. Earlier validation remains in Git history.",
-  "base": "cc0d3162a3b43e5fe4c84ddee290e1ecc1ac3875",
+  "scope": "Static ResetGC caller and class-stat producer on the cumulative ARMv7 relocatable boundary; no original/rebuilt execution or full image claim.",
+  "base": "2821c5f9069762373406ee180450a363aee6a8e4",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "input_sha256": {
     "reconstruction/reverse-v1/c/compiler_conversions/functions.json": "22b0d1b79c937bf1eb40f8ef471d23c1f23518ddd238f24ee3b2962ac1eee63e",
@@ -41,10 +41,11 @@
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.cpp": "75e4e6748433fc405bd24ea61bf8ce81a761125b3fd03c46139e95e6f29bfe0b",
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
     "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "75c2d72fb19f02f8828ef942ea2572c71e88c041fced7eca70cc56c02fc436ba",
-    "reconstruction/reverse-v1/cpp/object_base/functions.json": "83a2cf6b0e868d2aff41048a3c0697ecb46247aa73e94fbafe2b343e0d0bb621",
+    "reconstruction/reverse-v1/cpp/object_base/functions.json": "7f22d6a5797cffd9e51914642cf5bf5b7f92ad725e4dfba2cded1ef572772038",
+    "reconstruction/reverse-v1/cpp/object_base/gc_add_class_stat.cpp": "df4661626df5609258fd08ae4a643d19f78de52550cdbb3c23df4cdc2f2ab246",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_root.cpp": "ecaa95b8067576f32198c574ade5917c0d4addb7cbdcbd7062b96639f7ade8bc",
-    "reconstruction/reverse-v1/cpp/object_base/gc_generation.cpp": "31246c67f55818c85ea6d2857ffd870378232eb0d8d7650869bd36d471126fd4",
-    "reconstruction/reverse-v1/cpp/object_base/gc_generation.hpp": "9b811af9b2c93f9c93013a7f2b0884f251082b8c938dce876b3875bae2b91898",
+    "reconstruction/reverse-v1/cpp/object_base/gc_generation.cpp": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
+    "reconstruction/reverse-v1/cpp/object_base/gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
     "reconstruction/reverse-v1/cpp/object_base/gc_gens_array_dtor.cpp": "f106c3e5b1b6d8a03767d727949a99d480f2f406c66fd490cd2bc62682c2a387",
     "reconstruction/reverse-v1/cpp/object_base/gc_image_startup.cpp": "3afa9ce0c8b5e7fd7b99087dd0bf9365a61333699d299d2965b8ddd169db8337",
     "reconstruction/reverse-v1/cpp/object_base/gc_instance_hash.hpp": "0040536acf0b4381376a54c7980e1e3f6cda494de08158c2295ddea2a5750b4d",
@@ -52,17 +53,19 @@
     "reconstruction/reverse-v1/cpp/object_base/gc_registry_destructors.cpp": "0b43dcacdb1cd6ea2d4217c2c38071fc98b40fb49e4bb0bb18ea97c977155d99",
     "reconstruction/reverse-v1/cpp/object_base/gc_remove_root.cpp": "d51912661f878d9bece061b24473cb0a7fb39df81350691647faae286aeb00ca",
     "reconstruction/reverse-v1/cpp/object_base/gc_reset.cpp": "f6d60681159c775ebee03059432511314a2bc9b363c42d00752f1a537a647613",
+    "reconstruction/reverse-v1/cpp/object_base/gc_reset_runtime.cpp": "e04038c6a75ff888bd40bf10f8e18ff8f54fffd22a466c1769c42aa5884f63fe",
+    "reconstruction/reverse-v1/cpp/object_base/gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66",
     "reconstruction/reverse-v1/cpp/object_base/gc_root_lookup.cpp": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
     "reconstruction/reverse-v1/cpp/object_base/gc_root_map_insert.cpp": "8b0dfb47a037597d02e6727e2dfa49240cb2ae70a99b03fa0c47e53488a5ad7b",
     "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
-    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "5c85c48e035b27cab073a297d4aaa8daf8655827a1f93e0b2107a582bcd711be",
+    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "debbc14e5c167a871e5a4784dfb0d3365e3ea06403869af70b09fe42505f0b6a",
     "reconstruction/reverse-v1/cpp/object_base/object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
     "reconstruction/reverse-v1/cpp/object_base/object_free.cpp": "f7ad3ef41cdb6fd5c75d3cfc25b7917bcc9a9911cf8e2a2deb4985c0eb6b7bb9",
     "reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
     "reconstruction/reverse-v1/cpp/object_base/object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
     "reconstruction/reverse-v1/cpp/object_base/object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
-    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "0bbddbcd98aa904ea66a6a3d1e47d8e7591e4e797abf51246a8d3c886f746fe6",
+    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "96b5ee3f9067bd51685d83b585aed6d5875d755834c42f34f20a66df04e728ce",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp": "9ff28ad70522232c139583f9a53797bf45a06f16399efd7fa922fcdc7f04e630",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp": "0d34ab030440e8686106bdbc72a8418cd5d50d70409571d56221b483dca9f32f",
@@ -105,42 +108,41 @@
     "reconstruction/reverse-v1/cpp/vm_exec/vm_stack_startup.cpp": "5dad23f9a961286ce80c75d68a431d38f5ae8f5ec5e1ff1a29a8b2512aa258f1",
     "reconstruction/reverse-v1/cpp/vm_exec/vm_value_helpers.cpp": "3956ba046af430f82e63a8c3e8ab410dc6bf5b2089f2ec0ae9604d4032a8c171"
   },
-  "frozen_review_manifest": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-provider-accept-r2/accepted-manifest.json",
-  "frozen_review_manifest_sha256": "c1b10ff55b94d1a944217e51938fd0a6db7a4e05bd9960a0fa53a96e608a7dfb",
+  "frozen_review_manifest": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-lifecycle-accept-r1/accepted-manifest.json",
+  "frozen_review_manifest_sha256": "6aefefdabce8786d7952900785b94be799c1c36d3d9c4c9632c7da61701afdc3",
   "builds": [
     {
       "configuration": "O0",
-      "compiled_tus": 55,
-      "original_function_names": 144,
-      "combined_sha256": "60c22aba67a95c1b374cf2ef06881805b8f0ea3f8ffab93380eb15961a181d17"
+      "compiled_tus": 57,
+      "original_function_names": 146,
+      "combined_sha256": "260fc210dbab381df31b61e5d125252571aa8a7d5e1a5587b97e78e78f563c74"
     },
     {
       "configuration": "O2",
-      "compiled_tus": 55,
-      "original_function_names": 144,
-      "combined_sha256": "65d76c4f03f8b3fb8e6c575b83bf81d61628a50a8d47d0b0954e44dae1e00f97"
+      "compiled_tus": 57,
+      "original_function_names": 146,
+      "combined_sha256": "d1d478833ddcacb756029359dcd21a31e4909258faddf542196be60fdcb02ec4"
     }
   ],
   "ABI": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-provider-gate-r2/abi/cally-gc-root-provider-reset.armv7a-le-eabi5-aapcs-base.json",
-    "sha256": "488aee8d37575d839d89f35061b5f0bf8746e2f788a41aaf4155c9b88ce11a05",
-    "checks": 10
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-lifecycle-gate-r1/abi/cally-gc-reset-and-class-stat.armv7a-le-eabi5-aapcs-base.json",
+    "sha256": "7debd56a8f9c016971bf8b725e6fbb687c6612f243d36aef87a3af21a8555a40",
+    "checks": 16
   },
   "shape": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-provider-gate-r2/load-store-shape.json",
-    "sha256": "bb9d3b87e6b3d370a4afea9f7001bad054be8af6573955c09f7bbfdf7ceef81a"
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-lifecycle-gate-r1/shape.json",
+    "sha256": "fdd83cfc0e5d18c183b622220b4f5dd05ceaa9381151f7445def860e6ac00b7f"
   },
   "original_entries": 2,
-  "original_index_words": 474,
+  "original_index_words": 133,
   "original_pool_words": 7,
-  "resolved_direct_provider": "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_",
-  "unresolved_direct_provider": null,
+  "unresolved_direct_provider": "g_fJSGarbageCollection",
   "phase_complete": false,
   "original_executed": false,
   "rebuilt_executed": false,
   "independent_review": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-provider-review-r2/findings.json",
-    "sha256": "5e5d9e11c85799543fe20248ee328964c4c652d3b7cab812b8bb27aa5eaf7d6e",
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-lifecycle-review-r1/findings.json",
+    "sha256": "0256f42945a79cdacc1221482e323f612865962d271e9dafe8d77b1780637497",
     "passed": true
   }
 }

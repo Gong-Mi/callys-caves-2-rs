@@ -323,12 +323,66 @@
           "0xd6738",
           "0xd6744"
         ],
-        "only_evidence_no_body_in_this_batch": true
+        "only_evidence_no_body_in_this_batch": false
       }
     },
     "gaps": [
       "ET_REL code shapes are not original execution, original unwind/fault behavior, final GOT placement, FP environment or concurrent ordering",
       "ResetGC body and GC worker lifecycle outside this batch"
     ]
+  },
+  "gc_reset_caller_and_class_stats": {
+    "tier": "bytecode_anchored",
+    "ResetGC": {
+      "entry": "0xd66e0",
+      "caller_site": "0x2a2810",
+      "guard": {
+        "slot": "0x3edbc0",
+        "va": "0x47f295",
+        "width": 1,
+        "read": "0xd66f4",
+        "no_provider_in_this_batch": true
+      },
+      "word_stores": [
+        {
+          "site": "0xd6714",
+          "symbol": "g_GenToCollect",
+          "value": 0
+        },
+        {
+          "site": "0xd671c",
+          "symbol": "g_GCframe",
+          "value": 0
+        }
+      ],
+      "calls": [
+        "0xd6728",
+        "0xd6730",
+        "0xd6738",
+        "0xd6744"
+      ],
+      "receivers": "existing g_GCGens at +0, +88, +176, +264",
+      "candidate_tail": "O2 3 R_ARM_CALL + 1 R_ARM_JUMP24; O0 4 R_ARM_CALL"
+    },
+    "AddClassStat": {
+      "entry": "0x191578",
+      "entry_size": 8,
+      "name_offset": 0,
+      "entry_count_offset": 4,
+      "generation_fields": {
+        "table": "0x48",
+        "count": "0x4c",
+        "capacity": "0x50"
+      },
+      "grow_on_equal": "0x1915d4..0x1915dc",
+      "held_slot_store": "0x19161c",
+      "live_destination_load": "0x191620",
+      "append_store_order": [
+        "0x19163c",
+        "0x191640"
+      ],
+      "name_free_consumer": "0x191554 / 0x191558"
+    },
+    "gap": "Static recovery, no image execution, final linking, scheduling or source-level type claims beyond the proved fields."
   }
 }

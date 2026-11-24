@@ -1,6 +1,18 @@
 # 状态与定性
 
-## 当前断点：GC 根表扩容重插与代际重置
+## 当前断点：GC 重置调用者与类统计表生产者
+
+恢复 `ResetGC@0xd66e0` 对既有 `g_GCGens` 四个实例的调用：读取开关字节，非零才依次清
+`g_GenToCollect` 和 `g_GCframe`，再调真实 `CGCGeneration::Reset`。`AddClassStat@0x191578`
+接合原 `ResetClassStats` 消费的 8B 表项，保留判等扩容、拷贝目的地址的 live 回读和槽计数先于
+总数的写序，不借用分配返回指针替换回读。
+
+ARMv7 O0/O2 各 57 个 TU，组合对象定义 146 个已登记原函数符号名。核对原件 133 字（含 7 池字），
+通过 16 项本批静态 ABI；反序 O2 对象和缺 Reset 提供者的组合被对应判据识别。目标从未运行；
+`g_fJSGarbageCollection` 的生产路径、异常/并发及最终镜像链接未证。下一切片沿原件 `Quit` 的
+`FreeAllObjects@0xd675c` 和真实 `RemoveRoot` 上层 `RemoveGCRoot@0xd5b60` 继续。
+
+## 上一批：GC 根表扩容重插与代际重置
 
 恢复弱定义 `CHashMap<YYObjectBase*,YYObjectBase*,4>::Insert@0x195ba8`，实际接住
 `AddRoot@0x1963c8` 的重插调用。保留两个原内联重插层各自的读序、空槽发布顺序及

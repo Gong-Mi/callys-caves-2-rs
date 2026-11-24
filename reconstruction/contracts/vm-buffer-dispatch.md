@@ -504,4 +504,16 @@ Free 旧表后 0x1963e0 先读 live capacity、0x1963ec 后读 live count，再�
 重新取 map。发布新 allocation 后才 memset；0x191474/0x19149c 在后续路径各自重读
 capacity 和 entries。最后按原字拷贝 0x3f504c 的效率词并写范围等状态，不重置类统计表。
 真实上层 `ResetGC@0xd66e0` 对同一 `g_GCGens` 的四个 88B 元素有三条 BL、一条尾 B；
-本批只取证该调用链，尚未恢复上层正文。静态目标对象不认证原版执行、动态链接或并发语义。
+上层正文见下一节。静态目标对象不认证原版执行、动态链接或并发语义。
+
+## GC 上层重置与类统计表所有权
+
+`ResetGC@0xd66e0` 先读 `g_fJSGarbageCollection`（1B，0xd66f4），非零才从 0xd6714、
+0xd671c 按序清两个 4B 状态，再用同一 `g_GCGens` 的 +0/+88/+176/+264 调真实 Reset。
+原版为三 BL 加一尾 B；候选 O2 同形，O0 为四 BL。原 GOT 目标与候选绝对符号重定位分开。
+
+`AddClassStat@0x191578` 写 `+0x48` 所指 8B 槽（+0 名称指针、+4 计数），原 `ResetClassStats`
+在 0x191554/0x191558 读回同一 +0 并调 Free，保留表块。正名路径在 0x19161c 存 Alloc 返回值
+到 held 槽，再按 0x191620 的 live 表/索引取 `strcpy` 目的指针；追加尾按 0x19163c/0x191640
+先写槽计数，再写总数。候选 O2 的编译反序未通过该有序写入判据。未认证异常、并发、最终
+动态装载或原版执行；ResetGC 的 guard 仍无恢复的写方。

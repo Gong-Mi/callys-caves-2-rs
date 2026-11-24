@@ -120,7 +120,7 @@ CGCGeneration::CGCGeneration() {
     self.zeroWord38 = 0;                   /* 0x191038 str r3, [r4, #56] */
     self.classStatsArray48 = nullptr;      /* 0x19103c str r3, [r4, #72] */
     self.classStatsCount4c = 0;            /* 0x191040 str r3, [r4, #76] */
-    self.word50 = 0;                       /* 0x191044 str r3, [r4, #80] */
+    self.classStatsCapacity50 = 0;                       /* 0x191044 str r3, [r4, #80] */
     self.word1c = -1;                      /* 0x191048 str r1, [r4, #28] */
     self.rangeMax18 = -1;                  /* 0x19104c str r1, [r4, #24] */
     self.rangeMin14 = 0x7fffffff;          /* 0x191050 str r2, [r4, #20] */

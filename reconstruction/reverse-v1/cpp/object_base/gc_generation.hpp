@@ -65,6 +65,15 @@ static_assert(offsetof(GCGenRootMapHeader, count) == 4 &&
               offsetof(GCGenRootMapHeader, growThreshold) == 12 &&
               offsetof(GCGenRootMapHeader, entries) == 16, "GC root-map words");
 
+/* 0x1915a4/0x19163c/0x191654 consume an 8B name/count slot.
+ * ResetClassStats 0x191554/0x191558 frees the same slot+0 name word. */
+struct GCClassStatEntry {
+    char *name;
+    uint32_t count;
+};
+static_assert(sizeof(GCClassStatEntry) == 8 && offsetof(GCClassStatEntry, count) == 4,
+              "class-stat entry stride and counter");
+
 class CGCGeneration {
 public:
     CGCGeneration();      // C1/C2 @0x190f58, 268B, same GLOBAL entry
@@ -80,6 +89,7 @@ public:
     void ResetDynamicRoots();                       // 0x191400
     void UpdateRange(int);                          // 0x19150c
     void ResetClassStats();                          // 0x191530
+    void AddClassStat(const char *);                 // 0x191578
 
     GCGenRootMapHeader *rootMap; // +0x00: the new(20) block, freed by D1
     YYObjectBase **dynamicRoots; // +0x04: four-byte pointer slots, AddDynamicRoot 0x1913ac
@@ -103,10 +113,9 @@ public:
     uint32_t unknownWord3c;      // +0x3c: untouched by C1/D1/Reset (no write proven)
     uint32_t unknownWord40;      // +0x40: untouched by C1/D1/Reset (no write proven)
     uint32_t unknownWord44;      // +0x44: untouched by C1/D1/Reset (no write proven)
-    void *classStatsArray48;     // +0x48: 8B-stride entries. ResetClassStats frees
-                                 // entry +0 payloads, retaining the array itself.
+    GCClassStatEntry *classStatsArray48; // +0x48: AddClassStat table; ResetClassStats frees names only
     int32_t classStatsCount4c;   // +0x4c: ResetClassStats loop bound + clear
-    int32_t word50;              // +0x50: 0 in C1; AddClassStat consumer not recovered
+    int32_t classStatsCapacity50; // +0x50: C1 zero; AddClassStat grows on count == capacity
     uint32_t unknownWord54;      // +0x54: untouched by C1/D1/Reset (no write proven)
 };
 static_assert(sizeof(CGCGeneration) == 88 && alignof(CGCGeneration) == 4,
@@ -122,6 +131,7 @@ static_assert(offsetof(CGCGeneration, rootMap) == 0x00 &&
               offsetof(CGCGeneration, efficiencyWord2c) == 0x2c &&
               offsetof(CGCGeneration, classStatsArray48) == 0x48 &&
               offsetof(CGCGeneration, classStatsCount4c) == 0x4c &&
+              offsetof(CGCGeneration, classStatsCapacity50) == 0x50 &&
               offsetof(CGCGeneration, unknownWord54) == 0x54, "CGCGeneration words");
 
 /* Seam spelling for the real allocating operator new @0x27c524 (_Znwj);
