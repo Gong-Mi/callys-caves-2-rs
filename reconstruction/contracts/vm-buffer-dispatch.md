@@ -585,3 +585,14 @@ names 非零才进入循环：逐项 `MemoryManager::Free` + 置空，0xc4330/0x
 前向槽重入遍历，逐节点 blx [vtable+4]（0x195ac4/0x195b64，目标不解析）、Free、live--。
 `FINALIZE_Object_Class@0x19e1c8` 单条 bx lr 空体。组合对象去 TU 即四符号缺失；终链须按登记
 落位五个匿名字。
+
+## Room/Run 拆除切片
+
+`FINALIZE_Room_Main@0x1b5e54`：调 `Room_Free`（0x1b5044，dynsym 已定义但未恢复，extern-only
+无桩），随后经 GOT 0x3edbc0 对 `g_fJSGarbageCollection`（0x47f295）写零（0x1b5e68）——guard
+首个已证写者；pop {r3,pc} 返回，与 Run_Main 无边。`FINALIZE_Run_Main@0x1d37cc`：persinst
+（GOT 0x3f0b50）中 persnumb（0x3f0b4c）计数条目逐项 Free + blx 析构（0x1d384c，目标不解析）
++ 置空，live 重载保序；0x1d38c8 以 NULL 实参调 Free；尾程清两个静态。`FINALIZE_Motion_Grid
+@0x19c2cc`：gridstruct（0x3f06b8）/gridcount（0x3f06b4）逐网格 Free + blx 析构（0x19c318）。
+`FINALIZE_Code_Variable@0xd2618` 单条 bx lr 空体。组合对象去 TU 即四符号缺失；六个具名全局
+按落位记录以 extern 引用。

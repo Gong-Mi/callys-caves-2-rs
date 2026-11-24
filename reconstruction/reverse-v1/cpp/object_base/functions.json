@@ -1481,6 +1481,165 @@
       "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
       "direct_dependencies": [],
       "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1b5e54",
+      "size": 32,
+      "symbols": [
+        "_Z18FINALIZE_Room_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "1bb6d430e8e78cb274256de9c70559462be2d8990256558e1ecb9c0216b7dbcc",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_roomrun.cpp",
+      "translation_source_sha256": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1b5e70"
+      ],
+      "local_contract": "Call the unrecovered-but-dynsym-defined Room_Free, then zero the guard byte g_fJSGarbageCollection (GOT 0x3edbc0 -> 0x47f295) through the seam canonical declaration -- first proven writer of that guard; pop-return, no tail edge to Run_Main (dispatch-context claim refuted by census and image bytes).",
+      "direct_dependencies": [
+        {
+          "name": "_Z9Room_Freev",
+          "va": "0x1b5044",
+          "width": 504,
+          "state": "extern_only_no_stub",
+          "note": "dynsym-DEFINED in .text but outside the recovered set; extern-only, no stub"
+        },
+        {
+          "name": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "width": 1,
+          "state": "named_dynsym_extern_seam",
+          "note": "zero-store writer at 0x1b5e68; setter producer still open"
+        }
+      ],
+      "gap": "The guard-byte setter path, Room_Free body, EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1d37cc",
+      "size": 276,
+      "symbols": [
+        "_Z17FINALIZE_Run_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "c3b79eafb7c280b14f6733863e59f532b90639265c96381113e2e2e998f21320",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_roomrun.cpp",
+      "translation_source_sha256": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1d38d4",
+        "0x1d38d8",
+        "0x1d38dc"
+      ],
+      "local_contract": "Three MemoryManager::Free call sites (0x1d38a8, 0x1d38c8 with a NULL argument by census shape, 0x19c33c shared with Motion_Grid region); per-array-element destruct site 0x1d384c (blx [vtable+4], target unresolved); GOT pairs 0x3f0b50->persinst / 0x3f0b4c->persnumb / 0x3edbc0->g_fJSGarbageCollection; live reloads of persinst/persnumb preserved.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "persinst",
+          "va": "0x542a0c",
+          "width": 8,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0b50, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "persnumb",
+          "va": "0x542a14",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0b4c, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "width": 1,
+          "state": "named_dynsym_extern_seam",
+          "placement": "GOT 0x3edbc0, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Class identity behind the 0x1d384c blx destruct site; whether the i>=count null-store through the reloaded base after a shrinking destructor is benign or a latent original bug; producers of persinst/persnumb; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19c2cc",
+      "size": 140,
+      "symbols": [
+        "_Z20FINALIZE_Motion_Gridv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "b8ce0b2daaf766acc2a2af97acaafc04a121ce438d62dbe8ef3722975b90cb78",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_roomrun.cpp",
+      "translation_source_sha256": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x19c350",
+        "0x19c354"
+      ],
+      "local_contract": "Free the grid structure array through gridstruct/gridcount (GOT 0x3f06b8 -> 0x536f4c / 0x3f06b4 -> 0x536f48), per-grid-element destruct at 0x19c318 (blx [vtable+4], target unresolved), live reloads preserved.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "gridstruct",
+          "va": "0x536f4c",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f06b8, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "gridcount",
+          "va": "0x536f48",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f06b4, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Class identity behind the 0x19c318 blx destruct site; gridstruct/gridcount producers; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xd2618",
+      "size": 4,
+      "symbols": [
+        "_Z22FINALIZE_Code_Variablev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_roomrun.cpp",
+      "translation_source_sha256": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,

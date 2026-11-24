@@ -1,6 +1,21 @@
 # 状态与定性
 
-## 当前断点：对象族 FINALIZE
+## 当前断点：Room/Run 拆除切片
+
+恢复 `FINALIZE_Room_Main@0x1b5e54`（Room_Free 后**清零 guard 字节
+`g_fJSGarbageCollection`**——该 guard 的第一个已证写者，批三时的 open 项部分闭合；pop 返回，
+无尾支）、`FINALIZE_Run_Main@0x1d37cc`（276B：persinst/persnumb 三处 Free、0x1d384c blx
+析构不解析、live 重载保序）、`FINALIZE_Motion_Grid@0x19c2cc`（140B：gridstruct/gridcount、
+0x19c318 blx 不解析）、`FINALIZE_Code_Variable@0xd2618`（4B 空体）。六个 GOT 槽全部具名
+dynsym 命中（Cursor_Subimage/persinst/persnumb/g_fJSGarbageCollection/gridstruct/gridcount，
+R_ARM_RELATIVE 逐一复核），以 extern 声明表示并记录落位；零匿名数组。worker 反驳了派工
+brief 的两处断言（无尾支、Room_Free 非 UND），census/映像亲核后采纳并记档。ARMv7 O0/O2 在
+对象族基线上追加 1 个 TU，与 worker 产物字节一致；无桩门、UND 覆盖门、正/负控全过。核对原件
+113 字（含 6 池字）。目标从未运行；guard 的 setter、Room_Free 体、四个生产者、两处 blx、
+EHABI 及最终镜像链接未证。下一批沿拆除链继续 FINALIZE 族剩余成员（Score 580B、Support_File、
+VertexFormats、Graphics 族、Sound、PlatformSpecific、CleanGestures、FreeAllDataStructures 等）。
+
+## 上一批：对象族 FINALIZE
 
 恢复 `FINALIZE_Instance_Class@0x1959f4`（436B：0x3f3c4c 运行时写指针引导的哈希表遍历，四进
 0x195a28/两进 0x195a4c/r8=-1 哨兵与前向槽重入不摊平；逐节点 blx [vtable+4] 间接调用不解析、

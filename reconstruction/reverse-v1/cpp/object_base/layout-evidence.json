@@ -681,5 +681,63 @@
     "adjacency_observation": "0x53ab70 + 30720 == 0x542370 (observation, not placement proof)",
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "roomrun_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3f0848",
+        "word": "0x00542914",
+        "target": "Cursor_Subimage",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f0b50",
+        "word": "0x00542a0c",
+        "target": "persinst",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f0b4c",
+        "word": "0x00542a14",
+        "target": "persnumb",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3edbc0",
+        "word": "0x0047f295",
+        "target": "g_fJSGarbageCollection",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f06b8",
+        "word": "0x00536f4c",
+        "target": "gridstruct",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f06b4",
+        "word": "0x00536f48",
+        "target": "gridcount",
+        "reloc": "R_ARM_RELATIVE verified"
+      }
+    ],
+    "semantic_discovery": "Room_Main @0x1b5e68 is the first proven writer of g_fJSGarbageCollection (zero-store through GOT 0x3edbc0); the setter producer remains open -- resolves part of the batch-3-era open item",
+    "dispatch_context_refutations": [
+      "Room_Main has NO tail edge to Run_Main (census pop {r3,pc})",
+      "Room_Free is dynsym-defined (0x1b5044, 504B), not UND"
+    ],
+    "indirect_call_sites": [
+      {
+        "site": "0x1d384c",
+        "owner": "Run_Main"
+      },
+      {
+        "site": "0x19c318",
+        "owner": "Motion_Grid"
+      }
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }
