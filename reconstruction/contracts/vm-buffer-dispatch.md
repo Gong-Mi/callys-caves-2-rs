@@ -635,3 +635,19 @@ add-pc 同目标：0x1f3184+0x0055ff70 / 0x1f3248+0x0055feac / 0x1f3254+0x0055fe
 构并清 0x7530f8。`FINALIZE_Event_Action@0xf2c9c`：libcode（0x3ede20）/libnumb（0x3ede24）
 双守卫（数组空 popEQ、count<=0 popLE），逐项经 live 重载 Free+置空。vm_buffer.hpp 补
 `IsAllocated` 声明；extern callee 无桩，组合对象去 TU 即四符号缺失。
+
+## Score/Gestures/Data 拆除切片
+
+`FINALIZE_Score@0x1dc3bc`：金丝雀协议（0x3ed958 GLOB_DAT 载入 `__stack_chk_guard`，值存
+[sp+0x424]，出口不符调 `__stack_chk_fail`）；`g_HighScore_Changed` 非零才转储：`_GetSaveFileName
+(char[1024],1024,g_pHiScoreFilename 指向的基名)` -> `EnsureDirectoryIsCreated` -> fopen("wb"，
+字面量 0x34034c) -> 写 "HISC" magic（0x43534948）-> ftell -> 写位置记录 -> 十项 8B
+`g_hiScores` 表逐项（strlen、长度字、名字、0xF0 对齐填充、值字）-> ftell 全长 -> fseek 回位置
+-> 重写记录 -> fclose -> flag 清零。`FINALIZE_CleanGestures@0x1dba70`：双链表——表一节点
+[+8] 经 [vtable+4] blx 析构后 Free 节点；表二节点 [+8] 走精确 D2 重整名 `CGestureEvent` 析构
+边 + operator delete 后 Free 节点；两表头运行时写字 0x3f2c1c/0x3f2c08 清 {+8,+4,+0}。
+`FINALIZE_FreeAllDataStructures@0x20b27c`：DS_AutoMutex C2/D2 括号（栈 8B 槽）；mapnumb/
+listnumb 计数梯 DestroyDsMap/List（live 重载 signed bgt）；GetTheStacks/Queues/PriorityQueues
+句柄数组 [vtable+4] blx 析构 + live 重载置空；GetTheGrids 网格 CDS_Grid D2 + operator delete
++ 置空；尾程 g_Network_DSMAP/g_HTTP_AsyncLoad 写 0xffffffff（mvn）。组合对象去 TU 即三符号
+缺失；终链须落位八个具名全局与两个匿名字。

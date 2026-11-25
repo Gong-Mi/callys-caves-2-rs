@@ -1,6 +1,6 @@
 {
-  "scope": "Integrate the script/var/timeline/event FINALIZE slice (Script_Main 4B, Variable_Main 152B, Timeline_Main 420B, Event_Action 108B) onto the teardown cumulative ARMv7 relocatable boundary; five named dynsym globals and two unnamed runtime-written BSS words bound with placement records; IsAllocated canonical declaration added (body unrecovered); two indirect blx destruct edges kept unresolved; parent-direct recovery; no original/rebuilt execution or full image claim.",
-  "base": "45cbea89c70fd6368c959fad719c2b638e04bdb5",
+  "scope": "Integrate the score/gestures/data FINALIZE slice (Score 580B hi-score dumper with stack-canary protocol, CleanGestures 192B dual list walk, FreeAllDataStructures 508B DS destroy family + RAII mutex + handle-array walks) onto the teardown cumulative ARMv7 relocatable boundary; eight named dynsym globals and two unnamed runtime-written BSS words bound with placement records; libc edges via standard extern \"C\" declarations; parent-direct recovery (worker quota death, no artifacts); no original/rebuilt execution or full image claim.",
+  "base": "4daa74279f991bb25540bdc2bf31cdb3de7d01f0",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "input_sha256": {
     "reconstruction/reverse-v1/c/compiler_conversions/functions.json": "22b0d1b79c937bf1eb40f8ef471d23c1f23518ddd238f24ee3b2962ac1eee63e",
@@ -41,7 +41,7 @@
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.cpp": "75e4e6748433fc405bd24ea61bf8ce81a761125b3fd03c46139e95e6f29bfe0b",
     "reconstruction/reverse-v1/cpp/memory_manager/page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
     "reconstruction/reverse-v1/cpp/object_base/abi_layout.cpp": "75c2d72fb19f02f8828ef942ea2572c71e88c041fced7eca70cc56c02fc436ba",
-    "reconstruction/reverse-v1/cpp/object_base/functions.json": "fdc947a01f1082d25e1fedc2bd9153d682d5061f33a64fd9270d672e93df40bb",
+    "reconstruction/reverse-v1/cpp/object_base/functions.json": "21349fd109855c3c179c4a727548662fe4628d78c237579c2450414b0c49c98d",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_class_stat.cpp": "df4661626df5609258fd08ae4a643d19f78de52550cdbb3c23df4cdc2f2ab246",
     "reconstruction/reverse-v1/cpp/object_base/gc_add_root.cpp": "ecaa95b8067576f32198c574ade5917c0d4addb7cbdcbd7062b96639f7ade8bc",
     "reconstruction/reverse-v1/cpp/object_base/gc_generation.cpp": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
@@ -58,14 +58,14 @@
     "reconstruction/reverse-v1/cpp/object_base/gc_root_lookup.cpp": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
     "reconstruction/reverse-v1/cpp/object_base/gc_root_map_insert.cpp": "8b0dfb47a037597d02e6727e2dfa49240cb2ae70a99b03fa0c47e53488a5ad7b",
     "reconstruction/reverse-v1/cpp/object_base/js_helpers.cpp": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
-    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "43fc2eea46565dd6904f3710c41f7bde2f18882ce7ef34ee2bfe80af2ca1e78b",
+    "reconstruction/reverse-v1/cpp/object_base/layout-evidence.json": "ebc6584ec5858c77bb8be56574a0ef59a74ef5a1aee132155da2a7f37de410e0",
     "reconstruction/reverse-v1/cpp/object_base/object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "reconstruction/reverse-v1/cpp/object_base/object_allocation.cpp": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
     "reconstruction/reverse-v1/cpp/object_base/object_free.cpp": "f7ad3ef41cdb6fd5c75d3cfc25b7917bcc9a9911cf8e2a2deb4985c0eb6b7bb9",
     "reconstruction/reverse-v1/cpp/object_base/object_free_vars.cpp": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
     "reconstruction/reverse-v1/cpp/object_base/object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
     "reconstruction/reverse-v1/cpp/object_base/object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
-    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "9faf340ff8ee8de8d2e1b81737c4aa81b788c699f31484aaad7218a5d941afcf",
+    "reconstruction/reverse-v1/cpp/object_base/original-words.tsv": "96ba742acce9cb48617a21792dffadca0c15f0e20912d7eea940223abf1056d6",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.cpp": "9ff28ad70522232c139583f9a53797bf45a06f16399efd7fa922fcdc7f04e630",
     "reconstruction/reverse-v1/cpp/object_base/value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "reconstruction/reverse-v1/cpp/object_base/value_pool.cpp": "0d34ab030440e8686106bdbc72a8418cd5d50d70409571d56221b483dca9f32f",
@@ -118,55 +118,68 @@
     "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_roomrun.cpp": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
     "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_spritefont.cpp": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
     "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_graphics.cpp": "e2c5b68912338c82ce35d173bbf049997a23206036bb9b93653f6477a7e3784a",
-    "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_scriptvar.cpp": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58"
+    "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_scriptvar.cpp": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+    "reconstruction/reverse-v1/cpp/host_lifecycle/finalize_score_gestures_data.cpp": "86956eb39d5de204c5b526f0eca33ee1f70e2489e83d8b3c87eca167bac3dcf1"
   },
   "builds": [
     {
       "configuration": "O0",
-      "base_combined_sha256": "58a22442ae15109988dd5211dcff6fe1338b052139c669304bd57a12410992e2",
-      "new_tu_sha256": "306e6fb23f0b2cc15bf51a397270e726e7a69ad6394e98fe4f58c0fa94255aa6",
-      "integrated_combined_sha256": "8452be4bae3ba6dea16ce0e9040e8358cc9905c8383798deac7fcfa2fa033377"
+      "base_combined_sha256": "8452be4bae3ba6dea16ce0e9040e8358cc9905c8383798deac7fcfa2fa033377",
+      "new_tu_sha256": "3183fbb441c3ca0eb92d039b0bc1d09ba1a6a3339fd1221a44c331356ca94777",
+      "integrated_combined_sha256": "ed6247c6c35b6b9942d397f7c9419f174279d5a48e8071033f7945bcdbb0c121"
     },
     {
       "configuration": "O2",
-      "base_combined_sha256": "2b4a15662c31083c200c444025e969e59e1627ec9115ef2c9de9558819441a05",
-      "new_tu_sha256": "dff93470f456e7436bfef498c9e31cb6ebdfa08b5bf8a5051450a49b8e4447df",
-      "integrated_combined_sha256": "36c8317c460b1ff3eaf676d780db1f71dba793ae81aa8f38cf1219aef6218de4"
+      "base_combined_sha256": "36c8317c460b1ff3eaf676d780db1f71dba793ae81aa8f38cf1219aef6218de4",
+      "new_tu_sha256": "91c8dd421fdd79566d76f6bad508c0ac5c7ca1e93019769d4c2abc77139c9ac9",
+      "integrated_combined_sha256": "93cb4049d7a5a004b9dc056df1ad87046a882b53ee8c4b1f77b0781719966cde"
     }
   ],
   "ABI": {
-    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-scriptvar-integration-r1/gate-receipt.json",
-    "sha256": "4e60c8b2888020a9c3251eb81e33297dddea491875c5a4c119d0e0e0e0cd5940",
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch11-integration-r1/gate-receipt.json",
+    "sha256": "1d70ff55bc836b153b648adce1aed492179b19cbc5126902204fae4d0aa2d560",
     "checks": 5,
-    "note": "per-config: external-linkage no-stub gate (4 names), UND coverage gate (9 names), positive link, all-four defined after link, all-four absent in base-negative"
+    "note": "per-config: external-linkage no-stub gate (3 names), UND coverage gate (28 names), positive link, all-three defined after link, all-three absent in base-negative"
   },
   "shape": {
     "negatives_rejected": [
-      "NEG_NO_SCRIPTVAR_TU_symbols_absent"
+      "NEG_NO_SCOREDATA_TU_symbols_absent"
     ],
     "final_link_obligations": [
-      "_Z11Script_Freev",
-      "_ZN13MemoryManager11IsAllocatedEPKv",
-      "builtin_variables",
-      "globdecl",
-      "builtin_numb",
-      "libcode",
-      "libnumb",
-      "anon_0x7530f4",
-      "anon_0x7530f8",
+      "_ZN12DS_AutoMutexC2Ev",
+      "_ZN12DS_AutoMutexD2Ev",
+      "_Z12DestroyDsMapi",
+      "_Z13DestroyDsListi",
+      "_Z12GetTheStacksRi",
+      "_Z12GetTheQueuesRi",
+      "_Z11GetTheGridsRi",
+      "_Z20GetThePriorityQueuesRi",
+      "_ZN8CDS_GridD2Ev",
+      "_ZN13CGestureEventD2Ev",
+      "_ZN8LoadSave16_GetSaveFileNameEPciPKc",
+      "_Z24EnsureDirectoryIsCreatedPKc",
+      "mapnumb",
+      "listnumb",
+      "g_Network_DSMAP",
+      "g_HTTP_AsyncLoad",
+      "g_HighScore_Changed",
+      "g_pHiScoreFilename",
+      "g_hiScores",
+      "libc imports (fopen/fwrite/ftell/fseek/fclose/strlen/__stack_chk_fail)",
       "__aeabi_unwind_cpp_pr0"
     ],
     "target_executed": false
   },
-  "original_entries": 4,
-  "original_index_words": 171,
-  "original_pool_words": 9,
+  "original_entries": 3,
+  "original_index_words": 320,
+  "original_pool_words": 13,
   "unresolved_direct_provider": [
-    "producers of builtin_variables/globdecl/builtin_numb/libcode/libnumb",
-    "producers/writers of anon_0x7530f4/anon_0x7530f8",
-    "Script_Free body (204B, dynsym-defined)",
-    "IsAllocated body",
-    "class behind the 0x1f31f4 blx destruct edge",
+    "DS destroy family bodies",
+    "Get* bodies and the storages they return",
+    "DS_AutoMutex/CDS_Grid/CGestureEvent class identities",
+    "producers of mapnumb/listnumb/g_Network_DSMAP/g_HTTP_AsyncLoad",
+    "producers/writers of anon_0x3f2c1c/anon_0x3f2c08 and the g_HighScore_Changed setter",
+    "g_hiScores entry payload ownership",
     "EHABI/.ARM.exidx encoding",
     "__aeabi_unwind_cpp_pr0 (compiler EHABI; final-link obligation)"
   ],

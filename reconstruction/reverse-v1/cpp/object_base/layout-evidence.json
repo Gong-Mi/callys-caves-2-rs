@@ -866,5 +866,79 @@
     "isallocated_seam": "vm_buffer.hpp gained static int IsAllocated(const void*) declaration (0x27c454); body unrecovered",
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "score_gestures_data": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "recovery_mode": "parent-direct (jing channel flapped 503 post-smoke; worker created no artifacts)",
+    "got_bindings": [
+      {
+        "slot": "0x3edc80",
+        "word": "0x004836ac",
+        "target": "mapnumb",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3edc84",
+        "word": "0x004836b8",
+        "target": "listnumb",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f13a8",
+        "word": "0x003f7814",
+        "target": "g_Network_DSMAP",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3efb20",
+        "word": "0x003f5254",
+        "target": "g_HTTP_AsyncLoad",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f0c9c",
+        "word": "0x00544b18",
+        "target": "g_HighScore_Changed",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f0ca0",
+        "word": "0x003f51d8",
+        "target": "g_pHiScoreFilename",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f0c94",
+        "word": "0x00544ab4",
+        "target": "g_hiScores",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3ed958",
+        "word": "0x00000000",
+        "target": "__stack_chk_guard",
+        "reloc": "R_ARM_GLOB_DAT (21) against the imported symbol; guard value loaded through the resolved address"
+      }
+    ],
+    "base_arithmetic_correction": "an intermediate parent pass used GOT base 0x3f2c58 (off by 0x1000) and produced wrong slots 0x3eec80/0x3eec84 (which coincidentally are also R_ARM_RELATIVE slots, pointing at F_PartTypeLife/F_PartTypeStep); correct base 0x3f1c58 confirmed against the batch-3-era bindings and re-verified per slot",
+    "runtime_written_words": [
+      {
+        "va": "0x3f2c1c",
+        "file_image": "\"ying\" packed string bytes",
+        "role": "gesture list-header one pointer"
+      },
+      {
+        "va": "0x3f2c08",
+        "file_image": "\"xcoo\" packed string bytes",
+        "role": "gesture list-header two pointer"
+      }
+    ],
+    "score_dump_format": {
+      "magic": "0x43534948 (\"HISC\")",
+      "layout": "magic(4), position(4), then per entry: len(4), name bytes, 0xF0 pad to 4-align, value(4); position record rewritten via ftell/fseek(SEEK_SET)/fwrite at the end; fopen mode \"wb\" literal at 0x34034c"
+    },
+    "dtor_binding": "D2-exact extern \"C\" for DS_AutoMutex/CDS_Grid/CGestureEvent (D1/D2 folding precedent)",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }

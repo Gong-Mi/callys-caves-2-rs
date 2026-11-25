@@ -2117,6 +2117,275 @@
         }
       ],
       "gap": "Producers of libcode/libnumb; element payload semantics; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1dc3bc",
+      "size": 580,
+      "symbols": [
+        "_Z14FINALIZE_Scorev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "cc73a308fb3898d6c80ca0ef69e9a3ae2b6f14d28a5526df2a69aac531451bd4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_score_gestures_data.cpp",
+      "translation_source_sha256": "86956eb39d5de204c5b526f0eca33ee1f70e2489e83d8b3c87eca167bac3dcf1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1dc5e8",
+        "0x1dc5ec",
+        "0x1dc5f0",
+        "0x1dc5f4",
+        "0x1dc5f8",
+        "0x1dc5fc"
+      ],
+      "local_contract": "HiScore dump, guarded by the stack canary (guard address via GLOB_DAT slot 0x3ed958, value re-compared at exit, __stack_chk_fail on mismatch) and the g_HighScore_Changed dump-once flag: when set, LoadSave::_GetSaveFileName(char[1024],1024,g_pHiScoreFilename) fills the name, EnsureDirectoryIsCreated, fopen(name,\"wb\") (mode literal at 0x34034c); write the 4B magic 0x43534948 (\"HISC\"), ftell, write the position record at offset 8; walk the ten 8B g_hiScores entries {char* name, uint32 value}: strlen, write length (4B), write name bytes, pad to 4-byte alignment with 0xF0 bytes (one fwrite per pad byte), write the value word (4B); ftell the total, fseek back to the position record, rewrite it, fclose; clear g_HighScore_Changed to zero. fopen-failure skips straight to the flag clear.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN8LoadSave16_GetSaveFileNameEPciPKc",
+          "va": "0x18f964",
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "_Z24EnsureDirectoryIsCreatedPKc",
+          "va": "0x13ad20",
+          "state": "extern_only_no_stub",
+          "binding": "natural C++ mangling"
+        },
+        {
+          "name": "g_HighScore_Changed",
+          "va": "0x544b18",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0c9c, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_pHiScoreFilename",
+          "va": "0x3f51d8",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0ca0, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_hiScores",
+          "va": "0x544ab4",
+          "width": 80,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0c94, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "__stack_chk_guard",
+          "state": "imported_dynsym_extern",
+          "placement": "GLOB_DAT (21) slot 0x3ed958"
+        },
+        {
+          "name": "fopen",
+          "state": "libc_import",
+          "mode": "\"wb\" literal at 0x34034c"
+        },
+        {
+          "name": "fwrite",
+          "state": "libc_import"
+        },
+        {
+          "name": "ftell",
+          "state": "libc_import"
+        },
+        {
+          "name": "fseek",
+          "state": "libc_import"
+        },
+        {
+          "name": "fclose",
+          "state": "libc_import"
+        },
+        {
+          "name": "strlen",
+          "state": "libc_import"
+        },
+        {
+          "name": "__stack_chk_fail",
+          "state": "libc_import"
+        }
+      ],
+      "gap": "g_hiScores entry payload ownership beyond the census dump shape; g_pHiScoreFilename/g_HighScore_Changed producers; the name-set semantics (which code sets the flag to 1); EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1dba70",
+      "size": 192,
+      "symbols": [
+        "_Z13CleanGesturesv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "6c13d7793285696428e8965a7e813b9b12a3dac5f8fbeee787e261fb1516afb6",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_score_gestures_data.cpp",
+      "translation_source_sha256": "86956eb39d5de204c5b526f0eca33ee1f70e2489e83d8b3c87eca167bac3dcf1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1dbb28",
+        "0x1dbb2c"
+      ],
+      "local_contract": "Two list walks through runtime-written .data header words 0x3f2c1c and 0x3f2c08: list one frees each node and destructs its [+8] event through [vtable+4] (blx, indirect, target unresolved); list two destructs each [+8] CGestureEvent through the exact D2 mangled edge (0x1db510), operator deletes the event, and frees the node; both headers zero {+8,+4,+0} after the walk.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN13CGestureEventD2Ev",
+          "va": "0x1db510",
+          "width": 0,
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "anon_0x3f2c1c",
+          "va": "0x3f2c1c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "direct pc-indexed 0x1dba80+0x0021519c; no reloc; file image packed string bytes (\"ying\"); runtime-written header pointer"
+        },
+        {
+          "name": "anon_0x3f2c08",
+          "va": "0x3f2c08",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "direct pc-indexed 0x1dbad0+0x00215138; no reloc; file image \"xcoo\"; runtime-written header pointer"
+        }
+      ],
+      "gap": "The two list-header words have no dynsym name and no reloc (runtime-written, like the 0x3f3c4c precedent); CGestureEvent D2 body; node/event allocation sites; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x20b27c",
+      "size": 508,
+      "symbols": [
+        "_Z21FreeAllDataStructuresv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "3a140eb2ec28c414d17bdfe02fd5715e056072b074cde7d1edbcb8a9dd00d105",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_score_gestures_data.cpp",
+      "translation_source_sha256": "86956eb39d5de204c5b526f0eca33ee1f70e2489e83d8b3c87eca167bac3dcf1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x20b464",
+        "0x20b468",
+        "0x20b46c",
+        "0x20b470",
+        "0x20b474"
+      ],
+      "local_contract": "DS_AutoMutex C2 brackets the whole body on an 8B stack slot (C2 at entry, D2 at exit): DestroyDsMap(i) and DestroyDsList(i) ladders over mapnumb/listnumb counts (live reloads, signed bgt); then four Get* handle-array walks (Stacks/Queues/PriorityQueues through [vtable+4] blx destroys with live count reloads and null-stores; Grids through the exact CDS_Grid D2 mangled edge plus ::operator delete); tail stores 0xffffffff into g_Network_DSMAP and g_HTTP_AsyncLoad.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN12DS_AutoMutexC2Ev",
+          "va": "0xfec18",
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "_ZN12DS_AutoMutexD2Ev",
+          "va": "0xfec6c",
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "_Z12DestroyDsMapi",
+          "va": "0x205334",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z13DestroyDsListi",
+          "va": "0x205378",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z12GetTheStacksRi",
+          "va": "0xffc9c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z12GetTheQueuesRi",
+          "va": "0xffee8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z11GetTheGridsRi",
+          "va": "0x10026c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z20GetThePriorityQueuesRi",
+          "va": "0x100244",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_ZN8CDS_GridD2Ev",
+          "va": "0x20b260",
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "mapnumb",
+          "va": "0x4836ac",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3edc80, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "listnumb",
+          "va": "0x4836b8",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3edc84, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_Network_DSMAP",
+          "va": "0x3f7814",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f13a8, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_HTTP_AsyncLoad",
+          "va": "0x3f5254",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3efb20, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Get* bodies and the handle-array storages they return; DS destroy bodies; producers of mapnumb/listnumb/g_Network_DSMAP/g_HTTP_AsyncLoad; EHABI and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,

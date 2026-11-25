@@ -1,6 +1,27 @@
 # 状态与定性
 
-## 当前断点：Script/Variable/Timeline/Event 拆除切片（父级直接施工）
+## 当前断点：Score/Gestures/Data 拆除切片（父级直接施工）
+
+jing 通道冒烟后又 503（worker 未建任何工件），父级直接恢复三函数：
+`FINALIZE_Score@0x1dc3bc`（580B hi-score 存档转储器——栈金丝雀协议（GLOB_DAT 0x3ed958 载入
+`__stack_chk_guard` 地址与值，出口不符 `__stack_chk_fail`）+ `g_HighScore_Changed` 一次性
+flag + `_GetSaveFileName`/EnsureDirectory/fopen("wb", 字面量 0x34034c) + "HISC" magic + 十项
+8B 表逐项（长度/名字/0xF0 对齐填充/值）+ ftell/fseek 回写位置记录 + fclose + flag 清零）、
+`FINALIZE_CleanGestures@0x1dba70`（192B：双链表清扫——表一 [vtable+4] blx 析构+Free 节点，
+表二 CGestureEvent D2 精确重整名边+operator delete+Free 节点，双表头运行时写字
+0x3f2c1c/0x3f2c08 按匿名规则）、`FINALIZE_FreeAllDataStructures@0x20b27c`（508B：DS_AutoMutex
+C2/D2 RAII 括号 + mapnumb/listnumb 计数梯 DestroyDsMap/List + 四个 Get* 句柄数组走
+（栈/队列/优先队列 [vtable+4] blx；网格 CDS_Grid D2 + operator delete）+ 尾程
+g_Network_DSMAP/g_HTTP_AsyncLoad 写 0xffffffff）。八个具名槽位 R_ARM_RELATIVE/GLOB_DAT 逐一
+复核；父级一处 GOT 基址算术错误（0x3f2c58 vs 真值 0x3f1c58，差 0x1000）在具名命中复核时
+暴露并修正（错误基恰也落在同为 RELATIVE 的槽上，未靠侥幸，已入 layout-evidence）。
+ARMv7 O0/O2 在 scriptvar 基线上追加 1 个 TU；无桩门、UND 覆盖门（28 名）、正/负控全过。
+核对原件 320 字（含 13 池字）。目标从未运行；DS 拆除族/Get* 族/三个类身份、六具名全局与
+两匿名字的生产者、g_hiScores 载荷所有权、EHABI 及最终镜像链接未证。FINALIZE 族至此全部
+收口（Quit 的 42 条分支边全数有主）。下一候选：按依赖闭包回到 IsAllocated/bucketCheck
+消费者与 utf8_extract_char，或按 STATUS 剩余缺口另立批次。
+
+## 上一批：Script/Variable/Timeline/Event 拆除切片
 
 派工渠道仍全线故障，父级直接恢复四函数：`FINALIZE_Script_Main@0x1e0770`（4B 整体尾支进
 dynsym 已定义未恢复的 `Script_Free`）、`FINALIZE_Variable_Main@0x1f4d10`（152B：
