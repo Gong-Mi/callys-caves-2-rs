@@ -2560,10 +2560,48 @@
         }
       ],
       "gap": "Descriptor source spelling/layout and all listed caller bodies remain open; O0 retains the EHABI runtime symbol and no target was executed."
+    },
+    {
+      "entry": "0x240858",
+      "size": 68,
+      "symbols": [
+        "_Z22JS_IsGenericDescriptorP6RValue"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "4a010a8fcd25759924a5741d07620d741dcab880f0f1241bb548dd4b6747748c",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_generic_descriptor.cpp",
+      "translation_source_sha256": "1c6d42dacb2fe09ab810d2db9bcdd00608a35ec5779539e5ddaafea938a80fb8",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Mask the kind word at RValue+0x0c; kind 5 returns 0. Then call JS_IsDataDescriptor and return 0 if nonzero; otherwise call JS_IsAccessorDescriptor and return 0 if nonzero; return 1 only when both return zero. Under the recovered provider predicates this is true only for kind 0x00ffffff; do not infer a broader source-level descriptor model.",
+      "direct_dependencies": [
+        {
+          "name": "_Z19JS_IsDataDescriptorP6RValue",
+          "va": "0x2407e8"
+        },
+        {
+          "name": "_Z23JS_IsAccessorDescriptorP6RValue",
+          "va": "0x240828"
+        }
+      ],
+      "observed_consumers": [
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_site": "0x247e18"
+        }
+      ],
+      "gap": "JS_DefineOwnProperty_Internal and the wider write path remain unrecovered; no target execution, EHABI or final image link is claimed."
     }
   ],
   "not_whole_library_completion": true,
-  "scope": "YYObjectBase Free/FreeVars/IsExtensible, RValue page-pool recycle, JS property eligibility/data+accessor descriptor predicates/callability, and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
+  "scope": "YYObjectBase Free/FreeVars/IsExtensible, RValue page-pool recycle, JS property eligibility/data+accessor+generic descriptor predicates/callability, and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
   "remaining_internal_dependencies": [
     "YYObjectBase constructor C1/C2",
     "CHashMap<int,RValue*,3>::Insert",
@@ -2577,7 +2615,7 @@
   ],
   "original_executed": false,
   "additional_headers_sha256": {
-    "object_helpers.hpp": "c16aa9a38999da916e2d57a820b063efa7507c8dbeeb80e9bdf4fbda0dca377c",
+    "object_helpers.hpp": "6014c41aada43523dc99b1e4df6393c7f1a11827768e1bd198636264dd0c1a24",
     "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
@@ -2597,5 +2635,6 @@
   "gc_root_provider_reset_scope": "Complete bodies for the root-map Insert and CGCGeneration::Reset on the pinned ARMv7 source-recovery lane; not complete GC lifecycle.",
   "gc_reset_caller_and_class_stats_scope": "Local bodies and two original BSS words; original Reset and gen array providers retained; class-stat producer uses the same name slot later freed by the original cleanup consumer.",
   "batch17_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/gate-receipt.json",
-  "batch18_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-data-descriptor-r1/gate-receipt.json"
+  "batch18_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-data-descriptor-r1/gate-receipt.json",
+  "batch19_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-generic-descriptor-r1/gate-receipt.json"
 }

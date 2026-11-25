@@ -964,6 +964,11 @@
         "symbol": "_Z19JS_IsDataDescriptorP6RValue",
         "entry": "0x2407e8",
         "size": 64
+      },
+      {
+        "symbol": "_Z22JS_IsGenericDescriptorP6RValue",
+        "entry": "0x240858",
+        "size": 68
       }
     ],
     "extensibility_word": {
@@ -1038,6 +1043,23 @@
           ]
         }
       ]
+    },
+    "generic_descriptor_predicate": {
+      "kind_offset": "0x0c",
+      "kind_mask": "0x00ffffff",
+      "special_zero_kind": 5,
+      "direct_dependencies": [
+        "0x2407e8",
+        "0x240828"
+      ],
+      "observed_callers": [
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_site": "0x247e18"
+        }
+      ],
+      "full_descriptor_layout_claim": false
     }
   }
 }

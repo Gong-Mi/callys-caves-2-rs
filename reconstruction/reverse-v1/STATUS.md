@@ -1,15 +1,22 @@
 # 状态与定性
 
-## 当前断点：JS_IsDataDescriptor（property predicate leaf，静态）
+## 当前断点：JS_IsGenericDescriptor（descriptor predicates 依赖闭合，静态）
 
-恢复 `_Z19JS_IsDataDescriptorP6RValue@0x2407e8`（64B）：masked kind 为
-`0x00ffffff` 返回 0、非 6 其他 kind 返回 1；kind 6 时仅当 payload object `+0x48 == 2`
-返回 0。无其他直接函数依赖；原件扫描见 6 个 caller/9 个 call site，含
-`JS_Object_Put@0x24f118`。O0/O2 `-Werror` 编译、自链接通过，16/16 词入册；O0 留有
-`__aeabi_unwind_cpp_pr0`，O2 无 UND。原件从未运行，caller 未因此闭合；尤其
-`JS_Object_Put` 还有 `JS_Argument_Put`、`JSThrowTypeError`、`Call_Accessor_Set`、
-`JS_DefineOwnProperty`、`JS_Array_Put` 与 `strcmp@plt` 等直接边待恢复。详见
-`reconstruction/contracts/object-property-eligibility.md` 与批次回执。
+恢复 `_Z22JS_IsGenericDescriptorP6RValue@0x240858`（68B）：kind 5→0，依次调用
+`JS_IsDataDescriptor@0x2407e8` 与 `JS_IsAccessorDescriptor@0x240828`，二者任一非零即 0，
+否则 1。两条直接边均由已恢复的真实函数提供；O0/O2 正链通过，分别移除 data/accessor
+provider 的负控均重现预期 UND。O0/O2 `-Werror` 编译通过，原件 17/17 词入册；当前
+`object_helpers.hpp` 的五个消费者 TU O0/O2 共 10/10 通过。原件唯一直接 caller 是
+`JS_DefineOwnProperty_Internal@0x247d44` 的 `0x247e18`，该 caller 本体仍未恢复；正链里
+其余未恢复模块符号留在回执中，不宣称 object_base 整体或最终镜像闭合。目标未运行。
+
+## 上一批：JS_IsDataDescriptor（property predicate leaf，静态）
+
+恢复 `_Z19JS_IsDataDescriptorP6RValue@0x2407e8`（64B）：masked kind `0x00ffffff` 返回 0，
+非 6 的其他 kind 返回 1；kind 6 时仅当 payload object `+0x48 == 2` 返回 0。6 个 caller/
+9 个 call site；O0/O2 `-Werror` 编译、自链接通过，16/16 词入册。原件从未运行，caller
+未因此闭合；`JS_Object_Put` 还有 `JS_Argument_Put`、`JSThrowTypeError`、`Call_Accessor_Set`、
+`JS_DefineOwnProperty`、`JS_Array_Put` 与 `strcmp@plt` 等直接边待恢复。
 
 ## 上一批：YYObjectBase property-eligibility（三方法闭合，静态）
 
