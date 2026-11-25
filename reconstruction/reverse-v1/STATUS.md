@@ -1,6 +1,22 @@
 # 状态与定性
 
-## 当前断点：IsAllocated 本体与 utf8 首员（父级直接施工）
+## 当前断点：bucketCheck（父级两稿拒稿后由子代理交付，父级验收）
+
+恢复 `_Z11bucketCheckPc@0x27bee0`（772B，分配器诊断：七真模式桶的 head 链走查）——
+**父级两稿因形状错误拒稿**（初稿逐节点陷阱、二稿幻觉第七块+错槽址），第三稿由子代理
+按父级结构分析交付、父级验收通过：逐 head 循环 ⊃ 逐节点范围检查 ⊃ 表尾陷阱存 42 入
+NULL 的形状与 census 一致；193 词逐一寻址无缺席；六桶块报告标记 8/16/32/64/128/256，
+范围步长 0x20000/0x40000/0x40000/0x80000/0x80000/0x100000；八个具名外无主词
+（计数器 0x3f2bcc、报告 0x3f2a3c、六桶 holder 0x3f2840..0x3f2854）按匿名规则落位。
+本函数 GOT 基为 **0x3f2c58**（与 FADS/IsAllocated 的 0x3f1c58 为两个并存 GOT 区段，
+父级中途的 0x3f2c58「错基」结论已被推翻并更正——FADS 的 0x3f1c58 不受影响）。
+ARMv7 O0/O2 在 scriptvar 基线上追加 1 个 TU，与 worker 对象字节一致；无桩门、8 词
+UND 覆盖门、正/负控全过。目标从未运行；八字生产者、桶句柄值、节点载荷语义、陷阱存
+意图、EHABI 及最终镜像链接未证。**FINALIZE/拆除族至此全部收口**（Quit 42 边 +
+bucketCheck 诊断器）。下一批按 workline 依赖闭包继续（bucketAlloc 0x27c53c 2072B、
+YYObjectBase ctor/assign/cleanup helpers、utf8 家族兄弟成员）。
+
+## 上一批：IsAllocated 本体与 utf8 首员（父级直接施工）
 
 恢复 `MemoryManager::IsAllocated@0x27c454`（208B：空指针返 0；g_MemoryMutex 懒初始化经
 已恢复的 `initializeMemoryMutex`；Mutex::Lock/Unlock 真实边（本体均已恢复）；分配头契约

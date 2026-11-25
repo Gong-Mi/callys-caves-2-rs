@@ -105,10 +105,10 @@
     "reconstruction/reverse-v1/cpp/scripting/original-words.tsv": "beba8d3d1f2a1bdbbc805c64db29cb06d87a81af49eed29c6f76b8cc91435ccf",
     "reconstruction/reverse-v1/cpp/scripting/layout-evidence.json": "71cce603929f41056eec5ca38aa81aff128b6e7388fae2f9de6bc3ff2a5ffc23"
   },
-  "new_original_entries": 5,
+  "new_original_entries": 6,
   "new_original_function_names_including_aliases": 5,
-  "new_original_index_words": 155,
-  "new_literal_words": 26,
+  "new_original_index_words": 348,
+  "new_literal_words": 35,
   "builds": [
     {
       "configuration": "O0",
@@ -339,5 +339,30 @@
   ],
   "phase_complete": false,
   "original_executed": false,
-  "rebuilt_executed": false
+  "rebuilt_executed": false,
+  "batch13_receipt": {
+    "path": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch13-integration-r1/gate-receipt.json",
+    "sha256": "8022b8bd574974625123c70ec22c57c46cfdac73476c0968d2712f1070e450a2",
+    "base": "299f3d747d928720b0ac70643de01feefdbd7c37",
+    "source": "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/cpp/memory_manager/bucket_check.cpp",
+    "source_sha256": "bbd1f1087a0ad6a59305ce35440e267b8b761acddf08bf61c3df2a59cfce1993",
+    "builds": [
+      {
+        "configuration": "O0",
+        "base_combined_sha256": "dfbd8e4e68d702a17cdb64f1dc582520c85951867bc12d097eedcb9a3bdb8e76",
+        "new_tu_sha256": "a06b3f70b1a95688c6701dcb4c395f018cb4f0e7dcad5a459f4b3c2ac47688be",
+        "byte_identical_to_worker_product": true,
+        "integrated_combined_sha256": "d4a406e9396341d0a6cc55a589000a215f8326a2006e05a0532a1c440ad6da84"
+      },
+      {
+        "configuration": "O2",
+        "base_combined_sha256": "6014f5b8549769d23bed3166a7146cea08c234b8315fff7c6df40e69868f2468",
+        "new_tu_sha256": "f20d52b49989797676bc39c0148a30f769ad59e51fa13801102a742735f3c73c",
+        "byte_identical_to_worker_product": true,
+        "integrated_combined_sha256": "c5a4795844431cd0dfd13eb87bc5d45e393665622d34b6a36f0aa00c449b50ed"
+      }
+    ],
+    "checks": 5,
+    "note": "per-config: external-linkage no-stub gate (1 name), UND coverage gate (8 anon words), positive link, defined after link, absent in base-negative"
+  }
 }

@@ -1114,6 +1114,95 @@
         }
       ],
       "gap": "Header-magic producers, the mutex locking contract, EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x27bee0",
+      "size": 772,
+      "symbols": [
+        "_Z11bucketCheckPc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "7206c45ac5a438458fcb4c2a0394ce48354c8ea856686c45940f476ab2050ad7",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "bucket_check.cpp",
+      "translation_source_sha256": "bbd1f1087a0ad6a59305ce35440e267b8b761acddf08bf61c3df2a59cfce1993",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x27c1c0",
+        "0x27c1c4",
+        "0x27c1c8",
+        "0x27c1cc",
+        "0x27c1d0",
+        "0x27c1d4",
+        "0x27c1d8",
+        "0x27c1dc",
+        "0x27c1e0"
+      ],
+      "local_contract": "Allocator diagnostic over the seven true-mode buckets (8/16/32/64/128/256 markers into the report word 0x3f2a3c, failure counter 0x3f2bcc cleared then incremented per visited head): per bucket, guard the head at [handle+8]; non-empty sets trap value 42 and trap target NULL and walks the node list checking whether the head falls inside any node payload range [node+8, node+8+range+8); contained skips the trap via the head advance, walk-exhausted (or empty list) executes the trap store 42 through the NULL target; head chains through its own first word, counter increments per head, re-walk while non-null. The 1MB-range bucket is not in this window (only six holders are consumed); the char* parameter is unused.",
+      "direct_dependencies": [
+        {
+          "name": "anon_0x3f2bcc",
+          "va": "0x3f2bcc",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "unnamed .data counter word, runtime-written; direct pc-indexed 0x27befc+8-0x408c"
+        },
+        {
+          "name": "anon_0x3f2a3c",
+          "va": "0x3f2a3c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "unnamed .data report word, runtime-written; GOT-indexed via base 0x3f2c58-0x41c (pair 0x27bef0/0x27bf08)"
+        },
+        {
+          "name": "anon_0x3f2840",
+          "va": "0x3f2840",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 8KB handle holder, GOT 0x3f2c58-0x418"
+        },
+        {
+          "name": "anon_0x3f2844",
+          "va": "0x3f2844",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 16KB handle holder, GOT 0x3f2c58-0x414"
+        },
+        {
+          "name": "anon_0x3f2848",
+          "va": "0x3f2848",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 32KB handle holder, GOT 0x3f2c58-0x410"
+        },
+        {
+          "name": "anon_0x3f284c",
+          "va": "0x3f284c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 64KB handle holder, GOT 0x3f2c58-0x40c"
+        },
+        {
+          "name": "anon_0x3f2850",
+          "va": "0x3f2850",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 128KB handle holder, GOT 0x3f2c58-0x408"
+        },
+        {
+          "name": "anon_0x3f2854",
+          "va": "0x3f2854",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 256KB handle holder, GOT 0x3f2c58-0x404"
+        }
+      ],
+      "gap": "Producers/writers of the eight anon words, the bucket handle values at teardown time, the node payload semantics and node chain linkage, the trap-store intent (deliberate crash marker vs unrecoverable pointer), EHABI and final linked addresses remain open. Nothing was executed; no equivalence claim."
     }
   ],
   "validation_scope": "Memory allocation/free/page lookup, typed bucket bodies, MemoryManager lifecycle, map/bucket startup for the seven true-mode objects and map destructor. Static ARMv7 candidates; no final image or runtime equivalence.",
@@ -1141,5 +1230,6 @@
   "new_original_entries": 1,
   "new_original_index_words": 52,
   "new_literal_words": 1,
-  "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json"
+  "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json",
+  "batch13_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch13-integration-r1/gate-receipt.json"
 }

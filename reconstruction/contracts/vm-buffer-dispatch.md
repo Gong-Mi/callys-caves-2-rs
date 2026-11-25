@@ -664,3 +664,15 @@ scripting/utf8_core.cpp 提供：ASCII 快路 +1；2B 返回 (b1&63)+(b0&31)*64 
 uxth 截断的 (b0<<12)+(b1&63)<<6+(b2&63) 前进 3；**无 4B 分支**，4B lead 走 3B 路径，无
 NUL/边界守卫，原样复现。utf8 家族（get_char/add_char/char_size/strlen/strcmp 等二十成员）
 后续续入此 TU 所在模块。组合对象去 TU 即两符号缺失。
+
+## bucketCheck 诊断器
+
+`_Z11bucketCheckPc@0x27bee0`（772B，char* 参数全窗未用）由 memory_manager/bucket_check.cpp
+提供：首部清零失败计数器（0x3f2bcc）并置尺寸报告（0x3f2a3c）为 8，随后六桶块
+（8/16/32/64/128/256 标记，holder 0x3f2840/44/48/4c/50/54）各自守卫桶头
+[holder 值+8]：非零则置陷阱值 42 与陷阱目标 NULL，走节点链 [holder 值+4] 逐节点比较
+head 是否落入 [node+8, node+8+range+8)（range 逐块 0x20000/0x40000/0x40000/0x80000/
+0x80000/0x100000）——命中经 bhi 跳过陷阱直达 head 链进；走耗（含空链即陷）执行
+`str 42,[NULL]` 陷阱存；head 经 `[head]` 链进、计数器逐 head 递增、head 非零重走。
+本函数 GOT 基 0x3f2c58（独立区段）。八字无主（无 dynsym、无 reloc、运行时写），
+按匿名规则 extern 数组落位。组合对象去 TU 即符号缺失。

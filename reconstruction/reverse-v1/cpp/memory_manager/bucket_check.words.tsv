@@ -1,0 +1,193 @@
+27bee0	27bee0	e59f02d8	ldr	r0, [pc, #0x2d8]
+27bee0	27bee4	e3a02008	mov	r2, #8
+27bee0	27bee8	e59f12d4	ldr	r1, [pc, #0x2d4]
+27bee0	27beec	e08f0000	add	r0, pc, r0
+27bee0	27bef0	e59fc2d0	ldr	ip, [pc, #0x2d0]
+27bee0	27bef4	e92d01f0	push	{r4, r5, r6, r7, r8}
+27bee0	27bef8	e3a08000	mov	r8, #0
+27bee0	27befc	e7901001	ldr	r1, [r0, r1]
+27bee0	27bf00	e59f32c4	ldr	r3, [pc, #0x2c4]
+27bee0	27bf04	e5818000	str	r8, [r1]
+27bee0	27bf08	e790c00c	ldr	ip, [r0, ip]
+27bee0	27bf0c	e58c2000	str	r2, [ip]
+27bee0	27bf10	e7906003	ldr	r6, [r0, r3]
+27bee0	27bf14	e5965008	ldr	r5, [r6, #8]
+27bee0	27bf18	e1550008	cmp	r5, r8
+27bee0	27bf1c	13a0702a	movne	r7, #0x2a
+27bee0	27bf20	0a000013	beq	#0x27bf74
+27bee0	27bf24	e5963004	ldr	r3, [r6, #4]
+27bee0	27bf28	e3530000	cmp	r3, #0
+27bee0	27bf2c	0a000009	beq	#0x27bf58
+27bee0	27bf30	e2834008	add	r4, r3, #8
+27bee0	27bf34	e2832802	add	r2, r3, #0x20000
+27bee0	27bf38	e1550004	cmp	r5, r4
+27bee0	27bf3c	e2822008	add	r2, r2, #8
+27bee0	27bf40	3a000001	blo	#0x27bf4c
+27bee0	27bf44	e1520005	cmp	r2, r5
+27bee0	27bf48	8a000003	bhi	#0x27bf5c
+27bee0	27bf4c	e5933000	ldr	r3, [r3]
+27bee0	27bf50	e3530000	cmp	r3, #0
+27bee0	27bf54	1afffff5	bne	#0x27bf30
+27bee0	27bf58	e5887000	str	r7, [r8]
+27bee0	27bf5c	e5955000	ldr	r5, [r5]
+27bee0	27bf60	e5913000	ldr	r3, [r1]
+27bee0	27bf64	e3550000	cmp	r5, #0
+27bee0	27bf68	e2833001	add	r3, r3, #1
+27bee0	27bf6c	e5813000	str	r3, [r1]
+27bee0	27bf70	1affffeb	bne	#0x27bf24
+27bee0	27bf74	e59f3254	ldr	r3, [pc, #0x254]
+27bee0	27bf78	e3a02010	mov	r2, #0x10
+27bee0	27bf7c	e58c2000	str	r2, [ip]
+27bee0	27bf80	e7906003	ldr	r6, [r0, r3]
+27bee0	27bf84	e5965008	ldr	r5, [r6, #8]
+27bee0	27bf88	e3550000	cmp	r5, #0
+27bee0	27bf8c	13a08000	movne	r8, #0
+27bee0	27bf90	13a0702a	movne	r7, #0x2a
+27bee0	27bf94	0a000013	beq	#0x27bfe8
+27bee0	27bf98	e5963004	ldr	r3, [r6, #4]
+27bee0	27bf9c	e3530000	cmp	r3, #0
+27bee0	27bfa0	0a000009	beq	#0x27bfcc
+27bee0	27bfa4	e2834008	add	r4, r3, #8
+27bee0	27bfa8	e2832701	add	r2, r3, #0x40000
+27bee0	27bfac	e1550004	cmp	r5, r4
+27bee0	27bfb0	e2822008	add	r2, r2, #8
+27bee0	27bfb4	3a000001	blo	#0x27bfc0
+27bee0	27bfb8	e1520005	cmp	r2, r5
+27bee0	27bfbc	8a000003	bhi	#0x27bfd0
+27bee0	27bfc0	e5933000	ldr	r3, [r3]
+27bee0	27bfc4	e3530000	cmp	r3, #0
+27bee0	27bfc8	1afffff5	bne	#0x27bfa4
+27bee0	27bfcc	e5887000	str	r7, [r8]
+27bee0	27bfd0	e5955000	ldr	r5, [r5]
+27bee0	27bfd4	e5913000	ldr	r3, [r1]
+27bee0	27bfd8	e3550000	cmp	r5, #0
+27bee0	27bfdc	e2833001	add	r3, r3, #1
+27bee0	27bfe0	e5813000	str	r3, [r1]
+27bee0	27bfe4	1affffeb	bne	#0x27bf98
+27bee0	27bfe8	e59f31e4	ldr	r3, [pc, #0x1e4]
+27bee0	27bfec	e3a02020	mov	r2, #0x20
+27bee0	27bff0	e58c2000	str	r2, [ip]
+27bee0	27bff4	e7906003	ldr	r6, [r0, r3]
+27bee0	27bff8	e5965008	ldr	r5, [r6, #8]
+27bee0	27bffc	e3550000	cmp	r5, #0
+27bee0	27c000	13a08000	movne	r8, #0
+27bee0	27c004	13a0702a	movne	r7, #0x2a
+27bee0	27c008	0a000013	beq	#0x27c05c
+27bee0	27c00c	e5963004	ldr	r3, [r6, #4]
+27bee0	27c010	e3530000	cmp	r3, #0
+27bee0	27c014	0a000009	beq	#0x27c040
+27bee0	27c018	e2834008	add	r4, r3, #8
+27bee0	27c01c	e2832701	add	r2, r3, #0x40000
+27bee0	27c020	e1550004	cmp	r5, r4
+27bee0	27c024	e2822008	add	r2, r2, #8
+27bee0	27c028	3a000001	blo	#0x27c034
+27bee0	27c02c	e1520005	cmp	r2, r5
+27bee0	27c030	8a000003	bhi	#0x27c044
+27bee0	27c034	e5933000	ldr	r3, [r3]
+27bee0	27c038	e3530000	cmp	r3, #0
+27bee0	27c03c	1afffff5	bne	#0x27c018
+27bee0	27c040	e5887000	str	r7, [r8]
+27bee0	27c044	e5955000	ldr	r5, [r5]
+27bee0	27c048	e5913000	ldr	r3, [r1]
+27bee0	27c04c	e3550000	cmp	r5, #0
+27bee0	27c050	e2833001	add	r3, r3, #1
+27bee0	27c054	e5813000	str	r3, [r1]
+27bee0	27c058	1affffeb	bne	#0x27c00c
+27bee0	27c05c	e59f3174	ldr	r3, [pc, #0x174]
+27bee0	27c060	e3a02040	mov	r2, #0x40
+27bee0	27c064	e58c2000	str	r2, [ip]
+27bee0	27c068	e7906003	ldr	r6, [r0, r3]
+27bee0	27c06c	e5965008	ldr	r5, [r6, #8]
+27bee0	27c070	e3550000	cmp	r5, #0
+27bee0	27c074	13a08000	movne	r8, #0
+27bee0	27c078	13a0702a	movne	r7, #0x2a
+27bee0	27c07c	0a000013	beq	#0x27c0d0
+27bee0	27c080	e5963004	ldr	r3, [r6, #4]
+27bee0	27c084	e3530000	cmp	r3, #0
+27bee0	27c088	0a000009	beq	#0x27c0b4
+27bee0	27c08c	e2834008	add	r4, r3, #8
+27bee0	27c090	e2832702	add	r2, r3, #0x80000
+27bee0	27c094	e1550004	cmp	r5, r4
+27bee0	27c098	e2822008	add	r2, r2, #8
+27bee0	27c09c	3a000001	blo	#0x27c0a8
+27bee0	27c0a0	e1520005	cmp	r2, r5
+27bee0	27c0a4	8a000003	bhi	#0x27c0b8
+27bee0	27c0a8	e5933000	ldr	r3, [r3]
+27bee0	27c0ac	e3530000	cmp	r3, #0
+27bee0	27c0b0	1afffff5	bne	#0x27c08c
+27bee0	27c0b4	e5887000	str	r7, [r8]
+27bee0	27c0b8	e5955000	ldr	r5, [r5]
+27bee0	27c0bc	e5913000	ldr	r3, [r1]
+27bee0	27c0c0	e3550000	cmp	r5, #0
+27bee0	27c0c4	e2833001	add	r3, r3, #1
+27bee0	27c0c8	e5813000	str	r3, [r1]
+27bee0	27c0cc	1affffeb	bne	#0x27c080
+27bee0	27c0d0	e59f3104	ldr	r3, [pc, #0x104]
+27bee0	27c0d4	e3a02080	mov	r2, #0x80
+27bee0	27c0d8	e58c2000	str	r2, [ip]
+27bee0	27c0dc	e7906003	ldr	r6, [r0, r3]
+27bee0	27c0e0	e5965008	ldr	r5, [r6, #8]
+27bee0	27c0e4	e3550000	cmp	r5, #0
+27bee0	27c0e8	13a08000	movne	r8, #0
+27bee0	27c0ec	13a0702a	movne	r7, #0x2a
+27bee0	27c0f0	0a000013	beq	#0x27c144
+27bee0	27c0f4	e5963004	ldr	r3, [r6, #4]
+27bee0	27c0f8	e3530000	cmp	r3, #0
+27bee0	27c0fc	0a000009	beq	#0x27c128
+27bee0	27c100	e2834008	add	r4, r3, #8
+27bee0	27c104	e2832702	add	r2, r3, #0x80000
+27bee0	27c108	e1550004	cmp	r5, r4
+27bee0	27c10c	e2822008	add	r2, r2, #8
+27bee0	27c110	3a000001	blo	#0x27c11c
+27bee0	27c114	e1520005	cmp	r2, r5
+27bee0	27c118	8a000003	bhi	#0x27c12c
+27bee0	27c11c	e5933000	ldr	r3, [r3]
+27bee0	27c120	e3530000	cmp	r3, #0
+27bee0	27c124	1afffff5	bne	#0x27c100
+27bee0	27c128	e5887000	str	r7, [r8]
+27bee0	27c12c	e5955000	ldr	r5, [r5]
+27bee0	27c130	e5913000	ldr	r3, [r1]
+27bee0	27c134	e3550000	cmp	r5, #0
+27bee0	27c138	e2833001	add	r3, r3, #1
+27bee0	27c13c	e5813000	str	r3, [r1]
+27bee0	27c140	1affffeb	bne	#0x27c0f4
+27bee0	27c144	e59f3094	ldr	r3, [pc, #0x94]
+27bee0	27c148	e3a02c01	mov	r2, #0x100
+27bee0	27c14c	e58c2000	str	r2, [ip]
+27bee0	27c150	e7904003	ldr	r4, [r0, r3]
+27bee0	27c154	e594c008	ldr	ip, [r4, #8]
+27bee0	27c158	e35c0000	cmp	ip, #0
+27bee0	27c15c	13a06000	movne	r6, #0
+27bee0	27c160	13a0502a	movne	r5, #0x2a
+27bee0	27c164	0a000013	beq	#0x27c1b8
+27bee0	27c168	e5943004	ldr	r3, [r4, #4]
+27bee0	27c16c	e3530000	cmp	r3, #0
+27bee0	27c170	0a000009	beq	#0x27c19c
+27bee0	27c174	e2830008	add	r0, r3, #8
+27bee0	27c178	e2832601	add	r2, r3, #0x100000
+27bee0	27c17c	e15c0000	cmp	ip, r0
+27bee0	27c180	e2822008	add	r2, r2, #8
+27bee0	27c184	3a000001	blo	#0x27c190
+27bee0	27c188	e152000c	cmp	r2, ip
+27bee0	27c18c	8a000003	bhi	#0x27c1a0
+27bee0	27c190	e5933000	ldr	r3, [r3]
+27bee0	27c194	e3530000	cmp	r3, #0
+27bee0	27c198	1afffff5	bne	#0x27c174
+27bee0	27c19c	e5865000	str	r5, [r6]
+27bee0	27c1a0	e59cc000	ldr	ip, [ip]
+27bee0	27c1a4	e5913000	ldr	r3, [r1]
+27bee0	27c1a8	e35c0000	cmp	ip, #0
+27bee0	27c1ac	e2833001	add	r3, r3, #1
+27bee0	27c1b0	e5813000	str	r3, [r1]
+27bee0	27c1b4	1affffeb	bne	#0x27c168
+27bee0	27c1b8	e8bd01f0	pop	{r4, r5, r6, r7, r8}
+27bee0	27c1bc	e12fff1e	bx	lr
+27bee0	27c1c0	00175d64	.word	0x00175d64
+27bee0	27c1c4	ffffbf74	.word	0xffffbf74
+27bee0	27c1c8	fffffbe4	.word	0xfffffbe4
+27bee0	27c1cc	fffffbe8	.word	0xfffffbe8
+27bee0	27c1d0	fffffbec	.word	0xfffffbec
+27bee0	27c1d4	fffffbf0	.word	0xfffffbf0
+27bee0	27c1d8	fffffbf4	.word	0xfffffbf4
+27bee0	27c1dc	fffffbf8	.word	0xfffffbf8
+27bee0	27c1e0	fffffbfc	.word	0xfffffbfc
