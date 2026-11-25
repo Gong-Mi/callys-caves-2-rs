@@ -4,7 +4,7 @@
   "original_abi": "ARM32 little-endian softfp",
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
-  "header_sha256": "16c0d3bb645559c3fe32b4ddb68887abcf3f96ad25c988c9abe3417476d4c43e",
+  "header_sha256": "8b2daf1a0ea6e6dfb48a7ebb2297f632c9e5e71ee6dc57e6fe3d903e511a21a8",
   "functions": [
     {
       "entry": "0xe4540",
@@ -298,7 +298,7 @@
   ],
   "remaining_scope": [
     "VMExec is an observed 0x60 prefix, not a full-class extent proof; state30 remains unnamed.",
-    "YYObjectBase is a static-method call surface only; no object layout/instantiation is claimed.",
+    "YYObjectBase remains an opaque partial call surface: static methods plus the recovered IsExtensible low-bit accessor; no complete object layout or instantiation is claimed.",
     "CProfiler opaque storage matches inline g_Profiler size 128, but its full field/API/alignment and original ignored return spelling remain unresolved.",
     "Invalid pointers/offsets, empty-profile faults, paired-transfer concurrent atomicity and exception unwinding are not certified."
   ],

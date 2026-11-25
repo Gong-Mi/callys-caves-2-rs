@@ -1,6 +1,20 @@
 # 状态与定性
 
-## 当前断点：UTF8ToASCII（父级直接施工，utf8 簇全收口）
+## 当前断点：YYObjectBase property-eligibility（三方法闭合，静态）
+
+恢复 `_ZN12YYObjectBase12IsExtensibleEv@0x19220c`（12B，`word(this+0x28)&1`）、
+`_Z23JS_IsAccessorDescriptorP6RValue@0x240828`（48B，masked kind=6 且载荷对象
+`+0x48 == 2`）与 `_Z9JS_CanPutP12YYObjectBasePKc@0x241cac`（276B，own/prototype
+descriptor 资格路径）。实际消费者 JS_CanPut 的 direct edges：
+JS_GetOwnProperty / JS_GetProperty（既有恢复）、JS_IsAccessorDescriptor、
+YYObjectBase::IsExtensible、InternalGetYYVar（既有恢复），全部真实链接；正链通过，去掉
+js_helpers/object_allocation provider 的负链各按预期重新留下 UND。ARMv7 O0/O2 双档
+-Werror 编译通过，原件 84/84 词入册，调用重定位保留。只记录 `+0x28` 一个位字段，
+不声称完整 YYObjectBase 布局；property metadata bit2 的正式字段名、descriptor payload
+类型、源级返回类型、上层写入调用者、EHABI 与最终链接仍开放。目标未运行，④轴未测。
+详见 `reconstruction/contracts/object-property-eligibility.md` 与外部批次回执。
+
+## 上一批：UTF8ToASCII（父级直接施工，utf8 簇全收口）
 
 `_Z10UTF8ToASCIIPKc`@0x1110a0（144B，**局部符号**——无 dynsym 条目，边界由父级从
 下一符号 _Z12YYGML_stringRK6RValue@0x111130 推导）：空指针→空指针；空串→0

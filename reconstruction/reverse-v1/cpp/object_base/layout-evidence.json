@@ -53,6 +53,7 @@
     "0x18 live prototype link / clear word",
     "0x1c/0x20 regex data",
     "0x24 signed dense count",
+    "0x28 extensibility predicate word (only bit 0 read by IsExtensible@0x19220c; constructor stores 1@0x191934)",
     "0x2c clear word",
     "0x38/0x40 clear words",
     "0x44 slot ID",
@@ -939,6 +940,43 @@
     },
     "dtor_binding": "D2-exact extern \"C\" for DS_AutoMutex/CDS_Grid/CGestureEvent (D1/D2 folding precedent)",
     "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "object_property_eligibility": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "functions": [
+      {
+        "symbol": "_ZN12YYObjectBase12IsExtensibleEv",
+        "entry": "0x19220c",
+        "size": 12
+      },
+      {
+        "symbol": "_Z23JS_IsAccessorDescriptorP6RValue",
+        "entry": "0x240828",
+        "size": 48
+      },
+      {
+        "symbol": "_Z9JS_CanPutP12YYObjectBasePKc",
+        "entry": "0x241cac",
+        "size": 276
+      }
+    ],
+    "extensibility_word": {
+      "object_offset": "0x28",
+      "read": "word & 1",
+      "writer_instruction": "YYObjectBase C1/C2 raw body @0x191934 stores 1",
+      "consumer_call_site": "JS_CanPut @0x241d98 calls IsExtensible @0x19220c",
+      "full_layout_claim": false
+    },
+    "accessor_descriptor_predicate": {
+      "rvalue_kind_offset": "0x0c",
+      "kind_mask": "0x00ffffff",
+      "kind_value": 6,
+      "payload_pointer_offset": "0x00",
+      "flags_offset": "0x48",
+      "flags_value": 2,
+      "full_descriptor_layout_claim": false
+    },
     "original_executed": false
   }
 }

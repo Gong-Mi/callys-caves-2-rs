@@ -89,7 +89,7 @@
     "state30 meaning",
     "VMExec full allocation extent",
     "RValue C++ class/ownership API",
-    "YYObjectBase layout and implementation",
+    "Complete YYObjectBase layout and remaining methods; +0x28 bit-0 accessor now partially recovered",
     "CProfiler fields/alignment and original ignored return spelling"
   ],
   "original_executed": false,

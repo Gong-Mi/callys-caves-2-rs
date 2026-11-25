@@ -1,7 +1,7 @@
 {
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
-  "header_sha256": "4dca1636138838082baecee8d024f82b5281f8355fb85f36040ee07b0516473d",
+  "header_sha256": "8b2daf1a0ea6e6dfb48a7ebb2297f632c9e5e71ee6dc57e6fe3d903e511a21a8",
   "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
   "canonical_api_header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
   "functions": [
@@ -2386,10 +2386,115 @@
         }
       ],
       "gap": "Get* bodies and the handle-array storages they return; DS destroy bodies; producers of mapnumb/listnumb/g_Network_DSMAP/g_HTTP_AsyncLoad; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19220c",
+      "size": 12,
+      "symbols": [
+        "_ZN12YYObjectBase12IsExtensibleEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "20963749288a780f2ef7e96083b90bb3115b3d6ef9d27a29d87efbbe6c9fff2a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_property_eligibility.cpp",
+      "translation_source_sha256": "eac56c102da6ae9280cb3a11f2970e142a66ab8eddc35d0284864d00926c874c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Return exactly the low bit of the 32-bit word at this+0x28. The observed JS_CanPut caller returns this value at call site 0x241d98. Constructor code stores 1 at this+0x28 at 0x191934; this establishes only this bit-field edge, not the complete class layout.",
+      "direct_dependencies": [],
+      "observed_consumers": [
+        {
+          "symbol": "_Z9JS_CanPutP12YYObjectBasePKc",
+          "va": "0x241cac",
+          "call_site": "0x241d98"
+        }
+      ],
+      "gap": "Complete YYObjectBase field names/layout and source-level return spelling remain unknown; no object was instantiated or executed."
+    },
+    {
+      "entry": "0x240828",
+      "size": 48,
+      "symbols": [
+        "_Z23JS_IsAccessorDescriptorP6RValue"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "00ba5803396e0929ca5d09480bbb7d73bdf939b0da3a404119152fd8d93c644c",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_property_eligibility.cpp",
+      "translation_source_sha256": "eac56c102da6ae9280cb3a11f2970e142a66ab8eddc35d0284864d00926c874c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Mask the RValue kind word at +0x0c with 0x00ffffff; return 0 unless it is 6. For kind 6, read the payload pointer at +0, then the pointed object's word at +0x48; return 1 exactly when that word is 2. The original subs/rsbs/adcs sequence is the 32-bit equality predicate flags==2.",
+      "direct_dependencies": [],
+      "observed_consumers": [
+        {
+          "symbol": "_Z9JS_CanPutP12YYObjectBasePKc",
+          "va": "0x241cac",
+          "call_sites": [
+            "0x241cf0",
+            "0x241d78"
+          ]
+        }
+      ],
+      "gap": "Accessor-descriptor object layout and source-level return spelling remain unknown; only kind, pointer, and consumed +0x48 word are recovered."
+    },
+    {
+      "entry": "0x241cac",
+      "size": 276,
+      "symbols": [
+        "_Z9JS_CanPutP12YYObjectBasePKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "eea842369f1d7a3b5d5c3786c495ba80d4bbc6b68fecd1fb16ab31de961f7de2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_property_eligibility.cpp",
+      "translation_source_sha256": "eac56c102da6ae9280cb3a11f2970e142a66ab8eddc35d0284864d00926c874c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Initialize only each local RValue kind to tag 5, then call JS_GetOwnProperty(object,name). For an own data descriptor return bit 2 of RValue+8. For an own accessor descriptor inspect the descriptor object's +4 word: if non-null read the kind at pointed+0x1c; if null call InternalGetYYVar(1) on that object and read returned RValue+0x0c. Return 0 for exact kind 5 or 0x00ffffff, else 1. If no own descriptor, a null prototype returns IsExtensible; otherwise call JS_GetProperty and return IsExtensible for missing/unresolved or accessor results, else return bit 2 of the inherited RValue+8.",
+      "direct_dependencies": [
+        {
+          "name": "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc",
+          "va": "0x241890"
+        },
+        {
+          "name": "_Z23JS_IsAccessorDescriptorP6RValue",
+          "va": "0x240828"
+        },
+        {
+          "name": "_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc",
+          "va": "0x2418dc"
+        },
+        {
+          "name": "_ZN12YYObjectBase12IsExtensibleEv",
+          "va": "0x19220c"
+        },
+        {
+          "name": "_ZN12YYObjectBase16InternalGetYYVarEi",
+          "va": "0x196a70"
+        }
+      ],
+      "observed_consumers": [],
+      "gap": "The source-level names for descriptor payload/metadata bit 2, full descriptor and YYObjectBase layouts, higher-level callers, error/fault paths and EHABI remain open. No target was executed."
     }
   ],
   "not_whole_library_completion": true,
-  "scope": "YYObjectBase static Free/FreeVars, RValue page-pool recycle, JS property/callability and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
+  "scope": "YYObjectBase Free/FreeVars/IsExtensible, RValue page-pool recycle, JS property eligibility/accessor descriptors/callability, and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
   "remaining_internal_dependencies": [
     "YYObjectBase constructor C1/C2",
     "CHashMap<int,RValue*,3>::Insert",
@@ -2403,7 +2508,7 @@
   ],
   "original_executed": false,
   "additional_headers_sha256": {
-    "object_helpers.hpp": "a09c1c330b1108c71e526654c1fbc5d93237a27fadca3f82c8f0d7a3aab5423f",
+    "object_helpers.hpp": "ea42cbc88b8fb90313968fce75009e91bf8a3ccc0c6a274cbabc803c82826561",
     "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
@@ -2421,5 +2526,6 @@
   "gc_consumer_scope": "Root membership, pointer hash, dynamic-root writer/reset, signed range and class-stat cleanup; AddRoot/RemoveRoot and next GC lifecycle still incomplete.",
   "gc_writer_scope": "AddRoot, RemoveRoot and pointer CompareKeys; AddRoot reinsert uses the real weak root-map Insert provider (not an unresolved or stub dependency in the scoped relocatable).",
   "gc_root_provider_reset_scope": "Complete bodies for the root-map Insert and CGCGeneration::Reset on the pinned ARMv7 source-recovery lane; not complete GC lifecycle.",
-  "gc_reset_caller_and_class_stats_scope": "Local bodies and two original BSS words; original Reset and gen array providers retained; class-stat producer uses the same name slot later freed by the original cleanup consumer."
+  "gc_reset_caller_and_class_stats_scope": "Local bodies and two original BSS words; original Reset and gen array providers retained; class-stat producer uses the same name slot later freed by the original cleanup consumer.",
+  "batch17_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/gate-receipt.json"
 }

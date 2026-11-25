@@ -20,8 +20,10 @@ struct RVariable;
 class CCode;
 struct VMDebugInfo;
 
-/* Original static call surface only. No YYObjectBase layout, allocation or
- * lifetime implementation is claimed, and no such object is created here. */
+/* Original C++ execution/return interface; YYObjectBase remains an opaque
+ * partial class surface. Its one recovered instance accessor below reads a
+ * single observed low-bit at +0x28; this does NOT establish complete layout,
+ * allocation size, or lifetime. No such object is instantiated in this header. */
 class YYObjectBase {
 public:
     static YYObjectBase *Alloc(unsigned int, int, bool); // 0x19198c, first call's raw r0/r1/r2
@@ -30,6 +32,7 @@ public:
     static void Free(YYObjectBase *);                  // 0x198f88
     static void FreeVars(YYObjectBase *, RValue **, RValue **,
                          RVariable **, RVariable **); // 0x198dac, last two parameters not consumed
+    uint32_t IsExtensible() __attribute__((noinline)); // 0x19220c, returns (*(this+0x28) & 1)
 };
 
 /* g_Profiler is an INLINE 128-byte object, not a pointer variable.

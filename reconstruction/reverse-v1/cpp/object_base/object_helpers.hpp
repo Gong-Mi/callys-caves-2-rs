@@ -10,6 +10,8 @@
 struct CScriptRef;
 using OwnPropertyGetter = void (*)(YYObjectBase *, RValue *, const char *);
 void JS_GetOwnProperty(YYObjectBase *, RValue *, const char *) __attribute__((noinline)); // 0x241890
+uint32_t JS_IsAccessorDescriptor(RValue *) __attribute__((noinline)); // 0x240828
+uint32_t JS_CanPut(YYObjectBase *, const char *) __attribute__((noinline)); // 0x241cac
 uint32_t JS_IsCallable_Object(YYObjectBase *) __attribute__((noinline)); // 0x240758, no null guard
 uint32_t Call_ScriptRef(YYObjectBase *, RValue *, CScriptRef *, int, RValue *); // 0x249590
 void YYError(const char *, ...);                             // original variadic C++ entry 0xd547c
