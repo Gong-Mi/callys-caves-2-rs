@@ -608,3 +608,14 @@ names 非零才进入循环：逐项 `MemoryManager::Free` + 置空，0xc4330/0x
 节点按 census 无空测直接 `operator delete` 裸字（0x1e3250）+ `Free` 节点 + live--、链槽置空；
 终经 0x3f0da0 清 `g_lastVF`；0x1e3298 为 beq 落点指令非池字。四槽均 R_ARM_RELATIVE（worker
 COPY 误标已更正入档）；extern callee 无桩，组合对象去 TU 即四符号缺失。
+
+## Graphics FINALIZE 切片（父级直接施工）
+
+`FINALIZE_Graphics_Display@0x17dbb8`：`DisplayReset`、`InvalidateOGLResources` 两个 extern 边，
+pop 后尾支 `DeleteOGLResources`。`FINALIZE_Graphics_Texture@0x1767cc` 整体一条尾支进
+`GR_Texture_End`（4B 非空体，非 bx lr，如实记录）。`FINALIZE_Graphics_Text@0x1738fc`：
+GOT-delta 配对（0x173904/0x17393c 与 0x173908/0x173940，同 delta 0x0027c988，父级复算
+0x173914/0x173918 + 0x0027c988 == 0x3f029c/0x3f02a0）取 `Graphics_Text::deffont`（0x48ffd8）
+与 `g_pDebugFont`（0x499330）；先无条件清 `g_pDebugFont`，`deffont` 读值非零才 [vtable+4]
+blx 间接析构（0x17392c，目标不解析）并清 `deffont`；pop 后尾支 `GR_Text_ResetToDefault`。
+五条 extern callee 无桩；组合对象去 TU 即三符号缺失。

@@ -1,6 +1,21 @@
 # 状态与定性
 
-## 当前断点：精灵/字体 FINALIZE 切片
+## 当前断点：Graphics FINALIZE 切片（父级直接施工）
+
+派工渠道全线故障（dht 429 配额、dahetao deepseek 503、jing 503、google-free 挂起）后由父级
+直接恢复三函数：`FINALIZE_Graphics_Display@0x17dbb8`（20B：DisplayReset、InvalidateOGLResources、
+pop 后尾支 DeleteOGLResources）、`FINALIZE_Graphics_Texture@0x1767cc`（4B 整体一条尾支进
+GR_Texture_End，非空体如实记录）、`FINALIZE_Graphics_Text@0x1738fc`（72B：单次 live 读
+`Graphics_Text::deffont`（GOT 0x3f029c，父级复算 GOT-delta 配对一致），无条件清
+`g_pDebugFont`（GOT 0x3f02a0），非零才经 [vtable+4] blx 间接析构（目标不解析）并清 deffont，
+尾支 GR_Text_ResetToDefault）。两槽 R_ARM_RELATIVE 逐一复核、具名 extern 表示。ARMv7 O0/O2
+在精灵/字体基线上追加 1 个 TU；无桩门、UND 覆盖门（7 名）、正/负控全过。核对原件 24 字
+（含 2 池字）。目标从未运行；五个 extern callee、两全局生产者、blx 目标类、EHABI 及最终镜像
+链接未证。下一批沿拆除链继续 FINALIZE 族（Score 580B、Support_File、Script_Main、
+Variable_Main、Event_Action、Function_File、Timeline_Main、Runner_Form、Sound、
+PlatformSpecific、CleanGestures、FreeAllDataStructures）。
+
+## 上一批：精灵/字体 FINALIZE 切片
 
 恢复 `FINALIZE_Sprite_Class@0x1ee76c`（4B 空体）、`FINALIZE_Sprite_Main@0x1ef514`（148B：
 GOT 基址配对 0x3f1c58-0xe40/-0xe44 取 g_NumberOfSprites/g_SpriteNames，逐项 Free+置空、

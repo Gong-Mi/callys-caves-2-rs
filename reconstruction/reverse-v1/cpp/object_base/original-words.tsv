@@ -2499,3 +2499,27 @@ face8	facf4	eafffcae	b	#0xf9fb4
 1e3180	1e329c	eaffffde	b	#0x1e321c
 1e3180	1e32a0	0020dc0c	.word	0x0020dc0c
 1e3180	1e32a4	0020db0c	.word	0x0020db0c
+17dbb8	17dbb8	e92d4008	push	{r3, lr}
+17dbb8	17dbbc	ebfffff7	bl	#0x17dba0
+17dbb8	17dbc0	ebffffb8	bl	#0x17daa8
+17dbb8	17dbc4	e8bd4008	pop	{r3, lr}
+17dbb8	17dbc8	eaffffcb	b	#0x17dafc
+1767cc	1767cc	eafff643	b	#0x1740e0
+1738fc	1738fc	e92d4038	push	{r3, r4, r5, lr}
+1738fc	173900	e3a05000	mov	r5, #0
+1738fc	173904	e59f4030	ldr	r4, [pc, #0x30]
+1738fc	173908	e59f3030	ldr	r3, [pc, #0x30]
+1738fc	17390c	e79f4004	ldr	r4, [pc, r4]
+1738fc	173910	e79f3003	ldr	r3, [pc, r3]
+1738fc	173914	e5940000	ldr	r0, [r4]
+1738fc	173918	e5835000	str	r5, [r3]
+1738fc	17391c	e1500005	cmp	r0, r5
+1738fc	173920	0a000003	beq	#0x173934
+1738fc	173924	e5903000	ldr	r3, [r0]
+1738fc	173928	e5933004	ldr	r3, [r3, #4]
+1738fc	17392c	e12fff33	blx	r3
+1738fc	173930	e5845000	str	r5, [r4]
+1738fc	173934	e8bd4038	pop	{r3, r4, r5, lr}
+1738fc	173938	eaffffd1	b	#0x173884
+1738fc	17393c	0027c988	.word	0x0027c988
+1738fc	173940	0027c988	.word	0x0027c988

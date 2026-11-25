@@ -773,5 +773,39 @@
     "worker_incident": "worker died (HTTP 429 provider quota) after source+objects+own verify files, before receipts; parent reconstructed receipts after independent verification; worker verify-*.txt kept in its domain",
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "graphics_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "recovery_mode": "parent-direct (dispatcher channels down: dht 429 quota, dahetao deepseek 503, jing 503, google-free hang)",
+    "got_bindings": [
+      {
+        "slot": "0x3f029c",
+        "word": "0x0048ffd8",
+        "target": "_ZN13Graphics_Text7deffontE",
+        "reloc": "R_ARM_RELATIVE (23) verified",
+        "resolution": "GOT-delta pair 0x173904 (pool 0x17393c=0x0027c988) / 0x17390c, pc base 0x173914"
+      },
+      {
+        "slot": "0x3f02a0",
+        "word": "0x00499330",
+        "target": "g_pDebugFont",
+        "reloc": "R_ARM_RELATIVE (23) verified",
+        "resolution": "identical-delta pair 0x173908 / 0x173910, pc base 0x173918"
+      }
+    ],
+    "indirect_call_sites": [
+      {
+        "site": "0x17392c",
+        "owner": "Graphics_Text",
+        "form": "ldr [r0]; ldr [r3,#4]; blx r3; target unresolved"
+      }
+    ],
+    "tail_edges": [
+      "0x17dbc8 tail-b DeleteOGLResources",
+      "0x173938 tail-b GR_Text_ResetToDefault",
+      "0x1767cc whole-body tail-b GR_Texture_End (4B body is one branch, not empty)"
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }

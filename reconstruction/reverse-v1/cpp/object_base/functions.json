@@ -1811,6 +1811,122 @@
         }
       ],
       "gap": "VertexFormat payload layout beyond {+4 next, +0xc ptr}; Graphics::Flush/FreeVertexFormat bodies; producers of the four named globals; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x17dbb8",
+      "size": 20,
+      "symbols": [
+        "_Z25FINALIZE_Graphics_Displayv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "17999abfa3fddb4e6c5ec164617f7aaa8ead24c4c88afae8e9236f4e960e140e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_graphics.cpp",
+      "translation_source_sha256": "e2c5b68912338c82ce35d173bbf049997a23206036bb9b93653f6477a7e3784a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Call DisplayReset and InvalidateOGLResources, pop, then tail-b DeleteOGLResources.",
+      "direct_dependencies": [
+        {
+          "name": "_Z12DisplayResetv",
+          "va": "0x17dba0",
+          "width": 156,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z22InvalidateOGLResourcesv",
+          "va": "0x17daa8",
+          "width": 84,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z18DeleteOGLResourcesv",
+          "va": "0x17dafc",
+          "width": 16,
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "All three callees outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1767cc",
+      "size": 4,
+      "symbols": [
+        "_Z25FINALIZE_Graphics_Texturev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "dafab8362b14ce8288bf0df6efc4895a2323ecf31f0fb3b25c85f2b451158bbf",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_graphics.cpp",
+      "translation_source_sha256": "e2c5b68912338c82ce35d173bbf049997a23206036bb9b93653f6477a7e3784a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "The entire 4B body is one pure tail branch into GR_Texture_End (not bx lr; recorded exactly as the image has it).",
+      "direct_dependencies": [
+        {
+          "name": "_Z14GR_Texture_Endv",
+          "va": "0x1740e0",
+          "width": 280,
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "GR_Texture_End body outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1738fc",
+      "size": 72,
+      "symbols": [
+        "_Z22FINALIZE_Graphics_Textv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "0ab97b5eec47086038a6e1e4ac7ca0bf85c304bce1fc71b52bcd8e6f3c8c3212",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_graphics.cpp",
+      "translation_source_sha256": "e2c5b68912338c82ce35d173bbf049997a23206036bb9b93653f6477a7e3784a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x17393c",
+        "0x173940"
+      ],
+      "local_contract": "Single live load of Graphics_Text::deffont; unconditional zero-store of g_pDebugFont; if the loaded pointer is non-null, destruct it through [vtable+4] (blx, indirect, target unresolved) and zero-store deffont; pop; tail-b GR_Text_ResetToDefault.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13Graphics_Text7deffontE",
+          "va": "0x48ffd8",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3f029c, R_ARM_RELATIVE verified; class-static, TU-local minimal class declaration"
+        },
+        {
+          "name": "g_pDebugFont",
+          "va": "0x499330",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3f02a0, R_ARM_RELATIVE verified; extern \"C\""
+        },
+        {
+          "name": "_Z22GR_Text_ResetToDefaultv",
+          "va": "0x173884",
+          "width": 120,
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "deffont/g_pDebugFont producers; the class behind the [vtable+4] destruct edge; EHABI and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,
