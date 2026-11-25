@@ -1,9 +1,10 @@
 {
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "header_path": "../vm_exec/vm_exec.hpp",
   "header_sha256": "8b2daf1a0ea6e6dfb48a7ebb2297f632c9e5e71ee6dc57e6fe3d903e511a21a8",
   "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
-  "canonical_api_header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
+  "canonical_api_header_sha256": "8b2daf1a0ea6e6dfb48a7ebb2297f632c9e5e71ee6dc57e6fe3d903e511a21a8",
   "functions": [
     {
       "entry": "0x198f88",

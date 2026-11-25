@@ -13,6 +13,15 @@ python3 do_neg_diff.py          # 编译 + 跑 282 例 + 5 个变异体 + 写回
 python3 do_neg_diff.py --no-run # 只重读最近一份回执的门结果
 ```
 
+## C++ 模块静态完整性检查（不是 oracle）
+
+```sh
+python3 verify_cpp_module.py --module ../cpp/object_base --image <pinned-libyoyo-armv7.so>
+python3 -B test_verify_cpp_module.py
+```
+
+该门只读校验 `cally-readable-cpp/1`：固定 ELF SHA、函数符号边界/尺寸，要求函数窗口同时落在 PF_X `PT_LOAD` 和 `SHF_EXECINSTR` 节；校验 body SHA、声明路径对应的主头/规范头/附加头和源码哈希，以及 `original-words.tsv` 的 `word` 列全覆盖并与原始 ELF 字节一致。非符号边界使用有限白名单：`init_array_relative_next_slot` 交叉核实际 `.init_array` 的目标和下一槽边界；`atexit_pointer_and_next_dynsym` 校验下一 dynsym 边界，但不验证 atexit 注册指针本身。它不校验 `mnemonic`/`operands` 文本。源码/头文件路径相对模块目录解析，允许在 `cpp/` 内引用共享兄弟模块，但不能越出 `cpp/`；所有声明的头哈希都必须有路径并匹配当前工作树，旧清单缺少 `header_path` 时会失败关闭。历史回执应在其基线快照上校验，不要用当前文件冒充旧输入。需要 `pyelftools`。它不编译、不链接、不执行原件或候选，也不证明语义等价；O0/O2、提供者闭包和行为差分仍走各自验收门。
+
 回执落在 `receipts/do_neg_diff-<UTC时间戳>.json`，含：输入集的 sha256、C 源码 sha256、
 逐门结果、变异体抓到的例数、被真实触发的错误文案。同一份 `do_neg.c` 重跑得到同一结论。
 

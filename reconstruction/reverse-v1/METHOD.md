@@ -63,6 +63,8 @@
     单卡校验      scripts/check_card_anchors.py → 必须 RESULT EXACT（缺/多/操作数错或输入为空均不通过）
     全库校验      scripts/verify_reverse_v1.py --strict → 全局索引地址无漏、无跨卡重领，助记符一致；不代替操作数/正文门
                   仅声明 `@func` 但整卡零锚点不通过；无 `@func` 的接口说明卡可以保留
+    C++ 静态门   reconstruction/reverse-v1/harness/verify_cpp_module.py --module reconstruction/reverse-v1/cpp/<module> --image <pinned libyoyo_armv7.so>
+                  校验符号边界/尺寸及 PF_X PT_LOAD + SHF_EXECINSTR、body SHA、声明路径对应的主头/规范头/附加头和源码哈希，以及 original-words.tsv 的 word 列全覆盖并与原始字节一致；init_array 边界交叉核实际目标与下一槽，atexit 边界只核下一 dynsym、不核注册指针；不校验 mnemonic/operands 文本；依赖 pyelftools，只读，不编译、不执行，不代替语义或 O0/O2/链接门
     锚点写法      `/* @0x…` 与块注释内的 `* @0x…` 都接受（verify 的正则会两种都认）
 
 ## 3. ISA（ARM vs Thumb-2）
