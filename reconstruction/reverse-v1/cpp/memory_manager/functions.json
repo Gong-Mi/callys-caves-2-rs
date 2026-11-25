@@ -1061,6 +1061,59 @@
       "phase_complete": false,
       "original_executed": false,
       "local_contract": "Map setup, live capacity/entries after memset, exact map D1 registration, seven ordered typed vptr installations. No bucket Init or destructor registration."
+    },
+    {
+      "entry": "0x27c454",
+      "size": 208,
+      "symbols": [
+        "_ZN13MemoryManager11IsAllocatedEPKv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "00e4affe2c027651e316a94f48336cf7aae39089f168e93ceab0871072ac63f8",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_isallocated.cpp",
+      "translation_source_sha256": "4629c5a52b900872f86462f4e19181a19209731f6205448ebd07bb2d54690519",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x27c520"
+      ],
+      "local_contract": "Canary-free mutex-guarded allocator header check: null pointer returns 0; lazy-initialises g_MemoryMutex through the recovered initializeMemoryMutex when the mutex object handle word is zero; Mutex::Lock; START magic 0xdeadc0de at p-12 plus END magic 0xbaadb00b at p-8 returns 1; otherwise the size word p-4 must be negative, its cleared value below 8192, and the block header at p-16-size must carry START at +4 and END at +8 for a return 1; Mutex::Unlock then the result.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN5Mutex4LockEv",
+          "va": "0x27e084",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN5Mutex6UnlockEv",
+          "va": "0x27e09c",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_Z21initializeMemoryMutexv",
+          "va": "0x27b918",
+          "state": "defined_in_scoped_relocatable",
+          "note": "anonymous_candidate 48B, no dynsym name; registered recovered_name initializeMemoryMutex"
+        },
+        {
+          "name": "g_MemoryMutex",
+          "va": "0x756780",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f1824, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "memset",
+          "state": "libc_import_via_canonical_declaration_memory_alloc_hpp",
+          "note": "not called by this body; declared by the shared header"
+        }
+      ],
+      "gap": "Header-magic producers, the mutex locking contract, EHABI and final linked addresses remain open."
     }
   ],
   "validation_scope": "Memory allocation/free/page lookup, typed bucket bodies, MemoryManager lifecycle, map/bucket startup for the seven true-mode objects and map destructor. Static ARMv7 candidates; no final image or runtime equivalence.",
@@ -1084,5 +1137,9 @@
     "page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
     "cbucket_classes.hpp": "40923b744ecd55952b038fef0bc07af137ef3a7adefa6b25382c8fd415727554",
     "memory_static_init.hpp": "36f5047cb4863727fcd6424492d90a5fc039c0c66b523a16f837ed84462a54c1"
-  }
+  },
+  "new_original_entries": 1,
+  "new_original_index_words": 52,
+  "new_literal_words": 1,
+  "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json"
 }

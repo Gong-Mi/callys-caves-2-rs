@@ -651,3 +651,16 @@ listnumb 计数梯 DestroyDsMap/List（live 重载 signed bgt）；GetTheStacks/
 句柄数组 [vtable+4] blx 析构 + live 重载置空；GetTheGrids 网格 CDS_Grid D2 + operator delete
 + 置空；尾程 g_Network_DSMAP/g_HTTP_AsyncLoad 写 0xffffffff（mvn）。组合对象去 TU 即三符号
 缺失；终链须落位八个具名全局与两个匿名字。
+
+## IsAllocated 本体与 utf8 首员
+
+`MemoryManager::IsAllocated@0x27c454`（208B）由 memory_manager/memory_isallocated.cpp 提供：
+空指针返 0；`*g_MemoryMutex == 0` 时经已恢复的 `initializeMemoryMutex` 懒初始化；
+`Mutex::Lock/Unlock` 真实边（本体均在 memory_helpers.cpp）；分配头契约——p-12 存
+0xdeadc0de 且 p-8 存 0xbaadb00b 直接返 1；否则 p-4 尺寸字须为负（bit31），清位尺寸 <8192
+时回溯头 `p-16-size`（hdr[1]==0xdeadc0de 且 hdr[2]==0xbaadb00b 返 1）；0x27c504..0x27c50c
+subs/rsbs/adcs 为相等惯用式。`utf8_extract_char@0x10fb38`（132B C 符号）由
+scripting/utf8_core.cpp 提供：ASCII 快路 +1；2B 返回 (b1&63)+(b0&31)*64 前进 2；3B 返回
+uxth 截断的 (b0<<12)+(b1&63)<<6+(b2&63) 前进 3；**无 4B 分支**，4B lead 走 3B 路径，无
+NUL/边界守卫，原样复现。utf8 家族（get_char/add_char/char_size/strlen/strcmp 等二十成员）
+后续续入此 TU 所在模块。组合对象去 TU 即两符号缺失。

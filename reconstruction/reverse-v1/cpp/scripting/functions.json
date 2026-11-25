@@ -106,6 +106,28 @@
       "tier": "bytecode_anchored",
       "phase_complete": false,
       "original_executed": false
+    },
+    {
+      "entry": "0x10fb38",
+      "size": 132,
+      "symbols": [
+        "utf8_extract_char"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a03c301543da40c85d6acbb35dcd69c67780b5c97436bdfe472d2ad1718371fd",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_core.cpp",
+      "translation_source_sha256": "7faba69ac53ac8bfd0829e517bff0f8b822a29f9f83eebda75011ed651645a54",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "UTF-8 lead-byte decode over *str: ASCII fast path advances 1; two-byte form returns (b1 & 63) + (b0 & 31)*64 and advances 2; three-byte form returns (uint16)((b2 & 63) + ((b1 & 63) << 6) + (b0 << 12)) and advances 3; no four-byte branch (4-byte leads take the three-byte path); no bounds or NUL guard.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers; EHABI and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,
@@ -118,5 +140,6 @@
   "scope": "Local ScriptRef/GetCode/local stack and the three actual GC Context Stack helpers; no execution, full class or initial-state closure.",
   "additional_headers_sha256": {
     "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61"
-  }
+  },
+  "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json"
 }

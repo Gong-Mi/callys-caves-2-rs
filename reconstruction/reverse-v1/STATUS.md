@@ -1,6 +1,23 @@
 # 状态与定性
 
-## 当前断点：Score/Gestures/Data 拆除切片（父级直接施工）
+## 当前断点：IsAllocated 本体与 utf8 首员（父级直接施工）
+
+恢复 `MemoryManager::IsAllocated@0x27c454`（208B：空指针返 0；g_MemoryMutex 懒初始化经
+已恢复的 `initializeMemoryMutex`；Mutex::Lock/Unlock 真实边（本体均已恢复）；分配头契约
+p-12 0xdeadc0de / p-8 0xbaadb00b 短路径 1，否则 p-4 尺寸字负值、清位后 <8192 才走
+p-16-size 头回溯（hdr[1] START / hdr[2] END -> 1））与 utf8 家族首员
+`utf8_extract_char@0x10fb38`（132B C 符号：ASCII/2B/3B 三路，3B 结果 uxth 16 位截断，
+**原件无 4B 分支**——4B lead 走 3B 路径，如实复现）。批十的 canonical 声明由此补全本体：
+Timeline 的 IsAllocated extern 边升级为真实链接。模块归位：memory_manager/
+memory_isallocated.cpp + memory_isallocated.words.tsv（52 词，1 池字）；scripting/utf8_core.cpp
++ utf8_extract_char.words.tsv（33 词，utf8 家族 20+ 成员的家，后续成员续此文件）。
+ARMv7 O0/O2 在 scoredata 基线上追加 2 个 TU；IsAllocated 四条 UND 边全真实链接（Lock/
+Unlock/initializeMemoryMutex/g_MemoryMutex）；utf8 纯叶无边。核对原件 85 字（1 池字）。
+目标从未运行；分配头契约的生产者、utf8 调用族、EHABI 及最终镜像链接未证。下一批按
+workline 依赖闭包继续（bucketCheck 0x27bee0、YYObjectBase ctor/assign/cleanup helpers），
+或 Score 转储文件格式的消费者切片。
+
+## 上一批：Score/Gestures/Data 拆除切片（父级直接施工）
 
 jing 通道冒烟后又 503（worker 未建任何工件），父级直接恢复三函数：
 `FINALIZE_Score@0x1dc3bc`（580B hi-score 存档转储器——栈金丝雀协议（GLOB_DAT 0x3ed958 载入
