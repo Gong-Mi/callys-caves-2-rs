@@ -1927,6 +1927,196 @@
         }
       ],
       "gap": "deffont/g_pDebugFont producers; the class behind the [vtable+4] destruct edge; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1e0770",
+      "size": 4,
+      "symbols": [
+        "_Z20FINALIZE_Script_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "b12bb369325ab319b618fc335766f36799b5cbe721661fd9c7704765a037ff78",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_scriptvar.cpp",
+      "translation_source_sha256": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "The entire 4B body is one pure tail branch into the dynsym-defined Script_Free (204B, outside the recovered set).",
+      "direct_dependencies": [
+        {
+          "name": "_Z11Script_Freev",
+          "va": "0x1e4644",
+          "width": 204,
+          "state": "extern_only_no_stub",
+          "note": "dynsym-DEFINED in .text but unrecovered"
+        }
+      ],
+      "gap": "Script_Free body; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1f4d10",
+      "size": 152,
+      "symbols": [
+        "_Z22FINALIZE_Variable_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "f0be89a65dfda763d94c7c4c0461cac65c5a8809e3efd6af0e7c2bfa89e68713",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_scriptvar.cpp",
+      "translation_source_sha256": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1f4d9c",
+        "0x1f4da0",
+        "0x1f4da4"
+      ],
+      "local_contract": "Sweep the 8000B builtin_variables table in 16B strides: free each non-null word and null-store it (table base held, no per-iteration reload), then memset(table, 0, 8000); then store 0 into builtin_numb; free globdecl[+4] (both count branches, including the null one) and store a zero word back into globdecl[+4], then zero globdecl[+0].",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "builtin_variables",
+          "va": "0x75310c",
+          "width": 8000,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3edc40, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "globdecl",
+          "va": "0x753100",
+          "width": 8,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0e30, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "builtin_numb",
+          "va": "0x753108",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3edc3c, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "memset",
+          "state": "libc_import_via_canonical_declaration_memory_alloc_hpp"
+        }
+      ],
+      "gap": "Producers/writers of the three named globals; entry payload semantics (16B stride); EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1f3174",
+      "size": 420,
+      "symbols": [
+        "_Z22FINALIZE_Timeline_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "b799e5fa02cf25fd6ddf1a89370a3aae33da1e11dfd13999268e955d2195aeff",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_scriptvar.cpp",
+      "translation_source_sha256": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1f3308",
+        "0x1f330c",
+        "0x1f3310",
+        "0x1f3314"
+      ],
+      "local_contract": "Two container phases through the unnamed runtime-written BSS pointer words 0x7530f4 and 0x7530f8 (four add-pc sites converge on 0x7530f4; parent recomputed all four). Phase one container T1={count,entries}: per entry, skip when entries[0] or the entry equals the 0xfeeefeee poison or the entry is null, else destruct through [vtable+4] (blx, indirect, target unresolved) and null-store through live reloads of [T1+4]; free the entries array, zero both container words, operator delete(T1), then clear anon_0x7530f4. Phase two container T2 through [0x7530f4+4]: per entry, MemoryManager::IsAllocated (unrecovered extern edge) gates Free(entry); null-store with live reloads; free entries-two, zero both words, operator delete(T2), clear anon_0x7530f8.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN13MemoryManager11IsAllocatedEPKv",
+          "va": "0x27c454",
+          "state": "canonical_declared_unrecovered",
+          "note": "vm_buffer.hpp gained the declaration (parent seam edit); body outside the recovered set"
+        },
+        {
+          "name": "anon_0x7530f4",
+          "va": "0x7530f4",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "unnamed BSS pointer word, runtime-written; four add-pc sites (see header)"
+        },
+        {
+          "name": "anon_0x7530f8",
+          "va": "0x7530f8",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "unnamed BSS pointer word, read as [anon_0x7530f4+4], cleared at phase-two end"
+        }
+      ],
+      "gap": "Producers of the two anon pointer words and both containers; payload class behind the blx destruct edges; IsAllocated body; poison-convention contract (0xfeeefeee compares reproduced as value compares); EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xf2c9c",
+      "size": 108,
+      "symbols": [
+        "_Z21FINALIZE_Event_Actionv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a619e49be30cce5eaf5b7f60a70232b83b9caf16d90e7ddea56eb2c4a5f15412",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_scriptvar.cpp",
+      "translation_source_sha256": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xf2d00",
+        "0xf2d04"
+      ],
+      "local_contract": "Guard both libcode[0] (array) and libnumb[0] (count): null array pops; count <= 0 (le-condition pop) pops; per entry i, through live reloads of libcode[0] and libnumb[0]: free each non-null word and null-store it; loop while count >= i.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "libcode",
+          "va": "0x483404",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3ede20, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "libnumb",
+          "va": "0x483408",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3ede24, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Producers of libcode/libnumb; element payload semantics; EHABI and final linked addresses remain open."
     }
   ],
   "not_whole_library_completion": true,

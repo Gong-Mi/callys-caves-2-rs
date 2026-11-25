@@ -97,6 +97,7 @@ public:
     static void *_Alloc(unsigned int, const char *, int, bool) __attribute__((noinline)); // 0x27cd54, retain helper edge
     static void *ReAlloc(void *, unsigned int, const char *, int, bool); // 0x27cedc
     static void Free(const void *);                           // 0x27c2d0
+    static int IsAllocated(const void *);                     // 0x27c454; teardown slice, producer outside recovered set
     static void Init();                                       // 0x27c23c
     static void Quit();                                       // 0x27c288
     static void DumpMemory(__sFILE *) __attribute__((disable_tail_calls)); // 0x27c28c, blx/return

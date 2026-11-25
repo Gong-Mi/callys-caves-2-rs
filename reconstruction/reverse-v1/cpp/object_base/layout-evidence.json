@@ -807,5 +807,64 @@
     ],
     "no_full_call_graph_claim": true,
     "original_executed": false
+  },
+  "scriptvar_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "recovery_mode": "parent-direct (dispatcher channels down: dht 429, dahetao deepseek 503, jing 503, google-free hang)",
+    "named_bindings": [
+      {
+        "slot": "0x3edc40",
+        "word": "0x0075310c",
+        "target": "builtin_variables",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f0e30",
+        "word": "0x00753100",
+        "target": "globdecl",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3edc3c",
+        "word": "0x00753108",
+        "target": "builtin_numb",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3ede20",
+        "word": "0x00483404",
+        "target": "libcode",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3ede24",
+        "word": "0x00483408",
+        "target": "libnumb",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      }
+    ],
+    "anon_bindings": [
+      {
+        "word_va": "0x7530f4",
+        "consumers": "Timeline_Main four add-pc sites (parent recomputed all four deltas)",
+        "role": "container-one pointer, runtime-written, cleared at phase-one end"
+      },
+      {
+        "word_va": "0x7530f8",
+        "consumers": "Timeline_Main [anon_0x7530f4+4] read, cleared at phase-two end",
+        "role": "container-two pointer, runtime-written"
+      }
+    ],
+    "poison_compare": {
+      "constant": "0xfeeefeee",
+      "sites": [
+        "0x1f31c0 entries[0]",
+        "0x1f31e8 [entry vtable]"
+      ],
+      "note": "reproduced as plain value compares; sentinel convention observed, not claimed as contract"
+    },
+    "isallocated_seam": "vm_buffer.hpp gained static int IsAllocated(const void*) declaration (0x27c454); body unrecovered",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
   }
 }

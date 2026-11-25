@@ -1,6 +1,24 @@
 # 状态与定性
 
-## 当前断点：Graphics FINALIZE 切片（父级直接施工）
+## 当前断点：Script/Variable/Timeline/Event 拆除切片（父级直接施工）
+
+派工渠道仍全线故障，父级直接恢复四函数：`FINALIZE_Script_Main@0x1e0770`（4B 整体尾支进
+dynsym 已定义未恢复的 `Script_Free`）、`FINALIZE_Variable_Main@0x1f4d10`（152B：
+builtin_variables 8000B 表按 16B 步进 Free+清零（基址保持不重载）+ memset 全表清零 +
+builtin_numb 清零（先于 Free 分支）+ globdecl{+4 两分支均 Free 后存零字, +0 清零}）、
+`FINALIZE_Timeline_Main@0x1f3174`（420B：两容器阶段走匿名运行时写 BSS 指针字 0x7530f4/
+0x7530f8——四路 add-pc 同目标父级逐一复算；逐条目 0xfeeefeee 毒值双检（entries[0] 与
+vtable）不摊平，[vtable+4] blx 析构目标不解析；IsAllocated 门控第二阶段 Free；两容器各自
+Free 数组/双字清零/operator delete 后清指针字）、`FINALIZE_Event_Action@0xf2c9c`（108B：
+libcode/libnumb 双守卫 + 逐项 Free/置空 live 重载）。vm_buffer.hpp 规范类补
+`IsAllocated` 声明（体未恢复）。五具名全局 R_ARM_RELATIVE 全核。ARMv7 O0/O2 在 graphics
+基线上追加 1 个 TU；无桩门、UND 覆盖门（9 名）、正/负控全过。核对原件 171 字（含 9 池字）。
+目标从未运行；五具名全局与两匿名字的生产者、Script_Free/IsAllocated 体、blx 目标类、EHABI
+及最终镜像链接未证。拆除链 FINALIZE 族剩余：Score 580B、Support_File、Sound、Runner_Form、
+Function_File、PlatformSpecific、CleanGestures 192B、FreeAllDataStructures 508B、
+Graphics_Display 之外的 Graphics 族已清。
+
+## 上一批：Graphics FINALIZE 切片
 
 派工渠道全线故障（dht 429 配额、dahetao deepseek 503、jing 503、google-free 挂起）后由父级
 直接恢复三函数：`FINALIZE_Graphics_Display@0x17dbb8`（20B：DisplayReset、InvalidateOGLResources、

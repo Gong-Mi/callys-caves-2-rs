@@ -619,3 +619,19 @@ GOT-delta 配对（0x173904/0x17393c 与 0x173908/0x173940，同 delta 0x0027c98
 与 `g_pDebugFont`（0x499330）；先无条件清 `g_pDebugFont`，`deffont` 读值非零才 [vtable+4]
 blx 间接析构（0x17392c，目标不解析）并清 `deffont`；pop 后尾支 `GR_Text_ResetToDefault`。
 五条 extern callee 无桩；组合对象去 TU 即三符号缺失。
+
+## Script/Variable/Timeline/Event 拆除切片
+
+`FINALIZE_Script_Main@0x1e0770` 整体尾支 `Script_Free`（0x1e4644，204B，dynsym 已定义未恢复）。
+`FINALIZE_Variable_Main@0x1f4d10`：builtin_variables（0x75310c，8000B，GOT 0x3edc40）按 16B
+步进 Free 非零字并置零（基址一次装入），后 `memset(表,0,8000)`；`builtin_numb`（0x753108）
+先清零，`globdecl[+4]`（0x753100+4）两分支（含空值分支）均 Free 后存零字，`globdecl[+0]` 清零。
+`FINALIZE_Timeline_Main@0x1f3174`：两容器阶段——容器一指针存于匿名 BSS 字 0x7530f4（四路
+add-pc 同目标：0x1f3184+0x0055ff70 / 0x1f3248+0x0055feac / 0x1f3254+0x0055fea0 / 0x1f32e4+
+0x0055fe10，父级复算一致）；逐条目先检 entries[0]==0xfeeefeee、条目空、vtable 毒值三重跳过，
+`[vtable+4]` blx 析构（0x1f31f4，目标不解析），[T1+4] live 重载后置空；Free 条目数组、双字
+清零、delete 容器一、清 0x7530f4。容器二经 [0x7530f4+4]=0x7530f8 同构，但每条目先过
+`MemoryManager::IsAllocated`（0x27c454，canonical_declared_unrecovered）门控才 Free；尾程同
+构并清 0x7530f8。`FINALIZE_Event_Action@0xf2c9c`：libcode（0x3ede20）/libnumb（0x3ede24）
+双守卫（数组空 popEQ、count<=0 popLE），逐项经 live 重载 Free+置空。vm_buffer.hpp 补
+`IsAllocated` 声明；extern callee 无桩，组合对象去 TU 即四符号缺失。
