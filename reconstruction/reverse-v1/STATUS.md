@@ -1,6 +1,19 @@
 # 状态与定性
 
-## 当前断点：bucketCheck（父级两稿拒稿后由子代理交付，父级验收）
+## 当前断点：utf8 家族十成员（子代理交付，父级验收）
+
+恢复 utf8 家族十成员（294 词）：`utf8_get_char`（三式解码不推进游标）、`utf8_strrchr`
+（extract_char 步进找末次命中 + alt 字节回退）、`utf8_add_char`（lead-bit 梯 1/2/3 字节
+发射，无 4B 分支）、`utf8_char_size`（lead→长度两比较）、`utf8_strlen`（extract_char 步进
+计数至 NUL）、`utf8_strcpy`（40B 含 NUL 尾支）、`utf8_strcmp`/`utf8_strncmp`/`utf8_stricmp`
+（成对 extract_char 步进比较，stricmp 带 fold）、`_Z11utf8_strstrPKcS0_`（haystack 游标
+extract_char 步进 + needle 比较）。模块归位：scripting/utf8_family.cpp（十体）与
+utf8_core.cpp（extract_char 本体，批十二）分 TU——extract_char 边在模块链接时由本体
+消解为真实链接。ARMv7 O0/O2 双档 -Werror 全绿；无桩门、extract_char 边消解门、模块
+链接门、正/负控全过。核对原件 294 词。目标从未运行；调用族与字符串生产者、EHABI 及
+最终镜像链接未证。utf8 家族 11/11 成员全部收口（extract_char + 十成员）。
+
+## 上一批：bucketCheck（父级两稿拒稿后由子代理交付，父级验收）
 
 恢复 `_Z11bucketCheckPc@0x27bee0`（772B，分配器诊断：七真模式桶的 head 链走查）——
 **父级两稿因形状错误拒稿**（初稿逐节点陷阱、二稿幻觉第七块+错槽址），第三稿由子代理

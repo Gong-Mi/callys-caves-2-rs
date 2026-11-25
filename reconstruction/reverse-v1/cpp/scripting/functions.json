@@ -128,6 +128,226 @@
       "local_contract": "UTF-8 lead-byte decode over *str: ASCII fast path advances 1; two-byte form returns (b1 & 63) + (b0 & 31)*64 and advances 2; three-byte form returns (uint16)((b2 & 63) + ((b1 & 63) << 6) + (b0 << 12)) and advances 3; no four-byte branch (4-byte leads take the three-byte path); no bounds or NUL guard.",
       "direct_dependencies": [],
       "gap": "Caller family and string producers; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x10fae4",
+      "size": 84,
+      "symbols": [
+        "utf8_get_char"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "f28bd743baaa1c95e334552d166db458bbbb3fd6c3d3c6c604e34e0b5c99b713",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Load the codepoint at *str via the shared three-form decode (ASCII fast path, 2-byte (b1&63)+(b0&31)*64, 3-byte (b2&63)+((b1&63)<<6)+(b0<<12) with uxth 16-bit truncation) WITHOUT advancing the cursor; return the codepoint.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x10fbbc",
+      "size": 144,
+      "symbols": [
+        "utf8_strrchr"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "d6f4487e2ce1ddf38384a6e5f3185552738b751fb7a7daaa2f6f0566aabc668d",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Walk the string with utf8_extract_char steps recording each codepoint hit for c (with an alternate byte fallback per census) until NUL; return the pointer of the last hit or NULL.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x10fe28",
+      "size": 144,
+      "symbols": [
+        "utf8_add_char"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "534298425e1541d8ee56435fe4f7d4a08d826bcd6fdbddd057c8fe7b572b270f",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Emit the codepoint as 1/2/3-byte UTF-8 into the buffer per the lead-bit ladder and advance; the census ladder has no 4-byte branch.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110390",
+      "size": 32,
+      "symbols": [
+        "utf8_char_size"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "fe8650807ef7f7fdabe185c714c23673491795fbdeebc8e33f789f810437b0d0",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Return the UTF-8 sequence length for the lead byte (1 for <0x80, 2 for <0xE0, 3 otherwise) per the two census compares.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110648",
+      "size": 72,
+      "symbols": [
+        "utf8_strlen"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "137451264b4b456ab4121955548a34682590a9d676ed573fe4bdcb32ee75aa21",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Count codepoints by stepping utf8_extract_char until the cursor lands on NUL.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x1109cc",
+      "size": 40,
+      "symbols": [
+        "_Z11utf8_strcpyPcPKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "bc3a22bc4f364a3358ce3dd8717f403ad00bc4ccb14246dc5d18e2aa9260ce45",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Copy the source string to dst including the NUL (40B tail branch into the copy loop exit).",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x1109f4",
+      "size": 128,
+      "symbols": [
+        "utf8_strcmp"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "3b89b4f95c072161a0a1205955c54edbd7538dc606299f9ed445d54b30fe4b4d",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Step both strings with utf8_extract_char pairs; return c1-c2 on the first difference or at both-NUL per census edge order.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110a74",
+      "size": 192,
+      "symbols": [
+        "utf8_stricmp"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "2dcdceb08722c1f8d4d5c1a6d7d7b33272b2760d7141a805afbffbecc8749841",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Case-folded variant of the strcmp walk: fold each extracted codepoint pair per census before compare; return the fold difference.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110b34",
+      "size": 208,
+      "symbols": [
+        "utf8_strncmp"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "f5cdc1f2d6ac0280e78219e16dee8a5c97490e43035014a38ad481f8c792a2ef",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Bounded variant: step up to n codepoint pairs; return the difference on the first mismatch inside the bound or 0 at bound/both-NUL.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110c04",
+      "size": 132,
+      "symbols": [
+        "_Z11utf8_strstrPKcS0_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "1628bf16a089708b4dba42fa04652ef30c72fe9d8e05697366766d6c33e529d2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Advance the haystack cursor with utf8_extract_char steps, comparing at each position against the needle walk; return the match pointer or NULL at haystack NUL.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
     }
   ],
   "not_whole_library_completion": true,
@@ -141,5 +361,6 @@
   "additional_headers_sha256": {
     "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61"
   },
-  "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json"
+  "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json",
+  "batch15_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch15-integration-r1/gate-receipt.json"
 }

@@ -676,3 +676,13 @@ head 是否落入 [node+8, node+8+range+8)（range 逐块 0x20000/0x40000/0x4000
 `str 42,[NULL]` 陷阱存；head 经 `[head]` 链进、计数器逐 head 递增、head 非零重走。
 本函数 GOT 基 0x3f2c58（独立区段）。八字无主（无 dynsym、无 reloc、运行时写），
 按匿名规则 extern 数组落位。组合对象去 TU 即符号缺失。
+
+## utf8 家族十成员
+
+scripting/utf8_family.cpp 提供 utf8 家族十成员（0x10fae4..0x110c88）：get_char（三式解码
+不推进）、strrchr（extract_char 步进末次命中 + alt 回退）、add_char（lead-bit 梯 1/2/3B
+发射）、char_size（lead→长度）、strlen（extract_char 步进计数）、strcpy（含 NUL 拷贝）、
+strcmp/strncmp/stricmp（成对 extract_char 比较，stricmp 带 fold；strncmp 有界）、strstr
+（haystack extract_char 步进 + needle 比较）。extract_char（批十二）是家族内真实链接。
+原件 3B 路径 uxth 16 位截断、无 4B 分支、无 NUL/边界守卫——原样复现不添加。模块去 TU
+即十符号缺失。
