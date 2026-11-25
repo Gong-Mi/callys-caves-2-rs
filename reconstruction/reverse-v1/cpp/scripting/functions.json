@@ -348,6 +348,47 @@
       "local_contract": "Advance the haystack cursor with utf8_extract_char steps, comparing at each position against the needle walk; return the match pointer or NULL at haystack NUL.",
       "direct_dependencies": [],
       "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x1110a0",
+      "size": 144,
+      "symbols": [
+        "_Z10UTF8ToASCIIPKc"
+      ],
+      "boundary": "parent_derived_local_symbol",
+      "boundary_note": "next defined symbol _Z12YYGML_stringRK6RValue at 0x111130",
+      "body_sha256": "f859d3cae090d7dbeb21c1781c1017f1c2983f988875f5ceb6a428e75c424e70",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "utf8_ascii.cpp",
+      "translation_source_sha256": "4555da3c58a85362c1552bdc550f02f668bab684989829d88a543dbe4d03597f",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x11112c"
+      ],
+      "local_contract": "UTF8ToASCII(str): null -> null; empty -> 0 (moveq r0,r7 with r7=first byte); Alloc(len+1, \"r\", 1536, true) [tag literal pc-relative from 0x338b4c, parent byte-read = \"r\"]; walk with utf8_extract_char through a stack cursor slot; store codepoints <= 127 only (strbls at 0x1110fc, non-ASCII dropped); NUL-terminate; return the ASCII buffer.",
+      "direct_dependencies": [
+        {
+          "symbol": "utf8_strlen",
+          "va": "0x110648",
+          "edge": "real_link_recovered"
+        },
+        {
+          "symbol": "utf8_extract_char",
+          "va": "0x10fb38",
+          "edge": "real_link_recovered"
+        },
+        {
+          "symbol": "_ZN13MemoryManager5AllocEjPKcib",
+          "va": "0x27ce78",
+          "edge": "real_link_recovered"
+        }
+      ],
+      "gap": "Alloc tag-string consumer, string producers, and callers outside the recovered set; EHABI not recovered; nothing executed; no equivalence claim."
     }
   ],
   "not_whole_library_completion": true,
@@ -362,5 +403,6 @@
     "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61"
   },
   "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json",
-  "batch15_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch15-integration-r1/gate-receipt.json"
+  "batch15_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch15-integration-r1/gate-receipt.json",
+  "batch16_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch16-integration-r1/gate-receipt.json"
 }

@@ -1,6 +1,18 @@
 # 状态与定性
 
-## 当前断点：utf8 家族十成员（子代理交付，父级验收）
+## 当前断点：UTF8ToASCII（父级直接施工，utf8 簇全收口）
+
+`_Z10UTF8ToASCIIPKc`@0x1110a0（144B，**局部符号**——无 dynsym 条目，边界由父级从
+下一符号 _Z12YYGML_stringRK6RValue@0x111130 推导）：空指针→空指针；空串→0
+（moveq r0,r7 直接喂返回寄存器）；Alloc(len+1,"r",1536,true)——tag 字面量经
+pc 相对读 0x338b4c，父级实读镜像为单字符 "r"（后跟 instance_copy 等其它 tag）；
+utf8_extract_char 经栈游标槽步进；仅存 cp<=127（strbls@0x1110fc，非 ASCII 丢弃）；
+NUL 收尾返回 ASCII 缓冲。三条边全真实链接（strlen/Alloc/extract_char 全已恢复）。
+ARMv7 O0/O2 双档 -Werror 全绿；无桩/UND 覆盖/正负控全过。核对原件 36 词。
+从未运行；调用者与 EHABI 未证。**utf8 簇 12/12 成员全收口**（extract_char+十成员+
+本局部符号）。
+
+## 上一批：utf8 家族十成员（子代理交付，父级验收）
 
 恢复 utf8 家族十成员（294 词）：`utf8_get_char`（三式解码不推进游标）、`utf8_strrchr`
 （extract_char 步进找末次命中 + alt 字节回退）、`utf8_add_char`（lead-bit 梯 1/2/3 字节

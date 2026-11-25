@@ -686,3 +686,11 @@ strcmp/strncmp/stricmp（成对 extract_char 比较，stricmp 带 fold；strncmp
 （haystack extract_char 步进 + needle 比较）。extract_char（批十二）是家族内真实链接。
 原件 3B 路径 uxth 16 位截断、无 4B 分支、无 NUL/边界守卫——原样复现不添加。模块去 TU
 即十符号缺失。
+
+## UTF8ToASCII
+
+scripting/utf8_ascii.cpp 提供 _Z10UTF8ToASCIIPKc（0x1110a0，局部符号，边界父级推导）：
+三边全真实链接（utf8_strlen/Alloc/utf8_extract_char 全已恢复）；Alloc tag 字面量
+pc 相对读 0x338b4c，父级实读镜像 = 单字符 "r"。空串→0、空指针→空指针、非 ASCII
+码点丢弃（strbls 条件存）、NUL 收尾。簇 12/12 全收口，模块去 TU 即缺
+_Z11UTF8ToASCIIPKc。
