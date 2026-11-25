@@ -2491,10 +2491,79 @@
       ],
       "observed_consumers": [],
       "gap": "The source-level names for descriptor payload/metadata bit 2, full descriptor and YYObjectBase layouts, higher-level callers, error/fault paths and EHABI remain open. No target was executed."
+    },
+    {
+      "entry": "0x2407e8",
+      "size": 64,
+      "symbols": [
+        "_Z19JS_IsDataDescriptorP6RValue"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a4c8785b017aae738422c17379a2170e45abb0eb3e8de992a0ead3a50919a97b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_data_descriptor.cpp",
+      "translation_source_sha256": "a237e6f4bd1036389766a7d0c996292f8bdcb2b304d0d477fcccd8f1f84b7bb0",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Return 0 for masked kind 0x00ffffff; return 1 for any other kind except kind 6 with payload pointer at RValue+0 resolving to flags word +0x48 == 2, which also returns 0. Thus this entry reports the exact consumed data-descriptor predicate; no source field names are asserted.",
+      "direct_dependencies": [],
+      "observed_consumers": [
+        {
+          "symbol": "_Z22JS_IsGenericDescriptorP6RValue",
+          "va": "0x240858",
+          "call_sites": [
+            "0x240870"
+          ]
+        },
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_sites": [
+            "0x247e28",
+            "0x247e34",
+            "0x248258",
+            "0x2482e8"
+          ]
+        },
+        {
+          "symbol": "_Z27F_JS_FromPropertyDescriptorP6RValueS0_",
+          "va": "0x2483e0",
+          "call_sites": [
+            "0x248454"
+          ]
+        },
+        {
+          "symbol": "_Z15F_JS_Object_GetP12YYObjectBaseP6RValuePKc",
+          "va": "0x249240",
+          "call_sites": [
+            "0x249274"
+          ]
+        },
+        {
+          "symbol": "_Z13JS_Object_PutP12YYObjectBaseP6RValuePKcb",
+          "va": "0x24f118",
+          "call_sites": [
+            "0x24f180"
+          ]
+        },
+        {
+          "symbol": "_Z20F_JS_Object_isFrozenR6RValueP9CInstanceS2_iPS_",
+          "va": "0x2507cc",
+          "call_sites": [
+            "0x250870"
+          ]
+        }
+      ],
+      "gap": "Descriptor source spelling/layout and all listed caller bodies remain open; O0 retains the EHABI runtime symbol and no target was executed."
     }
   ],
   "not_whole_library_completion": true,
-  "scope": "YYObjectBase Free/FreeVars/IsExtensible, RValue page-pool recycle, JS property eligibility/accessor descriptors/callability, and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
+  "scope": "YYObjectBase Free/FreeVars/IsExtensible, RValue page-pool recycle, JS property eligibility/data+accessor descriptor predicates/callability, and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
   "remaining_internal_dependencies": [
     "YYObjectBase constructor C1/C2",
     "CHashMap<int,RValue*,3>::Insert",
@@ -2508,7 +2577,7 @@
   ],
   "original_executed": false,
   "additional_headers_sha256": {
-    "object_helpers.hpp": "ea42cbc88b8fb90313968fce75009e91bf8a3ccc0c6a274cbabc803c82826561",
+    "object_helpers.hpp": "c16aa9a38999da916e2d57a820b063efa7507c8dbeeb80e9bdf4fbda0dca377c",
     "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
@@ -2527,5 +2596,6 @@
   "gc_writer_scope": "AddRoot, RemoveRoot and pointer CompareKeys; AddRoot reinsert uses the real weak root-map Insert provider (not an unresolved or stub dependency in the scoped relocatable).",
   "gc_root_provider_reset_scope": "Complete bodies for the root-map Insert and CGCGeneration::Reset on the pinned ARMv7 source-recovery lane; not complete GC lifecycle.",
   "gc_reset_caller_and_class_stats_scope": "Local bodies and two original BSS words; original Reset and gen array providers retained; class-stat producer uses the same name slot later freed by the original cleanup consumer.",
-  "batch17_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/gate-receipt.json"
+  "batch17_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/gate-receipt.json",
+  "batch18_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-data-descriptor-r1/gate-receipt.json"
 }

@@ -1,18 +1,26 @@
 # 状态与定性
 
-## 当前断点：YYObjectBase property-eligibility（三方法闭合，静态）
+## 当前断点：JS_IsDataDescriptor（property predicate leaf，静态）
 
-恢复 `_ZN12YYObjectBase12IsExtensibleEv@0x19220c`（12B，`word(this+0x28)&1`）、
-`_Z23JS_IsAccessorDescriptorP6RValue@0x240828`（48B，masked kind=6 且载荷对象
-`+0x48 == 2`）与 `_Z9JS_CanPutP12YYObjectBasePKc@0x241cac`（276B，own/prototype
-descriptor 资格路径）。实际消费者 JS_CanPut 的 direct edges：
-JS_GetOwnProperty / JS_GetProperty（既有恢复）、JS_IsAccessorDescriptor、
-YYObjectBase::IsExtensible、InternalGetYYVar（既有恢复），全部真实链接；正链通过，去掉
-js_helpers/object_allocation provider 的负链各按预期重新留下 UND。ARMv7 O0/O2 双档
--Werror 编译通过，原件 84/84 词入册，调用重定位保留。只记录 `+0x28` 一个位字段，
-不声称完整 YYObjectBase 布局；property metadata bit2 的正式字段名、descriptor payload
-类型、源级返回类型、上层写入调用者、EHABI 与最终链接仍开放。目标未运行，④轴未测。
-详见 `reconstruction/contracts/object-property-eligibility.md` 与外部批次回执。
+恢复 `_Z19JS_IsDataDescriptorP6RValue@0x2407e8`（64B）：masked kind 为
+`0x00ffffff` 返回 0、非 6 其他 kind 返回 1；kind 6 时仅当 payload object `+0x48 == 2`
+返回 0。无其他直接函数依赖；原件扫描见 6 个 caller/9 个 call site，含
+`JS_Object_Put@0x24f118`。O0/O2 `-Werror` 编译、自链接通过，16/16 词入册；O0 留有
+`__aeabi_unwind_cpp_pr0`，O2 无 UND。原件从未运行，caller 未因此闭合；尤其
+`JS_Object_Put` 还有 `JS_Argument_Put`、`JSThrowTypeError`、`Call_Accessor_Set`、
+`JS_DefineOwnProperty`、`JS_Array_Put` 与 `strcmp@plt` 等直接边待恢复。详见
+`reconstruction/contracts/object-property-eligibility.md` 与批次回执。
+
+## 上一批：YYObjectBase property-eligibility（三方法闭合，静态）
+
+恢复 `_ZN12YYObjectBase12IsExtensibleEv@0x19220c`、
+`_Z23JS_IsAccessorDescriptorP6RValue@0x240828` 与
+`_Z9JS_CanPutP12YYObjectBasePKc@0x241cac`，合计 336B / 84 词。JS_CanPut 的五条
+direct edge 在 O0/O2 正链中由真实定义消解；分别省略 js_helpers/object_allocation 的
+负链，JS_GetOwnProperty/JS_GetProperty 与 InternalGetYYVar 按预期回到 UND。ARMv7
+O0/O2 `-Werror` 编译通过，重定位保留。只记录 `YYObjectBase+0x28` 一个位字段，不声称
+完整类/descriptor 布局；property bit2 源级字段名、调用者、EHABI、最终镜像链接仍开放。
+目标未运行，④轴未测。
 
 ## 上一批：UTF8ToASCII（父级直接施工，utf8 簇全收口）
 

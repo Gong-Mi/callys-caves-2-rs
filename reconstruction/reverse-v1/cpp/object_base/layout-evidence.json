@@ -959,6 +959,11 @@
         "symbol": "_Z9JS_CanPutP12YYObjectBasePKc",
         "entry": "0x241cac",
         "size": 276
+      },
+      {
+        "symbol": "_Z19JS_IsDataDescriptorP6RValue",
+        "entry": "0x2407e8",
+        "size": 64
       }
     ],
     "extensibility_word": {
@@ -977,6 +982,62 @@
       "flags_value": 2,
       "full_descriptor_layout_claim": false
     },
-    "original_executed": false
+    "original_executed": false,
+    "data_descriptor_predicate": {
+      "rvalue_kind_offset": "0x0c",
+      "kind_mask": "0x00ffffff",
+      "unresolved_kind_result": 0,
+      "kind_6_payload_pointer_offset": "0x00",
+      "kind_6_flags_offset": "0x48",
+      "kind_6_flags_value_resulting_in_zero": 2,
+      "full_descriptor_layout_claim": false,
+      "observed_call_sites": [
+        {
+          "symbol": "_Z22JS_IsGenericDescriptorP6RValue",
+          "va": "0x240858",
+          "call_sites": [
+            "0x240870"
+          ]
+        },
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_sites": [
+            "0x247e28",
+            "0x247e34",
+            "0x248258",
+            "0x2482e8"
+          ]
+        },
+        {
+          "symbol": "_Z27F_JS_FromPropertyDescriptorP6RValueS0_",
+          "va": "0x2483e0",
+          "call_sites": [
+            "0x248454"
+          ]
+        },
+        {
+          "symbol": "_Z15F_JS_Object_GetP12YYObjectBaseP6RValuePKc",
+          "va": "0x249240",
+          "call_sites": [
+            "0x249274"
+          ]
+        },
+        {
+          "symbol": "_Z13JS_Object_PutP12YYObjectBaseP6RValuePKcb",
+          "va": "0x24f118",
+          "call_sites": [
+            "0x24f180"
+          ]
+        },
+        {
+          "symbol": "_Z20F_JS_Object_isFrozenR6RValueP9CInstanceS2_iPS_",
+          "va": "0x2507cc",
+          "call_sites": [
+            "0x250870"
+          ]
+        }
+      ]
+    }
   }
 }
