@@ -3,15 +3,15 @@ use std::collections::BTreeMap;
 #[derive(Default)]
 struct ScalarHost { fields: BTreeMap<String, f64> }
 impl Host for ScalarHost {
-    fn read(&mut self, _:i32, s:i32, n:&str, i:Option<i32>) -> Result<f64,String> {
+    fn read(&mut self, _:i32, s:i32, n:&str, i:Option<i32>) -> Result<Value,String> {
         if s != -1 || i.is_some() { return Err("unsupported address".into()); }
-        self.fields.get(n).copied().ok_or(format!("undefined {n}"))
+        Ok(Value::from_legacy_numeric(self.fields.get(n).copied().ok_or(format!("undefined {n}"))?))
     }
-    fn write(&mut self, _:i32, s:i32, n:&str, i:Option<i32>, v:f64) -> Result<(),String> {
+    fn write(&mut self, _:i32, s:i32, n:&str, i:Option<i32>, v:Value) -> Result<(),String> {
         if s != -1 || i.is_some() { return Err("unsupported address".into()); }
-        self.fields.insert(n.into(),v); Ok(())
+        self.fields.insert(n.into(),v.to_legacy_numeric()?); Ok(())
     }
-    fn call(&mut self,_:&Bundle,_:i32,n:&str,_:&[f64])->Result<f64,String>{Err(format!("unsupported builtin {n}"))}
+    fn call(&mut self,_:&Bundle,_:i32,n:&str,_:&[Value])->Result<Value,String>{Err(format!("unsupported builtin {n}"))}
     fn select(&self,_:i32,_:i32)->Result<Vec<i32>,String>{Err("unsupported selector".into())}
 }
 #[test]

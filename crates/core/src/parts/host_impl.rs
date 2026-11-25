@@ -974,3 +974,42 @@ impl Host for Scene {
         }
     }
 }
+
+/// f64 过渡层适配器（见 `value.rs` 头注的边界编码）：room-walk 测试族与
+/// 少量宿主直调方以 f64 语义读写实例变量表，而宿主边界已迁 `Value`。
+/// 固有方法对直接调用优先于 trait 方法（`dyn Host` 分发不受影响），因此
+/// 这里把 f64 折算后走同一条 trait 路径，保持单一语义边；字符串写入等
+/// `Value` 侧能力仍从 trait 方法进入。
+impl Scene {
+    pub fn write(
+        &mut self,
+        id: i32,
+        s: i32,
+        n: &str,
+        index: Option<i32>,
+        value: f64,
+    ) -> Result<(), String> {
+        Host::write(self, id, s, n, index, Value::from_legacy_numeric(value))
+    }
+
+    pub fn read(
+        &mut self,
+        id: i32,
+        s: i32,
+        n: &str,
+        index: Option<i32>,
+    ) -> Result<f64, String> {
+        Ok(Host::read(self, id, s, n, index)?.to_legacy_numeric()?)
+    }
+
+    pub fn call(
+        &mut self,
+        b: &Bundle,
+        id: i32,
+        n: &str,
+        args: &[f64],
+    ) -> Result<f64, String> {
+        let a: Vec<Value> = args.iter().copied().map(Value::from_legacy_numeric).collect();
+        Ok(Host::call(self, b, id, n, &a)?.to_legacy_numeric()?)
+    }
+}
