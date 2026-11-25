@@ -1,33 +1,40 @@
 # 状态与定性
 
-## 当前断点：JS_IsGenericDescriptor（descriptor predicates 依赖闭合，静态）
+## 当前断点：JS_SameValue（object value predicate，静态）
 
-恢复 `_Z22JS_IsGenericDescriptorP6RValue@0x240858`（68B）：kind 5→0，依次调用
-`JS_IsDataDescriptor@0x2407e8` 与 `JS_IsAccessorDescriptor@0x240828`，二者任一非零即 0，
-否则 1。两条直接边均由已恢复的真实函数提供；O0/O2 正链通过，分别移除 data/accessor
-provider 的负控均重现预期 UND。O0/O2 `-Werror` 编译通过，原件 17/17 词入册；当前
-`object_helpers.hpp` 的五个消费者 TU O0/O2 共 10/10 通过。原件唯一直接 caller 是
-`JS_DefineOwnProperty_Internal@0x247d44` 的 `0x247e18`，该 caller 本体仍未恢复；正链里
-其余未恢复模块符号留在回执中，不宣称 object_base 整体或最终镜像闭合。目标未运行。
+恢复 `_Z12JS_SameValueP6RValueS0_@0x24089c`（212B）：低 24 位 kind 不同即 0；
+kind 0/7/8/11 按两个原始字组成 binary64 做 VFP equality；kind 1 沿 `RValue+0` 的两级
+指针取字符串并调用真实外部 `strcmp`；kind 5/12 恒为 1；kind 6 比较 `+0` 单字，其他
+kind 返回 0。直接 caller 是尚未恢复的 `JS_DefineOwnProperty_Internal` 两个站点
+`0x247de0`/`0x248328`。O0/O2 `-Werror` 通过、原字 53/53；UND 仅外部 `strcmp` 与
+EHABI runtime，不冒充最终链接。当前 `object_helpers.hpp` 八个直接 include TU 加
+transitive `object_allocation.cpp`，O0/O2 共 18/18 编译通过。原件从未运行。
+
+## 上一批：JS_IsGenericDescriptor（descriptor predicates 依赖闭合，静态）
+
+`_Z22JS_IsGenericDescriptorP6RValue@0x240858`（68B）：kind5→0，再依次查询 data/accessor
+predicates，任一非零即0、否则1。两条直接边在 O0/O2 真实正链消解；分别移除 provider 的
+负控重现预期 UND。原件 17/17 字入册，唯一 caller 为 `JS_DefineOwnProperty_Internal`
+`0x247e18`；当前 header 扩展前的七个 include TU + object_allocation 共 16/16 通过。正链
+其他未恢复模块 UND 保留；不宣称整个 object_base 或最终镜像闭合。
 
 ## 上一批：JS_IsDataDescriptor（property predicate leaf，静态）
 
-恢复 `_Z19JS_IsDataDescriptorP6RValue@0x2407e8`（64B）：masked kind `0x00ffffff` 返回 0，
-非 6 的其他 kind 返回 1；kind 6 时仅当 payload object `+0x48 == 2` 返回 0。6 个 caller/
-9 个 call site；O0/O2 `-Werror` 编译、自链接通过，16/16 词入册。原件从未运行，caller
-未因此闭合；`JS_Object_Put` 还有 `JS_Argument_Put`、`JSThrowTypeError`、`Call_Accessor_Set`、
-`JS_DefineOwnProperty`、`JS_Array_Put` 与 `strcmp@plt` 等直接边待恢复。
+`_Z19JS_IsDataDescriptorP6RValue@0x2407e8`（64B）：masked kind `0x00ffffff` 返回0，非6
+其他 kind 返回1；kind6 时仅当 payload object `+0x48 == 2` 返回0。6 个 caller/9 个 call
+site；O0/O2 编译、自链接通过，原字 16/16。caller 未因此闭合；`JS_Object_Put` 仍有
+`JS_Argument_Put`、`JSThrowTypeError`、`Call_Accessor_Set`、`JS_DefineOwnProperty`、
+`JS_Array_Put` 与 `strcmp@plt` 等直接边待恢复。
 
 ## 上一批：YYObjectBase property-eligibility（三方法闭合，静态）
 
 恢复 `_ZN12YYObjectBase12IsExtensibleEv@0x19220c`、
 `_Z23JS_IsAccessorDescriptorP6RValue@0x240828` 与
-`_Z9JS_CanPutP12YYObjectBasePKc@0x241cac`，合计 336B / 84 词。JS_CanPut 的五条
-direct edge 在 O0/O2 正链中由真实定义消解；分别省略 js_helpers/object_allocation 的
-负链，JS_GetOwnProperty/JS_GetProperty 与 InternalGetYYVar 按预期回到 UND。ARMv7
-O0/O2 `-Werror` 编译通过，重定位保留。只记录 `YYObjectBase+0x28` 一个位字段，不声称
-完整类/descriptor 布局；property bit2 源级字段名、调用者、EHABI、最终镜像链接仍开放。
-目标未运行，④轴未测。
+`_Z9JS_CanPutP12YYObjectBasePKc@0x241cac`，合计 336B / 84 词。JS_CanPut 五条直接边
+在 O0/O2 正链由真实定义消解；分别省略 js_helpers/object_allocation 的负链，
+JS_GetOwnProperty/JS_GetProperty 与 InternalGetYYVar 按预期回到 UND。只记录
+`YYObjectBase+0x28` 一个位字段，不声称完整类/descriptor 布局；bit2 源级字段名、调用者、
+EHABI、最终镜像链接仍开放。目标未运行，④轴未测。
 
 ## 上一批：UTF8ToASCII（父级直接施工，utf8 簇全收口）
 

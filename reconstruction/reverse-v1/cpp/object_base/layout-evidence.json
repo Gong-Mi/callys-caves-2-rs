@@ -969,6 +969,11 @@
         "symbol": "_Z22JS_IsGenericDescriptorP6RValue",
         "entry": "0x240858",
         "size": 68
+      },
+      {
+        "symbol": "_Z12JS_SameValueP6RValueS0_",
+        "entry": "0x24089c",
+        "size": 212
       }
     ],
     "extensibility_word": {
@@ -1060,6 +1065,36 @@
         }
       ],
       "full_descriptor_layout_claim": false
+    },
+    "same_value_predicate": {
+      "kind_word_offset": "0x0c",
+      "kind_mask": "0x00ffffff",
+      "numeric_kind_values": [
+        0,
+        7,
+        8,
+        11
+      ],
+      "string_kind_value": 1,
+      "constant_true_kind_values": [
+        5,
+        12
+      ],
+      "single_word_equal_kind": 6,
+      "other_kind_values": "false",
+      "external_string_compare": "strcmp@plt",
+      "direct_callers": [
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_site": "0x247de0"
+        },
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_site": "0x248328"
+        }
+      ]
     }
   }
 }
