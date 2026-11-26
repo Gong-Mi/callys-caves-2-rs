@@ -1096,5 +1096,78 @@
         }
       ]
     }
+  },
+  "js_define_own_property_internal": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+    "entry": "0x247d44",
+    "size": 1616,
+    "body_sha256": "6bcc3e2aa77c09c6303b7582b52b4f26f84b0e83f2a9b397cabb1d077e4762b0",
+    "word_count": 404,
+    "instruction_words_excluding_inline_data": 373,
+    "inline_data_word_ranges": [
+      {"start": "0x247eec", "end": "0x247f28", "word_count": 15, "role": "masked-kind branch table"},
+      {"start": "0x247fe4", "end": "0x248020", "word_count": 15, "role": "allocated-slot branch table"},
+      {"start": "0x248390", "end": "0x248394", "word_count": 1, "role": "PC-relative string addend"}
+    ],
+    "jump_tables": [
+      {
+        "compare_site": "0x247ee0",
+        "dispatch_site": "0x247ee4",
+        "pc_base": "0x247eec",
+        "default_branch": "0x247ee8",
+        "target_by_index_0_to_14": ["0x248074", "0x24810c", "0x248124", "0x248040", "0x248048", "0x248048", "0x2480e8", "0x248040", "0x248048", "0x248048", "0x248074", "0x248048", "0x248048", "0x248074", "0x248040"]
+      },
+      {
+        "compare_site": "0x247fd8",
+        "dispatch_site": "0x247fdc",
+        "pc_base": "0x247fe4",
+        "default_branch": "0x247fe0",
+        "target_by_index_0_to_14": ["0x248068", "0x2480ac", "0x248080", "0x248020", "0x248028", "0x248028", "0x2480c4", "0x248020", "0x248028", "0x248028", "0x248068", "0x248028", "0x248028", "0x248068", "0x248020"]
+      }
+    ],
+    "error_string": {
+      "ldr_site": "0x248264",
+      "pool_va": "0x248390",
+      "pool_word": "0x0010dbb8",
+      "add_site": "0x248268",
+      "resolved_string_va": "0x355e28",
+      "text": "these are both accessors i guess??"
+    },
+    "direct_call_scan": {
+      "method": "Capstone 5.0.7 ARM mode, detail enabled, pinned symbol window only",
+      "direct_bl_sites": 54,
+      "unique_direct_targets": 19,
+      "indirect_blx_register_sites": 0
+    },
+    "observed_callers": [
+      {"symbol": "_Z20JS_DefineOwnPropertyP12YYObjectBasePKcP6RValueb", "va": "0x248394", "site": "0x2483d8", "edge": "tail branch"},
+      {"symbol": "_Z26JS_Array_DefineOwnPropertyP12YYObjectBasePKcP6RValueb", "va": "0x248ac4", "site": "0x248b48"},
+      {"symbol": "_Z18F_JS_Object_freezeR6RValueP9CInstanceS2_iPS_", "va": "0x2508c8", "site": "0x25095c", "return_use": "cmp r0,#2 at 0x250960"},
+      {"symbol": "_Z16F_JS_Object_sealR6RValueP9CInstanceS2_iPS_", "va": "0x2509cc", "site": "0x250a60", "return_use": "cmp r0,#2 at 0x250a64"}
+    ],
+    "unresolved_direct_providers": [
+      "_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc @0xd21ec (C++ ABI body unresolved; separate C candidate is not this symbol)",
+      "_ZN12YYObjectBase3AddEPKcR6RValuei @0x199b84",
+      "_Z38Code_Variable_FindAlloc_Slot_From_NameP12YYObjectBasePKc @0xd2c84",
+      "_Z16FREE_RValue__PreP6RValue @0xc0a7c",
+      "_Z7YYErrorPKcz @0xd547c"
+    ],
+    "return_surface": "The bool-derived initial status is raw 0/2; selected successful paths return raw 1. JS_DefineOwnProperty tail-branches to this result, JS_Array_DefineOwnProperty passes it through, and freeze/seal compare with 2. Source-level status names are unclaimed.",
+    "full_descriptor_layout_claim": false,
+    "address_taken_references": [
+      {
+        "slot": "0x3f150c",
+        "section": ".got",
+        "relocation": "R_ARM_RELATIVE",
+        "type": 23,
+        "symbol_index": 0,
+        "slot_word": "0x00247d44",
+        "target_va": "0x247d44",
+        "consumer": "not traced; not counted as an indirect caller"
+      }
+    ],
+    "original_executed": false,
+    "review_correction": "The first parent scratch binding placed the first dispatch table one word early. Independent raw-ELF/Capstone recomputation confirms CMP at 0x247ee0, ADDLS at 0x247ee4, default branch at 0x247ee8, and table base PC+8 at 0x247eec; the worker source and corrected r2 ledger use this map. A relative .got slot points to the entry, but its consumer remains open."
   }
 }

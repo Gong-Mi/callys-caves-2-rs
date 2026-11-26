@@ -2,9 +2,9 @@
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
   "header_path": "../vm_exec/vm_exec.hpp",
-  "header_sha256": "8b2daf1a0ea6e6dfb48a7ebb2297f632c9e5e71ee6dc57e6fe3d903e511a21a8",
+  "header_sha256": "1887d564102a65dfe45a5f1127044d9db5069460e31af0a2643f70fc99b2dec0",
   "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
-  "canonical_api_header_sha256": "8b2daf1a0ea6e6dfb48a7ebb2297f632c9e5e71ee6dc57e6fe3d903e511a21a8",
+  "canonical_api_header_sha256": "1887d564102a65dfe45a5f1127044d9db5069460e31af0a2643f70fc99b2dec0",
   "functions": [
     {
       "entry": "0x198f88",
@@ -2638,12 +2638,211 @@
         }
       ],
       "gap": "External strcmp must be resolved by the Android C runtime in final linking; EHABI and caller behavior remain open. No target was executed."
+    },
+    {
+      "entry": "0x247d44",
+      "size": 1616,
+      "symbols": [
+        "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "6bcc3e2aa77c09c6303b7582b52b4f26f84b0e83f2a9b397cabb1d077e4762b0",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_define_own_property_internal.cpp",
+      "translation_source_sha256": "af2f34c0006c63ff4c40263153edfa402249de2fb13f278ef412f1bde897831f",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x248390"
+      ],
+      "inline_data_word_ranges": [
+        {
+          "start": "0x247eec",
+          "end": "0x247f28",
+          "word_count": 15,
+          "role": "masked-kind branch table"
+        },
+        {
+          "start": "0x247fe4",
+          "end": "0x248020",
+          "word_count": 15,
+          "role": "allocated-slot branch table"
+        },
+        {
+          "start": "0x248390",
+          "end": "0x248394",
+          "word_count": 1,
+          "role": "PC-relative YYError string addend"
+        }
+      ],
+      "local_contract": "Preserve the observed own-property status gates, two distinct slot lookup paths, descriptor word stores, and separate value-retirement sequences over partial YYObjectBase/RValue wire views. The returned r0 is retained as a raw status word (bool-derived initial 0/2 and selected 1 paths); no source-level status name, complete object/descriptor layout, ownership policy, or runtime equivalence is claimed.",
+      "direct_dependencies": [
+        {
+          "name": "_Z16PushContextStackP12YYObjectBase",
+          "va": "0xd3968",
+          "call_sites": ["0x247d5c", "0x247e80", "0x247f68"],
+          "provider": "../scripting/context_stack.cpp"
+        },
+        {
+          "name": "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc",
+          "va": "0x241890",
+          "call_sites": ["0x247d90"],
+          "provider": "js_helpers.cpp"
+        },
+        {
+          "name": "_Z15PopContextStackv",
+          "va": "0xd3a34",
+          "call_sites": ["0x247db8", "0x247f3c", "0x248028", "0x248030", "0x248048"],
+          "provider": "../scripting/context_stack.cpp"
+        },
+        {
+          "name": "_Z12JS_SameValueP6RValueS0_",
+          "va": "0x24089c",
+          "call_sites": ["0x247de0", "0x248328"],
+          "provider": "js_same_value.cpp"
+        },
+        {
+          "name": "_Z22JS_IsGenericDescriptorP6RValue",
+          "va": "0x240858",
+          "call_sites": ["0x247e18"],
+          "provider": "js_generic_descriptor.cpp"
+        },
+        {
+          "name": "_Z19JS_IsDataDescriptorP6RValue",
+          "va": "0x2407e8",
+          "call_sites": ["0x247e28", "0x247e34", "0x248258", "0x2482e8"],
+          "provider": "js_data_descriptor.cpp"
+        },
+        {
+          "name": "_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc",
+          "va": "0xd21ec",
+          "call_sites": ["0x247e60"],
+          "provider": "unresolved exact C++ ABI provider; separate C candidate is not this mangled symbol"
+        },
+        {
+          "name": "_ZN12YYObjectBase3AddEPKcR6RValuei",
+          "va": "0x199b84",
+          "call_sites": ["0x247f38"],
+          "provider": "unresolved C++ body; declaration only"
+        },
+        {
+          "name": "_Z38Code_Variable_FindAlloc_Slot_From_NameP12YYObjectBasePKc",
+          "va": "0xd2c84",
+          "call_sites": ["0x247f58"],
+          "provider": "unresolved C++ body; declaration only"
+        },
+        {
+          "name": "_Z18GetContextStackTopv",
+          "va": "0xd3a54",
+          "call_sites": ["0x2480d8", "0x2480fc"],
+          "provider": "../scripting/context_stack.cpp"
+        },
+        {
+          "name": "_Z22DeterminePotentialRootP12YYObjectBaseS0_",
+          "va": "0x191710",
+          "call_sites": ["0x2480e0", "0x248104"],
+          "provider": "../vm_exec/vm_value_helpers.cpp"
+        },
+        {
+          "name": "_Z17LOCK_RVALUE_MUTEXv",
+          "va": "0x190f2c",
+          "call_sites": ["0x24815c", "0x248190", "0x2481c8", "0x24820c", "0x2482bc", "0x248348"],
+          "provider": "../vm_exec/vm_value_helpers.cpp"
+        },
+        {
+          "name": "_Z19UNLOCK_RVALUE_MUTEXv",
+          "va": "0x190f30",
+          "call_sites": ["0x248174", "0x2481a8", "0x2481e0", "0x248224", "0x2482d4", "0x248380"],
+          "provider": "../vm_exec/vm_value_helpers.cpp"
+        },
+        {
+          "name": "_Z6YYFreePKv",
+          "va": "0xcef90",
+          "call_sites": ["0x2481bc", "0x248200", "0x24828c", "0x2482b0", "0x24833c", "0x248364"],
+          "provider": "../vm_exec/vm_value_helpers.cpp"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "call_sites": ["0x2481e8", "0x24822c", "0x2482a4", "0x2482dc", "0x24837c", "0x248388"],
+          "provider": "../memory_manager/memory_operators.cpp"
+        },
+        {
+          "name": "_Z16FREE_RValue__PreP6RValue",
+          "va": "0xc0a7c",
+          "call_sites": ["0x2481f4", "0x248238"],
+          "provider": "unresolved C++ body; declaration only"
+        },
+        {
+          "name": "_ZN12YYObjectBase16InternalGetYYVarEi",
+          "va": "0x196a70",
+          "call_sites": ["0x248248", "0x24827c"],
+          "provider": "object_allocation.cpp"
+        },
+        {
+          "name": "_Z7YYErrorPKcz",
+          "va": "0xd547c",
+          "call_sites": ["0x24826c"],
+          "provider": "unresolved C++ body; declaration only"
+        },
+        {
+          "name": "_ZN9_RefThingIPKcE3decEv",
+          "va": "0xc09f8",
+          "call_sites": ["0x24829c", "0x248374"],
+          "provider": "../vm_exec/vm_value_helpers.cpp; weak default symbol"
+        }
+      ],
+      "observed_consumers": [
+        {
+          "symbol": "_Z20JS_DefineOwnPropertyP12YYObjectBasePKcP6RValueb",
+          "va": "0x248394",
+          "call_sites": ["0x2483d8"],
+          "edge": "tail branch"
+        },
+        {
+          "symbol": "_Z26JS_Array_DefineOwnPropertyP12YYObjectBasePKcP6RValueb",
+          "va": "0x248ac4",
+          "call_sites": ["0x248b48"]
+        },
+        {
+          "symbol": "_Z18F_JS_Object_freezeR6RValueP9CInstanceS2_iPS_",
+          "va": "0x2508c8",
+          "call_sites": ["0x25095c"],
+          "return_observation": "cmp r0, #2 at 0x250960"
+        },
+        {
+          "symbol": "_Z16F_JS_Object_sealR6RValueP9CInstanceS2_iPS_",
+          "va": "0x2509cc",
+          "call_sites": ["0x250a60"],
+          "return_observation": "cmp r0, #2 at 0x250a64"
+        }
+      ],
+      "address_taken_references": [
+        {
+          "slot": "0x3f150c",
+          "section": ".got",
+          "relocation": "R_ARM_RELATIVE",
+          "type": 23,
+          "symbol_index": 0,
+          "slot_word": "0x00247d44",
+          "target_va": "0x247d44",
+          "consumer": "not established; not counted as a caller"
+        }
+      ],
+      "gap": "Five direct providers remain unresolved: YYObjectBase::Add, the C++ ABI entries Code_Variable_Find_Slot_From_Name and Code_Variable_FindAlloc_Slot_From_Name, FREE_RValue__Pre, and YYError. The weak _RefThing::dec provider is available in vm_value_helpers.cpp. A R_ARM_RELATIVE relocation also points to this entry through .got slot 0x3f150c; its consumer is not traced, so observed direct callers are not a complete caller census. No link, target execution, full descriptor layout, or runtime equivalence is claimed."
     }
   ],
   "not_whole_library_completion": true,
-  "scope": "YYObjectBase Free/FreeVars/IsExtensible, RValue page-pool recycle, JS property eligibility/data+accessor+generic descriptor predicates/SameValue/callability, and script-ref forwarding; wire views only, not full class/ownership/unwind certification.",
+  "scope": "YYObjectBase Free/FreeVars/IsExtensible, RValue page-pool recycle, JS property eligibility/data+accessor+generic descriptor predicates/SameValue/callability, JS_DefineOwnProperty_Internal static body, and script-ref forwarding; wire views only, not full class/ownership/unwind or property-runtime certification.",
   "remaining_internal_dependencies": [
     "YYObjectBase constructor C1/C2",
+    "YYObjectBase::Add@0x199b84",
+    "Code_Variable_Find_Slot_From_Name C++ ABI provider@0xd21ec (separate C candidate is not this symbol)",
+    "Code_Variable_FindAlloc_Slot_From_Name@0xd2c84",
     "CHashMap<int,RValue*,3>::Insert",
     "FREE_RValue__Pre",
     "YYError and getter targets"
@@ -2655,7 +2854,7 @@
   ],
   "original_executed": false,
   "additional_headers_sha256": {
-    "object_helpers.hpp": "fc06f5d9412db5a438b394a6d971ef1d696c61591a0e93ff9e9c3ac5f3227650",
+    "object_helpers.hpp": "1862251f9111786de5ff98fc49dd55593c6fc04f5924306a12ea537f6a9831ad",
     "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
     "value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
     "gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
@@ -2663,7 +2862,13 @@
     "object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
     "gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66",
     "gc_object_lifecycle.hpp": "5b1eb736fa5e224db0caafd66211e9a53c6ddf88e799cbfc9b9be800e54220f8",
-    "../host_lifecycle/quit_runtime.hpp": "27c9a57345aecbdfc12e1018d24674ae1fdb1150d6bdb8417899e704af59446f"
+    "../host_lifecycle/quit_runtime.hpp": "27c9a57345aecbdfc12e1018d24674ae1fdb1150d6bdb8417899e704af59446f",
+    "../vm_buffer/vm_buffer.hpp": "b768327c3d07accf4f0824b6e70c229831225af339cab593fe9c357fd274ad12",
+    "../memory_manager/cbucket_classes.hpp": "40923b744ecd55952b038fef0bc07af137ef3a7adefa6b25382c8fd415727554",
+    "../scripting/context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61",
+    "../vm_exec/vm_entry_runtime.hpp": "c1bcb06562ee96f51542853dea50dc775a52bf96f9121ba4c861a1dc85fbb7ee",
+    "../scripting/script_runtime.hpp": "b2243ad0b88c073855c0a8c9721c5803d2133526769fb5942ae3458b5377304d",
+    "../ccode/ccode.hpp": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642"
   },
   "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it.",
   "real_internal_provider_added": {
@@ -2677,5 +2882,6 @@
   "batch17_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/gate-receipt.json",
   "batch18_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-data-descriptor-r1/gate-receipt.json",
   "batch19_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-generic-descriptor-r1/gate-receipt.json",
-  "batch20_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-samevalue-r1/gate-receipt.json"
+  "batch20_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-samevalue-r1/gate-receipt.json",
+  "batch21_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/js-define-own-property-r1/gate-receipt.json"
 }

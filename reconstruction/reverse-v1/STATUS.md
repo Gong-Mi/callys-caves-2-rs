@@ -1,14 +1,16 @@
 # 状态与定性
 
-## 当前断点：JS_SameValue（object value predicate，静态）
+## 当前断点：JS_DefineOwnProperty_Internal（property-write consumer，静态 C++）
 
-恢复 `_Z12JS_SameValueP6RValueS0_@0x24089c`（212B）：低 24 位 kind 不同即 0；
-kind 0/7/8/11 按两个原始字组成 binary64 做 VFP equality；kind 1 沿 `RValue+0` 的两级
-指针取字符串并调用真实外部 `strcmp`；kind 5/12 恒为 1；kind 6 比较 `+0` 单字，其他
-kind 返回 0。直接 caller 是尚未恢复的 `JS_DefineOwnProperty_Internal` 两个站点
-`0x247de0`/`0x248328`。O0/O2 `-Werror` 通过、原字 53/53；UND 仅外部 `strcmp` 与
-EHABI runtime，不冒充最终链接。当前 `object_helpers.hpp` 八个直接 include TU 加
-transitive `object_allocation.cpp`，O0/O2 共 18/18 编译通过。原件从未运行。
+恢复 `_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb@0x247d44`（1616B/404 words）为 C++ 静态候选，source SHA256 `af2f34c0006c63ff4c40263153edfa402249de2fb13f278ef412f1bde897831f`。两张 ARM 分支表与 `YYError` 字符串按原件逐项绑定；返回值保持 raw status word（初始 bool 路径 0/2，选定成功路径 1），不命名状态语义。原字 404/404 入册；C++ 模块门 72 functions/74 symbols/3589 word rows、28/28 harness tests 通过；新函数 O0/O2 目标编译与 worker 对象字节一致，另有 29 个选定共享头消费者 TU O0/O2 编译通过。GPT-6-Luna 冻结快照静态复审 PASS；不含 link/运行证据。
+
+观察到的调用方为 `_Z20JS_DefineOwnProperty` 尾分支 `0x2483d8`、`JS_Array_DefineOwnProperty` `0x248b48`、`F_JS_Object_freeze` `0x25095c` 与 `F_JS_Object_seal` `0x250a60`；另有 `.got` 的 `R_ARM_RELATIVE` 槽 `0x3f150c` 指向本函数，但消费者未追出，不声称 caller census 完整。五条 C++ 直接 provider 仍 open：`YYObjectBase::Add@0x199b84`、`Code_Variable_Find_Slot_From_Name@0xd21ec`（仓内 C 候选不是同一 mangled ABI）、`Code_Variable_FindAlloc_Slot_From_Name@0xd2c84`、`FREE_RValue__Pre@0xc0a7c`、`YYError@0xd547c`。EHABI、最终链接、原件/候选执行与运行等价均未测。
+
+父级派工前首轮跳转表偏移曾多写一个 word；按原件重算后确认 CMP `0x247ee0`、ADDLS `0x247ee4`、默认分支 `0x247ee8`、PC+8 表基址 `0x247eec`。源码、word ledger 与 layout evidence 均按更正值登记。
+
+## 上一批：JS_SameValue（object value predicate，静态）
+
+`_Z12JS_SameValueP6RValueS0_@0x24089c`（212B）：低 24 位 kind 不同即 0；kind 0/7/8/11 按两个原始字组成 binary64 做 VFP equality；kind 1 沿 `RValue+0` 的两级指针取字符串并调用真实外部 `strcmp`；kind 5/12 恒为 1；kind 6 比较 `+0` 单字，其他 kind 返回 0。直接 caller 是现已恢复正文的 `JS_DefineOwnProperty_Internal` 两个站点 `0x247de0`/`0x248328`。O0/O2 `-Werror` 通过、原字 53/53；UND 仅外部 `strcmp` 与 EHABI runtime，不冒充最终链接。当前 `object_helpers.hpp` 八个直接 include TU 加 transitive `object_allocation.cpp`，O0/O2 共 18/18 编译通过。原件从未运行。
 
 ## 上一批：JS_IsGenericDescriptor（descriptor predicates 依赖闭合，静态）
 

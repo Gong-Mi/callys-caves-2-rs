@@ -22,6 +22,7 @@ using NativeScriptCallback = void (*)(RValue *, YYObjectBase *, YYObjectBase *, 
 
 YYObjectBase *YYAllocLocalStackNew(int) __attribute__((noinline)); // 0xd41e4, keep original helper frame
 int Code_Variable_Find_Slot_From_Name(YYObjectBase *, const char *); // 0xd21ec
+int Code_Variable_FindAlloc_Slot_From_Name(YYObjectBase *, const char *); // 0xd2c84, signed slot index
 void PushContextStack(YYObjectBase *);   // 0xd3968, result not consumed here
 void PopContextStack();                // 0xd3a34, result not consumed here
 void CreateArgumentsObject(RValue &, YYObjectBase *, int, RValue *, bool); // 0x248b58

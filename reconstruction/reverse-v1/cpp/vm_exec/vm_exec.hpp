@@ -29,6 +29,7 @@ public:
     static YYObjectBase *Alloc(unsigned int, int, bool); // 0x19198c, first call's raw r0/r1/r2
     RValue *InternalGetYYVar(int);                    // 0x196a70, returned storage address
     void AllocVars();                                // 0x1917dc, current caller ignores r0
+    uint32_t Add(const char *, RValue &, int);       // 0x199b84; this caller ignores r0; source return spelling open
     static void Free(YYObjectBase *);                  // 0x198f88
     static void FreeVars(YYObjectBase *, RValue **, RValue **,
                          RVariable **, RVariable **); // 0x198dac, last two parameters not consumed
