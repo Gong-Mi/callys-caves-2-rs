@@ -48,7 +48,7 @@ def verify_word_rows(
     """Check full ARM32 word coverage and compare every word to ELF bytes."""
     errors: list[str] = []
     function_by_entry: dict[int, tuple[int, dict]] = {}
-    grouped: dict[int, list[int]] = defaultdict(list)
+    grouped: dict[int, int] = defaultdict(int)
     seen: set[tuple[int, int]] = set()
 
     for index, function in enumerate(functions):
@@ -117,7 +117,7 @@ def verify_word_rows(
             errors.append(f"duplicate word address 0x{va:x} for entry 0x{entry:x}")
             continue
         seen.add(key)
-        grouped[entry].append(va)
+        grouped[entry] += 1
         try:
             raw = read_vaddr(va, 4)
         except (KeyError, OSError, ValueError) as exc:
@@ -132,17 +132,17 @@ def verify_word_rows(
                 f"word mismatch at 0x{va:x}: ledger=0x{word:08x} ELF=0x{actual:08x}"
             )
 
+    # Accepted rows are in-range, grid-aligned, and unique; counts prove coverage without
+    # allocating an address list sized by untrusted manifest data.
     for entry, (size, _) in function_by_entry.items():
-        expected = list(range(entry, entry + size, 4))
-        actual = sorted(grouped.get(entry, []))
-        if actual != expected:
-            actual_set = set(actual)
-            expected_set = set(expected)
-            missing = len(expected_set - actual_set)
-            extra = len(actual_set - expected_set)
+        expected_count = size // 4
+        actual_count = grouped.get(entry, 0)
+        if actual_count != expected_count:
+            missing = max(0, expected_count - actual_count)
+            extra = max(0, actual_count - expected_count)
             errors.append(
                 f"coverage mismatch at 0x{entry:x}: missing={missing} extra={extra} "
-                f"rows={len(actual)} expected={len(expected)}"
+                f"rows={actual_count} expected={expected_count}"
             )
     return errors
 

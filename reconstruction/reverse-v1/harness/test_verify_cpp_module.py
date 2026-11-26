@@ -89,6 +89,22 @@ class VerifyWordRowsTests(unittest.TestCase):
         errors = verifier.verify_word_rows(functions, rows, self.read_vaddr)
         self.assertTrue(any("size" in error and "integer" in error for error in errors), errors)
 
+    def test_huge_function_window_does_not_materialize_expected_addresses(self) -> None:
+        size = 0x10000000
+        functions = [{"entry": 0x1000, "size": size, "isa": "arm"}]
+
+        def guarded_range(*args):
+            values = range(*args)
+            if len(values) > 1024:
+                raise AssertionError("unbounded word-grid materialization")
+            return values
+
+        with patch.object(verifier, "range", guarded_range, create=True):
+            errors = verifier.verify_word_rows(functions, [], self.read_vaddr)
+        expected_words = size // 4
+        self.assertTrue(any("coverage mismatch" in error for error in errors), errors)
+        self.assertTrue(any(f"missing={expected_words}" in error for error in errors), errors)
+
     def test_rodata_inside_executable_load_is_not_executable_code(self) -> None:
         load_segments = [(0, 0x4000, b"", 5)]
         executable_sections = [(0x1000, 0x2000)]
@@ -267,6 +283,42 @@ class VerifyModuleTests(unittest.TestCase):
             status = verifier.main()
         self.assertEqual(2, status)
         self.assertEqual("input_error", json.loads(stdout.getvalue())["kind"])
+
+    def test_huge_function_size_returns_controlled_cli_refusal(self) -> None:
+        size = 0x10000000
+        self.manifest["functions"][0].update(
+            size=size,
+            symbols=[],
+            boundary="init_array_relative_next_slot",
+        )
+        self.write_manifest()
+        self.words_file.write_text("entry\tva\tword\tmnemonic\toperands\n")
+
+        def unreadable(_address: int, _size: int) -> bytes:
+            raise ValueError("range is not file-backed")
+
+        def guarded_range(*args):
+            values = range(*args)
+            if len(values) > 1024:
+                raise AssertionError("unbounded word-grid materialization")
+            return values
+
+        fake = (self.symbols, unreadable, lambda _address, _size: False, [])
+        args = ["verify_cpp_module.py", "--module", str(self.module), "--image", str(self.image)]
+        stdout = io.StringIO()
+        with (
+            patch.object(verifier, "load_elf", return_value=fake),
+            patch.object(verifier, "range", guarded_range, create=True),
+            patch.object(sys, "argv", args),
+            contextlib.redirect_stdout(stdout),
+        ):
+            status = verifier.main()
+        report = json.loads(stdout.getvalue())
+        self.assertEqual(1, status)
+        self.assertFalse(report["ok"])
+        coverage = [error for error in report["errors"] if "coverage mismatch" in error]
+        self.assertEqual(1, len(coverage), report["errors"])
+        self.assertIn(f"missing={size // 4}", coverage[0])
 
     def test_word_tsv_rejects_rows_with_extra_fields(self) -> None:
         self.words_file.write_text(
