@@ -2,7 +2,7 @@
 
 ## 当前断点：JS_DefineOwnProperty_Internal（property-write consumer，静态 C++）
 
-恢复 `_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb@0x247d44`（1616B/404 words）为 C++ 静态候选，source SHA256 `af2f34c0006c63ff4c40263153edfa402249de2fb13f278ef412f1bde897831f`。两张 ARM 分支表与 `YYError` 字符串按原件逐项绑定；返回值保持 raw status word（初始 bool 路径 0/2，选定成功路径 1），不命名状态语义。原字 404/404 入册；C++ 模块门 72 functions/74 symbols/3589 word rows、28/28 harness tests 通过；新函数 O0/O2 目标编译与 worker 对象字节一致，另有 29 个选定共享头消费者 TU O0/O2 编译通过。GPT-6-Luna 冻结快照静态复审 PASS；不含 link/运行证据。
+恢复 `_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb@0x247d44`（1616B/404 words）为 C++ 静态候选，source SHA256 `af2f34c0006c63ff4c40263153edfa402249de2fb13f278ef412f1bde897831f`。两张 ARM 分支表与 `YYError` 字符串按原件逐项绑定；返回值保持 raw status word（初始 bool 路径 0/2，选定成功路径 1），不命名状态语义。原字 404/404 入册；C++ 模块门 72 functions/74 symbols/3589 word rows、28/28 harness tests 通过；新函数 O0/O2 目标编译与 worker 对象字节一致，另有 29 个选定共享头消费者 TU O0/O2 编译通过。共享头 SHA 已同步 object_base/scripting/vm_exec 的 functions.json；scripting/vm_exec 的完整通用门仍分别有 13/4 个既存 ledger/schema 错误，不作全模块 PASS。GPT-6-Luna 冻结快照静态复审 PASS；不含 link/运行证据。
 
 观察到的调用方为 `_Z20JS_DefineOwnProperty` 尾分支 `0x2483d8`、`JS_Array_DefineOwnProperty` `0x248b48`、`F_JS_Object_freeze` `0x25095c` 与 `F_JS_Object_seal` `0x250a60`；另有 `.got` 的 `R_ARM_RELATIVE` 槽 `0x3f150c` 指向本函数，但消费者未追出，不声称 caller census 完整。五条 C++ 直接 provider 仍 open：`YYObjectBase::Add@0x199b84`、`Code_Variable_Find_Slot_From_Name@0xd21ec`（仓内 C 候选不是同一 mangled ABI）、`Code_Variable_FindAlloc_Slot_From_Name@0xd2c84`、`FREE_RValue__Pre@0xc0a7c`、`YYError@0xd547c`。EHABI、最终链接、原件/候选执行与运行等价均未测。
 

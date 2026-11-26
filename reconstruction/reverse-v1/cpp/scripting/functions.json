@@ -1,9 +1,10 @@
 {
   "schema": "cally-readable-cpp/1",
   "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
-  "header_sha256": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
+  "header_sha256": "b2243ad0b88c073855c0a8c9721c5803d2133526769fb5942ae3458b5377304d",
+  "header_path": "script_runtime.hpp",
   "canonical_api_header": "../vm_exec/vm_exec.hpp",
-  "canonical_api_header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
+  "canonical_api_header_sha256": "1887d564102a65dfe45a5f1127044d9db5069460e31af0a2643f70fc99b2dec0",
   "functions": [
     {
       "entry": "0x249590",

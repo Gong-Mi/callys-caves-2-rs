@@ -4,7 +4,8 @@
   "original_abi": "ARM32 little-endian softfp",
   "not_whole_library_completion": true,
   "not_additive_with_c_registry": true,
-  "header_sha256": "8b2daf1a0ea6e6dfb48a7ebb2297f632c9e5e71ee6dc57e6fe3d903e511a21a8",
+  "header_sha256": "1887d564102a65dfe45a5f1127044d9db5069460e31af0a2643f70fc99b2dec0",
+  "header_path": "vm_exec.hpp",
   "functions": [
     {
       "entry": "0xe4540",
