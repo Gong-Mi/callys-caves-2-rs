@@ -169,5 +169,62 @@
     "realloc_bool": false,
     "gap": "ReAlloc result and g_ContextStack publish are unconditional; initial array/pointer/max ownership, fault/LR/unwind/concurrency are not certified.",
     "original_executed": false
+  },
+  "variable_name_dispatch": {
+    "symbol": "_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc",
+    "entry": "0xd21ec",
+    "size": 60,
+    "end": "0xd2228",
+    "body_sha256": "a2d09e2a8e6779b606c53050f0bd9fc58bf329cddaa897df8e33b53f1962c3e5",
+    "code_instruction_count": 13,
+    "literal_pool_word_count": 2,
+    "literal_pool": [
+      {
+        "va": "0xd2220",
+        "word": "0x0031b9c4"
+      },
+      {
+        "va": "0xd2224",
+        "word": "0x0031b9ac"
+      }
+    ],
+    "got_anchors": {
+      "0xd21ec": {
+        "pool": "0xd2220",
+        "pc_base": "0xd21f4",
+        "slot": "0x3edbbc",
+        "target": "0x544be0",
+        "symbol": "g_pGlobal",
+        "size": 4,
+        "relocation": "R_ARM_RELATIVE"
+      },
+      "0xd2208": {
+        "pool": "0xd2224",
+        "pc_base": "0xd2210",
+        "slot": "0x3edbc0",
+        "target": "0x47f295",
+        "symbol": "g_fJSGarbageCollection",
+        "size": 1,
+        "relocation": "R_ARM_RELATIVE"
+      }
+    },
+    "tail_branches": [
+      {
+        "site": "0xd2204",
+        "target": "0xd1f74",
+        "symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc"
+      },
+      {
+        "site": "0xd221c",
+        "target": "0xd2054",
+        "symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc"
+      }
+    ],
+    "dispatch_contract": "self != g_pGlobal => local; otherwise g_fJSGarbageCollection != 0 => local; otherwise global. Name and int result pass through unchanged.",
+    "unresolved_providers": [
+      "local-name helper body/provider",
+      "global-name helper body/provider"
+    ],
+    "original_executed": false
   }
 }

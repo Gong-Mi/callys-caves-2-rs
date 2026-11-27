@@ -58,6 +58,56 @@
       "original_executed": false
     },
     {
+      "entry": "0xd21ec",
+      "size": 60,
+      "symbols": [
+        "_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a2d09e2a8e6779b606c53050f0bd9fc58bf329cddaa897df8e33b53f1962c3e5",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name.cpp",
+      "translation_source_sha256": "13973dd68ecd7e3158fd7385a38833a30e04c21de244929f6d817913abd36060",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd2220",
+        "0xd2224"
+      ],
+      "local_contract": "Compare self to the pointer word g_pGlobal. If unequal, dispatch to the local-name table. If equal, read the one-byte g_fJSGarbageCollection flag: nonzero dispatches local, zero dispatches global. Forward name unchanged and return the selected helper result verbatim; this body performs no name validation or slot creation.",
+      "direct_dependencies": [
+        {
+          "symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc",
+          "va": "0xd1f74",
+          "size": 224,
+          "edge": "unresolved_direct_tail_branch_at_0xd2204"
+        },
+        {
+          "symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc",
+          "va": "0xd2054",
+          "size": 108,
+          "edge": "unresolved_direct_tail_branch_at_0xd221c"
+        },
+        {
+          "symbol": "g_pGlobal",
+          "va": "0x544be0",
+          "size": 4,
+          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edbbc"
+        },
+        {
+          "symbol": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "size": 1,
+          "edge": "R_ARM_RELATIVE_GOT_byte_read_slot_0x3edbc0"
+        }
+      ],
+      "gap": "Local/global name-helper bodies and their providers remain unresolved; producers/writers and lifecycle of g_pGlobal/g_fJSGarbageCollection are outside this body. No final link, EHABI equivalence, caller-closure, original/candidate execution, or runtime equivalence is claimed."
+    },
+    {
       "entry": "0xd3968",
       "size": 204,
       "symbols": [
@@ -396,12 +446,24 @@
   "not_additive_with_c_registry": true,
   "remaining_internal_dependencies": [
     "CreateArgumentsObject",
-    "Code_Variable_Find_Slot_From_Name",
-    "initial Context Stack array, Top/Max/GC-state ownership and runtime provider bindings"
+    "initial Context Stack array, Top/Max/GC-state ownership and runtime provider bindings",
+    "_Z39Code_Variable_Find_Slot_From_Local_NamePKc @0xd1f74 (224B)",
+    "_Z40Code_Variable_Find_Slot_From_Global_NamePKc @0xd2054 (108B)"
   ],
-  "scope": "Local ScriptRef/GetCode/local stack and the three actual GC Context Stack helpers; no execution, full class or initial-state closure.",
+  "scope": "Local ScriptRef/GetCode/local stack, actual GC Context Stack helpers, and the Code_Variable_Find_Slot_From_Name dispatcher; local/global helper bodies, initial context-stack ownership and runtime provider bindings remain open. No execution or full object/initial-state closure.",
   "additional_headers_sha256": {
-    "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61"
+    "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61",
+    "../object_base/object_helpers.hpp": "1862251f9111786de5ff98fc49dd55593c6fc04f5924306a12ea537f6a9831ad",
+    "../object_base/object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
+    "../vm_buffer/vm_buffer.hpp": "b768327c3d07accf4f0824b6e70c229831225af339cab593fe9c357fd274ad12",
+    "../memory_manager/cbucket_classes.hpp": "40923b744ecd55952b038fef0bc07af137ef3a7adefa6b25382c8fd415727554",
+    "../ccode/ccode.hpp": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642",
+    "../object_base/gc_object_lifecycle.hpp": "5b1eb736fa5e224db0caafd66211e9a53c6ddf88e799cbfc9b9be800e54220f8",
+    "../object_base/gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66",
+    "../object_base/gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
+    "../memory_manager/memory_alloc.hpp": "f85668fca7fdc12b726538dab7ad3a12e9aa3992d87b16dc1f235cd968d1d6bd",
+    "../memory_manager/memory_internal.hpp": "30698b447a2b4c66a5b27150393c393c57a2da29b08337d3e6095c37d3098d45",
+    "../vm_exec/vm_entry_runtime.hpp": "c1bcb06562ee96f51542853dea50dc775a52bf96f9121ba4c861a1dc85fbb7ee"
   },
   "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json",
   "batch15_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch15-integration-r1/gate-receipt.json",

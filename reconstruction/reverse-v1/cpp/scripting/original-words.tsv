@@ -266,3 +266,18 @@ d3a54	d3a80	e3a00000	mov	r0, #0
 d3a54	d3a84	e12fff1e	bx	lr
 d3a54	d3a88	0031a1a8	.word	0x0031a1a8
 d3a54	d3a8c	0031a198	.word	0x0031a198
+d21ec	d21ec	e59f302c	ldr	r3, [pc, #0x2c]
+d21ec	d21f0	e79f3003	ldr	r3, [pc, r3]
+d21ec	d21f4	e5933000	ldr	r3, [r3]
+d21ec	d21f8	e1530000	cmp	r3, r0
+d21ec	d21fc	e1a00001	mov	r0, r1
+d21ec	d2200	0a000000	beq	#0xd2208
+d21ec	d2204	eaffff5a	b	#0xd1f74
+d21ec	d2208	e59f3014	ldr	r3, [pc, #0x14]
+d21ec	d220c	e79f3003	ldr	r3, [pc, r3]
+d21ec	d2210	e5d33000	ldrb	r3, [r3]
+d21ec	d2214	e3530000	cmp	r3, #0
+d21ec	d2218	1afffff9	bne	#0xd2204
+d21ec	d221c	eaffff8c	b	#0xd2054
+d21ec	d2220	0031b9c4	.word	0x0031b9c4
+d21ec	d2224	0031b9ac	.word	0x0031b9ac
