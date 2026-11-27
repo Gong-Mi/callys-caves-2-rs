@@ -1,0 +1,1530 @@
+e65e4	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e65e8	e28db020	add	r11, sp, #32
+e65ec	e59f7fe0	ldr	r7, [pc, #0xfe0]
+e65f0	e24dde8a	sub	sp, sp, #2208
+e65f4	e1a05000	mov	r5, r0
+e65f8	e24dd004	sub	sp, sp, #4
+e65fc	e59f0fd4	ldr	r0, [pc, #0xfd4]
+e6600	e08f7007	add	r7, pc, r7
+e6604	e50b3884	str	r3, [r11, #-0x884]
+e6608	e7e36855	ubfx	r6, r5, #0x10, #0x4
+e660c	e1a04001	mov	r4, r1
+e6610	e7970000	ldr	r0, [r7, r0]
+e6614	e3560005	cmp	r6, #5
+e6618	e5903000	ldr	r3, [r0]
+e661c	e50b0880	str	r0, [r11, #-0x880]
+e6620	e50b3028	str	r3, [r11, #-0x28]
+e6624	0a000010	beq	0xe666c <_Z5DoPopjPhPKhP6VMExec+0x88>
+e6628	e356000f	cmp	r6, #15
+e662c	0a000080	beq	0xe6834 <_Z5DoPopjPhPKhP6VMExec+0x250>
+e6630	e3560002	cmp	r6, #2
+e6634	0a00000c	beq	0xe666c <_Z5DoPopjPhPKhP6VMExec+0x88>
+e6638	e59f1f9c	ldr	r1, [pc, #0xf9c]
+e663c	e51b0884	ldr	r0, [r11, #-0x884]
+e6640	e08f1001	add	r1, pc, r1
+e6644	ebffb6f1	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+e6648	e1a05004	mov	r5, r4
+e664c	e51bc880	ldr	r12, [r11, #-0x880]
+e6650	e1a00005	mov	r0, r5
+e6654	e51b2028	ldr	r2, [r11, #-0x28]
+e6658	e59c3000	ldr	r3, [r12]
+e665c	e1520003	cmp	r2, r3
+e6660	1a0004e8	bne	0xe7a08 <_Z5DoPopjPhPKhP6VMExec+0x1424>
+e6664	e24bd020	sub	sp, r11, #32
+e6668	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e666c	e2159101	ands	r9, r5, #1073741824
+e6670	e3a03000	mov	r3, #0
+e6674	e50b3878	str	r3, [r11, #-0x878]
+e6678	1592a000	ldrne	r10, [r2]
+e667c	03e0a000	mvneq	r10, #0
+e6680	e3560002	cmp	r6, #2
+e6684	e3e024ff	mvn	r2, #-16777216
+e6688	124b8e87	subne	r8, r11, #2160
+e668c	e50b3874	str	r3, [r11, #-0x874]
+e6690	12488004	subne	r8, r8, #4
+e6694	e50b3870	str	r3, [r11, #-0x870]
+e6698	e50b286c	str	r2, [r11, #-0x86c]
+e669c	12488004	subne	r8, r8, #4
+e66a0	0a0000b4	beq	0xe6978 <_Z5DoPopjPhPKhP6VMExec+0x394>
+e66a4	e3590000	cmp	r9, #0
+e66a8	e6bf9075	sxth	r9, r5
+e66ac	03a0c102	moveq	r12, #-2147483648
+e66b0	050bc88c	streq	r12, [r11, #-0x88c]
+e66b4	1a00007a	bne	0xe68a4 <_Z5DoPopjPhPKhP6VMExec+0x2c0>
+e66b8	e3790009	cmn	r9, #9
+e66bc	e3a03000	mov	r3, #0
+e66c0	e3e024ff	mvn	r2, #-16777216
+e66c4	e50b3868	str	r3, [r11, #-0x868]
+e66c8	e50b3864	str	r3, [r11, #-0x864]
+e66cc	e50b3860	str	r3, [r11, #-0x860]
+e66d0	e50b3858	str	r3, [r11, #-0x858]
+e66d4	e50b3854	str	r3, [r11, #-0x854]
+e66d8	e50b3850	str	r3, [r11, #-0x850]
+e66dc	e50b285c	str	r2, [r11, #-0x85c]
+e66e0	e50b284c	str	r2, [r11, #-0x84c]
+e66e4	0a00028c	beq	0xe711c <_Z5DoPopjPhPKhP6VMExec+0xb38>
+e66e8	e379000a	cmn	r9, #10
+e66ec	0a000294	beq	0xe7144 <_Z5DoPopjPhPKhP6VMExec+0xb60>
+e66f0	e3560005	cmp	r6, #5
+e66f4	0a0000aa	beq	0xe69a4 <_Z5DoPopjPhPKhP6VMExec+0x3c0>
+e66f8	e59f3ee0	ldr	r3, [pc, #0xee0]
+e66fc	e7973003	ldr	r3, [r7, r3]
+e6700	e5d33000	ldrb	r3, [r3]
+e6704	e3580000	cmp	r8, #0
+e6708	03a03000	moveq	r3, #0
+e670c	12033001	andne	r3, r3, #1
+e6710	e3530000	cmp	r3, #0
+e6714	0a000071	beq	0xe68e0 <_Z5DoPopjPhPKhP6VMExec+0x2fc>
+e6718	e598200c	ldr	r2, [r8, #0xc]
+e671c	e3e034ff	mvn	r3, #-16777216
+e6720	e0022003	and	r2, r2, r3
+e6724	e1520003	cmp	r2, r3
+e6728	13a0c000	movne	r12, #0
+e672c	150bc890	strne	r12, [r11, #-0x890]
+e6730	0a000265	beq	0xe70cc <_Z5DoPopjPhPKhP6VMExec+0xae8>
+e6734	e59f2ea8	ldr	r2, [pc, #0xea8]
+e6738	e3590000	cmp	r9, #0
+e673c	e3a03000	mov	r3, #0
+e6740	e7972002	ldr	r2, [r7, r2]
+e6744	e50b2888	str	r2, [r11, #-0x888]
+e6748	e5c23000	strb	r3, [r2]
+e674c	ba000078	blt	0xe6934 <_Z5DoPopjPhPKhP6VMExec+0x350>
+e6750	e1a00009	mov	r0, r9
+e6754	e1a0100a	mov	r1, r10
+e6758	e51b288c	ldr	r2, [r11, #-0x88c]
+e675c	e1a03008	mov	r3, r8
+e6760	eb0436f8	bl	0x1f4348 <_Z17Variable_SetValueiiiP6RValue>
+e6764	e3500000	cmp	r0, #0
+e6768	0a000003	beq	0xe677c <_Z5DoPopjPhPKhP6VMExec+0x198>
+e676c	e51bc888	ldr	r12, [r11, #-0x888]
+e6770	e5dc3000	ldrb	r3, [r12]
+e6774	e3530000	cmp	r3, #0
+e6778	0a000020	beq	0xe6800 <_Z5DoPopjPhPKhP6VMExec+0x21c>
+e677c	e51bc884	ldr	r12, [r11, #-0x884]
+e6780	e1a01009	mov	r1, r9
+e6784	e1a0200a	mov	r2, r10
+e6788	e59c0034	ldr	r0, [r12, #0x34]
+e678c	ebffaf9a	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e6790	e51bc888	ldr	r12, [r11, #-0x888]
+e6794	e5dc3000	ldrb	r3, [r12]
+e6798	e3530000	cmp	r3, #0
+e679c	e1a01000	mov	r1, r0
+e67a0	0a00008d	beq	0xe69dc <_Z5DoPopjPhPKhP6VMExec+0x3f8>
+e67a4	e59fce3c	ldr	r12, [pc, #0xe3c]
+e67a8	e59f2e3c	ldr	r2, [pc, #0xe3c]
+e67ac	e59f3e3c	ldr	r3, [pc, #0xe3c]
+e67b0	e797e00c	ldr	lr, [r7, r12]
+e67b4	e7972002	ldr	r2, [r7, r2]
+e67b8	e59fce34	ldr	r12, [pc, #0xe34]
+e67bc	e59ee000	ldr	lr, [lr]
+e67c0	e7973003	ldr	r3, [r7, r3]
+e67c4	e5922000	ldr	r2, [r2]
+e67c8	e58de000	str	lr, [sp]
+e67cc	e797c00c	ldr	r12, [r7, r12]
+e67d0	e5933000	ldr	r3, [r3]
+e67d4	e58d9008	str	r9, [sp, #0x8]
+e67d8	e59cc000	ldr	r12, [r12]
+e67dc	e58d100c	str	r1, [sp, #0xc]
+e67e0	e59f1e10	ldr	r1, [pc, #0xe10]
+e67e4	e58dc004	str	r12, [sp, #0x4]
+e67e8	e51bc88c	ldr	r12, [r11, #-0x88c]
+e67ec	e08f1001	add	r1, pc, r1
+e67f0	e51b0884	ldr	r0, [r11, #-0x884]
+e67f4	e58da010	str	r10, [sp, #0x10]
+e67f8	e58dc014	str	r12, [sp, #0x14]
+e67fc	ebffb683	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+e6800	e598300c	ldr	r3, [r8, #0xc]
+e6804	e2433001	sub	r3, r3, #1
+e6808	e3c334ff	bic	r3, r3, #-16777216
+e680c	e3c33003	bic	r3, r3, #3
+e6810	e3530000	cmp	r3, #0
+e6814	0a000076	beq	0xe69f4 <_Z5DoPopjPhPKhP6VMExec+0x410>
+e6818	e3a03000	mov	r3, #0
+e681c	e3a02005	mov	r2, #5
+e6820	e1a05004	mov	r5, r4
+e6824	e5883008	str	r3, [r8, #0x8]
+e6828	e5883000	str	r3, [r8]
+e682c	e588200c	str	r2, [r8, #0xc]
+e6830	eaffff85	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e6834	e7e30a55	ubfx	r0, r5, #0x14, #0x4
+e6838	e1a08c05	lsl	r8, r5, #24
+e683c	ebffc3c7	bl	0xd7760 <_Z16ParamSizeOnStacki>
+e6840	e1a01004	mov	r1, r4
+e6844	e1a08b48	asr	r8, r8, #22
+e6848	e7a95355	sbfx	r5, r5, #0x6, #0xa
+e684c	e2888003	add	r8, r8, #3
+e6850	e3c55003	bic	r5, r5, #3
+e6854	e0845005	add	r5, r4, r5
+e6858	e280300e	add	r3, r0, #14
+e685c	e1a06000	mov	r6, r0
+e6860	e3c33007	bic	r3, r3, #7
+e6864	e1a02000	mov	r2, r0
+e6868	e04dd003	sub	sp, sp, r3
+e686c	e28d7018	add	r7, sp, #24
+e6870	e1a00007	mov	r0, r7
+e6874	ebff3f50	bl	0xb65bc <memcpy@plt>
+e6878	e3c82003	bic	r2, r8, #3
+e687c	e0848002	add	r8, r4, r2
+e6880	e0660002	rsb	r0, r6, r2
+e6884	e0840000	add	r0, r4, r0
+e6888	e1a01008	mov	r1, r8
+e688c	ebff3f80	bl	0xb6694 <memmove@plt>
+e6890	e1a00008	mov	r0, r8
+e6894	e1a01007	mov	r1, r7
+e6898	e1a02006	mov	r2, r6
+e689c	ebff3f46	bl	0xb65bc <memcpy@plt>
+e68a0	eaffff69	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e68a4	e31a0201	tst	r10, #268435456
+e68a8	15983008	ldrne	r3, [r8, #0x8]
+e68ac	13c33002	bicne	r3, r3, #2
+e68b0	15883008	strne	r3, [r8, #0x8]
+e68b4	e35a0000	cmp	r10, #0
+e68b8	a494c004	ldrge	r12, [r4], #4
+e68bc	b3a0c102	movlt	r12, #-2147483648
+e68c0	e31a0202	tst	r10, #536870912
+e68c4	04949004	ldreq	r9, [r4], #4
+e68c8	e31a0101	tst	r10, #1073741824
+e68cc	12893b61	addne	r3, r9, #99328
+e68d0	e50bc88c	str	r12, [r11, #-0x88c]
+e68d4	12839e2a	addne	r9, r3, #672
+e68d8	e3caa20f	bic	r10, r10, #-268435456
+e68dc	eaffff75	b	0xe66b8 <_Z5DoPopjPhPKhP6VMExec+0xd4>
+e68e0	e50b3890	str	r3, [r11, #-0x890]
+e68e4	eaffff92	b	0xe6734 <_Z5DoPopjPhPKhP6VMExec+0x150>
+e68e8	e289300a	add	r3, r9, #10
+e68ec	e3530001	cmp	r3, #1
+e68f0	83a03001	movhi	r3, #1
+e68f4	83a08000	movhi	r8, #0
+e68f8	850b3890	strhi	r3, [r11, #-0x890]
+e68fc	8affff8c	bhi	0xe6734 <_Z5DoPopjPhPKhP6VMExec+0x150>
+e6900	e51b285c	ldr	r2, [r11, #-0x85c]
+e6904	e3e034ff	mvn	r3, #-16777216
+e6908	e0022003	and	r2, r2, r3
+e690c	e1520003	cmp	r2, r3
+e6910	0a000437	beq	0xe79f4 <_Z5DoPopjPhPKhP6VMExec+0x1410>
+e6914	e59f2cc8	ldr	r2, [pc, #0xcc8]
+e6918	e3a0c001	mov	r12, #1
+e691c	e50bc890	str	r12, [r11, #-0x890]
+e6920	e3a03000	mov	r3, #0
+e6924	e1a08003	mov	r8, r3
+e6928	e7972002	ldr	r2, [r7, r2]
+e692c	e50b2888	str	r2, [r11, #-0x888]
+e6930	e5c23000	strb	r3, [r2]
+e6934	e289300d	add	r3, r9, #13
+e6938	e353000c	cmp	r3, #12
+e693c	908ff103	addls	pc, pc, r3, lsl #2
+e6940	ea0001ca	b	0xe7070 <_Z5DoPopjPhPKhP6VMExec+0xa8c>
+e6944	ea000171	b	0xe6f10 <_Z5DoPopjPhPKhP6VMExec+0x92c>
+e6948	ea00014b	b	0xe6e7c <_Z5DoPopjPhPKhP6VMExec+0x898>
+e694c	ea00013b	b	0xe6e40 <_Z5DoPopjPhPKhP6VMExec+0x85c>
+e6950	ea000114	b	0xe6da8 <_Z5DoPopjPhPKhP6VMExec+0x7c4>
+e6954	ea000099	b	0xe6bc0 <_Z5DoPopjPhPKhP6VMExec+0x5dc>
+e6958	ea000028	b	0xe6a00 <_Z5DoPopjPhPKhP6VMExec+0x41c>
+e695c	ea000077	b	0xe6b40 <_Z5DoPopjPhPKhP6VMExec+0x55c>
+e6960	ea000026	b	0xe6a00 <_Z5DoPopjPhPKhP6VMExec+0x41c>
+e6964	ea000029	b	0xe6a10 <_Z5DoPopjPhPKhP6VMExec+0x42c>
+e6968	ea0001c0	b	0xe7070 <_Z5DoPopjPhPKhP6VMExec+0xa8c>
+e696c	ea0001bf	b	0xe7070 <_Z5DoPopjPhPKhP6VMExec+0xa8c>
+e6970	ea00006b	b	0xe6b24 <_Z5DoPopjPhPKhP6VMExec+0x540>
+e6974	ea000063	b	0xe6b08 <_Z5DoPopjPhPKhP6VMExec+0x524>
+e6978	e7e33a55	ubfx	r3, r5, #0x14, #0x4
+e697c	e3530006	cmp	r3, #6
+e6980	908ff103	addls	pc, pc, r3, lsl #2
+e6984	ea0001b1	b	0xe7050 <_Z5DoPopjPhPKhP6VMExec+0xa6c>
+e6988	ea000054	b	0xe6ae0 <_Z5DoPopjPhPKhP6VMExec+0x4fc>
+e698c	ea0001af	b	0xe7050 <_Z5DoPopjPhPKhP6VMExec+0xa6c>
+e6990	ea000047	b	0xe6ab4 <_Z5DoPopjPhPKhP6VMExec+0x4d0>
+e6994	ea00003d	b	0xe6a90 <_Z5DoPopjPhPKhP6VMExec+0x4ac>
+e6998	ea00002e	b	0xe6a58 <_Z5DoPopjPhPKhP6VMExec+0x474>
+e699c	ea00002a	b	0xe6a4c <_Z5DoPopjPhPKhP6VMExec+0x468>
+e69a0	ea000021	b	0xe6a2c <_Z5DoPopjPhPKhP6VMExec+0x448>
+e69a4	e7e35a55	ubfx	r5, r5, #0x14, #0x4
+e69a8	e3550009	cmp	r5, #9
+e69ac	908ff105	addls	pc, pc, r5, lsl #2
+e69b0	ea0001bc	b	0xe70a8 <_Z5DoPopjPhPKhP6VMExec+0xac4>
+e69b4	ea000197	b	0xe7018 <_Z5DoPopjPhPKhP6VMExec+0xa34>
+e69b8	ea0001ba	b	0xe70a8 <_Z5DoPopjPhPKhP6VMExec+0xac4>
+e69bc	ea00018c	b	0xe6ff4 <_Z5DoPopjPhPKhP6VMExec+0xa10>
+e69c0	ea00019c	b	0xe7038 <_Z5DoPopjPhPKhP6VMExec+0xa54>
+e69c4	ea00015b	b	0xe6f38 <_Z5DoPopjPhPKhP6VMExec+0x954>
+e69c8	ea00019d	b	0xe7044 <_Z5DoPopjPhPKhP6VMExec+0xa60>
+e69cc	ea000183	b	0xe6fe0 <_Z5DoPopjPhPKhP6VMExec+0x9fc>
+e69d0	ea0001b4	b	0xe70a8 <_Z5DoPopjPhPKhP6VMExec+0xac4>
+e69d4	eaffffc3	b	0xe68e8 <_Z5DoPopjPhPKhP6VMExec+0x304>
+e69d8	ea000162	b	0xe6f68 <_Z5DoPopjPhPKhP6VMExec+0x984>
+e69dc	e1a02001	mov	r2, r1
+e69e0	e59f1c14	ldr	r1, [pc, #0xc14]
+e69e4	e51b0884	ldr	r0, [r11, #-0x884]
+e69e8	e08f1001	add	r1, pc, r1
+e69ec	ebffb607	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+e69f0	eaffff82	b	0xe6800 <_Z5DoPopjPhPKhP6VMExec+0x21c>
+e69f4	e1a00008	mov	r0, r8
+e69f8	ebff681f	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e69fc	eaffff85	b	0xe6818 <_Z5DoPopjPhPKhP6VMExec+0x234>
+e6a00	e1a0000a	mov	r0, r10
+e6a04	eb04329e	bl	0x1f3484 <_Z24Variable_Global_Declaredi>
+e6a08	e3500000	cmp	r0, #0
+e6a0c	0a00003d	beq	0xe6b08 <_Z5DoPopjPhPKhP6VMExec+0x524>
+e6a10	e1a0000a	mov	r0, r10
+e6a14	e51b188c	ldr	r1, [r11, #-0x88c]
+e6a18	e1a02008	mov	r2, r8
+e6a1c	eb0433b5	bl	0x1f38f8 <_Z22Variable_Global_SetVariiP6RValue>
+e6a20	e51bc888	ldr	r12, [r11, #-0x888]
+e6a24	e5dc3000	ldrb	r3, [r12]
+e6a28	eaffff51	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e6a2c	e4943004	ldr	r3, [r4], #4
+e6a30	e24b8e87	sub	r8, r11, #2160
+e6a34	e2488004	sub	r8, r8, #4
+e6a38	e3a02001	mov	r2, #1
+e6a3c	e2488004	sub	r8, r8, #4
+e6a40	e50b286c	str	r2, [r11, #-0x86c]
+e6a44	e50b3878	str	r3, [r11, #-0x878]
+e6a48	eaffff15	b	0xe66a4 <_Z5DoPopjPhPKhP6VMExec+0xc0>
+e6a4c	e1a08004	mov	r8, r4
+e6a50	e2844010	add	r4, r4, #16
+e6a54	eaffff12	b	0xe66a4 <_Z5DoPopjPhPKhP6VMExec+0xc0>
+e6a58	e5943000	ldr	r3, [r4]
+e6a5c	e24b8024	sub	r8, r11, #36
+e6a60	e3a0200d	mov	r2, #13
+e6a64	e50b286c	str	r2, [r11, #-0x86c]
+e6a68	e3530000	cmp	r3, #0
+e6a6c	e2844004	add	r4, r4, #4
+e6a70	13a02000	movne	r2, #0
+e6a74	01a02003	moveq	r2, r3
+e6a78	11a03002	movne	r3, r2
+e6a7c	13432ff0	movtne	r2, #0x3ff0
+e6a80	e50b3878	str	r3, [r11, #-0x878]
+e6a84	e5282850	str	r2, [r8, #-0x850]!
+e6a88	e2488004	sub	r8, r8, #4
+e6a8c	eaffff04	b	0xe66a4 <_Z5DoPopjPhPKhP6VMExec+0xc0>
+e6a90	e0c400d8	ldrd	r0, r1, [r4], #8
+e6a94	e3a03000	mov	r3, #0
+e6a98	e50b386c	str	r3, [r11, #-0x86c]
+e6a9c	eb08c9b0	bl	0x319164 <__floatdidf>
+e6aa0	e24b8024	sub	r8, r11, #36
+e6aa4	e50b0878	str	r0, [r11, #-0x878]
+e6aa8	e5281850	str	r1, [r8, #-0x850]!
+e6aac	e2488004	sub	r8, r8, #4
+e6ab0	eafffefb	b	0xe66a4 <_Z5DoPopjPhPKhP6VMExec+0xc0>
+e6ab4	e4942004	ldr	r2, [r4], #4
+e6ab8	e3a03000	mov	r3, #0
+e6abc	e50b386c	str	r3, [r11, #-0x86c]
+e6ac0	e24b8024	sub	r8, r11, #36
+e6ac4	ee072a90	vmov	s15, r2
+e6ac8	eeb87be7	vcvt.f64.s32	d7, s15
+e6acc	ec532b17	vmov	r2, r3, d7
+e6ad0	e5283850	str	r3, [r8, #-0x850]!
+e6ad4	e2488004	sub	r8, r8, #4
+e6ad8	e50b2878	str	r2, [r11, #-0x878]
+e6adc	eafffef0	b	0xe66a4 <_Z5DoPopjPhPKhP6VMExec+0xc0>
+e6ae0	e5942004	ldr	r2, [r4, #0x4]
+e6ae4	e24b8024	sub	r8, r11, #36
+e6ae8	e5943000	ldr	r3, [r4]
+e6aec	e3a01000	mov	r1, #0
+e6af0	e2844008	add	r4, r4, #8
+e6af4	e50b186c	str	r1, [r11, #-0x86c]
+e6af8	e5282850	str	r2, [r8, #-0x850]!
+e6afc	e2488004	sub	r8, r8, #4
+e6b00	e50b3878	str	r3, [r11, #-0x878]
+e6b04	eafffee6	b	0xe66a4 <_Z5DoPopjPhPKhP6VMExec+0xc0>
+e6b08	e51bc884	ldr	r12, [r11, #-0x884]
+e6b0c	e1a0100a	mov	r1, r10
+e6b10	e51b288c	ldr	r2, [r11, #-0x88c]
+e6b14	e1a03008	mov	r3, r8
+e6b18	e59c0014	ldr	r0, [r12, #0x14]
+e6b1c	eb043441	bl	0x1f3c28 <_Z24Variable_SetValue_DirectP12YYObjectBaseiiP6RValue>
+e6b20	eaffff0f	b	0xe6764 <_Z5DoPopjPhPKhP6VMExec+0x180>
+e6b24	e51bc884	ldr	r12, [r11, #-0x884]
+e6b28	e1a0100a	mov	r1, r10
+e6b2c	e51b288c	ldr	r2, [r11, #-0x88c]
+e6b30	e1a03008	mov	r3, r8
+e6b34	e59c0018	ldr	r0, [r12, #0x18]
+e6b38	eb04343a	bl	0x1f3c28 <_Z24Variable_SetValue_DirectP12YYObjectBaseiiP6RValue>
+e6b3c	eaffff08	b	0xe6764 <_Z5DoPopjPhPKhP6VMExec+0x180>
+e6b40	e51bc884	ldr	r12, [r11, #-0x884]
+e6b44	e59c6010	ldr	r6, [r12, #0x10]
+e6b48	e3560000	cmp	r6, #0
+e6b4c	0a000270	beq	0xe7514 <_Z5DoPopjPhPKhP6VMExec+0xf30>
+e6b50	e1a00006	mov	r0, r6
+e6b54	ebffb383	bl	0xd3968 <_Z16PushContextStackP12YYObjectBase>
+e6b58	e5963024	ldr	r3, [r6, #0x24]
+e6b5c	e3530000	cmp	r3, #0
+e6b60	0a0001df	beq	0xe72e4 <_Z5DoPopjPhPKhP6VMExec+0xd00>
+e6b64	e51b3890	ldr	r3, [r11, #-0x890]
+e6b68	e24a1b61	sub	r1, r10, #99328
+e6b6c	e2411e2a	sub	r1, r1, #672
+e6b70	e3530000	cmp	r3, #0
+e6b74	e5963004	ldr	r3, [r6, #0x4]
+e6b78	0a0001d3	beq	0xe72cc <_Z5DoPopjPhPKhP6VMExec+0xce8>
+e6b7c	e3530000	cmp	r3, #0
+e6b80	e3a0200d	mov	r2, #13
+e6b84	e2445010	sub	r5, r4, #16
+e6b88	e5042004	str	r2, [r4, #-0x4]
+e6b8c	0a000442	beq	0xe7c9c <_Z5DoPopjPhPKhP6VMExec+0x16b8>
+e6b90	e0830201	add	r0, r3, r1, lsl #4
+e6b94	e590300c	ldr	r3, [r0, #0xc]
+e6b98	e3c334ff	bic	r3, r3, #-16777216
+e6b9c	e3530005	cmp	r3, #5
+e6ba0	03a03000	moveq	r3, #0
+e6ba4	13a02000	movne	r2, #0
+e6ba8	01a02003	moveq	r2, r3
+e6bac	03433ff0	movteq	r3, #0x3ff0
+e6bb0	11a03002	movne	r3, r2
+e6bb4	e5042010	str	r2, [r4, #-0x10]
+e6bb8	e504300c	str	r3, [r4, #-0xc]
+e6bbc	eafffea2	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e6bc0	e51b385c	ldr	r3, [r11, #-0x85c]
+e6bc4	e3c334ff	bic	r3, r3, #-16777216
+e6bc8	e3530003	cmp	r3, #3
+e6bcc	0a00023a	beq	0xe74bc <_Z5DoPopjPhPKhP6VMExec+0xed8>
+e6bd0	e3530006	cmp	r3, #6
+e6bd4	1a00022a	bne	0xe7484 <_Z5DoPopjPhPKhP6VMExec+0xea0>
+e6bd8	e51bc868	ldr	r12, [r11, #-0x868]
+e6bdc	e50bc89c	str	r12, [r11, #-0x89c]
+e6be0	e51b389c	ldr	r3, [r11, #-0x89c]
+e6be4	e3530000	cmp	r3, #0
+e6be8	0a00022a	beq	0xe7498 <_Z5DoPopjPhPKhP6VMExec+0xeb4>
+e6bec	e1a00003	mov	r0, r3
+e6bf0	ebffb35c	bl	0xd3968 <_Z16PushContextStackP12YYObjectBase>
+e6bf4	e51bc89c	ldr	r12, [r11, #-0x89c]
+e6bf8	e24a3b61	sub	r3, r10, #99328
+e6bfc	e2433e2a	sub	r3, r3, #672
+e6c00	e50b3898	str	r3, [r11, #-0x898]
+e6c04	e59cc060	ldr	r12, [r12, #0x60]
+e6c08	e35c0000	cmp	r12, #0
+e6c0c	e50bc894	str	r12, [r11, #-0x894]
+e6c10	0a000028	beq	0xe6cb8 <_Z5DoPopjPhPKhP6VMExec+0x6d4>
+e6c14	e1a00003	mov	r0, r3
+e6c18	eb034089	bl	0x1b6e44 <_Z21CHashMapCalculateHashi>
+e6c1c	e51b2894	ldr	r2, [r11, #-0x894]
+e6c20	e5921008	ldr	r1, [r2, #0x8]
+e6c24	e5926010	ldr	r6, [r2, #0x10]
+e6c28	e3c05102	bic	r5, r0, #-2147483648
+e6c2c	e0053001	and	r3, r5, r1
+e6c30	e1a0c083	lsl	r12, r3, #1
+e6c34	e08c2003	add	r2, r12, r3
+e6c38	e0862102	add	r2, r6, r2, lsl #2
+e6c3c	e5922008	ldr	r2, [r2, #0x8]
+e6c40	e3520000	cmp	r2, #0
+e6c44	0a00001b	beq	0xe6cb8 <_Z5DoPopjPhPKhP6VMExec+0x6d4>
+e6c48	e1550002	cmp	r5, r2
+e6c4c	0a000259	beq	0xe75b8 <_Z5DoPopjPhPKhP6VMExec+0xfd4>
+e6c50	e51bc894	ldr	r12, [r11, #-0x894]
+e6c54	e0012002	and	r2, r1, r2
+e6c58	e59ce000	ldr	lr, [r12]
+e6c5c	e083000e	add	r0, r3, lr
+e6c60	e0622000	rsb	r2, r2, r0
+e6c64	e1120001	tst	r2, r1
+e6c68	4a000012	bmi	0xe6cb8 <_Z5DoPopjPhPKhP6VMExec+0x6d4>
+e6c6c	e3a00000	mov	r0, #0
+e6c70	ea000007	b	0xe6c94 <_Z5DoPopjPhPKhP6VMExec+0x6b0>
+e6c74	e1550002	cmp	r5, r2
+e6c78	0a00024c	beq	0xe75b0 <_Z5DoPopjPhPKhP6VMExec+0xfcc>
+e6c7c	e0012002	and	r2, r1, r2
+e6c80	e083c00e	add	r12, r3, lr
+e6c84	e062200c	rsb	r2, r2, r12
+e6c88	e0022001	and	r2, r2, r1
+e6c8c	e1520000	cmp	r2, r0
+e6c90	ba000008	blt	0xe6cb8 <_Z5DoPopjPhPKhP6VMExec+0x6d4>
+e6c94	e2833001	add	r3, r3, #1
+e6c98	e2800001	add	r0, r0, #1
+e6c9c	e0013003	and	r3, r1, r3
+e6ca0	e1a0c083	lsl	r12, r3, #1
+e6ca4	e08c2003	add	r2, r12, r3
+e6ca8	e0862102	add	r2, r6, r2, lsl #2
+e6cac	e5922008	ldr	r2, [r2, #0x8]
+e6cb0	e3520000	cmp	r2, #0
+e6cb4	1affffee	bne	0xe6c74 <_Z5DoPopjPhPKhP6VMExec+0x690>
+e6cb8	e3a02000	mov	r2, #0
+e6cbc	e50b2894	str	r2, [r11, #-0x894]
+e6cc0	e51b689c	ldr	r6, [r11, #-0x89c]
+e6cc4	e50ba8a0	str	r10, [r11, #-0x8a0]
+e6cc8	e3520000	cmp	r2, #0
+e6ccc	0a000004	beq	0xe6ce4 <_Z5DoPopjPhPKhP6VMExec+0x700>
+e6cd0	e5923000	ldr	r3, [r2]
+e6cd4	e3e004ff	mvn	r0, #-16777216
+e6cd8	e593300c	ldr	r3, [r3, #0xc]
+e6cdc	e1530000	cmp	r3, r0
+e6ce0	1a000143	bne	0xe71f4 <_Z5DoPopjPhPKhP6VMExec+0xc10>
+e6ce4	e3560000	cmp	r6, #0
+e6ce8	0a000141	beq	0xe71f4 <_Z5DoPopjPhPKhP6VMExec+0xc10>
+e6cec	e5966018	ldr	r6, [r6, #0x18]
+e6cf0	e3560000	cmp	r6, #0
+e6cf4	0afffff3	beq	0xe6cc8 <_Z5DoPopjPhPKhP6VMExec+0x6e4>
+e6cf8	e596a060	ldr	r10, [r6, #0x60]
+e6cfc	e35a0000	cmp	r10, #0
+e6d00	0a000026	beq	0xe6da0 <_Z5DoPopjPhPKhP6VMExec+0x7bc>
+e6d04	e51b0898	ldr	r0, [r11, #-0x898]
+e6d08	eb03404d	bl	0x1b6e44 <_Z21CHashMapCalculateHashi>
+e6d0c	e59a1008	ldr	r1, [r10, #0x8]
+e6d10	e59a5010	ldr	r5, [r10, #0x10]
+e6d14	e3c00102	bic	r0, r0, #-2147483648
+e6d18	e0003001	and	r3, r0, r1
+e6d1c	e1a0e083	lsl	lr, r3, #1
+e6d20	e08e2003	add	r2, lr, r3
+e6d24	e0852102	add	r2, r5, r2, lsl #2
+e6d28	e5922008	ldr	r2, [r2, #0x8]
+e6d2c	e3520000	cmp	r2, #0
+e6d30	0a00001a	beq	0xe6da0 <_Z5DoPopjPhPKhP6VMExec+0x7bc>
+e6d34	e1500002	cmp	r0, r2
+e6d38	0a00011b	beq	0xe71ac <_Z5DoPopjPhPKhP6VMExec+0xbc8>
+e6d3c	e59aa000	ldr	r10, [r10]
+e6d40	e0012002	and	r2, r1, r2
+e6d44	e083c00a	add	r12, r3, r10
+e6d48	e062200c	rsb	r2, r2, r12
+e6d4c	e1120001	tst	r2, r1
+e6d50	4a000012	bmi	0xe6da0 <_Z5DoPopjPhPKhP6VMExec+0x7bc>
+e6d54	e3a0c000	mov	r12, #0
+e6d58	ea000007	b	0xe6d7c <_Z5DoPopjPhPKhP6VMExec+0x798>
+e6d5c	e1500002	cmp	r0, r2
+e6d60	0a00010f	beq	0xe71a4 <_Z5DoPopjPhPKhP6VMExec+0xbc0>
+e6d64	e0012002	and	r2, r1, r2
+e6d68	e083e00a	add	lr, r3, r10
+e6d6c	e062200e	rsb	r2, r2, lr
+e6d70	e0022001	and	r2, r2, r1
+e6d74	e152000c	cmp	r2, r12
+e6d78	ba000008	blt	0xe6da0 <_Z5DoPopjPhPKhP6VMExec+0x7bc>
+e6d7c	e2833001	add	r3, r3, #1
+e6d80	e28cc001	add	r12, r12, #1
+e6d84	e0013003	and	r3, r1, r3
+e6d88	e1a0e083	lsl	lr, r3, #1
+e6d8c	e08e2003	add	r2, lr, r3
+e6d90	e0852102	add	r2, r5, r2, lsl #2
+e6d94	e5922008	ldr	r2, [r2, #0x8]
+e6d98	e3520000	cmp	r2, #0
+e6d9c	1affffee	bne	0xe6d5c <_Z5DoPopjPhPKhP6VMExec+0x778>
+e6da0	e3a02000	mov	r2, #0
+e6da4	eaffffce	b	0xe6ce4 <_Z5DoPopjPhPKhP6VMExec+0x700>
+e6da8	e51b285c	ldr	r2, [r11, #-0x85c]
+e6dac	e3c234ff	bic	r3, r2, #-16777216
+e6db0	e3530002	cmp	r3, #2
+e6db4	0a0001df	beq	0xe7538 <_Z5DoPopjPhPKhP6VMExec+0xf54>
+e6db8	e3530006	cmp	r3, #6
+e6dbc	0a0002c3	beq	0xe78d0 <_Z5DoPopjPhPKhP6VMExec+0x12ec>
+e6dc0	e59f3838	ldr	r3, [pc, #0x838]
+e6dc4	e7973003	ldr	r3, [r7, r3]
+e6dc8	e5d36000	ldrb	r6, [r3]
+e6dcc	e3560000	cmp	r6, #0
+e6dd0	1afffe8a	bne	0xe6800 <_Z5DoPopjPhPKhP6VMExec+0x21c>
+e6dd4	e51bc884	ldr	r12, [r11, #-0x884]
+e6dd8	e1a0200a	mov	r2, r10
+e6ddc	e3e01009	mvn	r1, #9
+e6de0	e1a05004	mov	r5, r4
+e6de4	e59c0034	ldr	r0, [r12, #0x34]
+e6de8	ebffae03	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e6dec	e1a0100a	mov	r1, r10
+e6df0	e1a04000	mov	r4, r0
+e6df4	e3e00009	mvn	r0, #9
+e6df8	eb043463	bl	0x1f3f8c <_Z22Variable_GetObjectNameii>
+e6dfc	e58d4000	str	r4, [sp]
+e6e00	e24b4e82	sub	r4, r11, #2080
+e6e04	e51bc88c	ldr	r12, [r11, #-0x88c]
+e6e08	e2444004	sub	r4, r4, #4
+e6e0c	e59f27f0	ldr	r2, [pc, #0x7f0]
+e6e10	e2444004	sub	r4, r4, #4
+e6e14	e58da004	str	r10, [sp, #0x4]
+e6e18	e3a01b02	mov	r1, #2048
+e6e1c	e58dc008	str	r12, [sp, #0x8]
+e6e20	e08f2002	add	r2, pc, r2
+e6e24	e1a03000	mov	r3, r0
+e6e28	e1a00004	mov	r0, r4
+e6e2c	ebff3de5	bl	0xb65c8 <snprintf@plt>
+e6e30	e1a00004	mov	r0, r4
+e6e34	e54b6029	strb	r6, [r11, #-0x29]
+e6e38	eb059dd3	bl	0x24e58c <_Z16JSThrowTypeErrorPKc>
+e6e3c	eafffe02	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e6e40	e51bc890	ldr	r12, [r11, #-0x890]
+e6e44	e1a0000a	mov	r0, r10
+e6e48	e51b188c	ldr	r1, [r11, #-0x88c]
+e6e4c	e35c0000	cmp	r12, #0
+e6e50	0a000186	beq	0xe7470 <_Z5DoPopjPhPKhP6VMExec+0xe8c>
+e6e54	eb043198	bl	0x1f34bc <_Z24Variable_Scope_DeleteVarii>
+e6e58	e2445010	sub	r5, r4, #16
+e6e5c	e3a0300d	mov	r3, #13
+e6e60	e5043004	str	r3, [r4, #-0x4]
+e6e64	ee070a90	vmov	s15, r0
+e6e68	eeb87b67	vcvt.f64.u32	d7, s15
+e6e6c	ec510b17	vmov	r0, r1, d7
+e6e70	ee172a10	vmov	r2, s14
+e6e74	e1a03001	mov	r3, r1
+e6e78	eaffff4d	b	0xe6bb4 <_Z5DoPopjPhPKhP6VMExec+0x5d0>
+e6e7c	e51bc884	ldr	r12, [r11, #-0x884]
+e6e80	e59c5010	ldr	r5, [r12, #0x10]
+e6e84	e3550000	cmp	r5, #0
+e6e88	0a000272	beq	0xe7858 <_Z5DoPopjPhPKhP6VMExec+0x1274>
+e6e8c	e24a6b61	sub	r6, r10, #99328
+e6e90	e3e034ff	mvn	r3, #-16777216
+e6e94	e2466e2a	sub	r6, r6, #672
+e6e98	e1a0c206	lsl	r12, r6, #4
+e6e9c	e5952024	ldr	r2, [r5, #0x24]
+e6ea0	e3520000	cmp	r2, #0
+e6ea4	0a000084	beq	0xe70bc <_Z5DoPopjPhPKhP6VMExec+0xad8>
+e6ea8	e1520006	cmp	r2, r6
+e6eac	9a000082	bls	0xe70bc <_Z5DoPopjPhPKhP6VMExec+0xad8>
+e6eb0	e5952004	ldr	r2, [r5, #0x4]
+e6eb4	e3520000	cmp	r2, #0
+e6eb8	0a00024c	beq	0xe77f0 <_Z5DoPopjPhPKhP6VMExec+0x120c>
+e6ebc	e082000c	add	r0, r2, r12
+e6ec0	e590200c	ldr	r2, [r0, #0xc]
+e6ec4	e3c224ff	bic	r2, r2, #-16777216
+e6ec8	e1520003	cmp	r2, r3
+e6ecc	0a00007a	beq	0xe70bc <_Z5DoPopjPhPKhP6VMExec+0xad8>
+e6ed0	e51b3890	ldr	r3, [r11, #-0x890]
+e6ed4	e3530000	cmp	r3, #0
+e6ed8	1a000250	bne	0xe7820 <_Z5DoPopjPhPKhP6VMExec+0x123c>
+e6edc	e1a00005	mov	r0, r5
+e6ee0	e50bc8a8	str	r12, [r11, #-0x8a8]
+e6ee4	ebffb29f	bl	0xd3968 <_Z16PushContextStackP12YYObjectBase>
+e6ee8	e5950004	ldr	r0, [r5, #0x4]
+e6eec	e51bc8a8	ldr	r12, [r11, #-0x8a8]
+e6ef0	e3500000	cmp	r0, #0
+e6ef4	0a000245	beq	0xe7810 <_Z5DoPopjPhPKhP6VMExec+0x122c>
+e6ef8	e080000c	add	r0, r0, r12
+e6efc	e1a01008	mov	r1, r8
+e6f00	e51b288c	ldr	r2, [r11, #-0x88c]
+e6f04	ebffa706	bl	0xd0b24 <_Z10SET_RValueP6RValueS0_i>
+e6f08	ebffb2c9	bl	0xd3a34 <_Z15PopContextStackv>
+e6f0c	eafffe16	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e6f10	e51b3890	ldr	r3, [r11, #-0x890]
+e6f14	e3530000	cmp	r3, #0
+e6f18	0a0000f5	beq	0xe72f4 <_Z5DoPopjPhPKhP6VMExec+0xd10>
+e6f1c	e3a03000	mov	r3, #0
+e6f20	e3a0200d	mov	r2, #13
+e6f24	e2445010	sub	r5, r4, #16
+e6f28	e5042004	str	r2, [r4, #-0x4]
+e6f2c	e5043010	str	r3, [r4, #-0x10]
+e6f30	e504300c	str	r3, [r4, #-0xc]
+e6f34	eafffdc4	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e6f38	e5942000	ldr	r2, [r4]
+e6f3c	e3a0300d	mov	r3, #13
+e6f40	e50b386c	str	r3, [r11, #-0x86c]
+e6f44	e2844004	add	r4, r4, #4
+e6f48	e3520000	cmp	r2, #0
+e6f4c	13a03000	movne	r3, #0
+e6f50	01a03002	moveq	r3, r2
+e6f54	11a02003	movne	r2, r3
+e6f58	13433ff0	movtne	r3, #0x3ff0
+e6f5c	e50b2878	str	r2, [r11, #-0x878]
+e6f60	e50b3874	str	r3, [r11, #-0x874]
+e6f64	eafffde3	b	0xe66f8 <_Z5DoPopjPhPKhP6VMExec+0x114>
+e6f68	e379000c	cmn	r9, #12
+e6f6c	1afffde1	bne	0xe66f8 <_Z5DoPopjPhPKhP6VMExec+0x114>
+e6f70	e30836a0	movw	r3, #0x86a0
+e6f74	e3403001	movt	r3, #0x1
+e6f78	e15a0003	cmp	r10, r3
+e6f7c	e3a02005	mov	r2, #5
+e6f80	e3a03000	mov	r3, #0
+e6f84	e50b282c	str	r2, [r11, #-0x82c]
+e6f88	e50b3838	str	r3, [r11, #-0x838]
+e6f8c	e50b3834	str	r3, [r11, #-0x834]
+e6f90	0afffdac	beq	0xe6648 <_Z5DoPopjPhPKhP6VMExec+0x64>
+e6f94	e51bc884	ldr	r12, [r11, #-0x884]
+e6f98	e59c5010	ldr	r5, [r12, #0x10]
+e6f9c	e1a00005	mov	r0, r5
+e6fa0	ebffb270	bl	0xd3968 <_Z16PushContextStackP12YYObjectBase>
+e6fa4	e5953024	ldr	r3, [r5, #0x24]
+e6fa8	e3530000	cmp	r3, #0
+e6fac	0a000009	beq	0xe6fd8 <_Z5DoPopjPhPKhP6VMExec+0x9f4>
+e6fb0	e5950004	ldr	r0, [r5, #0x4]
+e6fb4	e24a1b61	sub	r1, r10, #99328
+e6fb8	e2411e2a	sub	r1, r1, #672
+e6fbc	e3500000	cmp	r0, #0
+e6fc0	0a000372	beq	0xe7d90 <_Z5DoPopjPhPKhP6VMExec+0x17ac>
+e6fc4	e0800201	add	r0, r0, r1, lsl #4
+e6fc8	e24b1e83	sub	r1, r11, #2096
+e6fcc	e51b288c	ldr	r2, [r11, #-0x88c]
+e6fd0	e2411008	sub	r1, r1, #8
+e6fd4	ebffa6d2	bl	0xd0b24 <_Z10SET_RValueP6RValueS0_i>
+e6fd8	ebffb295	bl	0xd3a34 <_Z15PopContextStackv>
+e6fdc	eafffd99	b	0xe6648 <_Z5DoPopjPhPKhP6VMExec+0x64>
+e6fe0	e4943004	ldr	r3, [r4], #4
+e6fe4	e3a02001	mov	r2, #1
+e6fe8	e50b286c	str	r2, [r11, #-0x86c]
+e6fec	e50b3878	str	r3, [r11, #-0x878]
+e6ff0	eafffdc0	b	0xe66f8 <_Z5DoPopjPhPKhP6VMExec+0x114>
+e6ff4	e4942004	ldr	r2, [r4], #4
+e6ff8	e3a03000	mov	r3, #0
+e6ffc	e50b386c	str	r3, [r11, #-0x86c]
+e7000	ee072a90	vmov	s15, r2
+e7004	eeb87be7	vcvt.f64.s32	d7, s15
+e7008	ec532b17	vmov	r2, r3, d7
+e700c	e50b2878	str	r2, [r11, #-0x878]
+e7010	e50b3874	str	r3, [r11, #-0x874]
+e7014	eafffdb7	b	0xe66f8 <_Z5DoPopjPhPKhP6VMExec+0x114>
+e7018	e5942000	ldr	r2, [r4]
+e701c	e3a01000	mov	r1, #0
+e7020	e5943004	ldr	r3, [r4, #0x4]
+e7024	e2844008	add	r4, r4, #8
+e7028	e50b186c	str	r1, [r11, #-0x86c]
+e702c	e50b2878	str	r2, [r11, #-0x878]
+e7030	e50b3874	str	r3, [r11, #-0x874]
+e7034	eafffdaf	b	0xe66f8 <_Z5DoPopjPhPKhP6VMExec+0x114>
+e7038	e5942000	ldr	r2, [r4]
+e703c	e3a0100a	mov	r1, #10
+e7040	eafffff6	b	0xe7020 <_Z5DoPopjPhPKhP6VMExec+0xa3c>
+e7044	e1a08004	mov	r8, r4
+e7048	e2844010	add	r4, r4, #16
+e704c	eafffda9	b	0xe66f8 <_Z5DoPopjPhPKhP6VMExec+0x114>
+e7050	e59f15b0	ldr	r1, [pc, #0x5b0]
+e7054	e24b8e87	sub	r8, r11, #2160
+e7058	e51b0884	ldr	r0, [r11, #-0x884]
+e705c	e2488004	sub	r8, r8, #4
+e7060	e08f1001	add	r1, pc, r1
+e7064	e2488004	sub	r8, r8, #4
+e7068	ebffb468	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+e706c	eafffd8c	b	0xe66a4 <_Z5DoPopjPhPKhP6VMExec+0xc0>
+e7070	e51bc884	ldr	r12, [r11, #-0x884]
+e7074	e1a01009	mov	r1, r9
+e7078	e1a0200a	mov	r2, r10
+e707c	e59c0034	ldr	r0, [r12, #0x34]
+e7080	ebffad5d	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e7084	e59f1580	ldr	r1, [pc, #0x580]
+e7088	e1a02009	mov	r2, r9
+e708c	e08f1001	add	r1, pc, r1
+e7090	e1a03000	mov	r3, r0
+e7094	e51b0884	ldr	r0, [r11, #-0x884]
+e7098	ebffb45c	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+e709c	e51bc888	ldr	r12, [r11, #-0x888]
+e70a0	e5dc3000	ldrb	r3, [r12]
+e70a4	eafffdb2	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e70a8	e59f1560	ldr	r1, [pc, #0x560]
+e70ac	e51b0884	ldr	r0, [r11, #-0x884]
+e70b0	e08f1001	add	r1, pc, r1
+e70b4	ebffb455	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+e70b8	eafffd8e	b	0xe66f8 <_Z5DoPopjPhPKhP6VMExec+0x114>
+e70bc	e595500c	ldr	r5, [r5, #0xc]
+e70c0	e3550000	cmp	r5, #0
+e70c4	1affff74	bne	0xe6e9c <_Z5DoPopjPhPKhP6VMExec+0x8b8>
+e70c8	eafffdab	b	0xe677c <_Z5DoPopjPhPKhP6VMExec+0x198>
+e70cc	e51bc884	ldr	r12, [r11, #-0x884]
+e70d0	e1a01009	mov	r1, r9
+e70d4	e1a0200a	mov	r2, r10
+e70d8	e1a05004	mov	r5, r4
+e70dc	e24b4e82	sub	r4, r11, #2080
+e70e0	e59c0034	ldr	r0, [r12, #0x34]
+e70e4	e2444004	sub	r4, r4, #4
+e70e8	ebffad43	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e70ec	e2444004	sub	r4, r4, #4
+e70f0	e59f251c	ldr	r2, [pc, #0x51c]
+e70f4	e3a01b02	mov	r1, #2048
+e70f8	e08f2002	add	r2, pc, r2
+e70fc	e1a03000	mov	r3, r0
+e7100	e1a00004	mov	r0, r4
+e7104	ebff3d2f	bl	0xb65c8 <snprintf@plt>
+e7108	e1a00004	mov	r0, r4
+e710c	e3a03000	mov	r3, #0
+e7110	e54b3029	strb	r3, [r11, #-0x29]
+e7114	eb05b67a	bl	0x254b04 <_Z21JSThrowReferenceErrorPKc>
+e7118	eafffd4b	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e711c	e24bce86	sub	r12, r11, #2144
+e7120	e5940000	ldr	r0, [r4]
+e7124	e5941004	ldr	r1, [r4, #0x4]
+e7128	e24cc004	sub	r12, r12, #4
+e712c	e5942008	ldr	r2, [r4, #0x8]
+e7130	e24cc004	sub	r12, r12, #4
+e7134	e594300c	ldr	r3, [r4, #0xc]
+e7138	e2844010	add	r4, r4, #16
+e713c	e8ac000f	stm	r12!, {r0, r1, r2, r3}
+e7140	eafffd6a	b	0xe66f0 <_Z5DoPopjPhPKhP6VMExec+0x10c>
+e7144	e24b3e86	sub	r3, r11, #2144
+e7148	e24bce85	sub	r12, r11, #2128
+e714c	e2433004	sub	r3, r3, #4
+e7150	e24cc004	sub	r12, r12, #4
+e7154	e2433004	sub	r3, r3, #4
+e7158	e50b3888	str	r3, [r11, #-0x888]
+e715c	e5940000	ldr	r0, [r4]
+e7160	e24cc004	sub	r12, r12, #4
+e7164	e5941004	ldr	r1, [r4, #0x4]
+e7168	e5942008	ldr	r2, [r4, #0x8]
+e716c	e594300c	ldr	r3, [r4, #0xc]
+e7170	e50bc894	str	r12, [r11, #-0x894]
+e7174	e51bc888	ldr	r12, [r11, #-0x888]
+e7178	e50b4890	str	r4, [r11, #-0x890]
+e717c	e2844020	add	r4, r4, #32
+e7180	e8ac000f	stm	r12!, {r0, r1, r2, r3}
+e7184	e51bc890	ldr	r12, [r11, #-0x890]
+e7188	e5bc0010	ldr	r0, [r12, #0x10]!
+e718c	e59c1004	ldr	r1, [r12, #0x4]
+e7190	e59c2008	ldr	r2, [r12, #0x8]
+e7194	e59c300c	ldr	r3, [r12, #0xc]
+e7198	e51bc894	ldr	r12, [r11, #-0x894]
+e719c	e8ac000f	stm	r12!, {r0, r1, r2, r3}
+e71a0	eafffd52	b	0xe66f0 <_Z5DoPopjPhPKhP6VMExec+0x10c>
+e71a4	e3730001	cmn	r3, #1
+e71a8	0afffefc	beq	0xe6da0 <_Z5DoPopjPhPKhP6VMExec+0x7bc>
+e71ac	e08e3003	add	r3, lr, r3
+e71b0	e0855103	add	r5, r5, r3, lsl #2
+e71b4	e2952004	adds	r2, r5, #4
+e71b8	0afffec9	beq	0xe6ce4 <_Z5DoPopjPhPKhP6VMExec+0x700>
+e71bc	e5953004	ldr	r3, [r5, #0x4]
+e71c0	e3530000	cmp	r3, #0
+e71c4	0afffebf	beq	0xe6cc8 <_Z5DoPopjPhPKhP6VMExec+0x6e4>
+e71c8	e593100c	ldr	r1, [r3, #0xc]
+e71cc	e3c114ff	bic	r1, r1, #-16777216
+e71d0	e3510006	cmp	r1, #6
+e71d4	1afffebb	bne	0xe6cc8 <_Z5DoPopjPhPKhP6VMExec+0x6e4>
+e71d8	e5931000	ldr	r1, [r3]
+e71dc	e51bc894	ldr	r12, [r11, #-0x894]
+e71e0	e5911048	ldr	r1, [r1, #0x48]
+e71e4	e3510002	cmp	r1, #2
+e71e8	01a0c003	moveq	r12, r3
+e71ec	e50bc894	str	r12, [r11, #-0x894]
+e71f0	eafffeb4	b	0xe6cc8 <_Z5DoPopjPhPKhP6VMExec+0x6e4>
+e71f4	e51b3894	ldr	r3, [r11, #-0x894]
+e71f8	e51ba8a0	ldr	r10, [r11, #-0x8a0]
+e71fc	e3530000	cmp	r3, #0
+e7200	0a000270	beq	0xe7bc8 <_Z5DoPopjPhPKhP6VMExec+0x15e4>
+e7204	e51bc894	ldr	r12, [r11, #-0x894]
+e7208	e59c300c	ldr	r3, [r12, #0xc]
+e720c	e3c334ff	bic	r3, r3, #-16777216
+e7210	e3530006	cmp	r3, #6
+e7214	0a000198	beq	0xe787c <_Z5DoPopjPhPKhP6VMExec+0x1298>
+e7218	e59f03f8	ldr	r0, [pc, #0x3f8]
+e721c	e3e01008	mvn	r1, #8
+e7220	e1a0200a	mov	r2, r10
+e7224	e08f0000	add	r0, pc, r0
+e7228	ebffacf3	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e722c	e51b3890	ldr	r3, [r11, #-0x890]
+e7230	e51bc894	ldr	r12, [r11, #-0x894]
+e7234	e3530000	cmp	r3, #0
+e7238	e59c5008	ldr	r5, [r12, #0x8]
+e723c	e59c300c	ldr	r3, [r12, #0xc]
+e7240	1a0000a5	bne	0xe74dc <_Z5DoPopjPhPKhP6VMExec+0xef8>
+e7244	e3e064ff	mvn	r6, #-16777216
+e7248	e0532006	subs	r2, r3, r6
+e724c	e2726000	rsbs	r6, r2, #0
+e7250	e0b66002	adcs	r6, r6, r2
+e7254	e1a01000	mov	r1, r0
+e7258	e51b089c	ldr	r0, [r11, #-0x89c]
+e725c	eb056a92	bl	0x241cac <_Z9JS_CanPutP12YYObjectBasePKc>
+e7260	e3500000	cmp	r0, #0
+e7264	0a000008	beq	0xe728c <_Z5DoPopjPhPKhP6VMExec+0xca8>
+e7268	e3560000	cmp	r6, #0
+e726c	0a0001e6	beq	0xe7a0c <_Z5DoPopjPhPKhP6VMExec+0x1428>
+e7270	e51b089c	ldr	r0, [r11, #-0x89c]
+e7274	eb02abe4	bl	0x19220c <_ZN12YYObjectBase12IsExtensibleEv>
+e7278	e3500000	cmp	r0, #0
+e727c	1a0001e4	bne	0xe7a14 <_Z5DoPopjPhPKhP6VMExec+0x1430>
+e7280	e51bc894	ldr	r12, [r11, #-0x894]
+e7284	e3a03005	mov	r3, #5
+e7288	e58c300c	str	r3, [r12, #0xc]
+e728c	e598300c	ldr	r3, [r8, #0xc]
+e7290	e2433001	sub	r3, r3, #1
+e7294	e3c334ff	bic	r3, r3, #-16777216
+e7298	e3c33003	bic	r3, r3, #3
+e729c	e3530000	cmp	r3, #0
+e72a0	1a000001	bne	0xe72ac <_Z5DoPopjPhPKhP6VMExec+0xcc8>
+e72a4	e1a00008	mov	r0, r8
+e72a8	ebff65f3	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e72ac	e1a05004	mov	r5, r4
+e72b0	e3a03000	mov	r3, #0
+e72b4	e3a02005	mov	r2, #5
+e72b8	e5883008	str	r3, [r8, #0x8]
+e72bc	e5883000	str	r3, [r8]
+e72c0	e588200c	str	r2, [r8, #0xc]
+e72c4	ebffb1da	bl	0xd3a34 <_Z15PopContextStackv>
+e72c8	eafffcdf	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e72cc	e3530000	cmp	r3, #0
+e72d0	0a000274	beq	0xe7ca8 <_Z5DoPopjPhPKhP6VMExec+0x16c4>
+e72d4	e0830201	add	r0, r3, r1, lsl #4
+e72d8	e1a01008	mov	r1, r8
+e72dc	e51b288c	ldr	r2, [r11, #-0x88c]
+e72e0	ebffa60f	bl	0xd0b24 <_Z10SET_RValueP6RValueS0_i>
+e72e4	ebffb1d2	bl	0xd3a34 <_Z15PopContextStackv>
+e72e8	e51bc888	ldr	r12, [r11, #-0x888]
+e72ec	e5dc3000	ldrb	r3, [r12]
+e72f0	eafffd1f	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e72f4	e7e7345a	ubfx	r3, r10, #0x8, #0x8
+e72f8	e6ef607a	uxtb	r6, r10
+e72fc	e3530000	cmp	r3, #0
+e7300	1a0000ce	bne	0xe7640 <_Z5DoPopjPhPKhP6VMExec+0x105c>
+e7304	e59f3310	ldr	r3, [pc, #0x310]
+e7308	e7973003	ldr	r3, [r7, r3]
+e730c	e5935000	ldr	r5, [r3]
+e7310	e0851206	add	r1, r5, r6, lsl #4
+e7314	e591300c	ldr	r3, [r1, #0xc]
+e7318	e3c324ff	bic	r2, r3, #-16777216
+e731c	e3520001	cmp	r2, #1
+e7320	0a0001ad	beq	0xe79dc <_Z5DoPopjPhPKhP6VMExec+0x13f8>
+e7324	e3520002	cmp	r2, #2
+e7328	1a00000c	bne	0xe7360 <_Z5DoPopjPhPKhP6VMExec+0xd7c>
+e732c	e2433001	sub	r3, r3, #1
+e7330	e3c334ff	bic	r3, r3, #-16777216
+e7334	e3c33003	bic	r3, r3, #3
+e7338	e3530000	cmp	r3, #0
+e733c	1a000003	bne	0xe7350 <_Z5DoPopjPhPKhP6VMExec+0xd6c>
+e7340	e1a00001	mov	r0, r1
+e7344	e50b18a4	str	r1, [r11, #-0x8a4]
+e7348	ebff65cb	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e734c	e51b18a4	ldr	r1, [r11, #-0x8a4]
+e7350	e3a03000	mov	r3, #0
+e7354	e5813008	str	r3, [r1, #0x8]
+e7358	e3a03005	mov	r3, #5
+e735c	e581300c	str	r3, [r1, #0xc]
+e7360	e598300c	ldr	r3, [r8, #0xc]
+e7364	e3a02000	mov	r2, #0
+e7368	e7852206	str	r2, [r5, r6, lsl #4]
+e736c	e5982008	ldr	r2, [r8, #0x8]
+e7370	e581300c	str	r3, [r1, #0xc]
+e7374	e598300c	ldr	r3, [r8, #0xc]
+e7378	e5812008	str	r2, [r1, #0x8]
+e737c	e3c334ff	bic	r3, r3, #-16777216
+e7380	e353000e	cmp	r3, #14
+e7384	908ff103	addls	pc, pc, r3, lsl #2
+e7388	eafffcf7	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e738c	ea000012	b	0xe73dc <_Z5DoPopjPhPKhP6VMExec+0xdf8>
+e7390	ea000030	b	0xe7458 <_Z5DoPopjPhPKhP6VMExec+0xe74>
+e7394	ea000021	b	0xe7420 <_Z5DoPopjPhPKhP6VMExec+0xe3c>
+e7398	ea00000a	b	0xe73c8 <_Z5DoPopjPhPKhP6VMExec+0xde4>
+e739c	eafffcf2	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e73a0	eafffcf1	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e73a4	ea000012	b	0xe73f4 <_Z5DoPopjPhPKhP6VMExec+0xe10>
+e73a8	ea000006	b	0xe73c8 <_Z5DoPopjPhPKhP6VMExec+0xde4>
+e73ac	eafffcee	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e73b0	eafffced	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e73b4	ea000008	b	0xe73dc <_Z5DoPopjPhPKhP6VMExec+0xdf8>
+e73b8	eafffceb	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e73bc	eafffcea	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e73c0	ea000005	b	0xe73dc <_Z5DoPopjPhPKhP6VMExec+0xdf8>
+e73c4	eaffffff	b	0xe73c8 <_Z5DoPopjPhPKhP6VMExec+0xde4>
+e73c8	e5983000	ldr	r3, [r8]
+e73cc	e7853206	str	r3, [r5, r6, lsl #4]
+e73d0	e51bc888	ldr	r12, [r11, #-0x888]
+e73d4	e5dc3000	ldrb	r3, [r12]
+e73d8	eafffce5	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e73dc	e898000c	ldm	r8, {r2, r3}
+e73e0	e7852206	str	r2, [r5, r6, lsl #4]
+e73e4	e5813004	str	r3, [r1, #0x4]
+e73e8	e51bc888	ldr	r12, [r11, #-0x888]
+e73ec	e5dc3000	ldrb	r3, [r12]
+e73f0	eafffcdf	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e73f4	e5983000	ldr	r3, [r8]
+e73f8	e7853206	str	r3, [r5, r6, lsl #4]
+e73fc	e5983000	ldr	r3, [r8]
+e7400	e3530000	cmp	r3, #0
+e7404	0afffcd8	beq	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7408	ebffb191	bl	0xd3a54 <_Z18GetContextStackTopv>
+e740c	e5981000	ldr	r1, [r8]
+e7410	eb02a8be	bl	0x191710 <_Z22DeterminePotentialRootP12YYObjectBaseS0_>
+e7414	e51bc888	ldr	r12, [r11, #-0x888]
+e7418	e5dc3000	ldrb	r3, [r12]
+e741c	eafffcd4	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e7420	e5983000	ldr	r3, [r8]
+e7424	e3530000	cmp	r3, #0
+e7428	e7853206	str	r3, [r5, r6, lsl #4]
+e742c	0afffcce	beq	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7430	e5930008	ldr	r0, [r3, #0x8]
+e7434	e5932000	ldr	r2, [r3]
+e7438	e3500000	cmp	r0, #0
+e743c	05831008	streq	r1, [r3, #0x8]
+e7440	e2822001	add	r2, r2, #1
+e7444	e5832000	str	r2, [r3]
+e7448	051bc888	ldreq	r12, [r11, #-0x888]
+e744c	05dc3000	ldrbeq	r3, [r12]
+e7450	1afffcc5	bne	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7454	eafffcc6	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e7458	e5980000	ldr	r0, [r8]
+e745c	ebffd3ed	bl	0xdc418 <_ZN9_RefThingIPKcE6assignEPS2_>
+e7460	e51bc888	ldr	r12, [r11, #-0x888]
+e7464	e7850206	str	r0, [r5, r6, lsl #4]
+e7468	e5dc3000	ldrb	r3, [r12]
+e746c	eafffcc0	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e7470	e1a02008	mov	r2, r8
+e7474	eb043059	bl	0x1f35e0 <_Z21Variable_Scope_SetVariiP6RValue>
+e7478	e51bc888	ldr	r12, [r11, #-0x888]
+e747c	e5dc3000	ldrb	r3, [r12]
+e7480	eafffcbb	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e7484	e59f3174	ldr	r3, [pc, #0x174]
+e7488	e7973003	ldr	r3, [r7, r3]
+e748c	e5d36000	ldrb	r6, [r3]
+e7490	e3560000	cmp	r6, #0
+e7494	0a00012e	beq	0xe7954 <_Z5DoPopjPhPKhP6VMExec+0x1370>
+e7498	e51b3890	ldr	r3, [r11, #-0x890]
+e749c	e3530000	cmp	r3, #0
+e74a0	0afffcd6	beq	0xe6800 <_Z5DoPopjPhPKhP6VMExec+0x21c>
+e74a4	e3a03000	mov	r3, #0
+e74a8	e2445010	sub	r5, r4, #16
+e74ac	e5043004	str	r3, [r4, #-0x4]
+e74b0	e5043010	str	r3, [r4, #-0x10]
+e74b4	e504300c	str	r3, [r4, #-0xc]
+e74b8	eafffc63	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e74bc	e51b3868	ldr	r3, [r11, #-0x868]
+e74c0	e50b389c	str	r3, [r11, #-0x89c]
+e74c4	eafffdc5	b	0xe6be0 <_Z5DoPopjPhPKhP6VMExec+0x5fc>
+e74c8	e59f0150	ldr	r0, [pc, #0x150]
+e74cc	e3e01008	mvn	r1, #8
+e74d0	e1a0200a	mov	r2, r10
+e74d4	e08f0000	add	r0, pc, r0
+e74d8	ebffac47	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e74dc	e59f0140	ldr	r0, [pc, #0x140]
+e74e0	e1a0200a	mov	r2, r10
+e74e4	e3e01008	mvn	r1, #8
+e74e8	e2445010	sub	r5, r4, #16
+e74ec	e08f0000	add	r0, pc, r0
+e74f0	ebffac41	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e74f4	e51b389c	ldr	r3, [r11, #-0x89c]
+e74f8	e1a01005	mov	r1, r5
+e74fc	e593c050	ldr	r12, [r3, #0x50]
+e7500	e1a02000	mov	r2, r0
+e7504	e1a00003	mov	r0, r3
+e7508	e3a03000	mov	r3, #0
+e750c	e12fff3c	blx	r12
+e7510	eaffff6b	b	0xe72c4 <_Z5DoPopjPhPKhP6VMExec+0xce0>
+e7514	e51b3890	ldr	r3, [r11, #-0x890]
+e7518	e3530000	cmp	r3, #0
+e751c	0afffcb7	beq	0xe6800 <_Z5DoPopjPhPKhP6VMExec+0x21c>
+e7520	e3a0300d	mov	r3, #13
+e7524	e5046010	str	r6, [r4, #-0x10]
+e7528	e504600c	str	r6, [r4, #-0xc]
+e752c	e2445010	sub	r5, r4, #16
+e7530	e5043004	str	r3, [r4, #-0x4]
+e7534	eafffc44	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e7538	e24b5e86	sub	r5, r11, #2144
+e753c	e2422001	sub	r2, r2, #1
+e7540	e2455004	sub	r5, r5, #4
+e7544	e3c2c4ff	bic	r12, r2, #-16777216
+e7548	e2455004	sub	r5, r5, #4
+e754c	e3ccc003	bic	r12, r12, #3
+e7550	e35c0000	cmp	r12, #0
+e7554	e24bce83	sub	r12, r11, #2096
+e7558	e895000f	ldm	r5, {r0, r1, r2, r3}
+e755c	e24cc004	sub	r12, r12, #4
+e7560	e24cc004	sub	r12, r12, #4
+e7564	e88c000f	stm	r12, {r0, r1, r2, r3}
+e7568	0a000118	beq	0xe79d0 <_Z5DoPopjPhPKhP6VMExec+0x13ec>
+e756c	e51bc858	ldr	r12, [r11, #-0x858]
+e7570	e1a00005	mov	r0, r5
+e7574	e51b2854	ldr	r2, [r11, #-0x854]
+e7578	e1a01008	mov	r1, r8
+e757c	e3a03000	mov	r3, #0
+e7580	e50b3830	str	r3, [r11, #-0x830]
+e7584	ee07ca10	vmov	s14, r12
+e7588	e50b3838	str	r3, [r11, #-0x838]
+e758c	ee072a90	vmov	s15, r2
+e7590	e3a0c005	mov	r12, #5
+e7594	e50bc82c	str	r12, [r11, #-0x82c]
+e7598	eefd6bc7	vcvt.s32.f64	s13, d7
+e759c	ee162a90	vmov	r2, s13
+e75a0	ebffa55f	bl	0xd0b24 <_Z10SET_RValueP6RValueS0_i>
+e75a4	e51bc888	ldr	r12, [r11, #-0x888]
+e75a8	e5dc3000	ldrb	r3, [r12]
+e75ac	eafffc70	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e75b0	e3730001	cmn	r3, #1
+e75b4	0afffdbf	beq	0xe6cb8 <_Z5DoPopjPhPKhP6VMExec+0x6d4>
+e75b8	e08c3003	add	r3, r12, r3
+e75bc	e0863103	add	r3, r6, r3, lsl #2
+e75c0	e2932004	adds	r2, r3, #4
+e75c4	050b2894	streq	r2, [r11, #-0x894]
+e75c8	15933004	ldrne	r3, [r3, #0x4]
+e75cc	150b3894	strne	r3, [r11, #-0x894]
+e75d0	eafffdba	b	0xe6cc0 <_Z5DoPopjPhPKhP6VMExec+0x6dc>
+e75d4	0030b650	eorseq	r11, r0, r0, asr r6
+e75d8	ffffbd00	.word	0xffffbd00
+e75dc	0024e178	eoreq	lr, r4, r8, ror r1
+e75e0	ffffbf68	.word	0xffffbf68
+e75e4	ffffbf24	.word	0xffffbf24
+e75e8	ffffbf30	.word	0xffffbf30
+e75ec	ffffbf28	.word	0xffffbf28
+e75f0	ffffbf2c	.word	0xffffbf2c
+e75f4	ffffbf34	.word	0xffffbf34
+e75f8	0024df30	eoreq	sp, r4, r0, lsr pc
+e75fc	0024dd88	eoreq	sp, r4, r8, lsl #27
+e7600	ffffc0fc	.word	0xffffc0fc
+e7604	0024d850	eoreq	sp, r4, r0, asr r8
+e7608	0024d560	eoreq	sp, r4, r0, ror #10
+e760c	0024d64c	eoreq	sp, r4, r12, asr #12
+e7610	0024d510	eoreq	sp, r4, r0, lsl r5
+e7614	0024d4e0	eoreq	sp, r4, r0, ror #9
+e7618	00247912	eoreq	r7, r4, r2, lsl r9
+e761c	ffffc0c0	.word	0xffffc0c0
+e7620	00247662	eoreq	r7, r4, r2, ror #12
+e7624	0024764a	eoreq	r7, r4, r10, asr #12
+e7628	0024728e	eoreq	r7, r4, lr, lsl #5
+e762c	0024cc6c	eoreq	r12, r4, r12, ror #24
+e7630	0024cdec	eoreq	r12, r4, r12, ror #27
+e7634	00246f62	eoreq	r6, r4, r2, ror #30
+e7638	0024ca0c	eoreq	r12, r4, r12, lsl #20
+e763c	0024c90c	eoreq	r12, r4, r12, lsl #18
+e7640	e51bc884	ldr	r12, [r11, #-0x884]
+e7644	e59c5010	ldr	r5, [r12, #0x10]
+e7648	e3550000	cmp	r5, #0
+e764c	0a00018c	beq	0xe7c84 <_Z5DoPopjPhPKhP6VMExec+0x16a0>
+e7650	e1a02003	mov	r2, r3
+e7654	e2522001	subs	r2, r2, #1
+e7658	e595500c	ldr	r5, [r5, #0xc]
+e765c	03a01000	moveq	r1, #0
+e7660	13a01001	movne	r1, #1
+e7664	e3550000	cmp	r5, #0
+e7668	03a01000	moveq	r1, #0
+e766c	12011001	andne	r1, r1, #1
+e7670	e3510000	cmp	r1, #0
+e7674	1afffff6	bne	0xe7654 <_Z5DoPopjPhPKhP6VMExec+0x1070>
+e7678	e3550000	cmp	r5, #0
+e767c	0a000180	beq	0xe7c84 <_Z5DoPopjPhPKhP6VMExec+0x16a0>
+e7680	e5951004	ldr	r1, [r5, #0x4]
+e7684	e3510000	cmp	r1, #0
+e7688	0a000179	beq	0xe7c74 <_Z5DoPopjPhPKhP6VMExec+0x1690>
+e768c	e5910000	ldr	r0, [r1]
+e7690	e5903004	ldr	r3, [r0, #0x4]
+e7694	e3530000	cmp	r3, #0
+e7698	0a00018f	beq	0xe7cdc <_Z5DoPopjPhPKhP6VMExec+0x16f8>
+e769c	e2830010	add	r0, r3, #16
+e76a0	e5900000	ldr	r0, [r0]
+e76a4	e5903004	ldr	r3, [r0, #0x4]
+e76a8	e3530000	cmp	r3, #0
+e76ac	0a000186	beq	0xe7ccc <_Z5DoPopjPhPKhP6VMExec+0x16e8>
+e76b0	e0836206	add	r6, r3, r6, lsl #4
+e76b4	e596300c	ldr	r3, [r6, #0xc]
+e76b8	e3c324ff	bic	r2, r3, #-16777216
+e76bc	e3520001	cmp	r2, #1
+e76c0	0a0000be	beq	0xe79c0 <_Z5DoPopjPhPKhP6VMExec+0x13dc>
+e76c4	e3520002	cmp	r2, #2
+e76c8	1a00000a	bne	0xe76f8 <_Z5DoPopjPhPKhP6VMExec+0x1114>
+e76cc	e2433001	sub	r3, r3, #1
+e76d0	e3c334ff	bic	r3, r3, #-16777216
+e76d4	e3c33003	bic	r3, r3, #3
+e76d8	e3530000	cmp	r3, #0
+e76dc	1a000001	bne	0xe76e8 <_Z5DoPopjPhPKhP6VMExec+0x1104>
+e76e0	e1a00006	mov	r0, r6
+e76e4	ebff64e4	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e76e8	e3a02000	mov	r2, #0
+e76ec	e3a03005	mov	r3, #5
+e76f0	e5862008	str	r2, [r6, #0x8]
+e76f4	e586300c	str	r3, [r6, #0xc]
+e76f8	e598300c	ldr	r3, [r8, #0xc]
+e76fc	e3a01000	mov	r1, #0
+e7700	e5982008	ldr	r2, [r8, #0x8]
+e7704	e5861000	str	r1, [r6]
+e7708	e586300c	str	r3, [r6, #0xc]
+e770c	e598300c	ldr	r3, [r8, #0xc]
+e7710	e5862008	str	r2, [r6, #0x8]
+e7714	e3c334ff	bic	r3, r3, #-16777216
+e7718	e353000e	cmp	r3, #14
+e771c	908ff103	addls	pc, pc, r3, lsl #2
+e7720	eafffc11	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7724	ea000012	b	0xe7774 <_Z5DoPopjPhPKhP6VMExec+0x1190>
+e7728	ea00002a	b	0xe77d8 <_Z5DoPopjPhPKhP6VMExec+0x11f4>
+e772c	ea00001b	b	0xe77a0 <_Z5DoPopjPhPKhP6VMExec+0x11bc>
+e7730	ea00000a	b	0xe7760 <_Z5DoPopjPhPKhP6VMExec+0x117c>
+e7734	eafffc0c	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7738	eafffc0b	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e773c	ea000011	b	0xe7788 <_Z5DoPopjPhPKhP6VMExec+0x11a4>
+e7740	ea000006	b	0xe7760 <_Z5DoPopjPhPKhP6VMExec+0x117c>
+e7744	eafffc08	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7748	eafffc07	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e774c	ea000008	b	0xe7774 <_Z5DoPopjPhPKhP6VMExec+0x1190>
+e7750	eafffc05	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7754	eafffc04	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7758	ea000005	b	0xe7774 <_Z5DoPopjPhPKhP6VMExec+0x1190>
+e775c	eaffffff	b	0xe7760 <_Z5DoPopjPhPKhP6VMExec+0x117c>
+e7760	e5983000	ldr	r3, [r8]
+e7764	e5863000	str	r3, [r6]
+e7768	e51bc888	ldr	r12, [r11, #-0x888]
+e776c	e5dc3000	ldrb	r3, [r12]
+e7770	eafffbff	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e7774	e898000c	ldm	r8, {r2, r3}
+e7778	e886000c	stm	r6, {r2, r3}
+e777c	e51bc888	ldr	r12, [r11, #-0x888]
+e7780	e5dc3000	ldrb	r3, [r12]
+e7784	eafffbfa	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e7788	e5983000	ldr	r3, [r8]
+e778c	e5863000	str	r3, [r6]
+e7790	e5983000	ldr	r3, [r8]
+e7794	e3530000	cmp	r3, #0
+e7798	1affff1a	bne	0xe7408 <_Z5DoPopjPhPKhP6VMExec+0xe24>
+e779c	eafffbf2	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e77a0	e5983000	ldr	r3, [r8]
+e77a4	e3530000	cmp	r3, #0
+e77a8	e5863000	str	r3, [r6]
+e77ac	0afffbee	beq	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e77b0	e5931008	ldr	r1, [r3, #0x8]
+e77b4	e5932000	ldr	r2, [r3]
+e77b8	e3510000	cmp	r1, #0
+e77bc	05836008	streq	r6, [r3, #0x8]
+e77c0	e2822001	add	r2, r2, #1
+e77c4	e5832000	str	r2, [r3]
+e77c8	051bc888	ldreq	r12, [r11, #-0x888]
+e77cc	05dc3000	ldrbeq	r3, [r12]
+e77d0	1afffbe5	bne	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e77d4	eafffbe6	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e77d8	e5980000	ldr	r0, [r8]
+e77dc	ebffd30d	bl	0xdc418 <_ZN9_RefThingIPKcE6assignEPS2_>
+e77e0	e51bc888	ldr	r12, [r11, #-0x888]
+e77e4	e5860000	str	r0, [r6]
+e77e8	e5dc3000	ldrb	r3, [r12]
+e77ec	eafffbe0	b	0xe6774 <_Z5DoPopjPhPKhP6VMExec+0x190>
+e77f0	e1a00005	mov	r0, r5
+e77f4	e1a01006	mov	r1, r6
+e77f8	e50b38a4	str	r3, [r11, #-0x8a4]
+e77fc	e50bc8a8	str	r12, [r11, #-0x8a8]
+e7800	eb02bc9a	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7804	e51bc8a8	ldr	r12, [r11, #-0x8a8]
+e7808	e51b38a4	ldr	r3, [r11, #-0x8a4]
+e780c	eafffdab	b	0xe6ec0 <_Z5DoPopjPhPKhP6VMExec+0x8dc>
+e7810	e1a00005	mov	r0, r5
+e7814	e1a01006	mov	r1, r6
+e7818	eb02bc94	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e781c	eafffdb6	b	0xe6efc <_Z5DoPopjPhPKhP6VMExec+0x918>
+e7820	e5950004	ldr	r0, [r5, #0x4]
+e7824	e3a0300d	mov	r3, #13
+e7828	e2447010	sub	r7, r4, #16
+e782c	e5043004	str	r3, [r4, #-0x4]
+e7830	e3500000	cmp	r0, #0
+e7834	0a000134	beq	0xe7d0c <_Z5DoPopjPhPKhP6VMExec+0x1728>
+e7838	e080000c	add	r0, r0, r12
+e783c	e5903008	ldr	r3, [r0, #0x8]
+e7840	e2133002	ands	r3, r3, #2
+e7844	1a0000c9	bne	0xe7b70 <_Z5DoPopjPhPKhP6VMExec+0x158c>
+e7848	e5043010	str	r3, [r4, #-0x10]
+e784c	e1a05007	mov	r5, r7
+e7850	e504300c	str	r3, [r4, #-0xc]
+e7854	eafffb7c	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e7858	e51b3890	ldr	r3, [r11, #-0x890]
+e785c	e3530000	cmp	r3, #0
+e7860	0afffbe6	beq	0xe6800 <_Z5DoPopjPhPKhP6VMExec+0x21c>
+e7864	e5045010	str	r5, [r4, #-0x10]
+e7868	e3a0300d	mov	r3, #13
+e786c	e504500c	str	r5, [r4, #-0xc]
+e7870	e2445010	sub	r5, r4, #16
+e7874	e5043004	str	r3, [r4, #-0x4]
+e7878	eafffb73	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e787c	e51bc890	ldr	r12, [r11, #-0x890]
+e7880	e35c0000	cmp	r12, #0
+e7884	1affff0f	bne	0xe74c8 <_Z5DoPopjPhPKhP6VMExec+0xee4>
+e7888	e51b0894	ldr	r0, [r11, #-0x894]
+e788c	e590c000	ldr	r12, [r0]
+e7890	e59c2048	ldr	r2, [r12, #0x48]
+e7894	e3520002	cmp	r2, #2
+e7898	0a000112	beq	0xe7ce8 <_Z5DoPopjPhPKhP6VMExec+0x1704>
+e789c	e51f027c	ldr	r0, [pc, #-0x27c]
+e78a0	e3e01008	mvn	r1, #8
+e78a4	e1a0200a	mov	r2, r10
+e78a8	e08f0000	add	r0, pc, r0
+e78ac	ebffab52	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e78b0	e51bc894	ldr	r12, [r11, #-0x894]
+e78b4	e3e034ff	mvn	r3, #-16777216
+e78b8	e59c600c	ldr	r6, [r12, #0xc]
+e78bc	e59c5008	ldr	r5, [r12, #0x8]
+e78c0	e0563003	subs	r3, r6, r3
+e78c4	e2736000	rsbs	r6, r3, #0
+e78c8	e0b66003	adcs	r6, r6, r3
+e78cc	eafffe60	b	0xe7254 <_Z5DoPopjPhPKhP6VMExec+0xc70>
+e78d0	e24b5d21	sub	r5, r11, #2112
+e78d4	e24b1e85	sub	r1, r11, #2128
+e78d8	e2455004	sub	r5, r5, #4
+e78dc	e2411004	sub	r1, r1, #4
+e78e0	e2455004	sub	r5, r5, #4
+e78e4	e2411004	sub	r1, r1, #4
+e78e8	e1a00005	mov	r0, r5
+e78ec	eb059912	bl	0x24dd3c <_Z13F_JS_ToStringR6RValuePS_>
+e78f0	e3500001	cmp	r0, #1
+e78f4	e1a03000	mov	r3, r0
+e78f8	0a000109	beq	0xe7d24 <_Z5DoPopjPhPKhP6VMExec+0x1740>
+e78fc	e3500000	cmp	r0, #0
+e7900	1afffb50	bne	0xe6648 <_Z5DoPopjPhPKhP6VMExec+0x64>
+e7904	e51bc890	ldr	r12, [r11, #-0x890]
+e7908	e35c0000	cmp	r12, #0
+e790c	0a0000b7	beq	0xe7bf0 <_Z5DoPopjPhPKhP6VMExec+0x160c>
+e7910	e51b0868	ldr	r0, [r11, #-0x868]
+e7914	e2444010	sub	r4, r4, #16
+e7918	e51b2848	ldr	r2, [r11, #-0x848]
+e791c	e1a01004	mov	r1, r4
+e7920	e590c050	ldr	r12, [r0, #0x50]
+e7924	e5922000	ldr	r2, [r2]
+e7928	e12fff3c	blx	r12
+e792c	e51b383c	ldr	r3, [r11, #-0x83c]
+e7930	e2433001	sub	r3, r3, #1
+e7934	e3c334ff	bic	r3, r3, #-16777216
+e7938	e3c33003	bic	r3, r3, #3
+e793c	e3530000	cmp	r3, #0
+e7940	1afffb40	bne	0xe6648 <_Z5DoPopjPhPKhP6VMExec+0x64>
+e7944	e1a00005	mov	r0, r5
+e7948	e1a05004	mov	r5, r4
+e794c	ebff644a	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e7950	eafffb3d	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e7954	e51bc884	ldr	r12, [r11, #-0x884]
+e7958	e1a0200a	mov	r2, r10
+e795c	e3e01008	mvn	r1, #8
+e7960	e1a05004	mov	r5, r4
+e7964	e59c0034	ldr	r0, [r12, #0x34]
+e7968	ebffab23	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e796c	e1a0100a	mov	r1, r10
+e7970	e1a04000	mov	r4, r0
+e7974	e3e00008	mvn	r0, #8
+e7978	eb043183	bl	0x1f3f8c <_Z22Variable_GetObjectNameii>
+e797c	e58d4000	str	r4, [sp]
+e7980	e24b4e82	sub	r4, r11, #2080
+e7984	e51bc88c	ldr	r12, [r11, #-0x88c]
+e7988	e2444004	sub	r4, r4, #4
+e798c	e51f2368	ldr	r2, [pc, #-0x368]
+e7990	e2444004	sub	r4, r4, #4
+e7994	e58da004	str	r10, [sp, #0x4]
+e7998	e3a01b02	mov	r1, #2048
+e799c	e58dc008	str	r12, [sp, #0x8]
+e79a0	e08f2002	add	r2, pc, r2
+e79a4	e1a03000	mov	r3, r0
+e79a8	e1a00004	mov	r0, r4
+e79ac	ebff3b05	bl	0xb65c8 <snprintf@plt>
+e79b0	e1a00004	mov	r0, r4
+e79b4	e54b6029	strb	r6, [r11, #-0x29]
+e79b8	eb059af3	bl	0x24e58c <_Z16JSThrowTypeErrorPKc>
+e79bc	eafffb22	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e79c0	e5960000	ldr	r0, [r6]
+e79c4	ebffd298	bl	0xdc42c <_ZN9_RefThingIPKcE6removeEPS2_>
+e79c8	e5860000	str	r0, [r6]
+e79cc	eaffff49	b	0xe76f8 <_Z5DoPopjPhPKhP6VMExec+0x1114>
+e79d0	e1a0000c	mov	r0, r12
+e79d4	ebff6428	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e79d8	eafffee3	b	0xe756c <_Z5DoPopjPhPKhP6VMExec+0xf88>
+e79dc	e7950206	ldr	r0, [r5, r6, lsl #4]
+e79e0	e50b18a4	str	r1, [r11, #-0x8a4]
+e79e4	ebffd290	bl	0xdc42c <_ZN9_RefThingIPKcE6removeEPS2_>
+e79e8	e7850206	str	r0, [r5, r6, lsl #4]
+e79ec	e51b18a4	ldr	r1, [r11, #-0x8a4]
+e79f0	eafffe5a	b	0xe7360 <_Z5DoPopjPhPKhP6VMExec+0xd7c>
+e79f4	e51f03cc	ldr	r0, [pc, #-0x3cc]
+e79f8	e1a05004	mov	r5, r4
+e79fc	e08f0000	add	r0, pc, r0
+e7a00	eb05b43f	bl	0x254b04 <_Z21JSThrowReferenceErrorPKc>
+e7a04	eafffb10	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e7a08	ebff3af1	bl	0xb65d4 <__stack_chk_fail@plt>
+e7a0c	e3150004	tst	r5, #4
+e7a10	0afffe1d	beq	0xe728c <_Z5DoPopjPhPKhP6VMExec+0xca8>
+e7a14	e51b3894	ldr	r3, [r11, #-0x894]
+e7a18	e593200c	ldr	r2, [r3, #0xc]
+e7a1c	e3c234ff	bic	r3, r2, #-16777216
+e7a20	e3530001	cmp	r3, #1
+e7a24	0a0000a2	beq	0xe7cb4 <_Z5DoPopjPhPKhP6VMExec+0x16d0>
+e7a28	e3530002	cmp	r3, #2
+e7a2c	1a00000b	bne	0xe7a60 <_Z5DoPopjPhPKhP6VMExec+0x147c>
+e7a30	e2423001	sub	r3, r2, #1
+e7a34	e3c334ff	bic	r3, r3, #-16777216
+e7a38	e3c33003	bic	r3, r3, #3
+e7a3c	e3530000	cmp	r3, #0
+e7a40	1a000001	bne	0xe7a4c <_Z5DoPopjPhPKhP6VMExec+0x1468>
+e7a44	e51b0894	ldr	r0, [r11, #-0x894]
+e7a48	ebff640b	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e7a4c	e51bc894	ldr	r12, [r11, #-0x894]
+e7a50	e3a02000	mov	r2, #0
+e7a54	e3a03005	mov	r3, #5
+e7a58	e58c2008	str	r2, [r12, #0x8]
+e7a5c	e58c300c	str	r3, [r12, #0xc]
+e7a60	e598300c	ldr	r3, [r8, #0xc]
+e7a64	e3a01000	mov	r1, #0
+e7a68	e51bc894	ldr	r12, [r11, #-0x894]
+e7a6c	e5982008	ldr	r2, [r8, #0x8]
+e7a70	e58c300c	str	r3, [r12, #0xc]
+e7a74	e598300c	ldr	r3, [r8, #0xc]
+e7a78	e58c1000	str	r1, [r12]
+e7a7c	e3c334ff	bic	r3, r3, #-16777216
+e7a80	e58c2008	str	r2, [r12, #0x8]
+e7a84	e353000e	cmp	r3, #14
+e7a88	908ff103	addls	pc, pc, r3, lsl #2
+e7a8c	ea000011	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7a90	ea000017	b	0xe7af4 <_Z5DoPopjPhPKhP6VMExec+0x1510>
+e7a94	ea000030	b	0xe7b5c <_Z5DoPopjPhPKhP6VMExec+0x1578>
+e7a98	ea000023	b	0xe7b2c <_Z5DoPopjPhPKhP6VMExec+0x1548>
+e7a9c	ea00000a	b	0xe7acc <_Z5DoPopjPhPKhP6VMExec+0x14e8>
+e7aa0	ea00000c	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7aa4	ea00000b	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7aa8	ea000015	b	0xe7b04 <_Z5DoPopjPhPKhP6VMExec+0x1520>
+e7aac	ea000006	b	0xe7acc <_Z5DoPopjPhPKhP6VMExec+0x14e8>
+e7ab0	ea000008	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7ab4	ea000007	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7ab8	ea00000d	b	0xe7af4 <_Z5DoPopjPhPKhP6VMExec+0x1510>
+e7abc	ea000005	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7ac0	ea000004	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7ac4	ea00000a	b	0xe7af4 <_Z5DoPopjPhPKhP6VMExec+0x1510>
+e7ac8	eaffffff	b	0xe7acc <_Z5DoPopjPhPKhP6VMExec+0x14e8>
+e7acc	e5983000	ldr	r3, [r8]
+e7ad0	e51bc894	ldr	r12, [r11, #-0x894]
+e7ad4	e58c3000	str	r3, [r12]
+e7ad8	e3560000	cmp	r6, #0
+e7adc	051b3894	ldreq	r3, [r11, #-0x894]
+e7ae0	13a03007	movne	r3, #7
+e7ae4	151bc894	ldrne	r12, [r11, #-0x894]
+e7ae8	05835008	streq	r5, [r3, #0x8]
+e7aec	158c3008	strne	r3, [r12, #0x8]
+e7af0	eafffdfb	b	0xe72e4 <_Z5DoPopjPhPKhP6VMExec+0xd00>
+e7af4	e898000c	ldm	r8, {r2, r3}
+e7af8	e51bc894	ldr	r12, [r11, #-0x894]
+e7afc	e88c000c	stm	r12, {r2, r3}
+e7b00	eafffff4	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7b04	e5983000	ldr	r3, [r8]
+e7b08	e51bc894	ldr	r12, [r11, #-0x894]
+e7b0c	e58c3000	str	r3, [r12]
+e7b10	e5983000	ldr	r3, [r8]
+e7b14	e3530000	cmp	r3, #0
+e7b18	0affffee	beq	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7b1c	ebffafcc	bl	0xd3a54 <_Z18GetContextStackTopv>
+e7b20	e5981000	ldr	r1, [r8]
+e7b24	eb02a6f9	bl	0x191710 <_Z22DeterminePotentialRootP12YYObjectBaseS0_>
+e7b28	eaffffea	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7b2c	e5983000	ldr	r3, [r8]
+e7b30	e51bc894	ldr	r12, [r11, #-0x894]
+e7b34	e3530000	cmp	r3, #0
+e7b38	e58c3000	str	r3, [r12]
+e7b3c	0affffe5	beq	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7b40	e5931008	ldr	r1, [r3, #0x8]
+e7b44	e5932000	ldr	r2, [r3]
+e7b48	e3510000	cmp	r1, #0
+e7b4c	0583c008	streq	r12, [r3, #0x8]
+e7b50	e2822001	add	r2, r2, #1
+e7b54	e5832000	str	r2, [r3]
+e7b58	eaffffde	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7b5c	e5980000	ldr	r0, [r8]
+e7b60	ebffd22c	bl	0xdc418 <_ZN9_RefThingIPKcE6assignEPS2_>
+e7b64	e51b3894	ldr	r3, [r11, #-0x894]
+e7b68	e5830000	str	r0, [r3]
+e7b6c	eaffffd9	b	0xe7ad8 <_Z5DoPopjPhPKhP6VMExec+0x14f4>
+e7b70	e3a03000	mov	r3, #0
+e7b74	e1a00005	mov	r0, r5
+e7b78	e1a02003	mov	r2, r3
+e7b7c	e3433ff0	movt	r3, #0x3ff0
+e7b80	e5042010	str	r2, [r4, #-0x10]
+e7b84	e504300c	str	r3, [r4, #-0xc]
+e7b88	e3a03005	mov	r3, #5
+e7b8c	e50bc8a8	str	r12, [r11, #-0x8a8]
+e7b90	e50b382c	str	r3, [r11, #-0x82c]
+e7b94	ebffaf73	bl	0xd3968 <_Z16PushContextStackP12YYObjectBase>
+e7b98	e5950004	ldr	r0, [r5, #0x4]
+e7b9c	e51bc8a8	ldr	r12, [r11, #-0x8a8]
+e7ba0	e3500000	cmp	r0, #0
+e7ba4	0a00007c	beq	0xe7d9c <_Z5DoPopjPhPKhP6VMExec+0x17b8>
+e7ba8	e080000c	add	r0, r0, r12
+e7bac	e24b1e83	sub	r1, r11, #2096
+e7bb0	e51b288c	ldr	r2, [r11, #-0x88c]
+e7bb4	e2411008	sub	r1, r1, #8
+e7bb8	e1a05007	mov	r5, r7
+e7bbc	ebffa3d8	bl	0xd0b24 <_Z10SET_RValueP6RValueS0_i>
+e7bc0	ebffaf9b	bl	0xd3a34 <_Z15PopContextStackv>
+e7bc4	eafffaa0	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e7bc8	e51f059c	ldr	r0, [pc, #-0x59c]
+e7bcc	e3e01008	mvn	r1, #8
+e7bd0	e1a0200a	mov	r2, r10
+e7bd4	e08f0000	add	r0, pc, r0
+e7bd8	ebffaa87	bl	0xd25fc <_Z23Code_Variable_Find_NamePKcii>
+e7bdc	e1a01000	mov	r1, r0
+e7be0	e51b089c	ldr	r0, [r11, #-0x89c]
+e7be4	eb02bbf6	bl	0x196bc4 <_ZN12YYObjectBase16FindOrAllocValueEPKc>
+e7be8	e50b0894	str	r0, [r11, #-0x894]
+e7bec	eafffd89	b	0xe7218 <_Z5DoPopjPhPKhP6VMExec+0xc34>
+e7bf0	e51b3848	ldr	r3, [r11, #-0x848]
+e7bf4	e51b0868	ldr	r0, [r11, #-0x868]
+e7bf8	e5931000	ldr	r1, [r3]
+e7bfc	ebffa97a	bl	0xd21ec <_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc>
+e7c00	e3700001	cmn	r0, #1
+e7c04	e1a01000	mov	r1, r0
+e7c08	0a00000a	beq	0xe7c38 <_Z5DoPopjPhPKhP6VMExec+0x1654>
+e7c0c	e51b0868	ldr	r0, [r11, #-0x868]
+e7c10	e5903004	ldr	r3, [r0, #0x4]
+e7c14	e3530000	cmp	r3, #0
+e7c18	0a00005a	beq	0xe7d88 <_Z5DoPopjPhPKhP6VMExec+0x17a4>
+e7c1c	e0830201	add	r0, r3, r1, lsl #4
+e7c20	e3500000	cmp	r0, #0
+e7c24	0a000003	beq	0xe7c38 <_Z5DoPopjPhPKhP6VMExec+0x1654>
+e7c28	e590300c	ldr	r3, [r0, #0xc]
+e7c2c	e3c334ff	bic	r3, r3, #-16777216
+e7c30	e3530006	cmp	r3, #6
+e7c34	0a00003f	beq	0xe7d38 <_Z5DoPopjPhPKhP6VMExec+0x1754>
+e7c38	e51b2848	ldr	r2, [r11, #-0x848]
+e7c3c	e3a03000	mov	r3, #0
+e7c40	e1a01008	mov	r1, r8
+e7c44	e51b0868	ldr	r0, [r11, #-0x868]
+e7c48	e5922000	ldr	r2, [r2]
+e7c4c	eb059d31	bl	0x24f118 <_Z13JS_Object_PutP12YYObjectBaseP6RValuePKcb>
+e7c50	e51b383c	ldr	r3, [r11, #-0x83c]
+e7c54	e2433001	sub	r3, r3, #1
+e7c58	e3c334ff	bic	r3, r3, #-16777216
+e7c5c	e3c33003	bic	r3, r3, #3
+e7c60	e3530000	cmp	r3, #0
+e7c64	1afffac0	bne	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7c68	e1a00005	mov	r0, r5
+e7c6c	ebff6382	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e7c70	eafffabd	b	0xe676c <_Z5DoPopjPhPKhP6VMExec+0x188>
+e7c74	e1a00005	mov	r0, r5
+e7c78	eb02bb7c	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7c7c	e1a01000	mov	r1, r0
+e7c80	eafffe81	b	0xe768c <_Z5DoPopjPhPKhP6VMExec+0x10a8>
+e7c84	e51f1654	ldr	r1, [pc, #-0x654]
+e7c88	e1a02006	mov	r2, r6
+e7c8c	e51b0884	ldr	r0, [r11, #-0x884]
+e7c90	e08f1001	add	r1, pc, r1
+e7c94	ebffb15d	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+e7c98	eafffe78	b	0xe7680 <_Z5DoPopjPhPKhP6VMExec+0x109c>
+e7c9c	e1a00006	mov	r0, r6
+e7ca0	eb02bb72	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7ca4	eafffbba	b	0xe6b94 <_Z5DoPopjPhPKhP6VMExec+0x5b0>
+e7ca8	e1a00006	mov	r0, r6
+e7cac	eb02bb6f	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7cb0	eafffd88	b	0xe72d8 <_Z5DoPopjPhPKhP6VMExec+0xcf4>
+e7cb4	e51bc894	ldr	r12, [r11, #-0x894]
+e7cb8	e59c0000	ldr	r0, [r12]
+e7cbc	ebffd1da	bl	0xdc42c <_ZN9_RefThingIPKcE6removeEPS2_>
+e7cc0	e51b3894	ldr	r3, [r11, #-0x894]
+e7cc4	e5830000	str	r0, [r3]
+e7cc8	eaffff64	b	0xe7a60 <_Z5DoPopjPhPKhP6VMExec+0x147c>
+e7ccc	e1a01006	mov	r1, r6
+e7cd0	eb02bb66	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7cd4	e1a06000	mov	r6, r0
+e7cd8	eafffe75	b	0xe76b4 <_Z5DoPopjPhPKhP6VMExec+0x10d0>
+e7cdc	e3a01001	mov	r1, #1
+e7ce0	eb02bb62	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7ce4	eafffe6d	b	0xe76a0 <_Z5DoPopjPhPKhP6VMExec+0x10bc>
+e7ce8	e24b2e83	sub	r2, r11, #2096
+e7cec	e51b089c	ldr	r0, [r11, #-0x89c]
+e7cf0	e1a01008	mov	r1, r8
+e7cf4	e2422008	sub	r2, r2, #8
+e7cf8	e50b382c	str	r3, [r11, #-0x82c]
+e7cfc	e1a05004	mov	r5, r4
+e7d00	e50bc838	str	r12, [r11, #-0x838]
+e7d04	eb058584	bl	0x24931c <_Z17Call_Accessor_SetP12YYObjectBaseP6RValueS2_>
+e7d08	eafffd6d	b	0xe72c4 <_Z5DoPopjPhPKhP6VMExec+0xce0>
+e7d0c	e1a00005	mov	r0, r5
+e7d10	e1a01006	mov	r1, r6
+e7d14	e50bc8a8	str	r12, [r11, #-0x8a8]
+e7d18	eb02bb54	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7d1c	e51bc8a8	ldr	r12, [r11, #-0x8a8]
+e7d20	eafffec5	b	0xe783c <_Z5DoPopjPhPKhP6VMExec+0x1258>
+e7d24	e51f06f0	ldr	r0, [pc, #-0x6f0]
+e7d28	e1a05004	mov	r5, r4
+e7d2c	e08f0000	add	r0, pc, r0
+e7d30	eb059a15	bl	0x24e58c <_Z16JSThrowTypeErrorPKc>
+e7d34	eafffa44	b	0xe664c <_Z5DoPopjPhPKhP6VMExec+0x68>
+e7d38	e590c000	ldr	r12, [r0]
+e7d3c	e59c2048	ldr	r2, [r12, #0x48]
+e7d40	e3520002	cmp	r2, #2
+e7d44	1affffbb	bne	0xe7c38 <_Z5DoPopjPhPKhP6VMExec+0x1654>
+e7d48	e24b2e83	sub	r2, r11, #2096
+e7d4c	e1a01008	mov	r1, r8
+e7d50	e51b0868	ldr	r0, [r11, #-0x868]
+e7d54	e2422008	sub	r2, r2, #8
+e7d58	e50b382c	str	r3, [r11, #-0x82c]
+e7d5c	e50bc838	str	r12, [r11, #-0x838]
+e7d60	eb05856d	bl	0x24931c <_Z17Call_Accessor_SetP12YYObjectBaseP6RValueS2_>
+e7d64	e51b383c	ldr	r3, [r11, #-0x83c]
+e7d68	e2433001	sub	r3, r3, #1
+e7d6c	e3c334ff	bic	r3, r3, #-16777216
+e7d70	e3c33003	bic	r3, r3, #3
+e7d74	e3530000	cmp	r3, #0
+e7d78	1afffa32	bne	0xe6648 <_Z5DoPopjPhPKhP6VMExec+0x64>
+e7d7c	e1a00005	mov	r0, r5
+e7d80	ebff633d	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e7d84	eafffa2f	b	0xe6648 <_Z5DoPopjPhPKhP6VMExec+0x64>
+e7d88	eb02bb38	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7d8c	eaffffa3	b	0xe7c20 <_Z5DoPopjPhPKhP6VMExec+0x163c>
+e7d90	e1a00005	mov	r0, r5
+e7d94	eb02bb35	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7d98	eafffc8a	b	0xe6fc8 <_Z5DoPopjPhPKhP6VMExec+0x9e4>
+e7d9c	e1a00005	mov	r0, r5
+e7da0	e1a01006	mov	r1, r6
+e7da4	eb02bb31	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e7da8	eaffff7f	b	0xe7bac <_Z5DoPopjPhPKhP6VMExec+0x15c8>
+e7dac	e590200c	ldr	r2, [r0, #0xc]
+e7db0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e7db4	e2423001	sub	r3, r2, #1
+e7db8	e3c334ff	bic	r3, r3, #-16777216
+e7dbc	e24dd00c	sub	sp, sp, #12
+e7dc0	e3d34003	bics	r4, r3, #3
+e7dc4	e1a05000	mov	r5, r0
+e7dc8	e1a07001	mov	r7, r1

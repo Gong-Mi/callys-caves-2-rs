@@ -1,0 +1,132 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_vertices",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "functions": [
+    {
+      "name": "_readVertices",
+      "address": "0x28b3fc",
+      "isa": "ARM",
+      "range_end_exclusive": "0x28b680",
+      "code_end_exclusive": "0x28b670",
+      "code_bytes": 628,
+      "code_words": 157,
+      "literal_bytes": 16,
+      "code_sha256": "d82257b4e1c5354ff81b911788519c18b08d16315dc4e3a0862e20dbf0064c36",
+      "signature": "void (const void *json, Json *map, spVertexAttachment *attachment, uint32_t verticesCount)",
+      "boundary_evidence": [
+        "push at 0x28b3fc; pop-return 0x28b638; tail _free 0x28b5d0; branch at 0x28b66c bypasses literal pool",
+        "direct original callers 0x28cab4, 0x28cd94, 0x28d0c0; next helper toColor begins 0x28b680"
+      ],
+      "semantics_state": "all static branches translated; fault/FP-environment and original-runtime gaps remain explicit",
+      "translation_state": "complete compilable ARM32 candidate with real reconstructed consumers",
+      "paths": [
+        {
+          "anchors": [
+            "0x28b414",
+            "0x28b420",
+            "0x28b430",
+            "0x28b43c",
+            "0x28b440-0x28b464"
+          ],
+          "claim": "write worldVerticesLength before lookup; snapshot JSON size; malloc(size<<2,tag,513); copy child float words by next-chain after allocation, not by declared size"
+        },
+        {
+          "anchors": [
+            "0x28b468",
+            "0x28b5e0-0x28b638"
+          ],
+          "claim": "size == verticesCount is sole unweighted gate; always load/compare scale; skip multiply at scale==1; otherwise multiply positive count with per-element scale reload; transfer temporary ownership without free"
+        },
+        {
+          "anchors": [
+            "0x28b470-0x28b4bc",
+            "0x28b4c8",
+            "0x28b4d4"
+          ],
+          "claim": "weighted count pass uses VCVT.s32.f32, signed loop comparisons and 32-bit wrap; bone words=sum(1+n), float words=sum(3*n)"
+        },
+        {
+          "anchors": [
+            "0x28b4dc",
+            "0x28b4e0",
+            "0x28b4ec",
+            "0x28b4f4",
+            "0x28b508"
+          ],
+          "claim": "allocate vertices at line537, reload bone count after callback before pointer store, allocate bones at line538, then store bone pointer"
+        },
+        {
+          "anchors": [
+            "0x28b50c-0x28b5c0",
+            "0x28b5d4-0x28b5dc"
+          ],
+          "claim": "emit n and int32 bone indices; x/y separately scaled, weight raw; zero group consumes one count word; preserve unsigned post-loop LSR formula"
+        },
+        {
+          "anchors": [
+            "0x28b63c-0x28b66c",
+            "0x28b5c4-0x28b5d0"
+          ],
+          "claim": "signed nonpositive unequal-size path still makes two allocations with count reread, then frees temporary; weighted path frees only temporary"
+        }
+      ],
+      "original_gap": [
+        "Original code not executed this round; this is not L5/oracle equivalence.",
+        "No equivalence claim for all malformed pointer/array/allocator alias combinations or exact fault signal/PC.",
+        "VFP primitives preserve instruction kind; full FPSCR rounding/flush/default-NaN/trap matrix and hardware behavior not measured.",
+        "Parent readSkeletonData is not assembled; mesh/link resolution and animations remain open."
+      ]
+    }
+  ],
+  "layout_refinement": {
+    "canonical_header": "../spine_atlas_attachment/src/spine_atlas_attachment.h",
+    "vertex_base_size": "0x24",
+    "new_shared_field": "+0x20 worldVerticesLength",
+    "concrete_sizes_unchanged": {
+      "boundingbox": "0x24",
+      "path": "0x34",
+      "mesh": "0x94"
+    },
+    "no_duplicate_partial_spSkeletonJson": "opaque parser pointer with VFP first-float load"
+  },
+  "depends_on": [
+    "json_interface/Json_getItem",
+    "spine_alloc/_malloc",
+    "spine_alloc/_free"
+  ],
+  "support_not_new_original_functions": [
+    "s32",
+    "at",
+    "load_f32",
+    "cvt_i32",
+    "scale_equal_one",
+    "mul_f32"
+  ],
+  "compile": {
+    "target": "armv7a-none-eabi",
+    "march": "armv7-a",
+    "mfpu": "vfpv3",
+    "float_abi": "softfp (core-register AAPCS)",
+    "warnings": "-Wall -Wextra -Werror"
+  },
+  "acceptance": {
+    "command": "python -B reconstruction/reverse-v1/c/spine_read_vertices/tools/check_read_vertices.py --so /path/to/libyoyo.so --out /new/private/output",
+    "kind": "reconstructed ARM32 under qemu-user with named synthetic allocator/libc providers",
+    "optimizations": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "named_contracts_per_run": 11,
+    "named_mutants_killed": 9,
+    "compile_guard_refusals": ["hard-float ABI", "software-only FP", "shifted Json array-count layout"],
+    "original_executed": false,
+    "full_input_binding": "compiler -MM source/header closure + checker hashes; every linked binary SHA recorded",
+    "receipt_path": "/data/data/com.termux/files/home/.hermes/reports/cally-readvertices-20261107/accepted-final/receipt.json",
+    "receipt_sha256": "e806ecef1dc7ad77da224c8dcd2ca8682d38b003dbcb243e548bccd81c17a07f"
+  }
+}

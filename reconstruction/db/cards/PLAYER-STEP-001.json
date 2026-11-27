@@ -1,0 +1,29 @@
+{
+  "id": "PLAYER-STEP-001",
+  "title": "obj_player 的 Step 主线（CODE 12）在重建 C 与自研 VM 上行为一致",
+  "scope_object": "obj_player",
+  "scope_event": "Step",
+  "trigger": "每帧 Step 派发 CODE 12",
+  "preconditions": "c-recon 的 C 降级与 callys 的 VM 使用同一份 full_ir；夹具相同",
+  "effects": "两者状态逐字段一致（C == VM）",
+  "tier": "test_anchored",
+  "host_authored": 0,
+  "original_gap": "与原版 libyoyo 未做逐指令/逐帧对照；C == VM 只证明两条自研实现互相同意",
+  "anchor": "c-recon/gen/gml_0012.c:1 (generated from CODE 12, source 3770532..3803116)",
+  "notes": "这一档不能计入“还原原版”，只能计入“内部一致”",
+  "codes": [
+    12
+  ],
+  "evidence": [
+    {
+      "kind": "test",
+      "ref": "c-recon/README.md#status: CODE 12 (6163 instructions) C == VM, identical state",
+      "note": "自研 VM 对照"
+    },
+    {
+      "kind": "bytecode",
+      "ref": "full_ir.json codes[id=12].sha256",
+      "note": "BINDING 用"
+    }
+  ]
+}

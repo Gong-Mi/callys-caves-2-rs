@@ -1,0 +1,294 @@
+194a90	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+194a94	ed2d8b0c	vpush	{d8, d9, d10, d11, d12, d13}
+194a98	e24dd03c	sub	sp, sp, #60
+194a9c	edddda22	vldr	s27, [sp, #136]
+194aa0	e1a04000	mov	r4, r0
+194aa4	ee0c3a90	vmov	s25, r3
+194aa8	ee0c1a10	vmov	s24, r1
+194aac	e5dd708c	ldrb	r7, [sp, #0x8c]
+194ab0	ee0d2a10	vmov	s26, r2
+194ab4	ebfff9a7	bl	0x193158 <_ZN9CInstance17SkeletonAnimationEv>
+194ab8	e2508000	subs	r8, r0, #0
+194abc	05d43064	ldrbeq	r3, [r4, #0x64]
+194ac0	0a000019	beq	0x194b2c <_ZN9CInstance17Collision_EllipseEffffb+0x9c>
+194ac4	edd47a24	vldr	s15, [r4, #144]
+194ac8	eefd7ae7	vcvt.s32.f32	s15, s15
+194acc	e59f5450	ldr	r5, [pc, #0x450]
+194ad0	e59410a0	ldr	r1, [r4, #0xa0]
+194ad4	e59490b8	ldr	r9, [r4, #0xb8]
+194ad8	e79f5005	ldr	r5, [pc, r5]
+194adc	e594e098	ldr	lr, [r4, #0x98]
+194ae0	e594c09c	ldr	r12, [r4, #0x9c]
+194ae4	e59430b4	ldr	r3, [r4, #0xb4]
+194ae8	e5956000	ldr	r6, [r5]
+194aec	ee172a90	vmov	r2, s15
+194af0	e5854000	str	r4, [r5]
+194af4	e58d100c	str	r1, [sp, #0xc]
+194af8	e28410e8	add	r1, r4, #232
+194afc	e58d9000	str	r9, [sp]
+194b00	e58de004	str	lr, [sp, #0x4]
+194b04	e58dc008	str	r12, [sp, #0x8]
+194b08	ebfca8a6	bl	0xbeda8 <_ZN17CSkeletonInstance18ComputeBoundingBoxEP9tagYYRECTifffff>
+194b0c	e5856000	str	r6, [r5]
+194b10	e3500000	cmp	r0, #0
+194b14	05d43064	ldrbeq	r3, [r4, #0x64]
+194b18	13a02000	movne	r2, #0
+194b1c	11a03002	movne	r3, r2
+194b20	13a01001	movne	r1, #1
+194b24	15c42064	strbne	r2, [r4, #0x64]
+194b28	15c410b0	strbne	r1, [r4, #0xb0]
+194b2c	e3530000	cmp	r3, #0
+194b30	1a0000c8	bne	0x194e58 <_ZN9CInstance17Collision_EllipseEffffb+0x3c8>
+194b34	e59430f0	ldr	r3, [r4, #0xf0]
+194b38	eeb4caec	vcmpe.f32	s24, s25
+194b3c	e2833001	add	r3, r3, #1
+194b40	ee063a10	vmov	s12, r3
+194b44	eef1fa10	vmrs	APSR_nzcv, fpscr
+194b48	5eb07a6c	vmovpl.f32	s14, s25
+194b4c	4eb07a4c	vmovmi.f32	s14, s24
+194b50	eef87ac6	vcvt.f32.s32	s15, s12
+194b54	eeb47ae7	vcmpe.f32	s14, s15
+194b58	eef1fa10	vmrs	APSR_nzcv, fpscr
+194b5c	aa0000b9	bge	0x194e48 <_ZN9CInstance17Collision_EllipseEffffb+0x3b8>
+194b60	eeb4caec	vcmpe.f32	s24, s25
+194b64	edd46a3a	vldr	s13, [r4, #232]
+194b68	eef87ae6	vcvt.f32.s32	s15, s13
+194b6c	eef1fa10	vmrs	APSR_nzcv, fpscr
+194b70	deb07a6c	vmovle.f32	s14, s25
+194b74	ceb07a4c	vmovgt.f32	s14, s24
+194b78	eeb47ae7	vcmpe.f32	s14, s15
+194b7c	eef1fa10	vmrs	APSR_nzcv, fpscr
+194b80	4a0000b0	bmi	0x194e48 <_ZN9CInstance17Collision_EllipseEffffb+0x3b8>
+194b84	e59430f4	ldr	r3, [r4, #0xf4]
+194b88	eeb4daed	vcmpe.f32	s26, s27
+194b8c	e2833001	add	r3, r3, #1
+194b90	ee073a10	vmov	s14, r3
+194b94	eef1fa10	vmrs	APSR_nzcv, fpscr
+194b98	eef87ac7	vcvt.f32.s32	s15, s14
+194b9c	5eb07a6d	vmovpl.f32	s14, s27
+194ba0	4eb07a4d	vmovmi.f32	s14, s26
+194ba4	eeb47ae7	vcmpe.f32	s14, s15
+194ba8	eef1fa10	vmrs	APSR_nzcv, fpscr
+194bac	aa0000a5	bge	0x194e48 <_ZN9CInstance17Collision_EllipseEffffb+0x3b8>
+194bb0	eeb4daed	vcmpe.f32	s26, s27
+194bb4	ed946a3b	vldr	s12, [r4, #236]
+194bb8	eef87ac6	vcvt.f32.s32	s15, s12
+194bbc	eef1fa10	vmrs	APSR_nzcv, fpscr
+194bc0	deb07a6d	vmovle.f32	s14, s27
+194bc4	ceb07a4d	vmovgt.f32	s14, s26
+194bc8	eeb47ae7	vcmpe.f32	s14, s15
+194bcc	eef1fa10	vmrs	APSR_nzcv, fpscr
+194bd0	4a00009c	bmi	0x194e48 <_ZN9CInstance17Collision_EllipseEffffb+0x3b8>
+194bd4	e5d43068	ldrb	r3, [r4, #0x68]
+194bd8	e3530000	cmp	r3, #0
+194bdc	1a000099	bne	0x194e48 <_ZN9CInstance17Collision_EllipseEffffb+0x3b8>
+194be0	eeb79acc	vcvt.f64.f32	d9, s24
+194be4	ec510b19	vmov	r0, r1, d9
+194be8	ebfc86be	bl	0xb66e8 <lrint@plt>
+194bec	eeb78aec	vcvt.f64.f32	d8, s25
+194bf0	e1a05000	mov	r5, r0
+194bf4	ec510b18	vmov	r0, r1, d8
+194bf8	ebfc86ba	bl	0xb66e8 <lrint@plt>
+194bfc	e1550000	cmp	r5, r0
+194c00	0a000098	beq	0x194e68 <_ZN9CInstance17Collision_EllipseEffffb+0x3d8>
+194c04	eeb7bacd	vcvt.f64.f32	d11, s26
+194c08	ec510b1b	vmov	r0, r1, d11
+194c0c	ebfc86b5	bl	0xb66e8 <lrint@plt>
+194c10	eeb7aaed	vcvt.f64.f32	d10, s27
+194c14	e1a05000	mov	r5, r0
+194c18	ec510b1a	vmov	r0, r1, d10
+194c1c	ebfc86b1	bl	0xb66e8 <lrint@plt>
+194c20	e1550000	cmp	r5, r0
+194c24	0a00008f	beq	0x194e68 <_ZN9CInstance17Collision_EllipseEffffb+0x3d8>
+194c28	eeb4caec	vcmpe.f32	s24, s25
+194c2c	eef1fa10	vmrs	APSR_nzcv, fpscr
+194c30	5c510b18	vmovpl	r0, r1, d8
+194c34	4c510b19	vmovmi	r0, r1, d9
+194c38	ebfc86aa	bl	0xb66e8 <lrint@plt>
+194c3c	eeb4daed	vcmpe.f32	s26, s27
+194c40	eef1fa10	vmrs	APSR_nzcv, fpscr
+194c44	e58d0018	str	r0, [sp, #0x18]
+194c48	5c510b1a	vmovpl	r0, r1, d10
+194c4c	4c510b1b	vmovmi	r0, r1, d11
+194c50	ebfc86a4	bl	0xb66e8 <lrint@plt>
+194c54	eeb4caec	vcmpe.f32	s24, s25
+194c58	eef1fa10	vmrs	APSR_nzcv, fpscr
+194c5c	e58d001c	str	r0, [sp, #0x1c]
+194c60	dc510b18	vmovle	r0, r1, d8
+194c64	cc510b19	vmovgt	r0, r1, d9
+194c68	ebfc869e	bl	0xb66e8 <lrint@plt>
+194c6c	eeb4daed	vcmpe.f32	s26, s27
+194c70	eef1fa10	vmrs	APSR_nzcv, fpscr
+194c74	e58d0020	str	r0, [sp, #0x20]
+194c78	dc510b1a	vmovle	r0, r1, d10
+194c7c	cc510b1b	vmovgt	r0, r1, d11
+194c80	ebfc8698	bl	0xb66e8 <lrint@plt>
+194c84	e59410e8	ldr	r1, [r4, #0xe8]
+194c88	ee3c7a2c	vadd.f32	s14, s24, s25
+194c8c	ee061a10	vmov	s12, r1
+194c90	eef67a00	vmov.f32	s15, #5.000000e-01
+194c94	ee677a27	vmul.f32	s15, s14, s15
+194c98	e58d0024	str	r0, [sp, #0x24]
+194c9c	eeb87ac6	vcvt.f32.s32	s14, s12
+194ca0	eeb47ae7	vcmpe.f32	s14, s15
+194ca4	eef1fa10	vmrs	APSR_nzcv, fpscr
+194ca8	8a000004	bhi	0x194cc0 <_ZN9CInstance17Collision_EllipseEffffb+0x230>
+194cac	edd46a3c	vldr	s13, [r4, #240]
+194cb0	eeb87ae6	vcvt.f32.s32	s14, s13
+194cb4	eef47ac7	vcmpe.f32	s15, s14
+194cb8	eef1fa10	vmrs	APSR_nzcv, fpscr
+194cbc	9a000012	bls	0x194d0c <_ZN9CInstance17Collision_EllipseEffffb+0x27c>
+194cc0	ee3d7a2d	vadd.f32	s14, s26, s27
+194cc4	e59420ec	ldr	r2, [r4, #0xec]
+194cc8	ee062a10	vmov	s12, r2
+194ccc	eef67a00	vmov.f32	s15, #5.000000e-01
+194cd0	ee677a27	vmul.f32	s15, s14, s15
+194cd4	eeb87ac6	vcvt.f32.s32	s14, s12
+194cd8	eeb47ae7	vcmpe.f32	s14, s15
+194cdc	eef1fa10	vmrs	APSR_nzcv, fpscr
+194ce0	8a000004	bhi	0x194cf8 <_ZN9CInstance17Collision_EllipseEffffb+0x268>
+194ce4	edd46a3d	vldr	s13, [r4, #244]
+194ce8	eeb87ae6	vcvt.f32.s32	s14, s13
+194cec	eef47ac7	vcmpe.f32	s15, s14
+194cf0	eef1fa10	vmrs	APSR_nzcv, fpscr
+194cf4	9a000004	bls	0x194d0c <_ZN9CInstance17Collision_EllipseEffffb+0x27c>
+194cf8	e28d5018	add	r5, sp, #24
+194cfc	e1a00005	mov	r0, r5
+194d00	ebffff38	bl	0x1949e8 <_Z5InEllP9tagYYRECTii>
+194d04	e3500000	cmp	r0, #0
+194d08	0a00003c	beq	0x194e00 <_ZN9CInstance17Collision_EllipseEffffb+0x370>
+194d0c	e3570000	cmp	r7, #0
+194d10	0a00005c	beq	0x194e88 <_ZN9CInstance17Collision_EllipseEffffb+0x3f8>
+194d14	e5d430b0	ldrb	r3, [r4, #0xb0]
+194d18	e3530000	cmp	r3, #0
+194d1c	0a000059	beq	0x194e88 <_ZN9CInstance17Collision_EllipseEffffb+0x3f8>
+194d20	eeb4caec	vcmpe.f32	s24, s25
+194d24	eef1fa10	vmrs	APSR_nzcv, fpscr
+194d28	5c510b18	vmovpl	r0, r1, d8
+194d2c	4c510b19	vmovmi	r0, r1, d9
+194d30	ebfc866c	bl	0xb66e8 <lrint@plt>
+194d34	eeb4daed	vcmpe.f32	s26, s27
+194d38	eef1fa10	vmrs	APSR_nzcv, fpscr
+194d3c	e58d0028	str	r0, [sp, #0x28]
+194d40	5c510b1a	vmovpl	r0, r1, d10
+194d44	4c510b1b	vmovmi	r0, r1, d11
+194d48	ebfc8666	bl	0xb66e8 <lrint@plt>
+194d4c	eeb4ca6c	vcmp.f32	s24, s25
+194d50	eef1fa10	vmrs	APSR_nzcv, fpscr
+194d54	e58d002c	str	r0, [sp, #0x2c]
+194d58	cc510b19	vmovgt	r0, r1, d9
+194d5c	dc510b18	vmovle	r0, r1, d8
+194d60	ebfc8660	bl	0xb66e8 <lrint@plt>
+194d64	eeb4da6d	vcmp.f32	s26, s27
+194d68	eef1fa10	vmrs	APSR_nzcv, fpscr
+194d6c	e58d0030	str	r0, [sp, #0x30]
+194d70	cc510b1b	vmovgt	r0, r1, d11
+194d74	dc510b1a	vmovle	r0, r1, d10
+194d78	ebfc865a	bl	0xb66e8 <lrint@plt>
+194d7c	e3580000	cmp	r8, #0
+194d80	e58d0034	str	r0, [sp, #0x34]
+194d84	0a000041	beq	0x194e90 <_ZN9CInstance17Collision_EllipseEffffb+0x400>
+194d88	edd47a2d	vldr	s15, [r4, #180]
+194d8c	eeb76ae7	vcvt.f64.f32	d6, s15
+194d90	edd47a24	vldr	s15, [r4, #144]
+194d94	eefd7ae7	vcvt.s32.f32	s15, s15
+194d98	ec510b16	vmov	r0, r1, d6
+194d9c	ee176a90	vmov	r6, s15
+194da0	ebfc8650	bl	0xb66e8 <lrint@plt>
+194da4	edd47a2e	vldr	s15, [r4, #184]
+194da8	eeb76ae7	vcvt.f64.f32	d6, s15
+194dac	e1a05000	mov	r5, r0
+194db0	ec510b16	vmov	r0, r1, d6
+194db4	ebfc864b	bl	0xb66e8 <lrint@plt>
+194db8	e5942098	ldr	r2, [r4, #0x98]
+194dbc	ee065a90	vmov	s13, r5
+194dc0	e594309c	ldr	r3, [r4, #0x9c]
+194dc4	e1a01006	mov	r1, r6
+194dc8	eef86ae6	vcvt.f32.s32	s13, s13
+194dcc	e58d2000	str	r2, [sp]
+194dd0	e58d3004	str	r3, [sp, #0x4]
+194dd4	e59430a0	ldr	r3, [r4, #0xa0]
+194dd8	e58d3008	str	r3, [sp, #0x8]
+194ddc	e28d3028	add	r3, sp, #40
+194de0	e58d300c	str	r3, [sp, #0xc]
+194de4	ee162a90	vmov	r2, s13
+194de8	ee070a10	vmov	s14, r0
+194dec	e1a00008	mov	r0, r8
+194df0	eef87ac7	vcvt.f32.s32	s15, s14
+194df4	ee173a90	vmov	r3, s15
+194df8	ebfca9c9	bl	0xbf524 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT>
+194dfc	ea000012	b	0x194e4c <_ZN9CInstance17Collision_EllipseEffffb+0x3bc>
+194e00	e1a00005	mov	r0, r5
+194e04	e59410e8	ldr	r1, [r4, #0xe8]
+194e08	e59420f4	ldr	r2, [r4, #0xf4]
+194e0c	ebfffef5	bl	0x1949e8 <_Z5InEllP9tagYYRECTii>
+194e10	e3500000	cmp	r0, #0
+194e14	1affffbc	bne	0x194d0c <_ZN9CInstance17Collision_EllipseEffffb+0x27c>
+194e18	e1a00005	mov	r0, r5
+194e1c	e59410f0	ldr	r1, [r4, #0xf0]
+194e20	e59420ec	ldr	r2, [r4, #0xec]
+194e24	ebfffeef	bl	0x1949e8 <_Z5InEllP9tagYYRECTii>
+194e28	e3500000	cmp	r0, #0
+194e2c	1affffb6	bne	0x194d0c <_ZN9CInstance17Collision_EllipseEffffb+0x27c>
+194e30	e1a00005	mov	r0, r5
+194e34	e59410f0	ldr	r1, [r4, #0xf0]
+194e38	e59420f4	ldr	r2, [r4, #0xf4]
+194e3c	ebfffee9	bl	0x1949e8 <_Z5InEllP9tagYYRECTii>
+194e40	e3500000	cmp	r0, #0
+194e44	1affffb0	bne	0x194d0c <_ZN9CInstance17Collision_EllipseEffffb+0x27c>
+194e48	e3a00000	mov	r0, #0
+194e4c	e28dd03c	add	sp, sp, #60
+194e50	ecbd8b0c	vpop	{d8, d9, d10, d11, d12, d13}
+194e54	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+194e58	e1a00004	mov	r0, r4
+194e5c	e3a01001	mov	r1, #1
+194e60	ebfff536	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+194e64	eaffff32	b	0x194b34 <_ZN9CInstance17Collision_EllipseEffffb+0xa4>
+194e68	edcdda00	vstr	s27, [sp]
+194e6c	e58d7004	str	r7, [sp, #0x4]
+194e70	e1a00004	mov	r0, r4
+194e74	ee1c1a10	vmov	r1, s24
+194e78	ee1d2a10	vmov	r2, s26
+194e7c	ee1c3a90	vmov	r3, s25
+194e80	ebfffe1b	bl	0x1946f4 <_ZN9CInstance19Collision_RectangleEffffb>
+194e84	eafffff0	b	0x194e4c <_ZN9CInstance17Collision_EllipseEffffb+0x3bc>
+194e88	e3a00001	mov	r0, #1
+194e8c	eaffffee	b	0x194e4c <_ZN9CInstance17Collision_EllipseEffffb+0x3bc>
+194e90	e59400ac	ldr	r0, [r4, #0xac]
+194e94	e3500000	cmp	r0, #0
+194e98	b594008c	ldrlt	r0, [r4, #0x8c]
+194e9c	eb016866	bl	0x1ef03c <_Z11Sprite_Datai>
+194ea0	e3500000	cmp	r0, #0
+194ea4	e1a05000	mov	r5, r0
+194ea8	0affffe6	beq	0x194e48 <_ZN9CInstance17Collision_EllipseEffffb+0x3b8>
+194eac	e5903018	ldr	r3, [r0, #0x18]
+194eb0	e3530000	cmp	r3, #0
+194eb4	0affffe3	beq	0x194e48 <_ZN9CInstance17Collision_EllipseEffffb+0x3b8>
+194eb8	edd47a2d	vldr	s15, [r4, #180]
+194ebc	eeb76ae7	vcvt.f64.f32	d6, s15
+194ec0	edd47a24	vldr	s15, [r4, #144]
+194ec4	eefd7ae7	vcvt.s32.f32	s15, s15
+194ec8	ec510b16	vmov	r0, r1, d6
+194ecc	ee177a90	vmov	r7, s15
+194ed0	ebfc8604	bl	0xb66e8 <lrint@plt>
+194ed4	edd47a2e	vldr	s15, [r4, #184]
+194ed8	eeb76ae7	vcvt.f64.f32	d6, s15
+194edc	e1a06000	mov	r6, r0
+194ee0	ec510b16	vmov	r0, r1, d6
+194ee4	ebfc85ff	bl	0xb66e8 <lrint@plt>
+194ee8	e594c098	ldr	r12, [r4, #0x98]
+194eec	e594209c	ldr	r2, [r4, #0x9c]
+194ef0	e1a01007	mov	r1, r7
+194ef4	e1a03006	mov	r3, r6
+194ef8	e58dc004	str	r12, [sp, #0x4]
+194efc	e58d2008	str	r2, [sp, #0x8]
+194f00	e28420e8	add	r2, r4, #232
+194f04	e594c0a0	ldr	r12, [r4, #0xa0]
+194f08	e58dc00c	str	r12, [sp, #0xc]
+194f0c	e28dc028	add	r12, sp, #40
+194f10	e58dc010	str	r12, [sp, #0x10]
+194f14	e58d0000	str	r0, [sp]
+194f18	e1a00005	mov	r0, r5
+194f1c	eb013ffa	bl	0x1e4f0c <_ZN7CSprite23PreciseCollisionEllipseEiP9tagYYRECTiifffS1_>
+194f20	eaffffc9	b	0x194e4c <_ZN9CInstance17Collision_EllipseEffffb+0x3bc>
+194f24	00258e5c	eoreq	r8, r5, r12, asr lr

@@ -1,0 +1,5172 @@
+{
+ "schema": "cally-var-ops-diff/1",
+ "generated_utc": "2026-11-16T09:59:42Z",
+ "tier": "oracle_anchored",
+ "original_executed": true,
+ "evidence_layer": "synthetic memory oracle: the original ARM bytes at 0xd25fc / 0xd773c / 0xe1f5c executed over one staged arena, with identical stubs on both arms; NOT device execution",
+ "BINDING": {
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": {
+   "Code_Variable_Find_Name": {
+    "entry": "0xd25fc",
+    "end": "0xd2618",
+    "bytes": 28,
+    "instructions": 7,
+    "pool_free": true,
+    "pc_relative_loads": [],
+    "callees": {
+     "0x1f3b38": "_Z26Variable_BuiltIn_Find_Namei",
+     "0xd2228": "_Z22Variable_GetName_ScopePKcii"
+    },
+    "internal_branches": [
+     "0xd2614"
+    ],
+    "expected_callees": {
+     "0x1f3b38": "_Z26Variable_BuiltIn_Find_Namei",
+     "0xd2228": "_Z22Variable_GetName_ScopePKcii"
+    },
+    "ok": true,
+    "body_sha256": "e199d617ad083668d17885976484b8d736cd0fc4a43465b9c153fbd6cc4fa706"
+   },
+   "DoConvIntToVariable": {
+    "entry": "0xd773c",
+    "end": "0xd7760",
+    "bytes": 36,
+    "instructions": 9,
+    "pool_free": true,
+    "pc_relative_loads": [],
+    "callees": {},
+    "internal_branches": [],
+    "expected_callees": {},
+    "ok": true,
+    "body_sha256": "5aea97c27deb8c1914226782aa404d368de5f2b8fd821a0d92b8387f42317dae"
+   },
+   "DoPopLocalVariable": {
+    "entry": "0xe1f5c",
+    "end": "0xe2014",
+    "bytes": 184,
+    "instructions": 46,
+    "pool_free": true,
+    "pc_relative_loads": [],
+    "callees": {
+     "0xd3968": "_Z16PushContextStackP12YYObjectBase",
+     "0xd3a34": "_Z15PopContextStackv",
+     "0xc0a7c": "_Z16FREE_RValue__PreP6RValue",
+     "0xd0b24": "_Z10SET_RValueP6RValueS0_i",
+     "0x196a70": "_ZN12YYObjectBase16InternalGetYYVarEi"
+    },
+    "internal_branches": [
+     "0xe1fa0",
+     "0xe1fdc",
+     "0xe1fc0",
+     "0xe2008",
+     "0xe1f9c",
+     "0xe1ff8"
+    ],
+    "expected_callees": {
+     "0xd3968": "_Z16PushContextStackP12YYObjectBase",
+     "0xd3a34": "_Z15PopContextStackv",
+     "0xc0a7c": "_Z16FREE_RValue__PreP6RValue",
+     "0xd0b24": "_Z10SET_RValueP6RValueS0_i",
+     "0x196a70": "_ZN12YYObjectBase16InternalGetYYVarEi"
+    },
+    "ok": true,
+    "body_sha256": "2047909d5812cf75cb804435ee15b9c66342199f86dd81aa4c2510f1a64dba84"
+   }
+  },
+  "driver_sha256": "b62466ae0147d8f0bfe28eedac1d227c7a8cfe1c6c7ab0a7b290b99f38595928",
+  "header_sha256": "9ce7d78acb8ef45fa561d72a8dcd028fad41f575dd0d78dc5c5745357801e278",
+  "arena_layout": {
+   "AO_NAME": 0,
+   "AO_RETSTR": 64,
+   "AO_VSTACK": 128,
+   "AO_SP": 160,
+   "AO_CODE": 192,
+   "AO_EXEC": 256,
+   "AO_SELF": 320,
+   "AO_TABLE": 384,
+   "AO_DYN": 512,
+   "ARENA_SIZE": 640,
+   "AO_W1": 144,
+   "AO_W1LEN": 48,
+   "AO_W2": 384,
+   "AO_W2LEN": 32,
+   "AO_W3": 512,
+   "AO_W3LEN": 16
+  },
+  "arena_layout_matches_harness": true,
+  "binding_checks": {
+   "sha_matches_pin": true,
+   "stub_callees": [
+    "Variable_BuiltIn_Find_Name@0x1f3b38",
+    "Variable_GetName_Scope@0xd2228",
+    "PushContextStack@0xd3968",
+    "PopContextStack@0xd3a34",
+    "FREE_RValue__Pre@0xc0a7c",
+    "SET_RValue@0xd0b24",
+    "InternalGetYYVar@0x196a70"
+   ],
+   "ok": true
+  }
+ },
+ "scope": {
+  "covered": [
+   "F1: id > 99999 signed -> Variable_GetName_Scope, all three arguments live (boundary 99999 vs 100000, INT_MAX, negative ids incl. INT_MIN, id 0)",
+   "F1: id <= 99999 -> Variable_BuiltIn_Find_Name(id) with name and type unreachable (three different names, same id)",
+   "F1: the return value is the callee answer verbatim - two distinct canned strings, NULL, and the name pointer itself",
+   "F1: name forwarded byte-exactly on the scope branch - \"alpha\", \"beta\", \"\" and NULL; type forwarded incl. INT_MIN",
+   "F2: int32 -> double is exact for 42, 0, +-1, 65537, 2^24+1, 0xFF000000, INT_MAX, INT_MIN, 1234567890",
+   "F2: the 12-byte store footprint below the stack top - low word at +0, high word at +4, tag word 0 at +0xc, the +8 hole and everything above the top left holding the sentinel",
+   "F2: return value is r1-12 (post-index writeback), and the dead first argument changes nothing",
+   "F3: both operand flags - instance id popped / INT_MIN sentinel, and one-word vs two-word value stack (sp delta 24 / 20 / 16)",
+   "F3: self == 0 (no context stack), self->[0x24] == 0 (Push/Pop, no store), self->[0x24] != 0 with self->[4] (direct table destination) and with self->[4] == 0 (InternalGetYYVar)",
+   "F3: slot arithmetic - (raw & 0x0fffffff) - 100000, stride 16, ids 0, 5, 16 and 0x0fffffff",
+   "F3: the FREE gate is tag in 1..4 after masking bits 24..31 and bits 0..1 - tags 0, 1, 4, 5, 0x105, 0x40000001, 0x80000001, 0xffffffff",
+   "F3: the consumed slot is rewritten to {+0=0, +8=0, +0xc=5} with +4 untouched, and the return is slot+16",
+   "second-run reproducibility of both arms"
+  ],
+  "not_covered": [
+   "Variable_BuiltIn_Find_Name semantics (stubbed): the 16-byte strided built-in table and its \"<unknown built-in variable>\" fallback at 0x3527c8",
+   "Variable_GetName_Scope semantics (stubbed): the linear strcmp scan, the [id-100000] index and the Script_Find_Parent branch",
+   "PushContextStack / PopContextStack semantics (stubbed): this arm proves they are called once each, in that order, with the right object - not what they push",
+   "FREE_RValue__Pre semantics (stubbed): which tag classes release which payload is that callee's business, and the stub has no memory effect",
+   "SET_RValue semantics (stubbed): the actual RValue copy and the instance-id refcount handling.  F3 proves the destination address, the source slot and the instance id it is handed",
+   "InternalGetYYVar semantics (stubbed): it always answers the staged AO_DYN block",
+   "Variable_GetName_Scope as written by the parallel workstream in c/variable_misc/ is NOT linked here, on purpose.  It is another workstream's in-flight body (684 B, its own tables, snprintf and Script_Find_Parent); linking it would fold its claims into F1's verdict, and the stub is also what makes the two arms comparable in the first place.  A later batch that wants the composed F1+callee behaviour should link it explicitly and say so.",
+   "device behaviour"
+  ],
+  "not_applicable": [
+   "No body here reads a global or a rodata string: all three are pool-free and GOT-free, so there is no .bss to stage and no error text to compare.  The error-message contract of this chain lives in the VMError callers (DoPushLocal 0xd4b1c, DoPop 0xe6788), which are outside this batch.",
+   "DoConvIntToVariable has no callee and no branch: its 9 instructions are straight-line, so its coverage is the nine addresses themselves plus the record fields."
+  ]
+ },
+ "findings": [
+  "DoConvIntToVariable does not touch the CPU stack pointer at all: r1 is a value-stack pointer argument, and the returned pointer is r1-12 from the post-index writeback at 0xd7758.  The stack top word is still there, at the returned +12, now holding the tag.",
+  "The card's open question about s14 is answered by the bytes: 0xd7740 vcvt.f64.s32 d7, s15 writes d7 = {s14, s15}, so 0xd7750 vstr s14 stores the double's low word.  A probe that preloads s14 with 0x3f800000 and then reads r1-12 shows it overwritten by the converted low word, and the 8 bytes at r1-12 equal struct pack(\"<d\", value) for every case.",
+  "The RValue that F2 builds is 16 bytes with a HOLE at +8: +0 low, +4 high, +8 never written, +0xc tag 0.  Only three of four words are stored, and the arm keeps the sentinel at +8 to prove it.",
+  "F3's FREE gate is not \"tag != 0\".  It is (tag-1) & 0x00fffffc == 0, so tag 0x40000001 and 0x80000001 both release (their high bits are masked off) while tag 5 and 0x105 do not.  The case set pins all four classes.",
+  "F3 returns slot+16 with the slot rewritten to tag 5, so the net stack effect is 16/20/24 depending on the two operand flags - the card's \"sp 净下移 0\" describes the CPU frame, not this pointer.",
+  "F1's comparison is signed: bgt sends every negative id, including INT_MIN, down the built-in branch that discards the name — the branch where the name cannot even be reached.",
+  "card/byte agreement: every address, opcode, offset and constant in the three cards was re-checked against llvm-objdump; see card_deltas.  The deltas are prose-level, in cards/DoConvIntToVariable.c."
+ ],
+ "card_deltas": [
+  {
+   "card": "cards/Code_Variable_Find_Name.c",
+   "claim": "@func 0xd25fc 0xd2618 size 28, 7 instructions, no frame, both exits are tail jumps, 99999 = movw 0x869f + movt 0x1",
+   "bytes": "7 instructions 0xd25fc..0xd2614, 0x1c = 28 B, no pc-relative load anywhere in the body, 0xd2610 and 0xd2614 are both `b`",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/Code_Variable_Find_Name.c",
+   "claim": "the built-in branch throws away name and type (0xd260c mov r0, r2) and both targets only take the id",
+   "bytes": "0xd260c is mov r0, r2 and 0xd2610 branches to 0x1f3b38; the case set proves it by handing the same id three different names",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/DoConvIntToVariable.c",
+   "claim": "prose block: \"vldr s15,[sp]\", \"vstr s14,[sp,#-12]\", \"str #0,[sp]\", \"写 12 字节对象的前 4 字节\", open: \"s14 的来源\"",
+   "bytes": "the bytes are [r1]-based, not [sp]-based: 0xd773c vldr s15,[r1], 0xd7750 vstr s14,[r1,#-12], 0xd7758 str r12,[r0],#-12. And s14 is not residual: 0xd7740 vcvt.f64.s32 d7,s15 defines d7, whose low half IS s14 — the stored low word is the double's, and a wire probe with s14 preloaded to 0x3f800000 shows it overwritten",
+   "verdict": "card prose is stale; its own annotated instruction list (the second block) is right. No byte disagreement, one prose fix."
+  },
+  {
+   "card": "cards/DoConvIntToVariable.c",
+   "claim": "open: \"12 字节里 tag 字段的位置\" / \"写 12 字节对象\"",
+   "bytes": "object is 16 B at r1-12: +0 low word, +4 high word, +8 NEVER written (no instruction stores to r1-4), +0xc tag word 0. The \"12 bytes\" is the store footprint, not the object size",
+   "verdict": "corrected: 16-byte RValue with a hole at +8, tag at +0xc"
+  },
+  {
+   "card": "cards/DoPopLocalVariable.c",
+   "claim": "@func 0xe1f5c 0xe2014 size 184, 46 instructions; idx = (raw & 0x0fffffff) - 99328 - 672; stride 16; self->[4] table; self->[0x24] gate; result {+0=0,+8=0,+0xc=5}, +4 untouched",
+   "bytes": "46 instructions, 0xb8 = 184 B, every one of those claims is reproduced by the arm: the SET_RValue destination offset is table + idx*16, the gate at 0xf90 gates the store, and the MEM window keeps the staged 0x33333333 at slot+4",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/DoPopLocalVariable.c",
+   "claim": "stack effect: \"sp 净下移 0：16 B 出去、16 B 回来\"",
+   "bytes": "the body never touches the CPU sp beyond its own frame. The r1 pointer it returns moves by 16 + 4*[bit31 clear] + 4*[bit29 clear], i.e. 16 / 20 / 24 — the arm records all three",
+   "verdict": "corrected wording: the delta is the returned sp minus the incoming sp, and it is never 0"
+  }
+ ],
+ "card_note": "Two prose-level deltas, both in cards/DoConvIntToVariable.c (its [sp]-based description contradicts its own [r1]-based annotation list, and it calls the result a 12-byte object when the tag sits at +0xc of a 16-byte slot with a hole at +8); one wording delta in cards/DoPopLocalVariable.c about the stack effect. No instruction address, opcode, offset or constant in any of the three cards disagrees with the bytes.",
+ "instruction_census": {
+  "Code_Variable_Find_Name": {
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "ok": true,
+   "function": "Code_Variable_Find_Name",
+   "instructions": 7,
+   "documented": 7,
+   "words_in_range": 7,
+   "covers_every_word": true
+  },
+  "DoConvIntToVariable": {
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "ok": true,
+   "function": "DoConvIntToVariable",
+   "instructions": 9,
+   "documented": 9,
+   "words_in_range": 9,
+   "covers_every_word": true
+  },
+  "DoPopLocalVariable": {
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "ok": true,
+   "function": "DoPopLocalVariable",
+   "instructions": 46,
+   "documented": 46,
+   "words_in_range": 46,
+   "covers_every_word": true
+  },
+  "ok": true,
+  "instructions": 62,
+  "documented": 62
+ },
+ "census_selftest": {
+  "mutations": [
+   {
+    "body": "Code_Variable_Find_Name",
+    "mutation": "operand: the 99999 low half 0x869f -> 0x869e",
+    "applied": true,
+    "expected_red_at": "0xd25fc",
+    "red_at": [
+     "0xd25fc"
+    ],
+    "expected_red": true,
+    "observed_red": true,
+    "ok": true
+   },
+   {
+    "body": "Code_Variable_Find_Name",
+    "mutation": "constant word: movt high half 0x1 -> 0x2",
+    "applied": true,
+    "expected_red_at": "0xd2600",
+    "red_at": [
+     "0xd2600"
+    ],
+    "expected_red": true,
+    "observed_red": true,
+    "ok": true
+   },
+   {
+    "body": "DoConvIntToVariable",
+    "mutation": "operand: the tag register move #0 -> #1",
+    "applied": true,
+    "expected_red_at": "0xd7748",
+    "red_at": [
+     "0xd7748"
+    ],
+    "expected_red": true,
+    "observed_red": true,
+    "ok": true
+   },
+   {
+    "body": "DoPopLocalVariable",
+    "mutation": "annotations: the 0xe1f78 tst row deleted",
+    "applied": true,
+    "expected_red_at": "0xe1f78",
+    "red_at": [
+     "0xe1f78"
+    ],
+    "expected_red": true,
+    "observed_red": true,
+    "ok": true
+   },
+   {
+    "body": "DoPopLocalVariable",
+    "mutation": "constant word: the 99328 half of the id base",
+    "applied": true,
+    "expected_red_at": "0xe1fe4",
+    "red_at": [
+     "0xe1fe4"
+    ],
+    "expected_red": true,
+    "observed_red": true,
+    "ok": true
+   }
+  ],
+  "ok": true,
+  "note": "the same census_scan() runs on the real sources; three of these five corrupt an operand/constant word, two delete or blank an annotation line"
+ },
+ "repeat": {
+  "runs_per_arm": 2,
+  "rerun_kind": {
+   "original": "second Unicorn instance, same case order",
+   "rebuild": "second qemu-arm process, same stdin blob"
+  },
+  "original_identical": true,
+  "rebuild_identical": true,
+  "original_log_sha256": [
+   "6ea56f05b8ebde81dd8d058f3f915de8eee9b09a9d746520cff08b89b5013d24",
+   "6ea56f05b8ebde81dd8d058f3f915de8eee9b09a9d746520cff08b89b5013d24"
+  ],
+  "rebuild_log_sha256": [
+   "6ea56f05b8ebde81dd8d058f3f915de8eee9b09a9d746520cff08b89b5013d24",
+   "6ea56f05b8ebde81dd8d058f3f915de8eee9b09a9d746520cff08b89b5013d24"
+  ],
+  "note": "identical digests inside an arm are the repeatability evidence; the two arms agreeing with each other is the identity gate"
+ },
+ "cases": 53,
+ "cases_f1": 18,
+ "cases_f2": 13,
+ "cases_f3": 22,
+ "rows": [
+  {
+   "case": {
+    "fn": 1,
+    "p0": 100000,
+    "p1": -7,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id 100000 (one past 99999) -> scope, name+type+id live"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 99999,
+    "p1": -7,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id 99999 (boundary, bgt not taken) -> built-in"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 99999,
+    "p1": -7,
+    "p2": 3,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id 99999, name \"beta\" -> built-in, same record as \"alpha\""
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 99999,
+    "p1": -7,
+    "p2": 2,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id 99999, name NULL -> built-in, same record again"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 100001,
+    "p1": -5,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id 100001 -> scope"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      -5,
+      100001
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      -5,
+      100001
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 1,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id 0 -> built-in, type 1 dropped"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      0
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      0
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": -1,
+    "p1": -12,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id -1 (signed bgt) -> built-in, not scope"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      -1
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      -1
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": -100000,
+    "p1": -12,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id -100000 -> built-in"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      -100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      -100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": -2147483648,
+    "p1": 1,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id INT_MIN -> built-in (an unsigned test would say scope)"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      -2147483648
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "B",
+      -2147483648
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 2147483647,
+    "p1": 1,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 id INT_MAX -> scope"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      1,
+      2147483647
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      1,
+      2147483647
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 100000,
+    "p1": -7,
+    "p2": 1,
+    "p3": 1,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 scope forwards an EMPTY name"
+   },
+   "original": {
+    "ret": [
+     "80",
+     "73636f70652d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      0,
+      "-",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "80",
+     "73636f70652d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      0,
+      "-",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 100000,
+    "p1": -7,
+    "p2": 2,
+    "p3": 1,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 scope forwards a NULL name"
+   },
+   "original": {
+    "ret": [
+     "80",
+     "73636f70652d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      -1,
+      "-",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "80",
+     "73636f70652d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      -1,
+      "-",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 100000,
+    "p1": -2147483648,
+    "p2": 3,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 scope forwards type INT_MIN and name \"beta\""
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      4,
+      "62657461",
+      -2147483648,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      4,
+      "62657461",
+      -2147483648,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 100000,
+    "p1": -7,
+    "p2": 0,
+    "p3": 2,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 scope answers NULL -> NULL is returned verbatim"
+   },
+   "original": {
+    "ret": [
+     "NULL",
+     "-"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "NULL",
+     "-"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 99999,
+    "p1": -7,
+    "p2": 0,
+    "p3": 2,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 built-in answers NULL -> NULL is returned verbatim"
+   },
+   "original": {
+    "ret": [
+     "NULL",
+     "-"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "NULL",
+     "-"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 100000,
+    "p1": -7,
+    "p2": 0,
+    "p3": 3,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 scope answers with the NAME pointer itself (offset 0)"
+   },
+   "original": {
+    "ret": [
+     "0",
+     "616c706861"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "0",
+     "616c706861"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      -7,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 99999,
+    "p1": 1,
+    "p2": 2,
+    "p3": 3,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 built-in answers with the NAME pointer, NULL name this time"
+   },
+   "original": {
+    "ret": [
+     "0",
+     "-"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "0",
+     "-"
+    ],
+    "calls": [
+     [
+      "B",
+      99999
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 100000,
+    "p1": 1,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 same id as the built-in cases, different name: scope again"
+   },
+   "original": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      1,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "64",
+     "6275696c74696e2d616e73776572"
+    ],
+    "calls": [
+     [
+      "S",
+      5,
+      "616c706861",
+      1,
+      100000
+     ]
+    ],
+    "mem": "",
+    "spdlt": null,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 42,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value 42"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value 0"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000000000000000cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000000000000000cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value -1 (sign extension of s32)"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000000000000f0bfcccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000000000000f0bfcccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value 1"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000000000000f03fcccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000000000000f03fcccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 2147483647,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value INT_MAX"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000c0ffffffdf41cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000c0ffffffdf41cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -2147483648,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value INT_MIN"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000000000000e0c1cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000000000000e0c1cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 65537,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value 65537"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000000001000f040cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000000001000f040cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -16777216,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value 0xFF000000 as signed"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc00000000000070c1cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc00000000000070c1cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 16777217,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value 2^24+1: exact as a double, rounded as a float"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000001000007041cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000001000007041cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 1234567890,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value 1234567890: float rounding would show"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000080b48065d241cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc000080b48065d241cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -2147483647,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 value -INT_MAX"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000c0ffffffdfc1cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000c0ffffffdfc1cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 42,
+    "p1": 12345,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 dead first argument 12345: same record as value 42"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100000,
+    "p1": -2147483648,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 dead first argument INT_MIN"
+   },
+   "original": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc00000000006af840cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null
+   },
+   "rebuild": {
+    "ret": [
+     "148",
+     "-"
+    ],
+    "calls": [],
+    "mem": "cccccccc00000000006af840cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "spdlt": null,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 0,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 tag 0 -> NO FREE, still SET + tag5"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 4,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 tag 4 (upper end of 1..4) -> FREE"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 5,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 tag 5 -> NO FREE (one past the gate)"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 261,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 tag 0x105 (bit 2 set) -> NO FREE"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 1073741825,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 tag 0x40000001: bits 24..31 are masked off -> FREE"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": -2147483647,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 tag 0x80000001 -> FREE (bit 31 masked off too)"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": -1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 tag 0xFFFFFFFF -> NO FREE (low bits survive the mask)"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 536970912,
+    "p1": 2,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 bit29 set: one word only, sp delta 20"
+   },
+   "original": {
+    "ret": [
+     "180",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "164",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "164"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 20
+   },
+   "rebuild": {
+    "ret": [
+     "180",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "164",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "164"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 20,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 2147583648,
+    "p1": 2,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20"
+   },
+   "original": {
+    "ret": [
+     "180",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "164",
+      -2147483648
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "164"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 20
+   },
+   "rebuild": {
+    "ret": [
+     "180",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "164",
+      -2147483648
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "164"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 20,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 2684454560,
+    "p1": 2,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 bit31+bit29: nothing popped, sp delta 16"
+   },
+   "original": {
+    "ret": [
+     "176",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "160",
+      -2147483648
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "160"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 16
+   },
+   "rebuild": {
+    "ret": [
+     "176",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "160",
+      -2147483648
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "160"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 16,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": 2,
+    "p2": 1,
+    "p3": 5,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 raw 0: id word read (0 >= 0), variable id -100000"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "-1",
+      "168",
+      5
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a505000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "-1",
+      "168",
+      5
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a505000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 0,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 self NULL: no Push/Pop, no store, epilogue still runs"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 1,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 self->[0x24] == 0: Push + Pop, no store"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 3,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 self->[4] == 0: InternalGetYYVar supplies the destination"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "G",
+      "512",
+      0
+     ],
+     [
+      "R",
+      "512",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "G",
+      "512",
+      0
+     ],
+     [
+      "R",
+      "512",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 5
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 2147583653,
+    "p1": 3,
+    "p2": 5,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 dynamic destination, variable id 5, sentinel instance, no FREE"
+   },
+   "original": {
+    "ret": [
+     "180",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "G",
+      "512",
+      5
+     ],
+     [
+      "R",
+      "512",
+      "164",
+      -2147483648
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 20
+   },
+   "rebuild": {
+    "ret": [
+     "180",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "G",
+      "512",
+      5
+     ],
+     [
+      "R",
+      "512",
+      "164",
+      -2147483648
+     ],
+     [
+      "Q"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 20,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100005,
+    "p1": 2,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 variable id 5 -> table slot 5"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "464",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "464",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100016,
+    "p1": 2,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 variable id 16 -> past the 8 staged slots, still arithmetic"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "-1",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "-1",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 268435455,
+    "p1": 2,
+    "p2": 1,
+    "p3": 77,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 operand 0x0fffffff: mask then subtract, destination far out"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "-1",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "-1",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 1,
+    "p3": 0,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 instance id 0 is a legal id, not \"absent\""
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      0
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      0
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a500000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 1,
+    "p3": -1,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 instance id -1 passes through untouched"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      -1
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5ffffffffa5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      -1
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5ffffffffa5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 100000,
+    "p1": 2,
+    "p2": 1,
+    "p3": 77,
+    "p4": -2147483648,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 dead first argument INT_MIN: same record as arg 3"
+   },
+   "original": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24
+   },
+   "rebuild": {
+    "ret": [
+     "184",
+     "-"
+    ],
+    "calls": [
+     [
+      "P",
+      "320"
+     ],
+     [
+      "R",
+      "384",
+      "168",
+      77
+     ],
+     [
+      "Q"
+     ],
+     [
+      "F",
+      "168"
+     ]
+    ],
+    "mem": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccca5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+    "spdlt": 24,
+    "ncalls": 4
+   },
+   "equal": true
+  }
+ ],
+ "coverage": {
+  "f1_scope_branch": true,
+  "f1_builtin_branch": true,
+  "f1_boundary_99999": true,
+  "f1_boundary_100000": true,
+  "f1_negative_id": true,
+  "f1_scope_name_forwarded": true,
+  "f1_scope_empty_name": true,
+  "f1_scope_null_name": true,
+  "f1_scope_type_forwarded": true,
+  "f1_builtin_id_is_r2": true,
+  "f1_ret_is_callee_answer": true,
+  "f1_ret_null_passthrough": true,
+  "f1_ret_name_pointer": true,
+  "f2_all_nine_instructions": true,
+  "f2_double_exact": true,
+  "f2_tag_word_zero": true,
+  "f2_hole_at_plus8_untouched": true,
+  "f2_above_top_untouched": true,
+  "f2_ret_is_sp_minus_12": true,
+  "f2_negative_value": true,
+  "f3_self_null_skips_context": true,
+  "f3_gate_zero_no_store": true,
+  "f3_writeback_branch": true,
+  "f3_table_destination": true,
+  "f3_dynamic_destination": true,
+  "f3_free_taken": true,
+  "f3_free_skipped": true,
+  "f3_instance_id_popped": true,
+  "f3_instance_sentinel": true,
+  "f3_branch_back_to_pop": true,
+  "f3_spdlt_24": true,
+  "f3_spdlt_20": true,
+  "f3_spdlt_16": true,
+  "f3_tag5_write": true,
+  "f3_plus4_untouched": true,
+  "f3_ret_is_slot_plus_16": true,
+  "f3_push_pop_paired": true,
+  "f3_dynamic_idx_forwarded": true,
+  "f1_builtin_identical_across_names": true,
+  "f2_dead_arg_identical_records": true,
+  "f3_dead_arg_identical_records": true
+ },
+ "covered_by": {
+  "f1_scope_branch": [
+   "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+   "F1 id 100001 -> scope"
+  ],
+  "f1_builtin_branch": [
+   "F1 id 99999 (boundary, bgt not taken) -> built-in",
+   "F1 id 99999, name \"beta\" -> built-in, same record as \"alpha\""
+  ],
+  "f1_boundary_99999": [
+   "F1 id 99999 (boundary, bgt not taken) -> built-in",
+   "F1 id 99999, name \"beta\" -> built-in, same record as \"alpha\""
+  ],
+  "f1_boundary_100000": [
+   "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+   "F1 scope forwards an EMPTY name"
+  ],
+  "f1_negative_id": [
+   "F1 id -1 (signed bgt) -> built-in, not scope",
+   "F1 id -100000 -> built-in"
+  ],
+  "f1_scope_name_forwarded": [
+   "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+   "F1 id 100001 -> scope"
+  ],
+  "f1_scope_empty_name": [
+   "F1 scope forwards an EMPTY name"
+  ],
+  "f1_scope_null_name": [
+   "F1 scope forwards a NULL name"
+  ],
+  "f1_scope_type_forwarded": [
+   "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+   "F1 scope forwards an EMPTY name"
+  ],
+  "f1_builtin_id_is_r2": [
+   "F1 id 99999 (boundary, bgt not taken) -> built-in",
+   "F1 id 99999, name \"beta\" -> built-in, same record as \"alpha\""
+  ],
+  "f1_ret_is_callee_answer": [
+   "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+   "F1 id 99999 (boundary, bgt not taken) -> built-in"
+  ],
+  "f1_ret_null_passthrough": [
+   "F1 scope answers NULL -> NULL is returned verbatim",
+   "F1 built-in answers NULL -> NULL is returned verbatim"
+  ],
+  "f1_ret_name_pointer": [
+   "F1 scope answers with the NAME pointer itself (offset 0)",
+   "F1 built-in answers with the NAME pointer, NULL name this time"
+  ],
+  "f2_all_nine_instructions": [
+   "F2 value 42",
+   "F2 value 0"
+  ],
+  "f2_double_exact": [
+   "F2 value 42",
+   "F2 value 0"
+  ],
+  "f2_tag_word_zero": [
+   "F2 value 42",
+   "F2 value 0"
+  ],
+  "f2_hole_at_plus8_untouched": [
+   "F2 value 42",
+   "F2 value 0"
+  ],
+  "f2_above_top_untouched": [
+   "F2 value 42",
+   "F2 value 0"
+  ],
+  "f2_ret_is_sp_minus_12": [
+   "F2 value 42",
+   "F2 value 0"
+  ],
+  "f2_negative_value": [
+   "F2 value -1 (sign extension of s32)",
+   "F2 value INT_MIN"
+  ],
+  "f3_self_null_skips_context": [
+   "F3 self NULL: no Push/Pop, no store, epilogue still runs"
+  ],
+  "f3_gate_zero_no_store": [
+   "F3 self->[0x24] == 0: Push + Pop, no store"
+  ],
+  "f3_writeback_branch": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_table_destination": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_dynamic_destination": [
+   "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+   "F3 dynamic destination, variable id 5, sentinel instance, no FREE"
+  ],
+  "f3_free_taken": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 4 (upper end of 1..4) -> FREE"
+  ],
+  "f3_free_skipped": [
+   "F3 tag 0 -> NO FREE, still SET + tag5",
+   "F3 tag 5 -> NO FREE (one past the gate)"
+  ],
+  "f3_instance_id_popped": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_instance_sentinel": [
+   "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+   "F3 bit31+bit29: nothing popped, sp delta 16"
+  ],
+  "f3_branch_back_to_pop": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_spdlt_24": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_spdlt_20": [
+   "F3 bit29 set: one word only, sp delta 20",
+   "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20"
+  ],
+  "f3_spdlt_16": [
+   "F3 bit31+bit29: nothing popped, sp delta 16"
+  ],
+  "f3_tag5_write": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_plus4_untouched": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_ret_is_slot_plus_16": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_push_pop_paired": [
+   "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+   "F3 tag 0 -> NO FREE, still SET + tag5"
+  ],
+  "f3_dynamic_idx_forwarded": [
+   "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+   "F3 dynamic destination, variable id 5, sentinel instance, no FREE"
+  ]
+ },
+ "teeth": [
+  {
+   "mutant": "f1_dispatch_flipped",
+   "file": "find_name.c",
+   "caught_by": [
+    "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "F1 id 100001 -> scope",
+    "F1 id 0 -> built-in, type 1 dropped",
+    "F1 id -1 (signed bgt) -> built-in, not scope",
+    "F1 id -100000 -> built-in",
+    "F1 id INT_MIN -> built-in (an unsigned test would say scope)",
+    "F1 id INT_MAX -> scope",
+    "F1 scope forwards an EMPTY name",
+    "F1 scope forwards a NULL name",
+    "F1 scope forwards type INT_MIN and name \"beta\"",
+    "F1 scope answers NULL -> NULL is returned verbatim",
+    "F1 scope answers with the NAME pointer itself (offset 0)",
+    "F1 same id as the built-in cases, different name: scope again"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "ret": {
+     "original": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ],
+     "mutant": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "S",
+       5,
+       "616c706861",
+       -7,
+       100000
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       100000
+      ]
+     ]
+    },
+    "mem": {
+     "original": "",
+     "mutant": ""
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f1_boundary_constant",
+   "file": "find_name.c",
+   "caught_by": [
+    "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "F1 scope forwards an EMPTY name",
+    "F1 scope forwards a NULL name",
+    "F1 scope forwards type INT_MIN and name \"beta\"",
+    "F1 scope answers NULL -> NULL is returned verbatim",
+    "F1 scope answers with the NAME pointer itself (offset 0)",
+    "F1 same id as the built-in cases, different name: scope again"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "ret": {
+     "original": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ],
+     "mutant": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "S",
+       5,
+       "616c706861",
+       -7,
+       100000
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       100000
+      ]
+     ]
+    },
+    "mem": {
+     "original": "",
+     "mutant": ""
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f1_dispatch_unsigned",
+   "file": "find_name.c",
+   "caught_by": [
+    "F1 id -1 (signed bgt) -> built-in, not scope",
+    "F1 id -100000 -> built-in",
+    "F1 id INT_MIN -> built-in (an unsigned test would say scope)"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 id -1 (signed bgt) -> built-in, not scope",
+    "ret": {
+     "original": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ],
+     "mutant": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       -1
+      ]
+     ],
+     "mutant": [
+      [
+       "S",
+       5,
+       "616c706861",
+       -12,
+       -1
+      ]
+     ]
+    },
+    "mem": {
+     "original": "",
+     "mutant": ""
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f1_builtin_gets_type",
+   "file": "find_name.c",
+   "caught_by": [
+    "F1 id 99999 (boundary, bgt not taken) -> built-in",
+    "F1 id 99999, name \"beta\" -> built-in, same record as \"alpha\"",
+    "F1 id 99999, name NULL -> built-in, same record again",
+    "F1 id 0 -> built-in, type 1 dropped",
+    "F1 id -1 (signed bgt) -> built-in, not scope",
+    "F1 id -100000 -> built-in",
+    "F1 id INT_MIN -> built-in (an unsigned test would say scope)",
+    "F1 built-in answers NULL -> NULL is returned verbatim",
+    "F1 built-in answers with the NAME pointer, NULL name this time"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 id 99999 (boundary, bgt not taken) -> built-in",
+    "ret": {
+     "original": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ],
+     "mutant": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       99999
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       -7
+      ]
+     ]
+    },
+    "mem": {
+     "original": "",
+     "mutant": ""
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f1_scope_name_shifted",
+   "file": "find_name.c",
+   "caught_by": [
+    "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "F1 id 100001 -> scope",
+    "F1 id INT_MAX -> scope",
+    "F1 scope forwards type INT_MIN and name \"beta\"",
+    "F1 scope answers NULL -> NULL is returned verbatim",
+    "F1 scope answers with the NAME pointer itself (offset 0)",
+    "F1 same id as the built-in cases, different name: scope again"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "ret": {
+     "original": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ],
+     "mutant": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "S",
+       5,
+       "616c706861",
+       -7,
+       100000
+      ]
+     ],
+     "mutant": [
+      [
+       "S",
+       4,
+       "6c706861",
+       -7,
+       100000
+      ]
+     ]
+    },
+    "mem": {
+     "original": "",
+     "mutant": ""
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f1_scope_type_zeroed",
+   "file": "find_name.c",
+   "caught_by": [
+    "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "F1 id 100001 -> scope",
+    "F1 id INT_MAX -> scope",
+    "F1 scope forwards an EMPTY name",
+    "F1 scope forwards a NULL name",
+    "F1 scope forwards type INT_MIN and name \"beta\"",
+    "F1 scope answers NULL -> NULL is returned verbatim",
+    "F1 scope answers with the NAME pointer itself (offset 0)",
+    "F1 same id as the built-in cases, different name: scope again"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "ret": {
+     "original": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ],
+     "mutant": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "S",
+       5,
+       "616c706861",
+       -7,
+       100000
+      ]
+     ],
+     "mutant": [
+      [
+       "S",
+       5,
+       "616c706861",
+       0,
+       100000
+      ]
+     ]
+    },
+    "mem": {
+     "original": "",
+     "mutant": ""
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f1_scope_return_normalised",
+   "file": "find_name.c",
+   "caught_by": [
+    "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "F1 id 100001 -> scope",
+    "F1 id INT_MAX -> scope",
+    "F1 scope forwards an EMPTY name",
+    "F1 scope forwards a NULL name",
+    "F1 scope forwards type INT_MIN and name \"beta\"",
+    "F1 scope answers with the NAME pointer itself (offset 0)",
+    "F1 same id as the built-in cases, different name: scope again"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 id 100000 (one past 99999) -> scope, name+type+id live",
+    "ret": {
+     "original": [
+      "64",
+      "6275696c74696e2d616e73776572"
+     ],
+     "mutant": [
+      "NULL",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "S",
+       5,
+       "616c706861",
+       -7,
+       100000
+      ]
+     ],
+     "mutant": [
+      [
+       "S",
+       5,
+       "616c706861",
+       -7,
+       100000
+      ]
+     ]
+    },
+    "mem": {
+     "original": "",
+     "mutant": ""
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f2_words_swapped",
+   "file": "conv_int.c",
+   "caught_by": [
+    "F2 value 42",
+    "F2 value -1 (sign extension of s32)",
+    "F2 value 1",
+    "F2 value INT_MAX",
+    "F2 value INT_MIN",
+    "F2 value 65537",
+    "F2 value 0xFF000000 as signed",
+    "F2 value 2^24+1: exact as a double, rounded as a float",
+    "F2 value 1234567890: float rounding would show",
+    "F2 value -INT_MAX",
+    "F2 dead first argument 12345: same record as value 42",
+    "F2 dead first argument INT_MIN"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 value 42",
+    "ret": {
+     "original": [
+      "148",
+      "-"
+     ],
+     "mutant": [
+      "148",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "mem": {
+     "original": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+     "mutant": "cccccccc0000454000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f2_high_word_offset",
+   "file": "conv_int.c",
+   "caught_by": [
+    "F2 value 42",
+    "F2 value 0",
+    "F2 value -1 (sign extension of s32)",
+    "F2 value 1",
+    "F2 value INT_MAX",
+    "F2 value INT_MIN",
+    "F2 value 65537",
+    "F2 value 0xFF000000 as signed",
+    "F2 value 2^24+1: exact as a double, rounded as a float",
+    "F2 value 1234567890: float rounding would show",
+    "F2 value -INT_MAX",
+    "F2 dead first argument 12345: same record as value 42",
+    "F2 dead first argument INT_MIN"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 value 42",
+    "ret": {
+     "original": [
+      "148",
+      "-"
+     ],
+     "mutant": [
+      "148",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "mem": {
+     "original": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+     "mutant": "cccccccc00000000cccccccc0000454000000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f2_return_unshifted",
+   "file": "conv_int.c",
+   "caught_by": [
+    "F2 value 42",
+    "F2 value 0",
+    "F2 value -1 (sign extension of s32)",
+    "F2 value 1",
+    "F2 value INT_MAX",
+    "F2 value INT_MIN",
+    "F2 value 65537",
+    "F2 value 0xFF000000 as signed",
+    "F2 value 2^24+1: exact as a double, rounded as a float",
+    "F2 value 1234567890: float rounding would show",
+    "F2 value -INT_MAX",
+    "F2 dead first argument 12345: same record as value 42",
+    "F2 dead first argument INT_MIN"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 value 42",
+    "ret": {
+     "original": [
+      "148",
+      "-"
+     ],
+     "mutant": [
+      "160",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "mem": {
+     "original": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+     "mutant": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f2_tag_nonzero",
+   "file": "conv_int.c",
+   "caught_by": [
+    "F2 value 42",
+    "F2 value 0",
+    "F2 value -1 (sign extension of s32)",
+    "F2 value 1",
+    "F2 value INT_MAX",
+    "F2 value INT_MIN",
+    "F2 value 65537",
+    "F2 value 0xFF000000 as signed",
+    "F2 value 2^24+1: exact as a double, rounded as a float",
+    "F2 value 1234567890: float rounding would show",
+    "F2 value -INT_MAX",
+    "F2 dead first argument 12345: same record as value 42",
+    "F2 dead first argument INT_MIN"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 value 42",
+    "ret": {
+     "original": [
+      "148",
+      "-"
+     ],
+     "mutant": [
+      "148",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "mem": {
+     "original": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+     "mutant": "cccccccc0000000000004540cccccccc01000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f2_float_instead_of_double",
+   "file": "conv_int.c",
+   "caught_by": [
+    "F2 value INT_MAX",
+    "F2 value 2^24+1: exact as a double, rounded as a float",
+    "F2 value 1234567890: float rounding would show",
+    "F2 value -INT_MAX"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 value INT_MAX",
+    "ret": {
+     "original": [
+      "148",
+      "-"
+     ],
+     "mutant": [
+      "148",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "mem": {
+     "original": "cccccccc0000c0ffffffdf41cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+     "mutant": "cccccccc000000000000e041cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f2_low_word_dropped",
+   "file": "conv_int.c",
+   "caught_by": [
+    "F2 value 42",
+    "F2 value 0",
+    "F2 value -1 (sign extension of s32)",
+    "F2 value 1",
+    "F2 value INT_MAX",
+    "F2 value INT_MIN",
+    "F2 value 65537",
+    "F2 value 0xFF000000 as signed",
+    "F2 value 2^24+1: exact as a double, rounded as a float",
+    "F2 value 1234567890: float rounding would show",
+    "F2 value -INT_MAX",
+    "F2 dead first argument 12345: same record as value 42",
+    "F2 dead first argument INT_MIN"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 value 42",
+    "ret": {
+     "original": [
+      "148",
+      "-"
+     ],
+     "mutant": [
+      "148",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "mem": {
+     "original": "cccccccc0000000000004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+     "mutant": "cccccccccccccccc00004540cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f2_unsigned_widening",
+   "file": "conv_int.c",
+   "caught_by": [
+    "F2 value -1 (sign extension of s32)",
+    "F2 value INT_MIN",
+    "F2 value 0xFF000000 as signed",
+    "F2 value -INT_MAX"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 value -1 (sign extension of s32)",
+    "ret": {
+     "original": [
+      "148",
+      "-"
+     ],
+     "mutant": [
+      "148",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "mem": {
+     "original": "cccccccc000000000000f0bfcccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+     "mutant": "cccccccc0000e0ffffffef41cccccccc00000000cccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "spdlt": {
+     "original": null,
+     "mutant": null
+    }
+   }
+  },
+  {
+   "mutant": "f3_bit29_inverted",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "F3 tag 0 -> NO FREE, still SET + tag5",
+    "F3 tag 4 (upper end of 1..4) -> FREE",
+    "F3 tag 5 -> NO FREE (one past the gate)",
+    "F3 tag 0x105 (bit 2 set) -> NO FREE",
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)",
+    "F3 tag 0xFFFFFFFF -> NO FREE (low bits survive the mask)",
+    "F3 bit29 set: one word only, sp delta 20",
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 raw 0: id word read (0 >= 0), variable id -100000",
+    "F3 self NULL: no Push/Pop, no store, epilogue still runs",
+    "F3 self->[0x24] == 0: Push + Pop, no store",
+    "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "F3 variable id 5 -> table slot 5",
+    "F3 variable id 16 -> past the 8 staged slots, still arithmetic",
+    "F3 operand 0x0fffffff: mask then subtract, destination far out",
+    "F3 instance id 0 is a legal id, not \"absent\"",
+    "F3 instance id -1 passes through untouched",
+    "F3 dead first argument INT_MIN: same record as arg 3"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "180",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "164",
+       77
+      ],
+      [
+       "Q"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d0000000000000011111111000000000500000001000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 20
+    }
+   }
+  },
+  {
+   "mutant": "f3_sign_test_strict",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 raw 0: id word read (0 >= 0), variable id -100000"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 raw 0: id word read (0 >= 0), variable id -100000",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "180",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "-1",
+       "168",
+       5
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "-1",
+       "164",
+       -2147483648
+      ],
+      [
+       "Q"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a505000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5050000000000000011111111000000000500000001000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 20
+    }
+   }
+  },
+  {
+   "mutant": "f3_gate_offset",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "F3 tag 0 -> NO FREE, still SET + tag5",
+    "F3 tag 4 (upper end of 1..4) -> FREE",
+    "F3 tag 5 -> NO FREE (one past the gate)",
+    "F3 tag 0x105 (bit 2 set) -> NO FREE",
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)",
+    "F3 tag 0xFFFFFFFF -> NO FREE (low bits survive the mask)",
+    "F3 bit29 set: one word only, sp delta 20",
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 raw 0: id word read (0 >= 0), variable id -100000",
+    "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "F3 variable id 5 -> table slot 5",
+    "F3 variable id 16 -> past the 8 staged slots, still arithmetic",
+    "F3 operand 0x0fffffff: mask then subtract, destination far out",
+    "F3 instance id 0 is a legal id, not \"absent\"",
+    "F3 instance id -1 passes through untouched",
+    "F3 dead first argument INT_MIN: same record as arg 3"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_slot_base",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "F3 tag 0 -> NO FREE, still SET + tag5",
+    "F3 tag 4 (upper end of 1..4) -> FREE",
+    "F3 tag 5 -> NO FREE (one past the gate)",
+    "F3 tag 0x105 (bit 2 set) -> NO FREE",
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)",
+    "F3 tag 0xFFFFFFFF -> NO FREE (low bits survive the mask)",
+    "F3 bit29 set: one word only, sp delta 20",
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "F3 variable id 5 -> table slot 5",
+    "F3 instance id 0 is a legal id, not \"absent\"",
+    "F3 instance id -1 passes through untouched",
+    "F3 dead first argument INT_MIN: same record as arg 3"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "448",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_slot_stride",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 variable id 5 -> table slot 5",
+    "F3 variable id 16 -> past the 8 staged slots, still arithmetic"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 variable id 5 -> table slot 5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "464",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "404",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_tag_mask_high_bits",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_tag_mask_low_bits",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 tag 5 -> NO FREE (one past the gate)",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 tag 5 -> NO FREE (one past the gate)",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_free_dropped",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "F3 tag 4 (upper end of 1..4) -> FREE",
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)",
+    "F3 bit29 set: one word only, sp delta 20",
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 raw 0: id word read (0 >= 0), variable id -100000",
+    "F3 self NULL: no Push/Pop, no store, epilogue still runs",
+    "F3 self->[0x24] == 0: Push + Pop, no store",
+    "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+    "F3 variable id 5 -> table slot 5",
+    "F3 variable id 16 -> past the 8 staged slots, still arithmetic",
+    "F3 operand 0x0fffffff: mask then subtract, destination far out",
+    "F3 instance id 0 is a legal id, not \"absent\"",
+    "F3 instance id -1 passes through untouched",
+    "F3 dead first argument INT_MIN: same record as arg 3"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_tag5_becomes_zero",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "F3 tag 0 -> NO FREE, still SET + tag5",
+    "F3 tag 4 (upper end of 1..4) -> FREE",
+    "F3 tag 5 -> NO FREE (one past the gate)",
+    "F3 tag 0x105 (bit 2 set) -> NO FREE",
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)",
+    "F3 tag 0xFFFFFFFF -> NO FREE (low bits survive the mask)",
+    "F3 bit29 set: one word only, sp delta 20",
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 raw 0: id word read (0 >= 0), variable id -100000",
+    "F3 self NULL: no Push/Pop, no store, epilogue still runs",
+    "F3 self->[0x24] == 0: Push + Pop, no store",
+    "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "F3 variable id 5 -> table slot 5",
+    "F3 variable id 16 -> past the 8 staged slots, still arithmetic",
+    "F3 operand 0x0fffffff: mask then subtract, destination far out",
+    "F3 instance id 0 is a legal id, not \"absent\"",
+    "F3 instance id -1 passes through untouched",
+    "F3 dead first argument INT_MIN: same record as arg 3"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000000000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_plus4_clobbered",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "F3 tag 0 -> NO FREE, still SET + tag5",
+    "F3 tag 4 (upper end of 1..4) -> FREE",
+    "F3 tag 5 -> NO FREE (one past the gate)",
+    "F3 tag 0x105 (bit 2 set) -> NO FREE",
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)",
+    "F3 tag 0xFFFFFFFF -> NO FREE (low bits survive the mask)",
+    "F3 bit29 set: one word only, sp delta 20",
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 raw 0: id word read (0 >= 0), variable id -100000",
+    "F3 self NULL: no Push/Pop, no store, epilogue still runs",
+    "F3 self->[0x24] == 0: Push + Pop, no store",
+    "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "F3 variable id 5 -> table slot 5",
+    "F3 variable id 16 -> past the 8 staged slots, still arithmetic",
+    "F3 operand 0x0fffffff: mask then subtract, destination far out",
+    "F3 instance id 0 is a legal id, not \"absent\"",
+    "F3 instance id -1 passes through untouched",
+    "F3 dead first argument INT_MIN: same record as arg 3"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000000000002222222205000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_return_step",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "F3 tag 0 -> NO FREE, still SET + tag5",
+    "F3 tag 4 (upper end of 1..4) -> FREE",
+    "F3 tag 5 -> NO FREE (one past the gate)",
+    "F3 tag 0x105 (bit 2 set) -> NO FREE",
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)",
+    "F3 tag 0xFFFFFFFF -> NO FREE (low bits survive the mask)",
+    "F3 bit29 set: one word only, sp delta 20",
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 raw 0: id word read (0 >= 0), variable id -100000",
+    "F3 self NULL: no Push/Pop, no store, epilogue still runs",
+    "F3 self->[0x24] == 0: Push + Pop, no store",
+    "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "F3 variable id 5 -> table slot 5",
+    "F3 variable id 16 -> past the 8 staged slots, still arithmetic",
+    "F3 operand 0x0fffffff: mask then subtract, destination far out",
+    "F3 instance id 0 is a legal id, not \"absent\"",
+    "F3 instance id -1 passes through untouched",
+    "F3 dead first argument INT_MIN: same record as arg 3"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "180",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 20
+    }
+   }
+  },
+  {
+   "mutant": "f3_set_args_swapped",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "F3 tag 0 -> NO FREE, still SET + tag5",
+    "F3 tag 4 (upper end of 1..4) -> FREE",
+    "F3 tag 5 -> NO FREE (one past the gate)",
+    "F3 tag 0x105 (bit 2 set) -> NO FREE",
+    "F3 tag 0x40000001: bits 24..31 are masked off -> FREE",
+    "F3 tag 0x80000001 -> FREE (bit 31 masked off too)",
+    "F3 tag 0xFFFFFFFF -> NO FREE (low bits survive the mask)",
+    "F3 bit29 set: one word only, sp delta 20",
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 raw 0: id word read (0 >= 0), variable id -100000",
+    "F3 self->[4] == 0: InternalGetYYVar supplies the destination",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "F3 variable id 5 -> table slot 5",
+    "F3 variable id 16 -> past the 8 staged slots, still arithmetic",
+    "F3 operand 0x0fffffff: mask then subtract, destination far out",
+    "F3 instance id 0 is a legal id, not \"absent\"",
+    "F3 instance id -1 passes through untouched",
+    "F3 dead first argument INT_MIN: same record as arg 3"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 varid 0, live instance id 77, tag 1 -> FREE + SET + tag5",
+    "ret": {
+     "original": [
+      "184",
+      "-"
+     ],
+     "mutant": [
+      "184",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "168",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "168",
+       "384",
+       77
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "168"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d000000a5a5a5a500000000333333330000000005000000a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 24,
+     "mutant": 24
+    }
+   }
+  },
+  {
+   "mutant": "f3_instance_sentinel_lost",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "F3 bit31+bit29: nothing popped, sp delta 16",
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 bit31 set: instance id = INT_MIN sentinel, sp delta 20",
+    "ret": {
+     "original": [
+      "180",
+      "-"
+     ],
+     "mutant": [
+      "180",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "164",
+       -2147483648
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "164"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "R",
+       "384",
+       "164",
+       0
+      ],
+      [
+       "Q"
+      ],
+      [
+       "F",
+       "164"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 20,
+     "mutant": 20
+    }
+   }
+  },
+  {
+   "mutant": "f3_dyn_index_zeroed",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "ret": {
+     "original": [
+      "180",
+      "-"
+     ],
+     "mutant": [
+      "180",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "G",
+       "512",
+       5
+      ],
+      [
+       "R",
+       "512",
+       "164",
+       -2147483648
+      ],
+      [
+       "Q"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "G",
+       "512",
+       0
+      ],
+      [
+       "R",
+       "512",
+       "164",
+       -2147483648
+      ],
+      [
+       "Q"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 20,
+     "mutant": 20
+    }
+   }
+  },
+  {
+   "mutant": "f3_varid_mask_dropped",
+   "file": "pop_local.c",
+   "caught_by": [
+    "F3 dynamic destination, variable id 5, sentinel instance, no FREE"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 dynamic destination, variable id 5, sentinel instance, no FREE",
+    "ret": {
+     "original": [
+      "180",
+      "-"
+     ],
+     "mutant": [
+      "180",
+      "-"
+     ]
+    },
+    "calls": {
+     "original": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "G",
+       "512",
+       5
+      ],
+      [
+       "R",
+       "512",
+       "164",
+       -2147483648
+      ],
+      [
+       "Q"
+      ]
+     ],
+     "mutant": [
+      [
+       "P",
+       "320"
+      ],
+      [
+       "G",
+       "512",
+       -2147483643
+      ],
+      [
+       "R",
+       "512",
+       "164",
+       -2147483648
+      ],
+      [
+       "Q"
+      ]
+     ]
+    },
+    "mem": {
+     "original": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5",
+     "mutant": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a54d00000000000000333333330000000005000000a5a5a5a5a5a5a5a5a5a5a5a5"
+    },
+    "spdlt": {
+     "original": 20,
+     "mutant": 20
+    }
+   }
+  }
+ ],
+ "teeth_total": 29,
+ "teeth_by_function": {
+  "Code_Variable_Find_Name": 7,
+  "DoConvIntToVariable": 7,
+  "DoPopLocalVariable": 15
+ },
+ "teeth_modes": {
+  "mismatch": 29
+ },
+ "status": "PASS"
+}

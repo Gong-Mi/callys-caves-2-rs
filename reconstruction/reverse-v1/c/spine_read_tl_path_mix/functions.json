@@ -1,0 +1,218 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_path_mix",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_pathMixTimeline",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e8ec-0x28ea0c (B17 body, 73 insns / 292 B). The census span 0x28e8ec-0x28ea88 (412 B / 103 insns) contains 30 more instructions that belong to five foreign islands; see boundary.foreign_islands.",
+      "translation_source": "src/spine_read_tl_path_mix.c",
+      "abi": {
+        "signature": "int readSkeletonData_pathMixTimeline(Json* timelineNode, int32_t path_constraint_index, void* animation_raw)",
+        "timelineNode": "B13's r4: the path sub-timeline Json node. Reads +0x1c name (0x28e8ec), +0x0c declared frame count (0x28e900 and again 0x28e9cc), +0x04 child frame list (0x28e908).",
+        "path_constraint_index": "models the shared stack cell [sp+0x2c] that B13's pointer scan wrote (0x28df2c). B17 reads it once at 0x28e914 and stores it at timeline+0x14 (0x28e918). B17 never writes the cell; a scan miss therefore hands over the previous constraint's index unchanged.",
+        "animation_raw": "spAnimation* (B13's r11). The tail reads +0x04 duration, +0x08 timelineCount, +0x0c timelines and writes all three. There is NO spSkeletonData and NO spSkeletonJson argument for this block.",
+        "return": "MIX_TL_SKIPPED 0 (0x28e8fc beq 0x28e048: name == \"mix\") or MIX_TL_PUBLISHED 1 (0x28ea0c b 0x28e048). Both original exits go to the same node-advance instruction; the code only makes the two paths observable."
+      },
+      "entry_state": "r4 = timelineNode, r6 = timelineNode->name, r11 = animation, [sp+0x2c] = B13's index cell, [sp+0x48] = \"mix\" spilled by B13 at 0x28ded0. The block is entered ONLY from 0x28e538 `bne 0x28e8ec` (B13's non-position/non-spacing handoff); 0x28e8e8 is `b 0x28da44`, so there is no fall-through, and no other branch in the whole 13044-byte function targets 0x28e8ec.",
+      "puzzle_resolution": {
+        "question": "A path sub-key named exactly \"mix\" skips the block that builds mix timelines. Who handles \"mix\"?",
+        "answer": "Nobody. The 0x28e8fc `beq` target is not another handler: it is 0x28e048 `ldr r4,[r4]` (timelineNode = timelineNode->next), the same advance that every published timeline tail falls into (0x28e04c cmp / 0x28e050 bne 0x28df3c continues B13's inner dispatch). A \"mix\" node therefore creates nothing, reads no frames, calls no readCurve, publishes nothing, does not extend duration and reports no error. The inverse is the sharper half: every OTHER unresolved name (\"rotate\", \"bogus\", a typo, ...) falls through and IS loaded as a mix timeline.",
+        "instruction_evidence": [
+          "0x28e8ec mov r0,r6 / 0x28e8f0 ldr r1,[sp,#0x48] / 0x28e8f4 bl strcmp / 0x28e8f8 cmp r0,#0 / 0x28e8fc beq 0x28e048",
+          "0x28e048 ldr r4,[r4] / 0x28e04c cmp r4,#0 / 0x28e050 bne 0x28df3c (B13 inner loop head)",
+          "0x28e538 bne 0x28e8ec is the only B17 entry; B13 compares only \"position\" (0x28df48) and \"spacing\" (0x28e530), never \"mix\"",
+          "0x28e900..0x28ea0c: no second name test, no error block, no lookup"
+        ],
+        "source_intent_hypothesis": "The compiled guard is literally `if (strcmp(name,\"mix\") == 0) goto next;` — the body runs when the name is NOT \"mix\", which a missing `== 0` at source level would explain. Recorded as a hypothesis about intent, not as bytecode evidence; the instruction-level conclusion does not depend on it.",
+        "runtime_observables": "fixture tests mix_name_skipped (skip direction), other_name_creates_mix (fall-through direction), mix_between_others (both orders in one path node) and skip_is_transparent (no cursor slot, no duration contribution)."
+      },
+      "keys": [
+        "time",
+        "rotateMix",
+        "translateMix"
+      ],
+      "key_literals": {
+        "time": {
+          "va": "0x34c1d4",
+          "pool_word": "0x28eb10",
+          "add_site": "0x28e934 (PC base 0x28e93c)",
+          "spill": "[sp+0x30] at 0x28e93c",
+          "default": "0.0f (0x28e950 mov r2,#0)"
+        },
+        "rotateMix": {
+          "va": "0x357cc0",
+          "pool_word": "0x28eb14",
+          "add_site": "0x28e938 (PC base 0x28e940)",
+          "spill": "[sp+0x30] at 0x28e93c",
+          "default": "1.0f (0x28e960 mov r2,#1065353216)"
+        },
+        "translateMix": {
+          "va": "0x357ccc",
+          "pool_word": "0x28eb18",
+          "add_site": "0x28e940 (PC base 0x28e948)",
+          "spill": "[sp+0x34] at 0x28e944",
+          "default": "1.0f (0x28e978 mov r2,#1065353216)"
+        },
+        "mix_guard": {
+          "va": "0x357c98",
+          "pool_word": "0x28eabc",
+          "add_site": "0x28dec4",
+          "owner": "materialised by B13 (0x28deb4 ldr / 0x28dec4 add) and spilled to [sp+0x48] at 0x28ded0; read ONLY by B17 at 0x28e8f0"
+        }
+      },
+      "key_decode_correction": "There is NO +4 suffix pointer. Pool 0x28eb14 is resolved by the add at 0x28e938 (PC base 0x28e940) to 0x357cc0, the START of \"rotateMix\", shared with B12's transform family (0x28dcd8, pool 0x28ea9c, same VA). The earlier c/spine_read_tl_path checker passed 0x28e93c as the add site — that instruction is `str r1,[sp,#0x30]` — and consequently recorded a phantom \"teMix\" at 0x357cc4. This module's checker pins the true add site and cross-resolves the B12 site to the same VA.",
+      "create_abi": {
+        "symbol": "spPathConstraintMixTimeline_create 0x283068 / 24 B",
+        "instructions": "0x283068 ldr r3,[pc,#0xc] (tag) / 0x28306c mov r1,#13 (type word) / 0x283070 mov r2,#3 (frame step) / 0x283074 ldr r3,[pc,r3] / 0x283078 b 0x282a10 (_spBaseTimeline_create)",
+        "base": "_spBaseTimeline_create(count,13,3,tag) 0x282a10: _calloc(1,24,tag,233), _spCurveTimeline_init(t,type,count,tag), +0x0c = count*3, +0x10 = _calloc(count*3,4); no store to +0x14"
+      },
+      "setframe_abi": {
+        "symbol": "spPathConstraintMixTimeline_setFrame 0x283080 / 48 B",
+        "signature": "void spPathConstraintMixTimeline_setFrame(void* timeline, int frameIndex, float time, float rotateMix, float translateMix)",
+        "registers": "r0 = timeline, r1 = frameIndex, r2 = time bits, r3 = rotateMix bits, [sp] = translateMix bits (5th AAPCS word; 0x28e998 str r0,[sp])",
+        "store_shape": "0x283080 add r1,r1,r1,lsl#1 (i*3); 0x283094 &frames[i*3]; 0x28309c str r2,[r1] -> frames[i*3+0] = time; 0x2830a4 str r3,[r0] -> frames[i*3+1] = rotateMix; 0x2830a0 str r4,[r0,#0x4] -> frames[i*3+2] = translateMix",
+        "call_target": "0x28e9a0 bl 0x283080 — the only setFrame call in B17. The position twin 0x283028 is not called; the checker's fifth compile guard proves a reconstruction that calls it cannot link."
+      },
+      "frame_loop": {
+        "head": "0x28e948 (mov r0,r5 frame); back edge 0x28e9c4 bne 0x28e948",
+        "reads": [
+          "time        = Json_getFloat(frame, \"time\", 0.0f)        0x28e948..0x28e958",
+          "rotateMix   = Json_getFloat(frame, \"rotateMix\", 1.0f)   0x28e95c..0x28e970",
+          "translateMix= Json_getFloat(frame, \"translateMix\", 1.0f) 0x28e974..0x28e984"
+        ],
+        "call": "spPathConstraintMixTimeline_setFrame(timeline, frameIndex, time, rotateMix, translateMix) 0x28e988..0x28e9a0",
+        "curve": "readCurve(frame, timeline, frameIndex) 0x28e9a4..0x28e9b0 — B17's OWN site; B13's is 0x28dff4",
+        "advance": "frame = frame->next (0x28e9b4); ++frameIndex (0x28e9b8); loop while frame != 0 (0x28e9c0/0x28e9c4)",
+        "empty_list": "0x28e908 ldr r5,[r4,#4] ; 0x28e90c cmp r5,#0 ; 0x28e91c beq 0x28e9cc — but the +0x14 store at 0x28e918 still runs first"
+      },
+      "tail": {
+        "publish": "count = animation->timelineCount (0x28e9d4); animation->timelineCount = count+1 (0x28e9e0/0x28e9e4); timelines[count] = timeline (0x28e9ec)",
+        "frame_stride": "THREE floats: 0x28e9dc sub r2,r2,#1 ; 0x28e9e8 add r2,r2,r2,lsl#1 ; 0x28e9f4 lsl#2 -> frames[(declared-1)*3]",
+        "duration": "duration = animation->duration (0x28e9d0); last = frames[(declared-1)*3] (0x28e9f8); if duration > last then last = duration (0x28e9fc vcmpe / 0x28ea04 vmovgt); animation->duration = last (0x28ea08); b 0x28e048",
+        "declared_vs_child": "the loop follows the child list; create (0x28e900) and the duration index (0x28e9cc) both use the declared count from Json+0x0c, so declared=3 with one child still creates 3*3 floats and reads frames[6] (never written, 0)"
+      },
+      "field_offsets": {
+        "spPathConstraintTimeline.type": "+0x00 (from _spTimeline_init 0x281338)",
+        "spPathConstraintTimeline.vtable": "+0x04 (0x281354)",
+        "spPathConstraintTimeline.curves": "+0x08 (_spCurveTimeline_init 0x281710)",
+        "spPathConstraintTimeline.frameFloatCount": "+0x0c = count*3 (0x282a70)",
+        "spPathConstraintTimeline.frames": "+0x10 (0x28e9f0; 3 floats per frame)",
+        "spPathConstraintTimeline.pathConstraintIndex": "+0x14 (0x28e918 — B17's only writer; unconditional)",
+        "spAnimation.duration": "+0x04 (0x28e9d0 / 0x28ea08)",
+        "spAnimation.timelineCount": "+0x08 (0x28e9d4 / 0x28e9e4)",
+        "spAnimation.timelines": "+0x0c (0x28e9d8 / 0x28e9ec)"
+      },
+      "quirks": [
+        "0x28e918 stores the index BEFORE the frame-list NULL test at 0x28e91c; a frame-less mix timeline still gets the cell value, unlike any create-time-only field.",
+        "A name of exactly \"mix\" is the ONLY string this block rejects; every other name creates a mix timeline. The guard's polarity is the puzzle.",
+        "The duration is read from the LAST frame's time slot (frames[(declared-1)*3]), never from rotateMix/translateMix. A stride-2 misread would pick frames[2] (the first frame's translateMix) — the duration_stride_three fixture makes that value 9.0 on purpose.",
+        "The frames array uses the DECLARED count even when the child list is shorter; declared == 0 wraps the index to frames[-3] in 32-bit arithmetic (not driven by the fixture).",
+        "Both exits (skip and publish) target the same instruction 0x28e048; there is no error path and no success/failure distinction in the original. The two return codes are a reconstruction artefact.",
+        "The three loop keys are materialised inside the frame-present path only (0x28e920..0x28e944 are after the 0x28e91c beq), so a frame-less node never even loads the key literals."
+      ]
+    }
+  ],
+  "layout_additions": {
+    "spPathConstraintTimeline": "24 B: +0x00 type, +0x04 vtable object, +0x08 float* curves ((frameCount-1)*19), +0x0c frameFloatCount (frameCount*3 for the mix family), +0x10 float* frames (3 floats per frame), +0x14 int32 pathConstraintIndex",
+    "spAnimation": "+0x04 float duration, +0x08 int32 timelineCount, +0x0c void** timelines"
+  },
+  "synthetic_boundaries": [
+    {
+      "name": "spPathConstraintMixTimeline_create",
+      "address": "0x283068, 24 B",
+      "reason": "body not recovered in this batch; it is a tail call to _spBaseTimeline_create(count,13,3,tag). The fixture builds a zeroed 24-byte record with type 13, frameFloatCount = count*3, frames = count*3 floats, and +0x14 = SENTINEL, and records the declared count."
+    },
+    {
+      "name": "spPathConstraintMixTimeline_setFrame",
+      "address": "0x283080, 48 B",
+      "reason": "body not recovered; the fixture stores frames[i*3+0..2] = time, rotateMix, translateMix exactly as 0x28309c/0x2830a4/0x2830a0 do and records all five AAPCS words (the 5th is on the stack)."
+    },
+    {
+      "name": "spCurveTimeline_setStepped / spCurveTimeline_setCurve",
+      "address": "0x2817c0 / 0x2817d8",
+      "reason": "readCurve's dependencies; the fixture defines them as recorders so the 0x28e9b0 wiring is observable."
+    },
+    {
+      "name": "fixture heap / allocator roster / libc providers / hand-built Json nodes",
+      "reason": "test scaffolding only; qemu executes the reconstructed C"
+    }
+  ],
+  "depends_on": [
+    "json_interface",
+    "spine_read_curve",
+    "spine_alloc"
+  ],
+  "boundary": {
+    "b17_body": "0x28e8ec-0x28ea0c (73 insns / 292 B)",
+    "census_span": "0x28e8ec-0x28ea88 (412 B / 103 insns)",
+    "entry": "only 0x28e538 bne 0x28e8ec; 0x28e8e8 is `b 0x28da44` (no fall-through)",
+    "exits": "0x28e8fc beq 0x28e048 (skip) and 0x28ea0c b 0x28e048 (publish), both to the shared node advance",
+    "foreign_islands": [
+      {
+        "range": "0x28ea10-0x28ea3c (12 insns)",
+        "owner": "B5 slot-not-found error block",
+        "entered_from": "0x28d538 beq 0x28ea10; there r2 = [sp+0x2c] is the slot Json node (0x28ea2c ldr r3,[r2,#0x1c])"
+      },
+      {
+        "range": "0x28ea40-0x28ea44 (2 insns)",
+        "owner": "B4 timeline-count dispatch island",
+        "entered_from": "0x28d3c8 beq 0x28ea40 (r3 = 0)"
+      },
+      {
+        "range": "0x28ea48-0x28ea70 (11 insns)",
+        "owner": "E7 \"Path constraint not found: \"",
+        "entered_from": "0x28dee4 beq 0x28ea48; already translated by c/spine_read_tl_path"
+      },
+      {
+        "range": "0x28ea74-0x28ea7c (3 insns)",
+        "owner": "B13 spacing-scale island (parser->scale)",
+        "entered_from": "0x28e550 bls 0x28ea74; already translated by c/spine_read_tl_path"
+      },
+      {
+        "range": "0x28ea80-0x28ea84 (2 insns)",
+        "owner": "B4 timeline-count dispatch island",
+        "entered_from": "0x28d3bc beq 0x28ea80 (r3 = [sp+0x30])"
+      }
+    ],
+    "b17_has_no_error_block": "its BL roster is exactly strcmp / create / Json_getFloat x3 / setFrame / readCurve; no setError, no dispose, no lookup (static B17_CALLS check)",
+    "b17_has_no_lookup_or_scan": "no spSkeletonData_findPathConstraint call; B17 consumes B13's [sp+0x2c] cell at 0x28e914. The checker's fourth compile guard proves a body that adds a lookup cannot link."
+  },
+  "census_cross_check": {
+    "census_span": "0x28e8ec..0x28ea88 = 412 B / 103 insns — exact match: the disassembly of that range is 103 instructions, of which 73 are B17 and 30 are the five foreign islands above.",
+    "census_title": "The §6 title 'B17 path mix 时间线 + 错误块' is misleading: B17 itself has no error block. The only error block inside the span is 0x28ea10 (B5 slot-not-found), entered from 0x28d538; the other error block 0x28ea48 (E7) belongs to B13 and is already translated.",
+    "path_predecessor": "c/spine_read_tl_path's boundary_B17 observations are all confirmed except the key-decode: its own loop head 0x28e948, its own readCurve site 0x28e9b0, create/setFrame 0x283068/0x283080, the three-float stride 0x28e9e8 and its publish tail 0x28e9cc..0x28ea0c all match. Its claim that pool 0x28eb14 resolves to a '+4 suffix teMix' is wrong; the add site is 0x28e938, not 0x28e93c.",
+    "apply_cross_check": "_spPathConstraintMixTimeline_apply 0x2828dc reads +0x14 at 0x282910 and computes the last frame from frameFloatCount-3 at 0x28290c/0x282914, corroborating both the index field and the three-float frame shape from the consumer side."
+  },
+  "corrections_to_predecessor": [
+    "c/spine_read_tl_path/tools/check_tl_path.py KEY_PINS used add_site 0x28e93c for pool 0x28eb14 and asserted 'teMix'. 0x28e93c is `str r1,[sp,#0x30]`; the actual add is 0x28e938 and the key is 'rotateMix' at 0x357cc0. The current module pins the true site and adds a control proving the byte at 0x357cc4 is 'teMix' only because it is inside the shared string.",
+    "c/spine_read_tl_path/functions.json boundary_B17 says 'a +4 SUFFIX pointer into the rotateMix literal'. No such suffix exists.",
+    "The census §6 B17 title includes '错误块'; B17 has none. The span's error blocks are B5's and B13's (the latter already translated)."
+  ],
+  "open": [
+    "Whether any shipped skeleton has a path sub-key named exactly \"mix\" (silently ignored) or uses another name for its mix timeline cannot be checked: no spine JSON exists in this tree.",
+    "The source-level intent behind the inverted-looking guard (likely a missing `== 0`) is not provable from bytecode alone; the compiled behaviour is pinned.",
+    "declared == 0 with a non-empty frame list wraps the duration index to frames[-3]; the fixture does not drive that malformed input (same restriction as the ik/path modules).",
+    "create with declared count 0 calls the real _spBaseTimeline_create(count*3=0) and the fixture substitutes a minimum one-frame allocation; the original's zero-size calloc behaviour is not driven.",
+    "The vtable object at +0x04 and the curves array at +0x08 are not read by B17; their exact dispose/apply semantics remain owned by the timeline type and c/spine_skeleton_data."
+  ],
+  "check": {
+    "driver": "tools/check_tl_path_mix.py",
+    "fixture": "fixture/check.c",
+    "cases": "13 (mix name skipped / other name creates / both orders in one path node / frame-less +0x14 store / values+defaults+store shape / three-frame index+stride / readCurve stepped+array / duration stride 3 / declared-vs-child count / duration max / index cell values + skip / exact key literals / skip is transparent)",
+    "configs": "O0/O2/O3/ubsan (undefined,float-cast-overflow, trap=all)",
+    "teeth": "13 named mutants (guard inverted / guard dropped / guard literal / create count / index store / time default / translate default / rotate-translate swap / rotate key literal / readCurve dropped / frameIndex stuck / tail stride 2 / duration polarity) — each refused by exactly one named runtime assertion",
+    "compile_guards": "missing body -> undefined symbol: readSkeletonData_pathMixTimeline; readCurve source removed -> undefined symbol: readCurve; json_interface removed -> undefined symbol: Json_getFloat; inserted findPathConstraint call -> undefined symbol (B17 has no lookup); position setFrame twin -> undefined symbol (0x283028 is not the call target)",
+    "static": "SHA + 13 symbol pins + 43 word pins + 5 pc-relative key literals (incl. the B12 sharing cross-check) + anonymous readCurve (0x28e9b0 only) + B17 BL roster + 5 foreign-island entry pins + no-fall-through checks",
+    "command": "python3 tools/check_tl_path_mix.py --so /data/data/com.termux/files/home/callys-caves-2-rs/reconstruction/live-mem/libyoyo_armv7.so --out ~/.hermes/cache/scratch/tlpm_final",
+    "receipt": "harness/receipts/tl_path_mix_check-20261108T124846.json",
+    "receipt_sha256": "7955d69e4c960f0b99f3e764d261f927cd1df94368792c58dda25d15a8bc704b",
+    "result": "PASS (O0/O2/O3/ubsan: 13/13 tests each; 13/13 teeth; 5/5 compile guards; ORIGINAL NOT EXECUTED)"
+  }
+}

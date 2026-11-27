@@ -1,0 +1,69 @@
+11b2e4	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+11b2e8	e24dd034	sub	sp, sp, #52
+11b2ec	e3a01000	mov	r1, #0
+11b2f0	e59d4058	ldr	r4, [sp, #0x58]
+11b2f4	e1a00004	mov	r0, r4
+11b2f8	ebfece61	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11b2fc	e3a01001	mov	r1, #1
+11b300	e1a07000	mov	r7, r0
+11b304	e1a00004	mov	r0, r4
+11b308	ebfece5d	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11b30c	e3a01002	mov	r1, #2
+11b310	e1a09000	mov	r9, r0
+11b314	e1a00004	mov	r0, r4
+11b318	ebfece59	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11b31c	e3a01003	mov	r1, #3
+11b320	e1a08000	mov	r8, r0
+11b324	e1a00004	mov	r0, r4
+11b328	ebfece55	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11b32c	e3a01004	mov	r1, #4
+11b330	e1a03000	mov	r3, r0
+11b334	e1a00004	mov	r0, r4
+11b338	e58d3024	str	r3, [sp, #0x24]
+11b33c	ebfece50	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11b340	e3a01005	mov	r1, #5
+11b344	e1a0c000	mov	r12, r0
+11b348	e1a00004	mov	r0, r4
+11b34c	e58dc028	str	r12, [sp, #0x28]
+11b350	ebfecd46	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+11b354	e3a01006	mov	r1, #6
+11b358	e58d002c	str	r0, [sp, #0x2c]
+11b35c	e1a00004	mov	r0, r4
+11b360	ebfecd42	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+11b364	e3a01007	mov	r1, #7
+11b368	e1a06000	mov	r6, r0
+11b36c	e1a00004	mov	r0, r4
+11b370	ebfecd3e	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+11b374	e3a01008	mov	r1, #8
+11b378	e1a05000	mov	r5, r0
+11b37c	e1a00004	mov	r0, r4
+11b380	ebfecd3a	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+11b384	e3a01009	mov	r1, #9
+11b388	e1a0b000	mov	r11, r0
+11b38c	e1a00004	mov	r0, r4
+11b390	ebfeccf4	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+11b394	e3a0100a	mov	r1, #10
+11b398	e1a0a000	mov	r10, r0
+11b39c	e1a00004	mov	r0, r4
+11b3a0	ebfeccf0	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+11b3a4	e1a01005	mov	r1, r5
+11b3a8	e3a0243f	mov	r2, #1056964608
+11b3ac	e1a04000	mov	r4, r0
+11b3b0	e1a00006	mov	r0, r6
+11b3b4	eb03d2ff	bl	0x20ffb8 <_Z11Color_Mergejjf>
+11b3b8	e59d202c	ldr	r2, [sp, #0x2c]
+11b3bc	e59dc028	ldr	r12, [sp, #0x28]
+11b3c0	e1a01009	mov	r1, r9
+11b3c4	e58d5010	str	r5, [sp, #0x10]
+11b3c8	e98d0044	stmib	sp, {r2, r6}
+11b3cc	e1a02008	mov	r2, r8
+11b3d0	e58dc000	str	r12, [sp]
+11b3d4	e58db014	str	r11, [sp, #0x14]
+11b3d8	e58da018	str	r10, [sp, #0x18]
+11b3dc	e58d401c	str	r4, [sp, #0x1c]
+11b3e0	e59d3024	ldr	r3, [sp, #0x24]
+11b3e4	e58d000c	str	r0, [sp, #0xc]
+11b3e8	e1a00007	mov	r0, r7
+11b3ec	eb014339	bl	0x16c0d8 <_Z17GR_Draw_Healthbarfffffjjjjibb>
+11b3f0	e28dd034	add	sp, sp, #52
+11b3f4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}

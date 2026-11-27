@@ -1,0 +1,21 @@
+1df59c	e92d4008	push	{r3, lr}
+1df5a0	e59f3038	ldr	r3, [pc, #0x38]
+1df5a4	e59f1038	ldr	r1, [pc, #0x38]
+1df5a8	e79f3003	ldr	r3, [pc, r3]
+1df5ac	e08f1001	add	r1, pc, r1
+1df5b0	e5930000	ldr	r0, [r3]
+1df5b4	e5903000	ldr	r3, [r0]
+1df5b8	e593300c	ldr	r3, [r3, #0xc]
+1df5bc	e12fff33	blx	r3
+1df5c0	e59f2020	ldr	r2, [pc, #0x20]
+1df5c4	e59f3020	ldr	r3, [pc, #0x20]
+1df5c8	e79f2002	ldr	r2, [pc, r2]
+1df5cc	e79f3003	ldr	r3, [pc, r3]
+1df5d0	e5920000	ldr	r0, [r2]
+1df5d4	e5931000	ldr	r1, [r3]
+1df5d8	e8bd4008	pop	{r3, lr}
+1df5dc	eafff9c0	b	0x1ddce4 <_Z12LoadGameDataPvj>
+1df5e0	00210574	eoreq	r0, r1, r4, ror r5
+1df5e4	00172484	andseq	r2, r7, r4, lsl #9
+1df5e8	00211744	eoreq	r1, r1, r4, asr #14
+1df5ec	0021173c	eoreq	r1, r1, r12, lsr r7

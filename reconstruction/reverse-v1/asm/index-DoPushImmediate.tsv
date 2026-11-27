@@ -1,0 +1,4 @@
+d3244	e6bf0070	sxth	r0, r0
+d3248	e5210004	str	r0, [r1, #-0x4]!
+d324c	e1a00001	mov	r0, r1
+d3250	e12fff1e	bx	lr

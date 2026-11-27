@@ -1,0 +1,67 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "compile_domain": "Clang ARM32 base AAPCS32, -mfloat-abi=soft; strcmp declared as bare-metal extern",
+  "functions": [
+    {
+      "entry": "0x2873c4",
+      "isa": "arm",
+      "symbol": "Json_getItem",
+      "role_label": "linked-list child search by name; readSkeletonData calls 31 times",
+      "aliases": [],
+      "size": 100,
+      "original_body_sha256": null,
+      "translation_source": "src/json_interface.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "case_insensitive path not fully modeled (original uses strcmp for case-sensitive only); identity check at 0x2873e4 compares item pointer to json pointer, not to first_child"
+    },
+    {
+      "entry": "0x287428",
+      "isa": "arm",
+      "symbol": "Json_getString",
+      "role_label": "getItem + read +0x10; readSkeletonData calls 14 times",
+      "aliases": [],
+      "size": 28,
+      "original_body_sha256": null,
+      "translation_source": "src/json_interface.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "none for this entry; depends on Json_getItem"
+    },
+    {
+      "entry": "0x287444",
+      "isa": "arm",
+      "symbol": "Json_getFloat",
+      "role_label": "getItem + read +0x18; readSkeletonData calls 59 times",
+      "aliases": [],
+      "size": 28,
+      "original_body_sha256": null,
+      "translation_source": "src/json_interface.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "none for this entry; depends on Json_getItem"
+    },
+    {
+      "entry": "0x287460",
+      "isa": "arm",
+      "symbol": "Json_getInt",
+      "role_label": "getItem + read +0x14; readSkeletonData calls 31 times",
+      "aliases": [],
+      "size": 28,
+      "original_body_sha256": null,
+      "translation_source": "src/json_interface.c",
+      "translation_source_sha256": null,
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": true,
+      "remaining_scope": "none for this entry; depends on Json_getItem"
+    }
+  ]
+}

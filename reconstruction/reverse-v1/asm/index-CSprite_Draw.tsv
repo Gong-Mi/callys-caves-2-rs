@@ -1,0 +1,229 @@
+1ec720	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1ec724	ed2d8b04	vpush	{d8, d9}
+1ec728	e24dd024	sub	sp, sp, #36
+1ec72c	ed9d8a16	vldr	s16, [sp, #88]
+1ec730	e5906018	ldr	r6, [r0, #0x18]
+1ec734	e1a05000	mov	r5, r0
+1ec738	e59f4344	ldr	r4, [pc, #0x344]
+1ec73c	e1a08001	mov	r8, r1
+1ec740	e3560000	cmp	r6, #0
+1ec744	e1a09002	mov	r9, r2
+1ec748	e08f4004	add	r4, pc, r4
+1ec74c	ee093a10	vmov	s18, r3
+1ec750	eddd8a17	vldr	s17, [sp, #92]
+1ec754	eddd9a18	vldr	s19, [sp, #96]
+1ec758	e59da064	ldr	r10, [sp, #0x64]
+1ec75c	e59db068	ldr	r11, [sp, #0x68]
+1ec760	da000045	ble	0x1ec87c <_ZN7CSprite4DrawEifffffjf+0x15c>
+1ec764	e59f331c	ldr	r3, [pc, #0x31c]
+1ec768	e7947003	ldr	r7, [r4, r3]
+1ec76c	e5d73000	ldrb	r3, [r7]
+1ec770	e3530000	cmp	r3, #0
+1ec774	1a000079	bne	0x1ec960 <_ZN7CSprite4DrawEifffffjf+0x240>
+1ec778	e1a00008	mov	r0, r8
+1ec77c	e1a01006	mov	r1, r6
+1ec780	eb04b199	bl	0x318dec <__aeabi_idivmod>
+1ec784	e59f3300	ldr	r3, [pc, #0x300]
+1ec788	e7943003	ldr	r3, [r4, r3]
+1ec78c	e5d33000	ldrb	r3, [r3]
+1ec790	e2518000	subs	r8, r1, #0
+1ec794	b0888006	addlt	r8, r8, r6
+1ec798	e3530000	cmp	r3, #0
+1ec79c	1a00006d	bne	0x1ec958 <_ZN7CSprite4DrawEifffffjf+0x238>
+1ec7a0	edd56a0b	vldr	s13, [r5, #44]
+1ec7a4	eef87ae6	vcvt.f32.s32	s15, s13
+1ec7a8	e59f32e0	ldr	r3, [pc, #0x2e0]
+1ec7ac	e7943003	ldr	r3, [r4, r3]
+1ec7b0	ee277a88	vmul.f32	s14, s15, s16
+1ec7b4	e5d33000	ldrb	r3, [r3]
+1ec7b8	ee677aa8	vmul.f32	s15, s15, s17
+1ec7bc	eeb07ac7	vabs.f32	s14, s14
+1ec7c0	eef07ae7	vabs.f32	s15, s15
+1ec7c4	eeb47a67	vcmp.f32	s14, s15
+1ec7c8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ec7cc	cef07a47	vmovgt.f32	s15, s14
+1ec7d0	e3530000	cmp	r3, #0
+1ec7d4	0a00002b	beq	0x1ec888 <_ZN7CSprite4DrawEifffffjf+0x168>
+1ec7d8	e5950074	ldr	r0, [r5, #0x74]
+1ec7dc	e3500001	cmp	r0, #1
+1ec7e0	0a000065	beq	0x1ec97c <_ZN7CSprite4DrawEifffffjf+0x25c>
+1ec7e4	e3500002	cmp	r0, #2
+1ec7e8	0a00007e	beq	0x1ec9e8 <_ZN7CSprite4DrawEifffffjf+0x2c8>
+1ec7ec	e5953054	ldr	r3, [r5, #0x54]
+1ec7f0	eddf7aa1	vldr	s15, [pc, #644]
+1ec7f4	ee699aa7	vmul.f32	s19, s19, s15
+1ec7f8	eddf7aa0	vldr	s15, [pc, #640]
+1ec7fc	e3530000	cmp	r3, #0
+1ec800	0a000083	beq	0x1eca14 <_ZN7CSprite4DrawEifffffjf+0x2f4>
+1ec804	e5951024	ldr	r1, [r5, #0x24]
+1ec808	e7930108	ldr	r0, [r3, r8, lsl #2]
+1ec80c	ed8d9a00	vstr	s18, [sp]
+1ec810	e5952028	ldr	r2, [r5, #0x28]
+1ec814	e1a03009	mov	r3, r9
+1ec818	ee061a90	vmov	s13, r1
+1ec81c	ed8d8a01	vstr	s16, [sp, #4]
+1ec820	edcd8a02	vstr	s17, [sp, #8]
+1ec824	e58da010	str	r10, [sp, #0x10]
+1ec828	ee072a10	vmov	s14, r2
+1ec82c	e58db014	str	r11, [sp, #0x14]
+1ec830	eec99aa7	vdiv.f32	s19, s19, s15
+1ec834	eef86ae6	vcvt.f32.s32	s13, s13
+1ec838	edcd9a03	vstr	s19, [sp, #12]
+1ec83c	eeb87ac7	vcvt.f32.s32	s14, s14
+1ec840	ee161a90	vmov	r1, s13
+1ec844	ee172a10	vmov	r2, s14
+1ec848	ebfe21a4	bl	0x174ee0 <_Z15GR_Texture_DrawP12YYTPageEntryfffffffjf>
+1ec84c	e3500000	cmp	r0, #0
+1ec850	1a00005b	bne	0x1ec9c4 <_ZN7CSprite4DrawEifffffjf+0x2a4>
+1ec854	e59f1238	ldr	r1, [pc, #0x238]
+1ec858	e59f3238	ldr	r3, [pc, #0x238]
+1ec85c	e595205c	ldr	r2, [r5, #0x5c]
+1ec860	e08f1001	add	r1, pc, r1
+1ec864	e7943003	ldr	r3, [r4, r3]
+1ec868	e5930000	ldr	r0, [r3]
+1ec86c	e5903000	ldr	r3, [r0]
+1ec870	e593300c	ldr	r3, [r3, #0xc]
+1ec874	e12fff33	blx	r3
+1ec878	ea000051	b	0x1ec9c4 <_ZN7CSprite4DrawEifffffjf+0x2a4>
+1ec87c	e28dd024	add	sp, sp, #36
+1ec880	ecbd8b04	vpop	{d8, d9}
+1ec884	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1ec888	e59f320c	ldr	r3, [pc, #0x20c]
+1ec88c	e7943003	ldr	r3, [r4, r3]
+1ec890	e5d33000	ldrb	r3, [r3]
+1ec894	e3530000	cmp	r3, #0
+1ec898	1affffce	bne	0x1ec7d8 <_ZN7CSprite4DrawEifffffjf+0xb8>
+1ec89c	e5950074	ldr	r0, [r5, #0x74]
+1ec8a0	e3500002	cmp	r0, #2
+1ec8a4	0a00004f	beq	0x1ec9e8 <_ZN7CSprite4DrawEifffffjf+0x2c8>
+1ec8a8	e59f31f0	ldr	r3, [pc, #0x1f0]
+1ec8ac	e7943003	ldr	r3, [r4, r3]
+1ec8b0	edd36a01	vldr	s13, [r3, #4]
+1ec8b4	eeb87ae6	vcvt.f32.s32	s14, s13
+1ec8b8	ee377a49	vsub.f32	s14, s14, s18
+1ec8bc	eef47ac7	vcmpe.f32	s15, s14
+1ec8c0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ec8c4	ba000012	blt	0x1ec914 <_ZN7CSprite4DrawEifffffjf+0x1f4>
+1ec8c8	edd36a03	vldr	s13, [r3, #12]
+1ec8cc	eeb87ae6	vcvt.f32.s32	s14, s13
+1ec8d0	ee397a47	vsub.f32	s14, s18, s14
+1ec8d4	eef47ac7	vcmpe.f32	s15, s14
+1ec8d8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ec8dc	ba00000c	blt	0x1ec914 <_ZN7CSprite4DrawEifffffjf+0x1f4>
+1ec8e0	edd36a00	vldr	s13, [r3]
+1ec8e4	eeb87ae6	vcvt.f32.s32	s14, s13
+1ec8e8	ee069a90	vmov	s13, r9
+1ec8ec	ee377a66	vsub.f32	s14, s14, s13
+1ec8f0	eef47ac7	vcmpe.f32	s15, s14
+1ec8f4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ec8f8	ba000005	blt	0x1ec914 <_ZN7CSprite4DrawEifffffjf+0x1f4>
+1ec8fc	ed937a02	vldr	s14, [r3, #8]
+1ec900	eeb87ac7	vcvt.f32.s32	s14, s14
+1ec904	ee367ac7	vsub.f32	s14, s13, s14
+1ec908	eef47ac7	vcmpe.f32	s15, s14
+1ec90c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ec910	aaffffb1	bge	0x1ec7dc <_ZN7CSprite4DrawEifffffjf+0xbc>
+1ec914	e59f3188	ldr	r3, [pc, #0x188]
+1ec918	e7943003	ldr	r3, [r4, r3]
+1ec91c	e5d33000	ldrb	r3, [r3]
+1ec920	e3530000	cmp	r3, #0
+1ec924	0a000026	beq	0x1ec9c4 <_ZN7CSprite4DrawEifffffjf+0x2a4>
+1ec928	e59f3178	ldr	r3, [pc, #0x178]
+1ec92c	e7946003	ldr	r6, [r4, r3]
+1ec930	e1a00006	mov	r0, r6
+1ec934	ebfe08c0	bl	0x16ec3c <_ZN14CCameraManager15GetActiveCameraEv>
+1ec938	e3500000	cmp	r0, #0
+1ec93c	0a000020	beq	0x1ec9c4 <_ZN7CSprite4DrawEifffffjf+0x2a4>
+1ec940	e1a00006	mov	r0, r6
+1ec944	ebfe08bc	bl	0x16ec3c <_ZN14CCameraManager15GetActiveCameraEv>
+1ec948	ebfe0292	bl	0x16d398 <_ZN7CCamera4Is2DEv>
+1ec94c	e3500000	cmp	r0, #0
+1ec950	1a00001b	bne	0x1ec9c4 <_ZN7CSprite4DrawEifffffjf+0x2a4>
+1ec954	eaffff9f	b	0x1ec7d8 <_ZN7CSprite4DrawEifffffjf+0xb8>
+1ec958	ebfdf10d	bl	0x168d94 <_Z22UpdateTransRoomExtentsv>
+1ec95c	eaffff8f	b	0x1ec7a0 <_ZN7CSprite4DrawEifffffjf+0x80>
+1ec960	e59f3144	ldr	r3, [pc, #0x144]
+1ec964	e3a01006	mov	r1, #6
+1ec968	e3a0200f	mov	r2, #15
+1ec96c	e7940003	ldr	r0, [r4, r3]
+1ec970	eb02cf70	bl	0x2a0738 <_ZN9CProfiler4PushEii>
+1ec974	e5956018	ldr	r6, [r5, #0x18]
+1ec978	eaffff7e	b	0x1ec778 <_ZN7CSprite4DrawEifffffjf+0x58>
+1ec97c	e5952024	ldr	r2, [r5, #0x24]
+1ec980	e1a01008	mov	r1, r8
+1ec984	e58d9000	str	r9, [sp]
+1ec988	e1a00005	mov	r0, r5
+1ec98c	e5953028	ldr	r3, [r5, #0x28]
+1ec990	ed8d9a01	vstr	s18, [sp, #4]
+1ec994	ee072a10	vmov	s14, r2
+1ec998	ed8d8a02	vstr	s16, [sp, #8]
+1ec99c	edcd8a03	vstr	s17, [sp, #12]
+1ec9a0	edcd9a04	vstr	s19, [sp, #16]
+1ec9a4	ee073a90	vmov	s15, r3
+1ec9a8	e58da014	str	r10, [sp, #0x14]
+1ec9ac	eeb87ac7	vcvt.f32.s32	s14, s14
+1ec9b0	e58db018	str	r11, [sp, #0x18]
+1ec9b4	eef87ae7	vcvt.f32.s32	s15, s15
+1ec9b8	ee172a10	vmov	r2, s14
+1ec9bc	ee173a90	vmov	r3, s15
+1ec9c0	ebfffd50	bl	0x1ebf08 <_ZN7CSprite7DrawSWFEifffffffjf>
+1ec9c4	e5d73000	ldrb	r3, [r7]
+1ec9c8	e3530000	cmp	r3, #0
+1ec9cc	0affffaa	beq	0x1ec87c <_ZN7CSprite4DrawEifffffjf+0x15c>
+1ec9d0	e59f30d4	ldr	r3, [pc, #0xd4]
+1ec9d4	e7940003	ldr	r0, [r4, r3]
+1ec9d8	e28dd024	add	sp, sp, #36
+1ec9dc	ecbd8b04	vpop	{d8, d9}
+1ec9e0	e8bd4ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1ec9e4	ea02cfb0	b	0x2a08ac <_ZN9CProfiler3PopEv>
+1ec9e8	e5950058	ldr	r0, [r5, #0x58]
+1ec9ec	e1a01008	mov	r1, r8
+1ec9f0	ed8d8a00	vstr	s16, [sp]
+1ec9f4	edcd8a01	vstr	s17, [sp, #4]
+1ec9f8	edcd9a02	vstr	s19, [sp, #8]
+1ec9fc	e58da00c	str	r10, [sp, #0xc]
+1eca00	e58db010	str	r11, [sp, #0x10]
+1eca04	e1a02009	mov	r2, r9
+1eca08	ee193a10	vmov	r3, s18
+1eca0c	ebfb4e6a	bl	0xc03bc <_ZN15CSkeletonSprite4DrawEifffffjf>
+1eca10	eaffffeb	b	0x1ec9c4 <_ZN7CSprite4DrawEifffffjf+0x2a4>
+1eca14	eec99aa7	vdiv.f32	s19, s19, s15
+1eca18	e5951024	ldr	r1, [r5, #0x24]
+1eca1c	e5952028	ldr	r2, [r5, #0x28]
+1eca20	e5953050	ldr	r3, [r5, #0x50]
+1eca24	ee071a90	vmov	s15, r1
+1eca28	ee062a90	vmov	s13, r2
+1eca2c	e7930108	ldr	r0, [r3, r8, lsl #2]
+1eca30	ed8d9a00	vstr	s18, [sp]
+1eca34	e1a03009	mov	r3, r9
+1eca38	ed8d8a01	vstr	s16, [sp, #4]
+1eca3c	edcd8a02	vstr	s17, [sp, #8]
+1eca40	e58da010	str	r10, [sp, #0x10]
+1eca44	e58db014	str	r11, [sp, #0x14]
+1eca48	eef87ae7	vcvt.f32.s32	s15, s15
+1eca4c	edcd9a03	vstr	s19, [sp, #12]
+1eca50	eef86ae6	vcvt.f32.s32	s13, s13
+1eca54	ee171a90	vmov	r1, s15
+1eca58	ee162a90	vmov	r2, s13
+1eca5c	ebfe2077	bl	0x174c40 <_Z15GR_Texture_Drawifffffffjf>
+1eca60	e3500000	cmp	r0, #0
+1eca64	1affffd6	bne	0x1ec9c4 <_ZN7CSprite4DrawEifffffjf+0x2a4>
+1eca68	e59f1040	ldr	r1, [pc, #0x40]
+1eca6c	e59f3024	ldr	r3, [pc, #0x24]
+1eca70	e595205c	ldr	r2, [r5, #0x5c]
+1eca74	e08f1001	add	r1, pc, r1
+1eca78	eaffff79	b	0x1ec864 <_ZN7CSprite4DrawEifffffjf+0x144>
+1eca7c	40490fdb	ldrdmi	r0, r1, [r9], #-251
+1eca80	43340000	teqmi	r4, #0
+1eca84	00205508	eoreq	r5, r0, r8, lsl #10
+1eca88	ffffbf18	.word	0xffffbf18
+1eca8c	ffffd9e0	.word	0xffffd9e0
+1eca90	ffffc0b4	.word	0xffffc0b4
+1eca94	00165d34	andseq	r5, r6, r4, lsr sp
+1eca98	ffffbac4	.word	0xffffbac4
+1eca9c	ffffe490	.word	0xffffe490
+1ecaa0	ffffe500	.word	0xffffe500
+1ecaa4	ffffbcd4	.word	0xffffbcd4
+1ecaa8	ffffc024	.word	0xffffc024
+1ecaac	ffffbf1c	.word	0xffffbf1c
+1ecab0	00165b20	andseq	r5, r6, r0, lsr #22

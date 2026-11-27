@@ -1,0 +1,1474 @@
+17763c	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+177640	ed2d8b06	vpush	{d8, d9, d10}
+177644	e24dd094	sub	sp, sp, #148
+177648	ed9d9a34	vldr	s18, [sp, #208]
+17764c	e1a09002	mov	r9, r2
+177650	e1a0b001	mov	r11, r1
+177654	e1a04003	mov	r4, r3
+177658	e1a0a000	mov	r10, r0
+17765c	e59d60d8	ldr	r6, [sp, #0xd8]
+177660	eddd9a35	vldr	s19, [sp, #212]
+177664	ed9d8a37	vldr	s16, [sp, #220]
+177668	eddd8a38	vldr	s17, [sp, #224]
+17766c	eb00371e	bl	0x1852ec <_ZN8Graphics5FlushEv>
+177670	e59f542c	ldr	r5, [pc, #0x42c]
+177674	ebffc4d9	bl	0x1689e0 <_Z25GR_D3D_Get_Texture_Repeatv>
+177678	e08f5005	add	r5, pc, r5
+17767c	e58d0068	str	r0, [sp, #0x68]
+177680	e3a00001	mov	r0, #1
+177684	ebffc479	bl	0x168870 <_Z25GR_D3D_Set_Texture_Repeatb>
+177688	e1a01006	mov	r1, r6
+17768c	e3a00004	mov	r0, #4
+177690	ebfffcd1	bl	0x1769dc <_Z21GR_3D_Primitive_Beginii>
+177694	e59f140c	ldr	r1, [pc, #0x40c]
+177698	e59f340c	ldr	r3, [pc, #0x40c]
+17769c	eebf6a00	vmov.f32	s12, #-1.000000e+00
+1776a0	e59f2408	ldr	r2, [pc, #0x408]
+1776a4	eddf7afd	vldr	s15, [pc, #1012]
+1776a8	e7951001	ldr	r1, [r5, r1]
+1776ac	e59f0400	ldr	r0, [pc, #0x400]
+1776b0	e58d103c	str	r1, [sp, #0x3c]
+1776b4	e7953003	ldr	r3, [r5, r3]
+1776b8	e58d3040	str	r3, [sp, #0x40]
+1776bc	e5913000	ldr	r3, [r1]
+1776c0	e795c002	ldr	r12, [r5, r2]
+1776c4	e59f13ec	ldr	r1, [pc, #0x3ec]
+1776c8	e0833183	add	r3, r3, r3, lsl #3
+1776cc	e08c2103	add	r2, r12, r3, lsl #2
+1776d0	e59d3040	ldr	r3, [sp, #0x40]
+1776d4	edc27a03	vstr	s15, [r2, #12]
+1776d8	edc27a04	vstr	s15, [r2, #16]
+1776dc	e582a000	str	r10, [r2]
+1776e0	ed826a05	vstr	s12, [r2, #20]
+1776e4	e5832000	str	r2, [r3]
+1776e8	e582b004	str	r11, [r2, #0x4]
+1776ec	e5829008	str	r9, [r2, #0x8]
+1776f0	e7953000	ldr	r3, [r5, r0]
+1776f4	e5930000	ldr	r0, [r3]
+1776f8	e3c00001	bic	r0, r0, #1
+1776fc	e5820018	str	r0, [r2, #0x18]
+177700	e7953001	ldr	r3, [r5, r1]
+177704	e5931000	ldr	r1, [r3]
+177708	e3510000	cmp	r1, #0
+17770c	0a000423	beq	0x1787a0 <_Z16GR_3D_Draw_Blockffffffiff+0x1164>
+177710	e1d1c0f0	ldrsh	r12, [r1]
+177714	eef75a00	vmov.f32	s11, #1.000000e+00
+177718	e1d130fc	ldrsh	r3, [r1, #12]
+17771c	e2826e46	add	r6, r2, #1120
+177720	e282ed11	add	lr, r2, #1088
+177724	ee06ca90	vmov	s13, r12
+177728	e282cfe1	add	r12, r2, #900
+17772c	ee053a10	vmov	s10, r3
+177730	e59f3384	ldr	r3, [pc, #0x384]
+177734	e58dc038	str	r12, [sp, #0x38]
+177738	e1a07006	mov	r7, r6
+17773c	e1d1c0f2	ldrsh	r12, [r1, #2]
+177740	e1a08006	mov	r8, r6
+177744	e7953003	ldr	r3, [r5, r3]
+177748	ed937a00	vldr	s14, [r3]
+17774c	e1d130fe	ldrsh	r3, [r1, #14]
+177750	ee03ca10	vmov	s6, r12
+177754	e1d1c0f0	ldrsh	r12, [r1]
+177758	eeb85ac5	vcvt.f32.s32	s10, s10
+17775c	ee003a90	vmov	s1, r3
+177760	e59f3358	ldr	r3, [pc, #0x358]
+177764	ee04ca90	vmov	s9, r12
+177768	e1d1c0fc	ldrsh	r12, [r1, #12]
+17776c	ee02ca10	vmov	s4, r12
+177770	e1d1c0f0	ldrsh	r12, [r1]
+177774	eef86ae6	vcvt.f32.s32	s13, s13
+177778	ee456a27	vmla.f32	s13, s10, s15
+17777c	ee05ca10	vmov	s10, r12
+177780	e282cb01	add	r12, r2, #1024
+177784	e28cc00c	add	r12, r12, #12
+177788	eec66a87	vdiv.f32	s13, s13, s14
+17778c	eeb83ac3	vcvt.f32.s32	s6, s6
+177790	edc26a07	vstr	s13, [r2, #28]
+177794	e7953003	ldr	r3, [r5, r3]
+177798	edd36a00	vldr	s13, [r3]
+17779c	e1d130f2	ldrsh	r3, [r1, #2]
+1777a0	e1d150fe	ldrsh	r5, [r1, #14]
+1777a4	ed826a0e	vstr	s12, [r2, #56]
+1777a8	e5824048	str	r4, [r2, #0x48]
+1777ac	ed826a17	vstr	s12, [r2, #92]
+1777b0	ee043a10	vmov	s8, r3
+1777b4	e1d130fc	ldrsh	r3, [r1, #12]
+1777b8	ee015a90	vmov	s3, r5
+1777bc	e2825b01	add	r5, r2, #1024
+1777c0	eef80ae0	vcvt.f32.s32	s1, s1
+1777c4	e2855004	add	r5, r5, #4
+1777c8	ee023a90	vmov	s5, r3
+1777cc	e582a024	str	r10, [r2, #0x24]
+1777d0	ed829a0a	vstr	s18, [r2, #40]
+1777d4	e582902c	str	r9, [r2, #0x2c]
+1777d8	edc27a0c	vstr	s15, [r2, #48]
+1777dc	edc27a0d	vstr	s15, [r2, #52]
+1777e0	e582003c	str	r0, [r2, #0x3c]
+1777e4	ed829a13	vstr	s18, [r2, #76]
+1777e8	e5829050	str	r9, [r2, #0x50]
+1777ec	edc27a15	vstr	s15, [r2, #84]
+1777f0	edc27a16	vstr	s15, [r2, #88]
+1777f4	e5820060	str	r0, [r2, #0x60]
+1777f8	eeb82ac2	vcvt.f32.s32	s4, s4
+1777fc	e2823e41	add	r3, r2, #1040
+177800	e2833004	add	r3, r3, #4
+177804	eef84ae4	vcvt.f32.s32	s9, s9
+177808	eef03a43	vmov.f32	s7, s6
+17780c	ee424a27	vmla.f32	s9, s4, s15
+177810	ee003aa7	vmla.f32	s6, s1, s15
+177814	ee483aa0	vmla.f32	s7, s17, s1
+177818	eef81ae1	vcvt.f32.s32	s3, s3
+17781c	eef82ae2	vcvt.f32.s32	s5, s5
+177820	eeb84ac4	vcvt.f32.s32	s8, s8
+177824	eeb85ac5	vcvt.f32.s32	s10, s10
+177828	ee084aa1	vmla.f32	s8, s17, s3
+17782c	ee085a22	vmla.f32	s10, s16, s5
+177830	ee833a26	vdiv.f32	s6, s6, s13
+177834	eec33aa6	vdiv.f32	s7, s7, s13
+177838	ed823a08	vstr	s6, [r2, #32]
+17783c	eec44a87	vdiv.f32	s9, s9, s14
+177840	edc23a11	vstr	s7, [r2, #68]
+177844	ee844a26	vdiv.f32	s8, s8, s13
+177848	edc24a10	vstr	s9, [r2, #64]
+17784c	e58d5008	str	r5, [sp, #0x8]
+177850	e2825e41	add	r5, r2, #1040
+177854	e2855008	add	r5, r5, #8
+177858	e58d5014	str	r5, [sp, #0x14]
+17785c	e2825e42	add	r5, r2, #1056
+177860	e58d3010	str	r3, [sp, #0x10]
+177864	e2855008	add	r5, r5, #8
+177868	e58d5020	str	r5, [sp, #0x20]
+17786c	e2825e42	add	r5, r2, #1056
+177870	e2823e42	add	r3, r2, #1056
+177874	e58d5074	str	r5, [sp, #0x74]
+177878	e2855018	add	r5, r5, #24
+17787c	e58d5028	str	r5, [sp, #0x28]
+177880	e2825d11	add	r5, r2, #1088
+177884	e58dc00c	str	r12, [sp, #0xc]
+177888	e2833004	add	r3, r3, #4
+17788c	e2855008	add	r5, r5, #8
+177890	e58d301c	str	r3, [sp, #0x1c]
+177894	e58d5034	str	r5, [sp, #0x34]
+177898	e2823e41	add	r3, r2, #1040
+17789c	e1d150f2	ldrsh	r5, [r1, #2]
+1778a0	e282ce41	add	r12, r2, #1040
+1778a4	e28cc00c	add	r12, r12, #12
+1778a8	e58d3070	str	r3, [sp, #0x70]
+1778ac	e58dc018	str	r12, [sp, #0x18]
+1778b0	e2833024	add	r3, r3, #36
+1778b4	e282cb01	add	r12, r2, #1024
+1778b8	e58d3024	str	r3, [sp, #0x24]
+1778bc	e58dc06c	str	r12, [sp, #0x6c]
+1778c0	e2823d11	add	r3, r2, #1088
+1778c4	e282ce43	add	r12, r2, #1072
+1778c8	e2833004	add	r3, r3, #4
+1778cc	e58dc078	str	r12, [sp, #0x78]
+1778d0	e28cc00c	add	r12, r12, #12
+1778d4	e58d3030	str	r3, [sp, #0x30]
+1778d8	e2823e45	add	r3, r2, #1104
+1778dc	e58dc02c	str	r12, [sp, #0x2c]
+1778e0	e282ce45	add	r12, r2, #1104
+1778e4	e28cc004	add	r12, r12, #4
+1778e8	e2833008	add	r3, r3, #8
+1778ec	e58dc004	str	r12, [sp, #0x4]
+1778f0	ee035a10	vmov	s6, r5
+1778f4	e1d1c0fe	ldrsh	r12, [r1, #14]
+1778f8	ed829a1c	vstr	s18, [r2, #112]
+1778fc	e1d150fc	ldrsh	r5, [r1, #12]
+177900	e58d3000	str	r3, [sp]
+177904	e1d130f0	ldrsh	r3, [r1]
+177908	ee00ca90	vmov	s1, r12
+17790c	e582406c	str	r4, [r2, #0x6c]
+177910	ee015a90	vmov	s3, r5
+177914	e1d1c0f2	ldrsh	r12, [r1, #2]
+177918	edc27a1e	vstr	s15, [r2, #120]
+17791c	e5829074	str	r9, [r2, #0x74]
+177920	ee03ca90	vmov	s7, r12
+177924	ee855a07	vdiv.f32	s10, s10, s14
+177928	ed824a1a	vstr	s8, [r2, #104]
+17792c	ee043a10	vmov	s8, r3
+177930	e1d130fe	ldrsh	r3, [r1, #14]
+177934	ed826a20	vstr	s12, [r2, #128]
+177938	e5824090	str	r4, [r2, #0x90]
+17793c	edc27a1f	vstr	s15, [r2, #124]
+177940	e5820084	str	r0, [r2, #0x84]
+177944	ee013a10	vmov	s2, r3
+177948	ed825a19	vstr	s10, [r2, #100]
+17794c	e582b094	str	r11, [r2, #0x94]
+177950	e1d150f0	ldrsh	r5, [r1]
+177954	eef80ae0	vcvt.f32.s32	s1, s1
+177958	e1d1c0fc	ldrsh	r12, [r1, #12]
+17795c	ed826a29	vstr	s12, [r2, #164]
+177960	e1d130f0	ldrsh	r3, [r1]
+177964	ed826a32	vstr	s12, [r2, #200]
+177968	ee045a90	vmov	s9, r5
+17796c	e1d150fc	ldrsh	r5, [r1, #12]
+177970	ee02ca10	vmov	s4, r12
+177974	e282ce47	add	r12, r2, #1136
+177978	ee053a10	vmov	s10, r3
+17797c	e2823e47	add	r3, r2, #1136
+177980	ee025a90	vmov	s5, r5
+177984	e28cc008	add	r12, r12, #8
+177988	eeb83ac3	vcvt.f32.s32	s6, s6
+17798c	e58dc044	str	r12, [sp, #0x44]
+177990	e283300c	add	r3, r3, #12
+177994	e282cd12	add	r12, r2, #1152
+177998	e58d3048	str	r3, [sp, #0x48]
+17799c	e2823d12	add	r3, r2, #1152
+1779a0	e28cc004	add	r12, r12, #4
+1779a4	e2833008	add	r3, r3, #8
+1779a8	e58dc04c	str	r12, [sp, #0x4c]
+1779ac	edc27a27	vstr	s15, [r2, #156]
+1779b0	e1d1c0f2	ldrsh	r12, [r1, #2]
+1779b4	edc27a28	vstr	s15, [r2, #160]
+1779b8	e58d3050	str	r3, [sp, #0x50]
+1779bc	edc27a30	vstr	s15, [r2, #192]
+1779c0	eeb81ac1	vcvt.f32.s32	s2, s2
+1779c4	e1d130fe	ldrsh	r3, [r1, #14]
+1779c8	e5829098	str	r9, [r2, #0x98]
+1779cc	edc27a31	vstr	s15, [r2, #196]
+1779d0	e58200a8	str	r0, [r2, #0xa8]
+1779d4	e2825e45	add	r5, r2, #1104
+1779d8	e582a0b4	str	r10, [r2, #0xb4]
+1779dc	e582b0b8	str	r11, [r2, #0xb8]
+1779e0	e58290bc	str	r9, [r2, #0xbc]
+1779e4	e58200cc	str	r0, [r2, #0xcc]
+1779e8	eef83ae3	vcvt.f32.s32	s7, s7
+1779ec	e582a0d8	str	r10, [r2, #0xd8]
+1779f0	eef81ae1	vcvt.f32.s32	s3, s3
+1779f4	eeb82ac2	vcvt.f32.s32	s4, s4
+1779f8	eef82ae2	vcvt.f32.s32	s5, s5
+1779fc	eeb84ac4	vcvt.f32.s32	s8, s8
+177a00	eef84ae4	vcvt.f32.s32	s9, s9
+177a04	eeb85ac5	vcvt.f32.s32	s10, s10
+177a08	ee083aa0	vmla.f32	s6, s17, s1
+177a0c	ee003a90	vmov	s1, r3
+177a10	e1d130fe	ldrsh	r3, [r1, #14]
+177a14	ee413a27	vmla.f32	s7, s2, s15
+177a18	ee013a10	vmov	s2, r3
+177a1c	e1d130fc	ldrsh	r3, [r1, #12]
+177a20	ee084a21	vmla.f32	s8, s16, s3
+177a24	ee484a02	vmla.f32	s9, s16, s4
+177a28	ee023a10	vmov	s4, r3
+177a2c	ee025aa7	vmla.f32	s10, s5, s15
+177a30	ee833a26	vdiv.f32	s6, s6, s13
+177a34	eec33aa6	vdiv.f32	s7, s7, s13
+177a38	ed823a23	vstr	s6, [r2, #140]
+177a3c	ee03ca10	vmov	s6, r12
+177a40	e1d1c0f2	ldrsh	r12, [r1, #2]
+177a44	e582b0dc	str	r11, [r2, #0xdc]
+177a48	ee844a07	vdiv.f32	s8, s8, s14
+177a4c	edc23a2c	vstr	s7, [r2, #176]
+177a50	ee03ca90	vmov	s7, r12
+177a54	e1d1c0f0	ldrsh	r12, [r1]
+177a58	edc29a38	vstr	s19, [r2, #224]
+177a5c	eec44a87	vdiv.f32	s9, s9, s14
+177a60	ed824a22	vstr	s8, [r2, #136]
+177a64	ee855a07	vdiv.f32	s10, s10, s14
+177a68	edc24a2b	vstr	s9, [r2, #172]
+177a6c	ee04ca90	vmov	s9, r12
+177a70	ed825a34	vstr	s10, [r2, #208]
+177a74	edc27a39	vstr	s15, [r2, #228]
+177a78	e1d1c0f2	ldrsh	r12, [r1, #2]
+177a7c	eef80ae0	vcvt.f32.s32	s1, s1
+177a80	e1d130fe	ldrsh	r3, [r1, #14]
+177a84	edc25a3b	vstr	s11, [r2, #236]
+177a88	e58240fc	str	r4, [r2, #0xfc]
+177a8c	edc25a44	vstr	s11, [r2, #272]
+177a90	ee04ca10	vmov	s8, r12
+177a94	e1d1c0f0	ldrsh	r12, [r1]
+177a98	ee013a90	vmov	s3, r3
+177a9c	ea000008	b	0x177ac4 <_Z16GR_3D_Draw_Blockffffffiff+0x488>
+177aa0	00000000	andeq	r0, r0, r0
+177aa4	0027a5d8	.word	0x0027a5d8
+177aa8	ffffe670	.word	0xffffe670
+177aac	ffffe684	.word	0xffffe684
+177ab0	ffffe680	.word	0xffffe680
+177ab4	ffffc0ac	.word	0xffffc0ac
+177ab8	ffffe540	.word	0xffffe540
+177abc	ffffe544	.word	0xffffe544
+177ac0	ffffe548	.word	0xffffe548
+177ac4	e1d130fc	ldrsh	r3, [r1, #12]
+177ac8	e58de07c	str	lr, [sp, #0x7c]
+177acc	edc27a3a	vstr	s15, [r2, #232]
+177ad0	ee05ca10	vmov	s10, r12
+177ad4	e282cd12	add	r12, r2, #1152
+177ad8	ee023a90	vmov	s5, r3
+177adc	e28cc00c	add	r12, r12, #12
+177ae0	eeb81ac1	vcvt.f32.s32	s2, s2
+177ae4	e58dc054	str	r12, [sp, #0x54]
+177ae8	e2823e47	add	r3, r2, #1136
+177aec	e282cd12	add	r12, r2, #1152
+177af0	e58d3084	str	r3, [sp, #0x84]
+177af4	edc29a41	vstr	s19, [r2, #260]
+177af8	e1d130f2	ldrsh	r3, [r1, #2]
+177afc	edc27a42	vstr	s15, [r2, #264]
+177b00	e58dc088	str	r12, [sp, #0x88]
+177b04	edc25a4d	vstr	s11, [r2, #308]
+177b08	e1d1c0fe	ldrsh	r12, [r1, #14]
+177b0c	edc27a43	vstr	s15, [r2, #268]
+177b10	e5824120	str	r4, [r2, #0x120]
+177b14	ed829a49	vstr	s18, [r2, #292]
+177b18	eef81ae1	vcvt.f32.s32	s3, s3
+177b1c	e58d6080	str	r6, [sp, #0x80]
+177b20	ee0aca10	vmov	s20, r12
+177b24	e1d1c0fc	ldrsh	r12, [r1, #12]
+177b28	e58200f0	str	r0, [r2, #0xf0]
+177b2c	edc29a4a	vstr	s19, [r2, #296]
+177b30	e582b100	str	r11, [r2, #0x100]
+177b34	edc27a4b	vstr	s15, [r2, #300]
+177b38	e5820114	str	r0, [r2, #0x114]
+177b3c	edc27a4c	vstr	s15, [r2, #304]
+177b40	eeb82ac2	vcvt.f32.s32	s4, s4
+177b44	eef82ae2	vcvt.f32.s32	s5, s5
+177b48	eeb83ac3	vcvt.f32.s32	s6, s6
+177b4c	eef83ae3	vcvt.f32.s32	s7, s7
+177b50	eeb84ac4	vcvt.f32.s32	s8, s8
+177b54	eef84ae4	vcvt.f32.s32	s9, s9
+177b58	eeb85ac5	vcvt.f32.s32	s10, s10
+177b5c	ee003aa7	vmla.f32	s6, s1, s15
+177b60	ee413a27	vmla.f32	s7, s2, s15
+177b64	ee01ca10	vmov	s2, r12
+177b68	ee014aa7	vmla.f32	s8, s3, s15
+177b6c	ee424a27	vmla.f32	s9, s4, s15
+177b70	ee085a22	vmla.f32	s10, s16, s5
+177b74	ee023a90	vmov	s5, r3
+177b78	e1d130f0	ldrsh	r3, [r1]
+177b7c	ee833a26	vdiv.f32	s6, s6, s13
+177b80	eec33aa6	vdiv.f32	s7, s7, s13
+177b84	ed823a35	vstr	s6, [r2, #212]
+177b88	ee844a26	vdiv.f32	s8, s8, s13
+177b8c	edc23a3e	vstr	s7, [r2, #248]
+177b90	eec44a87	vdiv.f32	s9, s9, s14
+177b94	ed824a47	vstr	s8, [r2, #284]
+177b98	ee043a10	vmov	s8, r3
+177b9c	e1d130f2	ldrsh	r3, [r1, #2]
+177ba0	ee033a10	vmov	s6, r3
+177ba4	ee855a07	vdiv.f32	s10, s10, s14
+177ba8	edc24a3d	vstr	s9, [r2, #244]
+177bac	ed825a46	vstr	s10, [r2, #280]
+177bb0	edc25a56	vstr	s11, [r2, #344]
+177bb4	e1d1c0fe	ldrsh	r12, [r1, #14]
+177bb8	eeb8aaca	vcvt.f32.s32	s20, s20
+177bbc	e1d130f0	ldrsh	r3, [r1]
+177bc0	ed829a52	vstr	s18, [r2, #328]
+177bc4	e5824144	str	r4, [r2, #0x144]
+177bc8	edc29a53	vstr	s19, [r2, #332]
+177bcc	ee00ca10	vmov	s0, r12
+177bd0	e1d1c0fc	ldrsh	r12, [r1, #12]
+177bd4	ee043a90	vmov	s9, r3
+177bd8	e1d130f2	ldrsh	r3, [r1, #2]
+177bdc	edc25a5f	vstr	s11, [r2, #380]
+177be0	e5820138	str	r0, [r2, #0x138]
+177be4	ee01ca90	vmov	s3, r12
+177be8	e1d1c0fe	ldrsh	r12, [r1, #14]
+177bec	ee033a90	vmov	s7, r3
+177bf0	e1d130f0	ldrsh	r3, [r1]
+177bf4	eeb80ac0	vcvt.f32.s32	s0, s0
+177bf8	edc27a54	vstr	s15, [r2, #336]
+177bfc	ee00ca90	vmov	s1, r12
+177c00	e1d1c0fc	ldrsh	r12, [r1, #12]
+177c04	ee053a10	vmov	s10, r3
+177c08	e2823e49	add	r3, r2, #1168
+177c0c	e58d308c	str	r3, [sp, #0x8c]
+177c10	edc27a55	vstr	s15, [r2, #340]
+177c14	ee02ca10	vmov	s4, r12
+177c18	e283c004	add	r12, r3, #4
+177c1c	e1d130f2	ldrsh	r3, [r1, #2]
+177c20	ed829a5b	vstr	s18, [r2, #364]
+177c24	e58dc058	str	r12, [sp, #0x58]
+177c28	edc25a68	vstr	s11, [r2, #416]
+177c2c	eef80ae0	vcvt.f32.s32	s1, s1
+177c30	e1d1c0fe	ldrsh	r12, [r1, #14]
+177c34	e582015c	str	r0, [r2, #0x15c]
+177c38	edc29a5c	vstr	s19, [r2, #368]
+177c3c	e582a168	str	r10, [r2, #0x168]
+177c40	edc27a5d	vstr	s15, [r2, #372]
+177c44	edc27a5e	vstr	s15, [r2, #376]
+177c48	e5820180	str	r0, [r2, #0x180]
+177c4c	e582a18c	str	r10, [r2, #0x18c]
+177c50	eeb81ac1	vcvt.f32.s32	s2, s2
+177c54	eef81ae1	vcvt.f32.s32	s3, s3
+177c58	eeb82ac2	vcvt.f32.s32	s4, s4
+177c5c	eef82ae2	vcvt.f32.s32	s5, s5
+177c60	eeb83ac3	vcvt.f32.s32	s6, s6
+177c64	eeb84ac4	vcvt.f32.s32	s8, s8
+177c68	eef83ae3	vcvt.f32.s32	s7, s7
+177c6c	eef84ae4	vcvt.f32.s32	s9, s9
+177c70	eeb85ac5	vcvt.f32.s32	s10, s10
+177c74	ee482a8a	vmla.f32	s5, s17, s20
+177c78	ee083a80	vmla.f32	s6, s17, s0
+177c7c	ee483aa0	vmla.f32	s7, s17, s1
+177c80	ee00ca90	vmov	s1, r12
+177c84	ee084a01	vmla.f32	s8, s16, s2
+177c88	ee484a21	vmla.f32	s9, s16, s3
+177c8c	ee025a27	vmla.f32	s10, s4, s15
+177c90	eec22aa6	vdiv.f32	s5, s5, s13
+177c94	ee833a26	vdiv.f32	s6, s6, s13
+177c98	edc22a50	vstr	s5, [r2, #320]
+177c9c	eec33aa6	vdiv.f32	s7, s7, s13
+177ca0	ed823a59	vstr	s6, [r2, #356]
+177ca4	ee033a10	vmov	s6, r3
+177ca8	e1d130f0	ldrsh	r3, [r1]
+177cac	ee844a07	vdiv.f32	s8, s8, s14
+177cb0	edc23a62	vstr	s7, [r2, #392]
+177cb4	eec44a87	vdiv.f32	s9, s9, s14
+177cb8	ed824a4f	vstr	s8, [r2, #316]
+177cbc	ee043a10	vmov	s8, r3
+177cc0	ee855a07	vdiv.f32	s10, s10, s14
+177cc4	edc24a58	vstr	s9, [r2, #352]
+177cc8	ed825a61	vstr	s10, [r2, #388]
+177ccc	e582b190	str	r11, [r2, #0x190]
+177cd0	e1d1c0fc	ldrsh	r12, [r1, #12]
+177cd4	eef80ae0	vcvt.f32.s32	s1, s1
+177cd8	e1d130f2	ldrsh	r3, [r1, #2]
+177cdc	edc29a65	vstr	s19, [r2, #404]
+177ce0	ee01ca90	vmov	s3, r12
+177ce4	e1d1c0fe	ldrsh	r12, [r1, #14]
+177ce8	ee033a90	vmov	s7, r3
+177cec	e1d130f0	ldrsh	r3, [r1]
+177cf0	edc25a70	vstr	s11, [r2, #448]
+177cf4	edc27a66	vstr	s15, [r2, #408]
+177cf8	ee01ca10	vmov	s2, r12
+177cfc	e1d1c0fc	ldrsh	r12, [r1, #12]
+177d00	ee043a90	vmov	s9, r3
+177d04	e1d130f0	ldrsh	r3, [r1]
+177d08	eeb81ac1	vcvt.f32.s32	s2, s2
+177d0c	edc25a79	vstr	s11, [r2, #484]
+177d10	ee02ca10	vmov	s4, r12
+177d14	e1d1c0fc	ldrsh	r12, [r1, #12]
+177d18	ee053a10	vmov	s10, r3
+177d1c	e2823e49	add	r3, r2, #1168
+177d20	e283300c	add	r3, r3, #12
+177d24	e58d305c	str	r3, [sp, #0x5c]
+177d28	ee02ca90	vmov	s5, r12
+177d2c	e1d130fe	ldrsh	r3, [r1, #14]
+177d30	e1d1c0f2	ldrsh	r12, [r1, #2]
+177d34	edc27a67	vstr	s15, [r2, #412]
+177d38	e58201a4	str	r0, [r2, #0x1a4]
+177d3c	ed829a6d	vstr	s18, [r2, #436]
+177d40	eef81ae1	vcvt.f32.s32	s3, s3
+177d44	e582a1b0	str	r10, [r2, #0x1b0]
+177d48	e58291b8	str	r9, [r2, #0x1b8]
+177d4c	edc27a6f	vstr	s15, [r2, #444]
+177d50	edc27a71	vstr	s15, [r2, #452]
+177d54	e58201c8	str	r0, [r2, #0x1c8]
+177d58	e582a1d4	str	r10, [r2, #0x1d4]
+177d5c	ed829a76	vstr	s18, [r2, #472]
+177d60	edc29a77	vstr	s19, [r2, #476]
+177d64	edc27a78	vstr	s15, [r2, #480]
+177d68	edc27a7a	vstr	s15, [r2, #488]
+177d6c	e58201ec	str	r0, [r2, #0x1ec]
+177d70	eeb82ac2	vcvt.f32.s32	s4, s4
+177d74	eef82ae2	vcvt.f32.s32	s5, s5
+177d78	eeb83ac3	vcvt.f32.s32	s6, s6
+177d7c	eef83ae3	vcvt.f32.s32	s7, s7
+177d80	eeb84ac4	vcvt.f32.s32	s8, s8
+177d84	eef84ae4	vcvt.f32.s32	s9, s9
+177d88	eeb85ac5	vcvt.f32.s32	s10, s10
+177d8c	ee003aa7	vmla.f32	s6, s1, s15
+177d90	ee003a90	vmov	s1, r3
+177d94	ee413a27	vmla.f32	s7, s2, s15
+177d98	ee014aa7	vmla.f32	s8, s3, s15
+177d9c	ee424a27	vmla.f32	s9, s4, s15
+177da0	ee025aa7	vmla.f32	s10, s5, s15
+177da4	ee833a26	vdiv.f32	s6, s6, s13
+177da8	eec33aa6	vdiv.f32	s7, s7, s13
+177dac	ed823a6b	vstr	s6, [r2, #428]
+177db0	ee03ca10	vmov	s6, r12
+177db4	ee844a07	vdiv.f32	s8, s8, s14
+177db8	edc23a74	vstr	s7, [r2, #464]
+177dbc	eec44a87	vdiv.f32	s9, s9, s14
+177dc0	ed824a6a	vstr	s8, [r2, #424]
+177dc4	ee855a07	vdiv.f32	s10, s10, s14
+177dc8	edc24a73	vstr	s9, [r2, #460]
+177dcc	ed825a7c	vstr	s10, [r2, #496]
+177dd0	edc25a82	vstr	s11, [r2, #520]
+177dd4	e1d1c0f2	ldrsh	r12, [r1, #2]
+177dd8	eef80ae0	vcvt.f32.s32	s1, s1
+177ddc	e1d130fe	ldrsh	r3, [r1, #14]
+177de0	e58241f8	str	r4, [r2, #0x1f8]
+177de4	ee03ca90	vmov	s7, r12
+177de8	e1d1c0f0	ldrsh	r12, [r1]
+177dec	ee013a10	vmov	s2, r3
+177df0	e1d130fc	ldrsh	r3, [r1, #12]
+177df4	ed829a7f	vstr	s18, [r2, #508]
+177df8	edc25a8b	vstr	s11, [r2, #556]
+177dfc	ee04ca90	vmov	s9, r12
+177e00	e1d1c0f2	ldrsh	r12, [r1, #2]
+177e04	ee023a10	vmov	s4, r3
+177e08	e1d130fe	ldrsh	r3, [r1, #14]
+177e0c	eeb81ac1	vcvt.f32.s32	s2, s2
+177e10	e582421c	str	r4, [r2, #0x21c]
+177e14	ee04ca10	vmov	s8, r12
+177e18	e1d1c0f0	ldrsh	r12, [r1]
+177e1c	ee013a90	vmov	s3, r3
+177e20	e1d130fc	ldrsh	r3, [r1, #12]
+177e24	edc29a80	vstr	s19, [r2, #512]
+177e28	e5824240	str	r4, [r2, #0x240]
+177e2c	ee05ca10	vmov	s10, r12
+177e30	e1d1c0f2	ldrsh	r12, [r1, #2]
+177e34	ee023a90	vmov	s5, r3
+177e38	e1d130fe	ldrsh	r3, [r1, #14]
+177e3c	edc25a94	vstr	s11, [r2, #592]
+177e40	edc27a81	vstr	s15, [r2, #516]
+177e44	eef81ae1	vcvt.f32.s32	s3, s3
+177e48	edc27a83	vstr	s15, [r2, #524]
+177e4c	ee0a3a10	vmov	s20, r3
+177e50	e1d130fc	ldrsh	r3, [r1, #12]
+177e54	e5820210	str	r0, [r2, #0x210]
+177e58	ed829a88	vstr	s18, [r2, #544]
+177e5c	edc29a89	vstr	s19, [r2, #548]
+177e60	edc27a8a	vstr	s15, [r2, #552]
+177e64	edc27a8c	vstr	s15, [r2, #560]
+177e68	e5820234	str	r0, [r2, #0x234]
+177e6c	ed829a91	vstr	s18, [r2, #580]
+177e70	e5829248	str	r9, [r2, #0x248]
+177e74	edc27a93	vstr	s15, [r2, #588]
+177e78	edc27a95	vstr	s15, [r2, #596]
+177e7c	eeb82ac2	vcvt.f32.s32	s4, s4
+177e80	eef82ae2	vcvt.f32.s32	s5, s5
+177e84	eeb83ac3	vcvt.f32.s32	s6, s6
+177e88	eef83ae3	vcvt.f32.s32	s7, s7
+177e8c	eeb84ac4	vcvt.f32.s32	s8, s8
+177e90	eef84ae4	vcvt.f32.s32	s9, s9
+177e94	eeb85ac5	vcvt.f32.s32	s10, s10
+177e98	ee083aa0	vmla.f32	s6, s17, s1
+177e9c	ee483a81	vmla.f32	s7, s17, s2
+177ea0	ee013a10	vmov	s2, r3
+177ea4	ee084aa1	vmla.f32	s8, s17, s3
+177ea8	ee484a02	vmla.f32	s9, s16, s4
+177eac	ee085a22	vmla.f32	s10, s16, s5
+177eb0	ee02ca90	vmov	s5, r12
+177eb4	e1d1c0f0	ldrsh	r12, [r1]
+177eb8	ee833a26	vdiv.f32	s6, s6, s13
+177ebc	eec33aa6	vdiv.f32	s7, s7, s13
+177ec0	ed823a7d	vstr	s6, [r2, #500]
+177ec4	ee844a26	vdiv.f32	s8, s8, s13
+177ec8	edc23a86	vstr	s7, [r2, #536]
+177ecc	eec44a87	vdiv.f32	s9, s9, s14
+177ed0	ed824a8f	vstr	s8, [r2, #572]
+177ed4	ee04ca10	vmov	s8, r12
+177ed8	e1d1c0f2	ldrsh	r12, [r1, #2]
+177edc	ee03ca10	vmov	s6, r12
+177ee0	ee855a07	vdiv.f32	s10, s10, s14
+177ee4	edc24a85	vstr	s9, [r2, #532]
+177ee8	ed825a8e	vstr	s10, [r2, #568]
+177eec	edc25a9d	vstr	s11, [r2, #628]
+177ef0	e1d130fe	ldrsh	r3, [r1, #14]
+177ef4	eeb81ac1	vcvt.f32.s32	s2, s2
+177ef8	e1d1c0f0	ldrsh	r12, [r1]
+177efc	ed829a9a	vstr	s18, [r2, #616]
+177f00	e582a264	str	r10, [r2, #0x264]
+177f04	edc27a9c	vstr	s15, [r2, #624]
+177f08	ee003a10	vmov	s0, r3
+177f0c	e1d130fc	ldrsh	r3, [r1, #12]
+177f10	ee04ca90	vmov	s9, r12
+177f14	e1d1c0f2	ldrsh	r12, [r1, #2]
+177f18	edc25aa5	vstr	s11, [r2, #660]
+177f1c	e5824288	str	r4, [r2, #0x288]
+177f20	ee013a90	vmov	s3, r3
+177f24	e1d130fe	ldrsh	r3, [r1, #14]
+177f28	ee03ca90	vmov	s7, r12
+177f2c	e1d1c0f0	ldrsh	r12, [r1]
+177f30	eeb80ac0	vcvt.f32.s32	s0, s0
+177f34	e5820258	str	r0, [r2, #0x258]
+177f38	ee003a90	vmov	s1, r3
+177f3c	e1d130fc	ldrsh	r3, [r1, #12]
+177f40	ee05ca10	vmov	s10, r12
+177f44	e282ce4a	add	r12, r2, #1184
+177f48	e28cc004	add	r12, r12, #4
+177f4c	e58dc060	str	r12, [sp, #0x60]
+177f50	ee023a10	vmov	s4, r3
+177f54	e1d1c0fe	ldrsh	r12, [r1, #14]
+177f58	e1d130f2	ldrsh	r3, [r1, #2]
+177f5c	edc27a9e	vstr	s15, [r2, #632]
+177f60	edc25aae	vstr	s11, [r2, #696]
+177f64	e58242ac	str	r4, [r2, #0x2ac]
+177f68	eef80ae0	vcvt.f32.s32	s1, s1
+177f6c	e582926c	str	r9, [r2, #0x26c]
+177f70	e582027c	str	r0, [r2, #0x27c]
+177f74	ed829aa3	vstr	s18, [r2, #652]
+177f78	e5829290	str	r9, [r2, #0x290]
+177f7c	edc27aa6	vstr	s15, [r2, #664]
+177f80	edc27aa7	vstr	s15, [r2, #668]
+177f84	e58202a0	str	r0, [r2, #0x2a0]
+177f88	eef81ae1	vcvt.f32.s32	s3, s3
+177f8c	eeb82ac2	vcvt.f32.s32	s4, s4
+177f90	eef82ae2	vcvt.f32.s32	s5, s5
+177f94	eeb8aaca	vcvt.f32.s32	s20, s20
+177f98	eeb83ac3	vcvt.f32.s32	s6, s6
+177f9c	eeb84ac4	vcvt.f32.s32	s8, s8
+177fa0	eef83ae3	vcvt.f32.s32	s7, s7
+177fa4	eef84ae4	vcvt.f32.s32	s9, s9
+177fa8	eeb85ac5	vcvt.f32.s32	s10, s10
+177fac	ee003a27	vmla.f32	s6, s0, s15
+177fb0	ee403aa7	vmla.f32	s7, s1, s15
+177fb4	ee00ca90	vmov	s1, r12
+177fb8	ee084a01	vmla.f32	s8, s16, s2
+177fbc	ee414aa7	vmla.f32	s9, s3, s15
+177fc0	ee025a27	vmla.f32	s10, s4, s15
+177fc4	ee4a2a27	vmla.f32	s5, s20, s15
+177fc8	ee833a26	vdiv.f32	s6, s6, s13
+177fcc	eec22aa6	vdiv.f32	s5, s5, s13
+177fd0	ed823aa1	vstr	s6, [r2, #644]
+177fd4	ee033a10	vmov	s6, r3
+177fd8	e1d130f0	ldrsh	r3, [r1]
+177fdc	eec33aa6	vdiv.f32	s7, s7, s13
+177fe0	edc22a98	vstr	s5, [r2, #608]
+177fe4	ee844a07	vdiv.f32	s8, s8, s14
+177fe8	edc23aaa	vstr	s7, [r2, #680]
+177fec	eec44a87	vdiv.f32	s9, s9, s14
+177ff0	ed824a97	vstr	s8, [r2, #604]
+177ff4	ee043a10	vmov	s8, r3
+177ff8	ee855a07	vdiv.f32	s10, s10, s14
+177ffc	edc24aa0	vstr	s9, [r2, #640]
+178000	ed825aa9	vstr	s10, [r2, #676]
+178004	ed829aac	vstr	s18, [r2, #688]
+178008	e1d1c0fc	ldrsh	r12, [r1, #12]
+17800c	eef80ae0	vcvt.f32.s32	s1, s1
+178010	e1d130f2	ldrsh	r3, [r1, #2]
+178014	edc25ab7	vstr	s11, [r2, #732]
+178018	e58242d0	str	r4, [r2, #0x2d0]
+17801c	edc29aad	vstr	s19, [r2, #692]
+178020	ee01ca90	vmov	s3, r12
+178024	e1d1c0fe	ldrsh	r12, [r1, #14]
+178028	ee033a90	vmov	s7, r3
+17802c	e1d130f0	ldrsh	r3, [r1]
+178030	edc27aaf	vstr	s15, [r2, #700]
+178034	edc27ab0	vstr	s15, [r2, #704]
+178038	ee01ca10	vmov	s2, r12
+17803c	e1d1c0fc	ldrsh	r12, [r1, #12]
+178040	ee043a90	vmov	s9, r3
+178044	e1d130f0	ldrsh	r3, [r1]
+178048	eeb81ac1	vcvt.f32.s32	s2, s2
+17804c	edc25ac0	vstr	s11, [r2, #768]
+178050	ee02ca10	vmov	s4, r12
+178054	e1d1c0fc	ldrsh	r12, [r1, #12]
+178058	ee053a10	vmov	s10, r3
+17805c	e1d130f2	ldrsh	r3, [r1, #2]
+178060	e58242f4	str	r4, [r2, #0x2f4]
+178064	edc29ab6	vstr	s19, [r2, #728]
+178068	ee02ca90	vmov	s5, r12
+17806c	e1d1c0fe	ldrsh	r12, [r1, #14]
+178070	e58202c4	str	r0, [r2, #0x2c4]
+178074	edc25ac9	vstr	s11, [r2, #804]
+178078	e582b2d4	str	r11, [r2, #0x2d4]
+17807c	edc27ab8	vstr	s15, [r2, #736]
+178080	eef81ae1	vcvt.f32.s32	s3, s3
+178084	edc27ab9	vstr	s15, [r2, #740]
+178088	e58202e8	str	r0, [r2, #0x2e8]
+17808c	edc29abf	vstr	s19, [r2, #764]
+178090	e582b2f8	str	r11, [r2, #0x2f8]
+178094	edc27ac1	vstr	s15, [r2, #772]
+178098	edc27ac2	vstr	s15, [r2, #776]
+17809c	e582030c	str	r0, [r2, #0x30c]
+1780a0	eeb82ac2	vcvt.f32.s32	s4, s4
+1780a4	eef82ae2	vcvt.f32.s32	s5, s5
+1780a8	eeb83ac3	vcvt.f32.s32	s6, s6
+1780ac	eef83ae3	vcvt.f32.s32	s7, s7
+1780b0	eeb84ac4	vcvt.f32.s32	s8, s8
+1780b4	eef84ae4	vcvt.f32.s32	s9, s9
+1780b8	eeb85ac5	vcvt.f32.s32	s10, s10
+1780bc	ee083aa0	vmla.f32	s6, s17, s1
+1780c0	ee483a81	vmla.f32	s7, s17, s2
+1780c4	ee01ca10	vmov	s2, r12
+1780c8	ee014aa7	vmla.f32	s8, s3, s15
+1780cc	ee484a02	vmla.f32	s9, s16, s4
+1780d0	ee085a22	vmla.f32	s10, s16, s5
+1780d4	ee833a26	vdiv.f32	s6, s6, s13
+1780d8	eec33aa6	vdiv.f32	s7, s7, s13
+1780dc	ed823ab3	vstr	s6, [r2, #716]
+1780e0	ee844a07	vdiv.f32	s8, s8, s14
+1780e4	edc23abc	vstr	s7, [r2, #752]
+1780e8	ee033a90	vmov	s7, r3
+1780ec	e1d130f0	ldrsh	r3, [r1]
+1780f0	eec44a87	vdiv.f32	s9, s9, s14
+1780f4	ed824ab2	vstr	s8, [r2, #712]
+1780f8	ee855a07	vdiv.f32	s10, s10, s14
+1780fc	edc24abb	vstr	s9, [r2, #748]
+178100	ed825ac4	vstr	s10, [r2, #784]
+178104	e5824318	str	r4, [r2, #0x318]
+178108	e1d1c0fc	ldrsh	r12, [r1, #12]
+17810c	ee053a10	vmov	s10, r3
+178110	e1d130f2	ldrsh	r3, [r1, #2]
+178114	eeb81ac1	vcvt.f32.s32	s2, s2
+178118	e582b31c	str	r11, [r2, #0x31c]
+17811c	edc27aca	vstr	s15, [r2, #808]
+178120	ee02ca90	vmov	s5, r12
+178124	e1d1c0fe	ldrsh	r12, [r1, #14]
+178128	ee043a10	vmov	s8, r3
+17812c	e1d130f2	ldrsh	r3, [r1, #2]
+178130	edc25ad2	vstr	s11, [r2, #840]
+178134	e582433c	str	r4, [r2, #0x33c]
+178138	ee01ca90	vmov	s3, r12
+17813c	e1d1c0fe	ldrsh	r12, [r1, #14]
+178140	ee043a90	vmov	s9, r3
+178144	e1d130f0	ldrsh	r3, [r1]
+178148	eef81ae1	vcvt.f32.s32	s3, s3
+17814c	e5829320	str	r9, [r2, #0x320]
+178150	ee02ca10	vmov	s4, r12
+178154	e1d1c0fc	ldrsh	r12, [r1, #12]
+178158	ee053a90	vmov	s11, r3
+17815c	e1d130f2	ldrsh	r3, [r1, #2]
+178160	e5824360	str	r4, [r2, #0x360]
+178164	ed826adc	vstr	s12, [r2, #880]
+178168	ee03ca10	vmov	s6, r12
+17816c	e1d1c0fe	ldrsh	r12, [r1, #14]
+178170	edc27acb	vstr	s15, [r2, #812]
+178174	e5820330	str	r0, [r2, #0x330]
+178178	ed829ad0	vstr	s18, [r2, #832]
+17817c	e5829344	str	r9, [r2, #0x344]
+178180	eeb82ac2	vcvt.f32.s32	s4, s4
+178184	edc27ad3	vstr	s15, [r2, #844]
+178188	ee00ca10	vmov	s0, r12
+17818c	e1d1c0fc	ldrsh	r12, [r1, #12]
+178190	edc27ad4	vstr	s15, [r2, #848]
+178194	e5820354	str	r0, [r2, #0x354]
+178198	e582b364	str	r11, [r2, #0x364]
+17819c	edc27adb	vstr	s15, [r2, #876]
+1781a0	e5829368	str	r9, [r2, #0x368]
+1781a4	edc27add	vstr	s15, [r2, #884]
+1781a8	eef82ae2	vcvt.f32.s32	s5, s5
+1781ac	eeb83ac3	vcvt.f32.s32	s6, s6
+1781b0	eef83ae3	vcvt.f32.s32	s7, s7
+1781b4	eeb84ac4	vcvt.f32.s32	s8, s8
+1781b8	eef84ae4	vcvt.f32.s32	s9, s9
+1781bc	eeb85ac5	vcvt.f32.s32	s10, s10
+1781c0	eef85ae5	vcvt.f32.s32	s11, s11
+1781c4	ee483a81	vmla.f32	s7, s17, s2
+1781c8	ee014aa7	vmla.f32	s8, s3, s15
+1781cc	ee01ca90	vmov	s3, r12
+1781d0	ee424a27	vmla.f32	s9, s4, s15
+1781d4	ee085a22	vmla.f32	s10, s16, s5
+1781d8	ee435a27	vmla.f32	s11, s6, s15
+1781dc	ee033a10	vmov	s6, r3
+1781e0	e1d130f0	ldrsh	r3, [r1]
+1781e4	eec33aa6	vdiv.f32	s7, s7, s13
+1781e8	ee844a26	vdiv.f32	s8, s8, s13
+1781ec	edc23ac5	vstr	s7, [r2, #788]
+1781f0	eec44aa6	vdiv.f32	s9, s9, s13
+1781f4	ed824ace	vstr	s8, [r2, #824]
+1781f8	ee855a07	vdiv.f32	s10, s10, s14
+1781fc	edc24ad7	vstr	s9, [r2, #860]
+178200	ee043a90	vmov	s9, r3
+178204	e1d130f2	ldrsh	r3, [r1, #2]
+178208	ee033a90	vmov	s7, r3
+17820c	eec55a87	vdiv.f32	s11, s11, s14
+178210	ed825acd	vstr	s10, [r2, #820]
+178214	edc25ad6	vstr	s11, [r2, #856]
+178218	e5824384	str	r4, [r2, #0x384]
+17821c	e1d1c0fe	ldrsh	r12, [r1, #14]
+178220	eeb83ac3	vcvt.f32.s32	s6, s6
+178224	e59d3038	ldr	r3, [sp, #0x38]
+178228	ed826ae5	vstr	s12, [r2, #916]
+17822c	e582b388	str	r11, [r2, #0x388]
+178230	edc29ae3	vstr	s19, [r2, #908]
+178234	ee00ca90	vmov	s1, r12
+178238	e59dc040	ldr	r12, [sp, #0x40]
+17823c	e5820378	str	r0, [r2, #0x378]
+178240	edc27ae4	vstr	s15, [r2, #912]
+178244	edc27ae6	vstr	s15, [r2, #920]
+178248	e582039c	str	r0, [r2, #0x39c]
+17824c	e58c3000	str	r3, [r12]
+178250	e1d130f0	ldrsh	r3, [r1]
+178254	eeb80ac0	vcvt.f32.s32	s0, s0
+178258	e1d1c0fc	ldrsh	r12, [r1, #12]
+17825c	ed826aee	vstr	s12, [r2, #952]
+178260	e582a3a8	str	r10, [r2, #0x3a8]
+178264	edc29aec	vstr	s19, [r2, #944]
+178268	ee053a10	vmov	s10, r3
+17826c	e1d130f2	ldrsh	r3, [r1, #2]
+178270	ee02ca10	vmov	s4, r12
+178274	e1d1c0fe	ldrsh	r12, [r1, #14]
+178278	e582b3ac	str	r11, [r2, #0x3ac]
+17827c	edc27aed	vstr	s15, [r2, #948]
+178280	ee043a10	vmov	s8, r3
+178284	e1d130f0	ldrsh	r3, [r1]
+178288	ee01ca10	vmov	s2, r12
+17828c	e1d1c0fc	ldrsh	r12, [r1, #12]
+178290	eeb82ac2	vcvt.f32.s32	s4, s4
+178294	edc27aef	vstr	s15, [r2, #956]
+178298	ee053a90	vmov	s11, r3
+17829c	e2823e4a	add	r3, r2, #1184
+1782a0	ee02ca90	vmov	s5, r12
+1782a4	e282ce4a	add	r12, r2, #1184
+1782a8	e2833008	add	r3, r3, #8
+1782ac	e28cc00c	add	r12, r12, #12
+1782b0	e58d3038	str	r3, [sp, #0x38]
+1782b4	e58dc064	str	r12, [sp, #0x64]
+1782b8	e1d130f2	ldrsh	r3, [r1, #2]
+1782bc	eef82ae2	vcvt.f32.s32	s5, s5
+1782c0	e58203c0	str	r0, [r2, #0x3c0]
+1782c4	eef83ae3	vcvt.f32.s32	s7, s7
+1782c8	eef80ae0	vcvt.f32.s32	s1, s1
+1782cc	eef84ae4	vcvt.f32.s32	s9, s9
+1782d0	eeb84ac4	vcvt.f32.s32	s8, s8
+1782d4	eef81ae1	vcvt.f32.s32	s3, s3
+1782d8	eeb81ac1	vcvt.f32.s32	s2, s2
+1782dc	eeb85ac5	vcvt.f32.s32	s10, s10
+1782e0	eef85ae5	vcvt.f32.s32	s11, s11
+1782e4	ee025a27	vmla.f32	s10, s4, s15
+1782e8	ee485a22	vmla.f32	s11, s16, s5
+1782ec	ee003a27	vmla.f32	s6, s0, s15
+1782f0	ee483aa0	vmla.f32	s7, s17, s1
+1782f4	ee084a81	vmla.f32	s8, s17, s2
+1782f8	ee414aa7	vmla.f32	s9, s3, s15
+1782fc	ee833a26	vdiv.f32	s6, s6, s13
+178300	eec33aa6	vdiv.f32	s7, s7, s13
+178304	ed823ae0	vstr	s6, [r2, #896]
+178308	ee844a26	vdiv.f32	s8, s8, s13
+17830c	edc23ae9	vstr	s7, [r2, #932]
+178310	ee033a90	vmov	s7, r3
+178314	eec44a87	vdiv.f32	s9, s9, s14
+178318	ed824af2	vstr	s8, [r2, #968]
+17831c	ee855a07	vdiv.f32	s10, s10, s14
+178320	edc24adf	vstr	s9, [r2, #892]
+178324	eec55a87	vdiv.f32	s11, s11, s14
+178328	ed825ae8	vstr	s10, [r2, #928]
+17832c	edc25af1	vstr	s11, [r2, #964]
+178330	e582a3cc	str	r10, [r2, #0x3cc]
+178334	e1d1c0fe	ldrsh	r12, [r1, #14]
+178338	eef83ae3	vcvt.f32.s32	s7, s7
+17833c	e1d130f0	ldrsh	r3, [r1]
+178340	edc29af5	vstr	s19, [r2, #980]
+178344	ed826af7	vstr	s12, [r2, #988]
+178348	e582b3d0	str	r11, [r2, #0x3d0]
+17834c	ee02ca10	vmov	s4, r12
+178350	e1d1c0fc	ldrsh	r12, [r1, #12]
+178354	ee043a10	vmov	s8, r3
+178358	e1d130f2	ldrsh	r3, [r1, #2]
+17835c	edc27af6	vstr	s15, [r2, #984]
+178360	edc27af8	vstr	s15, [r2, #992]
+178364	ee02ca90	vmov	s5, r12
+178368	e1d1c0fe	ldrsh	r12, [r1, #14]
+17836c	ee043a90	vmov	s9, r3
+178370	e1d130f0	ldrsh	r3, [r1]
+178374	eef82ae2	vcvt.f32.s32	s5, s5
+178378	e58203e4	str	r0, [r2, #0x3e4]
+17837c	ee03ca10	vmov	s6, r12
+178380	e1d1c0fc	ldrsh	r12, [r1, #12]
+178384	ee053a10	vmov	s10, r3
+178388	e582a3f0	str	r10, [r2, #0x3f0]
+17838c	e582b3f4	str	r11, [r2, #0x3f4]
+178390	edc27aff	vstr	s15, [r2, #1020]
+178394	ee05ca90	vmov	s11, r12
+178398	e58293f8	str	r9, [r2, #0x3f8]
+17839c	eef85ae5	vcvt.f32.s32	s11, s11
+1783a0	eeb82ac2	vcvt.f32.s32	s4, s4
+1783a4	eeb84ac4	vcvt.f32.s32	s8, s8
+1783a8	eeb85ac5	vcvt.f32.s32	s10, s10
+1783ac	eeb83ac3	vcvt.f32.s32	s6, s6
+1783b0	eef84ae4	vcvt.f32.s32	s9, s9
+1783b4	ee084a22	vmla.f32	s8, s16, s5
+1783b8	ee085a25	vmla.f32	s10, s16, s11
+1783bc	ee053a90	vmov	s11, r3
+1783c0	e59d306c	ldr	r3, [sp, #0x6c]
+1783c4	ee483a82	vmla.f32	s7, s17, s4
+1783c8	ee434a27	vmla.f32	s9, s6, s15
+1783cc	ee03ca10	vmov	s6, r12
+1783d0	e59dc008	ldr	r12, [sp, #0x8]
+1783d4	eeb83ac3	vcvt.f32.s32	s6, s6
+1783d8	eef85ae5	vcvt.f32.s32	s11, s11
+1783dc	ee435a27	vmla.f32	s11, s6, s15
+1783e0	eec33aa6	vdiv.f32	s7, s7, s13
+1783e4	ee844a07	vdiv.f32	s8, s8, s14
+1783e8	edc23afb	vstr	s7, [r2, #1004]
+1783ec	ee855a07	vdiv.f32	s10, s10, s14
+1783f0	ed824afa	vstr	s8, [r2, #1000]
+1783f4	ed836a00	vstr	s12, [r3]
+1783f8	edcc7a00	vstr	s15, [r12]
+1783fc	e59d300c	ldr	r3, [sp, #0xc]
+178400	e5820408	str	r0, [r2, #0x408]
+178404	e59dc070	ldr	r12, [sp, #0x70]
+178408	eec44aa6	vdiv.f32	s9, s9, s13
+17840c	ed835a00	vstr	s10, [r3]
+178410	e59d3010	ldr	r3, [sp, #0x10]
+178414	eec55a87	vdiv.f32	s11, s11, s14
+178418	edcc4a00	vstr	s9, [r12]
+17841c	e5834000	str	r4, [r3]
+178420	e59dc018	ldr	r12, [sp, #0x18]
+178424	e59d4014	ldr	r4, [sp, #0x14]
+178428	e584b000	str	r11, [r4]
+17842c	e58c9000	str	r9, [r12]
+178430	e59d401c	ldr	r4, [sp, #0x1c]
+178434	e59d3074	ldr	r3, [sp, #0x74]
+178438	edc37a00	vstr	s15, [r3]
+17843c	e59dc020	ldr	r12, [sp, #0x20]
+178440	ed846a00	vstr	s12, [r4]
+178444	edcc7a00	vstr	s15, [r12]
+178448	e2824e4b	add	r4, r2, #1200
+17844c	e282cd13	add	r12, r2, #1216
+178450	e2844008	add	r4, r4, #8
+178454	e28cc004	add	r12, r12, #4
+178458	e58d400c	str	r4, [sp, #0xc]
+17845c	e58dc010	str	r12, [sp, #0x10]
+178460	e2824d13	add	r4, r2, #1216
+178464	e282ce4d	add	r12, r2, #1232
+178468	e284400c	add	r4, r4, #12
+17846c	e28cc004	add	r12, r12, #4
+178470	e58d4018	str	r4, [sp, #0x18]
+178474	e58dc01c	str	r12, [sp, #0x1c]
+178478	e2823e4b	add	r3, r2, #1200
+17847c	e1d140f2	ldrsh	r4, [r1, #2]
+178480	e2833004	add	r3, r3, #4
+178484	e1d1c0fe	ldrsh	r12, [r1, #14]
+178488	e58d3008	str	r3, [sp, #0x8]
+17848c	e2823d13	add	r3, r2, #1216
+178490	e582042c	str	r0, [r2, #0x42c]
+178494	e2833008	add	r3, r3, #8
+178498	ee034a90	vmov	s7, r4
+17849c	e58d3014	str	r3, [sp, #0x14]
+1784a0	e59d3078	ldr	r3, [sp, #0x78]
+1784a4	e1d140f2	ldrsh	r4, [r1, #2]
+1784a8	ee054a10	vmov	s10, r4
+1784ac	e59d402c	ldr	r4, [sp, #0x2c]
+1784b0	edc35a00	vstr	s11, [r3]
+1784b4	ee05ca90	vmov	s11, r12
+1784b8	eef83ae3	vcvt.f32.s32	s7, s7
+1784bc	e1d1c0f0	ldrsh	r12, [r1]
+1784c0	e1d130fc	ldrsh	r3, [r1, #12]
+1784c4	ee04ca90	vmov	s9, r12
+1784c8	e1d1c0fe	ldrsh	r12, [r1, #14]
+1784cc	eef85ae5	vcvt.f32.s32	s11, s11
+1784d0	ee453aa7	vmla.f32	s7, s11, s15
+1784d4	ee053a90	vmov	s11, r3
+1784d8	e59d3028	ldr	r3, [sp, #0x28]
+1784dc	eef85ae5	vcvt.f32.s32	s11, s11
+1784e0	eef84ae4	vcvt.f32.s32	s9, s9
+1784e4	ee454aa7	vmla.f32	s9, s11, s15
+1784e8	ee05ca90	vmov	s11, r12
+1784ec	e59dc024	ldr	r12, [sp, #0x24]
+1784f0	eef85ae5	vcvt.f32.s32	s11, s11
+1784f4	eeb85ac5	vcvt.f32.s32	s10, s10
+1784f8	ee085aa5	vmla.f32	s10, s17, s11
+1784fc	eec33aa6	vdiv.f32	s7, s7, s13
+178500	eec44a87	vdiv.f32	s9, s9, s14
+178504	edcc3a00	vstr	s7, [r12]
+178508	e583a000	str	r10, [r3]
+17850c	e584b000	str	r11, [r4]
+178510	e59d3030	ldr	r3, [sp, #0x30]
+178514	e58e9000	str	r9, [lr]
+178518	ed836a00	vstr	s12, [r3]
+17851c	e59d4034	ldr	r4, [sp, #0x34]
+178520	edc47a00	vstr	s15, [r4]
+178524	edce7a03	vstr	s15, [lr, #12]
+178528	e2824e4b	add	r4, r2, #1200
+17852c	e5820450	str	r0, [r2, #0x450]
+178530	e282ee4f	add	lr, r2, #1264
+178534	e58d402c	str	r4, [sp, #0x2c]
+178538	e2824e4f	add	r4, r2, #1264
+17853c	e59dc004	ldr	r12, [sp, #0x4]
+178540	e2844004	add	r4, r4, #4
+178544	e59d3000	ldr	r3, [sp]
+178548	e58d4024	str	r4, [sp, #0x24]
+17854c	e59d4044	ldr	r4, [sp, #0x44]
+178550	ee855a26	vdiv.f32	s10, s10, s13
+178554	edcc4a00	vstr	s9, [r12]
+178558	edc33a00	vstr	s7, [r3]
+17855c	e585a00c	str	r10, [r5, #0xc]
+178560	e586b000	str	r11, [r6]
+178564	edc69a01	vstr	s19, [r6, #4]
+178568	e59d5084	ldr	r5, [sp, #0x84]
+17856c	ed876a02	vstr	s12, [r7, #8]
+178570	edc87a03	vstr	s15, [r8, #12]
+178574	edc57a00	vstr	s15, [r5]
+178578	e5820474	str	r0, [r2, #0x474]
+17857c	edc44a00	vstr	s9, [r4]
+178580	e59d4048	ldr	r4, [sp, #0x48]
+178584	e282ce4e	add	r12, r2, #1248
+178588	e28cc004	add	r12, r12, #4
+17858c	e58dc020	str	r12, [sp, #0x20]
+178590	e282cd13	add	r12, r2, #1216
+178594	e58dc030	str	r12, [sp, #0x30]
+178598	e282ce4f	add	r12, r2, #1264
+17859c	e2827e4d	add	r7, r2, #1232
+1785a0	e2823e4a	add	r3, r2, #1184
+1785a4	e28cc008	add	r12, r12, #8
+1785a8	e58d3028	str	r3, [sp, #0x28]
+1785ac	e2825e4e	add	r5, r2, #1248
+1785b0	e58dc06c	str	r12, [sp, #0x6c]
+1785b4	e1a06007	mov	r6, r7
+1785b8	e58d7034	str	r7, [sp, #0x34]
+1785bc	e1a08005	mov	r8, r5
+1785c0	e282cc05	add	r12, r2, #1280
+1785c4	e1a0300c	mov	r3, r12
+1785c8	ed845a00	vstr	s10, [r4]
+1785cc	e59d4088	ldr	r4, [sp, #0x88]
+1785d0	e584a000	str	r10, [r4]
+1785d4	e59d404c	ldr	r4, [sp, #0x4c]
+1785d8	ed849a00	vstr	s18, [r4]
+1785dc	e59d4050	ldr	r4, [sp, #0x50]
+1785e0	edc49a00	vstr	s19, [r4]
+1785e4	e59d4054	ldr	r4, [sp, #0x54]
+1785e8	ed846a00	vstr	s12, [r4]
+1785ec	e59d408c	ldr	r4, [sp, #0x8c]
+1785f0	edc47a00	vstr	s15, [r4]
+1785f4	e1d140f2	ldrsh	r4, [r1, #2]
+1785f8	ee034a10	vmov	s6, r4
+1785fc	e59d4058	ldr	r4, [sp, #0x58]
+178600	edc47a00	vstr	s15, [r4]
+178604	e1d140fe	ldrsh	r4, [r1, #14]
+178608	eeb83ac3	vcvt.f32.s32	s6, s6
+17860c	e5820498	str	r0, [r2, #0x498]
+178610	ee054a10	vmov	s10, r4
+178614	e1d140f0	ldrsh	r4, [r1]
+178618	ee034a90	vmov	s7, r4
+17861c	e1d140fc	ldrsh	r4, [r1, #12]
+178620	eeb85ac5	vcvt.f32.s32	s10, s10
+178624	ee054a90	vmov	s11, r4
+178628	e1d140f2	ldrsh	r4, [r1, #2]
+17862c	ee044a10	vmov	s8, r4
+178630	e1d140f2	ldrsh	r4, [r1, #2]
+178634	eeb84ac4	vcvt.f32.s32	s8, s8
+178638	eef85ae5	vcvt.f32.s32	s11, s11
+17863c	eef83ae3	vcvt.f32.s32	s7, s7
+178640	ee083a85	vmla.f32	s6, s17, s10
+178644	ee084a85	vmla.f32	s8, s17, s10
+178648	ee054a10	vmov	s10, r4
+17864c	e1d140fe	ldrsh	r4, [r1, #14]
+178650	ee024a90	vmov	s5, r4
+178654	e59d405c	ldr	r4, [sp, #0x5c]
+178658	eeb85ac5	vcvt.f32.s32	s10, s10
+17865c	eef82ae2	vcvt.f32.s32	s5, s5
+178660	ee483a25	vmla.f32	s7, s16, s11
+178664	ee025aa7	vmla.f32	s10, s5, s15
+178668	eec33a87	vdiv.f32	s7, s7, s14
+17866c	ee833a26	vdiv.f32	s6, s6, s13
+178670	edc43a00	vstr	s7, [r4]
+178674	e59d4028	ldr	r4, [sp, #0x28]
+178678	ee844a26	vdiv.f32	s8, s8, s13
+17867c	ed843a00	vstr	s6, [r4]
+178680	e59d4060	ldr	r4, [sp, #0x60]
+178684	e584a000	str	r10, [r4]
+178688	e59d4038	ldr	r4, [sp, #0x38]
+17868c	ed849a00	vstr	s18, [r4]
+178690	e59d4064	ldr	r4, [sp, #0x64]
+178694	edc49a00	vstr	s19, [r4]
+178698	e59d402c	ldr	r4, [sp, #0x2c]
+17869c	ed846a00	vstr	s12, [r4]
+1786a0	e59d4008	ldr	r4, [sp, #0x8]
+1786a4	edc47a00	vstr	s15, [r4]
+1786a8	e59d400c	ldr	r4, [sp, #0xc]
+1786ac	edc47a00	vstr	s15, [r4]
+1786b0	e58204bc	str	r0, [r2, #0x4bc]
+1786b4	e59d4030	ldr	r4, [sp, #0x30]
+1786b8	edc43a00	vstr	s7, [r4]
+1786bc	e59d4010	ldr	r4, [sp, #0x10]
+1786c0	ee855a26	vdiv.f32	s10, s10, s13
+1786c4	ed844a00	vstr	s8, [r4]
+1786c8	e59d4014	ldr	r4, [sp, #0x14]
+1786cc	e584a000	str	r10, [r4]
+1786d0	e59d4018	ldr	r4, [sp, #0x18]
+1786d4	ed849a00	vstr	s18, [r4]
+1786d8	e59d401c	ldr	r4, [sp, #0x1c]
+1786dc	e5879000	str	r9, [r7]
+1786e0	ed846a00	vstr	s12, [r4]
+1786e4	edc77a02	vstr	s15, [r7, #8]
+1786e8	e59d4020	ldr	r4, [sp, #0x20]
+1786ec	edc67a03	vstr	s15, [r6, #12]
+1786f0	e58204e0	str	r0, [r2, #0x4e0]
+1786f4	edc43a00	vstr	s7, [r4]
+1786f8	e1d140fe	ldrsh	r4, [r1, #14]
+1786fc	ee044a90	vmov	s9, r4
+178700	e59d406c	ldr	r4, [sp, #0x6c]
+178704	ed855a02	vstr	s10, [r5, #8]
+178708	e1d150f2	ldrsh	r5, [r1, #2]
+17870c	eef84ae4	vcvt.f32.s32	s9, s9
+178710	ee055a90	vmov	s11, r5
+178714	e1d150f0	ldrsh	r5, [r1]
+178718	e1d110fc	ldrsh	r1, [r1, #12]
+17871c	e5a8a00c	str	r10, [r8, #0xc]!
+178720	ee045a10	vmov	s8, r5
+178724	e58eb000	str	r11, [lr]
+178728	ee051a10	vmov	s10, r1
+17872c	e59d1024	ldr	r1, [sp, #0x24]
+178730	eef85ae5	vcvt.f32.s32	s11, s11
+178734	e5819000	str	r9, [r1]
+178738	ed846a00	vstr	s12, [r4]
+17873c	edce7a03	vstr	s15, [lr, #12]
+178740	edcc7a00	vstr	s15, [r12]
+178744	e5820504	str	r0, [r2, #0x504]
+178748	eeb86ac4	vcvt.f32.s32	s12, s8
+17874c	eeb85ac5	vcvt.f32.s32	s10, s10
+178750	ee445aa7	vmla.f32	s11, s9, s15
+178754	ee056a27	vmla.f32	s12, s10, s15
+178758	eec56aa6	vdiv.f32	s13, s11, s13
+17875c	ee867a07	vdiv.f32	s14, s12, s14
+178760	ed8c7a02	vstr	s14, [r12, #8]
+178764	edc36a03	vstr	s13, [r3, #12]
+178768	e59d103c	ldr	r1, [sp, #0x3c]
+17876c	e2882024	add	r2, r8, #36
+178770	e59d4040	ldr	r4, [sp, #0x40]
+178774	e5913000	ldr	r3, [r1]
+178778	e5842000	str	r2, [r4]
+17877c	e2833024	add	r3, r3, #36
+178780	e5813000	str	r3, [r1]
+178784	ebfff8d1	bl	0x176ad0 <_Z19GR_3D_Primitive_Endv>
+178788	eb0032d7	bl	0x1852ec <_ZN8Graphics5FlushEv>
+17878c	e59d0068	ldr	r0, [sp, #0x68]
+178790	e28dd094	add	sp, sp, #148
+178794	ecbd8b06	vpop	{d8, d9, d10}
+178798	e8bd4ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+17879c	eaffc033	b	0x168870 <_Z25GR_D3D_Set_Texture_Repeatb>
+1787a0	e2823b01	add	r3, r2, #1024
+1787a4	e3a015fe	mov	r1, #1065353216
+1787a8	e5824048	str	r4, [r2, #0x48]
+1787ac	edc27a07	vstr	s15, [r2, #28]
+1787b0	e582406c	str	r4, [r2, #0x6c]
+1787b4	edc27a08	vstr	s15, [r2, #32]
+1787b8	e5824090	str	r4, [r2, #0x90]
+1787bc	ed829a0a	vstr	s18, [r2, #40]
+1787c0	e582a024	str	r10, [r2, #0x24]
+1787c4	edc27a0c	vstr	s15, [r2, #48]
+1787c8	e582902c	str	r9, [r2, #0x2c]
+1787cc	edc27a0d	vstr	s15, [r2, #52]
+1787d0	ed826a0e	vstr	s12, [r2, #56]
+1787d4	e582003c	str	r0, [r2, #0x3c]
+1787d8	edc27a10	vstr	s15, [r2, #64]
+1787dc	edc28a11	vstr	s17, [r2, #68]
+1787e0	ed829a13	vstr	s18, [r2, #76]
+1787e4	e5829050	str	r9, [r2, #0x50]
+1787e8	edc27a15	vstr	s15, [r2, #84]
+1787ec	edc27a16	vstr	s15, [r2, #88]
+1787f0	ed826a17	vstr	s12, [r2, #92]
+1787f4	e5820060	str	r0, [r2, #0x60]
+1787f8	ed828a19	vstr	s16, [r2, #100]
+1787fc	edc28a1a	vstr	s17, [r2, #104]
+178800	ed829a1c	vstr	s18, [r2, #112]
+178804	e5829074	str	r9, [r2, #0x74]
+178808	edc27a1e	vstr	s15, [r2, #120]
+17880c	edc27a1f	vstr	s15, [r2, #124]
+178810	ed826a20	vstr	s12, [r2, #128]
+178814	e5820084	str	r0, [r2, #0x84]
+178818	ed828a22	vstr	s16, [r2, #136]
+17881c	edc28a23	vstr	s17, [r2, #140]
+178820	e582b094	str	r11, [r2, #0x94]
+178824	edc27a27	vstr	s15, [r2, #156]
+178828	e5829098	str	r9, [r2, #0x98]
+17882c	edc27a28	vstr	s15, [r2, #160]
+178830	e58240fc	str	r4, [r2, #0xfc]
+178834	ed826a29	vstr	s12, [r2, #164]
+178838	e5824120	str	r4, [r2, #0x120]
+17883c	ed828a2b	vstr	s16, [r2, #172]
+178840	e58210ec	str	r1, [r2, #0xec]
+178844	edc27a2c	vstr	s15, [r2, #176]
+178848	e5821110	str	r1, [r2, #0x110]
+17884c	edc27a30	vstr	s15, [r2, #192]
+178850	e58200a8	str	r0, [r2, #0xa8]
+178854	edc27a31	vstr	s15, [r2, #196]
+178858	e582a0b4	str	r10, [r2, #0xb4]
+17885c	ed826a32	vstr	s12, [r2, #200]
+178860	e582b0b8	str	r11, [r2, #0xb8]
+178864	edc27a34	vstr	s15, [r2, #208]
+178868	e58290bc	str	r9, [r2, #0xbc]
+17886c	edc27a35	vstr	s15, [r2, #212]
+178870	e58200cc	str	r0, [r2, #0xcc]
+178874	edc29a38	vstr	s19, [r2, #224]
+178878	e582a0d8	str	r10, [r2, #0xd8]
+17887c	edc27a39	vstr	s15, [r2, #228]
+178880	e582b0dc	str	r11, [r2, #0xdc]
+178884	edc27a3a	vstr	s15, [r2, #232]
+178888	e58200f0	str	r0, [r2, #0xf0]
+17888c	edc27a3d	vstr	s15, [r2, #244]
+178890	edc27a3e	vstr	s15, [r2, #248]
+178894	e582b100	str	r11, [r2, #0x100]
+178898	edc29a41	vstr	s19, [r2, #260]
+17889c	edc27a42	vstr	s15, [r2, #264]
+1788a0	edc27a43	vstr	s15, [r2, #268]
+1788a4	e5820114	str	r0, [r2, #0x114]
+1788a8	ed828a46	vstr	s16, [r2, #280]
+1788ac	edc27a47	vstr	s15, [r2, #284]
+1788b0	ed829a49	vstr	s18, [r2, #292]
+1788b4	edc29a4a	vstr	s19, [r2, #296]
+1788b8	e5821134	str	r1, [r2, #0x134]
+1788bc	edc27a4b	vstr	s15, [r2, #300]
+1788c0	e5821158	str	r1, [r2, #0x158]
+1788c4	edc27a4c	vstr	s15, [r2, #304]
+1788c8	e582117c	str	r1, [r2, #0x17c]
+1788cc	ed828a4f	vstr	s16, [r2, #316]
+1788d0	e58211a0	str	r1, [r2, #0x1a0]
+1788d4	edc28a50	vstr	s17, [r2, #320]
+1788d8	e5824144	str	r4, [r2, #0x144]
+1788dc	ed829a52	vstr	s18, [r2, #328]
+1788e0	e5820138	str	r0, [r2, #0x138]
+1788e4	edc29a53	vstr	s19, [r2, #332]
+1788e8	edc27a54	vstr	s15, [r2, #336]
+1788ec	edc27a55	vstr	s15, [r2, #340]
+1788f0	e582015c	str	r0, [r2, #0x15c]
+1788f4	ed828a58	vstr	s16, [r2, #352]
+1788f8	edc28a59	vstr	s17, [r2, #356]
+1788fc	e582a168	str	r10, [r2, #0x168]
+178900	ed829a5b	vstr	s18, [r2, #364]
+178904	edc29a5c	vstr	s19, [r2, #368]
+178908	edc27a5d	vstr	s15, [r2, #372]
+17890c	edc27a5e	vstr	s15, [r2, #376]
+178910	e5820180	str	r0, [r2, #0x180]
+178914	edc27a61	vstr	s15, [r2, #388]
+178918	edc28a62	vstr	s17, [r2, #392]
+17891c	e582a18c	str	r10, [r2, #0x18c]
+178920	e582b190	str	r11, [r2, #0x190]
+178924	edc29a65	vstr	s19, [r2, #404]
+178928	edc27a66	vstr	s15, [r2, #408]
+17892c	edc27a67	vstr	s15, [r2, #412]
+178930	e58201a4	str	r0, [r2, #0x1a4]
+178934	edc27a6a	vstr	s15, [r2, #424]
+178938	edc27a6b	vstr	s15, [r2, #428]
+17893c	e582a1b0	str	r10, [r2, #0x1b0]
+178940	e58211c0	str	r1, [r2, #0x1c0]
+178944	ed829a6d	vstr	s18, [r2, #436]
+178948	e58211e4	str	r1, [r2, #0x1e4]
+17894c	edc27a6f	vstr	s15, [r2, #444]
+178950	e5821208	str	r1, [r2, #0x208]
+178954	edc27a71	vstr	s15, [r2, #452]
+178958	e582122c	str	r1, [r2, #0x22c]
+17895c	edc27a73	vstr	s15, [r2, #460]
+178960	e58241f8	str	r4, [r2, #0x1f8]
+178964	edc27a74	vstr	s15, [r2, #464]
+178968	e582421c	str	r4, [r2, #0x21c]
+17896c	ed829a76	vstr	s18, [r2, #472]
+178970	e58291b8	str	r9, [r2, #0x1b8]
+178974	edc29a77	vstr	s19, [r2, #476]
+178978	e58201c8	str	r0, [r2, #0x1c8]
+17897c	edc27a78	vstr	s15, [r2, #480]
+178980	e582a1d4	str	r10, [r2, #0x1d4]
+178984	edc27a7a	vstr	s15, [r2, #488]
+178988	e58201ec	str	r0, [r2, #0x1ec]
+17898c	edc27a7c	vstr	s15, [r2, #496]
+178990	edc28a7d	vstr	s17, [r2, #500]
+178994	ed829a7f	vstr	s18, [r2, #508]
+178998	edc29a80	vstr	s19, [r2, #512]
+17899c	edc27a81	vstr	s15, [r2, #516]
+1789a0	edc27a83	vstr	s15, [r2, #524]
+1789a4	e5820210	str	r0, [r2, #0x210]
+1789a8	ed828a85	vstr	s16, [r2, #532]
+1789ac	edc28a86	vstr	s17, [r2, #536]
+1789b0	ed829a88	vstr	s18, [r2, #544]
+1789b4	edc29a89	vstr	s19, [r2, #548]
+1789b8	edc27a8a	vstr	s15, [r2, #552]
+1789bc	edc27a8c	vstr	s15, [r2, #560]
+1789c0	e5820234	str	r0, [r2, #0x234]
+1789c4	ed828a8e	vstr	s16, [r2, #568]
+1789c8	e5821250	str	r1, [r2, #0x250]
+1789cc	edc28a8f	vstr	s17, [r2, #572]
+1789d0	e5821274	str	r1, [r2, #0x274]
+1789d4	ed829a91	vstr	s18, [r2, #580]
+1789d8	e5821294	str	r1, [r2, #0x294]
+1789dc	edc27a93	vstr	s15, [r2, #588]
+1789e0	e58212b8	str	r1, [r2, #0x2b8]
+1789e4	edc27a95	vstr	s15, [r2, #596]
+1789e8	e5824240	str	r4, [r2, #0x240]
+1789ec	ed828a97	vstr	s16, [r2, #604]
+1789f0	e5824288	str	r4, [r2, #0x288]
+1789f4	edc27a98	vstr	s15, [r2, #608]
+1789f8	e58242ac	str	r4, [r2, #0x2ac]
+1789fc	ed829a9a	vstr	s18, [r2, #616]
+178a00	e5829248	str	r9, [r2, #0x248]
+178a04	edc27a9c	vstr	s15, [r2, #624]
+178a08	e5820258	str	r0, [r2, #0x258]
+178a0c	edc27a9e	vstr	s15, [r2, #632]
+178a10	e582a264	str	r10, [r2, #0x264]
+178a14	edc27aa0	vstr	s15, [r2, #640]
+178a18	e582926c	str	r9, [r2, #0x26c]
+178a1c	edc27aa1	vstr	s15, [r2, #644]
+178a20	e582027c	str	r0, [r2, #0x27c]
+178a24	ed829aa3	vstr	s18, [r2, #652]
+178a28	e5829290	str	r9, [r2, #0x290]
+178a2c	edc27aa6	vstr	s15, [r2, #664]
+178a30	edc27aa7	vstr	s15, [r2, #668]
+178a34	e58202a0	str	r0, [r2, #0x2a0]
+178a38	edc27aa9	vstr	s15, [r2, #676]
+178a3c	edc27aaa	vstr	s15, [r2, #680]
+178a40	ed829aac	vstr	s18, [r2, #688]
+178a44	edc29aad	vstr	s19, [r2, #692]
+178a48	edc27aaf	vstr	s15, [r2, #700]
+178a4c	edc27ab0	vstr	s15, [r2, #704]
+178a50	e58212dc	str	r1, [r2, #0x2dc]
+178a54	edc27ab2	vstr	s15, [r2, #712]
+178a58	e5821300	str	r1, [r2, #0x300]
+178a5c	edc28ab3	vstr	s17, [r2, #716]
+178a60	e5821324	str	r1, [r2, #0x324]
+178a64	edc29ab6	vstr	s19, [r2, #728]
+178a68	e58242d0	str	r4, [r2, #0x2d0]
+178a6c	edc27ab8	vstr	s15, [r2, #736]
+178a70	e58242f4	str	r4, [r2, #0x2f4]
+178a74	edc27ab9	vstr	s15, [r2, #740]
+178a78	e5824318	str	r4, [r2, #0x318]
+178a7c	ed828abb	vstr	s16, [r2, #748]
+178a80	e582433c	str	r4, [r2, #0x33c]
+178a84	edc28abc	vstr	s17, [r2, #752]
+178a88	e58202c4	str	r0, [r2, #0x2c4]
+178a8c	edc29abf	vstr	s19, [r2, #764]
+178a90	e582b2d4	str	r11, [r2, #0x2d4]
+178a94	edc27ac1	vstr	s15, [r2, #772]
+178a98	e58202e8	str	r0, [r2, #0x2e8]
+178a9c	edc27ac2	vstr	s15, [r2, #776]
+178aa0	e582b2f8	str	r11, [r2, #0x2f8]
+178aa4	ed828ac4	vstr	s16, [r2, #784]
+178aa8	e582030c	str	r0, [r2, #0x30c]
+178aac	edc28ac5	vstr	s17, [r2, #788]
+178ab0	e582b31c	str	r11, [r2, #0x31c]
+178ab4	edc27aca	vstr	s15, [r2, #808]
+178ab8	e5829320	str	r9, [r2, #0x320]
+178abc	edc27acb	vstr	s15, [r2, #812]
+178ac0	e5820330	str	r0, [r2, #0x330]
+178ac4	ed828acd	vstr	s16, [r2, #820]
+178ac8	edc27ace	vstr	s15, [r2, #824]
+178acc	ed829ad0	vstr	s18, [r2, #832]
+178ad0	e5829344	str	r9, [r2, #0x344]
+178ad4	e2828e4e	add	r8, r2, #1248
+178ad8	e5821348	str	r1, [r2, #0x348]
+178adc	e1a01003	mov	r1, r3
+178ae0	e5824360	str	r4, [r2, #0x360]
+178ae4	edc27ad3	vstr	s15, [r2, #844]
+178ae8	e5824384	str	r4, [r2, #0x384]
+178aec	edc27ad4	vstr	s15, [r2, #848]
+178af0	e5820354	str	r0, [r2, #0x354]
+178af4	edc27ad6	vstr	s15, [r2, #856]
+178af8	edc27ad7	vstr	s15, [r2, #860]
+178afc	e582b364	str	r11, [r2, #0x364]
+178b00	e5829368	str	r9, [r2, #0x368]
+178b04	edc27adb	vstr	s15, [r2, #876]
+178b08	ed826adc	vstr	s12, [r2, #880]
+178b0c	edc27add	vstr	s15, [r2, #884]
+178b10	e5820378	str	r0, [r2, #0x378]
+178b14	edc27adf	vstr	s15, [r2, #892]
+178b18	edc27ae0	vstr	s15, [r2, #896]
+178b1c	e582b388	str	r11, [r2, #0x388]
+178b20	edc29ae3	vstr	s19, [r2, #908]
+178b24	edc27ae4	vstr	s15, [r2, #912]
+178b28	ed826ae5	vstr	s12, [r2, #916]
+178b2c	edc27ae6	vstr	s15, [r2, #920]
+178b30	e582039c	str	r0, [r2, #0x39c]
+178b34	edc27ae8	vstr	s15, [r2, #928]
+178b38	edc28ae9	vstr	s17, [r2, #932]
+178b3c	e582a3a8	str	r10, [r2, #0x3a8]
+178b40	e582b3ac	str	r11, [r2, #0x3ac]
+178b44	edc29aec	vstr	s19, [r2, #944]
+178b48	edc27aed	vstr	s15, [r2, #948]
+178b4c	ed826aee	vstr	s12, [r2, #952]
+178b50	edc27aef	vstr	s15, [r2, #956]
+178b54	e58203c0	str	r0, [r2, #0x3c0]
+178b58	ed828af1	vstr	s16, [r2, #964]
+178b5c	edc28af2	vstr	s17, [r2, #968]
+178b60	e582a3cc	str	r10, [r2, #0x3cc]
+178b64	e582b3d0	str	r11, [r2, #0x3d0]
+178b68	edc29af5	vstr	s19, [r2, #980]
+178b6c	edc27af6	vstr	s15, [r2, #984]
+178b70	ed826af7	vstr	s12, [r2, #988]
+178b74	edc27af8	vstr	s15, [r2, #992]
+178b78	e58203e4	str	r0, [r2, #0x3e4]
+178b7c	ed828afa	vstr	s16, [r2, #1000]
+178b80	edc28afb	vstr	s17, [r2, #1004]
+178b84	e582a3f0	str	r10, [r2, #0x3f0]
+178b88	edc27aff	vstr	s15, [r2, #1020]
+178b8c	e582b3f4	str	r11, [r2, #0x3f4]
+178b90	e58293f8	str	r9, [r2, #0x3f8]
+178b94	ed836a00	vstr	s12, [r3]
+178b98	edc37a01	vstr	s15, [r3, #4]
+178b9c	e2823e41	add	r3, r2, #1040
+178ba0	e5820408	str	r0, [r2, #0x408]
+178ba4	ed818a03	vstr	s16, [r1, #12]
+178ba8	e1a01003	mov	r1, r3
+178bac	e5834004	str	r4, [r3, #0x4]
+178bb0	edc37a00	vstr	s15, [r3]
+178bb4	e581b008	str	r11, [r1, #0x8]
+178bb8	e581900c	str	r9, [r1, #0xc]
+178bbc	e2823e42	add	r3, r2, #1056
+178bc0	e2821e43	add	r1, r2, #1072
+178bc4	edc37a00	vstr	s15, [r3]
+178bc8	ed836a01	vstr	s12, [r3, #4]
+178bcc	e1a0c003	mov	r12, r3
+178bd0	e1a03001	mov	r3, r1
+178bd4	edcc7a02	vstr	s15, [r12, #8]
+178bd8	e582042c	str	r0, [r2, #0x42c]
+178bdc	e1a0c001	mov	r12, r1
+178be0	edc17a01	vstr	s15, [r1, #4]
+178be4	edc17a00	vstr	s15, [r1]
+178be8	e2821d11	add	r1, r2, #1088
+178bec	e583a008	str	r10, [r3, #0x8]
+178bf0	e58cb00c	str	r11, [r12, #0xc]
+178bf4	ed816a01	vstr	s12, [r1, #4]
+178bf8	e5819000	str	r9, [r1]
+178bfc	e1a03001	mov	r3, r1
+178c00	e1a0c001	mov	r12, r1
+178c04	e2821e45	add	r1, r2, #1104
+178c08	edc37a02	vstr	s15, [r3, #8]
+178c0c	edcc7a03	vstr	s15, [r12, #12]
+178c10	e1a03001	mov	r3, r1
+178c14	e1a0c001	mov	r12, r1
+178c18	e5820450	str	r0, [r2, #0x450]
+178c1c	edc17a01	vstr	s15, [r1, #4]
+178c20	e2821e46	add	r1, r2, #1120
+178c24	edc37a02	vstr	s15, [r3, #8]
+178c28	e58ca00c	str	r10, [r12, #0xc]
+178c2c	edc19a01	vstr	s19, [r1, #4]
+178c30	e581b000	str	r11, [r1]
+178c34	e1a03001	mov	r3, r1
+178c38	e1a0c001	mov	r12, r1
+178c3c	ed836a02	vstr	s12, [r3, #8]
+178c40	e2821e47	add	r1, r2, #1136
+178c44	edcc7a03	vstr	s15, [r12, #12]
+178c48	e282cd12	add	r12, r2, #1152
+178c4c	edc17a00	vstr	s15, [r1]
+178c50	e1a03001	mov	r3, r1
+178c54	e5820474	str	r0, [r2, #0x474]
+178c58	edc17a02	vstr	s15, [r1, #8]
+178c5c	edc38a03	vstr	s17, [r3, #12]
+178c60	e1a0100c	mov	r1, r12
+178c64	e58ca000	str	r10, [r12]
+178c68	ed8c9a01	vstr	s18, [r12, #4]
+178c6c	e1a0300c	mov	r3, r12
+178c70	edc19a02	vstr	s19, [r1, #8]
+178c74	e282ce49	add	r12, r2, #1168
+178c78	ed836a03	vstr	s12, [r3, #12]
+178c7c	e2823e4a	add	r3, r2, #1184
+178c80	edcc7a00	vstr	s15, [r12]
+178c84	edcc7a01	vstr	s15, [r12, #4]
+178c88	e1a0100c	mov	r1, r12
+178c8c	e5820498	str	r0, [r2, #0x498]
+178c90	e1a0c003	mov	r12, r3
+178c94	ed818a03	vstr	s16, [r1, #12]
+178c98	edc38a00	vstr	s17, [r3]
+178c9c	e583a004	str	r10, [r3, #0x4]
+178ca0	ed8c9a02	vstr	s18, [r12, #8]
+178ca4	e282cd13	add	r12, r2, #1216
+178ca8	e2824e4d	add	r4, r2, #1232
+178cac	e1a01003	mov	r1, r3
+178cb0	e2823e4b	add	r3, r2, #1200
+178cb4	edc19a03	vstr	s19, [r1, #12]
+178cb8	e1a0100c	mov	r1, r12
+178cbc	ed836a00	vstr	s12, [r3]
+178cc0	edc37a01	vstr	s15, [r3, #4]
+178cc4	e1a0e003	mov	lr, r3
+178cc8	e1a0300c	mov	r3, r12
+178ccc	edce7a02	vstr	s15, [lr, #8]
+178cd0	e58204bc	str	r0, [r2, #0x4bc]
+178cd4	e1a0e004	mov	lr, r4
+178cd8	ed8c8a00	vstr	s16, [r12]
+178cdc	edcc8a01	vstr	s17, [r12, #4]
+178ce0	e581a008	str	r10, [r1, #0x8]
+178ce4	e1a0c004	mov	r12, r4
+178ce8	ed839a03	vstr	s18, [r3, #12]
+178cec	e2821c05	add	r1, r2, #1280
+178cf0	e5849000	str	r9, [r4]
+178cf4	ed846a01	vstr	s12, [r4, #4]
+178cf8	e2824e4f	add	r4, r2, #1264
+178cfc	edce7a02	vstr	s15, [lr, #8]
+178d00	e1a03001	mov	r3, r1
+178d04	edcc7a03	vstr	s15, [r12, #12]
+178d08	e1a0e004	mov	lr, r4
+178d0c	e58204e0	str	r0, [r2, #0x4e0]
+178d10	e1a0c004	mov	r12, r4
+178d14	ed888a01	vstr	s16, [r8, #4]
+178d18	edc87a02	vstr	s15, [r8, #8]
+178d1c	e5a8a00c	str	r10, [r8, #0xc]!
+178d20	e584b000	str	r11, [r4]
+178d24	e5849004	str	r9, [r4, #0x4]
+178d28	ed8e6a02	vstr	s12, [lr, #8]
+178d2c	edcc7a03	vstr	s15, [r12, #12]
+178d30	edc17a00	vstr	s15, [r1]
+178d34	e5820504	str	r0, [r2, #0x504]
+178d38	edc17a02	vstr	s15, [r1, #8]
+178d3c	edc37a03	vstr	s15, [r3, #12]
+178d40	eafffe88	b	0x178768 <_Z16GR_3D_Draw_Blockffffffiff+0x112c>

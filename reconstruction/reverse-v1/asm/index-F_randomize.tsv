@@ -1,0 +1,21 @@
+10e284	e92d4010	push	{r4, lr}
+10e288	e3a03000	mov	r3, #0
+10e28c	e580300c	str	r3, [r0, #0xc]
+10e290	e1a04000	mov	r4, r0
+10e294	eb041bab	bl	0x215148 <Timing_Time>
+10e298	e59f3034	ldr	r3, [pc, #0x34]
+10e29c	e79f3003	ldr	r3, [pc, r3]
+10e2a0	e1c320d0	ldrd	r2, r3, [r3]
+10e2a4	e0922000	adds	r2, r2, r0
+10e2a8	e0a33001	adc	r3, r3, r1
+10e2ac	e0830002	add	r0, r3, r2
+10e2b0	e0200862	eor	r0, r0, r2, ror #16
+10e2b4	ebfed85f	bl	0xc4438 <_Z10InitRandomj>
+10e2b8	ee070a90	vmov	s15, r0
+10e2bc	eeb87b67	vcvt.f64.u32	d7, s15
+10e2c0	ec510b17	vmov	r0, r1, d7
+10e2c4	ee172a10	vmov	r2, s14
+10e2c8	e1a03001	mov	r3, r1
+10e2cc	e884000c	stm	r4, {r2, r3}
+10e2d0	e8bd8010	pop	{r4, pc}
+10e2d4	002dffb0	.word	0x002dffb0

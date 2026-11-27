@@ -1,0 +1,312 @@
+2bb8b4	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2bb8b8	e24dde5e	sub	sp, sp, #1504
+2bb8bc	e24dd004	sub	sp, sp, #4
+2bb8c0	e1a03143	asr	r3, r3, #2
+2bb8c4	e1a01141	asr	r1, r1, #2
+2bb8c8	e59f54c0	ldr	r5, [pc, #0x4c0]
+2bb8cc	e1a07283	lsl	r7, r3, #5
+2bb8d0	e58d0020	str	r0, [sp, #0x20]
+2bb8d4	e79f5005	ldr	r5, [pc, r5]
+2bb8d8	e58d1048	str	r1, [sp, #0x48]
+2bb8dc	e58d5044	str	r5, [sp, #0x44]
+2bb8e0	e1a05281	lsl	r5, r1, #5
+2bb8e4	e2871004	add	r1, r7, #4
+2bb8e8	e58d102c	str	r1, [sp, #0x2c]
+2bb8ec	e59d1020	ldr	r1, [sp, #0x20]
+2bb8f0	e1a021c2	asr	r2, r2, #3
+2bb8f4	e2858004	add	r8, r5, #4
+2bb8f8	e58d8024	str	r8, [sp, #0x24]
+2bb8fc	e59d8044	ldr	r8, [sp, #0x44]
+2bb900	e1a06282	lsl	r6, r2, #5
+2bb904	e59141a8	ldr	r4, [r1, #0x1a8]
+2bb908	e286a002	add	r10, r6, #2
+2bb90c	e58da028	str	r10, [sp, #0x28]
+2bb910	e285501c	add	r5, r5, #28
+2bb914	e590c070	ldr	r12, [r0, #0x70]
+2bb918	e286601e	add	r6, r6, #30
+2bb91c	e58d204c	str	r2, [sp, #0x4c]
+2bb920	e287701c	add	r7, r7, #28
+2bb924	e59d2028	ldr	r2, [sp, #0x28]
+2bb928	e35c0000	cmp	r12, #0
+2bb92c	e58d3050	str	r3, [sp, #0x50]
+2bb930	e59da024	ldr	r10, [sp, #0x24]
+2bb934	e0821006	add	r1, r2, r6
+2bb938	e5983000	ldr	r3, [r8]
+2bb93c	e59d802c	ldr	r8, [sp, #0x2c]
+2bb940	e08a0005	add	r0, r10, r5
+2bb944	e5944018	ldr	r4, [r4, #0x18]
+2bb948	e1a010c1	asr	r1, r1, #1
+2bb94c	e0882007	add	r2, r8, r7
+2bb950	e1a000c0	asr	r0, r0, #1
+2bb954	e58d1018	str	r1, [sp, #0x18]
+2bb958	e1a020c2	asr	r2, r2, #1
+2bb95c	e58d0010	str	r0, [sp, #0x10]
+2bb960	e58d201c	str	r2, [sp, #0x1c]
+2bb964	e58d35dc	str	r3, [sp, #0x5dc]
+2bb968	e58d4054	str	r4, [sp, #0x54]
+2bb96c	da000102	ble	0x2bbd7c <jinit_1pass_quantizer+0x104c>
+2bb970	e59da020	ldr	r10, [sp, #0x20]
+2bb974	e28d4024	add	r4, sp, #36
+2bb978	e28d105c	add	r1, sp, #92
+2bb97c	e3e00102	mvn	r0, #-2147483648
+2bb980	e58d1014	str	r1, [sp, #0x14]
+2bb984	e3a03000	mov	r3, #0
+2bb988	e59a2074	ldr	r2, [r10, #0x74]
+2bb98c	e8940310	ldm	r4, {r4, r8, r9}
+2bb990	e8920c00	ldm	r2, {r10, r11}
+2bb994	e5922008	ldr	r2, [r2, #0x8]
+2bb998	e58dc004	str	r12, [sp, #0x4]
+2bb99c	e58da00c	str	r10, [sp, #0xc]
+2bb9a0	e58d2008	str	r2, [sp, #0x8]
+2bb9a4	ea00001e	b	0x2bba24 <jinit_1pass_quantizer+0xcf4>
+2bb9a8	e0642001	rsb	r2, r4, r1
+2bb9ac	e065a001	rsb	r10, r5, r1
+2bb9b0	e1a02082	lsl	r2, r2, #1
+2bb9b4	e1a0a08a	lsl	r10, r10, #1
+2bb9b8	e0020292	mul	r2, r2, r2
+2bb9bc	e00a0a9a	mul	r10, r10, r10
+2bb9c0	e7db1003	ldrb	r1, [r11, r3]
+2bb9c4	e1580001	cmp	r8, r1
+2bb9c8	da000024	ble	0x2bba60 <jinit_1pass_quantizer+0xd30>
+2bb9cc	e068c001	rsb	r12, r8, r1
+2bb9d0	e0661001	rsb	r1, r6, r1
+2bb9d4	e08cc08c	add	r12, r12, r12, lsl #1
+2bb9d8	e0811081	add	r1, r1, r1, lsl #1
+2bb9dc	e0222c9c	mla	r2, r12, r12, r2
+2bb9e0	e02ca191	mla	r12, r1, r1, r10
+2bb9e4	e59da008	ldr	r10, [sp, #0x8]
+2bb9e8	e7da1003	ldrb	r1, [r10, r3]
+2bb9ec	e1590001	cmp	r9, r1
+2bb9f0	da000026	ble	0x2bba90 <jinit_1pass_quantizer+0xd60>
+2bb9f4	e069a001	rsb	r10, r9, r1
+2bb9f8	e0671001	rsb	r1, r7, r1
+2bb9fc	e0222a9a	mla	r2, r10, r10, r2
+2bba00	e021c191	mla	r1, r1, r1, r12
+2bba04	e59dc014	ldr	r12, [sp, #0x14]
+2bba08	e1500001	cmp	r0, r1
+2bba0c	a1a00001	movge	r0, r1
+2bba10	e59d1004	ldr	r1, [sp, #0x4]
+2bba14	e78c2103	str	r2, [r12, r3, lsl #2]
+2bba18	e2833001	add	r3, r3, #1
+2bba1c	e1530001	cmp	r3, r1
+2bba20	0a000036	beq	0x2bbb00 <jinit_1pass_quantizer+0xdd0>
+2bba24	e59d200c	ldr	r2, [sp, #0xc]
+2bba28	e7d21003	ldrb	r1, [r2, r3]
+2bba2c	e1540001	cmp	r4, r1
+2bba30	caffffdc	bgt	0x2bb9a8 <jinit_1pass_quantizer+0xc78>
+2bba34	e1550001	cmp	r5, r1
+2bba38	aa00001b	bge	0x2bbaac <jinit_1pass_quantizer+0xd7c>
+2bba3c	e0652001	rsb	r2, r5, r1
+2bba40	e0641001	rsb	r1, r4, r1
+2bba44	e1a0a081	lsl	r10, r1, #1
+2bba48	e7db1003	ldrb	r1, [r11, r3]
+2bba4c	e1a02082	lsl	r2, r2, #1
+2bba50	e1580001	cmp	r8, r1
+2bba54	e0020292	mul	r2, r2, r2
+2bba58	e00a0a9a	mul	r10, r10, r10
+2bba5c	caffffda	bgt	0x2bb9cc <jinit_1pass_quantizer+0xc9c>
+2bba60	e1560001	cmp	r6, r1
+2bba64	aa00001e	bge	0x2bbae4 <jinit_1pass_quantizer+0xdb4>
+2bba68	e066c001	rsb	r12, r6, r1
+2bba6c	e0681001	rsb	r1, r8, r1
+2bba70	e08cc08c	add	r12, r12, r12, lsl #1
+2bba74	e0811081	add	r1, r1, r1, lsl #1
+2bba78	e0222c9c	mla	r2, r12, r12, r2
+2bba7c	e02ca191	mla	r12, r1, r1, r10
+2bba80	e59da008	ldr	r10, [sp, #0x8]
+2bba84	e7da1003	ldrb	r1, [r10, r3]
+2bba88	e1590001	cmp	r9, r1
+2bba8c	caffffd8	bgt	0x2bb9f4 <jinit_1pass_quantizer+0xcc4>
+2bba90	e1570001	cmp	r7, r1
+2bba94	aa00000c	bge	0x2bbacc <jinit_1pass_quantizer+0xd9c>
+2bba98	e067a001	rsb	r10, r7, r1
+2bba9c	e0691001	rsb	r1, r9, r1
+2bbaa0	e0222a9a	mla	r2, r10, r10, r2
+2bbaa4	e021c191	mla	r1, r1, r1, r12
+2bbaa8	eaffffd5	b	0x2bba04 <jinit_1pass_quantizer+0xcd4>
+2bbaac	e59da010	ldr	r10, [sp, #0x10]
+2bbab0	e3a02000	mov	r2, #0
+2bbab4	e15a0001	cmp	r10, r1
+2bbab8	a0651001	rsbge	r1, r5, r1
+2bbabc	b0641001	rsblt	r1, r4, r1
+2bbac0	e1a0a081	lsl	r10, r1, #1
+2bbac4	e00a0a9a	mul	r10, r10, r10
+2bbac8	eaffffbc	b	0x2bb9c0 <jinit_1pass_quantizer+0xc90>
+2bbacc	e59da01c	ldr	r10, [sp, #0x1c]
+2bbad0	e15a0001	cmp	r10, r1
+2bbad4	a0671001	rsbge	r1, r7, r1
+2bbad8	b0691001	rsblt	r1, r9, r1
+2bbadc	e021c191	mla	r1, r1, r1, r12
+2bbae0	eaffffc7	b	0x2bba04 <jinit_1pass_quantizer+0xcd4>
+2bbae4	e59dc018	ldr	r12, [sp, #0x18]
+2bbae8	e15c0001	cmp	r12, r1
+2bbaec	a066c001	rsbge	r12, r6, r1
+2bbaf0	b068c001	rsblt	r12, r8, r1
+2bbaf4	e08cc08c	add	r12, r12, r12, lsl #1
+2bbaf8	e02cac9c	mla	r12, r12, r12, r10
+2bbafc	eaffffb8	b	0x2bb9e4 <jinit_1pass_quantizer+0xcb4>
+2bbb00	e59d3014	ldr	r3, [sp, #0x14]
+2bbb04	e1a0c001	mov	r12, r1
+2bbb08	e3a01000	mov	r1, #0
+2bbb0c	e2432004	sub	r2, r3, #4
+2bbb10	e1a03001	mov	r3, r1
+2bbb14	e5b24004	ldr	r4, [r2, #0x4]!
+2bbb18	e1540000	cmp	r4, r0
+2bbb1c	d28d5e5e	addle	r5, sp, #1504
+2bbb20	d0854001	addle	r4, r5, r1
+2bbb24	d2811001	addle	r1, r1, #1
+2bbb28	d5443104	strble	r3, [r4, #-0x104]
+2bbb2c	e2833001	add	r3, r3, #1
+2bbb30	e153000c	cmp	r3, r12
+2bbb34	1afffff6	bne	0x2bbb14 <jinit_1pass_quantizer+0xde4>
+2bbb38	e59d3014	ldr	r3, [sp, #0x14]
+2bbb3c	e28d0f97	add	r0, sp, #604
+2bbb40	e3e02102	mvn	r2, #-2147483648
+2bbb44	e4832004	str	r2, [r3], #4
+2bbb48	e1530000	cmp	r3, r0
+2bbb4c	1afffffc	bne	0x2bbb44 <jinit_1pass_quantizer+0xe14>
+2bbb50	e3510000	cmp	r1, #0
+2bbb54	0a000061	beq	0x2bbce0 <jinit_1pass_quantizer+0xfb0>
+2bbb58	e59d5020	ldr	r5, [sp, #0x20]
+2bbb5c	e28d8e4d	add	r8, sp, #1232
+2bbb60	e288800b	add	r8, r8, #11
+2bbb64	e28dae45	add	r10, sp, #1104
+2bbb68	e0881001	add	r1, r8, r1
+2bbb6c	e58d1030	str	r1, [sp, #0x30]
+2bbb70	e5953074	ldr	r3, [r5, #0x74]
+2bbb74	e28aa00c	add	r10, r10, #12
+2bbb78	e58d8020	str	r8, [sp, #0x20]
+2bbb7c	e58da040	str	r10, [sp, #0x40]
+2bbb80	e593c000	ldr	r12, [r3]
+2bbb84	e5931004	ldr	r1, [r3, #0x4]
+2bbb88	e5933008	ldr	r3, [r3, #0x8]
+2bbb8c	e58dc034	str	r12, [sp, #0x34]
+2bbb90	e58d1038	str	r1, [sp, #0x38]
+2bbb94	e58d303c	str	r3, [sp, #0x3c]
+2bbb98	e59d2020	ldr	r2, [sp, #0x20]
+2bbb9c	e28d3e45	add	r3, sp, #1104
+2bbba0	e59d8038	ldr	r8, [sp, #0x38]
+2bbba4	e283300c	add	r3, r3, #12
+2bbba8	e59d5014	ldr	r5, [sp, #0x14]
+2bbbac	e2833001	add	r3, r3, #1
+2bbbb0	e5f29001	ldrb	r9, [r2, #0x1]!
+2bbbb4	e59da034	ldr	r10, [sp, #0x34]
+2bbbb8	e59dc028	ldr	r12, [sp, #0x28]
+2bbbbc	e7d8b009	ldrb	r11, [r8, r9]
+2bbbc0	e7da1009	ldrb	r1, [r10, r9]
+2bbbc4	e58d5010	str	r5, [sp, #0x10]
+2bbbc8	e06bb00c	rsb	r11, r11, r12
+2bbbcc	e59d5024	ldr	r5, [sp, #0x24]
+2bbbd0	e58d2020	str	r2, [sp, #0x20]
+2bbbd4	e08bb08b	add	r11, r11, r11, lsl #1
+2bbbd8	e59d203c	ldr	r2, [sp, #0x3c]
+2bbbdc	e0611005	rsb	r1, r1, r5
+2bbbe0	e58d3008	str	r3, [sp, #0x8]
+2bbbe4	e1a01081	lsl	r1, r1, #1
+2bbbe8	e59d802c	ldr	r8, [sp, #0x2c]
+2bbbec	e7d23009	ldrb	r3, [r2, r9]
+2bbbf0	e0020b9b	mul	r2, r11, r11
+2bbbf4	e0633008	rsb	r3, r3, r8
+2bbbf8	e0222191	mla	r2, r1, r1, r2
+2bbbfc	e283a004	add	r10, r3, #4
+2bbc00	e08bb08b	add	r11, r11, r11, lsl #1
+2bbc04	e2811008	add	r1, r1, #8
+2bbc08	e1a0a20a	lsl	r10, r10, #4
+2bbc0c	e1a0b18b	lsl	r11, r11, #3
+2bbc10	e28a5c02	add	r5, r10, #512
+2bbc14	e28bc090	add	r12, r11, #144
+2bbc18	e28bbe99	add	r11, r11, #2448
+2bbc1c	e0222393	mla	r2, r3, r3, r2
+2bbc20	e1a01281	lsl	r1, r1, #5
+2bbc24	e58dc018	str	r12, [sp, #0x18]
+2bbc28	e58d1004	str	r1, [sp, #0x4]
+2bbc2c	e2811b02	add	r1, r1, #2048
+2bbc30	e58d101c	str	r1, [sp, #0x1c]
+2bbc34	e58d200c	str	r2, [sp, #0xc]
+2bbc38	e59d8008	ldr	r8, [sp, #0x8]
+2bbc3c	e59d4018	ldr	r4, [sp, #0x18]
+2bbc40	e59d700c	ldr	r7, [sp, #0xc]
+2bbc44	e59d6010	ldr	r6, [sp, #0x10]
+2bbc48	e1a00006	mov	r0, r6
+2bbc4c	e1a01008	mov	r1, r8
+2bbc50	e1a0300a	mov	r3, r10
+2bbc54	e1a02007	mov	r2, r7
+2bbc58	e490c004	ldr	r12, [r0], #4
+2bbc5c	e2811001	add	r1, r1, #1
+2bbc60	e15c0002	cmp	r12, r2
+2bbc64	c5419002	strbgt	r9, [r1, #-0x2]
+2bbc68	c5002004	strgt	r2, [r0, #-0x4]
+2bbc6c	e0822003	add	r2, r2, r3
+2bbc70	e2833080	add	r3, r3, #128
+2bbc74	e1530005	cmp	r3, r5
+2bbc78	1afffff6	bne	0x2bbc58 <jinit_1pass_quantizer+0xf28>
+2bbc7c	e0877004	add	r7, r7, r4
+2bbc80	e2844e12	add	r4, r4, #288
+2bbc84	e154000b	cmp	r4, r11
+2bbc88	e2866010	add	r6, r6, #16
+2bbc8c	e2888004	add	r8, r8, #4
+2bbc90	1affffec	bne	0x2bbc48 <jinit_1pass_quantizer+0xf18>
+2bbc94	e59d3004	ldr	r3, [sp, #0x4]
+2bbc98	e59d200c	ldr	r2, [sp, #0xc]
+2bbc9c	e59d801c	ldr	r8, [sp, #0x1c]
+2bbca0	e0822003	add	r2, r2, r3
+2bbca4	e2833c02	add	r3, r3, #512
+2bbca8	e59dc010	ldr	r12, [sp, #0x10]
+2bbcac	e1530008	cmp	r3, r8
+2bbcb0	e59d1008	ldr	r1, [sp, #0x8]
+2bbcb4	e28cc080	add	r12, r12, #128
+2bbcb8	e58d200c	str	r2, [sp, #0xc]
+2bbcbc	e2811020	add	r1, r1, #32
+2bbcc0	e58d3004	str	r3, [sp, #0x4]
+2bbcc4	e58dc010	str	r12, [sp, #0x10]
+2bbcc8	e58d1008	str	r1, [sp, #0x8]
+2bbccc	1affffd9	bne	0x2bbc38 <jinit_1pass_quantizer+0xf08>
+2bbcd0	e59d2020	ldr	r2, [sp, #0x20]
+2bbcd4	e59d3030	ldr	r3, [sp, #0x30]
+2bbcd8	e1520003	cmp	r2, r3
+2bbcdc	1affffad	bne	0x2bbb98 <jinit_1pass_quantizer+0xe68>
+2bbce0	e59da050	ldr	r10, [sp, #0x50]
+2bbce4	e28d5e47	add	r5, sp, #1136
+2bbce8	e59d204c	ldr	r2, [sp, #0x4c]
+2bbcec	e28d8e4f	add	r8, sp, #1264
+2bbcf0	e59d1048	ldr	r1, [sp, #0x48]
+2bbcf4	e285500c	add	r5, r5, #12
+2bbcf8	e1a0710a	lsl	r7, r10, #2
+2bbcfc	e59dc054	ldr	r12, [sp, #0x54]
+2bbd00	e0877402	add	r7, r7, r2, lsl #8
+2bbd04	e288800c	add	r8, r8, #12
+2bbd08	e08c6201	add	r6, r12, r1, lsl #4
+2bbd0c	e2466004	sub	r6, r6, #4
+2bbd10	e1a07087	lsl	r7, r7, #1
+2bbd14	e5b64004	ldr	r4, [r6, #0x4]!
+2bbd18	e245c020	sub	r12, r5, #32
+2bbd1c	e0844007	add	r4, r4, r7
+2bbd20	e2840008	add	r0, r4, #8
+2bbd24	e1a03004	mov	r3, r4
+2bbd28	e1a0200c	mov	r2, r12
+2bbd2c	e4d21001	ldrb	r1, [r2], #1
+2bbd30	e2811001	add	r1, r1, #1
+2bbd34	e0c310b2	strh	r1, [r3], #2
+2bbd38	e1530000	cmp	r3, r0
+2bbd3c	1afffffa	bne	0x2bbd2c <jinit_1pass_quantizer+0xffc>
+2bbd40	e28cc004	add	r12, r12, #4
+2bbd44	e2844040	add	r4, r4, #64
+2bbd48	e15c0005	cmp	r12, r5
+2bbd4c	1afffff3	bne	0x2bbd20 <jinit_1pass_quantizer+0xff0>
+2bbd50	e28c5020	add	r5, r12, #32
+2bbd54	e1550008	cmp	r5, r8
+2bbd58	1affffed	bne	0x2bbd14 <jinit_1pass_quantizer+0xfe4>
+2bbd5c	e59d5044	ldr	r5, [sp, #0x44]
+2bbd60	e59d25dc	ldr	r2, [sp, #0x5dc]
+2bbd64	e5953000	ldr	r3, [r5]
+2bbd68	e1520003	cmp	r2, r3
+2bbd6c	1a000006	bne	0x2bbd8c <jinit_1pass_quantizer+0x105c>
+2bbd70	e28dde5e	add	sp, sp, #1504
+2bbd74	e28dd004	add	sp, sp, #4
+2bbd78	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2bbd7c	e28d805c	add	r8, sp, #92
+2bbd80	e3a01000	mov	r1, #0
+2bbd84	e58d8014	str	r8, [sp, #0x14]
+2bbd88	eaffff6a	b	0x2bbb38 <jinit_1pass_quantizer+0xe08>
+2bbd8c	ebf7ea10	bl	0xb65d4 <__stack_chk_fail@plt>
+2bbd90	0013207c	andseq	r2, r3, r12, ror r0

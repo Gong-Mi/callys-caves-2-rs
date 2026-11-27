@@ -12,31 +12,36 @@
 //! The state file is the authority for the fixture: instances are inserted
 //! directly (no Create events) so both sides start from identical bytes.
 use callys_core::code_vm::{self, load_bundle_from_file, Bundle};
-use callys_core::ir_scene::{Instance, Scene, SpriteBounds};
+use callys_core::ir_scene::{DrawPhase, DrawQueue, Instance, Scene, SpriteBounds};
 use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
 #[derive(Clone)]
-enum Step { Run(usize, i32), Tick(i64) }
+enum Step { Run(usize, i32), Tick(i64), ConsumeWarp, Collide(usize, i32, i32), Draw(i32) }
 
 struct Template {
     current: i32,
+    other: Option<i32>,
     /// Event sequence, in order. Empty means "run CODE once on `current`".
     runs: Vec<Step>,
     seed: Option<u64>,
     globals: BTreeMap<String, f64>,
-    insts: BTreeMap<i32, (i32, bool)>,
+    insts: BTreeMap<i32, (i32, bool, bool)>,
     fields: BTreeMap<i32, BTreeMap<String, f64>>,
     arrays: BTreeMap<i32, BTreeMap<(String, i32), f64>>,
     room_w: Option<f64>,
     room_h: Option<f64>,
+    room: Option<f64>,
+    warp: Option<usize>,
+    views: BTreeMap<i32, (bool, f64, f64, f64, f64)>,
 }
 
 fn parse_template(path: &Path) -> Template {
     let text = fs::read_to_string(path).expect("read state");
     let mut t = Template {
         current: 0,
+        other: None,
         runs: Vec::new(),
         seed: None,
         globals: BTreeMap::new(),
@@ -45,17 +50,42 @@ fn parse_template(path: &Path) -> Template {
         arrays: BTreeMap::new(),
         room_w: None,
         room_h: None,
+        room: None,
+        warp: None,
+        views: BTreeMap::new(),
     };
     for line in text.lines() {
         let w: Vec<&str> = line.split_whitespace().collect();
         match w.first().copied() {
             Some("CODE") => {}
             Some("RUN") => { t.runs.push(Step::Run(w[1].parse().unwrap(), w[2].parse().unwrap())); }
+            Some("COLLIDE") => {
+                t.runs.push(Step::Collide(w[1].parse().unwrap(), w[2].parse().unwrap(), w[3].parse().unwrap()));
+            }
             Some("TICK") => { t.runs.push(Step::Tick(w[1].parse().unwrap())); }
+            Some("DRAW") => { t.runs.push(Step::Draw(w[1].parse().unwrap())); }
+            Some("VIEW") => {
+                t.views.insert(w[1].parse().unwrap(), (
+                    w[2].parse::<i32>().unwrap() != 0,
+                    w[3].parse().unwrap(), w[4].parse().unwrap(),
+                    w[5].parse().unwrap(), w[6].parse().unwrap(),
+                ));
+            }
             Some("SEED") => { t.seed = Some(w[1].parse().unwrap()); }
             Some("CURRENT") => t.current = w[1].parse().unwrap(),
+            Some("OTHER") => {
+                let id = w[1].parse().unwrap();
+                t.other = if id >= 0 { Some(id) } else { None };
+            }
             Some("INST") => {
-                t.insts.insert(w[1].parse().unwrap(), (w[2].parse().unwrap(), w[3] != "0"));
+                // `<id> <object> [alive [active]]`; both flags default to true so
+                // the two-token form keeps its old meaning.
+                t.insts.insert(
+                    w[1].parse().unwrap(),
+                    (w[2].parse().unwrap(),
+                     w.get(3).map_or(true, |s| *s != "0"),
+                     w.get(4).map_or(true, |s| *s != "0")),
+                );
             }
             Some("FIELD") => {
                 t.fields.entry(w[1].parse().unwrap()).or_default()
@@ -68,6 +98,11 @@ fn parse_template(path: &Path) -> Template {
             Some("GLOBAL") => { t.globals.insert(w[1].to_string(), w[2].parse().unwrap()); }
             Some("ROOMW") => t.room_w = Some(w[1].parse().unwrap()),
             Some("ROOMH") => t.room_h = Some(w[1].parse().unwrap()),
+            Some("ROOM") => t.room = Some(w[1].parse().unwrap()),
+            Some("WARP") => {
+                if w.len() == 1 { t.runs.push(Step::ConsumeWarp); }
+                else { t.warp = Some(w[1].parse().unwrap()); }
+            }
             Some(other) => panic!("unexpected token {other}"),
             None => {}
         }
@@ -78,11 +113,11 @@ fn parse_template(path: &Path) -> Template {
 fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroidAsset>) -> Scene {
     let mut scene = Scene::default();
     scene.init_bundle(bundle);
-    for (id, (object, alive)) in &tpl.insts {
+    for (id, (object, alive, active)) in &tpl.insts {
         scene.instances.insert(*id, Instance {
             object: *object,
             alive: *alive,
-            active: true,
+            active: *active,
             external: false,
             spawn_seq: 1,
             fields: tpl.fields.get(id).cloned().unwrap_or_default(),
@@ -92,8 +127,16 @@ fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroid
     }
     if let Some(seed) = tpl.seed { scene.rng_seed = seed; }
     scene.globals = tpl.globals.clone();
+    scene.other_instance = tpl.other;
     if let Some(w) = tpl.room_w { scene.room_width = w; }
     if let Some(h) = tpl.room_h { scene.room_height = h; }
+    if let Some(room) = tpl.room { scene.current_room = room; }
+    if let Some(target) = tpl.warp { scene.target_room_warp = Some(target); }
+    for (&index, &(visible, x, y, w, h)) in &tpl.views {
+        if (0..8).contains(&index) { scene.view_visible[index as usize] = visible; }
+        scene.view_positions.insert(index, (x, y));
+        scene.view_ports.insert(index, (w, h));
+    }
     // Collision needs the recorded SPRT geometry. Without it every instance
     // degenerates to an integer point and a body that tests `instance_place`
     // takes the "miss" branch — the C host has the table, so the fixture must
@@ -110,11 +153,29 @@ fn build(tpl: &Template, bundle: &Bundle, asset: Option<&callys_asset::GameDroid
     scene
 }
 
+fn hex_text(text: &str) -> String {
+    text.as_bytes().iter().map(|b| format!("{b:02x}")).collect()
+}
+
 fn dump_state(scene: &Scene) -> String {
     let mut s = String::new();
+    s.push_str(&format!("ROOM {}\n", scene.current_room));
     s.push_str(&format!("ROOMW {}\nROOMH {}\n", scene.room_width, scene.room_height));
+    if let Some(target) = scene.target_room_warp { s.push_str(&format!("WARP {target}\n")); }
+    if let Some(other) = scene.other_instance { s.push_str(&format!("OTHER {other}\n")); }
+    for index in 0..8i32 {
+        let (x, y) = scene.view_positions.get(&index).copied().unwrap_or((0.0, 0.0));
+        let (w, h) = scene.view_ports.get(&index).copied()
+            .unwrap_or((scene.display_width, scene.display_height));
+        s.push_str(&format!("VIEW {} {} {} {} {} {}\n", index, scene.view_visible[index as usize] as i32, x, y, w, h));
+    }
     for (id, inst) in &scene.instances {
         s.push_str(&format!("INST {} {} {}\n", id, inst.object, inst.alive as i32));
+        // Output-only marker: fixture input expresses this with INST's fourth
+        // token instead. Ordinary active instances keep the old dump shape.
+        if !inst.active {
+            s.push_str(&format!("ACTIVE {} 0\n", id));
+        }
         for (k, v) in &inst.fields {
             s.push_str(&format!("FIELD {} {} {}\n", id, k, v));
         }
@@ -130,7 +191,53 @@ fn dump_state(scene: &Scene) -> String {
     for (k, v) in &scene.globals {
         s.push_str(&format!("GLOBAL {} {}\n", k, v));
     }
+    // GML draw-builtins only. RoomTile/Particle are separate room-layer inputs,
+    // not draw_* calls, and the C host does not consume those layers yet.
+    for (order, emission) in scene.ordered_draw_commands().into_iter()
+        .filter(|e| matches!(e.queue, DrawQueue::Sprite(_) | DrawQueue::Text(_)
+            | DrawQueue::Healthbar(_) | DrawQueue::Background(_)))
+        .enumerate()
+    {
+        let phase = match emission.phase { DrawPhase::Room => 0, DrawPhase::Gui => 1 };
+        match emission.queue {
+            DrawQueue::Sprite(i) => {
+                let c = &scene.draws[i];
+                s.push_str(&format!("DRAW {order} SPRITE {} {} {} {} {} {} {} {} {} {} {} {} {} {} {} {}\n",
+                    phase, c.code as i64, c.offset, c.instance, c.view, emission.depth,
+                    c.sprite, c.frame, c.x, c.y, c.scale_x, c.scale_y, c.rotation, c.color, c.alpha, c.fog as i32));
+            }
+            DrawQueue::Text(i) => {
+                let c = &scene.texts[i];
+                s.push_str(&format!("DRAW {order} TEXT {} {} {} {} {} {} {} {} {} {} {} {}\n",
+                    phase, c.code as i64, c.offset, c.instance, c.view, emission.depth,
+                    c.x, c.y, c.color, c.alpha, c.font, hex_text(&c.text)));
+            }
+            DrawQueue::Healthbar(i) => {
+                let c = &scene.healthbars[i];
+                s.push_str(&format!("DRAW {order} HEALTHBAR {} {} {} {} {} {} {} {} {} {} {} {} {} {}\n",
+                    phase, c.code as i64, c.offset, c.instance, c.view, emission.depth,
+                    c.x1, c.y1, c.x2, c.y2, c.amount, c.back_col, c.min_col, c.max_col));
+            }
+            DrawQueue::Background(i) => {
+                let c = &scene.backgrounds[i];
+                s.push_str(&format!("DRAW {order} BACKGROUND {} {} {} {} {} {} {} {} {} {} {} {} {} {}\n",
+                    phase, c.code as i64, c.offset, c.instance, c.view, emission.depth,
+                    c.background, c.x, c.y, c.scale_x, c.scale_y, c.rotation, c.color, c.alpha));
+            }
+            DrawQueue::RoomTile(_) | DrawQueue::Particle(_) => {}
+        }
+    }
     s
+}
+
+fn consume_warp(scene: &mut Scene, bundle: &Bundle,
+                asset: Option<&callys_asset::GameDroidAsset>) -> Result<(), String> {
+    let Some(target) = scene.target_room_warp else { return Ok(()); };
+    let source = scene.current_room;
+    let asset = asset.ok_or_else(|| "room warp requires --asset".to_string())?;
+    let room = asset.rooms.get(target).ok_or_else(||
+        format!("room transition {source} -> {target}: target outside room table"))?;
+    scene.transition_to_room(bundle, target, room)
 }
 
 fn main() {
@@ -153,10 +260,15 @@ fn main() {
             other => panic!("unknown arg {other}"),
         }
     }
-    let bundle: Bundle = load_bundle_from_file(&ir).expect("load full_ir.json");
+    let mut bundle: Bundle = load_bundle_from_file(&ir).expect("load full_ir.json");
     let asset = asset_path.as_ref().map(|p| {
         callys_asset::GameDroidAsset::parse(Path::new(p)).expect("game.droid")
     });
+    if let Some(asset) = &asset {
+        // Match every real Scene loader: STRG bytes come from game.droid, not
+        // from the older generated IR snapshot (which may omit string_table).
+        bundle.string_table = asset.string_table.clone();
+    }
 
     if let (Some(codes), Some(outdir)) = (codes, outdir) {
         fs::create_dir_all(&outdir).expect("outdir");
@@ -183,7 +295,17 @@ fn main() {
                         let mut r = Ok(());
                         for _ in 0..*n { r = scene.tick(&bundle); if r.is_err() { break; } }
                         r
-                    }
+                    },
+                    Step::ConsumeWarp => consume_warp(&mut scene, &bundle, asset.as_ref()),
+                    Step::Draw(view) => scene.draw_view(&bundle, *view),
+                    Step::Collide(code, who, other) => {
+                        let previous = scene.other_instance;
+                        scene.other_instance = Some(*other);
+                        let result = code_vm::execute(&bundle, *code, *who, &mut scene)
+                            .map_err(|e| format!("{} offset={}", e.message, e.offset));
+                        scene.other_instance = previous;
+                        result
+                    },
                 };
                 if result.is_err() { break; }
             }
@@ -213,7 +335,16 @@ fn main() {
     for step in &seq {
         match step {
             Step::Run(c, who) => code_vm::execute(&bundle, *c, *who, &mut scene).expect("execute"),
-            Step::Tick(n) => { for _ in 0..*n { scene.tick(&bundle).expect("tick"); } }
+            Step::Tick(n) => { for _ in 0..*n { scene.tick(&bundle).expect("tick"); } },
+            Step::ConsumeWarp => consume_warp(&mut scene, &bundle, asset.as_ref()).expect("consume warp"),
+            Step::Draw(view) => scene.draw_view(&bundle, *view).expect("draw view"),
+            Step::Collide(code, who, other) => {
+                let previous = scene.other_instance;
+                scene.other_instance = Some(*other);
+                let result = code_vm::execute(&bundle, *code, *who, &mut scene);
+                scene.other_instance = previous;
+                result.expect("collide");
+            }
         }
     }
     fs::write(&out, dump_state(&scene)).expect("write out");

@@ -1,0 +1,15 @@
+d3a54	e59f302c	ldr	r3, [pc, #0x2c]
+d3a58	e79f3003	ldr	r3, [pc, r3]
+d3a5c	e5932000	ldr	r2, [r3]
+d3a60	e3520000	cmp	r2, #0
+d3a64	da000005	ble	0xd3a80 <_Z18GetContextStackTopv+0x2c>
+d3a68	e59f301c	ldr	r3, [pc, #0x1c]
+d3a6c	e2422107	sub	r2, r2, #-1073741823
+d3a70	e79f3003	ldr	r3, [pc, r3]
+d3a74	e5933000	ldr	r3, [r3]
+d3a78	e7930102	ldr	r0, [r3, r2, lsl #2]
+d3a7c	e12fff1e	bx	lr
+d3a80	e3a00000	mov	r0, #0
+d3a84	e12fff1e	bx	lr
+d3a88	0031a1a8	eorseq	r10, r1, r8, lsr #3
+d3a8c	0031a198	mlaseq	r1, r8, r1, r10

@@ -1,0 +1,24 @@
+10b190	e3530001	cmp	r3, #1
+10b194	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+10b198	e1a05001	mov	r5, r1
+10b19c	e1a06002	mov	r6, r2
+10b1a0	e59d4018	ldr	r4, [sp, #0x18]
+10b1a4	da00000c	ble	0x10b1dc <_Z17F_InstanceDestroyR6RValueP9CInstanceS2_iPS_+0x4c>
+10b1a8	e1a00004	mov	r0, r4
+10b1ac	e3a01001	mov	r1, #1
+10b1b0	ebff0d6c	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+10b1b4	e1a07000	mov	r7, r0
+10b1b8	e1a00004	mov	r0, r4
+10b1bc	e3a01000	mov	r1, #0
+10b1c0	ebff0daa	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+10b1c4	e1a02000	mov	r2, r0
+10b1c8	e1a00005	mov	r0, r5
+10b1cc	e1a01006	mov	r1, r6
+10b1d0	e1a03007	mov	r3, r7
+10b1d4	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+10b1d8	eaffffd3	b	0x10b12c <_Z17DoInstanceDestroyP9CInstanceS0_ib>
+10b1dc	13a07001	movne	r7, #1
+10b1e0	13e02000	mvnne	r2, #0
+10b1e4	1afffff7	bne	0x10b1c8 <_Z17F_InstanceDestroyR6RValueP9CInstanceS2_iPS_+0x38>
+10b1e8	e1a07003	mov	r7, r3
+10b1ec	eafffff1	b	0x10b1b8 <_Z17F_InstanceDestroyR6RValueP9CInstanceS2_iPS_+0x28>

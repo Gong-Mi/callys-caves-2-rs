@@ -1,0 +1,19 @@
+110efc	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+110f00	e3a01000	mov	r1, #0
+110f04	e59d7018	ldr	r7, [sp, #0x18]
+110f08	e1a06000	mov	r6, r0
+110f0c	e580100c	str	r1, [r0, #0xc]
+110f10	e1a00007	mov	r0, r7
+110f14	ebfef702	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+110f18	e1a04000	mov	r4, r0
+110f1c	e1a05001	mov	r5, r1
+110f20	e1a00007	mov	r0, r7
+110f24	e3a01001	mov	r1, #1
+110f28	ebfef6fd	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+110f2c	e1a02000	mov	r2, r0
+110f30	e1a03001	mov	r3, r1
+110f34	e1a00004	mov	r0, r4
+110f38	e1a01005	mov	r1, r5
+110f3c	ebffffdb	bl	0x110eb0 <_Z18YYGML_random_rangedd>
+110f40	e8860003	stm	r6, {r0, r1}
+110f44	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}

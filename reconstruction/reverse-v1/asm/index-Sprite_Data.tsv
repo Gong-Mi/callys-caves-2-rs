@@ -1,0 +1,16 @@
+1ef03c	e3500000	cmp	r0, #0
+1ef040	ba000009	blt	0x1ef06c <_Z11Sprite_Datai+0x30>
+1ef044	e59f3028	ldr	r3, [pc, #0x28]
+1ef048	e79f3003	ldr	r3, [pc, r3]
+1ef04c	e5933000	ldr	r3, [r3]
+1ef050	e1500003	cmp	r0, r3
+1ef054	aa000004	bge	0x1ef06c <_Z11Sprite_Datai+0x30>
+1ef058	e59f3018	ldr	r3, [pc, #0x18]
+1ef05c	e79f3003	ldr	r3, [pc, r3]
+1ef060	e5933004	ldr	r3, [r3, #0x4]
+1ef064	e7930100	ldr	r0, [r3, r0, lsl #2]
+1ef068	e12fff1e	bx	lr
+1ef06c	e3a00000	mov	r0, #0
+1ef070	e12fff1e	bx	lr
+1ef074	00201dc8	eoreq	r1, r0, r8, asr #27
+1ef078	00201dac	eoreq	r1, r0, r12, lsr #27

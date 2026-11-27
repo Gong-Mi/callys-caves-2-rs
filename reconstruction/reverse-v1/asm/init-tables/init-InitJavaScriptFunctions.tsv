@@ -1,0 +1,27 @@
+idx	call_addr	name	fn_addr	fn_symbol	argc	flag
+0	0x247004	$PRINT	0x23ca84	F_JSPrint(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+1	0x247024	$FAIL	0x23ca6c	F_JSError(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+2	0x24703c	$ERROR	0x23ca6c	F_JSError(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+3	0x247054	ERROR	0x23ca6c	F_JSError(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+4	0x24706c	testFailed	0x23ca6c	F_JSError(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+5	0x247088	@@typeof@@	0x23c904	F_JSTypeof(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+6	0x2470a4	@@new@@	0x254d4c	F_JSNew(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+7	0x2470c0	@@delete@@	0x24c2d8	F_JSDelete(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+8	0x2470dc	@@try_hook@@	0x23ca0c	F_JSTryHook(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+9	0x2470f8	@@try_unhook@@	0x23c714	F_JSTryUnHook(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+10	0x247114	@@throw@@	0x24e33c	F_JSThrow(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+11	0x247130	@@finish_catch@@	0x23c6a4	F_JSFinishCatch(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+12	0x24714c	@@finish_finally@@	0x24e2f4	F_JSFinishFinally(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+13	0x247168	@@script_ref@@	0x240da8	F_JSScriptRef(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+14	0x247184	@@instanceof@@	0x254c30	F_JSInstanceOf(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+15	0x2471a0	@@This@@	0x23c64c	F_JSThis(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+16	0x2471bc	@@Null@@	0x23c65c	F_JSNull(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+17	0x2471d8	@@Other@@	0x23c674	F_JSOther(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+18	0x2471f4	@@GlobalScope@@	0x23c684	F_JSGlobalScope(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+19	0x247210	@@NewGMLArray@@	0x23cbe4	F_NewGMLArray(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+20	0x24722c	@@NewArray@@	0x24c4ec	F_JSNewArray(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+21	0x247248	@@NewObject@@	0x25acd4	F_JSNewObject(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+22	0x247264	@@NewProperty@@	0x23c81c	F_JSNewProperty(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+23	0x247280	@@ForInIterator@@	0x24e6a8	F_JSForInIterator(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+24	0x24729c	@@ForInIteratorGetNext@@	0x24a438	F_JSForInIteratorGetNext(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+25	0x2472bc	@@ForInIteratorDelete@@	0x23c7e0	F_JSForInIteratorDelete(RValue&, CInstance*, CInstance*, int, RValue*)	0	1

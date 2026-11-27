@@ -1,0 +1,79 @@
+193fe0	e3510000	cmp	r1, #0
+193fe4	e92d4070	push	{r4, r5, r6, lr}
+193fe8	ed2d8b02	vpush	{d8}
+193fec	e1a04000	mov	r4, r0
+193ff0	e5801128	str	r1, [r0, #0x128]
+193ff4	ee082a10	vmov	s16, r2
+193ff8	ee083a90	vmov	s17, r3
+193ffc	e5dd501c	ldrb	r5, [sp, #0x1c]
+194000	ba00002f	blt	0x1940c4 <_ZN9CInstance11Assign_PathEifffbi+0xe4>
+194004	e1a00001	mov	r0, r1
+194008	eb005053	bl	0x1a815c <_Z9Path_Datai>
+19400c	e2506000	subs	r6, r0, #0
+194010	0a00002d	beq	0x1940cc <_ZN9CInstance11Assign_PathEifffbi+0xec>
+194014	eb004ea7	bl	0x1a7ab8 <_ZN5CPath13GetPathLengthEv>
+194018	e3a03000	mov	r3, #0
+19401c	ee070a90	vmov	s15, r0
+194020	eef57ac0	vcmpe.f32	s15, #0
+194024	eef1fa10	vmrs	APSR_nzcv, fpscr
+194028	9a000027	bls	0x1940cc <_ZN9CInstance11Assign_PathEifffbi+0xec>
+19402c	eeb58ac0	vcmpe.f32	s16, #0
+194030	ed848a4d	vstr	s16, [r4, #308]
+194034	eef1fa10	vmrs	APSR_nzcv, fpscr
+194038	a584312c	strge	r3, [r4, #0x12c]
+19403c	ba00002c	blt	0x1940f4 <_ZN9CInstance11Assign_PathEifffbi+0x114>
+194040	eef58ac0	vcmpe.f32	s17, #0
+194044	e5843130	str	r3, [r4, #0x130]
+194048	edc48a4e	vstr	s17, [r4, #312]
+19404c	eef1fa10	vmrs	APSR_nzcv, fpscr
+194050	4a00001d	bmi	0x1940cc <_ZN9CInstance11Assign_PathEifffbi+0xec>
+194054	e59d2020	ldr	r2, [sp, #0x20]
+194058	e3550000	cmp	r5, #0
+19405c	eddd7a06	vldr	s15, [sp, #24]
+194060	edc47a4f	vstr	s15, [r4, #316]
+194064	e5842140	str	r2, [r4, #0x140]
+194068	1a00001b	bne	0x1940dc <_ZN9CInstance11Assign_PathEifffbi+0xfc>
+19406c	eeb58ac0	vcmpe.f32	s16, #0
+194070	e1a00006	mov	r0, r6
+194074	eef1fa10	vmrs	APSR_nzcv, fpscr
+194078	ba000021	blt	0x194104 <_ZN9CInstance11Assign_PathEifffbi+0x124>
+19407c	e3a01000	mov	r1, #0
+194080	eb004d44	bl	0x1a7598 <_ZN5CPath9XPositionEf>
+194084	e3a01000	mov	r1, #0
+194088	e1a05000	mov	r5, r0
+19408c	e1a00006	mov	r0, r6
+194090	eb004d4a	bl	0x1a75c0 <_ZN5CPath9YPositionEf>
+194094	e1a01005	mov	r1, r5
+194098	e1a02000	mov	r2, r0
+19409c	e1a00004	mov	r0, r4
+1940a0	ebffff75	bl	0x193e7c <_ZN9CInstance11SetPositionEff>
+1940a4	e3a01000	mov	r1, #0
+1940a8	e1a00006	mov	r0, r6
+1940ac	eb004d39	bl	0x1a7598 <_ZN5CPath9XPositionEf>
+1940b0	e3a01000	mov	r1, #0
+1940b4	e5840144	str	r0, [r4, #0x144]
+1940b8	e1a00006	mov	r0, r6
+1940bc	eb004d3f	bl	0x1a75c0 <_ZN5CPath9YPositionEf>
+1940c0	e5840148	str	r0, [r4, #0x148]
+1940c4	ecbd8b02	vpop	{d8}
+1940c8	e8bd8070	pop	{r4, r5, r6, pc}
+1940cc	ecbd8b02	vpop	{d8}
+1940d0	e3e03000	mvn	r3, #0
+1940d4	e5843128	str	r3, [r4, #0x128]
+1940d8	e8bd8070	pop	{r4, r5, r6, pc}
+1940dc	ecbd8b02	vpop	{d8}
+1940e0	e59420b4	ldr	r2, [r4, #0xb4]
+1940e4	e59430b8	ldr	r3, [r4, #0xb8]
+1940e8	e5842144	str	r2, [r4, #0x144]
+1940ec	e5843148	str	r3, [r4, #0x148]
+1940f0	e8bd8070	pop	{r4, r5, r6, pc}
+1940f4	e3a025fe	mov	r2, #1065353216
+1940f8	e584212c	str	r2, [r4, #0x12c]
+1940fc	e1a03002	mov	r3, r2
+194100	eaffffce	b	0x194040 <_ZN9CInstance11Assign_PathEifffbi+0x60>
+194104	e3a015fe	mov	r1, #1065353216
+194108	eb004d22	bl	0x1a7598 <_ZN5CPath9XPositionEf>
+19410c	e3a015fe	mov	r1, #1065353216
+194110	e1a05000	mov	r5, r0
+194114	e1a00006	mov	r0, r6
+194118	eaffffdc	b	0x194090 <_ZN9CInstance11Assign_PathEifffbi+0xb0>

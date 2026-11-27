@@ -1,0 +1,93 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "skeleton_find",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "name": "spSkeletonData_findBone",
+      "address": "0x28afbc",
+      "isa": "ARM",
+      "range_end_exclusive": "0x28b018",
+      "code_end_exclusive": "0x28b018",
+      "body_sha256": "6c056e903c496a7ea4a23274571ba1a0f23c543c8278d5012a23835571a6a704",
+      "literal_bytes": 0,
+      "code_words": 23,
+      "translation_source": "src/skeleton_find.c",
+      "translation_source_sha256": "96efc24d37a8c3a83e228a02d7255cdba63c067d9e4b9ede33d93f2af8ae69b3",
+      "translation_header_sha256": "776b7fb46c51f0488b5711727c2c6a8cd2073b40df6781211b2115f756541689",
+      "semantics_state": "local static control/data flow recovered; arbitrary malformed memory/exception domains remain explicit",
+      "translation_state": "compiled and exercised in final reconstructed ARM32 consumers; original not executed",
+      "phase_complete": false
+    },
+    {
+      "name": "spSkeletonData_findSlotIndex",
+      "address": "0x28b0cc",
+      "isa": "ARM",
+      "range_end_exclusive": "0x28b124",
+      "code_end_exclusive": "0x28b124",
+      "body_sha256": "a7724ad3e385f393323a421dd9da1d4c0819732b7cad1256e9ddfadfc4072e3f",
+      "literal_bytes": 0,
+      "code_words": 22,
+      "translation_source": "src/skeleton_find.c",
+      "translation_source_sha256": "96efc24d37a8c3a83e228a02d7255cdba63c067d9e4b9ede33d93f2af8ae69b3",
+      "translation_header_sha256": "776b7fb46c51f0488b5711727c2c6a8cd2073b40df6781211b2115f756541689",
+      "semantics_state": "local static control/data flow recovered; arbitrary malformed memory/exception domains remain explicit",
+      "translation_state": "compiled and exercised in final reconstructed ARM32 consumers; original not executed",
+      "phase_complete": false
+    },
+    {
+      "name": "spSkeletonData_findSkin",
+      "address": "0x28b124",
+      "isa": "ARM",
+      "range_end_exclusive": "0x28b180",
+      "code_end_exclusive": "0x28b180",
+      "body_sha256": "77b70fdc0ece49a78ebd545531ee0b552af7d365569ca95fc679f8cb1d813ade",
+      "literal_bytes": 0,
+      "code_words": 23,
+      "translation_source": "src/skeleton_find.c",
+      "translation_source_sha256": "96efc24d37a8c3a83e228a02d7255cdba63c067d9e4b9ede33d93f2af8ae69b3",
+      "translation_header_sha256": "776b7fb46c51f0488b5711727c2c6a8cd2073b40df6781211b2115f756541689",
+      "semantics_state": "local static control/data flow recovered; arbitrary malformed memory/exception domains remain explicit",
+      "translation_state": "compiled and exercised in final reconstructed ARM32 consumers; original not executed",
+      "phase_complete": false
+    }
+  ],
+  "acceptance": {
+    "status": "verified_reconstructed_scope_only",
+    "original_executed": false,
+    "linked_consumer_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/run-03/receipt.json",
+    "linked_consumer_receipt_sha256": "600109e9ce9ada4d802affed12b7b9c250503109bc7e581daf76ed96544d316f",
+    "linked_contracts_per_variant": 15,
+    "linked_variants": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "linked_runtime_mutants": 17,
+    "guard_contract": "O0/O2/O3 global canary rejects after optional Json_dispose; disabling guard distinguished by named assertion",
+    "static_review": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/parent-static-review/parent-static-review.json"
+  },
+  "layout": {
+    "data": "canonical complete84B words[] from spine_skeleton_data.h",
+    "bone_slot": "opaque objects, name word proven at+4; no partial fake structs",
+    "skin": "name word+0"
+  },
+  "corrects_previous_candidate": [
+    "old partial Bone/Slot declaration put name at+0 despite original loads+4",
+    "old partial spSkeletonData definition competed with canonical84B record",
+    "old table-minus-one C pointer construction replaced by wrapped native word reads"
+  ],
+  "semantics": "signed nonpositive count skips table; count and base snapshotted before loop; next table entries fresh; object cached across strcmp; index0-based or -1",
+  "depends_on": [
+    "external strcmp",
+    "canonical spine_skeleton_data type"
+  ],
+  "original_gap": [
+    "no original execution or equivalence verdict",
+    "exact invalid pointer/fault-PC and allocator failures not certified",
+    "whole library/loader not assembled"
+  ]
+}

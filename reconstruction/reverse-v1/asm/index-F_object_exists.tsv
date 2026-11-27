@@ -1,0 +1,16 @@
+12e0cc	e92d4038	push	{r3, r4, r5, lr}
+12e0d0	e3a05000	mov	r5, #0
+12e0d4	e1a04000	mov	r4, r0
+12e0d8	e1a01005	mov	r1, r5
+12e0dc	e580500c	str	r5, [r0, #0xc]
+12e0e0	e59d0010	ldr	r0, [sp, #0x10]
+12e0e4	ebfe81e1	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+12e0e8	eb01c302	bl	0x19ecf8 <_Z13Object_Existsi>
+12e0ec	e3500000	cmp	r0, #0
+12e0f0	01a05000	moveq	r5, r0
+12e0f4	11a03005	movne	r3, r5
+12e0f8	01a03005	moveq	r3, r5
+12e0fc	13433ff0	movtne	r3, #0x3ff0
+12e100	e5845000	str	r5, [r4]
+12e104	e5843004	str	r3, [r4, #0x4]
+12e108	e8bd8038	pop	{r3, r4, r5, pc}

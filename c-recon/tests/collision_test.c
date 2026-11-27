@@ -12,11 +12,15 @@
  *   3. A/B flips (angle 0 vs 90, scale 1 vs -1 vs 0.28125) where the same
  *      instance pair must change its answer.
  *
- * Build/run:
+ * Build/run (the whole geometry chain, not just the module under test: host.c
+ * already calls into objects/audio, so the test must link the same set the
+ * state_dump target does):
  *   clang -std=c11 -O2 -Wall -Ic-recon/include \
- *       c-recon/src/host.c c-recon/src/collision.c \
- *       c-recon/tests/collision_test.c c-recon/gen/sprites.c \
- *       -o c-recon/build/collision_test && ./c-recon/build/collision_test
+ *       c-recon/src/host.c c-recon/src/collision.c c-recon/src/objects.c \
+ *       c-recon/src/builtins2.c c-recon/gen/objects_data.c \
+ *       c-recon/gen/registry.c c-recon/gen/gml_0012.c c-recon/gen/gml_0792.c \
+ *       c-recon/gen/sprites.c c-recon/tests/collision_test.c \
+ *       -o c-recon/build/collision_test -lm && ./c-recon/build/collision_test
  */
 #include "gml.h"
 
@@ -393,13 +397,14 @@ static void group_line_mask(void) {
     double ox = sp ? sp->origin_x : 0.0;
     double oy = sp ? sp->origin_y : 0.0;
     int32_t id = mk(100010, 34, 0.0, 0.0, spr);
-    /* mask_hit: lx = floor(px/1) + ox, so a world x of zx-ox+0.5 lands on zx. */
-    double px = (double)zx - ox + 0.5, py = (double)zy - oy + 0.5;
-    double qx = (double)nxp - ox + 0.5;
+    /* The call site lrints both endpoints, so the segment has to be addressed on
+     * integer coordinates; lx = floor(px - 0) + ox lands on zx when px = zx-ox. */
+    double px = (double)zx - ox, py = (double)zy - oy;
+    double qx = (double)nxp - ox;
     CHECK_I("line mask: segment through a transparent pixel misses",
-            gm_line_mask_test(&g_vm, id, px - 0.3, py, px + 0.3, py), 0);
+            gm_line_mask_test(&g_vm, id, px, py, px, py), 0);
     CHECK_I("line mask: segment through a set pixel hits",
-            gm_line_mask_test(&g_vm, id, qx - 0.3, py, qx + 0.3, py), 1);
+            gm_line_mask_test(&g_vm, id, qx, py, qx, py), 1);
     CHECK_I("point mask: point on a transparent pixel misses",
             gm_mask_point_test(&g_vm, id, px, py), 0);
     CHECK_I("point mask: point on a set pixel hits",
@@ -433,6 +438,110 @@ static void group_precise_place(void) {
      * mask_probe_pixel code path. */
 }
 
+/* --- 12. collision_line broad phase: half-open on the inclusive integer box --
+ * The runner's broad phase is `min(x1,x2) < right+1 && max(x1,x2) >= left`
+ * (CInstance::Collision_Line @0x194f28); Rust mirrors it with
+ * bounds_for_instance (right+1, bottom+1). A sprite-less instance is the integer
+ * point box [x,x]x[y,y], so a segment on its .5 row/column must touch it and one
+ * 1.5 rows away must not. Reverting the +1 flips the first of each pair. */
+static void group_line_broad_phase(void) {
+    new_vm();
+    int32_t id = mk(100030, 34, 200.0, 200.0, -1);
+    CHECK_I("line box: .5 row touches the sprite-less point box",
+            gm_line_hits_instance(&g_vm, id, 190.0, 200.5, 210.0, 200.5), 1);
+    CHECK_I("line box: 1.5 rows above the point box misses",
+            gm_line_hits_instance(&g_vm, id, 190.0, 201.5, 210.0, 201.5), 0);
+    CHECK_I("line box: .5 column touches the sprite-less point box",
+            gm_line_hits_instance(&g_vm, id, 200.5, 190.0, 200.5, 210.0), 1);
+    CHECK_I("line box: 1.5 columns away misses",
+            gm_line_hits_instance(&g_vm, id, 201.5, 190.0, 201.5, 210.0), 0);
+    /* Control: the integer coordinate itself still hits. */
+    CHECK_I("line box: a segment through the point itself hits",
+            gm_line_hits_instance(&g_vm, id, 190.0, 200.0, 210.0, 200.0), 1);
+}
+
+/* --- 13. collision_point(prec=1) floors the local coordinate ---------------
+ * The runner's PreciseCollisionPoint calls floorf (PLT stub 0xb6910, hooked by
+ * c-recon/tools/oracle/precise_oracle.py), while instance_place uses vcvt.s32
+ * (truncation). They only differ on negative coordinates: local -0.5 is pixel
+ * -1 (miss) after flooring but pixel 0 (hit) after truncation. This pins the
+ * floor side with a sprite whose mask pixel (0,0) is set. */
+static void group_point_floor_negative(void) {
+    new_vm();
+    int32_t spr = -1;
+    for (int i = 0; i < GM_SPRITE_COUNT && spr < 0; i++) {
+        const GmSprite* s0 = &GM_SPRITES[i];
+        if (s0->origin_x != 0 || s0->origin_y != 0) continue;
+        for (int k = 0; k < GM_SPRITE_MASK_COUNT; k++) {
+            const GmMaskSprite* m = &GM_SPRITE_MASKS[k];
+            if (m->sprite != s0->id || m->nframes <= 0) continue;
+            const GmMaskFrame* f = &m->frames[0];
+            if (f->width > 0 && f->height > 0 && (f->bits[0] & 0x80)) { spr = s0->id; break; }
+        }
+    }
+    CHECK_I("mask: a sprite with origin 0,0 and pixel (0,0) set exists", spr > 0, 1);
+    if (spr < 0) return;
+    int32_t id = mk(100040, 34, 100.4, 100.0, spr);
+    vm_set_field(&g_vm, id, "image_xscale", 2.0);
+    /* Call-site rounding: lrint(100.0) - lrint(100.4) = 0, so the query lands on
+     * pixel 0. Without the rounding the raw -0.4 becomes -0.2 after the divide
+     * and floors to -1 (miss). */
+    CHECK_I("rounding: query 100.0 against x=100.4 stays on pixel 0 (hit)",
+            gm_mask_point_test(&g_vm, id, 100.0, 100.0), 1);
+    /* Floor vs truncation: a difference of -1 over scale 2 is local -0.5, which
+     * floors to -1 (miss) and would truncate to 0 (hit). */
+    CHECK_I("floor: local -0.5 floors to pixel -1 and misses",
+            gm_mask_point_test(&g_vm, id, 99.0, 100.0), 0);
+}
+
+/* First sprite whose origin is (0,0) and whose frame-0 mask has pixel (0,0)
+ * set: with origin 0 the sampled column is exactly the difference the runner
+ * computes, so a rounding change is visible as a different pixel. */
+static int32_t origin_zero_mask_sprite(void) {
+    for (int i = 0; i < GM_SPRITE_COUNT; i++) {
+        const GmSprite* s0 = &GM_SPRITES[i];
+        if (s0->origin_x != 0 || s0->origin_y != 0) continue;
+        for (int k = 0; k < GM_SPRITE_MASK_COUNT; k++) {
+            const GmMaskSprite* m = &GM_SPRITE_MASKS[k];
+            if (m->sprite != s0->id || m->nframes <= 0) continue;
+            const GmMaskFrame* f = &m->frames[0];
+            if (f->width > 0 && f->height > 0 && (f->bits[0] & 0x80)) return s0->id;
+        }
+    }
+    return -1;
+}
+
+static void group_line_rounding(void) {
+    new_vm();
+    int32_t spr = origin_zero_mask_sprite();
+    CHECK_I("line rounding: an origin-0,0 mask sprite exists", spr > 0, 1);
+    if (spr < 0) return;
+    int32_t id = mk(100050, 34, 100.4, 100.0, spr);
+    /* A vertical segment at x=100.0 is an integer sample at every step. With
+     * lrint(100.4)=100 the difference is 0 and pixel (0,0) is hit; with the raw
+     * centre it is -0.4, floors to -1 and misses on every sample. */
+    CHECK_I("line rounding: vertical segment on the rounded column hits",
+            gm_line_mask_test(&g_vm, id, 100.0, 99.0, 100.0, 101.0), 1);
+}
+
+/* --- 16. PreciseCollision on two real sprites, rotation included ----------
+ * Table from real_sprite_table.py: spr_player(29) vs spr_spikes(93) at (0,0)
+ * -> unrotated hit, target rotated 90 -> miss. Calls gm_precise_overlap
+ * directly, so the broad-phase box cannot decide the answer. */
+static void group_precise_rotation(void) {
+    new_vm();
+    int32_t a = mk(100070, 34, 0.0, 0.0, 29);
+    int32_t b = mk(100071, 34, 0.0, 0.0, 93);
+    /* Rects injected generously, exactly like the oracle: pixels outside a mask
+     * always miss, so the mask sampling is what decides. */
+    double rect[4] = { -64.0, 64.0, -64.0, 64.0 };   /* l, r, t, b */
+    CHECK_I("precise rotation: unrotated player/spikes overlap",
+            gm_precise_rects(&g_vm, a, rect, b, rect), 1);
+    vm_set_field(&g_vm, b, "image_angle", 90.0);
+    CHECK_I("precise rotation: 90-degree spikes clear the mask overlap",
+            gm_precise_rects(&g_vm, a, rect, b, rect), 0);
+}
+
 int main(void) {
     group_pinned_player_lloyd();
     group_mask_and_signed_scale();
@@ -446,6 +555,10 @@ int main(void) {
     group_distance_selectors();
     group_line_mask();
     group_precise_place();
+    group_line_broad_phase();
+    group_point_floor_negative();
+    group_line_rounding();
+    group_precise_rotation();
     printf("collision_test: %d checks, %d failed\n", g_checks, g_fails);
     return g_fails ? 1 : 0;
 }

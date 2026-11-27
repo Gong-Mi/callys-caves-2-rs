@@ -1,0 +1,798 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "VMExec_prefix_bytes": 96,
+  "VMCallFrame_bytes": 60,
+  "stackSpan": {
+    "offset": 64,
+    "kind": "uint32 byte count, not a pointer",
+    "VM_Exec_initial_value": 16384,
+    "producer_anchors": [
+      {
+        "va": "0xe8048",
+        "word": "0xe3a02901"
+      },
+      {
+        "va": "0xe8058",
+        "word": "0xe58d2058"
+      }
+    ],
+    "return_expression": "stackAllocation + (stackSpan - callerFrameDistance), ARM32 wrapping; negative distance gives null",
+    "consumer_anchors": [
+      {
+        "va": "0xe4360",
+        "word": "0xa5961040"
+      },
+      {
+        "va": "0xe436c",
+        "word": "0xa0633001"
+      },
+      {
+        "va": "0xe4378",
+        "word": "0xa0823003"
+      }
+    ]
+  },
+  "caller_derived_fields": {
+    "childExec": {
+      "offset": 0,
+      "anchors": [
+        "0xe814c",
+        "0xe815c",
+        "0xe81dc"
+      ]
+    },
+    "parentExec": {
+      "offset": 4,
+      "anchors": [
+        "0xe8150"
+      ]
+    },
+    "argumentValues": {
+      "offset": 28,
+      "anchors": [
+        "0xe80c8",
+        "0xe8108"
+      ]
+    },
+    "argumentCount": {
+      "offset": 32,
+      "anchors": [
+        "0xe80e8"
+      ]
+    },
+    "name": {
+      "offset": 52,
+      "anchors": [
+        "0xe8020",
+        "0xe80c4",
+        "0xe86c8"
+      ]
+    },
+    "debugBuffer": {
+      "offset": 56,
+      "anchors": [
+        "0xe8034",
+        "0xe808c",
+        "0xe86c0"
+      ]
+    },
+    "sourceText": {
+      "offset": 60,
+      "anchors": [
+        "0xe8014",
+        "0xe80c0",
+        "0xe86c4"
+      ]
+    }
+  },
+  "unknown": [
+    "state30 meaning",
+    "VMExec full allocation extent",
+    "RValue C++ class/ownership API",
+    "Complete YYObjectBase layout and remaining methods; +0x28 bit-0 accessor now partially recovered",
+    "CProfiler fields/alignment and original ignored return spelling"
+  ],
+  "original_executed": false,
+  "rebuilt_executed": false,
+  "global_bindings": [
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44c0",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edd28",
+      "relocation_type": 23,
+      "target": "0x47a1d8",
+      "symbols": [
+        "g_retCount"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44c4",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edb70",
+      "relocation_type": 23,
+      "target": "0x757e7c",
+      "symbols": [
+        "g_bProfile"
+      ],
+      "object_sizes": [
+        1
+      ]
+    },
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44c8",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edd14",
+      "relocation_type": 23,
+      "target": "0x47b234",
+      "symbols": [
+        "g_ArgumentCount"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44cc",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edd18",
+      "relocation_type": 23,
+      "target": "0x47a170",
+      "symbols": [
+        "Argument"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "PerformReturn",
+      "literal": "0xe44d0",
+      "got_base_add": "0xe42ec",
+      "got_slot": "0x3edb74",
+      "relocation_type": 23,
+      "target": "0x757e80",
+      "symbols": [
+        "g_Profiler"
+      ],
+      "object_sizes": [
+        128
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47a4",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd2c",
+      "relocation_type": 23,
+      "target": "0x47a1d4",
+      "symbols": [
+        "g_execCount"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47a8",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd14",
+      "relocation_type": 23,
+      "target": "0x47b234",
+      "symbols": [
+        "g_ArgumentCount"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47ac",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edbb0",
+      "relocation_type": 23,
+      "target": "0x47f298",
+      "symbols": [
+        "g_pCurrentExec"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47b0",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd24",
+      "relocation_type": 23,
+      "target": "0x756470",
+      "symbols": [
+        "g_fDoExceptionUnwind"
+      ],
+      "object_sizes": [
+        1
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47b4",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edcf4",
+      "relocation_type": 23,
+      "target": "0x3f2018",
+      "symbols": [
+        "g_paramSize"
+      ],
+      "object_sizes": [
+        64
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47b8",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd30",
+      "relocation_type": 23,
+      "target": "0x75645c",
+      "symbols": [
+        "g_exceptionVar"
+      ],
+      "object_sizes": [
+        16
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47bc",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd34",
+      "relocation_type": 23,
+      "target": "0x756458",
+      "symbols": [
+        "g_caughtExec"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47c0",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd38",
+      "relocation_type": 23,
+      "target": "0x75646c",
+      "symbols": [
+        "g_pExceptionSP"
+      ],
+      "object_sizes": [
+        4
+      ]
+    },
+    {
+      "owner": "VM::ExecRelease",
+      "literal": "0xe47c4",
+      "got_base_add": "0xe4558",
+      "got_slot": "0x3edd3c",
+      "relocation_type": 23,
+      "target": "0x47a1e0",
+      "symbols": [
+        "stackPages"
+      ],
+      "object_sizes": [
+        20
+      ]
+    }
+  ],
+  "profiler_direct_dependency": {
+    "entry": "0x2a08ac",
+    "size": 180,
+    "source_method": "CProfiler::Pop()",
+    "timing_provider": "internal C-linked Timing_Time at 0x215148; not implemented by this batch",
+    "adjusted_ticks": "Only LOW32 contributes to the 64-bit aggregate; the computed high half is overwritten before that addition.",
+    "anchors": [
+      {
+        "va": "0x2a08fc",
+        "word": "0xe0c33005"
+      },
+      {
+        "va": "0x2a0900",
+        "word": "0xe0803181"
+      },
+      {
+        "va": "0x2a0918",
+        "word": "0xe0944002"
+      },
+      {
+        "va": "0x2a091c",
+        "word": "0xe2a55000"
+      }
+    ],
+    "unverified": [
+      "original Pop return spelling",
+      "empty/nonpositive stack fault equivalence",
+      "concurrent atomicity of original paired word transfers"
+    ]
+  },
+  "profiler_push": {
+    "entry": "0x2a0738",
+    "frame_stride": 24,
+    "grow_only_if_count_equals_capacity": true,
+    "grow_capacity_delta": 10,
+    "alloc_tag_address": "0x35520c",
+    "alloc_tag_line": 40,
+    "frame_initial_words": [
+      "kind@0",
+      "id@4",
+      "nodeIndex@8"
+    ],
+    "uninitialized_tail_words": [
+      "+0xc",
+      "+0x10",
+      "+0x14"
+    ],
+    "full_24B_copy": "raw LDM4/STR2/LDM2/STR4 primitive, no invented initialization",
+    "post_call_reload_contract": [
+      "capacity/data after Alloc",
+      "data again before Free",
+      "count after Free",
+      "this+8 before held count publication",
+      "selected frame captured before second clock",
+      "base loaded after second clock"
+    ],
+    "node_return_is_index_not_pointer": true,
+    "tail_math": "delta=base_afterSecond-first; this.base=second+delta; selected.frame+16=0-delta (uint64 wrap)",
+    "no_fault_or_atomicity_certification": true
+  },
+  "VM_entry": {
+    "entry": "0xe7fd0",
+    "pool_init_guard": {
+      "pc_base": "0x47a1bc",
+      "byte_address": "0x47a1d0",
+      "symbols": []
+    },
+    "global_bindings": [
+      {
+        "pool": "0xe8560",
+        "slot": "0x3edd3c",
+        "target": "0x47a1e0",
+        "symbols": [
+          [
+            "stackPages",
+            20
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8564",
+        "slot": "0x3edd58",
+        "target": "0x47b239",
+        "symbols": [
+          [
+            "g_fVMTrace",
+            1
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8568",
+        "slot": "0x3edd5c",
+        "target": "0x544b50",
+        "symbols": [
+          [
+            "g_nLocalVariables",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe856c",
+        "slot": "0x3edd14",
+        "target": "0x47b234",
+        "symbols": [
+          [
+            "g_ArgumentCount",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8570",
+        "slot": "0x3edd18",
+        "target": "0x47a170",
+        "symbols": [
+          [
+            "Argument",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8574",
+        "slot": "0x3edbb0",
+        "target": "0x47f298",
+        "symbols": [
+          [
+            "g_pCurrentExec",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8578",
+        "slot": "0x3edbc0",
+        "target": "0x47f295",
+        "symbols": [
+          [
+            "g_fJSGarbageCollection",
+            1
+          ]
+        ]
+      },
+      {
+        "pool": "0xe857c",
+        "slot": "0x3edcfc",
+        "target": "0x757e4c",
+        "symbols": [
+          [
+            "g_pServer",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe8580",
+        "slot": "0x3ed71c",
+        "target": "0x3eb70c",
+        "symbols": [
+          [
+            "dbg_csol",
+            4
+          ]
+        ]
+      }
+    ],
+    "trace_string": {
+      "pool": "0xe8584",
+      "add_site": "0xe82b8",
+      "text": "script = %s\n"
+    },
+    "private_image_bytes": 124,
+    "published_exec_offset": 24,
+    "empty_pool": {
+      "new_size": "0x108008",
+      "payload_fill": 120,
+      "payload_length": "0x108000",
+      "first_aligned": "(uint32(base+0x8008)&~0x7fff)",
+      "node_stride": "0x8000",
+      "selected_last_offset": "0xf0000",
+      "loop_end_offset": "0xf8000",
+      "new_free_count_net_delta": 30,
+      "join_skips_nonempty_head_read": true
+    },
+    "parent_repairs": "See parent-static-repairs.json: fill/alignment, conditional kind-byte and BFI replacement, real spill-before-call/reloads, post-context live locals, ARM32 addresses. Only static arithmetic counterexamples, not executed target cases.",
+    "frameDepth_initialization": {
+      "store_pc": "0xe8138",
+      "word": "0xe58d2064",
+      "sp_offset": "0x64",
+      "exec_base": "0x18",
+      "member_offset": "0x4c",
+      "member": "frameDepth",
+      "not_nextSlot": "0x48/sp0x60 remains uninitialized by this entry",
+      "parent_recheck": "fresh O0/O2 builds and negative old-nextSlot static_assert rejected"
+    }
+  },
+  "profiler_node": {
+    "entry": "0x2a04f4",
+    "stats_header": {
+      "capacity": 0,
+      "count": 4,
+      "data": 8
+    },
+    "record_stride": 40,
+    "search_full_requested_fields_before_creation_mask": true,
+    "grow_gate": "signed count >= signed wrap(capacity-1)",
+    "byte3_BFI_replaces_high_nibble": true,
+    "record_unknown_bytes": [
+      "0x04..0x07",
+      "0x24..0x27"
+    ],
+    "post_ReAlloc_receivers": "parent index/live stats from this, count and newData publication to held old header",
+    "candidate_receiver_offset_asserted_zero": true
+  },
+  "weak_refcount_dec": {
+    "entry": "0xc09f8",
+    "binding": "STB_WEAK/STV_DEFAULT",
+    "observed_prefix_offsets": [
+      0,
+      4,
+      8
+    ],
+    "full_class_unproved": true,
+    "static_strong_override_probe": "parent scratch weak-override-receipt.json, not executed"
+  },
+  "ExecDebug": {
+    "entry": "0xe47c8",
+    "global_bindings": [
+      {
+        "pool": "0xe4b68",
+        "slot": "0x3edd2c",
+        "target": "0x47a1d4",
+        "symbols": [
+          [
+            "g_execCount",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b6c",
+        "slot": "0x3edd14",
+        "target": "0x47b234",
+        "symbols": [
+          [
+            "g_ArgumentCount",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b70",
+        "slot": "0x3edcfc",
+        "target": "0x757e4c",
+        "symbols": [
+          [
+            "g_pServer",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b74",
+        "slot": "0x3edd40",
+        "target": "0x3f2094",
+        "symbols": [
+          [
+            "g_DebugStepType",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b78",
+        "slot": "0x3edbb0",
+        "target": "0x47f298",
+        "symbols": [
+          [
+            "g_pCurrentExec",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b7c",
+        "slot": "0x3edd44",
+        "target": "0x47f297",
+        "symbols": [
+          [
+            "g_DoSingleStep",
+            1
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b80",
+        "slot": "0x3edcf8",
+        "target": "0x3f20b4",
+        "symbols": [
+          [
+            "g_instructions",
+            128
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b84",
+        "slot": "0x3edd24",
+        "target": "0x756470",
+        "symbols": [
+          [
+            "g_fDoExceptionUnwind",
+            1
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b88",
+        "slot": "0x3edd34",
+        "target": "0x756458",
+        "symbols": [
+          [
+            "g_caughtExec",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b8c",
+        "slot": "0x3edd3c",
+        "target": "0x47a1e0",
+        "symbols": [
+          [
+            "stackPages",
+            20
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b90",
+        "slot": "0x3edd48",
+        "target": "0x47f290",
+        "symbols": [
+          [
+            "g_SingleStepCurrentScript",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b94",
+        "slot": "0x3edd4c",
+        "target": "0x47f28c",
+        "symbols": [
+          [
+            "g_SingleStepRetCount",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b98",
+        "slot": "0x3edcf4",
+        "target": "0x3f2018",
+        "symbols": [
+          [
+            "g_paramSize",
+            64
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4b9c",
+        "slot": "0x3edd50",
+        "target": "0x3f2098",
+        "symbols": [
+          [
+            "g_SingleStepCurrentLine",
+            4
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4ba0",
+        "slot": "0x3edd30",
+        "target": "0x75645c",
+        "symbols": [
+          [
+            "g_exceptionVar",
+            16
+          ]
+        ]
+      },
+      {
+        "pool": "0xe4ba4",
+        "slot": "0x3edd38",
+        "target": "0x75646c",
+        "symbols": [
+          [
+            "g_pExceptionSP",
+            4
+          ]
+        ]
+      }
+    ],
+    "private_bytes": 20,
+    "entry_does_not_publish_currentExec": true,
+    "instruction_source": "g_instructions inline32 slots, opcode-indexed; not converted dense exec table",
+    "step_injection": {
+      "word": "0xff0f0000",
+      "opcode": 31,
+      "size_index": 15,
+      "clear_order": "DoSingleStep byte0, publishCurrent, DebugStepType=-1, then live PC+paramSize"
+    },
+    "volatile_read_order": "PC before paramSize; debug helper before source/global step-state refresh",
+    "exit_cleanup": "third bool && signed localsMode>0 && live locals!=NULL; after Free clear locals",
+    "snapshot_four_words_before_copy": true,
+    "no_original_execution_equivalence": true
+  },
+  "debug_record_helpers": {
+    "entries": [
+      "0xec144",
+      "0xec2b8"
+    ],
+    "record_size": 8,
+    "fields": {
+      "signedInstructionPc": 0,
+      "signedSourceByteOffset": 4
+    },
+    "DebugInfo": "bufferSize4 then unconditional code10 read; logical >>3 count; signed key comparisons; held last qualifying record",
+    "line_scan": "strlen before live record+4; signed shortening only; inverse UTF lead hunt with no extra bound",
+    "private_cursor": "one cell each iteration reloaded with held scan; helper advanced pointer discarded",
+    "marker": {
+      "literal_pool": "0xec474",
+      "pc_add_site": "0xec304",
+      "address": "0x334b50",
+      "bytes_hex": "236c696e6520",
+      "content": "#line "
+    },
+    "ctype": {
+      "literal_pool": "0xec478",
+      "pc_load_site": "0xec3bc",
+      "slot": "0x3ed988",
+      "raw_unresolved_word": 0,
+      "relocations": [
+        {
+          "type": 21,
+          "symbol": "_ctype_"
+        }
+      ],
+      "shape": "GOT -> address of imported _ctype_ pointer cell -> held byte-table pointer; mask8 on table[unsignedByte+1]"
+    },
+    "filename_out": "malloc -> publish*out -> unconditional memcpy return ignored -> live*out -> NUL; no synthetic failure guard",
+    "unproved": [
+      "debug record writer/ownership",
+      "utf8_extract_char original source language/body",
+      "ctype runtime provider",
+      "LR/fault/unwind/concurrency"
+    ]
+  },
+  "stack_startup": {
+    "tier": "bytecode_anchored",
+    "entry": "0xb959c",
+    "range_end_exclusive": "0xb95dc",
+    "init_array_slot": "0x3eb5ec",
+    "body_sha256": "a4d8ae7609c35090cb01f2e231e994dfd8f30704db8ea5046dbf7f4502c240f9",
+    "original_link_header": "0x47a1bc",
+    "anonymous_header_size": 12,
+    "object_symbol": "stackPages",
+    "object_va": "0x47a1e0",
+    "object_got": "0x3edd3c",
+    "bucket_type": "CBucket<32768,1048576,false>",
+    "object_size": 20,
+    "vtable_got": "0x3edd74",
+    "vtable_va": "0x3eb908",
+    "address_point": "0x3eb910",
+    "state_writes": [
+      {
+        "va": "0xb95bc",
+        "destination": "anonymous header+0",
+        "value": "address of header"
+      },
+      {
+        "va": "0xb95c0",
+        "destination": "stackPages+0",
+        "value": "CBucket vtable address point"
+      },
+      {
+        "va": "0xb95c4",
+        "destination": "anonymous header+4",
+        "value": "address of header"
+      },
+      {
+        "va": "0xb95c8",
+        "destination": "anonymous header+8",
+        "value": 420
+      }
+    ],
+    "guard": "0x47a1d0 zeroed BSS, only lazy VM::Exec path changes it (not this .init_array entry)",
+    "gap": "The anonymous header readers and eventual link/load order are not established. Dynamic original/rebuilt equivalence not measured."
+  }
+}

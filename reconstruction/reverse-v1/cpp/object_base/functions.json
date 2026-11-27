@@ -1,0 +1,2887 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "header_path": "../vm_exec/vm_exec.hpp",
+  "header_sha256": "1887d564102a65dfe45a5f1127044d9db5069460e31af0a2643f70fc99b2dec0",
+  "canonical_static_api_header": "../vm_exec/vm_exec.hpp",
+  "canonical_api_header_sha256": "1887d564102a65dfe45a5f1127044d9db5069460e31af0a2643f70fc99b2dec0",
+  "functions": [
+    {
+      "entry": "0x198f88",
+      "size": 392,
+      "symbols": [
+        "_ZN12YYObjectBase4FreeEPS_"
+      ],
+      "body_sha256": "f90fdf371b03f348fb21d0361b0687a564fbddd72470cbf5d165efd585f721fa",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_free.cpp",
+      "translation_source_sha256": "f7ad3ef41cdb6fd5c75d3cfc25b7917bcc9a9911cf8e2a2deb4985c0eb6b7bb9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x198dac",
+      "size": 476,
+      "symbols": [
+        "_ZN12YYObjectBase8FreeVarsEPS_PP6RValueS3_PP9RVariableS6_"
+      ],
+      "body_sha256": "3fc0ad1ad247d8d394d3463624427e5fb0549fac280f9ce5a4fb51fdcb05c2c7",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_free_vars.cpp",
+      "translation_source_sha256": "add1ac8de7493e9be68dfe987bb129a5b6dd2c7b608d55a72f7ec142218ed5f2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190e84",
+      "size": 108,
+      "symbols": [
+        "_Z10FreeRValueP6RValuePS0_S1_"
+      ],
+      "body_sha256": "abb73b9cd8a0f30ca84ea248a9ec400507596988edd8b9af5a05d8ec08d299ef",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "value_pool.cpp",
+      "translation_source_sha256": "0d34ab030440e8686106bdbc72a8418cd5d50d70409571d56221b483dca9f32f",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x241890",
+      "size": 76,
+      "symbols": [
+        "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc"
+      ],
+      "body_sha256": "0dcd07dd5eab4b0c323144a0893f48f6849da7a48d4cedfe295663f815096e3b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x2418dc",
+      "size": 72,
+      "symbols": [
+        "_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc"
+      ],
+      "body_sha256": "fa0baa95d41be7f069e1c21d1e327851fd354419bb9f2419611d90701f8fc755",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x240758",
+      "size": 20,
+      "symbols": [
+        "_Z20JS_IsCallable_ObjectP12YYObjectBase"
+      ],
+      "body_sha256": "8b2762da28303373c3e72655050f5d5ad42396bd5dbc01672e249e55cae44831",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x24076c",
+      "size": 124,
+      "symbols": [
+        "_Z13JS_IsCallableR6RValue"
+      ],
+      "body_sha256": "bb211d1f1826aad7466fcffcef797ec71a7beaf2afd065ee691357004ed17d43",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x249860",
+      "size": 56,
+      "symbols": [
+        "_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_"
+      ],
+      "body_sha256": "ed57d901115499ca5ec0771e78a342874f193efb71811956ce4ceb14df3422e0",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_helpers.cpp",
+      "translation_source_sha256": "4f378eacec23cc473d4365a310a92ef675b9ced4f2ac8731248defb24591f589",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x19198c",
+      "size": 544,
+      "symbols": [
+        "_ZN12YYObjectBase5AllocEjib"
+      ],
+      "body_sha256": "51a61e17529ad2526da116dbee78b23548a0cf65424d49f1528dd734a442c180",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_allocation.cpp",
+      "translation_source_sha256": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x196a70",
+      "size": 276,
+      "symbols": [
+        "_ZN12YYObjectBase16InternalGetYYVarEi"
+      ],
+      "body_sha256": "742f0d4db58f440c85ed17aab74cfe425532af1e59447ba42c97233c63d9d7f8",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_allocation.cpp",
+      "translation_source_sha256": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x1b6e44",
+      "size": 8,
+      "symbols": [
+        "_Z21CHashMapCalculateHashi"
+      ],
+      "body_sha256": "7b2a4131000c79c4d67c6650b361f5fbc7eb2ad79344c81426cc3a68849704d2",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_allocation.cpp",
+      "translation_source_sha256": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xcef64",
+      "size": 44,
+      "symbols": [
+        "_Z9YYReallocPvi"
+      ],
+      "body_sha256": "ab501b8f45456b9535d28bad879e201c320b43220709e1bae1812b4fbbc5c1d1",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_allocation.cpp",
+      "translation_source_sha256": "4d4dc0e1d9a480b2523fbe4ac52b0387e956e7e1e33a3f64fcdd24146886b6e0",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190dc0",
+      "size": 196,
+      "symbols": [
+        "_Z9GetRValuev"
+      ],
+      "body_sha256": "e249d9667d9ababf8e1f24565faec88970530b843c1a56c0b55704346da5e1b4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "value_map_producers.cpp",
+      "translation_source_sha256": "9ff28ad70522232c139583f9a53797bf45a06f16399efd7fa922fcdc7f04e630",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x1917dc",
+      "size": 176,
+      "symbols": [
+        "_ZN12YYObjectBase9AllocVarsEv"
+      ],
+      "body_sha256": "7a917de82eca824734ad3999fa0a5a07611f82b0e80728a36940525a19a1f43e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "value_map_producers.cpp",
+      "translation_source_sha256": "9ff28ad70522232c139583f9a53797bf45a06f16399efd7fa922fcdc7f04e630",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xb9814",
+      "size": 304,
+      "symbols": [],
+      "boundary": "init_array_relative_next_slot",
+      "body_sha256": "c5f9136ba2ae22bc325c85fdd0183d1ddded041a103bc0e5bd7e823317c37ad1",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_image_startup.cpp",
+      "translation_source_sha256": "3afa9ce0c8b5e7fd7b99087dd0bf9365a61333699d299d2965b8ddd169db8337",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Hash and YYSlot allocation/registration, four CGCGeneration constructions, array registration, then _rvalue vptr."
+    },
+    {
+      "entry": "0x190d00",
+      "size": 44,
+      "symbols": [
+        "_ZN6YYSlotI12YYObjectBaseED1Ev",
+        "_ZN6YYSlotI12YYObjectBaseED2Ev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "d8a48a171a764ba26c0c2e0620900367fb06427c00e98b29ac5951f0c426f7d2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_registry_destructors.cpp",
+      "translation_source_sha256": "0b43dcacdb1cd6ea2d4217c2c38071fc98b40fb49e4bb0bb18ea97c977155d99",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Unconditional YYFree of held array, then four word clears."
+    },
+    {
+      "entry": "0x190d2c",
+      "size": 148,
+      "symbols": [
+        "_ZN4HashI9CInstanceED1Ev",
+        "_ZN4HashI9CInstanceED2Ev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "0e0ac5cfadc9adeaef50b7ef040d7e3ac9e2357737a71e15c1afe13aedc89733",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_registry_destructors.cpp",
+      "translation_source_sha256": "0b43dcacdb1cd6ea2d4217c2c38071fc98b40fb49e4bb0bb18ea97c977155d99",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Signed descending bucket sweep; hold node receiver/next across virtual slot +4; real frees and live table/count reads."
+    },
+    {
+      "entry": "0x190f58",
+      "size": 268,
+      "symbols": [
+        "_ZN13CGCGenerationC1Ev",
+        "_ZN13CGCGenerationC2Ev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "20a06d17841f42492b55f0743c6ec402712d77535e2dee1d66a873675d8b5247",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_generation.cpp",
+      "translation_source_sha256": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Real map allocation and threshold, then ordered generation field stores and live efficiency word."
+    },
+    {
+      "entry": "0x191064",
+      "size": 80,
+      "symbols": [
+        "_ZN13CGCGenerationD1Ev",
+        "_ZN13CGCGenerationD2Ev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "25f863a87ba0b1713f8fa302dabcfca2fe3415874aaa33cc7544e42111f9a6d1",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_generation.cpp",
+      "translation_source_sha256": "7d39af3a18d857628d0889b20470c040b01d95202255130c05a62618c9f67598",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Map entry/free/delete path, then live dynamic roots read, clear map, free roots and clear roots field."
+    },
+    {
+      "entry": "0x1910b4",
+      "size": 52,
+      "symbols": [],
+      "boundary": "atexit_pointer_and_next_dynsym",
+      "body_sha256": "ff80e61780ea6deb8caa336a65068985a023490aca78d35d552259b5f81ba6cd",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_gens_array_dtor.cpp",
+      "translation_source_sha256": "f106c3e5b1b6d8a03767d727949a99d480f2f406c66fd490cd2bc62682c2a387",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Ignore null callback object; destroy named array in order 3,2,1,0, last via tail branch in O2."
+    },
+    {
+      "entry": "0xcef4c",
+      "size": 24,
+      "symbols": [
+        "_Z7YYAlloci"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a3e6be2ddd097ed283201aedbddc4383cd30ffd7559bd7169f9ca386b8f49a91",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_image_startup.cpp",
+      "translation_source_sha256": "3afa9ce0c8b5e7fd7b99087dd0bf9365a61333699d299d2965b8ddd169db8337",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Tail forward the size word to Alloc with Code_Main.cpp, line 1293, false."
+    },
+    {
+      "entry": "0x190f34",
+      "size": 12,
+      "symbols": [
+        "_Z21CHashMapCalculateHashIP12YYObjectBaseEjT_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "34217d1f761e353a182d0c67740985eb8d5b85f5b64b22e733c084b0c3663716",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_root_lookup.cpp",
+      "translation_source_sha256": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "ASR pointer bits by 8, then add 1."
+    },
+    {
+      "entry": "0x1910e8",
+      "size": 224,
+      "symbols": [
+        "_ZN13CGCGeneration6IsRootEP12YYObjectBase"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "c5097d76d81af2e52b4f2be8f704cdce60432f80217ec2a508ecfc07f187eae9",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_root_lookup.cpp",
+      "translation_source_sha256": "49b20bd223f3f2255cc6ee6d16ab38313325030903d633447bdca0994c3f57cc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Hash-only membership probe. Slot+4 is tested as an address, no value/key load."
+    },
+    {
+      "entry": "0x19135c",
+      "size": 164,
+      "symbols": [
+        "_ZN13CGCGeneration14AddDynamicRootEP12YYObjectBaseb"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "0ace31eac93853230f3c0298de82ee752b0d2e97fca74fed30e4bd360d9111b2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_mutable_roots.cpp",
+      "translation_source_sha256": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Object/generation gate, signed capacity comparison with wraparound resize, live count then publish returned pointer, count before slot store."
+    },
+    {
+      "entry": "0x191400",
+      "size": 12,
+      "symbols": [
+        "_ZN13CGCGeneration17ResetDynamicRootsEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a46dbb7ce1a0953ec2b112e0deca422dc0c41b430f72b66bad715237cd90b79b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_mutable_roots.cpp",
+      "translation_source_sha256": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Clear only the dynamic root count."
+    },
+    {
+      "entry": "0x19150c",
+      "size": 36,
+      "symbols": [
+        "_ZN13CGCGeneration11UpdateRangeEi"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "60aca76c819fa3d84103711bd5b19e9cca88271f9900f820dae85bf4fe91c700",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_mutable_roots.cpp",
+      "translation_source_sha256": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Read both signed range endpoints before one write each, including unchanged values."
+    },
+    {
+      "entry": "0x191530",
+      "size": 72,
+      "symbols": [
+        "_ZN13CGCGeneration15ResetClassStatsEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "30b236ac4c41517298db12180c644552cdc693809abc7d21dfa09a1f9e341f87",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_mutable_roots.cpp",
+      "translation_source_sha256": "54cd511d9bb7221ba5b55b6df9112b801e16e110f41980d805cd0013b4b0aac5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Free each entry payload from the live table; re-read unsigned count after Free; clear count, retain table."
+    },
+    {
+      "entry": "0x196210",
+      "size": 504,
+      "symbols": [
+        "_ZN13CGCGeneration7AddRootEP12YYObjectBase"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "51bdeb3e3d6392c9aea8754f7918407a983b5fbd4c1c21342e1188a456a6a5f3",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_add_root.cpp",
+      "translation_source_sha256": "ecaa95b8067576f32198c574ade5917c0d4addb7cbdcbd7062b96639f7ade8bc",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "NULL gate, signed grow threshold, original pointer hash and displacement/replace/publish, real reinsert dependency and post-Free live capacity then count.",
+      "resolved_original_body_dependencies": [
+        {
+          "name": "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_",
+          "va": "0x195ba8",
+          "call_site": "0x1963c8",
+          "state": "weak_provider_defined_in_scoped_relocatable"
+        }
+      ]
+    },
+    {
+      "entry": "0x1911c8",
+      "size": 404,
+      "symbols": [
+        "_ZN13CGCGeneration10RemoveRootEP12YYObjectBase"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "63e47ce65457fee361b0fba15cb46ae5e1d5a4edffd2e1891505a68115f1a057",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_remove_root.cpp",
+      "translation_source_sha256": "d51912661f878d9bece061b24473cb0a7fb39df81350691647faae286aeb00ca",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Hash then compare true keys; preserve live reads, deletion backfill and hash clear before count decrement."
+    },
+    {
+      "entry": "0x190f48",
+      "size": 16,
+      "symbols": [
+        "_Z19CHashMapCompareKeysIP12YYObjectBaseEbT_S2_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "558b854ab79aee3d7bfaf52ad7e840b7d3205d8cca7a444c1fa44696b1186f0f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_remove_root.cpp",
+      "translation_source_sha256": "d51912661f878d9bece061b24473cb0a7fb39df81350691647faae286aeb00ca",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Equality of two 32-bit pointer words."
+    },
+    {
+      "entry": "0x195ba8",
+      "size": 1640,
+      "symbols": [
+        "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "43a974b6cd41a3744e62bcd953ef5e3781d8b16389d7da79fa4d82c418bff773",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_root_map_insert.cpp",
+      "translation_source_sha256": "8b0dfb47a037597d02e6727e2dfa49240cb2ae70a99b03fa0c47e53488a5ad7b",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x196118",
+        "0x19611c",
+        "0x196120",
+        "0x196124"
+      ],
+      "local_contract": "Signed grow gate; count reserved before the real pointer hash. Robin Hood displacement carries the pending triple. Three growth sites preserve their different scan-read and empty-slot store orders; only the deepest reinsert calls the real weak symbol. All three Free paths read live capacity before live count.",
+      "direct_dependencies": [
+        {
+          "name": "_Z21CHashMapCalculateHashIP12YYObjectBaseEjT_",
+          "va": "0x190f34"
+        },
+        {
+          "name": "_ZN13MemoryManager5AllocEjPKcib",
+          "va": "0x27ce78"
+        },
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0"
+        },
+        {
+          "name": "memset@plt",
+          "va": "0xb65b0"
+        },
+        {
+          "name": "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_",
+          "va": "0x195ba8"
+        }
+      ],
+      "gap": "Static normal-path recovery, not fault, unwind, FPSCR, concurrency or runtime/linker equivalence."
+    },
+    {
+      "entry": "0x19140c",
+      "size": 256,
+      "symbols": [
+        "_ZN13CGCGeneration5ResetEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "7a65618c6db8d9828620571e0fb46ec6b383b3da5a7bfd93f119a3ad6b843b37",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_reset.cpp",
+      "translation_source_sha256": "f6d60681159c775ebee03059432511314a2bc9b363c42d00752f1a537a647613",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x191500",
+        "0x191504",
+        "0x191508"
+      ],
+      "local_contract": "ResetDynamicRoots, conditional Free and clear of the old held map, reload the map from this, publish allocation before memset. Read live capacity and entries after memset for the signed-positive hash clear. Reset the observed generation words without touching class-stat storage.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13CGCGeneration17ResetDynamicRootsEv",
+          "va": "0x191400"
+        },
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0"
+        },
+        {
+          "name": "_ZN13MemoryManager5AllocEjPKcib",
+          "va": "0x27ce78"
+        },
+        {
+          "name": "memset@plt",
+          "va": "0xb65b0"
+        },
+        {
+          "name": "g_GCinitialcollectionefficiency",
+          "va": "0x3f504c",
+          "width": 4
+        }
+      ],
+      "gap": "Real lane scheduling, final GOT/absolute placement, unusual provider faults, unwind, FPSCR and concurrency are not proven."
+    },
+    {
+      "entry": "0xd66e0",
+      "size": 124,
+      "symbols": [
+        "_Z7ResetGCv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "96bef0ca5b33436c4ad0652f7dee719a2c59da2a3edc25b951707fcc1d3c05bb",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_reset_runtime.cpp",
+      "translation_source_sha256": "e04038c6a75ff888bd40bf10f8e18ff8f54fffd22a466c1769c42aa5884f63fe",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd6748",
+        "0xd674c",
+        "0xd6750",
+        "0xd6754",
+        "0xd6758"
+      ],
+      "local_contract": "Read g_fJSGarbageCollection once as a byte, return if zero; otherwise clear g_GenToCollect and g_GCframe in order and invoke the real CGCGeneration::Reset on the four g_GCGens instances.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13CGCGeneration5ResetEv",
+          "va": "0x19140c",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "width": 1,
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Guard producer, full shutdown/runtime, EHABI, fault/concurrency behavior and final linked addresses remain open."
+    },
+    {
+      "entry": "0x191578",
+      "size": 408,
+      "symbols": [
+        "_ZN13CGCGeneration12AddClassStatEPKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "3d05b5418efb896f29214cd9a64bcf9dbd86fcea5d65f68abcc998223aefcfff",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_add_class_stat.cpp",
+      "translation_source_sha256": "df4661626df5609258fd08ae4a643d19f78de52550cdbb3c23df4cdc2f2ab246",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x191708",
+        "0x19170c"
+      ],
+      "local_contract": "Scan exact 8-byte class-stat slots with distinct NULL-name and strcmp paths; grow on held count == capacity, preserve post-provider live/held loads and copy into the live destination; publish slot count before generation count.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager5AllocEjPKcib",
+          "va": "0x27ce78"
+        },
+        {
+          "name": "_ZN13MemoryManager7ReAllocEPvjPKcib",
+          "va": "0x27cedc"
+        },
+        {
+          "name": "strcmp@plt",
+          "va": "0xb6574"
+        },
+        {
+          "name": "strlen@plt",
+          "va": "0xb6538"
+        },
+        {
+          "name": "strcpy@plt",
+          "va": "0xb65a4"
+        }
+      ],
+      "gap": "Fault/unwind/aliasing at invalid states, concurrency, and full execution are not certified."
+    },
+    {
+      "entry": "0xd675c",
+      "size": 244,
+      "symbols": [
+        "_Z14FreeAllObjectsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "5cb1e4545bc0213aa0ffb3132542d3f7b414073174a6e2a4fe1ee1a98480b75f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_free_all_objects.cpp",
+      "translation_source_sha256": "087da676534d3a649ed4e4880123b96befba409454c7611b04c4ce96d94771bd",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd682c",
+        "0xd6830",
+        "0xd6834",
+        "0xd6838",
+        "0xd683c",
+        "0xd6840",
+        "0xd6844",
+        "0xd6848",
+        "0xd684c"
+      ],
+      "local_contract": "Read g_fJSGarbageCollection once as a byte and return if zero; else clear g_ShouldDispose, sweep live g_slotObjects slots with a held count and live per-round capacity calling the real YYObjectBase::Free on non-null slots (count re-read live only after a full scan; the cap<=0 edge re-tests the held count without re-reading), clear the four raw globals in instruction order, then set g_ShouldDispose=1 and length_slot=-1.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN12YYObjectBase4FreeEPS_",
+          "va": "0x198f88",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "width": 1,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_pGlobal",
+          "va": "0x544be0",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_YYJSStandardBuiltInObjectPrototype",
+          "va": "0x756450",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "JS_Standard_Builtin_Function_Prototype",
+          "va": "0x756454",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_pScopeHead",
+          "va": "0x544bdc",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_slotObjects",
+          "va": "0x536f0c",
+          "width": 16,
+          "state": "defined_in_scoped_relocatable"
+        }
+      ],
+      "gap": "Quit-caller wiring, raw-word producers, EHABI/unwind, fault/concurrency behavior and final linked addresses remain open."
+    },
+    {
+      "entry": "0xd5b60",
+      "size": 72,
+      "symbols": [
+        "_Z12RemoveGCRootP12YYObjectBase"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "2d3cce83e52c29259cddc94c288073f15d7ebe4bf8882e664e18000c39068373",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "gc_remove_root_caller.cpp",
+      "translation_source_sha256": "e5d4623f69210d12a25b495baef777cb39dd899c1199c8eab750479918e92a54",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd5ba4"
+      ],
+      "local_contract": "Read object+0x38 once as a signed word before the push and return if negative (no NULL gate exists in the original); resolve &g_GCGens[0] once at entry, then do-while: call the real CGCGeneration::RemoveRoot on the cursor generation, re-read object+0x38 live, index+1, cursor+88 (32-bit wrapping), repeat while the live re-read >= index; no clamp to the four-instance array.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13CGCGeneration10RemoveRootEP12YYObjectBase",
+          "va": "0x1911c8",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_GCGens",
+          "va": "0x536da8",
+          "width": 352,
+          "state": "defined_in_scoped_relocatable"
+        }
+      ],
+      "gap": "The live +0x38 re-read assumes object stays dereferenceable across calls; the producer of that word, bound>=4 walk-out behavior, EHABI/unwind, concurrency and final linked addresses remain open."
+    },
+    {
+      "entry": "0x2a27fc",
+      "size": 240,
+      "symbols": [
+        "_Z4Quitv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "73bd86660af2d6a9956fd0ffdb5ad648a88ec2eac5961688b3b62098198b3fb4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/quit.cpp",
+      "translation_source_sha256": "212dadb77d63ba64e4ee8c1dd818708c94f5d7681cd474e0a5213208205bd167",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x2a28e0",
+        "0x2a28e4",
+        "0x2a28e8"
+      ],
+      "local_contract": "Teardown orchestrator: CleanGestures, real FreeAllObjects, FreeAllDataStructures, real ResetGC, QuitYoYo/Networking, the 26 FINALIZE passes, this-call g_Profiler.Clean(), GR_D3D_End; then if g_pMainWindow != NULL destroy the window, zero g_pMainWindow (word store) and set g_fDoFirstShow=1 (byte store) in census order; FINALIZE_PlatformSpecific and static VM::Quit run unconditionally; pop, then tail branch to FreeAllBuffers.",
+      "direct_dependencies": [
+        {
+          "name": "_Z14FreeAllObjectsv",
+          "va": "0xd675c",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_Z7ResetGCv",
+          "va": "0xd66e0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_pMainWindow",
+          "va": "0x542554",
+          "width": 4,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_fDoFirstShow",
+          "va": "0x479a2f",
+          "width": 1,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "g_Profiler",
+          "va": "0x757e80",
+          "width": 128,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_ZN9CProfiler5CleanEv",
+          "va": "0x2a0364",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_ZN2VM4QuitEv",
+          "va": "0xd826c",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "extern_callees": [
+        {
+          "name": "CleanGestures",
+          "va": "0x1dba70",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FreeAllDataStructures",
+          "va": "0x20b27c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "QuitYoYoFunctions",
+          "va": "0x15a0c0",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "QuitNetworkingFunctions",
+          "va": "0x2998b8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Score",
+          "va": "0x1dc3bc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Code_Constant",
+          "va": "0xf1bb0",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Code_Function",
+          "va": "0xce274",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Code_Main",
+          "va": "0xcf478",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Code_Variable",
+          "va": "0xd2618",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Motion_Grid",
+          "va": "0x19c2cc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Room_Main",
+          "va": "0x1b5e54",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Instance_Class",
+          "va": "0x1959f4",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Run_Main",
+          "va": "0x1d37cc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Object_Lists",
+          "va": "0x19e884",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Object_Main",
+          "va": "0x19f0c0",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Object_Class",
+          "va": "0x19e1c8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Particle_Main",
+          "va": "0x1a5de8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Sprite_Class",
+          "va": "0x1ee76c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Sprite_Main",
+          "va": "0x1ef514",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Support_File",
+          "va": "0x214e14",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_VertexFormats",
+          "va": "0x1e3180",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Graphics_Display",
+          "va": "0x17dbb8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Background",
+          "va": "0xc42f4",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Graphics_Texture",
+          "va": "0x1767cc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Script_Main",
+          "va": "0x1e0770",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Variable_Main",
+          "va": "0x1f4d10",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Font_Main",
+          "va": "0xface8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Graphics_Text",
+          "va": "0x1738fc",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Event_Action",
+          "va": "0xf2c9c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Function_File",
+          "va": "0x13cf04",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Timeline_Main",
+          "va": "0x1f3174",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Runner_Form",
+          "va": "0x1df90c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_Sound",
+          "va": "0x21f49c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_All",
+          "va": "0xc47f8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "GR_D3D_End",
+          "va": "0x168c90",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "yyDestroyWindow",
+          "va": "0x1a88c0",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FINALIZE_PlatformSpecific",
+          "va": "0x28fe68",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "FreeAllBuffers",
+          "va": "0xc7b44",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Producers of the three globals, all 38 extern callee bodies, EHABI/unwind coverage, fault/concurrency behavior and final linked addresses remain open; nothing was executed."
+    },
+    {
+      "entry": "0xc47f8",
+      "size": 4,
+      "symbols": [
+        "_Z12FINALIZE_Allv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_code.cpp",
+      "translation_source_sha256": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xcf478",
+      "size": 4,
+      "symbols": [
+        "_Z18FINALIZE_Code_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_code.cpp",
+      "translation_source_sha256": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xce274",
+      "size": 68,
+      "symbols": [
+        "_Z22FINALIZE_Code_Functionv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "99eabd9b1c8920cd4ae4ee38190acd55b0055e39d2038e9b1d03d0e93a553842",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_code.cpp",
+      "translation_source_sha256": "afc9f03f00bf2aa5fe254a86f089e5ea76ad6e81e038e1c7ea1c35f1321d8b09",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xce2ac",
+        "0xce2b0",
+        "0xce2b4"
+      ],
+      "local_contract": "Load the pointer-shaped word at 0x47a14c and pass it to the real MemoryManager::Free, then zero 0x47a14c, 0x47a148 and 0x48a148 in census order and return.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "anon_0x47a14c",
+          "va": "0x47a14c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3edb20, R_ARM_RELATIVE"
+        },
+        {
+          "name": "anon_0x47a148",
+          "va": "0x47a148",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3edb1c, R_ARM_RELATIVE"
+        },
+        {
+          "name": "anon_0x48a148",
+          "va": "0x48a148",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "direct pc-relative 0xce2a8+8+0x003abea0"
+        }
+      ],
+      "gap": "Producers of the three anonymous words and their content semantics are outside the window; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x15a0c0",
+      "size": 16,
+      "symbols": [
+        "_Z17QuitYoYoFunctionsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "afb422ee391d41e96fb08db41216321a3ff7a56d18efd29eecb0c4263484b720",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/quit_supports.cpp",
+      "translation_source_sha256": "2a587fa22041da8e7d2fe645197cf547884f447374741d2fd5f210689ac70b41",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Call FlushAchievementCache, then tail-call QuitYoYoFunctionsM after the epilogue (the C++ source records the tail as a final statement; the O0 build lowers it to bl+epilogue, recorded as a deviation).",
+      "direct_dependencies": [
+        {
+          "name": "_Z21FlushAchievementCachev",
+          "va": "0x159640",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z18QuitYoYoFunctionsMv",
+          "va": "0x15e2a0",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Both callees and their producers are outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x2998b8",
+      "size": 32,
+      "symbols": [
+        "_Z23QuitNetworkingFunctionsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "c29b3dcdcab7e650e89217960afdebcf47286e0e1f18af43e9f2c1be44501f8c",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/quit_supports.cpp",
+      "translation_source_sha256": "2a587fa22041da8e7d2fe645197cf547884f447374741d2fd5f210689ac70b41",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Call FreeSocket(slot) exactly 64 times with slot = 0..63 (original register order: arg moved, index incremented pre-call, cmp #64/bne).",
+      "direct_dependencies": [
+        {
+          "name": "_Z10FreeSocketi",
+          "va": "0x299244",
+          "state": "extern_only_no_stub",
+          "note": "return value discarded by the original caller; void declared without claim"
+        }
+      ],
+      "gap": "FreeSocket body/semantics outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xc42f4",
+      "size": 124,
+      "symbols": [
+        "_Z19FINALIZE_Backgroundv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "9a4ca2c163958142c346bf6a06efba8b5b9b84eb74cc656e79f94c8ab0e1eefc",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/quit_supports.cpp",
+      "translation_source_sha256": "2a587fa22041da8e7d2fe645197cf547884f447374741d2fd5f210689ac70b41",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xc4368",
+        "0xc436c"
+      ],
+      "local_contract": "Guard on Background_Main::names: non-null -> if number > 0 free entries[i] and null-store names[i] with live reloads of names/number per iteration (signed bgt), then free the entries array itself; names and number are zeroed on both paths; finally Background_FreeTextures and tail-call Background_Free.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN15Background_Main5namesE",
+          "va": "0x479cbc",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3ed954, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "_ZN15Background_Main6numberE",
+          "va": "0x479cb8",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3ed950, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "_Z23Background_FreeTexturesv",
+          "va": "0xc35d8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z15Background_Freev",
+          "va": "0xc34d0",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Producers of Background_Main::names/::number and the element pointee types are outside the recovered set; EHABI and final linked addresses remain open. Background_Main class declaration is TU-local until a second consumer exists."
+    },
+    {
+      "entry": "0x1959f4",
+      "size": 436,
+      "symbols": [
+        "_Z23FINALIZE_Instance_Classv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "ed26e5c6e0fb96e09f2188a06cd39d58679a33270901f8d760dbea8383ae5bb2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_objects.cpp",
+      "translation_source_sha256": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x195ba4"
+      ],
+      "local_contract": "Walk the runtime-written table pointer at 0x3f3c4c (hash table T={buckets,mask,live}): four distinct edges into 0x195a28, two into 0x195a4c, r8=-1 sentinel sites 0x195b14/0x195b9c, forward-slot re-entry when a chain ends; per node: payload [vtable+4] indirect call (blx at 0x195ac4/0x195b64, target unresolved), MemoryManager::Free(node), live-count decrement.",
+      "direct_dependencies": [
+        {
+          "name": "anon_0x3f3c4c",
+          "va": "0x3f3c4c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": ".data word, NO relocation; file bytes are packed string content; pointer written at runtime by an unidentified producer; consumed via GOT-delta ldr pair 0x1959fc/0x195a00 (0x195a08+0x00258244)"
+        },
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        }
+      ],
+      "gap": "Producer of the runtime-written 0x3f3c4c pointer, payload class behind the +0x78 key field, both blx [vtable+4] targets, EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19e884",
+      "size": 132,
+      "symbols": [
+        "_Z21FINALIZE_Object_Listsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "ab2d3377edb30b8581ce1a57d672518db774eff2ca11b01d39468b083535bb72",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_objects.cpp",
+      "translation_source_sha256": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x19e900",
+        "0x19e904"
+      ],
+      "local_contract": "Free the 15x2048B block table at 0x53ab70 (256x8B descriptors {+0 signed count, +4 ptr}; ptr freed only when count > 0, signed ble at 0x19e8b4), then free/zero word +4 of 0x536f68 (+0 never touched).",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "anon_0x53ab70",
+          "va": "0x53ab70",
+          "width": 30720,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3efb14, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "anon_0x536f68",
+          "va": "0x536f68",
+          "width": 8,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3f06e8, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Producers of the block table and 0x536f68; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19f0c0",
+      "size": 348,
+      "symbols": [
+        "_Z20FINALIZE_Object_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "fca5d8235aff027a69b10baed5c0da0d9e0af4733e4d3e9854d20adf8c35d5f2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_objects.cpp",
+      "translation_source_sha256": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x19f214",
+        "0x19f218"
+      ],
+      "local_contract": "Container C at 0x542374 = {+0 bucket array of 8B {head,tail} pairs, +4 signed count, +8 live}: two structurally identical drain passes (0x19f0f8.., 0x19f188..; pass two reloads and normally finds it drained; negative count branches straight to the drain); per chain node N {+4 next, +0xc obj}: CObjectGM dtor (extern edge, exact D2 mangled name), ::operator delete(obj), Free(N), --C[+8]; tail: Free(array base), ::operator delete(container), store 0 through the 0x542374 word.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN9CObjectGMD2Ev",
+          "va": "0x19d558",
+          "state": "extern_only_no_stub",
+          "note": "dynsym D1/D2 folded aliases at 0x19d558; call sites 0x19f128/0x19f1b4 bind the exact D2 mangled name via extern \"C\""
+        },
+        {
+          "name": "anon_0x542374",
+          "va": "0x542374",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3edc44, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "anon_0x542370",
+          "va": "0x542370",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3f06ec, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Why the container drains twice; node allocation sites; CObjectGM payload semantics; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19e1c8",
+      "size": 4,
+      "symbols": [
+        "_Z21FINALIZE_Object_Classv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_objects.cpp",
+      "translation_source_sha256": "8f0ecdfa48bad997fbc819818c6244130ffaba77e096b1a4076c65a357c3b516",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1b5e54",
+      "size": 32,
+      "symbols": [
+        "_Z18FINALIZE_Room_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "1bb6d430e8e78cb274256de9c70559462be2d8990256558e1ecb9c0216b7dbcc",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_roomrun.cpp",
+      "translation_source_sha256": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1b5e70"
+      ],
+      "local_contract": "Call the unrecovered-but-dynsym-defined Room_Free, then zero the guard byte g_fJSGarbageCollection (GOT 0x3edbc0 -> 0x47f295) through the seam canonical declaration -- first proven writer of that guard; pop-return, no tail edge to Run_Main (dispatch-context claim refuted by census and image bytes).",
+      "direct_dependencies": [
+        {
+          "name": "_Z9Room_Freev",
+          "va": "0x1b5044",
+          "width": 504,
+          "state": "extern_only_no_stub",
+          "note": "dynsym-DEFINED in .text but outside the recovered set; extern-only, no stub"
+        },
+        {
+          "name": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "width": 1,
+          "state": "named_dynsym_extern_seam",
+          "note": "zero-store writer at 0x1b5e68; setter producer still open"
+        }
+      ],
+      "gap": "The guard-byte setter path, Room_Free body, EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1d37cc",
+      "size": 276,
+      "symbols": [
+        "_Z17FINALIZE_Run_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "c3b79eafb7c280b14f6733863e59f532b90639265c96381113e2e2e998f21320",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_roomrun.cpp",
+      "translation_source_sha256": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1d38d4",
+        "0x1d38d8",
+        "0x1d38dc"
+      ],
+      "local_contract": "Three MemoryManager::Free call sites (0x1d38a8, 0x1d38c8 with a NULL argument by census shape, 0x19c33c shared with Motion_Grid region); per-array-element destruct site 0x1d384c (blx [vtable+4], target unresolved); GOT pairs 0x3f0b50->persinst / 0x3f0b4c->persnumb / 0x3edbc0->g_fJSGarbageCollection; live reloads of persinst/persnumb preserved.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "persinst",
+          "va": "0x542a0c",
+          "width": 8,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0b50, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "persnumb",
+          "va": "0x542a14",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0b4c, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "width": 1,
+          "state": "named_dynsym_extern_seam",
+          "placement": "GOT 0x3edbc0, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Class identity behind the 0x1d384c blx destruct site; whether the i>=count null-store through the reloaded base after a shrinking destructor is benign or a latent original bug; producers of persinst/persnumb; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19c2cc",
+      "size": 140,
+      "symbols": [
+        "_Z20FINALIZE_Motion_Gridv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "b8ce0b2daaf766acc2a2af97acaafc04a121ce438d62dbe8ef3722975b90cb78",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_roomrun.cpp",
+      "translation_source_sha256": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x19c350",
+        "0x19c354"
+      ],
+      "local_contract": "Free the grid structure array through gridstruct/gridcount (GOT 0x3f06b8 -> 0x536f4c / 0x3f06b4 -> 0x536f48), per-grid-element destruct at 0x19c318 (blx [vtable+4], target unresolved), live reloads preserved.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "gridstruct",
+          "va": "0x536f4c",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f06b8, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "gridcount",
+          "va": "0x536f48",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f06b4, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Class identity behind the 0x19c318 blx destruct site; gridstruct/gridcount producers; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xd2618",
+      "size": 4,
+      "symbols": [
+        "_Z22FINALIZE_Code_Variablev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_roomrun.cpp",
+      "translation_source_sha256": "bba6bd305117c9dd7a4e9f2261e1fba76b87af4d620a605c79b4306c25c3d131",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1ee76c",
+      "size": 4,
+      "symbols": [
+        "_Z21FINALIZE_Sprite_Classv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_spritefont.cpp",
+      "translation_source_sha256": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Immediate return; the original body is a single bx lr and nothing else.",
+      "direct_dependencies": [],
+      "gap": "Body-empty producer obligations: none. EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1ef514",
+      "size": 148,
+      "symbols": [
+        "_Z20FINALIZE_Sprite_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "2ac036fe00ca02328fc697481d4957dad6e3ca251962de74d3f92d47a0057284",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_spritefont.cpp",
+      "translation_source_sha256": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1ef59c",
+        "0x1ef5a0",
+        "0x1ef5a4"
+      ],
+      "local_contract": "Sprite registry teardown through the GOT-base pair (add pc = 0x3f1c58): free g_SpriteNames array entries per count (signed bgt), null-store each slot, free the array, zero the pointer, then Sprite_FreeTextures; pop; tail-b Sprite_Free.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_NumberOfSprites",
+          "va": "0x7530d8",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0e18, R_ARM_RELATIVE verified (worker comment said COPY; corrected)"
+        },
+        {
+          "name": "g_SpriteNames",
+          "va": "0x7530dc",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0e14, R_ARM_RELATIVE verified (corrected)"
+        },
+        {
+          "name": "_Z19Sprite_FreeTexturesv",
+          "va": "0x1eee30",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z11Sprite_Freev",
+          "va": "0x1eed3c",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Producers of g_NumberOfSprites/g_SpriteNames; element pointee types; Sprite_FreeTextures/Sprite_Free bodies; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xface8",
+      "size": 16,
+      "symbols": [
+        "_Z18FINALIZE_Font_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "84d45dbfce730785764540fae6ffe1e86d05fabce0fc850da69c2bd191665d8b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_spritefont.cpp",
+      "translation_source_sha256": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Call Font_FreeTextures, pop, then tail-b Font_Init -- the teardown-named function resets font state by re-entering the initializer; recorded exactly as the image does.",
+      "direct_dependencies": [
+        {
+          "name": "_Z17Font_FreeTexturesv",
+          "va": "0xfac94",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z9Font_Initv",
+          "va": "0xf9fb4",
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "Both callees outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1e3180",
+      "size": 296,
+      "symbols": [
+        "_Z22FINALIZE_VertexFormatsv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "381ad26c2f2c9f3a4bd7d7180b5e39c325a1fececb008a44af5f3c6af490d209",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_spritefont.cpp",
+      "translation_source_sha256": "ac3e6c19386b3824703938b5acabff69bbd2e31bbd18b50e2567bafa8b28ae88",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1e32a0",
+        "0x1e32a4"
+      ],
+      "local_contract": "Graphics::Flush first; walk g_vertexformats[3] (array, count, live at +0/+4/+8) freeing every VertexFormat chain via FreeVertexFormat, then per chain node: operator delete(raw [+0xc] word, NO null test before the call per census shape), Free(node), live--, null-store the chain slots; finally zero g_lastVF through its GOT slot. The word at 0x1e3298 is the beq landing instruction, NOT pool data.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN8Graphics5FlushEv",
+          "va": "0x1852ec",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z16FreeVertexFormatP12VertexFormat",
+          "va": "0x185640",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "g_vertexformats",
+          "va": "0x544ca0",
+          "width": 12,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0da4, R_ARM_RELATIVE verified (corrected)"
+        },
+        {
+          "name": "g_lastVF",
+          "va": "0x544c9c",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0da0, R_ARM_RELATIVE verified (corrected)"
+        }
+      ],
+      "gap": "VertexFormat payload layout beyond {+4 next, +0xc ptr}; Graphics::Flush/FreeVertexFormat bodies; producers of the four named globals; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x17dbb8",
+      "size": 20,
+      "symbols": [
+        "_Z25FINALIZE_Graphics_Displayv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "17999abfa3fddb4e6c5ec164617f7aaa8ead24c4c88afae8e9236f4e960e140e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_graphics.cpp",
+      "translation_source_sha256": "e2c5b68912338c82ce35d173bbf049997a23206036bb9b93653f6477a7e3784a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Call DisplayReset and InvalidateOGLResources, pop, then tail-b DeleteOGLResources.",
+      "direct_dependencies": [
+        {
+          "name": "_Z12DisplayResetv",
+          "va": "0x17dba0",
+          "width": 156,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z22InvalidateOGLResourcesv",
+          "va": "0x17daa8",
+          "width": 84,
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z18DeleteOGLResourcesv",
+          "va": "0x17dafc",
+          "width": 16,
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "All three callees outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1767cc",
+      "size": 4,
+      "symbols": [
+        "_Z25FINALIZE_Graphics_Texturev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "dafab8362b14ce8288bf0df6efc4895a2323ecf31f0fb3b25c85f2b451158bbf",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_graphics.cpp",
+      "translation_source_sha256": "e2c5b68912338c82ce35d173bbf049997a23206036bb9b93653f6477a7e3784a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "The entire 4B body is one pure tail branch into GR_Texture_End (not bx lr; recorded exactly as the image has it).",
+      "direct_dependencies": [
+        {
+          "name": "_Z14GR_Texture_Endv",
+          "va": "0x1740e0",
+          "width": 280,
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "GR_Texture_End body outside the recovered set; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1738fc",
+      "size": 72,
+      "symbols": [
+        "_Z22FINALIZE_Graphics_Textv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "0ab97b5eec47086038a6e1e4ac7ca0bf85c304bce1fc71b52bcd8e6f3c8c3212",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_graphics.cpp",
+      "translation_source_sha256": "e2c5b68912338c82ce35d173bbf049997a23206036bb9b93653f6477a7e3784a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x17393c",
+        "0x173940"
+      ],
+      "local_contract": "Single live load of Graphics_Text::deffont; unconditional zero-store of g_pDebugFont; if the loaded pointer is non-null, destruct it through [vtable+4] (blx, indirect, target unresolved) and zero-store deffont; pop; tail-b GR_Text_ResetToDefault.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13Graphics_Text7deffontE",
+          "va": "0x48ffd8",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3f029c, R_ARM_RELATIVE verified; class-static, TU-local minimal class declaration"
+        },
+        {
+          "name": "g_pDebugFont",
+          "va": "0x499330",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "GOT 0x3f02a0, R_ARM_RELATIVE verified; extern \"C\""
+        },
+        {
+          "name": "_Z22GR_Text_ResetToDefaultv",
+          "va": "0x173884",
+          "width": 120,
+          "state": "extern_only_no_stub"
+        }
+      ],
+      "gap": "deffont/g_pDebugFont producers; the class behind the [vtable+4] destruct edge; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1e0770",
+      "size": 4,
+      "symbols": [
+        "_Z20FINALIZE_Script_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "b12bb369325ab319b618fc335766f36799b5cbe721661fd9c7704765a037ff78",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_scriptvar.cpp",
+      "translation_source_sha256": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "The entire 4B body is one pure tail branch into the dynsym-defined Script_Free (204B, outside the recovered set).",
+      "direct_dependencies": [
+        {
+          "name": "_Z11Script_Freev",
+          "va": "0x1e4644",
+          "width": 204,
+          "state": "extern_only_no_stub",
+          "note": "dynsym-DEFINED in .text but unrecovered"
+        }
+      ],
+      "gap": "Script_Free body; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1f4d10",
+      "size": 152,
+      "symbols": [
+        "_Z22FINALIZE_Variable_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "f0be89a65dfda763d94c7c4c0461cac65c5a8809e3efd6af0e7c2bfa89e68713",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_scriptvar.cpp",
+      "translation_source_sha256": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1f4d9c",
+        "0x1f4da0",
+        "0x1f4da4"
+      ],
+      "local_contract": "Sweep the 8000B builtin_variables table in 16B strides: free each non-null word and null-store it (table base held, no per-iteration reload), then memset(table, 0, 8000); then store 0 into builtin_numb; free globdecl[+4] (both count branches, including the null one) and store a zero word back into globdecl[+4], then zero globdecl[+0].",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "builtin_variables",
+          "va": "0x75310c",
+          "width": 8000,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3edc40, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "globdecl",
+          "va": "0x753100",
+          "width": 8,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0e30, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "builtin_numb",
+          "va": "0x753108",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3edc3c, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "memset",
+          "state": "libc_import_via_canonical_declaration_memory_alloc_hpp"
+        }
+      ],
+      "gap": "Producers/writers of the three named globals; entry payload semantics (16B stride); EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1f3174",
+      "size": 420,
+      "symbols": [
+        "_Z22FINALIZE_Timeline_Mainv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "b799e5fa02cf25fd6ddf1a89370a3aae33da1e11dfd13999268e955d2195aeff",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_scriptvar.cpp",
+      "translation_source_sha256": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1f3308",
+        "0x1f330c",
+        "0x1f3310",
+        "0x1f3314"
+      ],
+      "local_contract": "Two container phases through the unnamed runtime-written BSS pointer words 0x7530f4 and 0x7530f8 (four add-pc sites converge on 0x7530f4; parent recomputed all four). Phase one container T1={count,entries}: per entry, skip when entries[0] or the entry equals the 0xfeeefeee poison or the entry is null, else destruct through [vtable+4] (blx, indirect, target unresolved) and null-store through live reloads of [T1+4]; free the entries array, zero both container words, operator delete(T1), then clear anon_0x7530f4. Phase two container T2 through [0x7530f4+4]: per entry, MemoryManager::IsAllocated (unrecovered extern edge) gates Free(entry); null-store with live reloads; free entries-two, zero both words, operator delete(T2), clear anon_0x7530f8.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN13MemoryManager11IsAllocatedEPKv",
+          "va": "0x27c454",
+          "state": "canonical_declared_unrecovered",
+          "note": "vm_buffer.hpp gained the declaration (parent seam edit); body outside the recovered set"
+        },
+        {
+          "name": "anon_0x7530f4",
+          "va": "0x7530f4",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "unnamed BSS pointer word, runtime-written; four add-pc sites (see header)"
+        },
+        {
+          "name": "anon_0x7530f8",
+          "va": "0x7530f8",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "unnamed BSS pointer word, read as [anon_0x7530f4+4], cleared at phase-two end"
+        }
+      ],
+      "gap": "Producers of the two anon pointer words and both containers; payload class behind the blx destruct edges; IsAllocated body; poison-convention contract (0xfeeefeee compares reproduced as value compares); EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0xf2c9c",
+      "size": 108,
+      "symbols": [
+        "_Z21FINALIZE_Event_Actionv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a619e49be30cce5eaf5b7f60a70232b83b9caf16d90e7ddea56eb2c4a5f15412",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_scriptvar.cpp",
+      "translation_source_sha256": "fef53b58e4ad22cc8984262d5c61f5a85ed296dafd2383fa340de8b9f6505e58",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xf2d00",
+        "0xf2d04"
+      ],
+      "local_contract": "Guard both libcode[0] (array) and libnumb[0] (count): null array pops; count <= 0 (le-condition pop) pops; per entry i, through live reloads of libcode[0] and libnumb[0]: free each non-null word and null-store it; loop while count >= i.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "libcode",
+          "va": "0x483404",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3ede20, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "libnumb",
+          "va": "0x483408",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3ede24, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Producers of libcode/libnumb; element payload semantics; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1dc3bc",
+      "size": 580,
+      "symbols": [
+        "_Z14FINALIZE_Scorev"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "cc73a308fb3898d6c80ca0ef69e9a3ae2b6f14d28a5526df2a69aac531451bd4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_score_gestures_data.cpp",
+      "translation_source_sha256": "86956eb39d5de204c5b526f0eca33ee1f70e2489e83d8b3c87eca167bac3dcf1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1dc5e8",
+        "0x1dc5ec",
+        "0x1dc5f0",
+        "0x1dc5f4",
+        "0x1dc5f8",
+        "0x1dc5fc"
+      ],
+      "local_contract": "HiScore dump, guarded by the stack canary (guard address via GLOB_DAT slot 0x3ed958, value re-compared at exit, __stack_chk_fail on mismatch) and the g_HighScore_Changed dump-once flag: when set, LoadSave::_GetSaveFileName(char[1024],1024,g_pHiScoreFilename) fills the name, EnsureDirectoryIsCreated, fopen(name,\"wb\") (mode literal at 0x34034c); write the 4B magic 0x43534948 (\"HISC\"), ftell, write the position record at offset 8; walk the ten 8B g_hiScores entries {char* name, uint32 value}: strlen, write length (4B), write name bytes, pad to 4-byte alignment with 0xF0 bytes (one fwrite per pad byte), write the value word (4B); ftell the total, fseek back to the position record, rewrite it, fclose; clear g_HighScore_Changed to zero. fopen-failure skips straight to the flag clear.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN8LoadSave16_GetSaveFileNameEPciPKc",
+          "va": "0x18f964",
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "_Z24EnsureDirectoryIsCreatedPKc",
+          "va": "0x13ad20",
+          "state": "extern_only_no_stub",
+          "binding": "natural C++ mangling"
+        },
+        {
+          "name": "g_HighScore_Changed",
+          "va": "0x544b18",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0c9c, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_pHiScoreFilename",
+          "va": "0x3f51d8",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0ca0, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_hiScores",
+          "va": "0x544ab4",
+          "width": 80,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f0c94, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "__stack_chk_guard",
+          "state": "imported_dynsym_extern",
+          "placement": "GLOB_DAT (21) slot 0x3ed958"
+        },
+        {
+          "name": "fopen",
+          "state": "libc_import",
+          "mode": "\"wb\" literal at 0x34034c"
+        },
+        {
+          "name": "fwrite",
+          "state": "libc_import"
+        },
+        {
+          "name": "ftell",
+          "state": "libc_import"
+        },
+        {
+          "name": "fseek",
+          "state": "libc_import"
+        },
+        {
+          "name": "fclose",
+          "state": "libc_import"
+        },
+        {
+          "name": "strlen",
+          "state": "libc_import"
+        },
+        {
+          "name": "__stack_chk_fail",
+          "state": "libc_import"
+        }
+      ],
+      "gap": "g_hiScores entry payload ownership beyond the census dump shape; g_pHiScoreFilename/g_HighScore_Changed producers; the name-set semantics (which code sets the flag to 1); EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x1dba70",
+      "size": 192,
+      "symbols": [
+        "_Z13CleanGesturesv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "6c13d7793285696428e8965a7e813b9b12a3dac5f8fbeee787e261fb1516afb6",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_score_gestures_data.cpp",
+      "translation_source_sha256": "86956eb39d5de204c5b526f0eca33ee1f70e2489e83d8b3c87eca167bac3dcf1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x1dbb28",
+        "0x1dbb2c"
+      ],
+      "local_contract": "Two list walks through runtime-written .data header words 0x3f2c1c and 0x3f2c08: list one frees each node and destructs its [+8] event through [vtable+4] (blx, indirect, target unresolved); list two destructs each [+8] CGestureEvent through the exact D2 mangled edge (0x1db510), operator deletes the event, and frees the node; both headers zero {+8,+4,+0} after the walk.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN13CGestureEventD2Ev",
+          "va": "0x1db510",
+          "width": 0,
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "anon_0x3f2c1c",
+          "va": "0x3f2c1c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "direct pc-indexed 0x1dba80+0x0021519c; no reloc; file image packed string bytes (\"ying\"); runtime-written header pointer"
+        },
+        {
+          "name": "anon_0x3f2c08",
+          "va": "0x3f2c08",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "direct pc-indexed 0x1dbad0+0x00215138; no reloc; file image \"xcoo\"; runtime-written header pointer"
+        }
+      ],
+      "gap": "The two list-header words have no dynsym name and no reloc (runtime-written, like the 0x3f3c4c precedent); CGestureEvent D2 body; node/event allocation sites; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x20b27c",
+      "size": 508,
+      "symbols": [
+        "_Z21FreeAllDataStructuresv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "3a140eb2ec28c414d17bdfe02fd5715e056072b074cde7d1edbcb8a9dd00d105",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "../host_lifecycle/finalize_score_gestures_data.cpp",
+      "translation_source_sha256": "86956eb39d5de204c5b526f0eca33ee1f70e2489e83d8b3c87eca167bac3dcf1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x20b464",
+        "0x20b468",
+        "0x20b46c",
+        "0x20b470",
+        "0x20b474"
+      ],
+      "local_contract": "DS_AutoMutex C2 brackets the whole body on an 8B stack slot (C2 at entry, D2 at exit): DestroyDsMap(i) and DestroyDsList(i) ladders over mapnumb/listnumb counts (live reloads, signed bgt); then four Get* handle-array walks (Stacks/Queues/PriorityQueues through [vtable+4] blx destroys with live count reloads and null-stores; Grids through the exact CDS_Grid D2 mangled edge plus ::operator delete); tail stores 0xffffffff into g_Network_DSMAP and g_HTTP_AsyncLoad.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN12DS_AutoMutexC2Ev",
+          "va": "0xfec18",
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "_ZN12DS_AutoMutexD2Ev",
+          "va": "0xfec6c",
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "_Z12DestroyDsMapi",
+          "va": "0x205334",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z13DestroyDsListi",
+          "va": "0x205378",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z12GetTheStacksRi",
+          "va": "0xffc9c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z12GetTheQueuesRi",
+          "va": "0xffee8",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z11GetTheGridsRi",
+          "va": "0x10026c",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_Z20GetThePriorityQueuesRi",
+          "va": "0x100244",
+          "state": "extern_only_no_stub"
+        },
+        {
+          "name": "_ZN8CDS_GridD2Ev",
+          "va": "0x20b260",
+          "state": "extern_only_no_stub",
+          "binding": "extern \"C\" exact mangled name"
+        },
+        {
+          "name": "_ZN13MemoryManager4FreeEPKv",
+          "va": "0x27c2d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "mapnumb",
+          "va": "0x4836ac",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3edc80, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "listnumb",
+          "va": "0x4836b8",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3edc84, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_Network_DSMAP",
+          "va": "0x3f7814",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f13a8, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "g_HTTP_AsyncLoad",
+          "va": "0x3f5254",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3efb20, R_ARM_RELATIVE verified"
+        }
+      ],
+      "gap": "Get* bodies and the handle-array storages they return; DS destroy bodies; producers of mapnumb/listnumb/g_Network_DSMAP/g_HTTP_AsyncLoad; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x19220c",
+      "size": 12,
+      "symbols": [
+        "_ZN12YYObjectBase12IsExtensibleEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "20963749288a780f2ef7e96083b90bb3115b3d6ef9d27a29d87efbbe6c9fff2a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_property_eligibility.cpp",
+      "translation_source_sha256": "eac56c102da6ae9280cb3a11f2970e142a66ab8eddc35d0284864d00926c874c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Return exactly the low bit of the 32-bit word at this+0x28. The observed JS_CanPut caller returns this value at call site 0x241d98. Constructor code stores 1 at this+0x28 at 0x191934; this establishes only this bit-field edge, not the complete class layout.",
+      "direct_dependencies": [],
+      "observed_consumers": [
+        {
+          "symbol": "_Z9JS_CanPutP12YYObjectBasePKc",
+          "va": "0x241cac",
+          "call_site": "0x241d98"
+        }
+      ],
+      "gap": "Complete YYObjectBase field names/layout and source-level return spelling remain unknown; no object was instantiated or executed."
+    },
+    {
+      "entry": "0x240828",
+      "size": 48,
+      "symbols": [
+        "_Z23JS_IsAccessorDescriptorP6RValue"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "00ba5803396e0929ca5d09480bbb7d73bdf939b0da3a404119152fd8d93c644c",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_property_eligibility.cpp",
+      "translation_source_sha256": "eac56c102da6ae9280cb3a11f2970e142a66ab8eddc35d0284864d00926c874c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Mask the RValue kind word at +0x0c with 0x00ffffff; return 0 unless it is 6. For kind 6, read the payload pointer at +0, then the pointed object's word at +0x48; return 1 exactly when that word is 2. The original subs/rsbs/adcs sequence is the 32-bit equality predicate flags==2.",
+      "direct_dependencies": [],
+      "observed_consumers": [
+        {
+          "symbol": "_Z9JS_CanPutP12YYObjectBasePKc",
+          "va": "0x241cac",
+          "call_sites": [
+            "0x241cf0",
+            "0x241d78"
+          ]
+        }
+      ],
+      "gap": "Accessor-descriptor object layout and source-level return spelling remain unknown; only kind, pointer, and consumed +0x48 word are recovered."
+    },
+    {
+      "entry": "0x241cac",
+      "size": 276,
+      "symbols": [
+        "_Z9JS_CanPutP12YYObjectBasePKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "eea842369f1d7a3b5d5c3786c495ba80d4bbc6b68fecd1fb16ab31de961f7de2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "object_property_eligibility.cpp",
+      "translation_source_sha256": "eac56c102da6ae9280cb3a11f2970e142a66ab8eddc35d0284864d00926c874c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Initialize only each local RValue kind to tag 5, then call JS_GetOwnProperty(object,name). For an own data descriptor return bit 2 of RValue+8. For an own accessor descriptor inspect the descriptor object's +4 word: if non-null read the kind at pointed+0x1c; if null call InternalGetYYVar(1) on that object and read returned RValue+0x0c. Return 0 for exact kind 5 or 0x00ffffff, else 1. If no own descriptor, a null prototype returns IsExtensible; otherwise call JS_GetProperty and return IsExtensible for missing/unresolved or accessor results, else return bit 2 of the inherited RValue+8.",
+      "direct_dependencies": [
+        {
+          "name": "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc",
+          "va": "0x241890"
+        },
+        {
+          "name": "_Z23JS_IsAccessorDescriptorP6RValue",
+          "va": "0x240828"
+        },
+        {
+          "name": "_Z14JS_GetPropertyP12YYObjectBaseP6RValuePKc",
+          "va": "0x2418dc"
+        },
+        {
+          "name": "_ZN12YYObjectBase12IsExtensibleEv",
+          "va": "0x19220c"
+        },
+        {
+          "name": "_ZN12YYObjectBase16InternalGetYYVarEi",
+          "va": "0x196a70"
+        }
+      ],
+      "observed_consumers": [],
+      "gap": "The source-level names for descriptor payload/metadata bit 2, full descriptor and YYObjectBase layouts, higher-level callers, error/fault paths and EHABI remain open. No target was executed."
+    },
+    {
+      "entry": "0x2407e8",
+      "size": 64,
+      "symbols": [
+        "_Z19JS_IsDataDescriptorP6RValue"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a4c8785b017aae738422c17379a2170e45abb0eb3e8de992a0ead3a50919a97b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_data_descriptor.cpp",
+      "translation_source_sha256": "a237e6f4bd1036389766a7d0c996292f8bdcb2b304d0d477fcccd8f1f84b7bb0",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Return 0 for masked kind 0x00ffffff; return 1 for any other kind except kind 6 with payload pointer at RValue+0 resolving to flags word +0x48 == 2, which also returns 0. Thus this entry reports the exact consumed data-descriptor predicate; no source field names are asserted.",
+      "direct_dependencies": [],
+      "observed_consumers": [
+        {
+          "symbol": "_Z22JS_IsGenericDescriptorP6RValue",
+          "va": "0x240858",
+          "call_sites": [
+            "0x240870"
+          ]
+        },
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_sites": [
+            "0x247e28",
+            "0x247e34",
+            "0x248258",
+            "0x2482e8"
+          ]
+        },
+        {
+          "symbol": "_Z27F_JS_FromPropertyDescriptorP6RValueS0_",
+          "va": "0x2483e0",
+          "call_sites": [
+            "0x248454"
+          ]
+        },
+        {
+          "symbol": "_Z15F_JS_Object_GetP12YYObjectBaseP6RValuePKc",
+          "va": "0x249240",
+          "call_sites": [
+            "0x249274"
+          ]
+        },
+        {
+          "symbol": "_Z13JS_Object_PutP12YYObjectBaseP6RValuePKcb",
+          "va": "0x24f118",
+          "call_sites": [
+            "0x24f180"
+          ]
+        },
+        {
+          "symbol": "_Z20F_JS_Object_isFrozenR6RValueP9CInstanceS2_iPS_",
+          "va": "0x2507cc",
+          "call_sites": [
+            "0x250870"
+          ]
+        }
+      ],
+      "gap": "Descriptor source spelling/layout and all listed caller bodies remain open; O0 retains the EHABI runtime symbol and no target was executed."
+    },
+    {
+      "entry": "0x240858",
+      "size": 68,
+      "symbols": [
+        "_Z22JS_IsGenericDescriptorP6RValue"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "4a010a8fcd25759924a5741d07620d741dcab880f0f1241bb548dd4b6747748c",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_generic_descriptor.cpp",
+      "translation_source_sha256": "1c6d42dacb2fe09ab810d2db9bcdd00608a35ec5779539e5ddaafea938a80fb8",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Mask the kind word at RValue+0x0c; kind 5 returns 0. Then call JS_IsDataDescriptor and return 0 if nonzero; otherwise call JS_IsAccessorDescriptor and return 0 if nonzero; return 1 only when both return zero. Under the recovered provider predicates this is true only for kind 0x00ffffff; do not infer a broader source-level descriptor model.",
+      "direct_dependencies": [
+        {
+          "name": "_Z19JS_IsDataDescriptorP6RValue",
+          "va": "0x2407e8"
+        },
+        {
+          "name": "_Z23JS_IsAccessorDescriptorP6RValue",
+          "va": "0x240828"
+        }
+      ],
+      "observed_consumers": [
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_site": "0x247e18"
+        }
+      ],
+      "gap": "JS_DefineOwnProperty_Internal and the wider write path remain unrecovered; no target execution, EHABI or final image link is claimed."
+    },
+    {
+      "entry": "0x24089c",
+      "size": 212,
+      "symbols": [
+        "_Z12JS_SameValueP6RValueS0_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "afa4dfc49b5f2d6e5a6fd32ea57362894b4dcc1aafe2efe6331cf9f5eff9789d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_same_value.cpp",
+      "translation_source_sha256": "dfaa5fe22781515dbf40e68d1a636b7e62c7edc71c21f2d0e66adaafc72801a9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Require the low 24 kind bits to match. For kinds 0, 7, 8 and 11 compare the two raw words at RValue+0 as binary64 using VFP equality; kind 1 follows RValue+0 -> wrapper word +0 -> C string and returns strcmp==0; kinds 5 and 12 return 1; kind 6 compares the single 32-bit word at RValue+0; all other kinds return 0. The kind numbers are preserved as observed and are not assigned source-level names.",
+      "direct_dependencies": [
+        {
+          "name": "strcmp",
+          "kind": "external_plt_import",
+          "plt_va": "0x0b6574",
+          "relocation": "R_ARM_JUMP_SLOT"
+        }
+      ],
+      "observed_consumers": [
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_sites": [
+            "0x247de0",
+            "0x248328"
+          ]
+        }
+      ],
+      "gap": "External strcmp must be resolved by the Android C runtime in final linking; EHABI and caller behavior remain open. No target was executed."
+    },
+    {
+      "entry": "0x247d44",
+      "size": 1616,
+      "symbols": [
+        "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "6bcc3e2aa77c09c6303b7582b52b4f26f84b0e83f2a9b397cabb1d077e4762b0",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "js_define_own_property_internal.cpp",
+      "translation_source_sha256": "af2f34c0006c63ff4c40263153edfa402249de2fb13f278ef412f1bde897831f",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x248390"
+      ],
+      "inline_data_word_ranges": [
+        {
+          "start": "0x247eec",
+          "end": "0x247f28",
+          "word_count": 15,
+          "role": "masked-kind branch table"
+        },
+        {
+          "start": "0x247fe4",
+          "end": "0x248020",
+          "word_count": 15,
+          "role": "allocated-slot branch table"
+        },
+        {
+          "start": "0x248390",
+          "end": "0x248394",
+          "word_count": 1,
+          "role": "PC-relative YYError string addend"
+        }
+      ],
+      "local_contract": "Preserve the observed own-property status gates, two distinct slot lookup paths, descriptor word stores, and separate value-retirement sequences over partial YYObjectBase/RValue wire views. The returned r0 is retained as a raw status word (bool-derived initial 0/2 and selected 1 paths); no source-level status name, complete object/descriptor layout, ownership policy, or runtime equivalence is claimed.",
+      "direct_dependencies": [
+        {
+          "name": "_Z16PushContextStackP12YYObjectBase",
+          "va": "0xd3968",
+          "call_sites": ["0x247d5c", "0x247e80", "0x247f68"],
+          "provider": "../scripting/context_stack.cpp"
+        },
+        {
+          "name": "_Z17JS_GetOwnPropertyP12YYObjectBaseP6RValuePKc",
+          "va": "0x241890",
+          "call_sites": ["0x247d90"],
+          "provider": "js_helpers.cpp"
+        },
+        {
+          "name": "_Z15PopContextStackv",
+          "va": "0xd3a34",
+          "call_sites": ["0x247db8", "0x247f3c", "0x248028", "0x248030", "0x248048"],
+          "provider": "../scripting/context_stack.cpp"
+        },
+        {
+          "name": "_Z12JS_SameValueP6RValueS0_",
+          "va": "0x24089c",
+          "call_sites": ["0x247de0", "0x248328"],
+          "provider": "js_same_value.cpp"
+        },
+        {
+          "name": "_Z22JS_IsGenericDescriptorP6RValue",
+          "va": "0x240858",
+          "call_sites": ["0x247e18"],
+          "provider": "js_generic_descriptor.cpp"
+        },
+        {
+          "name": "_Z19JS_IsDataDescriptorP6RValue",
+          "va": "0x2407e8",
+          "call_sites": ["0x247e28", "0x247e34", "0x248258", "0x2482e8"],
+          "provider": "js_data_descriptor.cpp"
+        },
+        {
+          "name": "_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc",
+          "va": "0xd21ec",
+          "call_sites": ["0x247e60"],
+          "provider": "unresolved exact C++ ABI provider; separate C candidate is not this mangled symbol"
+        },
+        {
+          "name": "_ZN12YYObjectBase3AddEPKcR6RValuei",
+          "va": "0x199b84",
+          "call_sites": ["0x247f38"],
+          "provider": "unresolved C++ body; declaration only"
+        },
+        {
+          "name": "_Z38Code_Variable_FindAlloc_Slot_From_NameP12YYObjectBasePKc",
+          "va": "0xd2c84",
+          "call_sites": ["0x247f58"],
+          "provider": "unresolved C++ body; declaration only"
+        },
+        {
+          "name": "_Z18GetContextStackTopv",
+          "va": "0xd3a54",
+          "call_sites": ["0x2480d8", "0x2480fc"],
+          "provider": "../scripting/context_stack.cpp"
+        },
+        {
+          "name": "_Z22DeterminePotentialRootP12YYObjectBaseS0_",
+          "va": "0x191710",
+          "call_sites": ["0x2480e0", "0x248104"],
+          "provider": "../vm_exec/vm_value_helpers.cpp"
+        },
+        {
+          "name": "_Z17LOCK_RVALUE_MUTEXv",
+          "va": "0x190f2c",
+          "call_sites": ["0x24815c", "0x248190", "0x2481c8", "0x24820c", "0x2482bc", "0x248348"],
+          "provider": "../vm_exec/vm_value_helpers.cpp"
+        },
+        {
+          "name": "_Z19UNLOCK_RVALUE_MUTEXv",
+          "va": "0x190f30",
+          "call_sites": ["0x248174", "0x2481a8", "0x2481e0", "0x248224", "0x2482d4", "0x248380"],
+          "provider": "../vm_exec/vm_value_helpers.cpp"
+        },
+        {
+          "name": "_Z6YYFreePKv",
+          "va": "0xcef90",
+          "call_sites": ["0x2481bc", "0x248200", "0x24828c", "0x2482b0", "0x24833c", "0x248364"],
+          "provider": "../vm_exec/vm_value_helpers.cpp"
+        },
+        {
+          "name": "_ZdlPv",
+          "va": "0x27d1d0",
+          "call_sites": ["0x2481e8", "0x24822c", "0x2482a4", "0x2482dc", "0x24837c", "0x248388"],
+          "provider": "../memory_manager/memory_operators.cpp"
+        },
+        {
+          "name": "_Z16FREE_RValue__PreP6RValue",
+          "va": "0xc0a7c",
+          "call_sites": ["0x2481f4", "0x248238"],
+          "provider": "unresolved C++ body; declaration only"
+        },
+        {
+          "name": "_ZN12YYObjectBase16InternalGetYYVarEi",
+          "va": "0x196a70",
+          "call_sites": ["0x248248", "0x24827c"],
+          "provider": "object_allocation.cpp"
+        },
+        {
+          "name": "_Z7YYErrorPKcz",
+          "va": "0xd547c",
+          "call_sites": ["0x24826c"],
+          "provider": "unresolved C++ body; declaration only"
+        },
+        {
+          "name": "_ZN9_RefThingIPKcE3decEv",
+          "va": "0xc09f8",
+          "call_sites": ["0x24829c", "0x248374"],
+          "provider": "../vm_exec/vm_value_helpers.cpp; weak default symbol"
+        }
+      ],
+      "observed_consumers": [
+        {
+          "symbol": "_Z20JS_DefineOwnPropertyP12YYObjectBasePKcP6RValueb",
+          "va": "0x248394",
+          "call_sites": ["0x2483d8"],
+          "edge": "tail branch"
+        },
+        {
+          "symbol": "_Z26JS_Array_DefineOwnPropertyP12YYObjectBasePKcP6RValueb",
+          "va": "0x248ac4",
+          "call_sites": ["0x248b48"]
+        },
+        {
+          "symbol": "_Z18F_JS_Object_freezeR6RValueP9CInstanceS2_iPS_",
+          "va": "0x2508c8",
+          "call_sites": ["0x25095c"],
+          "return_observation": "cmp r0, #2 at 0x250960"
+        },
+        {
+          "symbol": "_Z16F_JS_Object_sealR6RValueP9CInstanceS2_iPS_",
+          "va": "0x2509cc",
+          "call_sites": ["0x250a60"],
+          "return_observation": "cmp r0, #2 at 0x250a64"
+        }
+      ],
+      "address_taken_references": [
+        {
+          "slot": "0x3f150c",
+          "section": ".got",
+          "relocation": "R_ARM_RELATIVE",
+          "type": 23,
+          "symbol_index": 0,
+          "slot_word": "0x00247d44",
+          "target_va": "0x247d44",
+          "consumer": "not established; not counted as a caller"
+        }
+      ],
+      "gap": "Five direct providers remain unresolved: YYObjectBase::Add, the C++ ABI entries Code_Variable_Find_Slot_From_Name and Code_Variable_FindAlloc_Slot_From_Name, FREE_RValue__Pre, and YYError. The weak _RefThing::dec provider is available in vm_value_helpers.cpp. A R_ARM_RELATIVE relocation also points to this entry through .got slot 0x3f150c; its consumer is not traced, so observed direct callers are not a complete caller census. No link, target execution, full descriptor layout, or runtime equivalence is claimed."
+    }
+  ],
+  "not_whole_library_completion": true,
+  "scope": "YYObjectBase Free/FreeVars/IsExtensible, RValue page-pool recycle, JS property eligibility/data+accessor+generic descriptor predicates/SameValue/callability, JS_DefineOwnProperty_Internal static body, and script-ref forwarding; wire views only, not full class/ownership/unwind or property-runtime certification.",
+  "remaining_internal_dependencies": [
+    "YYObjectBase constructor C1/C2",
+    "YYObjectBase::Add@0x199b84",
+    "Code_Variable_Find_Slot_From_Name C++ ABI provider@0xd21ec (separate C candidate is not this symbol)",
+    "Code_Variable_FindAlloc_Slot_From_Name@0xd2c84",
+    "CHashMap<int,RValue*,3>::Insert",
+    "FREE_RValue__Pre",
+    "YYError and getter targets"
+  ],
+  "remaining_scope": [
+    "original source field/API spellings",
+    "object lifetime/fault/concurrency/unwind domains",
+    "slot-table and variable-map producers"
+  ],
+  "original_executed": false,
+  "additional_headers_sha256": {
+    "object_helpers.hpp": "1862251f9111786de5ff98fc49dd55593c6fc04f5924306a12ea537f6a9831ad",
+    "object_alloc_internal.hpp": "ec19f83b512234e753b0e1376f39c56300778095e34fc621f4c9036dbc0eb3c8",
+    "value_map_producers.hpp": "d7c20042695cc5b36cfe9d33c2843b2738ecdcc775e81eb89e228b15357fa25d",
+    "gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
+    "gc_instance_hash.hpp": "0040536acf0b4381376a54c7980e1e3f6cda494de08158c2295ddea2a5750b4d",
+    "object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
+    "gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66",
+    "gc_object_lifecycle.hpp": "5b1eb736fa5e224db0caafd66211e9a53c6ddf88e799cbfc9b9be800e54220f8",
+    "../host_lifecycle/quit_runtime.hpp": "27c9a57345aecbdfc12e1018d24674ae1fdb1150d6bdb8417899e704af59446f",
+    "../vm_buffer/vm_buffer.hpp": "b768327c3d07accf4f0824b6e70c229831225af339cab593fe9c357fd274ad12",
+    "../memory_manager/cbucket_classes.hpp": "40923b744ecd55952b038fef0bc07af137ef3a7adefa6b25382c8fd415727554",
+    "../scripting/context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61",
+    "../vm_exec/vm_entry_runtime.hpp": "c1bcb06562ee96f51542853dea50dc775a52bf96f9121ba4c861a1dc85fbb7ee",
+    "../scripting/script_runtime.hpp": "b2243ad0b88c073855c0a8c9721c5803d2133526769fb5942ae3458b5377304d",
+    "../ccode/ccode.hpp": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642"
+  },
+  "return_surface_refinement": "Call_RValue preserves raw word rejection 1 or delegated result; existing Free caller still ignores it.",
+  "real_internal_provider_added": {
+    "Call_ScriptRef": "../scripting/script_runtime.cpp"
+  },
+  "gc_startup_scope": ".init_array @0xb9814 with its real allocation wrappers and destructor/constructor dependencies; no whole-image equivalence.",
+  "gc_consumer_scope": "Root membership, pointer hash, dynamic-root writer/reset, signed range and class-stat cleanup; AddRoot/RemoveRoot and next GC lifecycle still incomplete.",
+  "gc_writer_scope": "AddRoot, RemoveRoot and pointer CompareKeys; AddRoot reinsert uses the real weak root-map Insert provider (not an unresolved or stub dependency in the scoped relocatable).",
+  "gc_root_provider_reset_scope": "Complete bodies for the root-map Insert and CGCGeneration::Reset on the pinned ARMv7 source-recovery lane; not complete GC lifecycle.",
+  "gc_reset_caller_and_class_stats_scope": "Local bodies and two original BSS words; original Reset and gen array providers retained; class-stat producer uses the same name slot later freed by the original cleanup consumer.",
+  "batch17_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/gate-receipt.json",
+  "batch18_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-data-descriptor-r1/gate-receipt.json",
+  "batch19_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-generic-descriptor-r1/gate-receipt.json",
+  "batch20_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-property-eligibility-r1/js-samevalue-r1/gate-receipt.json",
+  "batch21_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/js-define-own-property-r1/gate-receipt.json"
+}

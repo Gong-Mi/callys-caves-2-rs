@@ -1,0 +1,1952 @@
+1e9c10	e24dd008	sub	sp, sp, #8
+1e9c14	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1e9c18	ed2d8b10	vpush	{d8, d9, d10, d11, d12, d13, d14, d15}
+1e9c1c	e24ddf7d	sub	sp, sp, #500
+1e9c20	ed9daaa6	vldr	s20, [sp, #664]
+1e9c24	e59d42a8	ldr	r4, [sp, #0x2a8]
+1e9c28	e59d52a8	ldr	r5, [sp, #0x2a8]
+1e9c2c	e59d62a8	ldr	r6, [sp, #0x2a8]
+1e9c30	e59d72a8	ldr	r7, [sp, #0x2a8]
+1e9c34	e59d82ac	ldr	r8, [sp, #0x2ac]
+1e9c38	e59d92ac	ldr	r9, [sp, #0x2ac]
+1e9c3c	e59da2ac	ldr	r10, [sp, #0x2ac]
+1e9c40	e59db2ac	ldr	r11, [sp, #0x2ac]
+1e9c44	e5999004	ldr	r9, [r9, #0x4]
+1e9c48	e5944000	ldr	r4, [r4]
+1e9c4c	e5955004	ldr	r5, [r5, #0x4]
+1e9c50	e5966008	ldr	r6, [r6, #0x8]
+1e9c54	e597700c	ldr	r7, [r7, #0xc]
+1e9c58	e5988000	ldr	r8, [r8]
+1e9c5c	e59aa008	ldr	r10, [r10, #0x8]
+1e9c60	e59bb00c	ldr	r11, [r11, #0xc]
+1e9c64	e5ddc29c	ldrb	r12, [sp, #0x29c]
+1e9c68	e58d00a8	str	r0, [sp, #0xa8]
+1e9c6c	e28d0f95	add	r0, sp, #596
+1e9c70	e58d10a0	str	r1, [sp, #0xa0]
+1e9c74	e980000c	stmib	r0, {r2, r3}
+1e9c78	eddd9a96	vldr	s19, [sp, #600]
+1e9c7c	e58d4068	str	r4, [sp, #0x68]
+1e9c80	ed9d9a97	vldr	s18, [sp, #604]
+1e9c84	e58d506c	str	r5, [sp, #0x6c]
+1e9c88	e58d6070	str	r6, [sp, #0x70]
+1e9c8c	e58d907c	str	r9, [sp, #0x7c]
+1e9c90	e58d7074	str	r7, [sp, #0x74]
+1e9c94	e58d8078	str	r8, [sp, #0x78]
+1e9c98	e58da080	str	r10, [sp, #0x80]
+1e9c9c	e58db084	str	r11, [sp, #0x84]
+1e9ca0	e58dc060	str	r12, [sp, #0x60]
+1e9ca4	edddeab0	vldr	s29, [sp, #704]
+1e9ca8	e5dd42a0	ldrb	r4, [sp, #0x2a0]
+1e9cac	ed9deab1	vldr	s28, [sp, #708]
+1e9cb0	eddd8a9a	vldr	s17, [sp, #616]
+1e9cb4	ed9d8a9b	vldr	s16, [sp, #620]
+1e9cb8	ed9dbaa2	vldr	s22, [sp, #648]
+1e9cbc	edddaaa3	vldr	s21, [sp, #652]
+1e9cc0	e58d4088	str	r4, [sp, #0x88]
+1e9cc4	ebfe6e54	bl	0x18561c <_ZN8Graphics24GetMaxDynamicVertexCountEv>
+1e9cc8	e59d50a0	ldr	r5, [sp, #0xa0]
+1e9ccc	e59f6400	ldr	r6, [pc, #0x400]
+1e9cd0	e5953000	ldr	r3, [r5]
+1e9cd4	e08f6006	add	r6, pc, r6
+1e9cd8	e58d6044	str	r6, [sp, #0x44]
+1e9cdc	e3530001	cmp	r3, #1
+1e9ce0	13a09000	movne	r9, #0
+1e9ce4	158d9054	strne	r9, [sp, #0x54]
+1e9ce8	0a000005	beq	0x1e9d04 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xf4>
+1e9cec	e59d0054	ldr	r0, [sp, #0x54]
+1e9cf0	e28ddf7d	add	sp, sp, #500
+1e9cf4	ecbd8b10	vpop	{d8, d9, d10, d11, d12, d13, d14, d15}
+1e9cf8	e8bd4ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1e9cfc	e28dd008	add	sp, sp, #8
+1e9d00	e12fff1e	bx	lr
+1e9d04	e595301c	ldr	r3, [r5, #0x1c]
+1e9d08	e3530000	cmp	r3, #0
+1e9d0c	0a000751	beq	0x1eba58 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1e48>
+1e9d10	e30a1aab	movw	r1, #0xaaab
+1e9d14	e305c556	movw	r12, #0x5556
+1e9d18	e3421aaa	movt	r1, #0x2aaa
+1e9d1c	e345c555	movt	r12, #0x5555
+1e9d20	e1a02fc0	asr	r2, r0, #31
+1e9d24	e59f73ac	ldr	r7, [pc, #0x3ac]
+1e9d28	e0c18091	smull	r8, r1, r1, r0
+1e9d2c	ed9ffae7	vldr	s30, [pc, #924]
+1e9d30	e59f93a4	ldr	r9, [pc, #0x3a4]
+1e9d34	e0c0a09c	smull	r10, r0, r12, r0
+1e9d38	e3a0b000	mov	r11, #0
+1e9d3c	e08f7007	add	r7, pc, r7
+1e9d40	e08f9009	add	r9, pc, r9
+1e9d44	e0621001	rsb	r1, r2, r1
+1e9d48	e0620000	rsb	r0, r2, r0
+1e9d4c	e58d70ac	str	r7, [sp, #0xac]
+1e9d50	e58d90a4	str	r9, [sp, #0xa4]
+1e9d54	e58d1058	str	r1, [sp, #0x58]
+1e9d58	e58db09c	str	r11, [sp, #0x9c]
+1e9d5c	e58d008c	str	r0, [sp, #0x8c]
+1e9d60	e58db054	str	r11, [sp, #0x54]
+1e9d64	e59dc09c	ldr	r12, [sp, #0x9c]
+1e9d68	e59d40a0	ldr	r4, [sp, #0xa0]
+1e9d6c	e08c208c	add	r2, r12, r12, lsl #1
+1e9d70	e5941008	ldr	r1, [r4, #0x8]
+1e9d74	e0811182	add	r1, r1, r2, lsl #3
+1e9d78	e58d1050	str	r1, [sp, #0x50]
+1e9d7c	e591200c	ldr	r2, [r1, #0xc]
+1e9d80	e3520000	cmp	r2, #0
+1e9d84	0a0001a7	beq	0x1ea428 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x818>
+1e9d88	e3a05000	mov	r5, #0
+1e9d8c	e58d5048	str	r5, [sp, #0x48]
+1e9d90	e59d7048	ldr	r7, [sp, #0x48]
+1e9d94	e3a06054	mov	r6, #84
+1e9d98	e59d8050	ldr	r8, [sp, #0x50]
+1e9d9c	e0020796	mul	r2, r6, r7
+1e9da0	e5981000	ldr	r1, [r8]
+1e9da4	e0819002	add	r9, r1, r2
+1e9da8	e58d9038	str	r9, [sp, #0x38]
+1e9dac	e5994028	ldr	r4, [r9, #0x28]
+1e9db0	e3540000	cmp	r4, #0
+1e9db4	ba000053	blt	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1e9db8	e5993038	ldr	r3, [r9, #0x38]
+1e9dbc	e3530000	cmp	r3, #0
+1e9dc0	0a000050	beq	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1e9dc4	e599c030	ldr	r12, [r9, #0x30]
+1e9dc8	e7912002	ldr	r2, [r1, r2]
+1e9dcc	e35c0801	cmp	r12, #65536
+1e9dd0	8a000298	bhi	0x1ea838 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xc28>
+1e9dd4	e35c0801	cmp	r12, #65536
+1e9dd8	23a0c801	movhs	r12, #65536
+1e9ddc	e35c0000	cmp	r12, #0
+1e9de0	0a000013	beq	0x1e9e34 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x224>
+1e9de4	e59f0304	ldr	r0, [pc, #0x304]
+1e9de8	e3a01000	mov	r1, #0
+1e9dec	e59d5044	ldr	r5, [sp, #0x44]
+1e9df0	e7950000	ldr	r0, [r5, r0]
+1e9df4	e2800008	add	r0, r0, #8
+1e9df8	edd27a01	vldr	s15, [r2, #4]
+1e9dfc	ee277aa8	vmul.f32	s14, s15, s17
+1e9e00	edd26a00	vldr	s13, [r2]
+1e9e04	e2811001	add	r1, r1, #1
+1e9e08	e15c0001	cmp	r12, r1
+1e9e0c	e2822008	add	r2, r2, #8
+1e9e10	e2800008	add	r0, r0, #8
+1e9e14	ee677a88	vmul.f32	s15, s15, s16
+1e9e18	ee067aa9	vmla.f32	s14, s13, s19
+1e9e1c	ee467a89	vmla.f32	s15, s13, s18
+1e9e20	ee377a0b	vadd.f32	s14, s14, s22
+1e9e24	ee777aaa	vadd.f32	s15, s15, s21
+1e9e28	ed007a04	vstr	s14, [r0, #-16]
+1e9e2c	ed407a03	vstr	s15, [r0, #-12]
+1e9e30	1afffff0	bne	0x1e9df8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1e8>
+1e9e34	e59db060	ldr	r11, [sp, #0x60]
+1e9e38	e35b0000	cmp	r11, #0
+1e9e3c	0a000026	beq	0x1e9edc <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2cc>
+1e9e40	e59d7038	ldr	r7, [sp, #0x38]
+1e9e44	e5972018	ldr	r2, [r7, #0x18]
+1e9e48	e3520000	cmp	r2, #0
+1e9e4c	0a000022	beq	0x1e9edc <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2cc>
+1e9e50	e5975048	ldr	r5, [r7, #0x48]
+1e9e54	e3550801	cmp	r5, #65536
+1e9e58	8a000546	bhi	0x1eb378 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1768>
+1e9e5c	e3550801	cmp	r5, #65536
+1e9e60	23a05801	movhs	r5, #65536
+1e9e64	e3550000	cmp	r5, #0
+1e9e68	0a00001b	beq	0x1e9edc <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2cc>
+1e9e6c	e59d9044	ldr	r9, [sp, #0x44]
+1e9e70	e3a0c000	mov	r12, #0
+1e9e74	e59f0274	ldr	r0, [pc, #0x274]
+1e9e78	e59f1274	ldr	r1, [pc, #0x274]
+1e9e7c	e7990000	ldr	r0, [r9, r0]
+1e9e80	e7991001	ldr	r1, [r9, r1]
+1e9e84	e2800008	add	r0, r0, #8
+1e9e88	e2811008	add	r1, r1, #8
+1e9e8c	edd27a01	vldr	s15, [r2, #4]
+1e9e90	ee677a8a	vmul.f32	s15, s15, s20
+1e9e94	edd26a00	vldr	s13, [r2]
+1e9e98	ed505a01	vldr	s11, [r0, #-4]
+1e9e9c	ed106a02	vldr	s12, [r0, #-8]
+1e9ea0	e28cc001	add	r12, r12, #1
+1e9ea4	e155000c	cmp	r5, r12
+1e9ea8	e2822008	add	r2, r2, #8
+1e9eac	e2800008	add	r0, r0, #8
+1e9eb0	e2811008	add	r1, r1, #8
+1e9eb4	ee277a88	vmul.f32	s14, s15, s16
+1e9eb8	ee666a8a	vmul.f32	s13, s13, s20
+1e9ebc	ee677aa8	vmul.f32	s15, s15, s17
+1e9ec0	ee067a89	vmla.f32	s14, s13, s18
+1e9ec4	ee467aa9	vmla.f32	s15, s13, s19
+1e9ec8	ee377a25	vadd.f32	s14, s14, s11
+1e9ecc	ee777a86	vadd.f32	s15, s15, s12
+1e9ed0	ed017a03	vstr	s14, [r1, #-12]
+1e9ed4	ed417a04	vstr	s15, [r1, #-16]
+1e9ed8	1affffeb	bne	0x1e9e8c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x27c>
+1e9edc	e59d6050	ldr	r6, [sp, #0x50]
+1e9ee0	e5962004	ldr	r2, [r6, #0x4]
+1e9ee4	e7926104	ldr	r6, [r2, r4, lsl #2]
+1e9ee8	e3560000	cmp	r6, #0
+1e9eec	0a000005	beq	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1e9ef0	e5967000	ldr	r7, [r6]
+1e9ef4	e3570001	cmp	r7, #1
+1e9ef8	0a000257	beq	0x1ea85c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xc4c>
+1e9efc	e2473002	sub	r3, r7, #2
+1e9f00	e3530001	cmp	r3, #1
+1e9f04	9a000380	bls	0x1ead0c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x10fc>
+1e9f08	e59da038	ldr	r10, [sp, #0x38]
+1e9f0c	e59ac02c	ldr	r12, [r10, #0x2c]
+1e9f10	e35c0000	cmp	r12, #0
+1e9f14	ba00013a	blt	0x1ea404 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7f4>
+1e9f18	e59a1040	ldr	r1, [r10, #0x40]
+1e9f1c	e3510000	cmp	r1, #0
+1e9f20	0a000137	beq	0x1ea404 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7f4>
+1e9f24	e59a300c	ldr	r3, [r10, #0xc]
+1e9f28	e3530000	cmp	r3, #0
+1e9f2c	0a000019	beq	0x1e9f98 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x388>
+1e9f30	e59d5038	ldr	r5, [sp, #0x38]
+1e9f34	e595403c	ldr	r4, [r5, #0x3c]
+1e9f38	e3540801	cmp	r4, #65536
+1e9f3c	23a04801	movhs	r4, #65536
+1e9f40	e3540000	cmp	r4, #0
+1e9f44	0a000013	beq	0x1e9f98 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x388>
+1e9f48	e59f0194	ldr	r0, [pc, #0x194]
+1e9f4c	e3a02000	mov	r2, #0
+1e9f50	e59d6044	ldr	r6, [sp, #0x44]
+1e9f54	e7960000	ldr	r0, [r6, r0]
+1e9f58	e2800008	add	r0, r0, #8
+1e9f5c	edd37a01	vldr	s15, [r3, #4]
+1e9f60	ee277aa8	vmul.f32	s14, s15, s17
+1e9f64	edd36a00	vldr	s13, [r3]
+1e9f68	e2822001	add	r2, r2, #1
+1e9f6c	e1540002	cmp	r4, r2
+1e9f70	e2833008	add	r3, r3, #8
+1e9f74	e2800008	add	r0, r0, #8
+1e9f78	ee677a88	vmul.f32	s15, s15, s16
+1e9f7c	ee067aa9	vmla.f32	s14, s13, s19
+1e9f80	ee467a89	vmla.f32	s15, s13, s18
+1e9f84	ee377a0b	vadd.f32	s14, s14, s22
+1e9f88	ee777aaa	vadd.f32	s15, s15, s21
+1e9f8c	ed007a04	vstr	s14, [r0, #-16]
+1e9f90	ed407a03	vstr	s15, [r0, #-12]
+1e9f94	1afffff0	bne	0x1e9f5c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x34c>
+1e9f98	e59db060	ldr	r11, [sp, #0x60]
+1e9f9c	e35b0000	cmp	r11, #0
+1e9fa0	0a000024	beq	0x1ea038 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x428>
+1e9fa4	e59db038	ldr	r11, [sp, #0x38]
+1e9fa8	e59b3020	ldr	r3, [r11, #0x20]
+1e9fac	e3530000	cmp	r3, #0
+1e9fb0	0a000020	beq	0x1ea038 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x428>
+1e9fb4	e59b5050	ldr	r5, [r11, #0x50]
+1e9fb8	e3550801	cmp	r5, #65536
+1e9fbc	23a05801	movhs	r5, #65536
+1e9fc0	e3550000	cmp	r5, #0
+1e9fc4	0a00001b	beq	0x1ea038 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x428>
+1e9fc8	e59d6044	ldr	r6, [sp, #0x44]
+1e9fcc	e3a04000	mov	r4, #0
+1e9fd0	e59f010c	ldr	r0, [pc, #0x10c]
+1e9fd4	e59f2104	ldr	r2, [pc, #0x104]
+1e9fd8	e7960000	ldr	r0, [r6, r0]
+1e9fdc	e7962002	ldr	r2, [r6, r2]
+1e9fe0	e2800008	add	r0, r0, #8
+1e9fe4	e2822008	add	r2, r2, #8
+1e9fe8	edd37a01	vldr	s15, [r3, #4]
+1e9fec	ee677a8a	vmul.f32	s15, s15, s20
+1e9ff0	edd36a00	vldr	s13, [r3]
+1e9ff4	ed505a01	vldr	s11, [r0, #-4]
+1e9ff8	ed106a02	vldr	s12, [r0, #-8]
+1e9ffc	e2844001	add	r4, r4, #1
+1ea000	e1550004	cmp	r5, r4
+1ea004	e2833008	add	r3, r3, #8
+1ea008	e2800008	add	r0, r0, #8
+1ea00c	e2822008	add	r2, r2, #8
+1ea010	ee277a88	vmul.f32	s14, s15, s16
+1ea014	ee666a8a	vmul.f32	s13, s13, s20
+1ea018	ee677aa8	vmul.f32	s15, s15, s17
+1ea01c	ee067a89	vmla.f32	s14, s13, s18
+1ea020	ee467aa9	vmla.f32	s15, s13, s19
+1ea024	ee377a25	vadd.f32	s14, s14, s11
+1ea028	ee777a86	vadd.f32	s15, s15, s12
+1ea02c	ed027a03	vstr	s14, [r2, #-12]
+1ea030	ed427a04	vstr	s15, [r2, #-16]
+1ea034	1affffeb	bne	0x1e9fe8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x3d8>
+1ea038	e59d7050	ldr	r7, [sp, #0x50]
+1ea03c	e28d4e17	add	r4, sp, #368
+1ea040	e59d806c	ldr	r8, [sp, #0x6c]
+1ea044	e3a03000	mov	r3, #0
+1ea048	e59da068	ldr	r10, [sp, #0x68]
+1ea04c	e5972008	ldr	r2, [r7, #0x8]
+1ea050	e59db070	ldr	r11, [sp, #0x70]
+1ea054	e792010c	ldr	r0, [r2, r12, lsl #2]
+1ea058	e7e75450	ubfx	r5, r0, #0x8, #0x8
+1ea05c	e7e7c850	ubfx	r12, r0, #0x10, #0x8
+1ea060	e6ef6070	uxtb	r6, r0
+1ea064	e1a00c20	lsr	r0, r0, #24
+1ea068	e0090895	mul	r9, r5, r8
+1ea06c	e0020a96	mul	r2, r6, r10
+1ea070	e59da074	ldr	r10, [sp, #0x74]
+1ea074	e0080b9c	mul	r8, r12, r11
+1ea078	e0070a90	mul	r7, r0, r10
+1ea07c	e1a09429	lsr	r9, r9, #8
+1ea080	e58d9174	str	r9, [sp, #0x174]
+1ea084	e1a02422	lsr	r2, r2, #8
+1ea088	e59d92b4	ldr	r9, [sp, #0x2b4]
+1ea08c	e1a08428	lsr	r8, r8, #8
+1ea090	e58d8178	str	r8, [sp, #0x178]
+1ea094	e59d82b0	ldr	r8, [sp, #0x2b0]
+1ea098	e1a07427	lsr	r7, r7, #8
+1ea09c	e58d2170	str	r2, [sp, #0x170]
+1ea0a0	e58d717c	str	r7, [sp, #0x17c]
+1ea0a4	e798a003	ldr	r10, [r8, r3]
+1ea0a8	e7997003	ldr	r7, [r9, r3]
+1ea0ac	e002029a	mul	r2, r10, r2
+1ea0b0	e0872442	add	r2, r7, r2, asr #8
+1ea0b4	e6e82012	usat	r2, #0x8, r2
+1ea0b8	e7842003	str	r2, [r4, r3]
+1ea0bc	e2833004	add	r3, r3, #4
+1ea0c0	e3530010	cmp	r3, #16
+1ea0c4	0a0000dd	beq	0x1ea440 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x830>
+1ea0c8	e7942003	ldr	r2, [r4, r3]
+1ea0cc	eafffff4	b	0x1ea0a4 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x494>
+1ea0d0	00000000	andeq	r0, r0, r0
+1ea0d4	00207f7c	eoreq	r7, r0, r12, ror pc
+1ea0d8	001688dc	ldrsbeq	r8, [r6], -r12
+1ea0dc	001688b4	ldrheq	r8, [r6], -r4
+1ea0e0	fffff188	.word	0xfffff188
+1ea0e4	fffff18c	.word	0xfffff18c
+1ea0e8	ffffbac4	.word	0xffffbac4
+1ea0ec	ffffc0a8	.word	0xffffc0a8
+1ea0f0	fffff190	.word	0xfffff190
+1ea0f4	fffff194	.word	0xfffff194
+1ea0f8	ffffbcd0	.word	0xffffbcd0
+1ea0fc	e59d5060	ldr	r5, [sp, #0x60]
+1ea100	e3550000	cmp	r5, #0
+1ea104	0a000093	beq	0x1ea358 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x748>
+1ea108	e59d6038	ldr	r6, [sp, #0x38]
+1ea10c	e596304c	ldr	r3, [r6, #0x4c]
+1ea110	e3530000	cmp	r3, #0
+1ea114	0a00008f	beq	0x1ea358 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x748>
+1ea118	e596701c	ldr	r7, [r6, #0x1c]
+1ea11c	e58d3040	str	r3, [sp, #0x40]
+1ea120	e58d704c	str	r7, [sp, #0x4c]
+1ea124	da000088	ble	0x1ea34c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x73c>
+1ea128	e58d8018	str	r8, [sp, #0x18]
+1ea12c	e59d8040	ldr	r8, [sp, #0x40]
+1ea130	e3a00004	mov	r0, #4
+1ea134	e59d9058	ldr	r9, [sp, #0x58]
+1ea138	e3a01000	mov	r1, #0
+1ea13c	e3a02010	mov	r2, #16
+1ea140	e1580009	cmp	r8, r9
+1ea144	a1a08009	movge	r8, r9
+1ea148	e58d803c	str	r8, [sp, #0x3c]
+1ea14c	e0883088	add	r3, r8, r8, lsl #1
+1ea150	e1a03083	lsl	r3, r3, #1
+1ea154	ebfe6caf	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1ea158	e3580000	cmp	r8, #0
+1ea15c	da000070	ble	0x1ea324 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x714>
+1ea160	e59d4044	ldr	r4, [sp, #0x44]
+1ea164	e280a010	add	r10, r0, #16
+1ea168	e51f108c	ldr	r1, [pc, #-0x8c]
+1ea16c	e280b020	add	r11, r0, #32
+1ea170	e58da034	str	r10, [sp, #0x34]
+1ea174	e280c030	add	r12, r0, #48
+1ea178	e58db030	str	r11, [sp, #0x30]
+1ea17c	e2805040	add	r5, r0, #64
+1ea180	e58dc02c	str	r12, [sp, #0x2c]
+1ea184	e2806050	add	r6, r0, #80
+1ea188	e7941001	ldr	r1, [r4, r1]
+1ea18c	e1a0800c	mov	r8, r12
+1ea190	e51f30b8	ldr	r3, [pc, #-0xb8]
+1ea194	e1a0700b	mov	r7, r11
+1ea198	e58d5028	str	r5, [sp, #0x28]
+1ea19c	e58d1020	str	r1, [sp, #0x20]
+1ea1a0	e7943003	ldr	r3, [r4, r3]
+1ea1a4	e58d6024	str	r6, [sp, #0x24]
+1ea1a8	e1a06005	mov	r6, r5
+1ea1ac	e58da010	str	r10, [sp, #0x10]
+1ea1b0	e51f20c0	ldr	r2, [pc, #-0xc0]
+1ea1b4	e59d903c	ldr	r9, [sp, #0x3c]
+1ea1b8	e59da044	ldr	r10, [sp, #0x44]
+1ea1bc	e59d5024	ldr	r5, [sp, #0x24]
+1ea1c0	e59d404c	ldr	r4, [sp, #0x4c]
+1ea1c4	e58d301c	str	r3, [sp, #0x1c]
+1ea1c8	e2803060	add	r3, r0, #96
+1ea1cc	e58d900c	str	r9, [sp, #0xc]
+1ea1d0	e79a2002	ldr	r2, [r10, r2]
+1ea1d4	edd27a00	vldr	s15, [r2]
+1ea1d8	e1d490b2	ldrh	r9, [r4, #2]
+1ea1dc	e2833060	add	r3, r3, #96
+1ea1e0	e59d1010	ldr	r1, [sp, #0x10]
+1ea1e4	e2844004	add	r4, r4, #4
+1ea1e8	e59d2034	ldr	r2, [sp, #0x34]
+1ea1ec	e154a0b4	ldrh	r10, [r4, #-4]
+1ea1f0	e060c001	rsb	r12, r0, r1
+1ea1f4	e59db00c	ldr	r11, [sp, #0xc]
+1ea1f8	e1a09189	lsl	r9, r9, #3
+1ea1fc	e58d905c	str	r9, [sp, #0x5c]
+1ea200	e08cc002	add	r12, r12, r2
+1ea204	e59d902c	ldr	r9, [sp, #0x2c]
+1ea208	e0602008	rsb	r2, r0, r8
+1ea20c	e25bb001	subs	r11, r11, #1
+1ea210	e58db00c	str	r11, [sp, #0xc]
+1ea214	e0822009	add	r2, r2, r9
+1ea218	e59db030	ldr	r11, [sp, #0x30]
+1ea21c	e59d9020	ldr	r9, [sp, #0x20]
+1ea220	e0601007	rsb	r1, r0, r7
+1ea224	e1a0a18a	lsl	r10, r10, #3
+1ea228	e081100b	add	r1, r1, r11
+1ea22c	e089b00a	add	r11, r9, r10
+1ea230	e59d901c	ldr	r9, [sp, #0x1c]
+1ea234	ed9b4a00	vldr	s8, [r11]
+1ea238	eddb4a01	vldr	s9, [r11, #4]
+1ea23c	e089a00a	add	r10, r9, r10
+1ea240	e59db020	ldr	r11, [sp, #0x20]
+1ea244	e59d905c	ldr	r9, [sp, #0x5c]
+1ea248	ed9a6a00	vldr	s12, [r10]
+1ea24c	edda6a01	vldr	s13, [r10, #4]
+1ea250	e2877060	add	r7, r7, #96
+1ea254	e08ba009	add	r10, r11, r9
+1ea258	e59db01c	ldr	r11, [sp, #0x1c]
+1ea25c	ed9a7a00	vldr	s14, [r10]
+1ea260	ed9a1a01	vldr	s2, [r10, #4]
+1ea264	e08bb009	add	r11, r11, r9
+1ea268	ed9b5a00	vldr	s10, [r11]
+1ea26c	eddb5a01	vldr	s11, [r11, #4]
+1ea270	e59db028	ldr	r11, [sp, #0x28]
+1ea274	e59d9010	ldr	r9, [sp, #0x10]
+1ea278	e060a006	rsb	r10, r0, r6
+1ea27c	e08aa00b	add	r10, r10, r11
+1ea280	e59db024	ldr	r11, [sp, #0x24]
+1ea284	e2899060	add	r9, r9, #96
+1ea288	e58d9010	str	r9, [sp, #0x10]
+1ea28c	e0609005	rsb	r9, r0, r5
+1ea290	ed034a30	vstr	s8, [r3, #-192]
+1ea294	e089b00b	add	r11, r9, r11
+1ea298	e59d9018	ldr	r9, [sp, #0x18]
+1ea29c	ed434a2f	vstr	s9, [r3, #-188]
+1ea2a0	ed437a2e	vstr	s15, [r3, #-184]
+1ea2a4	e58db05c	str	r11, [sp, #0x5c]
+1ea2a8	e2888060	add	r8, r8, #96
+1ea2ac	e50390b4	str	r9, [r3, #-0xb4]
+1ea2b0	ed0c7a04	vstr	s14, [r12, #-16]
+1ea2b4	ed0c1a03	vstr	s2, [r12, #-12]
+1ea2b8	ed4c7a02	vstr	s15, [r12, #-8]
+1ea2bc	e50c9004	str	r9, [r12, #-0x4]
+1ea2c0	e2866060	add	r6, r6, #96
+1ea2c4	e59dc05c	ldr	r12, [sp, #0x5c]
+1ea2c8	ed016a08	vstr	s12, [r1, #-32]
+1ea2cc	e59db014	ldr	r11, [sp, #0x14]
+1ea2d0	ed416a07	vstr	s13, [r1, #-28]
+1ea2d4	ed417a06	vstr	s15, [r1, #-24]
+1ea2d8	e2855060	add	r5, r5, #96
+1ea2dc	e501b014	str	r11, [r1, #-0x14]
+1ea2e0	ed026a0c	vstr	s12, [r2, #-48]
+1ea2e4	ed426a0b	vstr	s13, [r2, #-44]
+1ea2e8	ed427a0a	vstr	s15, [r2, #-40]
+1ea2ec	e502b024	str	r11, [r2, #-0x24]
+1ea2f0	ed0a7a10	vstr	s14, [r10, #-64]
+1ea2f4	ed0a1a0f	vstr	s2, [r10, #-60]
+1ea2f8	ed4a7a0e	vstr	s15, [r10, #-56]
+1ea2fc	e50a9034	str	r9, [r10, #-0x34]
+1ea300	ed0c5a14	vstr	s10, [r12, #-80]
+1ea304	ed4c5a13	vstr	s11, [r12, #-76]
+1ea308	ed4c7a12	vstr	s15, [r12, #-72]
+1ea30c	e50cb044	str	r11, [r12, #-0x44]
+1ea310	1affffb0	bne	0x1ea1d8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x5c8>
+1ea314	e59d503c	ldr	r5, [sp, #0x3c]
+1ea318	e59d404c	ldr	r4, [sp, #0x4c]
+1ea31c	e0844105	add	r4, r4, r5, lsl #2
+1ea320	e58d404c	str	r4, [sp, #0x4c]
+1ea324	e59d6040	ldr	r6, [sp, #0x40]
+1ea328	e59d703c	ldr	r7, [sp, #0x3c]
+1ea32c	e0676006	rsb	r6, r7, r6
+1ea330	e58d6040	str	r6, [sp, #0x40]
+1ea334	e3560000	cmp	r6, #0
+1ea338	caffff7b	bgt	0x1ea12c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x51c>
+1ea33c	e59d9038	ldr	r9, [sp, #0x38]
+1ea340	e59d8018	ldr	r8, [sp, #0x18]
+1ea344	e599304c	ldr	r3, [r9, #0x4c]
+1ea348	e5991040	ldr	r1, [r9, #0x40]
+1ea34c	e59da054	ldr	r10, [sp, #0x54]
+1ea350	e08aa083	add	r10, r10, r3, lsl #1
+1ea354	e58da054	str	r10, [sp, #0x54]
+1ea358	e59db038	ldr	r11, [sp, #0x38]
+1ea35c	e2514000	subs	r4, r1, #0
+1ea360	e59b5010	ldr	r5, [r11, #0x10]
+1ea364	da000023	ble	0x1ea3f8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7e8>
+1ea368	e59d708c	ldr	r7, [sp, #0x8c]
+1ea36c	e59d9044	ldr	r9, [sp, #0x44]
+1ea370	e1540007	cmp	r4, r7
+1ea374	b1a06004	movlt	r6, r4
+1ea378	a1a06007	movge	r6, r7
+1ea37c	e3a00004	mov	r0, #4
+1ea380	e3a01000	mov	r1, #0
+1ea384	e3a02010	mov	r2, #16
+1ea388	e086a086	add	r10, r6, r6, lsl #1
+1ea38c	e1a0300a	mov	r3, r10
+1ea390	ebfe6c20	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1ea394	e35a0000	cmp	r10, #0
+1ea398	da000011	ble	0x1ea3e4 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7d4>
+1ea39c	e51f22ac	ldr	r2, [pc, #-0x2ac]
+1ea3a0	e085308a	add	r3, r5, r10, lsl #1
+1ea3a4	e51f12c8	ldr	r1, [pc, #-0x2c8]
+1ea3a8	e2800010	add	r0, r0, #16
+1ea3ac	e7992002	ldr	r2, [r9, r2]
+1ea3b0	e799c001	ldr	r12, [r9, r1]
+1ea3b4	e592a000	ldr	r10, [r2]
+1ea3b8	e0d520b2	ldrh	r2, [r5], #2
+1ea3bc	e2800010	add	r0, r0, #16
+1ea3c0	e1550003	cmp	r5, r3
+1ea3c4	e08c2182	add	r2, r12, r2, lsl #3
+1ea3c8	e5921000	ldr	r1, [r2]
+1ea3cc	e5922004	ldr	r2, [r2, #0x4]
+1ea3d0	e500a018	str	r10, [r0, #-0x18]
+1ea3d4	e5001020	str	r1, [r0, #-0x20]
+1ea3d8	e500201c	str	r2, [r0, #-0x1c]
+1ea3dc	e5008014	str	r8, [r0, #-0x14]
+1ea3e0	1afffff4	bne	0x1ea3b8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7a8>
+1ea3e4	e0664004	rsb	r4, r6, r4
+1ea3e8	e3540000	cmp	r4, #0
+1ea3ec	caffffdf	bgt	0x1ea370 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x760>
+1ea3f0	e59dc038	ldr	r12, [sp, #0x38]
+1ea3f4	e59c1040	ldr	r1, [r12, #0x40]
+1ea3f8	e59d4054	ldr	r4, [sp, #0x54]
+1ea3fc	e0814004	add	r4, r1, r4
+1ea400	e58d4054	str	r4, [sp, #0x54]
+1ea404	e59d5050	ldr	r5, [sp, #0x50]
+1ea408	e59d6048	ldr	r6, [sp, #0x48]
+1ea40c	e595300c	ldr	r3, [r5, #0xc]
+1ea410	e2866001	add	r6, r6, #1
+1ea414	e58d6048	str	r6, [sp, #0x48]
+1ea418	e1530006	cmp	r3, r6
+1ea41c	8afffe5b	bhi	0x1e9d90 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x180>
+1ea420	e59d70a0	ldr	r7, [sp, #0xa0]
+1ea424	e597301c	ldr	r3, [r7, #0x1c]
+1ea428	e59d809c	ldr	r8, [sp, #0x9c]
+1ea42c	e2888001	add	r8, r8, #1
+1ea430	e58d809c	str	r8, [sp, #0x9c]
+1ea434	e1530008	cmp	r3, r8
+1ea438	8afffe49	bhi	0x1e9d64 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x154>
+1ea43c	eafffe2a	b	0x1e9cec <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xdc>
+1ea440	e59d9080	ldr	r9, [sp, #0x80]
+1ea444	e59d807c	ldr	r8, [sp, #0x7c]
+1ea448	e59d3178	ldr	r3, [sp, #0x178]
+1ea44c	e59d2174	ldr	r2, [sp, #0x174]
+1ea450	e59d7078	ldr	r7, [sp, #0x78]
+1ea454	e00c099c	mul	r12, r12, r9
+1ea458	e59da084	ldr	r10, [sp, #0x84]
+1ea45c	e0050895	mul	r5, r5, r8
+1ea460	e1a03803	lsl	r3, r3, #16
+1ea464	e1833402	orr	r3, r3, r2, lsl #8
+1ea468	e59d2170	ldr	r2, [sp, #0x170]
+1ea46c	e0060796	mul	r6, r6, r7
+1ea470	e1833002	orr	r3, r3, r2
+1ea474	e0000a90	mul	r0, r0, r10
+1ea478	e59d217c	ldr	r2, [sp, #0x17c]
+1ea47c	e1a0c42c	lsr	r12, r12, #8
+1ea480	e59d42b8	ldr	r4, [sp, #0x2b8]
+1ea484	e58dc1b8	str	r12, [sp, #0x1b8]
+1ea488	e1a05425	lsr	r5, r5, #8
+1ea48c	e59dc2b0	ldr	r12, [sp, #0x2b0]
+1ea490	e1838c02	orr	r8, r3, r2, lsl #24
+1ea494	e58d51b4	str	r5, [sp, #0x1b4]
+1ea498	e28d5e1b	add	r5, sp, #432
+1ea49c	e3a03000	mov	r3, #0
+1ea4a0	e1a06426	lsr	r6, r6, #8
+1ea4a4	e1a00420	lsr	r0, r0, #8
+1ea4a8	e58d61b0	str	r6, [sp, #0x1b0]
+1ea4ac	e58d01bc	str	r0, [sp, #0x1bc]
+1ea4b0	e79c2003	ldr	r2, [r12, r3]
+1ea4b4	e7940003	ldr	r0, [r4, r3]
+1ea4b8	e0020692	mul	r2, r2, r6
+1ea4bc	e0802442	add	r2, r0, r2, asr #8
+1ea4c0	e6e82012	usat	r2, #0x8, r2
+1ea4c4	e7852003	str	r2, [r5, r3]
+1ea4c8	e2833004	add	r3, r3, #4
+1ea4cc	e3530010	cmp	r3, #16
+1ea4d0	17956003	ldrne	r6, [r5, r3]
+1ea4d4	1afffff5	bne	0x1ea4b0 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x8a0>
+1ea4d8	e59d31b8	ldr	r3, [sp, #0x1b8]
+1ea4dc	e59d21b4	ldr	r2, [sp, #0x1b4]
+1ea4e0	e59db088	ldr	r11, [sp, #0x88]
+1ea4e4	e59d01b0	ldr	r0, [sp, #0x1b0]
+1ea4e8	e1a03803	lsl	r3, r3, #16
+1ea4ec	e59dc1bc	ldr	r12, [sp, #0x1bc]
+1ea4f0	e1833402	orr	r3, r3, r2, lsl #8
+1ea4f4	e35b0000	cmp	r11, #0
+1ea4f8	e1833000	orr	r3, r3, r0
+1ea4fc	e183cc0c	orr	r12, r3, r12, lsl #24
+1ea500	e58dc014	str	r12, [sp, #0x14]
+1ea504	0afffefc	beq	0x1ea0fc <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x4ec>
+1ea508	e59dc060	ldr	r12, [sp, #0x60]
+1ea50c	e35c0000	cmp	r12, #0
+1ea510	0a00009e	beq	0x1ea790 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xb80>
+1ea514	e59d4038	ldr	r4, [sp, #0x38]
+1ea518	e594304c	ldr	r3, [r4, #0x4c]
+1ea51c	e3530000	cmp	r3, #0
+1ea520	0a00009a	beq	0x1ea790 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xb80>
+1ea524	e594501c	ldr	r5, [r4, #0x1c]
+1ea528	e58d3040	str	r3, [sp, #0x40]
+1ea52c	e58d504c	str	r5, [sp, #0x4c]
+1ea530	da000093	ble	0x1ea784 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xb74>
+1ea534	e58d8018	str	r8, [sp, #0x18]
+1ea538	e59d6040	ldr	r6, [sp, #0x40]
+1ea53c	e3a00004	mov	r0, #4
+1ea540	e59d7058	ldr	r7, [sp, #0x58]
+1ea544	e3a02018	mov	r2, #24
+1ea548	e59d12bc	ldr	r1, [sp, #0x2bc]
+1ea54c	e1560007	cmp	r6, r7
+1ea550	a1a06007	movge	r6, r7
+1ea554	e58d603c	str	r6, [sp, #0x3c]
+1ea558	e0863086	add	r3, r6, r6, lsl #1
+1ea55c	e1a03083	lsl	r3, r3, #1
+1ea560	ebfe6bac	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1ea564	e3560000	cmp	r6, #0
+1ea568	da00007b	ble	0x1ea75c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xb4c>
+1ea56c	e59dc044	ldr	r12, [sp, #0x44]
+1ea570	e2808018	add	r8, r0, #24
+1ea574	e51f1498	ldr	r1, [pc, #-0x498]
+1ea578	e2809030	add	r9, r0, #48
+1ea57c	e58d8028	str	r8, [sp, #0x28]
+1ea580	e280a048	add	r10, r0, #72
+1ea584	e58d9024	str	r9, [sp, #0x24]
+1ea588	e1a07009	mov	r7, r9
+1ea58c	e58da034	str	r10, [sp, #0x34]
+1ea590	e51f34b8	ldr	r3, [pc, #-0x4b8]
+1ea594	e79c1001	ldr	r1, [r12, r1]
+1ea598	e59d403c	ldr	r4, [sp, #0x3c]
+1ea59c	e51f24ac	ldr	r2, [pc, #-0x4ac]
+1ea5a0	e58d1020	str	r1, [sp, #0x20]
+1ea5a4	e2801060	add	r1, r0, #96
+1ea5a8	e58d1030	str	r1, [sp, #0x30]
+1ea5ac	e79c3003	ldr	r3, [r12, r3]
+1ea5b0	e1a06001	mov	r6, r1
+1ea5b4	e58d400c	str	r4, [sp, #0xc]
+1ea5b8	e59d404c	ldr	r4, [sp, #0x4c]
+1ea5bc	e58d301c	str	r3, [sp, #0x1c]
+1ea5c0	e2803078	add	r3, r0, #120
+1ea5c4	e58d302c	str	r3, [sp, #0x2c]
+1ea5c8	e2803090	add	r3, r0, #144
+1ea5cc	e59d502c	ldr	r5, [sp, #0x2c]
+1ea5d0	e58d8010	str	r8, [sp, #0x10]
+1ea5d4	e1a0800a	mov	r8, r10
+1ea5d8	e79c2002	ldr	r2, [r12, r2]
+1ea5dc	edd27a00	vldr	s15, [r2]
+1ea5e0	e59d900c	ldr	r9, [sp, #0xc]
+1ea5e4	e2844004	add	r4, r4, #4
+1ea5e8	e59db010	ldr	r11, [sp, #0x10]
+1ea5ec	e2833090	add	r3, r3, #144
+1ea5f0	e2599001	subs	r9, r9, #1
+1ea5f4	e58d900c	str	r9, [sp, #0xc]
+1ea5f8	e15490b2	ldrh	r9, [r4, #-2]
+1ea5fc	e060c00b	rsb	r12, r0, r11
+1ea600	e59d1028	ldr	r1, [sp, #0x28]
+1ea604	e59d2024	ldr	r2, [sp, #0x24]
+1ea608	e154a0b4	ldrh	r10, [r4, #-4]
+1ea60c	e08cc001	add	r12, r12, r1
+1ea610	e1a09189	lsl	r9, r9, #3
+1ea614	e0601007	rsb	r1, r0, r7
+1ea618	e58d905c	str	r9, [sp, #0x5c]
+1ea61c	e0811002	add	r1, r1, r2
+1ea620	e59d9034	ldr	r9, [sp, #0x34]
+1ea624	e0602008	rsb	r2, r0, r8
+1ea628	e1a0a18a	lsl	r10, r10, #3
+1ea62c	e2877090	add	r7, r7, #144
+1ea630	e0822009	add	r2, r2, r9
+1ea634	e59d9020	ldr	r9, [sp, #0x20]
+1ea638	e2888090	add	r8, r8, #144
+1ea63c	e089b00a	add	r11, r9, r10
+1ea640	e59d901c	ldr	r9, [sp, #0x1c]
+1ea644	ed9b4a00	vldr	s8, [r11]
+1ea648	eddb4a01	vldr	s9, [r11, #4]
+1ea64c	e089a00a	add	r10, r9, r10
+1ea650	e59db020	ldr	r11, [sp, #0x20]
+1ea654	e59d905c	ldr	r9, [sp, #0x5c]
+1ea658	ed9a6a00	vldr	s12, [r10]
+1ea65c	edda6a01	vldr	s13, [r10, #4]
+1ea660	e08ba009	add	r10, r11, r9
+1ea664	e59db01c	ldr	r11, [sp, #0x1c]
+1ea668	ed9a7a00	vldr	s14, [r10]
+1ea66c	ed9a1a01	vldr	s2, [r10, #4]
+1ea670	e08bb009	add	r11, r11, r9
+1ea674	ed9b5a00	vldr	s10, [r11]
+1ea678	eddb5a01	vldr	s11, [r11, #4]
+1ea67c	e59db030	ldr	r11, [sp, #0x30]
+1ea680	e59d9010	ldr	r9, [sp, #0x10]
+1ea684	e060a006	rsb	r10, r0, r6
+1ea688	e08aa00b	add	r10, r10, r11
+1ea68c	e59db02c	ldr	r11, [sp, #0x2c]
+1ea690	e2899090	add	r9, r9, #144
+1ea694	e58d9010	str	r9, [sp, #0x10]
+1ea698	e0609005	rsb	r9, r0, r5
+1ea69c	ed034a48	vstr	s8, [r3, #-288]
+1ea6a0	e089b00b	add	r11, r9, r11
+1ea6a4	e59d9018	ldr	r9, [sp, #0x18]
+1ea6a8	ed434a47	vstr	s9, [r3, #-284]
+1ea6ac	e58db05c	str	r11, [sp, #0x5c]
+1ea6b0	ed437a46	vstr	s15, [r3, #-280]
+1ea6b4	ed43ea44	vstr	s29, [r3, #-272]
+1ea6b8	e5039114	str	r9, [r3, #-0x114]
+1ea6bc	ed03ea43	vstr	s28, [r3, #-268]
+1ea6c0	ed0c7a06	vstr	s14, [r12, #-24]
+1ea6c4	ed0c1a05	vstr	s2, [r12, #-20]
+1ea6c8	ed4c7a04	vstr	s15, [r12, #-16]
+1ea6cc	e50c900c	str	r9, [r12, #-0xc]
+1ea6d0	ed4cea02	vstr	s29, [r12, #-8]
+1ea6d4	ed0cea01	vstr	s28, [r12, #-4]
+1ea6d8	e59db014	ldr	r11, [sp, #0x14]
+1ea6dc	ed016a0c	vstr	s12, [r1, #-48]
+1ea6e0	e59dc05c	ldr	r12, [sp, #0x5c]
+1ea6e4	ed416a0b	vstr	s13, [r1, #-44]
+1ea6e8	ed417a0a	vstr	s15, [r1, #-40]
+1ea6ec	ed41ea08	vstr	s29, [r1, #-32]
+1ea6f0	e501b024	str	r11, [r1, #-0x24]
+1ea6f4	ed01ea07	vstr	s28, [r1, #-28]
+1ea6f8	e2866090	add	r6, r6, #144
+1ea6fc	ed026a12	vstr	s12, [r2, #-72]
+1ea700	ed426a11	vstr	s13, [r2, #-68]
+1ea704	ed427a10	vstr	s15, [r2, #-64]
+1ea708	e502b03c	str	r11, [r2, #-0x3c]
+1ea70c	ed42ea0e	vstr	s29, [r2, #-56]
+1ea710	ed02ea0d	vstr	s28, [r2, #-52]
+1ea714	e2855090	add	r5, r5, #144
+1ea718	ed0a7a18	vstr	s14, [r10, #-96]
+1ea71c	ed0a1a17	vstr	s2, [r10, #-92]
+1ea720	ed4a7a16	vstr	s15, [r10, #-88]
+1ea724	e50a9054	str	r9, [r10, #-0x54]
+1ea728	ed4aea14	vstr	s29, [r10, #-80]
+1ea72c	ed0aea13	vstr	s28, [r10, #-76]
+1ea730	ed0c5a1e	vstr	s10, [r12, #-120]
+1ea734	ed4c5a1d	vstr	s11, [r12, #-116]
+1ea738	ed4c7a1c	vstr	s15, [r12, #-112]
+1ea73c	e50cb06c	str	r11, [r12, #-0x6c]
+1ea740	ed4cea1a	vstr	s29, [r12, #-104]
+1ea744	ed0cea19	vstr	s28, [r12, #-100]
+1ea748	1affffa4	bne	0x1ea5e0 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x9d0>
+1ea74c	e59d503c	ldr	r5, [sp, #0x3c]
+1ea750	e59d404c	ldr	r4, [sp, #0x4c]
+1ea754	e0844105	add	r4, r4, r5, lsl #2
+1ea758	e58d404c	str	r4, [sp, #0x4c]
+1ea75c	e59d6040	ldr	r6, [sp, #0x40]
+1ea760	e59d703c	ldr	r7, [sp, #0x3c]
+1ea764	e0676006	rsb	r6, r7, r6
+1ea768	e58d6040	str	r6, [sp, #0x40]
+1ea76c	e3560000	cmp	r6, #0
+1ea770	caffff70	bgt	0x1ea538 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x928>
+1ea774	e59d9038	ldr	r9, [sp, #0x38]
+1ea778	e59d8018	ldr	r8, [sp, #0x18]
+1ea77c	e599304c	ldr	r3, [r9, #0x4c]
+1ea780	e5991040	ldr	r1, [r9, #0x40]
+1ea784	e59da054	ldr	r10, [sp, #0x54]
+1ea788	e08aa083	add	r10, r10, r3, lsl #1
+1ea78c	e58da054	str	r10, [sp, #0x54]
+1ea790	e59db038	ldr	r11, [sp, #0x38]
+1ea794	e2514000	subs	r4, r1, #0
+1ea798	e59b5010	ldr	r5, [r11, #0x10]
+1ea79c	daffff15	ble	0x1ea3f8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7e8>
+1ea7a0	e59d708c	ldr	r7, [sp, #0x8c]
+1ea7a4	e59d92bc	ldr	r9, [sp, #0x2bc]
+1ea7a8	e59da044	ldr	r10, [sp, #0x44]
+1ea7ac	e1540007	cmp	r4, r7
+1ea7b0	b1a06004	movlt	r6, r4
+1ea7b4	a1a06007	movge	r6, r7
+1ea7b8	e3a00004	mov	r0, #4
+1ea7bc	e1a01009	mov	r1, r9
+1ea7c0	e3a02018	mov	r2, #24
+1ea7c4	e086b086	add	r11, r6, r6, lsl #1
+1ea7c8	e1a0300b	mov	r3, r11
+1ea7cc	ebfe6b11	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1ea7d0	e35b0000	cmp	r11, #0
+1ea7d4	da000013	ble	0x1ea828 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xc18>
+1ea7d8	e51f26e8	ldr	r2, [pc, #-0x6e8]
+1ea7dc	e085308b	add	r3, r5, r11, lsl #1
+1ea7e0	e51f1704	ldr	r1, [pc, #-0x704]
+1ea7e4	e2800018	add	r0, r0, #24
+1ea7e8	e79a2002	ldr	r2, [r10, r2]
+1ea7ec	e79a1001	ldr	r1, [r10, r1]
+1ea7f0	e592b000	ldr	r11, [r2]
+1ea7f4	e0d520b2	ldrh	r2, [r5], #2
+1ea7f8	e2800018	add	r0, r0, #24
+1ea7fc	e1550003	cmp	r5, r3
+1ea800	e0812182	add	r2, r1, r2, lsl #3
+1ea804	e592c000	ldr	r12, [r2]
+1ea808	e5922004	ldr	r2, [r2, #0x4]
+1ea80c	ed40ea08	vstr	s29, [r0, #-32]
+1ea810	e500b028	str	r11, [r0, #-0x28]
+1ea814	ed00ea07	vstr	s28, [r0, #-28]
+1ea818	e500c030	str	r12, [r0, #-0x30]
+1ea81c	e500202c	str	r2, [r0, #-0x2c]
+1ea820	e5008024	str	r8, [r0, #-0x24]
+1ea824	1afffff2	bne	0x1ea7f4 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xbe4>
+1ea828	e0664004	rsb	r4, r6, r4
+1ea82c	e3540000	cmp	r4, #0
+1ea830	caffffdd	bgt	0x1ea7ac <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xb9c>
+1ea834	eafffeed	b	0x1ea3f0 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7e0>
+1ea838	e59da044	ldr	r10, [sp, #0x44]
+1ea83c	e51f375c	ldr	r3, [pc, #-0x75c]
+1ea840	e59d10a4	ldr	r1, [sp, #0xa4]
+1ea844	e79a3003	ldr	r3, [r10, r3]
+1ea848	e5930000	ldr	r0, [r3]
+1ea84c	e5903000	ldr	r3, [r0]
+1ea850	e593300c	ldr	r3, [r3, #0xc]
+1ea854	e12fff33	blx	r3
+1ea858	eafffee9	b	0x1ea404 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7f4>
+1ea85c	e5969004	ldr	r9, [r6, #0x4]
+1ea860	e28d4e17	add	r4, sp, #368
+1ea864	e59da06c	ldr	r10, [sp, #0x6c]
+1ea868	e3a02000	mov	r2, #0
+1ea86c	e59dc070	ldr	r12, [sp, #0x70]
+1ea870	e7e77459	ubfx	r7, r9, #0x8, #0x8
+1ea874	e7e78859	ubfx	r8, r9, #0x10, #0x8
+1ea878	e59db068	ldr	r11, [sp, #0x68]
+1ea87c	e0060a97	mul	r6, r7, r10
+1ea880	e59da074	ldr	r10, [sp, #0x74]
+1ea884	e0050c98	mul	r5, r8, r12
+1ea888	e6ef0079	uxtb	r0, r9
+1ea88c	e1a09c29	lsr	r9, r9, #24
+1ea890	e0010b90	mul	r1, r0, r11
+1ea894	e1a06426	lsr	r6, r6, #8
+1ea898	e00c0a99	mul	r12, r9, r10
+1ea89c	e1a05425	lsr	r5, r5, #8
+1ea8a0	e58d6174	str	r6, [sp, #0x174]
+1ea8a4	e58d5178	str	r5, [sp, #0x178]
+1ea8a8	e59d62b4	ldr	r6, [sp, #0x2b4]
+1ea8ac	e1a01421	lsr	r1, r1, #8
+1ea8b0	e59d52b0	ldr	r5, [sp, #0x2b0]
+1ea8b4	e1a0c42c	lsr	r12, r12, #8
+1ea8b8	e58d1170	str	r1, [sp, #0x170]
+1ea8bc	e58dc17c	str	r12, [sp, #0x17c]
+1ea8c0	e795a002	ldr	r10, [r5, r2]
+1ea8c4	e796c002	ldr	r12, [r6, r2]
+1ea8c8	e001019a	mul	r1, r10, r1
+1ea8cc	e08c1441	add	r1, r12, r1, asr #8
+1ea8d0	e6e81011	usat	r1, #0x8, r1
+1ea8d4	e7841002	str	r1, [r4, r2]
+1ea8d8	e2822004	add	r2, r2, #4
+1ea8dc	e3520010	cmp	r2, #16
+1ea8e0	17941002	ldrne	r1, [r4, r2]
+1ea8e4	1afffff5	bne	0x1ea8c0 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xcb0>
+1ea8e8	e59d4080	ldr	r4, [sp, #0x80]
+1ea8ec	e59db078	ldr	r11, [sp, #0x78]
+1ea8f0	e59dc07c	ldr	r12, [sp, #0x7c]
+1ea8f4	e59d5084	ldr	r5, [sp, #0x84]
+1ea8f8	e59d1178	ldr	r1, [sp, #0x178]
+1ea8fc	e0080498	mul	r8, r8, r4
+1ea900	e59d62b8	ldr	r6, [sp, #0x2b8]
+1ea904	e0020b90	mul	r2, r0, r11
+1ea908	e59d0174	ldr	r0, [sp, #0x174]
+1ea90c	e0070c97	mul	r7, r7, r12
+1ea910	e1a01801	lsl	r1, r1, #16
+1ea914	e0090599	mul	r9, r9, r5
+1ea918	e1811400	orr	r1, r1, r0, lsl #8
+1ea91c	e59dc17c	ldr	r12, [sp, #0x17c]
+1ea920	e28d5e1b	add	r5, sp, #432
+1ea924	e59d0170	ldr	r0, [sp, #0x170]
+1ea928	e1a02422	lsr	r2, r2, #8
+1ea92c	e59d42b0	ldr	r4, [sp, #0x2b0]
+1ea930	e1a07427	lsr	r7, r7, #8
+1ea934	e1811000	orr	r1, r1, r0
+1ea938	e1a00428	lsr	r0, r8, #8
+1ea93c	e1818c0c	orr	r8, r1, r12, lsl #24
+1ea940	e3a01000	mov	r1, #0
+1ea944	e1a09429	lsr	r9, r9, #8
+1ea948	e58d21b0	str	r2, [sp, #0x1b0]
+1ea94c	e58d71b4	str	r7, [sp, #0x1b4]
+1ea950	e58d01b8	str	r0, [sp, #0x1b8]
+1ea954	e58d91bc	str	r9, [sp, #0x1bc]
+1ea958	e794c001	ldr	r12, [r4, r1]
+1ea95c	e7960001	ldr	r0, [r6, r1]
+1ea960	e002029c	mul	r2, r12, r2
+1ea964	e0802442	add	r2, r0, r2, asr #8
+1ea968	e6e82012	usat	r2, #0x8, r2
+1ea96c	e7852001	str	r2, [r5, r1]
+1ea970	e2811004	add	r1, r1, #4
+1ea974	e3510010	cmp	r1, #16
+1ea978	17952001	ldrne	r2, [r5, r1]
+1ea97c	1afffff5	bne	0x1ea958 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xd48>
+1ea980	e59d21b8	ldr	r2, [sp, #0x1b8]
+1ea984	e59d11b4	ldr	r1, [sp, #0x1b4]
+1ea988	e59d6088	ldr	r6, [sp, #0x88]
+1ea98c	e59d01b0	ldr	r0, [sp, #0x1b0]
+1ea990	e1a02802	lsl	r2, r2, #16
+1ea994	e59dc1bc	ldr	r12, [sp, #0x1bc]
+1ea998	e1822401	orr	r2, r2, r1, lsl #8
+1ea99c	e3560000	cmp	r6, #0
+1ea9a0	e1822000	orr	r2, r2, r0
+1ea9a4	e182cc0c	orr	r12, r2, r12, lsl #24
+1ea9a8	e58dc014	str	r12, [sp, #0x14]
+1ea9ac	0a00027a	beq	0x1eb39c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x178c>
+1ea9b0	e59d7060	ldr	r7, [sp, #0x60]
+1ea9b4	e3570000	cmp	r7, #0
+1ea9b8	0a0000a2	beq	0x1eac48 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1038>
+1ea9bc	e59d9038	ldr	r9, [sp, #0x38]
+1ea9c0	e5992044	ldr	r2, [r9, #0x44]
+1ea9c4	e3520000	cmp	r2, #0
+1ea9c8	0a00009e	beq	0x1eac48 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1038>
+1ea9cc	e599a014	ldr	r10, [r9, #0x14]
+1ea9d0	e58d2040	str	r2, [sp, #0x40]
+1ea9d4	e58da04c	str	r10, [sp, #0x4c]
+1ea9d8	da000097	ble	0x1eac3c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x102c>
+1ea9dc	e58d8018	str	r8, [sp, #0x18]
+1ea9e0	e59db040	ldr	r11, [sp, #0x40]
+1ea9e4	e3a00004	mov	r0, #4
+1ea9e8	e59dc058	ldr	r12, [sp, #0x58]
+1ea9ec	e3a02018	mov	r2, #24
+1ea9f0	e59d12bc	ldr	r1, [sp, #0x2bc]
+1ea9f4	e15b000c	cmp	r11, r12
+1ea9f8	a1a0b00c	movge	r11, r12
+1ea9fc	e58db03c	str	r11, [sp, #0x3c]
+1eaa00	e08b308b	add	r3, r11, r11, lsl #1
+1eaa04	e1a03083	lsl	r3, r3, #1
+1eaa08	ebfe6a82	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1eaa0c	e35b0000	cmp	r11, #0
+1eaa10	da00007f	ble	0x1eac14 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1004>
+1eaa14	e59d6044	ldr	r6, [sp, #0x44]
+1eaa18	e2804030	add	r4, r0, #48
+1eaa1c	e51f1934	ldr	r1, [pc, #-0x934]
+1eaa20	e2805048	add	r5, r0, #72
+1eaa24	e58d4030	str	r4, [sp, #0x30]
+1eaa28	e2802018	add	r2, r0, #24
+1eaa2c	e58d502c	str	r5, [sp, #0x2c]
+1eaa30	e2807060	add	r7, r0, #96
+1eaa34	e58d2034	str	r2, [sp, #0x34]
+1eaa38	e2808078	add	r8, r0, #120
+1eaa3c	e7961001	ldr	r1, [r6, r1]
+1eaa40	e51f3954	ldr	r3, [pc, #-0x954]
+1eaa44	e58d7028	str	r7, [sp, #0x28]
+1eaa48	e1a07004	mov	r7, r4
+1eaa4c	e58d1020	str	r1, [sp, #0x20]
+1eaa50	e51f2960	ldr	r2, [pc, #-0x960]
+1eaa54	e7963003	ldr	r3, [r6, r3]
+1eaa58	e59d9034	ldr	r9, [sp, #0x34]
+1eaa5c	e59da044	ldr	r10, [sp, #0x44]
+1eaa60	e58d8024	str	r8, [sp, #0x24]
+1eaa64	e1a08005	mov	r8, r5
+1eaa68	e59d6028	ldr	r6, [sp, #0x28]
+1eaa6c	e59d5024	ldr	r5, [sp, #0x24]
+1eaa70	e59d404c	ldr	r4, [sp, #0x4c]
+1eaa74	e58d301c	str	r3, [sp, #0x1c]
+1eaa78	e2803090	add	r3, r0, #144
+1eaa7c	e58d9010	str	r9, [sp, #0x10]
+1eaa80	e58db00c	str	r11, [sp, #0xc]
+1eaa84	e79a2002	ldr	r2, [r10, r2]
+1eaa88	edd27a00	vldr	s15, [r2]
+1eaa8c	e1a02007	mov	r2, r7
+1eaa90	e1a07006	mov	r7, r6
+1eaa94	e1a06002	mov	r6, r2
+1eaa98	e1d490b2	ldrh	r9, [r4, #2]
+1eaa9c	e2833090	add	r3, r3, #144
+1eaaa0	e59d1010	ldr	r1, [sp, #0x10]
+1eaaa4	e2844004	add	r4, r4, #4
+1eaaa8	e59d2034	ldr	r2, [sp, #0x34]
+1eaaac	e154a0b4	ldrh	r10, [r4, #-4]
+1eaab0	e060c001	rsb	r12, r0, r1
+1eaab4	e59db00c	ldr	r11, [sp, #0xc]
+1eaab8	e1a09189	lsl	r9, r9, #3
+1eaabc	e58d905c	str	r9, [sp, #0x5c]
+1eaac0	e08cc002	add	r12, r12, r2
+1eaac4	e59d902c	ldr	r9, [sp, #0x2c]
+1eaac8	e0602008	rsb	r2, r0, r8
+1eaacc	e25bb001	subs	r11, r11, #1
+1eaad0	e58db00c	str	r11, [sp, #0xc]
+1eaad4	e0822009	add	r2, r2, r9
+1eaad8	e59db030	ldr	r11, [sp, #0x30]
+1eaadc	e59d9020	ldr	r9, [sp, #0x20]
+1eaae0	e0601006	rsb	r1, r0, r6
+1eaae4	e1a0a18a	lsl	r10, r10, #3
+1eaae8	e081100b	add	r1, r1, r11
+1eaaec	e089b00a	add	r11, r9, r10
+1eaaf0	e59d901c	ldr	r9, [sp, #0x1c]
+1eaaf4	ed9b4a00	vldr	s8, [r11]
+1eaaf8	eddb4a01	vldr	s9, [r11, #4]
+1eaafc	e089a00a	add	r10, r9, r10
+1eab00	e59db020	ldr	r11, [sp, #0x20]
+1eab04	e59d905c	ldr	r9, [sp, #0x5c]
+1eab08	ed9a6a00	vldr	s12, [r10]
+1eab0c	edda6a01	vldr	s13, [r10, #4]
+1eab10	e2866090	add	r6, r6, #144
+1eab14	e08ba009	add	r10, r11, r9
+1eab18	e59db01c	ldr	r11, [sp, #0x1c]
+1eab1c	ed9a7a00	vldr	s14, [r10]
+1eab20	ed9a1a01	vldr	s2, [r10, #4]
+1eab24	e08bb009	add	r11, r11, r9
+1eab28	ed9b5a00	vldr	s10, [r11]
+1eab2c	eddb5a01	vldr	s11, [r11, #4]
+1eab30	e59db028	ldr	r11, [sp, #0x28]
+1eab34	e59d9010	ldr	r9, [sp, #0x10]
+1eab38	e060a007	rsb	r10, r0, r7
+1eab3c	e08aa00b	add	r10, r10, r11
+1eab40	e59db024	ldr	r11, [sp, #0x24]
+1eab44	e2899090	add	r9, r9, #144
+1eab48	e58d9010	str	r9, [sp, #0x10]
+1eab4c	e0609005	rsb	r9, r0, r5
+1eab50	ed034a48	vstr	s8, [r3, #-288]
+1eab54	e089b00b	add	r11, r9, r11
+1eab58	e59d9018	ldr	r9, [sp, #0x18]
+1eab5c	ed434a47	vstr	s9, [r3, #-284]
+1eab60	e58db05c	str	r11, [sp, #0x5c]
+1eab64	ed437a46	vstr	s15, [r3, #-280]
+1eab68	ed43ea44	vstr	s29, [r3, #-272]
+1eab6c	e5039114	str	r9, [r3, #-0x114]
+1eab70	ed03ea43	vstr	s28, [r3, #-268]
+1eab74	ed0c7a06	vstr	s14, [r12, #-24]
+1eab78	ed0c1a05	vstr	s2, [r12, #-20]
+1eab7c	ed4c7a04	vstr	s15, [r12, #-16]
+1eab80	e50c900c	str	r9, [r12, #-0xc]
+1eab84	ed4cea02	vstr	s29, [r12, #-8]
+1eab88	ed0cea01	vstr	s28, [r12, #-4]
+1eab8c	e59db014	ldr	r11, [sp, #0x14]
+1eab90	ed016a0c	vstr	s12, [r1, #-48]
+1eab94	e59dc05c	ldr	r12, [sp, #0x5c]
+1eab98	ed416a0b	vstr	s13, [r1, #-44]
+1eab9c	ed417a0a	vstr	s15, [r1, #-40]
+1eaba0	ed41ea08	vstr	s29, [r1, #-32]
+1eaba4	e501b024	str	r11, [r1, #-0x24]
+1eaba8	ed01ea07	vstr	s28, [r1, #-28]
+1eabac	e2888090	add	r8, r8, #144
+1eabb0	ed026a12	vstr	s12, [r2, #-72]
+1eabb4	ed426a11	vstr	s13, [r2, #-68]
+1eabb8	ed427a10	vstr	s15, [r2, #-64]
+1eabbc	e502b03c	str	r11, [r2, #-0x3c]
+1eabc0	ed42ea0e	vstr	s29, [r2, #-56]
+1eabc4	ed02ea0d	vstr	s28, [r2, #-52]
+1eabc8	e2877090	add	r7, r7, #144
+1eabcc	ed0a7a18	vstr	s14, [r10, #-96]
+1eabd0	ed0a1a17	vstr	s2, [r10, #-92]
+1eabd4	ed4a7a16	vstr	s15, [r10, #-88]
+1eabd8	e50a9054	str	r9, [r10, #-0x54]
+1eabdc	ed4aea14	vstr	s29, [r10, #-80]
+1eabe0	ed0aea13	vstr	s28, [r10, #-76]
+1eabe4	e2855090	add	r5, r5, #144
+1eabe8	ed0c5a1e	vstr	s10, [r12, #-120]
+1eabec	ed4c5a1d	vstr	s11, [r12, #-116]
+1eabf0	ed4c7a1c	vstr	s15, [r12, #-112]
+1eabf4	e50cb06c	str	r11, [r12, #-0x6c]
+1eabf8	ed4cea1a	vstr	s29, [r12, #-104]
+1eabfc	ed0cea19	vstr	s28, [r12, #-100]
+1eac00	1affffa4	bne	0x1eaa98 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xe88>
+1eac04	e59d503c	ldr	r5, [sp, #0x3c]
+1eac08	e59d404c	ldr	r4, [sp, #0x4c]
+1eac0c	e0844105	add	r4, r4, r5, lsl #2
+1eac10	e58d404c	str	r4, [sp, #0x4c]
+1eac14	e59d6040	ldr	r6, [sp, #0x40]
+1eac18	e59d703c	ldr	r7, [sp, #0x3c]
+1eac1c	e0676006	rsb	r6, r7, r6
+1eac20	e58d6040	str	r6, [sp, #0x40]
+1eac24	e3560000	cmp	r6, #0
+1eac28	caffff6c	bgt	0x1ea9e0 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xdd0>
+1eac2c	e59d9038	ldr	r9, [sp, #0x38]
+1eac30	e59d8018	ldr	r8, [sp, #0x18]
+1eac34	e5992044	ldr	r2, [r9, #0x44]
+1eac38	e5993038	ldr	r3, [r9, #0x38]
+1eac3c	e59da054	ldr	r10, [sp, #0x54]
+1eac40	e08aa082	add	r10, r10, r2, lsl #1
+1eac44	e58da054	str	r10, [sp, #0x54]
+1eac48	e59db038	ldr	r11, [sp, #0x38]
+1eac4c	e2534000	subs	r4, r3, #0
+1eac50	e59b6008	ldr	r6, [r11, #0x8]
+1eac54	da000028	ble	0x1eacfc <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x10ec>
+1eac58	e59d708c	ldr	r7, [sp, #0x8c]
+1eac5c	e59d92bc	ldr	r9, [sp, #0x2bc]
+1eac60	e59da044	ldr	r10, [sp, #0x44]
+1eac64	e1540007	cmp	r4, r7
+1eac68	b1a05004	movlt	r5, r4
+1eac6c	a1a05007	movge	r5, r7
+1eac70	e3a00004	mov	r0, #4
+1eac74	e1a01009	mov	r1, r9
+1eac78	e3a02018	mov	r2, #24
+1eac7c	e085b085	add	r11, r5, r5, lsl #1
+1eac80	e1a0300b	mov	r3, r11
+1eac84	ebfe69e3	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1eac88	e35b0000	cmp	r11, #0
+1eac8c	da000015	ble	0x1eace8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x10d8>
+1eac90	e51fcba8	ldr	r12, [pc, #-0xba8]
+1eac94	e1a02006	mov	r2, r6
+1eac98	e51f1ba8	ldr	r1, [pc, #-0xba8]
+1eac9c	e086608b	add	r6, r6, r11, lsl #1
+1eaca0	e2803018	add	r3, r0, #24
+1eaca4	e79ac00c	ldr	r12, [r10, r12]
+1eaca8	e79a1001	ldr	r1, [r10, r1]
+1eacac	edd17a00	vldr	s15, [r1]
+1eacb0	e0d210b2	ldrh	r1, [r2], #2
+1eacb4	e2833018	add	r3, r3, #24
+1eacb8	e1520006	cmp	r2, r6
+1eacbc	e08c1181	add	r1, r12, r1, lsl #3
+1eacc0	e5910000	ldr	r0, [r1]
+1eacc4	e5911004	ldr	r1, [r1, #0x4]
+1eacc8	ed437a0a	vstr	s15, [r3, #-40]
+1eaccc	e5038024	str	r8, [r3, #-0x24]
+1eacd0	ed43ea08	vstr	s29, [r3, #-32]
+1eacd4	e5030030	str	r0, [r3, #-0x30]
+1eacd8	ed03ea07	vstr	s28, [r3, #-28]
+1eacdc	e503102c	str	r1, [r3, #-0x2c]
+1eace0	1afffff2	bne	0x1eacb0 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x10a0>
+1eace4	e1a06002	mov	r6, r2
+1eace8	e0654004	rsb	r4, r5, r4
+1eacec	e3540000	cmp	r4, #0
+1eacf0	caffffdb	bgt	0x1eac64 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1054>
+1eacf4	e59dc038	ldr	r12, [sp, #0x38]
+1eacf8	e59c3038	ldr	r3, [r12, #0x38]
+1eacfc	e59d4054	ldr	r4, [sp, #0x54]
+1ead00	e0834004	add	r4, r3, r4
+1ead04	e58d4054	str	r4, [sp, #0x54]
+1ead08	eafffc7e	b	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1ead0c	e3570002	cmp	r7, #2
+1ead10	0a000261	beq	0x1eb69c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1a8c>
+1ead14	e3570003	cmp	r7, #3
+1ead18	1afffc7a	bne	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1ead1c	e596300c	ldr	r3, [r6, #0xc]
+1ead20	e3730001	cmn	r3, #1
+1ead24	0afffc77	beq	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1ead28	e59d80a8	ldr	r8, [sp, #0xa8]
+1ead2c	e598207c	ldr	r2, [r8, #0x7c]
+1ead30	e7923103	ldr	r3, [r2, r3, lsl #2]
+1ead34	e5932010	ldr	r2, [r3, #0x10]
+1ead38	e3520000	cmp	r2, #0
+1ead3c	aa0002ba	bge	0x1eb82c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1c1c>
+1ead40	e593300c	ldr	r3, [r3, #0xc]
+1ead44	e3530000	cmp	r3, #0
+1ead48	e58d3090	str	r3, [sp, #0x90]
+1ead4c	0afffc6d	beq	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1ead50	eef77a00	vmov.f32	s15, #1.000000e+00
+1ead54	ed937a01	vldr	s14, [r3, #4]
+1ead58	edd36a02	vldr	s13, [r3, #8]
+1ead5c	e28d00b0	add	r0, sp, #176
+1ead60	e2861010	add	r1, r6, #16
+1ead64	e28d2e1b	add	r2, sp, #432
+1ead68	ed8dfa7a	vstr	s30, [sp, #488]
+1ead6c	ed8dfa79	vstr	s30, [sp, #484]
+1ead70	ed8dfa78	vstr	s30, [sp, #480]
+1ead74	ed8dfa77	vstr	s30, [sp, #476]
+1ead78	ed8dfa75	vstr	s30, [sp, #468]
+1ead7c	ed8dfa74	vstr	s30, [sp, #464]
+1ead80	ed8dfa73	vstr	s30, [sp, #460]
+1ead84	ed8dfa72	vstr	s30, [sp, #456]
+1ead88	ed8dfa70	vstr	s30, [sp, #448]
+1ead8c	ed8dfa6f	vstr	s30, [sp, #444]
+1ead90	ed8dfa6e	vstr	s30, [sp, #440]
+1ead94	ed8dfa6d	vstr	s30, [sp, #436]
+1ead98	eef86ae6	vcvt.f32.s32	s13, s13
+1ead9c	edcd7a7b	vstr	s15, [sp, #492]
+1eada0	edcd7a76	vstr	s15, [sp, #472]
+1eada4	eeb87ac7	vcvt.f32.s32	s14, s14
+1eada8	ee877a87	vdiv.f32	s14, s15, s14
+1eadac	eec77aa6	vdiv.f32	s15, s15, s13
+1eadb0	ed8d7a6c	vstr	s14, [sp, #432]
+1eadb4	edcd7a71	vstr	s15, [sp, #452]
+1eadb8	eb023f10	bl	0x27aa00 <_ZN8yyMatrix8MultiplyEPS_S0_S0_>
+1eadbc	e5966004	ldr	r6, [r6, #0x4]
+1eadc0	e51f0cdc	ldr	r0, [pc, #-0xcdc]
+1eadc4	e3d66002	bics	r6, r6, #2
+1eadc8	1a00030e	bne	0x1eba08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1df8>
+1eadcc	e59dc044	ldr	r12, [sp, #0x44]
+1eadd0	e28d4e17	add	r4, sp, #368
+1eadd4	e1a01006	mov	r1, r6
+1eadd8	e3a02002	mov	r2, #2
+1eaddc	e1a03006	mov	r3, r6
+1eade0	e79c5000	ldr	r5, [r12, r0]
+1eade4	e1a00005	mov	r0, r5
+1eade8	ebfdf441	bl	0x167ef4 <_ZN18RenderStateManager15SetSamplerStateEi13eSamplerStatej>
+1eadec	e1a00005	mov	r0, r5
+1eadf0	e1a01006	mov	r1, r6
+1eadf4	e1a02007	mov	r2, r7
+1eadf8	e1a03006	mov	r3, r6
+1eadfc	ebfdf43c	bl	0x167ef4 <_ZN18RenderStateManager15SetSamplerStateEi13eSamplerStatej>
+1eae00	e59dc2a8	ldr	r12, [sp, #0x2a8]
+1eae04	e3a03000	mov	r3, #0
+1eae08	e59d52b0	ldr	r5, [sp, #0x2b0]
+1eae0c	e59d62b4	ldr	r6, [sp, #0x2b4]
+1eae10	e7951003	ldr	r1, [r5, r3]
+1eae14	e79c0003	ldr	r0, [r12, r3]
+1eae18	e7962003	ldr	r2, [r6, r3]
+1eae1c	e0010190	mul	r1, r0, r1
+1eae20	e0822421	add	r2, r2, r1, lsr #8
+1eae24	e6e82012	usat	r2, #0x8, r2
+1eae28	e7842003	str	r2, [r4, r3]
+1eae2c	e2833004	add	r3, r3, #4
+1eae30	e3530010	cmp	r3, #16
+1eae34	1afffff5	bne	0x1eae10 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1200>
+1eae38	e59d3178	ldr	r3, [sp, #0x178]
+1eae3c	e59d2174	ldr	r2, [sp, #0x174]
+1eae40	e59d7060	ldr	r7, [sp, #0x60]
+1eae44	e59d1170	ldr	r1, [sp, #0x170]
+1eae48	e1a03803	lsl	r3, r3, #16
+1eae4c	e59d017c	ldr	r0, [sp, #0x17c]
+1eae50	e1833402	orr	r3, r3, r2, lsl #8
+1eae54	e3570000	cmp	r7, #0
+1eae58	e1833001	orr	r3, r3, r1
+1eae5c	e1834c00	orr	r4, r3, r0, lsl #24
+1eae60	0a0000ff	beq	0x1eb264 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1654>
+1eae64	e59d8038	ldr	r8, [sp, #0x38]
+1eae68	e5980044	ldr	r0, [r8, #0x44]
+1eae6c	e3500000	cmp	r0, #0
+1eae70	0a0000fb	beq	0x1eb264 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1654>
+1eae74	e59d62ac	ldr	r6, [sp, #0x2ac]
+1eae78	e28d5e1b	add	r5, sp, #432
+1eae7c	e59d72b0	ldr	r7, [sp, #0x2b0]
+1eae80	e3a03000	mov	r3, #0
+1eae84	e59d82b8	ldr	r8, [sp, #0x2b8]
+1eae88	e7971003	ldr	r1, [r7, r3]
+1eae8c	e796c003	ldr	r12, [r6, r3]
+1eae90	e7982003	ldr	r2, [r8, r3]
+1eae94	e001019c	mul	r1, r12, r1
+1eae98	e0822421	add	r2, r2, r1, lsr #8
+1eae9c	e6e82012	usat	r2, #0x8, r2
+1eaea0	e7852003	str	r2, [r5, r3]
+1eaea4	e2833004	add	r3, r3, #4
+1eaea8	e3530010	cmp	r3, #16
+1eaeac	1afffff5	bne	0x1eae88 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1278>
+1eaeb0	e59d31b8	ldr	r3, [sp, #0x1b8]
+1eaeb4	e2509000	subs	r9, r0, #0
+1eaeb8	e59da038	ldr	r10, [sp, #0x38]
+1eaebc	e59d21b4	ldr	r2, [sp, #0x1b4]
+1eaec0	e59d11b0	ldr	r1, [sp, #0x1b0]
+1eaec4	e1a03803	lsl	r3, r3, #16
+1eaec8	e59dc1bc	ldr	r12, [sp, #0x1bc]
+1eaecc	e59aa014	ldr	r10, [r10, #0x14]
+1eaed0	e1833402	orr	r3, r3, r2, lsl #8
+1eaed4	e1833001	orr	r3, r3, r1
+1eaed8	e58d9094	str	r9, [sp, #0x94]
+1eaedc	e183cc0c	orr	r12, r3, r12, lsl #24
+1eaee0	e58dc020	str	r12, [sp, #0x20]
+1eaee4	e58da098	str	r10, [sp, #0x98]
+1eaee8	da0000da	ble	0x1eb258 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1648>
+1eaeec	e58d401c	str	r4, [sp, #0x1c]
+1eaef0	e59db094	ldr	r11, [sp, #0x94]
+1eaef4	e3a00004	mov	r0, #4
+1eaef8	e59dc058	ldr	r12, [sp, #0x58]
+1eaefc	e3a02018	mov	r2, #24
+1eaf00	e59d1090	ldr	r1, [sp, #0x90]
+1eaf04	e15b000c	cmp	r11, r12
+1eaf08	a1a0b00c	movge	r11, r12
+1eaf0c	e58db064	str	r11, [sp, #0x64]
+1eaf10	e08b308b	add	r3, r11, r11, lsl #1
+1eaf14	e1a03083	lsl	r3, r3, #1
+1eaf18	ebfe693e	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1eaf1c	e35b0000	cmp	r11, #0
+1eaf20	da0000c3	ble	0x1eb234 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1624>
+1eaf24	e59d6044	ldr	r6, [sp, #0x44]
+1eaf28	e2804030	add	r4, r0, #48
+1eaf2c	e51f1e44	ldr	r1, [pc, #-0xe44]
+1eaf30	e2805048	add	r5, r0, #72
+1eaf34	e58d403c	str	r4, [sp, #0x3c]
+1eaf38	e2802018	add	r2, r0, #24
+1eaf3c	e58d5040	str	r5, [sp, #0x40]
+1eaf40	e2807060	add	r7, r0, #96
+1eaf44	e58d2034	str	r2, [sp, #0x34]
+1eaf48	e2808078	add	r8, r0, #120
+1eaf4c	e7961001	ldr	r1, [r6, r1]
+1eaf50	eddd4a2c	vldr	s9, [sp, #176]
+1eaf54	e51f3e68	ldr	r3, [pc, #-0xe68]
+1eaf58	ed9d5a30	vldr	s10, [sp, #192]
+1eaf5c	e59d9038	ldr	r9, [sp, #0x38]
+1eaf60	eddd5a38	vldr	s11, [sp, #224]
+1eaf64	e59da038	ldr	r10, [sp, #0x38]
+1eaf68	ed9d6a2d	vldr	s12, [sp, #180]
+1eaf6c	e58d1030	str	r1, [sp, #0x30]
+1eaf70	eddd6a31	vldr	s13, [sp, #196]
+1eaf74	e58d704c	str	r7, [sp, #0x4c]
+1eaf78	ed9d7a39	vldr	s14, [sp, #228]
+1eaf7c	e7963003	ldr	r3, [r6, r3]
+1eaf80	e1a06008	mov	r6, r8
+1eaf84	e59aa018	ldr	r10, [r10, #0x18]
+1eaf88	e59db034	ldr	r11, [sp, #0x34]
+1eaf8c	e58d4010	str	r4, [sp, #0x10]
+1eaf90	e51f2ea0	ldr	r2, [pc, #-0xea0]
+1eaf94	e59d4044	ldr	r4, [sp, #0x44]
+1eaf98	e5999000	ldr	r9, [r9]
+1eaf9c	e59dc064	ldr	r12, [sp, #0x64]
+1eafa0	e58d302c	str	r3, [sp, #0x2c]
+1eafa4	e2803090	add	r3, r0, #144
+1eafa8	e58da028	str	r10, [sp, #0x28]
+1eafac	e58db00c	str	r11, [sp, #0xc]
+1eafb0	e1a0b007	mov	r11, r7
+1eafb4	e58d5018	str	r5, [sp, #0x18]
+1eafb8	e58d805c	str	r8, [sp, #0x5c]
+1eafbc	e58d9024	str	r9, [sp, #0x24]
+1eafc0	e58dc014	str	r12, [sp, #0x14]
+1eafc4	e7942002	ldr	r2, [r4, r2]
+1eafc8	e59d5098	ldr	r5, [sp, #0x98]
+1eafcc	e5924000	ldr	r4, [r2]
+1eafd0	e1a0a005	mov	r10, r5
+1eafd4	e1dac0b0	ldrh	r12, [r10]
+1eafd8	e2833090	add	r3, r3, #144
+1eafdc	e59d5014	ldr	r5, [sp, #0x14]
+1eafe0	e28aa004	add	r10, r10, #4
+1eafe4	e59d700c	ldr	r7, [sp, #0xc]
+1eafe8	e15a20b2	ldrh	r2, [r10, #-2]
+1eafec	e2555001	subs	r5, r5, #1
+1eaff0	e59d8034	ldr	r8, [sp, #0x34]
+1eaff4	e1a0c18c	lsl	r12, r12, #3
+1eaff8	e58d5014	str	r5, [sp, #0x14]
+1eaffc	e0601007	rsb	r1, r0, r7
+1eb000	e59d5024	ldr	r5, [sp, #0x24]
+1eb004	e0811008	add	r1, r1, r8
+1eb008	e59d8028	ldr	r8, [sp, #0x28]
+1eb00c	e1a02182	lsl	r2, r2, #3
+1eb010	e085900c	add	r9, r5, r12
+1eb014	ed991a01	vldr	s2, [r9, #4]
+1eb018	eeb03a41	vmov.f32	s6, s2
+1eb01c	e2877090	add	r7, r7, #144
+1eb020	e58d700c	str	r7, [sp, #0xc]
+1eb024	e0857002	add	r7, r5, r2
+1eb028	e0885002	add	r5, r8, r2
+1eb02c	ed972a01	vldr	s4, [r7, #4]
+1eb030	e58d7008	str	r7, [sp, #0x8]
+1eb034	e088700c	add	r7, r8, r12
+1eb038	e59d802c	ldr	r8, [sp, #0x2c]
+1eb03c	edd73a01	vldr	s7, [r7, #4]
+1eb040	edd72a00	vldr	s5, [r7]
+1eb044	e59d7030	ldr	r7, [sp, #0x30]
+1eb048	ed954a01	vldr	s8, [r5, #4]
+1eb04c	ee033a8a	vmla.f32	s6, s7, s20
+1eb050	edd53a00	vldr	s7, [r5]
+1eb054	e087500c	add	r5, r7, r12
+1eb058	e088c00c	add	r12, r8, r12
+1eb05c	edd50a00	vldr	s1, [r5]
+1eb060	edd51a01	vldr	s3, [r5, #4]
+1eb064	e59d502c	ldr	r5, [sp, #0x2c]
+1eb068	edd9ba00	vldr	s23, [r9]
+1eb06c	e59c8004	ldr	r8, [r12, #0x4]
+1eb070	e59d9008	ldr	r9, [sp, #0x8]
+1eb074	ed990a00	vldr	s0, [r9]
+1eb078	e59c9000	ldr	r9, [r12]
+1eb07c	e087c002	add	r12, r7, r2
+1eb080	e0852002	add	r2, r5, r2
+1eb084	eddc7a00	vldr	s15, [r12]
+1eb088	ed92da01	vldr	s26, [r2, #4]
+1eb08c	edcd7a00	vstr	s15, [sp]
+1eb090	eddc7a01	vldr	s15, [r12, #4]
+1eb094	edcd7a02	vstr	s15, [sp, #8]
+1eb098	edd27a00	vldr	s15, [r2]
+1eb09c	ed430a48	vstr	s1, [r3, #-288]
+1eb0a0	ed431a47	vstr	s3, [r3, #-284]
+1eb0a4	e59d5010	ldr	r5, [sp, #0x10]
+1eb0a8	e59d703c	ldr	r7, [sp, #0x3c]
+1eb0ac	e59dc01c	ldr	r12, [sp, #0x1c]
+1eb0b0	e0602005	rsb	r2, r0, r5
+1eb0b4	e2855090	add	r5, r5, #144
+1eb0b8	e58d5010	str	r5, [sp, #0x10]
+1eb0bc	e59d5018	ldr	r5, [sp, #0x18]
+1eb0c0	e0822007	add	r2, r2, r7
+1eb0c4	e59d7040	ldr	r7, [sp, #0x40]
+1eb0c8	e0605005	rsb	r5, r0, r5
+1eb0cc	e503c114	str	r12, [r3, #-0x114]
+1eb0d0	e085c007	add	r12, r5, r7
+1eb0d4	e59d5018	ldr	r5, [sp, #0x18]
+1eb0d8	e59d7020	ldr	r7, [sp, #0x20]
+1eb0dc	e2855090	add	r5, r5, #144
+1eb0e0	e58d5018	str	r5, [sp, #0x18]
+1eb0e4	eef01a42	vmov.f32	s3, s4
+1eb0e8	e59d501c	ldr	r5, [sp, #0x1c]
+1eb0ec	e5034118	str	r4, [r3, #-0x118]
+1eb0f0	ee441a0a	vmla.f32	s3, s8, s20
+1eb0f4	eef0ca6b	vmov.f32	s25, s23
+1eb0f8	eeb0ca40	vmov.f32	s24, s0
+1eb0fc	ee42ca8a	vmla.f32	s25, s5, s20
+1eb100	ee03ca8a	vmla.f32	s24, s7, s20
+1eb104	ee610a05	vmul.f32	s1, s2, s10
+1eb108	ee211a26	vmul.f32	s2, s2, s13
+1eb10c	eeb04a61	vmov.f32	s8, s3
+1eb110	ee621a05	vmul.f32	s3, s4, s10
+1eb114	ee222a26	vmul.f32	s4, s4, s13
+1eb118	ee632a05	vmul.f32	s5, s6, s10
+1eb11c	ee233a26	vmul.f32	s6, s6, s13
+1eb120	ee643a05	vmul.f32	s7, s8, s10
+1eb124	ee244a26	vmul.f32	s8, s8, s13
+1eb128	ee4b0aa4	vmla.f32	s1, s23, s9
+1eb12c	ee0b1a86	vmla.f32	s2, s23, s12
+1eb130	ee401a24	vmla.f32	s3, s0, s9
+1eb134	ee002a06	vmla.f32	s4, s0, s12
+1eb138	ee4c2aa4	vmla.f32	s5, s25, s9
+1eb13c	ee0c3a86	vmla.f32	s6, s25, s12
+1eb140	ee4c3a24	vmla.f32	s7, s24, s9
+1eb144	ee0c4a06	vmla.f32	s8, s24, s12
+1eb148	ee311a07	vadd.f32	s2, s2, s14
+1eb14c	ee700aa5	vadd.f32	s1, s1, s11
+1eb150	ed031a43	vstr	s2, [r3, #-268]
+1eb154	ed9d1a00	vldr	s2, [sp]
+1eb158	ee711aa5	vadd.f32	s3, s3, s11
+1eb15c	ed430a44	vstr	s1, [r3, #-272]
+1eb160	e501500c	str	r5, [r1, #-0xc]
+1eb164	ed011a06	vstr	s2, [r1, #-24]
+1eb168	e59d504c	ldr	r5, [sp, #0x4c]
+1eb16c	ed9d1a02	vldr	s2, [sp, #8]
+1eb170	e5014010	str	r4, [r1, #-0x10]
+1eb174	ed011a05	vstr	s2, [r1, #-20]
+1eb178	ee322a07	vadd.f32	s4, s4, s14
+1eb17c	ed411a02	vstr	s3, [r1, #-8]
+1eb180	ee722aa5	vadd.f32	s5, s5, s11
+1eb184	ed012a01	vstr	s4, [r1, #-4]
+1eb188	e5027024	str	r7, [r2, #-0x24]
+1eb18c	e060100b	rsb	r1, r0, r11
+1eb190	e59d705c	ldr	r7, [sp, #0x5c]
+1eb194	e0811005	add	r1, r1, r5
+1eb198	e502802c	str	r8, [r2, #-0x2c]
+1eb19c	e28bb090	add	r11, r11, #144
+1eb1a0	e5029030	str	r9, [r2, #-0x30]
+1eb1a4	e5024028	str	r4, [r2, #-0x28]
+1eb1a8	ee333a07	vadd.f32	s6, s6, s14
+1eb1ac	ed422a08	vstr	s5, [r2, #-32]
+1eb1b0	ee733aa5	vadd.f32	s7, s7, s11
+1eb1b4	ed023a07	vstr	s6, [r2, #-28]
+1eb1b8	e0602006	rsb	r2, r0, r6
+1eb1bc	ed4c2a0e	vstr	s5, [r12, #-56]
+1eb1c0	ed0c3a0d	vstr	s6, [r12, #-52]
+1eb1c4	e50c9048	str	r9, [r12, #-0x48]
+1eb1c8	e50c8044	str	r8, [r12, #-0x44]
+1eb1cc	e0822007	add	r2, r2, r7
+1eb1d0	e59d8020	ldr	r8, [sp, #0x20]
+1eb1d4	ed9d1a00	vldr	s2, [sp]
+1eb1d8	e59d501c	ldr	r5, [sp, #0x1c]
+1eb1dc	e2866090	add	r6, r6, #144
+1eb1e0	e50c4040	str	r4, [r12, #-0x40]
+1eb1e4	e50c803c	str	r8, [r12, #-0x3c]
+1eb1e8	ed411a14	vstr	s3, [r1, #-80]
+1eb1ec	ed012a13	vstr	s4, [r1, #-76]
+1eb1f0	ed011a18	vstr	s2, [r1, #-96]
+1eb1f4	e5014058	str	r4, [r1, #-0x58]
+1eb1f8	eddd1a02	vldr	s3, [sp, #8]
+1eb1fc	ee344a07	vadd.f32	s8, s8, s14
+1eb200	ed411a17	vstr	s3, [r1, #-92]
+1eb204	e5015054	str	r5, [r1, #-0x54]
+1eb208	ed427a1e	vstr	s15, [r2, #-120]
+1eb20c	ed02da1d	vstr	s26, [r2, #-116]
+1eb210	e5024070	str	r4, [r2, #-0x70]
+1eb214	e502806c	str	r8, [r2, #-0x6c]
+1eb218	ed423a1a	vstr	s7, [r2, #-104]
+1eb21c	ed024a19	vstr	s8, [r2, #-100]
+1eb220	1affff6b	bne	0x1eafd4 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x13c4>
+1eb224	e59d7064	ldr	r7, [sp, #0x64]
+1eb228	e59d6098	ldr	r6, [sp, #0x98]
+1eb22c	e0866107	add	r6, r6, r7, lsl #2
+1eb230	e58d6098	str	r6, [sp, #0x98]
+1eb234	e59d8094	ldr	r8, [sp, #0x94]
+1eb238	e59d9064	ldr	r9, [sp, #0x64]
+1eb23c	e0698008	rsb	r8, r9, r8
+1eb240	e58d8094	str	r8, [sp, #0x94]
+1eb244	e3580000	cmp	r8, #0
+1eb248	caffff28	bgt	0x1eaef0 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x12e0>
+1eb24c	e59da038	ldr	r10, [sp, #0x38]
+1eb250	e59d401c	ldr	r4, [sp, #0x1c]
+1eb254	e59a0044	ldr	r0, [r10, #0x44]
+1eb258	e59db054	ldr	r11, [sp, #0x54]
+1eb25c	e08bb080	add	r11, r11, r0, lsl #1
+1eb260	e58db054	str	r11, [sp, #0x54]
+1eb264	e59dc038	ldr	r12, [sp, #0x38]
+1eb268	e59ca038	ldr	r10, [r12, #0x38]
+1eb26c	e59c7008	ldr	r7, [r12, #0x8]
+1eb270	e35a0000	cmp	r10, #0
+1eb274	e1a0300a	mov	r3, r10
+1eb278	da00003a	ble	0x1eb368 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1758>
+1eb27c	e59d6090	ldr	r6, [sp, #0x90]
+1eb280	e59d808c	ldr	r8, [sp, #0x8c]
+1eb284	e59d9044	ldr	r9, [sp, #0x44]
+1eb288	e15a0008	cmp	r10, r8
+1eb28c	b1a0500a	movlt	r5, r10
+1eb290	a1a05008	movge	r5, r8
+1eb294	e3a00004	mov	r0, #4
+1eb298	e1a01006	mov	r1, r6
+1eb29c	e3a02018	mov	r2, #24
+1eb2a0	e085b085	add	r11, r5, r5, lsl #1
+1eb2a4	e1a0300b	mov	r3, r11
+1eb2a8	ebfe685a	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1eb2ac	e35b0000	cmp	r11, #0
+1eb2b0	da000027	ble	0x1eb354 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1744>
+1eb2b4	e59f17bc	ldr	r1, [pc, #0x7bc]
+1eb2b8	e1a02007	mov	r2, r7
+1eb2bc	e59fc7b8	ldr	r12, [pc, #0x7b8]
+1eb2c0	e087b08b	add	r11, r7, r11, lsl #1
+1eb2c4	e59d7038	ldr	r7, [sp, #0x38]
+1eb2c8	e2800018	add	r0, r0, #24
+1eb2cc	eddd3a2c	vldr	s7, [sp, #176]
+1eb2d0	ed9d4a30	vldr	s8, [sp, #192]
+1eb2d4	eddd4a38	vldr	s9, [sp, #224]
+1eb2d8	ed9d5a2d	vldr	s10, [sp, #180]
+1eb2dc	e5973000	ldr	r3, [r7]
+1eb2e0	eddd5a31	vldr	s11, [sp, #196]
+1eb2e4	e7997001	ldr	r7, [r9, r1]
+1eb2e8	ed9d6a39	vldr	s12, [sp, #228]
+1eb2ec	e799100c	ldr	r1, [r9, r12]
+1eb2f0	ed913a00	vldr	s6, [r1]
+1eb2f4	e0d210b2	ldrh	r1, [r2], #2
+1eb2f8	e2800018	add	r0, r0, #24
+1eb2fc	e152000b	cmp	r2, r11
+1eb300	e1a01181	lsl	r1, r1, #3
+1eb304	e087c001	add	r12, r7, r1
+1eb308	eddc7a00	vldr	s15, [r12]
+1eb30c	e0831001	add	r1, r3, r1
+1eb310	e59cc004	ldr	r12, [r12, #0x4]
+1eb314	ed407a0c	vstr	s15, [r0, #-48]
+1eb318	ed003a0a	vstr	s6, [r0, #-40]
+1eb31c	e500c02c	str	r12, [r0, #-0x2c]
+1eb320	edd17a01	vldr	s15, [r1, #4]
+1eb324	ee277a84	vmul.f32	s14, s15, s8
+1eb328	edd16a00	vldr	s13, [r1]
+1eb32c	e5004024	str	r4, [r0, #-0x24]
+1eb330	ee677aa5	vmul.f32	s15, s15, s11
+1eb334	ee067aa3	vmla.f32	s14, s13, s7
+1eb338	ee467a85	vmla.f32	s15, s13, s10
+1eb33c	ee377a24	vadd.f32	s14, s14, s9
+1eb340	ee777a86	vadd.f32	s15, s15, s12
+1eb344	ed007a08	vstr	s14, [r0, #-32]
+1eb348	ed407a07	vstr	s15, [r0, #-28]
+1eb34c	1affffe8	bne	0x1eb2f4 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x16e4>
+1eb350	e1a07002	mov	r7, r2
+1eb354	e065a00a	rsb	r10, r5, r10
+1eb358	e35a0000	cmp	r10, #0
+1eb35c	caffffc9	bgt	0x1eb288 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1678>
+1eb360	e59d8038	ldr	r8, [sp, #0x38]
+1eb364	e5983038	ldr	r3, [r8, #0x38]
+1eb368	e59d9054	ldr	r9, [sp, #0x54]
+1eb36c	e0839009	add	r9, r3, r9
+1eb370	e58d9054	str	r9, [sp, #0x54]
+1eb374	eafffae3	b	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1eb378	e59d8044	ldr	r8, [sp, #0x44]
+1eb37c	e59f36fc	ldr	r3, [pc, #0x6fc]
+1eb380	e59d10ac	ldr	r1, [sp, #0xac]
+1eb384	e7983003	ldr	r3, [r8, r3]
+1eb388	e5930000	ldr	r0, [r3]
+1eb38c	e5903000	ldr	r3, [r0]
+1eb390	e593300c	ldr	r3, [r3, #0xc]
+1eb394	e12fff33	blx	r3
+1eb398	eafffc19	b	0x1ea404 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x7f4>
+1eb39c	e59d5060	ldr	r5, [sp, #0x60]
+1eb3a0	e3550000	cmp	r5, #0
+1eb3a4	0a000093	beq	0x1eb5f8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x19e8>
+1eb3a8	e59d6038	ldr	r6, [sp, #0x38]
+1eb3ac	e5962044	ldr	r2, [r6, #0x44]
+1eb3b0	e3520000	cmp	r2, #0
+1eb3b4	0a00008f	beq	0x1eb5f8 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x19e8>
+1eb3b8	e5967014	ldr	r7, [r6, #0x14]
+1eb3bc	e58d2040	str	r2, [sp, #0x40]
+1eb3c0	e58d704c	str	r7, [sp, #0x4c]
+1eb3c4	da000088	ble	0x1eb5ec <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x19dc>
+1eb3c8	e58d8018	str	r8, [sp, #0x18]
+1eb3cc	e59d8040	ldr	r8, [sp, #0x40]
+1eb3d0	e3a00004	mov	r0, #4
+1eb3d4	e59d9058	ldr	r9, [sp, #0x58]
+1eb3d8	e3a01000	mov	r1, #0
+1eb3dc	e3a02010	mov	r2, #16
+1eb3e0	e1580009	cmp	r8, r9
+1eb3e4	a1a08009	movge	r8, r9
+1eb3e8	e58d803c	str	r8, [sp, #0x3c]
+1eb3ec	e0883088	add	r3, r8, r8, lsl #1
+1eb3f0	e1a03083	lsl	r3, r3, #1
+1eb3f4	ebfe6807	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1eb3f8	e3580000	cmp	r8, #0
+1eb3fc	da000070	ble	0x1eb5c4 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x19b4>
+1eb400	e59d4044	ldr	r4, [sp, #0x44]
+1eb404	e280a010	add	r10, r0, #16
+1eb408	e59f1668	ldr	r1, [pc, #0x668]
+1eb40c	e280b020	add	r11, r0, #32
+1eb410	e58da024	str	r10, [sp, #0x24]
+1eb414	e280c030	add	r12, r0, #48
+1eb418	e58db02c	str	r11, [sp, #0x2c]
+1eb41c	e2805040	add	r5, r0, #64
+1eb420	e58dc028	str	r12, [sp, #0x28]
+1eb424	e2806050	add	r6, r0, #80
+1eb428	e7941001	ldr	r1, [r4, r1]
+1eb42c	e1a0800b	mov	r8, r11
+1eb430	e59f364c	ldr	r3, [pc, #0x64c]
+1eb434	e1a0700c	mov	r7, r12
+1eb438	e58d5034	str	r5, [sp, #0x34]
+1eb43c	e58d1020	str	r1, [sp, #0x20]
+1eb440	e7943003	ldr	r3, [r4, r3]
+1eb444	e58d6030	str	r6, [sp, #0x30]
+1eb448	e1a06005	mov	r6, r5
+1eb44c	e58da010	str	r10, [sp, #0x10]
+1eb450	e59f2624	ldr	r2, [pc, #0x624]
+1eb454	e59d903c	ldr	r9, [sp, #0x3c]
+1eb458	e59da044	ldr	r10, [sp, #0x44]
+1eb45c	e59d5030	ldr	r5, [sp, #0x30]
+1eb460	e59d404c	ldr	r4, [sp, #0x4c]
+1eb464	e58d301c	str	r3, [sp, #0x1c]
+1eb468	e2803060	add	r3, r0, #96
+1eb46c	e58d900c	str	r9, [sp, #0xc]
+1eb470	e79a2002	ldr	r2, [r10, r2]
+1eb474	edd27a00	vldr	s15, [r2]
+1eb478	e1d490b2	ldrh	r9, [r4, #2]
+1eb47c	e2833060	add	r3, r3, #96
+1eb480	e59d1010	ldr	r1, [sp, #0x10]
+1eb484	e2844004	add	r4, r4, #4
+1eb488	e59d2024	ldr	r2, [sp, #0x24]
+1eb48c	e154a0b4	ldrh	r10, [r4, #-4]
+1eb490	e060c001	rsb	r12, r0, r1
+1eb494	e59db00c	ldr	r11, [sp, #0xc]
+1eb498	e1a09189	lsl	r9, r9, #3
+1eb49c	e58d905c	str	r9, [sp, #0x5c]
+1eb4a0	e08cc002	add	r12, r12, r2
+1eb4a4	e59d9028	ldr	r9, [sp, #0x28]
+1eb4a8	e0602007	rsb	r2, r0, r7
+1eb4ac	e25bb001	subs	r11, r11, #1
+1eb4b0	e58db00c	str	r11, [sp, #0xc]
+1eb4b4	e0822009	add	r2, r2, r9
+1eb4b8	e59db02c	ldr	r11, [sp, #0x2c]
+1eb4bc	e59d9020	ldr	r9, [sp, #0x20]
+1eb4c0	e0601008	rsb	r1, r0, r8
+1eb4c4	e1a0a18a	lsl	r10, r10, #3
+1eb4c8	e081100b	add	r1, r1, r11
+1eb4cc	e089b00a	add	r11, r9, r10
+1eb4d0	e59d901c	ldr	r9, [sp, #0x1c]
+1eb4d4	ed9b4a00	vldr	s8, [r11]
+1eb4d8	eddb4a01	vldr	s9, [r11, #4]
+1eb4dc	e089a00a	add	r10, r9, r10
+1eb4e0	e59db020	ldr	r11, [sp, #0x20]
+1eb4e4	e59d905c	ldr	r9, [sp, #0x5c]
+1eb4e8	ed9a6a00	vldr	s12, [r10]
+1eb4ec	edda6a01	vldr	s13, [r10, #4]
+1eb4f0	e2888060	add	r8, r8, #96
+1eb4f4	e08ba009	add	r10, r11, r9
+1eb4f8	e59db01c	ldr	r11, [sp, #0x1c]
+1eb4fc	ed9a7a00	vldr	s14, [r10]
+1eb500	ed9a1a01	vldr	s2, [r10, #4]
+1eb504	e08bb009	add	r11, r11, r9
+1eb508	ed9b5a00	vldr	s10, [r11]
+1eb50c	eddb5a01	vldr	s11, [r11, #4]
+1eb510	e59db034	ldr	r11, [sp, #0x34]
+1eb514	e59d9010	ldr	r9, [sp, #0x10]
+1eb518	e060a006	rsb	r10, r0, r6
+1eb51c	e08aa00b	add	r10, r10, r11
+1eb520	e59db030	ldr	r11, [sp, #0x30]
+1eb524	e2899060	add	r9, r9, #96
+1eb528	e58d9010	str	r9, [sp, #0x10]
+1eb52c	e0609005	rsb	r9, r0, r5
+1eb530	ed034a30	vstr	s8, [r3, #-192]
+1eb534	e089b00b	add	r11, r9, r11
+1eb538	e59d9018	ldr	r9, [sp, #0x18]
+1eb53c	ed434a2f	vstr	s9, [r3, #-188]
+1eb540	ed437a2e	vstr	s15, [r3, #-184]
+1eb544	e58db05c	str	r11, [sp, #0x5c]
+1eb548	e2877060	add	r7, r7, #96
+1eb54c	e50390b4	str	r9, [r3, #-0xb4]
+1eb550	ed0c7a04	vstr	s14, [r12, #-16]
+1eb554	ed0c1a03	vstr	s2, [r12, #-12]
+1eb558	ed4c7a02	vstr	s15, [r12, #-8]
+1eb55c	e50c9004	str	r9, [r12, #-0x4]
+1eb560	e2866060	add	r6, r6, #96
+1eb564	e59dc05c	ldr	r12, [sp, #0x5c]
+1eb568	ed016a08	vstr	s12, [r1, #-32]
+1eb56c	e59db014	ldr	r11, [sp, #0x14]
+1eb570	ed416a07	vstr	s13, [r1, #-28]
+1eb574	ed417a06	vstr	s15, [r1, #-24]
+1eb578	e2855060	add	r5, r5, #96
+1eb57c	e501b014	str	r11, [r1, #-0x14]
+1eb580	ed026a0c	vstr	s12, [r2, #-48]
+1eb584	ed426a0b	vstr	s13, [r2, #-44]
+1eb588	ed427a0a	vstr	s15, [r2, #-40]
+1eb58c	e502b024	str	r11, [r2, #-0x24]
+1eb590	ed0a7a10	vstr	s14, [r10, #-64]
+1eb594	ed0a1a0f	vstr	s2, [r10, #-60]
+1eb598	ed4a7a0e	vstr	s15, [r10, #-56]
+1eb59c	e50a9034	str	r9, [r10, #-0x34]
+1eb5a0	ed0c5a14	vstr	s10, [r12, #-80]
+1eb5a4	ed4c5a13	vstr	s11, [r12, #-76]
+1eb5a8	ed4c7a12	vstr	s15, [r12, #-72]
+1eb5ac	e50cb044	str	r11, [r12, #-0x44]
+1eb5b0	1affffb0	bne	0x1eb478 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1868>
+1eb5b4	e59d503c	ldr	r5, [sp, #0x3c]
+1eb5b8	e59d404c	ldr	r4, [sp, #0x4c]
+1eb5bc	e0844105	add	r4, r4, r5, lsl #2
+1eb5c0	e58d404c	str	r4, [sp, #0x4c]
+1eb5c4	e59d6040	ldr	r6, [sp, #0x40]
+1eb5c8	e59d703c	ldr	r7, [sp, #0x3c]
+1eb5cc	e0676006	rsb	r6, r7, r6
+1eb5d0	e58d6040	str	r6, [sp, #0x40]
+1eb5d4	e3560000	cmp	r6, #0
+1eb5d8	caffff7b	bgt	0x1eb3cc <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x17bc>
+1eb5dc	e59d9038	ldr	r9, [sp, #0x38]
+1eb5e0	e59d8018	ldr	r8, [sp, #0x18]
+1eb5e4	e5992044	ldr	r2, [r9, #0x44]
+1eb5e8	e5993038	ldr	r3, [r9, #0x38]
+1eb5ec	e59da054	ldr	r10, [sp, #0x54]
+1eb5f0	e08aa082	add	r10, r10, r2, lsl #1
+1eb5f4	e58da054	str	r10, [sp, #0x54]
+1eb5f8	e59db038	ldr	r11, [sp, #0x38]
+1eb5fc	e2534000	subs	r4, r3, #0
+1eb600	e59b6008	ldr	r6, [r11, #0x8]
+1eb604	dafffdbc	ble	0x1eacfc <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x10ec>
+1eb608	e59d708c	ldr	r7, [sp, #0x8c]
+1eb60c	e59d9044	ldr	r9, [sp, #0x44]
+1eb610	e1540007	cmp	r4, r7
+1eb614	b1a05004	movlt	r5, r4
+1eb618	a1a05007	movge	r5, r7
+1eb61c	e3a00004	mov	r0, #4
+1eb620	e3a01000	mov	r1, #0
+1eb624	e3a02010	mov	r2, #16
+1eb628	e085a085	add	r10, r5, r5, lsl #1
+1eb62c	e1a0300a	mov	r3, r10
+1eb630	ebfe6778	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+1eb634	e35a0000	cmp	r10, #0
+1eb638	da000013	ble	0x1eb68c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1a7c>
+1eb63c	e59f1438	ldr	r1, [pc, #0x438]
+1eb640	e1a02006	mov	r2, r6
+1eb644	e59fc42c	ldr	r12, [pc, #0x42c]
+1eb648	e086608a	add	r6, r6, r10, lsl #1
+1eb64c	e2803010	add	r3, r0, #16
+1eb650	e7991001	ldr	r1, [r9, r1]
+1eb654	e799c00c	ldr	r12, [r9, r12]
+1eb658	e591a000	ldr	r10, [r1]
+1eb65c	e0d210b2	ldrh	r1, [r2], #2
+1eb660	e2833010	add	r3, r3, #16
+1eb664	e1520006	cmp	r2, r6
+1eb668	e08c1181	add	r1, r12, r1, lsl #3
+1eb66c	e5910000	ldr	r0, [r1]
+1eb670	e5911004	ldr	r1, [r1, #0x4]
+1eb674	e503a018	str	r10, [r3, #-0x18]
+1eb678	e5030020	str	r0, [r3, #-0x20]
+1eb67c	e503101c	str	r1, [r3, #-0x1c]
+1eb680	e5038014	str	r8, [r3, #-0x14]
+1eb684	1afffff4	bne	0x1eb65c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1a4c>
+1eb688	e1a06002	mov	r6, r2
+1eb68c	e0654004	rsb	r4, r5, r4
+1eb690	e3540000	cmp	r4, #0
+1eb694	caffffdd	bgt	0x1eb610 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1a00>
+1eb698	eafffd95	b	0x1eacf4 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x10e4>
+1eb69c	e5963008	ldr	r3, [r6, #0x8]
+1eb6a0	e3530000	cmp	r3, #0
+1eb6a4	ba0000c0	blt	0x1eb9ac <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1d9c>
+1eb6a8	e59d50a8	ldr	r5, [sp, #0xa8]
+1eb6ac	e5952054	ldr	r2, [r5, #0x54]
+1eb6b0	e7928103	ldr	r8, [r2, r3, lsl #2]
+1eb6b4	e1d801f4	ldrsh	r0, [r8, #20]
+1eb6b8	ebfe21db	bl	0x173e2c <_Z17GR_Texture_Existsi>
+1eb6bc	e3500000	cmp	r0, #0
+1eb6c0	0a0000e9	beq	0x1eba6c <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1e5c>
+1eb6c4	e59da044	ldr	r10, [sp, #0x44]
+1eb6c8	e3a0e5fe	mov	lr, #1065353216
+1eb6cc	e59f33b4	ldr	r3, [pc, #0x3b4]
+1eb6d0	e28d4e17	add	r4, sp, #368
+1eb6d4	e1d821f4	ldrsh	r2, [r8, #20]
+1eb6d8	e28d5e1b	add	r5, sp, #432
+1eb6dc	e1d890f0	ldrsh	r9, [r8]
+1eb6e0	e1a00004	mov	r0, r4
+1eb6e4	e79a3003	ldr	r3, [r10, r3]
+1eb6e8	e28d10f0	add	r1, sp, #240
+1eb6ec	e1d8b0f2	ldrsh	r11, [r8, #2]
+1eb6f0	ee069a10	vmov	s12, r9
+1eb6f4	e5933004	ldr	r3, [r3, #0x4]
+1eb6f8	ee06ba90	vmov	s13, r11
+1eb6fc	eeb86ac6	vcvt.f32.s32	s12, s12
+1eb700	e7933102	ldr	r3, [r3, r2, lsl #2]
+1eb704	e28d2e13	add	r2, sp, #304
+1eb708	e5933000	ldr	r3, [r3]
+1eb70c	ed937a01	vldr	s14, [r3, #4]
+1eb710	edd37a02	vldr	s15, [r3, #8]
+1eb714	e58de16c	str	lr, [sp, #0x16c]
+1eb718	e58de158	str	lr, [sp, #0x158]
+1eb71c	ed8dfa57	vstr	s30, [sp, #348]
+1eb720	eeb87ac7	vcvt.f32.s32	s14, s14
+1eb724	e58de144	str	lr, [sp, #0x144]
+1eb728	e58de130	str	lr, [sp, #0x130]
+1eb72c	ed8dfa55	vstr	s30, [sp, #340]
+1eb730	ed8dfa54	vstr	s30, [sp, #336]
+1eb734	ed8dfa53	vstr	s30, [sp, #332]
+1eb738	ed8dfa52	vstr	s30, [sp, #328]
+1eb73c	ed8dfa50	vstr	s30, [sp, #320]
+1eb740	ed8dfa4f	vstr	s30, [sp, #316]
+1eb744	ed8dfa4e	vstr	s30, [sp, #312]
+1eb748	ed8dfa4d	vstr	s30, [sp, #308]
+1eb74c	ed8dfa5a	vstr	s30, [sp, #360]
+1eb750	e58d3090	str	r3, [sp, #0x90]
+1eb754	eef87ae7	vcvt.f32.s32	s15, s15
+1eb758	eef86ae6	vcvt.f32.s32	s13, s13
+1eb75c	ee866a07	vdiv.f32	s12, s12, s14
+1eb760	eec66aa7	vdiv.f32	s13, s13, s15
+1eb764	ed8d6a58	vstr	s12, [sp, #352]
+1eb768	edcd6a59	vstr	s13, [sp, #356]
+1eb76c	e1d8c0f4	ldrsh	r12, [r8, #4]
+1eb770	e1d830f6	ldrsh	r3, [r8, #6]
+1eb774	ed8dfa4a	vstr	s30, [sp, #296]
+1eb778	e24cc001	sub	r12, r12, #1
+1eb77c	e58de12c	str	lr, [sp, #0x12c]
+1eb780	e2433001	sub	r3, r3, #1
+1eb784	e58de118	str	lr, [sp, #0x118]
+1eb788	ee01ca10	vmov	s2, r12
+1eb78c	ed8dfa49	vstr	s30, [sp, #292]
+1eb790	ee013a90	vmov	s3, r3
+1eb794	ed8dfa48	vstr	s30, [sp, #288]
+1eb798	eeb86ac1	vcvt.f32.s32	s12, s2
+1eb79c	ed8dfa47	vstr	s30, [sp, #284]
+1eb7a0	ed8dfa45	vstr	s30, [sp, #276]
+1eb7a4	ed8dfa44	vstr	s30, [sp, #272]
+1eb7a8	ed8dfa43	vstr	s30, [sp, #268]
+1eb7ac	ed8dfa42	vstr	s30, [sp, #264]
+1eb7b0	ed8dfa40	vstr	s30, [sp, #256]
+1eb7b4	ed8dfa3f	vstr	s30, [sp, #252]
+1eb7b8	ed8dfa3e	vstr	s30, [sp, #248]
+1eb7bc	ed8dfa3d	vstr	s30, [sp, #244]
+1eb7c0	eef86ae1	vcvt.f32.s32	s13, s3
+1eb7c4	ee867a07	vdiv.f32	s14, s12, s14
+1eb7c8	eec67aa7	vdiv.f32	s15, s13, s15
+1eb7cc	ed8d7a3c	vstr	s14, [sp, #240]
+1eb7d0	edcd7a41	vstr	s15, [sp, #260]
+1eb7d4	eb023c89	bl	0x27aa00 <_ZN8yyMatrix8MultiplyEPS_S0_S0_>
+1eb7d8	e1a02004	mov	r2, r4
+1eb7dc	e1a00005	mov	r0, r5
+1eb7e0	e59d12a4	ldr	r1, [sp, #0x2a4]
+1eb7e4	eb023c85	bl	0x27aa00 <_ZN8yyMatrix8MultiplyEPS_S0_S0_>
+1eb7e8	e1a02005	mov	r2, r5
+1eb7ec	e286100c	add	r1, r6, #12
+1eb7f0	e28d00b0	add	r0, sp, #176
+1eb7f4	eb023c81	bl	0x27aa00 <_ZN8yyMatrix8MultiplyEPS_S0_S0_>
+1eb7f8	e59f028c	ldr	r0, [pc, #0x28c]
+1eb7fc	e1a02007	mov	r2, r7
+1eb800	e3a01000	mov	r1, #0
+1eb804	e3a03001	mov	r3, #1
+1eb808	e79a5000	ldr	r5, [r10, r0]
+1eb80c	e1a00005	mov	r0, r5
+1eb810	ebfdf1b7	bl	0x167ef4 <_ZN18RenderStateManager15SetSamplerStateEi13eSamplerStatej>
+1eb814	e1a00005	mov	r0, r5
+1eb818	e3a01000	mov	r1, #0
+1eb81c	e3a02003	mov	r2, #3
+1eb820	e3a03001	mov	r3, #1
+1eb824	ebfdf1b2	bl	0x167ef4 <_ZN18RenderStateManager15SetSamplerStateEi13eSamplerStatej>
+1eb828	eafffd74	b	0x1eae00 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x11f0>
+1eb82c	e5983054	ldr	r3, [r8, #0x54]
+1eb830	e7934102	ldr	r4, [r3, r2, lsl #2]
+1eb834	e1d401f4	ldrsh	r0, [r4, #20]
+1eb838	ebfe217b	bl	0x173e2c <_Z17GR_Texture_Existsi>
+1eb83c	e3500000	cmp	r0, #0
+1eb840	0a000086	beq	0x1eba60 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1e50>
+1eb844	e1d4c0f6	ldrsh	r12, [r4, #6]
+1eb848	eef77a00	vmov.f32	s15, #1.000000e+00
+1eb84c	e1d4e1f2	ldrsh	lr, [r4, #18]
+1eb850	e28d5e1b	add	r5, sp, #432
+1eb854	e1d4a0f4	ldrsh	r10, [r4, #4]
+1eb858	e1d4b1f0	ldrsh	r11, [r4, #16]
+1eb85c	ee04ca10	vmov	s8, r12
+1eb860	ee07ea10	vmov	s14, lr
+1eb864	e59d8044	ldr	r8, [sp, #0x44]
+1eb868	ee03aa90	vmov	s7, r10
+1eb86c	e59f3214	ldr	r3, [pc, #0x214]
+1eb870	ee06ba90	vmov	s13, r11
+1eb874	e1d421f4	ldrsh	r2, [r4, #20]
+1eb878	e1d490f0	ldrsh	r9, [r4]
+1eb87c	e1a00005	mov	r0, r5
+1eb880	e7983003	ldr	r3, [r8, r3]
+1eb884	e1d440f2	ldrsh	r4, [r4, #2]
+1eb888	eef83ae3	vcvt.f32.s32	s7, s7
+1eb88c	e5933004	ldr	r3, [r3, #0x4]
+1eb890	ee059a10	vmov	s10, r9
+1eb894	ee064a10	vmov	s12, r4
+1eb898	e28d4e17	add	r4, sp, #368
+1eb89c	e7933102	ldr	r3, [r3, r2, lsl #2]
+1eb8a0	e1a01004	mov	r1, r4
+1eb8a4	e28d2e13	add	r2, sp, #304
+1eb8a8	eeb84ac4	vcvt.f32.s32	s8, s8
+1eb8ac	e5933000	ldr	r3, [r3]
+1eb8b0	edd35a01	vldr	s11, [r3, #4]
+1eb8b4	edd34a02	vldr	s9, [r3, #8]
+1eb8b8	edcd7a6b	vstr	s15, [sp, #428]
+1eb8bc	edcd7a66	vstr	s15, [sp, #408]
+1eb8c0	edcd7a61	vstr	s15, [sp, #388]
+1eb8c4	edcd7a5c	vstr	s15, [sp, #368]
+1eb8c8	edcd7a5b	vstr	s15, [sp, #364]
+1eb8cc	edcd7a56	vstr	s15, [sp, #344]
+1eb8d0	e58d3090	str	r3, [sp, #0x90]
+1eb8d4	ed8dfa67	vstr	s30, [sp, #412]
+1eb8d8	ed8dfa65	vstr	s30, [sp, #404]
+1eb8dc	ed8dfa64	vstr	s30, [sp, #400]
+1eb8e0	eef86ae6	vcvt.f32.s32	s13, s13
+1eb8e4	ed8dfa63	vstr	s30, [sp, #396]
+1eb8e8	ed8dfa62	vstr	s30, [sp, #392]
+1eb8ec	ed8dfa60	vstr	s30, [sp, #384]
+1eb8f0	ed8dfa5f	vstr	s30, [sp, #380]
+1eb8f4	ed8dfa5e	vstr	s30, [sp, #376]
+1eb8f8	ed8dfa5d	vstr	s30, [sp, #372]
+1eb8fc	ed8dfa6a	vstr	s30, [sp, #424]
+1eb900	ed8dfa5a	vstr	s30, [sp, #360]
+1eb904	ed8dfa59	vstr	s30, [sp, #356]
+1eb908	eeb87ac7	vcvt.f32.s32	s14, s14
+1eb90c	eec36aa6	vdiv.f32	s13, s7, s13
+1eb910	ee847a07	vdiv.f32	s14, s8, s14
+1eb914	eef84ae4	vcvt.f32.s32	s9, s9
+1eb918	eef85ae5	vcvt.f32.s32	s11, s11
+1eb91c	eec75aa5	vdiv.f32	s11, s15, s11
+1eb920	eec77aa4	vdiv.f32	s15, s15, s9
+1eb924	eeb85ac5	vcvt.f32.s32	s10, s10
+1eb928	eeb86ac6	vcvt.f32.s32	s12, s12
+1eb92c	ee855a26	vdiv.f32	s10, s10, s13
+1eb930	ee866a07	vdiv.f32	s12, s12, s14
+1eb934	ed8d5a68	vstr	s10, [sp, #416]
+1eb938	ed8dfa58	vstr	s30, [sp, #352]
+1eb93c	ed8dfa57	vstr	s30, [sp, #348]
+1eb940	ed8dfa55	vstr	s30, [sp, #340]
+1eb944	ed8dfa54	vstr	s30, [sp, #336]
+1eb948	ed8dfa53	vstr	s30, [sp, #332]
+1eb94c	ed8dfa52	vstr	s30, [sp, #328]
+1eb950	ed8dfa50	vstr	s30, [sp, #320]
+1eb954	ed8dfa4f	vstr	s30, [sp, #316]
+1eb958	ed8dfa4e	vstr	s30, [sp, #312]
+1eb95c	ed8dfa4d	vstr	s30, [sp, #308]
+1eb960	ee656aa6	vmul.f32	s13, s11, s13
+1eb964	ed8d6a69	vstr	s12, [sp, #420]
+1eb968	ee277a87	vmul.f32	s14, s15, s14
+1eb96c	edcd6a4c	vstr	s13, [sp, #304]
+1eb970	ed8d7a51	vstr	s14, [sp, #324]
+1eb974	eb023c21	bl	0x27aa00 <_ZN8yyMatrix8MultiplyEPS_S0_S0_>
+1eb978	e28d00b0	add	r0, sp, #176
+1eb97c	e2861010	add	r1, r6, #16
+1eb980	e1a02005	mov	r2, r5
+1eb984	eb023c1d	bl	0x27aa00 <_ZN8yyMatrix8MultiplyEPS_S0_S0_>
+1eb988	e5966004	ldr	r6, [r6, #0x4]
+1eb98c	e59f00f8	ldr	r0, [pc, #0xf8]
+1eb990	e3d66002	bics	r6, r6, #2
+1eb994	1a000029	bne	0x1eba40 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1e30>
+1eb998	e1a01006	mov	r1, r6
+1eb99c	e3a02002	mov	r2, #2
+1eb9a0	e1a03006	mov	r3, r6
+1eb9a4	e7985000	ldr	r5, [r8, r0]
+1eb9a8	eafffd0d	b	0x1eade4 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x11d4>
+1eb9ac	e286100c	add	r1, r6, #12
+1eb9b0	e5966058	ldr	r6, [r6, #0x58]
+1eb9b4	e28d00b0	add	r0, sp, #176
+1eb9b8	e59d22a4	ldr	r2, [sp, #0x2a4]
+1eb9bc	e58d6090	str	r6, [sp, #0x90]
+1eb9c0	eb023c0e	bl	0x27aa00 <_ZN8yyMatrix8MultiplyEPS_S0_S0_>
+1eb9c4	e59f00c0	ldr	r0, [pc, #0xc0]
+1eb9c8	e1a02007	mov	r2, r7
+1eb9cc	e59d5044	ldr	r5, [sp, #0x44]
+1eb9d0	e3a01000	mov	r1, #0
+1eb9d4	e3a03001	mov	r3, #1
+1eb9d8	e7954000	ldr	r4, [r5, r0]
+1eb9dc	e1a00004	mov	r0, r4
+1eb9e0	ebfdf143	bl	0x167ef4 <_ZN18RenderStateManager15SetSamplerStateEi13eSamplerStatej>
+1eb9e4	e1a00004	mov	r0, r4
+1eb9e8	e3a01000	mov	r1, #0
+1eb9ec	e3a02003	mov	r2, #3
+1eb9f0	e3a03001	mov	r3, #1
+1eb9f4	ebfdf13e	bl	0x167ef4 <_ZN18RenderStateManager15SetSamplerStateEi13eSamplerStatej>
+1eb9f8	e3560000	cmp	r6, #0
+1eb9fc	0afff941	beq	0x1e9f08 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x2f8>
+1eba00	e28d4e17	add	r4, sp, #368
+1eba04	eafffcfd	b	0x1eae00 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x11f0>
+1eba08	e59d6044	ldr	r6, [sp, #0x44]
+1eba0c	e28d4e17	add	r4, sp, #368
+1eba10	e3a01000	mov	r1, #0
+1eba14	e3a02002	mov	r2, #2
+1eba18	e3a03001	mov	r3, #1
+1eba1c	e7965000	ldr	r5, [r6, r0]
+1eba20	e1a00005	mov	r0, r5
+1eba24	ebfdf132	bl	0x167ef4 <_ZN18RenderStateManager15SetSamplerStateEi13eSamplerStatej>
+1eba28	e1a00005	mov	r0, r5
+1eba2c	e1a02007	mov	r2, r7
+1eba30	e3a01000	mov	r1, #0
+1eba34	e3a03001	mov	r3, #1
+1eba38	ebfdf12d	bl	0x167ef4 <_ZN18RenderStateManager15SetSamplerStateEi13eSamplerStatej>
+1eba3c	eafffcef	b	0x1eae00 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x11f0>
+1eba40	e59da044	ldr	r10, [sp, #0x44]
+1eba44	e3a01000	mov	r1, #0
+1eba48	e3a02002	mov	r2, #2
+1eba4c	e3a03001	mov	r3, #1
+1eba50	e79a5000	ldr	r5, [r10, r0]
+1eba54	eafffff1	b	0x1eba20 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x1e10>
+1eba58	e58d3054	str	r3, [sp, #0x54]
+1eba5c	eafff8a2	b	0x1e9cec <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0xdc>
+1eba60	e59d90a0	ldr	r9, [sp, #0xa0]
+1eba64	e599301c	ldr	r3, [r9, #0x1c]
+1eba68	eafffa6e	b	0x1ea428 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x818>
+1eba6c	e59d60a0	ldr	r6, [sp, #0xa0]
+1eba70	e596301c	ldr	r3, [r6, #0x1c]
+1eba74	eafffa6b	b	0x1ea428 <_ZN7CSprite18DrawDictionaryItemEP18SWF_DictionaryItem8yyMatrixfbbPS2_PjS4_PiS5_S5_P7Textureff+0x818>
+1eba78	fffff190	.word	0xfffff190
+1eba7c	ffffbcd0	.word	0xffffbcd0
+1eba80	ffffbac4	.word	0xffffbac4
+1eba84	fffff194	.word	0xfffff194
+1eba88	ffffbccc	.word	0xffffbccc
+1eba8c	ffffc0a8	.word	0xffffc0a8

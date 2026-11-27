@@ -1,0 +1,42 @@
+{
+  "schema": "cally-json3-diff/1",
+  "function": "Json_getFloat/getInt/getString",
+  "entries": [
+    "0x287444",
+    "0x287460",
+    "0x287428"
+  ],
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "c_source": "c/json_interface/src/json_interface.c",
+  "c_source_sha256": "d7c7b7068385796d994eaf0c484096d03d1ad9a7b69fec2155275b3914e6a09b",
+  "seed": 18403,
+  "n_nodes": 10,
+  "n_float_queries": 19,
+  "n_int_queries": 19,
+  "n_string_queries": 19,
+  "gates": {
+    "float_identity": {
+      "pass": true,
+      "mismatches": []
+    },
+    "int_identity": {
+      "pass": true,
+      "mismatches": []
+    },
+    "string_identity": {
+      "pass": true,
+      "mismatches": []
+    },
+    "teeth": [
+      {
+        "mutant": "int_reads_float",
+        "caught": 9,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "PASS",
+  "stubbed_imports": "strcasecmp (from libc hook)",
+  "scope": "three 7-insn wrappers; float +0x18, int +0x14, string +0x10; found and default paths",
+  "timestamp": "20261107T062032"
+}

@@ -1,0 +1,210 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_draworder",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_drawOrderTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e338-0x28e358 (node test + create) and 0x28e5d4-0x28e610 (publish/duration tail)",
+      "translation_source": "src/spine_read_tl_draworder.c",
+      "abi": {
+        "signature": "int readSkeletonData_drawOrderTimelines(Json* drawOrder_json, void* data_raw, void* animation_raw)",
+        "drawOrder_json": "the \"drawOrder\" JSON child. The parent B3 caches both spellings: \"drawOrder\" at 0x28d380 and the legacy \"draworder\" at 0x28eb30 (fallback block 0x28eb28-0x28eb40), and stores the winner in [sp+0x28] which B15 reads at 0x28e338/0x28e35c/0x28e5d4. Its +0x0c is the DECLARED frame count used twice: create's arg 0 (0x28e34c) and the duration index (0x28e5e4).",
+        "data_raw": "spSkeletonData* (parent [sp+0x18]); only +0x18 slotsCount is read (0x28e350 create arg 2, 0x28e3d0/0x28e3f0 size bases, 0x28e3fc/0x28e4c4/0x28e4e0 fill and tail bounds).",
+        "animation_raw": "spAnimation* (parent r11, saved to [sp+0x38] at 0x28e3b0 because r11 is reused for the line-442 array, restored at 0x28e5d0).",
+        "return": "DRAWORDER_TL_OK 1 (0x28e340 beq 0x28e614 or fall-through 0x28e610 -> 0x28e614), DRAWORDER_TL_HANDOFF_SLOT_NOT_FOUND 2 (0x28e464 beq 0x28e8ac, outside this module)."
+      },
+      "semantics": "drawOrder_json == NULL -> event block (0x28e338..0x28e340). Otherwise spDrawOrderTimeline_create(declared frame count, slotsCount) (0x28e344..0x28e354) and the handle is spilled to [sp+0x2c] (0x28e358). frame = node->child (0x28e35c/0x28e360); NULL goes straight to the publish tail (0x28e368 beq 0x28e5d4) so a zero-frame drawOrder still creates and publishes a timeline. After the frame loop the tail runs: count = animation->timelineCount (0x28e5dc), timelines = animation->timelines (0x28e5e0), declared = node->0x0c (0x28e5e4), timelineCount = count+1 stored FIRST (0x28e5e8/0x28e5ec), timelines[count] = timeline at the OLD cursor (0x28e5f4), last = times[declared-1] (0x28e5f8..0x28e600, FOUR-byte stride), duration = max(duration, last) via vcmpe/vmrs/vmovgt (0x28e604..0x28e610).",
+      "keys": ["drawOrder", "draworder"],
+      "key_note": "the two spellings are resolved by the parent B3 block (0x28d380 / 0x28eb28..0x28eb40), not here; this module receives the winning node.",
+      "field_offsets": {
+        "spSkeletonData.slotsCount": "+0x18 (0x28e350; corroborated by spSkeletonData_findSlotIndex 0x28b0d4 which loads the same word as its own count)",
+        "spAnimation.duration": "+0x04 (0x28e5d8 vldr s14 / 0x28e610 vstr s15)",
+        "spAnimation.timelineCount": "+0x08 (0x28e5dc / 0x28e5ec)",
+        "spAnimation.timelines": "+0x0c (0x28e5e0 / 0x28e5f4 str r0,[r1,r3,lsl#2])",
+        "spDrawOrderTimeline.times": "+0x0c (0x28e5f8 ldr r3,[r0,#0xc])"
+      },
+      "tail": {
+        "stride": "FOUR bytes per frame: 0x28e5fc add r3,r3,r2,lsl#2 then 0x28e600 vldr s15,[r3,#-4] -> times[declared-1]. This is the sharpest difference from the path family's two-float stride (0x28e030 add r3,r3,r2,lsl#3 / [r3,#-8]).",
+        "cursor": "the count is written before the element store, and the element store uses the pre-increment r3 (the OLD count), so the timeline lands at timelines[count] while timelineCount becomes count+1.",
+        "declared_vs_child": "the loop follows the child list; create and the duration index both use the declared count, so declared=3 with one frame reads times[2] (never written, zero) and keeps duration 0."
+      },
+      "quirks": [
+        "A zero-frame drawOrder object still creates and publishes a timeline: 0x28e354 create runs BEFORE the 0x28e368 child test.",
+        "declared == 0 makes the tail index times[0xffffffff] (0x28e5fc add with r2 = 0 then vldr [r3,#-4]); the original reads it blindly and the fixture never drives it.",
+        "The duration compare is vcmpe + vmrs + vmovgt, i.e. strictly greater wins, so a NaN last time keeps the old duration."
+      ]
+    },
+    {
+      "name": "readSkeletonData_drawOrderTimelineFrames",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e35c-0x28e5d0 (loop head 0x28e3b4, second-half head 0x28e594, back edge 0x28e5cc)",
+      "translation_source": "src/spine_read_tl_draworder.c",
+      "abi": {
+        "signature": "int readSkeletonData_drawOrderTimelineFrames(Json* drawOrder_json, void* data_raw, void* timeline_raw)",
+        "return": "DRAWORDER_TL_OK or the slot-miss handoff (propagated from the per-frame builder)."
+      },
+      "semantics": "frame = drawOrder_json->child (0x28e360); NULL -> OK with no setFrame (0x28e368). frameIndex = 0 (0x28e370 mov r10,#0). Per frame (head 0x28e3b4, back edge 0x28e5cc): readSkeletonData_drawOrderFrame (0x28e3b4..0x28e528, or the 0x28e590 join), time = Json_getFloat(frame,\"time\",0.0f) (0x28e594..0x28e5a0), spDrawOrderTimeline_setFrame(timeline, frameIndex, time, order) (0x28e5a4..0x28e5b8), _free(order) (0x28e5bc/0x28e5c0), frameIndex++ (0x28e5ac), frame = frame->next (0x28e5c4).",
+      "calls": [
+        "Json_getItem(frame,\"offsets\")                    0x2873c4 (real) 0x28e3bc",
+        "Json_getString(entry,\"slot\",NULL)                 0x287428 (real) 0x28e44c",
+        "spSkeletonData_findSlotIndex(data,name)            0x28b0cc (real) 0x28e458",
+        "Json_getInt(entry,\"offset\",0)                     0x287460 (real) 0x28e4a8",
+        "Json_getFloat(frame,\"time\",0.0f)                  0x287444 (real) 0x28e5a0",
+        "spDrawOrderTimeline_setFrame(t,i,time,order)       0x282ddc (synthetic) 0x28e5b8"
+      ],
+      "no_readcurve": "census §2.9 says the 8 readCurve call sites do not include this family, and the checker proves it by scanning every aligned word of the three translated windows: the BL set is exactly {create, setFrame, _malloc x2, _free x2, Json_getItem, Json_getString, Json_getFloat, Json_getInt, findSlotIndex, setError, spAnimation_dispose} and no BL targets the anonymous readCurve entry 0x28b34c. This module therefore has no readCurve link gate.",
+      "register_note": "r9 = frame, r4 = offsets node then reused as `original`, r7 = offsets entry, r11 = the line-442 array, r6 = the line-445 array, r5 = `unmoved`, r8 = data, r10 = frameIndex. r11 (the animation pointer) is spilled to [sp+0x38] at 0x28e3b0 and restored at 0x28e5d0 because the line-442 malloc reuses r11."
+    },
+    {
+      "name": "readSkeletonData_drawOrderFrame",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e3b4-0x28e528 (125 insns incl. both mallocs) + 0x28e590 join",
+      "translation_source": "src/spine_read_tl_draworder.c",
+      "abi": {
+        "signature": "int readSkeletonData_drawOrderFrame(Json* frame, void* data_raw, int32_t** out_order)",
+        "out_order": "the line-445 array (B) or NULL when the frame has no \"offsets\". The CALLER owns it: it must reach spDrawOrderTimeline_setFrame and then be _free'd exactly once (0x28e5c0).",
+        "return": "DRAWORDER_TL_OK 1, or DRAWORDER_TL_HANDOFF_SLOT_NOT_FOUND 2 with BOTH arrays still allocated (the original jumps to 0x28e8ac without a _free — the leak is reproduced, not repaired)."
+      },
+      "semantics": "offsets = Json_getItem(frame,\"offsets\") (0x28e3b4..0x28e3bc); absent -> *out_order = 0 (0x28e3c0 beq 0x28e590, where r4 == 0). n = offsets->+0x0c (0x28e3c8). A = _malloc((slotsCount - n)*4, tag, 442) (0x28e3cc..0x28e3e0); B = _malloc(slotsCount*4, tag, 445) (0x28e3e8..0x28e3f8); B is filled with -1 for exactly slotsCount words, skipped entirely when slotsCount <= 0 (0x28e3fc..0x28e420). original = 0, unmoved = 0 (0x28e42c..0x28e43c). Per offsets entry (head 0x28e440, back edge 0x28e4c0): name = Json_getString(entry,\"slot\",NULL) (0x28e44c), slotIndex = spSkeletonData_findSlotIndex(data,name) (0x28e458), -1 -> handoff (0x28e45c/0x28e464); if slotIndex != original, A[unmoved++] = original..slotIndex-1 (0x28e46c..0x28e48c) and original = slotIndex (0x28e498); offset = Json_getInt(entry,\"offset\",0) (0x28e4a8); B[original+offset] = original (0x28e4b4/0x28e4b8); original++ (0x28e4bc). After the list, every slot index not mentioned is appended to A (0x28e4c4..0x28e4f0, SIGNED bound). The merge walks B from the tail (0x28e4f4/0x28e4fc), and every -1 is replaced by A[--unmoved] (0x28e500..0x28e514), then A is _free'd (0x28e520/0x28e524) and B is returned.",
+      "malloc_442": {
+        "line": "0x28e3cc movw r2,#0x1ba = 442",
+        "size": "(slotsCount - jsonOffsetsSize) * 4 via 0x28e3d8 rsb r0,r3,r0 and 0x28e3dc lsl r0,r0,#2 — both 32-bit wrap",
+        "ownership": "caller-owned scratch; freed at 0x28e524 INSIDE this function, before setFrame ever sees anything; never escapes"
+      },
+      "malloc_445": {
+        "line": "0x28e3e8 movw r2,#0x1bd = 445",
+        "size": "slotsCount * 4 via 0x28e3f0 ldr r0,[r8,#0x18] + 0x28e3f4 lsl r0,r0,#2",
+        "fill": "every one of the slotsCount words is set to -1: 0x28e40c mvnpl r0,#0 ; 0x28e418 str r0,[r2,#-0x4]! ; 0x28e420 bne 0x28e414. The count comes from 0x28e400 subs r1,r2,#1 and the loop stops at cmn r1,#1, i.e. exactly slotsCount stores; slotsCount <= 0 skips the fill (0x28e410 bmi).",
+        "ownership": "caller-owned; passed to setFrame (0x28e5b4/0x28e5b8) and freed IMMEDIATELY AFTER the call (0x28e5bc/0x28e5c0). setFrame deep-copies it (line 690), so nothing of the caller's buffer survives inside the timeline."
+      },
+      "merge": {
+        "run_copy": "0x28e46c subne r1,r5,#-1073741823 ; 0x28e474 addne r1,r11,r1,lsl#2 ; 0x28e480 str r2,[r1,#0x4]! — the #0x3FFFFFFF immediate tricks computes A + r5*4 - 4, then the pre-increment write-back lands on A[r5]; the run length is (slotIndex - original) and `unmoved` is advanced by that same amount at 0x28e490/0x28e494.",
+        "tail_fill": "0x28e4d0..0x28e4f0 uses the same trick to append original..slotsCount-1 after the last entry.",
+        "merge_direction": "0x28e4f4 subs r1,r2,#1 ; 0x28e4f8 addpl r2,r6,r2,lsl#2 ; then the loop pre-decrements B and consumes A from the top (0x28e50c subeq r5,r5,#1 ; 0x28e510 ldreq r3,[r11,r5,lsl#2]), so the leftover slots keep their ascending order in the final array.",
+        "signed_bounds": "the tail-fill bound is SIGNED (0x28e4cc bge) and the merge is skipped when slotsCount <= 0 (0x28e4fc bmi)."
+      },
+      "quirks": [
+        "A slot named exactly as the previous one does not extend the run (0x28e478 beq 0x28e49c), it only writes B[slotIndex+offset] and advances original.",
+        "A miss leaks BOTH arrays: the only exit to 0x28e8ac is the conditional branch at 0x28e464 and no _free precedes it on that path.",
+        "jsonOffsetsSize > slotsCount hands _malloc a wrapped size ((slotsCount - n) << 2); reproduced as-is and pinned by the fixture (slotsCount 2, declared 3 -> request 0xfffffffc).",
+        "If slotIndex < original the run loop at 0x28e47c never terminates (the index walks away from slotIndex through the 32-bit space) and A overruns; the original has no guard and the fixture does not drive it.",
+        "data->slotsCount is READ FIVE TIMES (0x28e3d0 for A's base, 0x28e3f0 for B's size, 0x28e3fc for the fill count, 0x28e4c4 and 0x28e4e0 for the tail bound). The translation keeps each read at its own site instead of caching one value, and the fixture's slots_count_reload test mutates the word inside the line-442 allocator callback to prove the difference: A is sized from 3, B from 2."
+      ]
+    },
+    {
+      "name": "readSkeletonData_attachmentNotFound",
+      "kind": "error_block_not_original_function",
+      "address_range": "0x28e55c-0x28e58c (13 insns) + the common tail 0x28da44-0x28da50",
+      "translation_source": "src/spine_read_tl_draworder.c",
+      "abi": {
+        "signature": "int readSkeletonData_attachmentNotFound(Json* attachmentNode, void* data_raw, void* animation_raw, void* parser_raw)",
+        "return": "DRAWORDER_TL_ERROR (0): 0x28da4c mov r0,#0 ; 0x28da50 b 0x28bdcc"
+      },
+      "semantics": "spAnimation_dispose(animation) (0x28e570) -> _spSkeletonJson_setError(parser, NULL, \"Attachment not found: \", attachmentNode->name) (0x28e574..0x28e588) -> spSkeletonData_dispose(data) (0x28da48) -> return NULL.",
+      "trigger": "the ONLY edge into the block is 0x28e10c subs r8,r0,#0 ; 0x28e110 beq 0x28e55c, inside the DEFORM block: spSkin_getAttachment(skin, slotIndex, timelineNode->name) (0x28e108) returned NULL. So the block belongs to the deform family but sits in this module's address window (census §6 puts it between B15 and B15b).",
+      "json_argument": "NULL, proven twice: statically, r5 = r8 at 0x28e55c and r8 can only be 0 on the single edge that reaches the block (0x28e10c subs r8,r0,#0 ; 0x28e110 beq); the fixture then shows that no Json node is disposed and parser->error still gets the formatted text. This is the NULL form (the slots family's E1 shape), not the animation-node form used by the bones/path families.",
+      "extra_string": "0x28e580 ldr r3,[r7,#0x1c] where r7 = r9 = the attachment timeline node, so the message carries the attachment NAME (its member key), not a slot name."
+    }
+  ],
+  "layout_additions": {
+    "spSkeletonData": "+0x18 int32 slotsCount (this module + spSkeletonData_findSlotIndex 0x28b0d4); the slot vector itself is +0x1c (0x28b0e0), already used by c/skeleton_find",
+    "spDrawOrderTimeline": "24 B: +0x00 type (=7, 0x282d7c mov r1,#7), +0x04 vtable, +0x08 frameCount (0x282d94), +0x0c float* times (0x282db4; read at 0x28e5f8), +0x10 int** drawOrders (0x282dc4; per-frame deep copies), +0x14 int32 slotsCount (0x282dc0)",
+    "spAnimation": "+0x04 float duration, +0x08 int32 timelineCount, +0x0c void** timelines (same shape as the path/ik/bones families)"
+  },
+  "synthetic_boundaries": [
+    {
+      "name": "spDrawOrderTimeline_create",
+      "address": "0x282d4c, 144 B",
+      "reason": "body not recovered; the disassembly is _calloc(1,24,tag,672) -> _spTimeline_init(t,7,vtable) -> +0x08 frameCount -> _calloc(frameCount,4,tag,676) times -> _calloc(frameCount,4,tag,677) drawOrders -> +0x14 slotsCount. The fixture builds that exact shape, records (frameCount, slotsCount), and keeps the zeroed arrays so the declared-vs-child case can read an unwritten times slot."
+    },
+    {
+      "name": "spDrawOrderTimeline_setFrame",
+      "address": "0x282ddc, 124 B",
+      "reason": "body not recovered; the fixture reproduces the disassembled store order (times[i] = time ; _free(drawOrders[i]) ; NULL -> drawOrders[i] = 0 ; else _malloc(slotsCount*4, tag, 690) + memcpy) and records the copy pointer. That deep copy is the whole ownership answer: the caller's array is never retained."
+    },
+    {
+      "name": "fixture heap / allocator roster / libc providers / hand-built Json nodes",
+      "reason": "test scaffolding only; qemu executes the reconstructed C"
+    }
+  ],
+  "depends_on": [
+    "json_interface",
+    "skeleton_find",
+    "spine_json_error",
+    "spine_skeleton_data",
+    "spine_json_support",
+    "spine_alloc"
+  ],
+  "ownership_open4": {
+    "question": "census §7 open #4: line 442 (slotsCount - jsonOffsetsSize)*4 and line 445 slotsCount*4 (filled -1) — which one reaches spDrawOrderTimeline_setFrame, which one is _free'd, and in which branch?",
+    "answer": "NEITHER pointer is retained by the timeline. Line 442 (A) is a scratch array that never leaves readSkeletonData_drawOrderFrame: it is _free'd at 0x28e524 after the leftover merge and BEFORE setFrame is called. Line 445 (B) is the drawOrder array: it is passed as setFrame's 4th argument at 0x28e5b8 and _free'd immediately afterwards at 0x28e5c0. setFrame does not keep it either — 0x282e24 _malloc(slotsCount*4, tag, 690) plus 0x282e44 memcpy into the timeline's own drawOrders[i], after freeing the slot's previous pointer at 0x282e00.",
+    "freed_by_reader": [
+      "A at 0x28e524 (0x285c80), inside the offsets-present branch, before setFrame",
+      "B at 0x28e5c0 (0x285c80), after every setFrame call, including when B is NULL (no \"offsets\" member -> 0x28e590 sets r6 = 0)"
+    ],
+    "freed_by_setFrame": [
+      "the previous drawOrders[i] at 0x282e00 (NULL on the first call, so _free(0) is forwarded)"
+    ],
+    "not_freed_on_the_miss_path": "0x28e464 beq 0x28e8ac leaves A and B allocated; the original has no _free between 0x28e3e0/0x28e3f8 and that branch, so both leak. The fixture asserts the leak instead of repairing it.",
+    "evidence": "checker teeth free_a_dropped / free_b_dropped / free_b_before_setframe plus the single_entry_identity free-sequence assertion (A is ff[0], setFrame's NULL slot is ff[1], B is ff[2])."
+  },
+  "boundaries": {
+    "b15_census_range": "0x28e338-0x28e55c, 548 B / 137 insns (census §6)",
+    "b15_translated_here": "0x28e338-0x28e528 = 125 insns + the 0x28e590 join",
+    "b13_island_not_translated": {
+      "range": "0x28e52c-0x28e558, 12 insns",
+      "owner": "c/spine_read_tl_path (already recovered there as the spacing dispatch + spPathConstraintSpacingTimeline_create + mode select)",
+      "proof_here": "0x28e528 is an unconditional `b 0x28e594` (word pin 0xea000019), so the drawOrder offsets block steps over the island; 0x28e52c is `ldr r1,[sp,#0x44]` (word pin 0xe59d1044) and 0x28e538 is `bne 0x28e8ec` (word pin 0x1a0000eb), i.e. B13's dispatch, not drawOrder code. 125 + 12 = 137, the census count."
+    },
+    "e6_handoff": {
+      "site": "0x28e464 beq 0x28e8ac",
+      "range": "0x28e8ac-0x28e8ec (\"Slot not found: \", dispose -> Json_getString(\"slot\") -> setError(parser, NULL, ...) -> common tail)",
+      "why_not_here": "it is outside this module's assigned window and is not translated; the driver returns DRAWORDER_TL_HANDOFF_SLOT_NOT_FOUND and the fixture asserts that nothing is published and both arrays leak."
+    },
+    "e4_entry": {
+      "site": "0x28e10c subs r8,r0,#0 ; 0x28e110 beq 0x28e55c",
+      "note": "E4 is the deform family's attachment-miss error block; it sits in this address window and is translated here, driven directly by the fixture with the register state read from B14."
+    },
+    "island_in_e4_window": "0x28e590 (the 14th instruction of 0x28e55c-0x28e594) is NOT part of E4: it is the drawOrder loop's \"no offsets\" join, translated in readSkeletonData_drawOrderFrame."
+  },
+  "census_cross_check": {
+    "B15": "0x28e338..0x28e55c = 137 insns measured; this module translates 125 of them (0x28e338..0x28e528) and records the other 12 as the path island. No instruction is double-counted.",
+    "B15b": "0x28e594..0x28e614 = 32 insns — exact match (0x28e5d0 ldr r11,[sp,#0x38] through 0x28e610 vstr s15,[r11,#4]).",
+    "E4": "0x28e55c..0x28e594 = 14 insns; 13 are the error block and the last is the 0x28e590 join.",
+    "census_loop_row_correction": "§5.3 lists the drawOrder loop as head 0x28e3b4 with back edge 0x28e594. Measured: 0x28e594 is the SECOND-HALF head (entered from 0x28e528 b and from the 0x28e590 fall-through) and the actual back edge to 0x28e3b4 is 0x28e5cc `bne 0x28e3b4` (word 0x1affff78). The other five drawOrder rows (0x28e440/0x28e4c0, 0x28e47c/0x28e48c, 0x28e4d8/0x28e4f0, 0x28e500/0x28e51c, 0x28e414/0x28e420) match exactly.",
+    "census_malloc_table": "§3.1 lists 442 = (slotsCount - jsonOffsetsSize)*4 and 445 = slotsCount*4 with the -1 fill — confirmed instruction for instruction, including the movw immediates and the 0x28e40c mvnpl #0 fill word.",
+    "census_keys": "§2.7's pools 0x28ead0/0x28ead4/0x28ead8/0x28eadc/0x28eae0/0x28eae4 resolve to offsets/tag/slot/offset/time/\"Attachment not found: \" at the ADD sites 0x28e378/0x28e388/0x28e394/0x28e398/0x28e3a0/0x28e584 — confirmed word for word.",
+    "census_5_4": "§5.4 lists the E4 block as dispose -> setError -> b 0x28da44; measured, there is no Json_getString between dispose and setError (unlike E5/E6), because the extra string is the timeline node's name at 0x28e580.",
+    "path_module_agreement": "c/spine_read_tl_path's functions.json states that its island 0x28e52c-0x28e558 lies inside census B15's span and that no instruction is double-counted. This module agrees: it translates 0x28e338-0x28e528 only and pins 0x28e528 `b 0x28e594` as the boundary. No contradiction.",
+    "no_readcurve": "§2.9 says the 8 readCurve sites exclude drawOrder; the checker's static scan of the three windows finds 13 BL sites, none targeting 0x28b34c."
+  },
+  "open": [
+    "0x28e8ac-0x28e8ec (\"Slot not found: \" for a drawOrder entry) is not translated; only the handoff is reported. Whoever owns E6 must also confirm that its Json_getString reads the \"slot\" key of the same entry node.",
+    "The drawOrder ABI of spDrawOrderTimeline_create/setFrame is read from their bodies (0x282d4c/0x282ddc) and modelled synthetically; whether spDrawOrderTimeline_apply (not recovered) interprets drawOrders[i] == 0 as \"no change for this frame\" is not proven here.",
+    "slotsCount <= 0 is only reached through the create/size paths; the -1 fill and the merge are skipped, but what the allocator returns for a zero-byte request is the fixture's business, not the original's.",
+    "jsonOffsetsSize > slotsCount is recorded (0xfffffffc request) but not explained: whether a shipped skeleton can carry an offsets array longer than the slot count needs an asset; no spine JSON exists in this tree.",
+    "slotIndex < original makes the run loop at 0x28e47c non-terminating with an unbounded A write; recorded as bytes, not driven.",
+    "declared frame count == 0 makes the publish tail read times[0xffffffff]; recorded, not driven (same restriction as the other timeline modules).",
+    "E4 is driven directly by the fixture. Its real trigger (spSkin_getAttachment returning NULL inside the deform block at 0x28e108) belongs to the deform family and is not part of this module's runtime path."
+  ],
+  "check": {
+    "driver": "tools/check_tl_draworder.py",
+    "fixture": "fixture/check.c",
+    "cases": "15 (drawOrder absent / zero frames still create+publish / frame without offsets passes NULL and allocates nothing / the full ownership chain on one entry / offset -1 up / offset +2 down / two frames cursor + per-frame copies / leftover merge order / jsonOffsetsSize > slotsCount wrapped 0xfffffffc request / slotsCount re-read after the line-442 malloc / slot-miss handoff with both arrays leaked / absent \"time\" default / E4 attachment-not-found with NULL json / publish cursor + duration max / declared-vs-child count)",
+    "configs": "O0/O2/O3/ubsan (undefined,float-cast-overflow, trap=all)",
+    "teeth": "15 named mutants (line-442 size sum, line-445 size halved, -1 fill set to 0, A free dropped, B free dropped, B freed before setFrame, setFrame order argument NULL, setFrame index off by one, \"time\" literal, loop condition stops one frame early, publish count not bumped, publish index off by one, duration index always times[0], E4 json argument, E4 message literal) — each refused by exactly one named runtime assertion",
+    "compile_guard_1": "missing module body refused: undefined symbol: readSkeletonData_drawOrderTimelines",
+    "compile_guard_2": "json_interface.c removed refused: undefined symbol: Json_getItem",
+    "compile_guard_3": "skeleton_find.c removed refused: undefined symbol: spSkeletonData_findSlotIndex (proves the real lookup body is linked, not a stub)",
+    "compile_guard_4": "spine_json_error.c removed refused: undefined symbol: _spSkeletonJson_setError (proves E4's real report chain)",
+    "static": "SHA + 17 symbol pins + 47 word pins (both malloc size chains, the -1 fill, both _free sites, the merge, the setFrame call, the E4 argument staging and the E4 entry edge) + 6 pc-relative literals + a scan proving zero readCurve call sites in the three translated windows",
+    "receipt": "harness/receipts/tl_draworder_check-<timestamp>.json"
+  }
+}

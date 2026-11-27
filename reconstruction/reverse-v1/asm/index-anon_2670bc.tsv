@@ -1,0 +1,576 @@
+2670bc	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2670c0	e24dd034	sub	sp, sp, #52
+2670c4	e1a04000	mov	r4, r0
+2670c8	e28d9010	add	r9, sp, #16
+2670cc	e59f08e0	ldr	r0, [pc, #0x8e0]
+2670d0	e1a08001	mov	r8, r1
+2670d4	e1a07002	mov	r7, r2
+2670d8	e1a06003	mov	r6, r3
+2670dc	e3a0b000	mov	r11, #0
+2670e0	e301a80e	movw	r10, #0x180e
+2670e4	e08f0000	add	r0, pc, r0
+2670e8	e58d000c	str	r0, [sp, #0xc]
+2670ec	e5d45000	ldrb	r5, [r4]
+2670f0	e3550076	cmp	r5, #118
+2670f4	02844006	addeq	r4, r4, #6
+2670f8	0afffffb	beq	0x2670ec <_pcre_xclass+0x440>
+2670fc	e3550077	cmp	r5, #119
+267100	0a000033	beq	0x2671d4 <_pcre_xclass+0x528>
+267104	e3550083	cmp	r5, #131
+267108	8a000038	bhi	0x2671f0 <_pcre_xclass+0x544>
+26710c	e3550081	cmp	r5, #129
+267110	2a000075	bhs	0x2672ec <_pcre_xclass+0x640>
+267114	e3550078	cmp	r5, #120
+267118	0a000066	beq	0x2672b8 <_pcre_xclass+0x60c>
+26711c	e355007b	cmp	r5, #123
+267120	0a00005f	beq	0x2672a4 <_pcre_xclass+0x5f8>
+267124	e3550000	cmp	r5, #0
+267128	0a00005d	beq	0x2672a4 <_pcre_xclass+0x5f8>
+26712c	e1a00004	mov	r0, r4
+267130	e1a01008	mov	r1, r8
+267134	e5972004	ldr	r2, [r7, #0x4]
+267138	e1a03009	mov	r3, r9
+26713c	ebffda7d	bl	0x25db38 <_Z26JS_Array_prototype_unshiftR6RValueP9CInstanceS2_iPS_+0x2a10>
+267140	e2504000	subs	r4, r0, #0
+267144	0a000037	beq	0x267228 <_pcre_xclass+0x57c>
+267148	e5962000	ldr	r2, [r6]
+26714c	e352001d	cmp	r2, #29
+267150	0a000075	beq	0x26732c <_pcre_xclass+0x680>
+267154	e59d1010	ldr	r1, [sp, #0x10]
+267158	e351001d	cmp	r1, #29
+26715c	0a000190	beq	0x2677a4 <_pcre_xclass+0xaf8>
+267160	e352006e	cmp	r2, #110
+267164	0a0001b1	beq	0x267830 <_pcre_xclass+0xb84>
+267168	e351006e	cmp	r1, #110
+26716c	0a00016b	beq	0x267720 <_pcre_xclass+0xa74>
+267170	e3580000	cmp	r8, #0
+267174	1a000003	bne	0x267188 <_pcre_xclass+0x4dc>
+267178	e352006f	cmp	r2, #111
+26717c	0a0001ab	beq	0x267830 <_pcre_xclass+0xb84>
+267180	e351006f	cmp	r1, #111
+267184	0a000167	beq	0x267728 <_pcre_xclass+0xa7c>
+267188	e2422006	sub	r2, r2, #6
+26718c	e3520010	cmp	r2, #16
+267190	8a000024	bhi	0x267228 <_pcre_xclass+0x57c>
+267194	e2411006	sub	r1, r1, #6
+267198	e3510014	cmp	r1, #20
+26719c	8a000021	bhi	0x267228 <_pcre_xclass+0x57c>
+2671a0	e0822082	add	r2, r2, r2, lsl #1
+2671a4	e59d000c	ldr	r0, [sp, #0xc]
+2671a8	e0622182	rsb	r2, r2, r2, lsl #3
+2671ac	e0803002	add	r3, r0, r2
+2671b0	e0831001	add	r1, r3, r1
+2671b4	e5d133d8	ldrb	r3, [r1, #0x3d8]
+2671b8	e3530000	cmp	r3, #0
+2671bc	0a000019	beq	0x267228 <_pcre_xclass+0x57c>
+2671c0	e59d3014	ldr	r3, [sp, #0x14]
+2671c4	e3530000	cmp	r3, #0
+2671c8	1affffc7	bne	0x2670ec <_pcre_xclass+0x440>
+2671cc	e3a00001	mov	r0, #1
+2671d0	ea000036	b	0x2672b0 <_pcre_xclass+0x604>
+2671d4	e5d42001	ldrb	r2, [r4, #0x1]
+2671d8	e5d43002	ldrb	r3, [r4, #0x2]
+2671dc	e1833402	orr	r3, r3, r2, lsl #8
+2671e0	e7f45003	ldrb	r5, [r4, r3]!
+2671e4	e3550077	cmp	r5, #119
+2671e8	0afffff9	beq	0x2671d4 <_pcre_xclass+0x528>
+2671ec	eaffffc4	b	0x267104 <_pcre_xclass+0x458>
+2671f0	e3550085	cmp	r5, #133
+2671f4	0a00003c	beq	0x2672ec <_pcre_xclass+0x640>
+2671f8	3affffcb	blo	0x26712c <_pcre_xclass+0x480>
+2671fc	e2453092	sub	r3, r5, #146
+267200	e3530001	cmp	r3, #1
+267204	8affffc8	bhi	0x26712c <_pcre_xclass+0x480>
+267208	e5d43001	ldrb	r3, [r4, #0x1]
+26720c	e2840001	add	r0, r4, #1
+267210	e3530085	cmp	r3, #133
+267214	0a000006	beq	0x267234 <_pcre_xclass+0x588>
+267218	e283307f	add	r3, r3, #127
+26721c	e6ef3073	uxtb	r3, r3
+267220	e3530002	cmp	r3, #2
+267224	9a000002	bls	0x267234 <_pcre_xclass+0x588>
+267228	e3a00000	mov	r0, #0
+26722c	e28dd034	add	sp, sp, #52
+267230	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+267234	e5d02001	ldrb	r2, [r0, #0x1]
+267238	e5d03002	ldrb	r3, [r0, #0x2]
+26723c	e1833402	orr	r3, r3, r2, lsl #8
+267240	e7f03003	ldrb	r3, [r0, r3]!
+267244	e3530077	cmp	r3, #119
+267248	0afffff9	beq	0x267234 <_pcre_xclass+0x588>
+26724c	e59d205c	ldr	r2, [sp, #0x5c]
+267250	e5923000	ldr	r3, [r2]
+267254	e3530000	cmp	r3, #0
+267258	0afffff2	beq	0x267228 <_pcre_xclass+0x57c>
+26725c	e59d2058	ldr	r2, [sp, #0x58]
+267260	e2433001	sub	r3, r3, #1
+267264	e2800003	add	r0, r0, #3
+267268	e1a01008	mov	r1, r8
+26726c	e58d2000	str	r2, [sp]
+267270	e59d205c	ldr	r2, [sp, #0x5c]
+267274	e5823000	str	r3, [r2]
+267278	e1a03006	mov	r3, r6
+26727c	e58d2004	str	r2, [sp, #0x4]
+267280	e1a02007	mov	r2, r7
+267284	ebffff8c	bl	0x2670bc <_pcre_xclass+0x410>
+267288	e3500000	cmp	r0, #0
+26728c	0affffe5	beq	0x267228 <_pcre_xclass+0x57c>
+267290	e59f3720	ldr	r3, [pc, #0x720]
+267294	e79f3003	ldr	r3, [pc, r3]
+267298	e7d33005	ldrb	r3, [r3, r5]
+26729c	e0844003	add	r4, r4, r3
+2672a0	eaffff91	b	0x2670ec <_pcre_xclass+0x440>
+2672a4	e5960004	ldr	r0, [r6, #0x4]
+2672a8	e2900000	adds	r0, r0, #0
+2672ac	13a00001	movne	r0, #1
+2672b0	e28dd034	add	sp, sp, #52
+2672b4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2672b8	e5963004	ldr	r3, [r6, #0x4]
+2672bc	e3530000	cmp	r3, #0
+2672c0	0affffd8	beq	0x267228 <_pcre_xclass+0x57c>
+2672c4	e5d42001	ldrb	r2, [r4, #0x1]
+2672c8	e5d43002	ldrb	r3, [r4, #0x2]
+2672cc	e1833402	orr	r3, r3, r2, lsl #8
+2672d0	e0633004	rsb	r3, r3, r4
+2672d4	e5d33000	ldrb	r3, [r3]
+2672d8	e243307d	sub	r3, r3, #125
+2672dc	e3530005	cmp	r3, #5
+2672e0	9a00000e	bls	0x267320 <_pcre_xclass+0x674>
+2672e4	e2844003	add	r4, r4, #3
+2672e8	eaffff7f	b	0x2670ec <_pcre_xclass+0x440>
+2672ec	e5d4b001	ldrb	r11, [r4, #0x1]
+2672f0	e5d42002	ldrb	r2, [r4, #0x2]
+2672f4	e59f36c0	ldr	r3, [pc, #0x6c0]
+2672f8	e182b40b	orr	r11, r2, r11, lsl #8
+2672fc	e084b00b	add	r11, r4, r11
+267300	e79f3003	ldr	r3, [pc, r3]
+267304	e5db2000	ldrb	r2, [r11]
+267308	e7d33005	ldrb	r3, [r3, r5]
+26730c	e3520077	cmp	r2, #119
+267310	e0844003	add	r4, r4, r3
+267314	0a000125	beq	0x2677b0 <_pcre_xclass+0xb04>
+267318	e3a0b001	mov	r11, #1
+26731c	eaffff72	b	0x2670ec <_pcre_xclass+0x440>
+267320	e22b0001	eor	r0, r11, #1
+267324	e28dd034	add	sp, sp, #52
+267328	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+26732c	e59d2010	ldr	r2, [sp, #0x10]
+267330	e2865008	add	r5, r6, #8
+267334	e1a03009	mov	r3, r9
+267338	e5950000	ldr	r0, [r5]
+26733c	e1a01006	mov	r1, r6
+267340	e1a06004	mov	r6, r4
+267344	e1a04003	mov	r4, r3
+267348	e1a03001	mov	r3, r1
+26734c	e2422006	sub	r2, r2, #6
+267350	e352006a	cmp	r2, #106
+267354	908ff102	addls	pc, pc, r2, lsl #2
+267358	eaffffb2	b	0x267228 <_pcre_xclass+0x57c>
+26735c	ea0000db	b	0x2676d0 <_pcre_xclass+0xa24>
+267360	ea0000d3	b	0x2676b4 <_pcre_xclass+0xa08>
+267364	ea0000cb	b	0x267698 <_pcre_xclass+0x9ec>
+267368	ea0000c3	b	0x26767c <_pcre_xclass+0x9d0>
+26736c	ea0000bb	b	0x267660 <_pcre_xclass+0x9b4>
+267370	ea0000b3	b	0x267644 <_pcre_xclass+0x998>
+267374	eaffffab	b	0x267228 <_pcre_xclass+0x57c>
+267378	eaffffaa	b	0x267228 <_pcre_xclass+0x57c>
+26737c	eaffffa9	b	0x267228 <_pcre_xclass+0x57c>
+267380	eaffffa8	b	0x267228 <_pcre_xclass+0x57c>
+267384	eaffffa7	b	0x267228 <_pcre_xclass+0x57c>
+267388	ea00005e	b	0x267508 <_pcre_xclass+0x85c>
+26738c	ea000076	b	0x26756c <_pcre_xclass+0x8c0>
+267390	ea00006a	b	0x267540 <_pcre_xclass+0x894>
+267394	ea000081	b	0x2675a0 <_pcre_xclass+0x8f4>
+267398	ea00005a	b	0x267508 <_pcre_xclass+0x85c>
+26739c	eaffffa1	b	0x267228 <_pcre_xclass+0x57c>
+2673a0	ea000058	b	0x267508 <_pcre_xclass+0x85c>
+2673a4	ea00005d	b	0x267520 <_pcre_xclass+0x874>
+2673a8	ea000056	b	0x267508 <_pcre_xclass+0x85c>
+2673ac	eaffff9d	b	0x267228 <_pcre_xclass+0x57c>
+2673b0	eaffff9c	b	0x267228 <_pcre_xclass+0x57c>
+2673b4	eaffff9b	b	0x267228 <_pcre_xclass+0x57c>
+2673b8	ea00008b	b	0x2675ec <_pcre_xclass+0x940>
+2673bc	eaffff99	b	0x267228 <_pcre_xclass+0x57c>
+2673c0	ea00007e	b	0x2675c0 <_pcre_xclass+0x914>
+2673c4	eaffff97	b	0x267228 <_pcre_xclass+0x57c>
+2673c8	eaffff96	b	0x267228 <_pcre_xclass+0x57c>
+2673cc	eaffff95	b	0x267228 <_pcre_xclass+0x57c>
+2673d0	eaffff94	b	0x267228 <_pcre_xclass+0x57c>
+2673d4	eaffff93	b	0x267228 <_pcre_xclass+0x57c>
+2673d8	eaffff92	b	0x267228 <_pcre_xclass+0x57c>
+2673dc	eaffff91	b	0x267228 <_pcre_xclass+0x57c>
+2673e0	eaffff90	b	0x267228 <_pcre_xclass+0x57c>
+2673e4	eaffff8f	b	0x267228 <_pcre_xclass+0x57c>
+2673e8	eaffff8e	b	0x267228 <_pcre_xclass+0x57c>
+2673ec	eaffff8d	b	0x267228 <_pcre_xclass+0x57c>
+2673f0	eaffff8c	b	0x267228 <_pcre_xclass+0x57c>
+2673f4	eaffff8b	b	0x267228 <_pcre_xclass+0x57c>
+2673f8	eaffff8a	b	0x267228 <_pcre_xclass+0x57c>
+2673fc	eaffff89	b	0x267228 <_pcre_xclass+0x57c>
+267400	eaffff88	b	0x267228 <_pcre_xclass+0x57c>
+267404	eaffff87	b	0x267228 <_pcre_xclass+0x57c>
+267408	eaffff86	b	0x267228 <_pcre_xclass+0x57c>
+26740c	eaffff85	b	0x267228 <_pcre_xclass+0x57c>
+267410	eaffff84	b	0x267228 <_pcre_xclass+0x57c>
+267414	eaffff83	b	0x267228 <_pcre_xclass+0x57c>
+267418	eaffff82	b	0x267228 <_pcre_xclass+0x57c>
+26741c	eaffff81	b	0x267228 <_pcre_xclass+0x57c>
+267420	eaffff80	b	0x267228 <_pcre_xclass+0x57c>
+267424	eaffff7f	b	0x267228 <_pcre_xclass+0x57c>
+267428	eaffff7e	b	0x267228 <_pcre_xclass+0x57c>
+26742c	eaffff7d	b	0x267228 <_pcre_xclass+0x57c>
+267430	eaffff7c	b	0x267228 <_pcre_xclass+0x57c>
+267434	eaffff7b	b	0x267228 <_pcre_xclass+0x57c>
+267438	eaffff7a	b	0x267228 <_pcre_xclass+0x57c>
+26743c	eaffff79	b	0x267228 <_pcre_xclass+0x57c>
+267440	eaffff78	b	0x267228 <_pcre_xclass+0x57c>
+267444	eaffff77	b	0x267228 <_pcre_xclass+0x57c>
+267448	eaffff76	b	0x267228 <_pcre_xclass+0x57c>
+26744c	eaffff75	b	0x267228 <_pcre_xclass+0x57c>
+267450	eaffff74	b	0x267228 <_pcre_xclass+0x57c>
+267454	eaffff73	b	0x267228 <_pcre_xclass+0x57c>
+267458	eaffff72	b	0x267228 <_pcre_xclass+0x57c>
+26745c	eaffff71	b	0x267228 <_pcre_xclass+0x57c>
+267460	eaffff70	b	0x267228 <_pcre_xclass+0x57c>
+267464	eaffff6f	b	0x267228 <_pcre_xclass+0x57c>
+267468	eaffff6e	b	0x267228 <_pcre_xclass+0x57c>
+26746c	eaffff6d	b	0x267228 <_pcre_xclass+0x57c>
+267470	eaffff6c	b	0x267228 <_pcre_xclass+0x57c>
+267474	eaffff6b	b	0x267228 <_pcre_xclass+0x57c>
+267478	eaffff6a	b	0x267228 <_pcre_xclass+0x57c>
+26747c	eaffff69	b	0x267228 <_pcre_xclass+0x57c>
+267480	eaffff68	b	0x267228 <_pcre_xclass+0x57c>
+267484	eaffff67	b	0x267228 <_pcre_xclass+0x57c>
+267488	eaffff66	b	0x267228 <_pcre_xclass+0x57c>
+26748c	eaffff65	b	0x267228 <_pcre_xclass+0x57c>
+267490	eaffff64	b	0x267228 <_pcre_xclass+0x57c>
+267494	eaffff63	b	0x267228 <_pcre_xclass+0x57c>
+267498	eaffff62	b	0x267228 <_pcre_xclass+0x57c>
+26749c	eaffff61	b	0x267228 <_pcre_xclass+0x57c>
+2674a0	eaffff60	b	0x267228 <_pcre_xclass+0x57c>
+2674a4	eaffff5f	b	0x267228 <_pcre_xclass+0x57c>
+2674a8	eaffff5e	b	0x267228 <_pcre_xclass+0x57c>
+2674ac	eaffff5d	b	0x267228 <_pcre_xclass+0x57c>
+2674b0	eaffff5c	b	0x267228 <_pcre_xclass+0x57c>
+2674b4	eaffff5b	b	0x267228 <_pcre_xclass+0x57c>
+2674b8	eaffff5a	b	0x267228 <_pcre_xclass+0x57c>
+2674bc	eaffff59	b	0x267228 <_pcre_xclass+0x57c>
+2674c0	eaffff58	b	0x267228 <_pcre_xclass+0x57c>
+2674c4	eaffff57	b	0x267228 <_pcre_xclass+0x57c>
+2674c8	eaffff56	b	0x267228 <_pcre_xclass+0x57c>
+2674cc	eaffff55	b	0x267228 <_pcre_xclass+0x57c>
+2674d0	eaffff54	b	0x267228 <_pcre_xclass+0x57c>
+2674d4	eaffff53	b	0x267228 <_pcre_xclass+0x57c>
+2674d8	eaffff52	b	0x267228 <_pcre_xclass+0x57c>
+2674dc	eaffff51	b	0x267228 <_pcre_xclass+0x57c>
+2674e0	eaffff50	b	0x267228 <_pcre_xclass+0x57c>
+2674e4	eaffff4f	b	0x267228 <_pcre_xclass+0x57c>
+2674e8	eaffff4e	b	0x267228 <_pcre_xclass+0x57c>
+2674ec	eaffff4d	b	0x267228 <_pcre_xclass+0x57c>
+2674f0	eaffff4c	b	0x267228 <_pcre_xclass+0x57c>
+2674f4	eaffff4b	b	0x267228 <_pcre_xclass+0x57c>
+2674f8	eaffff4a	b	0x267228 <_pcre_xclass+0x57c>
+2674fc	ea00000c	b	0x267534 <_pcre_xclass+0x888>
+267500	ea000079	b	0x2676ec <_pcre_xclass+0xa40>
+267504	ea000041	b	0x267610 <_pcre_xclass+0x964>
+267508	e3500085	cmp	r0, #133
+26750c	0affff45	beq	0x267228 <_pcre_xclass+0x57c>
+267510	8a00009e	bhi	0x267790 <_pcre_xclass+0xae4>
+267514	e240000a	sub	r0, r0, #10
+267518	e3500003	cmp	r0, #3
+26751c	9affff41	bls	0x267228 <_pcre_xclass+0x57c>
+267520	e5b50004	ldr	r0, [r5, #0x4]!
+267524	e3700001	cmn	r0, #1
+267528	0a0000ed	beq	0x2678e4 <_pcre_xclass+0xc38>
+26752c	e5942000	ldr	r2, [r4]
+267530	eaffff85	b	0x26734c <_pcre_xclass+0x6a0>
+267534	e35000ff	cmp	r0, #255
+267538	8afffff8	bhi	0x267520 <_pcre_xclass+0x874>
+26753c	ea00006c	b	0x2676f4 <_pcre_xclass+0xa48>
+267540	e150000a	cmp	r0, r10
+267544	0affff37	beq	0x267228 <_pcre_xclass+0x57c>
+267548	9a0000c5	bls	0x267864 <_pcre_xclass+0xbb8>
+26754c	e302202f	movw	r2, #0x202f
+267550	e1500002	cmp	r0, r2
+267554	0affff33	beq	0x267228 <_pcre_xclass+0x57c>
+267558	8a0000e9	bhi	0x267904 <_pcre_xclass+0xc58>
+26755c	e2400a02	sub	r0, r0, #8192
+267560	e350000a	cmp	r0, #10
+267564	8affffed	bhi	0x267520 <_pcre_xclass+0x874>
+267568	eaffff2e	b	0x267228 <_pcre_xclass+0x57c>
+26756c	e150000a	cmp	r0, r10
+267570	0affffea	beq	0x267520 <_pcre_xclass+0x874>
+267574	9a0000c0	bls	0x26787c <_pcre_xclass+0xbd0>
+267578	e302202f	movw	r2, #0x202f
+26757c	e1500002	cmp	r0, r2
+267580	0affffe6	beq	0x267520 <_pcre_xclass+0x874>
+267584	9a000106	bls	0x2679a4 <_pcre_xclass+0xcf8>
+267588	e302205f	movw	r2, #0x205f
+26758c	e1500002	cmp	r0, r2
+267590	0affffe2	beq	0x267520 <_pcre_xclass+0x874>
+267594	e3500a03	cmp	r0, #12288
+267598	0affffe0	beq	0x267520 <_pcre_xclass+0x874>
+26759c	eaffff21	b	0x267228 <_pcre_xclass+0x57c>
+2675a0	e3500085	cmp	r0, #133
+2675a4	0affffdd	beq	0x267520 <_pcre_xclass+0x874>
+2675a8	9a0000bb	bls	0x26789c <_pcre_xclass+0xbf0>
+2675ac	e2402a02	sub	r2, r0, #8192
+2675b0	e2422028	sub	r2, r2, #40
+2675b4	e3520001	cmp	r2, #1
+2675b8	9affffd8	bls	0x267520 <_pcre_xclass+0x874>
+2675bc	eaffff19	b	0x267228 <_pcre_xclass+0x57c>
+2675c0	e1a01004	mov	r1, r4
+2675c4	e5b12008	ldr	r2, [r1, #0x8]!
+2675c8	ea000002	b	0x2675d8 <_pcre_xclass+0x92c>
+2675cc	e5b12004	ldr	r2, [r1, #0x4]!
+2675d0	e3720001	cmn	r2, #1
+2675d4	0affff13	beq	0x267228 <_pcre_xclass+0x57c>
+2675d8	e1500002	cmp	r0, r2
+2675dc	1afffffa	bne	0x2675cc <_pcre_xclass+0x920>
+2675e0	e3700001	cmn	r0, #1
+2675e4	1affffcd	bne	0x267520 <_pcre_xclass+0x874>
+2675e8	eaffff0e	b	0x267228 <_pcre_xclass+0x57c>
+2675ec	e1a01004	mov	r1, r4
+2675f0	e5b12008	ldr	r2, [r1, #0x8]!
+2675f4	ea000002	b	0x267604 <_pcre_xclass+0x958>
+2675f8	e5b12004	ldr	r2, [r1, #0x4]!
+2675fc	e3720001	cmn	r2, #1
+267600	0affffc6	beq	0x267520 <_pcre_xclass+0x874>
+267604	e1500002	cmp	r0, r2
+267608	1afffffa	bne	0x2675f8 <_pcre_xclass+0x94c>
+26760c	eaffff05	b	0x267228 <_pcre_xclass+0x57c>
+267610	e5941008	ldr	r1, [r4, #0x8]
+267614	e1540009	cmp	r4, r9
+267618	e59dc058	ldr	r12, [sp, #0x58]
+26761c	e1a02008	mov	r2, r8
+267620	e2611002	rsb	r1, r1, #2
+267624	01a0c006	moveq	r12, r6
+267628	e08c1001	add	r1, r12, r1
+26762c	e58d3008	str	r3, [sp, #0x8]
+267630	ebfffd9d	bl	0x266cac <_pcre_xclass>
+267634	e59d3008	ldr	r3, [sp, #0x8]
+267638	e3500000	cmp	r0, #0
+26763c	0affffb7	beq	0x267520 <_pcre_xclass+0x874>
+267640	eafffef8	b	0x267228 <_pcre_xclass+0x57c>
+267644	e35000fe	cmp	r0, #254
+267648	8affffb4	bhi	0x267520 <_pcre_xclass+0x874>
+26764c	e597200c	ldr	r2, [r7, #0xc]
+267650	e7d22000	ldrb	r2, [r2, r0]
+267654	e3120010	tst	r2, #16
+267658	0affffb0	beq	0x267520 <_pcre_xclass+0x874>
+26765c	eafffef1	b	0x267228 <_pcre_xclass+0x57c>
+267660	e35000ff	cmp	r0, #255
+267664	8afffeef	bhi	0x267228 <_pcre_xclass+0x57c>
+267668	e597200c	ldr	r2, [r7, #0xc]
+26766c	e7d22000	ldrb	r2, [r2, r0]
+267670	e3120010	tst	r2, #16
+267674	1affffa9	bne	0x267520 <_pcre_xclass+0x874>
+267678	eafffeea	b	0x267228 <_pcre_xclass+0x57c>
+26767c	e35000ff	cmp	r0, #255
+267680	8affffa6	bhi	0x267520 <_pcre_xclass+0x874>
+267684	e597200c	ldr	r2, [r7, #0xc]
+267688	e7d22000	ldrb	r2, [r2, r0]
+26768c	e3120001	tst	r2, #1
+267690	0affffa2	beq	0x267520 <_pcre_xclass+0x874>
+267694	eafffee3	b	0x267228 <_pcre_xclass+0x57c>
+267698	e35000ff	cmp	r0, #255
+26769c	8afffee1	bhi	0x267228 <_pcre_xclass+0x57c>
+2676a0	e597200c	ldr	r2, [r7, #0xc]
+2676a4	e7d22000	ldrb	r2, [r2, r0]
+2676a8	e3120001	tst	r2, #1
+2676ac	1affff9b	bne	0x267520 <_pcre_xclass+0x874>
+2676b0	eafffedc	b	0x267228 <_pcre_xclass+0x57c>
+2676b4	e35000ff	cmp	r0, #255
+2676b8	8affff98	bhi	0x267520 <_pcre_xclass+0x874>
+2676bc	e597200c	ldr	r2, [r7, #0xc]
+2676c0	e7d22000	ldrb	r2, [r2, r0]
+2676c4	e3120004	tst	r2, #4
+2676c8	0affff94	beq	0x267520 <_pcre_xclass+0x874>
+2676cc	eafffed5	b	0x267228 <_pcre_xclass+0x57c>
+2676d0	e35000ff	cmp	r0, #255
+2676d4	8afffed3	bhi	0x267228 <_pcre_xclass+0x57c>
+2676d8	e597200c	ldr	r2, [r7, #0xc]
+2676dc	e7d22000	ldrb	r2, [r2, r0]
+2676e0	e3120004	tst	r2, #4
+2676e4	1affff8d	bne	0x267520 <_pcre_xclass+0x874>
+2676e8	eafffece	b	0x267228 <_pcre_xclass+0x57c>
+2676ec	e35000ff	cmp	r0, #255
+2676f0	8afffecc	bhi	0x267228 <_pcre_xclass+0x57c>
+2676f4	e59dc058	ldr	r12, [sp, #0x58]
+2676f8	e1540009	cmp	r4, r9
+2676fc	e5941008	ldr	r1, [r4, #0x8]
+267700	e2002007	and	r2, r0, #7
+267704	01a0c006	moveq	r12, r6
+267708	e061100c	rsb	r1, r1, r12
+26770c	e7d111a0	ldrb	r1, [r1, r0, lsr #3]
+267710	e1a02251	asr	r2, r1, r2
+267714	e3120001	tst	r2, #1
+267718	0affff80	beq	0x267520 <_pcre_xclass+0x874>
+26771c	eafffec1	b	0x267228 <_pcre_xclass+0x57c>
+267720	e3580000	cmp	r8, #0
+267724	0a00003f	beq	0x267828 <_pcre_xclass+0xb7c>
+267728	e59d3018	ldr	r3, [sp, #0x18]
+26772c	e1a01006	mov	r1, r6
+267730	e0633004	rsb	r3, r3, r4
+267734	e352000a	cmp	r2, #10
+267738	0a000092	beq	0x267988 <_pcre_xclass+0xcdc>
+26773c	8a00005e	bhi	0x2678bc <_pcre_xclass+0xc10>
+267740	e3520007	cmp	r2, #7
+267744	0a000058	beq	0x2678ac <_pcre_xclass+0xc00>
+267748	9a000073	bls	0x26791c <_pcre_xclass+0xc70>
+26774c	e3520008	cmp	r2, #8
+267750	0a00008e	beq	0x267990 <_pcre_xclass+0xce4>
+267754	e3520009	cmp	r2, #9
+267758	1afffeb2	bne	0x267228 <_pcre_xclass+0x57c>
+26775c	e3a01000	mov	r1, #0
+267760	e5972008	ldr	r2, [r7, #0x8]
+267764	e3510000	cmp	r1, #0
+267768	e2831020	add	r1, r3, #32
+26776c	1a000002	bne	0x26777c <_pcre_xclass+0xad0>
+267770	ea000036	b	0x267850 <_pcre_xclass+0xba4>
+267774	e1510003	cmp	r1, r3
+267778	0afffe90	beq	0x2671c0 <_pcre_xclass+0x514>
+26777c	e4d2c001	ldrb	r12, [r2], #1
+267780	e4d30001	ldrb	r0, [r3], #1
+267784	e1d0000c	bics	r0, r0, r12
+267788	0afffff9	beq	0x267774 <_pcre_xclass+0xac8>
+26778c	eafffea5	b	0x267228 <_pcre_xclass+0x57c>
+267790	e2402a02	sub	r2, r0, #8192
+267794	e2422028	sub	r2, r2, #40
+267798	e3520001	cmp	r2, #1
+26779c	8affff5f	bhi	0x267520 <_pcre_xclass+0x874>
+2677a0	eafffea0	b	0x267228 <_pcre_xclass+0x57c>
+2677a4	e28d5018	add	r5, sp, #24
+2677a8	e1a03006	mov	r3, r6
+2677ac	eafffee1	b	0x267338 <_pcre_xclass+0x68c>
+2677b0	e59d205c	ldr	r2, [sp, #0x5c]
+2677b4	e5923000	ldr	r3, [r2]
+2677b8	e3530000	cmp	r3, #0
+2677bc	0afffe99	beq	0x267228 <_pcre_xclass+0x57c>
+2677c0	e59d2058	ldr	r2, [sp, #0x58]
+2677c4	e2433001	sub	r3, r3, #1
+2677c8	e59d005c	ldr	r0, [sp, #0x5c]
+2677cc	e1a01008	mov	r1, r8
+2677d0	e58d2000	str	r2, [sp]
+2677d4	e59d205c	ldr	r2, [sp, #0x5c]
+2677d8	e5803000	str	r3, [r0]
+2677dc	e1a00004	mov	r0, r4
+2677e0	e1a03006	mov	r3, r6
+2677e4	e28b4003	add	r4, r11, #3
+2677e8	e58d2004	str	r2, [sp, #0x4]
+2677ec	e1a02007	mov	r2, r7
+2677f0	ebfffe31	bl	0x2670bc <_pcre_xclass+0x410>
+2677f4	e3500000	cmp	r0, #0
+2677f8	0afffe8a	beq	0x267228 <_pcre_xclass+0x57c>
+2677fc	e5db5001	ldrb	r5, [r11, #0x1]
+267800	e5dbc002	ldrb	r12, [r11, #0x2]
+267804	e18cc405	orr	r12, r12, r5, lsl #8
+267808	e7fbc00c	ldrb	r12, [r11, r12]!
+26780c	e35c0077	cmp	r12, #119
+267810	1afffec0	bne	0x267318 <_pcre_xclass+0x66c>
+267814	e59d005c	ldr	r0, [sp, #0x5c]
+267818	e5903000	ldr	r3, [r0]
+26781c	e3530000	cmp	r3, #0
+267820	1affffe6	bne	0x2677c0 <_pcre_xclass+0xb14>
+267824	eafffe7f	b	0x267228 <_pcre_xclass+0x57c>
+267828	e352006f	cmp	r2, #111
+26782c	1affffbd	bne	0x267728 <_pcre_xclass+0xa7c>
+267830	e5963008	ldr	r3, [r6, #0x8]
+267834	e1a02001	mov	r2, r1
+267838	e59d0058	ldr	r0, [sp, #0x58]
+26783c	e1a01009	mov	r1, r9
+267840	e0633000	rsb	r3, r3, r0
+267844	eaffffba	b	0x267734 <_pcre_xclass+0xa88>
+267848	e1530001	cmp	r3, r1
+26784c	2afffe5b	bhs	0x2671c0 <_pcre_xclass+0x514>
+267850	e4d2c001	ldrb	r12, [r2], #1
+267854	e4d30001	ldrb	r0, [r3], #1
+267858	e11c0000	tst	r12, r0
+26785c	0afffff9	beq	0x267848 <_pcre_xclass+0xb9c>
+267860	eafffe70	b	0x267228 <_pcre_xclass+0x57c>
+267864	e3500020	cmp	r0, #32
+267868	0afffe6e	beq	0x267228 <_pcre_xclass+0x57c>
+26786c	8a00001f	bhi	0x2678f0 <_pcre_xclass+0xc44>
+267870	e3500009	cmp	r0, #9
+267874	1affff29	bne	0x267520 <_pcre_xclass+0x874>
+267878	eafffe6a	b	0x267228 <_pcre_xclass+0x57c>
+26787c	e3500020	cmp	r0, #32
+267880	0affff26	beq	0x267520 <_pcre_xclass+0x874>
+267884	9a000043	bls	0x267998 <_pcre_xclass+0xcec>
+267888	e35000a0	cmp	r0, #160
+26788c	0affff23	beq	0x267520 <_pcre_xclass+0x874>
+267890	e3500d5a	cmp	r0, #5760
+267894	0affff21	beq	0x267520 <_pcre_xclass+0x874>
+267898	eafffe62	b	0x267228 <_pcre_xclass+0x57c>
+26789c	e240000a	sub	r0, r0, #10
+2678a0	e3500003	cmp	r0, #3
+2678a4	9affff1d	bls	0x267520 <_pcre_xclass+0x874>
+2678a8	eafffe5e	b	0x267228 <_pcre_xclass+0x57c>
+2678ac	e3a01000	mov	r1, #0
+2678b0	e5972008	ldr	r2, [r7, #0x8]
+2678b4	e2822040	add	r2, r2, #64
+2678b8	eaffffa9	b	0x267764 <_pcre_xclass+0xab8>
+2678bc	e352006f	cmp	r2, #111
+2678c0	8a000019	bhi	0x26792c <_pcre_xclass+0xc80>
+2678c4	e352006e	cmp	r2, #110
+2678c8	2a000028	bhs	0x267970 <_pcre_xclass+0xcc4>
+2678cc	e352000b	cmp	r2, #11
+2678d0	1afffe54	bne	0x267228 <_pcre_xclass+0x57c>
+2678d4	e3a01000	mov	r1, #0
+2678d8	e5972008	ldr	r2, [r7, #0x8]
+2678dc	e28220a0	add	r2, r2, #160
+2678e0	eaffff9f	b	0x267764 <_pcre_xclass+0xab8>
+2678e4	e1a04006	mov	r4, r6
+2678e8	e1a06003	mov	r6, r3
+2678ec	eafffe33	b	0x2671c0 <_pcre_xclass+0x514>
+2678f0	e35000a0	cmp	r0, #160
+2678f4	0afffe4b	beq	0x267228 <_pcre_xclass+0x57c>
+2678f8	e3500d5a	cmp	r0, #5760
+2678fc	1affff07	bne	0x267520 <_pcre_xclass+0x874>
+267900	eafffe48	b	0x267228 <_pcre_xclass+0x57c>
+267904	e302205f	movw	r2, #0x205f
+267908	e1500002	cmp	r0, r2
+26790c	0afffe45	beq	0x267228 <_pcre_xclass+0x57c>
+267910	e3500a03	cmp	r0, #12288
+267914	1affff01	bne	0x267520 <_pcre_xclass+0x874>
+267918	eafffe42	b	0x267228 <_pcre_xclass+0x57c>
+26791c	e3520006	cmp	r2, #6
+267920	1afffe40	bne	0x267228 <_pcre_xclass+0x57c>
+267924	e3a01001	mov	r1, #1
+267928	eaffffe0	b	0x2678b0 <_pcre_xclass+0xc04>
+26792c	e3520070	cmp	r2, #112
+267930	1afffe3c	bne	0x267228 <_pcre_xclass+0x57c>
+267934	e59d2058	ldr	r2, [sp, #0x58]
+267938	e1510009	cmp	r1, r9
+26793c	e5910008	ldr	r0, [r1, #0x8]
+267940	01a02004	moveq	r2, r4
+267944	e2600002	rsb	r0, r0, #2
+267948	e1a01002	mov	r1, r2
+26794c	e0822000	add	r2, r2, r0
+267950	e7d11000	ldrb	r1, [r1, r0]
+267954	e3110004	tst	r1, #4
+267958	1afffe32	bne	0x267228 <_pcre_xclass+0x57c>
+26795c	e3110002	tst	r1, #2
+267960	0afffe16	beq	0x2671c0 <_pcre_xclass+0x514>
+267964	e2822001	add	r2, r2, #1
+267968	e2831020	add	r1, r3, #32
+26796c	eaffffb7	b	0x267850 <_pcre_xclass+0xba4>
+267970	e59d0058	ldr	r0, [sp, #0x58]
+267974	e1510009	cmp	r1, r9
+267978	e5912008	ldr	r2, [r1, #0x8]
+26797c	01a00004	moveq	r0, r4
+267980	e0622000	rsb	r2, r2, r0
+267984	eafffff7	b	0x267968 <_pcre_xclass+0xcbc>
+267988	e3a01001	mov	r1, #1
+26798c	eaffffd1	b	0x2678d8 <_pcre_xclass+0xc2c>
+267990	e3a01001	mov	r1, #1
+267994	eaffff71	b	0x267760 <_pcre_xclass+0xab4>
+267998	e3500009	cmp	r0, #9
+26799c	0afffedf	beq	0x267520 <_pcre_xclass+0x874>
+2679a0	eafffe20	b	0x267228 <_pcre_xclass+0x57c>
+2679a4	e2400a02	sub	r0, r0, #8192
+2679a8	e350000a	cmp	r0, #10
+2679ac	9afffedb	bls	0x267520 <_pcre_xclass+0x874>
+2679b0	eafffe1c	b	0x267228 <_pcre_xclass+0x57c>
+2679b4	00122a6c	andseq	r2, r2, r12, ror #20
+2679b8	0018a548	andseq	r10, r8, r8, asr #10

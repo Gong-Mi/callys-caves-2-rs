@@ -1,0 +1,33 @@
+# obj_boss2 Destroy_0 (CODE 164) over three obj_slime and two obj_fireslime.
+# Every target is swept exactly once: one Destroy run per instance, one
+# obj_smallpuff per target, and the kill counters count the targets, not the
+# sweeps.
+GLOBAL greenslimeskilled 3
+GLOBAL fireslimeskilled 2
+GLOBAL enemieskilled 5
+COUNT_INST 32 3
+COUNT_INST 33 2
+COUNT_INST 187 5
+COUNT_INST 154 1
+COUNT_INST 190 1
+INST 100001 32 0
+INST 100002 32 0
+INST 100003 32 0
+INST 100004 33 0
+INST 100005 33 0
+INST 100006 26 1
+INST 200001 187 1
+INST 200005 187 1
+FIELD 200001 x 100
+FIELD 200002 x 120
+FIELD 200003 x 140
+FIELD 200004 x 160
+FIELD 200005 x 180
+# The tail of the body runs on the boss again: Lloyd on its fixed spawn, and the
+# bosspuff on the caller's own x/y (300,200), not on the last swept target.
+INST 200006 154 1
+FIELD 200006 x 1024
+FIELD 200006 y 256
+INST 200007 190 1
+FIELD 200007 x 300
+FIELD 200007 y 200

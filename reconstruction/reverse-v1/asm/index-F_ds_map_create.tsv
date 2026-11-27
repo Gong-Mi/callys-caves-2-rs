@@ -1,0 +1,45 @@
+1000f4	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1000f8	e24dd008	sub	sp, sp, #8
+1000fc	e28d5004	add	r5, sp, #4
+100100	e1a04000	mov	r4, r0
+100104	e1a07003	mov	r7, r3
+100108	e1a00005	mov	r0, r5
+10010c	ebfffac1	bl	0xfec18 <_ZN12DS_AutoMutexC2Ev>
+100110	ebffffbf	bl	0x100014 <_Z18FindFreeDsMapIndexv>
+100114	e3570001	cmp	r7, #1
+100118	e1a06000	mov	r6, r0
+10011c	0a000011	beq	0x100168 <_Z13F_DsMapCreateR6RValueP9CInstanceS2_iPS_+0x74>
+100120	e3a00004	mov	r0, #4
+100124	eb05f0fe	bl	0x27c524 <_Znwj>
+100128	e1a07000	mov	r7, r0
+10012c	eb040d3c	bl	0x203624 <_ZN7CDS_MapC2Ev>
+100130	e59f3068	ldr	r3, [pc, #0x68]
+100134	e79f3003	ldr	r3, [pc, r3]
+100138	e5933004	ldr	r3, [r3, #0x4]
+10013c	e7837106	str	r7, [r3, r6, lsl #2]
+100140	ee076a90	vmov	s15, r6
+100144	e3a01000	mov	r1, #0
+100148	e1a00005	mov	r0, r5
+10014c	e584100c	str	r1, [r4, #0xc]
+100150	eeb87be7	vcvt.f64.s32	d7, s15
+100154	ec532b17	vmov	r2, r3, d7
+100158	e884000c	stm	r4, {r2, r3}
+10015c	ebfffac2	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+100160	e28dd008	add	sp, sp, #8
+100164	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+100168	e3a01000	mov	r1, #0
+10016c	e59d0020	ldr	r0, [sp, #0x20]
+100170	ebff39be	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+100174	e1a08000	mov	r8, r0
+100178	e3a00004	mov	r0, #4
+10017c	eb05f0e8	bl	0x27c524 <_Znwj>
+100180	e1a01008	mov	r1, r8
+100184	e1a07000	mov	r7, r0
+100188	eb040d3c	bl	0x203680 <_ZN7CDS_MapC2Ei>
+10018c	e59f3010	ldr	r3, [pc, #0x10]
+100190	e79f3003	ldr	r3, [pc, r3]
+100194	e5933004	ldr	r3, [r3, #0x4]
+100198	e7837106	str	r7, [r3, r6, lsl #2]
+10019c	eaffffe7	b	0x100140 <_Z13F_DsMapCreateR6RValueP9CInstanceS2_iPS_+0x4c>
+1001a0	002ed808	eoreq	sp, lr, r8, lsl #16
+1001a4	002ed7ac	eoreq	sp, lr, r12, lsr #15

@@ -1,0 +1,2786 @@
+{
+ "schema": "cally-var-resolve-diff/1",
+ "generated_utc": "2026-11-16T09:20:29Z",
+ "tier": "oracle_anchored",
+ "original_executed": true,
+ "evidence_layer": "synthetic memory oracle: the original ARM bytes at 0x1f3ce0 executed over staged .bss cells, hash tables, CObjectGM chains, scan lists and the room instance chain; its tail jump lands in the ORIGINAL Variable_GetValue_Direct @0x1f3b8c, with identical GET_RValue / InternalGetYYVar / builtin-getter stubs on both arms; NOT device execution",
+ "BINDING": {
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_sha256_pinned": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "entry": "0x1f3ce0",
+  "function": "_Z17Variable_GetValueiiiP6RValue",
+  "body_sha256": "1ded6227cd9af79e1ea4ddf5fd76ea72f5ad378aa2a2b6b4839a97aeab7739dc",
+  "header_sha256": "4f35159753ed425a0f97a6e8adcbf734acd9fc8e090b88b83159ab6015f4847e",
+  "driver_sha256": "57ffa4877256712dd6496f4878ab4b7d61fbeed02593455e258dfda8304edadb",
+  "linked_callee": {
+   "function": "_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue",
+   "entry": "0x1f3b8c",
+   "recovered_at": "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/variable_direct/src/variable_direct.c",
+   "body_sha256": "6fc631391e9234dee9d1a0782188f926131d55aaa44f81eb545a132ed0da4c39",
+   "arm": "real link on the claim arm; original bytes on the judge arm (not a stub)"
+  },
+  "got_slots": {
+   "0x3edd68": 7688284,
+   "0x3edc4c": 5467944,
+   "0x3edc44": 5514100,
+   "0x3edc48": 5515876,
+   "0x3edc50": 5515852,
+   "0x3ed930": 5515660
+  },
+  "got_slots_expected": {
+   "0x3edd68": "0x75505c",
+   "0x3edc4c": "0x536f28",
+   "0x3edc44": "0x542374",
+   "0x3edc48": "0x542a64",
+   "0x3edc50": "0x542a4c",
+   "0x3ed930": "0x54298c"
+  },
+  "got_match": true,
+  "got_rewritten": {
+   "0x3edc40": "builtin-variable table base -> the oracle heap table (10000 entries do not fit the image .bss)"
+  },
+  "stub_callees": [
+   "GET_RValue@0xd13bc",
+   "YYObjectBase::InternalGetYYVar@0x196a70",
+   "builtin-variable table entry fn"
+  ],
+  "build": "clang --target=armv7a-none-eabi (freestanding) + qemu-arm"
+ },
+ "scope": {
+  "covered": [
+   "dispatch: sel == -3 / sel < 0 / sel > 99999 / 0..99999, decided by the original's own three compares",
+   "room path: *(*(0x54298c))+0x80 head, next at +0x178 loaded before the gates, both liveness bytes",
+   "id path: ms_ID2InstanceE bucket = id & table mask, 8 B buckets, node {+4 next, +8 id, +0xc inst}, full 32-bit key, only +0x68 gated (+0x69 deliberately not read)",
+   "object path: g_ObjectHash is a POINTER VARIABLE (the extra deref at 0x1f3e84), CObjectGM +0xd0 chain {+0 next, +8 inst}, both liveness bytes",
+   "both fallback lists (0x542a64 / 0x542a4c): 12 B {items, pad, count}, count <= 0 skipped, 4 B elements, ancestor walk via +0x48 comparing +0x18, both liveness bytes, scan order",
+   "return contract: Direct's return passed through (tail jump), 0 on every failure exit",
+   "failure semantics: return 0 + flag 0x75505c = 1 + out byte-identical to the caller's preset (0x00FFFFFF tag kept)",
+   "varid / arrindex passthrough: slot deltas, builtin dispatch, the [10000,99999] gap, negative varid, INT_MIN/INT_MAX arrindex",
+   "Variable_GetValue_Direct runs for real on both arms"
+  ],
+  "not_covered": [
+   "GET_RValue@0xd13bc semantics - stubbed identically on both arms, NOT recovered; a green run does not prove it",
+   "YYObjectBase::InternalGetYYVar@0x196a70 - stubbed; every staged instance has a non-NULL variable table so the lazy path is never entered",
+   "builtin-variable getter semantics - stubbed identical page",
+   "the class identity of the two fallback lists and their +4 field (never read by this body) - cards/Variable_GetValue.c open 1",
+   "varid in [10000,99999] reaching Direct with a negative slot index: the arithmetic is pinned, whether the name table can emit such an id is not (card open 2)",
+   "other callers passing -1/-2 (card open 3)",
+   "device behaviour: this is a synthetic-memory oracle over the original bytes, not execution on a phone"
+  ],
+  "observability": [
+   "every staged instance has +0x24 = 1 (a non-empty variable table), so a successful resolve always reaches GET_RValue or the builtin getter - that is what makes the resolved instance observable on BOTH arms without reading a register the translation could fake",
+   "every instance has its own 16 B-slot window of region S, so a G line slot delta encodes (instance, slot) even when the slot index is negative",
+   "a failure case cannot say WHICH instance the original had picked before it gave up - there is nothing to observe"
+  ],
+  "staging_geometry": {
+   "shared": "the write program is one description interpreted by both arms; only the region bases differ (the judge arm uses the image's own .bss cells for the six globals, the claim arm its own symbols)",
+   "regions": {
+    "I": {
+     "count": 8,
+     "stride": 384
+    },
+    "O": {
+     "count": 4,
+     "stride": 256
+    },
+    "B": {
+     "count": 8,
+     "stride": 16
+    },
+    "C": {
+     "count": 6,
+     "stride": 12
+    },
+    "L": {
+     "count": 8,
+     "stride": 4
+    },
+    "S": {
+     "count": 8,
+     "stride": 64
+    },
+    "T": {
+     "count": 1,
+     "stride": 12
+    },
+    "U": {
+     "count": 1,
+     "stride": 12
+    },
+    "K": {
+     "count": 512,
+     "stride": 8
+    },
+    "V": {
+     "count": 512,
+     "stride": 8
+    },
+    "R": {
+     "count": 1,
+     "stride": 136
+    },
+    "Q": {
+     "count": 1,
+     "stride": 12
+    },
+    "W": {
+     "count": 1,
+     "stride": 12
+    },
+    "G": {
+     "count": 1,
+     "stride": 4
+    },
+    "Y": {
+     "count": 1,
+     "stride": 4
+    },
+    "X": {
+     "count": 1,
+     "stride": 16
+    }
+   }
+  }
+ },
+ "findings": [
+  "the body has TWO indirection levels on the object hash and on the room, not three: 0x1f3e84 / 0x1f3f14 are the single extra load that turns the pointer variable into the structure.  The first translation added a third level on the room path (a \"holder\" whose word 0 is the CRoom*) and the differential caught it as five room cases where the original returned 0/flag 1 while the claim arm resolved an instance - the staging was symmetric, the C body was not.",
+  "the two fallback lists are gated by a SIGNED count compare (ble on +8), so a negative count skips the list exactly like a zero one (case E14).",
+  "the id path really reads only +0x68: case C5 resolves a deactivated instance by id, while C4 fails on a destroyed one; the mutant that adds the +0x69 test to the id path is caught by exactly that pair.",
+  "the arithmetical \"equal\" bit of scan list 2 (subs/rsbs/adcs) collapses to (sel == index) - the translation keeps the flag chain and the collapse is stated at the adcs line."
+ ],
+ "instruction_census": {
+  "instructions": 164,
+  "documented": 164,
+  "wrong": [],
+  "pool_words": 7,
+  "pool_missing": [],
+  "ok": true
+ },
+ "cases": 54,
+ "repeat": {
+  "original": true,
+  "rebuild": true,
+  "original_log_sha256": [
+   "cbf0a8fe9fdb92806c72d9ad61370a45f0ee309fd6344f2048c0f846420e74b3",
+   "cbf0a8fe9fdb92806c72d9ad61370a45f0ee309fd6344f2048c0f846420e74b3"
+  ],
+  "rebuild_log_sha256": [
+   "cbf0a8fe9fdb92806c72d9ad61370a45f0ee309fd6344f2048c0f846420e74b3",
+   "cbf0a8fe9fdb92806c72d9ad61370a45f0ee309fd6344f2048c0f846420e74b3"
+  ]
+ },
+ "rows": [
+  {
+   "case": [
+    -3,
+    100000,
+    -2147483648
+   ],
+   "label": "A1 room chain empty -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    100000,
+    -2147483648
+   ],
+   "label": "A2 room head live -> hit inst0",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    100000,
+    -2147483648
+   ],
+   "label": "A3 head destroyed, successor live -> hit inst1",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    100000,
+    -2147483648
+   ],
+   "label": "A4 head deactivated, successor live -> hit inst1",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    100000,
+    -2147483648
+   ],
+   "label": "A5 all gated: dead -> deactivated -> dead -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    100000,
+    -2147483648
+   ],
+   "label": "A6 head destroyed, no successor -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    100002,
+    2147483647
+   ],
+   "label": "A7 room hit, slot 2, arrindex INT_MAX",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      2147483647,
+      224
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      2147483647,
+      224
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -1,
+    100000,
+    -2147483648
+   ],
+   "label": "B1 sel -1 -> fail even though room and scan1 would match",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -2,
+    100000,
+    -2147483648
+   ],
+   "label": "B2 sel -2 -> fail even though room and scan1 would match",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -4,
+    100000,
+    -2147483648
+   ],
+   "label": "B3 sel -4 -> fail even though room and scan1 would match",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100000,
+    100000,
+    -2147483648
+   ],
+   "label": "C1 id bucket empty -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100000,
+    100000,
+    -2147483648
+   ],
+   "label": "C2 same-bucket collision then hit -> inst0",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100000,
+    100000,
+    -2147483648
+   ],
+   "label": "C3 key hit, value NULL -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100000,
+    100000,
+    -2147483648
+   ],
+   "label": "C4 key hit, instance destroyed -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100000,
+    100000,
+    -2147483648
+   ],
+   "label": "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100001,
+    100001,
+    -2147483648
+   ],
+   "label": "C6 key hit, live -> hit inst2",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      144
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      144
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100002,
+    100000,
+    -2147483648
+   ],
+   "label": "C7 chain walks to the tail without a hit -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100003,
+    100000,
+    -2147483648
+   ],
+   "label": "C8 mask 7: bucket 3 holds the hit",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2147483647,
+    100000,
+    -2147483648
+   ],
+   "label": "C9 INT_MAX id, empty bucket -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100500,
+    100003,
+    -1
+   ],
+   "label": "C10 id hit, slot 3, arrindex -1",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -1,
+      304
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -1,
+      304
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100352,
+    100000,
+    -2147483648
+   ],
+   "label": "C11 id hit in bucket 0",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      192
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      192
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    0,
+    100000,
+    -2147483648
+   ],
+   "label": "D1 object bucket empty, both scans empty -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    1,
+    100000,
+    -2147483648
+   ],
+   "label": "D2 object chain, key never matches -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    1,
+    100000,
+    -2147483648
+   ],
+   "label": "D3 key hit, CObjectGM NULL -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    1,
+    100000,
+    -2147483648
+   ],
+   "label": "D4 key hit, CObjectGM without a chain -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    1,
+    100000,
+    -2147483648
+   ],
+   "label": "D5 chain head without an instance -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    100000,
+    -2147483648
+   ],
+   "label": "D6 chain: first node destroyed, second live -> hit inst1",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    100000,
+    -2147483648
+   ],
+   "label": "D7 chain: only node dead -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    100000,
+    -2147483648
+   ],
+   "label": "D8 chain: first node live -> hit inst0",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    100000,
+    -2147483648
+   ],
+   "label": "D11 chain: node 0 deactivated, node 1 live -> hit inst1",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    8,
+    100000,
+    -2147483648
+   ],
+   "label": "D9 object mask 7: bucket 0 holds the hit",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      320
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      320
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    99999,
+    100000,
+    -2147483648
+   ],
+   "label": "D10 boundary 99999 stays on the object path",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      384
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      384
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E1 scan1 direct object match -> hit inst0",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E2 scan1 ancestor match (parent chain) -> hit inst0",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      0
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E3 scan1 ancestor chain without a match -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E4 scan1 element without an object -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E5 scan1 two matches, first destroyed -> hit inst1",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      64
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E6 scan1 match but deactivated -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E7 scan1 match but destroyed -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E8 scan1 empty, scan2 match -> hit inst5",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      320
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      320
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E9 both lists would hit; scan1 wins -> hit inst2",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      128
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      128
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E10 scan2 skips a objectless element -> hit inst6",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      384
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      384
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E11 scan2 ancestor match -> hit inst6",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      384
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      384
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E12 scan2: destroyed match, then a live one -> hit inst7",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      448
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      448
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E13 scan2 match but deactivated -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E14 scan1 count -1 is skipped, scan2 hits",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      320
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      320
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E15 scan2 destroyed match then chain end -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5,
+    100000,
+    -2147483648
+   ],
+   "label": "E16 scan2 ancestor chain without a match -> fail",
+   "original": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+    "flag": 1,
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    100001,
+    2147483647
+   ],
+   "label": "F1 slot 1, arrindex INT_MAX",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      2147483647,
+      208
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      2147483647,
+      208
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    100003,
+    -1
+   ],
+   "label": "F2 slot 3, arrindex -1",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -1,
+      240
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -1,
+      240
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    5000,
+    7
+   ],
+   "label": "F3 builtin variable number -> fn(obj, 7, out)",
+   "original": {
+    "ret": 4369,
+    "out": "5455565758595a5b5c5d5e5f60616263",
+    "flag": 0,
+    "calls": [
+     [
+      "B",
+      4,
+      7
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4369,
+    "out": "5455565758595a5b5c5d5e5f60616263",
+    "flag": 0,
+    "calls": [
+     [
+      "B",
+      4,
+      7
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    50000,
+    -2147483648
+   ],
+   "label": "F4 varid in the unguarded gap -> negative slot",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      -799744
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      -799744
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    2,
+    -7,
+    -2147483648
+   ],
+   "label": "F5 negative varid -> slot path, negative delta",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      -1600048
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      -1600048
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -3,
+    100000,
+    -2147483648
+   ],
+   "label": "F6 room hit with the scalar arrindex sentinel",
+   "original": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      256
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "303132333435363738393a3b3c3d3e3f",
+    "flag": 0,
+    "calls": [
+     [
+      "G",
+      -2147483648,
+      256
+     ]
+    ]
+   },
+   "equal": true
+  }
+ ],
+ "coverage": {
+  "entry_clears_flag": true,
+  "dispatch_all_m3": true,
+  "dispatch_negative": true,
+  "dispatch_instance_id": true,
+  "dispatch_object_index": true,
+  "id_bucket_empty": true,
+  "id_chain_walk": true,
+  "id_chain_end": true,
+  "id_value_null": true,
+  "id_destroyed": true,
+  "id_hit": true,
+  "id_gate_passes_0x68_clear": true,
+  "obj_bucket_empty": true,
+  "obj_chain_walk": true,
+  "obj_chain_end": true,
+  "obj_value_null": true,
+  "obj_no_instance_chain": true,
+  "obj_node_inst_null": true,
+  "obj_skip_destroyed": true,
+  "obj_skip_deactivated": true,
+  "obj_chain_hit": true,
+  "scan1_count_zero": true,
+  "scan1_element_no_object": true,
+  "scan1_ancestor_walk": true,
+  "scan1_no_match": true,
+  "scan1_skip_destroyed": true,
+  "scan1_skip_deactivated": true,
+  "scan1_hit": true,
+  "scan1_loop_next": true,
+  "scan2_count_zero": true,
+  "scan2_element_no_object": true,
+  "scan2_ancestor_walk": true,
+  "scan2_no_match": true,
+  "scan2_skip_destroyed": true,
+  "scan2_skip_deactivated": true,
+  "scan2_hit": true,
+  "scan2_loop_next": true,
+  "fail_flag_store": true,
+  "fail_return_bx_lr": true,
+  "room_chain_empty": true,
+  "room_chain_end": true,
+  "room_skip_destroyed": true,
+  "room_skip_deactivated": true,
+  "room_hit": true,
+  "scan1_hit_exit": true,
+  "scan2_hit_exit": true,
+  "out_untouched_on_failure": true,
+  "flag_clear_on_success": true
+ },
+ "coverage_witness": {
+  "entry_clears_flag": [
+   "A1 room chain empty -> fail",
+   "A2 room head live -> hit inst0"
+  ],
+  "dispatch_all_m3": [
+   "A1 room chain empty -> fail",
+   "A2 room head live -> hit inst0"
+  ],
+  "dispatch_negative": [
+   "B1 sel -1 -> fail even though room and scan1 would match",
+   "B2 sel -2 -> fail even though room and scan1 would match"
+  ],
+  "dispatch_instance_id": [
+   "C1 id bucket empty -> fail",
+   "C2 same-bucket collision then hit -> inst0"
+  ],
+  "dispatch_object_index": [
+   "D1 object bucket empty, both scans empty -> fail",
+   "D2 object chain, key never matches -> fail"
+  ],
+  "id_bucket_empty": [
+   "C1 id bucket empty -> fail",
+   "C9 INT_MAX id, empty bucket -> fail"
+  ],
+  "id_chain_walk": [
+   "C2 same-bucket collision then hit -> inst0",
+   "C7 chain walks to the tail without a hit -> fail"
+  ],
+  "id_chain_end": [
+   "C7 chain walks to the tail without a hit -> fail"
+  ],
+  "id_value_null": [
+   "C3 key hit, value NULL -> fail"
+  ],
+  "id_destroyed": [
+   "C4 key hit, instance destroyed -> fail"
+  ],
+  "id_hit": [
+   "C2 same-bucket collision then hit -> inst0",
+   "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)"
+  ],
+  "id_gate_passes_0x68_clear": [
+   "C2 same-bucket collision then hit -> inst0",
+   "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)"
+  ],
+  "obj_bucket_empty": [
+   "D1 object bucket empty, both scans empty -> fail",
+   "E1 scan1 direct object match -> hit inst0"
+  ],
+  "obj_chain_walk": [
+   "D2 object chain, key never matches -> fail"
+  ],
+  "obj_chain_end": [
+   "D2 object chain, key never matches -> fail"
+  ],
+  "obj_value_null": [
+   "D3 key hit, CObjectGM NULL -> fail"
+  ],
+  "obj_no_instance_chain": [
+   "D4 key hit, CObjectGM without a chain -> fail",
+   "D7 chain: only node dead -> fail"
+  ],
+  "obj_node_inst_null": [
+   "D5 chain head without an instance -> fail"
+  ],
+  "obj_skip_destroyed": [
+   "D6 chain: first node destroyed, second live -> hit inst1",
+   "D7 chain: only node dead -> fail"
+  ],
+  "obj_skip_deactivated": [
+   "D11 chain: node 0 deactivated, node 1 live -> hit inst1"
+  ],
+  "obj_chain_hit": [
+   "D6 chain: first node destroyed, second live -> hit inst1",
+   "D8 chain: first node live -> hit inst0"
+  ],
+  "scan1_count_zero": [
+   "D1 object bucket empty, both scans empty -> fail",
+   "D2 object chain, key never matches -> fail"
+  ],
+  "scan1_element_no_object": [
+   "E4 scan1 element without an object -> fail"
+  ],
+  "scan1_ancestor_walk": [
+   "E2 scan1 ancestor match (parent chain) -> hit inst0",
+   "E3 scan1 ancestor chain without a match -> fail"
+  ],
+  "scan1_no_match": [
+   "E3 scan1 ancestor chain without a match -> fail"
+  ],
+  "scan1_skip_destroyed": [
+   "E5 scan1 two matches, first destroyed -> hit inst1",
+   "E7 scan1 match but destroyed -> fail"
+  ],
+  "scan1_skip_deactivated": [
+   "E6 scan1 match but deactivated -> fail"
+  ],
+  "scan1_hit": [
+   "E1 scan1 direct object match -> hit inst0",
+   "E2 scan1 ancestor match (parent chain) -> hit inst0"
+  ],
+  "scan1_loop_next": [
+   "E5 scan1 two matches, first destroyed -> hit inst1"
+  ],
+  "scan2_count_zero": [
+   "D1 object bucket empty, both scans empty -> fail",
+   "D2 object chain, key never matches -> fail"
+  ],
+  "scan2_element_no_object": [
+   "E10 scan2 skips a objectless element -> hit inst6"
+  ],
+  "scan2_ancestor_walk": [
+   "E11 scan2 ancestor match -> hit inst6",
+   "E16 scan2 ancestor chain without a match -> fail"
+  ],
+  "scan2_no_match": [
+   "E16 scan2 ancestor chain without a match -> fail"
+  ],
+  "scan2_skip_destroyed": [
+   "E12 scan2: destroyed match, then a live one -> hit inst7",
+   "E15 scan2 destroyed match then chain end -> fail"
+  ],
+  "scan2_skip_deactivated": [
+   "E13 scan2 match but deactivated -> fail"
+  ],
+  "scan2_hit": [
+   "E8 scan1 empty, scan2 match -> hit inst5",
+   "E10 scan2 skips a objectless element -> hit inst6"
+  ],
+  "scan2_loop_next": [
+   "E10 scan2 skips a objectless element -> hit inst6",
+   "E12 scan2: destroyed match, then a live one -> hit inst7"
+  ],
+  "fail_flag_store": [
+   "A1 room chain empty -> fail",
+   "A5 all gated: dead -> deactivated -> dead -> fail"
+  ],
+  "fail_return_bx_lr": [
+   "A1 room chain empty -> fail",
+   "A5 all gated: dead -> deactivated -> dead -> fail"
+  ],
+  "room_chain_empty": [
+   "A1 room chain empty -> fail"
+  ],
+  "room_chain_end": [
+   "A5 all gated: dead -> deactivated -> dead -> fail",
+   "A6 head destroyed, no successor -> fail"
+  ],
+  "room_skip_destroyed": [
+   "A3 head destroyed, successor live -> hit inst1",
+   "A5 all gated: dead -> deactivated -> dead -> fail"
+  ],
+  "room_skip_deactivated": [
+   "A4 head deactivated, successor live -> hit inst1",
+   "A5 all gated: dead -> deactivated -> dead -> fail"
+  ],
+  "room_hit": [
+   "A2 room head live -> hit inst0",
+   "A3 head destroyed, successor live -> hit inst1"
+  ],
+  "scan1_hit_exit": [
+   "E1 scan1 direct object match -> hit inst0",
+   "E2 scan1 ancestor match (parent chain) -> hit inst0"
+  ],
+  "scan2_hit_exit": [
+   "E8 scan1 empty, scan2 match -> hit inst5",
+   "E10 scan2 skips a objectless element -> hit inst6"
+  ],
+  "out_untouched_on_failure": [
+   "A1 room chain empty -> fail",
+   "A5 all gated: dead -> deactivated -> dead -> fail"
+  ],
+  "flag_clear_on_success": [
+   "A2 room head live -> hit inst0",
+   "A3 head destroyed, successor live -> hit inst1"
+  ]
+ },
+ "teeth": [
+  {
+   "mutant": "boundary_99999_off_by_one",
+   "caught_by": [
+    "D10 boundary 99999 stays on the object path"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "D10 boundary 99999 stays on the object path",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       384
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "negative_gate_dropped",
+   "caught_by": [
+    "B1 sel -1 -> fail even though room and scan1 would match",
+    "B2 sel -2 -> fail even though room and scan1 would match",
+    "B3 sel -4 -> fail even though room and scan1 would match"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "B1 sel -1 -> fail even though room and scan1 would match",
+    "ret": {
+     "original": 0,
+     "mutant": 8738
+    },
+    "flag": {
+     "original": 1,
+     "mutant": 0
+    },
+    "out": {
+     "original": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+     "mutant": "303132333435363738393a3b3c3d3e3f"
+    },
+    "calls": {
+     "original": [],
+     "mutant": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "all_branch_constant_m4",
+   "caught_by": [
+    "A2 room head live -> hit inst0",
+    "A3 head destroyed, successor live -> hit inst1",
+    "A4 head deactivated, successor live -> hit inst1",
+    "A7 room hit, slot 2, arrindex INT_MAX",
+    "B3 sel -4 -> fail even though room and scan1 would match",
+    "F6 room hit with the scalar arrindex sentinel"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "A2 room head live -> hit inst0",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "inst_table_extra_indirection",
+   "caught_by": [
+    "C11 id hit in bucket 0"
+   ],
+   "aborted_cases": [
+    "C1 id bucket empty -> fail",
+    "C2 same-bucket collision then hit -> inst0",
+    "C3 key hit, value NULL -> fail",
+    "C4 key hit, instance destroyed -> fail",
+    "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)",
+    "C6 key hit, live -> hit inst2",
+    "C7 chain walks to the tail without a hit -> fail",
+    "C8 mask 7: bucket 3 holds the hit",
+    "C9 INT_MAX id, empty bucket -> fail",
+    "C10 id hit, slot 3, arrindex -1"
+   ],
+   "mode": "mismatch+driver-abort",
+   "field_level": true,
+   "passed": true,
+   "batch_detail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+   "abort_detail": {
+    "C1 id bucket empty -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C2 same-bucket collision then hit -> inst0": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C3 key hit, value NULL -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C4 key hit, instance destroyed -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C6 key hit, live -> hit inst2": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C7 chain walks to the tail without a hit -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C8 mask 7: bucket 3 holds the hit": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C9 INT_MAX id, empty bucket -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "C10 id hit, slot 3, arrindex -1": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped"
+   },
+   "sample_mismatch": {
+    "case": "C11 id hit in bucket 0",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       192
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "inst_mask_hardcoded_511",
+   "caught_by": [
+    "C8 mask 7: bucket 3 holds the hit"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "C8 mask 7: bucket 3 holds the hit",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       64
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "obj_mask_hardcoded_511",
+   "caught_by": [
+    "D9 object mask 7: bucket 0 holds the hit"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "D9 object mask 7: bucket 0 holds the hit",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       320
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "id_key_offset_0x8_to_0xc",
+   "caught_by": [
+    "C2 same-bucket collision then hit -> inst0",
+    "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)",
+    "C6 key hit, live -> hit inst2",
+    "C8 mask 7: bucket 3 holds the hit",
+    "C10 id hit, slot 3, arrindex -1",
+    "C11 id hit in bucket 0"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "C2 same-bucket collision then hit -> inst0",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "id_path_checks_0x69_too",
+   "caught_by": [
+    "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "scan1_drops_0x69_gate",
+   "caught_by": [
+    "E6 scan1 match but deactivated -> fail"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "E6 scan1 match but deactivated -> fail",
+    "ret": {
+     "original": 0,
+     "mutant": 8738
+    },
+    "flag": {
+     "original": 1,
+     "mutant": 0
+    },
+    "out": {
+     "original": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+     "mutant": "303132333435363738393a3b3c3d3e3f"
+    },
+    "calls": {
+     "original": [],
+     "mutant": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "scan2_drops_0x68_gate",
+   "caught_by": [
+    "E12 scan2: destroyed match, then a live one -> hit inst7",
+    "E15 scan2 destroyed match then chain end -> fail"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "E12 scan2: destroyed match, then a live one -> hit inst7",
+    "ret": {
+     "original": 8738,
+     "mutant": 8738
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "303132333435363738393a3b3c3d3e3f"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       448
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       -2147483648,
+       256
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "scan1_ancestor_no_walk",
+   "caught_by": [
+    "E2 scan1 ancestor match (parent chain) -> hit inst0"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "E2 scan1 ancestor match (parent chain) -> hit inst0",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "scan1_reads_list2_items",
+   "caught_by": [
+    "E9 both lists would hit; scan1 wins -> hit inst2"
+   ],
+   "aborted_cases": [
+    "E1 scan1 direct object match -> hit inst0",
+    "E2 scan1 ancestor match (parent chain) -> hit inst0",
+    "E3 scan1 ancestor chain without a match -> fail",
+    "E4 scan1 element without an object -> fail",
+    "E5 scan1 two matches, first destroyed -> hit inst1",
+    "E6 scan1 match but deactivated -> fail",
+    "E7 scan1 match but destroyed -> fail"
+   ],
+   "mode": "mismatch+driver-abort",
+   "field_level": true,
+   "passed": true,
+   "batch_detail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+   "abort_detail": {
+    "E1 scan1 direct object match -> hit inst0": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "E2 scan1 ancestor match (parent chain) -> hit inst0": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "E3 scan1 ancestor chain without a match -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "E4 scan1 element without an object -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "E5 scan1 two matches, first destroyed -> hit inst1": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "E6 scan1 match but deactivated -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+    "E7 scan1 match but destroyed -> fail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped"
+   },
+   "sample_mismatch": {
+    "case": "E9 both lists would hit; scan1 wins -> hit inst2",
+    "ret": {
+     "original": 8738,
+     "mutant": 8738
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "303132333435363738393a3b3c3d3e3f"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       128
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       -2147483648,
+       320
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "scan1_count_offset_plus4",
+   "caught_by": [
+    "E1 scan1 direct object match -> hit inst0",
+    "E2 scan1 ancestor match (parent chain) -> hit inst0",
+    "E5 scan1 two matches, first destroyed -> hit inst1",
+    "E9 both lists would hit; scan1 wins -> hit inst2"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "E1 scan1 direct object match -> hit inst0",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "scan_item_stride_8",
+   "caught_by": [
+    "E5 scan1 two matches, first destroyed -> hit inst1"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "E5 scan1 two matches, first destroyed -> hit inst1",
+    "ret": {
+     "original": 8738,
+     "mutant": 8738
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "303132333435363738393a3b3c3d3e3f"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       64
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       -2147483648,
+       128
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "chain_next_offset_0_to_4",
+   "caught_by": [
+    "D6 chain: first node destroyed, second live -> hit inst1",
+    "D11 chain: node 0 deactivated, node 1 live -> hit inst1"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "D6 chain: first node destroyed, second live -> hit inst1",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       64
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "ogm_chain_head_0xd0_to_0xd4",
+   "caught_by": [
+    "D6 chain: first node destroyed, second live -> hit inst1",
+    "D8 chain: first node live -> hit inst0",
+    "D11 chain: node 0 deactivated, node 1 live -> hit inst1",
+    "D9 object mask 7: bucket 0 holds the hit",
+    "D10 boundary 99999 stays on the object path",
+    "F1 slot 1, arrindex INT_MAX",
+    "F2 slot 3, arrindex -1",
+    "F3 builtin variable number -> fn(obj, 7, out)",
+    "F4 varid in the unguarded gap -> negative slot",
+    "F5 negative varid -> slot path, negative delta"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "D6 chain: first node destroyed, second live -> hit inst1",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       64
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "room_next_offset_0x178_to_0x17c",
+   "caught_by": [
+    "A3 head destroyed, successor live -> hit inst1",
+    "A4 head deactivated, successor live -> hit inst1"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "A3 head destroyed, successor live -> hit inst1",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       64
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "room_head_offset_0x80_to_0x84",
+   "caught_by": [
+    "A2 room head live -> hit inst0",
+    "A3 head destroyed, successor live -> hit inst1",
+    "A4 head deactivated, successor live -> hit inst1",
+    "A7 room hit, slot 2, arrindex INT_MAX",
+    "F6 room hit with the scalar arrindex sentinel"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "A2 room head live -> hit inst0",
+    "ret": {
+     "original": 8738,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "failure_flag_not_set",
+   "caught_by": [
+    "A1 room chain empty -> fail",
+    "A5 all gated: dead -> deactivated -> dead -> fail",
+    "A6 head destroyed, no successor -> fail",
+    "B1 sel -1 -> fail even though room and scan1 would match",
+    "B2 sel -2 -> fail even though room and scan1 would match",
+    "B3 sel -4 -> fail even though room and scan1 would match",
+    "C1 id bucket empty -> fail",
+    "C3 key hit, value NULL -> fail",
+    "C4 key hit, instance destroyed -> fail",
+    "C7 chain walks to the tail without a hit -> fail",
+    "C9 INT_MAX id, empty bucket -> fail",
+    "D1 object bucket empty, both scans empty -> fail",
+    "D2 object chain, key never matches -> fail",
+    "D3 key hit, CObjectGM NULL -> fail",
+    "D4 key hit, CObjectGM without a chain -> fail",
+    "D5 chain head without an instance -> fail",
+    "D7 chain: only node dead -> fail",
+    "E3 scan1 ancestor chain without a match -> fail",
+    "E4 scan1 element without an object -> fail",
+    "E6 scan1 match but deactivated -> fail",
+    "E7 scan1 match but destroyed -> fail",
+    "E13 scan2 match but deactivated -> fail",
+    "E15 scan2 destroyed match then chain end -> fail",
+    "E16 scan2 ancestor chain without a match -> fail"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "A1 room chain empty -> fail",
+    "ret": {
+     "original": 0,
+     "mutant": 0
+    },
+    "flag": {
+     "original": 1,
+     "mutant": 0
+    },
+    "out": {
+     "original": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee",
+     "mutant": "ffffff00eeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    }
+   }
+  },
+  {
+   "mutant": "entry_flag_not_cleared",
+   "caught_by": [
+    "A2 room head live -> hit inst0",
+    "A3 head destroyed, successor live -> hit inst1",
+    "A4 head deactivated, successor live -> hit inst1",
+    "A7 room hit, slot 2, arrindex INT_MAX",
+    "C2 same-bucket collision then hit -> inst0",
+    "C5 key hit, instance DEACTIVATED -> still hit (only +0x68 is read)",
+    "C6 key hit, live -> hit inst2",
+    "C8 mask 7: bucket 3 holds the hit",
+    "C10 id hit, slot 3, arrindex -1",
+    "C11 id hit in bucket 0",
+    "D6 chain: first node destroyed, second live -> hit inst1",
+    "D8 chain: first node live -> hit inst0",
+    "D11 chain: node 0 deactivated, node 1 live -> hit inst1",
+    "D9 object mask 7: bucket 0 holds the hit",
+    "D10 boundary 99999 stays on the object path",
+    "E1 scan1 direct object match -> hit inst0",
+    "E2 scan1 ancestor match (parent chain) -> hit inst0",
+    "E5 scan1 two matches, first destroyed -> hit inst1",
+    "E8 scan1 empty, scan2 match -> hit inst5",
+    "E9 both lists would hit; scan1 wins -> hit inst2",
+    "E10 scan2 skips a objectless element -> hit inst6",
+    "E11 scan2 ancestor match -> hit inst6",
+    "E12 scan2: destroyed match, then a live one -> hit inst7",
+    "E14 scan1 count -1 is skipped, scan2 hits",
+    "F1 slot 1, arrindex INT_MAX",
+    "F2 slot 3, arrindex -1",
+    "F3 builtin variable number -> fn(obj, 7, out)",
+    "F4 varid in the unguarded gap -> negative slot",
+    "F5 negative varid -> slot path, negative delta",
+    "F6 room hit with the scalar arrindex sentinel"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "A2 room head live -> hit inst0",
+    "ret": {
+     "original": 8738,
+     "mutant": 8738
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 1
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "303132333435363738393a3b3c3d3e3f"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "mutant": "hit1_zeroes_arrindex",
+   "caught_by": [
+    "E1 scan1 direct object match -> hit inst0",
+    "E2 scan1 ancestor match (parent chain) -> hit inst0",
+    "E5 scan1 two matches, first destroyed -> hit inst1",
+    "E9 both lists would hit; scan1 wins -> hit inst2"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "E1 scan1 direct object match -> hit inst0",
+    "ret": {
+     "original": 8738,
+     "mutant": 8738
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    },
+    "out": {
+     "original": "303132333435363738393a3b3c3d3e3f",
+     "mutant": "303132333435363738393a3b3c3d3e3f"
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       -2147483648,
+       0
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       0,
+       0
+      ]
+     ]
+    }
+   }
+  }
+ ],
+ "status": "PASS"
+}

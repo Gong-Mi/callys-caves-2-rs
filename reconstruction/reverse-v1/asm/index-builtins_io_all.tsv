@@ -1,0 +1,223 @@
+110dec	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+110df0	e3a01000	mov	r1, #0
+110df4	e59d4018	ldr	r4, [sp, #0x18]
+110df8	e1a08000	mov	r8, r0
+110dfc	e1a00004	mov	r0, r4
+110e00	ebfef70a	bl	0xcea30 <_Z10YYGetInt64PK6RValuei>
+110e04	e1a06000	mov	r6, r0
+110e08	e1a07001	mov	r7, r1
+110e0c	e1a00004	mov	r0, r4
+110e10	e3a01001	mov	r1, #1
+110e14	ebfef705	bl	0xcea30 <_Z10YYGetInt64PK6RValuei>
+110e18	e1a04000	mov	r4, r0
+110e1c	e1a05001	mov	r5, r1
+110e20	e1560004	cmp	r6, r4
+110e24	e0d73005	sbcs	r3, r7, r5
+110e28	ba00000b	blt	0x110e5c <_Z14F_IRandomRangeR6RValueP9CInstanceS2_iPS_+0x70>
+110e2c	e0566004	subs	r6, r6, r4
+110e30	e0c77005	sbc	r7, r7, r5
+110e34	e2960001	adds	r0, r6, #1
+110e38	e2a71000	adc	r1, r7, #0
+110e3c	e3a03000	mov	r3, #0
+110e40	e588300c	str	r3, [r8, #0xc]
+110e44	ebffffb3	bl	0x110d18 <_Z14iScript_Randomx>
+110e48	e0900004	adds	r0, r0, r4
+110e4c	e0a11005	adc	r1, r1, r5
+110e50	eb0820c3	bl	0x319164 <__floatdidf>
+110e54	e8880003	stm	r8, {r0, r1}
+110e58	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+110e5c	e1a02000	mov	r2, r0
+110e60	e1a03001	mov	r3, r1
+110e64	e0522006	subs	r2, r2, r6
+110e68	e0c33007	sbc	r3, r3, r7
+110e6c	e1a04006	mov	r4, r6
+110e70	e2920001	adds	r0, r2, #1
+110e74	e1a05007	mov	r5, r7
+110e78	e2a31000	adc	r1, r3, #0
+110e7c	eaffffee	b	0x110e3c <_Z14F_IRandomRangeR6RValueP9CInstanceS2_iPS_+0x50>
+10dddc	e92d4070	push	{r4, r5, r6, lr}
+10dde0	ed2d8b02	vpush	{d8}
+10dde4	e1a04000	mov	r4, r0
+10dde8	e3a05000	mov	r5, #0
+10ddec	e3a01000	mov	r1, #0
+10ddf0	e580500c	str	r5, [r0, #0xc]
+10ddf4	e3431ff0	movt	r1, #0x3ff0
+10ddf8	e3a00000	mov	r0, #0
+10ddfc	e59d6018	ldr	r6, [sp, #0x18]
+10de00	ebfed9e4	bl	0xc4598 <_Z9fYYRandomd>
+10de04	ec410b18	vmov	d8, r0, r1
+10de08	e1a00006	mov	r0, r6
+10de0c	e1a01005	mov	r1, r5
+10de10	ebff0343	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+10de14	ec410b17	vmov	d7, r0, r1
+10de18	ee287b07	vmul.f64	d7, d8, d7
+10de1c	ec510b17	vmov	r0, r1, d7
+10de20	ee172a10	vmov	r2, s14
+10de24	e1a03001	mov	r3, r1
+10de28	e884000c	stm	r4, {r2, r3}
+10de2c	ecbd8b02	vpop	{d8}
+10de30	e8bd8070	pop	{r4, r5, r6, pc}
+10e284	e92d4010	push	{r4, lr}
+10e288	e3a03000	mov	r3, #0
+10e28c	e580300c	str	r3, [r0, #0xc]
+10e290	e1a04000	mov	r4, r0
+10e294	eb041bab	bl	0x215148 <Timing_Time>
+10e298	e59f3034	ldr	r3, [pc, #0x34]
+10e29c	e79f3003	ldr	r3, [pc, r3]
+10e2a0	e1c320d0	ldrd	r2, r3, [r3]
+10e2a4	e0922000	adds	r2, r2, r0
+10e2a8	e0a33001	adc	r3, r3, r1
+10e2ac	e0830002	add	r0, r3, r2
+10e2b0	e0200862	eor	r0, r0, r2, ror #16
+10e2b4	ebfed85f	bl	0xc4438 <_Z10InitRandomj>
+10e2b8	ee070a90	vmov	s15, r0
+10e2bc	eeb87b67	vcvt.f64.u32	d7, s15
+10e2c0	ec510b17	vmov	r0, r1, d7
+10e2c4	ee172a10	vmov	r2, s14
+10e2c8	e1a03001	mov	r3, r1
+10e2cc	e884000c	stm	r4, {r2, r3}
+10e2d0	e8bd8010	pop	{r4, pc}
+10e2d4	002dffb0	.word	0x002dffb0
+110efc	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+110f00	e3a01000	mov	r1, #0
+110f04	e59d7018	ldr	r7, [sp, #0x18]
+110f08	e1a06000	mov	r6, r0
+110f0c	e580100c	str	r1, [r0, #0xc]
+110f10	e1a00007	mov	r0, r7
+110f14	ebfef702	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+110f18	e1a04000	mov	r4, r0
+110f1c	e1a05001	mov	r5, r1
+110f20	e1a00007	mov	r0, r7
+110f24	e3a01001	mov	r1, #1
+110f28	ebfef6fd	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+110f2c	e1a02000	mov	r2, r0
+110f30	e1a03001	mov	r3, r1
+110f34	e1a00004	mov	r0, r4
+110f38	e1a01005	mov	r1, r5
+110f3c	ebffffdb	bl	0x110eb0 <_Z18YYGML_random_rangedd>
+110f40	e8860003	stm	r6, {r0, r1}
+110f44	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+138474	e92d4070	push	{r4, r5, r6, lr}
+138478	e24ddb02	sub	sp, sp, #2048
+13847c	e59f4080	ldr	r4, [pc, #0x80]
+138480	e24dd008	sub	sp, sp, #8
+138484	e3a01000	mov	r1, #0
+138488	e1a05000	mov	r5, r0
+13848c	e79f4004	ldr	r4, [pc, r4]
+138490	e59d0818	ldr	r0, [sp, #0x818]
+138494	e5943000	ldr	r3, [r4]
+138498	e58d3804	str	r3, [sp, #0x804]
+13849c	ebfe600b	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+1384a0	e1a06000	mov	r6, r0
+1384a4	eb015db0	bl	0x18fb6c <_ZN8LoadSave14SaveFileExistsEPKc>
+1384a8	e3500000	cmp	r0, #0
+1384ac	0a00000c	beq	0x1384e4 <_Z12F_FileDeleteR6RValueP9CInstanceS2_iPS_+0x70>
+1384b0	e1a02006	mov	r2, r6
+1384b4	e28d6004	add	r6, sp, #4
+1384b8	e3a01b02	mov	r1, #2048
+1384bc	e1a00006	mov	r0, r6
+1384c0	eb015d27	bl	0x18f964 <_ZN8LoadSave16_GetSaveFileNameEPciPKc>
+1384c4	e1a00006	mov	r0, r6
+1384c8	eb015eb8	bl	0x18ffb0 <_ZN8LoadSave14RemoveSaveFileEPKc>
+1384cc	ee070a90	vmov	s15, r0
+1384d0	eeb87be7	vcvt.f64.s32	d7, s15
+1384d4	ec510b17	vmov	r0, r1, d7
+1384d8	ee172a10	vmov	r2, s14
+1384dc	e1a03001	mov	r3, r1
+1384e0	e885000c	stm	r5, {r2, r3}
+1384e4	e59d2804	ldr	r2, [sp, #0x804]
+1384e8	e5943000	ldr	r3, [r4]
+1384ec	e1520003	cmp	r2, r3
+1384f0	1a000002	bne	0x138500 <_Z12F_FileDeleteR6RValueP9CInstanceS2_iPS_+0x8c>
+1384f4	e28ddb02	add	sp, sp, #2048
+1384f8	e28dd008	add	sp, sp, #8
+1384fc	e8bd8070	pop	{r4, r5, r6, pc}
+138500	ebfdf833	bl	0xb65d4 <__stack_chk_fail@plt>
+138504	002b54c4	eoreq	r5, r11, r4, asr #9
+137acc	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+137ad0	e3a01000	mov	r1, #0
+137ad4	e1a04000	mov	r4, r0
+137ad8	e59d0018	ldr	r0, [sp, #0x18]
+137adc	e1a05001	mov	r5, r1
+137ae0	ebfe627a	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+137ae4	e584500c	str	r5, [r4, #0xc]
+137ae8	e1a06000	mov	r6, r0
+137aec	eb015f6e	bl	0x18f8ac <_ZN8LoadSave16BundleFileExistsEPKc>
+137af0	e2507000	subs	r7, r0, #0
+137af4	13a03000	movne	r3, #0
+137af8	13433ff0	movtne	r3, #0x3ff0
+137afc	1a000007	bne	0x137b20 <_Z12F_FileExistsR6RValueP9CInstanceS2_iPS_+0x54>
+137b00	e1a00006	mov	r0, r6
+137b04	eb016018	bl	0x18fb6c <_ZN8LoadSave14SaveFileExistsEPKc>
+137b08	e3500000	cmp	r0, #0
+137b0c	01a05000	moveq	r5, r0
+137b10	13a03000	movne	r3, #0
+137b14	13433ff0	movtne	r3, #0x3ff0
+137b18	01a03005	moveq	r3, r5
+137b1c	11a05007	movne	r5, r7
+137b20	e5845000	str	r5, [r4]
+137b24	e5843004	str	r3, [r4, #0x4]
+137b28	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+13bba4	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+13bba8	e3a01000	mov	r1, #0
+13bbac	e59d4018	ldr	r4, [sp, #0x18]
+13bbb0	e1a05000	mov	r5, r0
+13bbb4	e1a00004	mov	r0, r4
+13bbb8	ebfe5244	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+13bbbc	e3a01001	mov	r1, #1
+13bbc0	e1a07000	mov	r7, r0
+13bbc4	e1a00004	mov	r0, r4
+13bbc8	ebfe5240	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+13bbcc	e3a01002	mov	r1, #2
+13bbd0	e1a06000	mov	r6, r0
+13bbd4	e1a00004	mov	r0, r4
+13bbd8	ebfe4bd1	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+13bbdc	e3a0c000	mov	r12, #0
+13bbe0	e585c00c	str	r12, [r5, #0xc]
+13bbe4	e1a02000	mov	r2, r0
+13bbe8	e1a03001	mov	r3, r1
+13bbec	e1a00007	mov	r0, r7
+13bbf0	e1a01006	mov	r1, r6
+13bbf4	ebffffce	bl	0x13bb34 <_Z19YYGML_ini_read_realPKcS0_d>
+13bbf8	e8850003	stm	r5, {r0, r1}
+13bbfc	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+13bca0	e92d4070	push	{r4, r5, r6, lr}
+13bca4	e3a01000	mov	r1, #0
+13bca8	e59d4010	ldr	r4, [sp, #0x10]
+13bcac	e1a00004	mov	r0, r4
+13bcb0	ebfe5206	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+13bcb4	e3a01001	mov	r1, #1
+13bcb8	e1a06000	mov	r6, r0
+13bcbc	e1a00004	mov	r0, r4
+13bcc0	ebfe5202	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+13bcc4	e3a01002	mov	r1, #2
+13bcc8	e1a05000	mov	r5, r0
+13bccc	e1a00004	mov	r0, r4
+13bcd0	ebfe4b93	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+13bcd4	e1a02000	mov	r2, r0
+13bcd8	e1a03001	mov	r3, r1
+13bcdc	e1a00006	mov	r0, r6
+13bce0	e1a01005	mov	r1, r5
+13bce4	e8bd4070	pop	{r4, r5, r6, lr}
+13bce8	eaffffc4	b	0x13bc00 <_Z20YYGML_ini_write_realPKcS0_d>
+127618	e92d4010	push	{r4, lr}
+12761c	e59d4008	ldr	r4, [sp, #0x8]
+127620	eb05a20f	bl	0x28fe64 <_Z15ProcessMessagesv>
+127624	e3a01000	mov	r1, #0
+127628	e1a00004	mov	r0, r4
+12762c	ebfe9c8f	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+127630	e3700001	cmn	r0, #1
+127634	0a000002	beq	0x127644 <_Z12F_MouseClearR6RValueP9CInstanceS2_iPS_+0x2c>
+127638	e3a01000	mov	r1, #0
+12763c	e8bd4010	pop	{r4, lr}
+127640	ea0192da	b	0x18c1b0 <_Z15IO_Button_Clearii>
+127644	e3a00001	mov	r0, #1
+127648	e3a01000	mov	r1, #0
+12764c	eb0192d7	bl	0x18c1b0 <_Z15IO_Button_Clearii>
+127650	e3a00002	mov	r0, #2
+127654	e3a01000	mov	r1, #0
+127658	eb0192d4	bl	0x18c1b0 <_Z15IO_Button_Clearii>
+12765c	e3a00003	mov	r0, #3
+127660	e3a01000	mov	r1, #0
+127664	e8bd4010	pop	{r4, lr}
+127668	ea0192d0	b	0x18c1b0 <_Z15IO_Button_Clearii>

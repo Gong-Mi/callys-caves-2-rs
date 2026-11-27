@@ -60,3 +60,7 @@ Pinned regression facts (1136x640/view-0 town and full-cast level1):
 * Reproducibility: run 3x green locally (104s / 73s / 94s), the RNG-driven
   kill chain included (hptrex=1 injection is the registered
   engine-recomputes-globals discipline, not a fabricated kill).
+
+> **注意（2026-10-28）**：本文的指纹是 remake 回归基线。任何"逐字节相等"只在有真实 surface、
+> `nonZeroPx>0` 时才成立；空画布常量（如 `dcde318742a40325` = 727040 个零 int 的 FNV-1a）
+> 不得引用为一致证据。见 `AGENTS.md` §10 与 `host-lifecycle-native-probe.md` 附录 A。

@@ -1,0 +1,182 @@
+2fb68c	680b	ldr	r3, [r1]
+2fb68e	b510	push	{r4, lr}
+2fb690	b90b	cbnz	r3, 0x2fb696 <ps_hints_apply+0xa296>
+2fb692	69c2	ldr	r2, [r0, #0x1c]
+2fb694	b19a	cbz	r2, 0x2fb6be <ps_hints_apply+0xa2be>
+2fb696	f8d0216c	ldr.w	r2, [r0, #0x16c]
+2fb69a	4413	add	r3, r2
+2fb69c	f8c0316c	str.w	r3, [r0, #0x16c]
+2fb6a0	2b00	cmp	r3, #0x0
+2fb6a2	db0c	blt	0x2fb6be <ps_hints_apply+0xa2be>
+2fb6a4	f8d021b0	ldr.w	r2, [r0, #0x1b0]
+2fb6a8	2a00	cmp	r2, #0x0
+2fb6aa	dd0a	ble	0x2fb6c2 <ps_hints_apply+0xa2c2>
+2fb6ac	f8d041b8	ldr.w	r4, [r0, #0x1b8]
+2fb6b0	eb041202	add.w	r2, r4, r2, lsl #4
+2fb6b4	f8522c04	ldr	r2, [r2, #-4]
+2fb6b8	6892	ldr	r2, [r2, #0x8]
+2fb6ba	4293	cmp	r3, r2
+2fb6bc	dd01	ble	0x2fb6c2 <ps_hints_apply+0xa2c2>
+2fb6be	2384	movs	r3, #0x84
+2fb6c0	e00f	b	0x2fb6e2 <ps_hints_apply+0xa2e2>
+2fb6c2	2300	movs	r3, #0x0
+2fb6c4	f880317c	strb.w	r3, [r0, #0x17c]
+2fb6c8	680b	ldr	r3, [r1]
+2fb6ca	2b00	cmp	r3, #0x0
+2fb6cc	da0a	bge	0x2fb6e4 <ps_hints_apply+0xa2e4>
+2fb6ce	f8d03274	ldr.w	r3, [r0, #0x274]
+2fb6d2	f8d02278	ldr.w	r2, [r0, #0x278]
+2fb6d6	3301	adds	r3, #0x1
+2fb6d8	f8c03274	str.w	r3, [r0, #0x274]
+2fb6dc	4293	cmp	r3, r2
+2fb6de	d901	bls	0x2fb6e4 <ps_hints_apply+0xa2e4>
+2fb6e0	238b	movs	r3, #0x8b
+2fb6e2	60c3	str	r3, [r0, #0xc]
+2fb6e4	bd10	pop	{r4, pc}
+2fb6e6	e92d4ff7	push.w	{r0, r1, r2, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2fb6ea	4688	mov	r8, r1
+2fb6ec	6849	ldr	r1, [r1, #0x4]
+2fb6ee	2600	movs	r6, #0x0
+2fb6f0	4635	mov	r5, r6
+2fb6f2	9001	str	r0, [sp, #0x4]
+2fb6f4	eb011b02	add.w	r11, r1, r2, lsl #4
+2fb6f8	f8db2004	ldr.w	r2, [r11, #0x4]
+2fb6fc	ea4f0942	lsl.w	r9, r2, #0x1
+2fb700	f8db200c	ldr.w	r2, [r11, #0xc]
+2fb704	fb032209	mla	r2, r3, r9, r2
+2fb708	9200	str	r2, [sp]
+2fb70a	f8db3004	ldr.w	r3, [r11, #0x4]
+2fb70e	429d	cmp	r5, r3
+2fb710	d24d	bhs	0x2fb7ae <ps_hints_apply+0xa3ae>
+2fb712	f8db3008	ldr.w	r3, [r11, #0x8]
+2fb716	f44f3980	mov.w	r9, #0x10000
+2fb71a	2700	movs	r7, #0x0
+2fb71c	f8532025	ldr.w	r2, [r3, r5, lsl #2]
+2fb720	f8d83010	ldr.w	r3, [r8, #0x10]
+2fb724	f8533022	ldr.w	r3, [r3, r2, lsl #2]
+2fb728	f1030a0c	add.w	r10, r3, #0xc
+2fb72c	f8b81008	ldrh.w	r1, [r8, #0x8]
+2fb730	428f	cmp	r7, r1
+2fb732	d232	bhs	0x2fb79a <ps_hints_apply+0xa39a>
+2fb734	f85a3c0c	ldr	r3, [r10, #-12]
+2fb738	f85a4c08	ldr	r4, [r10, #-8]
+2fb73c	42a3	cmp	r3, r4
+2fb73e	dc22	bgt	0x2fb786 <ps_hints_apply+0xa386>
+2fb740	f85a1c04	ldr	r1, [r10, #-4]
+2fb744	428c	cmp	r4, r1
+2fb746	dc1e	bgt	0x2fb786 <ps_hints_apply+0xa386>
+2fb748	2b00	cmp	r3, #0x0
+2fb74a	da01	bge	0x2fb750 <ps_hints_apply+0xa350>
+2fb74c	2900	cmp	r1, #0x0
+2fb74e	dc1a	bgt	0x2fb786 <ps_hints_apply+0xa386>
+2fb750	b1cc	cbz	r4, 0x2fb786 <ps_hints_apply+0xa386>
+2fb752	9a01	ldr	r2, [sp, #0x4]
+2fb754	6810	ldr	r0, [r2]
+2fb756	6880	ldr	r0, [r0, #0x8]
+2fb758	f8500027	ldr.w	r0, [r0, r7, lsl #2]
+2fb75c	4298	cmp	r0, r3
+2fb75e	db10	blt	0x2fb782 <ps_hints_apply+0xa382>
+2fb760	4288	cmp	r0, r1
+2fb762	dc0e	bgt	0x2fb782 <ps_hints_apply+0xa382>
+2fb764	42a0	cmp	r0, r4
+2fb766	d00e	beq	0x2fb786 <ps_hints_apply+0xa386>
+2fb768	bfab	itete	ge
+2fb76a	ebc00001	rsbge	r0, r0, r1
+2fb76e	ebc30104	rsblt	r1, r3, r4
+2fb772	ebc40101	rsbge	r1, r4, r1
+2fb776	ebc30000	rsblt	r0, r3, r0
+2fb77a	f7e9fb9c	bl	0x2e4eb6 <FT_DivFix>
+2fb77e	4601	mov	r1, r0
+2fb780	e003	b	0x2fb78a <ps_hints_apply+0xa38a>
+2fb782	2100	movs	r1, #0x0
+2fb784	e001	b	0x2fb78a <ps_hints_apply+0xa38a>
+2fb786	f44f3180	mov.w	r1, #0x10000
+2fb78a	4648	mov	r0, r9
+2fb78c	3701	adds	r7, #0x1
+2fb78e	f7fdfb3c	bl	0x2f8e0a <ps_hints_apply+0x7a0a>
+2fb792	f10a0a0c	add.w	r10, r10, #0xc
+2fb796	4681	mov	r9, r0
+2fb798	e7c8	b	0x2fb72c <ps_hints_apply+0xa32c>
+2fb79a	9b00	ldr	r3, [sp]
+2fb79c	4648	mov	r0, r9
+2fb79e	f9331015	ldrsh.w	r1, [r3, r5, lsl #1]
+2fb7a2	3501	adds	r5, #0x1
+2fb7a4	0409	lsls	r1, r1, #0x10
+2fb7a6	f7fdfb30	bl	0x2f8e0a <ps_hints_apply+0x7a0a>
+2fb7aa	4406	add	r6, r0
+2fb7ac	e7ad	b	0x2fb70a <ps_hints_apply+0xa30a>
+2fb7ae	f5064000	add.w	r0, r6, #0x8000
+2fb7b2	1400	asrs	r0, r0, #0x10
+2fb7b4	b003	add	sp, #0xc
+2fb7b6	e8bd8ff0	pop.w	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2fb7ba	0000	movs	r0, r0
+2fb7bc	e92d43f8	push.w	{r3, r4, r5, r6, r7, r8, r9, lr}
+2fb7c0	4604	mov	r4, r0
+2fb7c2	f8d032c0	ldr.w	r3, [r0, #0x2c0]
+2fb7c6	f8d062b8	ldr.w	r6, [r0, #0x2b8]
+2fb7ca	05db	lsls	r3, r3, #0x17
+2fb7cc	d55e	bpl	0x2fb88c <ps_hints_apply+0xa48c>
+2fb7ce	6bb3	ldr	r3, [r6, #0x38]
+2fb7d0	f04f090c	mov.w	r9, #0xc
+2fb7d4	f500782e	add.w	r8, r0, #0x2b8
+2fb7d8	699d	ldr	r5, [r3, #0x18]
+2fb7da	881b	ldrh	r3, [r3]
+2fb7dc	fb095903	mla	r9, r9, r3, r5
+2fb7e0	350c	adds	r5, #0xc
+2fb7e2	f1a5030c	sub.w	r3, r5, #0xc
+2fb7e6	4599	cmp	r9, r3
+2fb7e8	d915	bls	0x2fb816 <ps_hints_apply+0xa416>
+2fb7ea	f8551c0c	ldr	r1, [r5, #-12]
+2fb7ee	4620	mov	r0, r4
+2fb7f0	f7fdfbe0	bl	0x2f8fb4 <ps_hints_apply+0x7bb4>
+2fb7f4	6bb1	ldr	r1, [r6, #0x38]
+2fb7f6	f8352c08	ldrh	r2, [r5, #-8]
+2fb7fa	3104	adds	r1, #0x4
+2fb7fc	f8353c06	ldrh	r3, [r5, #-6]
+2fb800	4607	mov	r7, r0
+2fb802	4640	mov	r0, r8
+2fb804	f7ffff6f	bl	0x2fb6e6 <ps_hints_apply+0xa2e6>
+2fb808	b11f	cbz	r7, 0x2fb812 <ps_hints_apply+0xa412>
+2fb80a	f8353c04	ldrh	r3, [r5, #-4]
+2fb80e	4418	add	r0, r3
+2fb810	8038	strh	r0, [r7]
+2fb812	350c	adds	r5, #0xc
+2fb814	e7e5	b	0x2fb7e2 <ps_hints_apply+0xa3e2>
+2fb816	f8b42174	ldrh.w	r2, [r4, #0x174]
+2fb81a	f64f73ff	movw	r3, #0xffff
+2fb81e	429a	cmp	r2, r3
+2fb820	d01e	beq	0x2fb860 <ps_hints_apply+0xa460>
+2fb822	f8b431ba	ldrh.w	r3, [r4, #0x1ba]
+2fb826	b913	cbnz	r3, 0x2fb82e <ps_hints_apply+0xa42e>
+2fb828	f9b421bc	ldrsh.w	r2, [r4, #0x1bc]
+2fb82c	b162	cbz	r2, 0x2fb848 <ps_hints_apply+0xa448>
+2fb82e	f8b421bc	ldrh.w	r2, [r4, #0x1bc]
+2fb832	f8b411be	ldrh.w	r1, [r4, #0x1be]
+2fb836	f8a43046	strh.w	r3, [r4, #0x46]
+2fb83a	440b	add	r3, r1
+2fb83c	f8a42048	strh.w	r2, [r4, #0x48]
+2fb840	1a9a	subs	r2, r3, r2
+2fb842	f8a4204a	strh.w	r2, [r4, #0x4a]
+2fb846	e00b	b	0x2fb860 <ps_hints_apply+0xa460>
+2fb848	f8b431c0	ldrh.w	r3, [r4, #0x1c0]
+2fb84c	f8b421c2	ldrh.w	r2, [r4, #0x1c2]
+2fb850	f8a43046	strh.w	r3, [r4, #0x46]
+2fb854	4251	rsbs	r1, r2, #0
+2fb856	4413	add	r3, r2
+2fb858	f8a41048	strh.w	r1, [r4, #0x48]
+2fb85c	f8a4304a	strh.w	r3, [r4, #0x4a]
+2fb860	f8b431e6	ldrh.w	r3, [r4, #0x1e6]
+2fb864	f104006c	add.w	r0, r4, #0x6c
+2fb868	f8b411e4	ldrh.w	r1, [r4, #0x1e4]
+2fb86c	b21a	sxth	r2, r3
+2fb86e	f8a43052	strh.w	r3, [r4, #0x52]
+2fb872	eb0272d2	add.w	r2, r2, r2, lsr #31
+2fb876	eba10262	sub.w	r2, r1, r2, asr #1
+2fb87a	4905	ldr	r1, [pc, #0x14]
+2fb87c	f8a42050	strh.w	r2, [r4, #0x50]
+2fb880	2200	movs	r2, #0x0
+2fb882	4479	add	r1, pc
+2fb884	e8bd43f8	pop.w	{r3, r4, r5, r6, r7, r8, r9, lr}
+2fb888	f7edb93c	b.w	0x2e8b04 <FT_List_Iterate>
+2fb88c	e8bd83f8	pop.w	{r3, r4, r5, r6, r7, r8, r9, pc}
+2fb890	e51b	b	0x2fb2ca <ps_hints_apply+0x9eca>

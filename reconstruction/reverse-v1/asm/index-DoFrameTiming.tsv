@@ -1,0 +1,135 @@
+2903f8	e92d43f8	push	{r3, r4, r5, r6, r7, r8, r9, lr}
+2903fc	ed2d8b04	vpush	{d8, d9}
+290400	ed9f8a78	vldr	s16, [pc, #480]
+290404	e59f61e0	ldr	r6, [pc, #0x1e0]
+290408	e59f21e0	ldr	r2, [pc, #0x1e0]
+29040c	e08f6006	add	r6, pc, r6
+290410	e59f31dc	ldr	r3, [pc, #0x1dc]
+290414	e7968002	ldr	r8, [r6, r2]
+290418	e7969003	ldr	r9, [r6, r3]
+29041c	e1c820d0	ldrd	r2, r3, [r8]
+290420	e1c920f0	strd	r2, r3, [r9]
+290424	ebfe1347	bl	0x215148 <Timing_Time>
+290428	e1c820d0	ldrd	r2, r3, [r8]
+29042c	e1a04000	mov	r4, r0
+290430	e1a05001	mov	r5, r1
+290434	e3e00000	mvn	r0, #0
+290438	e3e01000	mvn	r1, #0
+29043c	e1530001	cmp	r3, r1
+290440	01520000	cmpeq	r2, r0
+290444	e59f31ac	ldr	r3, [pc, #0x1ac]
+290448	01c840f0	strdeq	r4, r5, [r8]
+29044c	e59f21a8	ldr	r2, [pc, #0x1a8]
+290450	e7963003	ldr	r3, [r6, r3]
+290454	e7962002	ldr	r2, [r6, r2]
+290458	edd28a00	vldr	s17, [r2]
+29045c	e5933000	ldr	r3, [r3]
+290460	eec88a28	vdiv.f32	s17, s16, s17
+290464	e3530000	cmp	r3, #0
+290468	d3a07001	movle	r7, #1
+29046c	da000039	ble	0x290558 <_Z13DoFrameTimingv+0x160>
+290470	e59f3188	ldr	r3, [pc, #0x188]
+290474	e7963003	ldr	r3, [r6, r3]
+290478	edd37a00	vldr	s15, [r3]
+29047c	eef87ae7	vcvt.f32.s32	s15, s15
+290480	eec87a27	vdiv.f32	s15, s16, s15
+290484	ee170a90	vmov	r0, s15
+290488	eb0223f6	bl	0x319468 <__fixsfdi>
+29048c	eb0223c1	bl	0x319398 <__floatdisf>
+290490	eef67a00	vmov.f32	s15, #5.000000e-01
+290494	e1c820d0	ldrd	r2, r3, [r8]
+290498	e1a01005	mov	r1, r5
+29049c	ee090a10	vmov	s18, r0
+2904a0	e1a00004	mov	r0, r4
+2904a4	e0500002	subs	r0, r0, r2
+2904a8	e0c11003	sbc	r1, r1, r3
+2904ac	ee089ae7	vmls.f32	s18, s17, s15
+2904b0	eb0223b8	bl	0x319398 <__floatdisf>
+2904b4	e59f3148	ldr	r3, [pc, #0x148]
+2904b8	e7963003	ldr	r3, [r6, r3]
+2904bc	ee070a90	vmov	s15, r0
+2904c0	e1c300d0	ldrd	r0, r1, [r3]
+2904c4	ee399a67	vsub.f32	s18, s18, s15
+2904c8	eb0223b2	bl	0x319398 <__floatdisf>
+2904cc	ee070a90	vmov	s15, r0
+2904d0	ee797a27	vadd.f32	s15, s18, s15
+2904d4	ee170a90	vmov	r0, s15
+2904d8	eb0223e2	bl	0x319468 <__fixsfdi>
+2904dc	eb0223ad	bl	0x319398 <__floatdisf>
+2904e0	ee070a90	vmov	s15, r0
+2904e4	eef57ac0	vcmpe.f32	s15, #0
+2904e8	eef1fa10	vmrs	APSR_nzcv, fpscr
+2904ec	4a00003a	bmi	0x2905dc <_Z13DoFrameTimingv+0x1e4>
+2904f0	eb0223dc	bl	0x319468 <__fixsfdi>
+2904f4	eb0223a7	bl	0x319398 <__floatdisf>
+2904f8	ee070a90	vmov	s15, r0
+2904fc	eef47ac8	vcmpe.f32	s15, s16
+290500	eef1fa10	vmrs	APSR_nzcv, fpscr
+290504	53040240	movwpl	r0, #0x4240
+290508	53a01000	movpl	r1, #0
+29050c	5340000f	movtpl	r0, #0xf
+290510	4a00002f	bmi	0x2905d4 <_Z13DoFrameTimingv+0x1dc>
+290514	ebfe0a22	bl	0x212da4 <Timing_Wait>
+290518	e3a07000	mov	r7, #0
+29051c	ebfe1309	bl	0x215148 <Timing_Time>
+290520	ebffff53	bl	0x290274 <getJNIEnv>
+290524	e59f20dc	ldr	r2, [pc, #0xdc]
+290528	e59f30dc	ldr	r3, [pc, #0xdc]
+29052c	e7962002	ldr	r2, [r6, r2]
+290530	e7963003	ldr	r3, [r6, r3]
+290534	e5921000	ldr	r1, [r2]
+290538	e5932000	ldr	r2, [r3]
+29053c	ebf8d164	bl	0xc4ad4 <_ZN7_JNIEnv20CallStaticVoidMethodEP7_jclassP10_jmethodIDz>
+290540	ebfe1300	bl	0x215148 <Timing_Time>
+290544	e59f30c4	ldr	r3, [pc, #0xc4]
+290548	e7963003	ldr	r3, [r6, r3]
+29054c	e5932000	ldr	r2, [r3]
+290550	e2822001	add	r2, r2, #1
+290554	e5832000	str	r2, [r3]
+290558	ebfe12fa	bl	0x215148 <Timing_Time>
+29055c	e1c940d0	ldrd	r4, r5, [r9]
+290560	e3e02000	mvn	r2, #0
+290564	e3e03000	mvn	r3, #0
+290568	e1550003	cmp	r5, r3
+29056c	01540002	cmpeq	r4, r2
+290570	e1c800f0	strd	r0, r1, [r8]
+290574	0a000013	beq	0x2905c8 <_Z13DoFrameTimingv+0x1d0>
+290578	ee180a90	vmov	r0, s17
+29057c	eb0223b9	bl	0x319468 <__fixsfdi>
+290580	e1a05001	mov	r5, r1
+290584	e59f1078	ldr	r1, [pc, #0x78]
+290588	e1a04000	mov	r4, r0
+29058c	e1a03005	mov	r3, r5
+290590	e1a02004	mov	r2, r4
+290594	e2744000	rsbs	r4, r4, #0
+290598	e2e55000	rsc	r5, r5, #0
+29059c	e796c001	ldr	r12, [r6, r1]
+2905a0	e1cc00d0	ldrd	r0, r1, [r12]
+2905a4	e1500002	cmp	r0, r2
+2905a8	e0d16003	sbcs	r6, r1, r3
+2905ac	b1a02000	movlt	r2, r0
+2905b0	b1a03001	movlt	r3, r1
+2905b4	e1540002	cmp	r4, r2
+2905b8	e0d51003	sbcs	r1, r5, r3
+2905bc	b1a04002	movlt	r4, r2
+2905c0	b1a05003	movlt	r5, r3
+2905c4	e1cc40f0	strd	r4, r5, [r12]
+2905c8	ecbd8b04	vpop	{d8, d9}
+2905cc	e1a00007	mov	r0, r7
+2905d0	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+2905d4	eb0223a3	bl	0x319468 <__fixsfdi>
+2905d8	eaffffcd	b	0x290514 <_Z13DoFrameTimingv+0x11c>
+2905dc	e3a00000	mov	r0, #0
+2905e0	e3a01000	mov	r1, #0
+2905e4	eaffffca	b	0x290514 <_Z13DoFrameTimingv+0x11c>
+2905e8	49742400	ldmdbmi	r4!, {r10, sp} ^
+2905ec	00161844	andseq	r1, r6, r4, asr #16
+2905f0	fffffcd8	.word	0xfffffcd8
+2905f4	fffffcdc	.word	0xfffffcdc
+2905f8	ffffef58	.word	0xffffef58
+2905fc	ffffef5c	.word	0xffffef5c
+290600	ffffef44	.word	0xffffef44
+290604	fffffce0	.word	0xfffffce0
+290608	ffffbd54	.word	0xffffbd54
+29060c	fffffce4	.word	0xfffffce4
+290610	fffffce8	.word	0xfffffce8

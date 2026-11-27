@@ -1,0 +1,11 @@
+# game_restart targets room 0. The live persistent player is retained and the
+# town's persistent placement is skipped, preserving its current x/y.
+ROOM 0
+ROOMW 1024
+ROOMH 576
+!WARP
+COUNT_INST 0 1
+FIELD 100000 x 50
+FIELD 100000 y 60
+!INST 200001 162
+GLOBAL roomtownvisited 1

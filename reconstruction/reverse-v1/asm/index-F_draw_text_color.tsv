@@ -1,0 +1,53 @@
+121fd8	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+121fdc	e24dd024	sub	sp, sp, #36
+121fe0	e28d2020	add	r2, sp, #32
+121fe4	e3a05000	mov	r5, #0
+121fe8	e59d4048	ldr	r4, [sp, #0x48]
+121fec	e3a01b01	mov	r1, #1024
+121ff0	e5225004	str	r5, [r2, #-0x4]!
+121ff4	e2840020	add	r0, r4, #32
+121ff8	ebffff38	bl	0x121ce0 <_Z14GetTextFromArgPK6RValueiPPc>
+121ffc	e1a01005	mov	r1, r5
+122000	e1a00004	mov	r0, r4
+122004	ebfeb31e	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+122008	e3a01001	mov	r1, #1
+12200c	e1a05000	mov	r5, r0
+122010	e1a00004	mov	r0, r4
+122014	ebfeb31a	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+122018	e3a01003	mov	r1, #3
+12201c	e59da01c	ldr	r10, [sp, #0x1c]
+122020	e1a06000	mov	r6, r0
+122024	e1a00004	mov	r0, r4
+122028	ebfeb210	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+12202c	e3a01004	mov	r1, #4
+122030	e1a0b000	mov	r11, r0
+122034	e1a00004	mov	r0, r4
+122038	ebfeb20c	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+12203c	e3a01005	mov	r1, #5
+122040	e1a09000	mov	r9, r0
+122044	e1a00004	mov	r0, r4
+122048	ebfeb208	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+12204c	e3a01006	mov	r1, #6
+122050	e1a08000	mov	r8, r0
+122054	e1a00004	mov	r0, r4
+122058	ebfeb204	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+12205c	e3a01007	mov	r1, #7
+122060	e1a07000	mov	r7, r0
+122064	e1a00004	mov	r0, r4
+122068	ebfeb305	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+12206c	e3e0c000	mvn	r12, #0
+122070	e1a0200a	mov	r2, r10
+122074	e1a0300c	mov	r3, r12
+122078	e1a01006	mov	r1, r6
+12207c	e58dc000	str	r12, [sp]
+122080	e58db004	str	r11, [sp, #0x4]
+122084	e58d9008	str	r9, [sp, #0x8]
+122088	e58d800c	str	r8, [sp, #0xc]
+12208c	e58d7010	str	r7, [sp, #0x10]
+122090	e58d0014	str	r0, [sp, #0x14]
+122094	e1a00005	mov	r0, r5
+122098	eb0144a6	bl	0x173338 <_Z18GR_Text_Draw_ColorffPKciijjjjf>
+12209c	e59d001c	ldr	r0, [sp, #0x1c]
+1220a0	eb05688a	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1220a4	e28dd024	add	sp, sp, #36
+1220a8	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}

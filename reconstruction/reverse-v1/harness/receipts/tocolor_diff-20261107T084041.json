@@ -1,0 +1,41 @@
+{
+  "schema": "cally-tocolor-diff/1",
+  "function": "toColor",
+  "entry": "0x28b680",
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "seed": 49168,
+  "n_cases": 31,
+  "semantic_divergence": "binary requires strlen==8 (RGBA); stock spine-c checks index>=len/2",
+  "gates": {
+    "identity": {
+      "pass": true,
+      "mismatches": []
+    },
+    "length_guard": {
+      "pass": true,
+      "detail": "non-8 lengths → -1"
+    },
+    "valid_parses": {
+      "pass": true
+    },
+    "boundary": {
+      "pass": true,
+      "detail": "ff→1.0, 00→0.0"
+    },
+    "teeth": [
+      {
+        "mutant": "stock_len_check",
+        "caught": true,
+        "status": "PASS"
+      },
+      {
+        "mutant": "div_256",
+        "caught": true,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "PASS",
+  "scope": "pure function; 34 cases; VFP s0 return read via UC_ARM_REG_S0",
+  "timestamp": "20261107T084041"
+}

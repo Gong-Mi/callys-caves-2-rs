@@ -1,0 +1,15 @@
+d21ec	e59f302c	ldr	r3, [pc, #0x2c]
+d21f0	e79f3003	ldr	r3, [pc, r3]
+d21f4	e5933000	ldr	r3, [r3]
+d21f8	e1530000	cmp	r3, r0
+d21fc	e1a00001	mov	r0, r1
+d2200	0a000000	beq	0xd2208 <_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc+0x1c>
+d2204	eaffff5a	b	0xd1f74 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc>
+d2208	e59f3014	ldr	r3, [pc, #0x14]
+d220c	e79f3003	ldr	r3, [pc, r3]
+d2210	e5d33000	ldrb	r3, [r3]
+d2214	e3530000	cmp	r3, #0
+d2218	1afffff9	bne	0xd2204 <_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc+0x18>
+d221c	eaffff8c	b	0xd2054 <_Z40Code_Variable_Find_Slot_From_Global_NamePKc>
+d2220	0031b9c4	eorseq	r11, r1, r4, asr #19
+d2224	0031b9ac	eorseq	r11, r1, r12, lsr #19

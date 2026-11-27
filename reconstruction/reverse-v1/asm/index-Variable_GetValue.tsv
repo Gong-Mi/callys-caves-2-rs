@@ -1,0 +1,171 @@
+1f3ce0	e92d0ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11}
+1f3ce4	e3700003	cmn	r0, #3
+1f3ce8	e59f6280	ldr	r6, [pc, #0x280]
+1f3cec	e3a04000	mov	r4, #0
+1f3cf0	e59fc27c	ldr	r12, [pc, #0x27c]
+1f3cf4	e08f6006	add	r6, pc, r6
+1f3cf8	e796700c	ldr	r7, [r6, r12]
+1f3cfc	e5c74000	strb	r4, [r7]
+1f3d00	0a000081	beq	0x1f3f0c <_Z17Variable_GetValueiiiP6RValue+0x22c>
+1f3d04	e3500000	cmp	r0, #0
+1f3d08	ba000056	blt	0x1f3e68 <_Z17Variable_GetValueiiiP6RValue+0x188>
+1f3d0c	e308c69f	movw	r12, #0x869f
+1f3d10	e340c001	movt	r12, #0x1
+1f3d14	e150000c	cmp	r0, r12
+1f3d18	da000057	ble	0x1f3e7c <_Z17Variable_GetValueiiiP6RValue+0x19c>
+1f3d1c	e59fc254	ldr	r12, [pc, #0x254]
+1f3d20	e796c00c	ldr	r12, [r6, r12]
+1f3d24	e59c4004	ldr	r4, [r12, #0x4]
+1f3d28	e59cc000	ldr	r12, [r12]
+1f3d2c	e0004004	and	r4, r0, r4
+1f3d30	e79cc184	ldr	r12, [r12, r4, lsl #3]
+1f3d34	e35c0000	cmp	r12, #0
+1f3d38	1a000003	bne	0x1f3d4c <_Z17Variable_GetValueiiiP6RValue+0x6c>
+1f3d3c	ea000049	b	0x1f3e68 <_Z17Variable_GetValueiiiP6RValue+0x188>
+1f3d40	e59cc004	ldr	r12, [r12, #0x4]
+1f3d44	e35c0000	cmp	r12, #0
+1f3d48	0a000046	beq	0x1f3e68 <_Z17Variable_GetValueiiiP6RValue+0x188>
+1f3d4c	e59c4008	ldr	r4, [r12, #0x8]
+1f3d50	e1500004	cmp	r0, r4
+1f3d54	1afffff9	bne	0x1f3d40 <_Z17Variable_GetValueiiiP6RValue+0x60>
+1f3d58	e59c000c	ldr	r0, [r12, #0xc]
+1f3d5c	e3500000	cmp	r0, #0
+1f3d60	0a000040	beq	0x1f3e68 <_Z17Variable_GetValueiiiP6RValue+0x188>
+1f3d64	e5d0c068	ldrb	r12, [r0, #0x68]
+1f3d68	e35c0000	cmp	r12, #0
+1f3d6c	1a00003d	bne	0x1f3e68 <_Z17Variable_GetValueiiiP6RValue+0x188>
+1f3d70	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+1f3d74	eaffff84	b	0x1f3b8c <_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue>
+1f3d78	e59fc1fc	ldr	r12, [pc, #0x1fc]
+1f3d7c	e796a00c	ldr	r10, [r6, r12]
+1f3d80	e59ab008	ldr	r11, [r10, #0x8]
+1f3d84	e35b0000	cmp	r11, #0
+1f3d88	da000018	ble	0x1f3df0 <_Z17Variable_GetValueiiiP6RValue+0x110>
+1f3d8c	e3a08000	mov	r8, #0
+1f3d90	e59ac000	ldr	r12, [r10]
+1f3d94	e79c9108	ldr	r9, [r12, r8, lsl #2]
+1f3d98	e599c080	ldr	r12, [r9, #0x80]
+1f3d9c	e35c0000	cmp	r12, #0
+1f3da0	0a00000f	beq	0x1f3de4 <_Z17Variable_GetValueiiiP6RValue+0x104>
+1f3da4	e59c4018	ldr	r4, [r12, #0x18]
+1f3da8	e59cc048	ldr	r12, [r12, #0x48]
+1f3dac	e1500004	cmp	r0, r4
+1f3db0	13a05000	movne	r5, #0
+1f3db4	03a05001	moveq	r5, #1
+1f3db8	e1500004	cmp	r0, r4
+1f3dbc	135c0000	cmpne	r12, #0
+1f3dc0	1afffff7	bne	0x1f3da4 <_Z17Variable_GetValueiiiP6RValue+0xc4>
+1f3dc4	e3550000	cmp	r5, #0
+1f3dc8	0a000005	beq	0x1f3de4 <_Z17Variable_GetValueiiiP6RValue+0x104>
+1f3dcc	e5d9c068	ldrb	r12, [r9, #0x68]
+1f3dd0	e35c0000	cmp	r12, #0
+1f3dd4	1a000002	bne	0x1f3de4 <_Z17Variable_GetValueiiiP6RValue+0x104>
+1f3dd8	e5d9c069	ldrb	r12, [r9, #0x69]
+1f3ddc	e35c0000	cmp	r12, #0
+1f3de0	0a00005c	beq	0x1f3f58 <_Z17Variable_GetValueiiiP6RValue+0x278>
+1f3de4	e2888001	add	r8, r8, #1
+1f3de8	e158000b	cmp	r8, r11
+1f3dec	1affffe7	bne	0x1f3d90 <_Z17Variable_GetValueiiiP6RValue+0xb0>
+1f3df0	e59fc188	ldr	r12, [pc, #0x188]
+1f3df4	e796900c	ldr	r9, [r6, r12]
+1f3df8	e599a008	ldr	r10, [r9, #0x8]
+1f3dfc	e35a0000	cmp	r10, #0
+1f3e00	da000018	ble	0x1f3e68 <_Z17Variable_GetValueiiiP6RValue+0x188>
+1f3e04	e3a06000	mov	r6, #0
+1f3e08	e599c000	ldr	r12, [r9]
+1f3e0c	e79c8106	ldr	r8, [r12, r6, lsl #2]
+1f3e10	e598c080	ldr	r12, [r8, #0x80]
+1f3e14	e35c0000	cmp	r12, #0
+1f3e18	0a00000f	beq	0x1f3e5c <_Z17Variable_GetValueiiiP6RValue+0x17c>
+1f3e1c	e59c4018	ldr	r4, [r12, #0x18]
+1f3e20	e59cc048	ldr	r12, [r12, #0x48]
+1f3e24	e050b004	subs	r11, r0, r4
+1f3e28	e27b5000	rsbs	r5, r11, #0
+1f3e2c	e0b5500b	adcs	r5, r5, r11
+1f3e30	e1500004	cmp	r0, r4
+1f3e34	135c0000	cmpne	r12, #0
+1f3e38	1afffff7	bne	0x1f3e1c <_Z17Variable_GetValueiiiP6RValue+0x13c>
+1f3e3c	e3550000	cmp	r5, #0
+1f3e40	0a000005	beq	0x1f3e5c <_Z17Variable_GetValueiiiP6RValue+0x17c>
+1f3e44	e5d8c068	ldrb	r12, [r8, #0x68]
+1f3e48	e35c0000	cmp	r12, #0
+1f3e4c	1a000002	bne	0x1f3e5c <_Z17Variable_GetValueiiiP6RValue+0x17c>
+1f3e50	e5d8c069	ldrb	r12, [r8, #0x69]
+1f3e54	e35c0000	cmp	r12, #0
+1f3e58	0a000041	beq	0x1f3f64 <_Z17Variable_GetValueiiiP6RValue+0x284>
+1f3e5c	e2866001	add	r6, r6, #1
+1f3e60	e156000a	cmp	r6, r10
+1f3e64	1affffe7	bne	0x1f3e08 <_Z17Variable_GetValueiiiP6RValue+0x128>
+1f3e68	e3a03001	mov	r3, #1
+1f3e6c	e3a00000	mov	r0, #0
+1f3e70	e5c73000	strb	r3, [r7]
+1f3e74	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+1f3e78	e12fff1e	bx	lr
+1f3e7c	e59fc100	ldr	r12, [pc, #0x100]
+1f3e80	e796c00c	ldr	r12, [r6, r12]
+1f3e84	e59cc000	ldr	r12, [r12]
+1f3e88	e59c4004	ldr	r4, [r12, #0x4]
+1f3e8c	e59cc000	ldr	r12, [r12]
+1f3e90	e0004004	and	r4, r0, r4
+1f3e94	e79cc184	ldr	r12, [r12, r4, lsl #3]
+1f3e98	e35c0000	cmp	r12, #0
+1f3e9c	1a000003	bne	0x1f3eb0 <_Z17Variable_GetValueiiiP6RValue+0x1d0>
+1f3ea0	eaffffb4	b	0x1f3d78 <_Z17Variable_GetValueiiiP6RValue+0x98>
+1f3ea4	e59cc004	ldr	r12, [r12, #0x4]
+1f3ea8	e35c0000	cmp	r12, #0
+1f3eac	0affffb1	beq	0x1f3d78 <_Z17Variable_GetValueiiiP6RValue+0x98>
+1f3eb0	e59c4008	ldr	r4, [r12, #0x8]
+1f3eb4	e1500004	cmp	r0, r4
+1f3eb8	1afffff9	bne	0x1f3ea4 <_Z17Variable_GetValueiiiP6RValue+0x1c4>
+1f3ebc	e59cc00c	ldr	r12, [r12, #0xc]
+1f3ec0	e35c0000	cmp	r12, #0
+1f3ec4	159cc0d0	ldrne	r12, [r12, #0xd0]
+1f3ec8	0affffaa	beq	0x1f3d78 <_Z17Variable_GetValueiiiP6RValue+0x98>
+1f3ecc	e35c0000	cmp	r12, #0
+1f3ed0	0affffa8	beq	0x1f3d78 <_Z17Variable_GetValueiiiP6RValue+0x98>
+1f3ed4	e59c4008	ldr	r4, [r12, #0x8]
+1f3ed8	e3540000	cmp	r4, #0
+1f3edc	0affffa5	beq	0x1f3d78 <_Z17Variable_GetValueiiiP6RValue+0x98>
+1f3ee0	e59c4008	ldr	r4, [r12, #0x8]
+1f3ee4	e59cc000	ldr	r12, [r12]
+1f3ee8	e5d45068	ldrb	r5, [r4, #0x68]
+1f3eec	e3550000	cmp	r5, #0
+1f3ef0	1afffff5	bne	0x1f3ecc <_Z17Variable_GetValueiiiP6RValue+0x1ec>
+1f3ef4	e5d45069	ldrb	r5, [r4, #0x69]
+1f3ef8	e3550000	cmp	r5, #0
+1f3efc	1afffff2	bne	0x1f3ecc <_Z17Variable_GetValueiiiP6RValue+0x1ec>
+1f3f00	e1a00004	mov	r0, r4
+1f3f04	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+1f3f08	eaffff1f	b	0x1f3b8c <_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue>
+1f3f0c	e59f0074	ldr	r0, [pc, #0x74]
+1f3f10	e7960000	ldr	r0, [r6, r0]
+1f3f14	e5900000	ldr	r0, [r0]
+1f3f18	e5900080	ldr	r0, [r0, #0x80]
+1f3f1c	e1500004	cmp	r0, r4
+1f3f20	1a000003	bne	0x1f3f34 <_Z17Variable_GetValueiiiP6RValue+0x254>
+1f3f24	eaffffcf	b	0x1f3e68 <_Z17Variable_GetValueiiiP6RValue+0x188>
+1f3f28	e35c0000	cmp	r12, #0
+1f3f2c	e1a0000c	mov	r0, r12
+1f3f30	0affffcc	beq	0x1f3e68 <_Z17Variable_GetValueiiiP6RValue+0x188>
+1f3f34	e5d04068	ldrb	r4, [r0, #0x68]
+1f3f38	e590c178	ldr	r12, [r0, #0x178]
+1f3f3c	e3540000	cmp	r4, #0
+1f3f40	1afffff8	bne	0x1f3f28 <_Z17Variable_GetValueiiiP6RValue+0x248>
+1f3f44	e5d04069	ldrb	r4, [r0, #0x69]
+1f3f48	e3540000	cmp	r4, #0
+1f3f4c	1afffff5	bne	0x1f3f28 <_Z17Variable_GetValueiiiP6RValue+0x248>
+1f3f50	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+1f3f54	eaffff0c	b	0x1f3b8c <_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue>
+1f3f58	e1a00009	mov	r0, r9
+1f3f5c	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+1f3f60	eaffff09	b	0x1f3b8c <_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue>
+1f3f64	e1a00008	mov	r0, r8
+1f3f68	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+1f3f6c	eaffff06	b	0x1f3b8c <_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue>
+1f3f70	001fdf5c	andseq	sp, pc, r12, asr pc
+1f3f74	ffffc110	.word	0xffffc110
+1f3f78	ffffbff4	.word	0xffffbff4
+1f3f7c	ffffbff0	.word	0xffffbff0
+1f3f80	ffffbff8	.word	0xffffbff8
+1f3f84	ffffbfec	.word	0xffffbfec
+1f3f88	ffffbcd8	.word	0xffffbcd8

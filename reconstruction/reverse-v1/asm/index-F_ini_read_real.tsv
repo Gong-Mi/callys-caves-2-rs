@@ -1,0 +1,23 @@
+13bba4	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+13bba8	e3a01000	mov	r1, #0
+13bbac	e59d4018	ldr	r4, [sp, #0x18]
+13bbb0	e1a05000	mov	r5, r0
+13bbb4	e1a00004	mov	r0, r4
+13bbb8	ebfe5244	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+13bbbc	e3a01001	mov	r1, #1
+13bbc0	e1a07000	mov	r7, r0
+13bbc4	e1a00004	mov	r0, r4
+13bbc8	ebfe5240	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+13bbcc	e3a01002	mov	r1, #2
+13bbd0	e1a06000	mov	r6, r0
+13bbd4	e1a00004	mov	r0, r4
+13bbd8	ebfe4bd1	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+13bbdc	e3a0c000	mov	r12, #0
+13bbe0	e585c00c	str	r12, [r5, #0xc]
+13bbe4	e1a02000	mov	r2, r0
+13bbe8	e1a03001	mov	r3, r1
+13bbec	e1a00007	mov	r0, r7
+13bbf0	e1a01006	mov	r1, r6
+13bbf4	ebffffce	bl	0x13bb34 <_Z19YYGML_ini_read_realPKcS0_d>
+13bbf8	e8850003	stm	r5, {r0, r1}
+13bbfc	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}

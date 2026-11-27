@@ -1,0 +1,1462 @@
+d96f0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+d96f4	e280602c	add	r6, r0, #44
+d96f8	e5914078	ldr	r4, [r1, #0x78]
+d96fc	e1a09000	mov	r9, r0
+d9700	e5903000	ldr	r3, [r0]
+d9704	e24dd01c	sub	sp, sp, #28
+d9708	e3a08000	mov	r8, #0
+d970c	e1a07001	mov	r7, r1
+d9710	ee064a90	vmov	s13, r4
+d9714	e5808038	str	r8, [r0, #0x38]
+d9718	e1a02006	mov	r2, r6
+d971c	e3a01005	mov	r1, #5
+d9720	eeb86b66	vcvt.f64.u32	d6, s13
+d9724	ec554b16	vmov	r4, r5, d6
+d9728	ed896a0b	vstr	s12, [r9, #44]
+d972c	e5895030	str	r5, [r9, #0x30]
+d9730	e5933008	ldr	r3, [r3, #0x8]
+d9734	e12fff33	blx	r3
+d9738	e597407c	ldr	r4, [r7, #0x7c]
+d973c	e5993000	ldr	r3, [r9]
+d9740	e1a02006	mov	r2, r6
+d9744	e3a01005	mov	r1, #5
+d9748	e5898038	str	r8, [r9, #0x38]
+d974c	ee074a90	vmov	s15, r4
+d9750	e1a00009	mov	r0, r9
+d9754	eeb87b67	vcvt.f64.u32	d7, s15
+d9758	ec554b17	vmov	r4, r5, d7
+d975c	ed897a0b	vstr	s14, [r9, #44]
+d9760	e5895030	str	r5, [r9, #0x30]
+d9764	e5933008	ldr	r3, [r3, #0x8]
+d9768	e12fff33	blx	r3
+d976c	edd77a2d	vldr	s15, [r7, #180]
+d9770	eeb76ae7	vcvt.f64.f32	d6, s15
+d9774	e5993000	ldr	r3, [r9]
+d9778	e1a02006	mov	r2, r6
+d977c	e3a01008	mov	r1, #8
+d9780	e5898038	str	r8, [r9, #0x38]
+d9784	e1a00009	mov	r0, r9
+d9788	ec554b16	vmov	r4, r5, d6
+d978c	ed896a0b	vstr	s12, [r9, #44]
+d9790	e5895030	str	r5, [r9, #0x30]
+d9794	e5933008	ldr	r3, [r3, #0x8]
+d9798	e12fff33	blx	r3
+d979c	edd77a2e	vldr	s15, [r7, #184]
+d97a0	eeb76ae7	vcvt.f64.f32	d6, s15
+d97a4	e5993000	ldr	r3, [r9]
+d97a8	e1a02006	mov	r2, r6
+d97ac	e3a01008	mov	r1, #8
+d97b0	e5898038	str	r8, [r9, #0x38]
+d97b4	e1a00009	mov	r0, r9
+d97b8	ec554b16	vmov	r4, r5, d6
+d97bc	ed896a0b	vstr	s12, [r9, #44]
+d97c0	e5895030	str	r5, [r9, #0x30]
+d97c4	e5933008	ldr	r3, [r3, #0x8]
+d97c8	e12fff33	blx	r3
+d97cc	edd77a33	vldr	s15, [r7, #204]
+d97d0	eeb76ae7	vcvt.f64.f32	d6, s15
+d97d4	e5993000	ldr	r3, [r9]
+d97d8	e1a02006	mov	r2, r6
+d97dc	e3a01008	mov	r1, #8
+d97e0	e5898038	str	r8, [r9, #0x38]
+d97e4	e1a00009	mov	r0, r9
+d97e8	ec554b16	vmov	r4, r5, d6
+d97ec	ed896a0b	vstr	s12, [r9, #44]
+d97f0	e5895030	str	r5, [r9, #0x30]
+d97f4	e5933008	ldr	r3, [r3, #0x8]
+d97f8	e12fff33	blx	r3
+d97fc	edd77a35	vldr	s15, [r7, #212]
+d9800	eeb76ae7	vcvt.f64.f32	d6, s15
+d9804	e5993000	ldr	r3, [r9]
+d9808	e1a02006	mov	r2, r6
+d980c	e3a01008	mov	r1, #8
+d9810	e5898038	str	r8, [r9, #0x38]
+d9814	e1a00009	mov	r0, r9
+d9818	ec554b16	vmov	r4, r5, d6
+d981c	ed896a0b	vstr	s12, [r9, #44]
+d9820	e5895030	str	r5, [r9, #0x30]
+d9824	e5933008	ldr	r3, [r3, #0x8]
+d9828	e12fff33	blx	r3
+d982c	edd77a37	vldr	s15, [r7, #220]
+d9830	eeb76ae7	vcvt.f64.f32	d6, s15
+d9834	e5993000	ldr	r3, [r9]
+d9838	e1a02006	mov	r2, r6
+d983c	e3a01008	mov	r1, #8
+d9840	e5898038	str	r8, [r9, #0x38]
+d9844	e1a00009	mov	r0, r9
+d9848	ec554b16	vmov	r4, r5, d6
+d984c	ed896a0b	vstr	s12, [r9, #44]
+d9850	e5895030	str	r5, [r9, #0x30]
+d9854	e5933008	ldr	r3, [r3, #0x8]
+d9858	e12fff33	blx	r3
+d985c	edd77a36	vldr	s15, [r7, #216]
+d9860	eeb76ae7	vcvt.f64.f32	d6, s15
+d9864	e5993000	ldr	r3, [r9]
+d9868	e1a02006	mov	r2, r6
+d986c	e3a01008	mov	r1, #8
+d9870	e5898038	str	r8, [r9, #0x38]
+d9874	e1a00009	mov	r0, r9
+d9878	ec554b16	vmov	r4, r5, d6
+d987c	ed896a0b	vstr	s12, [r9, #44]
+d9880	e5895030	str	r5, [r9, #0x30]
+d9884	e5933008	ldr	r3, [r3, #0x8]
+d9888	e12fff33	blx	r3
+d988c	edd77a38	vldr	s15, [r7, #224]
+d9890	eeb76ae7	vcvt.f64.f32	d6, s15
+d9894	e5993000	ldr	r3, [r9]
+d9898	e1a02006	mov	r2, r6
+d989c	e3a01008	mov	r1, #8
+d98a0	e5898038	str	r8, [r9, #0x38]
+d98a4	e1a00009	mov	r0, r9
+d98a8	ec554b16	vmov	r4, r5, d6
+d98ac	ed896a0b	vstr	s12, [r9, #44]
+d98b0	e5895030	str	r5, [r9, #0x30]
+d98b4	e5933008	ldr	r3, [r3, #0x8]
+d98b8	e12fff33	blx	r3
+d98bc	edd77a39	vldr	s15, [r7, #228]
+d98c0	eeb76ae7	vcvt.f64.f32	d6, s15
+d98c4	e5993000	ldr	r3, [r9]
+d98c8	e1a02006	mov	r2, r6
+d98cc	e3a01008	mov	r1, #8
+d98d0	e5898038	str	r8, [r9, #0x38]
+d98d4	e1a00009	mov	r0, r9
+d98d8	ec554b16	vmov	r4, r5, d6
+d98dc	ed896a0b	vstr	s12, [r9, #44]
+d98e0	e5895030	str	r5, [r9, #0x30]
+d98e4	e5933008	ldr	r3, [r3, #0x8]
+d98e8	e12fff33	blx	r3
+d98ec	edd77a34	vldr	s15, [r7, #208]
+d98f0	eeb76ae7	vcvt.f64.f32	d6, s15
+d98f4	e5993000	ldr	r3, [r9]
+d98f8	e1a02006	mov	r2, r6
+d98fc	e3a01008	mov	r1, #8
+d9900	e5898038	str	r8, [r9, #0x38]
+d9904	e1a00009	mov	r0, r9
+d9908	ec554b16	vmov	r4, r5, d6
+d990c	ed896a0b	vstr	s12, [r9, #44]
+d9910	e5895030	str	r5, [r9, #0x30]
+d9914	e5933008	ldr	r3, [r3, #0x8]
+d9918	e12fff33	blx	r3
+d991c	edd77a31	vldr	s15, [r7, #196]
+d9920	eeb76ae7	vcvt.f64.f32	d6, s15
+d9924	e5993000	ldr	r3, [r9]
+d9928	e1a02006	mov	r2, r6
+d992c	e3a01008	mov	r1, #8
+d9930	e5898038	str	r8, [r9, #0x38]
+d9934	e1a00009	mov	r0, r9
+d9938	ec554b16	vmov	r4, r5, d6
+d993c	ed896a0b	vstr	s12, [r9, #44]
+d9940	e5895030	str	r5, [r9, #0x30]
+d9944	e5933008	ldr	r3, [r3, #0x8]
+d9948	e12fff33	blx	r3
+d994c	edd77a32	vldr	s15, [r7, #200]
+d9950	eeb76ae7	vcvt.f64.f32	d6, s15
+d9954	e5993000	ldr	r3, [r9]
+d9958	e1a02006	mov	r2, r6
+d995c	e3a01008	mov	r1, #8
+d9960	e5898038	str	r8, [r9, #0x38]
+d9964	e1a00009	mov	r0, r9
+d9968	ec554b16	vmov	r4, r5, d6
+d996c	ed896a0b	vstr	s12, [r9, #44]
+d9970	e5895030	str	r5, [r9, #0x30]
+d9974	e5933008	ldr	r3, [r3, #0x8]
+d9978	e12fff33	blx	r3
+d997c	e597408c	ldr	r4, [r7, #0x8c]
+d9980	e5993000	ldr	r3, [r9]
+d9984	e1a02006	mov	r2, r6
+d9988	e3a01005	mov	r1, #5
+d998c	e5898038	str	r8, [r9, #0x38]
+d9990	ee074a90	vmov	s15, r4
+d9994	e1a00009	mov	r0, r9
+d9998	eeb87b67	vcvt.f64.u32	d7, s15
+d999c	ec554b17	vmov	r4, r5, d7
+d99a0	ed897a0b	vstr	s14, [r9, #44]
+d99a4	e5895030	str	r5, [r9, #0x30]
+d99a8	e5933008	ldr	r3, [r3, #0x8]
+d99ac	e12fff33	blx	r3
+d99b0	edd77a29	vldr	s15, [r7, #164]
+d99b4	eeb76ae7	vcvt.f64.f32	d6, s15
+d99b8	e5993000	ldr	r3, [r9]
+d99bc	e1a02006	mov	r2, r6
+d99c0	e3a01008	mov	r1, #8
+d99c4	e5898038	str	r8, [r9, #0x38]
+d99c8	e1a00009	mov	r0, r9
+d99cc	ec554b16	vmov	r4, r5, d6
+d99d0	ed896a0b	vstr	s12, [r9, #44]
+d99d4	e5895030	str	r5, [r9, #0x30]
+d99d8	e5933008	ldr	r3, [r3, #0x8]
+d99dc	e12fff33	blx	r3
+d99e0	edd77a28	vldr	s15, [r7, #160]
+d99e4	eeb76ae7	vcvt.f64.f32	d6, s15
+d99e8	e5993000	ldr	r3, [r9]
+d99ec	e1a02006	mov	r2, r6
+d99f0	e3a01008	mov	r1, #8
+d99f4	e5898038	str	r8, [r9, #0x38]
+d99f8	e1a00009	mov	r0, r9
+d99fc	ec554b16	vmov	r4, r5, d6
+d9a00	ed896a0b	vstr	s12, [r9, #44]
+d9a04	e5895030	str	r5, [r9, #0x30]
+d9a08	e5933008	ldr	r3, [r3, #0x8]
+d9a0c	e12fff33	blx	r3
+d9a10	e59740a8	ldr	r4, [r7, #0xa8]
+d9a14	e5993000	ldr	r3, [r9]
+d9a18	e1a02006	mov	r2, r6
+d9a1c	e3a01005	mov	r1, #5
+d9a20	e5898038	str	r8, [r9, #0x38]
+d9a24	ee074a90	vmov	s15, r4
+d9a28	e1a00009	mov	r0, r9
+d9a2c	eeb87b67	vcvt.f64.u32	d7, s15
+d9a30	ec554b17	vmov	r4, r5, d7
+d9a34	ed897a0b	vstr	s14, [r9, #44]
+d9a38	e5895030	str	r5, [r9, #0x30]
+d9a3c	e5933008	ldr	r3, [r3, #0x8]
+d9a40	e12fff33	blx	r3
+d9a44	edd77a24	vldr	s15, [r7, #144]
+d9a48	eeb76ae7	vcvt.f64.f32	d6, s15
+d9a4c	e5993000	ldr	r3, [r9]
+d9a50	e1a02006	mov	r2, r6
+d9a54	e3a01008	mov	r1, #8
+d9a58	e5898038	str	r8, [r9, #0x38]
+d9a5c	e1a00009	mov	r0, r9
+d9a60	ec554b16	vmov	r4, r5, d6
+d9a64	ed896a0b	vstr	s12, [r9, #44]
+d9a68	e5895030	str	r5, [r9, #0x30]
+d9a6c	e5933008	ldr	r3, [r3, #0x8]
+d9a70	e12fff33	blx	r3
+d9a74	e1a00007	mov	r0, r7
+d9a78	eb02e6bf	bl	0x19357c <_ZN9CInstance14GetImageNumberEv>
+d9a7c	e5993000	ldr	r3, [r9]
+d9a80	e1a02006	mov	r2, r6
+d9a84	e3a01005	mov	r1, #5
+d9a88	e5898038	str	r8, [r9, #0x38]
+d9a8c	ee070a90	vmov	s15, r0
+d9a90	e1a00009	mov	r0, r9
+d9a94	eeb87b67	vcvt.f64.u32	d7, s15
+d9a98	ec554b17	vmov	r4, r5, d7
+d9a9c	ed897a0b	vstr	s14, [r9, #44]
+d9aa0	e5895030	str	r5, [r9, #0x30]
+d9aa4	e5933008	ldr	r3, [r3, #0x8]
+d9aa8	e12fff33	blx	r3
+d9aac	edd77a25	vldr	s15, [r7, #148]
+d9ab0	eeb76ae7	vcvt.f64.f32	d6, s15
+d9ab4	e5993000	ldr	r3, [r9]
+d9ab8	e1a02006	mov	r2, r6
+d9abc	e3a01008	mov	r1, #8
+d9ac0	e5898038	str	r8, [r9, #0x38]
+d9ac4	e1a00009	mov	r0, r9
+d9ac8	ec554b16	vmov	r4, r5, d6
+d9acc	ed896a0b	vstr	s12, [r9, #44]
+d9ad0	e5895030	str	r5, [r9, #0x30]
+d9ad4	e5933008	ldr	r3, [r3, #0x8]
+d9ad8	e12fff33	blx	r3
+d9adc	edd77a26	vldr	s15, [r7, #152]
+d9ae0	eeb76ae7	vcvt.f64.f32	d6, s15
+d9ae4	e5993000	ldr	r3, [r9]
+d9ae8	e1a02006	mov	r2, r6
+d9aec	e3a01008	mov	r1, #8
+d9af0	e5898038	str	r8, [r9, #0x38]
+d9af4	e1a00009	mov	r0, r9
+d9af8	ec554b16	vmov	r4, r5, d6
+d9afc	ed896a0b	vstr	s12, [r9, #44]
+d9b00	e5895030	str	r5, [r9, #0x30]
+d9b04	e5933008	ldr	r3, [r3, #0x8]
+d9b08	e12fff33	blx	r3
+d9b0c	edd77a27	vldr	s15, [r7, #156]
+d9b10	eeb76ae7	vcvt.f64.f32	d6, s15
+d9b14	e5993000	ldr	r3, [r9]
+d9b18	e1a02006	mov	r2, r6
+d9b1c	e3a01008	mov	r1, #8
+d9b20	e5898038	str	r8, [r9, #0x38]
+d9b24	e1a00009	mov	r0, r9
+d9b28	ec554b16	vmov	r4, r5, d6
+d9b2c	ed896a0b	vstr	s12, [r9, #44]
+d9b30	e5895030	str	r5, [r9, #0x30]
+d9b34	e5933008	ldr	r3, [r3, #0x8]
+d9b38	e12fff33	blx	r3
+d9b3c	e1a01008	mov	r1, r8
+d9b40	e1a00007	mov	r0, r7
+d9b44	eb02e57a	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9b48	e5993000	ldr	r3, [r9]
+d9b4c	e1a02006	mov	r2, r6
+d9b50	e3a01005	mov	r1, #5
+d9b54	e5898038	str	r8, [r9, #0x38]
+d9b58	ee070a90	vmov	s15, r0
+d9b5c	e1a00009	mov	r0, r9
+d9b60	eeb87b67	vcvt.f64.u32	d7, s15
+d9b64	ec554b17	vmov	r4, r5, d7
+d9b68	ed897a0b	vstr	s14, [r9, #44]
+d9b6c	e5895030	str	r5, [r9, #0x30]
+d9b70	e5933008	ldr	r3, [r3, #0x8]
+d9b74	e12fff33	blx	r3
+d9b78	e3a01001	mov	r1, #1
+d9b7c	e1a00007	mov	r0, r7
+d9b80	eb02e56b	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9b84	e5993000	ldr	r3, [r9]
+d9b88	e1a02006	mov	r2, r6
+d9b8c	e3a01005	mov	r1, #5
+d9b90	e5898038	str	r8, [r9, #0x38]
+d9b94	ee060a90	vmov	s13, r0
+d9b98	e1a00009	mov	r0, r9
+d9b9c	eeb86b66	vcvt.f64.u32	d6, s13
+d9ba0	ec554b16	vmov	r4, r5, d6
+d9ba4	ed896a0b	vstr	s12, [r9, #44]
+d9ba8	e5895030	str	r5, [r9, #0x30]
+d9bac	e5933008	ldr	r3, [r3, #0x8]
+d9bb0	e12fff33	blx	r3
+d9bb4	e3a01002	mov	r1, #2
+d9bb8	e1a00007	mov	r0, r7
+d9bbc	eb02e55c	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9bc0	e5993000	ldr	r3, [r9]
+d9bc4	e1a02006	mov	r2, r6
+d9bc8	e3a01005	mov	r1, #5
+d9bcc	e5898038	str	r8, [r9, #0x38]
+d9bd0	ee070a90	vmov	s15, r0
+d9bd4	e1a00009	mov	r0, r9
+d9bd8	eeb87b67	vcvt.f64.u32	d7, s15
+d9bdc	ec554b17	vmov	r4, r5, d7
+d9be0	ed897a0b	vstr	s14, [r9, #44]
+d9be4	e5895030	str	r5, [r9, #0x30]
+d9be8	e5933008	ldr	r3, [r3, #0x8]
+d9bec	e12fff33	blx	r3
+d9bf0	e3a01003	mov	r1, #3
+d9bf4	e1a00007	mov	r0, r7
+d9bf8	eb02e54d	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9bfc	e5993000	ldr	r3, [r9]
+d9c00	e1a02006	mov	r2, r6
+d9c04	e3a01005	mov	r1, #5
+d9c08	e5898038	str	r8, [r9, #0x38]
+d9c0c	ee060a90	vmov	s13, r0
+d9c10	e1a00009	mov	r0, r9
+d9c14	eeb86b66	vcvt.f64.u32	d6, s13
+d9c18	ec554b16	vmov	r4, r5, d6
+d9c1c	ed896a0b	vstr	s12, [r9, #44]
+d9c20	e5895030	str	r5, [r9, #0x30]
+d9c24	e5933008	ldr	r3, [r3, #0x8]
+d9c28	e12fff33	blx	r3
+d9c2c	e3a01004	mov	r1, #4
+d9c30	e1a00007	mov	r0, r7
+d9c34	eb02e53e	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9c38	e5993000	ldr	r3, [r9]
+d9c3c	e1a02006	mov	r2, r6
+d9c40	e3a01005	mov	r1, #5
+d9c44	e5898038	str	r8, [r9, #0x38]
+d9c48	ee070a90	vmov	s15, r0
+d9c4c	e1a00009	mov	r0, r9
+d9c50	eeb87b67	vcvt.f64.u32	d7, s15
+d9c54	ec554b17	vmov	r4, r5, d7
+d9c58	ed897a0b	vstr	s14, [r9, #44]
+d9c5c	e5895030	str	r5, [r9, #0x30]
+d9c60	e5933008	ldr	r3, [r3, #0x8]
+d9c64	e12fff33	blx	r3
+d9c68	e3a01005	mov	r1, #5
+d9c6c	e1a00007	mov	r0, r7
+d9c70	eb02e52f	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9c74	e5993000	ldr	r3, [r9]
+d9c78	e1a02006	mov	r2, r6
+d9c7c	e3a01005	mov	r1, #5
+d9c80	e5898038	str	r8, [r9, #0x38]
+d9c84	ee060a90	vmov	s13, r0
+d9c88	e1a00009	mov	r0, r9
+d9c8c	eeb86b66	vcvt.f64.u32	d6, s13
+d9c90	ec554b16	vmov	r4, r5, d6
+d9c94	ed896a0b	vstr	s12, [r9, #44]
+d9c98	e5895030	str	r5, [r9, #0x30]
+d9c9c	e5933008	ldr	r3, [r3, #0x8]
+d9ca0	e12fff33	blx	r3
+d9ca4	e3a01006	mov	r1, #6
+d9ca8	e1a00007	mov	r0, r7
+d9cac	eb02e520	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9cb0	e5993000	ldr	r3, [r9]
+d9cb4	e1a02006	mov	r2, r6
+d9cb8	e3a01005	mov	r1, #5
+d9cbc	e5898038	str	r8, [r9, #0x38]
+d9cc0	ee070a90	vmov	s15, r0
+d9cc4	e1a00009	mov	r0, r9
+d9cc8	eeb87b67	vcvt.f64.u32	d7, s15
+d9ccc	ec554b17	vmov	r4, r5, d7
+d9cd0	ed897a0b	vstr	s14, [r9, #44]
+d9cd4	e5895030	str	r5, [r9, #0x30]
+d9cd8	e5933008	ldr	r3, [r3, #0x8]
+d9cdc	e12fff33	blx	r3
+d9ce0	e3a01007	mov	r1, #7
+d9ce4	e1a00007	mov	r0, r7
+d9ce8	eb02e511	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9cec	e5993000	ldr	r3, [r9]
+d9cf0	e1a02006	mov	r2, r6
+d9cf4	e3a01005	mov	r1, #5
+d9cf8	e5898038	str	r8, [r9, #0x38]
+d9cfc	ee060a90	vmov	s13, r0
+d9d00	e1a00009	mov	r0, r9
+d9d04	eeb86b66	vcvt.f64.u32	d6, s13
+d9d08	ec554b16	vmov	r4, r5, d6
+d9d0c	ed896a0b	vstr	s12, [r9, #44]
+d9d10	e5895030	str	r5, [r9, #0x30]
+d9d14	e5933008	ldr	r3, [r3, #0x8]
+d9d18	e12fff33	blx	r3
+d9d1c	e3a01008	mov	r1, #8
+d9d20	e1a00007	mov	r0, r7
+d9d24	eb02e502	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9d28	e5993000	ldr	r3, [r9]
+d9d2c	e1a02006	mov	r2, r6
+d9d30	e3a01005	mov	r1, #5
+d9d34	e5898038	str	r8, [r9, #0x38]
+d9d38	ee070a90	vmov	s15, r0
+d9d3c	e1a00009	mov	r0, r9
+d9d40	eeb87b67	vcvt.f64.u32	d7, s15
+d9d44	ec554b17	vmov	r4, r5, d7
+d9d48	ed897a0b	vstr	s14, [r9, #44]
+d9d4c	e5895030	str	r5, [r9, #0x30]
+d9d50	e5933008	ldr	r3, [r3, #0x8]
+d9d54	e12fff33	blx	r3
+d9d58	e3a01009	mov	r1, #9
+d9d5c	e1a00007	mov	r0, r7
+d9d60	eb02e4f3	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9d64	e5993000	ldr	r3, [r9]
+d9d68	e1a02006	mov	r2, r6
+d9d6c	e3a01005	mov	r1, #5
+d9d70	e5898038	str	r8, [r9, #0x38]
+d9d74	ee060a90	vmov	s13, r0
+d9d78	e1a00009	mov	r0, r9
+d9d7c	eeb86b66	vcvt.f64.u32	d6, s13
+d9d80	ec554b16	vmov	r4, r5, d6
+d9d84	ed896a0b	vstr	s12, [r9, #44]
+d9d88	e5895030	str	r5, [r9, #0x30]
+d9d8c	e5933008	ldr	r3, [r3, #0x8]
+d9d90	e12fff33	blx	r3
+d9d94	e3a0100a	mov	r1, #10
+d9d98	e1a00007	mov	r0, r7
+d9d9c	eb02e4e4	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9da0	e5993000	ldr	r3, [r9]
+d9da4	e1a02006	mov	r2, r6
+d9da8	e3a01005	mov	r1, #5
+d9dac	e5898038	str	r8, [r9, #0x38]
+d9db0	ee070a90	vmov	s15, r0
+d9db4	e1a00009	mov	r0, r9
+d9db8	eeb87b67	vcvt.f64.u32	d7, s15
+d9dbc	ec554b17	vmov	r4, r5, d7
+d9dc0	ed897a0b	vstr	s14, [r9, #44]
+d9dc4	e5895030	str	r5, [r9, #0x30]
+d9dc8	e5933008	ldr	r3, [r3, #0x8]
+d9dcc	e12fff33	blx	r3
+d9dd0	e3a0100b	mov	r1, #11
+d9dd4	e1a00007	mov	r0, r7
+d9dd8	eb02e4d5	bl	0x193134 <_ZN9CInstance8GetTimerEi>
+d9ddc	e5993000	ldr	r3, [r9]
+d9de0	e1a02006	mov	r2, r6
+d9de4	e3a01005	mov	r1, #5
+d9de8	e5898038	str	r8, [r9, #0x38]
+d9dec	ee060a90	vmov	s13, r0
+d9df0	e1a00009	mov	r0, r9
+d9df4	eeb86b66	vcvt.f64.u32	d6, s13
+d9df8	ec554b16	vmov	r4, r5, d6
+d9dfc	ed896a0b	vstr	s12, [r9, #44]
+d9e00	e5895030	str	r5, [r9, #0x30]
+d9e04	e5933008	ldr	r3, [r3, #0x8]
+d9e08	e12fff33	blx	r3
+d9e0c	e5974128	ldr	r4, [r7, #0x128]
+d9e10	e5993000	ldr	r3, [r9]
+d9e14	e1a02006	mov	r2, r6
+d9e18	e3a01005	mov	r1, #5
+d9e1c	e5898038	str	r8, [r9, #0x38]
+d9e20	ee074a90	vmov	s15, r4
+d9e24	e1a00009	mov	r0, r9
+d9e28	eeb87b67	vcvt.f64.u32	d7, s15
+d9e2c	ec554b17	vmov	r4, r5, d7
+d9e30	ed897a0b	vstr	s14, [r9, #44]
+d9e34	e5895030	str	r5, [r9, #0x30]
+d9e38	e5933008	ldr	r3, [r3, #0x8]
+d9e3c	e12fff33	blx	r3
+d9e40	edd77a4b	vldr	s15, [r7, #300]
+d9e44	eeb76ae7	vcvt.f64.f32	d6, s15
+d9e48	e5993000	ldr	r3, [r9]
+d9e4c	e1a02006	mov	r2, r6
+d9e50	e3a01008	mov	r1, #8
+d9e54	e5898038	str	r8, [r9, #0x38]
+d9e58	e1a00009	mov	r0, r9
+d9e5c	ec554b16	vmov	r4, r5, d6
+d9e60	ed896a0b	vstr	s12, [r9, #44]
+d9e64	e5895030	str	r5, [r9, #0x30]
+d9e68	e5933008	ldr	r3, [r3, #0x8]
+d9e6c	e12fff33	blx	r3
+d9e70	edd77a4c	vldr	s15, [r7, #304]
+d9e74	eeb76ae7	vcvt.f64.f32	d6, s15
+d9e78	e5993000	ldr	r3, [r9]
+d9e7c	e1a02006	mov	r2, r6
+d9e80	e3a01008	mov	r1, #8
+d9e84	e5898038	str	r8, [r9, #0x38]
+d9e88	e1a00009	mov	r0, r9
+d9e8c	ec554b16	vmov	r4, r5, d6
+d9e90	ed896a0b	vstr	s12, [r9, #44]
+d9e94	e5895030	str	r5, [r9, #0x30]
+d9e98	e5933008	ldr	r3, [r3, #0x8]
+d9e9c	e12fff33	blx	r3
+d9ea0	e5974140	ldr	r4, [r7, #0x140]
+d9ea4	e5993000	ldr	r3, [r9]
+d9ea8	e1a02006	mov	r2, r6
+d9eac	e3a01005	mov	r1, #5
+d9eb0	e5898038	str	r8, [r9, #0x38]
+d9eb4	ee074a90	vmov	s15, r4
+d9eb8	e1a00009	mov	r0, r9
+d9ebc	eeb87b67	vcvt.f64.u32	d7, s15
+d9ec0	ec554b17	vmov	r4, r5, d7
+d9ec4	ed897a0b	vstr	s14, [r9, #44]
+d9ec8	e5895030	str	r5, [r9, #0x30]
+d9ecc	e5933008	ldr	r3, [r3, #0x8]
+d9ed0	e12fff33	blx	r3
+d9ed4	edd77a4e	vldr	s15, [r7, #312]
+d9ed8	eeb76ae7	vcvt.f64.f32	d6, s15
+d9edc	e5993000	ldr	r3, [r9]
+d9ee0	e1a02006	mov	r2, r6
+d9ee4	e3a01008	mov	r1, #8
+d9ee8	e5898038	str	r8, [r9, #0x38]
+d9eec	e1a00009	mov	r0, r9
+d9ef0	ec554b16	vmov	r4, r5, d6
+d9ef4	ed896a0b	vstr	s12, [r9, #44]
+d9ef8	e5895030	str	r5, [r9, #0x30]
+d9efc	e5933008	ldr	r3, [r3, #0x8]
+d9f00	e12fff33	blx	r3
+d9f04	edd77a4d	vldr	s15, [r7, #308]
+d9f08	eeb76ae7	vcvt.f64.f32	d6, s15
+d9f0c	e5993000	ldr	r3, [r9]
+d9f10	e1a02006	mov	r2, r6
+d9f14	e3a01008	mov	r1, #8
+d9f18	e5898038	str	r8, [r9, #0x38]
+d9f1c	e1a00009	mov	r0, r9
+d9f20	ec554b16	vmov	r4, r5, d6
+d9f24	ed896a0b	vstr	s12, [r9, #44]
+d9f28	e5895030	str	r5, [r9, #0x30]
+d9f2c	e5933008	ldr	r3, [r3, #0x8]
+d9f30	e12fff33	blx	r3
+d9f34	edd77a4f	vldr	s15, [r7, #316]
+d9f38	eeb76ae7	vcvt.f64.f32	d6, s15
+d9f3c	e5993000	ldr	r3, [r9]
+d9f40	e1a02006	mov	r2, r6
+d9f44	e3a01008	mov	r1, #8
+d9f48	e5898038	str	r8, [r9, #0x38]
+d9f4c	e1a00009	mov	r0, r9
+d9f50	ec554b16	vmov	r4, r5, d6
+d9f54	ed896a0b	vstr	s12, [r9, #44]
+d9f58	e5895030	str	r5, [r9, #0x30]
+d9f5c	e5933008	ldr	r3, [r3, #0x8]
+d9f60	e12fff33	blx	r3
+d9f64	edd77a2f	vldr	s15, [r7, #188]
+d9f68	eeb76ae7	vcvt.f64.f32	d6, s15
+d9f6c	e5993000	ldr	r3, [r9]
+d9f70	e1a02006	mov	r2, r6
+d9f74	e3a01008	mov	r1, #8
+d9f78	e5898038	str	r8, [r9, #0x38]
+d9f7c	e1a00009	mov	r0, r9
+d9f80	ec554b16	vmov	r4, r5, d6
+d9f84	ed896a0b	vstr	s12, [r9, #44]
+d9f88	e5895030	str	r5, [r9, #0x30]
+d9f8c	e5933008	ldr	r3, [r3, #0x8]
+d9f90	e12fff33	blx	r3
+d9f94	edd77a30	vldr	s15, [r7, #192]
+d9f98	eeb76ae7	vcvt.f64.f32	d6, s15
+d9f9c	e5993000	ldr	r3, [r9]
+d9fa0	e1a02006	mov	r2, r6
+d9fa4	e3a01008	mov	r1, #8
+d9fa8	e5898038	str	r8, [r9, #0x38]
+d9fac	e1a00009	mov	r0, r9
+d9fb0	ec554b16	vmov	r4, r5, d6
+d9fb4	ed896a0b	vstr	s12, [r9, #44]
+d9fb8	e5895030	str	r5, [r9, #0x30]
+d9fbc	e5933008	ldr	r3, [r3, #0x8]
+d9fc0	e12fff33	blx	r3
+d9fc4	e5d74067	ldrb	r4, [r7, #0x67]
+d9fc8	e5993000	ldr	r3, [r9]
+d9fcc	e1a02006	mov	r2, r6
+d9fd0	e3a01005	mov	r1, #5
+d9fd4	e5898038	str	r8, [r9, #0x38]
+d9fd8	ee074a90	vmov	s15, r4
+d9fdc	e1a00009	mov	r0, r9
+d9fe0	eeb87b67	vcvt.f64.u32	d7, s15
+d9fe4	ec554b17	vmov	r4, r5, d7
+d9fe8	ed897a0b	vstr	s14, [r9, #44]
+d9fec	e5895030	str	r5, [r9, #0x30]
+d9ff0	e5933008	ldr	r3, [r3, #0x8]
+d9ff4	e12fff33	blx	r3
+d9ff8	edd77a60	vldr	s15, [r7, #384]
+d9ffc	eeb76ae7	vcvt.f64.f32	d6, s15
+da000	e5993000	ldr	r3, [r9]
+da004	e1a02006	mov	r2, r6
+da008	e3a01008	mov	r1, #8
+da00c	e5898038	str	r8, [r9, #0x38]
+da010	e1a00009	mov	r0, r9
+da014	ec554b16	vmov	r4, r5, d6
+da018	ed896a0b	vstr	s12, [r9, #44]
+da01c	e5895030	str	r5, [r9, #0x30]
+da020	e5933008	ldr	r3, [r3, #0x8]
+da024	e12fff33	blx	r3
+da028	e5d74065	ldrb	r4, [r7, #0x65]
+da02c	e5993000	ldr	r3, [r9]
+da030	e1a02006	mov	r2, r6
+da034	e3a01005	mov	r1, #5
+da038	e5898038	str	r8, [r9, #0x38]
+da03c	ee074a90	vmov	s15, r4
+da040	e1a00009	mov	r0, r9
+da044	eeb87b67	vcvt.f64.u32	d7, s15
+da048	ec554b17	vmov	r4, r5, d7
+da04c	ed897a0b	vstr	s14, [r9, #44]
+da050	e5895030	str	r5, [r9, #0x30]
+da054	e5933008	ldr	r3, [r3, #0x8]
+da058	e12fff33	blx	r3
+da05c	e59740ac	ldr	r4, [r7, #0xac]
+da060	e5993000	ldr	r3, [r9]
+da064	e1a02006	mov	r2, r6
+da068	e3a01006	mov	r1, #6
+da06c	e5898038	str	r8, [r9, #0x38]
+da070	ee064a90	vmov	s13, r4
+da074	e1a00009	mov	r0, r9
+da078	eeb86be6	vcvt.f64.s32	d6, s13
+da07c	ec554b16	vmov	r4, r5, d6
+da080	ed896a0b	vstr	s12, [r9, #44]
+da084	e5895030	str	r5, [r9, #0x30]
+da088	e5933008	ldr	r3, [r3, #0x8]
+da08c	e12fff33	blx	r3
+da090	e5d74066	ldrb	r4, [r7, #0x66]
+da094	e5993000	ldr	r3, [r9]
+da098	e1a02006	mov	r2, r6
+da09c	e5898038	str	r8, [r9, #0x38]
+da0a0	e1a00009	mov	r0, r9
+da0a4	ee074a90	vmov	s15, r4
+da0a8	e3a01005	mov	r1, #5
+da0ac	eeb87b67	vcvt.f64.u32	d7, s15
+da0b0	ec554b17	vmov	r4, r5, d7
+da0b4	ed897a0b	vstr	s14, [r9, #44]
+da0b8	e5895030	str	r5, [r9, #0x30]
+da0bc	e5933008	ldr	r3, [r3, #0x8]
+da0c0	e12fff33	blx	r3
+da0c4	e5d73064	ldrb	r3, [r7, #0x64]
+da0c8	e1530008	cmp	r3, r8
+da0cc	1a000271	bne	0xdaa98 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x13a8>
+da0d0	e59740ec	ldr	r4, [r7, #0xec]
+da0d4	e3a08000	mov	r8, #0
+da0d8	e5993000	ldr	r3, [r9]
+da0dc	e3a01006	mov	r1, #6
+da0e0	e1a02006	mov	r2, r6
+da0e4	e1a00009	mov	r0, r9
+da0e8	ee064a90	vmov	s13, r4
+da0ec	e5898038	str	r8, [r9, #0x38]
+da0f0	eeb86be6	vcvt.f64.s32	d6, s13
+da0f4	ec554b16	vmov	r4, r5, d6
+da0f8	ed896a0b	vstr	s12, [r9, #44]
+da0fc	e5895030	str	r5, [r9, #0x30]
+da100	e5933008	ldr	r3, [r3, #0x8]
+da104	e12fff33	blx	r3
+da108	e59740f4	ldr	r4, [r7, #0xf4]
+da10c	e5993000	ldr	r3, [r9]
+da110	e3a01006	mov	r1, #6
+da114	e1a02006	mov	r2, r6
+da118	e1a00009	mov	r0, r9
+da11c	ee074a90	vmov	s15, r4
+da120	e5898038	str	r8, [r9, #0x38]
+da124	eeb87be7	vcvt.f64.s32	d7, s15
+da128	ec554b17	vmov	r4, r5, d7
+da12c	ed897a0b	vstr	s14, [r9, #44]
+da130	e5895030	str	r5, [r9, #0x30]
+da134	e5933008	ldr	r3, [r3, #0x8]
+da138	e12fff33	blx	r3
+da13c	e59740e8	ldr	r4, [r7, #0xe8]
+da140	e5993000	ldr	r3, [r9]
+da144	e3a01006	mov	r1, #6
+da148	e1a02006	mov	r2, r6
+da14c	e1a00009	mov	r0, r9
+da150	ee064a90	vmov	s13, r4
+da154	e5898038	str	r8, [r9, #0x38]
+da158	eeb86be6	vcvt.f64.s32	d6, s13
+da15c	ec554b16	vmov	r4, r5, d6
+da160	ed896a0b	vstr	s12, [r9, #44]
+da164	e5895030	str	r5, [r9, #0x30]
+da168	e5933008	ldr	r3, [r3, #0x8]
+da16c	e12fff33	blx	r3
+da170	e59740f0	ldr	r4, [r7, #0xf0]
+da174	e5993000	ldr	r3, [r9]
+da178	e3a01006	mov	r1, #6
+da17c	e1a02006	mov	r2, r6
+da180	e1a00009	mov	r0, r9
+da184	ee074a90	vmov	s15, r4
+da188	e5898038	str	r8, [r9, #0x38]
+da18c	eeb87be7	vcvt.f64.s32	d7, s15
+da190	ec554b17	vmov	r4, r5, d7
+da194	ed897a0b	vstr	s14, [r9, #44]
+da198	e5895030	str	r5, [r9, #0x30]
+da19c	e5933008	ldr	r3, [r3, #0x8]
+da1a0	e12fff33	blx	r3
+da1a4	e597008c	ldr	r0, [r7, #0x8c]
+da1a8	eb0453a3	bl	0x1ef03c <_Z11Sprite_Datai>
+da1ac	e250a000	subs	r10, r0, #0
+da1b0	0a0002df	beq	0xdad34 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x1644>
+da1b4	edda7a07	vldr	s15, [r10, #28]
+da1b8	eef87ae7	vcvt.f32.s32	s15, s15
+da1bc	ed977a26	vldr	s14, [r7, #152]
+da1c0	e5993000	ldr	r3, [r9]
+da1c4	e3a01008	mov	r1, #8
+da1c8	e1a02006	mov	r2, r6
+da1cc	e1a00009	mov	r0, r9
+da1d0	e5898038	str	r8, [r9, #0x38]
+da1d4	ee677a87	vmul.f32	s15, s15, s14
+da1d8	eeb76ae7	vcvt.f64.f32	d6, s15
+da1dc	ec554b16	vmov	r4, r5, d6
+da1e0	ed896a0b	vstr	s12, [r9, #44]
+da1e4	e5895030	str	r5, [r9, #0x30]
+da1e8	e5933008	ldr	r3, [r3, #0x8]
+da1ec	e12fff33	blx	r3
+da1f0	edda7a08	vldr	s15, [r10, #32]
+da1f4	eef87ae7	vcvt.f32.s32	s15, s15
+da1f8	ed977a27	vldr	s14, [r7, #156]
+da1fc	e5993000	ldr	r3, [r9]
+da200	e3a01008	mov	r1, #8
+da204	e1a02006	mov	r2, r6
+da208	e5898038	str	r8, [r9, #0x38]
+da20c	e1a00009	mov	r0, r9
+da210	ee677a87	vmul.f32	s15, s15, s14
+da214	eeb76ae7	vcvt.f64.f32	d6, s15
+da218	ec554b16	vmov	r4, r5, d6
+da21c	ed896a0b	vstr	s12, [r9, #44]
+da220	e5895030	str	r5, [r9, #0x30]
+da224	e5933008	ldr	r3, [r3, #0x8]
+da228	e12fff33	blx	r3
+da22c	edda7a09	vldr	s15, [r10, #36]
+da230	eef87ae7	vcvt.f32.s32	s15, s15
+da234	ed977a26	vldr	s14, [r7, #152]
+da238	e5993000	ldr	r3, [r9]
+da23c	e3a01008	mov	r1, #8
+da240	e1a02006	mov	r2, r6
+da244	e5898038	str	r8, [r9, #0x38]
+da248	e1a00009	mov	r0, r9
+da24c	ee677a87	vmul.f32	s15, s15, s14
+da250	eeb76ae7	vcvt.f64.f32	d6, s15
+da254	ec554b16	vmov	r4, r5, d6
+da258	ed896a0b	vstr	s12, [r9, #44]
+da25c	e5895030	str	r5, [r9, #0x30]
+da260	e5933008	ldr	r3, [r3, #0x8]
+da264	e12fff33	blx	r3
+da268	edda7a0a	vldr	s15, [r10, #40]
+da26c	eef87ae7	vcvt.f32.s32	s15, s15
+da270	ed977a27	vldr	s14, [r7, #156]
+da274	e5993000	ldr	r3, [r9]
+da278	e1a00009	mov	r0, r9
+da27c	e5898038	str	r8, [r9, #0x38]
+da280	e3a01008	mov	r1, #8
+da284	e1a02006	mov	r2, r6
+da288	ee677a87	vmul.f32	s15, s15, s14
+da28c	eeb76ae7	vcvt.f64.f32	d6, s15
+da290	ec554b16	vmov	r4, r5, d6
+da294	ed896a0b	vstr	s12, [r9, #44]
+da298	e5895030	str	r5, [r9, #0x30]
+da29c	e5933008	ldr	r3, [r3, #0x8]
+da2a0	e12fff33	blx	r3
+da2a4	e5978084	ldr	r8, [r7, #0x84]
+da2a8	e3580000	cmp	r8, #0
+da2ac	0a0001fd	beq	0xdaaa8 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x13b8>
+da2b0	e598c000	ldr	r12, [r8]
+da2b4	e3a0b000	mov	r11, #0
+da2b8	e5993000	ldr	r3, [r9]
+da2bc	e3a01005	mov	r1, #5
+da2c0	e1a02006	mov	r2, r6
+da2c4	e1a00009	mov	r0, r9
+da2c8	e1dc40b4	ldrh	r4, [r12, #4]
+da2cc	e28da008	add	r10, sp, #8
+da2d0	e589b038	str	r11, [r9, #0x38]
+da2d4	e7e042d4	ubfx	r4, r4, #0x5, #0x1
+da2d8	ee074a90	vmov	s15, r4
+da2dc	eeb87b67	vcvt.f64.u32	d7, s15
+da2e0	ec554b17	vmov	r4, r5, d7
+da2e4	ed897a0b	vstr	s14, [r9, #44]
+da2e8	e5895030	str	r5, [r9, #0x30]
+da2ec	e5933008	ldr	r3, [r3, #0x8]
+da2f0	e12fff33	blx	r3
+da2f4	e598c000	ldr	r12, [r8]
+da2f8	e5993000	ldr	r3, [r9]
+da2fc	e3a01005	mov	r1, #5
+da300	e1a02006	mov	r2, r6
+da304	e1a00009	mov	r0, r9
+da308	e1dc40b4	ldrh	r4, [r12, #4]
+da30c	e589b038	str	r11, [r9, #0x38]
+da310	e7e04254	ubfx	r4, r4, #0x4, #0x1
+da314	ee064a90	vmov	s13, r4
+da318	eeb86b66	vcvt.f64.u32	d6, s13
+da31c	ec554b16	vmov	r4, r5, d6
+da320	ed896a0b	vstr	s12, [r9, #44]
+da324	e5895030	str	r5, [r9, #0x30]
+da328	e5933008	ldr	r3, [r3, #0x8]
+da32c	e12fff33	blx	r3
+da330	e5983000	ldr	r3, [r8]
+da334	eddf7ac4	vldr	s15, [pc, #784]
+da338	ed937a16	vldr	s14, [r3, #88]
+da33c	ee677a27	vmul.f32	s15, s14, s15
+da340	ed9f7ac2	vldr	s14, [pc, #776]
+da344	e5993000	ldr	r3, [r9]
+da348	e3a01008	mov	r1, #8
+da34c	e1a02006	mov	r2, r6
+da350	e1a00009	mov	r0, r9
+da354	e589b038	str	r11, [r9, #0x38]
+da358	eec77a87	vdiv.f32	s15, s15, s14
+da35c	eeb76ae7	vcvt.f64.f32	d6, s15
+da360	ec554b16	vmov	r4, r5, d6
+da364	ed896a0b	vstr	s12, [r9, #44]
+da368	e5895030	str	r5, [r9, #0x30]
+da36c	e5933008	ldr	r3, [r3, #0x8]
+da370	e12fff33	blx	r3
+da374	e1a0100b	mov	r1, r11
+da378	e1a0200a	mov	r2, r10
+da37c	e1a00007	mov	r0, r7
+da380	eb047cbf	bl	0x1f9684 <_Z25GV_PhysicsLinearVelocityXP9CInstanceiP6RValue>
+da384	e2503000	subs	r3, r0, #0
+da388	0a000168	beq	0xda930 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x1240>
+da38c	e5993000	ldr	r3, [r9]
+da390	e1a00009	mov	r0, r9
+da394	e589b02c	str	r11, [r9, #0x2c]
+da398	e3a01008	mov	r1, #8
+da39c	e589b030	str	r11, [r9, #0x30]
+da3a0	e1a02006	mov	r2, r6
+da3a4	e589b038	str	r11, [r9, #0x38]
+da3a8	e5933008	ldr	r3, [r3, #0x8]
+da3ac	e12fff33	blx	r3
+da3b0	e1a00007	mov	r0, r7
+da3b4	e3a01000	mov	r1, #0
+da3b8	e1a0200a	mov	r2, r10
+da3bc	eb047cc9	bl	0x1f96e8 <_Z25GV_PhysicsLinearVelocityYP9CInstanceiP6RValue>
+da3c0	e2503000	subs	r3, r0, #0
+da3c4	1a0001a8	bne	0xdaa6c <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x137c>
+da3c8	ed9d7b02	vldr	d7, [sp, #8]
+da3cc	eeb77bc7	vcvt.f32.f64	s14, d7
+da3d0	e599c000	ldr	r12, [r9]
+da3d4	e1a00009	mov	r0, r9
+da3d8	e5893038	str	r3, [r9, #0x38]
+da3dc	e3a01008	mov	r1, #8
+da3e0	e1a02006	mov	r2, r6
+da3e4	eeb76ac7	vcvt.f64.f32	d6, s14
+da3e8	ec554b16	vmov	r4, r5, d6
+da3ec	ed896a0b	vstr	s12, [r9, #44]
+da3f0	e5895030	str	r5, [r9, #0x30]
+da3f4	e59c3008	ldr	r3, [r12, #0x8]
+da3f8	e12fff33	blx	r3
+da3fc	e1a00007	mov	r0, r7
+da400	e3a01000	mov	r1, #0
+da404	e1a0200a	mov	r2, r10
+da408	eb047e52	bl	0x1f9d58 <_Z16GV_PhysicsSpeedXP9CInstanceiP6RValue>
+da40c	e2503000	subs	r3, r0, #0
+da410	1a00018a	bne	0xdaa40 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x1350>
+da414	ed9d7b02	vldr	d7, [sp, #8]
+da418	eeb77bc7	vcvt.f32.f64	s14, d7
+da41c	e599c000	ldr	r12, [r9]
+da420	e1a00009	mov	r0, r9
+da424	e5893038	str	r3, [r9, #0x38]
+da428	e3a01008	mov	r1, #8
+da42c	e1a02006	mov	r2, r6
+da430	eeb76ac7	vcvt.f64.f32	d6, s14
+da434	ec554b16	vmov	r4, r5, d6
+da438	ed896a0b	vstr	s12, [r9, #44]
+da43c	e5895030	str	r5, [r9, #0x30]
+da440	e59c3008	ldr	r3, [r12, #0x8]
+da444	e12fff33	blx	r3
+da448	e1a00007	mov	r0, r7
+da44c	e3a01000	mov	r1, #0
+da450	e1a0200a	mov	r2, r10
+da454	eb047e78	bl	0x1f9e3c <_Z16GV_PhysicsSpeedYP9CInstanceiP6RValue>
+da458	e2503000	subs	r3, r0, #0
+da45c	1a00016c	bne	0xdaa14 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x1324>
+da460	ed9d7b02	vldr	d7, [sp, #8]
+da464	eeb77bc7	vcvt.f32.f64	s14, d7
+da468	e599c000	ldr	r12, [r9]
+da46c	e1a00009	mov	r0, r9
+da470	e5893038	str	r3, [r9, #0x38]
+da474	e3a01008	mov	r1, #8
+da478	e1a02006	mov	r2, r6
+da47c	eeb76ac7	vcvt.f64.f32	d6, s14
+da480	ec554b16	vmov	r4, r5, d6
+da484	ed896a0b	vstr	s12, [r9, #44]
+da488	e5895030	str	r5, [r9, #0x30]
+da48c	e59c3008	ldr	r3, [r12, #0x8]
+da490	e12fff33	blx	r3
+da494	e1a00007	mov	r0, r7
+da498	e3a01000	mov	r1, #0
+da49c	e1a0200a	mov	r2, r10
+da4a0	eb047c45	bl	0x1f95bc <_Z19GV_PhysicsPositionXP9CInstanceiP6RValue>
+da4a4	e2503000	subs	r3, r0, #0
+da4a8	1a00014e	bne	0xda9e8 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x12f8>
+da4ac	ed9d7b02	vldr	d7, [sp, #8]
+da4b0	eeb77bc7	vcvt.f32.f64	s14, d7
+da4b4	e599c000	ldr	r12, [r9]
+da4b8	e1a00009	mov	r0, r9
+da4bc	e5893038	str	r3, [r9, #0x38]
+da4c0	e3a01008	mov	r1, #8
+da4c4	e1a02006	mov	r2, r6
+da4c8	eeb76ac7	vcvt.f64.f32	d6, s14
+da4cc	ec554b16	vmov	r4, r5, d6
+da4d0	ed896a0b	vstr	s12, [r9, #44]
+da4d4	e5895030	str	r5, [r9, #0x30]
+da4d8	e59c3008	ldr	r3, [r12, #0x8]
+da4dc	e12fff33	blx	r3
+da4e0	e1a00007	mov	r0, r7
+da4e4	e3a01000	mov	r1, #0
+da4e8	e1a0200a	mov	r2, r10
+da4ec	eb047c4b	bl	0x1f9620 <_Z19GV_PhysicsPositionYP9CInstanceiP6RValue>
+da4f0	e2503000	subs	r3, r0, #0
+da4f4	1a000125	bne	0xda990 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x12a0>
+da4f8	ed9d7b02	vldr	d7, [sp, #8]
+da4fc	eeb77bc7	vcvt.f32.f64	s14, d7
+da500	e599c000	ldr	r12, [r9]
+da504	e1a00009	mov	r0, r9
+da508	e5893038	str	r3, [r9, #0x38]
+da50c	e3a01008	mov	r1, #8
+da510	e1a02006	mov	r2, r6
+da514	eeb76ac7	vcvt.f64.f32	d6, s14
+da518	ec554b16	vmov	r4, r5, d6
+da51c	ed896a0b	vstr	s12, [r9, #44]
+da520	e5895030	str	r5, [r9, #0x30]
+da524	e59c3008	ldr	r3, [r12, #0x8]
+da528	e12fff33	blx	r3
+da52c	e5983000	ldr	r3, [r8]
+da530	eddf7a45	vldr	s15, [pc, #276]
+da534	ed937a12	vldr	s14, [r3, #72]
+da538	ee677a27	vmul.f32	s15, s14, s15
+da53c	ed9f7a43	vldr	s14, [pc, #268]
+da540	e5993000	ldr	r3, [r9]
+da544	e3a0b000	mov	r11, #0
+da548	e3a01008	mov	r1, #8
+da54c	e1a02006	mov	r2, r6
+da550	e1a00009	mov	r0, r9
+da554	e589b038	str	r11, [r9, #0x38]
+da558	eec77a87	vdiv.f32	s15, s15, s14
+da55c	eeb76ae7	vcvt.f64.f32	d6, s15
+da560	ec554b16	vmov	r4, r5, d6
+da564	ed896a0b	vstr	s12, [r9, #44]
+da568	e5895030	str	r5, [r9, #0x30]
+da56c	e5933008	ldr	r3, [r3, #0x8]
+da570	e12fff33	blx	r3
+da574	e598c000	ldr	r12, [r8]
+da578	e5993000	ldr	r3, [r9]
+da57c	e3a01005	mov	r1, #5
+da580	e1a02006	mov	r2, r6
+da584	e1a00009	mov	r0, r9
+da588	e1dc40b4	ldrh	r4, [r12, #4]
+da58c	e589b038	str	r11, [r9, #0x38]
+da590	e7e041d4	ubfx	r4, r4, #0x3, #0x1
+da594	ee074a90	vmov	s15, r4
+da598	eeb87b67	vcvt.f64.u32	d7, s15
+da59c	ec554b17	vmov	r4, r5, d7
+da5a0	ed897a0b	vstr	s14, [r9, #44]
+da5a4	e5895030	str	r5, [r9, #0x30]
+da5a8	e5933008	ldr	r3, [r3, #0x8]
+da5ac	e12fff33	blx	r3
+da5b0	e1a00007	mov	r0, r7
+da5b4	e1a0100b	mov	r1, r11
+da5b8	e1a0200a	mov	r2, r10
+da5bc	eb047c82	bl	0x1f97cc <_Z15GV_PhysicsCOM_XP9CInstanceiP6RValue>
+da5c0	e2503000	subs	r3, r0, #0
+da5c4	1a0000e7	bne	0xda968 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x1278>
+da5c8	ed9d7b02	vldr	d7, [sp, #8]
+da5cc	eeb77bc7	vcvt.f32.f64	s14, d7
+da5d0	e599c000	ldr	r12, [r9]
+da5d4	e1a00009	mov	r0, r9
+da5d8	e5893038	str	r3, [r9, #0x38]
+da5dc	e3a01008	mov	r1, #8
+da5e0	e1a02006	mov	r2, r6
+da5e4	eeb76ac7	vcvt.f64.f32	d6, s14
+da5e8	ec554b16	vmov	r4, r5, d6
+da5ec	ed896a0b	vstr	s12, [r9, #44]
+da5f0	e5895030	str	r5, [r9, #0x30]
+da5f4	e59c3008	ldr	r3, [r12, #0x8]
+da5f8	e12fff33	blx	r3
+da5fc	e1a0200a	mov	r2, r10
+da600	e1a00007	mov	r0, r7
+da604	e3a01000	mov	r1, #0
+da608	eb047c88	bl	0x1f9830 <_Z15GV_PhysicsCOM_YP9CInstanceiP6RValue>
+da60c	e2503000	subs	r3, r0, #0
+da610	1a0000e9	bne	0xda9bc <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x12cc>
+da614	ed9d7b02	vldr	d7, [sp, #8]
+da618	eeb77bc7	vcvt.f32.f64	s14, d7
+da61c	e599c000	ldr	r12, [r9]
+da620	e1a00009	mov	r0, r9
+da624	e5893038	str	r3, [r9, #0x38]
+da628	e3a01008	mov	r1, #8
+da62c	e1a02006	mov	r2, r6
+da630	eeb76ac7	vcvt.f64.f32	d6, s14
+da634	ec554b16	vmov	r4, r5, d6
+da638	ed896a0b	vstr	s12, [r9, #44]
+da63c	e5895030	str	r5, [r9, #0x30]
+da640	e59c3008	ldr	r3, [r12, #0x8]
+da644	e12fff33	blx	r3
+da648	ea000003	b	0xda65c <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xf6c>
+da64c	43340000	teqmi	r4, #0
+da650	40490fdb	ldrdmi	r0, r1, [r9], #-251
+da654	00313078	eorseq	r3, r1, r8, ror r0
+da658	00313404	eorseq	r3, r1, r4, lsl #8
+da65c	e598c000	ldr	r12, [r8]
+da660	e3a0a000	mov	r10, #0
+da664	e5993000	ldr	r3, [r9]
+da668	e3a01005	mov	r1, #5
+da66c	e1a02006	mov	r2, r6
+da670	e1a00009	mov	r0, r9
+da674	e59c4000	ldr	r4, [r12]
+da678	e589a038	str	r10, [r9, #0x38]
+da67c	e254c002	subs	r12, r4, #2
+da680	e27c4000	rsbs	r4, r12, #0
+da684	e0b4400c	adcs	r4, r4, r12
+da688	ee074a90	vmov	s15, r4
+da68c	eeb87b67	vcvt.f64.u32	d7, s15
+da690	ec554b17	vmov	r4, r5, d7
+da694	ed897a0b	vstr	s14, [r9, #44]
+da698	e5895030	str	r5, [r9, #0x30]
+da69c	e5933008	ldr	r3, [r3, #0x8]
+da6a0	e12fff33	blx	r3
+da6a4	e598c000	ldr	r12, [r8]
+da6a8	e5993000	ldr	r3, [r9]
+da6ac	e3a01005	mov	r1, #5
+da6b0	e1a02006	mov	r2, r6
+da6b4	e1a00009	mov	r0, r9
+da6b8	e59c4000	ldr	r4, [r12]
+da6bc	e589a038	str	r10, [r9, #0x38]
+da6c0	e254e001	subs	lr, r4, #1
+da6c4	e27e4000	rsbs	r4, lr, #0
+da6c8	e0b4400e	adcs	r4, r4, lr
+da6cc	ee064a90	vmov	s13, r4
+da6d0	eeb86b66	vcvt.f64.u32	d6, s13
+da6d4	ec554b16	vmov	r4, r5, d6
+da6d8	ed896a0b	vstr	s12, [r9, #44]
+da6dc	e5895030	str	r5, [r9, #0x30]
+da6e0	e5933008	ldr	r3, [r3, #0x8]
+da6e4	e12fff33	blx	r3
+da6e8	e5983000	ldr	r3, [r8]
+da6ec	ed937a0c	vldr	s14, [r3, #48]
+da6f0	ee277a07	vmul.f32	s14, s14, s14
+da6f4	edd36a0b	vldr	s13, [r3, #44]
+da6f8	ed936a21	vldr	s12, [r3, #132]
+da6fc	edd37a23	vldr	s15, [r3, #140]
+da700	e5993000	ldr	r3, [r9]
+da704	e3a01008	mov	r1, #8
+da708	e1a02006	mov	r2, r6
+da70c	e589a038	str	r10, [r9, #0x38]
+da710	e1a00009	mov	r0, r9
+da714	ee067aa6	vmla.f32	s14, s13, s13
+da718	ee477a06	vmla.f32	s15, s14, s12
+da71c	eeb76ae7	vcvt.f64.f32	d6, s15
+da720	ec554b16	vmov	r4, r5, d6
+da724	ed896a0b	vstr	s12, [r9, #44]
+da728	e5895030	str	r5, [r9, #0x30]
+da72c	e5933008	ldr	r3, [r3, #0x8]
+da730	e12fff33	blx	r3
+da734	e5983000	ldr	r3, [r8]
+da738	edd37a21	vldr	s15, [r3, #132]
+da73c	eeb76ae7	vcvt.f64.f32	d6, s15
+da740	e5993000	ldr	r3, [r9]
+da744	e3a01008	mov	r1, #8
+da748	e1a02006	mov	r2, r6
+da74c	e1a00009	mov	r0, r9
+da750	e589a038	str	r10, [r9, #0x38]
+da754	ec554b16	vmov	r4, r5, d6
+da758	ed896a0b	vstr	s12, [r9, #44]
+da75c	e5895030	str	r5, [r9, #0x30]
+da760	e5933008	ldr	r3, [r3, #0x8]
+da764	e12fff33	blx	r3
+da768	e598c000	ldr	r12, [r8]
+da76c	e5993000	ldr	r3, [r9]
+da770	e1a00009	mov	r0, r9
+da774	e3a01005	mov	r1, #5
+da778	e1a02006	mov	r2, r6
+da77c	e1dc40b4	ldrh	r4, [r12, #4]
+da780	e589a038	str	r10, [r9, #0x38]
+da784	e2244002	eor	r4, r4, #2
+da788	e7e040d4	ubfx	r4, r4, #0x1, #0x1
+da78c	ee074a90	vmov	s15, r4
+da790	eeb87b67	vcvt.f64.u32	d7, s15
+da794	ec554b17	vmov	r4, r5, d7
+da798	ed897a0b	vstr	s14, [r9, #44]
+da79c	e5895030	str	r5, [r9, #0x30]
+da7a0	e5933008	ldr	r3, [r3, #0x8]
+da7a4	e12fff33	blx	r3
+da7a8	e597414c	ldr	r4, [r7, #0x14c]
+da7ac	e3a08000	mov	r8, #0
+da7b0	e5993000	ldr	r3, [r9]
+da7b4	e3a01005	mov	r1, #5
+da7b8	e1a02006	mov	r2, r6
+da7bc	e1a00009	mov	r0, r9
+da7c0	ee064a90	vmov	s13, r4
+da7c4	e5898038	str	r8, [r9, #0x38]
+da7c8	eeb86b66	vcvt.f64.u32	d6, s13
+da7cc	ec554b16	vmov	r4, r5, d6
+da7d0	ed896a0b	vstr	s12, [r9, #44]
+da7d4	e5895030	str	r5, [r9, #0x30]
+da7d8	e5933008	ldr	r3, [r3, #0x8]
+da7dc	e12fff33	blx	r3
+da7e0	e5d7415c	ldrb	r4, [r7, #0x15c]
+da7e4	e5993000	ldr	r3, [r9]
+da7e8	e3a01005	mov	r1, #5
+da7ec	e1a02006	mov	r2, r6
+da7f0	e1a00009	mov	r0, r9
+da7f4	ee074a90	vmov	s15, r4
+da7f8	e5898038	str	r8, [r9, #0x38]
+da7fc	eeb87b67	vcvt.f64.u32	d7, s15
+da800	ec554b17	vmov	r4, r5, d7
+da804	ed897a0b	vstr	s14, [r9, #44]
+da808	e5895030	str	r5, [r9, #0x30]
+da80c	e5933008	ldr	r3, [r3, #0x8]
+da810	e12fff33	blx	r3
+da814	edd77a56	vldr	s15, [r7, #344]
+da818	eeb76ae7	vcvt.f64.f32	d6, s15
+da81c	e5993000	ldr	r3, [r9]
+da820	e3a01008	mov	r1, #8
+da824	e1a02006	mov	r2, r6
+da828	e5898038	str	r8, [r9, #0x38]
+da82c	e1a00009	mov	r0, r9
+da830	ec554b16	vmov	r4, r5, d6
+da834	ed896a0b	vstr	s12, [r9, #44]
+da838	e5895030	str	r5, [r9, #0x30]
+da83c	e5933008	ldr	r3, [r3, #0x8]
+da840	e12fff33	blx	r3
+da844	edd77a55	vldr	s15, [r7, #340]
+da848	eeb76ae7	vcvt.f64.f32	d6, s15
+da84c	e5993000	ldr	r3, [r9]
+da850	e3a01008	mov	r1, #8
+da854	e1a02006	mov	r2, r6
+da858	e5898038	str	r8, [r9, #0x38]
+da85c	e1a00009	mov	r0, r9
+da860	ec554b16	vmov	r4, r5, d6
+da864	ed896a0b	vstr	s12, [r9, #44]
+da868	e5895030	str	r5, [r9, #0x30]
+da86c	e5933008	ldr	r3, [r3, #0x8]
+da870	e12fff33	blx	r3
+da874	e5d7415d	ldrb	r4, [r7, #0x15d]
+da878	e5993000	ldr	r3, [r9]
+da87c	e1a00009	mov	r0, r9
+da880	e5898038	str	r8, [r9, #0x38]
+da884	e3a01005	mov	r1, #5
+da888	ee074a90	vmov	s15, r4
+da88c	e1a02006	mov	r2, r6
+da890	eeb87b67	vcvt.f64.u32	d7, s15
+da894	ec554b17	vmov	r4, r5, d7
+da898	ed897a0b	vstr	s14, [r9, #44]
+da89c	e5895030	str	r5, [r9, #0x30]
+da8a0	e5933008	ldr	r3, [r3, #0x8]
+da8a4	e12fff33	blx	r3
+da8a8	e51f325c	ldr	r3, [pc, #-0x25c]
+da8ac	e79f3003	ldr	r3, [pc, r3]
+da8b0	e5d33000	ldrb	r3, [r3]
+da8b4	e1530008	cmp	r3, r8
+da8b8	0a000010	beq	0xda900 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x1210>
+da8bc	e1a01008	mov	r1, r8
+da8c0	e28d2008	add	r2, sp, #8
+da8c4	e1a00007	mov	r0, r7
+da8c8	eb048141	bl	0x1fadd4 <_Z8GV_LayerP9CInstanceiP6RValue>
+da8cc	ed9d7b02	vldr	d7, [sp, #8]
+da8d0	eeb77bc7	vcvt.f32.f64	s14, d7
+da8d4	e5993000	ldr	r3, [r9]
+da8d8	e1a02006	mov	r2, r6
+da8dc	e5898038	str	r8, [r9, #0x38]
+da8e0	e1a00009	mov	r0, r9
+da8e4	e3a01008	mov	r1, #8
+da8e8	eeb76ac7	vcvt.f64.f32	d6, s14
+da8ec	ec554b16	vmov	r4, r5, d6
+da8f0	ed896a0b	vstr	s12, [r9, #44]
+da8f4	e5895030	str	r5, [r9, #0x30]
+da8f8	e5933008	ldr	r3, [r3, #0x8]
+da8fc	e12fff33	blx	r3
+da900	e51fc2b0	ldr	r12, [pc, #-0x2b0]
+da904	e1a00009	mov	r0, r9
+da908	e1a01007	mov	r1, r7
+da90c	e3a02001	mov	r2, #1
+da910	e79fc00c	ldr	r12, [pc, r12]
+da914	e30836a0	movw	r3, #0x86a0
+da918	e3403001	movt	r3, #0x1
+da91c	e59cc000	ldr	r12, [r12]
+da920	e58dc000	str	r12, [sp]
+da924	ebfffb07	bl	0xd9548 <_ZN2VM20GetInstanceVariablesEP15Buffer_StandardP12YYObjectBasebii>
+da928	e28dd01c	add	sp, sp, #28
+da92c	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+da930	ed9d7b02	vldr	d7, [sp, #8]
+da934	eeb77bc7	vcvt.f32.f64	s14, d7
+da938	e599c000	ldr	r12, [r9]
+da93c	e1a00009	mov	r0, r9
+da940	e5893038	str	r3, [r9, #0x38]
+da944	e3a01008	mov	r1, #8
+da948	e1a02006	mov	r2, r6
+da94c	eeb76ac7	vcvt.f64.f32	d6, s14
+da950	ec554b16	vmov	r4, r5, d6
+da954	ed896a0b	vstr	s12, [r9, #44]
+da958	e5895030	str	r5, [r9, #0x30]
+da95c	e59c3008	ldr	r3, [r12, #0x8]
+da960	e12fff33	blx	r3
+da964	eafffe91	b	0xda3b0 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xcc0>
+da968	e5993000	ldr	r3, [r9]
+da96c	e1a00009	mov	r0, r9
+da970	e589b02c	str	r11, [r9, #0x2c]
+da974	e3a01008	mov	r1, #8
+da978	e589b030	str	r11, [r9, #0x30]
+da97c	e1a02006	mov	r2, r6
+da980	e589b038	str	r11, [r9, #0x38]
+da984	e5933008	ldr	r3, [r3, #0x8]
+da988	e12fff33	blx	r3
+da98c	eaffff1a	b	0xda5fc <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xf0c>
+da990	e599c000	ldr	r12, [r9]
+da994	e3a03000	mov	r3, #0
+da998	e1a00009	mov	r0, r9
+da99c	e589302c	str	r3, [r9, #0x2c]
+da9a0	e5893030	str	r3, [r9, #0x30]
+da9a4	e3a01008	mov	r1, #8
+da9a8	e5893038	str	r3, [r9, #0x38]
+da9ac	e1a02006	mov	r2, r6
+da9b0	e59c3008	ldr	r3, [r12, #0x8]
+da9b4	e12fff33	blx	r3
+da9b8	eafffedb	b	0xda52c <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xe3c>
+da9bc	e599c000	ldr	r12, [r9]
+da9c0	e3a03000	mov	r3, #0
+da9c4	e1a00009	mov	r0, r9
+da9c8	e589302c	str	r3, [r9, #0x2c]
+da9cc	e5893030	str	r3, [r9, #0x30]
+da9d0	e3a01008	mov	r1, #8
+da9d4	e5893038	str	r3, [r9, #0x38]
+da9d8	e1a02006	mov	r2, r6
+da9dc	e59c3008	ldr	r3, [r12, #0x8]
+da9e0	e12fff33	blx	r3
+da9e4	eaffff1c	b	0xda65c <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xf6c>
+da9e8	e599c000	ldr	r12, [r9]
+da9ec	e3a03000	mov	r3, #0
+da9f0	e1a00009	mov	r0, r9
+da9f4	e589302c	str	r3, [r9, #0x2c]
+da9f8	e5893030	str	r3, [r9, #0x30]
+da9fc	e3a01008	mov	r1, #8
+daa00	e5893038	str	r3, [r9, #0x38]
+daa04	e1a02006	mov	r2, r6
+daa08	e59c3008	ldr	r3, [r12, #0x8]
+daa0c	e12fff33	blx	r3
+daa10	eafffeb2	b	0xda4e0 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xdf0>
+daa14	e599c000	ldr	r12, [r9]
+daa18	e3a03000	mov	r3, #0
+daa1c	e1a00009	mov	r0, r9
+daa20	e589302c	str	r3, [r9, #0x2c]
+daa24	e5893030	str	r3, [r9, #0x30]
+daa28	e3a01008	mov	r1, #8
+daa2c	e5893038	str	r3, [r9, #0x38]
+daa30	e1a02006	mov	r2, r6
+daa34	e59c3008	ldr	r3, [r12, #0x8]
+daa38	e12fff33	blx	r3
+daa3c	eafffe94	b	0xda494 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xda4>
+daa40	e599c000	ldr	r12, [r9]
+daa44	e3a03000	mov	r3, #0
+daa48	e1a00009	mov	r0, r9
+daa4c	e589302c	str	r3, [r9, #0x2c]
+daa50	e5893030	str	r3, [r9, #0x30]
+daa54	e3a01008	mov	r1, #8
+daa58	e5893038	str	r3, [r9, #0x38]
+daa5c	e1a02006	mov	r2, r6
+daa60	e59c3008	ldr	r3, [r12, #0x8]
+daa64	e12fff33	blx	r3
+daa68	eafffe76	b	0xda448 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xd58>
+daa6c	e599c000	ldr	r12, [r9]
+daa70	e3a03000	mov	r3, #0
+daa74	e1a00009	mov	r0, r9
+daa78	e589302c	str	r3, [r9, #0x2c]
+daa7c	e5893030	str	r3, [r9, #0x30]
+daa80	e3a01008	mov	r1, #8
+daa84	e5893038	str	r3, [r9, #0x38]
+daa88	e1a02006	mov	r2, r6
+daa8c	e59c3008	ldr	r3, [r12, #0x8]
+daa90	e12fff33	blx	r3
+daa94	eafffe58	b	0xda3fc <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xd0c>
+daa98	e1a00007	mov	r0, r7
+daa9c	e3a01001	mov	r1, #1
+daaa0	eb02de26	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+daaa4	eafffd89	b	0xda0d0 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x9e0>
+daaa8	e5993000	ldr	r3, [r9]
+daaac	e1a02006	mov	r2, r6
+daab0	e589802c	str	r8, [r9, #0x2c]
+daab4	e1a00009	mov	r0, r9
+daab8	e5898030	str	r8, [r9, #0x30]
+daabc	e3a01005	mov	r1, #5
+daac0	e5898038	str	r8, [r9, #0x38]
+daac4	e5933008	ldr	r3, [r3, #0x8]
+daac8	e12fff33	blx	r3
+daacc	e5993000	ldr	r3, [r9]
+daad0	e589802c	str	r8, [r9, #0x2c]
+daad4	e1a02006	mov	r2, r6
+daad8	e5898030	str	r8, [r9, #0x30]
+daadc	e1a00009	mov	r0, r9
+daae0	e3a01005	mov	r1, #5
+daae4	e5898038	str	r8, [r9, #0x38]
+daae8	e5933008	ldr	r3, [r3, #0x8]
+daaec	e12fff33	blx	r3
+daaf0	e5993000	ldr	r3, [r9]
+daaf4	e589802c	str	r8, [r9, #0x2c]
+daaf8	e1a02006	mov	r2, r6
+daafc	e5898030	str	r8, [r9, #0x30]
+dab00	e1a00009	mov	r0, r9
+dab04	e3a01008	mov	r1, #8
+dab08	e5898038	str	r8, [r9, #0x38]
+dab0c	e5933008	ldr	r3, [r3, #0x8]
+dab10	e12fff33	blx	r3
+dab14	e5993000	ldr	r3, [r9]
+dab18	e589802c	str	r8, [r9, #0x2c]
+dab1c	e1a02006	mov	r2, r6
+dab20	e5898030	str	r8, [r9, #0x30]
+dab24	e1a00009	mov	r0, r9
+dab28	e3a01008	mov	r1, #8
+dab2c	e5898038	str	r8, [r9, #0x38]
+dab30	e5933008	ldr	r3, [r3, #0x8]
+dab34	e12fff33	blx	r3
+dab38	e5993000	ldr	r3, [r9]
+dab3c	e589802c	str	r8, [r9, #0x2c]
+dab40	e1a02006	mov	r2, r6
+dab44	e5898030	str	r8, [r9, #0x30]
+dab48	e1a00009	mov	r0, r9
+dab4c	e3a01008	mov	r1, #8
+dab50	e5898038	str	r8, [r9, #0x38]
+dab54	e5933008	ldr	r3, [r3, #0x8]
+dab58	e12fff33	blx	r3
+dab5c	e5993000	ldr	r3, [r9]
+dab60	e589802c	str	r8, [r9, #0x2c]
+dab64	e1a02006	mov	r2, r6
+dab68	e5898030	str	r8, [r9, #0x30]
+dab6c	e1a00009	mov	r0, r9
+dab70	e3a01008	mov	r1, #8
+dab74	e5898038	str	r8, [r9, #0x38]
+dab78	e5933008	ldr	r3, [r3, #0x8]
+dab7c	e12fff33	blx	r3
+dab80	e5993000	ldr	r3, [r9]
+dab84	e589802c	str	r8, [r9, #0x2c]
+dab88	e1a02006	mov	r2, r6
+dab8c	e5898030	str	r8, [r9, #0x30]
+dab90	e1a00009	mov	r0, r9
+dab94	e3a01008	mov	r1, #8
+dab98	e5898038	str	r8, [r9, #0x38]
+dab9c	e5933008	ldr	r3, [r3, #0x8]
+daba0	e12fff33	blx	r3
+daba4	e5993000	ldr	r3, [r9]
+daba8	e589802c	str	r8, [r9, #0x2c]
+dabac	e1a02006	mov	r2, r6
+dabb0	e5898030	str	r8, [r9, #0x30]
+dabb4	e1a00009	mov	r0, r9
+dabb8	e3a01008	mov	r1, #8
+dabbc	e5898038	str	r8, [r9, #0x38]
+dabc0	e5933008	ldr	r3, [r3, #0x8]
+dabc4	e12fff33	blx	r3
+dabc8	e5993000	ldr	r3, [r9]
+dabcc	e589802c	str	r8, [r9, #0x2c]
+dabd0	e1a02006	mov	r2, r6
+dabd4	e5898030	str	r8, [r9, #0x30]
+dabd8	e1a00009	mov	r0, r9
+dabdc	e3a01008	mov	r1, #8
+dabe0	e5898038	str	r8, [r9, #0x38]
+dabe4	e5933008	ldr	r3, [r3, #0x8]
+dabe8	e12fff33	blx	r3
+dabec	e5993000	ldr	r3, [r9]
+dabf0	e589802c	str	r8, [r9, #0x2c]
+dabf4	e1a02006	mov	r2, r6
+dabf8	e5898030	str	r8, [r9, #0x30]
+dabfc	e1a00009	mov	r0, r9
+dac00	e3a01008	mov	r1, #8
+dac04	e5898038	str	r8, [r9, #0x38]
+dac08	e5933008	ldr	r3, [r3, #0x8]
+dac0c	e12fff33	blx	r3
+dac10	e5993000	ldr	r3, [r9]
+dac14	e589802c	str	r8, [r9, #0x2c]
+dac18	e1a02006	mov	r2, r6
+dac1c	e5898030	str	r8, [r9, #0x30]
+dac20	e1a00009	mov	r0, r9
+dac24	e3a01005	mov	r1, #5
+dac28	e5898038	str	r8, [r9, #0x38]
+dac2c	e5933008	ldr	r3, [r3, #0x8]
+dac30	e12fff33	blx	r3
+dac34	e5993000	ldr	r3, [r9]
+dac38	e589802c	str	r8, [r9, #0x2c]
+dac3c	e1a02006	mov	r2, r6
+dac40	e5898030	str	r8, [r9, #0x30]
+dac44	e1a00009	mov	r0, r9
+dac48	e3a01008	mov	r1, #8
+dac4c	e5898038	str	r8, [r9, #0x38]
+dac50	e5933008	ldr	r3, [r3, #0x8]
+dac54	e12fff33	blx	r3
+dac58	e5993000	ldr	r3, [r9]
+dac5c	e589802c	str	r8, [r9, #0x2c]
+dac60	e1a02006	mov	r2, r6
+dac64	e5898030	str	r8, [r9, #0x30]
+dac68	e1a00009	mov	r0, r9
+dac6c	e3a01008	mov	r1, #8
+dac70	e5898038	str	r8, [r9, #0x38]
+dac74	e5933008	ldr	r3, [r3, #0x8]
+dac78	e12fff33	blx	r3
+dac7c	e5993000	ldr	r3, [r9]
+dac80	e589802c	str	r8, [r9, #0x2c]
+dac84	e1a02006	mov	r2, r6
+dac88	e5898030	str	r8, [r9, #0x30]
+dac8c	e1a00009	mov	r0, r9
+dac90	e3a01005	mov	r1, #5
+dac94	e5898038	str	r8, [r9, #0x38]
+dac98	e5933008	ldr	r3, [r3, #0x8]
+dac9c	e12fff33	blx	r3
+daca0	e5993000	ldr	r3, [r9]
+daca4	e589802c	str	r8, [r9, #0x2c]
+daca8	e1a02006	mov	r2, r6
+dacac	e5898030	str	r8, [r9, #0x30]
+dacb0	e1a00009	mov	r0, r9
+dacb4	e3a01005	mov	r1, #5
+dacb8	e5898038	str	r8, [r9, #0x38]
+dacbc	e5933008	ldr	r3, [r3, #0x8]
+dacc0	e12fff33	blx	r3
+dacc4	e5993000	ldr	r3, [r9]
+dacc8	e589802c	str	r8, [r9, #0x2c]
+daccc	e1a02006	mov	r2, r6
+dacd0	e5898030	str	r8, [r9, #0x30]
+dacd4	e1a00009	mov	r0, r9
+dacd8	e3a01008	mov	r1, #8
+dacdc	e5898038	str	r8, [r9, #0x38]
+dace0	e5933008	ldr	r3, [r3, #0x8]
+dace4	e12fff33	blx	r3
+dace8	e5993000	ldr	r3, [r9]
+dacec	e589802c	str	r8, [r9, #0x2c]
+dacf0	e1a02006	mov	r2, r6
+dacf4	e5898030	str	r8, [r9, #0x30]
+dacf8	e1a00009	mov	r0, r9
+dacfc	e3a01008	mov	r1, #8
+dad00	e5898038	str	r8, [r9, #0x38]
+dad04	e5933008	ldr	r3, [r3, #0x8]
+dad08	e12fff33	blx	r3
+dad0c	e5993000	ldr	r3, [r9]
+dad10	e589802c	str	r8, [r9, #0x2c]
+dad14	e1a00009	mov	r0, r9
+dad18	e5898030	str	r8, [r9, #0x30]
+dad1c	e3a01008	mov	r1, #8
+dad20	e5898038	str	r8, [r9, #0x38]
+dad24	e1a02006	mov	r2, r6
+dad28	e5933008	ldr	r3, [r3, #0x8]
+dad2c	e12fff33	blx	r3
+dad30	eafffe9c	b	0xda7a8 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0x10b8>
+dad34	e5993000	ldr	r3, [r9]
+dad38	e1a02006	mov	r2, r6
+dad3c	e589a02c	str	r10, [r9, #0x2c]
+dad40	e1a00009	mov	r0, r9
+dad44	e589a030	str	r10, [r9, #0x30]
+dad48	e3a01008	mov	r1, #8
+dad4c	e589a038	str	r10, [r9, #0x38]
+dad50	e5933008	ldr	r3, [r3, #0x8]
+dad54	e12fff33	blx	r3
+dad58	e5993000	ldr	r3, [r9]
+dad5c	e589a02c	str	r10, [r9, #0x2c]
+dad60	e1a02006	mov	r2, r6
+dad64	e589a030	str	r10, [r9, #0x30]
+dad68	e1a00009	mov	r0, r9
+dad6c	e3a01008	mov	r1, #8
+dad70	e589a038	str	r10, [r9, #0x38]
+dad74	e5933008	ldr	r3, [r3, #0x8]
+dad78	e12fff33	blx	r3
+dad7c	e5993000	ldr	r3, [r9]
+dad80	e589a02c	str	r10, [r9, #0x2c]
+dad84	e1a02006	mov	r2, r6
+dad88	e589a030	str	r10, [r9, #0x30]
+dad8c	e1a00009	mov	r0, r9
+dad90	e3a01008	mov	r1, #8
+dad94	e589a038	str	r10, [r9, #0x38]
+dad98	e5933008	ldr	r3, [r3, #0x8]
+dad9c	e12fff33	blx	r3
+dada0	e5993000	ldr	r3, [r9]
+dada4	e589a02c	str	r10, [r9, #0x2c]
+dada8	e1a00009	mov	r0, r9
+dadac	e589a030	str	r10, [r9, #0x30]
+dadb0	e3a01008	mov	r1, #8
+dadb4	e589a038	str	r10, [r9, #0x38]
+dadb8	e1a02006	mov	r2, r6
+dadbc	e5933008	ldr	r3, [r3, #0x8]
+dadc0	e12fff33	blx	r3
+dadc4	eafffd36	b	0xda2a4 <_ZN2VM29WriteInstanceBuiltInVariablesEP15Buffer_StandardP9CInstance+0xbb4>

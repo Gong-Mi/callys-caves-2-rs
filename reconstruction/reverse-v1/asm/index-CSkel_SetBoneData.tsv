@@ -1,0 +1,172 @@
+c16c0	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+c16c4	e24dd018	sub	sp, sp, #24
+c16c8	e590001c	ldr	r0, [r0, #0x1c]
+c16cc	e1a04002	mov	r4, r2
+c16d0	eb07227c	bl	0x28a0c8 <spSkeleton_findBone>
+c16d4	e2507000	subs	r7, r0, #0
+c16d8	01a00007	moveq	r0, r7
+c16dc	0a000084	beq	0xc18f4 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x234>
+c16e0	e28d5004	add	r5, sp, #4
+c16e4	e1a00005	mov	r0, r5
+c16e8	eb00f54a	bl	0xfec18 <_ZN12DS_AutoMutexC2Ev>
+c16ec	e59f3264	ldr	r3, [pc, #0x264]
+c16f0	e79f3003	ldr	r3, [pc, r3]
+c16f4	e5933004	ldr	r3, [r3, #0x4]
+c16f8	e7936104	ldr	r6, [r3, r4, lsl #2]
+c16fc	e3560000	cmp	r6, #0
+c1700	0a00008f	beq	0xc1944 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x284>
+c1704	e28d4008	add	r4, sp, #8
+c1708	e59f124c	ldr	r1, [pc, #0x24c]
+c170c	e5978000	ldr	r8, [r7]
+c1710	e08f1001	add	r1, pc, r1
+c1714	e1a00004	mov	r0, r4
+c1718	eb006afa	bl	0xdc308 <_Z11YYSetStringP6RValuePKc>
+c171c	e1a00006	mov	r0, r6
+c1720	e1a01004	mov	r1, r4
+c1724	eb05076e	bl	0x2034e4 <_ZN7CDS_Map4FindEP6RValue>
+c1728	e3500000	cmp	r0, #0
+c172c	15903014	ldrne	r3, [r0, #0x14]
+c1730	15902010	ldrne	r2, [r0, #0x10]
+c1734	1c432b16	vmovne	d6, r2, r3
+c1738	e59d3014	ldr	r3, [sp, #0x14]
+c173c	1ef77bc6	vcvtne.f32.f64	s15, d6
+c1740	e2433001	sub	r3, r3, #1
+c1744	e3c334ff	bic	r3, r3, #-16777216
+c1748	e3c33003	bic	r3, r3, #3
+c174c	1dc87a03	vstrne	s15, [r8, #12]
+c1750	e3530000	cmp	r3, #0
+c1754	0a000077	beq	0xc1938 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x278>
+c1758	e59f1200	ldr	r1, [pc, #0x200]
+c175c	e1a00004	mov	r0, r4
+c1760	e5978000	ldr	r8, [r7]
+c1764	e08f1001	add	r1, pc, r1
+c1768	eb006ae6	bl	0xdc308 <_Z11YYSetStringP6RValuePKc>
+c176c	e1a00006	mov	r0, r6
+c1770	e1a01004	mov	r1, r4
+c1774	eb05075a	bl	0x2034e4 <_ZN7CDS_Map4FindEP6RValue>
+c1778	e3500000	cmp	r0, #0
+c177c	15903014	ldrne	r3, [r0, #0x14]
+c1780	15902010	ldrne	r2, [r0, #0x10]
+c1784	1c432b16	vmovne	d6, r2, r3
+c1788	e59d3014	ldr	r3, [sp, #0x14]
+c178c	1ef77bc6	vcvtne.f32.f64	s15, d6
+c1790	e2433001	sub	r3, r3, #1
+c1794	e3c334ff	bic	r3, r3, #-16777216
+c1798	e3c33003	bic	r3, r3, #3
+c179c	1dc87a04	vstrne	s15, [r8, #16]
+c17a0	e3530000	cmp	r3, #0
+c17a4	0a000060	beq	0xc192c <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x26c>
+c17a8	e59f11b4	ldr	r1, [pc, #0x1b4]
+c17ac	e1a00004	mov	r0, r4
+c17b0	e5978000	ldr	r8, [r7]
+c17b4	e08f1001	add	r1, pc, r1
+c17b8	eb006ad2	bl	0xdc308 <_Z11YYSetStringP6RValuePKc>
+c17bc	e1a00006	mov	r0, r6
+c17c0	e1a01004	mov	r1, r4
+c17c4	eb050746	bl	0x2034e4 <_ZN7CDS_Map4FindEP6RValue>
+c17c8	e3500000	cmp	r0, #0
+c17cc	15903014	ldrne	r3, [r0, #0x14]
+c17d0	15902010	ldrne	r2, [r0, #0x10]
+c17d4	1c432b16	vmovne	d6, r2, r3
+c17d8	e59d3014	ldr	r3, [sp, #0x14]
+c17dc	1ef77bc6	vcvtne.f32.f64	s15, d6
+c17e0	e2433001	sub	r3, r3, #1
+c17e4	e3c334ff	bic	r3, r3, #-16777216
+c17e8	e3c33003	bic	r3, r3, #3
+c17ec	1dc87a05	vstrne	s15, [r8, #20]
+c17f0	e3530000	cmp	r3, #0
+c17f4	0a000049	beq	0xc1920 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x260>
+c17f8	e59f1168	ldr	r1, [pc, #0x168]
+c17fc	e1a00004	mov	r0, r4
+c1800	e5978000	ldr	r8, [r7]
+c1804	e08f1001	add	r1, pc, r1
+c1808	eb006abe	bl	0xdc308 <_Z11YYSetStringP6RValuePKc>
+c180c	e1a00006	mov	r0, r6
+c1810	e1a01004	mov	r1, r4
+c1814	eb050732	bl	0x2034e4 <_ZN7CDS_Map4FindEP6RValue>
+c1818	e3500000	cmp	r0, #0
+c181c	15903014	ldrne	r3, [r0, #0x14]
+c1820	15902010	ldrne	r2, [r0, #0x10]
+c1824	1c432b16	vmovne	d6, r2, r3
+c1828	e59d3014	ldr	r3, [sp, #0x14]
+c182c	1ef77bc6	vcvtne.f32.f64	s15, d6
+c1830	e2433001	sub	r3, r3, #1
+c1834	e3c334ff	bic	r3, r3, #-16777216
+c1838	e3c33003	bic	r3, r3, #3
+c183c	1dc87a06	vstrne	s15, [r8, #24]
+c1840	e3530000	cmp	r3, #0
+c1844	0a000032	beq	0xc1914 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x254>
+c1848	e59f111c	ldr	r1, [pc, #0x11c]
+c184c	e1a00004	mov	r0, r4
+c1850	e5978000	ldr	r8, [r7]
+c1854	e08f1001	add	r1, pc, r1
+c1858	eb006aaa	bl	0xdc308 <_Z11YYSetStringP6RValuePKc>
+c185c	e1a00006	mov	r0, r6
+c1860	e1a01004	mov	r1, r4
+c1864	eb05071e	bl	0x2034e4 <_ZN7CDS_Map4FindEP6RValue>
+c1868	e3500000	cmp	r0, #0
+c186c	15903014	ldrne	r3, [r0, #0x14]
+c1870	15902010	ldrne	r2, [r0, #0x10]
+c1874	1c432b16	vmovne	d6, r2, r3
+c1878	e59d3014	ldr	r3, [sp, #0x14]
+c187c	1ef77bc6	vcvtne.f32.f64	s15, d6
+c1880	e2433001	sub	r3, r3, #1
+c1884	e3c334ff	bic	r3, r3, #-16777216
+c1888	e3c33003	bic	r3, r3, #3
+c188c	1dc87a07	vstrne	s15, [r8, #28]
+c1890	e3530000	cmp	r3, #0
+c1894	0a00001b	beq	0xc1908 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x248>
+c1898	e59f10d0	ldr	r1, [pc, #0xd0]
+c189c	e1a00004	mov	r0, r4
+c18a0	e5977000	ldr	r7, [r7]
+c18a4	e08f1001	add	r1, pc, r1
+c18a8	eb006a96	bl	0xdc308 <_Z11YYSetStringP6RValuePKc>
+c18ac	e1a00006	mov	r0, r6
+c18b0	e1a01004	mov	r1, r4
+c18b4	eb05070a	bl	0x2034e4 <_ZN7CDS_Map4FindEP6RValue>
+c18b8	e3500000	cmp	r0, #0
+c18bc	15903014	ldrne	r3, [r0, #0x14]
+c18c0	15902010	ldrne	r2, [r0, #0x10]
+c18c4	1c432b16	vmovne	d6, r2, r3
+c18c8	e59d3014	ldr	r3, [sp, #0x14]
+c18cc	1ef77bc6	vcvtne.f32.f64	s15, d6
+c18d0	e2433001	sub	r3, r3, #1
+c18d4	e3c334ff	bic	r3, r3, #-16777216
+c18d8	e3c33003	bic	r3, r3, #3
+c18dc	1dc77a08	vstrne	s15, [r7, #32]
+c18e0	e3530000	cmp	r3, #0
+c18e4	0a000004	beq	0xc18fc <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x23c>
+c18e8	e1a00005	mov	r0, r5
+c18ec	eb00f4de	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+c18f0	e3a00001	mov	r0, #1
+c18f4	e28dd018	add	sp, sp, #24
+c18f8	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+c18fc	e1a00004	mov	r0, r4
+c1900	ebfffc5d	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+c1904	eafffff7	b	0xc18e8 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x228>
+c1908	e1a00004	mov	r0, r4
+c190c	ebfffc5a	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+c1910	eaffffe0	b	0xc1898 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x1d8>
+c1914	e1a00004	mov	r0, r4
+c1918	ebfffc57	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+c191c	eaffffc9	b	0xc1848 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x188>
+c1920	e1a00004	mov	r0, r4
+c1924	ebfffc54	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+c1928	eaffffb2	b	0xc17f8 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x138>
+c192c	e1a00004	mov	r0, r4
+c1930	ebfffc51	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+c1934	eaffff9b	b	0xc17a8 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0xe8>
+c1938	e1a00004	mov	r0, r4
+c193c	ebfffc4e	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+c1940	eaffff84	b	0xc1758 <_ZN17CSkeletonInstance11SetBoneDataEPKci+0x98>
+c1944	e1a00005	mov	r0, r5
+c1948	eb00f4c7	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+c194c	e1a00006	mov	r0, r6
+c1950	e28dd018	add	sp, sp, #24
+c1954	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+c1958	0032c24c	eorseq	r12, r2, r12, asr #4
+c195c	0026f15c	eoreq	pc, r6, r12, asr r1
+c1960	0026f110	eoreq	pc, r6, r0, lsl r1
+c1964	0026f0c4	eoreq	pc, r6, r4, asr #1
+c1968	0026f078	eoreq	pc, r6, r8, ror r0
+c196c	0026f030	eoreq	pc, r6, r0, lsr r0

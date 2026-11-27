@@ -1,0 +1,6 @@
+11a9dc	e92d4008	push	{r3, lr}
+11a9e0	e3a01000	mov	r1, #0
+11a9e4	e59d0008	ldr	r0, [sp, #0x8]
+11a9e8	ebfed0a5	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+11a9ec	e8bd4008	pop	{r3, lr}
+11a9f0	ea013cf3	b	0x169dc4 <_Z20YYGML_draw_set_alphaf>

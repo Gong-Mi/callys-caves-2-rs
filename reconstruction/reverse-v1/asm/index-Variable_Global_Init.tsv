@@ -1,0 +1,26 @@
+1f3354	e92d4030	push	{r4, r5, lr}
+1f3358	e24dd00c	sub	sp, sp, #12
+1f335c	e59f4050	ldr	r4, [pc, #0x50]
+1f3360	e3a05000	mov	r5, #0
+1f3364	e59f204c	ldr	r2, [pc, #0x4c]
+1f3368	e3021710	movw	r1, #0x2710
+1f336c	e79f4004	ldr	r4, [pc, r4]
+1f3370	e3a0306a	mov	r3, #106
+1f3374	e08f2002	add	r2, pc, r2
+1f3378	e5940004	ldr	r0, [r4, #0x4]
+1f337c	e58d5000	str	r5, [sp]
+1f3380	eb0226d5	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1f3384	e302c710	movw	r12, #0x2710
+1f3388	e1a03005	mov	r3, r5
+1f338c	e1a0100c	mov	r1, r12
+1f3390	e1a02005	mov	r2, r5
+1f3394	e584c000	str	r12, [r4]
+1f3398	e5840004	str	r0, [r4, #0x4]
+1f339c	e7c02003	strb	r2, [r0, r3]
+1f33a0	e2833001	add	r3, r3, #1
+1f33a4	e1530001	cmp	r3, r1
+1f33a8	1afffffb	bne	0x1f339c <_Z20Variable_Global_Initv+0x48>
+1f33ac	e28dd00c	add	sp, sp, #12
+1f33b0	e8bd8030	pop	{r4, r5, pc}
+1f33b4	001fdabc	ldrheq	sp, [pc], -r12
+1f33b8	00159ec0	andseq	r9, r5, r0, asr #29

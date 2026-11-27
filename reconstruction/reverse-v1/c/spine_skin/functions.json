@@ -1,0 +1,110 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_skin",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "name": "_Entry_create",
+      "address": "0x28ebb8",
+      "isa": "ARM",
+      "range_end_exclusive": "0x28ec20",
+      "code_end_exclusive": "0x28ec1c",
+      "body_sha256": "2ae382d40e9b7919dc739648b36b2fe34f1d0134a50dd75002f9e931c8c3b027",
+      "literal_bytes": 4,
+      "code_words": 25,
+      "translation_source": "src/spine_skin.c",
+      "translation_source_sha256": "0124f2ef35f920f301bd36368b12a56c016021987d5c1a31ee11b6c4bfa03557",
+      "translation_header_sha256": "70c2055a501528c7dbc3fd48cb7420eb26272913e9624b713130f760c3c85283",
+      "semantics_state": "local static control/data flow recovered; arbitrary malformed memory/exception domains remain explicit",
+      "translation_state": "compiled and exercised in final reconstructed ARM32 consumers; original not executed",
+      "phase_complete": false
+    },
+    {
+      "name": "spSkin_create",
+      "address": "0x28ec44",
+      "isa": "ARM",
+      "range_end_exclusive": "0x28ec9c",
+      "code_end_exclusive": "0x28ec98",
+      "body_sha256": "e9c1e979645f9d087c0a2e179ec434be4d8e00fc15486358dd94829c3a3c1313",
+      "literal_bytes": 4,
+      "code_words": 21,
+      "translation_source": "src/spine_skin.c",
+      "translation_source_sha256": "0124f2ef35f920f301bd36368b12a56c016021987d5c1a31ee11b6c4bfa03557",
+      "translation_header_sha256": "70c2055a501528c7dbc3fd48cb7420eb26272913e9624b713130f760c3c85283",
+      "semantics_state": "local static control/data flow recovered; arbitrary malformed memory/exception domains remain explicit",
+      "translation_state": "compiled and exercised in final reconstructed ARM32 consumers; original not executed",
+      "phase_complete": false
+    },
+    {
+      "name": "spSkin_addAttachment",
+      "address": "0x28ecd8",
+      "isa": "ARM",
+      "range_end_exclusive": "0x28ed00",
+      "code_end_exclusive": "0x28ed00",
+      "body_sha256": "02f5a1ebc22d8d0ca55305455496c4dbca09466a207afe53fca4ea7050c1ebf6",
+      "literal_bytes": 0,
+      "code_words": 10,
+      "translation_source": "src/spine_skin.c",
+      "translation_source_sha256": "0124f2ef35f920f301bd36368b12a56c016021987d5c1a31ee11b6c4bfa03557",
+      "translation_header_sha256": "70c2055a501528c7dbc3fd48cb7420eb26272913e9624b713130f760c3c85283",
+      "semantics_state": "local static control/data flow recovered; arbitrary malformed memory/exception domains remain explicit",
+      "translation_state": "compiled and exercised in final reconstructed ARM32 consumers; original not executed",
+      "phase_complete": false
+    },
+    {
+      "name": "spSkin_getAttachment",
+      "address": "0x28ed00",
+      "isa": "ARM",
+      "range_end_exclusive": "0x28ed58",
+      "code_end_exclusive": "0x28ed58",
+      "body_sha256": "981b86a1b9b00a49bbdd909ca7351b9e5d142f257e66a2206f68415dbfc2ee40",
+      "literal_bytes": 0,
+      "code_words": 22,
+      "translation_source": "src/spine_skin.c",
+      "translation_source_sha256": "0124f2ef35f920f301bd36368b12a56c016021987d5c1a31ee11b6c4bfa03557",
+      "translation_header_sha256": "70c2055a501528c7dbc3fd48cb7420eb26272913e9624b713130f760c3c85283",
+      "semantics_state": "local static control/data flow recovered; arbitrary malformed memory/exception domains remain explicit",
+      "translation_state": "compiled and exercised in final reconstructed ARM32 consumers; original not executed",
+      "phase_complete": false
+    }
+  ],
+  "acceptance": {
+    "status": "verified_reconstructed_scope_only",
+    "original_executed": false,
+    "linked_consumer_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/run-03/receipt.json",
+    "linked_consumer_receipt_sha256": "600109e9ce9ada4d802affed12b7b9c250503109bc7e581daf76ed96544d316f",
+    "linked_contracts_per_variant": 15,
+    "linked_variants": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "linked_runtime_mutants": 17,
+    "guard_contract": "O0/O2/O3 global canary rejects after optional Json_dispose; disabling guard distinguished by named assertion",
+    "static_review": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/parent-static-review/parent-static-review.json"
+  },
+  "layout": {
+    "skin_bytes": 8,
+    "entry_bytes": 16,
+    "canonical_header": "src/spine_skin.h",
+    "cleanup": "existing raw-ABI spSkin_dispose and _Entry_dispose in spine_skeleton_data"
+  },
+  "semantics": {
+    "_Entry_create": "calloc1*16 line36; slot write; malloc(strlen+1)line38; publish name before strcpy; attachment after strcpy",
+    "spSkin_create": "calloc1*8 line52, malloc name line53, copy owned name",
+    "spSkin_addAttachment": "call real noinline Entry_create, THEN reload head; prepend without removing duplicates",
+    "spSkin_getAttachment": "match full slotIndex word plus strcmp name; after callback reread attachment on hit, next on miss"
+  },
+  "depends_on": [
+    "spine_alloc/_calloc,_malloc",
+    "external strlen/strcpy/strcmp"
+  ],
+  "original_gap": [
+    "no original execution or equivalence verdict",
+    "exact invalid pointer/fault-PC and allocator failures not certified",
+    "whole library/loader not assembled"
+  ]
+}

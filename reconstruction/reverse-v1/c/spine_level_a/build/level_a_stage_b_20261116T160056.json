@@ -1,0 +1,701 @@
+{
+  "schema": "cally-level-a-diff/2",
+  "generated_utc": "2026-11-16T08:02:28Z",
+  "stage": "b",
+  "tier": "oracle_anchored",
+  "original_executed": true,
+  "evidence_layer": "synthetic memory oracle: original ARM bytes executed in Unicorn over a staged 32-byte-node Json tree and a bump heap; NOT device execution",
+  "contract": "reconstruction/contracts/native-equivalence-gate.md Level A",
+  "BINDING": {
+    "version": "BINDING v1",
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "original_path": "/data/data/com.termux/files/home/callys-caves-2-rs/reconstruction/live-mem/libyoyo_armv7.so",
+    "fixture_sha256": "07512c35a9a702acada193bfd5af5c35409a85f7c8cd54c931db03ab61bbc38a",
+    "model_sha256": "c7e407de934139ea0f71a810c7470bea53e4c6adc2b579850bacbe06ea924540",
+    "oracle_sha256": "f0ab642641a5575f49c167d867f9a5d4f07f2733377bde48771bb383eaafe71c",
+    "dump_sha256": "0ccaa0424ad060ab5b22a4e2933ec785bee8f286050f1d4a82ae3dd53319c301",
+    "driver_sha256": "2eeb9b9279d07595f17db4636ddd016b259bce7175c89adf13cb2cc6043c4061",
+    "trees": {},
+    "rebuild_binaries": {},
+    "chain_check_build_recipe": "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/spine_read_skeleton/tools/check_skeleton.py"
+  },
+  "input_domain": {
+    "trees": {
+      "main": "skeleton(meta) + 3 bones + slot(blend/color/attachment) + ik + transform + path + skin(region+mesh) + event + animation(rotate 3 frames curve+stepped, translate 2 frames, event frame)",
+      "err_parent": "main with bone arm parent=forearm (Parent bone not found)",
+      "perturb": "main with the last translate frame removed and the animation renamed walk2",
+      "err_trees": "all 19 error trees of level_a_trees.VARIANTS (gate matrix class B)",
+      "perturbations": [
+        "perturb",
+        "perturb_slot",
+        "perturb_curve"
+      ]
+    },
+    "scales": [
+      2.0
+    ],
+    "note": "This is the contract input set only; it is not the full input domain and not device equivalence."
+  },
+  "comparable_fields": {
+    "spSkeletonData": "21 words: strings/counts/floats exact; pointer words compared as non-null presence plus their per-element records (heap addresses differ by construction)",
+    "per_element": [
+      "bone name/parent/index/scalars/inherit flags",
+      "slot name/bone/attachment/blend/color bits",
+      "ik/transform/path names, bone lists, targets, scalars",
+      "skin name/entries; attachment type/name/path plus region or mesh payload",
+      "event name/int/float/string",
+      "animation name/duration/timelineCount; per timeline type/frameCount/ffc/index/frame bits/curve bits/event frames"
+    ],
+    "not_comparable": [
+      "intermediate malloc/free sequence",
+      "creator internal layout beyond the fields above",
+      "console output text (parser->error is compared)",
+      "pointer values"
+    ]
+  },
+  "field_to_segment": {
+    "meta.spine": [
+      "spine_read_meta"
+    ],
+    "meta.hash": [
+      "spine_read_meta"
+    ],
+    "meta.width": [
+      "spine_read_meta"
+    ],
+    "meta.height": [
+      "spine_read_meta"
+    ],
+    "meta.bonesCount": [
+      "spine_read_bones"
+    ],
+    "meta.slotsCount": [
+      "spine_read_slots"
+    ],
+    "meta.skinsCount": [
+      "spine_read_skins"
+    ],
+    "meta.eventsCount": [
+      "spine_read_animations"
+    ],
+    "meta.animationsCount": [
+      "spine_animations_loop"
+    ],
+    "meta.ikCount": [
+      "spine_read_ik"
+    ],
+    "meta.transformCount": [
+      "spine_read_transform"
+    ],
+    "meta.pathCount": [
+      "spine_read_path"
+    ],
+    "meta.defaultSkinIndex": [
+      "spine_read_skins"
+    ],
+    "meta.word05_": [
+      "spine_read_meta"
+    ],
+    "meta.word07_": [
+      "spine_read_slots"
+    ],
+    "meta.word09_": [
+      "spine_read_skins"
+    ],
+    "meta.word10_": [
+      "spine_read_skins"
+    ],
+    "meta.word12_": [
+      "spine_read_animations"
+    ],
+    "meta.word14_": [
+      "spine_animations_loop"
+    ],
+    "meta.word16_": [
+      "spine_read_ik"
+    ],
+    "meta.word18_": [
+      "spine_read_transform"
+    ],
+    "meta.word20_": [
+      "spine_read_path"
+    ],
+    "bones[": [
+      "spine_read_bones"
+    ],
+    "slots[": [
+      "spine_read_slots"
+    ],
+    "ik[": [
+      "spine_read_ik"
+    ],
+    "transform[": [
+      "spine_read_transform"
+    ],
+    "path[": [
+      "spine_read_path"
+    ],
+    "skins[": [
+      "spine_read_skins",
+      "spine_read_attach_dispatch",
+      "spine_skins_glue",
+      "spine_read_region",
+      "spine_read_mesh",
+      "spine_read_bbox_path",
+      "spine_read_vertices"
+    ],
+    "events[": [
+      "spine_read_animations"
+    ],
+    "animations[].name": [
+      "spine_animations_loop"
+    ],
+    "animations[].duration": [
+      "spine_read_tl_slots",
+      "spine_read_tl_bones",
+      "spine_read_tl_ik",
+      "spine_read_tl_transform",
+      "spine_read_tl_path",
+      "spine_read_tl_path_mix",
+      "spine_read_tl_deform",
+      "spine_read_tl_draworder",
+      "spine_read_tl_event"
+    ],
+    "animations[].timelineCount": [
+      "spine_read_animations",
+      "spine_animations_loop"
+    ],
+    "animations[].timelines[].curves": [
+      "spine_read_curve"
+    ],
+    "animations[].timelines[].frames": [
+      "spine_read_tl_bones",
+      "spine_read_tl_event"
+    ],
+    "animations[].timelines[].names": [
+      "spine_read_tl_slots"
+    ],
+    "animations[].timelines[].type": [
+      "spine_animations_loop"
+    ],
+    "animations[].timelines[].frameCount": [
+      "spine_read_tl_bones"
+    ],
+    "animations[].timelines[].frameFloatCount": [
+      "spine_read_tl_bones"
+    ],
+    "animations[].timelines[].index": [
+      "spine_read_tl_bones"
+    ],
+    "error.": [
+      "spine_read_entry",
+      "spine_read_skeleton",
+      "spine_json_error"
+    ]
+  },
+  "dump_protocol": [
+    {
+      "tag": "T_TREE",
+      "id": 1,
+      "payload": "canonical tree (level_a_model.canonical grammar)"
+    },
+    {
+      "tag": "T_META",
+      "id": 2,
+      "payload": "21 u32 words, spine str, hash str"
+    },
+    {
+      "tag": "T_BONES",
+      "id": 3
+    },
+    {
+      "tag": "T_SLOTS",
+      "id": 4
+    },
+    {
+      "tag": "T_IK",
+      "id": 5
+    },
+    {
+      "tag": "T_TRANSFORM",
+      "id": 6
+    },
+    {
+      "tag": "T_PATH",
+      "id": 7
+    },
+    {
+      "tag": "T_SKINS",
+      "id": 8
+    },
+    {
+      "tag": "T_EVENTS",
+      "id": 9
+    },
+    {
+      "tag": "T_ANIMS",
+      "id": 10
+    },
+    {
+      "tag": "T_ERROR",
+      "id": 11
+    },
+    {
+      "tag": "T_END",
+      "id": 255
+    }
+  ],
+  "gate_matrix": {
+    "schema": "cally-level-a-gate-matrix/1",
+    "note": "B: every error tree must return NULL on both arms with the same parser->error text and the same error.root_dispose. A: breaking one chain module in a source copy must move a compared field attributed to that module. C: a perturbed tree must change the same field set on both arms.",
+    "counts": {
+      "total": 19,
+      "passed": 4,
+      "failed": 8,
+      "not_measured": 7,
+      "B_error_trees": {
+        "total": 19,
+        "passed": 4,
+        "not_measured": 7
+      },
+      "A_module_break": {
+        "total": 0,
+        "passed": 0
+      },
+      "C_input_perturbation": {
+        "total": 0,
+        "passed": 0
+      }
+    },
+    "B_error_trees": [
+      {
+        "name": "err_slot_bone",
+        "class": "B_error_tree",
+        "PASS": null,
+        "status": "UB_ADDRESS0_LD",
+        "reason": "error path disposes a table whose entries were never filled; original 0x28ae48/0x28ae50 has no NULL test, so it dereferences a NULL element. Not measurable in-process on either arm - see B_UB_ADDRESS0_TREES.",
+        "allocator": "zero-fill (both arms)"
+      },
+      {
+        "name": "err_ik_bone",
+        "class": "B_error_tree",
+        "PASS": null,
+        "status": "UB_ADDRESS0_LD",
+        "reason": "error path disposes a table whose entries were never filled; original 0x28ae48/0x28ae50 has no NULL test, so it dereferences a NULL element. Not measurable in-process on either arm - see B_UB_ADDRESS0_TREES.",
+        "allocator": "zero-fill (both arms)"
+      },
+      {
+        "name": "err_parent",
+        "class": "B_error_tree",
+        "PASS": true,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Parent bone not found: forearm",
+        "error_text_rebuild": "Parent bone not found: forearm",
+        "error_text_equal": true,
+        "root_dispose_original": 1,
+        "root_dispose_rebuild": 1,
+        "leak_expected": false,
+        "root_dispose_ok": true,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "1cfa8ea95574c4f7300e02b0f3f97e0b5b85db328917daeb365f6b8919355eae",
+        "fields_compared": 3,
+        "binary_sha256": "2761d212d705d04645ffc94efc9b28f181f14c3bef92914e613e38d93a88259f"
+      },
+      {
+        "name": "err_tr_bone",
+        "class": "B_error_tree",
+        "PASS": null,
+        "status": "UB_ADDRESS0_LD",
+        "reason": "error path disposes a table whose entries were never filled; original 0x28ae48/0x28ae50 has no NULL test, so it dereferences a NULL element. Not measurable in-process on either arm - see B_UB_ADDRESS0_TREES.",
+        "allocator": "zero-fill (both arms)"
+      },
+      {
+        "name": "err_path_constraint",
+        "class": "B_error_tree",
+        "PASS": false,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Path constraint not found: nope",
+        "error_text_rebuild": "Path constraint not found: nope",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": false,
+        "root_dispose_ok": false,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "1c7d28d021d834c7af21ffcc87f3def74da10125fff3c0cd912279db72a57789",
+        "fields_compared": 3,
+        "binary_sha256": "8fa69133838b0060fc9715b977c1c533156b3173517a074863e5ac5033d6ab9e"
+      },
+      {
+        "name": "err_path_bone",
+        "class": "B_error_tree",
+        "PASS": null,
+        "status": "UB_ADDRESS0_LD",
+        "reason": "error path disposes a table whose entries were never filled; original 0x28ae48/0x28ae50 has no NULL test, so it dereferences a NULL element. Not measurable in-process on either arm - see B_UB_ADDRESS0_TREES.",
+        "allocator": "zero-fill (both arms)"
+      },
+      {
+        "name": "err_ik_target",
+        "class": "B_error_tree",
+        "PASS": null,
+        "status": "UB_ADDRESS0_LD",
+        "reason": "error path disposes a table whose entries were never filled; original 0x28ae48/0x28ae50 has no NULL test, so it dereferences a NULL element. Not measurable in-process on either arm - see B_UB_ADDRESS0_TREES.",
+        "allocator": "zero-fill (both arms)"
+      },
+      {
+        "name": "err_tr_target",
+        "class": "B_error_tree",
+        "PASS": null,
+        "status": "UB_ADDRESS0_LD",
+        "reason": "error path disposes a table whose entries were never filled; original 0x28ae48/0x28ae50 has no NULL test, so it dereferences a NULL element. Not measurable in-process on either arm - see B_UB_ADDRESS0_TREES.",
+        "allocator": "zero-fill (both arms)"
+      },
+      {
+        "name": "err_path_target",
+        "class": "B_error_tree",
+        "PASS": null,
+        "status": "UB_ADDRESS0_LD",
+        "reason": "error path disposes a table whose entries were never filled; original 0x28ae48/0x28ae50 has no NULL test, so it dereferences a NULL element. Not measurable in-process on either arm - see B_UB_ADDRESS0_TREES.",
+        "allocator": "zero-fill (both arms)"
+      },
+      {
+        "name": "err_draworder_slot",
+        "class": "B_error_tree",
+        "PASS": false,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Slot not found: ghost",
+        "error_text_rebuild": "Slot not found: ghost",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": false,
+        "root_dispose_ok": false,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "85f553ce12b94074b15ee87cbac9329a4e573a8dcb05475bf32ac385ed165e6e",
+        "fields_compared": 3,
+        "binary_sha256": "e30ef151919edf9f37c88a5c8a62aa31e7d56067693901cb6fa727628903fc9c"
+      },
+      {
+        "name": "err_bone_tl",
+        "class": "B_error_tree",
+        "PASS": false,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Bone not found: ghost",
+        "error_text_rebuild": "Bone not found: ghost",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": false,
+        "root_dispose_ok": false,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "a3b077c224ebb18032e97d3bd170263fd8748a72c9bcecd82c12758ab7e6fd0a",
+        "fields_compared": 3,
+        "binary_sha256": "7db856ec6489b3fa2992b40c7f6809023311e4549ce542705fae7e88cbfbaa3a"
+      },
+      {
+        "name": "err_tl_slot_invalid",
+        "class": "B_error_tree",
+        "PASS": false,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Invalid timeline type for a slot: bogus",
+        "error_text_rebuild": "Invalid timeline type for a slot: bogus",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": false,
+        "root_dispose_ok": false,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "06ea6e6593f498353877508769a2f724973751aec23be16cadbf67d2d33bd51a",
+        "fields_compared": 3,
+        "binary_sha256": "979e49451f24a56fb2eeb17b2f843a8baf6f78231ae96929166f892f437620b9"
+      },
+      {
+        "name": "err_tl_bone_invalid",
+        "class": "B_error_tree",
+        "PASS": false,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Invalid timeline type for a bone: bogus",
+        "error_text_rebuild": "Invalid timeline type for a bone: bogus",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": false,
+        "root_dispose_ok": false,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "d046a1937521a7d1a044da9e2133da4ba7130d63904f11697457d833c39431c2",
+        "fields_compared": 3,
+        "binary_sha256": "2b412c49c3ffe52d471db5f9ca90aec4b6a27f4067d636efaa602ec7dda94325"
+      },
+      {
+        "name": "err_event",
+        "class": "B_error_tree",
+        "PASS": false,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Event not found: nope",
+        "error_text_rebuild": "Event not found: nope",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": false,
+        "root_dispose_ok": false,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "7fee859677c957dec9b987f2b5fdd5a38ba0d3d1dfc03cfef341ef156503fd53",
+        "fields_compared": 3,
+        "binary_sha256": "cbd73558ddbe2181d78f830833b313aa37f43a9be17cbefe09994bb449535958"
+      },
+      {
+        "name": "err_deform_att",
+        "class": "B_error_tree",
+        "PASS": false,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Attachment not found: nope",
+        "error_text_rebuild": "Attachment not found: nope",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": false,
+        "root_dispose_ok": false,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "9f1155d76ffcf0d9eaa437ad23669843ab8459b55100f81bf93581973e987bc7",
+        "fields_compared": 3,
+        "binary_sha256": "b8c4aee974cdbe10299f374fa01ad3bc91154da706c6addddd761bb49030ac0e"
+      },
+      {
+        "name": "err_link_skin",
+        "class": "B_error_tree",
+        "PASS": true,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Skin not found: ghost",
+        "error_text_rebuild": "Skin not found: ghost",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": true,
+        "root_dispose_ok": true,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "b7b4cd48374098f1903e3ecce560b6c57229e6ba27970c1343e455723b64388c",
+        "fields_compared": 3,
+        "binary_sha256": "edbd964c4a61473709a5c521564d7c414f5a1ddad1bfdc68b5fb238426594f20"
+      },
+      {
+        "name": "err_link_parent",
+        "class": "B_error_tree",
+        "PASS": true,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Parent mesh not found: P",
+        "error_text_rebuild": "Parent mesh not found: P",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": true,
+        "root_dispose_ok": true,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "4e5660e1a7c0589907a070e89ac9e8953138e1b6e1bceacd7d53021fb63400ea",
+        "fields_compared": 3,
+        "binary_sha256": "7557a804c79adbbd044925bb07b068f494bdf4b0c71514b70b4384527711e7ea"
+      },
+      {
+        "name": "err_att_unknown",
+        "class": "B_error_tree",
+        "PASS": true,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Unknown attachment type: point",
+        "error_text_rebuild": "Unknown attachment type: point",
+        "error_text_equal": true,
+        "root_dispose_original": 1,
+        "root_dispose_rebuild": 1,
+        "leak_expected": false,
+        "root_dispose_ok": true,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "659be4e49d56350c74da647acdb9e51f162b57c32cfa2f7a8f48ad15c2fcaf4a",
+        "fields_compared": 3,
+        "binary_sha256": "4d97f02b01f16ba7a22b9cca6850efbb51ef94eb3e64b10bdafaf0af55dde60e"
+      },
+      {
+        "name": "err_json",
+        "class": "B_error_tree",
+        "PASS": false,
+        "allocator": "zero-fill (both arms)",
+        "original_null": true,
+        "rebuild_null": true,
+        "error_text_original": "Invalid skeleton JSON: expected value at 1",
+        "error_text_rebuild": "Invalid skeleton JSON: expected value at 1",
+        "error_text_equal": true,
+        "root_dispose_original": 0,
+        "root_dispose_rebuild": 0,
+        "leak_expected": false,
+        "root_dispose_ok": false,
+        "diff_count": 0,
+        "diff_fields": [],
+        "tree_match": true,
+        "tree_sha256": "4040870de321e7b935f2400d466d4076fc94348719abdf3b2dbcfa8ce55800b9",
+        "fields_compared": 3,
+        "binary_sha256": "d183bba54a54e337348a14378261e57b2591e77227bdc43bc61bc79030c96624"
+      }
+    ],
+    "A_module_break": [],
+    "C_input_perturbation": []
+  },
+  "results": {},
+  "field_table": {
+    "schema": "cally-level-a-field-report/1",
+    "path": null,
+    "groups": {},
+    "note": "Every field row carries original/rebuild values, equal flag and segment attribution; main_s2p0 is the contract run."
+  },
+  "negative_controls": {
+    "broken_segment": {
+      "passed": true,
+      "mutants": [
+        {
+          "name": "slots_blend_additive_1_to_3",
+          "segment": "spine_read_slots",
+          "diff_count": 1,
+          "fields": [
+            "slots[0].blend"
+          ],
+          "attributed_hit": true,
+          "passed": true
+        },
+        {
+          "name": "bones_scaleX_offset_0x1c_to_0x20",
+          "segment": "spine_read_bones",
+          "diff_count": 1,
+          "fields": [
+            "bones[0].scaleX"
+          ],
+          "attributed_hit": true,
+          "passed": true
+        },
+        {
+          "name": "tl_bones_rotate_angle_key",
+          "segment": "spine_read_tl_bones",
+          "diff_count": 3,
+          "fields": [
+            "animations[0].timelines[2].frames[1]",
+            "animations[0].timelines[2].frames[3]",
+            "animations[0].timelines[2].frames[5]"
+          ],
+          "attributed_hit": true,
+          "passed": true
+        }
+      ],
+      "source": "gate_matrix.A_module (first three entries)"
+    },
+    "input_perturbation": {
+      "passed": true,
+      "original_changed_fields": [
+        "animations[0].name",
+        "animations[0].timelines[3].curves[0]",
+        "animations[0].timelines[3].curves[10]",
+        "animations[0].timelines[3].curves[11]",
+        "animations[0].timelines[3].curves[12]",
+        "animations[0].timelines[3].curves[13]",
+        "animations[0].timelines[3].curves[14]",
+        "animations[0].timelines[3].curves[15]",
+        "animations[0].timelines[3].curves[16]",
+        "animations[0].timelines[3].curves[17]",
+        "animations[0].timelines[3].curves[18]",
+        "animations[0].timelines[3].curves[1]",
+        "animations[0].timelines[3].curves[2]",
+        "animations[0].timelines[3].curves[3]",
+        "animations[0].timelines[3].curves[4]",
+        "animations[0].timelines[3].curves[5]",
+        "animations[0].timelines[3].curves[6]",
+        "animations[0].timelines[3].curves[7]",
+        "animations[0].timelines[3].curves[8]",
+        "animations[0].timelines[3].curves[9]",
+        "animations[0].timelines[3].frameCount",
+        "animations[0].timelines[3].frameFloatCount",
+        "animations[0].timelines[3].frames[3]",
+        "animations[0].timelines[3].frames[4]",
+        "animations[0].timelines[3].frames[5]"
+      ],
+      "rebuild_changed_fields": [
+        "animations[0].name",
+        "animations[0].timelines[3].curves[0]",
+        "animations[0].timelines[3].curves[10]",
+        "animations[0].timelines[3].curves[11]",
+        "animations[0].timelines[3].curves[12]",
+        "animations[0].timelines[3].curves[13]",
+        "animations[0].timelines[3].curves[14]",
+        "animations[0].timelines[3].curves[15]",
+        "animations[0].timelines[3].curves[16]",
+        "animations[0].timelines[3].curves[17]",
+        "animations[0].timelines[3].curves[18]",
+        "animations[0].timelines[3].curves[1]",
+        "animations[0].timelines[3].curves[2]",
+        "animations[0].timelines[3].curves[3]",
+        "animations[0].timelines[3].curves[4]",
+        "animations[0].timelines[3].curves[5]",
+        "animations[0].timelines[3].curves[6]",
+        "animations[0].timelines[3].curves[7]",
+        "animations[0].timelines[3].curves[8]",
+        "animations[0].timelines[3].curves[9]",
+        "animations[0].timelines[3].frameCount",
+        "animations[0].timelines[3].frameFloatCount",
+        "animations[0].timelines[3].frames[3]",
+        "animations[0].timelines[3].frames[4]",
+        "animations[0].timelines[3].frames[5]"
+      ],
+      "sets_equal": true
+    },
+    "oracle_archive_replay": {
+      "passed": null,
+      "skipped": "stage b"
+    },
+    "perturbations": []
+  },
+  "equivalence_axis_4": {
+    "status": "合成内存 oracle 层已测，存在差异",
+    "diff_zero": true,
+    "diff_fields": [],
+    "diff_count": 0,
+    "caveat": "不是全输入域等价，不是设备等价。The original arm is a synthetic-memory Unicorn oracle; the rebuild arm is the reconstructed C chain under qemu-arm."
+  },
+  "status": "FAIL"
+}

@@ -1,0 +1,274 @@
+2b6a50	e92d4038	push	{r3, r4, r5, lr}
+2b6a54	e1a04002	mov	r4, r2
+2b6a58	e59d5014	ldr	r5, [sp, #0x14]
+2b6a5c	e590c1a0	ldr	r12, [r0, #0x1a0]
+2b6a60	e59d3010	ldr	r3, [sp, #0x10]
+2b6a64	e595e000	ldr	lr, [r5]
+2b6a68	e5922000	ldr	r2, [r2]
+2b6a6c	e59cc00c	ldr	r12, [r12, #0xc]
+2b6a70	e083310e	add	r3, r3, lr, lsl #2
+2b6a74	e12fff3c	blx	r12
+2b6a78	e5953000	ldr	r3, [r5]
+2b6a7c	e2833001	add	r3, r3, #1
+2b6a80	e5853000	str	r3, [r5]
+2b6a84	e5943000	ldr	r3, [r4]
+2b6a88	e2833001	add	r3, r3, #1
+2b6a8c	e5843000	str	r3, [r4]
+2b6a90	e8bd8038	pop	{r3, r4, r5, pc}
+2b6a94	e92d0ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11}
+2b6a98	e24dd020	sub	sp, sp, #32
+2b6a9c	e59051a0	ldr	r5, [r0, #0x1a0]
+2b6aa0	e58d0010	str	r0, [sp, #0x10]
+2b6aa4	e590405c	ldr	r4, [r0, #0x5c]
+2b6aa8	e591c000	ldr	r12, [r1]
+2b6aac	e5910004	ldr	r0, [r1, #0x4]
+2b6ab0	e5911008	ldr	r1, [r1, #0x8]
+2b6ab4	e1b060a4	lsrs	r6, r4, #1
+2b6ab8	e79cc102	ldr	r12, [r12, r2, lsl #2]
+2b6abc	e58d6014	str	r6, [sp, #0x14]
+2b6ac0	e5933000	ldr	r3, [r3]
+2b6ac4	e5957014	ldr	r7, [r5, #0x14]
+2b6ac8	e7911102	ldr	r1, [r1, r2, lsl #2]
+2b6acc	e59d6010	ldr	r6, [sp, #0x10]
+2b6ad0	e58dc018	str	r12, [sp, #0x18]
+2b6ad4	e58d300c	str	r3, [sp, #0xc]
+2b6ad8	e790c102	ldr	r12, [r0, r2, lsl #2]
+2b6adc	e595a010	ldr	r10, [r5, #0x10]
+2b6ae0	e58d7004	str	r7, [sp, #0x4]
+2b6ae4	e595b018	ldr	r11, [r5, #0x18]
+2b6ae8	e595901c	ldr	r9, [r5, #0x1c]
+2b6aec	e58d101c	str	r1, [sp, #0x1c]
+2b6af0	e5960120	ldr	r0, [r6, #0x120]
+2b6af4	0a00004e	beq	0x2b6c34 <jinit_master_decompress+0x55c>
+2b6af8	e59d2018	ldr	r2, [sp, #0x18]
+2b6afc	e1a08001	mov	r8, r1
+2b6b00	e59d7014	ldr	r7, [sp, #0x14]
+2b6b04	e58d9000	str	r9, [sp]
+2b6b08	e08c7007	add	r7, r12, r7
+2b6b0c	e58d7008	str	r7, [sp, #0x8]
+2b6b10	e4dc4001	ldrb	r4, [r12], #1
+2b6b14	e2822002	add	r2, r2, #2
+2b6b18	e59d9008	ldr	r9, [sp, #0x8]
+2b6b1c	e2833006	add	r3, r3, #6
+2b6b20	e4d85001	ldrb	r5, [r8], #1
+2b6b24	e15c0009	cmp	r12, r9
+2b6b28	e59d9000	ldr	r9, [sp]
+2b6b2c	e5521002	ldrb	r1, [r2, #-0x2]
+2b6b30	e79a6105	ldr	r6, [r10, r5, lsl #2]
+2b6b34	e7997104	ldr	r7, [r9, r4, lsl #2]
+2b6b38	e79b5105	ldr	r5, [r11, r5, lsl #2]
+2b6b3c	e0806006	add	r6, r0, r6
+2b6b40	e59d9004	ldr	r9, [sp, #0x4]
+2b6b44	e0875005	add	r5, r7, r5
+2b6b48	e7d67001	ldrb	r7, [r6, r1]
+2b6b4c	e0805845	add	r5, r0, r5, asr #16
+2b6b50	e7994104	ldr	r4, [r9, r4, lsl #2]
+2b6b54	e5437006	strb	r7, [r3, #-0x6]
+2b6b58	e7d57001	ldrb	r7, [r5, r1]
+2b6b5c	e0804004	add	r4, r0, r4
+2b6b60	e5437005	strb	r7, [r3, #-0x5]
+2b6b64	e7d41001	ldrb	r1, [r4, r1]
+2b6b68	e5431004	strb	r1, [r3, #-0x4]
+2b6b6c	e5521001	ldrb	r1, [r2, #-0x1]
+2b6b70	e7d66001	ldrb	r6, [r6, r1]
+2b6b74	e5436003	strb	r6, [r3, #-0x3]
+2b6b78	e7d55001	ldrb	r5, [r5, r1]
+2b6b7c	e5435002	strb	r5, [r3, #-0x2]
+2b6b80	e7d41001	ldrb	r1, [r4, r1]
+2b6b84	e5431001	strb	r1, [r3, #-0x1]
+2b6b88	1affffe0	bne	0x2b6b10 <jinit_master_decompress+0x438>
+2b6b8c	e59dc014	ldr	r12, [sp, #0x14]
+2b6b90	e59d6010	ldr	r6, [sp, #0x10]
+2b6b94	e59d101c	ldr	r1, [sp, #0x1c]
+2b6b98	e1a0308c	lsl	r3, r12, #1
+2b6b9c	e59d9000	ldr	r9, [sp]
+2b6ba0	e596405c	ldr	r4, [r6, #0x5c]
+2b6ba4	e081100c	add	r1, r1, r12
+2b6ba8	e083200c	add	r2, r3, r12
+2b6bac	e59d7018	ldr	r7, [sp, #0x18]
+2b6bb0	e59dc00c	ldr	r12, [sp, #0xc]
+2b6bb4	e0877003	add	r7, r7, r3
+2b6bb8	e58d101c	str	r1, [sp, #0x1c]
+2b6bbc	e08cc082	add	r12, r12, r2, lsl #1
+2b6bc0	e58d7018	str	r7, [sp, #0x18]
+2b6bc4	e58dc00c	str	r12, [sp, #0xc]
+2b6bc8	e3140001	tst	r4, #1
+2b6bcc	0a000015	beq	0x2b6c28 <jinit_master_decompress+0x550>
+2b6bd0	e59d201c	ldr	r2, [sp, #0x1c]
+2b6bd4	e59d3008	ldr	r3, [sp, #0x8]
+2b6bd8	e59d6018	ldr	r6, [sp, #0x18]
+2b6bdc	e5d21000	ldrb	r1, [r2]
+2b6be0	e5d32000	ldrb	r2, [r3]
+2b6be4	e59d7004	ldr	r7, [sp, #0x4]
+2b6be8	e5d63000	ldrb	r3, [r6]
+2b6bec	e7995102	ldr	r5, [r9, r2, lsl #2]
+2b6bf0	e79bc101	ldr	r12, [r11, r1, lsl #2]
+2b6bf4	e0804003	add	r4, r0, r3
+2b6bf8	e79a1101	ldr	r1, [r10, r1, lsl #2]
+2b6bfc	e7972102	ldr	r2, [r7, r2, lsl #2]
+2b6c00	e085c00c	add	r12, r5, r12
+2b6c04	e59d900c	ldr	r9, [sp, #0xc]
+2b6c08	e7d41001	ldrb	r1, [r4, r1]
+2b6c0c	e0802002	add	r2, r0, r2
+2b6c10	e080084c	add	r0, r0, r12, asr #16
+2b6c14	e5c91000	strb	r1, [r9]
+2b6c18	e7d01003	ldrb	r1, [r0, r3]
+2b6c1c	e5c91001	strb	r1, [r9, #0x1]
+2b6c20	e7d23003	ldrb	r3, [r2, r3]
+2b6c24	e5c93002	strb	r3, [r9, #0x2]
+2b6c28	e28dd020	add	sp, sp, #32
+2b6c2c	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+2b6c30	e12fff1e	bx	lr
+2b6c34	e58dc008	str	r12, [sp, #0x8]
+2b6c38	eaffffe2	b	0x2b6bc8 <jinit_master_decompress+0x4f0>
+2b6c3c	e92d0ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11}
+2b6c40	e24dd030	sub	sp, sp, #48
+2b6c44	e5915000	ldr	r5, [r1]
+2b6c48	e58d001c	str	r0, [sp, #0x1c]
+2b6c4c	e59d701c	ldr	r7, [sp, #0x1c]
+2b6c50	e0856182	add	r6, r5, r2, lsl #3
+2b6c54	e591c004	ldr	r12, [r1, #0x4]
+2b6c58	e7955182	ldr	r5, [r5, r2, lsl #3]
+2b6c5c	e59741a0	ldr	r4, [r7, #0x1a0]
+2b6c60	e590005c	ldr	r0, [r0, #0x5c]
+2b6c64	e5911008	ldr	r1, [r1, #0x8]
+2b6c68	e594b010	ldr	r11, [r4, #0x10]
+2b6c6c	e1b0a0a0	lsrs	r10, r0, #1
+2b6c70	e5966004	ldr	r6, [r6, #0x4]
+2b6c74	e58da020	str	r10, [sp, #0x20]
+2b6c78	e58d5024	str	r5, [sp, #0x24]
+2b6c7c	e58db004	str	r11, [sp, #0x4]
+2b6c80	e5945018	ldr	r5, [r4, #0x18]
+2b6c84	e593b000	ldr	r11, [r3]
+2b6c88	e594a014	ldr	r10, [r4, #0x14]
+2b6c8c	e7911102	ldr	r1, [r1, r2, lsl #2]
+2b6c90	e594401c	ldr	r4, [r4, #0x1c]
+2b6c94	e5933004	ldr	r3, [r3, #0x4]
+2b6c98	e58d6028	str	r6, [sp, #0x28]
+2b6c9c	e58d5008	str	r5, [sp, #0x8]
+2b6ca0	e58d400c	str	r4, [sp, #0xc]
+2b6ca4	e79c8102	ldr	r8, [r12, r2, lsl #2]
+2b6ca8	e58d102c	str	r1, [sp, #0x2c]
+2b6cac	e5977120	ldr	r7, [r7, #0x120]
+2b6cb0	e58db014	str	r11, [sp, #0x14]
+2b6cb4	e58d3018	str	r3, [sp, #0x18]
+2b6cb8	0a000074	beq	0x2b6e90 <jinit_master_decompress+0x7b8>
+2b6cbc	e59d5024	ldr	r5, [sp, #0x24]
+2b6cc0	e1a02003	mov	r2, r3
+2b6cc4	e59dc020	ldr	r12, [sp, #0x20]
+2b6cc8	e1a04006	mov	r4, r6
+2b6ccc	e1a09001	mov	r9, r1
+2b6cd0	e1a0300b	mov	r3, r11
+2b6cd4	e088c00c	add	r12, r8, r12
+2b6cd8	e58da000	str	r10, [sp]
+2b6cdc	e58dc010	str	r12, [sp, #0x10]
+2b6ce0	e4d90001	ldrb	r0, [r9], #1
+2b6ce4	e2855002	add	r5, r5, #2
+2b6ce8	e59da004	ldr	r10, [sp, #0x4]
+2b6cec	e2833006	add	r3, r3, #6
+2b6cf0	e4d81001	ldrb	r1, [r8], #1
+2b6cf4	e2844002	add	r4, r4, #2
+2b6cf8	e59db010	ldr	r11, [sp, #0x10]
+2b6cfc	e2822006	add	r2, r2, #6
+2b6d00	e79ac100	ldr	r12, [r10, r0, lsl #2]
+2b6d04	e59da008	ldr	r10, [sp, #0x8]
+2b6d08	e158000b	cmp	r8, r11
+2b6d0c	e5556002	ldrb	r6, [r5, #-0x2]
+2b6d10	e087c00c	add	r12, r7, r12
+2b6d14	e79a0100	ldr	r0, [r10, r0, lsl #2]
+2b6d18	e59da00c	ldr	r10, [sp, #0xc]
+2b6d1c	e79ab101	ldr	r11, [r10, r1, lsl #2]
+2b6d20	e59da000	ldr	r10, [sp]
+2b6d24	e08b0000	add	r0, r11, r0
+2b6d28	e7dcb006	ldrb	r11, [r12, r6]
+2b6d2c	e0870840	add	r0, r7, r0, asr #16
+2b6d30	e79a1101	ldr	r1, [r10, r1, lsl #2]
+2b6d34	e543b006	strb	r11, [r3, #-0x6]
+2b6d38	e7d0b006	ldrb	r11, [r0, r6]
+2b6d3c	e0871001	add	r1, r7, r1
+2b6d40	e543b005	strb	r11, [r3, #-0x5]
+2b6d44	e7d16006	ldrb	r6, [r1, r6]
+2b6d48	e5436004	strb	r6, [r3, #-0x4]
+2b6d4c	e5556001	ldrb	r6, [r5, #-0x1]
+2b6d50	e7dcb006	ldrb	r11, [r12, r6]
+2b6d54	e543b003	strb	r11, [r3, #-0x3]
+2b6d58	e7d0b006	ldrb	r11, [r0, r6]
+2b6d5c	e543b002	strb	r11, [r3, #-0x2]
+2b6d60	e7d16006	ldrb	r6, [r1, r6]
+2b6d64	e5436001	strb	r6, [r3, #-0x1]
+2b6d68	e5546002	ldrb	r6, [r4, #-0x2]
+2b6d6c	e7dcb006	ldrb	r11, [r12, r6]
+2b6d70	e542b006	strb	r11, [r2, #-0x6]
+2b6d74	e7d0b006	ldrb	r11, [r0, r6]
+2b6d78	e542b005	strb	r11, [r2, #-0x5]
+2b6d7c	e7d16006	ldrb	r6, [r1, r6]
+2b6d80	e5426004	strb	r6, [r2, #-0x4]
+2b6d84	e5546001	ldrb	r6, [r4, #-0x1]
+2b6d88	e7dcc006	ldrb	r12, [r12, r6]
+2b6d8c	e542c003	strb	r12, [r2, #-0x3]
+2b6d90	e7d00006	ldrb	r0, [r0, r6]
+2b6d94	e5420002	strb	r0, [r2, #-0x2]
+2b6d98	e7d11006	ldrb	r1, [r1, r6]
+2b6d9c	e5421001	strb	r1, [r2, #-0x1]
+2b6da0	1affffce	bne	0x2b6ce0 <jinit_master_decompress+0x608>
+2b6da4	e59db020	ldr	r11, [sp, #0x20]
+2b6da8	e59d401c	ldr	r4, [sp, #0x1c]
+2b6dac	e59dc02c	ldr	r12, [sp, #0x2c]
+2b6db0	e1a0308b	lsl	r3, r11, #1
+2b6db4	e59d5024	ldr	r5, [sp, #0x24]
+2b6db8	e083200b	add	r2, r3, r11
+2b6dbc	e594005c	ldr	r0, [r4, #0x5c]
+2b6dc0	e08cc00b	add	r12, r12, r11
+2b6dc4	e59d1018	ldr	r1, [sp, #0x18]
+2b6dc8	e59db028	ldr	r11, [sp, #0x28]
+2b6dcc	e1a02082	lsl	r2, r2, #1
+2b6dd0	e58dc02c	str	r12, [sp, #0x2c]
+2b6dd4	e0855003	add	r5, r5, r3
+2b6dd8	e59dc014	ldr	r12, [sp, #0x14]
+2b6ddc	e08bb003	add	r11, r11, r3
+2b6de0	e0811002	add	r1, r1, r2
+2b6de4	e58d5024	str	r5, [sp, #0x24]
+2b6de8	e08cc002	add	r12, r12, r2
+2b6dec	e58db028	str	r11, [sp, #0x28]
+2b6df0	e58dc014	str	r12, [sp, #0x14]
+2b6df4	e58d1018	str	r1, [sp, #0x18]
+2b6df8	e3100001	tst	r0, #1
+2b6dfc	0a000020	beq	0x2b6e84 <jinit_master_decompress+0x7ac>
+2b6e00	e59d202c	ldr	r2, [sp, #0x2c]
+2b6e04	e59d3010	ldr	r3, [sp, #0x10]
+2b6e08	e59d4024	ldr	r4, [sp, #0x24]
+2b6e0c	e5d20000	ldrb	r0, [r2]
+2b6e10	e59d5004	ldr	r5, [sp, #0x4]
+2b6e14	e5d32000	ldrb	r2, [r3]
+2b6e18	e59db008	ldr	r11, [sp, #0x8]
+2b6e1c	e5d43000	ldrb	r3, [r4]
+2b6e20	e59d400c	ldr	r4, [sp, #0xc]
+2b6e24	e7951100	ldr	r1, [r5, r0, lsl #2]
+2b6e28	e79b0100	ldr	r0, [r11, r0, lsl #2]
+2b6e2c	e794c102	ldr	r12, [r4, r2, lsl #2]
+2b6e30	e0871001	add	r1, r7, r1
+2b6e34	e79a2102	ldr	r2, [r10, r2, lsl #2]
+2b6e38	e08cc000	add	r12, r12, r0
+2b6e3c	e59d5014	ldr	r5, [sp, #0x14]
+2b6e40	e7d10003	ldrb	r0, [r1, r3]
+2b6e44	e0872002	add	r2, r7, r2
+2b6e48	e087784c	add	r7, r7, r12, asr #16
+2b6e4c	e59da028	ldr	r10, [sp, #0x28]
+2b6e50	e59db018	ldr	r11, [sp, #0x18]
+2b6e54	e5c50000	strb	r0, [r5]
+2b6e58	e7d70003	ldrb	r0, [r7, r3]
+2b6e5c	e5c50001	strb	r0, [r5, #0x1]
+2b6e60	e7d23003	ldrb	r3, [r2, r3]
+2b6e64	e5c53002	strb	r3, [r5, #0x2]
+2b6e68	e5da3000	ldrb	r3, [r10]
+2b6e6c	e7d11003	ldrb	r1, [r1, r3]
+2b6e70	e5cb1000	strb	r1, [r11]
+2b6e74	e7d71003	ldrb	r1, [r7, r3]
+2b6e78	e5cb1001	strb	r1, [r11, #0x1]
+2b6e7c	e7d23003	ldrb	r3, [r2, r3]
+2b6e80	e5cb3002	strb	r3, [r11, #0x2]
+2b6e84	e28dd030	add	sp, sp, #48
+2b6e88	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+2b6e8c	e12fff1e	bx	lr
+2b6e90	e58d8010	str	r8, [sp, #0x10]
+2b6e94	eaffffd7	b	0x2b6df8 <jinit_master_decompress+0x720>

@@ -1,0 +1,185 @@
+1735a0	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1735a4	ed2d8b0e	vpush	{d8, d9, d10, d11, d12, d13, d14}
+1735a8	e24dd034	sub	sp, sp, #52
+1735ac	ed9dca27	vldr	s24, [sp, #156]
+1735b0	e28d50a0	add	r5, sp, #160
+1735b4	e1a0a002	mov	r10, r2
+1735b8	e59d9090	ldr	r9, [sp, #0x90]
+1735bc	e1a04003	mov	r4, r3
+1735c0	ee080a10	vmov	s16, r0
+1735c4	edddca25	vldr	s25, [sp, #148]
+1735c8	ee081a90	vmov	s17, r1
+1735cc	ed9dba26	vldr	s22, [sp, #152]
+1735d0	e89501e0	ldm	r5, {r5, r6, r7, r8}
+1735d4	ed9dda2c	vldr	s26, [sp, #176]
+1735d8	ebfffbc1	bl	0x1724e4 <_Z7SetFontv>
+1735dc	e1a01009	mov	r1, r9
+1735e0	e28d2020	add	r2, sp, #32
+1735e4	e1a0000a	mov	r0, r10
+1735e8	e3a0c000	mov	r12, #0
+1735ec	ed9f9a9c	vldr	s18, [pc, #624]
+1735f0	e58dc024	str	r12, [sp, #0x24]
+1735f4	e58dc020	str	r12, [sp, #0x20]
+1735f8	e58dc02c	str	r12, [sp, #0x2c]
+1735fc	e58dc028	str	r12, [sp, #0x28]
+173600	ebfffbd6	bl	0x172560 <_Z15Split_TextBlockPKciP11TStringList>
+173604	ee2c9a09	vmul.f32	s18, s24, s18
+173608	eddf7a96	vldr	s15, [pc, #600]
+17360c	e59f925c	ldr	r9, [pc, #0x25c]
+173610	e08f9009	add	r9, pc, r9
+173614	ee899a27	vdiv.f32	s18, s18, s15
+173618	ee190a10	vmov	r0, s18
+17361c	ebfd0bd7	bl	0xb6580 <sinf@plt>
+173620	ee0a0a10	vmov	s20, r0
+173624	ee190a10	vmov	r0, s18
+173628	ebfd0bd7	bl	0xb658c <cosf@plt>
+17362c	e3540000	cmp	r4, #0
+173630	ee0a0a90	vmov	s21, r0
+173634	ba000082	blt	0x173844 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x2a4>
+173638	ee2a9a0b	vmul.f32	s18, s20, s22
+17363c	e59f3230	ldr	r3, [pc, #0x230]
+173640	ee064a90	vmov	s13, r4
+173644	e59d1028	ldr	r1, [sp, #0x28]
+173648	e7993003	ldr	r3, [r9, r3]
+17364c	e5933000	ldr	r3, [r3]
+173650	e3530001	cmp	r3, #1
+173654	ee6a9a8b	vmul.f32	s19, s21, s22
+173658	eef87ae6	vcvt.f32.s32	s15, s13
+17365c	ee299a27	vmul.f32	s18, s18, s15
+173660	ee679aa9	vmul.f32	s19, s15, s19
+173664	0a00006e	beq	0x173824 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x284>
+173668	e3530002	cmp	r3, #2
+17366c	0e061a90	vmoveq	s13, r1
+173670	0ef87ae6	vcvteq.f32.s32	s15, s13
+173674	0e478ae9	vmlseq.f32	s17, s15, s19
+173678	0e098a67	vmlseq.f32	s16, s18, s15
+17367c	e3510000	cmp	r1, #0
+173680	d59d0020	ldrle	r0, [sp, #0x20]
+173684	da000015	ble	0x1736e0 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x140>
+173688	e59d0020	ldr	r0, [sp, #0x20]
+17368c	e3a04000	mov	r4, #0
+173690	eddfba75	vldr	s23, [pc, #468]
+173694	eeb6ea00	vmov.f32	s28, #5.000000e-01
+173698	eef1da6c	vneg.f32	s27, s25
+17369c	e3500000	cmp	r0, #0
+1736a0	0a000009	beq	0x1736cc <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x12c>
+1736a4	e3540000	cmp	r4, #0
+1736a8	11a02004	movne	r2, r4
+1736ac	11a03000	movne	r3, r0
+1736b0	1a000002	bne	0x1736c0 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x120>
+1736b4	ea00001a	b	0x173724 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x184>
+1736b8	e2522001	subs	r2, r2, #1
+1736bc	0a000019	beq	0x173728 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x188>
+1736c0	e5933000	ldr	r3, [r3]
+1736c4	e3530000	cmp	r3, #0
+1736c8	1afffffa	bne	0x1736b8 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x118>
+1736cc	e2844001	add	r4, r4, #1
+1736d0	ee388a09	vadd.f32	s16, s16, s18
+1736d4	e1510004	cmp	r1, r4
+1736d8	ee788aa9	vadd.f32	s17, s17, s19
+1736dc	caffffee	bgt	0x17369c <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0xfc>
+1736e0	e3500000	cmp	r0, #0
+1736e4	0a000004	beq	0x1736fc <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x15c>
+1736e8	e5904000	ldr	r4, [r0]
+1736ec	eb0422f7	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1736f0	e3540000	cmp	r4, #0
+1736f4	e1a00004	mov	r0, r4
+1736f8	1afffffa	bne	0x1736e8 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x148>
+1736fc	e59d002c	ldr	r0, [sp, #0x2c]
+173700	e3a03000	mov	r3, #0
+173704	e58d3028	str	r3, [sp, #0x28]
+173708	e1500003	cmp	r0, r3
+17370c	e58d3020	str	r3, [sp, #0x20]
+173710	0a000000	beq	0x173718 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x178>
+173714	eb0422ed	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+173718	e28dd034	add	sp, sp, #52
+17371c	ecbd8b0e	vpop	{d8, d9, d10, d11, d12, d13, d14}
+173720	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+173724	e1a03000	mov	r3, r0
+173728	e593a004	ldr	r10, [r3, #0x4]
+17372c	e35a0000	cmp	r10, #0
+173730	0affffe5	beq	0x1736cc <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x12c>
+173734	e1da30b0	ldrh	r3, [r10]
+173738	e3530000	cmp	r3, #0
+17373c	0affffe2	beq	0x1736cc <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x12c>
+173740	e59f3130	ldr	r3, [pc, #0x130]
+173744	e799b003	ldr	r11, [r9, r3]
+173748	e59b3000	ldr	r3, [r11]
+17374c	e3530001	cmp	r3, #1
+173750	0a000028	beq	0x1737f8 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x258>
+173754	eddf7a44	vldr	s15, [pc, #272]
+173758	e3530002	cmp	r3, #2
+17375c	0a00001c	beq	0x1737d4 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x234>
+173760	e1da30b0	ldrh	r3, [r10]
+173764	e3530000	cmp	r3, #0
+173768	1a000002	bne	0x173778 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x1d8>
+17376c	e59d0020	ldr	r0, [sp, #0x20]
+173770	e59d1028	ldr	r1, [sp, #0x28]
+173774	eaffffd4	b	0x1736cc <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x12c>
+173778	eef06a68	vmov.f32	s13, s17
+17377c	e59f20f8	ldr	r2, [pc, #0xf8]
+173780	e1a0300a	mov	r3, r10
+173784	e7992002	ldr	r2, [r9, r2]
+173788	edcdca00	vstr	s25, [sp]
+17378c	eeb07a48	vmov.f32	s14, s16
+173790	ed8dba01	vstr	s22, [sp, #4]
+173794	ed8dca02	vstr	s24, [sp, #8]
+173798	e58d500c	str	r5, [sp, #0xc]
+17379c	ed8dda07	vstr	s26, [sp, #28]
+1737a0	e5920000	ldr	r0, [r2]
+1737a4	e58d6010	str	r6, [sp, #0x10]
+1737a8	ee4a6a67	vmls.f32	s13, s20, s15
+1737ac	e58d7014	str	r7, [sp, #0x14]
+1737b0	e58d8018	str	r8, [sp, #0x18]
+1737b4	ee0a7aa7	vmla.f32	s14, s21, s15
+1737b8	eef07a66	vmov.f32	s15, s13
+1737bc	ee0a7a2b	vmla.f32	s14, s20, s23
+1737c0	ee4a7aab	vmla.f32	s15, s21, s23
+1737c4	ee171a10	vmov	r1, s14
+1737c8	ee172a90	vmov	r2, s15
+1737cc	ebfe15e1	bl	0xf8f58 <_ZN7CFontGM29Draw_String_Transformed_ColorEffPtfffjjjjf>
+1737d0	eaffffe5	b	0x17376c <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x1cc>
+1737d4	e59f30a0	ldr	r3, [pc, #0xa0]
+1737d8	e1a0100a	mov	r1, r10
+1737dc	e7993003	ldr	r3, [r9, r3]
+1737e0	e5930000	ldr	r0, [r3]
+1737e4	ebfe14c6	bl	0xf8b04 <_ZN7CFontGM9TextWidthEPt>
+1737e8	ee060a90	vmov	s13, r0
+1737ec	eef87ae6	vcvt.f32.s32	s15, s13
+1737f0	ee6d7aa7	vmul.f32	s15, s27, s15
+1737f4	eaffffd9	b	0x173760 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x1c0>
+1737f8	e59f307c	ldr	r3, [pc, #0x7c]
+1737fc	e1a0100a	mov	r1, r10
+173800	e7993003	ldr	r3, [r9, r3]
+173804	e5930000	ldr	r0, [r3]
+173808	ebfe14bd	bl	0xf8b04 <_ZN7CFontGM9TextWidthEPt>
+17380c	e59b3000	ldr	r3, [r11]
+173810	ee070a10	vmov	s14, r0
+173814	eef87ac7	vcvt.f32.s32	s15, s14
+173818	ee6d7aa7	vmul.f32	s15, s27, s15
+17381c	ee677a8e	vmul.f32	s15, s15, s28
+173820	eaffffcc	b	0x173758 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x1b8>
+173824	ee071a10	vmov	s14, r1
+173828	eef87ac7	vcvt.f32.s32	s15, s14
+17382c	ee676aa9	vmul.f32	s13, s15, s19
+173830	ee297a27	vmul.f32	s14, s18, s15
+173834	eef67a00	vmov.f32	s15, #5.000000e-01
+173838	ee468ae7	vmls.f32	s17, s13, s15
+17383c	ee078a67	vmls.f32	s16, s14, s15
+173840	eaffff8d	b	0x17367c <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0xdc>
+173844	e59f3030	ldr	r3, [pc, #0x30]
+173848	e59f1030	ldr	r1, [pc, #0x30]
+17384c	e7993003	ldr	r3, [r9, r3]
+173850	e08f1001	add	r1, pc, r1
+173854	e5930000	ldr	r0, [r3]
+173858	ebfe16d1	bl	0xf93a4 <_ZN7CFontGM10TextHeightEPt>
+17385c	e1a04000	mov	r4, r0
+173860	eaffff74	b	0x173638 <_Z30GR_Text_Draw_Transformed_ColorffPKciifffjjjjf+0x98>
+173864	40490fdb	ldrdmi	r0, r1, [r9], #-251
+173868	43340000	teqmi	r4, #0
+17386c	00000000	andeq	r0, r0, r0
+173870	0027e640	eoreq	lr, r7, r0, asr #12
+173874	ffffe65c	.word	0xffffe65c
+173878	ffffe658	.word	0xffffe658
+17387c	ffffe654	.word	0xffffe654
+173880	001d7cb8	ldrheq	r7, [sp], -r8

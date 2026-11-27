@@ -1,0 +1,151 @@
+d6850	e92d4ff8	push	{r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+d6854	ed2d8b02	vpush	{d8}
+d6858	e59f6220	ldr	r6, [pc, #0x220]
+d685c	e59f3220	ldr	r3, [pc, #0x220]
+d6860	e08f6006	add	r6, pc, r6
+d6864	e7963003	ldr	r3, [r6, r3]
+d6868	e5d33000	ldrb	r3, [r3]
+d686c	e3530000	cmp	r3, #0
+d6870	1a000001	bne	0xd687c <_Z16DoGenerationalGCv+0x2c>
+d6874	ecbd8b02	vpop	{d8}
+d6878	e8bd8ff8	pop	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+d687c	e59f3204	ldr	r3, [pc, #0x204]
+d6880	e3a02001	mov	r2, #1
+d6884	e59f1200	ldr	r1, [pc, #0x200]
+d6888	e3a0b058	mov	r11, #88
+d688c	e7968003	ldr	r8, [r6, r3]
+d6890	e7967001	ldr	r7, [r6, r1]
+d6894	e5981000	ldr	r1, [r8]
+d6898	e5970000	ldr	r0, [r7]
+d689c	ebfffcc1	bl	0xd5ba8 <_Z15MarkAndSweepGeniib>
+d68a0	e59f31e8	ldr	r3, [pc, #0x1e8]
+d68a4	e5979000	ldr	r9, [r7]
+d68a8	e796a003	ldr	r10, [r6, r3]
+d68ac	e02ba99b	mla	r11, r11, r9, r10
+d68b0	e59b3020	ldr	r3, [r11, #0x20]
+d68b4	e3530000	cmp	r3, #0
+d68b8	0a000039	beq	0xd69a4 <_Z16DoGenerationalGCv+0x154>
+d68bc	e59f11d0	ldr	r1, [pc, #0x1d0]
+d68c0	e59b2024	ldr	r2, [r11, #0x24]
+d68c4	e7961001	ldr	r1, [r6, r1]
+d68c8	e5911000	ldr	r1, [r1]
+d68cc	e1520001	cmp	r2, r1
+d68d0	da000033	ble	0xd69a4 <_Z16DoGenerationalGCv+0x154>
+d68d4	ee073a10	vmov	s14, r3
+d68d8	ee062a10	vmov	s12, r2
+d68dc	eef86ac7	vcvt.f32.s32	s13, s14
+d68e0	eef87ac6	vcvt.f32.s32	s15, s12
+d68e4	eec76aa6	vdiv.f32	s13, s15, s13
+d68e8	eeb07a00	vmov.f32	s14, #2.000000e+00
+d68ec	eef46ac7	vcmpe.f32	s13, s14
+d68f0	eef1fa10	vmrs	APSR_nzcv, fpscr
+d68f4	ca000031	bgt	0xd69c0 <_Z16DoGenerationalGCv+0x170>
+d68f8	e3520000	cmp	r2, #0
+d68fc	da000019	ble	0xd6968 <_Z16DoGenerationalGCv+0x118>
+d6900	ed9b7a0b	vldr	s14, [r11, #44]
+d6904	eeb57ac0	vcmpe.f32	s14, #0
+d6908	e59b3028	ldr	r3, [r11, #0x28]
+d690c	eef1fa10	vmrs	APSR_nzcv, fpscr
+d6910	da000014	ble	0xd6968 <_Z16DoGenerationalGCv+0x118>
+d6914	ee063a90	vmov	s13, r3
+d6918	e59f3178	ldr	r3, [pc, #0x178]
+d691c	eeb86ae6	vcvt.f32.s32	s12, s13
+d6920	e7963003	ldr	r3, [r6, r3]
+d6924	edd36a00	vldr	s13, [r3]
+d6928	eec67a27	vdiv.f32	s15, s12, s15
+d692c	eef47ae6	vcmpe.f32	s15, s13
+d6930	eef1fa10	vmrs	APSR_nzcv, fpscr
+d6934	5a000049	bpl	0xd6a60 <_Z16DoGenerationalGCv+0x210>
+d6938	eec77a87	vdiv.f32	s15, s15, s14
+d693c	e59f2158	ldr	r2, [pc, #0x158]
+d6940	e59f3158	ldr	r3, [pc, #0x158]
+d6944	e7962002	ldr	r2, [r6, r2]
+d6948	ed926a00	vldr	s12, [r2]
+d694c	e7963003	ldr	r3, [r6, r3]
+d6950	edd36a00	vldr	s13, [r3]
+d6954	ee277a06	vmul.f32	s14, s14, s12
+d6958	eef47ae6	vcmpe.f32	s15, s13
+d695c	ed8b7a0b	vstr	s14, [r11, #44]
+d6960	eef1fa10	vmrs	APSR_nzcv, fpscr
+d6964	4a000015	bmi	0xd69c0 <_Z16DoGenerationalGCv+0x170>
+d6968	e3590001	cmp	r9, #1
+d696c	13a03000	movne	r3, #0
+d6970	0a000014	beq	0xd69c8 <_Z16DoGenerationalGCv+0x178>
+d6974	e3590001	cmp	r9, #1
+d6978	da000027	ble	0xd6a1c <_Z16DoGenerationalGCv+0x1cc>
+d697c	e3530000	cmp	r3, #0
+d6980	da000007	ble	0xd69a4 <_Z16DoGenerationalGCv+0x154>
+d6984	e0839009	add	r9, r3, r9
+d6988	e3590003	cmp	r9, #3
+d698c	d5879000	strle	r9, [r7]
+d6990	c59a312c	ldrgt	r3, [r10, #0x12c]
+d6994	c3a02000	movgt	r2, #0
+d6998	c5872000	strgt	r2, [r7]
+d699c	c58a3128	strgt	r3, [r10, #0x128]
+d69a0	ea000001	b	0xd69ac <_Z16DoGenerationalGCv+0x15c>
+d69a4	e3a03000	mov	r3, #0
+d69a8	e5873000	str	r3, [r7]
+d69ac	ecbd8b02	vpop	{d8}
+d69b0	e5983000	ldr	r3, [r8]
+d69b4	e2833001	add	r3, r3, #1
+d69b8	e5883000	str	r3, [r8]
+d69bc	e8bd8ff8	pop	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+d69c0	e3a03001	mov	r3, #1
+d69c4	eaffffea	b	0xd6974 <_Z16DoGenerationalGCv+0x124>
+d69c8	e1ca44d0	ldrd	r4, r5, [r10, #64]
+d69cc	e3540001	cmp	r4, #1
+d69d0	e2d53000	sbcs	r3, r5, #0
+d69d4	b3a03000	movlt	r3, #0
+d69d8	ba00000f	blt	0xd6a1c <_Z16DoGenerationalGCv+0x1cc>
+d69dc	e1cb04d0	ldrd	r0, r1, [r11, #64]
+d69e0	eb0909df	bl	0x319164 <__floatdidf>
+d69e4	ec410b18	vmov	d8, r0, r1
+d69e8	e1a00004	mov	r0, r4
+d69ec	e1a01005	mov	r1, r5
+d69f0	eb0909db	bl	0x319164 <__floatdidf>
+d69f4	e59f30a8	ldr	r3, [pc, #0xa8]
+d69f8	e7963003	ldr	r3, [r6, r3]
+d69fc	edd37a00	vldr	s15, [r3]
+d6a00	ec410b16	vmov	d6, r0, r1
+d6a04	ee888b06	vdiv.f64	d8, d8, d6
+d6a08	eeb78bc8	vcvt.f32.f64	s16, d8
+d6a0c	eeb48ae7	vcmpe.f32	s16, s15
+d6a10	eef1fa10	vmrs	APSR_nzcv, fpscr
+d6a14	d3a03000	movle	r3, #0
+d6a18	c3a03001	movgt	r3, #1
+d6a1c	e59f1084	ldr	r1, [pc, #0x84]
+d6a20	e59b2034	ldr	r2, [r11, #0x34]
+d6a24	e7961001	ldr	r1, [r6, r1]
+d6a28	e5911000	ldr	r1, [r1]
+d6a2c	e1520001	cmp	r2, r1
+d6a30	daffffd1	ble	0xd697c <_Z16DoGenerationalGCv+0x12c>
+d6a34	e59b3038	ldr	r3, [r11, #0x38]
+d6a38	e1590003	cmp	r9, r3
+d6a3c	aa00000d	bge	0xd6a78 <_Z16DoGenerationalGCv+0x228>
+d6a40	e59b1030	ldr	r1, [r11, #0x30]
+d6a44	e1520001	cmp	r2, r1
+d6a48	ba00000a	blt	0xd6a78 <_Z16DoGenerationalGCv+0x228>
+d6a4c	e0693003	rsb	r3, r9, r3
+d6a50	e2833001	add	r3, r3, #1
+d6a54	e3530002	cmp	r3, #2
+d6a58	a3a03002	movge	r3, #2
+d6a5c	eaffffc6	b	0xd697c <_Z16DoGenerationalGCv+0x12c>
+d6a60	e59f3034	ldr	r3, [pc, #0x34]
+d6a64	e7963003	ldr	r3, [r6, r3]
+d6a68	edd37a00	vldr	s15, [r3]
+d6a6c	ee277a27	vmul.f32	s14, s14, s15
+d6a70	ed8b7a0b	vstr	s14, [r11, #44]
+d6a74	eaffffbb	b	0xd6968 <_Z16DoGenerationalGCv+0x118>
+d6a78	e3a03001	mov	r3, #1
+d6a7c	eaffffc0	b	0xd6984 <_Z16DoGenerationalGCv+0x134>
+d6a80	0031b3f0	ldrshteq	r11, [r1], -r0
+d6a84	ffffbf68	.word	0xffffbf68
+d6a88	ffffc048	.word	0xffffc048
+d6a8c	ffffc044	.word	0xffffc044
+d6a90	ffffc010	.word	0xffffc010
+d6a94	ffffc060	.word	0xffffc060
+d6a98	ffffc064	.word	0xffffc064
+d6a9c	ffffc068	.word	0xffffc068
+d6aa0	ffffc06c	.word	0xffffc06c
+d6aa4	ffffc070	.word	0xffffc070
+d6aa8	ffffc074	.word	0xffffc074

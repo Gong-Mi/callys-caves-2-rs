@@ -1,0 +1,28 @@
+CODE 702
+ROOM 110
+ROOMW 2880
+ROOMH 480
+CURRENT 200001
+INST 100000 0 1
+FIELD 100000 sprite_index 29
+FIELD 100000 x 50
+FIELD 100000 y 60
+INST 200001 162 1
+FIELD 200001 taplock 1
+GLOBAL musicmute 1
+GLOBAL xptolevelup 100
+GLOBAL pistolxptolevelup 100
+GLOBAL shotgunxptolevelup 100
+GLOBAL assaultriflexptolevelup 100
+GLOBAL rocketxptolevelup 100
+GLOBAL laserxptolevelup 100
+GLOBAL bombgunxptolevelup 100
+GLOBAL icegunxptolevelup 100
+GLOBAL bowxptolevelup 100
+GLOBAL flamethrowerxptolevelup 100
+GLOBAL bladegunxptolevelup 100
+GLOBAL boomerangxptolevelup 100
+GLOBAL spikegunxptolevelup 100
+RUN 702 200001
+WARP
+DRAW 0

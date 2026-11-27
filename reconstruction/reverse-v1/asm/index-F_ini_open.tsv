@@ -1,0 +1,6 @@
+13bb1c	e92d4008	push	{r3, lr}
+13bb20	e3a01000	mov	r1, #0
+13bb24	e59d0008	ldr	r0, [sp, #0x8]
+13bb28	ebfe5268	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+13bb2c	e8bd4008	pop	{r3, lr}
+13bb30	eaffffdd	b	0x13baac <_Z14YYGML_ini_openPKc>

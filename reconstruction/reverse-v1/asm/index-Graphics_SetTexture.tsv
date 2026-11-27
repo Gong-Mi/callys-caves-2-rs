@@ -1,0 +1,202 @@
+182a28	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+182a2c	e1a07000	mov	r7, r0
+182a30	e59f42d4	ldr	r4, [pc, #0x2d4]
+182a34	e1a05001	mov	r5, r1
+182a38	e59f32d0	ldr	r3, [pc, #0x2d0]
+182a3c	e08f4004	add	r4, pc, r4
+182a40	e7946003	ldr	r6, [r4, r3]
+182a44	e5963000	ldr	r3, [r6]
+182a48	e3530000	cmp	r3, #0
+182a4c	1a000031	bne	0x182b18 <_ZN8Graphics10SetTextureEiPv+0xf0>
+182a50	e59f32bc	ldr	r3, [pc, #0x2bc]
+182a54	e7948003	ldr	r8, [r4, r3]
+182a58	e5983000	ldr	r3, [r8]
+182a5c	e1530001	cmp	r3, r1
+182a60	0a000074	beq	0x182c38 <_ZN8Graphics10SetTextureEiPv+0x210>
+182a64	e59f32ac	ldr	r3, [pc, #0x2ac]
+182a68	e7943003	ldr	r3, [r4, r3]
+182a6c	e5d33000	ldrb	r3, [r3]
+182a70	e3530000	cmp	r3, #0
+182a74	08bd81f0	popeq	{r4, r5, r6, r7, r8, pc}
+182a78	e3510000	cmp	r1, #0
+182a7c	0a00007c	beq	0x182c74 <_ZN8Graphics10SetTextureEiPv+0x24c>
+182a80	e1a00005	mov	r0, r5
+182a84	ebfff77e	bl	0x180884 <_Z28isTextureBoundAsRenderTargetP7Texture>
+182a88	e3500000	cmp	r0, #0
+182a8c	1a000060	bne	0x182c14 <_ZN8Graphics10SetTextureEiPv+0x1ec>
+182a90	e59f3284	ldr	r3, [pc, #0x284]
+182a94	e1a01007	mov	r1, r7
+182a98	e3a02009	mov	r2, #9
+182a9c	e7940003	ldr	r0, [r4, r3]
+182aa0	ebff953e	bl	0x167fa0 <_ZN18RenderStateManager15GetSamplerStateEi13eSamplerState>
+182aa4	e3a01001	mov	r1, #1
+182aa8	e1a02000	mov	r2, r0
+182aac	e1a00005	mov	r0, r5
+182ab0	ebfffe92	bl	0x182500 <_Z23_CreateTextureIfInvalidP7Textureb10eMipEnable>
+182ab4	e59f3264	ldr	r3, [pc, #0x264]
+182ab8	e3000de1	movw	r0, #0xde1
+182abc	e7943003	ldr	r3, [r4, r3]
+182ac0	e5933000	ldr	r3, [r3]
+182ac4	e12fff33	blx	r3
+182ac8	e59f3254	ldr	r3, [pc, #0x254]
+182acc	e7943003	ldr	r3, [r4, r3]
+182ad0	e5932000	ldr	r2, [r3]
+182ad4	e1550002	cmp	r5, r2
+182ad8	0a00000d	beq	0x182b14 <_ZN8Graphics10SetTextureEiPv+0xec>
+182adc	e59f1244	ldr	r1, [pc, #0x244]
+182ae0	e3000de1	movw	r0, #0xde1
+182ae4	e5835000	str	r5, [r3]
+182ae8	e59f223c	ldr	r2, [pc, #0x23c]
+182aec	e7943001	ldr	r3, [r4, r1]
+182af0	e5951014	ldr	r1, [r5, #0x14]
+182af4	e593c000	ldr	r12, [r3]
+182af8	e28cc001	add	r12, r12, #1
+182afc	e583c000	str	r12, [r3]
+182b00	e7943002	ldr	r3, [r4, r2]
+182b04	e5933000	ldr	r3, [r3]
+182b08	e12fff33	blx	r3
+182b0c	e5885000	str	r5, [r8]
+182b10	ebfff804	bl	0x180b28 <_Z26_SetCurrentTextureSettingsv>
+182b14	e5963000	ldr	r3, [r6]
+182b18	e3530001	cmp	r3, #1
+182b1c	18bd81f0	popne	{r4, r5, r6, r7, r8, pc}
+182b20	e3570007	cmp	r7, #7
+182b24	88bd81f0	pophi	{r4, r5, r6, r7, r8, pc}
+182b28	e59f3200	ldr	r3, [pc, #0x200]
+182b2c	e7943003	ldr	r3, [r4, r3]
+182b30	e5d33000	ldrb	r3, [r3]
+182b34	e3530000	cmp	r3, #0
+182b38	1a000004	bne	0x182b50 <_ZN8Graphics10SetTextureEiPv+0x128>
+182b3c	e59f31d0	ldr	r3, [pc, #0x1d0]
+182b40	e7943003	ldr	r3, [r4, r3]
+182b44	e7933107	ldr	r3, [r3, r7, lsl #2]
+182b48	e1530005	cmp	r3, r5
+182b4c	0a00005f	beq	0x182cd0 <_ZN8Graphics10SetTextureEiPv+0x2a8>
+182b50	e59f31c0	ldr	r3, [pc, #0x1c0]
+182b54	e7943003	ldr	r3, [r4, r3]
+182b58	e5d33000	ldrb	r3, [r3]
+182b5c	e3530000	cmp	r3, #0
+182b60	08bd81f0	popeq	{r4, r5, r6, r7, r8, pc}
+182b64	e59f31c8	ldr	r3, [pc, #0x1c8]
+182b68	e7946003	ldr	r6, [r4, r3]
+182b6c	e5963000	ldr	r3, [r6]
+182b70	e1530007	cmp	r3, r7
+182b74	0a000006	beq	0x182b94 <_ZN8Graphics10SetTextureEiPv+0x16c>
+182b78	e59f31b8	ldr	r3, [pc, #0x1b8]
+182b7c	e2870b21	add	r0, r7, #33792
+182b80	e5867000	str	r7, [r6]
+182b84	e28000c0	add	r0, r0, #192
+182b88	e7943003	ldr	r3, [r4, r3]
+182b8c	e5933000	ldr	r3, [r3]
+182b90	e12fff33	blx	r3
+182b94	e3550000	cmp	r5, #0
+182b98	0a00003d	beq	0x182c94 <_ZN8Graphics10SetTextureEiPv+0x26c>
+182b9c	e1a00005	mov	r0, r5
+182ba0	ebfff737	bl	0x180884 <_Z28isTextureBoundAsRenderTargetP7Texture>
+182ba4	e3500000	cmp	r0, #0
+182ba8	1a00002d	bne	0x182c64 <_ZN8Graphics10SetTextureEiPv+0x23c>
+182bac	e59f3168	ldr	r3, [pc, #0x168]
+182bb0	e1a01007	mov	r1, r7
+182bb4	e3a02009	mov	r2, #9
+182bb8	e7940003	ldr	r0, [r4, r3]
+182bbc	ebff94f7	bl	0x167fa0 <_ZN18RenderStateManager15GetSamplerStateEi13eSamplerState>
+182bc0	e3a01001	mov	r1, #1
+182bc4	e1a02000	mov	r2, r0
+182bc8	e1a00005	mov	r0, r5
+182bcc	ebfffe4b	bl	0x182500 <_Z23_CreateTextureIfInvalidP7Textureb10eMipEnable>
+182bd0	e59f3150	ldr	r3, [pc, #0x150]
+182bd4	e59f2150	ldr	r2, [pc, #0x150]
+182bd8	e3000de1	movw	r0, #0xde1
+182bdc	e5951014	ldr	r1, [r5, #0x14]
+182be0	e7943003	ldr	r3, [r4, r3]
+182be4	e593c000	ldr	r12, [r3]
+182be8	e28cc001	add	r12, r12, #1
+182bec	e583c000	str	r12, [r3]
+182bf0	e7943002	ldr	r3, [r4, r2]
+182bf4	e5933000	ldr	r3, [r3]
+182bf8	e12fff33	blx	r3
+182bfc	e59f3110	ldr	r3, [pc, #0x110]
+182c00	e5962000	ldr	r2, [r6]
+182c04	e7943003	ldr	r3, [r4, r3]
+182c08	e7835102	str	r5, [r3, r2, lsl #2]
+182c0c	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+182c10	eafff7c4	b	0x180b28 <_Z26_SetCurrentTextureSettingsv>
+182c14	e59f1120	ldr	r1, [pc, #0x120]
+182c18	e59f3120	ldr	r3, [pc, #0x120]
+182c1c	e08f1001	add	r1, pc, r1
+182c20	e7943003	ldr	r3, [r4, r3]
+182c24	e5930000	ldr	r0, [r3]
+182c28	e5903000	ldr	r3, [r0]
+182c2c	e593300c	ldr	r3, [r3, #0xc]
+182c30	e12fff33	blx	r3
+182c34	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+182c38	e3510000	cmp	r1, #0
+182c3c	08bd81f0	popeq	{r4, r5, r6, r7, r8, pc}
+182c40	e5913014	ldr	r3, [r1, #0x14]
+182c44	e3730001	cmn	r3, #1
+182c48	18bd81f0	popne	{r4, r5, r6, r7, r8, pc}
+182c4c	e59f30c4	ldr	r3, [pc, #0xc4]
+182c50	e7943003	ldr	r3, [r4, r3]
+182c54	e5d33000	ldrb	r3, [r3]
+182c58	e3530000	cmp	r3, #0
+182c5c	1affff87	bne	0x182a80 <_ZN8Graphics10SetTextureEiPv+0x58>
+182c60	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+182c64	e59f10d8	ldr	r1, [pc, #0xd8]
+182c68	e59f30d0	ldr	r3, [pc, #0xd0]
+182c6c	e08f1001	add	r1, pc, r1
+182c70	eaffffea	b	0x182c20 <_ZN8Graphics10SetTextureEiPv+0x1f8>
+182c74	e59f30cc	ldr	r3, [pc, #0xcc]
+182c78	e3000de1	movw	r0, #0xde1
+182c7c	e7943003	ldr	r3, [r4, r3]
+182c80	e5933000	ldr	r3, [r3]
+182c84	e12fff33	blx	r3
+182c88	e5885000	str	r5, [r8]
+182c8c	e5963000	ldr	r3, [r6]
+182c90	eaffffa0	b	0x182b18 <_ZN8Graphics10SetTextureEiPv+0xf0>
+182c94	e59f30b0	ldr	r3, [pc, #0xb0]
+182c98	e7947003	ldr	r7, [r4, r3]
+182c9c	e5970000	ldr	r0, [r7]
+182ca0	e3500000	cmp	r0, #0
+182ca4	08bd81f0	popeq	{r4, r5, r6, r7, r8, pc}
+182ca8	e1a01005	mov	r1, r5
+182cac	e3e02000	mvn	r2, #0
+182cb0	ebfffe12	bl	0x182500 <_Z23_CreateTextureIfInvalidP7Textureb10eMipEnable>
+182cb4	e59f306c	ldr	r3, [pc, #0x6c]
+182cb8	e5971000	ldr	r1, [r7]
+182cbc	e3000de1	movw	r0, #0xde1
+182cc0	e59f2064	ldr	r2, [pc, #0x64]
+182cc4	e7943003	ldr	r3, [r4, r3]
+182cc8	e5911014	ldr	r1, [r1, #0x14]
+182ccc	eaffffc4	b	0x182be4 <_ZN8Graphics10SetTextureEiPv+0x1bc>
+182cd0	e3550000	cmp	r5, #0
+182cd4	0a000003	beq	0x182ce8 <_ZN8Graphics10SetTextureEiPv+0x2c0>
+182cd8	e5953014	ldr	r3, [r5, #0x14]
+182cdc	e3730001	cmn	r3, #1
+182ce0	18bd81f0	popne	{r4, r5, r6, r7, r8, pc}
+182ce4	eaffff99	b	0x182b50 <_ZN8Graphics10SetTextureEiPv+0x128>
+182ce8	e59f305c	ldr	r3, [pc, #0x5c]
+182cec	e7943003	ldr	r3, [r4, r3]
+182cf0	e5933000	ldr	r3, [r3]
+182cf4	e3530000	cmp	r3, #0
+182cf8	0affff94	beq	0x182b50 <_ZN8Graphics10SetTextureEiPv+0x128>
+182cfc	e5933014	ldr	r3, [r3, #0x14]
+182d00	e3730001	cmn	r3, #1
+182d04	18bd81f0	popne	{r4, r5, r6, r7, r8, pc}
+182d08	eaffff90	b	0x182b50 <_ZN8Graphics10SetTextureEiPv+0x128>
+182d0c	0026f214	eoreq	pc, r6, r4, lsl r2
+182d10	ffffe7b8	.word	0xffffe7b8
+182d14	ffffe8e8	.word	0xffffe8e8
+182d18	ffffe4d0	.word	0xffffe4d0
+182d1c	ffffc0a8	.word	0xffffc0a8
+182d20	ffffbad8	.word	0xffffbad8
+182d24	ffffe8f4	.word	0xffffe8f4
+182d28	ffffe740	.word	0xffffe740
+182d2c	ffffbb20	.word	0xffffbb20
+182d30	ffffe904	.word	0xffffe904
+182d34	ffffe808	.word	0xffffe808
+182d38	ffffbbf0	.word	0xffffbbf0
+182d3c	001c8f0c	andseq	r8, r12, r12, lsl #30
+182d40	ffffbac4	.word	0xffffbac4
+182d44	001c8ebc	ldrheq	r8, [r12], -r12
+182d48	ffffbad0	.word	0xffffbad0
+182d4c	ffffe8fc	.word	0xffffe8fc

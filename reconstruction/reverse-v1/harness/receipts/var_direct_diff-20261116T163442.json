@@ -1,0 +1,482 @@
+{
+ "schema": "cally-var-direct-diff/1",
+ "generated_utc": "2026-11-16T08:34:42Z",
+ "tier": "oracle_anchored",
+ "original_executed": true,
+ "evidence_layer": "synthetic memory oracle: the original ARM bytes at 0x1f3b8c executed over a staged object/slot table with identical stubs on both arms; NOT device execution",
+ "BINDING": {
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "entry": "0x1f3b8c",
+  "function": "_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue",
+  "body_sha256": "6fc631391e9234dee9d1a0782188f926131d55aaa44f81eb545a132ed0da4c39",
+  "driver_sha256": "1271fa9fe8ffb265000cf1e9c22d6f20b5305399b43f04f7fdc7bfc3cd4c7abb",
+  "stub_callees": [
+   "GET_RValue@0xd13bc",
+   "YYObjectBase::InternalGetYYVar@0x196a70",
+   "builtin var table entry fn"
+  ]
+ },
+ "scope": {
+  "covered": [
+   "varid<=9999 builtin table dispatch",
+   "flag[+0x24]==0 early exit, out untouched",
+   "slot address = table + (varid-100000)*16",
+   "table==NULL lazy path through InternalGetYYVar",
+   "arrindex passthrough to both callees",
+   "negative/large varid arithmetic (recorded, not run into memory)"
+  ],
+  "not_covered": [
+   "GET_RValue semantics (stubbed on both arms)",
+   "InternalGetYYVar semantics (stubbed)",
+   "builtin getter semantics (stubbed)",
+   "device behaviour"
+  ]
+ },
+ "cases": 11,
+ "rows": [
+  {
+   "case": [
+    0,
+    -2147483648,
+    1,
+    1,
+    0,
+    "builtin #0"
+   ],
+   "original": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      -2147483648,
+      4369
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      -2147483648,
+      4369
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    9999,
+    0,
+    1,
+    1,
+    0,
+    "builtin #9999 (<= boundary)"
+   ],
+   "original": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      0,
+      4369
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      0,
+      4369
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    5000,
+    -2147483648,
+    1,
+    1,
+    0,
+    "builtin #5000, array index INT_MIN"
+   ],
+   "original": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      -2147483648,
+      4369
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 4369,
+    "out": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+    "calls": [
+     [
+      "B",
+      -2147483648,
+      4369
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10000,
+    -2147483648,
+    1,
+    1,
+    0,
+    "slot 0, scalar"
+   ],
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      -1440000,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      -1440000,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10007,
+    3,
+    1,
+    1,
+    0,
+    "slot 7, array index 3"
+   ],
+   "original": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -1439888,
+      3,
+      8738
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -1439888,
+      3,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10000,
+    -2147483648,
+    0,
+    1,
+    0,
+    "flag 0 -> return 0, out untouched"
+   ],
+   "original": {
+    "ret": 0,
+    "out": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "calls": []
+   },
+   "rebuild": {
+    "ret": 0,
+    "out": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "calls": []
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10000,
+    -2147483648,
+    1,
+    0,
+    5,
+    "table NULL -> InternalGetYYVar"
+   ],
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      -90000
+     ],
+     [
+      "G",
+      "L",
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      -90000
+     ],
+     [
+      "G",
+      "L",
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    10050,
+    7,
+    1,
+    0,
+    0,
+    "table NULL, slot 50, array index 7"
+   ],
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      -89950
+     ],
+     [
+      "G",
+      "L",
+      7,
+      8738
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "I",
+      -89950
+     ],
+     [
+      "G",
+      "L",
+      7,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    99999,
+    -2147483648,
+    1,
+    1,
+    0,
+    "slot -1 -> address BELOW the table"
+   ],
+   "original": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -16,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -16,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    -1,
+    -2147483648,
+    1,
+    1,
+    0,
+    "negative varid -> slot path (unsigned bls)"
+   ],
+   "original": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -1600016,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "505152535455565758595a5b5c5d5e5f",
+    "calls": [
+     [
+      "G",
+      -1600016,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  },
+  {
+   "case": [
+    100000,
+    -2147483648,
+    1,
+    1,
+    0,
+    "exactly 100000 -> slot 0"
+   ],
+   "original": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "rebuild": {
+    "ret": 8738,
+    "out": "404142434445464748494a4b4c4d4e4f",
+    "calls": [
+     [
+      "G",
+      0,
+      -2147483648,
+      8738
+     ]
+    ]
+   },
+   "equal": true
+  }
+ ],
+ "coverage": {
+  "builtin_path": true,
+  "slot_path_arg": true,
+  "flag_zero_exit": true,
+  "lazy_path": true,
+  "below_table": true,
+  "array_index_passthrough": true
+ },
+ "teeth": [
+  {
+   "mutant": "builtin_boundary_lt",
+   "caught_by": [
+    "builtin #9999 (<= boundary)"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "drop_flag_zero_exit",
+   "caught_by": [
+    "flag 0 -> return 0, out untouched"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "slot_stride_16_to_8",
+   "caught_by": [
+    "slot 0, scalar",
+    "slot 7, array index 3",
+    "slot -1 -> address BELOW the table",
+    "negative varid -> slot path (unsigned bls)"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "get_rvalue_args_swapped",
+   "caught_by": [],
+   "passed": true,
+   "mode": "driver-abort",
+   "detail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped\n",
+   "note": "discrimination is by abort, not by a field mismatch - weaker than a mismatch tooth; the case set cannot say WHICH field moved"
+  },
+  {
+   "mutant": "lazy_path_uses_table_math",
+   "caught_by": [
+    "table NULL -> InternalGetYYVar",
+    "table NULL, slot 50, array index 7"
+   ],
+   "mode": "mismatch",
+   "passed": true
+  },
+  {
+   "mutant": "bvar_entry_stride_16_to_4",
+   "caught_by": [],
+   "passed": true,
+   "mode": "driver-abort",
+   "detail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped\n",
+   "note": "discrimination is by abort, not by a field mismatch - weaker than a mismatch tooth; the case set cannot say WHICH field moved"
+  }
+ ],
+ "status": "PASS"
+}

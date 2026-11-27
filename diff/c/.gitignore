@@ -1,0 +1,4 @@
+# build outputs (never tracked)
+vm_ref
+*.o
+*.dSYM/

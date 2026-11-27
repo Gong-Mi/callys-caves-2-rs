@@ -17,3 +17,17 @@ reconstruction/live-mem/trace/cally-code-trace-full-ledger.txt
 
 # python byte-code from the Unicorn oracle drivers
 c-recon/tools/oracle/__pycache__/
+
+# build outputs (untracked by decision 2026-10-25)
+android-build/classes/
+android-build/compiled/
+android-build/*.idsig
+*.log
+android-build/classes.dex
+
+# generated behaviour DB (rebuild with scripts/build_behavior_db.py)
+reconstruction/db/cally.db
+reconstruction/reverse-v1/asm/instructions.jsonl
+diff/c/vm_ref
+diff/c/*.o
+diff/failures/

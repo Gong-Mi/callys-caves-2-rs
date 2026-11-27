@@ -1,0 +1,22 @@
+idx	call_addr	name	fn_addr	fn_symbol	argc	flag
+0	0x152cc0	gamepad_is_supported	0x15123c	F_GamepadSupported(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+1	0x152cdc	gamepad_get_device_count	0x151210	F_GamepadGetDeviceCount(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+2	0x152cf8	gamepad_is_connected	0x15126c	F_GamepadConnected(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+3	0x152d14	gamepad_get_description	0x1513bc	F_GamepadGetDescription(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+4	0x152d30	gamepad_get_button_threshold	0x1512e4	F_GamepadGetButtonThreshold(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+5	0x152d4c	gamepad_set_button_threshold	0x151974	F_GamepadSetButtonThreshold(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+6	0x152d68	gamepad_get_axis_deadzone	0x151350	F_GamepadGetAxisDeadzone(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+7	0x152d84	gamepad_set_axis_deadzone	0x151a18	F_GamepadSetAxisDeadzone(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+8	0x152da0	gamepad_button_count	0x151424	F_GamepadButtonCount(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+9	0x152dbc	gamepad_button_check	0x1514b4	F_GamepadButtonCheck(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+10	0x152dd8	gamepad_button_check_pressed	0x151550	F_GamepadButtonCheckPressed(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+11	0x152df4	gamepad_button_check_released	0x1515ec	F_GamepadButtonCheckReleased(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+12	0x152e10	gamepad_button_value	0x151688	F_GamepadButtonValue(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+13	0x152e2c	gamepad_axis_count	0x151724	F_GamepadAxisCount(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+14	0x152e48	gamepad_axis_value	0x15184c	F_GamepadAxisValue(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+15	0x152e64	gamepad_set_vibration	0x1518e8	F_GamepadSetVibration(RValue&, CInstance*, CInstance*, int, RValue*)	3	1
+16	0x152e80	gamepad_add_hardware_mapping_from_string	0x152990	F_GamepadAddMappingFromString(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+17	0x152e9c	gamepad_add_hardware_mapping_from_file	0x152b90	F_GamepadAddMappingFromFile(RValue&, CInstance*, CInstance*, int, RValue*)	1	1
+18	0x152eb8	gamepad_get_hardware_mappings	0x151abc	F_GamepadGetDatabase(RValue&, CInstance*, CInstance*, int, RValue*)	0	1
+19	0x152ed8	gamepad_set_color	0x15179c	F_GamepadSetColour(RValue&, CInstance*, CInstance*, int, RValue*)	2	1
+20	0x152ef0	gamepad_set_colour	0x15179c	F_GamepadSetColour(RValue&, CInstance*, CInstance*, int, RValue*)	2	1

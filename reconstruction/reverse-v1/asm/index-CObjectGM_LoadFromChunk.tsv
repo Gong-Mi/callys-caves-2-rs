@@ -1,0 +1,219 @@
+19d688	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+19d68c	e24dd01c	sub	sp, sp, #28
+19d690	e1a04001	mov	r4, r1
+19d694	e1a05000	mov	r5, r0
+19d698	e58d2004	str	r2, [sp, #0x4]
+19d69c	ebffff4d	bl	0x19d3d8 <_ZN9CObjectGM5ClearEv>
+19d6a0	e5943004	ldr	r3, [r4, #0x4]
+19d6a4	e59fb334	ldr	r11, [pc, #0x334]
+19d6a8	e3130207	tst	r3, #1879048192
+19d6ac	e08fb00b	add	r11, pc, r11
+19d6b0	15853004	strne	r3, [r5, #0x4]
+19d6b4	1a000007	bne	0x19d6d8 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x50>
+19d6b8	e59f2324	ldr	r2, [pc, #0x324]
+19d6bc	e2031102	and	r1, r3, #-2147483648
+19d6c0	e3c33102	bic	r3, r3, #-2147483648
+19d6c4	e79b2002	ldr	r2, [r11, r2]
+19d6c8	e5853004	str	r3, [r5, #0x4]
+19d6cc	e5923000	ldr	r3, [r2]
+19d6d0	e1813003	orr	r3, r1, r3
+19d6d4	e5823000	str	r3, [r2]
+19d6d8	e594300c	ldr	r3, [r4, #0xc]
+19d6dc	e5952000	ldr	r2, [r5]
+19d6e0	e3530000	cmp	r3, #0
+19d6e4	13822001	orrne	r2, r2, #1
+19d6e8	03c22001	biceq	r2, r2, #1
+19d6ec	e5852000	str	r2, [r5]
+19d6f0	e5943008	ldr	r3, [r4, #0x8]
+19d6f4	e3530000	cmp	r3, #0
+19d6f8	13822002	orrne	r2, r2, #2
+19d6fc	03c22002	biceq	r2, r2, #2
+19d700	e5852000	str	r2, [r5]
+19d704	e1a01002	mov	r1, r2
+19d708	e5942014	ldr	r2, [r4, #0x14]
+19d70c	e5943010	ldr	r3, [r4, #0x10]
+19d710	e3520000	cmp	r2, #0
+19d714	e59f22cc	ldr	r2, [pc, #0x2cc]
+19d718	13811004	orrne	r1, r1, #4
+19d71c	03c11004	biceq	r1, r1, #4
+19d720	e5851000	str	r1, [r5]
+19d724	e5940018	ldr	r0, [r4, #0x18]
+19d728	e594101c	ldr	r1, [r4, #0x1c]
+19d72c	e5853008	str	r3, [r5, #0x8]
+19d730	e3a03000	mov	r3, #0
+19d734	e585000c	str	r0, [r5, #0xc]
+19d738	e5851010	str	r1, [r5, #0x10]
+19d73c	e5c5301c	strb	r3, [r5, #0x1c]
+19d740	e5853044	str	r3, [r5, #0x44]
+19d744	e5853040	str	r3, [r5, #0x40]
+19d748	e79b2002	ldr	r2, [r11, r2]
+19d74c	e5922000	ldr	r2, [r2]
+19d750	e3520005	cmp	r2, #5
+19d754	d2844020	addle	r4, r4, #32
+19d758	d58d4014	strle	r4, [sp, #0x14]
+19d75c	da000033	ble	0x19d830 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x1a8>
+19d760	e594e020	ldr	lr, [r4, #0x20]
+19d764	e594c024	ldr	r12, [r4, #0x24]
+19d768	e29ee000	adds	lr, lr, #0
+19d76c	e594802c	ldr	r8, [r4, #0x2c]
+19d770	e5947030	ldr	r7, [r4, #0x30]
+19d774	13a0e001	movne	lr, #1
+19d778	e29cc000	adds	r12, r12, #0
+19d77c	e5940028	ldr	r0, [r4, #0x28]
+19d780	13a0c001	movne	r12, #1
+19d784	e3520008	cmp	r2, #8
+19d788	e5942038	ldr	r2, [r4, #0x38]
+19d78c	e5941034	ldr	r1, [r4, #0x34]
+19d790	e5946040	ldr	r6, [r4, #0x40]
+19d794	e5852030	str	r2, [r5, #0x30]
+19d798	e594203c	ldr	r2, [r4, #0x3c]
+19d79c	e5c5e01c	strb	lr, [r5, #0x1c]
+19d7a0	e5858028	str	r8, [r5, #0x28]
+19d7a4	e5c5c01d	strb	r12, [r5, #0x1d]
+19d7a8	e585702c	str	r7, [r5, #0x2c]
+19d7ac	e5850020	str	r0, [r5, #0x20]
+19d7b0	e5851024	str	r1, [r5, #0x24]
+19d7b4	e5856040	str	r6, [r5, #0x40]
+19d7b8	e5852034	str	r2, [r5, #0x34]
+19d7bc	ca00007a	bgt	0x19d9ac <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x324>
+19d7c0	e2844044	add	r4, r4, #68
+19d7c4	e5c5303d	strb	r3, [r5, #0x3d]
+19d7c8	e30c2ccd	movw	r2, #0xcccd
+19d7cc	e3a03001	mov	r3, #1
+19d7d0	e3432e4c	movt	r2, #0x3e4c
+19d7d4	e58d4014	str	r4, [sp, #0x14]
+19d7d8	e5852038	str	r2, [r5, #0x38]
+19d7dc	e5c5303c	strb	r3, [r5, #0x3c]
+19d7e0	e1a04186	lsl	r4, r6, #3
+19d7e4	e1a00004	mov	r0, r4
+19d7e8	ebfc6355	bl	0xb6544 <malloc@plt>
+19d7ec	e3560000	cmp	r6, #0
+19d7f0	e5850044	str	r0, [r5, #0x44]
+19d7f4	da00000d	ble	0x19d830 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x1a8>
+19d7f8	e59d2014	ldr	r2, [sp, #0x14]
+19d7fc	e3a01000	mov	r1, #0
+19d800	e5923000	ldr	r3, [r2]
+19d804	e2811001	add	r1, r1, #1
+19d808	e1510006	cmp	r1, r6
+19d80c	e2822008	add	r2, r2, #8
+19d810	e2800008	add	r0, r0, #8
+19d814	e5003008	str	r3, [r0, #-0x8]
+19d818	e5123004	ldr	r3, [r2, #-0x4]
+19d81c	e5003004	str	r3, [r0, #-0x4]
+19d820	1afffff6	bne	0x19d800 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x178>
+19d824	e59d2014	ldr	r2, [sp, #0x14]
+19d828	e0822004	add	r2, r2, r4
+19d82c	e58d2014	str	r2, [sp, #0x14]
+19d830	e59d2014	ldr	r2, [sp, #0x14]
+19d834	e5923000	ldr	r3, [r2]
+19d838	e3530000	cmp	r3, #0
+19d83c	da000057	ble	0x19d9a0 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x318>
+19d840	e59f21a4	ldr	r2, [pc, #0x1a4]
+19d844	e2855050	add	r5, r5, #80
+19d848	e3a0a000	mov	r10, #0
+19d84c	e08f2002	add	r2, pc, r2
+19d850	e58d200c	str	r2, [sp, #0xc]
+19d854	e3a02000	mov	r2, #0
+19d858	e58d2008	str	r2, [sp, #0x8]
+19d85c	e59d2014	ldr	r2, [sp, #0x14]
+19d860	e58d2010	str	r2, [sp, #0x10]
+19d864	e59d2010	ldr	r2, [sp, #0x10]
+19d868	e5b28004	ldr	r8, [r2, #0x4]!
+19d86c	e3580000	cmp	r8, #0
+19d870	e58d2010	str	r2, [sp, #0x10]
+19d874	03a07004	moveq	r7, #4
+19d878	0a000004	beq	0x19d890 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x208>
+19d87c	e59f216c	ldr	r2, [pc, #0x16c]
+19d880	e79b2002	ldr	r2, [r11, r2]
+19d884	e5922000	ldr	r2, [r2]
+19d888	e0828008	add	r8, r2, r8
+19d88c	e2887004	add	r7, r8, #4
+19d890	e5982000	ldr	r2, [r8]
+19d894	e3520000	cmp	r2, #0
+19d898	c2477004	subgt	r7, r7, #4
+19d89c	c3a09000	movgt	r9, #0
+19d8a0	ca00000b	bgt	0x19d8d4 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x24c>
+19d8a4	ea000037	b	0x19d988 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x300>
+19d8a8	e5953000	ldr	r3, [r5]
+19d8ac	e7930101	ldr	r0, [r3, r1, lsl #2]
+19d8b0	e3500000	cmp	r0, #0
+19d8b4	0a000027	beq	0x19d958 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x2d0>
+19d8b8	e2861004	add	r1, r6, #4
+19d8bc	e59d2004	ldr	r2, [sp, #0x4]
+19d8c0	ebfd552f	bl	0xf2d84 <_ZN6CEvent13LoadFromChunkEP7YYEventPh>
+19d8c4	e5983000	ldr	r3, [r8]
+19d8c8	e2899001	add	r9, r9, #1
+19d8cc	e1530009	cmp	r3, r9
+19d8d0	da00002a	ble	0x19d980 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x2f8>
+19d8d4	e5b76004	ldr	r6, [r7, #0x4]!
+19d8d8	e3560000	cmp	r6, #0
+19d8dc	159f310c	ldrne	r3, [pc, #0x10c]
+19d8e0	179b3003	ldrne	r3, [r11, r3]
+19d8e4	15933000	ldrne	r3, [r3]
+19d8e8	10836006	addne	r6, r3, r6
+19d8ec	e5961000	ldr	r1, [r6]
+19d8f0	e5154004	ldr	r4, [r5, #-0x4]
+19d8f4	e1510004	cmp	r1, r4
+19d8f8	baffffea	blt	0x19d8a8 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x220>
+19d8fc	e2811001	add	r1, r1, #1
+19d900	e30031b6	movw	r3, #0x1b6
+19d904	e1a00005	mov	r0, r5
+19d908	e59d200c	ldr	r2, [sp, #0xc]
+19d90c	e1a01101	lsl	r1, r1, #2
+19d910	eb037dd4	bl	0x27d068 <_ZN13MemoryManager9SetLengthEPPvjPKci>
+19d914	e5961000	ldr	r1, [r6]
+19d918	e1540001	cmp	r4, r1
+19d91c	e2813001	add	r3, r1, #1
+19d920	e5053004	str	r3, [r5, #-0x4]
+19d924	aaffffdf	bge	0x19d8a8 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x220>
+19d928	e1a03104	lsl	r3, r4, #2
+19d92c	e2844001	add	r4, r4, #1
+19d930	e5952000	ldr	r2, [r5]
+19d934	e1540001	cmp	r4, r1
+19d938	e782a003	str	r10, [r2, r3]
+19d93c	e2833004	add	r3, r3, #4
+19d940	1afffff9	bne	0x19d92c <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x2a4>
+19d944	e5953000	ldr	r3, [r5]
+19d948	e1a01004	mov	r1, r4
+19d94c	e7930101	ldr	r0, [r3, r1, lsl #2]
+19d950	e3500000	cmp	r0, #0
+19d954	1affffd7	bne	0x19d8b8 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x230>
+19d958	e3a0000c	mov	r0, #12
+19d95c	eb037af0	bl	0x27c524 <_Znwj>
+19d960	e1a04000	mov	r4, r0
+19d964	ebfd54e8	bl	0xf2d0c <_ZN6CEventC2Ev>
+19d968	e5963000	ldr	r3, [r6]
+19d96c	e5952000	ldr	r2, [r5]
+19d970	e7824103	str	r4, [r2, r3, lsl #2]
+19d974	e5952000	ldr	r2, [r5]
+19d978	e7920103	ldr	r0, [r2, r3, lsl #2]
+19d97c	eaffffcd	b	0x19d8b8 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x230>
+19d980	e59d2014	ldr	r2, [sp, #0x14]
+19d984	e5923000	ldr	r3, [r2]
+19d988	e59d2008	ldr	r2, [sp, #0x8]
+19d98c	e2855008	add	r5, r5, #8
+19d990	e2822001	add	r2, r2, #1
+19d994	e58d2008	str	r2, [sp, #0x8]
+19d998	e1530002	cmp	r3, r2
+19d99c	caffffb0	bgt	0x19d864 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x1dc>
+19d9a0	e3a00001	mov	r0, #1
+19d9a4	e28dd01c	add	sp, sp, #28
+19d9a8	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+19d9ac	e5942048	ldr	r2, [r4, #0x48]
+19d9b0	e2844050	add	r4, r4, #80
+19d9b4	e5143004	ldr	r3, [r4, #-0x4]
+19d9b8	e2922000	adds	r2, r2, #0
+19d9bc	e514100c	ldr	r1, [r4, #-0xc]
+19d9c0	e58d4014	str	r4, [sp, #0x14]
+19d9c4	13a02001	movne	r2, #1
+19d9c8	e2933000	adds	r3, r3, #0
+19d9cc	e5851038	str	r1, [r5, #0x38]
+19d9d0	13a03001	movne	r3, #1
+19d9d4	e5c5203c	strb	r2, [r5, #0x3c]
+19d9d8	e5c5303d	strb	r3, [r5, #0x3d]
+19d9dc	eaffff7f	b	0x19d7e0 <_ZN9CObjectGM13LoadFromChunkEP8YYObjectPh+0x158>
+19d9e0	002545a4	eoreq	r4, r5, r4, lsr #11
+19d9e4	ffffe798	.word	0xffffe798
+19d9e8	ffffea88	.word	0xffffea88
+19d9ec	001af594	mulseq	r10, r4, r5
+19d9f0	ffffbcf4	.word	0xffffbcf4

@@ -1,0 +1,1337 @@
+entry	va	word	mnemonic	operands
+e4540	e4540	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e4540	e4544	e1a09001	mov	r9, r1
+e4540	e4548	e59f5250	ldr	r5, [pc, #0x250]
+e4540	e454c	e1a04000	mov	r4, r0
+e4540	e4550	e59f324c	ldr	r3, [pc, #0x24c]
+e4540	e4554	e24dd00c	sub	sp, sp, #12
+e4540	e4558	e08f5005	add	r5, pc, r5
+e4540	e455c	e59f1244	ldr	r1, [pc, #0x244]
+e4540	e4560	e590c028	ldr	r12, [r0, #0x28]
+e4540	e4564	e3a07000	mov	r7, #0
+e4540	e4568	e7953003	ldr	r3, [r5, r3]
+e4540	e456c	e59f2238	ldr	r2, [pc, #0x238]
+e4540	e4570	e5930000	ldr	r0, [r3]
+e4540	e4574	e2800001	add	r0, r0, #1
+e4540	e4578	e5830000	str	r0, [r3]
+e4540	e457c	e7953001	ldr	r3, [r5, r1]
+e4540	e4580	e58d3000	str	r3, [sp]
+e4540	e4584	e7958002	ldr	r8, [r5, r2]
+e4540	e4588	e59d2000	ldr	r2, [sp]
+e4540	e458c	e5884000	str	r4, [r8]
+e4540	e4590	e5922000	ldr	r2, [r2]
+e4540	e4594	e58d2004	str	r2, [sp, #0x4]
+e4540	e4598	e5942044	ldr	r2, [r4, #0x44]
+e4540	e459c	e594105c	ldr	r1, [r4, #0x5c]
+e4540	e45a0	e3520000	cmp	r2, #0
+e4540	e45a4	e2826003	add	r6, r2, #3
+e4540	e45a8	e5943050	ldr	r3, [r4, #0x50]
+e4540	e45ac	a1a06002	movge	r6, r2
+e4540	e45b0	e5940058	ldr	r0, [r4, #0x58]
+e4540	e45b4	e1a06146	asr	r6, r6, #2
+e4540	e45b8	e1520003	cmp	r2, r3
+e4540	e45bc	e1a03002	mov	r3, r2
+e4540	e45c0	e7911106	ldr	r1, [r1, r6, lsl #2]
+e4540	e45c4	e2816001	add	r6, r1, #1
+e4540	e45c8	e5846048	str	r6, [r4, #0x48]
+e4540	e45cc	e7906101	ldr	r6, [r0, r1, lsl #2]
+e4540	e45d0	aa000032	bge	0xe46a0 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x160>
+e4540	e45d4	e59f11d4	ldr	r1, [pc, #0x1d4]
+e4540	e45d8	e795a001	ldr	r10, [r5, r1]
+e4540	e45dc	e594b024	ldr	r11, [r4, #0x24]
+e4540	e45e0	e3a01004	mov	r1, #4
+e4540	e45e4	e5843054	str	r3, [r4, #0x54]
+e4540	e45e8	e59fe1c4	ldr	lr, [pc, #0x1c4]
+e4540	e45ec	e79b0002	ldr	r0, [r11, r2]
+e4540	e45f0	e08b2002	add	r2, r11, r2
+e4540	e45f4	e0822001	add	r2, r2, r1
+e4540	e45f8	e3100101	tst	r0, #1073741824
+e4540	e45fc	e7e3b850	ubfx	r11, r0, #0x10, #0x4
+e4540	e4600	1795100e	ldrne	r1, [r5, lr]
+e4540	e4604	1791110b	ldrne	r1, [r1, r11, lsl #2]
+e4540	e4608	e59fb1a8	ldr	r11, [pc, #0x1a8]
+e4540	e460c	12811004	addne	r1, r1, #4
+e4540	e4610	e0813003	add	r3, r1, r3
+e4540	e4614	e1a0100c	mov	r1, r12
+e4540	e4618	e5843044	str	r3, [r4, #0x44]
+e4540	e461c	e1a03004	mov	r3, r4
+e4540	e4620	e12fff36	blx	r6
+e4540	e4624	e5da2000	ldrb	r2, [r10]
+e4540	e4628	e5943048	ldr	r3, [r4, #0x48]
+e4540	e462c	e3520000	cmp	r2, #0
+e4540	e4630	e5942058	ldr	r2, [r4, #0x58]
+e4540	e4634	e2836001	add	r6, r3, #1
+e4540	e4638	e59f117c	ldr	r1, [pc, #0x17c]
+e4540	e463c	e5846048	str	r6, [r4, #0x48]
+e4540	e4640	e7926103	ldr	r6, [r2, r3, lsl #2]
+e4540	e4644	e1a0c000	mov	r12, r0
+e4540	e4648	e59f0170	ldr	r0, [pc, #0x170]
+e4540	e464c	0a00000e	beq	0xe468c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x14c>
+e4540	e4650	e7953001	ldr	r3, [r5, r1]
+e4540	e4654	e5982000	ldr	r2, [r8]
+e4540	e4658	e5933000	ldr	r3, [r3]
+e4540	e465c	e1520003	cmp	r2, r3
+e4540	e4660	1a00000e	bne	0xe46a0 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x160>
+e4540	e4664	e795c00b	ldr	r12, [r5, r11]
+e4540	e4668	e795b000	ldr	r11, [r5, r0]
+e4540	e466c	e8bc000f	ldm	r12!, {r0, r1, r2, r3}
+e4540	e4670	e59bb000	ldr	r11, [r11]
+e4540	e4674	e24bc010	sub	r12, r11, #16
+e4540	e4678	e50b0010	str	r0, [r11, #-0x10]
+e4540	e467c	e58c1004	str	r1, [r12, #0x4]
+e4540	e4680	e58c2008	str	r2, [r12, #0x8]
+e4540	e4684	e58c300c	str	r3, [r12, #0xc]
+e4540	e4688	e5ca7000	strb	r7, [r10]
+e4540	e468c	e5943044	ldr	r3, [r4, #0x44]
+e4540	e4690	e5942050	ldr	r2, [r4, #0x50]
+e4540	e4694	e1530002	cmp	r3, r2
+e4540	e4698	e1a02003	mov	r2, r3
+e4540	e469c	baffffce	blt	0xe45dc <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x9c>
+e4540	e46a0	e594304c	ldr	r3, [r4, #0x4c]
+e4540	e46a4	e3530000	cmp	r3, #0
+e4540	e46a8	ca000021	bgt	0xe4734 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1f4>
+e4540	e46ac	e89d000c	ldm	sp, {r2, r3}
+e4540	e46b0	e3590000	cmp	r9, #0
+e4540	e46b4	e5823000	str	r3, [r2]
+e4540	e46b8	0a000002	beq	0xe46c8 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x188>
+e4540	e46bc	e5943028	ldr	r3, [r4, #0x28]
+e4540	e46c0	e153000c	cmp	r3, r12
+e4540	e46c4	8a00002c	bhi	0xe477c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x23c>
+e4540	e46c8	e59f30f4	ldr	r3, [pc, #0xf4]
+e4540	e46cc	e5940008	ldr	r0, [r4, #0x8]
+e4540	e46d0	e795c003	ldr	r12, [r5, r3]
+e4540	e46d4	e59c3004	ldr	r3, [r12, #0x4]
+e4540	e46d8	e3530000	cmp	r3, #0
+e4540	e46dc	0a000009	beq	0xe4708 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1c8>
+e4540	e46e0	e2831008	add	r1, r3, #8
+e4540	e46e4	e2832601	add	r2, r3, #1048576
+e4540	e46e8	e1500001	cmp	r0, r1
+e4540	e46ec	e2822008	add	r2, r2, #8
+e4540	e46f0	3a000001	blo	0xe46fc <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1bc>
+e4540	e46f4	e1520000	cmp	r2, r0
+e4540	e46f8	8a000015	bhi	0xe4754 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x214>
+e4540	e46fc	e5933000	ldr	r3, [r3]
+e4540	e4700	e3530000	cmp	r3, #0
+e4540	e4704	1afffff5	bne	0xe46e0 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1a0>
+e4540	e4708	eb065ef0	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+e4540	e470c	e594500c	ldr	r5, [r4, #0xc]
+e4540	e4710	e3550000	cmp	r5, #0
+e4540	e4714	1a000004	bne	0xe472c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1ec>
+e4540	e4718	e5940010	ldr	r0, [r4, #0x10]
+e4540	e471c	e3500000	cmp	r0, #0
+e4540	e4720	0a000001	beq	0xe472c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1ec>
+e4540	e4724	eb02d217	bl	0x198f88 <_ZN12YYObjectBase4FreeEPS_>
+e4540	e4728	e5845010	str	r5, [r4, #0x10]
+e4540	e472c	e28dd00c	add	sp, sp, #12
+e4540	e4730	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e4540	e4734	e1a0000c	mov	r0, r12
+e4540	e4738	e1a01004	mov	r1, r4
+e4540	e473c	ebfffee5	bl	0xe42d8 <_Z13PerformReturnPhP6VMExec>
+e4540	e4740	e5007004	str	r7, [r0, #-0x4]
+e4540	e4744	e240c010	sub	r12, r0, #16
+e4540	e4748	e5007010	str	r7, [r0, #-0x10]
+e4540	e474c	e500700c	str	r7, [r0, #-0xc]
+e4540	e4750	eaffff90	b	0xe4598 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x58>
+e4540	e4754	e59c1008	ldr	r1, [r12, #0x8]
+e4540	e4758	e59c2010	ldr	r2, [r12, #0x10]
+e4540	e475c	e59c300c	ldr	r3, [r12, #0xc]
+e4540	e4760	e2822001	add	r2, r2, #1
+e4540	e4764	e5801000	str	r1, [r0]
+e4540	e4768	e2433001	sub	r3, r3, #1
+e4540	e476c	e58c0008	str	r0, [r12, #0x8]
+e4540	e4770	e58c2010	str	r2, [r12, #0x10]
+e4540	e4774	e58c300c	str	r3, [r12, #0xc]
+e4540	e4778	eaffffe3	b	0xe470c <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x1cc>
+e4540	e477c	e59c0000	ldr	r0, [r12]
+e4540	e4780	e59c1004	ldr	r1, [r12, #0x4]
+e4540	e4784	e59c2008	ldr	r2, [r12, #0x8]
+e4540	e4788	e59c300c	ldr	r3, [r12, #0xc]
+e4540	e478c	e5890000	str	r0, [r9]
+e4540	e4790	e5891004	str	r1, [r9, #0x4]
+e4540	e4794	e5892008	str	r2, [r9, #0x8]
+e4540	e4798	e589300c	str	r3, [r9, #0xc]
+e4540	e479c	eaffffc9	b	0xe46c8 <_ZN2VM11ExecReleaseER6VMExecP6RValue+0x188>
+e4540	e47a0	0030d6f8	ldrshteq	sp, [r0], -r8
+e4540	e47a4	ffffc0d4	.word	0xffffc0d4
+e4540	e47a8	ffffc0bc	.word	0xffffc0bc
+e4540	e47ac	ffffbf58	.word	0xffffbf58
+e4540	e47b0	ffffc0cc	.word	0xffffc0cc
+e4540	e47b4	ffffc09c	.word	0xffffc09c
+e4540	e47b8	ffffc0d8	.word	0xffffc0d8
+e4540	e47bc	ffffc0dc	.word	0xffffc0dc
+e4540	e47c0	ffffc0e0	.word	0xffffc0e0
+e4540	e47c4	ffffc0e4	.word	0xffffc0e4
+e42d8	e42d8	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e42d8	e42dc	e1a06001	mov	r6, r1
+e42d8	e42e0	e59f51d4	ldr	r5, [pc, #0x1d4]
+e42d8	e42e4	e24dd00c	sub	sp, sp, #12
+e42d8	e42e8	e59f31d0	ldr	r3, [pc, #0x1d0]
+e42d8	e42ec	e08f5005	add	r5, pc, r5
+e42d8	e42f0	e59f21cc	ldr	r2, [pc, #0x1cc]
+e42d8	e42f4	e7953003	ldr	r3, [r5, r3]
+e42d8	e42f8	e5931000	ldr	r1, [r3]
+e42d8	e42fc	e2811001	add	r1, r1, #1
+e42d8	e4300	e5831000	str	r1, [r3]
+e42d8	e4304	e7953002	ldr	r3, [r5, r2]
+e42d8	e4308	e5d33000	ldrb	r3, [r3]
+e42d8	e430c	e3530000	cmp	r3, #0
+e42d8	e4310	1a000061	bne	0xe449c <_Z13PerformReturnPhP6VMExec+0x1c4>
+e42d8	e4314	e596b028	ldr	r11, [r6, #0x28]
+e42d8	e4318	e596304c	ldr	r3, [r6, #0x4c]
+e42d8	e431c	e28b803c	add	r8, r11, #60
+e42d8	e4320	e59b4018	ldr	r4, [r11, #0x18]
+e42d8	e4324	e2433001	sub	r3, r3, #1
+e42d8	e4328	e586304c	str	r3, [r6, #0x4c]
+e42d8	e432c	e3540000	cmp	r4, #0
+e42d8	e4330	0a000056	beq	0xe4490 <_Z13PerformReturnPhP6VMExec+0x1b8>
+e42d8	e4334	e59b300c	ldr	r3, [r11, #0xc]
+e42d8	e4338	e59b1024	ldr	r1, [r11, #0x24]
+e42d8	e433c	e59b2004	ldr	r2, [r11, #0x4]
+e42d8	e4340	e3530000	cmp	r3, #0
+e42d8	e4344	e59b0020	ldr	r0, [r11, #0x20]
+e42d8	e4348	e59b9010	ldr	r9, [r11, #0x10]
+e42d8	e434c	b3a03000	movlt	r3, #0
+e42d8	e4350	e59b7014	ldr	r7, [r11, #0x14]
+e42d8	e4354	e59be000	ldr	lr, [r11]
+e42d8	e4358	e59bc01c	ldr	r12, [r11, #0x1c]
+e42d8	e435c	e5861034	str	r1, [r6, #0x34]
+e42d8	e4360	a5961040	ldrge	r1, [r6, #0x40]
+e42d8	e4364	e5862030	str	r2, [r6, #0x30]
+e42d8	e4368	a5962008	ldrge	r2, [r6, #0x8]
+e42d8	e436c	a0633001	rsbge	r3, r3, r1
+e42d8	e4370	e586003c	str	r0, [r6, #0x3c]
+e42d8	e4374	e596000c	ldr	r0, [r6, #0xc]
+e42d8	e4378	a0823003	addge	r3, r2, r3
+e42d8	e437c	e5941010	ldr	r1, [r4, #0x10]
+e42d8	e4380	e5942004	ldr	r2, [r4, #0x4]
+e42d8	e4384	e3500000	cmp	r0, #0
+e42d8	e4388	e5869014	str	r9, [r6, #0x14]
+e42d8	e438c	e5867018	str	r7, [r6, #0x18]
+e42d8	e4390	e586e044	str	lr, [r6, #0x44]
+e42d8	e4394	e586402c	str	r4, [r6, #0x2c]
+e42d8	e4398	e586c038	str	r12, [r6, #0x38]
+e42d8	e439c	e5863028	str	r3, [r6, #0x28]
+e42d8	e43a0	e5861024	str	r1, [r6, #0x24]
+e42d8	e43a4	e5862050	str	r2, [r6, #0x50]
+e42d8	e43a8	0a00003f	beq	0xe44ac <_Z13PerformReturnPhP6VMExec+0x1d4>
+e42d8	e43ac	e59b2030	ldr	r2, [r11, #0x30]
+e42d8	e43b0	e1a00004	mov	r0, r4
+e42d8	e43b4	e59b302c	ldr	r3, [r11, #0x2c]
+e42d8	e43b8	e5862010	str	r2, [r6, #0x10]
+e42d8	e43bc	e586300c	str	r3, [r6, #0xc]
+e42d8	e43c0	eb0020e2	bl	0xec750 <_ZN8VMBuffer13convertBufferEv>
+e42d8	e43c4	e5963044	ldr	r3, [r6, #0x44]
+e42d8	e43c8	e596202c	ldr	r2, [r6, #0x2c]
+e42d8	e43cc	e3530000	cmp	r3, #0
+e42d8	e43d0	e2830003	add	r0, r3, #3
+e42d8	e43d4	e5941014	ldr	r1, [r4, #0x14]
+e42d8	e43d8	e5922018	ldr	r2, [r2, #0x18]
+e42d8	e43dc	b1a03000	movlt	r3, r0
+e42d8	e43e0	e1a03143	asr	r3, r3, #2
+e42d8	e43e4	e59b0028	ldr	r0, [r11, #0x28]
+e42d8	e43e8	e5861058	str	r1, [r6, #0x58]
+e42d8	e43ec	e7923103	ldr	r3, [r2, r3, lsl #2]
+e42d8	e43f0	e586205c	str	r2, [r6, #0x5c]
+e42d8	e43f4	e5863048	str	r3, [r6, #0x48]
+e42d8	e43f8	eb066374	bl	0x27d1d0 <_ZdlPv>
+e42d8	e43fc	e59f20c4	ldr	r2, [pc, #0xc4]
+e42d8	e4400	e59f30c4	ldr	r3, [pc, #0xc4]
+e42d8	e4404	e7959002	ldr	r9, [r5, r2]
+e42d8	e4408	e7953003	ldr	r3, [r5, r3]
+e42d8	e440c	e58d3004	str	r3, [sp, #0x4]
+e42d8	e4410	e5993000	ldr	r3, [r9]
+e42d8	e4414	e59d2004	ldr	r2, [sp, #0x4]
+e42d8	e4418	e2535001	subs	r5, r3, #1
+e42d8	e441c	e5924000	ldr	r4, [r2]
+e42d8	e4420	4a000012	bmi	0xe4470 <_Z13PerformReturnPhP6VMExec+0x198>
+e42d8	e4424	e3a07000	mov	r7, #0
+e42d8	e4428	e3a0a005	mov	r10, #5
+e42d8	e442c	ea000004	b	0xe4444 <_Z13PerformReturnPhP6VMExec+0x16c>
+e42d8	e4430	e3750001	cmn	r5, #1
+e42d8	e4434	e5847008	str	r7, [r4, #0x8]
+e42d8	e4438	e584a00c	str	r10, [r4, #0xc]
+e42d8	e443c	e4847010	str	r7, [r4], #16
+e42d8	e4440	0a000009	beq	0xe446c <_Z13PerformReturnPhP6VMExec+0x194>
+e42d8	e4444	e594300c	ldr	r3, [r4, #0xc]
+e42d8	e4448	e2455001	sub	r5, r5, #1
+e42d8	e444c	e2433001	sub	r3, r3, #1
+e42d8	e4450	e3c334ff	bic	r3, r3, #-16777216
+e42d8	e4454	e3c33003	bic	r3, r3, #3
+e42d8	e4458	e3530000	cmp	r3, #0
+e42d8	e445c	1afffff3	bne	0xe4430 <_Z13PerformReturnPhP6VMExec+0x158>
+e42d8	e4460	e1a00004	mov	r0, r4
+e42d8	e4464	ebff7184	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e42d8	e4468	eafffff0	b	0xe4430 <_Z13PerformReturnPhP6VMExec+0x158>
+e42d8	e446c	e5993000	ldr	r3, [r9]
+e42d8	e4470	e5962008	ldr	r2, [r6, #0x8]
+e42d8	e4474	e0888203	add	r8, r8, r3, lsl #4
+e42d8	e4478	e59b3038	ldr	r3, [r11, #0x38]
+e42d8	e447c	e59b1008	ldr	r1, [r11, #0x8]
+e42d8	e4480	e0823003	add	r3, r2, r3
+e42d8	e4484	e59d2004	ldr	r2, [sp, #0x4]
+e42d8	e4488	e5891000	str	r1, [r9]
+e42d8	e448c	e5823000	str	r3, [r2]
+e42d8	e4490	e1a00008	mov	r0, r8
+e42d8	e4494	e28dd00c	add	sp, sp, #12
+e42d8	e4498	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e42d8	e449c	e59f302c	ldr	r3, [pc, #0x2c]
+e42d8	e44a0	e7950003	ldr	r0, [r5, r3]
+e42d8	e44a4	eb06f100	bl	0x2a08ac <_ZN9CProfiler3PopEv>
+e42d8	e44a8	eaffff99	b	0xe4314 <_Z13PerformReturnPhP6VMExec+0x3c>
+e42d8	e44ac	e5960010	ldr	r0, [r6, #0x10]
+e42d8	e44b0	eb02d2b4	bl	0x198f88 <_ZN12YYObjectBase4FreeEPS_>
+e42d8	e44b4	e596402c	ldr	r4, [r6, #0x2c]
+e42d8	e44b8	eaffffbb	b	0xe43ac <_Z13PerformReturnPhP6VMExec+0xd4>
+e42d8	e44bc	0030d964	eorseq	sp, r0, r4, ror #18
+e42d8	e44c0	ffffc0d0	.word	0xffffc0d0
+e42d8	e44c4	ffffbf18	.word	0xffffbf18
+e42d8	e44c8	ffffc0bc	.word	0xffffc0bc
+e42d8	e44cc	ffffc0c0	.word	0xffffc0c0
+e42d8	e44d0	ffffbf1c	.word	0xffffbf1c
+2a08ac	2a08ac	e92d43f8	push	{r3, r4, r5, r6, r7, r8, r9, lr}
+2a08ac	2a08b0	e1a08000	mov	r8, r0
+2a08ac	2a08b4	ebfdd223	bl	0x215148 <Timing_Time>
+2a08ac	2a08b8	e5984008	ldr	r4, [r8, #0x8]
+2a08ac	2a08bc	e1c820d0	ldrd	r2, r3, [r8]
+2a08ac	2a08c0	e598600c	ldr	r6, [r8, #0xc]
+2a08ac	2a08c4	e8941200	ldm	r4, {r9, r12}
+2a08ac	2a08c8	e0502002	subs	r2, r0, r2
+2a08ac	2a08cc	e0c13003	sbc	r3, r1, r3
+2a08ac	2a08d0	e35c0000	cmp	r12, #0
+2a08ac	2a08d4	c24cc001	subgt	r12, r12, #1
+2a08ac	2a08d8	c584c004	strgt	r12, [r4, #0x4]
+2a08ac	2a08dc	d3a00000	movle	r0, #0
+2a08ac	2a08e0	c08c008c	addgt	r0, r12, r12, lsl #1
+2a08ac	2a08e4	c0890180	addgt	r0, r9, r0, lsl #3
+2a08ac	2a08e8	e5901008	ldr	r1, [r0, #0x8]
+2a08ac	2a08ec	e1c041d0	ldrd	r4, r5, [r0, #16]
+2a08ac	2a08f0	e5960008	ldr	r0, [r6, #0x8]
+2a08ac	2a08f4	e0811101	add	r1, r1, r1, lsl #2
+2a08ac	2a08f8	e0522004	subs	r2, r2, r4
+2a08ac	2a08fc	e0c33005	sbc	r3, r3, r5
+2a08ac	2a0900	e0803181	add	r3, r0, r1, lsl #3
+2a08ac	2a0904	e1c360d8	ldrd	r6, r7, [r3, #8]
+2a08ac	2a0908	e1c341d0	ldrd	r4, r5, [r3, #16]
+2a08ac	2a090c	e2966001	adds	r6, r6, #1
+2a08ac	2a0910	e5931020	ldr	r1, [r3, #0x20]
+2a08ac	2a0914	e2a77000	adc	r7, r7, #0
+2a08ac	2a0918	e0944002	adds	r4, r4, r2
+2a08ac	2a091c	e2a55000	adc	r5, r5, #0
+2a08ac	2a0920	e35c0000	cmp	r12, #0
+2a08ac	2a0924	e0812002	add	r2, r1, r2
+2a08ac	2a0928	e1c360f8	strd	r6, r7, [r3, #8]
+2a08ac	2a092c	e1c341f0	strd	r4, r5, [r3, #16]
+2a08ac	2a0930	e5832020	str	r2, [r3, #0x20]
+2a08ac	2a0934	da000006	ble	0x2a0954 <_ZN9CProfiler3PopEv+0xa8>
+2a08ac	2a0938	e08cc08c	add	r12, r12, r12, lsl #1
+2a08ac	2a093c	e089918c	add	r9, r9, r12, lsl #3
+2a08ac	2a0940	e2599018	subs	r9, r9, #24
+2a08ac	2a0944	0a000002	beq	0x2a0954 <_ZN9CProfiler3PopEv+0xa8>
+2a08ac	2a0948	e5993008	ldr	r3, [r9, #0x8]
+2a08ac	2a094c	e5883070	str	r3, [r8, #0x70]
+2a08ac	2a0950	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+2a08ac	2a0954	e3a03000	mov	r3, #0
+2a08ac	2a0958	e5883070	str	r3, [r8, #0x70]
+2a08ac	2a095c	e8bd83f8	pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+2a0738	2a0738	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+2a0738	2a073c	e24dd018	sub	sp, sp, #24
+2a0738	2a0740	e1a06000	mov	r6, r0
+2a0738	2a0744	e1a09001	mov	r9, r1
+2a0738	2a0748	e1a08002	mov	r8, r2
+2a0738	2a074c	ebfdd27d	bl	0x215148 <Timing_Time>
+2a0738	2a0750	e1a02008	mov	r2, r8
+2a0738	2a0754	e1a04000	mov	r4, r0
+2a0738	2a0758	e1a05001	mov	r5, r1
+2a0738	2a075c	e1a00006	mov	r0, r6
+2a0738	2a0760	e1a01009	mov	r1, r9
+2a0738	2a0764	ebffff62	bl	0x2a04f4 <CProfiler::FindOrCreateNode(int, int)>
+2a0738	2a0768	e5967008	ldr	r7, [r6, #0x8]
+2a0738	2a076c	e58d9000	str	r9, [sp]
+2a0738	2a0770	e58d8004	str	r8, [sp, #0x4]
+2a0738	2a0774	e5973004	ldr	r3, [r7, #0x4]
+2a0738	2a0778	e5972008	ldr	r2, [r7, #0x8]
+2a0738	2a077c	e1530002	cmp	r3, r2
+2a0738	2a0780	e5860070	str	r0, [r6, #0x70]
+2a0738	2a0784	e58d0008	str	r0, [sp, #0x8]
+2a0738	2a0788	0a000022	beq	0x2a0818 <CProfiler::Push(int, int)+0xe0>
+2a0738	2a078c	e5979000	ldr	r9, [r7]
+2a0738	2a0790	e1a0c00d	mov	r12, sp
+2a0738	2a0794	e0838083	add	r8, r3, r3, lsl #1
+2a0738	2a0798	e8bc000f	ldm	r12!, {r0, r1, r2, r3}
+2a0738	2a079c	e1a08188	lsl	r8, r8, #3
+2a0738	2a07a0	e089e008	add	lr, r9, r8
+2a0738	2a07a4	e7890008	str	r0, [r9, r8]
+2a0738	2a07a8	e58e1004	str	r1, [lr, #0x4]
+2a0738	2a07ac	e8bc0003	ldm	r12!, {r0, r1}
+2a0738	2a07b0	e58e2008	str	r2, [lr, #0x8]
+2a0738	2a07b4	e58e300c	str	r3, [lr, #0xc]
+2a0738	2a07b8	e58e0010	str	r0, [lr, #0x10]
+2a0738	2a07bc	e58e1014	str	r1, [lr, #0x14]
+2a0738	2a07c0	e5962008	ldr	r2, [r6, #0x8]
+2a0738	2a07c4	e5973004	ldr	r3, [r7, #0x4]
+2a0738	2a07c8	e2833001	add	r3, r3, #1
+2a0738	2a07cc	e5873004	str	r3, [r7, #0x4]
+2a0738	2a07d0	e892000c	ldm	r2, {r2, r3}
+2a0738	2a07d4	e3530000	cmp	r3, #0
+2a0738	2a07d8	c0833083	addgt	r3, r3, r3, lsl #1
+2a0738	2a07dc	d3a07000	movle	r7, #0
+2a0738	2a07e0	c0827183	addgt	r7, r2, r3, lsl #3
+2a0738	2a07e4	c2477018	subgt	r7, r7, #24
+2a0738	2a07e8	ebfdd256	bl	0x215148 <Timing_Time>
+2a0738	2a07ec	e1c620d0	ldrd	r2, r3, [r6]
+2a0738	2a07f0	e0522004	subs	r2, r2, r4
+2a0738	2a07f4	e0c33005	sbc	r3, r3, r5
+2a0738	2a07f8	e2724000	rsbs	r4, r2, #0
+2a0738	2a07fc	e2e35000	rsc	r5, r3, #0
+2a0738	2a0800	e0900002	adds	r0, r0, r2
+2a0738	2a0804	e0a11003	adc	r1, r1, r3
+2a0738	2a0808	e1c600f0	strd	r0, r1, [r6]
+2a0738	2a080c	e1c741f0	strd	r4, r5, [r7, #16]
+2a0738	2a0810	e28dd018	add	sp, sp, #24
+2a0738	2a0814	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+2a0738	2a0818	e283800a	add	r8, r3, #10
+2a0738	2a081c	e59f1048	ldr	r1, [pc, #0x48]
+2a0738	2a0820	e3a03001	mov	r3, #1
+2a0738	2a0824	e3a02028	mov	r2, #40
+2a0738	2a0828	e0880088	add	r0, r8, r8, lsl #1
+2a0738	2a082c	e08f1001	add	r1, pc, r1
+2a0738	2a0830	e1a00180	lsl	r0, r0, #3
+2a0738	2a0834	ebff718f	bl	0x27ce78 <MemoryManager::Alloc(unsigned int, char const*, int, bool)>
+2a0738	2a0838	e5972008	ldr	r2, [r7, #0x8]
+2a0738	2a083c	e5971000	ldr	r1, [r7]
+2a0738	2a0840	e0822082	add	r2, r2, r2, lsl #1
+2a0738	2a0844	e1a02182	lsl	r2, r2, #3
+2a0738	2a0848	e1a0a000	mov	r10, r0
+2a0738	2a084c	ebf8575a	bl	0xb65bc <memcpy@plt>
+2a0738	2a0850	e5970000	ldr	r0, [r7]
+2a0738	2a0854	e1a0900a	mov	r9, r10
+2a0738	2a0858	ebff6e9c	bl	0x27c2d0 <MemoryManager::Free(void const*)>
+2a0738	2a085c	e5973004	ldr	r3, [r7, #0x4]
+2a0738	2a0860	e5878008	str	r8, [r7, #0x8]
+2a0738	2a0864	e587a000	str	r10, [r7]
+2a0738	2a0868	eaffffc8	b	0x2a0790 <CProfiler::Push(int, int)+0x58>
+2a0738	2a086c	000b49d8	.word	0x000b49d8
+e7fd0	e7fd0	e59fc580	ldr	r12, [pc, #0x580]
+e7fd0	e7fd4	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e7fd0	e7fd8	e08fc00c	add	r12, pc, r12
+e7fd0	e7fdc	e1a09003	mov	r9, r3
+e7fd0	e7fe0	e59f4574	ldr	r4, [pc, #0x574]
+e7fd0	e7fe4	e5dc3014	ldrb	r3, [r12, #0x14]
+e7fd0	e7fe8	e24dd07c	sub	sp, sp, #124
+e7fd0	e7fec	e08f4004	add	r4, pc, r4
+e7fd0	e7ff0	e1a06000	mov	r6, r0
+e7fd0	e7ff4	e3530000	cmp	r3, #0
+e7fd0	e7ff8	e1a0b001	mov	r11, r1
+e7fd0	e7ffc	e1a0a002	mov	r10, r2
+e7fd0	e8000	0a000082	beq	0xe8210 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x240>
+e7fd0	e8004	e59f3554	ldr	r3, [pc, #0x554]
+e7fd0	e8008	e7945003	ldr	r5, [r4, r3]
+e7fd0	e800c	e59f3550	ldr	r3, [pc, #0x550]
+e7fd0	e8010	e59f2550	ldr	r2, [pc, #0x550]
+e7fd0	e8014	e5960058	ldr	r0, [r6, #0x58]
+e7fd0	e8018	e7943003	ldr	r3, [r4, r3]
+e7fd0	e801c	e7942002	ldr	r2, [r4, r2]
+e7fd0	e8020	e596805c	ldr	r8, [r6, #0x5c]
+e7fd0	e8024	e5d33000	ldrb	r3, [r3]
+e7fd0	e8028	e5922000	ldr	r2, [r2]
+e7fd0	e802c	e3530000	cmp	r3, #0
+e7fd0	e8030	e5967050	ldr	r7, [r6, #0x50]
+e7fd0	e8034	e5963054	ldr	r3, [r6, #0x54]
+e7fd0	e8038	e58d2010	str	r2, [sp, #0x10]
+e7fd0	e803c	e58d000c	str	r0, [sp, #0xc]
+e7fd0	e8040	1a000098	bne	0xe82a8 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x2d8>
+e7fd0	e8044	e595e008	ldr	lr, [r5, #0x8]
+e7fd0	e8048	e3a02901	mov	r2, #16384
+e7fd0	e804c	e58db02c	str	r11, [sp, #0x2c]
+e7fd0	e8050	e35e0000	cmp	lr, #0
+e7fd0	e8054	e58da030	str	r10, [sp, #0x30]
+e7fd0	e8058	e58d2058	str	r2, [sp, #0x58]
+e7fd0	e805c	0a0000b2	beq	0xe832c <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x35c>
+e7fd0	e8060	e595a010	ldr	r10, [r5, #0x10]
+e7fd0	e8064	e303cff0	movw	r12, #0x3ff0
+e7fd0	e8068	e59e0000	ldr	r0, [lr]
+e7fd0	e806c	e59d10a4	ldr	r1, [sp, #0xa4]
+e7fd0	e8070	e08ec00c	add	r12, lr, r12
+e7fd0	e8074	e5850008	str	r0, [r5, #0x8]
+e7fd0	e8078	e24aa001	sub	r10, r10, #1
+e7fd0	e807c	e5970004	ldr	r0, [r7, #0x4]
+e7fd0	e8080	e1a02201	lsl	r2, r1, #4
+e7fd0	e8084	e597b010	ldr	r11, [r7, #0x10]
+e7fd0	e8088	e062c00c	rsb	r12, r2, r12
+e7fd0	e808c	e58d3050	str	r3, [sp, #0x50]
+e7fd0	e8090	e59d300c	ldr	r3, [sp, #0xc]
+e7fd0	e8094	e58de020	str	lr, [sp, #0x20]
+e7fd0	e8098	e595e00c	ldr	lr, [r5, #0xc]
+e7fd0	e809c	e59d10a8	ldr	r1, [sp, #0xa8]
+e7fd0	e80a0	e58d0068	str	r0, [sp, #0x68]
+e7fd0	e80a4	e1a0000c	mov	r0, r12
+e7fd0	e80a8	e585a010	str	r10, [r5, #0x10]
+e7fd0	e80ac	e28ee001	add	lr, lr, #1
+e7fd0	e80b0	e58db03c	str	r11, [sp, #0x3c]
+e7fd0	e80b4	e28db018	add	r11, sp, #24
+e7fd0	e80b8	e585e00c	str	lr, [r5, #0xc]
+e7fd0	e80bc	e58d7044	str	r7, [sp, #0x44]
+e7fd0	e80c0	e58d3054	str	r3, [sp, #0x54]
+e7fd0	e80c4	e58d804c	str	r8, [sp, #0x4c]
+e7fd0	e80c8	ebff393b	bl	0xb65bc <memcpy@plt>
+e7fd0	e80cc	e59f5498	ldr	r5, [pc, #0x498]
+e7fd0	e80d0	e3a01000	mov	r1, #0
+e7fd0	e80d4	e59fe494	ldr	lr, [pc, #0x494]
+e7fd0	e80d8	e3a0203c	mov	r2, #60
+e7fd0	e80dc	e59da0a4	ldr	r10, [sp, #0xa4]
+e7fd0	e80e0	e7947005	ldr	r7, [r4, r5]
+e7fd0	e80e4	e794500e	ldr	r5, [r4, lr]
+e7fd0	e80e8	e58da038	str	r10, [sp, #0x38]
+e7fd0	e80ec	e597a000	ldr	r10, [r7]
+e7fd0	e80f0	e5958000	ldr	r8, [r5]
+e7fd0	e80f4	e240303c	sub	r3, r0, #60
+e7fd0	e80f8	e1a0c000	mov	r12, r0
+e7fd0	e80fc	e58d3040	str	r3, [sp, #0x40]
+e7fd0	e8100	e1a00003	mov	r0, r3
+e7fd0	e8104	e59d30a4	ldr	r3, [sp, #0xa4]
+e7fd0	e8108	e58dc034	str	r12, [sp, #0x34]
+e7fd0	e810c	e585c000	str	r12, [r5]
+e7fd0	e8110	e5873000	str	r3, [r7]
+e7fd0	e8114	ebff3925	bl	0xb65b0 <memset@plt>
+e7fd0	e8118	e596106c	ldr	r1, [r6, #0x6c]
+e7fd0	e811c	e3a02000	mov	r2, #0
+e7fd0	e8120	e59d0040	ldr	r0, [sp, #0x40]
+e7fd0	e8124	e3e0c000	mvn	r12, #0
+e7fd0	e8128	e59f3444	ldr	r3, [pc, #0x444]
+e7fd0	e812c	e580c00c	str	r12, [r0, #0xc]
+e7fd0	e8130	e58d105c	str	r1, [sp, #0x5c]
+e7fd0	e8134	e3a01000	mov	r1, #0
+e7fd0	e8138	e58d2064	str	r2, [sp, #0x64]
+e7fd0	e813c	e7946003	ldr	r6, [r4, r3]
+e7fd0	e8140	e5963000	ldr	r3, [r6]
+e7fd0	e8144	e1530002	cmp	r3, r2
+e7fd0	e8148	e59d2044	ldr	r2, [sp, #0x44]
+e7fd0	e814c	1583b000	strne	r11, [r3]
+e7fd0	e8150	e58d301c	str	r3, [sp, #0x1c]
+e7fd0	e8154	e1a00002	mov	r0, r2
+e7fd0	e8158	e586b000	str	r11, [r6]
+e7fd0	e815c	e58d1018	str	r1, [sp, #0x18]
+e7fd0	e8160	e58d2000	str	r2, [sp]
+e7fd0	e8164	eb001179	bl	0xec750 <VMBuffer::convertBuffer()>
+e7fd0	e8168	e59d3044	ldr	r3, [sp, #0x44]
+e7fd0	e816c	e59d2000	ldr	r2, [sp]
+e7fd0	e8170	e59de0a0	ldr	lr, [sp, #0xa0]
+e7fd0	e8174	e5933018	ldr	r3, [r3, #0x18]
+e7fd0	e8178	e5922014	ldr	r2, [r2, #0x14]
+e7fd0	e817c	e35e0000	cmp	lr, #0
+e7fd0	e8180	e58d3074	str	r3, [sp, #0x74]
+e7fd0	e8184	e58d2070	str	r2, [sp, #0x70]
+e7fd0	e8188	0a00008f	beq	0xe83cc <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x3fc>
+e7fd0	e818c	e3a03001	mov	r3, #1
+e7fd0	e8190	e58de028	str	lr, [sp, #0x28]
+e7fd0	e8194	e58d3024	str	r3, [sp, #0x24]
+e7fd0	e8198	e59f33d8	ldr	r3, [pc, #0x3d8]
+e7fd0	e819c	e7943003	ldr	r3, [r4, r3]
+e7fd0	e81a0	e5d33000	ldrb	r3, [r3]
+e7fd0	e81a4	e3530000	cmp	r3, #0
+e7fd0	e81a8	1a000020	bne	0xe8230 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x260>
+e7fd0	e81ac	e59f33c8	ldr	r3, [pc, #0x3c8]
+e7fd0	e81b0	e1a0000b	mov	r0, r11
+e7fd0	e81b4	e1a01009	mov	r1, r9
+e7fd0	e81b8	e7943003	ldr	r3, [r4, r3]
+e7fd0	e81bc	e5933000	ldr	r3, [r3]
+e7fd0	e81c0	e3530000	cmp	r3, #0
+e7fd0	e81c4	0a000056	beq	0xe8324 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x354>
+e7fd0	e81c8	e3a02000	mov	r2, #0
+e7fd0	e81cc	ebfff17d	bl	0xe47c8 <VM::ExecDebug(VMExec&, RValue*, bool)>
+e7fd0	e81d0	e59d301c	ldr	r3, [sp, #0x1c]
+e7fd0	e81d4	e3530000	cmp	r3, #0
+e7fd0	e81d8	13a02000	movne	r2, #0
+e7fd0	e81dc	15832000	strne	r2, [r3]
+e7fd0	e81e0	e59d2024	ldr	r2, [sp, #0x24]
+e7fd0	e81e4	e5863000	str	r3, [r6]
+e7fd0	e81e8	e3520000	cmp	r2, #0
+e7fd0	e81ec	e587a000	str	r10, [r7]
+e7fd0	e81f0	e5858000	str	r8, [r5]
+e7fd0	e81f4	1a000003	bne	0xe8208 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x238>
+e7fd0	e81f8	e59d0028	ldr	r0, [sp, #0x28]
+e7fd0	e81fc	e3500000	cmp	r0, #0
+e7fd0	e8200	0a000000	beq	0xe8208 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x238>
+e7fd0	e8204	eb02c35f	bl	0x198f88 <YYObjectBase::Free(YYObjectBase*)>
+e7fd0	e8208	e28dd07c	add	sp, sp, #124
+e7fd0	e820c	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e7fd0	e8210	e59f1348	ldr	r1, [pc, #0x348]
+e7fd0	e8214	e3a02001	mov	r2, #1
+e7fd0	e8218	e7945001	ldr	r5, [r4, r1]
+e7fd0	e821c	e5cc2014	strb	r2, [r12, #0x14]
+e7fd0	e8220	e5853004	str	r3, [r5, #0x4]
+e7fd0	e8224	e5853008	str	r3, [r5, #0x8]
+e7fd0	e8228	e585300c	str	r3, [r5, #0xc]
+e7fd0	e822c	eaffff76	b	0xe800c <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x3c>
+e7fd0	e8230	e59d0028	ldr	r0, [sp, #0x28]
+e7fd0	e8234	ebffadcb	bl	0xd3968 <PushContextStack(YYObjectBase*)>
+e7fd0	e8238	e59d0028	ldr	r0, [sp, #0x28]
+e7fd0	e823c	e5901004	ldr	r1, [r0, #0x4]
+e7fd0	e8240	e3510000	cmp	r1, #0
+e7fd0	e8244	0a000082	beq	0xe8454 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x484>
+e7fd0	e8248	e591200c	ldr	r2, [r1, #0xc]
+e7fd0	e824c	e3c234ff	bic	r3, r2, #-16777216
+e7fd0	e8250	e3530001	cmp	r3, #1
+e7fd0	e8254	0a00001f	beq	0xe82d8 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x308>
+e7fd0	e8258	e3530002	cmp	r3, #2
+e7fd0	e825c	1a000004	bne	0xe8274 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x2a4>
+e7fd0	e8260	e2423001	sub	r3, r2, #1
+e7fd0	e8264	e3c334ff	bic	r3, r3, #-16777216
+e7fd0	e8268	e3c33003	bic	r3, r3, #3
+e7fd0	e826c	e3530000	cmp	r3, #0
+e7fd0	e8270	0a000072	beq	0xe8440 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x470>
+e7fd0	e8274	e59de0b0	ldr	lr, [sp, #0xb0]
+e7fd0	e8278	e3a02006	mov	r2, #6
+e7fd0	e827c	e3a03005	mov	r3, #5
+e7fd0	e8280	e581200c	str	r2, [r1, #0xc]
+e7fd0	e8284	e35e0000	cmp	lr, #0
+e7fd0	e8288	e5813008	str	r3, [r1, #0x8]
+e7fd0	e828c	e581e000	str	lr, [r1]
+e7fd0	e8290	0a000002	beq	0xe82a0 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x2d0>
+e7fd0	e8294	ebffadee	bl	0xd3a54 <GetContextStackTop()>
+e7fd0	e8298	e59d10b0	ldr	r1, [sp, #0xb0]
+e7fd0	e829c	eb02a51b	bl	0x191710 <DeterminePotentialRoot(YYObjectBase*, YYObjectBase*)>
+e7fd0	e82a0	ebffade3	bl	0xd3a34 <PopContextStack()>
+e7fd0	e82a4	eaffffc0	b	0xe81ac <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x1dc>
+e7fd0	e82a8	e59f02d0	ldr	r0, [pc, #0x2d0]
+e7fd0	e82ac	e1a02008	mov	r2, r8
+e7fd0	e82b0	e59f12cc	ldr	r1, [pc, #0x2cc]
+e7fd0	e82b4	e7940000	ldr	r0, [r4, r0]
+e7fd0	e82b8	e08f1001	add	r1, pc, r1
+e7fd0	e82bc	e5900000	ldr	r0, [r0]
+e7fd0	e82c0	e590c000	ldr	r12, [r0]
+e7fd0	e82c4	e59cc00c	ldr	r12, [r12, #0xc]
+e7fd0	e82c8	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e82cc	e12fff3c	blx	r12
+e7fd0	e82d0	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e82d4	eaffff5a	b	0xe8044 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x74>
+e7fd0	e82d8	e5913000	ldr	r3, [r1]
+e7fd0	e82dc	e3530000	cmp	r3, #0
+e7fd0	e82e0	0a00000c	beq	0xe8318 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x348>
+e7fd0	e82e4	e58d1008	str	r1, [sp, #0x8]
+e7fd0	e82e8	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e82ec	eb02a30e	bl	0x190f2c <LOCK_RVALUE_MUTEX()>
+e7fd0	e82f0	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e82f4	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e82f8	e5932004	ldr	r2, [r3, #0x4]
+e7fd0	e82fc	e2422001	sub	r2, r2, #1
+e7fd0	e8300	e5832004	str	r2, [r3, #0x4]
+e7fd0	e8304	e3520000	cmp	r2, #0
+e7fd0	e8308	0a000035	beq	0xe83e4 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x414>
+e7fd0	e830c	e58d1008	str	r1, [sp, #0x8]
+e7fd0	e8310	eb02a306	bl	0x190f30 <UNLOCK_RVALUE_MUTEX()>
+e7fd0	e8314	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e8318	e3a03000	mov	r3, #0
+e7fd0	e831c	e5813000	str	r3, [r1]
+e7fd0	e8320	eaffffd3	b	0xe8274 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x2a4>
+e7fd0	e8324	ebfff085	bl	0xe4540 <VM::ExecRelease(VMExec&, RValue*)>
+e7fd0	e8328	eaffffa8	b	0xe81d0 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x200>
+e7fd0	e832c	e3080008	movw	r0, #0x8008
+e7fd0	e8330	e3400010	movt	r0, #0x10
+e7fd0	e8334	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e8338	eb065079	bl	0x27c524 <operator new(unsigned int)>
+e7fd0	e833c	e3a01078	mov	r1, #120
+e7fd0	e8340	e3a02942	mov	r2, #1081344
+e7fd0	e8344	e1a0a000	mov	r10, r0
+e7fd0	e8348	e2800008	add	r0, r0, #8
+e7fd0	e834c	ebff3897	bl	0xb65b0 <memset@plt>
+e7fd0	e8350	e5951008	ldr	r1, [r5, #0x8]
+e7fd0	e8354	e5950004	ldr	r0, [r5, #0x4]
+e7fd0	e8358	e28ae902	add	lr, r10, #32768
+e7fd0	e835c	e28ee008	add	lr, lr, #8
+e7fd0	e8360	e595b010	ldr	r11, [r5, #0x10]
+e7fd0	e8364	e58d1014	str	r1, [sp, #0x14]
+e7fd0	e8368	e3ceec7f	bic	lr, lr, #32512
+e7fd0	e836c	e58a0000	str	r0, [r10]
+e7fd0	e8370	e3cee0ff	bic	lr, lr, #255
+e7fd0	e8374	e585a004	str	r10, [r5, #0x4]
+e7fd0	e8378	e28bc001	add	r12, r11, #1
+e7fd0	e837c	e59da014	ldr	r10, [sp, #0x14]
+e7fd0	e8380	e28e2902	add	r2, lr, #32768
+e7fd0	e8384	e28e193e	add	r1, lr, #1015808
+e7fd0	e8388	e1a0000e	mov	r0, lr
+e7fd0	e838c	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e8390	e58ea000	str	r10, [lr]
+e7fd0	e8394	e585e008	str	lr, [r5, #0x8]
+e7fd0	e8398	e585c010	str	r12, [r5, #0x10]
+e7fd0	e839c	ea000000	b	0xe83a4 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x3d4>
+e7fd0	e83a0	e1a0000c	mov	r0, r12
+e7fd0	e83a4	e5820000	str	r0, [r2]
+e7fd0	e83a8	e1a0c002	mov	r12, r2
+e7fd0	e83ac	e2822902	add	r2, r2, #32768
+e7fd0	e83b0	e1520001	cmp	r2, r1
+e7fd0	e83b4	1afffff9	bne	0xe83a0 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x3d0>
+e7fd0	e83b8	e59d2058	ldr	r2, [sp, #0x58]
+e7fd0	e83bc	e28ba01f	add	r10, r11, #31
+e7fd0	e83c0	e28ee80f	add	lr, lr, #983040
+e7fd0	e83c4	e242c010	sub	r12, r2, #16
+e7fd0	e83c8	eaffff27	b	0xe806c <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x9c>
+e7fd0	e83cc	e59d0010	ldr	r0, [sp, #0x10]
+e7fd0	e83d0	ebffaf83	bl	0xd41e4 <YYAllocLocalStackNew(int)>
+e7fd0	e83d4	e59d30a0	ldr	r3, [sp, #0xa0]
+e7fd0	e83d8	e58d3024	str	r3, [sp, #0x24]
+e7fd0	e83dc	e58d0028	str	r0, [sp, #0x28]
+e7fd0	e83e0	eaffff6c	b	0xe8198 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x1c8>
+e7fd0	e83e4	e5930000	ldr	r0, [r3]
+e7fd0	e83e8	e88d000c	stm	sp, {r2, r3}
+e7fd0	e83ec	ebff9ae7	bl	0xcef90 <YYFree(void const*)>
+e7fd0	e83f0	e89d000c	ldm	sp, {r2, r3}
+e7fd0	e83f4	e5832000	str	r2, [r3]
+e7fd0	e83f8	e5832008	str	r2, [r3, #0x8]
+e7fd0	e83fc	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e8400	eb02a2c9	bl	0x190f2c <LOCK_RVALUE_MUTEX()>
+e7fd0	e8404	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e8408	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e840c	e5932004	ldr	r2, [r3, #0x4]
+e7fd0	e8410	e2422001	sub	r2, r2, #1
+e7fd0	e8414	e5832004	str	r2, [r3, #0x4]
+e7fd0	e8418	e3520000	cmp	r2, #0
+e7fd0	e841c	0a00000f	beq	0xe8460 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x490>
+e7fd0	e8420	e58d1008	str	r1, [sp, #0x8]
+e7fd0	e8424	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e8428	eb02a2c0	bl	0x190f30 <UNLOCK_RVALUE_MUTEX()>
+e7fd0	e842c	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e8430	e1a00003	mov	r0, r3
+e7fd0	e8434	eb065365	bl	0x27d1d0 <operator delete(void*)>
+e7fd0	e8438	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e843c	eaffffb2	b	0xe830c <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x33c>
+e7fd0	e8440	e1a00001	mov	r0, r1
+e7fd0	e8444	e58d1008	str	r1, [sp, #0x8]
+e7fd0	e8448	ebff618b	bl	0xc0a7c <FREE_RValue__Pre(RValue*)>
+e7fd0	e844c	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e8450	eaffff87	b	0xe8274 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x2a4>
+e7fd0	e8454	eb02b985	bl	0x196a70 <YYObjectBase::InternalGetYYVar(int)>
+e7fd0	e8458	e1a01000	mov	r1, r0
+e7fd0	e845c	eaffff79	b	0xe8248 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x278>
+e7fd0	e8460	e5930000	ldr	r0, [r3]
+e7fd0	e8464	e88d000c	stm	sp, {r2, r3}
+e7fd0	e8468	ebff9ac8	bl	0xcef90 <YYFree(void const*)>
+e7fd0	e846c	e89d000c	ldm	sp, {r2, r3}
+e7fd0	e8470	e5832000	str	r2, [r3]
+e7fd0	e8474	e5832008	str	r2, [r3, #0x8]
+e7fd0	e8478	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e847c	eb02a2aa	bl	0x190f2c <LOCK_RVALUE_MUTEX()>
+e7fd0	e8480	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e8484	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e8488	e5932004	ldr	r2, [r3, #0x4]
+e7fd0	e848c	e2422001	sub	r2, r2, #1
+e7fd0	e8490	e5832004	str	r2, [r3, #0x4]
+e7fd0	e8494	e3520000	cmp	r2, #0
+e7fd0	e8498	0a000008	beq	0xe84c0 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x4f0>
+e7fd0	e849c	e58d1008	str	r1, [sp, #0x8]
+e7fd0	e84a0	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e84a4	eb02a2a1	bl	0x190f30 <UNLOCK_RVALUE_MUTEX()>
+e7fd0	e84a8	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e84ac	e1a00003	mov	r0, r3
+e7fd0	e84b0	eb065346	bl	0x27d1d0 <operator delete(void*)>
+e7fd0	e84b4	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e84b8	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e84bc	eaffffd7	b	0xe8420 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x450>
+e7fd0	e84c0	e5930000	ldr	r0, [r3]
+e7fd0	e84c4	e88d000c	stm	sp, {r2, r3}
+e7fd0	e84c8	ebff9ab0	bl	0xcef90 <YYFree(void const*)>
+e7fd0	e84cc	e89d000c	ldm	sp, {r2, r3}
+e7fd0	e84d0	e5832000	str	r2, [r3]
+e7fd0	e84d4	e5832008	str	r2, [r3, #0x8]
+e7fd0	e84d8	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e84dc	eb02a292	bl	0x190f2c <LOCK_RVALUE_MUTEX()>
+e7fd0	e84e0	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e84e4	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e84e8	e5932004	ldr	r2, [r3, #0x4]
+e7fd0	e84ec	e2422001	sub	r2, r2, #1
+e7fd0	e84f0	e5832004	str	r2, [r3, #0x4]
+e7fd0	e84f4	e3520000	cmp	r2, #0
+e7fd0	e84f8	1a00000d	bne	0xe8534 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x564>
+e7fd0	e84fc	e5930000	ldr	r0, [r3]
+e7fd0	e8500	e88d000c	stm	sp, {r2, r3}
+e7fd0	e8504	ebff9aa1	bl	0xcef90 <YYFree(void const*)>
+e7fd0	e8508	e89d000c	ldm	sp, {r2, r3}
+e7fd0	e850c	e5832000	str	r2, [r3]
+e7fd0	e8510	e1a00003	mov	r0, r3
+e7fd0	e8514	e5832008	str	r2, [r3, #0x8]
+e7fd0	e8518	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e851c	ebff6135	bl	0xc09f8 <_RefThing<char const*>::dec()>
+e7fd0	e8520	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e8524	e1a00003	mov	r0, r3
+e7fd0	e8528	eb065328	bl	0x27d1d0 <operator delete(void*)>
+e7fd0	e852c	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e8530	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e8534	e58d1008	str	r1, [sp, #0x8]
+e7fd0	e8538	e58d3004	str	r3, [sp, #0x4]
+e7fd0	e853c	eb02a27b	bl	0x190f30 <UNLOCK_RVALUE_MUTEX()>
+e7fd0	e8540	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e8544	e1a00003	mov	r0, r3
+e7fd0	e8548	eb065320	bl	0x27d1d0 <operator delete(void*)>
+e7fd0	e854c	e59d3004	ldr	r3, [sp, #0x4]
+e7fd0	e8550	e59d1008	ldr	r1, [sp, #0x8]
+e7fd0	e8554	eaffffd0	b	0xe849c <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)+0x4cc>
+e7fd0	e8558	003921dc	.word	0x003921dc
+e7fd0	e855c	00309c64	.word	0x00309c64
+e7fd0	e8560	ffffc0e4	.word	0xffffc0e4
+e7fd0	e8564	ffffc100	.word	0xffffc100
+e7fd0	e8568	ffffc104	.word	0xffffc104
+e7fd0	e856c	ffffc0bc	.word	0xffffc0bc
+e7fd0	e8570	ffffc0c0	.word	0xffffc0c0
+e7fd0	e8574	ffffbf58	.word	0xffffbf58
+e7fd0	e8578	ffffbf68	.word	0xffffbf68
+e7fd0	e857c	ffffc0a4	.word	0xffffc0a4
+e7fd0	e8580	ffffbac4	.word	0xffffbac4
+e7fd0	e8584	0024c550	.word	0x0024c550
+2a04f4	2a04f4	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+2a04f4	2a04f8	e1a06000	mov	r6, r0
+2a04f4	2a04fc	e5908070	ldr	r8, [r0, #0x70]
+2a04f4	2a0500	e24dd008	sub	sp, sp, #8
+2a04f4	2a0504	e590700c	ldr	r7, [r0, #0xc]
+2a04f4	2a0508	e0888108	add	r8, r8, r8, lsl #2
+2a04f4	2a050c	e597c008	ldr	r12, [r7, #0x8]
+2a04f4	2a0510	e1a08188	lsl	r8, r8, #3
+2a04f4	2a0514	e08c3008	add	r3, r12, r8
+2a04f4	2a0518	e5934018	ldr	r4, [r3, #0x18]
+2a04f4	2a051c	e3740001	cmn	r4, #1
+2a04f4	2a0520	0a000015	beq	0x2a057c <CProfiler::FindOrCreateNode(int, int)+0x88>
+2a04f4	2a0524	e1a00004	mov	r0, r4
+2a04f4	2a0528	ea000004	b	0x2a0540 <CProfiler::FindOrCreateNode(int, int)+0x4c>
+2a04f4	2a052c	e593301c	ldr	r3, [r3, #0x1c]
+2a04f4	2a0530	e1a00004	mov	r0, r4
+2a04f4	2a0534	e3730001	cmn	r3, #1
+2a04f4	2a0538	0a00000f	beq	0x2a057c <CProfiler::FindOrCreateNode(int, int)+0x88>
+2a04f4	2a053c	e1a04003	mov	r4, r3
+2a04f4	2a0540	e0843104	add	r3, r4, r4, lsl #2
+2a04f4	2a0544	e79c5183	ldr	r5, [r12, r3, lsl #3]
+2a04f4	2a0548	e08c3183	add	r3, r12, r3, lsl #3
+2a04f4	2a054c	e7fb5055	ubfx	r5, r5, #0x0, #0x1c
+2a04f4	2a0550	e1550002	cmp	r5, r2
+2a04f4	2a0554	1afffff4	bne	0x2a052c <CProfiler::FindOrCreateNode(int, int)+0x38>
+2a04f4	2a0558	e5d35003	ldrb	r5, [r3, #0x3]
+2a04f4	2a055c	e1510225	cmp	r1, r5, lsr #4
+2a04f4	2a0560	1afffff1	bne	0x2a052c <CProfiler::FindOrCreateNode(int, int)+0x38>
+2a04f4	2a0564	e3540000	cmp	r4, #0
+2a04f4	2a0568	ba000002	blt	0x2a0578 <CProfiler::FindOrCreateNode(int, int)+0x84>
+2a04f4	2a056c	e1a00004	mov	r0, r4
+2a04f4	2a0570	e28dd008	add	sp, sp, #8
+2a04f4	2a0574	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+2a04f4	2a0578	e1a04000	mov	r4, r0
+2a04f4	2a057c	e5973000	ldr	r3, [r7]
+2a04f4	2a0580	e3c2520f	bic	r5, r2, #-268435456
+2a04f4	2a0584	e5972004	ldr	r2, [r7, #0x4]
+2a04f4	2a0588	e201900f	and	r9, r1, #15
+2a04f4	2a058c	e2431001	sub	r1, r3, #1
+2a04f4	2a0590	e1520001	cmp	r2, r1
+2a04f4	2a0594	b1a01002	movlt	r1, r2
+2a04f4	2a0598	b1a06007	movlt	r6, r7
+2a04f4	2a059c	ba000011	blt	0x2a05e8 <CProfiler::FindOrCreateNode(int, int)+0xf4>
+2a04f4	2a05a0	e1a02083	lsl	r2, r3, #1
+2a04f4	2a05a4	e5872000	str	r2, [r7]
+2a04f4	2a05a8	e0821183	add	r1, r2, r3, lsl #3
+2a04f4	2a05ac	e59f2118	ldr	r2, [pc, #0x118]
+2a04f4	2a05b0	e1a0000c	mov	r0, r12
+2a04f4	2a05b4	e3a03068	mov	r3, #104
+2a04f4	2a05b8	e3a0c000	mov	r12, #0
+2a04f4	2a05bc	e1a01181	lsl	r1, r1, #3
+2a04f4	2a05c0	e58dc000	str	r12, [sp]
+2a04f4	2a05c4	e08f2002	add	r2, pc, r2
+2a04f4	2a05c8	ebff7243	bl	0x27cedc <MemoryManager::ReAlloc(void*, unsigned int, char const*, int, bool)>
+2a04f4	2a05cc	e5968070	ldr	r8, [r6, #0x70]
+2a04f4	2a05d0	e5971004	ldr	r1, [r7, #0x4]
+2a04f4	2a05d4	e596600c	ldr	r6, [r6, #0xc]
+2a04f4	2a05d8	e0888108	add	r8, r8, r8, lsl #2
+2a04f4	2a05dc	e1a08188	lsl	r8, r8, #3
+2a04f4	2a05e0	e1a0c000	mov	r12, r0
+2a04f4	2a05e4	e5870008	str	r0, [r7, #0x8]
+2a04f4	2a05e8	e0812101	add	r2, r1, r1, lsl #2
+2a04f4	2a05ec	e2813001	add	r3, r1, #1
+2a04f4	2a05f0	e5873004	str	r3, [r7, #0x4]
+2a04f4	2a05f4	e7e7a455	ubfx	r10, r5, #0x8, #0x8
+2a04f4	2a05f8	e1a02182	lsl	r2, r2, #3
+2a04f4	2a05fc	e7e77855	ubfx	r7, r5, #0x10, #0x8
+2a04f4	2a0600	e08c3002	add	r3, r12, r2
+2a04f4	2a0604	e3a00000	mov	r0, #0
+2a04f4	2a0608	e7cc5002	strb	r5, [r12, r2]
+2a04f4	2a060c	e3e02000	mvn	r2, #0
+2a04f4	2a0610	e5d3c003	ldrb	r12, [r3, #0x3]
+2a04f4	2a0614	e5c3a001	strb	r10, [r3, #0x1]
+2a04f4	2a0618	e3ccc00f	bic	r12, r12, #15
+2a04f4	2a061c	e5c37002	strb	r7, [r3, #0x2]
+2a04f4	2a0620	e18c5c25	orr	r5, r12, r5, lsr #24
+2a04f4	2a0624	e5c30008	strb	r0, [r3, #0x8]
+2a04f4	2a0628	e5c30009	strb	r0, [r3, #0x9]
+2a04f4	2a062c	e7c75219	bfi	r5, r9, #4, #4
+2a04f4	2a0630	e5c3000a	strb	r0, [r3, #0xa]
+2a04f4	2a0634	e5c35003	strb	r5, [r3, #0x3]
+2a04f4	2a0638	e5c3000b	strb	r0, [r3, #0xb]
+2a04f4	2a063c	e5c3000c	strb	r0, [r3, #0xc]
+2a04f4	2a0640	e5c3000d	strb	r0, [r3, #0xd]
+2a04f4	2a0644	e5c3000e	strb	r0, [r3, #0xe]
+2a04f4	2a0648	e5c3000f	strb	r0, [r3, #0xf]
+2a04f4	2a064c	e5c30010	strb	r0, [r3, #0x10]
+2a04f4	2a0650	e5c30011	strb	r0, [r3, #0x11]
+2a04f4	2a0654	e5c30012	strb	r0, [r3, #0x12]
+2a04f4	2a0658	e5c30013	strb	r0, [r3, #0x13]
+2a04f4	2a065c	e5c30014	strb	r0, [r3, #0x14]
+2a04f4	2a0660	e5c30015	strb	r0, [r3, #0x15]
+2a04f4	2a0664	e5c30016	strb	r0, [r3, #0x16]
+2a04f4	2a0668	e5c30017	strb	r0, [r3, #0x17]
+2a04f4	2a066c	e5c30020	strb	r0, [r3, #0x20]
+2a04f4	2a0670	e5c30021	strb	r0, [r3, #0x21]
+2a04f4	2a0674	e5c30022	strb	r0, [r3, #0x22]
+2a04f4	2a0678	e5c32018	strb	r2, [r3, #0x18]
+2a04f4	2a067c	e5c32019	strb	r2, [r3, #0x19]
+2a04f4	2a0680	e5c3201a	strb	r2, [r3, #0x1a]
+2a04f4	2a0684	e5c3201b	strb	r2, [r3, #0x1b]
+2a04f4	2a0688	e5c3201c	strb	r2, [r3, #0x1c]
+2a04f4	2a068c	e5c3201d	strb	r2, [r3, #0x1d]
+2a04f4	2a0690	e5c3201e	strb	r2, [r3, #0x1e]
+2a04f4	2a0694	e5c3201f	strb	r2, [r3, #0x1f]
+2a04f4	2a0698	e5c30023	strb	r0, [r3, #0x23]
+2a04f4	2a069c	e5963008	ldr	r3, [r6, #0x8]
+2a04f4	2a06a0	e0838008	add	r8, r3, r8
+2a04f4	2a06a4	e5982018	ldr	r2, [r8, #0x18]
+2a04f4	2a06a8	e1520000	cmp	r2, r0
+2a04f4	2a06ac	b5881018	strlt	r1, [r8, #0x18]
+2a04f4	2a06b0	a0844104	addge	r4, r4, r4, lsl #2
+2a04f4	2a06b4	a0833184	addge	r3, r3, r4, lsl #3
+2a04f4	2a06b8	e1a04001	mov	r4, r1
+2a04f4	2a06bc	e1a00004	mov	r0, r4
+2a04f4	2a06c0	a583101c	strge	r1, [r3, #0x1c]
+2a04f4	2a06c4	e28dd008	add	sp, sp, #8
+2a04f4	2a06c8	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+2a04f4	2a06cc	000b96b0	.word	0x000b96b0
+c09f8	c09f8	e92d4038	push	{r3, r4, r5, lr}
+c09f8	c09fc	e1a04000	mov	r4, r0
+c09f8	c0a00	eb034149	bl	0x190f2c <LOCK_RVALUE_MUTEX()>
+c09f8	c0a04	e5945004	ldr	r5, [r4, #0x4]
+c09f8	c0a08	e2455001	sub	r5, r5, #1
+c09f8	c0a0c	e5845004	str	r5, [r4, #0x4]
+c09f8	c0a10	e3550000	cmp	r5, #0
+c09f8	c0a14	0a000001	beq	0xc0a20 <_RefThing<char const*>::dec()+0x28>
+c09f8	c0a18	e8bd4038	pop	{r3, r4, r5, lr}
+c09f8	c0a1c	ea034143	b	0x190f30 <UNLOCK_RVALUE_MUTEX()>
+c09f8	c0a20	e5940000	ldr	r0, [r4]
+c09f8	c0a24	eb003959	bl	0xcef90 <YYFree(void const*)>
+c09f8	c0a28	e5845000	str	r5, [r4]
+c09f8	c0a2c	e5845008	str	r5, [r4, #0x8]
+c09f8	c0a30	eb03413d	bl	0x190f2c <LOCK_RVALUE_MUTEX()>
+c09f8	c0a34	e5945004	ldr	r5, [r4, #0x4]
+c09f8	c0a38	e2455001	sub	r5, r5, #1
+c09f8	c0a3c	e5845004	str	r5, [r4, #0x4]
+c09f8	c0a40	e3550000	cmp	r5, #0
+c09f8	c0a44	1a000007	bne	0xc0a68 <_RefThing<char const*>::dec()+0x70>
+c09f8	c0a48	e5940000	ldr	r0, [r4]
+c09f8	c0a4c	eb00394f	bl	0xcef90 <YYFree(void const*)>
+c09f8	c0a50	e1a00004	mov	r0, r4
+c09f8	c0a54	e5845000	str	r5, [r4]
+c09f8	c0a58	e5845008	str	r5, [r4, #0x8]
+c09f8	c0a5c	ebffffe5	bl	0xc09f8 <_RefThing<char const*>::dec()>
+c09f8	c0a60	e1a00004	mov	r0, r4
+c09f8	c0a64	eb06f1d9	bl	0x27d1d0 <operator delete(void*)>
+c09f8	c0a68	eb034130	bl	0x190f30 <UNLOCK_RVALUE_MUTEX()>
+c09f8	c0a6c	e1a00004	mov	r0, r4
+c09f8	c0a70	eb06f1d6	bl	0x27d1d0 <operator delete(void*)>
+c09f8	c0a74	e8bd4038	pop	{r3, r4, r5, lr}
+c09f8	c0a78	ea03412c	b	0x190f30 <UNLOCK_RVALUE_MUTEX()>
+cef90	cef90	ea06b4ce	b	0x27c2d0 <MemoryManager::Free(void const*)>
+190f2c	190f2c	e12fff1e	bx	lr
+190f30	190f30	e12fff1e	bx	lr
+191710	191710	e12fff1e	bx	lr
+e47c8	e47c8	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e47c8	e47cc	e24dd014	sub	sp, sp, #20
+e47c8	e47d0	e59f538c	ldr	r5, [pc, #0x38c]
+e47c8	e47d4	e1a0a001	mov	r10, r1
+e47c8	e47d8	e59f3388	ldr	r3, [pc, #0x388]
+e47c8	e47dc	e1a04000	mov	r4, r0
+e47c8	e47e0	e08f5005	add	r5, pc, r5
+e47c8	e47e4	e58d200c	str	r2, [sp, #0xc]
+e47c8	e47e8	e59f137c	ldr	r1, [pc, #0x37c]
+e47c8	e47ec	e3a09000	mov	r9, #0
+e47c8	e47f0	e7953003	ldr	r3, [r5, r3]
+e47c8	e47f4	e5908028	ldr	r8, [r0, #0x28]
+e47c8	e47f8	e5932000	ldr	r2, [r3]
+e47c8	e47fc	e2822001	add	r2, r2, #1
+e47c8	e4800	e5832000	str	r2, [r3]
+e47c8	e4804	e7951001	ldr	r1, [r5, r1]
+e47c8	e4808	e5912000	ldr	r2, [r1]
+e47c8	e480c	e58d1004	str	r1, [sp, #0x4]
+e47c8	e4810	e58d2008	str	r2, [sp, #0x8]
+e47c8	e4814	e5941044	ldr	r1, [r4, #0x44]
+e47c8	e4818	e5943050	ldr	r3, [r4, #0x50]
+e47c8	e481c	e1510003	cmp	r1, r3
+e47c8	e4820	aa00002e	bge	0xe48e0 <VM::ExecDebug(VMExec&, RValue*, bool)+0x118>
+e47c8	e4824	e5943024	ldr	r3, [r4, #0x24]
+e47c8	e4828	e2812004	add	r2, r1, #4
+e47c8	e482c	e59f033c	ldr	r0, [pc, #0x33c]
+e47c8	e4830	e5841054	str	r1, [r4, #0x54]
+e47c8	e4834	e7936001	ldr	r6, [r3, r1]
+e47c8	e4838	e0833002	add	r3, r3, r2
+e47c8	e483c	e5842044	str	r2, [r4, #0x44]
+e47c8	e4840	e7952000	ldr	r2, [r5, r0]
+e47c8	e4844	e5922000	ldr	r2, [r2]
+e47c8	e4848	e3520000	cmp	r2, #0
+e47c8	e484c	0a00008b	beq	0xe4a80 <VM::ExecDebug(VMExec&, RValue*, bool)+0x2b8>
+e47c8	e4850	e59f231c	ldr	r2, [pc, #0x31c]
+e47c8	e4854	e795b002	ldr	r11, [r5, r2]
+e47c8	e4858	e59b2000	ldr	r2, [r11]
+e47c8	e485c	e3520000	cmp	r2, #0
+e47c8	e4860	aa000048	bge	0xe4988 <VM::ExecDebug(VMExec&, RValue*, bool)+0x1c0>
+e47c8	e4864	e59f230c	ldr	r2, [pc, #0x30c]
+e47c8	e4868	e7957002	ldr	r7, [r5, r2]
+e47c8	e486c	e59f2308	ldr	r2, [pc, #0x308]
+e47c8	e4870	e7952002	ldr	r2, [r5, r2]
+e47c8	e4874	e5d21000	ldrb	r1, [r2]
+e47c8	e4878	e3510000	cmp	r1, #0
+e47c8	e487c	1a000068	bne	0xe4a24 <VM::ExecDebug(VMExec&, RValue*, bool)+0x25c>
+e47c8	e4880	e3160101	tst	r6, #1073741824
+e47c8	e4884	e5874000	str	r4, [r7]
+e47c8	e4888	07e4ec56	ubfxeq	lr, r6, #0x18, #0x5
+e47c8	e488c	1a000081	bne	0xe4a98 <VM::ExecDebug(VMExec&, RValue*, bool)+0x2d0>
+e47c8	e4890	e59fc2e8	ldr	r12, [pc, #0x2e8]
+e47c8	e4894	e1a01008	mov	r1, r8
+e47c8	e4898	e1a02003	mov	r2, r3
+e47c8	e489c	e1a00006	mov	r0, r6
+e47c8	e48a0	e1a03004	mov	r3, r4
+e47c8	e48a4	e795c00c	ldr	r12, [r5, r12]
+e47c8	e48a8	e79cc10e	ldr	r12, [r12, lr, lsl #2]
+e47c8	e48ac	e12fff3c	blx	r12
+e47c8	e48b0	e59f32cc	ldr	r3, [pc, #0x2cc]
+e47c8	e48b4	e5874000	str	r4, [r7]
+e47c8	e48b8	e795c003	ldr	r12, [r5, r3]
+e47c8	e48bc	e5dc3000	ldrb	r3, [r12]
+e47c8	e48c0	e3530000	cmp	r3, #0
+e47c8	e48c4	e1a08000	mov	r8, r0
+e47c8	e48c8	0affffd1	beq	0xe4814 <VM::ExecDebug(VMExec&, RValue*, bool)+0x4c>
+e47c8	e48cc	e59f32b4	ldr	r3, [pc, #0x2b4]
+e47c8	e48d0	e7953003	ldr	r3, [r5, r3]
+e47c8	e48d4	e5933000	ldr	r3, [r3]
+e47c8	e48d8	e1540003	cmp	r4, r3
+e47c8	e48dc	0a00008a	beq	0xe4b0c <VM::ExecDebug(VMExec&, RValue*, bool)+0x344>
+e47c8	e48e0	e594304c	ldr	r3, [r4, #0x4c]
+e47c8	e48e4	e3530000	cmp	r3, #0
+e47c8	e48e8	ca00005c	bgt	0xe4a60 <VM::ExecDebug(VMExec&, RValue*, bool)+0x298>
+e47c8	e48ec	e59d2008	ldr	r2, [sp, #0x8]
+e47c8	e48f0	e35a0000	cmp	r10, #0
+e47c8	e48f4	e59d3004	ldr	r3, [sp, #0x4]
+e47c8	e48f8	e5832000	str	r2, [r3]
+e47c8	e48fc	0a000002	beq	0xe490c <VM::ExecDebug(VMExec&, RValue*, bool)+0x144>
+e47c8	e4900	e5943028	ldr	r3, [r4, #0x28]
+e47c8	e4904	e1530008	cmp	r3, r8
+e47c8	e4908	8a00008c	bhi	0xe4b40 <VM::ExecDebug(VMExec&, RValue*, bool)+0x378>
+e47c8	e490c	e59f3278	ldr	r3, [pc, #0x278]
+e47c8	e4910	e5940008	ldr	r0, [r4, #0x8]
+e47c8	e4914	e795c003	ldr	r12, [r5, r3]
+e47c8	e4918	e59c3004	ldr	r3, [r12, #0x4]
+e47c8	e491c	e3530000	cmp	r3, #0
+e47c8	e4920	0a000009	beq	0xe494c <VM::ExecDebug(VMExec&, RValue*, bool)+0x184>
+e47c8	e4924	e2831008	add	r1, r3, #8
+e47c8	e4928	e2832601	add	r2, r3, #1048576
+e47c8	e492c	e1500001	cmp	r0, r1
+e47c8	e4930	e2822008	add	r2, r2, #8
+e47c8	e4934	3a000001	blo	0xe4940 <VM::ExecDebug(VMExec&, RValue*, bool)+0x178>
+e47c8	e4938	e1520000	cmp	r2, r0
+e47c8	e493c	8a000066	bhi	0xe4adc <VM::ExecDebug(VMExec&, RValue*, bool)+0x314>
+e47c8	e4940	e5933000	ldr	r3, [r3]
+e47c8	e4944	e3530000	cmp	r3, #0
+e47c8	e4948	1afffff5	bne	0xe4924 <VM::ExecDebug(VMExec&, RValue*, bool)+0x15c>
+e47c8	e494c	eb065e5f	bl	0x27c2d0 <MemoryManager::Free(void const*)>
+e47c8	e4950	e59d300c	ldr	r3, [sp, #0xc]
+e47c8	e4954	e3530000	cmp	r3, #0
+e47c8	e4958	0a000008	beq	0xe4980 <VM::ExecDebug(VMExec&, RValue*, bool)+0x1b8>
+e47c8	e495c	e594300c	ldr	r3, [r4, #0xc]
+e47c8	e4960	e3530000	cmp	r3, #0
+e47c8	e4964	da000005	ble	0xe4980 <VM::ExecDebug(VMExec&, RValue*, bool)+0x1b8>
+e47c8	e4968	e5940010	ldr	r0, [r4, #0x10]
+e47c8	e496c	e3500000	cmp	r0, #0
+e47c8	e4970	0a000002	beq	0xe4980 <VM::ExecDebug(VMExec&, RValue*, bool)+0x1b8>
+e47c8	e4974	eb02d183	bl	0x198f88 <YYObjectBase::Free(YYObjectBase*)>
+e47c8	e4978	e3a03000	mov	r3, #0
+e47c8	e497c	e5843010	str	r3, [r4, #0x10]
+e47c8	e4980	e28dd014	add	sp, sp, #20
+e47c8	e4984	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e47c8	e4988	e5940038	ldr	r0, [r4, #0x38]
+e47c8	e498c	e58d3000	str	r3, [sp]
+e47c8	e4990	eb001deb	bl	0xec144 <VM::DebugInfo(VMBuffer*, int)>
+e47c8	e4994	e3a02000	mov	r2, #0
+e47c8	e4998	e594103c	ldr	r1, [r4, #0x3c]
+e47c8	e499c	eb001e45	bl	0xec2b8 <VM::DebugLineNumber(VMDebugInfo*, char const*, char**)>
+e47c8	e49a0	e59f21d0	ldr	r2, [pc, #0x1d0]
+e47c8	e49a4	e59d3000	ldr	r3, [sp]
+e47c8	e49a8	e7957002	ldr	r7, [r5, r2]
+e47c8	e49ac	e597c000	ldr	r12, [r7]
+e47c8	e49b0	e35c0000	cmp	r12, #0
+e47c8	e49b4	0a000052	beq	0xe4b04 <VM::ExecDebug(VMExec&, RValue*, bool)+0x33c>
+e47c8	e49b8	e3a02000	mov	r2, #0
+e47c8	e49bc	e59c104c	ldr	r1, [r12, #0x4c]
+e47c8	e49c0	e2822001	add	r2, r2, #1
+e47c8	e49c4	e59cc004	ldr	r12, [r12, #0x4]
+e47c8	e49c8	e0822001	add	r2, r2, r1
+e47c8	e49cc	e35c0000	cmp	r12, #0
+e47c8	e49d0	1afffff9	bne	0xe49bc <VM::ExecDebug(VMExec&, RValue*, bool)+0x1f4>
+e47c8	e49d4	e594103c	ldr	r1, [r4, #0x3c]
+e47c8	e49d8	e3510000	cmp	r1, #0
+e47c8	e49dc	0affffa2	beq	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e49e0	e59fc1a8	ldr	r12, [pc, #0x1a8]
+e47c8	e49e4	e795c00c	ldr	r12, [r5, r12]
+e47c8	e49e8	e59cc000	ldr	r12, [r12]
+e47c8	e49ec	e151000c	cmp	r1, r12
+e47c8	e49f0	0a00002b	beq	0xe4aa4 <VM::ExecDebug(VMExec&, RValue*, bool)+0x2dc>
+e47c8	e49f4	e59b0000	ldr	r0, [r11]
+e47c8	e49f8	e3500000	cmp	r0, #0
+e47c8	e49fc	0a000006	beq	0xe4a1c <VM::ExecDebug(VMExec&, RValue*, bool)+0x254>
+e47c8	e4a00	e3500002	cmp	r0, #2
+e47c8	e4a04	0a00002c	beq	0xe4abc <VM::ExecDebug(VMExec&, RValue*, bool)+0x2f4>
+e47c8	e4a08	e59f1184	ldr	r1, [pc, #0x184]
+e47c8	e4a0c	e7951001	ldr	r1, [r5, r1]
+e47c8	e4a10	e5911000	ldr	r1, [r1]
+e47c8	e4a14	e1510002	cmp	r1, r2
+e47c8	e4a18	baffff93	blt	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e4a1c	e59f2158	ldr	r2, [pc, #0x158]
+e47c8	e4a20	e7952002	ldr	r2, [r5, r2]
+e47c8	e4a24	e3a06000	mov	r6, #0
+e47c8	e4a28	e34f6f0f	movt	r6, #0xff0f
+e47c8	e4a2c	e3a0e01f	mov	lr, #31
+e47c8	e4a30	e3a0000f	mov	r0, #15
+e47c8	e4a34	e5c29000	strb	r9, [r2]
+e47c8	e4a38	e3e02000	mvn	r2, #0
+e47c8	e4a3c	e5874000	str	r4, [r7]
+e47c8	e4a40	e58b2000	str	r2, [r11]
+e47c8	e4a44	e59f214c	ldr	r2, [pc, #0x14c]
+e47c8	e4a48	e5941044	ldr	r1, [r4, #0x44]
+e47c8	e4a4c	e7952002	ldr	r2, [r5, r2]
+e47c8	e4a50	e7922100	ldr	r2, [r2, r0, lsl #2]
+e47c8	e4a54	e0812002	add	r2, r1, r2
+e47c8	e4a58	e5842044	str	r2, [r4, #0x44]
+e47c8	e4a5c	eaffff8b	b	0xe4890 <VM::ExecDebug(VMExec&, RValue*, bool)+0xc8>
+e47c8	e4a60	e1a00008	mov	r0, r8
+e47c8	e4a64	e1a01004	mov	r1, r4
+e47c8	e4a68	ebfffe1a	bl	0xe42d8 <PerformReturn(unsigned char*, VMExec*)>
+e47c8	e4a6c	e5009004	str	r9, [r0, #-0x4]
+e47c8	e4a70	e2408010	sub	r8, r0, #16
+e47c8	e4a74	e5009010	str	r9, [r0, #-0x10]
+e47c8	e4a78	e500900c	str	r9, [r0, #-0xc]
+e47c8	e4a7c	eaffff64	b	0xe4814 <VM::ExecDebug(VMExec&, RValue*, bool)+0x4c>
+e47c8	e4a80	e59f20f0	ldr	r2, [pc, #0xf0]
+e47c8	e4a84	e3160101	tst	r6, #1073741824
+e47c8	e4a88	07e4ec56	ubfxeq	lr, r6, #0x18, #0x5
+e47c8	e4a8c	e7957002	ldr	r7, [r5, r2]
+e47c8	e4a90	e5874000	str	r4, [r7]
+e47c8	e4a94	0affff7d	beq	0xe4890 <VM::ExecDebug(VMExec&, RValue*, bool)+0xc8>
+e47c8	e4a98	e7e30856	ubfx	r0, r6, #0x10, #0x4
+e47c8	e4a9c	e7e4ec56	ubfx	lr, r6, #0x18, #0x5
+e47c8	e4aa0	eaffffe7	b	0xe4a44 <VM::ExecDebug(VMExec&, RValue*, bool)+0x27c>
+e47c8	e4aa4	e59fe0f0	ldr	lr, [pc, #0xf0]
+e47c8	e4aa8	e795e00e	ldr	lr, [r5, lr]
+e47c8	e4aac	e59ee000	ldr	lr, [lr]
+e47c8	e4ab0	e150000e	cmp	r0, lr
+e47c8	e4ab4	1affffce	bne	0xe49f4 <VM::ExecDebug(VMExec&, RValue*, bool)+0x22c>
+e47c8	e4ab8	eaffff6b	b	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e4abc	e59f00d0	ldr	r0, [pc, #0xd0]
+e47c8	e4ac0	e7950000	ldr	r0, [r5, r0]
+e47c8	e4ac4	e5900000	ldr	r0, [r0]
+e47c8	e4ac8	e1500002	cmp	r0, r2
+e47c8	e4acc	baffff66	blt	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e4ad0	e151000c	cmp	r1, r12
+e47c8	e4ad4	1affffd0	bne	0xe4a1c <VM::ExecDebug(VMExec&, RValue*, bool)+0x254>
+e47c8	e4ad8	eaffff63	b	0xe486c <VM::ExecDebug(VMExec&, RValue*, bool)+0xa4>
+e47c8	e4adc	e59c1008	ldr	r1, [r12, #0x8]
+e47c8	e4ae0	e59c2010	ldr	r2, [r12, #0x10]
+e47c8	e4ae4	e59c300c	ldr	r3, [r12, #0xc]
+e47c8	e4ae8	e2822001	add	r2, r2, #1
+e47c8	e4aec	e5801000	str	r1, [r0]
+e47c8	e4af0	e2433001	sub	r3, r3, #1
+e47c8	e4af4	e58c0008	str	r0, [r12, #0x8]
+e47c8	e4af8	e58c2010	str	r2, [r12, #0x10]
+e47c8	e4afc	e58c300c	str	r3, [r12, #0xc]
+e47c8	e4b00	eaffff92	b	0xe4950 <VM::ExecDebug(VMExec&, RValue*, bool)+0x188>
+e47c8	e4b04	e1a0200c	mov	r2, r12
+e47c8	e4b08	eaffffb1	b	0xe49d4 <VM::ExecDebug(VMExec&, RValue*, bool)+0x20c>
+e47c8	e4b0c	e59f208c	ldr	r2, [pc, #0x8c]
+e47c8	e4b10	e59f308c	ldr	r3, [pc, #0x8c]
+e47c8	e4b14	e7956002	ldr	r6, [r5, r2]
+e47c8	e4b18	e7957003	ldr	r7, [r5, r3]
+e47c8	e4b1c	e8b6000f	ldm	r6!, {r0, r1, r2, r3}
+e47c8	e4b20	e5976000	ldr	r6, [r7]
+e47c8	e4b24	e2468010	sub	r8, r6, #16
+e47c8	e4b28	e5060010	str	r0, [r6, #-0x10]
+e47c8	e4b2c	e5881004	str	r1, [r8, #0x4]
+e47c8	e4b30	e5882008	str	r2, [r8, #0x8]
+e47c8	e4b34	e588300c	str	r3, [r8, #0xc]
+e47c8	e4b38	e5cc9000	strb	r9, [r12]
+e47c8	e4b3c	eaffff34	b	0xe4814 <VM::ExecDebug(VMExec&, RValue*, bool)+0x4c>
+e47c8	e4b40	e5980000	ldr	r0, [r8]
+e47c8	e4b44	e5981004	ldr	r1, [r8, #0x4]
+e47c8	e4b48	e5982008	ldr	r2, [r8, #0x8]
+e47c8	e4b4c	e598300c	ldr	r3, [r8, #0xc]
+e47c8	e4b50	e58a0000	str	r0, [r10]
+e47c8	e4b54	e58a1004	str	r1, [r10, #0x4]
+e47c8	e4b58	e58a2008	str	r2, [r10, #0x8]
+e47c8	e4b5c	e58a300c	str	r3, [r10, #0xc]
+e47c8	e4b60	eaffff69	b	0xe490c <VM::ExecDebug(VMExec&, RValue*, bool)+0x144>
+e47c8	e4b64	0030d470	.word	0x0030d470
+e47c8	e4b68	ffffc0d4	.word	0xffffc0d4
+e47c8	e4b6c	ffffc0bc	.word	0xffffc0bc
+e47c8	e4b70	ffffc0a4	.word	0xffffc0a4
+e47c8	e4b74	ffffc0e8	.word	0xffffc0e8
+e47c8	e4b78	ffffbf58	.word	0xffffbf58
+e47c8	e4b7c	ffffc0ec	.word	0xffffc0ec
+e47c8	e4b80	ffffc0a0	.word	0xffffc0a0
+e47c8	e4b84	ffffc0cc	.word	0xffffc0cc
+e47c8	e4b88	ffffc0dc	.word	0xffffc0dc
+e47c8	e4b8c	ffffc0e4	.word	0xffffc0e4
+e47c8	e4b90	ffffc0f0	.word	0xffffc0f0
+e47c8	e4b94	ffffc0f4	.word	0xffffc0f4
+e47c8	e4b98	ffffc09c	.word	0xffffc09c
+e47c8	e4b9c	ffffc0f8	.word	0xffffc0f8
+e47c8	e4ba0	ffffc0d8	.word	0xffffc0d8
+e47c8	e4ba4	ffffc0e0	.word	0xffffc0e0
+ec144	ec144	e3500000	cmp	r0, #0
+ec144	ec148	e52d4004	str	r4, [sp, #-0x4]!
+ec144	ec14c	0a00000f	beq	0xec190 <_ZN2VM9DebugInfoEP8VMBufferi+0x4c>
+ec144	ec150	e5904004	ldr	r4, [r0, #0x4]
+ec144	ec154	e5902010	ldr	r2, [r0, #0x10]
+ec144	ec158	e1b041a4	lsrs	r4, r4, #3
+ec144	ec15c	0a00000d	beq	0xec198 <_ZN2VM9DebugInfoEP8VMBufferi+0x54>
+ec144	ec160	e5923000	ldr	r3, [r2]
+ec144	ec164	e1510003	cmp	r1, r3
+ec144	ec168	ba00000c	blt	0xec1a0 <_ZN2VM9DebugInfoEP8VMBufferi+0x5c>
+ec144	ec16c	e3a03000	mov	r3, #0
+ec144	ec170	ea000002	b	0xec180 <_ZN2VM9DebugInfoEP8VMBufferi+0x3c>
+ec144	ec174	e5b2c008	ldr	r12, [r2, #0x8]!
+ec144	ec178	e15c0001	cmp	r12, r1
+ec144	ec17c	ca000003	bgt	0xec190 <_ZN2VM9DebugInfoEP8VMBufferi+0x4c>
+ec144	ec180	e2833001	add	r3, r3, #1
+ec144	ec184	e1a00002	mov	r0, r2
+ec144	ec188	e1540003	cmp	r4, r3
+ec144	ec18c	1afffff8	bne	0xec174 <_ZN2VM9DebugInfoEP8VMBufferi+0x30>
+ec144	ec190	e49d4004	ldr	r4, [sp], #4
+ec144	ec194	e12fff1e	bx	lr
+ec144	ec198	e1a00004	mov	r0, r4
+ec144	ec19c	eafffffb	b	0xec190 <_ZN2VM9DebugInfoEP8VMBufferi+0x4c>
+ec144	ec1a0	e3a00000	mov	r0, #0
+ec144	ec1a4	eafffff9	b	0xec190 <_ZN2VM9DebugInfoEP8VMBufferi+0x4c>
+ec2b8	ec2b8	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ec2b8	ec2bc	e2504000	subs	r4, r0, #0
+ec2b8	ec2c0	e24dd008	sub	sp, sp, #8
+ec2b8	ec2c4	e1a05001	mov	r5, r1
+ec2b8	ec2c8	e1a09002	mov	r9, r2
+ec2b8	ec2cc	0a000066	beq	0xec46c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x1b4>
+ec2b8	ec2d0	e1a00001	mov	r0, r1
+ec2b8	ec2d4	ebff2897	bl	0xb6538 <strlen@plt>
+ec2b8	ec2d8	e594a004	ldr	r10, [r4, #0x4]
+ec2b8	ec2dc	e150000a	cmp	r0, r10
+ec2b8	ec2e0	b240a001	sublt	r10, r0, #1
+ec2b8	ec2e4	e35a0000	cmp	r10, #0
+ec2b8	ec2e8	ba00005f	blt	0xec46c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x1b4>
+ec2b8	ec2ec	e085a00a	add	r10, r5, r10
+ec2b8	ec2f0	e155000a	cmp	r5, r10
+ec2b8	ec2f4	0a000058	beq	0xec45c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x1a4>
+ec2b8	ec2f8	e59f8174	ldr	r8, [pc, #0x174]
+ec2b8	ec2fc	e28d6004	add	r6, sp, #4
+ec2b8	ec300	e3a07000	mov	r7, #0
+ec2b8	ec304	e08f8008	add	r8, pc, r8
+ec2b8	ec308	e1a00006	mov	r0, r6
+ec2b8	ec30c	e58da004	str	r10, [sp, #0x4]
+ec2b8	ec310	eb008e08	bl	0x10fb38 <utf8_extract_char>
+ec2b8	ec314	e350000a	cmp	r0, #10
+ec2b8	ec318	0a000015	beq	0xec374 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xbc>
+ec2b8	ec31c	e55a3001	ldrb	r3, [r10, #-0x1]
+ec2b8	ec320	e24a2001	sub	r2, r10, #1
+ec2b8	ec324	e3130080	tst	r3, #128
+ec2b8	ec328	0a00001c	beq	0xec3a0 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xe8>
+ec2b8	ec32c	e20330c0	and	r3, r3, #192
+ec2b8	ec330	e35300c0	cmp	r3, #192
+ec2b8	ec334	0a000019	beq	0xec3a0 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xe8>
+ec2b8	ec338	e24a3002	sub	r3, r10, #2
+ec2b8	ec33c	ea000001	b	0xec348 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x90>
+ec2b8	ec340	e35400c0	cmp	r4, #192
+ec2b8	ec344	0a000004	beq	0xec35c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xa4>
+ec2b8	ec348	e1a0a003	mov	r10, r3
+ec2b8	ec34c	e453c001	ldrb	r12, [r3], #-1
+ec2b8	ec350	e31c0080	tst	r12, #128
+ec2b8	ec354	e20c40c0	and	r4, r12, #192
+ec2b8	ec358	1afffff8	bne	0xec340 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x88>
+ec2b8	ec35c	e155000a	cmp	r5, r10
+ec2b8	ec360	1affffe8	bne	0xec308 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x50>
+ec2b8	ec364	e2877001	add	r7, r7, #1
+ec2b8	ec368	e1a00007	mov	r0, r7
+ec2b8	ec36c	e28dd008	add	sp, sp, #8
+ec2b8	ec370	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ec2b8	ec374	e28a0001	add	r0, r10, #1
+ec2b8	ec378	e1a01008	mov	r1, r8
+ec2b8	ec37c	e3a02006	mov	r2, #6
+ec2b8	ec380	ebff2896	bl	0xb65e0 <strncmp@plt>
+ec2b8	ec384	e3500000	cmp	r0, #0
+ec2b8	ec388	0a000008	beq	0xec3b0 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xf8>
+ec2b8	ec38c	e55a3001	ldrb	r3, [r10, #-0x1]
+ec2b8	ec390	e2877001	add	r7, r7, #1
+ec2b8	ec394	e24a2001	sub	r2, r10, #1
+ec2b8	ec398	e3130080	tst	r3, #128
+ec2b8	ec39c	1affffe2	bne	0xec32c <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x74>
+ec2b8	ec3a0	e1a0a002	mov	r10, r2
+ec2b8	ec3a4	e155000a	cmp	r5, r10
+ec2b8	ec3a8	1affffd6	bne	0xec308 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x50>
+ec2b8	ec3ac	eaffffec	b	0xec364 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xac>
+ec2b8	ec3b0	e59f30c0	ldr	r3, [pc, #0xc0]
+ec2b8	ec3b4	e28a5007	add	r5, r10, #7
+ec2b8	ec3b8	e5da2007	ldrb	r2, [r10, #0x7]
+ec2b8	ec3bc	e79f3003	ldr	r3, [pc, r3]
+ec2b8	ec3c0	e593c000	ldr	r12, [r3]
+ec2b8	ec3c4	e08c3002	add	r3, r12, r2
+ec2b8	ec3c8	e5d33001	ldrb	r3, [r3, #0x1]
+ec2b8	ec3cc	e3130008	tst	r3, #8
+ec2b8	ec3d0	1a000023	bne	0xec464 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x1ac>
+ec2b8	ec3d4	e28aa008	add	r10, r10, #8
+ec2b8	ec3d8	e1a0400a	mov	r4, r10
+ec2b8	ec3dc	e28aa001	add	r10, r10, #1
+ec2b8	ec3e0	e5d43000	ldrb	r3, [r4]
+ec2b8	ec3e4	e08c3003	add	r3, r12, r3
+ec2b8	ec3e8	e5d33001	ldrb	r3, [r3, #0x1]
+ec2b8	ec3ec	e3130008	tst	r3, #8
+ec2b8	ec3f0	0afffff8	beq	0xec3d8 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x120>
+ec2b8	ec3f4	e2843001	add	r3, r4, #1
+ec2b8	ec3f8	e1a00003	mov	r0, r3
+ec2b8	ec3fc	e2833001	add	r3, r3, #1
+ec2b8	ec400	e5d02000	ldrb	r2, [r0]
+ec2b8	ec404	e08c2002	add	r2, r12, r2
+ec2b8	ec408	e5d22001	ldrb	r2, [r2, #0x1]
+ec2b8	ec40c	e2022008	and	r2, r2, #8
+ec2b8	ec410	e21260ff	ands	r6, r2, #255
+ec2b8	ec414	1afffff7	bne	0xec3f8 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x140>
+ec2b8	ec418	ebff28a6	bl	0xb66b8 <atoi@plt>
+ec2b8	ec41c	e3590000	cmp	r9, #0
+ec2b8	ec420	e0800007	add	r0, r0, r7
+ec2b8	ec424	e2407001	sub	r7, r0, #1
+ec2b8	ec428	0affffce	beq	0xec368 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xb0>
+ec2b8	ec42c	e0654004	rsb	r4, r5, r4
+ec2b8	ec430	e2840001	add	r0, r4, #1
+ec2b8	ec434	ebff2842	bl	0xb6544 <malloc@plt>
+ec2b8	ec438	e1a01005	mov	r1, r5
+ec2b8	ec43c	e1a02004	mov	r2, r4
+ec2b8	ec440	e5890000	str	r0, [r9]
+ec2b8	ec444	ebff285c	bl	0xb65bc <memcpy@plt>
+ec2b8	ec448	e5993000	ldr	r3, [r9]
+ec2b8	ec44c	e1a00007	mov	r0, r7
+ec2b8	ec450	e7c36004	strb	r6, [r3, r4]
+ec2b8	ec454	e28dd008	add	sp, sp, #8
+ec2b8	ec458	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ec2b8	ec45c	e3a07001	mov	r7, #1
+ec2b8	ec460	eaffffc0	b	0xec368 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xb0>
+ec2b8	ec464	e1a04005	mov	r4, r5
+ec2b8	ec468	eaffffe1	b	0xec3f4 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0x13c>
+ec2b8	ec46c	e3e07000	mvn	r7, #0
+ec2b8	ec470	eaffffbc	b	0xec368 <_ZN2VM15DebugLineNumberEP11VMDebugInfoPKcPPc+0xb0>
+ec2b8	ec474	00248844	.word	0x00248844
+ec2b8	ec478	003015c4	.word	0x003015c4
+b959c	b959c	e59f202c	ldr	r2, [pc, #0x2c]
+b959c	b95a0	e3a00f69	mov	r0, #0x1a4
+b959c	b95a4	e59f3028	ldr	r3, [pc, #0x28]
+b959c	b95a8	e59f1028	ldr	r1, [pc, #0x28]
+b959c	b95ac	e79f2002	ldr	r2, [pc, r2]
+b959c	b95b0	e08f3003	add	r3, pc, r3
+b959c	b95b4	e79f1001	ldr	r1, [pc, r1]
+b959c	b95b8	e2811008	add	r1, r1, #8
+b959c	b95bc	e5833000	str	r3, [r3]
+b959c	b95c0	e5821000	str	r1, [r2]
+b959c	b95c4	e5833004	str	r3, [r3, #4]
+b959c	b95c8	e5830008	str	r0, [r3, #8]
+b959c	b95cc	e12fff1e	bx	lr
+b959c	b95d0	00334788	.word	0x00334788
+b959c	b95d4	003c0c04	.word	0x003c0c04
+b959c	b95d8	003347b8	.word	0x003347b8

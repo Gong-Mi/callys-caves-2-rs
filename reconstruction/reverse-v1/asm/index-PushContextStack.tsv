@@ -1,0 +1,51 @@
+d3968	e59fc0ac	ldr	r12, [pc, #0xac]
+d396c	e59f30ac	ldr	r3, [pc, #0xac]
+d3970	e08fc00c	add	r12, pc, r12
+d3974	e92d4070	push	{r4, r5, r6, lr}
+d3978	e1a05000	mov	r5, r0
+d397c	e79c3003	ldr	r3, [r12, r3]
+d3980	e24dd008	sub	sp, sp, #8
+d3984	e5d33000	ldrb	r3, [r3]
+d3988	e3530000	cmp	r3, #0
+d398c	0a00000d	beq	0xd39c8 <_Z16PushContextStackP12YYObjectBase+0x60>
+d3990	e59f208c	ldr	r2, [pc, #0x8c]
+d3994	e59f308c	ldr	r3, [pc, #0x8c]
+d3998	e79c4002	ldr	r4, [r12, r2]
+d399c	e79c3003	ldr	r3, [r12, r3]
+d39a0	e5941000	ldr	r1, [r4]
+d39a4	e5932000	ldr	r2, [r3]
+d39a8	e1510002	cmp	r1, r2
+d39ac	0a000007	beq	0xd39d0 <_Z16PushContextStackP12YYObjectBase+0x68>
+d39b0	e59f3074	ldr	r3, [pc, #0x74]
+d39b4	e79c3003	ldr	r3, [r12, r3]
+d39b8	e5932000	ldr	r2, [r3]
+d39bc	e2813001	add	r3, r1, #1
+d39c0	e5843000	str	r3, [r4]
+d39c4	e7825101	str	r5, [r2, r1, lsl #2]
+d39c8	e28dd008	add	sp, sp, #8
+d39cc	e8bd8070	pop	{r4, r5, r6, pc}
+d39d0	e59fe054	ldr	lr, [pc, #0x54]
+d39d4	e1b02081	lsls	r2, r1, #1
+d39d8	15832000	strne	r2, [r3]
+d39dc	11a01181	lslne	r1, r1, #3
+d39e0	03a02001	moveq	r2, #1
+d39e4	05832000	streq	r2, [r3]
+d39e8	e79c600e	ldr	r6, [r12, lr]
+d39ec	03a01004	moveq	r1, #4
+d39f0	e59f2038	ldr	r2, [pc, #0x38]
+d39f4	e3a00000	mov	r0, #0
+d39f8	e3a0304a	mov	r3, #74
+d39fc	e58d0000	str	r0, [sp]
+d3a00	e08f2002	add	r2, pc, r2
+d3a04	e5960000	ldr	r0, [r6]
+d3a08	eb06a533	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+d3a0c	e5941000	ldr	r1, [r4]
+d3a10	e1a02000	mov	r2, r0
+d3a14	e5860000	str	r0, [r6]
+d3a18	eaffffe7	b	0xd39bc <_Z16PushContextStackP12YYObjectBase+0x54>
+d3a1c	0031e2e0	eorseq	lr, r1, r0, ror #5
+d3a20	ffffbf68	.word	0xffffbf68
+d3a24	ffffbfb0	.word	0xffffbfb0
+d3a28	ffffbfb4	.word	0xffffbfb4
+d3a2c	ffffbfb8	.word	0xffffbfb8
+d3a30	0025d630	eoreq	sp, r5, r0, lsr r6

@@ -1,0 +1,1581 @@
+19a8f8	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+19a8fc	e24dd07c	sub	sp, sp, #124
+19a900	e1a0b001	mov	r11, r1
+19a904	e59f4e28	ldr	r4, [pc, #0xe28]
+19a908	e5dd10a8	ldrb	r1, [sp, #0xa8]
+19a90c	e3500000	cmp	r0, #0
+19a910	e08f4004	add	r4, pc, r4
+19a914	e1a0a002	mov	r10, r2
+19a918	e1a08003	mov	r8, r3
+19a91c	e58d101c	str	r1, [sp, #0x1c]
+19a920	ba000140	blt	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19a924	e59f3e0c	ldr	r3, [pc, #0xe0c]
+19a928	e7943003	ldr	r3, [r4, r3]
+19a92c	e5933000	ldr	r3, [r3]
+19a930	e1500003	cmp	r0, r3
+19a934	aa00013b	bge	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19a938	e59f3dfc	ldr	r3, [pc, #0xdfc]
+19a93c	e7943003	ldr	r3, [r4, r3]
+19a940	e5933000	ldr	r3, [r3]
+19a944	e7939100	ldr	r9, [r3, r0, lsl #2]
+19a948	e3590000	cmp	r9, #0
+19a94c	01a00009	moveq	r0, r9
+19a950	0a000135	beq	0x19ae2c <_Z16Motion_Grid_PathiP5CPathiiiib+0x534>
+19a954	e35b0000	cmp	r11, #0
+19a958	0a000132	beq	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19a95c	e59f3ddc	ldr	r3, [pc, #0xddc]
+19a960	e7943003	ldr	r3, [r4, r3]
+19a964	e5936000	ldr	r6, [r3]
+19a968	e58d3020	str	r3, [sp, #0x20]
+19a96c	e3560000	cmp	r6, #0
+19a970	0a00012f	beq	0x19ae34 <_Z16Motion_Grid_PathiP5CPathiiiib+0x53c>
+19a974	e59f2dc8	ldr	r2, [pc, #0xdc8]
+19a978	e59f3dc8	ldr	r3, [pc, #0xdc8]
+19a97c	e794c002	ldr	r12, [r4, r2]
+19a980	e7947003	ldr	r7, [r4, r3]
+19a984	e59f2dc0	ldr	r2, [pc, #0xdc0]
+19a988	e3a03000	mov	r3, #0
+19a98c	e5995004	ldr	r5, [r9, #0x4]
+19a990	e7942002	ldr	r2, [r4, r2]
+19a994	e15a0005	cmp	r10, r5
+19a998	e5873000	str	r3, [r7]
+19a99c	e58c3000	str	r3, [r12]
+19a9a0	e58d2014	str	r2, [sp, #0x14]
+19a9a4	e5823000	str	r3, [r2]
+19a9a8	ba00011e	blt	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19a9ac	e599600c	ldr	r6, [r9, #0xc]
+19a9b0	e5993014	ldr	r3, [r9, #0x14]
+19a9b4	e0235693	mla	r3, r3, r6, r5
+19a9b8	e15a0003	cmp	r10, r3
+19a9bc	aa000119	bge	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19a9c0	e5992008	ldr	r2, [r9, #0x8]
+19a9c4	e1580002	cmp	r8, r2
+19a9c8	e58d2010	str	r2, [sp, #0x10]
+19a9cc	ba000115	blt	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19a9d0	e5992018	ldr	r2, [r9, #0x18]
+19a9d4	e59d1010	ldr	r1, [sp, #0x10]
+19a9d8	e58d2024	str	r2, [sp, #0x24]
+19a9dc	e59d0024	ldr	r0, [sp, #0x24]
+19a9e0	e5992010	ldr	r2, [r9, #0x10]
+19a9e4	e58d2028	str	r2, [sp, #0x28]
+19a9e8	e0221092	mla	r2, r2, r0, r1
+19a9ec	e1580002	cmp	r8, r2
+19a9f0	e58d2030	str	r2, [sp, #0x30]
+19a9f4	aa00010b	bge	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19a9f8	e1a01006	mov	r1, r6
+19a9fc	e065000a	rsb	r0, r5, r10
+19aa00	e58d300c	str	r3, [sp, #0xc]
+19aa04	e58dc008	str	r12, [sp, #0x8]
+19aa08	eb05f8c0	bl	0x318d10 <__divsi3>
+19aa0c	e59d2010	ldr	r2, [sp, #0x10]
+19aa10	e59d1028	ldr	r1, [sp, #0x28]
+19aa14	e58d0038	str	r0, [sp, #0x38]
+19aa18	e0620008	rsb	r0, r2, r8
+19aa1c	eb05f8bb	bl	0x318d10 <__divsi3>
+19aa20	e59d1038	ldr	r1, [sp, #0x38]
+19aa24	e59d2024	ldr	r2, [sp, #0x24]
+19aa28	e59d300c	ldr	r3, [sp, #0xc]
+19aa2c	e0220291	mla	r2, r1, r2, r0
+19aa30	e58d003c	str	r0, [sp, #0x3c]
+19aa34	e58d202c	str	r2, [sp, #0x2c]
+19aa38	e59d002c	ldr	r0, [sp, #0x2c]
+19aa3c	e599201c	ldr	r2, [r9, #0x1c]
+19aa40	e7921100	ldr	r1, [r2, r0, lsl #2]
+19aa44	e58d2034	str	r2, [sp, #0x34]
+19aa48	e3510000	cmp	r1, #0
+19aa4c	ba0000f5	blt	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19aa50	e59d10a0	ldr	r1, [sp, #0xa0]
+19aa54	e1510005	cmp	r1, r5
+19aa58	ba0000f2	blt	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19aa5c	e1510003	cmp	r1, r3
+19aa60	aa0000f0	bge	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19aa64	e59d20a4	ldr	r2, [sp, #0xa4]
+19aa68	e59d3010	ldr	r3, [sp, #0x10]
+19aa6c	e1520003	cmp	r2, r3
+19aa70	ba0000ec	blt	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19aa74	e59d3030	ldr	r3, [sp, #0x30]
+19aa78	e1520003	cmp	r2, r3
+19aa7c	aa0000e9	bge	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19aa80	e0650001	rsb	r0, r5, r1
+19aa84	e1a01006	mov	r1, r6
+19aa88	eb05f8a0	bl	0x318d10 <__divsi3>
+19aa8c	e59d2010	ldr	r2, [sp, #0x10]
+19aa90	e59de0a4	ldr	lr, [sp, #0xa4]
+19aa94	e59d1028	ldr	r1, [sp, #0x28]
+19aa98	e58d0040	str	r0, [sp, #0x40]
+19aa9c	e062000e	rsb	r0, r2, lr
+19aaa0	eb05f89a	bl	0x318d10 <__divsi3>
+19aaa4	e59d2024	ldr	r2, [sp, #0x24]
+19aaa8	e59d1040	ldr	r1, [sp, #0x40]
+19aaac	e59dc008	ldr	r12, [sp, #0x8]
+19aab0	e0230291	mla	r3, r1, r2, r0
+19aab4	e59d2034	ldr	r2, [sp, #0x34]
+19aab8	e58d0044	str	r0, [sp, #0x44]
+19aabc	e7921103	ldr	r1, [r2, r3, lsl #2]
+19aac0	e3510000	cmp	r1, #0
+19aac4	ba0000d7	blt	0x19ae28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x530>
+19aac8	e59d302c	ldr	r3, [sp, #0x2c]
+19aacc	e3a01001	mov	r1, #1
+19aad0	e59d0020	ldr	r0, [sp, #0x20]
+19aad4	e7821103	str	r1, [r2, r3, lsl #2]
+19aad8	e5906000	ldr	r6, [r0]
+19aadc	e59c3000	ldr	r3, [r12]
+19aae0	e5970000	ldr	r0, [r7]
+19aae4	e0832001	add	r2, r3, r1
+19aae8	e2461001	sub	r1, r6, #1
+19aaec	e0012002	and	r2, r1, r2
+19aaf0	e5995018	ldr	r5, [r9, #0x18]
+19aaf4	e1520000	cmp	r2, r0
+19aaf8	e59d1038	ldr	r1, [sp, #0x38]
+19aafc	e59d203c	ldr	r2, [sp, #0x3c]
+19ab00	e0252195	mla	r5, r5, r1, r2
+19ab04	e58d5024	str	r5, [sp, #0x24]
+19ab08	0a0004ed	beq	0x19bec4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x15cc>
+19ab0c	e59f2c64	ldr	r2, [pc, #0xc64]
+19ab10	e7945002	ldr	r5, [r4, r2]
+19ab14	e59f1c34	ldr	r1, [pc, #0xc34]
+19ab18	e5952000	ldr	r2, [r5]
+19ab1c	e08f1001	add	r1, pc, r1
+19ab20	e58d105c	str	r1, [sp, #0x5c]
+19ab24	e59d1024	ldr	r1, [sp, #0x24]
+19ab28	e59f0c24	ldr	r0, [pc, #0xc24]
+19ab2c	e58da070	str	r10, [sp, #0x70]
+19ab30	e1a0a00c	mov	r10, r12
+19ab34	e7821103	str	r1, [r2, r3, lsl #2]
+19ab38	e08f0000	add	r0, pc, r0
+19ab3c	e59d2014	ldr	r2, [sp, #0x14]
+19ab40	e59d3020	ldr	r3, [sp, #0x20]
+19ab44	e58d0060	str	r0, [sp, #0x60]
+19ab48	e5920000	ldr	r0, [r2]
+19ab4c	e5932000	ldr	r2, [r3]
+19ab50	e59c3000	ldr	r3, [r12]
+19ab54	e2800001	add	r0, r0, #1
+19ab58	e2422001	sub	r2, r2, #1
+19ab5c	e59d1014	ldr	r1, [sp, #0x14]
+19ab60	e2833001	add	r3, r3, #1
+19ab64	e58db06c	str	r11, [sp, #0x6c]
+19ab68	e0023003	and	r3, r2, r3
+19ab6c	e58c3000	str	r3, [r12]
+19ab70	e59dc020	ldr	r12, [sp, #0x20]
+19ab74	e59f2bdc	ldr	r2, [pc, #0xbdc]
+19ab78	e59f3bdc	ldr	r3, [pc, #0xbdc]
+19ab7c	e08f2002	add	r2, pc, r2
+19ab80	e5810000	str	r0, [r1]
+19ab84	e08f3003	add	r3, pc, r3
+19ab88	e58d2064	str	r2, [sp, #0x64]
+19ab8c	e58d3068	str	r3, [sp, #0x68]
+19ab90	e58d8074	str	r8, [sp, #0x74]
+19ab94	e3500000	cmp	r0, #0
+19ab98	0a00008b	beq	0x19adcc <_Z16Motion_Grid_PathiP5CPathiiiib+0x4d4>
+19ab9c	e5958000	ldr	r8, [r5]
+19aba0	e2402001	sub	r2, r0, #1
+19aba4	e5973000	ldr	r3, [r7]
+19aba8	e59c0000	ldr	r0, [r12]
+19abac	e58d802c	str	r8, [sp, #0x2c]
+19abb0	e2831001	add	r1, r3, #1
+19abb4	e59de02c	ldr	lr, [sp, #0x2c]
+19abb8	e2400001	sub	r0, r0, #1
+19abbc	e5998018	ldr	r8, [r9, #0x18]
+19abc0	e0001001	and	r1, r0, r1
+19abc4	e59d0014	ldr	r0, [sp, #0x14]
+19abc8	e79eb103	ldr	r11, [lr, r3, lsl #2]
+19abcc	e5871000	str	r1, [r7]
+19abd0	e1a01008	mov	r1, r8
+19abd4	e5802000	str	r2, [r0]
+19abd8	e1a0000b	mov	r0, r11
+19abdc	e58dc008	str	r12, [sp, #0x8]
+19abe0	eb05f84a	bl	0x318d10 <__divsi3>
+19abe4	e1a01008	mov	r1, r8
+19abe8	e1a04000	mov	r4, r0
+19abec	e1a0000b	mov	r0, r11
+19abf0	eb05f87d	bl	0x318dec <__aeabi_idivmod>
+19abf4	e59d2044	ldr	r2, [sp, #0x44]
+19abf8	e59dc008	ldr	r12, [sp, #0x8]
+19abfc	e1a06001	mov	r6, r1
+19ac00	e59d1040	ldr	r1, [sp, #0x40]
+19ac04	e1510004	cmp	r1, r4
+19ac08	01520006	cmpeq	r2, r6
+19ac0c	13a01000	movne	r1, #0
+19ac10	03a01001	moveq	r1, #1
+19ac14	e58d1034	str	r1, [sp, #0x34]
+19ac18	0a0002d7	beq	0x19b77c <_Z16Motion_Grid_PathiP5CPathiiiib+0xe84>
+19ac1c	e599301c	ldr	r3, [r9, #0x1c]
+19ac20	e3540000	cmp	r4, #0
+19ac24	e2481001	sub	r1, r8, #1
+19ac28	e793210b	ldr	r2, [r3, r11, lsl #2]
+19ac2c	e2822001	add	r2, r2, #1
+19ac30	e58d2030	str	r2, [sp, #0x30]
+19ac34	da0000ea	ble	0x19afe4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x6ec>
+19ac38	e1560001	cmp	r6, r1
+19ac3c	ba0000c6	blt	0x19af5c <_Z16Motion_Grid_PathiP5CPathiiiib+0x664>
+19ac40	e5992014	ldr	r2, [r9, #0x14]
+19ac44	e3a0b000	mov	r11, #0
+19ac48	e58db050	str	r11, [sp, #0x50]
+19ac4c	e2422001	sub	r2, r2, #1
+19ac50	e58db020	str	r11, [sp, #0x20]
+19ac54	e3a0b000	mov	r11, #0
+19ac58	e58db048	str	r11, [sp, #0x48]
+19ac5c	e3540000	cmp	r4, #0
+19ac60	da000159	ble	0x19b1cc <_Z16Motion_Grid_PathiP5CPathiiiib+0x8d4>
+19ac64	e2441001	sub	r1, r4, #1
+19ac68	e0216891	mla	r1, r1, r8, r6
+19ac6c	e7931101	ldr	r1, [r3, r1, lsl #2]
+19ac70	e2711001	rsbs	r1, r1, #1
+19ac74	33a01000	movlo	r1, #0
+19ac78	e58d1024	str	r1, [sp, #0x24]
+19ac7c	e1540002	cmp	r4, r2
+19ac80	a3a0b000	movge	r11, #0
+19ac84	a58db028	strge	r11, [sp, #0x28]
+19ac88	aa000005	bge	0x19aca4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x3ac>
+19ac8c	e0218894	mla	r1, r4, r8, r8
+19ac90	e0861001	add	r1, r6, r1
+19ac94	e7931101	ldr	r1, [r3, r1, lsl #2]
+19ac98	e2711001	rsbs	r1, r1, #1
+19ac9c	33a01000	movlo	r1, #0
+19aca0	e58d1028	str	r1, [sp, #0x28]
+19aca4	e3560000	cmp	r6, #0
+19aca8	d3a01000	movle	r1, #0
+19acac	c3a01001	movgt	r1, #1
+19acb0	e3540000	cmp	r4, #0
+19acb4	c3560000	cmpgt	r6, #0
+19acb8	da0000a0	ble	0x19af40 <_Z16Motion_Grid_PathiP5CPathiiiib+0x648>
+19acbc	e2460001	sub	r0, r6, #1
+19acc0	e244b001	sub	r11, r4, #1
+19acc4	e02b089b	mla	r11, r11, r8, r0
+19acc8	e793b10b	ldr	r11, [r3, r11, lsl #2]
+19accc	e35b0000	cmp	r11, #0
+19acd0	1a00009e	bne	0x19af50 <_Z16Motion_Grid_PathiP5CPathiiiib+0x658>
+19acd4	e59db01c	ldr	r11, [sp, #0x1c]
+19acd8	e58db04c	str	r11, [sp, #0x4c]
+19acdc	e0200894	mla	r0, r4, r8, r0
+19ace0	e7930100	ldr	r0, [r3, r0, lsl #2]
+19ace4	e3500000	cmp	r0, #0
+19ace8	03a0b001	moveq	r11, #1
+19acec	0a000000	beq	0x19acf4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x3fc>
+19acf0	e3a0b000	mov	r11, #0
+19acf4	e1540002	cmp	r4, r2
+19acf8	aa00000a	bge	0x19ad28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x430>
+19acfc	e3510000	cmp	r1, #0
+19ad00	058d1034	streq	r1, [sp, #0x34]
+19ad04	0a000007	beq	0x19ad28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x430>
+19ad08	e0228894	mla	r2, r4, r8, r8
+19ad0c	e59d001c	ldr	r0, [sp, #0x1c]
+19ad10	e0862002	add	r2, r6, r2
+19ad14	e2422001	sub	r2, r2, #1
+19ad18	e7932102	ldr	r2, [r3, r2, lsl #2]
+19ad1c	e3520000	cmp	r2, #0
+19ad20	13a00000	movne	r0, #0
+19ad24	e58d0034	str	r0, [sp, #0x34]
+19ad28	e59d1024	ldr	r1, [sp, #0x24]
+19ad2c	e3510000	cmp	r1, #0
+19ad30	1a0000b1	bne	0x19affc <_Z16Motion_Grid_PathiP5CPathiiiib+0x704>
+19ad34	e59d8028	ldr	r8, [sp, #0x28]
+19ad38	e3580000	cmp	r8, #0
+19ad3c	1a000105	bne	0x19b158 <_Z16Motion_Grid_PathiP5CPathiiiib+0x860>
+19ad40	e35b0000	cmp	r11, #0
+19ad44	1a0000c7	bne	0x19b068 <_Z16Motion_Grid_PathiP5CPathiiiib+0x770>
+19ad48	e59d8020	ldr	r8, [sp, #0x20]
+19ad4c	e3580000	cmp	r8, #0
+19ad50	1a0000e2	bne	0x19b0e0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x7e8>
+19ad54	e59d8050	ldr	r8, [sp, #0x50]
+19ad58	e3580000	cmp	r8, #0
+19ad5c	0a000003	beq	0x19ad70 <_Z16Motion_Grid_PathiP5CPathiiiib+0x478>
+19ad60	e59d8024	ldr	r8, [sp, #0x24]
+19ad64	e59d0020	ldr	r0, [sp, #0x20]
+19ad68	e1180000	tst	r8, r0
+19ad6c	1a00015b	bne	0x19b2e0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x9e8>
+19ad70	e59d804c	ldr	r8, [sp, #0x4c]
+19ad74	e3580000	cmp	r8, #0
+19ad78	0a000002	beq	0x19ad88 <_Z16Motion_Grid_PathiP5CPathiiiib+0x490>
+19ad7c	e59d8024	ldr	r8, [sp, #0x24]
+19ad80	e118000b	tst	r8, r11
+19ad84	1a000178	bne	0x19b36c <_Z16Motion_Grid_PathiP5CPathiiiib+0xa74>
+19ad88	e59d8048	ldr	r8, [sp, #0x48]
+19ad8c	e3580000	cmp	r8, #0
+19ad90	0a000003	beq	0x19ada4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x4ac>
+19ad94	e59d8028	ldr	r8, [sp, #0x28]
+19ad98	e59d0020	ldr	r0, [sp, #0x20]
+19ad9c	e1180000	tst	r8, r0
+19ada0	1a00010c	bne	0x19b1d8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x8e0>
+19ada4	e59d8034	ldr	r8, [sp, #0x34]
+19ada8	e3580000	cmp	r8, #0
+19adac	0a000002	beq	0x19adbc <_Z16Motion_Grid_PathiP5CPathiiiib+0x4c4>
+19adb0	e59d8028	ldr	r8, [sp, #0x28]
+19adb4	e118000b	tst	r8, r11
+19adb8	1a000129	bne	0x19b264 <_Z16Motion_Grid_PathiP5CPathiiiib+0x96c>
+19adbc	e59db014	ldr	r11, [sp, #0x14]
+19adc0	e59b0000	ldr	r0, [r11]
+19adc4	e3500000	cmp	r0, #0
+19adc8	1affff73	bne	0x19ab9c <_Z16Motion_Grid_PathiP5CPathiiiib+0x2a4>
+19adcc	e5993014	ldr	r3, [r9, #0x14]
+19add0	e3530000	cmp	r3, #0
+19add4	da000014	ble	0x19ae2c <_Z16Motion_Grid_PathiP5CPathiiiib+0x534>
+19add8	e5992018	ldr	r2, [r9, #0x18]
+19addc	e3a05000	mov	r5, #0
+19ade0	e1a06005	mov	r6, r5
+19ade4	e3520000	cmp	r2, #0
+19ade8	da00000a	ble	0x19ae18 <_Z16Motion_Grid_PathiP5CPathiiiib+0x520>
+19adec	e599401c	ldr	r4, [r9, #0x1c]
+19adf0	e3a03000	mov	r3, #0
+19adf4	e0213592	mla	r1, r2, r5, r3
+19adf8	e2833001	add	r3, r3, #1
+19adfc	e794c101	ldr	r12, [r4, r1, lsl #2]
+19ae00	e35c0000	cmp	r12, #0
+19ae04	c7846101	strgt	r6, [r4, r1, lsl #2]
+19ae08	c5992018	ldrgt	r2, [r9, #0x18]
+19ae0c	e1520003	cmp	r2, r3
+19ae10	cafffff7	bgt	0x19adf4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x4fc>
+19ae14	e5993014	ldr	r3, [r9, #0x14]
+19ae18	e2855001	add	r5, r5, #1
+19ae1c	e1550003	cmp	r5, r3
+19ae20	baffffef	blt	0x19ade4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x4ec>
+19ae24	ea000000	b	0x19ae2c <_Z16Motion_Grid_PathiP5CPathiiiib+0x534>
+19ae28	e3a00000	mov	r0, #0
+19ae2c	e28dd07c	add	sp, sp, #124
+19ae30	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+19ae34	e59f1924	ldr	r1, [pc, #0x924]
+19ae38	e3a020d4	mov	r2, #212
+19ae3c	e3a03001	mov	r3, #1
+19ae40	e1a00006	mov	r0, r6
+19ae44	e08f1001	add	r1, pc, r1
+19ae48	eb03880a	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19ae4c	e59d3020	ldr	r3, [sp, #0x20]
+19ae50	e59f18ec	ldr	r1, [pc, #0x8ec]
+19ae54	e5932000	ldr	r2, [r3]
+19ae58	e3520000	cmp	r2, #0
+19ae5c	e58d0014	str	r0, [sp, #0x14]
+19ae60	da000030	ble	0x19af28 <_Z16Motion_Grid_PathiP5CPathiiiib+0x630>
+19ae64	e59f38dc	ldr	r3, [pc, #0x8dc]
+19ae68	e794c001	ldr	r12, [r4, r1]
+19ae6c	e7947003	ldr	r7, [r4, r3]
+19ae70	e59c1000	ldr	r1, [r12]
+19ae74	e5973000	ldr	r3, [r7]
+19ae78	e1510003	cmp	r1, r3
+19ae7c	ca000016	bgt	0x19aedc <_Z16Motion_Grid_PathiP5CPathiiiib+0x5e4>
+19ae80	e59f18f0	ldr	r1, [pc, #0x8f0]
+19ae84	e0632002	rsb	r2, r3, r2
+19ae88	e1a06102	lsl	r6, r2, #2
+19ae8c	e7945001	ldr	r5, [r4, r1]
+19ae90	e1a02006	mov	r2, r6
+19ae94	e5951000	ldr	r1, [r5]
+19ae98	e58dc008	str	r12, [sp, #0x8]
+19ae9c	e0811103	add	r1, r1, r3, lsl #2
+19aea0	ebfc6dc5	bl	0xb65bc <memcpy@plt>
+19aea4	e59dc008	ldr	r12, [sp, #0x8]
+19aea8	e59d3014	ldr	r3, [sp, #0x14]
+19aeac	e5951000	ldr	r1, [r5]
+19aeb0	e59c2000	ldr	r2, [r12]
+19aeb4	e0830006	add	r0, r3, r6
+19aeb8	e1a02102	lsl	r2, r2, #2
+19aebc	ebfc6dbe	bl	0xb65bc <memcpy@plt>
+19aec0	e59dc008	ldr	r12, [sp, #0x8]
+19aec4	e59d3014	ldr	r3, [sp, #0x14]
+19aec8	e59d0020	ldr	r0, [sp, #0x20]
+19aecc	e5853000	str	r3, [r5]
+19aed0	e3a03000	mov	r3, #0
+19aed4	e5803000	str	r3, [r0]
+19aed8	eafffea9	b	0x19a984 <_Z16Motion_Grid_PathiP5CPathiiiib+0x8c>
+19aedc	e59fe894	ldr	lr, [pc, #0x894]
+19aee0	e0632001	rsb	r2, r3, r1
+19aee4	e1a02102	lsl	r2, r2, #2
+19aee8	e794500e	ldr	r5, [r4, lr]
+19aeec	e5951000	ldr	r1, [r5]
+19aef0	e58dc008	str	r12, [sp, #0x8]
+19aef4	e0811103	add	r1, r1, r3, lsl #2
+19aef8	ebfc6daf	bl	0xb65bc <memcpy@plt>
+19aefc	e59dc008	ldr	r12, [sp, #0x8]
+19af00	e5973000	ldr	r3, [r7]
+19af04	e5950000	ldr	r0, [r5]
+19af08	e59c2000	ldr	r2, [r12]
+19af0c	e5876000	str	r6, [r7]
+19af10	e0633002	rsb	r3, r3, r2
+19af14	e58c3000	str	r3, [r12]
+19af18	e58dc008	str	r12, [sp, #0x8]
+19af1c	eb0384eb	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19af20	e59dc008	ldr	r12, [sp, #0x8]
+19af24	eaffffe6	b	0x19aec4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x5cc>
+19af28	e59f2818	ldr	r2, [pc, #0x818]
+19af2c	e59f3844	ldr	r3, [pc, #0x844]
+19af30	e794c001	ldr	r12, [r4, r1]
+19af34	e7947002	ldr	r7, [r4, r2]
+19af38	e7945003	ldr	r5, [r4, r3]
+19af3c	eaffffe0	b	0x19aec4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x5cc>
+19af40	e3510000	cmp	r1, #0
+19af44	058d104c	streq	r1, [sp, #0x4c]
+19af48	0affff68	beq	0x19acf0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x3f8>
+19af4c	e2460001	sub	r0, r6, #1
+19af50	e3a0b000	mov	r11, #0
+19af54	e58db04c	str	r11, [sp, #0x4c]
+19af58	eaffff5f	b	0x19acdc <_Z16Motion_Grid_PathiP5CPathiiiib+0x3e4>
+19af5c	e2862001	add	r2, r6, #1
+19af60	e2440001	sub	r0, r4, #1
+19af64	e0202890	mla	r0, r0, r8, r2
+19af68	e7930100	ldr	r0, [r3, r0, lsl #2]
+19af6c	e3500000	cmp	r0, #0
+19af70	1a00001e	bne	0x19aff0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x6f8>
+19af74	e59db01c	ldr	r11, [sp, #0x1c]
+19af78	e58db050	str	r11, [sp, #0x50]
+19af7c	e0222894	mla	r2, r4, r8, r2
+19af80	e7932102	ldr	r2, [r3, r2, lsl #2]
+19af84	e3520000	cmp	r2, #0
+19af88	e5992014	ldr	r2, [r9, #0x14]
+19af8c	e2422001	sub	r2, r2, #1
+19af90	1a00000c	bne	0x19afc8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x6d0>
+19af94	e1540002	cmp	r4, r2
+19af98	e3a0b001	mov	r11, #1
+19af9c	e58db020	str	r11, [sp, #0x20]
+19afa0	aaffff2b	bge	0x19ac54 <_Z16Motion_Grid_PathiP5CPathiiiib+0x35c>
+19afa4	e0218894	mla	r1, r4, r8, r8
+19afa8	e0861001	add	r1, r6, r1
+19afac	e2811001	add	r1, r1, #1
+19afb0	e7931101	ldr	r1, [r3, r1, lsl #2]
+19afb4	e3510000	cmp	r1, #0
+19afb8	1affff25	bne	0x19ac54 <_Z16Motion_Grid_PathiP5CPathiiiib+0x35c>
+19afbc	e59db01c	ldr	r11, [sp, #0x1c]
+19afc0	e58db048	str	r11, [sp, #0x48]
+19afc4	eaffff24	b	0x19ac5c <_Z16Motion_Grid_PathiP5CPathiiiib+0x364>
+19afc8	e1540002	cmp	r4, r2
+19afcc	e3a0b000	mov	r11, #0
+19afd0	e58db020	str	r11, [sp, #0x20]
+19afd4	aaffff1e	bge	0x19ac54 <_Z16Motion_Grid_PathiP5CPathiiiib+0x35c>
+19afd8	e1560001	cmp	r6, r1
+19afdc	aaffff1c	bge	0x19ac54 <_Z16Motion_Grid_PathiP5CPathiiiib+0x35c>
+19afe0	eaffffef	b	0x19afa4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x6ac>
+19afe4	e1560001	cmp	r6, r1
+19afe8	b2862001	addlt	r2, r6, #1
+19afec	aaffff13	bge	0x19ac40 <_Z16Motion_Grid_PathiP5CPathiiiib+0x348>
+19aff0	e3a0b000	mov	r11, #0
+19aff4	e58db050	str	r11, [sp, #0x50]
+19aff8	eaffffdf	b	0x19af7c <_Z16Motion_Grid_PathiP5CPathiiiib+0x684>
+19affc	e2442001	sub	r2, r4, #1
+19b000	e59d0030	ldr	r0, [sp, #0x30]
+19b004	e0286892	mla	r8, r2, r8, r6
+19b008	e7830108	str	r0, [r3, r8, lsl #2]
+19b00c	e59a3000	ldr	r3, [r10]
+19b010	e59c1000	ldr	r1, [r12]
+19b014	e2830001	add	r0, r3, #1
+19b018	e2418001	sub	r8, r1, #1
+19b01c	e0080000	and	r0, r8, r0
+19b020	e5978000	ldr	r8, [r7]
+19b024	e1500008	cmp	r0, r8
+19b028	e5990018	ldr	r0, [r9, #0x18]
+19b02c	e0286290	mla	r8, r0, r2, r6
+19b030	159d202c	ldrne	r2, [sp, #0x2c]
+19b034	0a000122	beq	0x19b4c4 <_Z16Motion_Grid_PathiP5CPathiiiib+0xbcc>
+19b038	e7828103	str	r8, [r2, r3, lsl #2]
+19b03c	e59d8014	ldr	r8, [sp, #0x14]
+19b040	e59a2000	ldr	r2, [r10]
+19b044	e59c1000	ldr	r1, [r12]
+19b048	e5983000	ldr	r3, [r8]
+19b04c	e2822001	add	r2, r2, #1
+19b050	e2411001	sub	r1, r1, #1
+19b054	e0012002	and	r2, r1, r2
+19b058	e2833001	add	r3, r3, #1
+19b05c	e58a2000	str	r2, [r10]
+19b060	e5883000	str	r3, [r8]
+19b064	eaffff32	b	0x19ad34 <_Z16Motion_Grid_PathiP5CPathiiiib+0x43c>
+19b068	e5992018	ldr	r2, [r9, #0x18]
+19b06c	e599301c	ldr	r3, [r9, #0x1c]
+19b070	e59d8030	ldr	r8, [sp, #0x30]
+19b074	e0226492	mla	r2, r2, r4, r6
+19b078	e2422107	sub	r2, r2, #-1073741823
+19b07c	e7838102	str	r8, [r3, r2, lsl #2]
+19b080	e5998018	ldr	r8, [r9, #0x18]
+19b084	e59a3000	ldr	r3, [r10]
+19b088	e59c2000	ldr	r2, [r12]
+19b08c	e2831001	add	r1, r3, #1
+19b090	e2420001	sub	r0, r2, #1
+19b094	e0001001	and	r1, r0, r1
+19b098	e5970000	ldr	r0, [r7]
+19b09c	e0286498	mla	r8, r8, r4, r6
+19b0a0	e1510000	cmp	r1, r0
+19b0a4	e2488001	sub	r8, r8, #1
+19b0a8	0a00016d	beq	0x19b664 <_Z16Motion_Grid_PathiP5CPathiiiib+0xd6c>
+19b0ac	e5952000	ldr	r2, [r5]
+19b0b0	e7828103	str	r8, [r2, r3, lsl #2]
+19b0b4	e59d8014	ldr	r8, [sp, #0x14]
+19b0b8	e59a2000	ldr	r2, [r10]
+19b0bc	e59c1000	ldr	r1, [r12]
+19b0c0	e5983000	ldr	r3, [r8]
+19b0c4	e2822001	add	r2, r2, #1
+19b0c8	e2411001	sub	r1, r1, #1
+19b0cc	e0012002	and	r2, r1, r2
+19b0d0	e2833001	add	r3, r3, #1
+19b0d4	e58a2000	str	r2, [r10]
+19b0d8	e5883000	str	r3, [r8]
+19b0dc	eaffff19	b	0x19ad48 <_Z16Motion_Grid_PathiP5CPathiiiib+0x450>
+19b0e0	e5992018	ldr	r2, [r9, #0x18]
+19b0e4	e599301c	ldr	r3, [r9, #0x1c]
+19b0e8	e59d8030	ldr	r8, [sp, #0x30]
+19b0ec	e0226492	mla	r2, r2, r4, r6
+19b0f0	e2822001	add	r2, r2, #1
+19b0f4	e7838102	str	r8, [r3, r2, lsl #2]
+19b0f8	e5998018	ldr	r8, [r9, #0x18]
+19b0fc	e59a3000	ldr	r3, [r10]
+19b100	e59c2000	ldr	r2, [r12]
+19b104	e2831001	add	r1, r3, #1
+19b108	e2420001	sub	r0, r2, #1
+19b10c	e0001001	and	r1, r0, r1
+19b110	e5970000	ldr	r0, [r7]
+19b114	e0286498	mla	r8, r8, r4, r6
+19b118	e1510000	cmp	r1, r0
+19b11c	e2888001	add	r8, r8, #1
+19b120	0a00011b	beq	0x19b594 <_Z16Motion_Grid_PathiP5CPathiiiib+0xc9c>
+19b124	e5952000	ldr	r2, [r5]
+19b128	e7828103	str	r8, [r2, r3, lsl #2]
+19b12c	e59d8014	ldr	r8, [sp, #0x14]
+19b130	e59a2000	ldr	r2, [r10]
+19b134	e59c1000	ldr	r1, [r12]
+19b138	e5983000	ldr	r3, [r8]
+19b13c	e2822001	add	r2, r2, #1
+19b140	e2411001	sub	r1, r1, #1
+19b144	e0012002	and	r2, r1, r2
+19b148	e2833001	add	r3, r3, #1
+19b14c	e58a2000	str	r2, [r10]
+19b150	e5883000	str	r3, [r8]
+19b154	eafffefe	b	0x19ad54 <_Z16Motion_Grid_PathiP5CPathiiiib+0x45c>
+19b158	e5992018	ldr	r2, [r9, #0x18]
+19b15c	e2848001	add	r8, r4, #1
+19b160	e599301c	ldr	r3, [r9, #0x1c]
+19b164	e59d0030	ldr	r0, [sp, #0x30]
+19b168	e0226892	mla	r2, r2, r8, r6
+19b16c	e7830102	str	r0, [r3, r2, lsl #2]
+19b170	e59a3000	ldr	r3, [r10]
+19b174	e59c2000	ldr	r2, [r12]
+19b178	e2831001	add	r1, r3, #1
+19b17c	e2420001	sub	r0, r2, #1
+19b180	e0001001	and	r1, r0, r1
+19b184	e5970000	ldr	r0, [r7]
+19b188	e1510000	cmp	r1, r0
+19b18c	e5991018	ldr	r1, [r9, #0x18]
+19b190	e0286891	mla	r8, r1, r8, r6
+19b194	0a000097	beq	0x19b3f8 <_Z16Motion_Grid_PathiP5CPathiiiib+0xb00>
+19b198	e5952000	ldr	r2, [r5]
+19b19c	e7828103	str	r8, [r2, r3, lsl #2]
+19b1a0	e59d8014	ldr	r8, [sp, #0x14]
+19b1a4	e59a2000	ldr	r2, [r10]
+19b1a8	e59c1000	ldr	r1, [r12]
+19b1ac	e5983000	ldr	r3, [r8]
+19b1b0	e2822001	add	r2, r2, #1
+19b1b4	e2411001	sub	r1, r1, #1
+19b1b8	e0012002	and	r2, r1, r2
+19b1bc	e2833001	add	r3, r3, #1
+19b1c0	e58a2000	str	r2, [r10]
+19b1c4	e5883000	str	r3, [r8]
+19b1c8	eafffedc	b	0x19ad40 <_Z16Motion_Grid_PathiP5CPathiiiib+0x448>
+19b1cc	e3a0b000	mov	r11, #0
+19b1d0	e58db024	str	r11, [sp, #0x24]
+19b1d4	eafffea8	b	0x19ac7c <_Z16Motion_Grid_PathiP5CPathiiiib+0x384>
+19b1d8	e5992018	ldr	r2, [r9, #0x18]
+19b1dc	e2841001	add	r1, r4, #1
+19b1e0	e599301c	ldr	r3, [r9, #0x1c]
+19b1e4	e59d8030	ldr	r8, [sp, #0x30]
+19b1e8	e0226192	mla	r2, r2, r1, r6
+19b1ec	e2822001	add	r2, r2, #1
+19b1f0	e7838102	str	r8, [r3, r2, lsl #2]
+19b1f4	e5990018	ldr	r0, [r9, #0x18]
+19b1f8	e59a3000	ldr	r3, [r10]
+19b1fc	e59c2000	ldr	r2, [r12]
+19b200	e0206190	mla	r0, r0, r1, r6
+19b204	e2428001	sub	r8, r2, #1
+19b208	e5971000	ldr	r1, [r7]
+19b20c	e58d0010	str	r0, [sp, #0x10]
+19b210	e2830001	add	r0, r3, #1
+19b214	e0080000	and	r0, r8, r0
+19b218	e59d8010	ldr	r8, [sp, #0x10]
+19b21c	e1500001	cmp	r0, r1
+19b220	e2888001	add	r8, r8, #1
+19b224	e58d8020	str	r8, [sp, #0x20]
+19b228	0a0002c9	beq	0x19bd54 <_Z16Motion_Grid_PathiP5CPathiiiib+0x145c>
+19b22c	e5952000	ldr	r2, [r5]
+19b230	e59d8020	ldr	r8, [sp, #0x20]
+19b234	e7828103	str	r8, [r2, r3, lsl #2]
+19b238	e59d8014	ldr	r8, [sp, #0x14]
+19b23c	e59a2000	ldr	r2, [r10]
+19b240	e59c1000	ldr	r1, [r12]
+19b244	e5983000	ldr	r3, [r8]
+19b248	e2822001	add	r2, r2, #1
+19b24c	e2411001	sub	r1, r1, #1
+19b250	e0012002	and	r2, r1, r2
+19b254	e2833001	add	r3, r3, #1
+19b258	e58a2000	str	r2, [r10]
+19b25c	e5883000	str	r3, [r8]
+19b260	eafffecf	b	0x19ada4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x4ac>
+19b264	e5992018	ldr	r2, [r9, #0x18]
+19b268	e2844001	add	r4, r4, #1
+19b26c	e599301c	ldr	r3, [r9, #0x1c]
+19b270	e59db030	ldr	r11, [sp, #0x30]
+19b274	e0226492	mla	r2, r2, r4, r6
+19b278	e2422107	sub	r2, r2, #-1073741823
+19b27c	e783b102	str	r11, [r3, r2, lsl #2]
+19b280	e5991018	ldr	r1, [r9, #0x18]
+19b284	e59a3000	ldr	r3, [r10]
+19b288	e59c2000	ldr	r2, [r12]
+19b28c	e0266491	mla	r6, r1, r4, r6
+19b290	e2420001	sub	r0, r2, #1
+19b294	e2831001	add	r1, r3, #1
+19b298	e5974000	ldr	r4, [r7]
+19b29c	e0001001	and	r1, r0, r1
+19b2a0	e1510004	cmp	r1, r4
+19b2a4	e2468001	sub	r8, r6, #1
+19b2a8	0a000221	beq	0x19bb34 <_Z16Motion_Grid_PathiP5CPathiiiib+0x123c>
+19b2ac	e5952000	ldr	r2, [r5]
+19b2b0	e7828103	str	r8, [r2, r3, lsl #2]
+19b2b4	e59d8014	ldr	r8, [sp, #0x14]
+19b2b8	e59a3000	ldr	r3, [r10]
+19b2bc	e59c2000	ldr	r2, [r12]
+19b2c0	e5980000	ldr	r0, [r8]
+19b2c4	e2833001	add	r3, r3, #1
+19b2c8	e2422001	sub	r2, r2, #1
+19b2cc	e2800001	add	r0, r0, #1
+19b2d0	e0023003	and	r3, r2, r3
+19b2d4	e5880000	str	r0, [r8]
+19b2d8	e58a3000	str	r3, [r10]
+19b2dc	eafffe2c	b	0x19ab94 <_Z16Motion_Grid_PathiP5CPathiiiib+0x29c>
+19b2e0	e5992018	ldr	r2, [r9, #0x18]
+19b2e4	e2441001	sub	r1, r4, #1
+19b2e8	e599301c	ldr	r3, [r9, #0x1c]
+19b2ec	e59d8030	ldr	r8, [sp, #0x30]
+19b2f0	e0226192	mla	r2, r2, r1, r6
+19b2f4	e2822001	add	r2, r2, #1
+19b2f8	e7838102	str	r8, [r3, r2, lsl #2]
+19b2fc	e5990018	ldr	r0, [r9, #0x18]
+19b300	e59a3000	ldr	r3, [r10]
+19b304	e59c2000	ldr	r2, [r12]
+19b308	e0206190	mla	r0, r0, r1, r6
+19b30c	e2428001	sub	r8, r2, #1
+19b310	e5971000	ldr	r1, [r7]
+19b314	e58d0010	str	r0, [sp, #0x10]
+19b318	e2830001	add	r0, r3, #1
+19b31c	e0080000	and	r0, r8, r0
+19b320	e59d8010	ldr	r8, [sp, #0x10]
+19b324	e1500001	cmp	r0, r1
+19b328	e2888001	add	r8, r8, #1
+19b32c	e58d802c	str	r8, [sp, #0x2c]
+19b330	0a000229	beq	0x19bbdc <_Z16Motion_Grid_PathiP5CPathiiiib+0x12e4>
+19b334	e5952000	ldr	r2, [r5]
+19b338	e59d802c	ldr	r8, [sp, #0x2c]
+19b33c	e7828103	str	r8, [r2, r3, lsl #2]
+19b340	e59d8014	ldr	r8, [sp, #0x14]
+19b344	e59a2000	ldr	r2, [r10]
+19b348	e59c1000	ldr	r1, [r12]
+19b34c	e5983000	ldr	r3, [r8]
+19b350	e2822001	add	r2, r2, #1
+19b354	e2411001	sub	r1, r1, #1
+19b358	e0012002	and	r2, r1, r2
+19b35c	e2833001	add	r3, r3, #1
+19b360	e58a2000	str	r2, [r10]
+19b364	e5883000	str	r3, [r8]
+19b368	eafffe80	b	0x19ad70 <_Z16Motion_Grid_PathiP5CPathiiiib+0x478>
+19b36c	e5992018	ldr	r2, [r9, #0x18]
+19b370	e2441001	sub	r1, r4, #1
+19b374	e599301c	ldr	r3, [r9, #0x1c]
+19b378	e59d8030	ldr	r8, [sp, #0x30]
+19b37c	e0226192	mla	r2, r2, r1, r6
+19b380	e2422107	sub	r2, r2, #-1073741823
+19b384	e7838102	str	r8, [r3, r2, lsl #2]
+19b388	e5990018	ldr	r0, [r9, #0x18]
+19b38c	e59a3000	ldr	r3, [r10]
+19b390	e59c2000	ldr	r2, [r12]
+19b394	e0206190	mla	r0, r0, r1, r6
+19b398	e2428001	sub	r8, r2, #1
+19b39c	e5971000	ldr	r1, [r7]
+19b3a0	e58d0010	str	r0, [sp, #0x10]
+19b3a4	e2830001	add	r0, r3, #1
+19b3a8	e0080000	and	r0, r8, r0
+19b3ac	e59d8010	ldr	r8, [sp, #0x10]
+19b3b0	e1500001	cmp	r0, r1
+19b3b4	e2488001	sub	r8, r8, #1
+19b3b8	e58d8024	str	r8, [sp, #0x24]
+19b3bc	0a000235	beq	0x19bc98 <_Z16Motion_Grid_PathiP5CPathiiiib+0x13a0>
+19b3c0	e5952000	ldr	r2, [r5]
+19b3c4	e59d8024	ldr	r8, [sp, #0x24]
+19b3c8	e7828103	str	r8, [r2, r3, lsl #2]
+19b3cc	e59d8014	ldr	r8, [sp, #0x14]
+19b3d0	e59a2000	ldr	r2, [r10]
+19b3d4	e59c1000	ldr	r1, [r12]
+19b3d8	e5983000	ldr	r3, [r8]
+19b3dc	e2822001	add	r2, r2, #1
+19b3e0	e2411001	sub	r1, r1, #1
+19b3e4	e0012002	and	r2, r1, r2
+19b3e8	e2833001	add	r3, r3, #1
+19b3ec	e58a2000	str	r2, [r10]
+19b3f0	e5883000	str	r3, [r8]
+19b3f4	eafffe63	b	0x19ad88 <_Z16Motion_Grid_PathiP5CPathiiiib+0x490>
+19b3f8	e3520000	cmp	r2, #0
+19b3fc	e59f1360	ldr	r1, [pc, #0x360]
+19b400	a1a02082	lslge	r2, r2, #1
+19b404	e58dc008	str	r12, [sp, #0x8]
+19b408	b3a02a01	movlt	r2, #4096
+19b40c	e58d202c	str	r2, [sp, #0x2c]
+19b410	e59d302c	ldr	r3, [sp, #0x2c]
+19b414	e3a020d4	mov	r2, #212
+19b418	e08f1001	add	r1, pc, r1
+19b41c	e1a00103	lsl	r0, r3, #2
+19b420	e3a03001	mov	r3, #1
+19b424	eb038693	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19b428	e59dc008	ldr	r12, [sp, #0x8]
+19b42c	e59c2000	ldr	r2, [r12]
+19b430	e3520000	cmp	r2, #0
+19b434	e58d0054	str	r0, [sp, #0x54]
+19b438	da00001b	ble	0x19b4ac <_Z16Motion_Grid_PathiP5CPathiiiib+0xbb4>
+19b43c	e59a3000	ldr	r3, [r10]
+19b440	e5971000	ldr	r1, [r7]
+19b444	e1530001	cmp	r3, r1
+19b448	ca000270	bgt	0x19be10 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1518>
+19b44c	e0612002	rsb	r2, r1, r2
+19b450	e58d2058	str	r2, [sp, #0x58]
+19b454	e59de058	ldr	lr, [sp, #0x58]
+19b458	e5952000	ldr	r2, [r5]
+19b45c	e58dc008	str	r12, [sp, #0x8]
+19b460	e1a0310e	lsl	r3, lr, #2
+19b464	e0821101	add	r1, r2, r1, lsl #2
+19b468	e58d300c	str	r3, [sp, #0xc]
+19b46c	e1a02003	mov	r2, r3
+19b470	ebfc6c51	bl	0xb65bc <memcpy@plt>
+19b474	e59a2000	ldr	r2, [r10]
+19b478	e59d300c	ldr	r3, [sp, #0xc]
+19b47c	e59d1054	ldr	r1, [sp, #0x54]
+19b480	e1a02102	lsl	r2, r2, #2
+19b484	e0810003	add	r0, r1, r3
+19b488	e5951000	ldr	r1, [r5]
+19b48c	ebfc6c4a	bl	0xb65bc <memcpy@plt>
+19b490	e59dc008	ldr	r12, [sp, #0x8]
+19b494	e59a3000	ldr	r3, [r10]
+19b498	e3a02000	mov	r2, #0
+19b49c	e59d0058	ldr	r0, [sp, #0x58]
+19b4a0	e5872000	str	r2, [r7]
+19b4a4	e0803003	add	r3, r0, r3
+19b4a8	e58a3000	str	r3, [r10]
+19b4ac	e59d2054	ldr	r2, [sp, #0x54]
+19b4b0	e59d102c	ldr	r1, [sp, #0x2c]
+19b4b4	e59a3000	ldr	r3, [r10]
+19b4b8	e5852000	str	r2, [r5]
+19b4bc	e58c1000	str	r1, [r12]
+19b4c0	eaffff35	b	0x19b19c <_Z16Motion_Grid_PathiP5CPathiiiib+0x8a4>
+19b4c4	e3510000	cmp	r1, #0
+19b4c8	e3a03001	mov	r3, #1
+19b4cc	a1a01081	lslge	r1, r1, #1
+19b4d0	e58dc008	str	r12, [sp, #0x8]
+19b4d4	b3a01a01	movlt	r1, #4096
+19b4d8	e58d102c	str	r1, [sp, #0x2c]
+19b4dc	e59d202c	ldr	r2, [sp, #0x2c]
+19b4e0	e59f1280	ldr	r1, [pc, #0x280]
+19b4e4	e1a00102	lsl	r0, r2, #2
+19b4e8	e08f1001	add	r1, pc, r1
+19b4ec	e3a020d4	mov	r2, #212
+19b4f0	eb038660	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19b4f4	e59dc008	ldr	r12, [sp, #0x8]
+19b4f8	e59c2000	ldr	r2, [r12]
+19b4fc	e3520000	cmp	r2, #0
+19b500	e58d0054	str	r0, [sp, #0x54]
+19b504	da00001b	ble	0x19b578 <_Z16Motion_Grid_PathiP5CPathiiiib+0xc80>
+19b508	e59a3000	ldr	r3, [r10]
+19b50c	e5971000	ldr	r1, [r7]
+19b510	e1530001	cmp	r3, r1
+19b514	ca00024c	bgt	0x19be4c <_Z16Motion_Grid_PathiP5CPathiiiib+0x1554>
+19b518	e0612002	rsb	r2, r1, r2
+19b51c	e58d2058	str	r2, [sp, #0x58]
+19b520	e59de058	ldr	lr, [sp, #0x58]
+19b524	e5952000	ldr	r2, [r5]
+19b528	e58dc008	str	r12, [sp, #0x8]
+19b52c	e1a0310e	lsl	r3, lr, #2
+19b530	e0821101	add	r1, r2, r1, lsl #2
+19b534	e58d300c	str	r3, [sp, #0xc]
+19b538	e1a02003	mov	r2, r3
+19b53c	ebfc6c1e	bl	0xb65bc <memcpy@plt>
+19b540	e59a2000	ldr	r2, [r10]
+19b544	e59d300c	ldr	r3, [sp, #0xc]
+19b548	e59d1054	ldr	r1, [sp, #0x54]
+19b54c	e1a02102	lsl	r2, r2, #2
+19b550	e0810003	add	r0, r1, r3
+19b554	e5951000	ldr	r1, [r5]
+19b558	ebfc6c17	bl	0xb65bc <memcpy@plt>
+19b55c	e59dc008	ldr	r12, [sp, #0x8]
+19b560	e59a3000	ldr	r3, [r10]
+19b564	e3a02000	mov	r2, #0
+19b568	e59d0058	ldr	r0, [sp, #0x58]
+19b56c	e5872000	str	r2, [r7]
+19b570	e0803003	add	r3, r0, r3
+19b574	e58a3000	str	r3, [r10]
+19b578	e59d3054	ldr	r3, [sp, #0x54]
+19b57c	e59d002c	ldr	r0, [sp, #0x2c]
+19b580	e5853000	str	r3, [r5]
+19b584	e1a02003	mov	r2, r3
+19b588	e58c0000	str	r0, [r12]
+19b58c	e59a3000	ldr	r3, [r10]
+19b590	eafffea8	b	0x19b038 <_Z16Motion_Grid_PathiP5CPathiiiib+0x740>
+19b594	e3520000	cmp	r2, #0
+19b598	e3a03001	mov	r3, #1
+19b59c	a1a02082	lslge	r2, r2, #1
+19b5a0	a58d202c	strge	r2, [sp, #0x2c]
+19b5a4	b3a01a01	movlt	r1, #4096
+19b5a8	b58d102c	strlt	r1, [sp, #0x2c]
+19b5ac	e59d202c	ldr	r2, [sp, #0x2c]
+19b5b0	e59f11b4	ldr	r1, [pc, #0x1b4]
+19b5b4	e58dc008	str	r12, [sp, #0x8]
+19b5b8	e1a00102	lsl	r0, r2, #2
+19b5bc	e08f1001	add	r1, pc, r1
+19b5c0	e3a020d4	mov	r2, #212
+19b5c4	eb03862b	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19b5c8	e59dc008	ldr	r12, [sp, #0x8]
+19b5cc	e59c2000	ldr	r2, [r12]
+19b5d0	e3520000	cmp	r2, #0
+19b5d4	e58d0054	str	r0, [sp, #0x54]
+19b5d8	da00001b	ble	0x19b64c <_Z16Motion_Grid_PathiP5CPathiiiib+0xd54>
+19b5dc	e59a3000	ldr	r3, [r10]
+19b5e0	e5971000	ldr	r1, [r7]
+19b5e4	e1530001	cmp	r3, r1
+19b5e8	ca000226	bgt	0x19be88 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1590>
+19b5ec	e0612002	rsb	r2, r1, r2
+19b5f0	e58d2058	str	r2, [sp, #0x58]
+19b5f4	e59de058	ldr	lr, [sp, #0x58]
+19b5f8	e5952000	ldr	r2, [r5]
+19b5fc	e58dc008	str	r12, [sp, #0x8]
+19b600	e1a0310e	lsl	r3, lr, #2
+19b604	e0821101	add	r1, r2, r1, lsl #2
+19b608	e58d300c	str	r3, [sp, #0xc]
+19b60c	e1a02003	mov	r2, r3
+19b610	ebfc6be9	bl	0xb65bc <memcpy@plt>
+19b614	e59a2000	ldr	r2, [r10]
+19b618	e59d300c	ldr	r3, [sp, #0xc]
+19b61c	e59d1054	ldr	r1, [sp, #0x54]
+19b620	e1a02102	lsl	r2, r2, #2
+19b624	e0810003	add	r0, r1, r3
+19b628	e5951000	ldr	r1, [r5]
+19b62c	ebfc6be2	bl	0xb65bc <memcpy@plt>
+19b630	e59dc008	ldr	r12, [sp, #0x8]
+19b634	e59a3000	ldr	r3, [r10]
+19b638	e3a02000	mov	r2, #0
+19b63c	e59d0058	ldr	r0, [sp, #0x58]
+19b640	e5872000	str	r2, [r7]
+19b644	e0803003	add	r3, r0, r3
+19b648	e58a3000	str	r3, [r10]
+19b64c	e59d2054	ldr	r2, [sp, #0x54]
+19b650	e59d102c	ldr	r1, [sp, #0x2c]
+19b654	e59a3000	ldr	r3, [r10]
+19b658	e5852000	str	r2, [r5]
+19b65c	e58c1000	str	r1, [r12]
+19b660	eafffeb0	b	0x19b128 <_Z16Motion_Grid_PathiP5CPathiiiib+0x830>
+19b664	e3520000	cmp	r2, #0
+19b668	e3a03001	mov	r3, #1
+19b66c	a1a02082	lslge	r2, r2, #1
+19b670	a58d202c	strge	r2, [sp, #0x2c]
+19b674	b3a01a01	movlt	r1, #4096
+19b678	b58d102c	strlt	r1, [sp, #0x2c]
+19b67c	e59d202c	ldr	r2, [sp, #0x2c]
+19b680	e59f10e8	ldr	r1, [pc, #0xe8]
+19b684	e58dc008	str	r12, [sp, #0x8]
+19b688	e1a00102	lsl	r0, r2, #2
+19b68c	e08f1001	add	r1, pc, r1
+19b690	e3a020d4	mov	r2, #212
+19b694	eb0385f7	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19b698	e59dc008	ldr	r12, [sp, #0x8]
+19b69c	e59c2000	ldr	r2, [r12]
+19b6a0	e3520000	cmp	r2, #0
+19b6a4	e58d0054	str	r0, [sp, #0x54]
+19b6a8	da00001b	ble	0x19b71c <_Z16Motion_Grid_PathiP5CPathiiiib+0xe24>
+19b6ac	e59a3000	ldr	r3, [r10]
+19b6b0	e5971000	ldr	r1, [r7]
+19b6b4	e1530001	cmp	r3, r1
+19b6b8	ca000235	bgt	0x19bf94 <_Z16Motion_Grid_PathiP5CPathiiiib+0x169c>
+19b6bc	e0612002	rsb	r2, r1, r2
+19b6c0	e58d2058	str	r2, [sp, #0x58]
+19b6c4	e59de058	ldr	lr, [sp, #0x58]
+19b6c8	e5952000	ldr	r2, [r5]
+19b6cc	e58dc008	str	r12, [sp, #0x8]
+19b6d0	e1a0310e	lsl	r3, lr, #2
+19b6d4	e0821101	add	r1, r2, r1, lsl #2
+19b6d8	e58d300c	str	r3, [sp, #0xc]
+19b6dc	e1a02003	mov	r2, r3
+19b6e0	ebfc6bb5	bl	0xb65bc <memcpy@plt>
+19b6e4	e59a2000	ldr	r2, [r10]
+19b6e8	e59d300c	ldr	r3, [sp, #0xc]
+19b6ec	e59d1054	ldr	r1, [sp, #0x54]
+19b6f0	e1a02102	lsl	r2, r2, #2
+19b6f4	e0810003	add	r0, r1, r3
+19b6f8	e5951000	ldr	r1, [r5]
+19b6fc	ebfc6bae	bl	0xb65bc <memcpy@plt>
+19b700	e59dc008	ldr	r12, [sp, #0x8]
+19b704	e59a3000	ldr	r3, [r10]
+19b708	e3a02000	mov	r2, #0
+19b70c	e59d0058	ldr	r0, [sp, #0x58]
+19b710	e5872000	str	r2, [r7]
+19b714	e0803003	add	r3, r0, r3
+19b718	e58a3000	str	r3, [r10]
+19b71c	e59d2054	ldr	r2, [sp, #0x54]
+19b720	e59d102c	ldr	r1, [sp, #0x2c]
+19b724	e59a3000	ldr	r3, [r10]
+19b728	e5852000	str	r2, [r5]
+19b72c	e58c1000	str	r1, [r12]
+19b730	eafffe5e	b	0x19b0b0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x7b8>
+19b734	00257340	eoreq	r7, r5, r0, asr #6
+19b738	ffffea5c	.word	0xffffea5c
+19b73c	ffffea60	.word	0xffffea60
+19b740	ffffea64	.word	0xffffea64
+19b744	ffffea68	.word	0xffffea68
+19b748	ffffea6c	.word	0xffffea6c
+19b74c	ffffea70	.word	0xffffea70
+19b750	001b2234	andseq	r2, r11, r4, lsr r2
+19b754	001b2218	andseq	r2, r11, r8, lsl r2
+19b758	001b21d4	ldrsbeq	r2, [r11], -r4
+19b75c	001b21cc	andseq	r2, r11, r12, asr #3
+19b760	001b1f0c	andseq	r1, r11, r12, lsl #30
+19b764	001b1938	andseq	r1, r11, r8, lsr r9
+19b768	001b1868	andseq	r1, r11, r8, ror #16
+19b76c	001b1794	mulseq	r11, r4, r7
+19b770	001b16c4	andseq	r1, r11, r4, asr #13
+19b774	001b0e78	andseq	r0, r11, r8, ror lr
+19b778	ffffea74	.word	0xffffea74
+19b77c	e59db06c	ldr	r11, [sp, #0x6c]
+19b780	e59da070	ldr	r10, [sp, #0x70]
+19b784	e59d8074	ldr	r8, [sp, #0x74]
+19b788	e1a0000b	mov	r0, r11
+19b78c	eb002e01	bl	0x1a6f98 <_ZN5CPath5ClearEv>
+19b790	e1a0000b	mov	r0, r11
+19b794	e3a01000	mov	r1, #0
+19b798	eb002db1	bl	0x1a6e64 <_ZN5CPath7SetKindEi>
+19b79c	e1a0000b	mov	r0, r11
+19b7a0	e3a01000	mov	r1, #0
+19b7a4	eb002db3	bl	0x1a6e78 <_ZN5CPath9SetClosedEb>
+19b7a8	eddd7a28	vldr	s15, [sp, #160]
+19b7ac	eddd5a29	vldr	s11, [sp, #164]
+19b7b0	eef87ae7	vcvt.f32.s32	s15, s15
+19b7b4	e1a0000b	mov	r0, r11
+19b7b8	e3a03000	mov	r3, #0
+19b7bc	e34432c8	movt	r3, #0x42c8
+19b7c0	eef85ae5	vcvt.f32.s32	s11, s11
+19b7c4	ee171a90	vmov	r1, s15
+19b7c8	ee152a90	vmov	r2, s11
+19b7cc	eb002ebb	bl	0x1a72c0 <_ZN5CPath8AddPointEfff>
+19b7d0	e59d4040	ldr	r4, [sp, #0x40]
+19b7d4	e59d5044	ldr	r5, [sp, #0x44]
+19b7d8	e58db028	str	r11, [sp, #0x28]
+19b7dc	e58da030	str	r10, [sp, #0x30]
+19b7e0	e58d8034	str	r8, [sp, #0x34]
+19b7e4	e59d8038	ldr	r8, [sp, #0x38]
+19b7e8	e59da03c	ldr	r10, [sp, #0x3c]
+19b7ec	e058c004	subs	r12, r8, r4
+19b7f0	13a0c001	movne	r12, #1
+19b7f4	e05a6005	subs	r6, r10, r5
+19b7f8	13a06001	movne	r6, #1
+19b7fc	e196b00c	orrs	r11, r6, r12
+19b800	0a0000ba	beq	0x19baf0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x11f8>
+19b804	e5991018	ldr	r1, [r9, #0x18]
+19b808	e3540000	cmp	r4, #0
+19b80c	e599201c	ldr	r2, [r9, #0x1c]
+19b810	e2418001	sub	r8, r1, #1
+19b814	e0000194	mul	r0, r4, r1
+19b818	e080e005	add	lr, r0, r5
+19b81c	e792710e	ldr	r7, [r2, lr, lsl #2]
+19b820	da000096	ble	0x19ba80 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1188>
+19b824	e1550008	cmp	r5, r8
+19b828	ba000073	blt	0x19b9fc <_Z16Motion_Grid_PathiP5CPathiiiib+0x1104>
+19b82c	e599e014	ldr	lr, [r9, #0x14]
+19b830	e3a03000	mov	r3, #0
+19b834	e58d3024	str	r3, [sp, #0x24]
+19b838	e24ee001	sub	lr, lr, #1
+19b83c	e58d3020	str	r3, [sp, #0x20]
+19b840	e3a03000	mov	r3, #0
+19b844	e58d3014	str	r3, [sp, #0x14]
+19b848	e3540000	cmp	r4, #0
+19b84c	da000091	ble	0x19ba98 <_Z16Motion_Grid_PathiP5CPathiiiib+0x11a0>
+19b850	e0618000	rsb	r8, r1, r0
+19b854	e2473001	sub	r3, r7, #1
+19b858	e0858008	add	r8, r5, r8
+19b85c	e7928108	ldr	r8, [r2, r8, lsl #2]
+19b860	e058b003	subs	r11, r8, r3
+19b864	e27b3000	rsbs	r3, r11, #0
+19b868	e0b3300b	adcs	r3, r3, r11
+19b86c	e58d3010	str	r3, [sp, #0x10]
+19b870	e154000e	cmp	r4, lr
+19b874	a3a0b000	movge	r11, #0
+19b878	a58db018	strge	r11, [sp, #0x18]
+19b87c	aa000007	bge	0x19b8a0 <_Z16Motion_Grid_PathiP5CPathiiiib+0xfa8>
+19b880	e0818000	add	r8, r1, r0
+19b884	e2473001	sub	r3, r7, #1
+19b888	e0888005	add	r8, r8, r5
+19b88c	e7928108	ldr	r8, [r2, r8, lsl #2]
+19b890	e058a003	subs	r10, r8, r3
+19b894	e27a3000	rsbs	r3, r10, #0
+19b898	e0b3300a	adcs	r3, r3, r10
+19b89c	e58d3018	str	r3, [sp, #0x18]
+19b8a0	e3550000	cmp	r5, #0
+19b8a4	d3a08000	movle	r8, #0
+19b8a8	c3a08001	movgt	r8, #1
+19b8ac	e3540000	cmp	r4, #0
+19b8b0	c3550000	cmpgt	r5, #0
+19b8b4	da00004a	ble	0x19b9e4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x10ec>
+19b8b8	e245a001	sub	r10, r5, #1
+19b8bc	e061b000	rsb	r11, r1, r0
+19b8c0	e08bb00a	add	r11, r11, r10
+19b8c4	e2473001	sub	r3, r7, #1
+19b8c8	e792b10b	ldr	r11, [r2, r11, lsl #2]
+19b8cc	e15b0003	cmp	r11, r3
+19b8d0	0a00007c	beq	0x19bac8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x11d0>
+19b8d4	e3a0b000	mov	r11, #0
+19b8d8	e080a00a	add	r10, r0, r10
+19b8dc	e792a10a	ldr	r10, [r2, r10, lsl #2]
+19b8e0	e15a0003	cmp	r10, r3
+19b8e4	0a000075	beq	0x19bac0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x11c8>
+19b8e8	e3a03000	mov	r3, #0
+19b8ec	e154000e	cmp	r4, lr
+19b8f0	a3a02000	movge	r2, #0
+19b8f4	aa00000a	bge	0x19b924 <_Z16Motion_Grid_PathiP5CPathiiiib+0x102c>
+19b8f8	e3580000	cmp	r8, #0
+19b8fc	01a02008	moveq	r2, r8
+19b900	0a000007	beq	0x19b924 <_Z16Motion_Grid_PathiP5CPathiiiib+0x102c>
+19b904	e0811000	add	r1, r1, r0
+19b908	e2477001	sub	r7, r7, #1
+19b90c	e0811005	add	r1, r1, r5
+19b910	e2411001	sub	r1, r1, #1
+19b914	e7922101	ldr	r2, [r2, r1, lsl #2]
+19b918	e0521007	subs	r1, r2, r7
+19b91c	e2712000	rsbs	r2, r1, #0
+19b920	e0b22001	adcs	r2, r2, r1
+19b924	e59de010	ldr	lr, [sp, #0x10]
+19b928	e35e0000	cmp	lr, #0
+19b92c	0a000024	beq	0x19b9c4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x10cc>
+19b930	e59d8038	ldr	r8, [sp, #0x38]
+19b934	e2444001	sub	r4, r4, #1
+19b938	e058c004	subs	r12, r8, r4
+19b93c	13a0c001	movne	r12, #1
+19b940	e196c00c	orrs	r12, r6, r12
+19b944	0affffa6	beq	0x19b7e4 <_Z16Motion_Grid_PathiP5CPathiiiib+0xeec>
+19b948	e599200c	ldr	r2, [r9, #0xc]
+19b94c	edd95a01	vldr	s11, [r9, #4]
+19b950	e5993010	ldr	r3, [r9, #0x10]
+19b954	eeb85ae5	vcvt.f32.s32	s10, s11
+19b958	edd96a02	vldr	s13, [r9, #8]
+19b95c	e59d0028	ldr	r0, [sp, #0x28]
+19b960	e00e0492	mul	lr, r2, r4
+19b964	e0822fa2	add	r2, r2, r2, lsr #31
+19b968	e0010593	mul	r1, r3, r5
+19b96c	e0833fa3	add	r3, r3, r3, lsr #31
+19b970	e1a020c2	asr	r2, r2, #1
+19b974	eef85ae6	vcvt.f32.s32	s11, s13
+19b978	e1a030c3	asr	r3, r3, #1
+19b97c	ee06ea10	vmov	s12, lr
+19b980	ee073a90	vmov	s15, r3
+19b984	e3a03000	mov	r3, #0
+19b988	ee071a10	vmov	s14, r1
+19b98c	e34432c8	movt	r3, #0x42c8
+19b990	eeb86ac6	vcvt.f32.s32	s12, s12
+19b994	eeb87ac7	vcvt.f32.s32	s14, s14
+19b998	ee356a06	vadd.f32	s12, s10, s12
+19b99c	ee357a87	vadd.f32	s14, s11, s14
+19b9a0	ee052a90	vmov	s11, r2
+19b9a4	eef87ae7	vcvt.f32.s32	s15, s15
+19b9a8	eef86ae5	vcvt.f32.s32	s13, s11
+19b9ac	ee777a27	vadd.f32	s15, s14, s15
+19b9b0	ee766a26	vadd.f32	s13, s12, s13
+19b9b4	ee172a90	vmov	r2, s15
+19b9b8	ee161a90	vmov	r1, s13
+19b9bc	eb002e3f	bl	0x1a72c0 <_ZN5CPath8AddPointEfff>
+19b9c0	eaffff87	b	0x19b7e4 <_Z16Motion_Grid_PathiP5CPathiiiib+0xeec>
+19b9c4	e59da018	ldr	r10, [sp, #0x18]
+19b9c8	e35a0000	cmp	r10, #0
+19b9cc	0a000034	beq	0x19baa4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x11ac>
+19b9d0	e59db038	ldr	r11, [sp, #0x38]
+19b9d4	e2844001	add	r4, r4, #1
+19b9d8	e05bc004	subs	r12, r11, r4
+19b9dc	13a0c001	movne	r12, #1
+19b9e0	eaffffd6	b	0x19b940 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1048>
+19b9e4	e3580000	cmp	r8, #0
+19b9e8	01a0b008	moveq	r11, r8
+19b9ec	0affffbd	beq	0x19b8e8 <_Z16Motion_Grid_PathiP5CPathiiiib+0xff0>
+19b9f0	e2473001	sub	r3, r7, #1
+19b9f4	e245a001	sub	r10, r5, #1
+19b9f8	eaffffb5	b	0x19b8d4 <_Z16Motion_Grid_PathiP5CPathiiiib+0xfdc>
+19b9fc	e061a000	rsb	r10, r1, r0
+19ba00	e2473001	sub	r3, r7, #1
+19ba04	e085a00a	add	r10, r5, r10
+19ba08	e28aa001	add	r10, r10, #1
+19ba0c	e792a10a	ldr	r10, [r2, r10, lsl #2]
+19ba10	e05ab003	subs	r11, r10, r3
+19ba14	e27ba000	rsbs	r10, r11, #0
+19ba18	e0baa00b	adcs	r10, r10, r11
+19ba1c	e58da024	str	r10, [sp, #0x24]
+19ba20	e28ee001	add	lr, lr, #1
+19ba24	e792e10e	ldr	lr, [r2, lr, lsl #2]
+19ba28	e15e0003	cmp	lr, r3
+19ba2c	e599e014	ldr	lr, [r9, #0x14]
+19ba30	e24ee001	sub	lr, lr, #1
+19ba34	0a0001d5	beq	0x19c190 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1898>
+19ba38	e154000e	cmp	r4, lr
+19ba3c	aa00000c	bge	0x19ba74 <_Z16Motion_Grid_PathiP5CPathiiiib+0x117c>
+19ba40	e1550008	cmp	r5, r8
+19ba44	e3a0b000	mov	r11, #0
+19ba48	e58db020	str	r11, [sp, #0x20]
+19ba4c	aaffff7b	bge	0x19b840 <_Z16Motion_Grid_PathiP5CPathiiiib+0xf48>
+19ba50	e0818000	add	r8, r1, r0
+19ba54	e0888005	add	r8, r8, r5
+19ba58	e2888001	add	r8, r8, #1
+19ba5c	e7928108	ldr	r8, [r2, r8, lsl #2]
+19ba60	e1580003	cmp	r8, r3
+19ba64	1affff75	bne	0x19b840 <_Z16Motion_Grid_PathiP5CPathiiiib+0xf48>
+19ba68	e3a08001	mov	r8, #1
+19ba6c	e58d8014	str	r8, [sp, #0x14]
+19ba70	eaffff74	b	0x19b848 <_Z16Motion_Grid_PathiP5CPathiiiib+0xf50>
+19ba74	e3a0a000	mov	r10, #0
+19ba78	e58da020	str	r10, [sp, #0x20]
+19ba7c	eaffff6f	b	0x19b840 <_Z16Motion_Grid_PathiP5CPathiiiib+0xf48>
+19ba80	e1550008	cmp	r5, r8
+19ba84	aaffff68	bge	0x19b82c <_Z16Motion_Grid_PathiP5CPathiiiib+0xf34>
+19ba88	e3a0a000	mov	r10, #0
+19ba8c	e2473001	sub	r3, r7, #1
+19ba90	e58da024	str	r10, [sp, #0x24]
+19ba94	eaffffe1	b	0x19ba20 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1128>
+19ba98	e3a0a000	mov	r10, #0
+19ba9c	e58da010	str	r10, [sp, #0x10]
+19baa0	eaffff72	b	0x19b870 <_Z16Motion_Grid_PathiP5CPathiiiib+0xf78>
+19baa4	e3530000	cmp	r3, #0
+19baa8	0a000008	beq	0x19bad0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x11d8>
+19baac	e59d803c	ldr	r8, [sp, #0x3c]
+19bab0	e2455001	sub	r5, r5, #1
+19bab4	e0586005	subs	r6, r8, r5
+19bab8	13a06001	movne	r6, #1
+19babc	eaffff9f	b	0x19b940 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1048>
+19bac0	e3a03001	mov	r3, #1
+19bac4	eaffff88	b	0x19b8ec <_Z16Motion_Grid_PathiP5CPathiiiib+0xff4>
+19bac8	e3a0b001	mov	r11, #1
+19bacc	eaffff81	b	0x19b8d8 <_Z16Motion_Grid_PathiP5CPathiiiib+0xfe0>
+19bad0	e59da020	ldr	r10, [sp, #0x20]
+19bad4	e35a0000	cmp	r10, #0
+19bad8	0a00013c	beq	0x19bfd0 <_Z16Motion_Grid_PathiP5CPathiiiib+0x16d8>
+19badc	e59db03c	ldr	r11, [sp, #0x3c]
+19bae0	e2855001	add	r5, r5, #1
+19bae4	e05b6005	subs	r6, r11, r5
+19bae8	13a06001	movne	r6, #1
+19baec	eaffff93	b	0x19b940 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1048>
+19baf0	e59da030	ldr	r10, [sp, #0x30]
+19baf4	e3a03000	mov	r3, #0
+19baf8	e59d8034	ldr	r8, [sp, #0x34]
+19bafc	e34432c8	movt	r3, #0x42c8
+19bb00	e59db028	ldr	r11, [sp, #0x28]
+19bb04	ee05aa90	vmov	s11, r10
+19bb08	ee068a90	vmov	s13, r8
+19bb0c	eef85ae5	vcvt.f32.s32	s11, s11
+19bb10	e1a0000b	mov	r0, r11
+19bb14	eef86ae6	vcvt.f32.s32	s13, s13
+19bb18	ee151a90	vmov	r1, s11
+19bb1c	ee162a90	vmov	r2, s13
+19bb20	eb002de6	bl	0x1a72c0 <_ZN5CPath8AddPointEfff>
+19bb24	e1a0000b	mov	r0, r11
+19bb28	eb002ee1	bl	0x1a76b4 <_ZN5CPath7ReverseEv>
+19bb2c	e3a00001	mov	r0, #1
+19bb30	eafffca5	b	0x19adcc <_Z16Motion_Grid_PathiP5CPathiiiib+0x4d4>
+19bb34	e3520000	cmp	r2, #0
+19bb38	e59d1068	ldr	r1, [sp, #0x68]
+19bb3c	a1a0b082	lslge	r11, r2, #1
+19bb40	e3a03001	mov	r3, #1
+19bb44	b3a0ba01	movlt	r11, #4096
+19bb48	e3a020d4	mov	r2, #212
+19bb4c	e1a0010b	lsl	r0, r11, #2
+19bb50	e58dc008	str	r12, [sp, #0x8]
+19bb54	eb0384c7	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19bb58	e59dc008	ldr	r12, [sp, #0x8]
+19bb5c	e59c4000	ldr	r4, [r12]
+19bb60	e3540000	cmp	r4, #0
+19bb64	e58d0020	str	r0, [sp, #0x20]
+19bb68	da000016	ble	0x19bbc8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x12d0>
+19bb6c	e59a2000	ldr	r2, [r10]
+19bb70	e5973000	ldr	r3, [r7]
+19bb74	e1520003	cmp	r2, r3
+19bb78	ca00015e	bgt	0x19c0f8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1800>
+19bb7c	e0634004	rsb	r4, r3, r4
+19bb80	e5951000	ldr	r1, [r5]
+19bb84	e58dc008	str	r12, [sp, #0x8]
+19bb88	e1a06104	lsl	r6, r4, #2
+19bb8c	e0811103	add	r1, r1, r3, lsl #2
+19bb90	e1a02006	mov	r2, r6
+19bb94	ebfc6a88	bl	0xb65bc <memcpy@plt>
+19bb98	e59a2000	ldr	r2, [r10]
+19bb9c	e59d3020	ldr	r3, [sp, #0x20]
+19bba0	e5951000	ldr	r1, [r5]
+19bba4	e0830006	add	r0, r3, r6
+19bba8	e1a02102	lsl	r2, r2, #2
+19bbac	ebfc6a82	bl	0xb65bc <memcpy@plt>
+19bbb0	e59dc008	ldr	r12, [sp, #0x8]
+19bbb4	e59a3000	ldr	r3, [r10]
+19bbb8	e3a00000	mov	r0, #0
+19bbbc	e5870000	str	r0, [r7]
+19bbc0	e0844003	add	r4, r4, r3
+19bbc4	e58a4000	str	r4, [r10]
+19bbc8	e59d3020	ldr	r3, [sp, #0x20]
+19bbcc	e58cb000	str	r11, [r12]
+19bbd0	e5853000	str	r3, [r5]
+19bbd4	e59a3000	ldr	r3, [r10]
+19bbd8	eafffdb3	b	0x19b2ac <_Z16Motion_Grid_PathiP5CPathiiiib+0x9b4>
+19bbdc	e3520000	cmp	r2, #0
+19bbe0	e59d105c	ldr	r1, [sp, #0x5c]
+19bbe4	a1a02082	lslge	r2, r2, #1
+19bbe8	a58d2050	strge	r2, [sp, #0x50]
+19bbec	b3a08a01	movlt	r8, #4096
+19bbf0	b58d8050	strlt	r8, [sp, #0x50]
+19bbf4	e59d8050	ldr	r8, [sp, #0x50]
+19bbf8	e3a020d4	mov	r2, #212
+19bbfc	e3a03001	mov	r3, #1
+19bc00	e58dc008	str	r12, [sp, #0x8]
+19bc04	e1a00108	lsl	r0, r8, #2
+19bc08	eb03849a	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19bc0c	e59dc008	ldr	r12, [sp, #0x8]
+19bc10	e59c8000	ldr	r8, [r12]
+19bc14	e3580000	cmp	r8, #0
+19bc18	e58d0054	str	r0, [sp, #0x54]
+19bc1c	da000017	ble	0x19bc80 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1388>
+19bc20	e59a2000	ldr	r2, [r10]
+19bc24	e5973000	ldr	r3, [r7]
+19bc28	e1520003	cmp	r2, r3
+19bc2c	ca000122	bgt	0x19c0bc <_Z16Motion_Grid_PathiP5CPathiiiib+0x17c4>
+19bc30	e0638008	rsb	r8, r3, r8
+19bc34	e5951000	ldr	r1, [r5]
+19bc38	e58dc008	str	r12, [sp, #0x8]
+19bc3c	e1a02108	lsl	r2, r8, #2
+19bc40	e0811103	add	r1, r1, r3, lsl #2
+19bc44	e58d2058	str	r2, [sp, #0x58]
+19bc48	ebfc6a5b	bl	0xb65bc <memcpy@plt>
+19bc4c	e59a2000	ldr	r2, [r10]
+19bc50	e59d3054	ldr	r3, [sp, #0x54]
+19bc54	e59de058	ldr	lr, [sp, #0x58]
+19bc58	e5951000	ldr	r1, [r5]
+19bc5c	e1a02102	lsl	r2, r2, #2
+19bc60	e083000e	add	r0, r3, lr
+19bc64	ebfc6a54	bl	0xb65bc <memcpy@plt>
+19bc68	e59dc008	ldr	r12, [sp, #0x8]
+19bc6c	e59a3000	ldr	r3, [r10]
+19bc70	e3a00000	mov	r0, #0
+19bc74	e5870000	str	r0, [r7]
+19bc78	e0888003	add	r8, r8, r3
+19bc7c	e58a8000	str	r8, [r10]
+19bc80	e59d3054	ldr	r3, [sp, #0x54]
+19bc84	e59d8050	ldr	r8, [sp, #0x50]
+19bc88	e5853000	str	r3, [r5]
+19bc8c	e58c8000	str	r8, [r12]
+19bc90	e59a3000	ldr	r3, [r10]
+19bc94	eafffda6	b	0x19b334 <_Z16Motion_Grid_PathiP5CPathiiiib+0xa3c>
+19bc98	e3520000	cmp	r2, #0
+19bc9c	e59d1060	ldr	r1, [sp, #0x60]
+19bca0	a1a02082	lslge	r2, r2, #1
+19bca4	a58d202c	strge	r2, [sp, #0x2c]
+19bca8	b3a08a01	movlt	r8, #4096
+19bcac	b58d802c	strlt	r8, [sp, #0x2c]
+19bcb0	e59d802c	ldr	r8, [sp, #0x2c]
+19bcb4	e3a020d4	mov	r2, #212
+19bcb8	e3a03001	mov	r3, #1
+19bcbc	e58dc008	str	r12, [sp, #0x8]
+19bcc0	e1a00108	lsl	r0, r8, #2
+19bcc4	eb03846b	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19bcc8	e59dc008	ldr	r12, [sp, #0x8]
+19bccc	e59c8000	ldr	r8, [r12]
+19bcd0	e3580000	cmp	r8, #0
+19bcd4	e58d004c	str	r0, [sp, #0x4c]
+19bcd8	da000017	ble	0x19bd3c <_Z16Motion_Grid_PathiP5CPathiiiib+0x1444>
+19bcdc	e59a2000	ldr	r2, [r10]
+19bce0	e5973000	ldr	r3, [r7]
+19bce4	e1520003	cmp	r2, r3
+19bce8	ca0000d4	bgt	0x19c040 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1748>
+19bcec	e0638008	rsb	r8, r3, r8
+19bcf0	e5951000	ldr	r1, [r5]
+19bcf4	e58dc008	str	r12, [sp, #0x8]
+19bcf8	e1a02108	lsl	r2, r8, #2
+19bcfc	e0811103	add	r1, r1, r3, lsl #2
+19bd00	e58d2050	str	r2, [sp, #0x50]
+19bd04	ebfc6a2c	bl	0xb65bc <memcpy@plt>
+19bd08	e59a2000	ldr	r2, [r10]
+19bd0c	e59d304c	ldr	r3, [sp, #0x4c]
+19bd10	e59de050	ldr	lr, [sp, #0x50]
+19bd14	e5951000	ldr	r1, [r5]
+19bd18	e1a02102	lsl	r2, r2, #2
+19bd1c	e083000e	add	r0, r3, lr
+19bd20	ebfc6a25	bl	0xb65bc <memcpy@plt>
+19bd24	e59dc008	ldr	r12, [sp, #0x8]
+19bd28	e59a3000	ldr	r3, [r10]
+19bd2c	e3a00000	mov	r0, #0
+19bd30	e5870000	str	r0, [r7]
+19bd34	e0888003	add	r8, r8, r3
+19bd38	e58a8000	str	r8, [r10]
+19bd3c	e59d304c	ldr	r3, [sp, #0x4c]
+19bd40	e59d802c	ldr	r8, [sp, #0x2c]
+19bd44	e5853000	str	r3, [r5]
+19bd48	e58c8000	str	r8, [r12]
+19bd4c	e59a3000	ldr	r3, [r10]
+19bd50	eafffd9a	b	0x19b3c0 <_Z16Motion_Grid_PathiP5CPathiiiib+0xac8>
+19bd54	e3520000	cmp	r2, #0
+19bd58	e59d1064	ldr	r1, [sp, #0x64]
+19bd5c	a1a02082	lslge	r2, r2, #1
+19bd60	a58d2024	strge	r2, [sp, #0x24]
+19bd64	b3a08a01	movlt	r8, #4096
+19bd68	b58d8024	strlt	r8, [sp, #0x24]
+19bd6c	e59d8024	ldr	r8, [sp, #0x24]
+19bd70	e3a020d4	mov	r2, #212
+19bd74	e3a03001	mov	r3, #1
+19bd78	e58dc008	str	r12, [sp, #0x8]
+19bd7c	e1a00108	lsl	r0, r8, #2
+19bd80	eb03843c	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19bd84	e59dc008	ldr	r12, [sp, #0x8]
+19bd88	e59c8000	ldr	r8, [r12]
+19bd8c	e3580000	cmp	r8, #0
+19bd90	e58d002c	str	r0, [sp, #0x2c]
+19bd94	da000017	ble	0x19bdf8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1500>
+19bd98	e59a2000	ldr	r2, [r10]
+19bd9c	e5973000	ldr	r3, [r7]
+19bda0	e1520003	cmp	r2, r3
+19bda4	ca000096	bgt	0x19c004 <_Z16Motion_Grid_PathiP5CPathiiiib+0x170c>
+19bda8	e0638008	rsb	r8, r3, r8
+19bdac	e5951000	ldr	r1, [r5]
+19bdb0	e58dc008	str	r12, [sp, #0x8]
+19bdb4	e1a02108	lsl	r2, r8, #2
+19bdb8	e0811103	add	r1, r1, r3, lsl #2
+19bdbc	e58d2048	str	r2, [sp, #0x48]
+19bdc0	ebfc69fd	bl	0xb65bc <memcpy@plt>
+19bdc4	e59a2000	ldr	r2, [r10]
+19bdc8	e59d302c	ldr	r3, [sp, #0x2c]
+19bdcc	e59de048	ldr	lr, [sp, #0x48]
+19bdd0	e5951000	ldr	r1, [r5]
+19bdd4	e1a02102	lsl	r2, r2, #2
+19bdd8	e083000e	add	r0, r3, lr
+19bddc	ebfc69f6	bl	0xb65bc <memcpy@plt>
+19bde0	e59dc008	ldr	r12, [sp, #0x8]
+19bde4	e59a3000	ldr	r3, [r10]
+19bde8	e3a00000	mov	r0, #0
+19bdec	e5870000	str	r0, [r7]
+19bdf0	e0888003	add	r8, r8, r3
+19bdf4	e58a8000	str	r8, [r10]
+19bdf8	e59d302c	ldr	r3, [sp, #0x2c]
+19bdfc	e59d8024	ldr	r8, [sp, #0x24]
+19be00	e5853000	str	r3, [r5]
+19be04	e58c8000	str	r8, [r12]
+19be08	e59a3000	ldr	r3, [r10]
+19be0c	eafffd06	b	0x19b22c <_Z16Motion_Grid_PathiP5CPathiiiib+0x934>
+19be10	e0612003	rsb	r2, r1, r3
+19be14	e5953000	ldr	r3, [r5]
+19be18	e1a02102	lsl	r2, r2, #2
+19be1c	e0831101	add	r1, r3, r1, lsl #2
+19be20	ebfc69e5	bl	0xb65bc <memcpy@plt>
+19be24	e59a2000	ldr	r2, [r10]
+19be28	e5973000	ldr	r3, [r7]
+19be2c	e3a0e000	mov	lr, #0
+19be30	e5950000	ldr	r0, [r5]
+19be34	e0633002	rsb	r3, r3, r2
+19be38	e587e000	str	lr, [r7]
+19be3c	e58a3000	str	r3, [r10]
+19be40	eb038122	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19be44	e59dc008	ldr	r12, [sp, #0x8]
+19be48	eafffd97	b	0x19b4ac <_Z16Motion_Grid_PathiP5CPathiiiib+0xbb4>
+19be4c	e0612003	rsb	r2, r1, r3
+19be50	e5953000	ldr	r3, [r5]
+19be54	e1a02102	lsl	r2, r2, #2
+19be58	e0831101	add	r1, r3, r1, lsl #2
+19be5c	ebfc69d6	bl	0xb65bc <memcpy@plt>
+19be60	e59a2000	ldr	r2, [r10]
+19be64	e5973000	ldr	r3, [r7]
+19be68	e3a0e000	mov	lr, #0
+19be6c	e5950000	ldr	r0, [r5]
+19be70	e0633002	rsb	r3, r3, r2
+19be74	e587e000	str	lr, [r7]
+19be78	e58a3000	str	r3, [r10]
+19be7c	eb038113	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19be80	e59dc008	ldr	r12, [sp, #0x8]
+19be84	eafffdbb	b	0x19b578 <_Z16Motion_Grid_PathiP5CPathiiiib+0xc80>
+19be88	e0612003	rsb	r2, r1, r3
+19be8c	e5953000	ldr	r3, [r5]
+19be90	e1a02102	lsl	r2, r2, #2
+19be94	e0831101	add	r1, r3, r1, lsl #2
+19be98	ebfc69c7	bl	0xb65bc <memcpy@plt>
+19be9c	e59a2000	ldr	r2, [r10]
+19bea0	e5973000	ldr	r3, [r7]
+19bea4	e3a0e000	mov	lr, #0
+19bea8	e5950000	ldr	r0, [r5]
+19beac	e0633002	rsb	r3, r3, r2
+19beb0	e587e000	str	lr, [r7]
+19beb4	e58a3000	str	r3, [r10]
+19beb8	eb038104	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19bebc	e59dc008	ldr	r12, [sp, #0x8]
+19bec0	eafffde1	b	0x19b64c <_Z16Motion_Grid_PathiP5CPathiiiib+0xd54>
+19bec4	e3560000	cmp	r6, #0
+19bec8	e51f175c	ldr	r1, [pc, #-0x75c]
+19becc	a1a06086	lslge	r6, r6, #1
+19bed0	e3a03001	mov	r3, #1
+19bed4	b3a06a01	movlt	r6, #4096
+19bed8	e08f1001	add	r1, pc, r1
+19bedc	e1a00106	lsl	r0, r6, #2
+19bee0	e3a020d4	mov	r2, #212
+19bee4	e58dc008	str	r12, [sp, #0x8]
+19bee8	eb0383e2	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+19beec	e59d3020	ldr	r3, [sp, #0x20]
+19bef0	e59dc008	ldr	r12, [sp, #0x8]
+19bef4	e5931000	ldr	r1, [r3]
+19bef8	e3510000	cmp	r1, #0
+19befc	e58d0028	str	r0, [sp, #0x28]
+19bf00	da00009f	ble	0x19c184 <_Z16Motion_Grid_PathiP5CPathiiiib+0x188c>
+19bf04	e59c2000	ldr	r2, [r12]
+19bf08	e5973000	ldr	r3, [r7]
+19bf0c	e1520003	cmp	r2, r3
+19bf10	ca000087	bgt	0x19c134 <_Z16Motion_Grid_PathiP5CPathiiiib+0x183c>
+19bf14	e51f27a4	ldr	r2, [pc, #-0x7a4]
+19bf18	e0631001	rsb	r1, r3, r1
+19bf1c	e58d1030	str	r1, [sp, #0x30]
+19bf20	e1a0e101	lsl	lr, r1, #2
+19bf24	e58de034	str	lr, [sp, #0x34]
+19bf28	e7945002	ldr	r5, [r4, r2]
+19bf2c	e1a0200e	mov	r2, lr
+19bf30	e5951000	ldr	r1, [r5]
+19bf34	e58dc008	str	r12, [sp, #0x8]
+19bf38	e0811103	add	r1, r1, r3, lsl #2
+19bf3c	ebfc699e	bl	0xb65bc <memcpy@plt>
+19bf40	e59dc008	ldr	r12, [sp, #0x8]
+19bf44	e59d3028	ldr	r3, [sp, #0x28]
+19bf48	e59de034	ldr	lr, [sp, #0x34]
+19bf4c	e59c2000	ldr	r2, [r12]
+19bf50	e083000e	add	r0, r3, lr
+19bf54	e5951000	ldr	r1, [r5]
+19bf58	e1a02102	lsl	r2, r2, #2
+19bf5c	ebfc6996	bl	0xb65bc <memcpy@plt>
+19bf60	e59dc008	ldr	r12, [sp, #0x8]
+19bf64	e59d0030	ldr	r0, [sp, #0x30]
+19bf68	e3a02000	mov	r2, #0
+19bf6c	e5872000	str	r2, [r7]
+19bf70	e59c3000	ldr	r3, [r12]
+19bf74	e0803003	add	r3, r0, r3
+19bf78	e58c3000	str	r3, [r12]
+19bf7c	e59d3028	ldr	r3, [sp, #0x28]
+19bf80	e59d0020	ldr	r0, [sp, #0x20]
+19bf84	e5853000	str	r3, [r5]
+19bf88	e5806000	str	r6, [r0]
+19bf8c	e59c3000	ldr	r3, [r12]
+19bf90	eafffadf	b	0x19ab14 <_Z16Motion_Grid_PathiP5CPathiiiib+0x21c>
+19bf94	e0612003	rsb	r2, r1, r3
+19bf98	e5953000	ldr	r3, [r5]
+19bf9c	e1a02102	lsl	r2, r2, #2
+19bfa0	e0831101	add	r1, r3, r1, lsl #2
+19bfa4	ebfc6984	bl	0xb65bc <memcpy@plt>
+19bfa8	e59a2000	ldr	r2, [r10]
+19bfac	e5973000	ldr	r3, [r7]
+19bfb0	e3a0e000	mov	lr, #0
+19bfb4	e5950000	ldr	r0, [r5]
+19bfb8	e0633002	rsb	r3, r3, r2
+19bfbc	e587e000	str	lr, [r7]
+19bfc0	e58a3000	str	r3, [r10]
+19bfc4	eb0380c1	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19bfc8	e59dc008	ldr	r12, [sp, #0x8]
+19bfcc	eafffdd2	b	0x19b71c <_Z16Motion_Grid_PathiP5CPathiiiib+0xe24>
+19bfd0	e59de024	ldr	lr, [sp, #0x24]
+19bfd4	e59d801c	ldr	r8, [sp, #0x1c]
+19bfd8	e11e0008	tst	lr, r8
+19bfdc	0a000026	beq	0x19c07c <_Z16Motion_Grid_PathiP5CPathiiiib+0x1784>
+19bfe0	e2444001	sub	r4, r4, #1
+19bfe4	e2855001	add	r5, r5, #1
+19bfe8	e59da038	ldr	r10, [sp, #0x38]
+19bfec	e59db03c	ldr	r11, [sp, #0x3c]
+19bff0	e05ac004	subs	r12, r10, r4
+19bff4	13a0c001	movne	r12, #1
+19bff8	e05b6005	subs	r6, r11, r5
+19bffc	13a06001	movne	r6, #1
+19c000	eafffe4e	b	0x19b940 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1048>
+19c004	e0632002	rsb	r2, r3, r2
+19c008	e5951000	ldr	r1, [r5]
+19c00c	e1a02102	lsl	r2, r2, #2
+19c010	e0811103	add	r1, r1, r3, lsl #2
+19c014	ebfc6968	bl	0xb65bc <memcpy@plt>
+19c018	e59a2000	ldr	r2, [r10]
+19c01c	e5973000	ldr	r3, [r7]
+19c020	e3a0e000	mov	lr, #0
+19c024	e5950000	ldr	r0, [r5]
+19c028	e0633002	rsb	r3, r3, r2
+19c02c	e587e000	str	lr, [r7]
+19c030	e58a3000	str	r3, [r10]
+19c034	eb0380a5	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19c038	e59dc008	ldr	r12, [sp, #0x8]
+19c03c	eaffff6d	b	0x19bdf8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1500>
+19c040	e0632002	rsb	r2, r3, r2
+19c044	e5951000	ldr	r1, [r5]
+19c048	e1a02102	lsl	r2, r2, #2
+19c04c	e0811103	add	r1, r1, r3, lsl #2
+19c050	ebfc6959	bl	0xb65bc <memcpy@plt>
+19c054	e59a2000	ldr	r2, [r10]
+19c058	e5973000	ldr	r3, [r7]
+19c05c	e3a0e000	mov	lr, #0
+19c060	e5950000	ldr	r0, [r5]
+19c064	e0633002	rsb	r3, r3, r2
+19c068	e587e000	str	lr, [r7]
+19c06c	e58a3000	str	r3, [r10]
+19c070	eb038096	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19c074	e59dc008	ldr	r12, [sp, #0x8]
+19c078	eaffff2f	b	0x19bd3c <_Z16Motion_Grid_PathiP5CPathiiiib+0x1444>
+19c07c	e59de014	ldr	lr, [sp, #0x14]
+19c080	e59d801c	ldr	r8, [sp, #0x1c]
+19c084	e11e0008	tst	lr, r8
+19c088	12844001	addne	r4, r4, #1
+19c08c	12855001	addne	r5, r5, #1
+19c090	1affffd4	bne	0x19bfe8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x16f0>
+19c094	e59d801c	ldr	r8, [sp, #0x1c]
+19c098	e11b0008	tst	r11, r8
+19c09c	12444001	subne	r4, r4, #1
+19c0a0	1a000003	bne	0x19c0b4 <_Z16Motion_Grid_PathiP5CPathiiiib+0x17bc>
+19c0a4	e59d801c	ldr	r8, [sp, #0x1c]
+19c0a8	e1120008	tst	r2, r8
+19c0ac	0afffe25	beq	0x19b948 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1050>
+19c0b0	e2844001	add	r4, r4, #1
+19c0b4	e2455001	sub	r5, r5, #1
+19c0b8	eaffffca	b	0x19bfe8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x16f0>
+19c0bc	e0632002	rsb	r2, r3, r2
+19c0c0	e5951000	ldr	r1, [r5]
+19c0c4	e1a02102	lsl	r2, r2, #2
+19c0c8	e0811103	add	r1, r1, r3, lsl #2
+19c0cc	ebfc693a	bl	0xb65bc <memcpy@plt>
+19c0d0	e59a2000	ldr	r2, [r10]
+19c0d4	e5973000	ldr	r3, [r7]
+19c0d8	e3a0e000	mov	lr, #0
+19c0dc	e5950000	ldr	r0, [r5]
+19c0e0	e0633002	rsb	r3, r3, r2
+19c0e4	e587e000	str	lr, [r7]
+19c0e8	e58a3000	str	r3, [r10]
+19c0ec	eb038077	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19c0f0	e59dc008	ldr	r12, [sp, #0x8]
+19c0f4	eafffee1	b	0x19bc80 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1388>
+19c0f8	e0632002	rsb	r2, r3, r2
+19c0fc	e5951000	ldr	r1, [r5]
+19c100	e1a02102	lsl	r2, r2, #2
+19c104	e0811103	add	r1, r1, r3, lsl #2
+19c108	ebfc692b	bl	0xb65bc <memcpy@plt>
+19c10c	e59a2000	ldr	r2, [r10]
+19c110	e5973000	ldr	r3, [r7]
+19c114	e3a0e000	mov	lr, #0
+19c118	e5950000	ldr	r0, [r5]
+19c11c	e0633002	rsb	r3, r3, r2
+19c120	e587e000	str	lr, [r7]
+19c124	e58a3000	str	r3, [r10]
+19c128	eb038068	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19c12c	e59dc008	ldr	r12, [sp, #0x8]
+19c130	eafffea4	b	0x19bbc8 <_Z16Motion_Grid_PathiP5CPathiiiib+0x12d0>
+19c134	e51f19c4	ldr	r1, [pc, #-0x9c4]
+19c138	e0632002	rsb	r2, r3, r2
+19c13c	e1a02102	lsl	r2, r2, #2
+19c140	e7945001	ldr	r5, [r4, r1]
+19c144	e5951000	ldr	r1, [r5]
+19c148	e58dc008	str	r12, [sp, #0x8]
+19c14c	e0811103	add	r1, r1, r3, lsl #2
+19c150	ebfc6919	bl	0xb65bc <memcpy@plt>
+19c154	e59dc008	ldr	r12, [sp, #0x8]
+19c158	e5973000	ldr	r3, [r7]
+19c15c	e3a02000	mov	r2, #0
+19c160	e5950000	ldr	r0, [r5]
+19c164	e59c1000	ldr	r1, [r12]
+19c168	e5872000	str	r2, [r7]
+19c16c	e0633001	rsb	r3, r3, r1
+19c170	e58c3000	str	r3, [r12]
+19c174	e58dc008	str	r12, [sp, #0x8]
+19c178	eb038054	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+19c17c	e59dc008	ldr	r12, [sp, #0x8]
+19c180	eaffff7d	b	0x19bf7c <_Z16Motion_Grid_PathiP5CPathiiiib+0x1684>
+19c184	e51f3a14	ldr	r3, [pc, #-0xa14]
+19c188	e7945003	ldr	r5, [r4, r3]
+19c18c	eaffff7a	b	0x19bf7c <_Z16Motion_Grid_PathiP5CPathiiiib+0x1684>
+19c190	e154000e	cmp	r4, lr
+19c194	a3a03001	movge	r3, #1
+19c198	a58d3020	strge	r3, [sp, #0x20]
+19c19c	aafffda7	bge	0x19b840 <_Z16Motion_Grid_PathiP5CPathiiiib+0xf48>
+19c1a0	e3a08001	mov	r8, #1
+19c1a4	e58d8020	str	r8, [sp, #0x20]
+19c1a8	eafffe28	b	0x19ba50 <_Z16Motion_Grid_PathiP5CPathiiiib+0x1158>

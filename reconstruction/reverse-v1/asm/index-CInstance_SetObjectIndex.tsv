@@ -1,0 +1,71 @@
+19324c	e92d4070	push	{r4, r5, r6, lr}
+193250	e1a05000	mov	r5, r0
+193254	e5900080	ldr	r0, [r0, #0x80]
+193258	e1a04001	mov	r4, r1
+19325c	e1a06002	mov	r6, r2
+193260	e585107c	str	r1, [r5, #0x7c]
+193264	e3500000	cmp	r0, #0
+193268	01a03001	moveq	r3, r1
+19326c	0a000004	beq	0x193284 <_ZN9CInstance14SetObjectIndexEib+0x38>
+193270	e1a01005	mov	r1, r5
+193274	eb002ba0	bl	0x19e0fc <_ZN9CObjectGM14RemoveInstanceEP9CInstance>
+193278	e595307c	ldr	r3, [r5, #0x7c]
+19327c	e3a02000	mov	r2, #0
+193280	e5852080	str	r2, [r5, #0x80]
+193284	e3730001	cmn	r3, #1
+193288	03a03000	moveq	r3, #0
+19328c	0585307c	streq	r3, [r5, #0x7c]
+193290	e59f30cc	ldr	r3, [pc, #0xcc]
+193294	e79f3003	ldr	r3, [pc, r3]
+193298	e5933000	ldr	r3, [r3]
+19329c	e5931004	ldr	r1, [r3, #0x4]
+1932a0	e5933000	ldr	r3, [r3]
+1932a4	e0041001	and	r1, r4, r1
+1932a8	e7933181	ldr	r3, [r3, r1, lsl #3]
+1932ac	e3530000	cmp	r3, #0
+1932b0	0a000009	beq	0x1932dc <_ZN9CInstance14SetObjectIndexEib+0x90>
+1932b4	e5932008	ldr	r2, [r3, #0x8]
+1932b8	e1540002	cmp	r4, r2
+1932bc	1a000003	bne	0x1932d0 <_ZN9CInstance14SetObjectIndexEib+0x84>
+1932c0	ea000008	b	0x1932e8 <_ZN9CInstance14SetObjectIndexEib+0x9c>
+1932c4	e593c008	ldr	r12, [r3, #0x8]
+1932c8	e154000c	cmp	r4, r12
+1932cc	0a000005	beq	0x1932e8 <_ZN9CInstance14SetObjectIndexEib+0x9c>
+1932d0	e5933004	ldr	r3, [r3, #0x4]
+1932d4	e3530000	cmp	r3, #0
+1932d8	1afffff9	bne	0x1932c4 <_ZN9CInstance14SetObjectIndexEib+0x78>
+1932dc	e3a03000	mov	r3, #0
+1932e0	e5853080	str	r3, [r5, #0x80]
+1932e4	e8bd8070	pop	{r4, r5, r6, pc}
+1932e8	e593300c	ldr	r3, [r3, #0xc]
+1932ec	e3530000	cmp	r3, #0
+1932f0	e5853080	str	r3, [r5, #0x80]
+1932f4	08bd8070	popeq	{r4, r5, r6, pc}
+1932f8	e3560000	cmp	r6, #0
+1932fc	1a000013	bne	0x193350 <_ZN9CInstance14SetObjectIndexEib+0x104>
+193300	ed937a02	vldr	s14, [r3, #8]
+193304	eef87ac7	vcvt.f32.s32	s15, s14
+193308	e593c010	ldr	r12, [r3, #0x10]
+19330c	e1a00005	mov	r0, r5
+193310	e5932000	ldr	r2, [r3]
+193314	e5931004	ldr	r1, [r3, #0x4]
+193318	e7e030d2	ubfx	r3, r2, #0x1, #0x1
+19331c	e585c0ac	str	r12, [r5, #0xac]
+193320	e5c53065	strb	r3, [r5, #0x65]
+193324	e202c001	and	r12, r2, #1
+193328	e7e02152	ubfx	r2, r2, #0x2, #0x1
+19332c	e5c5c066	strb	r12, [r5, #0x66]
+193330	e5c52067	strb	r2, [r5, #0x67]
+193334	edc57a60	vstr	s15, [r5, #384]
+193338	ebffffa0	bl	0x1931c0 <_ZN9CInstance14SetSpriteIndexEi>
+19333c	e3a03001	mov	r3, #1
+193340	e1a00005	mov	r0, r5
+193344	e5c53064	strb	r3, [r5, #0x64]
+193348	e8bd4070	pop	{r4, r5, r6, lr}
+19334c	ea00e39f	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+193350	e1a00003	mov	r0, r3
+193354	e1a01005	mov	r1, r5
+193358	eb002b33	bl	0x19e02c <_ZN9CObjectGM11AddInstanceEP9CInstance>
+19335c	e5953080	ldr	r3, [r5, #0x80]
+193360	eaffffe6	b	0x193300 <_ZN9CInstance14SetObjectIndexEib+0xb4>
+193364	0025a9a8	eoreq	r10, r5, r8, lsr #19

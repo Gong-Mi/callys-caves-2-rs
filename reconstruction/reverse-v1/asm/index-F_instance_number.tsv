@@ -1,0 +1,20 @@
+10b04c	e92d4070	push	{r4, r5, r6, lr}
+10b050	e1a04000	mov	r4, r0
+10b054	e1a05001	mov	r5, r1
+10b058	e59d0010	ldr	r0, [sp, #0x10]
+10b05c	e3a01000	mov	r1, #0
+10b060	e1a06002	mov	r6, r2
+10b064	ebff0e01	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+10b068	e3a03000	mov	r3, #0
+10b06c	e1a01006	mov	r1, r6
+10b070	e584300c	str	r3, [r4, #0xc]
+10b074	e1a02000	mov	r2, r0
+10b078	e1a00005	mov	r0, r5
+10b07c	ebffffd8	bl	0x10afe4 <_Z21YYGML_instance_numberP9CInstanceS0_i>
+10b080	ee070a90	vmov	s15, r0
+10b084	eeb87be7	vcvt.f64.s32	d7, s15
+10b088	ec510b17	vmov	r0, r1, d7
+10b08c	ee172a10	vmov	r2, s14
+10b090	e1a03001	mov	r3, r1
+10b094	e884000c	stm	r4, {r2, r3}
+10b098	e8bd8070	pop	{r4, r5, r6, pc}

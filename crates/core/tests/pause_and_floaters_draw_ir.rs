@@ -154,12 +154,22 @@ fn combat_floaters_draw_damage_and_dodged_with_alpha_fade() {
     assert!((s.instances[&wn].fields["alpha"] - 0.96).abs() < 1e-6);
     assert!((s.instances[&dd].fields["alpha"] - 0.96).abs() < 1e-6);
 
-    // Both self-destruct when alpha <= 0 (25 ticks from 1.0 at 0.04/tick)
+    // CODE 463/466 subtract 0.04 and compare alpha < 0 through DoSet K=1.
+    // The 25-tick IEEE residue may be slightly positive or negative, but it
+    // remains within DoSet's ±1e-5 real-comparison tolerance; tick 26 crosses
+    // below the effective threshold and destroys both objects.
     for _ in 0..24 {
         s.tick(&bundle).expect("tick");
     }
-    assert!(!s.instances[&wn].alive, "weaponname destroyed when alpha fades to 0");
-    assert!(!s.instances[&dd].alive, "dodged destroyed when alpha fades to 0");
+    let alpha_at_25 = s.instances[&wn].fields["alpha"];
+    assert!(alpha_at_25.abs() <= 1e-5, "tick-25 IEEE residue remains within DoSet tolerance: {alpha_at_25}");
+    assert_eq!(s.instances[&dd].fields["alpha"], alpha_at_25);
+    assert!(s.instances[&wn].alive, "DoSet K=1 does not consider the near-zero residue less than zero");
+    assert!(s.instances[&dd].alive, "DoSet K=1 does not consider the near-zero residue less than zero");
+
+    s.tick(&bundle).expect("tick 26 crosses below zero");
+    assert!(!s.instances[&wn].alive, "weaponname destroyed after alpha crosses below zero");
+    assert!(!s.instances[&dd].alive, "dodged destroyed after alpha crosses below zero");
 }
 
 #[test]

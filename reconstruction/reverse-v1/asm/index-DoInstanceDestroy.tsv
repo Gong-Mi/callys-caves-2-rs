@@ -1,0 +1,25 @@
+10b12c	e92d4030	push	{r4, r5, lr}
+10b130	e24dd034	sub	sp, sp, #52
+10b134	e28d400c	add	r4, sp, #12
+10b138	e1a0c001	mov	r12, r1
+10b13c	e1a05003	mov	r5, r3
+10b140	e1a01002	mov	r1, r2
+10b144	e1a0300c	mov	r3, r12
+10b148	e1a02000	mov	r2, r0
+10b14c	e3a0c000	mov	r12, #0
+10b150	e1a00004	mov	r0, r4
+10b154	e58dc000	str	r12, [sp]
+10b158	eb0247c0	bl	0x19d060 <_ZN15WithObjIteratorC2EiP9CInstanceS1_b>
+10b15c	ea000004	b	0x10b174 <_Z17DoInstanceDestroyP9CInstanceS0_ib+0x48>
+10b160	eb024b39	bl	0x19de4c <_ZN15WithObjIteratordeEv>
+10b164	e1a01005	mov	r1, r5
+10b168	ebffffd5	bl	0x10b0c4 <_Z9DoDestroyP9CInstanceb>
+10b16c	e1a00004	mov	r0, r4
+10b170	eb024814	bl	0x19d1c8 <_ZN15WithObjIterator4NextEv>
+10b174	e1a00004	mov	r0, r4
+10b178	eb024b33	bl	0x19de4c <_ZN15WithObjIteratordeEv>
+10b17c	e3500000	cmp	r0, #0
+10b180	e1a00004	mov	r0, r4
+10b184	1afffff5	bne	0x10b160 <_Z17DoInstanceDestroyP9CInstanceS0_ib+0x34>
+10b188	e28dd034	add	sp, sp, #52
+10b18c	e8bd8030	pop	{r4, r5, pc}

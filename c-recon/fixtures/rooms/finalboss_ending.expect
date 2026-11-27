@@ -1,0 +1,8 @@
+# finalbosspuff Destroy queues rm_ending and deactivates the persistent player.
+ROOM 110
+ROOMW 2880
+ROOMH 480
+!WARP
+COUNT_INST 0 1
+ACTIVE 100000 0
+!INST 200001 189

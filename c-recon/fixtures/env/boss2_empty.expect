@@ -1,0 +1,17 @@
+# Same body with no obj_slime / obj_fireslime in the room: both `with` sites
+# take the empty branch (object_exists is still true, so the block is entered
+# with an empty receiver set), the environments unwind, and the tail still runs.
+!GLOBAL greenslimeskilled
+!GLOBAL fireslimeskilled
+!GLOBAL enemieskilled
+COUNT_INST 32 0
+COUNT_INST 33 0
+COUNT_INST 187 0
+COUNT_INST 154 1
+COUNT_INST 190 1
+INST 200001 154 1
+FIELD 200001 x 1024
+FIELD 200001 y 256
+INST 200002 190 1
+FIELD 200002 x 300
+FIELD 200002 y 240

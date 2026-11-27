@@ -1,0 +1,63 @@
+1ac240	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+1ac244	e1a06000	mov	r6, r0
+1ac248	e59050b8	ldr	r5, [r0, #0xb8]
+1ac24c	e24dd00c	sub	sp, sp, #12
+1ac250	e59030bc	ldr	r3, [r0, #0xbc]
+1ac254	e1a04001	mov	r4, r1
+1ac258	e1550003	cmp	r5, r3
+1ac25c	aa000017	bge	0x1ac2c0 <_ZN5CRoom7AddTileEP5RTile+0x80>
+1ac260	e59080c0	ldr	r8, [r0, #0xc0]
+1ac264	e8b4000f	ldm	r4!, {r0, r1, r2, r3}
+1ac268	e065c185	rsb	r12, r5, r5, lsl #3
+1ac26c	e59f70c0	ldr	r7, [pc, #0xc0]
+1ac270	e088818c	add	r8, r8, r12, lsl #3
+1ac274	e285c001	add	r12, r5, #1
+1ac278	e586c0b8	str	r12, [r6, #0xb8]
+1ac27c	e79f7007	ldr	r7, [pc, r7]
+1ac280	e1a0c008	mov	r12, r8
+1ac284	e8ac000f	stm	r12!, {r0, r1, r2, r3}
+1ac288	e8b4000f	ldm	r4!, {r0, r1, r2, r3}
+1ac28c	e5979000	ldr	r9, [r7]
+1ac290	e2899001	add	r9, r9, #1
+1ac294	e5879000	str	r9, [r7]
+1ac298	e8ac000f	stm	r12!, {r0, r1, r2, r3}
+1ac29c	e8b4000f	ldm	r4!, {r0, r1, r2, r3}
+1ac2a0	e8ac000f	stm	r12!, {r0, r1, r2, r3}
+1ac2a4	e8940003	ldm	r4, {r0, r1}
+1ac2a8	e88c0003	stm	r12, {r0, r1}
+1ac2ac	e1a00005	mov	r0, r5
+1ac2b0	e5889020	str	r9, [r8, #0x20]
+1ac2b4	e5865000	str	r5, [r6]
+1ac2b8	e28dd00c	add	sp, sp, #12
+1ac2bc	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+1ac2c0	e295700a	adds	r7, r5, #10
+1ac2c4	0a00000e	beq	0x1ac304 <_ZN5CRoom7AddTileEP5RTile+0xc4>
+1ac2c8	e0671187	rsb	r1, r7, r7, lsl #3
+1ac2cc	e59000c0	ldr	r0, [r0, #0xc0]
+1ac2d0	e1b01181	lsls	r1, r1, #3
+1ac2d4	0a000011	beq	0x1ac320 <_ZN5CRoom7AddTileEP5RTile+0xe0>
+1ac2d8	e59f2058	ldr	r2, [pc, #0x58]
+1ac2dc	e3a03000	mov	r3, #0
+1ac2e0	e58d3000	str	r3, [sp]
+1ac2e4	e3a0306a	mov	r3, #106
+1ac2e8	e08f2002	add	r2, pc, r2
+1ac2ec	eb0342fa	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1ac2f0	e1a08000	mov	r8, r0
+1ac2f4	e58600c0	str	r0, [r6, #0xc0]
+1ac2f8	e59650b8	ldr	r5, [r6, #0xb8]
+1ac2fc	e58670bc	str	r7, [r6, #0xbc]
+1ac300	eaffffd7	b	0x1ac264 <_ZN5CRoom7AddTileEP5RTile+0x24>
+1ac304	e59000c0	ldr	r0, [r0, #0xc0]
+1ac308	e3500000	cmp	r0, #0
+1ac30c	0a000003	beq	0x1ac320 <_ZN5CRoom7AddTileEP5RTile+0xe0>
+1ac310	eb033fee	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1ac314	e1a08007	mov	r8, r7
+1ac318	e58670c0	str	r7, [r6, #0xc0]
+1ac31c	eafffff5	b	0x1ac2f8 <_ZN5CRoom7AddTileEP5RTile+0xb8>
+1ac320	eb033fea	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1ac324	e3a03000	mov	r3, #0
+1ac328	e1a08003	mov	r8, r3
+1ac32c	e58630c0	str	r3, [r6, #0xc0]
+1ac330	eafffff0	b	0x1ac2f8 <_ZN5CRoom7AddTileEP5RTile+0xb8>
+1ac334	00244594	mlaeq	r4, r4, r5, r4
+1ac338	001a0f4c	andseq	r0, r10, r12, asr #30

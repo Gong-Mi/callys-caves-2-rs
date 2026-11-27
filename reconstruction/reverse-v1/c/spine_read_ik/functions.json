@@ -1,0 +1,32 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_ik",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_ikSection",
+      "address_range": "0x28bdd8-0x28bff8",
+      "semantics": "ik array (line 697) + per-constraint: name→create, bones sub-loop with findBone, target findBone, bendPositive int → bendDirection ±1, mix float",
+      "malloc_anchors": [
+        {"site": "0x28be10", "line": 697, "stores_to": "data+0x40"},
+        {"site": "0x28bea4", "line": 705, "stores_to": "constraint+0x08"}
+      ],
+      "keys": ["ik", "name", "bones", "target", "bendPositive", "mix"],
+      "version_marker": "bendPositive key (spine 3.6/3.7) not 3.8's bendDirection; mvneq #0 = -1 conversion",
+      "error_paths": ["IK bone not found 0x28bf00", "target not found 0x28cf3c"]
+    }
+  ],
+  "spIkConstraintData_layout": {
+    "size": 24,
+    "create_address": "0x2866f0",
+    "create_signature": "(const char* name)",
+    "fields": {"+0x00": "name", "+0x04": "bonesCount", "+0x08": "bones", "+0x0c": "target", "+0x10": "bendDirection (def 1)", "+0x14": "mix (def 1.0f)"}
+  },
+  "l5_evidence": {
+    "arm": "#19 spIkConstraintData_create — 7 cases identity PASS, 2 mutants",
+    "receipt": "harness/receipts/ikc_create_diff-*.json"
+  },
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}

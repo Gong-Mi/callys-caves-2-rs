@@ -1,0 +1,379 @@
+entry	va	word	mnemonic	operands
+249590	249590	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+249590	249594	e1a08002	mov	r8, r2
+249590	249598	e5922088	ldr	r2, [r2, #0x88]
+249590	24959c	e1a07000	mov	r7, r0
+249590	2495a0	e5985064	ldr	r5, [r8, #0x64]
+249590	2495a4	e24dd034	sub	sp, sp, #52
+249590	2495a8	e3520006	cmp	r2, #6
+249590	2495ac	e59f428c	ldr	r4, [pc, #0x28c]
+249590	2495b0	e1a09001	mov	r9, r1
+249590	2495b4	e1a06003	mov	r6, r3
+249590	2495b8	0598707c	ldreq	r7, [r8, #0x7c]
+249590	2495bc	e3550000	cmp	r5, #0
+249590	2495c0	e08f4004	add	r4, pc, r4
+249590	2495c4	0a000068	beq	0x24976c <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x1dc>
+249590	2495c8	e59f3274	ldr	r3, [pc, #0x274]
+249590	2495cc	e7943003	ldr	r3, [r4, r3]
+249590	2495d0	e5930000	ldr	r0, [r3]
+249590	2495d4	ebfa2b02	bl	0xd41e4 <YYAllocLocalStackNew(int)>
+249590	2495d8	e5983078	ldr	r3, [r8, #0x78]
+249590	2495dc	e3530006	cmp	r3, #6
+249590	2495e0	0598306c	ldreq	r3, [r8, #0x6c]
+249590	2495e4	0580300c	streq	r3, [r0, #0xc]
+249590	2495e8	e1a0a000	mov	r10, r0
+249590	2495ec	e59f3254	ldr	r3, [pc, #0x254]
+249590	2495f0	e794b003	ldr	r11, [r4, r3]
+249590	2495f4	e59b0000	ldr	r0, [r11]
+249590	2495f8	e3700001	cmn	r0, #1
+249590	2495fc	11a01000	movne	r1, r0
+249590	249600	0a000084	beq	0x249818 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x288>
+249590	249604	e5983004	ldr	r3, [r8, #0x4]
+249590	249608	e3530000	cmp	r3, #0
+249590	24960c	0a000088	beq	0x249834 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x2a4>
+249590	249610	e0830201	add	r0, r3, r1, lsl #4
+249590	249614	ee066a10	vmov	s12, r6
+249590	249618	e890000c	ldm	r0, {r2, r3}
+249590	24961c	eeb87bc6	vcvt.f64.s32	d7, s12
+249590	249620	ec432b16	vmov	d6, r2, r3
+249590	249624	eeb46bc7	vcmpe.f64	d6, d7
+249590	249628	eef1fa10	vmrs	APSR_nzcv, fpscr
+249590	24962c	ca00002d	bgt	0x2496e8 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x158>
+249590	249630	e3a0b000	mov	r11, #0
+249590	249634	e1a00005	mov	r0, r5
+249590	249638	e3a03000	mov	r3, #0
+249590	24963c	e58d3020	str	r3, [sp, #0x20]
+249590	249640	e58d301c	str	r3, [sp, #0x1c]
+249590	249644	ebfe5957	bl	0x1dfba8 <CScript::GetCode()>
+249590	249648	e59d301c	ldr	r3, [sp, #0x1c]
+249590	24964c	e5902078	ldr	r2, [r0, #0x78]
+249590	249650	e3120001	tst	r2, #1
+249590	249654	1a000068	bne	0x2497fc <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x26c>
+249590	249658	e59f31ec	ldr	r3, [pc, #0x1ec]
+249590	24965c	e7948003	ldr	r8, [r4, r3]
+249590	249660	e5d83000	ldrb	r3, [r8]
+249590	249664	e3530000	cmp	r3, #0
+249590	249668	1a00005c	bne	0x2497e0 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x250>
+249590	24966c	e59dc058	ldr	r12, [sp, #0x58]
+249590	249670	e1a03009	mov	r3, r9
+249590	249674	e59de020	ldr	lr, [sp, #0x20]
+249590	249678	e1a01007	mov	r1, r7
+249590	24967c	e5950008	ldr	r0, [r5, #0x8]
+249590	249680	e1a02007	mov	r2, r7
+249590	249684	e58dc008	str	r12, [sp, #0x8]
+249590	249688	e3a0c000	mov	r12, #0
+249590	24968c	e58da000	str	r10, [sp]
+249590	249690	e58d6004	str	r6, [sp, #0x4]
+249590	249694	e58de010	str	lr, [sp, #0x10]
+249590	249698	e58dc00c	str	r12, [sp, #0xc]
+249590	24969c	ebfa7a4b	bl	0xe7fd0 <VM::Exec(CCode*, YYObjectBase*, YYObjectBase*, RValue*, YYObjectBase*, int, RValue*, int, YYObjectBase*)>
+249590	2496a0	e5d83000	ldrb	r3, [r8]
+249590	2496a4	e3530000	cmp	r3, #0
+249590	2496a8	1a000048	bne	0x2497d0 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x240>
+249590	2496ac	e35b0000	cmp	r11, #0
+249590	2496b0	1a000043	bne	0x2497c4 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x234>
+249590	2496b4	e1a00005	mov	r0, r5
+249590	2496b8	ebfe593a	bl	0x1dfba8 <CScript::GetCode()>
+249590	2496bc	e5903078	ldr	r3, [r0, #0x78]
+249590	2496c0	e3130002	tst	r3, #2
+249590	2496c4	0a000036	beq	0x2497a4 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x214>
+249590	2496c8	e59f3180	ldr	r3, [pc, #0x180]
+249590	2496cc	e7943003	ldr	r3, [r4, r3]
+249590	2496d0	e5d30000	ldrb	r0, [r3]
+249590	2496d4	e3500000	cmp	r0, #0
+249590	2496d8	13a00002	movne	r0, #2
+249590	2496dc	03a00000	moveq	r0, #0
+249590	2496e0	e28dd034	add	sp, sp, #52
+249590	2496e4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+249590	2496e8	eefd6bc6	vcvt.s32.f64	s13, d6
+249590	2496ec	ee16ca90	vmov	r12, s13
+249590	2496f0	e156000c	cmp	r6, r12
+249590	2496f4	aaffffcd	bge	0x249630 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0xa0>
+249590	2496f8	e1a0b20c	lsl	r11, r12, #4
+249590	2496fc	e59f1150	ldr	r1, [pc, #0x150]
+249590	249700	e1a06206	lsl	r6, r6, #4
+249590	249704	e3a03001	mov	r3, #1
+249590	249708	e08f1001	add	r1, pc, r1
+249590	24970c	e3a02046	mov	r2, #70
+249590	249710	e1a0000b	mov	r0, r11
+249590	249714	edcd6a07	vstr	s13, [sp, #28]
+249590	249718	eb00cdd6	bl	0x27ce78 <MemoryManager::Alloc(unsigned int, char const*, int, bool)>
+249590	24971c	e1a02006	mov	r2, r6
+249590	249720	e59d1058	ldr	r1, [sp, #0x58]
+249590	249724	ebf9b3a4	bl	0xb65bc <memcpy@plt>
+249590	249728	e59dc01c	ldr	r12, [sp, #0x1c]
+249590	24972c	e3a02000	mov	r2, #0
+249590	249730	e3a01005	mov	r1, #5
+249590	249734	e0806006	add	r6, r0, r6
+249590	249738	e080b00b	add	r11, r0, r11
+249590	24973c	e1a03000	mov	r3, r0
+249590	249740	e5862000	str	r2, [r6]
+249590	249744	e2866010	add	r6, r6, #16
+249590	249748	e506200c	str	r2, [r6, #-0xc]
+249590	24974c	e5062008	str	r2, [r6, #-0x8]
+249590	249750	e5061004	str	r1, [r6, #-0x4]
+249590	249754	e156000b	cmp	r6, r11
+249590	249758	1afffff8	bne	0x249740 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x1b0>
+249590	24975c	e58d3058	str	r3, [sp, #0x58]
+249590	249760	e1a0600c	mov	r6, r12
+249590	249764	e3a0b001	mov	r11, #1
+249590	249768	eaffffb1	b	0x249634 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0xa4>
+249590	24976c	e5985068	ldr	r5, [r8, #0x68]
+249590	249770	e3550000	cmp	r5, #0
+249590	249774	0affffd3	beq	0x2496c8 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x138>
+249590	249778	e1a00007	mov	r0, r7
+249590	24977c	ebfa2879	bl	0xd3968 <PushContextStack(YYObjectBase*)>
+249590	249780	e59dc058	ldr	r12, [sp, #0x58]
+249590	249784	e1a01007	mov	r1, r7
+249590	249788	e1a00009	mov	r0, r9
+249590	24978c	e1a03006	mov	r3, r6
+249590	249790	e1a02007	mov	r2, r7
+249590	249794	e58dc000	str	r12, [sp]
+249590	249798	e12fff35	blx	r5
+249590	24979c	ebfa28a4	bl	0xd3a34 <PopContextStack()>
+249590	2497a0	eaffffc8	b	0x2496c8 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x138>
+249590	2497a4	e1a00005	mov	r0, r5
+249590	2497a8	ebfe58fe	bl	0x1dfba8 <CScript::GetCode()>
+249590	2497ac	e5903078	ldr	r3, [r0, #0x78]
+249590	2497b0	e3130001	tst	r3, #1
+249590	2497b4	1affffc3	bne	0x2496c8 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x138>
+249590	2497b8	e1a0000a	mov	r0, r10
+249590	2497bc	ebfd3df1	bl	0x198f88 <YYObjectBase::Free(YYObjectBase*)>
+249590	2497c0	eaffffc0	b	0x2496c8 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x138>
+249590	2497c4	e59d0058	ldr	r0, [sp, #0x58]
+249590	2497c8	eb00cac0	bl	0x27c2d0 <MemoryManager::Free(void const*)>
+249590	2497cc	eaffffb8	b	0x2496b4 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x124>
+249590	2497d0	e59f3080	ldr	r3, [pc, #0x80]
+249590	2497d4	e7940003	ldr	r0, [r4, r3]
+249590	2497d8	eb015c33	bl	0x2a08ac <CProfiler::Pop()>
+249590	2497dc	eaffffb2	b	0x2496ac <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x11c>
+249590	2497e0	e59f2070	ldr	r2, [pc, #0x70]
+249590	2497e4	e3a01001	mov	r1, #1
+249590	2497e8	e5953008	ldr	r3, [r5, #0x8]
+249590	2497ec	e7940002	ldr	r0, [r4, r2]
+249590	2497f0	e5932060	ldr	r2, [r3, #0x60]
+249590	2497f4	eb015bcf	bl	0x2a0738 <CProfiler::Push(int, int)>
+249590	2497f8	eaffff9b	b	0x24966c <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0xdc>
+249590	2497fc	e58d3000	str	r3, [sp]
+249590	249800	e1a01008	mov	r1, r8
+249590	249804	e28d0020	add	r0, sp, #32
+249590	249808	e1a02006	mov	r2, r6
+249590	24980c	e59d3058	ldr	r3, [sp, #0x58]
+249590	249810	ebfffcd0	bl	0x248b58 <CreateArgumentsObject(RValue&, YYObjectBase*, int, RValue*, bool)>
+249590	249814	eaffff8f	b	0x249658 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0xc8>
+249590	249818	e59f103c	ldr	r1, [pc, #0x3c]
+249590	24981c	e1a00008	mov	r0, r8
+249590	249820	e08f1001	add	r1, pc, r1
+249590	249824	ebfa2270	bl	0xd21ec <Code_Variable_Find_Slot_From_Name(YYObjectBase*, char const*)>
+249590	249828	e1a01000	mov	r1, r0
+249590	24982c	e58b0000	str	r0, [r11]
+249590	249830	eaffff73	b	0x249604 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x74>
+249590	249834	e1a00008	mov	r0, r8
+249590	249838	ebfd348c	bl	0x196a70 <YYObjectBase::InternalGetYYVar(int)>
+249590	24983c	eaffff74	b	0x249614 <Call_ScriptRef(YYObjectBase*, RValue*, CScriptRef*, int, RValue*)+0x84>
+249590	249840	001a8690	.word	0x001a8690
+249590	249844	ffffc104	.word	0xffffc104
+249590	249848	ffffc05c	.word	0xffffc05c
+249590	24984c	ffffbf18	.word	0xffffbf18
+249590	249850	ffffc0cc	.word	0xffffc0cc
+249590	249854	000e7928	.word	0x000e7928
+249590	249858	ffffbf1c	.word	0xffffbf1c
+249590	24985c	000e704c	.word	0x000e704c
+1dfba8	1dfba8	e5900008	ldr	r0, [r0, #0x8]
+1dfba8	1dfbac	e12fff1e	bx	lr
+d41e4	d41e4	e92d4008	push	{r3, lr}
+d41e4	d41e8	e3e014ff	mvn	r1, #-16777216
+d41e4	d41ec	e3a02000	mov	r2, #0
+d41e4	d41f0	eb02f5e5	bl	0x19198c <YYObjectBase::Alloc(unsigned int, int, bool)>
+d41e4	d41f4	e59f2010	ldr	r2, [pc, #0x10]
+d41e4	d41f8	e3a01000	mov	r1, #0
+d41e4	d41fc	e08f2002	add	r2, pc, r2
+d41e4	d4200	e580100c	str	r1, [r0, #0xc]
+d41e4	d4204	e5802040	str	r2, [r0, #0x40]
+d41e4	d4208	e8bd8008	pop	{r3, pc}
+d41e4	d420c	0025e5fc	.word	0x0025e5fc
+d3968	d3968	e59fc0ac	ldr	r12, [pc, #0xac]
+d3968	d396c	e59f30ac	ldr	r3, [pc, #0xac]
+d3968	d3970	e08fc00c	add	r12, pc, r12
+d3968	d3974	e92d4070	push	{r4, r5, r6, lr}
+d3968	d3978	e1a05000	mov	r5, r0
+d3968	d397c	e79c3003	ldr	r3, [r12, r3]
+d3968	d3980	e24dd008	sub	sp, sp, #8
+d3968	d3984	e5d33000	ldrb	r3, [r3]
+d3968	d3988	e3530000	cmp	r3, #0
+d3968	d398c	0a00000d	beq	0xd39c8 <_Z16PushContextStackP12YYObjectBase+0x60>
+d3968	d3990	e59f208c	ldr	r2, [pc, #0x8c]
+d3968	d3994	e59f308c	ldr	r3, [pc, #0x8c]
+d3968	d3998	e79c4002	ldr	r4, [r12, r2]
+d3968	d399c	e79c3003	ldr	r3, [r12, r3]
+d3968	d39a0	e5941000	ldr	r1, [r4]
+d3968	d39a4	e5932000	ldr	r2, [r3]
+d3968	d39a8	e1510002	cmp	r1, r2
+d3968	d39ac	0a000007	beq	0xd39d0 <_Z16PushContextStackP12YYObjectBase+0x68>
+d3968	d39b0	e59f3074	ldr	r3, [pc, #0x74]
+d3968	d39b4	e79c3003	ldr	r3, [r12, r3]
+d3968	d39b8	e5932000	ldr	r2, [r3]
+d3968	d39bc	e2813001	add	r3, r1, #1
+d3968	d39c0	e5843000	str	r3, [r4]
+d3968	d39c4	e7825101	str	r5, [r2, r1, lsl #2]
+d3968	d39c8	e28dd008	add	sp, sp, #8
+d3968	d39cc	e8bd8070	pop	{r4, r5, r6, pc}
+d3968	d39d0	e59fe054	ldr	lr, [pc, #0x54]
+d3968	d39d4	e1b02081	lsls	r2, r1, #1
+d3968	d39d8	15832000	strne	r2, [r3]
+d3968	d39dc	11a01181	lslne	r1, r1, #3
+d3968	d39e0	03a02001	moveq	r2, #1
+d3968	d39e4	05832000	streq	r2, [r3]
+d3968	d39e8	e79c600e	ldr	r6, [r12, lr]
+d3968	d39ec	03a01004	moveq	r1, #4
+d3968	d39f0	e59f2038	ldr	r2, [pc, #0x38]
+d3968	d39f4	e3a00000	mov	r0, #0
+d3968	d39f8	e3a0304a	mov	r3, #74
+d3968	d39fc	e58d0000	str	r0, [sp]
+d3968	d3a00	e08f2002	add	r2, pc, r2
+d3968	d3a04	e5960000	ldr	r0, [r6]
+d3968	d3a08	eb06a533	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+d3968	d3a0c	e5941000	ldr	r1, [r4]
+d3968	d3a10	e1a02000	mov	r2, r0
+d3968	d3a14	e5860000	str	r0, [r6]
+d3968	d3a18	eaffffe7	b	0xd39bc <_Z16PushContextStackP12YYObjectBase+0x54>
+d3968	d3a1c	0031e2e0	.word	0x0031e2e0
+d3968	d3a20	ffffbf68	.word	0xffffbf68
+d3968	d3a24	ffffbfb0	.word	0xffffbfb0
+d3968	d3a28	ffffbfb4	.word	0xffffbfb4
+d3968	d3a2c	ffffbfb8	.word	0xffffbfb8
+d3968	d3a30	0025d630	.word	0x0025d630
+d3a34	d3a34	e59f3014	ldr	r3, [pc, #0x14]
+d3a34	d3a38	e79f3003	ldr	r3, [pc, r3]
+d3a34	d3a3c	e5932000	ldr	r2, [r3]
+d3a34	d3a40	e3520000	cmp	r2, #0
+d3a34	d3a44	c2422001	subgt	r2, r2, #1
+d3a34	d3a48	c5832000	strgt	r2, [r3]
+d3a34	d3a4c	e12fff1e	bx	lr
+d3a34	d3a50	0031a1c8	.word	0x0031a1c8
+d3a54	d3a54	e59f302c	ldr	r3, [pc, #0x2c]
+d3a54	d3a58	e79f3003	ldr	r3, [pc, r3]
+d3a54	d3a5c	e5932000	ldr	r2, [r3]
+d3a54	d3a60	e3520000	cmp	r2, #0
+d3a54	d3a64	da000005	ble	0xd3a80 <_Z18GetContextStackTopv+0x2c>
+d3a54	d3a68	e59f301c	ldr	r3, [pc, #0x1c]
+d3a54	d3a6c	e2422107	sub	r2, r2, #-1073741823
+d3a54	d3a70	e79f3003	ldr	r3, [pc, r3]
+d3a54	d3a74	e5933000	ldr	r3, [r3]
+d3a54	d3a78	e7930102	ldr	r0, [r3, r2, lsl #2]
+d3a54	d3a7c	e12fff1e	bx	lr
+d3a54	d3a80	e3a00000	mov	r0, #0
+d3a54	d3a84	e12fff1e	bx	lr
+d3a54	d3a88	0031a1a8	.word	0x0031a1a8
+d3a54	d3a8c	0031a198	.word	0x0031a198
+d21ec	d21ec	e59f302c	ldr	r3, [pc, #0x2c]
+d21ec	d21f0	e79f3003	ldr	r3, [pc, r3]
+d21ec	d21f4	e5933000	ldr	r3, [r3]
+d21ec	d21f8	e1530000	cmp	r3, r0
+d21ec	d21fc	e1a00001	mov	r0, r1
+d21ec	d2200	0a000000	beq	#0xd2208
+d21ec	d2204	eaffff5a	b	#0xd1f74
+d21ec	d2208	e59f3014	ldr	r3, [pc, #0x14]
+d21ec	d220c	e79f3003	ldr	r3, [pc, r3]
+d21ec	d2210	e5d33000	ldrb	r3, [r3]
+d21ec	d2214	e3530000	cmp	r3, #0
+d21ec	d2218	1afffff9	bne	#0xd2204
+d21ec	d221c	eaffff8c	b	#0xd2054
+d21ec	d2220	0031b9c4	.word	0x0031b9c4
+d21ec	d2224	0031b9ac	.word	0x0031b9ac
+d1f74	d1f74	e59f30d4	ldr	r3, [pc, #0xd4]
+d1f74	d1f78	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+d1f74	d1f7c	e79f3003	ldr	r3, [pc, r3]
+d1f74	d1f80	e1a09000	mov	r9, r0
+d1f74	d1f84	e5937000	ldr	r7, [r3]
+d1f74	d1f88	eb0472fe	bl	0x1eeb88 <_Z21CHashMapCalculateHashIPKcEjT_>
+d1f74	d1f8c	e5973008	ldr	r3, [r7, #0x8]
+d1f74	d1f90	e5972010	ldr	r2, [r7, #0x10]
+d1f74	d1f94	e3c0a102	bic	r10, r0, #-2147483648
+d1f74	d1f98	e00a4003	and	r4, r10, r3
+d1f74	d1f9c	e1a08084	lsl	r8, r4, #1
+d1f74	d1fa0	e0881004	add	r1, r8, r4
+d1f74	d1fa4	e0822101	add	r2, r2, r1, lsl #2
+d1f74	d1fa8	e5925008	ldr	r5, [r2, #0x8]
+d1f74	d1fac	e3550000	cmp	r5, #0
+d1f74	d1fb0	0a00001b	beq	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d1fb4	e3a06000	mov	r6, #0
+d1f74	d1fb8	ea000010	b	0xd2000 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0x8c>
+d1f74	d1fbc	e5972000	ldr	r2, [r7]
+d1f74	d1fc0	e0055003	and	r5, r5, r3
+d1f74	d1fc4	e2841001	add	r1, r4, #1
+d1f74	d1fc8	e0842002	add	r2, r4, r2
+d1f74	d1fcc	e0014003	and	r4, r1, r3
+d1f74	d1fd0	e0655002	rsb	r5, r5, r2
+d1f74	d1fd4	e0055003	and	r5, r5, r3
+d1f74	d1fd8	e1a08084	lsl	r8, r4, #1
+d1f74	d1fdc	e1550006	cmp	r5, r6
+d1f74	d1fe0	e0882004	add	r2, r8, r4
+d1f74	d1fe4	e2866001	add	r6, r6, #1
+d1f74	d1fe8	ba00000d	blt	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d1fec	e5971010	ldr	r1, [r7, #0x10]
+d1f74	d1ff0	e0812102	add	r2, r1, r2, lsl #2
+d1f74	d1ff4	e5925008	ldr	r5, [r2, #0x8]
+d1f74	d1ff8	e3550000	cmp	r5, #0
+d1f74	d1ffc	0a000008	beq	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d2000	e15a0005	cmp	r10, r5
+d1f74	d2004	1affffec	bne	0xd1fbc <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0x48>
+d1f74	d2008	e5920000	ldr	r0, [r2]
+d1f74	d200c	e1a01009	mov	r1, r9
+d1f74	d2010	eb0472e4	bl	0x1eeba8 <_Z19CHashMapCompareKeysIPKcEbT_S2_>
+d1f74	d2014	e3500000	cmp	r0, #0
+d1f74	d2018	1a000003	bne	0xd202c <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb8>
+d1f74	d201c	e5973008	ldr	r3, [r7, #0x8]
+d1f74	d2020	eaffffe5	b	0xd1fbc <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0x48>
+d1f74	d2024	e3e00000	mvn	r0, #0
+d1f74	d2028	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+d1f74	d202c	e3740001	cmn	r4, #1
+d1f74	d2030	0afffffb	beq	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d2034	e0884004	add	r4, r8, r4
+d1f74	d2038	e5973010	ldr	r3, [r7, #0x10]
+d1f74	d203c	e0834104	add	r4, r3, r4, lsl #2
+d1f74	d2040	e3740004	cmn	r4, #4
+d1f74	d2044	0afffff6	beq	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d2048	e5940004	ldr	r0, [r4, #0x4]
+d1f74	d204c	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+d1f74	d2050	0031bc28	.word	0x0031bc28
+d2054	d2054	e59f3060	ldr	r3, [pc, #0x60]
+d2054	d2058	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+d2054	d205c	e79f3003	ldr	r3, [pc, r3]
+d2054	d2060	e1a06000	mov	r6, r0
+d2054	d2064	e5935004	ldr	r5, [r3, #0x4]
+d2054	d2068	e3550000	cmp	r5, #0
+d2054	d206c	da00000e	ble	0xd20ac <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x58>
+d2054	d2070	e5937000	ldr	r7, [r3]
+d2054	d2074	e3a04000	mov	r4, #0
+d2054	d2078	e593800c	ldr	r8, [r3, #0xc]
+d2054	d207c	e1540007	cmp	r4, r7
+d2054	d2080	e1a00006	mov	r0, r6
+d2054	d2084	aa000005	bge	0xd20a0 <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x4c>
+d2054	d2088	e7981104	ldr	r1, [r8, r4, lsl #2]
+d2054	d208c	e3510000	cmp	r1, #0
+d2054	d2090	0a000002	beq	0xd20a0 <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x4c>
+d2054	d2094	ebff9136	bl	0xb6574 <strcmp@plt>
+d2054	d2098	e3500000	cmp	r0, #0
+d2054	d209c	0a000004	beq	0xd20b4 <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x60>
+d2054	d20a0	e2844001	add	r4, r4, #1
+d2054	d20a4	e1540005	cmp	r4, r5
+d2054	d20a8	1afffff3	bne	0xd207c <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x28>
+d2054	d20ac	e3e00000	mvn	r0, #0
+d2054	d20b0	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+d2054	d20b4	e1a00004	mov	r0, r4
+d2054	d20b8	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+d2054	d20bc	0031bb40	.word	0x0031bb40
+1eeb88	1eeb88	e92d4010	push	{r4, lr}
+1eeb88	1eeb8c	e1a04000	mov	r4, r0
+1eeb88	1eeb90	ebfb1e68	bl	0xb6538 <strlen@plt>
+1eeb88	1eeb94	e3a02000	mov	r2, #0
+1eeb88	1eeb98	e1a01000	mov	r1, r0
+1eeb88	1eeb9c	e1a00004	mov	r0, r4
+1eeb88	1eeba0	e8bd4010	pop	{r4, lr}
+1eeb88	1eeba4	eaffffb6	b	0x1eea84 <_Z10murmurhashPKcjj>
+1eeba8	1eeba8	e92d4008	push	{r3, lr}
+1eeba8	1eebac	ebfb1e70	bl	0xb6574 <strcmp@plt>
+1eeba8	1eebb0	e2700001	rsbs	r0, r0, #1
+1eeba8	1eebb4	33a00000	movlo	r0, #0
+1eeba8	1eebb8	e8bd8008	pop	{r3, pc}

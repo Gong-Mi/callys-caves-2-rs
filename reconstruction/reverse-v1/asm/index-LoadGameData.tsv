@@ -1,0 +1,667 @@
+1ddce4	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1ddce8	e24dd044	sub	sp, sp, #68
+1ddcec	e59f7a08	ldr	r7, [pc, #0xa08]
+1ddcf0	e59f3a08	ldr	r3, [pc, #0xa08]
+1ddcf4	e08f7007	add	r7, pc, r7
+1ddcf8	e58d000c	str	r0, [sp, #0xc]
+1ddcfc	e58d1018	str	r1, [sp, #0x18]
+1ddd00	e7973003	ldr	r3, [r7, r3]
+1ddd04	e59f19f8	ldr	r1, [pc, #0x9f8]
+1ddd08	e5933000	ldr	r3, [r3]
+1ddd0c	e08f1001	add	r1, pc, r1
+1ddd10	e58d3014	str	r3, [sp, #0x14]
+1ddd14	e5933000	ldr	r3, [r3]
+1ddd18	e59d0014	ldr	r0, [sp, #0x14]
+1ddd1c	e593300c	ldr	r3, [r3, #0xc]
+1ddd20	e12fff33	blx	r3
+1ddd24	eb01056e	bl	0x21f2e4 <_Z10Sound_Initv>
+1ddd28	eb0043a3	bl	0x1eebbc <_Z11Sprite_Initv>
+1ddd2c	ebfb955a	bl	0xc329c <_Z15Background_Initv>
+1ddd30	ebff27dc	bl	0x1a7ca8 <_Z9Path_Initv>
+1ddd34	eb000890	bl	0x1dff7c <_Z11Script_Initv>
+1ddd38	ebfc709d	bl	0xf9fb4 <_Z9Font_Initv>
+1ddd3c	eb00521c	bl	0x1f25b4 <_Z13TimeLine_Initv>
+1ddd40	ebff02f0	bl	0x19e908 <_Z11Object_Initv>
+1ddd44	ebff5b9e	bl	0x1b4bc4 <_Z9Room_Initv>
+1ddd48	ebff0560	bl	0x19f2d0 <_Z11Option_Initv>
+1ddd4c	e59f39b4	ldr	r3, [pc, #0x9b4]
+1ddd50	e7973003	ldr	r3, [r7, r3]
+1ddd54	e5d33000	ldrb	r3, [r3]
+1ddd58	e3530000	cmp	r3, #0
+1ddd5c	1a0000d4	bne	0x1de0b4 <_Z12LoadGameDataPvj+0x3d0>
+1ddd60	e59f39a4	ldr	r3, [pc, #0x9a4]
+1ddd64	e7973003	ldr	r3, [r7, r3]
+1ddd68	e58d3010	str	r3, [sp, #0x10]
+1ddd6c	e5933000	ldr	r3, [r3]
+1ddd70	e3530000	cmp	r3, #0
+1ddd74	0a0001c3	beq	0x1de488 <_Z12LoadGameDataPvj+0x7a4>
+1ddd78	e59f2990	ldr	r2, [pc, #0x990]
+1ddd7c	e59f3990	ldr	r3, [pc, #0x990]
+1ddd80	e7972002	ldr	r2, [r7, r2]
+1ddd84	e58d2008	str	r2, [sp, #0x8]
+1ddd88	e7979003	ldr	r9, [r7, r3]
+1ddd8c	e5923000	ldr	r3, [r2]
+1ddd90	e3530000	cmp	r3, #0
+1ddd94	e5990000	ldr	r0, [r9]
+1ddd98	0a0001c8	beq	0x1de4c0 <_Z12LoadGameDataPvj+0x7dc>
+1ddd9c	e593300c	ldr	r3, [r3, #0xc]
+1ddda0	e3530000	cmp	r3, #0
+1ddda4	da000153	ble	0x1de2f8 <_Z12LoadGameDataPvj+0x614>
+1ddda8	e59f2968	ldr	r2, [pc, #0x968]
+1dddac	e1a01003	mov	r1, r3
+1dddb0	e7978002	ldr	r8, [r7, r2]
+1dddb4	e5883000	str	r3, [r8]
+1dddb8	e3a02000	mov	r2, #0
+1dddbc	ebfbcfef	bl	0xd1d80 <_Z18Code_Variable_Initiii>
+1dddc0	e59dc008	ldr	r12, [sp, #0x8]
+1dddc4	e5982000	ldr	r2, [r8]
+1dddc8	e59c3000	ldr	r3, [r12]
+1dddcc	e3520000	cmp	r2, #0
+1dddd0	e5935014	ldr	r5, [r3, #0x14]
+1dddd4	da00000d	ble	0x1dde10 <_Z12LoadGameDataPvj+0x12c>
+1dddd8	e2455004	sub	r5, r5, #4
+1ddddc	e3a04000	mov	r4, #0
+1ddde0	e5b53004	ldr	r3, [r5, #0x4]!
+1ddde4	e1a02004	mov	r2, r4
+1ddde8	e3e01000	mvn	r1, #0
+1dddec	e2844001	add	r4, r4, #1
+1dddf0	e5930000	ldr	r0, [r3]
+1dddf4	ebfbd449	bl	0xd2f20 <_Z22Code_Variable_Find_SetPKcii>
+1dddf8	e5983000	ldr	r3, [r8]
+1dddfc	e1530004	cmp	r3, r4
+1dde00	cafffff6	bgt	0x1ddde0 <_Z12LoadGameDataPvj+0xfc>
+1dde04	e59dc008	ldr	r12, [sp, #0x8]
+1dde08	e59c3000	ldr	r3, [r12]
+1dde0c	e5935014	ldr	r5, [r3, #0x14]
+1dde10	e5993000	ldr	r3, [r9]
+1dde14	e3530000	cmp	r3, #0
+1dde18	da00002b	ble	0x1ddecc <_Z12LoadGameDataPvj+0x1e8>
+1dde1c	e59f38f8	ldr	r3, [pc, #0x8f8]
+1dde20	e2456004	sub	r6, r5, #4
+1dde24	e59fc8f4	ldr	r12, [pc, #0x8f4]
+1dde28	e3a05000	mov	r5, #0
+1dde2c	e08fc00c	add	r12, pc, r12
+1dde30	e58dc01c	str	r12, [sp, #0x1c]
+1dde34	e7974003	ldr	r4, [r7, r3]
+1dde38	e5b63004	ldr	r3, [r6, #0x4]!
+1dde3c	e5930000	ldr	r0, [r3]
+1dde40	ebfbf6a0	bl	0xdb8c8 <_Z8YYStrDupPKc>
+1dde44	e8944800	ldm	r4, {r11, lr}
+1dde48	e35e0000	cmp	lr, #0
+1dde4c	e1a0a000	mov	r10, r0
+1dde50	d594000c	ldrle	r0, [r4, #0xc]
+1dde54	da000081	ble	0x1de060 <_Z12LoadGameDataPvj+0x37c>
+1dde58	e35b0000	cmp	r11, #0
+1dde5c	d594100c	ldrle	r1, [r4, #0xc]
+1dde60	da000011	ble	0x1ddeac <_Z12LoadGameDataPvj+0x1c8>
+1dde64	e594000c	ldr	r0, [r4, #0xc]
+1dde68	e5903000	ldr	r3, [r0]
+1dde6c	e3530000	cmp	r3, #0
+1dde70	12802004	addne	r2, r0, #4
+1dde74	13a03000	movne	r3, #0
+1dde78	1a000003	bne	0x1dde8c <_Z12LoadGameDataPvj+0x1a8>
+1dde7c	ea00021c	b	0x1de6f4 <_Z12LoadGameDataPvj+0xa10>
+1dde80	e591c000	ldr	r12, [r1]
+1dde84	e35c0000	cmp	r12, #0
+1dde88	0a000007	beq	0x1ddeac <_Z12LoadGameDataPvj+0x1c8>
+1dde8c	e2833001	add	r3, r3, #1
+1dde90	e1a01002	mov	r1, r2
+1dde94	e153000e	cmp	r3, lr
+1dde98	e2822004	add	r2, r2, #4
+1dde9c	0a00006f	beq	0x1de060 <_Z12LoadGameDataPvj+0x37c>
+1ddea0	e153000b	cmp	r3, r11
+1ddea4	1afffff5	bne	0x1dde80 <_Z12LoadGameDataPvj+0x19c>
+1ddea8	e0801103	add	r1, r0, r3, lsl #2
+1ddeac	e581a000	str	r10, [r1]
+1ddeb0	e5993000	ldr	r3, [r9]
+1ddeb4	e2855001	add	r5, r5, #1
+1ddeb8	e1530005	cmp	r3, r5
+1ddebc	caffffdd	bgt	0x1dde38 <_Z12LoadGameDataPvj+0x154>
+1ddec0	e59dc008	ldr	r12, [sp, #0x8]
+1ddec4	e59c3000	ldr	r3, [r12]
+1ddec8	e5935014	ldr	r5, [r3, #0x14]
+1ddecc	e3550000	cmp	r5, #0
+1dded0	0a000011	beq	0x1ddf1c <_Z12LoadGameDataPvj+0x238>
+1dded4	e5954000	ldr	r4, [r5]
+1dded8	e3540000	cmp	r4, #0
+1ddedc	0a00000e	beq	0x1ddf1c <_Z12LoadGameDataPvj+0x238>
+1ddee0	e2855004	add	r5, r5, #4
+1ddee4	ea000004	b	0x1ddefc <_Z12LoadGameDataPvj+0x218>
+1ddee8	e3550000	cmp	r5, #0
+1ddeec	0a00000a	beq	0x1ddf1c <_Z12LoadGameDataPvj+0x238>
+1ddef0	e4954004	ldr	r4, [r5], #4
+1ddef4	e3540000	cmp	r4, #0
+1ddef8	0a000007	beq	0x1ddf1c <_Z12LoadGameDataPvj+0x238>
+1ddefc	e5943004	ldr	r3, [r4, #0x4]
+1ddf00	e3730001	cmn	r3, #1
+1ddf04	1afffff7	bne	0x1ddee8 <_Z12LoadGameDataPvj+0x204>
+1ddf08	e5940000	ldr	r0, [r4]
+1ddf0c	eb0056d2	bl	0x1f3a5c <_Z21Variable_BuiltIn_FindPKc>
+1ddf10	e3550000	cmp	r5, #0
+1ddf14	e5840004	str	r0, [r4, #0x4]
+1ddf18	1afffff4	bne	0x1ddef0 <_Z12LoadGameDataPvj+0x20c>
+1ddf1c	e5990000	ldr	r0, [r9]
+1ddf20	e59f37fc	ldr	r3, [pc, #0x7fc]
+1ddf24	e3a05000	mov	r5, #0
+1ddf28	e598e000	ldr	lr, [r8]
+1ddf2c	e3a0c001	mov	r12, #1
+1ddf30	e1a02005	mov	r2, r5
+1ddf34	e3e014ff	mvn	r1, #-16777216
+1ddf38	e7973003	ldr	r3, [r7, r3]
+1ddf3c	e150000e	cmp	r0, lr
+1ddf40	b1a0000e	movlt	r0, lr
+1ddf44	e3a04003	mov	r4, #3
+1ddf48	e3a0e002	mov	lr, #2
+1ddf4c	e583c068	str	r12, [r3, #0x68]
+1ddf50	e583e0c0	str	lr, [r3, #0xc0]
+1ddf54	e5835010	str	r5, [r3, #0x10]
+1ddf58	e5834118	str	r4, [r3, #0x118]
+1ddf5c	ebfece8a	bl	0x19198c <_ZN12YYObjectBase5AllocEjib>
+1ddf60	e59dc010	ldr	r12, [sp, #0x10]
+1ddf64	e59f17bc	ldr	r1, [pc, #0x7bc]
+1ddf68	e59f27bc	ldr	r2, [pc, #0x7bc]
+1ddf6c	e58c0000	str	r0, [r12]
+1ddf70	e1a03000	mov	r3, r0
+1ddf74	e5804038	str	r4, [r0, #0x38]
+1ddf78	e7971001	ldr	r1, [r7, r1]
+1ddf7c	e580500c	str	r5, [r0, #0xc]
+1ddf80	e5810000	str	r0, [r1]
+1ddf84	e7972002	ldr	r2, [r7, r2]
+1ddf88	e5922000	ldr	r2, [r2]
+1ddf8c	e1520005	cmp	r2, r5
+1ddf90	0a000004	beq	0x1ddfa8 <_Z12LoadGameDataPvj+0x2c4>
+1ddf94	e28d4040	add	r4, sp, #64
+1ddf98	e1a00005	mov	r0, r5
+1ddf9c	e5243010	str	r3, [r4, #-0x10]!
+1ddfa0	e1a01004	mov	r1, r4
+1ddfa4	e12fff32	blx	r2
+1ddfa8	e59dc00c	ldr	r12, [sp, #0xc]
+1ddfac	e35c0000	cmp	r12, #0
+1ddfb0	0a000145	beq	0x1de4cc <_Z12LoadGameDataPvj+0x7e8>
+1ddfb4	e59c3004	ldr	r3, [r12, #0x4]
+1ddfb8	e59dc018	ldr	r12, [sp, #0x18]
+1ddfbc	e24c2008	sub	r2, r12, #8
+1ddfc0	e1520003	cmp	r2, r3
+1ddfc4	0a000041	beq	0x1de0d0 <_Z12LoadGameDataPvj+0x3ec>
+1ddfc8	e3a0a001	mov	r10, #1
+1ddfcc	e59f375c	ldr	r3, [pc, #0x75c]
+1ddfd0	e7973003	ldr	r3, [r7, r3]
+1ddfd4	e5d33000	ldrb	r3, [r3]
+1ddfd8	e3530000	cmp	r3, #0
+1ddfdc	1a000039	bne	0x1de0c8 <_Z12LoadGameDataPvj+0x3e4>
+1ddfe0	e59dc008	ldr	r12, [sp, #0x8]
+1ddfe4	e59c3000	ldr	r3, [r12]
+1ddfe8	e3530000	cmp	r3, #0
+1ddfec	0a000018	beq	0x1de054 <_Z12LoadGameDataPvj+0x370>
+1ddff0	e5935014	ldr	r5, [r3, #0x14]
+1ddff4	e5954000	ldr	r4, [r5]
+1ddff8	e3540000	cmp	r4, #0
+1ddffc	0a000007	beq	0x1de020 <_Z12LoadGameDataPvj+0x33c>
+1de000	e5940000	ldr	r0, [r4]
+1de004	ebfbcf55	bl	0xd1d60 <_Z18Code_Variable_FindPKc>
+1de008	e5840004	str	r0, [r4, #0x4]
+1de00c	e5b54004	ldr	r4, [r5, #0x4]!
+1de010	e3540000	cmp	r4, #0
+1de014	1afffff9	bne	0x1de000 <_Z12LoadGameDataPvj+0x31c>
+1de018	e59dc008	ldr	r12, [sp, #0x8]
+1de01c	e59c3000	ldr	r3, [r12]
+1de020	e5936018	ldr	r6, [r3, #0x18]
+1de024	e5965000	ldr	r5, [r6]
+1de028	e3550000	cmp	r5, #0
+1de02c	0a000008	beq	0x1de054 <_Z12LoadGameDataPvj+0x370>
+1de030	e28d4030	add	r4, sp, #48
+1de034	e5950000	ldr	r0, [r5]
+1de038	e1a01004	mov	r1, r4
+1de03c	ebfbc045	bl	0xce158 <_Z18Code_Function_FindPKcPi>
+1de040	e59d3030	ldr	r3, [sp, #0x30]
+1de044	e5853004	str	r3, [r5, #0x4]
+1de048	e5b65004	ldr	r5, [r6, #0x4]!
+1de04c	e3550000	cmp	r5, #0
+1de050	1afffff7	bne	0x1de034 <_Z12LoadGameDataPvj+0x350>
+1de054	e1a0000a	mov	r0, r10
+1de058	e28dd044	add	sp, sp, #68
+1de05c	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1de060	e15e000b	cmp	lr, r11
+1de064	0a000004	beq	0x1de07c <_Z12LoadGameDataPvj+0x398>
+1de068	e080010e	add	r0, r0, lr, lsl #2
+1de06c	e28ee001	add	lr, lr, #1
+1de070	e580a000	str	r10, [r0]
+1de074	e584e004	str	lr, [r4, #0x4]
+1de078	eaffff8c	b	0x1ddeb0 <_Z12LoadGameDataPvj+0x1cc>
+1de07c	e594b008	ldr	r11, [r4, #0x8]
+1de080	e08eb00b	add	r11, lr, r11
+1de084	e15b000e	cmp	r11, lr
+1de088	0afffff6	beq	0x1de068 <_Z12LoadGameDataPvj+0x384>
+1de08c	e35b0000	cmp	r11, #0
+1de090	1a0000f0	bne	0x1de458 <_Z12LoadGameDataPvj+0x774>
+1de094	e3500000	cmp	r0, #0
+1de098	0a0000dd	beq	0x1de414 <_Z12LoadGameDataPvj+0x730>
+1de09c	eb02788b	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1de0a0	e3a0e001	mov	lr, #1
+1de0a4	e1a0000b	mov	r0, r11
+1de0a8	e584b00c	str	r11, [r4, #0xc]
+1de0ac	e584b000	str	r11, [r4]
+1de0b0	eaffffee	b	0x1de070 <_Z12LoadGameDataPvj+0x38c>
+1de0b4	e59f3678	ldr	r3, [pc, #0x678]
+1de0b8	e7970003	ldr	r0, [r7, r3]
+1de0bc	ebfe3f1c	bl	0x16dd34 <_ZN14CCameraManager5CleanEv>
+1de0c0	ebff478a	bl	0x1afef0 <_Z19CreateDefaultCamerav>
+1de0c4	eaffff25	b	0x1ddd60 <_Z12LoadGameDataPvj+0x7c>
+1de0c8	eb01861b	bl	0x23f93c <_Z16JS_ResourceSetupv>
+1de0cc	eaffffc3	b	0x1ddfe0 <_Z12LoadGameDataPvj+0x2fc>
+1de0d0	e35c0008	cmp	r12, #8
+1de0d4	e3a03000	mov	r3, #0
+1de0d8	e5cd3034	strb	r3, [sp, #0x34]
+1de0dc	9affffb9	bls	0x1ddfc8 <_Z12LoadGameDataPvj+0x2e4>
+1de0e0	e3a08008	mov	r8, #8
+1de0e4	e3a0a001	mov	r10, #1
+1de0e8	e304b853	movw	r11, #0x4853
+1de0ec	e58da02c	str	r10, [sp, #0x2c]
+1de0f0	e345b244	movt	r11, #0x5244
+1de0f4	e59da00c	ldr	r10, [sp, #0xc]
+1de0f8	e58db010	str	r11, [sp, #0x10]
+1de0fc	e3049f52	movw	r9, #0x4f52
+1de100	e58d700c	str	r7, [sp, #0xc]
+1de104	e1a07008	mov	r7, r8
+1de108	e59db014	ldr	r11, [sp, #0x14]
+1de10c	e304c24f	movw	r12, #0x424f
+1de110	e59d8018	ldr	r8, [sp, #0x18]
+1de114	e28ccf41	add	r12, r12, #260
+1de118	e3449d4f	movt	r9, #0x4d4f
+1de11c	e28d4030	add	r4, sp, #48
+1de120	e24ccf41	sub	r12, r12, #260
+1de124	e345c44a	movt	r12, #0x544a
+1de128	e58dc01c	str	r12, [sp, #0x1c]
+1de12c	e304c353	movw	r12, #0x4353
+1de130	e345c450	movt	r12, #0x5450
+1de134	e58dc020	str	r12, [sp, #0x20]
+1de138	e305c053	movw	r12, #0x5053
+1de13c	e345c452	movt	r12, #0x5452
+1de140	e58dc024	str	r12, [sp, #0x24]
+1de144	e304cf46	movw	r12, #0x4f46
+1de148	e345c44e	movt	r12, #0x544e
+1de14c	e58dc028	str	r12, [sp, #0x28]
+1de150	e1a0300a	mov	r3, r10
+1de154	e59bc000	ldr	r12, [r11]
+1de158	e7b36007	ldr	r6, [r3, r7]!
+1de15c	e1a0000b	mov	r0, r11
+1de160	e59f15d0	ldr	r1, [pc, #0x5d0]
+1de164	e1a02004	mov	r2, r4
+1de168	e59cc00c	ldr	r12, [r12, #0xc]
+1de16c	e2877008	add	r7, r7, #8
+1de170	e5935004	ldr	r5, [r3, #0x4]
+1de174	e08f1001	add	r1, pc, r1
+1de178	e58d6030	str	r6, [sp, #0x30]
+1de17c	e1a03005	mov	r3, r5
+1de180	e12fff3c	blx	r12
+1de184	e1a00004	mov	r0, r4
+1de188	eb0275ee	bl	0x27b948 <_Z17memLogPushContextPKc>
+1de18c	e3550000	cmp	r5, #0
+1de190	0a000025	beq	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de194	e1560009	cmp	r6, r9
+1de198	0a000123	beq	0x1de62c <_Z12LoadGameDataPvj+0x948>
+1de19c	8a000029	bhi	0x1de248 <_Z12LoadGameDataPvj+0x564>
+1de1a0	e3053054	movw	r3, #0x5054
+1de1a4	e3443741	movt	r3, #0x4741
+1de1a8	e1560003	cmp	r6, r3
+1de1ac	0a000128	beq	0x1de654 <_Z12LoadGameDataPvj+0x970>
+1de1b0	8a000054	bhi	0x1de308 <_Z12LoadGameDataPvj+0x624>
+1de1b4	e3053546	movw	r3, #0x5546
+1de1b8	e344334e	movt	r3, #0x434e
+1de1bc	e1560003	cmp	r6, r3
+1de1c0	0a00011e	beq	0x1de640 <_Z12LoadGameDataPvj+0x95c>
+1de1c4	9a000065	bls	0x1de360 <_Z12LoadGameDataPvj+0x67c>
+1de1c8	e3043f53	movw	r3, #0x4f53
+1de1cc	e344344e	movt	r3, #0x444e
+1de1d0	e1560003	cmp	r6, r3
+1de1d4	0a0000e3	beq	0x1de568 <_Z12LoadGameDataPvj+0x884>
+1de1d8	e3043f43	movw	r3, #0x4f43
+1de1dc	e3443544	movt	r3, #0x4544
+1de1e0	e1560003	cmp	r6, r3
+1de1e4	0a0000da	beq	0x1de554 <_Z12LoadGameDataPvj+0x870>
+1de1e8	e3043742	movw	r3, #0x4742
+1de1ec	e344344e	movt	r3, #0x444e
+1de1f0	e1560003	cmp	r6, r3
+1de1f4	0a000092	beq	0x1de444 <_Z12LoadGameDataPvj+0x760>
+1de1f8	e3a0c000	mov	r12, #0
+1de1fc	e59f0538	ldr	r0, [pc, #0x538]
+1de200	e58dc02c	str	r12, [sp, #0x2c]
+1de204	e1a03006	mov	r3, r6
+1de208	e59dc00c	ldr	r12, [sp, #0xc]
+1de20c	e1a02004	mov	r2, r4
+1de210	e59f1528	ldr	r1, [pc, #0x528]
+1de214	e79c0000	ldr	r0, [r12, r0]
+1de218	e08f1001	add	r1, pc, r1
+1de21c	e5900000	ldr	r0, [r0]
+1de220	e590c000	ldr	r12, [r0]
+1de224	e59cc00c	ldr	r12, [r12, #0xc]
+1de228	e12fff3c	blx	r12
+1de22c	e0857007	add	r7, r5, r7
+1de230	eb0275c5	bl	0x27b94c <_Z16memLogPopContextv>
+1de234	e1580007	cmp	r8, r7
+1de238	8affffc4	bhi	0x1de150 <_Z12LoadGameDataPvj+0x46c>
+1de23c	e59da02c	ldr	r10, [sp, #0x2c]
+1de240	e59d700c	ldr	r7, [sp, #0xc]
+1de244	eaffff60	b	0x1ddfcc <_Z12LoadGameDataPvj+0x2e8>
+1de248	e59dc010	ldr	r12, [sp, #0x10]
+1de24c	e156000c	cmp	r6, r12
+1de250	0a0000b5	beq	0x1de52c <_Z12LoadGameDataPvj+0x848>
+1de254	8a000015	bhi	0x1de2b0 <_Z12LoadGameDataPvj+0x5cc>
+1de258	e3053541	movw	r3, #0x5541
+1de25c	e3443f44	movt	r3, #0x4f44
+1de260	e1560003	cmp	r6, r3
+1de264	0a0000a5	beq	0x1de500 <_Z12LoadGameDataPvj+0x81c>
+1de268	8a00005a	bhi	0x1de3d8 <_Z12LoadGameDataPvj+0x6f4>
+1de26c	e305304f	movw	r3, #0x504f
+1de270	e3443e54	movt	r3, #0x4e54
+1de274	e1560003	cmp	r6, r3
+1de278	0a0000e1	beq	0x1de604 <_Z12LoadGameDataPvj+0x920>
+1de27c	e3053845	movw	r3, #0x5845
+1de280	e3443e54	movt	r3, #0x4e54
+1de284	e1560003	cmp	r6, r3
+1de288	0a0000d8	beq	0x1de5f0 <_Z12LoadGameDataPvj+0x90c>
+1de28c	e3043d54	movw	r3, #0x4d54
+1de290	e3443e4c	movt	r3, #0x4e4c
+1de294	e1560003	cmp	r6, r3
+1de298	1affffd6	bne	0x1de1f8 <_Z12LoadGameDataPvj+0x514>
+1de29c	e08a0007	add	r0, r10, r7
+1de2a0	e1a01005	mov	r1, r5
+1de2a4	e1a0200a	mov	r2, r10
+1de2a8	eb005130	bl	0x1f2770 <_Z13TimeLine_LoadPhjS_>
+1de2ac	eaffffde	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de2b0	e59dc01c	ldr	r12, [sp, #0x1c]
+1de2b4	e156000c	cmp	r6, r12
+1de2b8	0a0000a0	beq	0x1de540 <_Z12LoadGameDataPvj+0x85c>
+1de2bc	9a000034	bls	0x1de394 <_Z12LoadGameDataPvj+0x6b0>
+1de2c0	e59dc020	ldr	r12, [sp, #0x20]
+1de2c4	e156000c	cmp	r6, r12
+1de2c8	0a000087	beq	0x1de4ec <_Z12LoadGameDataPvj+0x808>
+1de2cc	e59dc024	ldr	r12, [sp, #0x24]
+1de2d0	e156000c	cmp	r6, r12
+1de2d4	0a00007f	beq	0x1de4d8 <_Z12LoadGameDataPvj+0x7f4>
+1de2d8	e59dc028	ldr	r12, [sp, #0x28]
+1de2dc	e156000c	cmp	r6, r12
+1de2e0	1affffc4	bne	0x1de1f8 <_Z12LoadGameDataPvj+0x514>
+1de2e4	e08a0007	add	r0, r10, r7
+1de2e8	e1a01005	mov	r1, r5
+1de2ec	e1a0200a	mov	r2, r10
+1de2f0	ebfc6f77	bl	0xfa0d4 <_Z9Font_LoadPhjS_>
+1de2f4	eaffffcc	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de2f8	e59f3418	ldr	r3, [pc, #0x418]
+1de2fc	e7978003	ldr	r8, [r7, r3]
+1de300	e5981000	ldr	r1, [r8]
+1de304	eafffeab	b	0x1dddb8 <_Z12LoadGameDataPvj+0xd4>
+1de308	e3043d45	movw	r3, #0x4d45
+1de30c	e3443942	movt	r3, #0x4942
+1de310	e1560003	cmp	r6, r3
+1de314	0a000044	beq	0x1de42c <_Z12LoadGameDataPvj+0x748>
+1de318	8a0000a2	bhi	0x1de5a8 <_Z12LoadGameDataPvj+0x8c4>
+1de31c	e3053453	movw	r3, #0x5453
+1de320	e3443752	movt	r3, #0x4752
+1de324	e1560003	cmp	r6, r3
+1de328	0affffbf	beq	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de32c	e3043150	movw	r3, #0x4150
+1de330	e3443854	movt	r3, #0x4854
+1de334	e1560003	cmp	r6, r3
+1de338	0a000095	beq	0x1de594 <_Z12LoadGameDataPvj+0x8b0>
+1de33c	e304314c	movw	r3, #0x414c
+1de340	e344374e	movt	r3, #0x474e
+1de344	e1560003	cmp	r6, r3
+1de348	1affffaa	bne	0x1de1f8 <_Z12LoadGameDataPvj+0x514>
+1de34c	e08a0007	add	r0, r10, r7
+1de350	e1a01005	mov	r1, r5
+1de354	e1a0200a	mov	r2, r10
+1de358	eb02705a	bl	0x27a4c8 <_ZN8CLangMan13Language_LoadEPhjS0_>
+1de35c	eaffffb2	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de360	e3043547	movw	r3, #0x4547
+1de364	e343384e	movt	r3, #0x384e
+1de368	e1560003	cmp	r6, r3
+1de36c	0a0000a9	beq	0x1de618 <_Z12LoadGameDataPvj+0x934>
+1de370	e3043c47	movw	r3, #0x4c47
+1de374	e344324f	movt	r3, #0x424f
+1de378	e1560003	cmp	r6, r3
+1de37c	1a0000c3	bne	0x1de690 <_Z12LoadGameDataPvj+0x9ac>
+1de380	e08a0007	add	r0, r10, r7
+1de384	e1a01005	mov	r1, r5
+1de388	e1a0200a	mov	r2, r10
+1de38c	ebfffaf4	bl	0x1dcf64 <_Z9GLOB_LoadPhjS_>
+1de390	eaffffa5	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de394	e3053350	movw	r3, #0x5350
+1de398	e3453350	movt	r3, #0x5350
+1de39c	e1560003	cmp	r6, r3
+1de3a0	0affffa1	beq	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de3a4	e3053453	movw	r3, #0x5453
+1de3a8	e3453441	movt	r3, #0x5441
+1de3ac	e1560003	cmp	r6, r3
+1de3b0	0affff9d	beq	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de3b4	e3053854	movw	r3, #0x5854
+1de3b8	e3453254	movt	r3, #0x5254
+1de3bc	e1560003	cmp	r6, r3
+1de3c0	1affff8c	bne	0x1de1f8 <_Z12LoadGameDataPvj+0x514>
+1de3c4	e08a0007	add	r0, r10, r7
+1de3c8	e1a01005	mov	r1, r5
+1de3cc	e1a0200a	mov	r2, r10
+1de3d0	ebfffd94	bl	0x1dda28 <_Z12Texture_LoadPhjS_>
+1de3d4	eaffff94	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de3d8	e3043741	movw	r3, #0x4741
+1de3dc	e3453052	movt	r3, #0x5052
+1de3e0	e1560003	cmp	r6, r3
+1de3e4	1a0000b4	bne	0x1de6bc <_Z12LoadGameDataPvj+0x9d8>
+1de3e8	e59f3354	ldr	r3, [pc, #0x354]
+1de3ec	e59dc00c	ldr	r12, [sp, #0xc]
+1de3f0	e79c3003	ldr	r3, [r12, r3]
+1de3f4	e5d33000	ldrb	r3, [r3]
+1de3f8	e3530000	cmp	r3, #0
+1de3fc	0affff8a	beq	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de400	e08a0007	add	r0, r10, r7
+1de404	e1a01005	mov	r1, r5
+1de408	e1a0200a	mov	r2, r10
+1de40c	eb00ea20	bl	0x218c94 <_Z15AudioGroup_LoadPhjS_>
+1de410	eaffff85	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de414	eb0277ad	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1de418	e3a01000	mov	r1, #0
+1de41c	e3a0e001	mov	lr, #1
+1de420	e584100c	str	r1, [r4, #0xc]
+1de424	e1a00001	mov	r0, r1
+1de428	eaffff1f	b	0x1de0ac <_Z12LoadGameDataPvj+0x3c8>
+1de42c	e1a01005	mov	r1, r5
+1de430	e1a0200a	mov	r2, r10
+1de434	e08a0007	add	r0, r10, r7
+1de438	ebfe60fc	bl	0x176830 <_Z19EmbeddedImages_LoadPhjS_>
+1de43c	ebff1d25	bl	0x1a58d8 <_Z24Part_SetupEmbeddedImagesv>
+1de440	eaffff79	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de444	e08a0007	add	r0, r10, r7
+1de448	e1a01005	mov	r1, r5
+1de44c	e1a0200a	mov	r2, r10
+1de450	ebfb93be	bl	0xc3350 <_Z15Background_LoadPhjS_>
+1de454	eaffff74	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de458	e1b0110b	lsls	r1, r11, #2
+1de45c	0affffec	beq	0x1de414 <_Z12LoadGameDataPvj+0x730>
+1de460	e3a02000	mov	r2, #0
+1de464	e300311b	movw	r3, #0x11b
+1de468	e58d2000	str	r2, [sp]
+1de46c	e59d201c	ldr	r2, [sp, #0x1c]
+1de470	eb027a99	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1de474	e5943004	ldr	r3, [r4, #0x4]
+1de478	e283e001	add	lr, r3, #1
+1de47c	e584000c	str	r0, [r4, #0xc]
+1de480	e0800103	add	r0, r0, r3, lsl #2
+1de484	eaffff08	b	0x1de0ac <_Z12LoadGameDataPvj+0x3c8>
+1de488	e59f3280	ldr	r3, [pc, #0x280]
+1de48c	e7973003	ldr	r3, [r7, r3]
+1de490	e58d3008	str	r3, [sp, #0x8]
+1de494	e5933000	ldr	r3, [r3]
+1de498	e3530000	cmp	r3, #0
+1de49c	0a000080	beq	0x1de6a4 <_Z12LoadGameDataPvj+0x9c0>
+1de4a0	e5932008	ldr	r2, [r3, #0x8]
+1de4a4	e3520000	cmp	r2, #0
+1de4a8	da000074	ble	0x1de680 <_Z12LoadGameDataPvj+0x99c>
+1de4ac	e59f1260	ldr	r1, [pc, #0x260]
+1de4b0	e1a00002	mov	r0, r2
+1de4b4	e7979001	ldr	r9, [r7, r1]
+1de4b8	e5892000	str	r2, [r9]
+1de4bc	eafffe36	b	0x1ddd9c <_Z12LoadGameDataPvj+0xb8>
+1de4c0	e59f3250	ldr	r3, [pc, #0x250]
+1de4c4	e7978003	ldr	r8, [r7, r3]
+1de4c8	eafffe94	b	0x1ddf20 <_Z12LoadGameDataPvj+0x23c>
+1de4cc	e59d000c	ldr	r0, [sp, #0xc]
+1de4d0	e28dd044	add	sp, sp, #68
+1de4d4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1de4d8	e08a0007	add	r0, r10, r7
+1de4dc	e1a01005	mov	r1, r5
+1de4e0	e1a0200a	mov	r2, r10
+1de4e4	eb0046b4	bl	0x1effbc <_Z11Sprite_LoadPhiS_>
+1de4e8	eaffff4f	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de4ec	e08a0007	add	r0, r10, r7
+1de4f0	e1a01005	mov	r1, r5
+1de4f4	e1a0200a	mov	r2, r10
+1de4f8	eb000739	bl	0x1e01e4 <_Z11Script_LoadPhjS_>
+1de4fc	eaffff4a	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de500	e59f323c	ldr	r3, [pc, #0x23c]
+1de504	e08a0007	add	r0, r10, r7
+1de508	e59dc00c	ldr	r12, [sp, #0xc]
+1de50c	e1a01005	mov	r1, r5
+1de510	e1a0200a	mov	r2, r10
+1de514	e79c3003	ldr	r3, [r12, r3]
+1de518	e5d33000	ldrb	r3, [r3]
+1de51c	e3530000	cmp	r3, #0
+1de520	1a000053	bne	0x1de674 <_Z12LoadGameDataPvj+0x990>
+1de524	eb01052a	bl	0x21f9d4 <_Z10Sound_WAVsPhjS_>
+1de528	eaffff3f	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de52c	e08a0007	add	r0, r10, r7
+1de530	e1a01005	mov	r1, r5
+1de534	e1a0200a	mov	r2, r10
+1de538	eb000de6	bl	0x1e1cd8 <_Z11Shader_LoadPhjS_>
+1de53c	eaffff3a	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de540	e08a0007	add	r0, r10, r7
+1de544	e1a01005	mov	r1, r5
+1de548	e1a0200a	mov	r2, r10
+1de54c	ebff014a	bl	0x19ea7c <_Z11Object_LoadPhjS_>
+1de550	eaffff35	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de554	e08a0007	add	r0, r10, r7
+1de558	e1a01005	mov	r1, r5
+1de55c	e1a0200a	mov	r2, r10
+1de560	ebfff8d7	bl	0x1dc8c4 <_Z10Code_PatchPhjS_>
+1de564	eaffff30	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de568	e59f31d4	ldr	r3, [pc, #0x1d4]
+1de56c	e08a0007	add	r0, r10, r7
+1de570	e59dc00c	ldr	r12, [sp, #0xc]
+1de574	e1a01005	mov	r1, r5
+1de578	e1a0200a	mov	r2, r10
+1de57c	e79c3003	ldr	r3, [r12, r3]
+1de580	e5d33000	ldrb	r3, [r3]
+1de584	e3530000	cmp	r3, #0
+1de588	1a000037	bne	0x1de66c <_Z12LoadGameDataPvj+0x988>
+1de58c	eb010427	bl	0x21f630 <_Z10Sound_LoadPhjS_>
+1de590	eaffff25	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de594	e08a0007	add	r0, r10, r7
+1de598	e1a01005	mov	r1, r5
+1de59c	e1a0200a	mov	r2, r10
+1de5a0	ebff2633	bl	0x1a7e74 <_Z9Path_LoadPhjS_>
+1de5a4	eaffff20	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de5a8	e3043144	movw	r3, #0x4144
+1de5ac	e3443c46	movt	r3, #0x4c46
+1de5b0	e1560003	cmp	r6, r3
+1de5b4	0affff1c	beq	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de5b8	e3043547	movw	r3, #0x4547
+1de5bc	e3443c4e	movt	r3, #0x4c4e
+1de5c0	e1560003	cmp	r6, r3
+1de5c4	1a000045	bne	0x1de6e0 <_Z12LoadGameDataPvj+0x9fc>
+1de5c8	e59d200c	ldr	r2, [sp, #0xc]
+1de5cc	e08a0007	add	r0, r10, r7
+1de5d0	e59f3170	ldr	r3, [pc, #0x170]
+1de5d4	e1a01005	mov	r1, r5
+1de5d8	e3a0cfaf	mov	r12, #700
+1de5dc	e7923003	ldr	r3, [r2, r3]
+1de5e0	e1a0200a	mov	r2, r10
+1de5e4	e583c000	str	r12, [r3]
+1de5e8	ebfffa69	bl	0x1dcf94 <_Z11Header_LoadPhjS_>
+1de5ec	eaffff0e	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de5f0	e08a0007	add	r0, r10, r7
+1de5f4	e1a01005	mov	r1, r5
+1de5f8	e1a0200a	mov	r2, r10
+1de5fc	ebfc5e2d	bl	0xf5eb8 <_Z14Extension_LoadPhjS_>
+1de600	eaffff09	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de604	e08a0007	add	r0, r10, r7
+1de608	e1a01005	mov	r1, r5
+1de60c	e1a0200a	mov	r2, r10
+1de610	ebff03c7	bl	0x19f534 <_Z11Option_LoadPhjS_>
+1de614	eaffff04	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de618	e08a0007	add	r0, r10, r7
+1de61c	e1a01005	mov	r1, r5
+1de620	e1a0200a	mov	r2, r10
+1de624	ebfffa5a	bl	0x1dcf94 <_Z11Header_LoadPhjS_>
+1de628	eafffeff	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de62c	e08a0007	add	r0, r10, r7
+1de630	e1a01005	mov	r1, r5
+1de634	e1a0200a	mov	r2, r10
+1de638	ebff59a6	bl	0x1b4cd8 <_Z9Room_LoadPhjS_>
+1de63c	eafffefa	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de640	e08a0007	add	r0, r10, r7
+1de644	e1a01005	mov	r1, r5
+1de648	e1a0200a	mov	r2, r10
+1de64c	ebfff9e7	bl	0x1dcdf0 <_Z9FUNC_LoadPhjS_>
+1de650	eafffef5	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de654	e59f30f0	ldr	r3, [pc, #0xf0]
+1de658	e08a2007	add	r2, r10, r7
+1de65c	e59dc00c	ldr	r12, [sp, #0xc]
+1de660	e79c3003	ldr	r3, [r12, r3]
+1de664	e5832000	str	r2, [r3]
+1de668	eafffeef	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de66c	eb00ea75	bl	0x219048 <_Z10Audio_LoadPhjS_>
+1de670	eafffeed	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de674	e3a03000	mov	r3, #0
+1de678	eb00ec00	bl	0x219680 <_Z10Audio_WAVsPhjS_i>
+1de67c	eafffeea	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de680	e59f208c	ldr	r2, [pc, #0x8c]
+1de684	e7979002	ldr	r9, [r7, r2]
+1de688	e5990000	ldr	r0, [r9]
+1de68c	eafffdc2	b	0x1ddd9c <_Z12LoadGameDataPvj+0xb8>
+1de690	e3043547	movw	r3, #0x4547
+1de694	e343374e	movt	r3, #0x374e
+1de698	e1560003	cmp	r6, r3
+1de69c	1afffed5	bne	0x1de1f8 <_Z12LoadGameDataPvj+0x514>
+1de6a0	eaffffc8	b	0x1de5c8 <_Z12LoadGameDataPvj+0x8e4>
+1de6a4	e59f3068	ldr	r3, [pc, #0x68]
+1de6a8	e59f2068	ldr	r2, [pc, #0x68]
+1de6ac	e7973003	ldr	r3, [r7, r3]
+1de6b0	e7978002	ldr	r8, [r7, r2]
+1de6b4	e5930000	ldr	r0, [r3]
+1de6b8	eafffe18	b	0x1ddf20 <_Z12LoadGameDataPvj+0x23c>
+1de6bc	e3043152	movw	r3, #0x4152
+1de6c0	e3453053	movt	r3, #0x5053
+1de6c4	e1560003	cmp	r6, r3
+1de6c8	0afffed7	beq	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de6cc	e3043548	movw	r3, #0x4548
+1de6d0	e345304c	movt	r3, #0x504c
+1de6d4	e1560003	cmp	r6, r3
+1de6d8	1afffec6	bne	0x1de1f8 <_Z12LoadGameDataPvj+0x514>
+1de6dc	eafffed2	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de6e0	e3043156	movw	r3, #0x4156
+1de6e4	e3443952	movt	r3, #0x4952
+1de6e8	e1560003	cmp	r6, r3
+1de6ec	1afffec1	bne	0x1de1f8 <_Z12LoadGameDataPvj+0x514>
+1de6f0	eafffecd	b	0x1de22c <_Z12LoadGameDataPvj+0x548>
+1de6f4	e1a01000	mov	r1, r0
+1de6f8	eafffdeb	b	0x1ddeac <_Z12LoadGameDataPvj+0x1c8>
+1de6fc	00213f5c	eoreq	r3, r1, r12, asr pc
+1de700	ffffdecc	.word	0xffffdecc
+1de704	00173aa0	andseq	r3, r7, r0, lsr #21
+1de708	ffffbcd4	.word	0xffffbcd4
+1de70c	ffffbf64	.word	0xffffbf64
+1de710	ffffbef0	.word	0xffffbef0
+1de714	ffffc0b8	.word	0xffffc0b8
+1de718	ffffc0c4	.word	0xffffc0c4
+1de71c	ffffbf4c	.word	0xffffbf4c
+1de720	0016f4c4	andseq	pc, r6, r4, asr #9
+1de724	ffffc010	.word	0xffffc010
+1de728	ffffc058	.word	0xffffc058
+1de72c	ffffc5f8	.word	0xffffc5f8
+1de730	ffffbf68	.word	0xffffbf68
+1de734	ffffc024	.word	0xffffc024
+1de738	00173650	andseq	r3, r7, r0, asr r6
+1de73c	ffffbac4	.word	0xffffbac4
+1de740	001735c4	andseq	r3, r7, r4, asr #11
+1de744	ffffd0e0	.word	0xffffd0e0
+1de748	ffffd14c	.word	0xffffd14c
+1de74c	fffff094	.word	0xfffff094

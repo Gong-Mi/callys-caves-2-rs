@@ -1,0 +1,71 @@
+{
+  "schema": "cally-readable-native/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_abi": "ARM32 little-endian base AAPCS, softfp core-register doubles",
+  "header_sha256": "5295867f65ebbbbd7f7c459e74bd304ce7f55767afd52a3e4aeaf531f96de07e",
+  "functions": [
+    {
+      "entry": "0x3194a0",
+      "size": 68,
+      "symbols": [
+        "__fixdfdi",
+        "__aeabi_d2lz"
+      ],
+      "body_sha256": "c8e20785a16d822f5e12597d9328a06bdd2fbbc9363820a51f5fbf9fe94e3830",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "src/conversions.c",
+      "translation_source_sha256": "ba80acdd9b3ee0d9edd90a01f9ff9b06bbe70515994362105bd03fed032b7eb1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x319550",
+      "size": 104,
+      "symbols": [
+        "__fixunsdfdi",
+        "__aeabi_d2ulz"
+      ],
+      "body_sha256": "937b2936465c5b02c600d1bdfafe9b3b84a7c2f56bb1d5fc1937ca3e21aa4f71",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "src/conversions.c",
+      "translation_source_sha256": "ba80acdd9b3ee0d9edd90a01f9ff9b06bbe70515994362105bd03fed032b7eb1",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x31b0d0",
+      "size": 84,
+      "symbols": [
+        "__aeabi_d2uiz",
+        "__fixunsdfsi"
+      ],
+      "body_sha256": "ea88ee603a88b5fa2df3d09c7f876e7912d00bac3e65084b1c8cb6201f579b69",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "src/fixunsdfsi.c",
+      "translation_source_sha256": "ecb280b2173806da1c8700d8329484a76b74f4d636c57fb5685bd015030a86d5",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "not_whole_library_completion": true,
+  "aliases_not_extra_entries": true,
+  "remaining_internal_dependencies": [
+    "__aeabi_dcmplt",
+    "__muldf3",
+    "__floatunsidf",
+    "__subdf3"
+  ],
+  "scope": "C recovery of the software conversion call chain, not a replacement native cast. C ABI alone does not prove original source-file language. Alias/runtime ABI and local source contract only; exception/callee arithmetic domain and stack-frame visibility remain uncertified."
+}

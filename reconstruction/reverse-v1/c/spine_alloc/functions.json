@@ -1,0 +1,84 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "entry": "0x285c10",
+      "isa": "arm",
+      "symbol": "_malloc",
+      "size": 60,
+      "original_body_sha256": "7d78eb3768c2bd2ee967cbad4051a99a98d1dadf27cfefd61991960e9613d70c",
+      "translation_source": "src/spine_alloc.c",
+      "translation_source_sha256": "7688044ae39a510348e7eb27e42564d8aafeacb2973b098f4adb2e141b9e1382",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x285c4c",
+      "isa": "arm",
+      "symbol": "_calloc",
+      "size": 52,
+      "original_body_sha256": "165f706e1485f9a11710657fa6ad9744b0cc6575039ee5bf0794a656fd02e77c",
+      "translation_source": "src/spine_alloc.c",
+      "translation_source_sha256": "7688044ae39a510348e7eb27e42564d8aafeacb2973b098f4adb2e141b9e1382",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x285c80",
+      "isa": "arm",
+      "symbol": "_free",
+      "size": 28,
+      "original_body_sha256": "533fa306c2bf13e0731dc1018254c6135f11b882e951ff0f85c8abe233a7aefa",
+      "translation_source": "src/spine_alloc.c",
+      "translation_source_sha256": "7688044ae39a510348e7eb27e42564d8aafeacb2973b098f4adb2e141b9e1382",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x285c9c",
+      "isa": "arm",
+      "symbol": "_setDebugMalloc",
+      "size": 20,
+      "original_body_sha256": "39297b393f8029cf7d137d6838d8dd01da035c8e3490b6bec2efa4168da8c705",
+      "translation_source": "src/spine_alloc.c",
+      "translation_source_sha256": "7688044ae39a510348e7eb27e42564d8aafeacb2973b098f4adb2e141b9e1382",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x285cb0",
+      "isa": "arm",
+      "symbol": "_setMalloc",
+      "size": 20,
+      "original_body_sha256": "a8e58ce5d78dd8761eef57aea15eaeee2305c5a050ece1533a385f35a4e752ab",
+      "translation_source": "src/spine_alloc.c",
+      "translation_source_sha256": "7688044ae39a510348e7eb27e42564d8aafeacb2973b098f4adb2e141b9e1382",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    },
+    {
+      "entry": "0x285cc4",
+      "isa": "arm",
+      "symbol": "_setFree",
+      "size": 20,
+      "original_body_sha256": "2838c07234708ff25b9df073133787eea9aaaaed128dccc85c0f59d9d8d6c274",
+      "translation_source": "src/spine_alloc.c",
+      "translation_source_sha256": "7688044ae39a510348e7eb27e42564d8aafeacb2973b098f4adb2e141b9e1382",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "phase_complete": false,
+      "remaining_scope": "callback/import boundary and whole-library closure are separate; see SEMANTICS.md"
+    }
+  ]
+}

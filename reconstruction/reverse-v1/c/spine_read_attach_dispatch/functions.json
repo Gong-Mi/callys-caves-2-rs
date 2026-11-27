@@ -1,0 +1,26 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_attach_dispatch",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_classifyAttachment",
+      "address_range": "0x28c6b4-0x28c7a0",
+      "semantics": "name/path/type triple getString + 5-type strcmp dispatch",
+      "keys": ["name", "path", "type"],
+      "type_dispatch": {
+        "region": "0x28cf2c (default when type key absent)",
+        "mesh": "0x28cf24",
+        "linkedmesh": "0x28cf34",
+        "boundingbox": "0x28cfa0",
+        "path": "0x28c7a0 (fall-through)",
+        "unknown": "0x28e7f4 (error)"
+      },
+      "version_marker": "NO point/clipping attachment types (stock 3.8 has 7 types, this binary has 5). Combined with bendPositive (3.6/3.7) + transform constraints (3.8): early-3.8 dev snapshot or custom hybrid.",
+      "notes": "'path' string literal reused for both the JSON key and the type strcmp. Attachment name falls back to attachmentMap->name (+0x1c direct read). Path falls back to name."
+    }
+  ],
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}

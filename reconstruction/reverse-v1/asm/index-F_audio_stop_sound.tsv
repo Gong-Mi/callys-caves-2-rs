@@ -1,0 +1,11 @@
+134dd8	e92d4008	push	{r3, lr}
+134ddc	e59f301c	ldr	r3, [pc, #0x1c]
+134de0	e59d0008	ldr	r0, [sp, #0x8]
+134de4	e79f3003	ldr	r3, [pc, r3]
+134de8	e5d31000	ldrb	r1, [r3]
+134dec	e3510000	cmp	r1, #0
+134df0	18bd8008	popne	{r3, pc}
+134df4	ebfe669d	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+134df8	e8bd4008	pop	{r3, lr}
+134dfc	ea039503	b	0x21a210 <_Z15Audio_StopSoundi>
+134e00	002ba268	eoreq	r10, r11, r8, ror #4

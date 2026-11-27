@@ -1,0 +1,54 @@
+2a7e2c	e92d4ff8	push.w	{r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2a7e30	4688	mov	r8, r1
+2a7e32	4617	mov	r7, r2
+2a7e34	4681	mov	r9, r0
+2a7e36	2800	cmp	r0, #0x0
+2a7e38	d03c	beq	0x2a7eb4 <png_destroy_read_struct+0x88>
+2a7e3a	6804	ldr	r4, [r0]
+2a7e3c	2c00	cmp	r4, #0x0
+2a7e3e	d039	beq	0x2a7eb4 <png_destroy_read_struct+0x88>
+2a7e40	f8d4b2f0	ldr.w	r11, [r4, #0x2f0]
+2a7e44	f8d4a2e8	ldr.w	r10, [r4, #0x2e8]
+2a7e48	b109	cbz	r1, 0x2a7e4e <png_destroy_read_struct+0x22>
+2a7e4a	680e	ldr	r6, [r1]
+2a7e4c	e000	b	0x2a7e50 <png_destroy_read_struct+0x24>
+2a7e4e	460e	mov	r6, r1
+2a7e50	b10f	cbz	r7, 0x2a7e56 <png_destroy_read_struct+0x2a>
+2a7e52	683d	ldr	r5, [r7]
+2a7e54	e000	b	0x2a7e58 <png_destroy_read_struct+0x2c>
+2a7e56	463d	mov	r5, r7
+2a7e58	4620	mov	r0, r4
+2a7e5a	4631	mov	r1, r6
+2a7e5c	462a	mov	r2, r5
+2a7e5e	f7ffff01	bl	0x2a7c64 <png_read_destroy>
+2a7e62	b17e	cbz	r6, 0x2a7e84 <png_destroy_read_struct+0x58>
+2a7e64	f04f33ff	mov.w	r3, #0xffffffff
+2a7e68	4620	mov	r0, r4
+2a7e6a	4631	mov	r1, r6
+2a7e6c	f44f4280	mov.w	r2, #0x4000
+2a7e70	f7fdfea6	bl	0x2a5bc0 <png_free_data>
+2a7e74	4630	mov	r0, r6
+2a7e76	4659	mov	r1, r11
+2a7e78	4652	mov	r2, r10
+2a7e7a	f7fefef0	bl	0x2a6c5e <png_destroy_struct_2>
+2a7e7e	2300	movs	r3, #0x0
+2a7e80	f8c83000	str.w	r3, [r8]
+2a7e84	b175	cbz	r5, 0x2a7ea4 <png_destroy_read_struct+0x78>
+2a7e86	f04f33ff	mov.w	r3, #0xffffffff
+2a7e8a	4620	mov	r0, r4
+2a7e8c	4629	mov	r1, r5
+2a7e8e	f44f4280	mov.w	r2, #0x4000
+2a7e92	f7fdfe95	bl	0x2a5bc0 <png_free_data>
+2a7e96	4628	mov	r0, r5
+2a7e98	4659	mov	r1, r11
+2a7e9a	4652	mov	r2, r10
+2a7e9c	f7fefedf	bl	0x2a6c5e <png_destroy_struct_2>
+2a7ea0	2300	movs	r3, #0x0
+2a7ea2	603b	str	r3, [r7]
+2a7ea4	4620	mov	r0, r4
+2a7ea6	4659	mov	r1, r11
+2a7ea8	4652	mov	r2, r10
+2a7eaa	f7fefed8	bl	0x2a6c5e <png_destroy_struct_2>
+2a7eae	2300	movs	r3, #0x0
+2a7eb0	f8c93000	str.w	r3, [r9]
+2a7eb4	e8bd8ff8	pop.w	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}

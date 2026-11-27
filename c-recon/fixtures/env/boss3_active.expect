@@ -1,0 +1,20 @@
+# CODE 172: only active ghost/projectile instances enter the two with sweeps.
+# Deactivated targets remain alive and parked; the active ghost runs Destroy once.
+GLOBAL ghostskilled 1
+GLOBAL enemieskilled 1
+COUNT_INST 24 2
+COUNT_INST 55 2
+COUNT_INST 187 1
+COUNT_INST 190 1
+INST 100001 24 0
+INST 100002 24 1
+ACTIVE 100002 0
+INST 100003 55 0
+INST 100004 55 1
+ACTIVE 100004 0
+INST 200001 187 1
+FIELD 200001 x 100
+FIELD 200001 y 200
+INST 200002 190 1
+FIELD 200002 x 300
+FIELD 200002 y 220

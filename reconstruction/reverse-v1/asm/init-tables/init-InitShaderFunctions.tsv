@@ -1,0 +1,17 @@
+idx	call_addr	name	fn_addr	fn_symbol	argc	flag
+0	0x1e21a8	shader_set	0x1e207c	F_Shader_Set(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+1	0x1e21c4	shader_reset	0x1e2110	F_Shader_Reset(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+2	0x1e21e0	shader_current	0x1e0da8	F_Shader_Current(RValue&, CInstance*, CInstance*, int, RValue*)	0	0
+3	0x1e21fc	shader_get_uniform	0x1e1058	F_Shader_Get_Uniform(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+4	0x1e2218	shader_get_sampler_index	0x1e1100	F_Shader_Get_Sampler_Index(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+5	0x1e2234	shader_set_uniform_i	0x1e1740	F_Shader_Set_Uniform_I(RValue&, CInstance*, CInstance*, int, RValue*)	-1	0
+6	0x1e2250	shader_set_uniform_i_array	0x1e1848	F_Shader_Set_Uniform_I_Array(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+7	0x1e226c	shader_set_uniform_f	0x1e1958	F_Shader_Set_Uniform_F(RValue&, CInstance*, CInstance*, int, RValue*)	-1	0
+8	0x1e2288	shader_set_uniform_f_array	0x1e1a60	F_Shader_Set_Uniform_F_Array(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+9	0x1e22a4	shader_set_uniform_matrix	0x1e1b70	F_Shader_Set_Uniform_Matrix(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+10	0x1e22c0	shader_set_uniform_matrix_array	0x1e1bc8	F_Shader_Set_Uniform_Matrix_Array(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+11	0x1e22dc	shader_is_compiled	0x1e0fcc	F_Shader_Is_Compiled(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+12	0x1e22f8	shaders_are_supported	0x1e0f98	F_Shaders_Are_Supported(RValue&, CInstance*, CInstance*, int, RValue*)	0	0
+13	0x1e2314	texture_set_stage	0x1e11a8	F_Shader_Set_Texture(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+14	0x1e2330	texture_get_texel_width	0x1e0e58	F_Texture_Get_Texel_Width(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+15	0x1e2350	texture_get_texel_height	0x1e0ef8	F_Texture_Get_Texel_Height(RValue&, CInstance*, CInstance*, int, RValue*)	1	0

@@ -1,0 +1,11 @@
+# Client consumption enters rm_level1, retains the persistent player and purges
+# the room-local door. Room Start marks level1visited.
+ROOM 1
+ROOMW 2048
+ROOMH 1280
+!WARP
+COUNT_INST 0 1
+FIELD 100000 x 128
+FIELD 100000 y 140
+!INST 100005
+GLOBAL level1visited 1

@@ -1,0 +1,14 @@
+172e50	ebfffdc2	bl	0x172560 <_Z15Split_TextBlockPKciP11TStringList>
+174efc	e1d501f4	ldrsh	r0, [r5, #20]
+1750b4	e5843068	str	r3, [r4, #0x68]
+17515c	e59d004c	ldr	r0, [sp, #0x4c]
+17ed90	eb03ef1a	bl	0x27aa00 <_ZN8yyMatrix8MultiplyEPS_S0_S0_>
+17edec	e3010701	movw	r0, #0x1701
+17f25c	e3899c05	orr	r9, r9, #1280
+17f290	e3a09901	mov	r9, #16384
+17fd28	e2400001	sub	r0, r0, #1
+17fd3c	908ff100	addls	pc, pc, r0, lsl #2
+17fdc8	e3a00eb9	mov	r0, #2960
+180024	e3000be2	movw	r0, #0xbe2
+182b7c	e2870b21	add	r0, r7, #33792
+182b84	e28000c0	add	r0, r0, #192

@@ -140,9 +140,10 @@ jobs:
           # instead of restating the configuration: a silent fallback to bfd
           # or lld (their banners are "GNU ld ..." / "LLD <version>") fails
           # here. Every shard builds all 168 test binaries, asset included.
-          bin=$(find target/ci-test/deps -maxdepth 1 -type f \
-                  -name 'font_chunk-*' ! -name '*.d' | head -1)
-          test -n "$bin" || { echo "no font_chunk test binary built" >&2; exit 1; }
+          # Select the stable `code_vm` test target; recurse because Cargo may
+          # place test executables under deps/ or a package build/.../out path.
+          bin=$(find target/ci-test -type f -name 'code_vm-*' ! -name '*.d' -print -quit)
+          test -n "$bin" || { echo "no code_vm test binary built" >&2; exit 1; }
           if ! grep -a -qE 'mold [0-9]+\.[0-9]+.*compatible with GNU ld' "$bin"; then
             echo "$bin carries no mold banner; it was linked by something else:" >&2
             grep -a -oE 'LLD [0-9.]+|GNU ld \([^)]*\)[0-9. ]*' "$bin" | sort -u | head -3 >&2

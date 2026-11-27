@@ -1,4 +1,9 @@
-/* Engine builtins that do not need instance geometry.
+/* tier: host_authored
+ * provenance: 重建实现，逐分支镜像 crates/core/src/parts/host_impl.rs 的 call()；
+ *             未实现的 builtin 走 c_gap（见文件内 unimplemented 路径），不假装通过。
+ * original_gap: 原版 libyoyo 各 builtin 的实参求值/副作用顺序未逐指令取证。
+ *
+ * Engine builtins that do not need instance geometry.
  *
  * Every branch here mirrors an arm of `call()` in
  * crates/core/src/parts/host_impl.rs; the comment above each group names the
@@ -6,10 +11,8 @@
  * gap on purpose: `scripts/batch_diff.py` classifies a body that calls an
  * unimplemented builtin as `c_gap` instead of pretending the diff passed.
  *
- * Drawing is deliberately a no-op. The VM records DrawCommand/TextCommand into
- * the scene and the state dump does not print them, so a no-op is
- * observationally equal for the differential; it is NOT a renderer and this
- * file never claims to produce a frame.
+ * Drawing records the same four command queues as the VM. It is command-stream
+ * evidence, not a rasterizer or an original-framebuffer oracle.
  */
 #include "gml.h"
 
@@ -17,6 +20,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* ---------------------------------------------------------------- helpers */
@@ -40,8 +44,131 @@ static void set_field(GmInst* in, const char* name, double v) {
     in->nfields++;
 }
 
+/* code_vm.rs pool_index/gm_real_text. Static references resolve to STRG bytes
+ * emitted from game.droid; runtime strings occupy the immediately following
+ * slots, exactly like Scene::dynamic_strings. */
+static int string_pool_index(Val v, int64_t* index) {
+    if (!isfinite(v) || v < GM_STRING_REF_BASE) return 0;
+    double offset = v - GM_STRING_REF_BASE;
+    if (offset != floor(offset) || offset > 9007199254740991.0) return 0;
+    *index = (int64_t)offset;
+    return 1;
+}
+
+static void real_text(Val v, char* out, size_t n) {
+    if (!isfinite(v)) { snprintf(out, n, "0"); return; }
+    if (v == floor(v) && fabs(v) < 9.0e15) snprintf(out, n, "%lld", (long long)v);
+    else snprintf(out, n, "%.2f", v);
+}
+
+void gm_fmt_num(char* buf, size_t n, double v) {
+    if (v != v) { snprintf(buf, n, "NaN"); return; }
+    if (v > 1.7976931348623157e308) { snprintf(buf, n, "inf"); return; }
+    if (v < -1.7976931348623157e308) { snprintf(buf, n, "-inf"); return; }
+    if (v == 0.0) { snprintf(buf, n, "%s", signbit(v) ? "-0" : "0"); return; }
+    for (int dec = 0; dec <= 40; dec++) {
+        char tmp[512];
+        snprintf(tmp, sizeof tmp, "%.*f", dec, v);
+        if (strtod(tmp, NULL) == v) { snprintf(buf, n, "%s", tmp); return; }
+    }
+    for (int sig = 15; sig <= 17; sig++) {
+        snprintf(buf, n, "%.*g", sig, v);
+        if (strtod(buf, NULL) == v) return;
+    }
+}
+
+static int32_t draw_i32(Val value) {
+    if (isfinite(value) && value == floor(value) &&
+        value >= (double)INT32_MIN && value <= (double)INT32_MAX) return (int32_t)value;
+    char number[512], message[600];
+    gm_fmt_num(number, sizeof number, value);
+    snprintf(message, sizeof message, "expected i32, got %s", number);
+    gm_fail_msg(message);
+    return 0;
+}
+
+const char* gm_arg_text(GmVM* vm, Val value, char* number_buf, size_t buf_len) {
+    int64_t index;
+    if (string_pool_index(value, &index)) {
+        if (index >= 0 && index < GM_STRING_TABLE_LEN) {
+            const char* text = gm_static_string((int32_t)index);
+            if (text) return text;
+        }
+        int64_t slot = index - GM_STRING_TABLE_LEN;
+        if (slot >= 0 && slot < vm->ndyn_strings) return vm->dynamic_strings[slot];
+    }
+    real_text(value, number_buf, buf_len);
+    return number_buf;
+}
+
+static Val alloc_string(GmVM* vm, const char* text) {
+    if (vm->ndyn_strings == vm->dyn_strings_cap) {
+        int new_cap = vm->dyn_strings_cap ? vm->dyn_strings_cap * 2 : 16;
+        if (new_cap <= vm->dyn_strings_cap) {
+            gm_fail_msg("dynamic string table size overflow");
+            return 0.0;
+        }
+        char** slots = realloc(vm->dynamic_strings, (size_t)new_cap * sizeof(*slots));
+        if (!slots) {
+            gm_fail_msg("dynamic string table allocation failed");
+            return 0.0;
+        }
+        vm->dynamic_strings = slots;
+        vm->dyn_strings_cap = new_cap;
+    }
+    size_t len = strlen(text);
+    char* copy = malloc(len + 1);
+    if (!copy) {
+        gm_fail_msg("dynamic string allocation failed");
+        return 0.0;
+    }
+    memcpy(copy, text, len + 1);
+    int slot = vm->ndyn_strings++;
+    vm->dynamic_strings[slot] = copy;
+    return GM_STRING_REF_BASE + (double)GM_STRING_TABLE_LEN + (double)slot;
+}
+
+void gm_strings_free(GmVM* vm) {
+    for (int i = 0; i < vm->ndyn_strings; i++) free(vm->dynamic_strings[i]);
+    free(vm->dynamic_strings);
+    vm->dynamic_strings = NULL;
+    vm->dyn_strings_cap = 0;
+    vm->ndyn_strings = 0;
+}
+
+Val gm_add(GmVM* vm, Val lhs, Val rhs) {
+    int64_t li, ri;
+    if (!string_pool_index(lhs, &li) && !string_pool_index(rhs, &ri)) return lhs + rhs;
+    char lb[512], rb[512];
+    const char* ls = gm_arg_text(vm, lhs, lb, sizeof lb);
+    const char* rs = gm_arg_text(vm, rhs, rb, sizeof rb);
+    size_t ll = strlen(ls), rl = strlen(rs);
+    char* joined = malloc(ll + rl + 1);
+    if (!joined) {
+        gm_fail_msg("string concatenation allocation failed");
+        return 0.0;
+    }
+    memcpy(joined, ls, ll);
+    memcpy(joined + ll, rs, rl + 1);
+    Val out = alloc_string(vm, joined);
+    free(joined);
+    return out;
+}
+
 /* host.c owns next_rand; the LCG must be the same one. */
 int32_t gm_resolve_sel(GmVM* vm, Val sel) { return vm_resolve(vm, sel); }
+
+/* Rust float-to-usize casts saturate: NaN/negative => 0, overflow => usize::MAX. */
+static uint64_t room_target_from_gm(Val value) {
+    if (isnan(value) || value <= 0.0) return 0;
+    if (value >= 18446744073709551615.0) return UINT64_MAX;
+    return (uint64_t)value;
+}
+
+static void queue_room_target(GmVM* vm, Val value) {
+    vm->target_room_warp = room_target_from_gm(value);
+    vm->has_room_warp = 1;
+}
 
 /* ------------------------------------------------------------------ maps */
 
@@ -51,12 +178,17 @@ void gm_vm_init_ext(GmVM* vm) {
     vm->display_w = 1136.0;
     vm->display_h = 640.0;
     vm->current_room = 0.0;
+    vm->target_room_warp = 0;
+    vm->has_room_warp = 0;
     vm->view_visible[0] = 1;
     for (int i = 0; i < 8; i++) { vm->view_pos[i][0] = vm->view_pos[i][1] = 0.0;
         vm->view_port[i][0] = vm->display_w; vm->view_port[i][1] = vm->display_h; }
     vm->current_font = 0.0;
     vm->draw_color = -1;
     vm->draw_alpha = 1.0;
+    vm->next_spawn_seq = 1;
+    vm->site_code = 0;
+    vm->site_offset = 0;
     vm->next_map_id = 1;
     vm->nmaps = 0;
     vm->nini = 0;
@@ -94,24 +226,52 @@ static void map_put(GmVM* vm, int id, double key, double val) {
     vm->maps[i].n++;
 }
 
-/* Liang-Barsky, inclusive edges — the same test as host_impl.rs
- * segment_hits_box, on the same Compute_BoundingBox the other collision
- * builtins use. */
-static int seg_hits_box(double x1, double y1, double x2, double y2,
-                        double l, double r, double t, double b) {
-    double dx = x2 - x1, dy = y2 - y1;
-    double t0 = 0.0, t1 = 1.0;
-    double p[4] = { -dx, dx, -dy, dy };
-    double q[4] = { x1 - l, r - x1, y1 - t, b - y1 };
-    for (int i = 0; i < 4; i++) {
-        if (p[i] == 0.0) { if (q[i] < 0.0) return 0; }
-        else {
-            double rt = q[i] / p[i];
-            if (p[i] < 0.0) { if (rt > t1) return 0; if (rt > t0) t0 = rt; }
-            else { if (rt < t0) return 0; if (rt < t1) t1 = rt; }
-        }
-    }
-    return 1;
+/* Liang-Barsky moved to collision.c (gm_seg_hits_box) so collision_line and the
+ * unit tests share one geometry path; see gm_line_hits_instance there for the
+ * broad-phase box. */
+
+static void record_sprite(GmVM* vm, const Val* a) {
+    int32_t sprite = draw_i32(a[0]);
+    int32_t color = vm->fog_enabled ? vm->fog_color : draw_i32(a[7]);
+    GmDrawCommand* c = gm_draw_push(vm, GM_DRAW_SPRITE);
+    if (!c) return;
+    c->u.sprite.sprite = sprite;
+    c->u.sprite.frame = a[1];
+    c->u.sprite.x = a[2];
+    c->u.sprite.y = a[3];
+    c->u.sprite.scale_x = a[4];
+    c->u.sprite.scale_y = a[5];
+    c->u.sprite.rotation = a[6];
+    c->u.sprite.color = color;
+    c->u.sprite.alpha = a[8];
+    c->u.sprite.fog = vm->fog_enabled;
+}
+
+static void record_text(GmVM* vm, const Val* a, int colored) {
+    int32_t color = colored ? draw_i32(a[3]) : vm->draw_color;
+    GmDrawCommand* c = gm_draw_push(vm, GM_DRAW_TEXT);
+    if (!c) return;
+    c->u.text.x = a[0];
+    c->u.text.y = a[1];
+    c->u.text.text = a[2];
+    c->u.text.color = color;
+    c->u.text.alpha = colored ? a[7] : vm->draw_alpha;
+    c->u.text.font = (int32_t)vm->current_font;
+}
+
+static void record_background(GmVM* vm, const Val* a, int extended) {
+    int32_t background = draw_i32(a[0]);
+    int32_t color = extended ? draw_i32(a[6]) : -1;
+    GmDrawCommand* c = gm_draw_push(vm, GM_DRAW_BACKGROUND);
+    if (!c) return;
+    c->u.background.background = background;
+    c->u.background.x = a[1];
+    c->u.background.y = a[2];
+    c->u.background.scale_x = extended ? a[3] : 1.0;
+    c->u.background.scale_y = extended ? a[4] : 1.0;
+    c->u.background.rotation = extended ? a[5] : 0.0;
+    c->u.background.color = color;
+    c->u.background.alpha = extended ? a[7] : vm->draw_alpha;
 }
 
 /* --------------------------------------------------------------- builtins */
@@ -192,10 +352,12 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
      * collision result. */
     if (!strcmp(name, "instance_deactivate_region")) return 1;
 
-    /* host_impl.rs: room warps only change the scheduler target; nothing in a
-     * single-body run observes it. */
-    if (!strcmp(name, "room_goto") || !strcmp(name, "room_restart") ||
-        !strcmp(name, "action_current_room") || !strcmp(name, "game_restart")) return 1;
+    /* host_impl.rs: room builtins queue a target for the client WARP boundary;
+     * action_current_room reads the current id instead of acting as a no-op. */
+    if (!strcmp(name, "action_current_room")) { *out = vm->current_room; return 1; }
+    if (!strcmp(name, "room_goto")) { queue_room_target(vm, a[0]); return 1; }
+    if (!strcmp(name, "room_restart")) { queue_room_target(vm, vm->current_room); return 1; }
+    if (!strcmp(name, "game_restart")) { vm->target_room_warp = 0; vm->has_room_warp = 1; return 1; }
 
     /* host_impl.rs:375 file_exists / file_delete: no disk dir is configured for
      * a single body, so both reduce to the in-memory ini view. */
@@ -206,17 +368,43 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
     }
     if (!strcmp(name, "file_delete")) return 1;
 
-    /* host_impl.rs:339-352 draw state; the commands themselves are not dumped */
+    /* host_impl.rs draw state + the four command queues. */
     if (!strcmp(name, "draw_set_font")) { vm->current_font = a[0]; return 1; }
-    if (!strcmp(name, "draw_set_color")) { vm->draw_color = (int32_t)a[0]; return 1; }
+    if (!strcmp(name, "draw_set_color")) { vm->draw_color = draw_i32(a[0]); return 1; }
     if (!strcmp(name, "draw_set_alpha")) { vm->draw_alpha = a[0]; return 1; }
-    if (!strncmp(name, "draw_", 5)) {
-        /* draw_self reads its own fields first in the VM; if one is missing the
-         * VM errors and this body is classified vm_reject, so a no-op here is
-         * only ever compared when the VM also produced a dump. */
-        if (!strcmp(name, "draw_text_color") && argc >= 8) { vm->draw_color = (int32_t)a[7]; }
+    if (!strcmp(name, "draw_sprite_ext")) { record_sprite(vm, a); return 1; }
+    if (!strcmp(name, "draw_sprite")) {
+        Val args[9] = { a[0], a[1], a[2], a[3], 1.0, 1.0, 0.0, -1.0, vm->draw_alpha };
+        record_sprite(vm, args);
         return 1;
     }
+    if (!strcmp(name, "draw_self")) {
+        static const char* fields[9] = {
+            "sprite_index", "image_index", "x", "y", "image_xscale", "image_yscale",
+            "image_angle", "image_blend", "image_alpha"
+        };
+        Val args[9];
+        for (int k = 0; k < 9; k++) args[k] = GM_READ(vm, -1, fields[k]);
+        record_sprite(vm, args);
+        return 1;
+    }
+    if (!strcmp(name, "draw_text")) { record_text(vm, a, 0); return 1; }
+    if (!strcmp(name, "draw_text_color")) { record_text(vm, a, 1); return 1; }
+    if (!strcmp(name, "draw_healthbar")) {
+        int32_t back = draw_i32(a[5]), min = draw_i32(a[6]), max = draw_i32(a[7]);
+        GmDrawCommand* c = gm_draw_push(vm, GM_DRAW_HEALTHBAR);
+        if (c) {
+            c->u.healthbar.x1 = a[0]; c->u.healthbar.y1 = a[1];
+            c->u.healthbar.x2 = a[2]; c->u.healthbar.y2 = a[3];
+            c->u.healthbar.amount = a[4];
+            c->u.healthbar.back_col = back;
+            c->u.healthbar.min_col = min;
+            c->u.healthbar.max_col = max;
+        }
+        return 1;
+    }
+    if (!strcmp(name, "draw_background")) { record_background(vm, a, 0); return 1; }
+    if (!strcmp(name, "draw_background_ext")) { record_background(vm, a, 1); return 1; }
 
     /* host_impl.rs:609-640 ds_map */
     if (!strcmp(name, "ds_map_create")) { *out = (Val)vm->next_map_id++; map_slot(vm, (int)*out, 1); return 1; }
@@ -328,12 +516,47 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
         return 1;
     }
 
-    /* Pooled string references: index = STRING_REF_BASE + table.len() + slot.
-     * Only the *number* of allocations is observable through the dump, so the
-     * text itself is not stored — the reference must match, nothing else. */
-    if (!strcmp(name, "string") || !strcmp(name, "string_format") || !strcmp(name, "string_digits")) {
-        if (!strcmp(name, "string") && a[0] >= GM_STRING_REF_BASE) { *out = a[0]; return 1; }
-        *out = GM_STRING_REF_BASE + (double)GM_STRING_TABLE_LEN + (double)vm->ndyn_strings++;
+    /* Pooled strings retain both their reference numbering and their bytes:
+     * draw_text resolves the same pool when the command stream is dumped. */
+    if (!strcmp(name, "string")) {
+        int64_t index;
+        if (string_pool_index(a[0], &index)) { *out = a[0]; return 1; }
+        char text[512];
+        real_text(a[0], text, sizeof text);
+        *out = alloc_string(vm, text);
+        return 1;
+    }
+    if (!strcmp(name, "string_format")) {
+        int tot = (int)a[1]; if (tot < 0) tot = 0;
+        int dec = (int)a[2]; if (dec < 0) dec = 0;
+        int64_t index;
+        char number[512];
+        const char* raw;
+        if (string_pool_index(a[0], &index)) raw = gm_arg_text(vm, a[0], number, sizeof number);
+        else {
+            snprintf(number, sizeof number, "%.*f", dec, a[0]);
+            raw = number;
+        }
+        size_t len = strlen(raw), pad = (size_t)tot > len ? (size_t)tot - len : 0;
+        char* text = malloc(pad + len + 1);
+        if (!text) { gm_fail_msg("string_format allocation failed"); return 1; }
+        memset(text, '0', pad);
+        memcpy(text + pad, raw, len + 1);
+        *out = alloc_string(vm, text);
+        free(text);
+        return 1;
+    }
+    if (!strcmp(name, "string_digits")) {
+        char number[512];
+        const char* raw = gm_arg_text(vm, a[0], number, sizeof number);
+        size_t len = strlen(raw), used = 0;
+        char* text = malloc(len + 1);
+        if (!text) { gm_fail_msg("string_digits allocation failed"); return 1; }
+        for (size_t k = 0; k < len; k++)
+            if (raw[k] >= '0' && raw[k] <= '9') text[used++] = raw[k];
+        text[used] = '\0';
+        *out = alloc_string(vm, text);
+        free(text);
         return 1;
     }
 
@@ -351,9 +574,10 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
         *out = -4.0;
         for (int i = 0; i < n; i++) {
             if (notme && ids[i] == vm->cur) continue;
-            double l, r, t, b;
-            if (!gm_instance_box(vm, ids[i], &l, &r, &t, &b)) continue;
-            if (!seg_hits_box(x1, y1, x2, y2, l, r, t, b)) continue;
+            /* Broad phase: the runner's half-open box and Liang-Barsky live in
+             * collision.c (gm_line_hits_instance) so the unit tests share the
+             * exact path collision_line takes. */
+            if (!gm_line_hits_instance(vm, ids[i], x1, y1, x2, y2)) continue;
             if (prec && gm_line_mask_test(vm, ids[i], x1, y1, x2, y2) == 0) continue;
             *out = ids[i];
             return 1;
@@ -361,8 +585,12 @@ int gm_call_ext(GmVM* vm, const char* name, int argc, const Val* a, Val* out) {
         return 1;
     }
 
-    /* host_impl.rs:724 d3d_set_fog only feeds the draw state */
-    if (!strcmp(name, "d3d_set_fog")) return 1;
+    /* host_impl.rs:784 d3d_set_fog feeds the next sprite's color/flood flag. */
+    if (!strcmp(name, "d3d_set_fog")) {
+        vm->fog_enabled = a[0] >= 0.5;
+        if (vm->fog_enabled) vm->fog_color = draw_i32(a[1]);
+        return 1;
+    }
     /* host_impl.rs:213 audio_sound_gain mutates the voice command, not state */
     if (!strcmp(name, "audio_sound_gain")) return 1;
 

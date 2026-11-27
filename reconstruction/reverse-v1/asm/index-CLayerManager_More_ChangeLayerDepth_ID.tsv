@@ -1,0 +1,13 @@
+1b8948	e92d4070	push	{r4, r5, r6, lr}
+1b894c	e2504000	subs	r4, r0, #0
+1b8950	e1a06002	mov	r6, r2
+1b8954	e1a05003	mov	r5, r3
+1b8958	08bd8070	popeq	{r4, r5, r6, pc}
+1b895c	ebffffc1	bl	0x1b8868 <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi>
+1b8960	e2501000	subs	r1, r0, #0
+1b8964	08bd8070	popeq	{r4, r5, r6, pc}
+1b8968	e1a00004	mov	r0, r4
+1b896c	e1a02006	mov	r2, r6
+1b8970	e1a03005	mov	r3, r5
+1b8974	e8bd4070	pop	{r4, r5, r6, lr}
+1b8978	eafffe20	b	0x1b8200 <_ZN13CLayerManager16ChangeLayerDepthEP5CRoomP6CLayerib>

@@ -1,0 +1,71 @@
+24e58c	e92d40f0	push	{r4, r5, r6, r7, lr}
+24e590	e24dd03c	sub	sp, sp, #60
+24e594	e28d6008	add	r6, sp, #8
+24e598	e28d5018	add	r5, sp, #24
+24e59c	e3a04000	mov	r4, #0
+24e5a0	e1a01000	mov	r1, r0
+24e5a4	e28d7028	add	r7, sp, #40
+24e5a8	e1a00006	mov	r0, r6
+24e5ac	e58d4008	str	r4, [sp, #0x8]
+24e5b0	e58d400c	str	r4, [sp, #0xc]
+24e5b4	e58d4010	str	r4, [sp, #0x10]
+24e5b8	e58d4014	str	r4, [sp, #0x14]
+24e5bc	e58d4018	str	r4, [sp, #0x18]
+24e5c0	e58d401c	str	r4, [sp, #0x1c]
+24e5c4	e58d4020	str	r4, [sp, #0x20]
+24e5c8	e58d4024	str	r4, [sp, #0x24]
+24e5cc	ebfa5b21	bl	0xe5258 <_Z14YYCreateStringP6RValuePKc>
+24e5d0	e1a01004	mov	r1, r4
+24e5d4	e1a02004	mov	r2, r4
+24e5d8	e1a00005	mov	r0, r5
+24e5dc	e3a03001	mov	r3, #1
+24e5e0	e58d6000	str	r6, [sp]
+24e5e4	ebffd6d2	bl	0x244134 <_Z17F_JSTypeErrorCallR6RValueP9CInstanceS2_iPS_>
+24e5e8	e3a03001	mov	r3, #1
+24e5ec	e1a01004	mov	r1, r4
+24e5f0	e58d5000	str	r5, [sp]
+24e5f4	e1a02004	mov	r2, r4
+24e5f8	e1a00007	mov	r0, r7
+24e5fc	e58d4028	str	r4, [sp, #0x28]
+24e600	e58d402c	str	r4, [sp, #0x2c]
+24e604	e58d4030	str	r4, [sp, #0x30]
+24e608	e58d4034	str	r4, [sp, #0x34]
+24e60c	ebffff4a	bl	0x24e33c <_Z9F_JSThrowR6RValueP9CInstanceS2_iPS_>
+24e610	e59d3014	ldr	r3, [sp, #0x14]
+24e614	e2433001	sub	r3, r3, #1
+24e618	e3c334ff	bic	r3, r3, #-16777216
+24e61c	e3c33003	bic	r3, r3, #3
+24e620	e1530004	cmp	r3, r4
+24e624	0a00001c	beq	0x24e69c <_Z16JSThrowTypeErrorPKc+0x110>
+24e628	e59d1024	ldr	r1, [sp, #0x24]
+24e62c	e3a03000	mov	r3, #0
+24e630	e58d3010	str	r3, [sp, #0x10]
+24e634	e3a02005	mov	r2, #5
+24e638	e2411001	sub	r1, r1, #1
+24e63c	e58d3008	str	r3, [sp, #0x8]
+24e640	e3c134ff	bic	r3, r1, #-16777216
+24e644	e58d2014	str	r2, [sp, #0x14]
+24e648	e3c33003	bic	r3, r3, #3
+24e64c	e3530000	cmp	r3, #0
+24e650	0a00000e	beq	0x24e690 <_Z16JSThrowTypeErrorPKc+0x104>
+24e654	e59d1034	ldr	r1, [sp, #0x34]
+24e658	e3a03000	mov	r3, #0
+24e65c	e58d3020	str	r3, [sp, #0x20]
+24e660	e3a02005	mov	r2, #5
+24e664	e2411001	sub	r1, r1, #1
+24e668	e58d3018	str	r3, [sp, #0x18]
+24e66c	e3c134ff	bic	r3, r1, #-16777216
+24e670	e58d2024	str	r2, [sp, #0x24]
+24e674	e3c33003	bic	r3, r3, #3
+24e678	e3530000	cmp	r3, #0
+24e67c	1a000001	bne	0x24e688 <_Z16JSThrowTypeErrorPKc+0xfc>
+24e680	e1a00007	mov	r0, r7
+24e684	ebf9c8fc	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+24e688	e28dd03c	add	sp, sp, #60
+24e68c	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+24e690	e1a00005	mov	r0, r5
+24e694	ebf9c8f8	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+24e698	eaffffed	b	0x24e654 <_Z16JSThrowTypeErrorPKc+0xc8>
+24e69c	e1a00006	mov	r0, r6
+24e6a0	ebf9c8f5	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+24e6a4	eaffffdf	b	0x24e628 <_Z16JSThrowTypeErrorPKc+0x9c>

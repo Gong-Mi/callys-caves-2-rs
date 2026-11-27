@@ -1,0 +1,246 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_deform",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_deformTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e060-0x28e338 (B14, 728 B / 182 insns)",
+      "translation_source": "src/spine_read_tl_deform.c",
+      "abi": {
+        "signature": "int readSkeletonData_deformTimelines(Json* deform_map, void* data_raw, void* animation_raw, void* parser_raw)",
+        "deform_map": "the \"deform\" JSON child. Parent B3 caches it at [sp+0x50]; B14 loads it at 0x28e060, and at 0x28e0a0 REUSES the same slot for the malloc tag literal.",
+        "data_raw": "spSkeletonData* (parent [sp+0x18]); only the real findSkin / findSlotIndex / getAttachment walk it.",
+        "animation_raw": "spAnimation* (parent r11; 0x28e084 mov r10,r11 saves it, 0x28e334 mov r11,r10 restores it). The publish tail reads +0x04 duration, +0x08 timelineCount, +0x0c timelines.",
+        "parser_raw": "spSkeletonJson* (parent [sp+0x20]); +0x00 scale loaded at 0x28e1e4.",
+        "return": "DEFORM_TL_REACHED_DRAWORDER 1 (0x28e068 / 0x28e07c / 0x28e334 fall-through to 0x28e338), DEFORM_TL_HANDOFF_ATTACHMENT 3 (0x28e110 beq 0x28e55c, E4 owns the rest)."
+      },
+      "semantics": "deform_map NULL -> drawOrder (0x28e060..0x28e068); skinNode = deform_map->child, NULL -> drawOrder (0x28e06c..0x28e07c). Four literals are materialised once (0x28e080..0x28e0b0): malloc tag -> [sp+0x50], \"vertices\" -> [sp+0x48], \"offset\" -> [sp+0x54], \"time\" -> [sp+0x58]. Skin loop (head 0x28e0b4, advance 0x28e320..0x28e330): skin = spSkeletonData_findSkin(data, skinNode->name) at 0x28e0c0 (result may be NULL and is NEVER tested; it is spilled to [sp+0x40]); slotNode = skinNode->child at 0x28e0c8. Slot loop (head 0x28e0dc, advance 0x28e310..0x28e31c): slotIndex = spSkeletonData_findSlotIndex(data, slotNode->name) at 0x28e0e4 (the -1 result is NOT tested); tlNode = slotNode->child at 0x28e0e8; both slotNode ([sp+0x5c]) and slotIndex ([sp+0x3c]) are spilled. Timeline loop (head 0x28e0fc, advance 0x28e2ec/0x28e30c): attachment = spSkin_getAttachment(skin, slotIndex, tlNode->name) at 0x28e108; NULL -> E4 handoff at 0x28e110. weighted = (attachment->bones != NULL) at 0x28e114..0x28e124; floatCount = weighted ? 2*(verticesCount/3) : verticesCount at 0x28e128..0x28e140; size = floatCount<<2 at 0x28e144; buffer = _malloc(size, tag, 388) at 0x28e14c..0x28e154; timeline = spDeformTimeline_create(tlNode->unk_0c, floatCount) at 0x28e158..0x28e164; timeline->slotIndex = slotIndex at 0x28e178; timeline->attachment = attachment at 0x28e17c; if tlNode->child != NULL the frame loop runs (0x28e180 beq skips it); _free(buffer) at 0x28e2c8; publish: timelineCount++ with timelines[count] = timeline (0x28e2cc..0x28e2e4), last = timeline->frames[declared-1] with a ONE-float stride (0x28e2e0..0x28e2f4), duration = max(duration,last) (0x28e2f8..0x28e308); tlNode = tlNode->next (0x28e2ec).",
+      "keys": [
+        "vertices",
+        "offset",
+        "time"
+      ],
+      "key_literals": {
+        "vertices": {
+          "va": "0x357afc",
+          "pool_word": "0x28eac4",
+          "add_site": "0x28e098",
+          "role": "spilled to [sp+0x48] at 0x28e0a8; Json_getItem at 0x28e1a4"
+        },
+        "offset": {
+          "va": "0x357f44",
+          "pool_word": "0x28eac8",
+          "add_site": "0x28e09c",
+          "role": "spilled to [sp+0x54] at 0x28e0ac; Json_getInt at 0x28e1c0 with default 0"
+        },
+        "time": {
+          "va": "0x34c1d4",
+          "pool_word": "0x28eacc",
+          "add_site": "0x28e0a4",
+          "role": "spilled to [sp+0x58] at 0x28e0b0; Json_getFloat at 0x28e284 with default 0.0f"
+        },
+        "malloc_tag": {
+          "va": "0x357b08",
+          "pool_word": "0x28eac0",
+          "add_site": "0x28e090",
+          "text": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c",
+          "role": "spilled to [sp+0x50] at 0x28e0a0 and handed to _malloc at 0x28e154"
+        }
+      },
+      "field_offsets": {
+        "spSkeletonData.slotsCount": "+0x18 (real findSlotIndex 0x28b0d4; this block only passes data through)",
+        "spSkeletonData.slots": "+0x1c (findSlotIndex 0x28b0e0)",
+        "spSkeletonData.skinsCount": "+0x20 (real findSkin 0x28b12c)",
+        "spSkeletonData.skins": "+0x24 (findSkin 0x28b138)",
+        "spVertexAttachment.bones": "+0x14 (0x28e114 ldr r3,[r8,#0x14]; only tested for NULL — this is the weighted gate)",
+        "spVertexAttachment.verticesCount": "+0x18 (0x28e12c ldrne / 0x28e130 ldreq)",
+        "spVertexAttachment.vertices": "+0x1c (0x28e24c base addend load; B14b 0x28e828 non-weighted frame source)",
+        "spDeformTimeline.frames": "+0x10, ONE float per frame (0x282ecc store; 0x28e2e8 load; 0x28e2f0 lsl#2; 0x28e2f4 [r3,#-4])",
+        "spDeformTimeline.vertexFloatCount": "+0x14 (0x282ed8 stores create's second arg; 0x282f3c/0x282f4c setFrame size/memcpy count)",
+        "spDeformTimeline.vertices": "+0x18 (0x282edc; one per-frame pointer per slot)",
+        "spDeformTimeline.slotIndex": "+0x1c (0x28e178 — the only writer)",
+        "spDeformTimeline.attachment": "+0x20 (0x28e17c — the only writer)",
+        "spAnimation.duration": "+0x04 (0x28e2d4 vldr s14,[r10,#4] ; 0x28e308 vstr s15,[r10,#4])",
+        "spAnimation.timelineCount": "+0x08 (0x28e2cc / 0x28e2d8)",
+        "spAnimation.timelines": "+0x0c (0x28e2d0 / 0x28e2e4)",
+        "spSkeletonJson.scale": "+0x00 binary32 (0x28e1e4 vldr s15,[r0])"
+      },
+      "malloc_388": {
+        "call_site": "0x28e154 bl _malloc",
+        "line": "388 (0x28e150 mov r2,#388 — a plain MOV immediate, not movw, which is why the card extractor recorded null)",
+        "size_expression": "(uint32_t)floatCount << 2 (0x28e144 lsl r2,r11,#2) where floatCount is r11 from the weighted split",
+        "tag": "0x357b08 SkeletonJson.c, spilled at 0x28e0a0",
+        "ownership": "freed once at 0x28e2c8 after the frame loop, on the path where no frames exist (0x28e180 beq 0x28e2c4) as well"
+      },
+      "create_abi": {
+        "symbol": "spDeformTimeline_create 0x282e58 (160 B)",
+        "call_site": "0x28e164",
+        "arguments": "r0 = tlNode->unk_0c (declared frame count, 0x28e160); r1 = floatCount (0x28e158 mov r1,r11)",
+        "body": "calloc(1,36,tag,0x30f) 0x282e74..0x282e80; _spCurveTimeline_init(t,8,frameCount,...) 0x282e90..0x282ea4; +0x0c = frameCount 0x282eac; +0x10 = calloc(frameCount,4,tag,0x312) 0x282eb4..0x282ecc; +0x14 = r7 (SECOND argument) 0x282ed8; +0x18 = calloc(frameCount,4,tag,0x313) 0x282ed0..0x282edc"
+      },
+      "setframe_abi": {
+        "symbol": "spDeformTimeline_setFrame 0x282ef8 (124 B)",
+        "call_site": "0x28e298",
+        "arguments": "r0 = timeline, r1 = frameIndex, r2 = time bits, r3 = vertices pointer",
+        "body": "0x282f10 add r3,frames,i<<2 ; 0x282f18 str r2,[r3] -> frames[i] = time ; 0x282f14/0x282f1c free(old vertices[i]) ; 0x282f20 cmp r6,#0 -> 0x282f68 str NULL ; else 0x282f3c lsl r0,[r4,#0x14],#2 ; 0x282f40 _malloc(count*4,tag,799) ; 0x282f50 store ; 0x282f60 memcpy(count*4) — this is what pins +0x14 as the per-frame float-copy count"
+      },
+      "tail": {
+        "frame_stride": "ONE float: 0x28e2e0 ldr r2,[r9,#0xc] ; 0x28e2f0 add r3,r3,r2,lsl#2 ; 0x28e2f4 vldr s15,[r3,#-4] -> frames[declared-1]",
+        "max_semantics": "0x28e2f8 vcmpe.f32 s14,s15 + 0x28e300 vmovgt.f32 s15,s14 -> duration is replaced only when strictly greater; an unordered (NaN) last frame keeps the old duration",
+        "declared_vs_child": "the frame loop follows the child list (0x28e2ac/0x28e2c0) while create and the duration index both use the declared count (0x28e160 and 0x28e2e0). declared=3 with one child reads frames[2], which create zero-filled",
+        "publish_order": "timelineCount is incremented (0x28e2d8) and timelines[count] stored (0x28e2e4) BEFORE the frames load (0x28e2e8) and the duration compare"
+      },
+      "quirks": [
+        "The findSkin result is spilled to [sp+0x40] and never tested (0x28e0c0/0x28e0d4). A NULL skin is only observable later through getAttachment.",
+        "The findSlotIndex result is stored at [sp+0x3c] and fed to spSkin_getAttachment with NO -1 test (0x28e0e4/0x28e0f4). There is therefore no slot-not-found error on the deform path; E6 belongs to drawOrder (see the separate function entry).",
+        "B14 reuses [sp+0x50] for the malloc tag (0x28e0a0) after loading the deform node from it, so the tag literal replaces the map pointer in that slot.",
+        "The frame loop is skipped entirely when the attachment node has no child (0x28e180 beq 0x28e2c4), but the buffer is still allocated and freed and the timeline is still published with an all-zero frames array.",
+        "The weight/bone stream pointer at +0x14 is only compared against NULL; no element is dereferenced anywhere in B14/B14b."
+      ]
+    },
+    {
+      "name": "readSkeletonData_deformVertexFloatCount / readSkeletonData_deformWeightedDivide3",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e114-0x28e140 (weighted gate and the 2*(v/3) conversion)",
+      "translation_source": "src/spine_read_tl_deform.c",
+      "abi": {
+        "signature": "int32_t readSkeletonData_deformWeightedDivide3(int32_t vertexCount); int32_t readSkeletonData_deformVertexFloatCount(const void* attachment_raw)",
+        "return": "the original r11: the per-frame vertex FLOAT count"
+      },
+      "semantics": "weighted = (attachment->bones != NULL) (0x28e114 ldr / 0x28e118 adds / 0x28e11c movne / 0x28e120 cmp / 0x28e124 str). weighted -> 0x28e128 ldrne r1,[sp,#0x60] (0x55555556), 0x28e12c ldrne r3,[r8,#0x18] (verticesCount), 0x28e134 smullne r1,r2,r1,r3, 0x28e13c subne r3,r2,r3,asr #31 (signed /3 truncating toward zero), 0x28e140 lslne r11,r3,#1 (x2). non-weighted -> 0x28e130 ldreq r11,[r8,#0x18] (verticesCount verbatim).",
+      "open_5_closure": {
+        "question": "census §7 open #5: the 2*(vertexCount/3) conversion and create's second argument were undefined",
+        "answer": "The branch condition is attachment+0x14 (the bone/weight stream pointer) being non-NULL. The conversion result r11 is the number of FLOATS the deform timeline stores per frame: it is create's second argument (0x28e158), the create body stores it at timeline+0x14 (0x282ed8), and setFrame uses +0x14 as the malloc size (0x282f3c lsl#2) and memcpy length (0x282f4c/0x282f60) of a fresh per-frame copy. The same r11 is the buffer's float count: malloc r11*4 (0x28e144), and the non-weighted base addend loop runs exactly r11 floats (0x28e244..0x28e270).",
+        "status": "CLOSED"
+      },
+      "open_8_closure": {
+        "question": "census §7 open #8: the [sp+0x60] 0x55555556 constant — who else reads it and what is its signedness",
+        "answer": "Exactly one writer (B3: 0x28d2d8 movw r1,#0x5556 ; 0x28d2e0 movt r1,#0x5555 ; 0x28d304 str r1,[sp,#0x60]) and exactly one reader in the whole 13044-byte function (0x28e128 ldrne r1,[sp,#0x60]). B13 and B17 never touch it. The sequence smull + sub ... asr#31 is signed division by 3 truncating toward zero; the checker proves C's `/ 3` equals a bit-exact smull model over 25 values including INT_MIN and INT_MAX. INT_MIN -> 2*(-715827882) = -1431655764, and the lsl#2 byte size wraps to 0xAAAAAAB0.",
+        "status": "CLOSED"
+      }
+    },
+    {
+      "name": "readSkeletonData_deformTimelineFrames",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e19c-0x28e2c0 plus the B14b islands 0x28e820-0x28e87c",
+      "translation_source": "src/spine_read_tl_deform.c",
+      "abi": {
+        "signature": "void readSkeletonData_deformTimelineFrames(Json* timelineNode, const void* attachment_raw, void* timeline_raw, float* buffer, int32_t floatCount, int32_t weighted, const void* parser_raw)",
+        "timelineNode": "the attachment-name JSON node (r9); its +0x04 child is the first frame and its +0x1c name is not used by the frames",
+        "buffer": "the r4 line-388 allocation, floatCount floats",
+        "calls": [
+          "Json_getItem(frame,\"vertices\")          0x2873c4 0x28e1a4",
+          "Json_getInt(frame,\"offset\",0)           0x287460 0x28e1c0",
+          "memset x2                                 0xb65b0 0x28e1dc / 0x28e238",
+          "Json_getFloat(frame,\"time\",0.0f)        0x287444 0x28e284",
+          "spDeformTimeline_setFrame(t,i,time,src)    0x282ef8 0x28e298",
+          "readCurve(frame,t,i)                       0x28b34c 0x28e2a8"
+        ]
+      },
+      "semantics": "frame = timelineNode->child; NULL skips the loop on the caller side (0x28e180). Per frame: verticesJson = getItem(frame,\"vertices\") (0x28e1a4); offset = getInt(frame,\"offset\",0) (0x28e1c0); memset(buffer,0,offset*4) (0x28e1c8..0x28e1dc). If verticesJson is NULL (0x28e1ac beq -> B14b): weighted -> memset(buffer,0,floatCount*4) (0x28e830..0x28e840) and src = buffer; non-weighted -> src = attachment->vertices (+0x1c, 0x28e828) and the buffer is NOT initialised for this frame. Otherwise element = verticesJson->child (0x28e1f8); if parser->scale == 1.0f (0x28e1e8 vcmp / 0x28e1f4 vmrs / 0x28e1fc bne) each element's Json+0x18 float is copied verbatim (0x28e20c..0x28e21c); else each element is multiplied by parser->scale (B14b 0x28e858..0x28e874, vmul.f32) before the store; the copy starts at buffer + offset*4 (0x28e208) and the written counter starts at offset; then memset(buffer+written,0,(floatCount-written)*4) (0x28e224..0x28e238); src = buffer (0x28e274). Finally, if NOT weighted and floatCount > 0 (0x28e23c..0x28e250), buffer[i] += attachment->vertices[i] for ALL floatCount entries (0x28e258..0x28e270), then setFrame (0x28e298) and readCurve (0x28e2a8); frame = frame->next and frameIndex++ (0x28e2ac..0x28e2bc); loop while frame != NULL (0x28e2c0).",
+      "quirks": [
+        "The scaled copy's first iteration reuses the s15 value loaded at 0x28e1e4 (parser->scale); later iterations reload it at 0x28e858. The arithmetic result is the same.",
+        "The non-weighted base addend runs over the WHOLE floatCount-float buffer, including the zero-filled prefix and tail, not just the copied elements. frame_base_add pins this with base 10/20/30/40 and deltas 1/2 -> 10,20,31,42.",
+        "When the vertices key is absent and the attachment is non-weighted, the buffer is left at its previous contents but is not the published pointer; setFrame receives attachment+0x1c instead.",
+        "There is no bounds check between the JSON array length and floatCount: a longer array writes past the buffer and makes (floatCount-written) negative, i.e. a huge tail memset. The fixture never drives that shape; the mutants are designed so this unbounded path is not hit before a named assertion fires."
+      ]
+    },
+    {
+      "name": "readSkeletonData_drawOrderSlotNotFound",
+      "kind": "error_block_not_original_function",
+      "address_range": "0x28e8ac-0x28e8ec plus the shared tail 0x28da44-0x28da50",
+      "translation_source": "src/spine_read_tl_deform.c",
+      "abi": {
+        "signature": "int readSkeletonData_drawOrderSlotNotFound(Json* offsetsNode, void* data_raw, void* animation_raw, void* parser_raw)",
+        "return": "0 (0x28da4c mov r0,#0 ; 0x28da50 b 0x28bdcc, so the parent loader returns NULL)"
+      },
+      "semantics": "spAnimation_dispose(animation) (0x28e8b8..0x28e8bc) -> name = Json_getString(offsetsNode,\"slot\",0) (0x28e8c4..0x28e8cc) -> _spSkeletonJson_setError(parser, NULL, \"Slot not found: \", name) (0x28e8d0..0x28e8e4) -> spSkeletonData_dispose(data) (0x28da48) -> return 0.",
+      "json_argument": "0x28e8d4 mov r1,#0 — the NULL form. Not the root tree, not the offsets node: the checker's e6_json_argument mutant proves Json_dispose is never called on the node (free_hits(node)==0).",
+      "caller_correction": "The task/census heading calls this the deform-path error. Measured: the ONLY predecessor of 0x28e8ac in the whole function is 0x28e464 `beq 0x28e8ac` in the drawOrder offsets loop, after 0x28e45c cmn r0,#1 found findSlotIndex == -1. The deform family stores that result at [sp+0x3c] and never tests it. The register context read from B15: r11 = [sp+0x38] = animation (stored at 0x28e3b0), r8 = [sp+0x20] = parser, r7 = the failing offsets array element, [sp+0x34] = the \"slot\" literal (materialised at 0x28e384/0x28e394 from pool 0x28ead8 -> 0x357f54).",
+      "message_literal": {"va": "0x357e7c", "pool_word": "0x28eb0c", "add_site": "0x28e8d8", "text": "Slot not found: "}
+    }
+  ],
+  "layout_additions": {
+    "spVertexAttachment": "+0x14 void* bones (weighted gate; canonical 0x24-byte record from c/spine_atlas_attachment), +0x18 int32 verticesCount, +0x1c const float* vertices",
+    "spDeformTimeline": "36 B: +0x00 type (8), +0x04 vtable, +0x08 float* curves, +0x0c int frameCount, +0x10 float* frames (ONE per frame), +0x14 int vertexFloatCount (create arg 2; the setFrame copy count), +0x18 void** vertices (one pointer per frame), +0x1c int slotIndex, +0x20 void* attachment",
+    "spAnimation": "+0x04 float duration, +0x08 int32 timelineCount, +0x0c void** timelines (same shape as the other timeline families)",
+    "spSkeletonData": "+0x18 int32 slotCount / +0x1c spSlotData** slots (real findSlotIndex 0x28b0d4/0x28b0e0), +0x20 int32 skinCount / +0x24 spSkin** skins (real findSkin 0x28b12c/0x28b138). No new data word is introduced by B14 itself.",
+    "spSkeletonJson": "+0x00 binary32 scale (0x28e1e4; already canonical)"
+  },
+  "synthetic_boundaries": [
+    {
+      "name": "spDeformTimeline_create",
+      "address": "0x282e58, 160 B",
+      "reason": "body not recovered; the fixture allocates a zeroed 36-byte record with the disassembled layout (type 8, +0x0c frameCount, +0x10 frames, +0x14 = create's second argument, +0x18 pointer array) and records both arguments."
+    },
+    {
+      "name": "spDeformTimeline_setFrame",
+      "address": "0x282ef8, 124 B",
+      "reason": "body not recovered; the fixture stores frames[i] = time and records (timeline, i, time, vertices, timeline->+0x14). The real free/malloc/memcpy of the per-frame copy (0x282f1c..0x282f60, line 799) is pinned statically, not re-executed: the INT_MIN boundary makes +0x14*4 wrap to 2.8 GB, which no fixture heap can host. Pointer identity and the copy count are the observables."
+    },
+    {
+      "name": "spCurveTimeline_setStepped / spCurveTimeline_setCurve",
+      "address": "0x2817c0 / 0x2817d8",
+      "reason": "readCurve's dependency, not this family's; the recorders make the 0x28e2a8 wiring observable."
+    },
+    {
+      "name": "fixture heap / allocator roster / libc providers / hand-built Json nodes",
+      "reason": "test scaffolding only; qemu executes the reconstructed C"
+    }
+  ],
+  "depends_on": [
+    "json_interface",
+    "spine_read_curve",
+    "skeleton_find",
+    "spine_skin",
+    "spine_json_error",
+    "spine_skeleton_data",
+    "spine_json_support",
+    "spine_alloc"
+  ],
+  "boundary_E4": {
+    "range": "0x28e55c-0x28e590 (14 insns), NOT recovered here",
+    "why_not_here": "0x28e110 `beq 0x28e55c` leaves B14 for every NULL spSkin_getAttachment; the driver reports DEFORM_TL_HANDOFF_ATTACHMENT.",
+    "body_shape_read_for_the_boundary": "spAnimation_dispose(r10) 0x28e570 ; setError(parser, r5 = the NULL attachment as json argument, \"Attachment not found: \", r3 = [r9,#0x1c] = the timeline node name) 0x28e574..0x28e588 ; b 0x28da44"
+  },
+  "census_cross_check": {
+    "B14": "0x28e060..0x28e338 = 728 B / 182 insns — exact match: asm_index emits 182 instructions and the last is 0x28e334 mov r11,r10 before 0x28e338",
+    "B14b": "0x28e820..0x28e880 = 96 B / 24 insns — exact match; the island contains BOTH the vertices-key-absent branch and the scale != 1 copy, not only the memset",
+    "E6": "0x28e8ac..0x28e8ec = 64 B / 16 insns — exact match; the ONLY incoming branch is 0x28e464 (drawOrder), contradicting the deform-path label but agreeing with census §2.7 ('Slot not found: （drawOrder 内）')",
+    "open_5": "CLOSED — see readSkeletonData_deformVertexFloatCount.open_5_closure",
+    "open_8": "CLOSED — a full-function disassembly of 0x28b84c..0x28eb40 (3261 insns) contains exactly TWO [sp,#0x60] accesses: the B3 write 0x28d304 and the B14 read 0x28e128. No B13/B17 reuse. Signed /3 proven over 25 values.",
+    "read_vertices": "B14/B14b contain 13 BL sites and NONE targets _readVertices 0x28b3fc. The deform frame \"vertices\" array is read inline: Json_getItem + child->next walk, value at Json+0x18. The attachment-side _readVertices helper is not on this path.",
+    "magic_write": "0x28d2d8 movw r1,#0x5556 / 0x28d2e0 movt r1,#0x5555 / 0x28d304 str r1,[sp,#0x60] — the same three words the checker pins; the value is exactly 0x55555556",
+    "no_contradiction": "The task's two open questions are both closed by this module. The only label corrected is E6's caller (drawOrder, not deform); that correction is backed by a whole-function scan for branches to 0x28e8ac and by B14's untested findSlotIndex result at 0x28e0e4.",
+    "census_missing_detail": "census §2.7 lists the B14 keys but not the B14b key behaviour; this module records that the absent \"vertices\" key has two different sources (weighted -> buffer, non-weighted -> attachment+0x1c) and that \"offset\" shifts the copy while the base addend still covers the whole buffer."
+  },
+  "open": [
+    "The weighted vertex stream's real element layout (why 3 floats per deformed vertex collapse to 2) is not recovered: only the division by 3 and the x2 are proven. Any statement about bone indices or weights would need the spVertexAttachment consumer (apply/render), outside this block.",
+    "E4 (0x28e55c, \"Attachment not found: \") is left to its own module; this driver only reports the handoff.",
+    "The deform timeline's apply path (spDeformTimeline_apply) is not recovered, so the run-time consequence of +0x1c slotIndex / +0x20 attachment / +0x14 copy count is stated from the write side only.",
+    "declared frame count == 0 reaches the tail and indexes frames[-1] in 32-bit wrap arithmetic; the fixture never drives that (same restriction as the other timeline modules).",
+    "A frame whose \"vertices\" array is longer than floatCount - offset overruns the buffer and makes the tail memset length negative; the original has no check. The fixture avoids that shape, and the mutation set is ordered so no mutant reaches it before a named assertion.",
+    "spDeformTimeline_create/setFrame bodies are read statically but not translated; their line numbers (0x30f/0x312/0x313/799) are recorded from the disassembly, not asserted at run time."
+  ],
+  "check": {
+    "driver": "tools/check_tl_deform.py",
+    "fixture": "fixture/check.c",
+    "cases": "21 (deform absent / empty / skin without slots / slot without attachments / E4 handoff / weighted count 6->4 with the line-388 malloc, tag, +0x1c and +0x20 stores and free / weighted non-multiples 5,7,8 / non-weighted count verbatim / the 0x55555556 identity over 25 values incl. INT_MIN and the wrapped size / scaled copy / unscaled copy / offset gap / non-weighted base addend over the whole buffer / weighted absent-key clear / non-weighted absent-key source / two-frame time+readCurve / publish cursor+duration with one-float stride / declared-vs-child count / two skins x slots with real lookups / E6 with the NULL json argument / E6 with an absent slot key)",
+    "configs": "O0/O2/O3/ubsan (-fsanitize=undefined,float-cast-overflow -fsanitize-trap=all)",
+    "teeth": "19 named mutants (magic divisor, magic multiplier, unsigned divide, weighted gate flip, size formula, vertices key, offset key, time key, frame index stuck, readCurve dropped, scale ignored, base-add polarity, B14b unweighted source, weighted buffer clear, slot store dropped, tail stride 2, duration compare flip, E6 json argument, E6 message literal) — each refused by exactly one named runtime assertion",
+    "compile_guard_1": "missing module body refused: undefined symbol: readSkeletonData_deformTimelines",
+    "compile_guard_2": "spine_read_curve.c removed refused: undefined symbol: readCurve (proves the real link at 0x28e2a8)",
+    "compile_guard_3": "json_interface.c removed refused: undefined symbol: Json_getItem",
+    "compile_guard_4": "skeleton_find.c removed refused: undefined symbol: spSkeletonData_findSlotIndex (proves the real find chain)",
+    "compile_guard_5": "spine_skin.c removed refused: undefined symbol: spSkin_getAttachment (proves the real attachment lookup)",
+    "static": "SHA + 15 symbol pins + 63 word pins (including 0x28e128 the magic read, 0x28e150 the line-388 mov, 0x28d2d8/0x28d2e0/0x28d304 the magic write) + 7 pc-relative literals + readCurve anonymity (sites 0x28dff4 and 0x28e2a8) + exact 13-site B14 BL list + 1-site B14b BL list + 3-site E6 BL list + proof that no BL targets _readVertices 0x28b3fc",
+    "receipt": "harness/receipts/tl_deform_check-<timestamp>.json"
+  }
+}

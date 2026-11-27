@@ -1,0 +1,46 @@
+e1f5c	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+e1f60	e1a04001	mov	r4, r1
+e1f64	e5926000	ldr	r6, [r2]
+e1f68	e5935010	ldr	r5, [r3, #0x10]
+e1f6c	e3560000	cmp	r6, #0
+e1f70	a4947004	ldrge	r7, [r4], #4
+e1f74	b3a07102	movlt	r7, #-2147483648
+e1f78	e3160202	tst	r6, #536870912
+e1f7c	02844004	addeq	r4, r4, #4
+e1f80	e3550000	cmp	r5, #0
+e1f84	0a000005	beq	0xe1fa0 <_Z18DoPopLocalVariablejPhPKhP6VMExec+0x44>
+e1f88	e1a00005	mov	r0, r5
+e1f8c	ebffc675	bl	0xd3968 <_Z16PushContextStackP12YYObjectBase>
+e1f90	e5953024	ldr	r3, [r5, #0x24]
+e1f94	e3530000	cmp	r3, #0
+e1f98	1a00000f	bne	0xe1fdc <_Z18DoPopLocalVariablejPhPKhP6VMExec+0x80>
+e1f9c	ebffc6a4	bl	0xd3a34 <_Z15PopContextStackv>
+e1fa0	e594300c	ldr	r3, [r4, #0xc]
+e1fa4	e2433001	sub	r3, r3, #1
+e1fa8	e3c334ff	bic	r3, r3, #-16777216
+e1fac	e3c33003	bic	r3, r3, #3
+e1fb0	e3530000	cmp	r3, #0
+e1fb4	1a000001	bne	0xe1fc0 <_Z18DoPopLocalVariablejPhPKhP6VMExec+0x64>
+e1fb8	e1a00004	mov	r0, r4
+e1fbc	ebff7aae	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e1fc0	e1a00004	mov	r0, r4
+e1fc4	e3a03000	mov	r3, #0
+e1fc8	e3a02005	mov	r2, #5
+e1fcc	e5843008	str	r3, [r4, #0x8]
+e1fd0	e584200c	str	r2, [r4, #0xc]
+e1fd4	e4803010	str	r3, [r0], #16
+e1fd8	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+e1fdc	e5953004	ldr	r3, [r5, #0x4]
+e1fe0	e3c6620f	bic	r6, r6, #-268435456
+e1fe4	e2466b61	sub	r6, r6, #99328
+e1fe8	e3530000	cmp	r3, #0
+e1fec	e2461e2a	sub	r1, r6, #672
+e1ff0	0a000004	beq	0xe2008 <_Z18DoPopLocalVariablejPhPKhP6VMExec+0xac>
+e1ff4	e0830201	add	r0, r3, r1, lsl #4
+e1ff8	e1a02007	mov	r2, r7
+e1ffc	e1a01004	mov	r1, r4
+e2000	ebffbac7	bl	0xd0b24 <_Z10SET_RValueP6RValueS0_i>
+e2004	eaffffe4	b	0xe1f9c <_Z18DoPopLocalVariablejPhPKhP6VMExec+0x40>
+e2008	e1a00005	mov	r0, r5
+e200c	eb02d297	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e2010	eafffff8	b	0xe1ff8 <_Z18DoPopLocalVariablejPhPKhP6VMExec+0x9c>

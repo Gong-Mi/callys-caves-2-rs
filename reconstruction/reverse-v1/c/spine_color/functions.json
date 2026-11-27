@@ -1,0 +1,79 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_color",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "name": "toColor",
+      "entry": "0x28b680",
+      "code_end_exclusive": "0x28b6fc",
+      "range_end_exclusive": "0x28b700",
+      "original_body_sha256": "a236ad367a70594558c6ac2cbed7e93fbeb56363aa09902cf16c3dcc8ed1b798",
+      "literal_bytes": 4,
+      "isa": "ARM",
+      "code_words": 31,
+      "signature": "float (const char *value r0, int32 index r1) -> s0; internal aapcs-vfp PCS",
+      "semantics_state": "static control/data flow recovered, imported libc contract explicit",
+      "translation_state": "complete compiled ARM32 candidate; corrects and replaces old slots-local approximation",
+      "phase_complete": false,
+      "translation_source": "src/spine_color.c",
+      "translation_source_sha256": "03e1c0125f251faf096b1017db13cb3532b8e0fc776a6a8cc1d53f070901083b",
+      "translation_header_sha256": "4169e33ea770be84f710bdea522127bf0cf1449b569c3dfa3da5750c8a0bb55c",
+      "paths": [
+        {
+          "anchors": [
+            "0x28b690",
+            "0x28b694"
+          ],
+          "claim": "strlen called without NULL guard; exact length==8 gate"
+        },
+        {
+          "anchors": [
+            "0x28b6a8",
+            "0x28b6ac",
+            "0x28b6b8",
+            "0x28b6cc"
+          ],
+          "claim": "index<<1 wraps ARM32; two bytes plus NUL, no index guard"
+        },
+        {
+          "anchors": [
+            "0x28b6d0",
+            "0x28b6d4",
+            "0x28b6e0"
+          ],
+          "claim": "strtoul(...,16) including sign/space; reject only if *endptr nonzero"
+        },
+        {
+          "anchors": [
+            "0x28b6e8",
+            "0x28b6f0"
+          ],
+          "claim": "SIGNED VCVT.f32.s32 of returned word then VDIV.f32 by255; return in s0"
+        }
+      ],
+      "original_gap": [
+        "original not executed; libc fixture is synthetic; full locale/errno/trap behavior is not certified",
+        "valid declared test addresses only; no exact NULL/out-of-bounds fault-PC equivalence"
+      ]
+    }
+  ],
+  "acceptance": {
+    "kind": "reconstructed ARM32 under qemu-arm; synthetic allocator/import providers; not original equivalence",
+    "original_executed": false,
+    "optimizations": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "named_contracts_per_run": 16,
+    "runtime_mutants_killed": 16,
+    "missing_body_link_refusal": true,
+    "receipt_path": "/data/data/com.termux/files/home/.hermes/reports/cally-mesh-20261108/run-04/receipt.json",
+    "receipt_sha256": "7cd2811e22a6384fd20c5ac965daebe445bda2be29ff3479970080e8a306fee5",
+    "command": "python -B reconstruction/reverse-v1/c/spine_read_mesh/tools/check_mesh.py --so /path/to/libyoyo.so --out /new/exclusive/output"
+  }
+}

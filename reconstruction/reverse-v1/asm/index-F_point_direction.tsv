@@ -1,0 +1,31 @@
+111a50	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+111a54	e3a01000	mov	r1, #0
+111a58	e59d4018	ldr	r4, [sp, #0x18]
+111a5c	e1a05000	mov	r5, r0
+111a60	e580100c	str	r1, [r0, #0xc]
+111a64	e1a00004	mov	r0, r4
+111a68	ebfef485	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+111a6c	e3a01001	mov	r1, #1
+111a70	e1a08000	mov	r8, r0
+111a74	e1a00004	mov	r0, r4
+111a78	ebfef481	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+111a7c	e3a01002	mov	r1, #2
+111a80	e1a07000	mov	r7, r0
+111a84	e1a00004	mov	r0, r4
+111a88	ebfef47d	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+111a8c	e3a01003	mov	r1, #3
+111a90	e1a06000	mov	r6, r0
+111a94	e1a00004	mov	r0, r4
+111a98	ebfef479	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+111a9c	e1a01007	mov	r1, r7
+111aa0	e1a02006	mov	r2, r6
+111aa4	e1a03000	mov	r3, r0
+111aa8	e1a00008	mov	r0, r8
+111aac	ebffffbc	bl	0x1119a4 <_Z21YYGML_point_directionffff>
+111ab0	ee070a90	vmov	s15, r0
+111ab4	eeb77ae7	vcvt.f64.f32	d7, s15
+111ab8	ec510b17	vmov	r0, r1, d7
+111abc	ee172a10	vmov	r2, s14
+111ac0	e1a03001	mov	r3, r1
+111ac4	e885000c	stm	r5, {r2, r3}
+111ac8	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}

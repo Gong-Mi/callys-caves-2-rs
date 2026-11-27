@@ -1,0 +1,18 @@
+192fa4	e92d4038	push	{r3, r4, r5, lr}
+192fa8	e1a05001	mov	r5, r1
+192fac	e5901084	ldr	r1, [r0, #0x84]
+192fb0	e1a04000	mov	r4, r0
+192fb4	e3510000	cmp	r1, #0
+192fb8	0a000003	beq	0x192fcc <_ZN9CInstance18RebuildPhysicsBodyEP5CRoom+0x28>
+192fbc	e59500b4	ldr	r0, [r5, #0xb4]
+192fc0	eb029710	bl	0x238c08 <_ZN13CPhysicsWorld11DestroyBodyEP14CPhysicsObject>
+192fc4	e3a03000	mov	r3, #0
+192fc8	e5843084	str	r3, [r4, #0x84]
+192fcc	e5943080	ldr	r3, [r4, #0x80]
+192fd0	e5d3301c	ldrb	r3, [r3, #0x1c]
+192fd4	e3530000	cmp	r3, #0
+192fd8	08bd8038	popeq	{r3, r4, r5, pc}
+192fdc	e1a00004	mov	r0, r4
+192fe0	e1a01005	mov	r1, r5
+192fe4	e8bd4038	pop	{r3, r4, r5, lr}
+192fe8	eaffff39	b	0x192cd4 <_ZN9CInstance17CreatePhysicsBodyEP5CRoom>

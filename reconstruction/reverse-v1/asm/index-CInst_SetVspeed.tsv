@@ -1,0 +1,8 @@
+193114	ee071a90	vmov	s15, r1
+193118	ed907a39	vldr	s14, [r0, #228]
+19311c	e1a03000	mov	r3, r0
+193120	eeb47a67	vcmp.f32	s14, s15
+193124	eef1fa10	vmrs	APSR_nzcv, fpscr
+193128	012fff1e	bxeq	lr
+19312c	e58310e4	str	r1, [r3, #0xe4]
+193130	eafffde8	b	0x1928d8 <_ZN9CInstance14Compute_Speed1Ev>

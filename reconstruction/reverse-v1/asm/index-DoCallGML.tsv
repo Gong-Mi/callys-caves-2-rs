@@ -1,0 +1,18 @@
+e8b00	e5922000	ldr	r2, [r2]
+e8b04	e92d4070	push	{r4, r5, r6, lr}
+e8b08	e1a06000	mov	r6, r0
+e8b0c	e24dd008	sub	sp, sp, #8
+e8b10	e2420b61	sub	r0, r2, #99328
+e8b14	e1a05001	mov	r5, r1
+e8b18	e1a04003	mov	r4, r3
+e8b1c	e2400e2a	sub	r0, r0, #672
+e8b20	eb03dedd	bl	0x1e069c <_Z11Script_Datai>
+e8b24	e3a0c000	mov	r12, #0
+e8b28	e6ff1076	uxth	r1, r6
+e8b2c	e1a02005	mov	r2, r5
+e8b30	e1a03004	mov	r3, r4
+e8b34	e58dc000	str	r12, [sp]
+e8b38	e58dc004	str	r12, [sp, #0x4]
+e8b3c	ebfffe91	bl	0xe8588 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_>
+e8b40	e28dd008	add	sp, sp, #8
+e8b44	e8bd8070	pop	{r4, r5, r6, pc}

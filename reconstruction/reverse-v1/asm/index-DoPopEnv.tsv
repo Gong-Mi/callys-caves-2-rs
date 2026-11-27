@@ -1,0 +1,74 @@
+d3840	e7e72850	ubfx	r2, r0, #0x10, #0x8
+d3844	e35200f0	cmp	r2, #240
+d3848	e92d4010	push	{r4, lr}
+d384c	e24dd008	sub	sp, sp, #8
+d3850	0a000015	beq	0xd38ac <_Z8DoPopEnvjPhPKhP6VMExec+0x6c>
+d3854	e5912000	ldr	r2, [r1]
+d3858	e3720001	cmn	r2, #1
+d385c	0a000024	beq	0xd38f4 <_Z8DoPopEnvjPhPKhP6VMExec+0xb4>
+d3860	e3520000	cmp	r2, #0
+d3864	e2811004	add	r1, r1, #4
+d3868	0a00002e	beq	0xd3928 <_Z8DoPopEnvjPhPKhP6VMExec+0xe8>
+d386c	e5934044	ldr	r4, [r3, #0x44]
+d3870	e1a00480	lsl	r0, r0, #9
+d3874	e5832014	str	r2, [r3, #0x14]
+d3878	e2444004	sub	r4, r4, #4
+d387c	e593c05c	ldr	r12, [r3, #0x5c]
+d3880	e08403c0	add	r0, r4, r0, asr #7
+d3884	e5830044	str	r0, [r3, #0x44]
+d3888	e2802003	add	r2, r0, #3
+d388c	e3500000	cmp	r0, #0
+d3890	b1a00002	movlt	r0, r2
+d3894	e1a00140	asr	r0, r0, #2
+d3898	e79c2100	ldr	r2, [r12, r0, lsl #2]
+d389c	e1a00001	mov	r0, r1
+d38a0	e5832048	str	r2, [r3, #0x48]
+d38a4	e28dd008	add	sp, sp, #8
+d38a8	e8bd8010	pop	{r4, pc}
+d38ac	e5910000	ldr	r0, [r1]
+d38b0	e3700001	cmn	r0, #1
+d38b4	1a000002	bne	0xd38c4 <_Z8DoPopEnvjPhPKhP6VMExec+0x84>
+d38b8	ea000022	b	0xd3948 <_Z8DoPopEnvjPhPKhP6VMExec+0x108>
+d38bc	e5910004	ldr	r0, [r1, #0x4]
+d38c0	e1a01002	mov	r1, r2
+d38c4	e3500000	cmp	r0, #0
+d38c8	e2812004	add	r2, r1, #4
+d38cc	e1a00002	mov	r0, r2
+d38d0	1afffff9	bne	0xd38bc <_Z8DoPopEnvjPhPKhP6VMExec+0x7c>
+d38d4	e5902000	ldr	r2, [r0]
+d38d8	e2801008	add	r1, r0, #8
+d38dc	e5832018	str	r2, [r3, #0x18]
+d38e0	e5902004	ldr	r2, [r0, #0x4]
+d38e4	e1a00001	mov	r0, r1
+d38e8	e5832014	str	r2, [r3, #0x14]
+d38ec	e28dd008	add	sp, sp, #8
+d38f0	e8bd8010	pop	{r4, pc}
+d38f4	e591c004	ldr	r12, [r1, #0x4]
+d38f8	e5914008	ldr	r4, [r1, #0x8]
+d38fc	e53c2004	ldr	r2, [r12, #-0x4]!
+d3900	e3520000	cmp	r2, #0
+d3904	e581c004	str	r12, [r1, #0x4]
+d3908	1affffd7	bne	0xd386c <_Z8DoPopEnvjPhPKhP6VMExec+0x2c>
+d390c	e1a00004	mov	r0, r4
+d3910	e281100c	add	r1, r1, #12
+d3914	e58d3000	str	r3, [sp]
+d3918	e58d1004	str	r1, [sp, #0x4]
+d391c	eb06a26b	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+d3920	e59d1004	ldr	r1, [sp, #0x4]
+d3924	e59d3000	ldr	r3, [sp]
+d3928	e5912000	ldr	r2, [r1]
+d392c	e2811008	add	r1, r1, #8
+d3930	e5832018	str	r2, [r3, #0x18]
+d3934	e5112004	ldr	r2, [r1, #-0x4]
+d3938	e1a00001	mov	r0, r1
+d393c	e5832014	str	r2, [r3, #0x14]
+d3940	e28dd008	add	sp, sp, #8
+d3944	e8bd8010	pop	{r4, pc}
+d3948	e5910008	ldr	r0, [r1, #0x8]
+d394c	e58d1004	str	r1, [sp, #0x4]
+d3950	e58d3000	str	r3, [sp]
+d3954	eb06a25d	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+d3958	e59d1004	ldr	r1, [sp, #0x4]
+d395c	e59d3000	ldr	r3, [sp]
+d3960	e281000c	add	r0, r1, #12
+d3964	eaffffda	b	0xd38d4 <_Z8DoPopEnvjPhPKhP6VMExec+0x94>

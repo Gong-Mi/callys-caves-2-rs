@@ -1,0 +1,118 @@
+1b3938	e59f31c4	ldr	r3, [pc, #0x1c4]
+1b393c	e92d40f0	push	{r4, r5, r6, r7, lr}
+1b3940	e79f3003	ldr	r3, [pc, r3]
+1b3944	e24dd00c	sub	sp, sp, #12
+1b3948	e1a06000	mov	r6, r0
+1b394c	e5933000	ldr	r3, [r3]
+1b3950	e3530000	cmp	r3, #0
+1b3954	0a000068	beq	0x1b3afc <_Z14DrawRoomLayersP9tagYYRECT+0x1c4>
+1b3958	e59350d8	ldr	r5, [r3, #0xd8]
+1b395c	e3550000	cmp	r5, #0
+1b3960	13a07000	movne	r7, #0
+1b3964	0a000035	beq	0x1b3a40 <_Z14DrawRoomLayersP9tagYYRECT+0x108>
+1b3968	e5d53018	ldrb	r3, [r5, #0x18]
+1b396c	e3530000	cmp	r3, #0
+1b3970	0a00002f	beq	0x1b3a34 <_Z14DrawRoomLayersP9tagYYRECT+0xfc>
+1b3974	e59f318c	ldr	r3, [pc, #0x18c]
+1b3978	e79f3003	ldr	r3, [pc, r3]
+1b397c	e5d33000	ldrb	r3, [r3]
+1b3980	e3530000	cmp	r3, #0
+1b3984	0a000057	beq	0x1b3ae8 <_Z14DrawRoomLayersP9tagYYRECT+0x1b0>
+1b3988	e59f317c	ldr	r3, [pc, #0x17c]
+1b398c	e79f3003	ldr	r3, [pc, r3]
+1b3990	e5930000	ldr	r0, [r3]
+1b3994	ee070a90	vmov	s15, r0
+1b3998	eef87ae7	vcvt.f32.s32	s15, s15
+1b399c	ee170a90	vmov	r0, s15
+1b39a0	ebfebe0d	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b39a4	e5950028	ldr	r0, [r5, #0x28]
+1b39a8	ebfff5de	bl	0x1b1128 <_Z14SetLayerShaderi>
+1b39ac	e5950000	ldr	r0, [r5]
+1b39b0	e5951020	ldr	r1, [r5, #0x20]
+1b39b4	e3a02008	mov	r2, #8
+1b39b8	e3a03000	mov	r3, #0
+1b39bc	ebfffe95	bl	0x1b3418 <_Z18ExecuteLayerScriptiiii>
+1b39c0	e5954058	ldr	r4, [r5, #0x58]
+1b39c4	e3540000	cmp	r4, #0
+1b39c8	0a000012	beq	0x1b3a18 <_Z14DrawRoomLayersP9tagYYRECT+0xe0>
+1b39cc	e5943000	ldr	r3, [r4]
+1b39d0	e2433001	sub	r3, r3, #1
+1b39d4	e3530006	cmp	r3, #6
+1b39d8	908ff103	addls	pc, pc, r3, lsl #2
+1b39dc	ea00000a	b	0x1b3a0c <_Z14DrawRoomLayersP9tagYYRECT+0xd4>
+1b39e0	ea000030	b	0x1b3aa8 <_Z14DrawRoomLayersP9tagYYRECT+0x170>
+1b39e4	ea000034	b	0x1b3abc <_Z14DrawRoomLayersP9tagYYRECT+0x184>
+1b39e8	ea000029	b	0x1b3a94 <_Z14DrawRoomLayersP9tagYYRECT+0x15c>
+1b39ec	ea000023	b	0x1b3a80 <_Z14DrawRoomLayersP9tagYYRECT+0x148>
+1b39f0	ea00001a	b	0x1b3a60 <_Z14DrawRoomLayersP9tagYYRECT+0x128>
+1b39f4	ea000014	b	0x1b3a4c <_Z14DrawRoomLayersP9tagYYRECT+0x114>
+1b39f8	eaffffff	b	0x1b39fc <_Z14DrawRoomLayersP9tagYYRECT+0xc4>
+1b39fc	e1a00006	mov	r0, r6
+1b3a00	e1a01005	mov	r1, r5
+1b3a04	e1a02004	mov	r2, r4
+1b3a08	ebfffb8b	bl	0x1b283c <_Z20DrawLayerTileElementP9tagYYRECTP6CLayerP17CLayerTileElement>
+1b3a0c	e5944014	ldr	r4, [r4, #0x14]
+1b3a10	e3540000	cmp	r4, #0
+1b3a14	1affffec	bne	0x1b39cc <_Z14DrawRoomLayersP9tagYYRECT+0x94>
+1b3a18	e5950000	ldr	r0, [r5]
+1b3a1c	e3a02008	mov	r2, #8
+1b3a20	e5951024	ldr	r1, [r5, #0x24]
+1b3a24	e3a03000	mov	r3, #0
+1b3a28	ebfffe7a	bl	0x1b3418 <_Z18ExecuteLayerScriptiiii>
+1b3a2c	e5950028	ldr	r0, [r5, #0x28]
+1b3a30	ebfff5ce	bl	0x1b1170 <_Z16ResetLayerShaderi>
+1b3a34	e595506c	ldr	r5, [r5, #0x6c]
+1b3a38	e3550000	cmp	r5, #0
+1b3a3c	1affffc9	bne	0x1b3968 <_Z14DrawRoomLayersP9tagYYRECT+0x30>
+1b3a40	e28dd00c	add	sp, sp, #12
+1b3a44	e8bd40f0	pop	{r4, r5, r6, r7, lr}
+1b3a48	eaff4627	b	0x1852ec <_ZN8Graphics5FlushEv>
+1b3a4c	e1a00006	mov	r0, r6
+1b3a50	e1a01005	mov	r1, r5
+1b3a54	e1a02004	mov	r2, r4
+1b3a58	ebfffb75	bl	0x1b2834 <_Z24DrawLayerParticleElementP9tagYYRECTP6CLayerP21CLayerParticleElement>
+1b3a5c	eaffffea	b	0x1b3a0c <_Z14DrawRoomLayersP9tagYYRECT+0xd4>
+1b3a60	e58d7000	str	r7, [sp]
+1b3a64	e1a00006	mov	r0, r6
+1b3a68	e58d7004	str	r7, [sp, #0x4]
+1b3a6c	e1a01005	mov	r1, r5
+1b3a70	e1a02004	mov	r2, r4
+1b3a74	e3a03000	mov	r3, #0
+1b3a78	ebfff9a9	bl	0x1b2124 <_Z23DrawLayerTilemapElementP9tagYYRECTP6CLayerP20CLayerTilemapElementfff>
+1b3a7c	eaffffe2	b	0x1b3a0c <_Z14DrawRoomLayersP9tagYYRECT+0xd4>
+1b3a80	e1a00006	mov	r0, r6
+1b3a84	e1a01005	mov	r1, r5
+1b3a88	e1a02004	mov	r2, r4
+1b3a8c	ebfff7aa	bl	0x1b193c <_Z22DrawLayerSpriteElementP9tagYYRECTP6CLayerP19CLayerSpriteElement>
+1b3a90	eaffffdd	b	0x1b3a0c <_Z14DrawRoomLayersP9tagYYRECT+0xd4>
+1b3a94	e1a00006	mov	r0, r6
+1b3a98	e1a01005	mov	r1, r5
+1b3a9c	e1a02004	mov	r2, r4
+1b3aa0	ebfff737	bl	0x1b1784 <_Z26DrawLayerOldTilemapElementP9tagYYRECTP6CLayerP23CLayerOldTilemapElement>
+1b3aa4	eaffffd8	b	0x1b3a0c <_Z14DrawRoomLayersP9tagYYRECT+0xd4>
+1b3aa8	e1a00006	mov	r0, r6
+1b3aac	e1a01005	mov	r1, r5
+1b3ab0	e1a02004	mov	r2, r4
+1b3ab4	ebfff5b9	bl	0x1b11a0 <_Z26DrawLayerBackgroundElementP9tagYYRECTP6CLayerP23CLayerBackgroundElement>
+1b3ab8	eaffffd3	b	0x1b3a0c <_Z14DrawRoomLayersP9tagYYRECT+0xd4>
+1b3abc	e5943020	ldr	r3, [r4, #0x20]
+1b3ac0	e3530000	cmp	r3, #0
+1b3ac4	0a000002	beq	0x1b3ad4 <_Z14DrawRoomLayersP9tagYYRECT+0x19c>
+1b3ac8	e5d33069	ldrb	r3, [r3, #0x69]
+1b3acc	e3530000	cmp	r3, #0
+1b3ad0	1affffd0	bne	0x1b3a18 <_Z14DrawRoomLayersP9tagYYRECT+0xe0>
+1b3ad4	e1a00006	mov	r0, r6
+1b3ad8	e1a01005	mov	r1, r5
+1b3adc	e1a02004	mov	r2, r4
+1b3ae0	ebfff6c6	bl	0x1b1600 <_Z24DrawLayerInstanceElementP9tagYYRECTP6CLayerP21CLayerInstanceElement>
+1b3ae4	eaffffc8	b	0x1b3a0c <_Z14DrawRoomLayersP9tagYYRECT+0xd4>
+1b3ae8	edd57a01	vldr	s15, [r5, #4]
+1b3aec	eef87ae7	vcvt.f32.s32	s15, s15
+1b3af0	ee170a90	vmov	r0, s15
+1b3af4	ebfebdb8	bl	0x1631dc <_Z15GR_3D_Set_Depthf>
+1b3af8	eaffffa9	b	0x1b39a4 <_Z14DrawRoomLayersP9tagYYRECT+0x6c>
+1b3afc	e28dd00c	add	sp, sp, #12
+1b3b00	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+1b3b04	00239fe8	eoreq	r9, r3, r8, ror #31
+1b3b08	0023ceb8	.word	0x0023ceb8
+1b3b0c	0023cea8	eoreq	r12, r3, r8, lsr #29

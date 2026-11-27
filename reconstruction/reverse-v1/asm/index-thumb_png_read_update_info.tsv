@@ -1,0 +1,19 @@
+2a7448	b538	push	{r3, r4, r5, lr}
+2a744a	460d	mov	r5, r1
+2a744c	4604	mov	r4, r0
+2a744e	b180	cbz	r0, 0x2a7472 <png_read_update_info+0x2a>
+2a7450	f8d03130	ldr.w	r3, [r0, #0x130]
+2a7454	065b	lsls	r3, r3, #0x19
+2a7456	d402	bmi	0x2a745e <png_read_update_info+0x16>
+2a7458	f007f81c	bl	0x2ae494 <png_read_start_row>
+2a745c	e003	b	0x2a7466 <png_read_update_info+0x1e>
+2a745e	4905	ldr	r1, [pc, #0x14]
+2a7460	4479	add	r1, pc
+2a7462	f7fff807	bl	0x2a6474 <png_warning>
+2a7466	4620	mov	r0, r4
+2a7468	4629	mov	r1, r5
+2a746a	e8bd4038	pop.w	{r3, r4, r5, lr}
+2a746e	f001baa5	b.w	0x2a89bc <png_read_transform_info>
+2a7472	bd38	pop	{r3, r4, r5, pc}
+2a7474	53a8	strh	r0, [r5, r6]
+2a7476	000e	movs	r6, r1

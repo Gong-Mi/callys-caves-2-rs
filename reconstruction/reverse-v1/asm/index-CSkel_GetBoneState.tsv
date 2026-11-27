@@ -1,0 +1,177 @@
+bfea8	e92d40f0	push	{r4, r5, r6, r7, lr}
+bfeac	e24dd014	sub	sp, sp, #20
+bfeb0	e590001c	ldr	r0, [r0, #0x1c]
+bfeb4	e1a04002	mov	r4, r2
+bfeb8	eb072882	bl	0x28a0c8 <spSkeleton_findBone>
+bfebc	e2505000	subs	r5, r0, #0
+bfec0	01a00005	moveq	r0, r5
+bfec4	0a000092	beq	0xc0114 <_ZN17CSkeletonInstance12GetBoneStateEPKci+0x26c>
+bfec8	e28d700c	add	r7, sp, #12
+bfecc	e1a00007	mov	r0, r7
+bfed0	eb00fb50	bl	0xfec18 <_ZN12DS_AutoMutexC2Ev>
+bfed4	e59f3254	ldr	r3, [pc, #0x254]
+bfed8	e79f3003	ldr	r3, [pc, r3]
+bfedc	e5933004	ldr	r3, [r3, #0x4]
+bfee0	e7934104	ldr	r4, [r3, r4, lsl #2]
+bfee4	e3540000	cmp	r4, #0
+bfee8	0a00008b	beq	0xc011c <_ZN17CSkeletonInstance12GetBoneStateEPKci+0x274>
+bfeec	edd57a05	vldr	s15, [r5, #20]
+bfef0	eeb76ae7	vcvt.f64.f32	d6, s15
+bfef4	e59f1238	ldr	r1, [pc, #0x238]
+bfef8	e3a06000	mov	r6, #0
+bfefc	e1a00004	mov	r0, r4
+bff00	e58d6000	str	r6, [sp]
+bff04	e08f1001	add	r1, pc, r1
+bff08	ec532b16	vmov	r2, r3, d6
+bff0c	eb053613	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+bff10	edd57a06	vldr	s15, [r5, #24]
+bff14	eeb76ae7	vcvt.f64.f32	d6, s15
+bff18	e59f1218	ldr	r1, [pc, #0x218]
+bff1c	e1a00004	mov	r0, r4
+bff20	e58d6000	str	r6, [sp]
+bff24	e08f1001	add	r1, pc, r1
+bff28	ec532b16	vmov	r2, r3, d6
+bff2c	eb05360b	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+bff30	edd57a07	vldr	s15, [r5, #28]
+bff34	eeb76ae7	vcvt.f64.f32	d6, s15
+bff38	e59f11fc	ldr	r1, [pc, #0x1fc]
+bff3c	e1a00004	mov	r0, r4
+bff40	e58d6000	str	r6, [sp]
+bff44	e08f1001	add	r1, pc, r1
+bff48	ec532b16	vmov	r2, r3, d6
+bff4c	eb053603	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+bff50	edd57a08	vldr	s15, [r5, #32]
+bff54	eeb76ae7	vcvt.f64.f32	d6, s15
+bff58	e59f11e0	ldr	r1, [pc, #0x1e0]
+bff5c	e1a00004	mov	r0, r4
+bff60	e58d6000	str	r6, [sp]
+bff64	e08f1001	add	r1, pc, r1
+bff68	ec532b16	vmov	r2, r3, d6
+bff6c	eb0535fb	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+bff70	edd57a09	vldr	s15, [r5, #36]
+bff74	eeb76ae7	vcvt.f64.f32	d6, s15
+bff78	e59f11c4	ldr	r1, [pc, #0x1c4]
+bff7c	e1a00004	mov	r0, r4
+bff80	e58d6000	str	r6, [sp]
+bff84	e08f1001	add	r1, pc, r1
+bff88	ec532b16	vmov	r2, r3, d6
+bff8c	eb0535f3	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+bff90	edd57a0f	vldr	s15, [r5, #60]
+bff94	eeb76ae7	vcvt.f64.f32	d6, s15
+bff98	e59f11a8	ldr	r1, [pc, #0x1a8]
+bff9c	e1a00004	mov	r0, r4
+bffa0	e58d6000	str	r6, [sp]
+bffa4	e08f1001	add	r1, pc, r1
+bffa8	ec532b16	vmov	r2, r3, d6
+bffac	eb0535eb	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+bffb0	edd57a12	vldr	s15, [r5, #72]
+bffb4	eeb76ae7	vcvt.f64.f32	d6, s15
+bffb8	e59f118c	ldr	r1, [pc, #0x18c]
+bffbc	e1a00004	mov	r0, r4
+bffc0	e58d6000	str	r6, [sp]
+bffc4	e08f1001	add	r1, pc, r1
+bffc8	ec532b16	vmov	r2, r3, d6
+bffcc	eb0535e3	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+bffd0	e1a00005	mov	r0, r5
+bffd4	eb07150d	bl	0x285410 <spBone_getWorldRotationX>
+bffd8	e59f1170	ldr	r1, [pc, #0x170]
+bffdc	e58d6000	str	r6, [sp]
+bffe0	e08f1001	add	r1, pc, r1
+bffe4	ee060a90	vmov	s13, r0
+bffe8	e1a00004	mov	r0, r4
+bffec	eeb77ae6	vcvt.f64.f32	d7, s13
+bfff0	ec532b17	vmov	r2, r3, d7
+bfff4	eb0535d9	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+bfff8	e1a00005	mov	r0, r5
+bfffc	eb071512	bl	0x28544c <spBone_getWorldRotationY>
+c0000	e59f114c	ldr	r1, [pc, #0x14c]
+c0004	e58d6000	str	r6, [sp]
+c0008	e08f1001	add	r1, pc, r1
+c000c	ee060a10	vmov	s12, r0
+c0010	e1a00004	mov	r0, r4
+c0014	eeb77ac6	vcvt.f64.f32	d7, s12
+c0018	ec532b17	vmov	r2, r3, d7
+c001c	eb0535cf	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+c0020	e1a00005	mov	r0, r5
+c0024	eb071517	bl	0x285488 <spBone_getWorldScaleX>
+c0028	e59f1128	ldr	r1, [pc, #0x128]
+c002c	e58d6000	str	r6, [sp]
+c0030	e08f1001	add	r1, pc, r1
+c0034	ee060a90	vmov	s13, r0
+c0038	e1a00004	mov	r0, r4
+c003c	eeb77ae6	vcvt.f64.f32	d7, s13
+c0040	ec532b17	vmov	r2, r3, d7
+c0044	eb0535c5	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+c0048	e1a00005	mov	r0, r5
+c004c	eb071521	bl	0x2854d8 <spBone_getWorldScaleY>
+c0050	e59f1104	ldr	r1, [pc, #0x104]
+c0054	e58d6000	str	r6, [sp]
+c0058	e08f1001	add	r1, pc, r1
+c005c	ee060a10	vmov	s12, r0
+c0060	e1a00004	mov	r0, r4
+c0064	eeb77ac6	vcvt.f64.f32	d7, s12
+c0068	ec532b17	vmov	r2, r3, d7
+c006c	eb0535bb	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+c0070	edd57a0c	vldr	s15, [r5, #48]
+c0074	eeb76ae7	vcvt.f64.f32	d6, s15
+c0078	e59f10e0	ldr	r1, [pc, #0xe0]
+c007c	e1a00004	mov	r0, r4
+c0080	e58d6000	str	r6, [sp]
+c0084	e08f1001	add	r1, pc, r1
+c0088	ec532b16	vmov	r2, r3, d6
+c008c	eb0535b3	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+c0090	edd57a13	vldr	s15, [r5, #76]
+c0094	eeb76ae7	vcvt.f64.f32	d6, s15
+c0098	e59f10c4	ldr	r1, [pc, #0xc4]
+c009c	e1a00004	mov	r0, r4
+c00a0	e58d6000	str	r6, [sp]
+c00a4	e08f1001	add	r1, pc, r1
+c00a8	ec532b16	vmov	r2, r3, d6
+c00ac	eb0535ab	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+c00b0	edd57a14	vldr	s15, [r5, #80]
+c00b4	eeb76ae7	vcvt.f64.f32	d6, s15
+c00b8	e59f10a8	ldr	r1, [pc, #0xa8]
+c00bc	e1a00004	mov	r0, r4
+c00c0	e58d6000	str	r6, [sp]
+c00c4	e08f1001	add	r1, pc, r1
+c00c8	ec532b16	vmov	r2, r3, d6
+c00cc	eb0535a3	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+c00d0	e5953008	ldr	r3, [r5, #0x8]
+c00d4	e1530006	cmp	r3, r6
+c00d8	0a00000a	beq	0xc0108 <_ZN17CSkeletonInstance12GetBoneStateEPKci+0x260>
+c00dc	e5933000	ldr	r3, [r3]
+c00e0	e1530006	cmp	r3, r6
+c00e4	0a000007	beq	0xc0108 <_ZN17CSkeletonInstance12GetBoneStateEPKci+0x260>
+c00e8	e593c004	ldr	r12, [r3, #0x4]
+c00ec	e1a00004	mov	r0, r4
+c00f0	e59f1074	ldr	r1, [pc, #0x74]
+c00f4	e3a02000	mov	r2, #0
+c00f8	e3a03000	mov	r3, #0
+c00fc	e08f1001	add	r1, pc, r1
+c0100	e58dc000	str	r12, [sp]
+c0104	eb053595	bl	0x20d760 <_ZN7CDS_Map3AddEPKcdS1_>
+c0108	e1a00007	mov	r0, r7
+c010c	eb00fad6	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+c0110	e3a00001	mov	r0, #1
+c0114	e28dd014	add	sp, sp, #20
+c0118	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+c011c	e1a00007	mov	r0, r7
+c0120	eb00fad1	bl	0xfec6c <_ZN12DS_AutoMutexD2Ev>
+c0124	e1a00004	mov	r0, r4
+c0128	e28dd014	add	sp, sp, #20
+c012c	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+c0130	0032da64	eorseq	sp, r2, r4, ror #20
+c0134	00270970	eoreq	r0, r7, r0, ror r9
+c0138	00270954	eoreq	r0, r7, r4, asr r9
+c013c	00270938	eoreq	r0, r7, r8, lsr r9
+c0140	00270920	eoreq	r0, r7, r0, lsr #18
+c0144	00270908	eoreq	r0, r7, r8, lsl #18
+c0148	002708f8	.word	0x002708f8
+c014c	002708e0	eoreq	r0, r7, r0, ror #17
+c0150	002708cc	eoreq	r0, r7, r12, asr #17
+c0154	002708b0	.word	0x002708b0
+c0158	00270894	mlaeq	r7, r4, r8, r0
+c015c	00270878	eoreq	r0, r7, r8, ror r8
+c0160	00270858	eoreq	r0, r7, r8, asr r8
+c0164	00270848	eoreq	r0, r7, r8, asr #16
+c0168	00270834	eoreq	r0, r7, r4, lsr r8

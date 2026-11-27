@@ -1,0 +1,16 @@
+idx	call_addr	name	fn_addr	fn_symbol	argc	flag
+0	0x2996ac	network_create_socket	0x298e94	F_NETWORK_Create_Socket(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+1	0x2996c8	network_create_socket_ext	0x299394	F_NETWORK_Create_Socket_Ext(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+2	0x2996e4	network_create_server	0x29922c	F_NETWORK_Create_Server(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+3	0x299700	network_create_server_raw	0x299238	F_NETWORK_Create_Server_Raw(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+4	0x29971c	network_connect	0x298178	F_NETWORK_Connect(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+5	0x299738	network_connect_raw	0x29826c	F_NETWORK_Connect_ex(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+6	0x299754	network_send_packet	0x297fbc	F_NETWORK_Send_Packet(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+7	0x299770	network_send_raw	0x2984f0	F_NETWORK_Send_Raw(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+8	0x29978c	network_send_broadcast	0x2985d0	F_NETWORK_Send_Broadcast(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+9	0x2997a8	network_send_udp	0x299e88	F_NETWORK_Send_UDP(RValue&, CInstance*, CInstance*, int, RValue*)	5	0
+10	0x2997c4	network_send_udp_raw	0x299f40	F_NETWORK_Send_UDP_Raw(RValue&, CInstance*, CInstance*, int, RValue*)	5	0
+11	0x2997e0	network_resolve	0x29807c	F_NETWORK_Resolve(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+12	0x2997fc	network_destroy	0x29937c	F_NETWORK_Destroy_Socket(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+13	0x299818	network_set_timeout	0x2980cc	F_NETWORK_Set_Timeout(RValue&, CInstance*, CInstance*, int, RValue*)	3	0
+14	0x299838	network_set_config	0x298358	F_NETWORK_Set_Config(RValue&, CInstance*, CInstance*, int, RValue*)	2	0

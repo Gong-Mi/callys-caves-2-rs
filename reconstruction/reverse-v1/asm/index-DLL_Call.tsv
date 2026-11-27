@@ -1,0 +1,128 @@
+212b10	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+212b14	ed2d8b02	vpush	{d8}
+212b18	e2505000	subs	r5, r0, #0
+212b1c	e1a07002	mov	r7, r2
+212b20	e24dd0e4	sub	sp, sp, #228
+212b24	e3a02000	mov	r2, #0
+212b28	e583200c	str	r2, [r3, #0xc]
+212b2c	e5832000	str	r2, [r3]
+212b30	e5832004	str	r2, [r3, #0x4]
+212b34	ba000004	blt	0x212b4c <_Z8DLL_CalliiP6RValueS0_+0x3c>
+212b38	e59f01d0	ldr	r0, [pc, #0x1d0]
+212b3c	e79f0000	ldr	r0, [pc, r0]
+212b40	e5900000	ldr	r0, [r0]
+212b44	e1550000	cmp	r5, r0
+212b48	ba000002	blt	0x212b58 <_Z8DLL_CalliiP6RValueS0_+0x48>
+212b4c	e28dd0e4	add	sp, sp, #228
+212b50	ecbd8b02	vpop	{d8}
+212b54	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+212b58	e59fa1b4	ldr	r10, [pc, #0x1b4]
+212b5c	e79fa00a	ldr	r10, [pc, r10]
+212b60	e59a4000	ldr	r4, [r10]
+212b64	e1550004	cmp	r5, r4
+212b68	b59a2004	ldrlt	r2, [r10, #0x4]
+212b6c	b7922105	ldrlt	r2, [r2, r5, lsl #2]
+212b70	e592b014	ldr	r11, [r2, #0x14]
+212b74	e15b0001	cmp	r11, r1
+212b78	1afffff3	bne	0x212b4c <_Z8DLL_CalliiP6RValueS0_+0x3c>
+212b7c	e5922004	ldr	r2, [r2, #0x4]
+212b80	e3520000	cmp	r2, #0
+212b84	0afffff0	beq	0x212b4c <_Z8DLL_CalliiP6RValueS0_+0x3c>
+212b88	e28d8058	add	r8, sp, #88
+212b8c	e28d2014	add	r2, sp, #20
+212b90	e3a01000	mov	r1, #0
+212b94	e58d2008	str	r2, [sp, #0x8]
+212b98	e1a00008	mov	r0, r8
+212b9c	e3a02088	mov	r2, #136
+212ba0	e58d3004	str	r3, [sp, #0x4]
+212ba4	ebfa8e81	bl	0xb65b0 <memset@plt>
+212ba8	e28d0014	add	r0, sp, #20
+212bac	e3a01000	mov	r1, #0
+212bb0	e3a02044	mov	r2, #68
+212bb4	ebfa8e7d	bl	0xb65b0 <memset@plt>
+212bb8	e35b0000	cmp	r11, #0
+212bbc	e59d3004	ldr	r3, [sp, #0x4]
+212bc0	da00001d	ble	0x212c3c <_Z8DLL_CalliiP6RValueS0_+0x12c>
+212bc4	e58d500c	str	r5, [sp, #0xc]
+212bc8	e3a04000	mov	r4, #0
+212bcc	e1a0500b	mov	r5, r11
+212bd0	e3a09001	mov	r9, #1
+212bd4	e1a0b007	mov	r11, r7
+212bd8	ed9f8b4a	vldr	d8, [pc, #296]
+212bdc	e1a07008	mov	r7, r8
+212be0	e1a06003	mov	r6, r3
+212be4	ea000004	b	0x212bfc <_Z8DLL_CalliiP6RValueS0_+0xec>
+212be8	ed878b00	vstr	d8, [r7]
+212bec	e2844001	add	r4, r4, #1
+212bf0	e2877008	add	r7, r7, #8
+212bf4	e1540005	cmp	r4, r5
+212bf8	0a00001d	beq	0x212c74 <_Z8DLL_CalliiP6RValueS0_+0x164>
+212bfc	e08b1204	add	r1, r11, r4, lsl #4
+212c00	e30224c3	movw	r2, #0x24c3
+212c04	e591100c	ldr	r1, [r1, #0xc]
+212c08	e3c114ff	bic	r1, r1, #-16777216
+212c0c	e351000d	cmp	r1, #13
+212c10	e1a00119	lsl	r0, r9, r1
+212c14	e0002002	and	r2, r0, r2
+212c18	8afffff2	bhi	0x212be8 <_Z8DLL_CalliiP6RValueS0_+0xd8>
+212c1c	e3520000	cmp	r2, #0
+212c20	0afffff0	beq	0x212be8 <_Z8DLL_CalliiP6RValueS0_+0xd8>
+212c24	e1a0000b	mov	r0, r11
+212c28	e1a01004	mov	r1, r4
+212c2c	ebfaefbc	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+212c30	e1c700f0	strd	r0, r1, [r7]
+212c34	eaffffec	b	0x212bec <_Z8DLL_CalliiP6RValueS0_+0xdc>
+212c38	e59a4000	ldr	r4, [r10]
+212c3c	e1550004	cmp	r5, r4
+212c40	e1a00005	mov	r0, r5
+212c44	e1a01008	mov	r1, r8
+212c48	b59a2004	ldrlt	r2, [r10, #0x4]
+212c4c	a3a02000	movge	r2, #0
+212c50	b7922105	ldrlt	r2, [r2, r5, lsl #2]
+212c54	e5922010	ldr	r2, [r2, #0x10]
+212c58	e3520001	cmp	r2, #1
+212c5c	0a000021	beq	0x212ce8 <_Z8DLL_CalliiP6RValueS0_+0x1d8>
+212c60	e35b0004	cmp	r11, #4
+212c64	da00001c	ble	0x212cdc <_Z8DLL_CalliiP6RValueS0_+0x1cc>
+212c68	e1a02003	mov	r2, r3
+212c6c	ebfffa6a	bl	0x21161c <_Z9Call_RealiPdP6RValue>
+212c70	eaffffb5	b	0x212b4c <_Z8DLL_CalliiP6RValueS0_+0x3c>
+212c74	e1a0700b	mov	r7, r11
+212c78	e1a0b005	mov	r11, r5
+212c7c	e1a02007	mov	r2, r7
+212c80	e59d500c	ldr	r5, [sp, #0xc]
+212c84	e1a03006	mov	r3, r6
+212c88	e287700c	add	r7, r7, #12
+212c8c	e082420b	add	r4, r2, r11, lsl #4
+212c90	e28dc010	add	r12, sp, #16
+212c94	ea000004	b	0x212cac <_Z8DLL_CalliiP6RValueS0_+0x19c>
+212c98	e2822010	add	r2, r2, #16
+212c9c	e5ac0004	str	r0, [r12, #0x4]!
+212ca0	e1520004	cmp	r2, r4
+212ca4	e2877010	add	r7, r7, #16
+212ca8	0affffe2	beq	0x212c38 <_Z8DLL_CalliiP6RValueS0_+0x128>
+212cac	e592100c	ldr	r1, [r2, #0xc]
+212cb0	e3a00000	mov	r0, #0
+212cb4	e3510003	cmp	r1, #3
+212cb8	e3c1e4ff	bic	lr, r1, #-16777216
+212cbc	0517000c	ldreq	r0, [r7, #-0xc]
+212cc0	0afffff4	beq	0x212c98 <_Z8DLL_CalliiP6RValueS0_+0x188>
+212cc4	e35e0001	cmp	lr, #1
+212cc8	1afffff2	bne	0x212c98 <_Z8DLL_CalliiP6RValueS0_+0x188>
+212ccc	e517000c	ldr	r0, [r7, #-0xc]
+212cd0	e3500000	cmp	r0, #0
+212cd4	15900000	ldrne	r0, [r0]
+212cd8	eaffffee	b	0x212c98 <_Z8DLL_CalliiP6RValueS0_+0x188>
+212cdc	e28d2014	add	r2, sp, #20
+212ce0	ebfffcb0	bl	0x211fa8 <_Z11Call_NormaliPdPPKcP6RValue>
+212ce4	eaffff98	b	0x212b4c <_Z8DLL_CalliiP6RValueS0_+0x3c>
+212ce8	e35b0004	cmp	r11, #4
+212cec	da000002	ble	0x212cfc <_Z8DLL_CalliiP6RValueS0_+0x1ec>
+212cf0	e1a02003	mov	r2, r3
+212cf4	ebfff50c	bl	0x21012c <_Z13Call_Real_stdiPdP6RValue>
+212cf8	eaffff93	b	0x212b4c <_Z8DLL_CalliiP6RValueS0_+0x3c>
+212cfc	e28d2014	add	r2, sp, #20
+212d00	ebfff76c	bl	0x210ab8 <_Z15Call_Normal_stdiPdPPKcP6RValue>
+212d04	eaffff90	b	0x212b4c <_Z8DLL_CalliiP6RValueS0_+0x3c>
+212d10	001de878	andseq	lr, sp, r8, ror r8
+212d14	001de854	andseq	lr, sp, r4, asr r8

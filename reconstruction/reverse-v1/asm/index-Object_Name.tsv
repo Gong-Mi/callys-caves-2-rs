@@ -1,0 +1,40 @@
+19ed54	e59f3084	ldr	r3, [pc, #0x84]
+19ed58	e79f3003	ldr	r3, [pc, r3]
+19ed5c	e5933000	ldr	r3, [r3]
+19ed60	e3530000	cmp	r3, #0
+19ed64	0a000014	beq	0x19edbc <_Z11Object_Namei+0x68>
+19ed68	e5932004	ldr	r2, [r3, #0x4]
+19ed6c	e5933000	ldr	r3, [r3]
+19ed70	e0002002	and	r2, r0, r2
+19ed74	e7933182	ldr	r3, [r3, r2, lsl #3]
+19ed78	e3530000	cmp	r3, #0
+19ed7c	1a000003	bne	0x19ed90 <_Z11Object_Namei+0x3c>
+19ed80	ea000010	b	0x19edc8 <_Z11Object_Namei+0x74>
+19ed84	e5933004	ldr	r3, [r3, #0x4]
+19ed88	e3530000	cmp	r3, #0
+19ed8c	0a000007	beq	0x19edb0 <_Z11Object_Namei+0x5c>
+19ed90	e5932008	ldr	r2, [r3, #0x8]
+19ed94	e1500002	cmp	r0, r2
+19ed98	1afffff9	bne	0x19ed84 <_Z11Object_Namei+0x30>
+19ed9c	e593300c	ldr	r3, [r3, #0xc]
+19eda0	e3530000	cmp	r3, #0
+19eda4	0a00000a	beq	0x19edd4 <_Z11Object_Namei+0x80>
+19eda8	e5930014	ldr	r0, [r3, #0x14]
+19edac	e12fff1e	bx	lr
+19edb0	e59f002c	ldr	r0, [pc, #0x2c]
+19edb4	e08f0000	add	r0, pc, r0
+19edb8	e12fff1e	bx	lr
+19edbc	e59f0024	ldr	r0, [pc, #0x24]
+19edc0	e08f0000	add	r0, pc, r0
+19edc4	e12fff1e	bx	lr
+19edc8	e59f001c	ldr	r0, [pc, #0x1c]
+19edcc	e08f0000	add	r0, pc, r0
+19edd0	e12fff1e	bx	lr
+19edd4	e59f0014	ldr	r0, [pc, #0x14]
+19edd8	e08f0000	add	r0, pc, r0
+19eddc	e12fff1e	bx	lr
+19ede0	0024eee4	eoreq	lr, r4, r4, ror #29
+19ede4	00191d0c	andseq	r1, r9, r12, lsl #26
+19ede8	00191d00	andseq	r1, r9, r0, lsl #26
+19edec	00191cf4	ldrsheq	r1, [r9], -r4
+19edf0	00191ce8	andseq	r1, r9, r8, ror #25

@@ -1,0 +1,78 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_curve",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readCurve",
+      "address_range": "0x28b34c-0x28b3f8 (44 insns, 176 B; 0x28b3f4/0x28b3f8 are the literal pool, 0x28b3fc is _readVertices)",
+      "symbol": null,
+      "symbol_note": "anonymous — no .dynsym/.symtab entry; objdump labels 0x28b34c spSkeletonData_findPathConstraint+0x5c",
+      "abi": {
+        "signature": "void readCurve(Json* frame, void* curveTimeline, int frameIndex)",
+        "r0": "per-frame Json object (the frame map that also carries 'time'/'angle'/...); every call site reloads frame->next right after the call",
+        "r1": "curve timeline pointer, the same pointer passed to <Type>Timeline_setFrame",
+        "r2": "0-based frame index, whole 32-bit word, passed through unmodified",
+        "return": "void — none of the 8 callers reads r0"
+      },
+      "semantics": "Json_getItem(frame,\"curve\") → NULL ⇒ return; type(Json+0x08)==4 (string) ⇒ strcmp(string_value@+0x10,\"stepped\")==0 ⇒ tail-call spCurveTimeline_setStepped(timeline,frameIndex); type==5 (array) ⇒ read four ->next nodes' float_value@+0x18 in order cx1,cy1,cx2,cy2 and call spCurveTimeline_setCurve(timeline,frameIndex,cx1,cy1,cx2,cy2); any other type ⇒ no-op",
+      "curve_data_shape": {
+        "answer": "'curve' is EITHER the JSON string \"stepped\" OR a JSON array of four numbers; there is no other accepted form",
+        "array_length": "the declared element count at Json+0x0c is NEVER read (0x28b3b8 jumps straight to child, 0x28b3c4/0x28b3d0/0x28b3dc follow ->next). A short chain therefore reads the following sibling nodes (NULL tail ⇒ fault); elements past the fourth are ignored",
+        "element_type": "no per-element type check — the raw 32-bit value at +0x18 is forwarded as a float",
+        "argument_contract": "element 0..3 → cx1,cy1,cx2,cy2 of spCurveTimeline_setCurve(self, frameIndex, cx1, cy1, cx2, cy2) (6 AAPCS words: r0,r1,r2,r3,[sp],[sp,#4])",
+        "string_match": "case-SENSITIVE strcmp at 0x28b398 (unlike Json_getItem's strcasecmp key lookup); \"STEPPED\"/\"catmullrom\"/\"\" are silently ignored"
+      },
+      "keys": ["curve", "stepped"],
+      "key_literals": {
+        "curve": {"va": "0x357aec", "pool_word": "0x28b3f4", "add_site": "0x28b360"},
+        "stepped": {"va": "0x357af4", "pool_word": "0x28b3f8", "add_site": "0x28b394"}
+      },
+      "quirks": [
+        "absent 'curve' (0x28b36c beq 0x28b384): plain return, no timeline write, no allocation",
+        "non-string/non-array type: falls into the same epilogue, no write",
+        "the string branch pops {r4,r5,lr} and branches (0x28b3b4 b 0x2817c0), i.e. a tail call; the array branch returns through its own pop at 0x28b3f0",
+        "no NULL guard on curve->child before the +0x18 load at 0x28b3c8 — a zero-element curve array faults (proven by fixture/check.c -DCURVE_NULL_PROBE: qemu exit -11)"
+      ],
+      "callers": [
+        {"site": "0x28d7d0", "timeline": "spTranslateTimeline", "arg_form": "r0=frame r1=timeline r2=index (after spTranslateTimeline_setFrame)"},
+        {"site": "0x28d9b0", "timeline": "spColorTimeline", "arg_form": "r0=frame r1=timeline r2=index (after spColorTimeline_setFrame)"},
+        {"site": "0x28daf0", "timeline": "spRotateTimeline", "arg_form": "r0=frame r1=timeline r2=index (after spRotateTimeline_setFrame)"},
+        {"site": "0x28dc48", "timeline": "spIkConstraintTimeline", "arg_form": "r0=frame r1=timeline r2=index (after spIkConstraintTimeline_setFrame)"},
+        {"site": "0x28de0c", "timeline": "spTransformConstraintTimeline", "arg_form": "r0=frame r1=timeline r2=index (after spTransformConstraintTimeline_setFrame)"},
+        {"site": "0x28dff4", "timeline": "spPathConstraintPositionTimeline", "arg_form": "r0=frame r1=timeline r2=index (after spPathConstraintPositionTimeline_setFrame)"},
+        {"site": "0x28e2a8", "timeline": "spDeformTimeline", "arg_form": "r0=frame r1=timeline r2=index (after spDeformTimeline_setFrame)"},
+        {"site": "0x28e9b0", "timeline": "spPathConstraintMixTimeline", "arg_form": "r0=frame r1=timeline r2=index (after spPathConstraintMixTimeline_setFrame)"}
+      ],
+      "check": "tools/check_curve.py + fixture/check.c — 4 configs (O0/O2/O3/ubsan) x 9 tests green, 8 named teeth, missing-body compile refusal, zero-element SIGSEGV probe; receipt harness/receipts/curve_check-20261108T103809.json"
+    }
+  ],
+  "json_layout_used": {
+    "+0x00": "next sibling",
+    "+0x04": "first child (array element chain for 'curve')",
+    "+0x08": "node type: 0 null, 1 true, 2 false, 3 number, 4 string, 5 array, 6 object (written by the parser at 0x28677c)",
+    "+0x0c": "declared count — NOT read by readCurve",
+    "+0x10": "string value",
+    "+0x18": "float value"
+  },
+  "spCurveTimeline_layout_partial": {
+    "+0x08": "float* curves; 19 floats per frame (pinned by spCurveTimeline_setStepped 0x2817c0: mov r2,#76, str 1.0f at [curves + frameIndex*19])"
+  },
+  "depends_on": [
+    "json_interface",
+    "spine_alloc (linked, provably unused)"
+  ],
+  "declared_boundaries": [
+    "spCurveTimeline_setStepped (0x2817c0) — body modelled exactly in the fixture double",
+    "spCurveTimeline_setCurve (0x2817d8) — body NOT recovered; the fixture records the six AAPCS words",
+    "fixture timeline record, fixture heap/allocator roster/libc string providers (shared spine_read_mesh runtime)"
+  ],
+  "compile": {
+    "target": "armv7a-none-eabi",
+    "float_abi": "softfp",
+    "std": "c11",
+    "warnings": "-Wall -Wextra -Werror",
+    "status": "O0/O2/O3/ubsan all clean"
+  }
+}

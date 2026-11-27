@@ -1,0 +1,2403 @@
+{
+ "schema": "cally-var-names-diff/1",
+ "generated_utc": "2026-11-16T09:20:45Z",
+ "tier": "oracle_anchored",
+ "original_executed": true,
+ "evidence_layer": "synthetic memory oracle: the original ARM bytes at 0xd21ec and 0x1f3f8c executed over staged .bss the GOT actually points at, with identical stubs on both arms; NOT device execution",
+ "BINDING": {
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": {
+   "Code_Variable_Find_Slot_From_Name": {
+    "entry": "0xd21ec",
+    "range": [
+     "0xd21ec",
+     "0xd2228"
+    ],
+    "instructions": 13,
+    "pool": [
+     "0xd2220",
+     "0xd2224"
+    ],
+    "body_sha256": "b1a5176f4ad2bb0e50e080ec74e5b0dc2f03c965abcab09e3b55c50d8d43664d"
+   },
+   "Variable_GetObjectName": {
+    "entry": "0x1f3f8c",
+    "range": [
+     "0x1f3f8c",
+     "0x1f40cc"
+    ],
+    "instructions": 71,
+    "pool": [
+     "0x1f40a8",
+     "0x1f40cc"
+    ],
+    "body_sha256": "f3aab48cd15db83095bb95941071696724583ee2b2dfe0595a4631ad267a87f2"
+   }
+  },
+  "driver_sha256": "9d274a835b4294dd451a31c21443a1d93cd1382b4175d2e12c600d4f9d0cd8fe",
+  "header_sha256": "a1bb8cd755b0506b319afea76f818d06017dd3506d6b5f9dc82f913671f42ff0",
+  "binding_checks": {
+   "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+   "sha_matches_pin": true,
+   "got_cells": {
+    "host": {
+     "got": "0x3edbbc",
+     "value": "0x544be0",
+     "expected": "0x544be0",
+     "ok": true
+    },
+    "mode": {
+     "got": "0x3edbc0",
+     "value": "0x47f295",
+     "expected": "0x47f295",
+     "ok": true
+    },
+    "id2inst": {
+     "got": "0x3edc4c",
+     "value": "0x536f28",
+     "expected": "0x536f28",
+     "ok": true
+    },
+    "runroom": {
+     "got": "0x3ed930",
+     "value": "0x54298c",
+     "expected": "0x54298c",
+     "ok": true
+    },
+    "failflag": {
+     "got": "0x3edd68",
+     "value": "0x75505c",
+     "expected": "0x75505c",
+     "ok": true
+    }
+   },
+   "rodata_placeholder": {
+    "at": "0x3527e4",
+    "text": "<unknown_object>",
+    "matches_translation": true
+   },
+   "ok": true
+  },
+  "stub_callees": [
+   "Code_Variable_Find_Slot_From_Local_Name@0xd1f74",
+   "Code_Variable_Find_Slot_From_Global_Name@0xd2054",
+   "Object_Name@0x19ed54"
+  ]
+ },
+ "scope": {
+  "covered": [
+   "F1: self == *g_host and mode byte 0 -> global name table",
+   "F1: self != host -> local name table (hit, miss, -1)",
+   "F1: mode byte != 0 falls back to the local table (1 and 255)",
+   "F1: name pointer forwarded verbatim - non-empty, empty, NULL",
+   "F1: return value is the callee answer: slot 0 legal, -1 absent, INT_MIN untouched",
+   "F1: host pointer NULL + self NULL still takes the host branch",
+   "F2: id == -3 room chain - empty room, live head, destroyed, deactivated, both, all-dead, live head with a live next",
+   "F2: id < 0 exits - -1, -10, INT_MIN, -4 (neighbour of -3)",
+   "F2: 0..99999 pass-through incl. both boundaries 0 and 99999",
+   "F2: id > 99999 hash - hit, neighbour bucket, chain end, walk-then-hit, NULL instance, destroyed, +0x69-only, INT_MAX",
+   "F2: bucket mask honoured (mask 3 vs 7) and 8 B bucket stride",
+   "F2: the failure byte 0x75505c is set on exactly one exit",
+   "F2: varid is dead - three cases with the same id and different varids produce identical records",
+   "second-run reproducibility of both arms"
+  ],
+  "not_covered": [
+   "Code_Variable_Find_Slot_From_Local_Name semantics (stubbed): the CHashMap hash/compare and its -1 miss",
+   "Code_Variable_Find_Slot_From_Global_Name semantics (stubbed): the linear strcmp scan and \"id = declaration order\"",
+   "Object_Name semantics (stubbed), including its own \"<undefined>\" fallback at 0x330ac8",
+   "who writes 0x544be0 and 0x47f295 (no writer exists in .text)",
+   "device behaviour"
+  ],
+  "not_applicable": [
+   "F1 has no \"lazy slot creation\" arm: it is a dispatcher over two name tables and never touches the object's slot table.  The table==0 -> InternalGetYYVar path lives in Variable_GetValue_Direct and is covered by c/variable_direct/.",
+   "F2 does not consult g_ObjectHash at all; the only object-index consumer is Object_Name, which is stubbed.",
+   "g_run_room == NULL is undefined on the original bytes (0x1f4018 ldr r3,[r3] then 0x1f401c ldr r3,[r3,#0x80] would fault), so it is not a case: room_mode 0 stages a live CRoom with a NULL instance chain instead."
+  ]
+ },
+ "findings": [
+  "F1 compares self against *one* global pointer and nothing else: no object field is read, so a pointer-equality test is the whole host test.  The fixture pins the degenerate case where the cell is NULL and self is NULL - it takes the host branch.",
+  "F1 forwards the name pointer with 0xd21fc mov r0,r1 and never inspects the string; empty and NULL names reach the callee unchanged.  Whether that is a hit or a miss is not this body's answer.",
+  "F2 never reads its second argument.  Three cases with id 100006 and varid 0 / 4242 / INT_MIN produce identical records.",
+  "F2 sets 0x75505c on exactly one of its five failure exits (0x1f407c, id == -3 with no live instance).  The other four leave it untouched - verified by reading the byte after every call, not by reading the card.",
+  "F2 is asymmetric on purpose: the id > 99999 hash path tests +0x68 only, so a deactivated instance (+0x69 != 0, +0x68 == 0) still yields its object name, while the room chain skips it.",
+  "card/byte agreement: both cards were re-checked against llvm-objdump instruction by instruction; see card_deltas."
+ ],
+ "card_deltas": [
+  {
+   "card": "cards/Code_Variable_Find_Slot_From_Name.c",
+   "claim": "@func 0xd21ec 0xd2228 size 60, 15 rows (13 instructions + 2 pool words)",
+   "bytes": "13 instructions 0xd21ec..0xd2204, pool 0xd2220/0xd2224, 0x3c = 60 B",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/Code_Variable_Find_Slot_From_Name.c",
+   "claim": "GOT 0x3edbbc -> .bss 0x544be0 (pointer, one extra ldr) and GOT 0x3edbc0 -> .bss 0x47f295 (byte, ldrb straight off the cell)",
+   "bytes": "the image's GOT cells hold exactly 0x544be0 and 0x47f295, and 0xd21f4 is a third ldr while 0xd2210 is ldrb",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/Code_Variable_Find_Slot_From_Name.c",
+   "claim": "only self == *g_host AND mode == 0 uses the global table",
+   "bytes": "0xd2200 beq + 0xd2218 bne both fall back to 0xd2204; the global jump at 0xd221c is reachable only when both hold",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/Variable_GetObjectName.c",
+   "claim": "@func 0x1f3f8c 0x1f40cc size 320, 80 rows (71 instructions + 9 pool words)",
+   "bytes": "71 instructions 0x1f3f8c..0x1f40a4, pool 0x1f40a8..0x1f40c8 (9), 0x140 = 320 B",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/Variable_GetObjectName.c",
+   "claim": "the second parameter (r1) is never read; 0x1f3fb8 overwrites it with the hash mask",
+   "bytes": "no instruction in 0x1f3f8c..0x1f3fb4 names r1; 0x1f3fb8 is ldr r1, [r3, #0x4]",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/Variable_GetObjectName.c",
+   "claim": "six failure exits share one rodata string 0x3527e4, and only 0x1f407c sets 0x75505c",
+   "bytes": "all six ldr/add pairs resolve to 0x3527e4, which holds exactly \"<unknown_object>\"; 0x1f407c is the only strb in the body",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/Variable_GetObjectName.c",
+   "claim": "the id > 99999 hash path checks +0x68 only, while the room chain checks +0x68 and +0x69",
+   "bytes": "0x1f3ff8 is the only ldrb on the hash path; 0x1f4038 and 0x1f4048 are the two on the room path",
+   "verdict": "consistent"
+  },
+  {
+   "card": "cards/Variable_GetObjectName.c",
+   "claim": "node layout {next@+4, id@+8, inst@+0xc} and 8 B buckets",
+   "bytes": "0x1f3fc4 ldr r3,[r3,r1,lsl #3]; 0x1f3fd4 +4; 0x1f3fe0 +8; 0x1f3fec +0xc",
+   "verdict": "consistent"
+  }
+ ],
+ "card_note": "No card/byte delta.  Both cards' addresses, instruction counts, pool sizes, field offsets, GOT->.bss chains and return conventions match the pinned bytes; nothing had to be corrected on the byte side, and the cases here pin every one of those claims.",
+ "instruction_census": {
+  "Code_Variable_Find_Slot_From_Name": {
+   "function": "Code_Variable_Find_Slot_From_Name",
+   "instructions": 13,
+   "documented": 13,
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "pool_words": 2,
+   "pool_missing": [],
+   "ok": true
+  },
+  "Variable_GetObjectName": {
+   "function": "Variable_GetObjectName",
+   "instructions": 71,
+   "documented": 71,
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "pool_words": 9,
+   "pool_missing": [],
+   "ok": true
+  },
+  "ok": true,
+  "instructions": 84,
+  "documented": 84
+ },
+ "repeat": {
+  "runs_per_arm": 2,
+  "rerun_kind": {
+   "original": "second Unicorn instance, same case order",
+   "rebuild": "second qemu-arm process, same stdin blob"
+  },
+  "original_identical": true,
+  "rebuild_identical": true,
+  "original_log_sha256": [
+   "d8a424f75fee93e98e7b2504a5ebef0fc6137a7b530af4dbb9c4e90094b4d60f",
+   "d8a424f75fee93e98e7b2504a5ebef0fc6137a7b530af4dbb9c4e90094b4d60f"
+  ],
+  "rebuild_log_sha256": [
+   "d8a424f75fee93e98e7b2504a5ebef0fc6137a7b530af4dbb9c4e90094b4d60f",
+   "d8a424f75fee93e98e7b2504a5ebef0fc6137a7b530af4dbb9c4e90094b4d60f"
+  ],
+  "note": "identical digests inside an arm are the repeatability evidence; the two arms agreeing with each other is the identity gate"
+ },
+ "cases": 42,
+ "cases_f1": 16,
+ "cases_f2": 26,
+ "rows": [
+  {
+   "case": {
+    "fn": 1,
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 5,
+    "p4": -1,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 self != host -> local table, hit slot 5"
+   },
+   "original": {
+    "ret": 5,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 5,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "p3": -1,
+    "p4": 7,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 self != host -> local table, miss (-1)"
+   },
+   "original": {
+    "ret": -1,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": -1,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": -1,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 self == host, mode 0 -> GLOBAL table, hit slot 3"
+   },
+   "original": {
+    "ret": 3,
+    "calls": [
+     [
+      "G",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 3,
+    "calls": [
+     [
+      "G",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": 3,
+    "p4": -1,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 self == host, mode 0 -> GLOBAL table, miss (-1)"
+   },
+   "original": {
+    "ret": -1,
+    "calls": [
+     [
+      "G",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": -1,
+    "calls": [
+     [
+      "G",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 1,
+    "p2": 0,
+    "p3": 4,
+    "p4": 9,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 self == host, mode 1 -> local fallback (mode != 0)"
+   },
+   "original": {
+    "ret": 4,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 4,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 255,
+    "p2": 0,
+    "p3": 4,
+    "p4": 9,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 self == host, mode 255 -> local fallback"
+   },
+   "original": {
+    "ret": 4,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 4,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 9,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 local returns slot 0: 0 is a legal slot, not \"absent\""
+   },
+   "original": {
+    "ret": 0,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 0,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "p3": -2147483648,
+    "p4": 9,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 INT_MIN passes through untouched (no normalisation)"
+   },
+   "original": {
+    "ret": -2147483648,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": -2147483648,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 100,
+    "p4": 200,
+    "p5": 1,
+    "p6": 0,
+    "label": "F1 empty name \"\" forwarded as-is to the local table"
+   },
+   "original": {
+    "ret": 100,
+    "calls": [
+     [
+      "L",
+      0,
+      ""
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 100,
+    "calls": [
+     [
+      "L",
+      0,
+      ""
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 5,
+    "p4": -1,
+    "p5": 3,
+    "p6": 0,
+    "label": "F1 NULL name forwarded as-is to the local table"
+   },
+   "original": {
+    "ret": 5,
+    "calls": [
+     [
+      "L",
+      -1,
+      ""
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 5,
+    "calls": [
+     [
+      "L",
+      -1,
+      ""
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": 5,
+    "p4": -1,
+    "p5": 3,
+    "p6": 0,
+    "label": "F1 NULL name on the GLOBAL path (mode 0)"
+   },
+   "original": {
+    "ret": -1,
+    "calls": [
+     [
+      "G",
+      -1,
+      ""
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": -1,
+    "calls": [
+     [
+      "G",
+      -1,
+      ""
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 100,
+    "p4": 200,
+    "p5": 2,
+    "p6": 0,
+    "label": "F1 distinct local/global answers: which table ran is visible"
+   },
+   "original": {
+    "ret": 100,
+    "calls": [
+     [
+      "L",
+      4,
+      "beta"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 100,
+    "calls": [
+     [
+      "L",
+      4,
+      "beta"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 0,
+    "p2": 1,
+    "p3": 2,
+    "p4": -1,
+    "p5": 2,
+    "p6": 0,
+    "label": "F1 host pointer NULL and self NULL -> equal, GLOBAL branch"
+   },
+   "original": {
+    "ret": -1,
+    "calls": [
+     [
+      "G",
+      4,
+      "beta"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": -1,
+    "calls": [
+     [
+      "G",
+      4,
+      "beta"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 1,
+    "p1": 0,
+    "p2": 1,
+    "p3": 2,
+    "p4": -1,
+    "p5": 2,
+    "p6": 0,
+    "label": "F1 host pointer NULL and self non-NULL -> local branch"
+   },
+   "original": {
+    "ret": 2,
+    "calls": [
+     [
+      "L",
+      4,
+      "beta"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 2,
+    "calls": [
+     [
+      "L",
+      4,
+      "beta"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 2,
+    "p4": -1,
+    "p5": 2,
+    "p6": 0,
+    "label": "F1 host pointer NULL, self NULL, mode 1 -> local branch"
+   },
+   "original": {
+    "ret": 2,
+    "calls": [
+     [
+      "L",
+      4,
+      "beta"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 2,
+    "calls": [
+     [
+      "L",
+      4,
+      "beta"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 2,
+    "p1": 0,
+    "p2": 0,
+    "p3": 7,
+    "p4": 8,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 self NULL vs a live host pointer -> local branch"
+   },
+   "original": {
+    "ret": 7,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": 7,
+    "calls": [
+     [
+      "L",
+      5,
+      "alpha"
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -3,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -3, empty room -> flag=1 + placeholder"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 1
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 1,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -3,
+    "p1": 0,
+    "p2": 0,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -3, single live instance -> Object_Name(100)"
+   },
+   "original": {
+    "ret": "NAME:4f424a313030",
+    "calls": [
+     [
+      "O",
+      100
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313030",
+    "calls": [
+     [
+      "O",
+      100
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -3,
+    "p1": 0,
+    "p2": 0,
+    "p3": 2,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -3, destroyed then live -> Object_Name(101)"
+   },
+   "original": {
+    "ret": "NAME:4f424a313031",
+    "calls": [
+     [
+      "O",
+      101
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313031",
+    "calls": [
+     [
+      "O",
+      101
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -3,
+    "p1": 0,
+    "p2": 0,
+    "p3": 3,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -3, deactivated then live -> Object_Name(101)"
+   },
+   "original": {
+    "ret": "NAME:4f424a313031",
+    "calls": [
+     [
+      "O",
+      101
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313031",
+    "calls": [
+     [
+      "O",
+      101
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -3,
+    "p1": 0,
+    "p2": 0,
+    "p3": 4,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -3, destroyed + deactivated, then live -> Object_Name(102)"
+   },
+   "original": {
+    "ret": "NAME:4f424a313032",
+    "calls": [
+     [
+      "O",
+      102
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313032",
+    "calls": [
+     [
+      "O",
+      102
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -3,
+    "p1": 0,
+    "p2": 0,
+    "p3": 5,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -3, every instance dead -> flag=1 + placeholder"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 1
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 1,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -3,
+    "p1": 0,
+    "p2": 0,
+    "p3": 6,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -3, live head with a live next -> stops at the head (100)"
+   },
+   "original": {
+    "ret": "NAME:4f424a313030",
+    "calls": [
+     [
+      "O",
+      100
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313030",
+    "calls": [
+     [
+      "O",
+      100
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -1 -> placeholder, flag NOT set"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -10,
+    "p1": 0,
+    "p2": 0,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -10 (what DoPop passes) -> placeholder, no flag"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -2147483648,
+    "p1": 0,
+    "p2": 0,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id INT_MIN -> placeholder, no flag"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -4,
+    "p1": 0,
+    "p2": 0,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id -4 (one below -3) -> placeholder, not the room branch"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 0 -> Object_Name(0) straight through"
+   },
+   "original": {
+    "ret": "NAME:4f424a30",
+    "calls": [
+     [
+      "O",
+      0
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a30",
+    "calls": [
+     [
+      "O",
+      0
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 99999,
+    "p1": 0,
+    "p2": 0,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 99999 (upper boundary, ble) -> Object_Name(99999)"
+   },
+   "original": {
+    "ret": "NAME:4f424a3939393939",
+    "calls": [
+     [
+      "O",
+      99999
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a3939393939",
+    "calls": [
+     [
+      "O",
+      99999
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100000,
+    "p1": 0,
+    "p2": 0,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 100000 (one past the boundary) -> hash path, empty bucket"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100000,
+    "p1": 0,
+    "p2": 1,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 100000 -> hash hit, live -> Object_Name(103)"
+   },
+   "original": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100001,
+    "p1": 0,
+    "p2": 2,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 100001 -> node staged in the NEIGHBOUR bucket, so empty"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100002,
+    "p1": 0,
+    "p2": 3,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 100002 -> chain of one, key mismatch -> chain end"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100003,
+    "p1": 0,
+    "p2": 4,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 100003 -> walk the chain (key+1 first) then hit (103)"
+   },
+   "original": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100004,
+    "p1": 0,
+    "p2": 5,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 100004 -> key match but node value NULL -> placeholder"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100005,
+    "p1": 0,
+    "p2": 6,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 100005 -> hash hit, instance +0x68 != 0 -> placeholder"
+   },
+   "original": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+    "calls": [],
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100006,
+    "p1": 0,
+    "p2": 7,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 100006 -> hash hit, +0x69 ONLY: still names it (103)"
+   },
+   "original": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 2147483647,
+    "p1": 0,
+    "p2": 1,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 id 0x7fffffff -> hash path, bucket = id & mask -> 103"
+   },
+   "original": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100012,
+    "p1": 0,
+    "p2": 1,
+    "p3": 1,
+    "p4": 100,
+    "p5": 3,
+    "p6": 0,
+    "label": "F2 id 100012, mask 3 -> bucket 0 (id&7 would be 4) -> 103"
+   },
+   "original": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100013,
+    "p1": 0,
+    "p2": 1,
+    "p3": 1,
+    "p4": 100,
+    "p5": 3,
+    "p6": 0,
+    "label": "F2 id 100013, mask 3 -> bucket 1 (id&7 would be 5) -> 103"
+   },
+   "original": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100006,
+    "p1": 4242,
+    "p2": 7,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 dead varid 4242: same id as the +0x69 case, same record"
+   },
+   "original": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 100006,
+    "p1": -2147483648,
+    "p2": 7,
+    "p3": 1,
+    "p4": 100,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 dead varid INT_MIN: same id again, same record"
+   },
+   "original": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NAME:4f424a313033",
+    "calls": [
+     [
+      "O",
+      103
+     ]
+    ],
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  }
+ ],
+ "coverage": {
+  "f1_local_beq_not_taken": true,
+  "f1_host_branch_taken": true,
+  "f1_global_tail": true,
+  "f1_mode_nonzero_local": true,
+  "f1_name_forwarded": true,
+  "f1_empty_name": true,
+  "f1_null_name": true,
+  "f1_slot_zero": true,
+  "f1_minus_one": true,
+  "f1_int_min_passthrough": true,
+  "f1_host_pointer_null": true,
+  "f2_all_branch": true,
+  "f2_negative_exit": true,
+  "f2_objindex_exit": true,
+  "f2_hash_empty_bucket": true,
+  "f2_hash_chain_end": true,
+  "f2_hash_walk": true,
+  "f2_hash_value_null": true,
+  "f2_hash_destroyed": true,
+  "f2_hash_live": true,
+  "f2_all_room_empty": true,
+  "f2_all_advance_destroyed": true,
+  "f2_all_advance_deactivated": true,
+  "f2_all_chain_end": true,
+  "f2_all_live": true,
+  "f2_flag_set": true,
+  "f2_flag_untouched_on_other_exits": true,
+  "f2_room_chain_loaded": true,
+  "f2_mask_honoured": true,
+  "f2_dead_varid_ignored": true,
+  "f2_dead_varid_identical_records": true
+ },
+ "covered_by": {
+  "f1_local_beq_not_taken": [
+   "F1 self != host -> local table, hit slot 5",
+   "F1 self != host -> local table, miss (-1)"
+  ],
+  "f1_host_branch_taken": [
+   "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+   "F1 self == host, mode 0 -> GLOBAL table, miss (-1)"
+  ],
+  "f1_global_tail": [
+   "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+   "F1 self == host, mode 0 -> GLOBAL table, miss (-1)"
+  ],
+  "f1_mode_nonzero_local": [
+   "F1 self == host, mode 1 -> local fallback (mode != 0)",
+   "F1 self == host, mode 255 -> local fallback"
+  ],
+  "f1_name_forwarded": [
+   "F1 self != host -> local table, hit slot 5",
+   "F1 self != host -> local table, miss (-1)"
+  ],
+  "f1_empty_name": [
+   "F1 empty name \"\" forwarded as-is to the local table"
+  ],
+  "f1_null_name": [
+   "F1 NULL name forwarded as-is to the local table",
+   "F1 NULL name on the GLOBAL path (mode 0)"
+  ],
+  "f1_slot_zero": [
+   "F1 local returns slot 0: 0 is a legal slot, not \"absent\""
+  ],
+  "f1_minus_one": [
+   "F1 self != host -> local table, miss (-1)",
+   "F1 self == host, mode 0 -> GLOBAL table, miss (-1)"
+  ],
+  "f1_int_min_passthrough": [
+   "F1 INT_MIN passes through untouched (no normalisation)"
+  ],
+  "f1_host_pointer_null": [
+   "F1 host pointer NULL and self NULL -> equal, GLOBAL branch",
+   "F1 host pointer NULL, self NULL, mode 1 -> local branch"
+  ],
+  "f2_all_branch": [
+   "F2 id -3, empty room -> flag=1 + placeholder",
+   "F2 id -3, single live instance -> Object_Name(100)"
+  ],
+  "f2_negative_exit": [
+   "F2 id -1 -> placeholder, flag NOT set",
+   "F2 id -10 (what DoPop passes) -> placeholder, no flag"
+  ],
+  "f2_objindex_exit": [
+   "F2 id 0 -> Object_Name(0) straight through",
+   "F2 id 99999 (upper boundary, ble) -> Object_Name(99999)"
+  ],
+  "f2_hash_empty_bucket": [
+   "F2 id 100000 (one past the boundary) -> hash path, empty bucket",
+   "F2 id 100001 -> node staged in the NEIGHBOUR bucket, so empty"
+  ],
+  "f2_hash_chain_end": [
+   "F2 id 100002 -> chain of one, key mismatch -> chain end"
+  ],
+  "f2_hash_walk": [
+   "F2 id 100002 -> chain of one, key mismatch -> chain end",
+   "F2 id 100003 -> walk the chain (key+1 first) then hit (103)"
+  ],
+  "f2_hash_value_null": [
+   "F2 id 100004 -> key match but node value NULL -> placeholder"
+  ],
+  "f2_hash_destroyed": [
+   "F2 id 100005 -> hash hit, instance +0x68 != 0 -> placeholder"
+  ],
+  "f2_hash_live": [
+   "F2 id 100000 -> hash hit, live -> Object_Name(103)",
+   "F2 id 100003 -> walk the chain (key+1 first) then hit (103)"
+  ],
+  "f2_all_room_empty": [
+   "F2 id -3, empty room -> flag=1 + placeholder"
+  ],
+  "f2_all_advance_destroyed": [
+   "F2 id -3, destroyed then live -> Object_Name(101)",
+   "F2 id -3, destroyed + deactivated, then live -> Object_Name(102)"
+  ],
+  "f2_all_advance_deactivated": [
+   "F2 id -3, deactivated then live -> Object_Name(101)",
+   "F2 id -3, destroyed + deactivated, then live -> Object_Name(102)"
+  ],
+  "f2_all_chain_end": [
+   "F2 id -3, every instance dead -> flag=1 + placeholder"
+  ],
+  "f2_all_live": [
+   "F2 id -3, single live instance -> Object_Name(100)",
+   "F2 id -3, destroyed then live -> Object_Name(101)"
+  ],
+  "f2_flag_set": [
+   "F2 id -3, empty room -> flag=1 + placeholder",
+   "F2 id -3, every instance dead -> flag=1 + placeholder"
+  ],
+  "f2_flag_untouched_on_other_exits": [
+   "F2 id -1 -> placeholder, flag NOT set",
+   "F2 id -10 (what DoPop passes) -> placeholder, no flag"
+  ],
+  "f2_room_chain_loaded": [
+   "F2 id -3, empty room -> flag=1 + placeholder",
+   "F2 id -3, single live instance -> Object_Name(100)"
+  ],
+  "f2_mask_honoured": [
+   "F2 id 100012, mask 3 -> bucket 0 (id&7 would be 4) -> 103",
+   "F2 id 100013, mask 3 -> bucket 1 (id&7 would be 5) -> 103"
+  ],
+  "f2_dead_varid_ignored": [
+   "F2 dead varid 4242: same id as the +0x69 case, same record",
+   "F2 dead varid INT_MIN: same id again, same record"
+  ]
+ },
+ "teeth": [
+  {
+   "mutant": "f1_dispatch_inverted",
+   "file": "find_slot_from_name.c",
+   "caught_by": [
+    "F1 self != host -> local table, hit slot 5",
+    "F1 self != host -> local table, miss (-1)",
+    "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "F1 self == host, mode 0 -> GLOBAL table, miss (-1)",
+    "F1 local returns slot 0: 0 is a legal slot, not \"absent\"",
+    "F1 INT_MIN passes through untouched (no normalisation)",
+    "F1 empty name \"\" forwarded as-is to the local table",
+    "F1 NULL name forwarded as-is to the local table",
+    "F1 NULL name on the GLOBAL path (mode 0)",
+    "F1 distinct local/global answers: which table ran is visible",
+    "F1 host pointer NULL and self NULL -> equal, GLOBAL branch",
+    "F1 host pointer NULL and self non-NULL -> local branch",
+    "F1 self NULL vs a live host pointer -> local branch"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 self != host -> local table, hit slot 5",
+    "ret": {
+     "original": 5,
+     "mutant": -1
+    },
+    "calls": {
+     "original": [
+      [
+       "L",
+       5,
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       5,
+       "alpha"
+      ]
+     ]
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f1_mode_test_flipped",
+   "file": "find_slot_from_name.c",
+   "caught_by": [
+    "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "F1 self == host, mode 0 -> GLOBAL table, miss (-1)",
+    "F1 self == host, mode 1 -> local fallback (mode != 0)",
+    "F1 self == host, mode 255 -> local fallback",
+    "F1 NULL name on the GLOBAL path (mode 0)",
+    "F1 host pointer NULL and self NULL -> equal, GLOBAL branch",
+    "F1 host pointer NULL, self NULL, mode 1 -> local branch"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "ret": {
+     "original": 3,
+     "mutant": -1
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       5,
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "L",
+       5,
+       "alpha"
+      ]
+     ]
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f1_host_deref_dropped",
+   "file": "find_slot_from_name.c",
+   "caught_by": [
+    "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "F1 self == host, mode 0 -> GLOBAL table, miss (-1)",
+    "F1 NULL name on the GLOBAL path (mode 0)",
+    "F1 host pointer NULL and self NULL -> equal, GLOBAL branch"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "ret": {
+     "original": 3,
+     "mutant": -1
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       5,
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "L",
+       5,
+       "alpha"
+      ]
+     ]
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f1_name_pointer_shifted",
+   "file": "find_slot_from_name.c",
+   "caught_by": [
+    "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "F1 self == host, mode 0 -> GLOBAL table, miss (-1)",
+    "F1 host pointer NULL and self NULL -> equal, GLOBAL branch"
+   ],
+   "aborted_cases": [
+    "F1 NULL name on the GLOBAL path (mode 0)"
+   ],
+   "mode": "mismatch+driver-abort",
+   "field_level": true,
+   "passed": true,
+   "batch_detail": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped",
+   "abort_detail": {
+    "F1 NULL name on the GLOBAL path (mode 0)": "driver exit -11: qemu: uncaught target signal 11 (Segmentation fault) - core dumped"
+   },
+   "sample_mismatch": {
+    "case": "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "ret": {
+     "original": 3,
+     "mutant": 3
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       5,
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "G",
+       4,
+       "lpha"
+      ]
+     ]
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f1_local_return_normalised",
+   "file": "find_slot_from_name.c",
+   "caught_by": [
+    "F1 self != host -> local table, hit slot 5",
+    "F1 self != host -> local table, miss (-1)",
+    "F1 local returns slot 0: 0 is a legal slot, not \"absent\"",
+    "F1 INT_MIN passes through untouched (no normalisation)",
+    "F1 empty name \"\" forwarded as-is to the local table",
+    "F1 NULL name forwarded as-is to the local table",
+    "F1 distinct local/global answers: which table ran is visible",
+    "F1 host pointer NULL and self non-NULL -> local branch",
+    "F1 self NULL vs a live host pointer -> local branch"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 self != host -> local table, hit slot 5",
+    "ret": {
+     "original": 5,
+     "mutant": -1
+    },
+    "calls": {
+     "original": [
+      [
+       "L",
+       5,
+       "alpha"
+      ]
+     ],
+     "mutant": []
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f1_global_return_normalised",
+   "file": "find_slot_from_name.c",
+   "caught_by": [
+    "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "F1 self == host, mode 0 -> GLOBAL table, miss (-1)",
+    "F1 NULL name on the GLOBAL path (mode 0)",
+    "F1 host pointer NULL and self NULL -> equal, GLOBAL branch"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 self == host, mode 0 -> GLOBAL table, hit slot 3",
+    "ret": {
+     "original": 3,
+     "mutant": 7
+    },
+    "calls": {
+     "original": [
+      [
+       "G",
+       5,
+       "alpha"
+      ]
+     ],
+     "mutant": []
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_destroyed_offset_68_to_6c",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id 100005 -> hash hit, instance +0x68 != 0 -> placeholder"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id 100005 -> hash hit, instance +0x68 != 0 -> placeholder",
+    "ret": {
+     "original": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+     "mutant": "NAME:4f424a313033"
+    },
+    "calls": {
+     "original": [],
+     "mutant": [
+      [
+       "O",
+       103
+      ]
+     ]
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_room_destroyed_offset_68_to_6a",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id -3, destroyed then live -> Object_Name(101)",
+    "F2 id -3, destroyed + deactivated, then live -> Object_Name(102)",
+    "F2 id -3, every instance dead -> flag=1 + placeholder"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id -3, destroyed then live -> Object_Name(101)",
+    "ret": {
+     "original": "NAME:4f424a313031",
+     "mutant": "NAME:4f424a313030"
+    },
+    "calls": {
+     "original": [
+      [
+       "O",
+       101
+      ]
+     ],
+     "mutant": [
+      [
+       "O",
+       100
+      ]
+     ]
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_deact_offset_69_to_6b",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id -3, deactivated then live -> Object_Name(101)",
+    "F2 id -3, destroyed + deactivated, then live -> Object_Name(102)"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id -3, deactivated then live -> Object_Name(101)",
+    "ret": {
+     "original": "NAME:4f424a313031",
+     "mutant": "NAME:4f424a313030"
+    },
+    "calls": {
+     "original": [
+      [
+       "O",
+       101
+      ]
+     ],
+     "mutant": [
+      [
+       "O",
+       100
+      ]
+     ]
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_deact_gate_added_in_hash",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id 100006 -> hash hit, +0x69 ONLY: still names it (103)",
+    "F2 dead varid 4242: same id as the +0x69 case, same record",
+    "F2 dead varid INT_MIN: same id again, same record"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id 100006 -> hash hit, +0x69 ONLY: still names it (103)",
+    "ret": {
+     "original": "NAME:4f424a313033",
+     "mutant": "UNK:3c756e6b6e6f776e5f6f626a6563743e"
+    },
+    "calls": {
+     "original": [
+      [
+       "O",
+       103
+      ]
+     ],
+     "mutant": []
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_node_key_is_value",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id 100000 -> hash hit, live -> Object_Name(103)",
+    "F2 id 100003 -> walk the chain (key+1 first) then hit (103)",
+    "F2 id 100006 -> hash hit, +0x69 ONLY: still names it (103)",
+    "F2 id 0x7fffffff -> hash path, bucket = id & mask -> 103",
+    "F2 id 100012, mask 3 -> bucket 0 (id&7 would be 4) -> 103",
+    "F2 id 100013, mask 3 -> bucket 1 (id&7 would be 5) -> 103",
+    "F2 dead varid 4242: same id as the +0x69 case, same record",
+    "F2 dead varid INT_MIN: same id again, same record"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id 100000 -> hash hit, live -> Object_Name(103)",
+    "ret": {
+     "original": "NAME:4f424a313033",
+     "mutant": "UNK:3c756e6b6e6f776e5f6f626a6563743e"
+    },
+    "calls": {
+     "original": [
+      [
+       "O",
+       103
+      ]
+     ],
+     "mutant": []
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_bucket_stride_8_to_4",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id 100003 -> walk the chain (key+1 first) then hit (103)",
+    "F2 id 100006 -> hash hit, +0x69 ONLY: still names it (103)",
+    "F2 id 0x7fffffff -> hash path, bucket = id & mask -> 103",
+    "F2 id 100013, mask 3 -> bucket 1 (id&7 would be 5) -> 103",
+    "F2 dead varid 4242: same id as the +0x69 case, same record",
+    "F2 dead varid INT_MIN: same id again, same record"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id 100003 -> walk the chain (key+1 first) then hit (103)",
+    "ret": {
+     "original": "NAME:4f424a313033",
+     "mutant": "UNK:3c756e6b6e6f776e5f6f626a6563743e"
+    },
+    "calls": {
+     "original": [
+      [
+       "O",
+       103
+      ]
+     ],
+     "mutant": []
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_objindex_boundary_lt",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id 99999 (upper boundary, ble) -> Object_Name(99999)"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id 99999 (upper boundary, ble) -> Object_Name(99999)",
+    "ret": {
+     "original": "NAME:4f424a3939393939",
+     "mutant": "UNK:3c756e6b6e6f776e5f6f626a6563743e"
+    },
+    "calls": {
+     "original": [
+      [
+       "O",
+       99999
+      ]
+     ],
+     "mutant": []
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_all_test_minus4",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id -3, empty room -> flag=1 + placeholder",
+    "F2 id -3, single live instance -> Object_Name(100)",
+    "F2 id -3, destroyed then live -> Object_Name(101)",
+    "F2 id -3, deactivated then live -> Object_Name(101)",
+    "F2 id -3, destroyed + deactivated, then live -> Object_Name(102)",
+    "F2 id -3, every instance dead -> flag=1 + placeholder",
+    "F2 id -3, live head with a live next -> stops at the head (100)",
+    "F2 id -4 (one below -3) -> placeholder, not the room branch"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id -3, empty room -> flag=1 + placeholder",
+    "ret": {
+     "original": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+     "mutant": "UNK:3c756e6b6e6f776e5f6f626a6563743e"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "flag": {
+     "original": 1,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_objectname_arg_is_id",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id 100000 -> hash hit, live -> Object_Name(103)",
+    "F2 id 100003 -> walk the chain (key+1 first) then hit (103)",
+    "F2 id 100006 -> hash hit, +0x69 ONLY: still names it (103)",
+    "F2 id 0x7fffffff -> hash path, bucket = id & mask -> 103",
+    "F2 id 100012, mask 3 -> bucket 0 (id&7 would be 4) -> 103",
+    "F2 id 100013, mask 3 -> bucket 1 (id&7 would be 5) -> 103",
+    "F2 dead varid 4242: same id as the +0x69 case, same record",
+    "F2 dead varid INT_MIN: same id again, same record"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id 100000 -> hash hit, live -> Object_Name(103)",
+    "ret": {
+     "original": "NAME:4f424a313033",
+     "mutant": "NAME:4f424a313030303030"
+    },
+    "calls": {
+     "original": [
+      [
+       "O",
+       103
+      ]
+     ],
+     "mutant": [
+      [
+       "O",
+       100000
+      ]
+     ]
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_flag_write_dropped",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id -3, empty room -> flag=1 + placeholder",
+    "F2 id -3, every instance dead -> flag=1 + placeholder"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id -3, empty room -> flag=1 + placeholder",
+    "ret": {
+     "original": "UNK:3c756e6b6e6f776e5f6f626a6563743e",
+     "mutant": "UNK:3c756e6b6e6f776e5f6f626a6563743e"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "flag": {
+     "original": 1,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_mask_ignored",
+   "file": "get_object_name.c",
+   "caught_by": [
+    "F2 id 100012, mask 3 -> bucket 0 (id&7 would be 4) -> 103",
+    "F2 id 100013, mask 3 -> bucket 1 (id&7 would be 5) -> 103"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 id 100012, mask 3 -> bucket 0 (id&7 would be 4) -> 103",
+    "ret": {
+     "original": "NAME:4f424a313033",
+     "mutant": "UNK:3c756e6b6e6f776e5f6f626a6563743e"
+    },
+    "calls": {
+     "original": [
+      [
+       "O",
+       103
+      ]
+     ],
+     "mutant": []
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  }
+ ],
+ "status": "PASS"
+}

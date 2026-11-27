@@ -1,0 +1,29 @@
+{
+  "id": "BOOT-001",
+  "title": "obj_player 的 Create 事件把 flashing 初始化为 0",
+  "scope_object": "obj_player",
+  "scope_event": "Create",
+  "trigger": "实例创建（room 载入或 instance_create）时执行 CODE 0",
+  "preconditions": "CODE 0 被派发；vm 的 self 指向新建实例",
+  "effects": "实例字段 flashing 由 store 指令写入常量 0",
+  "tier": "bytecode_anchored",
+  "host_authored": 0,
+  "original_gap": "",
+  "anchor": "crates/core/src/generated/full_ir.json#codes[id=0] offsets 3763392(constant 0) → 3763396(store flashing)",
+  "notes": "只断言字节码层面的写入顺序；运行期是否真有该写由 test_anchored 卡覆盖",
+  "codes": [
+    0
+  ],
+  "evidence": [
+    {
+      "kind": "bytecode",
+      "ref": "full_ir.json codes[0].instructions[0..1]",
+      "note": "constant 0; store name=flashing selector=-1"
+    },
+    {
+      "kind": "bytecode",
+      "ref": "full_ir.json codes[0].sha256",
+      "note": "body identity for BINDING"
+    }
+  ]
+}

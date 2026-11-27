@@ -1,0 +1,159 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "not_whole_library_completion": true,
+  "compile_domain": "Clang ARM32 base AAPCS32, -mfloat-abi=soft; explicit ARM byte/word and VFPv3-D16 primitives preserve original loads, FPSCR and operation order",
+  "functions": [
+    {
+      "entry": "0x284174",
+      "isa": "arm",
+      "symbol": "spAtlas_create",
+      "role_label": null,
+      "aliases": [
+        "spAtlas_create"
+      ],
+      "size": 1824,
+      "original_body_sha256": "a6cf2776e22aa32555daac68c5b1d6beb820172698ad1136ea00a9c282fa4193",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    },
+    {
+      "entry": "0x284058",
+      "isa": "arm",
+      "symbol": "spAtlasPage_create",
+      "role_label": null,
+      "aliases": [
+        "spAtlasPage_create"
+      ],
+      "size": 96,
+      "original_body_sha256": "b3090dcc11e85d01e85232117c416eba96fceb7070b6cf67fab5acd0040d186a",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    },
+    {
+      "entry": "0x2840d8",
+      "isa": "arm",
+      "symbol": "spAtlasRegion_create",
+      "role_label": null,
+      "aliases": [
+        "spAtlasRegion_create"
+      ],
+      "size": 28,
+      "original_body_sha256": "339c420700e82cd618ff5f1eddf4c460556605a3858314c3c193c0525a458ae3",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    },
+    {
+      "entry": "0x283d14",
+      "isa": "arm",
+      "symbol": null,
+      "role_label": "trim",
+      "aliases": [],
+      "size": 212,
+      "original_body_sha256": "d4bd8de79cf2ab175e4f40ac8c0539cbb2f09e51913ed21b6865e5d63177b3ae",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    },
+    {
+      "entry": "0x283de8",
+      "isa": "arm",
+      "symbol": null,
+      "role_label": "readLine",
+      "aliases": [],
+      "size": 148,
+      "original_body_sha256": "092be161d39a0ec3eb0e3529c7a178ad2d0625d5ae133015db5d8bc4a554327d",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    },
+    {
+      "entry": "0x283e7c",
+      "isa": "arm",
+      "symbol": null,
+      "role_label": "readValue",
+      "aliases": [],
+      "size": 84,
+      "original_body_sha256": "767d07ac91c2d1a037be8a5ef235e14e85a25c988d002aba51d9404d8f986250",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    },
+    {
+      "entry": "0x283ed0",
+      "isa": "arm",
+      "symbol": null,
+      "role_label": "readTuple",
+      "aliases": [],
+      "size": 248,
+      "original_body_sha256": "d3ec80db4c48fcf2d29149af1d6280dee44a5ddb7f0200136fcc8777ac395675",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    },
+    {
+      "entry": "0x283fc8",
+      "isa": "arm",
+      "symbol": null,
+      "role_label": "mallocString",
+      "aliases": [],
+      "size": 72,
+      "original_body_sha256": "2be4e59acf42a479e00ea31728ae399f7dd9f8c111355f260374cec906b010b6",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    },
+    {
+      "entry": "0x284010",
+      "isa": "arm",
+      "symbol": null,
+      "role_label": "indexOf",
+      "aliases": [],
+      "size": 72,
+      "original_body_sha256": "93542e5cfabadd42c909826271ab08e3db5562c52a1ec10a8e7a56350919c9d8",
+      "translation_source": "src/spine_atlas_create.c",
+      "translation_source_sha256": "f0bdfd5f514072ca03aeab13cef728a7683279d2f9951cee790ca1ebab4142e9",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "remaining_scope": "internal _spAtlasPage_createTexture body still open; uninitialized stack bytes are implicit inputs; no original runtime comparison or whole-library completion"
+    }
+  ],
+  "translation_headers_sha256": {
+    "spine_atlas_parser/src/spine_atlas_create.h": "65153ee220efe207e2a4754ec964aa6f514a1e1e68c48594d09b593aff6da7a1",
+    "spine_atlas_layout.h": "2faac0ad0cb10496bb61f6d2e62b8c1c1f62467dccde97fd06fc450c658cd679",
+    "spine_alloc/src/spine_alloc.h": "23124b746590c8ce44588ec7c79a0003fc2f737099cf173ae77e6c55246509b4"
+  },
+  "static_review": {
+    "report_path": "/data/data/com.termux/files/home/.hermes/reports/cally-native-atlas-20261102/parser-static-review.json",
+    "report_sha256": "dd1766984091348ff0643b6bc58bb18dd67ffa059ce2b1cdec3066b4deb3945b",
+    "scope": "all nine original entries, byte/source control and data flow; compiled execution separately bound by native-entry-r5",
+    "passed": true
+  }
+}

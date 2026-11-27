@@ -8,13 +8,13 @@ CODE 687 (Create) / 688 (Step) / 689 (Collision 35 = obj_flame) 三条全部经�
 - 唯一融化触发器：与 obj_flame 碰撞（CODE 689 一行 `melting=1`），经活 tick 路径验证（Step-before-Collision 派发序使 tick-1 只置位、不衰减）。
 - Step 守卫：`melting==1` 时双轴 scale 每帧 −0.1；未融化时步进完全不碰 scale（负对照 30 tick 验证）。
 
-## 硬浮点发现（本宿主实测）
+## 浮点与比较（修正）
 
-销毁守卫是严格 `image_xscale == 0`，而衰减是 double 链：1.0 → 0.9 → 0.8 → 0.7000000000000001 → … → 第 10 个递减值 1.3877787807814457e-16（永不精确为 0）→ 负值。**融化的冰块永远不会被自身收缩销毁**——30 tick 后 scale≈−0.3 仍存活。点火火焰自身在第 9 tick 经 alarm[0]=9→CODE 269 销毁，融化状态在无火后持续。此语义与原版 GMS 浮点一致（同 IEEE754 链），不是移植缺陷。
+衰减是 double 链：tick 1 因 Step-before-Collision 只置位；tick 2..10 从 1.0 逐次减 0.1，得到 0.9 → 0.8 → 0.7000000000000001 → … → 0.10000000000000014。tick 11 第十次递减得到 `1.3877787807814457e-16`，并非精确 0。**但销毁守卫不是硬件精确相等**：CODE 688 的 `cmp` 是 DoSet K=3；`reconstruction/contracts/value-model.md` 记录 DoSet 的实数比较采用 ±1e-05 容差。因此该正值比较为“等于 0”，CODE 688 在 tick 11 调用 `instance_destroy()`。此前“严格 `image_xscale == 0`、永不销毁”的解释遗漏了共享比较算子的容差，现以指令级比较契约修正。点火火焰仍在第 9 tick 经 alarm[0]=9→CODE 269 销毁。
 
 ## 测试
 
-`crates/core/tests/iceblock_melting_ir.rs` 4 项：Create 原值+死字段、活 tick 点火、完整 12+18 tick 衰减链逐帧 IEEE 精确断言（含火焰死亡窗口 t>=9）、未融化负对照 30 tick。夹具按纪律：玩家保持 active 到火焰 Create（CODE 268 读 obj_player.facing 走选择器过滤 alive+active）后 park。
+`crates/core/tests/iceblock_melting_ir.rs` 4 项：Create 原值+死字段、活 tick 点火、tick 1..10 衰减链逐帧 IEEE 精确断言（含火焰死亡窗口 t>=9），tick 11 near-zero 值按 DoSet K=3 容差触发销毁，以及未融化负对照 30 tick。夹具按纪律：玩家保持 active 到火焰 Create（CODE 268 读 obj_player.facing 走选择器过滤 alive+active）后 park。
 
 ## 边界
 

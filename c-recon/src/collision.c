@@ -1,4 +1,9 @@
-/* Collision geometry for IR lowered to C.
+/* tier: host_authored
+ * provenance: 重建实现，逐行移植自 crates/core/src/ir_scene.rs（下方给出行号）。
+ * original_gap: 原版 libyoyo 的碰撞 builtin 实现未逐指令取证；本文件里的 8 个 @0x
+ *               锚点只标到少量已知常量，不代表整文件已锚定。
+ *
+ * Collision geometry for IR lowered to C.
  *
  * Everything here is a line-by-line port of the Rust oracle, not a redesign:
  *
@@ -214,10 +219,32 @@ static int mask_probe_pixel(const GmMaskProbe* p, double px, double py) {
     return mask_pixel(p->bits, p->w, p->h, (int32_t)fx, (int32_t)fy);
 }
 
+/* collision_point floors its local coordinate (the runner calls floorf there)
+ * and, like the line path, takes the difference on ROUNDED integers:
+ * Collision_Point @0x1944b0 lrints the centre (0x19467c/0x194690) and the query
+ * point (0x1946ac/0x1946bc) before PreciseCollisionPoint @0x1e4a30 subtracts the
+ * two ints (rsb at 0x1e4a9c). The line path is not rounded here yet: its walk
+ * inside PreciseCollisionLine @0x1e52bc is still undecoded, so it keeps the raw
+ * float difference. */
+static int mask_probe_pixel_point(const GmMaskProbe* p, double px, double py) {
+    int32_t qx = (int32_t)lrintf((float)px), qy = (int32_t)lrintf((float)py);
+    int32_t cx = (int32_t)lrintf(p->ix), cy = (int32_t)lrintf(p->iy);
+    float dx = (float)(qx - cx), dy = (float)(qy - cy);
+    float rx = dx * p->ca - dy * p->sa;
+    float ry = dx * p->sa + dy * p->ca;
+    int32_t lx = (int32_t)floorf(rx / p->sx + p->ox);
+    int32_t ly = (int32_t)floorf(ry / p->sy + p->oy);
+    return mask_pixel(p->bits, p->w, p->h, lx, ly);
+}
+
 /* collision_point / collision_line floor their local coordinates (the runner
  * calls floorf there), unlike instance_place's vcvt.s32 truncation. */
 static int mask_probe_pixel_floor(const GmMaskProbe* p, double px, double py) {
-    float dx = (float)px - p->ix, dy = (float)py - p->iy;
+    /* The runner's line walk keeps the sample point in float but subtracts the
+     * ROUNDED centre (Collision_Line @0x194f28 lrints x/y at 0x1951f4/0x195208
+     * before the call; PreciseCollisionLine subtracts the ints). */
+    float dx = (float)px - (float)(int32_t)lrintf(p->ix);
+    float dy = (float)py - (float)(int32_t)lrintf(p->iy);
     float rx = dx * p->ca - dy * p->sa;
     float ry = dx * p->sa + dy * p->ca;
     int32_t lx = (int32_t)floorf(rx / p->sx + p->ox);
@@ -230,12 +257,18 @@ int gm_mask_point_test(GmVM* vm, int32_t tid, double px, double py) {
     int r = mask_probe(vm, tid, &p);
     if (r == 0) return -1;
     if (r < 0) return 0;
-    return mask_probe_pixel_floor(&p, px, py);
+    return mask_probe_pixel_point(&p, px, py);
 }
 
 int gm_line_mask_test(GmVM* vm, int32_t tid, double x1, double y1, double x2, double y2) {
     /* Runner quirk (oracle-verified, PreciseCollisionLine @0x1e52bc): an exactly
      * horizontal segment scanned right-to-left never hits. */
+    /* The call site rounds the four endpoints too (lrint at
+     * 0x195224/0x195234/0x195244/0x195254). */
+    x1 = (double)(int32_t)lrintf((float)x1);
+    y1 = (double)(int32_t)lrintf((float)y1);
+    x2 = (double)(int32_t)lrintf((float)x2);
+    y2 = (double)(int32_t)lrintf((float)y2);
     if (y1 == y2 && x2 < x1) return 0;
     GmMaskProbe p;
     int r = mask_probe(vm, tid, &p);
@@ -368,6 +401,39 @@ int gm_instance_box(GmVM* vm, int32_t id, double* l, double* r, double* t, doubl
     return 1;
 }
 
+/* Liang-Barsky, inclusive edges: the same slab test host_impl.rs
+ * `segment_hits_box` runs. Lives here (not in builtins2.c) so collision_line and
+ * the unit tests share one geometry path. */
+int gm_seg_hits_box(double x1, double y1, double x2, double y2,
+                    double l, double r, double t, double b) {
+    double dx = x2 - x1, dy = y2 - y1;
+    double t0 = 0.0, t1 = 1.0;
+    double p[4] = { -dx, dx, -dy, dy };
+    double q[4] = { x1 - l, r - x1, y1 - t, b - y1 };
+    for (int i = 0; i < 4; i++) {
+        if (p[i] == 0.0) { if (q[i] < 0.0) return 0; }
+        else {
+            double rt = q[i] / p[i];
+            if (p[i] < 0.0) { if (rt > t1) return 0; if (rt > t0) t0 = rt; }
+            else { if (rt < t0) return 0; if (rt < t1) t1 = rt; }
+        }
+    }
+    return 1;
+}
+
+/* collision_line broad phase for one instance. The runner
+ * (CInstance::Collision_Line @0x194f28, 0x194fcc-0x195068) tests
+ * `min(x1,x2) < right+1 && max(x1,x2) >= left` -- a half-open box on the
+ * inclusive integer edges -- and Rust mirrors it with bounds_for_instance
+ * (right+1, bottom+1). Without the +1 a sprite-less point box [x,x] misses a
+ * segment that runs through its .5 row/column. */
+int gm_line_hits_instance(GmVM* vm, int32_t id, double x1, double y1,
+                          double x2, double y2) {
+    double l, r, t, b;
+    if (!gm_instance_box(vm, id, &l, &r, &t, &b)) return 0;
+    return gm_seg_hits_box(x1, y1, x2, y2, l, r + 1.0, t, b + 1.0);
+}
+
 static int box_for_instance(GmVM* vm, int32_t id, GmBox* out) {
     GmInst* in = vm_inst(vm, id);
     if (!in) return 0;
@@ -445,7 +511,12 @@ static int box_for_at(GmVM* vm, int32_t id, double x, double y, GmBox* out) {
     return 1;
 }
 
-static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b) {
+/* Exported for the unit tests: the runner's PreciseCollision on two instances,
+ * bypassing the broad-phase box so a fixture can isolate mask sampling (the
+ * box-vs-mask distinction mattered when a rotated case passed with ca/sa
+ * forced to 1/0 — see contract 7.0). */
+static int precise_core(GmVM* vm, int32_t a, double ax, double ay, int32_t b,
+                        const double* rect_a, const double* rect_b) {
     GmInst* ib = vm_inst(vm, b);
     if (!ib) return 1;
     GmMaskProbe pa, pb;
@@ -457,7 +528,16 @@ static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b)
     if (rb == 0) return 1;                 /* no mask data on B: the box speaks */
     if (rb < 0) return 0;
     GmBox ba, bb;
-    if (!box_for_at(vm, a, ax, ay, &ba) || !box_for_instance(vm, b, &bb)) return 1;
+    if (rect_a) {
+        ba.l = rect_a[0]; ba.r = rect_a[1]; ba.t = rect_a[2]; ba.b = rect_a[3];
+    } else if (!box_for_at(vm, a, ax, ay, &ba)) {
+        return 1;
+    }
+    if (rect_b) {
+        bb.l = rect_b[0]; bb.r = rect_b[1]; bb.t = rect_b[2]; bb.b = rect_b[3];
+    } else if (!box_for_instance(vm, b, &bb)) {
+        return 1;
+    }
     double left = ba.l > bb.l ? ba.l : bb.l;
     double right = ba.r < bb.r ? ba.r : bb.r;
     double top = ba.t > bb.t ? ba.t : bb.t;
@@ -469,6 +549,21 @@ static int precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b)
                 mask_probe_pixel(&pb, (double)x, (double)y))
                 return 1;
     return 0;
+}
+
+int gm_precise_overlap(GmVM* vm, int32_t a, double ax, double ay, int32_t b) {
+    return precise_core(vm, a, ax, ay, b, NULL, NULL);
+}
+
+/* The runner's PreciseCollision takes both rectangles as arguments; this entry
+ * lets a fixture inject them (the Unicorn oracle does the same) so mask
+ * sampling is isolated from Compute_BoundingBox. */
+int gm_precise_rects(GmVM* vm, int32_t a, const double* rect_a, int32_t b,
+                     const double* rect_b) {
+    GmInst* ia = vm_inst(vm, a);
+    if (!ia) return 1;
+    return precise_core(vm, a, field_or(ia, "x", 0.0), field_or(ia, "y", 0.0),
+                        b, rect_a, rect_b);
 }
 
 int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
@@ -502,7 +597,7 @@ int32_t gm_instance_place(GmVM* vm, int32_t self, Val x, Val y, int32_t obj) {
         if (pbox.l <= tb.r && pbox.r >= tb.l && pbox.t <= tb.b && pbox.b >= tb.t) {
             /* The runner continues into Collision_Instance -> PreciseCollision:
              * the recorded box is only the broad phase. */
-            if (!precise_overlap(vm, self, (double)x, (double)y, tid)) continue;
+            if (!gm_precise_overlap(vm, self, (double)x, (double)y, tid)) continue;
             return tid;
         }
     }

@@ -1,0 +1,93 @@
+10b480	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+10b484	e24dd008	sub	sp, sp, #8
+10b488	e3a00000	mov	r0, #0
+10b48c	e1a07001	mov	r7, r1
+10b490	e59d8028	ldr	r8, [sp, #0x28]
+10b494	ebffff6c	bl	0x10b24c <_Z13GetActiveListPFvP9CInstanceE>
+10b498	e59f9144	ldr	r9, [pc, #0x144]
+10b49c	e3a04000	mov	r4, #0
+10b4a0	e08f9009	add	r9, pc, r9
+10b4a4	e5902008	ldr	r2, [r0, #0x8]
+10b4a8	e1a0a000	mov	r10, r0
+10b4ac	e3520000	cmp	r2, #0
+10b4b0	da000017	ble	0x10b514 <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0x94>
+10b4b4	e59a3000	ldr	r3, [r10]
+10b4b8	e7935104	ldr	r5, [r3, r4, lsl #2]
+10b4bc	e5d53068	ldrb	r3, [r5, #0x68]
+10b4c0	e3530000	cmp	r3, #0
+10b4c4	1a00000f	bne	0x10b508 <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0x88>
+10b4c8	e5d5c069	ldrb	r12, [r5, #0x69]
+10b4cc	e35c0000	cmp	r12, #0
+10b4d0	1a00000c	bne	0x10b508 <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0x88>
+10b4d4	e59f610c	ldr	r6, [pc, #0x10c]
+10b4d8	e79f6006	ldr	r6, [pc, r6]
+10b4dc	e996000c	ldmib	r6, {r2, r3}
+10b4e0	e1530002	cmp	r3, r2
+10b4e4	0a000016	beq	0x10b544 <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0xc4>
+10b4e8	e596c000	ldr	r12, [r6]
+10b4ec	e3a01001	mov	r1, #1
+10b4f0	e78c5103	str	r5, [r12, r3, lsl #2]
+10b4f4	e1a00005	mov	r0, r5
+10b4f8	e0832001	add	r2, r3, r1
+10b4fc	e5862008	str	r2, [r6, #0x8]
+10b500	eb021b81	bl	0x19230c <_ZN9CInstance14SetDeactivatedEb>
+10b504	e59a2008	ldr	r2, [r10, #0x8]
+10b508	e2844001	add	r4, r4, #1
+10b50c	e1520004	cmp	r2, r4
+10b510	caffffe7	bgt	0x10b4b4 <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0x34>
+10b514	e3570000	cmp	r7, #0
+10b518	0a000007	beq	0x10b53c <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0xbc>
+10b51c	e1a00008	mov	r0, r8
+10b520	e3a01000	mov	r1, #0
+10b524	ebff0c8f	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+10b528	e3500000	cmp	r0, #0
+10b52c	0a000002	beq	0x10b53c <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0xbc>
+10b530	e5d7c068	ldrb	r12, [r7, #0x68]
+10b534	e35c0000	cmp	r12, #0
+10b538	0a00000d	beq	0x10b574 <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0xf4>
+10b53c	e28dd008	add	sp, sp, #8
+10b540	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+10b544	e1a02083	lsl	r2, r3, #1
+10b548	e5960000	ldr	r0, [r6]
+10b54c	e5862004	str	r2, [r6, #0x4]
+10b550	e1a01183	lsl	r1, r3, #3
+10b554	e58dc000	str	r12, [sp]
+10b558	e3a0304a	mov	r3, #74
+10b55c	e1a02009	mov	r2, r9
+10b560	eb05c65d	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+10b564	e5963008	ldr	r3, [r6, #0x8]
+10b568	e1a0c000	mov	r12, r0
+10b56c	e5860000	str	r0, [r6]
+10b570	eaffffdd	b	0x10b4ec <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0x6c>
+10b574	e59f6070	ldr	r6, [pc, #0x70]
+10b578	e79f6006	ldr	r6, [pc, r6]
+10b57c	e5961008	ldr	r1, [r6, #0x8]
+10b580	e5963004	ldr	r3, [r6, #0x4]
+10b584	e1510003	cmp	r1, r3
+10b588	0a000008	beq	0x10b5b0 <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0x130>
+10b58c	e5963000	ldr	r3, [r6]
+10b590	e7837101	str	r7, [r3, r1, lsl #2]
+10b594	e1a00007	mov	r0, r7
+10b598	e2813001	add	r3, r1, #1
+10b59c	e3a01000	mov	r1, #0
+10b5a0	e5863008	str	r3, [r6, #0x8]
+10b5a4	e28dd008	add	sp, sp, #8
+10b5a8	e8bd47f0	pop	{r4, r5, r6, r7, r8, r9, r10, lr}
+10b5ac	ea021b56	b	0x19230c <_ZN9CInstance14SetDeactivatedEb>
+10b5b0	e59f2038	ldr	r2, [pc, #0x38]
+10b5b4	e1a03081	lsl	r3, r1, #1
+10b5b8	e5960000	ldr	r0, [r6]
+10b5bc	e1a01181	lsl	r1, r1, #3
+10b5c0	e5863004	str	r3, [r6, #0x4]
+10b5c4	e08f2002	add	r2, pc, r2
+10b5c8	e3a0304a	mov	r3, #74
+10b5cc	e58dc000	str	r12, [sp]
+10b5d0	eb05c641	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+10b5d4	e5961008	ldr	r1, [r6, #0x8]
+10b5d8	e1a03000	mov	r3, r0
+10b5dc	e5860000	str	r0, [r6]
+10b5e0	eaffffea	b	0x10b590 <_Z23F_InstanceDeactivateAllR6RValueP9CInstanceS2_iPS_+0x110>
+10b5e4	00225b90	mlaeq	r2, r0, r11, r5
+10b5e8	002e2770	eoreq	r2, lr, r0, ror r7
+10b5ec	002e26d0	.word	0x002e26d0
+10b5f0	00225a6c	eoreq	r5, r2, r12, ror #20

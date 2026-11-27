@@ -1,0 +1,41 @@
+1c5d18	e92d4038	push	{r3, r4, r5, lr}
+1c5d1c	e1a04001	mov	r4, r1
+1c5d20	e59f3090	ldr	r3, [pc, #0x90]
+1c5d24	e1a05000	mov	r5, r0
+1c5d28	e79f3003	ldr	r3, [pc, r3]
+1c5d2c	e5d33000	ldrb	r3, [r3]
+1c5d30	e3530000	cmp	r3, #0
+1c5d34	08bd8038	popeq	{r3, r4, r5, pc}
+1c5d38	e3500000	cmp	r0, #0
+1c5d3c	08bd8038	popeq	{r3, r4, r5, pc}
+1c5d40	e3510000	cmp	r1, #0
+1c5d44	08bd8038	popeq	{r3, r4, r5, pc}
+1c5d48	e5d13174	ldrb	r3, [r1, #0x174]
+1c5d4c	e3530000	cmp	r3, #0
+1c5d50	18bd8038	popne	{r3, r4, r5, pc}
+1c5d54	e5911170	ldr	r1, [r1, #0x170]
+1c5d58	e3710001	cmn	r1, #1
+1c5d5c	0a000006	beq	0x1c5d7c <_ZN13CLayerManager11AddInstanceEP5CRoomP9CInstance+0x64>
+1c5d60	ebffcac0	bl	0x1b8868 <_ZN13CLayerManager14GetLayerFromIDEP5CRoomi>
+1c5d64	e2501000	subs	r1, r0, #0
+1c5d68	0a000003	beq	0x1c5d7c <_ZN13CLayerManager11AddInstanceEP5CRoomP9CInstance+0x64>
+1c5d6c	e1a00005	mov	r0, r5
+1c5d70	e1a02004	mov	r2, r4
+1c5d74	e8bd4038	pop	{r3, r4, r5, lr}
+1c5d78	eaffff2e	b	0x1c5a38 <_ZN13CLayerManager18AddInstanceToLayerEP5CRoomP6CLayerP9CInstance>
+1c5d7c	edd47a60	vldr	s15, [r4, #384]
+1c5d80	eefd7ae7	vcvt.s32.f32	s15, s15
+1c5d84	e1a00005	mov	r0, r5
+1c5d88	e3a02001	mov	r2, #1
+1c5d8c	ee171a90	vmov	r1, s15
+1c5d90	ebffca97	bl	0x1b87f4 <_ZN13CLayerManager17GetLayerWithDepthEP5CRoomib>
+1c5d94	e2501000	subs	r1, r0, #0
+1c5d98	1afffff3	bne	0x1c5d6c <_ZN13CLayerManager11AddInstanceEP5CRoomP9CInstance+0x54>
+1c5d9c	edd47a60	vldr	s15, [r4, #384]
+1c5da0	eefd7ae7	vcvt.s32.f32	s15, s15
+1c5da4	e1a00005	mov	r0, r5
+1c5da8	ee171a90	vmov	r1, s15
+1c5dac	ebfff58c	bl	0x1c33e4 <_ZN13CLayerManager15AddDynamicLayerEP5CRoomi>
+1c5db0	e1a01000	mov	r1, r0
+1c5db4	eaffffec	b	0x1c5d6c <_ZN13CLayerManager11AddInstanceEP5CRoomP9CInstance+0x54>
+1c5db8	00227bfc	.word	0x00227bfc

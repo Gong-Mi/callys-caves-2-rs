@@ -1,0 +1,58 @@
+1b7ac4	e5913020	ldr	r3, [r1, #0x20]
+1b7ac8	e92d4070	push	{r4, r5, r6, lr}
+1b7acc	e3530000	cmp	r3, #0
+1b7ad0	e1a04001	mov	r4, r1
+1b7ad4	e1a05000	mov	r5, r0
+1b7ad8	13e01000	mvnne	r1, #0
+1b7adc	13a00000	movne	r0, #0
+1b7ae0	15831170	strne	r1, [r3, #0x170]
+1b7ae4	15c30174	strbne	r0, [r3, #0x174]
+1b7ae8	e3520000	cmp	r2, #0
+1b7aec	0a000006	beq	0x1b7b0c <_ZN13CLayerManager21RemoveInstanceElementEP6CLayerP21CLayerInstanceElementb+0x48>
+1b7af0	e594201c	ldr	r2, [r4, #0x1c]
+1b7af4	e372000e	cmn	r2, #14
+1b7af8	0a000003	beq	0x1b7b0c <_ZN13CLayerManager21RemoveInstanceElementEP6CLayerP21CLayerInstanceElementb+0x48>
+1b7afc	e3a00000	mov	r0, #0
+1b7b00	e3a03001	mov	r3, #1
+1b7b04	e1a01000	mov	r1, r0
+1b7b08	ebfd4d87	bl	0x10b12c <_Z17DoInstanceDestroyP9CInstanceS0_ib>
+1b7b0c	e5943018	ldr	r3, [r4, #0x18]
+1b7b10	e3e00000	mvn	r0, #0
+1b7b14	e5942014	ldr	r2, [r4, #0x14]
+1b7b18	e3a06002	mov	r6, #2
+1b7b1c	e3530000	cmp	r3, #0
+1b7b20	e5951060	ldr	r1, [r5, #0x60]
+1b7b24	15832014	strne	r2, [r3, #0x14]
+1b7b28	e0811000	add	r1, r1, r0
+1b7b2c	15942014	ldrne	r2, [r4, #0x14]
+1b7b30	15943018	ldrne	r3, [r4, #0x18]
+1b7b34	05852058	streq	r2, [r5, #0x58]
+1b7b38	e3520000	cmp	r2, #0
+1b7b3c	0585305c	streq	r3, [r5, #0x5c]
+1b7b40	15823018	strne	r3, [r2, #0x18]
+1b7b44	e3a03000	mov	r3, #0
+1b7b48	e59f2058	ldr	r2, [pc, #0x58]
+1b7b4c	e5851060	str	r1, [r5, #0x60]
+1b7b50	e79f2002	ldr	r2, [pc, r2]
+1b7b54	e5843014	str	r3, [r4, #0x14]
+1b7b58	e5843018	str	r3, [r4, #0x18]
+1b7b5c	e5921000	ldr	r1, [r2]
+1b7b60	e592c008	ldr	r12, [r2, #0x8]
+1b7b64	e1510003	cmp	r1, r3
+1b7b68	e5846000	str	r6, [r4]
+1b7b6c	e5840004	str	r0, [r4, #0x4]
+1b7b70	e28cc001	add	r12, r12, #1
+1b7b74	e5c43008	strb	r3, [r4, #0x8]
+1b7b78	e584300c	str	r3, [r4, #0xc]
+1b7b7c	e5843010	str	r3, [r4, #0x10]
+1b7b80	e5843020	str	r3, [r4, #0x20]
+1b7b84	e584001c	str	r0, [r4, #0x1c]
+1b7b88	e582c008	str	r12, [r2, #0x8]
+1b7b8c	15814018	strne	r4, [r1, #0x18]
+1b7b90	05824004	streq	r4, [r2, #0x4]
+1b7b94	05824000	streq	r4, [r2]
+1b7b98	15824000	strne	r4, [r2]
+1b7b9c	15841014	strne	r1, [r4, #0x14]
+1b7ba0	15843018	strne	r3, [r4, #0x18]
+1b7ba4	e8bd8070	pop	{r4, r5, r6, pc}
+1b7ba8	00238d14	eoreq	r8, r3, r4, lsl sp

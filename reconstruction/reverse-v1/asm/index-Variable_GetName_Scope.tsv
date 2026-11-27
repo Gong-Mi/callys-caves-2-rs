@@ -1,0 +1,171 @@
+d2228	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+d222c	e24dda01	sub	sp, sp, #4096
+d2230	e59f8268	ldr	r8, [pc, #0x268]
+d2234	e24dd00c	sub	sp, sp, #12
+d2238	e59f3264	ldr	r3, [pc, #0x264]
+d223c	e1a09000	mov	r9, r0
+d2240	e08f8008	add	r8, pc, r8
+d2244	e59fc25c	ldr	r12, [pc, #0x25c]
+d2248	e28d0a02	add	r0, sp, #8192
+d224c	e7986003	ldr	r6, [r8, r3]
+d2250	e5963000	ldr	r3, [r6]
+d2254	e5003ffc	str	r3, [r0, #-0xffc]
+d2258	e798300c	ldr	r3, [r8, r12]
+d225c	e5d33000	ldrb	r3, [r3]
+d2260	e3530000	cmp	r3, #0
+d2264	0a00004c	beq	0xd239c <_Z22Variable_GetName_ScopePKcii+0x174>
+d2268	e2427b61	sub	r7, r2, #99328
+d226c	e2577e2a	subs	r7, r7, #672
+d2270	4a00001f	bmi	0xd22f4 <_Z22Variable_GetName_ScopePKcii+0xcc>
+d2274	e3710005	cmn	r1, #5
+d2278	0a00004a	beq	0xd23a8 <_Z22Variable_GetName_ScopePKcii+0x180>
+d227c	e371000c	cmn	r1, #12
+d2280	13710007	cmnne	r1, #7
+d2284	1a000024	bne	0xd231c <_Z22Variable_GetName_ScopePKcii+0xf4>
+d2288	e59f321c	ldr	r3, [pc, #0x21c]
+d228c	e798b003	ldr	r11, [r8, r3]
+d2290	e59ba000	ldr	r10, [r11]
+d2294	e35a0000	cmp	r10, #0
+d2298	da000010	ble	0xd22e0 <_Z22Variable_GetName_ScopePKcii+0xb8>
+d229c	e59f320c	ldr	r3, [pc, #0x20c]
+d22a0	e3a05000	mov	r5, #0
+d22a4	e7983003	ldr	r3, [r8, r3]
+d22a8	e5934000	ldr	r4, [r3]
+d22ac	ea000003	b	0xd22c0 <_Z22Variable_GetName_ScopePKcii+0x98>
+d22b0	e2855001	add	r5, r5, #1
+d22b4	e284400c	add	r4, r4, #12
+d22b8	e155000a	cmp	r5, r10
+d22bc	0a000007	beq	0xd22e0 <_Z22Variable_GetName_ScopePKcii+0xb8>
+d22c0	e5940000	ldr	r0, [r4]
+d22c4	e1a01009	mov	r1, r9
+d22c8	ebff90a9	bl	0xb6574 <strcmp@plt>
+d22cc	e3500000	cmp	r0, #0
+d22d0	1afffff6	bne	0xd22b0 <_Z22Variable_GetName_ScopePKcii+0x88>
+d22d4	e5943008	ldr	r3, [r4, #0x8]
+d22d8	e7930107	ldr	r0, [r3, r7, lsl #2]
+d22dc	ea000006	b	0xd22fc <_Z22Variable_GetName_ScopePKcii+0xd4>
+d22e0	e59f31cc	ldr	r3, [pc, #0x1cc]
+d22e4	e7983003	ldr	r3, [r8, r3]
+d22e8	e5d33000	ldrb	r3, [r3]
+d22ec	e3530000	cmp	r3, #0
+d22f0	1a000043	bne	0xd2404 <_Z22Variable_GetName_ScopePKcii+0x1dc>
+d22f4	e59f01bc	ldr	r0, [pc, #0x1bc]
+d22f8	e08f0000	add	r0, pc, r0
+d22fc	e28d3a02	add	r3, sp, #8192
+d2300	e5132ffc	ldr	r2, [r3, #-0xffc]
+d2304	e5963000	ldr	r3, [r6]
+d2308	e1520003	cmp	r2, r3
+d230c	1a00005f	bne	0xd2490 <_Z22Variable_GetName_ScopePKcii+0x268>
+d2310	e28dda01	add	sp, sp, #4096
+d2314	e28dd00c	add	sp, sp, #12
+d2318	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+d231c	e3710001	cmn	r1, #1
+d2320	1a00002b	bne	0xd23d4 <_Z22Variable_GetName_ScopePKcii+0x1ac>
+d2324	e59f3190	ldr	r3, [pc, #0x190]
+d2328	e7983003	ldr	r3, [r8, r3]
+d232c	e5932004	ldr	r2, [r3, #0x4]
+d2330	e1570002	cmp	r7, r2
+d2334	ba000020	blt	0xd23bc <_Z22Variable_GetName_ScopePKcii+0x194>
+d2338	e59f3180	ldr	r3, [pc, #0x180]
+d233c	e7983003	ldr	r3, [r8, r3]
+d2340	e5935000	ldr	r5, [r3]
+d2344	e5954004	ldr	r4, [r5, #0x4]
+d2348	e254c001	subs	r12, r4, #1
+d234c	4affffe8	bmi	0xd22f4 <_Z22Variable_GetName_ScopePKcii+0xcc>
+d2350	e154000c	cmp	r4, r12
+d2354	ba00004e	blt	0xd2494 <_Z22Variable_GetName_ScopePKcii+0x26c>
+d2358	e5953010	ldr	r3, [r5, #0x10]
+d235c	e3a02000	mov	r2, #0
+d2360	ea000001	b	0xd236c <_Z22Variable_GetName_ScopePKcii+0x144>
+d2364	e2822001	add	r2, r2, #1
+d2368	e283300c	add	r3, r3, #12
+d236c	e5931008	ldr	r1, [r3, #0x8]
+d2370	e3510000	cmp	r1, #0
+d2374	dafffffb	ble	0xd2368 <_Z22Variable_GetName_ScopePKcii+0x140>
+d2378	e15c0002	cmp	r12, r2
+d237c	1afffff8	bne	0xd2364 <_Z22Variable_GetName_ScopePKcii+0x13c>
+d2380	e4930004	ldr	r0, [r3], #4
+d2384	e5933000	ldr	r3, [r3]
+d2388	e1530007	cmp	r3, r7
+d238c	0affffda	beq	0xd22fc <_Z22Variable_GetName_ScopePKcii+0xd4>
+d2390	e25cc001	subs	r12, r12, #1
+d2394	2affffed	bhs	0xd2350 <_Z22Variable_GetName_ScopePKcii+0x128>
+d2398	eaffffd5	b	0xd22f4 <_Z22Variable_GetName_ScopePKcii+0xcc>
+d239c	e1a00002	mov	r0, r2
+d23a0	ebfffe57	bl	0xd1d04 <_Z16Variable_GetNamei>
+d23a4	eaffffd4	b	0xd22fc <_Z22Variable_GetName_ScopePKcii+0xd4>
+d23a8	e59f3114	ldr	r3, [pc, #0x114]
+d23ac	e7983003	ldr	r3, [r8, r3]
+d23b0	e5932004	ldr	r2, [r3, #0x4]
+d23b4	e1570002	cmp	r7, r2
+d23b8	aaffffcd	bge	0xd22f4 <_Z22Variable_GetName_ScopePKcii+0xcc>
+d23bc	e5932000	ldr	r2, [r3]
+d23c0	e1570002	cmp	r7, r2
+d23c4	b593300c	ldrlt	r3, [r3, #0xc]
+d23c8	a3a00000	movge	r0, #0
+d23cc	b7930107	ldrlt	r0, [r3, r7, lsl #2]
+d23d0	eaffffc9	b	0xd22fc <_Z22Variable_GetName_ScopePKcii+0xd4>
+d23d4	e3c12002	bic	r2, r1, #2
+d23d8	e30836a0	movw	r3, #0x86a0
+d23dc	e372000b	cmn	r2, #11
+d23e0	e3403001	movt	r3, #0x1
+d23e4	13a02000	movne	r2, #0
+d23e8	03a02001	moveq	r2, #1
+d23ec	e1510003	cmp	r1, r3
+d23f0	d1a03002	movle	r3, r2
+d23f4	c3823001	orrgt	r3, r2, #1
+d23f8	e3530000	cmp	r3, #0
+d23fc	0affffbc	beq	0xd22f4 <_Z22Variable_GetName_ScopePKcii+0xcc>
+d2400	eaffffc7	b	0xd2324 <_Z22Variable_GetName_ScopePKcii+0xfc>
+d2404	e1a00009	mov	r0, r9
+d2408	eb0438b3	bl	0x1e06dc <_Z18Script_Find_ParentPKc>
+d240c	e3500000	cmp	r0, #0
+d2410	0affffb7	beq	0xd22f4 <_Z22Variable_GetName_ScopePKcii+0xcc>
+d2414	e28d9004	add	r9, sp, #4
+d2418	e59f20a8	ldr	r2, [pc, #0xa8]
+d241c	e5903014	ldr	r3, [r0, #0x14]
+d2420	e3a01a01	mov	r1, #4096
+d2424	e08f2002	add	r2, pc, r2
+d2428	e1a00009	mov	r0, r9
+d242c	ebff9065	bl	0xb65c8 <snprintf@plt>
+d2430	e59ba000	ldr	r10, [r11]
+d2434	e35a0000	cmp	r10, #0
+d2438	da000011	ble	0xd2484 <_Z22Variable_GetName_ScopePKcii+0x25c>
+d243c	e59f306c	ldr	r3, [pc, #0x6c]
+d2440	e3a05000	mov	r5, #0
+d2444	e7983003	ldr	r3, [r8, r3]
+d2448	e5934000	ldr	r4, [r3]
+d244c	ea000003	b	0xd2460 <_Z22Variable_GetName_ScopePKcii+0x238>
+d2450	e2855001	add	r5, r5, #1
+d2454	e284400c	add	r4, r4, #12
+d2458	e155000a	cmp	r5, r10
+d245c	0a000005	beq	0xd2478 <_Z22Variable_GetName_ScopePKcii+0x250>
+d2460	e5940000	ldr	r0, [r4]
+d2464	e1a01009	mov	r1, r9
+d2468	ebff9041	bl	0xb6574 <strcmp@plt>
+d246c	e3500000	cmp	r0, #0
+d2470	1afffff6	bne	0xd2450 <_Z22Variable_GetName_ScopePKcii+0x228>
+d2474	eaffff96	b	0xd22d4 <_Z22Variable_GetName_ScopePKcii+0xac>
+d2478	e59f004c	ldr	r0, [pc, #0x4c]
+d247c	e08f0000	add	r0, pc, r0
+d2480	eaffff9d	b	0xd22fc <_Z22Variable_GetName_ScopePKcii+0xd4>
+d2484	e59f0044	ldr	r0, [pc, #0x44]
+d2488	e08f0000	add	r0, pc, r0
+d248c	eaffff9a	b	0xd22fc <_Z22Variable_GetName_ScopePKcii+0xd4>
+d2490	ebff904f	bl	0xb65d4 <__stack_chk_fail@plt>
+d2494	e3a00000	mov	r0, #0
+d2498	e1a03000	mov	r3, r0
+d249c	eaffffb8	b	0xd2384 <_Z22Variable_GetName_ScopePKcii+0x15c>
+d24a0	0031fa10	eorseq	pc, r1, r0, lsl r10
+d24a4	ffffbd00	.word	0xffffbd00
+d24a8	ffffbf04	.word	0xffffbf04
+d24ac	ffffbf5c	.word	0xffffbf5c
+d24b0	ffffbf60	.word	0xffffbf60
+d24b4	ffffbf68	.word	0xffffbf68
+d24b8	00260460	eoreq	r0, r6, r0, ror #8
+d24bc	ffffbf50	.word	0xffffbf50
+d24c0	ffffbf54	.word	0xffffbf54
+d24c4	ffffbf4c	.word	0xffffbf4c
+d24c8	00260348	eoreq	r0, r6, r8, asr #6
+d24cc	002602dc	.word	0x002602dc
+d24d0	002602d0	.word	0x002602d0

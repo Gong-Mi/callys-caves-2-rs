@@ -1,0 +1,39 @@
+f33b0	e59f208c	ldr	r2, [pc, #0x8c]
+f33b4	e92d4070	push	{r4, r5, r6, lr}
+f33b8	e79f2002	ldr	r2, [pc, r2]
+f33bc	e24dd008	sub	sp, sp, #8
+f33c0	e1a05000	mov	r5, r0
+f33c4	e5923000	ldr	r3, [r2]
+f33c8	e1a06001	mov	r6, r1
+f33cc	e3730001	cmn	r3, #1
+f33d0	0a000001	beq	0xf33dc <_Z17Perform_Event_Allii+0x2c>
+f33d4	e28dd008	add	sp, sp, #8
+f33d8	e8bd8070	pop	{r4, r5, r6, pc}
+f33dc	e59f3064	ldr	r3, [pc, #0x64]
+f33e0	e79f3003	ldr	r3, [pc, r3]
+f33e4	e5933000	ldr	r3, [r3]
+f33e8	e3530000	cmp	r3, #0
+f33ec	0afffff8	beq	0xf33d4 <_Z17Perform_Event_Allii+0x24>
+f33f0	e5932080	ldr	r2, [r3, #0x80]
+f33f4	e3520000	cmp	r2, #0
+f33f8	0afffff5	beq	0xf33d4 <_Z17Perform_Event_Allii+0x24>
+f33fc	e5d2c068	ldrb	r12, [r2, #0x68]
+f3400	e5924178	ldr	r4, [r2, #0x178]
+f3404	e35c0000	cmp	r12, #0
+f3408	1a000008	bne	0xf3430 <_Z17Perform_Event_Allii+0x80>
+f340c	e5d2c069	ldrb	r12, [r2, #0x69]
+f3410	e1a00002	mov	r0, r2
+f3414	e1a01002	mov	r1, r2
+f3418	e1a03005	mov	r3, r5
+f341c	e35c0000	cmp	r12, #0
+f3420	1a000002	bne	0xf3430 <_Z17Perform_Event_Allii+0x80>
+f3424	e592207c	ldr	r2, [r2, #0x7c]
+f3428	e58d6000	str	r6, [sp]
+f342c	ebffffac	bl	0xf32e4 <_Z20Perform_Event_ObjectP9CInstanceS0_iii>
+f3430	e3540000	cmp	r4, #0
+f3434	e1a02004	mov	r2, r4
+f3438	1affffef	bne	0xf33fc <_Z17Perform_Event_Allii+0x4c>
+f343c	e28dd008	add	sp, sp, #8
+f3440	e8bd8070	pop	{r4, r5, r6, pc}
+f3444	002fa9ec	eoreq	r10, pc, r12, ror #19
+f3448	002fa548	eoreq	r10, pc, r8, asr #10

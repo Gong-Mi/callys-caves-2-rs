@@ -21,12 +21,12 @@
 1. **武器切换/伤害飘字（`obj_weaponname`，CODE 464 Draw）**:
    - Create (CODE 462)：`vspeed = -2`，`alpha = 1`，将选中的武器名称（或伤害数值）存入 `damage` 字段；
    - Draw 0 (CODE 464)：按 `view_current` 匹配视口字体，调用 `draw_text_color(x, y - 20, damage, c_white, c_white, c_white, c_white, alpha)`；
-   - Step 0 (CODE 463)：每帧递减 `alpha -= 0.04`，当 `alpha <= 0`（25 帧寿命）时触发 `instance_destroy()`。
+   - Step 0 (CODE 463)：每帧递减 `alpha -= 0.04`，并以 DoSet K=1 的 `< 0` 比较（实数差值容差 ±1e-05）；第 25 帧残值可略正或略负但仍在容差内，存活；第 26 帧越过有效负阈值后触发 `instance_destroy()`。
 2. **闪避成功飘字（`obj_dodged`，CODE 467 Draw）**:
    - 玩家穿戴闪避强化并在受击时判定成功触发：实例化 `obj_dodged` (106)；
    - Create (CODE 465)：`speed = 2`，随机起跳角度，`alpha = 1`；
    - Draw 0 (CODE 467)：`draw_set_font(2)` + `draw_set_color(c_white)`，在 `(x, y - 20)` 输出 STRG 索引 856 "Dodged!"；
-   - Step 0 (CODE 466)：每帧递减 `alpha -= 0.04`，25 帧后自毁。
+   - Step 0 (CODE 466)：每帧递减 `alpha -= 0.04`，使用相同的 DoSet K=1 `< 0` 与 ±1e-05 实数比较容差；第 25 帧 near-zero 残值仍在容差内，第 26 帧越界转为销毁。
 
 ---
 
@@ -71,16 +71,16 @@
 ## 夹具陷阱与实测固化
 
 1. **粒子系统宿主依赖**: `obj_levelup` 生成金光粒子依赖 `global.P_System2` 与 `global.Particle2`，若未由 `obj_pwrlevelinitialize` (103) 初始化则无法发射粒子。
-2. **飘字衰减步长**: `obj_weaponname` 与 `obj_dodged` 字节码实测每步固定衰减 `alpha -= 0.04`（非 0.03/0.05），恰好 25 帧完全淡出自毁。
+2. **飘字衰减步长**: `obj_weaponname` 与 `obj_dodged` 字节码实测每步固定衰减 `alpha -= 0.04`（非 0.03/0.05）；第 25 帧残值的符号可能受 IEEE 运算链影响，但绝对值仍在 DoSet K=1 的 ±1e-05 容差内，至第 26 帧越过有效阈值才销毁。
 3. **暂停排他性冻结**: `obj_pause` 具有 `instance_deactivate_all(true)` 强排他语义，创建后仅自身存活派发 Draw；HUD 暂停按钮不可在暂停态中同时断言绘制。
 
 ---
 
 ## 测试套件
 
-`crates/core/tests/pause_and_floaters_draw_ir.rs`（5 项测试全部通过）:
+`crates/core/tests/pause_and_floaters_draw_ir.rs`（5 项测试):
 1. `levelup_and_weapon_levelup_draw_badges_and_particles`: 验证 spr_levelup (35) 与 spr_weaponlevelup (34) 绘制、粒子发射、40 帧粒子关闭、90 帧与 94 帧生命周期销毁。
-2. `combat_floaters_draw_damage_and_dodged_with_alpha_fade`: 验证伤害飘字与 "Dodged!" (856) 绘制、0.04 逐帧淡出及 25 帧自毁。
+2. `combat_floaters_draw_damage_and_dodged_with_alpha_fade`: 验证伤害飘字与 "Dodged!" (856) 绘制、0.04 逐帧衰减，第 25 帧 near-zero 残值在 DoSet 容差内仍存活、第 26 帧越过有效阈值后自毁。
 3. `audio_toggles_render_on_and_off_labels`: 验证音效/音乐开关分别渲染 "Sounds: ON/OFF" 与 "Music: ON/OFF" 标签。
 4. `erase_data_dialog_renders_confirmation_prompts`: 验证 "Erase Data"、"Erase Data?"、"Yes"、"No" 四段对话框元素对齐。
 5. `pause_backdrop_and_hud_button`: 验证正常游戏中的暂停按钮绘制与进入暂停后的幕布及金币渲染。

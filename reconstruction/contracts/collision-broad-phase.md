@@ -96,8 +96,20 @@ runner 的 `[sprite+0x31] == 0` 分支）。**旋转仍是缺口，但路径已�
     mask_x = base_x + ( dx·cosA − dy·sinA ) / sx
     mask_y = base_y + ( −dx·sinA − dy·cosA ) / sy
 
-进入同一套截断采样（符号按"实参取了负角"解读，仍需 oracle 确认）。当前旋转实例
-在两侧都回退到盒子判定，不得声称已支持。
+进入同一套截断采样（符号按"实参取了负角"解读）。**旋转路径已由 oracle 探针取到
+ground truth**：`c-recon/tools/oracle/rotated_instance_probe.py`（两个 8×8 精灵、
+唯一实心像素 (4,0)、都在 (0,0)）：`angleB=0 → 1`、`45 → 0`、`90 → 0`、`180 → 0`。
+**两侧其实都已实现这条路径**（`Scene::precise_overlap` + `MaskCtx::hits` /
+`c-recon` 的 `precise_overlap` + `mask_probe_pixel`），此前"回退到盒子"的说法是
+旧台账，已作废。对账状态：Rust 侧已有 parity 夹具
+`precise_collision_masks_ir::prec_instance_rotation_matches_the_runner_table`
+（同一合成掩码、同一角度表，0 命中 / 45·90·180 不命中），与探针表一致。
+C 侧已补齐：`gm_precise_rects`（`c-recon/src/collision.c`）按 runner 的签名
+**注入两个矩形**，绕过 `Compute_BoundingBox`，于是能用与 oracle 相同的宽矩形测
+真实 sprite 对（spr_player 29 × spr_spikes 93，都在 (0,0)）：0 → 命中、目标转
+90 → 不命中，即 `real_sprite_table.py` 的表。变异门：把 `ca/sa` 强制成 1/0，
+该条 `got 1 want 0` 变红（同时 `rot90` / `line90` 也红，说明那两条守的是盒子）。
+先前"C 侧没有能判定的案例"的问题因此收口。
 
 原版路径（libyoyo ARMv7，SHA256 `3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）：
 
@@ -108,7 +120,10 @@ Command_InstancePlace      @0x1ca6d8   (800 B)
           → CSprite::UnpackWADMask @0x1e3994
 ```
 
-`PreciseCollision` 的结构（静态读，未运行；旋转分支尚未读定）：
+`PreciseCollision` 的结构（静态读 + oracle 探针；旋转在**同一个函数内**，不是另一个
+入口：0x1e47a8–0x1e4808 对 A/B 两个角度各算一对 `sinf`/`cosf`，角度实参在
+`[sp,#132]`/`[sp,#164]`，度→弧度常数取 `0x1e4a1c`/`0x1e4a20`；逐像素再按
+`vcmpe s5,#0` 选快速/一般路径，0x1e488c / 0x1e48c4）：
 
 1. 双方对各自 frame 调 `UnpackWADMask`；frame 先对 mask 数（`[sprite+0x3c]`）取模。
 2. 两个 `tagYYRECT` 求交：left=max、right=min、top=max、bottom=min。
@@ -123,8 +138,9 @@ Command_InstancePlace      @0x1ca6d8   (800 B)
 结论与纪律：
 
 * 当前 bbox-only 是**有名有据的近似**，不能写成"原版也这样"。
-* 移植前必须先把 `base`/`offset` 的确切定义与旋转分支读定（本循环内没有三角函数项，
-  旋转是否另走分支尚未证），再实现；用"盒重叠、掩码不重叠"的合成夹具证明行为变化。
+* 旋转分支两侧都已实现，路径在同一个函数内（A/B 各自 sin/cos，逐像素按
+  `angle==0` 分支）；Rust 已用 oracle 探针表对账（parity 夹具见上），C 侧同构但
+  仍待同表对账。`base` 的定义见 §7.1 第 3 条（= 绘制原点，同一字段）。
 * 只做 C↔VM 对账不能证明这一步：两侧同时改成同一个错误实现也会全绿。原 runner 的
   同输入对拍（或 Unicorn 合成内存 oracle）才是这一步的判据。
 
@@ -137,19 +153,67 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
   这类**包含边**比较，与我们的 inclusive 盒一致。
 * 精确阶段：取两个 AABB 交集里的每个**整数**像素，分别在两张掩码的坐标系里
   "反旋转 → 反缩放 → 查位"，两边都有像素才算命中——与我们实现的顺序相同。
-* 两处我们**当前没有对齐**的细节：
+* GM8 笔记提到的两处细节都已处理（第 1 条已落地、第 2 条已定案）：
   1. 旋转中心是 `FISTP(x), FISTP(y)`（银行家舍入），而我们现在直接用未取整的
-     x/y；
-  2. 反旋转/反缩放后的取整：GM8 笔记写 floor，本二进制反汇编是 `vcvt.s32`
-     （向零截断）。两者只在负坐标上不同，未定。
-* 掩码基址：GM8 用掩码自身的 bbox 偏移；我们用 sprite origin。字段级来源
-  （`[sprite+0x24]/+0x28`）尚未证到具体语义。
+     x/y。**两条路径都已对齐（2026-10-25）**。本二进制静态证据（libyoyo ARMv7,
+     sha256 `3bbedd09ad0cc6…`，符号表未剥）：
+     - `CInstance::Collision_Point` @0x1944b0 调 `PreciseCollisionPoint` @0x1e4a30
+       前，对 `[this+0xb4]`/`[this+0xb8]`（x/y）各一次 `lrint@plt`
+       （0x19467c / 0x194690），对查询点 (px,py) 各一次（0x1946ac / 0x1946bc）；
+     - `CInstance::Collision_Line` @0x194f28 同样在调用前对 x/y 与四个端点共六次
+       `lrint`（0x1951f4 / 0x195208 / 0x195224 / 0x195234 / 0x195244 / 0x195254）。
+     被调方内部先做整数相减（`rsb` @0x1e4a9c）再 `vcvt.f32.s32` → 除 scale →
+     加掩码基址（sprite +0x24/+0x28）→ `floorf`（0x1e4a94–0x1e4b04）。
+     落地：Rust `mask_hit_point`（中心与查询点都取整）、`mask_hit`
+     （线路径：端点已在 `line_mask_hit` 取整，采样点保留 float，只把中心取整）、
+     共用的 `mask_sample` 统一 **先加基址再 floor**；C 侧对应
+     `mask_probe_pixel_point`（`lrintf` 中心与查询点）、`mask_probe_pixel_floor`
+     （只取整中心）、`gm_line_mask_test` 入口取整四个端点。两侧都用
+     `round_ties_even` / `lrintf`（FE_TONEAREST），不是 half-away。
+     夹具与变异门：`collision_test.c::group_point_floor_negative` /
+     `group_line_rounding` 与 `precise_collision_masks_ir.rs::prec_point_rounds_…`
+     / `prec_line_rounds_the_centre_before_the_walk`；把取整退回原始 float 差异，
+     C 与 Rust 各恰好一条变红。
+     线的逐步走法本身已由 `c-recon/tools/oracle/line_oracle.py` 对拍（80 组
+     `mismatches=0`，半像素步进 + floor），所以端点/中心取整补齐后这一族与
+     原版的入参空间一致。
+  2. 反旋转/反缩放后的取整——**已定案，而且本二进制本来就不止一套**：
+     `PreciseCollisionPoint` 经 PLT 桩 `0xb6910` 调 `floorf`
+     （`c-recon/tools/oracle/precise_oracle.py:82-83` 直接 hook 该桩做 oracle），
+     `instance_place` 才走 `vcvt.s32` 向零截断。Rust `mask_hit`
+     （`ir_scene.rs:1437-1440`）取 floor，C 的 `mask_probe_pixel_floor` 同；
+     两者的唯一差别在负局部坐标（-0.5 → floor 得 -1 miss，trunc 得 0 hit），
+     由 `c-recon/tests/collision_test.c` 的 `group_point_floor_negative` 钉住：
+     把 floorf 换成截断，该夹具恰好一条变红（`got 1 want 0`）。
+* 掩码基址（`[sprite+0x24]/+0x28`）：**函数级已定** —— oracle 实验（合成 8×8
+  掩码，只有 (2,0) 为实心，`x=y=0`、scale=1、angle=0、查询 (0,0)）：
+  `base_x=0 → 0`（miss）、`base_x=2 → 1`（hit）。所以基址是在 unscale 之后、
+  `floorf` 之前**相加**的整数偏移（与 0x1e4aac–0x1e4ab4 的 `vadd` 一致）。
+  该实验已固化成 `c-recon/tools/oracle/base_probe.py`（自带 PASS/FAIL 判定）。
+  **仍未定的是语义归属**：两侧现在都拿资产的 `origin_x/origin_y` 当基址。
+  本二进制里同一对字段就是绘制原点——`CSprite::DrawSimple` @0x1ecab4 在
+  0x1ecb58 / 0x1ecb5c 用 `vldr s15,[r5,#36]` / `vldr s13,[r5,#40]` 读
+  `+0x24/+0x28` 当浮点原点来偏移绘制。也就是说「碰撞掩码基址」与「绘制原点」
+  是同一个字段，拿资产 origin 当基址在方向上成立；但"loader 把 SPRT 的 origin
+  写进 +0x24/+0x28"这一步仍只有 draw 正确性的间接证据，没有 asset-loader 的
+  反汇编或真 sprite 端到端对拍。k80u 那边的说法（base=掩码偏移、base_x=1 平移
+  一列）与本实验的"相加"行为一致，但仍需一个真实 sprite（origin 非 0）的
+  oracle/真机对拍才能把"origin vs mask offset"彻底钉死；在那之前不得声称与
+  runner 等价。
 
-结论不变：axis-aligned 路径已接、C↔VM 全绿；但要宣称"等于原版"，必须先确定
-上面三点，最好用 Unicorn 合成内存 oracle 直接对拍 `0x1e4298`。
+结论：axis-aligned 路径已接、C↔VM 全绿；第 1、2 条已按原版证据落地/定案，
+第 3 条的**函数级行为**（基址相加）已由 oracle 钉住，但"loader 把哪个字段写进
+`+0x24/+0x28`"仍未闭环，所以仍不能声称整族等于原版。
 
 ### 7.2 oracle 前置事实（为 Unicorn 合成内存准备）
 
+* **本机（prague）已可跑 oracle（2026-10-25）**：`python3 -m pip install --no-binary
+  unicorn --force-reinstall unicorn` 在 Termux 源码重建后，`libunicorn.so`（无版本号）
+  仍需手工软链到 `libunicorn.so.2`，否则 `import unicorn` 报
+  `Failed to load the Unicorn dynamic library`；libyoyo 用原版 APK 里的
+  `lib/armeabi-v7a/libyoyo.so`（sha256 `3bbedd09ad0cc6…`，4,689,844 B），
+  通过 `CALLY_LIBYOYO=<path>` 指定。实测：`precise_oracle.py` 3/3 符合预期、
+  `point_oracle.py` 120 组随机用例 `mismatches=0`。
 * `CSprite::UnpackWADMask` @0x1e3994 的第一条判断是 `[sprite+0x31] != 0` → 直接
   返回。所以 oracle 可以预先造好掩码表并把 +0x31 置 1，不必实现 WAD 解包。
 * 解包后的掩码是**每像素一字节**（查位：`[bits + row*width + col]`），与资产里
@@ -159,6 +223,10 @@ GMS1.4 结构一致，且补上了两处我们尚未钉死的细节：
   YYRECT 内嵌在 instance 的 +0xe8/+0xec 附近，r0..r3 与栈槽 0、4、8、12、16、20、
   24、28、32、36、40、44 依次是 spriteA/frame/rectA/…/spriteB/frame/rectB/…。
   具体寄存器—参数对应仍需逐条读，但不必从签名猜。
+* **oracle 的边界**：`point_oracle.py` 直接调 `PreciseCollisionPoint`
+  @0x1e4a30，而入参取整发生在上游 `CInstance::Collision_Point` @0x1944b0
+  （见 §7.1 第 1 条），所以它验证的是"给定整数入参后的算术"，**不覆盖调用点
+  取整**；要覆盖那一层得把 CInstance 也造出来跑，尚未做。
 
 ### 7.3 Unicorn oracle：三处细节已由原函数判定
 
@@ -260,16 +328,25 @@ C 侧因此有两个像素助手：`mask_probe_pixel`（截断，precise overlap
 
 这三处都不是放宽断言：被挡仍要求"整段没有 BULLET2"，追逐仍要求 `hspeed=-2`。
 
-### 7.6 待定：collision_line 的宽相框到底哪套
+### 7.6 定案：collision_line 的宽相框是半开
 
-- 原版 `CInstance::Collision_Line` 传给 `PreciseCollisionLine` 的是
-  `Compute_BoundingBox` 的**闭区间**框；
-- Rust 侧 `collision_line` 沿用 `bounds_for_instance` 的**半开**框
-  （`x..x+1`，main 一直如此）；
-- C 侧 `gm_instance_box` 是闭区间。
+- 原版 `CInstance::Collision_Line`（@0x194f28）拿的是 `Compute_BoundingBox` 的**闭区间整数边**，
+  但宽相比较是 `min(x1,x2) < right+1 && max(x1,x2) >= left`（0x194fcc–0x195068）——
+  等于把闭区间框当 `[left, right+1)` 用；
+- Rust 侧 `collision_line` 走 `bounds_for_instance`（`right+1, bottom+1`），与上式同构；
+- C 侧此前直接拿 `gm_instance_box` 的闭区间比较，点框 `[x,x]x[y,y]` 会漏掉落在 .5 行/列的线段。
 
-三者只在"点框 + 线段恰好落在 .5 小数行/列"时给出不同答案：闭区间判 miss，
-半开判 hit。`physics_and_motion_ir::motion_integration_gravity_friction_and_builtins`
-的"notme==0 包含调用者自身"就踩在这条缝上（线段 y = cy = 200.5，点框 [200,200]）。
-本轮先恢复 main 的半开实现让该断言保持原样，**闭区间/半开的分歧登记为开放项**：
-需要一组小数行/列的语料差分（C 闭区间 vs Rust 半开）来定案，定案前不得声称两腿一致。
+定案：C 侧改为 `gm_line_hits_instance`（`c-recon/src/collision.c`）——同一闭区间框加 +1 后
+交给共享的 Liang-Barsky `gm_seg_hits_box`（从 `builtins2.c` 迁入 `collision.c`，builtins 与单测
+共用一条几何路径）。Rust 不动。
+
+证据：
+
+- `c-recon/tests/collision_test.c` 新增 `group_line_broad_phase`：.5 行命中、1.5 行 miss、
+  .5 列命中、1.5 列 miss、整数坐标命中；总数 97 → 102 checks，全绿。
+- **变异门**：把 `r + 1.0, b + 1.0` 改回 `r, b` 重编，恰好两条 ".5 行 / .5 列" 变红
+  （`got 0 want 1`），1.5 与整数三条仍绿——断言钉的是这条缝，不是区间。
+- 语料差分：`rm -rf c-recon/build/obj && python3 scripts/batch_diff.py --build-c` →
+  双侧各 1354 份产物，`differ.tsv` / `c_fail.tsv` / `c_only.tsv` 全为 0 字节。
+- 证据边界：这条缝在原语料里**不可达**（`c-recon/fixtures` 只有 code12_contact 与 code792），
+  所以"语料差分不变"不能单独证明修复生效，必须配上面那对小数夹具与变异门。

@@ -1,0 +1,91 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_slots",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_slotsArray",
+      "address_range": "0x28bbcc-0x28bc0c",
+      "semantics": "slots->size → data+0x18; malloc(size*4, TAG, 651) → data+0x1c; return child",
+      "malloc_anchors": [
+        {
+          "site": "0x28bbfc",
+          "line": 651
+        }
+      ]
+    },
+    {
+      "name": "readSkeletonData_oneSlot",
+      "address_range": "0x28bc5c-0x28bdd8 (inlined)",
+      "semantics": "getString name → spSlotData_create(index,name,bone) — return NEVER tested, NULL flows on and is published → toColor×4 at +16/20/24/28 → attachment getItem→setAttachmentName → blend getItem→strcmp(additive→1, multiply→2, screen→3), each store CONDITIONAL (moveq/streq, no default write; key absent or unrecognized ⇒ field untouched) → unconditional slots[index] publish (str r5,[r3,r6,lsl#2])",
+      "keys": [
+        "name",
+        "bone",
+        "color",
+        "attachment",
+        "blend"
+      ],
+      "notes": "bone lookup in loop CONDITION (0x28bd7c), not body; error path disposes skeletonData + setError('Slot bone not found'). 2026-11-08: two legacy deviations corrected against the binary — blend mapping was reversed (additive→3/multiply→1/screen→2) with an unconditional default-0 store, and a creator-NULL early return; both refuted by word pins at 0x28bd1c/20, 0x28bd3c/40, 0x28bd5c/60 and the post-create flow 0x28bc7c-0x28bc8c. Pinned by c/spine_read_slots/tools/check_slots.py (5 cases, 5 teeth)."
+    },
+    {
+      "name": "readSkeletonData_slotsSegment",
+      "address_range": "0x28bbe4-0x28bdd8 (inlined caller BLOCK)",
+      "semantics": "slotsArray (malloc 651) → while(slotMap): getString bone → REAL findBone; miss → REAL spSkeletonData_dispose + REAL _spSkeletonJson_setError(parser, tree, 'Slot bone not found: ', boneName) → return 0; hit → oneSlot body (publish, index++, next) → return 1",
+      "quirks": [
+        "slots key absent (0x28bbe0 beq): count/array NOT written, no malloc",
+        "child==0 (0x28bc0c beq): count+array published, loop skipped",
+        "condition evaluated FIRST via 0x28bc58 b 0x28bd7c",
+        "error path order: dispose → setError(vcall report + Json_dispose root) → return findBone result (0)"
+      ],
+      "check": "tools/check_slots_segment.py + fixture/segment_check.c — 4 configs x 4 tests green (parent re-run verified), 6 named teeth, missing-body compile refusal; receipt harness/receipts/slots_segment_check-20261108T100512.json"
+    }
+  ],
+  "spSkeletonData_layout_additions": {
+    "+0x18": "slotsCount (int)",
+    "+0x1c": "slots (spSlotData**)",
+    "+0x3c": "ikCount (int) — next segment",
+    "+0x40": "ik array — next segment"
+  },
+  "spSlotData_layout_partial": {
+    "+0x00": "index",
+    "+0x04": "name",
+    "+0x08": "boneData",
+    "+0x10 (16)": "color.r (float)",
+    "+0x14 (20)": "color.g",
+    "+0x18 (24)": "color.b",
+    "+0x1c (28)": "color.a",
+    "+0x20": "blendMode (int: 0=normal, 1=additive, 2=multiply, 3=screen — binary order, confirmed 2026-11-08)"
+  },
+  "check": {
+    "driver": "tools/check_slots.py",
+    "cases": "5 (additive→1, multiply→2, screen→3, unrecognized no-overwrite, creator-NULL publish+consume)",
+    "configs": "O0/O2/O3/ubsan",
+    "teeth": "5 mutants all caught by named assertions",
+    "receipt": "harness/receipts/slots-legacy-check-*.json"
+  },
+  "l5_evidence": {
+    "arm": "toColor (0x28b680) — previously mislabeled findPathConstraint+0x390",
+    "receipt": "harness/receipts/tocolor_diff-*.json",
+    "scope": "historical embedded harness implementation only; does not certify the new shared C body"
+  },
+  "depends_on": [
+    "json_interface",
+    "spine_color/toColor"
+  ],
+  "compile": {
+    "target": "armv7-none-eabi",
+    "float_abi": "softfp translation unit; toColor alone uses aapcs-vfp return",
+    "std": "c11",
+    "warnings": "-Wall -Wextra -Werror",
+    "status": "ARM32 O2 -Wall -Wextra -Werror object compiled; caller event block not exercised in this batch"
+  },
+  "shared_helpers": [
+    {
+      "name": "toColor",
+      "address": "0x28b680",
+      "owner": "../spine_color/functions.json",
+      "abi": "r0=value, r1=index, s0=float result (per-function aapcs-vfp)"
+    }
+  ]
+}

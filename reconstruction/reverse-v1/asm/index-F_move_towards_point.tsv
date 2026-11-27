@@ -1,0 +1,20 @@
+10819c	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1081a0	e1a07001	mov	r7, r1
+1081a4	e59d4018	ldr	r4, [sp, #0x18]
+1081a8	e3a01000	mov	r1, #0
+1081ac	e1a00004	mov	r0, r4
+1081b0	ebff1ab3	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1081b4	e3a01001	mov	r1, #1
+1081b8	e1a06000	mov	r6, r0
+1081bc	e1a00004	mov	r0, r4
+1081c0	ebff1aaf	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1081c4	e3a01002	mov	r1, #2
+1081c8	e1a05000	mov	r5, r0
+1081cc	e1a00004	mov	r0, r4
+1081d0	ebff1aab	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1081d4	e1a01006	mov	r1, r6
+1081d8	e1a02005	mov	r2, r5
+1081dc	e1a03000	mov	r3, r0
+1081e0	e1a00007	mov	r0, r7
+1081e4	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+1081e8	ea03057f	b	0x1c97ec <_Z19Command_MoveTowardsP9CInstancefff>

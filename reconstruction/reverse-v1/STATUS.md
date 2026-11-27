@@ -1,0 +1,1218 @@
+# 状态与定性
+
+## 当前断点：char const* CHashMap providers 与变量名全局写者普查（静态 C++）
+
+恢复 `_Z21CHashMapCalculateHashIPKcEjT_@0x1eeb88`（32B/8 词）与
+`_Z19CHashMapCompareKeysIPKcEbT_S2_@0x1eeba8`（20B/5 词），加入
+`cpp/scripting/code_variable_find_slot_from_name_helpers.cpp`（SHA256
+`09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa`；固定镜像 SHA256
+`3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）。Hash 体按原序调用
+`strlen(value)`，再将 `(value,length,0)` 尾转移给内部 `_Z10murmurhashPKcjj@0x1eea84`；不在本批恢复
+murmurhash。Compare 体直接调用 `strcmp(left,right)`，原 `RSBS`/`MOVLO` 路径译为相等时 true、否则 false。
+两体原字哈希分别为 `f7a80f18eabb1c8383e7a5c58869c5a61785e37c49e60393e3f432ca0b4d24a2`、
+`c19c3f629be580aa8eed8a6608a6774cec35d5cf68a42f268a22bceadfe33b8e`；无池字，13 个原字行已入册。
+
+`Code_Variable_Find_Slot_From_Local_Name` 的两个 provider 边现由同一 TU 的真实 C++ 特化定义提供；
+O0/O2 ET_REL 均有定义符号，消费者的 `R_ARM_CALL` 重定位均落到对应已定义 provider。O0/O2 对象
+SHA256 分别为 `458c31c7fde3fc0cbb71db04253e3dd471a389331f6b1d6357eebcd8fe4469b1`、
+`161c1b25626c85c392338a4bd6ebd12aead868fcdbcee57ab64f8f52e6a279a8`。这只闭合本 TU 的 provider
+定义/对象级边，不宣称最终组合链接或运行态绑定。
+
+静态写者普查记录 12 个目标对象写站点：`g_instanceVarLookup+0x00` 1 处（`Code_Variable_Init`），
+`g_VarNamesGlobal` 11 处（`Code_Variable_Init` 9 处、`FindAlloc_Slot_From_Name` 1 处、
+`Code_Variable_Find_Set` 1 处）；两个 GOT 槽本身无代码写入，`strb` 命中为 0。映像的目标是 `.bss`
+对象，GOT 槽均为 `R_ARM_RELATIVE`，原始 addend 与 dynsym 目标逐槽登记。普查范围/方法与每个
+指令站点在 `layout-evidence.json` 新节中：覆盖 `.plt/.text`；8913 个有大小的定义 dynsym 函数体
+逐条做 ARM/Thumb 常量传播，未被这些范围覆盖的 400320 字节再做 A32/T32 双模式目标引用扫描，
+没有额外候选。变量表/地图的完整生产生命周期仍未恢复，字段继续只写 `+0xNN`。
+
+未恢复：hash provider 的内部 `murmurhash` 正文；两个表/地图对象的完整生产者与生命周期；最终组合链接、
+EHABI、原件或候选执行及运行等价。未运行模块 verifier/harness，不声称 scripting 模块或整库 PASS。
+
+## 上一批：变量名称槽查找两个 helper（静态 C++）
+
+恢复 `_Z39Code_Variable_Find_Slot_From_Local_NamePKc@0xd1f74`（224B）与
+`_Z40Code_Variable_Find_Slot_From_Global_NamePKc@0xd2054`（108B），共 83 个原字行：
+Local 55 条指令 + `0xd2050` 池字，Global 26 条指令 + `0xd20bc` 池字。源码
+`cpp/scripting/code_variable_find_slot_from_name_helpers.cpp`（SHA256
+`95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41`），两个原入口与正文
+哈希、raw 偏移、PC 池字、GOT/relocation 和 direct-call edges 已登记在 scripting 的
+`functions.json` / `layout-evidence.json`。Local 经 `g_instanceVarLookup` 取地图指针，按
+原 +0x08 mask / +0x10 table 与 12B record 搜索；匹配后返 record+0x04。Global 读取
+`g_VarNamesGlobal` 的 +0x00/+0x04/+0x0c 原始字，非空候选经原 `strcmp` 比较并返数组下标；
+未知字段保持 +0xNN，不推完整结构。
+
+O0/O2 均以 `clang++ --target=armv7a-linux-androideabi -Werror` 成功产出 ARM ELF32 对象：
+O0 SHA256 `2ca2e54423f4d878de3c2acfe8e46954ea10df788240a5dd0f0c2e8c4abd8d13`；
+O2 SHA256 `9b83d29a8a2df4e72f5ed13d9dd76978ae4333bf0a3da63054a5deb3655669e6`。回执在
+`cpp/scripting/validation.json`。这只证明静态候选的独立目标编译；未运行模块级 verifier、
+未组合链接、未执行原件或候选、未测 EHABI/运行等价。
+
+GOT 逐槽复核：Local 池字 `0x0031bc28` + PC `0xd1f84` → `0x3edbac`，R_ARM_RELATIVE
+原字 addend `0x47a178` / `g_instanceVarLookup`；Global 池字 `0x0031bb40` + PC `0xd2064`
+→ `0x3edba4`，R_ARM_RELATIVE 原字 addend `0x47a19c` / `g_VarNamesGlobal`；Global 的
+`strcmp@plt` `0xb6574` 对应 `0x3f1c8c` R_ARM_JUMP_SLOT。**地址映射复核更正**：`.text`
+该区间 VA=文件偏移；`.got` section `sh_addr=0x3ed718`、`sh_offset=0x3ec718`，相关 GOT
+原字按 `file_offset = VA - 0x1000` 读取，不能把全镜像概括为 VA=文件偏移。
+
+未闭合：~~`_Z21CHashMapCalculateHashIPKcEjT_@0x1eeb88`、
+`_Z19CHashMapCompareKeysIPKcEbT_S2_@0x1eeba8` 的正文/provider~~（两 provider 已由下一批恢复，
+见上方当前断点节）；
+`g_instanceVarLookup` 指向地图内容的生产者/生命周期；`g_VarNamesGlobal` +0x00/+0x04/+0x0c
+内容的生产者/生命周期；`strcmp` libc 外部 provider 的最终链接。`g_pGlobal`、GC guard
+生产者、caller census、EHABI、最终链接及原版/候选执行仍未测。
+
+## 上一断点：JS_DefineOwnProperty_Internal（property-write consumer，静态 C++）
+
+恢复 `_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb@0x247d44`（1616B/404 words）为 C++ 静态候选，source SHA256 `af2f34c0006c63ff4c40263153edfa402249de2fb13f278ef412f1bde897831f`。两张 ARM 分支表与 `YYError` 字符串按原件逐项绑定；返回值保持 raw status word（初始 bool 路径 0/2，选定成功路径 1），不命名状态语义。原字 404/404 入册；C++ 模块门 72 functions/74 symbols/3589 word rows、28/28 harness tests 通过；新函数 O0/O2 目标编译与 worker 对象字节一致，另有 29 个选定共享头消费者 TU O0/O2 编译通过。共享头 SHA 已同步 object_base/scripting/vm_exec 的 functions.json；scripting/vm_exec 的完整通用门仍分别有 13/4 个既存 ledger/schema 错误，不作全模块 PASS。GPT-6-Luna 冻结快照静态复审 PASS；不含 link/运行证据。
+
+观察到的调用方为 `_Z20JS_DefineOwnProperty` 尾分支 `0x2483d8`、`JS_Array_DefineOwnProperty` `0x248b48`、`F_JS_Object_freeze` `0x25095c` 与 `F_JS_Object_seal` `0x250a60`；另有 `.got` 的 `R_ARM_RELATIVE` 槽 `0x3f150c` 指向本函数，但消费者未追出，不声称 caller census 完整。`JS_DefineOwnProperty_Internal` 的四条直接 C++ provider 仍 open：`YYObjectBase::Add@0x199b84`、`Code_Variable_FindAlloc_Slot_From_Name@0xd2c84`、`FREE_RValue__Pre@0xc0a7c`、`YYError@0xd547c`。原先列为 open 的 `_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc@0xd21ec` 本体已补为静态 C++；其 `_Z39Code_Variable_Find_Slot_From_Local_NamePKc`、`_Z40Code_Variable_Find_Slot_From_Global_NamePKc` 两个 helper 正文现已恢复并编译成静态候选；底层哈希函数、名字表生产者和组合链接仍 open，不表示传递依赖已闭合。EHABI、最终链接、原件/候选执行与运行等价均未测。
+
+本批依赖补边：`_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc@0xd21ec`（60B/15 words，source SHA256 `13973dd68ecd7e3158fd7385a38833a30e04c21de244929f6d817913abd36060`）已恢复并登记；父级 ARMv7 O0/O2 编译对象分别为 `bf43e7daa597294272d619034a76062663a0e9f4d4ae1c8cff1ca04be94f4a6f`、`d3ea869907f853a5bd57683b2cd611deee35fe7531b65e4940d4b6fddf3dd2c7`，与 worker 对象字节一致。注册后 scripting 模块 verifier 检查 19 functions、18 symbols、282 word rows，错误仍为注册前完全相同的 13 项；没有本函数相关错误，但全模块门仍非 PASS。`g_pGlobal`、`g_fJSGarbageCollection` 的数据生产者、`g_instanceVarLookup` / `g_VarNamesGlobal` 的表生产者、两个 CHashMap helper provider、EHABI 与最终链接仍未证；未执行原件或候选。
+
+父级派工前首轮跳转表偏移曾多写一个 word；按原件重算后确认 CMP `0x247ee0`、ADDLS `0x247ee4`、默认分支 `0x247ee8`、PC+8 表基址 `0x247eec`。源码、word ledger 与 layout evidence 均按更正值登记。
+
+## 上一批：JS_SameValue（object value predicate，静态）
+
+`_Z12JS_SameValueP6RValueS0_@0x24089c`（212B）：低 24 位 kind 不同即 0；kind 0/7/8/11 按两个原始字组成 binary64 做 VFP equality；kind 1 沿 `RValue+0` 的两级指针取字符串并调用真实外部 `strcmp`；kind 5/12 恒为 1；kind 6 比较 `+0` 单字，其他 kind 返回 0。直接 caller 是现已恢复正文的 `JS_DefineOwnProperty_Internal` 两个站点 `0x247de0`/`0x248328`。O0/O2 `-Werror` 通过、原字 53/53；UND 仅外部 `strcmp` 与 EHABI runtime，不冒充最终链接。当前 `object_helpers.hpp` 八个直接 include TU 加 transitive `object_allocation.cpp`，O0/O2 共 18/18 编译通过。原件从未运行。
+
+## 上一批：JS_IsGenericDescriptor（descriptor predicates 依赖闭合，静态）
+
+`_Z22JS_IsGenericDescriptorP6RValue@0x240858`（68B）：kind5→0，再依次查询 data/accessor
+predicates，任一非零即0、否则1。两条直接边在 O0/O2 真实正链消解；分别移除 provider 的
+负控重现预期 UND。原件 17/17 字入册，唯一 caller 为 `JS_DefineOwnProperty_Internal`
+`0x247e18`；当前 header 扩展前的七个 include TU + object_allocation 共 16/16 通过。正链
+其他未恢复模块 UND 保留；不宣称整个 object_base 或最终镜像闭合。
+
+## 上一批：JS_IsDataDescriptor（property predicate leaf，静态）
+
+`_Z19JS_IsDataDescriptorP6RValue@0x2407e8`（64B）：masked kind `0x00ffffff` 返回0，非6
+其他 kind 返回1；kind6 时仅当 payload object `+0x48 == 2` 返回0。6 个 caller/9 个 call
+site；O0/O2 编译、自链接通过，原字 16/16。caller 未因此闭合；`JS_Object_Put` 仍有
+`JS_Argument_Put`、`JSThrowTypeError`、`Call_Accessor_Set`、`JS_DefineOwnProperty`、
+`JS_Array_Put` 与 `strcmp@plt` 等直接边待恢复。
+
+## 上一批：YYObjectBase property-eligibility（三方法闭合，静态）
+
+恢复 `_ZN12YYObjectBase12IsExtensibleEv@0x19220c`、
+`_Z23JS_IsAccessorDescriptorP6RValue@0x240828` 与
+`_Z9JS_CanPutP12YYObjectBasePKc@0x241cac`，合计 336B / 84 词。JS_CanPut 五条直接边
+在 O0/O2 正链由真实定义消解；分别省略 js_helpers/object_allocation 的负链，
+JS_GetOwnProperty/JS_GetProperty 与 InternalGetYYVar 按预期回到 UND。只记录
+`YYObjectBase+0x28` 一个位字段，不声称完整类/descriptor 布局；bit2 源级字段名、调用者、
+EHABI、最终镜像链接仍开放。目标未运行，④轴未测。
+
+## 上一批：UTF8ToASCII（父级直接施工，utf8 簇全收口）
+
+`_Z10UTF8ToASCIIPKc`@0x1110a0（144B，**局部符号**——无 dynsym 条目，边界由父级从
+下一符号 _Z12YYGML_stringRK6RValue@0x111130 推导）：空指针→空指针；空串→0
+（moveq r0,r7 直接喂返回寄存器）；Alloc(len+1,"r",1536,true)——tag 字面量经
+pc 相对读 0x338b4c，父级实读镜像为单字符 "r"（后跟 instance_copy 等其它 tag）；
+utf8_extract_char 经栈游标槽步进；仅存 cp<=127（strbls@0x1110fc，非 ASCII 丢弃）；
+NUL 收尾返回 ASCII 缓冲。三条边全真实链接（strlen/Alloc/extract_char 全已恢复）。
+ARMv7 O0/O2 双档 -Werror 全绿；无桩/UND 覆盖/正负控全过。核对原件 36 词。
+从未运行；调用者与 EHABI 未证。**utf8 簇 12/12 成员全收口**（extract_char+十成员+
+本局部符号）。
+
+## 上一批：utf8 家族十成员（子代理交付，父级验收）
+
+恢复 utf8 家族十成员（294 词）：`utf8_get_char`（三式解码不推进游标）、`utf8_strrchr`
+（extract_char 步进找末次命中 + alt 字节回退）、`utf8_add_char`（lead-bit 梯 1/2/3 字节
+发射，无 4B 分支）、`utf8_char_size`（lead→长度两比较）、`utf8_strlen`（extract_char 步进
+计数至 NUL）、`utf8_strcpy`（40B 含 NUL 尾支）、`utf8_strcmp`/`utf8_strncmp`/`utf8_stricmp`
+（成对 extract_char 步进比较，stricmp 带 fold）、`_Z11utf8_strstrPKcS0_`（haystack 游标
+extract_char 步进 + needle 比较）。模块归位：scripting/utf8_family.cpp（十体）与
+utf8_core.cpp（extract_char 本体，批十二）分 TU——extract_char 边在模块链接时由本体
+消解为真实链接。ARMv7 O0/O2 双档 -Werror 全绿；无桩门、extract_char 边消解门、模块
+链接门、正/负控全过。核对原件 294 词。目标从未运行；调用族与字符串生产者、EHABI 及
+最终镜像链接未证。utf8 家族 11/11 成员全部收口（extract_char + 十成员）。
+
+## 上一批：bucketCheck（父级两稿拒稿后由子代理交付，父级验收）
+
+恢复 `_Z11bucketCheckPc@0x27bee0`（772B，分配器诊断：七真模式桶的 head 链走查）——
+**父级两稿因形状错误拒稿**（初稿逐节点陷阱、二稿幻觉第七块+错槽址），第三稿由子代理
+按父级结构分析交付、父级验收通过：逐 head 循环 ⊃ 逐节点范围检查 ⊃ 表尾陷阱存 42 入
+NULL 的形状与 census 一致；193 词逐一寻址无缺席；六桶块报告标记 8/16/32/64/128/256，
+范围步长 0x20000/0x40000/0x40000/0x80000/0x80000/0x100000；八个具名外无主词
+（计数器 0x3f2bcc、报告 0x3f2a3c、六桶 holder 0x3f2840..0x3f2854）按匿名规则落位。
+本函数 GOT 基为 **0x3f2c58**（与 FADS/IsAllocated 的 0x3f1c58 为两个并存 GOT 区段，
+父级中途的 0x3f2c58「错基」结论已被推翻并更正——FADS 的 0x3f1c58 不受影响）。
+ARMv7 O0/O2 在 scriptvar 基线上追加 1 个 TU，与 worker 对象字节一致；无桩门、8 词
+UND 覆盖门、正/负控全过。目标从未运行；八字生产者、桶句柄值、节点载荷语义、陷阱存
+意图、EHABI 及最终镜像链接未证。**FINALIZE/拆除族至此全部收口**（Quit 42 边 +
+bucketCheck 诊断器）。下一批按 workline 依赖闭包继续（bucketAlloc 0x27c53c 2072B、
+YYObjectBase ctor/assign/cleanup helpers、utf8 家族兄弟成员）。
+
+## 上一批：IsAllocated 本体与 utf8 首员（父级直接施工）
+
+恢复 `MemoryManager::IsAllocated@0x27c454`（208B：空指针返 0；g_MemoryMutex 懒初始化经
+已恢复的 `initializeMemoryMutex`；Mutex::Lock/Unlock 真实边（本体均已恢复）；分配头契约
+p-12 0xdeadc0de / p-8 0xbaadb00b 短路径 1，否则 p-4 尺寸字负值、清位后 <8192 才走
+p-16-size 头回溯（hdr[1] START / hdr[2] END -> 1））与 utf8 家族首员
+`utf8_extract_char@0x10fb38`（132B C 符号：ASCII/2B/3B 三路，3B 结果 uxth 16 位截断，
+**原件无 4B 分支**——4B lead 走 3B 路径，如实复现）。批十的 canonical 声明由此补全本体：
+Timeline 的 IsAllocated extern 边升级为真实链接。模块归位：memory_manager/
+memory_isallocated.cpp + memory_isallocated.words.tsv（52 词，1 池字）；scripting/utf8_core.cpp
++ utf8_extract_char.words.tsv（33 词，utf8 家族 20+ 成员的家，后续成员续此文件）。
+ARMv7 O0/O2 在 scoredata 基线上追加 2 个 TU；IsAllocated 四条 UND 边全真实链接（Lock/
+Unlock/initializeMemoryMutex/g_MemoryMutex）；utf8 纯叶无边。核对原件 85 字（1 池字）。
+目标从未运行；分配头契约的生产者、utf8 调用族、EHABI 及最终镜像链接未证。下一批按
+workline 依赖闭包继续（bucketCheck 0x27bee0、YYObjectBase ctor/assign/cleanup helpers），
+或 Score 转储文件格式的消费者切片。
+
+## 上一批：Score/Gestures/Data 拆除切片（父级直接施工）
+
+jing 通道冒烟后又 503（worker 未建任何工件），父级直接恢复三函数：
+`FINALIZE_Score@0x1dc3bc`（580B hi-score 存档转储器——栈金丝雀协议（GLOB_DAT 0x3ed958 载入
+`__stack_chk_guard` 地址与值，出口不符 `__stack_chk_fail`）+ `g_HighScore_Changed` 一次性
+flag + `_GetSaveFileName`/EnsureDirectory/fopen("wb", 字面量 0x34034c) + "HISC" magic + 十项
+8B 表逐项（长度/名字/0xF0 对齐填充/值）+ ftell/fseek 回写位置记录 + fclose + flag 清零）、
+`FINALIZE_CleanGestures@0x1dba70`（192B：双链表清扫——表一 [vtable+4] blx 析构+Free 节点，
+表二 CGestureEvent D2 精确重整名边+operator delete+Free 节点，双表头运行时写字
+0x3f2c1c/0x3f2c08 按匿名规则）、`FINALIZE_FreeAllDataStructures@0x20b27c`（508B：DS_AutoMutex
+C2/D2 RAII 括号 + mapnumb/listnumb 计数梯 DestroyDsMap/List + 四个 Get* 句柄数组走
+（栈/队列/优先队列 [vtable+4] blx；网格 CDS_Grid D2 + operator delete）+ 尾程
+g_Network_DSMAP/g_HTTP_AsyncLoad 写 0xffffffff）。八个具名槽位 R_ARM_RELATIVE/GLOB_DAT 逐一
+复核；父级一处 GOT 基址算术错误（0x3f2c58 vs 真值 0x3f1c58，差 0x1000）在具名命中复核时
+暴露并修正（错误基恰也落在同为 RELATIVE 的槽上，未靠侥幸，已入 layout-evidence）。
+ARMv7 O0/O2 在 scriptvar 基线上追加 1 个 TU；无桩门、UND 覆盖门（28 名）、正/负控全过。
+核对原件 320 字（含 13 池字）。目标从未运行；DS 拆除族/Get* 族/三个类身份、六具名全局与
+两匿名字的生产者、g_hiScores 载荷所有权、EHABI 及最终镜像链接未证。FINALIZE 族至此全部
+收口（Quit 的 42 条分支边全数有主）。下一候选：按依赖闭包回到 IsAllocated/bucketCheck
+消费者与 utf8_extract_char，或按 STATUS 剩余缺口另立批次。
+
+## 上一批：Script/Variable/Timeline/Event 拆除切片
+
+派工渠道仍全线故障，父级直接恢复四函数：`FINALIZE_Script_Main@0x1e0770`（4B 整体尾支进
+dynsym 已定义未恢复的 `Script_Free`）、`FINALIZE_Variable_Main@0x1f4d10`（152B：
+builtin_variables 8000B 表按 16B 步进 Free+清零（基址保持不重载）+ memset 全表清零 +
+builtin_numb 清零（先于 Free 分支）+ globdecl{+4 两分支均 Free 后存零字, +0 清零}）、
+`FINALIZE_Timeline_Main@0x1f3174`（420B：两容器阶段走匿名运行时写 BSS 指针字 0x7530f4/
+0x7530f8——四路 add-pc 同目标父级逐一复算；逐条目 0xfeeefeee 毒值双检（entries[0] 与
+vtable）不摊平，[vtable+4] blx 析构目标不解析；IsAllocated 门控第二阶段 Free；两容器各自
+Free 数组/双字清零/operator delete 后清指针字）、`FINALIZE_Event_Action@0xf2c9c`（108B：
+libcode/libnumb 双守卫 + 逐项 Free/置空 live 重载）。vm_buffer.hpp 规范类补
+`IsAllocated` 声明（体未恢复）。五具名全局 R_ARM_RELATIVE 全核。ARMv7 O0/O2 在 graphics
+基线上追加 1 个 TU；无桩门、UND 覆盖门（9 名）、正/负控全过。核对原件 171 字（含 9 池字）。
+目标从未运行；五具名全局与两匿名字的生产者、Script_Free/IsAllocated 体、blx 目标类、EHABI
+及最终镜像链接未证。拆除链 FINALIZE 族剩余：Score 580B、Support_File、Sound、Runner_Form、
+Function_File、PlatformSpecific、CleanGestures 192B、FreeAllDataStructures 508B、
+Graphics_Display 之外的 Graphics 族已清。
+
+## 上一批：Graphics FINALIZE 切片
+
+派工渠道全线故障（dht 429 配额、dahetao deepseek 503、jing 503、google-free 挂起）后由父级
+直接恢复三函数：`FINALIZE_Graphics_Display@0x17dbb8`（20B：DisplayReset、InvalidateOGLResources、
+pop 后尾支 DeleteOGLResources）、`FINALIZE_Graphics_Texture@0x1767cc`（4B 整体一条尾支进
+GR_Texture_End，非空体如实记录）、`FINALIZE_Graphics_Text@0x1738fc`（72B：单次 live 读
+`Graphics_Text::deffont`（GOT 0x3f029c，父级复算 GOT-delta 配对一致），无条件清
+`g_pDebugFont`（GOT 0x3f02a0），非零才经 [vtable+4] blx 间接析构（目标不解析）并清 deffont，
+尾支 GR_Text_ResetToDefault）。两槽 R_ARM_RELATIVE 逐一复核、具名 extern 表示。ARMv7 O0/O2
+在精灵/字体基线上追加 1 个 TU；无桩门、UND 覆盖门（7 名）、正/负控全过。核对原件 24 字
+（含 2 池字）。目标从未运行；五个 extern callee、两全局生产者、blx 目标类、EHABI 及最终镜像
+链接未证。下一批沿拆除链继续 FINALIZE 族（Score 580B、Support_File、Script_Main、
+Variable_Main、Event_Action、Function_File、Timeline_Main、Runner_Form、Sound、
+PlatformSpecific、CleanGestures、FreeAllDataStructures）。
+
+## 上一批：精灵/字体 FINALIZE 切片
+
+恢复 `FINALIZE_Sprite_Class@0x1ee76c`（4B 空体）、`FINALIZE_Sprite_Main@0x1ef514`（148B：
+GOT 基址配对 0x3f1c58-0xe40/-0xe44 取 g_NumberOfSprites/g_SpriteNames，逐项 Free+置空、
+数组 Free、指针清零，Sprite_FreeTextures 后尾支 Sprite_Free）、`FINALIZE_Font_Main@0xface8`
+（16B：Font_FreeTextures 后**尾支 Font_Init**——拆除命名的函数以重入初始化器复位字体态，
+映像如此如实记录）、`FINALIZE_VertexFormats@0x1e3180`（296B：Graphics::Flush 后走
+g_vertexformats[3] 三槽链表，FreeVertexFormat 逐链 + operator delete 裸字（census 无空测，
+原样保留）+ Free 节点 + live--，终清 g_lastVF；0x1e3298 是 beq 落点指令非池字）。四个 GOT
+槽（0x3f0e18/0x3f0e14/0x3f0da4/0x3f0da0）经 R_ARM_RELATIVE 核实为具名 dynsym 全局——worker
+注释误标 R_ARM_COPY，父级更正入档。worker 死于 HTTP 429 配额（源码+对象+自验证已交付，
+receipt 由父级按增量协议重建并独立复验：worktree 重编译与 worker 对象字节一致）。116 原字
+（5 池字）。O0/O2 无桩门、UND 覆盖门（12 名）、正/负控全过。目标从未运行；六个 extern
+callee、四个具名全局的生产者、VertexFormat 载荷布局、EHABI 及最终镜像链接未证。下一批沿
+拆除链继续（Graphics_Display/Texture、Score、Support_File、Script/Variable_Main、
+Event_Action、Function_File、Timeline_Main、Runner_Form、Sound、PlatformSpecific、
+CleanGestures、FreeAllDataStructures）。
+
+## 上一批：Room/Run 拆除切片
+
+恢复 `FINALIZE_Room_Main@0x1b5e54`（Room_Free 后**清零 guard 字节
+`g_fJSGarbageCollection`**——该 guard 的第一个已证写者，批三时的 open 项部分闭合；pop 返回，
+无尾支）、`FINALIZE_Run_Main@0x1d37cc`（276B：persinst/persnumb 三处 Free、0x1d384c blx
+析构不解析、live 重载保序）、`FINALIZE_Motion_Grid@0x19c2cc`（140B：gridstruct/gridcount、
+0x19c318 blx 不解析）、`FINALIZE_Code_Variable@0xd2618`（4B 空体）。六个 GOT 槽全部具名
+dynsym 命中（Cursor_Subimage/persinst/persnumb/g_fJSGarbageCollection/gridstruct/gridcount，
+R_ARM_RELATIVE 逐一复核），以 extern 声明表示并记录落位；零匿名数组。worker 反驳了派工
+brief 的两处断言（无尾支、Room_Free 非 UND），census/映像亲核后采纳并记档。ARMv7 O0/O2 在
+对象族基线上追加 1 个 TU，与 worker 产物字节一致；无桩门、UND 覆盖门、正/负控全过。核对原件
+113 字（含 6 池字）。目标从未运行；guard 的 setter、Room_Free 体、四个生产者、两处 blx、
+EHABI 及最终镜像链接未证。下一批沿拆除链继续 FINALIZE 族剩余成员（Score 580B、Support_File、
+VertexFormats、Graphics 族、Sound、PlatformSpecific、CleanGestures、FreeAllDataStructures 等）。
+
+## 上一批：对象族 FINALIZE
+
+恢复 `FINALIZE_Instance_Class@0x1959f4`（436B：0x3f3c4c 运行时写指针引导的哈希表遍历，四进
+0x195a28/两进 0x195a4c/r8=-1 哨兵与前向槽重入不摊平；逐节点 blx [vtable+4] 间接调用不解析、
+Free(node)、live--）、`FINALIZE_Object_Lists@0x19e884`（132B：0x53ab70 的 15x2048B 块表按
+signed count 门释放，0x536f68 仅动 +4）、`FINALIZE_Object_Main@0x19f0c0`（348B：0x542374
+容器两遍排水，逐节点 CObjectGM 析构（精确 D2 重整名 extern "C" 边）+ operator delete +
+Free + live--，尾程 Free 数组、delete 容器、清字）、`FINALIZE_Object_Class@0x19e1c8`（4B 空体
+如实记录）。五条槽位绑定父级逐一独立复核（4 条 R_ARM_RELATIVE GOT + 1 条无重定位运行时写
+.data 字 0x3f3c4c，含 GOT-delta 配对算术复算）；230 原字（5 池字）。ARMv7 O0/O2 在支撑切片
+基线上追加 1 个 TU，与 worker 产物字节一致；无桩门、UND 覆盖门、正/负控全过。目标从未运行；
+0x3f3c4c 的生产者、blx 目标、payload 类、四匿名字生产者、EHABI 及最终镜像链接未证。下一批
+沿拆除链继续 FINALIZE 族（Room_Main 0x1b5e54、Run_Main 0x1d37cc、Motion_Grid 0x19c2cc、
+Code_Variable 0xd2618 等），随后按依赖闭包回到 IsAllocated/bucketCheck 消费者。
+
+## 上一批：Quit 支撑切片
+
+恢复 `QuitYoYoFunctions@0x15a0c0`（FlushAchievementCache 后尾支未恢复的
+`QuitYoYoFunctionsM`）、`QuitNetworkingFunctions@0x2998b8`（FreeSocket 恰 64 次、实参 0..63、
+census 的 add 前置序已记）与 `FINALIZE_Background@0xc42f4`：names 非零才进入释放循环，逐项
+Free + 置空且每次迭代 live 重读 names/number（0xc4330/0xc4334/0xc4344，符号 bgt），数组本体
+无条件 Free，两个静态成员两条路径都清零，尾接 Background_FreeTextures 与 `Background_Free`。
+两个 GOT 槽（0x3ed954/0x3ed950）经 R_ARM_RELATIVE 核实为具名 dynsym 静态成员
+`Background_Main::names/::number`（.bss 各 4B），以未定义类静态引用表示并记录落位。ARMv7
+O0/O2 在 FINALIZE 组合基线上追加 1 个 TU，与 worker 产物字节一致；外部链接无桩门、extern
+覆盖门、正/负控全过。核对原件 43 字（含 2 池字）。目标从未运行；五个 extern callee、两个
+静态成员的生产者、EHABI 覆盖及最终镜像链接未证。下一批沿拆除链继续 FINALIZE 族成员
+（Score 580B、Room_Main、Instance_Class、Object 族等），随后按依赖闭包回到
+IsAllocated/bucketCheck 消费者。
+
+## 上一批：FINALIZE 核心切片
+
+恢复 `FINALIZE_All@0xc47f8` 与 `FINALIZE_Code_Main@0xcf478`（原件均为单条 `bx lr` 空体，如实
+记录不造工作量）与 `FINALIZE_Code_Function@0xce274`：经 GOT 0x3edb20 取 0x47a14c 的指针形值
+传给真实 `MemoryManager::Free`，再按 census 序清 0x47a14c/0x47a148/0x48a148 三个匿名 BSS 字
+（前两个经 R_ARM_RELATIVE 已核 GOT 槽，第三个 add 直达无 GOT）。匿名目标按规定以未定义 extern
+数组表示并记录落位义务，不造符号名。ARMv7 O0/O2 在 Quit 组合基线上追加 1 个 TU，与 worker
+产物字节一致；无桩门、真实链接门、正/负控全过，新增终链义务 __aeabi_unwind_cpp_pr0。核对原件
+19 字（含 3 池字）。目标从未运行；三个匿名字的生产者、EHABI 覆盖及最终镜像链接未证。下一批
+沿拆除链继续 FINALIZE 族小体量成员，随后按依赖闭包回到 IsAllocated/bucketCheck 消费者。
+
+## 上一批：Quit 拆除编排器
+
+恢复 `Quit@0x2a27fc`（240B 含池）：CleanGestures→真实 `FreeAllObjects`→FreeAllDataStructures→
+真实 `ResetGC`→QuitYoYo/Networking→26 个 FINALIZE→`g_Profiler.Clean()`（this-call，GOT
+0x3edb74）→GR_D3D_End；`g_pMainWindow` 非零才销毁窗口并按 census 序清 `g_pMainWindow`（字存）
+置 `g_fDoFirstShow=1`（字节存）；`FINALIZE_PlatformSpecific` 与静态 `VM::Quit` 无条件；pop 后
+尾支 `FreeAllBuffers`。vm_exec.hpp 接缝补 `CProfiler::Clean` 与 `VM::Quit` 两处成员声明；三个
+裸全局（GOT 0x3f07fc/0x3edb74/0x3f1a80，R_ARM_RELATIVE 已核）extern_only 无桩。ARMv7 O0/O2
+在对象生命周期组合基线上追加 1 个 TU，与 worker 产物字节一致；无桩门、真实链接门、正/负控
+全过。核对原件 60 字（含 3 池字）。目标从未运行；38 个 extern 被调方、三个全局的生产者、
+EHABI 覆盖及最终镜像链接未证。下一批沿拆除链继续：FINALIZE_All 与 FINALIZE_Code_Main/
+Code_Function 等小体量 FINALIZE 族，随后按依赖闭包回到 IsAllocated/bucketCheck 消费者。
+
+## 上一批：对象清扫与根移除调用者
+
+恢复 `FreeAllObjects@0xd675c` 的真实对象槽清扫与四个裸字清理、两个 .data 初值对象，以及
+`RemoveGCRoot@0xd5b60` 对真实 `CGCGeneration::RemoveRoot` 的代际游标分派。ARMv7 O0/O2 在
+复验基线（57 TU 组合对象与冻结回执逐字节一致）上追加 2 个 TU；正门符号集与两个去 TU 负控
+全部通过，`g_ShouldDispose`/`length_slot` 由 UND 转为本批定义。核对原件 79 字（含 10 池字）。
+目标从未运行；四个裸字与 `g_fJSGarbageCollection` 的生产者、`Quit@0x2a2804` 调用者接线、
+EHABI/并发及最终镜像链接未证。下一批沿依赖闭包继续：MemoryManager::IsAllocated 与
+bucketCheck 直接消费者、utf8_extract_char、YYObjectBase 构造/赋值/清理 helper。
+
+## 上一批：GC 重置调用者与类统计表生产者
+
+恢复 `ResetGC@0xd66e0` 对既有 `g_GCGens` 四个实例的调用：读取开关字节，非零才依次清
+`g_GenToCollect` 和 `g_GCframe`，再调真实 `CGCGeneration::Reset`。`AddClassStat@0x191578`
+接合原 `ResetClassStats` 消费的 8B 表项，保留判等扩容、拷贝目的地址的 live 回读和槽计数先于
+总数的写序，不借用分配返回指针替换回读。
+
+ARMv7 O0/O2 各 57 个 TU，组合对象定义 146 个已登记原函数符号名。核对原件 133 字（含 7 池字），
+通过 16 项本批静态 ABI；反序 O2 对象和缺 Reset 提供者的组合被对应判据识别。目标从未运行；
+`g_fJSGarbageCollection` 的生产路径、异常/并发及最终镜像链接未证。下一切片沿原件 `Quit` 的
+`FreeAllObjects@0xd675c` 和真实 `RemoveRoot` 上层 `RemoveGCRoot@0xd5b60` 继续。
+
+## 上一批：GC 根表扩容重插与代际重置
+
+恢复弱定义 `CHashMap<YYObjectBase*,YYObjectBase*,4>::Insert@0x195ba8`，实际接住
+`AddRoot@0x1963c8` 的重插调用。保留两个原内联重插层各自的读序、空槽发布顺序及
+`0x1961dc` 的真递归，不把三层都改成外调。`CGCGeneration::Reset@0x19140c` 恢复
+旧表释放、清 held map、重载 map 与 `memset` 后重读容量/表指针，最后写回代际字段。
+
+ARMv7 O0/O2 每档交叉编译 55 个 TU；可重定位组合中 144 个已登记原版函数符号名均有定义。
+两窗共核对 474 个原字（含 7 个池字），10 项本批 ABI 检查通过；去掉 Insert 正文后，真实重插
+边恢复为 UND。原稿的合并层／陈旧表指针优化件被具名静态检查拒绝。未运行、装载或模拟
+目标，不宣称整库链接、运行等价、原故障/展开、FPSCR 或并发等价。下一批从四次调用
+Reset 的 `ResetGC@0xd66e0` 和类统计表生产者 `AddClassStat@0x191578` 接着恢复。
+
+## 上一批：GC 根表插入与删除
+
+恢复 `AddRoot`、`RemoveRoot` 和真实指针 `CompareKeys` 三个原入口。首次插入、置换、替换、
+删除后回填和计数按原字恢复；扩容后 Free 返回先重读容量、再重读计数，反序的原稿优化件被拒。
+实际根表定型为 `CHashMap<YYObjectBase*,YYObjectBase*,4>`，key/value/hash 槽为 12B。
+该批提交时，`AddRoot` 扩容重插的 `Insert@0x195ba8` 仍为 UND（无桩）；现已由上节接入。
+本批 231 原字（2 池字），ARMv7 两档各53 TU、142 原函数符号名、9 项本批 ABI，未执行目标。
+
+## 当前断点：GC 根表查询与动态根状态
+
+恢复 `IsRoot` 和真实指针 hash，及 `AddDynamicRoot`、`ResetDynamicRoots`、`UpdateRange`、
+`ResetClassStats`。查询只读槽中的 hash，命中测 value 地址而非读取 value，也不做 key 比较。
+动态根扩容后按原件先重读 count、再发布新表，最后先写 count、再写根指针；以原稿优化件
+确实把两次写反序为静态反控。类统计清理只释放各项 payload、清 count，保留表本身。
+
+本批六原入口、130 原字（1 池字），ARMv7 O0/O2 各51 TU、139 个原函数符号名，18 项本批
+ABI 检查。未运行原件或重建件。下一断点是根表 `AddRoot`/`RemoveRoot` 实际修改链。
+
+## 当前断点：GC / `_rvalue` 镜像启动链
+
+`0xb9814` 完整恢复：依次分配、发布、清理并登记 ID hash 与对象槽；构造四个 88B 的
+CGCGeneration，登记逆序析构，最后给 `_rvalue` 安装真实 false-mode 虚表，不写四个 payload 字。
+`GetRValue/FreeRValue` 与启动方现共用 `CBucket<16,1048576,false>`，与 `stackPages` 的
+32768 实例保持独立。这一批还恢复 YYAlloc、Hash/YYSlot 析构、GC C1/D1 及数组清理入口。
+
+七个原入口、230 原字（17 池字）；O0/O2 各49 TU、133 个原函数符号名，69 项本批 ABI。
+移除各真实提供 TU 会缺对应符号；把 `_rvalue` 装表提前到最后一次注册之前的变体能编译但被拒。
+C1/D1/数组回调原件均有 compact inline EHABI；未验证运行态展开、退出或游戏等价，未跑原件。
+下一步沿这条链恢复 CGCGeneration 的实际根表消费者；初始化不等于 GC 运转已经还原。
+
+## 当前断点：VM 栈桶的 false 模式启动对象
+
+恢复 .init_array 0x3eb5ec 指向的完整 ARM 入口 `0xb959c`（16 字，其中 3 池字）。部署到
+`stackPages` 的是 `CBucket<32768,1048576,false>` 的真实 vptr，并非单独的匿名桶。写序是
+匿名头 0x47a1bc 的 +0 自链 → 栈桶 vptr → 匿名头 +4 自链 → 匿名头 +8=420；不清桶字段、
+不调用 Init、未注册析构，0x47a1d0 仍由 `VM::Exec` 的原懒初始化消费。三个 VM 消费者改用
+同一个具型对象；O2 的指令与重定位读数保持，换序静态反例被拒。O0/O2 各45 TU，20项本批
+ABI 检查，移除启动 TU 会失去真实 `stackPages` 和懒 guard 定义。未执行原件或恢复件。
+
+下一个不同的 false 桶入口 `0xb9814` 在 Hash/YYSlot/四个 CGCGeneration 实例之后才安装
+具名 `_rvalue` vptr；这些实际依赖仍要收口，本批不视为已完成。
+
+## 当前断点：MemoryManager 生命周期与七个 true 桶的静态启动
+
+恢复 `MemoryManager::Init/Quit/DumpMemory`、`.init_array` 的 `0xba3e4` 完整入口和
+`CHashMap<const char *, int, 3>` D1/D2 共 5 个原入口、155 原字（26 池字）。
+Init 在旧 0x756698 guard 判断前发布 `bucketsShouldInit`，不与桶的 0x756699 混用；
+DumpMemory 先读 console 后读一次 total，由虚槽 +0xc 收到同一字的两个变参形态。
+
+`0xba3e4` 先构造内存字符串 map、接真实 Alloc/memset/析构注册，再按原顺序给七个桶装虚表。
+原启动体和 bucketAlloc 解析到同一组 GOT 槽和具名 BSS 对象；不存在先前推测的独立匿名池。
+恢复件不再把桶类和消费者前缀当不同 C++ 对象：同一份具型四槽 API 和池存储由分配、查页、
+GetSize/Free 虚调用实际消费。O2 七次只写 vptr，不清四个 payload 字，也不调用桶 Init。
+
+O0/O2 各 44 个互异 TU、124 个原函数符号名，171 条 ARM32 ABI 检查。交换 _32byte/_64byte
+构造顺序的编译负控被判拒；改 Free 虚槽及逐个移走构造/生命周期/方法 TU 也被对应检查检出。
+未执行原件或恢复件。下一断点为两个不同装载入口：stackPages@0xb959c 和 _rvalue@0xb9814；
+后者先构造和登记 GC/句柄相关对象。未认证整库或最终装载次序。
+
+## 当前断点：两种 false-mode CBucket 虚方法（8 体）
+
+`cbucket_false_check.ipp` + `cbucket_false_free.ipp` + `memory_bucket_false_members.cpp`
+恢复 `CBucket<16,1048576,false>` 与 `<32768,1048576,false>` 的 8 个 WEAK 方法体
+（136 原字、2 池字）。Init/GetSize 与 true 同形；Check 的 checkCounter 经两级
+PC 链（两实例池字 0x25cf54/0x31a808 均解到 GOT 0x3edbcc，与七个 true 体同一槽）；
+Free 120B 为页链归属查找：空链头或链耗尽返回 0 且零写入，[page+8,page+1048576+8)
+命中跳共享三快照/发布尾返 1——与 true 批恒返 1 的纯 freelist 推入是不同的原版行为。
+
+O0/O2 各 42 TU（模块前缀对象名、每档 42 个互异输出）、119 个原符号名齐全、58 项
+ABI 核对通过。独立复核 deleg_0764ac4d 语义全过但推翻首次冻结的三条构建判据
+（新 TU 无 -O、对象命名碰撞致 42→36 输出）；父级重建后 deleg_6b2b4fe2 逐条实证
+修复（O2 核心 TU 5a5dc7da… ≠ O0 5110c6da…，O2 GetSize 与原字同形 8B）。
+本批同时修正 validation.json 的 input_sha256 漂移（页表批旧哈希→78 文件实际值）。
+`phase_complete=false`；未运行原件/重建件、未安装、未推送。九实例 36 方法已齐；
+下一断点：桶对象的具体构造/初始状态提供者与 allocation 接线。
+
+## 当前断点：七种 true-mode CBucket 虚方法（28 体）
+
+`cpp/memory_manager/cbucket_classes.hpp` + `cbucket_init_check.ipp` + `cbucket_size_free.ipp` +
+`memory_bucket_members.cpp` 恢复 7 个 `CBucket<chunk,area,true>` 实例的 Init/Check/GetSize/Free
+共 28 个 WEAK 模板方法体（364 原字、7 池字）。Init 只写 +4/+8/+0c；Check 单 live freeHead 读、
+每节点重载 pageHead、无符号页域判定、耗尽落原 raw STR 42、尾序先读 node->next 再 RMW
+checkCounter（GOT 0x3edbcc R_ARM_RELATIVE，addend 文件字 0x7566ac==符号值）；GetSize 逐字节
+`mov r0,#ChunkBytes; bx lr`（O2 与原件 7/7 相同）；Free 七体同字（三 live 快照→写旧头→
+发布 +8/+10/+0c，u32 回绕，恒返 1）。7 张 24B 虚表（地址点 +8）与 VMI RTTI
+[0,1,base,0] 由真实对象绑定核验；CBucketBase 0x3eb8f0 四纯虚槽（Thumb 0x3174c1 共享助手）。
+
+O0/O2 各 41 TU、111 个原符号名齐全，294 项 ARM32 ABI 核对通过；独立复核 deleg_964749c3
+无正文缺陷（两条元数据注记经父级复 ELF 重算为探针 +0x10 偏移误报，裁决留 validation.json）。
+`phase_complete=false`；未运行原件/重建件、未安装、未推送。下一断点：两种 false-mode
+CBucket（16/1048576、32768/1048576，Free 120B 走页链归属查找）与桶构造/初始状态接线。
+
+## 当前断点：页边界表生产者与普通分配/释放运算符
+
+`cpp/memory_manager/page_registry.cpp` 恢复 `addPageToGlobalPageList@0x27bcf8`，与
+`globalPageListFindAddr` 消费同一个两词边界数组。保留有符号容量门、32位扩容算术及原 libc
+调用；realloc 后先取 live count，再发布并沿用返回数组，不从已发布的 cell 多读一次。
+memmove 后则确实先读 live array 再读 live count，最后依次写 begin、end、count。
+
+`memory_operators.cpp` 恢复普通标量/数组 new、delete 四体（不含其他重载）；真实 Alloc/Free
+绑定，原 tag 与 1317/1323、true 实参不变。仅此 TU 使用 `-fno-exceptions`，不改共享 Free
+的声明；O2 四条为真实尾跳，两个 delete 正文各4B，O0 的真实调用另记。未认证原件全局 unwind。
+
+本批五原入口、93原索引字（6池字）。O0/O2 各40TU、83个原符号名与15项ABI核对通过；
+逐档在移走页表/运算符 TU 时，分别检出对应1/4个真实未解析名。独立静态复核无正文缺陷。
+下一断口为具体 `CBucket` 类型的虚表和方法；仍有初始状态/其他生产者及异常、坏域、并发缺口。
+`phase_complete=false`，未运行任何目标、未安装、未推送。
+
+## 已提交基础：分桶分配与 GC Context Stack（9daf807）
+
+`cpp/memory_manager/memory_buckets.cpp` 恢复 `bucketAlloc@0x27c53c` 的七个尺寸分支；
+`cpp/scripting/context_stack.cpp` 恢复 `PushContextStack@0xd3968`、`PopContextStack@0xd3a34`
+与 `GetContextStackTop@0xd3a54`。四原入口、592 个原索引字（23 池字）；分别登记 ABI 名字、
+完整方法与已观察的20B桶/8B页头前缀，不推断完整虚表、类或匿名状态提供者。
+
+原稿 O2 七条路径在 `page.next` 写入前发布桶头，并提前写 owner；父级改原宽度有序写，
+在 O2 对账中七条均为写 next→发 head→回调→读 +8/+10→写 owner。8B 原8个 STRB 独立，
+其余按原 stride 调 memset，O2 不再内联掉五条调用，六种尺寸合法共享一个尾块。
+Context 的 grow 只在 Top==Max；双倍经 u32 回绕，两路各发布一次 Max；ReAlloc 后
+先读 live Top，再依次发数组、Top、元素。Pop/Get 保留有符号门。
+
+O0/O2 各38 TU，78 个原符号名齐全；新 ARM32 ABI 工具实跑12项原件/目标对象符号检查。
+独立源审无正文缺陷。该批构建尚未纳入随后接收的 `addPageToGlobalPageList`、普通 new/delete；
+具体 CBucket 方法、原始初始化、异常/LR/坏域/并发仍欠。
+`phase_complete=false`；本批没有运行原件或重建件、没有安装或推送。
+
+## 已提交基础：MemoryManager分配与调试记录/源码行解析（4cd8354）
+
+`memory_manager/memory_alloc.cpp` 恢复_Alloc/Alloc，`vm_exec/vm_debug_info.cpp`恢复
+DebugInfo/DebugLineNumber，四完整原入口/236原字（8池字），闭合上一批的真实直接调用。
+_Alloc保留bucket→标准分配、64位size+16门、头词/计数写序和live mutex解锁；Alloc保留
+原bool清零、logLocation和held指针。调试记录按8B扫有符号PC，源码行按原逆UTF扫描、
+#line字面量与真实_ctype_指针表分类，文件名分配先发out、copy后live回读out再写NUL。
+
+父级修掉原稿自造memcpy返回NULL早退，恢复无条件终结符写；补volatile raw-word读取，
+O2原稿count0会跳过code字段读而修后无条件保留；同一cursor生命周期、ctype字节地址与
+普通换行读序已复核。O0/O2各36TU/74原名字组合通过；独立复核的别名错报经冻结头与全量重编反证核销，源码无变更；本地收口仍
+phase_complete=false。当时仍欠 bucketAlloc、UTF helper本体/原语言、记录生产者、Ctor/继承链、
+map Insert/FreePre及所有LR/坏域/unwind/并发等价仍欠。仍不执行目标、不安装、不推送。
+
+## 已提交基础：值池/map生产者与调试执行（8bb884b）
+
+GetRValue/AllocVars/ExecDebug三入口/341原字已收口，34TU/70原名字，22路径/75输入
+逐提交blob一致。0x78池链/真F32阈值、调试单步伪指令及独有locals清理均保留。父修
+GetRValue立即数fff00→ff000；复核报告“缺VFP”“70产物数”“错误GOT值”经原件/头/ELF
+独立核销未采用。两个配置全部fresh通过；只有server分支注释修订，不是运行等价证明。
+
+## 已提交基础：重分配与对象变量（92fe8dc）
+
+ReAlloc/bucketSize、ObjectAlloc/InternalGetYYVar、普通int hash/YYRealloc六入口/327原字
+已收口；32TU/67名字，25路径/73输入逐blob对齐，hash O2八字节等于原件。独立复核未有
+正文缺陷；LDMIB注释已修。ReAlloc mutex槽经父级复算为3f1824，复核报告3f1828口误未采用。
+
+## 已提交基础：VM入口与profiler节点（3ec96e4）
+
+VM::Exec、FindNode、WEAK refdec、YYFree和三个原no-op七入口/522原字已收口；30TU/61名字。
+父级修原稿池fill/对齐、spill前后与回调重读、BFI等；独立复核定位VMEXEC-01，sp+64对应
+frameDepth+4c而非nextSlot+48，已按原字修复、fresh两档重编和旧偏移ABI负控拒绝。23路径/
+67输入逐commit blob一致。原no-op O2各BX LR，弱覆盖只核静态链接选择，未执行目标。
+
+## 已提交基础：ScriptRef 与 profiler 压帧（e60233c）
+
+Call_ScriptRef、GetCode、YYAllocLocalStackNew、Profiler Push四入口/271原字已静态复核后
+收口，21路径/59输入逐blob对齐，O0/O2各27TU/54导出；GetCode O2八字节与原件一致。
+参数共享+1c两路清零后第五bool恒false，先前count→bool假设已否证；24B profile frame
+只初始化前三word，尾部按raw搬运。保留未认证栈垃圾值、完整类/FP trap/unwind等边界。
+
+## 已提交基础：页池与 JS 助手（ff753ce）
+
+FreeRValue页池和五个JS属性/可调用性/Call_RValue助手已收口；六入口/114原字，两池字。
+父级O0/O2各24TU/50导出，四个JS调用边核过；独立静态复核未发现正文缺陷，提交15路径/
+48输入逐blob对齐。只证这批源码、ABI和编译范围，不升级原件执行或全库语义完成。
+
+## 已提交基础：对象回收与 unsigned32 叶（46ce675）
+
+YYObjectBase::Free/FreeVars 的 slot registry、dispose 探针、dense/hash 清理、pool push 和
+两处 live pcre_free 调用均有完整静态成员正文；不实例化名义 YYObjectBase/RValue 类型。
+fixunsdfsi.c 保留 carry/sign/register-LSR 的位图分域以及同址 __aeabi_d2uiz 别名，不用 cast。
+本批三原入口、四名字、238原字；O0/O2 各22TU/44导出，独立源审后本地提交并逐blob核对。
+这是源码/目标编译证据，不含原件执行、对象寿命/异常认证或整游戏等价。
+
+## 已提交基础：页边界查找与软件整数转换包装（8b59819）
+
+已落 `globalPageListFindAddr` C++ 正文，以及 `c/compiler_conversions/` 中 __fixdfdi /
+__fixunsdfdi 的 C 正文和各自同址 EABI 别名。三原入口、五导出名字、86 原索引字，别名不加入口。
+父级修正了查找内环的一个具体错译：BNE 使用 SUBS 的旧 step，后面的 ASR 不置旗标；
+old step=1 必须再读一次 step=0 的 pivot，否则第一桶内地址会误返回空。反例是静态 CFG
+推导，不是执行原件或新 C++ 的回执。尾部保留 signed remainder 形状，不改成 index&1。
+
+转换包装保留软件比较/乘/减/转换 helper，没以本机 cast 或 native FP 算术替代；两对别名
+在 O0/O2 中各自同节同址、GLOBAL，size 也实测而非假定为零。O0/O2 各 18 TU、40 个原
+导出名字齐全，Lookup 和 __fixdfdi 已真正填入上一批调用边。旧方法正文未改，类级清单随
+新成员扩展。NaN/失败/异常与完整软件 FP 尚未认证；仍不运行目标、不安装、不推送。
+
+下一断口为软件比较/乘减/32 位转换、页表生产者/具体桶实现，以及对象和值的释放。
+
+## 已提交基础：内存释放与单调时钟依赖（817fc72）
+
+用户已要求“循环工作”：本批源审/目标编译/本地提交后直接接下一批，不再等待重复“继续”。
+外置控制状态在 `~/.hermes/worklines/cally-native-loop.json`；是会话内回调驱动，不是脱离会话的守护进程。
+
+`cpp/memory_manager/` 已落 MemoryManager::Free、Mutex::Init/Lock/Unlock、桶 Free 派发、
+真实 no-op logLocation，以及匿名 lazy-init 调用目标；`cpp/timing/` 落 Timing_Time/Init。
+本批分账为 8 个有定义符号的原入口＋1 个匿名直接调用候选，175 个原索引字；不把匿名候选
+和原 no-op 混成新增业务函数。字段与 global/GOT/字符串位置均绑定原件，未定义默认运行状态。
+父级保留 lazy init 的 malloc 返回接收者（发布后不多读全局），头偏移按 ARM32 整数回绕，
+计数器/短路/解锁重读顺序不改。时钟保留 VMLA、VDIV 和原 __fixdfdi 调用，非整数近似替换。
+
+O0/O2 各 16 TU 组合，35 个原导出符号齐全；真实 MemoryManager::Free/Timing_Time 已填入
+既有 VMBuffer、VMExec、Profiler 的调用边。globalPageListFindAddr 和 __fixdfdi 仍仅声明，
+尚未闭合；下一批先接这两处，再推进对象/值释放与上层 VM 调用者。
+仍只做静态可读源码与目标对象，原件/重建件均未运行、不安装、不推送；失败/FP trap、
+并发双字传输、坏头和异常展开不认证。旧 C 与已提交 C++ 候选未改。
+
+## 已提交基础：VMExec 执行、退帧与 profiler（30a83ed）
+
+`cpp/vm_exec/` 已落 `VM::ExecRelease(VMExec&,RValue*)`、C++ 自由函数 `PerformReturn` 与
+直接依赖 `CProfiler::Pop()`。不是旧 C 换后缀：保留类静态/成员调用、RValue 不完整类型指针，
+真实组合已有 VMBuffer 转换方法、退帧与 profiler 正文；没有默认全局或被调桩。
+本批 3 个原 ABI 入口、334 个原索引字（含 16 池字）。旧 C 的同址方法不重复计新增原函数。
+
+VMExec 已把调用者可观测字段恢复到 +0x5c（0x60 前缀），控制帧步长 60 字节。+0x40 从
+VM::Exec 的立即数写入和退帧算术互证为 0x4000 字节跨度，不是旧 C 的 frame_top 指针语义。
+state30、全类范围和原对象 API 仍未闭合；RValue 保持不完整类型，不编造构造/赋值/持有规则。
+父级修正了 buffer/locals 读写序，以及 profiler 使用“减前 count 的 GT 标志”选帧的错译；
+原 count=1 必须选择第零帧。时间累计只加入差值的低 32 位，未按常识扩大到完整 64 位。
+
+ARM32 O0/O2 各编译 11 个 TU（本批 4 个、既有 buffer 4 个、CCode 3 个），27 个组合原符号
+无缺失，三个 16 字节 vtable 保持。`cpp/vm_buffer/`（2e66337）、`cpp/ccode/`（3651a7b）
+和旧 C 原样保留。详见 [装载与派发合同](../contracts/vm-buffer-dispatch.md) 和各 functions.json/
+validation.json。仅静态与目标编译，未运行原件或重建件、做 64 位替换或游戏接入。
+
+工作树中尚未提交的 `c/vm_exec_release/` 候选已将 ExecRelease、PerformReturn、convertBuffer
+与指针哈希真实链接合成门；此前 O0/O2、18 项语义负控和 2 项链接负控通过，本轮未重跑。
+这些 C 候选改动不随本次 C++ 源码批次提交，清册头/夹具哈希仍待收口；不以其合成绿灯
+认证已提交 C 版本或新 C++ 行为。
+
+下一处源码断口是 VM::Exec/ExecDebug/DoCallScript 的同语言调用者，以及 MemoryManager::Free、
+YYObjectBase::Free、FREE_RValue__Pre/RValue、Timing_Time 与全局生产者。缓存插入/失效/命中
+第二张表来源与所有权仍未闭合；CCode opaque 状态、无效表项/空 profile 栈 fault、原双字
+传输的并发原子性和异常展开也仍未认证，不猜未知字段。
+
+## 2026-11-16（续六）：VM 算术处理器 + 房间激活链，并修掉一处我自己模块里的 NaN 误译
+
+**A. `c/do_add/` + `harness/do_add_diff.py`**：`DoAdd`(0xdc524) 523 例 identical、census 996/996、
+pair 表 103/103 项真被执行、15 个牙齿全 PASS（全部 `mode=compare`，无崩溃型）。
+**`c/do_sub/` + `harness/do_sub_diff.py`**：`DoSub` 481 例 identical、census 521/521、14 个牙齿全 PASS。
+两臂都用 armv7a-none-eabi + qemu-arm（DoAdd 的 string 路径把 `char*` 存进 4 字节 RValue 槽，
+宿主 64 位会整体挪位）。`boxType` 真实链接；`F_JS_ToNumber` / `F_JS_ToPrimitive` 是**具名模型**并由差分判死。
+回执 `do_add_diff-20261116T193217` / `do_sub_diff-20261116T193224`。
+对卡的更正：
+1. `cards/DoAdd.c` 的 "1015 条指令" 错——实际 **996 指令 + 19 池字**（把池当指令读了）。DoSub 的 538 = 521+17 是对的。
+2. **表 3 用调用方给的 cls 原始字节索引**，不是解析后的 pair：装箱操作数解出类型后算术按解析 pair 走，
+   但结果槽位仍按原始 cls 选。卡里没有这条，是这函数最容易译错的结构。
+3. DoAdd 的 string+string(pair 0x66) 真的工作：结果 = 「第二操作数 + 第一操作数」，并递减两个输入的 refcount。
+4. **DoSub 只有 mode 1**（入口只 `cmp r2,#1`），mode 0 与 2..15 全走强类型臂；且**第二操作数是被减数**
+   （`vsub d7,d6,d7`、d6=[r10]），U==6 桩里还有一条 `mov r6,r10`，漏了返回栈指针整排错。
+
+**B. `c/room_update/` + `harness/room_update_diff.py`**：`CRoom_UpdateActive`(116)、`UpdateActiveLists`(42+6)、
+`ProcessActivateDeactveLists`(10+2，补齐它是为了让"队列计数→链重写"两臂都真实)。
+38 例 identical、census 168/168、60 项覆盖全 yes、21 个牙齿全 PASS。回执 `room_update_diff-20261116T193237`。
+新事实：计数测试是**非零**不是正数（−1 与 0x80000000 都会 flush）；`UpdateActiveLists` 出口**重读** profile 字节；
+深度变化**不**重排激活链（排序键是只在插入时刷新的快照 +0x184）；两个计数器只是无条件 ±1，不追踪链长；
+0x542a4c=激活队列、0x542a64=对象类型队列、0x542a58=depth（与变量卡 narrowed 命名一致）。
+
+**C. 修掉一处已提交模块里的真误译（我自己复核并补了门）**
+`c/room_add/src/CRoom_AddInstance.c` 把 `vcmpe.f32 + bls` 写成 `!(a > b)`（注释还写着"<= 或 unordered"）。
+VFP 在这条指令对上的实测标志：equal `0110`、greater `0010`、less `1000`、**unordered `0011`**；
+`bls` 是 `C==0 || Z==1`，因此它**只在有序的 `a <= b` 时成立**，NaN 时不跳——NaN 深度会沉到链尾。
+`!(a > b)` 在 NaN 时为真，是错的。已改为 `a <= b`、注释重写并撤回旧说法；
+`room_add_diff.py` 新增用例 `F1-m`（snapshot = 0x7fc00000）+ 变异体 `f1_nan_ordered_compare`，
+实测该变异体**只被这 1 例抓到**——也就是说修之前这条路径没有任何用例覆盖，绿是假的。
+room_add 现在 49 例 identical、24 个牙齿全 PASS（回执 `room_add_diff-20261116T193427`）。
+
+## 2026-11-16（续五）：实例登记链与实例身份链（父代理复跑）
+
+**A. `c/room_add/` + `harness/room_add_diff.py`** —— `CRoom_AddInstance`(79 指令+2 池字)、
+`CLayerManager_AddInstance`(40+1)、`CLayerManager_AddInstanceToLayer`(179+5)。
+父代理复跑：`RESULT PASS cases=48 identical=48 binding=ok repeat=ok census=298/298 selftest=ok`，
+覆盖 61 项全 yes，变异体 23 项全 PASS、**零崩溃型**。回执 `room_add_diff-20261116T183544`。
+binding 不硬编码：五个 GOT 槽与三条 rodata 串都由 `ldr/add pc` 算术从字节重新推导。
+
+对卡的更正（两处都会让原件直接跑飞）：
+1. F3 报错宿主槽是 **0x3ed71c**（`0x1c5ca4 + 0x00227a78`），不是卡写的 0x3ed718；
+   两者指向不同 .bss，差 4 字节。照卡 staging 原件会在 0x1c5cb4 `blx` 进垃圾。
+2. F3 的报错串是 `0x350864 "Attempting to add instance %d multiple times to a layer"`，
+   不是卡写的 " ERROR: Adding too many variables"（后者是另一条 `INTERNAL ERROR:` 的尾巴）。
+   这也是修正前唯一的 identity diff。
+3. 卡说"幂等"只对 F2/F3 的 `+0x174` 门成立；**F1 完全不看 `+0x174`** —— 重复登记会让
+   `inst->next = inst` 自环、`room+0x88` 1→2、id 表插第二个同键节点（case F1-i 实跑确认）。
+
+**B. `c/instance_ctor/` + `harness/instance_ctor_diff.py`** —— `CInstance::SetObjectIndex`(70+1)、
+`CInstance` 构造函数(249+8)。父代理复跑：`RESULT PASS cases=38 identical=38 binding=ok
+census=319/319 census-self=ok got=ok tail=ok`，覆盖 44 项全 yes，变异体 34 项全 PASS
+（两条 `mismatch+driver-abort`，都另有字段级命中，回执写明"无 teeth 仅靠 abort"）。
+回执 `instance_ctor_diff-20261116T183617`。两臂堆模型一致并写进回执：bump @IC_HEAP、16 对齐、填充 0x5B、块尾守卫 0xDEADBEEF。
+
+新事实（卡上无）：
+- `SetObjectIndex` 在 `RemoveInstance` 之后**从内存重读 +0x7c**（0x193278）、在 `AddInstance` 之后
+  重读 +0x80（0x19335c）——所以 RemoveInstance 若写了 +0x7c，`-1` 归一会被跳过。
+- ctor 在 0x19964c 预清 +0x80，使 RemoveInstance 分支**从构造路径不可达**（即使块是回收的）。
+- `cap==0` 不是"什么都不做"：`count>=cap` 成立 ⇒ 走一次 grow，`YYRealloc(base,0)` 与 `memset(p,0,0)`
+  都被调用，cap 仍 0，最后给 slot=-1。实例表扫描是**钳位**不是取模。
+- `+0x64..+0x67` 共处同一个字（bbox 脏位/visible/solid/persistent），按字读会一次读到四个。
+- ctor 卡 open 项加深：`cap<0` 时是**无限循环**（count>=cap 恒真、newcap<=cap、0x1998bc 跳过测试），
+  不是"失败退出"；未当 case 跑，只记 card_deltas。
+
+**累计**：本线现有 **17 个已恢复且带差分臂的函数体**；语义核心 ★ 尚未动的仍是
+VM_Exec（骨架卡）/ 事件命令族 / builtin F_ 直系，以及 CRoom_UpdateActive、collision 一系。
+
+## 2026-11-16（续四）：语义核心第四批——变量家族与指令侧收口（父代理复跑）
+
+**A. `c/variable_misc/` + `harness/var_misc_diff.py`** —— 四件：`Variable_Global_Init`(24 指令+2 池字)、
+`DoVariableInstanceExists`(33)、`Variable_GetName_Scope`(158+13)、`Variable_BuiltIn_Add`(164+6)。
+父代理复跑：`RESULT PASS cases=74 identical=74 binding=ok census=379/379 selftest=ok`，
+覆盖 84 项全 yes，变异体 30 项全 PASS 且**零崩溃型**。回执 `var_misc_diff-20261116T180011`。
+(`Variable_GetName_Scope` / `Variable_BuiltIn_Add` 是我没点名的两件，工人按调用链一并做了，
+回执里已把它们与被点名的三件分账。)
+`Variable_GetValue_Direct` 与 `Code_Variable_Find_Slot_From_Name` 走**真实链接**，其余被调方同桩并列明。
+
+**B. `c/variable_ops/` + `harness/var_ops_diff.py`** —— 三件：`Code_Variable_Find_Name`(7 条/28 B)、
+`DoConvIntToVariable`(9/36 B)、`DoPopLocalVariable`(46/184 B)，三者 GOT-free、pool-free。
+父代理复跑：`RESULT PASS cases=53 identical=53 binding=ok census=62/62 census-self=ok`，
+覆盖 41 项全 yes，变异体 29 项全 PASS 且零崩溃型。回执 `var_ops_diff-20261116T175942`。
+
+**这一批对卡的更正与新事实（都以字节/对拍为准）**：
+1. `DoConvIntToVariable`：卡正文的 `vldr s15,[sp] / vstr s14,[sp,#-12]` 与它自己的注释块矛盾，字节是 `[r1]`；
+   且 `s14` 不是残值——`0xd7740 vcvt.f64.s32 d7,s15` 写出的 d7 低半字就是 s14（预置 0x3f800000 实测被覆盖），
+   `r1-12` 的 8 字节恒等于 `struct.pack("<d", v)`；对象是 **16 B 槽**（+0 低字、+4 高字、**+8 从不写**、+0xc tag=0），
+   返回值 `r1-12` 来自 `str r12,[r0],#-12` 的后索引写回。
+2. `Code_Variable_Find_Name`：`bgt` 是**有符号**，一切负 id（含 INT_MIN）都走丢弃 name 的内置分支。
+3. `DoPopLocalVariable`：卡"sp 净下移 0"不准确——body 只动自己的 frame，返回相对入参 r1 的增量恒为
+   `16 + 4*[bit31 clear] + 4*[bit29 clear]`（16/20/24 三档都有案例）。
+4. `FREE_RValue__Pre` 的闸不是 `tag != 0`：原件是 `0xc0a84 bic r3,r3,#0xff000000` 后分别 `cmp #2 / #3 / #1`
+   （已由本人反汇编复核），所以 tag 0x40000001 / 0x80000001 会被释放，tag 5 / 0x105 不会。
+5. 新事实（卡上没有）：`Variable_GetName_Scope` 的实例 map 反查内层**没有边界**（0xd236c 只按 `i` 与 `hash>0`
+   推进游标），若 `map->count` 大于实际占用项数会走过 entries 读野内存；fixture 因此恒令 count==占用项数。
+6. `Variable_BuiltIn_Add` 的 500 上限是 `beq`（相等），count>500 会越界追加（staging 到不了该状态，记 not_applicable）。
+
+**统计口径**：本线现在有 12 个已恢复且带差分臂的函数体（GetValue/Direct、SetValue 家族、
+Find_Slot_From_Name、GetObjectName、Global_Init、VariableInstanceExists、GetName_Scope、
+BuiltIn_Add、Find_Name、ConvIntToVariable、PopLocalVariable）。**语义核心 ★ 仍有 CRoom/CLayer 的
+Add*/Remove*、事件/命令（VM_Exec 仍是骨架卡）、builtin F_ 直系未动。**
+
+## 2026-11-16（续三）：语义核心第三批——GetValue 解析器 + 名称侧两件（父代理复跑）
+
+**A. `Variable_GetValue` 解析器（`c/variable_resolve/`，`harness/var_resolve_diff.py`）**
+父代理复跑：`RESULT PASS cases=54 identical=54`，覆盖 48 项全 yes，变异体 21 项全 PASS
+（无纯崩溃型；两个 `mismatch+driver-abort` 是"字段级已抓到 + 另有用例崩"）。
+回执 `var_resolve_diff-20261116T172029`。判据每例比 `RET` / `OUT` 16 B / 失败标志
+`0x75505c` / 有序调用流（slot delta 以 region 为基准，负槽号也成立）；
+`Variable_GetValue_Direct` 已有译文 → **真实链接**（body sha 与 var_direct 回执同值），
+`GET_RValue` / `InternalGetYYVar` / builtin getter 仍同桩并在 scope 写明。
+两条值得一提的过程事实：
+- 工人初版给房间路径多插了一层解引用，差分立刻红出 5 个房间用例（原件 ret=0/flag=1，译文本可解析）。
+  卡是对的、译文是错的 —— **staging 双侧对称也救不了译文错**。
+- 卡里"段 3 与段 4 的 r5 语义相反"这句文字错：两段都是 `(sel==索引)?1:0`，
+  段 3 用 `movne/moveq`、段 4 用 `subs/rsbs/adcs`（`C2=(d==0)`），行为一致。
+
+**B. 名称侧两件（`c/variable_names/`，`harness/var_names_diff.py`）**
+父代理复跑：`RESULT PASS cases=42（Find_Slot_From_Name 16 + GetObjectName 26）identical=42`，
+覆盖 31 项全 yes，变异体 17 项全 PASS，census 84/84。回执 `var_names_diff-20261116T172045`。
+与静态卡**无偏差**（行号、指令数 13+2 / 71+9、池大小、三处 GOT→.bss、节点/桶偏移、六个失败出口同址全部逐字对上）。
+`Object_Name` / `Local_Name` / `Global_Name` 三个被调方仍是同桩：绿的只是这两个函数体的
+分派、字段偏移与返回管线，**不是设备等价**。
+
+**本线剩余（语义核心 145 函数里尚未动的）**：CRoom/CLayer 的 Add*/Remove* 一族、
+事件/命令（VM_Exec 仍只有 366 锚点的骨架卡）、builtin F_ 直系，
+以及 `Code_Variable_Find_Name` 与 `DoConvIntToVariable`/`DoPopLocalVariable` 等待接。
+
+## 2026-11-16（续二）：语义核心第二批——SetValue 家族 + Get 臂补边界，两臂都复跑过
+
+**A. Variable_SetValue 家族译文与差分臂（新模块 `c/variable_set/`，`harness/var_set_diff.py`）**
+
+父代理复跑：`RESULT PASS cases=40 identical=40`，覆盖 54 项全 yes，19 个变异体全被抓
+（18 个字段级 mismatch + 1 个 `c1_extra_indirection` 只能靠崩溃抓到，已标 `mode=driver-abort`）。
+回执 `var_set_diff-20261116T170027`。另有三道非字段门：census 255/255（每条指令注释与
+llvm-objdump 逐字机检）、repeat（新建 Oracle 与第二个 qemu 进程重跑，记录流逐字相同）、
+binding（镜像 SHA + 三处 .rodata 消息串逐字节比对）。
+
+对静态卡 `cards/Variable_SetValue.c` 的更正（都已用反汇编独立复核）：
+1. **被调 Direct 是 0x1f3c28**，不是 0x1f3e70（后者是 GetValue 里的 `strb r3,[r7]`）。
+2. **S2 比 S5 多一层解引用**：S2 是 .bss 0x542374 里存指针→指向 {+0 buckets,+4 mask}；
+   S5 的 0x536f28 本身就是那个结构。卡说两者"哈希形状完全相同"只对字段布局成立。
+3. **C1/C2 是指向 .bss 的对象**（`ldr r11,[r9,r3]` = &0x542a64），不是指针变量本身。
+4. **E3 恒返回 0**：0x1f4674 `bl YYError` 后直接落到 0x1f4684 `mov r0,#0`。
+   卡的 open 4"返回未初始化寄存器值"不成立；r10 在 S5 路上确实是死的，但没被返回。
+5. 循环内累加器是 **r0**（0x1f4468 进 / 0x1f4510 出），r10 在循环中装的是 value 指针。
+
+**B. Variable_GetValue_Direct 臂扩展（父代理复跑 `var_direct_diff.py`：19 例 identical，
+9 个覆盖项全 yes，6 个变异体全抓，`get_rvalue_args_swapped` 已从"只靠崩溃"升级为
+字段级 mismatch，11 例命中 / 4 例仍崩已单列 aborted_cases）**
+
+- **一条我自己造成的缺陷（记录在案）**：上一批的用例标签写错了——标成 "slot 0/7/50" 的
+  三条，varid 是 10000/10007/10050，真实槽号是 **-90000/-89993/-89950**。也就是说旧 case
+  集从未命中表内 16 B 槽，这正是 swap 变异体只能靠崩溃抓到的原因。标签已改，输入与算术一字未动。
+- 空档区间实测：flag≠0 + table≠NULL + varid 50000/99998 → 原版把 `table−800000` / `table−32`
+  直接交给 GET_RValue，不校验也不拒绝，已用 delta 钉死（对应卡 open 2）。
+- `bvar_entry_stride_16_to_4` 做不到字段级：10000 个 entry 装同一桩，落错 entry 仍是可调用的
+  fn 指针，只有砸到 name 字段（varid 9999 → base+39996）才崩；回执 `why_not_field_level` 记了原因。
+
+## 2026-11-16（续）：语义核心第一件——Variable_GetValue_Direct 的 C 译文 + 差分臂
+
+从动画族转到 ROADMAP 的语义核心，先做最小自洽的一件：`Variable_GetValue_Direct`
+（0x1f3b8c，156 B / 39 指令）。它与 resolver `Variable_GetValue`(0x1f3ce0) 分工明确：
+resolver 只解析「读哪个实例」，Direct 才是取值 —— 内建变量号走 16 B 表项 +4 的 fn，
+变量 id 走 `table + (varid-100000)*16`，`[obj+0x24]==0` 时直接返回 0 且不碰 out，
+`table==0` 时改由 `InternalGetYYVar` 返回槽地址（**不做** base+index*16 的算术）。
+
+- 译文：`c/variable_direct/src/variable_direct.c`，逐条锚点写在注释里（含 `bls` 是
+  **无符号**比较这条：负 varid 不进内建表，而是走槽路径并按负数下标算出表下方的地址）。
+- 差分臂：`harness/var_direct_diff.py`，原件在 Unicorn 跑 0x1f3b8c、译文在 qemu-arm 跑
+  （armv7 自由站立编译，指针 4 B，表项 fn 才真的落在 +4；host 编译会把它挪到 +8）。
+  2026-11-16 实测 **11/11 例 identical**，6 个覆盖项全命中，6 个变异体全被抓
+  （其中 2 个是 driver 崩溃型，回执里显式标 `mode=driver-abort` 并注明这比字段级不等弱）。
+- **范围声明（不许外推）**：`GET_RValue`(0xd13bc)、`InternalGetYYVar`(0x196a70) 与内建表
+  fn **都未恢复**，两臂跑的是同一份桩。所以这次只钉住 Direct 自己的分派、调用序与槽算术；
+  它不证明那三个被调方，也不是设备等价。回执 `var_direct_diff-20261116T163442`。
+
+## 2026-11-16：Level A 门矩阵改造的复跑结论（A 门 26/27，B 门被分配器约定挡住）
+
+11-08 会话末尾未提交的 415 行改造（`gate_a_modules` / `gate_b_error_trees` /
+`gate_c_perturbations`）在本日被独立复跑，结论分三条，按证据分层记：
+
+1. **A 门（点名单模块 → 改坏它 → 必须动到归因字段）实测 26/27。**
+   `level_a_stage_a_20261116T154432.json`，回执 `status` 只覆盖 stage a。
+   唯一失败 `tl_path_mix_rotate_key`：**不是链错，是输入域缺口**——B17 的
+   0x28e8ec..0x28e8fc 在子键名恰好等于 `"mix"` 时直接跳回 0x28e048（模块头已把
+   "没人处理 mix" 从指令流定死），所以契约那棵树根本走不到 B17 的主体。
+   要让它可测，得新增一棵"path 约束下带非 position/spacing/mix 子键"的树变体，
+   不是改模块、更不是把门改成绿。**本批已补齐**：树变体 `path_mix_alt`
+   （`level_a_trees.py`，path 约束下带 `mixAlt` 子键），`gate_a_modules` 改成
+   变异体可各自钉一棵树、基线按树取（`A_MUTANT_VARIANT`）。重跑 A 门
+   **27/27**（`level_a_stage_a_20261116T155155.json`），该门 diff=2 命中
+   `animations[0].timelines[10].frames[1]/[4]` 并归因到 `spine_read_tl_path_mix`。
+   这同时是原件侧的一条语义事实：**原版对"非 position/spacing/mix"的未知子键
+   也会建 path-mix 时间线**（两臂同帧比对通过）。
+
+2. **两个变异体是设计错，已修（`level_a_diff.py`）。**
+   `ik_bend_positive_key` / `path_position_mode_key` 原来只改大小写
+   （`bendPositive`→`bendpositive`、`positionMode`→`positionmode`），而原件
+   `Json_getItem` 在 0x287414 调的就是 `strcasecmp`——大小写不敏感的查找下这种
+   "错键"照样命中，变异体天生咬不到任何字段。改成 `bendPositiveZ` /
+   `positionModeZ` 后两门实测 PASS。**规则：键类变异体必须过 strcasecmp 这一关，
+   只改大小写的变异体不算判别性反例。**
+
+3. **B 门（19 棵错误树：两臂都必须 NULL + 同 error 文本 + 同 root_dispose）
+   卡在分配器约定，不是语义。** `err_slot_bone` / `err_ik_bone` / `err_tr_bone`
+   三棵在 `m3 pre-chain` 后 SIGSEGV；`qemu-arm -d in_asm` 最后落点是
+   `spSkeletonData_dispose`。根因：错误路径的 dispose 会遍历 `slotsCount` 条
+   **尚未填过的** slots 指针表，而两臂的分配器填充不同——
+   重建臂夹具 `reserve()` 每个分配都 `memset(0xee)`（`c/spine_read_mesh/fixture/check.c`），
+   原件臂 Unicorn `alloc()` 每块都零填（`tools/level_a_oracle.py`）。
+   于是 0xEEEEEEEE 被当指针解引用。`err_parent` 不崩，因为它在发布 slots 计数前就失败了。
+   结论：**在分配器约定统一并写进契约之前，B 门的任何"绿"都无效**；两个方向
+   （两侧都毒填 / 两侧都零填）会给不同答案，且原件在这条路径上依赖 malloc 数组为 0
+   这一前提本身就是待定性的语义事实，不能只挑一个让门变绿。
+
+   **本批已定性并落地**（`level_a_stage_b_20261116T160246.json`：12 通过、0 失败、7 不可测）：
+   - 用一份临时 0xEE 填充的 oracle 副本实测：毒填下**原件自己**也 UC_ERR_READ_UNMAPPED
+     （同一批 slot/ik/transform/path 的 bone/target 找不到）。零填下原件能返回错误文案，
+     只因为合成镜像把 ELF 的 vaddr 0 那页也映射了，NULL 解引用被读成功而不是 fault。
+     设备上地址 0 不可映射 → 这条路径是**原件自带的 latent crash**，不是重建链的错。
+   - 原件字节佐证：`0x28ae48 ldr r0,[r3,r5,lsl#2]` / `0x28ae50 bl spSlotData_dispose`
+     **没有判空**，即拿未填表的元素直接 dispose。
+   - 因此 B 门把 7 棵（err_slot_bone / err_ik_bone / err_tr_bone / err_path_bone /
+     err_ik_target / err_tr_target / err_path_target）记为 `UB_ADDRESS0_LD` /
+     PASS=None（不可测），不记 FAIL 也不记 PASS；分配器约定统一为**两臂都零填**
+     （`build_c(..., zero_fill=True)` 走 `level_a_dump_zero.c`），模块门仍用 0xEE 毒填
+     以保持"没写"可观测。
+   - **契约假设被实测推翻**：B 门原来要求非 leak 树 `root_dispose>=1`（setError 释放根树）。
+     实测 8 条路径两臂都是 rd=0——setError 收到的是子节点，根树不释放。判据已改成
+     "两臂必须一致"，`rd==0` 另记 note；一致性要求不放水（不一致仍 FAIL）。
+
+## 当前断点：Level A 首份对拍报告落定（④轴已测：267 字段 diff=0）
+
+`c/spine_level_a/`（子代理 S，父代理两次独立复跑 RESULT PASS）：**④轴从
+「未有测量」变为「已测量」**——Unicorn oracle 跑原版 readSkeletonData
+（hook Json_create 返回同一棵 150 节点合成树、分配器/libc/libm/console/
+setlocale 全套 hook、两侧 cos/sin 同 prescribed 值）vs 重建链（qemu-arm
+调总装模块）：main（scale 2.0/1.0）+err_parent（双侧 NULL+同文案）+perturb
+四轮 **267 字段 diff=0**；三负控全过（打坏段命中归属/扰动双侧 25 字段
+同步/存档 3879 字节重放一致）。**收据 tier=oracle_anchored、
+original_executed=true**（scope=合成内存 oracle，非设备）。回执
+`level_a_diff-20261108T160156.json` + 逐字段报告。合同已裁定两类收据
+纪律（test_anchored vs oracle_anchored 不得混用）。见
+`contracts/native-equivalence-gate.md`。
+
+**口径**：①可反汇编/②自比/③夹具执行 全绿；④与原版等价=合成内存 oracle
+层已测，差异 0（输入域：本合同输入集）——**不是全输入域等价，不是设备
+等价**。harness 自坑清单（PLT0 逐项 guard/QEMU CPACR/setEvent 3 参 ABI/
+free roster 溢出/解码流错位）已记入交接与 README。
+
+`c/spine_read_skeleton/`（子代理 R，父代理复跑 RESULT PASS）：**完整
+spSkeletonJson_readSkeletonData 重建链落成**——entry→bones→slots→ik→
+transform→path→skins+glue→linkedmesh 后处理→animations_loop→B18，全部
+真实链接既有模块；语义缺口 6+1 块在适配层闭合（含窗外第 9 块 0x28e7f4，
+父代理核对入边属实）；**两处 root 泄漏照原样**（Skin+Parent mesh）；
+4 配置×20 测试、16 具名变异（含注入的**组合层三类负控**：段序错乱/
+交接错配/打坏单段点名定位）、6 链接门；**receipt 显式 equivalence_axis_4:
+not_measured**。回执 `skeleton_chain_check-20261108T145754.json`。
+见 `reconstruction/contracts/native-animations.md` 第十批节。原件未执行。
+
+**readSkeletonData（13,044B/3,261 insn）纯重建 C 模块链收口：31+8+1 块、
+九时间线家族、全部胶水与错误尾。验收口径=test_anchored（接线正确）；
+④轴（与原版等价）= 未有测量。** 下一步按
+`contracts/native-equivalence-gate.md` 施工 Level A 函数级对拍工具
+（Unicorn oracle 跑原函数 vs 重建链、同一棵合成树 hook Json_create、
+spSkeletonData 全字段 diff+三负控）——判据已冻结，整件可下沉次模型。
+
+`c/spine_skins_glue/`（子代理 Q，父代理复跑 RESULT PASS）：**8 个物理胶水块
+全部恢复**（98 word pin 对 92 条指令逐条全覆盖）；**分派依据是 loader 存进
+返回对象的 +0x04 而非请求 type**（父代理核对 0x28c7c0）；跳表 5 落点父代理
+逐字核（linked 也落 mesh 0x28cb20）；**add 用 attachmentMap->name（JSON
+成员键）而 createAttachment 收 "name" 属性——两者必须分开传**；loader 错误
+对 ldm 透传；四错误尾 dispose(data)→setError(json,root)→返 r4。
+4 配置×15 测试、15 变异、5 拒绝门。回执 `skins_glue_check-20261108T140923.json`。
+见 `reconstruction/contracts/native-animations.md` 第九批节。原件未执行。
+
+**④轴等价门已立（2026-11-08，总装收口前）**：`contracts/native-equivalence-
+gate.md`——总装 PASS 只证接线；④轴在 Level A 工具（Unicorn oracle 跑原函数
+vs 重建链，同输入→spSkeletonData 全字段 diff+三负控）跑出报告前一律报
+「未有测量」；玩法级四条件为 Level B 另行立项。**总装批（R）已注入组合层
+三类负控**（段序错乱/段间交接错配/打坏单段定位）——分块 PASS 不证明整链。
+汇报口径：所有 receipt 维持 test_anchored/original_executed=false，④轴未测
+期间禁称"接近原版"。
+
+**readSkeletonData 全部构件已齐**：段链物理缺口清零；语义缺口 6 块（各段
+模块只回错误码不发射 dispose/setError 尾）按 animations_loop 适配器先例在
+总装层闭合。剩最后一件事：**全链总装**（entry→bones→slots→ik→transform→
+path→skins+glue→linkedmesh 后处理→animations_loop→B18，含 §5.3 的
+"只发射一次"约束与 root 生命周期），交付完整 spSkeletonJson_readSkeletonData
+重建链。
+
+`c/spine_animations_loop/`（子代理 O，父代理复跑 RESULT PASS）：**家族调用
+顺序定案**（父代理逐分支核对 8/8）：slots→bones→ik→transform→paths(B13/B17
+交错)→deform→drawOrder→events→发布（0x28e784 count 先写/0x28e78c 元素旧
+游标/0x28e79c 回 B3）；**0x28ea10 块（slot index -1 错误）本批恢复**；
+4 配置×17 测试、12 变异、5 链接门（去任一家族源→undefined symbol）。
+回执 `animations_loop_check-20261108T134040.json`。
+见 `reconstruction/contracts/native-animations.md` 第八批节。原件未执行。
+
+顶层段链普查已落盘（`asm/segment_chain_map.md`，父代理核验三处并修复：
+attach_type_e 枚举序、entry 的 setError 声明、STATUS 分段表错位）：
+**总装缺口=物理 8 块/368B/92 insn**（createAttachment 五参调用+类型跳转表
+0x28c7a0、addAttachment+三层循环推进 0x28cc68、四条离位错误尾）+ 语义缺口
+6 块/260B。下一步：恢复 skins 胶水块 → 全链总装（entry→…→animations_loop
+→B18）。
+
+`c/spine_read_tl_event/`（子代理 M，父代理复跑 RESULT PASS）：B16 event
+时间线（findEvent→spEvent_create→494 深拷贝→setFrame）；**open #7 关闭**
+（event+0x10=stringValue，拷贝无条件永不别名，无双释放；存在理由=B18 返回前
+Json_dispose 根树）；**open #10 关闭**（count 先写/元素用旧游标，0x28e784/78c）；
+E5 json 实参 NULL（父代理核对）。4 配置×13 测试、14 变异。
+
+`c/spine_read_tl_path_mix/`（子代理 N，父代理复跑 RESULT PASS）：**谜题定因
+——name=="mix" 没有任何 handler，静默跳过**（beq 目标是节点前移，父代理核对
+0x28e048=ldr r4,[r4]）；除 "mix" 外任何名字都建成 mix 时间线；B17 无扫描、
+索引 +0x14 在帧判空前无条件写、帧距 3。4 配置×13 测试、13 变异。
+回执 `tl_event_check-20261108T125309.json` / `tl_path_mix_check-20261108T124846.json`。
+见 `reconstruction/contracts/native-animations.md` 第七批节。原件未执行。
+
+**父代理两处修复**：①path 模块 rotateMix 键 pin 的 add 站点错（0x28e93c 是
+str 非加法；正确 0x28e938→rotateMix；旧 pin 绿但错，'teMix' 是后缀巧合）——
+已改并复跑全绿；②spEventData+0x00 措辞 borrowed→owned（create 会 strdup）。
+
+**animations 段 31 分块全部恢复为 C**（B1..B18+E1..E7，1579 可达指令分块
+全覆盖）。下一步：动画级总装（B3 键缓存→B4 create→按原序调九个时间线
+家族→发布→B18）与顶层段链总装。
+
+`c/spine_read_tl_deform/`（子代理 K，父代理复跑 RESULT PASS）：三层循环
+skin→slot→attachment→frames；weighted 门=attachment+0x14；**魔数消费钉死**
+（全函数恰好两处 [sp,#0x60]：0x28d304 写/0x28e128 ldrne 读；有符号 /3 截零
+×2，含 INT_MIN 25 例）；**2*(vc/3)=每帧浮点数**→timeline+0x14→setFrame 的
+malloc+memcpy 边界；**_readVertices 未被调用**（父代理扫 BL 核实）；**E6
+实为 drawOrder 触发**（错误块与触发块跨族交叉，按入边归属）。4 配置×21
+测试、19 变异、5 拒绝门。
+
+`c/spine_read_tl_draworder/`（子代理 L，父代理复跑 RESULT PASS）：**两次
+malloc 所有权钉死**——A(442) builder 内 0x28e524 先 free 不进 setFrame；
+B(445 填-1) 交给 setFrame 后立即 free；setFrame 存私有副本（malloc690+memcpy）；
+miss 路径 A/B 双泄漏照实复现；`slotsCount` 被读 5 次逐点重读；回边实为
+0x28e5cc（普查勘误）。4 配置×15 测试、15 变异、4 拒绝门。
+回执 `tl_deform_check-20261108T122759.json` / `tl_draworder_check-20261108T122831.json`。
+见 `reconstruction/contracts/native-animations.md` 第六批节。原件未执行。
+
+`c/spine_read_tl_transform/`（子代理 I，父代理复跑 RESULT PASS）：5 个 mix 键
+每帧无条件全读（缺键默认 time 0.0f/mix 1.0f）；扫描与 ik 同构但命中岛行内；
+setFrame **7 实参（3 走栈）**、帧距 5；**B12 无任何错误路径**（父代理扫 bl
+目标核实）。4 配置×14 测试、14 变异。
+
+`c/spine_read_tl_path/`（子代理 J，父代理复跑 RESULT PASS）：**B13 只做
+position/spacing**（mix 归 B17，普查标题修正）；**值键=timelineNode->name
+非字面量**；**path 有判空+错误路径**（"Path constraint not found: "，open #6
+不能外推）；扫描结果进共享栈槽、timeline+0x14 **无条件写→miss 带 stale
+index**（与 ik/transform 最大差异）；scale 选择不对称（spacing bls 无符号，
+mode=-1 不缩放）；B13 两岛落在 B15/B17 地址区间。4 配置×18 测试、15 变异。
+回执 `tl_transform_check-20261108T114620.json` / `tl_path_check-20261108T120113.json`。
+见 `reconstruction/contracts/native-animations.md` 第五批节。原件未执行。
+
+`c/spine_read_tl_bones/`（子代理 G，父代理复跑 RESULT PASS）：B6 分派链
+rotate→translate→scale→shear；**骨索引来自独立符号 findBoneIndex@0x28b018**
+（首个匹配、≤0→-1；模块内暂驻真链副本，skeleton_find 收编时删）；
+translate 乘 parser->scale 而 scale/shear 强制 1.0；rotate 键 time/angle 帧距 2；
+**scale/shear 的 setFrame 是同指 0x282ad4 的 4 字节 thunk**（父代理逐字核对）；
+E2 的 setError json 实参=**动画节点**（连带兄弟被 dispose），E3=NULL——错误
+路径 json 实参三种形态（根树/NULL/动画节点）逐块验证。4 配置×18 测试、12 变异。
+
+`c/spine_read_tl_ik/`（子代理 H，父代理复跑 RESULT PASS）：**普查 open #6
+关闭**——指针扫描：count 快照一次、`ble` 有符号、前索引写回逐元素重读、
+首个命中写 +0x14、未命中不写；create 后 +0x14=calloc 零=0 非 -1（静态推断）；
+帧键 time/mix(默认1.0f)/bendPositive(0→-1,非0→+1)；帧距 **3 浮点**；
+setFrame ABI r0..r3+[sp]。4 配置×13 测试、11 变异、3 拒绝门。
+回执 `tl_bones_check-20261108T113000.json` / `tl_ik_check-20261108T112242.json`。
+见 `reconstruction/contracts/native-animations.md` 第四批节。原件未执行。
+
+`c/spine_read_animations/` 扩展（子代理 E，父代理复跑 RESULT PASS）：B3 拆
+`animationFrameInit`（4 键入槽 + 0x55555556 魔数→[sp,#0x60]）与
+`animationKeys`（8 键getItem按地址序落槽）；B4 求和分组**不对称**
+（bones/slots/paths 逐子累加，ik/transform 只加节点 +0x0c 一次，deform 双层，
+drawOrder/events 各 +1），name=动画节点 Json 成员键，spAnimation_create 合成边界；
+B3b 'draworder' 兜底无条件写。4 配置×20 测试、13 变异、2 拒绝门。
+**普查更正**：Json_getItem 内部是 strcasecmp（0x287414→0xb66d0，父代理核对
+.rel.plt）——drawOrder/draworder 是同一查询，双键 fallback 行为上无效。
+
+`c/spine_read_tl_slots/`（子代理 F，父代理复跑 RESULT PASS）：B5 attachment
+（findSlotIndex 真实链、timeline+0x10=slotIndex、kind 判别位 +0x08==2）、
+B8 color hex 通道（timeline+0x14、真实 toColor×4 + 真实 readCurve、
+color+0x08=(frameCount-1)*19 curves 数组）、B8b 尾（+0x10 帧距5）、
+E1 错误（setError json 实参 NULL、spAnimation_dispose+dispose data）。
+4 配置×11 测试、10 变异、3 拒绝门（含去 readCurve/toColor 源的**真实链接门**）。
+回执 `animations_b3b4_check-20261108T110203.json` / `tl_slots_check-20261108T110414.json`。
+见 `reconstruction/contracts/native-animations.md` 第三批节。原件未执行。
+
+普查更正（累计三条）：①§7 #10 数组基址在 B2 写入；②Json_getItem=strcasecmp
+（§2.9 双键优先级作废）；③B8b 非"公共尾"、readCurve 调用点在 B8 区间。
+
+`c/spine_read_animations/`（子代理施工、父代理复跑 RESULT PASS）：B1 events 数组
++ EventData 循环（malloc 1028/1034，**事件名取 Json+0x1c 成员键**、循环不信 count、
+无错误路径）；B2 animations 数组（malloc 1043，**不写 animationsCount**——计数在
+循环尾 0x28e784）。9 测试×4 配置、9 变异全拒。
+`c/spine_read_curve/`（同上验收）：`readCurve@0x28b34c..0x28b3fc` ABI 三参
+（帧 Json/时间线指针/0 基帧号），**curve 数组无视声明计数无条件取 4 元素**，
+少于 4 = 原件空指针解引用（SIGSEGV probe 钉住），"stepped" 精确 strcmp 尾调
+setStepped；普查 open #2（曲线数据形状）已钉死。8 变异+probe。
+回执 `animations_entry_check-20261108T103440.json` / `curve_check-20261108T103809.json`。
+见 `reconstruction/contracts/native-animations.md`。原件未执行。
+
+普查更正两条（实测）：①§7 open #10 的数组基址其实在 B2 0x28d2cc 就写入，
+循环尾只写 count 与元素；②`asm/functions.tsv` 的 `anon_28b34c`（944B/237 insns）
+把 readCurve/_readVertices/toColor 三个匿名函数并成一条——引用时以
+0x28b3fc=0xe92d4ff0 字钉为界，索引口径缺陷登记不动表。
+
+animations/events 段静态普查已落盘（2026-11-08，子代理施工、父代理抽验）：
+段界 **0x28d19c..0x28eb40**（三证：唯一前驱 0x28ccc8/0x28cd08 都在 linked-mesh
+后处理出口；0x28d198 无条件跳走；符号 size 定尾）；1641 条（1601 指令位+40 池字）、
+46 唯一键、段内 7 malloc 锚（**行号补正三处**：0x28b974→608、0x28cfd4→136、
+0x28e154→388，均为 `mov r2` 旋转立即数，非 movw）、52 唯一被调、**无 switch 跳表**
+（类型分派全 strcmp 链 ×10）、**31 分块表**（1579 可达指令逐块对上）。
+`asm/animations_census.tsv` + `asm/animations_segment_map.md`。
+**注意**：段内 22 条属附件段离位块（0x28e7f4..0x28e820、0x28e880..0x28e8ac），
+恢复时必须排除；drawOrder/draworder 双键、hex color 通道、IK/transform 指针扫描
+求索引（不判空）等 12 条 open 已列 §7。
+
+`c/spine_region_geometry/` 新增updateOffset原方法候选（304B代码+4B池）。
+`c/spine_read_region/` caller扩至0x28cdac..0x28cf24，补齐color→updateOffset→当前loader configure；
+canonical parser替代旧scale快照和源内重复声明，不改width/height原默认32.0f。
+
+实际public create wrapper→atlas工厂→Json字段→toColor→局部offset→configure→析构已实跑。
+原libm是double cos/sin：先float32角乘再widen；cos先narrow再sin，sin后读x/y；
+几何快照和真实VFP非融合指令保留。libm provider是明确预置值，不是原件oracle或数学库恢复。
+
+O0/O2/O3/UBSan各14项，19个语义变异由登记用例拒绝；缺本体/缺math/软浮点/hardfloat四拒绝门通过。
+32项执行源/头/夹具/checker绑定；独立静态复核无阻塞发现，父级重解PLT/GOT；
+linked四档15项/17变异、mesh四档16项/16变异与旧native-spine链重过。
+见 `reconstruction/contracts/native-region.md` 与模块functions.json。原件未执行，不称原版等价或已显示sprite。
+
+前批linked/skin与真实错误清理仍可消费；公共skin/slot外循环及events/animations尚未总装。
+下一入口补公共外循环（slots 循环条件 0x28bd7c 与 "Slot bone not found" 错误路径的
+dispose/setError 链在此批接入）；真实_readFile、console构造、
+完整loader继续保留缺口，不将合成provider算恢复。全游戏玩法与原版差距本批未测量。
+
+## 决定性发现：spine-c 源码行号锚（2026-11-07）
+
+readSkeletonData 的全部 25 个 `_malloc(size, tag, line)` 调用点中，tag 均为
+`jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c`，line 覆盖 442–1043。
+整个 13,044B / 3,261 insn 函数来自单一源文件。JSON key 集合
+（shearX/shearY/inheritRotation/inheritScale/rotateMix/translateMix/scaleMix/shearMix/
+chain/chainScale/path/multiply/screen）只说明有相应特性，**不能唯一锁定 spine-c 版本**；
+现有 bendPositive、五类 attachment 与 region 默认 32 等证据呈版本混合/定制分歧，不照抄 stock。
+
+按 malloc 行号分段（每段可独立恢复+差分）：
+
+| 段 | 行号（malloc 锚实证，2026-11-08 段链普查校正） | JSON keys | 内容 |
+|---|---|---|---|
+| 入口+meta | 607(+608) | hash/spine/version/width/height | locale 保护+骨架元数据 |
+| bones | 615 | name/parent/x/y/rotation/scaleX/scaleY/shearX/shearY/inheritRotation/inheritScale | 骨数组+逐骨 |
+| slots | 651 | bone/color/attachment | 槽数组 |
+| ik | 697(+705) | bones/bendDirection/mix | IK 约束 |
+| transform | 735(+743) | rotateMix/translateMix/scaleMix/shearMix/target/offset | 变换约束 |
+| path | 782(+791) | path/position/spacing/rotateMix | 路径约束 |
+| skins | 839 | skins 递归 | 皮肤+附件 |
+| attachments | 891 | region/mesh/linkedmesh/boundingbox/type | 附件四类 |
+| animations | 1028/1034/1043(+388/442/445/494) | time/offsets/events/curves | 动画+事件 |
+
+（旧行号列 697–712/735–760/782–800/810–830 自 697 起四行各错位一段；校准证据：
+各段 malloc 目标偏移与 findIkConstraint +0x3c/+0x40、findTransformConstraint
++0x44/+0x48、findPathConstraint +0x4c/+0x50、findSkin +0x20/+0x24 一一对应，
+见 `asm/segment_chain_map.md` §7。）
+
+入口段（locale guard + Json_create + "skeleton" getItem）已恢复为 ARM32 C 候选
+（`c/spine_read_entry/`，0bb501a）。"C" 锚 0x3390a8、"skeleton" 锚 0x357b5c 已解析。
+
+## 当前问题与优先级
+
+以 `METHOD.md` 第0节为现行合同：先做原版完整 libyoyo 的逐函数静态语义/可编译 C 译文，
+原件执行、ART/Unicorn、画面和整机验证后置；不以可达子集、索引满锚或自测通过替换完成。
+原版 ELF 现量 9,267 条已定义可执行函数符号、8,926 个唯一地址+ISA 入口；
+既有匿名切分表为 646 个候选段，边界尚未全部定案，不能直接拿来当函数分母。
+当前优先收已接入链的共享内部依赖。新增 allocation 六入口、attachment-loader 四入口、
+skeletonData 创建/完整释放及直接依赖十三入口的 C 本体候选；逐函数身份/源哈希/缺口分别在
+`c/{spine_alloc,spine_attachment,spine_skeleton_data}/functions.json`，全库退出条件未满足。
+累计重建消费者已直接链接 allocator→attachment→JSON→骨骼与data/atlas清理，
+初始malloc槽和Debug两路径分开验。当前批又恢复attachment工厂/分派/具体销毁
+十九入口，以及Atlas三公开入口和六个去符号helper；共享atlas/page/region仅一份12/44/80B头。
+新atlas_parse_chain实际跑text→Atlas解析→五路attachment→真实销毁，区别于旧native_chain
+仍有合成atlas/JSON接口；全套入口当前构建运行八个ARM32重建程序。原件未运行，两个新模块
+已完成独立字节审查与F1调用帧修缮复审；不将其自测或本体数量说成全库/原版等价。
+当前明确缺口为库内spSkeletonJson_readSkeletonData（0x28b84c/13044B/3261insn）主体及
+其它虚类型/渲染消费者及全库匿名边界；_spAtlasPage_createTexture 已于 2026-11-06 恢复为 ARM32 C 候选（78569a4），
+JSON 访问接口（Json_getItem/getString/getFloat/getInt）与 setError/readSkeletonDataFile 已恢复（0300d5f/07e7663）。
+
+## 2026-11-01 校准：下方为历史记录，不是当前完成率
+
+- `asm/functions.tsv` 现有 9,538 行、9,199 个去重入口；其中 272 行是 `anon_` 区间，别名、匿名切分和真实函数之间不能直接画等号。
+- 当前 246 张顶层卡覆盖索引 649,229/649,229 个去重地址；跨卡重复、索引外地址及助记符不匹配均为 0。索引含 literal pool 的反汇编条目，这只说明索引和锚点对应，不等于全部是真指令，更不等于理解或翻译完成。
+- 旧「正文 347 函数」与「68.7%」都不是经逐函数验收的语义完成率；全文多数 `All_*` 是明确不主张语义的结构骨架。部分卡多函数共用卡头等级，不能按首个等级机械认定每个函数已完成。
+- 当前 `c/` 有 boxType、DoNeg、DoNot、CObjectGM::LoadFromChunk（记录头局部）、Sprite_Data、Sprite_Number、Sprite_Exists、CSprite::Clear、CSprite::LoadFromChunk、CSprite::FreeMask、CSprite::FreeTexture、CSprite::ClearSWFData、CSkeletonSprite 构造/析构和 SimpleDecode 的有限译文候选；另新增 spine JSON 的 createWithLoader/create/dispose、atlas/page/region 的 dispose 与 page 纹理回调七个入口，接入扩展 Loader/Clear 消费者（见 `c/spine_lifetime/README.md`）。其中部分仍未覆盖所有分支；译文目标数不等于完整等价函数数，C1/C2、D1/D2 别名不重复计数。
+- 历史原件侧 Unicorn 回执针对 boxType、DoNeg、DoNot、CObjectGM::LoadFromChunk 的有限输入域；它们不是本轮实验，也不代表完整函数、设备或整个库已对拍。回执中 DoNeg/DoNot mode 1、2 和 OBJT 尾部明确未覆盖；须按各回执作用域引用。
+- 本轮按用户阶段门只做静态推导和自建译文夹具，不执行原件、ART 或 Unicorn。全库逐函数语义闭合、可编译译文覆盖、跨单元 ABI 与真实原版差分均无可信全量完成率。
+
+以下内容保留原时间的历史口径，其中数字与结论可能过时。
+
+一句话：**引擎的语义骨架已经定性完，剩下的是外围（12 张 init 表、约 600 个匿名段、库内部）。**
+方法已钉死在 `METHOD.md`，接手的人不需要重新吵怎么算数。
+
+## 账
+
+    cards                245 张全部已提交；多节卡按 @func 算 9,083 节 + 3 张残段卡
+    anchors              **649,229 条 = census 指令基线 100%**（每条指令恰好一张卡主张），全部 RESULT EXACT
+    跨卡共享地址          0
+    claims               1,742 条（proven 1,469 / narrowed 117 / open 138 / refuted 11 / inferred 7；
+                         权威数以 verify_reverse_v1.py 为准，claims.jsonl 是含 20 条重复的局部聚合）
+    运行期证据（新）      **4 条 oracle 臂**：DoNeg 378/378（mode 0+3..15+mode 1/2）、DoNot 404/404
+                         （mode 0+3..15+mode 1）、boxType 97/97（类型 0..9 与越界）、
+                         **CObjectGM::LoadFromChunk 104/104（OBJT 记录头 src+0x00..0x1f）**。
+                         四臂各 5 个变异体有牙。最后一条是资源加载链上的第一个臂：字段映射是从
+                         原件行为单字节扫描出来的，不是从资产文档抄的。剩余 46 个 Do* 与绝大多数
+                         其它函数仍只有静态字节证据
+    指令基线             649,229（Thumb 双遍解码）
+    函数                 9,538 具名 + 272 匿名块 → 636 段
+    覆盖口径（机械账，已闭合） asm/instructions.jsonl 的 649,229 条指令 **全部落锚**；跨卡共享地址 0。
+                         可达集子账：1,439 函数 / 148,233 条 = 100%（Reach_01-14 + Anon_26f1e8）。
+                                                  其余：All_15-68（54 张，可达集外的库函数）+ Residue_Attributed_01-03（17,581 条 Thumb-2 半字段，按 census 归组到 812 个具名函数）。
+                         ⚠ 「每条指令都指到了」≠「每条语义都读懂了」：按卡级别（锚点发生次数口径，与严格 (addr,mnem)
+                         计数的 649,229）：正文 79,473 = 12.2%，骨架 571,817 = 12.2% 之外骨架占 87.8%；
+                         **桩 0 / 未标 0** —— 全部 245 张卡都已到骨架及以上；残段批已从「地址级」纠正为「按函数归属」（CSprite_SWF、anon_batch2、LibInterfaces、
+                         Graphics_Interface、Stubs_TailJumps、Residue_01-03 的级别行已统一成工具可读形式）。
+                         按 @func 计 正文 347 个函数 / 骨架 8,736 个。语义欠账全在骨架与桩卡里。
+                         ⚠ 生成器缺陷已修（RESIDUE-001）：gen_func_cards.py 原用 4 字节步进取指令，
+                         Thumb-2 函数会被漏掉一半字指令；现已改为按 instructions.jsonl 的真实地址遍历。
+                         ⚠ 旧口径（63.6% → 78.4% → 87.6%）作废：分子取全库 @func（含不可达库函数）、分母只算可达字节。
+
+## 运行期证据（oracle 臂，2026-11-01 起）
+
+本线此前全部是 `bytecode_anchored`。现在有了第一个**原版二进制 vs C 重建**的差分臂：
+
+    装置      reconstruction/reverse-v1/harness/{handler_oracle.py,do_neg_diff.py,do_not_diff.py}
+    C 重建    reconstruction/reverse-v1/c/do_neg.c（tier: bytecode_anchored 的直译）
+    判据      返回栈指针 / 16 字节槽 / VMError 文案，三面逐例全等
+    输入域    seed 0xCA11，282 例；cls 0..15、tag 0..15 全覆盖 + 随机尾 120
+    回执      receipts/do_neg_diff-20261101T002634.json、receipts/do_not_diff-20261101T003428.json
+              （各含输入 sha256 与 C 源 sha256，重跑同结果）
+    门        identity / coverage×2 / non_degenerate / teeth 全 PASS
+    判别性反例 5 个 -DMUTANT 变异体分别被 2/17/20/31/14 例抓住
+
+    由它纠正的原卡错误  DoNeg.c 段 2 把 cls 6 的文案写成 "DoNeg :1: …"，实际是 "DoNeg :: …"
+                        （带 :1: 的是 cls 5 tag1）→ NEG-ORA-007 refuted；DoNot.c tag1 文案写成短式
+                        "Cannot operate on string type"，实际是 "DoNot :: Execution Engine - …" → DNOT-ORA-004
+    由它推翻的"合理模型" DoNot cls 0 的 ~ 不是符号翻转、也不是饱和转换：原版走
+                        __fixdfdi(0x3194a0, 非饱和) → NOT → __floatdidf，实测 +Inf→-1.0、-Inf→+1.0、
+                        2^63→2^63、DBL_MAX→-1.0 → DNOT-ORA-002（首轮 35 条 mismatch 抓出来的）
+    装置边界            Unicorn 不建模 FPSCR.RMode，浮点→整型的舍入本装置判不了 → DNOT-ORA-005 narrowed
+    由它新增的语义      tag 字是**整字比较**（无掩码），高字节非零一律 Malformed；NEG-ORA-006
+    仍未覆盖            mode 1 / mode 2（需 boxType + F_JS_ToNumber 真实执行）→ NEG-ORA-010 narrowed
+
+**怎么读这条账**：这是 1 个处理器的 1 个臂，不是 48 个处理器。其余 47 个 Do* 与全部房间/实例/
+变量函数仍然只有静态字节证据。接下一个处理器的流程与门定义写在 `harness/README.md`，
+新臂一律先写变异体再谈 identical。
+
+**账本对新标准的合规性**（只读审计，不改 status）：
+`reconstruction/contracts/claims-standard-audit.md`，由 `scripts/claim_standard_audit.py` 生成。
+1,760 条去重 claims 里，正文带装置（oracle/harness/seed/回执）的 103 条，纯静态地址的 899 条，
+**正文断言运行期行为但证据只有地址的 695 条**（这批按新标准只能当 `bytecode_anchored` 引用，
+不得作行为门）。审计只给分类与样本，降级动作留给账本所有者，改完须重跑 `verify_reverse_v1.py`。
+
+## 已定性（有卡、有锚点、能指名到函数）
+
+    VM 骨架        基础 opcode 表（.data 0x3f20b4，32 项）｜逐 CODE 线程化派发（VMExec+0x5c → +0x58 → blx）
+                   48 个 Do* 处理器｜Code_Execute / ExecuteIt / VM::Exec / ExecRelease / PerformReturn
+    值模型        RValue 16 B、tag 在 +12、0..14（0/13 real、1 string、2 array、3 pointer、5 undefined、
+                   7 int32、10 int64、12 null、0x00FFFFFF = 未解析变量）
+    变量系统      id 基址 100000、槽步长 16｜局部 self+4 / 全局 GOT 单例+4 / 实例 hash=key+1
+                   Variable_GetValue/SetValue/GetObjectName/BuiltIn_Add/GetName_Scope/Global_Init
+    调用帧        frame=sp-60；+0 pc、+0x08 旧 Argument、+0x38 旧 sp 偏移、+0x4c 深度
+    函数表        80 B/项（name 内联 64B / fn +0x40 / argc +0x44 / flag +0x48 / +0x4c -1）；
+                   InitYoYoFunctions 385 条（平台层，与游戏用的 87 个无交集）
+    常量池        INITIALIZE_Code_Constant = GML 命名常量池（513 次调用→501 名，启动期 606）
+    内建变量      InitGlobalVariables 120 + 5 = 125 个；实例侧 80 个字段（12 alarm + 68）
+    房间/层       CRoom 292 B 字段表｜两链 +0x84 头/+0x80 尾/+0x17c next/+0x178 prev｜
+                   CLayer 112 B + 三张 CHashMap｜层链按 +0x04 升序
+    实例          CInstance 432 B 完整初值表｜两链搬运 UpdateActive｜bbox = int32 tagYYRECT
+    事件          Perform_Event → Perform_Event_Object → Perform_Event_All 三层；Other 四趟
+    绘制          DrawTheRoom 条件树（+0xdc / +0xb8 / +0x88）｜DoSlowDrawRoom 三股流｜
+                   快路径二分支｜清屏 flag 只有 2 位且深度与模板同一位
+    资源           game.droid 头部 8 B、31 tag 块链、24 个处理点｜WAD 地址 0x544c44
+    存档          18 段（Command_SaveGame）｜CRoom/CInstance 序列化逐项互逆、丢字段清单
+    JNI           JNIEnv 只存 TLS（0x756c04）、无 GetJavaVM、jclass 0x756d44、79 个方法 ID 与 DEX 79/79
+    ISA           563 个 Thumb-2 具名函数 + 14 个匿名段（调用点编码证明）
+    静态库        Box2D 2.3.0｜PCRE 8.34+ 的 8.x（版本串是构建模板）｜zlib 1.2.3 动态｜
+                   libpng 1.4.19｜libjpeg｜spine-c｜freealut｜vorbisfile
+
+## 未定性（按重要性）
+
+    1  ~~12 个 Init*Functions 表~~ **已收（2026-10-28 后一批）**：26 个 Init* 函数全部出卡
+       （cards/InitTables_{Core,Draw3D,Resource,InputAction,System}.c），2,434 条注册逐条解出四实参，
+       游戏调用的 99 个内建里 97 个已指到注册点，另 2 个（AdColony_*）本构建无实现。
+       残留 open：29 条运行期实参（14 条 joystick_* 的 flag = *(u8)0x5428e8、Init3D 13 条、InitGame 1 条、
+       InitResource 1 条）与「同名双注册的查找语义」
+    2  匿名段：≥512 B 共 143 段 / 226,028 B；已出骨架卡 8 段（cards/anon_batch6.c，按 in-degree 取的头部：
+       anon_264c00(90)/26020c(88)/262680(61)/2636d4(19)/276e68(15)/2fc4e8(5)/300004(5)/234434(4)），
+       余 97 段 / 213,116 B 未出卡（最大 anon_270108 15,156 B、anon_273c3c 12,844 B、anon_303c46 12,830 B）
+    3  freetype（TT_RunIns 7.8 KB）、pcre compile_branch（23.5 KB）的内部
+    4  几个反复出现的未定语义：g_isZeus(0x5428e8) —— **消费面已清（cards/GateBytes.c）**：52 个点全经槽
+       0x3ed92c，唯一写点 0x1dd844 在 GetResolution 内，读点覆盖 DrawTheRoom/UpdateViews/存档/StartRoom/
+       InitGame 等与 14 条 joystick_* 注册的 flag；语义（取值域、是否「Zeus/高清」开关）仍 open。
+       0x755363 —— 消费面 31 点（CheckLicense/全部 Audio_*/SoundHardware::Init/ProcessCommandLine），
+       **本普查未发现写点**；option_use_fast_collision(0x542379) 的写者、0x47f295 门字节、
+       DoSet K=7..10 的四个 JS 抽象关系算子、Shl/Shr 的 bit15 仍 open
+    5  Motion_Grid_Path 的障碍编码矛盾（入口按 <0 判失败、扩展闸门按 ≤0 判入）
+
+## 实现侧（Rust VM）
+
+    已完成   Vec<f64> → Vec<Value>{tag,payload}；补 Rem/Mod/Or/Xor/Shl/Shr/Neg；
+             Constant 带 tag；Dup/Not 带 mode；sp 按操作数宽度记字节；放开非有限值
+    差分     4,400 例：identical 4,207（95.6%），剩余 193
+             剩余按 op：add 63、conv 48、sub 28、div 26、mul 24、neg 3、not 1
+             按轴：ok 相反 101、错误串 25、sp+bytes+tag 28、sp 19、sp+bytes 7、bytes 13
+    下一步   ① conv→string 需要 host 字符串池 + snprintf ② add/sub/div 的 pair 表与 mode1
+             ③ sp 装箱 54 例（flags&2 进 Op）④ 之后才谈里程碑 2 的整段轨迹差分
+
+## 接手顺序建议
+
+    1  12 张 init 表（每轮 4 并发，增量落盘），把 87 个 builtin 的注册点全钉住
+    2  匿名段按 in-degree 吃（≥512 B 的优先）；新遇到 Thumb 用调用点编码判
+    3  差分收尾 193 例
+    4  freetype/pcre 内部只做接口级，不逐指令
+
+## 验牌（逐卡审计，2026-10-29 收口）
+
+工具 `scripts/audit_cards.py`，账本 `reconstruction/reverse-v1/CARD-AUDIT.tsv`（每卡一行）。
+
+    FAIL 三类  ① 无级别行 ② 锚点不在 asm/instructions.jsonl ③ @func 声明条数 ≠ 本卡在 [start,end) 里的锚点数
+    不算 FAIL  partial（只覆盖函数一部分）——信息项；全库覆盖与互斥由 verify 的 anchors==649,229 / shared==0 保证
+    END 约定   scripts/fix_card_metadata.py 已把所有 @func 头统一成「end 排他、size=end-start、count=本卡锚点数」
+
+    **结果：245 张卡全部通过（244 一次过 + All_68 的一处 off-by-one 已修）**
+    修的手段：150 张卡范围按自身锚点重算；68 张插入「部分覆盖: 本节 X/Y 条」；VMError 56→61；
+              Reach_02 删掉已移交节的 @func；All_68 一处 10→11
+    另立工具 scripts/merge_overlapping_sections.py（同函数多节可合并；本轮实测几乎无同函数重叠，未启用）

@@ -1,0 +1,473 @@
+2a804c	4604b510	.word	0x4604b510
+2a8050	f8c0b1e8	.word	0xf8c0b1e8
+2a8054	b1121118	tstlt	r2, r8, lsl r1
+2a8058	2114f8c0	tsths	r4, r0, asr #17
+2a805c	4b0ce004	blmi	0x5e0074 <g_SWFaavertbuff+0xcfac>
+2a8060	681b447b	ldmdavs	r11, {r0, r1, r3, r4, r5, r6, r10, lr}
+2a8064	3114f8c0	tstlo	r4, r0, asr #17
+2a8068	3110f8d4	ldrsblo	pc, [r0, -r4]
+2a806c	4909b163	stmdbmi	r9, {r0, r1, r5, r6, r8, r12, sp, pc}
+2a8070	46202300	strtmi	r2, [r0], -r0, lsl #6
+2a8074	3110f8c4	tstlo	r0, r4, asr #17
+2a8078	f7fe4479	.word	0xf7fe4479
+2a807c	4906f9fb	stmdbmi	r6, {r0, r1, r3, r4, r5, r6, r7, r8, r11, r12, sp, lr, pc}
+2a8080	44794620	ldrbtmi	r4, [r9], #-1568
+2a8084	f9f6f7fe	.word	0xf9f6f7fe
+2a8088	f8c42300	.word	0xf8c42300
+2a808c	bd103210	ldclt	p2, c3, [r0, #-64]
+2a8090	00149a40	andseq	r9, r4, r0, asr #20
+2a8094	000e48a4	andeq	r4, lr, r4, lsr #17
+2a8098	000e48db	ldrdeq	r4, r5, [lr], -r11
+2a809c	4615b538	sasxmi	r11, r5, r8
+2a80a0	28004604	stmdahs	r0, {r2, r9, r10, lr}
+2a80a4	3902d03d	stmdblo	r2, {r0, r2, r3, r4, r5, r12, lr, pc}
+2a80a8	d8132903	ldmdale	r3, {r0, r1, r8, r11, sp}
+2a80ac	f001e8df	.word	0xf001e8df
+2a80b0	1809020e	stmdane	r9, {r1, r2, r3, r9}
+2a80b4	3130f8d0	ldrsblo	pc, [r0, -r0]!
+2a80b8	6340f423	movtvs	pc, #0x423
+2a80bc	6380f443	orrvs	pc, r0, #1124073472
+2a80c0	f8d0e00c	.word	0xf8d0e00c
+2a80c4	f4433130	vst4.8	{d19, d21, d23, d25}, [r3:256], r0
+2a80c8	e0076340	and	r6, r7, r0, asr #6
+2a80cc	44794915	ldrbtmi	r4, [r9], #-2325
+2a80d0	f9d0f7fe	.word	0xf9d0f7fe
+2a80d4	3130f8d4	ldrsblo	pc, [r0, -r4]!
+2a80d8	6340f423	movtvs	pc, #0x423
+2a80dc	3130f8c4	teqlo	r0, r4, asr #17
+2a80e0	2a041e6a	bhs	0x3afa90 <error_g0017+0x8734>
+2a80e4	e8dfd817	ldm	pc, {r0, r1, r2, r4, r11, r12, lr, pc} ^
+2a80e8	160ff002	strne	pc, [pc], -r2
+2a80ec	001c0a03	andseq	r0, r12, r3, lsl #20
+2a80f0	3130f8d4	ldrsblo	pc, [r0, -r4]!
+2a80f4	7340f423	movtvc	pc, #0x423
+2a80f8	7380f443	orrvc	pc, r0, #1124073472
+2a80fc	f8d4e00f	.word	0xf8d4e00f
+2a8100	f4433130	vst4.8	{d19, d21, d23, d25}, [r3:256], r0
+2a8104	e00a7340	and	r7, r10, r0, asr #6
+2a8108	3130f8d4	ldrsblo	pc, [r0, -r4]!
+2a810c	7340f423	movtvc	pc, #0x423
+2a8110	7300f443	movwvc	pc, #0x443
+2a8114	f8d4e003	.word	0xf8d4e003
+2a8118	f4233130	vld4.8	{d3, d5, d7, d9}, [r3:256], r0
+2a811c	f8c47340	.word	0xf8c47340
+2a8120	bd383130	ldclt	p1, c3, [r8, #-192]!
+2a8124	000e48c0	andeq	r4, lr, r0, asr #17
+2a8128	ed9db530	ldc	p5, c11, [sp, #192]
+2a812c	46047b03	strmi	r7, [r4], -r3, lsl #22
+2a8130	b92ab328	stmdblt	r10!, {r3, r5, r8, r9, r12, sp, pc}
+2a8134	e8bd4912	pop	{r1, r4, r8, r11, lr}
+2a8138	44794030	ldrbtmi	r4, [r9], #-48
+2a813c	b99af7fe	ldmiblt	r10, {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r12, sp, lr, pc}
+2a8140	0134f8d0	ldrsbeq	pc, [r4, -r0]!
+2a8144	7bc7eeb7	blvc	0xff4a3c28 <b2_toiTime+0xfffffffffed4a784>
+2a8148	bf142b00	svclt	#0x142b00
+2a814c	7380f44f	orrvc	pc, r0, #1325400064
+2a8150	f0402300	.word	0xf0402300
+2a8154	f8c40080	.word	0xf8c40080
+2a8158	68080134	stmdavs	r8, {r2, r4, r5, r8}
+2a815c	01fcf8c4	mvnseq	pc, r4, asr #17
+2a8160	f8c46848	.word	0xf8c46848
+2a8164	89090200	stmdbhi	r9, {r9}
+2a8168	7a7eed84	bvc	0x2263780 <b2_toiTime+0x1b0a2dc>
+2a816c	21f4f884	mvnshs	pc, r4, lsl #17
+2a8170	2134f8d4	ldrsbhs	pc, [r4, -r4]!
+2a8174	1204f8a4	andne	pc, r4, #164, #16
+2a8178	f8c4431a	.word	0xf8c4431a
+2a817c	bd302134	ldclt	p1, c2, [r0, #-208]!
+2a8180	000e487d	andeq	r4, lr, sp, ror r8
+2a8184	f8d0b128	.word	0xf8d0b128
+2a8188	f4433134	vst4.8	{d19, d21, d23, d25}, [r3:256], r4
+2a818c	f8c06380	.word	0xf8c06380
+2a8190	47703134	.word	0x47703134
+2a8194	f8d0b128	.word	0xf8d0b128
+2a8198	f4433130	vst4.8	{d19, d21, d23, d25}, [r3:256], r0
+2a819c	f8c00380	.word	0xf8c00380
+2a81a0	47703130	.word	0x47703130
+2a81a4	4ff0e92d	svcmi	#0xf0e92d
+2a81a8	4615b08d	ldrmi	r11, [r5], -sp, lsl #1
+2a81ac	9a17460e	bls	0x8799ec <b2_toiTime+0x120548>
+2a81b0	93054604	movwls	r4, #0x5604
+2a81b4	92069f16	andls	r9, r6, #22, #30
+2a81b8	f0002800	.word	0xf0002800
+2a81bc	f8d082b9	.word	0xf8d082b9
+2a81c0	f0433134	.word	0xf0433134
+2a81c4	f8c00340	.word	0xf8c00340
+2a81c8	b11a3134	tstlt	r10, r4, lsr r1
+2a81cc	429d9b05	addsmi	r9, sp, #5120
+2a81d0	e21ddc0d	ands	sp, sp, #3328
+2a81d4	f7fe4629	.word	0xf7fe4629
+2a81d8	9b06fd63	blls	0x46776c <g_RomDisk+0x6ff4c>
+2a81dc	02b4f8c4	adcseq	pc, r4, #196, #16
+2a81e0	daf342ab	ble	0xfff78c94 <b2_toiTime+0xffffffffff81f7f0>
+2a81e4	22b4f8d4	adcshs	pc, r4, #212, #16
+2a81e8	330154d3	movwlo	r5, #0x14d3
+2a81ec	4620e7f8	qsub8mi	lr, r0, r8
+2a81f0	2f004629	svchs	#0x4629
+2a81f4	80e9f000	rschi	pc, r9, r0
+2a81f8	fd52f7fe	ldc2l	p7, c15, [r2, #-1016]
+2a81fc	f8c42300	.word	0xf8c42300
+2a8200	42ab02f8	adcmi	r0, r11, #248, #4
+2a8204	f8d4da04	.word	0xf8d4da04
+2a8208	54d322f8	ldrbpl	r2, [r3], #760
+2a820c	e7f83301	ldrb	r3, [r8, r1, lsl #6]!
+2a8210	f8dd1e6a	.word	0xf8dd1e6a
+2a8214	4552a014	ldrbmi	r10, [r2, #-0x14]
+2a8218	9f06da07	svcls	#0x6da07
+2a821c	4633bb37	shasxmi	r11, r3, r7
+2a8220	9a064629	bls	0x439acc <g_RomDisk+0x422ac>
+2a8224	0e03f04f	cdpeq	p0, #0x0, c15, c3, c15, #0x2
+2a8228	2300e048	movwhs	lr, #0x48
+2a822c	0e01f04f	cdpeq	p0, #0x0, c15, c1, c15, #0x2
+2a8230	da164293	ble	0x838c84 <b2_toiTime+0xdf7e0>
+2a8234	02f8f8d4	rscseq	pc, r8, #212, #16
+2a8238	f8101c59	.word	0xf8101c59
+2a823c	f810c003	.word	0xf810c003
+2a8240	f8378001	rfeda	r7!
+2a8244	f837a01c	rfeda	r7!
+2a8248	45ca9018	strbmi	r9, [r10, #0x18]
+2a824c	f800d207	.word	0xf800d207
+2a8250	f04f8003	.word	0xf04f8003
+2a8254	f8d40e00	.word	0xf8d40e00
+2a8258	f80332f8	.word	0xf80332f8
+2a825c	460bc001	strmi	r12, [r11], -r1
+2a8260	f1bee7e6	.word	0xf1bee7e6
+2a8264	d1d80f00	bicsle	r0, r8, r0, lsl #30
+2a8268	e7d23a01	ldrb	r3, [r2, r1, lsl #20]
+2a826c	22032300	andhs	r2, r3, #0, #6
+2a8270	42bb9f05	adcsmi	r9, r11, #5, #30
+2a8274	f8d4da29	.word	0xf8d4da29
+2a8278	f8dd12f8	.word	0xf8dd12f8
+2a827c	5cc8b014	stclpl	p0, c11, [r8], {20}
+2a8280	db104558	blle	0x6b97e8 <g_SWFlinevertbuff+0x66720>
+2a8284	f8dd3d01	.word	0xf8dd3d01
+2a8288	5d48c014	stclpl	p0, c12, [r8, #-80]
+2a828c	daf94560	ble	0xf9814 <_ZN7CFontGM8CreateItEv+0x1b4>
+2a8290	6105fb02	.word	0x6105fb02
+2a8294	f003fb02	.word	0xf003fb02
+2a8298	e000f8b1	strh	pc, [r0], -r1
+2a829c	f8261837	.word	0xf8261837
+2a82a0	7889e000	stmvc	r9, {sp, lr, pc}
+2a82a4	330170b9	movwlo	r7, #0x10b9
+2a82a8	f8d4e7e2	.word	0xf8d4e7e2
+2a82ac	f8dd02f8	.word	0xf8dd02f8
+2a82b0	5c87a014	stcpl	p0, c10, [r7], {20}
+2a82b4	da114557	ble	0x6f9818 <g_SWFvertbuff+0x26750>
+2a82b8	33033201	movwlo	r3, #0x3201
+2a82bc	c014f8dd	ldrsbgt	pc, [r4], -sp
+2a82c0	dbf24562	blle	0xfff39850 <b2_toiTime+0xffffffffff7e03ac>
+2a82c4	42ab2300	adcmi	r2, r11, #0, #6
+2a82c8	4620db2a	strtmi	sp, [r0], -r10, lsr #22
+2a82cc	12f8f8d4	rscsne	pc, r8, #212, #16
+2a82d0	fd14f7fe	ldc2	p7, c15, [r4, #-1016]
+2a82d4	f8c42300	.word	0xf8c42300
+2a82d8	e19832f8	ldrsh	r3, [r8, r8]
+2a82dc	f8dd3901	.word	0xf8dd3901
+2a82e0	5c47b014	mcrrpl	p0, #0x1, r11, r7, c4
+2a82e4	daf9455f	ble	0xf9868 <_ZN7CFontGM8CreateItEv+0x208>
+2a82e8	f701fb0e	.word	0xf701fb0e
+2a82ec	a000f8b3	strhge	pc, [r0], -r3
+2a82f0	f81619f0	.word	0xf81619f0
+2a82f4	f8909007	.word	0xf8909007
+2a82f8	f890c002	.word	0xf890c002
+2a82fc	f8268001	.word	0xf8268001
+2a8300	789fa007	ldmvc	pc, {r0, r1, r2, sp, pc}
+2a8304	f8837087	.word	0xf8837087
+2a8308	f8839000	.word	0xf8839000
+2a830c	f8838001	.word	0xf8838001
+2a8310	f8d4c002	.word	0xf8d4c002
+2a8314	544202b4	strbpl	r0, [r2], #-692
+2a8318	02b4f8d4	adcseq	pc, r4, #212, #16
+2a831c	e7cb5481	strb	r5, [r11, r1, lsl #9]
+2a8320	22b4f8d4	adcshs	pc, r4, #212, #16
+2a8324	eb029f05	bl	0x34ff40
+2a8328	5cd20903	ldclpl	p9, c0, [r2], {3}
+2a832c	db4a42ba	blle	0x1538e1c <b2_toiTime+0xddf978>
+2a8330	0242eb02	subeq	lr, r2, #2048
+2a8334	18b17830	ldmne	r1!, {r4, r5, r11, r12, sp, lr}
+2a8338	f8162700	.word	0xf8162700
+2a833c	f891e002	.word	0xf891e002
+2a8340	7872c001	ldmdavc	r2!, {r0, lr, pc} ^
+2a8344	000eebc0	andeq	lr, lr, r0, asr #23
+2a8348	bfb82800	svclt	#0xb82800
+2a834c	f8914240	.word	0xf8914240
+2a8350	ebc28002	bl	0xff348360 <b2_toiTime+0xfffffffffebeeebc>
+2a8354	2101020c	.word	0x2101020c
+2a8358	bfb82a00	svclt	#0xb82a00
+2a835c	44104252	ldrmi	r4, [r0], #-594
+2a8360	ebc278b2	bl	0xff346630 <b2_toiTime+0xfffffffffebed18c>
+2a8364	2a000208	bhs	0x2a8b8c <png_do_unpack+0x5e>
+2a8368	4252bfb8	subsmi	r11, r2, #184, #30
+2a836c	46324410	shadd16mi	r4, r2, r0
+2a8370	a014f8dd	ldrsbge	pc, [r4], -sp
+2a8374	da244551	ble	0xbb98c0 <b2_toiTime+0x46041c>
+2a8378	b003f892	mullt	r3, r2, r8
+2a837c	f8923203	.word	0xf8923203
+2a8380	ebcba001	bl	0xff59038c <b2_toiTime+0xfffffffffee36ee8>
+2a8384	ebca0b0e	bl	0xff52afc4 <b2_toiTime+0xfffffffffedd1b20>
+2a8388	f1bb0a0c	.word	0xf1bb0a0c
+2a838c	bfb80f00	svclt	#0xb80f00
+2a8390	0b00f1cb	bleq	0x2e4ac4 <_ZNK11b2GearJoint8GetRatioEv+0x1c0>
+2a8394	0f00f1ba	svceq	#0xf1ba
+2a8398	f1cabfb8	.word	0xf1cabfb8
+2a839c	44d30a00	ldrbmi	r0, [r3], #2560
+2a83a0	a002f892	mulge	r2, r2, r8
+2a83a4	0a08ebca	beq	0x4e32d4 <SrcVerts+0x40318>
+2a83a8	0f00f1ba	svceq	#0xf1ba
+2a83ac	f1cabfb8	.word	0xf1cabfb8
+2a83b0	44da0a00	ldrbmi	r0, [r10], #2560
+2a83b4	bfac4582	svclt	#0xac4582
+2a83b8	460f4682	strmi	r4, [pc], -r2, lsl #13
+2a83bc	31014650	qaddlo	r4, r0, r1
+2a83c0	f889e7d6	.word	0xf889e7d6
+2a83c4	33017000	movwlo	r7, #0x1000
+2a83c8	f7fee77d	.word	0xf7fee77d
+2a83cc	4629fc69	strtmi	pc, [r9], -r9, ror #24
+2a83d0	02fcf8c4	rscseq	pc, r12, #196, #16
+2a83d4	f7fe4620	.word	0xf7fe4620
+2a83d8	f8c4fc63	.word	0xf8c4fc63
+2a83dc	42af0300	adcmi	r0, pc, #0, #6
+2a83e0	f8d4da08	.word	0xf8d4da08
+2a83e4	b2fb22fc	rscslt	r2, r11, #252, #4
+2a83e8	f8d455d3	.word	0xf8d455d3
+2a83ec	55d32300	ldrbpl	r2, [r3, #0x300]
+2a83f0	e7f43701	ldrb	r3, [r4, r1, lsl #14]!
+2a83f4	f6404620	.word	0xf6404620
+2a83f8	f7fe4104	.word	0xf7fe4104
+2a83fc	462ffc6d	strtmi	pc, [pc], -sp, ror #24
+2a8400	0800f04f	stmdaeq	r0, {r0, r1, r2, r3, r6, r12, sp, lr, pc}
+2a8404	0b60f04f	bleq	0x1ae4548 <b2_toiTime+0x138b0a4>
+2a8408	b020f8cd	eorlt	pc, r0, sp, asr #17
+2a840c	46b19007	ldrtmi	r9, [r1], r7
+2a8410	0a00f04f	beq	0x2e4554 <_ZN11b2GearJoint23InitVelocityConstraintsERK12b2SolverData+0x4f0>
+2a8414	92091e7a	andls	r1, r9, #1952
+2a8418	459a9b09	ldrmi	r9, [r10, #0xb09]
+2a841c	f10ada49	.word	0xf10ada49
+2a8420	46cb0a01	strbmi	r0, [r11], r1, lsl #20
+2a8424	3cfff10a	ldcllo	p1, c15, [pc], #40
+2a8428	42bb4653	adcsmi	r4, r11, #87031808
+2a842c	f89bd03b	.word	0xf89bd03b
+2a8430	f8992003	.word	0xf8992003
+2a8434	f8991000	.word	0xf8991000
+2a8438	1a890001	bne	0xfe4e8444 <b2_toiTime+0xfffffffffdd8efa0>
+2a843c	2004f89b	mulhs	r4, r11, r8
+2a8440	bfb82900	svclt	#0xb82900
+2a8444	1a824249	bne	0xfe338d70 <b2_toiTime+0xfffffffffdbdf8cc>
+2a8448	0002f899	muleq	r2, r9, r8
+2a844c	bfb82a00	svclt	#0xb82a00
+2a8450	440a4252	strmi	r4, [r10], #-594
+2a8454	1005f89b	mulne	r5, r11, r8
+2a8458	98081a41	stmdals	r8, {r0, r6, r9, r11, r12}
+2a845c	bfb82900	svclt	#0xb82900
+2a8460	440a4249	strmi	r4, [r10], #-585
+2a8464	dc1a4282	.word	0xdc1a4282
+2a8468	21084620	.word	0x21084620
+2a846c	93029204	movwls	r9, #0x2204
+2a8470	c00cf8cd	andgt	pc, r12, sp, asr #17
+2a8474	fc4ff7fe	mcrr2	p7, #0xf, pc, pc, c14
+2a8478	9b029a04	blls	0x34ec90
+2a847c	c00cf8dd	.word	0xc00cf8dd
+2a8480	28004680	stmdahs	r0, {r7, r9, r10, lr}
+2a8484	8151f000	cmphi	r1, r0
+2a8488	f8509807	.word	0xf8509807
+2a848c	f8881022	.word	0xf8881022
+2a8490	f888c004	.word	0xf888c004
+2a8494	f8c83005	.word	0xf8c83005
+2a8498	f8401000	.word	0xf8401000
+2a849c	33018022	movwlo	r8, #0x1022
+2a84a0	0b03f10b	bleq	0x3a48d4 <af_blue_strings+0x25b0>
+2a84a4	f109e7c1	.word	0xf109e7c1
+2a84a8	f1b80903	.word	0xf1b80903
+2a84ac	d1b30f00	.word	0xd1b30f00
+2a84b0	f1b8e13b	.word	0xf1b8e13b
+2a84b4	d0700f00	rsbsle	r0, r0, r0, lsl #30
+2a84b8	9a072000	bls	0x4704c0 <g_RomDisk+0x78ca0>
+2a84bc	1020f852	eorne	pc, r0, r2, asr r8
+2a84c0	d0652900	rsble	r2, r5, r0, lsl #18
+2a84c4	22fcf8d4	rscshs	pc, r12, #212, #16
+2a84c8	e004f891	mul	r4, r1, r8
+2a84cc	300ef812	andlo	pc, lr, r2, lsl r8
+2a84d0	da5842bb	ble	0x18b8fc4 <b2_toiTime+0x115fb20>
+2a84d4	b005f891	mullt	r5, r1, r8
+2a84d8	300bf812	andlo	pc, r11, r2, lsl r8
+2a84dc	da5242bb	ble	0x1738fd0 <b2_toiTime+0xfdfb2c>
+2a84e0	f10707fb	.word	0xf10707fb
+2a84e4	f04f37ff	.word	0xf04f37ff
+2a84e8	bf560a03	svclt	#0x560a03
+2a84ec	4673465b	uhsaxmi	r4, r3, r11
+2a84f0	f81246f3	.word	0xf81246f3
+2a84f4	fb0ae003	blx	0x56050a <g_SWFlineaavertbuff+0xd442>
+2a84f8	eb0e6207	bl	0x640d1c <g_SWFaavertbuff+0x6dc54>
+2a84fc	eb060e4e	bl	0x42be3c <g_RomDisk+0x3461c>
+2a8500	f8b20c0e	rfeia	r2!
+2a8504	f8269000	.word	0xf8269000
+2a8508	7892900e	ldmvc	r2, {r1, r2, r3, r12, pc}
+2a850c	2002f88c	andhs	pc, r2, r12, lsl #17
+2a8510	b1c29a06	biclt	r9, r2, r6, lsl #20
+2a8514	e2fcf8d4	rscs	pc, r12, #212, #16
+2a8518	2300f8d4	movwhs	pc, #0x8d4
+2a851c	c003f81e	andgt	pc, r3, lr, lsl r8
+2a8520	f80e5dd2	.word	0xf80e5dd2
+2a8524	f8d4c002	.word	0xf8d4c002
+2a8528	f8d4e300	.word	0xf8d4e300
+2a852c	f81e22fc	.word	0xf81e22fc
+2a8530	5cd2c007	ldclpl	p0, c12, [r2], {7}
+2a8534	c002f80e	andgt	pc, r2, lr, lsl #16
+2a8538	22fcf8d4	rscshs	pc, r12, #212, #16
+2a853c	f8d454d7	.word	0xf8d454d7
+2a8540	55d32300	ldrbpl	r2, [r3, #0x300]
+2a8544	f8dde01f	.word	0xf8dde01f
+2a8548	45aee018	strmi	lr, [lr, #0x18]!
+2a854c	f8d4dae2	.word	0xf8d4dae2
+2a8550	f8d4c2fc	.word	0xf8d4c2fc
+2a8554	f81c22b4	.word	0xf81c22b4
+2a8558	f8129003	.word	0xf8129003
+2a855c	45caa00e	strbmi	r10, [r10, #0xe]
+2a8560	f81cbf04	.word	0xf81cbf04
+2a8564	f802c00b	.word	0xf802c00b
+2a8568	f8d4c00e	.word	0xf8d4c00e
+2a856c	f81cc2b4	.word	0xf81cc2b4
+2a8570	42ba200e	adcsmi	r2, r10, #14
+2a8574	f8d4d104	.word	0xf8d4d104
+2a8578	5cd222fc	ldclpl	p2, c2, [r2], {252}
+2a857c	200ef80c	andhs	pc, lr, r12, lsl #16
+2a8580	0e01f10e	cdpeq	p1, #0x0, c15, c1, c14, #0x0
+2a8584	9b05e7e1	blls	0x422510 <g_RomDisk+0x2acf0>
+2a8588	dd06429f	stcle	p2, c4, [r6, #-636]
+2a858c	e7976809	ldr	r6, [r7, r9, lsl #16]
+2a8590	a020f8dd	.word	0xa020f8dd
+2a8594	45503001	ldrbmi	r3, [r0, #-0x1]
+2a8598	f04fdd8f	.word	0xf04fdd8f
+2a859c	f6400900	.word	0xf6400900
+2a85a0	464b4b04	strbmi	r4, [r11], -r4, lsl #22
+2a85a4	c01cf8dd	ldrsbgt	pc, [r12], -sp
+2a85a8	1009f85c	andne	pc, r9, r12, asr r8
+2a85ac	f8d1b159	.word	0xf8d1b159
+2a85b0	46208000	strtmi	r8, [r0], -r0
+2a85b4	f7fe9302	.word	0xf7fe9302
+2a85b8	9b02fba1	blls	0x367444 <_ZTS12CDS_Priority+0x949c>
+2a85bc	0f00f1b8	svceq	#0xf1b8
+2a85c0	4641d001	strbmi	sp, [r1], -r1
+2a85c4	9a07e7f3	bls	0x4a2598 <g_SrcBlend+0x198>
+2a85c8	0a00f04f	beq	0x2e470c <_ZN11b2GearJointC2EPK14b2GearJointDef+0x184>
+2a85cc	3009f842	andlo	pc, r9, r2, asr #16
+2a85d0	0904f109	stmdbeq	r4, {r0, r3, r8, r12, sp, lr, pc}
+2a85d4	d1e545d9	ldrdle	r4, r5, [r5, #89]!
+2a85d8	b014f8dd	ldrsblt	pc, [r4], -sp
+2a85dc	455f9b08	ldrbmi	r9, [pc, #-0xb08]
+2a85e0	0360f103	msreq	SPSR, #3221225472
+2a85e4	f73f9308	.word	0xf73f9308
+2a85e8	4611af12	sadd16mi	r10, r1, r2
+2a85ec	f7fe4620	.word	0xf7fe4620
+2a85f0	4620fb85	strtmi	pc, [r0], -r5, lsl #23
+2a85f4	1300f8d4	movwne	pc, #0x8d4
+2a85f8	fb80f7fe	blx	0xfe2e65fa <b2_toiTime+0xfffffffffdb8d156>
+2a85fc	f8d44620	.word	0xf8d44620
+2a8600	f7fe12fc	.word	0xf7fe12fc
+2a8604	f8c4fb7b	.word	0xf8c4fb7b
+2a8608	f8c4a300	.word	0xf8c4a300
+2a860c	9d05a2fc	stcls	p2, c10, [r5, #-1008]
+2a8610	31d8f8d4	ldrsblo	pc, [r8, #132]
+2a8614	f8c4b90b	.word	0xf8c4b90b
+2a8618	9a0661d8	bls	0x440d80 <g_RomDisk+0x49560>
+2a861c	51dcf8a4	bicspl	pc, r12, r4, lsr #17
+2a8620	f0002a00	.word	0xf0002a00
+2a8624	f44f8085	vst4.32	{d24, d25, d26, d27}, [pc], r5
+2a8628	46204100	strtmi	r4, [r0], -r0, lsl #2
+2a862c	fb54f7fe	blx	0x17e662e <b2_toiTime+0x108d18a>
+2a8630	4100f44f	.word	0x4100f44f
+2a8634	02b0f8c4	adcseq	pc, r0, #196, #16
+2a8638	f7fe4620	.word	0xf7fe4620
+2a863c	21fffb31	mvnshs	pc, r1, lsr r11
+2a8640	4200f44f	andmi	pc, r0, #1325400064
+2a8644	f60d4681	.word	0xf60d4681
+2a8648	f04fefb4	.word	0xf04fefb4
+2a864c	46e00c00	strbtmi	r0, [r0], r0, lsl #24
+2a8650	da6345a8	ble	0x1b79cf8 <b2_toiTime+0x1420854>
+2a8654	300cf816	andlo	pc, r12, r6, lsl r8
+2a8658	930508db	movwls	r0, #0x58db
+2a865c	030ceb06	movweq	lr, #0xcb06
+2a8660	789b785a	ldmvc	r11, {r1, r3, r4, r6, r11, r12, sp, lr}
+2a8664	920608d2	andls	r0, r6, #13762560
+2a8668	930708db	movwls	r0, #0x78db
+2a866c	9f052300	svcls	#0x52300
+2a8670	dd0442bb	stcle	p2, c4, [r4, #-748]
+2a8674	0a03ebc7	beq	0x3a3598 <af_blue_strings+0x1274>
+2a8678	a004f8cd	andge	pc, r4, sp, asr #17
+2a867c	f8dde005	.word	0xf8dde005
+2a8680	ebc3b014	bl	0xff3946d8 <b2_toiTime+0xfffffffffec3b234>
+2a8684	f8cd0b0b	.word	0xf8cd0b0b
+2a8688	2200b004	andhs	r11, r0, #4
+2a868c	90080298	mulls	r8, r8, r2
+2a8690	f8dd9906	.word	0xf8dd9906
+2a8694	428aa004	addmi	r10, r10, #4
+2a8698	b004f8dd	.word	0xb004f8dd
+2a869c	ebc1bfce	bl	0xff3185dc <b2_toiTime+0xfffffffffebbf138>
+2a86a0	9f060002	svcls	#0x60002
+2a86a4	0007ebc2	andeq	lr, r7, r2, asr #23
+2a86a8	44822700	strmi	r2, [r2], #1792
+2a86ac	bfa84558	svclt	#0xa84558
+2a86b0	98084683	stmdals	r8, {r0, r1, r7, r9, r10, lr}
+2a86b4	a024f8cd	eorge	pc, r4, sp, asr #17
+2a86b8	1042ea40	subne	lr, r2, r0, asr #20
+2a86bc	b028f8cd	eorlt	pc, r8, sp, asr #17
+2a86c0	f8dd900b	.word	0xf8dd900b
+2a86c4	990ba01c	stmdbls	r11, {r2, r3, r4, sp, pc}
+2a86c8	ea474557	b	0x1479c2c <b2_toiTime+0xd20788>
+2a86cc	990a0001	stmdbls	r10, {r0}
+2a86d0	f8ddbfd6	.word	0xf8ddbfd6
+2a86d4	ebcab01c	bl	0xff55474c <b2_toiTime+0xfffffffffedfb2a8>
+2a86d8	ebc70a07	bl	0xff46aefc <b2_toiTime+0xfffffffffed11a58>
+2a86dc	f8dd0a0b	.word	0xf8dd0a0b
+2a86e0	458ab024	strmi	r11, [r10, #0x24]
+2a86e4	44d3bfac	ldrbmi	r11, [r3], #4012
+2a86e8	44da448b	ldrbmi	r4, [r10], #1163
+2a86ec	b000f819	andlt	pc, r0, r9, lsl r8
+2a86f0	da0545da	ble	0x3f9e60 <g_RomDisk+0x2640>
+2a86f4	a000f809	andge	pc, r0, r9, lsl #16
+2a86f8	12b0f8d4	adcsne	pc, r0, #212, #16
+2a86fc	8000f801	andhi	pc, r0, r1, lsl #16
+2a8700	2f203701	svchs	#0x203701
+2a8704	3201d1dd	andlo	sp, r1, #1073741879
+2a8708	d1c12a20	bicle	r2, r1, r0, lsr #20
+2a870c	2b203301	blhs	0xab5318 <b2_toiTime+0x35be74>
+2a8710	f108d1ad	.word	0xf108d1ad
+2a8714	f10c0801	.word	0xf10c0801
+2a8718	e7990c03	ldr	r0, [r9, r3, lsl #24]
+2a871c	46494620	strbmi	r4, [r9], -r0, lsr #12
+2a8720	e8bdb00d	pop	{r0, r2, r3, r12, sp, pc}
+2a8724	f7fe4ff0	.word	0xf7fe4ff0
+2a8728	f04fbae9	.word	0xf04fbae9
+2a872c	e7340800	ldr	r0, [r4, -r0, lsl #16]!
+2a8730	e8bdb00d	pop	{r0, r2, r3, r12, sp, pc}
+2a8734	00008ff0	strdeq	r8, r9, [r0], -r0
+2a8738	2b16ec43	blhs	0x86384c <b2_toiTime+0x10a3a8>
+2a873c	5b00ed9d	blpl	0x2e3db8 <_ZN11b2GearJoint24SolvePositionConstraintsERK12b2SolverData+0x1b4>
+2a8740	eeb7b300	cdp	p3, #0xb, c11, c7, c0, #0x0
+2a8744	ed9f7b00	vldr	d7, [pc]
+2a8748	ee164b10	vmov.32	r4, d6[0]
+2a874c	eeb07b05	vmov.f64	d7, #2.625000e+00
+2a8750	eeb47bc7	vcmpe.f64	d7, d7
+2a8754	eef17bc4	vsqrt.f64	d23, d4
+2a8758	dc05fa10	.word	0xdc05fa10
+2a875c	31eaf890	.word	0x31eaf890
+2a8760	d401075a	strle	r0, [r1], #-1882
+2a8764	d1052b03	.word	0xd1052b03
+2a8768	3134f8d0	ldrsblo	pc, [r4, -r0]!
+2a876c	5300f443	movwpl	pc, #0x443
+2a8770	3134f8c0	teqlo	r4, r0, asr #17
+2a8774	5bc5eeb7	blpl	0xff424258 <b2_toiTime+0xfffffffffeccadb4>
+2a8778	6bc6eeb7	blvs	0xff46425c <b2_toiTime+0xfffffffffed0adb8>
+2a877c	5a88ed80	bpl	0xfe4e3d84 <b2_toiTime+0xfffffffffdd8a8e0>
+2a8780	6a89ed80	bvs	0xfe523d88 <b2_toiTime+0xfffffffffddca8e4>
+2a8784	bf004770	svclt	#0x4770
+2a8788	9999999a	ldmibls	r9, {r1, r3, r4, r7, r8, r11, r12, pc}
+2a878c	3fa99999	svclo	#0xa99999
+2a8790	f8d0b168	.word	0xf8d0b168
+2a8794	f0433134	.word	0xf0433134
+2a8798	f4437300	vst2.8	{d23, d24, d25, d26}, [r3], r0
+2a879c	f8c05380	.word	0xf8c05380
+2a87a0	f8d03134	.word	0xf8d03134
+2a87a4	f0233130	.word	0xf0233130
+2a87a8	f8c00340	.word	0xf8c00340
+2a87ac	47703130	.word	0x47703130

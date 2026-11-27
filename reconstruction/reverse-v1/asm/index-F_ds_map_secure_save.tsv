@@ -1,0 +1,99 @@
+fb1c0	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+fb1c4	e24dd008	sub	sp, sp, #8
+fb1c8	e3a04000	mov	r4, #0
+fb1cc	e580400c	str	r4, [r0, #0xc]
+fb1d0	e59d5028	ldr	r5, [sp, #0x28]
+fb1d4	e1a01004	mov	r1, r4
+fb1d8	e5804000	str	r4, [r0]
+fb1dc	e5804004	str	r4, [r0, #0x4]
+fb1e0	e1a00005	mov	r0, r5
+fb1e4	ebff4da1	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+fb1e8	e3a01001	mov	r1, #1
+fb1ec	e1a06000	mov	r6, r0
+fb1f0	e1a00005	mov	r0, r5
+fb1f4	ebff54b5	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+fb1f8	e1a09000	mov	r9, r0
+fb1fc	ebffff05	bl	0xfae18 <_Z15F_DsQueueCreateR6RValueP9CInstanceS2_iPS_+0x108>
+fb200	e28d1008	add	r1, sp, #8
+fb204	e5214004	str	r4, [r1, #-0x4]!
+fb208	e1a05000	mov	r5, r0
+fb20c	e1a00006	mov	r0, r6
+fb210	eb0103f0	bl	0x13c1d8 <_Z11DSMapToJSONiPPc>
+fb214	e59d0004	ldr	r0, [sp, #0x4]
+fb218	e0503004	subs	r3, r0, r4
+fb21c	e2737000	rsbs	r7, r3, #0
+fb220	e0b77003	adcs	r7, r7, r3
+fb224	e1570004	cmp	r7, r4
+fb228	1a000040	bne	0xfb330 <_Z17F_DsMapSecureSaveR6RValueP9CInstanceS2_iPS_+0x170>
+fb22c	ebfeecc1	bl	0xb6538 <strlen@plt>
+fb230	e30a3aab	movw	r3, #0xaaab
+fb234	e34a3aaa	movt	r3, #0xaaaa
+fb238	e2800001	add	r0, r0, #1
+fb23c	e1a00100	lsl	r0, r0, #2
+fb240	e0802093	umull	r2, r0, r3, r0
+fb244	e1a000a0	lsr	r0, r0, #1
+fb248	e2800004	add	r0, r0, #4
+fb24c	e59f60f0	ldr	r6, [pc, #0xf0]
+fb250	e3a03001	mov	r3, #1
+fb254	e300271b	movw	r2, #0x71b
+fb258	e08f6006	add	r6, pc, r6
+fb25c	e1a01006	mov	r1, r6
+fb260	eb060704	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+fb264	e59d8004	ldr	r8, [sp, #0x4]
+fb268	e1a04000	mov	r4, r0
+fb26c	e1a00008	mov	r0, r8
+fb270	ebfeecb0	bl	0xb6538 <strlen@plt>
+fb274	e1a02004	mov	r2, r4
+fb278	e2801001	add	r1, r0, #1
+fb27c	e1a00008	mov	r0, r8
+fb280	eb035af6	bl	0x1d1e60 <_Z13base64_encodePKcjPc>
+fb284	e1a00005	mov	r0, r5
+fb288	ebfeecaa	bl	0xb6538 <strlen@plt>
+fb28c	e1a08000	mov	r8, r0
+fb290	e1a00004	mov	r0, r4
+fb294	ebfeeca7	bl	0xb6538 <strlen@plt>
+fb298	e3a03001	mov	r3, #1
+fb29c	e1a01006	mov	r1, r6
+fb2a0	e3a02e72	mov	r2, #1824
+fb2a4	e0808008	add	r8, r0, r8
+fb2a8	e1a00008	mov	r0, r8
+fb2ac	eb0606f1	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+fb2b0	e1a06000	mov	r6, r0
+fb2b4	e1a00005	mov	r0, r5
+fb2b8	ebfeec9e	bl	0xb6538 <strlen@plt>
+fb2bc	e1a01005	mov	r1, r5
+fb2c0	e1a02000	mov	r2, r0
+fb2c4	e1a00006	mov	r0, r6
+fb2c8	ebfeecbb	bl	0xb65bc <memcpy@plt>
+fb2cc	e1a00005	mov	r0, r5
+fb2d0	ebfeec98	bl	0xb6538 <strlen@plt>
+fb2d4	e1a0a000	mov	r10, r0
+fb2d8	e1a00004	mov	r0, r4
+fb2dc	ebfeec95	bl	0xb6538 <strlen@plt>
+fb2e0	e1a01004	mov	r1, r4
+fb2e4	e1a02000	mov	r2, r0
+fb2e8	e086000a	add	r0, r6, r10
+fb2ec	ebfeecb2	bl	0xb65bc <memcpy@plt>
+fb2f0	e1a01006	mov	r1, r6
+fb2f4	e1a02008	mov	r2, r8
+fb2f8	e1a00009	mov	r0, r9
+fb2fc	eb0251ce	bl	0x18fa3c <_ZN8LoadSave9WriteFileEPKcS1_i>
+fb300	e1a00005	mov	r0, r5
+fb304	eb0603f1	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+fb308	e3570000	cmp	r7, #0
+fb30c	1a000001	bne	0xfb318 <_Z17F_DsMapSecureSaveR6RValueP9CInstanceS2_iPS_+0x158>
+fb310	e59d0004	ldr	r0, [sp, #0x4]
+fb314	eb0603ed	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+fb318	e1a00004	mov	r0, r4
+fb31c	eb0603eb	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+fb320	e1a00006	mov	r0, r6
+fb324	eb0603e9	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+fb328	e28dd008	add	sp, sp, #8
+fb32c	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+fb330	e59f3010	ldr	r3, [pc, #0x10]
+fb334	e3a00009	mov	r0, #9
+fb338	e08f3003	add	r3, pc, r3
+fb33c	e58d3004	str	r3, [sp, #0x4]
+fb340	eaffffc1	b	0xfb24c <_Z17F_DsMapSecureSaveR6RValueP9CInstanceS2_iPS_+0x8c>
+fb344	0023c944	eoreq	r12, r3, r4, asr #18
+fb348	0023c8bc	.word	0x0023c8bc

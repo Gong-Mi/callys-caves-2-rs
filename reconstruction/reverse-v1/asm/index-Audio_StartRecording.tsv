@@ -1,0 +1,254 @@
+21c700	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+21c704	e2505000	subs	r5, r0, #0
+21c708	e59f6394	ldr	r6, [pc, #0x394]
+21c70c	e24dd014	sub	sp, sp, #20
+21c710	e08f6006	add	r6, pc, r6
+21c714	ba0000c5	blt	0x21ca30 <_Z20Audio_StartRecordingi+0x330>
+21c718	e59f3388	ldr	r3, [pc, #0x388]
+21c71c	e7963003	ldr	r3, [r6, r3]
+21c720	e5932000	ldr	r2, [r3]
+21c724	e1550002	cmp	r5, r2
+21c728	ca0000c0	bgt	0x21ca30 <_Z20Audio_StartRecordingi+0x330>
+21c72c	aa0000a5	bge	0x21c9c8 <_Z20Audio_StartRecordingi+0x2c8>
+21c730	e5933004	ldr	r3, [r3, #0x4]
+21c734	e7937105	ldr	r7, [r3, r5, lsl #2]
+21c738	e3570000	cmp	r7, #0
+21c73c	0a0000a1	beq	0x21c9c8 <_Z20Audio_StartRecordingi+0x2c8>
+21c740	ebfffec3	bl	0x21c254 <_Z21GetRecorderFromDevicei>
+21c744	e2504000	subs	r4, r0, #0
+21c748	0a00001d	beq	0x21c7c4 <_Z20Audio_StartRecordingi+0xc4>
+21c74c	e5d4300c	ldrb	r3, [r4, #0xc]
+21c750	e3530000	cmp	r3, #0
+21c754	1a0000ba	bne	0x21ca44 <_Z20Audio_StartRecordingi+0x344>
+21c758	e5940010	ldr	r0, [r4, #0x10]
+21c75c	ebfa68fe	bl	0xb6b5c <alcCaptureStart@plt>
+21c760	e59f0344	ldr	r0, [pc, #0x344]
+21c764	e08f0000	add	r0, pc, r0
+21c768	ebffe618	bl	0x215fd0 <_Z7checkALPKc>
+21c76c	e59f233c	ldr	r2, [pc, #0x33c]
+21c770	e3a03001	mov	r3, #1
+21c774	e5c4300c	strb	r3, [r4, #0xc]
+21c778	e08f2002	add	r2, pc, r2
+21c77c	e5923050	ldr	r3, [r2, #0x50]
+21c780	e3530000	cmp	r3, #0
+21c784	da000063	ble	0x21c918 <_Z20Audio_StartRecordingi+0x218>
+21c788	e5922054	ldr	r2, [r2, #0x54]
+21c78c	e3a00000	mov	r0, #0
+21c790	e5921000	ldr	r1, [r2]
+21c794	e1540001	cmp	r4, r1
+21c798	0a000007	beq	0x21c7bc <_Z20Audio_StartRecordingi+0xbc>
+21c79c	e2800001	add	r0, r0, #1
+21c7a0	e1500003	cmp	r0, r3
+21c7a4	0a00005b	beq	0x21c918 <_Z20Audio_StartRecordingi+0x218>
+21c7a8	e5b21004	ldr	r1, [r2, #0x4]!
+21c7ac	e1540001	cmp	r4, r1
+21c7b0	1afffff9	bne	0x21c79c <_Z20Audio_StartRecordingi+0x9c>
+21c7b4	e3700001	cmn	r0, #1
+21c7b8	0a000056	beq	0x21c918 <_Z20Audio_StartRecordingi+0x218>
+21c7bc	e28dd014	add	sp, sp, #20
+21c7c0	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+21c7c4	e59f32e8	ldr	r3, [pc, #0x2e8]
+21c7c8	e08f3003	add	r3, pc, r3
+21c7cc	e5931050	ldr	r1, [r3, #0x50]
+21c7d0	e3510000	cmp	r1, #0
+21c7d4	da00000c	ble	0x21c80c <_Z20Audio_StartRecordingi+0x10c>
+21c7d8	e5933054	ldr	r3, [r3, #0x54]
+21c7dc	e5938000	ldr	r8, [r3]
+21c7e0	e3580000	cmp	r8, #0
+21c7e4	11a05004	movne	r5, r4
+21c7e8	1a000003	bne	0x21c7fc <_Z20Audio_StartRecordingi+0xfc>
+21c7ec	ea000054	b	0x21c944 <_Z20Audio_StartRecordingi+0x244>
+21c7f0	e5b32004	ldr	r2, [r3, #0x4]!
+21c7f4	e3520000	cmp	r2, #0
+21c7f8	0a000052	beq	0x21c948 <_Z20Audio_StartRecordingi+0x248>
+21c7fc	e2855001	add	r5, r5, #1
+21c800	e1550001	cmp	r5, r1
+21c804	e1a08105	lsl	r8, r5, #2
+21c808	1afffff8	bne	0x21c7f0 <_Z20Audio_StartRecordingi+0xf0>
+21c80c	e3a00014	mov	r0, #20
+21c810	e59fb2a0	ldr	r11, [pc, #0x2a0]
+21c814	eb017f42	bl	0x27c524 <_Znwj>
+21c818	e3a03000	mov	r3, #0
+21c81c	e08fb00b	add	r11, pc, r11
+21c820	e59b5050	ldr	r5, [r11, #0x50]
+21c824	e2959001	adds	r9, r5, #1
+21c828	e1a04000	mov	r4, r0
+21c82c	e5803000	str	r3, [r0]
+21c830	e5803004	str	r3, [r0, #0x4]
+21c834	e5803008	str	r3, [r0, #0x8]
+21c838	e5c0300c	strb	r3, [r0, #0xc]
+21c83c	e5803010	str	r3, [r0, #0x10]
+21c840	1a00006b	bne	0x21c9f4 <_Z20Audio_StartRecordingi+0x2f4>
+21c844	e59b3054	ldr	r3, [r11, #0x54]
+21c848	e3530000	cmp	r3, #0
+21c84c	0a000082	beq	0x21ca5c <_Z20Audio_StartRecordingi+0x35c>
+21c850	e3550000	cmp	r5, #0
+21c854	da000027	ble	0x21c8f8 <_Z20Audio_StartRecordingi+0x1f8>
+21c858	e59fc25c	ldr	r12, [pc, #0x25c]
+21c85c	e1a08009	mov	r8, r9
+21c860	e59f2258	ldr	r2, [pc, #0x258]
+21c864	e08fc00c	add	r12, pc, r12
+21c868	e58d600c	str	r6, [sp, #0xc]
+21c86c	e1a06005	mov	r6, r5
+21c870	e1a05004	mov	r5, r4
+21c874	e1a0400c	mov	r4, r12
+21c878	e08f2002	add	r2, pc, r2
+21c87c	e58d2008	str	r2, [sp, #0x8]
+21c880	e5930000	ldr	r0, [r3]
+21c884	e30f1eee	movw	r1, #0xfeee
+21c888	e34f1eee	movt	r1, #0xfeee
+21c88c	e30f2eee	movw	r2, #0xfeee
+21c890	e1500001	cmp	r0, r1
+21c894	e34f2eee	movt	r2, #0xfeee
+21c898	e1a0a108	lsl	r10, r8, #2
+21c89c	0a00000e	beq	0x21c8dc <_Z20Audio_StartRecordingi+0x1dc>
+21c8a0	e7931108	ldr	r1, [r3, r8, lsl #2]
+21c8a4	e083e00a	add	lr, r3, r10
+21c8a8	e3510000	cmp	r1, #0
+21c8ac	e1a00001	mov	r0, r1
+21c8b0	0a000009	beq	0x21c8dc <_Z20Audio_StartRecordingi+0x1dc>
+21c8b4	e5913000	ldr	r3, [r1]
+21c8b8	e1530002	cmp	r3, r2
+21c8bc	0a000003	beq	0x21c8d0 <_Z20Audio_StartRecordingi+0x1d0>
+21c8c0	eb018242	bl	0x27d1d0 <_ZdlPv>
+21c8c4	e59d3008	ldr	r3, [sp, #0x8]
+21c8c8	e593e054	ldr	lr, [r3, #0x54]
+21c8cc	e08ee00a	add	lr, lr, r10
+21c8d0	e3a02000	mov	r2, #0
+21c8d4	e58e2000	str	r2, [lr]
+21c8d8	e5943054	ldr	r3, [r4, #0x54]
+21c8dc	e59b2050	ldr	r2, [r11, #0x50]
+21c8e0	e2888001	add	r8, r8, #1
+21c8e4	e1580002	cmp	r8, r2
+21c8e8	baffffe4	blt	0x21c880 <_Z20Audio_StartRecordingi+0x180>
+21c8ec	e1a04005	mov	r4, r5
+21c8f0	e1a05006	mov	r5, r6
+21c8f4	e59d600c	ldr	r6, [sp, #0xc]
+21c8f8	e1a00003	mov	r0, r3
+21c8fc	eb017e73	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+21c900	e59f11bc	ldr	r1, [pc, #0x1bc]
+21c904	e3a02000	mov	r2, #0
+21c908	e08f1001	add	r1, pc, r1
+21c90c	e1a03002	mov	r3, r2
+21c910	e5812054	str	r2, [r1, #0x54]
+21c914	ea000040	b	0x21ca1c <_Z20Audio_StartRecordingi+0x31c>
+21c918	e59f31a8	ldr	r3, [pc, #0x1a8]
+21c91c	e59f11a8	ldr	r1, [pc, #0x1a8]
+21c920	e7963003	ldr	r3, [r6, r3]
+21c924	e08f1001	add	r1, pc, r1
+21c928	e5930000	ldr	r0, [r3]
+21c92c	e5903000	ldr	r3, [r0]
+21c930	e593300c	ldr	r3, [r3, #0xc]
+21c934	e12fff33	blx	r3
+21c938	e3e00000	mvn	r0, #0
+21c93c	e28dd014	add	sp, sp, #20
+21c940	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+21c944	e1a05008	mov	r5, r8
+21c948	e3a00014	mov	r0, #20
+21c94c	eb017ef4	bl	0x27c524 <_Znwj>
+21c950	e59f2178	ldr	r2, [pc, #0x178]
+21c954	e3a03000	mov	r3, #0
+21c958	e08f2002	add	r2, pc, r2
+21c95c	e5922054	ldr	r2, [r2, #0x54]
+21c960	e1a04000	mov	r4, r0
+21c964	e5803000	str	r3, [r0]
+21c968	e5803004	str	r3, [r0, #0x4]
+21c96c	e5803008	str	r3, [r0, #0x8]
+21c970	e5c0300c	strb	r3, [r0, #0xc]
+21c974	e5803010	str	r3, [r0, #0x10]
+21c978	e7820008	str	r0, [r2, r8]
+21c97c	e3a03c7d	mov	r3, #32000
+21c980	e3a01dfa	mov	r1, #16000
+21c984	e3012101	movw	r2, #0x1101
+21c988	e5970000	ldr	r0, [r7]
+21c98c	ebfa6875	bl	0xb6b68 <alcCaptureOpenDevice@plt>
+21c990	e5840010	str	r0, [r4, #0x10]
+21c994	e59f0138	ldr	r0, [pc, #0x138]
+21c998	e08f0000	add	r0, pc, r0
+21c99c	ebffe58b	bl	0x215fd0 <_Z7checkALPKc>
+21c9a0	e5943010	ldr	r3, [r4, #0x10]
+21c9a4	e3530000	cmp	r3, #0
+21c9a8	0a000033	beq	0x21ca7c <_Z20Audio_StartRecordingi+0x37c>
+21c9ac	e5970000	ldr	r0, [r7]
+21c9b0	e3a02dfa	mov	r2, #16000
+21c9b4	e3013101	movw	r3, #0x1101
+21c9b8	e884000c	stm	r4, {r2, r3}
+21c9bc	ebfafbc1	bl	0xdb8c8 <_Z8YYStrDupPKc>
+21c9c0	e5840008	str	r0, [r4, #0x8]
+21c9c4	eaffff63	b	0x21c758 <_Z20Audio_StartRecordingi+0x58>
+21c9c8	e59f1108	ldr	r1, [pc, #0x108]
+21c9cc	e1a02005	mov	r2, r5
+21c9d0	e59f30f0	ldr	r3, [pc, #0xf0]
+21c9d4	e08f1001	add	r1, pc, r1
+21c9d8	e7963003	ldr	r3, [r6, r3]
+21c9dc	e5930000	ldr	r0, [r3]
+21c9e0	e5903000	ldr	r3, [r0]
+21c9e4	e593300c	ldr	r3, [r3, #0xc]
+21c9e8	e12fff33	blx	r3
+21c9ec	e3e00000	mvn	r0, #0
+21c9f0	eaffff71	b	0x21c7bc <_Z20Audio_StartRecordingi+0xbc>
+21c9f4	e1b01109	lsls	r1, r9, #2
+21c9f8	0a000016	beq	0x21ca58 <_Z20Audio_StartRecordingi+0x358>
+21c9fc	e59f20d8	ldr	r2, [pc, #0xd8]
+21ca00	e59b0054	ldr	r0, [r11, #0x54]
+21ca04	e08f2002	add	r2, pc, r2
+21ca08	e58d3000	str	r3, [sp]
+21ca0c	e3a03087	mov	r3, #135
+21ca10	eb018131	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+21ca14	e1a03000	mov	r3, r0
+21ca18	e58b0054	str	r0, [r11, #0x54]
+21ca1c	e59f20bc	ldr	r2, [pc, #0xbc]
+21ca20	e08f2002	add	r2, pc, r2
+21ca24	e5829050	str	r9, [r2, #0x50]
+21ca28	e7834105	str	r4, [r3, r5, lsl #2]
+21ca2c	eaffffd2	b	0x21c97c <_Z20Audio_StartRecordingi+0x27c>
+21ca30	e59f10ac	ldr	r1, [pc, #0xac]
+21ca34	e1a02005	mov	r2, r5
+21ca38	e59f3088	ldr	r3, [pc, #0x88]
+21ca3c	e08f1001	add	r1, pc, r1
+21ca40	eaffffe4	b	0x21c9d8 <_Z20Audio_StartRecordingi+0x2d8>
+21ca44	e59f109c	ldr	r1, [pc, #0x9c]
+21ca48	e1a02005	mov	r2, r5
+21ca4c	e59f3074	ldr	r3, [pc, #0x74]
+21ca50	e08f1001	add	r1, pc, r1
+21ca54	eaffffdf	b	0x21c9d8 <_Z20Audio_StartRecordingi+0x2d8>
+21ca58	e59b3054	ldr	r3, [r11, #0x54]
+21ca5c	e1a00003	mov	r0, r3
+21ca60	eb017e1a	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+21ca64	e59f1080	ldr	r1, [pc, #0x80]
+21ca68	e3a02000	mov	r2, #0
+21ca6c	e08f1001	add	r1, pc, r1
+21ca70	e1a03002	mov	r3, r2
+21ca74	e5812054	str	r2, [r1, #0x54]
+21ca78	eaffffe7	b	0x21ca1c <_Z20Audio_StartRecordingi+0x31c>
+21ca7c	e59f006c	ldr	r0, [pc, #0x6c]
+21ca80	e59f2040	ldr	r2, [pc, #0x40]
+21ca84	e08f0000	add	r0, pc, r0
+21ca88	e59f1064	ldr	r1, [pc, #0x64]
+21ca8c	e5900054	ldr	r0, [r0, #0x54]
+21ca90	e08f1001	add	r1, pc, r1
+21ca94	e7803105	str	r3, [r0, r5, lsl #2]
+21ca98	e7963002	ldr	r3, [r6, r2]
+21ca9c	e5972000	ldr	r2, [r7]
+21caa0	eaffffcd	b	0x21c9dc <_Z20Audio_StartRecordingi+0x2dc>
+21caa4	001d5540	andseq	r5, sp, r0, asr #10
+21caa8	fffff7a8	.word	0xfffff7a8
+21caac	00137c10	andseq	r7, r3, r0, lsl r12
+21cab0	00538b1c	subseq	r8, r3, r12, lsl r11
+21cab4	00538acc	subseq	r8, r3, r12, asr #21
+21cab8	00538a78	subseq	r8, r3, r8, ror r10
+21cabc	00538a30	subseq	r8, r3, r0, lsr r10
+21cac0	00538a1c	subseq	r8, r3, r12, lsl r10
+21cac4	0053898c	subseq	r8, r3, r12, lsl #19
+21cac8	ffffbac4	.word	0xffffbac4
+21cacc	00137a60	andseq	r7, r3, r0, ror #20
+21cad0	0053893c	subseq	r8, r3, r12, lsr r9
+21cad4	00137950	andseq	r7, r3, r0, asr r9
+21cad8	001378e4	andseq	r7, r3, r4, ror #17
+21cadc	001308ec	andseq	r0, r3, r12, ror #17
+21cae0	00538874	subseq	r8, r3, r4, ror r8
+21cae4	0013784c	andseq	r7, r3, r12, asr #16
+21cae8	001378f0	ldrsheq	r7, [r3], -r0
+21caec	00538828	subseq	r8, r3, r8, lsr #16
+21caf0	00538810	subseq	r8, r3, r0, lsl r8
+21caf4	00137870	andseq	r7, r3, r0, ror r8

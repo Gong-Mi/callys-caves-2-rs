@@ -1,0 +1,481 @@
+17fd24	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+17fd28	e2400001	sub	r0, r0, #1
+17fd2c	e59f44fc	ldr	r4, [pc, #0x4fc]
+17fd30	e1a05001	mov	r5, r1
+17fd34	e08f4004	add	r4, pc, r4
+17fd38	e350001f	cmp	r0, #31
+17fd3c	908ff100	addls	pc, pc, r0, lsl #2
+17fd40	ea00001f	b	0x17fdc4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa0>
+17fd44	ea00015e	b	0x1802c4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x5a0>
+17fd48	ea00001d	b	0x17fdc4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa0>
+17fd4c	ea000128	b	0x1801f4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x4d0>
+17fd50	ea00011f	b	0x1801d4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x4b0>
+17fd54	ea000112	b	0x1801a4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x480>
+17fd58	ea000102	b	0x180168 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x444>
+17fd5c	ea0000f1	b	0x180128 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x404>
+17fd60	ea0000de	b	0x1800e0 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x3bc>
+17fd64	ea0000d6	b	0x1800c4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x3a0>
+17fd68	ea0000c2	b	0x180078 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x354>
+17fd6c	ea0000ae	b	0x18002c <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x308>
+17fd70	ea0000ab	b	0x180024 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x300>
+17fd74	ea000092	b	0x17ffc4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x2a0>
+17fd78	ea000011	b	0x17fdc4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa0>
+17fd7c	ea00004f	b	0x17fec0 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x19c>
+17fd80	ea000040	b	0x17fe88 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x164>
+17fd84	ea000031	b	0x17fe50 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x12c>
+17fd88	ea000022	b	0x17fe18 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xf4>
+17fd8c	ea00000c	b	0x17fdc4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa0>
+17fd90	ea00000b	b	0x17fdc4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa0>
+17fd94	ea000068	b	0x17ff3c <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x218>
+17fd98	ea000009	b	0x17fdc4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa0>
+17fd9c	ea000008	b	0x17fdc4 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa0>
+17fda0	ea000010	b	0x17fde8 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xc4>
+17fda4	ea000007	b	0x17fdc8 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa4>
+17fda8	ea000179	b	0x180394 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x670>
+17fdac	ea000161	b	0x180338 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x614>
+17fdb0	ea000184	b	0x1803c8 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x6a4>
+17fdb4	ea00014f	b	0x1802f8 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x5d4>
+17fdb8	ea000199	b	0x180424 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x700>
+17fdbc	ea00006a	b	0x17ff6c <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x248>
+17fdc0	ea000079	b	0x17ffac <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x288>
+17fdc4	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17fdc8	e3a00eb9	mov	r0, #2960
+17fdcc	e3550000	cmp	r5, #0
+17fdd0	1a0001a3	bne	0x180464 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x740>
+17fdd4	e59f34e4	ldr	r3, [pc, #0x4e4]
+17fdd8	e7943003	ldr	r3, [r4, r3]
+17fddc	e5933000	ldr	r3, [r3]
+17fde0	e12fff33	blx	r3
+17fde4	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17fde8	e59fe444	ldr	lr, [pc, #0x444]
+17fdec	e2010001	and	r0, r1, #1
+17fdf0	e59fc440	ldr	r12, [pc, #0x440]
+17fdf4	e7e010d1	ubfx	r1, r1, #0x1, #0x1
+17fdf8	e7e02155	ubfx	r2, r5, #0x2, #0x1
+17fdfc	e7e031d5	ubfx	r3, r5, #0x3, #0x1
+17fe00	e794e00e	ldr	lr, [r4, lr]
+17fe04	e58e5000	str	r5, [lr]
+17fe08	e794c00c	ldr	r12, [r4, r12]
+17fe0c	e59cc000	ldr	r12, [r12]
+17fe10	e12fff3c	blx	r12
+17fe14	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17fe18	e59f241c	ldr	r2, [pc, #0x41c]
+17fe1c	e59f341c	ldr	r3, [pc, #0x41c]
+17fe20	e7942002	ldr	r2, [r4, r2]
+17fe24	e5821000	str	r1, [r2]
+17fe28	e7943003	ldr	r3, [r4, r3]
+17fe2c	e5933000	ldr	r3, [r3]
+17fe30	e3530000	cmp	r3, #0
+17fe34	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+17fe38	e59f3404	ldr	r3, [pc, #0x404]
+17fe3c	e3000b64	movw	r0, #0xb64
+17fe40	e7943003	ldr	r3, [r4, r3]
+17fe44	e5933000	ldr	r3, [r3]
+17fe48	e12fff33	blx	r3
+17fe4c	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17fe50	e59f23f0	ldr	r2, [pc, #0x3f0]
+17fe54	e59f33e4	ldr	r3, [pc, #0x3e4]
+17fe58	e7942002	ldr	r2, [r4, r2]
+17fe5c	e5821000	str	r1, [r2]
+17fe60	e7943003	ldr	r3, [r4, r3]
+17fe64	e5933000	ldr	r3, [r3]
+17fe68	e3530000	cmp	r3, #0
+17fe6c	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+17fe70	e59f33cc	ldr	r3, [pc, #0x3cc]
+17fe74	e3000b63	movw	r0, #0xb63
+17fe78	e7943003	ldr	r3, [r4, r3]
+17fe7c	e5933000	ldr	r3, [r3]
+17fe80	e12fff33	blx	r3
+17fe84	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17fe88	e59f33b0	ldr	r3, [pc, #0x3b0]
+17fe8c	e7943003	ldr	r3, [r4, r3]
+17fe90	e5933000	ldr	r3, [r3]
+17fe94	e3530000	cmp	r3, #0
+17fe98	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+17fe9c	e59f33a0	ldr	r3, [pc, #0x3a0]
+17fea0	e1a00001	mov	r0, r1
+17fea4	e7943003	ldr	r3, [r4, r3]
+17fea8	e5934000	ldr	r4, [r3]
+17feac	ebffff85	bl	0x17fcc8 <_Z14ConvertFogMode4eFog>
+17feb0	e1a01000	mov	r1, r0
+17feb4	e3000b65	movw	r0, #0xb65
+17feb8	e12fff34	blx	r4
+17febc	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17fec0	e6ef3071	uxtb	r3, r1
+17fec4	e7e75851	ubfx	r5, r1, #0x10, #0x8
+17fec8	eddf7ad6	vldr	s15, [pc, #856]
+17fecc	e59f2378	ldr	r2, [pc, #0x378]
+17fed0	ee063a10	vmov	s12, r3
+17fed4	e7e73451	ubfx	r3, r1, #0x8, #0x8
+17fed8	ee055a90	vmov	s11, r5
+17fedc	ee073a10	vmov	s14, r3
+17fee0	e7941002	ldr	r1, [r4, r2]
+17fee4	eeb86ac6	vcvt.f32.s32	s12, s12
+17fee8	e59f3350	ldr	r3, [pc, #0x350]
+17feec	e3a025fe	mov	r2, #1065353216
+17fef0	e581200c	str	r2, [r1, #0xc]
+17fef4	eeb87ac7	vcvt.f32.s32	s14, s14
+17fef8	eef86ae5	vcvt.f32.s32	s13, s11
+17fefc	ee266a27	vmul.f32	s12, s12, s15
+17ff00	ee277a27	vmul.f32	s14, s14, s15
+17ff04	ed816a00	vstr	s12, [r1]
+17ff08	ee667aa7	vmul.f32	s15, s13, s15
+17ff0c	ed817a01	vstr	s14, [r1, #4]
+17ff10	edc17a02	vstr	s15, [r1, #8]
+17ff14	e7943003	ldr	r3, [r4, r3]
+17ff18	e5933000	ldr	r3, [r3]
+17ff1c	e3530000	cmp	r3, #0
+17ff20	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+17ff24	e59f3324	ldr	r3, [pc, #0x324]
+17ff28	e3000b66	movw	r0, #0xb66
+17ff2c	e7943003	ldr	r3, [r4, r3]
+17ff30	e5933000	ldr	r3, [r3]
+17ff34	e12fff33	blx	r3
+17ff38	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17ff3c	e59f2310	ldr	r2, [pc, #0x310]
+17ff40	e2911000	adds	r1, r1, #0
+17ff44	e59f32f4	ldr	r3, [pc, #0x2f4]
+17ff48	13a01001	movne	r1, #1
+17ff4c	e7942002	ldr	r2, [r4, r2]
+17ff50	e5c21000	strb	r1, [r2]
+17ff54	e7943003	ldr	r3, [r4, r3]
+17ff58	e5933000	ldr	r3, [r3]
+17ff5c	e3530000	cmp	r3, #0
+17ff60	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+17ff64	e3a00eb5	mov	r0, #2896
+17ff68	eaffff97	b	0x17fdcc <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa8>
+17ff6c	e59f1344	ldr	r1, [pc, #0x344]
+17ff70	e59f2338	ldr	r2, [pc, #0x338]
+17ff74	e59f3338	ldr	r3, [pc, #0x338]
+17ff78	e7946001	ldr	r6, [r4, r1]
+17ff7c	e5865000	str	r5, [r6]
+17ff80	e7942002	ldr	r2, [r4, r2]
+17ff84	e7943003	ldr	r3, [r4, r3]
+17ff88	e5920000	ldr	r0, [r2]
+17ff8c	e5935000	ldr	r5, [r3]
+17ff90	ebffff29	bl	0x17fc3c <_Z17ConvertComparison8eCmpFunc>
+17ff94	e59f3310	ldr	r3, [pc, #0x310]
+17ff98	e5962000	ldr	r2, [r6]
+17ff9c	e7943003	ldr	r3, [r4, r3]
+17ffa0	e5931000	ldr	r1, [r3]
+17ffa4	e12fff35	blx	r5
+17ffa8	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17ffac	e59f32a4	ldr	r3, [pc, #0x2a4]
+17ffb0	e1a00001	mov	r0, r1
+17ffb4	e7943003	ldr	r3, [r4, r3]
+17ffb8	e5933000	ldr	r3, [r3]
+17ffbc	e12fff33	blx	r3
+17ffc0	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+17ffc4	e59f2290	ldr	r2, [pc, #0x290]
+17ffc8	e2911000	adds	r1, r1, #0
+17ffcc	e59f326c	ldr	r3, [pc, #0x26c]
+17ffd0	13a01001	movne	r1, #1
+17ffd4	e7942002	ldr	r2, [r4, r2]
+17ffd8	e5c21000	strb	r1, [r2]
+17ffdc	e7943003	ldr	r3, [r4, r3]
+17ffe0	e5933000	ldr	r3, [r3]
+17ffe4	e3530000	cmp	r3, #0
+17ffe8	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+17ffec	e59f326c	ldr	r3, [pc, #0x26c]
+17fff0	e3000c54	movw	r0, #0xc54
+17fff4	e3a01c11	mov	r1, #4352
+17fff8	e7943003	ldr	r3, [r4, r3]
+17fffc	e5933000	ldr	r3, [r3]
+180000	e12fff33	blx	r3
+180004	e59f3238	ldr	r3, [pc, #0x238]
+180008	e3000b62	movw	r0, #0xb62
+18000c	e3a015fe	mov	r1, #1065353216
+180010	e7943003	ldr	r3, [r4, r3]
+180014	e5933000	ldr	r3, [r3]
+180018	e12fff33	blx	r3
+18001c	e3a00eb6	mov	r0, #2912
+180020	eaffff69	b	0x17fdcc <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa8>
+180024	e3000be2	movw	r0, #0xbe2
+180028	eaffff67	b	0x17fdcc <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa8>
+18002c	e59f320c	ldr	r3, [pc, #0x20c]
+180030	e7943003	ldr	r3, [r4, r3]
+180034	e5933000	ldr	r3, [r3]
+180038	e3530000	cmp	r3, #0
+18003c	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+180040	e59f321c	ldr	r3, [pc, #0x21c]
+180044	e1a00001	mov	r0, r1
+180048	e7943003	ldr	r3, [r4, r3]
+18004c	e5935000	ldr	r5, [r3]
+180050	ebfffef9	bl	0x17fc3c <_Z17ConvertComparison8eCmpFunc>
+180054	e59f320c	ldr	r3, [pc, #0x20c]
+180058	eddf7a73	vldr	s15, [pc, #460]
+18005c	e7943003	ldr	r3, [r4, r3]
+180060	ed937a00	vldr	s14, [r3]
+180064	eeb87ac7	vcvt.f32.s32	s14, s14
+180068	eec77a27	vdiv.f32	s15, s14, s15
+18006c	ee171a90	vmov	r1, s15
+180070	e12fff35	blx	r5
+180074	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180078	e59f21e8	ldr	r2, [pc, #0x1e8]
+18007c	e59f31bc	ldr	r3, [pc, #0x1bc]
+180080	e7942002	ldr	r2, [r4, r2]
+180084	e5821000	str	r1, [r2]
+180088	e7943003	ldr	r3, [r4, r3]
+18008c	e5933000	ldr	r3, [r3]
+180090	e3530000	cmp	r3, #0
+180094	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+180098	ee051a90	vmov	s11, r1
+18009c	eddf7a62	vldr	s15, [pc, #392]
+1800a0	e59f31bc	ldr	r3, [pc, #0x1bc]
+1800a4	e3a00f81	mov	r0, #516
+1800a8	eeb87a65	vcvt.f32.u32	s14, s11
+1800ac	e7943003	ldr	r3, [r4, r3]
+1800b0	e5933000	ldr	r3, [r3]
+1800b4	eec77a27	vdiv.f32	s15, s14, s15
+1800b8	ee171a90	vmov	r1, s15
+1800bc	e12fff33	blx	r3
+1800c0	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+1800c4	e59f31a0	ldr	r3, [pc, #0x1a0]
+1800c8	e1a00001	mov	r0, r1
+1800cc	e7943003	ldr	r3, [r4, r3]
+1800d0	e5934000	ldr	r4, [r3]
+1800d4	ebfffed8	bl	0x17fc3c <_Z17ConvertComparison8eCmpFunc>
+1800d8	e12fff34	blx	r4
+1800dc	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+1800e0	e59f3188	ldr	r3, [pc, #0x188]
+1800e4	e1a00001	mov	r0, r1
+1800e8	e7943003	ldr	r3, [r4, r3]
+1800ec	e5831000	str	r1, [r3]
+1800f0	ebfffedc	bl	0x17fc68 <_Z11ConvertCull5eCull>
+1800f4	e2505000	subs	r5, r0, #0
+1800f8	ba0000e4	blt	0x180490 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x76c>
+1800fc	e59f31b8	ldr	r3, [pc, #0x1b8]
+180100	e3000b44	movw	r0, #0xb44
+180104	e7943003	ldr	r3, [r4, r3]
+180108	e5933000	ldr	r3, [r3]
+18010c	e12fff33	blx	r3
+180110	e59f315c	ldr	r3, [pc, #0x15c]
+180114	e1a00005	mov	r0, r5
+180118	e7943003	ldr	r3, [r4, r3]
+18011c	e5933000	ldr	r3, [r3]
+180120	e12fff33	blx	r3
+180124	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180128	e59f3148	ldr	r3, [pc, #0x148]
+18012c	e1a00001	mov	r0, r1
+180130	e7941003	ldr	r1, [r4, r3]
+180134	ebfffeb4	bl	0x17fc0c <_Z12ConvertBlend6eBlendPi>
+180138	e59fc13c	ldr	r12, [pc, #0x13c]
+18013c	e59f313c	ldr	r3, [pc, #0x13c]
+180140	e59f213c	ldr	r2, [pc, #0x13c]
+180144	e794c00c	ldr	r12, [r4, r12]
+180148	e58c0000	str	r0, [r12]
+18014c	e1a01000	mov	r1, r0
+180150	e7943003	ldr	r3, [r4, r3]
+180154	e7942002	ldr	r2, [r4, r2]
+180158	e5933000	ldr	r3, [r3]
+18015c	e5920000	ldr	r0, [r2]
+180160	e12fff33	blx	r3
+180164	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180168	e59f3118	ldr	r3, [pc, #0x118]
+18016c	e1a00001	mov	r0, r1
+180170	e7941003	ldr	r1, [r4, r3]
+180174	ebfffea4	bl	0x17fc0c <_Z12ConvertBlend6eBlendPi>
+180178	e59f1104	ldr	r1, [pc, #0x104]
+18017c	e59f30fc	ldr	r3, [pc, #0xfc]
+180180	e59f20f4	ldr	r2, [pc, #0xf4]
+180184	e7941001	ldr	r1, [r4, r1]
+180188	e5810000	str	r0, [r1]
+18018c	e7943003	ldr	r3, [r4, r3]
+180190	e7942002	ldr	r2, [r4, r2]
+180194	e5933000	ldr	r3, [r3]
+180198	e5921000	ldr	r1, [r2]
+18019c	e12fff33	blx	r3
+1801a0	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+1801a4	e59f20e0	ldr	r2, [pc, #0xe0]
+1801a8	e2911000	adds	r1, r1, #0
+1801ac	e59f308c	ldr	r3, [pc, #0x8c]
+1801b0	13a01001	movne	r1, #1
+1801b4	e7942002	ldr	r2, [r4, r2]
+1801b8	e5c21000	strb	r1, [r2]
+1801bc	e7943003	ldr	r3, [r4, r3]
+1801c0	e5933000	ldr	r3, [r3]
+1801c4	e3530000	cmp	r3, #0
+1801c8	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+1801cc	e3a00d2f	mov	r0, #3008
+1801d0	eafffefd	b	0x17fdcc <_ZN8Graphics14SetRenderStateE12eRenderStatej+0xa8>
+1801d4	e59f30b4	ldr	r3, [pc, #0xb4]
+1801d8	e3510000	cmp	r1, #0
+1801dc	13a00001	movne	r0, #1
+1801e0	01a00001	moveq	r0, r1
+1801e4	e7943003	ldr	r3, [r4, r3]
+1801e8	e5933000	ldr	r3, [r3]
+1801ec	e12fff33	blx	r3
+1801f0	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+1801f4	e59f3044	ldr	r3, [pc, #0x44]
+1801f8	e7943003	ldr	r3, [r4, r3]
+1801fc	e5933000	ldr	r3, [r3]
+180200	e3530000	cmp	r3, #0
+180204	18bd80f8	popne	{r3, r4, r5, r6, r7, pc}
+180208	e59f3084	ldr	r3, [pc, #0x84]
+18020c	e3510001	cmp	r1, #1
+180210	03a00c1d	moveq	r0, #7424
+180214	13010d01	movwne	r0, #0x1d01
+180218	e7943003	ldr	r3, [r4, r3]
+18021c	e5933000	ldr	r3, [r3]
+180220	e12fff33	blx	r3
+180224	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180228	3b808081	bllo	0xfe1a0434 <b2_toiTime+0xfffffffffda46f90>
+18022c	437f0000	cmnmi	pc, #0
+180230	00271f1c	eoreq	r1, r7, r12, lsl pc
+180234	ffffe870	.word	0xffffe870
+180238	ffffbb18	.word	0xffffbb18
+18023c	ffffe874	.word	0xffffe874
+180240	ffffe7b8	.word	0xffffe7b8
+180244	ffffbc98	.word	0xffffbc98
+180248	ffffe878	.word	0xffffe878
+18024c	ffffe87c	.word	0xffffe87c
+180250	ffffbc9c	.word	0xffffbc9c
+180254	ffffe880	.word	0xffffe880
+180258	ffffbb58	.word	0xffffbb58
+18025c	ffffe884	.word	0xffffe884
+180260	ffffbb14	.word	0xffffbb14
+180264	ffffbc1c	.word	0xffffbc1c
+180268	ffffe888	.word	0xffffe888
+18026c	ffffbaec	.word	0xffffbaec
+180270	ffffe82c	.word	0xffffe82c
+180274	ffffbb10	.word	0xffffbb10
+180278	ffffe88c	.word	0xffffe88c
+18027c	ffffe890	.word	0xffffe890
+180280	ffffbac8	.word	0xffffbac8
+180284	ffffe894	.word	0xffffe894
+180288	ffffe898	.word	0xffffe898
+18028c	ffffe89c	.word	0xffffe89c
+180290	ffffbb0c	.word	0xffffbb0c
+180294	ffffbc64	.word	0xffffbc64
+180298	ffffe8a0	.word	0xffffe8a0
+18029c	ffffe8a4	.word	0xffffe8a4
+1802a0	ffffe8a8	.word	0xffffe8a8
+1802a4	ffffbb5c	.word	0xffffbb5c
+1802a8	ffffe8ac	.word	0xffffe8ac
+1802ac	ffffe8b0	.word	0xffffe8b0
+1802b0	ffffe8b4	.word	0xffffe8b4
+1802b4	ffffbb54	.word	0xffffbb54
+1802b8	ffffe8b8	.word	0xffffe8b8
+1802bc	ffffbad8	.word	0xffffbad8
+1802c0	ffffbad0	.word	0xffffbad0
+1802c4	e51f3034	ldr	r3, [pc, #-0x34]
+1802c8	e2915000	adds	r5, r1, #0
+1802cc	13a05001	movne	r5, #1
+1802d0	e3550000	cmp	r5, #0
+1802d4	e7943003	ldr	r3, [r4, r3]
+1802d8	e5c35000	strb	r5, [r3]
+1802dc	0a000065	beq	0x180478 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x754>
+1802e0	e51f302c	ldr	r3, [pc, #-0x2c]
+1802e4	e3000b71	movw	r0, #0xb71
+1802e8	e7943003	ldr	r3, [r4, r3]
+1802ec	e5933000	ldr	r3, [r3]
+1802f0	e12fff33	blx	r3
+1802f4	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+1802f8	e51f2050	ldr	r2, [pc, #-0x50]
+1802fc	e1a00001	mov	r0, r1
+180300	e51f3054	ldr	r3, [pc, #-0x54]
+180304	e7942002	ldr	r2, [r4, r2]
+180308	e5821000	str	r1, [r2]
+18030c	e7943003	ldr	r3, [r4, r3]
+180310	e5935000	ldr	r5, [r3]
+180314	ebfffe48	bl	0x17fc3c <_Z17ConvertComparison8eCmpFunc>
+180318	e51f2074	ldr	r2, [pc, #-0x74]
+18031c	e51f306c	ldr	r3, [pc, #-0x6c]
+180320	e7942002	ldr	r2, [r4, r2]
+180324	e7943003	ldr	r3, [r4, r3]
+180328	e5921000	ldr	r1, [r2]
+18032c	e5932000	ldr	r2, [r3]
+180330	e12fff35	blx	r5
+180334	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180338	e51f1098	ldr	r1, [pc, #-0x98]
+18033c	e51f20a4	ldr	r2, [pc, #-0xa4]
+180340	e51f30a4	ldr	r3, [pc, #-0xa4]
+180344	e7946001	ldr	r6, [r4, r1]
+180348	e5865000	str	r5, [r6]
+18034c	e7942002	ldr	r2, [r4, r2]
+180350	e7943003	ldr	r3, [r4, r3]
+180354	e5920000	ldr	r0, [r2]
+180358	e5935000	ldr	r5, [r3]
+18035c	ebfffe65	bl	0x17fcf8 <_Z16ConvertStencilOp10eStencilOp>
+180360	e1a07000	mov	r7, r0
+180364	e5960000	ldr	r0, [r6]
+180368	ebfffe62	bl	0x17fcf8 <_Z16ConvertStencilOp10eStencilOp>
+18036c	e51f30d8	ldr	r3, [pc, #-0xd8]
+180370	e7943003	ldr	r3, [r4, r3]
+180374	e1a06000	mov	r6, r0
+180378	e5930000	ldr	r0, [r3]
+18037c	ebfffe5d	bl	0x17fcf8 <_Z16ConvertStencilOp10eStencilOp>
+180380	e1a01006	mov	r1, r6
+180384	e1a02000	mov	r2, r0
+180388	e1a00007	mov	r0, r7
+18038c	e12fff35	blx	r5
+180390	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180394	e51f20fc	ldr	r2, [pc, #-0xfc]
+180398	e1a00001	mov	r0, r1
+18039c	e51f3100	ldr	r3, [pc, #-0x100]
+1803a0	e7942002	ldr	r2, [r4, r2]
+1803a4	e5821000	str	r1, [r2]
+1803a8	e7943003	ldr	r3, [r4, r3]
+1803ac	e5935000	ldr	r5, [r3]
+1803b0	ebfffe50	bl	0x17fcf8 <_Z16ConvertStencilOp10eStencilOp>
+1803b4	e51f3114	ldr	r3, [pc, #-0x114]
+1803b8	e7943003	ldr	r3, [r4, r3]
+1803bc	e1a07000	mov	r7, r0
+1803c0	e5930000	ldr	r0, [r3]
+1803c4	eaffffe7	b	0x180368 <_ZN8Graphics14SetRenderStateE12eRenderStatej+0x644>
+1803c8	e51f1134	ldr	r1, [pc, #-0x134]
+1803cc	e51f2134	ldr	r2, [pc, #-0x134]
+1803d0	e51f3134	ldr	r3, [pc, #-0x134]
+1803d4	e7946001	ldr	r6, [r4, r1]
+1803d8	e5865000	str	r5, [r6]
+1803dc	e7942002	ldr	r2, [r4, r2]
+1803e0	e7943003	ldr	r3, [r4, r3]
+1803e4	e5920000	ldr	r0, [r2]
+1803e8	e5935000	ldr	r5, [r3]
+1803ec	ebfffe41	bl	0x17fcf8 <_Z16ConvertStencilOp10eStencilOp>
+1803f0	e51f3150	ldr	r3, [pc, #-0x150]
+1803f4	e7943003	ldr	r3, [r4, r3]
+1803f8	e1a07000	mov	r7, r0
+1803fc	e5930000	ldr	r0, [r3]
+180400	ebfffe3c	bl	0x17fcf8 <_Z16ConvertStencilOp10eStencilOp>
+180404	e1a04000	mov	r4, r0
+180408	e5960000	ldr	r0, [r6]
+18040c	ebfffe39	bl	0x17fcf8 <_Z16ConvertStencilOp10eStencilOp>
+180410	e1a01004	mov	r1, r4
+180414	e1a02000	mov	r2, r0
+180418	e1a00007	mov	r0, r7
+18041c	e12fff35	blx	r5
+180420	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180424	e51f1180	ldr	r1, [pc, #-0x180]
+180428	e51f2180	ldr	r2, [pc, #-0x180]
+18042c	e51f3180	ldr	r3, [pc, #-0x180]
+180430	e7946001	ldr	r6, [r4, r1]
+180434	e5865000	str	r5, [r6]
+180438	e7942002	ldr	r2, [r4, r2]
+18043c	e7943003	ldr	r3, [r4, r3]
+180440	e5920000	ldr	r0, [r2]
+180444	e5935000	ldr	r5, [r3]
+180448	ebfffdfb	bl	0x17fc3c <_Z17ConvertComparison8eCmpFunc>
+18044c	e51f319c	ldr	r3, [pc, #-0x19c]
+180450	e5961000	ldr	r1, [r6]
+180454	e7943003	ldr	r3, [r4, r3]
+180458	e5932000	ldr	r2, [r3]
+18045c	e12fff35	blx	r5
+180460	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180464	e51f31b0	ldr	r3, [pc, #-0x1b0]
+180468	e7943003	ldr	r3, [r4, r3]
+18046c	e5933000	ldr	r3, [r3]
+180470	e12fff33	blx	r3
+180474	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180478	e51f31c0	ldr	r3, [pc, #-0x1c0]
+18047c	e3000b71	movw	r0, #0xb71
+180480	e7943003	ldr	r3, [r4, r3]
+180484	e5933000	ldr	r3, [r3]
+180488	e12fff33	blx	r3
+18048c	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+180490	e51f31d8	ldr	r3, [pc, #-0x1d8]
+180494	e3000b44	movw	r0, #0xb44
+180498	e7943003	ldr	r3, [r4, r3]
+18049c	e5933000	ldr	r3, [r3]
+1804a0	e12fff33	blx	r3
+1804a4	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}

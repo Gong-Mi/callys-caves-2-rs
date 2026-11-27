@@ -1,0 +1,27 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_skins",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_skinsArray",
+      "address_range": "0x28c5ec-0x28c62c",
+      "semantics": "skins array malloc (line 839) → data+0x24; running count at +0x20 (NOT upfront Json size — unlike bones/slots)",
+      "malloc_anchors": [{"site": "0x28c618", "line": 839, "stores_to": "data+0x24"}]
+    },
+    {
+      "name": "readSkeletonData_oneSkin",
+      "address_range": "0x28c630-0x28c6b0",
+      "semantics": "spSkin_create(name from skinMap+0x1c) + running count++ + skins[count]=skin + strcmp('default') → defaultSkin at +0x28",
+      "notes": "skin name read directly from Json+0x1c (key field), not getString. Slot loop follows via skinMap->child."
+    }
+  ],
+  "spSkeletonData_layout_additions": {
+    "+0x20": "skinsCount (running, NOT upfront)",
+    "+0x24": "skins (spSkin**)",
+    "+0x28": "defaultSkin (spSkin*)"
+  },
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}

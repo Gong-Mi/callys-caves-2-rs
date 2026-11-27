@@ -1,0 +1,429 @@
+# Animations 段入口（B1/B2）与 readCurve 公共前置
+
+## 身份与范围
+
+原件 libyoyo ARM32 SHA256：
+`3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`。
+按 METHOD 静态前置：原件只读，无原件执行。执行对象仅为重建 ARM32 C（qemu-arm）。
+母函数 `spSkeletonJson_readSkeletonData@0x28b84c`（13044B，终点 0x28eb40）；
+animations/events 段 `0x28d19c..0x28eb40`，普查见
+`reconstruction/reverse-v1/asm/animations_segment_map.md`（31 分块表）。
+
+本批两模块（子代理施工、父代理独立复跑核验）：
+
+- `c/spine_read_animations/` —— 分块表 B1（骨架级 events 数组 + EventData 循环，
+  0x28d19c..0x28d290，61 insn，malloc 1028/1034）+ B2（animations 数组分配，
+  0x28d290..0x28d2d4，17 insn，malloc 1043）
+- `c/spine_read_curve/` —— 匿名叶函数 `readCurve@0x28b34c..0x28b3fc`（44 insn），
+  animations 段 8 个时间线块的公共前置
+
+## B1 / B2 恢复语义（要点）
+
+**B1**：`Json_getItem(tree,"events")` 缺失 → 不写任何字段直接跳 B2。
+命中：**先**写 `data+0x2c = count`（0x28d1c0）**再** `_malloc(count<<2, tag, 1028)`
+**再** `data+0x30 = array`（0x28d1d8）；`child = events->child` 在 malloc 之后读。
+循环（头 0x28d20c）逐项：**事件名取 `child->name`（Json+0x1c 成员键），不是
+`getString("name")`**（0x28d20c `ldr r0,[r4,#0x1c]` 实证）；`spEventData_create(name)`
+（合成边界，0x285b94 本体未恢复）；`Json_getInt("int",0)→+0x04`；
+`Json_getFloat("float",0)→+0x08`（softfp 原始位）；`Json_getString("string",0)` 非空才
+`strlen+1 → _malloc(…,1034) → strcpy → +0x0c`（指针先写后 strcpy）。每项重读
+`data->events` 基址，字节游标 `+=4` 发布；`child = child->next`。
+循环只由 child 链驱动、不信 count；本块无错误路径（无 setError/dispose，creator
+返回值不判空）。
+
+**B2**：`Json_getItem(tree,"animations")` 缺失 → 跳 0x28e7a4（Json_dispose + 返回）。
+命中：`_malloc(count<<2, tag, 1043)`；`data+0x38 = array`（child==NULL 也发布）；
+返回 `child`。**`data+0x34 (animationsCount)` 本块不写**——计数与数组元素在
+循环尾 0x28e784/0x28e78c 写（B18 尚未恢复）。
+
+## readCurve 恢复语义（普查 open #2 已钉死）
+
+ABI：`readCurve(Json* frame, void* curveTimeline, int frameIndex) → void`；
+r0=**该帧的 Json 对象**（非动画根）、r1=刚传给 `<Type>Timeline_setFrame` 的同一
+时间线指针、r2=0 基帧号；**8/8 调用点都不读返回值**（调用点：0x28d7d0 translate、
+0x28d9b0 color、0x28daf0 rotate、0x28dc48 ik、0x28de0c transform、0x28dff4
+path-position、0x28e2a8 deform、0x28e9b0 path-mix）。
+
+语义：
+- 键查找走 `Json_getItem`（casecmp）读 `"curve"`；缺省 → 无操作（不写不分配）。
+- 值为字符串：`strcmp`（区分大小写）**仅精确 `"stepped"`** 命中 → 尾调用
+  `spCurveTimeline_setStepped@0x2817c0`（0x28b3b4 `b`，夹具按
+  `curves[frame*19+0]=1.0f` 精确建模）。
+- 值为数组：**实现完全不读 Json+0x0c 的声明计数**，无条件沿 `->next` 取 4 个
+  节点；元素 0..3 原样传 `spCurveTimeline_setCurve@0x2817d8`
+  （6 个 AAPCS 字：r0,r1,r2,r3,[sp],[sp,#4]）。**少于 4 个元素 = 原件空指针
+  解引用**（0x28b3b8 与 0x28b3c8 之间无检查，独立探针实测 qemu SIGSEGV，已作为
+  PROBE 钉进验收）；多于 4 个尾部忽略；null/true/false/number/object 全 no-op。
+- 帧下标与 +0/-0/NaN/-inf 等浮点位**原样透传**（位精确断言）。
+
+## 验收
+
+- `tools/check_animations.py`：O0/O2/O3/UBSan × 9 测试全绿、9 具名变异全拒、
+  缺本体编译拒绝门、26 word pin + 7 键字面量 + 符号 pin；
+  **父代理独立复跑 RESULT PASS**（wl_animP_verify）。
+  回执 `harness/receipts/animations_entry_check-20261108T103440.json`。
+- `tools/check_curve.py`：O0/O2/O3/UBSan × 9 测试全绿、8 具名变异全拒、缺本体
+  拒绝门、29 word pin（含 0x28b3fc=0xe92d4ff0 作下界证明）+ 10 个 Json 类型
+  常量 pin + `curve@0x357aec`/`stepped@0x357af4` 字面量 pin + 「0x28b34c 无符号」
+  断言 + 0 元素数组 SIGSEGV probe；
+  **父代理独立复跑 RESULT PASS**（wl_curveP_verify）。
+  回执 `harness/receipts/curve_check-20261108T103809.json`。
+
+## 第三批：B3/B4/B3b + slots 时间线家族（B5/B8/B8b/E1）
+
+**B3/B4/B3b**（`c/spine_read_animations/` 扩展，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×20 测试、13 变异、2 编译拒绝门含 shadow 布局断言门）：
+
+- B3 拆两半：`animationFrameInit`（0x28d2d4..0x28d314，每 animations 数组一次：
+  4 个键字面量入栈槽 + **movw 0x5556/movt 0x5555 → str [sp,#0x60]** 即
+  0x55555556 魔数（有符号 /3，唯一读点在未恢复的 deform 块））与
+  `animationKeys`（0x28d318..0x28d3b0，每动画一次：8 次 getItem，按地址序
+  落槽 bones/slots(r4 无槽)/ik/transform/paths/deform/drawOrder/events）。
+- B4 求和（非 stock 形状）：bones/slots/paths 逐子累加 `child->unk_0c`；
+  **ik/transform 各只加节点自身 +0x0c 一次**；deform 双层 skins×slots；
+  drawOrder/events 各 +1；name=**动画节点的 Json 成员键**；spAnimation_create
+  (name,count) 合成边界（0x2812b4..0x281324：calloc(1,16,tag,38)，+0x00 name、
+  +0x08=count、+0x0c=malloc(count<<2,tag,41)）；返回后 +0x08 清零。
+- B3b：'draworder' 键 getItem 后**无条件**写 drawOrder 槽（无 NULL 复检）。
+- **普查更正（已证）**：`Json_getItem` 内部是 **strcasecmp**（0x287414 →
+  strcasecmp@plt 0xb66d0，父代理核对 .rel.plt）——'drawOrder'/'draworder'
+  是**同一个查询**，双键 fallback 行为上无效（命中子链表先出现者），
+  §2.9 的"新键优先"说法作废。
+
+**slots 时间线家族**（`c/spine_read_tl_slots/` 新模块，子代理施工、父代理
+复跑 `RESULT PASS`，4 配置×11 测试、10 变异、**3 编译拒绝门**：缺本体 /
+去 readCurve 源 / 去 toColor 源——证明跨模块真实链接非桩）：
+
+- B5（attachment）：每槽 findSlotIndex（**真实** skeleton_find）→ `cmn r0,#1`
+  未命中跳块外；时间线按 `timelineJson->name(+0x1c)` 两级 strcmp 分派
+  color/attachment/其它→E1。attachment：create(Json+0x0c)→**timeline+0x10=slotIndex**→
+  帧循环 getItem("name")+getFloat("time")，`kind=name_node+0x08`，
+  `name=(kind==2)?NULL:+0x10`（**与 stock 的 name?valueString:0 形状不同**）→
+  setFrame(t,i,time,name)；循环由子链驱动。尾：timelines[count++]=t、
+  duration=max(duration,frames[declared-1])（frames +0x0c、帧距 1 float）。
+- B8（color hex 通道）：create→**timeline+0x14=slotIndex（与 B5 的 +0x10 不同）**
+  →每帧 getString("color")（hex 字符串）→ **真实 toColor ×4** →
+  setFrame 7 参（r0..r3,[sp],[sp+4],[sp+8]）→ **真实 readCurve(frame,t,i)**
+  （0x28d9b0）。无任何校验：缺 color → toColor(NULL,·)，非法串四分量 -1.0f。
+  **color +0x08 不是 frameCount 而是 (frameCount-1)*19 的 curves 数组**
+  （attachment +0x08 才是 frameCount）。
+- B8b：timelines[count++]=t；last=frames[(declared-1)*5]（**+0x10、帧距 5**：
+  time,r,g,b,a）；duration 取 max；回 B5 分派。**普查更正：B8b 不是
+  "color/attachment 公共尾"**——B5 在 0x28d5e8 有自己的一份内联尾；且
+  readCurve 调用点 0x28d9b0 在 B8 区间内。
+- E1：`spAnimation_dispose(anim)` → `setError(parser, **NULL**,
+  "Invalid timeline type for a slot: ", type)`（0x28da38 `mov r1,#0`——
+  **json 实参是 NULL，根树不 dispose**，与 slots 段错误路径不同）→
+  `spSkeletonData_dispose(data)` → 返回 0。
+- 帧下标来源：B5/B8 内无 `mov r5,#0`——分派用 strcmp 返回值 r5，两分支
+  只在 ==0 进入，帧循环天然从 0 起、跨时间线不携带。
+
+回执：`animations_b3b4_check-20261108T110203.json` /
+`tl_slots_check-20261108T110414.json`。
+
+## 第四批：bones 时间线全家族 + ik 时间线家族（open #6 关闭）
+
+**bones 家族**（`c/spine_read_tl_bones/` 新模块，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×18 测试、12 变异、3 拒绝门含去 readCurve/json 门）：
+
+- B6 分派：每骨时间线 `findBoneIndex` → `cmn r0,#1` 未命中→E2；strcmp 链
+  rotate→translate→scale→shear，全不中→E3。5 键缓存；'time' 键覆盖 bones
+  溢出槽（0x28d694）——循环只用寄存器游标。
+- **骨索引来自独立符号 `spSkeletonData_findBoneIndex@0x28b018`（88B）**：
+  count=[data+0x10]（有符号 ≤0→-1）、strcmp([table[i]+4],name) **首个匹配**
+  返回 i、未命中 `mvn r0,#0`；与 findBone(0x28afbc/92B) 相邻不可混用。
+  该函数体本批在模块内恢复为真链（暂驻副本：若 skeleton_find 后续收编
+  需删副本——已记 open）。
+- B6b（translate/scale/shear 共用帧循环）：`timeline+0x14=boneIndex`（先于
+  空帧判断）；键 time/x/y；`s17=x*s16`、`s15=s16*y`——**translate 的乘数是
+  parser->scale（spSkeletonJson+0x00 binary32），scale/shear 强制 s16=1.0**；
+  setFrame(t,i,time,x*s16,y*s16)；readCurve@0x28d7d0；尾 (declared-1)*3
+  字索引、frames +0x10、duration=max。
+- B10 rotate：键 time/**angle**；setFrame(t,i,time,angle)；帧距 **2**
+  （`frames[declared*2-2]`）；readCurve@0x28daf0。
+- **`spScaleTimeline_setFrame@0x282b1c` 与 `spShearTimeline_setFrame@0x282b38`
+  都是 4 字节 `b` thunk，同指 0x282ad4**（translate 的 setFrame；父代理
+  逐字核对）——全族只有一个真实 setFrame 调用点。
+- E2（Bone not found）：`spAnimation_dispose` → **setError(parser,
+  [sp,#0x1c]=当前 animation JSON 节点, "Bone not found: ", bone->name)**
+  ——json 实参是**动画节点**（连带其兄弟被 Json_dispose），非 NULL 非根
+  （父代理核对 0x28db70 `ldr r1,[sp,#0x1c]`）；E3：json 实参 NULL。
+  三种错误路径的 json 实参三种形态（根树/NULL/动画节点），逐块验证不默认。
+
+**ik 家族**（`c/spine_read_tl_ik/` 新模块，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×13 测试、11 变异、3 拒绝门）——**普查 open #6 关闭**：
+
+- B7 指针扫描（逐指令钉死）：count=[data+0x3c] **只读一次快照** →
+  `ble` 有符号 ≤0 **直接跳（连 +0x40 都不读）** → array=[data+0x40] →
+  e=array[0] → 命中→`mov r3,#0`(0x28dbc8，r3 是元素指针必须清)+
+  `str r3,[r6,#0x14]`(0x28dbcc)；未中→`ldr r0,[r2,#0x4]!`（**前索引写回，
+  逐元素重读**）、index++、`bne` 只判等；未命中**不写 +0x14**。
+  create 后 +0x14 = calloc 零填 = **0 不是 -1**（静态推断：_spBaseTimeline_
+  create 尾调 calloc(1,24,tag,233)，init 链不写 +0x14；推断待 create 本体
+  恢复后升证明）。
+- B7b 帧循环：键 time/**mix（默认 1.0f=0x3f800000）**/bendPositive
+  （getInt 默认 1；**0→-1、非 0→+1** 枚举压栈）；setFrame ABI r0..r3+[sp]
+  （bend int32）；体内帧步长 **3 浮点**（与 bone 1/2、color 5 都不同）；
+  readCurve 在 setFrame 后；尾 next 载入夹在 frames 读与 duration 比较之间，
+  `vstr duration` 无条件（末轮也写）。
+- 普查更正：0x28dbc8 是 `mov r3,#0` 而非命中写点（唯一 store 是 0x28dbcc）；
+  B11b 行把 0x28dbc8/0x28dbcc 误并入 shear 块地址跨度（语义属 B7 的离位
+  命中岛，shear 5 条真指令以 `b 0x28d740` 收尾）；transform 命中 store
+  0x28dd64 与 0x28dbcc **指令字同为 0xe5863014**（同一源句编译两次）。
+
+回执：`tl_bones_check-20261108T113000.json` / `tl_ik_check-20261108T112242.json`。
+
+## 第五批：transform 时间线（B12）+ path 时间线（B13，与 B17 分界实测）
+
+**transform**（`c/spine_read_tl_transform/`，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×14 测试、14 变异、3 拒绝门）：
+
+- B12（0x28dca8..0x28de74）：5 键（time/rotateMix/translateMix/scaleMix/
+  shearMix）**每帧无条件全读**，缺键用默认（time→0.0f、四个 mix→1.0f）。
+- 指针扫描与 ik 同构（count 快照 +0x44、ble 有符号、前索引写回、首命中
+  行内 store `0x28dd64=0xe5863014`、未命中不写），但**命中岛在行内**非离岛。
+- **setFrame 7 实参**：r1=idx/r2=time/r3=rotateMix，translate/scale/shear
+  三参走栈（父代理核对 0x28ddec/0x28ddf0/0x28ddf4 三条 str）；体内
+  `frames[i*5+0..4]`；**帧距 5 浮点**；create type=10。
+- **B12 无任何错误路径**（父代理扫全区间 bl 目标：create/setFrame/
+  getFloat/findTransformConstraint/readCurve 五类，无 setError）——bones 的
+  json 实参三形态先例在此不适用。
+
+**path**（`c/spine_read_tl_path/`，子代理施工、父代理复跑 `RESULT PASS`，
+4 配置×18 测试、15 变异、4 拒绝门含"spacing setFrame 非调用点"负控门）：
+
+- **B13 只做 position/spacing 两路分派**——`0x28e538 bne 0x28e8ec` 把其余
+  子键整个交给 B17；**普查 §6 标题的 mix 不在 B13**（mix 字面量唯一读者
+  是 B17 的 0x28e8f0）。**值键不是字面量**：`timelineNode->name(+0x1c)`
+  直接当值键（同一循环体服务 position 与 spacing）。
+- **path 有判空与错误路径**（0x28dee0 `subs` + "Path constraint not found: "
+  @0x357f10）——**普查 open #6（不判空）不能外推到 path**。
+- 扫描结果写**共享栈槽 [sp,#0x2c]**（0x28df2c），不是 timeline；timeline
+  的 `+0x14` 在 0x28df94 **无条件写**（连无帧分支也写）→ **miss 会把上一
+  约束的索引带进来（stale-index）**——与 ik/transform 最大差异。
+- scale 选择不对称：position `mode!=0→1.0f / ==0→parser->scale`；spacing
+  `(uint)mode<=1→scale`（**bls 无符号，mode=-1 不缩放**）/否则 1.0f。
+- setFrame 4 参、`frames[i*2]`、帧距 2、create type 11/12。
+- **B13 两个岛落在别块地址区间**（0x28e52c..0x28e558 在 B15 区间、
+  0x28ea74..0x28ea7c 在 B17 区间）——按岛翻译不重复计数。
+- B17 首两条反直觉（`strcmp(name,"mix")` 后 **beq 跳过**——名字恰是
+  "mix" 反而不建 mix 时间线）：只记字节，留 B17 批定因。
+
+回执：`tl_transform_check-20261108T114620.json` / `tl_path_check-20261108T120113.json`。
+
+## 第六批：deform 时间线家族（open #5/#8 关闭）+ drawOrder（open #4 关闭）
+
+**deform**（`c/spine_read_tl_deform/`，子代理施工、父代理复跑 `RESULT PASS`，
+4 配置×21 测试、19 变异、5 拒绝门）：
+
+- B14（0x28e060..0x28e338，182 insn）：三层循环 skin→slot→attachment 名→
+  frames；`findSkin/findSlotIndex` **都不判空**（-1 也直接传 getAttachment）。
+  **weighted 门 = attachment+0x14（bones 指针）非 NULL**；魔数
+  `[sp,#0x60]` 在 0x28e128 `ldrne`（父代理核对：全函数恰好两处 [sp,#0x60]
+  ——0x28d304 写、0x28e128 读，B13/B17 不碰）。**open #8 关闭**：
+  `smull+asr#31+lsl#1` = 有符号 /3 截零再 ×2（25 例恒等式链含 INT_MIN）。
+- **open #5 关闭**：`2*(vc/3)` 是每帧**浮点个数**——写 `timeline+0x14`，
+  setFrame 用 `+0x14*4` 做 malloc+memcpy（0x282f3c/4c/60）；同一 r11 也是
+  malloc 尺寸与 base 加法循环边界。
+- 帧内顶点分支：'vertices' 缺失走 B14b（weighted→memset 全 floatCount；
+  非 weighted→src=attachment+0x1c 不初始化）；'vertices' 存在从
+  `buf+offset*4` 拷贝、`scale==1.0f` 原样否则逐元素 vmul，再 memset 尾段；
+  非 weighted 且 floatCount>0 对整个缓冲加 base 顶点。**B14b 两半都属它**
+  （缺键分支+scale 拷贝）。**_readVertices@0x28b3fc 未被调用**（父代理扫
+  BL 目标核实：13 个目标无 0x28b3fc；帧内 vertices 是 getItem+child 链
+  内联读，值在 Json+0x18）。
+- **E6 归属修正**：实测唯一前驱是 **drawOrder offsets 循环**（0x28e464），
+  B14 从不判 slotIndex==-1——普查 §6 标题"deform 路径"作废（§2.7 本就写
+  drawOrder 内）。E6 的 setError json 实参 **NULL**。
+- 错误块交叉：E4（drawOrder 地址区间）唯一入边来自 **deform 块的
+  spSkin_getAttachment 返回 NULL**（0x28e10c/0x28e110）；E6（deform 地址
+  区间）唯一入边来自 drawOrder——**错误块与触发块跨族交叉**，按入边
+  归属不按地址归属。
+
+**drawOrder**（`c/spine_read_tl_draworder/`，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×15 测试、15 变异、4 拒绝门）——**open #4 关闭**：
+
+- 两次 malloc 所有权链（逐指令钉死）：**A(行442, (slotsCount-
+  jsonOffsetsSize)*4) 从不交给 setFrame**——builder 内 0x28e524 调用前
+  就 free（父代理核对 bl→_free）；**B(行445, slotsCount*4 填 -1) 交给
+  setFrame（0x28e5b8）后立刻 0x28e5c0 free**；setFrame 也不留——先 free
+  该槽上一份，再 malloc(690)+memcpy 存**私有副本**。free 序列
+  A→NULL 槽→B 被 fixture 断言、四个 free 类变异反向验。
+- B 填充/合并算法：条目 `getString("slot")→findSlotIndex`（==-1 → E6，
+  **A/B 双泄漏照实复现不修**）；slotIndex≠original 时顺写 A；`offset=
+  getInt("offset",0)`；**B[slotIndex+offset]=slotIndex**；尾填+从 B 末倒扫
+  用 A[--unmoved] 补 -1（保升序）。`data->slotsCount` 被读 5 次，译文逐点
+  重读（fixture 用 line-442 回调改写该字证明）。
+- B15b：`setFrame(t,i,time,order)`→`_free(order)`（无 offsets 帧 free(NULL)
+  照发）→发布尾 `times[declared-1]`（**4 字节步长**，与 path 8 字节不同）。
+- create/setFrame 按真实体建模（合成边界）：type=7、calloc(1,24,tag,672)、
+  +0x08/+0x0c/+0x10/+0x14；setFrame 先 free 旧再 malloc(690)+memcpy。
+- E4：json 实参 NULL（`mov r1,r5`，r8 必 0）、文案 "Attachment not found: "
+  @0x357f2c、extra=timelineNode->name。
+- **普查勘误**：drawOrder 循环回边是 **0x28e5cc**（0x1affff78），§5.3 写的
+  0x28e594 实为后半段入口。
+- 32 位回绕如实：`jsonOffsetsSize>slotsCount` 时 442 请求值 0xfffffffc
+  （不夹紧）。
+
+回执：`tl_deform_check-20261108T122759.json` / `tl_draworder_check-20261108T122831.json`。
+
+## 第七批：event 时间线 + path-mix（open #7/#10 关闭）——animations 段 31 分块全部落 C
+
+**event 家族**（`c/spine_read_tl_event/`，子代理施工、父代理复跑 `RESULT PASS`，
+4 配置×13 测试、14 变异、5 拒绝门）：
+
+- B16：`spEventTimeline_create(声明帧数)`；帧循环 `findEvent(data,
+  getString("name",NULL))` 未中→E5；`time` 默认 0.0f→`spEvent_create(time,
+  data)`；int/float/string **默认取 EventData +4/+8/+0xc**；string 非空即
+  `strlen+1→malloc(494)→strcpy→event+0x10`；setFrame(t,i,event)。
+- **open #7 关闭**：`[event+0x10]` 就是 `spEvent.stringValue`——create 只
+  calloc(1,20) 写 +0/+4，帧体填 +8/+0xc/+0x10 无第六字段；dispose 链
+  （spEvent_dispose 先 free +0x10 再 free 自身；_spEventTimeline_dispose
+  逐帧调）**无双释放**（拷贝无条件、永不别名 JSON/EventData 指针）。494
+  深拷贝必须存在的理由：**B18 在返回前 Json_dispose 根树**。
+- **open #10 关闭**：计数与元素只在 0x28e778..0x28e78c 写——
+  `animationsCount=old+1` 先写（0x28e784）、元素 `[array+old*4]`（0x28e78c，
+  旧游标）；timeline 层同构（0x28e750/0x28e754）。E5 在发布前整包 dispose，
+  无回滚。
+- E5：json 实参 **NULL**（父代理核对 `mov r4,r8`+`mov r1,r4`）、文案
+  "Event not found: "；已建 timeline 不发布不释放（原样泄漏）。
+- B18（0x28e7a4..0x28e7b4）：`Json_dispose(root)`（[sp,#0x24]=Json_create
+  根树）→ `return data`（r9）→ b 0x28bdcc 公共收尾。
+
+**path-mix**（`c/spine_read_tl_path_mix/`，子代理施工、父代理复跑
+`RESULT PASS`，4 配置×13 测试、13 变异、5 拒绝门）——**谜题定因**：
+
+- `0x28e8fc beq 0x28e048` 的目标是**内层循环的节点前移**（父代理核对
+  0x28e048=`ldr r4,[r4]`）——**name=="mix" 没有任何 handler**，静默跳过
+  （无 create/setFrame/readCurve/发布/报错）；**除 "mix" 外任何名字都落穿
+  建成 mix 时间线**。源码缺 `== 0` 只是意图假设（登记为非字节码结论）。
+- B17 无扫描（只消费 B13 的 [sp+0x2c] cell）；索引写 `+0x14` 在帧链判空
+  **之前**无条件执行；键 time(0.0f)/rotateMix(1.0f)/translateMix(1.0f)；
+  setFrame 5 参（translateMix 走栈）；帧距 3；无错误路径。
+- **父代理修复（已提交代码缺陷）**：path 模块把 B17 的 rotateMix 键 pin
+  成 `0x357cc4 "teMix"`——**错在 add 站点**（0x28e93c 是 `str r1,[sp,#0x30]`
+  非加法指令；正确 add 0x28e938→0x357cc0 "rotateMix"）。旧 pin **绿但错**
+  （'teMix' 是 rotateMix 的后缀巧合）。已改 `check_tl_path.py` 的
+  KEY_PINS/报告文案与 functions.json，修复后驱动复跑全绿。
+- **父代理修复（文档）**：`spine_read_animations` 把 spEventData+0x00 写成
+  "borrowed Json member key"——实测 spEventData_create 会 strdup（owned
+  copy，dispose 释放 +0x00）。已改 .h/functions.json 措辞。
+
+至此 animations 段 **31 分块全部恢复为 C 模块**（B1..B18 + E1..E7，1579
+可达指令分块全覆盖；各块模块见上列；无 switch 跳表、错误块按入边归属）。
+回执：`tl_event_check-20261108T125309.json` / `tl_path_mix_check-20261108T124846.json`。
+
+## 第八批：动画级循环总装（九家族真实链接）
+
+`c/spine_animations_loop/`（子代理施工、父代理复跑 `RESULT PASS`，4 配置×17
+测试、12 变异、**5 链接门**：缺本体/去 tl_slots/去 tl_bones/去 tl_event/
+去 readCurve 源全部 undefined symbol 拒绝）：
+
+- **家族调用顺序（父代理逐分支核对 8/8）**：slots → bones → ik → transform
+  → paths（B13/B17 交错，"mix" 静默跳过）→ deform → drawOrder → events →
+  发布。证据链：0x28d4e8 beq→B6 头（ldr [sp,#0x30] bones）→0x28d648 beq→
+  B7 头（[sp,#0x34] ik）→…→0x28e61c beq→0x28e774 发布；发布四件
+  0x28e784 count 先写/0x28e78c 元素旧游标/0x28e798 存回游标/0x28e79c
+  `bne 0x28d318` 回 B3 下一动画。
+- **0x28ea10 块（B5 slot index -1，13 insn）本批恢复**：此前无模块拥有——
+  dispose 动画→setError(parser, **当前动画节点**, "Slot not found: ",
+  当前 slot 键)→dispose data→NULL。
+- 适配层：slots rc==0 歧义（E1 已报错 vs 静默 -1）用 `parser->error` 区分；
+  paths 续接从 0x28e048 的 next 兄弟重跑（findPathConstraint 成功⇒scan 必
+  命中，跨约束 stale 不可达）；deform→E4/drawOrder→E6 按 JSON 重走定位；
+  B4 只在 slots 节点+child 存在时写 slotsChild，防迭代残留。
+- **记录的家族模块接口债**（未改它们）：tl_slots.h/tl_bones.h 重复 typedef
+  `spAnimationShape`（include 期改名绕过）；path/slots/deform/drawOrder 的
+  handoff 只回码不回首节点；slots 两种错误共用 0 返回值。
+
+回执：`animations_loop_check-20261108T134040.json`。
+
+## 第九批：skins 胶水 8 块（段链物理缺口清零）
+
+`c/spine_skins_glue/`（子代理施工、父代理复跑 `RESULT PASS`，4 配置×15
+测试、15 变异、5 拒绝门含去 spine_skin/atlas_attachment 源；**98 word pin
+对 8 窗口 92 条指令逐条全覆盖且校验器强制无漏**）：
+
+- **五参 ABI**：`r0=json->loader(+0x04)`、r1=skin、r2=请求 type、r3=name、
+  **path 走栈 [sp]**（父代理核对 0x28c7a4/0x28c7ac）；接**真实**
+  `spAttachmentLoader_createAttachment@0x284d58`（先 free+清零 error1/2
+  再 vcall）。
+- **跳表**（父代理逐字核 5 落点）：`addls pc,pc,r3,lsl#2@0x28c7c8`（base=
+  0x28c7d0）→ region 0x28cdac / bbox 0x28cd6c / mesh 0x28cb20 / **linked 也
+  0x28cb20** / path 0x28ca5c；r3>4 无符号落汇聚点只 add 不解析。
+  **分派依据是 loader 存进返回对象的 +0x04，不是请求 type**（父代理核对
+  0x28c7c0 `ldr r3,[r6,#4]`——loader 可把 linkedmesh 请求答成 type 2）。
+- **add**：`spSkin_addAttachment(skin, slotIndex, attachmentMap->name(+0x1c)
+  即 JSON 成员键, att)`——**entry 名是 map 键，createAttachment 收到的是
+  "name" 属性，两者可不同**（总装必须分开传）；真实 c/spine_skin 深拷贝。
+- 三层推进（attachment→slot→skin）回边 0x28c6e8/0x28c6c4/0x28c664；
+  §5.3 的链级块未重复发射；**0x28cc68 是五条跳表路径的汇聚点**——add
+  归"每个 attachment 的 body"（夹具断言"恰好 2 条 entry"锁死无双插）。
+- **loader 错误对**：先 `spSkeletonData_dispose(data)`，`ldm r3,{r2,r3}` 取
+  error1/+0x04 error2 作 fmt/arg（非静态串），setError(json, root, ...)；
+  error1==0 静默跳过（wrapper 已清陈旧值，夹具证明）。
+- 四个错误尾 dispose 序列一律 **dispose(data)→setError(json,root,msg,arg)
+  →返回 r4**；ik 与 transform 共用 "Target bone not found: "
+  @0x357c70、path "Target slot not found: " @0x357d14。
+- **原版怪癖（逐字保留）**：三个 Target 尾唯一入口 r0==0，故
+  `ldr r3,[r4,#0x1c]` 在原版读 VA 0x1c——错误路径上的潜在空页读取。
+
+回执：`skins_glue_check-20261108T140923.json`。段链**物理缺口清零**
+（368B/92 insn 全落 C；语义缺口 6 块留给全链总装层按 animations_loop
+适配器先例闭合）。
+
+## 第十批（收口）：全链总装——readSkeletonData 完整重建链落成
+
+`c/spine_read_skeleton/`（子代理施工、父代理复跑 `RESULT PASS`）：完整
+`spSkeletonJson_readSkeletonData(self, data)`——entry（locale 探针+兜底+
+Json_create+meta）→ bones → slots（模块自带错误链）→ ik → transform →
+path → skins+attachments（dispatch 四类解析+glue）→ linkedmesh 后处理 →
+events/animations 入口 → animationsLoop（九家族）→ B18（Json_dispose root
++ return data）。段序用**可观测副作用**断言（各段数组 malloc 行序
+607→615→651→697→735→782→839→1028→1043 + 合成 creator 调用序）。
+
+- 4 配置×20 测试；**16 具名变异**=组合层三类负控（段序错乱×2 / 段间交接
+  错配×2 / 打坏单段定位×3——失败行直接点名段）+ 装配层×9（错误尾漏发射/
+  root 双释放/释放漏/B18 漏调/掉段/文案错/状态残留/未知类型静默/重复发射）；
+  6 链接门（缺任一关键段源→undefined symbol）。
+- **语义缺口闭合（§5.2 六块 + 窗外第 9 块）**：ik bone / parent bone /
+  locale 兜底 / transform bone / path bone / Json_create 失败尾，加
+  **0x28e7f4**（dispatch `bne` 落点 0x28c79c 的 "Unknown attachment type:"
+  错误尾——普查窗口止于 0x28d19c 未列，父代理核对入边属实）。顺序恒
+  dispose(data)→setError→NULL；**两处 root 泄漏**（Skin/Parent mesh not
+  found 传 root=0——普查只点了 Skin，实测两处）照原样。
+- root 生命周期与只发射一次全部夹具点名（成功 free(root)==1；十处错误尾
+  data×1+root×1；`json->scale` 每缩放点重读）。
+- **receipt 显式落 `equivalence_axis_4: not_measured`**——④轴纪律生效。
+- open：`readSkeletonData_rootSlot`（entry 不回传 tree，Json_create
+  provider 发布）；`spSkeletonData_findSlot@0x28b070` 未恢复（夹具同形）；
+  三条 Target 尾的原版潜伏 fault 不复现（记录器代观测）。
+
+回执：`skeleton_chain_check-20261108T145754.json`。
+
+至此 **spSkeletonJson_readSkeletonData（13,044B/3,261 insn）以纯重建 C 模块
+链收口**：31+8+1 块、九时间线家族、全部胶水与错误尾均落 C；验收口径
+test_anchored（接线正确），**与原版等价（④轴）= 未有测量**——按
+`contracts/native-equivalence-gate.md`，下一步是 Level A 函数级对拍工具
+（Unicorn oracle 原函数 vs 重建链、同一棵合成树、spSkeletonData 全字段
+diff+三负控）。
+
+## 合成边界与欠账（累计）
+
+- 合成边界：`spEventData_create@0x285b94`（本体未恢复）、
+  `spCurveTimeline_setStepped@0x2817c0`（24B）、`spCurveTimeline_setCurve@0x2817d8`
+  （264B，66 insn）——夹具只记录 ABI 字；`setCurve` 本体是后续批次的候选。
+- 事件名取成员键意味着 events 是「按名对象」形态；仓内无 skeleton JSON 资产可
+  独立佐证，译文只按 0x28d20c 字面执行（open，登记在模块 functions.json）。
+- B3/B4（单动画前置 + timelineCount/spAnimation_create）及 B5 起时间线块族未恢复。
+
+## 普查更正（本批实测）
+
+1. `animations_segment_map.md` §7 open #10 表述不精确：animations **数组基址在
+   B2 的 0x28d2cc 就写入**，循环尾（0x28e784/0x28e78c）只写 count 与元素；
+   §3.1 的 `0x28d2bc→[r9,#0x38]` 本身正确。
+2. `asm/functions.tsv` 的 `anon_28b34c` 记为 944B（0x28b34c..0x28b6fc，237 insns）
+   ——把 readCurve（0x28b34c..0x28b3fc）、_readVertices（0x28b3fc 起，已恢复）、
+   toColor（0x28b680 起，已恢复）三个匿名函数并成了一条。恢复/引用时以
+   0x28b3fc=0xe92d4ff0（push {r4-r11,lr}）字钉为界；**不要拿 functions.tsv 的
+   944B 当 readCurve 的范围**。此条为索引口径缺陷，登记不动表（表是生成物）。

@@ -1,0 +1,146 @@
+2a7c64	e92d43f0	push.w	{r4, r5, r6, r7, r8, r9, lr}
+2a7c68	4604	mov	r4, r0
+2a7c6a	b0c1	sub	sp, #0x104
+2a7c6c	4615	mov	r5, r2
+2a7c6e	b109	cbz	r1, 0x2a7c74 <png_read_destroy+0x10>
+2a7c70	f7fef925	bl	0x2a5ebe <png_info_destroy>
+2a7c74	b11d	cbz	r5, 0x2a7c7e <png_read_destroy+0x1a>
+2a7c76	4620	mov	r0, r4
+2a7c78	4629	mov	r1, r5
+2a7c7a	f7fef920	bl	0x2a5ebe <png_info_destroy>
+2a7c7e	4620	mov	r0, r4
+2a7c80	f8d41170	ldr.w	r1, [r4, #0x170]
+2a7c84	f7fff83a	bl	0x2a6cfc <png_free>
+2a7c88	4620	mov	r0, r4
+2a7c8a	f8d412f4	ldr.w	r1, [r4, #0x2f4]
+2a7c8e	f7fff835	bl	0x2a6cfc <png_free>
+2a7c92	4620	mov	r0, r4
+2a7c94	f8d411ac	ldr.w	r1, [r4, #0x1ac]
+2a7c98	f7fff830	bl	0x2a6cfc <png_free>
+2a7c9c	4620	mov	r0, r4
+2a7c9e	f8d41330	ldr.w	r1, [r4, #0x330]
+2a7ca2	f7fff82b	bl	0x2a6cfc <png_free>
+2a7ca6	4620	mov	r0, r4
+2a7ca8	f8d412b0	ldr.w	r1, [r4, #0x2b0]
+2a7cac	f7fff826	bl	0x2a6cfc <png_free>
+2a7cb0	4620	mov	r0, r4
+2a7cb2	f8d412b4	ldr.w	r1, [r4, #0x2b4]
+2a7cb6	f7fff821	bl	0x2a6cfc <png_free>
+2a7cba	4620	mov	r0, r4
+2a7cbc	f8d41228	ldr.w	r1, [r4, #0x228]
+2a7cc0	f7fff81c	bl	0x2a6cfc <png_free>
+2a7cc4	4620	mov	r0, r4
+2a7cc6	f8d4122c	ldr.w	r1, [r4, #0x22c]
+2a7cca	f7fff817	bl	0x2a6cfc <png_free>
+2a7cce	f8d41230	ldr.w	r1, [r4, #0x230]
+2a7cd2	4620	mov	r0, r4
+2a7cd4	f7fff812	bl	0x2a6cfc <png_free>
+2a7cd8	f8d432c0	ldr.w	r3, [r4, #0x2c0]
+2a7cdc	04d9	lsls	r1, r3, #0x13
+2a7cde	d504	bpl	0x2a7cea <png_read_destroy+0x86>
+2a7ce0	4620	mov	r0, r4
+2a7ce2	f8d411d8	ldr.w	r1, [r4, #0x1d8]
+2a7ce6	f7fdff03	bl	0x2a5af0 <png_zfree>
+2a7cea	f8d432c0	ldr.w	r3, [r4, #0x2c0]
+2a7cee	f4235280	bic	r2, r3, #0x1000
+2a7cf2	f8c422c0	str.w	r2, [r4, #0x2c0]
+2a7cf6	049a	lsls	r2, r3, #0x12
+2a7cf8	d504	bpl	0x2a7d04 <png_read_destroy+0xa0>
+2a7cfa	4620	mov	r0, r4
+2a7cfc	f8d4124c	ldr.w	r1, [r4, #0x24c]
+2a7d00	f7fefffc	bl	0x2a6cfc <png_free>
+2a7d04	f8d432c0	ldr.w	r3, [r4, #0x2c0]
+2a7d08	f4235200	bic	r2, r3, #0x2000
+2a7d0c	071b	lsls	r3, r3, #0x1c
+2a7d0e	f8c422c0	str.w	r2, [r4, #0x2c0]
+2a7d12	d504	bpl	0x2a7d1e <png_read_destroy+0xba>
+2a7d14	4620	mov	r0, r4
+2a7d16	f8d412b8	ldr.w	r1, [r4, #0x2b8]
+2a7d1a	f7feffef	bl	0x2a6cfc <png_free>
+2a7d1e	f8d432c0	ldr.w	r3, [r4, #0x2c0]
+2a7d22	f0230308	bic	r3, r3, #0x8
+2a7d26	f8c432c0	str.w	r3, [r4, #0x2c0]
+2a7d2a	f8d43234	ldr.w	r3, [r4, #0x234]
+2a7d2e	b1b3	cbz	r3, 0x2a7d5e <png_read_destroy+0xfa>
+2a7d30	f8d4321c	ldr.w	r3, [r4, #0x21c]
+2a7d34	2601	movs	r6, #0x1
+2a7d36	2500	movs	r5, #0x0
+2a7d38	f1c30308	rsb.w	r3, r3, #0x8
+2a7d3c	409e	lsls	r6, r3
+2a7d3e	42b5	cmp	r5, r6
+2a7d40	da08	bge	0x2a7d54 <png_read_destroy+0xf0>
+2a7d42	f8d43234	ldr.w	r3, [r4, #0x234]
+2a7d46	4620	mov	r0, r4
+2a7d48	f8531025	ldr.w	r1, [r3, r5, lsl #2]
+2a7d4c	3501	adds	r5, #0x1
+2a7d4e	f7feffd5	bl	0x2a6cfc <png_free>
+2a7d52	e7f4	b	0x2a7d3e <png_read_destroy+0xda>
+2a7d54	4620	mov	r0, r4
+2a7d56	f8d41234	ldr.w	r1, [r4, #0x234]
+2a7d5a	f7feffcf	bl	0x2a6cfc <png_free>
+2a7d5e	f8d43238	ldr.w	r3, [r4, #0x238]
+2a7d62	b1b3	cbz	r3, 0x2a7d92 <png_read_destroy+0x12e>
+2a7d64	f8d4321c	ldr.w	r3, [r4, #0x21c]
+2a7d68	2601	movs	r6, #0x1
+2a7d6a	2500	movs	r5, #0x0
+2a7d6c	f1c30308	rsb.w	r3, r3, #0x8
+2a7d70	409e	lsls	r6, r3
+2a7d72	42b5	cmp	r5, r6
+2a7d74	da08	bge	0x2a7d88 <png_read_destroy+0x124>
+2a7d76	f8d43238	ldr.w	r3, [r4, #0x238]
+2a7d7a	4620	mov	r0, r4
+2a7d7c	f8531025	ldr.w	r1, [r3, r5, lsl #2]
+2a7d80	3501	adds	r5, #0x1
+2a7d82	f7feffbb	bl	0x2a6cfc <png_free>
+2a7d86	e7f4	b	0x2a7d72 <png_read_destroy+0x10e>
+2a7d88	4620	mov	r0, r4
+2a7d8a	f8d41238	ldr.w	r1, [r4, #0x238]
+2a7d8e	f7feffb5	bl	0x2a6cfc <png_free>
+2a7d92	f8d4323c	ldr.w	r3, [r4, #0x23c]
+2a7d96	b1b3	cbz	r3, 0x2a7dc6 <png_read_destroy+0x162>
+2a7d98	f8d4321c	ldr.w	r3, [r4, #0x21c]
+2a7d9c	2601	movs	r6, #0x1
+2a7d9e	2500	movs	r5, #0x0
+2a7da0	f1c30308	rsb.w	r3, r3, #0x8
+2a7da4	409e	lsls	r6, r3
+2a7da6	42b5	cmp	r5, r6
+2a7da8	da08	bge	0x2a7dbc <png_read_destroy+0x158>
+2a7daa	f8d4323c	ldr.w	r3, [r4, #0x23c]
+2a7dae	4620	mov	r0, r4
+2a7db0	f8531025	ldr.w	r1, [r3, r5, lsl #2]
+2a7db4	3501	adds	r5, #0x1
+2a7db6	f7feffa1	bl	0x2a6cfc <png_free>
+2a7dba	e7f4	b	0x2a7da6 <png_read_destroy+0x142>
+2a7dbc	4620	mov	r0, r4
+2a7dbe	f8d4123c	ldr.w	r1, [r4, #0x23c]
+2a7dc2	f7feff9b	bl	0x2a6cfc <png_free>
+2a7dc6	f8d412bc	ldr.w	r1, [r4, #0x2bc]
+2a7dca	4620	mov	r0, r4
+2a7dcc	f7feff96	bl	0x2a6cfc <png_free>
+2a7dd0	f504709c	add.w	r0, r4, #0x138
+2a7dd4	f60eee08	blx	0xb69e8 <inflateEnd@plt>
+2a7dd8	4620	mov	r0, r4
+2a7dda	f8d41274	ldr.w	r1, [r4, #0x274]
+2a7dde	f7feff8d	bl	0x2a6cfc <png_free>
+2a7de2	4621	mov	r1, r4
+2a7de4	4668	mov	r0, sp
+2a7de6	f44f7280	mov.w	r2, #0x100
+2a7dea	f60eebe8	blx	0xb65bc <memcpy@plt>
+2a7dee	f8d49104	ldr.w	r9, [r4, #0x104]
+2a7df2	f8d48108	ldr.w	r8, [r4, #0x108]
+2a7df6	4620	mov	r0, r4
+2a7df8	f8d4710c	ldr.w	r7, [r4, #0x10c]
+2a7dfc	2100	movs	r1, #0x0
+2a7dfe	f8d462f0	ldr.w	r6, [r4, #0x2f0]
+2a7e02	f44f724e	mov.w	r2, #0x338
+2a7e06	f60eebd4	blx	0xb65b0 <memset@plt>
+2a7e0a	f8c49104	str.w	r9, [r4, #0x104]
+2a7e0e	f8c48108	str.w	r8, [r4, #0x108]
+2a7e12	4620	mov	r0, r4
+2a7e14	f8c4710c	str.w	r7, [r4, #0x10c]
+2a7e18	4669	mov	r1, sp
+2a7e1a	f8c462f0	str.w	r6, [r4, #0x2f0]
+2a7e1e	f44f7280	mov.w	r2, #0x100
+2a7e22	f60eebcc	blx	0xb65bc <memcpy@plt>
+2a7e26	b041	add	sp, #0x104
+2a7e28	e8bd83f0	pop.w	{r4, r5, r6, r7, r8, r9, pc}

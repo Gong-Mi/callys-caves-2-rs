@@ -1,0 +1,184 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_skins_glue",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "owned_bytes": "368 B / 92 instructions = census §5.1's eight physical gaps (5.7% of the 0x28b84c..0x28d19c window)",
+  "functions": [
+    {
+      "name": "readSkeletonData_skinsCreateAttachment",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28c7a4-0x28c7e4 (blocks #1 minus the path stub) + the 0x28cc68 convergence it branches to",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "loader = json->loader; attachment = spAttachmentLoader_createAttachment(loader, skin, type, name, path) with the fifth argument on the stack (0x28c7ac str r5,[sp]); NULL -> block #5/#6; else stored = ((int32_t*)attachment)[1] and an unsigned compare against 4 selects the jump-table landing (region parser / bbox parser / mesh parser for 2 and 3 / path parser), then spSkin_addAttachment(skin, slotIndex, name, attachment) at 0x28cc68.",
+      "instruction_anchors": [
+        "0x28c7a4 ldr r0,[r8,#4] (loader)",
+        "0x28c7ac str r5,[sp] (5th argument)",
+        "0x28c7b4 bl spAttachmentLoader_createAttachment 0x284d58",
+        "0x28c7b8 subs r6,r0,#0 ; 0x28c7bc beq 0x28cf68",
+        "0x28c7c0 ldr r3,[r6,#4] (the type STORED IN THE OBJECT)",
+        "0x28c7c4 cmp r3,#4 ; 0x28c7c8 908ff103 addls pc,pc,r3,lsl#2",
+        "0x28c7cc b 0x28cc68 (r3 > 4 unsigned: no field parse)",
+        "0x28cc68..0x28cc78 the shared add"
+      ],
+      "quirks": [
+        "the jump table switches on the type the LOADER stored at +0x04, never on the requested type; a loader may answer a linkedmesh request with an object whose +0x04 is 2 and the mesh parser then runs",
+        "`addls` is an unsigned test: a stored type of 5 or 0xffffffff takes the 0x28c7cc fall-through, so the attachment is added without a field parse",
+        "table entries 2 and 3 point at the same mesh parser (0x28cb20); its 1/0 return is discarded exactly like 0x28cb1c b 0x28cc68, so a mesh queued for the linkedmesh postpass is still added to the skin"
+      ]
+    },
+    {
+      "name": "readSkeletonData_skinsCreateRegionAttachment",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28cf2c-0x28cf34 (mov r2,r0 ; b 0x28c7a4)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "Type stub: r2 = the strcmp(\"region\") result, which is 0 on this branch; falls into the shared call with type 0."
+    },
+    {
+      "name": "readSkeletonData_skinsCreateBoundingBoxAttachment",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28cfa0-0x28cfa8 (mov r2,#1 ; b 0x28c7a4)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "Type stub: r2 = 1. Physically the last two instructions of block #6's window."
+    },
+    {
+      "name": "readSkeletonData_skinsCreateMeshAttachment",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28cf24-0x28cf2c (mov r2,#2 ; b 0x28c7a4)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "Type stub: r2 = 2."
+    },
+    {
+      "name": "readSkeletonData_skinsCreateLinkedMeshAttachment",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28cf34-0x28cf3c (mov r2,#3 ; b 0x28c7a4)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "Type stub: r2 = 3."
+    },
+    {
+      "name": "readSkeletonData_skinsCreatePathAttachment",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28c7a0-0x28c7a4 (mov r2,#4, falls through into the shared call)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "Type stub: r2 = 4. The only stub that is not a branch: it is the head of block #1."
+    },
+    {
+      "name": "readSkeletonData_skinsLoaderErrorTail",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28cf78-0x28cfa0 (block #6, first 10 of 12 instructions)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "data = [sp,#0x34]; spSkeletonData_dispose(data) FIRST; then _spSkeletonJson_setError(json, root, loader->error1, loader->error2) with the pair loaded by 0x28cf90 ldm r3,{r2,r3}; returns the failed attachment (r6, 0).",
+      "instruction_anchors": [
+        "0x28cf78 ldr r9,[sp,#0x34]",
+        "0x28cf7c/0x28cf80 mov r0,r9 ; bl spSkeletonData_dispose 0x28adf8",
+        "0x28cf84 ldr r3,[r8,#4]",
+        "0x28cf8c ldr r1,[sp,#0x24] (root)",
+        "0x28cf90 ldm r3,{r2,r3}",
+        "0x28cf94 bl _spSkeletonJson_setError 0x28b784",
+        "0x28cf98 mov r0,r6 ; 0x28cf9c b 0x28bdcc",
+        "0x28cfa0/0x28cfa4 mov r2,#1 ; b 0x28c7a4 (the boundingbox stub in the same window)"
+      ],
+      "quirks": [
+        "the message is not static text: it is loader->error1 (+0x00) and the argument is loader->error2 (+0x04)",
+        "the 0x28bdcc epilogue and the root ownership stay outside this module (census §5.3 / §3.3)"
+      ]
+    },
+    {
+      "name": "readSkeletonData_skinsAttachmentAdd",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28cc68-0x28cc78 (5 instructions)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "spSkin_addAttachment(skin (r9), slotIndex ([sp,#0x28]), name (r7), attachment (r6)) through the REAL c/spine_skin body at 0x28ecd8.",
+      "quirks": [
+        "the name handed to the skin is r7 = attachmentMap->name (+0x1c) loaded at 0x28c6e8, i.e. the JSON MEMBER KEY, while createAttachment receives r6 = Json_getString(map,\"name\",key); the two differ whenever a map carries a \"name\" property",
+        "c/spine_skin copies the name into the entry (line 38), so the borrowed Json string is not retained"
+      ]
+    },
+    {
+      "name": "readSkeletonData_skinsAdvance",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28cc7c-0x28ccb8 (15 instructions)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "attachment = attachment->next; if non-NULL -> ATTACHMENT back edge 0x28c6e8. Otherwise slot = slot->next; if non-NULL -> SLOT back edge 0x28c6c4. Otherwise skin = skin->next; if non-NULL -> SKIN back edge 0x28c664, else DONE.",
+      "quirks": [
+        "the two stack cells [sp,#0x1c] and [sp,#0x18] hold the current Json node and are advanced by reading +0x00, so modelling them as cursor fields is exact",
+        "0x28cc9c ldr r11,[sp,#0x34] and 0x28ccb4 mov r9,r11 are chain-level data restores (census §5.3) and are NOT re-emitted here"
+      ]
+    },
+    {
+      "name": "readSkeletonData_skinsAttachmentLevel",
+      "kind": "caller_block_assembly_not_original_function",
+      "address_range": "0x28cc7c-0x28ccb8 control flow, one iteration = the 0x28c6e8 body + the advance",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "Runs body(attachmentMap) once per attachment and reports which back edge the caller must take (ATTACHMENT is looped internally; SLOT / SKIN / DONE are returned). SKINS_GLUE_ERROR aborts without advancing. The slot head 0x28c6c4 and skin head 0x28c664 belong to other modules and are never re-entered here."
+    },
+    {
+      "name": "readSkeletonData_ikTargetNotFoundTail",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28cf3c-0x28cf68 (11 instructions)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "r4 = r0; spSkeletonData_dispose(data); _spSkeletonJson_setError(json, root, \"Target bone not found: \" @0x357c70, *(char**)(r4+0x1c)); return r4.",
+      "instruction_anchors": [
+        "0x28cf3c mov r4,r0",
+        "0x28cf44 bl spSkeletonData_dispose",
+        "0x28cf48 ldr r2,[pc,#-0x5a4] pool 0x28c9ac = 0xcad14 ; 0x28cf54 add r2,pc,r2 -> 0x357c70",
+        "0x28cf50 ldr r1,[sp,#0x24] (root)",
+        "0x28cf58 ldr r3,[r4,#0x1c]",
+        "0x28cf5c bl _spSkeletonJson_setError",
+        "0x28cf60 mov r0,r4 ; 0x28cf64 b 0x28bdcc"
+      ],
+      "quirks": [
+        "the only edge into this tail is 0x28bfa8 beq 0x28cf3c with r0 == 0, so the argument load at 0x28cf58 reads VA 0x1c: a latent NULL-page fault on the error path, reproduced verbatim"
+      ]
+    },
+    {
+      "name": "readSkeletonData_transformTargetNotFoundTail",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28d144-0x28d170 (11 instructions)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "Same shape as the ik tail; literal pool 0x28c9d0 = 0xcab0c resolves to the SAME 0x357c70 \"Target bone not found: \", entry edge 0x28c154 beq 0x28d144."
+    },
+    {
+      "name": "readSkeletonData_pathTargetSlotNotFoundTail",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28d170-0x28d19c (11 instructions)",
+      "translation_source": "src/spine_skins_glue.c",
+      "semantics": "Same shape; literal pool 0x28c9d4 = 0xcab84 resolves to 0x357d14 \"Target slot not found: \", entry edge 0x28c3fc beq 0x28d170."
+    }
+  ],
+  "abi_notes": [
+    "spAttachmentLoader_createAttachment is 5 arguments: r0 = json->loader, r1 = skin, r2 = requested type, r3 = name, [sp] = path (0x28c7a4/7a8/7ac/7b0/7b4). The recovered wrapper 0x284d58 frees and clears loader->error1/error2 before the vtable call.",
+    "spSkin_addAttachment: r0 = skin, r1 = slotIndex, r2 = name, r3 = attachment (0x28cc68..0x28cc78).",
+    "_spSkeletonJson_setError is 4 arguments (json, root, fmt, arg); the root is disposed inside it when non-NULL.",
+    "the jump table base is the addls instruction + 8 = 0x28c7d0 (ARM pc = addr + 8)."
+  ],
+  "handoffs": [
+    {"from": "classify (c/spine_read_attach_dispatch)", "to": "one of the five type stub entries, with r7 = attachmentMap->name as the skin entry name"},
+    {"from": "readSkeletonData_skinsCreateAttachment", "to": "c/spine_read_region 0x28cdac / c/spine_read_bbox_path 0x28cd6c and 0x28ca5c / c/spine_read_mesh 0x28cb20 for the field parse"},
+    {"from": "readSkeletonData_skinsCreateAttachment", "to": "c/spine_skin spSkin_addAttachment 0x28ecd8 (0x28cc68)"},
+    {"from": "readSkeletonData_skinsAttachmentLevel", "to": "the caller's slot head 0x28c6c4 / skin head 0x28c664 on a non-ATTACHMENT advance"},
+    {"from": "readSkeletonData_*TargetNotFoundTail", "to": "readSkeletonData_ikSection / transformSection / pathSection which report error_which == 2"}
+  ],
+  "open": [
+    "the three \"Target ...\" tails cannot be executed with their original register value: r4 = r0 = 0, so [r4+0x1c] is a NULL-page read. The fixture injects an argument record to prove the offset and the register source; a total assembly that calls them with a real failed pointer would fault, exactly like the original.",
+    "the four field parsers are synthetic recorders in this module's fixture; their real bodies live in c/spine_read_region, c/spine_read_bbox_path and c/spine_read_mesh and are exercised by those modules",
+    "the Atlas loader body 0x284a08 is another module's scope; the fixture's loader record is a recorder that mirrors _spAttachmentLoader_setError's error1/error2 publication",
+    "the skin entry name comes from r7 (the JSON member key) while createAttachment receives the \"name\" property; the total assembly must reproduce that split, which is tested here through the loop driver",
+    "0x28bdcc / 0x28bdd8 / 0x28cc9c / 0x28ccb4 (common epilogue and chain-level restores) are deliberately not re-emitted"
+  ],
+  "acceptance": {
+    "checker": "tools/check_skins_glue.py",
+    "receipt_schema": "cally-skins-glue-check/1",
+    "tier": "test_anchored",
+    "original_executed": false,
+    "configs": ["O0", "O2", "O3", "ubsan"],
+    "declared_tests": 15,
+    "teeth": 15,
+    "compile_guards": ["missing-skins-glue-body", "unlinked-spine-skin", "unlinked-json-interface", "unlinked-atlas-attachment", "unlinked-json-error"],
+    "static_pins": {"symbols": 15, "instruction_words": 98, "pinned_instructions": 92, "message_literals": 3, "call_sites": 10, "jump_table_entries": 5}
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_skeleton",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "role": "assembly layer: it owns no new original bytes, it wires the sixteen recovered segment/glue modules into the complete spSkeletonJson_readSkeletonData and closes the seven error tails those modules report as codes",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (size 13044, ends 0x28eb40)",
+  "assembled_chain": [
+    {"stage": "entry", "range": "0x28b84c..0x28b8f0", "module": "spine_read_entry"},
+    {"stage": "meta", "range": "0x28b8f4..0x28ba40", "module": "spine_read_meta"},
+    {"stage": "bones", "range": "0x28ba40..0x28bbcc", "module": "spine_read_bones"},
+    {"stage": "slots", "range": "0x28bbcc..0x28bdd8", "module": "spine_read_slots"},
+    {"stage": "ik", "range": "0x28bdd8..0x28bff8", "module": "spine_read_ik"},
+    {"stage": "transform", "range": "0x28bff8..0x28c274", "module": "spine_read_transform"},
+    {"stage": "path", "range": "0x28c274..0x28c5ec", "module": "spine_read_path"},
+    {"stage": "skins", "range": "0x28c5ec..0x28ccb8", "modules": ["spine_read_skins", "spine_read_attach_dispatch", "spine_skins_glue", "spine_read_region", "spine_read_mesh", "spine_read_bbox_path", "spine_read_vertices"]},
+    {"stage": "linkedmesh postpass", "range": "0x28ccb8..0x28d19c", "module": "spine_linked_postpass"},
+    {"stage": "events + animations", "range": "0x28d19c..0x28e7a0", "modules": ["spine_read_animations", "spine_animations_loop", "spine_read_tl_slots", "spine_read_tl_bones", "spine_read_tl_ik", "spine_read_tl_transform", "spine_read_tl_path", "spine_read_tl_path_mix", "spine_read_tl_deform", "spine_read_tl_draworder", "spine_read_tl_event"]},
+    {"stage": "B18", "range": "0x28e7a4..0x28e7b0", "module": "spine_read_skeleton"},
+    {"stage": "shared epilogue", "range": "0x28bdcc..0x28bdd4", "module": "spine_read_skeleton"}
+  ],
+  "functions": [
+    {
+      "name": "spSkeletonJson_readSkeletonData",
+      "kind": "assembled_original_function",
+      "address_range": "0x28b84c..0x28e7b0 (declared size 13044, 0x28eb40 end-exclusive)",
+      "translation_source": "src/spine_read_skeleton.c",
+      "semantics": "Single-chain loader: locale guard -> Json_create -> spSkeletonData_create -> meta -> bones -> slots -> ik -> transform -> path -> skins/dispatch/glue/parsers -> linkedmesh postpass -> events -> animations (B1/B2 per-animation loop) -> Json_dispose(root) -> return data. Every stage is its own recovered module; this file owns the order, the root/data lifetimes and the seven error tails reported as codes.",
+      "returns": "spSkeletonData* on success (root already disposed) or NULL on any segment error (data disposed by the owning tail, root disposed inside setError unless that tail passed root=0)",
+      "instruction_anchors": [
+        "0x28b8f0 beq 0x28b9cc skeleton absent",
+        "0x28b9d8 bl Json_getItem (bones, NO null test)",
+        "0x28bbe0 / 0x28bdf0 / 0x28c00c / 0x28c288 / 0x28c600 beq skip",
+        "0x28d1b0 / 0x28d2a4 beq (events / animations absent)",
+        "0x28e7a4 ldr r0,[sp,#0x24] ; 0x28e7a8 bl Json_dispose ; 0x28e7ac mov r0,r9",
+        "0x28bdcc..0x28bdd4 the single shared epilogue"
+      ]
+    },
+    {
+      "name": "tail_ik_bone_not_found",
+      "kind": "semantic_gap_closed_here",
+      "address_range": "0x28bf00..0x28bf28 (+ the dedicated exit 0x28bf24)",
+      "census": "segment_chain_map.md §5.2 gap 1 (inside spine_read_ik's window)",
+      "semantics": "spSkeletonData_dispose(data) -> _spSkeletonJson_setError(self, root, \"IK bone not found: \", name) -> NULL; r0 comes from the explicitly zeroed r10"
+    },
+    {
+      "name": "tail_parent_bone_not_found",
+      "kind": "semantic_gap_closed_here",
+      "address_range": "0x28bf28..0x28bf58 (+ exit 0x28bf54)",
+      "census": "segment_chain_map.md §5.2 gap 2 (inside the ik window, belongs to bones)",
+      "semantics": "dispose(data) -> setError(self, root, \"Parent bone not found: \", parent name) -> NULL. The parent name is recovered by re-walking the same bone child list with the same findBone lookup (bones are appended in order and never removed, so the first miss of the re-walk is the failing index)."
+    },
+    {
+      "name": "tail_locale_fallback",
+      "kind": "semantic_gap_closed_here",
+      "address_range": "0x28bf58..0x28bf84",
+      "census": "segment_chain_map.md §5.2 gap 3",
+      "semantics": "When setlocale(LC_NUMERIC,NULL) returns NULL the original sets \"C\", runs Json_create and then resets the locale to NULL without restoring. The entry module cannot report `saved`, so the assembly probes once, installs \"C\" before entry runs and resets after it."
+    },
+    {
+      "name": "tail_transform_bone_not_found",
+      "kind": "semantic_gap_closed_here",
+      "address_range": "0x28c104..0x28c130",
+      "census": "segment_chain_map.md §5.2 gap 4",
+      "semantics": "dispose(data) -> setError(self, root, \"Transform bone not found: \", name) -> NULL"
+    },
+    {
+      "name": "tail_path_bone_not_found",
+      "kind": "semantic_gap_closed_here",
+      "address_range": "0x28c384..0x28c3b4",
+      "census": "segment_chain_map.md §5.2 gap 5",
+      "semantics": "dispose(data) -> setError(self, root, \"Path bone not found: \", name) -> NULL"
+    },
+    {
+      "name": "tail_invalid_skeleton_json",
+      "kind": "semantic_gap_closed_here",
+      "address_range": "0x28c3b4..0x28c3d8",
+      "census": "segment_chain_map.md §5.2 gap 6",
+      "semantics": "Json_create failure: Json_getError() -> setError(self, 0-at-that-point, \"Invalid skeleton JSON: \", err) -> NULL; data was never created"
+    },
+    {
+      "name": "tail_unknown_attachment_type",
+      "kind": "out_of_census_window_gap_closed_here",
+      "address_range": "0x28e7f4..0x28e81c",
+      "census": "physically inside the animations address range, so census §5.1 (which stops at 0x28d19c) does not list it; animations_segment_map.md §1.3 already assigns these out-of-line attachment tails to the attachment window and no module claims this one",
+      "semantics": "dispatch fall-through 0x28c79c bne 0x28e7f4: dispose(data) -> setError(self, root, \"Unknown attachment type: \", type) -> NULL"
+    }
+  ],
+  "chain_level_state": [
+    "0x28bdd8 ldr r8,[sp,#0x28] (json restore at the ik head) and 0x28ccb4 mov r9,r11 (data restore at the skins exit) are C locals here, emitted once",
+    "0x28bdcc..0x28bdd4 is the single shared epilogue: one C return, never duplicated per segment",
+    "the skins loop constants (\"default\"/\"name\"/\"path\"/\"type\", 0x55555556) stay inside spine_read_skins / spine_read_attach_dispatch and are never re-loaded here",
+    "json->scale is re-read at every scaling site (vldr s15,[r8]) and never cached across calls",
+    "frame->animation is set from B2's return (0x28d2c8 str r4,[sp,#0x1c]); the rest of the B3/B4 frame slice is zeroed because B3/B4 write every word before reading it"
+  ],
+  "quirks_preserved": [
+    "bones key missing -> readSkeletonData_bonesArray dereferences NULL (census §1.4C): no guard was added",
+    "bonesCount / skinsCount are running counters; slots/ik/transform/path counts are pre-written from the Json size",
+    "the setlocale(NULL) fallback never restores the previous locale",
+    "linkedmesh \"Skin not found\" and \"Parent mesh not found\" pass root = 0, so the parsed tree LEAKS on those two paths (asserted as a leak, not repaired)",
+    "createAttachment returning NULL with no loader error silently drops the attachment and still advances",
+    "the three \"Target ...\" tails load their message argument through r4 = the failed lookup result (0), a latent NULL-page fault on paths the shipped data never takes"
+  ],
+  "returns_contract": {
+    "success": "data, root disposed exactly once by B18",
+    "failure": "NULL, data disposed once by the owning tail, root disposed once inside setError, json->error holds the formatted text",
+    "exception": "linkedmesh Skin/Parent-mesh tails: data disposed once, root leaked"
+  },
+  "depends_on": [
+    "spine_read_entry", "spine_read_meta", "spine_read_bones", "spine_read_slots",
+    "spine_read_ik", "spine_read_transform", "spine_read_path", "spine_read_skins",
+    "spine_read_attach_dispatch", "spine_read_region", "spine_read_mesh",
+    "spine_read_bbox_path", "spine_read_vertices", "spine_skins_glue",
+    "spine_linked_postpass", "spine_read_animations", "spine_animations_loop",
+    "the nine spine_read_tl_* families",
+    "json_interface", "spine_json_error", "spine_json_support", "spine_alloc",
+    "spine_skeleton_data", "skeleton_find", "spine_skin", "spine_attachment",
+    "spine_atlas_attachment", "spine_mesh", "spine_region_geometry", "spine_color",
+    "spine_read_curve"
+  ],
+  "synthetic_boundaries": [
+    "Json_create 0x287320 and Json_getError 0x2872b8 (the parser entry; the fixture returns the staged tree and records the parse-error text)",
+    "spBoneData_create 0x285ac8, spSlotData_create 0x28ef6c, spSlotData_setAttachmentName 0x28efd4, spIkConstraintData_create 0x28671c, spTransformConstraintData_create 0x28f5b8, spPathConstraintData_create 0x288ee0",
+    "spSkeletonData_findSlot 0x28b070 (92 B in .dynsym; no module in this tree recovered it)",
+    "spAnimation_create, spEventData_create, spEvent_create, every timeline create/setFrame, spCurveTimeline_setStepped/setCurve",
+    "spSkeletonData_findEvent/findIkConstraint/findTransformConstraint/findPathConstraint",
+    "the attachment loader record + vtable + its createAttachment body",
+    "the fixture heap/allocator rosters, libc providers, hand-built Json nodes"
+  ],
+  "open": [
+    "The [sp,#0x24] root slot has no carrier in spine_read_entry's C ABI (it returns the \"skeleton\" child), and a Json tree has no parent link, so the assembly exposes one word, readSkeletonData_rootSlot, that the Json_create provider publishes. A real (unrecovered) Json_create must write it; until then a provider that does not leaves the loader reporting \"Invalid skeleton JSON\".",
+    "spSkeletonData_findSlot 0x28b070 is a .dynsym symbol that no module recovered; the fixture supplies a same-shaped linear scan (count +0x18, table +0x1c, name +0x04).",
+    "The locale fallback probe repeats one read-only setlocale(LC_NUMERIC,NULL) call on the normal path; it changes no state, but the original calls it once.",
+    "readSkeletonData_metadata takes the tree and re-looks up \"skeleton\", so the chain performs that lookup twice where the original performs it once (module ABI, not this layer).",
+    "The three glue \"Target ...\" tails read [r0+0x1c] with r0 = 0 (a latent fault). The assembly hands the block a record whose +0x1c is the target name the segment reported, so the block still runs from its owner but the fault itself is not reproduced.",
+    "Error tails dispose a data record whose count was published before the array was filled; the fixture pre-points those arrays at inert records so the dispose order/report/root release stay observable. The original's behaviour on real malloc garbage there is UNPROVEN.",
+    "A skeleton JSON without a \"bones\" key dereferences NULL inside readSkeletonData_bonesArray (original quirk, untestable without a fault harness).",
+    "Original bytes were never executed and no equivalence measurement exists (axis 4 = not_measured)."
+  ],
+  "acceptance": {
+    "status": "verified_reconstructed_scope_only",
+    "original_executed": false,
+    "equivalence_axis_4": "not_measured",
+    "checker": "tools/check_skeleton.py",
+    "receipt_schema": "cally-skeleton-chain-check/1",
+    "receipt_tier": "test_anchored",
+    "declared_tests": 20,
+    "variants": ["O0", "O2", "O3", "UBSan trap"],
+    "static_pins": {"word_pins": 46, "pc_relative_literals": 15, "dynsym_pins": 49},
+    "negative_controls": {
+      "segment_order": 2,
+      "handoff_mismatch": 2,
+      "broken_segment": 3,
+      "assembly_layer": 9
+    },
+    "compile_guards": ["missing-chain-body", "missing-bones", "missing-slots", "missing-skins-glue", "missing-linked-postpass", "missing-animations-loop"]
+  }
+}

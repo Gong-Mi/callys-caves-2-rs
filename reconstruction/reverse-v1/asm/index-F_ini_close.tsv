@@ -1,0 +1,10 @@
+13b9e0	e92d4038	push	{r3, r4, r5, lr}
+13b9e4	e1a05000	mov	r5, r0
+13b9e8	ebffffe6	bl	0x13b988 <_Z15YYGML_ini_closev>
+13b9ec	e1a04000	mov	r4, r0
+13b9f0	e1a00005	mov	r0, r5
+13b9f4	e1a01004	mov	r1, r4
+13b9f8	ebfea616	bl	0xe5258 <_Z14YYCreateStringP6RValuePKc>
+13b9fc	e1a00004	mov	r0, r4
+13ba00	e8bd4038	pop	{r3, r4, r5, lr}
+13ba04	ea050231	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>

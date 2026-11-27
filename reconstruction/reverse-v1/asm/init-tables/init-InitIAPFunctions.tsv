@@ -1,0 +1,16 @@
+idx	call_addr	name	fn_addr	fn_symbol	argc	flag
+0	0x15351c	iap_activate	0x154bd4	F_IAP_Activate(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+1	0x15353c	iap_status	0x152ff4	F_IAP_StoreState(RValue&, CInstance*, CInstance*, int, RValue*)	0	0
+2	0x153558	iap_acquire	0x155070	F_IAP_Acquire(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+3	0x153574	iap_consume	0x1551f0	F_IAP_Consume(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+4	0x153590	iap_is_purchased	0x153234	F_IAP_ProductPurchased(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+5	0x1535ac	iap_enumerate_products	0x155724	F_IAP_EnumerateProducts(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+6	0x1535c8	iap_restore_all	0x1552b4	F_IAP_RestoreAll(RValue&, CInstance*, CInstance*, int, RValue*)	0	0
+7	0x1535e4	iap_product_details	0x1552f4	F_IAP_ProductDetails(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+8	0x153600	iap_purchase_details	0x153450	F_IAP_PurchaseDetails(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+9	0x153618	iap_store_status	0x152ff4	F_IAP_StoreState(RValue&, CInstance*, CInstance*, int, RValue*)	0	0
+10	0x153638	iap_event_queue	0x153220	F_IAP_Deprecated(RValue&, CInstance*, CInstance*, int, RValue*)	0	0
+11	0x153650	iap_product_status	0x153220	F_IAP_Deprecated(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+12	0x153668	iap_is_downloaded	0x153220	F_IAP_Deprecated(RValue&, CInstance*, CInstance*, int, RValue*)	1	0
+13	0x153680	iap_product_files	0x153220	F_IAP_Deprecated(RValue&, CInstance*, CInstance*, int, RValue*)	2	0
+14	0x15369c	iap_files_purchased	0x153220	F_IAP_Deprecated(RValue&, CInstance*, CInstance*, int, RValue*)	0	0

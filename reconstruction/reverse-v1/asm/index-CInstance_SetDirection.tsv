@@ -1,0 +1,28 @@
+193064	ee071a90	vmov	s15, r1
+193068	e92d4010	push	{r4, lr}
+19306c	eef57ac0	vcmpe.f32	s15, #0
+193070	e1a04000	mov	r4, r0
+193074	eef1fa10	vmrs	APSR_nzcv, fpscr
+193078	5a000004	bpl	0x193090 <_ZN9CInstance12SetDirectionEf+0x2c>
+19307c	ed9f7a13	vldr	s14, [pc, #76]
+193080	ee777a87	vadd.f32	s15, s15, s14
+193084	eef57ac0	vcmpe.f32	s15, #0
+193088	eef1fa10	vmrs	APSR_nzcv, fpscr
+19308c	4afffffb	bmi	0x193080 <_ZN9CInstance12SetDirectionEf+0x1c>
+193090	ed9f7a0e	vldr	s14, [pc, #56]
+193094	eef47ac7	vcmpe.f32	s15, s14
+193098	eef1fa10	vmrs	APSR_nzcv, fpscr
+19309c	da000003	ble	0x1930b0 <_ZN9CInstance12SetDirectionEf+0x4c>
+1930a0	ee777ac7	vsub.f32	s15, s15, s14
+1930a4	eef47ac7	vcmpe.f32	s15, s14
+1930a8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1930ac	cafffffb	bgt	0x1930a0 <_ZN9CInstance12SetDirectionEf+0x3c>
+1930b0	ee170a90	vmov	r0, s15
+1930b4	e3a01000	mov	r1, #0
+1930b8	e34413b4	movt	r1, #0x43b4
+1930bc	ebfc8db3	bl	0xb6790 <fmodf@plt>
+1930c0	e58400cc	str	r0, [r4, #0xcc]
+1930c4	e1a00004	mov	r0, r4
+1930c8	e8bd4010	pop	{r4, lr}
+1930cc	eafffe73	b	0x192aa0 <_ZN9CInstance14Compute_Speed2Ev>
+1930d0	43b40000	.word	0x43b40000

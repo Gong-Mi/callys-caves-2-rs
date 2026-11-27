@@ -1,0 +1,72 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_linked_postpass",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "functions": [
+    {
+      "name": "readSkeletonData_resolveLinkedMeshes",
+      "kind": "caller_blocks_not_original_function",
+      "parent_original_entry": "0x28b84c",
+      "original_blocks": [
+        {
+          "range": [
+            "0x28ccb8",
+            "0x28cd6c"
+          ],
+          "sha256": "77435fd8ef1298463ae91bd5f09624f6e976d66c1d07ba8ba2575cb8969b9de6"
+        },
+        {
+          "range": [
+            "0x28e880",
+            "0x28e8ac"
+          ],
+          "sha256": "9709b84aa6ceb799892ebf4661c2f7d417c39cb5770dfc745b137d4ad582749c"
+        }
+      ],
+      "semantics_state": "listed linked resolution and NULL-return paths translated, whole loader unassembled",
+      "translation_state": "compiled and exercised in final reconstructed ARM32 consumers; original not executed",
+      "phase_complete": false,
+      "translation_source": "src/spine_linked_postpass.c",
+      "translation_source_sha256": "552e9f99763a6f1d1a9ad9c77e3d8e5ab9ce1c4742e38c32a642a112d7d80262",
+      "interface": "int scaffolding result:1=events successor0x28d19c;0=originalNULL-return after disposing data",
+      "paths": [
+        "signed count<=0 skips queue/data entirely",
+        "per iteration reload queue; defaultSkin isdata+0x28, named uses real findSkin",
+        "parent/slot read after findSkin; no parent attachment type check",
+        "skin/parent missing disposes data before rereading borrowed extra and actual setError(json=NULL)",
+        "setParent, then reread mesh for updateUVs; reread mesh and loader for configure",
+        "backedge reloads signed count after configure; no queue clear/free on success"
+      ],
+      "original_gap": [
+        "full skin/slot outer loops, events/animations and full loader assembly",
+        "original execution and exact arbitrary alias/fault domains"
+      ],
+      "translation_header_sha256": "0501f28bf10044a0cc624ea58ab367832cb1c241378deab33b0c4496780f3e5b"
+    }
+  ],
+  "depends_on": [
+    "spine_skin",
+    "skeleton_find",
+    "spine_mesh",
+    "spine_skeleton_data cleanup",
+    "spine_json_error and actual Json/report support"
+  ],
+  "acceptance": {
+    "status": "verified_reconstructed_scope_only",
+    "original_executed": false,
+    "linked_consumer_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/run-03/receipt.json",
+    "linked_consumer_receipt_sha256": "600109e9ce9ada4d802affed12b7b9c250503109bc7e581daf76ed96544d316f",
+    "linked_contracts_per_variant": 15,
+    "linked_variants": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "linked_runtime_mutants": 17,
+    "guard_contract": "O0/O2/O3 global canary rejects after optional Json_dispose; disabling guard distinguished by named assertion",
+    "static_review": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/parent-static-review/parent-static-review.json"
+  }
+}

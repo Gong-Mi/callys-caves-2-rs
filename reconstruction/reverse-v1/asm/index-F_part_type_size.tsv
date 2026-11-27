@@ -1,0 +1,28 @@
+129080	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+129084	e3a01000	mov	r1, #0
+129088	e59d4018	ldr	r4, [sp, #0x18]
+12908c	e1a00004	mov	r0, r4
+129090	ebfe95f6	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+129094	e3a01001	mov	r1, #1
+129098	e1a05000	mov	r5, r0
+12909c	e1a00004	mov	r0, r4
+1290a0	ebfe96f7	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1290a4	e3a01002	mov	r1, #2
+1290a8	e1a08000	mov	r8, r0
+1290ac	e1a00004	mov	r0, r4
+1290b0	ebfe96f3	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1290b4	e3a01003	mov	r1, #3
+1290b8	e1a07000	mov	r7, r0
+1290bc	e1a00004	mov	r0, r4
+1290c0	ebfe96ef	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1290c4	e3a01004	mov	r1, #4
+1290c8	e1a06000	mov	r6, r0
+1290cc	e1a00004	mov	r0, r4
+1290d0	ebfe96eb	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1290d4	e1a01008	mov	r1, r8
+1290d8	e1a02007	mov	r2, r7
+1290dc	e1a03006	mov	r3, r6
+1290e0	e58d0018	str	r0, [sp, #0x18]
+1290e4	e1a00005	mov	r0, r5
+1290e8	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+1290ec	ea01e84e	b	0x1a322c <_Z17ParticleType_Sizeiffff>

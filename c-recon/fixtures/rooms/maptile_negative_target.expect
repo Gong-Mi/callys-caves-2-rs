@@ -1,0 +1,11 @@
+# Rust's `goto as usize` clamps the negative target to 0. It is still a pending
+# warp, so consuming it enters rm_town rather than doing nothing.
+ROOM 0
+ROOMW 1024
+ROOMH 576
+!WARP
+COUNT_INST 0 1
+FIELD 100000 x 416
+FIELD 100000 y 492
+GLOBAL roomtownvisited 1
+!INST 200001 160

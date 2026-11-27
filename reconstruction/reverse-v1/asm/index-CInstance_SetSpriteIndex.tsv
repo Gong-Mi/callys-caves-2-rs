@@ -1,0 +1,35 @@
+1931c0	e92d4070	push	{r4, r5, r6, lr}
+1931c4	e1a04000	mov	r4, r0
+1931c8	e584108c	str	r1, [r4, #0x8c]
+1931cc	e1a00001	mov	r0, r1
+1931d0	e1a05001	mov	r5, r1
+1931d4	eb016f2f	bl	0x1eee98 <_Z13Sprite_Existsi>
+1931d8	e3500000	cmp	r0, #0
+1931dc	01a05000	moveq	r5, r0
+1931e0	1a00000a	bne	0x193210 <_ZN9CInstance14SetSpriteIndexEi+0x50>
+1931e4	edd47a24	vldr	s15, [r4, #144]
+1931e8	eefd7ae7	vcvt.s32.f32	s15, s15
+1931ec	e1a00004	mov	r0, r4
+1931f0	ee173a90	vmov	r3, s15
+1931f4	e1550003	cmp	r5, r3
+1931f8	d3a03000	movle	r3, #0
+1931fc	d5843090	strle	r3, [r4, #0x90]
+193200	e3a03001	mov	r3, #1
+193204	e5c43064	strb	r3, [r4, #0x64]
+193208	e8bd4070	pop	{r4, r5, r6, lr}
+19320c	ea00e3ef	b	0x1cc1d0 <_Z18CollisionMarkDirtyP9CInstance>
+193210	e1a00005	mov	r0, r5
+193214	eb016f88	bl	0x1ef03c <_Z11Sprite_Datai>
+193218	e5946088	ldr	r6, [r4, #0x88]
+19321c	e3560000	cmp	r6, #0
+193220	e5905018	ldr	r5, [r0, #0x18]
+193224	0a000005	beq	0x193240 <_ZN9CInstance14SetSpriteIndexEi+0x80>
+193228	e1a00006	mov	r0, r6
+19322c	ebfcabd8	bl	0xbe194 <_ZN17CSkeletonInstanceD2Ev>
+193230	e1a00006	mov	r0, r6
+193234	eb03a7e5	bl	0x27d1d0 <_ZdlPv>
+193238	e3a03000	mov	r3, #0
+19323c	e5843088	str	r3, [r4, #0x88]
+193240	e1a00004	mov	r0, r4
+193244	ebffffc3	bl	0x193158 <_ZN9CInstance17SkeletonAnimationEv>
+193248	eaffffe5	b	0x1931e4 <_ZN9CInstance14SetSpriteIndexEi+0x24>

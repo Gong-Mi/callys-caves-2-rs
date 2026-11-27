@@ -1,0 +1,181 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_ik",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_ikTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d840-0x28d8dc (B7 head, 156 B / 39 insns, of which the scan body is 0x28d898-0x28d8dc) + 0x28dbd0-0x28dca8 (B7b, 216 B / 54 insns)",
+      "translation_source": "src/spine_read_tl_ik.c",
+      "abi": {
+        "signature": "int readSkeletonData_ikTimelines(Json* ikMap, void* data_raw, void* animation_raw)",
+        "ikMap": "the \"ik\" JSON child. Parent B3 caches the eight root members and stores this one at [sp+0x34] (0x28d348); B7 loads it at 0x28d840 and reloads it at 0x28d84c.",
+        "data_raw": "spSkeletonData* (parent spill [sp+0x18], reloaded at 0x28d880 and 0x28d898)",
+        "animation_raw": "spAnimation* (parent r11; the tail reads +0x04 duration, +0x08 timelineCount, +0x0c timelines)",
+        "return": "always 1: every exit (0x28d848, 0x28d858 and the 0x28dca4 fall-through) lands on the transform block at 0x28dca8. There is no error path in this family."
+      },
+      "semantics": "ikMap == NULL -> 0x28dca8 (0x28d840 ldr / 0x28d844 cmp / 0x28d848 beq). Otherwise constraintNode = ikMap->child (0x28d850); NULL -> 0x28dca8 (0x28d858 beq). Then the three key literals are materialised once outside the loop (0x28d85c..0x28d878: r10 = \"time\", [sp+0x2c] = \"mix\", [sp+0x30] = \"bendPositive\"). Per constraint node (head 0x28d87c, back edge 0x28dca4): name = node->name@+0x1c (0x28d87c), ik = spSkeletonData_findIkConstraint(data, name) (0x28d884, result moved to r5 at 0x28d888 and NEVER null-tested), timeline = spIkConstraintTimeline_create(node->unk_0c) (0x28d88c/0x28d890), then the index scan (readSkeletonData_ikConstraintIndex) and the frame loop (readSkeletonData_ikTimelineFrames), then the tail: animation->timelineCount++ with timelines[count] = timeline (0x28dc70..0x28dc7c), next = node->next (0x28dc84), last = frames[(declared-1)*3] (0x28dc6c/0x28dc78/0x28dc8c), animation->duration = max(duration, last) (0x28dc90..0x28dca0), loop while next != NULL (0x28dc9c/0x28dca4).",
+      "keys": ["time", "mix", "bendPositive"],
+      "key_literals": {
+        "time": {"va": "0x34c1d4", "pool_word": "0x28ca48", "add_site": "0x28d868", "role": "kept in r10, consumed by Json_getFloat at 0x28dbe4"},
+        "mix": {"va": "0x357c98", "pool_word": "0x28ca4c", "add_site": "0x28d86c", "role": "spilled to [sp+0x2c] at 0x28d870, consumed at 0x28dbf0"},
+        "bendPositive": {"va": "0x357c88", "pool_word": "0x28ca50", "add_site": "0x28d874", "role": "spilled to [sp+0x30] at 0x28d878, consumed at 0x28dc04"}
+      },
+      "field_offsets": {
+        "spSkeletonData.ikConstraintsCount": "+0x3c (0x28d89c; findIkConstraint 0x28b240; spSkeletonData_dispose DISPOSE_VECTOR(self,0x3c,0x40,spIkConstraintData))",
+        "spSkeletonData.ikConstraints": "+0x40 (0x28d8a8; findIkConstraint 0x28b24c)",
+        "spIkConstraintTimeline.frames": "+0x10, three floats per frame (0x28dc80; setFrame body 0x282f98)",
+        "spIkConstraintTimeline.constraintIndex": "+0x14; the only writer in this family is 0x28dbcc (see readSkeletonData_ikConstraintIndex)",
+        "spAnimation.duration": "+0x04 (0x28dc60 vldr s14,[r11,#4]; 0x28dca0 vstr s15,[r11,#4])",
+        "spAnimation.timelineCount": "+0x08 (0x28dc64 / 0x28dc74)",
+        "spAnimation.timelines": "+0x0c (0x28dc68 / 0x28dc7c str r6,[r1,r3,lsl#2])"
+      },
+      "tail": {
+        "frame_stride": "3 floats: 0x28dc6c sub r2,r2,#1 ; 0x28dc78 add r2,r2,r2,lsl#1 ; 0x28dc8c vldr s15,[r3]",
+        "order": "the next-pointer load (0x28dc84) sits between the frames load (0x28dc80) and the duration compare (0x28dc90); the next-pointer test (0x28dc9c) comes AFTER the duration store (0x28dca0), so the store is unconditional on the last iteration",
+        "declared_wrap": "(declared-1) is computed in 32-bit unsigned arithmetic, so declared == 0 wraps to 0xffffffff*3; the original would index far outside the frames array"
+      },
+      "quirks": [
+        "No NULL test on the findIkConstraint result: 0x28d888 mov r5,r0 is followed directly by 0x28d88c ldr r0,[r4,#0xc] and the create call.",
+        "No error branch exists anywhere in B7/B7b — no _spSkeletonJson_setError call site, which is why the whole family is 156 + 216 bytes with a single exit to 0x28dca8.",
+        "The frame loop follows the child list (0x28dbe0 head, 0x28dc58 back edge on r5 != NULL), not the declared count from Json+0x0c; only the create call and the duration index use the declared count.",
+        "The constraint loop follows ik->child / node->next, so an \"ik\" object with a single child runs the whole scan+frames+tail exactly once."
+      ]
+    },
+    {
+      "name": "readSkeletonData_ikConstraintIndex",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28d898-0x28d8dc (scan) + 0x28dbc8-0x28dbd0 (out-of-line hit store island; address-wise inside the shear block B11b's span)",
+      "translation_source": "src/spine_read_tl_ik.c",
+      "abi": {
+        "signature": "int readSkeletonData_ikConstraintIndex(void* data_raw, void* ik_raw, void* timeline_raw)",
+        "data_raw": "spSkeletonData* (reloaded at 0x28d898)",
+        "ik_raw": "the findIkConstraint result (r5), possibly NULL",
+        "timeline_raw": "the timeline just created (r6)",
+        "return": "reconstruction artefact only: 1 = wrote +0x14, 0 = fell through without writing. Both original exits go to 0x28dbd0 and the driver ignores the value."
+      },
+      "semantics": "count = data->ikConstraintsCount (0x28d89c, read ONCE — a snapshot; the loop never re-reads it). Signed `ble 0x28dbd0` when count <= 0 (0x28d8a0/0x28d8a4): the +0x40 array word is not even loaded. Otherwise array = data->ikConstraints (0x28d8a8); element = array[0] (0x28d8ac) is compared against the lookup result (0x28d8b0). On equality the branch goes to the out-of-line island 0x28dbc8 `mov r3,#0` + 0x28dbcc `str r3,[r6,#0x14]`, because r3 still holds the element POINTER at that point. On inequality r3 is cleared to 0 (0x28d8b4) and the walk starts: index += 1 (0x28d8cc), compare index == count (0x28d8d0, `bne` = equality only), element = *(++p) with the pointer write-back at 0x28d8c0 (the array is re-read from memory each iteration, nothing is cached), compare against the same lookup pointer (0x28d8c4), on equality store the current index at +0x14 (0x28d8c8 -> 0x28dbcc). Running out of count leaves +0x14 untouched and falls to 0x28dbd0.",
+      "pointer_scan_structure": {
+        "count_snapshot": "0x28d89c ldr r1,[r0,#0x3c] — single read, compared every iteration at 0x28d8d0",
+        "array_reload": "0x28d8a8 ldr r2,[r0,#0x40] once for the base; each element is re-loaded with 0x28d8c0 ldr r0,[r2,#0x4]! (pre-index writeback)",
+        "compare": "pointer equality only (0x28d8b0 / 0x28d8c4 cmp), never a string compare and never a NULL test",
+        "hit_store": "0x28dbcc str r3,[r6,#0x14] — reached from 0x28d8bc (index 0, after 0x28dbc8 mov r3,#0) and from 0x28d8c8 (loop hit, r3 == index)",
+        "miss_exit": "0x28d8d8 b 0x28dbd0 — no store at all",
+        "signedness": "0x28d8a4 ble, so count < 0 takes the skip path exactly like count == 0",
+        "boundaries": "count == 1 and no match: index becomes 1, 1 == 1, exit without a store. count > 0 with a NULL array: 0x28d8ac dereferences NULL and faults (original behaviour, not exercised by the fixture)"
+      },
+      "quirks": [
+        "The [0] hit cannot store r3 directly: r3 was reused as the element register at 0x28d8ac, which is exactly why the compiler emitted the 0x28dbc8 `mov r3,#0` fixup island after the shear block instead of a simple `str`.",
+        "A NULL lookup result matches a NULL array slot: with no NULL guard, a name miss whose array happens to contain a NULL element writes that element's index. The fixture pins this (lookup_null_matches_null_slot) as a consequence of the instruction stream, not as a claim about real data.",
+        "0x28dbc8/0x28dbcc are counted inside census §6's B11b span (0x28dbb4 + 28 B / 7 insns = 5 shear insns + these 2). They belong to B7 semantically; no instruction is double-counted.",
+        "0x28dbcc is the only writer of THIS record's +0x14; nothing in B7/B7b reads it back. Other timeline families in the same function have their own +0x14 stores (0x28d8f4 color slotIndex, 0x28da88 rotate boneIndex, 0x28dd64 transform index, 0x28df94 / 0x28e918 path indices, 0x28d744 bone timeline), so the offset is a family-local field, not a segment-wide one."
+      ],
+      "create_time_value": "open (see the top-level open list): the creator body is a synthetic boundary. Static reading of 0x282a10..0x282a88 shows calloc(1,24,tag,233) at 0x282a30/0x282a40 with no store to +0x14, and neither _spCurveTimeline_init (0x2816d8..0x281714) nor _spTimeline_init (0x281328..0x28135c) writes it, so the original's create-time value is the calloc zero fill (0), not -1. The fixture does not assert 0: it starts the word at a distinctive sentinel so the 'miss writes nothing' property is provable."
+    },
+    {
+      "name": "readSkeletonData_ikTimelineFrames",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28dbd0-0x28dc58 (54 insns; head 0x28dbe0, back edge 0x28dc58)",
+      "translation_source": "src/spine_read_tl_ik.c",
+      "abi": {
+        "signature": "void readSkeletonData_ikTimelineFrames(Json* constraintNode, void* timeline_raw)",
+        "constraintNode": "the current ik constraint JSON object (r4); its +0x04 child is the first frame and its +0x0c is the declared count used later by the tail",
+        "timeline_raw": "the timeline created for this constraint (r6); handed to both setFrame and readCurve",
+        "calls": [
+          "Json_getFloat(frame,\"time\",0.0f)      0x287444 (real) 0x28dbec",
+          "Json_getFloat(frame,\"mix\",1.0f)       0x287444 (real) 0x28dc00",
+          "Json_getInt(frame,\"bendPositive\",1)   0x287460 (real) 0x28dc14",
+          "spIkConstraintTimeline_setFrame(t,i,time,mix,bend) 0x282f8c (synthetic) 0x28dc38",
+          "readCurve(frame,t,i)                   0x28b34c (real, anonymous) 0x28dc48"
+        ]
+      },
+      "semantics": "frame = constraintNode->child (0x28dbd0). If NULL, skip straight to the tail (0x28dbd4 cmp / 0x28dbdc beq 0x28dc5c); r7 (frameIndex) is cleared only on the non-NULL path (0x28dbd8 movne r7,#0). Per frame: time = Json_getFloat(frame,\"time\",0.0f) (0x28dbe0..0x28dbec, bits kept in r9), mix = Json_getFloat(frame,\"mix\",1.0f) (0x28dbf0..0x28dc00, bits in r8), bend = Json_getInt(frame,\"bendPositive\",1) (0x28dc04..0x28dc14), bend_enum = (bend == 0) ? -1 : 1 (0x28dc24 cmp r0,#0 ; 0x28dc2c mvneq r12,#0 ; 0x28dc30 movne r12,#1), pushed as the fifth argument (0x28dc34 str r12,[sp]), then setFrame(timeline, frameIndex, time, mix, bend_enum) (r0=r6, r1=r7, r2=r9, r3=r8, [sp]=enum, 0x28dc38), then readCurve(frame, timeline, frameIndex) (r0=frame, r1=r6, r2=r7, 0x28dc48), then frame = frame->next (0x28dc4c) and frameIndex++ (0x28dc50). Loop while frame != NULL (0x28dc54/0x28dc58).",
+      "setframe_abi": {
+        "signature": "spIkConstraintTimeline_setFrame(void* timeline, int frameIndex, float time, float mix, int bendEnum)",
+        "registers": "r0 = timeline, r1 = frameIndex, r2 = time bits, r3 = mix bits, [sp] = bend enum (int32 -1 or +1)",
+        "store_shape": "0x282f94 add r1,r1,r1,lsl#1 (index*3) ; 0x282f98 ldr r12,[r0,#0x10] ; 0x282fa8 str r2,[r1] -> frames[i*3+0] = time ; 0x282fac str r3,[r0] -> frames[i*3+1] = mix ; 0x282fb0 vstr s15,[r0,#4] -> frames[i*3+2] = (float)bend with s15 from 0x282f90 vcvt.f32.s32",
+        "bend_is_int": "the conversion to float happens inside setFrame; B7b itself compares the raw int at 0x28dc24, so any non-zero value (5, -3, ...) collapses to +1"
+      },
+      "keys": ["time", "mix", "bendPositive"],
+      "defaults": {"time": "0.0f (0x28dbe8 mov r2,#0)", "mix": "1.0f (0x28dbf4 mov r2,#1065353216 = 0x3f800000)", "bendPositive": "1 (0x28dc08 mov r2,#1)"},
+      "quirks": [
+        "The key literal is \"bendPositive\" (0x357c88), not \"bendDirection\"; this independently matches c/spine_read_ik.c's version-marker note for the same build.",
+        "A frame with no \"time\"/\"mix\"/\"bendPositive\" keys still reaches setFrame with the three defaults; a frame with no keys at all is exercised by frame_defaults.",
+        "Json_getFloat reads +0x18 and Json_getInt reads +0x14 regardless of the node's type word, so the value fields are what the JSON parser wrote, not a per-type dispatch.",
+        "readCurve is called AFTER setFrame on every frame, including stepped ones, and receives the same timeline pointer plus the 0-based index."
+      ]
+    }
+  ],
+  "layout_additions": {
+    "spSkeletonData": "+0x3c int32 ikConstraintsCount, +0x40 void** ikConstraints (84 B record from calloc(1,84,tag,37) at 0x28ade4; corroborated by spSkeletonData_dispose's DISPOSE_VECTOR(self,0x3c,0x40,spIkConstraintData) and by spSkeletonData_findIkConstraint 0x28b240/0x28b24c)",
+    "spIkConstraintTimeline": "24 B: +0x00 type, +0x04 vtable object, +0x08 float* curves ((frameCount-1)*19), +0x0c frameFloatCount (frameCount*3), +0x10 float* frames (3 floats per frame), +0x14 int32 constraintIndex (0x282f74 create -> _spBaseTimeline_create(count,9,3,tag); 0x282f8c setFrame; 0x28dbcc the only +0x14 writer)",
+    "spAnimation": "+0x04 float duration, +0x08 int32 timelineCount, +0x0c void** timelines (0x28dc60..0x28dc7c)"
+  },
+  "synthetic_boundaries": [
+    {
+      "name": "spSkeletonData_findIkConstraint",
+      "address": "0x28b238, 92 B",
+      "reason": "body not recovered in this batch; the fixture returns a scripted per-call pointer (NULL allowed) and records the name argument. Its NULL contract is nevertheless read statically: 0x28b240 ldr r7,[r0,#0x3c]; 0x28b248 ble -> 0x28b288 mov r5,#0; and a name miss also exits through r5 = 0 at 0x28b288."
+    },
+    {
+      "name": "spIkConstraintTimeline_create",
+      "address": "0x282f74, 24 B",
+      "reason": "body not recovered; the fixture allocates a zeroed 24-byte record with the real layout, sets +0x14 to a SENTINEL (fixture device, see the open list) and records the declared count. The disassembled body is only a tail call: mov r1,#9 (type), mov r2,#3 (frame step), b _spBaseTimeline_create."
+    },
+    {
+      "name": "spIkConstraintTimeline_setFrame",
+      "address": "0x282f8c, 44 B",
+      "reason": "body not recovered; the fixture double stores frames[i*3 + {0,1,2}] = time, mix, (float)(int)bend exactly as 0x282fa8/0x282fac/0x282fb0 do, and records every argument word including the stack-passed enum."
+    },
+    {
+      "name": "spCurveTimeline_setStepped / spCurveTimeline_setCurve",
+      "address": "0x2817c0 / 0x2817d8",
+      "reason": "readCurve's dependency, not this family's; the doubles record (kind, frame, timeline, curve words) so the 0x28dc48 wiring is observable."
+    },
+    {
+      "name": "fixture heap / allocator roster / libc providers / hand-built Json nodes",
+      "reason": "test scaffolding only; qemu executes the reconstructed C"
+    }
+  ],
+  "depends_on": ["json_interface", "spine_read_curve"],
+  "open": [
+    "The +0x14 create-time value cannot be proven from the fixture's synthetic create. Static evidence (calloc(1,24,tag,233) at 0x282a30/0x282a40, no +0x14 store in 0x282a10..0x282a88, 0x2816d8..0x281714 or 0x281328..0x28135c) says it is 0, not -1, but the creator body is unrecovered, so a recovery of 0x282f74 must come before this is promoted from inference to proof. The fixture therefore uses a sentinel instead of asserting a value.",
+    "What consumes timeline+0x14 at run time (spIkConstraintTimeline_apply) is not recovered in this batch, so the consequence of a miss leaving index 0 (the timeline silently targeting ikConstraints[0]) is stated from the write side only.",
+    "count > 0 together with a NULL data->ikConstraints faults at 0x28d8ac; the fixture never drives that combination (the NULL-array case is only exercised with count <= 0, where the word is never loaded).",
+    "declared frame count == 0 still reaches the tail and indexes frames[(0-1)*3] in 32-bit wrap arithmetic; not driven by the fixture.",
+    "Whether any shipped skeleton actually contains an ik constraint whose name is absent from data->ikConstraints (i.e. whether the miss path runs in practice) needs an asset; no spine JSON exists in this tree.",
+    "readCurve's own array contract (four nodes followed through ->next with no bounds check) belongs to c/spine_read_curve; B7b adds no validation of its own.",
+    "A frame whose \"mix\"/\"time\"/\"bendPositive\" node has a non-number type word is read from the same field anyway (Json_getFloat/Json_getInt do not dispatch on +0x08); the fixture always supplies number nodes."
+  ],
+  "census_cross_check": {
+    "B7": "0x28d840..0x28d8dc = 156 B / 39 insns — matches animations_segment_map.md §6 (last insn 0x28d8d8 b 0x28dbd0)",
+    "B7b": "0x28dbd0..0x28dca8 = 216 B / 54 insns — matches §6 (head 0x28dbe0, back edge 0x28dc58, setFrame 0x28dc38, readCurve 0x28dc48, all as listed in §5.3/§6)",
+    "open_6_now_closed": "§7 open #6 is closed at instruction level: 0x28d888 mov r5,r0 is followed by no test; the index comes from a pointer linear scan over data->ikConstraints (+0x3c count snapshot, +0x40 array); the hit writes timeline+0x14 at 0x28dbcc; a miss skips the write entirely; and there is no 'Ik constraint not found' text in the segment because no error branch exists.",
+    "addition_1": "§7 open #6 lists '0x28dbc8/0x28dbcc' as the hit store. 0x28dbc8 is not a second store: it is `mov r3,#0`, the fixup needed because r3 holds the element pointer after the array[0] compare. The single store is 0x28dbcc.",
+    "addition_2": "the frame stride is 3 floats (0x28dc78 add r2,r2,r2,lsl#1); §6 does not record it, and it differs from the bone (1/2-float) and color (5-float) tails.",
+    "addition_3": "the constraint-node advance (0x28dc84 ldr r4,[r4]) sits between the frames load and the duration compare, and the next test (0x28dc9c) comes after the duration store (0x28dca0) — a literal C transcription must not hoist the store into a conditional.",
+    "addition_4": "count <= 0 is `ble` (signed) and the +0x40 array word is not loaded on that path; the scan therefore never touches the array when the data record has no ik constraints.",
+    "correction_1": "§6's B11b row (0x28dbb4, 28 B / 7 insns) includes 0x28dbc8 and 0x28dbcc, which are B7's out-of-line hit store (the shear block's 5 real insns end with `b 0x28d740` at 0x28dbc4). Byte accounting is unaffected — no instruction is counted twice — but attribution in the block table is mixed for those 8 bytes.",
+    "cross_module": "c/spine_read_ik.c independently pins data+0x3c/+0x40 and the \"bendPositive\" semantics (0 -> -1, non-zero -> +1) for the same build; B7b reproduces that polarity from 0x28dc24..0x28dc30 with no contradiction.",
+    "transform_parallel": "the transform family's hit store at 0x28dd64 (str r3,[r6,#0x14]) is the same instruction word (0xe5863014) as B7's 0x28dbcc, i.e. the same source statement compiled twice. The transform half of §7 open #6 stays out of scope for this module (needed records: count 0x44, array 0x48).",
+    "census_key_table": "§2.5 lists time/mix/bendPositive at pool words 0x28ca48/0x28ca4c/0x28ca50 with add sites 0x28d868/0x28d86c/0x28d874 — confirmed word for word by the checker's KEY_PINS."
+  },
+  "check": {
+    "driver": "tools/check_tl_ik.py",
+    "fixture": "fixture/check.c",
+    "cases": "13 (ik map absent / empty / scan hit at element 0, 2, 4 / scan miss keeps the create-time value / count 0 and count -1 skip the scan / NULL lookup matching a NULL slot / frame defaults / frame values + bend polarity + store shape / readCurve stepped+array / two constraints cursor+duration / declared-vs-child count)",
+    "configs": "O0/O2/O3/ubsan (undefined,float-cast-overflow, trap=all)",
+    "teeth": "11 named mutants (scan off-by-one, [0]-hit stores the pointer instead of 0, miss writes -1, ble -> beq, first probe at the far end, setFrame time/mix swap, bend polarity, readCurve dropped, \"mix\" key literal, frameIndex increment removed, tail stride 1)",
+    "compile_guard_1": "missing module body refused: undefined symbol: readSkeletonData_ikTimelines",
+    "compile_guard_2": "spine_read_curve.c removed refused: undefined symbol: readCurve (proves the real link at 0x28dc48, not a stub)",
+    "compile_guard_3": "json_interface.c removed refused: undefined symbol: Json_getFloat (the frame keys link the real accessors, not fixture doubles)",
+    "static": "SHA + 10 symbol pins + 44 word pins + 3 pc-relative literals + readCurve anonymity proven by the 0x28dc48 call site and the absence of any covering .dynsym range",
+    "receipt": "harness/receipts/tl_ik_check-<timestamp>.json"
+  }
+}

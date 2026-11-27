@@ -1,4 +1,4 @@
-# C reconstruction (M1)
+# C reconstruction (M2)
 
 The shipped behaviour is GameMaker bytecode. This directory lowers that bytecode
 to C so the mechanism is readable and auditable line by line, instead of being
@@ -11,14 +11,22 @@ across a branch are carried in named phi variables assigned on every incoming
 edge; two edges that disagree on stack depth make the generator **refuse** the
 body rather than guess.
 
-## Status (M1)
+## Status (M2)
 
 | item | state |
 | --- | --- |
-| generator (`scripts/ir_to_c.py`) | 1354/1354 bodies, 0 refused, 52,411 lines of C |
+| generator (`scripts/ir_to_c.py`) | 1354/1354 bodies, 0 refused, one `/* @<offset> <op> */` anchor per instruction |
+| committed bodies | **1354** under `gen/gml_*.c` (21 MB); `gen/registry.c` dispatches all 1354 ids |
+| anchor completeness | **245,144 / 245,144** instructions carry an anchor (100.00%), per-body delta 0 for all 1354 bodies |
+| build cost | `scripts/dev_smoke.sh` with the full set: **489 s** (was 24 s with 15 bodies); a syntax-only pass over all bodies takes 80 s |
 | C host (`c-recon/src/host.c`) | instances, fields, arrays (`alarm` is a 12-slot array), globals, selector resolution, `with` frames, `room_width`/`score` pseudo-fields |
-| collision (`c-recon/src/collision.c`) | `instance_place` / `place_meeting` (box + mask pixels), `distance_to_object`, mask line/point probes; 98 assertions |
+| collision (`c-recon/src/collision.c`) | `instance_place` / `place_meeting` (box + mask pixels), `distance_to_object`, mask line/point probes; 109 assertions |
 | objects (`c-recon/src/objects.c`) | `instance_create` + Create dispatch through `registry.c`, audio voice table; 140 assertions |
+| with / destroy (`c-recon/tests/env_test.c`) | 142 assertions; six shipped-body C↔VM scenarios with 101 expectations (`scripts/env_fanout_diff.py`) |
+| rooms (`c-recon/src/rooms.c`, `c-recon/gen/rooms_data.c`) | all 114 rooms / 71,014 placements / 551 RoomCC bindings; 29 assertions; nine warp scenarios with 79 expectations |
+| Draw (`c-recon/src/draw.c`, `c-recon/src/builtins2.c`) | sprite/text/healthbar/background queues, default sprites, depth order and Draw GUI phase; 15 scenarios / 60 expectations; town 179 and tile-bearing level1 1352 commands |
+| Draw corpus (`scripts/draw_corpus_summary.py`) | **118/118 bodies C == VM** under the generic Create→body fixtures: 113 emit 253 commands, four emit none, one same-reason abort; negative controls included |
+| strings | all 3210 STRG entries read directly from `game.droid`; static and dynamically allocated pooled text is dumped as actual UTF-8 bytes |
 | geometry | 178 SPRT records emitted from `game.droid` (`c-recon/gen/sprites.c`) |
 | masks | 227 SPRT collision masks (341 KB of bits) emitted into the same file; `collision_line(prec=1)` walks them |
 | CODE 792 (`obj_bosspuff_Create_0`) | **C == VM, identical state** |
@@ -31,6 +39,25 @@ that needs a different receiver aborts on both sides (`SAME_ABORT` = same
 reason, not same behaviour), and alarm/step timing is not exercised. What it
 does buy is the whole 1354-body loop in one pass: one bundle load per side
 instead of one per body (~0.5 s each on the Rust side).
+
+## Provenance tiers (see `../AGENTS.md` §2)
+
+| files | tier | meaning |
+|---|---|---|
+| `gen/gml_*.c`, `gen/*_data.c` | `bytecode_anchored` / data-with-`source_sha256` | lowered from shipped CODE / parsed from `game.droid`; every statement carries its offset |
+| `src/host.c`, `objects.c`, `collision.c`, `rooms.c`, `draw.c`, `builtins2.c` | **`host_authored`** | hand-written engine semantics ported from the Rust reimplementation, **not** lowered bytecode; each file header states its `original_gap` |
+
+`C == VM` and the batch differential compare two of our own implementations; they are
+`test_anchored` evidence, not proof of equivalence with the original `libyoyo.so`.
+
+Draw equality is at the GML command-stream layer, including payload, provenance,
+phase and depth order. It is not rasterizer, framebuffer, original-runner or GPU
+parity. ROOM tile and particle queues are separate inputs and are not included
+in the Draw census. A valid live-particle path such as CODE 356 after CODE 458
+still aborts in the C host and is **not** counted as a successful particle proof;
+the generic no-system same-abort result must not be confused with that path.
+The sole Draw GUI body (CODE 539) is empty, so it does not supply a non-empty
+original GUI command stream.
 
 CODE 12 exercises collision (`instance_place` against `obj_knifebandit`), damage,
 alarms, item drop, `instance_create`, audio and the LCG. That it matches means
@@ -52,10 +79,15 @@ python3 scripts/gen_object_table.py --ir crates/core/src/generated/full_ir.json 
     --out c-recon/gen/objects_data.c
 python3 scripts/gen_registry.py --gen c-recon/gen --out c-recon/gen/registry.c
 
+# regenerate every ROOM placement, RoomCC binding and view default
+cargo run -q -p callys-asset --example dump_rooms_c -- \
+    assets/game.droid crates/core/src/generated/full_ir.json c-recon/gen/rooms_data.c
+
 # build the driver
 SRC="c-recon/src/main.c c-recon/src/host.c c-recon/src/collision.c \
-     c-recon/src/objects.c c-recon/gen/objects_data.c c-recon/gen/registry.c \
-     c-recon/gen/gml_0012.c c-recon/gen/gml_0792.c c-recon/gen/sprites.c"
+     c-recon/src/objects.c c-recon/src/builtins2.c c-recon/src/rooms.c \
+     c-recon/src/draw.c c-recon/gen/objects_data.c c-recon/gen/rooms_data.c c-recon/gen/registry.c \
+     c-recon/gen/gml_*.c c-recon/gen/sprites.c"
 clang -std=c11 -O2 -ffp-contract=off -Wall -Ic-recon/include $SRC \
     -o c-recon/build/state_dump -lm
 
@@ -69,6 +101,22 @@ python3 scripts/batch_diff.py --build-c --matrix --work .hermes-batch   # 18 wor
 # richer receiver set: one instance of every object, so a body that reads
 # another object's fields runs its real path instead of aborting
 python3 scripts/batch_diff.py --build-c --sequence --all-objects --work .hermes-batch
+
+# targeted with/destroy scenarios; default rebuilds checked-in C and current Rust
+python3 scripts/env_fanout_diff.py --work "$TMPDIR/env"
+
+# full-corpus room warp scenarios (Create/RoomCC dependencies included)
+python3 scripts/env_fanout_diff.py --fixtures c-recon/fixtures/rooms \
+    --build-c --work "$TMPDIR/rooms"
+
+# checked-in Draw scenarios and real-room/full-body Draw scenarios
+python3 scripts/env_fanout_diff.py --fixtures c-recon/fixtures/draw \
+    --work "$TMPDIR/draw"
+python3 scripts/env_fanout_diff.py --fixtures c-recon/fixtures/draw_full \
+    --build-c --work "$TMPDIR/draw-full"
+
+# independently audit the 118-body Draw output census after batch_diff
+python3 scripts/draw_corpus_summary.py --work "$TMPDIR/draw-corpus"
 ```
 
 Two build flags are not cosmetic:
@@ -80,7 +128,18 @@ Two build flags are not cosmetic:
   correctly reported as drift.
 
 A fixture is the state-file protocol in `c-recon/src/main.c`
-(`CODE`/`CURRENT`/`ROOMW`/`ROOMH`/`INST`/`FIELD`/`ARRAY`/`GLOBAL`). The Rust
+(`CODE`/`CURRENT`/`OTHER`/`ROOM`/`ROOMW`/`ROOMH`/`INST`/`ACTIVE`/`FIELD`/`ARRAY`/`GLOBAL`).
+`WARP <id>` seeds a pending transition; a bare `WARP` consumes it at the client
+boundary. `COLLIDE <code> <self> <other>` sets `other` only for that body and
+restores it before the next operation. `DRAW <view>` clears the GML queues and
+runs the normal Draw + Draw GUI scheduler. `VIEW <i> <visible> <x> <y> <w> <h>`
+seeds effective view state for that operation and is also printed in dumps;
+unset ports fall back to the display size. Output `DRAW` lines carry queue kind,
+phase, CODE/offset, instance/view, depth and payload; text bytes are hex encoded.
+`INST` accepts `<id> <object> [alive [active]]`; both flags default to 1. Dumps
+print `ACTIVE <id> 0` only for deactivated instances, leaving ordinary dumps
+byte-for-byte unchanged. `ACTIVE` is dump-only metadata, not a second fixture
+input directive; input uses the fourth `INST` token. The Rust
 side (`ir_state_dump`) inserts instances directly and loads SPRT geometry from
 `--asset assets/game.droid`; without that geometry every instance degenerates to
 an integer point and a body testing `instance_place` takes the miss branch.
@@ -107,11 +166,10 @@ scan the object table instead of the instance table.
    fields and shortest round-trip numbers precisely so that a line diff means
    behaviour, not printer dialect.
 
-## Next (M2)
+## Next (M3)
 
-1. Run the differential across every body the host can execute today; each
-   difference is a generator bug or a host bug.
-2. `instance_destroy` + `with` fan-out over destroyed instances, then bodies
-   that iterate rooms.
-3. `draw_*` — 2796 `draw_sprite_ext` calls are currently recorded as calls into
-   an unimplemented builtin, so a drawn frame still has no C-side oracle.
+1. Merge ROOM tile and particle inputs into the ordered C command stream; they
+   are not GML `draw_*` calls and are deliberately absent from the M2 census.
+   First close the valid CODE 458→356 live-particle path with a success fixture.
+2. Add a C raster consumer and an independent original command/frame oracle.
+   Matching C and VM queues proves host/generator consistency, not pixel parity.

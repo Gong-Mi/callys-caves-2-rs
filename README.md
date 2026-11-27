@@ -18,6 +18,18 @@ The Android client currently provides:
 
 The reconstruction is still being iterated. Original GameMaker bytecode behavior, exact room-transition creation code, progression, persistence, audio/music, menus/story scenes and the full enemy/boss behavior set remain separate reconstruction work; build success is not treated as gameplay parity.
 
+The C lowering now covers and **commits** all 1354 CODE bodies (`c-recon/gen/`, 21 MB,
+245,144/245,144 instructions anchored). Note the build cost: the full set makes
+`scripts/dev_smoke.sh` take ~8 min instead of ~25 s. Progress is counted from
+`reconstruction/db/cally.db`
+(`select tier, count(*) from card group by tier`), not from how much the generator can
+emit — see `AGENTS.md` §5.
+
+The evidence chain is one-way: `bytecode/IR → VM state → native calls/events → draw
+commands → pixels`. Pixels are the **last** stage and a *consumer* of everything before
+them, so a matching frame proves the path ran, never that the semantics are right; all
+parity criteria live upstream (state, call order, events). See `AGENTS.md` §10.
+
 ## Controls
 
 Android:

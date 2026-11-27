@@ -1,0 +1,32 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_path",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": [
+    {
+      "name": "readSkeletonData_pathSection",
+      "address_range": "0x28c274-0x28c5ec (mode parsing; floats at 0x28c52c+ deferred)",
+      "semantics": "path array (line 782) + per-constraint: bones sub-loop (line 791), target=findSlot (SLOT not bone!), 3 mode enums via strcmp chains",
+      "malloc_anchors": [
+        {"site": "0x28c2a8", "line": 782, "stores_to": "data+0x50"},
+        {"site": "0x28c330", "line": 791, "stores_to": "constraint+0x08"}
+      ],
+      "keys": ["path", "name", "bones", "target", "positionMode", "spacingMode", "rotateMode"],
+      "mode_enums": {
+        "positionMode": {"fixed": 0, "percent": 1, "default": "percent"},
+        "spacingMode": {"length": 0, "fixed": 1, "percent": 2, "default": "length"},
+        "rotateMode": {"tangent": 0, "chain": 1, "chainScale": 2, "default": "tangent"}
+      },
+      "notes": "target is spSlotData (findSlot at 0x28b070), unlike IK/transform which use findBone. Float fields (position/spacing/4 mixes) deferred to next batch."
+    }
+  ],
+  "spPathConstraintData_layout_partial": {
+    "+0x00": "name", "+0x04": "bonesCount", "+0x08": "bones",
+    "+0x0c": "target (spSlotData*)", "+0x10": "positionMode",
+    "+0x14": "spacingMode", "+0x18": "rotateMode"
+  },
+  "spSkeletonData_layout_additions": {"+0x4c": "pathCount", "+0x50": "path array"},
+  "depends_on": ["json_interface"],
+  "compile": {"target": "armv7-none-eabi", "float_abi": "soft", "std": "c11", "warnings": "-Wall -Wextra -Werror", "status": "ARM32_OK"}
+}

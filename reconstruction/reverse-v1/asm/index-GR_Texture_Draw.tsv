@@ -1,0 +1,202 @@
+174ee0	e92d4ff8	push	{r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+174ee4	ed2d8b06	vpush	{d8, d9, d10}
+174ee8	e2505000	subs	r5, r0, #0
+174eec	ee0a1a10	vmov	s20, r1
+174ef0	ee092a90	vmov	s19, r2
+174ef4	ee083a10	vmov	s16, r3
+174ef8	0a000093	beq	0x17514c <_Z15GR_Texture_DrawP12YYTPageEntryfffffffjf+0x26c>
+174efc	e1d501f4	ldrsh	r0, [r5, #20]
+174f00	ebfffbc9	bl	0x173e2c <_Z17GR_Texture_Existsi>
+174f04	e2507000	subs	r7, r0, #0
+174f08	0a00008f	beq	0x17514c <_Z15GR_Texture_DrawP12YYTPageEntryfffffffjf+0x26c>
+174f0c	eddf7ab8	vldr	s15, [pc, #736]
+174f10	eddd6a15	vldr	s13, [sp, #84]
+174f14	ee667aa7	vmul.f32	s15, s13, s15
+174f18	eefd7ae7	vcvt.s32.f32	s15, s15
+174f1c	ee176a90	vmov	r6, s15
+174f20	e35600ff	cmp	r6, #255
+174f24	c3a064ff	movgt	r6, #-16777216
+174f28	ca000002	bgt	0x174f38 <_Z15GR_Texture_DrawP12YYTPageEntryfffffffjf+0x58>
+174f2c	e3560000	cmp	r6, #0
+174f30	a1a06c06	lslge	r6, r6, #24
+174f34	b3a06000	movlt	r6, #0
+174f38	e59f32bc	ldr	r3, [pc, #0x2bc]
+174f3c	ed9d7a12	vldr	s14, [sp, #72]
+174f40	e59d1050	ldr	r1, [sp, #0x50]
+174f44	eddd6a11	vldr	s13, [sp, #68]
+174f48	e79f3003	ldr	r3, [pc, r3]
+174f4c	e3a00004	mov	r0, #4
+174f50	e3c124ff	bic	r2, r1, #-16777216
+174f54	e1d510fa	ldrsh	r1, [r5, #10]
+174f58	e5d33000	ldrb	r3, [r3]
+174f5c	e1866002	orr	r6, r6, r2
+174f60	e1d520bc	ldrh	r2, [r5, #12]
+174f64	e3530000	cmp	r3, #0
+174f68	e1d530f8	ldrsh	r3, [r5, #8]
+174f6c	ee081a90	vmov	s17, r1
+174f70	13c66801	bicne	r6, r6, #65536
+174f74	13c66001	bicne	r6, r6, #1
+174f78	e1d511f4	ldrsh	r1, [r5, #20]
+174f7c	ee093a10	vmov	s18, r3
+174f80	e59f3278	ldr	r3, [pc, #0x278]
+174f84	eef88ae8	vcvt.f32.s32	s17, s17
+174f88	13869801	orrne	r9, r6, #65536
+174f8c	e79f3003	ldr	r3, [pc, r3]
+174f90	1386b001	orrne	r11, r6, #1
+174f94	1389a001	orrne	r10, r9, #1
+174f98	01a0a006	moveq	r10, r6
+174f9c	e5933004	ldr	r3, [r3, #0x4]
+174fa0	01a09006	moveq	r9, r6
+174fa4	01a0b006	moveq	r11, r6
+174fa8	e3520000	cmp	r2, #0
+174fac	16bf2072	sxthne	r2, r2
+174fb0	e7938101	ldr	r8, [r3, r1, lsl #2]
+174fb4	03a03001	moveq	r3, #1
+174fb8	eeb89ac9	vcvt.f32.s32	s18, s18
+174fbc	01c530bc	strheq	r3, [r5, #12]
+174fc0	1e072a90	vmovne	s15, r2
+174fc4	e1d530be	ldrh	r3, [r5, #14]
+174fc8	e5981000	ldr	r1, [r8]
+174fcc	e3a02018	mov	r2, #24
+174fd0	ee3a9a49	vsub.f32	s18, s20, s18
+174fd4	ee798ae8	vsub.f32	s17, s19, s17
+174fd8	ee269ac9	vnmul.f32	s18, s13, s18
+174fdc	ee678a68	vnmul.f32	s17, s14, s17
+174fe0	1eb87ae7	vcvtne.f32.s32	s14, s15
+174fe4	0eb77a00	vmoveq.f32	s14, #1.000000e+00
+174fe8	e3530000	cmp	r3, #0
+174fec	16bf3073	sxthne	r3, r3
+174ff0	03a03001	moveq	r3, #1
+174ff4	01c530be	strheq	r3, [r5, #14]
+174ff8	1e063a90	vmovne	s13, r3
+174ffc	e3a03006	mov	r3, #6
+175000	0ef77a00	vmoveq.f32	s15, #1.000000e+00
+175004	1ef87ae6	vcvtne.f32.s32	s15, s13
+175008	eddd6a11	vldr	s13, [sp, #68]
+17500c	eef0aa49	vmov.f32	s21, s18
+175010	eeb0aa68	vmov.f32	s20, s17
+175014	ee46aa87	vmla.f32	s21, s13, s14
+175018	ed9d7a12	vldr	s14, [sp, #72]
+17501c	ee07aa27	vmla.f32	s20, s14, s15
+175020	eb0040fc	bl	0x185418 <_ZN8Graphics10AllocVertsE9ePrimTypePvii>
+175024	eddd6a13	vldr	s13, [sp, #76]
+175028	eddf7a72	vldr	s15, [pc, #456]
+17502c	eeb07ae6	vabs.f32	s14, s13
+175030	eeb47ae7	vcmpe.f32	s14, s15
+175034	eef1fa10	vmrs	APSR_nzcv, fpscr
+175038	e1a04000	mov	r4, r0
+17503c	5a000046	bpl	0x17515c <_Z15GR_Texture_DrawP12YYTPageEntryfffffffjf+0x27c>
+175040	ee389a09	vadd.f32	s18, s16, s18
+175044	ed9d7a10	vldr	s14, [sp, #64]
+175048	ee388a2a	vadd.f32	s16, s16, s21
+17504c	ed809a00	vstr	s18, [r0]
+175050	ed809a1e	vstr	s18, [r0, #120]
+175054	ed809a18	vstr	s18, [r0, #96]
+175058	ee778a28	vadd.f32	s17, s14, s17
+17505c	ed808a0c	vstr	s16, [r0, #48]
+175060	ed808a12	vstr	s16, [r0, #72]
+175064	ed808a06	vstr	s16, [r0, #24]
+175068	ee37aa0a	vadd.f32	s20, s14, s20
+17506c	edc08a07	vstr	s17, [r0, #28]
+175070	edc08a01	vstr	s17, [r0, #4]
+175074	edc08a1f	vstr	s17, [r0, #124]
+175078	ed80aa19	vstr	s20, [r0, #100]
+17507c	ed80aa0d	vstr	s20, [r0, #52]
+175080	ed80aa13	vstr	s20, [r0, #76]
+175084	e1d520f0	ldrsh	r2, [r5]
+175088	edd85a02	vldr	s11, [r8, #8]
+17508c	e59f3170	ldr	r3, [pc, #0x170]
+175090	e1a00007	mov	r0, r7
+175094	e584600c	str	r6, [r4, #0xc]
+175098	ee062a90	vmov	s13, r2
+17509c	e79f3003	ldr	r3, [pc, r3]
+1750a0	e5846084	str	r6, [r4, #0x84]
+1750a4	eef87ae6	vcvt.f32.s32	s15, s13
+1750a8	e5933000	ldr	r3, [r3]
+1750ac	e584b024	str	r11, [r4, #0x24]
+1750b0	e584903c	str	r9, [r4, #0x3c]
+1750b4	e5843068	str	r3, [r4, #0x68]
+1750b8	e5843038	str	r3, [r4, #0x38]
+1750bc	e5843050	str	r3, [r4, #0x50]
+1750c0	e5843020	str	r3, [r4, #0x20]
+1750c4	ee677aa5	vmul.f32	s15, s15, s11
+1750c8	e5843008	str	r3, [r4, #0x8]
+1750cc	e5843080	str	r3, [r4, #0x80]
+1750d0	e5849054	str	r9, [r4, #0x54]
+1750d4	e584a06c	str	r10, [r4, #0x6c]
+1750d8	edc47a1c	vstr	s15, [r4, #112]
+1750dc	edc47a04	vstr	s15, [r4, #16]
+1750e0	edc47a22	vstr	s15, [r4, #136]
+1750e4	e1d530f2	ldrsh	r3, [r5, #2]
+1750e8	ed986a03	vldr	s12, [r8, #12]
+1750ec	ee073a10	vmov	s14, r3
+1750f0	eef86ac7	vcvt.f32.s32	s13, s14
+1750f4	ee666a86	vmul.f32	s13, s13, s12
+1750f8	edc46a0b	vstr	s13, [r4, #44]
+1750fc	edc46a05	vstr	s13, [r4, #20]
+175100	edc46a23	vstr	s13, [r4, #140]
+175104	e1d510f4	ldrsh	r1, [r5, #4]
+175108	e0821001	add	r1, r2, r1
+17510c	ee071a10	vmov	s14, r1
+175110	eeb87ac7	vcvt.f32.s32	s14, s14
+175114	ee257a87	vmul.f32	s14, s11, s14
+175118	ed847a10	vstr	s14, [r4, #64]
+17511c	ed847a16	vstr	s14, [r4, #88]
+175120	ed847a0a	vstr	s14, [r4, #40]
+175124	e1d520f6	ldrsh	r2, [r5, #6]
+175128	e0832002	add	r2, r3, r2
+17512c	ee072a90	vmov	s15, r2
+175130	eef87ae7	vcvt.f32.s32	s15, s15
+175134	ee667a27	vmul.f32	s15, s12, s15
+175138	edc47a1d	vstr	s15, [r4, #116]
+17513c	edc47a11	vstr	s15, [r4, #68]
+175140	edc47a17	vstr	s15, [r4, #92]
+175144	ecbd8b06	vpop	{d8, d9, d10}
+175148	e8bd8ff8	pop	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+17514c	ecbd8b06	vpop	{d8, d9, d10}
+175150	e3a07000	mov	r7, #0
+175154	e1a00007	mov	r0, r7
+175158	e8bd8ff8	pop	{r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+17515c	e59d004c	ldr	r0, [sp, #0x4c]
+175160	ebfd0506	bl	0xb6580 <sinf@plt>
+175164	ee090a90	vmov	s19, r0
+175168	e59d004c	ldr	r0, [sp, #0x4c]
+17516c	ebfd0506	bl	0xb658c <cosf@plt>
+175170	ed9d6a10	vldr	s12, [sp, #64]
+175174	eddd6a10	vldr	s13, [sp, #64]
+175178	ee096a69	vmls.f32	s12, s18, s19
+17517c	ee4a6ae9	vmls.f32	s13, s21, s19
+175180	ee070a90	vmov	s15, r0
+175184	eeb07a48	vmov.f32	s14, s16
+175188	ee285aa7	vmul.f32	s10, s17, s15
+17518c	ee097a27	vmla.f32	s14, s18, s15
+175190	ee0a8aa7	vmla.f32	s16, s21, s15
+175194	ee6a7a27	vmul.f32	s15, s20, s15
+175198	ee688aa9	vmul.f32	s17, s17, s19
+17519c	ee6a9a29	vmul.f32	s19, s20, s19
+1751a0	ee765a05	vadd.f32	s11, s12, s10
+1751a4	ee365a85	vadd.f32	s10, s13, s10
+1751a8	edc45a01	vstr	s11, [r4, #4]
+1751ac	edc45a1f	vstr	s11, [r4, #124]
+1751b0	ee776aa6	vadd.f32	s13, s15, s13
+1751b4	ed845a07	vstr	s10, [r4, #28]
+1751b8	ee777a86	vadd.f32	s15, s15, s12
+1751bc	edc46a0d	vstr	s13, [r4, #52]
+1751c0	edc46a13	vstr	s13, [r4, #76]
+1751c4	ee776a28	vadd.f32	s13, s14, s17
+1751c8	edc47a19	vstr	s15, [r4, #100]
+1751cc	ee788a28	vadd.f32	s17, s16, s17
+1751d0	edc46a00	vstr	s13, [r4]
+1751d4	edc46a1e	vstr	s13, [r4, #120]
+1751d8	ee398a88	vadd.f32	s16, s19, s16
+1751dc	edc48a06	vstr	s17, [r4, #24]
+1751e0	ee799a87	vadd.f32	s19, s19, s14
+1751e4	ed848a0c	vstr	s16, [r4, #48]
+1751e8	ed848a12	vstr	s16, [r4, #72]
+1751ec	edc49a18	vstr	s19, [r4, #96]
+1751f0	eaffffa3	b	0x175084 <_Z15GR_Texture_DrawP12YYTPageEntryfffffffjf+0x1a4>
+1751f4	437f0000	cmnmi	pc, #0
+1751f8	3a83126f	blo	0xfe239bbc <b2_toiTime+0xfffffffffdae0718>
+1751fc	00278f04	eoreq	r8, r7, r4, lsl #30
+175200	00278990	mlaeq	r7, r0, r9, r8
+175204	00278884	eoreq	r8, r7, r4, lsl #17

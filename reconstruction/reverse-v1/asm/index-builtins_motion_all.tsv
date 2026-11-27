@@ -1,0 +1,249 @@
+10c24c	e92d4038	push	{r3, r4, r5, lr}
+10c250	ed2d8b02	vpush	{d8}
+10c254	e3a01004	mov	r1, #4
+10c258	e59d5018	ldr	r5, [sp, #0x18]
+10c25c	e59f4078	ldr	r4, [pc, #0x78]
+10c260	e1a00005	mov	r0, r5
+10c264	e08f4004	add	r4, pc, r4
+10c268	ebff093e	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+10c26c	e3a01000	mov	r1, #0
+10c270	e5c4000c	strb	r0, [r4, #0xc]
+10c274	e1a00005	mov	r0, r5
+10c278	ebff0a81	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+10c27c	e3a01001	mov	r1, #1
+10c280	e5840010	str	r0, [r4, #0x10]
+10c284	e1a00005	mov	r0, r5
+10c288	ebff0a7d	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+10c28c	e3a01002	mov	r1, #2
+10c290	edd48a04	vldr	s17, [r4, #16]
+10c294	e5840014	str	r0, [r4, #0x14]
+10c298	e1a00005	mov	r0, r5
+10c29c	ebff0a78	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+10c2a0	e3a01003	mov	r1, #3
+10c2a4	ed948a05	vldr	s16, [r4, #20]
+10c2a8	ee070a90	vmov	s15, r0
+10c2ac	e1a00005	mov	r0, r5
+10c2b0	ee788aa7	vadd.f32	s17, s17, s15
+10c2b4	edc48a06	vstr	s17, [r4, #24]
+10c2b8	ebff0a71	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+10c2bc	e59f301c	ldr	r3, [pc, #0x1c]
+10c2c0	ee070a90	vmov	s15, r0
+10c2c4	e79f0003	ldr	r0, [pc, r3]
+10c2c8	ee388a27	vadd.f32	s16, s16, s15
+10c2cc	ed848a07	vstr	s16, [r4, #28]
+10c2d0	ecbd8b02	vpop	{d8}
+10c2d4	e8bd4038	pop	{r3, r4, r5, lr}
+10c2d8	eafffe06	b	0x10baf8 <_Z15GetDeactiveListPFvP9CInstanceE>
+10c2dc	00377474	eorseq	r7, r7, r4, ror r4
+10c2e0	002e1e00	eoreq	r1, lr, r0, lsl #28
+109518	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+10951c	e1a05000	mov	r5, r0
+109520	e59d4018	ldr	r4, [sp, #0x18]
+109524	e1a08001	mov	r8, r1
+109528	e3a01000	mov	r1, #0
+10952c	e1a00004	mov	r0, r4
+109530	ebff15d3	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+109534	e3a01001	mov	r1, #1
+109538	e1a07000	mov	r7, r0
+10953c	e1a00004	mov	r0, r4
+109540	ebff15cf	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+109544	e3a01002	mov	r1, #2
+109548	e1a06000	mov	r6, r0
+10954c	e1a00004	mov	r0, r4
+109550	ebff14c6	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+109554	e1a02006	mov	r2, r6
+109558	e1a01007	mov	r1, r7
+10955c	e1a03000	mov	r3, r0
+109560	e1a00008	mov	r0, r8
+109564	eb03045b	bl	0x1ca6d8 <_Z21Command_InstancePlaceP9CInstanceffi>
+109568	e3a03000	mov	r3, #0
+10956c	e585300c	str	r3, [r5, #0xc]
+109570	e3500000	cmp	r0, #0
+109574	15902078	ldrne	r2, [r0, #0x78]
+109578	03a03000	moveq	r3, #0
+10957c	03a02000	moveq	r2, #0
+109580	034c3010	movteq	r3, #0xc010
+109584	1e072a90	vmovne	s15, r2
+109588	1eb87be7	vcvtne.f64.s32	d7, s15
+10958c	1c532b17	vmovne	r2, r3, d7
+109590	e885000c	stm	r5, {r2, r3}
+109594	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+10b190	e3530001	cmp	r3, #1
+10b194	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+10b198	e1a05001	mov	r5, r1
+10b19c	e1a06002	mov	r6, r2
+10b1a0	e59d4018	ldr	r4, [sp, #0x18]
+10b1a4	da00000c	ble	0x10b1dc <_Z17F_InstanceDestroyR6RValueP9CInstanceS2_iPS_+0x4c>
+10b1a8	e1a00004	mov	r0, r4
+10b1ac	e3a01001	mov	r1, #1
+10b1b0	ebff0d6c	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+10b1b4	e1a07000	mov	r7, r0
+10b1b8	e1a00004	mov	r0, r4
+10b1bc	e3a01000	mov	r1, #0
+10b1c0	ebff0daa	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+10b1c4	e1a02000	mov	r2, r0
+10b1c8	e1a00005	mov	r0, r5
+10b1cc	e1a01006	mov	r1, r6
+10b1d0	e1a03007	mov	r3, r7
+10b1d4	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+10b1d8	eaffffd3	b	0x10b12c <_Z17DoInstanceDestroyP9CInstanceS0_ib>
+10b1dc	13a07001	movne	r7, #1
+10b1e0	13e02000	mvnne	r2, #0
+10b1e4	1afffff7	bne	0x10b1c8 <_Z17F_InstanceDestroyR6RValueP9CInstanceS2_iPS_+0x38>
+10b1e8	e1a07003	mov	r7, r3
+10b1ec	eafffff1	b	0x10b1b8 <_Z17F_InstanceDestroyR6RValueP9CInstanceS2_iPS_+0x28>
+10af94	e92d4070	push	{r4, r5, r6, lr}
+10af98	e3a03000	mov	r3, #0
+10af9c	e1a04000	mov	r4, r0
+10afa0	e580300c	str	r3, [r0, #0xc]
+10afa4	e1a05001	mov	r5, r1
+10afa8	e59d0010	ldr	r0, [sp, #0x10]
+10afac	e1a01003	mov	r1, r3
+10afb0	e1a06002	mov	r6, r2
+10afb4	ebff0e2d	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+10afb8	e1a01006	mov	r1, r6
+10afbc	e1a02000	mov	r2, r0
+10afc0	e1a00005	mov	r0, r5
+10afc4	ebffffd2	bl	0x10af14 <_Z21YYGML_instance_existsP9CInstanceS0_i>
+10afc8	ee070a90	vmov	s15, r0
+10afcc	eeb87b67	vcvt.f64.u32	d7, s15
+10afd0	ec510b17	vmov	r0, r1, d7
+10afd4	ee172a10	vmov	r2, s14
+10afd8	e1a03001	mov	r3, r1
+10afdc	e884000c	stm	r4, {r2, r3}
+10afe0	e8bd8070	pop	{r4, r5, r6, pc}
+10b04c	e92d4070	push	{r4, r5, r6, lr}
+10b050	e1a04000	mov	r4, r0
+10b054	e1a05001	mov	r5, r1
+10b058	e59d0010	ldr	r0, [sp, #0x10]
+10b05c	e3a01000	mov	r1, #0
+10b060	e1a06002	mov	r6, r2
+10b064	ebff0e01	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+10b068	e3a03000	mov	r3, #0
+10b06c	e1a01006	mov	r1, r6
+10b070	e584300c	str	r3, [r4, #0xc]
+10b074	e1a02000	mov	r2, r0
+10b078	e1a00005	mov	r0, r5
+10b07c	ebffffd8	bl	0x10afe4 <_Z21YYGML_instance_numberP9CInstanceS0_i>
+10b080	ee070a90	vmov	s15, r0
+10b084	eeb87be7	vcvt.f64.s32	d7, s15
+10b088	ec510b17	vmov	r0, r1, d7
+10b08c	ee172a10	vmov	r2, s14
+10b090	e1a03001	mov	r3, r1
+10b094	e884000c	stm	r4, {r2, r3}
+10b098	e8bd8070	pop	{r4, r5, r6, pc}
+108a34	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+108a38	e24dd008	sub	sp, sp, #8
+108a3c	e3a06000	mov	r6, #0
+108a40	e1a05000	mov	r5, r0
+108a44	e59d4028	ldr	r4, [sp, #0x28]
+108a48	e1a07001	mov	r7, r1
+108a4c	e580600c	str	r6, [r0, #0xc]
+108a50	e1a01006	mov	r1, r6
+108a54	e1a00004	mov	r0, r4
+108a58	ebff1889	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108a5c	e3a01001	mov	r1, #1
+108a60	e1a0a000	mov	r10, r0
+108a64	e1a00004	mov	r0, r4
+108a68	ebff1885	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108a6c	e3a01002	mov	r1, #2
+108a70	e1a09000	mov	r9, r0
+108a74	e1a00004	mov	r0, r4
+108a78	ebff1881	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108a7c	e3a01003	mov	r1, #3
+108a80	e1a08000	mov	r8, r0
+108a84	e1a00004	mov	r0, r4
+108a88	ebff1736	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+108a8c	e1a03008	mov	r3, r8
+108a90	e3e0c002	mvn	r12, #2
+108a94	e1a0100a	mov	r1, r10
+108a98	e1a02009	mov	r2, r9
+108a9c	e58dc000	str	r12, [sp]
+108aa0	e58d0004	str	r0, [sp, #0x4]
+108aa4	e1a00007	mov	r0, r7
+108aa8	eb025086	bl	0x19ccc8 <_Z21Motion_Potential_StepP9CInstancefffib>
+108aac	e3500000	cmp	r0, #0
+108ab0	01a06000	moveq	r6, r0
+108ab4	11a03006	movne	r3, r6
+108ab8	01a03006	moveq	r3, r6
+108abc	13433ff0	movtne	r3, #0x3ff0
+108ac0	e5856000	str	r6, [r5]
+108ac4	e5853004	str	r3, [r5, #0x4]
+108ac8	e28dd008	add	sp, sp, #8
+108acc	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+10819c	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+1081a0	e1a07001	mov	r7, r1
+1081a4	e59d4018	ldr	r4, [sp, #0x18]
+1081a8	e3a01000	mov	r1, #0
+1081ac	e1a00004	mov	r0, r4
+1081b0	ebff1ab3	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1081b4	e3a01001	mov	r1, #1
+1081b8	e1a06000	mov	r6, r0
+1081bc	e1a00004	mov	r0, r4
+1081c0	ebff1aaf	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1081c4	e3a01002	mov	r1, #2
+1081c8	e1a05000	mov	r5, r0
+1081cc	e1a00004	mov	r0, r4
+1081d0	ebff1aab	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1081d4	e1a01006	mov	r1, r6
+1081d8	e1a02005	mov	r2, r5
+1081dc	e1a03000	mov	r3, r0
+1081e0	e1a00007	mov	r0, r7
+1081e4	e8bd41f0	pop	{r4, r5, r6, r7, r8, lr}
+1081e8	ea03057f	b	0x1c97ec <_Z19Command_MoveTowardsP9CInstancefff>
+111a50	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+111a54	e3a01000	mov	r1, #0
+111a58	e59d4018	ldr	r4, [sp, #0x18]
+111a5c	e1a05000	mov	r5, r0
+111a60	e580100c	str	r1, [r0, #0xc]
+111a64	e1a00004	mov	r0, r4
+111a68	ebfef485	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+111a6c	e3a01001	mov	r1, #1
+111a70	e1a08000	mov	r8, r0
+111a74	e1a00004	mov	r0, r4
+111a78	ebfef481	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+111a7c	e3a01002	mov	r1, #2
+111a80	e1a07000	mov	r7, r0
+111a84	e1a00004	mov	r0, r4
+111a88	ebfef47d	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+111a8c	e3a01003	mov	r1, #3
+111a90	e1a06000	mov	r6, r0
+111a94	e1a00004	mov	r0, r4
+111a98	ebfef479	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+111a9c	e1a01007	mov	r1, r7
+111aa0	e1a02006	mov	r2, r6
+111aa4	e1a03000	mov	r3, r0
+111aa8	e1a00008	mov	r0, r8
+111aac	ebffffbc	bl	0x1119a4 <_Z21YYGML_point_directionffff>
+111ab0	ee070a90	vmov	s15, r0
+111ab4	eeb77ae7	vcvt.f64.f32	d7, s15
+111ab8	ec510b17	vmov	r0, r1, d7
+111abc	ee172a10	vmov	r2, s14
+111ac0	e1a03001	mov	r3, r1
+111ac4	e885000c	stm	r5, {r2, r3}
+111ac8	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+10de6c	e92d4010	push	{r4, lr}
+10de70	e3a01000	mov	r1, #0
+10de74	e1a04000	mov	r4, r0
+10de78	e59d0008	ldr	r0, [sp, #0x8]
+10de7c	ebff0328	bl	0xceb24 <_Z9YYGetRealPK6RValuei>
+10de80	e3a03000	mov	r3, #0
+10de84	e584300c	str	r3, [r4, #0xc]
+10de88	ec410b17	vmov	d7, r0, r1
+10de8c	eeb57bc0	vcmpe.f64	d7, #0
+10de90	eef1fa10	vmrs	APSR_nzcv, fpscr
+10de94	ba000008	blt	0x10debc <_Z6F_SignR6RValueP9CInstanceS2_iPS_+0x50>
+10de98	eeb57b40	vcmp.f64	d7, #0
+10de9c	eef1fa10	vmrs	APSR_nzcv, fpscr
+10dea0	03a02000	moveq	r2, #0
+10dea4	13a02001	movne	r2, #1
+10dea8	ee072a90	vmov	s15, r2
+10deac	eeb87be7	vcvt.f64.s32	d7, s15
+10deb0	ec532b17	vmov	r2, r3, d7
+10deb4	e884000c	stm	r4, {r2, r3}
+10deb8	e8bd8010	pop	{r4, pc}
+10debc	e3a02000	mov	r2, #0
+10dec0	e3a03000	mov	r3, #0
+10dec4	e34b3ff0	movt	r3, #0xbff0
+10dec8	e884000c	stm	r4, {r2, r3}
+10decc	e8bd8010	pop	{r4, pc}

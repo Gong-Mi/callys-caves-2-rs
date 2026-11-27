@@ -1,0 +1,37 @@
+110dec	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+110df0	e3a01000	mov	r1, #0
+110df4	e59d4018	ldr	r4, [sp, #0x18]
+110df8	e1a08000	mov	r8, r0
+110dfc	e1a00004	mov	r0, r4
+110e00	ebfef70a	bl	0xcea30 <_Z10YYGetInt64PK6RValuei>
+110e04	e1a06000	mov	r6, r0
+110e08	e1a07001	mov	r7, r1
+110e0c	e1a00004	mov	r0, r4
+110e10	e3a01001	mov	r1, #1
+110e14	ebfef705	bl	0xcea30 <_Z10YYGetInt64PK6RValuei>
+110e18	e1a04000	mov	r4, r0
+110e1c	e1a05001	mov	r5, r1
+110e20	e1560004	cmp	r6, r4
+110e24	e0d73005	sbcs	r3, r7, r5
+110e28	ba00000b	blt	0x110e5c <_Z14F_IRandomRangeR6RValueP9CInstanceS2_iPS_+0x70>
+110e2c	e0566004	subs	r6, r6, r4
+110e30	e0c77005	sbc	r7, r7, r5
+110e34	e2960001	adds	r0, r6, #1
+110e38	e2a71000	adc	r1, r7, #0
+110e3c	e3a03000	mov	r3, #0
+110e40	e588300c	str	r3, [r8, #0xc]
+110e44	ebffffb3	bl	0x110d18 <_Z14iScript_Randomx>
+110e48	e0900004	adds	r0, r0, r4
+110e4c	e0a11005	adc	r1, r1, r5
+110e50	eb0820c3	bl	0x319164 <__floatdidf>
+110e54	e8880003	stm	r8, {r0, r1}
+110e58	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+110e5c	e1a02000	mov	r2, r0
+110e60	e1a03001	mov	r3, r1
+110e64	e0522006	subs	r2, r2, r6
+110e68	e0c33007	sbc	r3, r3, r7
+110e6c	e1a04006	mov	r4, r6
+110e70	e2920001	adds	r0, r2, #1
+110e74	e1a05007	mov	r5, r7
+110e78	e2a31000	adc	r1, r3, #0
+110e7c	eaffffee	b	0x110e3c <_Z14F_IRandomRangeR6RValueP9CInstanceS2_iPS_+0x50>

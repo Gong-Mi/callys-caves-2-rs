@@ -1,0 +1,46 @@
+2a16dc	e92d4038	push	{r3, r4, r5, lr}
+2a16e0	e30102e4	movw	r0, #0x12e4
+2a16e4	e3400020	movt	r0, #0x20
+2a16e8	ebf854b5	bl	0xb69c4 <srand48@plt>
+2a16ec	ebfcf7aa	bl	0x1df59c <_Z13RunnerLoadWadv>
+2a16f0	e2504000	subs	r4, r0, #0
+2a16f4	0a000017	beq	0x2a1758 <_Z9DoTheWorkv+0x7c>
+2a16f8	ebfd4715	bl	0x1f3354 <_Z20Variable_Global_Initv>
+2a16fc	e59f307c	ldr	r3, [pc, #0x7c]
+2a1700	e59f107c	ldr	r1, [pc, #0x7c]
+2a1704	e79f3003	ldr	r3, [pc, r3]
+2a1708	e08f1001	add	r1, pc, r1
+2a170c	e5935000	ldr	r5, [r3]
+2a1710	e5953000	ldr	r3, [r5]
+2a1714	e1a00005	mov	r0, r5
+2a1718	e593300c	ldr	r3, [r3, #0xc]
+2a171c	e12fff33	blx	r3
+2a1720	ebfcf7fb	bl	0x1df714 <_Z11PrepareGamev>
+2a1724	e2504000	subs	r4, r0, #0
+2a1728	1a000001	bne	0x2a1734 <_Z9DoTheWorkv+0x58>
+2a172c	e1a00004	mov	r0, r4
+2a1730	e8bd8038	pop	{r3, r4, r5, pc}
+2a1734	e5953000	ldr	r3, [r5]
+2a1738	e1a00005	mov	r0, r5
+2a173c	e59f1044	ldr	r1, [pc, #0x44]
+2a1740	e593300c	ldr	r3, [r3, #0xc]
+2a1744	e08f1001	add	r1, pc, r1
+2a1748	e12fff33	blx	r3
+2a174c	ebfccde1	bl	0x1d4ed8 <_Z9Run_Startv>
+2a1750	e1a00004	mov	r0, r4
+2a1754	e8bd8038	pop	{r3, r4, r5, pc}
+2a1758	e59f302c	ldr	r3, [pc, #0x2c]
+2a175c	e59f102c	ldr	r1, [pc, #0x2c]
+2a1760	e79f3003	ldr	r3, [pc, r3]
+2a1764	e08f1001	add	r1, pc, r1
+2a1768	e5930000	ldr	r0, [r3]
+2a176c	e5903000	ldr	r3, [r0]
+2a1770	e593300c	ldr	r3, [r3, #0xc]
+2a1774	e12fff33	blx	r3
+2a1778	e1a00004	mov	r0, r4
+2a177c	e8bd8038	pop	{r3, r4, r5, pc}
+2a1780	0014e418	andseq	lr, r4, r8, lsl r4
+2a1784	000b8938	andeq	r8, r11, r8, lsr r9
+2a1788	000b890c	andeq	r8, r11, r12, lsl #18
+2a178c	0014bfb4	ldrheq	r11, [r4], -r4
+2a1790	000b88c0	andeq	r8, r11, r0, asr #17

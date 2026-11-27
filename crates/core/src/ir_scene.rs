@@ -1,7 +1,7 @@
 //! Headless event host for a bounded IR scene, NOT GameWorld or a full GM runner.
 //! Event bodies come exclusively from CODE IR/OBJT bindings. No intro timers or
 //! coordinates are hand-translated here. External instances are explicitly inert.
-use crate::code_vm::{self, Bundle, Host, STRING_REF_BASE};
+use crate::code_vm::{self, Bundle, Host, Payload, Value, STRING_REF_BASE};
 use serde::Serialize;
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -723,16 +723,16 @@ impl Scene {
 
             // Apply scale if specified
             if inst.scale_x.is_finite() && inst.scale_x != 0.0 {
-                let _ = self.write(inst_id, -1, "image_xscale", None, inst.scale_x as f64);
+                let _ = self.write_raw(inst_id, -1, "image_xscale", None, inst.scale_x as f64);
             }
             if inst.scale_y.is_finite() && inst.scale_y != 0.0 {
-                let _ = self.write(inst_id, -1, "image_yscale", None, inst.scale_y as f64);
+                let _ = self.write_raw(inst_id, -1, "image_yscale", None, inst.scale_y as f64);
             }
             // The placement's rotation is part of the instance's initial state
             // (GM image_angle) and feeds the rotated sprite box the collision
             // queries use; three original placements depend on it.
             if inst.rotation.is_finite() {
-                let _ = self.write(inst_id, -1, "image_angle", None, inst.rotation as f64);
+                let _ = self.write_raw(inst_id, -1, "image_angle", None, inst.rotation as f64);
             }
 
             // Run creation code if bound
@@ -1102,7 +1102,7 @@ impl Scene {
             };
 
             for target_obj in col_events {
-                let targets = match self.select(id, target_obj) {
+                let targets = match self.select_raw(id, target_obj) {
                     Ok(t) => t,
                     Err(_) => continue,
                 };
@@ -1398,14 +1398,12 @@ impl Scene {
         self.draw_depth_context = None;
         result
     }
-    /// GMS precise-mask point test. Transforms the room point through the
-    /// inverse of the draw pipeline — translate to the instance position,
-    /// undo `image_angle` (clockwise on the y-down screen), undo scale, then
-    /// re-add the sprite origin — and samples the instance's current-frame
-    /// collision mask. Returns None when the sprite carries no mask data
-    /// (fixtures wiring only `sprite_bounds`), letting callers fall back to
-    /// the bounding-box answer.
-    fn mask_hit(&self, tid: i32, px: f64, py: f64) -> Option<bool> {
+    /// Sample one sprite pixel for a delta already in world space.
+    /// `dx`/`dy` are the (possibly rounded) differences the caller produced;
+    /// this only does un-rotate -> un-scale -> add the mask base -> floor.
+    /// Returns None when the sprite carries no mask data (fixtures wiring only
+    /// `sprite_bounds`), letting callers fall back to the bounding-box answer.
+    fn mask_sample(&self, tid: i32, dx: f64, dy: f64) -> Option<bool> {
         let inst = self.instances.get(&tid)?;
         let spr = inst.fields.get("sprite_index").copied().unwrap_or(-1.0) as i32;
         let masks = self.sprite_masks.get(&spr)?;
@@ -1415,8 +1413,6 @@ impl Scene {
         } else {
             (frame as usize).min(masks.len() - 1)
         })?;
-        let ix = inst.fields.get("x").copied().unwrap_or(0.0);
-        let iy = inst.fields.get("y").copied().unwrap_or(0.0);
         let sx = inst.fields.get("image_xscale").unwrap_or(&1.0).clone();
         let sy = inst.fields.get("image_yscale").unwrap_or(&1.0).clone();
         if sx == 0.0 || sy == 0.0 { return Some(false); }
@@ -1426,24 +1422,62 @@ impl Scene {
             .get(&spr)
             .map(|b| (b.origin_x, b.origin_y))
             .unwrap_or((0.0, 0.0));
-        let dx = px - ix;
-        let dy = py - iy;
         let ca = ang.cos();
         let sa = ang.sin();
         // Runner mapping (verified with the Unicorn oracle at 0x1e4298):
         // world = (c*lx + s*ly, -s*lx + c*ly)  =>  local = (c*dx - s*dy, s*dx + c*dy).
         let rx = dx * ca - dy * sa;
         let ry = dx * sa + dy * ca;
-        // This family (collision_point / collision_line) floors; the
-        // instance_place path truncates (vcvt.s32). Both oracle-verified.
-        let lx = ((rx / sx).floor() + ox) as i32;
-        let ly = ((ry / sy).floor() + oy) as i32;
+        // The precise family floors AFTER adding the mask base
+        // (vdiv -> vadd base -> floorf at 0x1e4aac-0x1e4abc); the
+        // instance_place path truncates (vcvt.s32) instead.
+        let lx = (rx / sx + ox).floor() as i32;
+        let ly = (ry / sy + oy).floor() as i32;
         Some(mask.pixel(lx, ly))
+    }
+
+    /// Mask probe for the collision_line walk. The line path still takes the
+    /// raw float difference: its per-step walk inside PreciseCollisionLine
+    /// @0x1e52bc is not decoded yet, while the call site does lrint both
+    /// endpoints and the centre (0x1951f4-0x195254) — see contract 7.1.
+    fn mask_hit(&self, tid: i32, px: f64, py: f64) -> Option<bool> {
+        let inst = self.instances.get(&tid)?;
+        let ix = inst.fields.get("x").copied().unwrap_or(0.0);
+        let iy = inst.fields.get("y").copied().unwrap_or(0.0);
+        // Same call-site rounding as the point path, on the centre only: the
+        // runner's walk keeps the sample in float and subtracts the rounded
+        // integer position (Collision_Line @0x194f28 lrints x/y at
+        // 0x1951f4/0x195208 before PreciseCollisionLine).
+        let dx = px - ix.round_ties_even();
+        let dy = py - iy.round_ties_even();
+        self.mask_sample(tid, dx, dy)
+    }
+
+    /// Mask probe for collision_point. The runner rounds the centre and the
+    /// query point to integers at the call site (CInstance::Collision_Point
+    /// @0x1944b0: lrint@plt at 0x19467c/0x194690 for x/y, 0x1946ac/0x1946bc for
+    /// px/py) and PreciseCollisionPoint subtracts the two ints (rsb at
+    /// 0x1e4a9c) before vcvt.f32.s32. round_ties_even is lrint's default
+    /// FE_TONEAREST, not round-half-away.
+    fn mask_hit_point(&self, tid: i32, px: f64, py: f64) -> Option<bool> {
+        let inst = self.instances.get(&tid)?;
+        let ix = inst.fields.get("x").copied().unwrap_or(0.0);
+        let iy = inst.fields.get("y").copied().unwrap_or(0.0);
+        let dx = (px.round_ties_even() - ix.round_ties_even()) as f32 as f64;
+        let dy = (py.round_ties_even() - iy.round_ties_even()) as f32 as f64;
+        self.mask_sample(tid, dx, dy)
     }
     /// Walk a room-space line through `tid`'s mask at half-pixel resolution.
     /// `Some(true)` any mask pixel touches the line; `Some(false)` none do;
     /// None = no mask data (bbox fallback).
     fn line_mask_hit(&self, tid: i32, x1: f64, y1: f64, x2: f64, y2: f64) -> Option<bool> {
+        // The call site rounds all four endpoints (lrint at
+        // 0x195224/0x195234/0x195244/0x195254), so sub-pixel segments collapse
+        // onto integers before the walk starts.
+        let x1 = x1.round_ties_even();
+        let y1 = y1.round_ties_even();
+        let x2 = x2.round_ties_even();
+        let y2 = y2.round_ties_even();
         // Runner quirk (oracle-verified, PreciseCollisionLine @0x1e52bc): an
         // exactly horizontal segment scanned right-to-left never hits — the
         // walk only covers x in [x1, x2]. Reversed diagonals and verticals are
@@ -1574,10 +1608,32 @@ impl Scene {
         if idx < b.string_table.len() { return b.string_table.get(idx).cloned(); }
         self.dynamic_strings.get(idx - b.string_table.len()).cloned()
     }
-    /// Store a runtime-built string and hand back a fresh reference.
-    pub fn alloc_string(&mut self, b: &Bundle, text: String) -> f64 {
+    /// Store a runtime-built string and hand back its pool index (the payload of
+    /// a `Value` with tag 1).
+    pub fn alloc_string_index(&mut self, b: &Bundle, text: String) -> u32 {
         self.dynamic_strings.push(text);
-        STRING_REF_BASE + (b.string_table.len() + self.dynamic_strings.len() - 1) as f64
+        (b.string_table.len() + self.dynamic_strings.len() - 1) as u32
+    }
+    /// Store a runtime-built string and hand back a fresh reference in the legacy
+    /// numeric encoding (the scene's variable tables are still `f64`).
+    pub fn alloc_string(&mut self, b: &Bundle, text: String) -> f64 {
+        STRING_REF_BASE + self.alloc_string_index(b, text) as f64
+    }
+    /// Text behind a pool index: the bundle's literal table first, then this
+    /// scene's runtime entries.
+    fn pool_text_index(&self, b: &Bundle, index: u32) -> Option<String> {
+        let index = index as usize;
+        if index < b.string_table.len() { return b.string_table.get(index).cloned(); }
+        self.dynamic_strings.get(index - b.string_table.len()).cloned()
+    }
+    /// A `Value` argument as text: string references resolve through the pool,
+    /// everything numeric renders the way GMS renders it (`string()` / implicit
+    /// coercion). Undefined and the unmodelled tags have no text here.
+    fn value_text(&self, b: &Bundle, v: Value) -> String {
+        match v.payload {
+            Payload::Str(index) => self.pool_text_index(b, index).unwrap_or_default(),
+            _ => v.to_legacy_numeric().map(gm_real_text).unwrap_or_default(),
+        }
     }
     /// A string argument as text: pooled references resolve, plain numbers
     /// render the way GMS renders them (`string()` / implicit coercion).
@@ -1591,9 +1647,9 @@ impl Scene {
     /// ignores them.
     fn select_for_access(&self, id: i32, s: i32) -> Vec<i32> {
         if s < 0 {
-            return self.select(id, s).unwrap_or_default();
+            return self.select_raw(id, s).unwrap_or_default();
         }
-        let strict = self.select(id, s).unwrap_or_default();
+        let strict = self.select_raw(id, s).unwrap_or_default();
         if !strict.is_empty() {
             return strict;
         }

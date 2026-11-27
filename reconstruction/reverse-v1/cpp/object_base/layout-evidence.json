@@ -1,0 +1,1173 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "global_registry_bindings": [
+    {
+      "pool": "0x199100",
+      "slot": "0x3edc6c",
+      "target": "0x536f0c",
+      "symbol": "g_slotObjects",
+      "size": 16
+    },
+    {
+      "pool": "0x199104",
+      "slot": "0x3edc18",
+      "target": "0x536f1c",
+      "symbol": "_ZN12YYObjectBase12ms_pFreeListE",
+      "size": 4
+    },
+    {
+      "pool": "0x199108",
+      "slot": "0x3edca4",
+      "target": "0x3f5050",
+      "symbol": "g_ShouldDispose",
+      "size": 1
+    }
+  ],
+  "regex_hook_bindings": [
+    {
+      "read_site": "0x198ed0",
+      "pool": "0x198f80",
+      "slot": "0x3f0690",
+      "target": "0x3f76dc",
+      "symbol": "pcre_free",
+      "independent_reload": true
+    },
+    {
+      "read_site": "0x198ef4",
+      "pool": "0x198f84",
+      "slot": "0x3f0690",
+      "target": "0x3f76dc",
+      "symbol": "pcre_free",
+      "independent_reload": true
+    }
+  ],
+  "dispose_property": {
+    "address": "0x3327b4",
+    "text": "dispose"
+  },
+  "observed_object_offsets": [
+    "0x00 vptr",
+    "0x04 dense table",
+    "0x08 pool next",
+    "0x0c reset word",
+    "0x18 live prototype link / clear word",
+    "0x1c/0x20 regex data",
+    "0x24 signed dense count",
+    "0x28 extensibility predicate word (only bit 0 read by IsExtensible@0x19220c; constructor stores 1@0x191934)",
+    "0x2c clear word",
+    "0x38/0x40 clear words",
+    "0x44 slot ID",
+    "0x48 kind",
+    "0x60 variable map",
+    "0x4c inherited getter callback word"
+  ],
+  "no_complete_object_layout_claim": true,
+  "RValue_stack_image": {
+    "bytes": 16,
+    "kind_sentinel": "0x00ffffff",
+    "aux_then_low_high_then_kind": true,
+    "no_ctor_dtor_invented": true,
+    "store_order": [
+      "aux@+8",
+      "low@+0",
+      "high@+4",
+      "kind@+12"
+    ]
+  },
+  "original_executed": false,
+  "rvalue_page_pool": {
+    "symbol": "_rvalue",
+    "inline_object": "0x536d88",
+    "size": 20,
+    "slot": "0x3f0678",
+    "literal": "0x190eec",
+    "got_add_site": "0x190e88",
+    "fields": {
+      "pageHead": 4,
+      "freeHead": 8,
+      "count0c": 12,
+      "count10": 16
+    },
+    "page_data_range": "uint32 wrap bounds [page+8,page+0x100008), separate unsigned comparisons",
+    "not_a_pointer_variable": true
+  },
+  "js_helper_contracts": {
+    "inherited_getter_receiver": "original object, not getter-provider ancestor",
+    "property_probe_reloads_prototype_after_getter": true,
+    "kind_classification_mask": "0x00ffffff",
+    "YYError_format": {
+      "address": "0x355538",
+      "text": "unhandled type for JS_IsCallable %d",
+      "vararg": "masked kind in r1, explicit int representation"
+    },
+    "Call_RValue_rejection_word": 1,
+    "no_extra_null_guards": true
+  },
+  "allocator_consumer_layout": {
+    "object_raw_allocation": 100,
+    "constructor_boundary": "C1Eii raw 3-GP provider, not instantiated nominal class",
+    "object_fields": {
+      "dense": 4,
+      "poolNext": 8,
+      "variableCount": "0x24",
+      "denseCapacity": "0x2c",
+      "registryId": "0x44",
+      "objectKind": "0x48",
+      "defaultValueKind": "0x58",
+      "map": "0x60"
+    },
+    "slot_registry_capacity_offset": 4,
+    "currentCounter_symbol": "_ZN12YYObjectBase17ms_currentCounterE",
+    "currentCounter_address": "0x536f08",
+    "capacity_growth": "wrap3x + sign carry, ASR1 bit pattern",
+    "hash_int_is_ordinary_overload": true,
+    "new_RValue_initialization": "low/high zero, live default kind, aux+8 untouched; map receiver refreshed before Insert"
+  },
+  "value_map_producers": {
+    "GetRValue_entry": "0x190dc0",
+    "pool": "_rvalue inline20B",
+    "new_bytes": "0x100018",
+    "payload_fill": 120,
+    "payload_bytes": "0x100010",
+    "first": "(base+24)&~15",
+    "span_ADD_190e30": "0xff000 (not worker0xfff00)",
+    "loop_end_offset": "0xffff0",
+    "return_node_offset": "0xfffe0",
+    "normal_free_count_net_delta": "0xfffe",
+    "tail_join_skips_head_and_count_reads": true,
+    "AllocVars_entry": "0x1917dc",
+    "map_bytes": 20,
+    "initial_capacity": 8,
+    "initial_mask": 7,
+    "buckets_bytes": 96,
+    "tag_line": 70,
+    "threshold_factor_bits": "0x3f19999a",
+    "threshold_uses_live_signed_capacity_and_true_f32_ops": true,
+    "map_publish_after_hash_word_loop": true,
+    "no_full_HashMap_or_RValue_class_claim": true
+  },
+  "gc_startup": {
+    "tier": "bytecode_anchored",
+    "slot": "0x3eb60c",
+    "entry": "0xb9814",
+    "end_exclusive": "0xb9944",
+    "got_object_table": {
+      "0x3edc4c": "0x536f28",
+      "0x3f0698": "0x190d2c",
+      "0x3edc6c": "0x536f0c",
+      "0x3f069c": "0x190d00",
+      "0x3edc68": "0x536da8",
+      "0x3f0678": "0x536d88",
+      "0x3f06a0": "0x3ebaa8",
+      "0x3edc98": "0x3f504c"
+    },
+    "array_stride_bytes": 88,
+    "array_instances": 4,
+    "atexit_callbacks": [
+      "Hash<CInstance>::D1",
+      "YYSlot<YYObjectBase>::D1",
+      "anon_0x1910b4"
+    ],
+    "third_object_arg": null,
+    "original_dso_handle_va": "0x3f2000",
+    "efficiency_initial_word": "0x45800000",
+    "rvalue_install": "0xb990c stores 0x3ebab0 into _rvalue+0 after 0xb98f4; four payload words untouched",
+    "rvalue_consumers": [
+      "GetRValue@0x190dc0",
+      "FreeRValue@0x190e84"
+    ],
+    "original_compact_inline_ehabi": [
+      "0x190f58",
+      "0x191064",
+      "0x1910b4"
+    ],
+    "gaps": [
+      "CInstance-value dynamic receiver type at the Hash destructor virtual slot +4",
+      "full GC map value type and later writers of initial efficiency",
+      "original/rebuilt exception, fault, concurrency and final image lifecycle equivalence"
+    ]
+  },
+  "gc_root_consumers": {
+    "tier": "bytecode_anchored",
+    "root_pointer_hash": "0x190f34, ASR then add 1",
+    "probe": "0x1910e8 hashes and value-address only; not key equality; pre-probe top-bit check separate from signed distance check",
+    "dynamic_slots": "+4 pointer to 4B object pointers; +8 count/+0xc capacity",
+    "publish_sequence": "After ReAlloc: live count, publish array, publish new count, publish pointer to old-index slot",
+    "class_stats": "Free each entry +0 payload, not the table; 8B entries, +0x4c live unsigned count in loop",
+    "gap": "AddRoot/RemoveRoot probe/update paths, other root table users and game/runtime equivalence not certified"
+  },
+  "gc_root_table_writers": {
+    "tier": "bytecode_anchored",
+    "actual_specialization": "CHashMap<YYObjectBase*,YYObjectBase*,4>",
+    "slot_fields": {
+      "key": 0,
+      "value": 4,
+      "hash": 8,
+      "stride_bytes": 12
+    },
+    "growth_provider": {
+      "caller": "0x1963c8",
+      "callee": "0x195ba8",
+      "symbol": "_ZN8CHashMapIP12YYObjectBaseS1_Li4EE6InsertES1_S1_",
+      "compiled_status": "actual WEAK definition in O0/O2 cumulative relocatable; dropping its TU restores the undefined edge"
+    },
+    "post_free_order": "0x1963e0 reads capacity before 0x1963ec reads count; r1 compiler output audited",
+    "remove_tail": "count read @0x191334, hash clear @0x191344 then count decrement @0x191348"
+  },
+  "gc_root_provider_reset": {
+    "tier": "bytecode_anchored",
+    "map_insert": {
+      "entry": "0x195ba8",
+      "size": 1640,
+      "binding": "STB_WEAK",
+      "original_growth_allocations": [
+        "0x195d1c",
+        "0x195f6c",
+        "0x196158"
+      ],
+      "original_weak_self_call": "0x1961dc",
+      "rehash_scan_reads": [
+        {
+          "anchor": "0x195db4",
+          "words": [
+            "old hash",
+            "old key",
+            "map count",
+            "map threshold",
+            "old value"
+          ]
+        },
+        {
+          "anchor": "0x195fe0",
+          "words": [
+            "old hash",
+            "map count",
+            "map threshold",
+            "old key",
+            "old value"
+          ]
+        },
+        {
+          "anchor": "0x1961c4",
+          "words": [
+            "old hash",
+            "old key/value pair"
+          ]
+        }
+      ],
+      "empty_slot_store_order": [
+        {
+          "anchor": "0x195cc0",
+          "fields": [
+            "hash",
+            "key",
+            "value"
+          ]
+        },
+        {
+          "anchor": "0x195f1c",
+          "fields": [
+            "hash",
+            "key",
+            "value"
+          ]
+        },
+        {
+          "anchor": "0x19610c",
+          "fields": [
+            "key",
+            "value",
+            "hash"
+          ]
+        }
+      ],
+      "after_free_live_reload_pairs": [
+        [
+          "0x195ef0",
+          "0x195efc"
+        ],
+        [
+          "0x1960f0",
+          "0x1960f8"
+        ],
+        [
+          "0x1961f4",
+          "0x1961fc"
+        ]
+      ]
+    },
+    "reset": {
+      "entry": "0x19140c",
+      "size": 256,
+      "clear_old_held_entries": "0x191430",
+      "reload_map": "0x191434",
+      "publish_before_memset": "0x19146c -> 0x191470",
+      "reload_capacity_entries": [
+        "0x191474",
+        "0x19149c"
+      ],
+      "efficiency": {
+        "got_slot": "0x3edc98",
+        "original_word_address": "0x3f504c",
+        "width": 4,
+        "copy_sites": [
+          "0x1914d8",
+          "0x1914dc"
+        ]
+      },
+      "direct_caller": {
+        "name": "_Z7ResetGCv",
+        "entry": "0xd66e0",
+        "call_sites": [
+          "0xd6728",
+          "0xd6730",
+          "0xd6738",
+          "0xd6744"
+        ],
+        "only_evidence_no_body_in_this_batch": false
+      }
+    },
+    "gaps": [
+      "ET_REL code shapes are not original execution, original unwind/fault behavior, final GOT placement, FP environment or concurrent ordering",
+      "ResetGC body and GC worker lifecycle outside this batch"
+    ]
+  },
+  "gc_reset_caller_and_class_stats": {
+    "tier": "bytecode_anchored",
+    "ResetGC": {
+      "entry": "0xd66e0",
+      "caller_site": "0x2a2810",
+      "guard": {
+        "slot": "0x3edbc0",
+        "va": "0x47f295",
+        "width": 1,
+        "read": "0xd66f4",
+        "no_provider_in_this_batch": true
+      },
+      "word_stores": [
+        {
+          "site": "0xd6714",
+          "symbol": "g_GenToCollect",
+          "value": 0
+        },
+        {
+          "site": "0xd671c",
+          "symbol": "g_GCframe",
+          "value": 0
+        }
+      ],
+      "calls": [
+        "0xd6728",
+        "0xd6730",
+        "0xd6738",
+        "0xd6744"
+      ],
+      "receivers": "existing g_GCGens at +0, +88, +176, +264",
+      "candidate_tail": "O2 3 R_ARM_CALL + 1 R_ARM_JUMP24; O0 4 R_ARM_CALL"
+    },
+    "AddClassStat": {
+      "entry": "0x191578",
+      "entry_size": 8,
+      "name_offset": 0,
+      "entry_count_offset": 4,
+      "generation_fields": {
+        "table": "0x48",
+        "count": "0x4c",
+        "capacity": "0x50"
+      },
+      "grow_on_equal": "0x1915d4..0x1915dc",
+      "held_slot_store": "0x19161c",
+      "live_destination_load": "0x191620",
+      "append_store_order": [
+        "0x19163c",
+        "0x191640"
+      ],
+      "name_free_consumer": "0x191554 / 0x191558"
+    },
+    "gap": "Static recovery, no image execution, final linking, scheduling or source-level type claims beyond the proved fields."
+  },
+  "gc_object_lifecycle": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "free_all_got_base": "0x3f1c58",
+    "free_all_bindings": [
+      {
+        "symbol": "g_fJSGarbageCollection",
+        "pool": "0xd6830",
+        "slot": "0x3edbc0",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x47f295",
+        "size": 1,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "g_ShouldDispose",
+        "pool": "0xd6834",
+        "slot": "0x3edca4",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x3f5050",
+        "size": 1,
+        "section": ".data",
+        "image_bytes": "01"
+      },
+      {
+        "symbol": "g_slotObjects",
+        "pool": "0xd6838",
+        "slot": "0x3edc6c",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x536f0c",
+        "size": 16,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "g_pGlobal",
+        "pool": "0xd683c",
+        "slot": "0x3edbbc",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x544be0",
+        "size": 4,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "g_YYJSStandardBuiltInObjectPrototype",
+        "pool": "0xd6840",
+        "slot": "0x3edca8",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x756450",
+        "size": 4,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "JS_Standard_Builtin_Function_Prototype",
+        "pool": "0xd6844",
+        "slot": "0x3edcac",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x756454",
+        "size": 4,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "g_pScopeHead",
+        "pool": "0xd6848",
+        "slot": "0x3edcb0",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x544bdc",
+        "size": 4,
+        "section": ".bss",
+        "image_bytes": null
+      },
+      {
+        "symbol": "length_slot",
+        "pool": "0xd684c",
+        "slot": "0x3edcb4",
+        "REL": "R_ARM_RELATIVE",
+        "va": "0x3f7420",
+        "size": 4,
+        "section": ".data",
+        "image_bytes": "ffffffff"
+      }
+    ],
+    "remove_gc_root": {
+      "pool": "0xd5ba4",
+      "second_ldr": "0xd5b7c",
+      "slot": "0x3edc68",
+      "symbol": "g_GCGens",
+      "target": "0x536da8",
+      "call": "0xd5b88 -> 0x1911c8"
+    },
+    "calls": [
+      "Quit 0x2a2804 -> FreeAllObjects",
+      "Quit 0x2a2810 -> ResetGC",
+      "FreeAllObjects 0xd67c4 -> YYObjectBase::Free"
+    ],
+    "data_initial_objects": [
+      {
+        "symbol": "g_ShouldDispose",
+        "va": "0x3f5050",
+        "size": 1,
+        "image_bytes": "01",
+        "defined_by": "gc_free_all_objects.cpp"
+      },
+      {
+        "symbol": "length_slot",
+        "va": "0x3f7420",
+        "size": 4,
+        "image_bytes": "ffffffff",
+        "defined_by": "gc_free_all_objects.cpp"
+      }
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "quit_caller": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3f07fc",
+        "slot_word": "0x00542554",
+        "target": "g_pMainWindow",
+        "va": "0x542554",
+        "width": 4,
+        "pool_delta_site": "0x2a2808",
+        "consumers": [
+          "0x2a28a4"
+        ]
+      },
+      {
+        "slot": "0x3edb74",
+        "slot_word": "0x00757e80",
+        "target": "g_Profiler",
+        "va": "0x757e80",
+        "width": 128,
+        "pool_delta_site": "0x2a2894",
+        "consumers": [
+          "0x2a2898"
+        ],
+        "use": "this-call receiver for CProfiler::Clean at 0x2a289c"
+      },
+      {
+        "slot": "0x3f1a80",
+        "slot_word": "0x00479a2f",
+        "target": "g_fDoFirstShow",
+        "va": "0x479a2f",
+        "width": 1,
+        "pool_delta_site": "0x2a28b8",
+        "consumers": [
+          "0x2a28c4"
+        ]
+      }
+    ],
+    "reloc_type": "R_ARM_RELATIVE (23) on all three slots, verified in-image",
+    "conditional_window": "0x2a28a8 load, 0x2a28ac cmp, 0x2a28b0 beq 0x2a28d0 (NULL skips destroy/stores); word store 0x2a28c8 precedes byte store 0x2a28cc",
+    "tail": "pop 0x2a28d8 then b FreeAllBuffers 0x2a28dc",
+    "branch_sites": 42,
+    "branch_site_bindings": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-quit-seam/quit-bindings.json",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "finalize_core": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "final_link_placement": [
+      {
+        "symbol": "anon_0x47a14c",
+        "va": "0x47a14c",
+        "width": 4,
+        "access": "GOT 0x3edb20 (R_ARM_RELATIVE verified in-image)"
+      },
+      {
+        "symbol": "anon_0x47a148",
+        "va": "0x47a148",
+        "width": 4,
+        "access": "GOT 0x3edb1c (R_ARM_RELATIVE verified in-image)"
+      },
+      {
+        "symbol": "anon_0x48a148",
+        "va": "0x48a148",
+        "width": 4,
+        "access": "direct: 0xce2a8+8+0x003abea0, no GOT"
+      }
+    ],
+    "store_order_in_census": [
+      "0xce298 -> 0x47a14c",
+      "0xce2a0 -> 0x47a148",
+      "0xce2a4 -> 0x48a148"
+    ],
+    "free_edge": {
+      "site": "0xce284",
+      "target": "_ZN13MemoryManager4FreeEPKv",
+      "state": "defined_in_scoped_relocatable"
+    },
+    "empty_bodies": [
+      "_Z12FINALIZE_Allv (bx lr)",
+      "_Z18FINALIZE_Code_Mainv (bx lr)"
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "quit_supports": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3ed954",
+        "slot_word": "0x00479cbc",
+        "target": "_ZN15Background_Main5namesE",
+        "va": "0x479cbc",
+        "width": 4,
+        "pool_word_site": "0xc4368",
+        "consumer": "0xc42fc"
+      },
+      {
+        "slot": "0x3ed950",
+        "slot_word": "0x00479cb8",
+        "target": "_ZN15Background_Main6numberE",
+        "va": "0x479cb8",
+        "width": 4,
+        "pool_word_site": "0xc436c",
+        "consumer": "0xc4310"
+      }
+    ],
+    "reloc_type": "R_ARM_RELATIVE (23) on both slots, verified in-image",
+    "signed_compare_sites": [
+      "0xc431c ble",
+      "0xc4340 cmp r3,r4",
+      "0xc4348 bgt"
+    ],
+    "per_iteration_live_reloads": [
+      "0xc4330 names",
+      "0xc4334 number",
+      "0xc4344 names"
+    ],
+    "tail_edges": [
+      "0xc435c bl Background_FreeTextures",
+      "0xc4364 tail b Background_Free",
+      "0x15a0cc tail b QuitYoYoFunctionsM"
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "object_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3efb14",
+        "word": "0x0053ab70",
+        "target": "anon_0x53ab70",
+        "width": 30720,
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f06e8",
+        "word": "0x00536f68",
+        "target": "anon_0x536f68",
+        "width": 8,
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3edc44",
+        "word": "0x00542374",
+        "target": "anon_0x542374",
+        "width": 4,
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f06ec",
+        "word": "0x00542370",
+        "target": "anon_0x542370",
+        "width": 4,
+        "reloc": "R_ARM_RELATIVE verified"
+      }
+    ],
+    "non_resolving_slot": {
+      "slot": "0x3f3c4c",
+      "reloc": "NONE",
+      "file_bytes": "packed string content",
+      "resolution": "GOT-delta pair 0x1959fc (literal 0x00258244 @0x195ba4) / 0x195a00: 0x195a08+0x00258244 == 0x3f3c4c",
+      "interpretation": "pointer written at runtime by an unidentified producer; represented as anon_0x3f3c4c[4], indirection kept"
+    },
+    "indirect_call_sites": [
+      {
+        "site": "0x195ac4",
+        "form": "ldr [r0]; ldr [r3,#4]; blx r3"
+      },
+      {
+        "site": "0x195b64",
+        "form": "ldr [r3]; ldr [r3,#4]; blx r3"
+      }
+    ],
+    "cobjectgm_note": "dynsym D1/D2 folded aliases at 0x19d558; TU binds the exact D2 mangled name via extern \"C\"; canonical CObjectGM class declaration absent from the recovered set (grep-checked)",
+    "adjacency_observation": "0x53ab70 + 30720 == 0x542370 (observation, not placement proof)",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "roomrun_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3f0848",
+        "word": "0x00542914",
+        "target": "Cursor_Subimage",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f0b50",
+        "word": "0x00542a0c",
+        "target": "persinst",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f0b4c",
+        "word": "0x00542a14",
+        "target": "persnumb",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3edbc0",
+        "word": "0x0047f295",
+        "target": "g_fJSGarbageCollection",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f06b8",
+        "word": "0x00536f4c",
+        "target": "gridstruct",
+        "reloc": "R_ARM_RELATIVE verified"
+      },
+      {
+        "slot": "0x3f06b4",
+        "word": "0x00536f48",
+        "target": "gridcount",
+        "reloc": "R_ARM_RELATIVE verified"
+      }
+    ],
+    "semantic_discovery": "Room_Main @0x1b5e68 is the first proven writer of g_fJSGarbageCollection (zero-store through GOT 0x3edbc0); the setter producer remains open -- resolves part of the batch-3-era open item",
+    "dispatch_context_refutations": [
+      "Room_Main has NO tail edge to Run_Main (census pop {r3,pc})",
+      "Room_Free is dynsym-defined (0x1b5044, 504B), not UND"
+    ],
+    "indirect_call_sites": [
+      {
+        "site": "0x1d384c",
+        "owner": "Run_Main"
+      },
+      {
+        "site": "0x19c318",
+        "owner": "Motion_Grid"
+      }
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "spritefont_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "got_bindings": [
+      {
+        "slot": "0x3f0e18",
+        "word": "0x007530d8",
+        "target": "g_NumberOfSprites",
+        "reloc": "R_ARM_RELATIVE (23) verified; worker labeled COPY, corrected by parent"
+      },
+      {
+        "slot": "0x3f0e14",
+        "word": "0x007530dc",
+        "target": "g_SpriteNames",
+        "reloc": "R_ARM_RELATIVE (23) verified; corrected"
+      },
+      {
+        "slot": "0x3f0da4",
+        "word": "0x00544ca0",
+        "target": "g_vertexformats",
+        "reloc": "R_ARM_RELATIVE (23) verified; corrected"
+      },
+      {
+        "slot": "0x3f0da0",
+        "word": "0x00544c9c",
+        "target": "g_lastVF",
+        "reloc": "R_ARM_RELATIVE (23) verified; corrected"
+      }
+    ],
+    "got_base_pair": "Sprite_Main stages add r3,pc,r3 @0x1ef520 -> GOT base 0x3f1c58, then indexed loads -0xe40/-0xe44 reach 0x3f0e18/0x3f0e14",
+    "non_pool_word_note": "0x1e3298 is the beq landing instruction, not pool data; pool is 0x1e32a0..0x1e32a4 (2 words)",
+    "worker_incident": "worker died (HTTP 429 provider quota) after source+objects+own verify files, before receipts; parent reconstructed receipts after independent verification; worker verify-*.txt kept in its domain",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "graphics_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "recovery_mode": "parent-direct (dispatcher channels down: dht 429 quota, dahetao deepseek 503, jing 503, google-free hang)",
+    "got_bindings": [
+      {
+        "slot": "0x3f029c",
+        "word": "0x0048ffd8",
+        "target": "_ZN13Graphics_Text7deffontE",
+        "reloc": "R_ARM_RELATIVE (23) verified",
+        "resolution": "GOT-delta pair 0x173904 (pool 0x17393c=0x0027c988) / 0x17390c, pc base 0x173914"
+      },
+      {
+        "slot": "0x3f02a0",
+        "word": "0x00499330",
+        "target": "g_pDebugFont",
+        "reloc": "R_ARM_RELATIVE (23) verified",
+        "resolution": "identical-delta pair 0x173908 / 0x173910, pc base 0x173918"
+      }
+    ],
+    "indirect_call_sites": [
+      {
+        "site": "0x17392c",
+        "owner": "Graphics_Text",
+        "form": "ldr [r0]; ldr [r3,#4]; blx r3; target unresolved"
+      }
+    ],
+    "tail_edges": [
+      "0x17dbc8 tail-b DeleteOGLResources",
+      "0x173938 tail-b GR_Text_ResetToDefault",
+      "0x1767cc whole-body tail-b GR_Texture_End (4B body is one branch, not empty)"
+    ],
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "scriptvar_finalize": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "recovery_mode": "parent-direct (dispatcher channels down: dht 429, dahetao deepseek 503, jing 503, google-free hang)",
+    "named_bindings": [
+      {
+        "slot": "0x3edc40",
+        "word": "0x0075310c",
+        "target": "builtin_variables",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f0e30",
+        "word": "0x00753100",
+        "target": "globdecl",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3edc3c",
+        "word": "0x00753108",
+        "target": "builtin_numb",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3ede20",
+        "word": "0x00483404",
+        "target": "libcode",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3ede24",
+        "word": "0x00483408",
+        "target": "libnumb",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      }
+    ],
+    "anon_bindings": [
+      {
+        "word_va": "0x7530f4",
+        "consumers": "Timeline_Main four add-pc sites (parent recomputed all four deltas)",
+        "role": "container-one pointer, runtime-written, cleared at phase-one end"
+      },
+      {
+        "word_va": "0x7530f8",
+        "consumers": "Timeline_Main [anon_0x7530f4+4] read, cleared at phase-two end",
+        "role": "container-two pointer, runtime-written"
+      }
+    ],
+    "poison_compare": {
+      "constant": "0xfeeefeee",
+      "sites": [
+        "0x1f31c0 entries[0]",
+        "0x1f31e8 [entry vtable]"
+      ],
+      "note": "reproduced as plain value compares; sentinel convention observed, not claimed as contract"
+    },
+    "isallocated_seam": "vm_buffer.hpp gained static int IsAllocated(const void*) declaration (0x27c454); body unrecovered",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "score_gestures_data": {
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "recovery_mode": "parent-direct (jing channel flapped 503 post-smoke; worker created no artifacts)",
+    "got_bindings": [
+      {
+        "slot": "0x3edc80",
+        "word": "0x004836ac",
+        "target": "mapnumb",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3edc84",
+        "word": "0x004836b8",
+        "target": "listnumb",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f13a8",
+        "word": "0x003f7814",
+        "target": "g_Network_DSMAP",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3efb20",
+        "word": "0x003f5254",
+        "target": "g_HTTP_AsyncLoad",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f0c9c",
+        "word": "0x00544b18",
+        "target": "g_HighScore_Changed",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f0ca0",
+        "word": "0x003f51d8",
+        "target": "g_pHiScoreFilename",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3f0c94",
+        "word": "0x00544ab4",
+        "target": "g_hiScores",
+        "reloc": "R_ARM_RELATIVE (23) verified"
+      },
+      {
+        "slot": "0x3ed958",
+        "word": "0x00000000",
+        "target": "__stack_chk_guard",
+        "reloc": "R_ARM_GLOB_DAT (21) against the imported symbol; guard value loaded through the resolved address"
+      }
+    ],
+    "base_arithmetic_correction": "an intermediate parent pass used GOT base 0x3f2c58 (off by 0x1000) and produced wrong slots 0x3eec80/0x3eec84 (which coincidentally are also R_ARM_RELATIVE slots, pointing at F_PartTypeLife/F_PartTypeStep); correct base 0x3f1c58 confirmed against the batch-3-era bindings and re-verified per slot",
+    "runtime_written_words": [
+      {
+        "va": "0x3f2c1c",
+        "file_image": "\"ying\" packed string bytes",
+        "role": "gesture list-header one pointer"
+      },
+      {
+        "va": "0x3f2c08",
+        "file_image": "\"xcoo\" packed string bytes",
+        "role": "gesture list-header two pointer"
+      }
+    ],
+    "score_dump_format": {
+      "magic": "0x43534948 (\"HISC\")",
+      "layout": "magic(4), position(4), then per entry: len(4), name bytes, 0xF0 pad to 4-align, value(4); position record rewritten via ftell/fseek(SEEK_SET)/fwrite at the end; fopen mode \"wb\" literal at 0x34034c"
+    },
+    "dtor_binding": "D2-exact extern \"C\" for DS_AutoMutex/CDS_Grid/CGestureEvent (D1/D2 folding precedent)",
+    "no_full_call_graph_claim": true,
+    "original_executed": false
+  },
+  "object_property_eligibility": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "functions": [
+      {
+        "symbol": "_ZN12YYObjectBase12IsExtensibleEv",
+        "entry": "0x19220c",
+        "size": 12
+      },
+      {
+        "symbol": "_Z23JS_IsAccessorDescriptorP6RValue",
+        "entry": "0x240828",
+        "size": 48
+      },
+      {
+        "symbol": "_Z9JS_CanPutP12YYObjectBasePKc",
+        "entry": "0x241cac",
+        "size": 276
+      },
+      {
+        "symbol": "_Z19JS_IsDataDescriptorP6RValue",
+        "entry": "0x2407e8",
+        "size": 64
+      },
+      {
+        "symbol": "_Z22JS_IsGenericDescriptorP6RValue",
+        "entry": "0x240858",
+        "size": 68
+      },
+      {
+        "symbol": "_Z12JS_SameValueP6RValueS0_",
+        "entry": "0x24089c",
+        "size": 212
+      }
+    ],
+    "extensibility_word": {
+      "object_offset": "0x28",
+      "read": "word & 1",
+      "writer_instruction": "YYObjectBase C1/C2 raw body @0x191934 stores 1",
+      "consumer_call_site": "JS_CanPut @0x241d98 calls IsExtensible @0x19220c",
+      "full_layout_claim": false
+    },
+    "accessor_descriptor_predicate": {
+      "rvalue_kind_offset": "0x0c",
+      "kind_mask": "0x00ffffff",
+      "kind_value": 6,
+      "payload_pointer_offset": "0x00",
+      "flags_offset": "0x48",
+      "flags_value": 2,
+      "full_descriptor_layout_claim": false
+    },
+    "original_executed": false,
+    "data_descriptor_predicate": {
+      "rvalue_kind_offset": "0x0c",
+      "kind_mask": "0x00ffffff",
+      "unresolved_kind_result": 0,
+      "kind_6_payload_pointer_offset": "0x00",
+      "kind_6_flags_offset": "0x48",
+      "kind_6_flags_value_resulting_in_zero": 2,
+      "full_descriptor_layout_claim": false,
+      "observed_call_sites": [
+        {
+          "symbol": "_Z22JS_IsGenericDescriptorP6RValue",
+          "va": "0x240858",
+          "call_sites": [
+            "0x240870"
+          ]
+        },
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_sites": [
+            "0x247e28",
+            "0x247e34",
+            "0x248258",
+            "0x2482e8"
+          ]
+        },
+        {
+          "symbol": "_Z27F_JS_FromPropertyDescriptorP6RValueS0_",
+          "va": "0x2483e0",
+          "call_sites": [
+            "0x248454"
+          ]
+        },
+        {
+          "symbol": "_Z15F_JS_Object_GetP12YYObjectBaseP6RValuePKc",
+          "va": "0x249240",
+          "call_sites": [
+            "0x249274"
+          ]
+        },
+        {
+          "symbol": "_Z13JS_Object_PutP12YYObjectBaseP6RValuePKcb",
+          "va": "0x24f118",
+          "call_sites": [
+            "0x24f180"
+          ]
+        },
+        {
+          "symbol": "_Z20F_JS_Object_isFrozenR6RValueP9CInstanceS2_iPS_",
+          "va": "0x2507cc",
+          "call_sites": [
+            "0x250870"
+          ]
+        }
+      ]
+    },
+    "generic_descriptor_predicate": {
+      "kind_offset": "0x0c",
+      "kind_mask": "0x00ffffff",
+      "special_zero_kind": 5,
+      "direct_dependencies": [
+        "0x2407e8",
+        "0x240828"
+      ],
+      "observed_callers": [
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_site": "0x247e18"
+        }
+      ],
+      "full_descriptor_layout_claim": false
+    },
+    "same_value_predicate": {
+      "kind_word_offset": "0x0c",
+      "kind_mask": "0x00ffffff",
+      "numeric_kind_values": [
+        0,
+        7,
+        8,
+        11
+      ],
+      "string_kind_value": 1,
+      "constant_true_kind_values": [
+        5,
+        12
+      ],
+      "single_word_equal_kind": 6,
+      "other_kind_values": "false",
+      "external_string_compare": "strcmp@plt",
+      "direct_callers": [
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_site": "0x247de0"
+        },
+        {
+          "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+          "va": "0x247d44",
+          "call_site": "0x248328"
+        }
+      ]
+    }
+  },
+  "js_define_own_property_internal": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "symbol": "_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb",
+    "entry": "0x247d44",
+    "size": 1616,
+    "body_sha256": "6bcc3e2aa77c09c6303b7582b52b4f26f84b0e83f2a9b397cabb1d077e4762b0",
+    "word_count": 404,
+    "instruction_words_excluding_inline_data": 373,
+    "inline_data_word_ranges": [
+      {"start": "0x247eec", "end": "0x247f28", "word_count": 15, "role": "masked-kind branch table"},
+      {"start": "0x247fe4", "end": "0x248020", "word_count": 15, "role": "allocated-slot branch table"},
+      {"start": "0x248390", "end": "0x248394", "word_count": 1, "role": "PC-relative string addend"}
+    ],
+    "jump_tables": [
+      {
+        "compare_site": "0x247ee0",
+        "dispatch_site": "0x247ee4",
+        "pc_base": "0x247eec",
+        "default_branch": "0x247ee8",
+        "target_by_index_0_to_14": ["0x248074", "0x24810c", "0x248124", "0x248040", "0x248048", "0x248048", "0x2480e8", "0x248040", "0x248048", "0x248048", "0x248074", "0x248048", "0x248048", "0x248074", "0x248040"]
+      },
+      {
+        "compare_site": "0x247fd8",
+        "dispatch_site": "0x247fdc",
+        "pc_base": "0x247fe4",
+        "default_branch": "0x247fe0",
+        "target_by_index_0_to_14": ["0x248068", "0x2480ac", "0x248080", "0x248020", "0x248028", "0x248028", "0x2480c4", "0x248020", "0x248028", "0x248028", "0x248068", "0x248028", "0x248028", "0x248068", "0x248020"]
+      }
+    ],
+    "error_string": {
+      "ldr_site": "0x248264",
+      "pool_va": "0x248390",
+      "pool_word": "0x0010dbb8",
+      "add_site": "0x248268",
+      "resolved_string_va": "0x355e28",
+      "text": "these are both accessors i guess??"
+    },
+    "direct_call_scan": {
+      "method": "Capstone 5.0.7 ARM mode, detail enabled, pinned symbol window only",
+      "direct_bl_sites": 54,
+      "unique_direct_targets": 19,
+      "indirect_blx_register_sites": 0
+    },
+    "observed_callers": [
+      {"symbol": "_Z20JS_DefineOwnPropertyP12YYObjectBasePKcP6RValueb", "va": "0x248394", "site": "0x2483d8", "edge": "tail branch"},
+      {"symbol": "_Z26JS_Array_DefineOwnPropertyP12YYObjectBasePKcP6RValueb", "va": "0x248ac4", "site": "0x248b48"},
+      {"symbol": "_Z18F_JS_Object_freezeR6RValueP9CInstanceS2_iPS_", "va": "0x2508c8", "site": "0x25095c", "return_use": "cmp r0,#2 at 0x250960"},
+      {"symbol": "_Z16F_JS_Object_sealR6RValueP9CInstanceS2_iPS_", "va": "0x2509cc", "site": "0x250a60", "return_use": "cmp r0,#2 at 0x250a64"}
+    ],
+    "unresolved_direct_providers": [
+      "_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc @0xd21ec (C++ ABI body unresolved; separate C candidate is not this symbol)",
+      "_ZN12YYObjectBase3AddEPKcR6RValuei @0x199b84",
+      "_Z38Code_Variable_FindAlloc_Slot_From_NameP12YYObjectBasePKc @0xd2c84",
+      "_Z16FREE_RValue__PreP6RValue @0xc0a7c",
+      "_Z7YYErrorPKcz @0xd547c"
+    ],
+    "return_surface": "The bool-derived initial status is raw 0/2; selected successful paths return raw 1. JS_DefineOwnProperty tail-branches to this result, JS_Array_DefineOwnProperty passes it through, and freeze/seal compare with 2. Source-level status names are unclaimed.",
+    "full_descriptor_layout_claim": false,
+    "address_taken_references": [
+      {
+        "slot": "0x3f150c",
+        "section": ".got",
+        "relocation": "R_ARM_RELATIVE",
+        "type": 23,
+        "symbol_index": 0,
+        "slot_word": "0x00247d44",
+        "target_va": "0x247d44",
+        "consumer": "not traced; not counted as an indirect caller"
+      }
+    ],
+    "original_executed": false,
+    "review_correction": "The first parent scratch binding placed the first dispatch table one word early. Independent raw-ELF/Capstone recomputation confirms CMP at 0x247ee0, ADDLS at 0x247ee4, default branch at 0x247ee8, and table base PC+8 at 0x247eec; the worker source and corrected r2 ledger use this map. A relative .got slot points to the entry, but its consumer remains open."
+  }
+}

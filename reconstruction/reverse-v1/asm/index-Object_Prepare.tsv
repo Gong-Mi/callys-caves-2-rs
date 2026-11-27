@@ -1,0 +1,81 @@
+19ebb4	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+19ebb8	e3a05000	mov	r5, #0
+19ebbc	e59f8118	ldr	r8, [pc, #0x118]
+19ebc0	e59f2118	ldr	r2, [pc, #0x118]
+19ebc4	e08f8008	add	r8, pc, r8
+19ebc8	e59f3114	ldr	r3, [pc, #0x114]
+19ebcc	e59f1114	ldr	r1, [pc, #0x114]
+19ebd0	e7982002	ldr	r2, [r8, r2]
+19ebd4	e7983003	ldr	r3, [r8, r3]
+19ebd8	e08f1001	add	r1, pc, r1
+19ebdc	e5927000	ldr	r7, [r2]
+19ebe0	e5932000	ldr	r2, [r3]
+19ebe4	e5973000	ldr	r3, [r7]
+19ebe8	e1a00007	mov	r0, r7
+19ebec	e593300c	ldr	r3, [r3, #0xc]
+19ebf0	e12fff33	blx	r3
+19ebf4	e59f30f0	ldr	r3, [pc, #0xf0]
+19ebf8	e7983003	ldr	r3, [r8, r3]
+19ebfc	e593a000	ldr	r10, [r3]
+19ec00	e59a2000	ldr	r2, [r10]
+19ec04	ea000003	b	0x19ec18 <_Z14Object_Preparev+0x64>
+19ec08	e59a3004	ldr	r3, [r10, #0x4]
+19ec0c	e2855001	add	r5, r5, #1
+19ec10	e1550003	cmp	r5, r3
+19ec14	ca00002d	bgt	0x19ecd0 <_Z14Object_Preparev+0x11c>
+19ec18	e7924185	ldr	r4, [r2, r5, lsl #3]
+19ec1c	e3540000	cmp	r4, #0
+19ec20	0afffff8	beq	0x19ec08 <_Z14Object_Preparev+0x54>
+19ec24	e594600c	ldr	r6, [r4, #0xc]
+19ec28	e3560000	cmp	r6, #0
+19ec2c	0a000027	beq	0x19ecd0 <_Z14Object_Preparev+0x11c>
+19ec30	e59f30b8	ldr	r3, [pc, #0xb8]
+19ec34	e59f90b8	ldr	r9, [pc, #0xb8]
+19ec38	e7988003	ldr	r8, [r8, r3]
+19ec3c	e08f9009	add	r9, pc, r9
+19ec40	ea000002	b	0x19ec50 <_Z14Object_Preparev+0x9c>
+19ec44	e594600c	ldr	r6, [r4, #0xc]
+19ec48	e3560000	cmp	r6, #0
+19ec4c	0a00001f	beq	0x19ecd0 <_Z14Object_Preparev+0x11c>
+19ec50	e597c000	ldr	r12, [r7]
+19ec54	e1a00007	mov	r0, r7
+19ec58	e1a01009	mov	r1, r9
+19ec5c	e5962018	ldr	r2, [r6, #0x18]
+19ec60	e5963014	ldr	r3, [r6, #0x14]
+19ec64	e59cc00c	ldr	r12, [r12, #0xc]
+19ec68	e12fff3c	blx	r12
+19ec6c	e5963018	ldr	r3, [r6, #0x18]
+19ec70	e1a00006	mov	r0, r6
+19ec74	e5883000	str	r3, [r8]
+19ec78	ebfffb5d	bl	0x19d9f4 <_ZN9CObjectGM7CompileEv>
+19ec7c	e3500000	cmp	r0, #0
+19ec80	08bd87f0	popeq	{r4, r5, r6, r7, r8, r9, r10, pc}
+19ec84	e3540000	cmp	r4, #0
+19ec88	0a000010	beq	0x19ecd0 <_Z14Object_Preparev+0x11c>
+19ec8c	e5944004	ldr	r4, [r4, #0x4]
+19ec90	e3540000	cmp	r4, #0
+19ec94	1affffea	bne	0x19ec44 <_Z14Object_Preparev+0x90>
+19ec98	e59a1004	ldr	r1, [r10, #0x4]
+19ec9c	e2853001	add	r3, r5, #1
+19eca0	e1530001	cmp	r3, r1
+19eca4	ca000009	bgt	0x19ecd0 <_Z14Object_Preparev+0x11c>
+19eca8	e59a2000	ldr	r2, [r10]
+19ecac	e0822185	add	r2, r2, r5, lsl #3
+19ecb0	e5924008	ldr	r4, [r2, #0x8]
+19ecb4	e1a05003	mov	r5, r3
+19ecb8	e2822008	add	r2, r2, #8
+19ecbc	e2833001	add	r3, r3, #1
+19ecc0	e3540000	cmp	r4, #0
+19ecc4	1affffde	bne	0x19ec44 <_Z14Object_Preparev+0x90>
+19ecc8	e1530001	cmp	r3, r1
+19eccc	dafffff7	ble	0x19ecb0 <_Z14Object_Preparev+0xfc>
+19ecd0	ebffff28	bl	0x19e978 <_Z12PatchParentsv>
+19ecd4	e3a00001	mov	r0, #1
+19ecd8	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+19ecdc	0025308c	eoreq	r3, r5, r12, lsl #1
+19ece0	ffffdecc	.word	0xffffdecc
+19ece4	ffffea94	.word	0xffffea94
+19ece8	001ae2c0	andseq	lr, r10, r0, asr #5
+19ecec	ffffbfec	.word	0xffffbfec
+19ecf0	ffffc168	.word	0xffffc168
+19ecf4	001ae274	andseq	lr, r10, r4, ror r2

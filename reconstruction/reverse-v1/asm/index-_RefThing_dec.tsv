@@ -1,0 +1,33 @@
+c09f8	e92d4038	push	{r3, r4, r5, lr}
+c09fc	e1a04000	mov	r4, r0
+c0a00	eb034149	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+c0a04	e5945004	ldr	r5, [r4, #0x4]
+c0a08	e2455001	sub	r5, r5, #1
+c0a0c	e5845004	str	r5, [r4, #0x4]
+c0a10	e3550000	cmp	r5, #0
+c0a14	0a000001	beq	0xc0a20 <_ZN9_RefThingIPKcE3decEv+0x28>
+c0a18	e8bd4038	pop	{r3, r4, r5, lr}
+c0a1c	ea034143	b	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+c0a20	e5940000	ldr	r0, [r4]
+c0a24	eb003959	bl	0xcef90 <_Z6YYFreePKv>
+c0a28	e5845000	str	r5, [r4]
+c0a2c	e5845008	str	r5, [r4, #0x8]
+c0a30	eb03413d	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+c0a34	e5945004	ldr	r5, [r4, #0x4]
+c0a38	e2455001	sub	r5, r5, #1
+c0a3c	e5845004	str	r5, [r4, #0x4]
+c0a40	e3550000	cmp	r5, #0
+c0a44	1a000007	bne	0xc0a68 <_ZN9_RefThingIPKcE3decEv+0x70>
+c0a48	e5940000	ldr	r0, [r4]
+c0a4c	eb00394f	bl	0xcef90 <_Z6YYFreePKv>
+c0a50	e1a00004	mov	r0, r4
+c0a54	e5845000	str	r5, [r4]
+c0a58	e5845008	str	r5, [r4, #0x8]
+c0a5c	ebffffe5	bl	0xc09f8 <_ZN9_RefThingIPKcE3decEv>
+c0a60	e1a00004	mov	r0, r4
+c0a64	eb06f1d9	bl	0x27d1d0 <_ZdlPv>
+c0a68	eb034130	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+c0a6c	e1a00004	mov	r0, r4
+c0a70	eb06f1d6	bl	0x27d1d0 <_ZdlPv>
+c0a74	e8bd4038	pop	{r3, r4, r5, lr}
+c0a78	ea03412c	b	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>

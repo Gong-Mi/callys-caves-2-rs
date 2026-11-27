@@ -1,0 +1,32 @@
+{
+  "id": "ORACLE-TOWN-001",
+  "title": "原版 rm_town 的实例表与 ROOM_0 placements：164 个 id 对齐、155 个坐标精确一致",
+  "scope_object": "engine",
+  "scope_event": "room load (rm_town)",
+  "trigger": "原版启动并点进首个房间后（进程 pid 21459，焦点在前台）",
+  "preconditions": "root 读 /proc/<pid>/mem；rw_base 由 maps 的 libyoyo rw-p 起址取得；Run_Room 槽非 0",
+  "effects": "原版 177 实例（170 静态 id 100000–100169 + 7 运行时 171015–171021）；与本方 ROOM_0 的 170 placements 相比：共有 id 164，坐标精确一致 155，偏差 9（7 个 obj_gem y=68.2 vs 64；100132 原版(192,324) vs 本方(-884,-172)；100133 原版(552,324) vs 本方(-192,192)），各 6 个仅单侧存在",
+  "tier": "oracle_anchored",
+  "host_authored": 0,
+  "original_gap": "偏差未定性：gem 的 +4.2 可能是 Step 动效（原版已跑若干帧），100132/100133 可能是 UI 运行时重定位；两者都需要读 instance→object 类型与运行前后时刻才能区分「数据错」与「运行时位移」",
+  "anchor": "reconstruction/live-mem/tools/census_instances.py（本轮改为 argv[2] 传 rw_base）；pid 21459, rw_base 0x7f8b2000, table=0xea151350",
+  "notes": "判定在数据流层完成（实例表 id/x/y），未使用任何像素",
+  "codes": [],
+  "evidence": [
+    {
+      "kind": "oracle",
+      "ref": "2026-10-28 06:5x census_instances.py 21459 7f8b2000：census=177，town 内 170 条带坐标",
+      "note": "原版运行期实例表"
+    },
+    {
+      "kind": "bytecode",
+      "ref": "c-recon/gen/rooms_data.c ROOM_0_OBJECTS：170 placements",
+      "note": "本方静态放置数据"
+    },
+    {
+      "kind": "oracle",
+      "ref": "APK sha256 d608f455…；room=0xea486140；view0 448x252",
+      "note": "原件身份"
+    }
+  ]
+}

@@ -1,0 +1,283 @@
+2b8500	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2b8504	e1a05000	mov	r5, r0
+2b8508	e59091a0	ldr	r9, [r0, #0x1a0]
+2b850c	e24dd014	sub	sp, sp, #20
+2b8510	e5904114	ldr	r4, [r0, #0x114]
+2b8514	e1a0b002	mov	r11, r2
+2b8518	e59da03c	ldr	r10, [sp, #0x3c]
+2b851c	e599005c	ldr	r0, [r9, #0x5c]
+2b8520	e1500004	cmp	r0, r4
+2b8524	aa000023	bge	0x2b85b8 <jinit_d_post_controller+0x1ac>
+2b8528	e1a02000	mov	r2, r0
+2b852c	e289600c	add	r6, r9, #12
+2b8530	e58d600c	str	r6, [sp, #0xc]
+2b8534	e59a3000	ldr	r3, [r10]
+2b8538	e0600004	rsb	r0, r0, r4
+2b853c	e59d6040	ldr	r6, [sp, #0x40]
+2b8540	e599e060	ldr	lr, [r9, #0x60]
+2b8544	e595c1a4	ldr	r12, [r5, #0x1a4]
+2b8548	e0634006	rsb	r4, r3, r6
+2b854c	e59d6038	ldr	r6, [sp, #0x38]
+2b8550	e154000e	cmp	r4, lr
+2b8554	21a0400e	movhs	r4, lr
+2b8558	e1540000	cmp	r4, r0
+2b855c	21a04000	movhs	r4, r0
+2b8560	e59d100c	ldr	r1, [sp, #0xc]
+2b8564	e58d4000	str	r4, [sp]
+2b8568	e0863103	add	r3, r6, r3, lsl #2
+2b856c	e1a00005	mov	r0, r5
+2b8570	e59cc004	ldr	r12, [r12, #0x4]
+2b8574	e12fff3c	blx	r12
+2b8578	e59a3000	ldr	r3, [r10]
+2b857c	e0833004	add	r3, r3, r4
+2b8580	e58a3000	str	r3, [r10]
+2b8584	e599305c	ldr	r3, [r9, #0x5c]
+2b8588	e5951114	ldr	r1, [r5, #0x114]
+2b858c	e0843003	add	r3, r4, r3
+2b8590	e5992060	ldr	r2, [r9, #0x60]
+2b8594	e1530001	cmp	r3, r1
+2b8598	e589305c	str	r3, [r9, #0x5c]
+2b859c	e0644002	rsb	r4, r4, r2
+2b85a0	e5894060	str	r4, [r9, #0x60]
+2b85a4	a59b3000	ldrge	r3, [r11]
+2b85a8	a2833001	addge	r3, r3, #1
+2b85ac	a58b3000	strge	r3, [r11]
+2b85b0	e28dd014	add	sp, sp, #20
+2b85b4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2b85b8	e5953024	ldr	r3, [r5, #0x24]
+2b85bc	e59560c4	ldr	r6, [r5, #0xc4]
+2b85c0	e3530000	cmp	r3, #0
+2b85c4	da000019	ble	0x2b8630 <jinit_d_post_controller+0x224>
+2b85c8	e289e00c	add	lr, r9, #12
+2b85cc	e2418004	sub	r8, r1, #4
+2b85d0	e3a07000	mov	r7, #0
+2b85d4	e58de00c	str	lr, [sp, #0xc]
+2b85d8	e1a0400e	mov	r4, lr
+2b85dc	e59b2000	ldr	r2, [r11]
+2b85e0	e1a01006	mov	r1, r6
+2b85e4	e594e058	ldr	lr, [r4, #0x58]
+2b85e8	e1a00005	mov	r0, r5
+2b85ec	e5b83004	ldr	r3, [r8, #0x4]!
+2b85f0	e2877001	add	r7, r7, #1
+2b85f4	e1a02102	lsl	r2, r2, #2
+2b85f8	e594c028	ldr	r12, [r4, #0x28]
+2b85fc	e2866054	add	r6, r6, #84
+2b8600	e022329e	mla	r2, lr, r2, r3
+2b8604	e1a03004	mov	r3, r4
+2b8608	e12fff3c	blx	r12
+2b860c	e5953024	ldr	r3, [r5, #0x24]
+2b8610	e2844004	add	r4, r4, #4
+2b8614	e1530007	cmp	r3, r7
+2b8618	caffffef	bgt	0x2b85dc <jinit_d_post_controller+0x1d0>
+2b861c	e5954114	ldr	r4, [r5, #0x114]
+2b8620	e3a02000	mov	r2, #0
+2b8624	e589205c	str	r2, [r9, #0x5c]
+2b8628	e1a00002	mov	r0, r2
+2b862c	eaffffc0	b	0x2b8534 <jinit_d_post_controller+0x128>
+2b8630	e289600c	add	r6, r9, #12
+2b8634	e58d600c	str	r6, [sp, #0xc]
+2b8638	eafffff8	b	0x2b8620 <jinit_d_post_controller+0x214>
+2b863c	e5832000	str	r2, [r3]
+2b8640	e12fff1e	bx	lr
+2b8644	e3a02000	mov	r2, #0
+2b8648	e5832000	str	r2, [r3]
+2b864c	e12fff1e	bx	lr
+2b8650	e5901114	ldr	r1, [r0, #0x114]
+2b8654	e92d00f0	push	{r4, r5, r6, r7}
+2b8658	e3510000	cmp	r1, #0
+2b865c	e5937000	ldr	r7, [r3]
+2b8660	da000012	ble	0x2b86b0 <jinit_d_post_controller+0x2a4>
+2b8664	e3a05000	mov	r5, #0
+2b8668	e1a06005	mov	r6, r5
+2b866c	e7973005	ldr	r3, [r7, r5]
+2b8670	e590405c	ldr	r4, [r0, #0x5c]
+2b8674	e792c005	ldr	r12, [r2, r5]
+2b8678	e0834004	add	r4, r3, r4
+2b867c	e1530004	cmp	r3, r4
+2b8680	2a000006	bhs	0x2b86a0 <jinit_d_post_controller+0x294>
+2b8684	e4dc1001	ldrb	r1, [r12], #1
+2b8688	e2833002	add	r3, r3, #2
+2b868c	e5431002	strb	r1, [r3, #-0x2]
+2b8690	e5431001	strb	r1, [r3, #-0x1]
+2b8694	e1540003	cmp	r4, r3
+2b8698	8afffff9	bhi	0x2b8684 <jinit_d_post_controller+0x278>
+2b869c	e5901114	ldr	r1, [r0, #0x114]
+2b86a0	e2866001	add	r6, r6, #1
+2b86a4	e2855004	add	r5, r5, #4
+2b86a8	e1510006	cmp	r1, r6
+2b86ac	caffffee	bgt	0x2b866c <jinit_d_post_controller+0x260>
+2b86b0	e8bd00f0	pop	{r4, r5, r6, r7}
+2b86b4	e12fff1e	bx	lr
+2b86b8	e92d0ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11}
+2b86bc	e24dd010	sub	sp, sp, #16
+2b86c0	e5933000	ldr	r3, [r3]
+2b86c4	e1a0b000	mov	r11, r0
+2b86c8	e58d1008	str	r1, [sp, #0x8]
+2b86cc	e5901114	ldr	r1, [r0, #0x114]
+2b86d0	e58d200c	str	r2, [sp, #0xc]
+2b86d4	e3510000	cmp	r1, #0
+2b86d8	e58d3004	str	r3, [sp, #0x4]
+2b86dc	da000036	ble	0x2b87bc <jinit_d_post_controller+0x3b0>
+2b86e0	e3a09000	mov	r9, #0
+2b86e4	e3a00003	mov	r0, #3
+2b86e8	e1a0a009	mov	r10, r9
+2b86ec	e59d200c	ldr	r2, [sp, #0xc]
+2b86f0	e792c009	ldr	r12, [r2, r9]
+2b86f4	e59d2004	ldr	r2, [sp, #0x4]
+2b86f8	e28c7001	add	r7, r12, #1
+2b86fc	e7923009	ldr	r3, [r2, r9]
+2b8700	e5dc2000	ldrb	r2, [r12]
+2b8704	e1a06003	mov	r6, r3
+2b8708	e4c62002	strb	r2, [r6], #2
+2b870c	e5dc1001	ldrb	r1, [r12, #0x1]
+2b8710	e1021280	smlabb	r2, r0, r2, r1
+2b8714	e2822002	add	r2, r2, #2
+2b8718	e1a02142	asr	r2, r2, #2
+2b871c	e5c32001	strb	r2, [r3, #0x1]
+2b8720	e59d3008	ldr	r3, [sp, #0x8]
+2b8724	e5938028	ldr	r8, [r3, #0x28]
+2b8728	e2582002	subs	r2, r8, #2
+2b872c	e58d2000	str	r2, [sp]
+2b8730	0a000015	beq	0x2b878c <jinit_d_post_controller+0x380>
+2b8734	e2485001	sub	r5, r8, #1
+2b8738	e1a02007	mov	r2, r7
+2b873c	e08c5005	add	r5, r12, r5
+2b8740	e1a03006	mov	r3, r6
+2b8744	e5fc1001	ldrb	r1, [r12, #0x1]!
+2b8748	e2833002	add	r3, r3, #2
+2b874c	e5524001	ldrb	r4, [r2, #-0x1]
+2b8750	e1044180	smlabb	r4, r0, r1, r4
+2b8754	e2844001	add	r4, r4, #1
+2b8758	e1a04144	asr	r4, r4, #2
+2b875c	e5434002	strb	r4, [r3, #-0x2]
+2b8760	e5f24001	ldrb	r4, [r2, #0x1]!
+2b8764	e1520005	cmp	r2, r5
+2b8768	e1014180	smlabb	r1, r0, r1, r4
+2b876c	e2811002	add	r1, r1, #2
+2b8770	e1a01141	asr	r1, r1, #2
+2b8774	e5431001	strb	r1, [r3, #-0x1]
+2b8778	1afffff1	bne	0x2b8744 <jinit_d_post_controller+0x338>
+2b877c	e248810a	sub	r8, r8, #-2147483646
+2b8780	e59d3000	ldr	r3, [sp]
+2b8784	e0866088	add	r6, r6, r8, lsl #1
+2b8788	e0877003	add	r7, r7, r3
+2b878c	e5d73000	ldrb	r3, [r7]
+2b8790	e28aa001	add	r10, r10, #1
+2b8794	e5572001	ldrb	r2, [r7, #-0x1]
+2b8798	e2899004	add	r9, r9, #4
+2b879c	e5c63001	strb	r3, [r6, #0x1]
+2b87a0	e1032380	smlabb	r3, r0, r3, r2
+2b87a4	e2833001	add	r3, r3, #1
+2b87a8	e1a03143	asr	r3, r3, #2
+2b87ac	e5c63000	strb	r3, [r6]
+2b87b0	e59b3114	ldr	r3, [r11, #0x114]
+2b87b4	e153000a	cmp	r3, r10
+2b87b8	caffffcb	bgt	0x2b86ec <jinit_d_post_controller+0x2e0>
+2b87bc	e28dd010	add	sp, sp, #16
+2b87c0	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+2b87c4	e12fff1e	bx	lr
+2b87c8	e92d0ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11}
+2b87cc	e24dd020	sub	sp, sp, #32
+2b87d0	e5933000	ldr	r3, [r3]
+2b87d4	e58d1018	str	r1, [sp, #0x18]
+2b87d8	e5901114	ldr	r1, [r0, #0x114]
+2b87dc	e58d001c	str	r0, [sp, #0x1c]
+2b87e0	e3510000	cmp	r1, #0
+2b87e4	da00005a	ble	0x2b8954 <jinit_d_post_controller+0x548>
+2b87e8	e3a0a003	mov	r10, #3
+2b87ec	e2422004	sub	r2, r2, #4
+2b87f0	e2433004	sub	r3, r3, #4
+2b87f4	e3a00000	mov	r0, #0
+2b87f8	e58d2008	str	r2, [sp, #0x8]
+2b87fc	e58d3010	str	r3, [sp, #0x10]
+2b8800	e58d0014	str	r0, [sp, #0x14]
+2b8804	e59d3010	ldr	r3, [sp, #0x10]
+2b8808	e3a05000	mov	r5, #0
+2b880c	e58d5004	str	r5, [sp, #0x4]
+2b8810	e58d300c	str	r3, [sp, #0xc]
+2b8814	e59d1004	ldr	r1, [sp, #0x4]
+2b8818	e59d2008	ldr	r2, [sp, #0x8]
+2b881c	e3510000	cmp	r1, #0
+2b8820	159d5008	ldrne	r5, [sp, #0x8]
+2b8824	e5923004	ldr	r3, [r2, #0x4]
+2b8828	05922000	ldreq	r2, [r2]
+2b882c	15952008	ldrne	r2, [r5, #0x8]
+2b8830	e1a01003	mov	r1, r3
+2b8834	e5d30001	ldrb	r0, [r3, #0x1]
+2b8838	e4d15002	ldrb	r5, [r1], #2
+2b883c	e1a04002	mov	r4, r2
+2b8840	e5d23001	ldrb	r3, [r2, #0x1]
+2b8844	e4d4c002	ldrb	r12, [r4], #2
+2b8848	e103308a	smlabb	r3, r10, r0, r3
+2b884c	e10cc58a	smlabb	r12, r10, r5, r12
+2b8850	e59d500c	ldr	r5, [sp, #0xc]
+2b8854	e5b52004	ldr	r2, [r5, #0x4]!
+2b8858	e08c008c	add	r0, r12, r12, lsl #1
+2b885c	e0800003	add	r0, r0, r3
+2b8860	e58d500c	str	r5, [sp, #0xc]
+2b8864	e2800007	add	r0, r0, #7
+2b8868	e28c5002	add	r5, r12, #2
+2b886c	e1a09002	mov	r9, r2
+2b8870	e1a00240	asr	r0, r0, #4
+2b8874	e1a05125	lsr	r5, r5, #2
+2b8878	e4c95002	strb	r5, [r9], #2
+2b887c	e5c20001	strb	r0, [r2, #0x1]
+2b8880	e59d0018	ldr	r0, [sp, #0x18]
+2b8884	e590b028	ldr	r11, [r0, #0x28]
+2b8888	e25b8002	subs	r8, r11, #2
+2b888c	0a000033	beq	0x2b8960 <jinit_d_post_controller+0x554>
+2b8890	e0818008	add	r8, r1, r8
+2b8894	e1a02009	mov	r2, r9
+2b8898	ea000000	b	0x2b88a0 <jinit_d_post_controller+0x494>
+2b889c	e1a03006	mov	r3, r6
+2b88a0	e4d17001	ldrb	r7, [r1], #1
+2b88a4	e0830083	add	r0, r3, r3, lsl #1
+2b88a8	e4d46001	ldrb	r6, [r4], #1
+2b88ac	e080500c	add	r5, r0, r12
+2b88b0	e2855008	add	r5, r5, #8
+2b88b4	e1510008	cmp	r1, r8
+2b88b8	e1a0c003	mov	r12, r3
+2b88bc	e2822002	add	r2, r2, #2
+2b88c0	e106678a	smlabb	r6, r10, r7, r6
+2b88c4	e1a05245	asr	r5, r5, #4
+2b88c8	e5425002	strb	r5, [r2, #-0x2]
+2b88cc	e0860000	add	r0, r6, r0
+2b88d0	e2800007	add	r0, r0, #7
+2b88d4	e1a00240	asr	r0, r0, #4
+2b88d8	e5420001	strb	r0, [r2, #-0x1]
+2b88dc	1affffee	bne	0x2b889c <jinit_d_post_controller+0x490>
+2b88e0	e24bb10a	sub	r11, r11, #-2147483646
+2b88e4	e089908b	add	r9, r9, r11, lsl #1
+2b88e8	e59d1004	ldr	r1, [sp, #0x4]
+2b88ec	e0862086	add	r2, r6, r6, lsl #1
+2b88f0	e0823003	add	r3, r2, r3
+2b88f4	e1a06106	lsl	r6, r6, #2
+2b88f8	e2811001	add	r1, r1, #1
+2b88fc	e2833008	add	r3, r3, #8
+2b8900	e2866007	add	r6, r6, #7
+2b8904	e3510002	cmp	r1, #2
+2b8908	e1a03243	asr	r3, r3, #4
+2b890c	e58d1004	str	r1, [sp, #0x4]
+2b8910	e1a06246	asr	r6, r6, #4
+2b8914	e5c93000	strb	r3, [r9]
+2b8918	e5c96001	strb	r6, [r9, #0x1]
+2b891c	1affffbc	bne	0x2b8814 <jinit_d_post_controller+0x408>
+2b8920	e59d501c	ldr	r5, [sp, #0x1c]
+2b8924	e59d0014	ldr	r0, [sp, #0x14]
+2b8928	e59d1008	ldr	r1, [sp, #0x8]
+2b892c	e5953114	ldr	r3, [r5, #0x114]
+2b8930	e2800002	add	r0, r0, #2
+2b8934	e59d2010	ldr	r2, [sp, #0x10]
+2b8938	e2811004	add	r1, r1, #4
+2b893c	e1530000	cmp	r3, r0
+2b8940	e58d0014	str	r0, [sp, #0x14]
+2b8944	e2822008	add	r2, r2, #8
+2b8948	e58d1008	str	r1, [sp, #0x8]
+2b894c	e58d2010	str	r2, [sp, #0x10]
+2b8950	caffffab	bgt	0x2b8804 <jinit_d_post_controller+0x3f8>
+2b8954	e28dd020	add	sp, sp, #32
+2b8958	e8bd0ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11}
+2b895c	e12fff1e	bx	lr
+2b8960	e1a06003	mov	r6, r3
+2b8964	e1a0300c	mov	r3, r12
+2b8968	eaffffde	b	0x2b88e8 <jinit_d_post_controller+0x4dc>

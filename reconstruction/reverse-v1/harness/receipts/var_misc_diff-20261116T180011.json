@@ -1,0 +1,6000 @@
+{
+ "schema": "cally-var-misc-diff/1",
+ "generated_utc": "2026-11-16T10:00:11Z",
+ "tier": "oracle_anchored",
+ "original_executed": true,
+ "evidence_layer": "synthetic memory oracle: the original ARM bytes at 0x1f3354 / 0x1178b8 / 0xd2228 / 0x1f4da8 executed over the real .bss the GOT points at, with identical stubs on both arms; NOT device execution",
+ "BINDING": {
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "functions": {
+   "Variable_Global_Init": {
+    "entry": "0x1f3354",
+    "range": [
+     "0x1f3354",
+     "0x1f33bc"
+    ],
+    "pool": [
+     "0x1f33b4",
+     "0x1f33bc"
+    ],
+    "body_sha256": "d8d59f21fc4feb8e6cfeb1748fc827f09207d08a2938180db1d83321ce0d6bad"
+   },
+   "DoVariableInstanceExists": {
+    "entry": "0x1178b8",
+    "range": [
+     "0x1178b8",
+     "0x11793c"
+    ],
+    "pool": [
+     "0x11793c",
+     "0x11793c"
+    ],
+    "body_sha256": "a061916566363fdc432378424177891b78de6979573937cbe2670029e1610d4c"
+   },
+   "Variable_GetName_Scope": {
+    "entry": "0xd2228",
+    "range": [
+     "0xd2228",
+     "0xd24d4"
+    ],
+    "pool": [
+     "0xd24a0",
+     "0xd24d4"
+    ],
+    "body_sha256": "746aa9ebea4c6e9329423aac686c3746d6b1f01d3936ec8290c72253c8daa0e9"
+   },
+   "Variable_BuiltIn_Add": {
+    "entry": "0x1f4da8",
+    "range": [
+     "0x1f4da8",
+     "0x1f5050"
+    ],
+    "pool": [
+     "0x1f5038",
+     "0x1f5050"
+    ],
+    "body_sha256": "105fc4101c1e3368b0bc5ad5ba0ffebd18e1ab86a4cbcb9b42df08c9ba67593d"
+   }
+  },
+  "linked_recovered": {
+   "Code_Variable_Find_Slot_From_Name@0xd21ec": "b1a5176f4ad2bb0e50e080ec74e5b0dc2f03c965abcab09e3b55c50d8d43664d",
+   "Variable_GetValue_Direct@0x1f3b8c": "6fc631391e9234dee9d1a0782188f926131d55aaa44f81eb545a132ed0da4c39"
+  },
+  "driver_sha256": "9cc4c8dd74593aa6f2d210479a96626c5232d72b53f8140d608b9c7bde4850d6",
+  "header_sha256": "d8fa74803162f9580aa8d8ec2e701de0e0c39c6b92ad220b5d3ce6347272c109",
+  "binding_checks": {
+   "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+   "sha_matches_pin": true,
+   "got_cells": {
+    "globdecl": {
+     "got": "0x3f0e30",
+     "value": "0x753100",
+     "expected": "0x753100",
+     "ok": true
+    },
+    "builtin_numb": {
+     "got": "0x3edc3c",
+     "value": "0x753108",
+     "expected": "0x753108",
+     "ok": true
+    },
+    "builtin_variables": {
+     "got": "0x3edc40",
+     "value": "0x75310c",
+     "expected": "0x75310c",
+     "ok": true
+    },
+    "g_builtinVarLookup": {
+     "got": "0x3f0e34",
+     "value": "0x7530fc",
+     "expected": "0x7530fc",
+     "ok": true
+    },
+    "g_VarNamesGlobal": {
+     "got": "0x3edba4",
+     "value": "0x47a19c",
+     "expected": "0x47a19c",
+     "ok": true
+    },
+    "g_VarNamesInstance": {
+     "got": "0x3edba8",
+     "value": "0x47a18c",
+     "expected": "0x47a18c",
+     "ok": true
+    },
+    "g_instanceVarLookup": {
+     "got": "0x3edbac",
+     "value": "0x47a178",
+     "expected": "0x47a178",
+     "ok": true
+    },
+    "g_numFunctionsForLocalVars": {
+     "got": "0x3edbb4",
+     "value": "0x47a1ac",
+     "expected": "0x47a1ac",
+     "ok": true
+    },
+    "g_localVariableNamesForFunctions": {
+     "got": "0x3edbb8",
+     "value": "0x47a1b0",
+     "expected": "0x47a1b0",
+     "ok": true
+    },
+    "g_subFunctionsOption": {
+     "got": "0x3edb5c",
+     "value": "0x544b5c",
+     "expected": "0x544b5c",
+     "ok": true
+    },
+    "g_fJSGarbageCollection": {
+     "got": "0x3edbc0",
+     "value": "0x47f295",
+     "expected": "0x47f295",
+     "ok": true
+    }
+   },
+   "rodata_strings": {
+    "unknown_variable": {
+     "at": "0x332760",
+     "text": "<unknown variable>",
+     "ok": true
+    },
+    "script_fmt": {
+     "at": "0x332774",
+     "text": "gml_Script_%s",
+     "ok": true
+    },
+    "too_many": {
+     "at": "0x352854",
+     "text": "INTERNAL ERROR: Adding too many variables",
+     "ok": true
+    },
+    "carray_file": {
+     "at": "0x34d23c",
+     "text": "jni/../jni/yoyo/../../../Files/Platform/cARRAY_STRUCTURE.h",
+     "ok": true
+    },
+    "memmgr_file": {
+     "at": "0x331038",
+     "text": "jni/../jni/yoyo/../../../Platform/MemoryManager.h",
+     "ok": true
+    }
+   },
+   "ok": true
+  },
+  "stub_callees": [
+   "MemoryManager::ReAlloc@0x27cedc",
+   "Variable_BuiltIn_Find@0x1f3a5c",
+   "Variable_GetName@0x0d1d04",
+   "Script_Find_Parent@0x1e06dc",
+   "strcmp@0x0b6574 / snprintf@0x0b65c8 / memset@0x0b65b0 (libc)",
+   "GET_RValue@0x0d13bc / InternalGetYYVar@0x196a70 / the builtin getter fn (one level below the linked Variable_GetValue_Direct)",
+   "Code_Variable_Find_Slot_From_Local_Name@0x0d1f74 / ..._Global_Name@0x0d2054 (one level below the linked Find_Slot_From_Name)",
+   "YYStrDup@0x0db8c8",
+   "MemoryManager::Alloc@0x27ce78 / Free@0x27c2d0",
+   "CHashMapCalculateHash@0x1eeb88 (FNV-1a here, murmurhash there)",
+   "CHashMap::Insert@0x0d261c (linear probe here)",
+   "ShowMessage@0x0c4b0c"
+  ],
+  "guard_slot": {
+   "got": "0x3ed958",
+   "value_in_image": "0x0",
+   "note": "R_ARM_GLOB_DAT, unrelocated: the fixture points it at a guard word so Variable_GetName_Scope can read the canary it stores at sp+4100"
+  }
+ },
+ "scope": {
+  "covered": [
+   "F1: ReAlloc(old data pointer, 10000, cARRAY_STRUCTURE.h, 106, false) with the old pointer read from +4 BEFORE the new one is stored",
+   "F1: cap and data written in that order, data == the bl result",
+   "F1: all 10000 bytes cleared, per byte (prefill 0xaa leaves nothing)",
+   "F1: no short circuit - every call goes through ReAlloc and the clear loop again",
+   "F2: builtin id >= 0 answers through Variable_GetValue_Direct, builtin id < 0 falls to the instance name lookup, slot < 0 answers 0 with the RValue untouched",
+   "F2: id = slot + 100000 lands on the right 16 B slot (the linked Variable_GetValue_Direct reports the slot index it was handed)",
+   "F2: the RValue is zeroed before the callee sees it, and the answer is \"tag & 0xffffff != 0xffffff\" - tag 0x00ffffff answers 0, tag 0x1234ffff answers 1, tag 0 answers 1",
+   "F2: inst+0x24 == 0 makes the linked Direct return without touching the RValue, so the zeroed tag answers 1",
+   "F2: a NULL slot table takes Direct's InternalGetYYVar path and then GET_RValue with the returned pointer",
+   "F2: builtin_numb is a dead input for this body (two cases, one record)",
+   "F3: gate 1 short-circuits everything, including the id < 100000 test",
+   "F3: type -5 -> global table, -1 -> instance table, -7 and -12 -> the function-name-keyed table, -9/-11/>100000 -> instance table, everything else -> \"<unknown variable>\"",
+   "F3: the global/instance VALUE block is one shared block with two gates: slot >= count -> unknown, slot < size -> data[slot], else NULL",
+   "F3: the instance map reverse scan walks the i-th OCCUPIED entry downwards, skips hash <= 0, and answers the key whose value is the slot",
+   "F3: the local table is scanned by strcmp against the SCRIPT name, and names[slot] is read with no bound check (slots 5 and 7 of a count-4 entry answer \"l5\" and \"l7\")",
+   "F3: gate 2 off -> unknown; on -> Script_Find_Parent, \"gml_Script_%s\", rescan of the same table, hit and miss",
+   "F3: NULL and empty script names reach both the scan and the parent lookup unchanged",
+   "F4: fresh append at slot == count, four fields at +0/+4/+8/+0xc with writable == (setter != NULL), and the 4th argument provably dead",
+   "F4: the stale-name Free path (table[count].name != NULL)",
+   "F4: the 500-entry limit tail-jumps ShowMessage and writes nothing (neither the entry nor the map nor the count)",
+   "F4: the Robin Hood probe - empty home slot, occupied home slot, the swap, the three advance reasons (distance, hash, key pointer), and the duplicate path that gives the count increment back",
+   "F4: duplicate detection is by KEY POINTER: the same bytes from another address become two entries",
+   "F4: the hash sign bit is cleared before use (name \"beta\" has bit 31 set, and the stored hash is compared against the masked one)",
+   "F4: doubling - cap/mask/entries, count 0, threshold (int)(0.6*cap), the clearing loop, rehash through CHashMap::Insert, Free of the old block, threshold recomputed, insert retried",
+   "the failure byte 0x75505c: none of the four bodies contains a store to it, so every case stages it and reads it back - set stays set, clear stays clear, in all four functions",
+   "second-run reproducibility of both arms"
+  ],
+  "not_covered": [
+   "MemoryManager::ReAlloc / Alloc / Free semantics (stubbed): the arm sees the arguments and the effect on the caller, not the allocator",
+   "YYStrDup semantics (stubbed): allocation order and the copy, not the real allocator",
+   "CHashMapCalculateHash semantics (stubbed with FNV-1a on both arms): the real hash at 0x1eeb88 is strlen + murmurhash 0x1eea84, NOT what this arm computes, so the BUCKET LAYOUT it produces is the stub's, not the device's. Every positional claim about the map in this receipt is therefore about the probe logic, which is the body under judgement, given a deterministic hash.",
+   "CHashMap::Insert semantics (stubbed identically: linear probe from hash&mask): it defines the post-grow map, and only the ORDER and the VALUES handed to it are real evidence",
+   "ShowMessage semantics (stubbed): the tail jump is modelled as a call then a return, so \"does not return\" is not itself tested",
+   "Variable_BuiltIn_Find 0x1f3a5c (stubbed): whether a name is a builtin",
+   "Variable_GetName 0x0d1d04 (stubbed): the (VarNumb, VarNames) table the gate-1 exit answers from",
+   "Script_Find_Parent 0x1e06dc (stubbed): the parent lookup, and whether CScript+0x14 really is the name (card open 5)",
+   "strcmp/snprintf @plt (answered identically): the real libc formatting and truncation behaviour, so the >4095-byte truncation path is not tested",
+   "GET_RValue 0xd13bc / InternalGetYYVar 0x196a70 / the builtin getter fn (stubbed): what a variable read actually returns",
+   "the cards' open items that are about OTHER readers or about enumeration meaning (Variable_Misc open 2/3/4/5/6/7/8, Variable_Global_Init open 1/2/3/4, DoVariableInstanceExists open 1/2/3)",
+   "device behaviour: this is a synthetic-memory oracle over the original bytes, not execution on a phone"
+  ],
+  "not_applicable": [
+   "Variable_GetName_Scope 0xd2494 (count < count-1) is unreachable for any count that is not INT_MIN; it is documented, not translated, and no case can reach it without staging an inconsistent map header whose result would be a NULL dereference in both arms",
+   "the same body's \"< 0 slot\" test is done with `bmi` AFTER the gate-1 branch, so a gate-1-closed call never evaluates it - that ordering is covered, the \"skip\" it implies is not a separate decision",
+   "F4's `beq` on count == 500 means count > 500 would append out of bounds; count only moves by +1/-1 in this body, so that state is unreachable and is not staged",
+   "the 16 B entry's +0xd..+0xf padding is never read or written",
+   "F3's reverse scan with map->count > the number of hash>0 entries: the inner walk is unbounded (0xd236c only checks hash and j), so that state reads past the array and its answer is not a property of the body"
+  ]
+ },
+ "findings": [
+  "Variable_Global_Init has no idempotence guard at all: the second call re-runs ReAlloc and clears the table again.  The arm calls it once per case, so this is read off the bytes (no compare/short-circuit instruction exists between 0x1f3354 and 0x1f33b0), not off a re-execution test.",
+  "DoVariableInstanceExists answers \"is the tag different from 0x00ffffff\", not \"does the name exist\".  Two cases make the difference concrete: an unset tag answers 0 even though the name resolved, and the Direct-returns-early path (inst+0x24 == 0) answers 1 because the RValue it just zeroed is not the sentinel.",
+  "Variable_GetName_Scope folds type > 100000 into the instance domain unconditionally (`orrgt`), and the boundary is STRICT: type == 100000 is refused while 100001 is accepted.  Two cases pin the boundary from both sides and tooth f3_normalize_ge proves a `>=` would be caught.",
+  "The local function table read names[slot] with no bound check.  The arm turns that from a card note into an observation: a count of 4 with 8 live names answers \"l5\"/\"l7\", and adding the check breaks two cases (f3_local_bound_check_added).",
+  "Variable_BuiltIn_Add writes the entry BEFORE it touches the map and bumps builtin_numb LAST, so no reader can ever see a map value pointing at a half-built entry.  The order is visible in the trace (0x1f4e38..0x1f4e40 then 0x1f4ea0/0x1f4f00, then 0x1f4f28) and tooth f4_count_two moves the count without moving anything else.",
+  "The 4th argument of Variable_BuiltIn_Add is genuinely dead: the differential varies it (p3) and gets a byte-identical record, and the writable bit is computed from the setter instead.  This is the third independent confirmation of the card's claim (card §6, the 7 inconsistent call sites, and now an executed case).",
+  "The probe compares key POINTERS, not strings.  Case \"the same bytes at another address\" yields two table entries and two map entries, and tooth f4_key_content_compare (pointer -> strcmp) is caught by exactly that case.",
+  "card/byte agreement: every instruction of the four bodies was re-read from the pinned image for this run; see card_deltas for the single documentation glitch (a truncated pool address, no behavioural content).",
+  "NEW (not on any card): the instance map reverse scan has NO bound on its inner walk.  0xd236c advances the entry cursor until it has counted i+1 entries with hash > 0 and then compares that entry; if map->count ever exceeded the number of hash>0 entries, the cursor would run past the entries array and read unowned memory.  The fixture therefore always stages count == the number of occupied entries, which is what makes every map case in this arm terminate inside the array.  The original's behaviour in the out-of-step state is undecidable from these bytes alone - it depends on whatever follows the array."
+ ],
+ "instruction_census": {
+  "Variable_Global_Init": {
+   "function": "Variable_Global_Init",
+   "instructions": 24,
+   "declared_instructions": 24,
+   "declared_pool_words": 2,
+   "shape_ok": true,
+   "documented": 24,
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "pool_words": 2,
+   "pool_missing": [],
+   "ok": true
+  },
+  "DoVariableInstanceExists": {
+   "function": "DoVariableInstanceExists",
+   "instructions": 33,
+   "declared_instructions": 33,
+   "declared_pool_words": 0,
+   "shape_ok": true,
+   "documented": 33,
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "pool_words": 0,
+   "pool_missing": [],
+   "ok": true
+  },
+  "Variable_GetName_Scope": {
+   "function": "Variable_GetName_Scope",
+   "instructions": 158,
+   "declared_instructions": 158,
+   "declared_pool_words": 13,
+   "shape_ok": true,
+   "documented": 158,
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "pool_words": 13,
+   "pool_missing": [],
+   "ok": true
+  },
+  "Variable_BuiltIn_Add": {
+   "function": "Variable_BuiltIn_Add",
+   "instructions": 164,
+   "declared_instructions": 164,
+   "declared_pool_words": 6,
+   "shape_ok": true,
+   "documented": 164,
+   "wrong": [],
+   "duplicate_addresses": [],
+   "unknown_addresses": [],
+   "pool_words": 6,
+   "pool_missing": [],
+   "ok": true
+  },
+  "ok": true,
+  "instructions": 379,
+  "documented": 379
+ },
+ "census_selftest": {
+  "operand_digit_changed": {
+   "turned_red": true,
+   "wrong": 1,
+   "missing": 1,
+   "pool_missing": 0
+  },
+  "comment_line_deleted": {
+   "turned_red": true,
+   "wrong": 1,
+   "missing": 1,
+   "pool_missing": 0
+  },
+  "pool_word_changed": {
+   "turned_red": true,
+   "wrong": 0,
+   "missing": 0,
+   "pool_missing": 1
+  },
+  "ok": true,
+  "note": "a mutation that leaves the gate green means the census does not actually bind the translation to the bytes"
+ },
+ "repeat": {
+  "runs_per_arm": 2,
+  "original_identical": true,
+  "rebuild_identical": true,
+  "original_log_sha256": [
+   "f8e001e9fa44364c99643d51a7953801891b2aab93a0963ca6efc6cd2c4211e7",
+   "f8e001e9fa44364c99643d51a7953801891b2aab93a0963ca6efc6cd2c4211e7"
+  ],
+  "rebuild_log_sha256": [
+   "f8e001e9fa44364c99643d51a7953801891b2aab93a0963ca6efc6cd2c4211e7",
+   "f8e001e9fa44364c99643d51a7953801891b2aab93a0963ca6efc6cd2c4211e7"
+  ]
+ },
+ "cases": 74,
+ "rows": [
+  {
+   "case": {
+    "fn": 1,
+    "p0": 170,
+    "p1": 1,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 10000 B prefilled 0xaa, live old pointer, flag clear"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "Q",
+      "10000",
+      "106",
+      "0",
+      "1",
+      "1"
+     ]
+    ],
+    "ext": {
+     "CAP": "10000",
+     "DATAPTR": "1",
+     "NZ": "0",
+     "FZ": "-1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "Q",
+      "10000",
+      "106",
+      "0",
+      "1",
+      "1"
+     ]
+    ],
+    "ext": {
+     "CAP": "10000",
+     "DATAPTR": "1",
+     "NZ": "0",
+     "FZ": "-1"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 170,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 same, failure byte pre-set: the body must not clear it"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "Q",
+      "10000",
+      "106",
+      "0",
+      "1",
+      "1"
+     ]
+    ],
+    "ext": {
+     "CAP": "10000",
+     "DATAPTR": "1",
+     "NZ": "0",
+     "FZ": "-1"
+    },
+    "flag": 1
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "Q",
+      "10000",
+      "106",
+      "0",
+      "1",
+      "1"
+     ]
+    ],
+    "ext": {
+     "CAP": "10000",
+     "DATAPTR": "1",
+     "NZ": "0",
+     "FZ": "-1"
+    },
+    "flag": 1,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 prefill 0 and NULL old pointer: the bl gets 0 as its first arg"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "Q",
+      "10000",
+      "106",
+      "0",
+      "0",
+      "1"
+     ]
+    ],
+    "ext": {
+     "CAP": "10000",
+     "DATAPTR": "1",
+     "NZ": "0",
+     "FZ": "-1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "Q",
+      "10000",
+      "106",
+      "0",
+      "0",
+      "1"
+     ]
+    ],
+    "ext": {
+     "CAP": "10000",
+     "DATAPTR": "1",
+     "NZ": "0",
+     "FZ": "-1"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 1,
+    "p0": 90,
+    "p1": 0,
+    "p2": 1,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F1 prefill 0x5a, NULL old pointer, flag set"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "Q",
+      "10000",
+      "106",
+      "0",
+      "0",
+      "1"
+     ]
+    ],
+    "ext": {
+     "CAP": "10000",
+     "DATAPTR": "1",
+     "NZ": "0",
+     "FZ": "-1"
+    },
+    "flag": 1
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "Q",
+      "10000",
+      "106",
+      "0",
+      "0",
+      "1"
+     ]
+    ],
+    "ext": {
+     "CAP": "10000",
+     "DATAPTR": "1",
+     "NZ": "0",
+     "FZ": "-1"
+    },
+    "flag": 1,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 1,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 2
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 0,
+    "p1": 0,
+    "p2": 16777215,
+    "p3": 0,
+    "p4": 1,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer"
+   },
+   "original": {
+    "ret": "0",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "0",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 2
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 0,
+    "p1": 0,
+    "p2": 305463295,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 builtin id 0, builtin_numb 0, tag 0x1234ffff -> masked 0x34ffff"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 2
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 builtin id 0, tag 0, builtin_numb 0: dead input pair"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 2
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": 499,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 1,
+    "p5": 1,
+    "p6": 0,
+    "label": "F2 builtin id 499 (last table entry), failure byte pre-set"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 1
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "B",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 1,
+    "ncalls": 2
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 1,
+    "p2": 16777215,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 not builtin, slot 3 -> id 100003, unset tag -> 0"
+   },
+   "original": {
+    "ret": "0",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "S",
+      "3",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "0",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "S",
+      "3",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 2,
+    "p2": 0,
+    "p3": 1,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 not builtin, slot 7 -> id 100007, empty name"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "0",
+      "-"
+     ],
+     [
+      "L",
+      "0",
+      "-"
+     ],
+     [
+      "V",
+      "S",
+      "7",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "0",
+      "-"
+     ],
+     [
+      "L",
+      "0",
+      "-"
+     ],
+     [
+      "V",
+      "S",
+      "7",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 1,
+    "p2": 0,
+    "p3": 3,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 not builtin, NULL name reaches both lookups"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "-1",
+      "-"
+     ],
+     [
+      "L",
+      "-1",
+      "-"
+     ],
+     [
+      "V",
+      "S",
+      "3",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "-1",
+      "-"
+     ],
+     [
+      "L",
+      "-1",
+      "-"
+     ],
+     [
+      "V",
+      "S",
+      "3",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 neither builtin nor instance -> 0, RValue never touched"
+   },
+   "original": {
+    "ret": "0",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "0",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 2
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 3,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 slot 0 -> id 100000 (the id base boundary)"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "S",
+      "0",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ],
+     [
+      "V",
+      "S",
+      "0",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 1,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 1,
+    "label": "F2 slot path with inst+0x24 == 0: Direct answers 0 untouched"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 2
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -1,
+    "p1": 4,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 slot path with a NULL slot table -> InternalGetYYVar"
+   },
+   "original": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ],
+     [
+      "I",
+      "3"
+     ],
+     [
+      "V",
+      "S",
+      "3",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "1",
+    "calls": [
+     [
+      "B",
+      "5",
+      "alpha"
+     ],
+     [
+      "L",
+      "5",
+      "alpha"
+     ],
+     [
+      "I",
+      "3"
+     ],
+     [
+      "V",
+      "S",
+      "3",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 4
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 2,
+    "p0": -2,
+    "p1": 1,
+    "p2": 16777215,
+    "p3": 2,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F2 builtin_find -2, slot 3, unset tag: any negative is \"not builtin\""
+   },
+   "original": {
+    "ret": "0",
+    "calls": [
+     [
+      "B",
+      "4",
+      "beta"
+     ],
+     [
+      "L",
+      "4",
+      "beta"
+     ],
+     [
+      "V",
+      "S",
+      "3",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "0",
+    "calls": [
+     [
+      "B",
+      "4",
+      "beta"
+     ],
+     [
+      "L",
+      "4",
+      "beta"
+     ],
+     [
+      "V",
+      "S",
+      "3",
+      "-2147483648",
+      "1"
+     ]
+    ],
+    "ext": {},
+    "flag": 0,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 100000,
+    "p3": 0,
+    "p4": 1,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 gate 1 closed: Variable_GetName(100000), tables untouched"
+   },
+   "original": {
+    "ret": "PTR:766e313030303030",
+    "calls": [
+     [
+      "N",
+      "100000"
+     ]
+    ],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:766e313030303030",
+    "calls": [
+     [
+      "N",
+      "100000"
+     ]
+    ],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 3,
+    "p1": -1,
+    "p2": 42,
+    "p3": 0,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 gate 1 closed with a builtin-domain id 42"
+   },
+   "original": {
+    "ret": "PTR:766e3432",
+    "calls": [
+     [
+      "N",
+      "42"
+     ]
+    ],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:766e3432",
+    "calls": [
+     [
+      "N",
+      "42"
+     ]
+    ],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 99999,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 id 99999 < 100000 with the gate open -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 global slot 0 -> \"g0\" (the id base is a legal slot)"
+   },
+   "original": {
+    "ret": "PTR:6730",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6730",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 100002,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 global slot 2 holds NULL -> NULL, not the unknown string"
+   },
+   "original": {
+    "ret": "NULL",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NULL",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 100004,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 global slot 4 -> \"g4\""
+   },
+   "original": {
+    "ret": "PTR:6734",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6734",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 100005,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 global slot 5 == count -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 2147483647,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 id INT_MAX -> slot 2147383647, far past every table"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 100005,
+    "p3": 1,
+    "p4": 0,
+    "p5": 2,
+    "p6": 0,
+    "label": "F3 global slot 5 < count 6 but >= size 4 -> NULL"
+   },
+   "original": {
+    "ret": "NULL",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NULL",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 100006,
+    "p3": 1,
+    "p4": 0,
+    "p5": 2,
+    "p6": 0,
+    "label": "F3 global slot 6 == count -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -1,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 instance slot 0 -> \"i0\""
+   },
+   "original": {
+    "ret": "PTR:6930",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6930",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -1,
+    "p2": 100001,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 instance slot 1 holds NULL -> NULL"
+   },
+   "original": {
+    "ret": "NULL",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "NULL",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -1,
+    "p2": 100002,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 instance slot 2 -> \"i2\""
+   },
+   "original": {
+    "ret": "PTR:6932",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6932",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -1,
+    "p2": 100005,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 instance slot 5 >= count -> map scan finds value 5"
+   },
+   "original": {
+    "ret": "PTR:6d35",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6d35",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -1,
+    "p2": 100007,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 instance slot 7 -> map scan walks past a negative hash"
+   },
+   "original": {
+    "ret": "PTR:6d37",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6d37",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -1,
+    "p2": 100006,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 instance slot 6: only entry with value 6 has hash < 0 -> skipped"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -1,
+    "p2": 100009,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 instance slot 9: no map entry carries it -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -1,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F3 instance table empty (count 0) -> unknown without a scan"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -7,
+    "p2": 100001,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 local \"scrA\" slot 1 -> \"l1\""
+   },
+   "original": {
+    "ret": "PTR:6c31",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6c31",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -12,
+    "p2": 100003,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 local via type -12 (same code path) slot 3 -> \"l3\""
+   },
+   "original": {
+    "ret": "PTR:6c33",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6c33",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -7,
+    "p2": 100005,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 local slot 5 > entry->count 4: names[5] is read anyway"
+   },
+   "original": {
+    "ret": "PTR:6c35",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6c35",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -7,
+    "p2": 100007,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 local slot 7 == the last staged name -> \"l7\""
+   },
+   "original": {
+    "ret": "PTR:6c37",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6c37",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 1,
+    "p1": -7,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 local scan misses \"other\", gate 2 closed -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 1,
+    "p1": -7,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 1,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 local scan misses, gate 2 open, no parent -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "5",
+      "other"
+     ]
+    ],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "5",
+      "other"
+     ]
+    ],
+    "ext": {
+     "SCANS": "1"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 1,
+    "p1": -7,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 1,
+    "p5": 1,
+    "p6": 1,
+    "label": "F3 parent fallback formats \"gml_Script_Par\" and rescan misses"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "5",
+      "other"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "2"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "5",
+      "other"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "2"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 1,
+    "p1": -7,
+    "p2": 100001,
+    "p3": 1,
+    "p4": 1,
+    "p5": 2,
+    "p6": 1,
+    "label": "F3 parent rescan HITS \"gml_Script_Par\" -> names[1] = \"p1\""
+   },
+   "original": {
+    "ret": "PTR:7031",
+    "calls": [
+     [
+      "P",
+      "5",
+      "other"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "4"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:7031",
+    "calls": [
+     [
+      "P",
+      "5",
+      "other"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "4"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 1,
+    "p1": -7,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 1,
+    "p5": 0,
+    "p6": 1,
+    "label": "F3 local table empty, gate 2 open, parent answers, table still empty"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "5",
+      "other"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "5",
+      "other"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 3,
+    "p1": -7,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 1,
+    "p5": 1,
+    "p6": 1,
+    "label": "F3 NULL script name reaches both the scan and the parent lookup"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "-1",
+      "-"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "2"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "-1",
+      "-"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "2"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 2,
+    "p1": -7,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 1,
+    "p5": 1,
+    "p6": 1,
+    "label": "F3 empty script name: same path, a live pointer this time"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "0",
+      "-"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "2"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [
+     [
+      "P",
+      "0",
+      "-"
+     ],
+     [
+      "S",
+      "14",
+      "gml_Script_Par"
+     ]
+    ],
+    "ext": {
+     "SCANS": "2"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -9,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 type -9 -> (type & ~2) == -11 -> instance table"
+   },
+   "original": {
+    "ret": "PTR:6930",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6930",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -11,
+    "p2": 100007,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 type -11 -> instance table, map hit at slot 7"
+   },
+   "original": {
+    "ret": "PTR:6d37",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6d37",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": 100001,
+    "p2": 100007,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 type 100001 > 100000 -> instance table, map hit"
+   },
+   "original": {
+    "ret": "PTR:6d37",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "PTR:6d37",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": 100000,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 type 100000 is NOT > 100000 and not -9/-11 -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": 0,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 type 0 -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": 3,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 type 3: (3 & ~2) == 1 != -11 -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -2147483648,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F3 type INT_MIN -> unknown"
+   },
+   "original": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "UNK",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 0,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 3,
+    "p0": 0,
+    "p1": -5,
+    "p2": 100000,
+    "p3": 1,
+    "p4": 0,
+    "p5": 1,
+    "p6": 2,
+    "label": "F3 failure byte staged 1: the body must leave it set"
+   },
+   "original": {
+    "ret": "PTR:6730",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 1
+   },
+   "rebuild": {
+    "ret": "PTR:6730",
+    "calls": [],
+    "ext": {
+     "SCANS": "0"
+    },
+    "flag": 1,
+    "ncalls": 0
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 fresh insert, getter and setter -> writable 1"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "E.0": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "1",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.0": "n 5 alpha 1 1 1",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 no setter -> writable 0"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "E.0": "n 5 alpha 1 0 0",
+     "ENONEMPTY": "1",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.0": "n 5 alpha 1 0 0",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 0,
+    "p2": 1,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 setter only, no getter -> writable 1"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "E.0": "n 5 alpha 0 1 1",
+     "ENONEMPTY": "1",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.0": "n 5 alpha 0 1 1",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 0,
+    "p2": 0,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 neither -> writable 0"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "E.0": "n 5 alpha 0 0 0",
+     "ENONEMPTY": "1",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.0": "n 5 alpha 0 0 0",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 1,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 dead 4th argument set: the record must equal the first case"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "E.0": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "1",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.0": "n 5 alpha 1 1 1",
+     "M.43": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 1,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 name \"beta\": its hash has bit 31 set and must be cleared"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "4",
+      "beta"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "E.0": "n 4 beta 1 1 1",
+     "ENONEMPTY": "1",
+     "M.71": "2f81e4c7 n 4 beta 0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "4",
+      "beta"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.0": "n 4 beta 1 1 1",
+     "M.71": "2f81e4c7 n 4 beta 0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 2,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 0,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 name \"gamma\""
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "gamma"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "E.0": "n 5 gamma 1 1 1",
+     "ENONEMPTY": "1",
+     "M.10": "5029140a n 5 gamma 0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "gamma"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.0": "n 5 gamma 1 1 1",
+     "M.10": "5029140a n 5 gamma 0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 1,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 a stale name in the slot about to be reused is freed first"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "F",
+      "n",
+      "5",
+      "stale"
+     ],
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 1 127 76",
+     "E.1": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "1",
+     "M.43": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "F",
+      "n",
+      "5",
+      "stale"
+     ],
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.1": "n 5 alpha 1 1 1",
+     "M.43": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0,
+    "ncalls": 2
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 2,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 the same key POINTER is already mapped: value overwritten and the count increment undone"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 1 127 76",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "2",
+     "M.43": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "2",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "M.43": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 3,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 8,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 2 127 76",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "2",
+     "M.43": "5d8b6dab n 5 alpha 55",
+     "M.44": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 2 127 76",
+     "ENONEMPTY": "2",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "M.43": "5d8b6dab n 5 alpha 55",
+     "M.44": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 1,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 2,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 \"beta\" twice: dedupe only works if the stored hash was sign-cleared like the new one"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "4",
+      "beta"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 1 127 76",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 4 beta 1 1 1",
+     "ENONEMPTY": "2",
+     "M.71": "2f81e4c7 n 4 beta 1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "4",
+      "beta"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "2",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 4 beta 1 1 1",
+     "M.71": "2f81e4c7 n 4 beta 1"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 3,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 count 499: the last legal slot of the fixed table"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "500",
+     "MAP": "128 1 127 76",
+     "E.499": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "1",
+     "M.43": "5d8b6dab n 5 alpha 499"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "500",
+     "MAP": "128 1 127 76",
+     "ENONEMPTY": "1",
+     "E.499": "n 5 alpha 1 1 1",
+     "M.43": "5d8b6dab n 5 alpha 499"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 4,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 count 500: ShowMessage, and nothing is written at all"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "M",
+      "41",
+      "INTERNAL_ERROR:_Adding_too_many_variables"
+     ]
+    ],
+    "ext": {
+     "COUNT": "500",
+     "MAP": "128 0 127 76",
+     "ENONEMPTY": "0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "M",
+      "41",
+      "INTERNAL_ERROR:_Adding_too_many_variables"
+     ]
+    ],
+    "ext": {
+     "COUNT": "500",
+     "MAP": "128 0 127 76",
+     "ENONEMPTY": "0"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 5,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 two colliding entries at idx and idx+1 force the Robin Hood swap and push the evicted pair one slot further"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 3 127 76",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "2",
+     "M.43": "0000002b n 2 yy 70",
+     "M.44": "5d8b6dab n 5 alpha 1",
+     "M.45": "0000002c n 2 zz 90"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 3 127 76",
+     "ENONEMPTY": "2",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "M.43": "0000002b n 2 yy 70",
+     "M.44": "5d8b6dab n 5 alpha 1",
+     "M.45": "0000002c n 2 zz 90"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 0,
+    "p5": 1,
+    "p6": 0,
+    "label": "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ],
+     [
+      "A",
+      "3072",
+      "70",
+      "1",
+      "1"
+     ],
+     [
+      "I",
+      "4",
+      "old0",
+      "100"
+     ],
+     [
+      "I",
+      "4",
+      "old1",
+      "101"
+     ],
+     [
+      "I",
+      "4",
+      "old2",
+      "102"
+     ],
+     [
+      "F",
+      "b"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "256 4 255 153",
+     "E.0": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "1",
+     "M.18": "31a66b12 n 4 old0 100",
+     "M.165": "32a66ca5 n 4 old1 101",
+     "M.171": "5d8b6dab n 5 alpha 0",
+     "M.236": "2fa667ec n 4 old2 102"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ],
+     [
+      "A",
+      "3072",
+      "70",
+      "1",
+      "1"
+     ],
+     [
+      "I",
+      "4",
+      "old0",
+      "100"
+     ],
+     [
+      "I",
+      "4",
+      "old1",
+      "101"
+     ],
+     [
+      "I",
+      "4",
+      "old2",
+      "102"
+     ],
+     [
+      "F",
+      "b"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "256 4 255 153",
+     "ENONEMPTY": "1",
+     "E.0": "n 5 alpha 1 1 1",
+     "M.18": "31a66b12 n 4 old0 100",
+     "M.165": "32a66ca5 n 4 old1 101",
+     "M.171": "5d8b6dab n 5 alpha 0",
+     "M.236": "2fa667ec n 4 old2 102"
+    },
+    "flag": 0,
+    "ncalls": 6
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 0,
+    "p5": 2,
+    "p6": 0,
+    "label": "F4 threshold -1 with an empty old table: doubling only"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ],
+     [
+      "A",
+      "3072",
+      "70",
+      "1",
+      "1"
+     ],
+     [
+      "F",
+      "b"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "256 1 255 153",
+     "E.0": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "1",
+     "M.171": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ],
+     [
+      "A",
+      "3072",
+      "70",
+      "1",
+      "1"
+     ],
+     [
+      "F",
+      "b"
+     ]
+    ],
+    "ext": {
+     "COUNT": "1",
+     "MAP": "256 1 255 153",
+     "ENONEMPTY": "1",
+     "E.0": "n 5 alpha 1 1 1",
+     "M.171": "5d8b6dab n 5 alpha 0"
+    },
+    "flag": 0,
+    "ncalls": 3
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 1,
+    "p5": 1,
+    "p6": 0,
+    "label": "F4 stale name freed and the map doubles in the same call"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "F",
+      "n",
+      "5",
+      "stale"
+     ],
+     [
+      "D",
+      "5",
+      "alpha"
+     ],
+     [
+      "A",
+      "3072",
+      "70",
+      "1",
+      "1"
+     ],
+     [
+      "I",
+      "4",
+      "old0",
+      "100"
+     ],
+     [
+      "I",
+      "4",
+      "old1",
+      "101"
+     ],
+     [
+      "I",
+      "4",
+      "old2",
+      "102"
+     ],
+     [
+      "F",
+      "b"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "256 4 255 153",
+     "E.1": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "1",
+     "M.18": "31a66b12 n 4 old0 100",
+     "M.165": "32a66ca5 n 4 old1 101",
+     "M.171": "5d8b6dab n 5 alpha 1",
+     "M.236": "2fa667ec n 4 old2 102"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "F",
+      "n",
+      "5",
+      "stale"
+     ],
+     [
+      "D",
+      "5",
+      "alpha"
+     ],
+     [
+      "A",
+      "3072",
+      "70",
+      "1",
+      "1"
+     ],
+     [
+      "I",
+      "4",
+      "old0",
+      "100"
+     ],
+     [
+      "I",
+      "4",
+      "old1",
+      "101"
+     ],
+     [
+      "I",
+      "4",
+      "old2",
+      "102"
+     ],
+     [
+      "F",
+      "b"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "256 4 255 153",
+     "ENONEMPTY": "1",
+     "E.1": "n 5 alpha 1 1 1",
+     "M.18": "31a66b12 n 4 old0 100",
+     "M.165": "32a66ca5 n 4 old1 101",
+     "M.171": "5d8b6dab n 5 alpha 1",
+     "M.236": "2fa667ec n 4 old2 102"
+    },
+    "flag": 0,
+    "ncalls": 7
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 2,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 5,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 collision staging with \"gamma\" (its own idx, still a swap)"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "gamma"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 3 127 76",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 gamma 1 1 1",
+     "ENONEMPTY": "2",
+     "M.10": "0000000a n 2 yy 70",
+     "M.11": "5029140a n 5 gamma 1",
+     "M.12": "0000000b n 2 zz 90"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "gamma"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 3 127 76",
+     "ENONEMPTY": "2",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 gamma 1 1 1",
+     "M.10": "0000000a n 2 yy 70",
+     "M.11": "5029140a n 5 gamma 1",
+     "M.12": "0000000b n 2 zz 90"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 6,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 a richer entry in our home slot: its distance exceeds ours, so the walk advances instead of swapping"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 2 127 76",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "2",
+     "M.43": "00000029 n 2 ww 80",
+     "M.44": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 2 127 76",
+     "ENONEMPTY": "2",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "M.43": "00000029 n 2 ww 80",
+     "M.44": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  },
+  {
+   "case": {
+    "fn": 4,
+    "p0": 0,
+    "p1": 1,
+    "p2": 1,
+    "p3": 0,
+    "p4": 7,
+    "p5": 0,
+    "p6": 0,
+    "label": "F4 same hash, different key pointer: only the pointer test rejects it"
+   },
+   "original": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 2 127 76",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "ENONEMPTY": "2",
+     "M.43": "5d8b6dab n 2 vv 60",
+     "M.44": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0
+   },
+   "rebuild": {
+    "ret": "void",
+    "calls": [
+     [
+      "D",
+      "5",
+      "alpha"
+     ]
+    ],
+    "ext": {
+     "COUNT": "2",
+     "MAP": "128 2 127 76",
+     "ENONEMPTY": "2",
+     "E.0": "n 3 pre 0 0 0",
+     "E.1": "n 5 alpha 1 1 1",
+     "M.43": "5d8b6dab n 2 vv 60",
+     "M.44": "5d8b6dab n 5 alpha 1"
+    },
+    "flag": 0,
+    "ncalls": 1
+   },
+   "equal": true
+  }
+ ],
+ "coverage": {
+  "f1_clear_loop_iterated": true,
+  "f1_clear_loop_exit": true,
+  "f1_realloc_called": true,
+  "f1_cap_written": true,
+  "f1_data_written": true,
+  "f1_all_10000_cleared": true,
+  "f1_old_pointer_forwarded": true,
+  "f1_null_pointer_forwarded": true,
+  "f1_zero_flag_is_false": true,
+  "f1_file_and_line_are_carray": true,
+  "f1_flag_set_stays_set": true,
+  "f1_flag_clear_stays_clear": true,
+  "f2_builtin_negative_taken": true,
+  "f2_builtin_nonnegative": true,
+  "f2_slot_miss_exit": true,
+  "f2_slot_id_base_added": true,
+  "f2_name_lookup_called": true,
+  "f2_builtin_lookup_called": true,
+  "f2_getter_called": true,
+  "f2_rvalue_zeroed_before_getter": true,
+  "f2_lazy_slot_path": true,
+  "f2_builtin_numb_is_dead": true,
+  "f2_name_null_reaches_lookups": true,
+  "f2_unset_tag_answers_zero": true,
+  "f2_direct_untouched_when_flag_clear": true,
+  "f2_flag_set_stays_set": true,
+  "f2_flag_clear_stays_clear": true,
+  "f3_gate1_off": true,
+  "f3_gate1_on": true,
+  "f3_id_below_base": true,
+  "f3_type_global": true,
+  "f3_type_local_minus12": true,
+  "f3_type_local_minus7": true,
+  "f3_type_not_local": true,
+  "f3_local_table_empty": true,
+  "f3_local_scan_hit": true,
+  "f3_local_scan_miss": true,
+  "f3_gate2_off": true,
+  "f3_gate2_on": true,
+  "f3_parent_null": true,
+  "f3_parent_rescan_advance": true,
+  "f3_parent_rescan_hit": true,
+  "f3_parent_rescan_miss": true,
+  "f3_global_count_gate": true,
+  "f3_shared_size_gate_null": true,
+  "f3_shared_data_read": true,
+  "f3_instance_count_gate": true,
+  "f3_map_empty": true,
+  "f3_map_skip_nonpositive": true,
+  "f3_map_advance_occupied": true,
+  "f3_map_hit": true,
+  "f3_map_miss": true,
+  "f3_type_instance": true,
+  "f3_normalize_entered": true,
+  "f3_normalize_to_instance": true,
+  "f3_normalize_reject": true,
+  "f3_unknown_string_loaded": true,
+  "f3_flag_set_stays_set": true,
+  "f3_flag_clear_stays_clear": true,
+  "f3_canary_check_passed": true,
+  "f4_limit_taken": true,
+  "f4_limit_not_taken": true,
+  "f4_stale_name_freed": true,
+  "f4_fresh_slot_chosen": true,
+  "f4_writable_bit_written": true,
+  "f4_getter_setter_stored": true,
+  "f4_grow_taken": true,
+  "f4_grow_not_taken": true,
+  "f4_grow_rehash_insert": true,
+  "f4_grow_free_old_block": true,
+  "f4_grow_doubles_cap": true,
+  "f4_probe_empty_first": true,
+  "f4_probe_occupied": true,
+  "f4_probe_swap": true,
+  "f4_probe_advance_distance": true,
+  "f4_probe_advance_hash": true,
+  "f4_probe_advance_key": true,
+  "f4_duplicate_key_path": true,
+  "f4_store_after_advance": true,
+  "f4_count_written_last": true,
+  "f4_writable_follows_setter": true,
+  "f4_dead_flag_argument": true,
+  "f4_pointer_compare_keeps_names": true,
+  "f4_limit_writes_nothing": true
+ },
+ "covered_by": {
+  "f1_clear_loop_iterated": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_clear_loop_exit": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_realloc_called": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_cap_written": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_data_written": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_all_10000_cleared": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_old_pointer_forwarded": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_null_pointer_forwarded": [
+   "F1 prefill 0 and NULL old pointer: the bl gets 0 as its first arg",
+   "F1 prefill 0x5a, NULL old pointer, flag set"
+  ],
+  "f1_zero_flag_is_false": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_file_and_line_are_carray": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 same, failure byte pre-set: the body must not clear it"
+  ],
+  "f1_flag_set_stays_set": [
+   "F1 same, failure byte pre-set: the body must not clear it",
+   "F1 prefill 0x5a, NULL old pointer, flag set"
+  ],
+  "f1_flag_clear_stays_clear": [
+   "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+   "F1 prefill 0 and NULL old pointer: the bl gets 0 as its first arg"
+  ],
+  "f2_builtin_negative_taken": [
+   "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+   "F2 not builtin, slot 7 -> id 100007, empty name"
+  ],
+  "f2_builtin_nonnegative": [
+   "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+   "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer"
+  ],
+  "f2_slot_miss_exit": [
+   "F2 neither builtin nor instance -> 0, RValue never touched"
+  ],
+  "f2_slot_id_base_added": [
+   "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+   "F2 not builtin, slot 7 -> id 100007, empty name"
+  ],
+  "f2_name_lookup_called": [
+   "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+   "F2 not builtin, slot 7 -> id 100007, empty name"
+  ],
+  "f2_builtin_lookup_called": [
+   "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+   "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer"
+  ],
+  "f2_getter_called": [
+   "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+   "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer"
+  ],
+  "f2_rvalue_zeroed_before_getter": [
+   "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+   "F2 not builtin, slot 7 -> id 100007, empty name"
+  ],
+  "f2_lazy_slot_path": [
+   "F2 slot path with a NULL slot table -> InternalGetYYVar"
+  ],
+  "f2_builtin_numb_is_dead": [
+   "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+   "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer"
+  ],
+  "f2_name_null_reaches_lookups": [
+   "F2 not builtin, NULL name reaches both lookups"
+  ],
+  "f2_unset_tag_answers_zero": [
+   "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer",
+   "F2 not builtin, slot 3 -> id 100003, unset tag -> 0"
+  ],
+  "f2_direct_untouched_when_flag_clear": [
+   "F2 slot path with inst+0x24 == 0: Direct answers 0 untouched"
+  ],
+  "f2_flag_set_stays_set": [
+   "F2 builtin id 499 (last table entry), failure byte pre-set"
+  ],
+  "f2_flag_clear_stays_clear": [
+   "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+   "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer"
+  ],
+  "f3_gate1_off": [
+   "F3 gate 1 closed: Variable_GetName(100000), tables untouched",
+   "F3 gate 1 closed with a builtin-domain id 42"
+  ],
+  "f3_gate1_on": [
+   "F3 id 99999 < 100000 with the gate open -> unknown",
+   "F3 global slot 0 -> \"g0\" (the id base is a legal slot)"
+  ],
+  "f3_id_below_base": [
+   "F3 id 99999 < 100000 with the gate open -> unknown"
+  ],
+  "f3_type_global": [
+   "F3 global slot 0 -> \"g0\" (the id base is a legal slot)",
+   "F3 global slot 2 holds NULL -> NULL, not the unknown string"
+  ],
+  "f3_type_local_minus12": [
+   "F3 local via type -12 (same code path) slot 3 -> \"l3\""
+  ],
+  "f3_type_local_minus7": [
+   "F3 local \"scrA\" slot 1 -> \"l1\"",
+   "F3 local slot 5 > entry->count 4: names[5] is read anyway"
+  ],
+  "f3_type_not_local": [
+   "F3 instance slot 0 -> \"i0\"",
+   "F3 instance slot 1 holds NULL -> NULL"
+  ],
+  "f3_local_table_empty": [
+   "F3 local table empty, gate 2 open, parent answers, table still empty"
+  ],
+  "f3_local_scan_hit": [
+   "F3 local \"scrA\" slot 1 -> \"l1\"",
+   "F3 local via type -12 (same code path) slot 3 -> \"l3\""
+  ],
+  "f3_local_scan_miss": [
+   "F3 local scan misses \"other\", gate 2 closed -> unknown",
+   "F3 local scan misses, gate 2 open, no parent -> unknown"
+  ],
+  "f3_gate2_off": [
+   "F3 local scan misses \"other\", gate 2 closed -> unknown"
+  ],
+  "f3_gate2_on": [
+   "F3 local scan misses, gate 2 open, no parent -> unknown",
+   "F3 parent fallback formats \"gml_Script_Par\" and rescan misses"
+  ],
+  "f3_parent_null": [
+   "F3 local scan misses, gate 2 open, no parent -> unknown"
+  ],
+  "f3_parent_rescan_advance": [
+   "F3 parent fallback formats \"gml_Script_Par\" and rescan misses",
+   "F3 parent rescan HITS \"gml_Script_Par\" -> names[1] = \"p1\""
+  ],
+  "f3_parent_rescan_hit": [
+   "F3 parent rescan HITS \"gml_Script_Par\" -> names[1] = \"p1\""
+  ],
+  "f3_parent_rescan_miss": [
+   "F3 parent fallback formats \"gml_Script_Par\" and rescan misses",
+   "F3 NULL script name reaches both the scan and the parent lookup"
+  ],
+  "f3_global_count_gate": [
+   "F3 global slot 5 == count -> unknown",
+   "F3 id INT_MAX -> slot 2147383647, far past every table"
+  ],
+  "f3_shared_size_gate_null": [
+   "F3 global slot 0 -> \"g0\" (the id base is a legal slot)",
+   "F3 global slot 2 holds NULL -> NULL, not the unknown string"
+  ],
+  "f3_shared_data_read": [
+   "F3 global slot 0 -> \"g0\" (the id base is a legal slot)",
+   "F3 global slot 2 holds NULL -> NULL, not the unknown string"
+  ],
+  "f3_instance_count_gate": [
+   "F3 instance slot 0 -> \"i0\"",
+   "F3 instance slot 1 holds NULL -> NULL"
+  ],
+  "f3_map_empty": [
+   "F3 instance table empty (count 0) -> unknown without a scan"
+  ],
+  "f3_map_skip_nonpositive": [
+   "F3 instance slot 5 >= count -> map scan finds value 5",
+   "F3 instance slot 7 -> map scan walks past a negative hash"
+  ],
+  "f3_map_advance_occupied": [
+   "F3 instance slot 5 >= count -> map scan finds value 5",
+   "F3 instance slot 7 -> map scan walks past a negative hash"
+  ],
+  "f3_map_hit": [
+   "F3 instance slot 5 >= count -> map scan finds value 5",
+   "F3 instance slot 7 -> map scan walks past a negative hash"
+  ],
+  "f3_map_miss": [
+   "F3 instance slot 6: only entry with value 6 has hash < 0 -> skipped",
+   "F3 instance slot 9: no map entry carries it -> unknown"
+  ],
+  "f3_type_instance": [
+   "F3 instance slot 0 -> \"i0\"",
+   "F3 instance slot 1 holds NULL -> NULL"
+  ],
+  "f3_normalize_entered": [
+   "F3 type -9 -> (type & ~2) == -11 -> instance table",
+   "F3 type -11 -> instance table, map hit at slot 7"
+  ],
+  "f3_normalize_to_instance": [
+   "F3 type -9 -> (type & ~2) == -11 -> instance table",
+   "F3 type -11 -> instance table, map hit at slot 7"
+  ],
+  "f3_normalize_reject": [
+   "F3 type 100000 is NOT > 100000 and not -9/-11 -> unknown",
+   "F3 type 0 -> unknown"
+  ],
+  "f3_unknown_string_loaded": [
+   "F3 id 99999 < 100000 with the gate open -> unknown",
+   "F3 global slot 5 == count -> unknown"
+  ],
+  "f3_flag_set_stays_set": [
+   "F3 failure byte staged 1: the body must leave it set"
+  ],
+  "f3_flag_clear_stays_clear": [
+   "F3 gate 1 closed: Variable_GetName(100000), tables untouched",
+   "F3 gate 1 closed with a builtin-domain id 42"
+  ],
+  "f3_canary_check_passed": [
+   "F3 gate 1 closed: Variable_GetName(100000), tables untouched",
+   "F3 gate 1 closed with a builtin-domain id 42"
+  ],
+  "f4_limit_taken": [
+   "F4 count 500: ShowMessage, and nothing is written at all"
+  ],
+  "f4_limit_not_taken": [
+   "F4 fresh insert, getter and setter -> writable 1",
+   "F4 no setter -> writable 0"
+  ],
+  "f4_stale_name_freed": [
+   "F4 a stale name in the slot about to be reused is freed first",
+   "F4 stale name freed and the map doubles in the same call"
+  ],
+  "f4_fresh_slot_chosen": [
+   "F4 fresh insert, getter and setter -> writable 1",
+   "F4 no setter -> writable 0"
+  ],
+  "f4_writable_bit_written": [
+   "F4 fresh insert, getter and setter -> writable 1",
+   "F4 no setter -> writable 0"
+  ],
+  "f4_getter_setter_stored": [
+   "F4 fresh insert, getter and setter -> writable 1",
+   "F4 no setter -> writable 0"
+  ],
+  "f4_grow_taken": [
+   "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+   "F4 threshold -1 with an empty old table: doubling only"
+  ],
+  "f4_grow_not_taken": [
+   "F4 fresh insert, getter and setter -> writable 1",
+   "F4 no setter -> writable 0"
+  ],
+  "f4_grow_rehash_insert": [
+   "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+   "F4 stale name freed and the map doubles in the same call"
+  ],
+  "f4_grow_free_old_block": [
+   "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+   "F4 threshold -1 with an empty old table: doubling only"
+  ],
+  "f4_grow_doubles_cap": [
+   "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+   "F4 threshold -1 with an empty old table: doubling only"
+  ],
+  "f4_probe_empty_first": [
+   "F4 fresh insert, getter and setter -> writable 1",
+   "F4 no setter -> writable 0"
+  ],
+  "f4_probe_occupied": [
+   "F4 the same key POINTER is already mapped: value overwritten and the count increment undone",
+   "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents"
+  ],
+  "f4_probe_swap": [
+   "F4 two colliding entries at idx and idx+1 force the Robin Hood swap and push the evicted pair one slot further",
+   "F4 collision staging with \"gamma\" (its own idx, still a swap)"
+  ],
+  "f4_probe_advance_distance": [
+   "F4 a richer entry in our home slot: its distance exceeds ours, so the walk advances instead of swapping"
+  ],
+  "f4_probe_advance_hash": [
+   "F4 two colliding entries at idx and idx+1 force the Robin Hood swap and push the evicted pair one slot further",
+   "F4 collision staging with \"gamma\" (its own idx, still a swap)"
+  ],
+  "f4_probe_advance_key": [
+   "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents",
+   "F4 same hash, different key pointer: only the pointer test rejects it"
+  ],
+  "f4_duplicate_key_path": [
+   "F4 the same key POINTER is already mapped: value overwritten and the count increment undone",
+   "F4 \"beta\" twice: dedupe only works if the stored hash was sign-cleared like the new one"
+  ],
+  "f4_store_after_advance": [
+   "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents",
+   "F4 two colliding entries at idx and idx+1 force the Robin Hood swap and push the evicted pair one slot further"
+  ],
+  "f4_count_written_last": [
+   "F4 fresh insert, getter and setter -> writable 1",
+   "F4 no setter -> writable 0"
+  ],
+  "f4_writable_follows_setter": [
+   "F4 fresh insert, getter and setter -> writable 1",
+   "F4 no setter -> writable 0"
+  ],
+  "f4_dead_flag_argument": [
+   "F4 dead 4th argument set: the record must equal the first case"
+  ],
+  "f4_pointer_compare_keeps_names": [
+   "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents"
+  ],
+  "f4_limit_writes_nothing": [
+   "F4 count 500: ShowMessage, and nothing is written at all"
+  ]
+ },
+ "teeth": [
+  {
+   "mutant": "cap_written_10001",
+   "file": "variable_global_init.c",
+   "caught_by": [
+    "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "F1 same, failure byte pre-set: the body must not clear it",
+    "F1 prefill 0 and NULL old pointer: the bl gets 0 as its first arg",
+    "F1 prefill 0x5a, NULL old pointer, flag set"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     },
+     "mutant": {
+      "CAP": "10001",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "realloc_size_10001",
+   "file": "variable_global_init.c",
+   "caught_by": [
+    "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "F1 same, failure byte pre-set: the body must not clear it",
+    "F1 prefill 0 and NULL old pointer: the bl gets 0 as its first arg",
+    "F1 prefill 0x5a, NULL old pointer, flag set"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "Q",
+       "10001",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     },
+     "mutant": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "clear_bound_9999",
+   "file": "variable_global_init.c",
+   "caught_by": [
+    "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "F1 same, failure byte pre-set: the body must not clear it",
+    "F1 prefill 0x5a, NULL old pointer, flag set"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     },
+     "mutant": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "1",
+      "FZ": "9999"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "clear_value_one",
+   "file": "variable_global_init.c",
+   "caught_by": [
+    "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "F1 same, failure byte pre-set: the body must not clear it",
+    "F1 prefill 0 and NULL old pointer: the bl gets 0 as its first arg",
+    "F1 prefill 0x5a, NULL old pointer, flag set"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     },
+     "mutant": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "10000",
+      "FZ": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "old_pointer_dropped",
+   "file": "variable_global_init.c",
+   "caught_by": [
+    "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "F1 same, failure byte pre-set: the body must not clear it"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "0",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     },
+     "mutant": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "data_store_dropped",
+   "file": "variable_global_init.c",
+   "caught_by": [
+    "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "F1 same, failure byte pre-set: the body must not clear it",
+    "F1 prefill 0 and NULL old pointer: the bl gets 0 as its first arg",
+    "F1 prefill 0x5a, NULL old pointer, flag set"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F1 10000 B prefilled 0xaa, live old pointer, flag clear",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "Q",
+       "10000",
+       "106",
+       "0",
+       "1",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "CAP": "10000",
+      "DATAPTR": "1",
+      "NZ": "0",
+      "FZ": "-1"
+     },
+     "mutant": {
+      "CAP": "10000",
+      "DATAPTR": "0",
+      "NZ": "0",
+      "FZ": "-1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_builtin_sign_test_le",
+   "file": "do_variable_instance_exists.c",
+   "caught_by": [
+    "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+    "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer",
+    "F2 builtin id 0, builtin_numb 0, tag 0x1234ffff -> masked 0x34ffff",
+    "F2 builtin id 0, tag 0, builtin_numb 0: dead input pair"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+    "ret": {
+     "original": "1",
+     "mutant": "0"
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "B",
+       "-2147483648",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "L",
+       "5",
+       "alpha"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {},
+     "mutant": {}
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_slot_miss_bound",
+   "file": "do_variable_instance_exists.c",
+   "caught_by": [
+    "F2 neither builtin nor instance -> 0, RValue never touched"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 neither builtin nor instance -> 0, RValue never touched",
+    "ret": {
+     "original": "0",
+     "mutant": "0"
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "L",
+       "5",
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "L",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "S",
+       "99",
+       "-2147483648",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {},
+     "mutant": {}
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_id_base_99999",
+   "file": "do_variable_instance_exists.c",
+   "caught_by": [
+    "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+    "F2 not builtin, slot 7 -> id 100007, empty name",
+    "F2 not builtin, NULL name reaches both lookups",
+    "F2 slot 0 -> id 100000 (the id base boundary)",
+    "F2 slot path with a NULL slot table -> InternalGetYYVar",
+    "F2 builtin_find -2, slot 3, unset tag: any negative is \"not builtin\""
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+    "ret": {
+     "original": "0",
+     "mutant": "0"
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "L",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "S",
+       "3",
+       "-2147483648",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "L",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "S",
+       "2",
+       "-2147483648",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {},
+     "mutant": {}
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_tag_mask_high",
+   "file": "do_variable_instance_exists.c",
+   "caught_by": [
+    "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer",
+    "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+    "F2 builtin_find -2, slot 3, unset tag: any negative is \"not builtin\""
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer",
+    "ret": {
+     "original": "0",
+     "mutant": "1"
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "B",
+       "-2147483648",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "B",
+       "-2147483648",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {},
+     "mutant": {}
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_sentinel_inverted",
+   "file": "do_variable_instance_exists.c",
+   "caught_by": [
+    "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+    "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer",
+    "F2 builtin id 0, builtin_numb 0, tag 0x1234ffff -> masked 0x34ffff",
+    "F2 builtin id 0, tag 0, builtin_numb 0: dead input pair",
+    "F2 builtin id 499 (last table entry), failure byte pre-set",
+    "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+    "F2 not builtin, slot 7 -> id 100007, empty name",
+    "F2 not builtin, NULL name reaches both lookups",
+    "F2 slot 0 -> id 100000 (the id base boundary)",
+    "F2 slot path with inst+0x24 == 0: Direct answers 0 untouched",
+    "F2 slot path with a NULL slot table -> InternalGetYYVar",
+    "F2 builtin_find -2, slot 3, unset tag: any negative is \"not builtin\""
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+    "ret": {
+     "original": "1",
+     "mutant": "0"
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "B",
+       "-2147483648",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "B",
+       "-2147483648",
+       "1"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {},
+     "mutant": {}
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f2_rvalue_tag_not_cleared",
+   "file": "do_variable_instance_exists.c",
+   "caught_by": [
+    "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+    "F2 builtin id 0, tag 0x00ffffff -> 0: the only \"absent\" answer",
+    "F2 builtin id 0, builtin_numb 0, tag 0x1234ffff -> masked 0x34ffff",
+    "F2 builtin id 0, tag 0, builtin_numb 0: dead input pair",
+    "F2 builtin id 499 (last table entry), failure byte pre-set",
+    "F2 not builtin, slot 3 -> id 100003, unset tag -> 0",
+    "F2 not builtin, slot 7 -> id 100007, empty name",
+    "F2 not builtin, NULL name reaches both lookups",
+    "F2 slot 0 -> id 100000 (the id base boundary)",
+    "F2 slot path with a NULL slot table -> InternalGetYYVar",
+    "F2 builtin_find -2, slot 3, unset tag: any negative is \"not builtin\""
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F2 builtin id 0, tag 0: masked tag != 0x00ffffff -> 1",
+    "ret": {
+     "original": "1",
+     "mutant": "1"
+    },
+    "calls": {
+     "original": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "B",
+       "-2147483648",
+       "1"
+      ]
+     ],
+     "mutant": [
+      [
+       "B",
+       "5",
+       "alpha"
+      ],
+      [
+       "V",
+       "B",
+       "-2147483648",
+       "0"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {},
+     "mutant": {}
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_gate1_inverted",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 gate 1 closed: Variable_GetName(100000), tables untouched",
+    "F3 gate 1 closed with a builtin-domain id 42",
+    "F3 id 99999 < 100000 with the gate open -> unknown",
+    "F3 global slot 0 -> \"g0\" (the id base is a legal slot)",
+    "F3 global slot 2 holds NULL -> NULL, not the unknown string",
+    "F3 global slot 4 -> \"g4\"",
+    "F3 global slot 5 == count -> unknown",
+    "F3 id INT_MAX -> slot 2147383647, far past every table",
+    "F3 global slot 5 < count 6 but >= size 4 -> NULL",
+    "F3 global slot 6 == count -> unknown",
+    "F3 instance slot 0 -> \"i0\"",
+    "F3 instance slot 1 holds NULL -> NULL",
+    "F3 instance slot 2 -> \"i2\"",
+    "F3 instance slot 5 >= count -> map scan finds value 5",
+    "F3 instance slot 7 -> map scan walks past a negative hash",
+    "F3 instance slot 6: only entry with value 6 has hash < 0 -> skipped",
+    "F3 instance slot 9: no map entry carries it -> unknown",
+    "F3 instance table empty (count 0) -> unknown without a scan",
+    "F3 local \"scrA\" slot 1 -> \"l1\"",
+    "F3 local via type -12 (same code path) slot 3 -> \"l3\"",
+    "F3 local slot 5 > entry->count 4: names[5] is read anyway",
+    "F3 local slot 7 == the last staged name -> \"l7\"",
+    "F3 local scan misses \"other\", gate 2 closed -> unknown",
+    "F3 local scan misses, gate 2 open, no parent -> unknown",
+    "F3 parent fallback formats \"gml_Script_Par\" and rescan misses",
+    "F3 parent rescan HITS \"gml_Script_Par\" -> names[1] = \"p1\"",
+    "F3 local table empty, gate 2 open, parent answers, table still empty",
+    "F3 NULL script name reaches both the scan and the parent lookup",
+    "F3 empty script name: same path, a live pointer this time",
+    "F3 type -9 -> (type & ~2) == -11 -> instance table",
+    "F3 type -11 -> instance table, map hit at slot 7",
+    "F3 type 100001 > 100000 -> instance table, map hit",
+    "F3 type 100000 is NOT > 100000 and not -9/-11 -> unknown",
+    "F3 type 0 -> unknown",
+    "F3 type 3: (3 & ~2) == 1 != -11 -> unknown",
+    "F3 type INT_MIN -> unknown",
+    "F3 failure byte staged 1: the body must leave it set"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 gate 1 closed: Variable_GetName(100000), tables untouched",
+    "ret": {
+     "original": "PTR:766e313030303030",
+     "mutant": "PTR:6730"
+    },
+    "calls": {
+     "original": [
+      [
+       "N",
+       "100000"
+      ]
+     ],
+     "mutant": []
+    },
+    "ext": {
+     "original": {
+      "SCANS": "0"
+     },
+     "mutant": {
+      "SCANS": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_global_count_gt",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 global slot 5 == count -> unknown",
+    "F3 global slot 6 == count -> unknown"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 global slot 5 == count -> unknown",
+    "ret": {
+     "original": "UNK",
+     "mutant": "NULL"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "ext": {
+     "original": {
+      "SCANS": "0"
+     },
+     "mutant": {
+      "SCANS": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_size_gate_dropped",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 global slot 5 < count 6 but >= size 4 -> NULL"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 global slot 5 < count 6 but >= size 4 -> NULL",
+    "ret": {
+     "original": "NULL",
+     "mutant": "PTR:6735"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "ext": {
+     "original": {
+      "SCANS": "0"
+     },
+     "mutant": {
+      "SCANS": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_local_bound_check_added",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 local slot 5 > entry->count 4: names[5] is read anyway",
+    "F3 local slot 7 == the last staged name -> \"l7\""
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 local slot 5 > entry->count 4: names[5] is read anyway",
+    "ret": {
+     "original": "PTR:6c35",
+     "mutant": "UNK"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "ext": {
+     "original": {
+      "SCANS": "1"
+     },
+     "mutant": {
+      "SCANS": "1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_map_skip_strict",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 instance slot 7 -> map scan walks past a negative hash",
+    "F3 type -11 -> instance table, map hit at slot 7",
+    "F3 type 100001 > 100000 -> instance table, map hit"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 instance slot 7 -> map scan walks past a negative hash",
+    "ret": {
+     "original": "PTR:6d37",
+     "mutant": "UNK"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "ext": {
+     "original": {
+      "SCANS": "0"
+     },
+     "mutant": {
+      "SCANS": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_map_value_inverted",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 instance slot 5 >= count -> map scan finds value 5",
+    "F3 instance slot 7 -> map scan walks past a negative hash",
+    "F3 instance slot 6: only entry with value 6 has hash < 0 -> skipped",
+    "F3 instance slot 9: no map entry carries it -> unknown",
+    "F3 type -11 -> instance table, map hit at slot 7",
+    "F3 type 100001 > 100000 -> instance table, map hit"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 instance slot 5 >= count -> map scan finds value 5",
+    "ret": {
+     "original": "PTR:6d35",
+     "mutant": "PTR:6d37"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "ext": {
+     "original": {
+      "SCANS": "0"
+     },
+     "mutant": {
+      "SCANS": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_normalize_ge",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 type 100000 is NOT > 100000 and not -9/-11 -> unknown"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 type 100000 is NOT > 100000 and not -9/-11 -> unknown",
+    "ret": {
+     "original": "UNK",
+     "mutant": "PTR:6930"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "ext": {
+     "original": {
+      "SCANS": "0"
+     },
+     "mutant": {
+      "SCANS": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_id_base_671",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 id 99999 < 100000 with the gate open -> unknown",
+    "F3 global slot 0 -> \"g0\" (the id base is a legal slot)",
+    "F3 global slot 2 holds NULL -> NULL, not the unknown string",
+    "F3 global slot 4 -> \"g4\"",
+    "F3 global slot 5 < count 6 but >= size 4 -> NULL",
+    "F3 instance slot 0 -> \"i0\"",
+    "F3 instance slot 1 holds NULL -> NULL",
+    "F3 instance slot 2 -> \"i2\"",
+    "F3 instance slot 5 >= count -> map scan finds value 5",
+    "F3 instance slot 7 -> map scan walks past a negative hash",
+    "F3 instance slot 6: only entry with value 6 has hash < 0 -> skipped",
+    "F3 local \"scrA\" slot 1 -> \"l1\"",
+    "F3 local via type -12 (same code path) slot 3 -> \"l3\"",
+    "F3 local slot 5 > entry->count 4: names[5] is read anyway",
+    "F3 local slot 7 == the last staged name -> \"l7\"",
+    "F3 parent rescan HITS \"gml_Script_Par\" -> names[1] = \"p1\"",
+    "F3 type -9 -> (type & ~2) == -11 -> instance table",
+    "F3 type -11 -> instance table, map hit at slot 7",
+    "F3 type 100001 > 100000 -> instance table, map hit",
+    "F3 failure byte staged 1: the body must leave it set"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 id 99999 < 100000 with the gate open -> unknown",
+    "ret": {
+     "original": "UNK",
+     "mutant": "PTR:6730"
+    },
+    "calls": {
+     "original": [],
+     "mutant": []
+    },
+    "ext": {
+     "original": {
+      "SCANS": "0"
+     },
+     "mutant": {
+      "SCANS": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f3_gate2_inverted",
+   "file": "variable_getname_scope.c",
+   "caught_by": [
+    "F3 local scan misses \"other\", gate 2 closed -> unknown",
+    "F3 local scan misses, gate 2 open, no parent -> unknown",
+    "F3 parent fallback formats \"gml_Script_Par\" and rescan misses",
+    "F3 parent rescan HITS \"gml_Script_Par\" -> names[1] = \"p1\"",
+    "F3 local table empty, gate 2 open, parent answers, table still empty",
+    "F3 NULL script name reaches both the scan and the parent lookup",
+    "F3 empty script name: same path, a live pointer this time"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F3 local scan misses \"other\", gate 2 closed -> unknown",
+    "ret": {
+     "original": "UNK",
+     "mutant": "UNK"
+    },
+    "calls": {
+     "original": [],
+     "mutant": [
+      [
+       "P",
+       "5",
+       "other"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "SCANS": "1"
+     },
+     "mutant": {
+      "SCANS": "1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_limit_ne",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 fresh insert, getter and setter -> writable 1",
+    "F4 no setter -> writable 0",
+    "F4 setter only, no getter -> writable 1",
+    "F4 neither -> writable 0",
+    "F4 dead 4th argument set: the record must equal the first case",
+    "F4 name \"beta\": its hash has bit 31 set and must be cleared",
+    "F4 name \"gamma\"",
+    "F4 a stale name in the slot about to be reused is freed first",
+    "F4 the same key POINTER is already mapped: value overwritten and the count increment undone",
+    "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents",
+    "F4 \"beta\" twice: dedupe only works if the stored hash was sign-cleared like the new one",
+    "F4 count 499: the last legal slot of the fixed table",
+    "F4 count 500: ShowMessage, and nothing is written at all",
+    "F4 two colliding entries at idx and idx+1 force the Robin Hood swap and push the evicted pair one slot further",
+    "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+    "F4 threshold -1 with an empty old table: doubling only",
+    "F4 stale name freed and the map doubles in the same call",
+    "F4 collision staging with \"gamma\" (its own idx, still a swap)",
+    "F4 a richer entry in our home slot: its distance exceeds ours, so the walk advances instead of swapping",
+    "F4 same hash, different key pointer: only the pointer test rejects it"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 fresh insert, getter and setter -> writable 1",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "M",
+       "41",
+       "INTERNAL_ERROR:_Adding_too_many_variables"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "1",
+      "MAP": "128 1 127 76",
+      "E.0": "n 5 alpha 1 1 1",
+      "ENONEMPTY": "1",
+      "M.43": "5d8b6dab n 5 alpha 0"
+     },
+     "mutant": {
+      "COUNT": "0",
+      "MAP": "128 0 127 76",
+      "ENONEMPTY": "0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_writable_always",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 no setter -> writable 0",
+    "F4 neither -> writable 0"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 no setter -> writable 0",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "1",
+      "MAP": "128 1 127 76",
+      "E.0": "n 5 alpha 1 0 0",
+      "ENONEMPTY": "1",
+      "M.43": "5d8b6dab n 5 alpha 0"
+     },
+     "mutant": {
+      "COUNT": "1",
+      "MAP": "128 1 127 76",
+      "ENONEMPTY": "1",
+      "E.0": "n 5 alpha 1 0 1",
+      "M.43": "5d8b6dab n 5 alpha 0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_count_two",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 fresh insert, getter and setter -> writable 1",
+    "F4 no setter -> writable 0",
+    "F4 setter only, no getter -> writable 1",
+    "F4 neither -> writable 0",
+    "F4 dead 4th argument set: the record must equal the first case",
+    "F4 name \"beta\": its hash has bit 31 set and must be cleared",
+    "F4 name \"gamma\"",
+    "F4 a stale name in the slot about to be reused is freed first",
+    "F4 the same key POINTER is already mapped: value overwritten and the count increment undone",
+    "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents",
+    "F4 \"beta\" twice: dedupe only works if the stored hash was sign-cleared like the new one",
+    "F4 count 499: the last legal slot of the fixed table",
+    "F4 two colliding entries at idx and idx+1 force the Robin Hood swap and push the evicted pair one slot further",
+    "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+    "F4 threshold -1 with an empty old table: doubling only",
+    "F4 stale name freed and the map doubles in the same call",
+    "F4 collision staging with \"gamma\" (its own idx, still a swap)",
+    "F4 a richer entry in our home slot: its distance exceeds ours, so the walk advances instead of swapping",
+    "F4 same hash, different key pointer: only the pointer test rejects it"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 fresh insert, getter and setter -> writable 1",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "1",
+      "MAP": "128 1 127 76",
+      "E.0": "n 5 alpha 1 1 1",
+      "ENONEMPTY": "1",
+      "M.43": "5d8b6dab n 5 alpha 0"
+     },
+     "mutant": {
+      "COUNT": "2",
+      "MAP": "128 1 127 76",
+      "ENONEMPTY": "1",
+      "E.0": "n 5 alpha 1 1 1",
+      "M.43": "5d8b6dab n 5 alpha 0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_dup_count_not_undone",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 the same key POINTER is already mapped: value overwritten and the count increment undone",
+    "F4 \"beta\" twice: dedupe only works if the stored hash was sign-cleared like the new one"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 the same key POINTER is already mapped: value overwritten and the count increment undone",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "2",
+      "MAP": "128 1 127 76",
+      "E.0": "n 3 pre 0 0 0",
+      "E.1": "n 5 alpha 1 1 1",
+      "ENONEMPTY": "2",
+      "M.43": "5d8b6dab n 5 alpha 1"
+     },
+     "mutant": {
+      "COUNT": "2",
+      "MAP": "128 2 127 76",
+      "ENONEMPTY": "2",
+      "E.0": "n 3 pre 0 0 0",
+      "E.1": "n 5 alpha 1 1 1",
+      "M.43": "5d8b6dab n 5 alpha 1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_key_content_compare",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 the same bytes at another address: a second entry, because the probe compares key pointers, not string contents",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "2",
+      "MAP": "128 2 127 76",
+      "E.0": "n 3 pre 0 0 0",
+      "E.1": "n 5 alpha 1 1 1",
+      "ENONEMPTY": "2",
+      "M.43": "5d8b6dab n 5 alpha 55",
+      "M.44": "5d8b6dab n 5 alpha 1"
+     },
+     "mutant": {
+      "COUNT": "2",
+      "MAP": "128 1 127 76",
+      "ENONEMPTY": "2",
+      "E.0": "n 3 pre 0 0 0",
+      "E.1": "n 5 alpha 1 1 1",
+      "M.43": "5d8b6dab n 5 alpha 1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_sign_bit_kept",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 name \"beta\": its hash has bit 31 set and must be cleared",
+    "F4 name \"gamma\"",
+    "F4 \"beta\" twice: dedupe only works if the stored hash was sign-cleared like the new one",
+    "F4 collision staging with \"gamma\" (its own idx, still a swap)"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 name \"beta\": its hash has bit 31 set and must be cleared",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "D",
+       "4",
+       "beta"
+      ]
+     ],
+     "mutant": [
+      [
+       "D",
+       "4",
+       "beta"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "1",
+      "MAP": "128 1 127 76",
+      "E.0": "n 4 beta 1 1 1",
+      "ENONEMPTY": "1",
+      "M.71": "2f81e4c7 n 4 beta 0"
+     },
+     "mutant": {
+      "COUNT": "1",
+      "MAP": "128 1 127 76",
+      "ENONEMPTY": "1",
+      "E.0": "n 4 beta 1 1 1",
+      "M.71": "af81e4c7 n 4 beta 0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_grow_cap_plus2",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+    "F4 threshold -1 with an empty old table: doubling only",
+    "F4 stale name freed and the map doubles in the same call"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ],
+      [
+       "A",
+       "3072",
+       "70",
+       "1",
+       "1"
+      ],
+      [
+       "I",
+       "4",
+       "old0",
+       "100"
+      ],
+      [
+       "I",
+       "4",
+       "old1",
+       "101"
+      ],
+      [
+       "I",
+       "4",
+       "old2",
+       "102"
+      ],
+      [
+       "F",
+       "b"
+      ]
+     ],
+     "mutant": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ],
+      [
+       "A",
+       "3072",
+       "70",
+       "1",
+       "1"
+      ],
+      [
+       "I",
+       "4",
+       "old0",
+       "100"
+      ],
+      [
+       "I",
+       "4",
+       "old1",
+       "101"
+      ],
+      [
+       "I",
+       "4",
+       "old2",
+       "102"
+      ],
+      [
+       "F",
+       "b"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "1",
+      "MAP": "256 4 255 153",
+      "E.0": "n 5 alpha 1 1 1",
+      "ENONEMPTY": "1",
+      "M.18": "31a66b12 n 4 old0 100",
+      "M.165": "32a66ca5 n 4 old1 101",
+      "M.171": "5d8b6dab n 5 alpha 0",
+      "M.236": "2fa667ec n 4 old2 102"
+     },
+     "mutant": {
+      "COUNT": "1",
+      "MAP": "258 4 255 154",
+      "ENONEMPTY": "1",
+      "E.0": "n 5 alpha 1 1 1",
+      "M.18": "31a66b12 n 4 old0 100",
+      "M.165": "32a66ca5 n 4 old1 101",
+      "M.171": "5d8b6dab n 5 alpha 0",
+      "M.236": "2fa667ec n 4 old2 102"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_rehash_dropped",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+    "F4 stale name freed and the map doubles in the same call"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 threshold -1: the map doubles and the three old entries are reinserted through CHashMap::Insert",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ],
+      [
+       "A",
+       "3072",
+       "70",
+       "1",
+       "1"
+      ],
+      [
+       "I",
+       "4",
+       "old0",
+       "100"
+      ],
+      [
+       "I",
+       "4",
+       "old1",
+       "101"
+      ],
+      [
+       "I",
+       "4",
+       "old2",
+       "102"
+      ],
+      [
+       "F",
+       "b"
+      ]
+     ],
+     "mutant": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ],
+      [
+       "A",
+       "3072",
+       "70",
+       "1",
+       "1"
+      ],
+      [
+       "F",
+       "b"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "1",
+      "MAP": "256 4 255 153",
+      "E.0": "n 5 alpha 1 1 1",
+      "ENONEMPTY": "1",
+      "M.18": "31a66b12 n 4 old0 100",
+      "M.165": "32a66ca5 n 4 old1 101",
+      "M.171": "5d8b6dab n 5 alpha 0",
+      "M.236": "2fa667ec n 4 old2 102"
+     },
+     "mutant": {
+      "COUNT": "1",
+      "MAP": "256 1 255 153",
+      "ENONEMPTY": "1",
+      "E.0": "n 5 alpha 1 1 1",
+      "M.171": "5d8b6dab n 5 alpha 0"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  },
+  {
+   "mutant": "f4_stale_free_dropped",
+   "file": "variable_builtin_add.c",
+   "caught_by": [
+    "F4 a stale name in the slot about to be reused is freed first",
+    "F4 stale name freed and the map doubles in the same call"
+   ],
+   "aborted_cases": [],
+   "mode": "mismatch",
+   "field_level": true,
+   "passed": true,
+   "sample_mismatch": {
+    "case": "F4 a stale name in the slot about to be reused is freed first",
+    "ret": {
+     "original": "void",
+     "mutant": "void"
+    },
+    "calls": {
+     "original": [
+      [
+       "F",
+       "n",
+       "5",
+       "stale"
+      ],
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ],
+     "mutant": [
+      [
+       "D",
+       "5",
+       "alpha"
+      ]
+     ]
+    },
+    "ext": {
+     "original": {
+      "COUNT": "2",
+      "MAP": "128 1 127 76",
+      "E.1": "n 5 alpha 1 1 1",
+      "ENONEMPTY": "1",
+      "M.43": "5d8b6dab n 5 alpha 1"
+     },
+     "mutant": {
+      "COUNT": "2",
+      "MAP": "128 1 127 76",
+      "ENONEMPTY": "1",
+      "E.1": "n 5 alpha 1 1 1",
+      "M.43": "5d8b6dab n 5 alpha 1"
+     }
+    },
+    "flag": {
+     "original": 0,
+     "mutant": 0
+    }
+   }
+  }
+ ],
+ "card_deltas": [
+  {
+   "card": "cards/Variable_Misc.c",
+   "item": "segment 10, the pool address written for 0xd243c",
+   "card_says": "g_localVariableNamesForFunctions 槽（池 0xd2? —— -0x40a0）",
+   "bytes_say": "ldr r3,[pc,#0x6c] at 0xd243c reads pool word 0xd24b0 = 0xffffbf60, i.e. -0x40a0 -> 0x003edbb8",
+   "verdict": "CARD TEXT GLITCH ONLY. The value the card quotes (-0x40a0) is right; the pool address is truncated (\"0xd2?\"). No behaviour difference, nothing to re-derive - recorded so the next reader does not think the pool address is unknown."
+  }
+ ],
+ "card_note": "All four cards (cards/Variable_Global_Init.c, cards/DoVariableInstanceExists.c, cards/Variable_Misc.c) were re-checked against llvm-objdump for this run: instruction counts (24+2, 33+0, 158+13, 164+6), every pool word value, every branch target and every GOT addend agree with the bytes. No card claim in this module had to be overruled. The items the cards mark open are handled as follows: Variable_Misc open 1 (names[slot] has no bound check) is now an OBSERVABLE in the arm - the fixture stages 8 names behind a count of 4, and the tooth f3_local_bound_check_added proves a translation that added the check would be caught. Variable_Misc open 2/3/4/5/6/7/8 are untouched: they are about who reads the tables and what the enumerations mean, which no case in this file can decide. Variable_Global_Init open 1 (what one globdecl byte is) stays open; the arm only pins that exactly 10000 bytes are written per call.",
+ "status": "PASS"
+}

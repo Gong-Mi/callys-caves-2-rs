@@ -1,0 +1,14 @@
+249860	e592c00c	ldr	r12, [r2, #0xc]
+249864	e52d4004	str	r4, [sp, #-0x4]!
+249868	e3ccc4ff	bic	r12, r12, #-16777216
+24986c	e35c0006	cmp	r12, #6
+249870	0a000002	beq	0x249880 <_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_+0x20>
+249874	e3a00001	mov	r0, #1
+249878	e49d4004	ldr	r4, [sp], #4
+24987c	e12fff1e	bx	lr
+249880	e5922000	ldr	r2, [r2]
+249884	e592c048	ldr	r12, [r2, #0x48]
+249888	e35c0003	cmp	r12, #3
+24988c	1afffff8	bne	0x249874 <_Z11Call_RValueP12YYObjectBaseP6RValueS2_iS2_+0x14>
+249890	e49d4004	ldr	r4, [sp], #4
+249894	eaffff3d	b	0x249590 <_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_>

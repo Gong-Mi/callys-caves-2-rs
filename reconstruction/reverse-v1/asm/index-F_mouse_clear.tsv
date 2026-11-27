@@ -1,0 +1,21 @@
+127618	e92d4010	push	{r4, lr}
+12761c	e59d4008	ldr	r4, [sp, #0x8]
+127620	eb05a20f	bl	0x28fe64 <_Z15ProcessMessagesv>
+127624	e3a01000	mov	r1, #0
+127628	e1a00004	mov	r0, r4
+12762c	ebfe9c8f	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+127630	e3700001	cmn	r0, #1
+127634	0a000002	beq	0x127644 <_Z12F_MouseClearR6RValueP9CInstanceS2_iPS_+0x2c>
+127638	e3a01000	mov	r1, #0
+12763c	e8bd4010	pop	{r4, lr}
+127640	ea0192da	b	0x18c1b0 <_Z15IO_Button_Clearii>
+127644	e3a00001	mov	r0, #1
+127648	e3a01000	mov	r1, #0
+12764c	eb0192d7	bl	0x18c1b0 <_Z15IO_Button_Clearii>
+127650	e3a00002	mov	r0, #2
+127654	e3a01000	mov	r1, #0
+127658	eb0192d4	bl	0x18c1b0 <_Z15IO_Button_Clearii>
+12765c	e3a00003	mov	r0, #3
+127660	e3a01000	mov	r1, #0
+127664	e8bd4010	pop	{r4, lr}
+127668	ea0192d0	b	0x18c1b0 <_Z15IO_Button_Clearii>

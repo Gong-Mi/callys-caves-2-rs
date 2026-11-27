@@ -1,0 +1,12 @@
+f3380	e250c000	subs	r12, r0, #0
+f3384	e92d4010	push	{r4, lr}
+f3388	e1a04003	mov	r4, r3
+f338c	e24dd008	sub	sp, sp, #8
+f3390	0a000004	beq	0xf33a8 <_Z13Perform_EventP9CInstanceS0_ii+0x28>
+f3394	e59cc07c	ldr	r12, [r12, #0x7c]
+f3398	e1a03002	mov	r3, r2
+f339c	e58d4000	str	r4, [sp]
+f33a0	e1a0200c	mov	r2, r12
+f33a4	ebffffce	bl	0xf32e4 <_Z20Perform_Event_ObjectP9CInstanceS0_iii>
+f33a8	e28dd008	add	sp, sp, #8
+f33ac	e8bd8010	pop	{r4, pc}

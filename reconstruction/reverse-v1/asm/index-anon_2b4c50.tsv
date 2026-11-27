@@ -1,0 +1,728 @@
+2b4c50	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2b4c54	e3530000	cmp	r3, #0
+2b4c58	e24dd00c	sub	sp, sp, #12
+2b4c5c	e1a0b000	mov	r11, r0
+2b4c60	1a000016	bne	0x2b4cc0 <jinit_input_controller+0xde0>
+2b4c64	e59b3194	ldr	r3, [r11, #0x194]
+2b4c68	e5d3300c	ldrb	r3, [r3, #0xc]
+2b4c6c	e3530000	cmp	r3, #0
+2b4c70	1a000067	bne	0x2b4e14 <jinit_input_controller+0xf34>
+2b4c74	e59b4018	ldr	r4, [r11, #0x18]
+2b4c78	e5943004	ldr	r3, [r4, #0x4]
+2b4c7c	e5947000	ldr	r7, [r4]
+2b4c80	e3530000	cmp	r3, #0
+2b4c84	0a00010f	beq	0x2b50c8 <jinit_input_controller+0x11e8>
+2b4c88	e2533001	subs	r3, r3, #1
+2b4c8c	e5d79000	ldrb	r9, [r7]
+2b4c90	12877001	addne	r7, r7, #1
+2b4c94	0a000137	beq	0x2b5178 <jinit_input_controller+0x1298>
+2b4c98	e5d75000	ldrb	r5, [r7]
+2b4c9c	e2436001	sub	r6, r3, #1
+2b4ca0	e2877001	add	r7, r7, #1
+2b4ca4	e35900ff	cmp	r9, #255
+2b4ca8	035500d8	cmpeq	r5, #216
+2b4cac	1a00024c	bne	0x2b55e4 <jinit_input_controller+0x1704>
+2b4cb0	e1a03005	mov	r3, r5
+2b4cb4	e58b517c	str	r5, [r11, #0x17c]
+2b4cb8	e5847000	str	r7, [r4]
+2b4cbc	e5846004	str	r6, [r4, #0x4]
+2b4cc0	e35300cf	cmp	r3, #207
+2b4cc4	da00003b	ble	0x2b4db8 <jinit_input_controller+0xed8>
+2b4cc8	e35300db	cmp	r3, #219
+2b4ccc	0a000175	beq	0x2b52a8 <jinit_input_controller+0x13c8>
+2b4cd0	da000055	ble	0x2b4e2c <jinit_input_controller+0xf4c>
+2b4cd4	e35300ef	cmp	r3, #239
+2b4cd8	ca00014c	bgt	0x2b5210 <jinit_input_controller+0x1330>
+2b4cdc	e35300e0	cmp	r3, #224
+2b4ce0	aa000153	bge	0x2b5234 <jinit_input_controller+0x1354>
+2b4ce4	e35300dc	cmp	r3, #220
+2b4ce8	0a00010e	beq	0x2b5128 <jinit_input_controller+0x1248>
+2b4cec	e35300dd	cmp	r3, #221
+2b4cf0	1a00012c	bne	0x2b51a8 <jinit_input_controller+0x12c8>
+2b4cf4	e59b4018	ldr	r4, [r11, #0x18]
+2b4cf8	e894000c	ldm	r4, {r2, r3}
+2b4cfc	e3530000	cmp	r3, #0
+2b4d00	0a000269	beq	0x2b56ac <jinit_input_controller+0x17cc>
+2b4d04	e5d26000	ldrb	r6, [r2]
+2b4d08	e2533001	subs	r3, r3, #1
+2b4d0c	12825001	addne	r5, r2, #1
+2b4d10	e1a06406	lsl	r6, r6, #8
+2b4d14	0a00027b	beq	0x2b5708 <jinit_input_controller+0x1828>
+2b4d18	e5d52000	ldrb	r2, [r5]
+2b4d1c	e2437001	sub	r7, r3, #1
+2b4d20	e0866002	add	r6, r6, r2
+2b4d24	e3560004	cmp	r6, #4
+2b4d28	0a000005	beq	0x2b4d44 <jinit_input_controller+0xe64>
+2b4d2c	e59b3000	ldr	r3, [r11]
+2b4d30	e3a0e00b	mov	lr, #11
+2b4d34	e1a0000b	mov	r0, r11
+2b4d38	e583e014	str	lr, [r3, #0x14]
+2b4d3c	e5933000	ldr	r3, [r3]
+2b4d40	e12fff33	blx	r3
+2b4d44	e3570000	cmp	r7, #0
+2b4d48	12855001	addne	r5, r5, #1
+2b4d4c	0a00027c	beq	0x2b5744 <jinit_input_controller+0x1864>
+2b4d50	e5d56000	ldrb	r6, [r5]
+2b4d54	e2577001	subs	r7, r7, #1
+2b4d58	12855001	addne	r5, r5, #1
+2b4d5c	e1a06406	lsl	r6, r6, #8
+2b4d60	1a000005	bne	0x2b4d7c <jinit_input_controller+0xe9c>
+2b4d64	e594300c	ldr	r3, [r4, #0xc]
+2b4d68	e1a0000b	mov	r0, r11
+2b4d6c	e12fff33	blx	r3
+2b4d70	e3500000	cmp	r0, #0
+2b4d74	0a0000d8	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b4d78	e89400a0	ldm	r4, {r5, r7}
+2b4d7c	e59b3000	ldr	r3, [r11]
+2b4d80	e3a01052	mov	r1, #82
+2b4d84	e4d52001	ldrb	r2, [r5], #1
+2b4d88	e1a0000b	mov	r0, r11
+2b4d8c	e2477001	sub	r7, r7, #1
+2b4d90	e0826006	add	r6, r2, r6
+2b4d94	e5836018	str	r6, [r3, #0x18]
+2b4d98	e59b2000	ldr	r2, [r11]
+2b4d9c	e5831014	str	r1, [r3, #0x14]
+2b4da0	e3a01001	mov	r1, #1
+2b4da4	e5923004	ldr	r3, [r2, #0x4]
+2b4da8	e12fff33	blx	r3
+2b4dac	e58b60fc	str	r6, [r11, #0xfc]
+2b4db0	e88400a0	stm	r4, {r5, r7}
+2b4db4	ea000010	b	0x2b4dfc <jinit_input_controller+0xf1c>
+2b4db8	e35300cd	cmp	r3, #205
+2b4dbc	aa000124	bge	0x2b5254 <jinit_input_controller+0x1374>
+2b4dc0	e35300c4	cmp	r3, #196
+2b4dc4	0a000132	beq	0x2b5294 <jinit_input_controller+0x13b4>
+2b4dc8	da0000c6	ble	0x2b50e8 <jinit_input_controller+0x1208>
+2b4dcc	e35300c9	cmp	r3, #201
+2b4dd0	0a000128	beq	0x2b5278 <jinit_input_controller+0x1398>
+2b4dd4	ba00011e	blt	0x2b5254 <jinit_input_controller+0x1374>
+2b4dd8	e35300cb	cmp	r3, #203
+2b4ddc	0a00011c	beq	0x2b5254 <jinit_input_controller+0x1374>
+2b4de0	d3a01001	movle	r1, #1
+2b4de4	ca0000cf	bgt	0x2b5128 <jinit_input_controller+0x1248>
+2b4de8	e1a0000b	mov	r0, r11
+2b4dec	e1a02001	mov	r2, r1
+2b4df0	ebfffc58	bl	0x2b3f58 <jinit_input_controller+0x78>
+2b4df4	e3500000	cmp	r0, #0
+2b4df8	0a0000b7	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b4dfc	e3a03000	mov	r3, #0
+2b4e00	e58b317c	str	r3, [r11, #0x17c]
+2b4e04	e59b3194	ldr	r3, [r11, #0x194]
+2b4e08	e5d3300c	ldrb	r3, [r3, #0xc]
+2b4e0c	e3530000	cmp	r3, #0
+2b4e10	0affff97	beq	0x2b4c74 <jinit_input_controller+0xd94>
+2b4e14	e1a0000b	mov	r0, r11
+2b4e18	ebfffe30	bl	0x2b46e0 <jinit_input_controller+0x800>
+2b4e1c	e3500000	cmp	r0, #0
+2b4e20	0a0000ad	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b4e24	e59b317c	ldr	r3, [r11, #0x17c]
+2b4e28	eaffffa4	b	0x2b4cc0 <jinit_input_controller+0xde0>
+2b4e2c	e35300d8	cmp	r3, #216
+2b4e30	0a0001b7	beq	0x2b5514 <jinit_input_controller+0x1634>
+2b4e34	ba0000b1	blt	0x2b5100 <jinit_input_controller+0x1220>
+2b4e38	e35300d9	cmp	r3, #217
+2b4e3c	0a0001dc	beq	0x2b55b4 <jinit_input_controller+0x16d4>
+2b4e40	e35300da	cmp	r3, #218
+2b4e44	1a0000d7	bne	0x2b51a8 <jinit_input_controller+0x12c8>
+2b4e48	e59b3194	ldr	r3, [r11, #0x194]
+2b4e4c	e59b8018	ldr	r8, [r11, #0x18]
+2b4e50	e5d3300d	ldrb	r3, [r3, #0xd]
+2b4e54	e5985000	ldr	r5, [r8]
+2b4e58	e3530000	cmp	r3, #0
+2b4e5c	e5984004	ldr	r4, [r8, #0x4]
+2b4e60	0a000203	beq	0x2b5674 <jinit_input_controller+0x1794>
+2b4e64	e3540000	cmp	r4, #0
+2b4e68	0a0001f9	beq	0x2b5654 <jinit_input_controller+0x1774>
+2b4e6c	e5d53000	ldrb	r3, [r5]
+2b4e70	e2544001	subs	r4, r4, #1
+2b4e74	12855001	addne	r5, r5, #1
+2b4e78	e1a06403	lsl	r6, r3, #8
+2b4e7c	0a000219	beq	0x2b56e8 <jinit_input_controller+0x1808>
+2b4e80	e5d53000	ldrb	r3, [r5]
+2b4e84	e254c001	subs	r12, r4, #1
+2b4e88	12855001	addne	r5, r5, #1
+2b4e8c	e0866003	add	r6, r6, r3
+2b4e90	1a000005	bne	0x2b4eac <jinit_input_controller+0xfcc>
+2b4e94	e598300c	ldr	r3, [r8, #0xc]
+2b4e98	e1a0000b	mov	r0, r11
+2b4e9c	e12fff33	blx	r3
+2b4ea0	e3500000	cmp	r0, #0
+2b4ea4	0a00008c	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b4ea8	e8981020	ldm	r8, {r5, r12}
+2b4eac	e5d5a000	ldrb	r10, [r5]
+2b4eb0	e3a0e067	mov	lr, #103
+2b4eb4	e59b3000	ldr	r3, [r11]
+2b4eb8	e3a01001	mov	r1, #1
+2b4ebc	e1a0000b	mov	r0, r11
+2b4ec0	e24c9001	sub	r9, r12, #1
+2b4ec4	e0855001	add	r5, r5, r1
+2b4ec8	e583a018	str	r10, [r3, #0x18]
+2b4ecc	e59b2000	ldr	r2, [r11]
+2b4ed0	e583e014	str	lr, [r3, #0x14]
+2b4ed4	e5923004	ldr	r3, [r2, #0x4]
+2b4ed8	e12fff33	blx	r3
+2b4edc	e28a3003	add	r3, r10, #3
+2b4ee0	e1560083	cmp	r6, r3, lsl #1
+2b4ee4	0a0001d6	beq	0x2b5644 <jinit_input_controller+0x1764>
+2b4ee8	e59b3000	ldr	r3, [r11]
+2b4eec	e3a0200b	mov	r2, #11
+2b4ef0	e1a0000b	mov	r0, r11
+2b4ef4	e5832014	str	r2, [r3, #0x14]
+2b4ef8	e5933000	ldr	r3, [r3]
+2b4efc	e12fff33	blx	r3
+2b4f00	e35a0000	cmp	r10, #0
+2b4f04	e58ba124	str	r10, [r11, #0x124]
+2b4f08	0a00003c	beq	0x2b5000 <jinit_input_controller+0x1120>
+2b4f0c	e1a0700b	mov	r7, r11
+2b4f10	e3a06001	mov	r6, #1
+2b4f14	e28aa001	add	r10, r10, #1
+2b4f18	e58da004	str	r10, [sp, #0x4]
+2b4f1c	e3590000	cmp	r9, #0
+2b4f20	0a0000a9	beq	0x2b51cc <jinit_input_controller+0x12ec>
+2b4f24	e2599001	subs	r9, r9, #1
+2b4f28	e5d5a000	ldrb	r10, [r5]
+2b4f2c	12853001	addne	r3, r5, #1
+2b4f30	0a0000af	beq	0x2b51f4 <jinit_input_controller+0x1314>
+2b4f34	e59b0024	ldr	r0, [r11, #0x24]
+2b4f38	e2499001	sub	r9, r9, #1
+2b4f3c	e2835001	add	r5, r3, #1
+2b4f40	e5d31000	ldrb	r1, [r3]
+2b4f44	e3500000	cmp	r0, #0
+2b4f48	e59b40c4	ldr	r4, [r11, #0xc4]
+2b4f4c	da00000b	ble	0x2b4f80 <jinit_input_controller+0x10a0>
+2b4f50	e5943000	ldr	r3, [r4]
+2b4f54	e15a0003	cmp	r10, r3
+2b4f58	0a000012	beq	0x2b4fa8 <jinit_input_controller+0x10c8>
+2b4f5c	e3a03000	mov	r3, #0
+2b4f60	ea000002	b	0x2b4f70 <jinit_input_controller+0x1090>
+2b4f64	e5942000	ldr	r2, [r4]
+2b4f68	e15a0002	cmp	r10, r2
+2b4f6c	0a00000d	beq	0x2b4fa8 <jinit_input_controller+0x10c8>
+2b4f70	e2833001	add	r3, r3, #1
+2b4f74	e2844054	add	r4, r4, #84
+2b4f78	e1530000	cmp	r3, r0
+2b4f7c	1afffff8	bne	0x2b4f64 <jinit_input_controller+0x1084>
+2b4f80	e59b3000	ldr	r3, [r11]
+2b4f84	e3a0c005	mov	r12, #5
+2b4f88	e1a0000b	mov	r0, r11
+2b4f8c	e583a018	str	r10, [r3, #0x18]
+2b4f90	e59b2000	ldr	r2, [r11]
+2b4f94	e583c014	str	r12, [r3, #0x14]
+2b4f98	e5923000	ldr	r3, [r2]
+2b4f9c	e58d1000	str	r1, [sp]
+2b4fa0	e12fff33	blx	r3
+2b4fa4	e59d1000	ldr	r1, [sp]
+2b4fa8	e5874128	str	r4, [r7, #0x128]
+2b4fac	e1a02241	asr	r2, r1, #4
+2b4fb0	e59b3000	ldr	r3, [r11]
+2b4fb4	e201100f	and	r1, r1, #15
+2b4fb8	e5842014	str	r2, [r4, #0x14]
+2b4fbc	e3a0c068	mov	r12, #104
+2b4fc0	e5841018	str	r1, [r4, #0x18]
+2b4fc4	e1a0000b	mov	r0, r11
+2b4fc8	e583a018	str	r10, [r3, #0x18]
+2b4fcc	e3a01001	mov	r1, #1
+2b4fd0	e594e014	ldr	lr, [r4, #0x14]
+2b4fd4	e2866001	add	r6, r6, #1
+2b4fd8	e5932004	ldr	r2, [r3, #0x4]
+2b4fdc	e2877004	add	r7, r7, #4
+2b4fe0	e583e01c	str	lr, [r3, #0x1c]
+2b4fe4	e594e018	ldr	lr, [r4, #0x18]
+2b4fe8	e583c014	str	r12, [r3, #0x14]
+2b4fec	e583e020	str	lr, [r3, #0x20]
+2b4ff0	e12fff32	blx	r2
+2b4ff4	e59d2004	ldr	r2, [sp, #0x4]
+2b4ff8	e1560002	cmp	r6, r2
+2b4ffc	1affffc6	bne	0x2b4f1c <jinit_input_controller+0x103c>
+2b5000	e3590000	cmp	r9, #0
+2b5004	0a0001da	beq	0x2b5774 <jinit_input_controller+0x1894>
+2b5008	e5d53000	ldrb	r3, [r5]
+2b500c	e259c001	subs	r12, r9, #1
+2b5010	12855001	addne	r5, r5, #1
+2b5014	e58b316c	str	r3, [r11, #0x16c]
+2b5018	0a0001dc	beq	0x2b5790 <jinit_input_controller+0x18b0>
+2b501c	e5d53000	ldrb	r3, [r5]
+2b5020	e25c6001	subs	r6, r12, #1
+2b5024	12854001	addne	r4, r5, #1
+2b5028	e58b3170	str	r3, [r11, #0x170]
+2b502c	1a000005	bne	0x2b5048 <jinit_input_controller+0x1168>
+2b5030	e598300c	ldr	r3, [r8, #0xc]
+2b5034	e1a0000b	mov	r0, r11
+2b5038	e12fff33	blx	r3
+2b503c	e3500000	cmp	r0, #0
+2b5040	0a000025	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b5044	e8980050	ldm	r8, {r4, r6}
+2b5048	e4d42001	ldrb	r2, [r4], #1
+2b504c	e3a0e069	mov	lr, #105
+2b5050	e59b3000	ldr	r3, [r11]
+2b5054	e1a0000b	mov	r0, r11
+2b5058	e59b116c	ldr	r1, [r11, #0x16c]
+2b505c	e202c00f	and	r12, r2, #15
+2b5060	e1a02242	asr	r2, r2, #4
+2b5064	e58bc178	str	r12, [r11, #0x178]
+2b5068	e58b2174	str	r2, [r11, #0x174]
+2b506c	e2466001	sub	r6, r6, #1
+2b5070	e5831018	str	r1, [r3, #0x18]
+2b5074	e3a01001	mov	r1, #1
+2b5078	e59bc170	ldr	r12, [r11, #0x170]
+2b507c	e5932004	ldr	r2, [r3, #0x4]
+2b5080	e583c01c	str	r12, [r3, #0x1c]
+2b5084	e59bc174	ldr	r12, [r11, #0x174]
+2b5088	e583c020	str	r12, [r3, #0x20]
+2b508c	e59bc178	ldr	r12, [r11, #0x178]
+2b5090	e583e014	str	lr, [r3, #0x14]
+2b5094	e583c024	str	r12, [r3, #0x24]
+2b5098	e12fff32	blx	r2
+2b509c	e59b1194	ldr	r1, [r11, #0x194]
+2b50a0	e59b207c	ldr	r2, [r11, #0x7c]
+2b50a4	e3a03000	mov	r3, #0
+2b50a8	e3a00001	mov	r0, #1
+2b50ac	e5813010	str	r3, [r1, #0x10]
+2b50b0	e0822000	add	r2, r2, r0
+2b50b4	e58b207c	str	r2, [r11, #0x7c]
+2b50b8	e8880050	stm	r8, {r4, r6}
+2b50bc	e58b317c	str	r3, [r11, #0x17c]
+2b50c0	e28dd00c	add	sp, sp, #12
+2b50c4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2b50c8	e594300c	ldr	r3, [r4, #0xc]
+2b50cc	e1a0000b	mov	r0, r11
+2b50d0	e12fff33	blx	r3
+2b50d4	e3500000	cmp	r0, #0
+2b50d8	1a000020	bne	0x2b5160 <jinit_input_controller+0x1280>
+2b50dc	e3a00000	mov	r0, #0
+2b50e0	e28dd00c	add	sp, sp, #12
+2b50e4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2b50e8	e35300c1	cmp	r3, #193
+2b50ec	ca000012	bgt	0x2b513c <jinit_input_controller+0x125c>
+2b50f0	e35300c0	cmp	r3, #192
+2b50f4	aa000027	bge	0x2b5198 <jinit_input_controller+0x12b8>
+2b50f8	e3530001	cmp	r3, #1
+2b50fc	1a000029	bne	0x2b51a8 <jinit_input_controller+0x12c8>
+2b5100	e59b2000	ldr	r2, [r11]
+2b5104	e3a0c05c	mov	r12, #92
+2b5108	e1a0000b	mov	r0, r11
+2b510c	e3a01001	mov	r1, #1
+2b5110	e5823018	str	r3, [r2, #0x18]
+2b5114	e59b3000	ldr	r3, [r11]
+2b5118	e582c014	str	r12, [r2, #0x14]
+2b511c	e5933004	ldr	r3, [r3, #0x4]
+2b5120	e12fff33	blx	r3
+2b5124	eaffff34	b	0x2b4dfc <jinit_input_controller+0xf1c>
+2b5128	e1a0000b	mov	r0, r11
+2b512c	ebfffd34	bl	0x2b4604 <jinit_input_controller+0x724>
+2b5130	e3500000	cmp	r0, #0
+2b5134	1affff30	bne	0x2b4dfc <jinit_input_controller+0xf1c>
+2b5138	eaffffe7	b	0x2b50dc <jinit_input_controller+0x11fc>
+2b513c	e35300c2	cmp	r3, #194
+2b5140	1a000016	bne	0x2b51a0 <jinit_input_controller+0x12c0>
+2b5144	e1a0000b	mov	r0, r11
+2b5148	e3a01001	mov	r1, #1
+2b514c	e3a02000	mov	r2, #0
+2b5150	ebfffb80	bl	0x2b3f58 <jinit_input_controller+0x78>
+2b5154	e3500000	cmp	r0, #0
+2b5158	1affff27	bne	0x2b4dfc <jinit_input_controller+0xf1c>
+2b515c	eaffffde	b	0x2b50dc <jinit_input_controller+0x11fc>
+2b5160	e5943004	ldr	r3, [r4, #0x4]
+2b5164	e5947000	ldr	r7, [r4]
+2b5168	e2533001	subs	r3, r3, #1
+2b516c	e5d79000	ldrb	r9, [r7]
+2b5170	12877001	addne	r7, r7, #1
+2b5174	1afffec7	bne	0x2b4c98 <jinit_input_controller+0xdb8>
+2b5178	e594300c	ldr	r3, [r4, #0xc]
+2b517c	e1a0000b	mov	r0, r11
+2b5180	e12fff33	blx	r3
+2b5184	e3500000	cmp	r0, #0
+2b5188	0affffd3	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b518c	e5947000	ldr	r7, [r4]
+2b5190	e5943004	ldr	r3, [r4, #0x4]
+2b5194	eafffebf	b	0x2b4c98 <jinit_input_controller+0xdb8>
+2b5198	e3a01000	mov	r1, #0
+2b519c	eaffff11	b	0x2b4de8 <jinit_input_controller+0xf08>
+2b51a0	e35300c3	cmp	r3, #195
+2b51a4	0a00002a	beq	0x2b5254 <jinit_input_controller+0x1374>
+2b51a8	e59b2000	ldr	r2, [r11]
+2b51ac	e3a0e044	mov	lr, #68
+2b51b0	e1a0000b	mov	r0, r11
+2b51b4	e5823018	str	r3, [r2, #0x18]
+2b51b8	e59b3000	ldr	r3, [r11]
+2b51bc	e582e014	str	lr, [r2, #0x14]
+2b51c0	e5933000	ldr	r3, [r3]
+2b51c4	e12fff33	blx	r3
+2b51c8	eaffff0b	b	0x2b4dfc <jinit_input_controller+0xf1c>
+2b51cc	e598300c	ldr	r3, [r8, #0xc]
+2b51d0	e1a0000b	mov	r0, r11
+2b51d4	e12fff33	blx	r3
+2b51d8	e3500000	cmp	r0, #0
+2b51dc	0affffbe	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b51e0	e8980220	ldm	r8, {r5, r9}
+2b51e4	e2599001	subs	r9, r9, #1
+2b51e8	e5d5a000	ldrb	r10, [r5]
+2b51ec	12853001	addne	r3, r5, #1
+2b51f0	1affff4f	bne	0x2b4f34 <jinit_input_controller+0x1054>
+2b51f4	e598300c	ldr	r3, [r8, #0xc]
+2b51f8	e1a0000b	mov	r0, r11
+2b51fc	e12fff33	blx	r3
+2b5200	e3500000	cmp	r0, #0
+2b5204	0affffb4	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b5208	e8980208	ldm	r8, {r3, r9}
+2b520c	eaffff48	b	0x2b4f34 <jinit_input_controller+0x1054>
+2b5210	e35300fe	cmp	r3, #254
+2b5214	1affffe3	bne	0x2b51a8 <jinit_input_controller+0x12c8>
+2b5218	e59b3194	ldr	r3, [r11, #0x194]
+2b521c	e1a0000b	mov	r0, r11
+2b5220	e5933018	ldr	r3, [r3, #0x18]
+2b5224	e12fff33	blx	r3
+2b5228	e3500000	cmp	r0, #0
+2b522c	1afffef2	bne	0x2b4dfc <jinit_input_controller+0xf1c>
+2b5230	eaffffa9	b	0x2b50dc <jinit_input_controller+0x11fc>
+2b5234	e59b2194	ldr	r2, [r11, #0x194]
+2b5238	e1a0000b	mov	r0, r11
+2b523c	e0823103	add	r3, r2, r3, lsl #2
+2b5240	e5133364	ldr	r3, [r3, #-0x364]
+2b5244	e12fff33	blx	r3
+2b5248	e3500000	cmp	r0, #0
+2b524c	1afffeea	bne	0x2b4dfc <jinit_input_controller+0xf1c>
+2b5250	eaffffa1	b	0x2b50dc <jinit_input_controller+0x11fc>
+2b5254	e59b2000	ldr	r2, [r11]
+2b5258	e3a0103c	mov	r1, #60
+2b525c	e1a0000b	mov	r0, r11
+2b5260	e5823018	str	r3, [r2, #0x18]
+2b5264	e59b3000	ldr	r3, [r11]
+2b5268	e5821014	str	r1, [r2, #0x14]
+2b526c	e5933000	ldr	r3, [r3]
+2b5270	e12fff33	blx	r3
+2b5274	eafffee0	b	0x2b4dfc <jinit_input_controller+0xf1c>
+2b5278	e1a0000b	mov	r0, r11
+2b527c	e3a01000	mov	r1, #0
+2b5280	e3a02001	mov	r2, #1
+2b5284	ebfffb33	bl	0x2b3f58 <jinit_input_controller+0x78>
+2b5288	e3500000	cmp	r0, #0
+2b528c	1afffeda	bne	0x2b4dfc <jinit_input_controller+0xf1c>
+2b5290	eaffff91	b	0x2b50dc <jinit_input_controller+0x11fc>
+2b5294	e1a0000b	mov	r0, r11
+2b5298	ebfffd76	bl	0x2b4878 <jinit_input_controller+0x998>
+2b529c	e3500000	cmp	r0, #0
+2b52a0	1afffed5	bne	0x2b4dfc <jinit_input_controller+0xf1c>
+2b52a4	eaffff8c	b	0x2b50dc <jinit_input_controller+0x11fc>
+2b52a8	e59b6018	ldr	r6, [r11, #0x18]
+2b52ac	e896000c	ldm	r6, {r2, r3}
+2b52b0	e3530000	cmp	r3, #0
+2b52b4	0a0000f5	beq	0x2b5690 <jinit_input_controller+0x17b0>
+2b52b8	e5d27000	ldrb	r7, [r2]
+2b52bc	e2533001	subs	r3, r3, #1
+2b52c0	12822001	addne	r2, r2, #1
+2b52c4	e1a07407	lsl	r7, r7, #8
+2b52c8	0a000116	beq	0x2b5728 <jinit_input_controller+0x1848>
+2b52cc	e5d21000	ldrb	r1, [r2]
+2b52d0	e2434001	sub	r4, r3, #1
+2b52d4	e2825001	add	r5, r2, #1
+2b52d8	e0877001	add	r7, r7, r1
+2b52dc	e2477002	sub	r7, r7, #2
+2b52e0	e58d7004	str	r7, [sp, #0x4]
+2b52e4	e3570000	cmp	r7, #0
+2b52e8	da00007d	ble	0x2b54e4 <jinit_input_controller+0x1604>
+2b52ec	e3540000	cmp	r4, #0
+2b52f0	1a000006	bne	0x2b5310 <jinit_input_controller+0x1430>
+2b52f4	e596300c	ldr	r3, [r6, #0xc]
+2b52f8	e1a0000b	mov	r0, r11
+2b52fc	e12fff33	blx	r3
+2b5300	e3500000	cmp	r0, #0
+2b5304	0affff74	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b5308	e5965000	ldr	r5, [r6]
+2b530c	e5964004	ldr	r4, [r6, #0x4]
+2b5310	e59b3000	ldr	r3, [r11]
+2b5314	e3a0c051	mov	r12, #81
+2b5318	e5d58000	ldrb	r8, [r5]
+2b531c	e3a01001	mov	r1, #1
+2b5320	e1a0000b	mov	r0, r11
+2b5324	e0855001	add	r5, r5, r1
+2b5328	e208700f	and	r7, r8, #15
+2b532c	e5837018	str	r7, [r3, #0x18]
+2b5330	e59b2000	ldr	r2, [r11]
+2b5334	e1a08248	asr	r8, r8, #4
+2b5338	e583c014	str	r12, [r3, #0x14]
+2b533c	e2444001	sub	r4, r4, #1
+2b5340	e582801c	str	r8, [r2, #0x1c]
+2b5344	e59b3000	ldr	r3, [r11]
+2b5348	e5933004	ldr	r3, [r3, #0x4]
+2b534c	e12fff33	blx	r3
+2b5350	e3570003	cmp	r7, #3
+2b5354	ca0000b1	bgt	0x2b5620 <jinit_input_controller+0x1740>
+2b5358	e08b7107	add	r7, r11, r7, lsl #2
+2b535c	e597a090	ldr	r10, [r7, #0x90]
+2b5360	e35a0000	cmp	r10, #0
+2b5364	0a0000fd	beq	0x2b5760 <jinit_input_controller+0x1880>
+2b5368	e59f143c	ldr	r1, [pc, #0x43c]
+2b536c	e79f1001	ldr	r1, [pc, r1]
+2b5370	e2417004	sub	r7, r1, #4
+2b5374	e28190fc	add	r9, r1, #252
+2b5378	ea00000f	b	0x2b53bc <jinit_input_controller+0x14dc>
+2b537c	e3540000	cmp	r4, #0
+2b5380	0a000015	beq	0x2b53dc <jinit_input_controller+0x14fc>
+2b5384	e5d52000	ldrb	r2, [r5]
+2b5388	e2544001	subs	r4, r4, #1
+2b538c	12855001	addne	r5, r5, #1
+2b5390	e1a02402	lsl	r2, r2, #8
+2b5394	0a000020	beq	0x2b541c <jinit_input_controller+0x153c>
+2b5398	e5d53000	ldrb	r3, [r5]
+2b539c	e2444001	sub	r4, r4, #1
+2b53a0	e2855001	add	r5, r5, #1
+2b53a4	e0832002	add	r2, r3, r2
+2b53a8	e5b73004	ldr	r3, [r7, #0x4]!
+2b53ac	e1570009	cmp	r7, r9
+2b53b0	e1a03083	lsl	r3, r3, #1
+2b53b4	e18a20b3	strh	r2, [r10, r3]
+2b53b8	0a000021	beq	0x2b5444 <jinit_input_controller+0x1564>
+2b53bc	e3580000	cmp	r8, #0
+2b53c0	1affffed	bne	0x2b537c <jinit_input_controller+0x149c>
+2b53c4	e3540000	cmp	r4, #0
+2b53c8	0a00000b	beq	0x2b53fc <jinit_input_controller+0x151c>
+2b53cc	e5d52000	ldrb	r2, [r5]
+2b53d0	e2444001	sub	r4, r4, #1
+2b53d4	e2855001	add	r5, r5, #1
+2b53d8	eafffff2	b	0x2b53a8 <jinit_input_controller+0x14c8>
+2b53dc	e596300c	ldr	r3, [r6, #0xc]
+2b53e0	e1a0000b	mov	r0, r11
+2b53e4	e12fff33	blx	r3
+2b53e8	e3500000	cmp	r0, #0
+2b53ec	0affff3a	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b53f0	e5965000	ldr	r5, [r6]
+2b53f4	e5964004	ldr	r4, [r6, #0x4]
+2b53f8	eaffffe1	b	0x2b5384 <jinit_input_controller+0x14a4>
+2b53fc	e596300c	ldr	r3, [r6, #0xc]
+2b5400	e1a0000b	mov	r0, r11
+2b5404	e12fff33	blx	r3
+2b5408	e3500000	cmp	r0, #0
+2b540c	0affff32	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b5410	e5965000	ldr	r5, [r6]
+2b5414	e5964004	ldr	r4, [r6, #0x4]
+2b5418	eaffffeb	b	0x2b53cc <jinit_input_controller+0x14ec>
+2b541c	e596300c	ldr	r3, [r6, #0xc]
+2b5420	e1a0000b	mov	r0, r11
+2b5424	e58d2000	str	r2, [sp]
+2b5428	e12fff33	blx	r3
+2b542c	e59d2000	ldr	r2, [sp]
+2b5430	e3500000	cmp	r0, #0
+2b5434	0affff28	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b5438	e5965000	ldr	r5, [r6]
+2b543c	e5964004	ldr	r4, [r6, #0x4]
+2b5440	eaffffd4	b	0x2b5398 <jinit_input_controller+0x14b8>
+2b5444	e59b3000	ldr	r3, [r11]
+2b5448	e5932068	ldr	r2, [r3, #0x68]
+2b544c	e3520001	cmp	r2, #1
+2b5450	c3a07008	movgt	r7, #8
+2b5454	ca000001	bgt	0x2b5460 <jinit_input_controller+0x1580>
+2b5458	ea000019	b	0x2b54c4 <jinit_input_controller+0x15e4>
+2b545c	e59b3000	ldr	r3, [r11]
+2b5460	e1dac0b0	ldrh	r12, [r10]
+2b5464	e3a0e05d	mov	lr, #93
+2b5468	e1a0000b	mov	r0, r11
+2b546c	e5932004	ldr	r2, [r3, #0x4]
+2b5470	e3a01002	mov	r1, #2
+2b5474	e28aa010	add	r10, r10, #16
+2b5478	e583c018	str	r12, [r3, #0x18]
+2b547c	e15ac0be	ldrh	r12, [r10, #-14]
+2b5480	e583c01c	str	r12, [r3, #0x1c]
+2b5484	e15ac0bc	ldrh	r12, [r10, #-12]
+2b5488	e583c020	str	r12, [r3, #0x20]
+2b548c	e15ac0ba	ldrh	r12, [r10, #-10]
+2b5490	e583c024	str	r12, [r3, #0x24]
+2b5494	e15ac0b8	ldrh	r12, [r10, #-8]
+2b5498	e583c028	str	r12, [r3, #0x28]
+2b549c	e15ac0b6	ldrh	r12, [r10, #-6]
+2b54a0	e583c02c	str	r12, [r3, #0x2c]
+2b54a4	e15ac0b4	ldrh	r12, [r10, #-4]
+2b54a8	e583c030	str	r12, [r3, #0x30]
+2b54ac	e15ac0b2	ldrh	r12, [r10, #-2]
+2b54b0	e583e014	str	lr, [r3, #0x14]
+2b54b4	e583c034	str	r12, [r3, #0x34]
+2b54b8	e12fff32	blx	r2
+2b54bc	e2577001	subs	r7, r7, #1
+2b54c0	1affffe5	bne	0x2b545c <jinit_input_controller+0x157c>
+2b54c4	e3580000	cmp	r8, #0
+2b54c8	0a000050	beq	0x2b5610 <jinit_input_controller+0x1730>
+2b54cc	e59d3004	ldr	r3, [sp, #0x4]
+2b54d0	e2433081	sub	r3, r3, #129
+2b54d4	e58d3004	str	r3, [sp, #0x4]
+2b54d8	e59dc004	ldr	r12, [sp, #0x4]
+2b54dc	e35c0000	cmp	r12, #0
+2b54e0	caffff81	bgt	0x2b52ec <jinit_input_controller+0x140c>
+2b54e4	e59d2004	ldr	r2, [sp, #0x4]
+2b54e8	e3520000	cmp	r2, #0
+2b54ec	0a000005	beq	0x2b5508 <jinit_input_controller+0x1628>
+2b54f0	e59b3000	ldr	r3, [r11]
+2b54f4	e3a0c00b	mov	r12, #11
+2b54f8	e1a0000b	mov	r0, r11
+2b54fc	e583c014	str	r12, [r3, #0x14]
+2b5500	e5933000	ldr	r3, [r3]
+2b5504	e12fff33	blx	r3
+2b5508	e5865000	str	r5, [r6]
+2b550c	e5864004	str	r4, [r6, #0x4]
+2b5510	eafffe39	b	0x2b4dfc <jinit_input_controller+0xf1c>
+2b5514	e59b3000	ldr	r3, [r11]
+2b5518	e3a02066	mov	r2, #102
+2b551c	e1a0000b	mov	r0, r11
+2b5520	e3a01001	mov	r1, #1
+2b5524	e5832014	str	r2, [r3, #0x14]
+2b5528	e5933004	ldr	r3, [r3, #0x4]
+2b552c	e12fff33	blx	r3
+2b5530	e59b4194	ldr	r4, [r11, #0x194]
+2b5534	e5d4300c	ldrb	r3, [r4, #0xc]
+2b5538	e3530000	cmp	r3, #0
+2b553c	1a000061	bne	0x2b56c8 <jinit_input_controller+0x17e8>
+2b5540	e3a02000	mov	r2, #0
+2b5544	e1a0300b	mov	r3, r11
+2b5548	e1a0e002	mov	lr, r2
+2b554c	e3a0c005	mov	r12, #5
+2b5550	e2822001	add	r2, r2, #1
+2b5554	e3a01001	mov	r1, #1
+2b5558	e3520010	cmp	r2, #16
+2b555c	e5c310da	strb	r1, [r3, #0xda]
+2b5560	e5c3e0ca	strb	lr, [r3, #0xca]
+2b5564	e3a01000	mov	r1, #0
+2b5568	e5c3c0ea	strb	r12, [r3, #0xea]
+2b556c	e3a00001	mov	r0, #1
+2b5570	e2833001	add	r3, r3, #1
+2b5574	1afffff5	bne	0x2b5550 <jinit_input_controller+0x1670>
+2b5578	e3a02f41	mov	r2, #260
+2b557c	e3003106	movw	r3, #0x106
+2b5580	e58b10fc	str	r1, [r11, #0xfc]
+2b5584	e58b1028	str	r1, [r11, #0x28]
+2b5588	e5cb110a	strb	r1, [r11, #0x10a]
+2b558c	e5cb1100	strb	r1, [r11, #0x100]
+2b5590	e5cb0101	strb	r0, [r11, #0x101]
+2b5594	e5cb0102	strb	r0, [r11, #0x102]
+2b5598	e5cb1103	strb	r1, [r11, #0x103]
+2b559c	e5cb1108	strb	r1, [r11, #0x108]
+2b55a0	e5cb1109	strb	r1, [r11, #0x109]
+2b55a4	e18b00b2	strh	r0, [r11, r2]
+2b55a8	e18b00b3	strh	r0, [r11, r3]
+2b55ac	e5c4000c	strb	r0, [r4, #0xc]
+2b55b0	eafffe11	b	0x2b4dfc <jinit_input_controller+0xf1c>
+2b55b4	e59b3000	ldr	r3, [r11]
+2b55b8	e3a02055	mov	r2, #85
+2b55bc	e1a0000b	mov	r0, r11
+2b55c0	e3a01001	mov	r1, #1
+2b55c4	e5832014	str	r2, [r3, #0x14]
+2b55c8	e5933004	ldr	r3, [r3, #0x4]
+2b55cc	e12fff33	blx	r3
+2b55d0	e3a03000	mov	r3, #0
+2b55d4	e3a00002	mov	r0, #2
+2b55d8	e58b317c	str	r3, [r11, #0x17c]
+2b55dc	e28dd00c	add	sp, sp, #12
+2b55e0	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2b55e4	e59b3000	ldr	r3, [r11]
+2b55e8	e3a01035	mov	r1, #53
+2b55ec	e1a0000b	mov	r0, r11
+2b55f0	e5839018	str	r9, [r3, #0x18]
+2b55f4	e59b2000	ldr	r2, [r11]
+2b55f8	e5831014	str	r1, [r3, #0x14]
+2b55fc	e582501c	str	r5, [r2, #0x1c]
+2b5600	e59b3000	ldr	r3, [r11]
+2b5604	e5933000	ldr	r3, [r3]
+2b5608	e12fff33	blx	r3
+2b560c	eafffda7	b	0x2b4cb0 <jinit_input_controller+0xdd0>
+2b5610	e59d2004	ldr	r2, [sp, #0x4]
+2b5614	e2422041	sub	r2, r2, #65
+2b5618	e58d2004	str	r2, [sp, #0x4]
+2b561c	eaffffad	b	0x2b54d8 <jinit_input_controller+0x15f8>
+2b5620	e59b3000	ldr	r3, [r11]
+2b5624	e3a0e01f	mov	lr, #31
+2b5628	e1a0000b	mov	r0, r11
+2b562c	e5837018	str	r7, [r3, #0x18]
+2b5630	e59b2000	ldr	r2, [r11]
+2b5634	e583e014	str	lr, [r3, #0x14]
+2b5638	e5923000	ldr	r3, [r2]
+2b563c	e12fff33	blx	r3
+2b5640	eaffff44	b	0x2b5358 <jinit_input_controller+0x1478>
+2b5644	e24a3001	sub	r3, r10, #1
+2b5648	e3530003	cmp	r3, #3
+2b564c	9afffe2b	bls	0x2b4f00 <jinit_input_controller+0x1020>
+2b5650	eafffe24	b	0x2b4ee8 <jinit_input_controller+0x1008>
+2b5654	e598300c	ldr	r3, [r8, #0xc]
+2b5658	e1a0000b	mov	r0, r11
+2b565c	e12fff33	blx	r3
+2b5660	e3500000	cmp	r0, #0
+2b5664	0afffe9c	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b5668	e5985000	ldr	r5, [r8]
+2b566c	e5984004	ldr	r4, [r8, #0x4]
+2b5670	eafffdfd	b	0x2b4e6c <jinit_input_controller+0xf8c>
+2b5674	e59b3000	ldr	r3, [r11]
+2b5678	e3a0203e	mov	r2, #62
+2b567c	e1a0000b	mov	r0, r11
+2b5680	e5832014	str	r2, [r3, #0x14]
+2b5684	e5933000	ldr	r3, [r3]
+2b5688	e12fff33	blx	r3
+2b568c	eafffdf4	b	0x2b4e64 <jinit_input_controller+0xf84>
+2b5690	e596300c	ldr	r3, [r6, #0xc]
+2b5694	e1a0000b	mov	r0, r11
+2b5698	e12fff33	blx	r3
+2b569c	e3500000	cmp	r0, #0
+2b56a0	0afffe8d	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b56a4	e896000c	ldm	r6, {r2, r3}
+2b56a8	eaffff02	b	0x2b52b8 <jinit_input_controller+0x13d8>
+2b56ac	e594300c	ldr	r3, [r4, #0xc]
+2b56b0	e1a0000b	mov	r0, r11
+2b56b4	e12fff33	blx	r3
+2b56b8	e3500000	cmp	r0, #0
+2b56bc	0afffe86	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b56c0	e894000c	ldm	r4, {r2, r3}
+2b56c4	eafffd8e	b	0x2b4d04 <jinit_input_controller+0xe24>
+2b56c8	e59b3000	ldr	r3, [r11]
+2b56cc	e3a0203d	mov	r2, #61
+2b56d0	e1a0000b	mov	r0, r11
+2b56d4	e5832014	str	r2, [r3, #0x14]
+2b56d8	e5933000	ldr	r3, [r3]
+2b56dc	e12fff33	blx	r3
+2b56e0	e59b4194	ldr	r4, [r11, #0x194]
+2b56e4	eaffff95	b	0x2b5540 <jinit_input_controller+0x1660>
+2b56e8	e598300c	ldr	r3, [r8, #0xc]
+2b56ec	e1a0000b	mov	r0, r11
+2b56f0	e12fff33	blx	r3
+2b56f4	e3500000	cmp	r0, #0
+2b56f8	0afffe77	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b56fc	e5985000	ldr	r5, [r8]
+2b5700	e5984004	ldr	r4, [r8, #0x4]
+2b5704	eafffddd	b	0x2b4e80 <jinit_input_controller+0xfa0>
+2b5708	e594300c	ldr	r3, [r4, #0xc]
+2b570c	e1a0000b	mov	r0, r11
+2b5710	e12fff33	blx	r3
+2b5714	e3500000	cmp	r0, #0
+2b5718	0afffe6f	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b571c	e5945000	ldr	r5, [r4]
+2b5720	e5943004	ldr	r3, [r4, #0x4]
+2b5724	eafffd7b	b	0x2b4d18 <jinit_input_controller+0xe38>
+2b5728	e596300c	ldr	r3, [r6, #0xc]
+2b572c	e1a0000b	mov	r0, r11
+2b5730	e12fff33	blx	r3
+2b5734	e3500000	cmp	r0, #0
+2b5738	0afffe67	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b573c	e896000c	ldm	r6, {r2, r3}
+2b5740	eafffee1	b	0x2b52cc <jinit_input_controller+0x13ec>
+2b5744	e594300c	ldr	r3, [r4, #0xc]
+2b5748	e1a0000b	mov	r0, r11
+2b574c	e12fff33	blx	r3
+2b5750	e3500000	cmp	r0, #0
+2b5754	0afffe60	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b5758	e89400a0	ldm	r4, {r5, r7}
+2b575c	eafffd7b	b	0x2b4d50 <jinit_input_controller+0xe70>
+2b5760	e1a0000b	mov	r0, r11
+2b5764	eb001c5e	bl	0x2bc8e4 <jpeg_alloc_quant_table>
+2b5768	e1a0a000	mov	r10, r0
+2b576c	e5870090	str	r0, [r7, #0x90]
+2b5770	eafffefc	b	0x2b5368 <jinit_input_controller+0x1488>
+2b5774	e598300c	ldr	r3, [r8, #0xc]
+2b5778	e1a0000b	mov	r0, r11
+2b577c	e12fff33	blx	r3
+2b5780	e3500000	cmp	r0, #0
+2b5784	0afffe54	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b5788	e8980220	ldm	r8, {r5, r9}
+2b578c	eafffe1d	b	0x2b5008 <jinit_input_controller+0x1128>
+2b5790	e598300c	ldr	r3, [r8, #0xc]
+2b5794	e1a0000b	mov	r0, r11
+2b5798	e12fff33	blx	r3
+2b579c	e3500000	cmp	r0, #0
+2b57a0	0afffe4d	beq	0x2b50dc <jinit_input_controller+0x11fc>
+2b57a4	e8981020	ldm	r8, {r5, r12}
+2b57a8	eafffe1b	b	0x2b501c <jinit_input_controller+0x113c>
+2b57ac	0013c73c	andseq	r12, r3, r12, lsr r7

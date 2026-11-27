@@ -1,0 +1,12 @@
+11a5cc	e92d4010	push	{r4, lr}
+11a5d0	e3a03000	mov	r3, #0
+11a5d4	e580300c	str	r3, [r0, #0xc]
+11a5d8	e1a04000	mov	r4, r0
+11a5dc	eb018260	bl	0x17af64 <_Z20GR_Window_Get_Heightv>
+11a5e0	ee070a90	vmov	s15, r0
+11a5e4	eeb87be7	vcvt.f64.s32	d7, s15
+11a5e8	ec510b17	vmov	r0, r1, d7
+11a5ec	ee172a10	vmov	r2, s14
+11a5f0	e1a03001	mov	r3, r1
+11a5f4	e884000c	stm	r4, {r2, r3}
+11a5f8	e8bd8010	pop	{r4, pc}

@@ -1,0 +1,13 @@
+# CODE 361: the far silvercoin enters the nested with and dies; the near one
+# survives. The separate far coin is deactivated by the outer sleep sweep.
+COUNT_INST 65 1
+COUNT_INST 60 2
+COUNT_INST 58 1
+COUNT_INST 187 0
+INST 100002 60 0
+INST 100003 60 1
+INST 100004 58 1
+ACTIVE 100004 0
+FIELD 100002 x 960
+FIELD 100003 x 520
+FIELD 100004 x 960

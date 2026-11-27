@@ -1,0 +1,1235 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_abi": "ARM32 little-endian softfp",
+  "header_sha256": "30698b447a2b4c66a5b27150393c393c57a2da29b08337d3e6095c37d3098d45",
+  "not_whole_library_completion": true,
+  "not_additive_with_prior_language_candidates": true,
+  "functions": [
+    {
+      "entry": "0x27c2d0",
+      "size": 348,
+      "symbols": [
+        "_ZN13MemoryManager4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "3108c7444b8c538cbbb58fbfce9219287ad025521eeaad690cd8927d990dba5a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_free.cpp",
+      "translation_source_sha256": "8e1e8f49498670a1cd4467bf488df09f1eb56fd19d712b3b22148fcabb34ef3e",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27e038",
+      "size": 56,
+      "symbols": [
+        "_ZN5Mutex4InitEPKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "02e8d671284d01a4653b850ca98bac4117387702b92b5df7bdc6480d8dd3e8be",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "26221cc34161009f0210976f4cd863b3f330556956bd526eb3aa258b03eca0fe",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27e084",
+      "size": 24,
+      "symbols": [
+        "_ZN5Mutex4LockEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "203306801e024481f3494e06b82ee056ca0f372670f3f6607eb47da2583e46da",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "26221cc34161009f0210976f4cd863b3f330556956bd526eb3aa258b03eca0fe",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27e09c",
+      "size": 8,
+      "symbols": [
+        "_ZN5Mutex6UnlockEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "21105603092e25f550c3d113b0d6fb2d2d3c44122633af1453bbcd5f9de5a2f3",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "26221cc34161009f0210976f4cd863b3f330556956bd526eb3aa258b03eca0fe",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27c20c",
+      "size": 48,
+      "symbols": [
+        "_Z10bucketFreePKv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "832af64d76ee6b600ed134e3fce6c4eadaaee08700fe24914ecec264d7641b6d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "26221cc34161009f0210976f4cd863b3f330556956bd526eb3aa258b03eca0fe",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27bcf4",
+      "size": 4,
+      "symbols": [
+        "_Z11logLocation8ELogTypePKvS1_j"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "26221cc34161009f0210976f4cd863b3f330556956bd526eb3aa258b03eca0fe",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b918",
+      "size": 48,
+      "symbols": [],
+      "recovered_name": "initializeMemoryMutex",
+      "boundary": "anonymous_candidate: direct BL at 0x27c408, prologue and next defined symbol at 0x27b948",
+      "body_sha256": "0f9e57e1e32c926f8792b9b5d95e395cf9f43d9aa4e449aaa7ae9a1db7c39f1a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_helpers.cpp",
+      "translation_source_sha256": "26221cc34161009f0210976f4cd863b3f330556956bd526eb3aa258b03eca0fe",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27be34",
+      "size": 172,
+      "symbols": [
+        "_Z22globalPageListFindAddrPKv"
+      ],
+      "body_sha256": "cd047950a7362e5a7ba149de2311bec59db7505374644d07b5ea49cda9e5da99",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "page_lookup.cpp",
+      "translation_source_sha256": "d6b5a1785ab0329b7601172b67e92aedcad9dcc8a61c10841178dffa0ca47a21",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27cedc",
+      "size": 396,
+      "symbols": [
+        "_ZN13MemoryManager7ReAllocEPvjPKcib"
+      ],
+      "body_sha256": "fe36c23ff74b0ea2c178adc471000eb87ba01e140bbb771f7dbdee719b1a65d1",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_realloc.cpp",
+      "translation_source_sha256": "cd04fc43e824e76a3df830c6bc325ebcda9ea59412be6838ee6228101e0d8662",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27c1e4",
+      "size": 40,
+      "symbols": [
+        "_Z10bucketSizePKv"
+      ],
+      "body_sha256": "dc5d4fe6352a6dadb785b4f6c0095c5d5421845fbc8080251e9ae32ee4fef962",
+      "binding": "STB_GLOBAL",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_realloc.cpp",
+      "translation_source_sha256": "cd04fc43e824e76a3df830c6bc325ebcda9ea59412be6838ee6228101e0d8662",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27ce78",
+      "size": 100,
+      "symbols": [
+        "_ZN13MemoryManager5AllocEjPKcib"
+      ],
+      "body_sha256": "284a6ab7e05b65bc9f473a96a567da1844f8f9e095e9cc5ea5606828aba87192",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_alloc.cpp",
+      "translation_source_sha256": "829099f6b84b3940fb5fbe80b60d0419ca6a2fc887d412dd4650fa255fe8fade",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27cd54",
+      "size": 292,
+      "symbols": [
+        "_ZN13MemoryManager6_AllocEjPKcib"
+      ],
+      "body_sha256": "8a4d1dd26a261b57512adc2ef91f497eb32d70935bb3ab7b5edee29b4cf5e1a8",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_alloc.cpp",
+      "translation_source_sha256": "829099f6b84b3940fb5fbe80b60d0419ca6a2fc887d412dd4650fa255fe8fade",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27c53c",
+      "size": 2072,
+      "symbols": [
+        "_Z11bucketAllocjb"
+      ],
+      "body_sha256": "60fb08c7f8e70c5e4cd2e2f9ccec6db85f134d444901d11bd234d69516ab129e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_buckets.cpp",
+      "translation_source_sha256": "b9f1bf0f9227044061641c283e463004878d38f99b93464d55adea0f6c0f9d32",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27bcf8",
+      "size": 316,
+      "symbols": [
+        "_Z23addPageToGlobalPageListPvS_"
+      ],
+      "body_sha256": "d9c440ddbdf0472ad15aa8dd7eb1ee86ff2aaf1c2d2e5735159e4a678ed5c85b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "page_registry.cpp",
+      "translation_source_sha256": "75e4e6748433fc405bd24ea61bf8ce81a761125b3fd03c46139e95e6f29bfe0b",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27c524",
+      "size": 24,
+      "symbols": [
+        "_Znwj"
+      ],
+      "body_sha256": "86abec9bf2a0da4a31e1322a87ccfe550826f788f1e6b6c2f78575daae2e1dfb",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_operators.cpp",
+      "translation_source_sha256": "d44193135d6f4ac4c133090567f218eb61e45cbf3900d9daf9d5ae49ae8b6e27",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27d14c",
+      "size": 24,
+      "symbols": [
+        "_Znaj"
+      ],
+      "body_sha256": "82b0a648ec3eb8ff91933991a6eff05badb635ad206ff7a47756f491db025375",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_operators.cpp",
+      "translation_source_sha256": "d44193135d6f4ac4c133090567f218eb61e45cbf3900d9daf9d5ae49ae8b6e27",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27d1d0",
+      "size": 4,
+      "symbols": [
+        "_ZdlPv"
+      ],
+      "body_sha256": "8d5a8548fec05981b835863fe9f1f0d0a029746a8d8fc453fd94699d68f4aa94",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_operators.cpp",
+      "translation_source_sha256": "d44193135d6f4ac4c133090567f218eb61e45cbf3900d9daf9d5ae49ae8b6e27",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27d1d4",
+      "size": 4,
+      "symbols": [
+        "_ZdaPv"
+      ],
+      "body_sha256": "0a84424584ac48e43bcaaee62124de49485c3046202bc6942020dd1388113441",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_operators.cpp",
+      "translation_source_sha256": "d44193135d6f4ac4c133090567f218eb61e45cbf3900d9daf9d5ae49ae8b6e27",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b7e0",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj128ELj524288ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b6a0",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj128ELj524288ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b558",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj128ELj524288ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "5a44e48a941e0ef96d6a48ca335c14b8c56e9dd5404f0501cecfe8bbd16987a2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b7d8",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj128ELj524288ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "3d8d834f95bebf9ac16614974b87413a1e36f40dc044c2ba9a8ebb2f8c306032",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b760",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj16384ELj262144ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b6c8",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj16384ELj262144ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b6dc",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj16384ELj262144ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "f540f6912cb0ff0e752f33408424a6810c2449c1461ed2e5e103f45b36fbd55c",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b758",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj16384ELj262144ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "26963d94f8f4ef655af88a989bbecd5abf54e6f62fa82809200f9156415c0419",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b8a0",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj16ELj262144ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b664",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj16ELj262144ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b3e4",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj16ELj262144ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "4a315c791412ff25b754498ffee15dafa99f53da2d5764ab2c21ae7aa2897a0d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b898",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj16ELj262144ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "705b7734f4666818e8402c1879d90d2874d87ebbefa22943a419b7b4f2eb86b5",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b7a0",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj256ELj1048576ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b6b4",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj256ELj1048576ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b5d4",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj256ELj1048576ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "25fc3726fd88a41226a639dcf7e4e70a881d9ee9de7f8ed615698bc1fe3fb9dd",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b798",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj256ELj1048576ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "426655ff4d20b63d964326f256b0bfa78a8b3b2c14cb8e3843188d8611354e78",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b860",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj32ELj262144ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b678",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj32ELj262144ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b460",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj32ELj262144ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "c875cb350fced6c64b6759213088180714c97668fd49a23237b9cf8ca2e414da",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b858",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj32ELj262144ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "7fa5844877c37380471ca89b98c34388d544b5af181fe3262e315e9df7b7c46a",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b820",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj64ELj524288ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b68c",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj64ELj524288ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b4dc",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj64ELj524288ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "ce6123bf8114bb887f1236aa3b817d5c59cc963f1719148981be1959091236b0",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b818",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj64ELj524288ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "4fe40444ba4fa963fbe4230783e64a772a93d31a1ee99e83adc54d696880082b",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b8e0",
+      "size": 56,
+      "symbols": [
+        "_ZN7CBucketILj8ELj131072ELb1EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "61104ab3a38dc5091bac4da469aa4363c3b5501b1dd604f20ff92d619bc60b9f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b650",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj8ELj131072ELb1EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b368",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj8ELj131072ELb1EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "7a3ca07eaa2db3a70853dfb2568e5ccd0f4a7e0d164505d349b7d8baa6eb7d6d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_init_check.ipp",
+      "translation_source_sha256": "62a6b593e6e6b39ee24f4defab745f64f16df4eb780ad67cc8618e69a943cf5a",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27b8d8",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj8ELj131072ELb1EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "3fc49adc7394262080e1e06db1aa4d983864b2d9b150c07306faf456deb4732e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_size_free.ipp",
+      "translation_source_sha256": "1fb2148f95afba7d133ac7c3a807d84eb1f4f7b086b58c819bab399b2ceb5f3d",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190bc8",
+      "size": 120,
+      "symbols": [
+        "_ZN7CBucketILj16ELj1048576ELb0EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "d27d699d7f16721d3ad702850c1a861cea921510b85d53d95107bc85d7e3f7a4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_free.ipp",
+      "translation_source_sha256": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190c40",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj16ELj1048576ELb0EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_check.ipp",
+      "translation_source_sha256": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190c54",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj16ELj1048576ELb0EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "b4d05b95fc5f2613e889d1be5532951ec2e1430dc54676af121fe40b6236c2c7",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_check.ipp",
+      "translation_source_sha256": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x190cd0",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj16ELj1048576ELb0EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "705b7734f4666818e8402c1879d90d2874d87ebbefa22943a419b7b4f2eb86b5",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_free.ipp",
+      "translation_source_sha256": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd3314",
+      "size": 120,
+      "symbols": [
+        "_ZN7CBucketILj32768ELj1048576ELb0EE4FreeEPKv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "d27d699d7f16721d3ad702850c1a861cea921510b85d53d95107bc85d7e3f7a4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_free.ipp",
+      "translation_source_sha256": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd338c",
+      "size": 20,
+      "symbols": [
+        "_ZN7CBucketILj32768ELj1048576ELb0EE4InitEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "1f630b1aa5e8c2fc82df7551066e4f99cc202f1f5c4a3529b0ca5e93f3cc4b1e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_check.ipp",
+      "translation_source_sha256": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd33a0",
+      "size": 124,
+      "symbols": [
+        "_ZN7CBucketILj32768ELj1048576ELb0EE5CheckEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "12be95b0a0055bddfee5a74ebc0f8a947af871d24338adf0850d8c3345887064",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_check.ipp",
+      "translation_source_sha256": "e07d209716e9d19af27918be3680d10f72bfe05dd661934297c6118f06812ed7",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd341c",
+      "size": 8,
+      "symbols": [
+        "_ZN7CBucketILj32768ELj1048576ELb0EE7GetSizeEv"
+      ],
+      "boundary": "defined_dynsym_weak",
+      "body_sha256": "a6a9411a6d9b36b980653de0168f453dc9a0302dbc87bd8056a4845a3081d5aa",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "cbucket_false_free.ipp",
+      "translation_source_sha256": "dcb3ec8cca3e3152a76e32ad7f23f92e9de24f82f4021f3cad87a8cb5598091c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x27c23c",
+      "size": 76,
+      "symbols": [
+        "_ZN13MemoryManager4InitEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "9ee062609e539b3547c97ade2d1439b32f21af310e59f402df35924ac77f32da",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_lifecycle.cpp",
+      "translation_source_sha256": "1f9d475a9b7eb01e1bb1aa1b095401fbb4bde0a59a2a3eb6c2e049dd058de837",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Old 0x756698 byte; publish 0x75669a on both paths; set guard before reading live mutex and tail-calling the existing initializer."
+    },
+    {
+      "entry": "0x27c288",
+      "size": 4,
+      "symbols": [
+        "_ZN13MemoryManager4QuitEv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_lifecycle.cpp",
+      "translation_source_sha256": "1f9d475a9b7eb01e1bb1aa1b095401fbb4bde0a59a2a3eb6c2e049dd058de837",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Original BX LR; all inputs unconsumed."
+    },
+    {
+      "entry": "0x27c28c",
+      "size": 68,
+      "symbols": [
+        "_ZN13MemoryManager10DumpMemoryEP7__sFILE"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "827cb95064dc07dfee85e77884dc0d8bb3e0ccd6fbf17dbd1dd67d227f5969cd",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_lifecycle.cpp",
+      "translation_source_sha256": "1f9d475a9b7eb01e1bb1aa1b095401fbb4bde0a59a2a3eb6c2e049dd058de837",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "FILE* unconsumed; dbg_csol then m_Total snapshots; slot +0xc gets signed int and unsigned long views of the same word."
+    },
+    {
+      "entry": "0x27c42c",
+      "size": 40,
+      "symbols": [
+        "_ZN8CHashMapIPKciLi3EED1Ev",
+        "_ZN8CHashMapIPKciLi3EED2Ev"
+      ],
+      "boundary": "defined_dynsym_weak_aliases",
+      "body_sha256": "6f71d0980bf8118927f850b96275f94ce5352e84ee41a5775dcfc96e1c493324",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_static_init.cpp",
+      "translation_source_sha256": "d26aa4627c542e94a17d6678a2fcb99b567b7cf5748e92c20220011a0e9b9ace",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Read entries once; non-null calls Free, then clears entries. D1/D2 same entry, weak; base PCS returns this."
+    },
+    {
+      "entry": "0xba3e4",
+      "size": 432,
+      "symbols": [],
+      "boundary": "init_array_0x3eb654_rel32_next_initializer_0xba594_return_and_literal_tail",
+      "body_sha256": "2276c3840d9c704470736fd8bd0cdae0075bdcfc76b839f7d7e7c52b8f680ce5",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_static_init.cpp",
+      "translation_source_sha256": "d26aa4627c542e94a17d6678a2fcb99b567b7cf5748e92c20220011a0e9b9ace",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "local_contract": "Map setup, live capacity/entries after memset, exact map D1 registration, seven ordered typed vptr installations. No bucket Init or destructor registration."
+    },
+    {
+      "entry": "0x27c454",
+      "size": 208,
+      "symbols": [
+        "_ZN13MemoryManager11IsAllocatedEPKv"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "00e4affe2c027651e316a94f48336cf7aae39089f168e93ceab0871072ac63f8",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "memory_isallocated.cpp",
+      "translation_source_sha256": "4629c5a52b900872f86462f4e19181a19209731f6205448ebd07bb2d54690519",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x27c520"
+      ],
+      "local_contract": "Canary-free mutex-guarded allocator header check: null pointer returns 0; lazy-initialises g_MemoryMutex through the recovered initializeMemoryMutex when the mutex object handle word is zero; Mutex::Lock; START magic 0xdeadc0de at p-12 plus END magic 0xbaadb00b at p-8 returns 1; otherwise the size word p-4 must be negative, its cleared value below 8192, and the block header at p-16-size must carry START at +4 and END at +8 for a return 1; Mutex::Unlock then the result.",
+      "direct_dependencies": [
+        {
+          "name": "_ZN5Mutex4LockEv",
+          "va": "0x27e084",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_ZN5Mutex6UnlockEv",
+          "va": "0x27e09c",
+          "state": "defined_in_scoped_relocatable"
+        },
+        {
+          "name": "_Z21initializeMemoryMutexv",
+          "va": "0x27b918",
+          "state": "defined_in_scoped_relocatable",
+          "note": "anonymous_candidate 48B, no dynsym name; registered recovered_name initializeMemoryMutex"
+        },
+        {
+          "name": "g_MemoryMutex",
+          "va": "0x756780",
+          "width": 4,
+          "state": "named_dynsym_extern",
+          "placement": "GOT 0x3f1824, R_ARM_RELATIVE verified"
+        },
+        {
+          "name": "memset",
+          "state": "libc_import_via_canonical_declaration_memory_alloc_hpp",
+          "note": "not called by this body; declared by the shared header"
+        }
+      ],
+      "gap": "Header-magic producers, the mutex locking contract, EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x27bee0",
+      "size": 772,
+      "symbols": [
+        "_Z11bucketCheckPc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "7206c45ac5a438458fcb4c2a0394ce48354c8ea856686c45940f476ab2050ad7",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "bucket_check.cpp",
+      "translation_source_sha256": "bbd1f1087a0ad6a59305ce35440e267b8b761acddf08bf61c3df2a59cfce1993",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x27c1c0",
+        "0x27c1c4",
+        "0x27c1c8",
+        "0x27c1cc",
+        "0x27c1d0",
+        "0x27c1d4",
+        "0x27c1d8",
+        "0x27c1dc",
+        "0x27c1e0"
+      ],
+      "local_contract": "Allocator diagnostic over the seven true-mode buckets (8/16/32/64/128/256 markers into the report word 0x3f2a3c, failure counter 0x3f2bcc cleared then incremented per visited head): per bucket, guard the head at [handle+8]; non-empty sets trap value 42 and trap target NULL and walks the node list checking whether the head falls inside any node payload range [node+8, node+8+range+8); contained skips the trap via the head advance, walk-exhausted (or empty list) executes the trap store 42 through the NULL target; head chains through its own first word, counter increments per head, re-walk while non-null. The 1MB-range bucket is not in this window (only six holders are consumed); the char* parameter is unused.",
+      "direct_dependencies": [
+        {
+          "name": "anon_0x3f2bcc",
+          "va": "0x3f2bcc",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "unnamed .data counter word, runtime-written; direct pc-indexed 0x27befc+8-0x408c"
+        },
+        {
+          "name": "anon_0x3f2a3c",
+          "va": "0x3f2a3c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "unnamed .data report word, runtime-written; GOT-indexed via base 0x3f2c58-0x41c (pair 0x27bef0/0x27bf08)"
+        },
+        {
+          "name": "anon_0x3f2840",
+          "va": "0x3f2840",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 8KB handle holder, GOT 0x3f2c58-0x418"
+        },
+        {
+          "name": "anon_0x3f2844",
+          "va": "0x3f2844",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 16KB handle holder, GOT 0x3f2c58-0x414"
+        },
+        {
+          "name": "anon_0x3f2848",
+          "va": "0x3f2848",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 32KB handle holder, GOT 0x3f2c58-0x410"
+        },
+        {
+          "name": "anon_0x3f284c",
+          "va": "0x3f284c",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 64KB handle holder, GOT 0x3f2c58-0x40c"
+        },
+        {
+          "name": "anon_0x3f2850",
+          "va": "0x3f2850",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 128KB handle holder, GOT 0x3f2c58-0x408"
+        },
+        {
+          "name": "anon_0x3f2854",
+          "va": "0x3f2854",
+          "width": 4,
+          "state": "extern_only_no_stub",
+          "placement": "bucket 256KB handle holder, GOT 0x3f2c58-0x404"
+        }
+      ],
+      "gap": "Producers/writers of the eight anon words, the bucket handle values at teardown time, the node payload semantics and node chain linkage, the trap-store intent (deliberate crash marker vs unrecoverable pointer), EHABI and final linked addresses remain open. Nothing was executed; no equivalence claim."
+    }
+  ],
+  "validation_scope": "Memory allocation/free/page lookup, typed bucket bodies, MemoryManager lifecycle, map/bucket startup for the seven true-mode objects and map destructor. Static ARMv7 candidates; no final image or runtime equivalence.",
+  "remaining_internal_dependencies": [
+    ".init_array @0xb959c: stackPages (32768,1048576,false) and adjacent header",
+    ".init_array @0xb9814: _rvalue (16,1048576,false) and Hash/YYSlot/CGCGeneration providers",
+    "CHashMap<const char*,int,3>::Insert @0x27d260",
+    "Console receiver/exit delivery and other unrecovered runtime startup/shutdown providers"
+  ],
+  "remaining_scope": [
+    "original source field/return spellings not completely known",
+    "bad-header/clock-failure, FP trap, concurrency and exception domains uncertified"
+  ],
+  "supplementary_headers_sha256": {
+    "page_lookup.hpp": "db3b0281f4c325429f8f7d8c4412a636d5e8fe46d13bf376d0a1814ae410e521"
+  },
+  "additional_headers_sha256": {
+    "memory_realloc_internal.hpp": "6e49f7580a71febf6ee91438e4ad9a9e093588c0ad1d435ea6c81cda073deac0",
+    "memory_alloc.hpp": "f85668fca7fdc12b726538dab7ad3a12e9aa3992d87b16dc1f235cd968d1d6bd",
+    "memory_buckets.hpp": "60ea8da1b50dca2242c071c232da65ee379ccc83d79e755ac9db0f135f7c1c0f",
+    "page_registry.hpp": "ba558080dfa18497b7a10f6f9fc77982381f64415612302c99805f8cf7110729",
+    "cbucket_classes.hpp": "40923b744ecd55952b038fef0bc07af137ef3a7adefa6b25382c8fd415727554",
+    "memory_static_init.hpp": "36f5047cb4863727fcd6424492d90a5fc039c0c66b523a16f837ed84462a54c1"
+  },
+  "new_original_entries": 1,
+  "new_original_index_words": 52,
+  "new_literal_words": 1,
+  "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json",
+  "batch13_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch13-integration-r1/gate-receipt.json"
+}

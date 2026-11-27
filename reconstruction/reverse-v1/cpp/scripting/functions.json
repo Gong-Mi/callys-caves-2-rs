@@ -1,0 +1,625 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "header_sha256": "b2243ad0b88c073855c0a8c9721c5803d2133526769fb5942ae3458b5377304d",
+  "header_path": "script_runtime.hpp",
+  "canonical_api_header": "../vm_exec/vm_exec.hpp",
+  "canonical_api_header_sha256": "1887d564102a65dfe45a5f1127044d9db5069460e31af0a2643f70fc99b2dec0",
+  "functions": [
+    {
+      "entry": "0x249590",
+      "size": 720,
+      "symbols": [
+        "_Z14Call_ScriptRefP12YYObjectBaseP6RValueP10CScriptRefiS2_"
+      ],
+      "body_sha256": "55d75296f604e1ff8e39d56166626e82a89aa31bcf039278632a7681daf77f5d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "script_runtime.cpp",
+      "translation_source_sha256": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x1dfba8",
+      "size": 8,
+      "symbols": [
+        "_ZN7CScript7GetCodeEv"
+      ],
+      "body_sha256": "fdc1710f100ccf2b13937a27e7f23ccda5a1973826c8d8f3b7db09e6988fe8a4",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "script_runtime.cpp",
+      "translation_source_sha256": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd41e4",
+      "size": 44,
+      "symbols": [
+        "_Z20YYAllocLocalStackNewi"
+      ],
+      "body_sha256": "373f7b9fb573b919f6c815fdb7eff8834ebfdf7f5307d64686127f6be3208e08",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "script_runtime.cpp",
+      "translation_source_sha256": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd21ec",
+      "size": 60,
+      "symbols": [
+        "_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a2d09e2a8e6779b606c53050f0bd9fc58bf329cddaa897df8e33b53f1962c3e5",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name.cpp",
+      "translation_source_sha256": "e0e4382d93c96321179ee542fba5a72b5147f4e3f887f6e673ea9c8a3de74765",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd2220",
+        "0xd2224"
+      ],
+      "local_contract": "Compare self to the pointer word g_pGlobal. If unequal, dispatch to the local-name table. If equal, read the one-byte g_fJSGarbageCollection flag: nonzero dispatches local, zero dispatches global. Forward name unchanged and return the selected helper result verbatim; this body performs no name validation or slot creation.",
+      "direct_dependencies": [
+        {
+          "symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc",
+          "va": "0xd1f74",
+          "size": 224,
+          "edge": "direct_tail_branch_at_0xd2204_static_cpp_candidate_registered_not_link_verified"
+        },
+        {
+          "symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc",
+          "va": "0xd2054",
+          "size": 108,
+          "edge": "direct_tail_branch_at_0xd221c_static_cpp_candidate_registered_not_link_verified"
+        },
+        {
+          "symbol": "g_pGlobal",
+          "va": "0x544be0",
+          "size": 4,
+          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edbbc"
+        },
+        {
+          "symbol": "g_fJSGarbageCollection",
+          "va": "0x47f295",
+          "size": 1,
+          "edge": "R_ARM_RELATIVE_GOT_byte_read_slot_0x3edbc0"
+        }
+      ],
+      "gap": "Both helper bodies now have registered bytecode-anchored C++ candidates and standalone O0/O2 objects; their provider/link integration remains unverified. Producers/writers and lifecycle of g_pGlobal/g_fJSGarbageCollection are outside this body. No final link, EHABI equivalence, caller-closure, original/candidate execution, or runtime equivalence is claimed."
+    },
+    {
+      "entry": "0xd1f74",
+      "size": 224,
+      "symbols": [
+        "_Z39Code_Variable_Find_Slot_From_Local_NamePKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "5975070a4e732a83169d488259363c39d2327a344551393180c6c80bdc70417d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+      "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd2050"
+      ],
+      "code_instruction_count": 55,
+      "literal_pool_word_count": 1,
+      "local_contract": "Read the pointer word from g_instanceVarLookup; hash name through the original CHashMapCalculateHash<const char*> specialization, clear bit 31, and probe 12-byte records using raw map offsets +0x00/+0x08/+0x10. A record's raw +0x08 word is its hash, +0x00 is passed to CHashMapCompareKeys<const char*> and a match returns the matched record's raw +0x04 word. Empty hash words, the signed distance/attempt test and both observed address wrap guards return -1. The +0x08 mask is reloaded only after a key-compare miss; +0x00 and +0x10 are live reads during probing.",
+      "direct_dependencies": [
+        {
+          "symbol": "_Z21CHashMapCalculateHashIPKcEjT_",
+          "va": "0x1eeb88",
+          "size": 32,
+          "edge": "direct_BL_to_same_translation_unit_provider_definition; O0_O2_R_ARM_CALL_resolves_to_defined_symbol; combined_link_not_verified"
+        },
+        {
+          "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_",
+          "va": "0x1eeba8",
+          "size": 20,
+          "edge": "direct_BL_to_same_translation_unit_provider_definition; O0_O2_R_ARM_CALL_resolves_to_defined_symbol; combined_link_not_verified"
+        },
+        {
+          "symbol": "g_instanceVarLookup",
+          "va": "0x47a178",
+          "size": 4,
+          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edbac_static_writer_sites_registered_map_lifecycle_open"
+        }
+      ],
+      "gap": "Both same-translation-unit CHashMap provider definitions are restored; O0/O2 ET_REL R_ARM_CALL relocations resolve the helper call sites to defined symbols. Final combined link, g_instanceVarLookup map contents/producer/lifecycle, EHABI and original/candidate execution remain unverified; no full map type or runtime-equivalence claim is made."
+    },
+    {
+      "entry": "0xd2054",
+      "size": 108,
+      "symbols": [
+        "_Z40Code_Variable_Find_Slot_From_Global_NamePKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "b78799f4458a3ed0e54c566f6a7e4a5450c29b9b31a3b2824b6bf3a77d3f426e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+      "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd20bc"
+      ],
+      "code_instruction_count": 26,
+      "literal_pool_word_count": 1,
+      "local_contract": "Use the g_VarNamesGlobal raw object at +0x00/+0x04/+0x0c: +0x04 is tested as signed >0, +0x00 is a signed bound for whether the +0x0c pointer array is read, and the terminal condition is index==the +0x04 word. For each in-bound non-null name pointer, strcmp(input,candidate)==0 returns the current index; otherwise increment and stop with -1 at count. The +0x08 word is not read. No field names or full table type are inferred.",
+      "direct_dependencies": [
+        {
+          "symbol": "g_VarNamesGlobal",
+          "va": "0x47a19c",
+          "size": 16,
+          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edba4_static_writer_sites_registered_table_lifecycle_open"
+        },
+        {
+          "symbol": "strcmp",
+          "va": "0xb6574",
+          "edge": "direct_bl_at_0xd2094_via_R_ARM_JUMP_SLOT_0x3f1c8c"
+        }
+      ],
+      "gap": "Static writer sites for g_VarNamesGlobal are inventoried in layout-evidence, but its table lifecycle/content contract and imported strcmp final link are not reconstructed or link-tested. No full table type, original/candidate execution or runtime-equivalence claim is made."
+    },
+    {
+      "entry": "0x1eeb88",
+      "size": 32,
+      "end": "0x1eeba8",
+      "symbols": [
+        "_Z21CHashMapCalculateHashIPKcEjT_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "f7a80f18eabb1c8383e7a5c58869c5a61785e37c49e60393e3f432ca0b4d24a2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+      "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "code_instruction_count": 8,
+      "literal_pool_word_count": 0,
+      "body_relocations": [],
+      "local_contract": "Call strlen(value), then tail-transfer to murmurhash(value, length, 0) and return its raw 32-bit result. No null guard is present. The murmurhash body is not restored here.",
+      "direct_dependencies": [
+        {
+          "symbol": "strlen",
+          "va": "0xb6538",
+          "edge": "direct_bl_at_0x1eeb90_to_PLT; R_ARM_JUMP_SLOT_0x3f1c78; external libc provider"
+        },
+        {
+          "symbol": "_Z10murmurhashPKcjj",
+          "va": "0x1eea84",
+          "size": 260,
+          "edge": "direct_tail_branch_at_0x1eeba4; internal body not restored"
+        }
+      ],
+      "gap": "The provider body is restored as a C++ candidate and is defined in O0/O2 ET_REL objects; its libc strlen import and internal murmurhash dependency are not finally linked or executed. No hash algorithm or runtime-equivalence claim is added beyond the observed call contract."
+    },
+    {
+      "entry": "0x1eeba8",
+      "size": 20,
+      "end": "0x1eebbc",
+      "symbols": [
+        "_Z19CHashMapCompareKeysIPKcEbT_S2_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "c19c3f629be580aa8eed8a6608a6774cec35d5cf68a42f268a22bceadfe33b8e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+      "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "code_instruction_count": 5,
+      "literal_pool_word_count": 0,
+      "body_relocations": [],
+      "local_contract": "Return 1 iff strcmp(left, right) is zero; return 0 otherwise. The RSBS/MOVLO sequence at 0x1eebb0..0x1eebb4 implements the equality predicate; no null guards are present.",
+      "direct_dependencies": [
+        {
+          "symbol": "strcmp",
+          "va": "0xb6574",
+          "edge": "direct_bl_at_0x1eebac_to_PLT; R_ARM_JUMP_SLOT_0x3f1c8c; external libc provider"
+        }
+      ],
+      "gap": "The provider body is restored as a C++ candidate and is defined in O0/O2 ET_REL objects; its imported strcmp provider is not finally linked or executed. No runtime-equivalence claim is made."
+    },
+    {
+      "entry": "0xd3968",
+      "size": 204,
+      "symbols": [
+        "_Z16PushContextStackP12YYObjectBase"
+      ],
+      "body_sha256": "ce0ade712787260241c4d1e74038ff44680760c608a9601b681168fc23062068",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "context_stack.cpp",
+      "translation_source_sha256": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd3a34",
+      "size": 32,
+      "symbols": [
+        "_Z15PopContextStackv"
+      ],
+      "body_sha256": "c6513e6fb8fdb07b104a4bd826b6d06363704951ba6ad1ff2ad8bb90a369f11e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "context_stack.cpp",
+      "translation_source_sha256": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xd3a54",
+      "size": 60,
+      "symbols": [
+        "_Z18GetContextStackTopv"
+      ],
+      "body_sha256": "6054429e1413c05b30ee45ad295b637ced2fad07fe39a9b656ae3970c4e05937",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "context_stack.cpp",
+      "translation_source_sha256": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x10fb38",
+      "size": 132,
+      "symbols": [
+        "utf8_extract_char"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "a03c301543da40c85d6acbb35dcd69c67780b5c97436bdfe472d2ad1718371fd",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_core.cpp",
+      "translation_source_sha256": "7faba69ac53ac8bfd0829e517bff0f8b822a29f9f83eebda75011ed651645a54",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "UTF-8 lead-byte decode over *str: ASCII fast path advances 1; two-byte form returns (b1 & 63) + (b0 & 31)*64 and advances 2; three-byte form returns (uint16)((b2 & 63) + ((b1 & 63) << 6) + (b0 << 12)) and advances 3; no four-byte branch (4-byte leads take the three-byte path); no bounds or NUL guard.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers; EHABI and final linked addresses remain open."
+    },
+    {
+      "entry": "0x10fae4",
+      "size": 84,
+      "symbols": [
+        "utf8_get_char"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "f28bd743baaa1c95e334552d166db458bbbb3fd6c3d3c6c604e34e0b5c99b713",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Load the codepoint at *str via the shared three-form decode (ASCII fast path, 2-byte (b1&63)+(b0&31)*64, 3-byte (b2&63)+((b1&63)<<6)+(b0<<12) with uxth 16-bit truncation) WITHOUT advancing the cursor; return the codepoint.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x10fbbc",
+      "size": 144,
+      "symbols": [
+        "utf8_strrchr"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "d6f4487e2ce1ddf38384a6e5f3185552738b751fb7a7daaa2f6f0566aabc668d",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Walk the string with utf8_extract_char steps recording each codepoint hit for c (with an alternate byte fallback per census) until NUL; return the pointer of the last hit or NULL.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x10fe28",
+      "size": 144,
+      "symbols": [
+        "utf8_add_char"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "534298425e1541d8ee56435fe4f7d4a08d826bcd6fdbddd057c8fe7b572b270f",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Emit the codepoint as 1/2/3-byte UTF-8 into the buffer per the lead-bit ladder and advance; the census ladder has no 4-byte branch.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110390",
+      "size": 32,
+      "symbols": [
+        "utf8_char_size"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "fe8650807ef7f7fdabe185c714c23673491795fbdeebc8e33f789f810437b0d0",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Return the UTF-8 sequence length for the lead byte (1 for <0x80, 2 for <0xE0, 3 otherwise) per the two census compares.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110648",
+      "size": 72,
+      "symbols": [
+        "utf8_strlen"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "137451264b4b456ab4121955548a34682590a9d676ed573fe4bdcb32ee75aa21",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Count codepoints by stepping utf8_extract_char until the cursor lands on NUL.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x1109cc",
+      "size": 40,
+      "symbols": [
+        "_Z11utf8_strcpyPcPKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "bc3a22bc4f364a3358ce3dd8717f403ad00bc4ccb14246dc5d18e2aa9260ce45",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Copy the source string to dst including the NUL (40B tail branch into the copy loop exit).",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x1109f4",
+      "size": 128,
+      "symbols": [
+        "utf8_strcmp"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "3b89b4f95c072161a0a1205955c54edbd7538dc606299f9ed445d54b30fe4b4d",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Step both strings with utf8_extract_char pairs; return c1-c2 on the first difference or at both-NUL per census edge order.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110a74",
+      "size": 192,
+      "symbols": [
+        "utf8_stricmp"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "2dcdceb08722c1f8d4d5c1a6d7d7b33272b2760d7141a805afbffbecc8749841",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Case-folded variant of the strcmp walk: fold each extracted codepoint pair per census before compare; return the fold difference.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110b34",
+      "size": 208,
+      "symbols": [
+        "utf8_strncmp"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "f5cdc1f2d6ac0280e78219e16dee8a5c97490e43035014a38ad481f8c792a2ef",
+      "isa": "arm",
+      "language": "C",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Bounded variant: step up to n codepoint pairs; return the difference on the first mismatch inside the bound or 0 at bound/both-NUL.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x110c04",
+      "size": 132,
+      "symbols": [
+        "_Z11utf8_strstrPKcS0_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "1628bf16a089708b4dba42fa04652ef30c72fe9d8e05697366766d6c33e529d2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "utf8_family.cpp",
+      "translation_source_sha256": "52092f028a340c084a264332f86c075c1c4c3f957c2fd9de8fe2002fe4fe3b30",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "local_contract": "Advance the haystack cursor with utf8_extract_char steps, comparing at each position against the needle walk; return the match pointer or NULL at haystack NUL.",
+      "direct_dependencies": [],
+      "gap": "Caller family and string producers outside the recovered set; EHABI and final linked addresses remain open. Nothing executed; no equivalence claim."
+    },
+    {
+      "entry": "0x1110a0",
+      "size": 144,
+      "symbols": [
+        "_Z10UTF8ToASCIIPKc"
+      ],
+      "boundary": "parent_derived_local_symbol",
+      "boundary_note": "next defined symbol _Z12YYGML_stringRK6RValue at 0x111130",
+      "body_sha256": "f859d3cae090d7dbeb21c1781c1017f1c2983f988875f5ceb6a428e75c424e70",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "utf8_ascii.cpp",
+      "translation_source_sha256": "4555da3c58a85362c1552bdc550f02f668bab684989829d88a543dbe4d03597f",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0x11112c"
+      ],
+      "local_contract": "UTF8ToASCII(str): null -> null; empty -> 0 (moveq r0,r7 with r7=first byte); Alloc(len+1, \"r\", 1536, true) [tag literal pc-relative from 0x338b4c, parent byte-read = \"r\"]; walk with utf8_extract_char through a stack cursor slot; store codepoints <= 127 only (strbls at 0x1110fc, non-ASCII dropped); NUL-terminate; return the ASCII buffer.",
+      "direct_dependencies": [
+        {
+          "symbol": "utf8_strlen",
+          "va": "0x110648",
+          "edge": "real_link_recovered"
+        },
+        {
+          "symbol": "utf8_extract_char",
+          "va": "0x10fb38",
+          "edge": "real_link_recovered"
+        },
+        {
+          "symbol": "_ZN13MemoryManager5AllocEjPKcib",
+          "va": "0x27ce78",
+          "edge": "real_link_recovered"
+        }
+      ],
+      "gap": "Alloc tag-string consumer, string producers, and callers outside the recovered set; EHABI not recovered; nothing executed; no equivalence claim."
+    }
+  ],
+  "not_whole_library_completion": true,
+  "not_additive_with_c_registry": true,
+  "remaining_internal_dependencies": [
+    "CreateArgumentsObject",
+    "initial Context Stack array, Top/Max/GC-state ownership and runtime provider bindings",
+    "_Z10murmurhashPKcjj @0x1eea84 internal callee body of the restored char-const-pointer hash provider",
+    "g_instanceVarLookup writes are enumerated; map contents and producer/lifecycle contract remain open",
+    "g_VarNamesGlobal writes are enumerated; +0x00/+0x04/+0x0c table lifecycle/content contract remains open"
+  ],
+  "scope": "Local ScriptRef/GetCode/local stack, actual GC Context Stack helpers, the Code_Variable_Find_Slot_From_Name dispatcher and local/global name helpers, plus same-translation-unit C++ provider candidates for the const-char-pointer hash/compare specializations. O0/O2 ET_REL helper relocations resolve to the provider definitions; murmurhash body, name-table/map producer lifecycle, initial context-stack ownership, final combined link/runtime bindings and execution remain open. No combined link, original/candidate execution or full object/initial-state closure.",
+  "additional_headers_sha256": {
+    "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61",
+    "../object_base/object_helpers.hpp": "1862251f9111786de5ff98fc49dd55593c6fc04f5924306a12ea537f6a9831ad",
+    "../object_base/object_internal.hpp": "7e32a08e93e8d2c5de64e7a692860d252d87dd96304544a4c734886b4d6adb74",
+    "../vm_buffer/vm_buffer.hpp": "b768327c3d07accf4f0824b6e70c229831225af339cab593fe9c357fd274ad12",
+    "../memory_manager/cbucket_classes.hpp": "40923b744ecd55952b038fef0bc07af137ef3a7adefa6b25382c8fd415727554",
+    "../ccode/ccode.hpp": "a0de43f2d3a8a1c329e54a87e9115521c35301c2a662dea36c72a349cd4b2642",
+    "../object_base/gc_object_lifecycle.hpp": "5b1eb736fa5e224db0caafd66211e9a53c6ddf88e799cbfc9b9be800e54220f8",
+    "../object_base/gc_reset_runtime.hpp": "b66000d263b922422ea81575f84a447a5475239ba59ad86d6a5c5a8e763aae66",
+    "../object_base/gc_generation.hpp": "2db7a09d85abcd618dc283a1b093d19bda76fb1a1767fed94d83859ba696f8c2",
+    "../memory_manager/memory_alloc.hpp": "f85668fca7fdc12b726538dab7ad3a12e9aa3992d87b16dc1f235cd968d1d6bd",
+    "../memory_manager/memory_internal.hpp": "30698b447a2b4c66a5b27150393c393c57a2da29b08337d3e6095c37d3098d45",
+    "../vm_exec/vm_entry_runtime.hpp": "c1bcb06562ee96f51542853dea50dc775a52bf96f9121ba4c861a1dc85fbb7ee"
+  },
+  "batch12_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch12-integration-r1/gate-receipt.json",
+  "batch15_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch15-integration-r1/gate-receipt.json",
+  "batch16_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-vm-stack-51fko3y9/gc-batch16-integration-r1/gate-receipt.json"
+}

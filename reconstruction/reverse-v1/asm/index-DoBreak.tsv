@@ -1,0 +1,140 @@
+d8434	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+d8438	e6ff7070	uxth	r7, r0
+d843c	e24dd018	sub	sp, sp, #24
+d8440	e59f61f0	ldr	r6, [pc, #0x1f0]
+d8444	e3570000	cmp	r7, #0
+d8448	e1a04002	mov	r4, r2
+d844c	e08f6006	add	r6, pc, r6
+d8450	e59d5038	ldr	r5, [sp, #0x38]
+d8454	e5dd803c	ldrb	r8, [sp, #0x3c]
+d8458	0a00000a	beq	0xd8488 <_Z7DoBreakjhPhPKhP6VMExecb+0x54>
+d845c	e30f3fff	movw	r3, #0xffff
+d8460	e1570003	cmp	r7, r3
+d8464	1a000004	bne	0xd847c <_Z7DoBreakjhPhPKhP6VMExecb+0x48>
+d8468	e5923000	ldr	r3, [r2]
+d846c	e3530000	cmp	r3, #0
+d8470	ba00006b	blt	0xd8624 <_Z7DoBreakjhPhPKhP6VMExecb+0x1f0>
+d8474	e3530c7d	cmp	r3, #32000
+d8478	aa000038	bge	0xd8560 <_Z7DoBreakjhPhPKhP6VMExecb+0x12c>
+d847c	e1a00004	mov	r0, r4
+d8480	e28dd018	add	sp, sp, #24
+d8484	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+d8488	e59f31ac	ldr	r3, [pc, #0x1ac]
+d848c	e7963003	ldr	r3, [r6, r3]
+d8490	e5d33000	ldrb	r3, [r3]
+d8494	e3530000	cmp	r3, #0
+d8498	1a000038	bne	0xd8580 <_Z7DoBreakjhPhPKhP6VMExecb+0x14c>
+d849c	e59f319c	ldr	r3, [pc, #0x19c]
+d84a0	e3a01001	mov	r1, #1
+d84a4	e1a07001	mov	r7, r1
+d84a8	e7960003	ldr	r0, [r6, r3]
+d84ac	eb072001	bl	0x2a04b8 <_ZN9CProfiler5PauseEb>
+d84b0	e3580000	cmp	r8, #0
+d84b4	15953044	ldrne	r3, [r5, #0x44]
+d84b8	12433004	subne	r3, r3, #4
+d84bc	15853044	strne	r3, [r5, #0x44]
+d84c0	ebffffcf	bl	0xd8404 <_ZN2VM26ClearBreakpointsFromMemoryEv>
+d84c4	e3570000	cmp	r7, #0
+d84c8	1a00001d	bne	0xd8544 <_Z7DoBreakjhPhPKhP6VMExecb+0x110>
+d84cc	e5951044	ldr	r1, [r5, #0x44]
+d84d0	e5952024	ldr	r2, [r5, #0x24]
+d84d4	e59fc168	ldr	r12, [pc, #0x168]
+d84d8	e2813004	add	r3, r1, #4
+d84dc	e7920001	ldr	r0, [r2, r1]
+d84e0	e0822003	add	r2, r2, r3
+d84e4	e5853044	str	r3, [r5, #0x44]
+d84e8	e796700c	ldr	r7, [r6, r12]
+d84ec	e3100101	tst	r0, #1073741824
+d84f0	e5875000	str	r5, [r7]
+d84f4	0a000005	beq	0xd8510 <_Z7DoBreakjhPhPKhP6VMExecb+0xdc>
+d84f8	e59f1148	ldr	r1, [pc, #0x148]
+d84fc	e7e3c850	ubfx	r12, r0, #0x10, #0x4
+d8500	e7961001	ldr	r1, [r6, r1]
+d8504	e791110c	ldr	r1, [r1, r12, lsl #2]
+d8508	e0833001	add	r3, r3, r1
+d850c	e5853044	str	r3, [r5, #0x44]
+d8510	e59fc134	ldr	r12, [pc, #0x134]
+d8514	e7e4ec50	ubfx	lr, r0, #0x18, #0x5
+d8518	e1a01004	mov	r1, r4
+d851c	e1a03005	mov	r3, r5
+d8520	e796c00c	ldr	r12, [r6, r12]
+d8524	e79cc10e	ldr	r12, [r12, lr, lsl #2]
+d8528	e12fff3c	blx	r12
+d852c	e5875000	str	r5, [r7]
+d8530	e1a04000	mov	r4, r0
+d8534	ebffffa4	bl	0xd83cc <_ZN2VM24WriteBreakpointsToMemoryEv>
+d8538	e1a00004	mov	r0, r4
+d853c	e28dd018	add	sp, sp, #24
+d8540	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+d8544	e59f3104	ldr	r3, [pc, #0x104]
+d8548	e7963003	ldr	r3, [r6, r3]
+d854c	e5933000	ldr	r3, [r3]
+d8550	e3530000	cmp	r3, #0
+d8554	0affffdc	beq	0xd84cc <_Z7DoBreakjhPhPKhP6VMExecb+0x98>
+d8558	eb071435	bl	0x29d634 <_Z19DebuggerMessageLoopv>
+d855c	eaffffda	b	0xd84cc <_Z7DoBreakjhPhPKhP6VMExecb+0x98>
+d8560	e59f10ec	ldr	r1, [pc, #0xec]
+d8564	e1a00005	mov	r0, r5
+d8568	e3a02c7d	mov	r2, #32000
+d856c	e08f1001	add	r1, pc, r1
+d8570	ebffef26	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+d8574	e1a00004	mov	r0, r4
+d8578	e28dd018	add	sp, sp, #24
+d857c	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+d8580	e5953044	ldr	r3, [r5, #0x44]
+d8584	e5950024	ldr	r0, [r5, #0x24]
+d8588	e2433004	sub	r3, r3, #4
+d858c	e0800003	add	r0, r0, r3
+d8590	ebffff55	bl	0xd82ec <_ZN2VM13GetBreakpointEPj>
+d8594	e2509000	subs	r9, r0, #0
+d8598	0affffbf	beq	0xd849c <_Z7DoBreakjhPhPKhP6VMExecb+0x68>
+d859c	e599300c	ldr	r3, [r9, #0xc]
+d85a0	e3530000	cmp	r3, #0
+d85a4	0affffbc	beq	0xd849c <_Z7DoBreakjhPhPKhP6VMExecb+0x68>
+d85a8	e3a00040	mov	r0, #64
+d85ac	eb068fdc	bl	0x27c524 <_Znwj>
+d85b0	e5992008	ldr	r2, [r9, #0x8]
+d85b4	e599100c	ldr	r1, [r9, #0xc]
+d85b8	e3a0c001	mov	r12, #1
+d85bc	e3a03003	mov	r3, #3
+d85c0	e58dc000	str	r12, [sp]
+d85c4	e58d7004	str	r7, [sp, #0x4]
+d85c8	e1a0a000	mov	r10, r0
+d85cc	ebffd119	bl	0xcca38 <_ZN7IBufferC2EPvi14eBuffer_Formatib>
+d85d0	e59f3080	ldr	r3, [pc, #0x80]
+d85d4	e1a0100a	mov	r1, r10
+d85d8	e28d0008	add	r0, sp, #8
+d85dc	e7963003	ldr	r3, [r6, r3]
+d85e0	e2833008	add	r3, r3, #8
+d85e4	e58a3000	str	r3, [r10]
+d85e8	eb070c2e	bl	0x29b6a8 <_Z27Debug_ExecuteBreakConditionP15Buffer_Standard>
+d85ec	e59f3068	ldr	r3, [pc, #0x68]
+d85f0	e7963003	ldr	r3, [r6, r3]
+d85f4	e5d32000	ldrb	r2, [r3]
+d85f8	e3520000	cmp	r2, #0
+d85fc	1a000006	bne	0xd861c <_Z7DoBreakjhPhPKhP6VMExecb+0x1e8>
+d8600	eeb66b00	vmov.f64	d6, #5.000000e-01
+d8604	ed9d7b02	vldr	d7, [sp, #8]
+d8608	eeb47bc6	vcmpe.f64	d7, d6
+d860c	eef1fa10	vmrs	APSR_nzcv, fpscr
+d8610	d1a07002	movle	r7, r2
+d8614	daffffa5	ble	0xd84b0 <_Z7DoBreakjhPhPKhP6VMExecb+0x7c>
+d8618	eaffff9f	b	0xd849c <_Z7DoBreakjhPhPKhP6VMExecb+0x68>
+d861c	e5c37000	strb	r7, [r3]
+d8620	eaffff9d	b	0xd849c <_Z7DoBreakjhPhPKhP6VMExecb+0x68>
+d8624	e59f1034	ldr	r1, [pc, #0x34]
+d8628	e1a00005	mov	r0, r5
+d862c	e08f1001	add	r1, pc, r1
+d8630	ebffeef6	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+d8634	eaffff90	b	0xd847c <_Z7DoBreakjhPhPKhP6VMExecb+0x48>
+d8638	00319804	eorseq	r9, r1, r4, lsl #16
+d863c	ffffbcd4	.word	0xffffbcd4
+d8640	ffffbf1c	.word	0xffffbf1c
+d8644	ffffbf58	.word	0xffffbf58
+d8648	ffffc09c	.word	0xffffc09c
+d864c	ffffc0a0	.word	0xffffc0a0
+d8650	ffffc0a4	.word	0xffffc0a4
+d8654	0025a6b4	.word	0x0025a6b4
+d8658	ffffbd60	.word	0xffffbd60
+d865c	ffffbf14	.word	0xffffbf14
+d8660	0025a5d4	.word	0x0025a5d4

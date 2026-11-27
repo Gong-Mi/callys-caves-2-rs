@@ -1,0 +1,141 @@
+{
+  "scope": "ScriptRef/GetCode/local stack and actual GC Context Stack static C++ candidates; no execution or full object/initial-state proof.",
+  "base": "4cd8354d5d912b14ad566fd292ad1e26adb4e4b4",
+  "shared_receipt": "../memory_manager/validation.json",
+  "shared_receipt_sha256": "9e84210f8a7a541f52d75dbe4dc022ed4ac618d6a96a92e0ed9d200fb39abe8c",
+  "header_sha256": "1c5a979fc6e7373185e9baadbec0ea09aec86d15e4528122d6f748803a7e7ff1",
+  "canonical_api_header_sha256": "d23d939eb271baf244fc8ae93e91088f424bacadd0782115b25c48e351af58a6",
+  "sources_sha256": {
+    "script_runtime.cpp": "e8bfc646e740df991c6d358f776b86bf3fe3809f8f467b968485e260173acef2",
+    "context_stack.cpp": "6451cdf21d76b29e4f8b117fbf1d43f41e51c1e011c40c9081de0bb7c1db30a3"
+  },
+  "original_entries": 6,
+  "original_index_words": 267,
+  "literal_words": 18,
+  "phase_complete": false,
+  "original_executed": false,
+  "rebuilt_executed": false,
+  "new_context_batch": {
+    "entries": 3,
+    "words": 74,
+    "literal_words": 9
+  },
+  "additional_headers_sha256": {
+    "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61"
+  },
+  "variable_name_helper_batch": {
+    "base_head": "8a34849934812e08350e6a4a28bbea99906e00f1",
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "source": "reconstruction/reverse-v1/cpp/scripting/code_variable_find_slot_from_name_helpers.cpp",
+    "source_sha256": "95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41",
+    "modified_dispatcher_source_sha256": "e0e4382d93c96321179ee542fba5a72b5147f4e3f887f6e673ea9c8a3de74765",
+    "original_words_sha256": "d25e6097dfb0666696303fa6960f0cf713087b0f96f06667fdfb1248ec82b17f",
+    "functions_json_sha256": "a6ffe396b1cd95e9b3a40971ae15d6e26354befb22506f3a816989c9e6e2e737",
+    "layout_evidence_sha256": "69c9c212eae40fe9e35fb943cc08c25d094ec3038020c74669b14d14f3b3ff58",
+    "status_sha256": "9040676bf192690f7ad367da29af34377fdc5133302d40682b8bf963f789e0fc",
+    "original_word_rows": 83,
+    "entries": [
+      {"symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc", "va": "0xd1f74", "size": 224, "body_sha256": "5975070a4e732a83169d488259363c39d2327a344551393180c6c80bdc70417d"},
+      {"symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc", "va": "0xd2054", "size": 108, "body_sha256": "b78799f4458a3ed0e54c566f6a7e4a5450c29b9b31a3b2824b6bf3a77d3f426e"}
+    ],
+    "target": "armv7a-linux-androideabi",
+    "compiler": "/data/data/com.termux/files/usr/bin/clang++",
+    "common_flags": [
+      "-nostdinc++", "--target=armv7a-linux-androideabi", "-march=armv7-a", "-marm",
+      "-mfpu=vfpv3", "-mfloat-abi=softfp", "-std=c++17", "-ffreestanding",
+      "-fno-builtin", "-ffp-contract=off", "-fno-sized-deallocation", "-Wall", "-Wextra", "-Werror"
+    ],
+    "builds": [
+      {
+        "configuration": "O0",
+        "optimization": "-O0",
+        "returncode": 0,
+        "object_path": "/data/data/com.termux/files/home/.hermes/cache/scratch/wl67-code-variable-helpers/helpers-O0.o",
+        "object_sha256": "2ca2e54423f4d878de3c2acfe8e46954ea10df788240a5dd0f0c2e8c4abd8d13",
+        "object_class": "ELF32",
+        "machine": "ARM",
+        "flags": "0x5000000"
+      },
+      {
+        "configuration": "O2",
+        "optimization": "-O2",
+        "returncode": 0,
+        "object_path": "/data/data/com.termux/files/home/.hermes/cache/scratch/wl67-code-variable-helpers/helpers-O2.o",
+        "object_sha256": "9b83d29a8a2df4e72f5ed13d9dd76978ae4333bf0a3da63054a5deb3655669e6",
+        "object_class": "ELF32",
+        "machine": "ARM",
+        "flags": "0x5000000"
+      }
+    ],
+    "module_verifier_run": false,
+    "combined_link_verified": false,
+    "candidate_executed": false,
+    "original_executed": false
+  },
+  "hash_compare_provider_batch": {
+    "base_head": "90dcb265bd6f0eaa4e6238fc62a8971bcc251ad9",
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "source": "reconstruction/reverse-v1/cpp/scripting/code_variable_find_slot_from_name_helpers.cpp",
+    "source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+    "original_word_rows": 13,
+    "original_words_sha256": "d6a4f58e1dc799b3b96aa4c075e8144330fcf5af753882ed166be76cd320acce",
+    "header_sha256": "b2243ad0b88c073855c0a8c9721c5803d2133526769fb5942ae3458b5377304d",
+    "functions_json_sha256": "807d7e8712235f76cbe0e08098a2a42caa4d1ccf0d9dbe648c1f4903dee2949a",
+    "layout_evidence_sha256": "a07a78f74ef73df28582df2ab9ee6c04e6e2645037a4161b7a2d352f235adff6",
+    "status_sha256": "b703a25f8f0fcdbfe0dbefbe16e11324baae5c834f21d4bde395936e76ba3d90",
+    "functions": [
+      {"symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "va": "0x1eeb88", "size": 32, "body_sha256": "f7a80f18eabb1c8383e7a5c58869c5a61785e37c49e60393e3f432ca0b4d24a2", "code_words": 8, "pool_words": 0},
+      {"symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "va": "0x1eeba8", "size": 20, "body_sha256": "c19c3f629be580aa8eed8a6608a6774cec35d5cf68a42f268a22bceadfe33b8e", "code_words": 5, "pool_words": 0}
+    ],
+    "compiler": "/data/data/com.termux/files/usr/bin/clang++",
+    "target": "armv7a-linux-androideabi",
+    "common_flags": [
+      "--target=armv7a-linux-androideabi", "-nostdinc++", "-march=armv7-a", "-marm",
+      "-mfpu=vfpv3", "-mfloat-abi=softfp", "-ffreestanding", "-fno-builtin",
+      "-ffp-contract=off", "-std=c++17", "-fno-sized-deallocation",
+      "-Wall", "-Wextra", "-Werror", "-c"
+    ],
+    "builds": [
+      {
+        "configuration": "O0",
+        "optimization": "-O0",
+        "returncode": 0,
+        "object_path": "/data/data/com.termux/files/home/.hermes/cache/scratch/wl67-cmap-providers-O0.o",
+        "object_sha256": "458c31c7fde3fc0cbb71db04253e3dd471a389331f6b1d6357eebcd8fe4469b1",
+        "object_class": "ELF32",
+        "machine": "ARM",
+        "flags": "0x5000000",
+        "provider_relocations": [
+          {"offset": "0xa0", "type": "R_ARM_CALL", "symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "defined_in_same_object": true},
+          {"offset": "0x168", "type": "R_ARM_CALL", "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "defined_in_same_object": true}
+        ]
+      },
+      {
+        "configuration": "O2",
+        "optimization": "-O2",
+        "returncode": 0,
+        "object_path": "/data/data/com.termux/files/home/.hermes/cache/scratch/wl67-cmap-providers-O2.o",
+        "object_sha256": "161c1b25626c85c392338a4bd6ebd12aead868fcdbcee57ab64f8f52e6a279a8",
+        "object_class": "ELF32",
+        "machine": "ARM",
+        "flags": "0x5000000",
+        "provider_relocations": [
+          {"offset": "0x58", "type": "R_ARM_CALL", "symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "defined_in_same_object": true},
+          {"offset": "0x94", "type": "R_ARM_CALL", "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "defined_in_same_object": true}
+        ]
+      }
+    ],
+    "writer_survey": {
+      "target_writer_sites": 12,
+      "g_instanceVarLookup_sites": 1,
+      "g_VarNamesGlobal_sites": 11,
+      "got_slot_write_sites": 0,
+      "strb_sites": 0,
+      "full_details": "layout-evidence.json:variable_name_static_writer_survey"
+    },
+    "module_verifier_run": false,
+    "combined_link_verified": false,
+    "candidate_executed": false,
+    "original_executed": false
+  }
+}

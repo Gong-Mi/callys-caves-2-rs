@@ -1,0 +1,14 @@
+1935fc	ee071a90	vmov	s15, r1
+193600	eef57ac0	vcmpe.f32	s15, #0
+193604	eef1fa10	vmrs	APSR_nzcv, fpscr
+193608	4a000005	bmi	0x193624 <_ZN9CInstance23SetPathPositionPreviousEf+0x28>
+19360c	eeb77a00	vmov.f32	s14, #1.000000e+00
+193610	eef47a47	vcmp.f32	s15, s14
+193614	eef1fa10	vmrs	APSR_nzcv, fpscr
+193618	cef07a47	vmovgt.f32	s15, s14
+19361c	edc07a4c	vstr	s15, [r0, #304]
+193620	e12fff1e	bx	lr
+193624	eddf7a01	vldr	s15, [pc, #4]
+193628	edc07a4c	vstr	s15, [r0, #304]
+19362c	e12fff1e	bx	lr
+193630	00000000	andeq	r0, r0, r0

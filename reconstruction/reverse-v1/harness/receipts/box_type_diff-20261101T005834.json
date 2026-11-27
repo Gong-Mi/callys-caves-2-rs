@@ -1,0 +1,86 @@
+{
+  "harness": "box_type_diff.py",
+  "target": {
+    "symbol": "_Z7boxTypeR6RValue8eVM_TypePh",
+    "func": "boxType",
+    "addr": "0xd7784",
+    "so": "libyoyo_armv7.so"
+  },
+  "scope": {
+    "covered": [
+      "types 0..9",
+      "types >9 (no-op)"
+    ],
+    "not_covered": [
+      "caller-side type decisions",
+      "k=6 against a real string object (only the pointer copy)"
+    ]
+  },
+  "seed": "0xca11",
+  "cases": 97,
+  "inputs_sha256": "c07190b40dbdbe9f14375c9a4bd7dfc91a93d335881d765085bac65fa1df9176",
+  "c_sha256": "5789dc70687a9c8a6a1e26cfff13f73bf5234c6a86c4c51609bc9dfe84d9580f",
+  "result": {
+    "mismatches": 0,
+    "first": []
+  },
+  "gates": {
+    "identity": {
+      "pass": true,
+      "mismatches": 0
+    },
+    "coverage_types_0_9": {
+      "pass": true,
+      "seen": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "non_degenerate": {
+      "pass": true,
+      "dsts_written_by_original": 69,
+      "total_cases": 97
+    },
+    "teeth": {
+      "pass": true,
+      "mutants": {
+        "1": {
+          "caught_cases": 5,
+          "pass": true
+        },
+        "2": {
+          "caught_cases": 5,
+          "pass": true
+        },
+        "3": {
+          "caught_cases": 7,
+          "pass": true
+        },
+        "4": {
+          "caught_cases": 7,
+          "pass": true
+        },
+        "5": {
+          "caught_cases": 28,
+          "pass": true
+        }
+      }
+    }
+  },
+  "wall_s": 1.7,
+  "when": "2026-11-01T00:58:34"
+}

@@ -1,0 +1,98 @@
+10a580	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+10a584	e24dd030	sub	sp, sp, #48
+10a588	e1a07001	mov	r7, r1
+10a58c	e3a01000	mov	r1, #0
+10a590	e59d0050	ldr	r0, [sp, #0x50]
+10a594	e1a04002	mov	r4, r2
+10a598	ebff10b4	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+10a59c	e59f1154	ldr	r1, [pc, #0x154]
+10a5a0	e3a02032	mov	r2, #50
+10a5a4	e3a03001	mov	r3, #1
+10a5a8	e08f1001	add	r1, pc, r1
+10a5ac	e28d500c	add	r5, sp, #12
+10a5b0	e3a06000	mov	r6, #0
+10a5b4	e1a09000	mov	r9, r0
+10a5b8	e3a00080	mov	r0, #128
+10a5bc	eb05ca2d	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+10a5c0	e1a01009	mov	r1, r9
+10a5c4	e59f9130	ldr	r9, [pc, #0x130]
+10a5c8	e1a02007	mov	r2, r7
+10a5cc	e1a03004	mov	r3, r4
+10a5d0	e58d6000	str	r6, [sp]
+10a5d4	e3a07020	mov	r7, #32
+10a5d8	e08f9009	add	r9, pc, r9
+10a5dc	e1a08000	mov	r8, r0
+10a5e0	e1a00005	mov	r0, r5
+10a5e4	eb024a9d	bl	0x19d060 <_ZN15WithObjIteratorC2EiP9CInstanceS1_b>
+10a5e8	ea000010	b	0x10a630 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0xb0>
+10a5ec	eb024e16	bl	0x19de4c <_ZN15WithObjIteratordeEv>
+10a5f0	e5d03068	ldrb	r3, [r0, #0x68]
+10a5f4	e1a04000	mov	r4, r0
+10a5f8	e3530000	cmp	r3, #0
+10a5fc	1a000009	bne	0x10a628 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0xa8>
+10a600	e5d03069	ldrb	r3, [r0, #0x69]
+10a604	e3530000	cmp	r3, #0
+10a608	1a000006	bne	0x10a628 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0xa8>
+10a60c	e1560007	cmp	r6, r7
+10a610	0a00002f	beq	0x10a6d4 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0x154>
+10a614	e7884106	str	r4, [r8, r6, lsl #2]
+10a618	e3a01001	mov	r1, #1
+10a61c	e1a00004	mov	r0, r4
+10a620	e0866001	add	r6, r6, r1
+10a624	eb021f38	bl	0x19230c <_ZN9CInstance14SetDeactivatedEb>
+10a628	e1a00005	mov	r0, r5
+10a62c	eb024ae5	bl	0x19d1c8 <_ZN15WithObjIterator4NextEv>
+10a630	e1a00005	mov	r0, r5
+10a634	eb024e04	bl	0x19de4c <_ZN15WithObjIteratordeEv>
+10a638	e2504000	subs	r4, r0, #0
+10a63c	e1a00005	mov	r0, r5
+10a640	1affffe9	bne	0x10a5ec <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0x6c>
+10a644	e3560000	cmp	r6, #0
+10a648	0a00001d	beq	0x10a6c4 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0x144>
+10a64c	e59f50ac	ldr	r5, [pc, #0xac]
+10a650	e1a09004	mov	r9, r4
+10a654	e59fa0a8	ldr	r10, [pc, #0xa8]
+10a658	e79f5005	ldr	r5, [pc, r5]
+10a65c	e08fa00a	add	r10, pc, r10
+10a660	e5951008	ldr	r1, [r5, #0x8]
+10a664	ea000006	b	0x10a684 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0x104>
+10a668	e5953000	ldr	r3, [r5]
+10a66c	e2844001	add	r4, r4, #1
+10a670	e7837101	str	r7, [r3, r1, lsl #2]
+10a674	e1540006	cmp	r4, r6
+10a678	e2811001	add	r1, r1, #1
+10a67c	e5851008	str	r1, [r5, #0x8]
+10a680	0a00000f	beq	0x10a6c4 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0x144>
+10a684	e5953004	ldr	r3, [r5, #0x4]
+10a688	e7987104	ldr	r7, [r8, r4, lsl #2]
+10a68c	e1510003	cmp	r1, r3
+10a690	1afffff4	bne	0x10a668 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0xe8>
+10a694	e1a03081	lsl	r3, r1, #1
+10a698	e5950000	ldr	r0, [r5]
+10a69c	e5853004	str	r3, [r5, #0x4]
+10a6a0	e1a01181	lsl	r1, r1, #3
+10a6a4	e3a0304a	mov	r3, #74
+10a6a8	e1a0200a	mov	r2, r10
+10a6ac	e58d9000	str	r9, [sp]
+10a6b0	eb05ca09	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+10a6b4	e5951008	ldr	r1, [r5, #0x8]
+10a6b8	e1a03000	mov	r3, r0
+10a6bc	e5850000	str	r0, [r5]
+10a6c0	eaffffe9	b	0x10a66c <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0xec>
+10a6c4	e1a00008	mov	r0, r8
+10a6c8	eb05c700	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+10a6cc	e28dd030	add	sp, sp, #48
+10a6d0	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+10a6d4	e58d3000	str	r3, [sp]
+10a6d8	e1a00008	mov	r0, r8
+10a6dc	e1a01186	lsl	r1, r6, #3
+10a6e0	e1a02009	mov	r2, r9
+10a6e4	e3a0304a	mov	r3, #74
+10a6e8	e1a07086	lsl	r7, r6, #1
+10a6ec	eb05c9fa	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+10a6f0	e1a08000	mov	r8, r0
+10a6f4	eaffffc6	b	0x10a614 <_Z26F_InstanceDeactivateObjectR6RValueP9CInstanceS2_iPS_+0x94>
+10a6f8	0022e150	eoreq	lr, r2, r0, asr r1
+10a6fc	00226a58	eoreq	r6, r2, r8, asr r10
+10a700	002e35f0	.word	0x002e35f0
+10a704	002269d4	.word	0x002269d4

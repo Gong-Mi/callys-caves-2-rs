@@ -1,0 +1,538 @@
+dd500	e7e32450	ubfx	r2, r0, #0x8, #0x4
+dd504	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+dd508	e3520001	cmp	r2, #1
+dd50c	e1a05820	lsr	r5, r0, #16
+dd510	e24dd044	sub	sp, sp, #68
+dd514	e1a09001	mov	r9, r1
+dd518	e1a0b003	mov	r11, r3
+dd51c	e6ef4075	uxtb	r4, r5
+dd520	0a000152	beq	0xdda70 <_Z5DoSubjPhPKhP6VMExec+0x570>
+dd524	e204200f	and	r2, r4, #15
+dd528	e3520006	cmp	r2, #6
+dd52c	908ff102	addls	pc, pc, r2, lsl #2
+dd530	ea0001f6	b	0xddd10 <_Z5DoSubjPhPKhP6VMExec+0x810>
+dd534	ea0000dc	b	0xdd8ac <_Z5DoSubjPhPKhP6VMExec+0x3ac>
+dd538	ea0000de	b	0xdd8b8 <_Z5DoSubjPhPKhP6VMExec+0x3b8>
+dd53c	ea0000dd	b	0xdd8b8 <_Z5DoSubjPhPKhP6VMExec+0x3b8>
+dd540	ea0000d9	b	0xdd8ac <_Z5DoSubjPhPKhP6VMExec+0x3ac>
+dd544	ea0000db	b	0xdd8b8 <_Z5DoSubjPhPKhP6VMExec+0x3b8>
+dd548	ea0000dd	b	0xdd8c4 <_Z5DoSubjPhPKhP6VMExec+0x3c4>
+dd54c	eaffffff	b	0xdd550 <_Z5DoSubjPhPKhP6VMExec+0x50>
+dd550	e59f17cc	ldr	r1, [pc, #0x7cc]
+dd554	e1a00003	mov	r0, r3
+dd558	e1a05004	mov	r5, r4
+dd55c	e1a0a009	mov	r10, r9
+dd560	e08f1001	add	r1, pc, r1
+dd564	ebffdb29	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+dd568	e1a02245	asr	r2, r5, #4
+dd56c	e3520006	cmp	r2, #6
+dd570	908ff102	addls	pc, pc, r2, lsl #2
+dd574	ea0001e8	b	0xddd1c <_Z5DoSubjPhPKhP6VMExec+0x81c>
+dd578	ea0000c9	b	0xdd8a4 <_Z5DoSubjPhPKhP6VMExec+0x3a4>
+dd57c	ea0000c6	b	0xdd89c <_Z5DoSubjPhPKhP6VMExec+0x39c>
+dd580	ea0000c5	b	0xdd89c <_Z5DoSubjPhPKhP6VMExec+0x39c>
+dd584	ea0000c6	b	0xdd8a4 <_Z5DoSubjPhPKhP6VMExec+0x3a4>
+dd588	ea0000c3	b	0xdd89c <_Z5DoSubjPhPKhP6VMExec+0x39c>
+dd58c	ea0000b0	b	0xdd854 <_Z5DoSubjPhPKhP6VMExec+0x354>
+dd590	eaffffff	b	0xdd594 <_Z5DoSubjPhPKhP6VMExec+0x94>
+dd594	e59f178c	ldr	r1, [pc, #0x78c]
+dd598	e1a0000b	mov	r0, r11
+dd59c	e1a0600a	mov	r6, r10
+dd5a0	e08f1001	add	r1, pc, r1
+dd5a4	ebffdb19	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+dd5a8	e3540065	cmp	r4, #101
+dd5ac	908ff104	addls	pc, pc, r4, lsl #2
+dd5b0	ea0000d5	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5b4	ea0000a2	b	0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344>
+dd5b8	ea0000d3	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5bc	ea0000a0	b	0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344>
+dd5c0	ea00009f	b	0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344>
+dd5c4	ea0000d0	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5c8	ea000099	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd5cc	ea0000ce	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5d0	ea0000cd	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5d4	ea0000cc	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5d8	ea0000cb	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5dc	ea0000ca	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5e0	ea0000c9	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5e4	ea0000c8	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5e8	ea0000c7	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5ec	ea0000c6	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5f0	ea0000c5	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5f4	ea0000c4	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5f8	ea0000c3	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd5fc	ea0000c2	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd600	ea0000c1	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd604	ea0000c0	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd608	ea0000bf	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd60c	ea0000be	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd610	ea0000bd	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd614	ea0000bc	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd618	ea0000bb	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd61c	ea0000ba	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd620	ea0000b9	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd624	ea0000b8	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd628	ea0000b7	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd62c	ea0000b6	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd630	ea0000b5	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd634	ea000082	b	0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344>
+dd638	ea0000b3	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd63c	ea000042	b	0xdd74c <_Z5DoSubjPhPKhP6VMExec+0x24c>
+dd640	ea00007f	b	0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344>
+dd644	ea0000b0	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd648	ea000079	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd64c	ea0000ae	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd650	ea0000ad	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd654	ea0000ac	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd658	ea0000ab	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd65c	ea0000aa	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd660	ea0000a9	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd664	ea0000a8	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd668	ea0000a7	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd66c	ea0000a6	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd670	ea0000a5	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd674	ea000072	b	0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344>
+dd678	ea0000a3	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd67c	ea000070	b	0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344>
+dd680	ea00006f	b	0xdd844 <_Z5DoSubjPhPKhP6VMExec+0x344>
+dd684	ea0000a0	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd688	ea000069	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd68c	ea00009e	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd690	ea00009d	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd694	ea00009c	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd698	ea00009b	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd69c	ea00009a	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6a0	ea000099	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6a4	ea000098	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6a8	ea000097	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6ac	ea000096	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6b0	ea000095	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6b4	ea000094	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6b8	ea000093	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6bc	ea000092	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6c0	ea000091	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6c4	ea000090	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6c8	ea00008f	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6cc	ea00008e	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6d0	ea00008d	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6d4	ea00008c	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6d8	ea00008b	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6dc	ea00008a	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6e0	ea000089	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6e4	ea000088	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6e8	ea000087	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6ec	ea000086	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6f0	ea000085	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6f4	ea00004e	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd6f8	ea000083	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd6fc	ea00004c	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd700	ea00004b	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd704	ea000080	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd708	ea000049	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd70c	ea000048	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd710	ea00007d	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd714	ea00007c	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd718	ea00007b	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd71c	ea00007a	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd720	ea000079	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd724	ea000078	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd728	ea000077	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd72c	ea000076	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd730	ea000075	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd734	ea000074	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd738	ea000073	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd73c	ea000072	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd740	ea000071	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd744	ea000070	b	0xdd90c <_Z5DoSubjPhPKhP6VMExec+0x40c>
+dd748	ea000039	b	0xdd834 <_Z5DoSubjPhPKhP6VMExec+0x334>
+dd74c	e2466004	sub	r6, r6, #4
+dd750	e3a07000	mov	r7, #0
+dd754	e1a08006	mov	r8, r6
+dd758	e3550033	cmp	r5, #51
+dd75c	908ff105	addls	pc, pc, r5, lsl #2
+dd760	ea0000b0	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd764	ea00006b	b	0xdd918 <_Z5DoSubjPhPKhP6VMExec+0x418>
+dd768	ea0000ae	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd76c	ea000090	b	0xdd9b4 <_Z5DoSubjPhPKhP6VMExec+0x4b4>
+dd770	ea000087	b	0xdd994 <_Z5DoSubjPhPKhP6VMExec+0x494>
+dd774	ea0000ab	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd778	ea0000aa	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd77c	ea0000a9	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd780	ea0000a8	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd784	ea0000a7	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd788	ea0000a6	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd78c	ea0000a5	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd790	ea0000a4	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd794	ea0000a3	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd798	ea0000a2	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd79c	ea0000a1	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7a0	ea0000a0	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7a4	ea00009f	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7a8	ea00009e	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7ac	ea00009d	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7b0	ea00009c	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7b4	ea00009b	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7b8	ea00009a	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7bc	ea000099	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7c0	ea000098	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7c4	ea000097	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7c8	ea000096	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7cc	ea000095	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7d0	ea000094	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7d4	ea000093	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7d8	ea000092	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7dc	ea000091	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7e0	ea000090	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7e4	ea000063	b	0xdd978 <_Z5DoSubjPhPKhP6VMExec+0x478>
+dd7e8	ea00008e	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7ec	ea00005b	b	0xdd960 <_Z5DoSubjPhPKhP6VMExec+0x460>
+dd7f0	ea00007e	b	0xdd9f0 <_Z5DoSubjPhPKhP6VMExec+0x4f0>
+dd7f4	ea00008b	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7f8	ea00008a	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd7fc	ea000089	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd800	ea000088	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd804	ea000087	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd808	ea000086	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd80c	ea000085	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd810	ea000084	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd814	ea000083	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd818	ea000082	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd81c	ea000081	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd820	ea000080	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd824	ea000069	b	0xdd9d0 <_Z5DoSubjPhPKhP6VMExec+0x4d0>
+dd828	ea00007e	b	0xdda28 <_Z5DoSubjPhPKhP6VMExec+0x528>
+dd82c	ea000076	b	0xdda0c <_Z5DoSubjPhPKhP6VMExec+0x50c>
+dd830	ea000043	b	0xdd944 <_Z5DoSubjPhPKhP6VMExec+0x444>
+dd834	e2467010	sub	r7, r6, #16
+dd838	e1a08007	mov	r8, r7
+dd83c	e1a06007	mov	r6, r7
+dd840	eaffffc4	b	0xdd758 <_Z5DoSubjPhPKhP6VMExec+0x258>
+dd844	e2466008	sub	r6, r6, #8
+dd848	e3a07000	mov	r7, #0
+dd84c	e1a08006	mov	r8, r6
+dd850	eaffffc0	b	0xdd758 <_Z5DoSubjPhPKhP6VMExec+0x258>
+dd854	e59a300c	ldr	r3, [r10, #0xc]
+dd858	e353000d	cmp	r3, #13
+dd85c	908ff103	addls	pc, pc, r3, lsl #2
+dd860	ea000114	b	0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8>
+dd864	ea000107	b	0xddc88 <_Z5DoSubjPhPKhP6VMExec+0x788>
+dd868	ea000101	b	0xddc74 <_Z5DoSubjPhPKhP6VMExec+0x774>
+dd86c	ea0000fb	b	0xddc60 <_Z5DoSubjPhPKhP6VMExec+0x760>
+dd870	ea0000f5	b	0xddc4c <_Z5DoSubjPhPKhP6VMExec+0x74c>
+dd874	ea00010f	b	0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8>
+dd878	ea0000ee	b	0xddc38 <_Z5DoSubjPhPKhP6VMExec+0x738>
+dd87c	ea00010d	b	0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8>
+dd880	ea0000e9	b	0xddc2c <_Z5DoSubjPhPKhP6VMExec+0x72c>
+dd884	ea00010b	b	0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8>
+dd888	ea00010a	b	0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8>
+dd88c	ea0000e2	b	0xddc1c <_Z5DoSubjPhPKhP6VMExec+0x71c>
+dd890	ea000108	b	0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8>
+dd894	ea000107	b	0xddcb8 <_Z5DoSubjPhPKhP6VMExec+0x7b8>
+dd898	ea0000fa	b	0xddc88 <_Z5DoSubjPhPKhP6VMExec+0x788>
+dd89c	e28a6004	add	r6, r10, #4
+dd8a0	eaffff40	b	0xdd5a8 <_Z5DoSubjPhPKhP6VMExec+0xa8>
+dd8a4	e28a6008	add	r6, r10, #8
+dd8a8	eaffff3e	b	0xdd5a8 <_Z5DoSubjPhPKhP6VMExec+0xa8>
+dd8ac	e281a008	add	r10, r1, #8
+dd8b0	e1a05004	mov	r5, r4
+dd8b4	eaffff2b	b	0xdd568 <_Z5DoSubjPhPKhP6VMExec+0x68>
+dd8b8	e281a004	add	r10, r1, #4
+dd8bc	e1a05004	mov	r5, r4
+dd8c0	eaffff28	b	0xdd568 <_Z5DoSubjPhPKhP6VMExec+0x68>
+dd8c4	e591300c	ldr	r3, [r1, #0xc]
+dd8c8	e353000d	cmp	r3, #13
+dd8cc	908ff103	addls	pc, pc, r3, lsl #2
+dd8d0	ea0000f2	b	0xddca0 <_Z5DoSubjPhPKhP6VMExec+0x7a0>
+dd8d4	ea0000ce	b	0xddc14 <_Z5DoSubjPhPKhP6VMExec+0x714>
+dd8d8	ea0000c7	b	0xddbfc <_Z5DoSubjPhPKhP6VMExec+0x6fc>
+dd8dc	ea0000c0	b	0xddbe4 <_Z5DoSubjPhPKhP6VMExec+0x6e4>
+dd8e0	ea0000b9	b	0xddbcc <_Z5DoSubjPhPKhP6VMExec+0x6cc>
+dd8e4	ea0000ed	b	0xddca0 <_Z5DoSubjPhPKhP6VMExec+0x7a0>
+dd8e8	ea0000b1	b	0xddbb4 <_Z5DoSubjPhPKhP6VMExec+0x6b4>
+dd8ec	ea0000eb	b	0xddca0 <_Z5DoSubjPhPKhP6VMExec+0x7a0>
+dd8f0	ea0000ac	b	0xddba8 <_Z5DoSubjPhPKhP6VMExec+0x6a8>
+dd8f4	ea0000e9	b	0xddca0 <_Z5DoSubjPhPKhP6VMExec+0x7a0>
+dd8f8	ea0000e8	b	0xddca0 <_Z5DoSubjPhPKhP6VMExec+0x7a0>
+dd8fc	ea0000a5	b	0xddb98 <_Z5DoSubjPhPKhP6VMExec+0x698>
+dd900	ea0000e6	b	0xddca0 <_Z5DoSubjPhPKhP6VMExec+0x7a0>
+dd904	ea0000e5	b	0xddca0 <_Z5DoSubjPhPKhP6VMExec+0x7a0>
+dd908	ea0000c1	b	0xddc14 <_Z5DoSubjPhPKhP6VMExec+0x714>
+dd90c	e3a08000	mov	r8, #0
+dd910	e1a07008	mov	r7, r8
+dd914	eaffff8f	b	0xdd758 <_Z5DoSubjPhPKhP6VMExec+0x258>
+dd918	ed9a6b00	vldr	d6, [r10]
+dd91c	ed997b00	vldr	d7, [r9]
+dd920	ee367b47	vsub.f64	d7, d6, d7
+dd924	e3a0c000	mov	r12, #0
+dd928	ed887b00	vstr	d7, [r8]
+dd92c	e3570000	cmp	r7, #0
+dd930	0a00004b	beq	0xdda64 <_Z5DoSubjPhPKhP6VMExec+0x564>
+dd934	e1a00006	mov	r0, r6
+dd938	e587c00c	str	r12, [r7, #0xc]
+dd93c	e28dd044	add	sp, sp, #68
+dd940	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+dd944	e1ca40d0	ldrd	r4, r5, [r10]
+dd948	e3a0c00a	mov	r12, #10
+dd94c	e1c920d0	ldrd	r2, r3, [r9]
+dd950	e0544002	subs	r4, r4, r2
+dd954	e0c55003	sbc	r5, r5, r3
+dd958	e1c840f0	strd	r4, r5, [r8]
+dd95c	eafffff2	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dd960	e59a2000	ldr	r2, [r10]
+dd964	e3a0c007	mov	r12, #7
+dd968	e5993000	ldr	r3, [r9]
+dd96c	e0633002	rsb	r3, r3, r2
+dd970	e5883000	str	r3, [r8]
+dd974	eaffffec	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dd978	ed9a7a00	vldr	s14, [r10]
+dd97c	eeb87bc7	vcvt.f64.s32	d7, s14
+dd980	ed996b00	vldr	d6, [r9]
+dd984	e3a0c000	mov	r12, #0
+dd988	ee377b46	vsub.f64	d7, d7, d6
+dd98c	ed887b00	vstr	d7, [r8]
+dd990	eaffffe5	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dd994	e1c900d0	ldrd	r0, r1, [r9]
+dd998	eb08edf1	bl	0x319164 <__floatdidf>
+dd99c	ed9a7b00	vldr	d7, [r10]
+dd9a0	e3a0c000	mov	r12, #0
+dd9a4	ec410b15	vmov	d5, r0, r1
+dd9a8	ee377b45	vsub.f64	d7, d7, d5
+dd9ac	ed887b00	vstr	d7, [r8]
+dd9b0	eaffffdd	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dd9b4	ed997a00	vldr	s14, [r9]
+dd9b8	eeb87bc7	vcvt.f64.s32	d7, s14
+dd9bc	ed9a6b00	vldr	d6, [r10]
+dd9c0	e3a0c000	mov	r12, #0
+dd9c4	ee367b47	vsub.f64	d7, d6, d7
+dd9c8	ed887b00	vstr	d7, [r8]
+dd9cc	eaffffd6	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dd9d0	e1ca00d0	ldrd	r0, r1, [r10]
+dd9d4	eb08ede2	bl	0x319164 <__floatdidf>
+dd9d8	ed997b00	vldr	d7, [r9]
+dd9dc	e3a0c000	mov	r12, #0
+dd9e0	ec410b16	vmov	d6, r0, r1
+dd9e4	ee367b47	vsub.f64	d7, d6, d7
+dd9e8	ed887b00	vstr	d7, [r8]
+dd9ec	eaffffce	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dd9f0	e59a1000	ldr	r1, [r10]
+dd9f4	e3a0c00a	mov	r12, #10
+dd9f8	e1c920d0	ldrd	r2, r3, [r9]
+dd9fc	e0722001	rsbs	r2, r2, r1
+dda00	e0e33fc1	rsc	r3, r3, r1, asr #31
+dda04	e1c820f0	strd	r2, r3, [r8]
+dda08	eaffffc7	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dda0c	e5991000	ldr	r1, [r9]
+dda10	e3a0c00a	mov	r12, #10
+dda14	e1ca20d0	ldrd	r2, r3, [r10]
+dda18	e0522001	subs	r2, r2, r1
+dda1c	e0c33fc1	sbc	r3, r3, r1, asr #31
+dda20	e1c820f0	strd	r2, r3, [r8]
+dda24	eaffffc0	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dda28	e59f12fc	ldr	r1, [pc, #0x2fc]
+dda2c	e1a0000b	mov	r0, r11
+dda30	e08f1001	add	r1, pc, r1
+dda34	ebffd9f5	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+dda38	e3a0c000	mov	r12, #0
+dda3c	eaffffba	b	0xdd92c <_Z5DoSubjPhPKhP6VMExec+0x42c>
+dda40	e59f02e8	ldr	r0, [pc, #0x2e8]
+dda44	e08f0000	add	r0, pc, r0
+dda48	eb05c2cf	bl	0x24e58c <_Z16JSThrowTypeErrorPKc>
+dda4c	e59d302c	ldr	r3, [sp, #0x2c]
+dda50	e2433001	sub	r3, r3, #1
+dda54	e3c334ff	bic	r3, r3, #-16777216
+dda58	e3c33003	bic	r3, r3, #3
+dda5c	e3530000	cmp	r3, #0
+dda60	0a00008a	beq	0xddc90 <_Z5DoSubjPhPKhP6VMExec+0x790>
+dda64	e1a00006	mov	r0, r6
+dda68	e28dd044	add	sp, sp, #68
+dda6c	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+dda70	e28d5010	add	r5, sp, #16
+dda74	e1a02001	mov	r2, r1
+dda78	e204100f	and	r1, r4, #15
+dda7c	e1a00005	mov	r0, r5
+dda80	ebffe73f	bl	0xd7784 <_Z7boxTypeR6RValue8eVM_TypePh>
+dda84	e1a01224	lsr	r1, r4, #4
+dda88	e1a02000	mov	r2, r0
+dda8c	e1a0000d	mov	r0, sp
+dda90	ebffe73b	bl	0xd7784 <_Z7boxTypeR6RValue8eVM_TypePh>
+dda94	e59d300c	ldr	r3, [sp, #0xc]
+dda98	e3e0c4ff	mvn	r12, #-16777216
+dda9c	e003300c	and	r3, r3, r12
+ddaa0	e153000c	cmp	r3, r12
+ddaa4	e1a06000	mov	r6, r0
+ddaa8	0a00008c	beq	0xddce0 <_Z5DoSubjPhPKhP6VMExec+0x7e0>
+ddaac	e59d301c	ldr	r3, [sp, #0x1c]
+ddab0	e3c334ff	bic	r3, r3, #-16777216
+ddab4	e153000c	cmp	r3, r12
+ddab8	0a000083	beq	0xddccc <_Z5DoSubjPhPKhP6VMExec+0x7cc>
+ddabc	e28d4020	add	r4, sp, #32
+ddac0	e1a0100d	mov	r1, sp
+ddac4	e3a02000	mov	r2, #0
+ddac8	e3a03000	mov	r3, #0
+ddacc	e1a00004	mov	r0, r4
+ddad0	e58dc02c	str	r12, [sp, #0x2c]
+ddad4	e58dc03c	str	r12, [sp, #0x3c]
+ddad8	e3a0c000	mov	r12, #0
+ddadc	e1cd22f0	strd	r2, r3, [sp, #32]
+ddae0	e1cd23f0	strd	r2, r3, [sp, #48]
+ddae4	e58dc028	str	r12, [sp, #0x28]
+ddae8	e58dc038	str	r12, [sp, #0x38]
+ddaec	eb05bd2e	bl	0x24cfac <_Z13F_JS_ToNumberR6RValueS0_>
+ddaf0	e3500001	cmp	r0, #1
+ddaf4	0a00007e	beq	0xddcf4 <_Z5DoSubjPhPKhP6VMExec+0x7f4>
+ddaf8	e3500000	cmp	r0, #0
+ddafc	1affffd2	bne	0xdda4c <_Z5DoSubjPhPKhP6VMExec+0x54c>
+ddb00	e28d7030	add	r7, sp, #48
+ddb04	e1a01005	mov	r1, r5
+ddb08	e1a00007	mov	r0, r7
+ddb0c	eb05bd26	bl	0x24cfac <_Z13F_JS_ToNumberR6RValueS0_>
+ddb10	e3500001	cmp	r0, #1
+ddb14	0affffc9	beq	0xdda40 <_Z5DoSubjPhPKhP6VMExec+0x540>
+ddb18	e3500000	cmp	r0, #0
+ddb1c	1affffca	bne	0xdda4c <_Z5DoSubjPhPKhP6VMExec+0x54c>
+ddb20	e5060004	str	r0, [r6, #-0x4]
+ddb24	e2465010	sub	r5, r6, #16
+ddb28	ed9d6b08	vldr	d6, [sp, #32]
+ddb2c	ed9d7b0c	vldr	d7, [sp, #48]
+ddb30	ee365b47	vsub.f64	d5, d6, d7
+ddb34	e59d102c	ldr	r1, [sp, #0x2c]
+ddb38	e2411001	sub	r1, r1, #1
+ddb3c	e3c114ff	bic	r1, r1, #-16777216
+ddb40	e3c11003	bic	r1, r1, #3
+ddb44	e3510000	cmp	r1, #0
+ddb48	ec532b15	vmov	r2, r3, d5
+ddb4c	ed065a04	vstr	s10, [r6, #-16]
+ddb50	e506300c	str	r3, [r6, #-0xc]
+ddb54	0a00006a	beq	0xddd04 <_Z5DoSubjPhPKhP6VMExec+0x804>
+ddb58	e59d103c	ldr	r1, [sp, #0x3c]
+ddb5c	e3a03000	mov	r3, #0
+ddb60	e58d3028	str	r3, [sp, #0x28]
+ddb64	e3a02005	mov	r2, #5
+ddb68	e2411001	sub	r1, r1, #1
+ddb6c	e58d3020	str	r3, [sp, #0x20]
+ddb70	e3c134ff	bic	r3, r1, #-16777216
+ddb74	e58d202c	str	r2, [sp, #0x2c]
+ddb78	e3c33003	bic	r3, r3, #3
+ddb7c	e3530000	cmp	r3, #0
+ddb80	11a00005	movne	r0, r5
+ddb84	1affff6c	bne	0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c>
+ddb88	e1a00007	mov	r0, r7
+ddb8c	ebff8bba	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+ddb90	e1a00005	mov	r0, r5
+ddb94	eaffff68	b	0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c>
+ddb98	e20550f0	and	r5, r5, #240
+ddb9c	e3855003	orr	r5, r5, #3
+ddba0	e289a010	add	r10, r9, #16
+ddba4	eafffe6f	b	0xdd568 <_Z5DoSubjPhPKhP6VMExec+0x68>
+ddba8	e20550f0	and	r5, r5, #240
+ddbac	e3855002	orr	r5, r5, #2
+ddbb0	eafffffa	b	0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0>
+ddbb4	e59f1178	ldr	r1, [pc, #0x178]
+ddbb8	e1a0000b	mov	r0, r11
+ddbbc	e1a05004	mov	r5, r4
+ddbc0	e08f1001	add	r1, pc, r1
+ddbc4	ebffd991	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddbc8	eafffff4	b	0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0>
+ddbcc	e59f1164	ldr	r1, [pc, #0x164]
+ddbd0	e1a0000b	mov	r0, r11
+ddbd4	e1a05004	mov	r5, r4
+ddbd8	e08f1001	add	r1, pc, r1
+ddbdc	ebffd98b	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddbe0	eaffffee	b	0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0>
+ddbe4	e59f1150	ldr	r1, [pc, #0x150]
+ddbe8	e1a0000b	mov	r0, r11
+ddbec	e1a05004	mov	r5, r4
+ddbf0	e08f1001	add	r1, pc, r1
+ddbf4	ebffd985	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddbf8	eaffffe8	b	0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0>
+ddbfc	e59f113c	ldr	r1, [pc, #0x13c]
+ddc00	e1a0000b	mov	r0, r11
+ddc04	e1a05004	mov	r5, r4
+ddc08	e08f1001	add	r1, pc, r1
+ddc0c	ebffd97f	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddc10	eaffffe2	b	0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0>
+ddc14	e20450f0	and	r5, r4, #240
+ddc18	eaffffe0	b	0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0>
+ddc1c	e205500f	and	r5, r5, #15
+ddc20	e3855030	orr	r5, r5, #48
+ddc24	e28a6010	add	r6, r10, #16
+ddc28	eafffe5e	b	0xdd5a8 <_Z5DoSubjPhPKhP6VMExec+0xa8>
+ddc2c	e205500f	and	r5, r5, #15
+ddc30	e3855020	orr	r5, r5, #32
+ddc34	eafffffa	b	0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724>
+ddc38	e59f1104	ldr	r1, [pc, #0x104]
+ddc3c	e1a0000b	mov	r0, r11
+ddc40	e08f1001	add	r1, pc, r1
+ddc44	ebffd971	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddc48	eafffff5	b	0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724>
+ddc4c	e59f10f4	ldr	r1, [pc, #0xf4]
+ddc50	e1a0000b	mov	r0, r11
+ddc54	e08f1001	add	r1, pc, r1
+ddc58	ebffd96c	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddc5c	eafffff0	b	0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724>
+ddc60	e59f10e4	ldr	r1, [pc, #0xe4]
+ddc64	e1a0000b	mov	r0, r11
+ddc68	e08f1001	add	r1, pc, r1
+ddc6c	ebffd967	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddc70	eaffffeb	b	0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724>
+ddc74	e59f10d4	ldr	r1, [pc, #0xd4]
+ddc78	e1a0000b	mov	r0, r11
+ddc7c	e08f1001	add	r1, pc, r1
+ddc80	ebffd962	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddc84	eaffffe6	b	0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724>
+ddc88	e205500f	and	r5, r5, #15
+ddc8c	eaffffe4	b	0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724>
+ddc90	e1a00004	mov	r0, r4
+ddc94	ebff8b78	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+ddc98	e1a00006	mov	r0, r6
+ddc9c	eaffff26	b	0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c>
+ddca0	e59f10ac	ldr	r1, [pc, #0xac]
+ddca4	e1a0000b	mov	r0, r11
+ddca8	e1a05004	mov	r5, r4
+ddcac	e08f1001	add	r1, pc, r1
+ddcb0	ebffd956	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddcb4	eaffffb9	b	0xddba0 <_Z5DoSubjPhPKhP6VMExec+0x6a0>
+ddcb8	e59f1098	ldr	r1, [pc, #0x98]
+ddcbc	e1a0000b	mov	r0, r11
+ddcc0	e08f1001	add	r1, pc, r1
+ddcc4	ebffd951	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+ddcc8	eaffffd5	b	0xddc24 <_Z5DoSubjPhPKhP6VMExec+0x724>
+ddccc	e59f0088	ldr	r0, [pc, #0x88]
+ddcd0	e08f0000	add	r0, pc, r0
+ddcd4	eb05db8a	bl	0x254b04 <_Z21JSThrowReferenceErrorPKc>
+ddcd8	e1a00006	mov	r0, r6
+ddcdc	eaffff16	b	0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c>
+ddce0	e59f0078	ldr	r0, [pc, #0x78]
+ddce4	e08f0000	add	r0, pc, r0
+ddce8	eb05db85	bl	0x254b04 <_Z21JSThrowReferenceErrorPKc>
+ddcec	e1a00006	mov	r0, r6
+ddcf0	eaffff11	b	0xdd93c <_Z5DoSubjPhPKhP6VMExec+0x43c>
+ddcf4	e59f0068	ldr	r0, [pc, #0x68]
+ddcf8	e08f0000	add	r0, pc, r0
+ddcfc	eb05c222	bl	0x24e58c <_Z16JSThrowTypeErrorPKc>
+ddd00	eaffff51	b	0xdda4c <_Z5DoSubjPhPKhP6VMExec+0x54c>
+ddd04	e1a00004	mov	r0, r4
+ddd08	ebff8b5b	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+ddd0c	eaffff91	b	0xddb58 <_Z5DoSubjPhPKhP6VMExec+0x658>
+ddd10	e1a05004	mov	r5, r4
+ddd14	e1a0a001	mov	r10, r1
+ddd18	eafffe12	b	0xdd568 <_Z5DoSubjPhPKhP6VMExec+0x68>
+ddd1c	e1a0600a	mov	r6, r10
+ddd20	eafffe20	b	0xdd5a8 <_Z5DoSubjPhPKhP6VMExec+0xa8>
+ddd24	00255b4c	eoreq	r5, r5, r12, asr #22
+ddd28	00255b0c	eoreq	r5, r5, r12, lsl #22
+ddd2c	002557a8	eoreq	r5, r5, r8, lsr #15
+ddd30	00255620	eoreq	r5, r5, r0, lsr #12
+ddd34	00255548	eoreq	r5, r5, r8, asr #10
+ddd38	00255510	eoreq	r5, r5, r0, lsl r5
+ddd3c	00255534	eoreq	r5, r5, r4, lsr r5
+ddd40	002554a4	eoreq	r5, r5, r4, lsr #9
+ddd44	00255540	eoreq	r5, r5, r0, asr #10
+ddd48	0025550c	eoreq	r5, r5, r12, lsl #10
+ddd4c	00255534	eoreq	r5, r5, r4, lsr r5
+ddd50	00255430	eoreq	r5, r5, r0, lsr r4
+ddd54	00255494	mlaeq	r5, r4, r4, r5
+ddd58	002554f8	.word	0x002554f8
+ddd5c	00255328	eoreq	r5, r5, r8, lsr #6
+ddd60	002552f0	.word	0x002552f0
+ddd64	00255324	eoreq	r5, r5, r4, lsr #6

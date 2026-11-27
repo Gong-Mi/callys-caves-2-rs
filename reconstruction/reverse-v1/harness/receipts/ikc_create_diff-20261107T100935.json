@@ -1,0 +1,42 @@
+{
+  "schema": "cally-ikc-create-diff/1",
+  "function": "spIkConstraintData_create",
+  "entry": "0x2866f0",
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "seed": 1,
+  "n_cases": 7,
+  "gates": {
+    "identity": {
+      "pass": true,
+      "mismatches": []
+    },
+    "non_degenerate": {
+      "pass": true,
+      "detail": "bendDirection=1, mix=1.0f"
+    },
+    "teeth": [
+      {
+        "mutant": "no_benddir_default",
+        "caught": true,
+        "status": "PASS"
+      },
+      {
+        "mutant": "mix_zero",
+        "caught": true,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "PASS",
+  "spIkConstraintData_layout": {
+    "size": 24,
+    "+0x00": "name",
+    "+0x04": "bonesCount",
+    "+0x08": "bones",
+    "+0x0c": "target",
+    "+0x10": "bendDirection (def 1)",
+    "+0x14": "mix (def 1.0f)"
+  },
+  "scope": "calloc 24B + MALLOC_STR + 2 defaults; 7 cases; GOT-wired allocators",
+  "timestamp": "20261107T100935"
+}

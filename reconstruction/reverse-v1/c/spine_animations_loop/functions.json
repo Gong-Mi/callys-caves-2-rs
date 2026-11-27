@@ -1,0 +1,79 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_animations_loop",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_animationsLoop",
+      "kind": "caller_block_assembly_not_original_function",
+      "address_range": "0x28d318 outer head .. 0x28e79c back edge (B3/B4 + families + publish)",
+      "translation_source": "src/spine_animations_loop.c",
+      "semantics": "Runs the B3 preamble once (readSkeletonData_animationFrameInit), then per animation: readSkeletonData_animationKeys (8 Json_getItem lookups + the legacy draworder retry), readSkeletonData_animationTimelines (B4 sum + spAnimation_create + slotsChild spill), the nine family drivers in control-flow order slots -> bones -> ik -> transform -> paths(+B17) -> deform -> drawOrder -> events, then readSkeletonData_publishAnimation and frame->animation = frame->animation->next. Returns data_raw on success; NULL as soon as a family error has disposed the animation and the skeleton data. B18 (Json_dispose of the root) is top-level and is not run here.",
+      "family_order_evidence": [
+        "0x28d4e8 beq 0x28d640 (B4 -> B6 when the slots child is NULL)",
+        "0x28d640 ldr r3,[sp,#0x30] B6 head; 0x28d648 beq 0x28d840",
+        "0x28d840 ldr r3,[sp,#0x34] B7 head; 0x28d848 beq 0x28dca8",
+        "0x28dca8 ldr r0,[sp,#0x38] B12 head; 0x28dcb0 beq 0x28de74",
+        "0x28de74 ldr r1,[sp,#0x44] B13 head; 0x28de7c beq 0x28e060",
+        "0x28e060 ldr r1,[sp,#0x50] B14 head; 0x28e068 beq 0x28e338",
+        "0x28e338 ldr r3,[sp,#0x28] B15 head; 0x28e340 beq 0x28e614",
+        "0x28e614 ldr r2,[sp,#0x4c] B16 head; 0x28e61c beq 0x28e774",
+        "0x28e774..0x28e79c publish/advance; 0x28e79c bne 0x28d318"
+      ],
+      "quirks": [
+        "B17 is interleaved inside the paths stage: 0x28e538 bne 0x28e8ec enters it, 0x28e8fc beq 0x28e048 is the silent 'mix' skip, and 0x28ea0c b 0x28e048 returns to B13's shared node advance",
+        "the slots stage is gated on the CURRENT animation's slots node + child (0x28d4c8/0x28d4d8/0x28d4e8), never on a frame->slotsChild left by the previous animation (0x28d4e4 is its only writer)",
+        "slots rc==0 has two meanings: E1 already reported (parser+0x08 non-NULL) or the silent index==-1 branch (0x28d538 beq 0x28ea10); parser->error distinguishes them so the unowned block can run",
+        "path re-entry: the B13 driver cannot resume mid-constraint, so a synthetic map/constraint wrapper restarts it at the node's next sibling; the index cell is recomputed with the same scan because a successful findPathConstraint always makes the scan hit",
+        "deform/drawOrder handoffs are resolved by re-walking the same JSON list with the same lookups to get the exact failing node for E4/E6",
+        "the loop never calls Json_dispose; B18 stays with the top-level loader"
+      ]
+    },
+    {
+      "name": "readSkeletonData_animationsSlotNotFound",
+      "kind": "recovered_block_translated_here",
+      "address_range": "0x28ea10-0x28ea3c (13 insns) + shared tail 0x28da44-0x28da50",
+      "translation_source": "src/spine_animations_loop.c",
+      "semantics": "B5 slot-index -1 terminal: spAnimation_dispose(animation); setError(parser, current animation node, \"Slot not found: \" @0x357e7c, current slot node member key); spSkeletonData_dispose(data); return NULL.",
+      "why_here": "the census assigns 0x28ea10 to no functional block and c/spine_read_tl_slots stops at 0x28d538 because the bytes sit outside its window; leaving it unimplemented would drop the slot-miss error path",
+      "instruction_anchors": [
+        "0x28ea10 mov r0,r11 (animation)",
+        "0x28ea14 ldr r8,[sp,#0x20] (parser)",
+        "0x28ea18 ldr r9,[sp,#0x18] (data)",
+        "0x28ea1c bl spAnimation_dispose",
+        "0x28ea20 ldr r2,[sp,#0x2c] (current slot node; B5 rewrites it at 0x28d638)",
+        "0x28ea28 ldr r1,[sp,#0x1c] (json argument = animation node)",
+        "0x28ea2c ldr r3,[r2,#0x1c] (slot member key)",
+        "0x28ea30/0x28ea34 pool 0x28eb1c + add -> 0x357e7c",
+        "0x28ea38 bl _spSkeletonJson_setError",
+        "0x28ea3c b 0x28da44"
+      ]
+    }
+  ],
+  "handoffs": [
+    {"from": "slots (B5)", "code": "rc 0 with parser->error == 0", "to": "readSkeletonData_animationsSlotNotFound (0x28ea10)"},
+    {"from": "paths (B13)", "code": "PATH_TL_HANDOFF_MIX", "to": "readSkeletonData_pathMixTimeline (B17) then B13 resume at 0x28e048"},
+    {"from": "deform (B14)", "code": "DEFORM_TL_HANDOFF_ATTACHMENT", "to": "readSkeletonData_attachmentNotFound (E4, draworder module)"},
+    {"from": "drawOrder (B15)", "code": "DRAWORDER_TL_HANDOFF_SLOT_NOT_FOUND", "to": "readSkeletonData_drawOrderSlotNotFound (E6, deform module)"}
+  ],
+  "open": [
+    "README/assembly note: this module owns no new timeline bytes; the only new recovered block is 0x28ea10",
+    "the path re-entry calls spSkeletonData_findPathConstraint again per segment; that is an adapter-level extra synthetic-boundary call, not an original call count. It is exact for timeline values because the scan hits whenever the lookup succeeds",
+    "a path scan MISS after a successful lookup is unreachable with the recovered findPathConstraint shape (returns an element of the scanned array or NULL); the cross-constraint stale index therefore cannot be observed by this assembly",
+    "frame->slotsChild remains the only per-animation stack word that B4 writes conditionally; the loop's explicit gate is what keeps a previous animation's node out of the next pass",
+    "B18 (Json_dispose of the root) is deliberately not part of this module; the top-level loader must call readSkeletonData_finishAnimations after a non-NULL return"
+  ],
+  "acceptance": {
+    "checker": "tools/check_animations_loop.py",
+    "receipt_schema": "cally-animations-loop-check/1",
+    "configs": ["O0", "O2", "O3", "ubsan"],
+    "declared_tests": 17,
+    "teeth": 12,
+    "compile_guards": ["missing-loop-body", "missing-tl-slots", "missing-tl-bones", "missing-tl-event", "missing-read-curve"]
+  }
+}

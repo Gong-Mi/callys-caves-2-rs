@@ -1,0 +1,109 @@
+{
+  "schema": "cally-bonedata-create-diff/1",
+  "function": "spBoneData_create",
+  "entry": "0x285a44",
+  "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "seed": 45274,
+  "n_cases": 7,
+  "gates": {
+    "identity": {
+      "pass": false,
+      "mismatches": [
+        {
+          "case": 0,
+          "orig": {
+            "error": "Invalid instruction (UC_ERR_INSN_INVALID)"
+          },
+          "c": {
+            "index": 0,
+            "name": "root",
+            "parent": 0,
+            "scaleX_raw": 0,
+            "scaleY_raw": 0,
+            "inheritRot": 1065353216,
+            "inheritScale": 0
+          }
+        },
+        {
+          "case": 1,
+          "orig": {
+            "error": "Invalid instruction (UC_ERR_INSN_INVALID)"
+          },
+          "c": {
+            "index": 1,
+            "name": "child",
+            "parent": 8192,
+            "scaleX_raw": 0,
+            "scaleY_raw": 0,
+            "inheritRot": 1065353216,
+            "inheritScale": 0
+          }
+        },
+        {
+          "case": 2,
+          "orig": {
+            "error": "Invalid instruction (UC_ERR_INSN_INVALID)"
+          },
+          "c": {
+            "index": 42,
+            "name": "long_name_with_underscores",
+            "parent": 12288,
+            "scaleX_raw": 0,
+            "scaleY_raw": 0,
+            "inheritRot": 1065353216,
+            "inheritScale": 0
+          }
+        },
+        {
+          "case": 3,
+          "orig": {
+            "error": "Invalid instruction (UC_ERR_INSN_INVALID)"
+          },
+          "c": {
+            "index": 2147483647,
+            "name": "max_index",
+            "parent": 0,
+            "scaleX_raw": 0,
+            "scaleY_raw": 0,
+            "inheritRot": 1065353216,
+            "inheritScale": 0
+          }
+        },
+        {
+          "case": 4,
+          "orig": {
+            "error": "Invalid memory write (UC_ERR_WRITE_UNMAPPED)"
+          },
+          "c": {
+            "index": 0,
+            "name": "a",
+            "parent": 4294967295,
+            "scaleX_raw": 0,
+            "scaleY_raw": 0,
+            "inheritRot": 1065353216,
+            "inheritScale": 0
+          }
+        }
+      ]
+    },
+    "non_degenerate": {
+      "pass": false,
+      "detail": "scaleX default = 0x3f800000"
+    },
+    "teeth": [
+      {
+        "mutant": "no_scaleX_default",
+        "caught": true,
+        "status": "PASS"
+      },
+      {
+        "mutant": "no_index_store",
+        "caught": true,
+        "status": "PASS"
+      }
+    ]
+  },
+  "status": "FAIL",
+  "scope": "spBoneData_create: calloc 52B + MALLOC_STR(name) + defaults; 7 cases",
+  "timestamp": "20261107T082222"
+}

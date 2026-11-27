@@ -1,0 +1,18 @@
+17ead0	e92d0070	push	{r4, r5, r6}
+17ead4	e1a04001	mov	r4, r1
+17ead8	e59f5038	ldr	r5, [pc, #0x38]
+17eadc	e79f5005	ldr	r5, [pc, r5]
+17eae0	e0855300	add	r5, r5, r0, lsl #6
+17eae4	e2856040	add	r6, r5, #64
+17eae8	e1a0c005	mov	r12, r5
+17eaec	e2844010	add	r4, r4, #16
+17eaf0	e8bc000f	ldm	r12!, {r0, r1, r2, r3}
+17eaf4	e2855010	add	r5, r5, #16
+17eaf8	e15c0006	cmp	r12, r6
+17eafc	e5040010	str	r0, [r4, #-0x10]
+17eb00	e504100c	str	r1, [r4, #-0xc]
+17eb04	e5042008	str	r2, [r4, #-0x8]
+17eb08	e5043004	str	r3, [r4, #-0x4]
+17eb0c	1afffff5	bne	0x17eae8 <_ZN8Graphics9GetMatrixE7eMatrixPf+0x18>
+17eb10	e8bd0070	pop	{r4, r5, r6}
+17eb14	e12fff1e	bx	lr

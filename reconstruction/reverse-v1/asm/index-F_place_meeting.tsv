@@ -1,0 +1,48 @@
+107fb4	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+107fb8	e3a03000	mov	r3, #0
+107fbc	e59d6018	ldr	r6, [sp, #0x18]
+107fc0	e1a07001	mov	r7, r1
+107fc4	e580300c	str	r3, [r0, #0xc]
+107fc8	e1a05000	mov	r5, r0
+107fcc	e3a01002	mov	r1, #2
+107fd0	e1a08002	mov	r8, r2
+107fd4	e1a00006	mov	r0, r6
+107fd8	ebff1a24	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+107fdc	e2973000	adds	r3, r7, #0
+107fe0	13a03001	movne	r3, #1
+107fe4	e3700001	cmn	r0, #1
+107fe8	e1a04000	mov	r4, r0
+107fec	13a03000	movne	r3, #0
+107ff0	e3530000	cmp	r3, #0
+107ff4	15974078	ldrne	r4, [r7, #0x78]
+107ff8	e2983000	adds	r3, r8, #0
+107ffc	13a03001	movne	r3, #1
+108000	e3740002	cmn	r4, #2
+108004	13a03000	movne	r3, #0
+108008	e3530000	cmp	r3, #0
+10800c	15984078	ldrne	r4, [r8, #0x78]
+108010	e3740004	cmn	r4, #4
+108014	0a000012	beq	0x108064 <_Z14F_PlaceMeetingR6RValueP9CInstanceS2_iPS_+0xb0>
+108018	e3a01000	mov	r1, #0
+10801c	e1a00006	mov	r0, r6
+108020	ebff1b17	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108024	e3a01001	mov	r1, #1
+108028	e1a08000	mov	r8, r0
+10802c	e1a00006	mov	r0, r6
+108030	ebff1b13	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108034	e1a01004	mov	r1, r4
+108038	e1a02008	mov	r2, r8
+10803c	e1a03000	mov	r3, r0
+108040	e1a00007	mov	r0, r7
+108044	eb030a6b	bl	0x1ca9f8 <_Z17Command_IsMeetingP9CInstanceiff>
+108048	e3500000	cmp	r0, #0
+10804c	13a03000	movne	r3, #0
+108050	01a03000	moveq	r3, r0
+108054	11a00003	movne	r0, r3
+108058	13433ff0	movtne	r3, #0x3ff0
+10805c	e8850009	stm	r5, {r0, r3}
+108060	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+108064	e3a03000	mov	r3, #0
+108068	e5853000	str	r3, [r5]
+10806c	e5853004	str	r3, [r5, #0x4]
+108070	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}

@@ -1,0 +1,7 @@
+133644	e59f3010	ldr	r3, [pc, #0x10]
+133648	e79f3003	ldr	r3, [pc, r3]
+13364c	e5d33000	ldrb	r3, [r3]
+133650	e3530000	cmp	r3, #0
+133654	112fff1e	bxne	lr
+133658	ea0391e5	b	0x217df4 <_Z15Audio_ResumeAllv>
+13365c	002bba04	eoreq	r11, r11, r4, lsl #20

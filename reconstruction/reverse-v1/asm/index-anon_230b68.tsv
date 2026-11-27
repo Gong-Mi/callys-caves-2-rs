@@ -1,0 +1,212 @@
+230b68	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+230b6c	e24dd03c	sub	sp, sp, #60
+230b70	e28d6018	add	r6, sp, #24
+230b74	e2809078	add	r9, r0, #120
+230b78	e280ae23	add	r10, r0, #560
+230b7c	e28d7008	add	r7, sp, #8
+230b80	e1a08000	mov	r8, r0
+230b84	e3a0b003	mov	r11, #3
+230b88	e5983058	ldr	r3, [r8, #0x58]
+230b8c	e3530003	cmp	r3, #3
+230b90	0a00005b	beq	0x230d04 <vorbis_packet_blocksize+0x1088>
+230b94	e3530004	cmp	r3, #4
+230b98	0a000041	beq	0x230ca4 <vorbis_packet_blocksize+0x1028>
+230b9c	e3530001	cmp	r3, #1
+230ba0	da000060	ble	0x230d28 <vorbis_packet_blocksize+0x10ac>
+230ba4	e3e03000	mvn	r3, #0
+230ba8	e1a00008	mov	r0, r8
+230bac	e1a01007	mov	r1, r7
+230bb0	e3e02000	mvn	r2, #0
+230bb4	ebfffc54	bl	0x22fd0c <vorbis_packet_blocksize+0x90>
+230bb8	e3500000	cmp	r0, #0
+230bbc	e2d13000	sbcs	r3, r1, #0
+230bc0	e1a00007	mov	r0, r7
+230bc4	ba0000a9	blt	0x230e70 <vorbis_packet_blocksize+0x11f4>
+230bc8	e59dc00c	ldr	r12, [sp, #0xc]
+230bcc	e1c826d8	ldrd	r2, r3, [r8, #104]
+230bd0	e5981058	ldr	r1, [r8, #0x58]
+230bd4	e1a0c18c	lsl	r12, r12, #3
+230bd8	e092200c	adds	r2, r2, r12
+230bdc	e0a33fcc	adc	r3, r3, r12, asr #31
+230be0	e3510004	cmp	r1, #4
+230be4	e1c826f8	strd	r2, r3, [r8, #104]
+230be8	1a00003d	bne	0x230ce4 <vorbis_packet_blocksize+0x1068>
+230bec	e598405c	ldr	r4, [r8, #0x5c]
+230bf0	eb000d29	bl	0x23409c <ogg_page_serialno>
+230bf4	e1540000	cmp	r4, r0
+230bf8	e1a00007	mov	r0, r7
+230bfc	0a000037	beq	0x230ce0 <vorbis_packet_blocksize+0x1064>
+230c00	eb000ce2	bl	0x233f90 <ogg_page_bos>
+230c04	e3500000	cmp	r0, #0
+230c08	0affffe5	beq	0x230ba4 <vorbis_packet_blocksize+0xf28>
+230c0c	e2880e1e	add	r0, r8, #480
+230c10	ebffd9a5	bl	0x2272ac <vorbis_dsp_clear>
+230c14	e1a0000a	mov	r0, r10
+230c18	ebffd97a	bl	0x227208 <vorbis_block_clear>
+230c1c	e5983004	ldr	r3, [r8, #0x4]
+230c20	e3a02002	mov	r2, #2
+230c24	e5882058	str	r2, [r8, #0x58]
+230c28	e3530000	cmp	r3, #0
+230c2c	0a000027	beq	0x230cd0 <vorbis_packet_blocksize+0x1054>
+230c30	e1a00007	mov	r0, r7
+230c34	eb000d18	bl	0x23409c <ogg_page_serialno>
+230c38	e5981034	ldr	r1, [r8, #0x34]
+230c3c	e3510000	cmp	r1, #0
+230c40	da00009c	ble	0x230eb8 <vorbis_packet_blocksize+0x123c>
+230c44	e5982040	ldr	r2, [r8, #0x40]
+230c48	e5923000	ldr	r3, [r2]
+230c4c	e1500003	cmp	r0, r3
+230c50	e3a03000	mov	r3, #0
+230c54	0a000005	beq	0x230c70 <vorbis_packet_blocksize+0xff4>
+230c58	e2833001	add	r3, r3, #1
+230c5c	e1530001	cmp	r3, r1
+230c60	0affffc8	beq	0x230b88 <vorbis_packet_blocksize+0xf0c>
+230c64	e5b2c004	ldr	r12, [r2, #0x4]!
+230c68	e150000c	cmp	r0, r12
+230c6c	1afffff9	bne	0x230c58 <vorbis_packet_blocksize+0xfdc>
+230c70	e588005c	str	r0, [r8, #0x5c]
+230c74	e1a01000	mov	r1, r0
+230c78	e5883060	str	r3, [r8, #0x60]
+230c7c	e1a00009	mov	r0, r9
+230c80	eb00119b	bl	0x2352f4 <ogg_stream_reset_serialno>
+230c84	e588b058	str	r11, [r8, #0x58]
+230c88	ea000017	b	0x230cec <vorbis_packet_blocksize+0x1070>
+230c8c	e3530000	cmp	r3, #0
+230c90	da000021	ble	0x230d1c <vorbis_packet_blocksize+0x10a0>
+230c94	e1cd42d8	ldrd	r4, r5, [sp, #40]
+230c98	ebfffbf3	bl	0x22fc6c <vorbis_synthesis>
+230c9c	e3500000	cmp	r0, #0
+230ca0	0a000032	beq	0x230d70 <vorbis_packet_blocksize+0x10f4>
+230ca4	e1a01006	mov	r1, r6
+230ca8	e1a00009	mov	r0, r9
+230cac	eb00119d	bl	0x235328 <ogg_stream_packetout>
+230cb0	e1a01006	mov	r1, r6
+230cb4	e1a03000	mov	r3, r0
+230cb8	e3730001	cmn	r3, #1
+230cbc	e1a0000a	mov	r0, r10
+230cc0	1afffff1	bne	0x230c8c <vorbis_packet_blocksize+0x1010>
+230cc4	e3e00002	mvn	r0, #2
+230cc8	e28dd03c	add	sp, sp, #60
+230ccc	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+230cd0	e5980048	ldr	r0, [r8, #0x48]
+230cd4	ebffe80d	bl	0x22ad10 <vorbis_info_clear>
+230cd8	e598004c	ldr	r0, [r8, #0x4c]
+230cdc	ebffe7da	bl	0x22ac4c <vorbis_comment_clear>
+230ce0	e5981058	ldr	r1, [r8, #0x58]
+230ce4	e3510002	cmp	r1, #2
+230ce8	da00000e	ble	0x230d28 <vorbis_packet_blocksize+0x10ac>
+230cec	e1a00009	mov	r0, r9
+230cf0	e1a01007	mov	r1, r7
+230cf4	eb00106c	bl	0x234eac <ogg_stream_pagein>
+230cf8	e5983058	ldr	r3, [r8, #0x58]
+230cfc	e3530003	cmp	r3, #3
+230d00	1affffa3	bne	0x230b94 <vorbis_packet_blocksize+0xf18>
+230d04	e1a00008	mov	r0, r8
+230d08	ebfffd61	bl	0x230294 <vorbis_packet_blocksize+0x618>
+230d0c	e3500000	cmp	r0, #0
+230d10	baffffec	blt	0x230cc8 <vorbis_packet_blocksize+0x104c>
+230d14	e5983058	ldr	r3, [r8, #0x58]
+230d18	eaffff9d	b	0x230b94 <vorbis_packet_blocksize+0xf18>
+230d1c	e5983058	ldr	r3, [r8, #0x58]
+230d20	e3530001	cmp	r3, #1
+230d24	caffff9e	bgt	0x230ba4 <vorbis_packet_blocksize+0xf28>
+230d28	e598c004	ldr	r12, [r8, #0x4]
+230d2c	e35c0000	cmp	r12, #0
+230d30	1affffbe	bne	0x230c30 <vorbis_packet_blocksize+0xfb4>
+230d34	e5981048	ldr	r1, [r8, #0x48]
+230d38	e1a0300c	mov	r3, r12
+230d3c	e598204c	ldr	r2, [r8, #0x4c]
+230d40	e1a00008	mov	r0, r8
+230d44	e58dc000	str	r12, [sp]
+230d48	e58d7004	str	r7, [sp, #0x4]
+230d4c	ebfffd78	bl	0x230334 <vorbis_packet_blocksize+0x6b8>
+230d50	e3500000	cmp	r0, #0
+230d54	1affffdb	bne	0x230cc8 <vorbis_packet_blocksize+0x104c>
+230d58	e59821c8	ldr	r2, [r8, #0x1c8]
+230d5c	e5983060	ldr	r3, [r8, #0x60]
+230d60	e588205c	str	r2, [r8, #0x5c]
+230d64	e2833001	add	r3, r3, #1
+230d68	e5883060	str	r3, [r8, #0x60]
+230d6c	eaffffde	b	0x230cec <vorbis_packet_blocksize+0x1070>
+230d70	e2889e1e	add	r9, r8, #480
+230d74	e1a01000	mov	r1, r0
+230d78	e1a00009	mov	r0, r9
+230d7c	ebffdbbf	bl	0x227c80 <vorbis_synthesis_pcmout>
+230d80	e2506000	subs	r6, r0, #0
+230d84	13e00080	mvnne	r0, #128
+230d88	1affffce	bne	0x230cc8 <vorbis_packet_blocksize+0x104c>
+230d8c	e1a0100a	mov	r1, r10
+230d90	e1a00009	mov	r0, r9
+230d94	ebffda27	bl	0x227638 <vorbis_synthesis_blockin>
+230d98	e1a01006	mov	r1, r6
+230d9c	e1a00009	mov	r0, r9
+230da0	e1c867d0	ldrd	r6, r7, [r8, #112]
+230da4	ebffdbb5	bl	0x227c80 <vorbis_synthesis_pcmout>
+230da8	e59d101c	ldr	r1, [sp, #0x1c]
+230dac	e1c826d8	ldrd	r2, r3, [r8, #104]
+230db0	e3e0a000	mvn	r10, #0
+230db4	e3e0b000	mvn	r11, #0
+230db8	e1a01181	lsl	r1, r1, #3
+230dbc	e0922001	adds	r2, r2, r1
+230dc0	e0a33fc1	adc	r3, r3, r1, asr #31
+230dc4	e1c826f8	strd	r2, r3, [r8, #104]
+230dc8	e0962000	adds	r2, r6, r0
+230dcc	e0a73fc0	adc	r3, r7, r0, asr #31
+230dd0	e155000b	cmp	r5, r11
+230dd4	0154000a	cmpeq	r4, r10
+230dd8	e1a00002	mov	r0, r2
+230ddc	e1a01003	mov	r1, r3
+230de0	e1c807f0	strd	r0, r1, [r8, #112]
+230de4	0a000023	beq	0x230e78 <vorbis_packet_blocksize+0x11fc>
+230de8	e59d3024	ldr	r3, [sp, #0x24]
+230dec	e3530000	cmp	r3, #0
+230df0	1a000020	bne	0x230e78 <vorbis_packet_blocksize+0x11fc>
+230df4	e5983004	ldr	r3, [r8, #0x4]
+230df8	e3530000	cmp	r3, #0
+230dfc	0a00001f	beq	0x230e80 <vorbis_packet_blocksize+0x1204>
+230e00	e5986060	ldr	r6, [r8, #0x60]
+230e04	e3560000	cmp	r6, #0
+230e08	da00001c	ble	0x230e80 <vorbis_packet_blocksize+0x1204>
+230e0c	e5983044	ldr	r3, [r8, #0x44]
+230e10	e1a06206	lsl	r6, r6, #4
+230e14	e3a01000	mov	r1, #0
+230e18	e1a00009	mov	r0, r9
+230e1c	e18320d6	ldrd	r2, r3, [r3, r6]
+230e20	e0544002	subs	r4, r4, r2
+230e24	e0c55003	sbc	r5, r5, r3
+230e28	e3540000	cmp	r4, #0
+230e2c	e2d53000	sbcs	r3, r5, #0
+230e30	b3a04000	movlt	r4, #0
+230e34	b3a05000	movlt	r5, #0
+230e38	ebffdb90	bl	0x227c80 <vorbis_synthesis_pcmout>
+230e3c	e598c044	ldr	r12, [r8, #0x44]
+230e40	e086600c	add	r6, r6, r12
+230e44	e0542000	subs	r2, r4, r0
+230e48	e0c53fc0	sbc	r3, r5, r0, asr #31
+230e4c	e1a00002	mov	r0, r2
+230e50	e1a01003	mov	r1, r3
+230e54	e1cc20d8	ldrd	r2, r3, [r12, #8]
+230e58	e28cc010	add	r12, r12, #16
+230e5c	e0900002	adds	r0, r0, r2
+230e60	e0a11003	adc	r1, r1, r3
+230e64	e15c0006	cmp	r12, r6
+230e68	1afffff9	bne	0x230e54 <vorbis_packet_blocksize+0x11d8>
+230e6c	ea00000e	b	0x230eac <vorbis_packet_blocksize+0x1230>
+230e70	e3e00001	mvn	r0, #1
+230e74	eaffff93	b	0x230cc8 <vorbis_packet_blocksize+0x104c>
+230e78	e3a00001	mov	r0, #1
+230e7c	eaffff91	b	0x230cc8 <vorbis_packet_blocksize+0x104c>
+230e80	e3540000	cmp	r4, #0
+230e84	e2d52000	sbcs	r2, r5, #0
+230e88	e3a01000	mov	r1, #0
+230e8c	e1a00009	mov	r0, r9
+230e90	b3a04000	movlt	r4, #0
+230e94	b3a05000	movlt	r5, #0
+230e98	ebffdb78	bl	0x227c80 <vorbis_synthesis_pcmout>
+230e9c	e0542000	subs	r2, r4, r0
+230ea0	e0c53fc0	sbc	r3, r5, r0, asr #31
+230ea4	e1a00002	mov	r0, r2
+230ea8	e1a01003	mov	r1, r3
+230eac	e1c805f0	strd	r0, r1, [r8, #80]
+230eb0	e3a00001	mov	r0, #1
+230eb4	eaffff83	b	0x230cc8 <vorbis_packet_blocksize+0x104c>

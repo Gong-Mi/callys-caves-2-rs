@@ -1,0 +1,134 @@
+1f1d80	ee071a90	vmov	s15, r1
+1f1d84	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1f1d88	eeb87be7	vcvt.f64.s32	d7, s15
+1f1d8c	e24dd00c	sub	sp, sp, #12
+1f1d90	e1a07002	mov	r7, r2
+1f1d94	e1a08001	mov	r8, r1
+1f1d98	e1a05000	mov	r5, r0
+1f1d9c	ec532b17	vmov	r2, r3, d7
+1f1da0	ebffffd7	bl	0x1f1d04 <_ZN9CTimeLine11FindSmallerEd>
+1f1da4	e3700001	cmn	r0, #1
+1f1da8	0a000002	beq	0x1f1db8 <_ZN9CTimeLine15AddMomentScriptEii+0x38>
+1f1dac	e5954010	ldr	r4, [r5, #0x10]
+1f1db0	e1500004	cmp	r0, r4
+1f1db4	ba000054	blt	0x1f1f0c <_ZN9CTimeLine15AddMomentScriptEii+0x18c>
+1f1db8	e5954010	ldr	r4, [r5, #0x10]
+1f1dbc	e2806001	add	r6, r0, #1
+1f1dc0	e5953014	ldr	r3, [r5, #0x14]
+1f1dc4	e2949001	adds	r9, r4, #1
+1f1dc8	0a000056	beq	0x1f1f28 <_ZN9CTimeLine15AddMomentScriptEii+0x1a8>
+1f1dcc	e1b01109	lsls	r1, r9, #2
+1f1dd0	0a000067	beq	0x1f1f74 <_ZN9CTimeLine15AddMomentScriptEii+0x1f4>
+1f1dd4	e59f21b8	ldr	r2, [pc, #0x1b8]
+1f1dd8	e1a00003	mov	r0, r3
+1f1ddc	e3a03000	mov	r3, #0
+1f1de0	e58d3000	str	r3, [sp]
+1f1de4	e08f2002	add	r2, pc, r2
+1f1de8	e3a0306a	mov	r3, #106
+1f1dec	eb022c3a	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1f1df0	e1a02000	mov	r2, r0
+1f1df4	e5850014	str	r0, [r5, #0x14]
+1f1df8	e1560004	cmp	r6, r4
+1f1dfc	e5859010	str	r9, [r5, #0x10]
+1f1e00	b0823104	addlt	r3, r2, r4, lsl #2
+1f1e04	aa000004	bge	0x1f1e1c <_ZN9CTimeLine15AddMomentScriptEii+0x9c>
+1f1e08	e2444001	sub	r4, r4, #1
+1f1e0c	e5130004	ldr	r0, [r3, #-0x4]
+1f1e10	e1540006	cmp	r4, r6
+1f1e14	e4030004	str	r0, [r3], #-4
+1f1e18	1afffffa	bne	0x1f1e08 <_ZN9CTimeLine15AddMomentScriptEii+0x88>
+1f1e1c	e7828106	str	r8, [r2, r6, lsl #2]
+1f1e20	e1a07087	lsl	r7, r7, #1
+1f1e24	e5954008	ldr	r4, [r5, #0x8]
+1f1e28	e3877001	orr	r7, r7, #1
+1f1e2c	e2949001	adds	r9, r4, #1
+1f1e30	e1a0c004	mov	r12, r4
+1f1e34	1a000042	bne	0x1f1f44 <_ZN9CTimeLine15AddMomentScriptEii+0x1c4>
+1f1e38	e595300c	ldr	r3, [r5, #0xc]
+1f1e3c	e3530000	cmp	r3, #0
+1f1e40	0a00001d	beq	0x1f1ebc <_ZN9CTimeLine15AddMomentScriptEii+0x13c>
+1f1e44	e3540000	cmp	r4, #0
+1f1e48	da00001b	ble	0x1f1ebc <_ZN9CTimeLine15AddMomentScriptEii+0x13c>
+1f1e4c	e1a08009	mov	r8, r9
+1f1e50	e1a0b009	mov	r11, r9
+1f1e54	e5930000	ldr	r0, [r3]
+1f1e58	e30f2eee	movw	r2, #0xfeee
+1f1e5c	e34f2eee	movt	r2, #0xfeee
+1f1e60	e30f1eee	movw	r1, #0xfeee
+1f1e64	e1500002	cmp	r0, r2
+1f1e68	e34f1eee	movt	r1, #0xfeee
+1f1e6c	e1a0a108	lsl	r10, r8, #2
+1f1e70	0a00000e	beq	0x1f1eb0 <_ZN9CTimeLine15AddMomentScriptEii+0x130>
+1f1e74	e7932108	ldr	r2, [r3, r8, lsl #2]
+1f1e78	e083e00a	add	lr, r3, r10
+1f1e7c	e3520000	cmp	r2, #0
+1f1e80	e1a00002	mov	r0, r2
+1f1e84	0a000009	beq	0x1f1eb0 <_ZN9CTimeLine15AddMomentScriptEii+0x130>
+1f1e88	e5923000	ldr	r3, [r2]
+1f1e8c	e1530001	cmp	r3, r1
+1f1e90	0a000004	beq	0x1f1ea8 <_ZN9CTimeLine15AddMomentScriptEii+0x128>
+1f1e94	e5933004	ldr	r3, [r3, #0x4]
+1f1e98	e12fff33	blx	r3
+1f1e9c	e595e00c	ldr	lr, [r5, #0xc]
+1f1ea0	e595c008	ldr	r12, [r5, #0x8]
+1f1ea4	e08ee00a	add	lr, lr, r10
+1f1ea8	e58eb000	str	r11, [lr]
+1f1eac	e595300c	ldr	r3, [r5, #0xc]
+1f1eb0	e2888001	add	r8, r8, #1
+1f1eb4	e158000c	cmp	r8, r12
+1f1eb8	baffffe5	blt	0x1f1e54 <_ZN9CTimeLine15AddMomentScriptEii+0xd4>
+1f1ebc	e1a00003	mov	r0, r3
+1f1ec0	eb022902	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1f1ec4	e3a03000	mov	r3, #0
+1f1ec8	e1a01003	mov	r1, r3
+1f1ecc	e585300c	str	r3, [r5, #0xc]
+1f1ed0	e1560004	cmp	r6, r4
+1f1ed4	e5859008	str	r9, [r5, #0x8]
+1f1ed8	aa000008	bge	0x1f1f00 <_ZN9CTimeLine15AddMomentScriptEii+0x180>
+1f1edc	e1a03104	lsl	r3, r4, #2
+1f1ee0	e0810003	add	r0, r1, r3
+1f1ee4	e2444001	sub	r4, r4, #1
+1f1ee8	e1540006	cmp	r4, r6
+1f1eec	e5100004	ldr	r0, [r0, #-0x4]
+1f1ef0	e7810003	str	r0, [r1, r3]
+1f1ef4	e2433004	sub	r3, r3, #4
+1f1ef8	e595100c	ldr	r1, [r5, #0xc]
+1f1efc	1afffff7	bne	0x1f1ee0 <_ZN9CTimeLine15AddMomentScriptEii+0x160>
+1f1f00	e7817106	str	r7, [r1, r6, lsl #2]
+1f1f04	e28dd00c	add	sp, sp, #12
+1f1f08	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1f1f0c	e5953014	ldr	r3, [r5, #0x14]
+1f1f10	e7932100	ldr	r2, [r3, r0, lsl #2]
+1f1f14	e1520008	cmp	r2, r8
+1f1f18	0afffff9	beq	0x1f1f04 <_ZN9CTimeLine15AddMomentScriptEii+0x184>
+1f1f1c	e2949001	adds	r9, r4, #1
+1f1f20	e2806001	add	r6, r0, #1
+1f1f24	1affffa8	bne	0x1f1dcc <_ZN9CTimeLine15AddMomentScriptEii+0x4c>
+1f1f28	e3530000	cmp	r3, #0
+1f1f2c	0a000010	beq	0x1f1f74 <_ZN9CTimeLine15AddMomentScriptEii+0x1f4>
+1f1f30	e1a00003	mov	r0, r3
+1f1f34	eb0228e5	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1f1f38	e5859014	str	r9, [r5, #0x14]
+1f1f3c	e1a02009	mov	r2, r9
+1f1f40	eaffffac	b	0x1f1df8 <_ZN9CTimeLine15AddMomentScriptEii+0x78>
+1f1f44	e1b01109	lsls	r1, r9, #2
+1f1f48	0a00000f	beq	0x1f1f8c <_ZN9CTimeLine15AddMomentScriptEii+0x20c>
+1f1f4c	e59f2044	ldr	r2, [pc, #0x44]
+1f1f50	e3a03000	mov	r3, #0
+1f1f54	e595000c	ldr	r0, [r5, #0xc]
+1f1f58	e08f2002	add	r2, pc, r2
+1f1f5c	e58d3000	str	r3, [sp]
+1f1f60	e3a03087	mov	r3, #135
+1f1f64	eb022bdc	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1f1f68	e1a01000	mov	r1, r0
+1f1f6c	e585000c	str	r0, [r5, #0xc]
+1f1f70	eaffffd6	b	0x1f1ed0 <_ZN9CTimeLine15AddMomentScriptEii+0x150>
+1f1f74	e1a00003	mov	r0, r3
+1f1f78	eb0228d4	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1f1f7c	e3a03000	mov	r3, #0
+1f1f80	e1a02003	mov	r2, r3
+1f1f84	e5853014	str	r3, [r5, #0x14]
+1f1f88	eaffff9a	b	0x1f1df8 <_ZN9CTimeLine15AddMomentScriptEii+0x78>
+1f1f8c	e595300c	ldr	r3, [r5, #0xc]
+1f1f90	eaffffc9	b	0x1f1ebc <_ZN9CTimeLine15AddMomentScriptEii+0x13c>
+1f1f94	001608f0	ldrsheq	r0, [r6], -r0

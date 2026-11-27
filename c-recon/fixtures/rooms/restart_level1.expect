@@ -1,0 +1,8 @@
+# room_restart queues the current room; consumption reloads it and restores HP.
+ROOM 1
+!WARP
+COUNT_INST 0 1
+COUNT_INST 134 0
+GLOBAL health1 4
+GLOBAL warpfrommap 1
+GLOBAL level1visited 1

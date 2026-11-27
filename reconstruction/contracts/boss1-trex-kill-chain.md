@@ -39,5 +39,41 @@ SHA256 `9eee3f3aa6718375f2cd24fbfa33e075879a291ba9d43214441d4408994347a6`。
 ## 边界
 
 - obj_trex 的 CODE 161 巡逻与 Alarm 2/3 转向在本批以 hspeed/x/帧窗行为取证；
-  毒（Alarm 6/CODE 156）、剑眩晕（Alarm 5/CODE 157）分支依赖武器池，尚未单测。
+  毒（Alarm 6/CODE 156）与剑眩晕（Alarm 5/CODE 157）已直派 alarm 覆盖：
+  `trex_alarm6_poisons_and_spawns_a_damage_cloud`（poisoned=1、hptrex−0.25、
+  alarm[6]=30、在 Boss 坐标生成 obj_damage(104) 且 damage=0.25）与
+  `trex_alarm5_clears_sword_stun`（swordstunned 1→0）。两条都驱动真实字节码，
+  不是手写逻辑。**首次武装点已找到（2026-10-25，经代理红队纠正后重扫）**：
+  GML 的 `with` 块在 IR 里编码为 `pushenv`/`popenv`，块内 `store selector=-1` 写的是
+  **with 目标**而不是 body 属主——这正是我前几轮"无跨实例写"结论的盲点。
+  真实武装：
+  - 用途的权威表由代理红队用抽象栈模拟给出（GT：全库 **1532** 条点写，脚本
+    复核一致）。点写有两种形状：`load var; cast to=2; store`（plain）与
+    `load var; cast to=2; dup; <值表达式>; store`（复合赋值，`hp -= dmg` 属这类）
+    ——**所有扣血类写都在第二种**；我最初的脚本只认紧邻 cast，漏了 343 条
+    （全是 hp 家族），第二次修正为识别 dup 形状后才与 GT 对齐。
+    对 `hittrex` 的写入 **35 条** = 13 `flashing` + 15 `hptrex` + **7 条
+    `alarm[6] = 1`**，分别来自 `CODE 270 flame` / `274 blade` / `281 arrow` /
+    `284 bullet` / `289 laserbeam` / `294 spikegunspike` / `303 rocket`。
+    `CODE 284` 的门在指令 719–721：`if (global.poisonenabled == 1)`，723–727
+    写 `(hittrex).alarm[6] = 1`。**七个 body 逐个验过**（`scripts/scan_point_writes.py
+    --var hittrex --field alarm --index 6 --gate poisonenabled`）：门形状完全一致，
+    都是"load poisonenabled 距离 store 8 条、跨一个 bf"（8/bf）。
+    方法提醒：`other` 布尔字段不能当"点写"判据（284 这处 `other=false`，
+    目标是栈上的 `hittrex`）；`with` 块的块内写用 `selector=-1`。
+  - **trex 无剑眩晕**：同一张表里 `hittrex` 没有任何 `swordstunned` / `alarm[5]`
+    写入（`alarm[5]/[6]` 的点写全库 189 条，`hittrex` 只占 alarm[6] 那 7 条）。
+  - 武装后由敌人自己的 `CODE 156` 置 poisoned=1、hp−0.25、生成 obj_damage、
+    alarm[6]=30（本批另一条夹具覆盖）。
+  - 剑眩晕对 trex **不存在**：全库扫 `(hittrex)` 的写入只有 flashing / hptrex /
+    alarm[6]，没有 swordstunned / alarm[5]；那些 stun 块属于别的家族。
+  运行时顺序也验过（`bullet_poisons_trex_through_the_natural_tick_order`，无手工
+  dispatch，靠调度器）：tick 1 子弹自己的 Step 武装 alarm[6]=1 并打掉 1 HP；
+  tick 2 该 alarm 归零触发 CODE 156 → poisoned=1、hp −0.25、alarm[6]=30。
+  另外发现一条对玩法可见的规则：**alarm[6]=1 的写只看 poisonenabled 门**，
+  在倒计时 30 期间再来一发会把 30 覆写成 1，于是下一跳毒被推迟而不是缩短
+  （夹具里第二发子弹的断言守着这一点）。
+  夹具 `bullet_arms_trex_poison_and_the_alarm_ticks`：真实子弹命中 → alarm[6]=1 →
+  直派 Alarm 6 → poisoned=1、hp−0.25、alarm[6]=30（scheduler 倒计时依赖 sleep
+  sweep，由 alarm body 那条测试单独覆盖，夹具注释写明这个边界）。
 - Android 真机 Boss 战视觉与音效验收仍需单独一轮（CI 绿≠真机已验）。

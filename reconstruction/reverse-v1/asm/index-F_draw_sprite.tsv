@@ -1,0 +1,30 @@
+122748	e92d40f0	push	{r4, r5, r6, r7, lr}
+12274c	e24dd00c	sub	sp, sp, #12
+122750	e1a00001	mov	r0, r1
+122754	e28d3004	add	r3, sp, #4
+122758	e59d4020	ldr	r4, [sp, #0x20]
+12275c	e1a0200d	mov	r2, sp
+122760	e1a01004	mov	r1, r4
+122764	ebffffd6	bl	0x1226c4 <_Z16GetSpriteIndicesP9CInstanceP6RValueRiS3_>
+122768	e3500000	cmp	r0, #0
+12276c	1a000001	bne	0x122778 <_Z12F_DrawSpriteR6RValueP9CInstanceS2_iPS_+0x30>
+122770	e28dd00c	add	sp, sp, #12
+122774	e8bd80f0	pop	{r4, r5, r6, r7, pc}
+122778	e59d0000	ldr	r0, [sp]
+12277c	eb03322e	bl	0x1ef03c <_Z11Sprite_Datai>
+122780	e3a01002	mov	r1, #2
+122784	e59d6004	ldr	r6, [sp, #0x4]
+122788	e1a07000	mov	r7, r0
+12278c	e1a00004	mov	r0, r4
+122790	ebfeb13b	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+122794	e3a01003	mov	r1, #3
+122798	e1a05000	mov	r5, r0
+12279c	e1a00004	mov	r0, r4
+1227a0	ebfeb137	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+1227a4	e1a01006	mov	r1, r6
+1227a8	e1a02005	mov	r2, r5
+1227ac	e1a03000	mov	r3, r0
+1227b0	e1a00007	mov	r0, r7
+1227b4	eb0328be	bl	0x1ecab4 <_ZN7CSprite10DrawSimpleEiff>
+1227b8	e28dd00c	add	sp, sp, #12
+1227bc	e8bd80f0	pop	{r4, r5, r6, r7, pc}

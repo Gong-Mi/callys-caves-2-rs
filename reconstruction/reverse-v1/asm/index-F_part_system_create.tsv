@@ -1,0 +1,14 @@
+129730	e92d4010	push	{r4, lr}
+129734	e1a04000	mov	r4, r0
+129738	e3a03000	mov	r3, #0
+12973c	e3a01001	mov	r1, #1
+129740	e584300c	str	r3, [r4, #0xc]
+129744	e3e00000	mvn	r0, #0
+129748	eb01eae3	bl	0x1a42dc <_Z21ParticleSystem_Createib>
+12974c	ee070a90	vmov	s15, r0
+129750	eeb87be7	vcvt.f64.s32	d7, s15
+129754	ec510b17	vmov	r0, r1, d7
+129758	ee172a10	vmov	r2, s14
+12975c	e1a03001	mov	r3, r1
+129760	e884000c	stm	r4, {r2, r3}
+129764	e8bd8010	pop	{r4, pc}

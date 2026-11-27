@@ -1,0 +1,401 @@
+1ae3f8	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1ae3fc	ed2d8b02	vpush	{d8}
+1ae400	e1a04001	mov	r4, r1
+1ae404	e24dd01c	sub	sp, sp, #28
+1ae408	e1a06000	mov	r6, r0
+1ae40c	ebfffb24	bl	0x1ad0a4 <_ZN5CRoom5ClearEv>
+1ae410	e1a00004	mov	r0, r4
+1ae414	eb014cc5	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae418	e300321d	movw	r3, #0x21d
+1ae41c	e1500003	cmp	r0, r3
+1ae420	13a00000	movne	r0, #0
+1ae424	0a000002	beq	0x1ae434 <_ZN5CRoom14LoadFromStreamEP7CStream+0x3c>
+1ae428	e28dd01c	add	sp, sp, #28
+1ae42c	ecbd8b02	vpop	{d8}
+1ae430	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1ae434	e5960008	ldr	r0, [r6, #0x8]
+1ae438	e3500000	cmp	r0, #0
+1ae43c	0a000002	beq	0x1ae44c <_ZN5CRoom14LoadFromStreamEP7CStream+0x54>
+1ae440	eb0337a2	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1ae444	e3a03000	mov	r3, #0
+1ae448	e5863008	str	r3, [r6, #0x8]
+1ae44c	e2861008	add	r1, r6, #8
+1ae450	e1a00004	mov	r0, r4
+1ae454	eb014d23	bl	0x2018e8 <_ZN7CStream10ReadStringERPKc>
+1ae458	e1a00004	mov	r0, r4
+1ae45c	eb014cb3	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae460	e5860010	str	r0, [r6, #0x10]
+1ae464	e1a00004	mov	r0, r4
+1ae468	eb014cb0	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae46c	e5860014	str	r0, [r6, #0x14]
+1ae470	e1a00004	mov	r0, r4
+1ae474	eb014cad	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae478	e586000c	str	r0, [r6, #0xc]
+1ae47c	e1a00004	mov	r0, r4
+1ae480	eb014d4a	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae484	e5c60018	strb	r0, [r6, #0x18]
+1ae488	e1a00004	mov	r0, r4
+1ae48c	eb014ca7	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae490	e586001c	str	r0, [r6, #0x1c]
+1ae494	e1a00004	mov	r0, r4
+1ae498	eb014d44	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae49c	e5963068	ldr	r3, [r6, #0x68]
+1ae4a0	e3530000	cmp	r3, #0
+1ae4a4	e5c60020	strb	r0, [r6, #0x20]
+1ae4a8	0a000003	beq	0x1ae4bc <_ZN5CRoom14LoadFromStreamEP7CStream+0xc4>
+1ae4ac	e1a00003	mov	r0, r3
+1ae4b0	eb033786	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1ae4b4	e3a03000	mov	r3, #0
+1ae4b8	e5863068	str	r3, [r6, #0x68]
+1ae4bc	e1a00004	mov	r0, r4
+1ae4c0	e2861068	add	r1, r6, #104
+1ae4c4	eb014d07	bl	0x2018e8 <_ZN7CStream10ReadStringERPKc>
+1ae4c8	e1a00004	mov	r0, r4
+1ae4cc	eb014c97	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae4d0	e3a07000	mov	r7, #0
+1ae4d4	e5c67070	strb	r7, [r6, #0x70]
+1ae4d8	e2509000	subs	r9, r0, #0
+1ae4dc	ceb78a00	vmovgt.f32	s16, #1.000000e+00
+1ae4e0	c1a05006	movgt	r5, r6
+1ae4e4	c3e0a4ff	mvngt	r10, #-16777216
+1ae4e8	ca000004	bgt	0x1ae500 <_ZN5CRoom14LoadFromStreamEP7CStream+0x108>
+1ae4ec	ea000058	b	0x1ae654 <_ZN5CRoom14LoadFromStreamEP7CStream+0x25c>
+1ae4f0	e2877001	add	r7, r7, #1
+1ae4f4	e2855004	add	r5, r5, #4
+1ae4f8	e1570009	cmp	r7, r9
+1ae4fc	0a000054	beq	0x1ae654 <_ZN5CRoom14LoadFromStreamEP7CStream+0x25c>
+1ae500	e1a00004	mov	r0, r4
+1ae504	e5958024	ldr	r8, [r5, #0x24]
+1ae508	eb014d28	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae50c	e595b024	ldr	r11, [r5, #0x24]
+1ae510	e5c80000	strb	r0, [r8]
+1ae514	e1a00004	mov	r0, r4
+1ae518	eb014d24	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae51c	e5958024	ldr	r8, [r5, #0x24]
+1ae520	e5cb0001	strb	r0, [r11, #0x1]
+1ae524	e1a00004	mov	r0, r4
+1ae528	eb014c80	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae52c	e595b024	ldr	r11, [r5, #0x24]
+1ae530	e5880004	str	r0, [r8, #0x4]
+1ae534	e1a00004	mov	r0, r4
+1ae538	eb014c7c	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae53c	e5958024	ldr	r8, [r5, #0x24]
+1ae540	ee060a90	vmov	s13, r0
+1ae544	e1a00004	mov	r0, r4
+1ae548	eef87ae6	vcvt.f32.s32	s15, s13
+1ae54c	edcb7a02	vstr	s15, [r11, #8]
+1ae550	eb014c76	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae554	e595b024	ldr	r11, [r5, #0x24]
+1ae558	ee070a10	vmov	s14, r0
+1ae55c	e1a00004	mov	r0, r4
+1ae560	eef87ac7	vcvt.f32.s32	s15, s14
+1ae564	edc87a03	vstr	s15, [r8, #12]
+1ae568	eb014d10	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae56c	e5958024	ldr	r8, [r5, #0x24]
+1ae570	e5cb0010	strb	r0, [r11, #0x10]
+1ae574	e1a00004	mov	r0, r4
+1ae578	eb014d0c	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae57c	e595b024	ldr	r11, [r5, #0x24]
+1ae580	e5c80011	strb	r0, [r8, #0x11]
+1ae584	e1a00004	mov	r0, r4
+1ae588	eb014c68	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae58c	e5958024	ldr	r8, [r5, #0x24]
+1ae590	ee060a90	vmov	s13, r0
+1ae594	e1a00004	mov	r0, r4
+1ae598	eef87ae6	vcvt.f32.s32	s15, s13
+1ae59c	edcb7a05	vstr	s15, [r11, #20]
+1ae5a0	eb014c62	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae5a4	e5953024	ldr	r3, [r5, #0x24]
+1ae5a8	ee070a10	vmov	s14, r0
+1ae5ac	e1a00004	mov	r0, r4
+1ae5b0	eef87ac7	vcvt.f32.s32	s15, s14
+1ae5b4	edc87a06	vstr	s15, [r8, #24]
+1ae5b8	e583a024	str	r10, [r3, #0x24]
+1ae5bc	ed838a0a	vstr	s16, [r3, #40]
+1ae5c0	eb014cfa	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae5c4	e3500000	cmp	r0, #0
+1ae5c8	0affffc8	beq	0x1ae4f0 <_ZN5CRoom14LoadFromStreamEP7CStream+0xf8>
+1ae5cc	e5953024	ldr	r3, [r5, #0x24]
+1ae5d0	e5930004	ldr	r0, [r3, #0x4]
+1ae5d4	ebfc5419	bl	0xc3640 <_Z17Background_Existsi>
+1ae5d8	e3500000	cmp	r0, #0
+1ae5dc	0affffc3	beq	0x1ae4f0 <_ZN5CRoom14LoadFromStreamEP7CStream+0xf8>
+1ae5e0	e5953024	ldr	r3, [r5, #0x24]
+1ae5e4	e2877001	add	r7, r7, #1
+1ae5e8	e2855004	add	r5, r5, #4
+1ae5ec	e5930004	ldr	r0, [r3, #0x4]
+1ae5f0	ebfc5467	bl	0xc3794 <_Z15Background_Datai>
+1ae5f4	ebfc51df	bl	0xc2d78 <_ZN11CBackground8GetWidthEv>
+1ae5f8	e5953020	ldr	r3, [r5, #0x20]
+1ae5fc	ee060a90	vmov	s13, r0
+1ae600	e5930004	ldr	r0, [r3, #0x4]
+1ae604	eef87ae6	vcvt.f32.s32	s15, s13
+1ae608	eef57ac0	vcmpe.f32	s15, #0
+1ae60c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ae610	cdd66a04	vldrgt	s13, [r6, #16]
+1ae614	ceb87ae6	vcvtgt.f32.s32	s14, s13
+1ae618	cec77a27	vdivgt.f32	s15, s14, s15
+1ae61c	cdc37a07	vstrgt	s15, [r3, #28]
+1ae620	ebfc545b	bl	0xc3794 <_Z15Background_Datai>
+1ae624	ebfc51d5	bl	0xc2d80 <_ZN11CBackground9GetHeightEv>
+1ae628	ee070a10	vmov	s14, r0
+1ae62c	eef87ac7	vcvt.f32.s32	s15, s14
+1ae630	eef57ac0	vcmpe.f32	s15, #0
+1ae634	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ae638	cdd66a05	vldrgt	s13, [r6, #20]
+1ae63c	ceb87ae6	vcvtgt.f32.s32	s14, s13
+1ae640	c5953020	ldrgt	r3, [r5, #0x20]
+1ae644	cec77a27	vdivgt.f32	s15, s14, s15
+1ae648	cdc37a08	vstrgt	s15, [r3, #32]
+1ae64c	e1570009	cmp	r7, r9
+1ae650	1affffaa	bne	0x1ae500 <_ZN5CRoom14LoadFromStreamEP7CStream+0x108>
+1ae654	e1a00004	mov	r0, r4
+1ae658	eb014cd4	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae65c	e5c60044	strb	r0, [r6, #0x44]
+1ae660	e1a00004	mov	r0, r4
+1ae664	eb014c31	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae668	e250a000	subs	r10, r0, #0
+1ae66c	c1a05006	movgt	r5, r6
+1ae670	c3a07000	movgt	r7, #0
+1ae674	c3a0b000	movgt	r11, #0
+1ae678	da000044	ble	0x1ae790 <_ZN5CRoom14LoadFromStreamEP7CStream+0x398>
+1ae67c	e1a00004	mov	r0, r4
+1ae680	e5959048	ldr	r9, [r5, #0x48]
+1ae684	eb014cc9	bl	0x2019b0 <_ZN7CStream11ReadBooleanEv>
+1ae688	e5958048	ldr	r8, [r5, #0x48]
+1ae68c	e2877001	add	r7, r7, #1
+1ae690	e2855004	add	r5, r5, #4
+1ae694	e5c90000	strb	r0, [r9]
+1ae698	e1a00004	mov	r0, r4
+1ae69c	eb014c23	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae6a0	e5959044	ldr	r9, [r5, #0x44]
+1ae6a4	ee070a10	vmov	s14, r0
+1ae6a8	e1a00004	mov	r0, r4
+1ae6ac	eef87ac7	vcvt.f32.s32	s15, s14
+1ae6b0	edc87a01	vstr	s15, [r8, #4]
+1ae6b4	eb014c1d	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae6b8	e5958044	ldr	r8, [r5, #0x44]
+1ae6bc	ee060a90	vmov	s13, r0
+1ae6c0	e1a00004	mov	r0, r4
+1ae6c4	eef87ae6	vcvt.f32.s32	s15, s13
+1ae6c8	edc97a02	vstr	s15, [r9, #8]
+1ae6cc	eb014c17	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae6d0	e5959044	ldr	r9, [r5, #0x44]
+1ae6d4	ee070a10	vmov	s14, r0
+1ae6d8	e1a00004	mov	r0, r4
+1ae6dc	eef87ac7	vcvt.f32.s32	s15, s14
+1ae6e0	edc87a03	vstr	s15, [r8, #12]
+1ae6e4	eb014c11	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae6e8	e5958044	ldr	r8, [r5, #0x44]
+1ae6ec	ee060a90	vmov	s13, r0
+1ae6f0	e1a00004	mov	r0, r4
+1ae6f4	eef87ae6	vcvt.f32.s32	s15, s13
+1ae6f8	edc97a04	vstr	s15, [r9, #16]
+1ae6fc	eb014c0b	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae700	e5959044	ldr	r9, [r5, #0x44]
+1ae704	e5880014	str	r0, [r8, #0x14]
+1ae708	e1a00004	mov	r0, r4
+1ae70c	eb014c07	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae710	e5958044	ldr	r8, [r5, #0x44]
+1ae714	e5890018	str	r0, [r9, #0x18]
+1ae718	e1a00004	mov	r0, r4
+1ae71c	eb014c03	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae720	e5959044	ldr	r9, [r5, #0x44]
+1ae724	e588001c	str	r0, [r8, #0x1c]
+1ae728	e1a00004	mov	r0, r4
+1ae72c	eb014bff	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae730	e5958044	ldr	r8, [r5, #0x44]
+1ae734	e5890020	str	r0, [r9, #0x20]
+1ae738	e1a00004	mov	r0, r4
+1ae73c	e588b024	str	r11, [r8, #0x24]
+1ae740	eb014bfa	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae744	e5959044	ldr	r9, [r5, #0x44]
+1ae748	e5880028	str	r0, [r8, #0x28]
+1ae74c	e1a00004	mov	r0, r4
+1ae750	eb014bf6	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae754	e5958044	ldr	r8, [r5, #0x44]
+1ae758	e589002c	str	r0, [r9, #0x2c]
+1ae75c	e1a00004	mov	r0, r4
+1ae760	eb014bf2	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae764	e5959044	ldr	r9, [r5, #0x44]
+1ae768	e5880030	str	r0, [r8, #0x30]
+1ae76c	e1a00004	mov	r0, r4
+1ae770	eb014bee	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae774	e5958044	ldr	r8, [r5, #0x44]
+1ae778	e5890034	str	r0, [r9, #0x34]
+1ae77c	e1a00004	mov	r0, r4
+1ae780	eb014bea	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae784	e157000a	cmp	r7, r10
+1ae788	e5880038	str	r0, [r8, #0x38]
+1ae78c	1affffba	bne	0x1ae67c <_ZN5CRoom14LoadFromStreamEP7CStream+0x284>
+1ae790	e1a00004	mov	r0, r4
+1ae794	eb014be5	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae798	e3500000	cmp	r0, #0
+1ae79c	e58d000c	str	r0, [sp, #0xc]
+1ae7a0	c28da014	addgt	r10, sp, #20
+1ae7a4	c3a08000	movgt	r8, #0
+1ae7a8	c1a07008	movgt	r7, r8
+1ae7ac	da000038	ble	0x1ae894 <_ZN5CRoom14LoadFromStreamEP7CStream+0x49c>
+1ae7b0	e1a00004	mov	r0, r4
+1ae7b4	eb014bdd	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae7b8	ee080a90	vmov	s17, r0
+1ae7bc	e1a00004	mov	r0, r4
+1ae7c0	eb014bda	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae7c4	ee080a10	vmov	s16, r0
+1ae7c8	e1a00004	mov	r0, r4
+1ae7cc	eb014bd7	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae7d0	e1a09000	mov	r9, r0
+1ae7d4	e1a00004	mov	r0, r4
+1ae7d8	eb014bd4	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae7dc	e1a0b000	mov	r11, r0
+1ae7e0	e3a00e1b	mov	r0, #432
+1ae7e4	eb03374e	bl	0x27c524 <_Znwj>
+1ae7e8	eef88ae8	vcvt.f32.s32	s17, s17
+1ae7ec	e1a0300b	mov	r3, r11
+1ae7f0	e58d9000	str	r9, [sp]
+1ae7f4	e58d7004	str	r7, [sp, #0x4]
+1ae7f8	eeb88ac8	vcvt.f32.s32	s16, s16
+1ae7fc	ee181a90	vmov	r1, s17
+1ae800	ee182a10	vmov	r2, s16
+1ae804	e1a05000	mov	r5, r0
+1ae808	ebffab33	bl	0x1994dc <_ZN9CInstanceC2Effiib>
+1ae80c	e1a00004	mov	r0, r4
+1ae810	e1a0100a	mov	r1, r10
+1ae814	e58d7014	str	r7, [sp, #0x14]
+1ae818	eb014c32	bl	0x2018e8 <_ZN7CStream10ReadStringERPKc>
+1ae81c	e5857160	str	r7, [r5, #0x160]
+1ae820	e5857164	str	r7, [r5, #0x164]
+1ae824	e5963084	ldr	r3, [r6, #0x84]
+1ae828	e5962088	ldr	r2, [r6, #0x88]
+1ae82c	e3530000	cmp	r3, #0
+1ae830	1d957a60	vldrne	s14, [r5, #384]
+1ae834	e2822001	add	r2, r2, #1
+1ae838	e5862088	str	r2, [r6, #0x88]
+1ae83c	0a00006c	beq	0x1ae9f4 <_ZN5CRoom14LoadFromStreamEP7CStream+0x5fc>
+1ae840	edd37a61	vldr	s15, [r3, #388]
+1ae844	eef47ac7	vcmpe.f32	s15, s14
+1ae848	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ae84c	9a00005b	bls	0x1ae9c0 <_ZN5CRoom14LoadFromStreamEP7CStream+0x5c8>
+1ae850	e593317c	ldr	r3, [r3, #0x17c]
+1ae854	e3530000	cmp	r3, #0
+1ae858	1afffff8	bne	0x1ae840 <_ZN5CRoom14LoadFromStreamEP7CStream+0x448>
+1ae85c	e5962080	ldr	r2, [r6, #0x80]
+1ae860	ed857a61	vstr	s14, [r5, #388]
+1ae864	e582517c	str	r5, [r2, #0x17c]
+1ae868	e5852178	str	r2, [r5, #0x178]
+1ae86c	e5865080	str	r5, [r6, #0x80]
+1ae870	e585317c	str	r3, [r5, #0x17c]
+1ae874	e59d0014	ldr	r0, [sp, #0x14]
+1ae878	e3500000	cmp	r0, #0
+1ae87c	0a000000	beq	0x1ae884 <_ZN5CRoom14LoadFromStreamEP7CStream+0x48c>
+1ae880	eb033692	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1ae884	e59d300c	ldr	r3, [sp, #0xc]
+1ae888	e2888001	add	r8, r8, #1
+1ae88c	e1580003	cmp	r8, r3
+1ae890	1affffc6	bne	0x1ae7b0 <_ZN5CRoom14LoadFromStreamEP7CStream+0x3b8>
+1ae894	e1a00004	mov	r0, r4
+1ae898	eb014ba4	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae89c	e3500000	cmp	r0, #0
+1ae8a0	e1a05000	mov	r5, r0
+1ae8a4	e58600b8	str	r0, [r6, #0xb8]
+1ae8a8	0a000058	beq	0x1aea10 <_ZN5CRoom14LoadFromStreamEP7CStream+0x618>
+1ae8ac	e0603180	rsb	r3, r0, r0, lsl #3
+1ae8b0	e59600c0	ldr	r0, [r6, #0xc0]
+1ae8b4	e1b01183	lsls	r1, r3, #3
+1ae8b8	0a00005a	beq	0x1aea28 <_ZN5CRoom14LoadFromStreamEP7CStream+0x630>
+1ae8bc	e59f2174	ldr	r2, [pc, #0x174]
+1ae8c0	e3a03000	mov	r3, #0
+1ae8c4	e58d3000	str	r3, [sp]
+1ae8c8	e3a0306a	mov	r3, #106
+1ae8cc	e08f2002	add	r2, pc, r2
+1ae8d0	eb033981	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+1ae8d4	e58600c0	str	r0, [r6, #0xc0]
+1ae8d8	e59630b8	ldr	r3, [r6, #0xb8]
+1ae8dc	e58650bc	str	r5, [r6, #0xbc]
+1ae8e0	e3530000	cmp	r3, #0
+1ae8e4	da000031	ble	0x1ae9b0 <_ZN5CRoom14LoadFromStreamEP7CStream+0x5b8>
+1ae8e8	e3a07000	mov	r7, #0
+1ae8ec	e3a095fe	mov	r9, #1065353216
+1ae8f0	e1a08007	mov	r8, r7
+1ae8f4	e3e0b4ff	mvn	r11, #-16777216
+1ae8f8	e3a0a001	mov	r10, #1
+1ae8fc	e1a00004	mov	r0, r4
+1ae900	e59650c0	ldr	r5, [r6, #0xc0]
+1ae904	eb014b89	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae908	e2888001	add	r8, r8, #1
+1ae90c	e0855007	add	r5, r5, r7
+1ae910	e2877038	add	r7, r7, #56
+1ae914	ee060a90	vmov	s13, r0
+1ae918	e1a00004	mov	r0, r4
+1ae91c	eef87ae6	vcvt.f32.s32	s15, s13
+1ae920	edc57a00	vstr	s15, [r5]
+1ae924	eb014b81	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae928	ee070a10	vmov	s14, r0
+1ae92c	e1a00004	mov	r0, r4
+1ae930	eef87ac7	vcvt.f32.s32	s15, s14
+1ae934	edc57a01	vstr	s15, [r5, #4]
+1ae938	eb014b7c	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae93c	e5850008	str	r0, [r5, #0x8]
+1ae940	e1a00004	mov	r0, r4
+1ae944	eb014b79	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae948	e585000c	str	r0, [r5, #0xc]
+1ae94c	e1a00004	mov	r0, r4
+1ae950	eb014b76	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae954	e5850010	str	r0, [r5, #0x10]
+1ae958	e1a00004	mov	r0, r4
+1ae95c	eb014b73	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae960	e5850014	str	r0, [r5, #0x14]
+1ae964	e1a00004	mov	r0, r4
+1ae968	eb014b70	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae96c	e5850018	str	r0, [r5, #0x18]
+1ae970	e1a00004	mov	r0, r4
+1ae974	eb014b6d	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae978	ee060a90	vmov	s13, r0
+1ae97c	e1a00004	mov	r0, r4
+1ae980	eef87ae6	vcvt.f32.s32	s15, s13
+1ae984	edc57a07	vstr	s15, [r5, #28]
+1ae988	eb014b68	bl	0x201730 <_ZN7CStream11ReadIntegerEv>
+1ae98c	e59630b8	ldr	r3, [r6, #0xb8]
+1ae990	e5859024	str	r9, [r5, #0x24]
+1ae994	e1530008	cmp	r3, r8
+1ae998	e5859028	str	r9, [r5, #0x28]
+1ae99c	e585b02c	str	r11, [r5, #0x2c]
+1ae9a0	e5859030	str	r9, [r5, #0x30]
+1ae9a4	e5c5a034	strb	r10, [r5, #0x34]
+1ae9a8	e5850020	str	r0, [r5, #0x20]
+1ae9ac	caffffd2	bgt	0x1ae8fc <_ZN5CRoom14LoadFromStreamEP7CStream+0x504>
+1ae9b0	e3a00001	mov	r0, #1
+1ae9b4	e28dd01c	add	sp, sp, #28
+1ae9b8	ecbd8b02	vpop	{d8}
+1ae9bc	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1ae9c0	e5932178	ldr	r2, [r3, #0x178]
+1ae9c4	e3520000	cmp	r2, #0
+1ae9c8	0585317c	streq	r3, [r5, #0x17c]
+1ae9cc	15852178	strne	r2, [r5, #0x178]
+1ae9d0	15932178	ldrne	r2, [r3, #0x178]
+1ae9d4	05835178	streq	r5, [r3, #0x178]
+1ae9d8	1585317c	strne	r3, [r5, #0x17c]
+1ae9dc	05865084	streq	r5, [r6, #0x84]
+1ae9e0	1582517c	strne	r5, [r2, #0x17c]
+1ae9e4	05852178	streq	r2, [r5, #0x178]
+1ae9e8	15835178	strne	r5, [r3, #0x178]
+1ae9ec	ed857a61	vstr	s14, [r5, #388]
+1ae9f0	eaffff9f	b	0x1ae874 <_ZN5CRoom14LoadFromStreamEP7CStream+0x47c>
+1ae9f4	e5952180	ldr	r2, [r5, #0x180]
+1ae9f8	e5865084	str	r5, [r6, #0x84]
+1ae9fc	e5865080	str	r5, [r6, #0x80]
+1aea00	e5852184	str	r2, [r5, #0x184]
+1aea04	e585317c	str	r3, [r5, #0x17c]
+1aea08	e5853178	str	r3, [r5, #0x178]
+1aea0c	eaffff98	b	0x1ae874 <_ZN5CRoom14LoadFromStreamEP7CStream+0x47c>
+1aea10	e59600c0	ldr	r0, [r6, #0xc0]
+1aea14	e3500000	cmp	r0, #0
+1aea18	0a000002	beq	0x1aea28 <_ZN5CRoom14LoadFromStreamEP7CStream+0x630>
+1aea1c	eb03362b	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1aea20	e58650c0	str	r5, [r6, #0xc0]
+1aea24	eaffffab	b	0x1ae8d8 <_ZN5CRoom14LoadFromStreamEP7CStream+0x4e0>
+1aea28	eb033628	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+1aea2c	e3a03000	mov	r3, #0
+1aea30	e58630c0	str	r3, [r6, #0xc0]
+1aea34	eaffffa7	b	0x1ae8d8 <_ZN5CRoom14LoadFromStreamEP7CStream+0x4e0>
+1aea38	0019e968	andseq	lr, r9, r8, ror #18

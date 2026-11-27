@@ -1,0 +1,174 @@
+108520	e92d4038	push	{r3, r4, r5, lr}
+108524	e1a04001	mov	r4, r1
+108528	e59d5010	ldr	r5, [sp, #0x10]
+10852c	e3a01000	mov	r1, #0
+108530	e1a00005	mov	r0, r5
+108534	ebff19d2	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108538	e1a01000	mov	r1, r0
+10853c	e1a00004	mov	r0, r4
+108540	eb022ac7	bl	0x193064 <_ZN9CInstance12SetDirectionEf>
+108544	e1a00005	mov	r0, r5
+108548	e3a01001	mov	r1, #1
+10854c	ebff19cc	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+108550	e1a01000	mov	r1, r0
+108554	e1a00004	mov	r0, r4
+108558	e8bd4038	pop	{r3, r4, r5, lr}
+10855c	ea022adc	b	0x1930d4 <_ZN9CInstance8SetSpeedEf>
+12e0cc	e92d4038	push	{r3, r4, r5, lr}
+12e0d0	e3a05000	mov	r5, #0
+12e0d4	e1a04000	mov	r4, r0
+12e0d8	e1a01005	mov	r1, r5
+12e0dc	e580500c	str	r5, [r0, #0xc]
+12e0e0	e59d0010	ldr	r0, [sp, #0x10]
+12e0e4	ebfe81e1	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+12e0e8	eb01c302	bl	0x19ecf8 <_Z13Object_Existsi>
+12e0ec	e3500000	cmp	r0, #0
+12e0f0	01a05000	moveq	r5, r0
+12e0f4	11a03005	movne	r3, r5
+12e0f8	01a03005	moveq	r3, r5
+12e0fc	13433ff0	movtne	r3, #0x3ff0
+12e100	e5845000	str	r5, [r4]
+12e104	e5843004	str	r3, [r4, #0x4]
+12e108	e8bd8038	pop	{r3, r4, r5, pc}
+13dfec	e92d4070	push	{r4, r5, r6, lr}
+13dff0	e1a06001	mov	r6, r1
+13dff4	e59d4010	ldr	r4, [sp, #0x10]
+13dff8	e3a01000	mov	r1, #0
+13dffc	e1a00004	mov	r0, r4
+13e000	ebfe41d8	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+13e004	e3a01001	mov	r1, #1
+13e008	e1a05000	mov	r5, r0
+13e00c	e1a00004	mov	r0, r4
+13e010	ebfe41d4	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+13e014	e1a01005	mov	r1, r5
+13e018	e1a02000	mov	r2, r0
+13e01c	e1a00006	mov	r0, r6
+13e020	e8bd4070	pop	{r4, r5, r6, lr}
+13e024	ea0233dd	b	0x1cafa0 <_Z14Command_BounceP9CInstancebb>
+128f40	e92d4010	push	{r4, lr}
+128f44	e3a03000	mov	r3, #0
+128f48	e580300c	str	r3, [r0, #0xc]
+128f4c	e1a04000	mov	r4, r0
+128f50	eb01e844	bl	0x1a3068 <_Z19ParticleType_Createv>
+128f54	ee070a90	vmov	s15, r0
+128f58	eeb87be7	vcvt.f64.s32	d7, s15
+128f5c	ec510b17	vmov	r0, r1, d7
+128f60	ee172a10	vmov	r2, s14
+128f64	e1a03001	mov	r3, r1
+128f68	e884000c	stm	r4, {r2, r3}
+128f6c	e8bd8010	pop	{r4, pc}
+128fdc	e92d4038	push	{r3, r4, r5, lr}
+128fe0	e3a01000	mov	r1, #0
+128fe4	e59d4010	ldr	r4, [sp, #0x10]
+128fe8	e1a00004	mov	r0, r4
+128fec	ebfe961f	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+128ff0	e3a01001	mov	r1, #1
+128ff4	e1a05000	mov	r5, r0
+128ff8	e1a00004	mov	r0, r4
+128ffc	ebfe961b	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+129000	e1a01000	mov	r1, r0
+129004	e1a00005	mov	r0, r5
+129008	e8bd4038	pop	{r3, r4, r5, lr}
+12900c	ea01e864	b	0x1a31a4 <_Z18ParticleType_Shapeii>
+129624	e92d4038	push	{r3, r4, r5, lr}
+129628	e3a01000	mov	r1, #0
+12962c	e59d4010	ldr	r4, [sp, #0x10]
+129630	e1a00004	mov	r0, r4
+129634	ebfe948d	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+129638	e3a01001	mov	r1, #1
+12963c	e1a05000	mov	r5, r0
+129640	e1a00004	mov	r0, r4
+129644	ebfe958e	bl	0xcec84 <_Z10YYGetFloatPK6RValuei>
+129648	e1a01000	mov	r1, r0
+12964c	e1a00005	mov	r0, r5
+129650	e8bd4038	pop	{r3, r4, r5, lr}
+129654	ea01e803	b	0x1a3668 <_Z19ParticleType_Alpha1if>
+129730	e92d4010	push	{r4, lr}
+129734	e1a04000	mov	r4, r0
+129738	e3a03000	mov	r3, #0
+12973c	e3a01001	mov	r1, #1
+129740	e584300c	str	r3, [r4, #0xc]
+129744	e3e00000	mvn	r0, #0
+129748	eb01eae3	bl	0x1a42dc <_Z21ParticleSystem_Createib>
+12974c	ee070a90	vmov	s15, r0
+129750	eeb87be7	vcvt.f64.s32	d7, s15
+129754	ec510b17	vmov	r0, r1, d7
+129758	ee172a10	vmov	r2, s14
+12975c	e1a03001	mov	r3, r1
+129760	e884000c	stm	r4, {r2, r3}
+129764	e8bd8010	pop	{r4, pc}
+119bc4	e92d4010	push	{r4, lr}
+119bc8	e3a03000	mov	r3, #0
+119bcc	e580300c	str	r3, [r0, #0xc]
+119bd0	e1a04000	mov	r4, r0
+119bd4	eb018fd2	bl	0x17db24 <_Z21Graphics_DisplayWidthv>
+119bd8	ee070a90	vmov	s15, r0
+119bdc	eeb87be7	vcvt.f64.s32	d7, s15
+119be0	ec510b17	vmov	r0, r1, d7
+119be4	ee172a10	vmov	r2, s14
+119be8	e1a03001	mov	r3, r1
+119bec	e884000c	stm	r4, {r2, r3}
+119bf0	e8bd8010	pop	{r4, pc}
+119bf4	e92d4010	push	{r4, lr}
+119bf8	e3a03000	mov	r3, #0
+119bfc	e580300c	str	r3, [r0, #0xc]
+119c00	e1a04000	mov	r4, r0
+119c04	eb018fcb	bl	0x17db38 <_Z22Graphics_DisplayHeightv>
+119c08	ee070a90	vmov	s15, r0
+119c0c	eeb87be7	vcvt.f64.s32	d7, s15
+119c10	ec510b17	vmov	r0, r1, d7
+119c14	ee172a10	vmov	r2, s14
+119c18	e1a03001	mov	r3, r1
+119c1c	e884000c	stm	r4, {r2, r3}
+119c20	e8bd8010	pop	{r4, pc}
+11a59c	e92d4010	push	{r4, lr}
+11a5a0	e3a03000	mov	r3, #0
+11a5a4	e580300c	str	r3, [r0, #0xc]
+11a5a8	e1a04000	mov	r4, r0
+11a5ac	eb018267	bl	0x17af50 <_Z19GR_Window_Get_Widthv>
+11a5b0	ee070a90	vmov	s15, r0
+11a5b4	eeb87be7	vcvt.f64.s32	d7, s15
+11a5b8	ec510b17	vmov	r0, r1, d7
+11a5bc	ee172a10	vmov	r2, s14
+11a5c0	e1a03001	mov	r3, r1
+11a5c4	e884000c	stm	r4, {r2, r3}
+11a5c8	e8bd8010	pop	{r4, pc}
+11a5cc	e92d4010	push	{r4, lr}
+11a5d0	e3a03000	mov	r3, #0
+11a5d4	e580300c	str	r3, [r0, #0xc]
+11a5d8	e1a04000	mov	r4, r0
+11a5dc	eb018260	bl	0x17af64 <_Z20GR_Window_Get_Heightv>
+11a5e0	ee070a90	vmov	s15, r0
+11a5e4	eeb87be7	vcvt.f64.s32	d7, s15
+11a5e8	ec510b17	vmov	r0, r1, d7
+11a5ec	ee172a10	vmov	r2, s14
+11a5f0	e1a03001	mov	r3, r1
+11a5f4	e884000c	stm	r4, {r2, r3}
+11a5f8	e8bd8010	pop	{r4, pc}
+134dd8	e92d4008	push	{r3, lr}
+134ddc	e59f301c	ldr	r3, [pc, #0x1c]
+134de0	e59d0008	ldr	r0, [sp, #0x8]
+134de4	e79f3003	ldr	r3, [pc, r3]
+134de8	e5d31000	ldrb	r1, [r3]
+134dec	e3510000	cmp	r1, #0
+134df0	18bd8008	popne	{r3, pc}
+134df4	ebfe669d	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+134df8	e8bd4008	pop	{r3, lr}
+134dfc	ea039503	b	0x21a210 <_Z15Audio_StopSoundi>
+134e00	002ba268	eoreq	r10, r11, r8, ror #4
+13b9e0	e92d4038	push	{r3, r4, r5, lr}
+13b9e4	e1a05000	mov	r5, r0
+13b9e8	ebffffe6	bl	0x13b988 <_Z15YYGML_ini_closev>
+13b9ec	e1a04000	mov	r4, r0
+13b9f0	e1a00005	mov	r0, r5
+13b9f4	e1a01004	mov	r1, r4
+13b9f8	ebfea616	bl	0xe5258 <_Z14YYCreateStringP6RValuePKc>
+13b9fc	e1a00004	mov	r0, r4
+13ba00	e8bd4038	pop	{r3, r4, r5, lr}
+13ba04	ea050231	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+13bb1c	e92d4008	push	{r3, lr}
+13bb20	e3a01000	mov	r1, #0
+13bb24	e59d0008	ldr	r0, [sp, #0x8]
+13bb28	ebfe5268	bl	0xd04d0 <_Z11YYGetStringPK6RValuei>
+13bb2c	e8bd4008	pop	{r3, lr}
+13bb30	eaffffdd	b	0x13baac <_Z14YYGML_ini_openPKc>

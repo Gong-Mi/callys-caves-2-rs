@@ -1,0 +1,1008 @@
+1278c4	e92d4070	push	{r4, r5, r6, lr}
+1278c8	e59f4c40	ldr	r4, [pc, #0xc40]
+1278cc	e59f3c40	ldr	r3, [pc, #0xc40]
+1278d0	e08f4004	add	r4, pc, r4
+1278d4	e7945003	ldr	r5, [r4, r3]
+1278d8	e5950000	ldr	r0, [r5]
+1278dc	ebfe3b15	bl	0xb6538 <strlen@plt>
+1278e0	e3a03001	mov	r3, #1
+1278e4	e59f1c2c	ldr	r1, [pc, #0xc2c]
+1278e8	e30026e8	movw	r2, #0x6e8
+1278ec	e08f1001	add	r1, pc, r1
+1278f0	e0806003	add	r6, r0, r3
+1278f4	e1a00006	mov	r0, r6
+1278f8	eb05555e	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+1278fc	e59f3c18	ldr	r3, [pc, #0xc18]
+127900	e1a02006	mov	r2, r6
+127904	e5951000	ldr	r1, [r5]
+127908	e7943003	ldr	r3, [r4, r3]
+12790c	e5830000	str	r0, [r3]
+127910	ebfe3b29	bl	0xb65bc <memcpy@plt>
+127914	e59f1c04	ldr	r1, [pc, #0xc04]
+127918	e3a02001	mov	r2, #1
+12791c	e59f0c00	ldr	r0, [pc, #0xc00]
+127920	e1a03002	mov	r3, r2
+127924	e08f0000	add	r0, pc, r0
+127928	e7941001	ldr	r1, [r4, r1]
+12792c	ebfe9994	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127930	e59f1bf0	ldr	r1, [pc, #0xbf0]
+127934	e59f0bf0	ldr	r0, [pc, #0xbf0]
+127938	e3a02001	mov	r2, #1
+12793c	e1a03002	mov	r3, r2
+127940	e08f0000	add	r0, pc, r0
+127944	e7941001	ldr	r1, [r4, r1]
+127948	ebfe998d	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12794c	e59f1bdc	ldr	r1, [pc, #0xbdc]
+127950	e59f0bdc	ldr	r0, [pc, #0xbdc]
+127954	e3a02001	mov	r2, #1
+127958	e1a03002	mov	r3, r2
+12795c	e08f0000	add	r0, pc, r0
+127960	e7941001	ldr	r1, [r4, r1]
+127964	ebfe9986	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127968	e59f1bc8	ldr	r1, [pc, #0xbc8]
+12796c	e59f0bc8	ldr	r0, [pc, #0xbc8]
+127970	e3a02002	mov	r2, #2
+127974	e3a03001	mov	r3, #1
+127978	e08f0000	add	r0, pc, r0
+12797c	e7941001	ldr	r1, [r4, r1]
+127980	ebfe997f	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127984	e59f1bb4	ldr	r1, [pc, #0xbb4]
+127988	e59f0bb4	ldr	r0, [pc, #0xbb4]
+12798c	e3a02001	mov	r2, #1
+127990	e1a03002	mov	r3, r2
+127994	e08f0000	add	r0, pc, r0
+127998	e7941001	ldr	r1, [r4, r1]
+12799c	ebfe9978	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1279a0	e59f1ba0	ldr	r1, [pc, #0xba0]
+1279a4	e59f0ba0	ldr	r0, [pc, #0xba0]
+1279a8	e3a02001	mov	r2, #1
+1279ac	e1a03002	mov	r3, r2
+1279b0	e08f0000	add	r0, pc, r0
+1279b4	e7941001	ldr	r1, [r4, r1]
+1279b8	ebfe9971	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1279bc	e59f1b8c	ldr	r1, [pc, #0xb8c]
+1279c0	e59f0b8c	ldr	r0, [pc, #0xb8c]
+1279c4	e3a02001	mov	r2, #1
+1279c8	e1a03002	mov	r3, r2
+1279cc	e08f0000	add	r0, pc, r0
+1279d0	e7941001	ldr	r1, [r4, r1]
+1279d4	ebfe996a	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1279d8	e59f1b78	ldr	r1, [pc, #0xb78]
+1279dc	e59f0b78	ldr	r0, [pc, #0xb78]
+1279e0	e3a02001	mov	r2, #1
+1279e4	e1a03002	mov	r3, r2
+1279e8	e08f0000	add	r0, pc, r0
+1279ec	e7941001	ldr	r1, [r4, r1]
+1279f0	ebfe9963	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1279f4	e59f1b64	ldr	r1, [pc, #0xb64]
+1279f8	e59f0b64	ldr	r0, [pc, #0xb64]
+1279fc	e3a02001	mov	r2, #1
+127a00	e1a03002	mov	r3, r2
+127a04	e08f0000	add	r0, pc, r0
+127a08	e7941001	ldr	r1, [r4, r1]
+127a0c	ebfe995c	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127a10	e59f1b50	ldr	r1, [pc, #0xb50]
+127a14	e59f0b50	ldr	r0, [pc, #0xb50]
+127a18	e3a02001	mov	r2, #1
+127a1c	e1a03002	mov	r3, r2
+127a20	e08f0000	add	r0, pc, r0
+127a24	e7941001	ldr	r1, [r4, r1]
+127a28	ebfe9955	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127a2c	e59f1b3c	ldr	r1, [pc, #0xb3c]
+127a30	e59f0b3c	ldr	r0, [pc, #0xb3c]
+127a34	e3a02001	mov	r2, #1
+127a38	e1a03002	mov	r3, r2
+127a3c	e08f0000	add	r0, pc, r0
+127a40	e7941001	ldr	r1, [r4, r1]
+127a44	ebfe994e	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127a48	e59f1b28	ldr	r1, [pc, #0xb28]
+127a4c	e59f0b28	ldr	r0, [pc, #0xb28]
+127a50	e3a02001	mov	r2, #1
+127a54	e1a03002	mov	r3, r2
+127a58	e08f0000	add	r0, pc, r0
+127a5c	e7941001	ldr	r1, [r4, r1]
+127a60	ebfe9947	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127a64	e59f1b14	ldr	r1, [pc, #0xb14]
+127a68	e59f0b14	ldr	r0, [pc, #0xb14]
+127a6c	e3a02001	mov	r2, #1
+127a70	e1a03002	mov	r3, r2
+127a74	e08f0000	add	r0, pc, r0
+127a78	e7941001	ldr	r1, [r4, r1]
+127a7c	ebfe9940	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127a80	e59f1b00	ldr	r1, [pc, #0xb00]
+127a84	e59f0b00	ldr	r0, [pc, #0xb00]
+127a88	e3a02002	mov	r2, #2
+127a8c	e3a03001	mov	r3, #1
+127a90	e08f0000	add	r0, pc, r0
+127a94	e7941001	ldr	r1, [r4, r1]
+127a98	ebfe9939	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127a9c	e59f1aec	ldr	r1, [pc, #0xaec]
+127aa0	e59f0aec	ldr	r0, [pc, #0xaec]
+127aa4	e3a02002	mov	r2, #2
+127aa8	e3a03001	mov	r3, #1
+127aac	e08f0000	add	r0, pc, r0
+127ab0	e7941001	ldr	r1, [r4, r1]
+127ab4	ebfe9932	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127ab8	e59f1ad8	ldr	r1, [pc, #0xad8]
+127abc	e59f0ad8	ldr	r0, [pc, #0xad8]
+127ac0	e3a02002	mov	r2, #2
+127ac4	e3a03001	mov	r3, #1
+127ac8	e08f0000	add	r0, pc, r0
+127acc	e7941001	ldr	r1, [r4, r1]
+127ad0	ebfe992b	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127ad4	e59f1ac4	ldr	r1, [pc, #0xac4]
+127ad8	e59f0ac4	ldr	r0, [pc, #0xac4]
+127adc	e3a02003	mov	r2, #3
+127ae0	e3a03001	mov	r3, #1
+127ae4	e08f0000	add	r0, pc, r0
+127ae8	e7941001	ldr	r1, [r4, r1]
+127aec	ebfe9924	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127af0	e59f1ab0	ldr	r1, [pc, #0xab0]
+127af4	e59f0ab0	ldr	r0, [pc, #0xab0]
+127af8	e3a02003	mov	r2, #3
+127afc	e3a03001	mov	r3, #1
+127b00	e08f0000	add	r0, pc, r0
+127b04	e7941001	ldr	r1, [r4, r1]
+127b08	ebfe991d	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127b0c	e59f1a9c	ldr	r1, [pc, #0xa9c]
+127b10	e59f0a9c	ldr	r0, [pc, #0xa9c]
+127b14	e3a02004	mov	r2, #4
+127b18	e3a03001	mov	r3, #1
+127b1c	e08f0000	add	r0, pc, r0
+127b20	e7941001	ldr	r1, [r4, r1]
+127b24	ebfe9916	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127b28	e59f1a88	ldr	r1, [pc, #0xa88]
+127b2c	e59f0a88	ldr	r0, [pc, #0xa88]
+127b30	e3a02001	mov	r2, #1
+127b34	e3a03000	mov	r3, #0
+127b38	e08f0000	add	r0, pc, r0
+127b3c	e7941001	ldr	r1, [r4, r1]
+127b40	ebfe990f	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127b44	e59f1a74	ldr	r1, [pc, #0xa74]
+127b48	e59f0a74	ldr	r0, [pc, #0xa74]
+127b4c	e3a02001	mov	r2, #1
+127b50	e3a03000	mov	r3, #0
+127b54	e08f0000	add	r0, pc, r0
+127b58	e7941001	ldr	r1, [r4, r1]
+127b5c	ebfe9908	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127b60	e59f1a60	ldr	r1, [pc, #0xa60]
+127b64	e59f0a60	ldr	r0, [pc, #0xa60]
+127b68	e3a02001	mov	r2, #1
+127b6c	e3a03000	mov	r3, #0
+127b70	e08f0000	add	r0, pc, r0
+127b74	e7941001	ldr	r1, [r4, r1]
+127b78	ebfe9901	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127b7c	e59f1a4c	ldr	r1, [pc, #0xa4c]
+127b80	e59f0a4c	ldr	r0, [pc, #0xa4c]
+127b84	e3a02001	mov	r2, #1
+127b88	e3a03000	mov	r3, #0
+127b8c	e08f0000	add	r0, pc, r0
+127b90	e7941001	ldr	r1, [r4, r1]
+127b94	ebfe98fa	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127b98	e59f1a38	ldr	r1, [pc, #0xa38]
+127b9c	e59f0a38	ldr	r0, [pc, #0xa38]
+127ba0	e3a02002	mov	r2, #2
+127ba4	e3a03000	mov	r3, #0
+127ba8	e08f0000	add	r0, pc, r0
+127bac	e7941001	ldr	r1, [r4, r1]
+127bb0	ebfe98f3	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127bb4	e59f1a24	ldr	r1, [pc, #0xa24]
+127bb8	e59f0a24	ldr	r0, [pc, #0xa24]
+127bbc	e3a02000	mov	r2, #0
+127bc0	e1a03002	mov	r3, r2
+127bc4	e08f0000	add	r0, pc, r0
+127bc8	e7941001	ldr	r1, [r4, r1]
+127bcc	ebfe98ec	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127bd0	e59f1a10	ldr	r1, [pc, #0xa10]
+127bd4	e59f0a10	ldr	r0, [pc, #0xa10]
+127bd8	e3a02001	mov	r2, #1
+127bdc	e3a03000	mov	r3, #0
+127be0	e08f0000	add	r0, pc, r0
+127be4	e7941001	ldr	r1, [r4, r1]
+127be8	ebfe98e5	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127bec	e59f19fc	ldr	r1, [pc, #0x9fc]
+127bf0	e59f09fc	ldr	r0, [pc, #0x9fc]
+127bf4	e3a02001	mov	r2, #1
+127bf8	e3a03000	mov	r3, #0
+127bfc	e08f0000	add	r0, pc, r0
+127c00	e7941001	ldr	r1, [r4, r1]
+127c04	ebfe98de	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127c08	e59f19e8	ldr	r1, [pc, #0x9e8]
+127c0c	e59f09e8	ldr	r0, [pc, #0x9e8]
+127c10	e3a02001	mov	r2, #1
+127c14	e3a03000	mov	r3, #0
+127c18	e08f0000	add	r0, pc, r0
+127c1c	e7941001	ldr	r1, [r4, r1]
+127c20	ebfe98d7	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127c24	e59f19d4	ldr	r1, [pc, #0x9d4]
+127c28	e59f09d4	ldr	r0, [pc, #0x9d4]
+127c2c	e3a02001	mov	r2, #1
+127c30	e3a03000	mov	r3, #0
+127c34	e08f0000	add	r0, pc, r0
+127c38	e7941001	ldr	r1, [r4, r1]
+127c3c	ebfe98d0	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127c40	e59f19c0	ldr	r1, [pc, #0x9c0]
+127c44	e59f09c0	ldr	r0, [pc, #0x9c0]
+127c48	e3a02003	mov	r2, #3
+127c4c	e3a03000	mov	r3, #0
+127c50	e08f0000	add	r0, pc, r0
+127c54	e7941001	ldr	r1, [r4, r1]
+127c58	ebfe98c9	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127c5c	e59f19ac	ldr	r1, [pc, #0x9ac]
+127c60	e59f09ac	ldr	r0, [pc, #0x9ac]
+127c64	e3a02003	mov	r2, #3
+127c68	e3a03000	mov	r3, #0
+127c6c	e08f0000	add	r0, pc, r0
+127c70	e7941001	ldr	r1, [r4, r1]
+127c74	ebfe98c2	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127c78	e59f1998	ldr	r1, [pc, #0x998]
+127c7c	e59f0998	ldr	r0, [pc, #0x998]
+127c80	e3a02003	mov	r2, #3
+127c84	e3a03000	mov	r3, #0
+127c88	e08f0000	add	r0, pc, r0
+127c8c	e7941001	ldr	r1, [r4, r1]
+127c90	ebfe98bb	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127c94	e59f1984	ldr	r1, [pc, #0x984]
+127c98	e59f0984	ldr	r0, [pc, #0x984]
+127c9c	e3a02007	mov	r2, #7
+127ca0	e3a03000	mov	r3, #0
+127ca4	e08f0000	add	r0, pc, r0
+127ca8	e7941001	ldr	r1, [r4, r1]
+127cac	ebfe98b4	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127cb0	e59f1970	ldr	r1, [pc, #0x970]
+127cb4	e59f0970	ldr	r0, [pc, #0x970]
+127cb8	e3a02000	mov	r2, #0
+127cbc	e1a03002	mov	r3, r2
+127cc0	e08f0000	add	r0, pc, r0
+127cc4	e7941001	ldr	r1, [r4, r1]
+127cc8	ebfe98ad	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127ccc	e59f195c	ldr	r1, [pc, #0x95c]
+127cd0	e59f095c	ldr	r0, [pc, #0x95c]
+127cd4	e3a02002	mov	r2, #2
+127cd8	e3a03000	mov	r3, #0
+127cdc	e08f0000	add	r0, pc, r0
+127ce0	e7941001	ldr	r1, [r4, r1]
+127ce4	ebfe98a6	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127ce8	e59f1948	ldr	r1, [pc, #0x948]
+127cec	e59f0948	ldr	r0, [pc, #0x948]
+127cf0	e3a02000	mov	r2, #0
+127cf4	e1a03002	mov	r3, r2
+127cf8	e08f0000	add	r0, pc, r0
+127cfc	e7941001	ldr	r1, [r4, r1]
+127d00	ebfe989f	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127d04	e59f1934	ldr	r1, [pc, #0x934]
+127d08	e59f0934	ldr	r0, [pc, #0x934]
+127d0c	e3a02001	mov	r2, #1
+127d10	e3a03000	mov	r3, #0
+127d14	e08f0000	add	r0, pc, r0
+127d18	e7941001	ldr	r1, [r4, r1]
+127d1c	ebfe9898	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127d20	e59f1920	ldr	r1, [pc, #0x920]
+127d24	e59f0920	ldr	r0, [pc, #0x920]
+127d28	e3a02001	mov	r2, #1
+127d2c	e3a03000	mov	r3, #0
+127d30	e08f0000	add	r0, pc, r0
+127d34	e7941001	ldr	r1, [r4, r1]
+127d38	ebfe9891	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127d3c	e59f190c	ldr	r1, [pc, #0x90c]
+127d40	e59f090c	ldr	r0, [pc, #0x90c]
+127d44	e3a02004	mov	r2, #4
+127d48	e3a03000	mov	r3, #0
+127d4c	e08f0000	add	r0, pc, r0
+127d50	e7941001	ldr	r1, [r4, r1]
+127d54	ebfe988a	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127d58	e59f18f8	ldr	r1, [pc, #0x8f8]
+127d5c	e59f08f8	ldr	r0, [pc, #0x8f8]
+127d60	e3a02004	mov	r2, #4
+127d64	e3a03000	mov	r3, #0
+127d68	e08f0000	add	r0, pc, r0
+127d6c	e7941001	ldr	r1, [r4, r1]
+127d70	ebfe9883	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127d74	e59f18e4	ldr	r1, [pc, #0x8e4]
+127d78	e59f08e4	ldr	r0, [pc, #0x8e4]
+127d7c	e3a02001	mov	r2, #1
+127d80	e3a03000	mov	r3, #0
+127d84	e08f0000	add	r0, pc, r0
+127d88	e7941001	ldr	r1, [r4, r1]
+127d8c	ebfe987c	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127d90	e59f18d0	ldr	r1, [pc, #0x8d0]
+127d94	e59f08d0	ldr	r0, [pc, #0x8d0]
+127d98	e3a02001	mov	r2, #1
+127d9c	e3a03000	mov	r3, #0
+127da0	e08f0000	add	r0, pc, r0
+127da4	e7941001	ldr	r1, [r4, r1]
+127da8	ebfe9875	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127dac	e59f18bc	ldr	r1, [pc, #0x8bc]
+127db0	e59f08bc	ldr	r0, [pc, #0x8bc]
+127db4	e3a02001	mov	r2, #1
+127db8	e3a03000	mov	r3, #0
+127dbc	e08f0000	add	r0, pc, r0
+127dc0	e7941001	ldr	r1, [r4, r1]
+127dc4	ebfe986e	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127dc8	e59f18a8	ldr	r1, [pc, #0x8a8]
+127dcc	e59f08a8	ldr	r0, [pc, #0x8a8]
+127dd0	e3a02004	mov	r2, #4
+127dd4	e3a03000	mov	r3, #0
+127dd8	e08f0000	add	r0, pc, r0
+127ddc	e7941001	ldr	r1, [r4, r1]
+127de0	ebfe9867	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127de4	e59f1894	ldr	r1, [pc, #0x894]
+127de8	e59f0894	ldr	r0, [pc, #0x894]
+127dec	e3a02004	mov	r2, #4
+127df0	e3a03000	mov	r3, #0
+127df4	e08f0000	add	r0, pc, r0
+127df8	e7941001	ldr	r1, [r4, r1]
+127dfc	ebfe9860	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127e00	e59f1880	ldr	r1, [pc, #0x880]
+127e04	e59f0880	ldr	r0, [pc, #0x880]
+127e08	e3a02004	mov	r2, #4
+127e0c	e3a03000	mov	r3, #0
+127e10	e08f0000	add	r0, pc, r0
+127e14	e7941001	ldr	r1, [r4, r1]
+127e18	ebfe9859	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127e1c	e59f186c	ldr	r1, [pc, #0x86c]
+127e20	e59f086c	ldr	r0, [pc, #0x86c]
+127e24	e3a02001	mov	r2, #1
+127e28	e3a03000	mov	r3, #0
+127e2c	e08f0000	add	r0, pc, r0
+127e30	e7941001	ldr	r1, [r4, r1]
+127e34	ebfe9852	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127e38	e59f1858	ldr	r1, [pc, #0x858]
+127e3c	e59f0858	ldr	r0, [pc, #0x858]
+127e40	e3a02001	mov	r2, #1
+127e44	e3a03000	mov	r3, #0
+127e48	e08f0000	add	r0, pc, r0
+127e4c	e7941001	ldr	r1, [r4, r1]
+127e50	ebfe984b	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127e54	e59f1844	ldr	r1, [pc, #0x844]
+127e58	e59f0844	ldr	r0, [pc, #0x844]
+127e5c	e3a02002	mov	r2, #2
+127e60	e3a03000	mov	r3, #0
+127e64	e08f0000	add	r0, pc, r0
+127e68	e7941001	ldr	r1, [r4, r1]
+127e6c	ebfe9844	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127e70	e59f1830	ldr	r1, [pc, #0x830]
+127e74	e59f0830	ldr	r0, [pc, #0x830]
+127e78	e3a02002	mov	r2, #2
+127e7c	e3a03000	mov	r3, #0
+127e80	e08f0000	add	r0, pc, r0
+127e84	e7941001	ldr	r1, [r4, r1]
+127e88	ebfe983d	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127e8c	e59f181c	ldr	r1, [pc, #0x81c]
+127e90	e59f081c	ldr	r0, [pc, #0x81c]
+127e94	e3a02002	mov	r2, #2
+127e98	e3a03000	mov	r3, #0
+127e9c	e08f0000	add	r0, pc, r0
+127ea0	e7941001	ldr	r1, [r4, r1]
+127ea4	ebfe9836	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127ea8	e59f1808	ldr	r1, [pc, #0x808]
+127eac	e59f0808	ldr	r0, [pc, #0x808]
+127eb0	e3a02002	mov	r2, #2
+127eb4	e3a03000	mov	r3, #0
+127eb8	e08f0000	add	r0, pc, r0
+127ebc	e7941001	ldr	r1, [r4, r1]
+127ec0	ebfe982f	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127ec4	e59f17f4	ldr	r1, [pc, #0x7f4]
+127ec8	e59f07f4	ldr	r0, [pc, #0x7f4]
+127ecc	e3a02004	mov	r2, #4
+127ed0	e3a03000	mov	r3, #0
+127ed4	e08f0000	add	r0, pc, r0
+127ed8	e7941001	ldr	r1, [r4, r1]
+127edc	ebfe9828	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127ee0	e59f17e0	ldr	r1, [pc, #0x7e0]
+127ee4	e59f07e0	ldr	r0, [pc, #0x7e0]
+127ee8	e3a02002	mov	r2, #2
+127eec	e3a03000	mov	r3, #0
+127ef0	e08f0000	add	r0, pc, r0
+127ef4	e7941001	ldr	r1, [r4, r1]
+127ef8	ebfe9821	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127efc	e59f17cc	ldr	r1, [pc, #0x7cc]
+127f00	e59f07cc	ldr	r0, [pc, #0x7cc]
+127f04	e3a02002	mov	r2, #2
+127f08	e3a03000	mov	r3, #0
+127f0c	e08f0000	add	r0, pc, r0
+127f10	e7941001	ldr	r1, [r4, r1]
+127f14	ebfe981a	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127f18	e59f17b8	ldr	r1, [pc, #0x7b8]
+127f1c	e59f07b8	ldr	r0, [pc, #0x7b8]
+127f20	e3a02002	mov	r2, #2
+127f24	e3a03000	mov	r3, #0
+127f28	e08f0000	add	r0, pc, r0
+127f2c	e7941001	ldr	r1, [r4, r1]
+127f30	ebfe9813	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127f34	e59f17a4	ldr	r1, [pc, #0x7a4]
+127f38	e59f07a4	ldr	r0, [pc, #0x7a4]
+127f3c	e3a02002	mov	r2, #2
+127f40	e3a03000	mov	r3, #0
+127f44	e08f0000	add	r0, pc, r0
+127f48	e7941001	ldr	r1, [r4, r1]
+127f4c	ebfe980c	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127f50	e59f1790	ldr	r1, [pc, #0x790]
+127f54	e59f0790	ldr	r0, [pc, #0x790]
+127f58	e3a02002	mov	r2, #2
+127f5c	e3a03000	mov	r3, #0
+127f60	e08f0000	add	r0, pc, r0
+127f64	e7941001	ldr	r1, [r4, r1]
+127f68	ebfe9805	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127f6c	e59f177c	ldr	r1, [pc, #0x77c]
+127f70	e59f077c	ldr	r0, [pc, #0x77c]
+127f74	e3a02001	mov	r2, #1
+127f78	e3a03000	mov	r3, #0
+127f7c	e08f0000	add	r0, pc, r0
+127f80	e7941001	ldr	r1, [r4, r1]
+127f84	ebfe97fe	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127f88	e59f1768	ldr	r1, [pc, #0x768]
+127f8c	e59f0768	ldr	r0, [pc, #0x768]
+127f90	e3a02002	mov	r2, #2
+127f94	e3a03000	mov	r3, #0
+127f98	e08f0000	add	r0, pc, r0
+127f9c	e7941001	ldr	r1, [r4, r1]
+127fa0	ebfe97f7	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127fa4	e59f1754	ldr	r1, [pc, #0x754]
+127fa8	e59f0754	ldr	r0, [pc, #0x754]
+127fac	e3a02002	mov	r2, #2
+127fb0	e3a03000	mov	r3, #0
+127fb4	e08f0000	add	r0, pc, r0
+127fb8	e7941001	ldr	r1, [r4, r1]
+127fbc	ebfe97f0	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127fc0	e59f1740	ldr	r1, [pc, #0x740]
+127fc4	e59f0740	ldr	r0, [pc, #0x740]
+127fc8	e3a02004	mov	r2, #4
+127fcc	e3a03000	mov	r3, #0
+127fd0	e08f0000	add	r0, pc, r0
+127fd4	e7941001	ldr	r1, [r4, r1]
+127fd8	ebfe97e9	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127fdc	e59f172c	ldr	r1, [pc, #0x72c]
+127fe0	e59f072c	ldr	r0, [pc, #0x72c]
+127fe4	e3a02004	mov	r2, #4
+127fe8	e3a03000	mov	r3, #0
+127fec	e08f0000	add	r0, pc, r0
+127ff0	e7941001	ldr	r1, [r4, r1]
+127ff4	ebfe97e2	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+127ff8	e59f1718	ldr	r1, [pc, #0x718]
+127ffc	e59f0718	ldr	r0, [pc, #0x718]
+128000	e3a02001	mov	r2, #1
+128004	e3a03000	mov	r3, #0
+128008	e08f0000	add	r0, pc, r0
+12800c	e7941001	ldr	r1, [r4, r1]
+128010	ebfe97db	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128014	e59f1704	ldr	r1, [pc, #0x704]
+128018	e59f0704	ldr	r0, [pc, #0x704]
+12801c	e3a02002	mov	r2, #2
+128020	e3a03000	mov	r3, #0
+128024	e08f0000	add	r0, pc, r0
+128028	e7941001	ldr	r1, [r4, r1]
+12802c	ebfe97d4	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128030	e59f16f0	ldr	r1, [pc, #0x6f0]
+128034	e59f06f0	ldr	r0, [pc, #0x6f0]
+128038	e3a02000	mov	r2, #0
+12803c	e1a03002	mov	r3, r2
+128040	e08f0000	add	r0, pc, r0
+128044	e7941001	ldr	r1, [r4, r1]
+128048	ebfe97cd	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12804c	e59f16dc	ldr	r1, [pc, #0x6dc]
+128050	e59f06dc	ldr	r0, [pc, #0x6dc]
+128054	e3a02001	mov	r2, #1
+128058	e3a03000	mov	r3, #0
+12805c	e08f0000	add	r0, pc, r0
+128060	e7941001	ldr	r1, [r4, r1]
+128064	ebfe97c6	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128068	e59f16c8	ldr	r1, [pc, #0x6c8]
+12806c	e59f06c8	ldr	r0, [pc, #0x6c8]
+128070	e3a02001	mov	r2, #1
+128074	e3a03000	mov	r3, #0
+128078	e08f0000	add	r0, pc, r0
+12807c	e7941001	ldr	r1, [r4, r1]
+128080	ebfe97bf	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128084	e59f16b4	ldr	r1, [pc, #0x6b4]
+128088	e59f06b4	ldr	r0, [pc, #0x6b4]
+12808c	e3a02001	mov	r2, #1
+128090	e3a03000	mov	r3, #0
+128094	e08f0000	add	r0, pc, r0
+128098	e7941001	ldr	r1, [r4, r1]
+12809c	ebfe97b8	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1280a0	e59f16a0	ldr	r1, [pc, #0x6a0]
+1280a4	e59f06a0	ldr	r0, [pc, #0x6a0]
+1280a8	e3a02002	mov	r2, #2
+1280ac	e3a03000	mov	r3, #0
+1280b0	e08f0000	add	r0, pc, r0
+1280b4	e7941001	ldr	r1, [r4, r1]
+1280b8	ebfe97b1	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1280bc	e59f168c	ldr	r1, [pc, #0x68c]
+1280c0	e59f068c	ldr	r0, [pc, #0x68c]
+1280c4	e3a02001	mov	r2, #1
+1280c8	e3a03000	mov	r3, #0
+1280cc	e08f0000	add	r0, pc, r0
+1280d0	e7941001	ldr	r1, [r4, r1]
+1280d4	ebfe97aa	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1280d8	e59f1678	ldr	r1, [pc, #0x678]
+1280dc	e59f0678	ldr	r0, [pc, #0x678]
+1280e0	e3a02000	mov	r2, #0
+1280e4	e1a03002	mov	r3, r2
+1280e8	e08f0000	add	r0, pc, r0
+1280ec	e7941001	ldr	r1, [r4, r1]
+1280f0	ebfe97a3	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1280f4	e59f1664	ldr	r1, [pc, #0x664]
+1280f8	e59f0664	ldr	r0, [pc, #0x664]
+1280fc	e3a02001	mov	r2, #1
+128100	e3a03000	mov	r3, #0
+128104	e08f0000	add	r0, pc, r0
+128108	e7941001	ldr	r1, [r4, r1]
+12810c	ebfe979c	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128110	e59f1650	ldr	r1, [pc, #0x650]
+128114	e59f0650	ldr	r0, [pc, #0x650]
+128118	e3a02001	mov	r2, #1
+12811c	e3a03000	mov	r3, #0
+128120	e08f0000	add	r0, pc, r0
+128124	e7941001	ldr	r1, [r4, r1]
+128128	ebfe9795	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12812c	e59f163c	ldr	r1, [pc, #0x63c]
+128130	e59f063c	ldr	r0, [pc, #0x63c]
+128134	e3a02001	mov	r2, #1
+128138	e3a03000	mov	r3, #0
+12813c	e08f0000	add	r0, pc, r0
+128140	e7941001	ldr	r1, [r4, r1]
+128144	ebfe978e	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128148	e59f1628	ldr	r1, [pc, #0x628]
+12814c	e59f0628	ldr	r0, [pc, #0x628]
+128150	e3a02001	mov	r2, #1
+128154	e3a03000	mov	r3, #0
+128158	e08f0000	add	r0, pc, r0
+12815c	e7941001	ldr	r1, [r4, r1]
+128160	ebfe9787	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128164	e59f1614	ldr	r1, [pc, #0x614]
+128168	e59f0614	ldr	r0, [pc, #0x614]
+12816c	e3a02001	mov	r2, #1
+128170	e3a03000	mov	r3, #0
+128174	e08f0000	add	r0, pc, r0
+128178	e7941001	ldr	r1, [r4, r1]
+12817c	ebfe9780	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128180	e59f1600	ldr	r1, [pc, #0x600]
+128184	e59f0600	ldr	r0, [pc, #0x600]
+128188	e3a02001	mov	r2, #1
+12818c	e3a03000	mov	r3, #0
+128190	e08f0000	add	r0, pc, r0
+128194	e7941001	ldr	r1, [r4, r1]
+128198	ebfe9779	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12819c	e59f15ec	ldr	r1, [pc, #0x5ec]
+1281a0	e59f05ec	ldr	r0, [pc, #0x5ec]
+1281a4	e3a02001	mov	r2, #1
+1281a8	e3a03000	mov	r3, #0
+1281ac	e08f0000	add	r0, pc, r0
+1281b0	e7941001	ldr	r1, [r4, r1]
+1281b4	ebfe9772	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1281b8	e59f15d8	ldr	r1, [pc, #0x5d8]
+1281bc	e59f05d8	ldr	r0, [pc, #0x5d8]
+1281c0	e3a02000	mov	r2, #0
+1281c4	e1a03002	mov	r3, r2
+1281c8	e08f0000	add	r0, pc, r0
+1281cc	e7941001	ldr	r1, [r4, r1]
+1281d0	ebfe976b	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1281d4	e59f15c4	ldr	r1, [pc, #0x5c4]
+1281d8	e59f05c4	ldr	r0, [pc, #0x5c4]
+1281dc	e3a02000	mov	r2, #0
+1281e0	e1a03002	mov	r3, r2
+1281e4	e08f0000	add	r0, pc, r0
+1281e8	e7941001	ldr	r1, [r4, r1]
+1281ec	ebfe9764	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1281f0	e59f35b0	ldr	r3, [pc, #0x5b0]
+1281f4	e7946003	ldr	r6, [r4, r3]
+1281f8	e5d65000	ldrb	r5, [r6]
+1281fc	e3550000	cmp	r5, #0
+128200	0a00005f	beq	0x128384 <_Z24InitInteractionFunctionsv+0xac0>
+128204	e59f15a0	ldr	r1, [pc, #0x5a0]
+128208	e3a02001	mov	r2, #1
+12820c	e59f059c	ldr	r0, [pc, #0x59c]
+128210	e3a03000	mov	r3, #0
+128214	e08f0000	add	r0, pc, r0
+128218	e7941001	ldr	r1, [r4, r1]
+12821c	ebfe9758	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128220	e59f158c	ldr	r1, [pc, #0x58c]
+128224	e59f058c	ldr	r0, [pc, #0x58c]
+128228	e3a02001	mov	r2, #1
+12822c	e3a03000	mov	r3, #0
+128230	e08f0000	add	r0, pc, r0
+128234	e7941001	ldr	r1, [r4, r1]
+128238	ebfe9751	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12823c	e59f1578	ldr	r1, [pc, #0x578]
+128240	e59f0578	ldr	r0, [pc, #0x578]
+128244	e3a02000	mov	r2, #0
+128248	e1a03002	mov	r3, r2
+12824c	e08f0000	add	r0, pc, r0
+128250	e7941001	ldr	r1, [r4, r1]
+128254	ebfe974a	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128258	e59f1564	ldr	r1, [pc, #0x564]
+12825c	e59f0564	ldr	r0, [pc, #0x564]
+128260	e3a02000	mov	r2, #0
+128264	e1a03002	mov	r3, r2
+128268	e08f0000	add	r0, pc, r0
+12826c	e7941001	ldr	r1, [r4, r1]
+128270	ebfe9743	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128274	e59f1550	ldr	r1, [pc, #0x550]
+128278	e59f0550	ldr	r0, [pc, #0x550]
+12827c	e3a02000	mov	r2, #0
+128280	e1a03002	mov	r3, r2
+128284	e08f0000	add	r0, pc, r0
+128288	e7941001	ldr	r1, [r4, r1]
+12828c	ebfe973c	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128290	e59f153c	ldr	r1, [pc, #0x53c]
+128294	e59f053c	ldr	r0, [pc, #0x53c]
+128298	e3a02000	mov	r2, #0
+12829c	e1a03002	mov	r3, r2
+1282a0	e08f0000	add	r0, pc, r0
+1282a4	e7941001	ldr	r1, [r4, r1]
+1282a8	ebfe9735	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1282ac	e59f1528	ldr	r1, [pc, #0x528]
+1282b0	e59f0528	ldr	r0, [pc, #0x528]
+1282b4	e3a02000	mov	r2, #0
+1282b8	e1a03002	mov	r3, r2
+1282bc	e08f0000	add	r0, pc, r0
+1282c0	e7941001	ldr	r1, [r4, r1]
+1282c4	ebfe972e	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1282c8	e59f1514	ldr	r1, [pc, #0x514]
+1282cc	e59f0514	ldr	r0, [pc, #0x514]
+1282d0	e3a02001	mov	r2, #1
+1282d4	e3a03000	mov	r3, #0
+1282d8	e08f0000	add	r0, pc, r0
+1282dc	e7941001	ldr	r1, [r4, r1]
+1282e0	ebfe9727	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1282e4	e59f1500	ldr	r1, [pc, #0x500]
+1282e8	e59f0500	ldr	r0, [pc, #0x500]
+1282ec	e3a02002	mov	r2, #2
+1282f0	e3a03000	mov	r3, #0
+1282f4	e08f0000	add	r0, pc, r0
+1282f8	e7941001	ldr	r1, [r4, r1]
+1282fc	ebfe9720	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128300	e59f14ec	ldr	r1, [pc, #0x4ec]
+128304	e59f04ec	ldr	r0, [pc, #0x4ec]
+128308	e3a02001	mov	r2, #1
+12830c	e3a03000	mov	r3, #0
+128310	e08f0000	add	r0, pc, r0
+128314	e7941001	ldr	r1, [r4, r1]
+128318	ebfe9719	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12831c	e59f14d8	ldr	r1, [pc, #0x4d8]
+128320	e59f04d8	ldr	r0, [pc, #0x4d8]
+128324	e3a02001	mov	r2, #1
+128328	e3a03000	mov	r3, #0
+12832c	e08f0000	add	r0, pc, r0
+128330	e7941001	ldr	r1, [r4, r1]
+128334	ebfe9712	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128338	e59f14c4	ldr	r1, [pc, #0x4c4]
+12833c	e59f04c4	ldr	r0, [pc, #0x4c4]
+128340	e3a02002	mov	r2, #2
+128344	e3a03000	mov	r3, #0
+128348	e08f0000	add	r0, pc, r0
+12834c	e7941001	ldr	r1, [r4, r1]
+128350	ebfe970b	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128354	e59f14b0	ldr	r1, [pc, #0x4b0]
+128358	e59f04b0	ldr	r0, [pc, #0x4b0]
+12835c	e3a03000	mov	r3, #0
+128360	e3a02002	mov	r2, #2
+128364	e08f0000	add	r0, pc, r0
+128368	e7941001	ldr	r1, [r4, r1]
+12836c	ebfe9704	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128370	e5d63000	ldrb	r3, [r6]
+128374	e3530000	cmp	r3, #0
+128378	08bd8070	popeq	{r4, r5, r6, pc}
+12837c	e8bd4070	pop	{r4, r5, r6, lr}
+128380	ea02cdea	b	0x1dbb30 <_Z19AddGestureFunctionsv>
+128384	e59f1488	ldr	r1, [pc, #0x488]
+128388	e1a03005	mov	r3, r5
+12838c	e59f0484	ldr	r0, [pc, #0x484]
+128390	e3a02001	mov	r2, #1
+128394	e7941001	ldr	r1, [r4, r1]
+128398	e08f0000	add	r0, pc, r0
+12839c	ebfe96f8	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1283a0	e59f1474	ldr	r1, [pc, #0x474]
+1283a4	e59f0474	ldr	r0, [pc, #0x474]
+1283a8	e1a03005	mov	r3, r5
+1283ac	e3a02001	mov	r2, #1
+1283b0	e7941001	ldr	r1, [r4, r1]
+1283b4	e08f0000	add	r0, pc, r0
+1283b8	ebfe96f1	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1283bc	e59f1460	ldr	r1, [pc, #0x460]
+1283c0	e59f0460	ldr	r0, [pc, #0x460]
+1283c4	e1a03005	mov	r3, r5
+1283c8	e3a02001	mov	r2, #1
+1283cc	e7941001	ldr	r1, [r4, r1]
+1283d0	e08f0000	add	r0, pc, r0
+1283d4	ebfe96ea	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1283d8	e59f144c	ldr	r1, [pc, #0x44c]
+1283dc	e59f044c	ldr	r0, [pc, #0x44c]
+1283e0	e1a03005	mov	r3, r5
+1283e4	e3a02001	mov	r2, #1
+1283e8	e7941001	ldr	r1, [r4, r1]
+1283ec	e08f0000	add	r0, pc, r0
+1283f0	ebfe96e3	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1283f4	e59f1438	ldr	r1, [pc, #0x438]
+1283f8	e59f0438	ldr	r0, [pc, #0x438]
+1283fc	e1a03005	mov	r3, r5
+128400	e3a02001	mov	r2, #1
+128404	e7941001	ldr	r1, [r4, r1]
+128408	e08f0000	add	r0, pc, r0
+12840c	ebfe96dc	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128410	e59f1424	ldr	r1, [pc, #0x424]
+128414	e59f0424	ldr	r0, [pc, #0x424]
+128418	e1a03005	mov	r3, r5
+12841c	e3a02001	mov	r2, #1
+128420	e7941001	ldr	r1, [r4, r1]
+128424	e08f0000	add	r0, pc, r0
+128428	ebfe96d5	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12842c	e59f1410	ldr	r1, [pc, #0x410]
+128430	e59f0410	ldr	r0, [pc, #0x410]
+128434	e1a03005	mov	r3, r5
+128438	e3a02002	mov	r2, #2
+12843c	e7941001	ldr	r1, [r4, r1]
+128440	e08f0000	add	r0, pc, r0
+128444	ebfe96ce	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128448	e59f13fc	ldr	r1, [pc, #0x3fc]
+12844c	e59f03fc	ldr	r0, [pc, #0x3fc]
+128450	e1a03005	mov	r3, r5
+128454	e3a02001	mov	r2, #1
+128458	e7941001	ldr	r1, [r4, r1]
+12845c	e08f0000	add	r0, pc, r0
+128460	ebfe96c7	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128464	e59f13e8	ldr	r1, [pc, #0x3e8]
+128468	e59f03e8	ldr	r0, [pc, #0x3e8]
+12846c	e1a03005	mov	r3, r5
+128470	e3a02001	mov	r2, #1
+128474	e7941001	ldr	r1, [r4, r1]
+128478	e08f0000	add	r0, pc, r0
+12847c	ebfe96c0	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+128480	e59f13d4	ldr	r1, [pc, #0x3d4]
+128484	e59f03d4	ldr	r0, [pc, #0x3d4]
+128488	e1a03005	mov	r3, r5
+12848c	e3a02001	mov	r2, #1
+128490	e7941001	ldr	r1, [r4, r1]
+128494	e08f0000	add	r0, pc, r0
+128498	ebfe96b9	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12849c	e59f13c0	ldr	r1, [pc, #0x3c0]
+1284a0	e59f03c0	ldr	r0, [pc, #0x3c0]
+1284a4	e1a03005	mov	r3, r5
+1284a8	e3a02001	mov	r2, #1
+1284ac	e7941001	ldr	r1, [r4, r1]
+1284b0	e08f0000	add	r0, pc, r0
+1284b4	ebfe96b2	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1284b8	e59f13ac	ldr	r1, [pc, #0x3ac]
+1284bc	e59f03ac	ldr	r0, [pc, #0x3ac]
+1284c0	e1a03005	mov	r3, r5
+1284c4	e3a02001	mov	r2, #1
+1284c8	e7941001	ldr	r1, [r4, r1]
+1284cc	e08f0000	add	r0, pc, r0
+1284d0	ebfe96ab	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1284d4	e59f1398	ldr	r1, [pc, #0x398]
+1284d8	e59f0398	ldr	r0, [pc, #0x398]
+1284dc	e1a03005	mov	r3, r5
+1284e0	e3a02001	mov	r2, #1
+1284e4	e7941001	ldr	r1, [r4, r1]
+1284e8	e08f0000	add	r0, pc, r0
+1284ec	ebfe96a4	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+1284f0	e59f1384	ldr	r1, [pc, #0x384]
+1284f4	e59f0384	ldr	r0, [pc, #0x384]
+1284f8	e1a03005	mov	r3, r5
+1284fc	e3a02001	mov	r2, #1
+128500	e08f0000	add	r0, pc, r0
+128504	e7941001	ldr	r1, [r4, r1]
+128508	ebfe969d	bl	0xcdf84 <_Z12Function_AddPKcPFvR6RValueP9CInstanceS4_iPS1_Eib>
+12850c	eaffff3c	b	0x128204 <_Z24InitInteractionFunctionsv+0x940>
+128510	002ca380	eoreq	r10, r12, r0, lsl #7
+128514	ffffce44	.word	0xffffce44
+128518	00214948	eoreq	r4, r1, r8, asr #18
+12851c	ffffce30	.word	0xffffce30
+128520	ffffce48	.word	0xffffce48
+128524	002149d4	.word	0x002149d4
+128528	ffffce4c	.word	0xffffce4c
+12852c	002149cc	eoreq	r4, r1, r12, asr #19
+128530	ffffce50	.word	0xffffce50
+128534	002149c8	eoreq	r4, r1, r8, asr #19
+128538	ffffce54	.word	0xffffce54
+12853c	002149c0	eoreq	r4, r1, r0, asr #19
+128540	ffffce58	.word	0xffffce58
+128544	002149b4	.word	0x002149b4
+128548	ffffce5c	.word	0xffffce5c
+12854c	002149ac	eoreq	r4, r1, r12, lsr #19
+128550	ffffce60	.word	0xffffce60
+128554	002149a0	eoreq	r4, r1, r0, lsr #19
+128558	ffffce64	.word	0xffffce64
+12855c	00214998	mlaeq	r1, r8, r9, r4
+128560	ffffce68	.word	0xffffce68
+128564	0021498c	eoreq	r4, r1, r12, lsl #19
+128568	ffffce6c	.word	0xffffce6c
+12856c	00214984	eoreq	r4, r1, r4, lsl #19
+128570	ffffce70	.word	0xffffce70
+128574	0021497c	eoreq	r4, r1, r12, ror r9
+128578	ffffce74	.word	0xffffce74
+12857c	00214978	eoreq	r4, r1, r8, ror r9
+128580	ffffce78	.word	0xffffce78
+128584	00214970	eoreq	r4, r1, r0, ror r9
+128588	ffffce7c	.word	0xffffce7c
+12858c	0021496c	eoreq	r4, r1, r12, ror #18
+128590	ffffce80	.word	0xffffce80
+128594	00214964	eoreq	r4, r1, r4, ror #18
+128598	ffffce84	.word	0xffffce84
+12859c	0021495c	eoreq	r4, r1, r12, asr r9
+1285a0	ffffce88	.word	0xffffce88
+1285a4	00214954	eoreq	r4, r1, r4, asr r9
+1285a8	ffffce8c	.word	0xffffce8c
+1285ac	00214944	eoreq	r4, r1, r4, asr #18
+1285b0	ffffce90	.word	0xffffce90
+1285b4	00214934	eoreq	r4, r1, r4, lsr r9
+1285b8	ffffce94	.word	0xffffce94
+1285bc	00214924	eoreq	r4, r1, r4, lsr #18
+1285c0	ffffce98	.word	0xffffce98
+1285c4	00214918	eoreq	r4, r1, r8, lsl r9
+1285c8	ffffce9c	.word	0xffffce9c
+1285cc	0021490c	eoreq	r4, r1, r12, lsl #18
+1285d0	ffffcea0	.word	0xffffcea0
+1285d4	00214904	eoreq	r4, r1, r4, lsl #18
+1285d8	ffffcea4	.word	0xffffcea4
+1285dc	002148fc	.word	0x002148fc
+1285e0	ffffcea8	.word	0xffffcea8
+1285e4	002148ec	eoreq	r4, r1, r12, ror #17
+1285e8	ffffceac	.word	0xffffceac
+1285ec	002148dc	.word	0x002148dc
+1285f0	ffffceb0	.word	0xffffceb0
+1285f4	002148cc	eoreq	r4, r1, r12, asr #17
+1285f8	ffffceb4	.word	0xffffceb4
+1285fc	002148c0	eoreq	r4, r1, r0, asr #17
+128600	ffffceb8	.word	0xffffceb8
+128604	002148c0	eoreq	r4, r1, r0, asr #17
+128608	ffffcebc	.word	0xffffcebc
+12860c	002148bc	.word	0x002148bc
+128610	ffffcec0	.word	0xffffcec0
+128614	002148b4	.word	0x002148b4
+128618	ffffcec4	.word	0xffffcec4
+12861c	002148b0	.word	0x002148b0
+128620	ffffcec8	.word	0xffffcec8
+128624	002148ac	eoreq	r4, r1, r12, lsr #17
+128628	ffffcecc	.word	0xffffcecc
+12862c	002148a4	eoreq	r4, r1, r4, lsr #17
+128630	ffffced0	.word	0xffffced0
+128634	00214898	mlaeq	r1, r8, r8, r4
+128638	ffffced4	.word	0xffffced4
+12863c	0021488c	eoreq	r4, r1, r12, lsl #17
+128640	ffffced8	.word	0xffffced8
+128644	00214888	eoreq	r4, r1, r8, lsl #17
+128648	ffffcedc	.word	0xffffcedc
+12864c	0021487c	eoreq	r4, r1, r12, ror r8
+128650	ffffcee0	.word	0xffffcee0
+128654	00214870	eoreq	r4, r1, r0, ror r8
+128658	ffffcee4	.word	0xffffcee4
+12865c	00214864	eoreq	r4, r1, r4, ror #16
+128660	ffffcee8	.word	0xffffcee8
+128664	0021485c	eoreq	r4, r1, r12, asr r8
+128668	ffffceec	.word	0xffffceec
+12866c	00214854	eoreq	r4, r1, r4, asr r8
+128670	ffffcef0	.word	0xffffcef0
+128674	00214848	eoreq	r4, r1, r8, asr #16
+128678	ffffcef4	.word	0xffffcef4
+12867c	0021483c	eoreq	r4, r1, r12, lsr r8
+128680	ffffcef8	.word	0xffffcef8
+128684	00214834	eoreq	r4, r1, r4, lsr r8
+128688	ffffcefc	.word	0xffffcefc
+12868c	0021482c	eoreq	r4, r1, r12, lsr #16
+128690	ffffcf00	.word	0xffffcf00
+128694	00214824	eoreq	r4, r1, r4, lsr #16
+128698	ffffcf04	.word	0xffffcf04
+12869c	0021481c	eoreq	r4, r1, r12, lsl r8
+1286a0	ffffcf08	.word	0xffffcf08
+1286a4	00214814	eoreq	r4, r1, r4, lsl r8
+1286a8	ffffcf0c	.word	0xffffcf0c
+1286ac	0021480c	eoreq	r4, r1, r12, lsl #16
+1286b0	ffffcf10	.word	0xffffcf10
+1286b4	00214800	eoreq	r4, r1, r0, lsl #16
+1286b8	ffffcf14	.word	0xffffcf14
+1286bc	002147f4	.word	0x002147f4
+1286c0	ffffcf18	.word	0xffffcf18
+1286c4	002147e4	eoreq	r4, r1, r4, ror #15
+1286c8	ffffcf1c	.word	0xffffcf1c
+1286cc	002147d8	.word	0x002147d8
+1286d0	ffffcf20	.word	0xffffcf20
+1286d4	002147c8	eoreq	r4, r1, r8, asr #15
+1286d8	ffffcf24	.word	0xffffcf24
+1286dc	002147c0	eoreq	r4, r1, r0, asr #15
+1286e0	ffffcf28	.word	0xffffcf28
+1286e4	002147b0	.word	0x002147b0
+1286e8	ffffcf2c	.word	0xffffcf2c
+1286ec	002147a8	eoreq	r4, r1, r8, lsr #15
+1286f0	ffffcf30	.word	0xffffcf30
+1286f4	0021479c	mlaeq	r1, r12, r7, r4
+1286f8	ffffcf34	.word	0xffffcf34
+1286fc	0021478c	eoreq	r4, r1, r12, lsl #15
+128700	ffffcf38	.word	0xffffcf38
+128704	00214784	eoreq	r4, r1, r4, lsl #15
+128708	ffffcf3c	.word	0xffffcf3c
+12870c	0021477c	eoreq	r4, r1, r12, ror r7
+128710	ffffcf40	.word	0xffffcf40
+128714	00214778	eoreq	r4, r1, r8, ror r7
+128718	ffffcf44	.word	0xffffcf44
+12871c	00214774	eoreq	r4, r1, r4, ror r7
+128720	ffffcf48	.word	0xffffcf48
+128724	00214768	eoreq	r4, r1, r8, ror #14
+128728	ffffcf4c	.word	0xffffcf4c
+12872c	00214760	eoreq	r4, r1, r0, ror #14
+128730	ffffcf50	.word	0xffffcf50
+128734	0021475c	eoreq	r4, r1, r12, asr r7
+128738	ffffcf54	.word	0xffffcf54
+12873c	00214758	eoreq	r4, r1, r8, asr r7
+128740	ffffcf58	.word	0xffffcf58
+128744	00214750	eoreq	r4, r1, r0, asr r7
+128748	ffffcf5c	.word	0xffffcf5c
+12874c	0021474c	eoreq	r4, r1, r12, asr #14
+128750	ffffcf60	.word	0xffffcf60
+128754	00214744	eoreq	r4, r1, r4, asr #14
+128758	ffffcf64	.word	0xffffcf64
+12875c	0021473c	eoreq	r4, r1, r12, lsr r7
+128760	ffffcf68	.word	0xffffcf68
+128764	00214734	eoreq	r4, r1, r4, lsr r7
+128768	ffffcf6c	.word	0xffffcf6c
+12876c	00214728	eoreq	r4, r1, r8, lsr #14
+128770	ffffcf70	.word	0xffffcf70
+128774	00214724	eoreq	r4, r1, r4, lsr #14
+128778	ffffcf74	.word	0xffffcf74
+12877c	00214720	eoreq	r4, r1, r0, lsr #14
+128780	ffffcf78	.word	0xffffcf78
+128784	0021471c	eoreq	r4, r1, r12, lsl r7
+128788	ffffcf7c	.word	0xffffcf7c
+12878c	00214714	eoreq	r4, r1, r4, lsl r7
+128790	ffffcf80	.word	0xffffcf80
+128794	00214714	eoreq	r4, r1, r4, lsl r7
+128798	ffffcf84	.word	0xffffcf84
+12879c	00214714	eoreq	r4, r1, r4, lsl r7
+1287a0	ffffcf88	.word	0xffffcf88
+1287a4	00214708	eoreq	r4, r1, r8, lsl #14
+1287a8	ffffbcd4	.word	0xffffbcd4
+1287ac	ffffcf8c	.word	0xffffcf8c
+1287b0	002147e0	eoreq	r4, r1, r0, ror #15
+1287b4	ffffcf90	.word	0xffffcf90
+1287b8	002147d4	.word	0x002147d4
+1287bc	ffffcf94	.word	0xffffcf94
+1287c0	002147c4	eoreq	r4, r1, r4, asr #15
+1287c4	ffffcf98	.word	0xffffcf98
+1287c8	002147b4	.word	0x002147b4
+1287cc	ffffcf9c	.word	0xffffcf9c
+1287d0	002147a4	eoreq	r4, r1, r4, lsr #15
+1287d4	ffffcfa0	.word	0xffffcfa0
+1287d8	002147a4	eoreq	r4, r1, r4, lsr #15
+1287dc	ffffcfa4	.word	0xffffcfa4
+1287e0	00214798	mlaeq	r1, r8, r7, r4
+1287e4	ffffcfa8	.word	0xffffcfa8
+1287e8	00214788	eoreq	r4, r1, r8, lsl #15
+1287ec	ffffcfac	.word	0xffffcfac
+1287f0	00214784	eoreq	r4, r1, r4, lsl #15
+1287f4	ffffcfb0	.word	0xffffcfb0
+1287f8	00214774	eoreq	r4, r1, r4, ror r7
+1287fc	ffffcfb4	.word	0xffffcfb4
+128800	00214764	eoreq	r4, r1, r4, ror #14
+128804	ffffcfb8	.word	0xffffcfb8
+128808	00214754	eoreq	r4, r1, r4, asr r7
+12880c	ffffcfbc	.word	0xffffcfbc
+128810	00214748	eoreq	r4, r1, r8, asr #14
+128814	ffffcfc0	.word	0xffffcfc0
+128818	00214568	eoreq	r4, r1, r8, ror #10
+12881c	ffffcfc4	.word	0xffffcfc4
+128820	0021455c	eoreq	r4, r1, r12, asr r5
+128824	ffffcfc8	.word	0xffffcfc8
+128828	00214554	eoreq	r4, r1, r4, asr r5
+12882c	ffffcfcc	.word	0xffffcfcc
+128830	00214548	eoreq	r4, r1, r8, asr #10
+128834	ffffcfd0	.word	0xffffcfd0
+128838	0021453c	eoreq	r4, r1, r12, lsr r5
+12883c	ffffcfd4	.word	0xffffcfd4
+128840	00214534	eoreq	r4, r1, r4, lsr r5
+128844	ffffcfd8	.word	0xffffcfd8
+128848	0021452c	eoreq	r4, r1, r12, lsr #10
+12884c	ffffcfdc	.word	0xffffcfdc
+128850	00214528	eoreq	r4, r1, r8, lsr #10
+128854	ffffcfe0	.word	0xffffcfe0
+128858	0021451c	eoreq	r4, r1, r12, lsl r5
+12885c	ffffcfe4	.word	0xffffcfe4
+128860	00214510	eoreq	r4, r1, r0, lsl r5
+128864	ffffcfe8	.word	0xffffcfe8
+128868	00214504	eoreq	r4, r1, r4, lsl #10
+12886c	ffffcfec	.word	0xffffcfec
+128870	002144f8	.word	0x002144f8
+128874	ffffcff0	.word	0xffffcff0
+128878	002144ec	eoreq	r4, r1, r12, ror #9
+12887c	ffffcff4	.word	0xffffcff4
+128880	002144e4	eoreq	r4, r1, r4, ror #9

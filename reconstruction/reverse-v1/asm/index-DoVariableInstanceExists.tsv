@@ -1,0 +1,33 @@
+1178b8	e92d4030	push	{r4, r5, lr}
+1178bc	e1a05000	mov	r5, r0
+1178c0	e24dd014	sub	sp, sp, #20
+1178c4	e1a00001	mov	r0, r1
+1178c8	e1a04001	mov	r4, r1
+1178cc	eb037062	bl	0x1f3a5c <_Z21Variable_BuiltIn_FindPKc>
+1178d0	e2501000	subs	r1, r0, #0
+1178d4	ba00000f	blt	0x117918 <_Z24DoVariableInstanceExistsP9CInstancePKc+0x60>
+1178d8	e1a0300d	mov	r3, sp
+1178dc	e1a00005	mov	r0, r5
+1178e0	e3a02102	mov	r2, #-2147483648
+1178e4	e3a0c000	mov	r12, #0
+1178e8	e58dc000	str	r12, [sp]
+1178ec	e58dc004	str	r12, [sp, #0x4]
+1178f0	e58dc008	str	r12, [sp, #0x8]
+1178f4	e58dc00c	str	r12, [sp, #0xc]
+1178f8	eb0370a3	bl	0x1f3b8c <_Z24Variable_GetValue_DirectP12YYObjectBaseiiP6RValue>
+1178fc	e59d000c	ldr	r0, [sp, #0xc]
+117900	e3e034ff	mvn	r3, #-16777216
+117904	e0000003	and	r0, r0, r3
+117908	e0500003	subs	r0, r0, r3
+11790c	13a00001	movne	r0, #1
+117910	e28dd014	add	sp, sp, #20
+117914	e8bd8030	pop	{r4, r5, pc}
+117918	e1a01004	mov	r1, r4
+11791c	e1a00005	mov	r0, r5
+117920	ebfeea31	bl	0xd21ec <_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc>
+117924	e3500000	cmp	r0, #0
+117928	b3a00000	movlt	r0, #0
+11792c	bafffff7	blt	0x117910 <_Z24DoVariableInstanceExistsP9CInstancePKc+0x58>
+117930	e2801b61	add	r1, r0, #99328
+117934	e2811e2a	add	r1, r1, #672
+117938	eaffffe6	b	0x1178d8 <_Z24DoVariableInstanceExistsP9CInstancePKc+0x20>

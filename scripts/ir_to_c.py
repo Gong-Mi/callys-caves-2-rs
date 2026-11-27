@@ -139,6 +139,10 @@ class Emitter:
                 # unreachable without a label: the shipped body cannot arrive
                 # here, so emitting it would only add noise
                 continue
+            # Per-instruction anchor: every emitted statement can be traced back
+            # to one bytecode offset. Without it a differential failure can only
+            # be located to the whole body, not to the instruction that diverged.
+            self.emit(f"/* @{i['offset']} {i['op']} */")
             self.instruction(i)
         # A `bf`/`b` may target the body end (skip to the function exit): give
         # that offset a real label instead of leaving a dangling goto.
@@ -230,7 +234,10 @@ class Emitter:
             if op == "div":
                 expr, pure = f"GM_DIV({a[0]}, {b[0]})", True
             elif op == "add":
-                expr, pure = f"GM_ADD({a[0]}, {b[0]})", True
+                # A string operand allocates a pooled concatenation, just like
+                # the VM. Treating every add as a removable pure expression
+                # loses that allocation when the result is followed by popz.
+                expr, pure = f"GM_ADD({a[0]}, {b[0]})", False
             else:
                 sym = {"sub": "-", "mul": "*"}[op]
                 expr, pure = f"({a[0]} {sym} {b[0]})", a[1] and b[1]
@@ -263,6 +270,7 @@ class Emitter:
             self.emit(f"goto {self.label(i['target'])};")
             self.dead = True
         elif op == "call":
+            self.emit(f"GM_SITE(vm, {self.code['id']}, {i['offset']});")
             argc = i["argc"]
             args = [self.pop(where) for _ in range(argc)]  # pops = reverse push order
             for k, a in enumerate(args):

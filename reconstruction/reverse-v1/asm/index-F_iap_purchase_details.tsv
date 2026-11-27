@@ -1,0 +1,33 @@
+153450	e92d4070	push	{r4, r5, r6, lr}
+153454	e3a05000	mov	r5, #0
+153458	e59d6010	ldr	r6, [sp, #0x10]
+15345c	e1a04000	mov	r4, r0
+153460	e580500c	str	r5, [r0, #0xc]
+153464	e5805000	str	r5, [r0]
+153468	e5805004	str	r5, [r0, #0x4]
+15346c	e1a00006	mov	r0, r6
+153470	ebffffca	bl	0x1533a0 <_Z22F_IAP_ProductPurchasedR6RValueP9CInstanceS2_iPS_+0x16c>
+153474	e2502000	subs	r2, r0, #0
+153478	b8bd8070	poplt	{r4, r5, r6, pc}
+15347c	e59f3048	ldr	r3, [pc, #0x48]
+153480	e79f3003	ldr	r3, [pc, r3]
+153484	e5933000	ldr	r3, [r3]
+153488	e1520003	cmp	r2, r3
+15348c	a8bd8070	popge	{r4, r5, r6, pc}
+153490	e59f3038	ldr	r3, [pc, #0x38]
+153494	e1a00006	mov	r0, r6
+153498	e3a01001	mov	r1, #1
+15349c	e79f3003	ldr	r3, [pc, r3]
+1534a0	e5933004	ldr	r3, [r3, #0x4]
+1534a4	e7936102	ldr	r6, [r3, r2, lsl #2]
+1534a8	ebfdecf0	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+1534ac	e1a01000	mov	r1, r0
+1534b0	e1a00006	mov	r0, r6
+1534b4	eb00de5f	bl	0x18ae38 <_ZN12CIAPPurchase11PopulateMapEi>
+1534b8	e1a03005	mov	r3, r5
+1534bc	e5845000	str	r5, [r4]
+1534c0	e3433ff0	movt	r3, #0x3ff0
+1534c4	e5843004	str	r3, [r4, #0x4]
+1534c8	e8bd8070	pop	{r4, r5, r6, pc}
+1534cc	0029c648	eoreq	r12, r9, r8, asr #12
+1534d0	0029c630	eoreq	r12, r9, r0, lsr r6

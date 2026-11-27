@@ -1,0 +1,664 @@
+1a6154	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1a6158	ed2d8b10	vpush	{d8, d9, d10, d11, d12, d13, d14, d15}
+1a615c	e3510000	cmp	r1, #0
+1a6160	e24dd0c4	sub	sp, sp, #196
+1a6164	e1a05000	mov	r5, r0
+1a6168	ee072a90	vmov	s15, r2
+1a616c	ed9d6a4a	vldr	s12, [sp, #296]
+1a6170	e58d10ac	str	r1, [sp, #0xac]
+1a6174	ee073a10	vmov	s14, r3
+1a6178	0a00028b	beq	0x1a6bac <_ZN5CPath11HandlePieceEifffffffff+0xa58>
+1a617c	eeb5ea00	vmov.f32	s28, #2.500000e-01
+1a6180	eeb3fa00	vmov.f32	s30, #1.600000e+01
+1a6184	eef6fa00	vmov.f32	s31, #5.000000e-01
+1a6188	ea000025	b	0x1a6224 <_ZN5CPath11HandlePieceEifffffffff+0xd0>
+1a618c	e1a00005	mov	r0, r5
+1a6190	e59d109c	ldr	r1, [sp, #0x9c]
+1a6194	e59d20a0	ldr	r2, [sp, #0xa0]
+1a6198	e59d30b0	ldr	r3, [sp, #0xb0]
+1a619c	ebffffb1	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a61a0	eddd3a4c	vldr	s7, [sp, #304]
+1a61a4	ed9d4a4f	vldr	s8, [sp, #316]
+1a61a8	ee737ac4	vsub.f32	s15, s7, s8
+1a61ac	eddd4a4b	vldr	s9, [sp, #300]
+1a61b0	ed9d5a4e	vldr	s10, [sp, #312]
+1a61b4	ee677aa7	vmul.f32	s15, s15, s15
+1a61b8	ee347ac5	vsub.f32	s14, s9, s10
+1a61bc	ee477a07	vmla.f32	s15, s14, s14
+1a61c0	eef47acf	vcmpe.f32	s15, s30
+1a61c4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a61c8	da000277	ble	0x1a6bac <_ZN5CPath11HandlePieceEifffffffff+0xa58>
+1a61cc	ed9d4a4b	vldr	s8, [sp, #300]
+1a61d0	eddd4a4e	vldr	s9, [sp, #312]
+1a61d4	eddd2a4c	vldr	s5, [sp, #304]
+1a61d8	ee746a24	vadd.f32	s13, s8, s9
+1a61dc	eddd3a4f	vldr	s7, [sp, #316]
+1a61e0	ed9d4a4d	vldr	s8, [sp, #308]
+1a61e4	eddd4a50	vldr	s9, [sp, #320]
+1a61e8	e59d30ac	ldr	r3, [sp, #0xac]
+1a61ec	e2533001	subs	r3, r3, #1
+1a61f0	e58d30ac	str	r3, [sp, #0xac]
+1a61f4	ee327aa3	vadd.f32	s14, s5, s7
+1a61f8	ee747a24	vadd.f32	s15, s8, s9
+1a61fc	ee666aaf	vmul.f32	s13, s13, s31
+1a6200	ee277a2f	vmul.f32	s14, s14, s31
+1a6204	edcd6a4b	vstr	s13, [sp, #300]
+1a6208	ee677aaf	vmul.f32	s15, s15, s31
+1a620c	ed8d7a4c	vstr	s14, [sp, #304]
+1a6210	edcd7a4d	vstr	s15, [sp, #308]
+1a6214	0a000264	beq	0x1a6bac <_ZN5CPath11HandlePieceEifffffffff+0xa58>
+1a6218	ed9d6a2c	vldr	s12, [sp, #176]
+1a621c	ed9d7a28	vldr	s14, [sp, #160]
+1a6220	eddd7a27	vldr	s15, [sp, #156]
+1a6224	eddd2a4c	vldr	s5, [sp, #304]
+1a6228	ee726ac7	vsub.f32	s13, s5, s14
+1a622c	eddd3a4b	vldr	s7, [sp, #300]
+1a6230	ee666aa6	vmul.f32	s13, s13, s13
+1a6234	ee334ae7	vsub.f32	s8, s7, s15
+1a6238	ee774aa3	vadd.f32	s9, s15, s7
+1a623c	ee375a22	vadd.f32	s10, s14, s5
+1a6240	eddd2a4d	vldr	s5, [sp, #308]
+1a6244	ee765a22	vadd.f32	s11, s12, s5
+1a6248	ee446a04	vmla.f32	s13, s8, s8
+1a624c	ed9d4a4c	vldr	s8, [sp, #304]
+1a6250	ee343aa3	vadd.f32	s6, s9, s7
+1a6254	ee753a04	vadd.f32	s7, s10, s8
+1a6258	ee354aa2	vadd.f32	s8, s11, s5
+1a625c	eddd2a4e	vldr	s5, [sp, #312]
+1a6260	ee333a22	vadd.f32	s6, s6, s5
+1a6264	eddd2a4f	vldr	s5, [sp, #316]
+1a6268	ee733aa2	vadd.f32	s7, s7, s5
+1a626c	eddd2a50	vldr	s5, [sp, #320]
+1a6270	ee344a22	vadd.f32	s8, s8, s5
+1a6274	ee233a0e	vmul.f32	s6, s6, s28
+1a6278	ee633a8e	vmul.f32	s7, s7, s28
+1a627c	ed8d3a27	vstr	s6, [sp, #156]
+1a6280	ee244a0e	vmul.f32	s8, s8, s28
+1a6284	edcd3a28	vstr	s7, [sp, #160]
+1a6288	eef46acf	vcmpe.f32	s13, s30
+1a628c	ed8d4a2c	vstr	s8, [sp, #176]
+1a6290	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6294	daffffbc	ble	0x1a618c <_ZN5CPath11HandlePieceEifffffffff+0x38>
+1a6298	ee644aaf	vmul.f32	s9, s9, s31
+1a629c	e59d30ac	ldr	r3, [sp, #0xac]
+1a62a0	e3530001	cmp	r3, #1
+1a62a4	ee255a2f	vmul.f32	s10, s10, s31
+1a62a8	edcd4a22	vstr	s9, [sp, #136]
+1a62ac	ee655aaf	vmul.f32	s11, s11, s31
+1a62b0	ed8d5a23	vstr	s10, [sp, #140]
+1a62b4	edcd5a2e	vstr	s11, [sp, #184]
+1a62b8	0affffb3	beq	0x1a618c <_ZN5CPath11HandlePieceEifffffffff+0x38>
+1a62bc	e243b002	sub	r11, r3, #2
+1a62c0	ea000024	b	0x1a6358 <_ZN5CPath11HandlePieceEifffffffff+0x204>
+1a62c4	e1a00005	mov	r0, r5
+1a62c8	e59d1098	ldr	r1, [sp, #0x98]
+1a62cc	e59d20a4	ldr	r2, [sp, #0xa4]
+1a62d0	e59d30b4	ldr	r3, [sp, #0xb4]
+1a62d4	ebffff63	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a62d8	eddd3a23	vldr	s7, [sp, #140]
+1a62dc	ed9d4a28	vldr	s8, [sp, #160]
+1a62e0	ee737ac4	vsub.f32	s15, s7, s8
+1a62e4	eddd4a22	vldr	s9, [sp, #136]
+1a62e8	ed9d5a27	vldr	s10, [sp, #156]
+1a62ec	ee677aa7	vmul.f32	s15, s15, s15
+1a62f0	ee347ac5	vsub.f32	s14, s9, s10
+1a62f4	ee477a07	vmla.f32	s15, s14, s14
+1a62f8	eef47acf	vcmpe.f32	s15, s30
+1a62fc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6300	daffffa1	ble	0x1a618c <_ZN5CPath11HandlePieceEifffffffff+0x38>
+1a6304	eddd7a23	vldr	s15, [sp, #140]
+1a6308	eddd5a22	vldr	s11, [sp, #136]
+1a630c	eddd3a2e	vldr	s7, [sp, #184]
+1a6310	ed9d5a27	vldr	s10, [sp, #156]
+1a6314	ed9d6a28	vldr	s12, [sp, #160]
+1a6318	ee756a25	vadd.f32	s13, s10, s11
+1a631c	eddd2a2c	vldr	s5, [sp, #176]
+1a6320	e35b0000	cmp	r11, #0
+1a6324	e24bb001	sub	r11, r11, #1
+1a6328	ee367a27	vadd.f32	s14, s12, s15
+1a632c	ee727aa3	vadd.f32	s15, s5, s7
+1a6330	ee666aaf	vmul.f32	s13, s13, s31
+1a6334	ee277a2f	vmul.f32	s14, s14, s31
+1a6338	edcd6a22	vstr	s13, [sp, #136]
+1a633c	ee677aaf	vmul.f32	s15, s15, s31
+1a6340	ed8d7a23	vstr	s14, [sp, #140]
+1a6344	edcd7a2e	vstr	s15, [sp, #184]
+1a6348	0affff8f	beq	0x1a618c <_ZN5CPath11HandlePieceEifffffffff+0x38>
+1a634c	ed9d6a2d	vldr	s12, [sp, #180]
+1a6350	ed9d7a29	vldr	s14, [sp, #164]
+1a6354	eddd7a26	vldr	s15, [sp, #152]
+1a6358	eddd2a23	vldr	s5, [sp, #140]
+1a635c	ee726ac7	vsub.f32	s13, s5, s14
+1a6360	eddd3a22	vldr	s7, [sp, #136]
+1a6364	ee666aa6	vmul.f32	s13, s13, s13
+1a6368	ee334ae7	vsub.f32	s8, s7, s15
+1a636c	ee774aa3	vadd.f32	s9, s15, s7
+1a6370	ee375a22	vadd.f32	s10, s14, s5
+1a6374	eddd2a2e	vldr	s5, [sp, #184]
+1a6378	ee765a22	vadd.f32	s11, s12, s5
+1a637c	ee446a04	vmla.f32	s13, s8, s8
+1a6380	ed9d4a23	vldr	s8, [sp, #140]
+1a6384	ee333aa4	vadd.f32	s6, s7, s9
+1a6388	ee743a05	vadd.f32	s7, s8, s10
+1a638c	ee324aa5	vadd.f32	s8, s5, s11
+1a6390	eddd2a27	vldr	s5, [sp, #156]
+1a6394	ee323a83	vadd.f32	s6, s5, s6
+1a6398	eddd2a28	vldr	s5, [sp, #160]
+1a639c	ee723aa3	vadd.f32	s7, s5, s7
+1a63a0	eddd2a2c	vldr	s5, [sp, #176]
+1a63a4	ee324a84	vadd.f32	s8, s5, s8
+1a63a8	ee233a0e	vmul.f32	s6, s6, s28
+1a63ac	ee633a8e	vmul.f32	s7, s7, s28
+1a63b0	ed8d3a26	vstr	s6, [sp, #152]
+1a63b4	ee244a0e	vmul.f32	s8, s8, s28
+1a63b8	edcd3a29	vstr	s7, [sp, #164]
+1a63bc	eef46acf	vcmpe.f32	s13, s30
+1a63c0	ed8d4a2d	vstr	s8, [sp, #180]
+1a63c4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a63c8	daffffbd	ble	0x1a62c4 <_ZN5CPath11HandlePieceEifffffffff+0x170>
+1a63cc	ee644aaf	vmul.f32	s9, s9, s31
+1a63d0	e35b0000	cmp	r11, #0
+1a63d4	e58db0a8	str	r11, [sp, #0xa8]
+1a63d8	ee255a2f	vmul.f32	s10, s10, s31
+1a63dc	edcd4a24	vstr	s9, [sp, #144]
+1a63e0	ee655aaf	vmul.f32	s11, s11, s31
+1a63e4	ed8d5a25	vstr	s10, [sp, #148]
+1a63e8	edcd5a2f	vstr	s11, [sp, #188]
+1a63ec	1a000026	bne	0x1a648c <_ZN5CPath11HandlePieceEifffffffff+0x338>
+1a63f0	eaffffb3	b	0x1a62c4 <_ZN5CPath11HandlePieceEifffffffff+0x170>
+1a63f4	e1a00005	mov	r0, r5
+1a63f8	e59d1080	ldr	r1, [sp, #0x80]
+1a63fc	e59d2078	ldr	r2, [sp, #0x78]
+1a6400	e59d3084	ldr	r3, [sp, #0x84]
+1a6404	ebffff17	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a6408	eddd3a25	vldr	s7, [sp, #148]
+1a640c	ed9d4a29	vldr	s8, [sp, #164]
+1a6410	ee737ac4	vsub.f32	s15, s7, s8
+1a6414	eddd4a24	vldr	s9, [sp, #144]
+1a6418	ed9d5a26	vldr	s10, [sp, #152]
+1a641c	ee677aa7	vmul.f32	s15, s15, s15
+1a6420	ee347ac5	vsub.f32	s14, s9, s10
+1a6424	ee477a07	vmla.f32	s15, s14, s14
+1a6428	eef47acf	vcmpe.f32	s15, s30
+1a642c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6430	daffffa3	ble	0x1a62c4 <_ZN5CPath11HandlePieceEifffffffff+0x170>
+1a6434	eddd7a24	vldr	s15, [sp, #144]
+1a6438	ed9d7a26	vldr	s14, [sp, #152]
+1a643c	eddd3a25	vldr	s7, [sp, #148]
+1a6440	ee776a27	vadd.f32	s13, s14, s15
+1a6444	eddd4a2f	vldr	s9, [sp, #188]
+1a6448	eddd2a29	vldr	s5, [sp, #164]
+1a644c	ed9d4a2d	vldr	s8, [sp, #180]
+1a6450	e59d30a8	ldr	r3, [sp, #0xa8]
+1a6454	e2533001	subs	r3, r3, #1
+1a6458	e58d30a8	str	r3, [sp, #0xa8]
+1a645c	ee327aa3	vadd.f32	s14, s5, s7
+1a6460	ee747a24	vadd.f32	s15, s8, s9
+1a6464	ee666aaf	vmul.f32	s13, s13, s31
+1a6468	ee277a2f	vmul.f32	s14, s14, s31
+1a646c	edcd6a24	vstr	s13, [sp, #144]
+1a6470	ee677aaf	vmul.f32	s15, s15, s31
+1a6474	ed8d7a25	vstr	s14, [sp, #148]
+1a6478	edcd7a2f	vstr	s15, [sp, #188]
+1a647c	0affff90	beq	0x1a62c4 <_ZN5CPath11HandlePieceEifffffffff+0x170>
+1a6480	ed9d6a21	vldr	s12, [sp, #132]
+1a6484	ed9d7a1e	vldr	s14, [sp, #120]
+1a6488	eddd7a20	vldr	s15, [sp, #128]
+1a648c	eddd5a25	vldr	s11, [sp, #148]
+1a6490	ee756ac7	vsub.f32	s13, s11, s14
+1a6494	eddd2a24	vldr	s5, [sp, #144]
+1a6498	eddd3a2f	vldr	s7, [sp, #188]
+1a649c	ee666aa6	vmul.f32	s13, s13, s13
+1a64a0	ee324ae7	vsub.f32	s8, s5, s15
+1a64a4	ee774aa2	vadd.f32	s9, s15, s5
+1a64a8	ee375a25	vadd.f32	s10, s14, s11
+1a64ac	ee765a23	vadd.f32	s11, s12, s7
+1a64b0	ee446a04	vmla.f32	s13, s8, s8
+1a64b4	ed9d4a25	vldr	s8, [sp, #148]
+1a64b8	ee323aa4	vadd.f32	s6, s5, s9
+1a64bc	eddd2a2f	vldr	s5, [sp, #188]
+1a64c0	ee743a05	vadd.f32	s7, s8, s10
+1a64c4	ee324aa5	vadd.f32	s8, s5, s11
+1a64c8	eddd2a26	vldr	s5, [sp, #152]
+1a64cc	ee323a83	vadd.f32	s6, s5, s6
+1a64d0	eddd2a29	vldr	s5, [sp, #164]
+1a64d4	ee723aa3	vadd.f32	s7, s5, s7
+1a64d8	eddd2a2d	vldr	s5, [sp, #180]
+1a64dc	ee324a84	vadd.f32	s8, s5, s8
+1a64e0	ee233a0e	vmul.f32	s6, s6, s28
+1a64e4	ee633a8e	vmul.f32	s7, s7, s28
+1a64e8	ed8d3a20	vstr	s6, [sp, #128]
+1a64ec	ee244a0e	vmul.f32	s8, s8, s28
+1a64f0	edcd3a1e	vstr	s7, [sp, #120]
+1a64f4	eef46acf	vcmpe.f32	s13, s30
+1a64f8	ed8d4a21	vstr	s8, [sp, #132]
+1a64fc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6500	daffffbb	ble	0x1a63f4 <_ZN5CPath11HandlePieceEifffffffff+0x2a0>
+1a6504	ee644aaf	vmul.f32	s9, s9, s31
+1a6508	e59d30a8	ldr	r3, [sp, #0xa8]
+1a650c	e3530001	cmp	r3, #1
+1a6510	ee255a2f	vmul.f32	s10, s10, s31
+1a6514	edcd4a1d	vstr	s9, [sp, #116]
+1a6518	ee655aaf	vmul.f32	s11, s11, s31
+1a651c	ed8d5a1c	vstr	s10, [sp, #112]
+1a6520	edcd5a1f	vstr	s11, [sp, #124]
+1a6524	0affffb2	beq	0x1a63f4 <_ZN5CPath11HandlePieceEifffffffff+0x2a0>
+1a6528	e243a002	sub	r10, r3, #2
+1a652c	ea000024	b	0x1a65c4 <_ZN5CPath11HandlePieceEifffffffff+0x470>
+1a6530	e1a00005	mov	r0, r5
+1a6534	e59d1064	ldr	r1, [sp, #0x64]
+1a6538	e59d2068	ldr	r2, [sp, #0x68]
+1a653c	e59d306c	ldr	r3, [sp, #0x6c]
+1a6540	ebfffec8	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a6544	eddd3a1c	vldr	s7, [sp, #112]
+1a6548	ed9d4a1e	vldr	s8, [sp, #120]
+1a654c	ee737ac4	vsub.f32	s15, s7, s8
+1a6550	eddd4a1d	vldr	s9, [sp, #116]
+1a6554	ed9d5a20	vldr	s10, [sp, #128]
+1a6558	ee677aa7	vmul.f32	s15, s15, s15
+1a655c	ee347ac5	vsub.f32	s14, s9, s10
+1a6560	ee477a07	vmla.f32	s15, s14, s14
+1a6564	eef47acf	vcmpe.f32	s15, s30
+1a6568	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a656c	daffffa0	ble	0x1a63f4 <_ZN5CPath11HandlePieceEifffffffff+0x2a0>
+1a6570	ed9d4a1d	vldr	s8, [sp, #116]
+1a6574	ed9d5a1c	vldr	s10, [sp, #112]
+1a6578	ed9d6a1f	vldr	s12, [sp, #124]
+1a657c	eddd3a20	vldr	s7, [sp, #128]
+1a6580	eddd4a1e	vldr	s9, [sp, #120]
+1a6584	ee736a84	vadd.f32	s13, s7, s8
+1a6588	eddd5a21	vldr	s11, [sp, #132]
+1a658c	e35a0000	cmp	r10, #0
+1a6590	e24aa001	sub	r10, r10, #1
+1a6594	ee347a85	vadd.f32	s14, s9, s10
+1a6598	ee757a86	vadd.f32	s15, s11, s12
+1a659c	ee666aaf	vmul.f32	s13, s13, s31
+1a65a0	ee277a2f	vmul.f32	s14, s14, s31
+1a65a4	edcd6a1d	vstr	s13, [sp, #116]
+1a65a8	ee677aaf	vmul.f32	s15, s15, s31
+1a65ac	ed8d7a1c	vstr	s14, [sp, #112]
+1a65b0	edcd7a1f	vstr	s15, [sp, #124]
+1a65b4	0affff8e	beq	0x1a63f4 <_ZN5CPath11HandlePieceEifffffffff+0x2a0>
+1a65b8	eddd7a19	vldr	s15, [sp, #100]
+1a65bc	ed9d7a1a	vldr	s14, [sp, #104]
+1a65c0	ed9d6a1b	vldr	s12, [sp, #108]
+1a65c4	eddd2a1c	vldr	s5, [sp, #112]
+1a65c8	ee726ac7	vsub.f32	s13, s5, s14
+1a65cc	eddd3a1d	vldr	s7, [sp, #116]
+1a65d0	ee666aa6	vmul.f32	s13, s13, s13
+1a65d4	ee735ae7	vsub.f32	s11, s7, s15
+1a65d8	ee374aa3	vadd.f32	s8, s15, s7
+1a65dc	ee774a22	vadd.f32	s9, s14, s5
+1a65e0	eddd2a1f	vldr	s5, [sp, #124]
+1a65e4	ee365a22	vadd.f32	s10, s12, s5
+1a65e8	ee456aa5	vmla.f32	s13, s11, s11
+1a65ec	eddd5a1c	vldr	s11, [sp, #112]
+1a65f0	ee333a84	vadd.f32	s6, s7, s8
+1a65f4	ee753aa4	vadd.f32	s7, s11, s9
+1a65f8	ee725a85	vadd.f32	s11, s5, s10
+1a65fc	eddd2a20	vldr	s5, [sp, #128]
+1a6600	ee323a83	vadd.f32	s6, s5, s6
+1a6604	eddd2a1e	vldr	s5, [sp, #120]
+1a6608	ee723aa3	vadd.f32	s7, s5, s7
+1a660c	eddd2a21	vldr	s5, [sp, #132]
+1a6610	ee725aa5	vadd.f32	s11, s5, s11
+1a6614	ee233a0e	vmul.f32	s6, s6, s28
+1a6618	ee633a8e	vmul.f32	s7, s7, s28
+1a661c	ed8d3a19	vstr	s6, [sp, #100]
+1a6620	ee655a8e	vmul.f32	s11, s11, s28
+1a6624	edcd3a1a	vstr	s7, [sp, #104]
+1a6628	eef46acf	vcmpe.f32	s13, s30
+1a662c	edcd5a1b	vstr	s11, [sp, #108]
+1a6630	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6634	daffffbd	ble	0x1a6530 <_ZN5CPath11HandlePieceEifffffffff+0x3dc>
+1a6638	ee244a2f	vmul.f32	s8, s8, s31
+1a663c	e35a0000	cmp	r10, #0
+1a6640	e1a0900a	mov	r9, r10
+1a6644	ee644aaf	vmul.f32	s9, s9, s31
+1a6648	ed8d4a17	vstr	s8, [sp, #92]
+1a664c	ee255a2f	vmul.f32	s10, s10, s31
+1a6650	edcd4a16	vstr	s9, [sp, #88]
+1a6654	ed8d5a18	vstr	s10, [sp, #96]
+1a6658	1a000024	bne	0x1a66f0 <_ZN5CPath11HandlePieceEifffffffff+0x59c>
+1a665c	eaffffb3	b	0x1a6530 <_ZN5CPath11HandlePieceEifffffffff+0x3dc>
+1a6660	e1a00005	mov	r0, r5
+1a6664	e59d104c	ldr	r1, [sp, #0x4c]
+1a6668	e59d2050	ldr	r2, [sp, #0x50]
+1a666c	e59d3054	ldr	r3, [sp, #0x54]
+1a6670	ebfffe7c	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a6674	eddd3a16	vldr	s7, [sp, #88]
+1a6678	ed9d4a1a	vldr	s8, [sp, #104]
+1a667c	ee737ac4	vsub.f32	s15, s7, s8
+1a6680	eddd4a17	vldr	s9, [sp, #92]
+1a6684	ed9d5a19	vldr	s10, [sp, #100]
+1a6688	ee677aa7	vmul.f32	s15, s15, s15
+1a668c	ee347ac5	vsub.f32	s14, s9, s10
+1a6690	ee477a07	vmla.f32	s15, s14, s14
+1a6694	eef47acf	vcmpe.f32	s15, s30
+1a6698	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a669c	daffffa3	ble	0x1a6530 <_ZN5CPath11HandlePieceEifffffffff+0x3dc>
+1a66a0	eddd4a17	vldr	s9, [sp, #92]
+1a66a4	eddd5a16	vldr	s11, [sp, #88]
+1a66a8	eddd2a18	vldr	s5, [sp, #96]
+1a66ac	ed9d4a19	vldr	s8, [sp, #100]
+1a66b0	ed9d5a1a	vldr	s10, [sp, #104]
+1a66b4	ee746a24	vadd.f32	s13, s8, s9
+1a66b8	ed9d6a1b	vldr	s12, [sp, #108]
+1a66bc	e2599001	subs	r9, r9, #1
+1a66c0	ee357a25	vadd.f32	s14, s10, s11
+1a66c4	ee767a22	vadd.f32	s15, s12, s5
+1a66c8	ee666aaf	vmul.f32	s13, s13, s31
+1a66cc	ee277a2f	vmul.f32	s14, s14, s31
+1a66d0	edcd6a17	vstr	s13, [sp, #92]
+1a66d4	ee677aaf	vmul.f32	s15, s15, s31
+1a66d8	ed8d7a16	vstr	s14, [sp, #88]
+1a66dc	edcd7a18	vstr	s15, [sp, #96]
+1a66e0	0affff92	beq	0x1a6530 <_ZN5CPath11HandlePieceEifffffffff+0x3dc>
+1a66e4	eddd7a13	vldr	s15, [sp, #76]
+1a66e8	ed9d7a14	vldr	s14, [sp, #80]
+1a66ec	ed9d6a15	vldr	s12, [sp, #84]
+1a66f0	eddd5a16	vldr	s11, [sp, #88]
+1a66f4	ee756ac7	vsub.f32	s13, s11, s14
+1a66f8	eddd2a17	vldr	s5, [sp, #92]
+1a66fc	eddd3a16	vldr	s7, [sp, #88]
+1a6700	ee666aa6	vmul.f32	s13, s13, s13
+1a6704	ee725ae7	vsub.f32	s11, s5, s15
+1a6708	ee374aa2	vadd.f32	s8, s15, s5
+1a670c	eddd2a18	vldr	s5, [sp, #96]
+1a6710	ee774a23	vadd.f32	s9, s14, s7
+1a6714	eddd3a17	vldr	s7, [sp, #92]
+1a6718	ee365a22	vadd.f32	s10, s12, s5
+1a671c	ee456aa5	vmla.f32	s13, s11, s11
+1a6720	eddd5a16	vldr	s11, [sp, #88]
+1a6724	ee333a84	vadd.f32	s6, s7, s8
+1a6728	ee753aa4	vadd.f32	s7, s11, s9
+1a672c	ee725a85	vadd.f32	s11, s5, s10
+1a6730	eddd2a19	vldr	s5, [sp, #100]
+1a6734	ee323a83	vadd.f32	s6, s5, s6
+1a6738	eddd2a1a	vldr	s5, [sp, #104]
+1a673c	ee723aa3	vadd.f32	s7, s5, s7
+1a6740	eddd2a1b	vldr	s5, [sp, #108]
+1a6744	ee725aa5	vadd.f32	s11, s5, s11
+1a6748	ee233a0e	vmul.f32	s6, s6, s28
+1a674c	ee633a8e	vmul.f32	s7, s7, s28
+1a6750	ed8d3a13	vstr	s6, [sp, #76]
+1a6754	ee655a8e	vmul.f32	s11, s11, s28
+1a6758	edcd3a14	vstr	s7, [sp, #80]
+1a675c	eef46acf	vcmpe.f32	s13, s30
+1a6760	edcd5a15	vstr	s11, [sp, #84]
+1a6764	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6768	daffffbc	ble	0x1a6660 <_ZN5CPath11HandlePieceEifffffffff+0x50c>
+1a676c	ee244a2f	vmul.f32	s8, s8, s31
+1a6770	e3590001	cmp	r9, #1
+1a6774	ee644aaf	vmul.f32	s9, s9, s31
+1a6778	ed8d4a10	vstr	s8, [sp, #64]
+1a677c	ee255a2f	vmul.f32	s10, s10, s31
+1a6780	edcd4a11	vstr	s9, [sp, #68]
+1a6784	ed8d5a12	vstr	s10, [sp, #72]
+1a6788	0affffb4	beq	0x1a6660 <_ZN5CPath11HandlePieceEifffffffff+0x50c>
+1a678c	e2498002	sub	r8, r9, #2
+1a6790	ea000024	b	0x1a6828 <_ZN5CPath11HandlePieceEifffffffff+0x6d4>
+1a6794	e1a00005	mov	r0, r5
+1a6798	e59d1034	ldr	r1, [sp, #0x34]
+1a679c	e59d2038	ldr	r2, [sp, #0x38]
+1a67a0	e59d303c	ldr	r3, [sp, #0x3c]
+1a67a4	ebfffe2f	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a67a8	eddd3a11	vldr	s7, [sp, #68]
+1a67ac	ed9d4a14	vldr	s8, [sp, #80]
+1a67b0	ee737ac4	vsub.f32	s15, s7, s8
+1a67b4	eddd4a10	vldr	s9, [sp, #64]
+1a67b8	ed9d5a13	vldr	s10, [sp, #76]
+1a67bc	ee677aa7	vmul.f32	s15, s15, s15
+1a67c0	ee347ac5	vsub.f32	s14, s9, s10
+1a67c4	ee477a07	vmla.f32	s15, s14, s14
+1a67c8	eef47acf	vcmpe.f32	s15, s30
+1a67cc	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a67d0	daffffa2	ble	0x1a6660 <_ZN5CPath11HandlePieceEifffffffff+0x50c>
+1a67d4	ed9d5a10	vldr	s10, [sp, #64]
+1a67d8	ed9d6a11	vldr	s12, [sp, #68]
+1a67dc	eddd3a12	vldr	s7, [sp, #72]
+1a67e0	eddd4a13	vldr	s9, [sp, #76]
+1a67e4	eddd5a14	vldr	s11, [sp, #80]
+1a67e8	ee746a85	vadd.f32	s13, s9, s10
+1a67ec	eddd2a15	vldr	s5, [sp, #84]
+1a67f0	e3580000	cmp	r8, #0
+1a67f4	e2488001	sub	r8, r8, #1
+1a67f8	ee357a86	vadd.f32	s14, s11, s12
+1a67fc	ee727aa3	vadd.f32	s15, s5, s7
+1a6800	ee666aaf	vmul.f32	s13, s13, s31
+1a6804	ee277a2f	vmul.f32	s14, s14, s31
+1a6808	edcd6a10	vstr	s13, [sp, #64]
+1a680c	ee677aaf	vmul.f32	s15, s15, s31
+1a6810	ed8d7a11	vstr	s14, [sp, #68]
+1a6814	edcd7a12	vstr	s15, [sp, #72]
+1a6818	0affff90	beq	0x1a6660 <_ZN5CPath11HandlePieceEifffffffff+0x50c>
+1a681c	eddd7a0d	vldr	s15, [sp, #52]
+1a6820	ed9d6a0f	vldr	s12, [sp, #60]
+1a6824	ed9d7a0e	vldr	s14, [sp, #56]
+1a6828	eddd5a11	vldr	s11, [sp, #68]
+1a682c	ee756ac7	vsub.f32	s13, s11, s14
+1a6830	eddd2a10	vldr	s5, [sp, #64]
+1a6834	eddd3a11	vldr	s7, [sp, #68]
+1a6838	ee666aa6	vmul.f32	s13, s13, s13
+1a683c	ee725ae7	vsub.f32	s11, s5, s15
+1a6840	ee374aa2	vadd.f32	s8, s15, s5
+1a6844	eddd2a12	vldr	s5, [sp, #72]
+1a6848	ee774a23	vadd.f32	s9, s14, s7
+1a684c	eddd3a10	vldr	s7, [sp, #64]
+1a6850	ee365a22	vadd.f32	s10, s12, s5
+1a6854	ee456aa5	vmla.f32	s13, s11, s11
+1a6858	eddd5a11	vldr	s11, [sp, #68]
+1a685c	ee333a84	vadd.f32	s6, s7, s8
+1a6860	ee753aa4	vadd.f32	s7, s11, s9
+1a6864	ee725a85	vadd.f32	s11, s5, s10
+1a6868	eddd2a13	vldr	s5, [sp, #76]
+1a686c	ee323a83	vadd.f32	s6, s5, s6
+1a6870	eddd2a14	vldr	s5, [sp, #80]
+1a6874	ee723aa3	vadd.f32	s7, s5, s7
+1a6878	eddd2a15	vldr	s5, [sp, #84]
+1a687c	ee725aa5	vadd.f32	s11, s5, s11
+1a6880	ee233a0e	vmul.f32	s6, s6, s28
+1a6884	ee633a8e	vmul.f32	s7, s7, s28
+1a6888	ed8d3a0d	vstr	s6, [sp, #52]
+1a688c	ee655a8e	vmul.f32	s11, s11, s28
+1a6890	edcd3a0e	vstr	s7, [sp, #56]
+1a6894	eef46acf	vcmpe.f32	s13, s30
+1a6898	edcd5a0f	vstr	s11, [sp, #60]
+1a689c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a68a0	daffffbb	ble	0x1a6794 <_ZN5CPath11HandlePieceEifffffffff+0x640>
+1a68a4	ee244a2f	vmul.f32	s8, s8, s31
+1a68a8	e3580000	cmp	r8, #0
+1a68ac	e1a07008	mov	r7, r8
+1a68b0	ee644aaf	vmul.f32	s9, s9, s31
+1a68b4	ed8d4a0a	vstr	s8, [sp, #40]
+1a68b8	ee255a2f	vmul.f32	s10, s10, s31
+1a68bc	edcd4a0b	vstr	s9, [sp, #44]
+1a68c0	ed8d5a0c	vstr	s10, [sp, #48]
+1a68c4	1a000024	bne	0x1a695c <_ZN5CPath11HandlePieceEifffffffff+0x808>
+1a68c8	eaffffb1	b	0x1a6794 <_ZN5CPath11HandlePieceEifffffffff+0x640>
+1a68cc	e1a00005	mov	r0, r5
+1a68d0	e59d1020	ldr	r1, [sp, #0x20]
+1a68d4	ee1e2a90	vmov	r2, s29
+1a68d8	e59d3024	ldr	r3, [sp, #0x24]
+1a68dc	ebfffde1	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a68e0	ed9d4a0b	vldr	s8, [sp, #44]
+1a68e4	eddd4a0e	vldr	s9, [sp, #56]
+1a68e8	ee747a64	vsub.f32	s15, s8, s9
+1a68ec	ed9d5a0a	vldr	s10, [sp, #40]
+1a68f0	eddd5a0d	vldr	s11, [sp, #52]
+1a68f4	ee677aa7	vmul.f32	s15, s15, s15
+1a68f8	ee357a65	vsub.f32	s14, s10, s11
+1a68fc	ee477a07	vmla.f32	s15, s14, s14
+1a6900	eef47acf	vcmpe.f32	s15, s30
+1a6904	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6908	daffffa1	ble	0x1a6794 <_ZN5CPath11HandlePieceEifffffffff+0x640>
+1a690c	ed9d6a0a	vldr	s12, [sp, #40]
+1a6910	eddd7a0e	vldr	s15, [sp, #56]
+1a6914	eddd2a0b	vldr	s5, [sp, #44]
+1a6918	ed9d4a0c	vldr	s8, [sp, #48]
+1a691c	ee377aa2	vadd.f32	s14, s15, s5
+1a6920	eddd5a0d	vldr	s11, [sp, #52]
+1a6924	eddd3a0f	vldr	s7, [sp, #60]
+1a6928	e2577001	subs	r7, r7, #1
+1a692c	ee756a86	vadd.f32	s13, s11, s12
+1a6930	ee737a84	vadd.f32	s15, s7, s8
+1a6934	ee666aaf	vmul.f32	s13, s13, s31
+1a6938	ee277a2f	vmul.f32	s14, s14, s31
+1a693c	edcd6a0a	vstr	s13, [sp, #40]
+1a6940	ee677aaf	vmul.f32	s15, s15, s31
+1a6944	ed8d7a0b	vstr	s14, [sp, #44]
+1a6948	edcd7a0c	vstr	s15, [sp, #48]
+1a694c	0affff90	beq	0x1a6794 <_ZN5CPath11HandlePieceEifffffffff+0x640>
+1a6950	eeb07a6e	vmov.f32	s14, s29
+1a6954	ed9d6a09	vldr	s12, [sp, #36]
+1a6958	eddd7a08	vldr	s15, [sp, #32]
+1a695c	eddd5a0b	vldr	s11, [sp, #44]
+1a6960	eddd2a0a	vldr	s5, [sp, #40]
+1a6964	ee756ac7	vsub.f32	s13, s11, s14
+1a6968	ed9d4a0c	vldr	s8, [sp, #48]
+1a696c	eddd3a0b	vldr	s7, [sp, #44]
+1a6970	eddd4a0d	vldr	s9, [sp, #52]
+1a6974	ee666aa6	vmul.f32	s13, s13, s13
+1a6978	ee725ae7	vsub.f32	s11, s5, s15
+1a697c	ee77caa2	vadd.f32	s25, s15, s5
+1a6980	ee76da04	vadd.f32	s27, s12, s8
+1a6984	ee37da23	vadd.f32	s26, s14, s7
+1a6988	ee456aa5	vmla.f32	s13, s11, s11
+1a698c	ee325aac	vadd.f32	s10, s5, s25
+1a6990	eddd2a0e	vldr	s5, [sp, #56]
+1a6994	ee745a2d	vadd.f32	s11, s8, s27
+1a6998	ee73ea8d	vadd.f32	s29, s7, s26
+1a699c	eddd3a0f	vldr	s7, [sp, #60]
+1a69a0	ee345a85	vadd.f32	s10, s9, s10
+1a69a4	ee735aa5	vadd.f32	s11, s7, s11
+1a69a8	ee255a0e	vmul.f32	s10, s10, s28
+1a69ac	ee655a8e	vmul.f32	s11, s11, s28
+1a69b0	ed8d5a08	vstr	s10, [sp, #32]
+1a69b4	ee72eaae	vadd.f32	s29, s5, s29
+1a69b8	edcd5a09	vstr	s11, [sp, #36]
+1a69bc	eef46acf	vcmpe.f32	s13, s30
+1a69c0	ee6eea8e	vmul.f32	s29, s29, s28
+1a69c4	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a69c8	daffffbf	ble	0x1a68cc <_ZN5CPath11HandlePieceEifffffffff+0x778>
+1a69cc	e3570001	cmp	r7, #1
+1a69d0	ee6ccaaf	vmul.f32	s25, s25, s31
+1a69d4	ee2dda2f	vmul.f32	s26, s26, s31
+1a69d8	ee6ddaaf	vmul.f32	s27, s27, s31
+1a69dc	0affffba	beq	0x1a68cc <_ZN5CPath11HandlePieceEifffffffff+0x778>
+1a69e0	e2476002	sub	r6, r7, #2
+1a69e4	ea00001a	b	0x1a6a54 <_ZN5CPath11HandlePieceEifffffffff+0x900>
+1a69e8	e1a00005	mov	r0, r5
+1a69ec	ee191a90	vmov	r1, s19
+1a69f0	ee1a2a10	vmov	r2, s20
+1a69f4	ee1c3a10	vmov	r3, s24
+1a69f8	ebfffd9a	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a69fc	ee7d7a6e	vsub.f32	s15, s26, s29
+1a6a00	ed9d4a08	vldr	s8, [sp, #32]
+1a6a04	ee677aa7	vmul.f32	s15, s15, s15
+1a6a08	ee3c7ac4	vsub.f32	s14, s25, s8
+1a6a0c	ee477a07	vmla.f32	s15, s14, s14
+1a6a10	eef47acf	vcmpe.f32	s15, s30
+1a6a14	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6a18	daffffab	ble	0x1a68cc <_ZN5CPath11HandlePieceEifffffffff+0x778>
+1a6a1c	eddd4a08	vldr	s9, [sp, #32]
+1a6a20	ee3eda8d	vadd.f32	s26, s29, s26
+1a6a24	ed9d5a09	vldr	s10, [sp, #36]
+1a6a28	e3560000	cmp	r6, #0
+1a6a2c	e2466001	sub	r6, r6, #1
+1a6a30	ee74caac	vadd.f32	s25, s9, s25
+1a6a34	ee75da2d	vadd.f32	s27, s10, s27
+1a6a38	ee6ccaaf	vmul.f32	s25, s25, s31
+1a6a3c	ee2dda2f	vmul.f32	s26, s26, s31
+1a6a40	ee6ddaaf	vmul.f32	s27, s27, s31
+1a6a44	0affffa0	beq	0x1a68cc <_ZN5CPath11HandlePieceEifffffffff+0x778>
+1a6a48	eeb06a4c	vmov.f32	s12, s24
+1a6a4c	eeb07a4a	vmov.f32	s14, s20
+1a6a50	eef07a69	vmov.f32	s15, s19
+1a6a54	eddd2a08	vldr	s5, [sp, #32]
+1a6a58	eddd3a09	vldr	s7, [sp, #36]
+1a6a5c	ee7d6a47	vsub.f32	s13, s26, s14
+1a6a60	ee666aa6	vmul.f32	s13, s13, s13
+1a6a64	ee7c5ae7	vsub.f32	s11, s25, s15
+1a6a68	ee778aac	vadd.f32	s17, s15, s25
+1a6a6c	ee378a0d	vadd.f32	s16, s14, s26
+1a6a70	ee369a2d	vadd.f32	s18, s12, s27
+1a6a74	ee456aa5	vmla.f32	s13, s11, s11
+1a6a78	ee7c9aa8	vadd.f32	s19, s25, s17
+1a6a7c	ee3daa08	vadd.f32	s20, s26, s16
+1a6a80	ee3dca89	vadd.f32	s24, s27, s18
+1a6a84	ee729aa9	vadd.f32	s19, s5, s19
+1a6a88	ee3eaa8a	vadd.f32	s20, s29, s20
+1a6a8c	ee33ca8c	vadd.f32	s24, s7, s24
+1a6a90	eef46acf	vcmpe.f32	s13, s30
+1a6a94	ee699a8e	vmul.f32	s19, s19, s28
+1a6a98	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6a9c	ee2aaa0e	vmul.f32	s20, s20, s28
+1a6aa0	ee2cca0e	vmul.f32	s24, s24, s28
+1a6aa4	daffffcf	ble	0x1a69e8 <_ZN5CPath11HandlePieceEifffffffff+0x894>
+1a6aa8	e3560000	cmp	r6, #0
+1a6aac	e1a04006	mov	r4, r6
+1a6ab0	ee688aaf	vmul.f32	s17, s17, s31
+1a6ab4	ee288a2f	vmul.f32	s16, s16, s31
+1a6ab8	ee299a2f	vmul.f32	s18, s18, s31
+1a6abc	1a000017	bne	0x1a6b20 <_ZN5CPath11HandlePieceEifffffffff+0x9cc>
+1a6ac0	eaffffc8	b	0x1a69e8 <_ZN5CPath11HandlePieceEifffffffff+0x894>
+1a6ac4	e1a00005	mov	r0, r5
+1a6ac8	ee1a1a90	vmov	r1, s21
+1a6acc	ee1b2a10	vmov	r2, s22
+1a6ad0	ee1b3a90	vmov	r3, s23
+1a6ad4	ebfffd63	bl	0x1a6068 <_ZN5CPath16AddInternalPointEfff>
+1a6ad8	ee786a4a	vsub.f32	s13, s16, s20
+1a6adc	ee666aa6	vmul.f32	s13, s13, s13
+1a6ae0	ee785ae9	vsub.f32	s11, s17, s19
+1a6ae4	ee456aa5	vmla.f32	s13, s11, s11
+1a6ae8	eef46acf	vcmpe.f32	s13, s30
+1a6aec	eeb06a6b	vmov.f32	s12, s23
+1a6af0	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6af4	eeb07a4b	vmov.f32	s14, s22
+1a6af8	eef07a6a	vmov.f32	s15, s21
+1a6afc	daffffb9	ble	0x1a69e8 <_ZN5CPath11HandlePieceEifffffffff+0x894>
+1a6b00	e2544001	subs	r4, r4, #1
+1a6b04	ee798aa8	vadd.f32	s17, s19, s17
+1a6b08	ee3a8a08	vadd.f32	s16, s20, s16
+1a6b0c	ee3c9a09	vadd.f32	s18, s24, s18
+1a6b10	ee688aaf	vmul.f32	s17, s17, s31
+1a6b14	ee288a2f	vmul.f32	s16, s16, s31
+1a6b18	ee299a2f	vmul.f32	s18, s18, s31
+1a6b1c	0affffb1	beq	0x1a69e8 <_ZN5CPath11HandlePieceEifffffffff+0x894>
+1a6b20	ee786a47	vsub.f32	s13, s16, s14
+1a6b24	ee666aa6	vmul.f32	s13, s13, s13
+1a6b28	ee785ae7	vsub.f32	s11, s17, s15
+1a6b2c	ee374aa8	vadd.f32	s8, s15, s17
+1a6b30	ee774a08	vadd.f32	s9, s14, s16
+1a6b34	ee365a09	vadd.f32	s10, s12, s18
+1a6b38	ee456aa5	vmla.f32	s13, s11, s11
+1a6b3c	ee78aa84	vadd.f32	s21, s17, s8
+1a6b40	ee38ba24	vadd.f32	s22, s16, s9
+1a6b44	ee79ba05	vadd.f32	s23, s18, s10
+1a6b48	ee79aaaa	vadd.f32	s21, s19, s21
+1a6b4c	ee3aba0b	vadd.f32	s22, s20, s22
+1a6b50	ee7cba2b	vadd.f32	s23, s24, s23
+1a6b54	eef46acf	vcmpe.f32	s13, s30
+1a6b58	ee6aaa8e	vmul.f32	s21, s21, s28
+1a6b5c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1a6b60	ee2bba0e	vmul.f32	s22, s22, s28
+1a6b64	ee6bba8e	vmul.f32	s23, s23, s28
+1a6b68	daffffd5	ble	0x1a6ac4 <_ZN5CPath11HandlePieceEifffffffff+0x970>
+1a6b6c	ed8d6a00	vstr	s12, [sp]
+1a6b70	edcdaa04	vstr	s21, [sp, #16]
+1a6b74	ed8dba05	vstr	s22, [sp, #20]
+1a6b78	e1a00005	mov	r0, r5
+1a6b7c	e2441001	sub	r1, r4, #1
+1a6b80	ee172a90	vmov	r2, s15
+1a6b84	ee173a10	vmov	r3, s14
+1a6b88	edcdba06	vstr	s23, [sp, #24]
+1a6b8c	ee244a2f	vmul.f32	s8, s8, s31
+1a6b90	ee644aaf	vmul.f32	s9, s9, s31
+1a6b94	ed8d4a01	vstr	s8, [sp, #4]
+1a6b98	ee255a2f	vmul.f32	s10, s10, s31
+1a6b9c	edcd4a02	vstr	s9, [sp, #8]
+1a6ba0	ed8d5a03	vstr	s10, [sp, #12]
+1a6ba4	ebfffd6a	bl	0x1a6154 <_ZN5CPath11HandlePieceEifffffffff>
+1a6ba8	eaffffc5	b	0x1a6ac4 <_ZN5CPath11HandlePieceEifffffffff+0x970>
+1a6bac	e28dd0c4	add	sp, sp, #196
+1a6bb0	ecbd8b10	vpop	{d8, d9, d10, d11, d12, d13, d14, d15}

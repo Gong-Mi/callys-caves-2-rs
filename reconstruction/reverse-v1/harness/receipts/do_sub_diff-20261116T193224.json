@@ -1,0 +1,401 @@
+{
+  "harness": "do_sub_diff.py",
+  "target": {
+    "symbol": "_Z5DoSubjPhPKhP6VMExec",
+    "func": "DoSub",
+    "addr": "0xdd500",
+    "size": 2152,
+    "so": "/data/data/com.termux/files/home/callys-caves-2-rs/reconstruction/live-mem/libyoyo_armv7.so",
+    "sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a"
+  },
+  "build": "clang --target=armv7a-none-eabi (freestanding) + qemu-arm",
+  "scope": {
+    "covered": [
+      "strong-typed arm: mode 0 AND modes 2..15 (the entry only tests mode == 1), every pair byte 0..101, every RValue tag 0..15 in both operand positions, the int32/int64/real tower and the 4/8/16-byte result placement",
+      "mode 1 (generic -): boxType, two F_JS_ToNumber calls, the subtraction and both ReferenceError limbs"
+    ],
+    "not_covered": [
+      "mode 1 with a string / array / pointer / object operand (strtod + JS object hooks, unrecovered)",
+      "the FREE_RValue__Pre cleanup at the end of mode 1 — stubbed on BOTH arms, so a green run says nothing about it"
+    ],
+    "modelled_callees": [
+      "F_JS_ToNumber @0x24cfac"
+    ],
+    "real_linked_callees": [
+      "boxType @0xd7784 (c/box_type.c)"
+    ],
+    "stubbed_in_the_judge": [
+      "VMError @0xd4210",
+      "JSThrowReferenceError @0x254b04",
+      "JSThrowTypeError @0x24e58c",
+      "FREE_RValue__Pre @0xc0a7c",
+      "libc: malloc/free/mem*/str*/pthread_*"
+    ]
+  },
+  "seed": "0x5ab1",
+  "cases": 481,
+  "inputs_sha256": "98c28c359d8100707ece0b9a6c0cdbc55674581cea46fa04d71ffcfc7e8afd32",
+  "c_sha256": "ee2365b07e5bc99ba637f93d82e5ab493f732583bdcc7e103eae61290d684f39",
+  "result": {
+    "mismatches": 0,
+    "first": [],
+    "verdict": "PASS",
+    "labels": []
+  },
+  "gates": {
+    "binding": {
+      "ok": true,
+      "so": "/data/data/com.termux/files/home/callys-caves-2-rs/reconstruction/live-mem/libyoyo_armv7.so",
+      "sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+      "symbol": {
+        "name": "_Z5DoSubjPhPKhP6VMExec",
+        "addr": "0xdd500",
+        "size": 2152,
+        "declared": {
+          "addr": "0xdd500",
+          "size": 2152
+        }
+      },
+      "pool_words": 17,
+      "error_strings": {
+        "0xdd550": "DoSub :: Execution Engine - Cannot operate on string type",
+        "0xdd594": "DoSub :: Execution Engine - Cannot operate on string type",
+        "0xdda28": "DoSub:: Execution Error",
+        "0xdda40": "Could not convert right-hand-side of subtraction operator to a number",
+        "0xddbb4": "DoSub :1: undefined value",
+        "0xddbcc": "DoSub :1: illegal pointer use",
+        "0xddbe4": "DoSub :1: illegal array use",
+        "0xddbfc": "DoSub :: Execution Engine - Cannot operate on string type",
+        "0xddc38": "DoSub :2: undefined value",
+        "0xddc4c": "DoSub :2: illegal pointer use",
+        "0xddc60": "DoSub :2: illegal array use",
+        "0xddc74": "DoSub :: Execution Engine - Cannot operate on string type",
+        "0xddca0": "DoSub :1: Malformed variable",
+        "0xddcb8": "DoSub :2: Malformed variable",
+        "0xddccc": "could not find variable after '-'",
+        "0xddce0": "could not find variable before '-'",
+        "0xddcf4": "Could not convert left-hand-side of subtraction operator to a number"
+      },
+      "strings_not_in_c": []
+    },
+    "census": {
+      "ok": true,
+      "instructions": 521,
+      "documented": 521,
+      "pool_words": 17,
+      "wrong": [],
+      "duplicate_addresses": [],
+      "unknown_addresses": [],
+      "pool_missing": []
+    },
+    "census_selftest": {
+      "operand_changed": {
+        "ok": true,
+        "wrong": 1,
+        "missing": 0
+      },
+      "comment_line_deleted": {
+        "ok": true,
+        "wrong": 1,
+        "missing": 0
+      },
+      "pool_word_changed": {
+        "ok": true,
+        "wrong": 0,
+        "missing": 1
+      },
+      "ok": true
+    },
+    "identity": {
+      "pass": true,
+      "mismatches": 0
+    },
+    "coverage": {
+      "pair_table_entries": {
+        "pass": true,
+        "walked": 102,
+        "total": 102,
+        "missing": []
+      },
+      "first_operand_entries": {
+        "pass": true,
+        "walked": 7,
+        "total": 7,
+        "missing": []
+      },
+      "second_operand_entries": {
+        "pass": true,
+        "walked": 7,
+        "total": 7,
+        "missing": []
+      },
+      "rhs_tag_entries": {
+        "pass": true,
+        "walked": 14,
+        "total": 14,
+        "missing": []
+      },
+      "lhs_tag_entries": {
+        "pass": true,
+        "walked": 14,
+        "total": 14,
+        "missing": []
+      },
+      "cls_nibbles_0_15": {
+        "pass": true,
+        "seen": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "rvalue_tags_0_15": {
+        "pass": true,
+        "seen": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      },
+      "modes_0_1": {
+        "pass": true,
+        "seen": [
+          0,
+          1,
+          2,
+          3,
+          7,
+          11,
+          15
+        ]
+      },
+      "pair_bytes_0_101": {
+        "pass": true,
+        "seen": 102
+      },
+      "ok": true
+    },
+    "non_degenerate": {
+      "pass": true,
+      "cases_that_moved_the_slots": 321,
+      "distinct_results": 283,
+      "total_cases": 481
+    },
+    "repeat": {
+      "pass": true
+    },
+    "teeth": {
+      "pass": true,
+      "mutants": {
+        "1": {
+          "caught_cases": 14,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x23 payload1",
+            "cls=0x23 payload3",
+            "cls=0x23 payload5",
+            "cls=0x23 rhs1"
+          ],
+          "aborted_by": []
+        },
+        "2": {
+          "caught_cases": 16,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x02 payload1",
+            "cls=0x02 payload3",
+            "cls=0x02 payload5",
+            "cls=0x02 rhs1"
+          ],
+          "aborted_by": []
+        },
+        "3": {
+          "caught_cases": 287,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x00",
+            "cls=0x01",
+            "cls=0x02",
+            "cls=0x03"
+          ],
+          "aborted_by": []
+        },
+        "4": {
+          "caught_cases": 56,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x05",
+            "cls=0x25",
+            "cls=0x35",
+            "cls=0x50"
+          ],
+          "aborted_by": []
+        },
+        "5": {
+          "caught_cases": 105,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x05",
+            "cls=0x25",
+            "cls=0x50",
+            "cls=0x52"
+          ],
+          "aborted_by": []
+        },
+        "6": {
+          "caught_cases": 322,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x00",
+            "cls=0x01",
+            "cls=0x02",
+            "cls=0x03"
+          ],
+          "aborted_by": []
+        },
+        "7": {
+          "caught_cases": 5,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "lhsvar tag14",
+            "rhsvar tag14",
+            "bothvar tag14",
+            "lhsvar+i32 tag14"
+          ],
+          "aborted_by": []
+        },
+        "8": {
+          "caught_cases": 128,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x00",
+            "cls=0x02",
+            "cls=0x03",
+            "cls=0x05"
+          ],
+          "aborted_by": []
+        },
+        "9": {
+          "caught_cases": 22,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x03",
+            "cls=0x53",
+            "cls=0x03 payload0",
+            "cls=0x03 payload2"
+          ],
+          "aborted_by": []
+        },
+        "10": {
+          "caught_cases": 35,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "lhsvar tag2",
+            "bothvar tag2",
+            "lhsvar+i32 tag2",
+            "lhsvar tag3"
+          ],
+          "aborted_by": []
+        },
+        "11": {
+          "caught_cases": 39,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "m1 T0 U0",
+            "m1 T0 U2",
+            "m1 T0 U3",
+            "m1 T0 U4"
+          ],
+          "aborted_by": []
+        },
+        "12": {
+          "caught_cases": 76,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x05",
+            "cls=0x15",
+            "cls=0x25",
+            "cls=0x35"
+          ],
+          "aborted_by": []
+        },
+        "13": {
+          "caught_cases": 23,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x23",
+            "cls=0x33",
+            "cls=0x23 payload0",
+            "cls=0x23 payload2"
+          ],
+          "aborted_by": []
+        },
+        "14": {
+          "caught_cases": 10,
+          "pass": true,
+          "mode": "compare",
+          "caught_by": [
+            "cls=0x22",
+            "lhsvar+i32 tag7",
+            "lhsbox tag7 cls=0x25",
+            "rhsbox tag7 cls=0x52"
+          ],
+          "aborted_by": []
+        }
+      }
+    }
+  },
+  "errors_seen": [
+    "DoSub :1: Malformed variable",
+    "DoSub :1: illegal array use",
+    "DoSub :1: illegal pointer use",
+    "DoSub :1: undefined value",
+    "DoSub :2: Malformed variable",
+    "DoSub :2: illegal array use",
+    "DoSub :2: illegal pointer use",
+    "DoSub :2: undefined value",
+    "DoSub :: Execution Engine - Cannot operate on string type",
+    "DoSub:: Execution Error"
+  ],
+  "wall_s": 6.7,
+  "when": "2026-11-16T19:32:24"
+}

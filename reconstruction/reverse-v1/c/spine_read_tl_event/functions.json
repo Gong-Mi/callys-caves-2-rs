@@ -1,0 +1,224 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_read_tl_event",
+  "source": "libyoyo_armv7.so",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "parent_original_entry": "0x28b84c spSkeletonJson_readSkeletonData (13044 B)",
+  "not_whole_library_completion": true,
+  "original_executed": false,
+  "functions": [
+    {
+      "name": "readSkeletonData_eventTimelines",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e614-0x28e624 (node test + create) and 0x28e738-0x28e770 (publish/duration tail)",
+      "translation_source": "src/spine_read_tl_event.c",
+      "abi": {
+        "signature": "int readSkeletonData_eventTimelines(Json* events_json, void* data_raw, void* animation_raw, void* parser_raw)",
+        "events_json": "the animation-level \"events\" child cached by B3 in [sp+0x4c] (0x28d390 load \"events\", 0x28d3ac store); its +0x0c is the DECLARED frame count used twice: create's only argument (0x28e620) and the duration index (0x28e748).",
+        "data_raw": "spSkeletonData* (parent [sp+0x18]); only +0x2c/+0x30 (events, via findEvent) and +0x34/+0x38 (animations) are read.",
+        "animation_raw": "spAnimation* (parent r11): +0x04 duration, +0x08 timelineCount, +0x0c timelines.",
+        "parser_raw": "spSkeletonJson* (parent [sp+0x20]); only E5 uses it.",
+        "return": "EVENT_TL_OK 1 (0x28e61c beq 0x28e774 or the publish fall-through), EVENT_TL_ERROR 0 (E5 -> 0x28da44 -> NULL)."
+      },
+      "semantics": "events_json == NULL -> OK and nothing is created (0x28e614..0x28e61c; the original jumps straight to the animation publish at 0x28e774, which is the outer loop's job here). Otherwise spEventTimeline_create(events_json->unk_0c) (0x28e620/0x28e624, one argument = the declared count), the frame loop follows the CHILD list (0x28e62c/0x28e630), and the publish tail runs even for a zero-frame node (0x28e638 beq 0x28e738): count = animation->timelineCount (0x28e740), timelines = animation->timelines (0x28e744), declared = node->0x0c (0x28e748), timelineCount = count+1 STORED FIRST (0x28e74c/0x28e750), timelines[count] = timeline at the OLD cursor (0x28e754), last = times[declared-1] with a FOUR-byte stride (0x28e758..0x28e760), duration = max(duration,last) via vcmpe/vmrs/vmovgt (0x28e764..0x28e770).",
+      "keys": ["events"],
+      "key_note": "the node itself is resolved by B3 (0x28d38c..0x28d3ac); this module receives the winning pointer.",
+      "field_offsets": {
+        "spSkeletonData.animationsCount": "+0x34 (0x28e778 ldr r3,[r0,#0x34] ; 0x28e784 str r1,[r0,#0x34])",
+        "spSkeletonData.animations": "+0x38 (0x28e77c ldr r2,[r0,#0x38] ; 0x28e78c str r11,[r2,r3,lsl#2])",
+        "spAnimation.duration": "+0x04 (0x28e73c vldr s14,[r11,#4] ; 0x28e770 vstr s15,[r11,#4])",
+        "spAnimation.timelineCount": "+0x08 (0x28e740 ldr r3,[r11,#0x8] ; 0x28e750 str r0,[r11,#0x8])",
+        "spAnimation.timelines": "+0x0c (0x28e744 ldr r1,[r11,#0xc] ; 0x28e754 str r6,[r1,r3,lsl#2])",
+        "spEventTimeline.times": "+0x0c (0x28e758 ldr r3,[r6,#0xc], indexed with the declared count at 0x28e75c)"
+      },
+      "quirks": [
+        "declared == 0 makes the tail read times[0xffffffff]; the original indexes blindly and the fixture never drives it.",
+        "vcmpe/vmovgt only on strictly greater: a NaN on either side keeps `last`."
+      ]
+    },
+    {
+      "name": "readSkeletonData_eventTimelineFrames",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e628-0x28e734 (frame cursor, loop head 0x28e674, back edge 0x28e734)",
+      "translation_source": "src/spine_read_tl_event.c",
+      "abi": {
+        "signature": "int readSkeletonData_eventTimelineFrames(Json* events_json, void* data_raw, void* animation_raw, void* parser_raw, void* timeline_raw)",
+        "return": "EVENT_TL_OK 1, or EVENT_TL_ERROR 0 after E5 has run (the miss edge 0x28e6a0 beq 0x28e7b4 never returns to the loop)."
+      },
+      "semantics": "frame = events_json->child (0x28e62c); NULL -> OK (0x28e630/0x28e638 beq 0x28e738). frameIndex = 0 (0x28e640). Per frame: readSkeletonData_eventFrame; on a handoff run E5 with the FAILING frame and return ERROR; ++frameIndex (0x28e724); frame = frame->next (0x28e72c); back edge 0x28e734 bne 0x28e674.",
+      "calls": ["readSkeletonData_eventFrame", "readSkeletonData_eventNotFound"],
+      "register_note": "the key literals are hoisted before the loop by the original (0x28e63c \"time\" -> [sp+0x28], 0x28e644 \"name\" -> r7, 0x28e64c \"int\" -> r9, 0x28e658 \"float\" -> [sp+0x2c], 0x28e668 \"string\" -> [sp+0x30]); the C re-states each literal at its call site, which is semantics-identical and makes the key pins addressable."
+    },
+    {
+      "name": "readSkeletonData_eventFrame",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e674-0x28e734 (loop head to setFrame)",
+      "translation_source": "src/spine_read_tl_event.c",
+      "abi": {
+        "signature": "int readSkeletonData_eventFrame(Json* frame, void* data_raw, void* timeline_raw, int32_t frame_index, void** out_event)",
+        "out_event": "fixture observation only; the original leaves the event only in timeline->events[frameIndex]."
+      },
+      "semantics": "findEvent(data, Json_getString(frame,\"name\",NULL)) (0x28e674..0x28e68c); NULL -> HANDOFF (0x28e698/0x28e6a0). time = Json_getFloat(frame,\"time\",0.0f) (0x28e690/0x28e694/0x28e6a4); event = spEvent_create(time,eventData) (0x28e6a8/0x28e6ac); event->intValue = Json_getInt(frame,\"int\", eventData+0x04) (0x28e6b0..0x28e6cc); event->floatValue = Json_getFloat(frame,\"float\", eventData+0x08) (0x28e6c4..0x28e6e0); s = Json_getString(frame,\"string\", eventData+0x0c) (0x28e6d8..0x28e6e8); if s != NULL: length = strlen(s), copy = _malloc(length+1, SkeletonJson.c, 494), event->stringValue = copy (event+0x10), strcpy (0x28e6ec..0x28e714); setFrame(timeline, frameIndex, event) (0x28e718..0x28e728).",
+      "keys": ["name", "time", "int", "float", "string"],
+      "malloc_494": "0x28e6fc movw r2,#0x1ee = 494; 0x28e704 add r0,r0,#1; 0x28e708 bl _malloc; tag resolved at 0x28e6f8/0x28e700 to 0x357b08 SkeletonJson.c.",
+      "double_free_answer": "NO double free. The line-494 block is event+0x10 (stringValue), a fresh allocation distinct from (a) the JSON string_value pointer and (b) eventData+0x0c, which B1 allocated at line 1034. spEvent_dispose frees +0x10 then self (0x285b80 / 0x285b90 b _free); spEventData_dispose frees +0x0c then +0x00 then self (0x285bec..). _spEventTimeline_dispose (0x2813c0) is the only runtime caller of spEvent_dispose: it walks frameCount (+0x08) and calls it once per events[i] (0x2813e8), then frees the events array (+0x10) and times (+0x0c)."
+    },
+    {
+      "name": "readSkeletonData_publishAnimation",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e774-0x28e78c (the write pair); 0x28e790-0x28e79c is the outer loop cursor, not translated",
+      "translation_source": "src/spine_read_tl_event.c",
+      "abi": {
+        "signature": "void readSkeletonData_publishAnimation(void* data_raw, void* animation_raw)"
+      },
+      "semantics": "count = data->animationsCount (+0x34) (0x28e778); table = data->animations (+0x38) (0x28e77c); data->animationsCount = count+1 (0x28e780/0x28e784, STORED FIRST); table[count] = animation (0x28e78c, the OLD cursor in r3); the element index is the PRE-increment count.",
+      "census_open10": "closed. The increment is a single monotonic store at 0x28e784 with no rollback site anywhere in the segment; E5 leaves for 0x28da44 before any publish, and spSkeletonData_dispose reclaims +0x2c/+0x30 and +0x34/+0x38 wholesale, so a partially filled table is never observed. Because the two writes are adjacent plain stores with no callback between them, the order is static evidence (r3 reuse) and the fixture verifies the index/identity semantics instead."
+    },
+    {
+      "name": "readSkeletonData_eventNotFound",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e7b4-0x28e7f0 plus the common tail 0x28da44-0x28da50",
+      "translation_source": "src/spine_read_tl_event.c",
+      "abi": {
+        "signature": "int readSkeletonData_eventNotFound(Json* frame, void* data_raw, void* animation_raw, void* parser_raw)",
+        "return": "EVENT_TL_ERROR 0."
+      },
+      "semantics": "spAnimation_dispose(animation) FIRST (0x28e7c4); name = Json_getString(frame,\"name\",NULL) re-read AFTER the dispose (0x28e7c8..0x28e7d4, r2 = r4 = 0); _spSkeletonJson_setError(parser, NULL, \"Event not found: \", name) (0x28e7d8..0x28e7ec); spSkeletonData_dispose(data) then return NULL (0x28da44..0x28da50).",
+      "trigger": "0x28e698 subs r8,r0,#0 ; 0x28e6a0 beq 0x28e7b4 — the only predecessor, with r8 == 0.",
+      "json_argument": "NULL: 0x28e7b4 mov r4,r8 (r8 == 0) ; 0x28e7dc mov r1,r4. Not the root tree, not the animation node, not the frame.",
+      "extra_string": "the frame's \"name\" (re-read with a NULL default after the animation was disposed).",
+      "leak": "the already-created timeline (record + times + events) is never published and never freed; E5 has no _free. The fixture asserts the leak instead of repairing it."
+    },
+    {
+      "name": "readSkeletonData_finishAnimations",
+      "kind": "caller_block_not_original_function",
+      "address_range": "0x28e7a4-0x28e7b4",
+      "translation_source": "src/spine_read_tl_event.c",
+      "abi": {
+        "signature": "void* readSkeletonData_finishAnimations(Json* root, void* data_raw)",
+        "return": "data_raw (0x28e7ac mov r0,r9)."
+      },
+      "semantics": "Json_dispose(root) where root is [sp+0x24], the Json_create result stored at 0x28b8ac — the ROOT tree, not the events node (0x28e7a4/0x28e7a8); then r0 = data (r9, set from [sp+0x18] at 0x28e7a0) and b 0x28bdcc, the loader's shared return epilogue.",
+      "why_root": "every string the returned data keeps was copied out of the tree (event string line 494, EventData name line 37, EventData string line 1034), so disposing the whole parse tree here leaves the skeleton data self-contained. That is also why the event+0x10 copy is mandatory rather than an alias.",
+      "predecessors": ["0x28e7a0 fall-through (outer animation loop exhausted)", "0x28d2a4 beq 0x28e7a4 (B2: no \"animations\" member)", "0x28d2d0 beq 0x28e7a4 (B2: no animation children)"]
+    }
+  ],
+  "layout_additions": {
+    "spEvent": {
+      "size": 20,
+      "evidence": "0x285b58 mov r3,#36 (line) ; 0x285b5c mov r1,#20 (size) ; 0x285b64 bl _calloc(1,20,Event.c,36)",
+      "fields": {
+        "+0x00": "spEventData* data [0x285b68 str r5,[r0]]",
+        "+0x04": "float time [0x285b6c str r4,[r0,#0x4]]",
+        "+0x08": "int32_t intValue [0x28e6cc str r0,[r4,#0x8]]",
+        "+0x0c": "float floatValue [0x28e6e0 str r0,[r4,#0xc]]",
+        "+0x10": "char* stringValue [0x28e710 str r0,[r4,#0x10]; freed first by 0x285b80]"
+      },
+      "exhaustiveness": "20 = 5 words; create writes only +0/+4 and _calloc zeroes the rest, so +0x08/+0x0c/+0x10 are exactly the three values the frame reader fills. No sixth field exists for the second copy."
+    },
+    "spEventTimeline": {
+      "size": 20,
+      "evidence": "0x282c90 mov r1,#20 ; 0x282ca4..0x282cac bl _calloc(1,20,Animation.c,611)",
+      "fields": {
+        "+0x00": "type = 6 [0x282cb8 mov r1,#6 via _spTimeline_init]",
+        "+0x04": "vtable [0x282cc8]",
+        "+0x08": "int32_t frameCount [0x282cd0 str r5,[r4,#0x8]]",
+        "+0x0c": "float* times [_calloc(n,4,tag,615) 0x282cf0]",
+        "+0x10": "spEvent** events [_calloc(n,4,tag,616) 0x282cfc]"
+      }
+    },
+    "spEventData": {
+      "size": 16,
+      "evidence": "0x285ba4 _calloc(1,16,EventData.c,36) in spEventData_create; +0x00 = a line-37 strlen+1 copy, +0x04/+0x08/+0x0c set by B1 (0x28d230/0x28d244/0x28d270).",
+      "note": "+0x00 (name) is OWNED (strdup at 0x285bbc..0x285be0), not borrowed from the Json member key; spEventData_dispose frees +0x0c, +0x00, self."
+    }
+  },
+  "synthetic_boundaries": {
+    "spSkeletonData_findEvent": {
+      "address": "0x28b180",
+      "size": 92,
+      "body": "r7 = data->eventsCount (+0x2c) (0x28b188); count <= 0 -> NULL (0x28b18c/0x28b190 ble); r6 = data->events (+0x30) (0x28b194); linear scan with strcmp(events[i]->name (+0x00), name) (0x28b1b8/0x28b1bc); i is incremented BEFORE the count compare (0x28b1b4 then 0x28b1a4); returns the pointer or NULL.",
+      "status": "body NOT recovered by any module; the fixture provides this exact body and records (name, result, strcmp count)."
+    },
+    "spEvent_create": {"address": "0x285b44", "size": 52, "body": "_calloc(1,20,Event.c,36); +0x00 = data; +0x04 = time."},
+    "spEvent_dispose": {"address": "0x285b78", "size": 28, "body": "_free(event+0x10) (0x285b80); _free(event) (0x285b90 b _free)."},
+    "spEventTimeline_create": {"address": "0x282c8c", "size": 136, "body": "_calloc(1,20,Animation.c,611); type 6; +0x08 = frameCount; +0x0c = _calloc(n,4,tag,615); +0x10 = _calloc(n,4,tag,616)."},
+    "spEventTimeline_setFrame": {"address": "0x282d14", "size": 56, "body": "times[i] = event->time (bits at event+0x04, 0x282d28/0x282d38); _free(events[i]) (0x282d3c); events[i] = event (0x282d44). No copy and no dispose: the timeline keeps the caller's spEvent*."},
+    "fixture": "heap + allocator roster, libc providers, hand-built Json nodes."
+  },
+  "depends_on": {
+    "json_interface": "Json_getItem/getString/getInt/getFloat (real bodies)",
+    "spine_json_support": "Json_dispose (real body, B18)",
+    "spine_json_error": "_spSkeletonJson_setError (real body, E5)",
+    "spine_skeleton_data": "spAnimation_dispose / spSkeletonData_dispose / spEventData_dispose (real bodies)",
+    "spine_alloc": "_malloc / _calloc / _free (real bodies)"
+  },
+  "open7": {
+    "question": "0x28e6f4 strlen + 0x28e708 malloc(494) + 0x28e714 strcpy -> [r4,#0x10]: is this a deep copy of spEvent.stringValue or another field, and can it double free against spEvent_dispose?",
+    "answer": "It IS spEvent.stringValue, at +0x10, and there is NO double-free risk.",
+    "evidence": [
+      "spEvent_create's record is _calloc(1,20) = five words; it writes only +0x00 (data) and +0x04 (time) (0x285b68/0x285b6c).",
+      "The frame reader fills exactly the remaining three: +0x08 int (0x28e6cc), +0x0c float (0x28e6e0), +0x10 the copy (0x28e710). No other field exists.",
+      "spEvent_dispose destroys +0x10 and then self (0x285b80 ldr r0,[r0,#0x10] ; 0x285b84 bl _free ; 0x285b90 b _free) — +0x10 is the only owned pointer besides the object.",
+      "_spEventTimeline_dispose 0x2813c0 walks frameCount (+0x08), calls spEvent_dispose on each events[i] (0x2813e8 bl 0x285b78), then frees events (+0x10) and times (+0x0c): one dispose, one free of the line-494 block.",
+      "The source is Json_getString(frame,\"string\", eventData+0x0c): either the JSON string_value or EventData's OWN line-1034 block. The copy is unconditional when that result is non-NULL, so event+0x10 never aliases eventData+0x0c; spEventData_dispose frees +0x0c and spEvent_dispose frees +0x10, two distinct allocations.",
+      "B18 then disposes the whole root Json tree before returning the data, which is why the copy is mandatory: an alias into the tree or into EventData would dangle once the tree is gone."
+    ],
+    "fixture_evidence": "open7_string_copy_ownership asserts block != eventData+0x0c, block != Json string_value, exact bytes and length, one free of the block immediately before the self free, and a distinct single free of the EventData block; open7_null_string_no_copy asserts the NULL path allocates nothing and still forwards NULL to _free."
+  },
+  "publish_chain_open10": {
+    "count": "spSkeletonData +0x34",
+    "array": "spSkeletonData +0x38",
+    "order": "0x28e778 load count; 0x28e77c load array; 0x28e780 add count+1; 0x28e784 STORE count; 0x28e78c STORE animation at [array + old_count*4]",
+    "timeline_level": "the same shape one level down: 0x28e74c add ; 0x28e750 STORE animation->timelineCount ; 0x28e754 STORE animation->timelines[old count]",
+    "error_path": "a miss leaves for E5 at 0x28e6a0 before either publish; the common tail disposes the whole spSkeletonData, so a partial count is never observed and no rollback exists.",
+    "fixture_evidence": "publish_animation_order drives two publishes and asserts count 1 -> 2 with elements at slots 0 -> 1, never sharing a slot."
+  },
+  "boundaries": {
+    "b16_census_range": "0x28e614-0x28e7a4, 400 B / 100 insns (census §6)",
+    "b16_translated_here": "all 100 insns, including the timeline publish/duration tail 0x28e738-0x28e770 and the animations publish pair 0x28e774-0x28e78c",
+    "e5": "0x28e7b4-0x28e7f0, 15 insns + the shared tail 0x28da44 (spSkeletonData_dispose, return NULL). The 16th insn of the 64-byte window is 0x28e7f0 itself; 0x28e7f4 starts the attachment island.",
+    "b18": "0x28e7a4-0x28e7b4, 4 insns: ldr r0,[sp,#0x24] ; bl Json_dispose ; mov r0,r9 ; b 0x28bdcc",
+    "not_translated": [
+      "0x28e7f4-0x28e820 (attachment \"Unknown attachment type: \" island; not reachable from this segment, §1.3)",
+      "0x28e790-0x28e79c (outer animation-loop cursor advance and b 0x28d318; owned by c/spine_read_animations)"
+    ],
+    "no_readcurve": "the event frame block has no readCurve (0x28b34c) call site — the checker scans all three windows and requires zero hits."
+  },
+  "census_cross_check": {
+    "B16": "0x28e614..0x28e7a4 = 100 insns — exact match. Loop head 0x28e674 and back edge 0x28e734 match §5.3.",
+    "E5": "0x28e7b4..0x28e7f4 = 16 insns — exact; the block's last instruction is 0x28e7f0 b 0x28da44.",
+    "B18": "0x28e7a4..0x28e7b4 = 4 insns — exact.",
+    "malloc_494": "§3.1 lists strlen(name)+1 at line 494 -> stores [r4,#0x10]; confirmed word for word (0x28e6fc movw #0x1ee, 0x28e704 add #1, 0x28e708 bl _malloc, 0x28e710 str +0x10, 0x28e714 strcpy).",
+    "keys": "§2.8's pools 0x28eae8/0x28eaec/0x28eaf0/0x28eaf4/0x28eaf8/0x28eafc/0x28eb00 resolve to time/name/int/float/string/tag/\"Event not found: \" at the ADD sites 0x28e648/0x28e654/0x28e65c/0x28e660/0x28e66c/0x28e700/0x28e7e0 — confirmed.",
+    "E5_row": "§5.4 lists dispose(0x28e7c4) -> getString -> setError(0x28e7ec) -> b 0x28da44; measured there is also the explicit NULL json argument (0x28e7b4 mov r4,r8 ; 0x28e7dc mov r1,r4), which §5.4 does not spell out.",
+    "open7": "closed — see open7 above.",
+    "open10": "closed — see publish_chain_open10 above.",
+    "contradictions": "none found in the census. One cross-module wording issue: c/spine_read_animations/src/spine_read_animations.h describes spEventData+0x00 as a \"borrowed Json member key\", but spEventData_create strdup's it (0x285bbc strlen, 0x285bd0 malloc line 37, 0x285bdc strcpy) and spEventData_dispose frees +0x00, so it is an owned copy. Not modified here (existing file); recorded for the parent."
+  },
+  "open": [
+    "spSkeletonData_findEvent 0x28b180 is still not owned by any module; the fixture carries the transcribed body. Whoever claims it should keep the count<=0 guard and the strcmp on event+0x00.",
+    "A frame without a \"name\" member makes Json_getString return NULL and findEvent passes it straight to strcmp when eventsCount > 0 (0x28b1bc) — a NULL dereference in the original. Reproduced by omission, not driven.",
+    "A declared frame count larger than the parsed child list leaves NULL slots in timeline->events; _spEventTimeline_dispose has no NULL guard (0x2813e0/0x2813e8) and would call spEvent_dispose(NULL), which dereferences +0x10. Recorded, not driven.",
+    "spEventTimeline_apply 0x280f40 (not recovered) reads the same events[] array at runtime; whether it expects the frame times sorted or non-NULL is out of scope here.",
+    "E5's Json_getString re-reads \"name\" after spAnimation_dispose; if a platform hook could free the frame in between, that would be a use-after-free. No such hook exists in the recovered chain.",
+    "declared == 0 makes the publish tail read times[0xffffffff]; same unclamped-index family as the other timeline modules.",
+    "The original never disposes the root tree on the E5 path (setError json is NULL and the common tail only disposes data), so the parse tree leaks on a miss; reproduced, not repaired.",
+    "spEventTimeline_setFrame frees the slot's previous pointer with _free, not spEvent_dispose (0x282d3c). Because the loader calls it once per index on a zeroed array the previous pointer is always NULL here; a re-set index would leak that event's stringValue. Recorded, not driven."
+  ],
+  "check": {
+    "driver": "tools/check_tl_event.py",
+    "fixture": "fixture/check.c",
+    "cases": "13 (events absent / zero frames still create+publish / EventData defaults for int/float/string / all four keys with exact stores / linear lookup scan / E5 with NULL json + dispose order + timeline leak / open7 copy ownership and disposal pair / open7 NULL string no copy / two frames cursor / declared-vs-child duration index / animationsCount publish order / B18 root dispose and return / empty event table guard)",
+    "configs": "O0/O2/O3/ubsan (undefined,float-cast-overflow, trap=all)",
+    "teeth": "14 named mutants (string copy dropped, length without +1, wrong copy bytes, \"int\" key literal, int default zeroed, E5 json argument, E5 message literal, E5 dispose order, timeline count not bumped, duration index times[0], animationsCount not bumped, animations publish index off by one, B18 dispose dropped, B18 returns NULL) — each refused by exactly one named runtime assertion",
+    "compile_guard_1": "missing module body refused: undefined symbol: readSkeletonData_eventTimelines",
+    "compile_guard_2": "json_interface.c removed refused: undefined symbol: Json_getString",
+    "compile_guard_3": "spine_json_error.c removed refused: undefined symbol: _spSkeletonJson_setError (E5's real report chain)",
+    "compile_guard_4": "spine_json_support.c removed refused: undefined symbol: Json_dispose (B18's real chain)",
+    "compile_guard_5": "spine_skeleton_data.c removed refused: undefined symbol: spAnimation_dispose (E5's real disposal chain)",
+    "static": "SHA + 21 symbol pins + 67 word pins (node test, create, lookup, four key reads, both string stores, line-494 chain, setFrame, back edge, both publish tails, B18, E5 staging, plus spEvent/spEventTimeline/_spEventTimeline_dispose bodies) + 7 pc-relative literals + 18 BL target checks + 7 branch-edge checks + a scan proving zero readCurve call sites",
+    "receipt": "harness/receipts/tl_event_check-<timestamp>.json"
+  }
+}

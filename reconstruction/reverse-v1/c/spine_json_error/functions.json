@@ -1,0 +1,107 @@
+{
+  "schema": "cally-c-module/1",
+  "module": "spine_json_error",
+  "source_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "tier": "bytecode_anchored",
+  "not_whole_library_completion": true,
+  "compile_domain": "Clang ARM32 AAPCS32, -marm -mfpu=vfpv3 -mfloat-abi=softfp -ffp-contract=off; libc strcpy/strlen/strncat are real PLT-call boundaries; _malloc/_free are the real spine_alloc entries with uint32_t size/line.",
+  "functions": [
+    {
+      "name": "_spSkeletonJson_setError",
+      "symbol": "_spSkeletonJson_setError",
+      "entry": "0x28b784",
+      "isa": "arm",
+      "size": 200,
+      "role_label": "format message+extra; free old self->error; own a malloc copy with the full SkeletonJson.c tag at line 90; report; optionally Json_dispose",
+      "aliases": [],
+      "original_body_sha256": "cb374315e0c4d5e2f213e4a01a2da35760545a9054abac07337ed6c9896476de",
+      "original_body_range": [
+        "0x28b784",
+        "0x28b84c"
+      ],
+      "original_pool_words": [
+        "0x28b844=0x001621b4 (stack guard GOT offset)",
+        "0x28b848=0x000cc308 (PC+0x28b800 = 0x357b08 tag)"
+      ],
+      "translation_source": "src/spine_json_error.c",
+      "translation_source_sha256": "2a3ca95f9c704d320fed7bf89cfa75a59468eb393814e9a2b7570d9e6660a5f2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "interface": "void _spSkeletonJson_setError(spSkeletonJson *self, void *json, const char *message, const char *extra); r0=self, r1=json-to-dispose, r2=message, r3=extra",
+      "paths": [
+        "_free(self->error) is unconditional, NULL included",
+        "strcpy(buffer,message); ALWAYS strlen(message); if extra != NULL strncat(buffer+message_length,extra,255-message_length) with32-bit wrap",
+        "_malloc(strlen(buffer)+1, tag, 90) then self->error=result then strcpy(result,buffer)",
+        "ReportSpineError(buffer) happens before the optional Json_dispose(json)",
+        "exact tag literal 0x357b08 is the full jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c",
+        "required strong/global compiler canary and disable_tail_calls retain comparison AFTER optional Json_dispose; original frame offsets not claimed"
+      ],
+      "original_gap": [
+        "malformed/oversized message and exact fault/stack-frame equivalence not certified",
+        "generated guard behavior checked only on declared callbacks and build modes"
+      ],
+      "translation_header_sha256": "273718ec70bed98f239ef3fa0dec7801e52a6f91e3988f0dbdbce36cacc42368"
+    },
+    {
+      "name": "spSkeletonJson_readSkeletonDataFile",
+      "symbol": "spSkeletonJson_readSkeletonDataFile",
+      "entry": "0x28eb40",
+      "isa": "arm",
+      "size": 120,
+      "role_label": "file wrapper: _spUtil_readFile/_readFile gap -> readSkeletonData gap -> _free(data)",
+      "aliases": [],
+      "original_body_sha256": "ee23be025d5644ea83850897fff751ba4b5c493309145b34a8f28c93715d2cfe",
+      "original_body_range": [
+        "0x28eb40",
+        "0x28ebb8"
+      ],
+      "original_pool_words": [
+        "0x28ebb4=0x000c93c4 (PC+0x28ebac = 0x357f70 prefix)"
+      ],
+      "translation_source": "src/spine_json_error.c",
+      "translation_source_sha256": "2a3ca95f9c704d320fed7bf89cfa75a59468eb393814e9a2b7570d9e6660a5f2",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_control_and_data_flow_recovered",
+      "phase_complete": false,
+      "interface": "spSkeletonData *spSkeletonJson_readSkeletonDataFile(spSkeletonJson *self, const char *path); r0=self, r1=path",
+      "paths": [
+        "size local is uninitialised: 0x28eb48/0x28eb50 only reserve sp+4; the earlier draft's '= 0' was removed",
+        "size==0 is checked before data==NULL",
+        "error branch calls setError(self,NULL,\"Unable to read skeleton file: \",path) and returns NULL without freeing non-NULL data",
+        "success calls readSkeletonData(self,data), then _free(data), then returns the saved loader result"
+      ],
+      "original_gap": [
+        "0x285cd8 _readFile body is not recovered in spine_alloc (that file ends at _setFree 0x285cc4/0x285cd8); 0xbd83c _spUtil_readFile is one b 0x285cd8 instruction",
+        "0x28b84c spSkeletonJson_readSkeletonData 13044 B / 3261 insns is not recovered",
+        "the fixture _readFile/readSkeletonData bodies are synthetic and are not claimed as original-function recovery"
+      ],
+      "translation_header_sha256": "273718ec70bed98f239ef3fa0dec7801e52a6f91e3988f0dbdbce36cacc42368"
+    }
+  ],
+  "depends_on": [
+    "spine_alloc _malloc 0x285c10 / _free 0x285c80",
+    "json_interface Json 32-byte record",
+    "spine_json_support Json_dispose / ReportSpineError"
+  ],
+  "acceptance": {
+    "status": "verified_reconstructed_scope_only",
+    "original_executed": false,
+    "linked_consumer_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/run-03/receipt.json",
+    "linked_consumer_receipt_sha256": "600109e9ce9ada4d802affed12b7b9c250503109bc7e581daf76ed96544d316f",
+    "linked_contracts_per_variant": 15,
+    "linked_variants": [
+      "O0",
+      "O2",
+      "O3",
+      "UBSan trap"
+    ],
+    "linked_runtime_mutants": 17,
+    "guard_contract": "O0/O2/O3 global canary rejects after optional Json_dispose; disabling guard distinguished by named assertion",
+    "static_review": "parent independently reread original instructions, relocations and variadic OutputEPKcz signature",
+    "error_suite_receipt": "/data/data/com.termux/files/home/.hermes/reports/cally-linked-postpass-20261108/error-final/receipt.json",
+    "error_suite_receipt_sha256": "bc9121fe63ca89a0c77f085d55f08e5ab442828f052050e2e9cae11fe99e140a",
+    "error_contracts_per_variant": 25,
+    "error_runtime_mutants": 10
+  }
+}

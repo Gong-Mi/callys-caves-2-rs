@@ -4,12 +4,12 @@
 //! Collision 35 (obj_flame) CODE 689 is the sole trigger, verified through
 //! the live tick path, not a direct dispatch.
 //!
-//! Hard float finding frozen from this host: the destroy guard is a strict
-//! `image_xscale == 0` test while the decay is a double chain, so after ten
-//! decrements the value sits at ~1.4e-16 (never exactly 0), then goes
-//! negative — a melted ice block is never destroyed by its own shrinkage.
-//! The flame that started the melt dies itself via alarm[0]=9 (gone at
-//! tick 9) while melting persists.
+//! The decay is a double chain, but CODE 688 compares `image_xscale` to zero
+//! through DoSet K=3, whose recovered real comparison uses a ±1e-5 tolerance.
+//! At tick 11 the tenth decrement leaves ~1.4e-16 (not exact zero), which
+//! compares equal to zero and destroys the block. The previous strict-equality
+//! / survival interpretation missed the shared DoSet tolerance. The flame that
+//! started the melt dies via alarm[0]=9 (gone at tick 9) while melting persists.
 //!
 //! Fixture discipline: the player stays active until the flame exists
 //! (CODE 268 reads obj_player.facing through the object selector, which
@@ -78,38 +78,38 @@ fn flame_collision_over_live_tick_starts_the_melt() {
 }
 
 #[test]
-fn melt_decays_01_per_frame_and_never_reaches_exact_zero() {
+fn melt_decays_then_do_set_equality_tolerance_destroys_block() {
     let b = bundle();
     let mut s = scene(&b);
     let p = s.create(&b, P, 500., 200.).unwrap();
     let blk = s.create(&b, ICEBLOCK, 300., 200.).unwrap();
     let f = s.create(&b, FLAME, 300., 200.).unwrap();
     s.instances.get_mut(&p).unwrap().active = false;
-    // Expected double chain measured on this host (Step-before-Collision
-    // order): tick 1 stays 1.0 (melt set after Step), tick 2 = 0.9, ...,
-    // tick 11 = 1.4e-16, tick 12+ negative. The flame dies at tick 9 via
-    // alarm[0]=9 but melting persists.
-    let expected: [f64; 12] = [
+    // Step-before-Collision: tick 1 latches melting after Step. Ticks 2..10
+    // apply nine subtractions and remain alive; the flame's alarm destroys it
+    // at tick 9 while the melt continues.
+    let expected: [f64; 10] = [
         1.0, 0.9, 0.8, 0.7000000000000001, 0.6000000000000001, 0.5000000000000001,
         0.40000000000000013, 0.30000000000000016, 0.20000000000000015, 0.10000000000000014,
-        1.3877787807814457e-16, -0.09999999999999987,
     ];
-    for t in 1..=12 {
+    for t in 1..=10 {
         s.tick(&b).unwrap();
         assert_eq!(field(&s, blk, "melting"), 1., "melt latches at tick {t}");
         assert_eq!(field(&s, blk, "image_xscale"), expected[t - 1], "scale chain at tick {t}");
         assert_eq!(field(&s, blk, "image_yscale"), expected[t - 1], "yscale tracks xscale at tick {t}");
-        assert!(alive(&s, blk), "block still alive at tick {t}");
+        assert!(alive(&s, blk), "block remains alive before near-zero comparison at tick {t}");
         assert_eq!(!alive(&s, f), t >= 9, "flame CODE 268 alarm[0]=9 -> CODE 269 destroy, counted live (t={t})");
     }
-    // Strict == 0 never fires through the float chain: keep melting 18 more
-    // frames, scale goes deeper negative, instance survives.
-    for t in 13..=30 {
-        s.tick(&b).unwrap();
-        assert!(field(&s, blk, "image_xscale") < 0., "negative scale at tick {t}");
-        assert_ne!(field(&s, blk, "image_xscale"), 0.);
-        assert!(alive(&s, blk), "CODE 688 destroy guard never reached, tick {t}");
-    }
+
+    // Tick 11 applies the tenth subtraction: xscale is positive, but within
+    // DoSet K=3's recovered ±1e-5 equality tolerance, so CODE 688 destroys it.
+    s.tick(&b).unwrap();
+    let near_zero = field(&s, blk, "image_xscale");
+    assert_eq!(near_zero, 1.3877787807814457e-16);
+    assert_eq!(field(&s, blk, "image_yscale"), near_zero);
+    assert!(near_zero.abs() <= 1e-5, "the value falls within DoSet's equality tolerance");
+    assert!(!alive(&s, blk), "DoSet K=3 treats near-zero scale as equal to zero");
+    assert!(!alive(&s, f), "the flame has already expired at tick 9");
 }
 
 #[test]

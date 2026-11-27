@@ -1,0 +1,10 @@
+10837c	e92d4010	push	{r4, lr}
+108380	e1a04001	mov	r4, r1
+108384	e59d0008	ldr	r0, [sp, #0x8]
+108388	e3a01000	mov	r1, #0
+10838c	ebff18f5	bl	0xce768 <_Z9YYGetBoolPK6RValuei>
+108390	e3a02000	mov	r2, #0
+108394	e1a01000	mov	r1, r0
+108398	e1a00004	mov	r0, r4
+10839c	e8bd4010	pop	{r4, lr}
+1083a0	ea030afe	b	0x1cafa0 <_Z14Command_BounceP9CInstancebb>

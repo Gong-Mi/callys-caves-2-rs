@@ -1,0 +1,51 @@
+10bde4	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+10bde8	e3a00000	mov	r0, #0
+10bdec	e24dd008	sub	sp, sp, #8
+10bdf0	ebffff40	bl	0x10baf8 <_Z15GetDeactiveListPFvP9CInstanceE>
+10bdf4	e5901008	ldr	r1, [r0, #0x8]
+10bdf8	e1a07000	mov	r7, r0
+10bdfc	e3510000	cmp	r1, #0
+10be00	da00001a	ble	0x10be70 <_Z21F_InstanceActivateAllR6RValueP9CInstanceS2_iPS_+0x8c>
+10be04	e59f809c	ldr	r8, [pc, #0x9c]
+10be08	e3a04000	mov	r4, #0
+10be0c	e08f8008	add	r8, pc, r8
+10be10	e5973000	ldr	r3, [r7]
+10be14	e7935104	ldr	r5, [r3, r4, lsl #2]
+10be18	e5d53068	ldrb	r3, [r5, #0x68]
+10be1c	e3530000	cmp	r3, #0
+10be20	1a00000f	bne	0x10be64 <_Z21F_InstanceActivateAllR6RValueP9CInstanceS2_iPS_+0x80>
+10be24	e5d52069	ldrb	r2, [r5, #0x69]
+10be28	e59f607c	ldr	r6, [pc, #0x7c]
+10be2c	e3520000	cmp	r2, #0
+10be30	0a00000b	beq	0x10be64 <_Z21F_InstanceActivateAllR6RValueP9CInstanceS2_iPS_+0x80>
+10be34	e79f6006	ldr	r6, [pc, r6]
+10be38	e9960006	ldmib	r6, {r1, r2}
+10be3c	e1520001	cmp	r2, r1
+10be40	0a00000c	beq	0x10be78 <_Z21F_InstanceActivateAllR6RValueP9CInstanceS2_iPS_+0x94>
+10be44	e596c000	ldr	r12, [r6]
+10be48	e3a01000	mov	r1, #0
+10be4c	e78c5102	str	r5, [r12, r2, lsl #2]
+10be50	e1a00005	mov	r0, r5
+10be54	e2823001	add	r3, r2, #1
+10be58	e5863008	str	r3, [r6, #0x8]
+10be5c	eb02192a	bl	0x19230c <_ZN9CInstance14SetDeactivatedEb>
+10be60	e5971008	ldr	r1, [r7, #0x8]
+10be64	e2844001	add	r4, r4, #1
+10be68	e1510004	cmp	r1, r4
+10be6c	caffffe7	bgt	0x10be10 <_Z21F_InstanceActivateAllR6RValueP9CInstanceS2_iPS_+0x2c>
+10be70	e28dd008	add	sp, sp, #8
+10be74	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+10be78	e1a0c082	lsl	r12, r2, #1
+10be7c	e5960000	ldr	r0, [r6]
+10be80	e586c004	str	r12, [r6, #0x4]
+10be84	e1a01182	lsl	r1, r2, #3
+10be88	e58d3000	str	r3, [sp]
+10be8c	e1a02008	mov	r2, r8
+10be90	e3a0304a	mov	r3, #74
+10be94	eb05c410	bl	0x27cedc <_ZN13MemoryManager7ReAllocEPvjPKcib>
+10be98	e5962008	ldr	r2, [r6, #0x8]
+10be9c	e1a0c000	mov	r12, r0
+10bea0	e5860000	str	r0, [r6]
+10bea4	eaffffe7	b	0x10be48 <_Z21F_InstanceActivateAllR6RValueP9CInstanceS2_iPS_+0x64>
+10bea8	00225224	eoreq	r5, r2, r4, lsr #4
+10beac	002e1e14	eoreq	r1, lr, r4, lsl lr

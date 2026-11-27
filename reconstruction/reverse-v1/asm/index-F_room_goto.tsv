@@ -1,0 +1,10 @@
+109ab8	e92d4008	push	{r3, lr}
+109abc	e3a01000	mov	r1, #0
+109ac0	e59d0008	ldr	r0, [sp, #0x8]
+109ac4	ebff1369	bl	0xce870 <_Z10YYGetInt32PK6RValuei>
+109ac8	e59f300c	ldr	r3, [pc, #0xc]
+109acc	e79f3003	ldr	r3, [pc, r3]
+109ad0	e5931000	ldr	r1, [r3]
+109ad4	e8bd4008	pop	{r3, lr}
+109ad8	ea0300ca	b	0x1c9e08 <_Z16Command_GotoRoomii>
+109adc	002e45dc	.word	0x002e45dc

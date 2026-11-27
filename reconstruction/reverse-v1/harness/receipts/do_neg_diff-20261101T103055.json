@@ -1,0 +1,130 @@
+{
+  "harness": "do_neg_diff.py",
+  "target": {
+    "symbol": "_Z5DoNegjPhPKhP6VMExec",
+    "func": "DoNeg",
+    "addr": "0xe096c",
+    "so": "libyoyo_armv7.so"
+  },
+  "scope": {
+    "covered": [
+      "mode 0 (strong-typed, cls 0..15)",
+      "mode 3..15 fall-through"
+    ],
+    "not_covered": [
+      "mode 1 (generic negate: boxType + F_JS_ToNumber)",
+      "mode 2 (plain numeric coercion)"
+    ]
+  },
+  "seed": "0xca11",
+  "cases": 378,
+  "inputs_sha256": "eed111e79802858261989cf0d531096f208d40acc0b8bc2eb44fde8b36fce771",
+  "c_sha256": "f1d19937a3b33bef7e68fd0732006d8003b72a6a46a8c9c77a1905f01e73f73d",
+  "result": {
+    "mismatches": 0,
+    "first": []
+  },
+  "gates": {
+    "identity": {
+      "pass": true,
+      "mismatches": 0
+    },
+    "coverage_cls_0_15": {
+      "pass": true,
+      "seen": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "coverage_tag_0_15": {
+      "pass": true,
+      "seen": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16777216,
+        33554432,
+        50331648,
+        67108864,
+        83886080,
+        100663296,
+        117440512,
+        134217728,
+        150994944,
+        167772160,
+        184549376,
+        201326592,
+        218103808,
+        234881024,
+        251658240
+      ]
+    },
+    "non_degenerate": {
+      "pass": true,
+      "slots_changed_by_original": 225,
+      "total_cases": 378
+    },
+    "teeth": {
+      "pass": true,
+      "mutants": {
+        "1": {
+          "caught_cases": 2,
+          "pass": true
+        },
+        "2": {
+          "caught_cases": 17,
+          "pass": true
+        },
+        "3": {
+          "caught_cases": 20,
+          "pass": true
+        },
+        "4": {
+          "caught_cases": 117,
+          "pass": true
+        },
+        "5": {
+          "caught_cases": 14,
+          "pass": true
+        }
+      }
+    }
+  },
+  "errors_seen": [
+    "DoNeg :1: Execution Engine - Cannot operate on string type",
+    "DoNeg :1: Malformed variable",
+    "DoNeg :1: illegal array use",
+    "DoNeg :1: illegal pointer use",
+    "DoNeg :1: undefined value",
+    "DoNeg :: Execution Engine - Cannot operate on string type"
+  ],
+  "wall_s": 4.2,
+  "when": "2026-11-01T10:30:55"
+}

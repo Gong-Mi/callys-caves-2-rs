@@ -1,0 +1,127 @@
+fa5ac	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+fa5b0	e28db020	add	r11, sp, #32
+fa5b4	e59fa1cc	ldr	r10, [pc, #0x1cc]
+fa5b8	e24ddf4b	sub	sp, sp, #300
+fa5bc	e50b0134	str	r0, [r11, #-0x134]
+fa5c0	e59f01c4	ldr	r0, [pc, #0x1c4]
+fa5c4	e08fa00a	add	r10, pc, r10
+fa5c8	e50b2140	str	r2, [r11, #-0x140]
+fa5cc	e1a04001	mov	r4, r1
+fa5d0	e50b3144	str	r3, [r11, #-0x144]
+fa5d4	e79a0000	ldr	r0, [r10, r0]
+fa5d8	e59f11b0	ldr	r1, [pc, #0x1b0]
+fa5dc	e59f21b0	ldr	r2, [pc, #0x1b0]
+fa5e0	e5903000	ldr	r3, [r0]
+fa5e4	e50b0138	str	r0, [r11, #-0x138]
+fa5e8	e50b3028	str	r3, [r11, #-0x28]
+fa5ec	e79a1001	ldr	r1, [r10, r1]
+fa5f0	e50b1130	str	r1, [r11, #-0x130]
+fa5f4	e79a6002	ldr	r6, [r10, r2]
+fa5f8	e5912000	ldr	r2, [r1]
+fa5fc	e5963000	ldr	r3, [r6]
+fa600	e1520003	cmp	r2, r3
+fa604	0a000046	beq	0xfa724 <_Z14Font_AddSpriteiibi+0x178>
+fa608	e59f2188	ldr	r2, [pc, #0x188]
+fa60c	e79a2002	ldr	r2, [r10, r2]
+fa610	e50b213c	str	r2, [r11, #-0x13c]
+fa614	e51b0134	ldr	r0, [r11, #-0x134]
+fa618	e2833001	add	r3, r3, #1
+fa61c	e5863000	str	r3, [r6]
+fa620	eb03d285	bl	0x1ef03c <_Z11Sprite_Datai>
+fa624	e5902018	ldr	r2, [r0, #0x18]
+fa628	e1a08000	mov	r8, r0
+fa62c	e3520000	cmp	r2, #0
+fa630	e1a02102	lsl	r2, r2, #2
+fa634	e2822012	add	r2, r2, #18
+fa638	e3c22007	bic	r2, r2, #7
+fa63c	e04dd002	sub	sp, sp, r2
+fa640	e28d7008	add	r7, sp, #8
+fa644	e50b712c	str	r7, [r11, #-0x12c]
+fa648	da00004b	ble	0xfa77c <_Z14Font_AddSpriteiibi+0x1d0>
+fa64c	e59f1148	ldr	r1, [pc, #0x148]
+fa650	e24b5f4b	sub	r5, r11, #300
+fa654	e1a09084	lsl	r9, r4, #1
+fa658	e3a04000	mov	r4, #0
+fa65c	e79aa001	ldr	r10, [r10, r1]
+fa660	e59a3000	ldr	r3, [r10]
+fa664	e1a00005	mov	r0, r5
+fa668	e2844001	add	r4, r4, #1
+fa66c	e19310b9	ldrh	r1, [r3, r9]
+fa670	e2899002	add	r9, r9, #2
+fa674	eb0055eb	bl	0x10fe28 <utf8_add_char>
+fa678	e5983018	ldr	r3, [r8, #0x18]
+fa67c	e1530004	cmp	r3, r4
+fa680	cafffff6	bgt	0xfa660 <_Z14Font_AddSpriteiibi+0xb4>
+fa684	e51b212c	ldr	r2, [r11, #-0x12c]
+fa688	e3a03000	mov	r3, #0
+fa68c	e3a00090	mov	r0, #144
+fa690	e5c23000	strb	r3, [r2]
+fa694	e24b5f4a	sub	r5, r11, #296
+fa698	eb0607a1	bl	0x27c524 <_Znwj>
+fa69c	e51bc144	ldr	r12, [r11, #-0x144]
+fa6a0	e51b1134	ldr	r1, [r11, #-0x134]
+fa6a4	e1a02007	mov	r2, r7
+fa6a8	e51b3140	ldr	r3, [r11, #-0x140]
+fa6ac	e58dc000	str	r12, [sp]
+fa6b0	e1a04000	mov	r4, r0
+fa6b4	ebfff2ed	bl	0xf7270 <_ZN7CFontGMC2EiPKcbi>
+fa6b8	e51b0130	ldr	r0, [r11, #-0x130]
+fa6bc	e3a01c01	mov	r1, #256
+fa6c0	e5963000	ldr	r3, [r6]
+fa6c4	e59f20d4	ldr	r2, [pc, #0xd4]
+fa6c8	e590c004	ldr	r12, [r0, #0x4]
+fa6cc	e243e107	sub	lr, r3, #-1073741823
+fa6d0	e08f2002	add	r2, pc, r2
+fa6d4	e1a00005	mov	r0, r5
+fa6d8	e2433001	sub	r3, r3, #1
+fa6dc	e78c410e	str	r4, [r12, lr, lsl #2]
+fa6e0	ebfeefb8	bl	0xb65c8 <snprintf@plt>
+fa6e4	e51bc13c	ldr	r12, [r11, #-0x13c]
+fa6e8	e5963000	ldr	r3, [r6]
+fa6ec	e1a00005	mov	r0, r5
+fa6f0	e59c4000	ldr	r4, [r12]
+fa6f4	e2435107	sub	r5, r3, #-1073741823
+fa6f8	ebff8472	bl	0xdb8c8 <_Z8YYStrDupPKc>
+fa6fc	e51bc138	ldr	r12, [r11, #-0x138]
+fa700	e5963000	ldr	r3, [r6]
+fa704	e51b2028	ldr	r2, [r11, #-0x28]
+fa708	e7840105	str	r0, [r4, r5, lsl #2]
+fa70c	e2430001	sub	r0, r3, #1
+fa710	e59c3000	ldr	r3, [r12]
+fa714	e1520003	cmp	r2, r3
+fa718	1a000019	bne	0xfa784 <_Z14Font_AddSpriteiibi+0x1d8>
+fa71c	e24bd020	sub	sp, r11, #32
+fa720	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+fa724	e59f5078	ldr	r5, [pc, #0x78]
+fa728	e2821005	add	r1, r2, #5
+fa72c	e51bc130	ldr	r12, [r11, #-0x130]
+fa730	e3003121	movw	r3, #0x121
+fa734	e08f5005	add	r5, pc, r5
+fa738	e1a01101	lsl	r1, r1, #2
+fa73c	e28c0004	add	r0, r12, #4
+fa740	e1a02005	mov	r2, r5
+fa744	eb060a47	bl	0x27d068 <_ZN13MemoryManager9SetLengthEPPvjPKci>
+fa748	e51bc130	ldr	r12, [r11, #-0x130]
+fa74c	e59f0044	ldr	r0, [pc, #0x44]
+fa750	e3003123	movw	r3, #0x123
+fa754	e5961000	ldr	r1, [r6]
+fa758	e1a02005	mov	r2, r5
+fa75c	e2811005	add	r1, r1, #5
+fa760	e58c1000	str	r1, [r12]
+fa764	e79a0000	ldr	r0, [r10, r0]
+fa768	e1a01101	lsl	r1, r1, #2
+fa76c	e50b013c	str	r0, [r11, #-0x13c]
+fa770	eb060a3c	bl	0x27d068 <_ZN13MemoryManager9SetLengthEPPvjPKci>
+fa774	e5963000	ldr	r3, [r6]
+fa778	eaffffa5	b	0xfa614 <_Z14Font_AddSpriteiibi+0x68>
+fa77c	e1a02007	mov	r2, r7
+fa780	eaffffc0	b	0xfa688 <_Z14Font_AddSpriteiibi+0xdc>
+fa784	ebfeef92	bl	0xb65d4 <__stack_chk_fail@plt>
+fa788	002f768c	eoreq	r7, pc, r12, lsl #13
+fa78c	ffffbd00	.word	0xffffbd00
+fa790	ffffc20c	.word	0xffffc20c
+fa794	ffffc210	.word	0xffffc210
+fa798	ffffc214	.word	0xffffc214
+fa79c	ffffc218	.word	0xffffc218
+fa7a0	0023d4c0	eoreq	sp, r3, r0, asr #9
+fa7a4	0023d428	eoreq	sp, r3, r8, lsr #8

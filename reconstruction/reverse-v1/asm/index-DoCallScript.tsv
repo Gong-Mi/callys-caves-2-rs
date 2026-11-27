@@ -1,0 +1,350 @@
+e8588	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+e858c	e2508000	subs	r8, r0, #0
+e8590	e59f7538	ldr	r7, [pc, #0x538]
+e8594	e24dd00c	sub	sp, sp, #12
+e8598	e1a0b001	mov	r11, r1
+e859c	e1a05002	mov	r5, r2
+e85a0	e1a04003	mov	r4, r3
+e85a4	e08f7007	add	r7, pc, r7
+e85a8	0a000104	beq	0xe89c0 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x438>
+e85ac	e1a00008	mov	r0, r8
+e85b0	eb03dd7c	bl	0x1dfba8 <_ZN7CScript7GetCodeEv>
+e85b4	e5903050	ldr	r3, [r0, #0x50]
+e85b8	e3530000	cmp	r3, #0
+e85bc	0a0000ed	beq	0xe8978 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x3f0>
+e85c0	e59f350c	ldr	r3, [pc, #0x50c]
+e85c4	e7973003	ldr	r3, [r7, r3]
+e85c8	e5d33000	ldrb	r3, [r3]
+e85cc	e3530000	cmp	r3, #0
+e85d0	1a0000c9	bne	0xe88fc <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x374>
+e85d4	e59f34fc	ldr	r3, [pc, #0x4fc]
+e85d8	e5946008	ldr	r6, [r4, #0x8]
+e85dc	e7979003	ldr	r9, [r7, r3]
+e85e0	e2863b01	add	r3, r6, #1024
+e85e4	e1550003	cmp	r5, r3
+e85e8	e599c000	ldr	r12, [r9]
+e85ec	e5895000	str	r5, [r9]
+e85f0	3a00008d	blo	0xe882c <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x2a4>
+e85f4	e5943028	ldr	r3, [r4, #0x28]
+e85f8	e594e014	ldr	lr, [r4, #0x14]
+e85fc	e3530000	cmp	r3, #0
+e8600	e5940018	ldr	r0, [r4, #0x18]
+e8604	e245903c	sub	r9, r5, #60
+e8608	e5941044	ldr	r1, [r4, #0x44]
+e860c	e594202c	ldr	r2, [r4, #0x2c]
+e8610	e594a03c	ldr	r10, [r4, #0x3c]
+e8614	e505e02c	str	lr, [r5, #-0x2c]
+e8618	e594e038	ldr	lr, [r4, #0x38]
+e861c	e5050028	str	r0, [r5, #-0x28]
+e8620	e5940034	ldr	r0, [r4, #0x34]
+e8624	e505103c	str	r1, [r5, #-0x3c]
+e8628	e5941030	ldr	r1, [r4, #0x30]
+e862c	e505e020	str	lr, [r5, #-0x20]
+e8630	03e0e000	mvneq	lr, #0
+e8634	1594e040	ldrne	lr, [r4, #0x40]
+e8638	e5052024	str	r2, [r5, #-0x24]
+e863c	1086e00e	addne	lr, r6, lr
+e8640	e594200c	ldr	r2, [r4, #0xc]
+e8644	1063e00e	rsbne	lr, r3, lr
+e8648	e5051038	str	r1, [r5, #-0x38]
+e864c	e59f3488	ldr	r3, [pc, #0x488]
+e8650	e066600c	rsb	r6, r6, r12
+e8654	e5941010	ldr	r1, [r4, #0x10]
+e8658	e505a01c	str	r10, [r5, #-0x1c]
+e865c	e3a0a000	mov	r10, #0
+e8660	e5050018	str	r0, [r5, #-0x18]
+e8664	e1a00008	mov	r0, r8
+e8668	e505e030	str	lr, [r5, #-0x30]
+e866c	e505100c	str	r1, [r5, #-0xc]
+e8670	e5052010	str	r2, [r5, #-0x10]
+e8674	e505a014	str	r10, [r5, #-0x14]
+e8678	e7973003	ldr	r3, [r7, r3]
+e867c	e5932000	ldr	r2, [r3]
+e8680	e5056004	str	r6, [r5, #-0x4]
+e8684	e5052034	str	r2, [r5, #-0x34]
+e8688	e58d3004	str	r3, [sp, #0x4]
+e868c	eb03dd45	bl	0x1dfba8 <_ZN7CScript7GetCodeEv>
+e8690	e5906050	ldr	r6, [r0, #0x50]
+e8694	e1a05000	mov	r5, r0
+e8698	e590c06c	ldr	r12, [r0, #0x6c]
+e869c	e590e054	ldr	lr, [r0, #0x54]
+e86a0	e5961010	ldr	r1, [r6, #0x10]
+e86a4	e1a00006	mov	r0, r6
+e86a8	e5962004	ldr	r2, [r6, #0x4]
+e86ac	e584c044	str	r12, [r4, #0x44]
+e86b0	e595c058	ldr	r12, [r5, #0x58]
+e86b4	e5841024	str	r1, [r4, #0x24]
+e86b8	e595105c	ldr	r1, [r5, #0x5c]
+e86bc	e5842050	str	r2, [r4, #0x50]
+e86c0	e584e038	str	lr, [r4, #0x38]
+e86c4	e584c03c	str	r12, [r4, #0x3c]
+e86c8	e5841034	str	r1, [r4, #0x34]
+e86cc	e584602c	str	r6, [r4, #0x2c]
+e86d0	e584a030	str	r10, [r4, #0x30]
+e86d4	e5849028	str	r9, [r4, #0x28]
+e86d8	eb00101c	bl	0xec750 <_ZN8VMBuffer13convertBufferEv>
+e86dc	e5942044	ldr	r2, [r4, #0x44]
+e86e0	e594102c	ldr	r1, [r4, #0x2c]
+e86e4	e1a00008	mov	r0, r8
+e86e8	e152000a	cmp	r2, r10
+e86ec	e282e003	add	lr, r2, #3
+e86f0	e596c014	ldr	r12, [r6, #0x14]
+e86f4	e5911018	ldr	r1, [r1, #0x18]
+e86f8	b1a0200e	movlt	r2, lr
+e86fc	e1a02142	asr	r2, r2, #2
+e8700	e59d3004	ldr	r3, [sp, #0x4]
+e8704	e584c058	str	r12, [r4, #0x58]
+e8708	e7912102	ldr	r2, [r1, r2, lsl #2]
+e870c	e584105c	str	r1, [r4, #0x5c]
+e8710	e583b000	str	r11, [r3]
+e8714	e5842048	str	r2, [r4, #0x48]
+e8718	eb03dd22	bl	0x1dfba8 <_ZN7CScript7GetCodeEv>
+e871c	e5903078	ldr	r3, [r0, #0x78]
+e8720	e3130004	tst	r3, #4
+e8724	0a000032	beq	0xe87f4 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x26c>
+e8728	e59f33b0	ldr	r3, [pc, #0x3b0]
+e872c	e3a02001	mov	r2, #1
+e8730	e584a010	str	r10, [r4, #0x10]
+e8734	e584200c	str	r2, [r4, #0xc]
+e8738	e7973003	ldr	r3, [r7, r3]
+e873c	e5d33000	ldrb	r3, [r3]
+e8740	e153000a	cmp	r3, r10
+e8744	0a00001f	beq	0xe87c8 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x240>
+e8748	e59d3030	ldr	r3, [sp, #0x30]
+e874c	e3530000	cmp	r3, #0
+e8750	11a0000a	movne	r0, r10
+e8754	0a00001b	beq	0xe87c8 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x240>
+e8758	ebffac82	bl	0xd3968 <_Z16PushContextStackP12YYObjectBase>
+e875c	e5940010	ldr	r0, [r4, #0x10]
+e8760	e5906004	ldr	r6, [r0, #0x4]
+e8764	e3560000	cmp	r6, #0
+e8768	0a0000b0	beq	0xe8a30 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x4a8>
+e876c	e596200c	ldr	r2, [r6, #0xc]
+e8770	e3c234ff	bic	r3, r2, #-16777216
+e8774	e3530001	cmp	r3, #1
+e8778	0a000071	beq	0xe8944 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x3bc>
+e877c	e3530002	cmp	r3, #2
+e8780	1a000004	bne	0xe8798 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x210>
+e8784	e2423001	sub	r3, r2, #1
+e8788	e3c334ff	bic	r3, r3, #-16777216
+e878c	e3c33003	bic	r3, r3, #3
+e8790	e3530000	cmp	r3, #0
+e8794	0a00009c	beq	0xe8a0c <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x484>
+e8798	e59d1034	ldr	r1, [sp, #0x34]
+e879c	e3a02006	mov	r2, #6
+e87a0	e3a03005	mov	r3, #5
+e87a4	e586200c	str	r2, [r6, #0xc]
+e87a8	e3510000	cmp	r1, #0
+e87ac	e5863008	str	r3, [r6, #0x8]
+e87b0	e5861000	str	r1, [r6]
+e87b4	0a000002	beq	0xe87c4 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x23c>
+e87b8	ebffaca5	bl	0xd3a54 <_Z18GetContextStackTopv>
+e87bc	e59d1034	ldr	r1, [sp, #0x34]
+e87c0	eb02a3d2	bl	0x191710 <_Z22DeterminePotentialRootP12YYObjectBaseS0_>
+e87c4	ebffac9a	bl	0xd3a34 <_Z15PopContextStackv>
+e87c8	e59f3314	ldr	r3, [pc, #0x314]
+e87cc	e594204c	ldr	r2, [r4, #0x4c]
+e87d0	e2822001	add	r2, r2, #1
+e87d4	e584204c	str	r2, [r4, #0x4c]
+e87d8	e7973003	ldr	r3, [r7, r3]
+e87dc	e5d33000	ldrb	r3, [r3]
+e87e0	e3530000	cmp	r3, #0
+e87e4	1a00004e	bne	0xe8924 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x39c>
+e87e8	e1a00009	mov	r0, r9
+e87ec	e28dd00c	add	sp, sp, #12
+e87f0	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e87f4	e59d1030	ldr	r1, [sp, #0x30]
+e87f8	e3510000	cmp	r1, #0
+e87fc	0a000085	beq	0xe8a18 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x490>
+e8800	e59f32d8	ldr	r3, [pc, #0x2d8]
+e8804	e3a02001	mov	r2, #1
+e8808	e59d1030	ldr	r1, [sp, #0x30]
+e880c	e584200c	str	r2, [r4, #0xc]
+e8810	e5841010	str	r1, [r4, #0x10]
+e8814	e7973003	ldr	r3, [r7, r3]
+e8818	e5d33000	ldrb	r3, [r3]
+e881c	e3530000	cmp	r3, #0
+e8820	0affffe8	beq	0xe87c8 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x240>
+e8824	e59d0030	ldr	r0, [sp, #0x30]
+e8828	eaffffca	b	0xe8758 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x1d0>
+e882c	e5940040	ldr	r0, [r4, #0x40]
+e8830	e3a03001	mov	r3, #1
+e8834	e59f12ac	ldr	r1, [pc, #0x2ac]
+e8838	e3002837	movw	r2, #0x837
+e883c	e2800901	add	r0, r0, #16384
+e8840	e58dc004	str	r12, [sp, #0x4]
+e8844	e08f1001	add	r1, pc, r1
+e8848	e0665005	rsb	r5, r6, r5
+e884c	eb065189	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+e8850	e1a01006	mov	r1, r6
+e8854	e5942040	ldr	r2, [r4, #0x40]
+e8858	e2855901	add	r5, r5, #16384
+e885c	e5840008	str	r0, [r4, #0x8]
+e8860	e2800901	add	r0, r0, #16384
+e8864	ebff3754	bl	0xb65bc <memcpy@plt>
+e8868	e5943028	ldr	r3, [r4, #0x28]
+e886c	e5990000	ldr	r0, [r9]
+e8870	e59f1274	ldr	r1, [pc, #0x274]
+e8874	e0663003	rsb	r3, r6, r3
+e8878	e5942008	ldr	r2, [r4, #0x8]
+e887c	e2833901	add	r3, r3, #16384
+e8880	e594e040	ldr	lr, [r4, #0x40]
+e8884	e0660000	rsb	r0, r6, r0
+e8888	e0823003	add	r3, r2, r3
+e888c	e0820000	add	r0, r2, r0
+e8890	e5843028	str	r3, [r4, #0x28]
+e8894	e28ee901	add	lr, lr, #16384
+e8898	e5890000	str	r0, [r9]
+e889c	e0825005	add	r5, r2, r5
+e88a0	e584e040	str	lr, [r4, #0x40]
+e88a4	e7979001	ldr	r9, [r7, r1]
+e88a8	e59dc004	ldr	r12, [sp, #0x4]
+e88ac	e5991004	ldr	r1, [r9, #0x4]
+e88b0	e3510000	cmp	r1, #0
+e88b4	0a000009	beq	0xe88e0 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x358>
+e88b8	e281e008	add	lr, r1, #8
+e88bc	e2810601	add	r0, r1, #1048576
+e88c0	e156000e	cmp	r6, lr
+e88c4	e2800008	add	r0, r0, #8
+e88c8	3a000001	blo	0xe88d4 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x34c>
+e88cc	e1500006	cmp	r0, r6
+e88d0	8a00002f	bhi	0xe8994 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x40c>
+e88d4	e5911000	ldr	r1, [r1]
+e88d8	e3510000	cmp	r1, #0
+e88dc	1afffff5	bne	0xe88b8 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x330>
+e88e0	e1a00006	mov	r0, r6
+e88e4	e58dc004	str	r12, [sp, #0x4]
+e88e8	eb064e78	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+e88ec	e5943028	ldr	r3, [r4, #0x28]
+e88f0	e5946008	ldr	r6, [r4, #0x8]
+e88f4	e59dc004	ldr	r12, [sp, #0x4]
+e88f8	eaffff3e	b	0xe85f8 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x70>
+e88fc	e59f31ec	ldr	r3, [pc, #0x1ec]
+e8900	e59f11ec	ldr	r1, [pc, #0x1ec]
+e8904	e5982014	ldr	r2, [r8, #0x14]
+e8908	e7973003	ldr	r3, [r7, r3]
+e890c	e08f1001	add	r1, pc, r1
+e8910	e5930000	ldr	r0, [r3]
+e8914	e5903000	ldr	r3, [r0]
+e8918	e593300c	ldr	r3, [r3, #0xc]
+e891c	e12fff33	blx	r3
+e8920	eaffff2b	b	0xe85d4 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x4c>
+e8924	e59f31cc	ldr	r3, [pc, #0x1cc]
+e8928	e3a01001	mov	r1, #1
+e892c	e5952060	ldr	r2, [r5, #0x60]
+e8930	e7970003	ldr	r0, [r7, r3]
+e8934	eb06df7f	bl	0x2a0738 <_ZN9CProfiler4PushEii>
+e8938	e1a00009	mov	r0, r9
+e893c	e28dd00c	add	sp, sp, #12
+e8940	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e8944	e5968000	ldr	r8, [r6]
+e8948	e3580000	cmp	r8, #0
+e894c	0a000006	beq	0xe896c <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x3e4>
+e8950	eb02a175	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+e8954	e598a004	ldr	r10, [r8, #0x4]
+e8958	e24aa001	sub	r10, r10, #1
+e895c	e588a004	str	r10, [r8, #0x4]
+e8960	e35a0000	cmp	r10, #0
+e8964	0a00001a	beq	0xe89d4 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x44c>
+e8968	eb02a170	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+e896c	e3a03000	mov	r3, #0
+e8970	e5863000	str	r3, [r6]
+e8974	eaffff87	b	0xe8798 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x210>
+e8978	e2459010	sub	r9, r5, #16
+e897c	e5053004	str	r3, [r5, #-0x4]
+e8980	e5053010	str	r3, [r5, #-0x10]
+e8984	e1a00009	mov	r0, r9
+e8988	e505300c	str	r3, [r5, #-0xc]
+e898c	e28dd00c	add	sp, sp, #12
+e8990	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+e8994	e599e008	ldr	lr, [r9, #0x8]
+e8998	e5990010	ldr	r0, [r9, #0x10]
+e899c	e599100c	ldr	r1, [r9, #0xc]
+e89a0	e2800001	add	r0, r0, #1
+e89a4	e586e000	str	lr, [r6]
+e89a8	e2411001	sub	r1, r1, #1
+e89ac	e5896008	str	r6, [r9, #0x8]
+e89b0	e5890010	str	r0, [r9, #0x10]
+e89b4	e1a06002	mov	r6, r2
+e89b8	e589100c	str	r1, [r9, #0xc]
+e89bc	eaffff0d	b	0xe85f8 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x70>
+e89c0	e59f1134	ldr	r1, [pc, #0x134]
+e89c4	e1a00003	mov	r0, r3
+e89c8	e08f1001	add	r1, pc, r1
+e89cc	ebffae0f	bl	0xd4210 <_Z7VMErrorP6VMExecPKcz>
+e89d0	eafffef5	b	0xe85ac <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x24>
+e89d4	e5980000	ldr	r0, [r8]
+e89d8	ebff996c	bl	0xcef90 <_Z6YYFreePKv>
+e89dc	e588a000	str	r10, [r8]
+e89e0	e588a008	str	r10, [r8, #0x8]
+e89e4	eb02a150	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+e89e8	e598a004	ldr	r10, [r8, #0x4]
+e89ec	e24aa001	sub	r10, r10, #1
+e89f0	e588a004	str	r10, [r8, #0x4]
+e89f4	e35a0000	cmp	r10, #0
+e89f8	0a000010	beq	0xe8a40 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x4b8>
+e89fc	eb02a14b	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+e8a00	e1a00008	mov	r0, r8
+e8a04	eb0651f1	bl	0x27d1d0 <_ZdlPv>
+e8a08	eaffffd6	b	0xe8968 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x3e0>
+e8a0c	e1a00006	mov	r0, r6
+e8a10	ebff6019	bl	0xc0a7c <_Z16FREE_RValue__PreP6RValue>
+e8a14	eaffff5f	b	0xe8798 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x210>
+e8a18	e5950070	ldr	r0, [r5, #0x70]
+e8a1c	ebffadf0	bl	0xd41e4 <_Z20YYAllocLocalStackNewi>
+e8a20	e59d3030	ldr	r3, [sp, #0x30]
+e8a24	e584300c	str	r3, [r4, #0xc]
+e8a28	e5840010	str	r0, [r4, #0x10]
+e8a2c	eaffff65	b	0xe87c8 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x240>
+e8a30	e1a01006	mov	r1, r6
+e8a34	eb02b80d	bl	0x196a70 <_ZN12YYObjectBase16InternalGetYYVarEi>
+e8a38	e1a06000	mov	r6, r0
+e8a3c	eaffff4a	b	0xe876c <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x1e4>
+e8a40	e5980000	ldr	r0, [r8]
+e8a44	ebff9951	bl	0xcef90 <_Z6YYFreePKv>
+e8a48	e588a000	str	r10, [r8]
+e8a4c	e588a008	str	r10, [r8, #0x8]
+e8a50	eb02a135	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+e8a54	e598a004	ldr	r10, [r8, #0x4]
+e8a58	e24aa001	sub	r10, r10, #1
+e8a5c	e588a004	str	r10, [r8, #0x4]
+e8a60	e35a0000	cmp	r10, #0
+e8a64	0a000003	beq	0xe8a78 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x4f0>
+e8a68	eb02a130	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+e8a6c	e1a00008	mov	r0, r8
+e8a70	eb0651d6	bl	0x27d1d0 <_ZdlPv>
+e8a74	eaffffe0	b	0xe89fc <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x474>
+e8a78	e5980000	ldr	r0, [r8]
+e8a7c	ebff9943	bl	0xcef90 <_Z6YYFreePKv>
+e8a80	e588a000	str	r10, [r8]
+e8a84	e588a008	str	r10, [r8, #0x8]
+e8a88	eb02a127	bl	0x190f2c <_Z17LOCK_RVALUE_MUTEXv>
+e8a8c	e598a004	ldr	r10, [r8, #0x4]
+e8a90	e24aa001	sub	r10, r10, #1
+e8a94	e588a004	str	r10, [r8, #0x4]
+e8a98	e35a0000	cmp	r10, #0
+e8a9c	1a000007	bne	0xe8ac0 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x538>
+e8aa0	e5980000	ldr	r0, [r8]
+e8aa4	ebff9939	bl	0xcef90 <_Z6YYFreePKv>
+e8aa8	e1a00008	mov	r0, r8
+e8aac	e588a000	str	r10, [r8]
+e8ab0	e588a008	str	r10, [r8, #0x8]
+e8ab4	ebff5fcf	bl	0xc09f8 <_ZN9_RefThingIPKcE3decEv>
+e8ab8	e1a00008	mov	r0, r8
+e8abc	eb0651c3	bl	0x27d1d0 <_ZdlPv>
+e8ac0	eb02a11a	bl	0x190f30 <_Z19UNLOCK_RVALUE_MUTEXv>
+e8ac4	e1a00008	mov	r0, r8
+e8ac8	eb0651c0	bl	0x27d1d0 <_ZdlPv>
+e8acc	eaffffe5	b	0xe8a68 <_Z12DoCallScriptP7CScriptiPhP6VMExecP12YYObjectBaseS5_+0x4e0>
+e8ad0	003096ac	eorseq	r9, r0, r12, lsr #13
+e8ad4	ffffc100	.word	0xffffc100
+e8ad8	ffffc0c0	.word	0xffffc0c0
+e8adc	ffffc0bc	.word	0xffffc0bc
+e8ae0	ffffbf68	.word	0xffffbf68
+e8ae4	ffffbf18	.word	0xffffbf18
+e8ae8	00249f38	eoreq	r9, r4, r8, lsr pc
+e8aec	ffffc0e4	.word	0xffffc0e4
+e8af0	ffffbac4	.word	0xffffbac4
+e8af4	0024bf2c	eoreq	r11, r4, r12, lsr #30
+e8af8	ffffbf1c	.word	0xffffbf1c
+e8afc	0024be50	eoreq	r11, r4, r0, asr lr

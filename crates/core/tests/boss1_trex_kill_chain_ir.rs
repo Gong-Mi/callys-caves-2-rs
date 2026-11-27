@@ -158,3 +158,272 @@ fn bullets_kill_trex_and_death_cascade_opens_the_gate() {
         assert!(!s.instances[b].alive, "CODE 29 boulder opens after boss death");
     }
 }
+
+#[test]
+fn trex_alarm6_poisons_and_spawns_a_damage_cloud() {
+    // CODE 156 is armed by the weapon-pool path, so drive the alarm itself:
+    // poisoned=1, hptrex -= 0.25, instance_create(x, y, obj_damage) with
+    // damage=0.25, and alarm[6] re-arms at 30 frames.
+    let (bundle, mut s, trex) = boss_scene();
+    let hp_before = s.instances[&trex].fields["hptrex"];
+    let x = s.instances[&trex].fields["x"];
+    let y = s.instances[&trex].fields["y"];
+    s.dispatch(&bundle, trex, 2, 6).expect("Alarm 6 dispatch");
+    let t = &s.instances[&trex];
+    assert_eq!(t.fields["poisoned"], 1.0, "CODE 156 sets poisoned");
+    assert_eq!(t.fields["hptrex"], hp_before - 0.25, "CODE 156 ticks 0.25 HP");
+    assert_eq!(t.alarms[6], 30, "CODE 156 re-arms Alarm 6 at 30 frames");
+    let cloud = s
+        .instances
+        .iter()
+        .find(|(_, i)| i.object == 104 && i.alive)
+        .map(|(id, _)| *id)
+        .expect("CODE 156 spawns obj_damage (104) at the boss");
+    let c = &s.instances[&cloud];
+    assert_eq!(c.fields["damage"], 0.25, "spawned cloud carries 0.25 damage");
+    assert_eq!(c.fields["x"], x);
+    assert_eq!(c.fields["y"], y);
+}
+
+#[test]
+fn trex_alarm5_clears_sword_stun() {
+    // CODE 157 is the two-instruction stun clear: swordstunned = 0.
+    let (bundle, mut s, trex) = boss_scene();
+    s.write(trex, -1, "swordstunned", None, 1.0).unwrap();
+    s.dispatch(&bundle, trex, 2, 5).expect("Alarm 5 dispatch");
+    assert_eq!(s.instances[&trex].fields["swordstunned"], 0.0);
+}
+
+#[test]
+fn energywave_damages_trex_and_flashes_it() {
+    // CODE 308 (obj_energywave_Step_0) walks its instance_place chain; the
+    // obj_trex(25) branch (instructions ~252-300) sets flashing, spawns a
+    // particle burst and deals 3 damage plus obj_damage(104).damage = 3.
+    // It does NOT stun the trex -- the stunned=1 / alarm[4]=10 block earlier
+    // in the same body belongs to the knife-bandit family.
+    //
+    // The chain applies only the FIRST family it hits (canhit latch) and the
+    // trex stands on a wall tile, so lift both to clear air first.
+    let (bundle, mut s, trex) = boss_scene();
+    let x = s.instances[&trex].fields["x"];
+    let y = s.instances[&trex].fields["y"] - 80.0;
+    s.write(trex, -1, "x", None, x).unwrap();
+    s.write(trex, -1, "y", None, y).unwrap();
+    let hp_before = s.instances[&trex].fields["hptrex"];
+    let wave = s.create(&bundle, 45, x, y).expect("create obj_energywave");
+    s.write(wave, -1, "direction", None, 0.0).unwrap();
+    s.dispatch(&bundle, wave, 3, 0).expect("energywave Step dispatch");
+    let t = &s.instances[&trex];
+    assert_eq!(t.fields["flashing"], 1.0, "CODE 308 flashes the hit trex");
+    assert_eq!(t.fields["hptrex"], hp_before - 3.0, "CODE 308 deals 3 damage");
+    let dmg = s
+        .instances
+        .values()
+        .filter(|i| i.object == 104 && i.alive)
+        .any(|i| i.fields.get("damage") == Some(&3.0));
+    assert!(dmg, "CODE 308 spawns obj_damage with damage=3");
+}
+
+#[test]
+fn bullet_arms_trex_poison_and_the_alarm_ticks() {
+    // The arming chain lives in GML, inside weapon Step bodies. CODE 284
+    // (obj_bullet_Step_0) hits obj_trex(25) through `hittrex` and, gated on
+    // global.poisonenabled, writes (hittrex).alarm[6] = 1 (instructions
+    // 719-727). The enemy's own Alarm 6 (CODE 156) then sets poisoned, ticks
+    // 0.25 HP and re-arms at 30.
+    let (bundle, mut s, trex) = boss_scene();
+    // Clear air: the chain applies only the first family it hits (canhit
+    // latch) and the trex stands on a wall tile.
+    let x = s.instances[&trex].fields["x"];
+    let y = s.instances[&trex].fields["y"] - 80.0;
+    s.write(trex, -1, "x", None, x).unwrap();
+    s.write(trex, -1, "y", None, y).unwrap();
+    s.globals.insert("poisonenabled".to_string(), 1.0);
+    let hp_before = s.instances[&trex].fields["hptrex"];
+    let bullet = s.create(&bundle, 39, x, y).expect("create obj_bullet");
+    s.write(bullet, -1, "direction", None, 0.0).unwrap();
+    s.dispatch(&bundle, bullet, 3, 0).expect("bullet Step dispatch");
+    // The bullet hit the trex (it destroys itself in the same block) and the
+    // poisonenabled gate armed alarm[6] = 1.
+    assert!(!s.instances[&bullet].alive, "CODE 284 destroys the bullet on hit");
+    assert_eq!(
+        s.instances[&trex].alarms[6], 1,
+        "poisonenabled bullet must arm the trex's Alarm 6"
+    );
+    // Fire the armed alarm directly: the scheduler's own countdown depends on
+    // the sleep sweep (the trex is 80 px up, away from the player), which is
+    // covered by the alarm-body test instead of being re-derived here.
+    let hp_after_hit = s.instances[&trex].fields["hptrex"];
+    s.dispatch(&bundle, trex, 2, 6).expect("Alarm 6 dispatch");
+    let t = &s.instances[&trex];
+    assert_eq!(t.fields["poisoned"], 1.0, "Alarm 6 sets poisoned");
+    assert_eq!(t.fields["hptrex"], hp_after_hit - 0.25, "Alarm 6 ticks 0.25 HP");
+    assert_eq!(t.alarms[6], 30, "Alarm 6 re-arms at 30 frames");
+}
+
+#[test]
+fn bullet_poisons_trex_through_the_natural_tick_order() {
+    // Runtime check of the arming point (the proxy left this one open): no
+    // manual dispatch. Create the bullet on the trex with poisonenabled on,
+    // park the player inside the 450 px sleep band so the boss keeps
+    // stepping, then let the scheduler run.
+    // Tick 1: the bullet's own Step arms alarm[6] = 1 and deals its 1 damage.
+    // Tick 2: the alarm fires CODE 156 -> poisoned, hp - 0.25, re-arm 30.
+    let (bundle, mut s, trex) = boss_scene();
+    let x = s.instances[&trex].fields["x"];
+    let y = s.instances[&trex].fields["y"] - 80.0;
+    s.write(trex, -1, "x", None, x).unwrap();
+    s.write(trex, -1, "y", None, y).unwrap();
+    s.globals.insert("poisonenabled".to_string(), 1.0);
+    // Park the player next to the boss so CODE 361 does not suspend it.
+    if let Some(pid) = s.instances.iter().find(|(_, i)| i.object == 0 && i.alive).map(|(id, _)| *id) {
+        s.write(pid, -1, "x", None, x).unwrap();
+        s.write(pid, -1, "y", None, y).unwrap();
+    }
+    let hp_before = s.instances[&trex].fields["hptrex"];
+    let bullet = s.create(&bundle, 39, x, y).expect("create obj_bullet");
+    s.write(bullet, -1, "direction", None, 0.0).unwrap();
+    s.tick(&bundle).expect("tick 1");
+    assert!(!s.instances[&bullet].alive, "the bullet hit the trex and destroyed itself");
+    assert_eq!(
+        s.instances[&trex].alarms[6], 1,
+        "the bullet's normal Step is what arms alarm[6]"
+    );
+    s.tick(&bundle).expect("tick 2");
+    let t = &s.instances[&trex];
+    assert_eq!(t.fields["poisoned"], 1.0, "Alarm 6 fired on the following tick");
+    assert_eq!(t.fields["hptrex"], hp_before - 1.0 - 0.25, "1 bullet damage + 0.25 poison");
+    assert_eq!(t.alarms[6], 30, "re-armed at 30");
+    // A second bullet landing while the countdown runs rewrites alarm[6] to 1
+    // (the store is gated only by poisonenabled), so a fresh hit delays the
+    // next poison tick instead of shortening it.
+    let bullet2 = s.create(&bundle, 39, x, y).expect("create second obj_bullet");
+    s.write(bullet2, -1, "direction", None, 0.0).unwrap();
+    s.tick(&bundle).expect("tick 3");
+    assert_eq!(
+        s.instances[&trex].alarms[6], 1,
+        "a second hit overwrites the 30-frame countdown with 1"
+    );
+}
+
+#[test]
+fn bullet_window_matches_the_measured_thresholds() {
+    // boss-reachability.md models the hit box with the FULL sprite extent
+    // (width x height around the origin), not the manual SPRT bbox: for
+    // bullet (16x16, origin 9,9) against trex (96x64, origin 64,64) that
+    // gives dy_max = 6 - (-64) = 70 and dx_max = 6 - (-64) = 70. Both were
+    // measured against the engine: 70 hits, 72 misses on each axis. The
+    // manual boxes would have predicted 54 / 61, so this test also pins the
+    // choice of geometry.
+    for (dx, dy, expect_hit) in [
+        (70.0, 0.0, true), (72.0, 0.0, false),   // boss left of the bullet
+        (-40.0, 0.0, true), (-42.0, 0.0, false), // boss right of the bullet
+        (0.0, 70.0, true), (0.0, 72.0, false),   // boss below the bullet
+        (0.0, -8.0, true), (0.0, -10.0, false),  // boss above the bullet
+    ] {
+        let (bundle, mut s, trex) = boss_scene();
+        let (bx0, by0) = (s.instances[&trex].fields["x"], s.instances[&trex].fields["y"] - 80.0);
+        s.write(trex, -1, "x", None, bx0).unwrap();
+        s.write(trex, -1, "y", None, by0).unwrap();
+        s.globals.insert("poisonenabled".to_string(), 1.0);
+        // dx/dy are the boss-relative offsets that produce a hit, so the bullet
+        // is placed on the opposite side of the boss origin.
+        let bullet = s.create(&bundle, 39, bx0 - dx, by0 - dy).expect("create obj_bullet");
+        s.write(bullet, -1, "direction", None, 0.0).unwrap();
+        s.dispatch(&bundle, bullet, 3, 0).expect("bullet Step dispatch");
+        let armed = s.instances[&trex].alarms[6] == 1;
+        assert_eq!(armed, expect_hit, "dx={dx} dy={dy}: expected hit={expect_hit}");
+    }
+}
+
+#[test]
+fn weapon_flight_frames_to_the_trex_in_a_clear_lane() {
+    // Empty-lane flight, 200 px out, trex parked 80 px up (see
+    // weapon-ballistics.md). Frames counted until the trex's hp first changes;
+    // damage is the single-hit value the weapon's own family block applies.
+    let cases: Vec<(&str, i32, f64, f64, Option<(u32, f64)>)> = vec![
+        ("flame", 35, 15.0, 7.0, Some((8, 0.30))),
+        ("blade", 36, 20.0, 6.0, Some((8, 3.0))),
+        ("bomb", 37, 8.0, 5.0, None),
+        ("arrow", 38, 15.0, 3.0, Some((9, 2.0))),
+        ("bullet", 39, 25.0, 6.0, Some((7, 1.0))),
+        ("laserbeam", 41, 20.0, 6.0, Some((9, 0.25))),
+        ("spike", 42, 14.0, -3.0, Some((8, 3.0))),
+        ("boomerang", 43, 5.0, 7.0, None),
+        ("rocket", 44, 16.0, 3.0, Some((9, 6.0))),
+        ("energywave", 45, 20.0, -5.0, Some((8, 3.0))),
+    ];
+    for (name, obj, v, dy, expect) in cases {
+        let (bundle, mut s, trex) = boss_scene();
+        let (tx, ty) = (s.instances[&trex].fields["x"], s.instances[&trex].fields["y"] - 80.0);
+        s.write(trex, -1, "x", None, tx).unwrap();
+        s.write(trex, -1, "y", None, ty).unwrap();
+        let kill: Vec<i32> = s.instances.iter()
+            .filter(|(_, i)| i.object != 0 && i.object != 25)
+            .map(|(id, _)| *id).collect();
+        for id in kill {
+            if let Some(i) = s.instances.get_mut(&id) { i.alive = false; }
+        }
+        s.globals.insert("poisonenabled".to_string(), 1.0);
+        let hp0 = s.instances[&trex].fields["hptrex"];
+        let w = s.create(&bundle, obj, tx - 200.0, ty + dy).expect("create weapon");
+        s.write(w, -1, "hspeed", None, v).unwrap();
+        let mut got = None;
+        for tick in 1..=120u32 {
+            s.tick(&bundle).expect("tick");
+            let hp = s.instances[&trex].fields["hptrex"];
+            if hp != hp0 { got = Some((tick, hp0 - hp)); break; }
+        }
+        match expect {
+            Some((tick, dmg)) => {
+                let (gt, gd) = got.unwrap_or_else(|| panic!("{name} never reached the trex"));
+                assert_eq!(gt, tick, "{name}: frames to first contact");
+                assert!((gd - dmg).abs() < 0.01, "{name}: damage {gd} != {dmg}");
+            }
+            None => assert!(got.is_none(), "{name} must not connect in this lane, got {got:?}"),
+        }
+    }
+}
+
+#[test]
+fn bomb_and_boomerang_cannot_damage_bosses_but_the_sword_can_at_touch_range() {
+    // The bomb and the boomerang carry no boss HP write at all: their 14 hp
+    // stores are the regular enemies (hpknife/hp/hpwolf/hptwo/hpfour/hpslime/
+    // hpghost/shooter1/2/fireslime/hulkingbandit/zombie/firehulk/skeleton) and
+    // nothing for hptrex/hpboss2..5/hpfinalboss. No trajectory can fix that.
+    let ir: serde_json::Value = serde_json::from_str(include_str!("../src/generated/full_ir.json"))
+        .expect("full_ir.json");
+    let boss_hp = ["hptrex", "hpboss2", "hpboss3", "hpboss4", "hpboss5", "hpfinalboss"];
+    for (name, code) in [("bomb", 278i64), ("boomerang", 298i64)] {
+        let body = ir["codes"].as_array().unwrap().iter()
+            .find(|c| c["id"].as_i64() == Some(code)).expect("code");
+        let writes: Vec<&str> = body["instructions"].as_array().unwrap().iter()
+            .filter(|x| x["op"] == "store")
+            .filter_map(|x| x["name"].as_str())
+            .filter(|n| boss_hp.contains(n))
+            .collect();
+        assert!(writes.is_empty(), "{name} must not write boss HP, got {writes:?}");
+    }
+
+    // The sword is not a projectile: its Step repositions itself relative to
+    // the player and checks from there, so it connects on the next tick when
+    // the player stands at touch range (damage 1.0).
+    let (bundle, mut s, trex) = boss_scene();
+    let (tx, ty) = (s.instances[&trex].fields["x"], s.instances[&trex].fields["y"] - 80.0);
+    s.write(trex, -1, "x", None, tx).unwrap();
+    s.write(trex, -1, "y", None, ty).unwrap();
+    let kill: Vec<i32> = s.instances.iter()
+        .filter(|(_, i)| i.object != 0 && i.object != 25).map(|(id, _)| *id).collect();
+    for id in kill { if let Some(i) = s.instances.get_mut(&id) { i.alive = false; } }
+    let pid = s.instances.iter().find(|(_, i)| i.object == 0 && i.alive).map(|(id, _)| *id)
+        .expect("player instance");
+    s.write(pid, -1, "x", None, tx - 20.0).unwrap();
+    s.write(pid, -1, "y", None, ty).unwrap();
+    let hp0 = s.instances[&trex].fields["hptrex"];
+    let _sword = s.create(&bundle, 46, tx - 20.0, ty + 15.0).expect("sword");
+    s.tick(&bundle).expect("one tick");
+    assert_eq!(
+        hp0 - s.instances[&trex].fields["hptrex"], 1.0,
+        "sword at touch range deals 1.0 on the first tick"
+    );
+}

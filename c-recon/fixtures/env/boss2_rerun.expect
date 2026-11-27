@@ -1,0 +1,17 @@
+# The same body twice in one world. The second run re-enters CODE 164 (so a
+# second Lloyd and a second bosspuff appear), but both `with` sets are empty
+# because every target is already retired: the counters must not move.
+GLOBAL greenslimeskilled 3
+GLOBAL fireslimeskilled 2
+GLOBAL enemieskilled 5
+!GLOBAL greenslimeskilled 4
+!GLOBAL enemieskilled 6
+COUNT_INST 32 3
+COUNT_INST 33 2
+COUNT_INST 187 5
+COUNT_INST 154 2
+COUNT_INST 190 2
+INST 200006 154 1
+INST 200007 190 1
+INST 200008 154 1
+INST 200009 190 1

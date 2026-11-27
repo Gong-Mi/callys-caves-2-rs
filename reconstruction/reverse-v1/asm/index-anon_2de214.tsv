@@ -1,0 +1,147 @@
+2de214	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+2de218	ed2d8b04	vpush	{d8, d9}
+2de21c	e24dd014	sub	sp, sp, #20
+2de220	ed927a03	vldr	s14, [r2, #12]
+2de224	edd16a04	vldr	s13, [r1, #16]
+2de228	edd32a04	vldr	s5, [r3, #16]
+2de22c	e59d7048	ldr	r7, [sp, #0x48]
+2de230	ee674a26	vmul.f32	s9, s14, s13
+2de234	edd73a03	vldr	s7, [r7, #12]
+2de238	edd27a02	vldr	s15, [r2, #8]
+2de23c	ed913a03	vldr	s6, [r1, #12]
+2de240	ed934a03	vldr	s8, [r3, #12]
+2de244	ed976a02	vldr	s12, [r7, #8]
+2de248	ed921a01	vldr	s2, [r2, #4]
+2de24c	edd75a01	vldr	s11, [r7, #4]
+2de250	edd71a00	vldr	s3, [r7]
+2de254	ed922a00	vldr	s4, [r2]
+2de258	e5914094	ldr	r4, [r1, #0x94]
+2de25c	e1a05001	mov	r5, r1
+2de260	e1a06002	mov	r6, r2
+2de264	e3540000	cmp	r4, #0
+2de268	e1a08003	mov	r8, r3
+2de26c	e58d000c	str	r0, [sp, #0xc]
+2de270	e281c054	add	r12, r1, #84
+2de274	ee235aa2	vmul.f32	s10, s7, s5
+2de278	ee434a27	vmla.f32	s9, s6, s15
+2de27c	ee045a06	vmla.f32	s10, s8, s12
+2de280	ee676aa6	vmul.f32	s13, s15, s13
+2de284	ee266a22	vmul.f32	s12, s12, s5
+2de288	ee576a03	vnmls.f32	s13, s14, s6
+2de28c	ee136a84	vnmls.f32	s12, s7, s8
+2de290	ee755a25	vadd.f32	s11, s10, s11
+2de294	ee744a81	vadd.f32	s9, s9, s2
+2de298	ee755ae4	vsub.f32	s11, s11, s9
+2de29c	ee365a21	vadd.f32	s10, s12, s3
+2de2a0	ee766a82	vadd.f32	s13, s13, s4
+2de2a4	ee276aa5	vmul.f32	s12, s15, s11
+2de2a8	ee675a25	vmul.f32	s11, s14, s11
+2de2ac	ee756a66	vsub.f32	s13, s10, s13
+2de2b0	ee076a26	vmla.f32	s12, s14, s13
+2de2b4	ee475ae6	vmls.f32	s11, s15, s13
+2de2b8	da00005e	ble	0x2de438 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x37c>
+2de2bc	e3a0a000	mov	r10, #0
+2de2c0	eddf6a66	vldr	s13, [pc, #408]
+2de2c4	e1a0e00a	mov	lr, r10
+2de2c8	eddc7a01	vldr	s15, [r12, #4]
+2de2cc	ed9c7a00	vldr	s14, [r12]
+2de2d0	e28cc008	add	r12, r12, #8
+2de2d4	ee657aa7	vmul.f32	s15, s11, s15
+2de2d8	ee467a07	vmla.f32	s15, s12, s14
+2de2dc	eef47ae6	vcmpe.f32	s15, s13
+2de2e0	eef1fa10	vmrs	APSR_nzcv, fpscr
+2de2e4	c1a0a00e	movgt	r10, lr
+2de2e8	e28ee001	add	lr, lr, #1
+2de2ec	cef06a67	vmovgt.f32	s13, s15
+2de2f0	e15e0004	cmp	lr, r4
+2de2f4	1afffff3	bne	0x2de2c8 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x20c>
+2de2f8	e58d7000	str	r7, [sp]
+2de2fc	e1a00005	mov	r0, r5
+2de300	e1a01006	mov	r1, r6
+2de304	e1a0200a	mov	r2, r10
+2de308	e1a03008	mov	r3, r8
+2de30c	ebffff78	bl	0x2de0f4 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x38>
+2de310	e35a0000	cmp	r10, #0
+2de314	eef08a40	vmov.f32	s17, s0
+2de318	0a00004c	beq	0x2de450 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x394>
+2de31c	e24a9001	sub	r9, r10, #1
+2de320	e28ab001	add	r11, r10, #1
+2de324	e154000b	cmp	r4, r11
+2de328	e1a00005	mov	r0, r5
+2de32c	e1a01006	mov	r1, r6
+2de330	e1a02009	mov	r2, r9
+2de334	e1a03008	mov	r3, r8
+2de338	e58d7000	str	r7, [sp]
+2de33c	d3a0b000	movle	r11, #0
+2de340	ebffff6b	bl	0x2de0f4 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x38>
+2de344	e58d7000	str	r7, [sp]
+2de348	e1a0200b	mov	r2, r11
+2de34c	e1a00005	mov	r0, r5
+2de350	e1a01006	mov	r1, r6
+2de354	e1a03008	mov	r3, r8
+2de358	eeb09a40	vmov.f32	s18, s0
+2de35c	ebffff64	bl	0x2de0f4 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x38>
+2de360	eeb49ae8	vcmpe.f32	s18, s17
+2de364	eef1fa10	vmrs	APSR_nzcv, fpscr
+2de368	eeb08a40	vmov.f32	s16, s0
+2de36c	da000019	ble	0x2de3d8 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x31c>
+2de370	eeb49ac0	vcmpe.f32	s18, s0
+2de374	eef1fa10	vmrs	APSR_nzcv, fpscr
+2de378	da000016	ble	0x2de3d8 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x31c>
+2de37c	eeb08a49	vmov.f32	s16, s18
+2de380	e1a0b009	mov	r11, r9
+2de384	ea000001	b	0x2de390 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x2d4>
+2de388	eeb08a40	vmov.f32	s16, s0
+2de38c	e1a0b00a	mov	r11, r10
+2de390	e35b0000	cmp	r11, #0
+2de394	e24ba001	sub	r10, r11, #1
+2de398	d244a001	suble	r10, r4, #1
+2de39c	e58d7000	str	r7, [sp]
+2de3a0	e1a00005	mov	r0, r5
+2de3a4	e1a01006	mov	r1, r6
+2de3a8	e1a0200a	mov	r2, r10
+2de3ac	e1a03008	mov	r3, r8
+2de3b0	ebffff4f	bl	0x2de0f4 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x38>
+2de3b4	eeb40ac8	vcmpe.f32	s0, s16
+2de3b8	eef1fa10	vmrs	APSR_nzcv, fpscr
+2de3bc	cafffff1	bgt	0x2de388 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x2cc>
+2de3c0	e59d300c	ldr	r3, [sp, #0xc]
+2de3c4	eeb00a48	vmov.f32	s0, s16
+2de3c8	e583b000	str	r11, [r3]
+2de3cc	e28dd014	add	sp, sp, #20
+2de3d0	ecbd8b04	vpop	{d8, d9}
+2de3d4	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2de3d8	eeb48ae8	vcmpe.f32	s16, s17
+2de3dc	eef1fa10	vmrs	APSR_nzcv, fpscr
+2de3e0	ca000007	bgt	0x2de404 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x348>
+2de3e4	e59d300c	ldr	r3, [sp, #0xc]
+2de3e8	eeb00a68	vmov.f32	s0, s17
+2de3ec	e583a000	str	r10, [r3]
+2de3f0	e28dd014	add	sp, sp, #20
+2de3f4	ecbd8b04	vpop	{d8, d9}
+2de3f8	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+2de3fc	eeb08a40	vmov.f32	s16, s0
+2de400	e1a0b00a	mov	r11, r10
+2de404	e28ba001	add	r10, r11, #1
+2de408	e58d7000	str	r7, [sp]
+2de40c	e154000a	cmp	r4, r10
+2de410	e1a00005	mov	r0, r5
+2de414	e1a01006	mov	r1, r6
+2de418	e1a03008	mov	r3, r8
+2de41c	d3a0a000	movle	r10, #0
+2de420	e1a0200a	mov	r2, r10
+2de424	ebffff32	bl	0x2de0f4 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x38>
+2de428	eeb40ac8	vcmpe.f32	s0, s16
+2de42c	eef1fa10	vmrs	APSR_nzcv, fpscr
+2de430	cafffff1	bgt	0x2de3fc <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x340>
+2de434	eaffffe1	b	0x2de3c0 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x304>
+2de438	e1a00001	mov	r0, r1
+2de43c	e58d7000	str	r7, [sp]
+2de440	e1a01002	mov	r1, r2
+2de444	e3a02000	mov	r2, #0
+2de448	ebffff29	bl	0x2de0f4 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x38>
+2de44c	eef08a40	vmov.f32	s17, s0
+2de450	e2449001	sub	r9, r4, #1
+2de454	e3a0b001	mov	r11, #1
+2de458	e3a0a000	mov	r10, #0
+2de45c	eaffffb0	b	0x2de324 <_Z23b2CollideEdgeAndPolygonP10b2ManifoldPK11b2EdgeShapeRK11b2TransformPK14b2PolygonShapeS6_+0x268>

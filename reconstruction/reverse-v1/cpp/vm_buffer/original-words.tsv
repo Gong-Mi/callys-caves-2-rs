@@ -1,0 +1,512 @@
+entry	address	word	mnemonic	operands
+ce43c	ce43c	e92d4010	push	{r4, lr}
+ce43c	ce440	e1a04000	mov	r4, r0
+ce43c	ce444	e5900014	ldr	r0, [r0, #0x14]
+ce43c	ce448	e59f306c	ldr	r3, [pc, #0x6c]
+ce43c	ce44c	e3500000	cmp	r0, #0
+ce43c	ce450	e79f3003	ldr	r3, [pc, r3]
+ce43c	ce454	e2833008	add	r3, r3, #8
+ce43c	ce458	e5843000	str	r3, [r4]
+ce43c	ce45c	0a000002	beq	0xce46c <_ZN8VMBufferD2Ev+0x30>
+ce43c	ce460	eb06b79a	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+ce43c	ce464	e3a03000	mov	r3, #0
+ce43c	ce468	e5843014	str	r3, [r4, #0x14]
+ce43c	ce46c	e5940018	ldr	r0, [r4, #0x18]
+ce43c	ce470	e3500000	cmp	r0, #0
+ce43c	ce474	0a000002	beq	0xce484 <_ZN8VMBufferD2Ev+0x48>
+ce43c	ce478	eb06b794	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+ce43c	ce47c	e3a03000	mov	r3, #0
+ce43c	ce480	e5843018	str	r3, [r4, #0x18]
+ce43c	ce484	e5940010	ldr	r0, [r4, #0x10]
+ce43c	ce488	e3500000	cmp	r0, #0
+ce43c	ce48c	0a000008	beq	0xce4b4 <_ZN8VMBufferD2Ev+0x78>
+ce43c	ce490	eb03722e	bl	0x1aad50 <_Z11MemoryInWadPv>
+ce43c	ce494	e3500000	cmp	r0, #0
+ce43c	ce498	1a000005	bne	0xce4b4 <_ZN8VMBufferD2Ev+0x78>
+ce43c	ce49c	e5940010	ldr	r0, [r4, #0x10]
+ce43c	ce4a0	e3500000	cmp	r0, #0
+ce43c	ce4a4	0a000000	beq	0xce4ac <_ZN8VMBufferD2Ev+0x70>
+ce43c	ce4a8	eb06bb49	bl	0x27d1d4 <_ZdaPv>
+ce43c	ce4ac	e3a03000	mov	r3, #0
+ce43c	ce4b0	e5843010	str	r3, [r4, #0x10]
+ce43c	ce4b4	e1a00004	mov	r0, r4
+ce43c	ce4b8	e8bd8010	pop	{r4, pc}
+ce43c	ce4bc	0031f6dc	ldrsbteq	pc, [r1], -r12
+ce4c0	ce4c0	e92d4010	push	{r4, lr}
+ce4c0	ce4c4	e1a04000	mov	r4, r0
+ce4c0	ce4c8	e5900014	ldr	r0, [r0, #0x14]
+ce4c0	ce4cc	e59f3074	ldr	r3, [pc, #0x74]
+ce4c0	ce4d0	e3500000	cmp	r0, #0
+ce4c0	ce4d4	e79f3003	ldr	r3, [pc, r3]
+ce4c0	ce4d8	e2833008	add	r3, r3, #8
+ce4c0	ce4dc	e5843000	str	r3, [r4]
+ce4c0	ce4e0	0a000002	beq	0xce4f0 <_ZN8VMBufferD0Ev+0x30>
+ce4c0	ce4e4	eb06b779	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+ce4c0	ce4e8	e3a03000	mov	r3, #0
+ce4c0	ce4ec	e5843014	str	r3, [r4, #0x14]
+ce4c0	ce4f0	e5940018	ldr	r0, [r4, #0x18]
+ce4c0	ce4f4	e3500000	cmp	r0, #0
+ce4c0	ce4f8	0a000002	beq	0xce508 <_ZN8VMBufferD0Ev+0x48>
+ce4c0	ce4fc	eb06b773	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+ce4c0	ce500	e3a03000	mov	r3, #0
+ce4c0	ce504	e5843018	str	r3, [r4, #0x18]
+ce4c0	ce508	e5940010	ldr	r0, [r4, #0x10]
+ce4c0	ce50c	e3500000	cmp	r0, #0
+ce4c0	ce510	0a000008	beq	0xce538 <_ZN8VMBufferD0Ev+0x78>
+ce4c0	ce514	eb03720d	bl	0x1aad50 <_Z11MemoryInWadPv>
+ce4c0	ce518	e3500000	cmp	r0, #0
+ce4c0	ce51c	1a000005	bne	0xce538 <_ZN8VMBufferD0Ev+0x78>
+ce4c0	ce520	e5940010	ldr	r0, [r4, #0x10]
+ce4c0	ce524	e3500000	cmp	r0, #0
+ce4c0	ce528	0a000000	beq	0xce530 <_ZN8VMBufferD0Ev+0x70>
+ce4c0	ce52c	eb06bb28	bl	0x27d1d4 <_ZdaPv>
+ce4c0	ce530	e3a03000	mov	r3, #0
+ce4c0	ce534	e5843010	str	r3, [r4, #0x10]
+ce4c0	ce538	e1a00004	mov	r0, r4
+ce4c0	ce53c	eb06bb23	bl	0x27d1d0 <_ZdlPv>
+ce4c0	ce540	e1a00004	mov	r0, r4
+ce4c0	ce544	e8bd8010	pop	{r4, pc}
+ce4c0	ce548	0031f658	eorseq	pc, r1, r8, asr r6
+ec4a4	ec4a4	e92d4010	push	{r4, lr}
+ec4a4	ec4a8	e1a04000	mov	r4, r0
+ec4a4	ec4ac	e5900014	ldr	r0, [r0, #0x14]
+ec4a4	ec4b0	e59f306c	ldr	r3, [pc, #0x6c]
+ec4a4	ec4b4	e3500000	cmp	r0, #0
+ec4a4	ec4b8	e79f3003	ldr	r3, [pc, r3]
+ec4a4	ec4bc	e2833008	add	r3, r3, #8
+ec4a4	ec4c0	e5843000	str	r3, [r4]
+ec4a4	ec4c4	0a000002	beq	0xec4d4 <_ZN13VMWriteBufferD2Ev+0x30>
+ec4a4	ec4c8	eb063f80	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+ec4a4	ec4cc	e3a03000	mov	r3, #0
+ec4a4	ec4d0	e5843014	str	r3, [r4, #0x14]
+ec4a4	ec4d4	e5940018	ldr	r0, [r4, #0x18]
+ec4a4	ec4d8	e3500000	cmp	r0, #0
+ec4a4	ec4dc	0a000002	beq	0xec4ec <_ZN13VMWriteBufferD2Ev+0x48>
+ec4a4	ec4e0	eb063f7a	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+ec4a4	ec4e4	e3a03000	mov	r3, #0
+ec4a4	ec4e8	e5843018	str	r3, [r4, #0x18]
+ec4a4	ec4ec	e5940010	ldr	r0, [r4, #0x10]
+ec4a4	ec4f0	e3500000	cmp	r0, #0
+ec4a4	ec4f4	0a000008	beq	0xec51c <_ZN13VMWriteBufferD2Ev+0x78>
+ec4a4	ec4f8	eb02fa14	bl	0x1aad50 <_Z11MemoryInWadPv>
+ec4a4	ec4fc	e3500000	cmp	r0, #0
+ec4a4	ec500	1a000005	bne	0xec51c <_ZN13VMWriteBufferD2Ev+0x78>
+ec4a4	ec504	e5940010	ldr	r0, [r4, #0x10]
+ec4a4	ec508	e3500000	cmp	r0, #0
+ec4a4	ec50c	0a000000	beq	0xec514 <_ZN13VMWriteBufferD2Ev+0x70>
+ec4a4	ec510	eb06432f	bl	0x27d1d4 <_ZdaPv>
+ec4a4	ec514	e3a03000	mov	r3, #0
+ec4a4	ec518	e5843010	str	r3, [r4, #0x10]
+ec4a4	ec51c	e1a00004	mov	r0, r4
+ec4a4	ec520	e8bd8010	pop	{r4, pc}
+ec4a4	ec524	00301674	eorseq	r1, r0, r4, ror r6
+ec528	ec528	e92d4010	push	{r4, lr}
+ec528	ec52c	e1a04000	mov	r4, r0
+ec528	ec530	e5900014	ldr	r0, [r0, #0x14]
+ec528	ec534	e59f3074	ldr	r3, [pc, #0x74]
+ec528	ec538	e3500000	cmp	r0, #0
+ec528	ec53c	e79f3003	ldr	r3, [pc, r3]
+ec528	ec540	e2833008	add	r3, r3, #8
+ec528	ec544	e5843000	str	r3, [r4]
+ec528	ec548	0a000002	beq	0xec558 <_ZN13VMWriteBufferD0Ev+0x30>
+ec528	ec54c	eb063f5f	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+ec528	ec550	e3a03000	mov	r3, #0
+ec528	ec554	e5843014	str	r3, [r4, #0x14]
+ec528	ec558	e5940018	ldr	r0, [r4, #0x18]
+ec528	ec55c	e3500000	cmp	r0, #0
+ec528	ec560	0a000002	beq	0xec570 <_ZN13VMWriteBufferD0Ev+0x48>
+ec528	ec564	eb063f59	bl	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+ec528	ec568	e3a03000	mov	r3, #0
+ec528	ec56c	e5843018	str	r3, [r4, #0x18]
+ec528	ec570	e5940010	ldr	r0, [r4, #0x10]
+ec528	ec574	e3500000	cmp	r0, #0
+ec528	ec578	0a000008	beq	0xec5a0 <_ZN13VMWriteBufferD0Ev+0x78>
+ec528	ec57c	eb02f9f3	bl	0x1aad50 <_Z11MemoryInWadPv>
+ec528	ec580	e3500000	cmp	r0, #0
+ec528	ec584	1a000005	bne	0xec5a0 <_ZN13VMWriteBufferD0Ev+0x78>
+ec528	ec588	e5940010	ldr	r0, [r4, #0x10]
+ec528	ec58c	e3500000	cmp	r0, #0
+ec528	ec590	0a000000	beq	0xec598 <_ZN13VMWriteBufferD0Ev+0x70>
+ec528	ec594	eb06430e	bl	0x27d1d4 <_ZdaPv>
+ec528	ec598	e3a03000	mov	r3, #0
+ec528	ec59c	e5843010	str	r3, [r4, #0x10]
+ec528	ec5a0	e1a00004	mov	r0, r4
+ec528	ec5a4	eb064309	bl	0x27d1d0 <_ZdlPv>
+ec528	ec5a8	e1a00004	mov	r0, r4
+ec528	ec5ac	e8bd8010	pop	{r4, pc}
+ec528	ec5b0	003015f0	ldrshteq	r1, [r0], -r0
+ec5b4	ec5b4	e92d4038	push	{r3, r4, r5, lr}
+ec5b4	ec5b8	e1a04000	mov	r4, r0
+ec5b4	ec5bc	e59f303c	ldr	r3, [pc, #0x3c]
+ec5b4	ec5c0	e3a02000	mov	r2, #0
+ec5b4	ec5c4	e5802010	str	r2, [r0, #0x10]
+ec5b4	ec5c8	e1a05001	mov	r5, r1
+ec5b4	ec5cc	e79f3003	ldr	r3, [pc, r3]
+ec5b4	ec5d0	e5802014	str	r2, [r0, #0x14]
+ec5b4	ec5d4	e2833008	add	r3, r3, #8
+ec5b4	ec5d8	e5803000	str	r3, [r0]
+ec5b4	ec5dc	e1a00001	mov	r0, r1
+ec5b4	ec5e0	e5842018	str	r2, [r4, #0x18]
+ec5b4	ec5e4	eb0642d8	bl	0x27d14c <_Znaj>
+ec5b4	ec5e8	e5845004	str	r5, [r4, #0x4]
+ec5b4	ec5ec	e1a03000	mov	r3, r0
+ec5b4	ec5f0	e1a00004	mov	r0, r4
+ec5b4	ec5f4	e5843010	str	r3, [r4, #0x10]
+ec5b4	ec5f8	e584301c	str	r3, [r4, #0x1c]
+ec5b4	ec5fc	e8bd8038	pop	{r3, r4, r5, pc}
+ec5b4	ec600	003017a4	eorseq	r1, r0, r4, lsr #15
+ec604	ec604	e92d4070	push	{r4, r5, r6, lr}
+ec604	ec608	e1a04000	mov	r4, r0
+ec604	ec60c	e594201c	ldr	r2, [r4, #0x1c]
+ec604	ec610	e1a06001	mov	r6, r1
+ec604	ec614	e5900010	ldr	r0, [r0, #0x10]
+ec604	ec618	e5943004	ldr	r3, [r4, #0x4]
+ec604	ec61c	e0621000	rsb	r1, r2, r0
+ec604	ec620	e0831001	add	r1, r3, r1
+ec604	ec624	e1560001	cmp	r6, r1
+ec604	ec628	d8bd8070	pople	{r4, r5, r6, pc}
+ec604	ec62c	e0605002	rsb	r5, r0, r2
+ec604	ec630	e1a00083	lsl	r0, r3, #1
+ec604	ec634	eb0642c4	bl	0x27d14c <_Znaj>
+ec604	ec638	e5941010	ldr	r1, [r4, #0x10]
+ec604	ec63c	e1a02005	mov	r2, r5
+ec604	ec640	ebff27dd	bl	0xb65bc <memcpy@plt>
+ec604	ec644	e5943004	ldr	r3, [r4, #0x4]
+ec604	ec648	e1a03083	lsl	r3, r3, #1
+ec604	ec64c	e5843004	str	r3, [r4, #0x4]
+ec604	ec650	e0802005	add	r2, r0, r5
+ec604	ec654	e1a0c000	mov	r12, r0
+ec604	ec658	e0621000	rsb	r1, r2, r0
+ec604	ec65c	e584201c	str	r2, [r4, #0x1c]
+ec604	ec660	e0831001	add	r1, r3, r1
+ec604	ec664	e584c010	str	r12, [r4, #0x10]
+ec604	ec668	e1560001	cmp	r6, r1
+ec604	ec66c	caffffee	bgt	0xec62c <_ZN13VMWriteBuffer7ReserveEi+0x28>
+ec604	ec670	e8bd8070	pop	{r4, r5, r6, pc}
+ec674	ec674	e92d000e	push	{r1, r2, r3}
+ec674	ec678	e92d4030	push	{r4, r5, lr}
+ec674	ec67c	e24dd008	sub	sp, sp, #8
+ec674	ec680	e1a05000	mov	r5, r0
+ec674	ec684	e59d4014	ldr	r4, [sp, #0x14]
+ec674	ec688	e1a01104	lsl	r1, r4, #2
+ec674	ec68c	ebffffdc	bl	0xec604 <_ZN13VMWriteBuffer7ReserveEi>
+ec674	ec690	e3540000	cmp	r4, #0
+ec674	ec694	e28d3018	add	r3, sp, #24
+ec674	ec698	e58d3004	str	r3, [sp, #0x4]
+ec674	ec69c	da00000a	ble	0xec6cc <_ZN13VMWriteBuffer3AddEiz+0x58>
+ec674	ec6a0	e595001c	ldr	r0, [r5, #0x1c]
+ec674	ec6a4	e28d1014	add	r1, sp, #20
+ec674	ec6a8	e3a03000	mov	r3, #0
+ec674	ec6ac	e1a02000	mov	r2, r0
+ec674	ec6b0	e2833001	add	r3, r3, #1
+ec674	ec6b4	e5b1c004	ldr	r12, [r1, #0x4]!
+ec674	ec6b8	e1530004	cmp	r3, r4
+ec674	ec6bc	e482c004	str	r12, [r2], #4
+ec674	ec6c0	1afffffa	bne	0xec6b0 <_ZN13VMWriteBuffer3AddEiz+0x3c>
+ec674	ec6c4	e0803103	add	r3, r0, r3, lsl #2
+ec674	ec6c8	e585301c	str	r3, [r5, #0x1c]
+ec674	ec6cc	e28dd008	add	sp, sp, #8
+ec674	ec6d0	e8bd4030	pop	{r4, r5, lr}
+ec674	ec6d4	e28dd00c	add	sp, sp, #12
+ec674	ec6d8	e12fff1e	bx	lr
+ec6dc	ec6dc	e52de004	str	lr, [sp, #-0x4]!
+ec6dc	ec6e0	e24dd00c	sub	sp, sp, #12
+ec6dc	ec6e4	e3a01002	mov	r1, #2
+ec6dc	ec6e8	e1cd20f0	strd	r2, r3, [sp]
+ec6dc	ec6ec	e89d000c	ldm	sp, {r2, r3}
+ec6dc	ec6f0	ebffffdf	bl	0xec674 <_ZN13VMWriteBuffer3AddEiz>
+ec6dc	ec6f4	e28dd00c	add	sp, sp, #12
+ec6dc	ec6f8	e49df004	ldr	pc, [sp], #4
+ec6fc	ec6fc	ee061a90	vmov	s13, r1
+ec6fc	ec700	e3a01001	mov	r1, #1
+ec6fc	ec704	eeb77ae6	vcvt.f64.f32	d7, s13
+ec6fc	ec708	ec532b17	vmov	r2, r3, d7
+ec6fc	ec70c	eaffffd8	b	0xec674 <_ZN13VMWriteBuffer3AddEiz>
+ec710	ec710	e1a02001	mov	r2, r1
+ec710	ec714	e3a01001	mov	r1, #1
+ec710	ec718	eaffffd5	b	0xec674 <_ZN13VMWriteBuffer3AddEiz>
+ec71c	ec71c	e52de004	str	lr, [sp, #-0x4]!
+ec71c	ec720	e24dd00c	sub	sp, sp, #12
+ec71c	ec724	e3a01002	mov	r1, #2
+ec71c	ec728	e1cd20f0	strd	r2, r3, [sp]
+ec71c	ec72c	e59d3004	ldr	r3, [sp, #0x4]
+ec71c	ec730	ebffffcf	bl	0xec674 <_ZN13VMWriteBuffer3AddEiz>
+ec71c	ec734	e28dd00c	add	sp, sp, #12
+ec71c	ec738	e49df004	ldr	pc, [sp], #4
+ec73c	ec73c	e1a02001	mov	r2, r1
+ec73c	ec740	e3a01001	mov	r1, #1
+ec73c	ec744	eaffffca	b	0xec674 <_ZN13VMWriteBuffer3AddEiz>
+ec748	ec748	e2800001	add	r0, r0, #1
+ec748	ec74c	e12fff1e	bx	lr
+ec750	ec750	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ec750	ec754	e1a04000	mov	r4, r0
+ec750	ec758	e5907014	ldr	r7, [r0, #0x14]
+ec750	ec75c	e24dd014	sub	sp, sp, #20
+ec750	ec760	e59f53a4	ldr	r5, [pc, #0x3a4]
+ec750	ec764	e3570000	cmp	r7, #0
+ec750	ec768	e08f5005	add	r5, pc, r5
+ec750	ec76c	0a000001	beq	0xec778 <_ZN8VMBuffer13convertBufferEv+0x28>
+ec750	ec770	e28dd014	add	sp, sp, #20
+ec750	ec774	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+ec750	ec778	e5900010	ldr	r0, [r0, #0x10]
+ec750	ec77c	ebfffff1	bl	0xec748 <_Z21CHashMapCalculateHashIPhEjT_>
+ec750	ec780	e59f2388	ldr	r2, [pc, #0x388]
+ec750	ec784	e08f2002	add	r2, pc, r2
+ec750	ec788	e5921008	ldr	r1, [r2, #0x8]
+ec750	ec78c	e5929010	ldr	r9, [r2, #0x10]
+ec750	ec790	e3c00102	bic	r0, r0, #-2147483648
+ec750	ec794	e0003001	and	r3, r0, r1
+ec750	ec798	e1a06083	lsl	r6, r3, #1
+ec750	ec79c	e086c003	add	r12, r6, r3
+ec750	ec7a0	e089c10c	add	r12, r9, r12, lsl #2
+ec750	ec7a4	e59cc008	ldr	r12, [r12, #0x8]
+ec750	ec7a8	e35c0000	cmp	r12, #0
+ec750	ec7ac	0a00001a	beq	0xec81c <_ZN8VMBuffer13convertBufferEv+0xcc>
+ec750	ec7b0	e150000c	cmp	r0, r12
+ec750	ec7b4	0a00007e	beq	0xec9b4 <_ZN8VMBuffer13convertBufferEv+0x264>
+ec750	ec7b8	e592a000	ldr	r10, [r2]
+ec750	ec7bc	e001c00c	and	r12, r1, r12
+ec750	ec7c0	e083200a	add	r2, r3, r10
+ec750	ec7c4	e06cc002	rsb	r12, r12, r2
+ec750	ec7c8	e11c0001	tst	r12, r1
+ec750	ec7cc	4a000012	bmi	0xec81c <_ZN8VMBuffer13convertBufferEv+0xcc>
+ec750	ec7d0	e1a0c007	mov	r12, r7
+ec750	ec7d4	ea000003	b	0xec7e8 <_ZN8VMBuffer13convertBufferEv+0x98>
+ec750	ec7d8	e1500002	cmp	r0, r2
+ec750	ec7dc	0a000072	beq	0xec9ac <_ZN8VMBuffer13convertBufferEv+0x25c>
+ec750	ec7e0	e157000c	cmp	r7, r12
+ec750	ec7e4	ba00000c	blt	0xec81c <_ZN8VMBuffer13convertBufferEv+0xcc>
+ec750	ec7e8	e2833001	add	r3, r3, #1
+ec750	ec7ec	e28cc001	add	r12, r12, #1
+ec750	ec7f0	e0033001	and	r3, r3, r1
+ec750	ec7f4	e083800a	add	r8, r3, r10
+ec750	ec7f8	e1a06083	lsl	r6, r3, #1
+ec750	ec7fc	e0862003	add	r2, r6, r3
+ec750	ec800	e0892102	add	r2, r9, r2, lsl #2
+ec750	ec804	e5922008	ldr	r2, [r2, #0x8]
+ec750	ec808	e0017002	and	r7, r1, r2
+ec750	ec80c	e3520000	cmp	r2, #0
+ec750	ec810	e0677008	rsb	r7, r7, r8
+ec750	ec814	e0077001	and	r7, r7, r1
+ec750	ec818	1affffee	bne	0xec7d8 <_ZN8VMBuffer13convertBufferEv+0x88>
+ec750	ec81c	e5947004	ldr	r7, [r4, #0x4]
+ec750	ec820	e3570000	cmp	r7, #0
+ec750	ec824	da0000a5	ble	0xecac0 <_ZN8VMBuffer13convertBufferEv+0x370>
+ec750	ec828	e3a00000	mov	r0, #0
+ec750	ec82c	e5946010	ldr	r6, [r4, #0x10]
+ec750	ec830	e1a03000	mov	r3, r0
+ec750	ec834	ea000000	b	0xec83c <_ZN8VMBuffer13convertBufferEv+0xec>
+ec750	ec838	e1a00002	mov	r0, r2
+ec750	ec83c	e7962003	ldr	r2, [r6, r3]
+ec750	ec840	e3a01004	mov	r1, #4
+ec750	ec844	e59fe2c8	ldr	lr, [pc, #0x2c8]
+ec750	ec848	e3120101	tst	r2, #1073741824
+ec750	ec84c	e7e3c852	ubfx	r12, r2, #0x10, #0x4
+ec750	ec850	1795200e	ldrne	r2, [r5, lr]
+ec750	ec854	1792110c	ldrne	r1, [r2, r12, lsl #2]
+ec750	ec858	e2802001	add	r2, r0, #1
+ec750	ec85c	12811004	addne	r1, r1, #4
+ec750	ec860	e0833001	add	r3, r3, r1
+ec750	ec864	e1570003	cmp	r7, r3
+ec750	ec868	cafffff2	bgt	0xec838 <_ZN8VMBuffer13convertBufferEv+0xe8>
+ec750	ec86c	e59f62a4	ldr	r6, [pc, #0x2a4]
+ec750	ec870	e2800002	add	r0, r0, #2
+ec750	ec874	e3a0207e	mov	r2, #126
+ec750	ec878	e3a03001	mov	r3, #1
+ec750	ec87c	e08f6006	add	r6, pc, r6
+ec750	ec880	e1a00100	lsl	r0, r0, #2
+ec750	ec884	e308869f	movw	r8, #0x869f
+ec750	ec888	e3408001	movt	r8, #0x1
+ec750	ec88c	e1a01006	mov	r1, r6
+ec750	ec890	eb064178	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+ec750	ec894	e3570000	cmp	r7, #0
+ec750	ec898	e287c003	add	r12, r7, #3
+ec750	ec89c	e1a01006	mov	r1, r6
+ec750	ec8a0	a1a0c007	movge	r12, r7
+ec750	ec8a4	e3ccc003	bic	r12, r12, #3
+ec750	ec8a8	e3a0207f	mov	r2, #127
+ec750	ec8ac	e3a03001	mov	r3, #1
+ec750	ec8b0	e5840014	str	r0, [r4, #0x14]
+ec750	ec8b4	e28c0004	add	r0, r12, #4
+ec750	ec8b8	eb06416e	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+ec750	ec8bc	e3a0c000	mov	r12, #0
+ec750	ec8c0	e3a01d6a	mov	r1, #6784
+ec750	ec8c4	e30a211f	movw	r2, #0xa11f
+ec750	ec8c8	e3401006	movt	r1, #0x6
+ec750	ec8cc	e3402007	movt	r2, #0x7
+ec750	ec8d0	e1a0600c	mov	r6, r12
+ec750	ec8d4	e1a0300c	mov	r3, r12
+ec750	ec8d8	e58d1004	str	r1, [sp, #0x4]
+ec750	ec8dc	e58d2008	str	r2, [sp, #0x8]
+ec750	ec8e0	e58d800c	str	r8, [sp, #0xc]
+ec750	ec8e4	e5840018	str	r0, [r4, #0x18]
+ec750	ec8e8	ea00000e	b	0xec928 <_ZN8VMBuffer13convertBufferEv+0x1d8>
+ec750	ec8ec	e3510019	cmp	r1, #25
+ec750	ec8f0	0a000044	beq	0xeca08 <_ZN8VMBuffer13convertBufferEv+0x2b8>
+ec750	ec8f4	e3510005	cmp	r1, #5
+ec750	ec8f8	0a000034	beq	0xec9d0 <_ZN8VMBuffer13convertBufferEv+0x280>
+ec750	ec8fc	e59f0218	ldr	r0, [pc, #0x218]
+ec750	ec900	e5942014	ldr	r2, [r4, #0x14]
+ec750	ec904	e7950000	ldr	r0, [r5, r0]
+ec750	ec908	e7901101	ldr	r1, [r0, r1, lsl #2]
+ec750	ec90c	e782100c	str	r1, [r2, r12]
+ec750	ec910	e0833009	add	r3, r3, r9
+ec750	ec914	e2866001	add	r6, r6, #1
+ec750	ec918	e1570003	cmp	r7, r3
+ec750	ec91c	e28cc004	add	r12, r12, #4
+ec750	ec920	daffff92	ble	0xec770 <_ZN8VMBuffer13convertBufferEv+0x20>
+ec750	ec924	e5940018	ldr	r0, [r4, #0x18]
+ec750	ec928	e5942010	ldr	r2, [r4, #0x10]
+ec750	ec92c	e082a003	add	r10, r2, r3
+ec750	ec930	e7922003	ldr	r2, [r2, r3]
+ec750	ec934	e212b101	ands	r11, r2, #1073741824
+ec750	ec938	03a09004	moveq	r9, #4
+ec750	ec93c	0a000004	beq	0xec954 <_ZN8VMBuffer13convertBufferEv+0x204>
+ec750	ec940	e59f11cc	ldr	r1, [pc, #0x1cc]
+ec750	ec944	e7e38852	ubfx	r8, r2, #0x10, #0x4
+ec750	ec948	e7951001	ldr	r1, [r5, r1]
+ec750	ec94c	e7919108	ldr	r9, [r1, r8, lsl #2]
+ec750	ec950	e2899004	add	r9, r9, #4
+ec750	ec954	e3530000	cmp	r3, #0
+ec750	ec958	e2838003	add	r8, r3, #3
+ec750	ec95c	e7e41c52	ubfx	r1, r2, #0x18, #0x5
+ec750	ec960	a1a08003	movge	r8, r3
+ec750	ec964	e3510007	cmp	r1, #7
+ec750	ec968	e1a08148	asr	r8, r8, #2
+ec750	ec96c	e7806108	str	r6, [r0, r8, lsl #2]
+ec750	ec970	1affffdd	bne	0xec8ec <_ZN8VMBuffer13convertBufferEv+0x19c>
+ec750	ec974	e3120c0f	tst	r2, #3840
+ec750	ec978	e7e72852	ubfx	r2, r2, #0x10, #0x8
+ec750	ec97c	13a01000	movne	r1, #0
+ec750	ec980	03a01001	moveq	r1, #1
+ec750	ec984	e3520052	cmp	r2, #82
+ec750	ec988	13a02000	movne	r2, #0
+ec750	ec98c	02012001	andeq	r2, r1, #1
+ec750	ec990	e3520000	cmp	r2, #0
+ec750	ec994	0a00002e	beq	0xeca54 <_ZN8VMBuffer13convertBufferEv+0x304>
+ec750	ec998	e59f1180	ldr	r1, [pc, #0x180]
+ec750	ec99c	e5942014	ldr	r2, [r4, #0x14]
+ec750	ec9a0	e7951001	ldr	r1, [r5, r1]
+ec750	ec9a4	e782100c	str	r1, [r2, r12]
+ec750	ec9a8	eaffffd8	b	0xec910 <_ZN8VMBuffer13convertBufferEv+0x1c0>
+ec750	ec9ac	e3730001	cmn	r3, #1
+ec750	ec9b0	0affff99	beq	0xec81c <_ZN8VMBuffer13convertBufferEv+0xcc>
+ec750	ec9b4	e0863003	add	r3, r6, r3
+ec750	ec9b8	e0899103	add	r9, r9, r3, lsl #2
+ec750	ec9bc	e3790004	cmn	r9, #4
+ec750	ec9c0	0affff95	beq	0xec81c <_ZN8VMBuffer13convertBufferEv+0xcc>
+ec750	ec9c4	e5993004	ldr	r3, [r9, #0x4]
+ec750	ec9c8	e5843014	str	r3, [r4, #0x14]
+ec750	ec9cc	eaffff67	b	0xec770 <_ZN8VMBuffer13convertBufferEv+0x20>
+ec750	ec9d0	e7e30852	ubfx	r0, r2, #0x10, #0x4
+ec750	ec9d4	e7e31a52	ubfx	r1, r2, #0x14, #0x4
+ec750	ec9d8	e3500005	cmp	r0, #5
+ec750	ec9dc	03510005	cmpeq	r1, #5
+ec750	ec9e0	1a000002	bne	0xec9f0 <_ZN8VMBuffer13convertBufferEv+0x2a0>
+ec750	ec9e4	e6bf2072	sxth	r2, r2
+ec750	ec9e8	e3720007	cmn	r2, #7
+ec750	ec9ec	0a00001e	beq	0xeca6c <_ZN8VMBuffer13convertBufferEv+0x31c>
+ec750	ec9f0	e59f1124	ldr	r1, [pc, #0x124]
+ec750	ec9f4	e5942014	ldr	r2, [r4, #0x14]
+ec750	ec9f8	e7951001	ldr	r1, [r5, r1]
+ec750	ec9fc	e5911014	ldr	r1, [r1, #0x14]
+ec750	eca00	e782100c	str	r1, [r2, r12]
+ec750	eca04	eaffffc1	b	0xec910 <_ZN8VMBuffer13convertBufferEv+0x1c0>
+ec750	eca08	e7e32852	ubfx	r2, r2, #0x10, #0x4
+ec750	eca0c	e3520002	cmp	r2, #2
+ec750	eca10	1affffb9	bne	0xec8fc <_ZN8VMBuffer13convertBufferEv+0x1ac>
+ec750	eca14	e59a2004	ldr	r2, [r10, #0x4]
+ec750	eca18	e99d0101	ldmib	sp, {r0, r8}
+ec750	eca1c	e2421b61	sub	r1, r2, #99328
+ec750	eca20	e2411e2a	sub	r1, r1, #672
+ec750	eca24	e1510000	cmp	r1, r0
+ec750	eca28	83a01000	movhi	r1, #0
+ec750	eca2c	93a01001	movls	r1, #1
+ec750	eca30	e1520008	cmp	r2, r8
+ec750	eca34	03a01000	moveq	r1, #0
+ec750	eca38	e3510000	cmp	r1, #0
+ec750	eca3c	0a000011	beq	0xeca88 <_ZN8VMBuffer13convertBufferEv+0x338>
+ec750	eca40	e59f10dc	ldr	r1, [pc, #0xdc]
+ec750	eca44	e5942014	ldr	r2, [r4, #0x14]
+ec750	eca48	e7951001	ldr	r1, [r5, r1]
+ec750	eca4c	e782100c	str	r1, [r2, r12]
+ec750	eca50	eaffffae	b	0xec910 <_ZN8VMBuffer13convertBufferEv+0x1c0>
+ec750	eca54	e59f10c0	ldr	r1, [pc, #0xc0]
+ec750	eca58	e5942014	ldr	r2, [r4, #0x14]
+ec750	eca5c	e7951001	ldr	r1, [r5, r1]
+ec750	eca60	e591101c	ldr	r1, [r1, #0x1c]
+ec750	eca64	e782100c	str	r1, [r2, r12]
+ec750	eca68	eaffffa8	b	0xec910 <_ZN8VMBuffer13convertBufferEv+0x1c0>
+ec750	eca6c	e35b0000	cmp	r11, #0
+ec750	eca70	0affffde	beq	0xec9f0 <_ZN8VMBuffer13convertBufferEv+0x2a0>
+ec750	eca74	e59f10ac	ldr	r1, [pc, #0xac]
+ec750	eca78	e5942014	ldr	r2, [r4, #0x14]
+ec750	eca7c	e7951001	ldr	r1, [r5, r1]
+ec750	eca80	e782100c	str	r1, [r2, r12]
+ec750	eca84	eaffffa1	b	0xec910 <_ZN8VMBuffer13convertBufferEv+0x1c0>
+ec750	eca88	e59d000c	ldr	r0, [sp, #0xc]
+ec750	eca8c	e1520000	cmp	r2, r0
+ec750	eca90	ca000004	bgt	0xecaa8 <_ZN8VMBuffer13convertBufferEv+0x358>
+ec750	eca94	e59f1090	ldr	r1, [pc, #0x90]
+ec750	eca98	e5942014	ldr	r2, [r4, #0x14]
+ec750	eca9c	e7951001	ldr	r1, [r5, r1]
+ec750	ecaa0	e782100c	str	r1, [r2, r12]
+ec750	ecaa4	eaffff99	b	0xec910 <_ZN8VMBuffer13convertBufferEv+0x1c0>
+ec750	ecaa8	e59f106c	ldr	r1, [pc, #0x6c]
+ec750	ecaac	e5942014	ldr	r2, [r4, #0x14]
+ec750	ecab0	e7951001	ldr	r1, [r5, r1]
+ec750	ecab4	e5911064	ldr	r1, [r1, #0x64]
+ec750	ecab8	e782100c	str	r1, [r2, r12]
+ec750	ecabc	eaffff93	b	0xec910 <_ZN8VMBuffer13convertBufferEv+0x1c0>
+ec750	ecac0	e59f5068	ldr	r5, [pc, #0x68]
+ec750	ecac4	e3a0207e	mov	r2, #126
+ec750	ecac8	e3a03001	mov	r3, #1
+ec750	ecacc	e3a00004	mov	r0, #4
+ec750	ecad0	e08f5005	add	r5, pc, r5
+ec750	ecad4	e1a01005	mov	r1, r5
+ec750	ecad8	eb0640e6	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+ec750	ecadc	e2873003	add	r3, r7, #3
+ec750	ecae0	e3570000	cmp	r7, #0
+ec750	ecae4	e1a01005	mov	r1, r5
+ec750	ecae8	e3a0207f	mov	r2, #127
+ec750	ecaec	b1a07003	movlt	r7, r3
+ec750	ecaf0	e3c7c003	bic	r12, r7, #3
+ec750	ecaf4	e3a03001	mov	r3, #1
+ec750	ecaf8	e5840014	str	r0, [r4, #0x14]
+ec750	ecafc	e28c0004	add	r0, r12, #4
+ec750	ecb00	eb0640dc	bl	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+ec750	ecb04	e5840018	str	r0, [r4, #0x18]
+ec750	ecb08	eaffff18	b	0xec770 <_ZN8VMBuffer13convertBufferEv+0x20>
+ec750	ecb0c	003054e8	eorseq	r5, r0, r8, ror #9
+ec750	ecb10	00392c14	eorseq	r2, r9, r4, lsl r12
+ec750	ecb14	ffffc09c	.word	0xffffc09c
+ec750	ecb18	002482d4	.word	0x002482d4
+ec750	ecb1c	ffffc0a0	.word	0xffffc0a0
+ec750	ecb20	ffffc124	.word	0xffffc124
+ec750	ecb24	ffffc128	.word	0xffffc128
+ec750	ecb28	ffffc12c	.word	0xffffc12c
+ec750	ecb2c	ffffc130	.word	0xffffc130
+ec750	ecb30	00248080	eoreq	r8, r4, r0, lsl #1
+1aad50	1aad50	e59f104c	ldr	r1, [pc, #0x4c]
+1aad50	1aad54	e1a02000	mov	r2, r0
+1aad50	1aad58	e59fc048	ldr	r12, [pc, #0x48]
+1aad50	1aad5c	e1a03fc0	asr	r3, r0, #31
+1aad50	1aad60	e79f1001	ldr	r1, [pc, r1]
+1aad50	1aad64	e79fc00c	ldr	r12, [pc, r12]
+1aad50	1aad68	e5910000	ldr	r0, [r1]
+1aad50	1aad6c	e92d0030	push	{r4, r5}
+1aad50	1aad70	e59c4000	ldr	r4, [r12]
+1aad50	1aad74	e1a01fc0	asr	r1, r0, #31
+1aad50	1aad78	e1530001	cmp	r3, r1
+1aad50	1aad7c	01520000	cmpeq	r2, r0
+1aad50	1aad80	e1a05fc4	asr	r5, r4, #31
+1aad50	1aad84	83a00000	movhi	r0, #0
+1aad50	1aad88	93a00001	movls	r0, #1
+1aad50	1aad8c	e1530005	cmp	r3, r5
+1aad50	1aad90	01520004	cmpeq	r2, r4
+1aad50	1aad94	e8bd0030	pop	{r4, r5}
+1aad50	1aad98	33a00000	movlo	r0, #0
+1aad50	1aad9c	22000001	andhs	r0, r0, #1
+1aad50	1aada0	e12fff1e	bx	lr
+1aad50	1aada4	00245aa8	eoreq	r5, r4, r8, lsr #21
+1aad50	1aada8	00242be0	eoreq	r2, r4, r0, ror #23

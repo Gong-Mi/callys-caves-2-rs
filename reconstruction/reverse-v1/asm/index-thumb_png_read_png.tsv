@@ -1,0 +1,125 @@
+2a7ec0	b5f8	push	{r3, r4, r5, r6, r7, lr}
+2a7ec2	460d	mov	r5, r1
+2a7ec4	4616	mov	r6, r2
+2a7ec6	4604	mov	r4, r0
+2a7ec8	2800	cmp	r0, #0x0
+2a7eca	f0008098	beq.w	0x2a7ffe <png_read_png+0x13e>
+2a7ece	f7fff88f	bl	0x2a6ff0 <png_read_info>
+2a7ed2	686b	ldr	r3, [r5, #0x4]
+2a7ed4	f1b34f80	cmp.w	r3, #0x40000000
+2a7ed8	d304	blo	0x2a7ee4 <png_read_png+0x24>
+2a7eda	4949	ldr	r1, [pc, #0x124]
+2a7edc	4620	mov	r0, r4
+2a7ede	4479	add	r1, pc
+2a7ee0	f7fefaa4	bl	0x2a642c <png_error>
+2a7ee4	07f1	lsls	r1, r6, #0x1f
+2a7ee6	d502	bpl	0x2a7eee <png_read_png+0x2e>
+2a7ee8	4620	mov	r0, r4
+2a7eea	f000f94b	bl	0x2a8184 <png_set_strip_16>
+2a7eee	07b2	lsls	r2, r6, #0x1e
+2a7ef0	d502	bpl	0x2a7ef8 <png_read_png+0x38>
+2a7ef2	4620	mov	r0, r4
+2a7ef4	f000f94e	bl	0x2a8194 <png_set_strip_alpha>
+2a7ef8	0733	lsls	r3, r6, #0x1c
+2a7efa	d502	bpl	0x2a7f02 <png_read_png+0x42>
+2a7efc	4620	mov	r0, r4
+2a7efe	f007fc3e	bl	0x2af77e <png_set_packswap>
+2a7f02	06f7	lsls	r7, r6, #0x1b
+2a7f04	d50d	bpl	0x2a7f22 <png_read_png+0x62>
+2a7f06	f89431eb	ldrb.w	r3, [r4, #0x1eb]
+2a7f0a	2b07	cmp	r3, #0x7
+2a7f0c	d906	bls	0x2a7f1c <png_read_png+0x5c>
+2a7f0e	f89431ea	ldrb.w	r3, [r4, #0x1ea]
+2a7f12	2b03	cmp	r3, #0x3
+2a7f14	d002	beq	0x2a7f1c <png_read_png+0x5c>
+2a7f16	68ab	ldr	r3, [r5, #0x8]
+2a7f18	06d8	lsls	r0, r3, #0x1b
+2a7f1a	d502	bpl	0x2a7f22 <png_read_png+0x62>
+2a7f1c	4620	mov	r0, r4
+2a7f1e	f000fc37	bl	0x2a8790 <png_set_expand>
+2a7f22	06b1	lsls	r1, r6, #0x1a
+2a7f24	d502	bpl	0x2a7f2c <png_read_png+0x6c>
+2a7f26	4620	mov	r0, r4
+2a7f28	f007fc8f	bl	0x2af84a <png_set_invert_mono>
+2a7f2c	0672	lsls	r2, r6, #0x19
+2a7f2e	d507	bpl	0x2a7f40 <png_read_png+0x80>
+2a7f30	68ab	ldr	r3, [r5, #0x8]
+2a7f32	079b	lsls	r3, r3, #0x1e
+2a7f34	d504	bpl	0x2a7f40 <png_read_png+0x80>
+2a7f36	4620	mov	r0, r4
+2a7f38	f1050144	add.w	r1, r5, #0x44
+2a7f3c	f007fc2b	bl	0x2af796 <png_set_shift>
+2a7f40	0637	lsls	r7, r6, #0x18
+2a7f42	d502	bpl	0x2a7f4a <png_read_png+0x8a>
+2a7f44	4620	mov	r0, r4
+2a7f46	f007fbf7	bl	0x2af738 <png_set_bgr>
+2a7f4a	05f0	lsls	r0, r6, #0x17
+2a7f4c	d502	bpl	0x2a7f54 <png_read_png+0x94>
+2a7f4e	4620	mov	r0, r4
+2a7f50	f007fc6b	bl	0x2af82a <png_set_swap_alpha>
+2a7f54	05b1	lsls	r1, r6, #0x16
+2a7f56	d502	bpl	0x2a7f5e <png_read_png+0x9e>
+2a7f58	4620	mov	r0, r4
+2a7f5a	f007fbf5	bl	0x2af748 <png_set_swap>
+2a7f5e	0572	lsls	r2, r6, #0x15
+2a7f60	d502	bpl	0x2a7f68 <png_read_png+0xa8>
+2a7f62	4620	mov	r0, r4
+2a7f64	f007fc69	bl	0x2af83a <png_set_invert_alpha>
+2a7f68	04b3	lsls	r3, r6, #0x12
+2a7f6a	d502	bpl	0x2a7f72 <png_read_png+0xb2>
+2a7f6c	4620	mov	r0, r4
+2a7f6e	f000fc4c	bl	0x2a880a <png_set_gray_to_rgb>
+2a7f72	4620	mov	r0, r4
+2a7f74	4629	mov	r1, r5
+2a7f76	f7fffa67	bl	0x2a7448 <png_read_update_info>
+2a7f7a	4620	mov	r0, r4
+2a7f7c	4629	mov	r1, r5
+2a7f7e	2240	movs	r2, #0x40
+2a7f80	2300	movs	r3, #0x0
+2a7f82	f7fdfe1d	bl	0x2a5bc0 <png_free_data>
+2a7f86	f8d560f8	ldr.w	r6, [r5, #0xf8]
+2a7f8a	b176	cbz	r6, 0x2a7faa <png_read_png+0xea>
+2a7f8c	4620	mov	r0, r4
+2a7f8e	f8d510f8	ldr.w	r1, [r5, #0xf8]
+2a7f92	f7fffc55	bl	0x2a7840 <png_read_image>
+2a7f96	68ab	ldr	r3, [r5, #0x8]
+2a7f98	4620	mov	r0, r4
+2a7f9a	4629	mov	r1, r5
+2a7f9c	f4434300	orr	r3, r3, #0x8000
+2a7fa0	60ab	str	r3, [r5, #0x8]
+2a7fa2	e8bd40f8	pop.w	{r3, r4, r5, r6, r7, lr}
+2a7fa6	f7ffbc69	b.w	0x2a787c <png_read_end>
+2a7faa	6869	ldr	r1, [r5, #0x4]
+2a7fac	4620	mov	r0, r4
+2a7fae	0089	lsls	r1, r1, #0x2
+2a7fb0	f7fefe76	bl	0x2a6ca0 <png_malloc>
+2a7fb4	4633	mov	r3, r6
+2a7fb6	4631	mov	r1, r6
+2a7fb8	f8c500f8	str.w	r0, [r5, #0xf8]
+2a7fbc	686a	ldr	r2, [r5, #0x4]
+2a7fbe	4293	cmp	r3, r2
+2a7fc0	d205	bhs	0x2a7fce <png_read_png+0x10e>
+2a7fc2	f8d520f8	ldr.w	r2, [r5, #0xf8]
+2a7fc6	f8421023	str.w	r1, [r2, r3, lsl #2]
+2a7fca	3301	adds	r3, #0x1
+2a7fcc	e7f6	b	0x2a7fbc <png_read_png+0xfc>
+2a7fce	f8d530b8	ldr.w	r3, [r5, #0xb8]
+2a7fd2	2600	movs	r6, #0x0
+2a7fd4	f0430340	orr	r3, r3, #0x40
+2a7fd8	f8c530b8	str.w	r3, [r5, #0xb8]
+2a7fdc	686b	ldr	r3, [r5, #0x4]
+2a7fde	429e	cmp	r6, r3
+2a7fe0	dad4	bge	0x2a7f8c <png_read_png+0xcc>
+2a7fe2	4629	mov	r1, r5
+2a7fe4	4620	mov	r0, r4
+2a7fe6	f8d570f8	ldr.w	r7, [r5, #0xf8]
+2a7fea	f7fefac3	bl	0x2a6574 <png_get_rowbytes>
+2a7fee	4601	mov	r1, r0
+2a7ff0	4620	mov	r0, r4
+2a7ff2	f7fefe55	bl	0x2a6ca0 <png_malloc>
+2a7ff6	f8470026	str.w	r0, [r7, r6, lsl #2]
+2a7ffa	3601	adds	r6, #0x1
+2a7ffc	e7ee	b	0x2a7fdc <png_read_png+0x11c>
+2a7ffe	bdf8	pop	{r3, r4, r5, r6, r7, pc}
+2a8000	49e7	ldr	r1, [pc, #0x39c]
+2a8002	000e	movs	r6, r1

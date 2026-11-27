@@ -1,0 +1,12 @@
+# rm_map loads its editor view defaults. Slot 1 is the active 960x640 view;
+# every other slot is also compared so a default display-size fallback cannot hide.
+ROOM 111
+!WARP
+VIEW 0 0 0 0 1136 640
+VIEW 1 1 0 0 960 640
+VIEW 2 0 0 0 1024 768
+VIEW 3 0 0 0 1024 768
+VIEW 4 0 0 0 2048 1536
+VIEW 5 0 0 0 1334 750
+VIEW 6 0 0 0 2208 1242
+VIEW 7 0 0 0 640 480

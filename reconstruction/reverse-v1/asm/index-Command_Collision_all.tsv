@@ -1,0 +1,675 @@
+1cb390	e92d4ff0	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+1cb394	ed2d8b02	vpush	{d8}
+1cb398	e24dd054	sub	sp, sp, #84
+1cb39c	ed9d8a20	vldr	s16, [sp, #128]
+1cb3a0	e28de050	add	lr, sp, #80
+1cb3a4	e1a0b000	mov	r11, r0
+1cb3a8	e59d5084	ldr	r5, [sp, #0x84]
+1cb3ac	e1a09001	mov	r9, r1
+1cb3b0	e3a04000	mov	r4, #0
+1cb3b4	e52e4040	str	r4, [lr, #-0x40]!
+1cb3b8	e1a0100e	mov	r1, lr
+1cb3bc	e1a07003	mov	r7, r3
+1cb3c0	e1a00005	mov	r0, r5
+1cb3c4	e1a08002	mov	r8, r2
+1cb3c8	e5dda088	ldrb	r10, [sp, #0x88]
+1cb3cc	e5dd608c	ldrb	r6, [sp, #0x8c]
+1cb3d0	ebfff688	bl	0x1c8df8 <_Z22ShouldUseFastCollisioniPP9CObjectGM>
+1cb3d4	e59f3378	ldr	r3, [pc, #0x378]
+1cb3d8	e08f3003	add	r3, pc, r3
+1cb3dc	e3700001	cmn	r0, #1
+1cb3e0	0a000028	beq	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb3e4	e3500001	cmp	r0, #1
+1cb3e8	0a000072	beq	0x1cb5b8 <_Z21Command_CollisionLineP9CInstanceffffibb+0x228>
+1cb3ec	e3750003	cmn	r5, #3
+1cb3f0	0a00004d	beq	0x1cb52c <_Z21Command_CollisionLineP9CInstanceffffibb+0x19c>
+1cb3f4	e308269f	movw	r2, #0x869f
+1cb3f8	e3402001	movt	r2, #0x1
+1cb3fc	e1550002	cmp	r5, r2
+1cb400	ca000025	bgt	0x1cb49c <_Z21Command_CollisionLineP9CInstanceffffibb+0x10c>
+1cb404	e59d2010	ldr	r2, [sp, #0x10]
+1cb408	e3520000	cmp	r2, #0
+1cb40c	0a0000ab	beq	0x1cb6c0 <_Z21Command_CollisionLineP9CInstanceffffibb+0x330>
+1cb410	e59240d0	ldr	r4, [r2, #0xd0]
+1cb414	e3540000	cmp	r4, #0
+1cb418	0a00001a	beq	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb41c	e5943008	ldr	r3, [r4, #0x8]
+1cb420	e3530000	cmp	r3, #0
+1cb424	0a000017	beq	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb428	e5945008	ldr	r5, [r4, #0x8]
+1cb42c	e5944000	ldr	r4, [r4]
+1cb430	e15b0005	cmp	r11, r5
+1cb434	13a03000	movne	r3, #0
+1cb438	02063001	andeq	r3, r6, #1
+1cb43c	e3530000	cmp	r3, #0
+1cb440	1afffff3	bne	0x1cb414 <_Z21Command_CollisionLineP9CInstanceffffibb+0x84>
+1cb444	e5d53068	ldrb	r3, [r5, #0x68]
+1cb448	e3530000	cmp	r3, #0
+1cb44c	1afffff0	bne	0x1cb414 <_Z21Command_CollisionLineP9CInstanceffffibb+0x84>
+1cb450	e5d53069	ldrb	r3, [r5, #0x69]
+1cb454	e3530000	cmp	r3, #0
+1cb458	1affffed	bne	0x1cb414 <_Z21Command_CollisionLineP9CInstanceffffibb+0x84>
+1cb45c	ed8d8a00	vstr	s16, [sp]
+1cb460	e58da004	str	r10, [sp, #0x4]
+1cb464	e1a00005	mov	r0, r5
+1cb468	e1a01009	mov	r1, r9
+1cb46c	e1a02008	mov	r2, r8
+1cb470	e1a03007	mov	r3, r7
+1cb474	ebff26ab	bl	0x194f28 <_ZN9CInstance14Collision_LineEffffb>
+1cb478	e3500000	cmp	r0, #0
+1cb47c	1a000002	bne	0x1cb48c <_Z21Command_CollisionLineP9CInstanceffffibb+0xfc>
+1cb480	e3540000	cmp	r4, #0
+1cb484	1affffe4	bne	0x1cb41c <_Z21Command_CollisionLineP9CInstanceffffibb+0x8c>
+1cb488	e3a05000	mov	r5, #0
+1cb48c	e1a00005	mov	r0, r5
+1cb490	e28dd054	add	sp, sp, #84
+1cb494	ecbd8b02	vpop	{d8}
+1cb498	e8bd8ff0	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+1cb49c	e3560000	cmp	r6, #0
+1cb4a0	1a000040	bne	0x1cb5a8 <_Z21Command_CollisionLineP9CInstanceffffibb+0x218>
+1cb4a4	e59f22ac	ldr	r2, [pc, #0x2ac]
+1cb4a8	e7933002	ldr	r3, [r3, r2]
+1cb4ac	e5932004	ldr	r2, [r3, #0x4]
+1cb4b0	e5933000	ldr	r3, [r3]
+1cb4b4	e0052002	and	r2, r5, r2
+1cb4b8	e7933182	ldr	r3, [r3, r2, lsl #3]
+1cb4bc	e3530000	cmp	r3, #0
+1cb4c0	1a000003	bne	0x1cb4d4 <_Z21Command_CollisionLineP9CInstanceffffibb+0x144>
+1cb4c4	eaffffef	b	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb4c8	e5933004	ldr	r3, [r3, #0x4]
+1cb4cc	e3530000	cmp	r3, #0
+1cb4d0	0affffec	beq	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb4d4	e5932008	ldr	r2, [r3, #0x8]
+1cb4d8	e1550002	cmp	r5, r2
+1cb4dc	1afffff9	bne	0x1cb4c8 <_Z21Command_CollisionLineP9CInstanceffffibb+0x138>
+1cb4e0	e593500c	ldr	r5, [r3, #0xc]
+1cb4e4	e3550000	cmp	r5, #0
+1cb4e8	0affffe6	beq	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb4ec	e5d53068	ldrb	r3, [r5, #0x68]
+1cb4f0	e3530000	cmp	r3, #0
+1cb4f4	1affffe3	bne	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb4f8	e5d53069	ldrb	r3, [r5, #0x69]
+1cb4fc	e3530000	cmp	r3, #0
+1cb500	1affffe0	bne	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb504	ed8d8a00	vstr	s16, [sp]
+1cb508	e58da004	str	r10, [sp, #0x4]
+1cb50c	e1a01009	mov	r1, r9
+1cb510	e1a00005	mov	r0, r5
+1cb514	e1a02008	mov	r2, r8
+1cb518	e1a03007	mov	r3, r7
+1cb51c	ebff2681	bl	0x194f28 <_ZN9CInstance14Collision_LineEffffb>
+1cb520	e3500000	cmp	r0, #0
+1cb524	1affffd8	bne	0x1cb48c <_Z21Command_CollisionLineP9CInstanceffffibb+0xfc>
+1cb528	eaffffd6	b	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb52c	e59f2228	ldr	r2, [pc, #0x228]
+1cb530	e7933002	ldr	r3, [r3, r2]
+1cb534	e5933000	ldr	r3, [r3]
+1cb538	e5935080	ldr	r5, [r3, #0x80]
+1cb53c	e3550000	cmp	r5, #0
+1cb540	0affffd0	beq	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb544	e15b0005	cmp	r11, r5
+1cb548	13a03000	movne	r3, #0
+1cb54c	02063001	andeq	r3, r6, #1
+1cb550	e5954178	ldr	r4, [r5, #0x178]
+1cb554	e3530000	cmp	r3, #0
+1cb558	1a00000e	bne	0x1cb598 <_Z21Command_CollisionLineP9CInstanceffffibb+0x208>
+1cb55c	e5d53068	ldrb	r3, [r5, #0x68]
+1cb560	e3530000	cmp	r3, #0
+1cb564	1a00000b	bne	0x1cb598 <_Z21Command_CollisionLineP9CInstanceffffibb+0x208>
+1cb568	e5d53069	ldrb	r3, [r5, #0x69]
+1cb56c	e3530000	cmp	r3, #0
+1cb570	1a000008	bne	0x1cb598 <_Z21Command_CollisionLineP9CInstanceffffibb+0x208>
+1cb574	ed8d8a00	vstr	s16, [sp]
+1cb578	e58da004	str	r10, [sp, #0x4]
+1cb57c	e1a00005	mov	r0, r5
+1cb580	e1a01009	mov	r1, r9
+1cb584	e1a02008	mov	r2, r8
+1cb588	e1a03007	mov	r3, r7
+1cb58c	ebff2665	bl	0x194f28 <_ZN9CInstance14Collision_LineEffffb>
+1cb590	e3500000	cmp	r0, #0
+1cb594	1affffbc	bne	0x1cb48c <_Z21Command_CollisionLineP9CInstanceffffibb+0xfc>
+1cb598	e3540000	cmp	r4, #0
+1cb59c	e1a05004	mov	r5, r4
+1cb5a0	1affffe7	bne	0x1cb544 <_Z21Command_CollisionLineP9CInstanceffffibb+0x1b4>
+1cb5a4	eaffffb7	b	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb5a8	e59b2078	ldr	r2, [r11, #0x78]
+1cb5ac	e1550002	cmp	r5, r2
+1cb5b0	1affffbb	bne	0x1cb4a4 <_Z21Command_CollisionLineP9CInstanceffffibb+0x114>
+1cb5b4	eaffffb3	b	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb5b8	e58d3008	str	r3, [sp, #0x8]
+1cb5bc	eb000322	bl	0x1cc24c <_Z10UpdateTreev>
+1cb5c0	ee059a90	vmov	s11, r9
+1cb5c4	e59d3008	ldr	r3, [sp, #0x8]
+1cb5c8	e59f0190	ldr	r0, [pc, #0x190]
+1cb5cc	eeb76ae5	vcvt.f64.f32	d6, s11
+1cb5d0	e59f118c	ldr	r1, [pc, #0x18c]
+1cb5d4	ee058a90	vmov	s11, r8
+1cb5d8	e59f2188	ldr	r2, [pc, #0x188]
+1cb5dc	e7930000	ldr	r0, [r3, r0]
+1cb5e0	e08f1001	add	r1, pc, r1
+1cb5e4	e5cda048	strb	r10, [sp, #0x48]
+1cb5e8	e5cd6049	strb	r6, [sp, #0x49]
+1cb5ec	e58d000c	str	r0, [sp, #0xc]
+1cb5f0	e5804000	str	r4, [r0]
+1cb5f4	eeb77ae5	vcvt.f64.f32	d7, s11
+1cb5f8	ed8d6b0a	vstr	d6, [sp, #40]
+1cb5fc	ee057a90	vmov	s11, r7
+1cb600	e58db04c	str	r11, [sp, #0x4c]
+1cb604	e5815000	str	r5, [r1]
+1cb608	eeb76ae5	vcvt.f64.f32	d6, s11
+1cb60c	ed8d7b0c	vstr	d7, [sp, #48]
+1cb610	ed8d6b0e	vstr	d6, [sp, #56]
+1cb614	ee069a90	vmov	s13, r9
+1cb618	eefd5ae5	vcvt.s32.f32	s11, s11
+1cb61c	eefd6ae6	vcvt.s32.f32	s13, s13
+1cb620	ee157a90	vmov	r7, s11
+1cb624	ee169a90	vmov	r9, s13
+1cb628	eeb77ac8	vcvt.f64.f32	d7, s16
+1cb62c	ed8d7b10	vstr	d7, [sp, #64]
+1cb630	e7933002	ldr	r3, [r3, r2]
+1cb634	ee078a10	vmov	s14, r8
+1cb638	eebd8ac8	vcvt.s32.f32	s16, s16
+1cb63c	e5930000	ldr	r0, [r3]
+1cb640	eefd7ac7	vcvt.s32.f32	s15, s14
+1cb644	e1590007	cmp	r9, r7
+1cb648	ba000031	blt	0x1cb714 <_Z21Command_CollisionLineP9CInstanceffffibb+0x384>
+1cb64c	ee172a90	vmov	r2, s15
+1cb650	e0679009	rsb	r9, r7, r9
+1cb654	ee183a10	vmov	r3, s16
+1cb658	ee059a90	vmov	s11, r9
+1cb65c	eeb88ac8	vcvt.f32.s32	s16, s16
+1cb660	eef86ae5	vcvt.f32.s32	s13, s11
+1cb664	ed8d8a07	vstr	s16, [sp, #28]
+1cb668	edcd6a08	vstr	s13, [sp, #32]
+1cb66c	ee067a90	vmov	s13, r7
+1cb670	e0632002	rsb	r2, r3, r2
+1cb674	ee072a90	vmov	s15, r2
+1cb678	eeb87ae7	vcvt.f32.s32	s14, s15
+1cb67c	eef87ae6	vcvt.f32.s32	s15, s13
+1cb680	ed8d7a09	vstr	s14, [sp, #36]
+1cb684	edcd7a06	vstr	s15, [sp, #24]
+1cb688	e59fc0dc	ldr	r12, [pc, #0xdc]
+1cb68c	e28d3028	add	r3, sp, #40
+1cb690	e5901010	ldr	r1, [r0, #0x10]
+1cb694	e28d2018	add	r2, sp, #24
+1cb698	e08fc00c	add	r12, pc, r12
+1cb69c	e58d3004	str	r3, [sp, #0x4]
+1cb6a0	e58dc000	str	r12, [sp]
+1cb6a4	e28d3014	add	r3, sp, #20
+1cb6a8	e3a0c000	mov	r12, #0
+1cb6ac	e58dc014	str	r12, [sp, #0x14]
+1cb6b0	ebfffedf	bl	0x1cb234 <_ZN5RTreeIP9CInstanceifLi6ELi2EE10SearchLineEPNS2_4NodeEPNS2_4LineERiPFbS1_PvES8_>
+1cb6b4	e59d000c	ldr	r0, [sp, #0xc]
+1cb6b8	e5905000	ldr	r5, [r0]
+1cb6bc	eaffff72	b	0x1cb48c <_Z21Command_CollisionLineP9CInstanceffffibb+0xfc>
+1cb6c0	e59f20a8	ldr	r2, [pc, #0xa8]
+1cb6c4	e7933002	ldr	r3, [r3, r2]
+1cb6c8	e5933000	ldr	r3, [r3]
+1cb6cc	e5932004	ldr	r2, [r3, #0x4]
+1cb6d0	e5933000	ldr	r3, [r3]
+1cb6d4	e0052002	and	r2, r5, r2
+1cb6d8	e7933182	ldr	r3, [r3, r2, lsl #3]
+1cb6dc	e3530000	cmp	r3, #0
+1cb6e0	1a000003	bne	0x1cb6f4 <_Z21Command_CollisionLineP9CInstanceffffibb+0x364>
+1cb6e4	eaffff67	b	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb6e8	e5933004	ldr	r3, [r3, #0x4]
+1cb6ec	e3530000	cmp	r3, #0
+1cb6f0	0affff64	beq	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb6f4	e5932008	ldr	r2, [r3, #0x8]
+1cb6f8	e1550002	cmp	r5, r2
+1cb6fc	1afffff9	bne	0x1cb6e8 <_Z21Command_CollisionLineP9CInstanceffffibb+0x358>
+1cb700	e593200c	ldr	r2, [r3, #0xc]
+1cb704	e3520000	cmp	r2, #0
+1cb708	e58d2010	str	r2, [sp, #0x10]
+1cb70c	1affff3f	bne	0x1cb410 <_Z21Command_CollisionLineP9CInstanceffffibb+0x80>
+1cb710	eaffff5c	b	0x1cb488 <_Z21Command_CollisionLineP9CInstanceffffibb+0xf8>
+1cb714	ee182a10	vmov	r2, s16
+1cb718	e0697007	rsb	r7, r9, r7
+1cb71c	ee173a90	vmov	r3, s15
+1cb720	ee057a90	vmov	s11, r7
+1cb724	eef87ae7	vcvt.f32.s32	s15, s15
+1cb728	eef86ae5	vcvt.f32.s32	s13, s11
+1cb72c	edcd7a07	vstr	s15, [sp, #28]
+1cb730	edcd6a08	vstr	s13, [sp, #32]
+1cb734	ee069a90	vmov	s13, r9
+1cb738	eef87ae6	vcvt.f32.s32	s15, s13
+1cb73c	e0632002	rsb	r2, r3, r2
+1cb740	ee082a10	vmov	s16, r2
+1cb744	eeb87ac8	vcvt.f32.s32	s14, s16
+1cb748	edcd7a06	vstr	s15, [sp, #24]
+1cb74c	ed8d7a09	vstr	s14, [sp, #36]
+1cb750	eaffffcc	b	0x1cb688 <_Z21Command_CollisionLineP9CInstanceffffibb+0x2f8>
+1cb754	00226878	eoreq	r6, r2, r8, ror r8
+1cb758	ffffbff4	.word	0xffffbff4
+1cb75c	ffffbcd8	.word	0xffffbcd8
+1cb760	ffffeeb8	.word	0xffffeeb8
+1cb764	00229b00	eoreq	r9, r2, r0, lsl #22
+1cb768	ffffc5f4	.word	0xffffc5f4
+1cb76c	ffffce64	.word	0xffffce64
+1cb770	ffffbfec	.word	0xffffbfec
+1ca350	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+1ca354	ed2d8b04	vpush	{d8, d9}
+1ca358	e24dd048	sub	sp, sp, #72
+1ca35c	eddd9a1e	vldr	s19, [sp, #120]
+1ca360	e28dc048	add	r12, sp, #72
+1ca364	e1a07000	mov	r7, r0
+1ca368	e59d407c	ldr	r4, [sp, #0x7c]
+1ca36c	e3a05000	mov	r5, #0
+1ca370	ee081a90	vmov	s17, r1
+1ca374	e52c503c	str	r5, [r12, #-0x3c]!
+1ca378	e1a0100c	mov	r1, r12
+1ca37c	ee092a10	vmov	s18, r2
+1ca380	e1a00004	mov	r0, r4
+1ca384	ee083a10	vmov	s16, r3
+1ca388	e5dd8080	ldrb	r8, [sp, #0x80]
+1ca38c	e5dd6084	ldrb	r6, [sp, #0x84]
+1ca390	ebfffa98	bl	0x1c8df8 <_Z22ShouldUseFastCollisioniPP9CObjectGM>
+1ca394	e59f931c	ldr	r9, [pc, #0x31c]
+1ca398	e08f9009	add	r9, pc, r9
+1ca39c	e3700001	cmn	r0, #1
+1ca3a0	0a000028	beq	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca3a4	e3500001	cmp	r0, #1
+1ca3a8	0a000072	beq	0x1ca578 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x228>
+1ca3ac	e3740003	cmn	r4, #3
+1ca3b0	0a00004d	beq	0x1ca4ec <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x19c>
+1ca3b4	e308369f	movw	r3, #0x869f
+1ca3b8	e3403001	movt	r3, #0x1
+1ca3bc	e1540003	cmp	r4, r3
+1ca3c0	ca000025	bgt	0x1ca45c <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x10c>
+1ca3c4	e59d300c	ldr	r3, [sp, #0xc]
+1ca3c8	e3530000	cmp	r3, #0
+1ca3cc	0a0000a1	beq	0x1ca658 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x308>
+1ca3d0	e59340d0	ldr	r4, [r3, #0xd0]
+1ca3d4	e3540000	cmp	r4, #0
+1ca3d8	0a00001a	beq	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca3dc	e5943008	ldr	r3, [r4, #0x8]
+1ca3e0	e3530000	cmp	r3, #0
+1ca3e4	0a000017	beq	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca3e8	e5945008	ldr	r5, [r4, #0x8]
+1ca3ec	e5944000	ldr	r4, [r4]
+1ca3f0	e1570005	cmp	r7, r5
+1ca3f4	13a03000	movne	r3, #0
+1ca3f8	02063001	andeq	r3, r6, #1
+1ca3fc	e3530000	cmp	r3, #0
+1ca400	1afffff3	bne	0x1ca3d4 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x84>
+1ca404	e5d53068	ldrb	r3, [r5, #0x68]
+1ca408	e3530000	cmp	r3, #0
+1ca40c	1afffff0	bne	0x1ca3d4 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x84>
+1ca410	e5d53069	ldrb	r3, [r5, #0x69]
+1ca414	e3530000	cmp	r3, #0
+1ca418	1affffed	bne	0x1ca3d4 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x84>
+1ca41c	edcd9a00	vstr	s19, [sp]
+1ca420	e58d8004	str	r8, [sp, #0x4]
+1ca424	e1a00005	mov	r0, r5
+1ca428	ee181a90	vmov	r1, s17
+1ca42c	ee192a10	vmov	r2, s18
+1ca430	ee183a10	vmov	r3, s16
+1ca434	ebff28ae	bl	0x1946f4 <_ZN9CInstance19Collision_RectangleEffffb>
+1ca438	e3500000	cmp	r0, #0
+1ca43c	1a000002	bne	0x1ca44c <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xfc>
+1ca440	e3540000	cmp	r4, #0
+1ca444	1affffe4	bne	0x1ca3dc <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x8c>
+1ca448	e3a05000	mov	r5, #0
+1ca44c	e1a00005	mov	r0, r5
+1ca450	e28dd048	add	sp, sp, #72
+1ca454	ecbd8b04	vpop	{d8, d9}
+1ca458	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+1ca45c	e3560000	cmp	r6, #0
+1ca460	1a000040	bne	0x1ca568 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x218>
+1ca464	e59f3250	ldr	r3, [pc, #0x250]
+1ca468	e7993003	ldr	r3, [r9, r3]
+1ca46c	e5932004	ldr	r2, [r3, #0x4]
+1ca470	e5933000	ldr	r3, [r3]
+1ca474	e0042002	and	r2, r4, r2
+1ca478	e7933182	ldr	r3, [r3, r2, lsl #3]
+1ca47c	e3530000	cmp	r3, #0
+1ca480	1a000003	bne	0x1ca494 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x144>
+1ca484	eaffffef	b	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca488	e5933004	ldr	r3, [r3, #0x4]
+1ca48c	e3530000	cmp	r3, #0
+1ca490	0affffec	beq	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca494	e5932008	ldr	r2, [r3, #0x8]
+1ca498	e1540002	cmp	r4, r2
+1ca49c	1afffff9	bne	0x1ca488 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x138>
+1ca4a0	e593500c	ldr	r5, [r3, #0xc]
+1ca4a4	e3550000	cmp	r5, #0
+1ca4a8	0affffe6	beq	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca4ac	e5d53068	ldrb	r3, [r5, #0x68]
+1ca4b0	e3530000	cmp	r3, #0
+1ca4b4	1affffe3	bne	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca4b8	e5d53069	ldrb	r3, [r5, #0x69]
+1ca4bc	e3530000	cmp	r3, #0
+1ca4c0	1affffe0	bne	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca4c4	edcd9a00	vstr	s19, [sp]
+1ca4c8	e58d8004	str	r8, [sp, #0x4]
+1ca4cc	e1a00005	mov	r0, r5
+1ca4d0	ee181a90	vmov	r1, s17
+1ca4d4	ee192a10	vmov	r2, s18
+1ca4d8	ee183a10	vmov	r3, s16
+1ca4dc	ebff2884	bl	0x1946f4 <_ZN9CInstance19Collision_RectangleEffffb>
+1ca4e0	e3500000	cmp	r0, #0
+1ca4e4	1affffd8	bne	0x1ca44c <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xfc>
+1ca4e8	eaffffd6	b	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca4ec	e59f31cc	ldr	r3, [pc, #0x1cc]
+1ca4f0	e7993003	ldr	r3, [r9, r3]
+1ca4f4	e5933000	ldr	r3, [r3]
+1ca4f8	e5935080	ldr	r5, [r3, #0x80]
+1ca4fc	e3550000	cmp	r5, #0
+1ca500	0affffd0	beq	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca504	e1570005	cmp	r7, r5
+1ca508	13a03000	movne	r3, #0
+1ca50c	02063001	andeq	r3, r6, #1
+1ca510	e5954178	ldr	r4, [r5, #0x178]
+1ca514	e3530000	cmp	r3, #0
+1ca518	1a00000e	bne	0x1ca558 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x208>
+1ca51c	e5d53068	ldrb	r3, [r5, #0x68]
+1ca520	e3530000	cmp	r3, #0
+1ca524	1a00000b	bne	0x1ca558 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x208>
+1ca528	e5d53069	ldrb	r3, [r5, #0x69]
+1ca52c	e3530000	cmp	r3, #0
+1ca530	1a000008	bne	0x1ca558 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x208>
+1ca534	edcd9a00	vstr	s19, [sp]
+1ca538	e58d8004	str	r8, [sp, #0x4]
+1ca53c	e1a00005	mov	r0, r5
+1ca540	ee181a90	vmov	r1, s17
+1ca544	ee192a10	vmov	r2, s18
+1ca548	ee183a10	vmov	r3, s16
+1ca54c	ebff2868	bl	0x1946f4 <_ZN9CInstance19Collision_RectangleEffffb>
+1ca550	e3500000	cmp	r0, #0
+1ca554	1affffbc	bne	0x1ca44c <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xfc>
+1ca558	e3540000	cmp	r4, #0
+1ca55c	e1a05004	mov	r5, r4
+1ca560	1affffe7	bne	0x1ca504 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x1b4>
+1ca564	eaffffb7	b	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca568	e5973078	ldr	r3, [r7, #0x78]
+1ca56c	e1540003	cmp	r4, r3
+1ca570	1affffbb	bne	0x1ca464 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x114>
+1ca574	eaffffb3	b	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca578	eb000733	bl	0x1cc24c <_Z10UpdateTreev>
+1ca57c	e59f3140	ldr	r3, [pc, #0x140]
+1ca580	e3560000	cmp	r6, #0
+1ca584	e799a003	ldr	r10, [r9, r3]
+1ca588	e58a5000	str	r5, [r10]
+1ca58c	0a000002	beq	0x1ca59c <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x24c>
+1ca590	e5973078	ldr	r3, [r7, #0x78]
+1ca594	e1540003	cmp	r4, r3
+1ca598	0affffab	beq	0x1ca44c <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xfc>
+1ca59c	eeb76ae8	vcvt.f64.f32	d6, s17
+1ca5a0	e59f3120	ldr	r3, [pc, #0x120]
+1ca5a4	e5cd8040	strb	r8, [sp, #0x40]
+1ca5a8	e08f3003	add	r3, pc, r3
+1ca5ac	e5cd6041	strb	r6, [sp, #0x41]
+1ca5b0	e58d7044	str	r7, [sp, #0x44]
+1ca5b4	e5834000	str	r4, [r3]
+1ca5b8	eeb77ac9	vcvt.f64.f32	d7, s18
+1ca5bc	ed8d6b08	vstr	d6, [sp, #32]
+1ca5c0	ed8d7b0a	vstr	d7, [sp, #40]
+1ca5c4	eeb76ac8	vcvt.f64.f32	d6, s16
+1ca5c8	eeb77ae9	vcvt.f64.f32	d7, s19
+1ca5cc	ed8d6b0c	vstr	d6, [sp, #48]
+1ca5d0	eef48ac8	vcmpe.f32	s17, s16
+1ca5d4	ed8d7b0e	vstr	d7, [sp, #56]
+1ca5d8	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ca5dc	5a000032	bpl	0x1ca6ac <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x35c>
+1ca5e0	eefd7ae8	vcvt.s32.f32	s15, s17
+1ca5e4	ee173a90	vmov	r3, s15
+1ca5e8	eeb49ae9	vcmpe.f32	s18, s19
+1ca5ec	e59f00d8	ldr	r0, [pc, #0xd8]
+1ca5f0	e58d3010	str	r3, [sp, #0x10]
+1ca5f4	e28dc020	add	r12, sp, #32
+1ca5f8	e59f30d0	ldr	r3, [pc, #0xd0]
+1ca5fc	e28d1010	add	r1, sp, #16
+1ca600	e28d2018	add	r2, sp, #24
+1ca604	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ca608	eef48ac8	vcmpe.f32	s17, s16
+1ca60c	e08f3003	add	r3, pc, r3
+1ca610	4efd7ac9	vcvtmi.s32.f32	s15, s18
+1ca614	5efd7ae9	vcvtpl.s32.f32	s15, s19
+1ca618	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ca61c	eeb49ae9	vcmpe.f32	s18, s19
+1ca620	edcd7a05	vstr	s15, [sp, #20]
+1ca624	cebd8ae8	vcvtgt.s32.f32	s16, s17
+1ca628	debd8ac8	vcvtle.s32.f32	s16, s16
+1ca62c	eef1fa10	vmrs	APSR_nzcv, fpscr
+1ca630	cebd9ac9	vcvtgt.s32.f32	s18, s18
+1ca634	ed8d8a06	vstr	s16, [sp, #24]
+1ca638	debd9ae9	vcvtle.s32.f32	s18, s19
+1ca63c	ed8d9a07	vstr	s18, [sp, #28]
+1ca640	e7990000	ldr	r0, [r9, r0]
+1ca644	e58dc000	str	r12, [sp]
+1ca648	e5900000	ldr	r0, [r0]
+1ca64c	ebfd0c33	bl	0x10d720 <_ZN5RTreeIP9CInstanceifLi6ELi2EE6SearchEPKiS4_PFbS1_PvES5_>
+1ca650	e59a5000	ldr	r5, [r10]
+1ca654	eaffff7c	b	0x1ca44c <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xfc>
+1ca658	e59f3074	ldr	r3, [pc, #0x74]
+1ca65c	e7993003	ldr	r3, [r9, r3]
+1ca660	e5933000	ldr	r3, [r3]
+1ca664	e5932004	ldr	r2, [r3, #0x4]
+1ca668	e5933000	ldr	r3, [r3]
+1ca66c	e0042002	and	r2, r4, r2
+1ca670	e7933182	ldr	r3, [r3, r2, lsl #3]
+1ca674	e3530000	cmp	r3, #0
+1ca678	1a000003	bne	0x1ca68c <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x33c>
+1ca67c	eaffff71	b	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca680	e5933004	ldr	r3, [r3, #0x4]
+1ca684	e3530000	cmp	r3, #0
+1ca688	0affff6e	beq	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca68c	e5932008	ldr	r2, [r3, #0x8]
+1ca690	e1540002	cmp	r4, r2
+1ca694	1afffff9	bne	0x1ca680 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x330>
+1ca698	e593300c	ldr	r3, [r3, #0xc]
+1ca69c	e3530000	cmp	r3, #0
+1ca6a0	e58d300c	str	r3, [sp, #0xc]
+1ca6a4	1affff49	bne	0x1ca3d0 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x80>
+1ca6a8	eaffff66	b	0x1ca448 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0xf8>
+1ca6ac	eefd7ac8	vcvt.s32.f32	s15, s16
+1ca6b0	ee173a90	vmov	r3, s15
+1ca6b4	eaffffcb	b	0x1ca5e8 <_Z26Command_CollisionRectangleP9CInstanceffffibb+0x298>
+1ca6b8	002278b8	.word	0x002278b8
+1ca6bc	ffffbff4	.word	0xffffbff4
+1ca6c0	ffffbcd8	.word	0xffffbcd8
+1ca6c4	ffffeeb8	.word	0xffffeeb8
+1ca6c8	0022ab38	eoreq	r10, r2, r8, lsr r11
+1ca6cc	ffffc5f4	.word	0xffffc5f4
+1ca6d0	ffffddac	.word	0xffffddac
+1ca6d4	ffffbfec	.word	0xffffbfec
+1ca6d8	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+1ca6dc	e24dd020	sub	sp, sp, #32
+1ca6e0	e1a05003	mov	r5, r3
+1ca6e4	e28d3020	add	r3, sp, #32
+1ca6e8	e1a06000	mov	r6, r0
+1ca6ec	e1a07001	mov	r7, r1
+1ca6f0	e3a04000	mov	r4, #0
+1ca6f4	e1a00005	mov	r0, r5
+1ca6f8	e5234014	str	r4, [r3, #-0x14]!
+1ca6fc	e1a01003	mov	r1, r3
+1ca700	e1a08002	mov	r8, r2
+1ca704	ebfff9bb	bl	0x1c8df8 <_Z22ShouldUseFastCollisioniPP9CObjectGM>
+1ca708	e59f92c8	ldr	r9, [pc, #0x2c8]
+1ca70c	e08f9009	add	r9, pc, r9
+1ca710	e3700001	cmn	r0, #1
+1ca714	0a0000ad	beq	0x1ca9d0 <_Z21Command_InstancePlaceP9CInstanceffi+0x2f8>
+1ca718	e3500001	cmp	r0, #1
+1ca71c	0a00003f	beq	0x1ca820 <_Z21Command_InstancePlaceP9CInstanceffi+0x148>
+1ca720	e1a01007	mov	r1, r7
+1ca724	e1a02008	mov	r2, r8
+1ca728	e1a00006	mov	r0, r6
+1ca72c	e59670b4	ldr	r7, [r6, #0xb4]
+1ca730	e59680b8	ldr	r8, [r6, #0xb8]
+1ca734	ebff25d0	bl	0x193e7c <_ZN9CInstance11SetPositionEff>
+1ca738	e3750003	cmn	r5, #3
+1ca73c	0a000068	beq	0x1ca8e4 <_Z21Command_InstancePlaceP9CInstanceffi+0x20c>
+1ca740	e308369f	movw	r3, #0x869f
+1ca744	e3403001	movt	r3, #0x1
+1ca748	e1550003	cmp	r5, r3
+1ca74c	ca000080	bgt	0x1ca954 <_Z21Command_InstancePlaceP9CInstanceffi+0x27c>
+1ca750	e59d300c	ldr	r3, [sp, #0xc]
+1ca754	e3530000	cmp	r3, #0
+1ca758	0a00001a	beq	0x1ca7c8 <_Z21Command_InstancePlaceP9CInstanceffi+0xf0>
+1ca75c	e59350d0	ldr	r5, [r3, #0xd0]
+1ca760	e3550000	cmp	r5, #0
+1ca764	0a00002b	beq	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca768	e5953008	ldr	r3, [r5, #0x8]
+1ca76c	e3530000	cmp	r3, #0
+1ca770	0a000028	beq	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca774	e5954008	ldr	r4, [r5, #0x8]
+1ca778	e5955000	ldr	r5, [r5]
+1ca77c	e5d43068	ldrb	r3, [r4, #0x68]
+1ca780	e3530000	cmp	r3, #0
+1ca784	1afffff5	bne	0x1ca760 <_Z21Command_InstancePlaceP9CInstanceffi+0x88>
+1ca788	e5d43069	ldrb	r3, [r4, #0x69]
+1ca78c	e3530000	cmp	r3, #0
+1ca790	1afffff2	bne	0x1ca760 <_Z21Command_InstancePlaceP9CInstanceffi+0x88>
+1ca794	e3a02001	mov	r2, #1
+1ca798	e1a00004	mov	r0, r4
+1ca79c	e1a01006	mov	r1, r6
+1ca7a0	ebff2b6c	bl	0x195558 <_ZN9CInstance18Collision_InstanceEPS_b>
+1ca7a4	e3500000	cmp	r0, #0
+1ca7a8	0affffec	beq	0x1ca760 <_Z21Command_InstancePlaceP9CInstanceffi+0x88>
+1ca7ac	e1a00006	mov	r0, r6
+1ca7b0	e1a01007	mov	r1, r7
+1ca7b4	e1a02008	mov	r2, r8
+1ca7b8	ebff25af	bl	0x193e7c <_ZN9CInstance11SetPositionEff>
+1ca7bc	e1a00004	mov	r0, r4
+1ca7c0	e28dd020	add	sp, sp, #32
+1ca7c4	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+1ca7c8	e59f320c	ldr	r3, [pc, #0x20c]
+1ca7cc	e7993003	ldr	r3, [r9, r3]
+1ca7d0	e5933000	ldr	r3, [r3]
+1ca7d4	e5932004	ldr	r2, [r3, #0x4]
+1ca7d8	e5933000	ldr	r3, [r3]
+1ca7dc	e0052002	and	r2, r5, r2
+1ca7e0	e7933182	ldr	r3, [r3, r2, lsl #3]
+1ca7e4	e3530000	cmp	r3, #0
+1ca7e8	1a000003	bne	0x1ca7fc <_Z21Command_InstancePlaceP9CInstanceffi+0x124>
+1ca7ec	ea000009	b	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca7f0	e5933004	ldr	r3, [r3, #0x4]
+1ca7f4	e3530000	cmp	r3, #0
+1ca7f8	0a000006	beq	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca7fc	e5932008	ldr	r2, [r3, #0x8]
+1ca800	e1550002	cmp	r5, r2
+1ca804	1afffff9	bne	0x1ca7f0 <_Z21Command_InstancePlaceP9CInstanceffi+0x118>
+1ca808	e593300c	ldr	r3, [r3, #0xc]
+1ca80c	e3530000	cmp	r3, #0
+1ca810	e58d300c	str	r3, [sp, #0xc]
+1ca814	1affffd0	bne	0x1ca75c <_Z21Command_InstancePlaceP9CInstanceffi+0x84>
+1ca818	e3a04000	mov	r4, #0
+1ca81c	eaffffe2	b	0x1ca7ac <_Z21Command_InstancePlaceP9CInstanceffi+0xd4>
+1ca820	eb000689	bl	0x1cc24c <_Z10UpdateTreev>
+1ca824	e1a01007	mov	r1, r7
+1ca828	e1a02008	mov	r2, r8
+1ca82c	e1a00006	mov	r0, r6
+1ca830	e59680b4	ldr	r8, [r6, #0xb4]
+1ca834	e59670b8	ldr	r7, [r6, #0xb8]
+1ca838	ebff258f	bl	0x193e7c <_ZN9CInstance11SetPositionEff>
+1ca83c	e5d63064	ldrb	r3, [r6, #0x64]
+1ca840	e1530004	cmp	r3, r4
+1ca844	1a00003e	bne	0x1ca944 <_Z21Command_InstancePlaceP9CInstanceffi+0x26c>
+1ca848	e59630ec	ldr	r3, [r6, #0xec]
+1ca84c	e3a0a000	mov	r10, #0
+1ca850	e59600f4	ldr	r0, [r6, #0xf4]
+1ca854	e28d1010	add	r1, sp, #16
+1ca858	e596c0e8	ldr	r12, [r6, #0xe8]
+1ca85c	e28d2018	add	r2, sp, #24
+1ca860	e596e0f0	ldr	lr, [r6, #0xf0]
+1ca864	e59f4174	ldr	r4, [pc, #0x174]
+1ca868	e1500003	cmp	r0, r3
+1ca86c	d58d0014	strle	r0, [sp, #0x14]
+1ca870	c58d3014	strgt	r3, [sp, #0x14]
+1ca874	e1500003	cmp	r0, r3
+1ca878	a58d001c	strge	r0, [sp, #0x1c]
+1ca87c	b58d301c	strlt	r3, [sp, #0x1c]
+1ca880	e59f015c	ldr	r0, [pc, #0x15c]
+1ca884	e15e000c	cmp	lr, r12
+1ca888	d58de010	strle	lr, [sp, #0x10]
+1ca88c	c58dc010	strgt	r12, [sp, #0x10]
+1ca890	e15e000c	cmp	lr, r12
+1ca894	a58de018	strge	lr, [sp, #0x18]
+1ca898	b58dc018	strlt	r12, [sp, #0x18]
+1ca89c	e08f0000	add	r0, pc, r0
+1ca8a0	e7994004	ldr	r4, [r9, r4]
+1ca8a4	e59f313c	ldr	r3, [pc, #0x13c]
+1ca8a8	e5805000	str	r5, [r0]
+1ca8ac	e584a000	str	r10, [r4]
+1ca8b0	e7990003	ldr	r0, [r9, r3]
+1ca8b4	e59f3130	ldr	r3, [pc, #0x130]
+1ca8b8	e58d6000	str	r6, [sp]
+1ca8bc	e08f3003	add	r3, pc, r3
+1ca8c0	e5900000	ldr	r0, [r0]
+1ca8c4	ebfd0b95	bl	0x10d720 <_ZN5RTreeIP9CInstanceifLi6ELi2EE6SearchEPKiS4_PFbS1_PvES5_>
+1ca8c8	e1a00006	mov	r0, r6
+1ca8cc	e1a01008	mov	r1, r8
+1ca8d0	e1a02007	mov	r2, r7
+1ca8d4	ebff2568	bl	0x193e7c <_ZN9CInstance11SetPositionEff>
+1ca8d8	e5940000	ldr	r0, [r4]
+1ca8dc	e28dd020	add	sp, sp, #32
+1ca8e0	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+1ca8e4	e59f3104	ldr	r3, [pc, #0x104]
+1ca8e8	e7993003	ldr	r3, [r9, r3]
+1ca8ec	e5933000	ldr	r3, [r3]
+1ca8f0	e5934080	ldr	r4, [r3, #0x80]
+1ca8f4	e3540000	cmp	r4, #0
+1ca8f8	0affffc6	beq	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca8fc	e5d43068	ldrb	r3, [r4, #0x68]
+1ca900	e5945178	ldr	r5, [r4, #0x178]
+1ca904	e3530000	cmp	r3, #0
+1ca908	1a000008	bne	0x1ca930 <_Z21Command_InstancePlaceP9CInstanceffi+0x258>
+1ca90c	e5d43069	ldrb	r3, [r4, #0x69]
+1ca910	e3530000	cmp	r3, #0
+1ca914	1a000005	bne	0x1ca930 <_Z21Command_InstancePlaceP9CInstanceffi+0x258>
+1ca918	e3a02001	mov	r2, #1
+1ca91c	e1a00004	mov	r0, r4
+1ca920	e1a01006	mov	r1, r6
+1ca924	ebff2b0b	bl	0x195558 <_ZN9CInstance18Collision_InstanceEPS_b>
+1ca928	e3500000	cmp	r0, #0
+1ca92c	1affff9e	bne	0x1ca7ac <_Z21Command_InstancePlaceP9CInstanceffi+0xd4>
+1ca930	e3550000	cmp	r5, #0
+1ca934	e1a04005	mov	r4, r5
+1ca938	1affffef	bne	0x1ca8fc <_Z21Command_InstancePlaceP9CInstanceffi+0x224>
+1ca93c	e3a04000	mov	r4, #0
+1ca940	eaffff99	b	0x1ca7ac <_Z21Command_InstancePlaceP9CInstanceffi+0xd4>
+1ca944	e1a01004	mov	r1, r4
+1ca948	e1a00006	mov	r0, r6
+1ca94c	ebff1e7b	bl	0x192340 <_ZN9CInstance19Compute_BoundingBoxEb>
+1ca950	eaffffbc	b	0x1ca848 <_Z21Command_InstancePlaceP9CInstanceffi+0x170>
+1ca954	e59f3098	ldr	r3, [pc, #0x98]
+1ca958	e7993003	ldr	r3, [r9, r3]
+1ca95c	e5932004	ldr	r2, [r3, #0x4]
+1ca960	e5933000	ldr	r3, [r3]
+1ca964	e0052002	and	r2, r5, r2
+1ca968	e7932182	ldr	r2, [r3, r2, lsl #3]
+1ca96c	e3520000	cmp	r2, #0
+1ca970	1a000003	bne	0x1ca984 <_Z21Command_InstancePlaceP9CInstanceffi+0x2ac>
+1ca974	eaffffa7	b	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca978	e5922004	ldr	r2, [r2, #0x4]
+1ca97c	e3520000	cmp	r2, #0
+1ca980	0affffa4	beq	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca984	e5923008	ldr	r3, [r2, #0x8]
+1ca988	e1550003	cmp	r5, r3
+1ca98c	1afffff9	bne	0x1ca978 <_Z21Command_InstancePlaceP9CInstanceffi+0x2a0>
+1ca990	e592400c	ldr	r4, [r2, #0xc]
+1ca994	e3540000	cmp	r4, #0
+1ca998	0affff9e	beq	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca99c	e5d43068	ldrb	r3, [r4, #0x68]
+1ca9a0	e3530000	cmp	r3, #0
+1ca9a4	1affff9b	bne	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca9a8	e5d43069	ldrb	r3, [r4, #0x69]
+1ca9ac	e3530000	cmp	r3, #0
+1ca9b0	1affff98	bne	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca9b4	e1a00004	mov	r0, r4
+1ca9b8	e1a01006	mov	r1, r6
+1ca9bc	e3a02001	mov	r2, #1
+1ca9c0	ebff2ae4	bl	0x195558 <_ZN9CInstance18Collision_InstanceEPS_b>
+1ca9c4	e3500000	cmp	r0, #0
+1ca9c8	1affff77	bne	0x1ca7ac <_Z21Command_InstancePlaceP9CInstanceffi+0xd4>
+1ca9cc	eaffff91	b	0x1ca818 <_Z21Command_InstancePlaceP9CInstanceffi+0x140>
+1ca9d0	e1a00004	mov	r0, r4
+1ca9d4	eaffff79	b	0x1ca7c0 <_Z21Command_InstancePlaceP9CInstanceffi+0xe8>
+1ca9d8	00227544	eoreq	r7, r2, r4, asr #10
+1ca9dc	ffffbfec	.word	0xffffbfec
+1ca9e0	ffffeeb8	.word	0xffffeeb8
+1ca9e4	0022a844	eoreq	r10, r2, r4, asr #16
+1ca9e8	ffffc5f4	.word	0xffffc5f4
+1ca9ec	ffffdd84	.word	0xffffdd84
+1ca9f0	ffffbcd8	.word	0xffffbcd8
+1ca9f4	ffffbff4	.word	0xffffbff4

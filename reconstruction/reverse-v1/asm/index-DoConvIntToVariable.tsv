@@ -1,0 +1,9 @@
+d773c	edd17a00	vldr	s15, [r1]
+d7740	eeb87be7	vcvt.f64.s32	d7, s15
+d7744	e1a00001	mov	r0, r1
+d7748	e3a0c000	mov	r12, #0
+d774c	ec532b17	vmov	r2, r3, d7
+d7750	ed017a03	vstr	s14, [r1, #-12]
+d7754	e5013008	str	r3, [r1, #-0x8]
+d7758	e400c00c	str	r12, [r0], #-12
+d775c	e12fff1e	bx	lr

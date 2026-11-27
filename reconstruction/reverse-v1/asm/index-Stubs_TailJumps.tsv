@@ -1,0 +1,27 @@
+cef90	ea06b4ce	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+dc414	ea067fad	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+190f2c	e12fff1e	bx	lr
+190f30	e12fff1e	bx	lr
+191710	e12fff1e	bx	lr
+27c524	e59f100c	ldr	r1, [pc, #0xc]
+27c528	e3002525	movw	r2, #0x525
+27c52c	e3a03001	mov	r3, #1
+27c530	e08f1001	add	r1, pc, r1
+27c534	ea00024f	b	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+27c538	000dacb0	strheq	r10, [sp], -r0
+27d17c	e59f100c	ldr	r1, [pc, #0xc]
+27d180	e3002537	movw	r2, #0x537
+27d184	e3a03001	mov	r3, #1
+27d188	e08f1001	add	r1, pc, r1
+27d18c	eaffff39	b	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+27d190	000da058	andeq	r10, sp, r8, asr r0
+27d194	e59f100c	ldr	r1, [pc, #0xc]
+27d198	e300253e	movw	r2, #0x53e
+27d19c	e3a03001	mov	r3, #1
+27d1a0	e08f1001	add	r1, pc, r1
+27d1a4	eaffff33	b	0x27ce78 <_ZN13MemoryManager5AllocEjPKcib>
+27d1a8	000da040	andeq	r10, sp, r0, asr #32
+27d1c4	eafffc41	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+27d1cc	eafffc3f	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+27d1d0	eafffc3e	b	0x27c2d0 <_ZN13MemoryManager4FreeEPKv>
+27d1dc	eaf8e4de	b	0xb655c <free@plt>

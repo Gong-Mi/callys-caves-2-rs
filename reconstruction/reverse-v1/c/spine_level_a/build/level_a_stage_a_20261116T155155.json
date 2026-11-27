@@ -1,0 +1,1105 @@
+{
+  "schema": "cally-level-a-diff/2",
+  "generated_utc": "2026-11-16T07:54:19Z",
+  "stage": "a",
+  "tier": "oracle_anchored",
+  "original_executed": true,
+  "evidence_layer": "synthetic memory oracle: original ARM bytes executed in Unicorn over a staged 32-byte-node Json tree and a bump heap; NOT device execution",
+  "contract": "reconstruction/contracts/native-equivalence-gate.md Level A",
+  "BINDING": {
+    "version": "BINDING v1",
+    "original_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "original_path": "/data/data/com.termux/files/home/callys-caves-2-rs/reconstruction/live-mem/libyoyo_armv7.so",
+    "fixture_sha256": "07512c35a9a702acada193bfd5af5c35409a85f7c8cd54c931db03ab61bbc38a",
+    "model_sha256": "c7e407de934139ea0f71a810c7470bea53e4c6adc2b579850bacbe06ea924540",
+    "oracle_sha256": "f0ab642641a5575f49c167d867f9a5d4f07f2733377bde48771bb383eaafe71c",
+    "dump_sha256": "0ccaa0424ad060ab5b22a4e2933ec785bee8f286050f1d4a82ae3dd53319c301",
+    "driver_sha256": "1d8e022d8f1054d5c8d072299a51d09b6ee9d541d4d716aeb358c25269a346d7",
+    "trees": {},
+    "rebuild_binaries": {},
+    "chain_check_build_recipe": "/data/data/com.termux/files/home/cally-worktrees/prague-db-20261027/reconstruction/reverse-v1/c/spine_read_skeleton/tools/check_skeleton.py"
+  },
+  "input_domain": {
+    "trees": {
+      "main": "skeleton(meta) + 3 bones + slot(blend/color/attachment) + ik + transform + path + skin(region+mesh) + event + animation(rotate 3 frames curve+stepped, translate 2 frames, event frame)",
+      "err_parent": "main with bone arm parent=forearm (Parent bone not found)",
+      "perturb": "main with the last translate frame removed and the animation renamed walk2",
+      "err_trees": "all 19 error trees of level_a_trees.VARIANTS (gate matrix class B)",
+      "perturbations": [
+        "perturb",
+        "perturb_slot",
+        "perturb_curve"
+      ]
+    },
+    "scales": [
+      2.0
+    ],
+    "note": "This is the contract input set only; it is not the full input domain and not device equivalence."
+  },
+  "comparable_fields": {
+    "spSkeletonData": "21 words: strings/counts/floats exact; pointer words compared as non-null presence plus their per-element records (heap addresses differ by construction)",
+    "per_element": [
+      "bone name/parent/index/scalars/inherit flags",
+      "slot name/bone/attachment/blend/color bits",
+      "ik/transform/path names, bone lists, targets, scalars",
+      "skin name/entries; attachment type/name/path plus region or mesh payload",
+      "event name/int/float/string",
+      "animation name/duration/timelineCount; per timeline type/frameCount/ffc/index/frame bits/curve bits/event frames"
+    ],
+    "not_comparable": [
+      "intermediate malloc/free sequence",
+      "creator internal layout beyond the fields above",
+      "console output text (parser->error is compared)",
+      "pointer values"
+    ]
+  },
+  "field_to_segment": {
+    "meta.spine": [
+      "spine_read_meta"
+    ],
+    "meta.hash": [
+      "spine_read_meta"
+    ],
+    "meta.width": [
+      "spine_read_meta"
+    ],
+    "meta.height": [
+      "spine_read_meta"
+    ],
+    "meta.bonesCount": [
+      "spine_read_bones"
+    ],
+    "meta.slotsCount": [
+      "spine_read_slots"
+    ],
+    "meta.skinsCount": [
+      "spine_read_skins"
+    ],
+    "meta.eventsCount": [
+      "spine_read_animations"
+    ],
+    "meta.animationsCount": [
+      "spine_animations_loop"
+    ],
+    "meta.ikCount": [
+      "spine_read_ik"
+    ],
+    "meta.transformCount": [
+      "spine_read_transform"
+    ],
+    "meta.pathCount": [
+      "spine_read_path"
+    ],
+    "meta.defaultSkinIndex": [
+      "spine_read_skins"
+    ],
+    "meta.word05_": [
+      "spine_read_meta"
+    ],
+    "meta.word07_": [
+      "spine_read_slots"
+    ],
+    "meta.word09_": [
+      "spine_read_skins"
+    ],
+    "meta.word10_": [
+      "spine_read_skins"
+    ],
+    "meta.word12_": [
+      "spine_read_animations"
+    ],
+    "meta.word14_": [
+      "spine_animations_loop"
+    ],
+    "meta.word16_": [
+      "spine_read_ik"
+    ],
+    "meta.word18_": [
+      "spine_read_transform"
+    ],
+    "meta.word20_": [
+      "spine_read_path"
+    ],
+    "bones[": [
+      "spine_read_bones"
+    ],
+    "slots[": [
+      "spine_read_slots"
+    ],
+    "ik[": [
+      "spine_read_ik"
+    ],
+    "transform[": [
+      "spine_read_transform"
+    ],
+    "path[": [
+      "spine_read_path"
+    ],
+    "skins[": [
+      "spine_read_skins",
+      "spine_read_attach_dispatch",
+      "spine_skins_glue",
+      "spine_read_region",
+      "spine_read_mesh",
+      "spine_read_bbox_path",
+      "spine_read_vertices"
+    ],
+    "events[": [
+      "spine_read_animations"
+    ],
+    "animations[].name": [
+      "spine_animations_loop"
+    ],
+    "animations[].duration": [
+      "spine_read_tl_slots",
+      "spine_read_tl_bones",
+      "spine_read_tl_ik",
+      "spine_read_tl_transform",
+      "spine_read_tl_path",
+      "spine_read_tl_path_mix",
+      "spine_read_tl_deform",
+      "spine_read_tl_draworder",
+      "spine_read_tl_event"
+    ],
+    "animations[].timelineCount": [
+      "spine_read_animations",
+      "spine_animations_loop"
+    ],
+    "animations[].timelines[].curves": [
+      "spine_read_curve"
+    ],
+    "animations[].timelines[].frames": [
+      "spine_read_tl_bones",
+      "spine_read_tl_event"
+    ],
+    "animations[].timelines[].names": [
+      "spine_read_tl_slots"
+    ],
+    "animations[].timelines[].type": [
+      "spine_animations_loop"
+    ],
+    "animations[].timelines[].frameCount": [
+      "spine_read_tl_bones"
+    ],
+    "animations[].timelines[].frameFloatCount": [
+      "spine_read_tl_bones"
+    ],
+    "animations[].timelines[].index": [
+      "spine_read_tl_bones"
+    ],
+    "error.": [
+      "spine_read_entry",
+      "spine_read_skeleton",
+      "spine_json_error"
+    ]
+  },
+  "dump_protocol": [
+    {
+      "tag": "T_TREE",
+      "id": 1,
+      "payload": "canonical tree (level_a_model.canonical grammar)"
+    },
+    {
+      "tag": "T_META",
+      "id": 2,
+      "payload": "21 u32 words, spine str, hash str"
+    },
+    {
+      "tag": "T_BONES",
+      "id": 3
+    },
+    {
+      "tag": "T_SLOTS",
+      "id": 4
+    },
+    {
+      "tag": "T_IK",
+      "id": 5
+    },
+    {
+      "tag": "T_TRANSFORM",
+      "id": 6
+    },
+    {
+      "tag": "T_PATH",
+      "id": 7
+    },
+    {
+      "tag": "T_SKINS",
+      "id": 8
+    },
+    {
+      "tag": "T_EVENTS",
+      "id": 9
+    },
+    {
+      "tag": "T_ANIMS",
+      "id": 10
+    },
+    {
+      "tag": "T_ERROR",
+      "id": 11
+    },
+    {
+      "tag": "T_END",
+      "id": 255
+    }
+  ],
+  "gate_matrix": {
+    "schema": "cally-level-a-gate-matrix/1",
+    "note": "B: every error tree must return NULL on both arms with the same parser->error text and the same error.root_dispose. A: breaking one chain module in a source copy must move a compared field attributed to that module. C: a perturbed tree must change the same field set on both arms.",
+    "counts": {
+      "total": 27,
+      "passed": 27,
+      "failed": 0,
+      "B_error_trees": {
+        "total": 0,
+        "passed": 0
+      },
+      "A_module_break": {
+        "total": 27,
+        "passed": 27
+      },
+      "C_input_perturbation": {
+        "total": 0,
+        "passed": 0
+      }
+    },
+    "B_error_trees": [],
+    "A_module_break": [
+      {
+        "name": "slots_blend_additive_1_to_3",
+        "class": "A_module",
+        "module": "spine_read_slots",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "slots[0].blend"
+        ],
+        "attributed_fields": [
+          "slots[0].blend"
+        ],
+        "mutation": {
+          "file": "spine_read_slots/src/spine_read_slots.c",
+          "old": "*(int*)((char*)slotData + 0x20) = 1;",
+          "new": "*(int*)((char*)slotData + 0x20) = 3;"
+        }
+      },
+      {
+        "name": "bones_scaleX_offset_0x1c_to_0x20",
+        "class": "A_module",
+        "module": "spine_read_bones",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "bones[0].scaleX"
+        ],
+        "attributed_fields": [
+          "bones[0].scaleX"
+        ],
+        "mutation": {
+          "file": "spine_read_bones/src/spine_read_bones.c",
+          "old": "#define BD_SCALEX_OFF        0x1c",
+          "new": "#define BD_SCALEX_OFF        0x20"
+        }
+      },
+      {
+        "name": "tl_bones_rotate_angle_key",
+        "class": "A_module",
+        "module": "spine_read_tl_bones",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 3,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[2].frames[1]",
+          "animations[0].timelines[2].frames[3]",
+          "animations[0].timelines[2].frames[5]"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[2].frames[1]",
+          "animations[0].timelines[2].frames[3]",
+          "animations[0].timelines[2].frames[5]"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_bones/src/spine_read_tl_bones.c",
+          "old": "Json_getFloat(frame, \"angle\", 0.0f)",
+          "new": "Json_getFloat(frame, \"angel\", 0.0f)"
+        }
+      },
+      {
+        "name": "meta_sd_width_off_0x08_to_0x0c",
+        "class": "A_module",
+        "module": "spine_read_meta",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "meta.width"
+        ],
+        "attributed_fields": [
+          "meta.width"
+        ],
+        "mutation": {
+          "file": "spine_read_meta/src/spine_read_meta.c",
+          "old": "#define SD_WIDTH_OFF   0x08",
+          "new": "#define SD_WIDTH_OFF   0x0c"
+        }
+      },
+      {
+        "name": "ik_bend_positive_key",
+        "class": "A_module",
+        "module": "spine_read_ik",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "ik[0].bendDirection"
+        ],
+        "attributed_fields": [
+          "ik[0].bendDirection"
+        ],
+        "mutation": {
+          "file": "spine_read_ik/src/spine_read_ik.c",
+          "old": "Json_getInt(map, \"bendPositive\", 1)",
+          "new": "Json_getInt(map, \"bendPositiveZ\", 1)"
+        }
+      },
+      {
+        "name": "transform_rotate_mix_key",
+        "class": "A_module",
+        "module": "spine_read_transform",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "transform[0].rotateMix"
+        ],
+        "attributed_fields": [
+          "transform[0].rotateMix"
+        ],
+        "mutation": {
+          "file": "spine_read_transform/src/spine_read_transform.c",
+          "old": "Json_getFloat(map, \"rotateMix\", 1.0f)",
+          "new": "Json_getFloat(map, \"rotateMixX\", 1.0f)"
+        }
+      },
+      {
+        "name": "path_position_mode_key",
+        "class": "A_module",
+        "module": "spine_read_path",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 4,
+        "unique_to_module": false,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[8].frames[1]",
+          "animations[0].timelines[8].frames[3]",
+          "path[0].position",
+          "path[0].positionMode"
+        ],
+        "attributed_fields": [
+          "path[0].position",
+          "path[0].positionMode"
+        ],
+        "mutation": {
+          "file": "spine_read_path/src/spine_read_path.c",
+          "old": "Json_getString(map, \"positionMode\", \"percent\")",
+          "new": "Json_getString(map, \"positionModeZ\", \"percent\")"
+        }
+      },
+      {
+        "name": "skins_default_skin_compare",
+        "class": "A_module",
+        "module": "spine_read_skins",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 586,
+        "unique_to_module": false,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].duration",
+          "animations[0].name",
+          "animations[0].timelineCount",
+          "animations[0].timelines[0].frameCount",
+          "animations[0].timelines[0].frameFloatCount",
+          "animations[0].timelines[0].frames[0]",
+          "animations[0].timelines[0].frames[1]",
+          "animations[0].timelines[0].index",
+          "animations[0].timelines[0].names[0]",
+          "animations[0].timelines[0].names[1]",
+          "animations[0].timelines[0].slotIndex",
+          "animations[0].timelines[0].type"
+        ],
+        "attributed_fields": [
+          "meta.defaultSkinIndex",
+          "meta.skinsCount",
+          "meta.word09_skins_nonnull",
+          "meta.word10_defaultSkin_nonnull",
+          "skins[0].entries[0].attachment.flags[0]",
+          "skins[0].entries[0].attachment.flags[1]",
+          "skins[0].entries[0].attachment.flags[2]",
+          "skins[0].entries[0].name",
+          "skins[0].entries[0].slot",
+          "skins[0].entries[1].name",
+          "skins[0].entries[1].slot",
+          "skins[0].entries[2].attachment.region[0]"
+        ],
+        "mutation": {
+          "file": "spine_read_skins/src/spine_read_skins.c",
+          "old": "_strcmp(name, \"default\")",
+          "new": "_strcmp(name, \"defaultX\")"
+        }
+      },
+      {
+        "name": "attach_dispatch_path_key",
+        "class": "A_module",
+        "module": "spine_read_attach_dispatch",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "skins[0].entries[4].attachment.path"
+        ],
+        "attributed_fields": [
+          "skins[0].entries[4].attachment.path"
+        ],
+        "mutation": {
+          "file": "spine_read_attach_dispatch/src/spine_read_attach_dispatch.c",
+          "old": "Json_getString(attachmentMap, \"path\", name)",
+          "new": "Json_getString(attachmentMap, \"pathX\", name)"
+        }
+      },
+      {
+        "name": "region_width_key",
+        "class": "A_module",
+        "module": "spine_read_region",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 5,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "skins[0].entries[4].attachment.offset[0]",
+          "skins[0].entries[4].attachment.offset[2]",
+          "skins[0].entries[4].attachment.offset[4]",
+          "skins[0].entries[4].attachment.offset[6]",
+          "skins[0].entries[4].attachment.width"
+        ],
+        "attributed_fields": [
+          "skins[0].entries[4].attachment.offset[0]",
+          "skins[0].entries[4].attachment.offset[2]",
+          "skins[0].entries[4].attachment.offset[4]",
+          "skins[0].entries[4].attachment.offset[6]",
+          "skins[0].entries[4].attachment.width"
+        ],
+        "mutation": {
+          "file": "spine_read_region/src/spine_read_region.c",
+          "old": "Json_getFloat(map,\"width\",32.0f)",
+          "new": "Json_getFloat(map,\"widht\",32.0f)"
+        }
+      },
+      {
+        "name": "bbox_path_closed_key",
+        "class": "A_module",
+        "module": "spine_read_bbox_path",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "skins[0].entries[0].attachment.flags[1]"
+        ],
+        "attributed_fields": [
+          "skins[0].entries[0].attachment.flags[1]"
+        ],
+        "mutation": {
+          "file": "spine_read_bbox_path/src/spine_read_bbox_path.c",
+          "old": "Json_getInt(map, \"closed\", 0)",
+          "new": "Json_getInt(map, \"closedX\", 0)"
+        }
+      },
+      {
+        "name": "mesh_hull_key",
+        "class": "A_module",
+        "module": "spine_read_mesh",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 2,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "skins[0].entries[2].attachment.hull",
+          "skins[0].entries[3].attachment.hull"
+        ],
+        "attributed_fields": [
+          "skins[0].entries[2].attachment.hull",
+          "skins[0].entries[3].attachment.hull"
+        ],
+        "mutation": {
+          "file": "spine_read_mesh/src/spine_read_mesh.c",
+          "old": "Json_getInt(map,\"hull\",0)",
+          "new": "Json_getInt(map,\"hul\",0)"
+        }
+      },
+      {
+        "name": "vertices_world_length_halved",
+        "class": "A_module",
+        "module": "spine_read_vertices",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 4,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "skins[0].entries[0].attachment.worldVerticesLength",
+          "skins[0].entries[1].attachment.worldVerticesLength",
+          "skins[0].entries[2].attachment.worldVerticesLength",
+          "skins[0].entries[3].attachment.worldVerticesLength"
+        ],
+        "attributed_fields": [
+          "skins[0].entries[0].attachment.worldVerticesLength",
+          "skins[0].entries[1].attachment.worldVerticesLength",
+          "skins[0].entries[2].attachment.worldVerticesLength",
+          "skins[0].entries[3].attachment.worldVerticesLength"
+        ],
+        "mutation": {
+          "file": "spine_read_vertices/src/spine_read_vertices.c",
+          "old": "a->worldVerticesLength = verticesCount;",
+          "new": "a->worldVerticesLength = verticesCount >> 1;"
+        }
+      },
+      {
+        "name": "skins_glue_region_type_stub",
+        "class": "A_module",
+        "module": "spine_skins_glue",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 13,
+        "unique_to_module": false,
+        "attribution_hit": true,
+        "diff_fields": [
+          "skins[0].entries[4].attachment.height",
+          "skins[0].entries[4].attachment.offset[0]",
+          "skins[0].entries[4].attachment.offset[1]",
+          "skins[0].entries[4].attachment.offset[2]",
+          "skins[0].entries[4].attachment.offset[3]",
+          "skins[0].entries[4].attachment.offset[4]",
+          "skins[0].entries[4].attachment.offset[5]",
+          "skins[0].entries[4].attachment.offset[6]",
+          "skins[0].entries[4].attachment.offset[7]",
+          "skins[0].entries[4].attachment.path",
+          "skins[0].entries[4].attachment.width",
+          "skins[0].entries[4].attachment.x"
+        ],
+        "attributed_fields": [
+          "skins[0].entries[4].attachment.height",
+          "skins[0].entries[4].attachment.path",
+          "skins[0].entries[4].attachment.width",
+          "skins[0].entries[4].attachment.x",
+          "skins[0].entries[4].attachment.y"
+        ],
+        "mutation": {
+          "file": "spine_skins_glue/src/spine_skins_glue.c",
+          "old": "case SKINS_GLUE_TYPE_REGION:",
+          "new": "case SKINS_GLUE_TYPE_REGION + 100:"
+        }
+      },
+      {
+        "name": "linked_postpass_early_out",
+        "class": "A_module",
+        "module": "spine_linked_postpass",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 14,
+        "unique_to_module": false,
+        "attribution_hit": true,
+        "diff_fields": [
+          "skins[0].entries[2].attachment.hull",
+          "skins[0].entries[2].attachment.parentMesh",
+          "skins[0].entries[2].attachment.triangleCount",
+          "skins[0].entries[2].attachment.triangles[0]",
+          "skins[0].entries[2].attachment.triangles[1]",
+          "skins[0].entries[2].attachment.triangles[2]",
+          "skins[0].entries[2].attachment.vertexFloatCount",
+          "skins[0].entries[2].attachment.vertices[0]",
+          "skins[0].entries[2].attachment.vertices[1]",
+          "skins[0].entries[2].attachment.vertices[2]",
+          "skins[0].entries[2].attachment.vertices[3]",
+          "skins[0].entries[2].attachment.vertices[4]"
+        ],
+        "attributed_fields": [
+          "skins[0].entries[2].attachment.parentMesh"
+        ],
+        "mutation": {
+          "file": "spine_linked_postpass/src/spine_linked_postpass.c",
+          "old": "if(signed32(j->unk_10)<=0)return 1;",
+          "new": "if(1)return 1;"
+        }
+      },
+      {
+        "name": "animations_event_int_key",
+        "class": "A_module",
+        "module": "spine_read_animations",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 2,
+        "unique_to_module": false,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[12].frames[0].intValue",
+          "events[0].intValue"
+        ],
+        "attributed_fields": [
+          "events[0].intValue"
+        ],
+        "mutation": {
+          "file": "spine_read_animations/src/spine_read_animations.c",
+          "old": "Json_getInt(eventMap, \"int\", 0)",
+          "new": "Json_getInt(eventMap, \"intValue\", 0)"
+        }
+      },
+      {
+        "name": "animations_loop_stage_order_ik_before_bones",
+        "class": "A_module",
+        "module": "spine_animations_loop",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 114,
+        "unique_to_module": false,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[2].curves[0]",
+          "animations[0].timelines[2].curves[10]",
+          "animations[0].timelines[2].curves[11]",
+          "animations[0].timelines[2].curves[12]",
+          "animations[0].timelines[2].curves[13]",
+          "animations[0].timelines[2].curves[14]",
+          "animations[0].timelines[2].curves[15]",
+          "animations[0].timelines[2].curves[16]",
+          "animations[0].timelines[2].curves[17]",
+          "animations[0].timelines[2].curves[18]",
+          "animations[0].timelines[2].curves[19]",
+          "animations[0].timelines[2].curves[1]"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[2].frameCount",
+          "animations[0].timelines[2].type",
+          "animations[0].timelines[3].frameCount",
+          "animations[0].timelines[3].type",
+          "animations[0].timelines[4].type",
+          "animations[0].timelines[5].type",
+          "animations[0].timelines[6].type"
+        ],
+        "mutation": {
+          "file": "spine_animations_loop/src/spine_animations_loop.c",
+          "old": "    if (readSkeletonData_boneTimelines(frame->bones, frame->animation, data_raw,\n                                       animation, parser_raw) == 0)\n        return 0;\n\n    /* B7 ik, 0x28d840..0x28dca8 (no error path in the family). */\n    if (readSkeletonData_ikTimelines(frame->ik, data_raw, animation) == 0)\n        return 0;",
+          "new": "    /* B7 ik, 0x28d840..0x28dca8 (no error path in the family). */\n    if (readSkeletonData_ikTimelines(frame->ik, data_raw, animation) == 0)\n        return 0;\n\n    if (readSkeletonData_boneTimelines(frame->bones, frame->animation, data_raw,\n                                       animation, parser_raw) == 0)\n        return 0;"
+        }
+      },
+      {
+        "name": "tl_slots_color_word_stride",
+        "class": "A_module",
+        "module": "spine_read_tl_slots",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].duration"
+        ],
+        "attributed_fields": [
+          "animations[0].duration"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_slots/src/spine_read_tl_slots.c",
+          "old": "uint32_t word_index = (declared - 1u) * 5u;",
+          "new": "uint32_t word_index = (declared - 1u) * 4u;"
+        }
+      },
+      {
+        "name": "tl_ik_bend_enum_flip",
+        "class": "A_module",
+        "module": "spine_read_tl_ik",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 2,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[6].frames[2]",
+          "animations[0].timelines[6].frames[5]"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[6].frames[2]",
+          "animations[0].timelines[6].frames[5]"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_ik/src/spine_read_tl_ik.c",
+          "old": "int bend_enum = (bend == 0) ? -1 : 1;",
+          "new": "int bend_enum = (bend == 0) ? 1 : -1;"
+        }
+      },
+      {
+        "name": "tl_transform_mix_argument_order",
+        "class": "A_module",
+        "module": "spine_read_tl_transform",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 4,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[7].frames[1]",
+          "animations[0].timelines[7].frames[2]",
+          "animations[0].timelines[7].frames[6]",
+          "animations[0].timelines[7].frames[7]"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[7].frames[1]",
+          "animations[0].timelines[7].frames[2]",
+          "animations[0].timelines[7].frames[6]",
+          "animations[0].timelines[7].frames[7]"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_transform/src/spine_read_tl_transform.c",
+          "old": "                                                   time, rotateMix,\n                                                   translateMix, scaleMix,",
+          "new": "                                                   time, translateMix,\n                                                   rotateMix, scaleMix,"
+        }
+      },
+      {
+        "name": "tl_path_value_key_fixed_spacing",
+        "class": "A_module",
+        "module": "spine_read_tl_path",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 2,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[8].frames[1]",
+          "animations[0].timelines[8].frames[3]"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[8].frames[1]",
+          "animations[0].timelines[8].frames[3]"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_path/src/spine_read_tl_path.c",
+          "old": "float value = Json_getFloat(frame, timelineNode->name, 0.0f);",
+          "new": "float value = Json_getFloat(frame, \"spacing\", 0.0f);"
+        }
+      },
+      {
+        "name": "tl_path_mix_rotate_key",
+        "class": "A_module",
+        "module": "spine_read_tl_path_mix",
+        "variant": "path_mix_alt",
+        "PASS": true,
+        "diff_count": 2,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[10].frames[1]",
+          "animations[0].timelines[10].frames[4]"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[10].frames[1]",
+          "animations[0].timelines[10].frames[4]"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_path_mix/src/spine_read_tl_path_mix.c",
+          "old": "float rotateMix = Json_getFloat(frame, \"rotateMix\", 1.0f);",
+          "new": "float rotateMix = Json_getFloat(frame, \"rotateMixX\", 1.0f);"
+        }
+      },
+      {
+        "name": "tl_deform_frame_time_key",
+        "class": "A_module",
+        "module": "spine_read_tl_deform",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 2,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[10].frames[0].time",
+          "animations[0].timelines[10].frames[1].time"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[10].frames[0].time",
+          "animations[0].timelines[10].frames[1].time"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_deform/src/spine_read_tl_deform.c",
+          "old": "float time = Json_getFloat(frame, \"time\", 0.0f);",
+          "new": "float time = Json_getFloat(frame, \"tim\", 0.0f);"
+        }
+      },
+      {
+        "name": "tl_draworder_fill_value",
+        "class": "A_module",
+        "module": "spine_read_tl_draworder",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[11].frames[0].order[0]"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[11].frames[0].order[0]"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_draworder/src/spine_read_tl_draworder.c",
+          "old": "order[k] = -1;",
+          "new": "order[k] = -2;"
+        }
+      },
+      {
+        "name": "tl_event_int_default",
+        "class": "A_module",
+        "module": "spine_read_tl_event",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 1,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[12].frames[0].intValue"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[12].frames[0].intValue"
+        ],
+        "mutation": {
+          "file": "spine_read_tl_event/src/spine_read_tl_event.c",
+          "old": "event->intValue = Json_getInt(frame, \"int\", event_data->intValue);",
+          "new": "event->intValue = Json_getInt(frame, \"int\", 0);"
+        }
+      },
+      {
+        "name": "curve_key",
+        "class": "A_module",
+        "module": "spine_read_curve",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 20,
+        "unique_to_module": true,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[2].curves[0]",
+          "animations[0].timelines[2].curves[10]",
+          "animations[0].timelines[2].curves[11]",
+          "animations[0].timelines[2].curves[12]",
+          "animations[0].timelines[2].curves[13]",
+          "animations[0].timelines[2].curves[14]",
+          "animations[0].timelines[2].curves[15]",
+          "animations[0].timelines[2].curves[16]",
+          "animations[0].timelines[2].curves[17]",
+          "animations[0].timelines[2].curves[18]",
+          "animations[0].timelines[2].curves[19]",
+          "animations[0].timelines[2].curves[1]"
+        ],
+        "attributed_fields": [
+          "animations[0].timelines[2].curves[0]",
+          "animations[0].timelines[2].curves[10]",
+          "animations[0].timelines[2].curves[11]",
+          "animations[0].timelines[2].curves[12]",
+          "animations[0].timelines[2].curves[13]",
+          "animations[0].timelines[2].curves[14]",
+          "animations[0].timelines[2].curves[15]",
+          "animations[0].timelines[2].curves[16]",
+          "animations[0].timelines[2].curves[17]",
+          "animations[0].timelines[2].curves[18]",
+          "animations[0].timelines[2].curves[19]",
+          "animations[0].timelines[2].curves[1]"
+        ],
+        "mutation": {
+          "file": "spine_read_curve/src/spine_read_curve.c",
+          "old": "Json* curve = Json_getItem(frame, \"curve\");",
+          "new": "Json* curve = Json_getItem(frame, \"curves\");"
+        }
+      },
+      {
+        "name": "color_hex_divisor_255_to_256",
+        "class": "A_module",
+        "module": "spine_color",
+        "variant": "main",
+        "PASS": true,
+        "diff_count": 15,
+        "unique_to_module": false,
+        "attribution_hit": true,
+        "diff_fields": [
+          "animations[0].timelines[1].frames[1]",
+          "animations[0].timelines[1].frames[4]",
+          "animations[0].timelines[1].frames[7]",
+          "animations[0].timelines[1].frames[9]",
+          "skins[0].entries[3].attachment.a",
+          "skins[0].entries[3].attachment.g",
+          "skins[0].entries[3].attachment.r",
+          "skins[0].entries[4].attachment.a",
+          "skins[0].entries[4].attachment.b",
+          "skins[0].entries[4].attachment.g",
+          "skins[0].entries[4].attachment.r",
+          "slots[0].a"
+        ],
+        "attributed_fields": [
+          "skins[0].entries[3].attachment.a",
+          "skins[0].entries[3].attachment.g",
+          "skins[0].entries[3].attachment.r",
+          "skins[0].entries[4].attachment.a",
+          "skins[0].entries[4].attachment.b",
+          "skins[0].entries[4].attachment.g",
+          "skins[0].entries[4].attachment.r",
+          "slots[0].a",
+          "slots[0].r",
+          "slots[1].a",
+          "slots[1].g"
+        ],
+        "mutation": {
+          "file": "spine_color/src/spine_color.c",
+          "old": "\"t\"(converted), \"t\"(255.0f)",
+          "new": "\"t\"(converted), \"t\"(256.0f)"
+        }
+      }
+    ],
+    "C_input_perturbation": []
+  },
+  "results": {},
+  "field_table": {
+    "schema": "cally-level-a-field-report/1",
+    "path": null,
+    "groups": {},
+    "note": "Every field row carries original/rebuild values, equal flag and segment attribution; main_s2p0 is the contract run."
+  },
+  "negative_controls": {
+    "broken_segment": {
+      "passed": true,
+      "mutants": [
+        {
+          "name": "slots_blend_additive_1_to_3",
+          "segment": "spine_read_slots",
+          "diff_count": 1,
+          "fields": [
+            "slots[0].blend"
+          ],
+          "attributed_hit": true,
+          "passed": true
+        },
+        {
+          "name": "bones_scaleX_offset_0x1c_to_0x20",
+          "segment": "spine_read_bones",
+          "diff_count": 1,
+          "fields": [
+            "bones[0].scaleX"
+          ],
+          "attributed_hit": true,
+          "passed": true
+        },
+        {
+          "name": "tl_bones_rotate_angle_key",
+          "segment": "spine_read_tl_bones",
+          "diff_count": 3,
+          "fields": [
+            "animations[0].timelines[2].frames[1]",
+            "animations[0].timelines[2].frames[3]",
+            "animations[0].timelines[2].frames[5]"
+          ],
+          "attributed_hit": true,
+          "passed": true
+        }
+      ],
+      "source": "gate_matrix.A_module (first three entries)"
+    },
+    "input_perturbation": {
+      "passed": true,
+      "original_changed_fields": [
+        "animations[0].name",
+        "animations[0].timelines[3].curves[0]",
+        "animations[0].timelines[3].curves[10]",
+        "animations[0].timelines[3].curves[11]",
+        "animations[0].timelines[3].curves[12]",
+        "animations[0].timelines[3].curves[13]",
+        "animations[0].timelines[3].curves[14]",
+        "animations[0].timelines[3].curves[15]",
+        "animations[0].timelines[3].curves[16]",
+        "animations[0].timelines[3].curves[17]",
+        "animations[0].timelines[3].curves[18]",
+        "animations[0].timelines[3].curves[1]",
+        "animations[0].timelines[3].curves[2]",
+        "animations[0].timelines[3].curves[3]",
+        "animations[0].timelines[3].curves[4]",
+        "animations[0].timelines[3].curves[5]",
+        "animations[0].timelines[3].curves[6]",
+        "animations[0].timelines[3].curves[7]",
+        "animations[0].timelines[3].curves[8]",
+        "animations[0].timelines[3].curves[9]",
+        "animations[0].timelines[3].frameCount",
+        "animations[0].timelines[3].frameFloatCount",
+        "animations[0].timelines[3].frames[3]",
+        "animations[0].timelines[3].frames[4]",
+        "animations[0].timelines[3].frames[5]"
+      ],
+      "rebuild_changed_fields": [
+        "animations[0].name",
+        "animations[0].timelines[3].curves[0]",
+        "animations[0].timelines[3].curves[10]",
+        "animations[0].timelines[3].curves[11]",
+        "animations[0].timelines[3].curves[12]",
+        "animations[0].timelines[3].curves[13]",
+        "animations[0].timelines[3].curves[14]",
+        "animations[0].timelines[3].curves[15]",
+        "animations[0].timelines[3].curves[16]",
+        "animations[0].timelines[3].curves[17]",
+        "animations[0].timelines[3].curves[18]",
+        "animations[0].timelines[3].curves[1]",
+        "animations[0].timelines[3].curves[2]",
+        "animations[0].timelines[3].curves[3]",
+        "animations[0].timelines[3].curves[4]",
+        "animations[0].timelines[3].curves[5]",
+        "animations[0].timelines[3].curves[6]",
+        "animations[0].timelines[3].curves[7]",
+        "animations[0].timelines[3].curves[8]",
+        "animations[0].timelines[3].curves[9]",
+        "animations[0].timelines[3].frameCount",
+        "animations[0].timelines[3].frameFloatCount",
+        "animations[0].timelines[3].frames[3]",
+        "animations[0].timelines[3].frames[4]",
+        "animations[0].timelines[3].frames[5]"
+      ],
+      "sets_equal": true
+    },
+    "oracle_archive_replay": {
+      "passed": null,
+      "skipped": "stage a"
+    },
+    "perturbations": []
+  },
+  "equivalence_axis_4": {
+    "status": "合成内存 oracle 层已测，差异 0（输入域：本合同输入集）",
+    "diff_zero": true,
+    "diff_fields": [],
+    "diff_count": 0,
+    "caveat": "不是全输入域等价，不是设备等价。The original arm is a synthetic-memory Unicorn oracle; the rebuild arm is the reconstructed C chain under qemu-arm."
+  },
+  "status": "PASS"
+}

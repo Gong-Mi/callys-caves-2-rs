@@ -1,0 +1,257 @@
+bf524	e92d43f0	push	{r4, r5, r6, r7, r8, r9, lr}
+bf528	ed2d8b10	vpush	{d8, d9, d10, d11, d12, d13, d14, d15}
+bf52c	e24dd024	sub	sp, sp, #36
+bf530	ed9dfa20	vldr	s30, [sp, #128]
+bf534	e3a0c000	mov	r12, #0
+bf538	edddfa21	vldr	s31, [sp, #132]
+bf53c	e59d408c	ldr	r4, [sp, #0x8c]
+bf540	ed9d8a22	vldr	s16, [sp, #136]
+bf544	e58dc00c	str	r12, [sp, #0xc]
+bf548	ed8dfa00	vstr	s30, [sp]
+bf54c	edcdfa01	vstr	s31, [sp, #4]
+bf550	ed8d8a02	vstr	s16, [sp, #8]
+bf554	e1a09000	mov	r9, r0
+bf558	ee0d2a90	vmov	s27, r2
+bf55c	ee0e3a90	vmov	s29, r3
+bf560	ebfffca9	bl	0xbe80c <_ZN17CSkeletonInstance21SetAnimationTransformEifffffP9CInstance>
+bf564	e5940000	ldr	r0, [r4]
+bf568	eef79a00	vmov.f32	s19, #1.000000e+00
+bf56c	e5993020	ldr	r3, [r9, #0x20]
+bf570	ed937a03	vldr	s14, [r3, #12]
+bf574	e594c008	ldr	r12, [r4, #0x8]
+bf578	ed936a05	vldr	s12, [r3, #20]
+bf57c	ee050a10	vmov	s10, r0
+bf580	e5942004	ldr	r2, [r4, #0x4]
+bf584	e594100c	ldr	r1, [r4, #0xc]
+bf588	e080400c	add	r4, r0, r12
+bf58c	ee06ca90	vmov	s13, r12
+bf590	e060000c	rsb	r0, r0, r12
+bf594	e0844fa4	add	r4, r4, r4, lsr #31
+bf598	e0800fa0	add	r0, r0, r0, lsr #31
+bf59c	e1a040c4	asr	r4, r4, #1
+bf5a0	e1a000c0	asr	r0, r0, #1
+bf5a4	eef87ac5	vcvt.f32.s32	s15, s10
+bf5a8	ee052a10	vmov	s10, r2
+bf5ac	eeb47ae7	vcmpe.f32	s14, s15
+bf5b0	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf5b4	defd7ae7	vcvtle.s32.f32	s15, s15
+bf5b8	de176a90	vmovle	r6, s15
+bf5bc	eef87ae6	vcvt.f32.s32	s15, s13
+bf5c0	cefd5ac7	vcvtgt.s32.f32	s11, s14
+bf5c4	eeb46ae7	vcmpe.f32	s12, s15
+bf5c8	ce156a90	vmovgt	r6, s11
+bf5cc	eef86ac5	vcvt.f32.s32	s13, s10
+bf5d0	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf5d4	ee051a10	vmov	s10, r1
+bf5d8	4efd7ac6	vcvtmi.s32.f32	s15, s12
+bf5dc	5efd7ae7	vcvtpl.s32.f32	s15, s15
+bf5e0	ee178a90	vmov	r8, s15
+bf5e4	edd37a04	vldr	s15, [r3, #16]
+bf5e8	eef47ae6	vcmpe.f32	s15, s13
+bf5ec	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf5f0	cefd5ae7	vcvtgt.s32.f32	s11, s15
+bf5f4	defd6ae6	vcvtle.s32.f32	s13, s13
+bf5f8	ce157a90	vmovgt	r7, s11
+bf5fc	eef85ac5	vcvt.f32.s32	s11, s10
+bf600	de167a90	vmovle	r7, s13
+bf604	edd36a06	vldr	s13, [r3, #24]
+bf608	e0823001	add	r3, r2, r1
+bf60c	e0622001	rsb	r2, r2, r1
+bf610	e0833fa3	add	r3, r3, r3, lsr #31
+bf614	e0822fa2	add	r2, r2, r2, lsr #31
+bf618	e1a030c3	asr	r3, r3, #1
+bf61c	e1a020c2	asr	r2, r2, #1
+bf620	eef46ae5	vcmpe.f32	s13, s11
+bf624	ee083a90	vmov	s17, r3
+bf628	e599301c	ldr	r3, [r9, #0x1c]
+bf62c	ee052a10	vmov	s10, r2
+bf630	ed93da16	vldr	s26, [r3, #88]
+bf634	ed93ea17	vldr	s28, [r3, #92]
+bf638	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf63c	ee366a47	vsub.f32	s12, s12, s14
+bf640	4efd5ae6	vcvtmi.s32.f32	s11, s13
+bf644	ed8d6a04	vstr	s12, [sp, #16]
+bf648	ee064a10	vmov	s12, r4
+bf64c	ee766ae7	vsub.f32	s13, s13, s15
+bf650	eeb4fa69	vcmp.f32	s30, s19
+bf654	edcd6a05	vstr	s13, [sp, #20]
+bf658	ee060a90	vmov	s13, r0
+bf65c	5efd5ae5	vcvtpl.s32.f32	s11, s11
+bf660	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf664	13a01000	movne	r1, #0
+bf668	03a01001	moveq	r1, #1
+bf66c	eeb86ac6	vcvt.f32.s32	s12, s12
+bf670	ee155a90	vmov	r5, s11
+bf674	eef86ae6	vcvt.f32.s32	s13, s13
+bf678	ed8d6a06	vstr	s12, [sp, #24]
+bf67c	eef4fa69	vcmp.f32	s31, s19
+bf680	edcd6a07	vstr	s13, [sp, #28]
+bf684	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf688	13a01000	movne	r1, #0
+bf68c	02011001	andeq	r1, r1, #1
+bf690	e3510000	cmp	r1, #0
+bf694	eef88ae8	vcvt.f32.s32	s17, s17
+bf698	eeb89ac5	vcvt.f32.s32	s18, s10
+bf69c	ee3dda47	vsub.f32	s26, s26, s14
+bf6a0	ee3eea67	vsub.f32	s28, s28, s15
+bf6a4	0a000040	beq	0xbf7ac <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x288>
+bf6a8	eddf7a9c	vldr	s15, [pc, #624]
+bf6ac	eeb07ac8	vabs.f32	s14, s16
+bf6b0	eeb47ae7	vcmpe.f32	s14, s15
+bf6b4	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf6b8	5a00003b	bpl	0xbf7ac <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x288>
+bf6bc	e1560008	cmp	r6, r8
+bf6c0	ca00008e	bgt	0xbf900 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x3dc>
+bf6c4	eeb6aa00	vmov.f32	s20, #5.000000e-01
+bf6c8	e1570005	cmp	r7, r5
+bf6cc	ca00008f	bgt	0xbf910 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x3ec>
+bf6d0	ee066a90	vmov	s13, r6
+bf6d4	ed9d7a06	vldr	s14, [sp, #24]
+bf6d8	eddd7a07	vldr	s15, [sp, #28]
+bf6dc	e1a04007	mov	r4, r7
+bf6e0	eef8aae6	vcvt.f32.s32	s21, s13
+bf6e4	ee3a8ac7	vsub.f32	s16, s21, s14
+bf6e8	ee888a27	vdiv.f32	s16, s16, s15
+bf6ec	ee288a08	vmul.f32	s16, s16, s16
+bf6f0	ea000002	b	0xbf700 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x1dc>
+bf6f4	e2844001	add	r4, r4, #1
+bf6f8	e1550004	cmp	r5, r4
+bf6fc	ba000083	blt	0xbf910 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x3ec>
+bf700	ee054a90	vmov	s11, r4
+bf704	eeb06a48	vmov.f32	s12, s16
+bf708	eeb87ae5	vcvt.f32.s32	s14, s11
+bf70c	ee777a68	vsub.f32	s15, s14, s17
+bf710	eec77a89	vdiv.f32	s15, s15, s18
+bf714	ee076aa7	vmla.f32	s12, s15, s15
+bf718	eeb46ae9	vcmpe.f32	s12, s19
+bf71c	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf720	cafffff3	bgt	0xbf6f4 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x1d0>
+bf724	ee7d7acd	vsub.f32	s15, s27, s26
+bf728	ee777aca	vsub.f32	s15, s15, s20
+bf72c	eefd7ae7	vcvt.s32.f32	s15, s15
+bf730	ee173a90	vmov	r3, s15
+bf734	e0563003	subs	r3, r6, r3
+bf738	4affffed	bmi	0xbf6f4 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x1d0>
+bf73c	ee063a90	vmov	s13, r3
+bf740	ed9d5a04	vldr	s10, [sp, #16]
+bf744	eef87ae6	vcvt.f32.s32	s15, s13
+bf748	eeb45ae7	vcmpe.f32	s10, s15
+bf74c	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf750	9affffe7	bls	0xbf6f4 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x1d0>
+bf754	ee7e7ace	vsub.f32	s15, s29, s28
+bf758	ee777aca	vsub.f32	s15, s15, s20
+bf75c	eefd7ae7	vcvt.s32.f32	s15, s15
+bf760	ee173a90	vmov	r3, s15
+bf764	e0543003	subs	r3, r4, r3
+bf768	4affffe1	bmi	0xbf6f4 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x1d0>
+bf76c	ee053a90	vmov	s11, r3
+bf770	ed9d6a05	vldr	s12, [sp, #20]
+bf774	eef87ae5	vcvt.f32.s32	s15, s11
+bf778	eeb46ae7	vcmpe.f32	s12, s15
+bf77c	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf780	9affffdb	bls	0xbf6f4 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x1d0>
+bf784	e5990020	ldr	r0, [r9, #0x20]
+bf788	ee1a1a90	vmov	r1, s21
+bf78c	ee172a10	vmov	r2, s14
+bf790	eb072d3d	bl	0x28ac8c <spSkeletonBounds_containsPoint>
+bf794	e3500000	cmp	r0, #0
+bf798	0affffd5	beq	0xbf6f4 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x1d0>
+bf79c	e3a00001	mov	r0, #1
+bf7a0	e28dd024	add	sp, sp, #36
+bf7a4	ecbd8b10	vpop	{d8, d9, d10, d11, d12, d13, d14, d15}
+bf7a8	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+bf7ac	ed9faa5c	vldr	s20, [pc, #368]
+bf7b0	ee687a4a	vnmul.f32	s15, s16, s20
+bf7b4	eddf9a5b	vldr	s19, [pc, #364]
+bf7b8	eec77aa9	vdiv.f32	s15, s15, s19
+bf7bc	ee288a0a	vmul.f32	s16, s16, s20
+bf7c0	ee170a90	vmov	r0, s15
+bf7c4	ebffdb6d	bl	0xb6580 <sinf@plt>
+bf7c8	ee888a29	vdiv.f32	s16, s16, s19
+bf7cc	ee0b0a90	vmov	s23, r0
+bf7d0	ee180a10	vmov	r0, s16
+bf7d4	ebffdb6c	bl	0xb658c <cosf@plt>
+bf7d8	e1560008	cmp	r6, r8
+bf7dc	ee0c0a10	vmov	s24, r0
+bf7e0	ca000046	bgt	0xbf900 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x3dc>
+bf7e4	eeb7aa00	vmov.f32	s20, #1.000000e+00
+bf7e8	e1570005	cmp	r7, r5
+bf7ec	ca000040	bgt	0xbf8f4 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x3d0>
+bf7f0	ee056a90	vmov	s11, r6
+bf7f4	ed9d6a06	vldr	s12, [sp, #24]
+bf7f8	eddd6a07	vldr	s13, [sp, #28]
+bf7fc	e1a04007	mov	r4, r7
+bf800	eef8cae5	vcvt.f32.s32	s25, s11
+bf804	ee7c9ac6	vsub.f32	s19, s25, s12
+bf808	eec99aa6	vdiv.f32	s19, s19, s13
+bf80c	ee699aa9	vmul.f32	s19, s19, s19
+bf810	ea000001	b	0xbf81c <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x2f8>
+bf814	e1550004	cmp	r5, r4
+bf818	ba000035	blt	0xbf8f4 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x3d0>
+bf81c	ee054a10	vmov	s10, r4
+bf820	e2844001	add	r4, r4, #1
+bf824	eef05a69	vmov.f32	s11, s19
+bf828	eeb88ac5	vcvt.f32.s32	s16, s10
+bf82c	ee787a68	vsub.f32	s15, s16, s17
+bf830	eec77a89	vdiv.f32	s15, s15, s18
+bf834	ee475aa7	vmla.f32	s11, s15, s15
+bf838	eef45aca	vcmpe.f32	s11, s20
+bf83c	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf840	cafffff3	bgt	0xbf814 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x2f0>
+bf844	ee78aa6e	vsub.f32	s21, s16, s29
+bf848	ee6a7aab	vmul.f32	s15, s21, s23
+bf84c	ee3cbaed	vsub.f32	s22, s25, s27
+bf850	ee4b7a0c	vmla.f32	s15, s22, s24
+bf854	eec77a8f	vdiv.f32	s15, s15, s30
+bf858	ee2bba8b	vmul.f32	s22, s23, s22
+bf85c	ee1cba2a	vnmls.f32	s22, s24, s21
+bf860	ee8bba2f	vdiv.f32	s22, s22, s31
+bf864	ee777a8d	vadd.f32	s15, s15, s26
+bf868	eeb76ae7	vcvt.f64.f32	d6, s15
+bf86c	ec510b16	vmov	r0, r1, d6
+bf870	ebffdb48	bl	0xb6598 <floor@plt>
+bf874	ee3bba0e	vadd.f32	s22, s22, s28
+bf878	eeb75acb	vcvt.f64.f32	d5, s22
+bf87c	ec410b17	vmov	d7, r0, r1
+bf880	ec510b15	vmov	r0, r1, d5
+bf884	eefdabc7	vcvt.s32.f64	s21, d7
+bf888	ebffdb42	bl	0xb6598 <floor@plt>
+bf88c	ee1a3a90	vmov	r3, s21
+bf890	e3530000	cmp	r3, #0
+bf894	ec410b17	vmov	d7, r0, r1
+bf898	baffffdd	blt	0xbf814 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x2f0>
+bf89c	eef8aaea	vcvt.f32.s32	s21, s21
+bf8a0	ed9d5a04	vldr	s10, [sp, #16]
+bf8a4	eeb45aea	vcmpe.f32	s10, s21
+bf8a8	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf8ac	9affffd8	bls	0xbf814 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x2f0>
+bf8b0	eebd7bc7	vcvt.s32.f64	s14, d7
+bf8b4	ee173a10	vmov	r3, s14
+bf8b8	e3530000	cmp	r3, #0
+bf8bc	baffffd4	blt	0xbf814 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x2f0>
+bf8c0	eeb87ac7	vcvt.f32.s32	s14, s14
+bf8c4	ed9d5a05	vldr	s10, [sp, #20]
+bf8c8	eeb45ac7	vcmpe.f32	s10, s14
+bf8cc	eef1fa10	vmrs	APSR_nzcv, fpscr
+bf8d0	9affffcf	bls	0xbf814 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x2f0>
+bf8d4	e5990020	ldr	r0, [r9, #0x20]
+bf8d8	ee1c1a90	vmov	r1, s25
+bf8dc	ee182a10	vmov	r2, s16
+bf8e0	eb072ce9	bl	0x28ac8c <spSkeletonBounds_containsPoint>
+bf8e4	e3500000	cmp	r0, #0
+bf8e8	1affffab	bne	0xbf79c <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x278>
+bf8ec	e1550004	cmp	r5, r4
+bf8f0	aaffffc9	bge	0xbf81c <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x2f8>
+bf8f4	e2866001	add	r6, r6, #1
+bf8f8	e1580006	cmp	r8, r6
+bf8fc	aaffffb9	bge	0xbf7e8 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x2c4>
+bf900	e3a00000	mov	r0, #0
+bf904	e28dd024	add	sp, sp, #36
+bf908	ecbd8b10	vpop	{d8, d9, d10, d11, d12, d13, d14, d15}
+bf90c	e8bd83f0	pop	{r4, r5, r6, r7, r8, r9, pc}
+bf910	e2866001	add	r6, r6, #1
+bf914	e1580006	cmp	r8, r6
+bf918	aaffff6a	bge	0xbf6c8 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x1a4>
+bf91c	eafffff7	b	0xbf900 <_ZN17CSkeletonInstance16EllipseCollisionEifffffP9tagYYRECT+0x3dc>
+bf920	38d1b717	ldmlo	r1, {r0, r1, r2, r4, r8, r9, r10, r12, sp, pc} ^
+bf924	40490fdb	ldrdmi	r0, r1, [r9], #-251

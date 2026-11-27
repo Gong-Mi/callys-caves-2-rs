@@ -1,0 +1,403 @@
+{
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "script_ref_observed_offsets": {
+    "dense_values": 4,
+    "script_pointer": "0x64",
+    "native_callback": "0x68",
+    "captured_local_word": "0x6c",
+    "captured_local_tag": "0x78",
+    "receiver_pointer": "0x7c",
+    "receiver_full_tag": "0x88"
+  },
+  "CScript_read_prefix": {
+    "code_offset": 8,
+    "no_full_class_extent_claim": true
+  },
+  "local_object_alloc": {
+    "source_sentinel": "0x00ffffff",
+    "constructor_bool": false,
+    "post_call_stores": [
+      "+0x0c=0",
+      "+0x40=Locals@0x332800"
+    ]
+  },
+  "global_bindings": [
+    {
+      "pool": "0x249844",
+      "slot": "0x3edd5c",
+      "target": "0x544b50",
+      "symbol": "g_nLocalVariables",
+      "size": 4
+    },
+    {
+      "pool": "0x249848",
+      "slot": "0x3edcb4",
+      "target": "0x3f7420",
+      "symbol": "length_slot",
+      "size": 4
+    },
+    {
+      "pool": "0x24984c",
+      "slot": "0x3edb70",
+      "target": "0x757e7c",
+      "symbol": "g_bProfile",
+      "size": 1
+    },
+    {
+      "pool": "0x249850",
+      "slot": "0x3edd24",
+      "target": "0x756470",
+      "symbol": "g_fDoExceptionUnwind",
+      "size": 1
+    },
+    {
+      "pool": "0x249858",
+      "slot": "0x3edb74",
+      "target": "0x757e80",
+      "symbol": "g_Profiler",
+      "size": 128
+    }
+  ],
+  "strings": {
+    "0x332800": {
+      "pool": "0xd420c",
+      "add_site": "0xd41fc",
+      "text": "Locals"
+    },
+    "0x35520c": {
+      "pool": "0x2a086c",
+      "add_site": "0x2a082c",
+      "text": "jni/../jni/yoyo/../../../Files/Physics/PhysicsContactStack.h"
+    },
+    "0x331038": {
+      "pool": "0x249854",
+      "add_site": "0x249708",
+      "text": "jni/../jni/yoyo/../../../Platform/MemoryManager.h"
+    },
+    "0x330874": {
+      "pool": "0x24985c",
+      "add_site": "0x249820",
+      "text": "length"
+    }
+  },
+  "shared_private_slots": {
+    "reused1c": "expected int temporarily before Alloc; both branches reset to zero at249640",
+    "image20": "low zeroed before GetCode, same 16B image to CreateArgumentsObject; low later VM arg9",
+    "bool_fifth_argument": "zero reaching definition on both paths, earlier raw-count hypothesis refuted by branch249768->249634"
+  },
+  "parent_source_repairs": [
+    "ref read order +88 then+64 then optional+7c",
+    "single captured volatile length_slot read instead of two on hit",
+    "shared reused1c volatile, image low raw word access, YYAllocLocalStackNew noinline first declaration"
+  ],
+  "original_executed": false,
+  "context_stack": {
+    "functions": [
+      "0xd3968",
+      "0xd3a34",
+      "0xd3a54"
+    ],
+    "global_got_anchors": {
+      "0xd3a20": {
+        "slot": "0x3edbc0",
+        "raw_addend": "0x47f295",
+        "defined_symbols": [
+          {
+            "name": "g_fJSGarbageCollection",
+            "size": 1,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0xd3a24": {
+        "slot": "0x3edc08",
+        "raw_addend": "0x47f280",
+        "defined_symbols": [
+          {
+            "name": "g_ContextStackTop",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0xd3a28": {
+        "slot": "0x3edc0c",
+        "raw_addend": "0x47f27c",
+        "defined_symbols": [
+          {
+            "name": "g_ContextStackMax",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      },
+      "0xd3a2c": {
+        "slot": "0x3edc10",
+        "raw_addend": "0x47f284",
+        "defined_symbols": [
+          {
+            "name": "g_ContextStack",
+            "size": 4,
+            "type": "STT_OBJECT"
+          }
+        ],
+        "relocation": {
+          "type": 23,
+          "symbol": ""
+        }
+      }
+    },
+    "realloc_tag": {
+      "address": "0x331038",
+      "content": "jni/../jni/yoyo/../../../Platform/MemoryManager.h",
+      "line": 74,
+      "realloc_final_bool": false
+    },
+    "realloc_line": 74,
+    "realloc_bool": false,
+    "gap": "ReAlloc result and g_ContextStack publish are unconditional; initial array/pointer/max ownership, fault/LR/unwind/concurrency are not certified.",
+    "original_executed": false
+  },
+  "variable_name_dispatch": {
+    "symbol": "_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc",
+    "entry": "0xd21ec",
+    "size": 60,
+    "end": "0xd2228",
+    "body_sha256": "a2d09e2a8e6779b606c53050f0bd9fc58bf329cddaa897df8e33b53f1962c3e5",
+    "code_instruction_count": 13,
+    "literal_pool_word_count": 2,
+    "literal_pool": [
+      {
+        "va": "0xd2220",
+        "word": "0x0031b9c4"
+      },
+      {
+        "va": "0xd2224",
+        "word": "0x0031b9ac"
+      }
+    ],
+    "got_anchors": {
+      "0xd21ec": {
+        "pool": "0xd2220",
+        "pc_base": "0xd21f4",
+        "slot": "0x3edbbc",
+        "target": "0x544be0",
+        "symbol": "g_pGlobal",
+        "size": 4,
+        "relocation": "R_ARM_RELATIVE"
+      },
+      "0xd2208": {
+        "pool": "0xd2224",
+        "pc_base": "0xd2210",
+        "slot": "0x3edbc0",
+        "target": "0x47f295",
+        "symbol": "g_fJSGarbageCollection",
+        "size": 1,
+        "relocation": "R_ARM_RELATIVE"
+      }
+    },
+    "tail_branches": [
+      {
+        "site": "0xd2204",
+        "target": "0xd1f74",
+        "symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc"
+      },
+      {
+        "site": "0xd221c",
+        "target": "0xd2054",
+        "symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc"
+      }
+    ],
+    "dispatch_contract": "self != g_pGlobal => local; otherwise g_fJSGarbageCollection != 0 => local; otherwise global. Name and int result pass through unchanged.",
+    "unresolved_providers": [
+      "local/global helper C++ candidates exist; provider selection and combined link are unverified",
+      "g_pGlobal producer/lifecycle",
+      "g_fJSGarbageCollection producer/lifecycle"
+    ],
+    "original_executed": false
+  },
+  "variable_name_helpers": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+    "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+    "original_word_rows_added": 83,
+    "functions": [
+      {
+        "symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc",
+        "entry": "0xd1f74",
+        "size": 224,
+        "end": "0xd2054",
+        "body_sha256": "5975070a4e732a83169d488259363c39d2327a344551393180c6c80bdc70417d",
+        "code_instruction_count": 55,
+        "literal_pool_word_count": 1,
+        "pool_word": {"va": "0xd2050", "word": "0x0031bc28", "classification": "literal-pool data"},
+        "pc_relative_references": [
+          {"site": "0xd1f74", "pc_base": "0xd1f7c", "immediate": "0xd4", "pool_va": "0xd2050"},
+          {"site": "0xd1f7c", "pc_base": "0xd1f84", "pool_word": "0x0031bc28", "target_slot": "0x3edbac"}
+        ],
+        "got_slot": {
+          "va": "0x3edbac",
+          "file_offset": "0x3ecbac",
+          "relocation": {"type": 23, "name": "R_ARM_RELATIVE", "symbol_index": 0},
+          "raw_addend": "0x47a178",
+          "dynsym_target": {"symbol": "g_instanceVarLookup", "type": "STT_OBJECT", "size": 4}
+        },
+        "direct_callees": [
+          {"site": "0xd1f88", "target": "0x1eeb88", "symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "size": 32, "edge": "direct BL; same-translation-unit provider definition; O0/O2 ET_REL R_ARM_CALL resolves to defined symbol; final combined link not verified"},
+          {"site": "0xd2010", "target": "0x1eeba8", "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "size": 20, "edge": "direct BL; same-translation-unit provider definition; O0/O2 ET_REL R_ARM_CALL resolves to defined symbol; final combined link not verified"}
+        ],
+        "raw_offsets": {
+          "map_words": ["+0x00", "+0x08", "+0x10"],
+          "record_words": ["+0x00", "+0x04", "+0x08"],
+          "record_stride": "0x0c"
+        },
+        "original_executed": false
+      },
+      {
+        "symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc",
+        "entry": "0xd2054",
+        "size": 108,
+        "end": "0xd20c0",
+        "body_sha256": "b78799f4458a3ed0e54c566f6a7e4a5450c29b9b31a3b2824b6bf3a77d3f426e",
+        "code_instruction_count": 26,
+        "literal_pool_word_count": 1,
+        "pool_word": {"va": "0xd20bc", "word": "0x0031bb40", "classification": "literal-pool data"},
+        "pc_relative_references": [
+          {"site": "0xd2054", "pc_base": "0xd205c", "immediate": "0x60", "pool_va": "0xd20bc"},
+          {"site": "0xd205c", "pc_base": "0xd2064", "pool_word": "0x0031bb40", "target_slot": "0x3edba4"}
+        ],
+        "got_slot": {
+          "va": "0x3edba4",
+          "file_offset": "0x3ecba4",
+          "relocation": {"type": 23, "name": "R_ARM_RELATIVE", "symbol_index": 0},
+          "raw_addend": "0x47a19c",
+          "dynsym_target": {"symbol": "g_VarNamesGlobal", "type": "STT_OBJECT", "size": 16}
+        },
+        "direct_callees": [
+          {"site": "0xd2094", "target": "0xb6574", "symbol": "strcmp", "edge": "direct BL to PLT"}
+        ],
+        "raw_offsets": {
+          "table_words": ["+0x00", "+0x04", "+0x0c"],
+          "table_word_not_read": "+0x08",
+          "name_pointer_stride": "0x04"
+        },
+        "original_executed": false
+      }
+    ],
+    "external_imports": [
+      {"symbol": "strcmp", "dynsym": "SHN_UNDEF", "plt_entry": "0xb6574", "got_slot": "0x3f1c8c", "relocation": "R_ARM_JUMP_SLOT"}
+    ],
+    "address_mapping_observed": {
+      ".text": {"section_vaddr": "0x000b6fd0", "section_file_offset": "0x000b6fd0", "relation": "VA==file offset"},
+      ".got": {"section_vaddr": "0x003ed718", "section_file_offset": "0x003ec718", "relation": "file offset = VA - 0x1000"}
+    },
+    "open_edges": [
+      "g_instanceVarLookup (0x47a178): the pointer cell is named and relocated; its target map contents and lifecycle semantics remain open; writer sites are enumerated in variable_name_static_writer_survey",
+      "_Z10murmurhashPKcjj (0x1eea84): direct tail callee of the restored hash provider; body not restored or link-tested",
+      "g_VarNamesGlobal (0x47a19c): +0x00/+0x04/+0x0c raw words and lifecycle semantics remain open; writer sites are enumerated in variable_name_static_writer_survey",
+      "strlen: external libc import through PLT/JUMP_SLOT; final combined link/runtime provider not tested",
+      "strcmp: named Android libc import through PLT/JUMP_SLOT; final link/runtime provider not tested"
+    ],
+    "combined_link_verified": false,
+    "candidate_executed": false,
+    "original_executed": false
+  },
+  "hash_compare_providers": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+    "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+    "original_word_rows_added": 13,
+    "functions": [
+      {
+        "symbol": "_Z21CHashMapCalculateHashIPKcEjT_",
+        "entry": "0x1eeb88",
+        "size": 32,
+        "end": "0x1eeba8",
+        "body_sha256": "f7a80f18eabb1c8383e7a5c58869c5a61785e37c49e60393e3f432ca0b4d24a2",
+        "code_instruction_count": 8,
+        "literal_pool_word_count": 0,
+        "pool_words": [],
+        "body_relocations": [],
+        "direct_callees": [
+          {"site": "0x1eeb90", "target": "0xb6538", "symbol": "strlen", "plt_got_slot": "0x3f1c78", "relocation": "R_ARM_JUMP_SLOT", "edge": "direct BL to external PLT"},
+          {"site": "0x1eeba4", "target": "0x1eea84", "symbol": "_Z10murmurhashPKcjj", "size": 260, "edge": "direct tail B; internal body remains un-restored"}
+        ]
+      },
+      {
+        "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_",
+        "entry": "0x1eeba8",
+        "size": 20,
+        "end": "0x1eebbc",
+        "body_sha256": "c19c3f629be580aa8eed8a6608a6774cec35d5cf68a42f268a22bceadfe33b8e",
+        "code_instruction_count": 5,
+        "literal_pool_word_count": 0,
+        "pool_words": [],
+        "body_relocations": [],
+        "direct_callees": [
+          {"site": "0x1eebac", "target": "0xb6574", "symbol": "strcmp", "plt_got_slot": "0x3f1c8c", "relocation": "R_ARM_JUMP_SLOT", "edge": "direct BL to external PLT"}
+        ]
+      }
+    ],
+    "helper_edges": [
+      {"caller": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc", "site": "0xd1f88", "provider": "_Z21CHashMapCalculateHashIPKcEjT_", "state": "same_translation_unit_definition; O0/O2 ET_REL R_ARM_CALL resolves to defined symbol; final combined link not verified"},
+      {"caller": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc", "site": "0xd2010", "provider": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "state": "same_translation_unit_definition; O0/O2 ET_REL R_ARM_CALL resolves to defined symbol; final combined link not verified"}
+    ],
+    "object_builds": [
+      {"configuration": "O0", "class": "ELF32", "machine": "ARM", "object_sha256": "458c31c7fde3fc0cbb71db04253e3dd471a389331f6b1d6357eebcd8fe4469b1"},
+      {"configuration": "O2", "class": "ELF32", "machine": "ARM", "object_sha256": "161c1b25626c85c392338a4bd6ebd12aead868fcdbcee57ab64f8f52e6a279a8"}
+    ],
+    "combined_link_verified": false,
+    "candidate_executed": false,
+    "original_executed": false
+  },
+  "variable_name_static_writer_survey": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "targets": [
+      {"symbol": "g_instanceVarLookup", "va": "0x47a178", "size": 4, "section": ".bss", "got_slot": "0x3edbac", "got_file_offset": "0x3ecbac", "got_relocation": "R_ARM_RELATIVE", "got_raw_addend": "0x47a178"},
+      {"symbol": "g_VarNamesGlobal", "va": "0x47a19c", "size": 16, "section": ".bss", "got_slot": "0x3edba4", "got_file_offset": "0x3ecba4", "got_relocation": "R_ARM_RELATIVE", "got_raw_addend": "0x47a19c"}
+    ],
+    "method_and_coverage": {
+      "executable_sections": [
+        {"name": ".plt", "va": "0xb64e8", "file_offset": "0xb64e8", "size": "0xae8"},
+        {"name": ".text", "va": "0xb6fd0", "file_offset": "0xb6fd0", "size": "0x264bac"}
+      ],
+      "executable_pt_load": {"va": "0x0", "file_offset": "0x0", "file_size": "0x3a581c", "permissions": "R|E"},
+      "defined_dynsym_nonzero_size_function_count": 8913,
+      "defined_dynsym_function_range_union_bytes": 2109420,
+      "decoded_instructions_in_named_ranges": {"arm": 467337, "thumb": 33793},
+      "unowned_text_ranges": 286,
+      "unowned_text_bytes": 400320,
+      "unowned_ranges_dual_mode_candidate_decodes_including_plt": {"arm": 87605, "thumb": 191437},
+      "gap_candidate_scan": "For the 400320 text bytes not covered by nonzero-size defined dynsym functions and the full .plt range, decode candidate ARM/Thumb starts; resolve PC-relative literal loads followed by PC-index LDR/ADD to the exact GOT slots, PC-relative bases into .got or the target .bss objects, MOVW/MOVT absolute constructions, and literal words equal to the GOT/object addresses. No additional target-reference candidates were found. Named function bodies were analyzed with Capstone detail-mode register/CFG constant propagation through literal loads and R_ARM_RELATIVE slot addends, then STR/STRB effective addresses were checked.",
+      "got_slot_store_sites": [],
+      "strb_hits": 0
+    },
+    "writer_sites": [
+      {"target": "g_instanceVarLookup+0x00", "va": "0x47a178", "site": "0xd1f0c", "instruction": "str r4, [r3]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x0c", "va": "0x47a1a8", "site": "0xd1db8", "instruction": "str r3, [r4, #0xc]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd1dbc", "instruction": "str r3, [r4, #4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x00", "va": "0x47a19c", "site": "0xd1dc4", "instruction": "str r3, [r4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x0c", "va": "0x47a1a8", "site": "0xd1df8", "instruction": "str r0, [r4, #0xc]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x00", "va": "0x47a19c", "site": "0xd1dfc", "instruction": "str r6, [r4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x0c", "va": "0x47a1a8", "site": "0xd1f2c", "instruction": "str r7, [r4, #0xc]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd1f30", "instruction": "str r7, [r4, #4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x0c", "va": "0x47a1a8", "site": "0xd1f4c", "instruction": "str r7, [r4, #0xc]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd1f50", "instruction": "str r7, [r4, #4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd2e80", "instruction": "str r3, [r5, #4]", "function": "_Z38Code_Variable_FindAlloc_Slot_From_NameP12YYObjectBasePKc"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd30bc", "instruction": "str r2, [r3, #4]", "function": "_Z22Code_Variable_Find_SetPKcii"}
+    ],
+    "original_executed": false
+  }
+}

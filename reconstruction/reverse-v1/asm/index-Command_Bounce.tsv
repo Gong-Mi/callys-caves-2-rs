@@ -1,0 +1,165 @@
+1cafa0	e92d40f8	push	{r3, r4, r5, r6, r7, lr}
+1cafa4	ed2d8b0c	vpush	{d8, d9, d10, d11, d12, d13}
+1cafa8	e1a03002	mov	r3, r2
+1cafac	e1a06002	mov	r6, r2
+1cafb0	e1a05001	mov	r5, r1
+1cafb4	e59020b8	ldr	r2, [r0, #0xb8]
+1cafb8	e1a04000	mov	r4, r0
+1cafbc	e59010b4	ldr	r1, [r0, #0xb4]
+1cafc0	ebfffff2	bl	0x1caf90 <_Z11Bounce_TestP9CInstanceffb>
+1cafc4	e3500000	cmp	r0, #0
+1cafc8	13a07000	movne	r7, #0
+1cafcc	0a00007a	beq	0x1cb1bc <_Z14Command_BounceP9CInstancebb+0x21c>
+1cafd0	e3550000	cmp	r5, #0
+1cafd4	edd4aa2d	vldr	s21, [r4, #180]
+1cafd8	ed94aa2e	vldr	s20, [r4, #184]
+1cafdc	0a000048	beq	0x1cb104 <_Z14Command_BounceP9CInstancebb+0x164>
+1cafe0	eeb28a04	vmov.f32	s16, #1.000000e+01
+1cafe4	edd47a33	vldr	s15, [r4, #204]
+1cafe8	e3a05023	mov	r5, #35
+1cafec	eddfca8e	vldr	s25, [pc, #568]
+1caff0	eddfba8e	vldr	s23, [pc, #568]
+1caff4	eec77a88	vdiv.f32	s15, s15, s16
+1caff8	eeb76ae7	vcvt.f64.f32	d6, s15
+1caffc	ec510b16	vmov	r0, r1, d6
+1cb000	ebfbadb8	bl	0xb66e8 <lrint@plt>
+1cb004	eeb0ba48	vmov.f32	s22, s16
+1cb008	ee060a90	vmov	s13, r0
+1cb00c	eeb8cae6	vcvt.f32.s32	s24, s13
+1cb010	ee2cca08	vmul.f32	s24, s24, s16
+1cb014	eeb08a4c	vmov.f32	s16, s24
+1cb018	ea000002	b	0x1cb028 <_Z14Command_BounceP9CInstancebb+0x88>
+1cb01c	e2555001	subs	r5, r5, #1
+1cb020	e3a07001	mov	r7, #1
+1cb024	0a000014	beq	0x1cb07c <_Z14Command_BounceP9CInstancebb+0xdc>
+1cb028	ee388a4b	vsub.f32	s16, s16, s22
+1cb02c	edd48a34	vldr	s17, [r4, #208]
+1cb030	ee289a2c	vmul.f32	s18, s16, s25
+1cb034	ee899a2b	vdiv.f32	s18, s18, s23
+1cb038	ee190a10	vmov	r0, s18
+1cb03c	ebfbad52	bl	0xb658c <cosf@plt>
+1cb040	ee090a90	vmov	s19, r0
+1cb044	ee190a10	vmov	r0, s18
+1cb048	ebfbad4c	bl	0xb6580 <sinf@plt>
+1cb04c	eeb07a6a	vmov.f32	s14, s21
+1cb050	e1a03006	mov	r3, r6
+1cb054	eef07a4a	vmov.f32	s15, s20
+1cb058	ee087aa9	vmla.f32	s14, s17, s19
+1cb05c	ee171a10	vmov	r1, s14
+1cb060	ee060a10	vmov	s12, r0
+1cb064	e1a00004	mov	r0, r4
+1cb068	ee487ac6	vmls.f32	s15, s17, s12
+1cb06c	ee172a90	vmov	r2, s15
+1cb070	ebffffc6	bl	0x1caf90 <_Z11Bounce_TestP9CInstanceffb>
+1cb074	e3500000	cmp	r0, #0
+1cb078	0affffe7	beq	0x1cb01c <_Z14Command_BounceP9CInstancebb+0x7c>
+1cb07c	eeb2da04	vmov.f32	s26, #1.000000e+01
+1cb080	e3a05023	mov	r5, #35
+1cb084	eddfca68	vldr	s25, [pc, #416]
+1cb088	eddfba68	vldr	s23, [pc, #416]
+1cb08c	eef08a4c	vmov.f32	s17, s24
+1cb090	ea000002	b	0x1cb0a0 <_Z14Command_BounceP9CInstancebb+0x100>
+1cb094	e2555001	subs	r5, r5, #1
+1cb098	e3a07001	mov	r7, #1
+1cb09c	0a000053	beq	0x1cb1f0 <_Z14Command_BounceP9CInstancebb+0x250>
+1cb0a0	ee788a8d	vadd.f32	s17, s17, s26
+1cb0a4	ed949a34	vldr	s18, [r4, #208]
+1cb0a8	ee689aac	vmul.f32	s19, s17, s25
+1cb0ac	eec99aab	vdiv.f32	s19, s19, s23
+1cb0b0	ee190a90	vmov	r0, s19
+1cb0b4	ebfbad34	bl	0xb658c <cosf@plt>
+1cb0b8	ee0b0a10	vmov	s22, r0
+1cb0bc	ee190a90	vmov	r0, s19
+1cb0c0	ebfbad2e	bl	0xb6580 <sinf@plt>
+1cb0c4	eef06a6a	vmov.f32	s13, s21
+1cb0c8	e1a03006	mov	r3, r6
+1cb0cc	eef07a4a	vmov.f32	s15, s20
+1cb0d0	ee496a0b	vmla.f32	s13, s18, s22
+1cb0d4	ee161a90	vmov	r1, s13
+1cb0d8	ee070a10	vmov	s14, r0
+1cb0dc	e1a00004	mov	r0, r4
+1cb0e0	ee497a47	vmls.f32	s15, s18, s14
+1cb0e4	ee172a90	vmov	r2, s15
+1cb0e8	ebffffa8	bl	0x1caf90 <_Z11Bounce_TestP9CInstanceffb>
+1cb0ec	e3500000	cmp	r0, #0
+1cb0f0	0affffe7	beq	0x1cb094 <_Z14Command_BounceP9CInstancebb+0xf4>
+1cb0f4	e3570000	cmp	r7, #0
+1cb0f8	1a00003c	bne	0x1cb1f0 <_Z14Command_BounceP9CInstancebb+0x250>
+1cb0fc	ecbd8b0c	vpop	{d8, d9, d10, d11, d12, d13}
+1cb100	e8bd80f8	pop	{r3, r4, r5, r6, r7, pc}
+1cb104	edd47a38	vldr	s15, [r4, #224]
+1cb108	ee7a7aa7	vadd.f32	s15, s21, s15
+1cb10c	e1a03006	mov	r3, r6
+1cb110	ee1a2a10	vmov	r2, s20
+1cb114	e1a00004	mov	r0, r4
+1cb118	ee171a90	vmov	r1, s15
+1cb11c	ebffff9b	bl	0x1caf90 <_Z11Bounce_TestP9CInstanceffb>
+1cb120	ed947a2e	vldr	s14, [r4, #184]
+1cb124	edd47a39	vldr	s15, [r4, #228]
+1cb128	ee777a27	vadd.f32	s15, s14, s15
+1cb12c	e59410b4	ldr	r1, [r4, #0xb4]
+1cb130	e1a03006	mov	r3, r6
+1cb134	ee172a90	vmov	r2, s15
+1cb138	e1a05000	mov	r5, r0
+1cb13c	e1a00004	mov	r0, r4
+1cb140	ebffff92	bl	0x1caf90 <_Z11Bounce_TestP9CInstanceffb>
+1cb144	ed946a2d	vldr	s12, [r4, #180]
+1cb148	edd46a38	vldr	s13, [r4, #224]
+1cb14c	ed947a2e	vldr	s14, [r4, #184]
+1cb150	edd47a39	vldr	s15, [r4, #228]
+1cb154	ee766a26	vadd.f32	s13, s12, s13
+1cb158	e1a03006	mov	r3, r6
+1cb15c	ee777a27	vadd.f32	s15, s14, s15
+1cb160	ee161a90	vmov	r1, s13
+1cb164	ee172a90	vmov	r2, s15
+1cb168	e1a07000	mov	r7, r0
+1cb16c	e1a00004	mov	r0, r4
+1cb170	ebffff86	bl	0x1caf90 <_Z11Bounce_TestP9CInstanceffb>
+1cb174	e2272001	eor	r2, r7, #1
+1cb178	e2253001	eor	r3, r5, #1
+1cb17c	e0023003	and	r3, r2, r3
+1cb180	e31300ff	tst	r3, #255
+1cb184	1a000014	bne	0x1cb1dc <_Z14Command_BounceP9CInstancebb+0x23c>
+1cb188	e0073005	and	r3, r7, r5
+1cb18c	e31300ff	tst	r3, #255
+1cb190	1a00000f	bne	0x1cb1d4 <_Z14Command_BounceP9CInstancebb+0x234>
+1cb194	e3550000	cmp	r5, #0
+1cb198	0a00001d	beq	0x1cb214 <_Z14Command_BounceP9CInstancebb+0x274>
+1cb19c	e3570000	cmp	r7, #0
+1cb1a0	1affffd5	bne	0x1cb0fc <_Z14Command_BounceP9CInstancebb+0x15c>
+1cb1a4	ecbd8b0c	vpop	{d8, d9, d10, d11, d12, d13}
+1cb1a8	e1a00004	mov	r0, r4
+1cb1ac	e59410e4	ldr	r1, [r4, #0xe4]
+1cb1b0	e8bd40f8	pop	{r3, r4, r5, r6, r7, lr}
+1cb1b4	e2211102	eor	r1, r1, #-2147483648
+1cb1b8	eaff1fd5	b	0x193114 <_ZN9CInstance9SetVspeedEf>
+1cb1bc	e1a00004	mov	r0, r4
+1cb1c0	e59410c4	ldr	r1, [r4, #0xc4]
+1cb1c4	e59420c8	ldr	r2, [r4, #0xc8]
+1cb1c8	e3a07001	mov	r7, #1
+1cb1cc	ebff232a	bl	0x193e7c <_ZN9CInstance11SetPositionEff>
+1cb1d0	eaffff7e	b	0x1cafd0 <_Z14Command_BounceP9CInstancebb+0x30>
+1cb1d4	e3500000	cmp	r0, #0
+1cb1d8	1affffc7	bne	0x1cb0fc <_Z14Command_BounceP9CInstancebb+0x15c>
+1cb1dc	e59410e0	ldr	r1, [r4, #0xe0]
+1cb1e0	e1a00004	mov	r0, r4
+1cb1e4	e2211102	eor	r1, r1, #-2147483648
+1cb1e8	ebff1fc1	bl	0x1930f4 <_ZN9CInstance9SetHspeedEf>
+1cb1ec	eaffffec	b	0x1cb1a4 <_Z14Command_BounceP9CInstancebb+0x204>
+1cb1f0	ee388a28	vadd.f32	s16, s16, s17
+1cb1f4	eddf7a0d	vldr	s15, [pc, #52]
+1cb1f8	e1a00004	mov	r0, r4
+1cb1fc	ee388a27	vadd.f32	s16, s16, s15
+1cb200	ee388a4c	vsub.f32	s16, s16, s24
+1cb204	ee181a10	vmov	r1, s16
+1cb208	ecbd8b0c	vpop	{d8, d9, d10, d11, d12, d13}
+1cb20c	e8bd40f8	pop	{r3, r4, r5, r6, r7, lr}
+1cb210	eaff1f93	b	0x193064 <_ZN9CInstance12SetDirectionEf>
+1cb214	ecbd8b0c	vpop	{d8, d9, d10, d11, d12, d13}
+1cb218	e1a00004	mov	r0, r4
+1cb21c	e59410e0	ldr	r1, [r4, #0xe0]
+1cb220	e8bd40f8	pop	{r3, r4, r5, r6, r7, lr}
+1cb224	e2211102	eor	r1, r1, #-2147483648
+1cb228	eaff1fb1	b	0x1930f4 <_ZN9CInstance9SetHspeedEf>
+1cb22c	40490fdb	ldrdmi	r0, r1, [r9], #-251
+1cb230	43340000	teqmi	r4, #0

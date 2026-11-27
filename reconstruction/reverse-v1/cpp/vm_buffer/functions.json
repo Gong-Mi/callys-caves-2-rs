@@ -1,0 +1,329 @@
+{
+  "schema": "cally-readable-cpp/1",
+  "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+  "original_abi": "ARM32 little-endian softfp",
+  "not_whole_library_completion": true,
+  "not_additive_with_c_registry": true,
+  "source_names_not_original_spelling": true,
+  "header_sha256": "87749fafd9205ffe9af6585d0071c79acebf2cc839e9a15a05f2bbf2b3fc0f70",
+  "functions": [
+    {
+      "entry": "0xce43c",
+      "isa": "arm",
+      "size": 132,
+      "symbols": [
+        "_ZN8VMBufferD2Ev",
+        "_ZN8VMBufferD1Ev"
+      ],
+      "original_body_sha256": "f37cb6593dae899b1d49924d95751548c1c5e788e3515dce044921c5fcabf207",
+      "source_method": "VMBuffer::~VMBuffer()",
+      "abi_kind": "destructor_alias_group",
+      "translation_source": "vm_buffer.cpp",
+      "translation_source_sha256": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0x1aad50",
+      "isa": "arm",
+      "size": 92,
+      "symbols": [
+        "_Z11MemoryInWadPv"
+      ],
+      "original_body_sha256": "284e6b8efc1885e27ccba66d4ecb938cfd6fc3b8a45247b5da6870f8da29000f",
+      "source_method": "MemoryInWad(void*)",
+      "abi_kind": "free_function",
+      "translation_source": "wad_memory.cpp",
+      "translation_source_sha256": "4bab16563eb25ed220f1d710d1e82b28ddd6cf3ac603747d3966c3053d0a1dac",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xce4c0",
+      "isa": "arm",
+      "size": 140,
+      "symbols": [
+        "_ZN8VMBufferD0Ev"
+      ],
+      "original_body_sha256": "cdc3f982eff7cce27550d7ed653f7180cb01e4489e70676a3b1becce81c84c9b",
+      "source_method": "VMBuffer::~VMBuffer()",
+      "abi_kind": "deleting_destructor",
+      "translation_source": "vm_buffer.cpp",
+      "translation_source_sha256": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec750",
+      "isa": "arm",
+      "size": 996,
+      "symbols": [
+        "_ZN8VMBuffer13convertBufferEv"
+      ],
+      "original_body_sha256": "734b75af04e19fe4c8216e91aca227fe0c52885c91cc5c506f2d1d6d70d7705f",
+      "source_method": "VMBuffer::convertBuffer()",
+      "abi_kind": "member",
+      "translation_source": "vm_buffer.cpp",
+      "translation_source_sha256": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec4a4",
+      "isa": "arm",
+      "size": 132,
+      "symbols": [
+        "_ZN13VMWriteBufferD2Ev",
+        "_ZN13VMWriteBufferD1Ev"
+      ],
+      "original_body_sha256": "473ab91d9a72945ccadd27527d8632c7e00b3e8888d8bf9da2e1c91968ed962a",
+      "source_method": "VMWriteBuffer::~VMWriteBuffer()",
+      "abi_kind": "defaulted_derived_destructor_alias_group",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec528",
+      "isa": "arm",
+      "size": 140,
+      "symbols": [
+        "_ZN13VMWriteBufferD0Ev"
+      ],
+      "original_body_sha256": "59636b8cf92276ba32233f1a77774d4cd21ad92e412eaabc6fff82ef3a47983a",
+      "source_method": "VMWriteBuffer::~VMWriteBuffer()",
+      "abi_kind": "defaulted_derived_deleting_destructor",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec5b4",
+      "isa": "arm",
+      "size": 80,
+      "symbols": [
+        "_ZN13VMWriteBufferC2Ei",
+        "_ZN13VMWriteBufferC1Ei"
+      ],
+      "original_body_sha256": "46654d1896f0c53fe978b3cb58fddb50ee365c8878378d7645018fb9790015a0",
+      "source_method": "VMWriteBuffer::VMWriteBuffer(int)",
+      "abi_kind": "member",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec604",
+      "isa": "arm",
+      "size": 112,
+      "symbols": [
+        "_ZN13VMWriteBuffer7ReserveEi"
+      ],
+      "original_body_sha256": "58f46f0588c4a7750e3377c8650e414ed34155cda29d1939476be173cdbdf4ea",
+      "source_method": "VMWriteBuffer::Reserve(int)",
+      "abi_kind": "member",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec674",
+      "isa": "arm",
+      "size": 104,
+      "symbols": [
+        "_ZN13VMWriteBuffer3AddEiz"
+      ],
+      "original_body_sha256": "5d404a9255802ff6d0c3231e047479ce2e569260f63264a8c0ccdcca94a14944",
+      "source_method": "VMWriteBuffer::Add(int,...)",
+      "abi_kind": "member",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec6dc",
+      "isa": "arm",
+      "size": 32,
+      "symbols": [
+        "_ZN13VMWriteBuffer6AddValEd"
+      ],
+      "original_body_sha256": "f9cc39fa90fb2a8cb63466e68e7504963db08fcac1dd9841faeb544e5a3c3124",
+      "source_method": "VMWriteBuffer::AddVal(double)",
+      "abi_kind": "member",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec6fc",
+      "isa": "arm",
+      "size": 20,
+      "symbols": [
+        "_ZN13VMWriteBuffer6AddValEf"
+      ],
+      "original_body_sha256": "2bbb0b859e5243fabbd7e6c634f7036a7240f4e36a4a840e0e06d0447ead08b1",
+      "source_method": "VMWriteBuffer::AddVal(float)",
+      "abi_kind": "member",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec710",
+      "isa": "arm",
+      "size": 12,
+      "symbols": [
+        "_ZN13VMWriteBuffer6AddValEi"
+      ],
+      "original_body_sha256": "1de97dce5f75ecca211a52ad751c86673fada3969d09e31da1d05d5940707dfc",
+      "source_method": "VMWriteBuffer::AddVal(int)",
+      "abi_kind": "member",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec71c",
+      "isa": "arm",
+      "size": 32,
+      "symbols": [
+        "_ZN13VMWriteBuffer6AddValEx"
+      ],
+      "original_body_sha256": "8817a38163aaaafadd9df917b6ad0a7187b7bfa252e4e7984baa52cb33f2b163",
+      "source_method": "VMWriteBuffer::AddVal(long long)",
+      "abi_kind": "member",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec73c",
+      "isa": "arm",
+      "size": 12,
+      "symbols": [
+        "_ZN13VMWriteBuffer6AddValEb"
+      ],
+      "original_body_sha256": "48ec10cc10a60d40bf6339ba0143eabb7d5bfb7e1e06881786aaace4729a9a35",
+      "source_method": "VMWriteBuffer::AddVal(bool)",
+      "abi_kind": "member",
+      "translation_source": "vm_write_buffer.cpp",
+      "translation_source_sha256": "4b075fa018d7d4285f0cc22803018e2eb376d70251075f21b491cf2c5eebad43",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    },
+    {
+      "entry": "0xec748",
+      "isa": "arm",
+      "size": 8,
+      "symbols": [
+        "_Z21CHashMapCalculateHashIPhEjT_"
+      ],
+      "original_body_sha256": "7b2a4131000c79c4d67c6650b361f5fbc7eb2ad79344c81426cc3a68849704d2",
+      "source_method": "CHashMapCalculateHash<unsigned char*>(unsigned char*)",
+      "abi_kind": "template_specialization",
+      "translation_source": "vm_buffer.cpp",
+      "translation_source_sha256": "40df3af67488358208c1a041ca4506b9ff5f8562e3bd987d44bc43c39aa9633c",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "language": "C++",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false
+    }
+  ],
+  "validation": {
+    "kind": "static words + ARM32 O0/O2 object compilation + original symbol/vtable-layout checks",
+    "compiler_flags": [
+      "-nostdinc++",
+      "--target=armv7a-none-eabi",
+      "-march=armv7-a",
+      "-marm",
+      "-mfpu=vfpv3",
+      "-mfloat-abi=softfp",
+      "-std=c++17",
+      "-ffreestanding",
+      "-fno-builtin",
+      "-ffp-contract=off",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-fno-sized-deallocation"
+    ],
+    "original_executed": false,
+    "rebuilt_executed": false,
+    "runtime_equivalence": "not_measured"
+  },
+  "remaining_scope": [
+    "Meaning of metadata08/metadata0c; unobserved derived-class tail fields.",
+    "Cache insertion, invalidation and table ownership across cache hits; the named cache binding stands for the original anonymous object.",
+    "Internal MemoryManager/new/delete and selected Do* bodies are declarations, not recovered here.",
+    "C++ runtime exception/unwind behavior and production integration have not been certified.",
+    "Existing C execution/return modules have not been converted to C++ by this batch."
+  ],
+  "static_API_extension": "MemoryManager::ReAlloc and lifecycle declarations; the latter bodies are registered under memory_manager. VMBuffer/VMWriteBuffer method bodies unchanged."
+}

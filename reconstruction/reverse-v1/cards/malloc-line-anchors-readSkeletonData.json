@@ -1,0 +1,127 @@
+[
+  {
+    "call_site": "0x28b92c",
+    "line": 607,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28b974",
+    "line": null,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28b9f4",
+    "line": 615,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28bbfc",
+    "line": 651,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28be10",
+    "line": 697,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28bea4",
+    "line": 705,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28c02c",
+    "line": 735,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28c0b4",
+    "line": 743,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28c2a8",
+    "line": 782,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28c330",
+    "line": 791,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28c618",
+    "line": 839,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28cad8",
+    "line": 985,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28cb38",
+    "line": 917,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28cdcc",
+    "line": 891,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28cfd4",
+    "line": null,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28d030",
+    "line": 935,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28d084",
+    "line": 941,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28d114",
+    "line": 954,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28d1cc",
+    "line": 1028,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28d268",
+    "line": 1034,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28d2bc",
+    "line": 1043,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28e154",
+    "line": null,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28e3e0",
+    "line": 442,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28e3f8",
+    "line": 445,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  },
+  {
+    "call_site": "0x28e708",
+    "line": 494,
+    "tag": "jni/../jni/yoyo/../../../spine-c/src/spine/SkeletonJson.c"
+  }
+]
