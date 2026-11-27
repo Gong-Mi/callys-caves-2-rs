@@ -231,7 +231,7 @@
   "variable_name_helpers": {
     "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
     "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
-    "translation_source_sha256": "95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41",
+    "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
     "original_word_rows_added": 83,
     "functions": [
       {
@@ -255,8 +255,8 @@
           "dynsym_target": {"symbol": "g_instanceVarLookup", "type": "STT_OBJECT", "size": 4}
         },
         "direct_callees": [
-          {"site": "0xd1f88", "target": "0x1eeb88", "symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "size": 32, "edge": "direct BL; provider body/link open"},
-          {"site": "0xd2010", "target": "0x1eeba8", "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "size": 20, "edge": "direct BL; provider body/link open"}
+          {"site": "0xd1f88", "target": "0x1eeb88", "symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "size": 32, "edge": "direct BL; same-translation-unit provider definition; O0/O2 ET_REL R_ARM_CALL resolves to defined symbol; final combined link not verified"},
+          {"site": "0xd2010", "target": "0x1eeba8", "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "size": 20, "edge": "direct BL; same-translation-unit provider definition; O0/O2 ET_REL R_ARM_CALL resolves to defined symbol; final combined link not verified"}
         ],
         "raw_offsets": {
           "map_words": ["+0x00", "+0x08", "+0x10"],
@@ -304,14 +304,100 @@
       ".got": {"section_vaddr": "0x003ed718", "section_file_offset": "0x003ec718", "relation": "file offset = VA - 0x1000"}
     },
     "open_edges": [
-      "g_instanceVarLookup (0x47a178): the pointer cell is named and relocated; its target map contents, producer and lifecycle remain open",
-      "_Z21CHashMapCalculateHashIPKcEjT_ (0x1eeb88): direct provider body and link binding remain open",
-      "_Z19CHashMapCompareKeysIPKcEbT_S2_ (0x1eeba8): direct provider body and link binding remain open",
-      "g_VarNamesGlobal (0x47a19c): +0x00/+0x04/+0x0c raw words, table producer and lifecycle remain open",
+      "g_instanceVarLookup (0x47a178): the pointer cell is named and relocated; its target map contents and lifecycle semantics remain open; writer sites are enumerated in variable_name_static_writer_survey",
+      "_Z10murmurhashPKcjj (0x1eea84): direct tail callee of the restored hash provider; body not restored or link-tested",
+      "g_VarNamesGlobal (0x47a19c): +0x00/+0x04/+0x0c raw words and lifecycle semantics remain open; writer sites are enumerated in variable_name_static_writer_survey",
+      "strlen: external libc import through PLT/JUMP_SLOT; final combined link/runtime provider not tested",
       "strcmp: named Android libc import through PLT/JUMP_SLOT; final link/runtime provider not tested"
     ],
     "combined_link_verified": false,
     "candidate_executed": false,
+    "original_executed": false
+  },
+  "hash_compare_providers": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+    "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+    "original_word_rows_added": 13,
+    "functions": [
+      {
+        "symbol": "_Z21CHashMapCalculateHashIPKcEjT_",
+        "entry": "0x1eeb88",
+        "size": 32,
+        "end": "0x1eeba8",
+        "body_sha256": "f7a80f18eabb1c8383e7a5c58869c5a61785e37c49e60393e3f432ca0b4d24a2",
+        "code_instruction_count": 8,
+        "literal_pool_word_count": 0,
+        "pool_words": [],
+        "body_relocations": [],
+        "direct_callees": [
+          {"site": "0x1eeb90", "target": "0xb6538", "symbol": "strlen", "plt_got_slot": "0x3f1c78", "relocation": "R_ARM_JUMP_SLOT", "edge": "direct BL to external PLT"},
+          {"site": "0x1eeba4", "target": "0x1eea84", "symbol": "_Z10murmurhashPKcjj", "size": 260, "edge": "direct tail B; internal body remains un-restored"}
+        ]
+      },
+      {
+        "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_",
+        "entry": "0x1eeba8",
+        "size": 20,
+        "end": "0x1eebbc",
+        "body_sha256": "c19c3f629be580aa8eed8a6608a6774cec35d5cf68a42f268a22bceadfe33b8e",
+        "code_instruction_count": 5,
+        "literal_pool_word_count": 0,
+        "pool_words": [],
+        "body_relocations": [],
+        "direct_callees": [
+          {"site": "0x1eebac", "target": "0xb6574", "symbol": "strcmp", "plt_got_slot": "0x3f1c8c", "relocation": "R_ARM_JUMP_SLOT", "edge": "direct BL to external PLT"}
+        ]
+      }
+    ],
+    "helper_edges": [
+      {"caller": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc", "site": "0xd1f88", "provider": "_Z21CHashMapCalculateHashIPKcEjT_", "state": "same_translation_unit_definition; O0/O2 ET_REL R_ARM_CALL resolves to defined symbol; final combined link not verified"},
+      {"caller": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc", "site": "0xd2010", "provider": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "state": "same_translation_unit_definition; O0/O2 ET_REL R_ARM_CALL resolves to defined symbol; final combined link not verified"}
+    ],
+    "object_builds": [
+      {"configuration": "O0", "class": "ELF32", "machine": "ARM", "object_sha256": "458c31c7fde3fc0cbb71db04253e3dd471a389331f6b1d6357eebcd8fe4469b1"},
+      {"configuration": "O2", "class": "ELF32", "machine": "ARM", "object_sha256": "161c1b25626c85c392338a4bd6ebd12aead868fcdbcee57ab64f8f52e6a279a8"}
+    ],
+    "combined_link_verified": false,
+    "candidate_executed": false,
+    "original_executed": false
+  },
+  "variable_name_static_writer_survey": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "targets": [
+      {"symbol": "g_instanceVarLookup", "va": "0x47a178", "size": 4, "section": ".bss", "got_slot": "0x3edbac", "got_file_offset": "0x3ecbac", "got_relocation": "R_ARM_RELATIVE", "got_raw_addend": "0x47a178"},
+      {"symbol": "g_VarNamesGlobal", "va": "0x47a19c", "size": 16, "section": ".bss", "got_slot": "0x3edba4", "got_file_offset": "0x3ecba4", "got_relocation": "R_ARM_RELATIVE", "got_raw_addend": "0x47a19c"}
+    ],
+    "method_and_coverage": {
+      "executable_sections": [
+        {"name": ".plt", "va": "0xb64e8", "file_offset": "0xb64e8", "size": "0xae8"},
+        {"name": ".text", "va": "0xb6fd0", "file_offset": "0xb6fd0", "size": "0x264bac"}
+      ],
+      "executable_pt_load": {"va": "0x0", "file_offset": "0x0", "file_size": "0x3a581c", "permissions": "R|E"},
+      "defined_dynsym_nonzero_size_function_count": 8913,
+      "defined_dynsym_function_range_union_bytes": 2109420,
+      "decoded_instructions_in_named_ranges": {"arm": 467337, "thumb": 33793},
+      "unowned_text_ranges": 286,
+      "unowned_text_bytes": 400320,
+      "unowned_ranges_dual_mode_candidate_decodes_including_plt": {"arm": 87605, "thumb": 191437},
+      "gap_candidate_scan": "For the 400320 text bytes not covered by nonzero-size defined dynsym functions and the full .plt range, decode candidate ARM/Thumb starts; resolve PC-relative literal loads followed by PC-index LDR/ADD to the exact GOT slots, PC-relative bases into .got or the target .bss objects, MOVW/MOVT absolute constructions, and literal words equal to the GOT/object addresses. No additional target-reference candidates were found. Named function bodies were analyzed with Capstone detail-mode register/CFG constant propagation through literal loads and R_ARM_RELATIVE slot addends, then STR/STRB effective addresses were checked.",
+      "got_slot_store_sites": [],
+      "strb_hits": 0
+    },
+    "writer_sites": [
+      {"target": "g_instanceVarLookup+0x00", "va": "0x47a178", "site": "0xd1f0c", "instruction": "str r4, [r3]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x0c", "va": "0x47a1a8", "site": "0xd1db8", "instruction": "str r3, [r4, #0xc]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd1dbc", "instruction": "str r3, [r4, #4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x00", "va": "0x47a19c", "site": "0xd1dc4", "instruction": "str r3, [r4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x0c", "va": "0x47a1a8", "site": "0xd1df8", "instruction": "str r0, [r4, #0xc]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x00", "va": "0x47a19c", "site": "0xd1dfc", "instruction": "str r6, [r4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x0c", "va": "0x47a1a8", "site": "0xd1f2c", "instruction": "str r7, [r4, #0xc]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd1f30", "instruction": "str r7, [r4, #4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x0c", "va": "0x47a1a8", "site": "0xd1f4c", "instruction": "str r7, [r4, #0xc]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd1f50", "instruction": "str r7, [r4, #4]", "function": "_Z18Code_Variable_Initiii"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd2e80", "instruction": "str r3, [r5, #4]", "function": "_Z38Code_Variable_FindAlloc_Slot_From_NameP12YYObjectBasePKc"},
+      {"target": "g_VarNamesGlobal+0x04", "va": "0x47a1a0", "site": "0xd30bc", "instruction": "str r2, [r3, #4]", "function": "_Z22Code_Variable_Find_SetPKcii"}
+    ],
     "original_executed": false
   }
 }

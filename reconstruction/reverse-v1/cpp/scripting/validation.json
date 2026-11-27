@@ -71,5 +71,71 @@
     "combined_link_verified": false,
     "candidate_executed": false,
     "original_executed": false
+  },
+  "hash_compare_provider_batch": {
+    "base_head": "90dcb265bd6f0eaa4e6238fc62a8971bcc251ad9",
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "source": "reconstruction/reverse-v1/cpp/scripting/code_variable_find_slot_from_name_helpers.cpp",
+    "source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+    "original_word_rows": 13,
+    "original_words_sha256": "d6a4f58e1dc799b3b96aa4c075e8144330fcf5af753882ed166be76cd320acce",
+    "header_sha256": "b2243ad0b88c073855c0a8c9721c5803d2133526769fb5942ae3458b5377304d",
+    "functions_json_sha256": "807d7e8712235f76cbe0e08098a2a42caa4d1ccf0d9dbe648c1f4903dee2949a",
+    "layout_evidence_sha256": "a07a78f74ef73df28582df2ab9ee6c04e6e2645037a4161b7a2d352f235adff6",
+    "status_sha256": "b703a25f8f0fcdbfe0dbefbe16e11324baae5c834f21d4bde395936e76ba3d90",
+    "functions": [
+      {"symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "va": "0x1eeb88", "size": 32, "body_sha256": "f7a80f18eabb1c8383e7a5c58869c5a61785e37c49e60393e3f432ca0b4d24a2", "code_words": 8, "pool_words": 0},
+      {"symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "va": "0x1eeba8", "size": 20, "body_sha256": "c19c3f629be580aa8eed8a6608a6774cec35d5cf68a42f268a22bceadfe33b8e", "code_words": 5, "pool_words": 0}
+    ],
+    "compiler": "/data/data/com.termux/files/usr/bin/clang++",
+    "target": "armv7a-linux-androideabi",
+    "common_flags": [
+      "--target=armv7a-linux-androideabi", "-nostdinc++", "-march=armv7-a", "-marm",
+      "-mfpu=vfpv3", "-mfloat-abi=softfp", "-ffreestanding", "-fno-builtin",
+      "-ffp-contract=off", "-std=c++17", "-fno-sized-deallocation",
+      "-Wall", "-Wextra", "-Werror", "-c"
+    ],
+    "builds": [
+      {
+        "configuration": "O0",
+        "optimization": "-O0",
+        "returncode": 0,
+        "object_path": "/data/data/com.termux/files/home/.hermes/cache/scratch/wl67-cmap-providers-O0.o",
+        "object_sha256": "458c31c7fde3fc0cbb71db04253e3dd471a389331f6b1d6357eebcd8fe4469b1",
+        "object_class": "ELF32",
+        "machine": "ARM",
+        "flags": "0x5000000",
+        "provider_relocations": [
+          {"offset": "0xa0", "type": "R_ARM_CALL", "symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "defined_in_same_object": true},
+          {"offset": "0x168", "type": "R_ARM_CALL", "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "defined_in_same_object": true}
+        ]
+      },
+      {
+        "configuration": "O2",
+        "optimization": "-O2",
+        "returncode": 0,
+        "object_path": "/data/data/com.termux/files/home/.hermes/cache/scratch/wl67-cmap-providers-O2.o",
+        "object_sha256": "161c1b25626c85c392338a4bd6ebd12aead868fcdbcee57ab64f8f52e6a279a8",
+        "object_class": "ELF32",
+        "machine": "ARM",
+        "flags": "0x5000000",
+        "provider_relocations": [
+          {"offset": "0x58", "type": "R_ARM_CALL", "symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "defined_in_same_object": true},
+          {"offset": "0x94", "type": "R_ARM_CALL", "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "defined_in_same_object": true}
+        ]
+      }
+    ],
+    "writer_survey": {
+      "target_writer_sites": 12,
+      "g_instanceVarLookup_sites": 1,
+      "g_VarNamesGlobal_sites": 11,
+      "got_slot_write_sites": 0,
+      "strb_sites": 0,
+      "full_details": "layout-evidence.json:variable_name_static_writer_survey"
+    },
+    "module_verifier_run": false,
+    "combined_link_verified": false,
+    "candidate_executed": false,
+    "original_executed": false
   }
 }

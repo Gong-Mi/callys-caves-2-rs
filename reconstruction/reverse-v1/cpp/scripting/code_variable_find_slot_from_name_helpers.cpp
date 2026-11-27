@@ -13,14 +13,35 @@
 
 #include <string.h>
 
-/* These template declarations preserve the original C++ specialization names.
- * Their bodies/providers are intentionally not stubbed in this translation unit.
+/* These declarations preserve the original C++ specialization names. The
+ * target library's murmurhash body remains a separate, not-yet-restored
+ * internal dependency; it is declared only to preserve this provider's tail
+ * call contract.
  */
 template <typename Key>
 uint32_t CHashMapCalculateHash(Key value);
 
 template <typename Key>
 bool CHashMapCompareKeys(Key left, Key right);
+
+uint32_t murmurhash(const char *value, uint32_t length, uint32_t seed);
+
+template <>
+__attribute__((noinline)) uint32_t CHashMapCalculateHash<const char *>(const char *value) {
+    /* @0x1eeb90 calls strlen@plt; @0x1eeba4 tail-branches to murmurhash.
+     * The third argument is the literal zero loaded at @0x1eeb94.
+     */
+    const uint32_t length = static_cast<uint32_t>(strlen(value));
+    return murmurhash(value, length, 0u);
+}
+
+template <>
+__attribute__((noinline)) bool CHashMapCompareKeys<const char *>(const char *left, const char *right) {
+    /* @0x1eebac calls strcmp@plt; RSBS + MOVLO at @0x1eebb0..b4 maps
+     * exactly strcmp(...) == 0 to the returned bool.
+     */
+    return strcmp(left, right) == 0;
+}
 
 /* The relocation targets are data symbols in the pinned image. They are raw
  * storage declarations here; no complete source-level structures are claimed.

@@ -118,7 +118,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
-      "translation_source_sha256": "95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41",
+      "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -135,22 +135,22 @@
           "symbol": "_Z21CHashMapCalculateHashIPKcEjT_",
           "va": "0x1eeb88",
           "size": 32,
-          "edge": "open_direct_bl_at_0xd1f88"
+          "edge": "direct_BL_to_same_translation_unit_provider_definition; O0_O2_R_ARM_CALL_resolves_to_defined_symbol; combined_link_not_verified"
         },
         {
           "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_",
           "va": "0x1eeba8",
           "size": 20,
-          "edge": "open_direct_bl_at_0xd2010"
+          "edge": "direct_BL_to_same_translation_unit_provider_definition; O0_O2_R_ARM_CALL_resolves_to_defined_symbol; combined_link_not_verified"
         },
         {
           "symbol": "g_instanceVarLookup",
           "va": "0x47a178",
           "size": 4,
-          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edbac_open_data_producer"
+          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edbac_static_writer_sites_registered_map_lifecycle_open"
         }
       ],
-      "gap": "The two specialized CHashMap provider bodies/link bindings and the producer/lifecycle/content contract for g_instanceVarLookup remain open. No full map type, insertion semantics, final link, EHABI, original/candidate execution or runtime equivalence is claimed."
+      "gap": "Both same-translation-unit CHashMap provider definitions are restored; O0/O2 ET_REL R_ARM_CALL relocations resolve the helper call sites to defined symbols. Final combined link, g_instanceVarLookup map contents/producer/lifecycle, EHABI and original/candidate execution remain unverified; no full map type or runtime-equivalence claim is made."
     },
     {
       "entry": "0xd2054",
@@ -163,7 +163,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
-      "translation_source_sha256": "95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41",
+      "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -180,7 +180,7 @@
           "symbol": "g_VarNamesGlobal",
           "va": "0x47a19c",
           "size": 16,
-          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edba4_open_table_producer"
+          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edba4_static_writer_sites_registered_table_lifecycle_open"
         },
         {
           "symbol": "strcmp",
@@ -188,7 +188,77 @@
           "edge": "direct_bl_at_0xd2094_via_R_ARM_JUMP_SLOT_0x3f1c8c"
         }
       ],
-      "gap": "The g_VarNamesGlobal raw-word producer/lifecycle and imported strcmp runtime provider are not reconstructed or link-tested. No full table type, original/candidate execution or runtime equivalence is claimed."
+      "gap": "Static writer sites for g_VarNamesGlobal are inventoried in layout-evidence, but its table lifecycle/content contract and imported strcmp final link are not reconstructed or link-tested. No full table type, original/candidate execution or runtime-equivalence claim is made."
+    },
+    {
+      "entry": "0x1eeb88",
+      "size": 32,
+      "end": "0x1eeba8",
+      "symbols": [
+        "_Z21CHashMapCalculateHashIPKcEjT_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "f7a80f18eabb1c8383e7a5c58869c5a61785e37c49e60393e3f432ca0b4d24a2",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+      "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "code_instruction_count": 8,
+      "literal_pool_word_count": 0,
+      "body_relocations": [],
+      "local_contract": "Call strlen(value), then tail-transfer to murmurhash(value, length, 0) and return its raw 32-bit result. No null guard is present. The murmurhash body is not restored here.",
+      "direct_dependencies": [
+        {
+          "symbol": "strlen",
+          "va": "0xb6538",
+          "edge": "direct_bl_at_0x1eeb90_to_PLT; R_ARM_JUMP_SLOT_0x3f1c78; external libc provider"
+        },
+        {
+          "symbol": "_Z10murmurhashPKcjj",
+          "va": "0x1eea84",
+          "size": 260,
+          "edge": "direct_tail_branch_at_0x1eeba4; internal body not restored"
+        }
+      ],
+      "gap": "The provider body is restored as a C++ candidate and is defined in O0/O2 ET_REL objects; its libc strlen import and internal murmurhash dependency are not finally linked or executed. No hash algorithm or runtime-equivalence claim is added beyond the observed call contract."
+    },
+    {
+      "entry": "0x1eeba8",
+      "size": 20,
+      "end": "0x1eebbc",
+      "symbols": [
+        "_Z19CHashMapCompareKeysIPKcEbT_S2_"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "c19c3f629be580aa8eed8a6608a6774cec35d5cf68a42f268a22bceadfe33b8e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+      "translation_source_sha256": "09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [],
+      "code_instruction_count": 5,
+      "literal_pool_word_count": 0,
+      "body_relocations": [],
+      "local_contract": "Return 1 iff strcmp(left, right) is zero; return 0 otherwise. The RSBS/MOVLO sequence at 0x1eebb0..0x1eebb4 implements the equality predicate; no null guards are present.",
+      "direct_dependencies": [
+        {
+          "symbol": "strcmp",
+          "va": "0xb6574",
+          "edge": "direct_bl_at_0x1eebac_to_PLT; R_ARM_JUMP_SLOT_0x3f1c8c; external libc provider"
+        }
+      ],
+      "gap": "The provider body is restored as a C++ candidate and is defined in O0/O2 ET_REL objects; its imported strcmp provider is not finally linked or executed. No runtime-equivalence claim is made."
     },
     {
       "entry": "0xd3968",
@@ -530,12 +600,11 @@
   "remaining_internal_dependencies": [
     "CreateArgumentsObject",
     "initial Context Stack array, Top/Max/GC-state ownership and runtime provider bindings",
-    "_Z21CHashMapCalculateHashIPKcEjT_ @0x1eeb88 provider/body and link binding",
-    "_Z19CHashMapCompareKeysIPKcEbT_S2_ @0x1eeba8 provider/body and link binding",
-    "g_instanceVarLookup map contents/producer/lifecycle",
-    "g_VarNamesGlobal +0x00/+0x04/+0x0c data producer/lifecycle"
+    "_Z10murmurhashPKcjj @0x1eea84 internal callee body of the restored char-const-pointer hash provider",
+    "g_instanceVarLookup writes are enumerated; map contents and producer/lifecycle contract remain open",
+    "g_VarNamesGlobal writes are enumerated; +0x00/+0x04/+0x0c table lifecycle/content contract remains open"
   ],
-  "scope": "Local ScriptRef/GetCode/local stack, actual GC Context Stack helpers, the Code_Variable_Find_Slot_From_Name dispatcher, and static C++ candidates for its local/global name helpers; helper providers, name-table/map producers, initial context-stack ownership and runtime provider bindings remain open. No combined link, execution or full object/initial-state closure.",
+  "scope": "Local ScriptRef/GetCode/local stack, actual GC Context Stack helpers, the Code_Variable_Find_Slot_From_Name dispatcher and local/global name helpers, plus same-translation-unit C++ provider candidates for the const-char-pointer hash/compare specializations. O0/O2 ET_REL helper relocations resolve to the provider definitions; murmurhash body, name-table/map producer lifecycle, initial context-stack ownership, final combined link/runtime bindings and execution remain open. No combined link, original/candidate execution or full object/initial-state closure.",
   "additional_headers_sha256": {
     "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61",
     "../object_base/object_helpers.hpp": "1862251f9111786de5ff98fc49dd55593c6fc04f5924306a12ea537f6a9831ad",

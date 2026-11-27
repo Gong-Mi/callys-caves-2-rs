@@ -364,3 +364,16 @@ d2054	d20b0	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
 d2054	d20b4	e1a00004	mov	r0, r4
 d2054	d20b8	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
 d2054	d20bc	0031bb40	.word	0x0031bb40
+1eeb88	1eeb88	e92d4010	push	{r4, lr}
+1eeb88	1eeb8c	e1a04000	mov	r4, r0
+1eeb88	1eeb90	ebfb1e68	bl	0xb6538 <strlen@plt>
+1eeb88	1eeb94	e3a02000	mov	r2, #0
+1eeb88	1eeb98	e1a01000	mov	r1, r0
+1eeb88	1eeb9c	e1a00004	mov	r0, r4
+1eeb88	1eeba0	e8bd4010	pop	{r4, lr}
+1eeb88	1eeba4	eaffffb6	b	0x1eea84 <_Z10murmurhashPKcjj>
+1eeba8	1eeba8	e92d4008	push	{r3, lr}
+1eeba8	1eebac	ebfb1e70	bl	0xb6574 <strcmp@plt>
+1eeba8	1eebb0	e2700001	rsbs	r0, r0, #1
+1eeba8	1eebb4	33a00000	movlo	r0, #0
+1eeba8	1eebb8	e8bd8008	pop	{r3, pc}

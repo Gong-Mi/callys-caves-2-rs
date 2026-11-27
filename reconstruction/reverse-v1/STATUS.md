@@ -1,6 +1,35 @@
 # 状态与定性
 
-## 当前断点：变量名称槽查找两个 helper（静态 C++）
+## 当前断点：char const* CHashMap providers 与变量名全局写者普查（静态 C++）
+
+恢复 `_Z21CHashMapCalculateHashIPKcEjT_@0x1eeb88`（32B/8 词）与
+`_Z19CHashMapCompareKeysIPKcEbT_S2_@0x1eeba8`（20B/5 词），加入
+`cpp/scripting/code_variable_find_slot_from_name_helpers.cpp`（SHA256
+`09cca95916066a801f944f5105225620d375856ab883ec9ca5b50937288645fa`；固定镜像 SHA256
+`3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a`）。Hash 体按原序调用
+`strlen(value)`，再将 `(value,length,0)` 尾转移给内部 `_Z10murmurhashPKcjj@0x1eea84`；不在本批恢复
+murmurhash。Compare 体直接调用 `strcmp(left,right)`，原 `RSBS`/`MOVLO` 路径译为相等时 true、否则 false。
+两体原字哈希分别为 `f7a80f18eabb1c8383e7a5c58869c5a61785e37c49e60393e3f432ca0b4d24a2`、
+`c19c3f629be580aa8eed8a6608a6774cec35d5cf68a42f268a22bceadfe33b8e`；无池字，13 个原字行已入册。
+
+`Code_Variable_Find_Slot_From_Local_Name` 的两个 provider 边现由同一 TU 的真实 C++ 特化定义提供；
+O0/O2 ET_REL 均有定义符号，消费者的 `R_ARM_CALL` 重定位均落到对应已定义 provider。O0/O2 对象
+SHA256 分别为 `458c31c7fde3fc0cbb71db04253e3dd471a389331f6b1d6357eebcd8fe4469b1`、
+`161c1b25626c85c392338a4bd6ebd12aead868fcdbcee57ab64f8f52e6a279a8`。这只闭合本 TU 的 provider
+定义/对象级边，不宣称最终组合链接或运行态绑定。
+
+静态写者普查记录 12 个目标对象写站点：`g_instanceVarLookup+0x00` 1 处（`Code_Variable_Init`），
+`g_VarNamesGlobal` 11 处（`Code_Variable_Init` 9 处、`FindAlloc_Slot_From_Name` 1 处、
+`Code_Variable_Find_Set` 1 处）；两个 GOT 槽本身无代码写入，`strb` 命中为 0。映像的目标是 `.bss`
+对象，GOT 槽均为 `R_ARM_RELATIVE`，原始 addend 与 dynsym 目标逐槽登记。普查范围/方法与每个
+指令站点在 `layout-evidence.json` 新节中：覆盖 `.plt/.text`；8913 个有大小的定义 dynsym 函数体
+逐条做 ARM/Thumb 常量传播，未被这些范围覆盖的 400320 字节再做 A32/T32 双模式目标引用扫描，
+没有额外候选。变量表/地图的完整生产生命周期仍未恢复，字段继续只写 `+0xNN`。
+
+未恢复：hash provider 的内部 `murmurhash` 正文；两个表/地图对象的完整生产者与生命周期；最终组合链接、
+EHABI、原件或候选执行及运行等价。未运行模块 verifier/harness，不声称 scripting 模块或整库 PASS。
+
+## 上一批：变量名称槽查找两个 helper（静态 C++）
 
 恢复 `_Z39Code_Variable_Find_Slot_From_Local_NamePKc@0xd1f74`（224B）与
 `_Z40Code_Variable_Find_Slot_From_Global_NamePKc@0xd2054`（108B），共 83 个原字行：
@@ -26,8 +55,9 @@ GOT 逐槽复核：Local 池字 `0x0031bc28` + PC `0xd1f84` → `0x3edbac`，R_A
 该区间 VA=文件偏移；`.got` section `sh_addr=0x3ed718`、`sh_offset=0x3ec718`，相关 GOT
 原字按 `file_offset = VA - 0x1000` 读取，不能把全镜像概括为 VA=文件偏移。
 
-未闭合：`_Z21CHashMapCalculateHashIPKcEjT_@0x1eeb88`、
-`_Z19CHashMapCompareKeysIPKcEbT_S2_@0x1eeba8` 的正文/provider；
+未闭合：~~`_Z21CHashMapCalculateHashIPKcEjT_@0x1eeb88`、
+`_Z19CHashMapCompareKeysIPKcEbT_S2_@0x1eeba8` 的正文/provider~~（两 provider 已由下一批恢复，
+见上方当前断点节）；
 `g_instanceVarLookup` 指向地图内容的生产者/生命周期；`g_VarNamesGlobal` +0x00/+0x04/+0x0c
 内容的生产者/生命周期；`strcmp` libc 外部 provider 的最终链接。`g_pGlobal`、GC guard
 生产者、caller census、EHABI、最终链接及原版/候选执行仍未测。
