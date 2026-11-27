@@ -9,18 +9,17 @@
  * After the compare at 0xd21f8, the original tests the one-byte
  * g_fJSGarbageCollection cell at 0x47f295 only when self equals g_pGlobal.
  * The two helper edges are direct tail B transfers at 0xd2204/0xd221c.
- * Gap: both name-helper implementations remain unresolved; this is a static
- * reconstruction only, with no link or execution of either artifact.
+ * Gap: both helper bodies now have static C++ candidates; their direct hash
+ * helpers/table producers and combined link remain unverified. This stays a
+ * static reconstruction only; neither artifact has been executed.
  */
 #include "script_runtime.hpp"
 #include "../object_base/gc_object_lifecycle.hpp"
 #include "../vm_exec/vm_entry_runtime.hpp"
 
-/* These names have no declarations in the recovered headers yet. Their
- * exact one-argument signatures follow the original C++ ABI symbols:
- * _Z39Code_Variable_Find_Slot_From_Local_NamePKc and
- * _Z40Code_Variable_Find_Slot_From_Global_NamePKc.
- * They intentionally remain external dependencies here.
+/* These exact C++ symbols remain external references in this translation unit.
+ * Their static C++ body candidates are in
+ * code_variable_find_slot_from_name_helpers.cpp; no combined link is claimed.
  */
 int Code_Variable_Find_Slot_From_Local_Name(const char *);
 int Code_Variable_Find_Slot_From_Global_Name(const char *);

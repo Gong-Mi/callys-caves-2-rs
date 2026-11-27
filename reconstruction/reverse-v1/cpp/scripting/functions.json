@@ -68,7 +68,7 @@
       "isa": "arm",
       "language": "C++",
       "translation_source": "code_variable_find_slot_from_name.cpp",
-      "translation_source_sha256": "13973dd68ecd7e3158fd7385a38833a30e04c21de244929f6d817913abd36060",
+      "translation_source_sha256": "e0e4382d93c96321179ee542fba5a72b5147f4e3f887f6e673ea9c8a3de74765",
       "translation": "complete_compiled_candidate",
       "semantics": "local_contract_recovered",
       "tier": "bytecode_anchored",
@@ -84,13 +84,13 @@
           "symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc",
           "va": "0xd1f74",
           "size": 224,
-          "edge": "unresolved_direct_tail_branch_at_0xd2204"
+          "edge": "direct_tail_branch_at_0xd2204_static_cpp_candidate_registered_not_link_verified"
         },
         {
           "symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc",
           "va": "0xd2054",
           "size": 108,
-          "edge": "unresolved_direct_tail_branch_at_0xd221c"
+          "edge": "direct_tail_branch_at_0xd221c_static_cpp_candidate_registered_not_link_verified"
         },
         {
           "symbol": "g_pGlobal",
@@ -105,7 +105,90 @@
           "edge": "R_ARM_RELATIVE_GOT_byte_read_slot_0x3edbc0"
         }
       ],
-      "gap": "Local/global name-helper bodies and their providers remain unresolved; producers/writers and lifecycle of g_pGlobal/g_fJSGarbageCollection are outside this body. No final link, EHABI equivalence, caller-closure, original/candidate execution, or runtime equivalence is claimed."
+      "gap": "Both helper bodies now have registered bytecode-anchored C++ candidates and standalone O0/O2 objects; their provider/link integration remains unverified. Producers/writers and lifecycle of g_pGlobal/g_fJSGarbageCollection are outside this body. No final link, EHABI equivalence, caller-closure, original/candidate execution, or runtime equivalence is claimed."
+    },
+    {
+      "entry": "0xd1f74",
+      "size": 224,
+      "symbols": [
+        "_Z39Code_Variable_Find_Slot_From_Local_NamePKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "5975070a4e732a83169d488259363c39d2327a344551393180c6c80bdc70417d",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+      "translation_source_sha256": "95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd2050"
+      ],
+      "code_instruction_count": 55,
+      "literal_pool_word_count": 1,
+      "local_contract": "Read the pointer word from g_instanceVarLookup; hash name through the original CHashMapCalculateHash<const char*> specialization, clear bit 31, and probe 12-byte records using raw map offsets +0x00/+0x08/+0x10. A record's raw +0x08 word is its hash, +0x00 is passed to CHashMapCompareKeys<const char*> and a match returns the matched record's raw +0x04 word. Empty hash words, the signed distance/attempt test and both observed address wrap guards return -1. The +0x08 mask is reloaded only after a key-compare miss; +0x00 and +0x10 are live reads during probing.",
+      "direct_dependencies": [
+        {
+          "symbol": "_Z21CHashMapCalculateHashIPKcEjT_",
+          "va": "0x1eeb88",
+          "size": 32,
+          "edge": "open_direct_bl_at_0xd1f88"
+        },
+        {
+          "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_",
+          "va": "0x1eeba8",
+          "size": 20,
+          "edge": "open_direct_bl_at_0xd2010"
+        },
+        {
+          "symbol": "g_instanceVarLookup",
+          "va": "0x47a178",
+          "size": 4,
+          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edbac_open_data_producer"
+        }
+      ],
+      "gap": "The two specialized CHashMap provider bodies/link bindings and the producer/lifecycle/content contract for g_instanceVarLookup remain open. No full map type, insertion semantics, final link, EHABI, original/candidate execution or runtime equivalence is claimed."
+    },
+    {
+      "entry": "0xd2054",
+      "size": 108,
+      "symbols": [
+        "_Z40Code_Variable_Find_Slot_From_Global_NamePKc"
+      ],
+      "boundary": "defined_dynsym",
+      "body_sha256": "b78799f4458a3ed0e54c566f6a7e4a5450c29b9b31a3b2824b6bf3a77d3f426e",
+      "isa": "arm",
+      "language": "C++",
+      "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+      "translation_source_sha256": "95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41",
+      "translation": "complete_compiled_candidate",
+      "semantics": "local_contract_recovered",
+      "tier": "bytecode_anchored",
+      "phase_complete": false,
+      "original_executed": false,
+      "pool_addresses": [
+        "0xd20bc"
+      ],
+      "code_instruction_count": 26,
+      "literal_pool_word_count": 1,
+      "local_contract": "Use the g_VarNamesGlobal raw object at +0x00/+0x04/+0x0c: +0x04 is tested as signed >0, +0x00 is a signed bound for whether the +0x0c pointer array is read, and the terminal condition is index==the +0x04 word. For each in-bound non-null name pointer, strcmp(input,candidate)==0 returns the current index; otherwise increment and stop with -1 at count. The +0x08 word is not read. No field names or full table type are inferred.",
+      "direct_dependencies": [
+        {
+          "symbol": "g_VarNamesGlobal",
+          "va": "0x47a19c",
+          "size": 16,
+          "edge": "R_ARM_RELATIVE_GOT_read_slot_0x3edba4_open_table_producer"
+        },
+        {
+          "symbol": "strcmp",
+          "va": "0xb6574",
+          "edge": "direct_bl_at_0xd2094_via_R_ARM_JUMP_SLOT_0x3f1c8c"
+        }
+      ],
+      "gap": "The g_VarNamesGlobal raw-word producer/lifecycle and imported strcmp runtime provider are not reconstructed or link-tested. No full table type, original/candidate execution or runtime equivalence is claimed."
     },
     {
       "entry": "0xd3968",
@@ -447,10 +530,12 @@
   "remaining_internal_dependencies": [
     "CreateArgumentsObject",
     "initial Context Stack array, Top/Max/GC-state ownership and runtime provider bindings",
-    "_Z39Code_Variable_Find_Slot_From_Local_NamePKc @0xd1f74 (224B)",
-    "_Z40Code_Variable_Find_Slot_From_Global_NamePKc @0xd2054 (108B)"
+    "_Z21CHashMapCalculateHashIPKcEjT_ @0x1eeb88 provider/body and link binding",
+    "_Z19CHashMapCompareKeysIPKcEbT_S2_ @0x1eeba8 provider/body and link binding",
+    "g_instanceVarLookup map contents/producer/lifecycle",
+    "g_VarNamesGlobal +0x00/+0x04/+0x0c data producer/lifecycle"
   ],
-  "scope": "Local ScriptRef/GetCode/local stack, actual GC Context Stack helpers, and the Code_Variable_Find_Slot_From_Name dispatcher; local/global helper bodies, initial context-stack ownership and runtime provider bindings remain open. No execution or full object/initial-state closure.",
+  "scope": "Local ScriptRef/GetCode/local stack, actual GC Context Stack helpers, the Code_Variable_Find_Slot_From_Name dispatcher, and static C++ candidates for its local/global name helpers; helper providers, name-table/map producers, initial context-stack ownership and runtime provider bindings remain open. No combined link, execution or full object/initial-state closure.",
   "additional_headers_sha256": {
     "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61",
     "../object_base/object_helpers.hpp": "1862251f9111786de5ff98fc49dd55593c6fc04f5924306a12ea537f6a9831ad",

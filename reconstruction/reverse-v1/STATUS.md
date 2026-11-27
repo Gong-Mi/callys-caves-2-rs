@@ -1,12 +1,44 @@
 # 状态与定性
 
-## 当前断点：JS_DefineOwnProperty_Internal（property-write consumer，静态 C++）
+## 当前断点：变量名称槽查找两个 helper（静态 C++）
+
+恢复 `_Z39Code_Variable_Find_Slot_From_Local_NamePKc@0xd1f74`（224B）与
+`_Z40Code_Variable_Find_Slot_From_Global_NamePKc@0xd2054`（108B），共 83 个原字行：
+Local 55 条指令 + `0xd2050` 池字，Global 26 条指令 + `0xd20bc` 池字。源码
+`cpp/scripting/code_variable_find_slot_from_name_helpers.cpp`（SHA256
+`95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41`），两个原入口与正文
+哈希、raw 偏移、PC 池字、GOT/relocation 和 direct-call edges 已登记在 scripting 的
+`functions.json` / `layout-evidence.json`。Local 经 `g_instanceVarLookup` 取地图指针，按
+原 +0x08 mask / +0x10 table 与 12B record 搜索；匹配后返 record+0x04。Global 读取
+`g_VarNamesGlobal` 的 +0x00/+0x04/+0x0c 原始字，非空候选经原 `strcmp` 比较并返数组下标；
+未知字段保持 +0xNN，不推完整结构。
+
+O0/O2 均以 `clang++ --target=armv7a-linux-androideabi -Werror` 成功产出 ARM ELF32 对象：
+O0 SHA256 `2ca2e54423f4d878de3c2acfe8e46954ea10df788240a5dd0f0c2e8c4abd8d13`；
+O2 SHA256 `9b83d29a8a2df4e72f5ed13d9dd76978ae4333bf0a3da63054a5deb3655669e6`。回执在
+`cpp/scripting/validation.json`。这只证明静态候选的独立目标编译；未运行模块级 verifier、
+未组合链接、未执行原件或候选、未测 EHABI/运行等价。
+
+GOT 逐槽复核：Local 池字 `0x0031bc28` + PC `0xd1f84` → `0x3edbac`，R_ARM_RELATIVE
+原字 addend `0x47a178` / `g_instanceVarLookup`；Global 池字 `0x0031bb40` + PC `0xd2064`
+→ `0x3edba4`，R_ARM_RELATIVE 原字 addend `0x47a19c` / `g_VarNamesGlobal`；Global 的
+`strcmp@plt` `0xb6574` 对应 `0x3f1c8c` R_ARM_JUMP_SLOT。**地址映射复核更正**：`.text`
+该区间 VA=文件偏移；`.got` section `sh_addr=0x3ed718`、`sh_offset=0x3ec718`，相关 GOT
+原字按 `file_offset = VA - 0x1000` 读取，不能把全镜像概括为 VA=文件偏移。
+
+未闭合：`_Z21CHashMapCalculateHashIPKcEjT_@0x1eeb88`、
+`_Z19CHashMapCompareKeysIPKcEbT_S2_@0x1eeba8` 的正文/provider；
+`g_instanceVarLookup` 指向地图内容的生产者/生命周期；`g_VarNamesGlobal` +0x00/+0x04/+0x0c
+内容的生产者/生命周期；`strcmp` libc 外部 provider 的最终链接。`g_pGlobal`、GC guard
+生产者、caller census、EHABI、最终链接及原版/候选执行仍未测。
+
+## 上一断点：JS_DefineOwnProperty_Internal（property-write consumer，静态 C++）
 
 恢复 `_Z29JS_DefineOwnProperty_InternalP12YYObjectBasePKcP6RValueb@0x247d44`（1616B/404 words）为 C++ 静态候选，source SHA256 `af2f34c0006c63ff4c40263153edfa402249de2fb13f278ef412f1bde897831f`。两张 ARM 分支表与 `YYError` 字符串按原件逐项绑定；返回值保持 raw status word（初始 bool 路径 0/2，选定成功路径 1），不命名状态语义。原字 404/404 入册；C++ 模块门 72 functions/74 symbols/3589 word rows、28/28 harness tests 通过；新函数 O0/O2 目标编译与 worker 对象字节一致，另有 29 个选定共享头消费者 TU O0/O2 编译通过。共享头 SHA 已同步 object_base/scripting/vm_exec 的 functions.json；scripting/vm_exec 的完整通用门仍分别有 13/4 个既存 ledger/schema 错误，不作全模块 PASS。GPT-6-Luna 冻结快照静态复审 PASS；不含 link/运行证据。
 
-观察到的调用方为 `_Z20JS_DefineOwnProperty` 尾分支 `0x2483d8`、`JS_Array_DefineOwnProperty` `0x248b48`、`F_JS_Object_freeze` `0x25095c` 与 `F_JS_Object_seal` `0x250a60`；另有 `.got` 的 `R_ARM_RELATIVE` 槽 `0x3f150c` 指向本函数，但消费者未追出，不声称 caller census 完整。`JS_DefineOwnProperty_Internal` 的四条直接 C++ provider 仍 open：`YYObjectBase::Add@0x199b84`、`Code_Variable_FindAlloc_Slot_From_Name@0xd2c84`、`FREE_RValue__Pre@0xc0a7c`、`YYError@0xd547c`。原先列为 open 的 `_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc@0xd21ec` 本体已补为静态 C++；其 `_Z39Code_Variable_Find_Slot_From_Local_NamePKc`、`_Z40Code_Variable_Find_Slot_From_Global_NamePKc` 两个直接 helper provider 仍 open，不表示传递依赖已闭合。EHABI、最终链接、原件/候选执行与运行等价均未测。
+观察到的调用方为 `_Z20JS_DefineOwnProperty` 尾分支 `0x2483d8`、`JS_Array_DefineOwnProperty` `0x248b48`、`F_JS_Object_freeze` `0x25095c` 与 `F_JS_Object_seal` `0x250a60`；另有 `.got` 的 `R_ARM_RELATIVE` 槽 `0x3f150c` 指向本函数，但消费者未追出，不声称 caller census 完整。`JS_DefineOwnProperty_Internal` 的四条直接 C++ provider 仍 open：`YYObjectBase::Add@0x199b84`、`Code_Variable_FindAlloc_Slot_From_Name@0xd2c84`、`FREE_RValue__Pre@0xc0a7c`、`YYError@0xd547c`。原先列为 open 的 `_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc@0xd21ec` 本体已补为静态 C++；其 `_Z39Code_Variable_Find_Slot_From_Local_NamePKc`、`_Z40Code_Variable_Find_Slot_From_Global_NamePKc` 两个 helper 正文现已恢复并编译成静态候选；底层哈希函数、名字表生产者和组合链接仍 open，不表示传递依赖已闭合。EHABI、最终链接、原件/候选执行与运行等价均未测。
 
-本批依赖补边：`_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc@0xd21ec`（60B/15 words，source SHA256 `13973dd68ecd7e3158fd7385a38833a30e04c21de244929f6d817913abd36060`）已恢复并登记；父级 ARMv7 O0/O2 编译对象分别为 `bf43e7daa597294272d619034a76062663a0e9f4d4ae1c8cff1ca04be94f4a6f`、`d3ea869907f853a5bd57683b2cd611deee35fe7531b65e4940d4b6fddf3dd2c7`，与 worker 对象字节一致。注册后 scripting 模块 verifier 检查 19 functions、18 symbols、282 word rows，错误仍为注册前完全相同的 13 项；没有本函数相关错误，但全模块门仍非 PASS。`g_pGlobal`、`g_fJSGarbageCollection` 的数据生产者、两 helper 正文、EHABI 与最终链接仍未证；未执行原件或候选。
+本批依赖补边：`_Z33Code_Variable_Find_Slot_From_NameP12YYObjectBasePKc@0xd21ec`（60B/15 words，source SHA256 `13973dd68ecd7e3158fd7385a38833a30e04c21de244929f6d817913abd36060`）已恢复并登记；父级 ARMv7 O0/O2 编译对象分别为 `bf43e7daa597294272d619034a76062663a0e9f4d4ae1c8cff1ca04be94f4a6f`、`d3ea869907f853a5bd57683b2cd611deee35fe7531b65e4940d4b6fddf3dd2c7`，与 worker 对象字节一致。注册后 scripting 模块 verifier 检查 19 functions、18 symbols、282 word rows，错误仍为注册前完全相同的 13 项；没有本函数相关错误，但全模块门仍非 PASS。`g_pGlobal`、`g_fJSGarbageCollection` 的数据生产者、`g_instanceVarLookup` / `g_VarNamesGlobal` 的表生产者、两个 CHashMap helper provider、EHABI 与最终链接仍未证；未执行原件或候选。
 
 父级派工前首轮跳转表偏移曾多写一个 word；按原件重算后确认 CMP `0x247ee0`、ADDLS `0x247ee4`、默认分支 `0x247ee8`、PC+8 表基址 `0x247eec`。源码、word ledger 与 layout evidence 均按更正值登记。
 

@@ -22,5 +22,54 @@
   },
   "additional_headers_sha256": {
     "context_stack.hpp": "a7df98e62c556e170e868600f3221a9501d2a5345b0bc018175cada666afff61"
+  },
+  "variable_name_helper_batch": {
+    "base_head": "8a34849934812e08350e6a4a28bbea99906e00f1",
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "source": "reconstruction/reverse-v1/cpp/scripting/code_variable_find_slot_from_name_helpers.cpp",
+    "source_sha256": "95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41",
+    "modified_dispatcher_source_sha256": "e0e4382d93c96321179ee542fba5a72b5147f4e3f887f6e673ea9c8a3de74765",
+    "original_words_sha256": "d25e6097dfb0666696303fa6960f0cf713087b0f96f06667fdfb1248ec82b17f",
+    "functions_json_sha256": "a6ffe396b1cd95e9b3a40971ae15d6e26354befb22506f3a816989c9e6e2e737",
+    "layout_evidence_sha256": "69c9c212eae40fe9e35fb943cc08c25d094ec3038020c74669b14d14f3b3ff58",
+    "status_sha256": "9040676bf192690f7ad367da29af34377fdc5133302d40682b8bf963f789e0fc",
+    "original_word_rows": 83,
+    "entries": [
+      {"symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc", "va": "0xd1f74", "size": 224, "body_sha256": "5975070a4e732a83169d488259363c39d2327a344551393180c6c80bdc70417d"},
+      {"symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc", "va": "0xd2054", "size": 108, "body_sha256": "b78799f4458a3ed0e54c566f6a7e4a5450c29b9b31a3b2824b6bf3a77d3f426e"}
+    ],
+    "target": "armv7a-linux-androideabi",
+    "compiler": "/data/data/com.termux/files/usr/bin/clang++",
+    "common_flags": [
+      "-nostdinc++", "--target=armv7a-linux-androideabi", "-march=armv7-a", "-marm",
+      "-mfpu=vfpv3", "-mfloat-abi=softfp", "-std=c++17", "-ffreestanding",
+      "-fno-builtin", "-ffp-contract=off", "-fno-sized-deallocation", "-Wall", "-Wextra", "-Werror"
+    ],
+    "builds": [
+      {
+        "configuration": "O0",
+        "optimization": "-O0",
+        "returncode": 0,
+        "object_path": "/data/data/com.termux/files/home/.hermes/cache/scratch/wl67-code-variable-helpers/helpers-O0.o",
+        "object_sha256": "2ca2e54423f4d878de3c2acfe8e46954ea10df788240a5dd0f0c2e8c4abd8d13",
+        "object_class": "ELF32",
+        "machine": "ARM",
+        "flags": "0x5000000"
+      },
+      {
+        "configuration": "O2",
+        "optimization": "-O2",
+        "returncode": 0,
+        "object_path": "/data/data/com.termux/files/home/.hermes/cache/scratch/wl67-code-variable-helpers/helpers-O2.o",
+        "object_sha256": "9b83d29a8a2df4e72f5ed13d9dd76978ae4333bf0a3da63054a5deb3655669e6",
+        "object_class": "ELF32",
+        "machine": "ARM",
+        "flags": "0x5000000"
+      }
+    ],
+    "module_verifier_run": false,
+    "combined_link_verified": false,
+    "candidate_executed": false,
+    "original_executed": false
   }
 }

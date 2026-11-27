@@ -222,9 +222,96 @@
     ],
     "dispatch_contract": "self != g_pGlobal => local; otherwise g_fJSGarbageCollection != 0 => local; otherwise global. Name and int result pass through unchanged.",
     "unresolved_providers": [
-      "local-name helper body/provider",
-      "global-name helper body/provider"
+      "local/global helper C++ candidates exist; provider selection and combined link are unverified",
+      "g_pGlobal producer/lifecycle",
+      "g_fJSGarbageCollection producer/lifecycle"
     ],
+    "original_executed": false
+  },
+  "variable_name_helpers": {
+    "image_sha256": "3bbedd09ad0cc60f3f3cad86a257275f841d3910c11f05985bcaecc6bc0fbe3a",
+    "translation_source": "code_variable_find_slot_from_name_helpers.cpp",
+    "translation_source_sha256": "95a7bd4d1eac8ed9ea337798cab44aa9fcd30f69a2e82e33b8e9f8a302599b41",
+    "original_word_rows_added": 83,
+    "functions": [
+      {
+        "symbol": "_Z39Code_Variable_Find_Slot_From_Local_NamePKc",
+        "entry": "0xd1f74",
+        "size": 224,
+        "end": "0xd2054",
+        "body_sha256": "5975070a4e732a83169d488259363c39d2327a344551393180c6c80bdc70417d",
+        "code_instruction_count": 55,
+        "literal_pool_word_count": 1,
+        "pool_word": {"va": "0xd2050", "word": "0x0031bc28", "classification": "literal-pool data"},
+        "pc_relative_references": [
+          {"site": "0xd1f74", "pc_base": "0xd1f7c", "immediate": "0xd4", "pool_va": "0xd2050"},
+          {"site": "0xd1f7c", "pc_base": "0xd1f84", "pool_word": "0x0031bc28", "target_slot": "0x3edbac"}
+        ],
+        "got_slot": {
+          "va": "0x3edbac",
+          "file_offset": "0x3ecbac",
+          "relocation": {"type": 23, "name": "R_ARM_RELATIVE", "symbol_index": 0},
+          "raw_addend": "0x47a178",
+          "dynsym_target": {"symbol": "g_instanceVarLookup", "type": "STT_OBJECT", "size": 4}
+        },
+        "direct_callees": [
+          {"site": "0xd1f88", "target": "0x1eeb88", "symbol": "_Z21CHashMapCalculateHashIPKcEjT_", "size": 32, "edge": "direct BL; provider body/link open"},
+          {"site": "0xd2010", "target": "0x1eeba8", "symbol": "_Z19CHashMapCompareKeysIPKcEbT_S2_", "size": 20, "edge": "direct BL; provider body/link open"}
+        ],
+        "raw_offsets": {
+          "map_words": ["+0x00", "+0x08", "+0x10"],
+          "record_words": ["+0x00", "+0x04", "+0x08"],
+          "record_stride": "0x0c"
+        },
+        "original_executed": false
+      },
+      {
+        "symbol": "_Z40Code_Variable_Find_Slot_From_Global_NamePKc",
+        "entry": "0xd2054",
+        "size": 108,
+        "end": "0xd20c0",
+        "body_sha256": "b78799f4458a3ed0e54c566f6a7e4a5450c29b9b31a3b2824b6bf3a77d3f426e",
+        "code_instruction_count": 26,
+        "literal_pool_word_count": 1,
+        "pool_word": {"va": "0xd20bc", "word": "0x0031bb40", "classification": "literal-pool data"},
+        "pc_relative_references": [
+          {"site": "0xd2054", "pc_base": "0xd205c", "immediate": "0x60", "pool_va": "0xd20bc"},
+          {"site": "0xd205c", "pc_base": "0xd2064", "pool_word": "0x0031bb40", "target_slot": "0x3edba4"}
+        ],
+        "got_slot": {
+          "va": "0x3edba4",
+          "file_offset": "0x3ecba4",
+          "relocation": {"type": 23, "name": "R_ARM_RELATIVE", "symbol_index": 0},
+          "raw_addend": "0x47a19c",
+          "dynsym_target": {"symbol": "g_VarNamesGlobal", "type": "STT_OBJECT", "size": 16}
+        },
+        "direct_callees": [
+          {"site": "0xd2094", "target": "0xb6574", "symbol": "strcmp", "edge": "direct BL to PLT"}
+        ],
+        "raw_offsets": {
+          "table_words": ["+0x00", "+0x04", "+0x0c"],
+          "table_word_not_read": "+0x08",
+          "name_pointer_stride": "0x04"
+        },
+        "original_executed": false
+      }
+    ],
+    "external_imports": [
+      {"symbol": "strcmp", "dynsym": "SHN_UNDEF", "plt_entry": "0xb6574", "got_slot": "0x3f1c8c", "relocation": "R_ARM_JUMP_SLOT"}
+    ],
+    "address_mapping_observed": {
+      ".text": {"section_vaddr": "0x000b6fd0", "section_file_offset": "0x000b6fd0", "relation": "VA==file offset"},
+      ".got": {"section_vaddr": "0x003ed718", "section_file_offset": "0x003ec718", "relation": "file offset = VA - 0x1000"}
+    },
+    "open_edges": [
+      "g_instanceVarLookup (0x47a178): the pointer cell is named and relocated; its target map contents, producer and lifecycle remain open",
+      "_Z21CHashMapCalculateHashIPKcEjT_ (0x1eeb88): direct provider body and link binding remain open",
+      "_Z19CHashMapCompareKeysIPKcEbT_S2_ (0x1eeba8): direct provider body and link binding remain open",
+      "g_VarNamesGlobal (0x47a19c): +0x00/+0x04/+0x0c raw words, table producer and lifecycle remain open",
+      "strcmp: named Android libc import through PLT/JUMP_SLOT; final link/runtime provider not tested"
+    ],
+    "combined_link_verified": false,
+    "candidate_executed": false,
     "original_executed": false
   }
 }

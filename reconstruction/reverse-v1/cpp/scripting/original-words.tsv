@@ -281,3 +281,86 @@ d21ec	d2218	1afffff9	bne	#0xd2204
 d21ec	d221c	eaffff8c	b	#0xd2054
 d21ec	d2220	0031b9c4	.word	0x0031b9c4
 d21ec	d2224	0031b9ac	.word	0x0031b9ac
+d1f74	d1f74	e59f30d4	ldr	r3, [pc, #0xd4]
+d1f74	d1f78	e92d47f0	push	{r4, r5, r6, r7, r8, r9, r10, lr}
+d1f74	d1f7c	e79f3003	ldr	r3, [pc, r3]
+d1f74	d1f80	e1a09000	mov	r9, r0
+d1f74	d1f84	e5937000	ldr	r7, [r3]
+d1f74	d1f88	eb0472fe	bl	0x1eeb88 <_Z21CHashMapCalculateHashIPKcEjT_>
+d1f74	d1f8c	e5973008	ldr	r3, [r7, #0x8]
+d1f74	d1f90	e5972010	ldr	r2, [r7, #0x10]
+d1f74	d1f94	e3c0a102	bic	r10, r0, #-2147483648
+d1f74	d1f98	e00a4003	and	r4, r10, r3
+d1f74	d1f9c	e1a08084	lsl	r8, r4, #1
+d1f74	d1fa0	e0881004	add	r1, r8, r4
+d1f74	d1fa4	e0822101	add	r2, r2, r1, lsl #2
+d1f74	d1fa8	e5925008	ldr	r5, [r2, #0x8]
+d1f74	d1fac	e3550000	cmp	r5, #0
+d1f74	d1fb0	0a00001b	beq	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d1fb4	e3a06000	mov	r6, #0
+d1f74	d1fb8	ea000010	b	0xd2000 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0x8c>
+d1f74	d1fbc	e5972000	ldr	r2, [r7]
+d1f74	d1fc0	e0055003	and	r5, r5, r3
+d1f74	d1fc4	e2841001	add	r1, r4, #1
+d1f74	d1fc8	e0842002	add	r2, r4, r2
+d1f74	d1fcc	e0014003	and	r4, r1, r3
+d1f74	d1fd0	e0655002	rsb	r5, r5, r2
+d1f74	d1fd4	e0055003	and	r5, r5, r3
+d1f74	d1fd8	e1a08084	lsl	r8, r4, #1
+d1f74	d1fdc	e1550006	cmp	r5, r6
+d1f74	d1fe0	e0882004	add	r2, r8, r4
+d1f74	d1fe4	e2866001	add	r6, r6, #1
+d1f74	d1fe8	ba00000d	blt	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d1fec	e5971010	ldr	r1, [r7, #0x10]
+d1f74	d1ff0	e0812102	add	r2, r1, r2, lsl #2
+d1f74	d1ff4	e5925008	ldr	r5, [r2, #0x8]
+d1f74	d1ff8	e3550000	cmp	r5, #0
+d1f74	d1ffc	0a000008	beq	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d2000	e15a0005	cmp	r10, r5
+d1f74	d2004	1affffec	bne	0xd1fbc <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0x48>
+d1f74	d2008	e5920000	ldr	r0, [r2]
+d1f74	d200c	e1a01009	mov	r1, r9
+d1f74	d2010	eb0472e4	bl	0x1eeba8 <_Z19CHashMapCompareKeysIPKcEbT_S2_>
+d1f74	d2014	e3500000	cmp	r0, #0
+d1f74	d2018	1a000003	bne	0xd202c <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb8>
+d1f74	d201c	e5973008	ldr	r3, [r7, #0x8]
+d1f74	d2020	eaffffe5	b	0xd1fbc <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0x48>
+d1f74	d2024	e3e00000	mvn	r0, #0
+d1f74	d2028	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+d1f74	d202c	e3740001	cmn	r4, #1
+d1f74	d2030	0afffffb	beq	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d2034	e0884004	add	r4, r8, r4
+d1f74	d2038	e5973010	ldr	r3, [r7, #0x10]
+d1f74	d203c	e0834104	add	r4, r3, r4, lsl #2
+d1f74	d2040	e3740004	cmn	r4, #4
+d1f74	d2044	0afffff6	beq	0xd2024 <_Z39Code_Variable_Find_Slot_From_Local_NamePKc+0xb0>
+d1f74	d2048	e5940004	ldr	r0, [r4, #0x4]
+d1f74	d204c	e8bd87f0	pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+d1f74	d2050	0031bc28	.word	0x0031bc28
+d2054	d2054	e59f3060	ldr	r3, [pc, #0x60]
+d2054	d2058	e92d41f0	push	{r4, r5, r6, r7, r8, lr}
+d2054	d205c	e79f3003	ldr	r3, [pc, r3]
+d2054	d2060	e1a06000	mov	r6, r0
+d2054	d2064	e5935004	ldr	r5, [r3, #0x4]
+d2054	d2068	e3550000	cmp	r5, #0
+d2054	d206c	da00000e	ble	0xd20ac <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x58>
+d2054	d2070	e5937000	ldr	r7, [r3]
+d2054	d2074	e3a04000	mov	r4, #0
+d2054	d2078	e593800c	ldr	r8, [r3, #0xc]
+d2054	d207c	e1540007	cmp	r4, r7
+d2054	d2080	e1a00006	mov	r0, r6
+d2054	d2084	aa000005	bge	0xd20a0 <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x4c>
+d2054	d2088	e7981104	ldr	r1, [r8, r4, lsl #2]
+d2054	d208c	e3510000	cmp	r1, #0
+d2054	d2090	0a000002	beq	0xd20a0 <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x4c>
+d2054	d2094	ebff9136	bl	0xb6574 <strcmp@plt>
+d2054	d2098	e3500000	cmp	r0, #0
+d2054	d209c	0a000004	beq	0xd20b4 <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x60>
+d2054	d20a0	e2844001	add	r4, r4, #1
+d2054	d20a4	e1540005	cmp	r4, r5
+d2054	d20a8	1afffff3	bne	0xd207c <_Z40Code_Variable_Find_Slot_From_Global_NamePKc+0x28>
+d2054	d20ac	e3e00000	mvn	r0, #0
+d2054	d20b0	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+d2054	d20b4	e1a00004	mov	r0, r4
+d2054	d20b8	e8bd81f0	pop	{r4, r5, r6, r7, r8, pc}
+d2054	d20bc	0031bb40	.word	0x0031bb40
